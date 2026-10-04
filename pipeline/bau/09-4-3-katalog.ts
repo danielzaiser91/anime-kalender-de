@@ -3,7 +3,7 @@ import { kapitelImBlock, deutscheFolgenNachDemEnde, type CrDubData } from '../li
 import { type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
-import { folgenSummeJeKennung, ueberbelegt, entferneFremdeCrWege } from './cr-serie-geteilt.ts'
+import { serienBesitz, istFremd, entferneFremdeCrWege } from './cr-serie-geteilt.ts'
 import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
 
 export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
@@ -204,7 +204,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
       )
       const hinterDemEnde = (kennung: string, title: Title): boolean =>
         deutscheFolgenNachDemEnde(crBloeckeJeKennung.get(kennung) ?? [], title.episodes)
-      if (nachKennung.size) { const summen = folgenSummeJeKennung(titles, kennungVon)
+      if (nachKennung.size) { const besitz = serienBesitz(titles, kennungVon, nachKennung)
         for (const title of titles.values()) {
           for (const stream of title.streams) {
             if (stream.platform !== 'crunchyroll' || stream.dub !== undefined) continue
@@ -236,7 +236,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
               das nicht — für sie bleibt der Verweis offen, bis der Prüflauf je
               Folge antwortet.
             */
-            if ((eintrag.staffeln ?? 0) !== 1 || vorDemStart(title, katalog.geholtAm) || ueberbelegt(summen, kennung, eintrag.folgen)) continue
+            if ((eintrag.staffeln ?? 0) !== 1 || vorDemStart(title, katalog.geholtAm) || istFremd(besitz, kennung, title.id, eintrag.folgen)) continue
             stream.dub = (eintrag.audio ?? []).includes('de-DE')
             ausKennung++
           }
@@ -283,7 +283,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
             const kennung = /\/series\/([A-Z0-9]+)/.exec(stream.url)?.[1]
             if (!kennung) continue
             const eintrag = nachKennung.get(kennung)
-            if (!eintrag?.folgen || (eintrag.staffeln ?? 0) !== 1 || vorDemStart(title, katalogStand) || ueberbelegt(summen, kennung, eintrag.folgen)) continue
+            if (!eintrag?.folgen || (eintrag.staffeln ?? 0) !== 1 || vorDemStart(title, katalogStand) || istFremd(besitz, kennung, title.id, eintrag.folgen)) continue
             if (!(eintrag.audio ?? []).includes('de-DE')) continue
             if (hinterDemEnde(kennung, title)) continue
             /* Nur wenn der Katalog wirklich jünger ist als die Messung, die das Nein trug. */
@@ -298,7 +298,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
         if (ausKatalogNeuer)
           log(`${ausKatalogNeuer} Nein(s) vom Katalog überholt: er ist jünger und führt de-DE`)
       }
-      if (ausKennung) log(`${ausKennung} über die Serienkennung im deutschen Katalog belegt`); { const fremd = entferneFremdeCrWege(titles, nachKennung, folgenSummeJeKennung(titles, kennungVon), kennungVon); if (fremd) log(`${fremd} Crunchyroll-Wege auf eine Serie entfernt, die nicht zu ihnen gehört (Folgensumme übersteigt die Serie)`) }
+      if (ausKennung) log(`${ausKennung} über die Serienkennung im deutschen Katalog belegt`); { const fremd = entferneFremdeCrWege(titles, nachKennung, serienBesitz(titles, kennungVon, nachKennung), kennungVon); if (fremd) log(`${fremd} Crunchyroll-Wege auf eine Serie entfernt, die nicht zu ihnen gehört (Folgensumme übersteigt die Serie)`) }
     }
 
     /**

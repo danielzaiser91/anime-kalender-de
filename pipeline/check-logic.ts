@@ -153,7 +153,7 @@ import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
 import { NAMENSGEBUNDENE_RELATIONEN } from '../shared/namensgebunden.ts'
 import { schnellSetzen, schnellZustand, type SchnellId } from '../web/src/lib/schnellfilter.ts'
 import { ergaenzeTeilnamen } from './bau/adn-teilnamen.ts'
-import { folgenSummeJeKennung, ueberbelegt, entferneFremdeCrWege } from './bau/cr-serie-geteilt.ts'
+import { serienBesitz, istFremd, entferneFremdeCrWege } from './bau/cr-serie-geteilt.ts'
 import { entdoppleCrWege } from './bau/11-3-bereinigung.ts'
 import type { DatiertNews } from './lib/news-verlauf.ts'
 import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
@@ -7930,19 +7930,24 @@ console.log('\nErschienene Folgen:')
   pruefe('Erschienen: ganz ohne Datum bleibt die Liste, wie sie ist', erschieneneFolgen([{ nr: 1 }, { nr: 2 }], 0, '2026-10-04').length === 2)
   pruefe('Erschienen: nur Zukünftiges ergibt keine Liste', erschieneneFolgen([{ nr: 1, datum: '2027-01-01' }, { nr: 2, datum: '2027-01-08' }], 0, '2026-10-04').length === 0)
 }
-/* Eine Crunchyroll-Serie mit einer Staffel trägt nicht für jeden Titel, der auf sie zeigt (Tokyo Revengers, 04.10.2026). */
+/* Eine Crunchyroll-Serie mit einer Staffel gehört einem Titel (Tokyo Revengers, 04.10.2026) — aber nur bei eindeutigem Eigentümer. */
 console.log('\nGeteilte Crunchyroll-Serie:')
 {
-  const cr = (episodes: number, id: number) => ({ id, episodes, streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/G3KHEVMN1/tokyo-revengers' }] }) as unknown as Title
-  const titel = new Map([cr(24, 1), cr(13, 2), cr(13, 3)].map((t) => [t.id, t]))
+  const url = 'https://www.crunchyroll.com/de/series/G3KHEVMN1/tokyo-revengers'
+  const cr = (episodes: number, id: number) => ({ id, episodes, streams: [{ platform: 'crunchyroll', url }] }) as unknown as Title
   const kv = (u: string) => /\/series\/([A-Z0-9]+)/.exec(u)?.[1]
-  const summen = folgenSummeJeKennung(titel, kv)
-  pruefe('Geteilt: 24 + 13 + 13 Folgen übersteigen die 24 der Serie', ueberbelegt(summen, 'G3KHEVMN1', 24))
-  pruefe('Geteilt: 11 + 12 Folgen bei 26 gehen auf (86 EIGHTY-SIX)', !ueberbelegt(new Map([['X', 23]]), 'X', 26))
-  const weg = entferneFremdeCrWege(titel, new Map([['G3KHEVMN1', { folgen: 24, staffeln: 1 }]]), summen, kv)
-  pruefe('Geteilt: nur der Titel mit der Folgenzahl der Serie behält den Weg', weg === 2 && titel.get(1)!.streams.length === 1 && titel.get(2)!.streams.length === 0 && titel.get(3)!.streams.length === 0)
+  const katalog = new Map([['G3KHEVMN1', { folgen: 24, staffeln: 1 }]])
+  const titel = new Map([cr(24, 1), cr(13, 2), cr(13, 3)].map((t) => [t.id, t]))
+  const besitz = serienBesitz(titel, kv, katalog)
+  pruefe('Geteilt: der Titel mit der Folgenzahl der Serie ist ihr Eigentümer', besitz.get('G3KHEVMN1')?.besitzer === 1)
+  pruefe('Geteilt: die anderen sind fremd, der Eigentümer nicht', istFremd(besitz, 'G3KHEVMN1', 2, 24) && !istFremd(besitz, 'G3KHEVMN1', 1, 24))
+  const weg = entferneFremdeCrWege(titel, katalog, besitz, kv)
+  pruefe('Geteilt: nur die fremden Titel verlieren den Weg', weg === 2 && titel.get(1)!.streams.length === 1 && titel.get(2)!.streams.length === 0 && titel.get(3)!.streams.length === 0)
+  const allein = new Map([cr(148, 4)].map((t) => [t.id, t]))
+  pruefe('Geteilt: ein einzelner Titel mit mehr Folgen als der Katalog (Hunter x Hunter) behält den Weg', !istFremd(serienBesitz(allein, kv, new Map([['G3KHEVMN1', { folgen: 20, staffeln: 1 }]])), 'G3KHEVMN1', 4, 20))
+  const ohneEigentuemer = new Map([cr(13, 5), cr(12, 6), cr(1, 7)].map((t) => [t.id, t]))
+  pruefe('Geteilt: ohne Titel mit der Folgenzahl der Serie (Spice and Wolf) bleibt alles', !istFremd(serienBesitz(ohneEigentuemer, kv, new Map([['G3KHEVMN1', { folgen: 25, staffeln: 1 }]])), 'G3KHEVMN1', 6, 25))
 }
-/* Schnellfilter ✅|🚫 (Daniel, 04.10.2026): höchstens eines von beiden, ein zweiter Klick schaltet aus. */
 /* Was ein Sammelartikel deutsch meldet und keinem Titel zugeordnet wird, steht in einer Liste (Tokyo Revengers S3, 04.10.2026). */
 console.log('\nNicht zugeordnete Sammelartikel-Meldungen:')
 {
