@@ -1,6 +1,7 @@
 import { Meldungen } from './vermerk.tsx'
 import { type Release, type Title } from '@shared/types.ts'
 import { SectionTitle } from '../ui.tsx'
+import { BuchZeichen, PanelKarte } from './panel-karte.tsx'
 import { PLOT_PREVIEW } from './hilfen.tsx'
 import { type FranchiseMember } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
@@ -73,8 +74,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
   return (
     <>
       {plot && (
-        <div>
-          <SectionTitle>{t('detail.plot')}</SectionTitle>
+        <PanelKarte symbol={<BuchZeichen />} titel={t('detail.plot')} akzent="amber">
           {/*
             **Der Hinweis steht über dem Text, nicht darunter.**
 
@@ -94,7 +94,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             Quellenangabe. Wer die Handlung lesen will, klickt; wer sie nur
             einordnen will, sieht den Anfang und bleibt im Überblick.
           */}
-          <p className="whitespace-pre-line text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          <p className="whitespace-pre-line text-sm leading-relaxed text-ak-text/85">
             {plotOffen || plot.text.length <= PLOT_PREVIEW
               ? plot.text
               : `${plot.text.slice(0, PLOT_PREVIEW).trimEnd()} …`}
@@ -104,7 +104,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
               type="button"
               onClick={() => setPlotOffen((v) => !v)}
               aria-expanded={plotOffen}
-              className="mt-1 cursor-pointer text-xs text-sky-700 dark:text-sky-300 hover:underline"
+              className="mt-1.5 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1 text-xs font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
             >
               {t(plotOffen ? 'detail.plotLess' : 'detail.plotMore')}
             </button>
@@ -126,7 +126,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             „Titel und Beschreibung, wo vorhanden auf Deutsch" — samt Link
             auf die Werkseite.
           */}
-        </div>
+        </PanelKarte>
       )}
     </>
   )
