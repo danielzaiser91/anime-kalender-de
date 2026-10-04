@@ -120,6 +120,25 @@ jobs:
       # die Anzeige, dieser nicht. Die Lauf-Art steht dort längst bereit (`LAUF_ARTEN` im Worker,
       # „Aussehen prüfen"); es fehlte nur die Meldung. Derselbe Baustein wie bei der
       # Verbrauchswache.
+      # **Auch ein grüner Lauf wird gemeldet** (04.10.2026, Daniel: „wieso sind alle läufe dieser pipeline rot?"): Bisher meldete der Workflow nur den Fehlschlag.
+      # Die Kachel in der Statusanzeige blieb deshalb nach dem ersten roten Lauf rot, auch wenn die folgenden grün liefen (19:35 und 22:24 Uhr am 04.10.2026).
+      - name: Erfolg melden
+        if: success()
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: |
+          if [ -n "$LAUF_TOKEN" ]; then
+            printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"ok","url":"%s","zweck":"%s","ziel":"%s"}' \
+              "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
+              "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+              "Prüft, ob die Seite so aussieht, wie sie soll (Ansichten, Dialoge, Erweiterungs-Kästen)" \
+              "Alle Ansichten, Dialoge und Kästen sehen so aus wie vorgesehen" > /tmp/befund.json
+            curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
+              -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
+              --data-binary @/tmp/befund.json > /dev/null \
+              || echo "Meldung an die Statusanzeige fehlgeschlagen — der grüne Lauf bleibt trotzdem sichtbar."
+          fi
+
       - name: Befund melden
         if: failure()
         env:
