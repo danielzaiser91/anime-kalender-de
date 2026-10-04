@@ -573,7 +573,7 @@ export function DetailPanel({
    * welche der Anbieter gar nicht führt. Deckt ein Weg alles auf Deutsch ab, sagt das
    * Häkchen daneben schon alles — dann bleibt der Hinweis leer.
    */
-  const dubZeilen = dubZeilenVon({ title, t })
+  const dubZeilen = dubZeilenVon({ title, t, releases, today })
   /* Die Folgenangabe kommt aus `detail/folgen-angabe.ts` (Zerlegung, 29.09.2026) — einmal gebunden. */
   const folgenAngabeFuer = folgenAuskunft({ releases, title, t, releaseJePlattform, today })
 
