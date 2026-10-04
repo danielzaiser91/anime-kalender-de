@@ -12,11 +12,15 @@
  * Dateiform: `{ f: [[nr, titel] oder [nr, titel, min], …], de: [[von, bis], …], min? }`. Sind alle Folgen gleich lang,
  * steht die Minutenzahl einmal in `min` (aniSearch führt sie je Folge; One Piece: 1.173 von 1.173 mit 24). `de` sind die
  * Folgen mit belegter deutscher Synchro: die belegten Bereiche der Wege (`dubRanges` mit `dub: true`) und die Folgen,
- * die laut deutscher Wikipedia-Episodenliste schon im deutschen Fernsehen liefen.
+ * die laut deutscher Wikipedia-Episodenliste schon im deutschen Fernsehen liefen. `h` sind Handhinweise je Folge
+ * (`data/folgen-hinweise.yaml`, z. B. „nie in Deutschland ausgestrahlt").
  */
 import type { Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
-import { readJson, writeJson, log, clearDir } from '../lib/util.ts'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import yaml from 'js-yaml'
+import { readJson, writeJson, log, clearDir, ROOT } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
 
 interface Folge {
@@ -48,6 +52,7 @@ export function schreibeFolgenDateien(titel: Title[]): void {
   const zuordnung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
   const wiki = readJson<WikiListe>('data/wikipedia-folgen.json', {}).titel ?? {}
   const heute = todayIso()
+  const hinweise = (yaml.load(readFileSync(resolve(ROOT, 'data/folgen-hinweise.yaml'), 'utf8')) ?? []) as { anilistId: number; folge: number; art: string; text: string }[]
   const jeAsId = new Map<number, number>()
   for (const t of titel) {
     const a = zuordnung[String(t.id)]?.anisearchId
@@ -67,6 +72,7 @@ export function schreibeFolgenDateien(titel: Title[]): void {
       f: f.map((x) => (einheitlich ? [x.nr, x.de ?? x.en ?? x.ja ?? ''] : [x.nr, x.de ?? x.en ?? x.ja ?? '', x.minuten ?? 0])),
       de: deutscheFolgen(t, wiki[String(t.id)]?.folgen, heute, Math.max(...f.map((x) => x.nr))),
       ...(einheitlich ? { min: einheitlich } : {}),
+      ...(hinweise.some((h) => h.anilistId === t.id) ? { h: hinweise.filter((h) => h.anilistId === t.id).map((h) => [h.folge, h.text]) } : {}),
     })
     index.push(t.id)
     folgenGesamt += f.length

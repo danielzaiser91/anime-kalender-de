@@ -1,0 +1,10 @@
+# Hinweise zu einzelnen Folgen — erscheinen in der Folgenliste des Panels als Symbol mit Hover-Text (04.10.2026).
+#
+# `art: keine-synchro` heißt: belegt ohne deutsche Synchro (Symbol ✕). Ohne Eintrag zeigt die Liste bei einer
+# Folge ohne Flagge nur ein „?" (kein Beleg für eine Synchro). Jeder Eintrag braucht `beleg`.
+
+- anilistId: 21
+  folge: 542
+  art: keine-synchro
+  text: "Es ist ein Special, das nie in Deutschland ausgestrahlt wurde. Es existiert keine deutsche Synchro."
+  beleg: "Deutsche Wikipedia-Episodenliste ohne deutsches Datum; Handprobe Daniel 04.10.2026 (Google/Gemini: Chopper-Special, nicht im regulären ProSieben-MAXX-Programm)."

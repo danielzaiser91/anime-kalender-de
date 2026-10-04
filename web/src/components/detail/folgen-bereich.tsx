@@ -17,6 +17,7 @@ interface Liste {
   f: Folge[]
   de: [number, number][]
   min?: number
+  h?: [number, string][]
 }
 
 const PAKET = 50
@@ -85,7 +86,7 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
                 <span className="w-9 shrink-0 text-right tabular-nums text-slate-500 dark:text-slate-400">{nr}</span>
                 <span className="min-w-0 flex-1 truncate">{titel || '—'}</span>
                 {min ? <span className="shrink-0 tabular-nums text-slate-500 dark:text-slate-400">{min} Min.</span> : null}
-                {deutsch(nr) && <DeFlagge />}
+                {deutsch(nr) ? <DeFlagge /> : <FolgeOhneFlagge hinweis={liste?.h?.find(([n]) => n === nr)?.[1]} gibtDeutsche={Boolean(liste?.de.length)} />}
               </li>
             ))}
           </ul>
@@ -100,6 +101,23 @@ function DeFlagge() {
   return (
     <Tooltip text="Für diese Folge existiert eine Deutsche Synchro." eigenerFokus>
       <span role="img" aria-label="Deutsche Synchro" className="inline-block h-2.5 w-4 shrink-0 rounded-[2px]" style={{ background: 'linear-gradient(#000 33.3%, #d00 33.3% 66.6%, #ffce00 66.6%)' }} />
+    </Tooltip>
+  )
+}
+
+/** Die Lücke in der Flaggenreihe: ✕ mit dem Hinweistext, wo belegt ist, dass es keine Synchro gibt; sonst ein „?". */
+function FolgeOhneFlagge({ hinweis, gibtDeutsche }: { hinweis?: string; gibtDeutsche: boolean }) {
+  if (!hinweis && !gibtDeutsche) return null
+  const marke = 'inline-flex size-3.5 shrink-0 items-center justify-center rounded-full border text-[9px] font-bold leading-none'
+  return (
+    <Tooltip text={hinweis ?? 'Für diese Folge ist keine deutsche Synchro belegt.'} eigenerFokus>
+      <span
+        role="img"
+        aria-label={hinweis ?? 'Keine deutsche Synchro belegt'}
+        className={`${marke} ${hinweis ? 'border-rose-500 text-rose-600 dark:border-rose-400 dark:text-rose-300' : 'border-slate-400 text-slate-500 dark:border-slate-500 dark:text-slate-400'}`}
+      >
+        {hinweis ? '✕' : '?'}
+      </span>
     </Tooltip>
   )
 }
