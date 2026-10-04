@@ -438,6 +438,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:tokyo-revengers-s3-disneyplus@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261002T170000Z
+DTEND:20261002T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 1/13
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nDetai
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-16870-tv-prosieben-maxx@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T181500Z
@@ -545,17 +555,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/wind-b
  reaker-s2-vol2
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Tokyo Revengers: War of the Three Titans
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/#/release/tokyo-revenge
- rs-s3-disneyplus
-CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-176496-tv-prosieben-maxx@2026-10-03#4@anime-kalender-de
@@ -944,6 +943,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:tokyo-revengers-s3-disneyplus@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261009T170000Z
+DTEND:20261009T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 2/13
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
+ ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-178025-tv-prosieben-maxx@2026-10-09#22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T201000Z
@@ -1021,18 +1031,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  etails: https://anime-kalender.de/#/release/das-band-der-unterwelt-crunchy
  roll-de-2026-04-04
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-10-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261010T170000Z
-DTEND:20261010T173000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 2/14
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
-CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-10-11@anime-kalender-de
@@ -1147,6 +1145,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:tokyo-revengers-s3-disneyplus@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T170000Z
+DTEND:20261016T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 3/13
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
+ ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:miss-kobayashi-s-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-
  2026-10-1@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
@@ -1213,18 +1222,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1
  62670-disc
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-10-17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261017T170000Z
-DTEND:20261017T173000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 3/14
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
-CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-10-18@anime-kalender-de
@@ -1341,15 +1338,14 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-10-24@anime-kalender-de
+UID:tokyo-revengers-s3-disneyplus@2026-10-23@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261024T170000Z
-DTEND:20261024T173000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 4/14
+DTSTART:20261023T170000Z
+DTEND:20261023T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 4/13
 DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
  ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
@@ -1410,6 +1406,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:tokyo-revengers-s3-disneyplus@2026-10-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261030T170000Z
+DTEND:20261030T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 5/13
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
+ ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:virgin-road-vol1@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261030
@@ -1452,18 +1459,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/nukita
  shi-vol1
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-10-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261031T180000Z
-DTEND:20261031T183000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 5/14
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
-CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-01@anime-kalender-de
@@ -1511,6 +1506,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  er Zeit.\nDetails: https://anime-kalender.de/#/release/steel-ball-run-2nd-
  3rd-stage
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:tokyo-revengers-s3-disneyplus@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T170000Z
+DTEND:20261106T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 6/13
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
+ ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
+CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:sailor-moon-s-2026-11-06@2026-11-06@anime-kalender-de
@@ -1601,18 +1607,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-11-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261107T180000Z
-DTEND:20261107T183000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 6/14
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261108T150000Z
@@ -1660,6 +1654,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:tokyo-revengers-s3-disneyplus@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T170000Z
+DTEND:20261113T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 7/13
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
+ ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:sakamoto-days-teil-2-vol-3-2026-11-13@2026-11-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261113
@@ -1669,18 +1674,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sakamo
  to-days-teil-2-vol-3-2026-11-13
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-11-14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261114T180000Z
-DTEND:20261114T183000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 7/14
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
-CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-15@anime-kalender-de
@@ -1849,6 +1842,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:tokyo-revengers-s3-disneyplus@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261120T170000Z
+DTEND:20261120T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 8/13
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
+ ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-384-disc@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
@@ -1869,18 +1873,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-8
  13-disc
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-11-21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261121T180000Z
-DTEND:20261121T183000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 8/14
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
-CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-22@anime-kalender-de
@@ -1919,6 +1911,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:tokyo-revengers-s3-disneyplus@2026-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261127T170000Z
+DTEND:20261127T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 9/13
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
+ ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-173693-disc@2026-11-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261127
@@ -1939,18 +1942,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-1
  27050-disc
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-11-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261128T180000Z
-DTEND:20261128T183000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 9/14
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
-CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-29@anime-kalender-de
@@ -1987,6 +1978,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  er Zeit.\nDetails: https://anime-kalender.de/#/release/steel-ball-run-2nd-
  3rd-stage
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:tokyo-revengers-s3-disneyplus@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261204T170000Z
+DTEND:20261204T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 10/13
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
+ ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
+CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:jujutsu-kaisen-2026-12-04@2026-12-04@anime-kalender-de
@@ -2055,18 +2057,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-12-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261205T180000Z
-DTEND:20261205T183000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 10/14
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261206T150000Z
@@ -2101,15 +2091,14 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-12-12@anime-kalender-de
+UID:tokyo-revengers-s3-disneyplus@2026-12-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261212T180000Z
-DTEND:20261212T183000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 11/14
+DTSTART:20261211T170000Z
+DTEND:20261211T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 11/13
 DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
  ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
@@ -2136,15 +2125,14 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-12-19@anime-kalender-de
+UID:tokyo-revengers-s3-disneyplus@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261219T180000Z
-DTEND:20261219T183000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 12/14
+DTSTART:20261218T170000Z
+DTEND:20261218T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 12/13
 DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
  ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
@@ -2160,6 +2148,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:tokyo-revengers-s3-disneyplus@2026-12-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261225T170000Z
+DTEND:20261225T173000Z
+SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 13/13
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
+ ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
+ ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:sakamoto-days-teil-2-vol-4-2026-12-18@2026-12-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261225
@@ -2169,30 +2168,6 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sakamo
  to-days-teil-2-vol-4-2026-12-18
 CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2026-12-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261226T180000Z
-DTEND:20261226T183000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 13/14
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus-wochentakt@2027-01-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20270102T180000Z
-DTEND:20270102T183000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 14/14
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
- ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
- ls: https://anime-kalender.de/#/release/tokyo-revengers-s3-disneyplus-woch
- entakt
-CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:sailor-moon-sailor-stars-2027-01-15@2027-01-15@anime-kalender-de
