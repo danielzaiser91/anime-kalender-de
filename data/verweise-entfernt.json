@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-04T17:11:54.578Z",
+  "stand": "2026-10-04T17:20:33.655Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4831,6 +4831,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 93,
+      "titel": "Mobile Suit Gundam Seed",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/mobile-suit-gundam-seed",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": true
+    },
+    {
       "titleId": 232,
       "titel": "Cardcaptor Sakura",
       "plattform": "adn",
@@ -5401,6 +5412,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-04",
       "letzterWeg": true
+    },
+    {
+      "titleId": 11061,
+      "titel": "Hunter × Hunter",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/hunter-x-hunter",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": false
     },
     {
       "titleId": 11743,
@@ -6327,6 +6349,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 100668,
+      "titel": "Arifureta: From Commonplace to World’s Strongest",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": true
+    },
+    {
       "titleId": 100745,
       "titel": "Captain Tsubasa",
       "plattform": "crunchyroll",
@@ -6666,6 +6699,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-04",
       "letzterWeg": true
+    },
+    {
+      "titleId": 112323,
+      "titel": "Arifureta: From Commonplace to World’s Strongest 2nd Season",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": false
     },
     {
       "titleId": 112444,
@@ -7955,6 +7999,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8021,6 +8076,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": true
+    },
+    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8049,17 +8115,6 @@
       "url": "https://www.netflix.com/title/82031882",
       "seriesId": null,
       "grund": "der Anbieter führt 14 Folgen, und die belegten Titel füllen sie exakt — für ? weitere ist dort kein Platz",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 93,
-      "titel": "Mobile Suit Gundam Seed",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/mobile-suit-gundam-seed",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-04",
       "letzterWeg": true
@@ -8109,43 +8164,10 @@
       "letzterWeg": true
     },
     {
-      "titleId": 11061,
-      "titel": "Hunter × Hunter",
-      "plattform": "crunchyroll",
-      "url": "http://www.crunchyroll.com/de/hunter-x-hunter",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": false
-    },
-    {
       "titleId": 21175,
       "titel": "Dragon Ball Super",
       "plattform": "crunchyroll",
       "url": "http://www.crunchyroll.com/de/dragon-ball-super",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 100668,
-      "titel": "Arifureta: From Commonplace to World’s Strongest",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 112323,
-      "titel": "Arifureta: From Commonplace to World’s Strongest 2nd Season",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,

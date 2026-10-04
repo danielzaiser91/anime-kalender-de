@@ -540,6 +540,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-03@anime-kalen
+ der-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T160000Z
+DTEND:20261003T163000Z
+SUMMARY:Das Band der Unterwelt – Folge 23/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/das-band-der-unterwelt-crunchy
+ roll-de-2026-04-04
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-165159-tv-toggo-plus@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261003T184500Z
@@ -899,6 +911,19 @@ SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 9/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00378078
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-10@anime-kalen
+ der-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261010T160000Z
+DTEND:20261010T163000Z
+SUMMARY:Das Band der Unterwelt – Folge 24/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/das-band-der-unterwelt-crunchy
+ roll-de-2026-04-04
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT

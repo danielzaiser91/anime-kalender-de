@@ -426,6 +426,18 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-03@anime-kalen
+ der-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T160000Z
+DTEND:20261003T163000Z
+SUMMARY:Das Band der Unterwelt – Folge 23/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/#/release/das-band-der-unterwelt-crunchy
+ roll-de-2026-04-04
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T151000Z
@@ -703,6 +715,19 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
  xx
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-10@anime-kalen
+ der-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261010T160000Z
+DTEND:20261010T163000Z
+SUMMARY:Das Band der Unterwelt – Folge 24/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/#/release/das-band-der-unterwelt-crunchy
+ roll-de-2026-04-04
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-1686-adn@2026-10-12@anime-kalender-de
