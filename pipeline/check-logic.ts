@@ -5860,6 +5860,8 @@ pruefe(
   const nachgetragen = ms.find((m) => m.art === 'nachgetragen')
   pruefe('Rückwirkend eingetragen: eine Meldung mit Termin, Folge und Text', nachgetragen?.datum === vorgestern && nachgetragen.von === 1 && nachgetragen.hinweis === 'Erster Satz. Rest.', JSON.stringify(ms))
   pruefe('Rückwirkend eingetragen: weder Ankündigung noch „Neu auf Deutsch" daneben', !ms.some((m) => m.art === 'angekuendigt' || m.art === 'neu'), JSON.stringify(ms))
+  const folge2 = { ...rel, slug: 'r2', nachtrag: undefined, schedule: { firstEpisodeDate: heute, firstEpisodeNumber: 2 } } as unknown as Release
+  pruefe('Rückwirkend eingetragen: das Folgerelease (ab Folge 2) kündigt nicht „Start" an', !baueNews([t1], [rel, folge2], [], [], { zuerst: {} }).flatMap((e) => e.meldungen).some((m) => m.art === 'angekuendigt'))
   const eintrag = baueNews([t1], [rel], [], [], { zuerst: {} })[0]
   pruefe('Rückwirkend eingetragen: datiert am Tag des Eintragens, nicht am Termin', eintrag?.am === heute, eintrag?.am)
   const verlauf: NewsHistorie = { zuerst: {} }

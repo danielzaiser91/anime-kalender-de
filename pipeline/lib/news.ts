@@ -120,7 +120,9 @@ function terminMeldungen(
     if (r.widerlegt?.gemeldet) continue
     const quelle = quelleVonRelease(r)
     const datum = r.schedule?.firstEpisodeDate
-    if (datum) {
+    /* Die Folgen nach einem rückwirkend eingetragenen Start stehen schon in dessen Meldung. */
+    const folgetermin = !r.nachtrag && (r.schedule?.firstEpisodeNumber ?? 1) > 1 && releases.some((x) => x.titleId === r.titleId && x.nachtrag)
+    if (datum && !folgetermin) {
       /*
         **„Im Kino" sagt die Plattform, nicht die Art des Werks.**
 
