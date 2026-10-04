@@ -41,3 +41,15 @@ Die Modellwahl (Preis je Aufgabe, nicht je Token) steht in `docs/wissen/agenten-
 ## 5. Erster Schritt
 
 Pilot mit **einem** kleinen Inkrement (Phase 0: Bauprüfung schärfen) als Pull Request über diesen Ablauf, um Reibung zu messen, bevor mehr daran hängt.
+
+## 6. Agent-Probe mit DeepSeek V4.1 Flash (04.10.2026)
+
+- **Modell:** `deepseek-flash` (V4.1 Flash), erreichbar über die OpenAI-kompatible Schnittstelle (`https://api.deepseek.com/chat/completions`) und über eine Anthropic-kompatible (`https://api.deepseek.com/anthropic`); Claude Code läuft damit über `ANTHROPIC_BASE_URL`, `ANTHROPIC_AUTH_TOKEN` und `ANTHROPIC_MODEL`. Schlüssel liegt in `my_secrets.md`.
+- **Vorfall, damit er nicht wieder passiert:** Der erste Start der CLI mit fremdem `ANTHROPIC_BASE_URL` schickte das **gespeicherte Anthropic-Anmeldetoken** an `api.deepseek.com` (DeepSeek antwortete 401 und nannte die letzten vier Zeichen). Ursache: Die CLI bevorzugt ihre Anmeldung vor `ANTHROPIC_AUTH_TOKEN`. **Regel:** Fremde Modelle laufen nur mit eigenem, leerem `CLAUDE_CONFIG_DIR` (`agent-lauf.cjs` setzt es und entfernt `ANTHROPIC_API_KEY`/`CLAUDE_CODE_OAUTH_TOKEN`); erst ein Probeaufruf, dann der Auftrag.
+- **Aufträge** haben immer: Ziel, zu liefernde Dateien, Grenzen („nur diese Dateien"), Abnahmebefehle, Abschlussbericht; Ergebnis ist ein Commit auf einem Zweig `inkrement/<name>` im eigenen Worktree, den Claude prüft.
+
+## 7. OpenAI Dots und OpenDots (Recherche 04.10.2026)
+
+- **OpenAI Dots** (29.09.2026): Always-on-Agenten (GPT-6 Astra) mit eigenem Cloud-Rechner, bedienbar über ChatGPT, Slack, Teams; über 4.000 Apps per Plugin; je Pro-/Business-/Enterprise-Plan ein Dot. Quelle: 9to5Google.
+- **OpenDots** (CopilotKit): Open-Source-Nachbau, selbst gehostet, beliebiges OpenAI-kompatibles Modell, Browser/Dateien/Terminal je Dot (standardmäßig aus), Zeitpläne; selbst beschrieben als „early, single-owner". Quelle: CopilotKit-Blog.
+- **Einordnung für uns:** Beide ersetzen keine Datenquelle. Was uns heute fehlt, ist kein „Agent mit eigenem Rechner", sondern **angemeldetes Lesen von Anbieterseiten von einer deutschen Heim-Leitung** (Prime-Kanal, Netflix, Disney+ je Folge) — das übernimmt heute Daniels Browser-Erweiterung von Hand. Automatisiert würde das gegen die AGB der Anbieter und, bei Netflix, gegen die robots.txt laufen (Projektregel `netzwerkverkehr-statt-scraping`); Cloud-Rechner haben zudem keine deutsche Wohnadresse. Die übrigen Aufgaben (nächtliche Läufe, Untersuchung roter Läufe, Wache) decken GitHub Actions, der Cloudflare-Worker-Cron und Claude Code in der Cloud ab. Neu prüfen, wenn Dots eine Schnittstelle (API/Webhook) bekommt und wenn die Rechtsfrage zum angemeldeten Auslesen geklärt ist.
