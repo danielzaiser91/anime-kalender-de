@@ -36,6 +36,7 @@ import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { deutschAbgeschlossen } from '../web/src/components/detail/antwort-regeln.ts'
 import { omuMeldungen } from './lib/news-omu.ts'
+import { discBonusAus } from './lib/disc-bonus.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../shared/kostenlos.ts'
 import { istPremiere, tvAngabe } from '../web/src/lib/tv-angabe.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
@@ -7813,6 +7814,22 @@ console.log('\nOmU-Meldung:')
   const ohneFeld = { id: 9 } as never
   const aus = omuMeldungen([ohneFeld], [], new Map([[9, { platform: 'crunchyroll', omuAb: '2026-10-11', synchro: 'angekuendigt', quellen: ['https://x'], stand: '2026-10-01' } as never]]))
   pruefe('OmU: ein Titel ohne Feld am Objekt bekommt seine Meldung über die Ankündigungsliste', aus.length === 1 && /ist angekündigt/.test(aus[0]!.hinweis ?? ''), aus)
+}
+
+/* Ein Special als Bonus auf einer Disc mit deutscher Tonspur gilt als deutsch belegt (Daniel, 04.10.2026). */
+console.log('\nDisc-Bonus:')
+{
+  const art = {
+    '1': { audio: ['Deutsch (DTS-HD 2.0)', 'Japanisch'], publisher: 'polyband', enthalten: [{ anisearchId: 10, typ: 'TV-Serie' }, { anisearchId: 11, typ: 'Bonus' }] },
+    '2': { audio: ['Deutsch [Audiobeschreibung]', 'Japanisch'], enthalten: [{ anisearchId: 12, typ: 'Bonus' }] },
+    '3': { audio: ['Japanisch'], untertitel: ['Deutsch'], enthalten: [{ anisearchId: 13, typ: 'OVA' }] },
+    '4': { audio: ['Deutsch', 'Japanisch'], publisher: 'KSM', enthalten: [{ anisearchId: 14, typ: 'OVA' }, { anisearchId: 14, typ: 'Bonus' }] },
+  } as never
+  const datum = new Map([['1', '2019-03-08'], ['4', '2020-01-01'], ['5', '2019-01-01']])
+  const b = discBonusAus(art, datum)
+  pruefe('Disc-Bonus: nur Bonus, OVA und TV-Spezial zählen, die Serie selbst nicht', b.has(11) && !b.has(10))
+  pruefe('Disc-Bonus: Audiobeschreibung ist keine deutsche Tonspur, deutsche Untertitel auch nicht', !b.has(12) && !b.has(13))
+  pruefe('Disc-Bonus: Datum und Verlag der Disc kommen mit', b.get(11)?.von === '2019-03-08' && b.get(11)?.publisher === 'polyband' && b.get(14)?.artikel.length === 2)
 }
 
 /* Japans Ende ist nicht das deutsche: Slime Staffel 4 (AniList-Ende 25.09., Crunchyroll bis 16.10.). */

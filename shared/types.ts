@@ -444,7 +444,7 @@ export interface Title {
      */
     synchro?: boolean
     /** Woher das Datum stammt, wenn nicht von aniSearch (19.09.2026: Wikipedia-Episodenliste). */
-    quelle?: 'wikipedia'
+    quelle?: 'wikipedia' | 'disc'
   }
   /**
    * **Ein angekündigter Simulcast — kein Termin, keine deutsche Fassung** (25.09.2026,

@@ -16,6 +16,7 @@ export const TEXTE_SEITEN = {
   /* Der Tag, an dem die Quelle es sagte — bei eigener Messung der Tag, an dem wir nachsahen (news-plan.md). */
   'news.quelleVeroeffentlicht': '{name} · veröffentlicht am {datum}',
   'news.quelleAktualisiert': '{name} · veröffentlicht am {datum}, aktualisiert am {aktualisiert}',
+  'antwort.deSeitDisc': 'Die deutsche Tonspur steht bei der Disc-Ausgabe laut aniSearch (Bonus oder Teil der Ausgabe) — ob dieses Werk selbst gesprochen ist, ist nicht je Titel belegt.',
   'news.verlauf': 'Frühere Stände',
   'news.ueberholtAm': 'überholt am {datum}',
   'news.quelleAusgabe': '{name} · Produktseite, Ausgabe erscheint am {datum}',

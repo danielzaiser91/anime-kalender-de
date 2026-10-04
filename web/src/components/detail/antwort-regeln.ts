@@ -89,6 +89,11 @@ export function deutschAbgeschlossen(title: Title, releases: Release[], today: s
   return !releases.some((r) => r.releaseType === 'weekly' && r.platform !== 'disc' && r.platform !== 'tv' && releaseStatus(r, today) === 'airing')
 }
 
+/** Der Tooltip an „Auf Deutsch seit …": woher das Datum stammt. */
+export function deSeitQuelleSchluessel(quelle: 'wikipedia' | 'disc' | undefined): 'antwort.deSeitWikipedia' | 'antwort.deSeitDisc' | 'antwort.deSeitQuelle' {
+  return quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : quelle === 'disc' ? 'antwort.deSeitDisc' : 'antwort.deSeitQuelle'
+}
+
 /** Stammt die Gesamtzahl nur aus der fortgeschriebenen Folgenzahl des laufenden Release? */
 export function gesamtGeschaetzt(title: Title, releases: Release[], n: ReleaseEvent): boolean {
   return !title.episodes && Boolean(releases.find((r) => r.slug === n.releaseSlug)?.schedule.episodeCountAssumed)

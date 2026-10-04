@@ -9,7 +9,7 @@ import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
-import { terminSatz, ungefaehr } from './antwort-regeln.ts'
+import { deSeitQuelleSchluessel, terminSatz, ungefaehr } from './antwort-regeln.ts'
 import { type Antwort } from './antwort-typ.ts'
 
 /**
@@ -500,7 +500,7 @@ export function AntwortKasten({
     */
     neben = deSeitZeile(title, T)
     nebenTitel = title.deErstausgabe
-      ? T(title.deErstausgabe.quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : 'antwort.deSeitQuelle')
+      ? T(deSeitQuelleSchluessel(title.deErstausgabe.quelle))
       : undefined
     zaehl = ''
   } else if (antwort.art === 'disc') {
@@ -697,7 +697,7 @@ export function AntwortKasten({
     nebenTitel = ankuendigung
       ? T('antwort.ankuendigungQuelle', { anbieter: PLATFORMS[ankuendigung.platform]?.name ?? ankuendigung.platform, datum: formatDate(ankuendigung.stand) })
       : title.deErstausgabe
-        ? T(title.deErstausgabe.quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : 'antwort.deSeitQuelle')
+        ? T(deSeitQuelleSchluessel(title.deErstausgabe.quelle))
         : undefined
     /* Eine angekündigte Synchro ist eine Nachricht, kein Nein — der Kasten steht dann nicht gedämpft. */
     gedaempft = ankuendigung?.synchro !== 'angekuendigt'
