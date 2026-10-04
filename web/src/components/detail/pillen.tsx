@@ -6,6 +6,7 @@ import { tvAngabe } from '../../lib/tv-angabe.ts'
 import { useLang, translate } from '../../lib/i18n.tsx'
 import { AnbieterIcon } from '../../lib/anbieter-icon.tsx'
 import { MerkenKnopf } from './merken.tsx'
+import { expandEvents, istErschienen } from '@shared/logic.ts'
 import { verweiseFuer } from './verweise.ts'
 
 /*
@@ -431,6 +432,16 @@ export function ReleasePille({
     Vergangenes ist kein Angebot, sondern ein Fehlgriff.
   */
   const datum = release.schedule?.firstEpisodeDate
+  /*
+    **Wie weit eine laufende Wochenserie ist** (Daniel, 04.10.2026: „1 Folge erschienen" fehlt in der Pille): nur wo die
+    Folgenzahl belegt ist und noch etwas aussteht.
+  */
+  const fortschritt = ((): string => {
+    if (release.releaseType !== 'weekly' || release.platform === 'tv' || release.schedule?.episodeCountAssumed) return ''
+    const termine = expandEvents(release)
+    const raus = termine.filter((e) => istErschienen(e)).length
+    return raus > 0 && raus < termine.length ? t('detail.folgenFortschritt', { raus, gesamt: termine.length }) : ''
+  })()
   /* Ein TOGGO-Sender trägt TOGGOs Orange, nicht das allgemeine TV-Grün. */
   const farbe = /^TOGGO/i.test(release.sender ?? '')
     ? TOGGO_ORANGE
@@ -563,6 +574,7 @@ export function ReleasePille({
                   ),
                 })
               : datum && t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) }),
+            fortschritt,
           ]
             .filter(Boolean)
             .join(' · ')

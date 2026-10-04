@@ -124,9 +124,27 @@ export function buildIcs(events: ReleaseEvent[], opts: IcsOptions = {}): string 
   return lines.map(fold).join('\r\n') + '\r\n'
 }
 
-/** Ein-Klick-Link „zu Google Calendar hinzufügen" — braucht weder API noch Login-Flow. */
-export function googleCalendarUrl(ev: ReleaseEvent, opts: IcsOptions = {}): string {
-  const params = new URLSearchParams({ action: 'TEMPLATE', text: eventSummary(ev) })
+/**
+ * **Wie viele der nächsten Termine eine Wochenserie bilden** (Daniel, 04.10.2026): sieben Tage Abstand und dieselbe Uhrzeit.
+ * Google kennt nur eine feste Uhrzeit je Serie; wechselt sie (Winterzeit bei Tokyo Revengers), endet die Serie dort,
+ * der Rest steht in der Kalenderdatei.
+ */
+export function wochenserie(termine: ReleaseEvent[]): { anzahl: number; rest: number } {
+  const erster = termine[0]
+  if (!erster || erster.releaseType !== 'weekly') return { anzahl: 1, rest: 0 }
+  let n = 1
+  while (n < termine.length && termine[n]!.date === addDays(erster.date, 7 * n) && termine[n]!.time === erster.time) n++
+  return { anzahl: n, rest: termine.length - n }
+}
+
+/**
+ * Ein-Klick-Link „zu Google Calendar hinzufügen" — braucht weder API noch Login-Flow.
+ * Mit `serie` (mehr als ein Termin) wird ein wöchentlich wiederholter Eintrag daraus (`recur`), ohne Folgennummer im Titel.
+ */
+export function googleCalendarUrl(ev: ReleaseEvent, opts: IcsOptions = {}, serie?: { anzahl: number; rest: number }): string {
+  const wiederholt = Boolean(serie && serie.anzahl > 1)
+  const params = new URLSearchParams({ action: 'TEMPLATE', text: wiederholt ? `${ev.name} – neue Folge` : eventSummary(ev) })
+  if (serie && wiederholt) params.set('recur', `RRULE:FREQ=WEEKLY;COUNT=${serie.anzahl}`)
 
   if (ev.time) {
     const start = berlinToUtc(ev.date, ev.time)
@@ -137,7 +155,8 @@ export function googleCalendarUrl(ev: ReleaseEvent, opts: IcsOptions = {}): stri
     params.set('dates', `${compact(ev.date)}/${compact(addDays(ev.date, 1))}`)
   }
 
-  params.set('details', eventDescription(ev, opts))
+  const zusatz = serie && wiederholt ? [`Wöchentlich, ${serie.anzahl} Termine ab Folge ${ev.episode ?? '?'}.`, ...(serie.rest ? [`Die ${serie.rest} Folgen danach kommen zu einer anderen Uhrzeit; alle Termine stehen in der Kalenderdatei (.ics).`] : [])] : []
+  params.set('details', [eventDescription(ev, opts), ...zusatz].join('\n'))
   params.set('location', anbieterName(ev.platform, ev.sender))
   params.set('ctz', 'Europe/Berlin')
   return `https://calendar.google.com/calendar/render?${params.toString()}`

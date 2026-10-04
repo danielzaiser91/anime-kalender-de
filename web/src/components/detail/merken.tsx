@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { merkbareTermine } from '@shared/logic.ts'
 import { Tooltip } from '../ui.tsx'
 import { createPortal } from 'react-dom'
-import { googleCalendarUrl } from '@shared/ics.ts'
+import { googleCalendarUrl, wochenserie } from '@shared/ics.ts'
 import { downloadIcs } from './hilfen.tsx'
 
 /**
@@ -121,7 +121,7 @@ export function MerkenKnopf({
                 className="fixed z-50 flex w-max flex-col overflow-hidden rounded-lg border border-slate-200 bg-white text-[12px] shadow-lg dark:border-white/10 dark:bg-[#141b2d]"
               >
                 <a
-                  href={googleCalendarUrl(ev)}
+                  href={googleCalendarUrl(ev, {}, wochenserie(kuenftige))}
                   target="_blank"
                   rel="noreferrer noopener"
                   onClick={(e) => {
@@ -130,7 +130,7 @@ export function MerkenKnopf({
                   }}
                   className="px-3 py-2 text-left hover:bg-slate-100 dark:hover:bg-white/10"
                 >
-                  {t('detail.merkenGoogle')}
+                  {t(wochenserie(kuenftige).anzahl > 1 ? 'detail.merkenGoogleSerie' : 'detail.merkenGoogle')}
                 </a>
                 <button
                   type="button"

@@ -27,6 +27,8 @@ export const TEXTE_SEITEN = {
   'news.quelleGemessen': '{name} · nachgesehen am {datum}',
   'news.art.nachgereicht': 'Verspätet erschienen',
   'news.art.nachgetragen': 'Rückwirkend eingetragen',
+  'detail.merkenGoogleSerie': 'Google Kalender · jede Woche',
+  'detail.folgenFortschritt': '{raus} von {gesamt} Fg.',
   'news.nachtrag.quelle': 'Uhrzeit und Quelle',
   'news.nachtrag.grund': 'Warum erst jetzt',
   'news.nachtrag.abhilfe': 'Was wir geändert haben',

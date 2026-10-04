@@ -77,7 +77,7 @@ import { wegGiltGanzerAdresse } from './lib/weg-entwerten.ts'
 import { entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
-import { buildIcs, fold as icsFold } from '../shared/ics.ts'
+import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../shared/ics.ts'
 import { newsRss } from './lib/news-rss.ts'
 import { sucheZweistufig } from '../web/src/lib/search.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
@@ -8037,6 +8037,21 @@ console.log('\nSammelartikel „Ab sofort":')
   pruefe('Ab sofort: Datum ist der Tag der Meldung, deutsch, wöchentlich, Disney+', tr?.datum === '2026-10-02' && tr.deutsch === true && tr.woechentlich === true && tr.stream.includes('Disney+'))
   pruefe('Ab sofort: „Ab 3. November" behält sein Datum', e.find((x) => /Honey/.test(x.titel))?.datum === '2026-11-03')
   pruefe('Disney+-Überschrift „ergänzt zwei weitere Anime-Titel" wird als Sammelartikel gelesen', ANBIETER_SAMMELARTIKEL.test('Disney+ ergänzt zwei weitere Anime-Titel auf Deutsch'))
+}
+console.log('\nGoogle-Kalender: wöchentliche Serie:')
+{
+  /* Daniel, 04.10.2026 (Tokyo Revengers): Der Google-Link legt alle künftigen Wochentermine als wiederholten Eintrag an,
+     solange Abstand und Uhrzeit gleich bleiben; wechselt die Uhrzeit (Winterzeit), endet die Serie dort. */
+  const ev = (date: string, time: string, episode: number) =>
+    ({ id: 'x' + episode, releaseSlug: 'x', name: 'Serie', platform: 'disneyplus', releaseType: 'weekly', date, time, episode, episodeCount: 13 }) as unknown as ReleaseEvent
+  const termine = [ev('2026-10-09', '19:00', 2), ev('2026-10-16', '19:00', 3), ev('2026-10-23', '19:00', 4), ev('2026-10-30', '18:00', 5), ev('2026-11-06', '18:00', 6)]
+  const serie = wochenserie(termine)
+  pruefe('Wochenserie endet beim Wechsel der Uhrzeit', serie.anzahl === 3 && serie.rest === 2, JSON.stringify(serie))
+  const url = new URL(googleCalendarUrl(termine[0]!, {}, serie))
+  pruefe('Google-Link wiederholt wöchentlich, ohne Folgennummer im Titel', url.searchParams.get('recur') === 'RRULE:FREQ=WEEKLY;COUNT=3' && url.searchParams.get('text') === 'Serie – neue Folge', url.search)
+  pruefe('Google-Link nennt die abweichenden Folgen danach', /2 Folgen danach/.test(url.searchParams.get('details') ?? ''))
+  const einzel = new URL(googleCalendarUrl(termine[0]!, {}, wochenserie([termine[0]!])))
+  pruefe('Ein einzelner Termin bleibt einmalig', !einzel.searchParams.has('recur') && /Folge 2/.test(einzel.searchParams.get('text') ?? ''))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
