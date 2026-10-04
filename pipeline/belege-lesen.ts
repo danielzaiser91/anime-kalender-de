@@ -109,11 +109,12 @@ async function main(): Promise<void> {
         if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html, markierung: letzte.markierung })
         /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
         const ziel = letzte?.hash === hash ? letzte : lesung
-        if (!ziel.bild) {
+        /* Auch ein Bild ohne Fundstelle wird neu gemacht (04.10.2026): Ältere Belege bekommen so ihre Markierung. */
+        if (!ziel.bild || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0)) {
           const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
           const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [])
           if (beleg) {
-            if (beleg.markierung) ziel.markierung = beleg.markierung
+            if (beleg.markierung) ziel.markierung = lesung.markierung = beleg.markierung
             ziel.bild = await ablegen(`${basis}.webp`, beleg.bild, 'image/webp')
             ziel.text = await ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')
           }
