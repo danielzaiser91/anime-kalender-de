@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-04T18:35:04.711Z",
+ "erzeugtAm": "2026-10-04T18:45:49.167Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,10 +7,8 @@
    "gemeldet": 748,
    "gesamt": 752,
    "offen": 4,
-   "ohneSeite": 1,
-   "suchAdressen": [
-    "https://www.amazon.de/s?k=The%20Seven%20Knights%20of%20the%20Marronnier%20Kingdom&i=instant-video"
-   ],
+   "ohneSeite": 0,
+   "suchAdressen": [],
    "ziel": "https://www.amazon.de/gp/video/detail/B0CQ4VL364",
    "ziele": [
     {
@@ -36,21 +34,17 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 377,
-   "gesamt": 379,
-   "offen": 2,
+   "gesamt": 378,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/81171925",
+   "ziel": "https://www.netflix.com/title/81712068",
    "ziele": [
-    {
-     "url": "https://www.netflix.com/title/81171925",
-     "titel": "Ranma1/2 (2024) Season 3"
-    },
     {
      "url": "https://www.netflix.com/title/81712068",
      "titel": "Die Tagebücher der Apothekerin"
     }
    ],
-   "naechster": "Ranma1/2 (2024) Season 3"
+   "naechster": "Die Tagebücher der Apothekerin"
   },
   {
    "name": "Disney+",
@@ -80,19 +74,15 @@
    "name": "Suchadressen",
    "plattform": "suchadressen",
    "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
+   "gesamt": 1,
+   "offen": 1,
    "titel": 0,
-   "ohneSeite": 2,
+   "ohneSeite": 1,
    "ziel": "https://netflix.com",
    "ziele": [
     {
      "url": "https://netflix.com",
      "titel": "Meine ganz besondere Hochzeit: Special"
-    },
-    {
-     "url": "https://www.amazon.de/s?k=The%20Seven%20Knights%20of%20the%20Marronnier%20Kingdom&i=instant-video",
-     "titel": "Die sieben Ritter des Königreichs der Marronniers"
     }
    ],
    "naechster": "Meine ganz besondere Hochzeit: Special",

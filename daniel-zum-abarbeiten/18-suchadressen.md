@@ -1,6 +1,6 @@
 # Suchadressen — welcher Titel steckt dahinter?
 
-_Stand 2026-10-04 · 2 offen_
+_Stand 2026-10-04 · 1 offen_
 
 Diese Verweise führten auf eine **Suche** statt auf eine Titelseite und sind
 deshalb von der Seite verschwunden. Was hier steht, ist die Frage danach, wo
@@ -14,11 +14,5 @@ hinter einem /dp/ kann eine DVD liegen.
 
 - Anbieter: **netflix** · unser Titel 190054
 - war verlinkt als: <https://netflix.com>
-- **Antwort:** 
-
-## Die sieben Ritter des Königreichs der Marronniers
-
-- Anbieter: **primevideo** · unser Titel 212799
-- war verlinkt als: <https://www.amazon.de/s?k=The%20Seven%20Knights%20of%20the%20Marronnier%20Kingdom&i=instant-video>
 - **Antwort:** 
 
