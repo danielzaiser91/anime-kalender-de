@@ -4649,9 +4649,13 @@
   title: ONE PIECE
   platform: adn
   dub: true
-  checkedAt: "2026-08-24"
+  checkedAt: "2026-10-04"
   dubRanges:
-    - { from: 1, to: 516, dub: true }
+    # Folge 492 führt ADN gar nicht (Daniels Screenshot der Folgenübersicht, 04.10.2026: 491 → 493; die deutsche
+    # Wikipedia nennt für 492 ebenfalls kein deutsches Datum). Der Bereich 1–516 überspannte die Lücke und zählte
+    # 516 statt 515 Folgen — das Archiv hatte die 515 schon am 24.08.2026 gezählt.
+    - { from: 1, to: 491, dub: true }
+    - { from: 493, to: 516, dub: true }
     - { from: 780, to: 1176, dub: false }
   note: >-
     Daniel: "saga 7 letzte folge: 516 ist deutsch (alle vorher auch, also
