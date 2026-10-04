@@ -29,7 +29,7 @@ export function dubZeilenVon({ title, t, releases, today }: {
       ].filter(Boolean)
     }
     return [
-      bild.ohneTon.length ? t('detail.dubOhneTonZeile', { bereiche: bereicheKurz(bild.ohneTon) }) : '',
+      bild.ohneTon.length ? t(bild.ohneTon.length === 1 && bild.ohneTon[0].from === bild.ohneTon[0].to ? 'detail.dubOhneTonEine' : 'detail.dubOhneTonZeile', { bereiche: bereicheKurz(bild.ohneTon) }) : '',
       abgeschlossen && bild.nichtImAngebot.length
         ? t('detail.dubNichtImAngebot', { bereiche: bereicheKurz(bild.nichtImAngebot) })
         : '',

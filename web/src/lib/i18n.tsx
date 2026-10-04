@@ -380,7 +380,8 @@ const TEXTE = {
   // Der Hinweis, zeilenweise.
   'detail.dubKopfVon': '{n} von {m} Folgen auf Deutsch',
   'detail.dubKopf': '{n} Folgen auf Deutsch',
-  'detail.dubOhneTonZeile': 'Ohne deutschen Ton: {bereiche}',
+  'detail.dubOhneTonZeile': 'Anbieter führt auch die Episoden {bereiche}, allerdings ohne deutsche Synchro.',
+  'detail.dubOhneTonEine': 'Anbieter führt auch die Episode {bereiche}, allerdings ohne deutsche Synchro.',
   // „Nicht im Angebot" statt „nicht erfasst": Bei bekannter Folgenzahl ist das die
   // Aussage, die der Leser braucht — dort gibt es sie nicht, nicht einmal untertitelt.
   'detail.dubNichtImAngebot': 'Nicht im Angebot: {bereiche}',
