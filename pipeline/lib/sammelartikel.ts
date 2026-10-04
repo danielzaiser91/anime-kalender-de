@@ -33,7 +33,7 @@ export interface SammelEintrag {
 }
 
 /** Überschriften der Anbieter-Sammelartikel: „Netflix: Alle Anime-Neuzugänge im Oktober 2026" u. ä. */
-export const ANBIETER_SAMMELARTIKEL = /Neuzugänge|Neuzugang|Katalogtitel|Simulcasts (?:und|für)|neue (?:Herbst|Winter|Frühlings|Sommer)-Simulcasts|Simulcast-Lizenzen/i
+export const ANBIETER_SAMMELARTIKEL = /Disney\+.{0,60}(?:ergänzt|und mehr|weitere)|Neuzugänge|Neuzugang|Katalogtitel|Simulcasts (?:und|für)|neue (?:Herbst|Winter|Frühlings|Sommer)-Simulcasts|Simulcast-Lizenzen/i
 
 /** Artikel-HTML → Text mit einer Zeile je Absatz, Listenpunkt und Umbruch — die Vorlage ist zeilenweise. */
 export function artikelZeilen(html: string): string {
@@ -57,7 +57,7 @@ const MONATE: Record<string, number> = {
   september: 9, oktober: 10, november: 11, dezember: 12,
 }
 const KOPF =
-  /^\s*(?:Ab\s+)?(?:(\d{1,2})\.\s*(?:([A-Za-zÄÖÜäöü]+)|(\d{1,2})\.)|(?:Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag)):\s*»(.+?)«\s*(?:[–-]\s*([^()]+?))?\s*(?:\(([^()]+)\))?\s*$/
+  /^\s*(?:Ab\s+)?(?:(\d{1,2})\.\s*(?:([A-Za-zÄÖÜäöü]+)|(\d{1,2})\.)|(?:Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag)|sofort):\s*»(.+?)«\s*(?:[–-]\s*([^()]+?))?\s*(?:\(([^()]+)\))?\s*$/
 
 /** Jahr zum Monat: Ein Artikel vom Dezember, der Januar nennt, meint das nächste Jahr. */
 function iso(tag: number, monat: number, veroeffentlicht: string): string {
@@ -79,6 +79,8 @@ export function leseSammelartikel(text: string, veroeffentlicht: string): Sammel
       titel: k[4]!.trim(),
       ...(k[5]?.trim() ? { zusatz: k[5].trim() } : {}),
       ...(k[1] && monat ? { datum: iso(Number(k[1]), monat, veroeffentlicht) } : {}),
+      /* „Ab sofort: »Tokyo Revengers …«" (Disney+, 02.10.2026): der Tag der Meldung. */
+      ...(!k[1] && /^\s*Ab\s+sofort:/i.test(zeilen[i]!) ? { datum: veroeffentlicht.slice(0, 10) } : {}),
       deutsch: /\b(Dub|Synchro)\b/i.test(k[6] ?? ''),
       woechentlich: /simulcast/i.test(k[6] ?? ''),
       stream: [],

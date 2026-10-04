@@ -20,6 +20,9 @@ export function ergaenzeTeilnamen(titles: Map<number, Title>): number {
     const quelle = [title.titleEn, title.titleRomaji].find((s) => /(?:part|teil|vol\.?|volume)\s*\d+\s*$/i.test(s ?? ''))
     const nr = quelle?.match(/(\d+)\s*$/)?.[1]
     if (!nr || new RegExp(`\\b${nr}\\b`).test(title.titleDe)) continue
+    /* „Season 2 Part 2" mit eigenem Arc-Namen im deutschen Titel (Tenjiku Arc): aniSearch führt kein „Teil 2" (Daniel, 04.10.2026). */
+    const arc = /:\s*([^:–]+?)\s*$/.exec(title.titleDe)?.[1]
+    if (arc && !/staffel|season|teil|part|film|movie|finale|ova|special/i.test(arc) && /season\s*\d+\s*part\s*\d+/i.test(quelle ?? '')) continue
     title.titleDe = `${title.titleDe} – Teil ${nr}`
     teilNamen++
   }

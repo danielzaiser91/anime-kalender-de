@@ -144,10 +144,12 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { istAbschied, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
-import { leseSammelartikel, vorschlaegeAusSammelartikel } from './lib/sammelartikel.ts'
+import { leseSammelartikel, vorschlaegeAusSammelartikel, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
 import { erschieneneFolgen } from './bau/folgen-dateien.ts'
+import { ergaenzeTeilnamen } from './bau/adn-teilnamen.ts'
+import { folgenSummeJeKennung, ueberbelegt, entferneFremdeCrWege } from './bau/cr-serie-geteilt.ts'
 import { entdoppleCrWege } from './bau/11-3-bereinigung.ts'
 import type { DatiertNews } from './lib/news-verlauf.ts'
 import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
@@ -4017,7 +4019,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'die Katalog-Runde greift nur bei genau einer Staffel',
-    bau.includes('if ((eintrag.staffeln ?? 0) !== 1 || vorDemStart(title, katalog.geholtAm)) continue'),
+    bau.includes('if ((eintrag.staffeln ?? 0) !== 1 || vorDemStart(title, katalog.geholtAm)'),
     'eine Serienkennung ist ein Franchise — Free! führt neun Staffeln unter einer',
   )
   pruefe(
@@ -7923,6 +7925,37 @@ console.log('\nErschienene Folgen:')
   pruefe('Erschienen: die Wikipedia-Liste darf weiter reichen als aniSearch', erschieneneFolgen(f, 5, '2026-10-04').length === 5)
   pruefe('Erschienen: ganz ohne Datum bleibt die Liste, wie sie ist', erschieneneFolgen([{ nr: 1 }, { nr: 2 }], 0, '2026-10-04').length === 2)
   pruefe('Erschienen: nur Zukünftiges ergibt keine Liste', erschieneneFolgen([{ nr: 1, datum: '2027-01-01' }, { nr: 2, datum: '2027-01-08' }], 0, '2026-10-04').length === 0)
+}
+/* Eine Crunchyroll-Serie mit einer Staffel trägt nicht für jeden Titel, der auf sie zeigt (Tokyo Revengers, 04.10.2026). */
+console.log('\nGeteilte Crunchyroll-Serie:')
+{
+  const cr = (episodes: number, id: number) => ({ id, episodes, streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/G3KHEVMN1/tokyo-revengers' }] }) as unknown as Title
+  const titel = new Map([cr(24, 1), cr(13, 2), cr(13, 3)].map((t) => [t.id, t]))
+  const summen = folgenSummeJeKennung(titel)
+  pruefe('Geteilt: 24 + 13 + 13 Folgen übersteigen die 24 der Serie', ueberbelegt(summen, 'G3KHEVMN1', 24))
+  pruefe('Geteilt: 11 + 12 Folgen bei 26 gehen auf (86 EIGHTY-SIX)', !ueberbelegt(new Map([['X', 23]]), 'X', 26))
+  const weg = entferneFremdeCrWege(titel, new Map([['G3KHEVMN1', { folgen: 24, staffeln: 1 }]]), summen)
+  pruefe('Geteilt: nur der Titel mit der Folgenzahl der Serie behält den Weg', weg === 2 && titel.get(1)!.streams.length === 1 && titel.get(2)!.streams.length === 0 && titel.get(3)!.streams.length === 0)
+}
+console.log('\nTeilnamen:')
+{
+  const mk = (id: number, titleDe: string, titleEn: string) => ({ id, titleDe, titleEn }) as unknown as Title
+  const t = new Map([mk(1, 'Tokyo Revengers: Tenjiku Arc', 'Tokyo Revengers Season 2 Part 2'), mk(2, 'Beastars: Letzte Staffel', 'BEASTARS Final Season Part 2')].map((x) => [x.id, x]))
+  ergaenzeTeilnamen(t)
+  pruefe('Teilnamen: ein Arc-Name im deutschen Titel bekommt kein „Teil 2" (Tenjiku Arc)', t.get(1)!.titleDe === 'Tokyo Revengers: Tenjiku Arc')
+  pruefe('Teilnamen: ohne Arc-Name bleibt die Nummer (Beastars)', t.get(2)!.titleDe === 'Beastars: Letzte Staffel – Teil 2')
+}
+/* Disney+ meldet „Ab sofort": der Start war der Tag der Meldung (Tokyo Revengers, Anime2You 02.10.2026). */
+console.log('\nSammelartikel „Ab sofort":')
+{
+  const e = leseSammelartikel(
+    ['Ab 3. November: »Honey Lemon Soda«', 'Episoden: 12', 'Sprache: Deutsch, Japanisch (UT)', 'Stream: Disney+', 'Ab sofort: »Tokyo Revengers: War of the Three Titan Arc«', 'Episoden: 1 verfügbar', 'Sprache: Deutsch, Japanisch (UT)', 'Simulcast: Jeden Samstag um 19:00 Uhr', 'Stream: Disney+'].join('\n'),
+    '2026-10-02',
+  )
+  const tr = e.find((x) => /Tokyo Revengers/.test(x.titel))
+  pruefe('Ab sofort: Datum ist der Tag der Meldung, deutsch, wöchentlich, Disney+', tr?.datum === '2026-10-02' && tr.deutsch === true && tr.woechentlich === true && tr.stream.includes('Disney+'))
+  pruefe('Ab sofort: „Ab 3. November" behält sein Datum', e.find((x) => /Honey/.test(x.titel))?.datum === '2026-11-03')
+  pruefe('Disney+-Überschrift „ergänzt zwei weitere Anime-Titel" wird als Sammelartikel gelesen', ANBIETER_SAMMELARTIKEL.test('Disney+ ergänzt zwei weitere Anime-Titel auf Deutsch'))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
