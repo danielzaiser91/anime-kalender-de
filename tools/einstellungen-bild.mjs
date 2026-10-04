@@ -72,7 +72,8 @@ const pruefe = (was, ok, zusatz) => {
 async function titelzahl() {
   return seite.evaluate(() => {
     const text = document.body.innerText
-    const m = text.match(/([\d.]+)\s+(?:Anime|Titel)(?:\s+und\s+([\d.]+)\s+westliche Serien)?/)
+    /* Seit dem 04.10.2026 steht dort „davon <Flagge> N Anime und M Cartoons". */
+    const m = text.match(/([\d.]+)\s+Anime\s+und\s+([\d.]+)\s+Cartoons/)
     if (!m) return 0
     const zahl = (s) => Number(String(s ?? '').replace(/\./g, ''))
     return zahl(m[1]) + zahl(m[2])
