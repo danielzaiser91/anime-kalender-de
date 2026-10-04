@@ -1,9 +1,11 @@
 import { type Env } from './env.ts'
 
-export async function liefereRohfolgen({ request, env, antwort }: {
+export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
   request: Request<unknown, CfProperties<unknown>>
   env: Env
   antwort: (body: unknown, status?: number) => Response
+  /** Hält eine erfolgreiche Antwort für 30 Minuten (`caches.default`, gleiche Adresse = gleiche Antwort). */
+  ausCache: (bauen: () => Promise<Response>, sekunden?: number) => Promise<Response>
 }) {
       const token = new URL(request.url).searchParams.get('token') ?? ''
       if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) {
@@ -68,13 +70,14 @@ export async function liefereRohfolgen({ request, env, antwort }: {
         Adresse nennt die Reihe aber („Food Wars!" für B0CK66ZZ8G, 552 Folgen). Eine Abfrage mit
         GROUP BY, keine Unterabfrage je Zeile (Kontingent, siehe betrieb.md).
       */
-      if (new URL(request.url).searchParams.get('namen') === '1') {
+      /* Beide Vollexporte (`namen`, `alle`) sind 30 Minuten zwischengespeichert — sie lasen je Bau rund 100.000 Zeilen (04.10.2026). */
+      if (new URL(request.url).searchParams.get('namen') === '1') return ausCache(async () => {
         const { results } = await env.DB.prepare(
           `SELECT url, MAX(titel) AS titel FROM pruefung WHERE titel IS NOT NULL AND url IS NOT NULL GROUP BY url`,
         ).all()
         return antwort({ namen: results ?? [] })
-      }
-      if (new URL(request.url).searchParams.get('alle') === '1') {
+      })
+      if (new URL(request.url).searchParams.get('alle') === '1') return ausCache(async () => {
         const { results } = await env.DB.prepare(
           `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
                   seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen
@@ -84,7 +87,7 @@ export async function liefereRohfolgen({ request, env, antwort }: {
           .all()
         const zeilen = (results ?? []) as { id: number }[]
         return antwort({ folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null })
-      }
+      })
       const { results } = await env.DB.prepare(
         /*
           **Der Serienname kommt aus der Meldung derselben Adresse.**

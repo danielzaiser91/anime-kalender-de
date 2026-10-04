@@ -116,7 +116,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
       Menschen.
     */
     if (new URL(request.url).searchParams.get('rohfolgen') === '1') {
-      return await liefereRohfolgen({ request, env, antwort })
+      return await liefereRohfolgen({ request, env, antwort, ausCache })
     }
 
     if (new URL(request.url).searchParams.get('zaehlen') === '1') return ausCache(async () => {
@@ -144,7 +144,8 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
       je Folge wird aus allen Beobachtungen neu gerechnet, nicht aus den 500 offenen. Seitenweise wie
       bei den Rohfolgen; gemessen am 22.09.2026: 4.467 Zeilen, eine Seite.
     */
-    if (sucheP.get('alle') === '1') {
+    /* Zwischengespeichert (04.10.2026, D1-Kontingent): Jeder Bau holte alle Seiten neu, 36 Bauten an einem Tag lasen so 4,5 Mio. Zeilen. */
+    if (sucheP.get('alle') === '1') return ausCache(async () => {
       const nach = Number(sucheP.get('nach') ?? 0)
       const { results } = await env.DB.prepare(
         `SELECT id, plattform, url, befund, folge_nr, staffel, staffeln, folgen, teil_von, teil_bis,
@@ -155,7 +156,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
         .all()
       const zeilen = (results ?? []) as { id: number }[]
       return antwort({ pruefungen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null })
-    }
+    })
 
     const nurPlattform = sucheP.get('plattform')
     const abfrage = nurPlattform
