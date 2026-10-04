@@ -8,7 +8,7 @@ export function baueMeta({ titles, releases, events, motnBelege }: {
 }) {
   const allTitles = [...titles.values()]
   const genres = [...new Set(allTitles.flatMap((t) => t.genres))].sort((a, b) => a.localeCompare(b, 'de'))
-  const keywords = [...new Set(allTitles.flatMap((t) => t.keywords))].sort((a, b) => a.localeCompare(b, 'de'))
+  const keywords = [...new Set([...allTitles.flatMap((t) => t.keywords), 'Cartoon'])].sort((a, b) => a.localeCompare(b, 'de'))
   const platforms = [...new Set(releases.map((r) => r.platform))] as PlatformId[]
   const years = [...new Set(releases.map((r) => r.year))].sort((a, b) => b - a)
 

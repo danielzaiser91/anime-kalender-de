@@ -3,7 +3,7 @@ import type { Title } from '@shared/types.ts'
 import type { Dataset } from './lib/data.ts'
 import { EinstellungenDialog, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadDataset, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
-import { eventsFuerAnsicht, titelFuerAnsicht, toggleValue, type FilterState } from './lib/filters.ts'
+import { eventsFuerAnsicht, titelFuerAnsicht, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
 import { SuchfundstellenContext } from './lib/such-kontext.ts'
 import type { Fundstelle } from './lib/search.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
@@ -249,7 +249,7 @@ export default function App() {
                   data={data}
                   titles={titles.liste}
                   grouped={grouped}
-                  onGroupedChange={setGrouped}
+                  onGroupedChange={setGrouped} cartoonsAus={cartoonsAusgeschlossen(route.filters)} onCartoonsAusChange={(aus) => setFilters(mitCartoonsAus(route.filters, aus))}
                   ohneSynchro={zeigeOhneSynchro}
                   onOhneSynchroChange={setZeigeOhneSynchro}
                   ohneSynchroLaedt={zeigeOhneSynchro && !ohneSynchro}

@@ -8,6 +8,7 @@ import type { Dataset } from '../lib/data.ts'
 import { useLang, type Translate } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Toggle, Tooltip } from './ui.tsx'
+import { DbKopfzeile } from './db-kopfzeile.tsx'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -44,7 +45,7 @@ export function DatabaseView({
   data,
   titles,
   grouped,
-  onGroupedChange,
+  onGroupedChange, cartoonsAus, onCartoonsAusChange,
   ohneSynchro,
   onOhneSynchroChange,
   ohneSynchroLaedt,
@@ -60,7 +61,7 @@ export function DatabaseView({
   data: Dataset
   titles: Title[]
   grouped: boolean
-  onGroupedChange: (next: boolean) => void
+  onGroupedChange: (next: boolean) => void; cartoonsAus: boolean; onCartoonsAusChange: (next: boolean) => void
   /** Titel ohne belegte deutsche Synchro mitzeigen. */
   ohneSynchro: boolean
   onOhneSynchroChange: (next: boolean) => void
@@ -127,21 +128,7 @@ export function DatabaseView({
       </div>
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
-        {/*
-          Die Zählung muss die beiden Sorten trennen, sobald beide in der Liste
-          stehen. „17.856 Anime mit belegter deutscher Synchro" wäre für 15.103
-          davon schlicht falsch — und damit genau die Verwechslung, die der
-          Schalter verhindern soll (aufgefallen bei der Sichtprüfung, 13.08.2026).
-        */}
-        <span>
-          {zaehlText(titles, ohneSynchro ? anzahlOhne : 0, t, suche)}
-        </span>
-        <Toggle
-          checked={grouped}
-          onChange={onGroupedChange}
-          label={t('db.groupSeasons')}
-          hint={t('db.groupSeasonsHint')}
-        />
+        <DbKopfzeile zaehl={zaehlText(titles, ohneSynchro ? anzahlOhne : 0, t, suche)} treffer={grouped ? groups.length : undefined} grouped={grouped} onGroupedChange={onGroupedChange} cartoonsAus={cartoonsAus} onCartoonsAusChange={onCartoonsAusChange} />
         <label className="ml-auto flex cursor-pointer items-center gap-2">
           {t('db.sort')}
           <select

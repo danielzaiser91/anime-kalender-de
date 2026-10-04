@@ -217,6 +217,9 @@ const TEXTE = {
   'db.countMitWestlich': '{count} Anime und {westlich} westliche Serien mit belegter deutscher Synchro',
   'db.countFuer': '{text} für „{suche}"',
   'db.countOhne': '{ohne} ohne',
+  'db.treffer': '{count} Treffer',
+  'db.cartoonsAus': 'Cartoons ausblenden',
+  'db.cartoonsAusHinweis': 'Blendet die westlichen Serien aus. Dasselbe wie das Schlagwort „Cartoon" unter „Ausschließen" im Filter.',
   'db.withoutDub': 'Anime ohne deutsche Synchro',
   'db.withoutDubHint':
     'Holt zusätzlich alle Anime, zu denen wir keine deutsche Synchro kennen. Der Schalter beginnt bei jedem Aufruf wieder aus.',

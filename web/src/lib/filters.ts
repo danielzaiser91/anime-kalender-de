@@ -519,3 +519,15 @@ export function reihenKopf(quelle: Title[]): (t: Title) => string {
 export function toggleValue<T>(list: T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value]
 }
+
+/** Das Schlagwort, unter dem jeder westliche Cartoon läuft — Pille im Filter und Schalter „Cartoons ausblenden" teilen es. */
+export const CARTOON_KEYWORD = 'Cartoon'
+
+export function cartoonsAusgeschlossen(f: FilterState): boolean {
+  return f.excluded.keywords.includes(CARTOON_KEYWORD)
+}
+
+export function mitCartoonsAus(f: FilterState, aus: boolean): FilterState {
+  const rest = f.excluded.keywords.filter((k) => k !== CARTOON_KEYWORD)
+  return { ...f, excluded: { ...f.excluded, keywords: aus ? [...rest, CARTOON_KEYWORD] : rest } }
+}

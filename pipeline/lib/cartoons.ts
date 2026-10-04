@@ -130,7 +130,7 @@ export function alsTitel(e: CartoonEintrag): Title {
     bannerImage: e.banner ? `https://image.tmdb.org/t/p/w1280${e.banner}` : undefined,
     /* Die Beschreibung lag seit dem 12.09.2026 im Abruf und wurde nie benutzt (16.09.2026). */
     synopsis: e.beschreibungDe,
-    keywords: e.keywords ?? [],
+    keywords: ['Cartoon', ...(e.keywords ?? [])],
     land: e.land?.[0],
     /* Unter zehn Stimmen ist eine Wertung Zufall. */
     ...(e.bewertung && (e.stimmen ?? 0) >= 10 ? { score: Math.round(e.bewertung * 10), scoreQuelle: 'tmdb' as const } : {}),
