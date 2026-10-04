@@ -7,7 +7,8 @@ import {
   type Fsk,
   type ReleaseStatus,
 } from '@shared/types.ts'
-import { Chip, Tooltip, TvZeichen, DiscZeichen } from './ui.tsx'
+import { Chip, Tooltip } from './ui.tsx'
+import { SchnellKarten } from './schnellfilter.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import { bereichsSuche, titelWoerter, type BereichsSuche } from '../lib/filter-suche.ts'
 import type { Translate } from '../lib/i18n.tsx'
@@ -201,15 +202,9 @@ export function MeineAnbieter({
 }
 
 /**
- * **Die Schnell-Schalter** — Schalter (an/aus), nicht vom Klick-Modus betroffen.
- *
- * **Jeder Chip trägt ein Zeichen**. ★ war der Anfang; die
- * übrigen folgen demselben Muster — ein Zeichen, das die Zeile auf einen Blick lesbar macht.
- *
- * **Die beiden Ausblende-Chips sind Kurzformen echter Filter**, nicht eigene Schalter:
- * „TV-Termine ausblenden" schließt die Plattform „TV" aus, „Disc-Termine ausblenden" die
- * Release-Art „disc". Der zugehörige Chip in seiner Gruppe zeigt deshalb denselben Stand, und ein
- * Klick an einer der beiden Stellen wirkt an der anderen.
+ * **Die Schnell-Schalter** — Karten mit ✅ (nur anzeigen) und 🚫 (ausblenden), Logik in `lib/schnellfilter.ts`,
+ * Darstellung in `schnellfilter.tsx` (Daniel, 04.10.2026). Sie sind Kurzformen echter Filter: Disc, TV und Cartoon
+ * zeigen denselben Stand wie ihre Pillen in den Gruppen darunter, und ein Klick an einer Stelle wirkt an der anderen.
  */
 function SchnellSchalter({
   t,
@@ -231,49 +226,11 @@ function SchnellSchalter({
   suche?: BereichsSuche
 }) {
   const label = t('filter.schnell')
-  const discAus = filters.excluded.releaseTypes.includes('disc')
-  const texte = [
-    t('filter.favourites'),
-    t('filter.kostenlos'),
-    t('filter.confirmedOnly'),
-    t('filter.tvAusblenden'),
-    t('filter.discAusblenden'),
-    t('filter.available'),
-  ]
+  const texte = ['favoriten', 'kostenlos', 'bestaetigt', 'tv', 'disc', 'verfuegbar', 'cartoon'].map((k) => t(`filter.schnell.${k}` as never))
   return (
     <div className="border-b border-ak-linie px-3 py-2.5">
       <Bereich label={label} suche={suche} texte={texte} inline>
-        {zeigePille(suche, label, t('filter.favourites')) && (
-          <Chip ton="gruen" active={filters.favoritesOnly} onClick={() => set({ favoritesOnly: !filters.favoritesOnly })}>
-            ★ {t('filter.favourites')}
-            {favoriteCount ? ` (${favoriteCount})` : ''}
-          </Chip>
-        )}
-        {zeigePille(suche, label, t('filter.kostenlos')) && (
-          <Chip ton="gruen" active={filters.kostenlosOnly} onClick={() => set({ kostenlosOnly: !filters.kostenlosOnly })}>
-            <span aria-hidden="true">🆓</span> {t('filter.kostenlos')}
-          </Chip>
-        )}
-        {zeigePille(suche, label, t('filter.confirmedOnly')) && (
-          <Chip ton="gruen" active={filters.confirmedOnly} onClick={() => set({ confirmedOnly: !filters.confirmedOnly })}>
-            <span aria-hidden="true">✓</span> {t('filter.confirmedOnly')}
-          </Chip>
-        )}
-        {setTvAn && zeigePille(suche, label, t('filter.tvAusblenden')) && (
-          <Chip ton="gruen" active={tvAn === false} onClick={() => setTvAn(tvAn === false)}>
-            <TvZeichen className="size-3 opacity-80" /> {t('filter.tvAusblenden')}
-          </Chip>
-        )}
-        {zeigePille(suche, label, t('filter.discAusblenden')) && (
-          <Chip ton="gruen" active={discAus} onClick={() => set(toggleFilter(filters, 'releaseTypes', 'disc', 'exclude'))}>
-            <DiscZeichen className="size-3 opacity-80" /> {t('filter.discAusblenden')}
-          </Chip>
-        )}
-        {showConfidence && zeigePille(suche, label, t('filter.available')) && (
-          <Chip ton="gruen" active={filters.availableOnly} onClick={() => set({ availableOnly: !filters.availableOnly })}>
-            <span aria-hidden="true">▶</span> {t('filter.available')}
-          </Chip>
-        )}
+        <SchnellKarten t={t} filters={filters} onChange={(next) => set(next)} favoriteCount={favoriteCount} showConfidence={showConfidence} tvAn={tvAn} setTvAn={setTvAn} zeige={(text) => zeigePille(suche, label, text)} />
       </Bereich>
     </div>
   )

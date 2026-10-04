@@ -131,7 +131,7 @@ import {
 } from '../web/src/lib/search.ts'
 import { verweiseFuer } from '../web/src/components/detail/verweise.ts'
 import { zaehlText } from '../web/src/components/DatabaseView.tsx'
-import { activeFilterCount, EMPTY_FILTERS, reihenKopf } from '../web/src/lib/filters.ts'
+import { activeFilterCount, EMPTY_FILTERS, reihenKopf, type FilterState } from '../web/src/lib/filters.ts'
 import { buildHash } from '../web/src/lib/router.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
@@ -148,6 +148,7 @@ import { leseSammelartikel, vorschlaegeAusSammelartikel, ANBIETER_SAMMELARTIKEL 
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
 import { erschieneneFolgen, deutscheFolgen } from './bau/folgen-dateien.ts'
+import { schnellSetzen, schnellZustand, type SchnellId } from '../web/src/lib/schnellfilter.ts'
 import { ergaenzeTeilnamen } from './bau/adn-teilnamen.ts'
 import { folgenSummeJeKennung, ueberbelegt, entferneFremdeCrWege } from './bau/cr-serie-geteilt.ts'
 import { entdoppleCrWege } from './bau/11-3-bereinigung.ts'
@@ -7936,6 +7937,30 @@ console.log('\nGeteilte Crunchyroll-Serie:')
   pruefe('Geteilt: 11 + 12 Folgen bei 26 gehen auf (86 EIGHTY-SIX)', !ueberbelegt(new Map([['X', 23]]), 'X', 26))
   const weg = entferneFremdeCrWege(titel, new Map([['G3KHEVMN1', { folgen: 24, staffeln: 1 }]]), summen)
   pruefe('Geteilt: nur der Titel mit der Folgenzahl der Serie behält den Weg', weg === 2 && titel.get(1)!.streams.length === 1 && titel.get(2)!.streams.length === 0 && titel.get(3)!.streams.length === 0)
+}
+/* Schnellfilter ✅|🚫 (Daniel, 04.10.2026): höchstens eines von beiden, ein zweiter Klick schaltet aus. */
+console.log('\nSchnellfilter:')
+{
+  const z = (f: FilterState, id: SchnellId, tvAn?: boolean) => schnellZustand(f, id, tvAn)
+  let f = EMPTY_FILTERS
+  f = schnellSetzen(f, 'favoriten', 'ja').filters
+  pruefe('Schnell: ✅ setzt Nur-Favoriten', z(f, 'favoriten') === 'ja' && f.favoritesOnly && !f.favoritesExcluded)
+  f = schnellSetzen(f, 'favoriten', 'nein').filters
+  pruefe('Schnell: 🚫 ersetzt ✅, nie beides', z(f, 'favoriten') === 'nein' && !f.favoritesOnly && f.favoritesExcluded)
+  f = schnellSetzen(f, 'favoriten', 'nein').filters
+  pruefe('Schnell: derselbe Klick schaltet aus', z(f, 'favoriten') === undefined)
+  f = schnellSetzen(EMPTY_FILTERS, 'disc', 'nein').filters
+  pruefe('Schnell: Disc 🚫 schließt die Release-Art aus', z(f, 'disc') === 'nein' && f.excluded.releaseTypes.includes('disc'))
+  f = schnellSetzen(f, 'disc', 'ja').filters
+  pruefe('Schnell: Disc ✅ räumt den Ausschluss ab', z(f, 'disc') === 'ja' && !f.excluded.releaseTypes.includes('disc'))
+  f = schnellSetzen(EMPTY_FILTERS, 'cartoon', 'ja').filters
+  pruefe('Schnell: Cartoon ✅ wählt das Schlagwort', z(f, 'cartoon') === 'ja')
+  f = schnellSetzen(f, 'cartoon', 'nein').filters
+  pruefe('Schnell: Cartoon 🚫 steht nur im Ausschluss, nie doppelt', z(f, 'cartoon') === 'nein' && !f.keywords.includes('Cartoon') && f.excluded.keywords.filter((k) => k === 'Cartoon').length === 1)
+  const tv = schnellSetzen(EMPTY_FILTERS, 'tv', 'nein', true)
+  pruefe('Schnell: TV 🚫 stellt den TV-Schalter der Ansicht aus', tv.tvAn === false && z(tv.filters, 'tv', false) === 'nein')
+  const tv2 = schnellSetzen(tv.filters, 'tv', 'ja', false)
+  pruefe('Schnell: TV ✅ nach 🚫 schaltet TV wieder an und wählt die Plattform', tv2.tvAn === true && z(tv2.filters, 'tv', true) === 'ja')
 }
 console.log('\nDeutsche Flagge je Folge:')
 {

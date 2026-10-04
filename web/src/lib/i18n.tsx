@@ -719,6 +719,16 @@ const TEXTE = {
   'detail.whyNoTime': 'Warum steht hier keine Uhrzeit?',
   'filter.available': 'stream verfügbar',
   'filter.kostenlos': 'nur kostenlos',
+  // Schnellfilter, kurz und allgemein; ✅ zeigt nur, 🚫 blendet aus (04.10.2026).
+  'filter.schnell.favoriten': 'Favoriten',
+  'filter.schnell.kostenlos': 'kostenlos',
+  'filter.schnell.bestaetigt': 'bestätigt',
+  'filter.schnell.tv': 'TV',
+  'filter.schnell.disc': 'Disc',
+  'filter.schnell.verfuegbar': 'verfügbar',
+  'filter.schnell.cartoon': 'Cartoon',
+  'filter.schnell.ja': 'Nur anzeigen',
+  'filter.schnell.nein': 'Ausblenden',
   'filter.kostenlosHint': 'Nur Titel mit kostenlosen Folgen, etwa bei TOGGO oder YouTube.',
   'filter.availableHint':
     'Filtert Ergebnisse auf bestätigte Streaming-Verfügbarkeit.',

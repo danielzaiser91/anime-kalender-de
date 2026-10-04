@@ -13,10 +13,14 @@ export interface Vorlieben {
   confirmedOnly: boolean
   availableOnly: boolean
   discAus: boolean
+  favoritesExcluded: boolean
+  kostenlosExcluded: boolean
+  confirmedExcluded: boolean
+  availableExcluded: boolean
 }
 
 const SCHLUESSEL = 'vorlieben'
-const LEER: Vorlieben = { favoritesOnly: false, kostenlosOnly: false, confirmedOnly: false, availableOnly: false, discAus: false }
+const LEER: Vorlieben = { favoritesOnly: false, kostenlosOnly: false, confirmedOnly: false, availableOnly: false, discAus: false, favoritesExcluded: false, kostenlosExcluded: false, confirmedExcluded: false, availableExcluded: false }
 
 export function vorliebenLesen(): Vorlieben {
   try {
@@ -27,6 +31,10 @@ export function vorliebenLesen(): Vorlieben {
       confirmedOnly: roh.confirmedOnly === true,
       availableOnly: roh.availableOnly === true,
       discAus: roh.discAus === true,
+      favoritesExcluded: roh.favoritesExcluded === true,
+      kostenlosExcluded: roh.kostenlosExcluded === true,
+      confirmedExcluded: roh.confirmedExcluded === true,
+      availableExcluded: roh.availableExcluded === true,
     }
   } catch {
     /* Gesperrter Speicher oder kaputter Wert: dann gilt die Standardansicht. */
@@ -42,6 +50,10 @@ export function vorliebenAus(filters: FilterState): Vorlieben {
     confirmedOnly: filters.confirmedOnly,
     availableOnly: filters.availableOnly,
     discAus: filters.excluded.releaseTypes.includes('disc'),
+    favoritesExcluded: filters.favoritesExcluded,
+    kostenlosExcluded: filters.kostenlosExcluded,
+    confirmedExcluded: filters.confirmedExcluded,
+    availableExcluded: filters.availableExcluded,
   }
 }
 

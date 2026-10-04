@@ -76,6 +76,11 @@ export interface FilterState extends FilterLists {
    * 19.09.2026: „kostenlos“ nur als Filter, kein Etikett auf Karten oder in der Datenbank.
    */
   kostenlosOnly: boolean
+  /** Das Gegenstück je Schnellfilter (✅|🚫, 04.10.2026): ausgeblendet statt nur angezeigt. Nie zugleich mit dem Nur-Schalter. */
+  favoritesExcluded: boolean
+  kostenlosExcluded: boolean
+  confirmedExcluded: boolean
+  availableExcluded: boolean
   /** Mindest-Vertrauensstufe der Dub-Angabe (nur Datenbank-Ansicht). */
   minConfidence: DubConfidence
   /**
@@ -143,6 +148,10 @@ export const EMPTY_FILTERS: FilterState = {
   favoritesOnly: false,
   availableOnly: false,
   kostenlosOnly: false,
+  favoritesExcluded: false,
+  kostenlosExcluded: false,
+  confirmedExcluded: false,
+  availableExcluded: false,
   minConfidence: 'low',
   modus: {},
 }
@@ -215,6 +224,10 @@ export function activeFilterCount(f: FilterState): number {
     (f.favoritesOnly ? 1 : 0) +
     (f.availableOnly ? 1 : 0) +
     (f.kostenlosOnly ? 1 : 0) +
+    (f.favoritesExcluded ? 1 : 0) +
+    (f.kostenlosExcluded ? 1 : 0) +
+    (f.confirmedExcluded ? 1 : 0) +
+    (f.availableExcluded ? 1 : 0) +
     (f.minConfidence !== 'low' ? 1 : 0)
   )
 }
@@ -296,7 +309,9 @@ export function releaseMatches(
   if (f.releaseTypes.length && !f.releaseTypes.includes(release.releaseType)) return false
   if (f.years.length && !f.years.includes(release.year)) return false
   if (f.confirmedOnly && release.schedule.estimated) return false
+  if (f.confirmedExcluded && !release.schedule.estimated) return false
   if (f.kostenlosOnly && (!title || !kostenloseFolgen(title))) return false
+  if (f.kostenlosExcluded && title && kostenloseFolgen(title)) return false
 
   if (f.fsk.length) {
     if (release.fsk === undefined) return false
@@ -327,6 +342,7 @@ export function filterEvents(
 ): ReleaseEvent[] {
   const passend = data.releases
     .filter((r) => !f.favoritesOnly || favorites.has(r.titleId))
+    .filter((r) => !f.favoritesExcluded || !favorites.has(r.titleId))
     .filter((r) => releaseMatches(r, data.titleById.get(r.titleId), f, today))
 
   const gesucht = sucheMitFundstellen(
@@ -371,6 +387,7 @@ export function filterTitles(
  */
 function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favorites: Set<number>): boolean {
   if (f.favoritesOnly && !favorites.has(t.id)) return false
+  if (f.favoritesExcluded && favorites.has(t.id)) return false
   /**
    * „Streambar" — Titel, bei denen wir einen Stream kennen oder vermuten.
    *
@@ -386,14 +403,15 @@ function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favo
    * Synchro sagt er weiterhin nichts; das tut die Kennzeichnung am Anbieter.
    */
   if (f.kostenlosOnly && !kostenloseFolgen(t)) return false
-  if (f.availableOnly) {
+  if (f.kostenlosExcluded && kostenloseFolgen(t)) return false
+  if (f.availableOnly || f.availableExcluded) {
     const stream =
       t.streams.length > 0 ||
       (t.watchLinks ?? []).some((w) => w.kind === 'stream') ||
       (data.releasesByTitle.get(t.id) ?? []).some(
         (r) => r.platform !== 'disc' && r.platform !== 'kino',
       )
-    if (!stream) return false
+    if (f.availableOnly ? !stream : stream) return false
   }
   if (CONFIDENCE_RANK[t.dubConfidence] < CONFIDENCE_RANK[f.minConfidence]) return false
 

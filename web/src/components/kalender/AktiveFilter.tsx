@@ -81,6 +81,10 @@ function useEintraege(
   if (filters.favoritesOnly) liste.push({ label: t('filter.nurFavoriten'), weg: aus({ favoritesOnly: false }) })
   if (filters.kostenlosOnly) liste.push({ label: t('filter.nurKostenlos'), weg: aus({ kostenlosOnly: false }) })
   if (filters.confirmedOnly) liste.push({ label: t('filter.bestaetigt'), weg: aus({ confirmedOnly: false }) })
+  if (filters.favoritesExcluded) liste.push({ label: `⊘ ${t('filter.schnell.favoriten')}`, weg: aus({ favoritesExcluded: false }) })
+  if (filters.kostenlosExcluded) liste.push({ label: `⊘ ${t('filter.schnell.kostenlos')}`, weg: aus({ kostenlosExcluded: false }) })
+  if (filters.confirmedExcluded) liste.push({ label: `⊘ ${t('filter.schnell.bestaetigt')}`, weg: aus({ confirmedExcluded: false }) })
+  if (filters.availableExcluded) liste.push({ label: `⊘ ${t('filter.schnell.verfuegbar')}`, weg: aus({ availableExcluded: false }) })
   if (tvAn === false) liste.push({ label: t('filter.ohneTv'), weg: () => setTvAn?.(true) })
   return liste
 }

@@ -135,6 +135,7 @@ export function parseHash(hash: string): AppRoute {
     favoritesOnly: vorlieben.favoritesOnly || params.get('fav') === '1' || !!alt?.favoriten,
     availableOnly: vorlieben.availableOnly || params.get('wo') === '1' || !!alt?.verfuegbar,
     kostenlosOnly: vorlieben.kostenlosOnly || params.get('frei') === '1',
+    favoritesExcluded: vorlieben.favoritesExcluded, kostenlosExcluded: vorlieben.kostenlosExcluded, confirmedExcluded: vorlieben.confirmedExcluded, availableExcluded: vorlieben.availableExcluded,
     minConfidence: (params.get('conf') as DubConfidence) ?? 'low',
   }
 
