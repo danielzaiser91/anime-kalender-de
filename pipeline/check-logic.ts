@@ -5855,10 +5855,10 @@ pruefe(
   const heute = todayIso()
   const vorgestern = addDays(heute, -2)
   const t1 = { id: 1, franchiseId: 1, slug: 't-1', titleEn: 'T1', streams: [] } as unknown as Title
-  const rel = { slug: 'r', titleId: 1, name: 'T1', platform: 'disneyplus', releaseType: 'batch', schedule: { firstEpisodeDate: vorgestern, episodeCount: 1 }, sources: ['https://a2y/x'], nachtrag: 'Erster Satz. Rest.' } as unknown as Release
+  const rel = { slug: 'r', titleId: 1, name: 'T1', platform: 'disneyplus', releaseType: 'batch', schedule: { firstEpisodeDate: vorgestern, episodeCount: 1, time: '19:00' }, sources: ['https://a2y/x'], nachtrag: 'Erster Satz. Rest.' } as unknown as Release
   const ms = baueNews([t1], [rel], [{ id: 1, seit: addDays(heute, -1) }], [], { zuerst: {} }).flatMap((e) => e.meldungen)
   const nachgetragen = ms.find((m) => m.art === 'nachgetragen')
-  pruefe('Rückwirkend eingetragen: eine Meldung mit Termin, Folge und Text', nachgetragen?.datum === vorgestern && nachgetragen.von === 1 && nachgetragen.hinweis === 'Erster Satz. Rest.', JSON.stringify(ms))
+  pruefe('Rückwirkend eingetragen: eine Meldung mit Termin, Folge und Text', nachgetragen?.datum === vorgestern && nachgetragen.von === 1 && nachgetragen.zeit === '19:00' && nachgetragen.hinweis === 'Erster Satz. Rest.', JSON.stringify(ms))
   pruefe('Rückwirkend eingetragen: weder Ankündigung noch „Neu auf Deutsch" daneben', !ms.some((m) => m.art === 'angekuendigt' || m.art === 'neu'), JSON.stringify(ms))
   const folge2 = { ...rel, slug: 'r2', nachtrag: undefined, schedule: { firstEpisodeDate: heute, firstEpisodeNumber: 2 } } as unknown as Release
   pruefe('Rückwirkend eingetragen: das Folgerelease (ab Folge 2) kündigt nicht „Start" an', !baueNews([t1], [rel, folge2], [], [], { zuerst: {} }).flatMap((e) => e.meldungen).some((m) => m.art === 'angekuendigt'))

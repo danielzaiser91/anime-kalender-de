@@ -28,6 +28,7 @@ export const TEXTE_SEITEN = {
   'news.art.nachgereicht': 'Verspätet erschienen',
   'news.art.nachgetragen': 'Rückwirkend eingetragen',
   'news.nachgetragen': 'Folge {von} erschien am {datum} bei {anbieter} mit deutscher Synchro',
+  'news.nachgetragenZeit': 'Folge {von} erschien am {tag}, {datum}, um {zeit} bei {anbieter} mit deutscher Synchro',
   'news.kurz.nachgetragen': 'E{von} am {datum} · {anbieter}',
   'news.nachgereichtMehrereMitPlan': 'Folgen {von}–{bis} sind verspätet zusammen mit {plan} erschienen, angekündigt waren {erwartet}',
   'news.nachgereichtMitPlan': 'Folge {von} ist verspätet zusammen mit {plan} erschienen, angekündigt war der {erwartet}',

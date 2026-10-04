@@ -46,6 +46,8 @@ export interface NewsMeldung {
   weiterer?: boolean
   /** Der Termin, um den es geht (angekündigt, Disc, Kino, verpasst). */
   datum?: string
+  /** Uhrzeit des Termins ("HH:MM", Berlin), wo die Quelle sie nennt — bei `nachgetragen` im Satz. */
+  zeit?: string
   /** Erste betroffene Folge — bei `folgen` der Anfang des Bereichs. */
   von?: number
   /** Letzte betroffene Folge. */

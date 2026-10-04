@@ -106,37 +106,33 @@
   # Disney+ führt alle Staffeln unter einer Adresse; gewählt wird im Auswahlfeld (dort „Staffel 3", Disney fasst die
   # AniList-Staffeln 2 und 3 zusammen). Ein Adressparameter für die Staffel ist nicht bekannt (Daniel, 04.10.2026).
   platformUrl: https://www.disneyplus.com/de-de/browse/entity-be391742-6617-42ad-b53a-be368ee73335
-  releaseType: batch
+  releaseType: weekly
+  # **Zeitquelle ist der offizielle Zeitplan, nicht Anime2You** (Daniel, 04.10.2026): Die offizielle Serienseite (24.08.2026)
+  # nennt Disney+ weltweit „ab 2.10., freitags 2:00 Uhr" in japanischer Nachtzählung = Samstag 02:00 JST = Freitag 19:00 Uhr
+  # MESZ; Disney+ Brasilien meldet „jede Woche freitags 14:00" (= 17:00 UTC, passt). Ab 25.10. gilt MEZ, die Folge kommt dann
+  # um 18:00 (`zeiten`). Anime2You nennt „samstags 19:00 Uhr" — der Unterschied steht offen im Hinweis; am 09.10. 19:00 prüft
+  # Daniel (Kalender-Notiz). Folge 1 ist gesehen (Disney+ „Neue Folge", Anime2You 02.10. 19:55 „ab sofort").
+  note: "Disney+ weltweit: freitags um 19:00 Uhr (ab 30.10. um 18:00 Uhr) laut offizieller Serienseite. Anime2You nennt samstags um 19:00 Uhr."
+  # Text der News-Meldung „Rückwirkend eingetragen" (Entwurf G, Daniel 04.10.2026): erster Satz = Weiterlaufen, der Rest steht hinter „mehr".
+  nachtrag: "Die Serie läuft im Simulcast wöchentlich freitags um 19 Uhr, Anime2You nennt samstags; die nächste Folge erscheint voraussichtlich am 09.10. Wir folgen der offiziellen Serienseite, die Disney+ weltweit auf Samstag 2:00 Uhr japanischer Zeit legt, und prüfen am 09.10. selbst. Bei uns fehlte der Start bis zum 04.10., weil unser Lauf Anime2Yous Disney+-Sammelartikel nicht als Start erkannte. Er erkennt ihn jetzt, und Meldungen ohne Titelzuordnung landen in einer Liste, statt zu verschwinden. Stellt sich ein Termin als falsch heraus, berichtigen wir ihn mit einer neuen Meldung."
   schedule:
     firstEpisodeDate: "2026-10-02"
-    episodeCount: 1
-  # **04.10.2026 (Daniel):** Folge 1 war bei Disney+ als „Neue Folge" markiert, mit deutscher Synchro. Anime2You meldete
-  # den Start am Freitag, 02.10.2026 um 19:55 Uhr als „Ab sofort … Sprache: Deutsch, Japanisch (UT)"; Disney+ nennt den
-  # 02.10. als Premiere (Pressemeldung Oktober, englisch); Japan sendete in der Nacht auf Samstag 01:23 Uhr = Freitag
-  # 18:23 Uhr deutscher Zeit. Folge 1 steht deshalb als eigenes Release (wie Steel Ball Run), die weiteren Folgen unten.
-  note: "Seit dem 02.10.2026 mit deutscher Synchro bei Disney+ (dort Staffel 3). Folge 1 kam am Freitag, die weiteren Folgen laut Anime2You samstags um 19:00 Uhr."
-  # Text der News-Meldung „Rückwirkend eingetragen" (Entwurf G, Daniel 04.10.2026): erster Satz = Weiterlaufen, der Rest steht hinter „mehr".
-  nachtrag: "Die Serie läuft im Simulcast wöchentlich, laut Anime2You samstags um 19 Uhr; die nächste Folge erscheint voraussichtlich am 10.10. Bei uns fehlte der Start bis zum 04.10., weil unser Lauf Anime2Yous Disney+-Sammelartikel nicht als Start erkannte. Er erkennt ihn jetzt, und Meldungen ohne Titelzuordnung landen in einer Liste, statt zu verschwinden. Stellt sich ein Termin als falsch heraus, berichtigen wir ihn mit einer neuen Meldung."
-  sources:
-    - https://www.anime2you.de/news/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/
-    - https://press.disneyplus.com/news/next-on-disney-plus-october-2026
-
-- slug: tokyo-revengers-s3-disneyplus-wochentakt
-  anilistId: 178083
-  search: "Tokyo Revengers Santen Sensou-hen"
-  titleDe: "Tokyo Revengers: War of the Three Titans"
-  platform: disneyplus
-  platformUrl: https://www.disneyplus.com/de-de/browse/entity-be391742-6617-42ad-b53a-be368ee73335
-  releaseType: weekly
-  # **Daniel, 04.10.2026: Wir folgen Anime2You („jeden Samstag um 19:00 Uhr") und prüfen selbst dagegen.** Stellt sich der
-  # Samstag als falsch heraus, berichtigt eine neue News-Meldung mit unserem Beleg. Am 03.10. kam keine zweite Folge (Daniel
-  # sah am 04.10. nur Folge 1), der erste Samstagstermin ist damit der 10.10.; fortgeschrieben, deshalb `estimated`.
-  # US-Gegenprobe: Disney+ nennt für den englischen Katalog Freitage (09./16./23./30.10.).
-  note: "Laut Anime2You jeden Samstag um 19:00 Uhr. Der Termin ist fortgeschrieben, nicht von Disney+ bestätigt."
-  schedule:
-    firstEpisodeDate: "2026-10-10"
-    firstEpisodeNumber: 2
     time: "19:00"
-    estimated: true
+    observed:
+      1: "2026-10-02"
+    # Sommerzeit endet am 25.10.2026: Der Takt bleibt bei Samstag 02:00 JST, in Berlin wird daraus 18:00 (Folge 5 am 30.10. an).
+    zeiten:
+      5: "18:00"
+      6: "18:00"
+      7: "18:00"
+      8: "18:00"
+      9: "18:00"
+      10: "18:00"
+      11: "18:00"
+      12: "18:00"
+      13: "18:00"
+  # Rangfolge der Belege (Daniel, 04.10.2026): offizielle Serienseite, Disney+-Pressemeldung, danach Anime2You.
   sources:
+    - https://tokyo-revengers-anime.com/news/archives/4935
+    - https://press.disneyplus.com/news/next-on-disney-plus-october-2026
     - https://www.anime2you.de/news/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/

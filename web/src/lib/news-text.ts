@@ -1,5 +1,6 @@
 import { PLATFORMS, type NewsMeldung, type PlatformId } from '@shared/types.ts'
 import { translate as t } from './i18n.tsx'
+import { weekdayName } from '@shared/time.ts'
 
 /**
  * **Der Satz zu einer Meldung — für die Nachrichtenseite und den RSS-Feed.**
@@ -16,6 +17,11 @@ import { translate as t } from './i18n.tsx'
 export function datumKurz(iso: string): string {
   const [j, m, t] = iso.slice(0, 10).split('-')
   return `${t}.${m}.${j}`
+}
+
+/** „19:00" → „19 Uhr", „18:30" → „18:30 Uhr". */
+export function uhrzeitKurz(zeit: string): string {
+  return zeit.endsWith(':00') ? `${Number(zeit.slice(0, 2))} Uhr` : `${zeit} Uhr`
 }
 
 export function anbieterDerMeldung(m: NewsMeldung): string {
@@ -50,7 +56,9 @@ export function newsSatz(m: NewsMeldung): string {
     case 'verspaetet':
       return t('news.verspaetet', { von: m.von ?? '', datum })
     case 'nachgetragen':
-      return t('news.nachgetragen', { von: m.von ?? 1, datum, anbieter })
+      return m.zeit && m.datum
+        ? t('news.nachgetragenZeit', { von: m.von ?? 1, tag: weekdayName(m.datum), datum, zeit: uhrzeitKurz(m.zeit), anbieter })
+        : t('news.nachgetragen', { von: m.von ?? 1, datum, anbieter })
     case 'nachgereicht': {
       const erwartet = aufzaehlen((m.erwartet ?? []).map((d) => (m.erwartet!.length > 1 ? datumKurz(d).slice(0, 6) : datumKurz(d))))
       const p = m.planmaessig
