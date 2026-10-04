@@ -47,7 +47,7 @@ import { UnterDerAntwort } from './detail/unter-der-antwort.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
 import { SchlagworteAbschnitt } from './detail/Schlagworte.tsx'
-import { plotVon } from './detail/plot.ts'
+import { plotVon, aussagekraeftig } from './detail/plot.ts'
 import { startetMitDisc } from './detail/disc-start.ts'
 
 export function DetailPanel({
@@ -800,7 +800,7 @@ export function DetailPanel({
       for (const m of vorher) {
         const s = await loadSynopsis(m.id).catch(() => undefined)
         if (!alive) return
-        if (s?.de || s?.en) {
+        if (aussagekraeftig(s)) {
           setErsatz({ plot: s, von: m })
           return
         }
