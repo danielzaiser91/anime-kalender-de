@@ -6,109 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Action
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-176496-tv-prosieben-maxx@2026-09-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260925T221500Z
-DTEND:20260925T224500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 3/7
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-176496-tv-prosieben-ma
- xx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#2@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260926T034500Z
-DTEND:20260926T041500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260926T041000Z
-DTEND:20260926T044000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260926T043500Z
-DTEND:20260926T050500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#5@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260926T050000Z
-DTEND:20260926T053000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-09-26#6@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260926T052500Z
-DTEND:20260926T055500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-15-tv-prosieben-maxx
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-09-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260926T110000Z
-DTEND:20260926T113000Z
-SUMMARY:Pokémon Horizonte – Folge 128/129
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/#/release/auto-158871-tv-super-rtl
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-09-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260926T120000Z
-DTEND:20260926T123000Z
-SUMMARY:Pokémon Horizonte – Folge 128/129
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-158871-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-09-26@anime-kalen
- der-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260926T160000Z
-DTEND:20260926T163000Z
-SUMMARY:Das Band der Unterwelt – Folge 22/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/#/release/das-band-der-unterwelt-crunchy
- roll-de-2026-04-04
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-165159-tv-toggo-plus@2026-09-26@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260926T184500Z
-DTEND:20260926T191500Z
-SUMMARY:Beyblade X – Folge 117/118
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/#/release/auto-165159-tv-toggo-plus
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384004@2026-09-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260927T143000Z
@@ -771,7 +668,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261004T143000Z
 DTEND:20261004T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/#/release/cr-GT00384004
 CATEGORIES:Crunchyroll
 END:VEVENT

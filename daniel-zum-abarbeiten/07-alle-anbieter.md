@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-03 · **1 offene Verweise** in **1 Zeilen**.
+Stand 2026-10-04 · **2 offene Verweise** in **2 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,14 +33,17 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
+| [Netflix](07-netflix.md) | 1 |
 | [Disney+](07-disneyplus.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2019-06-26 | The Rising of the Shield Hero | [Hauptserie](https://www.disneyplus.com/browse/entity-1b84d641-1bb3-422d-be4c-8e24c7b547cc) |
+| 1 | 2026-10-04 | Ranma 1/2 | [Ranma1/2 (2024) Staffel 3](https://www.netflix.com/title/81171925) |
+| 2 | 2019-06-26 | The Rising of the Shield Hero | [Hauptserie](https://www.disneyplus.com/browse/entity-1b84d641-1bb3-422d-be4c-8e24c7b547cc) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
 - **Disney+:** Disney+ hat keine öffentliche Schnittstelle; die Sprachwahl steht nur im Player.
+- **Netflix:** Netflix veröffentlicht keinen maschinenlesbaren Katalog; die Sprachliste steht nur im eingeloggten Player.

@@ -53250,9 +53250,9 @@
     "tag": "2026-08-24"
   },
   "21874|primevideo|1": {
-    "urteil": "deutsch",
+    "urteil": "nicht verfügbar",
     "art": "gemessen",
-    "tag": "2026-10-03"
+    "tag": "2026-08-24"
   },
   "523|primevideo|1": {
     "urteil": "deutsch",
@@ -66677,5 +66677,10 @@
     "art": "gemessen",
     "tag": "2026-10-02",
     "grund": "kanal-ohne-abo"
+  },
+  "21064|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-03"
   }
 }

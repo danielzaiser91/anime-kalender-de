@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-03T21:56:50.305Z",
+ "erzeugtAm": "2026-10-04T01:19:05.969Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -36,17 +36,21 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 377,
-   "gesamt": 378,
-   "offen": 1,
+   "gesamt": 379,
+   "offen": 2,
    "ohneSeite": 0,
-   "ziel": "https://www.netflix.com/title/81712068",
+   "ziel": "https://www.netflix.com/title/81171925",
    "ziele": [
+    {
+     "url": "https://www.netflix.com/title/81171925",
+     "titel": "Ranma1/2 (2024) Season 3"
+    },
     {
      "url": "https://www.netflix.com/title/81712068",
      "titel": "Die Tagebücher der Apothekerin"
     }
    ],
-   "naechster": "Die Tagebücher der Apothekerin"
+   "naechster": "Ranma1/2 (2024) Season 3"
   },
   {
    "name": "Disney+",
