@@ -1,6 +1,83 @@
 {
-  "scrapedAt": "2026-10-03T09:57:25.058Z",
+  "scrapedAt": "2026-10-04T10:40:41.763Z",
   "proposals": [
+    {
+      "articleTitle": "Acht Anime-Neuzugänge ab sofort auf Crunchyroll verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1057187/crunchyroll-black-clover-second-season-und-mehr/",
+      "publishedAt": "2026-10-03",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Samstag",
+          "zeit": "17:00",
+          "satz": "Become the Strongest!« »Magical Explorer« »Romelia War Chronicle« »Vertex Force« »#I’m Looking for a Zombie« Episoden: 1 von 12 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 17:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "15:00",
+          "satz": ". In der verwüsteten Stadt beginnt für die Gruppe ein gefährlicher Kampf ums Überleben. »A Tale of the Secret Saint« Episoden: 2 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "17:00",
+          "satz": "Kräften kehren auch alte Feinde zurück – weshalb Fia ihre wahre Stärke verbergen muss. »Black Clover Second Season« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 17:00 Uhr Hinweis: Deutsche Synchronisation angek"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "03:00",
+          "satz": "ige Gegner und Asta muss alles geben, um seine Freunde zu retten und sein Versprechen an Yuno einzuhalten. »Keroro☆« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 03:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "20:00",
+          "satz": "Hinata leben. »Magic Repo Man: Dumped by My Party, I’ll Cash In With a Cute Support Fairy to Become the Strongest!« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 20:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "18:30",
+          "satz": "beschließt gemeinsam mit einer gerissenen Fee, sich seine verliehene Magie zurückzuholen. »Magical Explorer« Episoden: 2 von 13 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 18:30 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "15:00",
+          "satz": "ein Schicksal ändern, den Helden übertreffen und den Heldinnen zu ihrem Happy End verhelfen. »Romelia War Chronicle« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "18:00",
+          "satz": "t der Neuanfang, drohen bereits neue Konflikte – und Romelias wahre Geschichte nimmt erst ihren Lauf. »Vertex Force« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 18:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        }
+      ],
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-04"
+    },
+    {
+      "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
+      "articleUrl": "https://www.anime2you.de/news/1056972/a-new-dawn-erscheint-auf-blu-ray/",
+      "publishedAt": "2026-10-03",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": ". Release im Dezember 2026 »A New Dawn« kommt nach aktuellem Stand am 4. Dezember 2026 auf Blu-ray in den Handel. Diese enthält […] Der Be"
+        },
+        {
+          "month": "2026-12",
+          "context": "eröffentlichen wird. Ein Produktbild findet ihr weiter unten. Release im Dezember 2026 »A New Dawn« kommt nach aktuellem Stand am 4. Dezembe"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Crunchyroll nimmt fünf Anime-Neuzugänge ins Programm",
       "articleUrl": "https://www.anime2you.de/news/1056817/crunchyroll-apothecary-diaires-staffel-3-und-mehr/",
@@ -35,7 +112,7 @@
       ],
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-03"
+      "sammelGelesen": "2026-10-04"
     },
     {
       "articleTitle": "Disney+ ergänzt zwei weitere Anime-Titel auf Deutsch",
@@ -221,8 +298,8 @@
           "context": "Streaming-Diensten zu sehen sein. Wir fassen die Details zusammen. Ab 11. Oktober 2026 »Dragon Ball Super: Beerus« startet am 11. Oktober 20"
         },
         {
-          "iso": "2026-10-17",
-          "context": "hyroll und ADN im Originalton mit Untertiteln. Bei Netflix geht es am 17. Oktober 2026 […] Der Beitrag Netflix, Crunchyroll und ADN zeigen"
+          "iso": "2026-10-18",
+          "context": "hyroll und ADN im Originalton mit Untertiteln. Bei Netflix geht es am 18. Oktober 2026 […] Der Beitrag Netflix, Crunchyroll und ADN zeigen"
         }
       ],
       "dub": "unklar",
@@ -337,7 +414,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-03"
+      "sammelGelesen": "2026-10-04"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -466,7 +543,7 @@
       ],
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-03"
+      "sammelGelesen": "2026-10-04"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -896,7 +973,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-03"
+      "sammelGelesen": "2026-10-04"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -942,7 +1019,9 @@
           "satz": "lle gewöhnt, rückt eine gewaltige feindliche Armee an und zwingt Ars und seine Verbündeten in den Kampf. »Overgeared« Episoden: 1 Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 16:30 Uhr Stream: Crunchyroll , Prime Video Handl"
         }
       ],
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-04"
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",

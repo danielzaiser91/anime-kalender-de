@@ -1,6 +1,6 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-03. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-04. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
@@ -24,10 +24,9 @@ Stand: 2026-10-03. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10-22, 2026-10 (Monat) | disc | – unklar | [Disc-Termin von »There’s No Freaking Way I’ll Be Your Lover! Unless…«](https://www.anime2you.de/news/1043903/theres-no-freaking-way-ill-be-your-lover-unless-disc-termin/) |
 | 2026-10-30, 2026-10 (Monat) | disc | – unklar | [Erste »DAN DA DAN«-Staffel erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1039547/dan-da-dan-staffel-1-blu-ray-komplettbox/) |
 | 2026-10-16, 2026-10 (Monat) | crunchyroll, disc | – unklar | [Design der Blu-ray-Box der vierten »Rent-A-Girlfriend«-Staffel + Extras](https://www.anime2you.de/news/1039040/rent-a-girlfriend-staffel-4-box-design/) |
-| 2026-10-03 | netflix | ✅ zugesagt | [Netflix entfernt »Kuromukuro« aus seinem Programm](https://www.anime2you.de/news/1048297/netflix-entfernt-kuromukuro/) |
 | 2026-10-05 | ? | – unklar | [Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN](https://www.anime2you.de/news/1055796/mediamarkt-saturn-neue-mehrwertsteuer-aktion/) |
 | 2026-10-10 | netflix | – unklar | [Action-Anime »Rooster Fighter« bald auf Netflix verfügbar](https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/) |
-| 2026-10-11, 2026-10-17 | crunchyroll, netflix, adn | – unklar | [Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast](https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/) |
+| 2026-10-11, 2026-10-18 | crunchyroll, netflix, adn | – unklar | [Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast](https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/) |
 | 2026-10-17 | crunchyroll, adn | – unklar | [Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer](https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/) |
 | 2026-10-22 | disc | – unklar | [Sieben Blu-ray-Neuheiten ab sofort bei Anime Planet vorbestellbar](https://www.anime2you.de/news/1043419/anime-planet-oktober-november-2026-vorbestellung/) |
 | 2026-10-31 | primevideo | ✅ zugesagt | [Drei Anime-Serien verlassen bald den Prime-Video-Katalog](https://www.anime2you.de/news/1056183/prime-video-entfernt-naruto-und-mehr/) |
@@ -48,6 +47,7 @@ Stand: 2026-10-03. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Fantasy-Donghua »Lord of Mysteries« erscheint auf Blu-ray](https://www.anime2you.de/news/1044052/lord-of-mysteries-erscheint-auf-blu-ray/) |
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Erste »A Wild Last Boss Appeared!«-Staffel erscheint auf Blu-ray](https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/) |
 | 2026-11-19, 2026-11 (Monat) | disc | – unklar | [»Kubo Won’t Let Me Be Invisible« erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1044503/kubo-wont-let-me-be-invisible-blu-ray-komplettbox/) |
+| 2026-11 (Monat) | crunchyroll, disc | – unklar | [Erste »Clevatess«-Staffel erscheint als Limited Edition auf Blu-ray](https://www.anime2you.de/news/1044108/clevatess-staffel-1-blu-ray-release/) |
 
 … und 34 weitere.
 
@@ -56,42 +56,42 @@ Stand: 2026-10-03. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 5 |
-| adn-catalog | 4.9 Tage her | 117 |
+| adn-catalog | 5.9 Tage her | 117 |
 | adn-news | 0.0 Tage her | 75 |
-| anilist-voices | 4.9 Tage her | 0 |
-| anime-offline-database | 4.9 Tage her | 8876 |
+| anilist-voices | 5.9 Tage her | 0 |
+| anime-offline-database | 5.9 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 37 |
-| anisearch | 1.5 Tage her | 120 |
-| anisearch-folgen | 4.9 Tage her | 117 |
-| ann-voices | 4.9 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 25 |
-| cartoons | 1.5 Tage her | 0 |
-| cinestar | 4.9 Tage her | 1 |
-| cr-einzelwerke | 9.9 Tage her | 0 |
-| cr-filmbloecke | 9.9 Tage her | 0 |
+| anisearch | 1.0 Tage her | 120 |
+| anisearch-folgen | 5.9 Tage her | 117 |
+| ann-voices | 5.9 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 60 |
+| cartoons | 1.0 Tage her | 0 |
+| cinestar | 5.9 Tage her | 1 |
+| cr-einzelwerke | 10.9 Tage her | 0 |
+| cr-filmbloecke | 10.9 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 18 |
 | crunchyroll-dub | 0.0 Tage her | 1108 |
-| crunchyroll-neu | 0.0 Tage her | 91 |
-| crunchyroll-offene | 4.9 Tage her | 5 |
-| crunchyroll-woche | 0.1 Tage her | 46 |
-| fsk | 4.9 Tage her | 4 |
-| justwatch-audio | 9.9 Tage her | 0 |
-| kinoheld | 4.9 Tage her | 0 |
-| link-check | 4.9 Tage her | 400 |
-| messbelege | **noch nie** | 0 |
-| motn | 31.0 Tage her | 1888 |
+| crunchyroll-neu | 0.0 Tage her | 97 |
+| crunchyroll-offene | 5.9 Tage her | 5 |
+| crunchyroll-woche | 0.2 Tage her | 46 |
+| fsk | 5.9 Tage her | 4 |
+| justwatch-audio | 11.0 Tage her | 0 |
+| kinoheld | 5.9 Tage her | 0 |
+| link-check | 5.9 Tage her | 400 |
+| messbelege | 0.2 Tage her | 2 |
+| motn | 32.1 Tage her | 1888 |
 | motn-changes | 0.0 Tage her | 0 |
-| rohfolgen | 0.5 Tage her | 0 |
-| rtlplus-folgen | 4.9 Tage her | 2 |
-| tmdb-folgen | 4.9 Tage her | 858 |
-| tmdb-kino | 4.9 Tage her | 4 |
-| tmdb-titles | 4.9 Tage her | 400 |
+| rohfolgen | 0.9 Tage her | 0 |
+| rtlplus-folgen | 5.9 Tage her | 2 |
+| tmdb-folgen | 5.9 Tage her | 858 |
+| tmdb-kino | 5.9 Tage her | 4 |
+| tmdb-titles | 5.9 Tage her | 400 |
 | toggo | 0.0 Tage her | 20 |
-| trailer | 1.5 Tage her | 0 |
-| tv-de | 0.3 Tage her | 0 |
-| tv-programm | 0.1 Tage her | 265 |
-| vorfaelle | 0.1 Tage her | 0 |
-| wikidata-imdb | 4.9 Tage her | 4740 |
-| wikidata-titel | 4.9 Tage her | 26 |
+| trailer | 1.0 Tage her | 0 |
+| tv-de | 0.4 Tage her | 0 |
+| tv-programm | 0.2 Tage her | 244 |
+| vorfaelle | 0.2 Tage her | 0 |
+| wikidata-imdb | 5.9 Tage her | 4740 |
+| wikidata-titel | 5.9 Tage her | 26 |
 | wikipedia-folgen | 0.0 Tage her | 7 |
-| youtube-check | 4.9 Tage her | 1 |
+| youtube-check | 5.9 Tage her | 1 |
