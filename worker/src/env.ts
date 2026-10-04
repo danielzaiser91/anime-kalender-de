@@ -19,6 +19,8 @@ export interface Env extends MailEnv, PushEnv {
   LAUF_TOKEN?: string
   /** Nur Lesen in der Beleg-Ablage — liegt im Browser des Prüfers, nicht in den Läufen (04.10.2026). */
   BELEG_LESETOKEN?: string
+  /** Fine-grained GitHub-Token (Actions: Read and write) für den Stunden-Wecker, siehe wecker.ts. */
+  GITHUB_WECKER_TOKEN?: string
   /** Empfänger der Überwachungsmeldungen. Fehlt sie, wird nur geprüft, nicht gemeldet. */
   MONITOR_EMAIL?: string
   /** Private Beleg-Ablage (Screenshots, HTML). Optional: Ohne Bindung antwortet /beleg mit 503. */

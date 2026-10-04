@@ -36,7 +36,7 @@ import { handlePruefung } from './pruefung.ts'
 import { loadNews, newsFuerAbonnent, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
-import { handleBeleg } from './beleg.ts'
+import { handleBeleg } from './beleg.ts'; import { starteStundenlauf } from './wecker.ts'
 
 export { Ereignisse }
 
@@ -1618,8 +1618,7 @@ export default {
 
   async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()
-    // Beide Aufgaben getrennt halten: Fällt der Newsletter aus, soll die
-    // Überwachung trotzdem laufen — und umgekehrt.
+    ctx.waitUntil(starteStundenlauf(env).catch((e) => console.error('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
     ctx.waitUntil(
       runDigest(env, now)
         .then((msg) => console.log(`[digest] ${msg}`))
