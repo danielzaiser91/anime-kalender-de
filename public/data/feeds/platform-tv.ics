@@ -6,36 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – tv
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-8964-tv-disney-channel@2026-09-27#27@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260927T125000Z
-DTEND:20260927T132000Z
-SUMMARY:Yuna & Stitch Staffel 3 – Folge 27/29
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-8964-tv-disney-channel
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-8964-tv-disney-channel@2026-09-27#28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260927T132000Z
-DTEND:20260927T135000Z
-SUMMARY:Yuna & Stitch Staffel 3 – Folge 28/29
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-8964-tv-disney-channel
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-8964-tv-disney-channel@2026-09-27#29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260927T134500Z
-DTEND:20260927T141500Z
-SUMMARY:Yuna & Stitch Staffel 3 – Folge 29/29
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/#/release/auto-8964-tv-disney-channel
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-09-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260928T140500Z
