@@ -52,7 +52,7 @@ export function QuellenZeile({ belege }: { belege: NewsBeleg[] }) {
           {quellenLabel(b)} ↗
         </a>
       ))}
-      {gezeigt.map((b) => <BelegKnopf key={`bild-${b.url}`} bild={b.bild} titel={quellenLabel(b)} />)}
+      {gezeigt.map((b) => <BelegKnopf key={`bild-${b.url}`} beleg={b} titel={quellenLabel(b)} />)}
       {!offen && belege.length > SICHTBAR && (
         <button type="button" onClick={() => setOffen(true)} className="text-ak-leise hover:text-ak-text hover:underline">
           {t('news.weitereQuellen', { n: belege.length - SICHTBAR })}

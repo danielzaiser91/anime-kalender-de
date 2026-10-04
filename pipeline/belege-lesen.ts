@@ -17,12 +17,13 @@ import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { todayIso } from '../shared/time.ts'
-import type { Release } from '../shared/types.ts'
+import type { Release, Title } from '../shared/types.ts'
 import {
   adressenMitOffenemTermin, crunchyrollDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
+import { suchbegriffeJeAdresse } from './lib/beleg-suche.ts'
 
 const DATEI = 'data/beleg-lesungen.json'
 /** Crunchyroll lässt nur einen Desktop-UA durch (wie `scrape-crunchyroll-woche.ts`); ADN liefert damit eine leere Seite. */
@@ -72,6 +73,7 @@ async function main(): Promise<void> {
   const adressen = args.includes('--adresse') ? [args[args.indexOf('--adresse') + 1]!] : belegAdressen(gedaechtnis, heute)
   const schlange = warteschlange(adressen, gedaechtnis, heute, zahl('--abstand', 7), zahl('--limit', 60))
   log(`Belege: ${schlange.length} Artikel fällig`)
+  const suchbegriffe = suchbegriffeJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []))
   const browser = await chromium.launch()
   let gelesen = 0
   let neu = 0
@@ -104,13 +106,14 @@ async function main(): Promise<void> {
           warn(`Beleg ${url}: Text geändert, Daten gleich — untersuchen (tools/belege-pruefen.mjs)`)
         }
         /* Derselbe Text hat dasselbe Bild — eine Lesung mit neuem Datum verweist darauf, statt es neu zu erzeugen. */
-        if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html })
+        if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html, markierung: letzte.markierung })
         /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
         const ziel = letzte?.hash === hash ? letzte : lesung
         if (!ziel.bild) {
           const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
-          const beleg = await belegAusschnitt(seite)
+          const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [])
           if (beleg) {
+            if (beleg.markierung) ziel.markierung = beleg.markierung
             ziel.bild = await ablegen(`${basis}.webp`, beleg.bild, 'image/webp')
             ziel.text = await ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')
           }

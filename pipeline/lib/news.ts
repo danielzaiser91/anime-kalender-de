@@ -94,7 +94,7 @@ export function belegeVonRelease(r: Release): NewsBeleg[] | undefined {
   const nachUrl = new Map<string, NewsBeleg>()
   for (const q of r.quellen ?? []) {
     if (q.stand && q.stand !== 'aktuell') continue
-    if (!nachUrl.has(q.url)) nachUrl.set(q.url, { url: q.url, name: q.name, veroeffentlichtAm: q.veroeffentlichtAm, aktualisiertAm: q.aktualisiertAm, ausgabeAm: q.ausgabeAm, bild: q.bild })
+    if (!nachUrl.has(q.url)) nachUrl.set(q.url, { url: q.url, name: q.name, veroeffentlichtAm: q.veroeffentlichtAm, aktualisiertAm: q.aktualisiertAm, ausgabeAm: q.ausgabeAm, bild: q.bild, ...(q.markierung ? { markierung: q.markierung } : {}) })
   }
   /* Kuratierte Termine tragen nackte Adressen in `sources` — sie sind ebenso Belege. */
   for (const u of r.sources ?? []) if (!nachUrl.has(u)) nachUrl.set(u, { url: u, name: hostVon(u) })

@@ -8,6 +8,7 @@
  */
 import { gzipSync } from 'node:zlib'
 import type { Page } from 'playwright'
+import { bannerEntfernen } from './cookie-banner.ts'
 
 /** So hoch darf der Ausschnitt ab der Überschrift werden — genug für Datum, Kopf und die ersten Absätze. */
 const MAX_HOEHE = 1100
@@ -15,13 +16,16 @@ const MAX_HOEHE = 1100
 export interface Beleg {
   bild: Buffer
   text: Buffer
+  /** Wo die Aussage im Bild steht: `[links, oben, Breite, Höhe]` als Anteile von 0 bis 1 (Beleg-Dialog, „Zur Fundstelle"). */
+  markierung?: [number, number, number, number]
 }
 
-export async function belegAusschnitt(seite: Page): Promise<Beleg | undefined> {
+export async function belegAusschnitt(seite: Page, suchen: string[] = []): Promise<Beleg | undefined> {
   await seite.setViewportSize({ width: 520, height: 900 })
   await seite.addStyleTag({ content: 'img,picture,video,figure,svg,iframe{display:none!important} *{background-image:none!important} html{filter:grayscale(1)}' })
   /* Zustimmungswände und Banner liegen fest oder klebend über dem Text — entfernt, nicht beantwortet. */
-  const ausschnitt = await seite.evaluate((maxHoehe) => {
+  await bannerEntfernen(seite)
+  const ausschnitt = await seite.evaluate(({ maxHoehe, suchen }) => {
     document.querySelectorAll('body *').forEach((e) => {
       const p = getComputedStyle(e).position
       if ((p === 'fixed' || p === 'sticky') && !e.contains(document.querySelector('h1'))) e.remove()
@@ -52,11 +56,27 @@ export async function belegAusschnitt(seite: Page): Promise<Beleg | undefined> {
       ...absaetze.map((e) => e.getBoundingClientRect().bottom + window.scrollY).filter((y) => y - oben <= maxHoehe),
       oben + 200,
     )
-    return { clip: { x: 0, y: Math.max(0, oben), width: 520, height: unten - oben + 16, scale: 1 }, text: wurzel.innerText }
-  }, MAX_HOEHE)
+    const clip = { x: 0, y: Math.max(0, oben), width: 520, height: unten - oben + 16, scale: 1 }
+    /* Die Fundstelle: der erste Absatz im Ausschnitt, der einen der gesuchten Namen nennt — als Anteile des Bildes. */
+    const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
+    let markierung: [number, number, number, number] | undefined
+    for (const name of suchen) {
+      const gesucht = norm(name)
+      const treffer = [h1, ...absaetze].filter((e): e is HTMLElement => Boolean(e)).find((e) => {
+        const r = e.getBoundingClientRect()
+        const top = r.top + window.scrollY
+        return top >= clip.y && top + r.height <= clip.y + clip.height && norm(e.innerText).includes(gesucht)
+      })
+      if (!treffer) continue
+      const r = treffer.getBoundingClientRect()
+      markierung = [Math.max(0, r.left / 520), (r.top + window.scrollY - clip.y) / clip.height, Math.min(1, r.width / 520), r.height / clip.height]
+      break
+    }
+    return { clip, text: wurzel.innerText, markierung }
+  }, { maxHoehe: MAX_HOEHE, suchen })
   if (!ausschnitt) return undefined
   const cdp = await seite.context().newCDPSession(seite)
   const { data } = await cdp.send('Page.captureScreenshot', { format: 'webp', quality: 20, captureBeyondViewport: true, clip: ausschnitt.clip })
   await cdp.detach()
-  return { bild: Buffer.from(data, 'base64'), text: gzipSync(Buffer.from(ausschnitt.text, 'utf8')) }
+  return { bild: Buffer.from(data, 'base64'), text: gzipSync(Buffer.from(ausschnitt.text, 'utf8')), ...(ausschnitt.markierung ? { markierung: ausschnitt.markierung } : {}) }
 }

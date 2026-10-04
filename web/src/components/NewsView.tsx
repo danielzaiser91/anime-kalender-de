@@ -560,7 +560,7 @@ function QuelleKurz({ m }: { m: NewsMeldung }) {
         {quellenLabel(erster)}
       </a>
       {weitere.length > 0 && <span title={weitere.map(quellenLabel).join(' · ')}>+{weitere.length}</span>}
-      <BelegKnopf bild={belege.find((b) => 'bild' in b)?.bild} titel={quellenLabel(erster)} />
+      <BelegKnopf beleg={belege.find((b) => 'bild' in b)} titel={quellenLabel(erster)} />
     </span>
   )
 }

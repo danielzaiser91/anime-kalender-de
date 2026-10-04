@@ -79,6 +79,8 @@ import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../shared/ics.ts'
 import { ausgestrahltOhneBeleg } from './bau/ohne-beleg.ts'
+import { suchbegriffeJeAdresse } from './lib/beleg-suche.ts'
+import { plotVon } from '../web/src/components/detail/plot.ts'
 import { newsRss } from './lib/news-rss.ts'
 import { sucheZweistufig } from '../web/src/lib/search.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
@@ -8068,6 +8070,23 @@ console.log('\nAusgestrahlt ohne deutschen Beleg:')
   pruefe('eine Erstausgabe-Marke bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }], { deErstausgabe: { synchro: true } } as Partial<Title>)))
   pruefe('ein älterer Fernsehtitel ohne Weg bleibt', !ausgestrahltOhneBeleg(titel(1999, [])))
   pruefe('ein älterer Titel mit ungeprüftem Weg bleibt', !ausgestrahltOhneBeleg(titel(2019, [{ platform: 'crunchyroll' }])))
+}
+console.log('\nBeleg: Fundstelle, Banner, Handlung:')
+{
+  /* Daniel, 04.10.2026: „Zur Fundstelle" im Beleg-Dialog; die Suchbegriffe sind die Namen der belegten Titel, der längste zuerst. */
+  const titel = { id: 7, titleDe: 'Tokyo Revengers: War of the Three Titans', titleEn: 'Tokyo Revengers: Santen Sensou-hen' } as unknown as Title
+  const rel = { slug: 'r', titleId: 7, name: 'Tokyo Revengers: War of the Three Titans', sources: ['https://a.example/x'] } as unknown as Release
+  const begriffe = suchbegriffeJeAdresse([rel], [titel]).get('https://a.example/x') ?? []
+  pruefe('Suchbegriffe: der volle Name zuerst, dann der Name vor dem Doppelpunkt', begriffe[0] === 'Tokyo Revengers: War of the Three Titans' && begriffe.includes('Tokyo Revengers'), begriffe.join(' | '))
+  const lesung = { am: '2026-10-04', hash: 'h', bild: 'k.webp', markierung: [0.1, 0.2, 0.8, 0.3] as [number, number, number, number] }
+  const mit = mitArtikeldaten([{ url: 'https://a.example/x', name: 'a' } as never], { 'https://a.example/x': { zuletzt: '2026-10-04', lesungen: [lesung] } })
+  pruefe('die Fundstelle wandert mit dem Bild an die Quelle', JSON.stringify((mit[0] as { markierung?: number[] }).markierung) === '[0.1,0.2,0.8,0.3]')
+  const lang = 'Tokyo Revengers: Takemichi reist in die Vergangenheit und versucht, das Schicksal seiner Freunde zu ändern, bis die Bande Toman zerbricht.'
+  const von = { id: 2, name: 'Staffel 1' } as never
+  const kurz = plotVon({ synopsis: { en: 'Sequel to Tokyo Revengers: Tenjiku-hen.' } as never, titleId: 7, ersatz: { plot: { de: lang } as never, von } })
+  pruefe('ein Ein-Satz-Platzhalter weicht der Handlung des Vorgängers (Tokyo Revengers S3)', kurz.plot?.text === lang && kurz.plot?.vonTeil !== undefined)
+  const eigen = plotVon({ synopsis: { en: lang } as never, titleId: 7, ersatz: { plot: { de: 'Anderer Text, auch lang genug, um als Handlung zu gelten, und deshalb nicht der eigene.'.repeat(2) } as never, von } })
+  pruefe('eine eigene, ausreichend lange Handlung bleibt', eigen.plot?.text === lang && eigen.plot?.vonTeil === undefined)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

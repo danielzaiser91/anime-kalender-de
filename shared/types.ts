@@ -573,7 +573,7 @@ export interface Quelle {
   /** Was die Quelle sagt, sofern auslesbar — etwa ein Datum. */
   sagt?: string
   /** Laut Artikel (Beleg-Lesung); `ausgabeAm`: bei einer Produktseite der Erscheinungstag der Ausgabe, kein Textdatum. */
-  veroeffentlichtAm?: string; aktualisiertAm?: string; ausgabeAm?: string; bild?: string // `bild`: Schlüssel des privaten Beleg-Bilds
+  veroeffentlichtAm?: string; aktualisiertAm?: string; ausgabeAm?: string; bild?: string; markierung?: [number, number, number, number] // `bild`: Schlüssel des privaten Beleg-Bilds; `markierung`: Fundstelle darin als Anteile
   /**
    * `aktuell`              — deckt sich mit dem geführten Stand.
    * `ueberholt`            — eine neuere Quelle widerspricht, und wir sind sicher.

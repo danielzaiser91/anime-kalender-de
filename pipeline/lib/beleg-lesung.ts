@@ -42,6 +42,8 @@ export interface Lesung {
   aenderungOhneDatum?: true
   /** Schlüssel in der privaten Ablage, falls das Hochladen gelang. */
   bild?: string
+  /** Wo die Aussage im Bild steht: `[links, oben, Breite, Höhe]` als Anteile von 0 bis 1. */
+  markierung?: [number, number, number, number]
   /** Artikeltext, gepackt (seit 03.10.2026; davor die ganze HTML-Seite in `html`). */
   text?: string
   html?: string
@@ -136,15 +138,15 @@ export function mitArtikeldaten(quellen: Quelle[], gedaechtnis: BelegGedaechtnis
     const lesungen = gedaechtnis[q.url]?.lesungen ?? []
     if (!traegtArtikeldatum(q.url)) {
       const ausgabe = lesungen.map((l) => l.ausgabe).filter(Boolean).at(-1)
-      const bild = lesungen.map((l) => l.bild).filter(Boolean).at(-1)
-      return { ...q, ...(ausgabe ? { ausgabeAm: ausgabe } : {}), ...(bild ? { bild } : {}) }
+      const jüngste = lesungen.filter((l) => l.bild).at(-1)
+      return { ...q, ...(ausgabe ? { ausgabeAm: ausgabe } : {}), ...(jüngste ? { bild: jüngste.bild, ...(jüngste.markierung ? { markierung: jüngste.markierung } : {}) } : {}) }
     }
     const veroeffentlicht = lesungen.map((l) => l.veroeffentlicht).find(Boolean)
     const aktualisiert = lesungen.map((l) => l.aktualisiert).filter(Boolean).at(-1)
-    const bild = lesungen.map((l) => l.bild).filter(Boolean).at(-1)
+    const jüngste = lesungen.filter((l) => l.bild).at(-1)
     return {
       ...q,
-      ...(bild ? { bild } : {}),
+      ...(jüngste ? { bild: jüngste.bild, ...(jüngste.markierung ? { markierung: jüngste.markierung } : {}) } : {}),
       ...(veroeffentlicht ? { veroeffentlichtAm: veroeffentlicht } : {}),
       ...(aktualisiert && aktualisiert !== veroeffentlicht ? { aktualisiertAm: aktualisiert } : {}),
     }

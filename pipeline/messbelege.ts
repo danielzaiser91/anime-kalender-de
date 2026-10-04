@@ -17,6 +17,7 @@ import { gzipSync } from 'node:zlib'
 import { chromium } from 'playwright'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
+import { bannerEntfernen } from './lib/cookie-banner.ts'
 import { recordSource } from './lib/health.ts'
 import { kalenderTag } from './lib/news-verspaetung.ts'
 import { todayIso } from '../shared/time.ts'
@@ -44,8 +45,8 @@ async function main(): Promise<void> {
       if (!jeTag.has(a.tag)) {
         await seite.goto(kalenderTag(a.tag), { waitUntil: 'domcontentloaded', timeout: 60_000 })
         await seite.waitForSelector('article.release', { timeout: 15_000 }).catch(() => undefined)
-        /* Der Cookie-Banner liegt sonst quer über dem Kalender (Probe 02.10.2026); entfernt, nicht beantwortet. */
-        await seite.evaluate(() => document.querySelector('#onetrust-consent-sdk')?.remove())
+        /* Der Cookie-Banner liegt sonst quer über dem Kalender (Probe 02.10.2026; am 04.10. stand ein zweiter, der Sony-Banner, im Bild); entfernt, nicht beantwortet. */
+        await bannerEntfernen(seite)
         const am = new Date().toISOString()
         const basis = messbelegSchluessel(a.tag, am)
         const bild = await ablegen(`${basis}.jpg`, await seite.screenshot({ fullPage: true, type: 'jpeg', quality: 50 }), 'image/jpeg')

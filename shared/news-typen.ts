@@ -34,6 +34,8 @@ export interface NewsBeleg {
   gemessenAm?: string
   /** Schlüssel des privaten Beleg-Bilds (Worker `/beleg`) — nur mit Lese-Schlüssel sichtbar. */
   bild?: string
+  /** Die Fundstelle im Bild als Anteile `[links, oben, Breite, Höhe]` von 0 bis 1 — wo die Aussage steht (Beleg-Dialog, „Zur Fundstelle"). */
+  markierung?: [number, number, number, number]
 }
 
 export interface NewsMeldung {
