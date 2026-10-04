@@ -275,6 +275,19 @@ for (const datei of SKRIPTE) {
   }
 }
 
+/* Netflix-Artikelseiten (Tudum) sind keine Titelseiten — dort darf keine Leiste stehen (Daniel, 04.10.2026). */
+{
+  const manifest = JSON.parse(readFileSync('extension/manifest.json', 'utf8'))
+  const netflix = (manifest.content_scripts ?? []).filter((g) => (g.matches ?? []).some((m) => m.includes('netflix.com')))
+  const ohneAusschluss = netflix.filter((g) => !(g.exclude_matches ?? []).includes('https://www.netflix.com/tudum/*'))
+  if (!netflix.length || ohneAusschluss.length) {
+    console.log('  ✗ Netflix-Content-Skripte schließen /tudum/* nicht aus')
+    fehler.push('manifest.json: Netflix-Skripte ohne exclude_matches für /tudum/*')
+  } else {
+    console.log('  ✓ Netflix-Content-Skripte schließen /tudum/* aus')
+  }
+}
+
 console.log('')
 if (fehler.length) {
   console.error(`${fehler.length} Skript(e) laufen beim Laden auf einen Fehler.`)
