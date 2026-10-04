@@ -22,6 +22,10 @@ export function anbieterDerMeldung(m: NewsMeldung): string {
   return m.platform ? (PLATFORMS[m.platform as PlatformId]?.name ?? m.platform) : (m.anbieter ?? '')
 }
 
+/** Die Beschriftung der Art-Pille: „Angekündigt · neuer Anbieter", wo der Titel schon bei einem anderen Anbieter auf Deutsch läuft. */
+export const artLabel = (m: NewsMeldung): string =>
+  t(m.art === 'angekuendigt' && m.weiterer ? 'news.art.angekuendigtNeuerAnbieter' : (`news.art.${m.art}` as never))
+
 /** Der ausführliche Satz — auf der Seite im aufgeklappten Bereich, im Feed als Eintrag. */
 export function newsSatz(m: NewsMeldung): string {
   const anbieter = anbieterDerMeldung(m)

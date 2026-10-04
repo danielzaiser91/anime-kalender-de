@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { PLATFORMS, type NewsEintrag, type NewsMeldung, type Release } from '@shared/types.ts'
 import { loadNews, type Dataset } from '../../lib/data.ts'
-import { useLang, type TranslationKey } from '../../lib/i18n.tsx'
-import { datumKurz, newsSatz } from '../../lib/news-text.ts'
+import { useLang } from '../../lib/i18n.tsx'
+import { artLabel, datumKurz, newsSatz } from '../../lib/news-text.ts'
 import { NEWS_FARBE } from '../NewsView.tsx'
 import { AbgeloestHinweis } from '../news-abgeloest.tsx'
 import { QuellenZeile } from '../news-belege.tsx'
@@ -35,7 +35,7 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
       aktiv = false
     }
   }, [])
-  const zeilen = useMemo(() => meldungenImPanel(liste ?? [], titelId, data, todayIso()), [liste, titelId, data])
+  const zeilen = useMemo(() => meldungenImPanel(liste ?? [], titelId, todayIso()), [liste, titelId])
   if (!zeilen.length) return null
   const gezeigt = alle ? zeilen : zeilen.slice(0, SICHTBAR)
   return (
@@ -56,7 +56,6 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
 }
 
 function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
-  const { t } = useLang()
   /* Eine geschätzte Meldung hat keine Quelle, die sie belegt — sie sagt es selbst (01.10.2026). */
   const quelle = z.m.geschaetzt ? undefined : quelleFuer(z, data)
   const jahr = new Date().getFullYear().toString()
@@ -68,7 +67,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
       {/* Kopfzeile: Datum, Art und Quellen — der Text darunter hat die volle Breite. */}
       <span className="flex items-baseline gap-2">
         <span className="shrink-0 text-xs tabular-nums text-ak-leise">{datum}</span>
-        <span className={`shrink-0 rounded px-1.5 text-xs ${NEWS_FARBE[z.m.art]}`}>{t(`news.art.${z.m.art}` as TranslationKey)}</span>
+        <span className={`shrink-0 rounded px-1.5 text-xs ${NEWS_FARBE[z.m.art]}`}>{artLabel(z.m)}</span>
         {/* Eine geschätzte Meldung zeigt keine Quelle — die Seite dahinter nennt den Termin nicht. */}
         {!z.m.geschaetzt && <QuellenZeile belege={belege} />}
       </span>
@@ -87,26 +86,20 @@ const TERMIN_ARTEN = new Set<NewsMeldung['art']>(['angekuendigt', 'disc', 'kino'
 /**
  * Was das Panel an News zeigt: **nur der eigene Titel** — bei Pokémon standen
  * Meldungen zu „Reisen" und „Horizonte" im Panel von „Generationen" —, **kein vorbeigegangener
- * Termin** und **kein kommender, den das Panel schon als Termin zeigt** (jedes Release des Titels
- * steht dort als Pille, Disc oder Kino). Neueste zuerst.
+ * Termin**. Ein **kommender** Termin bleibt: Die Pille nennt den Tag, die Meldung dazu nennt die Quelle
+ * (Daniel, 04.10.2026: „News-Einträge fehlen im Panel"). Neueste zuerst.
  */
-export function meldungenImPanel(liste: NewsEintrag[], titelId: number, data: Pick<Dataset, 'releaseBySlug'>, heute: string): Zeile[] {
+export function meldungenImPanel(liste: NewsEintrag[], titelId: number, heute: string): Zeile[] {
   const zeilen: Zeile[] = []
   for (const e of liste)
     for (const m of e.meldungen) {
       const teilId = m.teilId ?? e.titelId
       if (teilId !== titelId) continue
-      const rel = m.release ? data.releaseBySlug.get(m.release) : undefined
       /*
         Eine **angekündigte** Staffel bleibt sichtbar — sie ist noch kein Termin,
         den das Panel schon zeigt, sondern die Nachricht selbst.
       */
-      if (
-        TERMIN_ARTEN.has(m.art) &&
-        m.datum &&
-        (m.datum < heute || (rel && rel.titleId === titelId && !rel.schedule.estimated))
-      )
-        continue
+      if (TERMIN_ARTEN.has(m.art) && m.datum && m.datum < heute) continue
       zeilen.push({ am: e.am, m, teilId })
     }
   return zeilen.sort((a, b) => b.am.localeCompare(a.am))

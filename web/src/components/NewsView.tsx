@@ -3,7 +3,7 @@ import { type NewsArt, type NewsEintrag, type NewsMeldung } from '@shared/types.
 import { feedUrl, loadNews, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
-import { anbieterDerMeldung, datumKurz, newsSatz } from '../lib/news-text.ts'
+import { anbieterDerMeldung, artLabel, datumKurz, newsSatz } from '../lib/news-text.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { todayIso, addDays } from '@shared/time.ts'
 import { AbgeloestHinweis } from './news-abgeloest.tsx'
@@ -496,7 +496,6 @@ function MeldungZeile({
   oeffne: () => void
   staende?: Stand[]
 }) {
-  const { t } = useLang()
   return (
     <li>
       <div className="flex items-center gap-2">
@@ -506,7 +505,7 @@ function MeldungZeile({
           className="flex min-w-0 flex-1 items-center gap-2 rounded py-1 pr-1 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
         >
           <span className={`shrink-0 rounded px-1.5 py-0.5 text-[11px] ${NEWS_FARBE[m.art]}`}>
-            {t(`news.art.${m.art}`)}
+            {artLabel(m)}
           </span>
           {m.teil && m.teil !== reihe && (
             <span className="min-w-0 shrink truncate rounded border border-slate-300 px-1 py-px text-[10px] font-medium text-slate-600 dark:border-slate-600 dark:text-slate-300">
