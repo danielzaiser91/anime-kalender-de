@@ -87,6 +87,7 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
  */
 const pipelineDir = resolve(process.cwd(), 'pipeline')
 const geschrieben = new Set()
+const HANDGEPFLEGT = new Set(['data/synchro-von-hand.yaml', 'data/erstausgabe-von-hand.yaml', 'data/folgen-hinweise.yaml', 'data/anisearch-ids-hand.yaml', 'data/adn-adressen.yaml', 'data/rtlplus-adressen.yaml', 'data/verweise-von-hand.yaml', 'data/reihen-von-hand.yaml', 'data/blocker-von-hand.yaml', 'data/tmdb-von-hand.yaml', 'data/adn-staffelzuordnung.yaml'])
 for (const datei of readdirSync(pipelineDir, { recursive: true })) {
   if (typeof datei !== 'string' || !/\.(ts|mjs|js)$/.test(datei)) continue
   const quelltext = readFileSync(resolve(pipelineDir, datei), 'utf8')
@@ -103,6 +104,8 @@ for (const pfad of [...geschrieben].sort()) {
   if (pfad.startsWith('data/cache/')) continue
   // Vorschläge sind als Ordner aufgeführt.
   if (pfad.startsWith('data/proposals/')) continue
+  // Handgepflegte Dateien liest die Pipeline nur; sie stehen bewusst nicht in der Liste (siehe Kopf von quellen-liste.sh, 04.10.2026).
+  if (HANDGEPFLEGT.has(pfad)) continue
   if (!skript.includes(pfad)) {
     console.error(
       `✗ ${pfad} wird von der Pipeline geschrieben, steht aber nicht in tools/quellen-liste.sh — ` +

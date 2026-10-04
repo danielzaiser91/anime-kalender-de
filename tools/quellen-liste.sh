@@ -11,6 +11,11 @@
 
 # Alles, was ein Lauf schreiben kann. Nicht jeder Lauf berührt alles; fehlende
 # Pfade werden übersprungen.
+# **Hier steht nur, was ein Lauf schreibt.** Handgepflegte Dateien (`*-von-hand.yaml`, `*-hand.yaml`, Adress- und Hinweislisten)
+# gehören nicht hinein: Der Reset in `commit-data.sh` legt jede Datei dieser Liste aus dem Arbeitsverzeichnis des Laufs über
+# den neueren Fernstand — eine Handänderung, die zwischendurch gepusht wurde, ginge verloren, und `quellen-commit-wache.sh`
+# hielt deshalb jeden Commit daran an, solange ein Lauf lief (04.10.2026, Daniel: „überleg wie es unabhängiger wird").
+# Kein Skript schreibt diese Dateien (gemessen 04.10.2026); wer eines hinzufügt, das sie schreibt, trägt sie hier wieder ein.
 QUELLEN=(
   data/anisearch.json
   data/anisearch-folgen.json
@@ -19,10 +24,7 @@ QUELLEN=(
   data/anisearch-sprecher.json
   data/wikidata-titel.json
   data/titel-de.yaml
-  data/synchro-von-hand.yaml
   # „Auf Deutsch seit" von Hand, wo aniSearchs Datum den Untertitel-Start meint (19.09.2026).
-  data/erstausgabe-von-hand.yaml
-  data/folgen-hinweise.yaml
   data/termine-verpasst.json
   data/tonspur-verdacht.json
   data/motn-tonspur.json
@@ -92,14 +94,6 @@ QUELLEN=(
   # `data/…` in einer schreibenden Datei zählt und lieber einmal zu viel meldet.
   # Mitgesichert zu werden schadet ihr nicht: Sie wird von Hand gepflegt, und
   # ein Lauf legt sie unverändert zurück (06.09.2026).
-  data/anisearch-ids-hand.yaml
-  data/adn-adressen.yaml
-  data/rtlplus-adressen.yaml
-  data/verweise-von-hand.yaml
-  data/reihen-von-hand.yaml
-  data/blocker-von-hand.yaml
-  data/tmdb-von-hand.yaml
-  data/adn-staffelzuordnung.yaml
   data/curated-ids.json
   data/source-health.json
   data/proposals

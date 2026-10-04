@@ -28,7 +28,7 @@
 set -euo pipefail
 
 NACHRICHT="${1:?Commit-Nachricht fehlt}"
-VERSUCHE="${2:-3}"
+VERSUCHE="${2:-6}" # 3 genügten nicht, wenn Stündlich, Daten-PR und ein Mensch zugleich pushen (Bestandsbau 04.10.2026 16:17 rot)
 
 # Die Liste der Quellpfade liegt in einer eigenen Datei — `quellen-pr.sh`
 # braucht dieselbe, und zwei Fassungen laufen auseinander.
@@ -274,6 +274,8 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   # Den eigenen Commit zurücknehmen, die Dateien behalten — die nächste Runde
   # setzt ohnehin auf dem neuen Fernstand neu auf.
   git reset --soft HEAD~1
+  # Kurze, zufällige Pause: Zwei Läufe, die zugleich abgelehnt wurden, sollen nicht im Gleichschritt neu ansetzen.
+  sleep $((5 + RANDOM % 16))
 done
 
 echo "::error::Nach $VERSUCHE Versuchen nicht gepusht. Die geholten Daten sind im Lauf-Verzeichnis, nicht im Repo."

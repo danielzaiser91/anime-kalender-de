@@ -1041,3 +1041,14 @@ Umsetzung: `pipeline/lib/beleg-bild.ts` (`belegAusschnitt`), benutzt von `belege
 ## Stunden-Wecker über Cloudflare (04.10.2026)
 
 GitHubs Cron-Plan für `refresh-hourly.yml` (`23 * * * *`) feuerte real etwa alle 4,6 Stunden. Der Worker `newsletter` (Cron `0 * * * *`) startet den Workflow deshalb zusätzlich per `workflow_dispatch` (`worker/src/wecker.ts`). Das Token liegt als Worker-Secret `GITHUB_WECKER_TOKEN` (Fine-grained PAT, nur dieses Repo, Actions: Read and write; Wert in `my_secrets.md`). Gesetzt mit `wrangler secret put GITHUB_WECKER_TOKEN --config wrangler.toml` im Ordner `worker/` (ohne `--config` legt wrangler einen leeren Worker an). Prüfen: nach der vollen Stunde `gh run list --workflow refresh-hourly.yml` — ein Lauf mit Ereignis `workflow_dispatch` um :00. Läuft der Plan von GitHub zusätzlich, schützt die `concurrency`-Gruppe des Workflows vor Doppelläufen.
+
+## Warum Commits an Datendateien warten mussten — und was daran geändert ist (04.10.2026)
+
+Daniel am 04.10.2026: „du hast gesagt, du wirst geblockt, weil gerade was läuft — überleg, wie es unabhängiger wird."
+
+**Drei Ursachen:**
+1. **Handgepflegte Dateien standen in `QUELLEN`** (`tools/quellen-liste.sh`). Der Reset in `commit-data.sh` legt jede Datei der Liste aus dem Arbeitsverzeichnis des Laufs über den neueren Fernstand; eine Handänderung, die zwischendurch gepusht wurde, ginge verloren. `quellen-commit-wache.sh` hielt deshalb jeden Commit an einer solchen Datei an, solange irgendein Datenlauf lief. Behoben: `*-von-hand.yaml`, `*-hand.yaml`, die Adress- und Hinweislisten (11 Dateien, kein Skript schreibt sie) stehen nicht mehr in der Liste; `tools/check-workflows.mjs` kennt sie als `HANDGEPFLEGT`. Handänderungen lassen sich jetzt jederzeit committen und pushen.
+2. **Nur drei Push-Versuche** in `commit-data.sh`. Wenn Stündlich, Daten-PR und ein Mensch zugleich pushen, ging ein Bestandsbau rot (04.10.2026, 16:17: „Nach 3 Versuchen nicht gepusht"). Jetzt sechs Versuche mit zufälliger Pause von 5–20 Sekunden dazwischen.
+3. **Die Gruppe `daten` hält alle Datenläufe hintereinander** — auch den Bestandsbau und den Stundenlauf. Ein langer Lauf (aniSearch-Katalog, Wochenlauf) hält beide auf. **Noch nicht geändert; Vorschlag:** je Quelle eine eigene Gruppe (aniSearch, Crunchyroll, ADN, TMDB) statt einer für alles, der Bestandsbau in eine eigene (er liest nur Committetes und pusht mit Wiederholung), und `check:workflows` prüft dann „derselbe Fremdserver, dieselbe Gruppe" statt „alle in `daten`". Das ist ein Umbau der Läufe selbst und wird einzeln und mit Vorher/Nachher gemacht.
+
+**Wer nicht warten muss:** Code, Doku, Tests und Hand-Dateien (nach Punkt 1). Nur eine Pipeline-Quelle (`data/*.json` der Läufe) bleibt gesperrt, solange ein Lauf sie schreiben kann — dort schützt die Wache vor dem stillen Verlust.
