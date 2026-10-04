@@ -79,7 +79,7 @@ function cors(env: Env): Record<string, string> {
   return {
     'Access-Control-Allow-Origin': env.ALLOWED_ORIGIN || '*',
     'Access-Control-Allow-Methods': 'POST, GET, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Headers': 'Content-Type, X-Beleg-Token',
   }
 }
 

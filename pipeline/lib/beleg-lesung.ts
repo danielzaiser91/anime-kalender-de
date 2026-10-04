@@ -136,12 +136,15 @@ export function mitArtikeldaten(quellen: Quelle[], gedaechtnis: BelegGedaechtnis
     const lesungen = gedaechtnis[q.url]?.lesungen ?? []
     if (!traegtArtikeldatum(q.url)) {
       const ausgabe = lesungen.map((l) => l.ausgabe).filter(Boolean).at(-1)
-      return ausgabe ? { ...q, ausgabeAm: ausgabe } : q
+      const bild = lesungen.map((l) => l.bild).filter(Boolean).at(-1)
+      return { ...q, ...(ausgabe ? { ausgabeAm: ausgabe } : {}), ...(bild ? { bild } : {}) }
     }
     const veroeffentlicht = lesungen.map((l) => l.veroeffentlicht).find(Boolean)
     const aktualisiert = lesungen.map((l) => l.aktualisiert).filter(Boolean).at(-1)
+    const bild = lesungen.map((l) => l.bild).filter(Boolean).at(-1)
     return {
       ...q,
+      ...(bild ? { bild } : {}),
       ...(veroeffentlicht ? { veroeffentlichtAm: veroeffentlicht } : {}),
       ...(aktualisiert && aktualisiert !== veroeffentlicht ? { aktualisiertAm: aktualisiert } : {}),
     }

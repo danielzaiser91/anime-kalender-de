@@ -99,7 +99,7 @@ export const verpassteTermine = readJson<
     rechercheQuelle?: string | null
     rechercheAm?: string | null
     geprueftAm?: string | null
-    newsGeprueftAm?: string | null
+    newsGeprueftAm?: string | null; messbeleg?: { bild?: string }; nachgereichtBeleg?: { bild?: string }
     hinweise?: { quelle: string; titel: string; url: string; datum: string }[]
   }>
 >('data/termine-verpasst.json', [])

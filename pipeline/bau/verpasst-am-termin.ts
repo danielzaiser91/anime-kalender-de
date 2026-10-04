@@ -28,7 +28,7 @@ type Verpasst = {
   rechercheQuelle?: string | null
   rechercheAm?: string | null
   geprueftAm?: string | null
-  newsGeprueftAm?: string | null
+  newsGeprueftAm?: string | null; messbeleg?: { bild?: string }; nachgereichtBeleg?: { bild?: string }
   hinweise?: { quelle: string; titel: string; url: string; datum: string }[]
 }
 
@@ -59,6 +59,8 @@ export function verpasstAmTermin(slug: string, verpasst: Verpasst[], ab?: string
         ...(v.rechercheAm ? { rechercheAm: v.rechercheAm } : {}),
         ...(v.geprueftAm ? { geprueftAm: v.geprueftAm } : {}),
         ...(v.newsGeprueftAm ? { newsGeprueftAm: v.newsGeprueftAm } : {}),
+        ...(v.messbeleg?.bild ? { messBild: v.messbeleg.bild } : {}),
+        ...(v.nachgereichtBeleg?.bild ? { nachBild: v.nachgereichtBeleg.bild } : {}),
         ...(v.hinweise?.length ? { hinweise: v.hinweise } : {}),
       },
     ]),

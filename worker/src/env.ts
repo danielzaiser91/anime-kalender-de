@@ -17,6 +17,8 @@ export interface Env extends MailEnv, PushEnv {
   DEBUG_TOKEN?: string
   /** Optional. Nur damit dürfen Läufe ihren Zustand melden. Fehlt es, ist /lauf schreibgeschützt. */
   LAUF_TOKEN?: string
+  /** Nur Lesen in der Beleg-Ablage — liegt im Browser des Prüfers, nicht in den Läufen (04.10.2026). */
+  BELEG_LESETOKEN?: string
   /** Empfänger der Überwachungsmeldungen. Fehlt sie, wird nur geprüft, nicht gemeldet. */
   MONITOR_EMAIL?: string
   /** Private Beleg-Ablage (Screenshots, HTML). Optional: Ohne Bindung antwortet /beleg mit 503. */

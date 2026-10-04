@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { NewsBeleg } from '@shared/types.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { datumKurz } from '../lib/news-text.ts'
+import { BelegKnopf } from './beleg-dialog.tsx'
 
 /** Crunchyrolls News-Rubriken aus dem Pfad — „Crunchyroll News" dreimal sagte nicht, was dahinter steht. */
 const RUBRIKEN: Record<string, string> = { 'seasonal-lineup': 'Season-Lineup', latest: 'News' }
@@ -51,6 +52,7 @@ export function QuellenZeile({ belege }: { belege: NewsBeleg[] }) {
           {quellenLabel(b)} ↗
         </a>
       ))}
+      {gezeigt.map((b) => <BelegKnopf key={`bild-${b.url}`} bild={b.bild} titel={quellenLabel(b)} />)}
       {!offen && belege.length > SICHTBAR && (
         <button type="button" onClick={() => setOffen(true)} className="text-ak-leise hover:text-ak-text hover:underline">
           {t('news.weitereQuellen', { n: belege.length - SICHTBAR })}

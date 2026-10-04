@@ -18,8 +18,8 @@ export function kalenderTag(tag: string): string {
   return `https://www.crunchyroll.com/de/simulcastcalendar?filter=premium&date=${tag}`
 }
 
-function messBeleg(tag: string, gemessenAm: string): NewsBeleg {
-  return { url: kalenderTag(tag), name: 'Crunchyroll-Kalender', gemessenAm }
+function messBeleg(tag: string, gemessenAm: string, bild?: string): NewsBeleg {
+  return { url: kalenderTag(tag), name: 'Crunchyroll-Kalender', gemessenAm, ...(bild ? { bild } : {}) }
 }
 
 type Roh = NewsMeldung & { schluessel: string; fallback: string }
@@ -34,7 +34,7 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
   /* Gemessen wird nur bei Crunchyroll — nur dort lesen wir einen Kalender (`termine-pruefen.ts`). */
   const gemessen = r.platform === 'crunchyroll'
   const raus: Roh[] = []
-  const nachTag = new Map<string, { nummer: number; erwartet: string }[]>()
+  const nachTag = new Map<string, { nummer: number; erwartet: string; bild?: string }[]>()
   for (const [nummer, v] of Object.entries(r.schedule?.verpasst ?? {})) {
     if (!v?.erwartetAm) continue
     const erwartet = toIsoDate(new Date(v.erwartetAm))
@@ -46,11 +46,11 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
       datum: erwartet,
       von: Number(nummer),
       release: r.slug,
-      ...(gemessen ? { quelle: kalenderTag(erwartet), belege: [messBeleg(erwartet, toIsoDate(new Date(v.bemerktAm ?? v.erwartetAm)))] } : {}),
+      ...(gemessen ? { quelle: kalenderTag(erwartet), belege: [messBeleg(erwartet, toIsoDate(new Date(v.bemerktAm ?? v.erwartetAm)), v.messBild)] } : {}),
     })
     if (!v.erschienenAm) continue
     const tag = toIsoDate(new Date(v.erschienenAm))
-    nachTag.set(tag, [...(nachTag.get(tag) ?? []), { nummer: Number(nummer), erwartet }])
+    nachTag.set(tag, [...(nachTag.get(tag) ?? []), { nummer: Number(nummer), erwartet, bild: v.nachBild }])
   }
   for (const [tag, folgen] of nachTag) {
     folgen.sort((a, b) => a.nummer - b.nummer); const plan = planFolgenAm(r, tag, folgen.at(-1)!.nummer)
@@ -65,7 +65,7 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
       anzahl: folgen.length,
       erwartet: folgen.map((f) => f.erwartet), ...(plan.length ? { planmaessig: plan } : {}),
       release: r.slug,
-      ...(gemessen ? { quelle: kalenderTag(tag), belege: [messBeleg(tag, tag)] } : {}),
+      ...(gemessen ? { quelle: kalenderTag(tag), belege: [messBeleg(tag, tag, folgen.find((f) => f.bild)?.bild)] } : {}),
     })
   }
   return raus

@@ -573,7 +573,7 @@ export interface Quelle {
   /** Was die Quelle sagt, sofern auslesbar — etwa ein Datum. */
   sagt?: string
   /** Laut Artikel (Beleg-Lesung); `ausgabeAm`: bei einer Produktseite der Erscheinungstag der Ausgabe, kein Textdatum. */
-  veroeffentlichtAm?: string; aktualisiertAm?: string; ausgabeAm?: string
+  veroeffentlichtAm?: string; aktualisiertAm?: string; ausgabeAm?: string; bild?: string // `bild`: Schlüssel des privaten Beleg-Bilds
   /**
    * `aktuell`              — deckt sich mit dem geführten Stand.
    * `ueberholt`            — eine neuere Quelle widerspricht, und wir sind sicher.
@@ -800,7 +800,7 @@ export interface VermerkAusgeblieben {
   /** Wann es hätte sein sollen. */
   erwartetAm: string
   /** Wann der Lauf das Ausbleiben bemerkte (Tag der Messung) und wann die Folge wirklich kam — leer, solange sie aussteht. */
-  bemerktAm?: string; erschienenAm?: string
+  bemerktAm?: string; erschienenAm?: string; messBild?: string; nachBild?: string // Schlüssel der privaten Beleg-Bilder (Kalendertag beim Bemerken / beim Nachreichen)
   /** Verzug in Stunden, sobald beides bekannt ist. */
   verzugStunden?: number
   /** Wie viele Folgen der Anbieter zu diesem Zeitpunkt zeigte. */

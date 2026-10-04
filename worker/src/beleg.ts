@@ -3,7 +3,9 @@
  *
  * Die Datenläufe lesen Artikel, die einen Termin belegen, und legen je Lesung ein Bild und das
  * HTML ab. Fremder Inhalt wird damit nicht veröffentlicht: Der Bucket hat keinen öffentlichen
- * Zugang, Schreiben und Lesen gehen nur über diese Route mit `LAUF_TOKEN`.
+ * Zugang. Schreiben und Auflisten gehen nur mit `LAUF_TOKEN` (Header `X-Lauf-Token`); **Lesen** einer Datei auch mit
+ * `BELEG_LESETOKEN` (Header `X-Beleg-Token`), den der Prüfer im Browser hält, damit die Oberfläche das Bild zeigen
+ * kann. Kein Schlüssel in der Adresse (04.10.2026).
  *
  *   POST /beleg?key=<pfad>   Rumpf = Datei, `Content-Type` wird mitgespeichert
  *   GET  /beleg?key=<pfad>   liefert die Datei
@@ -14,13 +16,17 @@ import { BELEG_SCHLUESSEL as SCHLUESSEL } from '../../shared/beleg-schluessel.ts
 
 const HOECHSTENS_BYTES = 15 * 1024 * 1024
 
-function antwort(daten: unknown, status = 200): Response {
-  return new Response(JSON.stringify(daten), { status, headers: { 'content-type': 'application/json; charset=utf-8' } })
+function antwort(daten: unknown, status = 200, origin = '*'): Response {
+  return new Response(JSON.stringify(daten), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': origin } })
 }
 
 export async function handleBeleg(request: Request, env: Env, url: URL): Promise<Response> {
-  const token = request.headers.get('X-Lauf-Token') ?? url.searchParams.get('token')
-  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+  const origin = env.ALLOWED_ORIGIN || '*'
+  const darfSchreiben = Boolean(env.LAUF_TOKEN) && request.headers.get('X-Lauf-Token') === env.LAUF_TOKEN
+  const darfLesen = darfSchreiben || (Boolean(env.BELEG_LESETOKEN) && request.headers.get('X-Beleg-Token') === env.BELEG_LESETOKEN)
+  if (!darfLesen) return antwort({ error: 'Nicht erlaubt' }, 403, origin)
+  if (request.method === 'GET' && url.searchParams.get('key') === null && !darfSchreiben) return antwort({ error: 'Nicht erlaubt' }, 403, origin)
+  if (request.method === 'POST' && !darfSchreiben) return antwort({ error: 'Nicht erlaubt' }, 403, origin)
   if (!env.BELEGE) return antwort({ error: 'Beleg-Ablage nicht eingerichtet' }, 503)
 
   const liste = url.searchParams.get('liste')
@@ -30,13 +36,13 @@ export async function handleBeleg(request: Request, env: Env, url: URL): Promise
   }
 
   const key = url.searchParams.get('key') ?? ''
-  if (!SCHLUESSEL.test(key) || key.includes('..')) return antwort({ error: 'Ungültiger Schlüssel' }, 400)
+  if (!SCHLUESSEL.test(key) || key.includes('..')) return antwort({ error: 'Ungültiger Schlüssel' }, 400, origin)
 
   if (request.method === 'GET') {
     const objekt = await env.BELEGE.get(key)
-    if (!objekt) return antwort({ error: 'Nicht gefunden' }, 404)
+    if (!objekt) return antwort({ error: 'Nicht gefunden' }, 404, origin)
     return new Response(objekt.body, {
-      headers: { 'content-type': objekt.httpMetadata?.contentType ?? 'application/octet-stream' },
+      headers: { 'content-type': objekt.httpMetadata?.contentType ?? 'application/octet-stream', 'Access-Control-Allow-Origin': origin, 'Cache-Control': 'private, no-store' },
     })
   }
   if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)

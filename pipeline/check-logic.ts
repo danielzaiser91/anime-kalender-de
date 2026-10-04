@@ -7862,7 +7862,7 @@ console.log('\nLücke:')
       observed: { 1: '2026-08-18', 2: '2026-08-18', 3: '2026-08-18', 4: '2026-08-18', 5: '2026-08-23', 6: '2026-08-30', 7: '2026-09-06', 8: '2026-10-04', 9: '2026-10-04', 10: '2026-10-04', 11: '2026-10-04' },
       verpasst: {
         8: { erwartetAm: '2026-09-13T08:30:00.000Z', erschienenAm: '2026-10-04T08:30:00.000Z' },
-        9: { erwartetAm: '2026-09-20T08:30:00.000Z', erschienenAm: '2026-10-04T08:30:00.000Z' },
+        9: { erwartetAm: '2026-09-20T08:30:00.000Z', erschienenAm: '2026-10-04T08:30:00.000Z', nachBild: 'www.crunchyroll.com/simulcastcalendar/2026-10-04/2026-10-04-11-02.jpg', messBild: 'www.crunchyroll.com/simulcastcalendar/2026-09-20/2026-10-03-20-01.jpg' },
         10: { erwartetAm: '2026-09-27T08:30:00.000Z', erschienenAm: '2026-10-04T08:30:00.000Z' },
       },
     },
@@ -7871,6 +7871,8 @@ console.log('\nLücke:')
   pruefe('Nachgereicht: 8–10 verspätet zusammen mit der geplanten Folge 11',
     nachgereicht?.planmaessig?.join() === '11' && newsSatz(nachgereicht) === 'Folgen 8–10 sind verspätet zusammen mit der geplanten Folge 11 erschienen, angekündigt waren 13.09., 20.09. und 27.09.',
     nachgereicht && newsSatz(nachgereicht))
+  pruefe('Beleg-Bild: die Nachreich-Meldung trägt das Bild des Kalendertags, die Verspätungsmeldung das ihres Tages',
+    nachgereicht?.belege?.[0]?.bild === 'www.crunchyroll.com/simulcastcalendar/2026-10-04/2026-10-04-11-02.jpg' && verspaetungsMeldungen(nach).find((m) => m.art === 'verspaetet' && m.von === 9)?.belege?.[0]?.bild === 'www.crunchyroll.com/simulcastcalendar/2026-09-20/2026-10-03-20-01.jpg')
 }
 /* Japans Ende ist nicht das deutsche: Slime Staffel 4 (AniList-Ende 25.09., Crunchyroll bis 16.10.). */
 console.log('\nDeutsch abgeschlossen:')

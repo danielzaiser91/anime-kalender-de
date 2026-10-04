@@ -32,6 +32,8 @@ export interface NewsBeleg {
   ausgabeAm?: string
   /** Bei einer eigenen Messung (Anbieter-Kalender): der Tag, an dem wir nachgesehen haben. */
   gemessenAm?: string
+  /** Schlüssel des privaten Beleg-Bilds (Worker `/beleg`) — nur mit Lese-Schlüssel sichtbar. */
+  bild?: string
 }
 
 export interface NewsMeldung {

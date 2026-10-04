@@ -10,6 +10,7 @@ import { AbgeloestHinweis } from './news-abgeloest.tsx'
 import { quellenLabel } from './news-belege.tsx'
 import { Klapptext } from './klapptext.tsx'
 import { VerlaufZeilen } from './news-verlauf.tsx'
+import { BelegKnopf } from './beleg-dialog.tsx'
 import { ohneEingeordnete, verlaeufeAus, type Stand } from '../lib/news-verlauf.ts'
 
 /**
@@ -555,6 +556,7 @@ function QuelleKurz({ m }: { m: NewsMeldung }) {
         {quellenLabel(erster)}
       </a>
       {weitere.length > 0 && <span title={weitere.map(quellenLabel).join(' · ')}>+{weitere.length}</span>}
+      <BelegKnopf bild={belege.find((b) => 'bild' in b)?.bild} titel={quellenLabel(erster)} />
     </span>
   )
 }
