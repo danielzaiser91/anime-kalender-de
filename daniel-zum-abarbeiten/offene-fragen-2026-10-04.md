@@ -13,6 +13,8 @@ Alles, wofür ich dich brauche, steht hier; ich arbeite mit allem anderen weiter
 - One Piece **Folge 590**: deutsches Datum in der Wikipedia-Liste? (492 und 542 sind geprüft.)
 - Handprüfung **E/G** (`daniel-zum-abarbeiten/handpruefung-E-G.html`).
 - **Prüfaufträge** der letzten Antworten (Laufzeit, Folgenbereich, Cover-Ansicht, Hell-Thema, Trefferzahl, Cartoon-Schalter, Tokyo Revengers S3, Datenbank-Filter, One Piece „1119 von 1180") — sobald live, mit Vorher/Nachher in der jeweiligen Antwort.
+- 📅 **KALENDER-NOTIZ — Fr 09.10., 19:00 Uhr: Tokyo Revengers S3 Folge 2 nachsehen (stündlich, bis sie erscheint).** Bleibt hier stehen, bis du nachgesehen und Bescheid gegeben hast; ich erinnere dich am Freitag noch einmal. Deine eigene Handy-Erinnerung steht (Daniel, 04.10.2026).
+  - Hinweis zum Stand: Ein Kalender von Kaizen Anime nennt „Freitag 19 Uhr" (Daniel, 04.10.2026) — zusammen mit der JST-Umrechnung spricht das für Freitag; wir lassen den Kalender bis zur Prüfung bei Samstag (Anime2You).
 - **Tokyo Revengers S3, Folge 2 bei Disney+ (Daniel vermutet: Anime2You hat den Tag falsch).** Japan sendet in der Nacht auf Samstag (Folge 1: Sa 01:23 JST). Samstag 02:00 JST ist **Freitag 09.10., 19:00 Uhr deutscher Zeit** — das könnte Anime2Yous „19:00" sein, nur mit dem japanischen Wochentag.
   - **Vorher (Kalender):** Folge 2 steht für **Samstag 10.10., 19:00** (≈, laut Anime2You); in der News-Meldung vom 04.10. steht dasselbe hinter „mehr".
   - **Nachher (was du findest):** Disney+ zeigt Folge 2 als „Neue Folge" entweder am **Fr 09.10.** (ab 19:00) oder erst am **Sa 10.10.**
