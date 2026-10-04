@@ -97,6 +97,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
   const farbe = PLATFORMS[p.event.platform]?.color ?? '#888'
   const bild = coverBild(cover, p.breit ? 320 : 160, p.breit ? '(min-width: 1024px) 320px, 92vw' : '(min-width: 1024px) 160px, 46vw')
   return (
+    <div className="relative">
     <div
       className={[
         'relative overflow-hidden rounded-xl bg-ak-flaeche-2',
@@ -142,7 +143,15 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
           </span>
         )}
       </span>
-      <span className="absolute inset-x-0 bottom-0 h-1" style={{ background: farbe }} />
+    </div>
+    {/*
+      **Die Anbieterleiste liegt über dem Rand, nicht darunter** (Daniel, 04.10.2026): Der Ring von Staffelstart und -finale sitzt außerhalb der Kachel; die Leiste
+      reicht bei einer Kachel mit Ring deshalb zwei Pixel darüber hinaus und deckt ihn unten ab, links, oben und rechts bleibt er stehen.
+    */}
+    <span
+      className={['pointer-events-none absolute rounded-b-xl', p.breit ? '-inset-x-0.5 -bottom-0.5 h-1.5' : 'inset-x-0 bottom-0 h-1'].join(' ')}
+      style={{ background: farbe }}
+    />
     </div>
   )
 }
