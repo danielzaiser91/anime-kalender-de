@@ -44,6 +44,7 @@
     "data:anisearch:reparse": "tsx pipeline/reparse-anisearch.ts",
     "check:folgen": "tsx pipeline/check-folgen-zuordnung.ts",
     "check:logic": "tsx pipeline/check-logic.ts",
+    "check:kalender": "tsx pipeline/kalender-befund.ts",
     "check:search": "tsx pipeline/check-search.ts",
     "check:workflows": "node tools/check-workflows.mjs",
     "check:wiedervorlage": "node tools/erneut-melden.mjs --pruefen && node tools/verdacht-laufend.test.mjs && node tools/verdacht-kanal.test.mjs && node tools/verdacht-gegenauskunft.test.mjs",

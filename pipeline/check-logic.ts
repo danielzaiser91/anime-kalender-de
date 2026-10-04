@@ -84,6 +84,7 @@ import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { LAUF_ABFRAGEN, LAUF_ARTEN, SQL_EINE_ART } from '../worker/src/lauf-sql.ts'
 import { geteilteWegeTrotzWiderlegung, pruefeErgebnis } from './lib/pruefung.ts'
+import { pruefeKalenderKonsistenz } from './lib/kalender-konsistenz.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
 import { gruppiereNachAusgabe, findeStaffel, folgenKern, ordneZu } from '../shared/folgen-zuordnung.ts'
@@ -7881,6 +7882,30 @@ console.log('\nDeutsch abgeschlossen:')
   const laeuft = { releaseType: 'weekly', platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-05-01', lastEpisodeDate: '2026-10-16', episodeCount: 24 } } as never
   pruefe('Abgeschlossen: ein laufender deutscher Wochentermin hält den Titel offen', !deutschAbgeschlossen(titel, [laeuft], '2026-10-03'))
   pruefe('Abgeschlossen: ohne laufenden Termin zählt Japans Ende', deutschAbgeschlossen(titel, [], '2026-10-03'))
+}
+/* Slugs, Titel, Folgennummern, Datumsreihenfolge: vier Widersprüche, die der Bau bisher durchließ
+   (befund-2026-10-02.md, B-02 bis B-06). */
+console.log('\nKalender-Konsistenz:')
+{
+  const rel = (slug: string, titleId: number, observed: Record<number, string> = {}): Release =>
+    ({ slug, titleId, name: slug, schedule: { firstEpisodeDate: '2026-01-01', observed } }) as unknown as Release
+  const ev = (releaseSlug: string, episode: number, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
+    ({ id: `${releaseSlug}-${episode}`, releaseSlug, titleId: 1, date: '2026-01-01', episode, releaseType: 'weekly', platform: 'crunchyroll', name: 'X', ...extra }) as ReleaseEvent
+  const ids = new Set([1, 2])
+  const findet = (regel: string, releases: Release[], events: ReleaseEvent[]) =>
+    pruefeKalenderKonsistenz(releases, events, ids).some((b) => b.regel === regel)
+
+  pruefe('doppelter Slug wird gemeldet', findet('slug', [rel('a', 1), rel('a', 2)], []))
+  pruefe('verschiedene Slugs bleiben still', !findet('slug', [rel('a', 1), rel('b', 2)], []))
+  pruefe('Release ohne Titel wird gemeldet (titleId -1)', findet('titel', [rel('cr-x', -1)], []))
+  pruefe('Release mit Titel bleibt still', !findet('titel', [rel('a', 2)], []))
+  pruefe('doppelte Folgennummer wird gemeldet', findet('folgennummer', [], [ev('p', 6), ev('p', 6)]))
+  pruefe(
+    'ein ausgebliebener Termin zählt nicht als zweite Folge (Polar Opposites S2)',
+    !findet('folgennummer', [], [ev('p', 8), ev('p', 8, { verpasst: { erwartetAm: '2026-09-13T08:30:00.000Z' } })]),
+  )
+  pruefe('sinkendes Datum in schedule.observed wird gemeldet', findet('monotonie', [rel('ly', 1, { 5: '2026-08-20', 6: '2026-08-06' })], []))
+  pruefe('steigende Daten bleiben still', !findet('monotonie', [rel('ly', 1, { 5: '2026-08-20', 6: '2026-08-27' })], []))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
