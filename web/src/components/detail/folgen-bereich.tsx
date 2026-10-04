@@ -53,11 +53,11 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
   const sichtbar = folgen?.slice(paket * PAKET, paket * PAKET + PAKET) ?? []
   const deutsch = (nr: number) => liste?.de.some(([von, bis]) => nr >= von && nr <= bis) ?? false
   return (
-    <div className="mt-2 border-t border-white/10 pt-1.5 text-xs text-slate-200">
+    <div className="mt-2 border-t border-slate-300 pt-1.5 text-xs text-slate-700 dark:border-white/10 dark:text-slate-200">
       <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className="flex w-full cursor-pointer items-center gap-1.5 py-0.5 text-left font-semibold">
         <span aria-hidden className={`inline-block transition-transform ${offen ? 'rotate-90' : ''}`}>▸</span>
         Folgen{folgen ? ` (${folgen.length})` : ''}
-        {liste?.min ? <span className="font-normal text-slate-400">· ~{liste.min} Min. je Folge</span> : null}
+        {liste?.min ? <span className="font-normal text-slate-500 dark:text-slate-400">· ~{liste.min} Min. je Folge</span> : null}
       </button>
       {offen && (
         <div>
@@ -70,7 +70,7 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
                   role="tab"
                   aria-selected={i === paket}
                   onClick={() => setPaket(i)}
-                  className={`cursor-pointer rounded px-1.5 py-0.5 tabular-nums ${i === paket ? 'bg-white/20 font-bold' : 'bg-white/5 text-slate-300 hover:bg-white/10'}`}
+                  className={`cursor-pointer rounded px-1.5 py-0.5 tabular-nums ${i === paket ? 'bg-slate-300 font-bold dark:bg-white/20' : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'}`}
                 >
                   {i * PAKET + 1}–{Math.min((i + 1) * PAKET, folgen!.length)}
                 </button>
@@ -78,13 +78,13 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
             </div>
           )}
           <ul className="max-h-64 overflow-y-auto pr-1">
-            {!folgen && <li className="text-slate-400">Lädt …</li>}
-            {folgen && !folgen.length && <li className="text-slate-400">Keine Folgentitel bekannt.</li>}
+            {!folgen && <li className="text-slate-500 dark:text-slate-400">Lädt …</li>}
+            {folgen && !folgen.length && <li className="text-slate-500 dark:text-slate-400">Keine Folgentitel bekannt.</li>}
             {sichtbar.map(([nr, titel, min]) => (
               <li key={nr} className="flex items-baseline gap-2 py-px">
-                <span className="w-9 shrink-0 text-right tabular-nums text-slate-400">{nr}</span>
+                <span className="w-9 shrink-0 text-right tabular-nums text-slate-500 dark:text-slate-400">{nr}</span>
                 <span className="min-w-0 flex-1 truncate">{titel || '—'}</span>
-                {min ? <span className="shrink-0 tabular-nums text-slate-400">{min} Min.</span> : null}
+                {min ? <span className="shrink-0 tabular-nums text-slate-500 dark:text-slate-400">{min} Min.</span> : null}
                 {deutsch(nr) && <DeFlagge />}
               </li>
             ))}
