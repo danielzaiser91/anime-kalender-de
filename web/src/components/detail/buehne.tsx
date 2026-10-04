@@ -148,6 +148,7 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
               title.episodes && title.episodes > 1
                 ? `${title.episodes} ${t('detail.episodes')}`
                 : undefined,
+              title.runtimeMin ? t(title.episodes && title.episodes > 1 ? 'detail.laufzeitJe' : 'detail.laufzeit', { n: title.runtimeMin }) : undefined,
               jpAngabe(eigenerTeil?.jpStart ?? (title.westlich ? title.jpStart : undefined), title.jpYear, title.land),
               title.studios?.[0],
             ]

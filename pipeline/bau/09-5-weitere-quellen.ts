@@ -9,7 +9,7 @@ import { releaseStatus } from '../../shared/logic.ts'
 import { staffelnDesFranchise, passtZuSerie, bewerteTreffer, volltreffer, type AdnData } from '../lib/adn.ts'
 import { adnAdresseSchaerfen, adnFolgenAdresse, ladeAdnArchiv, beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
 import { type Release, type Title } from '../../shared/types.ts'
-import { discBonusAnwenden } from '../lib/disc-bonus.ts'
+import { anisearchFelderAnwenden } from '../lib/anisearch-felder.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 
 export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerweiseErgaenzt, verweiseEntfernt }: {
@@ -163,7 +163,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
     }
     if (ausWiki) log(`${ausWiki} deutsche Erstausstrahlungen aus Wikipedia-Episodenlisten`)
 
-    log(`${discBonusAnwenden(titles)} Titel als Bonus auf einer deutschen Disc belegt`)
+    log(anisearchFelderAnwenden(titles))
     /* Von Hand, wo aniSearchs Datum nicht die Synchro meint (`data/erstausgabe-von-hand.yaml`). */
     const vonHand = (yaml.load(readFileSync(resolve(ROOT, 'data/erstausgabe-von-hand.yaml'), 'utf8')) ?? []) as {
       anilistId?: number

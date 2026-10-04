@@ -4,6 +4,7 @@ import { type CartoonEintrag, alsTitel, plattformVon } from '../lib/cartoons.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { type PlatformId, type Title, type Release, type Quelle } from '../../shared/types.ts'
 import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
+import { mitLaufzeit } from '../lib/anisearch-felder.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { englischAusSynonymen } from '../lib/anisearch-titel.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
@@ -376,7 +377,7 @@ export function schreibeOhneSynchro(
   const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id))
   const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
 
-  writeJson(`${OUT}/ohne-synchro.json`, alle.map(mitAnkuendigung))
+  writeJson(`${OUT}/ohne-synchro.json`, alle.map((t) => mitLaufzeit(mitAnkuendigung(t))))
   meldeOhneSynchro(alle.length, eintraege.length, nachgetragen.length, alle.filter((t) => t.malId).length)
 }
 
