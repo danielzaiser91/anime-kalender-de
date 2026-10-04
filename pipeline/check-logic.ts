@@ -147,7 +147,7 @@ import { istAbschied, releasesAus, terminDerMeldung, quellenZusammenfuehren, zei
 import { leseSammelartikel, vorschlaegeAusSammelartikel, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
-import { erschieneneFolgen } from './bau/folgen-dateien.ts'
+import { erschieneneFolgen, deutscheFolgen } from './bau/folgen-dateien.ts'
 import { ergaenzeTeilnamen } from './bau/adn-teilnamen.ts'
 import { folgenSummeJeKennung, ueberbelegt, entferneFremdeCrWege } from './bau/cr-serie-geteilt.ts'
 import { entdoppleCrWege } from './bau/11-3-bereinigung.ts'
@@ -7936,6 +7936,14 @@ console.log('\nGeteilte Crunchyroll-Serie:')
   pruefe('Geteilt: 11 + 12 Folgen bei 26 gehen auf (86 EIGHTY-SIX)', !ueberbelegt(new Map([['X', 23]]), 'X', 26))
   const weg = entferneFremdeCrWege(titel, new Map([['G3KHEVMN1', { folgen: 24, staffeln: 1 }]]), summen)
   pruefe('Geteilt: nur der Titel mit der Folgenzahl der Serie behält den Weg', weg === 2 && titel.get(1)!.streams.length === 1 && titel.get(2)!.streams.length === 0 && titel.get(3)!.streams.length === 0)
+}
+console.log('\nDeutsche Flagge je Folge:')
+{
+  const mk = (streams: unknown[], extra: object = {}) => ({ streams, jpYear: 2021, ...extra }) as unknown as Title
+  const flach = (r: [number, number][]) => r.map(([a, b]) => `${a}-${b}`).join(',')
+  pruefe('Flagge: Weg mit dub und ohne Bereiche deckt alle erschienenen Folgen (Mushoku Tensei S1 Teil 2)', flach(deutscheFolgen(mk([{ platform: 'crunchyroll', url: '', dub: true }]), undefined, '2026-10-04', 12)) === '1-12')
+  pruefe('Flagge: Bereiche eines anderen Wegs gelten bei laufender Serie allein (Kill Blue)', flach(deutscheFolgen(mk([{ platform: 'crunchyroll', url: '', dub: true }, { platform: 'adn', url: '', dub: true, dubRanges: [{ from: 1, to: 8, dub: true }] }], { jpYear: 2026 }), undefined, '2026-10-04', 12)) === '1-8')
+  pruefe('Flagge: bei abgeschlossener Serie zählt der Weg ohne Bereiche mit', flach(deutscheFolgen(mk([{ platform: 'crunchyroll', url: '', dub: true }, { platform: 'adn', url: '', dub: true, dubRanges: [{ from: 1, to: 8, dub: true }] }]), undefined, '2026-10-04', 12)) === '1-12')
 }
 console.log('\nTeilnamen:')
 {

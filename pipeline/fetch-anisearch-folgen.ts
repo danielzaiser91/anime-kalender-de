@@ -187,6 +187,7 @@ async function main(): Promise<void> {
   const bestand = readJson<Record<string, Eintrag>>(ZIEL, {})
 
   const grenze = new Date(Date.now() - MAX_AGE_DAYS * 86400_000).toISOString()
+  const dreiTage = new Date(Date.now() - 3 * 86400_000).toISOString()
 
   /*
     **Wer zuerst drankommt.** Titel mit Verweis stehen vorn: Für sie kommen
@@ -199,7 +200,9 @@ async function main(): Promise<void> {
     .filter((x): x is { t: Title; asId: number } => Number.isFinite(x.asId))
     .filter((x) => {
       const da = bestand[String(x.asId)]
-      return !da || da.geholtAm < grenze
+      /* Eine Liste ohne Folgentitel bei einer Serie dieses Jahres füllt aniSearch erst mit der Zeit (Mushoku Tensei S3: 14 Folgen ohne Titel, Daniel 04.10.2026) — sie kommt nach drei Tagen wieder dran. */
+      const wartetAufTitel = da?.folgen.some((f) => !f.de && !f.en && !f.ja) && (x.t.jpYear ?? 0) >= new Date().getFullYear() && da.geholtAm < dreiTage
+      return !da || da.geholtAm < grenze || Boolean(wartetAufTitel)
     })
     .sort((a, b) => {
       const v = Number(mitVerweis.has(b.t.id)) - Number(mitVerweis.has(a.t.id))

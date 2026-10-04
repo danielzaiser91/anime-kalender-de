@@ -67,6 +67,7 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
   const folgen = liste?.f
   const pakete = folgen ? Math.ceil(folgen.length / PAKET) : 0
   const sichtbar = folgen?.slice(paket * PAKET, paket * PAKET + PAKET) ?? []
+  const ohneTitel = folgen !== undefined && folgen.length > 0 && folgen.every(([, titel]) => !titel)
   const deutsch = (nr: number) => liste?.de.some(([von, bis]) => nr >= von && nr <= bis) ?? false
   return (
     <div className="mt-2 border-t border-slate-300 pt-1.5 text-xs text-slate-700 dark:border-white/10 dark:text-slate-200">
@@ -96,10 +97,11 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
           <ul className="max-h-64 overflow-y-auto pr-1">
             {!folgen && <li className="text-slate-500 dark:text-slate-400">Lädt …</li>}
             {folgen && !folgen.length && <li className="text-slate-500 dark:text-slate-400">Keine Folgentitel bekannt.</li>}
+            {ohneTitel && <li className="pb-1 text-slate-500 dark:text-slate-400">Die Folgentitel liegen noch nicht vor.</li>}
             {sichtbar.map(([nr, titel, min]) => (
               <li key={nr} className="flex items-baseline gap-2 py-px">
                 <span className="w-9 shrink-0 text-right tabular-nums text-slate-500 dark:text-slate-400">{nr}</span>
-                <span className="min-w-0 flex-1 truncate">{titel || '—'}</span>
+                <span className="min-w-0 flex-1 truncate">{titel || (ohneTitel ? '' : '—')}</span>
                 {min ? <span className="shrink-0 tabular-nums text-slate-500 dark:text-slate-400">{min} Min.</span> : null}
                 {deutsch(nr) ? <DeFlagge /> : <FolgeOhneFlagge hinweis={liste?.h?.find(([n]) => n === nr)?.[1]} gibtDeutsche={Boolean(liste?.de.length)} />}
               </li>

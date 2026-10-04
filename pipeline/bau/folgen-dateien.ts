@@ -53,7 +53,20 @@ export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | 
   const nummern = new Set<number>()
   /* Wo es eine Wikipedia-Liste gibt, gilt sie bis zu ihrer letzten Nummer; die Wege füllen nur darüber hinaus (Daniel, 04.10.2026: „wikipedia ist mehr vertrauenswürdig", One Piece 492). */
   const wikiBis = wiki?.length && Math.max(...wiki.map((w) => w.nr)) <= hoechste ? Math.max(...wiki.map((w) => w.nr)) : 0
-  for (const s of t.streams ?? []) for (const r of s.dubRanges ?? []) if (r.dub) for (let n = Math.max(r.from, wikiBis + 1); n <= r.to; n++) nummern.add(n)
+  /*
+    **Dieselbe Regel wie der Antwortkasten** (Daniel, 04.10.2026: „Alle 12 Folgen auf Deutsch" über einer Liste, in der nur
+    Folge 12 eine Flagge trug): Ein Weg mit `dub: true` und **ohne Bereiche** sagt „deutsch auf Serienebene" und deckt alle
+    erschienenen Folgen. Nennt ein anderer Weg Bereiche, gelten bei einer noch laufenden Serie nur diese — sie stammen
+    aus einer Prüfung je Folge (Kill Blue, 07.09.2026).
+  */
+  const mitDub = (t.streams ?? []).filter((s) => s.dub === true)
+  const abgeschlossen = t.jpEnd ? t.jpEnd < heute : Boolean(t.jpYear && t.jpYear < Number(heute.slice(0, 4)))
+  const mitBereichen = mitDub.filter((s) => s.dubRanges?.length)
+  const beteiligt = mitBereichen.length && !abgeschlossen ? mitBereichen : mitDub
+  for (const s of beteiligt) {
+    if (!s.dubRanges?.length) for (let n = Math.max(1, wikiBis + 1); n <= hoechste; n++) nummern.add(n)
+    for (const r of s.dubRanges ?? []) if (r.dub) for (let n = Math.max(r.from, wikiBis + 1); n <= r.to; n++) nummern.add(n)
+  }
   if (wikiBis) for (const w of wiki!) if (w.ead && w.ead <= heute) nummern.add(w.nr)
   const bereiche: [number, number][] = []
   for (const n of [...nummern].sort((a, b) => a - b)) {
