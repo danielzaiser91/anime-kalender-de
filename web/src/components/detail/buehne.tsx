@@ -1,4 +1,5 @@
 import { ShareIcon } from './hilfen.tsx'
+import { CoverMaximieren } from './cover-max.tsx'
 import { anzeigeName } from '@shared/titles.ts'
 import { HideEye, FavoriteStar, ReihenStern } from '../ui.tsx'
 import { FORMAT_DE } from '@shared/mappings.ts'
@@ -61,6 +62,7 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
           <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
           <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
           <ShareIcon slug={title.slug} name={anzeigeName(title)} />
+          <CoverMaximieren bild={buehnenBild} titel={anzeigeName(title)} />
         </div>
         {title.fsk !== undefined && (
           <span className="absolute right-11 top-0 z-10 rounded-b-lg bg-[rgba(8,12,18,.74)] px-2 py-1 text-xs font-semibold tabular-nums text-slate-200 backdrop-blur-[3px]">
