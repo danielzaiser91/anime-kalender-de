@@ -30,10 +30,12 @@ Anlass: Daniel (04.10.2026) an Hana-Kimi S2: Auch nach dem aniSearch-Lauf fehlen
 danach TMDB (nur echte Titel), Wikipedia nur für die Langläufer, für die es eine Liste gibt.** Wikipedia ist nicht die beste Quelle: Es gibt
 dort nur rund 54 Anime-Listen gegenüber 43 Lücken, die zu 60 % Crunchyroll-Serien der laufenden Saison sind.
 
-## Umsetzung (offen)
+## Umsetzung
 
-1. Crunchyroll: Titel je Folge aus `episodes[staffelId].items[].title` ziehen, über dieselbe Staffel-Zuordnung wie die Synchro-Bereiche (`bau/09-4`) dem Bestandstitel
-   zuordnen und in `folgen-dateien.ts` als zweite Quelle hinter aniSearch einmischen. Kein neues Feld in `titles.json` (Ladelast): Das Ergebnis geht nur in
-   `public/data/folgen/<id>.json`.
-2. TMDB als dritte Stufe, Platzhalter („Folge N", „Episode N") verwerfen.
-3. Prüfung (`check:folgen`): Je Folgenliste dürfen Titel nie zwischen den Quellen gemischt werden, ohne dass die Nummern übereinstimmen (Quelle je Liste festhalten).
+- **Stufe 1 gebaut am 04.10.2026** (`pipeline/bau/folgentitel-cr.ts`, eingebunden in `folgen-dateien.ts`): Titel je Folgennummer über die `guid` der deutschen Folge (`crunchyroll-dub.json`) und die `versions`
+  der archivierten Antwort; nur für Titel mit **eigenem** Crunchyroll-Weg, eindeutigen Nummern und höchstens so vielen wie die Folgenzahl (wie die Synchro-Bereiche). aniSearch-Titel bleiben;
+  Platzhalter („Episode 1") fallen weg; fehlt die Liste ganz, entsteht sie aus Crunchyroll. **Gemessen an den echten Daten: 6 der 43 TV-Lücken** (Ascendance of a Bookworm, Black Torch,
+  Inept Villainess, Jaadugar, Das Band der Unterwelt, Tomb Raider King nach Platzhalterfilter vermutlich nicht), weitere 21 Titel mit teilweise leeren Listen.
+- **Offen — Stufe 1b:** Serien, die sich **mehrere Staffeln einen Crunchyroll-Weg teilen** (`sharedWith`: Mushoku Tensei, Iruma-kun, Black Clover …), brauchen die Staffelzuordnung: Die Titel stehen
+  in der Antwort je Staffel (`episodes[staffelId]`), die Zuordnung Staffel ↔ Bestandstitel liegt in `bau/09-4`; dort sollte das Ergebnis je Staffel bleiben, statt es hier neu zu raten.
+- **Offen — Stufe 2:** TMDB als dritte Stufe (nur echte Titel, 14 der 43 Lücken), danach Wikipedia für Langläufer.
