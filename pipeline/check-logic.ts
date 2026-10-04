@@ -35,6 +35,7 @@ import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { deutschAbgeschlossen } from '../web/src/components/detail/antwort-regeln.ts'
+import { newsSatz } from '../web/src/lib/news-text.ts'
 import { omuMeldungen } from './lib/news-omu.ts'
 import { discBonusAus } from './lib/disc-bonus.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../shared/kostenlos.ts'
@@ -7853,6 +7854,23 @@ console.log('\nLücke:')
   pruefe('Lücke: der dritte Ausfall (27.09.) vermerkt die fortgeschriebene Folge 8, es entsteht kein zweiter Eintrag', ausgeblieben.map((e) => `${e.date}:${e.episode}`).join() === '2026-09-13:8,2026-09-20:8,2026-09-27:8', ausgeblieben.map((e) => e.date))
   pruefe('Lücke: sieben erschienene Folgen, nicht neun — die Folgen hinter Folge 8 zählen nicht', ev.filter((e) => istErschienen(e, jetzt)).length === 7)
   pruefe('Lücke: Folge 9 und später tragen nachLuecke', ev.filter((e) => (e.episode ?? 0) > 8).every((e) => e.nachLuecke === true))
+  /* Am 04.10. kamen 8–10 verspätet, Folge 11 planmäßig: Die Meldung nennt beides in einem Satz (Daniel, 04.10.2026). */
+  const nach = {
+    ...(rel as object),
+    schedule: {
+      ...((rel as { schedule: object }).schedule),
+      observed: { 1: '2026-08-18', 2: '2026-08-18', 3: '2026-08-18', 4: '2026-08-18', 5: '2026-08-23', 6: '2026-08-30', 7: '2026-09-06', 8: '2026-10-04', 9: '2026-10-04', 10: '2026-10-04', 11: '2026-10-04' },
+      verpasst: {
+        8: { erwartetAm: '2026-09-13T08:30:00.000Z', erschienenAm: '2026-10-04T08:30:00.000Z' },
+        9: { erwartetAm: '2026-09-20T08:30:00.000Z', erschienenAm: '2026-10-04T08:30:00.000Z' },
+        10: { erwartetAm: '2026-09-27T08:30:00.000Z', erschienenAm: '2026-10-04T08:30:00.000Z' },
+      },
+    },
+  } as never
+  const nachgereicht = verspaetungsMeldungen(nach).find((m) => m.art === 'nachgereicht')
+  pruefe('Nachgereicht: 8–10 verspätet zusammen mit der geplanten Folge 11',
+    nachgereicht?.planmaessig?.join() === '11' && newsSatz(nachgereicht) === 'Folgen 8–10 sind verspätet zusammen mit der geplanten Folge 11 erschienen, angekündigt waren 13.09., 20.09. und 27.09.',
+    nachgereicht && newsSatz(nachgereicht))
 }
 /* Japans Ende ist nicht das deutsche: Slime Staffel 4 (AniList-Ende 25.09., Crunchyroll bis 16.10.). */
 console.log('\nDeutsch abgeschlossen:')

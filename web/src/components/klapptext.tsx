@@ -12,12 +12,15 @@ import { MitFachwoertern } from './fachwort.tsx'
  * Gezeigt wird deshalb der **erste Satz**; ist mehr da, steht daneben „mehr"/„weniger". Getrennt
  * wird am Satzende — nicht an einer Zeichenzahl, sonst schnitte die Kürzung mitten im Gedanken.
  */
+const KURZ = 160
+
 export function Klapptext({ text, className = '' }: { text: string; className?: string }) {
   const { t } = useLang()
   const [offen, setOffen] = useState(false)
   const erster = /^[\s\S]*?[.!?](\s|$)/.exec(text.trim())?.[0].trim() ?? text.trim()
   const rest = text.trim().slice(erster.length).trim()
-  if (!rest) return <span className={className}><MitFachwoertern text={text} /></span>
+  /* Zwei kurze Sätze passen in die Zeile: Ein Knopf für eine zusätzliche Zeile wäre mehr Aufwand als Auskunft (Daniel, 04.10.2026). */
+  if (!rest || text.trim().length <= KURZ) return <span className={className}><MitFachwoertern text={text} /></span>
   return (
     <span className={className}>
       <MitFachwoertern text={erster} />
@@ -28,7 +31,7 @@ export function Klapptext({ text, className = '' }: { text: string; className?: 
         aria-expanded={offen}
         className="cursor-pointer font-semibold underline decoration-dotted underline-offset-2"
       >
-        {offen ? t('filter.showLess') : t('filter.showMore', { count: '' }).trim()}
+        {offen ? t('filter.showLess') : t('klapptext.mehr')}
       </button>
     </span>
   )

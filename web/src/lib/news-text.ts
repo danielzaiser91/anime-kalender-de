@@ -50,8 +50,12 @@ export function newsSatz(m: NewsMeldung): string {
       return t('news.verspaetet', { von: m.von ?? '', datum })
     case 'nachgereicht': {
       const erwartet = aufzaehlen((m.erwartet ?? []).map((d) => (m.erwartet!.length > 1 ? datumKurz(d).slice(0, 6) : datumKurz(d))))
-      return m.bis !== undefined && m.bis !== m.von
-        ? t('news.nachgereichtMehrere', { von: m.von ?? '', bis: m.bis, erwartet })
+      const p = m.planmaessig
+      const plan = p?.length ? (p.length > 1 ? t('news.planMehrere', { von: p[0]!, bis: p.at(-1)! }) : t('news.planEine', { n: p[0]! })) : ''
+      const mehrere = m.bis !== undefined && m.bis !== m.von
+      if (plan) return t(mehrere ? 'news.nachgereichtMehrereMitPlan' : 'news.nachgereichtMitPlan', { von: m.von ?? '', bis: m.bis ?? '', plan, erwartet })
+      return mehrere
+        ? t('news.nachgereichtMehrere', { von: m.von ?? '', bis: m.bis ?? '', erwartet })
         : t('news.nachgereicht', { von: m.von ?? '', erwartet })
     }
   }

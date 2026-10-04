@@ -24,6 +24,11 @@ function messBeleg(tag: string, gemessenAm: string): NewsBeleg {
 
 type Roh = NewsMeldung & { schluessel: string; fallback: string }
 
+/** Folgen, die am Nachreich-Tag planmäßig dazukamen: am selben Tag beobachtet, nach der letzten nachgereichten. */
+function planFolgenAm(r: Release, tag: string, letzte: number): number[] {
+  return Object.entries(r.schedule?.observed ?? {}).filter(([n, d]) => d === tag && Number(n) > letzte).map(([n]) => Number(n)).sort((a, b) => a - b)
+}
+
 /** Je ausgebliebenem Termin eine `verspaetet`-Meldung, je Nachreich-Tag eine `nachgereicht`-Meldung. */
 export function verspaetungsMeldungen(r: Release): Roh[] {
   /* Gemessen wird nur bei Crunchyroll — nur dort lesen wir einen Kalender (`termine-pruefen.ts`). */
@@ -48,7 +53,7 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
     nachTag.set(tag, [...(nachTag.get(tag) ?? []), { nummer: Number(nummer), erwartet }])
   }
   for (const [tag, folgen] of nachTag) {
-    folgen.sort((a, b) => a.nummer - b.nummer)
+    folgen.sort((a, b) => a.nummer - b.nummer); const plan = planFolgenAm(r, tag, folgen.at(-1)!.nummer)
     raus.push({
       schluessel: `nachgereicht:${r.slug}:${tag}`,
       fallback: tag,
@@ -58,7 +63,7 @@ export function verspaetungsMeldungen(r: Release): Roh[] {
       von: folgen[0]!.nummer,
       bis: folgen.at(-1)!.nummer,
       anzahl: folgen.length,
-      erwartet: folgen.map((f) => f.erwartet),
+      erwartet: folgen.map((f) => f.erwartet), ...(plan.length ? { planmaessig: plan } : {}),
       release: r.slug,
       ...(gemessen ? { quelle: kalenderTag(tag), belege: [messBeleg(tag, tag)] } : {}),
     })
@@ -78,7 +83,7 @@ export function ohneDoppelteFolgen(datiert: DatiertNews[]): DatiertNews[] {
       !nachgereicht.some(
         (n) =>
           n.titel.id === m.titel.id && n.am === m.am && n.platform === m.platform &&
-          (m.von ?? 0) >= n.von! && (m.bis ?? m.von ?? 0) <= n.bis!,
+          (m.von ?? 0) >= n.von! && (m.bis ?? m.von ?? 0) <= Math.max(n.bis!, ...(n.planmaessig ?? [])),
       ),
   )
 }

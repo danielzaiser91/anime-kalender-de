@@ -48,7 +48,7 @@ export interface NewsMeldung {
   bis?: number
   anzahl?: number
   /** Bei `nachgereicht`: die angekündigten Tage der nachgereichten Folgen. */
-  erwartet?: string[]
+  erwartet?: string[]; planmaessig?: number[] // planmäßige Folgen, die am selben Tag mit erschienen
   release?: string
   /**
    * Der Teil der Reihe, um den es geht — nur wenn er nicht der Kopf ist.
