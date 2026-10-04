@@ -49,6 +49,8 @@ export function newsSatz(m: NewsMeldung): string {
       return t('news.kino', { datum })
     case 'verspaetet':
       return t('news.verspaetet', { von: m.von ?? '', datum })
+    case 'nachgetragen':
+      return t('news.nachgetragen', { von: m.von ?? 1, datum, anbieter })
     case 'nachgereicht': {
       const erwartet = aufzaehlen((m.erwartet ?? []).map((d) => (m.erwartet!.length > 1 ? datumKurz(d).slice(0, 6) : datumKurz(d))))
       const p = m.planmaessig

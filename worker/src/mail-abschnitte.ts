@@ -120,6 +120,8 @@ export function newsSatz(m: NewsMeldung): string {
       return `Kinostart am ${datum}`
     case 'verspaetet':
       return `Folge ${m.von} war für den ${datum} angekündigt und ist nicht erschienen`
+    case 'nachgetragen':
+      return `Rückwirkend eingetragen: Folge ${m.von ?? 1} erschien am ${datum}${anbieter ? ` bei ${anbieter}` : ''} mit deutscher Synchro`
     case 'nachgereicht':
       return m.bis && m.bis !== m.von
         ? `Folgen ${m.von}–${m.bis} verspätet erschienen`

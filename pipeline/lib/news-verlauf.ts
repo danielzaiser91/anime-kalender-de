@@ -130,7 +130,8 @@ export function pflegeTerminverlauf({
     const neue = jetztProRelease.get(release) ?? []
     const behalten: TerminVerlauf[] = []
     for (const alt of alte) {
-      const treffer = neue.find((n) => n.art === alt.art && tag(n.datum) === tag(alt.datum))
+      /* Wird eine Ankündigung rückwirkend zum Eintrag, ist sie nicht zurückgezogen, sondern dieselbe Linie. */
+      const treffer = neue.find((n) => (n.art === alt.art || (n.art === 'nachgetragen' && alt.art === 'angekuendigt')) && tag(n.datum) === tag(alt.datum))
       if (treffer) behalten.push(ausMeldung(treffer, name, wurzel))
       else vergangen[release] = [...(vergangen[release] ?? []), alt]
     }

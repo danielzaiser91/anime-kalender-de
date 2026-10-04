@@ -56,6 +56,7 @@ export const NEWS_FARBE: Record<NewsArt, string> = {
   kino: 'bg-rose-500/15 text-rose-700 dark:text-rose-300',
   verspaetet: 'bg-slate-500/15 text-slate-700 dark:text-slate-300',
   nachgereicht: 'bg-teal-500/15 text-teal-700 dark:text-teal-300',
+  nachgetragen: 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300',
 }
 
 /**
@@ -64,7 +65,7 @@ export const NEWS_FARBE: Record<NewsArt, string> = {
  * wieder. Sie ist zugleich die Rangfolge: Was hier vorn steht, formuliert die
  * Satzzeile der Übersicht.
  */
-const ARTEN: NewsArt[] = ['neu', 'angekuendigt', 'verspaetet', 'nachgereicht', 'kino', 'disc', 'folgen']
+const ARTEN: NewsArt[] = ['neu', 'angekuendigt', 'nachgetragen', 'verspaetet', 'nachgereicht', 'kino', 'disc', 'folgen']
 
 
 /*
@@ -272,6 +273,8 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
         return t('news.kurz.kino', { datum })
       case 'verspaetet':
         return t('news.kurz.verspaetet', { von: m.von ?? '', datum })
+      case 'nachgetragen':
+        return t('news.kurz.nachgetragen', { von: m.von ?? 1, datum, anbieter })
     }
   }
 

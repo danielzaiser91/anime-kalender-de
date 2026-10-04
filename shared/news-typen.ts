@@ -5,7 +5,7 @@
  * von dort — die Aufrufer importieren unverändert aus `shared/types.ts`.
  */
 import type { PlatformId } from './types.ts'
-export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet' | 'nachgereicht'
+export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet' | 'nachgereicht' | 'nachgetragen'
 
 /**
  * Eine einzelne Auskunft — neue Folgen, ein Termin, eine verpasste Ankündigung.

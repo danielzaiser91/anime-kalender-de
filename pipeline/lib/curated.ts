@@ -20,6 +20,8 @@ export interface CuratedEntry {
   publisher?: string
   edition?: string
   note?: string
+  /** Siehe `Release.nachtrag`. */
+  nachtrag?: string
   /**
    * **Was an einer Fassung geschnitten ist — und wo es steht** (Daniel, 19.09.2026, an
    * Dragon Ball Daima: „es fehlt ein link zur quelle … oder wir listen selbst auf

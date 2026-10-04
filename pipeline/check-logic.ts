@@ -5850,6 +5850,24 @@ pruefe(
   )
 }
 {
+  /* **Rückwirkend eingetragen** (Daniel, 04.10.2026, Tokyo Revengers Staffel 3): trägt ein Release einen `nachtrag`, steht
+     statt der Ankündigung eine Meldung am Tag des Eintragens; „Neu auf Deutsch" desselben Titels entfällt. */
+  const heute = todayIso()
+  const vorgestern = addDays(heute, -2)
+  const t1 = { id: 1, franchiseId: 1, slug: 't-1', titleEn: 'T1', streams: [] } as unknown as Title
+  const rel = { slug: 'r', titleId: 1, name: 'T1', platform: 'disneyplus', releaseType: 'batch', schedule: { firstEpisodeDate: vorgestern, episodeCount: 1 }, sources: ['https://a2y/x'], nachtrag: 'Erster Satz. Rest.' } as unknown as Release
+  const ms = baueNews([t1], [rel], [{ id: 1, seit: addDays(heute, -1) }], [], { zuerst: {} }).flatMap((e) => e.meldungen)
+  const nachgetragen = ms.find((m) => m.art === 'nachgetragen')
+  pruefe('Rückwirkend eingetragen: eine Meldung mit Termin, Folge und Text', nachgetragen?.datum === vorgestern && nachgetragen.von === 1 && nachgetragen.hinweis === 'Erster Satz. Rest.', JSON.stringify(ms))
+  pruefe('Rückwirkend eingetragen: weder Ankündigung noch „Neu auf Deutsch" daneben', !ms.some((m) => m.art === 'angekuendigt' || m.art === 'neu'), JSON.stringify(ms))
+  const eintrag = baueNews([t1], [rel], [], [], { zuerst: {} })[0]
+  pruefe('Rückwirkend eingetragen: datiert am Tag des Eintragens, nicht am Termin', eintrag?.am === heute, eintrag?.am)
+  const verlauf: NewsHistorie = { zuerst: {} }
+  baueNews([t1], [{ ...rel, nachtrag: undefined }], [], [], verlauf)
+  const danach = baueNews([t1], [rel], [], [], verlauf).flatMap((e) => e.meldungen)
+  pruefe('Rückwirkend eingetragen: die frühere Ankündigung steht nicht als zurückgezogen daneben', danach.length === 1 && !danach.some((m) => m.zurueckgezogen || m.ersetzt), JSON.stringify(danach))
+}
+{
   /*
     **Datenbank und Kalender zeigen dieselbe Filteransicht**.
     Der Klick-Modus war im Kalender hinter „Weitere Filter" versteckt. Beide Seiten

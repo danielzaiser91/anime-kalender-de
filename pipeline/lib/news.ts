@@ -136,11 +136,12 @@ function terminMeldungen(
         Feld, das genau das bedeutet.
       */
       const art: NewsArt =
-        r.releaseType === 'disc' ? 'disc' : r.platform === 'kino' ? 'kino' : 'angekuendigt'
+        r.nachtrag ? 'nachgetragen' : r.releaseType === 'disc' ? 'disc' : r.platform === 'kino' ? 'kino' : 'angekuendigt'
       raus.push({
         schluessel: `${art}:${r.slug}:${datum}`,
-        fallback: datum > heute ? heute : datum,
+        fallback: datum > heute || art === 'nachgetragen' ? heute : datum,
         art,
+        ...(art === 'nachgetragen' ? { von: r.schedule?.firstEpisodeNumber ?? 1, hinweis: r.nachtrag } : {}),
         titel: t,
         platform: r.platform,
         ...(r.kanal ? { kanal: r.kanal } : {}),
@@ -197,8 +198,11 @@ export function verschmelzeGleicheQuelle(datiert: DatiertNews[]): DatiertNews[] 
     if (m.art !== 'neu' || !m.quelle) continue
     neuJeSchluessel.set([m.titel.id, m.am, m.platform, m.quelle].join('|'), m)
   }
+  /* Ein rückwirkender Eintrag nennt den Start selbst; „Neu auf Deutsch" desselben Titels wäre dieselbe Aussage mit falschem Tag. */
+  const nachgetragen = new Set(datiert.filter((m) => m.art === 'nachgetragen').map((m) => m.titel.id))
   const raus: DatiertNews[] = []
   for (const m of datiert) {
+    if (m.art === 'neu' && !m.weiterer && nachgetragen.has(m.titel.id)) continue
     if (m.art === 'folgen' && m.quelle) {
       const neu = neuJeSchluessel.get([m.titel.id, m.am, m.platform, m.quelle].join('|'))
       if (neu) {
@@ -385,7 +389,7 @@ export function baueNews(
   const rang: Record<NewsArt, number> = {
     neu: 0,
     angekuendigt: 1,
-    verspaetet: 2, nachgereicht: 2,
+    verspaetet: 2, nachgereicht: 2, nachgetragen: 1,
     kino: 3,
     disc: 4,
     folgen: 5,

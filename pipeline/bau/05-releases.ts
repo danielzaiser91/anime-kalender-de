@@ -217,6 +217,7 @@ export function baueReleases({
       publisher: entry.publisher,
       edition: entry.edition,
       note: entry.note,
+      ...(entry.nachtrag ? { nachtrag: entry.nachtrag } : {}),
       ...(entry.schnitt ? { schnitt: entry.schnitt } : {}),
       herkunft: entry.herkunft ?? durchzaehlungHinweis,
       disputedDates: entry.disputedDates,
