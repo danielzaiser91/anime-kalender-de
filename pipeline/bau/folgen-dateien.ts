@@ -37,8 +37,10 @@ type WikiListe = { titel?: Record<string, { folgen: { nr: number; ead?: string }
 /** Die Folgen mit belegter deutscher Synchro, als Bereiche. */
 export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | undefined, heute: string, hoechste: number): [number, number][] {
   const nummern = new Set<number>()
-  for (const s of t.streams ?? []) for (const r of s.dubRanges ?? []) if (r.dub) for (let n = r.from; n <= r.to; n++) nummern.add(n)
-  if (wiki?.length && Math.max(...wiki.map((w) => w.nr)) <= hoechste) for (const w of wiki) if (w.ead && w.ead <= heute) nummern.add(w.nr)
+  /* Wo es eine Wikipedia-Liste gibt, gilt sie bis zu ihrer letzten Nummer; die Wege füllen nur darüber hinaus (Daniel, 04.10.2026: „wikipedia ist mehr vertrauenswürdig", One Piece 492). */
+  const wikiBis = wiki?.length && Math.max(...wiki.map((w) => w.nr)) <= hoechste ? Math.max(...wiki.map((w) => w.nr)) : 0
+  for (const s of t.streams ?? []) for (const r of s.dubRanges ?? []) if (r.dub) for (let n = Math.max(r.from, wikiBis + 1); n <= r.to; n++) nummern.add(n)
+  if (wikiBis) for (const w of wiki!) if (w.ead && w.ead <= heute) nummern.add(w.nr)
   const bereiche: [number, number][] = []
   for (const n of [...nummern].sort((a, b) => a - b)) {
     const letzter = bereiche[bereiche.length - 1]
