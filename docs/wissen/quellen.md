@@ -3121,3 +3121,13 @@ liefern, auf eigenes Risiko. Eigenes Hosten (Kopie auf unserem Server) wäre ein
 **Vorschlag, stufenweise:** (1) AniList-Verweise behalten, solange AniList Quelle ist; (2) bei aniSearch nachfragen, ob ihre Cover verlinkt werden dürfen (in die offene Mail
 an `api@anisearch.com`), und messen, wie viele Titel ein aniSearch-Cover haben; (3) TMDB-Poster als Rückfall mit der geforderten Attribution im Fuß, falls die Lizenzfrage
 (kommerziell?) geklärt ist — unser Angebot ist werbefrei, ob es „kommerziell" im Sinne von TMDB ist, muss vorher stehen; (4) ohne Bild: ein Platzhalter mit Titel.
+
+### aniSearch-Cover gemessen (04.10.2026, Archiv `data/anisearch-raw`, 3.195 Seiten)
+
+- **3.195 von 3.195** archivierten Seiten nennen ein Cover (`<img id="details-cover">`), **3.163 (99 %)** davon als `https://cdn.anisearch.de/images/anime/cover/<aniSearch-ID/1000 abgerundet>/<ID>_600.webp` — die
+  Adresse lässt sich aus der Kennung bilden, gespeichert werden müsste nichts. Die übrigen **32 (1 %)** tragen den gemeinsamen Platzhalter `…/cover/ecchi.v1_600.webp` (aniSearch verbirgt dort das Bild).
+- **Größen:** `_300.webp` 43 KB, `_400.webp` 72 KB, `_600.webp` 136 KB antworten mit 200; `_100`, `_150`, `_200` und `_1000` mit **HTTP 423** (gesperrt). Für Kacheln taugt `_300`.
+- **Der Bild-Server antwortet ohne Referer-Prüfung** (200 mit leerem, fremdem und eigenem Referer; `Cache-Control: public, max-age=31536000`). Das beantwortet die technische Frage, nicht die
+  Rechtefrage: Die Nutzungsbedingungen für Bilder kennen wir nicht — die Frage steht in der Mail an `api@anisearch.com`.
+- **Folge:** Sobald aniSearch zustimmt (oder schweigt und wir das Risiko bewusst tragen), lässt sich das Cover pro Titel aus `ak` → aniSearch-Kennung bilden und AniList als Bildquelle abschalten.
+  1 % bekommt den eigenen Platzhalter statt `ecchi.v1`.
