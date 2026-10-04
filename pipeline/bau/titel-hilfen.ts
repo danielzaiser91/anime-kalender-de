@@ -591,6 +591,14 @@ export function laufendeSerieImSlot(title: Title | undefined, slotJahr: number):
 export function ergaenzeCrWeg(title: Title, seriesUrl: string | undefined): boolean {
   if (!seriesUrl) return false
   if (title.streams.some((s) => s.platform === 'crunchyroll' && s.url === seriesUrl)) return false
+  /* Zeigt der Weg auf eine andere Serie, hat der Slot recht: AniList führte bei „Reborn as a Space Mercenary" die Adresse von „Reborn!" (04.10.2026). */
+  const falsch = title.streams.find((s) => s.platform === 'crunchyroll')
+  if (falsch) {
+    log(`  ${title.titleDe ?? title.titleEn ?? title.id}: Crunchyroll-Weg ${falsch.url} durch die Serie des deutschen Slots ersetzt`)
+    falsch.url = seriesUrl
+    falsch.dub = true
+    return true
+  }
   title.streams.push({ platform: 'crunchyroll', url: seriesUrl, dub: true, zugang: 'abo' })
   log(`  ${title.titleDe ?? title.titleEn ?? title.id}: Crunchyroll-Weg aus dem deutschen Simulcast-Slot ergänzt`)
   return true

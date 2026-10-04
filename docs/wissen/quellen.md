@@ -3072,3 +3072,8 @@ Betreiber anlegen") ist überholt. Gelesen am 02.10.2026 auf `api.anisearch.com/
 - **Folgen für uns:** `/associated?source=myanimelist` ersetzt die lückenhafte AniList-Brücke der anime-offline-database
   (150 Titel im Hauptbestand ohne Kennung, `befund-2026-10-02.md`) in **einer** Anfrage, über unsere `malId`.
   `/{id}/full` ersetzt Hauptseite, Folgenseite und Sprecherseite durch eine Anfrage; mit Token sind 10 Titel je Anfrage möglich.
+
+## Crunchyroll: Weg auf fremde Serie, und Verspätung der Uhrzeit (04.10.2026)
+
+- **Falscher Serien-Link (Reborn as a Space Mercenary):** AniList führte als Streaming-Link `crunchyroll.com/reborn` — das ist die Serie „Reborn!" (`GRNQ13VQR`), nicht die Simuldub-Serie (`GT00384006`). `ergaenzeCrWeg` (`pipeline/bau/titel-hilfen.ts`) ergänzte den Slot-Weg nicht, weil schon ein Crunchyroll-Weg da war, und der falsche blieb. Jetzt ersetzt der deutsche Slot einen Weg auf eine andere Serie. Gemessen an den Live-Daten am 04.10.2026: 1 Abweichung unter 345 Crunchyroll-Releases — genau dieser Fall.
+- **Uhrzeit:** Overgeared Folge 2 erschien am 04.10.2026 um 16:34, der Kalender sagte ~16:30, um 16:33 war sie noch nicht da. Crunchyroll stellt Folgen also einige Minuten nach der Kalenderzeit online; wir lassen die Kalenderzeit stehen (Daniel, 04.10.2026: „mehr eine Notiz an uns").

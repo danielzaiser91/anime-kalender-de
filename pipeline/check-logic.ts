@@ -6903,6 +6903,11 @@ pruefe(
     t.streams,
   )
   pruefe('ohne Adresse passiert nichts', !ergaenzeCrWeg(t, undefined) && t.streams.length === 1, t.streams)
+  pruefe(
+    'ein Weg auf eine fremde Serie wird durch die des Slots ersetzt, nicht ergänzt',
+    ergaenzeCrWeg(t, 'https://www.crunchyroll.com/de/series/GT2/y') && t.streams.length === 1 && t.streams[0]!.url.endsWith('/GT2/y'),
+    t.streams,
+  )
 }
 {
   /* **Eine Quelle, eine Meldung** (02.10.2026). Am Overgeared-Panel standen am 27.09. zwei
