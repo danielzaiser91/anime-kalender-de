@@ -143,7 +143,7 @@ function terminMeldungen(
         schluessel: `${art}:${r.slug}:${datum}`,
         fallback: datum > heute || art === 'nachgetragen' ? heute : datum,
         art,
-        ...(art === 'nachgetragen' ? { von: r.schedule?.firstEpisodeNumber ?? 1, hinweis: r.nachtrag, ...(r.schedule?.time ? { zeit: r.schedule.time } : {}) } : {}),
+        ...(art === 'nachgetragen' ? { von: r.schedule?.firstEpisodeNumber ?? 1, hinweis: r.nachtrag?.kurz, abschnitte: r.nachtrag?.abschnitte, ...(r.schedule?.time ? { zeit: r.schedule.time } : {}) } : {}),
         titel: t,
         platform: r.platform,
         ...(r.kanal ? { kanal: r.kanal } : {}),

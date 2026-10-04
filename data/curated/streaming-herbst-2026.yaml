@@ -114,7 +114,17 @@
   # Daniel (Kalender-Notiz). Folge 1 ist gesehen (Disney+ „Neue Folge", Anime2You 02.10. 19:55 „ab sofort").
   note: "Disney+ weltweit: freitags um 19:00 Uhr (ab 30.10. um 18:00 Uhr) laut offizieller Serienseite. Anime2You nennt samstags um 19:00 Uhr."
   # Text der News-Meldung „Rückwirkend eingetragen" (Entwurf G, Daniel 04.10.2026): erster Satz = Weiterlaufen, der Rest steht hinter „mehr".
-  nachtrag: "Die Serie läuft im Simulcast wöchentlich freitags um 19 Uhr, Anime2You nennt samstags; die nächste Folge erscheint voraussichtlich am 09.10. Wir folgen der offiziellen Serienseite, die Disney+ weltweit auf Samstag 2:00 Uhr japanischer Zeit legt, und prüfen am 09.10. selbst. Bei uns fehlte der Start bis zum 04.10., weil unser Lauf Anime2Yous Disney+-Sammelartikel nicht als Start erkannte. Er erkennt ihn jetzt, und Meldungen ohne Titelzuordnung landen in einer Liste, statt zu verschwinden. Stellt sich ein Termin als falsch heraus, berichtigen wir ihn mit einer neuen Meldung."
+  nachtrag:
+    kurz: "Die Serie läuft im Simulcast wöchentlich freitags um 19 Uhr; die nächste Folge erscheint voraussichtlich am 09.10."
+    abschnitte:
+      - art: quelle
+        text: "Wir folgen der offiziellen Serienseite: Disney+ weltweit, Samstag 2:00 Uhr japanischer Zeit, das ist Freitag 19:00 Uhr in Deutschland. Anime2You nennt samstags um 19 Uhr. Am 09.10. prüfen wir selbst."
+      - art: grund
+        text: "Unser Lauf erkannte Anime2Yous Disney+-Sammelartikel nicht als Start. Deshalb fehlte die Folge bei uns bis zum 04.10."
+      - art: abhilfe
+        text: "Der Lauf erkennt solche Artikel jetzt. Meldungen ohne Titelzuordnung landen in einer Liste, statt zu verschwinden."
+      - art: zusage
+        text: "Stellt sich ein Termin als falsch heraus, berichtigen wir ihn mit einer neuen Meldung und unserem Beleg."
   schedule:
     firstEpisodeDate: "2026-10-02"
     time: "19:00"

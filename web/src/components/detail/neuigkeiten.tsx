@@ -7,6 +7,7 @@ import { NEWS_FARBE } from '../NewsView.tsx'
 import { AbgeloestHinweis } from '../news-abgeloest.tsx'
 import { QuellenZeile } from '../news-belege.tsx'
 import { Klapptext } from '../klapptext.tsx'
+import { NachtragText } from '../news-nachtrag.tsx'
 import { todayIso } from '@shared/time.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
 
@@ -74,7 +75,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
       <span className={`text-sm ${abgeloest ? 'text-ak-leise line-through' : 'text-ak-text'}`}>{newsSatz(z.m)}</span>
       {/* **Lange Vermerke nur aufgeklappt**: Der erste Satz steht da, der
           Rest hinter „mehr" — dieselbe Regel wie im Antwortkasten. */}
-      {z.m.hinweis && <Klapptext text={z.m.hinweis} className="text-[11px] text-ak-leise" />}
+      {z.m.hinweis && (z.m.abschnitte?.length ? <div className="text-[11px] text-ak-leise"><NachtragText kurz={z.m.hinweis} abschnitte={z.m.abschnitte} /></div> : <Klapptext text={z.m.hinweis} className="text-[11px] text-ak-leise" />)}
       {abgeloest && <AbgeloestHinweis m={z.m} />}
     </li>
   )

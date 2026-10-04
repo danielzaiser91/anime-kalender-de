@@ -100,6 +100,8 @@ export interface NewsMeldung {
    * Ausschnitt auch ohne Klick die ganze Nachricht zeigt.
    */
   hinweis?: string
+  /** Beschriftete Abschnitte hinter „mehr" (`nachgetragen`): `art` ist quelle, grund, abhilfe oder zusage. */
+  abschnitte?: { art: string; text: string }[]
   /**
    * **Diese Meldung wurde von einer neueren abgelöst**.
    *

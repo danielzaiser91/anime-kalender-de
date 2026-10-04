@@ -9,6 +9,7 @@ import { todayIso, addDays } from '@shared/time.ts'
 import { AbgeloestHinweis } from './news-abgeloest.tsx'
 import { quellenLabel } from './news-belege.tsx'
 import { Klapptext } from './klapptext.tsx'
+import { NachtragText } from './news-nachtrag.tsx'
 import { VerlaufZeilen } from './news-verlauf.tsx'
 import { BelegKnopf } from './beleg-dialog.tsx'
 import { ohneEingeordnete, verlaeufeAus, type Stand } from '../lib/news-verlauf.ts'
@@ -532,7 +533,7 @@ function MeldungZeile({
       </div>
       {/* Der Vermerk erscheint **beim Aufklappen** unter der Meldung — in der Übersicht bleibt der
           Satz kurz. */}
-      {m.hinweis && <p className="pb-1 pl-2 pr-2 text-[10px] text-slate-400 dark:text-slate-500"><Klapptext text={m.hinweis} /></p>}
+      {m.hinweis && <p className="pb-1 pl-2 pr-2 text-[10px] text-slate-400 dark:text-slate-500">{m.abschnitte?.length ? <NachtragText kurz={m.hinweis} abschnitte={m.abschnitte} /> : <Klapptext text={m.hinweis} />}</p>}
       {staende && <VerlaufZeilen staende={staende} />}
     </li>
   )
