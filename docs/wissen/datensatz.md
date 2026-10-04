@@ -469,3 +469,9 @@ deutschem Ton) und Disney+ selbst.
 abgeschlossen" mit vergangenem Ende; 855 davon ohne Weg mit `dub: true`, aber fast alle mit
 Erstausgabe. Ein künftiger eigener Termin daneben — das Fehlerbild „0 von N" — traf nur Rooster
 Fighter.
+
+## Folgenliste mit deutscher Flagge (04.10.2026)
+
+`pipeline/bau/folgen-dateien.ts` schreibt je Titel `public/data/folgen/<AniList-ID>.json` (`{ f, de, min? }`). Quelle der Folgen ist `data/anisearch-folgen.json` — **abgelegt nach aniSearch-ID**, nicht nach AniList-ID (ein Lesen nach AniList-ID gab bis 04.10.2026 nur bei 117 Zufallstreffern eine Liste). Ein aniSearch-Eintrag, den sich mehrere Titel teilen, bleibt ohne Liste. Die Flagge je Folge (`de`) ist die Vereinigung aus belegten Anbieter-Bereichen (`dubRanges` mit `dub: true`) und den Folgen mit deutscher Erstausstrahlung in der Wikipedia-Episodenliste (`data/wikipedia-folgen.json`, bisher 24 Titel). Minuten stehen einmal als `min`, wenn alle Folgen gleich lang sind (One Piece: 1.173 von 1.173 mit 24 Min.; von 1.692 Titeln mit Minutenangabe sind 1.568 einheitlich).
+
+Handprobe One Piece (Daniel, 04.10.2026): Folge 542 hat in der deutschen Wikipedia kein deutsches Datum und lief laut Googles Gemini-Antwort nicht regulär auf ProSieben MAXX — sie ist eine Bonus-/Crossover-Episode (Chopper-Special), also ohne deutsche Synchro. Unsere Flagge fehlt dort zu Recht (Flagge bei 1–541, 543–589, 591–1122); Folge 590 ist noch nicht von Hand geprüft.
