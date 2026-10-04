@@ -66,7 +66,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     verschoben,
     deutscheReihe,
   )
-  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien(slim)
+  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()])
   // Synopsen in Gruppen statt in einer Datei.
   //
   // Vorher lag alles in `synopses.json`: 3,8 MB, die beim ersten Öffnen eines

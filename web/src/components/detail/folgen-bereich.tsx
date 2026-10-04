@@ -1,15 +1,23 @@
 import { useEffect, useState } from 'react'
 import { loadJson } from '../../lib/data.ts'
+import { Tooltip } from '../ui.tsx'
 
 /**
  * **Die Folgenliste im Antwortkasten** (Daniel, 04.10.2026): Ein Pfeil klappt sie auf, der Kasten wächst mit,
  * höchstens 16 rem hoch und mit Bildlauf. Ab 50 Folgen gibt es Reiter in 50er-Paketen („1–50", „51–100" …), damit
- * One Piece nicht als eine Wand dasteht. Jede Folge steht in einer Zeile: Nummer, Titel, Minuten.
+ * One Piece nicht als eine Wand dasteht. Jede Folge steht in einer Zeile: Nummer, Titel, und die deutsche Flagge,
+ * wo für diese Folge eine Synchro belegt ist. Die Minuten stehen einmal am Kopf („~24 Min. je Folge"), solange alle
+ * Folgen gleich lang sind; sonst je Zeile.
  *
  * Die Daten kommen nachgeladen aus `public/data/folgen/<AniList-ID>.json` (`pipeline/bau/folgen-dateien.ts`);
  * den Pfeil gibt es nur, wo eine Datei existiert (Verzeichnis `index.json`).
  */
-type Folge = [nr: number, minuten: number, titel: string]
+type Folge = [nr: number, titel: string, minuten?: number]
+interface Liste {
+  f: Folge[]
+  de: [number, number][]
+  min?: number
+}
 
 const PAKET = 50
 let verzeichnis: Promise<Set<number>> | undefined
@@ -18,13 +26,13 @@ const holeVerzeichnis = (): Promise<Set<number>> => (verzeichnis ??= loadJson<nu
 export function FolgenBereich({ titleId }: { titleId: number }) {
   const [gibtEs, setGibtEs] = useState(false)
   const [offen, setOffen] = useState(false)
-  const [folgen, setFolgen] = useState<Folge[]>()
+  const [liste, setListe] = useState<Liste>()
   const [paket, setPaket] = useState(0)
   useEffect(() => {
     let aktiv = true
     setGibtEs(false)
     setOffen(false)
-    setFolgen(undefined)
+    setListe(undefined)
     setPaket(0)
     void holeVerzeichnis().then((s) => aktiv && setGibtEs(s.has(titleId)))
     return () => {
@@ -32,21 +40,24 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
     }
   }, [titleId])
   useEffect(() => {
-    if (!offen || folgen) return
+    if (!offen || liste) return
     let aktiv = true
-    void loadJson<Folge[]>(`folgen/${titleId}.json`).then((f) => aktiv && setFolgen(f)).catch(() => aktiv && setFolgen([]))
+    void loadJson<Liste>(`folgen/${titleId}.json`).then((l) => aktiv && setListe(l)).catch(() => aktiv && setListe({ f: [], de: [] }))
     return () => {
       aktiv = false
     }
-  }, [offen, folgen, titleId])
+  }, [offen, liste, titleId])
   if (!gibtEs) return null
+  const folgen = liste?.f
   const pakete = folgen ? Math.ceil(folgen.length / PAKET) : 0
   const sichtbar = folgen?.slice(paket * PAKET, paket * PAKET + PAKET) ?? []
+  const deutsch = (nr: number) => liste?.de.some(([von, bis]) => nr >= von && nr <= bis) ?? false
   return (
     <div className="mt-2 border-t border-white/10 pt-1.5 text-xs text-slate-200">
       <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className="flex w-full cursor-pointer items-center gap-1.5 py-0.5 text-left font-semibold">
         <span aria-hidden className={`inline-block transition-transform ${offen ? 'rotate-90' : ''}`}>▸</span>
         Folgen{folgen ? ` (${folgen.length})` : ''}
+        {liste?.min ? <span className="font-normal text-slate-400">· ~{liste.min} Min. je Folge</span> : null}
       </button>
       {offen && (
         <div>
@@ -69,16 +80,26 @@ export function FolgenBereich({ titleId }: { titleId: number }) {
           <ul className="max-h-64 overflow-y-auto pr-1">
             {!folgen && <li className="text-slate-400">Lädt …</li>}
             {folgen && !folgen.length && <li className="text-slate-400">Keine Folgentitel bekannt.</li>}
-            {sichtbar.map(([nr, min, titel]) => (
+            {sichtbar.map(([nr, titel, min]) => (
               <li key={nr} className="flex items-baseline gap-2 py-px">
                 <span className="w-9 shrink-0 text-right tabular-nums text-slate-400">{nr}</span>
-                <span className="min-w-0 flex-1 truncate" title={titel}>{titel || '—'}</span>
-                {min > 0 && <span className="shrink-0 tabular-nums text-slate-400">{min} Min.</span>}
+                <span className="min-w-0 flex-1 truncate">{titel || '—'}</span>
+                {min ? <span className="shrink-0 tabular-nums text-slate-400">{min} Min.</span> : null}
+                {deutsch(nr) && <DeFlagge />}
               </li>
             ))}
           </ul>
         </div>
       )}
     </div>
+  )
+}
+
+/** Die deutsche Flagge als drei Streifen — Emoji-Flaggen zeigt Windows nur als „DE". */
+function DeFlagge() {
+  return (
+    <Tooltip text="Für diese Folge existiert eine Deutsche Synchro." eigenerFokus>
+      <span role="img" aria-label="Deutsche Synchro" className="inline-block h-2.5 w-4 shrink-0 rounded-[2px]" style={{ background: 'linear-gradient(#000 33.3%, #d00 33.3% 66.6%, #ffce00 66.6%)' }} />
+    </Tooltip>
   )
 }

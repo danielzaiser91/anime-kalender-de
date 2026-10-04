@@ -4,12 +4,18 @@
  *
  * Quelle ist `data/anisearch-folgen.json`, **nach aniSearch-ID abgelegt** (Zuordnung `data/anisearch.json`; ein Eintrag,
  * den sich mehrere Titel teilen, ist ein Bündel und bleibt ohne Liste — die Nummern gälten nur für einen davon)
- * (Nummer, Minuten, deutscher/englischer/japanischer Titel). Je Titel
- * eine kleine Datei `public/data/folgen/<AniList-ID>.json` mit `[[nr, min, titel], …]` (deutsch, sonst englisch,
- * sonst japanisch) und ein Verzeichnis `index.json`: Die Oberfläche zeigt den Pfeil nur, wo es eine Datei gibt, und
- * lädt sie erst beim Aufklappen. Ein neues Feld in `titles.json` wäre für alle Besucher, die Datei braucht nur,
- * wer aufklappt (ARCHITEKTUR.md).
+ * (Nummer, Minuten, deutscher/englischer/japanischer Titel). Je Titel eine kleine Datei
+ * `public/data/folgen/<AniList-ID>.json` und ein Verzeichnis `index.json`: Die Oberfläche zeigt den Pfeil nur, wo es
+ * eine Datei gibt, und lädt sie erst beim Aufklappen. Ein neues Feld in `titles.json` wäre für alle Besucher, die
+ * Datei braucht nur, wer aufklappt (ARCHITEKTUR.md).
+ *
+ * Dateiform: `{ f: [[nr, titel] oder [nr, titel, min], …], de: [[von, bis], …], min? }`. Sind alle Folgen gleich lang,
+ * steht die Minutenzahl einmal in `min` (aniSearch führt sie je Folge; One Piece: 1.173 von 1.173 mit 24). `de` sind die
+ * Folgen mit belegter deutscher Synchro: die belegten Bereiche der Wege (`dubRanges` mit `dub: true`) und die Folgen,
+ * die laut deutscher Wikipedia-Episodenliste schon im deutschen Fernsehen liefen.
  */
+import type { Title } from '../../shared/types.ts'
+import { todayIso } from '../../shared/time.ts'
 import { readJson, writeJson, log, clearDir } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
 
@@ -21,9 +27,27 @@ interface Folge {
   ja?: string
 }
 
-export function schreibeFolgenDateien(titel: { id: number }[]): void {
+type WikiListe = { titel?: Record<string, { folgen: { nr: number; ead?: string }[] }> }
+
+/** Die Folgen mit belegter deutscher Synchro, als Bereiche. */
+export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | undefined, heute: string, hoechste: number): [number, number][] {
+  const nummern = new Set<number>()
+  for (const s of t.streams ?? []) for (const r of s.dubRanges ?? []) if (r.dub) for (let n = r.from; n <= r.to; n++) nummern.add(n)
+  if (wiki?.length && Math.max(...wiki.map((w) => w.nr)) <= hoechste) for (const w of wiki) if (w.ead && w.ead <= heute) nummern.add(w.nr)
+  const bereiche: [number, number][] = []
+  for (const n of [...nummern].sort((a, b) => a - b)) {
+    const letzter = bereiche[bereiche.length - 1]
+    if (letzter && letzter[1] === n - 1) letzter[1] = n
+    else bereiche.push([n, n])
+  }
+  return bereiche
+}
+
+export function schreibeFolgenDateien(titel: Title[]): void {
   const roh = readJson<Record<string, { folgen?: Folge[] }>>('data/anisearch-folgen.json', {})
   const zuordnung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
+  const wiki = readJson<WikiListe>('data/wikipedia-folgen.json', {}).titel ?? {}
+  const heute = todayIso()
   const jeAsId = new Map<number, number>()
   for (const t of titel) {
     const a = zuordnung[String(t.id)]?.anisearchId
@@ -37,10 +61,13 @@ export function schreibeFolgenDateien(titel: { id: number }[]): void {
     const asId = zuordnung[String(t.id)]?.anisearchId
     const f = asId && jeAsId.get(asId) === 1 ? roh[String(asId)]?.folgen : undefined
     if (!f || f.length < 2) continue
-    writeJson(
-      `${ordner}/${t.id}.json`,
-      f.map((x) => [x.nr, x.minuten ?? 0, x.de ?? x.en ?? x.ja ?? '']),
-    )
+    const minuten = new Set(f.map((x) => x.minuten).filter(Boolean))
+    const einheitlich = minuten.size === 1 ? [...minuten][0] : undefined
+    writeJson(`${ordner}/${t.id}.json`, {
+      f: f.map((x) => (einheitlich ? [x.nr, x.de ?? x.en ?? x.ja ?? ''] : [x.nr, x.de ?? x.en ?? x.ja ?? '', x.minuten ?? 0])),
+      de: deutscheFolgen(t, wiki[String(t.id)]?.folgen, heute, Math.max(...f.map((x) => x.nr))),
+      ...(einheitlich ? { min: einheitlich } : {}),
+    })
     index.push(t.id)
     folgenGesamt += f.length
   }
