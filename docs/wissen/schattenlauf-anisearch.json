@@ -1,0 +1,5261 @@
+{
+ "stand": "2026-10-04",
+ "verglichen": 2636,
+ "felder": {
+  "format": {
+   "gleich": 0,
+   "anders": 0,
+   "fehltEiner": 0,
+   "kreuz": {
+    "TV | TV-Serie": 1370,
+    "MOVIE | Film": 576,
+    "OVA | OVA": 207,
+    "SPECIAL | TV-Spezial": 58,
+    "TV_SHORT | TV-Serie": 41,
+    "MOVIE | OVA": 12,
+    "SPECIAL | Anderes": 5,
+    "SPECIAL | Bonus": 85,
+    "SPECIAL | Film": 13,
+    "SPECIAL | OVA": 4,
+    "OVA | TV-Serie": 1,
+    "ONA | Web": 160,
+    "OVA | Film": 9,
+    "OVA | Bonus": 35,
+    "ONA | OVA": 2,
+    "OVA | Anderes": 2,
+    "SPECIAL | Web": 5,
+    "ONA | TV-Serie": 28,
+    "OVA | TV-Spezial": 3,
+    "SPECIAL | TV-Serie": 1,
+    "MOVIE | Anderes": 1,
+    "TV | Web": 3,
+    "ONA | Bonus": 1,
+    "MUSIC | Musikvideo": 1,
+    "ONA | CM": 2,
+    "ONA | Film": 3,
+    "MOVIE | Web": 2,
+    "MOVIE | TV-Spezial": 1,
+    "TV | TV-Spezial": 2,
+    "TV | Film": 1,
+    "OVA | Web": 1,
+    "SPECIAL | CM": 1
+   }
+  },
+  "folgen": {
+   "gleich": 2574,
+   "anders": 51,
+   "nurAniList": 0,
+   "nurAniSearch": 11,
+   "keine": 0,
+   "anisearchSchaetzung": 16
+  },
+  "jahr": {
+   "gleich": 2525,
+   "anders": 62,
+   "fehltEiner": 49
+  },
+  "studio": {
+   "gleich": 2175,
+   "anders": 253,
+   "fehltEiner": 208
+  },
+  "nameDe": {
+   "gleich": 2526,
+   "anders": 48,
+   "fehltEiner": 62
+  },
+  "nameEn": {
+   "gleich": 1861,
+   "anders": 440,
+   "fehltEiner": 335
+  }
+ },
+ "abweichungen": {
+  "format": [],
+  "folgen": [
+   {
+    "id": 202,
+    "titel": "Wolf's Rain",
+    "anilist": 26,
+    "anisearch": 30,
+    "geschaetzt": false
+   },
+   {
+    "id": 508,
+    "titel": "Hamtaro",
+    "anilist": 193,
+    "anisearch": 296,
+    "geschaetzt": false
+   },
+   {
+    "id": 551,
+    "titel": "Grappler Baki Maximum Tournament",
+    "anilist": 24,
+    "anisearch": 23,
+    "geschaetzt": false
+   },
+   {
+    "id": 620,
+    "titel": "Mermaid Forest (TV)",
+    "anilist": 13,
+    "anisearch": 11,
+    "geschaetzt": false
+   },
+   {
+    "id": 673,
+    "titel": "My-Hime Specials",
+    "anilist": 27,
+    "anisearch": 26,
+    "geschaetzt": false
+   },
+   {
+    "id": 812,
+    "titel": "Arjuna",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 1167,
+    "titel": "Samurai Gun",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 1456,
+    "titel": "L/R: Licensed by Royalty",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 1816,
+    "titel": "Sonic X",
+    "anilist": 52,
+    "anisearch": 78,
+    "geschaetzt": false
+   },
+   {
+    "id": 2966,
+    "titel": "Spice and Wolf",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 3053,
+    "titel": "Fight! Kickers",
+    "anilist": 26,
+    "anisearch": 23,
+    "geschaetzt": false
+   },
+   {
+    "id": 3723,
+    "titel": "The Adventures of the Little Koala",
+    "anilist": 51,
+    "anisearch": 52,
+    "geschaetzt": false
+   },
+   {
+    "id": 5680,
+    "titel": "K-ON!",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 6867,
+    "titel": "Halo Legends",
+    "anilist": 9,
+    "anisearch": 8,
+    "geschaetzt": false
+   },
+   {
+    "id": 7791,
+    "titel": "K-ON! Season 2",
+    "anilist": 26,
+    "anisearch": 24,
+    "geschaetzt": false
+   },
+   {
+    "id": 19603,
+    "titel": "Fate/stay night: Unlimited Blade Works",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 20635,
+    "titel": "Dragon Ball Z Kai: The Final Chapters",
+    "anilist": 69,
+    "anisearch": 61,
+    "geschaetzt": false
+   },
+   {
+    "id": 20657,
+    "titel": "Saekano: How to Raise a Boring Girlfriend",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 109002,
+    "titel": "Code Geass: Boukoku no Akito 2 - Hikisakareshi Yokuryuu Picture Drama",
+    "anilist": 1,
+    "anisearch": 4,
+    "geschaetzt": false
+   },
+   {
+    "id": 132340,
+    "titel": "Little Twins",
+    "anilist": 12,
+    "anisearch": 13,
+    "geschaetzt": false
+   },
+   {
+    "id": 20995,
+    "titel": "To Love Ru Darkness 2",
+    "anilist": 12,
+    "anisearch": 14,
+    "geschaetzt": false
+   },
+   {
+    "id": 21180,
+    "titel": "Saekano: How to Raise a Boring Girlfriend ♭",
+    "anilist": 12,
+    "anisearch": 11,
+    "geschaetzt": false
+   },
+   {
+    "id": 21221,
+    "titel": "Tales of Zestiria the X",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 21717,
+    "titel": "Fate/EXTRA Last Encore",
+    "anilist": 13,
+    "anisearch": 10,
+    "geschaetzt": false
+   },
+   {
+    "id": 98873,
+    "titel": "Overlord: The Undead King",
+    "anilist": 1,
+    "anisearch": 2,
+    "geschaetzt": false
+   },
+   {
+    "id": 97767,
+    "titel": "High School DxD HERO",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 98497,
+    "titel": "Free! -Take Your Marks-",
+    "anilist": 4,
+    "anisearch": 1,
+    "geschaetzt": false
+   },
+   {
+    "id": 99470,
+    "titel": "Grisaia: Phantom Trigger THE ANIMATION",
+    "anilist": 2,
+    "anisearch": 3,
+    "geschaetzt": false
+   },
+   {
+    "id": 100256,
+    "titel": "Mahoyome",
+    "anilist": 25,
+    "anisearch": 24,
+    "geschaetzt": false
+   },
+   {
+    "id": 101231,
+    "titel": "Flavors of Youth",
+    "anilist": 3,
+    "anisearch": 1,
+    "geschaetzt": false
+   },
+   {
+    "id": 102309,
+    "titel": "MEGALOBOX Specials",
+    "anilist": 3,
+    "anisearch": 2,
+    "geschaetzt": false
+   },
+   {
+    "id": 108942,
+    "titel": "Shingeki no Kyojin: Chimi Kyara Gekijou - Rivai-han",
+    "anilist": 4,
+    "anisearch": 7,
+    "geschaetzt": false
+   },
+   {
+    "id": 113917,
+    "titel": "PSYCHO-PASS 3: First Inspector",
+    "anilist": 3,
+    "anisearch": 1,
+    "geschaetzt": false
+   },
+   {
+    "id": 116673,
+    "titel": "BURN THE WITCH",
+    "anilist": 3,
+    "anisearch": 1,
+    "geschaetzt": false
+   },
+   {
+    "id": 119964,
+    "titel": "POKÉTOON",
+    "anilist": 8,
+    "anisearch": 7,
+    "geschaetzt": false
+   },
+   {
+    "id": 134623,
+    "titel": "LUPIN THE 3rd PART 6",
+    "anilist": 25,
+    "anisearch": 24,
+    "geschaetzt": false
+   },
+   {
+    "id": 146065,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Season 2",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 146885,
+    "titel": "Bakugan: Evolutions",
+    "anilist": 30,
+    "anisearch": 26,
+    "geschaetzt": false
+   },
+   {
+    "id": 146646,
+    "titel": "Baki Hanma Season 2",
+    "anilist": 27,
+    "anisearch": 13,
+    "geschaetzt": false
+   },
+   {
+    "id": 146722,
+    "titel": "JoJo's Bizarre Adventure: STONE OCEAN Part 2",
+    "anilist": 26,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 146984,
+    "titel": "Attack on Titan Final Season THE FINAL CHAPTERS Special 1",
+    "anilist": 1,
+    "anisearch": 2,
+    "geschaetzt": false
+   },
+   {
+    "id": 151384,
+    "titel": "Kaguya-sama: Love is War -The First Kiss That Never Ends-",
+    "anilist": 4,
+    "anisearch": 1,
+    "geschaetzt": false
+   },
+   {
+    "id": 163327,
+    "titel": "The Quintessential Quintuplets Specials",
+    "anilist": 2,
+    "anisearch": 1,
+    "geschaetzt": false
+   },
+   {
+    "id": 126830,
+    "titel": "Code Geass: Rozé of the Recapture",
+    "anilist": 12,
+    "anisearch": 4,
+    "geschaetzt": false
+   },
+   {
+    "id": 169930,
+    "titel": "T・P BON",
+    "anilist": 24,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 177191,
+    "titel": "The Quintessential Quintuplets Specials 2",
+    "anilist": 2,
+    "anisearch": 1,
+    "geschaetzt": false
+   },
+   {
+    "id": 178083,
+    "titel": "Tokyo Revengers: Santen Sensou-hen",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": true
+   },
+   {
+    "id": 190327,
+    "titel": "STEEL BALL RUN JoJo's Bizarre Adventure 1st STAGE",
+    "anilist": 1,
+    "anisearch": 12,
+    "geschaetzt": true
+   },
+   {
+    "id": 191788,
+    "titel": "Aoashi Season 2",
+    "anilist": 24,
+    "anisearch": 12,
+    "geschaetzt": true
+   },
+   {
+    "id": 195153,
+    "titel": "Dusk Beyond the End of the World",
+    "anilist": 13,
+    "anisearch": 12,
+    "geschaetzt": false
+   },
+   {
+    "id": 199448,
+    "titel": "Lord of Mysteries Specials",
+    "anilist": 3,
+    "anisearch": 2,
+    "geschaetzt": false
+   }
+  ],
+  "jahr": [
+   {
+    "id": 543,
+    "titel": "Vampire Hunter D: Bloodlust",
+    "anilist": 2000,
+    "anisearch": 2001
+   },
+   {
+    "id": 963,
+    "titel": "Love Hina: Motoko's Choice, Love or the Sword: Don't Cry",
+    "anilist": 2000,
+    "anisearch": 2001
+   },
+   {
+    "id": 1033,
+    "titel": "Millennium Actress",
+    "anilist": 2002,
+    "anisearch": 2001
+   },
+   {
+    "id": 1709,
+    "titel": "Pokémon: Mewtwo Returns",
+    "anilist": 2001,
+    "anisearch": 2000
+   },
+   {
+    "id": 1894,
+    "titel": "Yu-Gi-Oh! The Movie: Pyramid of Light",
+    "anilist": 2004,
+    "anisearch": 2005
+   },
+   {
+    "id": 2178,
+    "titel": "Highlander: The Search for Vengeance",
+    "anilist": 2007,
+    "anisearch": 2008
+   },
+   {
+    "id": 2237,
+    "titel": "Rozen Maiden: Detective Kun-Kun",
+    "anilist": 2004,
+    "anisearch": 2006
+   },
+   {
+    "id": 2331,
+    "titel": "Ulysses 31",
+    "anilist": 1981,
+    "anisearch": 1988
+   },
+   {
+    "id": 2823,
+    "titel": "Barbapapa",
+    "anilist": 1974,
+    "anisearch": 1977
+   },
+   {
+    "id": 2842,
+    "titel": "Pokémon Mystery Dungeon: Team Go-Getters Out of the Gate!",
+    "anilist": 2006,
+    "anisearch": 2007
+   },
+   {
+    "id": 3132,
+    "titel": "Christopher Columbus",
+    "anilist": 1992,
+    "anisearch": 2002
+   },
+   {
+    "id": 3624,
+    "titel": "Once Upon a Time... Life",
+    "anilist": 1987,
+    "anisearch": 1991
+   },
+   {
+    "id": 3782,
+    "titel": "the Garden of sinners Chapter 2: …and nothing heart. (Murder Speculation Part A)",
+    "anilist": 2008,
+    "anisearch": 2007
+   },
+   {
+    "id": 4138,
+    "titel": "The Adventures of Scamper the Penguin",
+    "anilist": 1986,
+    "anisearch": 1988
+   },
+   {
+    "id": 5042,
+    "titel": "Kiss x Sis",
+    "anilist": 2009,
+    "anisearch": 2008
+   },
+   {
+    "id": 5136,
+    "titel": "FLAG: Director's Edition - Issenman no Kufura no Kiroku",
+    "anilist": 2006,
+    "anisearch": 2007
+   },
+   {
+    "id": 5204,
+    "titel": "the Garden of sinners Chapter 6: Fairy Tale. (Oblivion Recording)",
+    "anilist": 2009,
+    "anisearch": 2008
+   },
+   {
+    "id": 5337,
+    "titel": "Bakugan: New Vestroia",
+    "anilist": 2009,
+    "anisearch": 2010
+   },
+   {
+    "id": 6072,
+    "titel": "Eleven Cats and an Albatross",
+    "anilist": 1986,
+    "anisearch": 1985
+   },
+   {
+    "id": 6918,
+    "titel": "Wolverine",
+    "anilist": 2011,
+    "anisearch": 2010
+   },
+   {
+    "id": 7252,
+    "titel": "The Enchanted Journey",
+    "anilist": 1984,
+    "anisearch": 1981
+   },
+   {
+    "id": 7334,
+    "titel": "Bakugan: Gundalian Invaders",
+    "anilist": 2010,
+    "anisearch": 2011
+   },
+   {
+    "id": 9332,
+    "titel": ".hack//Quantum",
+    "anilist": 2011,
+    "anisearch": 2010
+   },
+   {
+    "id": 9548,
+    "titel": "Alps no Shoujo Heidi: Alm no Yama-hen",
+    "anilist": 1996,
+    "anisearch": 1993
+   },
+   {
+    "id": 9549,
+    "titel": "Alps no Shoujo Heidi: Heidi to Clara-hen",
+    "anilist": 1996,
+    "anisearch": 1993
+   },
+   {
+    "id": 9735,
+    "titel": "Gintama: Shinyaku Benizakura-hen Special",
+    "anilist": 2011,
+    "anisearch": 2010
+   },
+   {
+    "id": 10055,
+    "titel": "Black Jack: Capital Transfer To Heian",
+    "anilist": 1996,
+    "anisearch": 2000
+   },
+   {
+    "id": 11307,
+    "titel": "Once Upon a Time... Space",
+    "anilist": 1982,
+    "anisearch": 1984
+   },
+   {
+    "id": 15811,
+    "titel": "Girls und Panzer OVA Series",
+    "anilist": 2013,
+    "anisearch": 2012
+   },
+   {
+    "id": 15813,
+    "titel": "Majokko Shimai no Yoyo to Nene",
+    "anilist": 2014,
+    "anisearch": 2013
+   },
+   {
+    "id": 17657,
+    "titel": "Chibi Neko Tom no Daibouken: Chikyuu wo Sukue! Nakama-tachi",
+    "anilist": 1994,
+    "anisearch": 1992
+   },
+   {
+    "id": 20578,
+    "titel": "Freezing Vibration Specials",
+    "anilist": 2014,
+    "anisearch": 2013
+   },
+   {
+    "id": 20786,
+    "titel": "Appleseed Alpha",
+    "anilist": 2014,
+    "anisearch": 2015
+   },
+   {
+    "id": 20811,
+    "titel": "Attack on Titan: No Regrets",
+    "anilist": 2015,
+    "anisearch": 2014
+   },
+   {
+    "id": 21256,
+    "titel": "Dimension W",
+    "anilist": 2016,
+    "anisearch": 2015
+   },
+   {
+    "id": 21416,
+    "titel": "One-Punch Man OVA",
+    "anilist": 2016,
+    "anisearch": 2015
+   },
+   {
+    "id": 97985,
+    "titel": "Koro Sensei Quest!",
+    "anilist": 2017,
+    "anisearch": 2016
+   },
+   {
+    "id": 98437,
+    "titel": "Overlord II",
+    "anilist": 2018,
+    "anisearch": 2017
+   },
+   {
+    "id": 99263,
+    "titel": "The Rising of the Shield Hero",
+    "anilist": 2019,
+    "anisearch": 2018
+   },
+   {
+    "id": 99426,
+    "titel": "A Place Further Than the Universe",
+    "anilist": 2018,
+    "anisearch": 2017
+   },
+   {
+    "id": 101913,
+    "titel": "Starship Troopers: Traitor of Mars",
+    "anilist": 2017,
+    "anisearch": 2018
+   },
+   {
+    "id": 104174,
+    "titel": "Steins;Gate 0: Valentine's of Crystal Polymorphism -Bittersweet Intermedio-",
+    "anilist": 2019,
+    "anisearch": 2018
+   },
+   {
+    "id": 100356,
+    "titel": "MFKZ",
+    "anilist": 2017,
+    "anisearch": 2018
+   },
+   {
+    "id": 107371,
+    "titel": "White Snake",
+    "anilist": 2019,
+    "anisearch": 2021
+   },
+   {
+    "id": 110277,
+    "titel": "Attack on Titan Final Season",
+    "anilist": 2021,
+    "anisearch": 2020
+   },
+   {
+    "id": 112023,
+    "titel": "The Legend of Hei",
+    "anilist": 2019,
+    "anisearch": 2020
+   },
+   {
+    "id": 111790,
+    "titel": "HAIKYU!! LAND VS. AIR",
+    "anilist": 2020,
+    "anisearch": 2019
+   },
+   {
+    "id": 111015,
+    "titel": "Annyeong, Tyrano: Yeong-wonhi, Hamkke",
+    "anilist": 2019,
+    "anisearch": 2021
+   },
+   {
+    "id": 116867,
+    "titel": "BOFURI: I Don't Want to Get Hurt, so I'll Max Out My Defense. Season 2",
+    "anilist": 2023,
+    "anisearch": 2022
+   },
+   {
+    "id": 119056,
+    "titel": "She Professed Herself Pupil of the Wise Man",
+    "anilist": 2022,
+    "anisearch": 2021
+   },
+   {
+    "id": 119964,
+    "titel": "POKÉTOON",
+    "anilist": 2020,
+    "anisearch": 2021
+   },
+   {
+    "id": 119978,
+    "titel": "Beauty Water",
+    "anilist": 2020,
+    "anisearch": 2021
+   },
+   {
+    "id": 142329,
+    "titel": "Demon Slayer: Kimetsu no Yaiba Entertainment District Arc",
+    "anilist": 2022,
+    "anisearch": 2021
+   },
+   {
+    "id": 202420,
+    "titel": "Red Shoes and the Seven Dwarfs",
+    "anilist": 2019,
+    "anisearch": 2021
+   },
+   {
+    "id": 146323,
+    "titel": "Spy Classroom",
+    "anilist": 2023,
+    "anisearch": 2022
+   },
+   {
+    "id": 147864,
+    "titel": "ONIMAI: I'm Now Your Sister!",
+    "anilist": 2023,
+    "anisearch": 2022
+   },
+   {
+    "id": 151384,
+    "titel": "Kaguya-sama: Love is War -The First Kiss That Never Ends-",
+    "anilist": 2023,
+    "anisearch": 2022
+   },
+   {
+    "id": 153518,
+    "titel": "Delicious in Dungeon",
+    "anilist": 2024,
+    "anisearch": 2023
+   },
+   {
+    "id": 169441,
+    "titel": "My Happy Marriage Season 2",
+    "anilist": 2025,
+    "anisearch": 2024
+   },
+   {
+    "id": 170916,
+    "titel": "Promise of Wizard",
+    "anilist": 2025,
+    "anisearch": 2024
+   },
+   {
+    "id": 176158,
+    "titel": "Beheneko: The Elf-Girl's Cat is Secretly an S-Ranked Monster!",
+    "anilist": 2025,
+    "anisearch": 2024
+   },
+   {
+    "id": 206919,
+    "titel": "Tom and Jerry: Forbidden Compass",
+    "anilist": 2025,
+    "anisearch": 2026
+   }
+  ],
+  "studio": [
+   {
+    "id": 27,
+    "titel": "Trinity Blood",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 47,
+    "titel": "Akira",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 49,
+    "titel": "Oh! My Goddess",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 50,
+    "titel": "Oh! My Goddess (TV)",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 60,
+    "titel": "Chrono Crusade",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 67,
+    "titel": "Basilisk",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 68,
+    "titel": "Black Cat",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 71,
+    "titel": "Full Metal Panic!",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 97,
+    "titel": "Last Exile",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 109,
+    "titel": "Burst Angel",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 117,
+    "titel": "El Hazard: The Magnificent World",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 152,
+    "titel": "Solty Rei",
+    "anilist": "gonzo, aic",
+    "anisearch": "anime international, gonzo k k"
+   },
+   {
+    "id": 161,
+    "titel": "Peacemaker",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 166,
+    "titel": "Samurai 7",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 198,
+    "titel": "Speed Grapher",
+    "anilist": "gonzo, wao world, tap",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 206,
+    "titel": "Record of Lodoss War: Chronicles of the Heroic Knight",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 239,
+    "titel": "Gankutsuou: The Count of Monte Cristo",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 256,
+    "titel": "Voices of a Distant Star",
+    "anilist": "comix wave",
+    "anisearch": "makoto shinkai"
+   },
+   {
+    "id": 268,
+    "titel": "GOLDEN BOY",
+    "anilist": "appp",
+    "anisearch": "another push pin planning"
+   },
+   {
+    "id": 270,
+    "titel": "Hellsing",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 274,
+    "titel": "Kiddy Grade",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 304,
+    "titel": "Ah! My Goddess: The Movie",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 338,
+    "titel": "Lady Oscar: The Rose of Versailles",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 387,
+    "titel": "Haibane Renmei",
+    "anilist": "radix",
+    "anisearch": "radix ace"
+   },
+   {
+    "id": 486,
+    "titel": "Kino's Journey",
+    "anilist": "a c g t, wombat",
+    "anisearch": "acgt"
+   },
+   {
+    "id": 492,
+    "titel": "Armitage III: Dual Matrix",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 493,
+    "titel": "Armitage III: POLY-MATRIX",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 537,
+    "titel": "Tekken: The Motion Picture",
+    "anilist": "deen",
+    "anisearch": "four some"
+   },
+   {
+    "id": 539,
+    "titel": "Tenchi Muyo! Ryo-Ohki",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 540,
+    "titel": "Tenchi Muyo! Ryo-Ohki Season 2",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 571,
+    "titel": "Moldiver",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 572,
+    "titel": "Nausicaä of the Valley of the Wind",
+    "anilist": "hibari, topcraft",
+    "anisearch": "ghibli"
+   },
+   {
+    "id": 732,
+    "titel": "VAMPIRE HUNTER D",
+    "anilist": "ajiado, trans arts, kyuuma",
+    "anisearch": "ashi"
+   },
+   {
+    "id": 770,
+    "titel": "Pale Cocoon",
+    "anilist": "rikka",
+    "anisearch": "directions"
+   },
+   {
+    "id": 917,
+    "titel": "Riding Bean",
+    "anilist": "aic",
+    "anisearch": "artmic, anime international"
+   },
+   {
+    "id": 928,
+    "titel": "Transformers: Cybertron",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 935,
+    "titel": "Witchblade",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 1003,
+    "titel": "Oh! My Goddess Specials",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 1006,
+    "titel": "Tenchi Muyo! In Love",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 1016,
+    "titel": "Battle Angel Alita",
+    "anilist": "madhouse",
+    "anisearch": "animate film"
+   },
+   {
+    "id": 1031,
+    "titel": "Yonna in the Solitary Fortress",
+    "anilist": "comix wave",
+    "anisearch": "4 c"
+   },
+   {
+    "id": 1051,
+    "titel": "Blue Submarine No. 6",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 1079,
+    "titel": "Armitage III",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 1080,
+    "titel": "Yukikaze",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 1101,
+    "titel": "Tenchi the Movie 2: The Daughter of Darkness",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 1140,
+    "titel": "Origin: Spirits of the Past",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 1146,
+    "titel": "Tenchi Muyo! Ryo-Ohki: The Night Before The Carnival!",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 1157,
+    "titel": "Final Fantasy: Unlimited",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 1172,
+    "titel": "The Slayers Try",
+    "anilist": "e g films",
+    "anisearch": "j c staff"
+   },
+   {
+    "id": 1182,
+    "titel": "Shamanic Princess",
+    "anilist": "triangle staff",
+    "anisearch": "animate film"
+   },
+   {
+    "id": 1210,
+    "titel": "Welcome to the N-H-K",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 1247,
+    "titel": "Project Blue Earth SOS",
+    "anilist": "a c g t",
+    "anisearch": "acgt"
+   },
+   {
+    "id": 1292,
+    "titel": "Afro Samurai",
+    "anilist": "gonzo, trilogy future",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 1350,
+    "titel": "Parasite Dolls",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 1357,
+    "titel": "New Fist of the North Star",
+    "anilist": "a c g t, pastel",
+    "anisearch": "acgt"
+   },
+   {
+    "id": 1384,
+    "titel": "Vampire Princess Miyu",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 1412,
+    "titel": "Lupin the 3rd",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 1417,
+    "titel": "Lupin the 3rd: Dragon of Doom",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 1419,
+    "titel": "Lupin III: Farewell to Nostradamus",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "telecom film"
+   },
+   {
+    "id": 1430,
+    "titel": "Lupin The 3rd: The Castle of Cagliostro",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 1438,
+    "titel": "Lupin the 3rd: Voyage to Danger",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 1444,
+    "titel": "Sol Bianca: The Legacy",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 1453,
+    "titel": "Maison Ikkoku",
+    "anilist": "deen",
+    "anisearch": "kitty film"
+   },
+   {
+    "id": 1533,
+    "titel": "Wedding Peach",
+    "anilist": "olm",
+    "anisearch": "kss"
+   },
+   {
+    "id": 1538,
+    "titel": "Pumpkin Scissors",
+    "anilist": "gonzo, nomad",
+    "anisearch": "anime international, gonzo k k"
+   },
+   {
+    "id": 1550,
+    "titel": "Attack No.1",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 1668,
+    "titel": "Beyblade G Revolution",
+    "anilist": "madhouse, nippon",
+    "anisearch": "nippon animedia"
+   },
+   {
+    "id": 1669,
+    "titel": "Beyblade V-Force",
+    "anilist": "heewon, nippon, synergy japan",
+    "anisearch": "nippon animedia"
+   },
+   {
+    "id": 1681,
+    "titel": "Brave Story",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 1689,
+    "titel": "5 Centimeters per Second",
+    "anilist": "comix wave",
+    "anisearch": "comix wave films"
+   },
+   {
+    "id": 1699,
+    "titel": "Romeo x Juliet",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 1760,
+    "titel": "Golgo 13: The Professional",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 1797,
+    "titel": "Animation Runner Kuromi",
+    "anilist": "yumeta company",
+    "anisearch": "yumeta"
+   },
+   {
+    "id": 1798,
+    "titel": "Animation Runner Kuromi 2",
+    "anilist": "yumeta company",
+    "anisearch": "yumeta"
+   },
+   {
+    "id": 1817,
+    "titel": "DearS: Is It A Golden Ball?",
+    "anilist": "hal film maker",
+    "anisearch": "daume"
+   },
+   {
+    "id": 1822,
+    "titel": "The Hakkenden: Legend of the Dog Warriors",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 1862,
+    "titel": "Strike Witches OVA",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 1904,
+    "titel": "In a Distant Time OVA 2",
+    "anilist": "yumeta company",
+    "anisearch": "yumeta"
+   },
+   {
+    "id": 1906,
+    "titel": "In a Distant Time Movie",
+    "anilist": "yumeta company",
+    "anisearch": "yumeta"
+   },
+   {
+    "id": 2000,
+    "titel": "Roujin Z",
+    "anilist": "appp",
+    "anisearch": "another push pin planning"
+   },
+   {
+    "id": 2174,
+    "titel": "Fist of the North Star: The Legend of the True Savior: Legend of Raoh: Chapter of Fierce Fighting",
+    "anilist": "toei",
+    "anisearch": "tms"
+   },
+   {
+    "id": 2286,
+    "titel": "Little Nemo: Adventures in Slumberland",
+    "anilist": "tokyo movie shinsha, tms",
+    "anisearch": "telecom film"
+   },
+   {
+    "id": 2333,
+    "titel": "The Three Musketeers",
+    "anilist": "gallop",
+    "anisearch": "gakken holdings company, korad"
+   },
+   {
+    "id": 2404,
+    "titel": "Zombie Loan",
+    "anilist": "xebec",
+    "anisearch": "xebec m2"
+   },
+   {
+    "id": 2459,
+    "titel": "Maison Ikkoku: Deserted Island",
+    "anilist": "magic bus",
+    "anisearch": "kitty film"
+   },
+   {
+    "id": 2486,
+    "titel": "Takahashi Rumiko Anthology",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 2542,
+    "titel": "Lady Georgie",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 2570,
+    "titel": "The Mischevious Twins",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 2589,
+    "titel": "Black Cat: The Distant Cat",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 2611,
+    "titel": "Panda! Go Panda!",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 2618,
+    "titel": "Treasure Island",
+    "anilist": "madhouse, tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 2783,
+    "titel": "Thumbelina: A Magical Story",
+    "anilist": "meruhensha",
+    "anisearch": "meruhen sha"
+   },
+   {
+    "id": 2789,
+    "titel": "Battle B-Daman",
+    "anilist": "heewon, nippon, synergy japan",
+    "anisearch": "nippon animedia"
+   },
+   {
+    "id": 2836,
+    "titel": "Vicky the Viking",
+    "anilist": "nippon, mushi",
+    "anisearch": "zuiyo"
+   },
+   {
+    "id": 2912,
+    "titel": "Ohayou! Spank",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 2993,
+    "titel": "Rosario + Vampire",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 3138,
+    "titel": "Solty Rei: Surechigau Kimochi de, Omoi Au Kokoro de.",
+    "anilist": "gonzo, aic",
+    "anisearch": "anime international, gonzo k k"
+   },
+   {
+    "id": 3313,
+    "titel": "Montana Jones",
+    "anilist": "junio",
+    "anisearch": "junio brain trust"
+   },
+   {
+    "id": 3354,
+    "titel": "Zombie-Loan Specials",
+    "anilist": "xebec",
+    "anisearch": "xebec m2"
+   },
+   {
+    "id": 3667,
+    "titel": "Strike Witches",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 3723,
+    "titel": "The Adventures of the Little Koala",
+    "anilist": "topcraft",
+    "anisearch": "ghibli"
+   },
+   {
+    "id": 3812,
+    "titel": "Dream Star Button Nose",
+    "anilist": "topcraft",
+    "anisearch": "ghibli"
+   },
+   {
+    "id": 4138,
+    "titel": "The Adventures of Scamper the Penguin",
+    "anilist": "toei",
+    "anisearch": "life work"
+   },
+   {
+    "id": 4214,
+    "titel": "Rosario + Vampire Capu2",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 4312,
+    "titel": "Fist of the North Star: The Legend of the True Savior: Legend of Toki",
+    "anilist": "tms",
+    "anisearch": "another push pin planning"
+   },
+   {
+    "id": 4667,
+    "titel": "Battle B-Daman: Fire Spirits",
+    "anilist": "heewon, nippon, synergy japan",
+    "anisearch": "nippon animedia"
+   },
+   {
+    "id": 4800,
+    "titel": "Huckleberry Finn Monogatari",
+    "anilist": "aubeck",
+    "anisearch": "aubec"
+   },
+   {
+    "id": 4970,
+    "titel": "Afro Samurai: Resurrection",
+    "anilist": "gonzo, trilogy future",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 5025,
+    "titel": "Butt Attack Punisher Girl Gautaman",
+    "anilist": "kikan, hero",
+    "anisearch": "animate film, st signpost"
+   },
+   {
+    "id": 5958,
+    "titel": "Heaven's Lost Property",
+    "anilist": "aic a s t a",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 6115,
+    "titel": "Lupin the 3rd Vs Detective Conan",
+    "anilist": "tokyo movie shinsha",
+    "anisearch": "tms"
+   },
+   {
+    "id": 6381,
+    "titel": "Strike Witches 2",
+    "anilist": "aic spirits",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 7004,
+    "titel": "Calimero (1992)",
+    "anilist": "toei",
+    "anisearch": "wako pro"
+   },
+   {
+    "id": 7625,
+    "titel": "Fairy Dick",
+    "anilist": "lingke culture",
+    "anisearch": "zuiyo"
+   },
+   {
+    "id": 7858,
+    "titel": "Heaven's Lost Property OVA",
+    "anilist": "aic a s t a",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 8407,
+    "titel": "Heaven's Lost Property: Forte",
+    "anilist": "aic a s t a",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 9041,
+    "titel": "Infinite Stratos",
+    "anilist": "8 bit, sakura create",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 9367,
+    "titel": "Freezing",
+    "anilist": "a c g t",
+    "anisearch": "acgt"
+   },
+   {
+    "id": 9513,
+    "titel": "Beelzebub",
+    "anilist": "pierrot, signpost",
+    "anisearch": "st signpost"
+   },
+   {
+    "id": 9760,
+    "titel": "Children who Chase Lost Voices",
+    "anilist": "comix wave",
+    "anisearch": "comix wave films"
+   },
+   {
+    "id": 9790,
+    "titel": "Heaven's Lost Property the Movie: The Angeloid of Clockwork",
+    "anilist": "aic a s t a",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 9936,
+    "titel": "Maken-Ki! Battling Venus",
+    "anilist": "aic, aic spirits",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 10719,
+    "titel": "Haganai",
+    "anilist": "aic build",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 10794,
+    "titel": "IS: Infinite Stratos Encore: A Sextet Yearning for Love",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 12449,
+    "titel": "Maken-ki!: Doki Doki! Maken-ki! Himitsu no Kunren",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 12715,
+    "titel": "The Hakkenden: Legend of the Dog Warriors Part 2",
+    "anilist": "aic",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 14027,
+    "titel": "Haganai: Add-on Disc",
+    "anilist": "aic build",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 14355,
+    "titel": "Encouragement of Climb",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 14669,
+    "titel": "Aura",
+    "anilist": "aic a s t a",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 14967,
+    "titel": "Haganai NEXT",
+    "anilist": "aic build",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 15583,
+    "titel": "Date A Live",
+    "anilist": "aic plus",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 16782,
+    "titel": "The Garden of Words",
+    "anilist": "comix wave",
+    "anisearch": "comix wave films"
+   },
+   {
+    "id": 17641,
+    "titel": "Date A Live: Date to Date",
+    "anilist": "aic plus",
+    "anisearch": "anime international"
+   },
+   {
+    "id": 17831,
+    "titel": "Dog & Scissors",
+    "anilist": "gonzo, enterbrain, dle",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 18001,
+    "titel": "Freezing Vibration",
+    "anilist": "a c g t",
+    "anisearch": "acgt"
+   },
+   {
+    "id": 18247,
+    "titel": "Infinite Stratos 2",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 20442,
+    "titel": "Bayonetta: Bloody Fate",
+    "anilist": "gonzo, toei, graphinica",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 20485,
+    "titel": "Encouragement of Climb Season 2",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 20629,
+    "titel": "Terra Formars",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 20767,
+    "titel": "Date A Live II: Kurumi Star Festival",
+    "anilist": "aic plus",
+    "anisearch": "ims"
+   },
+   {
+    "id": 20701,
+    "titel": "Wolf Girl and Black Prince",
+    "anilist": "tyo animations",
+    "anisearch": "yumeta"
+   },
+   {
+    "id": 20775,
+    "titel": "AkaKill! Theater",
+    "anilist": "white fox",
+    "anisearch": "c station"
+   },
+   {
+    "id": 20875,
+    "titel": "SWORDGAI The Animation",
+    "anilist": "dle, i g",
+    "anisearch": "landq"
+   },
+   {
+    "id": 21003,
+    "titel": "Yama no Susume: Second Season Specials",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 21155,
+    "titel": "Sword Art Offline II",
+    "anilist": "a 1",
+    "anisearch": "i was a ballerina"
+   },
+   {
+    "id": 20944,
+    "titel": "Samurai Warriors",
+    "anilist": "tezuka, tyo animations",
+    "anisearch": "yumeta"
+   },
+   {
+    "id": 21007,
+    "titel": "Ookami Shoujo to Kuro Ouji: Gishinanki – Happening kiss",
+    "anilist": "tyo animations",
+    "anisearch": "yumeta"
+   },
+   {
+    "id": 21319,
+    "titel": "AOKANA: Four Rhythm Across the Blue",
+    "anilist": "gonzo, dle",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 20966,
+    "titel": "Yamada and the Seven Witches",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 21201,
+    "titel": "Schwarzes Marken",
+    "anilist": "lidenfilms, sanzigen",
+    "anisearch": "liden films, anchor"
+   },
+   {
+    "id": 21275,
+    "titel": "Comet Lucifer",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 21519,
+    "titel": "Your Name.",
+    "anilist": "comix wave",
+    "anisearch": "comix wave films"
+   },
+   {
+    "id": 21684,
+    "titel": "The Irregular at Magic High School The Movie: The Girl Who Summons the Stars",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 21700,
+    "titel": "Akashic Records of Bastard Magic Instructor",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 97663,
+    "titel": "Knight's & Magic",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 98073,
+    "titel": "LOST SONG",
+    "anilist": "lidenfilms",
+    "anisearch": "dwango, liden films"
+   },
+   {
+    "id": 98320,
+    "titel": "LOVE and LIES",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 98866,
+    "titel": "Encouragement of Climb Season 3",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 99531,
+    "titel": "Devils' Line",
+    "anilist": "platinum vision",
+    "anisearch": "platinumvision"
+   },
+   {
+    "id": 100248,
+    "titel": "Batman Ninja",
+    "anilist": "kamikaze douga, yamatoworks",
+    "anisearch": "kamikazedouga"
+   },
+   {
+    "id": 100401,
+    "titel": "Forest of Piano",
+    "anilist": "gaina",
+    "anisearch": "benten film"
+   },
+   {
+    "id": 100537,
+    "titel": "Servamp Movie: Alice in the Garden",
+    "anilist": "platinum vision",
+    "anisearch": "platinumvision"
+   },
+   {
+    "id": 100785,
+    "titel": "Layton Mystery Tanteisha: Katri no Nazotoki File",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 101231,
+    "titel": "Flavors of Youth",
+    "anilist": "haoliners, comix wave",
+    "anisearch": "comix wave films, haoliners league"
+   },
+   {
+    "id": 101280,
+    "titel": "That Time I Got Reincarnated as a Slime",
+    "anilist": "8 bit, bandai namco",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 101471,
+    "titel": "SWORDGAI The Animation Part II",
+    "anilist": "dle, i g",
+    "anisearch": "landq"
+   },
+   {
+    "id": 101525,
+    "titel": "Calamity of a Zombie Girl",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k, stingray"
+   },
+   {
+    "id": 101597,
+    "titel": "Ultramarine Magmell",
+    "anilist": "signpost, pierrot",
+    "anisearch": "st signpost"
+   },
+   {
+    "id": 102939,
+    "titel": "Midnight Occult Civil Servants",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 103049,
+    "titel": "Forest of Piano Season 2",
+    "anilist": "gaina",
+    "anisearch": "benten film"
+   },
+   {
+    "id": 103222,
+    "titel": "Magical Girl Spec-Ops Asuka",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 102832,
+    "titel": "Devils’ Line: Anytime Anywhere",
+    "anilist": "platinum vision",
+    "anisearch": "platinumvision"
+   },
+   {
+    "id": 108260,
+    "titel": "Digimon Adventure: Last Evolution Kizuna",
+    "anilist": "toei, yumeta company",
+    "anisearch": "yumeta"
+   },
+   {
+    "id": 104253,
+    "titel": "The Magnificent KOTOBUKI",
+    "anilist": "digital frontier",
+    "anisearch": "gemba"
+   },
+   {
+    "id": 105807,
+    "titel": "7SEEDS",
+    "anilist": "gonzo",
+    "anisearch": "gonzo k k"
+   },
+   {
+    "id": 106509,
+    "titel": "That Time I Got Reincarnated as a Slime OAD",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 106286,
+    "titel": "Weathering With You",
+    "anilist": "comix wave",
+    "anisearch": "comix wave films"
+   },
+   {
+    "id": 107961,
+    "titel": "Hensuki: Are you willing to fall in love with a pervert, as long as she’s a cutie?",
+    "anilist": "geektoys, seven",
+    "anisearch": "geek toys"
+   },
+   {
+    "id": 108465,
+    "titel": "Mushoku Tensei: Jobless Reincarnation",
+    "anilist": "bind, egg firm",
+    "anisearch": "studiobind"
+   },
+   {
+    "id": 108511,
+    "titel": "That Time I Got Reincarnated as a Slime Season 2",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 108554,
+    "titel": "Special 7: Special Crime Investigation Unit",
+    "anilist": "naz",
+    "anisearch": "anima company"
+   },
+   {
+    "id": 108981,
+    "titel": "The King's Avatar: For the Glory",
+    "anilist": "colored pencil, colored pencil japan",
+    "anisearch": "chongqing caise qianbi dongman sheji youxian zeren gongsi"
+   },
+   {
+    "id": 112023,
+    "titel": "The Legend of Hei",
+    "anilist": "hmch",
+    "anisearch": "beijing hmch anime"
+   },
+   {
+    "id": 112300,
+    "titel": "The Irregular at Magic High School: Visitor Arc",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 115107,
+    "titel": "DIGIMON ADVENTURE 20th memorial story",
+    "anilist": "toei, yumeta company",
+    "anisearch": "yumeta"
+   },
+   {
+    "id": 116605,
+    "titel": "Date A Live IV",
+    "anilist": "geektoys",
+    "anisearch": "geek toys"
+   },
+   {
+    "id": 116742,
+    "titel": "That Time I Got Reincarnated as a Slime Season 2 Part 2",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 116741,
+    "titel": "The Slime Diaries",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 117533,
+    "titel": "Cells at Work! CODE BLACK",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 118390,
+    "titel": "Child of Kamiari Month",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 120120,
+    "titel": "Tokyo Revengers",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 127050,
+    "titel": "Love of Kill",
+    "anilist": "platinum vision",
+    "anisearch": "platinumvision"
+   },
+   {
+    "id": 128034,
+    "titel": "ORIENT",
+    "anilist": "a c g t, a line",
+    "anisearch": "acgt"
+   },
+   {
+    "id": 127720,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Cour 2",
+    "anilist": "bind, egg firm",
+    "anisearch": "studiobind"
+   },
+   {
+    "id": 128400,
+    "titel": "Saiyuki RELOAD: ZEROIN",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 129188,
+    "titel": "GOBLIN SLAYER II",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 130706,
+    "titel": "Akuma Kun",
+    "anilist": "toei, encourage films",
+    "anisearch": "kachigarasu"
+   },
+   {
+    "id": 131182,
+    "titel": "Encouragement of Climb: Next Summit",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 110224,
+    "titel": "The Journey",
+    "anilist": "toei",
+    "anisearch": "yokohama lab"
+   },
+   {
+    "id": 135429,
+    "titel": "MAKE MY DAY",
+    "anilist": "5",
+    "anisearch": "5 five"
+   },
+   {
+    "id": 137310,
+    "titel": "Digimon Adventure 02 The Beginning",
+    "anilist": "toei, yumeta company",
+    "anisearch": "yumeta"
+   },
+   {
+    "id": 137822,
+    "titel": "BLUE LOCK",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 137667,
+    "titel": "Lord of Mysteries",
+    "anilist": "b cmay",
+    "anisearch": "g cmay film"
+   },
+   {
+    "id": 139498,
+    "titel": "That Time I Got Reincarnated as a Slime the Movie: Scarlet Bond",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 139589,
+    "titel": "Kotaro Lives Alone",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 139804,
+    "titel": "Tribe Nine",
+    "anilist": "lidenfilms, akatsuki",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 141391,
+    "titel": "Call of the Night",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 141534,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Cour 2 - Eris the Goblin Slayer",
+    "anilist": "bind, egg firm",
+    "anisearch": "studiobind"
+   },
+   {
+    "id": 142770,
+    "titel": "Suzume",
+    "anilist": "comix wave",
+    "anisearch": "comix wave films"
+   },
+   {
+    "id": 142853,
+    "titel": "Tokyo Revengers Season 2",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 143653,
+    "titel": "Insomniacs After School",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 144176,
+    "titel": "Gods' Games We Play",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 146065,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Season 2",
+    "anilist": "bind, egg firm",
+    "anisearch": "studiobind"
+   },
+   {
+    "id": 146346,
+    "titel": "My Life as Inukai-san’s Dog",
+    "anilist": "quad",
+    "anisearch": "jfk"
+   },
+   {
+    "id": 146637,
+    "titel": "ORIENT Part 2",
+    "anilist": "a c g t, a line",
+    "anisearch": "acgt"
+   },
+   {
+    "id": 147864,
+    "titel": "ONIMAI: I'm Now Your Sister!",
+    "anilist": "bind, egg firm",
+    "anisearch": "studiobind"
+   },
+   {
+    "id": 148048,
+    "titel": "KamiKatsu: Working for God in a Godless World",
+    "anilist": "palette",
+    "anisearch": "palett"
+   },
+   {
+    "id": 148109,
+    "titel": "The Legendary Hero is Dead!",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 151380,
+    "titel": "Date A Live V",
+    "anilist": "geektoys",
+    "anisearch": "geek toys"
+   },
+   {
+    "id": 155389,
+    "titel": "SHY",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 155838,
+    "titel": "New Saga",
+    "anilist": "massket, clutch",
+    "anisearch": "sotsu"
+   },
+   {
+    "id": 156822,
+    "titel": "That Time I Got Reincarnated as a Slime Season 3",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 157198,
+    "titel": "Dead Mount Death Play",
+    "anilist": "geektoys",
+    "anisearch": "geek toys"
+   },
+   {
+    "id": 157371,
+    "titel": "Bye Bye, Earth",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 158704,
+    "titel": "I'm in Love with the Villainess",
+    "anilist": "platinum vision",
+    "anisearch": "platinumvision"
+   },
+   {
+    "id": 159926,
+    "titel": "BASTARD!! -Heavy Metal, Dark Fantasy- Hell’s Requiem Arc",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 161802,
+    "titel": "That Time I Got Reincarnated as a Slime: Visions of Coleus",
+    "anilist": "8 bit, asahi, ashi",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 154064,
+    "titel": "MAKE A GIRL",
+    "anilist": "yasuda genshou by xenotoon",
+    "anisearch": "xenotoon"
+   },
+   {
+    "id": 162803,
+    "titel": "Dead Mount Death Play Part 2",
+    "anilist": "geektoys",
+    "anisearch": "geek toys"
+   },
+   {
+    "id": 163146,
+    "titel": "BLUE LOCK Season 2",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 163147,
+    "titel": "BLUE LOCK THE MOVIE -EPISODE NAGI-",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 163329,
+    "titel": "Tokyo Revengers Season 2 Part 2",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 166873,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Season 2 Part 2",
+    "anilist": "bind, egg firm",
+    "anisearch": "studiobind"
+   },
+   {
+    "id": 167141,
+    "titel": "Sword Art Online Alternative: Gun Gale Online II",
+    "anilist": "a 1, egg firm",
+    "anisearch": "3hz"
+   },
+   {
+    "id": 167418,
+    "titel": "Challenge the World!",
+    "anilist": "comix wave",
+    "anisearch": "comix wave films"
+   },
+   {
+    "id": 170916,
+    "titel": "Promise of Wizard",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 171748,
+    "titel": "SHY Season 2",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 175914,
+    "titel": "Call of the Night Season 2",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 177509,
+    "titel": "Kakushite! Makina-san!",
+    "anilist": "wolfsbane, gekkou",
+    "anisearch": "bloomz"
+   },
+   {
+    "id": 177689,
+    "titel": "The Summer Hikaru Died",
+    "anilist": "cygamespictures",
+    "anisearch": "cypic"
+   },
+   {
+    "id": 178083,
+    "titel": "Tokyo Revengers: Santen Sensou-hen",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 178707,
+    "titel": "The Irregular at Magic High School THE MOVIE -Yotsuba Succession Arc-",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 178789,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Season 3",
+    "anilist": "bind, egg firm",
+    "anisearch": "studiobind"
+   },
+   {
+    "id": 179965,
+    "titel": "Please Put Them On, Takamine-san",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 181078,
+    "titel": "Bye Bye, Earth Season 2",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 181447,
+    "titel": "May I Ask for One Final Thing?",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films kyoto"
+   },
+   {
+    "id": 182205,
+    "titel": "That Time I Got Reincarnated as a Slime Season 4",
+    "anilist": "8 bit",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 182206,
+    "titel": "That Time I Got Reincarnated as a Slime the Movie: Tears of the Azure Sea",
+    "anilist": "8 bit, bandai namco",
+    "anisearch": "8bit"
+   },
+   {
+    "id": 183274,
+    "titel": "I'm the Evil Lord of an Intergalactic Empire!",
+    "anilist": "quad, procen",
+    "anisearch": "jfk"
+   },
+   {
+    "id": 184718,
+    "titel": "Cat's Eye (2025)",
+    "anilist": "lidenfilms",
+    "anisearch": "liden films"
+   },
+   {
+    "id": 186559,
+    "titel": "Pokémon: Dragonite and the Special Delivery",
+    "anilist": "comix wave",
+    "anisearch": "comix wave films"
+   },
+   {
+    "id": 187331,
+    "titel": "Hands off: Sawaranaide Kotesashi-kun!",
+    "anilist": "quad",
+    "anisearch": "jfk"
+   },
+   {
+    "id": 207254,
+    "titel": "Thunder 3",
+    "anilist": "unend",
+    "anisearch": "unend llc"
+   }
+  ],
+  "nameDe": [
+   {
+    "id": 2397,
+    "titel": "Digimon: Our War Game",
+    "anilist": "Digimon: Der Film",
+    "anisearch": "Digimon: Der Film (Teil 2)"
+   },
+   {
+    "id": 2961,
+    "titel": "Digimon Adventure (Movie)",
+    "anilist": "Digimon: Der Film",
+    "anisearch": "Digimon: Der Film (Teil 1)"
+   },
+   {
+    "id": 2962,
+    "titel": "Digimon: Hurricane Touchdown",
+    "anilist": "Digimon: Der Film",
+    "anisearch": "Digimon: Der Film (Teil 3)"
+   },
+   {
+    "id": 3782,
+    "titel": "the Garden of sinners Chapter 2: …and nothing heart. (Murder Speculation Part A)",
+    "anilist": "The Garden of Sinners: Mordverdacht",
+    "anisearch": "The Garden of Sinners: Mordverdacht (Teil 1)"
+   },
+   {
+    "id": 4614,
+    "titel": "Moero Arthur: Hakuba no Ouji",
+    "anilist": "Prinz Arthus",
+    "anisearch": "Prinz Arthus (Staffel 2)"
+   },
+   {
+    "id": 5205,
+    "titel": "the Garden of sinners Chapter 7: ……not nothing heart. (Murder Speculation Part B)",
+    "anilist": "The Garden of Sinners: Mordverdacht",
+    "anisearch": "The Garden of Sinners: Mordverdacht (Teil 2)"
+   },
+   {
+    "id": 8373,
+    "titel": "The New Adventures of Maya the Honey Bee",
+    "anilist": "Die Biene Maja",
+    "anisearch": "Die Biene Maja (Staffel 2)"
+   },
+   {
+    "id": 11741,
+    "titel": "Fate/Zero Season 2",
+    "anilist": "Fate/Zero",
+    "anisearch": "Fate/Zero (Staffel 2)"
+   },
+   {
+    "id": 13201,
+    "titel": "Monster Rancher (2000)",
+    "anilist": "Monster Rancher",
+    "anisearch": "Monster Rancher (Staffel 2)"
+   },
+   {
+    "id": 19959,
+    "titel": "Barbapapa (1977)",
+    "anilist": "Die Barbapapas",
+    "anisearch": "Die Barbapapas (Staffel 2)"
+   },
+   {
+    "id": 20626,
+    "titel": "Fairy Tail Series 2",
+    "anilist": "Fairy Tail",
+    "anisearch": "Fairy Tail (Staffel 2)"
+   },
+   {
+    "id": 21364,
+    "titel": "Gate 2",
+    "anilist": "Gate – Teil 2",
+    "anisearch": "Gate (Staffel 2)"
+   },
+   {
+    "id": 100780,
+    "titel": "Legend of the Galactic Heroes: Die Neue These Second",
+    "anilist": "Legend of the Galactic Heroes: Die Neue These",
+    "anisearch": "Legend of the Galactic Heroes: Die Neue These (Staffel 2)"
+   },
+   {
+    "id": 103887,
+    "titel": "Modest Heroes: Ponoc Short Films Theatre, Volume 1",
+    "anilist": "Bescheidene Helden: Ponoc Short Films Theatre – Teil 1",
+    "anisearch": "Bescheidene Helden: Ponoc Short Films Theatre"
+   },
+   {
+    "id": 102351,
+    "titel": "Tokyo Ghoul:re 2",
+    "anilist": "Tokyo Ghoul:re",
+    "anisearch": "Tokyo Ghoul:re (Staffel 2)"
+   },
+   {
+    "id": 112803,
+    "titel": "No Guns Life Season 2",
+    "anilist": "No Guns Life",
+    "anisearch": "No Guns Life (Teil 2)"
+   },
+   {
+    "id": 116742,
+    "titel": "That Time I Got Reincarnated as a Slime Season 2 Part 2",
+    "anilist": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 2",
+    "anisearch": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 2 (Teil 2)"
+   },
+   {
+    "id": 119661,
+    "titel": "Re:ZERO -Starting Life in Another World- Season 2 Part 2",
+    "anilist": "Re:Zero - Starting Life in Another World Season 2",
+    "anisearch": "Re:Zero - Starting Life in Another World Season 2 (Teil 2)"
+   },
+   {
+    "id": 127366,
+    "titel": "I'm Standing on a Million Lives Season 2",
+    "anilist": "I’m Standing on a Million Lives",
+    "anisearch": "I’m Standing on a Million Lives (Staffel 2)"
+   },
+   {
+    "id": 131264,
+    "titel": "Yashahime: Princess Half-Demon - The Second Act",
+    "anilist": "Yashahime: Princess Half-Demon",
+    "anisearch": "Yashahime: Princess Half-Demon (Staffel 2)"
+   },
+   {
+    "id": 131586,
+    "titel": "86 EIGHTY-SIX Part 2",
+    "anilist": "86: Eighty Six – Teil 2",
+    "anisearch": "86: Eighty Six (Staffel 2)"
+   },
+   {
+    "id": 135136,
+    "titel": "The Case Study of Vanitas Part 2",
+    "anilist": "The Case Study of Vanitas – Teil 2",
+    "anisearch": "The Case Study of Vanitas (Staffel 2)"
+   },
+   {
+    "id": 136880,
+    "titel": "BEASTARS Final Season Part 1",
+    "anilist": "Beastars Letzte Staffel – Teil 1",
+    "anisearch": "Beastars Letzte Staffel"
+   },
+   {
+    "id": 139518,
+    "titel": "TSUKIMICHI -Moonlit Fantasy- Season 2",
+    "anilist": "Tsukimichi: Moonlit Fantasy",
+    "anisearch": "Tsukimichi: Moonlit Fantasy - Staffel 2"
+   },
+   {
+    "id": 141182,
+    "titel": "Seirei Gensouki: Spirit Chronicles Season 2",
+    "anilist": "Seirei Gensouki: Spirit Chronicles",
+    "anisearch": "Seirei Gensouki: Spirit Chronicles - Staffel 2"
+   },
+   {
+    "id": 141208,
+    "titel": "TONIKAWA: Over The Moon For You Season 2",
+    "anilist": "Tonikawa: Over the Moon for You",
+    "anisearch": "Tonikawa: Over the Moon for You - Staffel 2"
+   },
+   {
+    "id": 146065,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Season 2",
+    "anilist": "Mushoku Tensei: Jobless Reincarnation",
+    "anisearch": "Mushoku Tensei: Jobless Reincarnation - Staffel 2"
+   },
+   {
+    "id": 151803,
+    "titel": "TIGER & BUNNY 2 Part 2",
+    "anilist": "Tiger & Bunny 2",
+    "anisearch": "Tiger & Bunny 2 (Teil 2)"
+   },
+   {
+    "id": 154473,
+    "titel": "Arifureta: From Commonplace to World's Strongest Season 3",
+    "anilist": "Arifureta: From Commonplace to World’s Strongest",
+    "anisearch": "Arifureta: From Commonplace to World’s Strongest - Season 3"
+   },
+   {
+    "id": 154745,
+    "titel": "Rent-a-Girlfriend Season 3",
+    "anilist": "Rent-a-Girlfriend",
+    "anisearch": "Rent-a-Girlfriend (Staffel 3)"
+   },
+   {
+    "id": 159322,
+    "titel": "BLEACH: Thousand-Year Blood War - The Separation",
+    "anilist": "Bleach: Thousand-Year Blood War",
+    "anisearch": "Bleach: Thousand-Year Blood War - Teil 2"
+   },
+   {
+    "id": 163329,
+    "titel": "Tokyo Revengers Season 2 Part 2",
+    "anilist": "Tokyo Revengers: Tenjiku Arc – Teil 2",
+    "anisearch": "Tokyo Revengers: Tenjiku Arc"
+   },
+   {
+    "id": 163542,
+    "titel": "Spy Classroom Season 2",
+    "anilist": "Spy Classroom",
+    "anisearch": "Spy Classroom (Teil 2)"
+   },
+   {
+    "id": 166477,
+    "titel": "The Café Terrace and Its Goddesses Season 2",
+    "anilist": "The Café Terrace and Its Goddesses",
+    "anisearch": "The Café Terrace and Its Goddesses (Staffel 2)"
+   },
+   {
+    "id": 166531,
+    "titel": "OSHI NO KO Season 2",
+    "anilist": "Oshi no Ko: Mein Star",
+    "anisearch": "Oshi no Ko: Mein Star - Season 2"
+   },
+   {
+    "id": 169692,
+    "titel": "KENGAN ASHURA Season 2 Part.2",
+    "anilist": "Kengan Ashura: Staffel 2",
+    "anisearch": "Kengan Ashura: Staffel 2 (Teil 2)"
+   },
+   {
+    "id": 169755,
+    "titel": "BLEACH: Thousand-Year Blood War - The Conflict",
+    "anilist": "Bleach: Thousand-Year Blood War",
+    "anisearch": "Bleach: Thousand-Year Blood War - Staffel 3"
+   },
+   {
+    "id": 171748,
+    "titel": "SHY Season 2",
+    "anilist": "Shy",
+    "anisearch": "Shy (Staffel 2)"
+   },
+   {
+    "id": 172258,
+    "titel": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 2",
+    "anilist": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You",
+    "anisearch": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You (Staffel 2)"
+   },
+   {
+    "id": 172463,
+    "titel": "JUJUTSU KAISEN Season 3: The Culling Game Part 1",
+    "anilist": "Jujutsu Kaisen: Staffel 3 – Teil 1",
+    "anisearch": "Jujutsu Kaisen: Staffel 3"
+   },
+   {
+    "id": 176292,
+    "titel": "The Seven Deadly Sins: Four Knights of the Apocalypse Season 2",
+    "anilist": "The Seven Deadly Sins: Four Knights of the Apocalypse",
+    "anisearch": "The Seven Deadly Sins: Four Knights of the Apocalypse - Staffel 2"
+   },
+   {
+    "id": 178550,
+    "titel": "Unnamed Memory Season 2",
+    "anilist": "Unnamed Memory",
+    "anisearch": "Unnamed Memory (Staffel 2)"
+   },
+   {
+    "id": 178781,
+    "titel": "Go! Go! Loser Ranger! Season 2",
+    "anilist": "Go! Go! Loser Ranger!",
+    "anisearch": "Go! Go! Loser Ranger! (Staffel 2)"
+   },
+   {
+    "id": 178789,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Season 3",
+    "anilist": "Mushoku Tensei: Jobless Reincarnation",
+    "anisearch": "Mushoku Tensei: Jobless Reincarnation - Staffel 3"
+   },
+   {
+    "id": 182255,
+    "titel": "Frieren: Beyond Journey’s End Season 2",
+    "anilist": "Frieren: Nach dem Ende der Reise",
+    "anisearch": "Frieren: Nach dem Ende der Reise - Staffel 2"
+   },
+   {
+    "id": 182300,
+    "titel": "Wistoria: Wand and Sword Season 2",
+    "anilist": "Wistoria: Wand and Sword",
+    "anisearch": "Wistoria: Wand and Sword - Staffel 2"
+   },
+   {
+    "id": 182578,
+    "titel": "Mission: Yozakura Family Season 2",
+    "anilist": "Mission: Yozakura Family",
+    "anisearch": "Mission: Yozakura Family - Staffel 2"
+   },
+   {
+    "id": 182587,
+    "titel": "OSHI NO KO Season 3",
+    "anilist": "Oshi no Ko: Mein Star",
+    "anisearch": "Oshi no Ko: Mein Star - Season 3"
+   }
+  ],
+  "nameEn": [
+   {
+    "id": 5,
+    "titel": "Cowboy Bebop: The Movie - Knockin' on Heaven's Door",
+    "anilist": "Cowboy Bebop: The Movie - Knockin' on Heaven's Door",
+    "anisearch": "Cowboy Bebop: The Movie"
+   },
+   {
+    "id": 44,
+    "titel": "Rurouni Kenshin OVA: Trust & Betrayal (Tsuioku-hen)",
+    "anilist": "Rurouni Kenshin OVA: Trust & Betrayal (Tsuioku-hen)",
+    "anisearch": "Rurouni Kenshin: Trust & Betrayal"
+   },
+   {
+    "id": 50,
+    "titel": "Oh! My Goddess (TV)",
+    "anilist": "Oh! My Goddess (TV)",
+    "anisearch": "Ah! My Goddess TV"
+   },
+   {
+    "id": 65,
+    "titel": "Rozen Maiden: Dreaming",
+    "anilist": "Rozen Maiden: Dreaming",
+    "anisearch": "Rozen Maiden: Träumend"
+   },
+   {
+    "id": 91,
+    "titel": "Mobile Suit Gundam Wing: Endless Waltz",
+    "anilist": "Mobile Suit Gundam Wing: Endless Waltz",
+    "anisearch": "Gundam Wing Endless Waltz OVA"
+   },
+   {
+    "id": 136,
+    "titel": "Hunter x Hunter",
+    "anilist": "Hunter x Hunter",
+    "anisearch": "Hunter × Hunter"
+   },
+   {
+    "id": 156,
+    "titel": "X (TV)",
+    "anilist": "X (TV)",
+    "anisearch": "X"
+   },
+   {
+    "id": 182,
+    "titel": "Vision of Escaflowne",
+    "anilist": "Vision of Escaflowne",
+    "anisearch": "Escaflowne"
+   },
+   {
+    "id": 207,
+    "titel": "Record of Lodoss War",
+    "anilist": "Record of Lodoss War",
+    "anisearch": "Record of Lodoss War OVA"
+   },
+   {
+    "id": 232,
+    "titel": "Cardcaptor Sakura",
+    "anilist": "Cardcaptor Sakura",
+    "anisearch": "Cardcaptors"
+   },
+   {
+    "id": 235,
+    "titel": "Detective Conan",
+    "anilist": "Detective Conan",
+    "anisearch": "Case Closed"
+   },
+   {
+    "id": 243,
+    "titel": "Gravitation TV",
+    "anilist": "Gravitation TV",
+    "anisearch": "Gravitation"
+   },
+   {
+    "id": 257,
+    "titel": "Battle Vixens: Ikki Tousen",
+    "anilist": "Battle Vixens: Ikki Tousen",
+    "anisearch": "Ikki Tousen"
+   },
+   {
+    "id": 303,
+    "titel": "Oh! My Goddess: The Adventures of Mini-Goddess",
+    "anilist": "Oh! My Goddess: The Adventures of Mini-Goddess",
+    "anisearch": "The Adventures of Mini-Goddess"
+   },
+   {
+    "id": 338,
+    "titel": "Lady Oscar: The Rose of Versailles",
+    "anilist": "Lady Oscar: The Rose of Versailles",
+    "anisearch": "The Rose of Versailles"
+   },
+   {
+    "id": 372,
+    "titel": "Cardcaptor Sakura the Movie 2: The Sealed Card",
+    "anilist": "Cardcaptor Sakura the Movie 2: The Sealed Card",
+    "anisearch": "Card Captor Sakura Movie 2: The Sealed Card"
+   },
+   {
+    "id": 380,
+    "titel": "Mysterious Play OVA",
+    "anilist": "Mysterious Play OVA",
+    "anisearch": "Fushigi Yûgi: The Mysterious Play OVA (1 - 3)"
+   },
+   {
+    "id": 381,
+    "titel": "Mysterious Play OVA 2",
+    "anilist": "Mysterious Play OVA 2",
+    "anisearch": "Fushigi Yûgi: The Mysterious Play OVA (4 - 9)"
+   },
+   {
+    "id": 389,
+    "titel": "Karas",
+    "anilist": "Karas",
+    "anisearch": "The Karas"
+   },
+   {
+    "id": 392,
+    "titel": "Yu Yu Hakusho: Ghostfiles",
+    "anilist": "Yu Yu Hakusho: Ghostfiles",
+    "anisearch": "Yu Yu Hakusho: Ghost Files"
+   },
+   {
+    "id": 393,
+    "titel": "Escaflowne: A Girl in Gaea",
+    "anilist": "Escaflowne: A Girl in Gaea",
+    "anisearch": "Escaflowne: The Movie"
+   },
+   {
+    "id": 401,
+    "titel": "Rurouni Kenshin OVA: Reflection (Seiso-hen)",
+    "anilist": "Rurouni Kenshin OVA: Reflection (Seiso-hen)",
+    "anisearch": "Rurouni Kenshin: Reflection"
+   },
+   {
+    "id": 417,
+    "titel": "Ragnarok the Animation",
+    "anilist": "Ragnarok the Animation",
+    "anisearch": "Ragnarök: The Animation"
+   },
+   {
+    "id": 430,
+    "titel": "Fullmetal Alchemist: The Movie - Conqueror of Shamballa",
+    "anilist": "Fullmetal Alchemist: The Movie - Conqueror of Shamballa",
+    "anisearch": "Fullmetal Alchemist: The Conqueror of Shamballa"
+   },
+   {
+    "id": 448,
+    "titel": "Tenjho Tenge: The Ultimate Fight",
+    "anilist": "Tenjho Tenge: The Ultimate Fight",
+    "anisearch": "Tenjho Tenge OVA"
+   },
+   {
+    "id": 460,
+    "titel": "One Piece: Clockwork Island Adventure",
+    "anilist": "One Piece: Clockwork Island Adventure",
+    "anisearch": "One Piece: The Adventure of Spiral Island"
+   },
+   {
+    "id": 461,
+    "titel": "One Piece: Chopper’s Kingdom on the Island of Strange Animals",
+    "anilist": "One Piece: Chopper’s Kingdom on the Island of Strange Animals",
+    "anisearch": "One Piece: Chopper’s Kingdom in the Strange Animal Island"
+   },
+   {
+    "id": 462,
+    "titel": "One Piece The Movie: The Dead End Adventure",
+    "anilist": "One Piece The Movie: The Dead End Adventure",
+    "anisearch": "One Piece: The Adventure of Dead End"
+   },
+   {
+    "id": 463,
+    "titel": "One Piece: The Curse of the Sacred Sword",
+    "anilist": "One Piece: The Curse of the Sacred Sword",
+    "anisearch": "One Piece: The Cursed Holy Sword"
+   },
+   {
+    "id": 486,
+    "titel": "Kino's Journey",
+    "anilist": "Kino's Journey",
+    "anisearch": "Kino’s Journey: The Beautiful World"
+   },
+   {
+    "id": 492,
+    "titel": "Armitage III: Dual Matrix",
+    "anilist": "Armitage III: Dual Matrix",
+    "anisearch": "Armitage: Dual-Matrix"
+   },
+   {
+    "id": 513,
+    "titel": "Castle in the Sky",
+    "anilist": "Castle in the Sky",
+    "anisearch": "Laputa: Castle in the Sky"
+   },
+   {
+    "id": 514,
+    "titel": "Le Portrait de Petit Cossette",
+    "anilist": "Le Portrait de Petit Cossette",
+    "anisearch": "Le Portrait de Petite Cossette"
+   },
+   {
+    "id": 517,
+    "titel": "School Rumble OVA",
+    "anilist": "School Rumble OVA",
+    "anisearch": "School Rumble: Extra Class"
+   },
+   {
+    "id": 531,
+    "titel": "Sailor Moon R: The Movie",
+    "anilist": "Sailor Moon R: The Movie",
+    "anisearch": "Sailor Moon R: The Movie - The Promise of the Rose"
+   },
+   {
+    "id": 539,
+    "titel": "Tenchi Muyo! Ryo-Ohki",
+    "anilist": "Tenchi Muyo! Ryo-Ohki",
+    "anisearch": "Tenchi Muyo! (Episode 1 - 6)"
+   },
+   {
+    "id": 540,
+    "titel": "Tenchi Muyo! Ryo-Ohki Season 2",
+    "anilist": "Tenchi Muyo! Ryo-Ohki Season 2",
+    "anisearch": "Tenchi Muyo! (Episode 8 - 13)"
+   },
+   {
+    "id": 551,
+    "titel": "Grappler Baki Maximum Tournament",
+    "anilist": "Grappler Baki Maximum Tournament",
+    "anisearch": "Baki the Grappler (2)"
+   },
+   {
+    "id": 603,
+    "titel": "Precure",
+    "anilist": "Precure",
+    "anisearch": "Pretty Cure"
+   },
+   {
+    "id": 620,
+    "titel": "Mermaid Forest (TV)",
+    "anilist": "Mermaid Forest (TV)",
+    "anisearch": "Mermaid’s Forest TV"
+   },
+   {
+    "id": 673,
+    "titel": "My-Hime Specials",
+    "anilist": "My-Hime Specials",
+    "anisearch": "My-Hime: Character Featurettes"
+   },
+   {
+    "id": 746,
+    "titel": "Papa to Kiss in the Dark",
+    "anilist": "Papa to Kiss in the Dark",
+    "anisearch": "Kiss in the Dark"
+   },
+   {
+    "id": 779,
+    "titel": "Detective Conan: The Time-Bombed Skyscraper",
+    "anilist": "Detective Conan: The Time-Bombed Skyscraper",
+    "anisearch": "Case Closed The Movie: The Time Bombed Skyscraper"
+   },
+   {
+    "id": 780,
+    "titel": "Detective Conan: The Fourteenth Target",
+    "anilist": "Detective Conan: The Fourteenth Target",
+    "anisearch": "Case Closed: The Fourteenth Target"
+   },
+   {
+    "id": 781,
+    "titel": "Detective Conan: The Last Wizard of the Century",
+    "anilist": "Detective Conan: The Last Wizard of the Century",
+    "anisearch": "Case Closed: The Last Wizard of the Century"
+   },
+   {
+    "id": 801,
+    "titel": "Ghost in the Shell: Stand Alone Complex 2nd GIG",
+    "anilist": "Ghost in the Shell: Stand Alone Complex 2nd GIG",
+    "anisearch": "Ghost in the Shell: S.A.C. 2nd GIG"
+   },
+   {
+    "id": 807,
+    "titel": "Tsubasa Reservoir Chronicle the Movie: The Princess in the Birdcage Kingdom",
+    "anilist": "Tsubasa Reservoir Chronicle the Movie: The Princess in the Birdcage Kingdom",
+    "anisearch": "Tsubasa Chronicle: The Princess in the Birdcage Kingdom"
+   },
+   {
+    "id": 808,
+    "titel": "Sorcerer Hunters OVA - Chocolate Springs & Other Hot Things!",
+    "anilist": "Sorcerer Hunters OVA - Chocolate Springs & Other Hot Things!",
+    "anisearch": "Sorcerer Hunters: Chocolate, Springs and other Hot Things!"
+   },
+   {
+    "id": 969,
+    "titel": "Tsubasa RESERVoir CHRoNiCLE 2nd Season",
+    "anilist": "Tsubasa RESERVoir CHRoNiCLE 2nd Season",
+    "anisearch": "Tsubasa: Reservoir Chronicle - Season 2"
+   },
+   {
+    "id": 986,
+    "titel": "Dragon Ball Z: Bardock – The Father of Goku",
+    "anilist": "Dragon Ball Z: Bardock – The Father of Goku",
+    "anisearch": "Dragon Ball Z Special 1: Bardock, The Father of Goku"
+   },
+   {
+    "id": 1003,
+    "titel": "Oh! My Goddess Specials",
+    "anilist": "Oh! My Goddess Specials",
+    "anisearch": "Ah! My Goddess Specials"
+   },
+   {
+    "id": 1006,
+    "titel": "Tenchi Muyo! In Love",
+    "anilist": "Tenchi Muyo! In Love",
+    "anisearch": "Tenchi Muyo Movie 1: Tenchi in Love"
+   },
+   {
+    "id": 1016,
+    "titel": "Battle Angel Alita",
+    "anilist": "Battle Angel Alita",
+    "anisearch": "Battle Angel"
+   },
+   {
+    "id": 1066,
+    "titel": "Shakugan no Shana Specials",
+    "anilist": "Shakugan no Shana Specials",
+    "anisearch": "Shakugan no Shana: Shana-tan"
+   },
+   {
+    "id": 1078,
+    "titel": "Cardcaptor Sakura: Leave it to Kero!",
+    "anilist": "Cardcaptor Sakura: Leave it to Kero!",
+    "anisearch": "Cardcaptor Sakura: Kero-chan Short"
+   },
+   {
+    "id": 1084,
+    "titel": "I''s",
+    "anilist": "I''s",
+    "anisearch": "From I\"s"
+   },
+   {
+    "id": 1088,
+    "titel": "Macross",
+    "anilist": "Macross",
+    "anisearch": "Super Dimensional Fortress Macross"
+   },
+   {
+    "id": 1095,
+    "titel": "Patlabor: The Movie",
+    "anilist": "Patlabor: The Movie",
+    "anisearch": "Mobile Police Patlabor: The Movie"
+   },
+   {
+    "id": 1108,
+    "titel": "Soul Hunter",
+    "anilist": "Soul Hunter",
+    "anisearch": "Soul Hunter: Battle of the Immortals"
+   },
+   {
+    "id": 1117,
+    "titel": "Pokémon the Movie 2000",
+    "anilist": "Pokémon the Movie 2000",
+    "anisearch": "Pokémon: The Movie 2000 - The Power of One"
+   },
+   {
+    "id": 1118,
+    "titel": "Pokémon 3: The Movie",
+    "anilist": "Pokémon 3: The Movie",
+    "anisearch": "Pokémon: Spell of the Unown"
+   },
+   {
+    "id": 1119,
+    "titel": "Pokémon 4Ever",
+    "anilist": "Pokémon 4Ever",
+    "anisearch": "Pokémon 4Ever: Celebi - Voice of the Forest"
+   },
+   {
+    "id": 1120,
+    "titel": "Pokémon Heroes",
+    "anilist": "Pokémon Heroes",
+    "anisearch": "Pokemon Heroes: The Movie"
+   },
+   {
+    "id": 1146,
+    "titel": "Tenchi Muyo! Ryo-Ohki: The Night Before The Carnival!",
+    "anilist": "Tenchi Muyo! Ryo-Ohki: The Night Before The Carnival!",
+    "anisearch": "Tenchi Muyo! The Night Before the Carnival!"
+   },
+   {
+    "id": 1208,
+    "titel": "Taro the Dragon's Son",
+    "anilist": "Taro the Dragon's Son",
+    "anisearch": "Taro the Dragon Boy"
+   },
+   {
+    "id": 1235,
+    "titel": "I''s Pure Bonus",
+    "anilist": "I''s Pure Bonus",
+    "anisearch": "I''s Pure: Ichitaka’s Fantasy Diary"
+   },
+   {
+    "id": 1239,
+    "titel": "Sailor Moon SuperS",
+    "anilist": "Sailor Moon SuperS",
+    "anisearch": "Sailor Moon Super S"
+   },
+   {
+    "id": 1240,
+    "titel": "Sailor Moon SuperS the Movie: Black Dream Hole",
+    "anilist": "Sailor Moon SuperS the Movie: Black Dream Hole",
+    "anisearch": "Sailor Moon SuperS Movie: Black Dream Hole"
+   },
+   {
+    "id": 1248,
+    "titel": "Z.O.E 2167 Idolo",
+    "anilist": "Z.O.E 2167 Idolo",
+    "anisearch": "Zone of the Enders: 2167 Idolo"
+   },
+   {
+    "id": 1256,
+    "titel": "Saint Seiya: Evil Goddess Eris",
+    "anilist": "Saint Seiya: Evil Goddess Eris",
+    "anisearch": "Saint Seiya The Movie: Evil Goddess Eris"
+   },
+   {
+    "id": 1285,
+    "titel": "MD Geist - The Most Dangerous Ever",
+    "anilist": "MD Geist - The Most Dangerous Ever",
+    "anisearch": "M.D. Geist"
+   },
+   {
+    "id": 1286,
+    "titel": "M.D. Geist 2 - Death Force",
+    "anilist": "M.D. Geist 2 - Death Force",
+    "anisearch": "M.D. Geist II: Death Force"
+   },
+   {
+    "id": 1313,
+    "titel": "Digimon: Digital Monsters 02",
+    "anilist": "Digimon: Digital Monsters 02",
+    "anisearch": "Digimon: Digital Monsters Season 2"
+   },
+   {
+    "id": 1335,
+    "titel": "Ghost in the Shell: Stand Alone Complex: Tachikomatic Days",
+    "anilist": "Ghost in the Shell: Stand Alone Complex: Tachikomatic Days",
+    "anisearch": "Ghost in the Shell: Stand Alone Complex - Tachikoma Days"
+   },
+   {
+    "id": 1358,
+    "titel": "Fist of the North Star Movie",
+    "anilist": "Fist of the North Star Movie",
+    "anisearch": "Fist of the North Star: The Movie"
+   },
+   {
+    "id": 1363,
+    "titel": "Detective Conan: Captured in Her Eyes",
+    "anilist": "Detective Conan: Captured in Her Eyes",
+    "anisearch": "Case Closed: Captured in Her Eyes"
+   },
+   {
+    "id": 1364,
+    "titel": "Detective Conan: Countdown to Heaven",
+    "anilist": "Detective Conan: Countdown to Heaven",
+    "anisearch": "Case Closed: Countdown to Heaven"
+   },
+   {
+    "id": 1365,
+    "titel": "Detective Conan: The Phantom of Baker Street",
+    "anilist": "Detective Conan: The Phantom of Baker Street",
+    "anisearch": "Case Closed: The Phantom of Baker Street"
+   },
+   {
+    "id": 1412,
+    "titel": "Lupin the 3rd",
+    "anilist": "Lupin the 3rd",
+    "anisearch": "Lupin the 3rd: Part 1"
+   },
+   {
+    "id": 1417,
+    "titel": "Lupin the 3rd: Dragon of Doom",
+    "anilist": "Lupin the 3rd: Dragon of Doom",
+    "anisearch": "Lupin III: Dragon of Doom"
+   },
+   {
+    "id": 1430,
+    "titel": "Lupin The 3rd: The Castle of Cagliostro",
+    "anilist": "Lupin The 3rd: The Castle of Cagliostro",
+    "anisearch": "Lupin III: The Castle of Cagliostro"
+   },
+   {
+    "id": 1434,
+    "titel": "Lupin the 3rd: The Pursuit of Harimao's Treasure",
+    "anilist": "Lupin the 3rd: The Pursuit of Harimao's Treasure",
+    "anisearch": "Lupin III: The Pursuit of Harimao’s Treasure"
+   },
+   {
+    "id": 1436,
+    "titel": "Lupin the 3rd: The Secret of Twilight Gemini",
+    "anilist": "Lupin the 3rd: The Secret of Twilight Gemini",
+    "anisearch": "Lupin III: The Secret of Twilight Gemini"
+   },
+   {
+    "id": 1438,
+    "titel": "Lupin the 3rd: Voyage to Danger",
+    "anilist": "Lupin the 3rd: Voyage to Danger",
+    "anisearch": "Lupin III: Voyage to Danger"
+   },
+   {
+    "id": 1448,
+    "titel": "Go Lion",
+    "anilist": "Go Lion",
+    "anisearch": "Voltron: Defender of the Universe"
+   },
+   {
+    "id": 1479,
+    "titel": "City Hunter: Death of the Vicious Criminal Ryo Saeba",
+    "anilist": "City Hunter: Death of the Vicious Criminal Ryo Saeba",
+    "anisearch": "City Hunter: Death of the Vicious Criminal Saeba Ryo"
+   },
+   {
+    "id": 1487,
+    "titel": ".hack//Unison",
+    "anilist": ".hack//Unison",
+    "anisearch": ".hack//SIGN: Unison"
+   },
+   {
+    "id": 1527,
+    "titel": "Pokémon: The Mastermind of Mirage Pokémon",
+    "anilist": "Pokémon: The Mastermind of Mirage Pokémon",
+    "anisearch": "Mastermind of Mirage Pokémon"
+   },
+   {
+    "id": 1530,
+    "titel": "Kanon (2006)",
+    "anilist": "Kanon (2006)",
+    "anisearch": "Kanon"
+   },
+   {
+    "id": 1531,
+    "titel": "Shakugan no Shana: Koi to Onsen no Kougai Gakushuu!",
+    "anilist": "Shakugan no Shana: Koi to Onsen no Kougai Gakushuu!",
+    "anisearch": "Shakugan no Shana OVA"
+   },
+   {
+    "id": 1546,
+    "titel": "Negima!? Magister Negi Magi",
+    "anilist": "Negima!? Magister Negi Magi",
+    "anisearch": "Negima!?"
+   },
+   {
+    "id": 1564,
+    "titel": "Pokémon the Series: Ruby and Sapphire",
+    "anilist": "Pokémon the Series: Ruby and Sapphire",
+    "anisearch": "Pokémon Advanced"
+   },
+   {
+    "id": 1565,
+    "titel": "Pokémon the Series: Diamond and Pearl",
+    "anilist": "Pokémon the Series: Diamond and Pearl",
+    "anisearch": "Pokémon: Diamond & Pearl"
+   },
+   {
+    "id": 1614,
+    "titel": "Captain Tsubasa",
+    "anilist": "Captain Tsubasa",
+    "anisearch": "Captain Tsubasa: Road to Dream"
+   },
+   {
+    "id": 1619,
+    "titel": "Negima!? Magister Negi Magi: Spring",
+    "anilist": "Negima!? Magister Negi Magi: Spring",
+    "anisearch": "Negima!? Spring Special"
+   },
+   {
+    "id": 1638,
+    "titel": "Peter Pan & Wendy",
+    "anilist": "Peter Pan & Wendy",
+    "anisearch": "Adventures of Peter Pan"
+   },
+   {
+    "id": 1645,
+    "titel": "Harlock Saga: The Ring of the Nibelung",
+    "anilist": "Harlock Saga: The Ring of the Nibelung",
+    "anisearch": "Harlock Saga"
+   },
+   {
+    "id": 1731,
+    "titel": "Tales of Symphonia: The Animation - Sylvarant Arc",
+    "anilist": "Tales of Symphonia: The Animation - Sylvarant Arc",
+    "anisearch": "Tales of Symphonia: Sylvarant Arc"
+   },
+   {
+    "id": 1732,
+    "titel": "Negima!? Magister Negi Magi: Summer",
+    "anilist": "Negima!? Magister Negi Magi: Summer",
+    "anisearch": "Negima!? Summer Special"
+   },
+   {
+    "id": 1774,
+    "titel": "HeatGuy J Special",
+    "anilist": "HeatGuy J Special",
+    "anisearch": "Heat Guy J: Angel"
+   },
+   {
+    "id": 1894,
+    "titel": "Yu-Gi-Oh! The Movie: Pyramid of Light",
+    "anilist": "Yu-Gi-Oh! The Movie: Pyramid of Light",
+    "anisearch": "Yu-Gi-Oh! The Movie"
+   },
+   {
+    "id": 1951,
+    "titel": "Manie Manie: Neo Tokyo",
+    "anilist": "Manie Manie: Neo Tokyo",
+    "anisearch": "Neo Tokyo"
+   },
+   {
+    "id": 2248,
+    "titel": "Hidden Leaf Village Grand Sports Festival",
+    "anilist": "Hidden Leaf Village Grand Sports Festival",
+    "anisearch": "Naruto: Hidden Leaf Village Grand Sports Festival!"
+   },
+   {
+    "id": 2273,
+    "titel": "Mobile Suit Gundam Wing: Endless Waltz",
+    "anilist": "Mobile Suit Gundam Wing: Endless Waltz",
+    "anisearch": "Gundam Wing: Endless Waltz"
+   },
+   {
+    "id": 2282,
+    "titel": "In The Beginning: Stories from the Bible",
+    "anilist": "In The Beginning: Stories from the Bible",
+    "anisearch": "In The Beginning: The Bible Stories"
+   },
+   {
+    "id": 2298,
+    "titel": "Mobile Suit Gundam Seed: After-Phase Between the Stars",
+    "anilist": "Mobile Suit Gundam Seed: After-Phase Between the Stars",
+    "anisearch": "Mobile Suit Gundam Seed: Epilogue"
+   },
+   {
+    "id": 2333,
+    "titel": "The Three Musketeers",
+    "anilist": "The Three Musketeers",
+    "anisearch": "Three Musketeers"
+   },
+   {
+    "id": 2334,
+    "titel": "The Three Musketeers: Adventure of Aramis",
+    "anilist": "The Three Musketeers: Adventure of Aramis",
+    "anisearch": "The Three Musketeers: Aramis the Adventure"
+   },
+   {
+    "id": 2361,
+    "titel": "Star Musketeer Bismark",
+    "anilist": "Star Musketeer Bismark",
+    "anisearch": "Saber Rider and the Star Sheriffs"
+   },
+   {
+    "id": 2397,
+    "titel": "Digimon: Our War Game",
+    "anilist": "Digimon: Our War Game",
+    "anisearch": "Digimon: The Movie (Part 2)"
+   },
+   {
+    "id": 2427,
+    "titel": "Fantastic Adventures of Unico",
+    "anilist": "Fantastic Adventures of Unico",
+    "anisearch": "The Fantastic Adventures of Unico"
+   },
+   {
+    "id": 2476,
+    "titel": "School Days (TV)",
+    "anilist": "School Days (TV)",
+    "anisearch": "School Days"
+   },
+   {
+    "id": 2547,
+    "titel": "A Little Princess Sara",
+    "anilist": "A Little Princess Sara",
+    "anisearch": "Princess Sarah"
+   },
+   {
+    "id": 2548,
+    "titel": "Tales of Little Women",
+    "anilist": "Tales of Little Women",
+    "anisearch": "Little Women"
+   },
+   {
+    "id": 2568,
+    "titel": "Fortunate Fawn",
+    "anilist": "Fortunate Fawn",
+    "anisearch": "The Yearling"
+   },
+   {
+    "id": 2571,
+    "titel": "Maya the Bee",
+    "anilist": "Maya the Bee",
+    "anisearch": "Adventures of Maya the Honeybee"
+   },
+   {
+    "id": 2593,
+    "titel": "the Garden of sinners Chapter 1: Thanatos. (Overlooking View)",
+    "anilist": "the Garden of sinners Chapter 1: Thanatos. (Overlooking View)",
+    "anisearch": "The Garden of Sinners: Thanatos (Overlooking View)"
+   },
+   {
+    "id": 2623,
+    "titel": "Dog of Flanders",
+    "anilist": "Dog of Flanders",
+    "anisearch": "The Dog of Flanders"
+   },
+   {
+    "id": 2746,
+    "titel": "Vexille: 2077 Isolation of Japan",
+    "anilist": "Vexille: 2077 Isolation of Japan",
+    "anisearch": "Vexille"
+   },
+   {
+    "id": 2759,
+    "titel": "Evangelion: 1.0 You Are (Not) Alone",
+    "anilist": "Evangelion: 1.0 You Are (Not) Alone",
+    "anisearch": "Evangelion: 1.11 - You Are (Not) Alone."
+   },
+   {
+    "id": 2789,
+    "titel": "Battle B-Daman",
+    "anilist": "Battle B-Daman",
+    "anisearch": "Bedaman"
+   },
+   {
+    "id": 2813,
+    "titel": "Alfred J. Quack",
+    "anilist": "Alfred J. Quack",
+    "anisearch": "Alfred J. Kwak"
+   },
+   {
+    "id": 2822,
+    "titel": "Bamboo Bears",
+    "anilist": "Bamboo Bears",
+    "anisearch": "The Bamboo Bears"
+   },
+   {
+    "id": 2836,
+    "titel": "Vicky the Viking",
+    "anilist": "Vicky the Viking",
+    "anisearch": "Vicky the Little Viking"
+   },
+   {
+    "id": 2882,
+    "titel": "Superbook",
+    "anilist": "Superbook",
+    "anisearch": "Parent and Child Theatre"
+   },
+   {
+    "id": 2889,
+    "titel": "Bleach the Movie: The DiamondDust Rebellion",
+    "anilist": "Bleach the Movie: The DiamondDust Rebellion",
+    "anisearch": "Bleach: The Movie - The Diamond Dust Rebellion"
+   },
+   {
+    "id": 2892,
+    "titel": "Bob in the Bottle",
+    "anilist": "Bob in the Bottle",
+    "anisearch": "Bob in a Bottle"
+   },
+   {
+    "id": 2913,
+    "titel": "The Bush Baby",
+    "anilist": "The Bush Baby",
+    "anisearch": "Bush Baby, Little Angel of the Great Plains"
+   },
+   {
+    "id": 2961,
+    "titel": "Digimon Adventure (Movie)",
+    "anilist": "Digimon Adventure (Movie)",
+    "anisearch": "Digimon: The Movie (Part 1)"
+   },
+   {
+    "id": 2962,
+    "titel": "Digimon: Hurricane Touchdown",
+    "anilist": "Digimon: Hurricane Touchdown",
+    "anisearch": "Digimon: The Movie (Part 3)"
+   },
+   {
+    "id": 3027,
+    "titel": "Fist of the North Star: The Legend of the True Savior: Legend of Yuria",
+    "anilist": "Fist of the North Star: The Legend of the True Savior: Legend of Yuria",
+    "anisearch": "Fist of the North Star: Legend of the True Savior - Legend of Yuria"
+   },
+   {
+    "id": 3043,
+    "titel": "Hans Christian Andersen's The Little Mermaid",
+    "anilist": "Hans Christian Andersen's The Little Mermaid",
+    "anisearch": "The Little Mermaid"
+   },
+   {
+    "id": 3194,
+    "titel": "Saban's Adventures of the Little Mermaid",
+    "anilist": "Saban's Adventures of the Little Mermaid",
+    "anisearch": "Adventures of the Little Mermaid"
+   },
+   {
+    "id": 3710,
+    "titel": "Graveyard Kitaro",
+    "anilist": "Graveyard Kitaro",
+    "anisearch": "Hakaba Kitaro"
+   },
+   {
+    "id": 3723,
+    "titel": "The Adventures of the Little Koala",
+    "anilist": "The Adventures of the Little Koala",
+    "anisearch": "Adventures of the Little Koala"
+   },
+   {
+    "id": 3752,
+    "titel": "Puss-in-Boots: Travels Around the World in 80 Days",
+    "anilist": "Puss-in-Boots: Travels Around the World in 80 Days",
+    "anisearch": "Puss’n Boots Travels Around the World"
+   },
+   {
+    "id": 3755,
+    "titel": "World's Famous Stories for Children: Thumb Princess",
+    "anilist": "World's Famous Stories for Children: Thumb Princess",
+    "anisearch": "Thumbelina"
+   },
+   {
+    "id": 3757,
+    "titel": "Aladdin and the Wonderful Lamp",
+    "anilist": "Aladdin and the Wonderful Lamp",
+    "anisearch": "Aladdin and the Magic Lamp"
+   },
+   {
+    "id": 3782,
+    "titel": "the Garden of sinners Chapter 2: …and nothing heart. (Murder Speculation Part A)",
+    "anilist": "the Garden of sinners Chapter 2: …and nothing heart. (Murder Speculation Part A)",
+    "anisearch": "The Garden of Sinners: ...And Nothing Heart (Murder Speculation Part A)"
+   },
+   {
+    "id": 3783,
+    "titel": "the Garden of sinners Chapter 3: ever cry, never life. (Remaining Sense of Pain)",
+    "anilist": "the Garden of sinners Chapter 3: ever cry, never life. (Remaining Sense of Pain)",
+    "anisearch": "The Garden of Sinners: Ever Cry, Never Life (Remaining Sense of Pain)"
+   },
+   {
+    "id": 3784,
+    "titel": "Evangelion: 2.0 You Can (Not) Advance",
+    "anilist": "Evangelion: 2.0 You Can (Not) Advance",
+    "anisearch": "Evangelion: 2.22 - You Can (Not) Advance."
+   },
+   {
+    "id": 3785,
+    "titel": "Evangelion: 3.0 You Can (Not) Redo",
+    "anilist": "Evangelion: 3.0 You Can (Not) Redo",
+    "anisearch": "Evangelion: 3.33 - You Can (Not) Redo."
+   },
+   {
+    "id": 3786,
+    "titel": "Evangelion: 3.0+1.0 Thrice Upon a Time",
+    "anilist": "Evangelion: 3.0+1.0 Thrice Upon a Time",
+    "anisearch": "Evangelion: 3.0+1.01 Thrice upon a Time"
+   },
+   {
+    "id": 3812,
+    "titel": "Dream Star Button Nose",
+    "anilist": "Dream Star Button Nose",
+    "anisearch": "Button Nose"
+   },
+   {
+    "id": 3843,
+    "titel": "Ali Baba and the Forty Thieves",
+    "anilist": "Ali Baba and the Forty Thieves",
+    "anisearch": "Alibaba’s Revenge"
+   },
+   {
+    "id": 3848,
+    "titel": "One Piece: Episode Of Chopper +: The Miracle Winter Cherry Blossom",
+    "anilist": "One Piece: Episode Of Chopper +: The Miracle Winter Cherry Blossom",
+    "anisearch": "One Piece: Episode of Chopper Plus - The Miracle Winter Cherry Blossom"
+   },
+   {
+    "id": 4026,
+    "titel": "Pokémon: Giratina and the Sky Warrior",
+    "anilist": "Pokémon: Giratina and the Sky Warrior",
+    "anisearch": "Pokémon: Giratina & the Sky Warrior"
+   },
+   {
+    "id": 4059,
+    "titel": "Clannad: Another World, Tomoyo Chapter",
+    "anilist": "Clannad: Another World, Tomoyo Chapter",
+    "anisearch": "Clannad: Another World - Tomoyo Arc"
+   },
+   {
+    "id": 4061,
+    "titel": "Grimm's Fairy Tale Classics",
+    "anilist": "Grimm's Fairy Tale Classics",
+    "anisearch": "Grimm’s Fairy Tale Classics (2)"
+   },
+   {
+    "id": 4081,
+    "titel": "Natsume's Book of Friends Season 1",
+    "anilist": "Natsume's Book of Friends Season 1",
+    "anisearch": "Natsume’s Book of Friends"
+   },
+   {
+    "id": 4138,
+    "titel": "The Adventures of Scamper the Penguin",
+    "anilist": "The Adventures of Scamper the Penguin",
+    "anisearch": "The Adventures of Lolo the Penguin"
+   },
+   {
+    "id": 4199,
+    "titel": "King Arthur and the Knights of the Round Table",
+    "anilist": "King Arthur and the Knights of the Round Table",
+    "anisearch": "King Arthur & the Knights of the Round Table"
+   },
+   {
+    "id": 4280,
+    "titel": "the Garden of sinners Chapter 4: garan-no-dou. (The Hollow Shrine)",
+    "anilist": "the Garden of sinners Chapter 4: garan-no-dou. (The Hollow Shrine)",
+    "anisearch": "The Garden of Sinners: Garan no Dou (The Hollow Shrine)"
+   },
+   {
+    "id": 4282,
+    "titel": "the Garden of sinners Chapter 5: Paradox Paradigm",
+    "anilist": "the Garden of sinners Chapter 5: Paradox Paradigm",
+    "anisearch": "The Garden of Sinners: Paradox Paradigm"
+   },
+   {
+    "id": 4312,
+    "titel": "Fist of the North Star: The Legend of the True Savior: Legend of Toki",
+    "anilist": "Fist of the North Star: The Legend of the True Savior: Legend of Toki",
+    "anisearch": "Fist of the North Star: Legend of the True Savior - Legend of Toki"
+   },
+   {
+    "id": 4792,
+    "titel": "Pokémon: Pikachu's Rescue Adventure",
+    "anilist": "Pokémon: Pikachu's Rescue Adventure",
+    "anisearch": "Pikachu’s Rescue Adventure"
+   },
+   {
+    "id": 4793,
+    "titel": "Pokémon: Pikachu and Pichu",
+    "anilist": "Pokémon: Pikachu and Pichu",
+    "anisearch": "Pikachu and Pichu"
+   },
+   {
+    "id": 4938,
+    "titel": "Tsubasa: Spring Thunder Chronicles",
+    "anilist": "Tsubasa: Spring Thunder Chronicles",
+    "anisearch": "Tsubasa: Spring Thunder Chronicle"
+   },
+   {
+    "id": 5042,
+    "titel": "Kiss x Sis",
+    "anilist": "Kiss x Sis",
+    "anisearch": "Kiss × Sis OAD"
+   },
+   {
+    "id": 5098,
+    "titel": "The World of Hans Christian Andersen",
+    "anilist": "The World of Hans Christian Andersen",
+    "anisearch": "Fables from Hans Christian Andersen"
+   },
+   {
+    "id": 5155,
+    "titel": "Millennium Old Journal: Tale of Genji",
+    "anilist": "Millennium Old Journal: Tale of Genji",
+    "anisearch": "Genji Monogatari Sennenki"
+   },
+   {
+    "id": 5204,
+    "titel": "the Garden of sinners Chapter 6: Fairy Tale. (Oblivion Recording)",
+    "anilist": "the Garden of sinners Chapter 6: Fairy Tale. (Oblivion Recording)",
+    "anisearch": "The Garden of Sinners: Fairy Tale (Oblivion Recording)"
+   },
+   {
+    "id": 5205,
+    "titel": "the Garden of sinners Chapter 7: ……not nothing heart. (Murder Speculation Part B)",
+    "anilist": "the Garden of sinners Chapter 7: ……not nothing heart. (Murder Speculation Part B)",
+    "anisearch": "The Garden of Sinners: ...Not Nothing Heart (Murder Speculation Part B)"
+   },
+   {
+    "id": 5256,
+    "titel": "Pokémon Mystery Dungeon: Explorers of Time and Darkness",
+    "anilist": "Pokémon Mystery Dungeon: Explorers of Time and Darkness",
+    "anisearch": "Pokémon Mysterieous Dungeon: Explorers of Time and Darkness"
+   },
+   {
+    "id": 5291,
+    "titel": "Fist of the North Star: The Legend of the True Savior: Legend of Kenshiro",
+    "anilist": "Fist of the North Star: The Legend of the True Savior: Legend of Kenshiro",
+    "anisearch": "Fist of the North Star: Legend of the True Savior - The Legend of Kenshiro"
+   },
+   {
+    "id": 5306,
+    "titel": "Tales of Symphonia: The Animation - Tethe'alla Arc",
+    "anilist": "Tales of Symphonia: The Animation - Tethe'alla Arc",
+    "anisearch": "Tales of Symphonia: Tethe’alla Arc"
+   },
+   {
+    "id": 5341,
+    "titel": "Spice and Wolf II",
+    "anilist": "Spice and Wolf II",
+    "anisearch": "Spice and Wolf: Season 2"
+   },
+   {
+    "id": 5526,
+    "titel": "Pokémon: Pikachu's Vacation",
+    "anilist": "Pokémon: Pikachu's Vacation",
+    "anisearch": "Pikachu’s Summer Vacation"
+   },
+   {
+    "id": 5530,
+    "titel": "PandoraHearts",
+    "anilist": "PandoraHearts",
+    "anisearch": "Pandora Hearts"
+   },
+   {
+    "id": 6007,
+    "titel": "Spice and Wolf II: Wolf and the Amber Melancholy",
+    "anilist": "Spice and Wolf II: Wolf and the Amber Melancholy",
+    "anisearch": "Spice and Wolf: Wolf and Amber Melancholy"
+   },
+   {
+    "id": 6072,
+    "titel": "Eleven Cats and an Albatross",
+    "anilist": "Eleven Cats and an Albatross",
+    "anisearch": "Eleven Hungry Cats and an Albatros"
+   },
+   {
+    "id": 6115,
+    "titel": "Lupin the 3rd Vs Detective Conan",
+    "anilist": "Lupin the 3rd Vs Detective Conan",
+    "anisearch": "Lupin The Third vs. Detective Conan: The Special"
+   },
+   {
+    "id": 6127,
+    "titel": "Toradora!: SOS! Hurray for Foodies",
+    "anilist": "Toradora!: SOS! Hurray for Foodies",
+    "anisearch": "Toradora SOS! Hurray for Gourmands"
+   },
+   {
+    "id": 6351,
+    "titel": "Clannad: Another World, Kyou Chapter",
+    "anilist": "Clannad: Another World, Kyou Chapter",
+    "anisearch": "Clannad: After Story - Kyou Arc"
+   },
+   {
+    "id": 6392,
+    "titel": "Issho ni Training: Training with Hinako",
+    "anilist": "Issho ni Training: Training with Hinako",
+    "anisearch": "Training With Hinako"
+   },
+   {
+    "id": 6877,
+    "titel": "Pokémon: Pichu Bros. in Party Panic",
+    "anilist": "Pokémon: Pichu Bros. in Party Panic",
+    "anisearch": "Pichu Bros. in Party Panic"
+   },
+   {
+    "id": 6922,
+    "titel": "Fate/stay night: Unlimited Blade Works (Movie)",
+    "anilist": "Fate/stay night: Unlimited Blade Works (Movie)",
+    "anisearch": "Fate/Stay Night: Unlimited Blade Works"
+   },
+   {
+    "id": 6927,
+    "titel": "Eden of The East Compilation: Air Communication",
+    "anilist": "Eden of The East Compilation: Air Communication",
+    "anisearch": "Eden of the East: Air Communication"
+   },
+   {
+    "id": 6954,
+    "titel": "the Garden of sinners Chapter 8: The Final Chapter",
+    "anilist": "the Garden of sinners Chapter 8: The Final Chapter",
+    "anisearch": "The Garden of Sinners: Epilogue"
+   },
+   {
+    "id": 7336,
+    "titel": "Cyborg 009: Legend of the Super Galaxy",
+    "anilist": "Cyborg 009: Legend of the Super Galaxy",
+    "anisearch": "Defenders of the Vortex"
+   },
+   {
+    "id": 7858,
+    "titel": "Heaven's Lost Property OVA",
+    "anilist": "Heaven's Lost Property OVA",
+    "anisearch": "Heaven’s Lost Property: Project Pink"
+   },
+   {
+    "id": 7897,
+    "titel": "Issho ni Sleeping: Sleeping with Hinako",
+    "anilist": "Issho ni Sleeping: Sleeping with Hinako",
+    "anisearch": "Sleeping With Hinako"
+   },
+   {
+    "id": 7902,
+    "titel": "Fullmetal Alchemist: Brotherhood: 4-Koma Theater",
+    "anilist": "Fullmetal Alchemist: Brotherhood: 4-Koma Theater",
+    "anisearch": "Fullmetal Four-Panel Comic Theater"
+   },
+   {
+    "id": 8584,
+    "titel": "Future War Year 198X",
+    "anilist": "Future War Year 198X",
+    "anisearch": "Future War 198X"
+   },
+   {
+    "id": 8963,
+    "titel": "Stitch vs. Penny",
+    "anilist": "Stitch vs. Penny",
+    "anisearch": "Stitch!: Stitch vs. Penny"
+   },
+   {
+    "id": 8995,
+    "titel": "Tales of Symphonia: The Animation - The United World Arc",
+    "anilist": "Tales of Symphonia: The Animation - The United World Arc",
+    "anisearch": "Tales of Symphonia: The United World Arc"
+   },
+   {
+    "id": 9366,
+    "titel": "Maid-Sama! It's an extra!",
+    "anilist": "Maid-Sama! It's an extra!",
+    "anisearch": "Maid Sama! Omakedayo"
+   },
+   {
+    "id": 9515,
+    "titel": "High School of the Dead: Drifters of the Dead",
+    "anilist": "High School of the Dead: Drifters of the Dead",
+    "anisearch": "High School of the Dead OVA: Drifters of the Dead"
+   },
+   {
+    "id": 9575,
+    "titel": "Peter of Placid Forest",
+    "anilist": "Peter of Placid Forest",
+    "anisearch": "Back to the Forest"
+   },
+   {
+    "id": 9734,
+    "titel": "K-ON! Season 2: Plan!",
+    "anilist": "K-ON! Season 2: Plan!",
+    "anisearch": "K-On! Plan!"
+   },
+   {
+    "id": 9744,
+    "titel": "Issho ni Training 026: Bathtime with Hinako & Hiyoko",
+    "anilist": "Issho ni Training 026: Bathtime with Hinako & Hiyoko",
+    "anisearch": "Bathing With Hinako"
+   },
+   {
+    "id": 9926,
+    "titel": "Sekai Ichi Hatsukoi - The World's Greatest First Love",
+    "anilist": "Sekai Ichi Hatsukoi - The World's Greatest First Love",
+    "anisearch": "Sekai Ichi Hatsukoi: World’s Greatest First Love"
+   },
+   {
+    "id": 9936,
+    "titel": "Maken-Ki! Battling Venus",
+    "anilist": "Maken-Ki! Battling Venus",
+    "anisearch": "Maken-ki!"
+   },
+   {
+    "id": 10444,
+    "titel": "Digimon Xros Wars: The Evil Death Generals and the Seven Kingdoms",
+    "anilist": "Digimon Xros Wars: The Evil Death Generals and the Seven Kingdoms",
+    "anisearch": "Digimon Fusion (Season 2)"
+   },
+   {
+    "id": 10659,
+    "titel": "Naruto, the Genie, and the Three Wishes, Believe It!",
+    "anilist": "Naruto, the Genie, and the Three Wishes, Believe It!",
+    "anisearch": "Naruto and the Three Wishes"
+   },
+   {
+    "id": 10719,
+    "titel": "Haganai",
+    "anilist": "Haganai",
+    "anisearch": "Haganai: I Don’t Have Many Friends"
+   },
+   {
+    "id": 10794,
+    "titel": "IS: Infinite Stratos Encore: A Sextet Yearning for Love",
+    "anilist": "IS: Infinite Stratos Encore: A Sextet Yearning for Love",
+    "anisearch": "Infinitie Stratos Encore: The Sextet Yearns to Be in Love"
+   },
+   {
+    "id": 11061,
+    "titel": "Hunter x Hunter (2011)",
+    "anilist": "Hunter x Hunter (2011)",
+    "anisearch": "Hunter × Hunter (2011)"
+   },
+   {
+    "id": 11123,
+    "titel": "Sekai Ichi Hatsukoi - The World's Greatest First Love Season 2",
+    "anilist": "Sekai Ichi Hatsukoi - The World's Greatest First Love Season 2",
+    "anisearch": "Sekai Ichi Hatsukoi: World’s Greatest First Love - Season 2"
+   },
+   {
+    "id": 11255,
+    "titel": "Ikki Tousen: Shugaku Toshi Keppu-roku",
+    "anilist": "Ikki Tousen: Shugaku Toshi Keppu-roku",
+    "anisearch": "Ikki Tousen: Shuugaku Epic Battle"
+   },
+   {
+    "id": 11266,
+    "titel": "Blue Exorcist: Runaway Kuro",
+    "anilist": "Blue Exorcist: Runaway Kuro",
+    "anisearch": "Blue Exorcist: Kuro Runs Away From Home"
+   },
+   {
+    "id": 11553,
+    "titel": "Toradora!: Bento Battle",
+    "anilist": "Toradora!: Bento Battle",
+    "anisearch": "Toradora! The True Meaning of Bento"
+   },
+   {
+    "id": 11577,
+    "titel": "Steins;Gate The Movie – Load Region of Déjà Vu",
+    "anilist": "Steins;Gate The Movie – Load Region of Déjà Vu",
+    "anisearch": "Steins;Gate: The Movie - Load Region of Deja Vu"
+   },
+   {
+    "id": 11617,
+    "titel": "High School DxD",
+    "anilist": "High School DxD",
+    "anisearch": "High School D×D"
+   },
+   {
+    "id": 11981,
+    "titel": "Puella Magi Madoka Magica the Movie -Rebellion-",
+    "anilist": "Puella Magi Madoka Magica the Movie -Rebellion-",
+    "anisearch": "Puella Magi Madoka Magica The Movie: Part 3 - Rebellion"
+   },
+   {
+    "id": 12029,
+    "titel": "Star Blazers: Space Battleship Yamato 2199",
+    "anilist": "Star Blazers: Space Battleship Yamato 2199",
+    "anisearch": "Star Blazers 2199"
+   },
+   {
+    "id": 12049,
+    "titel": "Fairy Tail: Phoenix Priestess",
+    "anilist": "Fairy Tail: Phoenix Priestess",
+    "anisearch": "Fairy Tail: The Movie - Phoenix Priestess"
+   },
+   {
+    "id": 12671,
+    "titel": "Pokémon the Movie: Kyurem VS. The Sword of Justice",
+    "anilist": "Pokémon the Movie: Kyurem VS. The Sword of Justice",
+    "anisearch": "Pokemon The Movie: Kyurem vs. The Sword of Justice"
+   },
+   {
+    "id": 12715,
+    "titel": "The Hakkenden: Legend of the Dog Warriors Part 2",
+    "anilist": "The Hakkenden: Legend of the Dog Warriors Part 2",
+    "anisearch": "The Hakkenden: Legend of the Dog Warriors (2)"
+   },
+   {
+    "id": 13201,
+    "titel": "Monster Rancher (2000)",
+    "anilist": "Monster Rancher (2000)",
+    "anisearch": "Monster Rancher Season 3"
+   },
+   {
+    "id": 13271,
+    "titel": "Hunter x Hunter: Phantom Rouge",
+    "anilist": "Hunter x Hunter: Phantom Rouge",
+    "anisearch": "Hunter × Hunter: Phantom Rouge"
+   },
+   {
+    "id": 13357,
+    "titel": "High School DxD: Fantasy Jiggles Unleashed",
+    "anilist": "High School DxD: Fantasy Jiggles Unleashed",
+    "anisearch": "High School D×D: Fantasy Jiggles Unleashed"
+   },
+   {
+    "id": 14027,
+    "titel": "Haganai: Add-on Disc",
+    "anilist": "Haganai: Add-on Disc",
+    "anisearch": "Haganai: A Round-Robin Story’s Ending Is Way Extreme"
+   },
+   {
+    "id": 14093,
+    "titel": "Pokémon BW: Rival Destinies",
+    "anilist": "Pokémon BW: Rival Destinies",
+    "anisearch": "Pokémon: Black & White Season 2"
+   },
+   {
+    "id": 14123,
+    "titel": "Pokémon Black 2 White 2: Introduction Special Movie",
+    "anilist": "Pokémon Black 2 White 2: Introduction Special Movie",
+    "anisearch": "Pokémon Black Version 2 and White Version 2 - Animated Trailer"
+   },
+   {
+    "id": 14131,
+    "titel": "Girls und Panzer",
+    "anilist": "Girls und Panzer",
+    "anisearch": "Girls & Panzer"
+   },
+   {
+    "id": 14669,
+    "titel": "Aura",
+    "anilist": "Aura",
+    "anisearch": "Aura: Koga Maryuin’s Last War"
+   },
+   {
+    "id": 14719,
+    "titel": "JoJo's Bizarre Adventure (TV)",
+    "anilist": "JoJo's Bizarre Adventure (TV)",
+    "anisearch": "JoJo’s Bizarre Adventure"
+   },
+   {
+    "id": 14751,
+    "titel": "Pretty Guardian Sailor Moon Crystal: Seasons 1-2",
+    "anilist": "Pretty Guardian Sailor Moon Crystal: Seasons 1-2",
+    "anisearch": "Pretty Guardian Sailor Moon Crystal"
+   },
+   {
+    "id": 15037,
+    "titel": "Corpse Party",
+    "anilist": "Corpse Party",
+    "anisearch": "Corpse Party: Tortured Souls"
+   },
+   {
+    "id": 15039,
+    "titel": "Anohana the Movie: The Flower We Saw That Day",
+    "anilist": "Anohana the Movie: The Flower We Saw That Day",
+    "anisearch": "AnoHana: The Flower We Saw That Day - The Movie"
+   },
+   {
+    "id": 15225,
+    "titel": "Hentai Prince & the Stony Cat",
+    "anilist": "Hentai Prince & the Stony Cat",
+    "anisearch": "The Hentai Prince and the Stony Cat."
+   },
+   {
+    "id": 15565,
+    "titel": "Maken-Ki! Battling Venus 2",
+    "anilist": "Maken-Ki! Battling Venus 2",
+    "anisearch": "Maken-ki! Two"
+   },
+   {
+    "id": 15729,
+    "titel": "Aesthetica of a Rogue Hero Specials",
+    "anilist": "Aesthetica of a Rogue Hero Specials",
+    "anisearch": "Aesthetica of a Rogue Hero Original Videos"
+   },
+   {
+    "id": 15811,
+    "titel": "Girls und Panzer OVA Series",
+    "anilist": "Girls und Panzer OVA Series",
+    "anisearch": "Girls & Panzer: OVA Series"
+   },
+   {
+    "id": 16001,
+    "titel": "Kokoro Connect ~ The OVAs",
+    "anilist": "Kokoro Connect ~ The OVAs",
+    "anisearch": "Kokoro Connect OVAs"
+   },
+   {
+    "id": 16067,
+    "titel": "A Lull in the Sea",
+    "anilist": "A Lull in the Sea",
+    "anisearch": "Nagi-Asu: A Lull in the Sea"
+   },
+   {
+    "id": 16678,
+    "titel": "Pokémon: Eevee & Friends",
+    "anilist": "Pokémon: Eevee & Friends",
+    "anisearch": "Pokémon: Eevee and Friends"
+   },
+   {
+    "id": 16694,
+    "titel": "Sankarea: I, Too, Am... A Zombie...",
+    "anilist": "Sankarea: I, Too, Am... A Zombie...",
+    "anisearch": "Sankarea: Undying Love - I, Too, Am … a Zombie ..."
+   },
+   {
+    "id": 16762,
+    "titel": "The Future Diary: Redial",
+    "anilist": "The Future Diary: Redial",
+    "anisearch": "The Future Diary OVA"
+   },
+   {
+    "id": 16894,
+    "titel": "Kuroko's Basketball 2",
+    "anilist": "Kuroko's Basketball 2",
+    "anisearch": "Kuroko’s Basketball Season 2"
+   },
+   {
+    "id": 16934,
+    "titel": "Love, Chunibyo & Other Delusions: Glimmering...Explosive Festival (Slapstick Noel)",
+    "anilist": "Love, Chunibyo & Other Delusions: Glimmering...Explosive Festival (Slapstick Noel)",
+    "anisearch": "Love, Chunibyo & Other Delusions: Glimmering… Explosive Festival"
+   },
+   {
+    "id": 17115,
+    "titel": "Pokémon BW: Adventures in Unova",
+    "anilist": "Pokémon BW: Adventures in Unova",
+    "anisearch": "Pokémon: Black & White Season 2 - Episode N"
+   },
+   {
+    "id": 17873,
+    "titel": "Pokémon BW: Adventures in Unova and Beyond",
+    "anilist": "Pokémon BW: Adventures in Unova and Beyond",
+    "anisearch": "Pokemon: Black & White - Adventures in Unova and Beyond"
+   },
+   {
+    "id": 18247,
+    "titel": "Infinite Stratos 2",
+    "anilist": "Infinite Stratos 2",
+    "anisearch": "IS: Infinite Stratos 2"
+   },
+   {
+    "id": 18397,
+    "titel": "Attack on Titan OVA",
+    "anilist": "Attack on Titan OVA",
+    "anisearch": "Attack on Titan OAD"
+   },
+   {
+    "id": 18617,
+    "titel": "Girls und Panzer der Film",
+    "anilist": "Girls und Panzer der Film",
+    "anisearch": "Girls & Panzer: Der Film"
+   },
+   {
+    "id": 18619,
+    "titel": "Girls und Panzer: This is the Real Anzio Battle!",
+    "anilist": "Girls und Panzer: This is the Real Anzio Battle!",
+    "anisearch": "Girls & Panzer: This Is the Real Anzio Battle!"
+   },
+   {
+    "id": 18851,
+    "titel": "Fate/kaleid liner Prisma☆Illya: Dance at the Sports Festival!",
+    "anilist": "Fate/kaleid liner Prisma☆Illya: Dance at the Sports Festival!",
+    "anisearch": "Fate/Kaleid Liner Prisma Illya: Sports Day"
+   },
+   {
+    "id": 18893,
+    "titel": "Arpeggio of Blue Steel",
+    "anilist": "Arpeggio of Blue Steel",
+    "anisearch": "Arpeggio of Blue Steel: Ars Nova"
+   },
+   {
+    "id": 18897,
+    "titel": "Nisekoi",
+    "anilist": "Nisekoi",
+    "anisearch": "Nisekoi: False Love"
+   },
+   {
+    "id": 19099,
+    "titel": "Pokémon: Mewtwo—Prologue to Awakening",
+    "anilist": "Pokémon: Mewtwo—Prologue to Awakening",
+    "anisearch": "Mewtwo: Prologue to Awakening"
+   },
+   {
+    "id": 19255,
+    "titel": "Samurai Bride Specials",
+    "anilist": "Samurai Bride Specials",
+    "anisearch": "Samurai Bride Shorts"
+   },
+   {
+    "id": 19951,
+    "titel": "Hunter x Hunter: The Last Mission",
+    "anilist": "Hunter x Hunter: The Last Mission",
+    "anisearch": "Hunter × Hunter: The Last Mission"
+   },
+   {
+    "id": 136110,
+    "titel": "Beyblade: Shogun Steel Specials",
+    "anilist": "Beyblade: Shogun Steel Specials",
+    "anisearch": "Beyblade: Shogun Steel (Dark Nebula Again Arc)"
+   },
+   {
+    "id": 20540,
+    "titel": "Sengoku Musou Special: Sanada's Chapter",
+    "anilist": "Sengoku Musou Special: Sanada's Chapter",
+    "anisearch": "Samurai Warriors: Legend of the Sanada"
+   },
+   {
+    "id": 21271,
+    "titel": "Pokémon: Pikachu, What's This Key?",
+    "anilist": "Pokémon: Pikachu, What's This Key?",
+    "anisearch": "Pikachu, What’s This Key?"
+   },
+   {
+    "id": 20572,
+    "titel": "Kill la Kill: GOODBYE AGAIN",
+    "anilist": "Kill la Kill: GOODBYE AGAIN",
+    "anisearch": "Kill La Kill: Last Goodbye"
+   },
+   {
+    "id": 20626,
+    "titel": "Fairy Tail Series 2",
+    "anilist": "Fairy Tail Series 2",
+    "anisearch": "Fairy Tail (Second Season)"
+   },
+   {
+    "id": 20603,
+    "titel": "Kuroko’s Basketball 2: Would You Mind Doing That Once More",
+    "anilist": "Kuroko’s Basketball 2: Would You Mind Doing That Once More",
+    "anisearch": "Kuroko’s Basketball: Would You Mind Doing That Once More"
+   },
+   {
+    "id": 19603,
+    "titel": "Fate/stay night: Unlimited Blade Works",
+    "anilist": "Fate/stay night: Unlimited Blade Works",
+    "anisearch": "Fate/Stay Night: Unlimited Blade Works - Season 1"
+   },
+   {
+    "id": 20638,
+    "titel": "Invaders of the Rokujoma!?",
+    "anilist": "Invaders of the Rokujoma!?",
+    "anisearch": "Invaders of the Rokujyoma!?"
+   },
+   {
+    "id": 20978,
+    "titel": "Lupin the IIIrd: Jigen's Gravestone",
+    "anilist": "Lupin the IIIrd: Jigen's Gravestone",
+    "anisearch": "Lupin the Third: Jigen’s Gravestone"
+   },
+   {
+    "id": 20683,
+    "titel": "Pokémon the Series: XY Mega Evolution Specials",
+    "anilist": "Pokémon the Series: XY Mega Evolution Specials",
+    "anisearch": "Pokémon XY: Mega Evolution"
+   },
+   {
+    "id": 20671,
+    "titel": "Log Horizon 2",
+    "anilist": "Log Horizon 2",
+    "anisearch": "Log Horizon Season 2"
+   },
+   {
+    "id": 20666,
+    "titel": "Space Dandy 2",
+    "anilist": "Space Dandy 2",
+    "anisearch": "Space Dandy Season 2"
+   },
+   {
+    "id": 20725,
+    "titel": "Kuroko's Basketball 3",
+    "anilist": "Kuroko's Basketball 3",
+    "anisearch": "Kuroko’s Basketball Season 3"
+   },
+   {
+    "id": 20866,
+    "titel": "Brynhildr in the Darkness OVA",
+    "anilist": "Brynhildr in the Darkness OVA",
+    "anisearch": "Brynhildr in the Darkness: Much Ado About Nothing"
+   },
+   {
+    "id": 20926,
+    "titel": "Riddle Story of Devil Special",
+    "anilist": "Riddle Story of Devil Special",
+    "anisearch": "Riddle Story of Devil: Who Is the Winner? (Pop Quiz)"
+   },
+   {
+    "id": 20769,
+    "titel": "No Game No Life Specials",
+    "anilist": "No Game No Life Specials",
+    "anisearch": "No Game No Life Shorts"
+   },
+   {
+    "id": 20835,
+    "titel": "One Piece 3D2Y: Overcome Ace’s Death! Luffy’s Vow to his Friends",
+    "anilist": "One Piece 3D2Y: Overcome Ace’s Death! Luffy’s Vow to his Friends",
+    "anisearch": "One Piece 3D2Y: Overcoming Ace’s Death! Luffy’s Pledge to His Friends"
+   },
+   {
+    "id": 20884,
+    "titel": "HAIKYU!!: Lev Appears!",
+    "anilist": "HAIKYU!!: Lev Appears!",
+    "anisearch": "Haikyu!! Lev Apears!"
+   },
+   {
+    "id": 20796,
+    "titel": "Junjou Romantica 3",
+    "anilist": "Junjou Romantica 3",
+    "anisearch": "Junjo Romantica 3"
+   },
+   {
+    "id": 20801,
+    "titel": "Kamisama Kiss◎",
+    "anilist": "Kamisama Kiss◎",
+    "anisearch": "Kamisama Kiss 2"
+   },
+   {
+    "id": 21091,
+    "titel": "Free! -Eternal Summer-: Forbidden All-Hard!",
+    "anilist": "Free! -Eternal Summer-: Forbidden All-Hard!",
+    "anisearch": "Free! Eternal Summer OVA"
+   },
+   {
+    "id": 102365,
+    "titel": "Pororo: The Racing Adventure",
+    "anilist": "Pororo: The Racing Adventure",
+    "anisearch": "The Little Penguin Pororo's Racing Adventure"
+   },
+   {
+    "id": 20889,
+    "titel": "Love, Chunibyo & Other Delusions - Heart Throb -: The Rikka Wars/ Apocalypse of the Wicked Lord Shingan Reborn",
+    "anilist": "Love, Chunibyo & Other Delusions - Heart Throb -: The Rikka Wars/ Apocalypse of the Wicked Lord Shingan Reborn",
+    "anisearch": "Love, Chunibyo & Other Delusions! Heart Throb - Apocalypse of the Wicked Lord Shingan Reborn"
+   },
+   {
+    "id": 20876,
+    "titel": "Nisekoi:",
+    "anilist": "Nisekoi:",
+    "anisearch": "Nisekoi: False Love (Season 2)"
+   },
+   {
+    "id": 20923,
+    "titel": "Food Wars!",
+    "anilist": "Food Wars!",
+    "anisearch": "Food Wars! Shokugeki no Soma"
+   },
+   {
+    "id": 20935,
+    "titel": "The Heroic Legend of Arslan",
+    "anilist": "The Heroic Legend of Arslan",
+    "anisearch": "The Heroic Legend of Arslan (2015)"
+   },
+   {
+    "id": 20956,
+    "titel": "Pokémon Omega Ruby and Pokémon Alpha Sapphire Animated Trailer",
+    "anilist": "Pokémon Omega Ruby and Pokémon Alpha Sapphire Animated Trailer",
+    "anisearch": "Pokémon Omega Ruby and Alpha Sapphire Animated Trailer"
+   },
+   {
+    "id": 21646,
+    "titel": "Detective Conan: Sunflowers of Inferno",
+    "anilist": "Detective Conan: Sunflowers of Inferno",
+    "anisearch": "Case Closed: Sunflowers of Inferno"
+   },
+   {
+    "id": 20966,
+    "titel": "Yamada and the Seven Witches",
+    "anilist": "Yamada and the Seven Witches",
+    "anisearch": "Yamada-kun & the 7 Witches"
+   },
+   {
+    "id": 20792,
+    "titel": "Fate/stay night: Unlimited Blade Works 2nd Season",
+    "anilist": "Fate/stay night: Unlimited Blade Works 2nd Season",
+    "anisearch": "Fate/Stay Night: Unlimited Blade Works - Season 2"
+   },
+   {
+    "id": 20968,
+    "titel": "The Anthem of the Heart",
+    "anilist": "The Anthem of the Heart",
+    "anisearch": "The Anthem of the Heart: Beautiful Word Beautiful World"
+   },
+   {
+    "id": 20993,
+    "titel": "Seraph of the End: Battle in Nagoya",
+    "anilist": "Seraph of the End: Battle in Nagoya",
+    "anisearch": "Seraph of the End: Vampire Reign – Part 2"
+   },
+   {
+    "id": 20995,
+    "titel": "To Love Ru Darkness 2",
+    "anilist": "To Love Ru Darkness 2",
+    "anisearch": "To Love Ru: Darkness 2nd"
+   },
+   {
+    "id": 21078,
+    "titel": "Aoharu x Machinegun",
+    "anilist": "Aoharu x Machinegun",
+    "anisearch": "Aoharu × Machinegun"
+   },
+   {
+    "id": 21338,
+    "titel": "Triage X: RECOLLECTION XOXO",
+    "anilist": "Triage X: RECOLLECTION XOXO",
+    "anisearch": "Triage X OVA"
+   },
+   {
+    "id": 21096,
+    "titel": "Doukyuusei -Classmates-",
+    "anilist": "Doukyuusei -Classmates-",
+    "anisearch": "Doukyusei: Classmates"
+   },
+   {
+    "id": 21170,
+    "titel": "Assassination Classroom Second Season",
+    "anilist": "Assassination Classroom Second Season",
+    "anisearch": "Assassination Classroom Season 2"
+   },
+   {
+    "id": 21180,
+    "titel": "Saekano: How to Raise a Boring Girlfriend ♭",
+    "anilist": "Saekano: How to Raise a Boring Girlfriend ♭",
+    "anisearch": "Saekano: How to Raise a Boring Girlfriend.flat"
+   },
+   {
+    "id": 21191,
+    "titel": "Fairy Tail: Dragon Cry",
+    "anilist": "Fairy Tail: Dragon Cry",
+    "anisearch": "Fairy Tail: The Movie - Dragon Cry"
+   },
+   {
+    "id": 21493,
+    "titel": "Sky Wizards Academy OVA",
+    "anilist": "Sky Wizards Academy OVA",
+    "anisearch": "Sky Wizards Academy: Lecty, Animal Caretaker"
+   },
+   {
+    "id": 21230,
+    "titel": "One Piece - Episode of Sabo: Bond of Three Brothers - A Miraculous Reunion and an Inherited Will",
+    "anilist": "One Piece - Episode of Sabo: Bond of Three Brothers - A Miraculous Reunion and an Inherited Will",
+    "anisearch": "One Piece: Episode of Sabo - The Three Brothers’ Bond, the Miraculous Reunion and the Inherited Will"
+   },
+   {
+    "id": 21279,
+    "titel": "High School DxD BorN: Maximum Titillation OVA",
+    "anilist": "High School DxD BorN: Maximum Titillation OVA",
+    "anisearch": "High School D×D BorN: Maximum Titillation"
+   },
+   {
+    "id": 21318,
+    "titel": "Fate/stay night: Unlimited Blade Works 2nd Season - sunny day",
+    "anilist": "Fate/stay night: Unlimited Blade Works 2nd Season - sunny day",
+    "anisearch": "Fate/Stay Night: Unlimited Blade Works - Sunny Day"
+   },
+   {
+    "id": 21339,
+    "titel": "Charlotte: Strong People",
+    "anilist": "Charlotte: Strong People",
+    "anisearch": "Charlotte: The Strong Ones"
+   },
+   {
+    "id": 21364,
+    "titel": "Gate 2",
+    "anilist": "Gate 2",
+    "anisearch": "Gate (Season 2)"
+   },
+   {
+    "id": 21377,
+    "titel": "Kuroko's Basketball: Last Game",
+    "anilist": "Kuroko's Basketball: Last Game",
+    "anisearch": "Kuroko’s Basketball The Movie: Last Game"
+   },
+   {
+    "id": 21385,
+    "titel": "The Seven Deadly Sins: Signs of A Holy War",
+    "anilist": "The Seven Deadly Sins: Signs of A Holy War",
+    "anisearch": "The Seven Deadly Sins: Signs of Holy War"
+   },
+   {
+    "id": 21462,
+    "titel": "Pretty Guardian Sailor Moon Crystal: Season 3",
+    "anilist": "Pretty Guardian Sailor Moon Crystal: Season 3",
+    "anisearch": "Pretty Guardian Sailor Moon Crystal Season III"
+   },
+   {
+    "id": 21390,
+    "titel": "The Asterisk War 2",
+    "anilist": "The Asterisk War 2",
+    "anisearch": "The Asterisk War (Part 2)"
+   },
+   {
+    "id": 21414,
+    "titel": "Aoharu x Machinegun: This is a Battlefield for Beasts!",
+    "anilist": "Aoharu x Machinegun: This is a Battlefield for Beasts!",
+    "anisearch": "Aoharu × Machinegun: This Is a Battlefield for Beasts!"
+   },
+   {
+    "id": 21416,
+    "titel": "One-Punch Man OVA",
+    "anilist": "One-Punch Man OVA",
+    "anisearch": "One Punch Man OVAs"
+   },
+   {
+    "id": 21378,
+    "titel": "Hybrid x Heart Magias Academy Ataraxia",
+    "anilist": "Hybrid x Heart Magias Academy Ataraxia",
+    "anisearch": "Hybrid × Heart Magias Academy Ataraxia"
+   },
+   {
+    "id": 21428,
+    "titel": "Grimgar of Fantasy and Ash",
+    "anilist": "Grimgar of Fantasy and Ash",
+    "anisearch": "Grimgar, Ashes and Illusions"
+   },
+   {
+    "id": 21540,
+    "titel": "Concrete Revolutio: THE LAST SONG",
+    "anilist": "Concrete Revolutio: THE LAST SONG",
+    "anisearch": "Concrete Revolutio Season 2"
+   },
+   {
+    "id": 21579,
+    "titel": "Boruto: Naruto the Movie - The Day Naruto Became Hokage",
+    "anilist": "Boruto: Naruto the Movie - The Day Naruto Became Hokage",
+    "anisearch": "Boruto: The Day Naruto Became the Hokage"
+   },
+   {
+    "id": 21700,
+    "titel": "Akashic Records of Bastard Magic Instructor",
+    "anilist": "Akashic Records of Bastard Magic Instructor",
+    "anisearch": "Akashic Records of Bastard Magical Instructor"
+   },
+   {
+    "id": 21717,
+    "titel": "Fate/EXTRA Last Encore",
+    "anilist": "Fate/EXTRA Last Encore",
+    "anisearch": "Fate/Extra: Last Encore - Oblitus Copernican Theory"
+   },
+   {
+    "id": 98814,
+    "titel": "Dimension W OVA",
+    "anilist": "Dimension W OVA",
+    "anisearch": "Dimension W: Do Robots Dream of Bathhouses?"
+   },
+   {
+    "id": 21791,
+    "titel": "Bungo Stray Dogs 2: Walking Alone",
+    "anilist": "Bungo Stray Dogs 2: Walking Alone",
+    "anisearch": "Bungo Stray Dogs: Walking Alone"
+   },
+   {
+    "id": 21771,
+    "titel": "Planetarian: Storyteller of the Stars",
+    "anilist": "Planetarian: Storyteller of the Stars",
+    "anisearch": "Planetarian (Movie)"
+   },
+   {
+    "id": 21860,
+    "titel": "WorldEnd: What are you doing at the end of the world? Are you busy? Will you save us?",
+    "anilist": "WorldEnd: What are you doing at the end of the world? Are you busy? Will you save us?",
+    "anisearch": "WorldEnd: What Do You Do at the End of the World? Are You Busy? Will You Save Us?"
+   },
+   {
+    "id": 21874,
+    "titel": "Trinity Seven: Eternal Library & Alchemic Girl",
+    "anilist": "Trinity Seven: Eternal Library & Alchemic Girl",
+    "anisearch": "Trinity Seven: Eternity Library & Alchemic Girl"
+   },
+   {
+    "id": 98604,
+    "titel": "Detective Conan: Episode \"ONE\"",
+    "anilist": "Detective Conan: Episode \"ONE\"",
+    "anisearch": "Case Closed: Episode One - The Great Detective Turned Small"
+   },
+   {
+    "id": 97672,
+    "titel": "Danganronpa 3: The End of Hope's Peak High School - Hope Arc",
+    "anilist": "Danganronpa 3: The End of Hope's Peak High School - Hope Arc",
+    "anisearch": "Danganronpa 3: The End of Hope’s Peak High School - Hope Arc - The School of Hope and the Students of Despair"
+   },
+   {
+    "id": 98873,
+    "titel": "Overlord: The Undead King",
+    "anilist": "Overlord: The Undead King",
+    "anisearch": "Overlord (Movies)"
+   },
+   {
+    "id": 98222,
+    "titel": "Detective Conan: The Crimson Love Letter",
+    "anilist": "Detective Conan: The Crimson Love Letter",
+    "anisearch": "Case Closed: The Crimson Love Letter"
+   },
+   {
+    "id": 97917,
+    "titel": "The Night is Short, Walk on Girl",
+    "anilist": "The Night is Short, Walk on Girl",
+    "anisearch": "Night is Short, Walk On Girl"
+   },
+   {
+    "id": 87539,
+    "titel": "The Dragon Dentist",
+    "anilist": "The Dragon Dentist",
+    "anisearch": "Dragon Dentist"
+   },
+   {
+    "id": 98778,
+    "titel": "91 Days: Shoal of Time",
+    "anilist": "91 Days: Shoal of Time",
+    "anisearch": "91 Days: Day 13"
+   },
+   {
+    "id": 98856,
+    "titel": "Armed Girl's Machiavellism OVA",
+    "anilist": "Armed Girl's Machiavellism OVA",
+    "anisearch": "Armed Girl’s Machiavellism: Badump! A Pleasure Trip with All the Five Swords"
+   },
+   {
+    "id": 98762,
+    "titel": "Love, Chunibyo & Other Delusions: Take on Me",
+    "anilist": "Love, Chunibyo & Other Delusions: Take on Me",
+    "anisearch": "Love, Chunibyo and Other Delusions! Take on Me"
+   },
+   {
+    "id": 141166,
+    "titel": "Speckles: Dinosaurs of the Korean Peninsula",
+    "anilist": "Speckles: Dinosaurs of the Korean Peninsula",
+    "anisearch": "Dino King: An Amazing Adventure"
+   },
+   {
+    "id": 100653,
+    "titel": "Detective Conan: Zero the Enforcer",
+    "anilist": "Detective Conan: Zero the Enforcer",
+    "anisearch": "Case Closed: Zero the Enforcer"
+   },
+   {
+    "id": 100469,
+    "titel": "Granblue Fantasy: The Animation Special",
+    "anilist": "Granblue Fantasy: The Animation Special",
+    "anisearch": "Granblue Fantasy: The Animation - Jack O’Lantern"
+   },
+   {
+    "id": 99693,
+    "titel": "PERSONA5 the Animation",
+    "anilist": "PERSONA5 the Animation",
+    "anisearch": "Persona 5 the Animation"
+   },
+   {
+    "id": 100684,
+    "titel": "Recovery of an MMO Junkie OVA",
+    "anilist": "Recovery of an MMO Junkie OVA",
+    "anisearch": "Recovery of an MMO Junkie: Moriko Logs In to Fruits de Mer"
+   },
+   {
+    "id": 187052,
+    "titel": "Calico Critters: Mini Episodes",
+    "anilist": "Calico Critters: Mini Episodes",
+    "anisearch": "Sylvanian Families"
+   },
+   {
+    "id": 100268,
+    "titel": "Natsume's Book of Friends the Movie: Ephemeral Bond",
+    "anilist": "Natsume's Book of Friends the Movie: Ephemeral Bond",
+    "anisearch": "Natsume Yujin-cho the Movie: Ephemeral Bond"
+   },
+   {
+    "id": 100465,
+    "titel": "Attack on Titan: The Roar of Awakening",
+    "anilist": "Attack on Titan: The Roar of Awakening",
+    "anisearch": "Attack on Titan: Roar of Awakening"
+   },
+   {
+    "id": 100891,
+    "titel": "KENGAN ASHURA Part I",
+    "anilist": "KENGAN ASHURA Part I",
+    "anisearch": "Kengan Ashura"
+   },
+   {
+    "id": 100745,
+    "titel": "Captain Tsubasa (2018)",
+    "anilist": "Captain Tsubasa (2018)",
+    "anisearch": "Captain Tsubasa"
+   },
+   {
+    "id": 101016,
+    "titel": "Junji Ito Collection: Tomie",
+    "anilist": "Junji Ito Collection: Tomie",
+    "anisearch": "Junji Ito: Tomie"
+   },
+   {
+    "id": 100876,
+    "titel": "Kakegurui xx",
+    "anilist": "Kakegurui xx",
+    "anisearch": "Kakegurui ××"
+   },
+   {
+    "id": 101231,
+    "titel": "Flavors of Youth",
+    "anilist": "Flavors of Youth",
+    "anisearch": "Flavors of Youth: Love in Shanghai"
+   },
+   {
+    "id": 103887,
+    "titel": "Modest Heroes: Ponoc Short Films Theatre, Volume 1",
+    "anilist": "Modest Heroes: Ponoc Short Films Theatre, Volume 1",
+    "anisearch": "Modest Heroes"
+   },
+   {
+    "id": 102309,
+    "titel": "MEGALOBOX Specials",
+    "anilist": "MEGALOBOX Specials",
+    "anisearch": "Megalo Box Audio Drama"
+   },
+   {
+    "id": 102351,
+    "titel": "Tokyo Ghoul:re 2",
+    "anilist": "Tokyo Ghoul:re 2",
+    "anisearch": "Tokyo Ghoul:re Season 2"
+   },
+   {
+    "id": 102977,
+    "titel": "Golden Kamuy Season 2",
+    "anilist": "Golden Kamuy Season 2",
+    "anisearch": "Golden Kamuy 2"
+   },
+   {
+    "id": 102976,
+    "titel": "KONOSUBA -God's blessing on this wonderful world!- Legend of Crimson",
+    "anilist": "KONOSUBA -God's blessing on this wonderful world!- Legend of Crimson",
+    "anisearch": "KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson"
+   },
+   {
+    "id": 163828,
+    "titel": "Tayo the Little Bus Season 1",
+    "anilist": "Tayo the Little Bus Season 1",
+    "anisearch": "Tayo the Little Bus"
+   },
+   {
+    "id": 188055,
+    "titel": "Tayo the Little Bus Season 2",
+    "anilist": "Tayo the Little Bus Season 2",
+    "anisearch": "Tayo the little Bus 2"
+   },
+   {
+    "id": 188056,
+    "titel": "Tayo the Little Bus Season 3",
+    "anilist": "Tayo the Little Bus Season 3",
+    "anisearch": "Tayo the little Bus 3"
+   },
+   {
+    "id": 188058,
+    "titel": "Tayo the Little Bus Season 4",
+    "anilist": "Tayo the Little Bus Season 4",
+    "anisearch": "Tayo the little Bus 4"
+   },
+   {
+    "id": 106896,
+    "titel": "PERSONA5 the Animation: Stars and Ours",
+    "anilist": "PERSONA5 the Animation: Stars and Ours",
+    "anisearch": "Persona 5 the Animation: Stars and Ours"
+   },
+   {
+    "id": 187053,
+    "titel": "Calico Critters: Mini Episodes -Ivy-",
+    "anilist": "Calico Critters: Mini Episodes -Ivy-",
+    "anisearch": "Sylvanian Families: Mini Episodes - Ivy"
+   },
+   {
+    "id": 188059,
+    "titel": "Tayo the Little Bus Season 5",
+    "anilist": "Tayo the Little Bus Season 5",
+    "anisearch": "Tayo the Little Bus 5"
+   },
+   {
+    "id": 105334,
+    "titel": "Fruits Basket (2019)",
+    "anilist": "Fruits Basket (2019)",
+    "anisearch": "Fruits Basket: Season 1"
+   },
+   {
+    "id": 105807,
+    "titel": "7SEEDS",
+    "anilist": "7SEEDS",
+    "anisearch": "7 Seeds"
+   },
+   {
+    "id": 106206,
+    "titel": "Detective Conan: The Fist of Blue Sapphire",
+    "anilist": "Detective Conan: The Fist of Blue Sapphire",
+    "anisearch": "Case Closed: The Fist of Blue Sapphire"
+   },
+   {
+    "id": 107727,
+    "titel": "NiNoKuni",
+    "anilist": "NiNoKuni",
+    "anisearch": "Ni no Kuni"
+   },
+   {
+    "id": 108266,
+    "titel": "Tsugumomo2",
+    "anilist": "Tsugumomo2",
+    "anisearch": "Tsugumomo 2"
+   },
+   {
+    "id": 108353,
+    "titel": "SPRIGGAN (ONA)",
+    "anilist": "SPRIGGAN (ONA)",
+    "anisearch": "Spriggan"
+   },
+   {
+    "id": 108553,
+    "titel": "My Hero Academia: Heroes Rising",
+    "anilist": "My Hero Academia: Heroes Rising",
+    "anisearch": "My Hero Academia The Movie: Heroes Rising"
+   },
+   {
+    "id": 109085,
+    "titel": "Cells at Work! Specials",
+    "anilist": "Cells at Work! Specials",
+    "anisearch": "Cells at Work!: Animated Shorts"
+   },
+   {
+    "id": 109819,
+    "titel": "Mob Psycho 100 II: The First Spirits and Such Company Trip ~A Journey that Mends the Heart and Heals the Soul~",
+    "anilist": "Mob Psycho 100 II: The First Spirits and Such Company Trip ~A Journey that Mends the Heart and Heals the Soul~",
+    "anisearch": "Mob Psycho 100: The First Spirits and Such Company Trip - A Journey that Mends the Heart and Heals the Soul"
+   },
+   {
+    "id": 113924,
+    "titel": "Why the hell are you here, Teacher!?: Thirteenth Period",
+    "anilist": "Why the hell are you here, Teacher!?: Thirteenth Period",
+    "anisearch": "Why the Hell Are You Here, Teacher!? OVA"
+   },
+   {
+    "id": 108945,
+    "titel": "One-Punch Man Season 2 OVA",
+    "anilist": "One-Punch Man Season 2 OVA",
+    "anisearch": "One Punch Man Season 2 OVAs"
+   },
+   {
+    "id": 109190,
+    "titel": "Violet Evergarden: Eternity and the Auto Memory Doll",
+    "anilist": "Violet Evergarden: Eternity and the Auto Memory Doll",
+    "anisearch": "Violet Evergarden: Eternity and the Auto Memories Doll"
+   },
+   {
+    "id": 113653,
+    "titel": "Detective Conan: The Scarlet Bullet",
+    "anilist": "Detective Conan: The Scarlet Bullet",
+    "anisearch": "Case Closed: The Scarlet Bullet"
+   },
+   {
+    "id": 109321,
+    "titel": "Val x Love",
+    "anilist": "Val x Love",
+    "anisearch": "Val × Love"
+   },
+   {
+    "id": 110355,
+    "titel": "Golden Kamuy Season 3",
+    "anilist": "Golden Kamuy Season 3",
+    "anisearch": "Golden Kamuy 3"
+   },
+   {
+    "id": 110413,
+    "titel": "Lupin III: The First",
+    "anilist": "Lupin III: The First",
+    "anisearch": "Lupin the 3rd: The First"
+   },
+   {
+    "id": 111729,
+    "titel": "Arifureta: From Commonplace to World's Strongest Specials",
+    "anilist": "Arifureta: From Commonplace to World's Strongest Specials",
+    "anisearch": "Arifureta: From Commonplace to World’s Strongest OVAs"
+   },
+   {
+    "id": 110686,
+    "titel": "HERO MASK part II",
+    "anilist": "HERO MASK part II",
+    "anisearch": "Hero Mask: Part 2"
+   },
+   {
+    "id": 111048,
+    "titel": "KENGAN ASHURA Part II",
+    "anilist": "KENGAN ASHURA Part II",
+    "anisearch": "Kengan Ashura: Part 2"
+   },
+   {
+    "id": 112153,
+    "titel": "Pokémon Journeys: The Series",
+    "anilist": "Pokémon Journeys: The Series",
+    "anisearch": "Pokémon Journeys"
+   },
+   {
+    "id": 112125,
+    "titel": "Is It Wrong to Try to Pick Up Girls in a Dungeon? II: Is It Wrong to Go Searching for Herbs on a Deserted Island?",
+    "anilist": "Is It Wrong to Try to Pick Up Girls in a Dungeon? II: Is It Wrong to Go Searching for Herbs on a Deserted Island?",
+    "anisearch": "Is it Wrong to Try to Pick Up Girls in a Dungeon?: Season 2 OVA"
+   },
+   {
+    "id": 187054,
+    "titel": "Calico Critters: Mini Episodes -Clover-",
+    "anilist": "Calico Critters: Mini Episodes -Clover-",
+    "anisearch": "Sylvanian Families: Mini Episodes - Clover"
+   },
+   {
+    "id": 112301,
+    "titel": "The Misfit of Demon King Academy: History’s Strongest Demon King Reincarnates and Goes to School with His Descendants",
+    "anilist": "The Misfit of Demon King Academy: History’s Strongest Demon King Reincarnates and Goes to School with His Descendants",
+    "anisearch": "The Misfit of Demon King Academy"
+   },
+   {
+    "id": 112686,
+    "titel": "7SEEDS Part 2",
+    "anilist": "7SEEDS Part 2",
+    "anisearch": "7 Seeds: Part 2"
+   },
+   {
+    "id": 114052,
+    "titel": "Girls und Panzer: Taiyaki War!",
+    "anilist": "Girls und Panzer: Taiyaki War!",
+    "anisearch": "Girls & Panzer: Taiyaki War!"
+   },
+   {
+    "id": 113864,
+    "titel": "Special Crime Investigation Unit - Special 7 OVA",
+    "anilist": "Special Crime Investigation Unit - Special 7 OVA",
+    "anisearch": "Special 7: Special Crime Investigation Unit - One Year Earlier: Kujaku Nijo’s Melancholy"
+   },
+   {
+    "id": 116756,
+    "titel": "Fate/Grand Order Final Singularity - Grand Temple of Time: Solomon",
+    "anilist": "Fate/Grand Order Final Singularity - Grand Temple of Time: Solomon",
+    "anisearch": "Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon"
+   },
+   {
+    "id": 119964,
+    "titel": "POKÉTOON",
+    "anilist": "POKÉTOON",
+    "anisearch": "Pokétoon: The Pokémon Cartoon Animation"
+   },
+   {
+    "id": 127368,
+    "titel": "Is It Wrong to Try to Pick Up Girls in a Dungeon? III: Is It Wrong to Try to Find a Hot Spring in Orario? -Bath God Forever-",
+    "anilist": "Is It Wrong to Try to Pick Up Girls in a Dungeon? III: Is It Wrong to Try to Find a Hot Spring in Orario? -Bath God Forever-",
+    "anisearch": "Is It Wrong to Try to Pick Up Girls in a Dungeon? Is It Wrong to Try to Find a Hot Spring in Orario? Bath God Forever"
+   },
+   {
+    "id": 127720,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Cour 2",
+    "anilist": "Mushoku Tensei: Jobless Reincarnation Cour 2",
+    "anisearch": "Mushoku Tensei: Jobless Reincarnation (Part 2)"
+   },
+   {
+    "id": 202420,
+    "titel": "Red Shoes and the Seven Dwarfs",
+    "anilist": "Red Shoes and the Seven Dwarfs",
+    "anisearch": "Red Shoes and the Seven Dwarfes"
+   },
+   {
+    "id": 131264,
+    "titel": "Yashahime: Princess Half-Demon - The Second Act",
+    "anilist": "Yashahime: Princess Half-Demon - The Second Act",
+    "anisearch": "Yashahime: Princess Half-Demon (Season 2)"
+   },
+   {
+    "id": 131586,
+    "titel": "86 EIGHTY-SIX Part 2",
+    "anilist": "86 EIGHTY-SIX Part 2",
+    "anisearch": "86: Eighty Six (Season 2)"
+   },
+   {
+    "id": 135136,
+    "titel": "The Case Study of Vanitas Part 2",
+    "anilist": "The Case Study of Vanitas Part 2",
+    "anisearch": "The Case Study of Vanitas (Season 2)"
+   },
+   {
+    "id": 136080,
+    "titel": "Magia Record: Puella Magi Madoka Magica Side Story Final Season -Dawn of a Shallow Dream-",
+    "anilist": "Magia Record: Puella Magi Madoka Magica Side Story Final Season -Dawn of a Shallow Dream-",
+    "anisearch": "Magia Record: Puella Magi Madoka Magica Side Story Final Season - The Dawn of the Ephemeral Dream"
+   },
+   {
+    "id": 136829,
+    "titel": "My Next Life as a Villainess: All Routes Lead to Doom! X - I Met My Destined One...",
+    "anilist": "My Next Life as a Villainess: All Routes Lead to Doom! X - I Met My Destined One...",
+    "anisearch": "My Next Life as a Villainess: All Routes Lead to Doom! I Met My Destined One…"
+   },
+   {
+    "id": 136880,
+    "titel": "BEASTARS Final Season Part 1",
+    "anilist": "BEASTARS Final Season Part 1",
+    "anisearch": "Beastars Final Season"
+   },
+   {
+    "id": 137822,
+    "titel": "BLUE LOCK",
+    "anilist": "BLUE LOCK",
+    "anisearch": "Bluelock"
+   },
+   {
+    "id": 138056,
+    "titel": "Record of Ragnarok II",
+    "anilist": "Record of Ragnarok II",
+    "anisearch": "Record of Ragnarok: Season 2"
+   },
+   {
+    "id": 136436,
+    "titel": "Miss Kobayashi’s Dragon Maid S: Japanese Hospitality (The Attendant Is a Dragon)",
+    "anilist": "Miss Kobayashi’s Dragon Maid S: Japanese Hospitality (The Attendant Is a Dragon)",
+    "anisearch": "Miss Kobayashi’s Dragon Maid S: Japanese Hospitality - Attendance Is a Dragon"
+   },
+   {
+    "id": 140291,
+    "titel": "Disney Twisted-Wonderland: The Animation",
+    "anilist": "Disney Twisted-Wonderland: The Animation",
+    "anisearch": "Disney Twisted-Wonderland: The Animation - Episode of Heartslabyul"
+   },
+   {
+    "id": 140960,
+    "titel": "SPY x FAMILY",
+    "anilist": "SPY x FAMILY",
+    "anisearch": "Spy × Family"
+   },
+   {
+    "id": 141534,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Cour 2 - Eris the Goblin Slayer",
+    "anilist": "Mushoku Tensei: Jobless Reincarnation Cour 2 - Eris the Goblin Slayer",
+    "anisearch": "Mushoku Tensei: Jobless Reincarnation - Eris the Goblin Slayer"
+   },
+   {
+    "id": 142343,
+    "titel": "Golden Kamuy Season 4",
+    "anilist": "Golden Kamuy Season 4",
+    "anisearch": "Golden Kamuy 4"
+   },
+   {
+    "id": 142838,
+    "titel": "SPY x FAMILY Cour 2",
+    "anilist": "SPY x FAMILY Cour 2",
+    "anisearch": "Spy × Family (Cour 2)"
+   },
+   {
+    "id": 142853,
+    "titel": "Tokyo Revengers Season 2",
+    "anilist": "Tokyo Revengers Season 2",
+    "anisearch": "Tokyo Revengers: Christmas Showdown"
+   },
+   {
+    "id": 143277,
+    "titel": "Urusei Yatsura (2022) Seasons 1 & 2",
+    "anilist": "Urusei Yatsura (2022) Seasons 1 & 2",
+    "anisearch": "Urusei Yatsura (2022)"
+   },
+   {
+    "id": 146206,
+    "titel": "The Saint's Magic Power is Omnipotent II",
+    "anilist": "The Saint's Magic Power is Omnipotent II",
+    "anisearch": "The Saint’s Magic Power Is Omnipotent: Season 2"
+   },
+   {
+    "id": 146637,
+    "titel": "ORIENT Part 2",
+    "anilist": "ORIENT Part 2",
+    "anisearch": "Orient Cour 2"
+   },
+   {
+    "id": 146984,
+    "titel": "Attack on Titan Final Season THE FINAL CHAPTERS Special 1",
+    "anilist": "Attack on Titan Final Season THE FINAL CHAPTERS Special 1",
+    "anisearch": "Attack on Titan: Final Season - The Final Chapters"
+   },
+   {
+    "id": 147189,
+    "titel": "City Hunter The Movie: Angel Dust",
+    "anilist": "City Hunter The Movie: Angel Dust",
+    "anisearch": "City Hunter: Angel Dust"
+   },
+   {
+    "id": 147729,
+    "titel": "ULTRAMAN: The Final Season",
+    "anilist": "ULTRAMAN: The Final Season",
+    "anisearch": "Ultraman: Final Season"
+   },
+   {
+    "id": 149073,
+    "titel": "My Hero Academia Season 5 OVA",
+    "anilist": "My Hero Academia Season 5 OVA",
+    "anisearch": "My Hero Academia Season 5 OVAs"
+   },
+   {
+    "id": 153360,
+    "titel": "Reborn as a Vending Machine, I Now Wander the Dungeon",
+    "anilist": "Reborn as a Vending Machine, I Now Wander the Dungeon",
+    "anisearch": "Reborn as a Vending Machine, Now I Wander the Dungeon"
+   },
+   {
+    "id": 187055,
+    "titel": "Calico Critters: Mini Episodes -Peony-",
+    "anilist": "Calico Critters: Mini Episodes -Peony-",
+    "anisearch": "Sylvanian Families: Mini Episodes - Peony"
+   },
+   {
+    "id": 156001,
+    "titel": "Em-Shade! Shorts",
+    "anilist": "Em-Shade! Shorts",
+    "anisearch": "Kage-jitsu!"
+   },
+   {
+    "id": 158028,
+    "titel": "My Instant Death Ability is Overpowered",
+    "anilist": "My Instant Death Ability is Overpowered",
+    "anisearch": "My Instant Death Ability Is So Overpowered, No One in This Other World Stands a Chance Against Me!"
+   },
+   {
+    "id": 158870,
+    "titel": "Pokémon: To Be a Pokémon Master: Ultimate Journeys: The Series",
+    "anilist": "Pokémon: To Be a Pokémon Master: Ultimate Journeys: The Series",
+    "anisearch": "Pokémon: To Be a Pokémon Master"
+   },
+   {
+    "id": 158871,
+    "titel": "Pokémon Horizons: The Series",
+    "anilist": "Pokémon Horizons: The Series",
+    "anisearch": "Pokémon Horizons"
+   },
+   {
+    "id": 158927,
+    "titel": "SPY x FAMILY Season 2",
+    "anilist": "SPY x FAMILY Season 2",
+    "anisearch": "Spy × Family: Season 2"
+   },
+   {
+    "id": 158928,
+    "titel": "SPY x FAMILY CODE: White",
+    "anilist": "SPY x FAMILY CODE: White",
+    "anisearch": "Spy × Family Code: White"
+   },
+   {
+    "id": 159322,
+    "titel": "BLEACH: Thousand-Year Blood War - The Separation",
+    "anilist": "BLEACH: Thousand-Year Blood War - The Separation",
+    "anisearch": "Bleach: Thousand-Year Blood War - Part 2"
+   },
+   {
+    "id": 159926,
+    "titel": "BASTARD!! -Heavy Metal, Dark Fantasy- Hell’s Requiem Arc",
+    "anilist": "BASTARD!! -Heavy Metal, Dark Fantasy- Hell’s Requiem Arc",
+    "anisearch": "Bastard!! Heavy Metal, Dark Fantasy: Season 2"
+   },
+   {
+    "id": 162803,
+    "titel": "Dead Mount Death Play Part 2",
+    "anilist": "Dead Mount Death Play Part 2",
+    "anisearch": "Dead Mount Death Play (Cour 2)"
+   },
+   {
+    "id": 155645,
+    "titel": "Urusei Yatsura (2022) Seasons 3 & 4",
+    "anilist": "Urusei Yatsura (2022) Seasons 3 & 4",
+    "anisearch": "Urusei Yatsura (Part 2)"
+   },
+   {
+    "id": 163137,
+    "titel": "Ōoku: The Inner Chambers",
+    "anilist": "Ōoku: The Inner Chambers",
+    "anisearch": "Ooku: The Inner Chambers"
+   },
+   {
+    "id": 163146,
+    "titel": "BLUE LOCK Season 2",
+    "anilist": "BLUE LOCK Season 2",
+    "anisearch": "Blue Lock: 2nd Season"
+   },
+   {
+    "id": 163327,
+    "titel": "The Quintessential Quintuplets Specials",
+    "anilist": "The Quintessential Quintuplets Specials",
+    "anisearch": "The Quintessential Quintuplets: No Coincidences in This Summer Break"
+   },
+   {
+    "id": 163329,
+    "titel": "Tokyo Revengers Season 2 Part 2",
+    "anilist": "Tokyo Revengers Season 2 Part 2",
+    "anisearch": "Tokyo Revengers: Tenjiku Arc"
+   },
+   {
+    "id": 162670,
+    "titel": "Dr. STONE New World Part 2",
+    "anilist": "Dr. STONE New World Part 2",
+    "anisearch": "Dr. Stone: New World (Cour 2)"
+   },
+   {
+    "id": 166452,
+    "titel": "The Ancient Magus' Bride Season 2 Part 2",
+    "anilist": "The Ancient Magus' Bride Season 2 Part 2",
+    "anisearch": "The Ancient Magus’ Bride: Season 2 (Cour 2)"
+   },
+   {
+    "id": 166523,
+    "titel": "Kizuna no Allele 2nd Season",
+    "anilist": "Kizuna no Allele 2nd Season",
+    "anisearch": "Kizuna no Allele (Part 2)"
+   },
+   {
+    "id": 166531,
+    "titel": "OSHI NO KO Season 2",
+    "anilist": "OSHI NO KO Season 2",
+    "anisearch": "Oshi no Ko 2"
+   },
+   {
+    "id": 166610,
+    "titel": "MASHLE: MAGIC AND MUSCLES Season 2",
+    "anilist": "MASHLE: MAGIC AND MUSCLES Season 2",
+    "anisearch": "Mashle: Magic and Muscles - The Divine Visionary Candidate Exam Arc"
+   },
+   {
+    "id": 166613,
+    "titel": "Hell’s Paradise Season 2",
+    "anilist": "Hell’s Paradise Season 2",
+    "anisearch": "Hell’s Paradise: Jigokuraku - Season 2"
+   },
+   {
+    "id": 166703,
+    "titel": "GUNDAM: Requiem for Vengeance",
+    "anilist": "GUNDAM: Requiem for Vengeance",
+    "anisearch": "Mobile Suit Gundam: Requiem for Vengeance"
+   },
+   {
+    "id": 166873,
+    "titel": "Mushoku Tensei: Jobless Reincarnation Season 2 Part 2",
+    "anilist": "Mushoku Tensei: Jobless Reincarnation Season 2 Part 2",
+    "anisearch": "Mushoku Tensei: Jobless Reincarnation - Season 2 Cour 2"
+   },
+   {
+    "id": 169402,
+    "titel": "My Hero Academia UA BATTLE HEROES",
+    "anilist": "My Hero Academia UA BATTLE HEROES",
+    "anisearch": "My Hero Academia: U.A. Heroes Battle"
+   },
+   {
+    "id": 170221,
+    "titel": "The Dangers in My Heart Special",
+    "anilist": "The Dangers in My Heart Special",
+    "anisearch": "The Dangers in My Heart: Bonus Dangers"
+   },
+   {
+    "id": 170695,
+    "titel": "I Parry Everything",
+    "anilist": "I Parry Everything",
+    "anisearch": "I Parry Everything to Become the Greatest Adventure!"
+   },
+   {
+    "id": 172463,
+    "titel": "JUJUTSU KAISEN Season 3: The Culling Game Part 1",
+    "anilist": "JUJUTSU KAISEN Season 3: The Culling Game Part 1",
+    "anisearch": "Jujutsu Kaisen: The Culling Game Part 1"
+   },
+   {
+    "id": 176496,
+    "titel": "Solo Leveling Season 2 -Arise from the Shadow-",
+    "anilist": "Solo Leveling Season 2 -Arise from the Shadow-",
+    "anisearch": "Solo Leveling: Arise from the Shadow"
+   },
+   {
+    "id": 177191,
+    "titel": "The Quintessential Quintuplets Specials 2",
+    "anilist": "The Quintessential Quintuplets Specials 2",
+    "anisearch": "The Quintessential Quintuplets Special 2"
+   },
+   {
+    "id": 175035,
+    "titel": "Pokémon Concierge: Season 1: Part 2",
+    "anilist": "Pokémon Concierge: Season 1: Part 2",
+    "anisearch": "Pokemon Concierge (Part 2)"
+   },
+   {
+    "id": 177937,
+    "titel": "SPY x FAMILY Season 3",
+    "anilist": "SPY x FAMILY Season 3",
+    "anisearch": "Spy × Family: Season 3"
+   },
+   {
+    "id": 178533,
+    "titel": "Ranma1/2 (2024)",
+    "anilist": "Ranma1/2 (2024)",
+    "anisearch": "Ranma 1/2 (2024)"
+   },
+   {
+    "id": 179062,
+    "titel": "Fire Force Season 3 Part 2",
+    "anilist": "Fire Force Season 3 Part 2",
+    "anisearch": "Fire Force: Season 3 (Cour 2)"
+   },
+   {
+    "id": 179126,
+    "titel": "Plus-Sized Elf Specials",
+    "anilist": "Plus-Sized Elf Specials",
+    "anisearch": "Plus-Sized Elf (Episodes 13+14)"
+   },
+   {
+    "id": 182206,
+    "titel": "That Time I Got Reincarnated as a Slime the Movie: Tears of the Azure Sea",
+    "anilist": "That Time I Got Reincarnated as a Slime the Movie: Tears of the Azure Sea",
+    "anisearch": "That Time I Got Reincarnated as a Slime the Movie: The Movie - Tears of the Azure Sea"
+   },
+   {
+    "id": 182317,
+    "titel": "The Dangers in My Heart: The Movie",
+    "anilist": "The Dangers in My Heart: The Movie",
+    "anisearch": "The Dangers in My Heart Movie"
+   },
+   {
+    "id": 182587,
+    "titel": "OSHI NO KO Season 3",
+    "anilist": "OSHI NO KO Season 3",
+    "anisearch": "Oshi no Ko 3"
+   },
+   {
+    "id": 184322,
+    "titel": "My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeon, I'm Out for Revenge!",
+    "anilist": "My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeon, I'm Out for Revenge!",
+    "anisearch": "Backstabbed in a Backwater Dungeon: My Trusted Companions Tried to Kill Me, but Thanks to the Gift of an Unlimited Gacha Got Lvl 9999 Friends and Am Out for Revenge on My Former Party Members and the World"
+   },
+   {
+    "id": 185731,
+    "titel": "Ranma1/2 (2024) Season 2",
+    "anilist": "Ranma1/2 (2024) Season 2",
+    "anisearch": "Ranma 1/2: Season 2"
+   },
+   {
+    "id": 187921,
+    "titel": "Record of Ragnarok III",
+    "anilist": "Record of Ragnarok III",
+    "anisearch": "Record of Ragnarok: Season 3"
+   },
+   {
+    "id": 190327,
+    "titel": "STEEL BALL RUN JoJo's Bizarre Adventure 1st STAGE",
+    "anilist": "STEEL BALL RUN JoJo's Bizarre Adventure 1st STAGE",
+    "anisearch": "Steel Ball Run: Jojo’s Bizarre Adventure"
+   },
+   {
+    "id": 195516,
+    "titel": "The Apothecary Diaries Season 3",
+    "anilist": "The Apothecary Diaries Season 3",
+    "anisearch": "The Apothecary Diaries: Season 3 - Cour 1"
+   },
+   {
+    "id": 197824,
+    "titel": "Farming Life in Another World 2",
+    "anilist": "Farming Life in Another World 2",
+    "anisearch": "Farming Life in Another World: Season 2"
+   },
+   {
+    "id": 204066,
+    "titel": "JUJUTSU KAISEN: Execution -Shibuya Incident x The Culling Game Begins-",
+    "anilist": "JUJUTSU KAISEN: Execution -Shibuya Incident x The Culling Game Begins-",
+    "anisearch": "Jujutsu Kaisen: Execution - Shibuya Incident × The Culling Game Begins"
+   },
+   {
+    "id": 204949,
+    "titel": "Milky☆Subway: The Galactic Limited Express – the Movie",
+    "anilist": "Milky☆Subway: The Galactic Limited Express – the Movie",
+    "anisearch": "Milky Subway: The Galactic Express - The Movie"
+   },
+   {
+    "id": 190054,
+    "titel": "My Happy Marriage Special Episodes",
+    "anilist": "My Happy Marriage Special Episodes",
+    "anisearch": "My Happy Marriage: Special"
+   }
+  ]
+ }
+}
