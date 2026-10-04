@@ -112,7 +112,7 @@
   # MESZ; Disney+ Brasilien meldet „jede Woche freitags 14:00" (= 17:00 UTC, passt). Ab 25.10. gilt MEZ, die Folge kommt dann
   # um 18:00 (`zeiten`). Anime2You nennt „samstags 19:00 Uhr" — der Unterschied steht offen im Hinweis; am 09.10. 19:00 prüft
   # Daniel (Kalender-Notiz). Folge 1 ist gesehen (Disney+ „Neue Folge", Anime2You 02.10. 19:55 „ab sofort").
-  note: "Disney+ weltweit: freitags um 19:00 Uhr (ab 30.10. um 18:00 Uhr) laut offizieller Serienseite. Anime2You nennt samstags um 19:00 Uhr."
+  note: "Disney+ weltweit: freitags um 19:00 Uhr (ab 30.10. um 18:00 Uhr wegen der Zeitumstellung) laut offizieller Serienseite. Anime2You nennt samstags um 19:00 Uhr."
   # Text der News-Meldung „Rückwirkend eingetragen" (Entwurf G, Daniel 04.10.2026): erster Satz = Weiterlaufen, der Rest steht hinter „mehr".
   nachtrag:
     kurz: "Die Serie läuft im Simulcast wöchentlich freitags um 19 Uhr; die nächste Folge erscheint voraussichtlich am 09.10."
