@@ -19,6 +19,8 @@ Alles, wofür ich dich brauche, steht hier; ich arbeite mit allem anderen weiter
   - **Nachher (was du findest):** Disney+ zeigt Folge 2 als „Neue Folge" am **Fr 09.10. um 19:00** — oder erst später (dann hat Anime2You recht).
   - **Auftrag:** Am Freitag, 09.10., **ab 19:00 Uhr stündlich** in der Disney+-App nachsehen ([Tokyo Revengers bei Disney+](https://www.disneyplus.com/de-de/browse/entity-be391742-6617-42ad-b53a-be368ee73335), Staffel 3 wählen), bis Folge 2 da ist; die erste Uhrzeit mit „Neue Folge" notieren (Tag + Minute). Kommt sie erst samstags, korrigiere ich Kalender und Wochentakt und berichtige per News-Meldung mit unserem Beleg. Gleiches für Folge 3: Fr 16.10. ab 19:00.
 
+- **Demon Slayer: Infinity Castle I bei Netflix Deutschland** (seit 28.09.2026, laut [Netflix Tudum](https://www.netflix.com/tudum/articles/demon-slayer-kimetsu-no-yaiba-infinity-castle-release-date-cast-news)). **Vorher:** bei uns nur Crunchyroll. **Nachher:** ein Netflix-Weg mit deutscher Synchro, falls es sie gibt. **Auftrag:** den Film auf Netflix öffnen, unter „Audio und Untertitel" nachsehen, ob **Deutsch** als Audio dabei ist; sag mir „ja" oder „nein" (und, wenn du magst, die Adresse `netflix.com/title/…`).
+
 ## Wartet auf Dritte
 
 - aniSearch-**Token** (Antrag ist draußen).
