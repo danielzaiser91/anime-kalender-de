@@ -23,6 +23,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { readJson, writeJson, log, clearDir, ROOT } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
+import { crFolgentitel, ladeCrArchiv, mitCrTiteln, type CrSerie } from './folgentitel-cr.ts'
 
 interface Folge {
   nr: number
@@ -82,6 +83,8 @@ export function schreibeFolgenDateien(titel: Title[]): void {
   const zuordnung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
   const wiki = readJson<WikiListe>('data/wikipedia-folgen.json', {}).titel ?? {}
   const heute = todayIso()
+  /* Deutsche Crunchyroll-Serien nach Adresse — Quelle der Folgentitel, wo aniSearch keine hat (`folgentitel-cr.ts`). */
+  const crSerien = new Map(readJson<{ serien: (CrSerie & { url: string; katalog?: string })[] }>('data/crunchyroll-dub.json', { serien: [] }).serien.filter((s) => s.katalog === 'de').map((s) => [s.url, s]))
   const hinweise = (yaml.load(readFileSync(resolve(ROOT, 'data/folgen-hinweise.yaml'), 'utf8')) ?? []) as { anilistId: number; folge: number; art: string; text: string }[]
   const jeAsId = new Map<number, number>()
   for (const t of titel) {
@@ -96,7 +99,12 @@ export function schreibeFolgenDateien(titel: Title[]): void {
   for (const t of titel) {
     const asId = zuordnung[String(t.id)]?.anisearchId
     const wikiFolgen = wiki[String(t.id)]?.folgen
-    const f = asId && jeAsId.get(asId) === 1 ? erschieneneFolgen(roh[String(asId)]?.folgen ?? [], wikiFolgen?.length ? Math.max(...wikiFolgen.map((w) => w.nr)) : 0, heute) : undefined
+    const ausAs = asId && jeAsId.get(asId) === 1 ? erschieneneFolgen(roh[String(asId)]?.folgen ?? [], wikiFolgen?.length ? Math.max(...wikiFolgen.map((w) => w.nr)) : 0, heute) : undefined
+    /* Das Archiv wird nur geöffnet, wo aniSearch Titel schuldig bleibt. */
+    const fehlt = !ausAs || ausAs.length < 2 || ausAs.some((x) => !(x.de ?? x.en ?? x.ja))
+    const crUrl = t.streams.find((s) => s.platform === 'crunchyroll')?.url
+    const crSerie = fehlt && crUrl ? crSerien.get(crUrl) : undefined
+    const f = mitCrTiteln(ausAs, crFolgentitel(t, crSerie, ladeCrArchiv(crSerie?.seriesId)))
     if (!f || f.length < 2) continue
     const minuten = new Set(f.map((x) => x.minuten).filter(Boolean))
     const einheitlich = minuten.size === 1 ? [...minuten][0] : undefined

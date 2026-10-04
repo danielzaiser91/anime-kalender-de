@@ -79,6 +79,7 @@ import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../shared/ics.ts'
 import { ausgestrahltOhneBeleg } from './bau/ohne-beleg.ts'
+import { crFolgentitel, mitCrTiteln, titelJeKennung } from './bau/folgentitel-cr.ts'
 import { suchbegriffeJeAdresse } from './lib/beleg-suche.ts'
 import { plotVon } from '../web/src/components/detail/plot.ts'
 import { newsRss } from './lib/news-rss.ts'
@@ -8087,6 +8088,22 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   pruefe('ein Ein-Satz-Platzhalter weicht der Handlung des Vorgängers (Tokyo Revengers S3)', kurz.plot?.text === lang && kurz.plot?.vonTeil !== undefined)
   const eigen = plotVon({ synopsis: { en: lang } as never, titleId: 7, ersatz: { plot: { de: 'Anderer Text, auch lang genug, um als Handlung zu gelten, und deshalb nicht der eigene.'.repeat(2) } as never, von } })
   pruefe('eine eigene, ausreichend lange Handlung bleibt', eigen.plot?.text === lang && eigen.plot?.vonTeil === undefined)
+}
+console.log('\nFolgentitel aus Crunchyroll:')
+{
+  /* Daniel, 04.10.2026: aniSearch hat für viele Serien keine Folgentitel; Crunchyroll trägt sie deutsch in derselben Antwort, die die Synchro misst. */
+  const archiv = { episodes: { S1: { items: [{ id: 'A1', title: 'Sturmdrache Veldora', versions: [{ guid: 'D1' }, { guid: 'J1' }] }, { id: 'A2', title: 'Treffen in der Höhle', versions: [{ guid: 'D2' }] }] } } }
+  const serie = { seriesId: 'X', staffeln: [{ deutscheFolgen: [{ nummer: 1, guid: 'D1' }, { nummer: 2, guid: 'D2' }] }] }
+  const titel = { id: 1, episodes: 2, streams: [{ platform: 'crunchyroll', url: 'u' }] } as unknown as Title
+  pruefe('die Kennung jeder Sprachfassung führt zum deutschen Titel', titelJeKennung(archiv).get('J1') === 'Sturmdrache Veldora')
+  const cr = crFolgentitel(titel, serie, archiv)
+  pruefe('„Episode 1" ist kein Titel', titelJeKennung({ episodes: { S: { items: [{ id: 'P', title: 'Episode 1', versions: [{ guid: 'P2' }] }] } } }).size === 0)
+  pruefe('Titel je Folgennummer über die Kennung der deutschen Folge', cr?.get(1) === 'Sturmdrache Veldora' && cr?.get(2) === 'Treffen in der Höhle')
+  pruefe('ein geteilter Crunchyroll-Weg bekommt keine Titel (die Nummern gälten für mehrere Titel)', crFolgentitel({ ...titel, streams: [{ platform: 'crunchyroll', url: 'u', sharedWith: 2 }] } as unknown as Title, serie, archiv) === undefined)
+  pruefe('Nummern über der Folgenzahl: keine Titel', crFolgentitel({ ...titel, episodes: 1 } as unknown as Title, serie, archiv) === undefined)
+  const gefuellt = mitCrTiteln([{ nr: 1, de: 'Eigener Titel' }, { nr: 2 }], cr)
+  pruefe('aniSearch-Titel bleibt, die Lücke füllt Crunchyroll', gefuellt?.[0]?.de === 'Eigener Titel' && gefuellt?.[1]?.de === 'Treffen in der Höhle')
+  pruefe('fehlt die Liste ganz, entsteht sie aus Crunchyroll', mitCrTiteln(undefined, cr)?.length === 2)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
