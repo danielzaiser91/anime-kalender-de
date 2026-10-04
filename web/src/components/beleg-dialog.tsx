@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 /** **Das Beleg-Bild** an einer Quelle; öffentlich lesbar (Daniel, 04.10.2026). */
 const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
@@ -42,15 +43,36 @@ function BelegDialog({ bild, titel, zu }: { bild: string; titel: string; zu: () 
       if (blobUrl) URL.revokeObjectURL(blobUrl)
     }
   }, [bild, zu])
-  return (
-    <div role="dialog" aria-modal="true" aria-label={`Beleg: ${titel}`} className="fixed inset-0 z-[60] flex items-center justify-center bg-black/75 p-3" onClick={zu}>
-      <div className="max-h-[92vh] w-full max-w-3xl overflow-auto rounded-xl bg-slate-900 p-3 text-slate-200" onClick={(e) => e.stopPropagation()}>
-        <div className="mb-2 flex items-center gap-2 text-sm">
-          <b className="min-w-0 flex-1 truncate">Beleg: {titel}</b>
-          <button type="button" onClick={zu} className="cursor-pointer rounded border border-slate-600 px-2 py-0.5 text-xs">Schließen</button>
-        </div>
-        {fehler ? <p className="text-sm text-rose-300">{fehler}</p> : url ? <img src={url} alt={`Beleg: ${titel}`} className="w-full rounded" /> : <p className="text-sm text-slate-400">Lädt …</p>}
+  const [einpassen, setEinpassen] = useState(false)
+  /*
+    **Der Dialog füllt den ganzen Bildschirm** (Daniel, 04.10.2026) und hängt am `<body>`: Im Detail-Panel (transformiert) bezog
+    sich `fixed` auf das Panel, und das Bild stand in dessen schmaler Spalte. Standard ist die volle Breite mit Bildlauf — ein
+    Beleg ist oft eine lange Seite —, „Einpassen" zeigt ihn ganz im Fenster.
+  */
+  return createPortal(
+    <div role="dialog" aria-modal="true" aria-label={`Beleg: ${titel}`} className="fixed inset-0 z-[60] flex flex-col bg-black/90 text-slate-200" onClick={zu}>
+      <div className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-slate-900 px-4 py-2 text-sm" onClick={(e) => e.stopPropagation()}>
+        <b className="min-w-0 flex-1 truncate">Beleg: {titel}</b>
+        <button type="button" onClick={() => setEinpassen((e) => !e)} aria-pressed={einpassen} className="cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs hover:bg-white/10">
+          {einpassen ? 'Volle Breite' : 'Einpassen'}
+        </button>
+        <button type="button" onClick={zu} className="cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs hover:bg-white/10">Schließen</button>
       </div>
-    </div>
+      <div className={`min-h-0 flex-1 ${einpassen ? 'flex items-center justify-center p-3' : 'overflow-auto'}`}>
+        {fehler ? (
+          <p className="p-4 text-sm text-rose-300">{fehler}</p>
+        ) : url ? (
+          <img
+            src={url}
+            alt={`Beleg: ${titel}`}
+            onClick={(e) => e.stopPropagation()}
+            className={einpassen ? 'max-h-full max-w-full rounded object-contain' : 'mx-auto block w-full max-w-[1800px]'}
+          />
+        ) : (
+          <p className="p-4 text-sm text-slate-400">Lädt …</p>
+        )}
+      </div>
+    </div>,
+    document.body,
   )
 }
