@@ -29,7 +29,7 @@ await seite.route('**/*', async (route) => {
 
 /* Seit dem 26.09.2026 stehen TV-Termine als Zeilen im Kasten „Im Fernsehen“ (`data-tv-zeile`). */
 const tvKacheln = () => seite.locator('[data-tv-zeile]').count()
-const schalter = () => seite.getByRole('button', { name: 'TV-Termine ausblenden' })
+const schalter = () => seite.getByRole('button', { name: 'TV: Ausblenden' }) // seit 04.10.2026 die 🚫-Hälfte der Schnellfilter-Karte „TV"
 const filterAuf = async () => {
   await seite.getByRole('button', { name: 'Filter' }).first().waitFor({ state: 'visible', timeout: 30000 })
   await seite.getByRole('button', { name: 'Filter' }).first().click()
