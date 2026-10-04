@@ -1,5 +1,6 @@
 import type { Release, ReleaseEvent, ReleaseStatus, Title } from './types.ts'
 import { addDays, todayIso, berlinToUtc, utcZeitInBerlin } from './time.ts'
+import { markiereNachLuecke, verpasstAnVorhandenes } from './luecken.ts'
 
 /**
  * Beobachtete Folgen als Stützpunkte, aufsteigend nach Folgennummer.
@@ -197,7 +198,7 @@ export function titleStatus(
  * offen".
  */
 export function istErschienen(
-  ereignis: { date: string; time?: string; verpasst?: { erschienenAm?: string } },
+  ereignis: { date: string; time?: string; verpasst?: { erschienenAm?: string }; nachLuecke?: boolean },
   jetzt: Date = new Date(),
 ): boolean {
   /*
@@ -209,7 +210,7 @@ export function istErschienen(
     Kachel las `verpasst`, die Zählung nur die Uhrzeit — zwei Leitungen für
     dieselbe Frage. Seitdem beantwortet diese Funktion sie für alle.
   */
-  if (istAusgeblieben(ereignis)) return false
+  if (istAusgeblieben(ereignis) || ereignis.nachLuecke) return false
   return berlinToUtc(ereignis.date, ereignis.time ?? '23:59').getTime() <= jetzt.getTime()
 }
 
@@ -499,7 +500,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
     if (!v?.erwartetAm || v.erschienenAm) continue
     const alterTag = String(v.erwartetAm).slice(0, 10)
     const episode = ausstehendAm(alterTag, Number(nr))
-    if (events.some((e) => e.date === alterTag && e.episode === episode)) continue
+    if (verpasstAnVorhandenes(events, alterTag, episode, v)) continue
     if (s.lastEpisodeDate && alterTag > s.lastEpisodeDate) continue
     events.push({
       ...base,
@@ -511,7 +512,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
       verpasst: v,
     })
   }
-  events.sort((a, b) => (a.date === b.date ? (a.episode ?? 0) - (b.episode ?? 0) : a.date < b.date ? -1 : 1))
+  markiereNachLuecke(events.sort((a, b) => (a.date === b.date ? (a.episode ?? 0) - (b.episode ?? 0) : a.date < b.date ? -1 : 1)))
 
   /**
    * **Zwei fortgeschriebene Folgen landen nicht auf demselben Tag.**
