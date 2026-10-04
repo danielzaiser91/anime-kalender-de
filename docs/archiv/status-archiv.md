@@ -4952,3 +4952,7 @@ Der Grund ist keine Lücke im Modell, sondern seine Datenbasis: Die Urteile ents
 D1-Meldungen der Erweiterung, und die sind vollständig eingearbeitet. Schritt 2 lohnt erst,
 wenn neue Beobachtungen hereinkommen — also nach dem nächsten Melde-Durchgang oder wenn
 Stufe 1 mehr liefert.
+
+## Bestand-Lauf 37207902249: Push dreimal abgelehnt (erledigt 04.10.2026)
+
+Der Lauf (16:04 UTC) scheiterte nur im Schritt „Änderungen committen": Dreimal abgelehnt, weil gleichzeitig Commits auf `main` gepusht wurden (Folgenlisten, Kachel-Kontrast, Cover-Symbol; dazu Stündlich und Daten-PR). Bau und Prüfungen waren grün. Behoben: `commit-data.sh` versucht sechsmal mit zufälliger Pause von 5–20 Sekunden (bisher dreimal ohne Pause); Handdateien stehen nicht mehr in `QUELLEN`, damit ihre Commits nicht auf Datenläufe warten müssen. Einzelheiten in `docs/wissen/betrieb.md`.
