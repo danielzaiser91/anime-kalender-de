@@ -2,6 +2,7 @@ import { readJson, log } from '../lib/util.ts'
 import { type Vorschlag, releasesAus } from '../lib/meldungen.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
 import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
+import { schreibeUnzugeordnet } from '../lib/sammel-unzugeordnet.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { type TvSendung } from '../fetch-tv-programm.ts'
 import { type WikiListen, sendungNeuZuordnen, releasesAusTvProgramm, sendungenAnhaengen } from '../lib/tv-termine.ts'
@@ -15,13 +16,15 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
   // Der letzte Schritt vor der Auswertung, und mit Absicht der letzte: Was aus
   // `data/curated/`, Crunchyroll oder ADN schon da ist, gewinnt gegen den Bot.
   const rohVorschlaege = readJson<{ proposals?: Vorschlag[] }>('data/proposals/anime2you.json', {})
+  const sammelV = vorschlaegeAusAllenSammelartikeln(rohVorschlaege.proposals ?? [])
   const ausMeldungen = releasesAus(
-    [...(rohVorschlaege.proposals ?? []), ...vorschlaegeAusAllenSammelartikeln(rohVorschlaege.proposals ?? [])],
+    [...(rohVorschlaege.proposals ?? []), ...sammelV],
     [...titles.values()],
     releases,
     todayIso(),
   )
   releases.push(...ausMeldungen)
+  schreibeUnzugeordnet(sammelV, ausMeldungen)
   const verschoben = verschiebungenAnwenden(releases, rohVorschlaege.proposals ?? [], todayIso())
   if (verschoben.length) log(`${verschoben.length} Disc-Termine laut Anime2You verschoben: ${verschoben.map((v) => `${v.name} (${v.von} → ${v.nach})`).join(', ')}`)
   if (ausMeldungen.length)

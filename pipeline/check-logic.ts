@@ -148,6 +148,9 @@ import { leseSammelartikel, vorschlaegeAusSammelartikel, ANBIETER_SAMMELARTIKEL 
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
 import { erschieneneFolgen, deutscheFolgen } from './bau/folgen-dateien.ts'
+import { unzugeordnet } from './lib/sammel-unzugeordnet.ts'
+import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
+import { NAMENSGEBUNDENE_RELATIONEN } from '../shared/namensgebunden.ts'
 import { schnellSetzen, schnellZustand, type SchnellId } from '../web/src/lib/schnellfilter.ts'
 import { ergaenzeTeilnamen } from './bau/adn-teilnamen.ts'
 import { folgenSummeJeKennung, ueberbelegt, entferneFremdeCrWege } from './bau/cr-serie-geteilt.ts'
@@ -7939,6 +7942,21 @@ console.log('\nGeteilte Crunchyroll-Serie:')
   pruefe('Geteilt: nur der Titel mit der Folgenzahl der Serie behält den Weg', weg === 2 && titel.get(1)!.streams.length === 1 && titel.get(2)!.streams.length === 0 && titel.get(3)!.streams.length === 0)
 }
 /* Schnellfilter ✅|🚫 (Daniel, 04.10.2026): höchstens eines von beiden, ein zweiter Klick schaltet aus. */
+/* Was ein Sammelartikel deutsch meldet und keinem Titel zugeordnet wird, steht in einer Liste (Tokyo Revengers S3, 04.10.2026). */
+console.log('\nNicht zugeordnete Sammelartikel-Meldungen:')
+{
+  const v = (titel: string, dub = 'zugesagt') => ({ articleTitle: titel, articleUrl: 'https://x/' + titel, publishedAt: '2026-10-02', dub, platforms: ['disneyplus'], dates: [{ iso: '2026-10-02', context: 'Sammelartikel' }] }) as never
+  const releases = [{ herkunft: 'Automatisch übernommen aus „»Gefunden« – Staffel 1".' }] as never
+  const liste = unzugeordnet([v('»Gefunden« – Staffel 1'), v('»Fehlt im Bestand«'), v('»Nur Untertitel«', 'ja')], releases)
+  pruefe('Unzugeordnet: nur die deutsche Meldung ohne Release steht auf der Liste', liste.length === 1 && liste[0]!.titel.includes('Fehlt im Bestand'))
+}
+/* Black Jack (04.10.2026): Eine Charakter-Beziehung zählt nur bei zusammenpassenden Namen. */
+console.log('\nCharakter-Beziehung:')
+{
+  pruefe('Charakter: wie OTHER nur mit Namensprüfung', NAMENSGEBUNDENE_RELATIONEN.has('CHARACTER') && !FRANCHISE_RELATIONS.has('CHARACTER'))
+  pruefe('Charakter: Black Jack und Black Jack: Capital Transfer To Heian gehören zusammen', otherZaehlt(['Black Jack: Heian Sento', 'Black Jack: Capital Transfer To Heian'], ['Black Jack', 'Black Jack']))
+  pruefe('Charakter: ein Gastauftritt ohne gemeinsamen Namen bleibt draußen (Gundam/Patlabor)', !otherZaehlt(['Mobile Suit Gundam'], ['Mobile Police Patlabor']))
+}
 console.log('\nSchnellfilter:')
 {
   const z = (f: FilterState, id: SchnellId, tvAn?: boolean) => schnellZustand(f, id, tvAn)

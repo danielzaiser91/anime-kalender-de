@@ -89,9 +89,9 @@ export const TAG_AS_GENRE_MIN_RANK = 60
  * als `ALTERNATIVE`, nicht als Fortsetzung. Dasselbe traf Zusammenschnitte, Ableger und
  * Rückblick-Filme.
  *
- * Ausdrücklich **nicht** dabei: `CHARACTER`. Diese Beziehung heißt nur „hier kommt jemand
+ * Nicht **ungeprüft** dabei: `CHARACTER`. Diese Beziehung heißt nur „hier kommt jemand
  * aus dem anderen Werk vor" und würde Reihen verschmelzen, die nichts miteinander zu tun
- * haben. `ADAPTATION`, `SOURCE` und `CONTAINS` zeigen auf Manga und Light Novels und
+ * haben — sie zählt wie `OTHER` nur bei zusammenpassenden Namen (`NAMENSGEBUNDENE_RELATIONEN`). `ADAPTATION`, `SOURCE` und `CONTAINS` zeigen auf Manga und Light Novels und
  * fallen ohnehin durch die Anime-Prüfung.
  *
  * Wirkung: 1.504 Reihen wurden zu 1.413. Die größten sind danach Pokémon (60), Detective

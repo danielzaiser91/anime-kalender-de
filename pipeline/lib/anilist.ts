@@ -1,4 +1,5 @@
 import { ANILIST_COVER_BASIS, FRANCHISE_RELATIONS, otherZaehlt } from '../../shared/mappings.ts'
+import { NAMENSGEBUNDENE_RELATIONEN } from '../../shared/namensgebunden.ts'
 import { sleep, warn } from './util.ts'
 
 const ENDPOINT = 'https://graphql.anilist.co'
@@ -365,7 +366,7 @@ export async function katalogSeite(
                 trennt sie; die Begründung samt Messwerten steht bei
                 `otherZaehlt` in `shared/mappings.ts`.
               */
-              (e.relationType === 'OTHER' &&
+              (NAMENSGEBUNDENE_RELATIONEN.has(e.relationType) &&
                 otherZaehlt(
                   [m.title.romaji, m.title.english],
                   [e.node.title?.romaji, e.node.title?.english],
