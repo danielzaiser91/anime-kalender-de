@@ -30,9 +30,23 @@ interface Folge {
   de?: string
   en?: string
   ja?: string
+  datum?: string
 }
 
 type WikiListe = { titel?: Record<string, { folgen: { nr: number; ead?: string }[] }> }
+
+/**
+ * Nur Folgen, die schon erschienen sind. aniSearch führt auch Ankündigungen (One Piece: 1.200 Einträge, Folge 1.174 bis
+ * 1.200 ohne Datum); die deutsche Wikipedia-Liste nennt 1.180 (Daniel, 04.10.2026). Die Obergrenze ist die höchste
+ * Nummer mit Datum bis heute oder die höchste Wikipedia-Nummer, je nachdem was größer ist. Ohne ein einziges Datum
+ * gilt die Liste, wie sie ist.
+ */
+export function erschieneneFolgen(f: Folge[], wikiHoechste: number, heute: string): Folge[] {
+  const gedatet = f.filter((x) => x.datum && x.datum <= heute).map((x) => x.nr)
+  if (!gedatet.length && f.some((x) => x.datum)) return []
+  const bis = Math.max(gedatet.length ? Math.max(...gedatet) : Math.max(...f.map((x) => x.nr)), wikiHoechste)
+  return f.filter((x) => x.nr <= bis)
+}
 
 /** Die Folgen mit belegter deutscher Synchro, als Bereiche. */
 export function deutscheFolgen(t: Title, wiki: { nr: number; ead?: string }[] | undefined, heute: string, hoechste: number): [number, number][] {
@@ -68,11 +82,12 @@ export function schreibeFolgenDateien(titel: Title[]): void {
   let folgenGesamt = 0
   for (const t of titel) {
     const asId = zuordnung[String(t.id)]?.anisearchId
-    const f = asId && jeAsId.get(asId) === 1 ? roh[String(asId)]?.folgen : undefined
+    const wikiFolgen = wiki[String(t.id)]?.folgen
+    const f = asId && jeAsId.get(asId) === 1 ? erschieneneFolgen(roh[String(asId)]?.folgen ?? [], wikiFolgen?.length ? Math.max(...wikiFolgen.map((w) => w.nr)) : 0, heute) : undefined
     if (!f || f.length < 2) continue
     const minuten = new Set(f.map((x) => x.minuten).filter(Boolean))
     const einheitlich = minuten.size === 1 ? [...minuten][0] : undefined
-    const de = deutscheFolgen(t, wiki[String(t.id)]?.folgen, heute, Math.max(...f.map((x) => x.nr)))
+    const de = deutscheFolgen(t, wikiFolgen, heute, Math.max(...f.map((x) => x.nr)))
     zaehlung[t.id] = [f.length, f.filter((x) => de.some(([von, bis]) => x.nr >= von && x.nr <= bis)).length]
     writeJson(`${ordner}/${t.id}.json`, {
       f: f.map((x) => (einheitlich ? [x.nr, x.de ?? x.en ?? x.ja ?? ''] : [x.nr, x.de ?? x.en ?? x.ja ?? '', x.minuten ?? 0])),

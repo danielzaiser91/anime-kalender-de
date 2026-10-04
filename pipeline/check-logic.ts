@@ -147,6 +147,7 @@ import { istAbschied, releasesAus, terminDerMeldung, quellenZusammenfuehren, zei
 import { leseSammelartikel, vorschlaegeAusSammelartikel } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
+import { erschieneneFolgen } from './bau/folgen-dateien.ts'
 import { entdoppleCrWege } from './bau/11-3-bereinigung.ts'
 import type { DatiertNews } from './lib/news-verlauf.ts'
 import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
@@ -7913,6 +7914,15 @@ console.log('\nKalender-Konsistenz:')
   )
   pruefe('sinkendes Datum in schedule.observed wird gemeldet', findet('monotonie', [rel('ly', 1, { 5: '2026-08-20', 6: '2026-08-06' })], []))
   pruefe('steigende Daten bleiben still', !findet('monotonie', [rel('ly', 1, { 5: '2026-08-20', 6: '2026-08-27' })], []))
+}
+/* Nur Erschienenes zählt: One Piece hat bei aniSearch 1.200 Einträge, erschienen sind 1.180 (Wikipedia, 04.10.2026). */
+console.log('\nErschienene Folgen:')
+{
+  const f = [1, 2, 3, 4, 5].map((nr) => ({ nr, datum: nr <= 3 ? '2026-09-01' : nr === 4 ? '2026-12-01' : undefined }))
+  pruefe('Erschienen: Folgen mit Datum bis heute, Ankündigungen ohne', erschieneneFolgen(f, 0, '2026-10-04').length === 3)
+  pruefe('Erschienen: die Wikipedia-Liste darf weiter reichen als aniSearch', erschieneneFolgen(f, 5, '2026-10-04').length === 5)
+  pruefe('Erschienen: ganz ohne Datum bleibt die Liste, wie sie ist', erschieneneFolgen([{ nr: 1 }, { nr: 2 }], 0, '2026-10-04').length === 2)
+  pruefe('Erschienen: nur Zukünftiges ergibt keine Liste', erschieneneFolgen([{ nr: 1, datum: '2027-01-01' }, { nr: 2, datum: '2027-01-08' }], 0, '2026-10-04').length === 0)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
