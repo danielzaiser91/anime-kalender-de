@@ -421,7 +421,9 @@ export function werteLinkpruefungAus({
       */
       if (lautPruefungTot(check.url)) continue
       if (title.streams.some((s) => s.platform === check.platform)) continue
-      title.streams.push({ platform: check.platform, url: check.url, dub: check.dub })
+      /* Die Bereiche des Belegs gehören mit: Ohne sie gilt der Weg für alle Folgen (Slime S4: Prime „24 Folgen", belegt 1–19). */
+      const bereiche = check.dubRanges?.length ? { dubRanges: check.dubRanges.map((r) => ({ from: r.from, to: r.to, dub: r.dub })) } : {}
+      title.streams.push({ platform: check.platform, url: check.url, dub: check.dub, ...bereiche })
       ergaenzt++
     }
   }
