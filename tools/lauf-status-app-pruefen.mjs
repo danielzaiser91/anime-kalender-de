@@ -261,7 +261,7 @@ const gitter = await seite.evaluate(() => ({
   kopf: (document.getElementById('kopf') || {}).textContent || '',
   erste: document.querySelector('.kachel .kurz')?.textContent ?? '',
 }))
-pruefe('das Gitter zeigt jede Lauf-Art', gitter.kacheln === 18, String(gitter.kacheln))
+pruefe('das Gitter zeigt jede Lauf-Art', gitter.kacheln === 19, String(gitter.kacheln))
 pruefe('die erste Kachel ist der Deploy', gitter.erste === 'Deploy', gitter.erste)
 pruefe('die laufende Art ist blau und trägt den Balken', gitter.laeuft === 1 && gitter.balken === 1)
 pruefe('die Kästchenreihe zeigt den Verlauf', gitter.kaestchen >= 4, String(gitter.kaestchen))
@@ -322,7 +322,7 @@ await seite.screenshot({ path: path.join(WURZEL, 'docs', 'lauf-status-app-detail
 await seite.click('.zurueck')
 await seite.waitForTimeout(700)
 pruefe('der Weg zurück führt ins Gitter',
-  (await seite.evaluate(() => document.querySelectorAll('.kachel').length)) === 18)
+  (await seite.evaluate(() => document.querySelectorAll('.kachel').length)) === 19)
 
 /*
   **6. Antwortet der Dienst nicht, bleibt der letzte Stand stehen**.
@@ -349,7 +349,7 @@ pruefe('beim Ausfall steht ein Hinweisbalken oben', ausfall.banner)
 pruefe('er nennt die Uhrzeit des Stands', /Stand von \d{2}:\d{2}/.test(ausfall.text), ausfall.text.slice(0, 120))
 pruefe('und ab wann es weitergeht', /Neue Werte gibt es ab \d{2}:\d{2}/.test(ausfall.text))
 pruefe('und dass nichts zu tun ist', /Nichts zu tun/.test(ausfall.text))
-pruefe('die Kacheln bleiben stehen', ausfall.kacheln === 18, String(ausfall.kacheln))
+pruefe('die Kacheln bleiben stehen', ausfall.kacheln === 19, String(ausfall.kacheln))
 pruefe('die Kopfzeile nennt den alten Stand', /^Stand von \d{2}:\d{2}$/.test(ausfall.kopf.trim()), ausfall.kopf)
 pruefe('die Fußzeile sagt, dass der Dienst nicht antwortet',
   ausfall.stand.includes('der Dienst antwortet nicht'), ausfall.stand)

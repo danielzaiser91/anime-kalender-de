@@ -57,6 +57,7 @@ export const LAUF_ARTEN = [
   'Wache — Datenbankverbrauch',
   'ADN — laufende Serien',
   'Datenlauf auf Abruf',
+  'aniSearch-Katalog',
   'Crunchyroll — Rückstand nachholen',
   'Monatlich — Tonspuren von der Streaming Availability API',
   'Claude — Daten-PR zusammenführen',
