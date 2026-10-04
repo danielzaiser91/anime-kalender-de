@@ -21,6 +21,7 @@ Messungen, verworfene Quellen) und alles, was Code-Kommentare „in `status.md`"
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| Bestand-Lauf 37207902249: Push dreimal abgelehnt prüfen (#299) | 2 | Bau und Prüfungen grün, nur `commit-data.sh` scheiterte: Oberflächen-Commits auf main überholten jeden ~3-Min-Versuch. Prüfen, dass der nächste planmäßige Datenlauf die Daten nachholt; ggf. Push-Strategie ändern (eigener Commit). |
 
 ### Queue
 
