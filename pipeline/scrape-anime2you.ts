@@ -31,8 +31,16 @@ import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './li
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 
+/*
+  Der Streaming-Feed führt 25 Meldungen, rund dreieinhalb Tage; ältere stehen auf `?paged=2` und weiter. Vier Seiten
+  (rund zwei Wochen) fangen einen verpassten Lauf auf und holen Sammelartikel nach, die wegfielen (siehe unten).
+*/
+const STREAMING_SEITEN = 4
 const FEEDS: { category: string; url: string }[] = [
-  { category: 'streaming', url: 'https://www.anime2you.de/streaming-news/feed/' },
+  ...Array.from({ length: STREAMING_SEITEN }, (_, i) => ({
+    category: 'streaming',
+    url: `https://www.anime2you.de/streaming-news/feed/${i ? `?paged=${i + 1}` : ''}`,
+  })),
   { category: 'disc', url: 'https://www.anime2you.de/disc-news/feed/' },
   { category: 'kino', url: 'https://www.anime2you.de/kino-news/feed/' },
 ]
@@ -308,7 +316,14 @@ async function main(): Promise<void> {
       // kein Datum und ändert den Kalender trotzdem; „seit heute, weitere
       // Folgen jeden Samstag um 18:00 Uhr" nennt ein vergangenes und trägt die
       // einzige Uhrzeitangabe, die es zu dieser Serie gibt.
-      if (!relevant.length && !pause && !zeiten) continue
+      /*
+        **Ein Anbieter-Sammelartikel bleibt auch ohne Datum im Auszug.** Der Feed-Auszug endet vor der Liste: „Disney+
+        kündigt sechs weitere Anime-Neuzugänge an" (24.09.2026) nennt im Auszug keinen Tag und fiel hier durch — samt
+        SPY x FAMILY, Shield Hero, One Piece und fünf weiteren Starts, die danach im Kalender fehlten. Die Einträge mit
+        Datum und Sprache liest erst `sammelartikelNachholen` aus dem ganzen Artikel.
+      */
+      const sammelartikel = feed.category === 'streaming' && ANBIETER_SAMMELARTIKEL.test(item.title)
+      if (!relevant.length && !pause && !zeiten && !sammelartikel) continue
 
       proposals.push({
         articleTitle: item.title,
