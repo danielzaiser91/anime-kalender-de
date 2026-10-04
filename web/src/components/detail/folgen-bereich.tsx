@@ -24,6 +24,21 @@ const PAKET = 50
 let verzeichnis: Promise<Set<number>> | undefined
 const holeVerzeichnis = (): Promise<Set<number>> => (verzeichnis ??= loadJson<number[]>('folgen/index.json').then((l) => new Set(l)).catch(() => new Set<number>()))
 
+let zaehlungen: Promise<Record<string, [number, number]>> | undefined
+/** `[alle Folgen, Folgen mit deutscher Synchro]` aus `folgen/zaehlung.json` — für die Überschrift, wo AniList keine Folgenzahl führt. */
+export function useFolgenZaehlung(titleId: number): [number, number] | undefined {
+  const [z, setZ] = useState<[number, number]>()
+  useEffect(() => {
+    let aktiv = true
+    setZ(undefined)
+    void (zaehlungen ??= loadJson<Record<string, [number, number]>>('folgen/zaehlung.json').catch(() => ({} as Record<string, [number, number]>))).then((m) => aktiv && setZ(m[String(titleId)]))
+    return () => {
+      aktiv = false
+    }
+  }, [titleId])
+  return z
+}
+
 export function FolgenBereich({ titleId }: { titleId: number }) {
   const [gibtEs, setGibtEs] = useState(false)
   const [offen, setOffen] = useState(false)

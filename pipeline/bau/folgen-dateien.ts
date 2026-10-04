@@ -13,7 +13,8 @@
  * steht die Minutenzahl einmal in `min` (aniSearch führt sie je Folge; One Piece: 1.173 von 1.173 mit 24). `de` sind die
  * Folgen mit belegter deutscher Synchro: die belegten Bereiche der Wege (`dubRanges` mit `dub: true`) und die Folgen,
  * die laut deutscher Wikipedia-Episodenliste schon im deutschen Fernsehen liefen. `h` sind Handhinweise je Folge
- * (`data/folgen-hinweise.yaml`, z. B. „nie in Deutschland ausgestrahlt").
+ * (`data/folgen-hinweise.yaml`, z. B. „nie in Deutschland ausgestrahlt"). `zaehlung.json` führt je Titel `[alle, deutsche]`
+ * für die Überschrift des Antwortkastens, wo AniList keine Folgenzahl kennt (One Piece).
  */
 import type { Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
@@ -61,6 +62,7 @@ export function schreibeFolgenDateien(titel: Title[]): void {
   const ordner = `${OUT}/folgen`
   clearDir(ordner)
   const index: number[] = []
+  const zaehlung: Record<number, [number, number]> = {}
   let folgenGesamt = 0
   for (const t of titel) {
     const asId = zuordnung[String(t.id)]?.anisearchId
@@ -68,9 +70,11 @@ export function schreibeFolgenDateien(titel: Title[]): void {
     if (!f || f.length < 2) continue
     const minuten = new Set(f.map((x) => x.minuten).filter(Boolean))
     const einheitlich = minuten.size === 1 ? [...minuten][0] : undefined
+    const de = deutscheFolgen(t, wiki[String(t.id)]?.folgen, heute, Math.max(...f.map((x) => x.nr)))
+    zaehlung[t.id] = [f.length, f.filter((x) => de.some(([von, bis]) => x.nr >= von && x.nr <= bis)).length]
     writeJson(`${ordner}/${t.id}.json`, {
       f: f.map((x) => (einheitlich ? [x.nr, x.de ?? x.en ?? x.ja ?? ''] : [x.nr, x.de ?? x.en ?? x.ja ?? '', x.minuten ?? 0])),
-      de: deutscheFolgen(t, wiki[String(t.id)]?.folgen, heute, Math.max(...f.map((x) => x.nr))),
+      de,
       ...(einheitlich ? { min: einheitlich } : {}),
       ...(hinweise.some((h) => h.anilistId === t.id) ? { h: hinweise.filter((h) => h.anilistId === t.id).map((h) => [h.folge, h.text]) } : {}),
     })
@@ -78,5 +82,6 @@ export function schreibeFolgenDateien(titel: Title[]): void {
     folgenGesamt += f.length
   }
   writeJson(`${ordner}/index.json`, index.sort((a, b) => a - b))
+  writeJson(`${ordner}/zaehlung.json`, zaehlung)
   log(`${index.length} Folgenlisten geschrieben (${folgenGesamt} Folgen)`)
 }

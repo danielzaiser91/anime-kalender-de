@@ -3,6 +3,7 @@ import { type ReleaseEvent, type Title, type Release, PLATFORMS } from '@shared/
 import { formatDate, weekdayName } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { type ReactNode, useState, type ReactElement } from 'react'
+import { useFolgenZaehlung } from './folgen-bereich.tsx'
 import { kostenloseFolgen, kostenlosEtikett } from '@shared/kostenlos.ts'
 import { Countdown, sendetageText } from './hilfen.tsx'
 import { KINO_LAND, kinoDatum } from './kino.tsx'
@@ -192,7 +193,7 @@ export function AntwortKasten({
     passiert"). Oben rechts liegt er in einer Zeile, die ohnehin da ist — und
     kostet keine Höhe mehr.
   */
-  const [zeigeDisc, setZeigeDisc] = useState(discZuerst)
+  const [zeigeDisc, setZeigeDisc] = useState(discZuerst); const folgenZahl = useFolgenZaehlung(title.id)
   /*
     **Wo noch nichts erschienen ist, gibt es nichts zu sehen.**
 
@@ -486,7 +487,7 @@ export function AntwortKasten({
     /* „Alle 1 Folgen" stand über OVAs mit einer Folge — dort sagt die Überschrift ohne Zahl dasselbe. */
     haupt = antwort.gesamt && antwort.gesamt > 1
       ? T('antwort.fertigZahl', { count: antwort.gesamt })
-      : T('antwort.fertigTitel')
+      : folgenZahl && !antwort.gesamt && folgenZahl[1] > 1 ? T('antwort.teilweiseZahl', { raus: folgenZahl[1], gesamt: folgenZahl[0] }) : T('antwort.fertigTitel')
     /*
       **„Seit wann?" ist die einzige Frage, die hier noch offen war.**
 
