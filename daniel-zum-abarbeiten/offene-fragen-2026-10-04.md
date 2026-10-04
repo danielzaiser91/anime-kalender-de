@@ -17,6 +17,13 @@ Alles, wofür ich dich brauche, steht hier; ich arbeite mit allem anderen weiter
   - **Nachher (was du findest):** Disney+ zeigt Folge 2 als „Neue Folge" am **Fr 09.10. um 19:00** — oder erst später (dann hat Anime2You recht).
   - **Auftrag:** Am Freitag, 09.10., **ab 19:00 Uhr stündlich** in der Disney+-App nachsehen ([Tokyo Revengers bei Disney+](https://www.disneyplus.com/de-de/browse/entity-be391742-6617-42ad-b53a-be368ee73335), Staffel 3 wählen), bis Folge 2 da ist; die erste Uhrzeit mit „Neue Folge" notieren (Tag + Minute). Kommt sie erst samstags, korrigiere ich Kalender und Wochentakt und berichtige per News-Meldung mit unserem Beleg. Gleiches für Folge 3: Fr 16.10. ab 19:00.
 
+## Betrieb (04.10.2026, 21:50)
+
+- 🙋 **Pull Request 272** ([Reply-To auf info@daniel-zaiser.de](https://github.com/danielzaiser91/anime-kalender-de/pull/272)): geprüft, sauber (3 kleine Änderungen, mergebar). Mein Merge wurde vom Berechtigungssystem abgelehnt — bitte selbst zusammenführen oder mir „merge 272" sagen. Danach liefere ich den Worker erneut aus: Meine Auslieferungen von 21:33 und 21:41 stammen aus `main` ohne diese Änderung und haben `REPLY_TO` live wieder entfernt.
+- 🙋 **D1-Index für die Statusanzeige** (`worker/migrations/043-lauf-laeuft-index.sql`, noch nicht angewendet; mein Aufruf wurde abgelehnt): einmal `cd worker && npx wrangler d1 migrations apply anime-kalender --remote`. Spart rund 440.000 gelesene Zeilen am Tag.
+- **Weiterleitung `info@daniel-zaiser.de`:** In PurelyMail steht die Regel (info, kontakt, business … und ein Sammel-Eintrag) auf `danielzaiser91@googlemail.com`; MX, SPF, DKIM und DMARC der Domain sind in Ordnung. Wahrscheinlicher Grund für „kam nicht an": Eine Mail **von** deinem Googlemail-Konto **an** `info@` kommt über die Weiterleitung als Kopie derselben Nachricht (gleiche Kennung) zurück, und Gmail verwirft sie als Duplikat — sie steht dann nur im Ordner „Gesendet". Probe: von einem **anderen** Absender (anderes Konto, Handy-Mail) an `info@daniel-zaiser.de` schreiben.
+- **Newsletter im Spam:** behoben (DNS), siehe Antwort; die nächste Mail um 07:00 sollte im Posteingang landen.
+
 ## Wartet auf Dritte
 
 - aniSearch-**Token** (Antrag ist draußen).
