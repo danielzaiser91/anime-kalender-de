@@ -23,5 +23,17 @@
     "wand": "unbekannt; liefert mit Desktop-UA eine leere Seite",
     "fix": "belege-lesen.ts nimmt für ADN den Standard-UA",
     "beleg": "noch kein abgelegtes Bild — nach dem ersten Lauf ansehen"
+  },
+  "tokyo-revengers-anime.com": {
+    "geprueft": "2026-10-04",
+    "wand": "keine — offizielle Serienseite (Japanisch), Artikel ohne Banner",
+    "fix": "—",
+    "beleg": "Seite am 04.10.2026 mit Playwright angesehen (lokal): Meldung vom 24.08.2026 mit Sendezeiten sichtbar; auf dem Runner nach dem ersten Lauf das abgelegte Bild ansehen"
+  },
+  "press.disneyplus.com": {
+    "geprueft": "2026-10-04",
+    "wand": "keine sichtbar; vier Elemente mit „cookie/consent\" im Quelltext, verdecken den Artikel lokal nicht",
+    "fix": "—",
+    "beleg": "Seite am 04.10.2026 mit Playwright angesehen (lokal): „Next on Disney+ and Hulu October 2026\" sichtbar; US-Pressemeldung; auf dem Runner nach dem ersten Lauf das abgelegte Bild ansehen"
   }
 }
