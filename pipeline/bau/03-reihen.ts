@@ -480,7 +480,7 @@ export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anise
       warn(`watch-links.yaml: AniList-ID ${entry.anilistId} (${entry.title ?? '?'}) ist unbekannt`)
       continue
     }
-    const existing = title.watchLinks ?? []
+    const existing = (title.watchLinks ?? []).filter((e) => !(entry.links ?? []).some((l) => l.ersetzt && l.name === e.name)) // `ersetzt: true`: die Handadresse ersetzt den gleichnamigen Weg
     const curated = (entry.links ?? []).filter((l) => !existing.some((e) => e.url === l.url))
     /**
      * Eine von Hand herausgesuchte Produktseite ersetzt die Suche.

@@ -304,3 +304,16 @@
   sources:
     - https://www.amazon.de/dp/B0000D7ZII
     - https://www.anisearch.de/anime/1024
+
+# Tokyo Revengers Staffel 1: MagentaTV führt nur hier ein Angebot, das **auf Magenta bleibt** (ProSieben fun). Disney+ und Joyn leitet Magenta an die
+# Anbieter selbst weiter — diese Wege haben eigene Pillen, bei Staffel 2 und 3 steht deshalb keine Magenta-Pille. Die Adresse aus der Quelle war eine Folge
+# (`…/serie/-/GN_EP039760540002`, Staffel 1 Folge 1); Daniel nannte am 04.10.2026 die Staffelübersicht.
+- anilistId: 120120
+  title: Tokyo Revengers
+  links:
+    - name: MagentaTV
+      url: https://www.magenta.tv/serie/tokyo-revengers/staffel-01/GN_SEASON_19788471_DE_1
+      kind: stream
+      ersetzt: true
+  sources:
+    - https://www.magenta.tv/serie/tokyo-revengers/staffel-01/GN_SEASON_19788471_DE_1

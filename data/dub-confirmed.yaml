@@ -21349,3 +21349,14 @@
       checked: [1]
   checkedAt: '2026-10-04'
   note: "Deutsche Tonspur — von Daniel auf der Netflix-Titelseite von Hand geprüft (04.10.2026); im Angebot seit 28.09.2026 laut Netflix Tudum (netflix.com/tudum/articles/demon-slayer-kimetsu-no-yaiba-infinity-castle-release-date-cast-news)"
+- anilistId: 120120
+  title: "Tokyo Revengers"
+  platform: joyn
+  url: https://www.joyn.de/serien/tokyo-revengers
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 24
+      dub: true
+  checkedAt: '2026-10-04'
+  note: "Joyn führt Staffel 1 mit allen 24 Folgen auf Deutsch — Angabe von Daniel am 04.10.2026 („joyn pill fehlt 24 Fg.“)."
