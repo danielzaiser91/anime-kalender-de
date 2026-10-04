@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folgenbereich — Entwürfe A bis D</title>
+<style>
+  :root { --bg:#0e1118; --karte:#141a24; --linie:#243044; --text:#e8edf5; --leise:#8a97ab; --akzent:#7aa7ff; --gruen:#4fd18b; --amber:#f0b24a; --rot:#ff7a85; --lila:#b79cff }
+  * { box-sizing:border-box } body { margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui,Segoe UI,sans-serif; padding:24px 16px 80px }
+  h1 { font-size:20px; margin:0 0 4px } .sub { color:var(--leise); margin:0 0 26px; max-width:72ch }
+  .var { max-width:520px; margin:0 auto 40px } .var > h2 { font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--leise); margin:0 0 4px } .var > p { margin:0 0 10px; color:var(--leise); font-size:13px }
+  .panel { background:var(--karte); border:1px solid var(--linie); border-radius:12px; padding:10px 14px }
+  .titel { font-weight:700; font-size:17px; margin:2px 0 6px } .meta { color:var(--leise); font-size:12px; margin-bottom:8px }
+  .kasten { border:1px solid #5b2a30; background:#1d1317; border-radius:10px; padding:8px 10px; margin:6px 0 8px } .kasten b { color:#ffd2d6 }
+  .tabs { display:flex; gap:4px; border-bottom:1px solid var(--linie); margin:8px 0 6px } .tab { padding:5px 10px; font-size:13px; color:var(--leise); border-radius:6px 6px 0 0; cursor:pointer } .tab.an { color:var(--text); background:#1c2535; font-weight:700 }
+  table { width:100%; border-collapse:collapse; font-size:13px } td, th { padding:3px 6px; border-top:1px solid var(--linie); text-align:left } th { color:var(--leise); font-weight:600; font-size:11px; text-transform:uppercase; border-top:0 }
+  .nr { color:var(--leise); width:28px; text-align:right } .min { color:var(--leise); width:52px; text-align:right }
+  .typ { font-size:10px; border-radius:4px; padding:0 5px; margin-left:6px; border:1px solid var(--linie); color:var(--leise) } .typ.sp { color:var(--amber); border-color:#5b4719 } .typ.ova { color:var(--lila); border-color:#443b66 }
+  .de { color:var(--gruen); font-weight:700 } .omu { color:var(--leise) } .nein { color:var(--rot) }
+  details > summary { cursor:pointer; list-style:none; padding:6px 0; font-weight:700 } details > summary::-webkit-details-marker { display:none } details > summary::before { content:"▸ "; color:var(--leise) } details[open] > summary::before { content:"▾ " }
+  .gruppe { color:var(--leise); font-size:11px; letter-spacing:.06em; text-transform:uppercase; margin:8px 0 2px }
+  .reihe { border:1px solid var(--linie); border-radius:10px; overflow:hidden } .reihe .teil { padding:7px 10px; border-top:1px solid var(--linie) } .reihe .teil:first-child { border-top:0 } .teil .kopf { display:flex; gap:8px; align-items:baseline } .teil .kopf .r { margin-left:auto; color:var(--leise); font-size:12px }
+  .ep { margin:5px 0 0 8px; padding-left:10px; border-left:2px solid var(--linie); font-size:12px; color:var(--leise) } .ep div { display:flex; gap:8px } .ep .t { flex:1; color:var(--text) }
+  .streifen { display:flex; flex-wrap:wrap; gap:4px; margin:6px 0 }
+  .chip { width:30px; height:26px; border-radius:6px; display:grid; place-items:center; font-size:11px; font-weight:700; border:1px solid var(--linie); cursor:default; position:relative }
+  .chip.de { background:#12361f; color:var(--gruen); border-color:#1f5a35 } .chip.sp { background:#3b2a12; color:var(--amber); border-color:#5b4719 } .chip.omu { background:#1b2230; color:var(--leise) } .chip.nein { background:#3a1a1f; color:var(--rot); border-color:#5b2a30 }
+  .chip:hover::after { content:attr(data-t); position:absolute; bottom:30px; left:50%; transform:translateX(-50%); background:#0b0e14; border:1px solid var(--linie); border-radius:6px; padding:3px 8px; white-space:nowrap; font-weight:400; color:var(--text); z-index:5 }
+  .legende { font-size:11px; color:var(--leise); display:flex; gap:10px; flex-wrap:wrap; margin-top:4px } .legende span::before { content:"■ "; }
+  .l-de::before { color:var(--gruen) } .l-sp::before { color:var(--amber) } .l-omu::before { color:#5b6b85 } .l-nein::before { color:var(--rot) }
+  .hinweis { max-width:520px; margin:0 auto 26px; color:var(--leise); font-size:12px; border-left:3px solid var(--linie); padding-left:10px }
+  a { color:var(--akzent); text-decoration:none }
+</style>
+</head>
+<body>
+<h1>Folgenbereich — vier Entwürfe</h1>
+<p class="sub">Beispiel: Freezing Vibration (TV, 12 Folgen) mit seinen 6 Specials. Beim Prime-Verweis (Kanal aniverse) steht „18 Fg." — der Nutzer kann nicht sehen, welche davon die Serie und welche die Specials sind. Alle Zeilen in den Entwürfen sind <b>Platzhalter</b> („Episodentitel …"); echte Titel kämen aus aniSearch (deutsche Folgentitel, `data/anisearch-folgen.json` führt sie schon für 2.631 Titel, Specials haben dort eigene Einträge). Der Marker <span class="de">DE</span> käme aus dem Sprachurteil je Folge (Crunchyroll-Katalog, Disc-Tonspur, Handbeleg), wo es das gibt; ohne Beleg steht <span class="omu">?</span>.</p>
+
+<div class="var">
+  <h2>A · Reiter im Panel: „Überblick | Folgen | Specials"</h2>
+  <p>Eigener Reiter mit Tabelle: Nr, Titel, Typ, Länge, Sprache. Viel Platz, aber ein Klick weg vom Antwortkasten; das Panel bekommt zum ersten Mal Reiter.</p>
+  <div class="panel">
+    <div class="titel">Freezing Vibration</div><div class="meta">TV · 12 Folgen · je 23 Min. · JP 2014</div>
+    <div class="tabs"><span class="tab">Überblick</span><span class="tab an">Folgen 12</span><span class="tab">Specials 6</span></div>
+    <table>
+      <tr><th></th><th>Titel</th><th></th><th>Länge</th><th>DE</th></tr>
+      <tr><td class="nr">1</td><td>Episodentitel 1</td><td></td><td class="min">23 Min.</td><td class="de">DE</td></tr>
+      <tr><td class="nr">2</td><td>Episodentitel 2</td><td></td><td class="min">23 Min.</td><td class="de">DE</td></tr>
+      <tr><td class="nr">3</td><td>Episodentitel 3</td><td></td><td class="min">23 Min.</td><td class="de">DE</td></tr>
+      <tr><td class="nr">…</td><td class="omu">…</td><td></td><td></td><td></td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="var">
+  <h2>B · Eine Ausklapp-Zeile unter dem Antwortkasten</h2>
+  <p>Zu: „▸ Folgen und Specials (18)". Aufgeklappt zwei Gruppen mit Typ-Marke. Kostet im Normalfall eine Zeile; kein neues Bedienelement. Klappt man sie nie auf, ändert sich nichts am Panel.</p>
+  <div class="panel">
+    <div class="titel">Freezing Vibration</div><div class="meta">TV · 12 Folgen · je 23 Min. · JP 2014</div>
+    <div class="kasten"><b>Alle 12 Folgen auf Deutsch</b><br><span class="omu">Prime Video (aniverse) · 18 Fg.</span></div>
+    <details open><summary>Folgen und Specials (18)</summary>
+      <div class="gruppe">Serie · 12</div>
+      <table><tr><td class="nr">1</td><td>Episodentitel 1</td><td class="min">23 Min.</td><td class="de">DE</td></tr><tr><td class="nr">2</td><td>Episodentitel 2</td><td class="min">23 Min.</td><td class="de">DE</td></tr><tr><td class="nr">…</td><td class="omu">… bis 12</td><td></td><td></td></tr></table>
+      <div class="gruppe">Specials · 6 <span class="typ sp">Special</span></div>
+      <table><tr><td class="nr">S1</td><td>Special-Titel 1</td><td class="min">5 Min.</td><td class="de">DE</td></tr><tr><td class="nr">S2</td><td>Special-Titel 2</td><td class="min">5 Min.</td><td class="de">DE</td></tr><tr><td class="nr">…</td><td class="omu">… bis S6</td><td></td><td></td></tr></table>
+    </details>
+  </div>
+</div>
+
+<div class="var">
+  <h2>C · In „Teile in dieser Reihe": je Teil aufklappbar</h2>
+  <p>Jede Zeile der Reihenbox bekommt einen Pfeil; aufgeklappt stehen die Folgen des Teils darunter. Der Zusammenhang Serie ↔ Special ist sofort sichtbar, die Information steht dort, wo man zwischen Teilen springt.</p>
+  <div class="panel">
+    <div class="titel">Freezing Vibration</div>
+    <div class="reihe">
+      <div class="teil"><div class="kopf"><b>▾ Freezing Vibration</b><span class="r">TV · 2014 · 12 Fg. · 23 Min.</span></div>
+        <div class="ep"><div><span class="nr">1</span><span class="t">Episodentitel 1</span><span class="de">DE</span></div><div><span class="nr">2</span><span class="t">Episodentitel 2</span><span class="de">DE</span></div><div><span class="nr">…</span><span class="t">… bis 12</span></div></div></div>
+      <div class="teil"><div class="kopf"><b>▾ Freezing Vibration: Specials</b><span class="typ sp">Special</span><span class="r">2014 · 6 Fg. · 5 Min.</span></div>
+        <div class="ep"><div><span class="nr">S1</span><span class="t">Special-Titel 1</span><span class="de">DE</span></div><div><span class="nr">…</span><span class="t">… bis S6</span></div></div></div>
+      <div class="teil"><div class="kopf"><b>▸ Freezing (Staffel 1)</b><span class="r">TV · 2011 · 12 Fg. · 24 Min.</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="var">
+  <h2>D · Folgen-Streifen: eine Kachel je Folge</h2>
+  <p>Ein kompakter Streifen im Antwortkasten: je Folge eine Kachel, Farbe = Sprache/Typ, Tooltip = Folgentitel und Länge. Zeigt auf einen Blick, <b>welche der 18</b> die Specials sind und wo etwas fehlt; ein Klick auf „Titel anzeigen" öffnet die Liste (wie B). Platzsparend, aber Titel stehen erst im Tooltip.</p>
+  <div class="panel">
+    <div class="titel">Freezing Vibration</div><div class="meta">TV · 12 Folgen · je 23 Min. · JP 2014</div>
+    <div class="kasten"><b>Alle 12 Folgen auf Deutsch</b><div class="streifen">
+      <span class="chip de" data-t="1 · Episodentitel 1 · 23 Min.">1</span><span class="chip de" data-t="2 · Episodentitel 2">2</span><span class="chip de" data-t="3 · Episodentitel 3">3</span><span class="chip de">4</span><span class="chip de">5</span><span class="chip de">6</span><span class="chip de">7</span><span class="chip de">8</span><span class="chip de">9</span><span class="chip de">10</span><span class="chip de">11</span><span class="chip de">12</span>
+      <span class="chip sp" data-t="Special 1 · 5 Min. · als Bonus auf deutscher Disc">S1</span><span class="chip sp">S2</span><span class="chip sp">S3</span><span class="chip sp">S4</span><span class="chip sp">S5</span><span class="chip sp">S6</span>
+    </div>
+    <div class="legende"><span class="l-de">deutsch belegt</span><span class="l-sp">Special</span><span class="l-omu">ohne Beleg</span><span class="l-nein">nur OmU/Englisch</span> · <a href="#">Titel anzeigen ▸</a></div></div>
+  </div>
+</div>
+
+<p class="hinweis">Alle Entwürfe lösen dasselbe: Folgentitel und Typ sichtbar machen, damit niemand zu aniSearch/MAL oder zu Google springen muss, um zu sehen, was die „18" sind. Meine Einschätzung: <b>B</b> ist der kleinste Eingriff, <b>C</b> passt am besten zur Reihenlogik, <b>D</b> ist die dichteste Auskunft. Eine Mischung aus D (Streifen im Kasten) und B (Liste dahinter) wäre die Alternative.</p>
+</body>
+</html>
