@@ -48,3 +48,16 @@ aniSearch uns schon einmal). Eine eigene Zahl kostet eine kleine Tabelle und mac
   sobald die letzte Lesestelle weg ist (`grep anilistId` ist die Messlatte).
 - **Neue Titel** (aniSearch-Katalog, Ankündigungen) bekommen beim ersten Sehen eine `ak`; wegfallende bleiben mit `status`.
 
+## Adressen vereinheitlichen (Daniel, 04.10.2026 22:49)
+
+Befund: Klickt man im Wochenkalender eine Karte an, lautet die Adresse `/r/tokyo-revengers-s3-disneyplus/#/woche`; die Karte daneben führt auf `/r/hana-kimi-s2/#/woche` (kein Anbieter),
+die übernächste auf `/r/cr-GYZJ43JMR/#/woche` (weder Titel noch Anbieter). Grund: `/r/<Kennname des Termins>` — der Kennname ist bei kuratierten Terminen frei gewählt, bei
+automatisch angelegten Crunchyroll-Terminen `cr-<Serienkennung>`. Dazu gibt es die Titelseiten `/t/<Name>-<AniList-ID>/` und im Fenster `#/datenbank?t=<AniList-ID>`.
+
+**Vorschlag, mit Stufe 1 der eigenen Kennungen zusammen** (alles andere wäre eine zweite Umstellung):
+- **Eine Adresse für alles: `/t/<ak>/`** — die eigene Kennung des Titels, ohne Anbieter und ohne Namen. Ob Karte im Kalender, Karte in der Datenbank, Teilen, Newsletter oder
+  Kalenderdatei: dieselbe Adresse; welcher Termin gemeint ist, zeigt das Panel (der Anbieter steht im Datensatz, nicht in der Adresse).
+- **`/r/…` entfällt**; ungültige Adressen leiten auf die Startseite (Daniel: keine Rückwärtskompatibilität). Im Fenster heißt der Parameter `t=<ak>`.
+- Die Teilen-Seiten (`pipeline/build-share-pages.ts`, für Vorschaubilder) werden je Titel als `/t/<ak>/` erzeugt statt je Titel und Termin; das spart rund 620 Dateien.
+- Stellen, die heute `#/release/<slug>` oder `/r/<slug>` schreiben: Kalenderdatei (`shared/ics.ts`, Beschreibung), Newsletter (`worker/src/mail-abschnitte.ts`),
+  Teilen-Knopf (`useShare`), RSS, Panel-Router. Sie ziehen in Stufe 1 gemeinsam um.
