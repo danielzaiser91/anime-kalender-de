@@ -1,6 +1,7 @@
 import { writeJson, readJson, log } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
+import { omuTitelAusKatalog } from '../lib/news-omu.ts'
 import { type Release, type ReleaseEvent, type Title, type DataMeta, type NewsEintrag } from '../../shared/types.ts'
 
 export function schreibeKernUndNews({ releases, events, titles, meta }: {
@@ -46,7 +47,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
       ).folgen ?? [],
       newsHistorie,
       /* Das zuvor ausgelieferte `news.json` speist beim ersten Lauf den Verlauf. */
-      readJson<NewsEintrag[]>(`${OUT}/news.json`, []),
+      readJson<NewsEintrag[]>(`${OUT}/news.json`, []), omuTitelAusKatalog(OUT),
     )
     writeJson(`${OUT}/news.json`, meldungen)
     newsFuerRss = meldungen

@@ -11,14 +11,20 @@
  */
 import type { NewsMeldung, Release, Title } from '../../shared/types.ts'
 import { hostVon } from '../../shared/quelle.ts'
+import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
+import { readJson, slugify } from './util.ts'
+import { ankuendigungenLaden, type Ankuendigung } from './ankuendigungen.ts'
+
+let geladen: Map<number, Ankuendigung> | undefined
 
 export function omuMeldungen(
   titles: Iterable<Title>,
   releases: Release[],
+  ankuendigungen: Map<number, Ankuendigung> = (geladen ??= ankuendigungenLaden(process.cwd())),
 ): (NewsMeldung & { schluessel: string; fallback: string; titel: Title })[] {
   const raus: (NewsMeldung & { schluessel: string; fallback: string; titel: Title })[] = []
   for (const t of titles) {
-    const a = t.ankuendigung
+    const a = t.ankuendigung ?? ankuendigungen.get(t.id)
     /* Nur ein Tag ist ein Termin; „JJJJ-MM" nennt die Quelle, wo sie keinen Tag kennt. */
     if (!a || a.omuAb.length !== 10) continue
     if (releases.some((r) => r.titleId === t.id && r.platform === a.platform && !r.widerlegt)) continue
@@ -38,4 +44,20 @@ export function omuMeldungen(
     })
   }
   return raus
+}
+
+/**
+ * **Katalogtitel mit angekündigtem Start** (Beerus steht nicht im Hauptbestand, nur in `ohne-synchro.json`).
+ * Die Meldung braucht Name, Cover und Kennung; Cover und Anbieter-Liste werden hier nachgerüstet. Gelesen wird
+ * die Datei, die der Bau kurz vorher geschrieben hat.
+ */
+export function omuTitelAusKatalog(out: string): Title[] {
+  return readJson<Title[]>(`${out}/ohne-synchro.json`, [])
+    .filter((t) => t.ankuendigung)
+    .map((t) => ({
+      ...t,
+      streams: t.streams ?? [],
+      slug: t.slug ?? `${slugify(t.titleEn ?? t.titleRomaji ?? String(t.id))}-${t.id}`,
+      coverImage: t.coverImage && !t.coverImage.startsWith('http') ? ANILIST_COVER_BASIS + t.coverImage : t.coverImage,
+    }))
 }

@@ -7809,6 +7809,10 @@ console.log('\nOmU-Meldung:')
   pruefe('OmU: ein Start mit Tag wird Meldung am Tag der Quelle, mit Beleg und Hinweis „nicht angekündigt"', m.length === 1 && m[0]!.fallback === '2026-09-15' && m[0]!.datum === '2026-10-11' && m[0]!.belege?.length === 1 && /nicht angekündigt/.test(m[0]!.hinweis ?? ''), m)
   const rel = { titleId: 7, platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-10-11' } } as never
   pruefe('OmU: gibt es ein Release desselben Anbieters, entfällt die Meldung', omuMeldungen([titel], [rel]).length === 0)
+  /* Der Bau legt `ankuendigung` erst beim Schreiben an den Titel — die Meldung muss sie selbst nachschlagen (Beerus, 04.10.2026). */
+  const ohneFeld = { id: 9 } as never
+  const aus = omuMeldungen([ohneFeld], [], new Map([[9, { platform: 'crunchyroll', omuAb: '2026-10-11', synchro: 'angekuendigt', quellen: ['https://x'], stand: '2026-10-01' } as never]]))
+  pruefe('OmU: ein Titel ohne Feld am Objekt bekommt seine Meldung über die Ankündigungsliste', aus.length === 1 && /ist angekündigt/.test(aus[0]!.hinweis ?? ''), aus)
 }
 
 /* Japans Ende ist nicht das deutsche: Slime Staffel 4 (AniList-Ende 25.09., Crunchyroll bis 16.10.). */

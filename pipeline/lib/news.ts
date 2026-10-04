@@ -250,7 +250,7 @@ export function baueNews(
   neuMitSynchro: NeuerTitel[],
   crNeu: CrNeueFolge[],
   historie: NewsHistorie,
-  vorherige: NewsEintrag[] = [],
+  vorherige: NewsEintrag[] = [], omuTitel: Title[] = [],
 ): NewsEintrag[] {
   const heute = todayIso()
   const grenze = addDays(heute, -FENSTER_TAGE)
@@ -365,7 +365,7 @@ export function baueNews(
   }
 
   /* 3. Termine: angekündigt, auf Disc, im Kino — und die, die niemand eingehalten hat. */
-  roh.push(...terminMeldungen(releases, nachId, heute), ...omuMeldungen(titles, releases))
+  roh.push(...terminMeldungen(releases, nachId, heute), ...omuMeldungen([...titles, ...omuTitel], releases))
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
   let datiert: DatiertNews[] = []
   for (const r of roh) {
