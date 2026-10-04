@@ -28,9 +28,23 @@ wenn AniList ihn führt — kommende Anime fehlen häufig.
 Sie wäre die kürzeste Lösung, bindet uns aber an eine zweite Quelle mit derselben Schwäche (Zusammenlegungen, Umbenennungen, mögliche Sperre — am 09.08.2026 sperrte
 aniSearch uns schon einmal). Eine eigene Zahl kostet eine kleine Tabelle und macht jede Quelle austauschbar.
 
-## Offene Entscheidungen für Daniel
+## Entschieden (Daniel, 04.10.2026, 21:32)
 
-1. Einverstanden mit dem Entwurf (eigene `ak`, aniSearch als Quelle, AniList/MAL/TMDB als Zuordnungen)?
-2. Wie lange gelten alte Adressen (`t=<AniList-ID>`) — mein Vorschlag sechs Monate nach der Abschaltung von AniList als Quelle.
-3. Zeitpunkt: vor oder nach dem Katalog-Lauf (11.607 Titel hinter dem Toggle bekommen dann gleich eine `ak`)? Mein Vorschlag: **vorher**, damit der Katalog gleich mit
-   `ak` ankommt.
+1. **Eigene Kennung `ak`: ja.** Alle Quellkennungen (aniSearch, TMDB, MAL …) werden intern auf unsere Kennung gemappt. **AniList wird nicht gemappt**,
+   außer wo noch eine Abhängigkeit besteht; die Cover bleiben als statische Links am Titel (`coverImage`), sie brauchen die AniList-ID nicht. Im ersten Zug darf alles
+   gemappt werden, damit nichts bricht — besser ist, die AniList-Kennungen direkt zu streichen, sobald nichts mehr an ihnen hängt.
+2. **Keine Rückwärtskompatibilität.** Ungültige Adressen (`t=<alte ID>`, alte Teilen-Seiten) leiten auf die Startseite weiter. Keine Alias-Tabelle.
+   *Folge, die mitgedacht sein muss:* Favoriten im Browser (`localStorage`) und im Newsletter-Konto (D1) hängen an den alten IDs und gehen mit der Umstellung verloren, wenn sie
+   nicht einmalig umgeschrieben werden. Mein Vorschlag: eine einmalige Umschreibung im Browser (Tabelle alt→neu, nur beim ersten Laden, danach weg) und im Worker (einmaliges
+   Skript); die Entscheidung dazu steht aus.
+3. **Umstellung vor dem Katalog-Lauf.** Durch die Zuordnung ändert sich für den Besucher nichts, vorher oder nachher.
+
+## Plan in Stufen
+
+- **Stufe 0 (additiv) — erledigt am 04.10.2026:** `tools/kennungen-erzeugen.mjs` hat `data/kennungen.json` erzeugt (17.945 Titel aus Bestand und „ohne Synchro", davon 6.769 mit aniSearch-Kennung, 38 %; der Rest bekommt sie mit dem Katalog-Lauf nachgetragen, Lauf wiederholbar). Idempotent, nur ergänzend. Ursprünglicher Auftrag: `data/kennungen.json` erzeugen: je Titel `[ak, anilist, aniSearch?]`, fortlaufend, nur anhängen, nie neu vergeben; Skript idempotent. Noch liest nichts daraus.
+- **Stufe 1 (Grenze):** Die Pipeline arbeitet intern weiter mit der AniList-ID, übersetzt aber an der Ausgabe: `titles.json`, Releases, News, Folgenlisten, Teilen-Seiten, Adressen
+  tragen `ak`. Web und Worker kennen nur `ak`. Vorher/Nachher-Vergleich mit `tools/bau-vergleich.mjs` bis auf die Schlüssel.
+- **Stufe 2 (Kern):** Handbelege (`dub-confirmed.yaml`), kuratierte Termine, Gedächtnisdateien und Caches wandern auf `ak` (Skript, Vorher/Nachher). Die AniList-Spalte entfällt,
+  sobald die letzte Lesestelle weg ist (`grep anilistId` ist die Messlatte).
+- **Neue Titel** (aniSearch-Katalog, Ankündigungen) bekommen beim ersten Sehen eine `ak`; wegfallende bleiben mit `status`.
+
