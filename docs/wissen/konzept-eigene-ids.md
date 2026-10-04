@@ -61,3 +61,13 @@ automatisch angelegten Crunchyroll-Terminen `cr-<Serienkennung>`. Dazu gibt es d
 - Die Teilen-Seiten (`pipeline/build-share-pages.ts`, für Vorschaubilder) werden je Titel als `/t/<ak>/` erzeugt statt je Titel und Termin; das spart rund 620 Dateien.
 - Stellen, die heute `#/release/<slug>` oder `/r/<slug>` schreiben: Kalenderdatei (`shared/ics.ts`, Beschreibung), Newsletter (`worker/src/mail-abschnitte.ts`),
   Teilen-Knopf (`useShare`), RSS, Panel-Router. Sie ziehen in Stufe 1 gemeinsam um.
+
+## Stufe 1: Inventar der Ausgabe (gemessen 04.10.2026, 23:40)
+
+Wo die AniList-ID heute in `public/data/` und darum herum steht und beim Umstellen mitwandert:
+- **Felder:** `id` (titles, titles-core, ohne-synchro, franchises-Einträge; bei `cartoons.json` negative TMDB-Kennungen, die bleiben), `titleId` (releases, events), `titelId` (news), dazu `slug` mit angehängter ID (`cowboy-bebop-1`, Teilen-Seiten `/t/<slug>/`).
+- **Schlüssel:** `franchises.json` und `reihen.json` (Reihe → Mitglieder), `folgen/<id>.json`, Gruppendateien `synopses/<n>.json`, `disc/<n>.json`, `voices/`.
+- **Außerhalb des Webs:** `data/news-historie.json`, Favoriten im Browser (`localStorage`) und im Worker (D1), Erweiterung (Meldungen nennen Titel), `shared/ics.ts`, `worker/src/mail-abschnitte.ts`, `templates.ts`, `pruefung-stand.ts`, RSS.
+- **Web:** rund 140 Stellen lesen `.id` (`grep -rnE "\.(id|anilistId|titleId)\b" web/src`).
+
+**Vorgehen, damit kein Schritt die Seite bricht:** (1a) ein Modul `shared/kennung.ts` mit `akVon(anilist)`, beim Schreiben der Ausgabe an genau einer Stelle je Datei angewandt; (1b) `bau-vergleich` bis auf die Schlüssel gleich; (1c) Web, Worker, Erweiterung und Favoriten-Umschreibung in einem Zug, weil sie dieselbe Datei lesen; (1d) Adressen `/t/<ak>/` und `/r/` entfällt. 1a bis 1d gehören in **eine** zusammenhängende Sitzung mit Live-Prüfung; als Nachtlauf ohne Beobachter ist das Risiko zu hoch (Favoriten gehen sonst verloren).
