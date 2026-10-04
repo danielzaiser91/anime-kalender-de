@@ -25,10 +25,48 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
       <div className="relative shrink-0" style={{ isolation: 'isolate' }}>
         <h2
           title={reihenName}
-          className="line-clamp-2 px-4 pb-2 pt-1 text-lg font-semibold leading-tight text-slate-900 dark:text-white"
+          className="line-clamp-2 py-1 pb-2 pl-4 pr-24 text-lg font-semibold leading-tight text-slate-900 dark:text-white"
         >
           {reihenName}
         </h2>
+        {/* Schließen, Merken, Teilen und die Altersfreigabe stehen in der Titelzeile statt auf dem Cover (Daniel, 04.10.2026). */}
+        {/*
+          Senkrecht an der rechten Kante, direkt unter der Titelzeile. Jedes
+          Symbol behält seinen dunklen Grund: Auf einem hellen Cover wäre ein
+          blankes Symbol sonst genauso unlesbar wie blanker Text.
+        */}
+        {/*
+          In der Ecke, nicht neben ihr: `top-0 right-0`, und gerundet ist nur
+          die Kante, die ins Bild zeigt.
+        */}
+        <div className="absolute right-0 top-0 z-10 flex flex-col items-center gap-1.5 rounded-bl-lg bg-black/50 px-1.5 py-2 backdrop-blur-[3px]">
+          {/* Schließen steht ganz oben, wo man es sucht. */}
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={t('detail.close')}
+            className="cursor-pointer px-1 text-sm text-white transition hover:opacity-70"
+          >
+            ✕
+          </button>
+          {reihenIds.length > 1 && (
+            <ReihenStern
+              alleGemerkt={reihenIds.every((id) => favorites.has(id))}
+              anzahl={reihenIds.length}
+              onMerken={() => {
+                for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
+              }}
+            />
+          )}
+          <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
+          <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
+          <ShareIcon slug={title.slug} name={anzeigeName(title)} />
+        </div>
+        {title.fsk !== undefined && (
+          <span className="absolute right-11 top-0 z-10 rounded-b-lg bg-[rgba(8,12,18,.74)] px-2 py-1 text-xs font-semibold tabular-nums text-slate-200 backdrop-blur-[3px]">
+            {t('antwort.fskAb', { n: title.fsk })}
+          </span>
+        )}
 
         {/*
           **410 px, und der Ausschnitt sitzt tief.**
@@ -76,38 +114,6 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
                 'linear-gradient(180deg, transparent 0%, transparent 52%, var(--buehne-mitte) 78%, var(--buehne-unten) 92%, var(--panel-grund) 100%)',
             }}
           />
-          {/*
-            Senkrecht an der rechten Kante, direkt unter der Titelzeile. Jedes
-            Symbol behält seinen dunklen Grund: Auf einem hellen Cover wäre ein
-            blankes Symbol sonst genauso unlesbar wie blanker Text.
-          */}
-          {/*
-            In der Ecke, nicht neben ihr: `top-0 right-0`, und gerundet ist nur
-            die Kante, die ins Bild zeigt.
-          */}
-          <div className="absolute right-0 top-0 z-10 flex flex-col items-center gap-1.5 rounded-bl-lg bg-black/50 px-1.5 py-2 backdrop-blur-[3px]">
-            {/* Schließen steht ganz oben, wo man es sucht. */}
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label={t('detail.close')}
-              className="cursor-pointer px-1 text-sm text-white transition hover:opacity-70"
-            >
-              ✕
-            </button>
-            {reihenIds.length > 1 && (
-              <ReihenStern
-                alleGemerkt={reihenIds.every((id) => favorites.has(id))}
-                anzahl={reihenIds.length}
-                onMerken={() => {
-                  for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
-                }}
-              />
-            )}
-            <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
-            <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
-            <ShareIcon slug={title.slug} name={anzeigeName(title)} />
-          </div>
 
           {/*
             Die Unterzeile überlappt das Cover — sie kostet damit keine eigene
@@ -172,11 +178,6 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
             erst 3,5 rem tiefer beginnt; die Marke passt in die Lücke
             dazwischen, ohne beide anzufassen.
           */}
-          {title.fsk !== undefined && (
-            <span className="absolute right-11 top-0 z-10 rounded-b-lg bg-[rgba(8,12,18,.74)] px-2 py-1 text-xs font-semibold tabular-nums text-slate-200 backdrop-blur-[3px]">
-              {t('antwort.fskAb', { n: title.fsk })}
-            </span>
-          )}
         </div>
       </div>
     </>
