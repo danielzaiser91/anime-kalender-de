@@ -1,4 +1,5 @@
 import { type PlatformId, type Title } from '../../shared/types.ts'
+import { gehoertAnderem, crKatalog, kennungAusAdresse } from './cr-serie-geteilt.ts'
 import { dubKey, type DubCheck } from '../lib/dub-confirmed.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
@@ -361,7 +362,7 @@ export function ergaenzeAnisearchWege({
       const url = crAdresseZu(title.titleEn ?? title.titleRomaji ?? '')
       if (!url) continue
       const kennung = url.split('/series/')[1]?.split('/')[0] ?? ''
-      if (!crKatalogDeutsch.has(kennung)) continue
+      if (!crKatalogDeutsch.has(kennung) || gehoertAnderem(titles, kennung, title, crKatalog(), kennungAusAdresse())) continue
       const kern = adressKern(url)
       if (frueherEntfernt.has(kern, title.id)) continue
       if (toteCrSerien.has(kennung)) continue

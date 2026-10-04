@@ -1,4 +1,5 @@
 import type { Title } from '../../shared/types.ts'
+import { readJson } from '../lib/util.ts'
 
 /**
  * **Eine Crunchyroll-Serie mit einer Staffel gehört einem Titel, nicht jedem, der auf sie zeigt.**
@@ -59,4 +60,41 @@ export function entferneFremdeCrWege(titles: Map<number, Title>, katalog: Katalo
     weg++
   }
   return weg
+}
+
+/**
+ * **Beim Anlegen:** Die Katalog-Runde in `09-6-anisearch-wege.ts` legt Crunchyroll-Wege über den **Namen** an (`crAdresseZu`):
+ * „Tokyo Revengers Season 2" beginnt mit „Tokyo Revengers" und bekam die Serie von Staffel 1 — nach der Entfernung oben.
+ * Hat die einstufige Serie schon einen Eigentümer (ein anderer Titel mit genau ihrer Folgenzahl und einem Weg dorthin),
+ * bekommt kein weiterer Titel mit anderer Folgenzahl einen Weg an sie.
+ */
+export function gehoertAnderem(titles: Map<number, Title>, kennung: string, title: Title, katalog: Katalog, kennungVon: KennungVon): boolean {
+  const k = katalog.get(kennung)
+  if (!k || (k.staffeln ?? 0) !== 1 || k.folgen === undefined || title.episodes === k.folgen) return false
+  for (const t of titles.values()) {
+    if (t.id === title.id || t.episodes !== k.folgen) continue
+    const s = t.streams.find((x) => x.platform === 'crunchyroll')
+    if (s && kennungVon(s.url) === kennung) return true
+  }
+  return false
+}
+
+let katalogGeladen: Katalog | undefined
+/** Der deutsche Crunchyroll-Katalog je Serienkennung (Folgen, Staffeln), einmal gelesen. */
+export function crKatalog(): Katalog {
+  katalogGeladen ??= new Map(
+    (readJson<{ eintraege?: { id: string; folgen?: number; staffeln?: number }[] }>('data/cr-katalog-de.json', {}).eintraege ?? []).map((e) => [e.id, e]),
+  )
+  return katalogGeladen
+}
+
+let aufloeser: KennungVon | undefined
+/** Serienkennung aus der Adresse, sonst aus dem Kennungsgedächtnis — wie die Katalog-Runde in `09-4-3-katalog.ts`. */
+export function kennungAusAdresse(): KennungVon {
+  if (aufloeser) return aufloeser
+  const kern = (u: string): string => u.replace(/^https?:\/\//, '').replace(/^www\./, '').split('?')[0]!.replace(/\/$/, '').toLowerCase()
+  const gedaechtnis = readJson<{ adressen?: Record<string, { seriesId?: string }> }>('data/crunchyroll-series-ids.json', {}).adressen ?? {}
+  const je = new Map(Object.entries(gedaechtnis).filter(([, v]) => v.seriesId).map(([u, v]) => [kern(u), v.seriesId as string]))
+  aufloeser = (u) => /\/series\/([A-Z0-9]+)/.exec(u)?.[1] ?? je.get(kern(u))
+  return aufloeser
 }

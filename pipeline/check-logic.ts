@@ -153,7 +153,7 @@ import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
 import { NAMENSGEBUNDENE_RELATIONEN } from '../shared/namensgebunden.ts'
 import { schnellSetzen, schnellZustand, type SchnellId } from '../web/src/lib/schnellfilter.ts'
 import { ergaenzeTeilnamen } from './bau/adn-teilnamen.ts'
-import { serienBesitz, istFremd, entferneFremdeCrWege } from './bau/cr-serie-geteilt.ts'
+import { serienBesitz, istFremd, entferneFremdeCrWege, gehoertAnderem } from './bau/cr-serie-geteilt.ts'
 import { entdoppleCrWege } from './bau/11-3-bereinigung.ts'
 import type { DatiertNews } from './lib/news-verlauf.ts'
 import { pflegeTerminverlauf, type TerminVerlauf } from './lib/news-verlauf.ts'
@@ -7945,6 +7945,10 @@ console.log('\nGeteilte Crunchyroll-Serie:')
   pruefe('Geteilt: nur die fremden Titel verlieren den Weg', weg === 2 && titel.get(1)!.streams.length === 1 && titel.get(2)!.streams.length === 0 && titel.get(3)!.streams.length === 0)
   const allein = new Map([cr(148, 4)].map((t) => [t.id, t]))
   pruefe('Geteilt: ein einzelner Titel mit mehr Folgen als der Katalog (Hunter x Hunter) behält den Weg', !istFremd(serienBesitz(allein, kv, new Map([['G3KHEVMN1', { folgen: 20, staffeln: 1 }]])), 'G3KHEVMN1', 4, 20))
+  const alle = new Map([cr(24, 8), cr(13, 9)].map((x) => [x.id, x]))
+  const kat = new Map([['G3KHEVMN1', { folgen: 24, staffeln: 1 }]])
+  pruefe('Anlegen: ein Titel mit anderer Folgenzahl bekommt keinen Weg an die Serie eines Eigentümers (Tokyo Revengers S2)', gehoertAnderem(alle, 'G3KHEVMN1', { id: 10, episodes: 13, streams: [] } as unknown as Title, kat, kv))
+  pruefe('Anlegen: der Eigentümer selbst und ein Titel ohne Eigentümer sind nicht betroffen', !gehoertAnderem(alle, 'G3KHEVMN1', alle.get(8)!, kat, kv) && !gehoertAnderem(new Map(), 'G3KHEVMN1', { id: 11, episodes: 13, streams: [] } as unknown as Title, kat, kv))
   const ohneEigentuemer = new Map([cr(13, 5), cr(12, 6), cr(1, 7)].map((t) => [t.id, t]))
   pruefe('Geteilt: ohne Titel mit der Folgenzahl der Serie (Spice and Wolf) bleibt alles', !istFremd(serienBesitz(ohneEigentuemer, kv, new Map([['G3KHEVMN1', { folgen: 25, staffeln: 1 }]])), 'G3KHEVMN1', 6, 25))
 }
