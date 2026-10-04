@@ -25,7 +25,7 @@ export type FilterBarProps = {
 /**
  * **Derselbe Kasten, unten angedockt**. Vorher stand die Leiste oben im Fluss der Titelliste und
  * war beim Scrollen
- * weg. Der Platzhalter darunter hält die letzten Kacheln frei.
+ * weg. Platz für die letzten Kacheln lässt die Fußzeile (kein Leerraum oben, 04.10.2026).
  */
 export function FilterBarDock(props: FilterBarProps) {
   return (
@@ -33,7 +33,6 @@ export function FilterBarDock(props: FilterBarProps) {
       <div className="fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto max-h-[calc(100dvh-8rem)] md:bottom-[calc(1rem+env(safe-area-inset-bottom))] md:max-h-[calc(100dvh-3rem)] max-w-[1180px] overflow-y-auto">
         <FilterBar {...props} />
       </div>
-      <div className="h-20" aria-hidden="true" />
     </>
   )
 }

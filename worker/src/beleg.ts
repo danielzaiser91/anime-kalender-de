@@ -1,11 +1,6 @@
 /**
- * **Beleg-Ablage: privat in R2** (Daniel, 02.10.2026: „Screenshot, privat").
- *
- * Die Datenläufe lesen Artikel, die einen Termin belegen, und legen je Lesung ein Bild und das
- * HTML ab. Fremder Inhalt wird damit nicht veröffentlicht: Der Bucket hat keinen öffentlichen
- * Zugang. Schreiben und Auflisten gehen nur mit `LAUF_TOKEN` (Header `X-Lauf-Token`); **Lesen** einer Datei auch mit
- * `BELEG_LESETOKEN` (Header `X-Beleg-Token`), den der Prüfer im Browser hält, damit die Oberfläche das Bild zeigen
- * kann. Kein Schlüssel in der Adresse (04.10.2026).
+ * **Beleg-Ablage in R2:** Schreiben und Auflisten nur mit `LAUF_TOKEN` (Header `X-Lauf-Token`); **Lesen einer Datei ist öffentlich**
+ * (Daniel, 04.10.2026: Nutzer sollen den Beleg sehen). Der Bucket selbst hat keinen öffentlichen Zugang.
  *
  *   POST /beleg?key=<pfad>   Rumpf = Datei, `Content-Type` wird mitgespeichert
  *   GET  /beleg?key=<pfad>   liefert die Datei
@@ -23,10 +18,8 @@ function antwort(daten: unknown, status = 200, origin = '*'): Response {
 export async function handleBeleg(request: Request, env: Env, url: URL): Promise<Response> {
   const origin = env.ALLOWED_ORIGIN || '*'
   const darfSchreiben = Boolean(env.LAUF_TOKEN) && request.headers.get('X-Lauf-Token') === env.LAUF_TOKEN
-  const darfLesen = darfSchreiben || (Boolean(env.BELEG_LESETOKEN) && request.headers.get('X-Beleg-Token') === env.BELEG_LESETOKEN)
-  if (!darfLesen) return antwort({ error: 'Nicht erlaubt' }, 403, origin)
-  if (request.method === 'GET' && url.searchParams.get('key') === null && !darfSchreiben) return antwort({ error: 'Nicht erlaubt' }, 403, origin)
-  if (request.method === 'POST' && !darfSchreiben) return antwort({ error: 'Nicht erlaubt' }, 403, origin)
+  const liestEinzeln = request.method === 'GET' && url.searchParams.get('key') !== null
+  if (!liestEinzeln && !darfSchreiben) return antwort({ error: 'Nicht erlaubt' }, 403, origin)
   if (!env.BELEGE) return antwort({ error: 'Beleg-Ablage nicht eingerichtet' }, 503)
 
   const liste = url.searchParams.get('liste')
@@ -42,7 +35,7 @@ export async function handleBeleg(request: Request, env: Env, url: URL): Promise
     const objekt = await env.BELEGE.get(key)
     if (!objekt) return antwort({ error: 'Nicht gefunden' }, 404, origin)
     return new Response(objekt.body, {
-      headers: { 'content-type': objekt.httpMetadata?.contentType ?? 'application/octet-stream', 'Access-Control-Allow-Origin': origin, 'Cache-Control': 'private, no-store' },
+      headers: { 'content-type': objekt.httpMetadata?.contentType ?? 'application/octet-stream', 'Access-Control-Allow-Origin': origin, 'Cache-Control': 'public, max-age=3600' },
     })
   }
   if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)

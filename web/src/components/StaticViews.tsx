@@ -1236,7 +1236,7 @@ export function Footer({ meta }: { meta: DataMeta }) {
   // Quellenliste hat eine eigene Ansicht bekommen — sie stand hier unter jeder
   // Seite und wurde nach dem ersten Lesen nie wieder gebraucht.
   return (
-    <footer className="mt-10 border-t border-slate-200 py-4 text-xs text-slate-500 dark:border-white/10 dark:text-slate-400">
+    <footer className="mt-10 border-t border-slate-200 pb-24 pt-4 text-xs text-slate-500 dark:border-white/10 dark:text-slate-400">
       <div className="mx-auto flex max-w-[1600px] flex-col gap-1 px-4">
         <p>
           <span className="font-semibold text-slate-700 dark:text-slate-200">{t('app.title')}</span>

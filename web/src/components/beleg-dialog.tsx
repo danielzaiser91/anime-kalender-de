@@ -1,26 +1,10 @@
 import { useEffect, useState } from 'react'
 
-/**
- * **Das Beleg-Bild, nur mit Lese-Schlüssel** (Daniel, 04.10.2026: „wir brauchen dringend das neue Beleg-Feature").
- *
- * Die Bilder liegen privat in der Beleg-Ablage des Workers. Wer den Lese-Schlüssel auf `beleg.html` einträgt,
- * sieht an jeder Quelle mit Bild ein ▣ und kann es ansehen; alle anderen sehen nichts davon. Der Schlüssel
- * steht im Browser (`localStorage`), geht als Header zum Worker und kommt nie in eine Adresse.
- */
+/** **Das Beleg-Bild** an einer Quelle; öffentlich lesbar (Daniel, 04.10.2026). */
 const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
-const SCHLUESSEL = 'belegLesetoken'
-
-function schluessel(): string | undefined {
-  try {
-    return localStorage.getItem(SCHLUESSEL) ?? undefined
-  } catch {
-    return undefined
-  }
-}
-
 export function BelegKnopf({ bild, titel }: { bild?: string; titel: string }) {
   const [offen, setOffen] = useState(false)
-  if (!bild || !WORKER || !schluessel()) return null
+  if (!bild || !WORKER) return null
   return (
     <>
       <button
@@ -43,9 +27,9 @@ function BelegDialog({ bild, titel, zu }: { bild: string; titel: string; zu: () 
   useEffect(() => {
     let aktiv = true
     let blobUrl: string | undefined
-    fetch(`${WORKER}/beleg?key=${encodeURIComponent(bild)}`, { headers: { 'X-Beleg-Token': schluessel() ?? '' } })
+    fetch(`${WORKER}/beleg?key=${encodeURIComponent(bild)}`)
       .then(async (r) => {
-        if (!r.ok) throw new Error(r.status === 403 ? 'Schlüssel falsch' : r.status === 404 ? 'Bild nicht gefunden' : `Fehler ${r.status}`)
+        if (!r.ok) throw new Error(r.status === 404 ? 'Bild nicht gefunden' : `Fehler ${r.status}`)
         blobUrl = URL.createObjectURL(await r.blob())
         if (aktiv) setUrl(blobUrl)
       })
@@ -63,7 +47,6 @@ function BelegDialog({ bild, titel, zu }: { bild: string; titel: string; zu: () 
       <div className="max-h-[92vh] w-full max-w-3xl overflow-auto rounded-xl bg-slate-900 p-3 text-slate-200" onClick={(e) => e.stopPropagation()}>
         <div className="mb-2 flex items-center gap-2 text-sm">
           <b className="min-w-0 flex-1 truncate">Beleg: {titel}</b>
-          <span className="text-xs text-slate-400">privat</span>
           <button type="button" onClick={zu} className="cursor-pointer rounded border border-slate-600 px-2 py-0.5 text-xs">Schließen</button>
         </div>
         {fehler ? <p className="text-sm text-rose-300">{fehler}</p> : url ? <img src={url} alt={`Beleg: ${titel}`} className="w-full rounded" /> : <p className="text-sm text-slate-400">Lädt …</p>}
