@@ -4876,6 +4876,16 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
 }
 
+/* Keine künstliche Ankündigung (Daniel, 05.10.2026): Start am selben Tag wie „Neu auf Deutsch" ist keine Ankündigung. */
+{
+  const heute = todayIso()
+  const t = { id: 7, franchiseId: 7, slug: 't-7', titleEn: 'Selbentag', streams: [{ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/Y', dub: true }], keywords: [], genres: [] } as unknown as Title
+  const rel = (tag: string) => ({ slug: 'r-cr', titleId: 7, name: 'Selbentag', platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: tag }, sources: [] }) as unknown as Release
+  const arten = (tag: string) => baueNews([t], [rel(tag)], [{ id: 7, seit: heute }], [], { zuerst: {} }).flatMap((e) => e.meldungen).map((m) => m.art)
+  pruefe('Start heute: nur „Neu auf Deutsch", keine Ankündigung', !arten(heute).includes('angekuendigt'), JSON.stringify(arten(heute)))
+  pruefe('Start morgen bleibt eine Ankündigung', arten(addDays(heute, 1)).includes('angekuendigt'), JSON.stringify(arten(addDays(heute, 1))))
+}
+
 /*
   **Die Nachrichtenseite bündelt je Anime und Tag**.
 

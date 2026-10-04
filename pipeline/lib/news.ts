@@ -383,6 +383,9 @@ export function baueNews(
     datiert.push({ ...rest, am: zuerst, schluessel })
   }
 
+  /* Keine künstliche Ankündigung: Steht der Termin am Tag der Meldung schon bei „Neu auf Deutsch", gab es keine Vorankündigung und keine Quelle dafür (Daniel, 05.10.2026). */
+  datiert = datiert.filter((m) => !(m.art === 'angekuendigt' && m.datum !== undefined && m.am >= m.datum && datiert.some((x) => x.art === 'neu' && x.titel.id === m.titel.id && x.platform === m.platform && x.am === m.am)))
+
   /* Alte Schlüssel aus dem Gedächtnis werfen — sonst wächst es ohne Ende. */
   for (const [k, v] of Object.entries(historie.zuerst)) {
     if (v < addDays(heute, -400)) delete historie.zuerst[k]
