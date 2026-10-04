@@ -421,7 +421,7 @@ export function ReleasePille({
         : t('detail.kaufausgabe')
       : /* Ein Stream-Termin nennt den Anbieter wie jede Stream-Pille — nicht den Serientitel, der
            im Kopf steht („Undefeated Bahamut Chronicle" statt „ADN", Daniel, 16.09.2026). */
-        (anbieterName(release.platform, release.sender) ?? kuerzeUmTitel(release.name, titel))
+        (((a) => (a && release.kanal ? `${a} (${release.kanal})` : a))(anbieterName(release.platform, release.sender)) ?? kuerzeUmTitel(release.name, titel))
   /*
     **Der Kalendereintrag gilt dem nächsten Termin, nicht dem ersten.**
 

@@ -613,7 +613,7 @@ export interface Meldung {
 
 /** Eine konkrete deutsche Veröffentlichung — das, was im Kalender steht. */
 export interface Release {
-  slug: string
+  slug: string; kanal?: string // kanal: Prime-Zusatzkanal (z. B. Aniverse), nur wo die Quelle genau einen nennt
   titleId: number
   /** Anzeigename inklusive Staffel- oder Volume-Angabe. */
   name: string

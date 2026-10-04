@@ -7607,6 +7607,8 @@ pruefe(
   const sammelVorschlaege = vorschlaegeAusSammelartikel({ url: 'https://x', publishedAt: '2026-09-23' }, sammel, 'netflix')
   pruefe('Sammelartikel: „Staffel 1 und 2" wird kein Vorschlag (MHA Vigilantes landete sonst am Haupt-MHA)',
     sammelVorschlaege.length === 2 && !sammelVorschlaege.some((v) => /Vigilantes/.test(v.articleTitle)))
+  pruefe('Sammelartikel: der Kanal der Überschrift (Aniverse) wandert in den Vorschlag',
+    vorschlaegeAusSammelartikel({ url: 'https://x', publishedAt: '2026-09-23' }, sammel, 'primevideo', 'Aniverse').every((v) => v.kanal === 'Aniverse') && sammelVorschlaege.every((v) => !v.kanal))
   pruefe('Sammelartikel: Komplettpaket einer alten Serie = „im Angebot seit" mit Folgenzahl',
     JSON.stringify(zeitplanAusVorschlag({ folgen: 25 }, 'batch', '2026-10-01', { episodes: 25, jpYear: 2013 })) ===
       JSON.stringify({ releaseType: 'batch', schedule: { firstEpisodeDate: '2026-10-01', episodeCount: 25 }, dateMeaning: 'available-from' }))

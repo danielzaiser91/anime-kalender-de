@@ -143,6 +143,7 @@ function terminMeldungen(
         art,
         titel: t,
         platform: r.platform,
+        ...(r.kanal ? { kanal: r.kanal } : {}),
         datum,
         release: r.slug,
         quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => s.dub === true && s.platform !== r.platform)) ? { weiterer: true } : {}),

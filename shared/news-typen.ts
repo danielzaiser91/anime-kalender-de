@@ -40,6 +40,8 @@ export interface NewsMeldung {
   art: NewsArt
   platform?: PlatformId
   anbieter?: string
+  /** Prime-Zusatzkanal (z. B. Aniverse), den die Quelle nennt. */
+  kanal?: string
   /** Bei `neu`: ein weiterer Anbieter, nicht die erste Synchro des Titels (18.09.2026). */
   weiterer?: boolean
   /** Der Termin, um den es geht (angekündigt, Disc, Kino, verpasst). */

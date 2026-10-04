@@ -49,6 +49,8 @@ export interface Vorschlag {
   folgen?: number
   /** … oder ein wöchentlicher Simulcast. */
   woechentlich?: boolean
+  /** Der Prime-Zusatzkanal, den der Artikel nennt (z. B. Aniverse). */
+  kanal?: string
   /** Die gelesenen Einträge, wenn der Vorschlag selbst ein Sammelartikel ist. */
   sammel?: SammelEintrag[]
 }
@@ -419,6 +421,7 @@ export function releasesAus(
       titleId: treffer.id,
       name,
       platform: platform as Release['platform'],
+      ...(v.kanal && platform === 'primevideo' ? { kanal: v.kanal } : {}),
       ...zeitplanAusVorschlag(v, art, tag, treffer),
       year: Number(tag.slice(0, 4)),
       herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,

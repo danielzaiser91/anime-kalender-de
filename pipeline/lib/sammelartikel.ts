@@ -122,7 +122,7 @@ export function vorschlaegeAusAllenSammelartikeln(vorschlaege: Vorschlag[]): Vor
   return vorschlaege.flatMap((p) => {
     if (!p.sammel?.length) return []
     const anbieter = [...new Set((p.platforms ?? []).map((x) => (x === 'aniverse' ? 'primevideo' : x)))]
-    return vorschlaegeAusSammelartikel({ url: p.articleUrl, publishedAt: p.publishedAt }, p.sammel, anbieter.length === 1 ? anbieter[0] : undefined)
+    return vorschlaegeAusSammelartikel({ url: p.articleUrl, publishedAt: p.publishedAt }, p.sammel, anbieter.length === 1 ? anbieter[0] : undefined, p.platforms?.includes('aniverse') ? 'Aniverse' : undefined)
   })
 }
 
@@ -134,6 +134,7 @@ export function vorschlaegeAusSammelartikel(
   artikel: { url: string; publishedAt: string },
   eintraege: SammelEintrag[],
   anbieterDesArtikels?: string,
+  kanal?: string,
 ): Vorschlag[] {
   const raus: Vorschlag[] = []
   for (const e of eintraege) {
@@ -150,6 +151,7 @@ export function vorschlaegeAusSammelartikel(
       dub: 'zugesagt',
       ...(e.folgen ? { folgen: e.folgen } : {}),
       ...(e.woechentlich ? { woechentlich: true } : {}),
+      ...(kanal ? { kanal } : {}),
     })
   }
   return raus

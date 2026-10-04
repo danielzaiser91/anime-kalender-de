@@ -19,7 +19,8 @@ export function datumKurz(iso: string): string {
 }
 
 export function anbieterDerMeldung(m: NewsMeldung): string {
-  return m.platform ? (PLATFORMS[m.platform as PlatformId]?.name ?? m.platform) : (m.anbieter ?? '')
+  const name = m.platform ? (PLATFORMS[m.platform as PlatformId]?.name ?? m.platform) : (m.anbieter ?? '')
+  return m.kanal ? `${name} (${m.kanal})` : name
 }
 
 /** Die Beschriftung der Art-Pille: „Angekündigt · neuer Anbieter", wo der Titel schon bei einem anderen Anbieter auf Deutsch läuft. */
