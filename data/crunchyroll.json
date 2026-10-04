@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-04T13:19:56.777Z",
+  "scrapedAt": "2026-10-04T14:03:46.248Z",
   "window": {
     "from": "2026-09-21",
     "to": "2026-10-11"
@@ -1054,7 +1054,8 @@
         "2026-09-06",
         "2026-09-13",
         "2026-09-20",
-        "2026-09-27"
+        "2026-09-27",
+        "2026-10-04"
       ],
       "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
       "seriesId": "GNVHKN933",
@@ -1099,6 +1100,10 @@
         {
           "date": "2026-09-27",
           "episode": 34
+        },
+        {
+          "date": "2026-10-04",
+          "episode": 35
         }
       ],
       "earliest": {
@@ -1779,6 +1784,27 @@
         "episode": 1
       },
       "weeklyConfirmed": false
+    },
+    "reborn as a space mercenary i woke up piloting the strongest starship s1": {
+      "time": "16:00",
+      "weekday": 6,
+      "dates": [
+        "2026-10-04"
+      ],
+      "rawTitle": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship! Staffel 1 (Deutsch)",
+      "seriesId": "GT00384006",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00384006/reborn-as-a-space-mercenary-i-woke-up-piloting-the-strongest-starship",
+      "observations": [
+        {
+          "date": "2026-10-04",
+          "episode": 1
+        }
+      ],
+      "earliest": {
+        "date": "2026-10-04",
+        "episode": 1
+      },
+      "weeklyConfirmed": false
     }
   },
   "slots": [
@@ -2000,6 +2026,26 @@
       "date": "2026-10-04",
       "time": "10:30",
       "episode": 11,
+      "german": true
+    },
+    {
+      "key": "the 100 girlfriends who really really really really really love you s3",
+      "rawTitle": "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3 (Deutsch)",
+      "seriesId": "GNVHKN933",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GNVHKN933/the-100-girlfriends-who-really-really-really-really-really-love-you",
+      "date": "2026-10-04",
+      "time": "16:00",
+      "episode": 35,
+      "german": true
+    },
+    {
+      "key": "reborn as a space mercenary i woke up piloting the strongest starship s1",
+      "rawTitle": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship! Staffel 1 (Deutsch)",
+      "seriesId": "GT00384006",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00384006/reborn-as-a-space-mercenary-i-woke-up-piloting-the-strongest-starship",
+      "date": "2026-10-04",
+      "time": "16:00",
+      "episode": 1,
       "german": true
     }
   ]
