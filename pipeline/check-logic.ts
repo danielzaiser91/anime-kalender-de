@@ -78,6 +78,7 @@ import { entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { FRIST_LAUFEND_OHNE_TON, FRISTEN, fristFuer } from './lib/wiedervorlage-frist.ts'
 import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../shared/mappings.ts'
 import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../shared/ics.ts'
+import { ausgestrahltOhneBeleg } from './bau/ohne-beleg.ts'
 import { newsRss } from './lib/news-rss.ts'
 import { sucheZweistufig } from '../web/src/lib/search.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
@@ -8052,6 +8053,16 @@ console.log('\nGoogle-Kalender: wöchentliche Serie:')
   pruefe('Google-Link nennt die abweichenden Folgen danach', /2 Folgen danach/.test(url.searchParams.get('details') ?? ''))
   const einzel = new URL(googleCalendarUrl(termine[0]!, {}, wochenserie([termine[0]!])))
   pruefe('Ein einzelner Termin bleibt einmalig', !einzel.searchParams.has('recur') && /Folge 2/.test(einzel.searchParams.get('text') ?? ''))
+}
+console.log('\nAusgestrahlt ohne deutschen Beleg:')
+{
+  /* Ranma 1/2 Staffel 3 (Daniel, 04.10.2026): Weg da, kein deutscher Beleg → hinter den Toggle; belegte und alte Titel bleiben. */
+  const titel = (jpYear: number, streams: { platform: string; dub?: boolean }[], extra: Partial<Title> = {}) => ({ id: 1, jpYear, streams, ...extra }) as unknown as Title
+  pruefe('neue Staffel mit ungeprüftem Weg und ohne Beleg wird verschoben', ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }])))
+  pruefe('ein Weg mit belegter Synchro bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix', dub: true }])))
+  pruefe('eine Erstausgabe-Marke bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }], { deErstausgabe: { synchro: true } } as Partial<Title>)))
+  pruefe('ein älterer Fernsehtitel ohne Weg bleibt', !ausgestrahltOhneBeleg(titel(1999, [])))
+  pruefe('ein älterer Titel mit ungeprüftem Weg bleibt', !ausgestrahltOhneBeleg(titel(2019, [{ platform: 'crunchyroll' }])))
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
