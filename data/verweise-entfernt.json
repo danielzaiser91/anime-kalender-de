@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-04T17:06:57.768Z",
+  "stand": "2026-10-04T17:11:54.578Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4831,39 +4831,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 93,
-      "titel": "Mobile Suit Gundam Seed",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/mobile-suit-gundam-seed",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 223,
-      "titel": "Dragon Ball",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/dragon-ball",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 225,
-      "titel": "Dragon Ball GT",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/dragon-ball-gt",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": true
-    },
-    {
       "titleId": 232,
       "titel": "Cardcaptor Sakura",
       "plattform": "adn",
@@ -5033,17 +5000,6 @@
       "titel": "Maho Tsukai Tai! Magic User’s Club",
       "plattform": "youtube",
       "url": "https://www.youtube.com/playlist?list=PLrrh84y760v-07h6z6XgXtUgLCZgQkGT8",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 813,
-      "titel": "Dragon Ball Z",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/dragon-ball-z",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -5392,17 +5348,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 8465,
-      "titel": "Demon King Daimao",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/series/GRGG58V1R/demon-king-daimao",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": true
-    },
-    {
       "titleId": 8937,
       "titel": "A Certain Magical Index II",
       "plattform": "crunchyroll",
@@ -5456,17 +5401,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-04",
       "letzterWeg": true
-    },
-    {
-      "titleId": 11061,
-      "titel": "Hunter × Hunter",
-      "plattform": "crunchyroll",
-      "url": "http://www.crunchyroll.com/de/hunter-x-hunter",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": false
     },
     {
       "titleId": 11743,
@@ -5918,17 +5852,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-04",
       "letzterWeg": true
-    },
-    {
-      "titleId": 21175,
-      "titel": "Dragon Ball Super",
-      "plattform": "crunchyroll",
-      "url": "http://www.crunchyroll.com/de/dragon-ball-super",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": false
     },
     {
       "titleId": 21230,
@@ -6404,17 +6327,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 100668,
-      "titel": "Arifureta: From Commonplace to World’s Strongest",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": true
-    },
-    {
       "titleId": 100745,
       "titel": "Captain Tsubasa",
       "plattform": "crunchyroll",
@@ -6754,17 +6666,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-04",
       "letzterWeg": true
-    },
-    {
-      "titleId": 112323,
-      "titel": "Arifureta: From Commonplace to World’s Strongest 2nd Season",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": false
     },
     {
       "titleId": 112444,
@@ -8054,17 +7955,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 137612,
-      "titel": "Princess Principal: Crown Handler 3",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": true
-    },
-    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8131,17 +8021,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 186716,
-      "titel": "Princess Principal: Crown Handler - Chapter 4",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-04",
-      "letzterWeg": true
-    },
-    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8173,6 +8052,105 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-04",
       "letzterWeg": true
+    },
+    {
+      "titleId": 93,
+      "titel": "Mobile Suit Gundam Seed",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/mobile-suit-gundam-seed",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 223,
+      "titel": "Dragon Ball",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/dragon-ball",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 225,
+      "titel": "Dragon Ball GT",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/dragon-ball-gt",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 813,
+      "titel": "Dragon Ball Z",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/dragon-ball-z",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 8465,
+      "titel": "Demon King Daimao",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/series/GRGG58V1R/demon-king-daimao",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 11061,
+      "titel": "Hunter × Hunter",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/hunter-x-hunter",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 21175,
+      "titel": "Dragon Ball Super",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/dragon-ball-super",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 100668,
+      "titel": "Arifureta: From Commonplace to World’s Strongest",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 112323,
+      "titel": "Arifureta: From Commonplace to World’s Strongest 2nd Season",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/arifureta-from-commonplace-to-worlds-strongest",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-04",
+      "letzterWeg": false
     },
     {
       "titleId": 143846,
