@@ -23,3 +23,14 @@ export function suchbegriffeJeAdresse(releases: Release[], titles: Title[]): Map
   }
   return new Map([...je].map(([url, menge]) => [url, [...menge].sort((a, b) => b.length - a.length)]))
 }
+
+/** Die Starttage, die ein Artikel belegt (`YYYY-MM-DD`) — die Stützstelle im Artikel nennt Titel **und** einen davon (`beleg-stelle.ts`). */
+export function tageJeAdresse(releases: Release[]): Map<string, string[]> {
+  const je = new Map<string, Set<string>>()
+  for (const r of releases) {
+    const tag = r.schedule?.firstEpisodeDate
+    if (!tag) continue
+    for (const url of new Set([...(r.sources ?? []), ...(r.quellen ?? []).map((q) => q.url)])) je.set(url, (je.get(url) ?? new Set<string>()).add(tag))
+  }
+  return new Map([...je].map(([url, tage]) => [url, [...tage]]))
+}

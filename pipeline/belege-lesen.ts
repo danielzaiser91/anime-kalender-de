@@ -23,7 +23,7 @@ import {
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
-import { suchbegriffeJeAdresse } from './lib/beleg-suche.ts'
+import { suchbegriffeJeAdresse, tageJeAdresse } from './lib/beleg-suche.ts'
 
 const DATEI = 'data/beleg-lesungen.json'
 /** Crunchyroll lässt nur einen Desktop-UA durch (wie `scrape-crunchyroll-woche.ts`); ADN liefert damit eine leere Seite. */
@@ -74,6 +74,7 @@ async function main(): Promise<void> {
   const schlange = warteschlange(adressen, gedaechtnis, heute, zahl('--abstand', 7), zahl('--limit', 60))
   log(`Belege: ${schlange.length} Artikel fällig`)
   const suchbegriffe = suchbegriffeJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []))
+  const tage = tageJeAdresse(readJson<Release[]>('public/data/releases.json', []))
   const browser = await chromium.launch()
   let gelesen = 0
   let neu = 0
@@ -99,7 +100,14 @@ async function main(): Promise<void> {
           /* Eine Produktseite nennt den Erscheinungstag der Ausgabe — eine andere Aussage als ein Veröffentlichungsdatum. */
           ausgabe: mitDatum ? undefined : (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)),
         }
-        const letzte = gedaechtnis[url]?.lesungen.at(-1)
+        /* Eine als Wand entzogene Lesung zeigt nur die Wand — sie zählt weder als Vergleich noch bleibt sie neben der neuen stehen. */
+        /* Das Datum in der Kopfzeile muss zu den Seitendaten passen — sonst stimmt eines von beiden nicht. */
+        const kopf = mitDatum ? crunchyrollDatum(g.text.slice(0, 500)) : undefined
+        if (kopf && lesung.veroeffentlicht && kopf !== lesung.veroeffentlicht && kopf !== lesung.aktualisiert) {
+          lesung.datumsabweichung = kopf
+          warn(`Beleg ${url}: Kopfzeile nennt ${kopf}, Seitendaten ${lesung.veroeffentlicht} — untersuchen`)
+        }
+        const letzte = gedaechtnis[url]?.lesungen.filter((l) => l.qs !== 'wand').at(-1)
         /* Ein neuer Text bei gleichen Daten darf nicht vorkommen: Er heißt, dass Unwesentliches den Hash ändert (Daniel, 03.10.2026). */
         if (letzte && letzte.hash !== hash && letzte.veroeffentlicht === lesung.veroeffentlicht && letzte.aktualisiert === lesung.aktualisiert && letzte.ausgabe === lesung.ausgabe) {
           lesung.aenderungOhneDatum = true
@@ -112,7 +120,7 @@ async function main(): Promise<void> {
         /* Auch ein Bild ohne Fundstelle wird neu gemacht (04.10.2026): Ältere Belege bekommen so ihre Markierung. */
         if (!ziel.bild || !ziel.qs || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0)) {
           const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
-          const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [])
+          const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [], tage.get(url) ?? [])
           if (beleg === 'wand') {
             entzieheBild(gedaechtnis, url)
             throw new Error('Zustimmungswand bleibt im Bild — kein Beleg')
@@ -124,6 +132,7 @@ async function main(): Promise<void> {
             ziel.text = await ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')
           }
         }
+        if (gedaechtnis[url]) gedaechtnis[url]!.lesungen = gedaechtnis[url]!.lesungen.filter((l) => l.qs !== 'wand')
         if (merkeLesung(gedaechtnis, url, lesung)) neu++
         gelesen++
       } catch (e) {

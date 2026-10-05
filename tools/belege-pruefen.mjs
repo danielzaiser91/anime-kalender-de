@@ -10,7 +10,8 @@
  * - einer Produktseite mit Veröffentlichungsdatum (ihr Datum ist der Erscheinungstag der Ausgabe);
  * - einer gelesenen Domain, die nicht in der Prüfliste steht oder noch nicht von Hand geprüft ist;
  * - einem Bild, dessen Seite als Zustimmungswand erkannt wurde (`qs: wand`), oder einem seit 06.10.2026 gelesenen Bild ohne Wand-Prüfung (`qs` fehlt) —
- *   der Altbestand ohne `qs` wird gezählt und nachgelesen (Qualitätssicherung, Daniel 05.10.2026).
+ *   der Altbestand ohne `qs` wird gezählt und nachgelesen (Qualitätssicherung, Daniel 05.10.2026);
+ * - einem Artikel, dessen Kopfzeilen-Datum nicht zu den Seitendaten passt (`datumsabweichung`).
  *
  * Aufruf: node tools/belege-pruefen.mjs   (Exit 1 bei Verstoß)
  */
@@ -38,6 +39,7 @@ for (const url of urls) {
     if (b.hash === a.hash && b.bild && b.bild !== a.bild) fehler.push(`${url} ${b.am}: gleicher Text, neues Bild`)
   }
   for (const e of l) {
+    if (e.datumsabweichung) fehler.push(`${url} ${e.am}: Kopfzeile nennt ${e.datumsabweichung}, Seitendaten ${e.veroeffentlicht} — Datum prüfen`)
     if (e.qs === 'wand' && e.bild) fehler.push(`${url} ${e.am}: Zustimmungswand, aber das Bild steht noch da`)
     if (e.bild && e.qs === 'ok') geprueft++
     if (e.bild && !e.qs) {

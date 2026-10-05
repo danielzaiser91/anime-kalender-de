@@ -48,6 +48,8 @@ export interface Lesung {
   aenderungOhneDatum?: true
   /** Schlüssel in der privaten Ablage, falls das Hochladen gelang. */
   bild?: string
+  /** Das Datum in der Kopfzeile des Artikels weicht von Veröffentlicht/Aktualisiert laut Seitendaten ab — jedes Mal untersuchen (Daniel, 05.10.2026). */
+  datumsabweichung?: string
   /** Qualitätssicherung (05.10.2026): `ok` = mit der Wand-Prüfung fotografiert; `wand` = die Seite war eine Zustimmungswand, das Bild wurde entzogen. Ohne Eintrag: Altbestand, wird neu gelesen. */
   qs?: 'ok' | 'wand'
   /** Wo die Aussage im Bild steht: `[links, oben, Breite, Höhe]` als Anteile von 0 bis 1. */

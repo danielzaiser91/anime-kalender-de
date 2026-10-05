@@ -39,26 +39,42 @@
     ]
   },
   "https://www.anime2you.de/news/1033802/netflix-anime-neu-im-august-2026/": {
-    "zuletzt": "2026-10-03",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-03",
-        "hash": "83d3d04486a62c38",
+        "am": "2026-10-05",
+        "hash": "6ccb9e10a0aedc0c",
         "veroeffentlicht": "2026-07-22",
         "aktualisiert": "2026-09-02",
-        "qs": "wand"
+        "bild": "www.anime2you.de/5fb46462de644225/2026-10-05-6ccb9e10a0aedc0c.webp",
+        "text": "www.anime2you.de/5fb46462de644225/2026-10-05-6ccb9e10a0aedc0c.txt.gz",
+        "markierung": [
+          0.038461538461538464,
+          0.13827433628318583,
+          0.8942307692307693,
+          0.048590465984513276
+        ],
+        "qs": "ok"
       }
     ]
   },
   "https://www.anime2you.de/news/1027799/jojo-steel-ball-run-fortsetzung-netflix-termin/": {
-    "zuletzt": "2026-10-03",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-03",
-        "hash": "0a538a18385f8e2f",
+        "am": "2026-10-05",
+        "hash": "e3e8f277500c4167",
         "veroeffentlicht": "2026-07-04",
         "aktualisiert": "2026-07-06",
-        "qs": "wand"
+        "markierung": [
+          0.038461538461538464,
+          0.4333232333434333,
+          0.8942307692307693,
+          0.1892906440426893
+        ],
+        "bild": "www.anime2you.de/aa58cbd60ed6b19e/2026-10-05-e3e8f277500c4167.webp",
+        "text": "www.anime2you.de/aa58cbd60ed6b19e/2026-10-05-e3e8f277500c4167.txt.gz",
+        "qs": "ok"
       }
     ]
   },
@@ -246,14 +262,22 @@
     ]
   },
   "https://www.anime2you.de/news/1052846/animoon-crunchyroll-ksm-25-verschiebungen/": {
-    "zuletzt": "2026-10-03",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-03",
-        "hash": "9fadfc864ded00fd",
+        "am": "2026-10-05",
+        "hash": "0a6de2e4927d7ae2",
         "veroeffentlicht": "2026-09-22",
         "aktualisiert": "2026-09-25",
-        "qs": "wand"
+        "markierung": [
+          0.04038461538461539,
+          0.590694334548415,
+          0.8903846153846153,
+          0.017901491486043333
+        ],
+        "bild": "www.anime2you.de/761e2b5d7772c6ec/2026-10-05-0a6de2e4927d7ae2.webp",
+        "text": "www.anime2you.de/761e2b5d7772c6ec/2026-10-05-0a6de2e4927d7ae2.txt.gz",
+        "qs": "ok"
       }
     ]
   },
