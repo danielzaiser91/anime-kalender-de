@@ -24,10 +24,16 @@
 # `vde` zum ersten Mal gesehen wurde. Nach ein paar Wochen ergibt das eine
 # Messreihe, aus der sich ADNs Freischaltrhythmus ablesen lässt — und dann kann
 # dieser Takt gezielt gesetzt statt geraten werden.
+#
+# ## Umbau vom 05.10.2026
+#
+# Dieser Lauf pushte direkt auf `main` (ein Versuch, ohne Wiederholung) und sicherte nur `data/adn-raw` — die Messreihe `adn-vde-historie.json` stand weder hier
+# noch in `tools/quellen-liste.sh` und wurde seit dem 10.09.2026 bei jedem Lauf weggeworfen. Jetzt reicht der Lauf wie alle Sammler per Pull Request ein
+# (`tools/quellen-pr.sh`), und die Historie steht in der Quellenliste.
 name: ADN — laufende Serien
 
 on:
-  # Zeitplan: Cloudflare-Wecker (`worker/src/wecker.ts`) startet diesen Lauf per workflow_dispatch zur festen Stunde (UTC). GitHubs eigener Cron kam
+  # Zeitplan: Cloudflare-Wecker (`worker/src/wecker.ts`) startet diesen Lauf per workflow_dispatch um 02, 08, 14 und 20 Uhr UTC. GitHubs eigener Cron kam
   # gemessen 4–7 Stunden zu spät und würde Läufe verdoppeln; `wecker-wache.yml` holt Überfälliges nach, falls der Wecker ausfällt (05.10.2026).
   workflow_dispatch:
 
@@ -38,37 +44,37 @@ concurrency:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   auffrischen:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      fehler: ${{ steps.auswerten.outputs.fehler }}
     steps:
       - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: npm
-
-      - run: npm ci
+          ref: main
+      - uses: ./.github/actions/einrichten
+        with:
+          cache: restore
 
       - name: Laufende Serien holen
-        run: npm run data:adn:laufend
+        run: bash tools/schritt.sh --zeit 15m "Laufende Serien holen" -- npm run data:adn:laufend
 
       - name: Zusicherungen prüfen
-        run: npm run check:adn-gedaechtnis
+        run: bash tools/schritt.sh --zeit 5m "Zusicherungen prüfen" -- npm run check:adn-gedaechtnis
 
-      # Nur committen, wenn sich wirklich etwas geändert hat. Ein Lauf ohne
-      # Änderung ist der Normalfall — die meisten Freischaltungen passieren
-      # einmal pro Woche und Serie.
-      - name: Änderungen sichern
+      # Ein Lauf ohne Änderung ist der Normalfall — die meisten Freischaltungen passieren einmal pro Woche und Serie; dann entsteht kein Pull Request.
+      - name: Änderungen einreichen
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ -z "$(git status --porcelain data/adn-raw)" ]; then
-            echo "Keine Änderung — nichts zu committen."
-            exit 0
-          fi
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/adn-raw
-          git commit -m "chore(data): ADN — laufende Serien aufgefrischt"
-          git push
+          bash tools/quellen-pr.sh "chore(data): ADN — laufende Serien aufgefrischt"
+
+      - name: Fehlschläge auswerten
+        id: auswerten
+        if: always()
+        run: bash tools/schritte-auswerten.sh
