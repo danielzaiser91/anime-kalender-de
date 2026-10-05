@@ -11,3 +11,8 @@
 # Die Reihe zerfiel dadurch in zwei; Daniel: „hat dieser anime keine 2. staffel?"
 - ids: [21509, 21825]
   grund: 'Danganronpa 3: Future Arc und Despair Arc sind die zwei Hälften derselben Staffel'
+
+# Black Jack: Capital Transfer To Heian (Heian Sento, 1996) hat bei AniList keine einzige Anime-Beziehung,
+# nur dieselbe Manga-Vorlage (31600) wie neun Titel der Reihe (abgefragt 05.10.2026).
+- ids: [1520, 10055]
+  grund: 'Black Jack: Capital Transfer To Heian ist Teil der Black-Jack-Reihe; AniList verbindet ihn mit keinem Anime'
