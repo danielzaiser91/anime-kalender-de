@@ -91,7 +91,7 @@ Messungen, verworfene Quellen) und alles, was Code-Kommentare „in `status.md`"
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
-| **Warten auf aniSearch (02.10.2026): Token für die Database-API** | 1 | Daniel hat am 02.10. ca. 22:55 die Mail an `api@anisearch.com` abgeschickt (Projekt, geplante Nutzung: `/{id}/full`, `/associated`, `/titles`). Ohne Token geht die API trotzdem (1 Anfrage/s nachgefüllt, 30 je IP, Pflicht-User-Agent). Sobald die Antwort da ist: Token nach `my_secrets.md` und als GitHub-Secret, dann Test (Sitzungsdoku §8, Phase 1). |
+| **Warten auf aniSearch (02.10.2026): Token für die Database-API** | 1 | Daniel hat am 02.10. ca. 22:55 die Mail an `api@anisearch.com` abgeschickt (Projekt, geplante Nutzung: `/{id}/full`, `/associated`, `/titles`). Ohne Token geht die API trotzdem (1 Anfrage/s nachgefüllt, 30 je IP, Pflicht-User-Agent). Sobald die Antwort da ist: Token nach `my_secrets.md` und als GitHub-Secret, dann Test (Sitzungsdoku §8, Phase 1). **Nachfassmail am 05.10.2026 ca. 10:35 abgeschickt** (erinnert an die erste, fragt zusätzlich nach Cover-Verlinkung von cdn.anisearch.de: Kacheln klein, Großansicht größte freigegebene Größe, 1000 px nur mit Freischaltung). Ohne Antwort bis 12.10. entscheiden, ob ein weiterer Weg (Kontaktformular, Forum) sinnvoll ist. |
 
 ### Beobachten (nicht im Footer)
 
