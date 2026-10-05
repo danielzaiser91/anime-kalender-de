@@ -41,6 +41,7 @@ import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { deutschAbgeschlossen } from '../web/src/components/detail/antwort-regeln.ts'
+import { istEingeklappt } from '../web/src/components/detail/reihen-regeln.ts'
 import { messungenFuerFolgen } from './lib/news-messung.ts'
 import { ergaenzeErstausgabeAngebot } from './bau/13-7-erstausgabe-angebot.ts'
 import { streicheMagentaPartner } from './bau/11-5-magenta-partner.ts'
@@ -180,7 +181,7 @@ import { buendeleTermine } from '../web/src/lib/buendel.ts'
 import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
 import { neuesteErschienen } from '../web/src/lib/gesehen.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
-import { einzigeJeSlug, releasesAusTvProgramm, sendungNeuZuordnen } from './lib/tv-termine.ts'
+import { aehnlicherKern, einzigeJeSlug, releasesAusTvProgramm, sendungNeuZuordnen } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
 import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
@@ -8139,6 +8140,41 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     const tvr = (slug: string, observed: Record<number, string>) => ({ slug, schedule: { observed } }) as unknown as Release
     const aus = einzigeJeSlug([tvr('auto-1-tv-x', { 1: 'a', 2: 'b' }), tvr('auto-2-tv-x', { 1: 'a' }), tvr('auto-1-tv-x', { 5: 'c', 6: 'd', 7: 'e' })])
     pruefe('TV-Termine: ein Slug kommt nur einmal vor, es bleibt der mit mehr Folgen', aus.length === 2 && Object.keys(aus.find((r) => r.slug === 'auto-1-tv-x')!.schedule.observed!).length === 3)
+  }
+  {
+    /* Pokémon Reisen, TOGGO plus (05.10.2026): aniSearch schreibt „Hoplla, Hopplo!", der Sender „Hoppla, Hopplo!" — keine Umhängung in die Geschwisterreihe, ein Release mit den Nummern 1, 4, 5, 6. */
+    const wikiPr = {
+      '112153': { seite: 'aniSearch', url: 'u', folgen: [{ nr: 1, dt: 'Hallo, Pikachu!' }, { nr: 4, dt: 'Hoplla, Hopplo!' }, { nr: 5, dt: 'Unfassbare Dynamax!' }, { nr: 6, dt: 'Auf dem Weg zurück zu Mew!' }] },
+      '527': { seite: 'TMDB', url: 'u', folgen: [{ nr: 1089, dt: 'Hallo, Pikachu!' }, { nr: 1092, dt: 'Hoppla, Hopplo!' }, { nr: 1093, dt: 'Unfassbares Dynamax!' }, { nr: 1094, dt: 'Auf dem Weg zurück zu Mew!' }] },
+    } as never
+    const tit = new Map<number, Title>([
+      [527, { id: 527, franchiseId: 527, titleDe: 'Pokémon', episodes: 3, jpYear: 1997, format: 'TV' } as unknown as Title],
+      [112153, { id: 112153, franchiseId: 527, titleDe: 'Pokémon Reisen: Die Serie', episodes: 136, jpYear: 2019, format: 'TV' } as unknown as Title],
+    ])
+    const sd = (start: string, folge: string) => ({ titleId: 112153, titel: 'Pokémon Reisen', folge, sender: 'TOGGO plus', start, ende: start, gesehenAm: '2026-09-30' })
+    const ausPr = releasesAusTvProgramm(
+      [sd('2026-09-24T21:15:00+02:00', 'Hallo, Pikachu!'), sd('2026-09-29T21:15:00+02:00', 'Hoppla, Hopplo!'), sd('2026-09-30T21:15:00+02:00', 'Unfassbares Dynamax!'), sd('2026-10-01T21:15:00+02:00', 'Auf dem Weg zurück zu Mew!')],
+      tit,
+      [],
+      wikiPr,
+    )
+    pruefe(
+      'TV-Termine: Schreibvarianten lösen keine Umhängung aus, genau ein Release mit den Nummern 1, 4, 5, 6',
+      ausPr.length === 1 && ausPr[0]!.slug === 'auto-112153-tv-toggo-plus' && Object.keys(ausPr[0]!.schedule.observed ?? {}).join() === '1,4,5,6',
+      ausPr.map((r) => r.slug),
+    )
+    pruefe(
+      'TV-Termine: ähnlicher Kern nur bei genau einem Treffer',
+      aehnlicherKern(['hoplla hopplo', 'unfassbare dynamax'], 'hoppla hopplo') === 'hoplla hopplo' && aehnlicherKern(['abcdefghij1', 'abcdefghij2'], 'abcdefghij3') === undefined && aehnlicherKern(['kurz'], 'kurs') === undefined,
+    )
+  }
+  {
+    /* Reihen-Box (04.10.2026): Mit dem Schalter dürfen nur Teile mit belegter Synchro oder der geöffnete Titel stehen — auch angekündigte und laufende Teile ohne Synchro sind eingeklappt. */
+    const ranma = { id: 209872, ohneSynchro: true }
+    const film = { id: 215855, ohneSynchro: true }
+    const mitSynchro = { id: 178533 }
+    pruefe('Reihen-Box: ein laufender oder angekündigter Teil ohne Synchro ist eingeklappt', istEingeklappt(ranma, 178533) && istEingeklappt(film, 178533))
+    pruefe('Reihen-Box: ein Teil mit Synchro und der geöffnete Titel selbst bleiben sichtbar', !istEingeklappt(mitSynchro, 178533) && !istEingeklappt(ranma, 209872))
   }
   pruefe('manime.de-News und Collectors-Junkies-Beiträge werden gelesen, deren Startseiten nicht', istArtikel('https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/') && istArtikel('https://collectors-junkies.com/code-geass-lelouch-of-the-rebellion-staffel-12-gesamtausgabe-auf-blu-ray-ab-september-2026/') && !istArtikel('https://collectors-junkies.com/') && !istArtikel('https://www.manime.de/'))
   pruefe('geprüfte Domains seit 05.10.2026 werden gelesen', istArtikel('https://www.joyn.de/serien/dr-stone') && istArtikel('https://www.disneyplus.com/de-de/browse/entity-0113d236') && istArtikel('https://www.whats-on-netflix.com/news/x/') && istArtikel('https://de.wikipedia.org/wiki/Detektiv_Conan/Episodenliste') && istArtikel('https://www.kinoheld.de/film/sen-to-chihiro-no-kamikakushi'))
