@@ -5134,7 +5134,7 @@
       "url": "https://de.wikipedia.org/wiki/Dragon_Ball/Episodenliste",
       "name": "de.wikipedia.org",
       "gesehenAm": "2026-10-01",
-      "stand": "vermutlich-ueberholt",
+      "stand": "aktuell",
       "sagt": "2026-09-24"
     }
   ],
@@ -5265,19 +5265,19 @@
       "sagt": "2026-09-29"
     },
     {
-      "url": "https://www.themoviedb.org/tv/60572",
-      "name": "themoviedb.org",
-      "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
-      "sagt": "2026-09-29"
-    },
-    {
       "url": "https://www.anisearch.de/anime/14596/episodes",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
+      "stand": "aktuell",
+      "sagt": "2026-09-24"
+    },
+    {
+      "url": "https://www.themoviedb.org/tv/60572",
+      "name": "themoviedb.org",
+      "gesehenAm": "2026-10-01",
       "stand": "ueberholt",
-      "sagt": "2026-09-24",
-      "grund": "Termin verschoben auf: 2026-09-29"
+      "sagt": "2026-09-29",
+      "grund": "Termin verschoben auf: 2026-09-24"
     }
   ],
   "auto-16870-tv-prosieben-maxx": [

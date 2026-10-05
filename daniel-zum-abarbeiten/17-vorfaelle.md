@@ -4,7 +4,7 @@ Was der Browser-Erweiterung aufgefallen ist, seit dieser Lauf zuletzt gelesen ha
 Bis zum 10.09.2026 stand das in der Browserkonsole — also an einer Stelle, die
 niemand liest: Daniel schaut dort nicht hin, und der Agent kommt gar nicht daran.
 
-Stand: 2026-10-05 16:13 · 1 Vorfall/Vorfälle
+Stand: 2026-10-05 17:03 · 1 Vorfall/Vorfälle
 
 **Ein Vorfall ist nicht zwingend ein Fehler.** „Keine Tonspur gelesen" ist ein
 vorgesehener Fall — interessant wird er erst durch seine Häufigkeit.
@@ -13,5 +13,5 @@ vorgesehener Fall — interessant wird er erst durch seine Häufigkeit.
 
 | Wann | Plattform | Reihe | Folge | Was | Version |
 |---|---|---|---|---|---|
-| 2026-10-05 16:04 | crunchyroll | — | — | Lauf abgebrochen: Woche nicht lesbar aus „Crunchyrolls aktuelles Wochenprogramm im Sommer 2026" | — |
+| 2026-10-05 17:02 | crunchyroll | — | — | Lauf abgebrochen: Woche nicht lesbar aus „Crunchyrolls aktuelles Wochenprogramm im Sommer 2026" | — |
 
