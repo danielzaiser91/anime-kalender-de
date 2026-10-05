@@ -130,6 +130,9 @@ QUELLEN=(
   # ersten vollständigen Durchlauf für immer leer (25.08.2026). Das Dateidatum
   # taugt als Ersatz nicht: `git checkout` setzt es auf jetzt.
   data/ann-holstand.json
+  # Die Sprecherdateien je Titel (AniList und ANN) sind das **Ergebnis** der beiden Sprecher-Läufe, nicht etwas, das der Bau neu erzeugt. Sie fehlten hier
+  # bis zum 05.10.2026: Seit der Umstellung auf Pull Requests (30.08.) blieb jede Woche das Ergebnis liegen, während der Holstand fortrückte.
+  public/data/voices
   # Ergebnis des Crunchyroll-Synchro-Laufs. Steht hier vorsorglich: Läuft er
   # eines Tages in der CI, wären 918 Seitenabrufe sonst nach einem Reset weg.
   data/crunchyroll-dub.json

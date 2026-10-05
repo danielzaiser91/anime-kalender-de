@@ -34,6 +34,8 @@ const zahl = (name: string, fallback: number) => {
 }
 const LIMIT = zahl('--limit', 0)
 const FORCE = args.includes('--force')
+/** Die Sprecherdateien aus den gesicherten Rohantworten neu ableiten, ohne Netz und ohne den Holstand zu ändern (Wiederherstellung 05.10.2026). */
+const AUS_ARCHIV = args.includes('--aus-archiv')
 /**
  * Nach wie vielen Tagen ein Titel erneut abgefragt wird.
  *
@@ -124,7 +126,7 @@ async function main(): Promise<void> {
    */
   const queue = titles
     .filter((t) => ann[String(t.id)])
-    .filter((t) => FORCE || !frisch(ann[String(t.id)]))
+    .filter((t) => FORCE || AUS_ARCHIV || !frisch(ann[String(t.id)]))
     .sort((a, b) => Number(Boolean(a.hasVoices)) - Number(Boolean(b.hasVoices)))
   const zuTun = LIMIT > 0 ? queue.slice(0, LIMIT) : queue
 
@@ -152,15 +154,14 @@ async function main(): Promise<void> {
 
   for (const [i, title] of zuTun.entries()) {
     const annId = ann[String(title.id)]
-    const wartezeit = ABSTAND_MS - (Date.now() - letzte)
-    if (wartezeit > 0) await new Promise((r) => setTimeout(r, wartezeit))
-    letzte = Date.now()
-
     let xml: string
     const archiv = `${RAW}/${annId}.xml.gz`
-    if (!FORCE && frisch(annId) && existsSync(archiv)) {
+    if (!FORCE && (frisch(annId) || AUS_ARCHIV) && existsSync(archiv)) {
       xml = gunzipSync(readFileSync(archiv)).toString('utf8')
     } else {
+      const wartezeit = ABSTAND_MS - (Date.now() - letzte)
+      if (wartezeit > 0) await new Promise((r) => setTimeout(r, wartezeit))
+      letzte = Date.now()
       try {
         const antwort = await fetch(API + annId, {
           headers: { 'User-Agent': 'anime-kalender.de (nicht-kommerziell, 1 Anfrage/s)' },
