@@ -165,16 +165,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-187941-adn@2026-10-22@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261022
-DTEND;VALUE=DATE:20261023
-SUMMARY:Reincarnated as a Dragon Hatchling
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/16674/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261024T093000Z

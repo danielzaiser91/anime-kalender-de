@@ -96,16 +96,6 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-16498-primevideo@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261001
-DTEND;VALUE=DATE:20261002
-SUMMARY:Attack on Titan
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/6282/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T080000Z
@@ -580,16 +570,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-1686-adn@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261012
-DTEND;VALUE=DATE:20261013
-SUMMARY:Bleach: The Movie - Memories of Nobody
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/t/1451/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T140000Z
@@ -830,16 +810,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16757/
 CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-9756-adn@2026-10-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261029
-DTEND;VALUE=DATE:20261030
-SUMMARY:Puella Magi Madoka Magica
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/4943/
-CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-10-30@anime-kalender-de

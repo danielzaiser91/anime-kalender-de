@@ -376,16 +376,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-1686-adn@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261012
-DTEND;VALUE=DATE:20261013
-SUMMARY:Bleach: The Movie - Memories of Nobody
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/t/1451/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-11499-primevideo@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261015

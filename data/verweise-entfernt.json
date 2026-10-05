@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-05T11:25:51.213Z",
+  "stand": "2026-10-05T11:42:35.939Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7858,13 +7858,24 @@
     {
       "titleId": 187941,
       "titel": "Reincarnated as a Dragon Hatchling",
+      "plattform": "adn",
+      "url": "https://animationdigitalnetwork.com/de/video/1347-reincarnated-as-a-dragon-hatchling",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-05",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 187941,
+      "titel": "Reincarnated as a Dragon Hatchling",
       "plattform": "primevideo",
       "url": "https://www.amazon.de/dp/B0F18LDC9W",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-05",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 195153,
@@ -7999,17 +8010,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 137612,
-      "titel": "Princess Principal: Crown Handler 3",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-05",
-      "letzterWeg": true
-    },
-    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8076,17 +8076,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 186716,
-      "titel": "Princess Principal: Crown Handler - Chapter 4",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-05",
-      "letzterWeg": true
-    },
-    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8110,7 +8099,7 @@
     },
     {
       "titleId": 189123,
-      "titel": "Blue Box Season 2",
+      "titel": "Blue Box: Staffel 2",
       "plattform": "netflix",
       "url": "https://www.netflix.com/title/81663323",
       "seriesId": null,
