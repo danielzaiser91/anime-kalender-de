@@ -22,6 +22,7 @@ import type { Release, Title } from '../../shared/types.ts'
 import { TVDE_SENDER, type TvSendung } from '../fetch-tv-programm.ts'
 import type { WikiFolge } from './wikipedia-folgen.ts'
 import { folgenKern } from '../../shared/folgen-zuordnung.ts'
+import { warn } from './util.ts'
 
 /**
  * Folgenlisten je Titel. Ohne `url` ist `seite` eine Wikipedia-Seite; mit `url` stammt die
@@ -284,5 +285,25 @@ export function releasesAusTvProgramm(
       automatisch: true,
     })
   }
-  return aus
+  return einzigeJeSlug(aus)
+}
+
+/**
+ * Zwei Gruppen können bei demselben Titel landen (die eine über die Staffelverschiebung, die andere unmittelbar) und denselben Slug tragen — Pokémon Reisen bei TOGGO plus
+ * am 05.10.2026: zwei Releases, zwei Nummerierungen (aniSearch und TMDB) derselben Sendungen, Folge 6 doppelt. Ein Slug ist die Adresse des Termins; es bleibt der mit mehr
+ * beobachteten Folgen, der andere wird gemeldet.
+ */
+export function einzigeJeSlug(releases: Release[]): Release[] {
+  const je = new Map<string, Release>()
+  const zahl = (r: Release): number => Object.keys(r.schedule?.observed ?? {}).length
+  for (const r of releases) {
+    const alt = je.get(r.slug)
+    if (!alt) {
+      je.set(r.slug, r)
+      continue
+    }
+    warn(`TV-Termine: Slug ${r.slug} doppelt (${zahl(alt)} und ${zahl(r)} Folgen) — es bleibt der mit mehr Folgen`)
+    if (zahl(r) > zahl(alt)) je.set(r.slug, r)
+  }
+  return [...je.values()]
 }

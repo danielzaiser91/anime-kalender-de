@@ -180,7 +180,7 @@ import { buendeleTermine } from '../web/src/lib/buendel.ts'
 import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
 import { neuesteErschienen } from '../web/src/lib/gesehen.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
-import { releasesAusTvProgramm, sendungNeuZuordnen } from './lib/tv-termine.ts'
+import { einzigeJeSlug, releasesAusTvProgramm, sendungNeuZuordnen } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
 import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
@@ -8135,6 +8135,11 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   pruefe('Pressebereich und Serienseite von Hand geprüfter Domains werden gelesen', istArtikel('https://press.disneyplus.com/x') && istArtikel('https://tokyo-revengers-anime.com/'))
   pruefe('eine ungeprüfte Domain wird nicht gelesen', !istArtikel('https://www.tv.de/sendung/x') && !istArtikel('https://www.netflix.com/title/82012956') && !istArtikel('https://www.amazon.de/dp/B0X'))
   pruefe('relative Zeitangaben („vor 5 Tagen") ändern den Hash nicht, ein anderer Text schon', textHash('Artikel\nvor 5 Tagen Kommentar') === textHash('Artikel\nvor 6 Tagen Kommentar') && textHash('Artikel vor einer Stunde') === textHash('Artikel vor 3 Stunden') && textHash('Artikel A') !== textHash('Artikel B'))
+  {
+    const tvr = (slug: string, observed: Record<number, string>) => ({ slug, schedule: { observed } }) as unknown as Release
+    const aus = einzigeJeSlug([tvr('auto-1-tv-x', { 1: 'a', 2: 'b' }), tvr('auto-2-tv-x', { 1: 'a' }), tvr('auto-1-tv-x', { 5: 'c', 6: 'd', 7: 'e' })])
+    pruefe('TV-Termine: ein Slug kommt nur einmal vor, es bleibt der mit mehr Folgen', aus.length === 2 && Object.keys(aus.find((r) => r.slug === 'auto-1-tv-x')!.schedule.observed!).length === 3)
+  }
   pruefe('manime.de-News und Collectors-Junkies-Beiträge werden gelesen, deren Startseiten nicht', istArtikel('https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/') && istArtikel('https://collectors-junkies.com/code-geass-lelouch-of-the-rebellion-staffel-12-gesamtausgabe-auf-blu-ray-ab-september-2026/') && !istArtikel('https://collectors-junkies.com/') && !istArtikel('https://www.manime.de/'))
   pruefe('geprüfte Domains seit 05.10.2026 werden gelesen', istArtikel('https://www.joyn.de/serien/dr-stone') && istArtikel('https://www.disneyplus.com/de-de/browse/entity-0113d236') && istArtikel('https://www.whats-on-netflix.com/news/x/') && istArtikel('https://de.wikipedia.org/wiki/Detektiv_Conan/Episodenliste') && istArtikel('https://www.kinoheld.de/film/sen-to-chihiro-no-kamikakushi'))
   pruefe('Kopfzeilen-Datum: nur mit Uhrzeit, nicht aus dem Fließtext', kopfzeilenDatum('Disc ab 16. April 2027\nDer Streaming-Dienst\n22. Juli 2026 um 19:20 Uhr') === '2026-07-22' && kopfzeilenDatum('Release ab 16. April 2027 im Handel') === undefined && kopfzeilenDatum('15. SEPT. 2026, 18:00 MESZ') === '2026-09-15')
