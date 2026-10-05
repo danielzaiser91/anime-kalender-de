@@ -8155,6 +8155,15 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     const eintrag = (m: NewsEintrag['meldungen'][number]) => ({ am: '2026-09-30', titelId: 1, titel: 'T', slug: '1', meldungen: [m] }) as unknown as NewsEintrag
     const messung = messungenFuerFolgen([eintrag(mel(10, 10))], dir)[0]!.meldungen[0]!.belege?.[0]?.messung
     pruefe('Folge mit deutscher Fassung: Messung nennt Tag, Staffel und Kennung', messung?.am === '2026-10-01' && messung.zeilen.length === 1 && messung.zeilen[0]!.includes('A10DE') && messung.zeilen[0]!.includes('Staffel 1'), JSON.stringify(messung))
+    writeFileSync(
+      join(dir, 'GT2.de.json.gz'),
+      gzipSync(JSON.stringify({ holtAm: '2026-10-01T11:00:00Z', episodes: { s1: { items: [
+        { episode_number: 11, season_title: 'Season 1', episode_air_date: '2021-03-22T00:00:00Z', versions: [{ audio_locale: 'de-DE', guid: 'S1DE' }] },
+        { episode_number: 11, season_title: 'Season 3', episode_air_date: '2026-09-06T00:00:00Z', versions: [{ audio_locale: 'de-DE', guid: 'S3DE' }] },
+      ] } } })),
+    )
+    const mehrere = messungenFuerFolgen([eintrag({ ...mel(11, 11), belege: [{ url: 'https://www.crunchyroll.com/de/series/GT2/', name: 'crunchyroll.com' }] } as never)], dir)[0]!.meldungen[0]!.belege?.[0]?.messung
+    pruefe('Messung: bei mehreren Staffeln mit derselben Folgennummer nur die zum Meldungstag laufende', mehrere?.zeilen.length === 1 && mehrere.zeilen[0]!.includes('S3DE'), JSON.stringify(mehrere))
     pruefe('Folge ohne deutsche Fassung im Katalog: keine Messung, keine Behauptung', messungenFuerFolgen([eintrag(mel(9, 9))], dir)[0]!.meldungen[0]!.belege?.[0]?.messung === undefined)
     rmSync(dir, { recursive: true, force: true })
   }

@@ -5,6 +5,7 @@ import type { NewsEintrag } from '../../shared/types.ts'
 interface CrFolge {
   episode_number?: number
   season_title?: string
+  episode_air_date?: string
   versions?: { audio_locale?: string; guid?: string }[]
 }
 
@@ -15,6 +16,13 @@ function liesSerie(serie: string, verzeichnis: string): { holtAm: string; folgen
   const roh = JSON.parse(gunzipSync(readFileSync(pfad)).toString('utf8')) as { holtAm?: string; episodes?: Record<string, { items?: CrFolge[] }> }
   if (!roh.holtAm) return undefined
   return { holtAm: roh.holtAm.slice(0, 10), folgen: Object.values(roh.episodes ?? {}).flatMap((s) => s.items ?? []) }
+}
+
+/** Eine Serienkennung bündelt alle Staffeln mit Folge 11: Gemeint ist die jüngste, die zum Tag der Meldung schon lief — sonst die jüngste überhaupt. */
+function neuesteStaffel(treffer: CrFolge[], tag: string): CrFolge | undefined {
+  const nachDatum = (a: CrFolge, b: CrFolge) => (b.episode_air_date ?? '').localeCompare(a.episode_air_date ?? '')
+  const sortiert = [...treffer].sort(nachDatum)
+  return sortiert.find((f) => (f.episode_air_date ?? '').slice(0, 10) <= tag) ?? sortiert[0]
 }
 
 /**
@@ -37,10 +45,9 @@ export function messungenFuerFolgen(eintraege: NewsEintrag[], verzeichnis = 'dat
       const bis = Math.min(m.bis ?? m.von, m.von + 29)
       const zeilen: string[] = []
       for (let n = m.von; n <= bis; n++) {
-        for (const f of daten.folgen) {
-          const de = f.episode_number === n ? f.versions?.find((v) => v.audio_locale === 'de-DE') : undefined
-          if (de?.guid) zeilen.push(`Folge ${n} · ${f.season_title ?? 'Staffel'} · deutsche Fassung vorhanden (${de.guid})`)
-        }
+        const f = neuesteStaffel(daten.folgen.filter((x) => x.episode_number === n), e.am)
+        const de = f?.versions?.find((v) => v.audio_locale === 'de-DE')
+        if (f && de?.guid) zeilen.push(`Folge ${n} · ${f.season_title ?? 'Staffel'} · deutsche Fassung vorhanden (${de.guid})`)
       }
       if (!zeilen.length) return m
       return { ...m, belege: m.belege.map((b) => (b.url === url ? { ...b, messung: { am: daten.holtAm, quelle: 'Crunchyroll-Katalog', zeilen } } : b)) }
