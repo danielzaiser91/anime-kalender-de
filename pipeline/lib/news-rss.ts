@@ -21,7 +21,7 @@ export function newsRss(eintraege: NewsEintrag[], siteUrl: string, max = 60): st
     .map((e) => ({ ...e, meldungen: e.meldungen.filter((m) => !m.ersetzt && !m.zurueckgezogen) }))
     .filter((e) => e.meldungen.length)
   const items = aktuell.slice(0, max).map((e) => {
-    const saetze = e.meldungen.map((m) => `${m.teil ? `${m.teil}: ` : ''}${newsSatz(m)}`)
+    const saetze = e.meldungen.map((m) => `${m.teil ? `${m.teil}: ` : ''}${newsSatz(m, e.am.slice(0, 10))}`)
     const link = `${basis}#/news?t=${e.titelId}`
     /* 12 Uhr Berliner Zeit: Die Meldungen tragen nur einen Tag, keine Uhrzeit. */
     const datum = new Date(`${e.am.slice(0, 10)}T10:00:00Z`).toUTCString()

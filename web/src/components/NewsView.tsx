@@ -456,6 +456,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                           key={`${m.art}-${m.datum ?? ''}-${m.von ?? ''}-${i}`}
                           m={m}
                           reihe={e.titel}
+                          am={e.am}
                           oeffne={() => oeffne(m.teilId ?? e.titelId)}
                           staende={verlaeufe.vorgaenger.get(m)}
                         />
@@ -492,11 +493,14 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
 function MeldungZeile({
   m,
   reihe,
+  am,
   oeffne,
   staende,
 }: {
   m: NewsMeldung
   reihe: string
+  /** Tag des Eintrags — der Satz nennt damit das ältere Quelldatum. */
+  am: string
   oeffne: () => void
   staende?: Stand[]
 }) {
@@ -523,7 +527,7 @@ function MeldungZeile({
                 : 'text-slate-600 dark:text-slate-300'
             }`}
           >
-            {newsSatz(m)}
+            {newsSatz(m, am)}
           </span>
         </button>
         <AbgeloestHinweis m={m} />
