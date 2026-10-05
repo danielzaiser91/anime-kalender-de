@@ -8126,7 +8126,8 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   pruefe('Crunchyroll-Serienseiten bleiben draußen (Banner und Nutzungsbedingungen, schwarze Aufnahme)', !istArtikel('https://www.crunchyroll.com/de/series/GT00378123/') && !istArtikel('http://www.crunchyroll.com/de/citrus'))
   pruefe('aniSearch-Katalogseite bleibt draußen', !istArtikel('https://www.anisearch.de/anime/12079,tomb-raider-king'))
   pruefe('Pressebereich und Serienseite von Hand geprüfter Domains werden gelesen', istArtikel('https://press.disneyplus.com/x') && istArtikel('https://tokyo-revengers-anime.com/'))
-  pruefe('eine ungeprüfte Domain wird nicht gelesen', !istArtikel('https://www.tv.de/sendung/x'))
+  pruefe('eine ungeprüfte Domain wird nicht gelesen', !istArtikel('https://www.tv.de/sendung/x') && !istArtikel('https://www.netflix.com/title/82012956') && !istArtikel('https://www.amazon.de/dp/B0X'))
+  pruefe('geprüfte Domains seit 05.10.2026 werden gelesen', istArtikel('https://www.joyn.de/serien/dr-stone') && istArtikel('https://www.disneyplus.com/de-de/browse/entity-0113d236') && istArtikel('https://www.whats-on-netflix.com/news/x/') && istArtikel('https://de.wikipedia.org/wiki/Detektiv_Conan/Episodenliste') && istArtikel('https://www.kinoheld.de/film/sen-to-chihiro-no-kamikakushi'))
   pruefe('Kopfzeilen-Datum: nur mit Uhrzeit, nicht aus dem Fließtext', kopfzeilenDatum('Disc ab 16. April 2027\nDer Streaming-Dienst\n22. Juli 2026 um 19:20 Uhr') === '2026-07-22' && kopfzeilenDatum('Release ab 16. April 2027 im Handel') === undefined && kopfzeilenDatum('15. SEPT. 2026, 18:00 MESZ') === '2026-09-15')
   /* Beide Daten offen (Daniel, 05.10.2026): Der Eintrag bleibt am Fundtag, das ältere Quelldatum steht im Satz. */
   const ank = { art: 'angekuendigt', platform: 'netflix', datum: '2026-10-20', belege: [{ url: 'https://a.example/x', name: 'anime2you.de', veroeffentlichtAm: '2026-08-21' }] } as unknown as NewsEintrag['meldungen'][number]

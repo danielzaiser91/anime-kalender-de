@@ -35,5 +35,35 @@
     "wand": "keine sichtbar; vier Elemente mit „cookie/consent\" im Quelltext, verdecken den Artikel lokal nicht",
     "fix": "—",
     "beleg": "Bild vom 05.10.2026 angesehen: Pressemeldung lesbar, kein Banner."
+  },
+  "www.joyn.de": {
+    "geprueft": "2026-10-05",
+    "wand": "keine sichtbar (lokal); Usercentrics-Banner würde entfernt",
+    "fix": "beleg-bild.ts: sperreEntfernen, Leer-Wächter",
+    "beleg": "Drei Seiten (Film, zwei Serien) angesehen: Metadaten, Details/Folgen mit Datum lesbar; Titel steht im Titelbild und fehlt im Ausschnitt — mit Stützstelle (Titelname im Text) wird der Ausschnitt breiter."
+  },
+  "www.disneyplus.com": {
+    "geprueft": "2026-10-05",
+    "wand": "keine sichtbar (lokal, Deutschland-Adresse)",
+    "fix": "beleg-bild.ts: sperreEntfernen, Leer-Wächter",
+    "beleg": "Zwei Titelseiten (Mission: Yozakura Family, Black Clover) angesehen: Titel, Beschreibung, Folgen je Staffel lesbar."
+  },
+  "www.whats-on-netflix.com": {
+    "geprueft": "2026-10-05",
+    "wand": "keine sichtbar",
+    "fix": "beleg-bild.ts: sperreEntfernen, Leer-Wächter",
+    "beleg": "Artikel zu Steel Ball Run angesehen: lesbar, Datum 6. Juli 2026 im Kopf."
+  },
+  "de.wikipedia.org": {
+    "geprueft": "2026-10-05",
+    "wand": "keine",
+    "fix": "beleg-bild.ts: sperreEntfernen, Leer-Wächter",
+    "beleg": "Zwei Artikel (Pokémon Horizonte, Detektiv Conan Episodenliste) angesehen: lesbar."
+  },
+  "www.kinoheld.de": {
+    "geprueft": "2026-10-05",
+    "wand": "keine sichtbar",
+    "fix": "beleg-bild.ts: sperreEntfernen, Leer-Wächter",
+    "beleg": "Zwei Filmseiten angesehen: Titel, Daten, Veröffentlichung lesbar."
   }
 }
