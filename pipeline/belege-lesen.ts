@@ -19,7 +19,7 @@ import { meldeAbbruch } from './lib/abbruch.ts'
 import { todayIso } from '../shared/time.ts'
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 import {
-  adressenAusNews, adressenMitOffenemTermin, crunchyrollDatum, entzieheBild, kopfzeilenDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
+  adressenAusNews, adressenMitOffenemTermin, bildOhnePruefung, crunchyrollDatum, entzieheBild, kopfzeilenDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
@@ -37,7 +37,9 @@ const zahl = (name: string, vorgabe: number) => (args.includes(name) ? Number(ar
 
 /** Adressen, die einen noch offenen Termin belegen — oder noch nie gelesen wurden. */
 function belegAdressen(gedaechtnis: BelegGedaechtnis, heute: string): string[] {
-  return [...adressenMitOffenemTermin(readJson<Release[]>('public/data/releases.json', []), gedaechtnis, heute), ...adressenAusNews(readJson<NewsEintrag[]>('public/data/news.json', []))]
+  /* Dazu der Altbestand ohne Wand-Prüfung und entzogene Wände: Sie hängen oft an abgeschlossenen Terminen und kämen sonst nie wieder dran. */
+  const nachzuholen = Object.keys(gedaechtnis).filter((u) => bildOhnePruefung(gedaechtnis[u]))
+  return [...adressenMitOffenemTermin(readJson<Release[]>('public/data/releases.json', []), gedaechtnis, heute), ...adressenAusNews(readJson<NewsEintrag[]>('public/data/news.json', [])), ...nachzuholen]
 }
 
 interface Gelesen {
@@ -48,12 +50,14 @@ interface Gelesen {
 
 async function lies(seite: Page, url: string): Promise<Gelesen> {
   await seite.goto(url, { waitUntil: 'domcontentloaded', timeout: 60_000 })
-  /* Der Text steht in `<article>` (Crunchyroll-News, Anime2You) oder in `<main>` (aniSearch; ADN hat ein leeres `<article>`); eine Crunchyroll-Serienseite hat beides nicht, dort zählt die ganze Seite. */
-  const ganzeSeite = /crunchyroll\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?!news\/)/.test(url) && !/\/news\//.test(url)
+  /* Der Text steht in `<article>` (Crunchyroll-News, Anime2You) oder in `<main>` (aniSearch; ADN hat ein leeres `<article>`); Joyn, Disney+ und Kinoheld sind Anwendungsseiten ohne beides, dort zählt die ganze Seite. */
+  const ganzeSeite = /\/\/(?:www\.)?(?:joyn\.de|disneyplus\.com|kinoheld\.de)\//.test(url)
   const waehler = ganzeSeite ? ['body'] : ['article', 'main']
   await seite
-    .waitForFunction(({ n, w }) => Math.max(...w.map((s) => document.querySelector(s)?.textContent?.length ?? 0)) > n, { n: MINDESTTEXT, w: waehler }, { timeout: 20_000 })
+    .waitForFunction(({ n, w }) => Math.max(...w.map((s) => (document.querySelector(s) as HTMLElement | null)?.innerText?.length ?? 0)) > n, { n: MINDESTTEXT, w: waehler }, { timeout: 20_000 })
     .catch(() => undefined)
+  /* Anwendungsseiten laden Folgenkarten und Bilder nach; ohne Pause zeigt das Foto schwarze Platzhalter (Joyn, 05.10.2026). */
+  if (ganzeSeite) await seite.waitForTimeout(5000)
   return seite.evaluate((w) => {
     const meta = (p: string) => document.querySelector(`meta[property="${p}"]`)?.getAttribute('content') ?? undefined
     const body = document.body.innerText

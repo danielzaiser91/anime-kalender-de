@@ -197,14 +197,21 @@
     ]
   },
   "https://www.anisearch.de/article/15034": {
-    "zuletzt": "2026-10-03",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-03",
+        "am": "2026-10-05",
         "hash": "cae99158d324339c",
-        "bild": "www.anisearch.de/d8ba690026ff25fe/2026-10-03-cae99158d324339c.jpg",
-        "html": "www.anisearch.de/d8ba690026ff25fe/2026-10-03-cae99158d324339c.html.gz",
-        "ausgabe": "2026-09-18"
+        "ausgabe": "2026-09-18",
+        "qs": "ok",
+        "markierung": [
+          0.17307692307692307,
+          0.7860242965424151,
+          0.3173076923076923,
+          0.19271103727546465
+        ],
+        "bild": "www.anisearch.de/d8ba690026ff25fe/2026-10-05-cae99158d324339c.webp",
+        "text": "www.anisearch.de/d8ba690026ff25fe/2026-10-05-cae99158d324339c.txt.gz"
       }
     ]
   },
@@ -420,14 +427,21 @@
     ]
   },
   "https://www.anisearch.de/article/213890": {
-    "zuletzt": "2026-10-03",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-03",
-        "hash": "8f4f0cf56aacf7c9",
-        "bild": "www.anisearch.de/15e109a563fe60a4/2026-10-03-8f4f0cf56aacf7c9.jpg",
-        "html": "www.anisearch.de/15e109a563fe60a4/2026-10-03-8f4f0cf56aacf7c9.html.gz",
-        "ausgabe": "2026-10-02"
+        "am": "2026-10-05",
+        "hash": "9e81210a3bc740e1",
+        "ausgabe": "2026-10-02",
+        "qs": "ok",
+        "markierung": [
+          0.28118990384615383,
+          -0.029637384983993396,
+          0.25769230769230766,
+          0.033503130851470796
+        ],
+        "bild": "www.anisearch.de/15e109a563fe60a4/2026-10-05-9e81210a3bc740e1.webp",
+        "text": "www.anisearch.de/15e109a563fe60a4/2026-10-05-9e81210a3bc740e1.txt.gz"
       }
     ]
   },
@@ -603,14 +617,21 @@
     ]
   },
   "https://www.anisearch.de/article/211703": {
-    "zuletzt": "2026-10-04",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-04",
+        "am": "2026-10-05",
         "hash": "726260d316055826",
         "ausgabe": "2026-09-04",
-        "bild": "www.anisearch.de/472e9615fc413c2e/2026-10-04-726260d316055826.webp",
-        "text": "www.anisearch.de/472e9615fc413c2e/2026-10-04-726260d316055826.txt.gz"
+        "qs": "ok",
+        "markierung": [
+          0.17307692307692307,
+          0.7988305463632726,
+          0.3173076923076923,
+          0.18117745824425768
+        ],
+        "bild": "www.anisearch.de/472e9615fc413c2e/2026-10-05-726260d316055826.webp",
+        "text": "www.anisearch.de/472e9615fc413c2e/2026-10-05-726260d316055826.txt.gz"
       }
     ]
   },
@@ -634,14 +655,21 @@
     ]
   },
   "https://www.anisearch.de/article/211697": {
-    "zuletzt": "2026-10-04",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-04",
+        "am": "2026-10-05",
         "hash": "d21aa2bc6382e0ae",
         "ausgabe": "2026-09-04",
-        "bild": "www.anisearch.de/5063a06b54b743b0/2026-10-04-d21aa2bc6382e0ae.webp",
-        "text": "www.anisearch.de/5063a06b54b743b0/2026-10-04-d21aa2bc6382e0ae.txt.gz"
+        "qs": "ok",
+        "markierung": [
+          0.28118990384615383,
+          -0.029744584545748465,
+          0.25769230769230766,
+          0.03362431296475913
+        ],
+        "bild": "www.anisearch.de/5063a06b54b743b0/2026-10-05-d21aa2bc6382e0ae.webp",
+        "text": "www.anisearch.de/5063a06b54b743b0/2026-10-05-d21aa2bc6382e0ae.txt.gz"
       }
     ]
   },
@@ -779,14 +807,21 @@
     ]
   },
   "https://www.anisearch.de/article/208085": {
-    "zuletzt": "2026-10-04",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-04",
+        "am": "2026-10-05",
         "hash": "0de76f565f1fc0b8",
         "ausgabe": "2026-10-11",
-        "bild": "www.anisearch.de/adaa8ed70ac45372/2026-10-04-0de76f565f1fc0b8.webp",
-        "text": "www.anisearch.de/adaa8ed70ac45372/2026-10-04-0de76f565f1fc0b8.txt.gz"
+        "qs": "ok",
+        "markierung": [
+          0.28118990384615383,
+          -0.023344328850545548,
+          0.25769230769230766,
+          0.026389241309312358
+        ],
+        "bild": "www.anisearch.de/adaa8ed70ac45372/2026-10-05-0de76f565f1fc0b8.webp",
+        "text": "www.anisearch.de/adaa8ed70ac45372/2026-10-05-0de76f565f1fc0b8.txt.gz"
       }
     ]
   },
@@ -886,14 +921,21 @@
     ]
   },
   "https://www.anisearch.de/article/211704": {
-    "zuletzt": "2026-10-04",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-04",
+        "am": "2026-10-05",
         "hash": "0ae68bf49537a384",
         "ausgabe": "2026-09-18",
-        "bild": "www.anisearch.de/8d91de05b825b91d/2026-10-04-0ae68bf49537a384.webp",
-        "text": "www.anisearch.de/8d91de05b825b91d/2026-10-04-0ae68bf49537a384.txt.gz"
+        "qs": "ok",
+        "markierung": [
+          0.17307692307692307,
+          0.7937550040032025,
+          0.3173076923076923,
+          0.18574859887910328
+        ],
+        "bild": "www.anisearch.de/8d91de05b825b91d/2026-10-05-0ae68bf49537a384.webp",
+        "text": "www.anisearch.de/8d91de05b825b91d/2026-10-05-0ae68bf49537a384.txt.gz"
       }
     ]
   },
@@ -917,14 +959,21 @@
     ]
   },
   "https://www.anisearch.de/article/211705": {
-    "zuletzt": "2026-10-04",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-04",
+        "am": "2026-10-05",
         "hash": "55ee9dc9d6e755b5",
         "ausgabe": "2026-09-18",
-        "bild": "www.anisearch.de/bb014d6f49f92f8d/2026-10-04-55ee9dc9d6e755b5.webp",
-        "text": "www.anisearch.de/bb014d6f49f92f8d/2026-10-04-55ee9dc9d6e755b5.txt.gz"
+        "qs": "ok",
+        "markierung": [
+          0.17307692307692307,
+          0.6082725060827251,
+          0.3173076923076923,
+          0.35279805352798055
+        ],
+        "bild": "www.anisearch.de/bb014d6f49f92f8d/2026-10-05-55ee9dc9d6e755b5.webp",
+        "text": "www.anisearch.de/bb014d6f49f92f8d/2026-10-05-55ee9dc9d6e755b5.txt.gz"
       }
     ]
   },
@@ -948,14 +997,21 @@
     ]
   },
   "https://www.anisearch.de/article/207793": {
-    "zuletzt": "2026-10-04",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-04",
+        "am": "2026-10-05",
         "hash": "f6dbad678fbc18d5",
         "ausgabe": "2026-10-26",
-        "bild": "www.anisearch.de/3281e5723defdf0a/2026-10-04-f6dbad678fbc18d5.webp",
-        "text": "www.anisearch.de/3281e5723defdf0a/2026-10-04-f6dbad678fbc18d5.txt.gz"
+        "qs": "ok",
+        "markierung": [
+          0.28118990384615383,
+          -0.021849812228176165,
+          0.25769230769230766,
+          0.02469978773619914
+        ],
+        "bild": "www.anisearch.de/3281e5723defdf0a/2026-10-05-f6dbad678fbc18d5.webp",
+        "text": "www.anisearch.de/3281e5723defdf0a/2026-10-05-f6dbad678fbc18d5.txt.gz"
       }
     ]
   },
@@ -1017,14 +1073,21 @@
     ]
   },
   "https://www.anisearch.de/article/209338": {
-    "zuletzt": "2026-10-04",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-04",
+        "am": "2026-10-05",
         "hash": "e992917c4e75af68",
         "ausgabe": "2026-11-23",
-        "bild": "www.anisearch.de/b8d6330fcf2c45d5/2026-10-04-e992917c4e75af68.webp",
-        "text": "www.anisearch.de/b8d6330fcf2c45d5/2026-10-04-e992917c4e75af68.txt.gz"
+        "qs": "ok",
+        "markierung": [
+          0.28118990384615383,
+          -0.023344328850545548,
+          0.25769230769230766,
+          0.026389241309312358
+        ],
+        "bild": "www.anisearch.de/b8d6330fcf2c45d5/2026-10-05-e992917c4e75af68.webp",
+        "text": "www.anisearch.de/b8d6330fcf2c45d5/2026-10-05-e992917c4e75af68.txt.gz"
       }
     ]
   },
@@ -1048,14 +1111,21 @@
     ]
   },
   "https://www.anisearch.de/article/210501": {
-    "zuletzt": "2026-10-04",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-04",
+        "am": "2026-10-05",
         "hash": "1bf37291b18acd9a",
         "ausgabe": "2026-09-17",
-        "bild": "www.anisearch.de/fa2a86a646b8f9d8/2026-10-04-1bf37291b18acd9a.webp",
-        "text": "www.anisearch.de/fa2a86a646b8f9d8/2026-10-04-1bf37291b18acd9a.txt.gz"
+        "qs": "ok",
+        "markierung": [
+          0.28118990384615383,
+          -0.02081683448353886,
+          0.25769230769230766,
+          0.023532073764000454
+        ],
+        "bild": "www.anisearch.de/fa2a86a646b8f9d8/2026-10-05-1bf37291b18acd9a.webp",
+        "text": "www.anisearch.de/fa2a86a646b8f9d8/2026-10-05-1bf37291b18acd9a.txt.gz"
       }
     ]
   },
@@ -1307,14 +1377,21 @@
     ]
   },
   "https://www.anisearch.de/article/210609": {
-    "zuletzt": "2026-10-04",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-04",
+        "am": "2026-10-05",
         "hash": "e1c5149824d39d51",
         "ausgabe": "2026-10-27",
-        "bild": "www.anisearch.de/21e66bbfef083ecc/2026-10-04-e1c5149824d39d51.webp",
-        "text": "www.anisearch.de/21e66bbfef083ecc/2026-10-04-e1c5149824d39d51.txt.gz"
+        "qs": "ok",
+        "markierung": [
+          0.28118990384615383,
+          -0.02362229996469493,
+          0.25769230769230766,
+          0.026703469525307316
+        ],
+        "bild": "www.anisearch.de/21e66bbfef083ecc/2026-10-05-e1c5149824d39d51.webp",
+        "text": "www.anisearch.de/21e66bbfef083ecc/2026-10-05-e1c5149824d39d51.txt.gz"
       }
     ]
   },
@@ -1452,14 +1529,21 @@
     ]
   },
   "https://www.anisearch.de/article/197198": {
-    "zuletzt": "2026-10-04",
+    "zuletzt": "2026-10-05",
     "lesungen": [
       {
-        "am": "2026-10-04",
+        "am": "2026-10-05",
         "hash": "af46776da9aa7b63",
         "ausgabe": "2026-09-04",
-        "bild": "www.anisearch.de/225ef51607969cfa/2026-10-04-af46776da9aa7b63.webp",
-        "text": "www.anisearch.de/225ef51607969cfa/2026-10-04-af46776da9aa7b63.txt.gz"
+        "qs": "ok",
+        "markierung": [
+          0.28118990384615383,
+          -0.030526119325605026,
+          0.25769230769230766,
+          0.034507787063727424
+        ],
+        "bild": "www.anisearch.de/225ef51607969cfa/2026-10-05-af46776da9aa7b63.webp",
+        "text": "www.anisearch.de/225ef51607969cfa/2026-10-05-af46776da9aa7b63.txt.gz"
       }
     ]
   },
@@ -2499,24 +2583,6 @@
         ],
         "bild": "www.anime2you.de/08a6d68a030fdd79/2026-10-05-ec94173d24be4a1e.webp",
         "text": "www.anime2you.de/08a6d68a030fdd79/2026-10-05-ec94173d24be4a1e.txt.gz"
-      }
-    ]
-  },
-  "https://press.disneyplus.com/news/next-on-disney-plus-october-2026": {
-    "zuletzt": "2026-10-05",
-    "lesungen": [
-      {
-        "am": "2026-10-05",
-        "hash": "928d5f58e0e40e58",
-        "qs": "ok",
-        "markierung": [
-          0.09230769230769231,
-          0.96207509562032,
-          0.8153846153846154,
-          0.02413403005979637
-        ],
-        "bild": "press.disneyplus.com/538510a649d9cc99/2026-10-05-928d5f58e0e40e58.webp",
-        "text": "press.disneyplus.com/538510a649d9cc99/2026-10-05-928d5f58e0e40e58.txt.gz"
       }
     ]
   },
@@ -3677,90 +3743,6 @@
       }
     ]
   },
-  "https://www.kinoheld.de/film/detektiv-conan-film-29-der-gefallene-engel-des-highways": {
-    "zuletzt": "2026-10-05",
-    "lesungen": [
-      {
-        "am": "2026-10-05",
-        "hash": "236922703f971f3a",
-        "qs": "ok",
-        "markierung": [
-          0.29423076923076924,
-          0.007658365118540124,
-          0.6673076923076923,
-          0.06222421658813851
-        ],
-        "bild": "www.kinoheld.de/e0cef710a098ab5f/2026-10-05-236922703f971f3a.webp",
-        "text": "www.kinoheld.de/e0cef710a098ab5f/2026-10-05-236922703f971f3a.txt.gz"
-      }
-    ]
-  },
-  "https://www.kinoheld.de/film/sen-to-chihiro-no-kamikakushi": {
-    "zuletzt": "2026-10-05",
-    "lesungen": [
-      {
-        "am": "2026-10-05",
-        "hash": "a65402bc9d2e86db",
-        "qs": "ok",
-        "bild": "www.kinoheld.de/4e88e2d21c29ac26/2026-10-05-a65402bc9d2e86db.webp",
-        "text": "www.kinoheld.de/4e88e2d21c29ac26/2026-10-05-a65402bc9d2e86db.txt.gz"
-      }
-    ]
-  },
-  "https://www.kinoheld.de/film/your-name-gestern-heute-und-fuer-immer": {
-    "zuletzt": "2026-10-05",
-    "lesungen": [
-      {
-        "am": "2026-10-05",
-        "hash": "2a62890d27c68b15",
-        "qs": "ok",
-        "markierung": [
-          0.29423076923076924,
-          0.007268700577804909,
-          0.6673076923076923,
-          0.05905819219466489
-        ],
-        "bild": "www.kinoheld.de/08f09dc6f3878396/2026-10-05-2a62890d27c68b15.webp",
-        "text": "www.kinoheld.de/08f09dc6f3878396/2026-10-05-2a62890d27c68b15.txt.gz"
-      }
-    ]
-  },
-  "https://www.kinoheld.de/film/a-new-dawn": {
-    "zuletzt": "2026-10-05",
-    "lesungen": [
-      {
-        "am": "2026-10-05",
-        "hash": "79e588f6600ee453",
-        "qs": "ok",
-        "markierung": [
-          0.038461538461538464,
-          0.8882352611929856,
-          0.9230769230769231,
-          0.10030168867296164
-        ],
-        "bild": "www.kinoheld.de/209a8813db133b35/2026-10-05-79e588f6600ee453.webp",
-        "text": "www.kinoheld.de/209a8813db133b35/2026-10-05-79e588f6600ee453.txt.gz"
-      }
-    ]
-  },
-  "https://www.kinoheld.de/film/all-you-need-is-kill": {
-    "zuletzt": "2026-10-05",
-    "lesungen": [
-      {
-        "am": "2026-10-05",
-        "hash": "bf6e699995ee09e3",
-        "qs": "ok",
-        "markierung": [
-          0.29423076923076924,
-          0.007352202070678786,
-          0.6673076923076923,
-          0.029868320912132568
-        ],
-        "bild": "www.kinoheld.de/7f8d0deb14322f4d/2026-10-05-bf6e699995ee09e3.webp",
-        "text": "www.kinoheld.de/7f8d0deb14322f4d/2026-10-05-bf6e699995ee09e3.txt.gz"
-      }
-    ]
-  },
   "https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/": {
     "zuletzt": "2026-10-05",
     "lesungen": [
@@ -3772,24 +3754,6 @@
         "qs": "ok",
         "bild": "news.animationdigitalnetwork.com/a488df2449ecd0bf/2026-10-05-a7fe03c2a6d24627.webp",
         "text": "news.animationdigitalnetwork.com/a488df2449ecd0bf/2026-10-05-a7fe03c2a6d24627.txt.gz"
-      }
-    ]
-  },
-  "https://www.kinoheld.de/film/witch-on-the-holy-night": {
-    "zuletzt": "2026-10-05",
-    "lesungen": [
-      {
-        "am": "2026-10-05",
-        "hash": "9350a7a9c4697698",
-        "qs": "ok",
-        "markierung": [
-          0.29423076923076924,
-          0.013112403001511,
-          0.6673076923076923,
-          0.05326913719363843
-        ],
-        "bild": "www.kinoheld.de/1c09d7eb0806154c/2026-10-05-9350a7a9c4697698.webp",
-        "text": "www.kinoheld.de/1c09d7eb0806154c/2026-10-05-9350a7a9c4697698.txt.gz"
       }
     ]
   },
@@ -3898,6 +3862,558 @@
         ],
         "bild": "de.wikipedia.org/87221fd56eb07a15/2026-10-05-d0810886110d66c6.webp",
         "text": "de.wikipedia.org/87221fd56eb07a15/2026-10-05-d0810886110d66c6.txt.gz"
+      }
+    ]
+  },
+  "https://www.kinoheld.de/film/detektiv-conan-film-29-der-gefallene-engel-des-highways": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "2213b76eb9145b8e",
+        "qs": "ok",
+        "markierung": [
+          0.29423076923076924,
+          0.007658365118540124,
+          0.6673076923076923,
+          0.06222421658813851
+        ],
+        "bild": "www.kinoheld.de/e0cef710a098ab5f/2026-10-05-2213b76eb9145b8e.webp",
+        "text": "www.kinoheld.de/e0cef710a098ab5f/2026-10-05-2213b76eb9145b8e.txt.gz"
+      }
+    ]
+  },
+  "https://www.kinoheld.de/film/sen-to-chihiro-no-kamikakushi": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "bb035c8e6b682043",
+        "qs": "ok",
+        "bild": "www.kinoheld.de/4e88e2d21c29ac26/2026-10-05-bb035c8e6b682043.webp",
+        "text": "www.kinoheld.de/4e88e2d21c29ac26/2026-10-05-bb035c8e6b682043.txt.gz"
+      }
+    ]
+  },
+  "https://www.kinoheld.de/film/your-name-gestern-heute-und-fuer-immer": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "4a2f044ad72a55a9",
+        "qs": "ok",
+        "markierung": [
+          0.29423076923076924,
+          0.007268700577804909,
+          0.6673076923076923,
+          0.05905819219466489
+        ],
+        "bild": "www.kinoheld.de/08f09dc6f3878396/2026-10-05-4a2f044ad72a55a9.webp",
+        "text": "www.kinoheld.de/08f09dc6f3878396/2026-10-05-4a2f044ad72a55a9.txt.gz"
+      }
+    ]
+  },
+  "https://www.kinoheld.de/film/a-new-dawn": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "197236f80aecce50",
+        "qs": "ok",
+        "markierung": [
+          0.038461538461538464,
+          0.8771933061495599,
+          0.9230769230769231,
+          0.11021113550680517
+        ],
+        "bild": "www.kinoheld.de/209a8813db133b35/2026-10-05-197236f80aecce50.webp",
+        "text": "www.kinoheld.de/209a8813db133b35/2026-10-05-197236f80aecce50.txt.gz"
+      }
+    ]
+  },
+  "https://www.kinoheld.de/film/all-you-need-is-kill": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "825cc82ebd1c1aa8",
+        "qs": "ok",
+        "markierung": [
+          0.29423076923076924,
+          0.007352202070678786,
+          0.6673076923076923,
+          0.029868320912132568
+        ],
+        "bild": "www.kinoheld.de/7f8d0deb14322f4d/2026-10-05-825cc82ebd1c1aa8.webp",
+        "text": "www.kinoheld.de/7f8d0deb14322f4d/2026-10-05-825cc82ebd1c1aa8.txt.gz"
+      }
+    ]
+  },
+  "https://press.disneyplus.com/news/next-on-disney-plus-october-2026": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "928d5f58e0e40e58",
+        "qs": "ok",
+        "markierung": [
+          0.09230769230769231,
+          0.96207509562032,
+          0.8153846153846154,
+          0.02413403005979637
+        ],
+        "bild": "press.disneyplus.com/538510a649d9cc99/2026-10-05-928d5f58e0e40e58.webp",
+        "text": "press.disneyplus.com/538510a649d9cc99/2026-10-05-928d5f58e0e40e58.txt.gz"
+      }
+    ]
+  },
+  "https://www.kinoheld.de/film/witch-on-the-holy-night": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "29d5d01d1572d582",
+        "qs": "ok",
+        "markierung": [
+          0.29423076923076924,
+          0.010173465535398494,
+          0.6673076923076923,
+          0.04132970373755638
+        ],
+        "bild": "www.kinoheld.de/1c09d7eb0806154c/2026-10-05-29d5d01d1572d582.webp",
+        "text": "www.kinoheld.de/1c09d7eb0806154c/2026-10-05-29d5d01d1572d582.txt.gz"
+      }
+    ]
+  },
+  "https://www.disneyplus.com/de-de/browse/entity-0113d236-c3a2-4098-a663-bdb5979bfb74": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "b93c33cf74079b5c",
+        "qs": "ok",
+        "bild": "www.disneyplus.com/a3172a9cfb922b1e/2026-10-05-b93c33cf74079b5c.webp",
+        "text": "www.disneyplus.com/a3172a9cfb922b1e/2026-10-05-b93c33cf74079b5c.txt.gz"
+      }
+    ]
+  },
+  "https://www.disneyplus.com/browse/entity-484054dc-6486-477a-a31a-87163fbbb65a": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "71db0b16cc3e9658",
+        "qs": "ok",
+        "bild": "www.disneyplus.com/bd24224d590c49cf/2026-10-05-71db0b16cc3e9658.webp",
+        "text": "www.disneyplus.com/bd24224d590c49cf/2026-10-05-71db0b16cc3e9658.txt.gz"
+      }
+    ]
+  },
+  "https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "3b871d02f7599af1",
+        "qs": "ok",
+        "bild": "www.disneyplus.com/8ce399f3cd624faa/2026-10-05-3b871d02f7599af1.webp",
+        "text": "www.disneyplus.com/8ce399f3cd624faa/2026-10-05-3b871d02f7599af1.txt.gz"
+      }
+    ]
+  },
+  "https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "e204462ff996f3f1",
+        "qs": "ok",
+        "bild": "www.disneyplus.com/f038f29230460f26/2026-10-05-e204462ff996f3f1.webp",
+        "text": "www.disneyplus.com/f038f29230460f26/2026-10-05-e204462ff996f3f1.txt.gz"
+      }
+    ]
+  },
+  "https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "60d0372813f55b08",
+        "qs": "ok",
+        "bild": "www.disneyplus.com/714a63645c21ddba/2026-10-05-60d0372813f55b08.webp",
+        "text": "www.disneyplus.com/714a63645c21ddba/2026-10-05-60d0372813f55b08.txt.gz"
+      }
+    ]
+  },
+  "https://www.disneyplus.com/browse/entity-cdb8e29b-7fb0-4142-9966-3b1125246df0": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "f3d9f31417552d7e",
+        "qs": "ok",
+        "bild": "www.disneyplus.com/4209293af07264df/2026-10-05-f3d9f31417552d7e.webp",
+        "text": "www.disneyplus.com/4209293af07264df/2026-10-05-f3d9f31417552d7e.txt.gz"
+      }
+    ]
+  },
+  "https://www.disneyplus.com/de-de/browse/entity-71bcb11f-763c-4609-8965-540eaf7fa795": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "b89dc5d44a5c516e",
+        "qs": "ok",
+        "bild": "www.disneyplus.com/72e3cfd8414b4349/2026-10-05-b89dc5d44a5c516e.webp",
+        "text": "www.disneyplus.com/72e3cfd8414b4349/2026-10-05-b89dc5d44a5c516e.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/filme/appleseed-alpha-bpr7vttruhwc": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "9137a920281b413e",
+        "qs": "ok",
+        "bild": "www.joyn.de/7796764507c72597/2026-10-05-9137a920281b413e.webp",
+        "text": "www.joyn.de/7796764507c72597/2026-10-05-9137a920281b413e.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/detektiv-conan": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "d3c9398dd88ee30e",
+        "qs": "ok",
+        "bild": "www.joyn.de/c450887f6ca5b9e1/2026-10-05-d3c9398dd88ee30e.webp",
+        "text": "www.joyn.de/c450887f6ca5b9e1/2026-10-05-d3c9398dd88ee30e.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/dr-stone": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "0eab5222e3f2f713",
+        "qs": "ok",
+        "bild": "www.joyn.de/bc72f420355a2fc4/2026-10-05-0eab5222e3f2f713.webp",
+        "text": "www.joyn.de/bc72f420355a2fc4/2026-10-05-0eab5222e3f2f713.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/dragon-ball-super-dpp50bwivlve": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "9c45612c8c3b6281",
+        "qs": "ok",
+        "bild": "www.joyn.de/43d9e167831a7616/2026-10-05-9c45612c8c3b6281.webp",
+        "text": "www.joyn.de/43d9e167831a7616/2026-10-05-9c45612c8c3b6281.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/eyeshield-21": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "c509ac4075404d8f",
+        "qs": "ok",
+        "bild": "www.joyn.de/70078f5ea219b0ad/2026-10-05-c509ac4075404d8f.webp",
+        "text": "www.joyn.de/70078f5ea219b0ad/2026-10-05-c509ac4075404d8f.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/frieren-nach-dem-ende-der-reise": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "ce4355cb646d9d7a",
+        "qs": "ok",
+        "bild": "www.joyn.de/5705b3deedf7cbd7/2026-10-05-ce4355cb646d9d7a.webp",
+        "text": "www.joyn.de/5705b3deedf7cbd7/2026-10-05-ce4355cb646d9d7a.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/fruits-basket": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "c81b517a5da38800",
+        "qs": "ok",
+        "bild": "www.joyn.de/d34571fc4f503ed0/2026-10-05-c81b517a5da38800.webp",
+        "text": "www.joyn.de/d34571fc4f503ed0/2026-10-05-c81b517a5da38800.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/gachiakuta": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "cd34b9fecb290d5a",
+        "qs": "ok",
+        "bild": "www.joyn.de/32e326a4e7c13609/2026-10-05-cd34b9fecb290d5a.webp",
+        "text": "www.joyn.de/32e326a4e7c13609/2026-10-05-cd34b9fecb290d5a.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/higurashi-when-they-cry-gou": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "2bb90d4a7e0d104e",
+        "qs": "ok",
+        "bild": "www.joyn.de/7a74cef9a8018e36/2026-10-05-2bb90d4a7e0d104e.webp",
+        "text": "www.joyn.de/7a74cef9a8018e36/2026-10-05-2bb90d4a7e0d104e.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/yashahime": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "7e0ec84a136daf45",
+        "qs": "ok",
+        "bild": "www.joyn.de/57f184463fa156be/2026-10-05-7e0ec84a136daf45.webp",
+        "text": "www.joyn.de/57f184463fa156be/2026-10-05-7e0ec84a136daf45.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/kaiju-no-8": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "dddffbdc38bd7914",
+        "qs": "ok",
+        "bild": "www.joyn.de/f85f7cbd177447a1/2026-10-05-dddffbdc38bd7914.webp",
+        "text": "www.joyn.de/f85f7cbd177447a1/2026-10-05-dddffbdc38bd7914.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/log-horizon": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "f2d012930269617a",
+        "qs": "ok",
+        "bild": "www.joyn.de/6a03cdaa31735ede/2026-10-05-f2d012930269617a.webp",
+        "text": "www.joyn.de/6a03cdaa31735ede/2026-10-05-f2d012930269617a.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/mob-psycho-100": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "d1172321514c2921",
+        "qs": "ok",
+        "bild": "www.joyn.de/872ebd47deb14b61/2026-10-05-d1172321514c2921.webp",
+        "text": "www.joyn.de/872ebd47deb14b61/2026-10-05-d1172321514c2921.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/my-hero-academia": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "d4f06fe431a1b27d",
+        "qs": "ok",
+        "bild": "www.joyn.de/4a6af2fdaa33ad5f/2026-10-05-d4f06fe431a1b27d.webp",
+        "text": "www.joyn.de/4a6af2fdaa33ad5f/2026-10-05-d4f06fe431a1b27d.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/naruto": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "929844aa98d89d45",
+        "qs": "ok",
+        "bild": "www.joyn.de/57821d9aa1bb7b1c/2026-10-05-929844aa98d89d45.webp",
+        "text": "www.joyn.de/57821d9aa1bb7b1c/2026-10-05-929844aa98d89d45.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/naruto-shippuden-dp9lg5cqfaaj": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "f30259525266636d",
+        "qs": "ok",
+        "bild": "www.joyn.de/f9e43fe382e76dd6/2026-10-05-f30259525266636d.webp",
+        "text": "www.joyn.de/f9e43fe382e76dd6/2026-10-05-f30259525266636d.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/filme/naruto-shippuden-the-movie-bonds": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "24bfd58ac902d9c8",
+        "qs": "ok",
+        "bild": "www.joyn.de/2e3e345026eefa3c/2026-10-05-24bfd58ac902d9c8.webp",
+        "text": "www.joyn.de/2e3e345026eefa3c/2026-10-05-24bfd58ac902d9c8.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/filme/naruto-shippuden-the-movie-die-erben-des-willens-des-feuers": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "8b084f0fd8c37397",
+        "qs": "ok",
+        "bild": "www.joyn.de/a96784d0cc772da3/2026-10-05-8b084f0fd8c37397.webp",
+        "text": "www.joyn.de/a96784d0cc772da3/2026-10-05-8b084f0fd8c37397.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/boruto-dp7adnkxkcfc": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "8fdd092d121a40aa",
+        "qs": "ok",
+        "bild": "www.joyn.de/0fd1c2a7f0c57197/2026-10-05-8fdd092d121a40aa.webp",
+        "text": "www.joyn.de/0fd1c2a7f0c57197/2026-10-05-8fdd092d121a40aa.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/perrine": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "ca44551a0e8daf8c",
+        "qs": "ok",
+        "bild": "www.joyn.de/48e13f8f599d8436/2026-10-05-ca44551a0e8daf8c.webp",
+        "text": "www.joyn.de/48e13f8f599d8436/2026-10-05-ca44551a0e8daf8c.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/reincarnated-as-a-sword": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "068e37da3dd621c6",
+        "qs": "ok",
+        "bild": "www.joyn.de/96586b2448edf094/2026-10-05-068e37da3dd621c6.webp",
+        "text": "www.joyn.de/96586b2448edf094/2026-10-05-068e37da3dd621c6.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/solo-leveling": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "bb8a8469a259545d",
+        "qs": "ok",
+        "bild": "www.joyn.de/c6f463ed6d271197/2026-10-05-bb8a8469a259545d.webp",
+        "text": "www.joyn.de/c6f463ed6d271197/2026-10-05-bb8a8469a259545d.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/terror-in-tokio": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "383e23ff477c990f",
+        "qs": "ok",
+        "bild": "www.joyn.de/0130429ec0cafd7c/2026-10-05-383e23ff477c990f.webp",
+        "text": "www.joyn.de/0130429ec0cafd7c/2026-10-05-383e23ff477c990f.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/the-promised-neverland": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "e9ca24d2a52902b7",
+        "qs": "ok",
+        "bild": "www.joyn.de/1d5686cd8dfdd9c7/2026-10-05-e9ca24d2a52902b7.webp",
+        "text": "www.joyn.de/1d5686cd8dfdd9c7/2026-10-05-e9ca24d2a52902b7.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/the-quintessential-quintuplets": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "8d7e85b6a72d08f3",
+        "qs": "ok",
+        "bild": "www.joyn.de/40cb7da6540520f9/2026-10-05-8d7e85b6a72d08f3.webp",
+        "text": "www.joyn.de/40cb7da6540520f9/2026-10-05-8d7e85b6a72d08f3.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/the-rising-of-the-shield-hero": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "f5f46c627eb1bcd4",
+        "qs": "ok",
+        "bild": "www.joyn.de/d48f18d6917ed44d/2026-10-05-f5f46c627eb1bcd4.webp",
+        "text": "www.joyn.de/d48f18d6917ed44d/2026-10-05-f5f46c627eb1bcd4.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/tokyo-revengers": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "16207ce72c5a8702",
+        "qs": "ok",
+        "bild": "www.joyn.de/17d521531979366b/2026-10-05-16207ce72c5a8702.webp",
+        "text": "www.joyn.de/17d521531979366b/2026-10-05-16207ce72c5a8702.txt.gz"
+      }
+    ]
+  },
+  "https://www.joyn.de/serien/welcome-to-demon-school-iruma-kun": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "e1a2a910e38428b3",
+        "qs": "ok",
+        "bild": "www.joyn.de/3b75ed65e054b033/2026-10-05-e1a2a910e38428b3.webp",
+        "text": "www.joyn.de/3b75ed65e054b033/2026-10-05-e1a2a910e38428b3.txt.gz"
+      }
+    ]
+  },
+  "https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4": {
+    "zuletzt": "2026-10-05",
+    "lesungen": [
+      {
+        "am": "2026-10-05",
+        "hash": "d8d257b8c480491b",
+        "qs": "ok",
+        "bild": "www.disneyplus.com/270a4c1d7d7cda5a/2026-10-05-d8d257b8c480491b.webp",
+        "text": "www.disneyplus.com/270a4c1d7d7cda5a/2026-10-05-d8d257b8c480491b.txt.gz"
       }
     ]
   }
