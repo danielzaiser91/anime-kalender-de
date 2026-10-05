@@ -169,10 +169,24 @@ if [ "$ZUSTAND" = "MERGEABLE" ]; then
   # Merge-Commits mit Anhang. Kein `--admin`: `main` ist nicht geschützt
   # (geprüft am 30.08.2026), und das GITHUB_TOKEN hätte die Rechte dafür ohnehin
   # nicht — der Aufruf würde daran scheitern statt am Konflikt.
-  if gh pr merge "$ZWEIG" --squash --delete-branch --subject "$NACHRICHT" 2>&1; then
-    melde "gemerged=true"
-    exit 0
-  fi
+  #
+  # **Mehrere Versuche**: Mit parallelen Sammlern (seit 05.10.2026) bewegt sich `main` oft genau zwischen Mergebarkeits-Prüfung und Merge — GitHub antwortet dann
+  # „Base branch was modified. Review and try the merge again." Ein Pull Request, der deshalb offen bliebe, wartete auf den Claude-Lauf (und dessen Kontingent).
+  for merge_versuch in 1 2 3 4 5 6; do
+    if gh pr merge "$ZWEIG" --squash --delete-branch --subject "$NACHRICHT" 2>&1; then
+      melde "gemerged=true"
+      exit 0
+    fi
+    echo "::notice::Merge-Versuch $merge_versuch von 6 abgelehnt — main hat sich bewegt, neuer Versuch."
+    sleep $((3 + RANDOM % 8))
+    # Die Mergebarkeit gegen den neuen Stand abwarten, bevor es weitergeht (ein echter Konflikt beendet die Schleife).
+    for _ in $(seq 1 10); do
+      ZUSTAND="$(gh pr view "$ZWEIG" --json mergeable -q .mergeable 2>/dev/null || echo UNKNOWN)"
+      [ "$ZUSTAND" != "UNKNOWN" ] && break
+      sleep 2
+    done
+    [ "$ZUSTAND" = "MERGEABLE" ] || break
+  done
   echo "::warning::Der Merge ist trotz MERGEABLE fehlgeschlagen."
 fi
 

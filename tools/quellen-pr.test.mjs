@@ -45,7 +45,7 @@ try {
 case "$1 $2" in
   "pr create") echo "https://github.com/x/y/pull/99" ;;
   "pr view") echo "MERGEABLE" ;;
-  "pr merge") exit 0 ;;
+  "pr merge") if [ ! -f "$(dirname "$0")/schon-einmal" ]; then : > "$(dirname "$0")/schon-einmal"; echo "GraphQL: Base branch was modified." >&2; exit 1; fi; exit 0 ;;
 esac
 `,
   )
@@ -73,6 +73,7 @@ esac
   const knapp = r.out.split('\n').filter((z) => !z.includes('übersprungen (nicht vorhanden)')).join('\n').slice(-1800)
   pruefe('das Skript endet mit Erfolg', r.status === 0, `${r.status} ${knapp}`)
   pruefe('die abgelehnte erste Übertragung wird gemeldet und neu aufgesetzt', /Push abgelehnt \(Versuch 1 von 3\)/.test(r.out), r.out.slice(-400))
+  pruefe('ein Merge, der an „Base branch was modified" scheitert, wird wiederholt', /Merge-Versuch 1 von 6 abgelehnt/.test(r.out), r.out.slice(-400))
   const ausgabe = readFileSync(ausgabeDatei, 'utf8')
   pruefe('der Pull Request ist angelegt und gemergt', /pr=99/.test(ausgabe) && /gemerged=true/.test(ausgabe), ausgabe)
   const zweige = sh(ursprung, 'git branch --list "daten/*"').out.trim()
