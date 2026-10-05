@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-05T14:55:55.603Z",
+  "stand": "2026-10-05T15:14:12.978Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4711,14 +4711,14 @@
     },
     {
       "titleId": 98496,
-      "titel": "Free! Timeless Medley",
+      "titel": "Free! -Timeless Medley- The Promise",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/free-iwatobi-swim-club",
       "seriesId": null,
       "grund": "die Adresse zeigt auf die Reihe „Free! - Iwatobi Swim Club\", das MOVIE steht nicht im deutschen Katalog, und JustWatch nennt 3 Anbieter ohne Crunchyroll (Akibapass, Buecher)",
       "geprueftAm": null,
       "entferntAm": "2026-10-05",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 98497,
@@ -6709,7 +6709,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-05",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 112444,
@@ -7974,7 +7974,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-05",
-      "letzterWeg": false
+      "letzterWeg": true
     },
     {
       "titleId": 185515,
@@ -7997,17 +7997,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-05",
       "letzterWeg": false
-    },
-    {
-      "titleId": 137612,
-      "titel": "Princess Principal: Crown Handler 3",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-05",
-      "letzterWeg": true
     },
     {
       "titleId": 128223,
@@ -8069,17 +8058,6 @@
       "titel": "Gushing over Magical Girls",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1121",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-05",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 186716,
-      "titel": "Princess Principal: Crown Handler - Chapter 4",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
