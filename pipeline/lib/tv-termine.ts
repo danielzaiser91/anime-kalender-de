@@ -148,6 +148,37 @@ export function sendungenAnhaengen(
  * **nicht**, genau ein anderer Titel derselben Reihe kennt ihn, und beide haben eine Liste.
  * Sonst bleibt die Sendung, wo sie ist — eine geratene Zuordnung ist schlimmer als keine.
  */
+/** Levenshtein-Abstand mit Abbruch — Schreibvarianten wie „Hoplla"/„Hoppla" (aniSearch gegen Sender, 05.10.2026). */
+function editAbstand(a: string, b: string, grenze = 2): number {
+  if (Math.abs(a.length - b.length) > grenze) return grenze + 1
+  let vor = Array.from({ length: b.length + 1 }, (_, j) => j)
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i]
+    for (let j = 1; j <= b.length; j++) cur[j] = Math.min(vor[j]! + 1, cur[j - 1]! + 1, vor[j - 1]! + (a[i - 1] === b[j - 1] ? 0 : 1))
+    if (Math.min(...cur) > grenze) return grenze + 1
+    vor = cur
+  }
+  return vor[b.length]!
+}
+
+/** Der eine Kern der Liste, der bis auf eine Schreibvariante dem gesuchten gleicht; bei zwei oder mehr Treffern keiner (geraten wird nicht). */
+export function aehnlicherKern(kerne: Iterable<string>, k: string): string | undefined {
+  if (k.length < 10) return undefined
+  const treffer = [...kerne].filter((x) => editAbstand(x, k) <= 2)
+  return treffer.length === 1 ? treffer[0] : undefined
+}
+
+/** Die Nummer einer Folge in der Liste — wörtlich, sonst über den einen ähnlichen Kern (Schreibvariante). */
+function nummerFuer(nummern: Map<string, number> | undefined, folge: string): number | undefined {
+  const k = folgenKern(folge)
+  return nummern?.get(k) ?? nummern?.get(aehnlicherKern(nummern.keys(), k) ?? '')
+}
+
+/** Ein Staffelwechsel darf nie in einen Termin von Hand oder in eine Gruppe dieses Laufs führen: Zwei Gruppen beim selben Titel trügen denselben Slug (Pokémon Reisen, 05.10.2026). */
+function zielFrei(ziel: string, belegt: Set<string>, gruppen: Map<string, unknown>): boolean {
+  return !belegt.has(ziel) && !gruppen.has(ziel)
+}
+
 export function sendungNeuZuordnen(
   sendungen: TvSendung[],
   titles: Map<number, Title>,
@@ -168,7 +199,7 @@ export function sendungNeuZuordnen(
     const folge = s.folge ? folgenKern(s.folge.replace(/^[^:]{3,60}:\s*/, '')) : ''
     if (!folge || folge.length < 6) return s
     const eigene = kern(s.titleId)
-    if (!eigene.size || eigene.has(folge)) return s
+    if (!eigene.size || eigene.has(folge) || aehnlicherKern(eigene, folge)) return s
     const t = titles.get(s.titleId)
     const geschwister = (reihe.get(t?.franchiseId ?? s.titleId) ?? []).filter((id) => id !== s.titleId && kern(id).has(folge))
     return geschwister.length === 1 ? { ...s, titleId: geschwister[0]! } : s
@@ -199,7 +230,7 @@ export function releasesAusTvProgramm(
     /* Nummern aus der Episodenliste — nur wenn jede Sichtung darin steht. */
     const wikiListe = wiki[String(erste.titleId)]
     const nummern = wikiListe?.folgen.length ? nummernNachTitel(wikiListe.folgen, !wikiListe.url) : undefined
-    const zugeordnet = liste.map((s) => (s.folge ? nummern?.get(folgenKern(s.folge)) : undefined))
+    const zugeordnet = liste.map((s) => (s.folge ? nummerFuer(nummern, s.folge) : undefined))
     /* Erste deutsche Veröffentlichung je Folgentitel (EAD bzw. RTL+-Start) — für „Premiere/Wiederholung". */
     const erstJeKern = new Map(
       (wikiListe?.folgen ?? []).flatMap((f) => {
@@ -212,7 +243,7 @@ export function releasesAusTvProgramm(
     let versatz = 0
     if (mitWiki && title.episodes && Math.max(...(zugeordnet as number[])) > title.episodes) {
       const platz = spaetereStaffel(title, Math.min(...(zugeordnet as number[])), Math.max(...(zugeordnet as number[])), titles)
-      if (platz && !belegt.has(`${platz.title.id}|${erste.sender.toLowerCase()}`)) {
+      if (platz && zielFrei(`${platz.title.id}|${erste.sender.toLowerCase()}`, belegt, gruppen)) {
         title = platz.title
         versatz = platz.versatz
       } else mitWiki = false
