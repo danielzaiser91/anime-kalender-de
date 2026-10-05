@@ -24718,43 +24718,51 @@
     "gesehen": "2026-09-28T10:18:27Z"
   },
   "primevideo:B0H7YBRDVL": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 1,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0H8ML6B98": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 2,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0H7XZ27FP": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0H6RZV9JR": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 4,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0H7WRQXM3": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 5,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0H7XWYYQF": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0H7XQWFMQ": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 7,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0GYDVN27R": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 8,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0H7YHLF3Q": {
@@ -24763,13 +24771,15 @@
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0H7XQ86LZ": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 10,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0FSXC6QHF": {
-    "titel": 142074,
-    "grund": "einziger-kandidat",
+    "titel": 159309,
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "primevideo:B0B7BQD5LD": {
@@ -91003,7 +91013,8 @@
   },
   "primevideo:B0H7VPDGFP": {
     "titel": 159309,
-    "grund": "einziger-kandidat",
+    "folge": 12,
+    "grund": "titel",
     "gesehen": "2026-09-29T20:12:09Z"
   },
   "netflix:81513788": {
@@ -91359,57 +91370,68 @@
   },
   "disneyplus:eyJtZWRpYUlkIjoiNDdmYmUxMDAtYzk1Yi00ZTI3LThiMTEtMjQxYzUwYWU4": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 1,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiOGQ3ODJkOWQtMjc3My00NDJiLTllZDEtODZiYmUxZDQ0": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 3,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiYzcwZTAwYjYtM2FmOS00OTE4LWJjNTQtNjI0MjZlNzlm": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 4,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiZTBhZjgyN2UtNGE4Yi00OWU0LTk1OWYtZGQzN2I3YzZm": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 5,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiNTk0MDNlMDgtNjM1ZS00OTU0LWFiNzItN2E0MDczM2E0": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 2,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiYzMzM2VjNDUtOTYzNi00MGI1LTg4MGItYTk0OWYyZWUw": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 6,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiN2FiODM1MzMtMTNlNy00ZjdmLWFjNTctMjZlMWY3NTgy": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 10,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiZDFjZDM5NmItMmNmYy00Yjg1LTg3NDAtODYyNzEwYjU2": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 7,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiYWIzMmY2MTgtMzUwYi00YjkyLTgxMTUtYjQxZmYzNzY2": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 9,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiODQ3ODI3MTAtN2ZiMS00M2Q2LThlNWEtYTkxMjdkMTVm": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 8,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "disneyplus:eyJtZWRpYUlkIjoiZDdmZmZmYTYtZWZjNC00ZWMzLWE3ZmItZmJhNWY3Yjhi": {
     "titel": 188139,
-    "grund": "einziger-kandidat",
+    "folge": 11,
+    "grund": "titel",
     "gesehen": "2026-10-02T13:23:20Z"
   },
   "netflix:81664951": {
