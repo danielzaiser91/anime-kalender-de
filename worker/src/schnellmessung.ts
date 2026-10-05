@@ -51,6 +51,19 @@ export async function messe(probe: Probe): Promise<Messung> {
   }
 }
 
+/** Was GitHub selbst zu Pages meldet (githubstatus.com), damit ein Alarm sofort zeigt, ob der Hoster gestört ist oder wir. */
+export async function githubPagesStatus(): Promise<string> {
+  try {
+    const res = await fetch('https://www.githubstatus.com/api/v2/summary.json', { signal: AbortSignal.timeout(8000) })
+    const j = (await res.json()) as { components?: { name: string; status: string }[]; incidents?: { name: string; status: string }[] }
+    const pages = j.components?.find((c) => c.name === 'Pages')?.status ?? 'unbekannt'
+    const vorfaelle = (j.incidents ?? []).map((i) => `${i.name} (${i.status})`).join('; ')
+    return `GitHub Pages laut githubstatus.com: ${pages}${vorfaelle ? `; offene Vorfälle: ${vorfaelle}` : '; keine offenen Vorfälle'}`
+  } catch (err) {
+    return `githubstatus.com nicht abrufbar (${String((err as Error).message ?? err).slice(0, 60)})`
+  }
+}
+
 export interface SchnellEnv extends MailEnv {
   DB: D1Database
   MONITOR_EMAIL?: string
@@ -82,7 +95,8 @@ async function alarmPruefen(env: SchnellEnv, probe: Probe, nowIso: string): Prom
     return `${probe.name}: Alarm geschlossen`
   }
   if (entscheidung !== 'auf') return `${probe.name}: ${letzte[0]?.total_ms ?? '?'} ms`
-  const grund = letzte[0]?.grund ?? `langsamer als ${LANGSAM_MS} ms`
+  const hoster = await githubPagesStatus()
+  const grund = `${letzte[0]?.grund ?? `langsamer als ${LANGSAM_MS} ms`}; ${hoster}`
   await env.DB.prepare('INSERT INTO monitor_alarm (url, seit, grund) VALUES (?1, ?2, ?3)').bind(probe.url, nowIso, grund).run()
   if (env.MONITOR_EMAIL) {
     const mail: Mail = {
