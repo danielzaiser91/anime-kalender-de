@@ -9,17 +9,22 @@ export interface Weckplan {
   /** Leer = jede Stunde. */
   stunden?: number[]
   wochentag?: number
+  /** Mindestabstand zum letzten Start desselben Workflows in Minuten — schützt vor Doppelstarts (gemessen 05.10.2026: zwei Starts im Abstand von zehn Sekunden). */
+  abstandMin: number
 }
 
 export const WECKPLAN: Weckplan[] = [
-  { workflow: 'refresh-hourly.yml' },
+  { workflow: 'refresh-hourly.yml', abstandMin: 40 },
   // Vorher 04:17 / 05:41 / 06:00 nach GitHub-Cron; der Tageslauf endet nach höchstens 75 Minuten, bevor der aniSearch-Katalog um 06:00 beginnt.
-  { workflow: 'refresh-data.yml', stunden: [4] },
-  { workflow: 'refresh-weekly.yml', stunden: [5], wochentag: 1 },
-  { workflow: 'adn-laufende.yml', stunden: [2, 8, 14, 20] },
-  { workflow: 'claude-verpasst-recherche.yml', stunden: [11] },
-  { workflow: 'anisearch-katalog.yml', stunden: [6] },
+  { workflow: 'refresh-data.yml', stunden: [4], abstandMin: 600 },
+  { workflow: 'refresh-weekly.yml', stunden: [5], wochentag: 1, abstandMin: 4320 },
+  { workflow: 'adn-laufende.yml', stunden: [2, 8, 14, 20], abstandMin: 240 },
+  { workflow: 'claude-verpasst-recherche.yml', stunden: [11], abstandMin: 600 },
+  { workflow: 'anisearch-katalog.yml', stunden: [6], abstandMin: 600 },
 ]
+
+/** Mindestabstand eines Workflows in Minuten (Vorgabe 30 für Unbekannte). */
+export const abstandMin = (workflow: string, plan: Weckplan[] = WECKPLAN): number => plan.find((p) => p.workflow === workflow)?.abstandMin ?? 30
 
 /** Die Workflows, die zu diesem Zeitpunkt (UTC) starten sollen. */
 export function faelligeLaeufe(jetzt: Date, plan: Weckplan[] = WECKPLAN): string[] {
