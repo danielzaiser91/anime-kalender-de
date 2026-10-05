@@ -1,6 +1,6 @@
 # Netflix: was kein Automat beantworten kann
 
-Stand 2026-09-29 · **0 Titel**.
+Stand 2026-10-05 · **1 Titel**.
 
 Netflix gibt seine Tonspuren nur an einen laufenden Player heraus — fünfmal gemessen,
 fünfmal bestätigt. Es gibt keinen Abruf, der das hier abnehmen könnte.
@@ -23,3 +23,4 @@ Erzeugt von `npm run data:netflix-rest`, nicht von Hand pflegen.
 
 | # | Titel | Folgen | Jahr | Verweis |
 |---|---|---:|---:|---|
+| 1 | Die Tagebücher der Apothekerin: Staffel 3 - Cour 1 | 12 | 2026 | [öffnen](https://www.netflix.com/title/81712068) |
