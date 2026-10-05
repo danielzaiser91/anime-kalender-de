@@ -166,6 +166,7 @@ import { erschieneneFolgen, deutscheFolgen } from './bau/folgen-dateien.ts'
 import { unzugeordnet } from './lib/sammel-unzugeordnet.ts'
 import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
 import { namensanfangMindestens } from '../shared/namensgebunden.ts'
+import { alarmEntscheidung } from '../shared/schnellmessung-regeln.ts'
 import { NAMENSGEBUNDENE_RELATIONEN } from '../shared/namensgebunden.ts'
 import { schnellSetzen, schnellZustand, type SchnellId } from '../web/src/lib/schnellfilter.ts'
 import { ergaenzeTeilnamen } from './bau/adn-teilnamen.ts'
@@ -8019,6 +8020,13 @@ console.log('\nCharakter-Beziehung:')
   pruefe('Charakter: Black Jack und Black Jack: Capital Transfer To Heian gehören zusammen', otherZaehlt(['Black Jack: Heian Sento', 'Black Jack: Capital Transfer To Heian'], ['Black Jack', 'Black Jack']))
   pruefe('Charakter: „Tales of" (8 Zeichen) verbindet keine Spiele-Serien, bei OTHER bleibt 8', !otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('OTHER')))
   pruefe('Charakter: „Meitantei" (9 Zeichen) bindet Precure nicht an Conan, Black Jack (10) bleibt gebunden', !otherZaehlt(['Meitantei Conan: Hanamaru na Answer'], ['Meitantei Precure!'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Black Jack: Heian Sento'], ['Black Jack'], namensanfangMindestens('CHARACTER')))
+  {
+    const gut = { ok: 1, total_ms: 200 }
+    const lahm = { ok: 1, total_ms: 5000 }
+    const aus = { ok: 0, total_ms: 15000 }
+    pruefe('Schnellmessung: drei schlechte in Folge öffnen den Alarm, zwei schlechte nicht', alarmEntscheidung([lahm, aus, lahm], false) === 'auf' && alarmEntscheidung([lahm, aus, gut], false) === 'nichts')
+    pruefe('Schnellmessung: zwei gute schließen den Alarm, eine gute nicht, und ein offener Alarm öffnet nicht noch einmal', alarmEntscheidung([gut, gut, aus], true) === 'zu' && alarmEntscheidung([gut, aus, aus], true) === 'nichts' && alarmEntscheidung([aus, aus, aus], true) === 'nichts')
+  }
   pruefe('Charakter: ein Gastauftritt ohne gemeinsamen Namen bleibt draußen (Gundam/Patlabor)', !otherZaehlt(['Mobile Suit Gundam'], ['Mobile Police Patlabor']))
 }
 console.log('\nSchnellfilter:')

@@ -11,6 +11,7 @@
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
 import type { NewsEintrag, PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
+import { runSchnellmessung } from './schnellmessung.ts'
 import { ladeAbbild, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
 import { anbieterName } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
@@ -1587,25 +1588,19 @@ export default {
     }
   },
 
-  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+  async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()
+    if (event.cron === '*/5 * * * *') {
+      ctx.waitUntil(runSchnellmessung(env, now).then((m) => console.log(`[schnell] ${m}`)).catch((e) => console.error('[schnell]', e)))
+      return
+    }
     ctx.waitUntil(starteFaelligeLaeufe(env).catch((e) => console.error('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
     ctx.waitUntil(
       runDigest(env, now)
         .then((msg) => console.log(`[digest] ${msg}`))
         .catch((err) => console.error('[digest] fehlgeschlagen', err)),
     )
-    /**
-     * Welches Land bekommt ein Cron-Lauf?
-     *
-     * Von Daniels Leitung aus antwortet der Worker aus London und Crunchyroll
-     * gibt ihm `DE`; ruft ein Rechner aus den USA denselben Endpunkt auf,
-     * läuft er in San Jose und bekommt `US` (gemessen 22.08.2026). Cloudflare
-     * führt einen Worker also dort aus, wo die Anfrage ankommt. Ein Cron-Lauf
-     * hat keinen Aufrufer — wo er landet, ist damit noch nicht gesagt, und
-     * genau das entscheidet, ob sich die Erneuerung des Crunchyroll-Zugangs
-     * ohne Daniels Rechner automatisieren lässt.
-     */
+    // Welches Land bekommt ein Cron-Lauf? Entscheidet, ob sich die Erneuerung des Crunchyroll-Zugangs ohne Daniels Rechner automatisieren lässt.
     ctx.waitUntil(
       crunchyrollLand('cron')
         .then((m) =>

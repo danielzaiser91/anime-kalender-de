@@ -6,7 +6,7 @@ compatibility_date = "2025-05-01"
 # der Berliner Ortszeit — so stimmt der Versandzeitpunkt auch über die
 # Sommerzeitumstellung hinweg, ohne zwei Cron-Einträge zu verbrauchen.
 [triggers]
-crons = ["0 * * * *"]
+crons = ["0 * * * *", "*/5 * * * *"] # stündlich: alles; alle 5 Minuten: nur die Schnellmessung (schnellmessung.ts)
 
 [[d1_databases]]
 binding = "DB"
