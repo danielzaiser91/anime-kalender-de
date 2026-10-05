@@ -1084,3 +1084,11 @@ jede Mail im Spam („nicht authentifiziert", über amazonses.com). Am 04.10.202
 
 **Weiterleitung `info@daniel-zaiser.de`** (PurelyMail, Regeln per API `listRoutingRules`): `info`, `kontakt`, `business` … und ein Sammel-Eintrag zeigen auf `danielzaiser91@googlemail.com`. Eine Testmail
 **vom eigenen Googlemail-Konto** kommt nicht an (Gmail verwirft die zurückkommende Kopie derselben Nachricht als Duplikat) — Proben von einem anderen Absender senden.
+
+## D1-Kontingent: Vollexporte in R2 statt im Edge-Cache (05.10.2026)
+
+Daniel, 10:13: Mail „Tageslimit überschritten" vom Vortag, am Morgen schon 600.000 von 5 Mio. gelesen. Gemessen mit `wrangler d1 insights` (24 h): der Export `prime_folge WHERE id > ?` allein
+2,8 Mio. Zeilen (586 Seitenabrufe), dazu die offenen Rohfolgen mit Unterabfrage (371.000) und `namen` (614.000). **Ursache:** `caches.default` gilt je Rechenzentrum, die Bauläufe kommen aus
+wechselnden und treffen ihn kaum. **Behebung:** `worker/src/export-speicher.ts` legt die drei Auszüge in R2 (`export/…`), `pruefung.ts` verwirft sie nach jedem POST/DELETE; neu gerechnet wird
+beim nächsten Abruf, also höchstens einmal je Bau. Eine Stunde danach lasen alle Abfragen zusammen 1.600 Zeilen. **Wache:** `wrangler d1 insights DB --config wrangler.toml --sort-type sum
+--sort-by reads --timePeriod 1d --limit 10 --json` (kostet kein Kontingent); Ziel unter 25 % (1,25 Mio.) am Tag, Warnung des Wachlaufs bei 50 %.
