@@ -19,11 +19,11 @@ import { meldeAbbruch } from './lib/abbruch.ts'
 import { todayIso } from '../shared/time.ts'
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 import {
-  adressenAusNews, adressenMitOffenemTermin, bildOhnePruefung, crunchyrollDatum, entzieheBild, kopfzeilenDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
+  adressenAusNews, adressenMitOffenemTermin, bildOhnePruefung, ohneMarkenJeTitel, crunchyrollDatum, entzieheBild, kopfzeilenDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
-import { suchbegriffeJeAdresse, tageJeAdresse } from './lib/beleg-suche.ts'
+import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse } from './lib/beleg-suche.ts'
 
 const DATEI = 'data/beleg-lesungen.json'
 /** Crunchyroll lässt nur einen Desktop-UA durch (wie `scrape-crunchyroll-woche.ts`); ADN liefert damit eine leere Seite. */
@@ -48,6 +48,18 @@ interface Gelesen {
   aktualisiert?: string
 }
 
+/** Nachladende Seiten (Kommentare, Newsticker) ändern den Text noch nach dem Laden — gelesen wird erst, wenn die Länge eine Sekunde lang gleich bleibt, sonst schwankt der Hash (05.10.2026). */
+async function textStehtStill(seite: Page, waehler: string[]): Promise<void> {
+  const laenge = () => seite.evaluate((w) => Math.max(...w.map((x) => (document.querySelector(x) as HTMLElement | null)?.innerText?.length ?? 0)), waehler)
+  let vorher = await laenge()
+  for (let i = 0; i < 6; i++) {
+    await seite.waitForTimeout(1000)
+    const jetzt = await laenge()
+    if (jetzt === vorher) return
+    vorher = jetzt
+  }
+}
+
 async function lies(seite: Page, url: string): Promise<Gelesen> {
   await seite.goto(url, { waitUntil: 'domcontentloaded', timeout: 60_000 })
   /* Der Text steht in `<article>` (Crunchyroll-News, Anime2You) oder in `<main>` (aniSearch; ADN hat ein leeres `<article>`); Joyn, Disney+ und Kinoheld sind Anwendungsseiten ohne beides, dort zählt die ganze Seite. */
@@ -58,6 +70,7 @@ async function lies(seite: Page, url: string): Promise<Gelesen> {
     .catch(() => undefined)
   /* Anwendungsseiten laden Folgenkarten und Bilder nach; ohne Pause zeigt das Foto schwarze Platzhalter (Joyn, 05.10.2026). */
   if (ganzeSeite) await seite.waitForTimeout(5000)
+  await textStehtStill(seite, waehler)
   return seite.evaluate((w) => {
     const meta = (p: string) => document.querySelector(`meta[property="${p}"]`)?.getAttribute('content') ?? undefined
     const body = document.body.innerText
@@ -77,9 +90,12 @@ async function main(): Promise<void> {
   for (const [url, e] of Object.entries(gedaechtnis))
     if (!traegtArtikeldatum(url)) for (const l of e.lesungen) { l.ausgabe ??= l.veroeffentlicht; delete l.veroeffentlicht; delete l.aktualisiert }
   const adressen = args.includes('--adresse') ? [args[args.indexOf('--adresse') + 1]!] : belegAdressen(gedaechtnis, heute)
-  const schlange = warteschlange(adressen, gedaechtnis, heute, zahl('--abstand', 7), zahl('--limit', 60))
-  log(`Belege: ${schlange.length} Artikel fällig`)
   const suchbegriffe = suchbegriffeJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []))
+  const gruppen = gruppenJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []))
+  const mehrere = new Set([...gruppen].filter(([, g]) => g.length > 1).map(([u]) => u))
+  const sofort = ohneMarkenJeTitel(gedaechtnis, mehrere)
+  const schlange = warteschlange([...adressen, ...sofort], gedaechtnis, heute, zahl('--abstand', 7), zahl('--limit', 60), sofort)
+  log(`Belege: ${schlange.length} Artikel fällig`)
   const tage = tageJeAdresse(readJson<Release[]>('public/data/releases.json', []))
   const browser = await chromium.launch()
   let gelesen = 0
@@ -121,13 +137,13 @@ async function main(): Promise<void> {
           warn(`Beleg ${url}: Text geändert, Daten gleich — untersuchen (tools/belege-pruefen.mjs)`)
         }
         /* Derselbe Text hat dasselbe Bild — eine Lesung mit neuem Datum verweist darauf, statt es neu zu erzeugen. */
-        if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html, markierung: letzte.markierung })
+        if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html, markierung: letzte.markierung, markierungen: letzte.markierungen })
         /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
         const ziel = letzte?.hash === hash ? letzte : lesung
         /* Auch ein Bild ohne Fundstelle wird neu gemacht (04.10.2026): Ältere Belege bekommen so ihre Markierung. */
-        if (!ziel.bild || !ziel.qs || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0)) {
+        if (!ziel.bild || !ziel.qs || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0) || ((gruppen.get(url)?.length ?? 0) > 1 && !ziel.markierungen)) {
           const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
-          const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [], tage.get(url) ?? [])
+          const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [], tage.get(url) ?? [], gruppen.get(url) ?? [])
           if (beleg === 'wand') {
             entzieheBild(gedaechtnis, url)
             throw new Error('Zustimmungswand bleibt im Bild — kein Beleg')
@@ -136,6 +152,7 @@ async function main(): Promise<void> {
           if (beleg) {
             ziel.qs = 'ok'
             if (beleg.markierung) ziel.markierung = lesung.markierung = beleg.markierung
+            if (beleg.markierungen) ziel.markierungen = lesung.markierungen = beleg.markierungen
             ziel.bild = await ablegen(`${basis}.webp`, beleg.bild, 'image/webp')
             ziel.text = await ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')
           }

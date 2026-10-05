@@ -11,6 +11,7 @@ import { gzipSync } from 'node:zlib'
 import type { Page } from 'playwright'
 import { sperreEntfernen } from './cookie-banner.ts'
 import { stuetzstelle, type Stelle } from './beleg-stelle.ts'
+import type { Gruppe } from './beleg-suche.ts'
 
 /** So hoch darf der Ausschnitt ab der Überschrift werden, wenn keine Stützstelle weiter unten liegt. */
 const MAX_HOEHE = 1100
@@ -22,6 +23,8 @@ export interface Beleg {
   text: Buffer
   /** Wo die Aussage im Bild steht: `[links, oben, Breite, Höhe]` als Anteile von 0 bis 1 (Beleg-Dialog, „Zur Fundstelle"). */
   markierung?: [number, number, number, number]
+  /** Bei einem Artikel für mehrere Titel: die Fundstelle je Titel-Kennung. */
+  markierungen?: Record<string, [number, number, number, number]>
 }
 
 interface Messung {
@@ -97,20 +100,32 @@ async function titelzeileSetzen(seite: Page): Promise<void> {
 }
 
 /** `'wand'`: Eine Zustimmungswand oder ein Banner bleibt trotz Entfernen im Bild — dann gibt es kein Bild. `'leer'`: Die Aufnahme ist einfarbig (Seite nicht gezeichnet). */
-export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: string[] = []): Promise<Beleg | 'wand' | 'leer' | undefined> {
+export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: string[] = [], gruppen: Gruppe[] = []): Promise<Beleg | 'wand' | 'leer' | undefined> {
   await seite.setViewportSize({ width: 520, height: 900 })
   await seite.addStyleTag({ content: 'img,picture,video,figure,svg,iframe{display:none!important} *{background-image:none!important} html{filter:grayscale(1)}' })
   /* Zustimmungswände und Banner liegen fest oder klebend über dem Text — entfernt, nicht beantwortet; bleibt eine, gibt es kein Bild. */
   if (!(await sperreEntfernen(seite))) return 'wand'
   await titelzeileSetzen(seite)
   const stelle = await stuetzstelle(seite, suchen, tage)
+  const stellen = gruppen.length > 1 ? await Promise.all(gruppen.map(async (g) => [g.id, await stuetzstelle(seite, g.suchen, g.tage)] as const)) : []
   const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: MAX_BIS_STELLE, suchen, stelle })
   if (!gemessen || gemessen === 'wand') return gemessen
   const cdp = await seite.context().newCDPSession(seite)
   const { data } = await cdp.send('Page.captureScreenshot', { format: 'webp', quality: 20, captureBeyondViewport: true, clip: gemessen.clip })
   await cdp.detach()
   if (await istEinfarbig(seite, data)) return 'leer'
-  return { bild: Buffer.from(data, 'base64'), text: gzipSync(Buffer.from(gemessen.text, 'utf8')), ...(gemessen.markierung ? { markierung: gemessen.markierung } : {}) }
+  const markierungen = markierungenJeTitel(stellen, gemessen.clip)
+  return { bild: Buffer.from(data, 'base64'), text: gzipSync(Buffer.from(gemessen.text, 'utf8')), ...(gemessen.markierung ? { markierung: gemessen.markierung } : {}), ...(markierungen ? { markierungen } : {}) }
+}
+
+/** Die Fundstelle jedes Titels als Anteile des Bildes; liegt sie außerhalb des Ausschnitts, gibt es für den Titel keine Marke. */
+function markierungenJeTitel(stellen: (readonly [number, Stelle | undefined])[], clip: Messung['clip']): Record<string, [number, number, number, number]> | undefined {
+  const raus: Record<string, [number, number, number, number]> = {}
+  for (const [id, st] of stellen) {
+    if (!st || st.oben < clip.y || st.markeUnten > clip.y + clip.height) continue
+    raus[id] = [Math.max(0, st.links / 520), (st.oben - clip.y) / clip.height, Math.min(1, st.breite / 520), (st.markeUnten - st.oben) / clip.height]
+  }
+  return stellen.length ? raus : undefined
 }
 
 /** Ein einfarbiges Bild (Standardabweichung der Helligkeit unter 6) zeigt keine Aussage — die Seite war nicht gezeichnet oder von etwas Schwarzem verdeckt. */

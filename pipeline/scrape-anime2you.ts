@@ -351,7 +351,11 @@ async function main(): Promise<void> {
   // ältere wären sonst nach einer Woche verschwunden, bevor jemand sie liest.
   const previous = readJson<{ proposals: Proposal[] }>('data/proposals/anime2you.json', { proposals: [] })
   const merged = new Map(previous.proposals.map((p) => [p.articleUrl, p]))
-  for (const proposal of proposals) merged.set(proposal.articleUrl, proposal)
+  /* Ein frischer Feed-Treffer kennt die gelesene Liste eines Sammelartikels nicht — sie bleibt erhalten, sonst verschwinden alle ihre Termine, bis der Artikel neu gelesen ist (ADN Oktober 2026, 05.10.2026). */
+  for (const proposal of proposals) {
+    const vorher = merged.get(proposal.articleUrl)
+    merged.set(proposal.articleUrl, vorher?.sammel ? { ...proposal, sammel: vorher.sammel, sammelGelesen: vorher.sammelGelesen } : proposal)
+  }
 
   const all = [...merged.values()]
     // Kuratiertes neu bewerten; Sammelartikel mit Tabelle bleiben — der Bau liest ihre Termine.

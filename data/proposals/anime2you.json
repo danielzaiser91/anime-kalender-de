@@ -588,7 +588,9 @@
           "satz": "lut durch seine Adern fließt, gerät er selbst ins Visier des Momotarou-Clans. »With Vengeance, Sincerely, Your Broken Saintess« – Staffel 2 Start: 1. Oktober 2026 Simulcast: Jeden Donnerstag um 18:15 Uhr Sprache: Japanisch (UT) Stream: anivers"
         }
       ],
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-04"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -701,7 +703,31 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Attack on Titan",
+          "zusatz": "Staffel 1",
+          "datum": "2026-10-01",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ],
+          "folgen": 25
+        },
+        {
+          "titel": "Kubo Won’t Let Me Be Invisible",
+          "datum": "2026-10-01",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ],
+          "folgen": 12
+        }
+      ],
+      "sammelGelesen": "2026-10-03"
     },
     {
       "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
@@ -760,7 +786,248 @@
           "satz": "ernative Version der Serie und stellt dabei vor allem die Beziehung zwischen Utena, Anthy und dem Prinzen in den Mittelpunkt. 17. Oktober: »Dreamland« (Simulcast) Simulcast: Jeden Samstag um 19:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
         }
       ],
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Reincarnated as a Sword",
+          "zusatz": "Staffel 2",
+          "datum": "2026-09-30",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN",
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Tougen Anki",
+          "zusatz": "Staffel 2",
+          "datum": "2026-10-02",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Suikoden",
+          "datum": "2026-10-03",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Even the Student Council Has Its Holes!",
+          "datum": "2026-10-03",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Now That I Can Control Reality With A Mouse Cursor, I’m Gonna Click Away On The Girls!",
+          "datum": "2026-10-04",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "My Girlfriend’s Friend",
+          "datum": "2026-10-04",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Nia Liston: The Merciless Maiden",
+          "datum": "2026-10-06",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Dreamland",
+          "datum": "2026-10-17",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Monster Strike: Deadverse Reloaded",
+          "datum": "2026-10-01",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 10
+        },
+        {
+          "titel": "School Babysitters",
+          "datum": "2026-10-05",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "86 EIGHTY-SIX",
+          "datum": "2026-10-08",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 23
+        },
+        {
+          "titel": "BLEACH: Memories of Nobody",
+          "datum": "2026-10-12",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "BLEACH: The DiamondDust Rebellion",
+          "datum": "2026-10-12",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "BLEACH: Fade to Black",
+          "datum": "2026-10-12",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "BLEACH: The Hell Verse",
+          "datum": "2026-10-12",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Revolutionary Girl Utena",
+          "datum": "2026-10-15",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 39
+        },
+        {
+          "titel": "Revolutionary Girl Utena: The Movie",
+          "datum": "2026-10-15",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Chiikawa",
+          "zusatz": "Episode 121 bis 240",
+          "datum": "2026-10-19",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN",
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Reincarnated as a Dragon Hatchling",
+          "datum": "2026-10-22",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN",
+            "Prime Video"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "THE LEGEND OF HEI II",
+          "datum": "2026-10-26",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Reborn!",
+          "zusatz": "Episode 52 bis 101",
+          "datum": "2026-10-28",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Puella Magi Madoka Magica",
+          "datum": "2026-10-29",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Puella Magi Madoka Magica – Film 1: Beginnings",
+          "datum": "2026-10-29",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Puella Magi Madoka Magica – Film 2: Eternal",
+          "datum": "2026-10-29",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        },
+        {
+          "titel": "Puella Magi Madoka Magica – Film 3: Rebellion",
+          "datum": "2026-10-29",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "ADN"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-10-04"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -770,7 +1037,9 @@
       "platforms": [],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-03"
     },
     {
       "articleTitle": "Disney+ ergänzt Anime-Katalog mit drei weiteren Neuzugängen",
@@ -806,7 +1075,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-04"
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",

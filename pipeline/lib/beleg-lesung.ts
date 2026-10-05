@@ -59,6 +59,8 @@ export interface Lesung {
   qs?: 'ok' | 'wand'
   /** Wo die Aussage im Bild steht: `[links, oben, Breite, Höhe]` als Anteile von 0 bis 1. */
   markierung?: [number, number, number, number]
+  /** Bei einem Artikel für mehrere Titel: die Fundstelle je Titel-Kennung (`markierung` gilt dann keinem einzelnen). */
+  markierungen?: Record<string, [number, number, number, number]>
   /** Artikeltext, gepackt (seit 03.10.2026; davor die ganze HTML-Seite in `html`). */
   text?: string
   html?: string
@@ -120,14 +122,18 @@ function frischUndHeuteNochNicht(e: BelegGedaechtnis[string], heute: string): bo
  * Welche Artikel diesmal gelesen werden: nie gelesene zuerst, dann die am längsten nicht
  * gelesenen, aber keiner öfter als alle `abstandTage` Tage.
  */
-export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heute: string, abstandTage: number, limit: number): string[] {
+export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heute: string, abstandTage: number, limit: number, sofort: Set<string> = new Set()): string[] {
   const grenze = new Date(Date.parse(heute) - abstandTage * 86_400_000).toISOString().slice(0, 10)
   return [...new Set(urls)]
     .filter(istArtikel)
-    .filter((u) => !gedaechtnis[u] || gedaechtnis[u]!.zuletzt <= grenze || frischUndHeuteNochNicht(gedaechtnis[u]!, heute) || bildOhnePruefung(gedaechtnis[u]!))
+    .filter((u) => !gedaechtnis[u] || sofort.has(u) || gedaechtnis[u]!.zuletzt <= grenze || frischUndHeuteNochNicht(gedaechtnis[u]!, heute) || bildOhnePruefung(gedaechtnis[u]!))
     .sort((a, b) => Number(bildOhnePruefung(gedaechtnis[b])) - Number(bildOhnePruefung(gedaechtnis[a])) || (gedaechtnis[a]?.zuletzt ?? '').localeCompare(gedaechtnis[b]?.zuletzt ?? ''))
     .slice(0, limit)
 }
+
+/** Artikel für mehrere Titel, deren letzte Lesung noch eine gemeinsame Marke statt Marken je Titel trägt — sie werden einmal neu fotografiert (05.10.2026). */
+export const ohneMarkenJeTitel = (gedaechtnis: BelegGedaechtnis, mehrereTitel: Set<string>): Set<string> =>
+  new Set(Object.keys(gedaechtnis).filter((u) => mehrereTitel.has(u) && gedaechtnis[u]!.lesungen.some((l) => l.bild) && !gedaechtnis[u]!.lesungen.at(-1)?.markierungen))
 
 /** Altbestand ohne Wand-Prüfung (Bild, `qs` fehlt) und Adressen, deren Bild als Wand entzogen wurde — kommen zuerst wieder an die Reihe. */
 export const bildOhnePruefung = (e: BelegGedaechtnis[string] | undefined): boolean => Boolean(e?.lesungen.some((l) => (l.bild && !l.qs) || l.qs === 'wand'))
@@ -139,6 +145,7 @@ export function entzieheBild(gedaechtnis: BelegGedaechtnis, url: string): void {
     delete l.text
     delete l.html
     delete l.markierung
+    delete l.markierungen
     l.qs = 'wand'
   }
 }
@@ -164,24 +171,30 @@ export function unveraendertSeit(eintrag: BelegGedaechtnis[string] | undefined):
   return eintrag?.lesungen.at(-1)?.am
 }
 
+/** Die Marke des Titels in dieser Lesung: gibt es Marken je Titel, zählt nur die eigene — die gemeinsame zeigte sonst auf die Zeile eines anderen Titels im selben Artikel. */
+function markeFuer(l: Lesung, titelId: number | undefined): { markierung?: [number, number, number, number] } {
+  const m = l.markierungen ? (titelId === undefined ? undefined : l.markierungen[titelId]) : l.markierung
+  return m ? { markierung: m } : {}
+}
+
 /**
  * Veröffentlicht- und Aktualisiert-Datum laut Lesung an die Quellen eines Termins — damit sagt der
  * Tooltip, wann die Quelle es gesagt hat, nicht wann wir sie zuerst sahen (news-plan.md).
  */
-export function mitArtikeldaten(quellen: Quelle[], gedaechtnis: BelegGedaechtnis): Quelle[] {
+export function mitArtikeldaten(quellen: Quelle[], gedaechtnis: BelegGedaechtnis, titelId?: number): Quelle[] {
   return quellen.map((q) => {
     const lesungen = gedaechtnis[q.url]?.lesungen ?? []
     if (!traegtArtikeldatum(q.url)) {
       const ausgabe = lesungen.map((l) => l.ausgabe).filter(Boolean).at(-1)
       const jüngste = lesungen.filter((l) => l.bild).at(-1)
-      return { ...q, ...(ausgabe ? { ausgabeAm: ausgabe } : {}), ...(jüngste ? { bild: jüngste.bild, ...(jüngste.markierung ? { markierung: jüngste.markierung } : {}) } : {}) }
+      return { ...q, ...(ausgabe ? { ausgabeAm: ausgabe } : {}), ...(jüngste ? { bild: jüngste.bild, ...markeFuer(jüngste, titelId) } : {}) }
     }
     const veroeffentlicht = lesungen.map((l) => l.veroeffentlicht).find(Boolean)
     const aktualisiert = lesungen.map((l) => l.aktualisiert).filter(Boolean).at(-1)
     const jüngste = lesungen.filter((l) => l.bild).at(-1)
     return {
       ...q,
-      ...(jüngste ? { bild: jüngste.bild, ...(jüngste.markierung ? { markierung: jüngste.markierung } : {}) } : {}),
+      ...(jüngste ? { bild: jüngste.bild, ...markeFuer(jüngste, titelId) } : {}),
       ...(veroeffentlicht ? { veroeffentlichtAm: veroeffentlicht } : {}),
       ...(aktualisiert && aktualisiert !== veroeffentlicht ? { aktualisiertAm: aktualisiert } : {}),
     }
@@ -204,8 +217,8 @@ export function adressenAusNews(eintraege: NewsEintrag[]): string[] {
  * bekommt Bild, Fundstelle und Daten aus dem Gedächtnis der Beleg-Lesung, auch wenn er nicht über einen Termin kam.
  */
 export function belegeFuerAlle(eintraege: NewsEintrag[], gedaechtnis: BelegGedaechtnis): NewsEintrag[] {
-  const ergaenze = (b: NewsBeleg): NewsBeleg => {
-    const [mit] = mitArtikeldaten([{ url: b.url, name: b.name, gesehenAm: '' }], gedaechtnis)
+  const ergaenze = (b: NewsBeleg, titelId: number): NewsBeleg => {
+    const [mit] = mitArtikeldaten([{ url: b.url, name: b.name, gesehenAm: '' }], gedaechtnis, titelId)
     const { bild, markierung, veroeffentlichtAm, aktualisiertAm, ausgabeAm } = mit!
     const eintrag = gedaechtnis[b.url]
     const lesungen = eintrag?.lesungen ?? []
@@ -217,7 +230,7 @@ export function belegeFuerAlle(eintraege: NewsEintrag[], gedaechtnis: BelegGedae
     ...e,
     meldungen: e.meldungen.map((m) => {
       const roh = m.belege?.length ? m.belege : typeof m.quelle === 'string' && /^https?:\/\//.test(m.quelle) ? [{ url: m.quelle, name: hostVon(m.quelle) }] : []
-      return roh.length ? { ...m, belege: roh.map(ergaenze) } : m
+      return roh.length ? { ...m, belege: roh.map((b) => ergaenze(b, m.teilId ?? e.titelId)) } : m
     }),
   }))
 }

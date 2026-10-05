@@ -8167,6 +8167,14 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Folge ohne deutsche Fassung im Katalog: keine Messung, keine Behauptung', messungenFuerFolgen([eintrag(mel(9, 9))], dir)[0]!.meldungen[0]!.belege?.[0]?.messung === undefined)
     rmSync(dir, { recursive: true, force: true })
   }
+  /* Ein Artikel für zwei Titel: Jeder bekommt die Marke seiner eigenen Zeile (Bleach und Madoka, 05.10.2026). */
+  {
+    const ged = { 'https://a.example/x': { zuletzt: '2026-10-05', lesungen: [{ am: '2026-10-05', hash: 'h', bild: 'b.webp', qs: 'ok', markierung: [0, 0.1, 1, 0.1], markierungen: { 7: [0, 0.2, 1, 0.1], 8: [0, 0.6, 1, 0.1] } }] } } as never
+    const q = [{ url: 'https://a.example/x', name: 'a', gesehenAm: '' }] as never
+    const marke = (id?: number) => (mitArtikeldaten(q, ged, id)[0] as { markierung?: number[] }).markierung
+    pruefe('Marke je Titel: jeder Titel bekommt seine eigene Zeile', marke(7)?.[1] === 0.2 && marke(8)?.[1] === 0.6)
+    pruefe('Marke je Titel: ein Titel ohne eigene Marke bekommt keine fremde', marke(9) === undefined && marke() === undefined)
+  }
   /* „Im Angebot seit" aus der aniSearch-Erstausgabe (Magilumière Staffel 2, 05.10.2026). */
   {
     const titel = (id: number, extra: Record<string, unknown>) => ({ id, titleEn: `T${id}`, format: 'TV', episodes: 12, anisearchId: id + 100, streams: [{ platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/X', dub: true }], ...extra }) as unknown as Title

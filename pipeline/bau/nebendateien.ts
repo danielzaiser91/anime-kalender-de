@@ -464,7 +464,7 @@ export function quellenPflegen(releases: Release[]): void {
 
     const zusammen = quellenZusammenfuehren(alt, neu)
     historie[release.slug] = zusammen
-    release.quellen = mitArtikeldaten(zusammen, lesungen)
+    release.quellen = mitArtikeldaten(zusammen, lesungen, release.titleId)
   }
 
   writeJson(QUELLEN_HISTORIE, historie, true)
