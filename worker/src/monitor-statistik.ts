@@ -8,7 +8,12 @@ export interface Messwerte {
   laeufe: number
 }
 
-export async function ladeMesswerte(db: D1Database, nowIso: string, tage = 7): Promise<Map<string, Messwerte>> {
+/** Nur das, was gelesen wird — `D1Database` ist im Haupt-Typcheck (`tsc -b`, über `check-logic`) unbekannt; der echte Typ passt strukturell. */
+export interface LesendeDb {
+  prepare(sql: string): { bind(...werte: unknown[]): { all<T>(): Promise<{ results?: T[] }> } }
+}
+
+export async function ladeMesswerte(db: LesendeDb, nowIso: string, tage = 7): Promise<Map<string, Messwerte>> {
   const seit = new Date(Date.parse(nowIso) - tage * 86_400_000).toISOString()
   try {
     const { results } = await db
