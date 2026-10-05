@@ -5193,6 +5193,13 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 */
 {
   const ueberschrift = (t: string) => `Crunchyrolls aktuelles Wochenprogramm ${t}`
+  {
+    const seite = "<section class=\"tw:flex tw:flex-row tw:justify-stretch tw:bg-gray-50\">\n    \n    \n    <div class=\"tw:aspect-4/3 tw:h-full tw:relative\">\n        <img class=\"tw:absolute tw:top-0 tw:left-0 tw:h-full tw:w-full tw:object-cover\"\n             src=\"https://cfres-71f3.kxcdn.com/si/2026/10/09/2446020129/406850158_320x240.jpeg\" alt=\"Yashahime\">\n        <span class=\"tw:absolute tw:inline-block tw:left-0 tw:top-0 tw:px-0.5 tw:py-0.5 tw:text-overline-1 tw:uppercase tw:bg-secondary tw:text-inverse\">16:45</span>\n    </div>\n    <a class=\"tw:flex-1 tw:flex tw:flex-col tw:items-start tw:justify-start tw:py-1 tw:px-1.5 tw:gap-0.5\" href=\"/sendung/yashahime/yashahime-gegenangriff-der-drei-prinzessinnen,2446020129/\">\n        <header>\n            <h3 class=\"tw:text-subtitle-2 tw:max-sm:min-h-[3em]\">\n                Yashahime<span class=\"tw:max-xs:hidden\">: Gegenangriff der drei Prinzessinnen</span>\n            </h3>\n        </header>\n        <span class=\"tw:max-sm:hidden tw:text-body-2\">Animeserie</span>\n        <p class=\"tw:max-sm:hidden tw:line-clamp-3\">Towa und Setsuna engagieren Moroha für einen Auftrag: Die Halbdämonen-Prinzessinnen wollen Rache an Zero nehmen und sie vernichten. Doch Riku stellt sich ihnen ebenfalls in den Weg und kämpft auf der Seite der Dämonin. Außerdem enthüllt er, dass nun alle sieben Regenbogenperlen an einem Ort versammelt sind ...</p>\n    </a>\n</section>"
+    const alt = seite.replace(/tw:/g, 'tw-')
+    const neu = tvDeSendungen(seite, '2026-10-09')
+    pruefe('tv.de: Sendung wird mit dem Markup „tw:flex" erkannt (05.10.2026)', neu.length === 1 && neu[0]!.titel === 'Yashahime' && neu[0]!.start.startsWith('2026-10-09T16:45'))
+    pruefe('tv.de: dieselbe Sendung mit dem alten Markup „tw-flex" wird weiter erkannt', tvDeSendungen(alt, '2026-10-09').length === 1)
+  }
   pruefe('Wochenprogramm: der neueste Artikel gilt nach Datum in der Adresse, nicht nach Text (Sommer 7/6 vor Herbst 10/5)', neuesterWochenartikel(['https://x/2026/7/6/crunchyroll-wochenprogramm-sommer-2026', 'https://x/2026/10/5/crunchyroll-wochenprogramm-herbst-2026', 'https://x/ohne-datum']) === 'https://x/2026/10/5/crunchyroll-wochenprogramm-herbst-2026' && neuesterWochenartikel([]) === undefined)
   pruefe('Wochenprogramm: Monat ausgeschrieben', wocheAus(ueberschrift('vom 21. bis 27. September'), 2026) === '2026-09-21')
   pruefe('Wochenprogramm: kurze Zahlen', wocheAus(ueberschrift('vom 28.9. bis 4.10.'), 2026) === '2026-09-28')

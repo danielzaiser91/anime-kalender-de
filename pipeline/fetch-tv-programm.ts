@@ -132,8 +132,8 @@ export function tvDeSendungen(html: string, tag: string): { start: string; ende:
   const roh: { start: string; titel: string; folge?: string; kennung: string }[] = []
   let datum = tag
   let vorher = -1
-  for (const block of html.split(/<section class="tw-flex tw-flex-row/).slice(1)) {
-    const zeit = /tw-uppercase[^>]*>(\d{2}):(\d{2})<\/span>/.exec(block)
+  for (const block of html.split(/<section class="tw[-:]flex tw[-:]flex-row/).slice(1)) {
+    const zeit = /tw[-:]uppercase[^>]*>(\d{2}):(\d{2})<\/span>/.exec(block)
     const link = /href="\/sendung\/[^"]*,(\d+)\/"/.exec(block)
     const kopf = /<h3[^>]*>([\s\S]*?)<\/h3>/.exec(block)
     const art = /<\/header>\s*<span[^>]*>([^<]*)<\/span>/.exec(block)?.[1] ?? ''
@@ -370,7 +370,14 @@ export async function main(): Promise<void> {
     sendungen: bestand,
   })
   if (sendungen.length) recordSource('tv-programm', sendungen.length)
-  if (tvdeFaellig) recordSource('tv-de', tvde, tvdeSeiten ? undefined : 'keine Seite gelesen', tvdeSeiten, tvdeSeiten > 0)
+  if (tvdeFaellig) meldeTvDe(tvde, tvdeSeiten)
+}
+
+/** Meldet den tv.de-Abruf. Seiten gelesen, aber keine Sendung erkannt = Markup geändert (05.10.2026: `tw-flex` wurde `tw:flex`, vier Tage lang null Sendungen bei grünem Lauf). */
+function meldeTvDe(sendungen: number, seiten: number): void {
+  const keineErkannt = seiten > 0 && sendungen === 0
+  const fehler = seiten ? (keineErkannt ? 'Seiten gelesen, aber keine Sendung erkannt (Markup geändert?)' : undefined) : 'keine Seite gelesen'
+  recordSource('tv-de', sendungen, fehler, keineErkannt ? 0 : seiten, seiten > 0 && !keineErkannt)
 }
 
 if (process.argv[1]?.replace(/\\/g, '/').endsWith('pipeline/fetch-tv-programm.ts')) await main()
