@@ -407,6 +407,7 @@ const TEXTE = {
   'detail.plot': 'Handlung',
   'detail.plotMore': 'mehr anzeigen',
   'detail.plotLess': 'weniger anzeigen',
+  'detail.plotQuelle': 'Quelle:',
   // **Der Ersatz sagt, wessen Handlung dasteht.** Ohne den Namen liest jemand
   // die Handlung von Staffel 1 und hält sie für die von Staffel 3.
   'detail.plotVonTeil': 'Noch nicht erschienen — hier steht die Handlung von „{teil}".',

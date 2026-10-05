@@ -65,6 +65,9 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
   )
 }
 
+/** Anbietername wie auf der Quelle selbst: aus der Adresse („anisearch.de") wird „aniSearch". */
+const quelleLabel = (name: string): string => (name === 'anisearch.de' ? 'aniSearch' : name === 'anilist.co' ? 'AniList' : name)
+
 export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
   plot: { text: string; fallback: boolean; quelle: { name: string; url: string; }; vonTeil?: undefined; } | { text: string; fallback: boolean; vonTeil: FranchiseMember; quelle: { name: string; url: string; }; } | undefined
   t: Translate
@@ -99,33 +102,30 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
               ? plot.text
               : `${plot.text.slice(0, PLOT_PREVIEW).trimEnd()} …`}
           </p>
-          {plot.text.length > PLOT_PREVIEW && (
-            <button
-              type="button"
-              onClick={() => setPlotOffen((v) => !v)}
-              aria-expanded={plotOffen}
-              className="mt-1.5 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1 text-xs font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
-            >
-              {t(plotOffen ? 'detail.plotLess' : 'detail.plotMore')}
-            </button>
-          )}
           {plot.fallback && (
             <p className="mt-1.5 text-[11px] text-slate-400">{t('detail.plotOnlyEnglish')}</p>
           )}
-          {/*
-            **Die Quelle steht unten, gesammelt — nicht unter jedem Absatz.**
-
-            Hier stand „Quelle: anisearch.de", und dieselbe Zeile stand
-            unter jedem Terminblock. Seit die Termine in den Pillen sind,
-            blieb sie hier als einzige übrig — eine Fußnote unter einem
-            Absatz, während zwei Handbreit tiefer der Bereich „Woher diese
-            Angaben stammen" alle Quellen zusammen führt, aniSearch
-            eingeschlossen.
-
-            Nichts geht verloren: Die Quellenübersicht führt aniSearch mit
-            „Titel und Beschreibung, wo vorhanden auf Deutsch" — samt Link
-            auf die Werkseite.
-          */}
+          {/* Die Quelle steht immer sichtbar am Fuß der Karte, auch eingeklappt (aniSearch verlangt Nennung und Link bei übernommenen Texten, 05.10.2026). */}
+          <div className="mt-2 flex items-center justify-between gap-2">
+            {plot.text.length > PLOT_PREVIEW ? (
+              <button
+                type="button"
+                onClick={() => setPlotOffen((v) => !v)}
+                aria-expanded={plotOffen}
+                className="cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1 text-xs font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
+              >
+                {t(plotOffen ? 'detail.plotLess' : 'detail.plotMore')}
+              </button>
+            ) : (
+              <span />
+            )}
+            <span className="text-[11px] text-slate-400">
+              {t('detail.plotQuelle')}{' '}
+              <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text">
+                {quelleLabel(plot.quelle.name)} ↗
+              </a>
+            </span>
+          </div>
         </PanelKarte>
       )}
     </>
