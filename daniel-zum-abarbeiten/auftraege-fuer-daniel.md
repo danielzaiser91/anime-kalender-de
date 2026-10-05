@@ -2,7 +2,7 @@
 
 Alles, wofür ich dich brauche, steht hier — nummeriert, je Punkt ein Link, Vorher / Erwartet / Falsch, wenn …. Während des autonomen Modus (bis 23:30, Start 05.10.2026 13:32) frage ich nicht nach; ich lege sie dir auf Anfrage vor. Erledigtes wird abgehakt und rutscht nach unten.
 
-Stand: 05.10.2026 20:00
+Stand: 05.10.2026 23:10
 
 ## Offen
 
@@ -34,6 +34,17 @@ Stand: 05.10.2026 20:00
 6. **One Piece bei Joyn: Weg und Adresse** (ich trage nichts ein, ohne dass du es bestätigst)
    - Es gibt keinen Joyn-Weg und keinen Beleg für One Piece (JustWatch kennt Joyn nicht, nichts in `dub-confirmed.yaml`); die Adresse `joyn.de/serien/one-piece` antwortet mit 200, ist aber ungeprüft.
    - Entscheidung: Soll ich einen Handbeleg „Joyn führt die zuletzt gesendeten Folgen als rollendes Fenster" ohne Folgenzahl eintragen? Dann bräuchte ich die Adresse, die du gesehen hast.
+
+7. **Entscheidung: Besucher-Messung für Lags** (Okay nötig, weil Datenschutz und Seitencode betroffen sind)
+   Die 5-Minuten-Messung von außen läuft seit 23:05. Was sie nicht sieht: Lags, die nur bei dir im Browser auftreten. Dafür würde die Seite anonym Ladezeiten melden (keine IP, keine Kennung, nur Zeit bis zum ersten Byte und bis zur Darstellung, in 5-Minuten-Töpfen), dazu ein Satz in der Datenschutzerklärung. Alternativ nur Google Search Console (Core Web Vitals aus Chrome-Nutzerdaten, Verzögerung von Tagen).
+   - Sag „Besucher-Messung ja", „nur Search Console" oder „nein".
+
+8. **Entscheidung: tägliche Prüfliste aus dem aniSearch-Dubs-Endpoint** (Messung steht in `docs/wissen/quellen.md`, „aniSearch-Dubs-Endpoint gemessen")
+   Der Endpoint nennt 5 + 297 + 72 Titel mit deutscher Synchro, die bei uns fehlen, und 161 Titel von uns, die aniSearch ohne Deutsch führt. Ich würde daraus eine Liste bauen, die nichts automatisch ändert.
+   - Sag „ja" oder „nein".
+
+9. **Antwort von Dominik (aniSearch) abwarten**
+   Du hast die Mail am 05.10. abgeschickt. Fragen darin: Passt die Quellenzeile, und was heißt „unter Vorbehalt". Bis zur Antwort ändere ich nichts mehr an aniSearch.
 
 ## Entscheidungen, die ich getroffen habe (zur Kenntnis, bei Widerspruch sagen)
 
