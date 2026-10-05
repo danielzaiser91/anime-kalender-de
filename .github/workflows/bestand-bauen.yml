@@ -104,10 +104,10 @@ jobs:
 
       # `data/cache/` liegt bewusst nicht im Repo, der Bau braucht ihn aber —
       # ohne ihn entstünde ein Datensatz ganz ohne Titel. Die Sammel-Läufe legen
-      # ihn unter demselben Präfix ab.
+      # ihn unter demselben Präfix ab. Der Bau liest ihn nur (seit 05.10.2026): Ein Lauf, der den Stand unverändert unter neuem Schlüssel ablegt, verdrängte am 29.09.2026 den frischen.
       - name: AniList-Cache wiederverwenden
         id: cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: data/cache
           key: anilist-cache-${{ github.run_id }}
