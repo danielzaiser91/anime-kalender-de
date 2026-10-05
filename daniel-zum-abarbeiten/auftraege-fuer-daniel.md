@@ -2,7 +2,7 @@
 
 Alles, wofür ich dich brauche, steht hier — nummeriert, je Punkt ein Link, Vorher / Erwartet / Falsch, wenn …. Während des autonomen Modus (bis 23:30, Start 05.10.2026 13:32) frage ich nicht nach; ich lege sie dir auf Anfrage vor. Erledigtes wird abgehakt und rutscht nach unten.
 
-Stand: 05.10.2026 13:32
+Stand: 05.10.2026 20:00
 
 ## Offen
 
@@ -19,6 +19,21 @@ Stand: 05.10.2026 13:32
 
 3. **Favoriten-Umschreibung entfernen — 05.11.2026** (ich mache das; `check:logic` wird dann rot und erinnert)
    - Nur zur Kenntnis: Bis dahin schreiben Browser und Worker alte AniList-Favoriten auf unsere Kennung um.
+
+4. **One Piece: Folgenpfeil, Folgenliste, Disc-Aufklapper ansehen** (alles live seit ca. 20:00)
+   [One Piece](https://anime-kalender.de/t/12/)
+   - Vorher: kein Pfeil an der Antwort, Folgen ab 11 ohne Flagge als „noch nicht erschienen", die 20 Boxen unter „Disc" nicht erreichbar.
+   - Erwartet: Pfeil an der Antwort öffnet die Folgenliste (1180 Folgen, 1119 auf Deutsch); Folgen über 10 ohne „noch nicht erschienen"; unter Disc ein Aufklapper „Einzelne Ausgaben" mit den Boxen.
+   - Falsch, wenn: kein Pfeil, oder Folgen ab 11 tragen „noch nicht erschienen", oder der Aufklapper fehlt. Der Folgenpfeil fehlte bei 1.671 Titeln (Übersetzungsfehler in Stufe 1) und ist jetzt behoben — Stichprobe: [Detektiv Conan](https://anime-kalender.de/t/204/).
+
+5. **Entscheidung: angekündigte Teile in der Reihen-Box** (ich habe eine Wahl getroffen, bei Widerspruch sagen)
+   - Du schriebst am 04.10.: Mit „ohne Synchro ausblenden" sollen nur Teile mit belegter Synchro (oder der Titel selbst) in „Teile in dieser Reihe" stehen. Das habe ich so gebaut — auch angekündigte und laufende Teile ohne Synchro sind jetzt hinter dem Schalter (119 Teile). Das widerspricht deiner Entscheidung vom 04.09. („Black Clover Staffel 2 sofort sehen").
+   - Prüfen: [Ranma 1/2](https://anime-kalender.de/t/210/) — Staffel 3 (läuft) steht nur noch hinter dem Schalter.
+   - Wenn angekündigte Teile sichtbar bleiben sollen: sag es, dann nehme ich nur die laufenden aus (eine Zeile in `reihen-regeln.ts`).
+
+6. **One Piece bei Joyn: Weg und Adresse** (ich trage nichts ein, ohne dass du es bestätigst)
+   - Es gibt keinen Joyn-Weg und keinen Beleg für One Piece (JustWatch kennt Joyn nicht, nichts in `dub-confirmed.yaml`); die Adresse `joyn.de/serien/one-piece` antwortet mit 200, ist aber ungeprüft.
+   - Entscheidung: Soll ich einen Handbeleg „Joyn führt die zuletzt gesendeten Folgen als rollendes Fenster" ohne Folgenzahl eintragen? Dann bräuchte ich die Adresse, die du gesehen hast.
 
 ## Entscheidungen, die ich getroffen habe (zur Kenntnis, bei Widerspruch sagen)
 
