@@ -12,7 +12,7 @@ DTSTART;VALUE=DATE:20260929
 DTEND;VALUE=DATE:20260930
 SUMMARY:Your Name. (CineAnime)
 DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nDetails: https://anime-kalender.de/#/release/your-name-cineanime-2026
+ gt.\nDetails: https://anime-kalender.de/t/7934/
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
@@ -22,8 +22,7 @@ DTSTART;VALUE=DATE:20261016
 DTEND;VALUE=DATE:20261017
 SUMMARY:Sailor Moon – Staffel 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sailor
- -moon-s1-steelbook
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/486/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -33,8 +32,7 @@ DTSTART;VALUE=DATE:20261106
 DTEND;VALUE=DATE:20261107
 SUMMARY:Sailor Moon S (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sailor
- -moon-s-2026-11-06
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/488/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -44,8 +42,7 @@ DTSTART;VALUE=DATE:20261120
 DTEND;VALUE=DATE:20261121
 SUMMARY:Dragon Ball Z (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/auto-8
- 13-disc
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/713/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -55,8 +52,7 @@ DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
 SUMMARY:Sailor Moon Super S (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sailor
- -moon-super-s-2026-12-04
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1095/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -66,8 +62,7 @@ DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
 SUMMARY:Sailor Moon S (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/sailor
- -moon-s-2026-12-04
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/488/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -77,8 +72,7 @@ DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
 SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/spice-
- and-wolf-2024-vol3
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -88,8 +82,7 @@ DTSTART;VALUE=DATE:20270115
 DTEND;VALUE=DATE:20270116
 SUMMARY:Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/#/release/spice-
- and-wolf-2024-vol4
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13965/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR

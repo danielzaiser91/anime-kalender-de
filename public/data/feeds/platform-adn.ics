@@ -12,7 +12,7 @@ DTSTART:20261008T070000Z
 DTEND:20261008T073000Z
 SUMMARY:86: Eighty Six
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1423-s1-20261008-116589
+ me-kalender.de/t/11361/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -22,7 +22,7 @@ DTSTART:20261008T070000Z
 DTEND:20261008T073000Z
 SUMMARY:86: Eighty Six
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/#/release/adn-1423-s1-20261008-131586
+ me-kalender.de/t/12794/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -32,7 +32,7 @@ DTSTART;VALUE=DATE:20261012
 DTEND;VALUE=DATE:20261013
 SUMMARY:Bleach: The Movie - Memories of Nobody
 DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/#/release/auto-1686-adn
+ t.\nDetails: https://anime-kalender.de/t/1451/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -42,7 +42,7 @@ DTSTART;VALUE=DATE:20261022
 DTEND;VALUE=DATE:20261023
 SUMMARY:Reincarnated as a Dragon Hatchling
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/#/release/auto-187941-adn
+ estätigt.\nDetails: https://anime-kalender.de/t/16674/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -52,7 +52,7 @@ DTSTART;VALUE=DATE:20261029
 DTEND;VALUE=DATE:20261030
 SUMMARY:Puella Magi Madoka Magica
 DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/#/release/auto-9756-adn
+ estätigt.\nDetails: https://anime-kalender.de/t/4943/
 CATEGORIES:ADN
 END:VEVENT
 END:VCALENDAR

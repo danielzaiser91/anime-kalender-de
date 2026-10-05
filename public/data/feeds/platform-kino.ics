@@ -12,7 +12,7 @@ DTSTART;VALUE=DATE:20260929
 DTEND;VALUE=DATE:20260930
 SUMMARY:Your Name. (CineAnime)
 DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nDetails: https://anime-kalender.de/#/release/your-name-cineanime-2026
+ gt.\nDetails: https://anime-kalender.de/t/7934/
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
@@ -22,8 +22,7 @@ DTSTART;VALUE=DATE:20260929
 DTEND;VALUE=DATE:20260930
 SUMMARY:All You Need is Kill
 DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nDetails: https://anime-kalender.de/#/release/all-you-need-is-kill-kin
- o
+ gt.\nDetails: https://anime-kalender.de/t/16669/
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
@@ -33,7 +32,7 @@ DTSTART;VALUE=DATE:20261015
 DTEND;VALUE=DATE:20261016
 SUMMARY:A New Dawn
 DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nDetails: https://anime-kalender.de/#/release/a-new-dawn-kino
+ gt.\nDetails: https://anime-kalender.de/t/15853/
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
@@ -43,8 +42,7 @@ DTSTART;VALUE=DATE:20261124
 DTEND;VALUE=DATE:20261125
 SUMMARY:Puella Magi Madoka Magica the Movie – Walpurgisnacht: Rising
 DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nDetails: https://anime-kalender.de/#/release/madoka-walpurgisnacht-ri
- sing-kino
+ gt.\nDetails: https://anime-kalender.de/t/12975/
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
@@ -54,7 +52,7 @@ DTSTART;VALUE=DATE:20270126
 DTEND;VALUE=DATE:20270127
 SUMMARY:Witch on the Holy Night
 DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nDetails: https://anime-kalender.de/#/release/auto-143103-kino
+ gt.\nDetails: https://anime-kalender.de/t/13800/
 CATEGORIES:Kino
 END:VEVENT
 END:VCALENDAR
