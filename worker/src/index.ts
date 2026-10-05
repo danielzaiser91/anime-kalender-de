@@ -17,6 +17,7 @@ import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { buildIcs } from '../../shared/ics.ts'
 import { sendMail } from './mail.ts'
 import { checkAllSites, confirmOutages } from './monitor.ts'
+import { schreibeStaende } from './monitor-speicher.ts'
 import {
   BRAND,
   confirmMail,
@@ -1075,31 +1076,13 @@ export async function runMonitor(
     }
   })
 
-  // Stände fortschreiben. Einzeln statt gebündelt, damit ein Fehler bei einer
-  // Zeile nicht die übrigen mitreißt.
-  for (const [i, r] of results.entries()) {
-    const old = before.get(r.site.url)
-    await env.DB.prepare(
-      `INSERT INTO site_status (url, name, ok, status, ms, reason, checked_at, last_ok_at, fail_streak)
-       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)
-       ON CONFLICT(url) DO UPDATE SET
-         name = excluded.name, ok = excluded.ok, status = excluded.status, ms = excluded.ms,
-         reason = excluded.reason, checked_at = excluded.checked_at,
-         last_ok_at = excluded.last_ok_at, fail_streak = excluded.fail_streak`,
-    )
-      .bind(
-        r.site.url,
-        r.site.name,
-        r.ok ? 1 : 0,
-        r.status,
-        r.ms,
-        r.reason ?? null,
-        nowIso,
-        r.ok ? nowIso : (old?.last_ok_at ?? null),
-        lines[i].failStreak,
-      )
-      .run()
-  }
+  await schreibeStaende(
+    env.DB,
+    results,
+    lines.map((l) => l.failStreak),
+    new Map([...before].map(([url, row]) => [url, row.last_ok_at])),
+    nowIso,
+  )
 
   // Seiten, die aus SITES entfernt wurden, blieben als Zeile stehen und damit
   // auf ihrem letzten Stand — meist rot, weil sie ja wegen eines Fehlers
