@@ -86,7 +86,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
         {/* Eine geschätzte Meldung zeigt keine Quelle — die Seite dahinter nennt den Termin nicht. */}
         {!z.m.geschaetzt && <QuellenKnopf belege={belege} betreff={newsSatz(z.m)} />}
       </span>
-      <span className={`text-[13px] font-medium leading-snug ${abgeloest ? 'text-ak-leise line-through' : 'text-ak-text'}`}>{newsSatz(z.m)}</span>
+      <span className={`text-[13px] font-medium leading-snug ${abgeloest ? 'text-ak-leise line-through' : 'text-ak-text'}`}>{newsSatz(z.m, z.am)}</span>
       {/* **Lange Vermerke nur aufgeklappt**: Der erste Satz steht da, der
           Rest hinter „mehr" — dieselbe Regel wie im Antwortkasten. */}
       {z.m.hinweis && (z.m.abschnitte?.length ? <div className="text-xs leading-snug text-ak-text/75"><NachtragText kurz={z.m.hinweis} abschnitte={z.m.abschnitte} /></div> : <Klapptext text={z.m.hinweis} className="text-xs leading-snug text-ak-text/75" />)}

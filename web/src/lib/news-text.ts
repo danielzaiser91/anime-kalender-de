@@ -33,8 +33,18 @@ export function anbieterDerMeldung(m: NewsMeldung): string {
 export const artLabel = (m: NewsMeldung): string =>
   t(m.art === 'angekuendigt' && m.weiterer ? 'news.art.angekuendigtNeuerAnbieter' : (`news.art.${m.art}` as never))
 
-/** Der ausführliche Satz — auf der Seite im aufgeklappten Bereich, im Feed als Eintrag. */
-export function newsSatz(m: NewsMeldung): string {
+/**
+ * **Beide Daten offen nennen** (Daniel, 05.10.2026): Der Eintrag trägt den Tag, an dem wir die Meldung veröffentlichen; war die Quelle älter, steht ihr Tag dabei —
+ * „… — laut anime2you.de vom 21.08." —, statt den Eintrag zurückzudatieren. Gilt für Termin-Meldungen, wenn die Quelle ein früheres Veröffentlichungsdatum nennt.
+ */
+function lautQuelle(m: NewsMeldung, am?: string): string {
+  if (!am || (m.art !== 'angekuendigt' && m.art !== 'disc' && m.art !== 'kino')) return ''
+  const frueh = (m.belege ?? []).filter((b) => b.veroeffentlichtAm && b.veroeffentlichtAm < am).sort((a, b) => a.veroeffentlichtAm!.localeCompare(b.veroeffentlichtAm!))[0]
+  return frueh ? ` ${t('news.lautQuelle', { quelle: frueh.name, datum: datumKurz(frueh.veroeffentlichtAm!) })}` : ''
+}
+
+/** Der ausführliche Satz — auf der Seite im aufgeklappten Bereich, im Feed als Eintrag; mit `am` (Tag des Eintrags) nennt er das ältere Quelldatum. */
+export function newsSatz(m: NewsMeldung, am?: string): string {
   const anbieter = anbieterDerMeldung(m)
   const datum = m.datum ? datumKurz(m.datum) : ''
   switch (m.art) {
@@ -48,11 +58,11 @@ export function newsSatz(m: NewsMeldung): string {
     case 'angekuendigt':
       /* **Der Satz bleibt kurz**. Der Vermerk (`hinweis`) steht seitdem als
          eigene, leisere Zeile daneben — in der Übersicht kurz, im Aufgeklappten ausführlich. */
-      return t('news.angekuendigt', { datum, anbieter })
+      return t('news.angekuendigt', { datum, anbieter }) + lautQuelle(m, am)
     case 'disc':
-      return t('news.disc', { datum })
+      return t('news.disc', { datum }) + lautQuelle(m, am)
     case 'kino':
-      return t('news.kino', { datum })
+      return t('news.kino', { datum }) + lautQuelle(m, am)
     case 'verspaetet':
       return t('news.verspaetet', { von: m.von ?? '', datum })
     case 'nachgetragen':

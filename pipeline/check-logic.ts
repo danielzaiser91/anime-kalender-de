@@ -8128,6 +8128,12 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   pruefe('Pressebereich und Serienseite von Hand geprüfter Domains werden gelesen', istArtikel('https://press.disneyplus.com/x') && istArtikel('https://tokyo-revengers-anime.com/'))
   pruefe('eine ungeprüfte Domain wird nicht gelesen', !istArtikel('https://www.tv.de/sendung/x'))
   pruefe('Kopfzeilen-Datum: nur mit Uhrzeit, nicht aus dem Fließtext', kopfzeilenDatum('Disc ab 16. April 2027\nDer Streaming-Dienst\n22. Juli 2026 um 19:20 Uhr') === '2026-07-22' && kopfzeilenDatum('Release ab 16. April 2027 im Handel') === undefined && kopfzeilenDatum('15. SEPT. 2026, 18:00 MESZ') === '2026-09-15')
+  /* Beide Daten offen (Daniel, 05.10.2026): Der Eintrag bleibt am Fundtag, das ältere Quelldatum steht im Satz. */
+  const ank = { art: 'angekuendigt', platform: 'netflix', datum: '2026-10-20', belege: [{ url: 'https://a.example/x', name: 'anime2you.de', veroeffentlichtAm: '2026-08-21' }] } as unknown as NewsEintrag['meldungen'][number]
+  const satz = newsSatz(ank, '2026-09-27')
+  pruefe('Ankündigung nennt Quelle und deren älteres Datum', /laut anime2you\.de vom 21\.08\./.test(satz), satz)
+  pruefe('ohne Eintragstag oder bei gleichem Tag bleibt der Satz kurz', !/laut/.test(newsSatz(ank)) && !/laut/.test(newsSatz(ank, '2026-08-21')))
+  pruefe('„neu auf Deutsch" und Folgen tragen keinen Quellvermerk', !/laut/.test(newsSatz({ ...ank, art: 'neu' } as never, '2026-09-27')))
   pruefe('Serienseiten tragen kein Artikeldatum', !traegtArtikeldatum('https://www.anisearch.de/article/1,x') && traegtArtikeldatum('https://www.anime2you.de/news/1/'))
   /* Qualitätssicherung der Belege (Daniel, 05.10.2026): Altbestand ohne Wand-Prüfung kommt zuerst wieder dran, eine Wand entzieht das Bild. */
   const lesung = (extra: Record<string, unknown>) => ({ am: '2026-10-03', hash: 'h', ...extra })
