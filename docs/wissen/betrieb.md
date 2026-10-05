@@ -1119,3 +1119,48 @@ Ein Bild trägt `qs: ok`, wenn es mit der Prüfung entstand; Altbestand ohne `qs
 - **Leer-Wächter:** Eine einfarbige Aufnahme (Standardabweichung der Helligkeit < 6) wird nie gespeichert (`'leer'`). Anlass: Die Crunchyroll-**Serienseite** (Tomb Raider King) kam schwarz heraus — Sony-Banner und Nutzungsbedingungen, JS-Seite. Serienseiten und alte `/de/<name>`-Adressen sind deshalb **nicht** im Muster; für „Folge N auf Deutsch" bleibt der Original-Link, später die eigene Messung als Beleg.
 - **Altbestand wird ersetzt, nicht ergänzt:** Verglichen wird nur gegen Lesungen mit `qs: ok` (alte wurden mit anderem Text gehasht). Gemessen 05.10.2026 nach der Lesung: 193 Adressen, 181 mit Wand-Prüfung, 12 Altbestand ohne (kommen nachts). Crunchyroll-News und ADN-News sind als Domains von Hand geprüft (Bilder angesehen).
 - **Beobachtung:** Der Hash eines Anime2You-Artikels kann zwischen zwei Lesungen am selben Tag wechseln, obwohl der Text gleich ist (nachgeladene Einbettungen wie „Externer Inhalt"). Ein Fall (Cyberpunk: Edgerunners 2); tritt es wieder auf, den Hash aus dem bereinigten Text bilden.
+
+## Datenläufe neu geschnitten (05.10.2026)
+
+Daniel: „analysier unsere läufer … fachliche und technische optimierprüfung … abhängigkeit unter den läufen, wo genau steckt sie drin, könnte man läufe aufteilen". Gemessen über 7–14 Tage
+(`gh api`), dann umgebaut. **Befunde, in der Reihenfolge ihres Gewichts:**
+
+| Befund | Messung | Folge |
+|---|---|---|
+| GitHubs Cron kommt zu spät | Verzögerung gegen den Plan, Mittel über 14 Tage: Stündlich ~4,6 h Abstand, Täglich 371 min, Wöchentlich 416 min, ADN 232 min | Daten 4–7 h älter als geplant; Cloudflare-Wecker für alle Zeitpläne (`shared/weckplan.ts`, `worker/src/wecker.ts`), `wecker-wache.yml` als zweite Linie |
+| Eine Gruppe `daten` für alle Datenläufe | Wochenlauf 62–92 min (diese Woche ~107), davon hielt jede Minute Bau und Stundenlauf an; 15 von 148 Bauläufen in 7 Tagen abgebrochen (9 allein am 05.10. während des Wochenlaufs) | eigene Gruppen `bau`, `stunde`, `tag`, `woche`, `abruf`, `adn-laufende`, `anisearch-katalog`; nur der Bau schreibt auf `main` |
+| Der Grund der Gruppe war ein Reset, der fremde Dateien überschrieb | `commit-data.sh` rettete **jede** Datei aus `QUELLEN`, auch die unveränderten (29.08. Handbelege, 16.09. disc-ausgaben) | `tools/quellen-aufsetzen.sh` legt nur die **eigenen** Änderungen zurück (Dateiebene, Löschungen eingeschlossen); `source-health.json` je Quelle der jüngere Eintrag, `dub-confirmed.yaml` wie bisher vereint |
+| Wochenlauf: 34 Schritte nacheinander | größte: ADN-Katalog 22 min, aniSearch-Titel 45 min (!), Link-Prüfung 8–11, JustWatch 10, Crunchyroll-Tonspur 4–7, AniList-Katalog 6 | sieben Jobs nach Server und Abhängigkeit (siehe unten) |
+| Ausgabe ging verloren | `public/data/voices` (seit 30.08.) und `data/adn-vde-historie.json` (seit 10.09., die Messreihe, für die `adn-laufende.yml` existiert) standen in keiner Quellenliste | beide in `tools/quellen-liste.sh`; Warnung `quellen_verloren` bei jedem Einreichen, wenn ein Lauf eine nicht eingetragene Datei schreibt |
+| Der letzte Schritt war der einzige Weg zum Repo | Der Pull Request stand am Ende; scheiterte er, war alles weg. **So geschehen am 05.10.2026:** GitHub lehnte den Push ab, weil ich währenddessen Workflows geändert hatte („refusing to allow a GitHub App to create or update workflow …") — 107 Minuten Abrufe verloren | Zweig auf dem jüngsten `main`, drei Versuche, Artefakt `fund-<Job>` (14 Tage) vor dem Einreichen, `fund-nachliefern.yml` |
+| Stille Fehlschläge | fast jeder Schritt `continue-on-error`; ein Fehlschlag war ein grüner Haken | `tools/schritt.sh`: Zeitgrenze (`--zeit`), Anmerkung im Lauf, Zeile in der Zusammenfassung, gelbe Meldung der Statusanzeige (`lauf-abmelden.sh`, `schritte-auswerten.sh`) |
+| ADN-Katalog: „die ältesten 600" | Alter über `statSync().mtimeMs`; nach CI-Checkout haben alle Dateien dieselbe Zeit, die Sortierung blieb stabil → jede Woche dieselben 600 | `data/adn-katalog-stand.json` (in `QUELLEN`) |
+| Doppelter aniSearch-Schritt im Tageslauf | 200 und 120 Seiten hintereinander, der zweite unter dem Kommentar zur Erweiterungs-Abholung | ein Schritt (200); Tageslauf in zwei Jobs, aniSearch unter der Sperre `anisearch` |
+| `data:report` lief **nach** dem Pull Request | `15-news-vorschau.md` (in `QUELLEN`) ging nie mit | steht vor dem Einreichen |
+| Kommentar und Code widersprachen sich | `cr-offene` liest `CR_ZUGANG` nirgends, nur `CR_WEICHE_TOKEN` | Kommentar im neuen Workflow berichtigt |
+
+**Abhängigkeiten im Wochenlauf, wo sie stecken** (Datei, die der erste Schritt schreibt und der zweite liest):
+`ann-ids.json` (ANN-Zuordnung → ANN-Sprecher), `CR_ZUGANG_FRISCH` per `GITHUB_ENV` (Zugangspaket → Crunchyroll-Tonspur), `rtlplus-katalog.json` (Katalog → Folgen), `anisearch.json` (Texte →
+Folgenlisten), `anime-ids.json` (Texte → Titel), `tmdb-titles.json` mit `tmdbId` (TMDB → TMDB-Folgen und JustWatch), `justwatch-audio.json` (JustWatch → Kanal-Gegenprobe). **Rückwärts-/Vorwochen-
+Abhängigkeiten** (ein Schritt liest eine Datei, die ein späterer derselben Woche schreibt, sieht also den Stand der Vorwoche): TMDB-Kino liest `tmdb-titles.json`, `cr-offene` liest `anisearch.json` und
+`justwatch-audio.json`, die Link-Prüfung liest `anisearch.json`. Die Jobs behalten diese Reihenfolge innerhalb ihrer Familie; umsortieren würde den Datenstand ändern.
+
+**Die sieben Jobs:** `anilist` (Rohdaten, Katalog, Sprecher AniList + ANN; als Einziger legt er `data/cache` ab) → `adn` (teilt AniList-Suchen); `crunchyroll` (Kalender, Zugangspaket, Tonspuren);
+`anisearch` (Sperre `anisearch`, ~60 min = bestimmt die Dauer); `tmdb` (TMDB → JustWatch → Gegenprobe → CR-offene, wegen der gemeinsamen Datei `justwatch-handpruefung.json`); `rtl` (Katalog → Folgen,
+Link-Prüfung); `sonst`. Jeder Job reicht seinen Fund als eigenen Pull Request ein, `abschluss` meldet Statusanzeige und Discord.
+
+**Gemeinsame Drosselung** (steht nicht im Code als Sperre, nur als Zusage): aniSearch 6 s je Seite — jetzt Sperre `anisearch` (Katalog, Wochen-Job, Tages-Job); AniList 750 ms (Katalog, Sprecher und ADN-Zuordnung
+laufen deshalb hintereinander: `adn` hängt an `anilist`); `plus.rtl.de` 400–700 ms (Katalog, Folgen, Link-Prüfung — im selben Job).
+
+**Lehren (in die Skills `stille-ausfaelle-verhindern` und `datenlaeufe-entwerfen` übernommen):**
+1. **Ein Workflow, der andere Workflows starten oder liefern lässt, darf nicht geändert werden, solange einer läuft.** Jeder Push nach `.github/workflows/` macht den Pull-Request-Schritt laufender Sammler rot
+   (stand schon in `CLAUDE.md`; am 05.10.2026 trotzdem passiert, weil „laufende Läufe fertig laufen lassen" und „Workflow umbauen" in einem Auftrag standen). Seitdem ist es abgefangen, aber nicht ausgeschlossen:
+   vor einem Workflow-Push `gh run list --status in_progress` ansehen.
+2. **Die Lieferung ist der gefährlichste Schritt eines Sammlers** — alles andere kann man wiederholen. Sie braucht Sicherung (Artefakt), Wiederholung und einen Weg, Gesichertes nachzuliefern.
+3. **Wer Dateien eines Laufs in keiner Liste führt, verliert sie lautlos.** Die Warnung `quellen_verloren` macht das sichtbar; neue Ausgabedateien gehören in `tools/quellen-liste.sh`.
+4. **Ein Alter, das im Dateisystem steht, ist in der CI keins** (Checkout setzt alle Zeiten). Alter gehört ins Repo (`adn-katalog-stand.json`, `ann-holstand.json`).
+5. **Ein Test, der die Cloud-Typen eines anderen Pakets lädt, bricht den Wurzel-Typecheck** (Deploy zweimal rot, 05.10.2026): Was `check:logic` braucht, gehört nach `shared/`.
+6. **Vor dem Push `npm run typecheck`, nicht nur die Teilprüfung des geänderten Bereichs.**
+
+**Offen:** Der Test der sieben Jobs am echten Lauf steht aus (erster Lauf nach dem Umbau, Abgleich mit dem Stand vom 28.09.: Dauer, Zahl der Funde je Quelle, PRs). `claude-verpasst-recherche.yml` reicht noch ohne Artefakt ein (der Claude-Schritt widerruft die
+Anmeldung; eine Sicherung bräuchte dort eine eigene Reihenfolge). Für aniSearch gibt es nur die Sperre zwischen Workflows, keinen gemeinsamen Zähler der 403/423/429-Abbrüche.

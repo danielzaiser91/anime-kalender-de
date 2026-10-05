@@ -57,16 +57,18 @@ Datensatz?), `check:cr-zuordnung` (Einzelfälle plus Untergrenze auf dem echten 
 die einzige Quelle, die weder rät noch schweigt — ihr Vorrang in `build.ts` hängt an einer
 Reihenfolge (`if (stream.dub !== undefined) continue`).
 
-## Ein laufender Datenlauf committet den Stand von seinem Start
+## Datenläufe: wer auf `main` schreibt, und was beim Ändern zu beachten ist
 
-`tools/commit-data.sh` rettet bei bewegtem Fernstand die Dateien aus `QUELLEN`
-(`tools/quellen-liste.sh`) aus dem Arbeitsverzeichnis — eine zwischenzeitliche Korrektur daran
-geht dabei verloren. Deshalb: **Läuft ein Datenlauf oder Bau, wird keine Datei aus `QUELLEN`
-committet**, sondern im Hintergrund gewartet; `tools/quellen-commit-wache.sh` hält solche Commits
-als pre-commit-Hook an, zusammen mit `check:umfang` (einrichten: `bash tools/quellen-commit-wache.sh --einrichten`). Was ein
-Schritt zusammen schreibt, steht zusammen in `QUELLEN` oder gar nicht. Jede neue Datei, die die
-Pipeline schreibt, gehört in `tools/quellen-liste.sh`. Zu jeder Datenkorrektur gehört eine
-Zusicherung, die meldet, wenn sie verlorengeht.
+Seit dem 05.10.2026 (`docs/wissen/betrieb.md`, „Datenläufe neu geschnitten"; Skill `datenlaeufe-entwerfen`):
+
+- **Auf `main` schreibt nur der Bestandsbau** (`tools/commit-data.sh`, Gruppe `bau`). Alle Sammler (Stündlich, Täglich, Wöchentlich, ADN, aniSearch-Katalog, Abruf, Nachholen) reichen per Pull Request ein
+  (`.github/actions/einreichen` → `tools/quellen-pr.sh`), jeder in eigener Gruppe. `tools/quellen-aufsetzen.sh` legt nur die **eigenen** Änderungen auf den jüngsten Stand zurück — niemand überschreibt,
+  was ein anderer Lauf aktualisiert hat. Wer eine neue Datei in einem Lauf schreibt, trägt sie in `tools/quellen-liste.sh` ein (sonst warnt `quellen_verloren` und die Datei geht verloren).
+- **Läuft ein Sammler, wird nichts nach `.github/workflows/` gepusht** — GitHub lehnt dann seinen Pull-Request-Zweig ab, und er verliert die Arbeit (Wochenlauf 05.10.2026: 107 Minuten). Vorher
+  `gh run list --status in_progress`. Ist doch etwas verloren, sichert der Lauf einen Fund als Artefakt (`fund-<Job>`): Workflow „Fund nachliefern" mit der Lauf-Nummer.
+- **Zeitpläne kommen vom Cloudflare-Wecker** (`shared/weckplan.ts`, `worker/src/wecker.ts`), nicht von GitHubs Cron (4–7 h zu spät). `wecker-wache.yml` holt Überfälliges nach.
+- **Commits an Quelldateien** warten nicht mehr auf Sammler (die liefern per Pull Request); `tools/quellen-commit-wache.sh` hält nur noch Commits an, solange ein direkt schreibender Lauf (Bestandsbau) läuft.
+  Zu jeder Datenkorrektur gehört weiterhin eine Zusicherung, die meldet, wenn sie verlorengeht.
 
 ## Architektur, Datenfluss, Orte
 

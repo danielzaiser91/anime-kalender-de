@@ -163,6 +163,8 @@ war Daniels Frage vom 23.08.2026, ob seine Netflix-Meldungen vom Vortag beim nä
 
 ## Ein laufender Datenlauf committet den Stand von seinem Start
 
+**Überholt seit 05.10.2026:** `commit-data.sh` rettet nur noch die **eigenen** Änderungen (`tools/quellen-aufsetzen.sh`), die Sammler liefern per Pull Request, und die Wache hält nur noch Commits an, solange ein direkt schreibender Lauf (Bestandsbau) läuft. Die Chronik unten bleibt als Anlass stehen; die geltende Regel steht in `CLAUDE.md` und in `docs/wissen/betrieb.md` („Datenläufe neu geschnitten").
+
 Am 29.08.2026 wurden 19 berichtigte Handbelege wieder falsch — keine Stunde,
 nachdem sie behoben waren. Die Ursache steht in `tools/commit-data.sh`, und sie
 ist kein Fehler, sondern eine Abwägung, die man kennen muss:
