@@ -169,8 +169,8 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
         ) : fehler ? (
           <p className="p-4 text-sm text-rose-300">{fehler}</p>
         ) : url ? (
-          <div className={einpassen ? 'relative max-h-full max-w-full' : 'relative mx-auto w-full max-w-[1800px]'} onClick={(e) => e.stopPropagation()}>
-            <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'max-h-full max-w-full rounded object-contain' : 'block w-full rounded'} />
+          <div className={einpassen ? 'relative h-full max-w-full' : 'relative mx-auto w-full max-w-[1800px]'} onClick={(e) => e.stopPropagation()}>
+            <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} />
             {markiert && x !== undefined && (
               <div
                 ref={marke}
