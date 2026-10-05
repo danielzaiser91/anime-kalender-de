@@ -130,7 +130,7 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
         <div className="flex flex-wrap items-center gap-2 text-xs leading-snug text-slate-300">
           <p className="min-w-0 flex-1">
             {erklaerung(beleg)}
-            {bild ? ' Wir sichern von jeder Quelle ein Bild, damit prüfbar bleibt, worauf die Meldung beruht.' : ' Zu dieser Quelle haben wir noch kein Bild gesichert.'}
+            {bild ? ' Wir sichern von jeder Quelle ein Bild, damit prüfbar bleibt, worauf die Meldung beruht.' : ''}
           </p>
           {x !== undefined && url && (
             <button type="button" onClick={zurFundstelle} className={`${BTN} border-rose-400 text-rose-200`}>Zur Fundstelle</button>
