@@ -42,6 +42,7 @@ import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { deutschAbgeschlossen } from '../web/src/components/detail/antwort-regeln.ts'
 import { messungenFuerFolgen } from './lib/news-messung.ts'
 import { ergaenzeErstausgabeAngebot } from './bau/13-7-erstausgabe-angebot.ts'
+import { streicheMagentaPartner } from './bau/11-5-magenta-partner.ts'
 import { newsSatz } from '../web/src/lib/news-text.ts'
 import { omuMeldungen } from './lib/news-omu.ts'
 import { discBonusAus } from './lib/disc-bonus.ts'
@@ -8168,6 +8169,18 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     })
     pruefe('Erstausgabe ab 2026 bei Amazon: ein Eintrag „Im Angebot seit" mit aniSearch als Quelle', neu === 1 && releases.some((r) => r.titleId === 1 && r.dateMeaning === 'available-from' && r.platform === 'primevideo' && r.sources[0] === 'https://www.anisearch.de/anime/101'), JSON.stringify(releases.map((r) => [r.titleId, r.platform])))
     pruefe('nicht für 2025, nicht für Disc-Verlage, nicht bei vorhandenem Termin, nicht ohne Weg zum Anbieter', !releases.some((r) => [2, 3, 5].includes(r.titleId)) && releases.filter((r) => r.titleId === 4).length === 1)
+  }
+  /* Magenta führt Joyn/Disney+ durch (Daniel, 04.10.2026): die Folgenseite fällt weg, Staffelübersicht und Kaufseite bleiben. */
+  {
+    const w = (url: string, zugang: string) => ({ name: 'MagentaTV', url, kind: 'stream', zugang })
+    const mit = (id: number, platform: string, links: ReturnType<typeof w>[]) => [id, { id, streams: [{ platform, url: 'https://x.example', dub: true }], watchLinks: links } as unknown as Title] as const
+    const titles = new Map([
+      mit(1, 'joyn', [w('https://www.magenta.tv/serie/-/GN_EP1', 'abo'), w('https://www.magenta.tv/serie/x/staffel-1/GN_SEASON_1', 'abo'), w('https://www.magenta.tv/film/y/GN_MV1', 'kauf')]),
+      mit(2, 'crunchyroll', [w('https://www.magenta.tv/serie/-/GN_EP2', 'abo')]),
+    ])
+    const weg = streicheMagentaPartner(titles)
+    pruefe('Magenta-Folgenseite mit Joyn-Weg wird gestrichen, Staffelübersicht und Kauf bleiben', weg === 1 && titles.get(1)!.watchLinks!.length === 2 && titles.get(1)!.watchLinks!.every((l) => !l.url.includes('GN_EP')), JSON.stringify(titles.get(1)!.watchLinks))
+    pruefe('ohne Joyn-/Disney+-Weg bleibt die Magenta-Folgenseite', titles.get(2)!.watchLinks!.length === 1)
   }
   pruefe('Serienseiten tragen kein Artikeldatum', !traegtArtikeldatum('https://www.anisearch.de/article/1,x') && traegtArtikeldatum('https://www.anime2you.de/news/1/'))
   /* Qualitätssicherung der Belege (Daniel, 05.10.2026): Altbestand ohne Wand-Prüfung kommt zuerst wieder dran, eine Wand entzieht das Bild. */

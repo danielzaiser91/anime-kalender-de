@@ -4,6 +4,7 @@ import { type EntfernterVerweis } from './grundlagen.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { fuehreAusgabenZusammen } from './11-4-ausgaben.ts'
 import { bereinigeWege } from './11-3-bereinigung.ts'
+import { streicheMagentaPartner } from './11-5-magenta-partner.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 
@@ -52,6 +53,8 @@ export function schliesseWegeAb({
     beantworteteSuchen,
     suchOffen,
   })
+
+  streicheMagentaPartner(titles)
 
   fuehreAusgabenZusammen({ alleChecks, titles, tmdbMehrdeutig, anisearch, lautPruefungTot, checksJePlattform })
 }
