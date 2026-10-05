@@ -41,6 +41,7 @@ import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { deutschAbgeschlossen } from '../web/src/components/detail/antwort-regeln.ts'
 import { messungenFuerFolgen } from './lib/news-messung.ts'
+import { ergaenzeErstausgabeAngebot } from './bau/13-7-erstausgabe-angebot.ts'
 import { newsSatz } from '../web/src/lib/news-text.ts'
 import { omuMeldungen } from './lib/news-omu.ts'
 import { discBonusAus } from './lib/disc-bonus.ts'
@@ -8155,6 +8156,18 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Folge mit deutscher Fassung: Messung nennt Tag, Staffel und Kennung', messung?.am === '2026-10-01' && messung.zeilen.length === 1 && messung.zeilen[0]!.includes('A10DE') && messung.zeilen[0]!.includes('Staffel 1'), JSON.stringify(messung))
     pruefe('Folge ohne deutsche Fassung im Katalog: keine Messung, keine Behauptung', messungenFuerFolgen([eintrag(mel(9, 9))], dir)[0]!.meldungen[0]!.belege?.[0]?.messung === undefined)
     rmSync(dir, { recursive: true, force: true })
+  }
+  /* „Im Angebot seit" aus der aniSearch-Erstausgabe (Magilumière Staffel 2, 05.10.2026). */
+  {
+    const titel = (id: number, extra: Record<string, unknown>) => ({ id, titleEn: `T${id}`, format: 'TV', episodes: 12, anisearchId: id + 100, streams: [{ platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/X', dub: true }], ...extra }) as unknown as Title
+    const erst = (von: string, publisher: string) => ({ deErstausgabe: { von, publisher, synchro: true } })
+    const releases: Release[] = [{ titleId: 4 } as Release]
+    const neu = ergaenzeErstausgabeAngebot({
+      titles: [titel(1, erst('2026-07-04', 'Amazon.com, Inc.')), titel(2, erst('2025-07-04', 'Amazon.com, Inc.')), titel(3, erst('2026-07-04', 'KSM Anime')), titel(4, erst('2026-07-04', 'Amazon.com, Inc.')), titel(5, { ...erst('2026-07-04', 'Netflix, Inc.') })],
+      releases,
+    })
+    pruefe('Erstausgabe ab 2026 bei Amazon: ein Eintrag „Im Angebot seit" mit aniSearch als Quelle', neu === 1 && releases.some((r) => r.titleId === 1 && r.dateMeaning === 'available-from' && r.platform === 'primevideo' && r.sources[0] === 'https://www.anisearch.de/anime/101'), JSON.stringify(releases.map((r) => [r.titleId, r.platform])))
+    pruefe('nicht für 2025, nicht für Disc-Verlage, nicht bei vorhandenem Termin, nicht ohne Weg zum Anbieter', !releases.some((r) => [2, 3, 5].includes(r.titleId)) && releases.filter((r) => r.titleId === 4).length === 1)
   }
   pruefe('Serienseiten tragen kein Artikeldatum', !traegtArtikeldatum('https://www.anisearch.de/article/1,x') && traegtArtikeldatum('https://www.anime2you.de/news/1/'))
   /* Qualitätssicherung der Belege (Daniel, 05.10.2026): Altbestand ohne Wand-Prüfung kommt zuerst wieder dran, eine Wand entzieht das Bild. */

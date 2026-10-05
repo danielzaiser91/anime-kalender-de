@@ -6,6 +6,7 @@ import { type EntfernterVerweis } from './grundlagen.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { schreibeKernUndNews } from './13-5-kerndateien.ts'
 import { ergaenzeKennungen } from './13-6-kennungen.ts'
+import { ergaenzeErstausgabeAngebot } from './13-7-erstausgabe-angebot.ts'
 import { schreibeZusatzdateien } from './13-4-zusatzdateien.ts'
 import { schreibeListen } from './13-3-listen.ts'
 import { baueAuslieferung } from './13-2-auslieferung.ts'
@@ -58,6 +59,7 @@ export function schreibeDatensatz({
     verweiseEntfernt,
   })
 
+  ergaenzeErstausgabeAngebot({ titles: titles.values(), releases })
   schreibeListen({ slim, tmdbTitles, releases, titles })
 
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })
