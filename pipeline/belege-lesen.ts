@@ -19,7 +19,7 @@ import { meldeAbbruch } from './lib/abbruch.ts'
 import { todayIso } from '../shared/time.ts'
 import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 import {
-  adressenAusNews, adressenMitOffenemTermin, crunchyrollDatum, entzieheBild, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
+  adressenAusNews, adressenMitOffenemTermin, crunchyrollDatum, entzieheBild, kopfzeilenDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
@@ -48,20 +48,22 @@ interface Gelesen {
 
 async function lies(seite: Page, url: string): Promise<Gelesen> {
   await seite.goto(url, { waitUntil: 'domcontentloaded', timeout: 60_000 })
-  /* Der Text steht in `<article>` (Crunchyroll, Anime2You) oder in `<main>` (aniSearch; ADN hat ein leeres `<article>`). */
+  /* Der Text steht in `<article>` (Crunchyroll-News, Anime2You) oder in `<main>` (aniSearch; ADN hat ein leeres `<article>`); eine Crunchyroll-Serienseite hat beides nicht, dort zählt die ganze Seite. */
+  const ganzeSeite = /crunchyroll\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?(?!news\/)/.test(url) && !/\/news\//.test(url)
+  const waehler = ganzeSeite ? ['body'] : ['article', 'main']
   await seite
-    .waitForFunction((n) => Math.max(...['article', 'main'].map((s) => document.querySelector(s)?.textContent?.length ?? 0)) > n, MINDESTTEXT, { timeout: 20_000 })
+    .waitForFunction(({ n, w }) => Math.max(...w.map((s) => document.querySelector(s)?.textContent?.length ?? 0)) > n, { n: MINDESTTEXT, w: waehler }, { timeout: 20_000 })
     .catch(() => undefined)
-  return seite.evaluate(() => {
+  return seite.evaluate((w) => {
     const meta = (p: string) => document.querySelector(`meta[property="${p}"]`)?.getAttribute('content') ?? undefined
     const body = document.body.innerText
-    const texte = ['article', 'main'].map((s) => (document.querySelector(s) as HTMLElement | null)?.innerText ?? '')
+    const texte = w.map((s) => (document.querySelector(s) as HTMLElement | null)?.innerText ?? '')
     return {
       text: texte.sort((a, b) => b.length - a.length)[0]!,
       veroeffentlicht: meta('article:published_time') ?? /Veröffentlicht:\s*([^\n]+)/.exec(body)?.[1],
       aktualisiert: meta('article:modified_time') ?? /Aktualisiert:\s*([^\n]+)/.exec(body)?.[1],
     }
-  })
+  }, waehler)
 }
 
 async function main(): Promise<void> {
@@ -102,12 +104,13 @@ async function main(): Promise<void> {
         }
         /* Eine als Wand entzogene Lesung zeigt nur die Wand — sie zählt weder als Vergleich noch bleibt sie neben der neuen stehen. */
         /* Das Datum in der Kopfzeile muss zu den Seitendaten passen — sonst stimmt eines von beiden nicht. */
-        const kopf = mitDatum ? crunchyrollDatum(g.text.slice(0, 500)) : undefined
+        const kopf = mitDatum ? kopfzeilenDatum(g.text) : undefined
         if (kopf && lesung.veroeffentlicht && kopf !== lesung.veroeffentlicht && kopf !== lesung.aktualisiert) {
           lesung.datumsabweichung = kopf
           warn(`Beleg ${url}: Kopfzeile nennt ${kopf}, Seitendaten ${lesung.veroeffentlicht} — untersuchen`)
         }
-        const letzte = gedaechtnis[url]?.lesungen.filter((l) => l.qs !== 'wand').at(-1)
+        /* Nur eine Lesung mit Wand-Prüfung (`qs: ok`) taugt zum Vergleich: Altbestand wurde mit anderem Text gehasht, eine Wand zeigt nur die Wand. Beide werden ersetzt, nicht ergänzt. */
+        const letzte = gedaechtnis[url]?.lesungen.filter((l) => l.qs === 'ok').at(-1)
         /* Ein neuer Text bei gleichen Daten darf nicht vorkommen: Er heißt, dass Unwesentliches den Hash ändert (Daniel, 03.10.2026). */
         if (letzte && letzte.hash !== hash && letzte.veroeffentlicht === lesung.veroeffentlicht && letzte.aktualisiert === lesung.aktualisiert && letzte.ausgabe === lesung.ausgabe) {
           lesung.aenderungOhneDatum = true
@@ -125,6 +128,7 @@ async function main(): Promise<void> {
             entzieheBild(gedaechtnis, url)
             throw new Error('Zustimmungswand bleibt im Bild — kein Beleg')
           }
+          if (beleg === 'leer') throw new Error('Aufnahme einfarbig — kein Beleg')
           if (beleg) {
             ziel.qs = 'ok'
             if (beleg.markierung) ziel.markierung = lesung.markierung = beleg.markierung
@@ -132,7 +136,7 @@ async function main(): Promise<void> {
             ziel.text = await ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')
           }
         }
-        if (gedaechtnis[url]) gedaechtnis[url]!.lesungen = gedaechtnis[url]!.lesungen.filter((l) => l.qs !== 'wand')
+        if (gedaechtnis[url]) gedaechtnis[url]!.lesungen = gedaechtnis[url]!.lesungen.filter((l) => l.qs === 'ok')
         if (merkeLesung(gedaechtnis, url, lesung)) neu++
         gelesen++
       } catch (e) {

@@ -43,6 +43,16 @@ function erklaerung(b: NewsBeleg): string {
   return `Quelle: ${b.name}${wann}${spaeter}.`
 }
 
+/** Wann wir die Quelle geprüft haben: erstmals, zuletzt, und wann das Bild entstand (nur, was die Beleg-Lesung weiß). */
+function pruefzeile(b: NewsBeleg, mitBild: boolean): string {
+  const teile = [
+    b.erstGeprueftAm && `erstmals geprüft am ${datumKurz(b.erstGeprueftAm)}`,
+    b.zuletztGeprueftAm && b.zuletztGeprueftAm !== b.erstGeprueftAm && `zuletzt geprüft am ${datumKurz(b.zuletztGeprueftAm)}`,
+    mitBild && b.bildAm && `Bild vom ${datumKurz(b.bildAm)}`,
+  ].filter(Boolean)
+  return teile.length ? ` ${teile.join(' · ')}.` : ''
+}
+
 const BTN = 'cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs hover:bg-white/10'
 
 /**
@@ -130,6 +140,7 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
         <div className="flex flex-wrap items-center gap-2 text-xs leading-snug text-slate-300">
           <p className="min-w-0 flex-1">
             {erklaerung(beleg)}
+            {pruefzeile(beleg, Boolean(bild))}
             {bild ? ' Wir sichern von jeder Quelle ein Bild, damit prüfbar bleibt, worauf die Meldung beruht.' : ''}
           </p>
           {x !== undefined && url && (

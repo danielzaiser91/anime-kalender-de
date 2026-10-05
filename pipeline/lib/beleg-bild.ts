@@ -82,8 +82,8 @@ function messeAusschnitt({ maxHoehe, maxBisStelle, suchen, stelle }: { maxHoehe:
   return { clip, text: wurzel.innerText, ...(markierung ? { markierung } : {}) }
 }
 
-/** `'wand'`: Eine Zustimmungswand oder ein Banner bleibt trotz Entfernen im Bild — dann gibt es kein Bild. */
-export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: string[] = []): Promise<Beleg | 'wand' | undefined> {
+/** `'wand'`: Eine Zustimmungswand oder ein Banner bleibt trotz Entfernen im Bild — dann gibt es kein Bild. `'leer'`: Die Aufnahme ist einfarbig (Seite nicht gezeichnet). */
+export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: string[] = []): Promise<Beleg | 'wand' | 'leer' | undefined> {
   await seite.setViewportSize({ width: 520, height: 900 })
   await seite.addStyleTag({ content: 'img,picture,video,figure,svg,iframe{display:none!important} *{background-image:none!important} html{filter:grayscale(1)}' })
   /* Zustimmungswände und Banner liegen fest oder klebend über dem Text — entfernt, nicht beantwortet; bleibt eine, gibt es kein Bild. */
@@ -94,5 +94,28 @@ export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: 
   const cdp = await seite.context().newCDPSession(seite)
   const { data } = await cdp.send('Page.captureScreenshot', { format: 'webp', quality: 20, captureBeyondViewport: true, clip: gemessen.clip })
   await cdp.detach()
+  if (await istEinfarbig(seite, data)) return 'leer'
   return { bild: Buffer.from(data, 'base64'), text: gzipSync(Buffer.from(gemessen.text, 'utf8')), ...(gemessen.markierung ? { markierung: gemessen.markierung } : {}) }
+}
+
+/** Ein einfarbiges Bild (Standardabweichung der Helligkeit unter 6) zeigt keine Aussage — die Seite war nicht gezeichnet oder von etwas Schwarzem verdeckt. */
+async function istEinfarbig(seite: Page, base64: string): Promise<boolean> {
+  return seite.evaluate(async (b64) => {
+    const bmp = await createImageBitmap(await (await fetch('data:image/webp;base64,' + b64)).blob())
+    const c = new OffscreenCanvas(bmp.width, Math.min(bmp.height, 4000))
+    const g = c.getContext('2d')!
+    g.drawImage(bmp, 0, 0)
+    const d = g.getImageData(0, 0, c.width, c.height).data
+    let s = 0
+    let s2 = 0
+    let n = 0
+    for (let i = 0; i < d.length; i += 16) {
+      const v = (d[i]! + d[i + 1]! + d[i + 2]!) / 3
+      s += v
+      s2 += v * v
+      n++
+    }
+    const mittel = s / n
+    return Math.sqrt(s2 / n - mittel * mittel) < 6
+  }, base64)
 }

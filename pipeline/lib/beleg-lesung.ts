@@ -17,8 +17,7 @@ const ARTIKEL = [
   /^https:\/\/www\.anime2you\.de\/news\/\d+\//,
   /^https:\/\/www\.anisearch\.de\/(?:article\/\d+|news\/)/,
   /^https:\/\/news\.animationdigitalnetwork\.com\/de\/\d{4}\//,
-  /* Seiten ohne Artikeldatum, deren Domains von Hand geprüft sind (`data/beleg-domains.json`): Serienseiten, Hersteller- und Pressebereiche. aniSearch-Katalogseiten (`/anime/…`) bleiben draußen. */
-  /^https:\/\/www\.crunchyroll\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?series\/[A-Z0-9]+/,
+  /* Seiten ohne Artikeldatum, deren Domains von Hand geprüft sind (`data/beleg-domains.json`): Hersteller- und Pressebereiche. aniSearch-Katalogseiten (`/anime/…`) und Crunchyroll-Serienseiten bleiben draußen: Dort verdecken Sony-Banner und Nutzungsbedingungen die Seite, die Aufnahme war schwarz (05.10.2026). */
   /^https:\/\/tokyo-revengers-anime\.com\//,
   /^https:\/\/press\.disneyplus\.com\//,
 ]
@@ -33,7 +32,7 @@ export function istArtikel(url: string): boolean {
  * am 19.11.2026" für einen Artikel vom September (03.10.2026).
  */
 export const traegtArtikeldatum = (url: string): boolean =>
-  !/anisearch\.de\/article\/|crunchyroll\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?series\/|tokyo-revengers-anime\.com\//.test(url)
+  !/anisearch\.de\/article\/|tokyo-revengers-anime\.com\//.test(url)
 
 export interface Lesung {
   /** Tag der Lesung (Europe/Berlin). */
@@ -91,6 +90,12 @@ export function crunchyrollDatum(text: string | undefined): string | undefined {
   const m = /(\d{1,2})\.\s*([A-Za-zÄÖÜäöü]{3,5})\.?\s*(\d{4})/.exec(text ?? '')
   const monat = m && MONATE[m[2]!.toLowerCase().slice(0, 3)]
   return m && monat ? `${m[3]}-${String(monat).padStart(2, '0')}-${m[1]!.padStart(2, '0')}` : undefined
+}
+
+/** Das Datum der Kopfzeile mit Uhrzeit („22. Juli 2026 um 19:20 Uhr“, „15. SEPT. 2026, 18:00 MESZ“) — ein Datum im Fließtext („ab 16. April 2027“) zählt nicht. */
+export function kopfzeilenDatum(text: string | undefined): string | undefined {
+  const m = /(\d{1,2}\.\s*[A-Za-zÄÖÜäöü]{3,9}\.?\s*\d{4})(?:,|\s+um)?\s*\d{1,2}:\d{2}/.exec((text ?? '').slice(0, 800))
+  return crunchyrollDatum(m?.[1])
 }
 
 /** Nur das Datum einer ISO-Zeitangabe aus `article:published_time` u. ä. */
@@ -196,7 +201,11 @@ export function belegeFuerAlle(eintraege: NewsEintrag[], gedaechtnis: BelegGedae
   const ergaenze = (b: NewsBeleg): NewsBeleg => {
     const [mit] = mitArtikeldaten([{ url: b.url, name: b.name, gesehenAm: '' }], gedaechtnis)
     const { bild, markierung, veroeffentlichtAm, aktualisiertAm, ausgabeAm } = mit!
-    return { ...b, ...(b.bild || !bild ? {} : { bild, ...(markierung ? { markierung } : {}) }), ...(b.veroeffentlichtAm || !veroeffentlichtAm ? {} : { veroeffentlichtAm }), ...(b.aktualisiertAm || !aktualisiertAm ? {} : { aktualisiertAm }), ...(b.ausgabeAm || !ausgabeAm ? {} : { ausgabeAm }) }
+    const eintrag = gedaechtnis[b.url]
+    const lesungen = eintrag?.lesungen ?? []
+    const bildAm = lesungen.filter((l) => l.bild).at(-1)?.am
+    const pruefung = eintrag ? { erstGeprueftAm: lesungen[0]?.am, zuletztGeprueftAm: eintrag.zuletzt, ...(bildAm ? { bildAm } : {}) } : {}
+    return { ...b, ...pruefung, ...(b.bild || !bild ? {} : { bild, ...(markierung ? { markierung } : {}) }), ...(b.veroeffentlichtAm || !veroeffentlichtAm ? {} : { veroeffentlichtAm }), ...(b.aktualisiertAm || !aktualisiertAm ? {} : { aktualisiertAm }), ...(b.ausgabeAm || !ausgabeAm ? {} : { ausgabeAm }) }
   }
   return eintraege.map((e) => ({
     ...e,

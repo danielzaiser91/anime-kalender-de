@@ -36,6 +36,8 @@ export interface NewsBeleg {
   bild?: string
   /** Die Fundstelle im Bild als Anteile `[links, oben, Breite, Höhe]` von 0 bis 1 — wo die Aussage steht (Beleg-Dialog, „Zur Fundstelle"). */
   markierung?: [number, number, number, number]
+  /** Beleg-Lesung: wann wir die Quelle zum ersten Mal, zuletzt und wann wir das Bild gesichert haben (Beleg-Fenster, Daniel 05.10.2026). */
+  erstGeprueftAm?: string; zuletztGeprueftAm?: string; bildAm?: string
 }
 
 export interface NewsMeldung {

@@ -15,6 +15,7 @@ const faelle: { name: string; html: string; erwartet: 'bild' | 'wand' }[] = [
   { name: 'Dialog mit Rolle', html: `${ARTIKEL}<div id="x" role="dialog" style="position:relative;margin-top:-500px;background:#fff;height:400px">${WAND}</div>`, erwartet: 'bild' },
   { name: 'Wand im Artikel selbst', html: ARTIKEL.replace('</article>', `<div id="x" style="position:absolute;top:150px;left:0;width:100%;z-index:50;background:#fff;height:600px">${WAND}</div></article>`), erwartet: 'bild' },
   { name: 'Block ohne Positionierung vor dem Artikel', html: `<div id="x" style="background:#fff;height:900px;padding:20px">${WAND}</div>${ARTIKEL}`, erwartet: 'bild' },
+  { name: 'einfarbige Aufnahme (Text schwarz auf schwarz)', html: ARTIKEL.replace('<article>', '<article style="background:#000;color:#000">').replace('<header', '<header style="background:#000"'), erwartet: 'wand' },
   {
     name: 'Wand, die sich sofort wieder aufbaut',
     html: `${ARTIKEL}<script>const bau = () => { const d = document.createElement('div'); d.id = 'x'; d.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#fff'; d.textContent = 'Cookies und Einwilligung: contentpass, kostenlos mit Werbung weiterlesen, damit wir Ihre Daten verarbeiten dürfen.'; document.body.append(d) }; bau(); new MutationObserver(() => { if (!document.querySelector('#x')) bau() }).observe(document.body, { childList: true })</script>`,
@@ -28,7 +29,7 @@ for (const f of faelle) {
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
   await seite.addInitScript('window.__name = (f) => f')
   await seite.evaluate('window.__name = (f) => f')
-  await seite.setContent(`<!doctype html><html><body style="margin:0">${f.html}</body></html>`)
+  await seite.setContent(`<!doctype html><html><body style="margin:0;${f.name.startsWith('einfarbig') ? 'background:#000' : ''}">${f.html}</body></html>`)
   const b = await belegAusschnitt(seite, [])
   const bild = typeof b === 'object'
   const uebrig = await seite.evaluate(() => Boolean(document.querySelector('#x')))

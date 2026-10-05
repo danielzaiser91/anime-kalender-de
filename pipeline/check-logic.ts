@@ -181,7 +181,7 @@ import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
-import { adressenAusNews, adressenMitOffenemTermin, belegeFuerAlle, crunchyrollDatum, entzieheBild, istArtikel, merkeLesung, traegtArtikeldatum, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
+import { adressenAusNews, adressenMitOffenemTermin, belegeFuerAlle, crunchyrollDatum, entzieheBild, kopfzeilenDatum, istArtikel, merkeLesung, traegtArtikeldatum, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
@@ -8123,11 +8123,12 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
 
 /* Jede Meldung führt ihre Quellen als Belege (Daniel, 05.10.2026): Quellen-Knopf mit Reitern, Bild wo gesichert. */
 {
-  pruefe('Serienseite bei Crunchyroll wird gelesen', istArtikel('https://www.crunchyroll.com/de/series/GT00378123/'))
+  pruefe('Crunchyroll-Serienseiten bleiben draußen (Banner und Nutzungsbedingungen, schwarze Aufnahme)', !istArtikel('https://www.crunchyroll.com/de/series/GT00378123/') && !istArtikel('http://www.crunchyroll.com/de/citrus'))
   pruefe('aniSearch-Katalogseite bleibt draußen', !istArtikel('https://www.anisearch.de/anime/12079,tomb-raider-king'))
   pruefe('Pressebereich und Serienseite von Hand geprüfter Domains werden gelesen', istArtikel('https://press.disneyplus.com/x') && istArtikel('https://tokyo-revengers-anime.com/'))
   pruefe('eine ungeprüfte Domain wird nicht gelesen', !istArtikel('https://www.tv.de/sendung/x'))
-  pruefe('Serienseiten tragen kein Artikeldatum', !traegtArtikeldatum('https://www.crunchyroll.com/de/series/GT00378123/') && traegtArtikeldatum('https://www.anime2you.de/news/1/'))
+  pruefe('Kopfzeilen-Datum: nur mit Uhrzeit, nicht aus dem Fließtext', kopfzeilenDatum('Disc ab 16. April 2027\nDer Streaming-Dienst\n22. Juli 2026 um 19:20 Uhr') === '2026-07-22' && kopfzeilenDatum('Release ab 16. April 2027 im Handel') === undefined && kopfzeilenDatum('15. SEPT. 2026, 18:00 MESZ') === '2026-09-15')
+  pruefe('Serienseiten tragen kein Artikeldatum', !traegtArtikeldatum('https://www.anisearch.de/article/1,x') && traegtArtikeldatum('https://www.anime2you.de/news/1/'))
   /* Qualitätssicherung der Belege (Daniel, 05.10.2026): Altbestand ohne Wand-Prüfung kommt zuerst wieder dran, eine Wand entzieht das Bild. */
   const lesung = (extra: Record<string, unknown>) => ({ am: '2026-10-03', hash: 'h', ...extra })
   const ged = {
@@ -8148,6 +8149,7 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   const gedaechtnis = { [url]: { zuletzt: '2026-10-05', lesungen: [{ am: '2026-10-05', hash: 'h', bild: 'k.webp', markierung: [0.1, 0.2, 0.3, 0.4] }] } } as unknown as BelegGedaechtnis
   const raus = belegeFuerAlle([eintrag(meldung({ quelle: url }))], gedaechtnis)[0]!.meldungen[0]!
   pruefe('eine nackte Quelle wird zum Beleg mit Bild und Fundstelle', raus.belege?.length === 1 && raus.belege[0]!.bild === 'k.webp' && raus.belege[0]!.markierung?.[0] === 0.1, JSON.stringify(raus.belege))
+  pruefe('der Beleg nennt, wann geprüft und wann das Bild gesichert wurde', raus.belege?.[0]?.erstGeprueftAm === '2026-10-05' && raus.belege?.[0]?.zuletztGeprueftAm === '2026-10-05' && raus.belege?.[0]?.bildAm === '2026-10-05', JSON.stringify(raus.belege))
   const ohne = belegeFuerAlle([eintrag(meldung({ quelle: 'https://b.example/y' }))], gedaechtnis)[0]!.meldungen[0]!
   pruefe('eine ungelesene Quelle bleibt Beleg ohne Bild', ohne.belege?.length === 1 && !ohne.belege[0]!.bild)
 }
