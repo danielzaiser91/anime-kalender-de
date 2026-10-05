@@ -146,6 +146,8 @@ jobs:
         if: steps.faellig.outputs.anzahl != '0'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Sicherung für den Fall, dass das Einreichen scheitert (siehe `.github/actions/einreichen`, `fund-nachliefern.yml`; 05.10.2026).
+          FUND_DIR: ${{ runner.temp }}/fund
         # Block statt Einzeiler: „chore(data): …" läse YAML sonst als zweite Zuordnung.
         #
         # **Die Anmeldung wird vorher neu gesetzt.** Der Claude-Schritt richtet
@@ -157,6 +159,15 @@ jobs:
           git config --local --unset-all http.https://github.com/.extraheader || true
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           bash tools/quellen-pr.sh "chore(data): Recherche zu ausgebliebenen Folgen"
+
+      - name: Fund sichern
+        if: always() && steps.faellig.outputs.anzahl != '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: fund-recherchieren
+          path: ${{ runner.temp }}/fund
+          retention-days: 14
+          if-no-files-found: ignore
 
       - name: Lauf abmelden
         if: always() && steps.faellig.outputs.anzahl != '0'
