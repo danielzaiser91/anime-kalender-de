@@ -56,6 +56,7 @@ export const LAUF_ARTEN = [
   'Wache — Delta und Briefkasten',
   'Wache — Datenbankverbrauch',
   'Wache — Wecker',
+  'Fund nachliefern',
   'ADN — laufende Serien',
   'Datenlauf auf Abruf',
   'aniSearch-Katalog',
