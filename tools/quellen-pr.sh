@@ -32,6 +32,7 @@ set -euo pipefail
 NACHRICHT="${1:?Commit-Nachricht fehlt}"
 
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-liste.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/quellen-aufsetzen.sh"
 
 BOT_NAME="github-actions[bot]"
 BOT_MAIL="41898282+github-actions[bot]@users.noreply.github.com"
@@ -76,6 +77,11 @@ melde "zweig=$ZWEIG"
 # Deshalb: **je Pfad einzeln**, und ein fehlender kostet nur sich selbst. Die
 # Zahl der Fehlgriffe steht im Protokoll, damit eine wachsende Lücke auffällt,
 # bevor sie jemanden etwas kostet.
+# **Der Zweig wird auf dem jüngsten Stand von `main` geschnitten, nicht auf dem vom Start des Laufs** (05.10.2026). Ein langer Lauf (Woche: bis 90 Minuten)
+# sonst hätte jede Datei geändert, die ein anderer Lauf inzwischen auch anfasste — der Pull Request wäre bei jedem Zusammentreffen im Konflikt gelandet.
+# Zurückgelegt werden nur die eigenen Änderungen an den Quellen; `source-health.json` und `dub-confirmed.yaml` werden zusammengeführt.
+git fetch origin main --quiet
+quellen_aufsetzen origin/main
 echo "--- Arbeitsverzeichnis vor dem Stagen: $(pwd), Zweig $(git rev-parse --abbrev-ref HEAD)"
 echo "--- Zahl geänderter Dateien: $(git status --porcelain | wc -l)"
 

@@ -33,6 +33,7 @@ VERSUCHE="${2:-6}" # 3 genügten nicht, wenn Stündlich, Daten-PR und ein Mensch
 # Die Liste der Quellpfade liegt in einer eigenen Datei — `quellen-pr.sh`
 # braucht dieselbe, und zwei Fassungen laufen auseinander.
 source "$(dirname "${BASH_SOURCE[0]}")/quellen-liste.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/quellen-aufsetzen.sh"
 ERZEUGNISSE=(public/data public/og)
 
 # Die Bot-Identität gilt **nur für den Commit dieses Skripts**, nicht für das
@@ -72,56 +73,9 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/main)" ]; then
     echo "Fernstand hat sich bewegt — Quellen retten und neu aufsetzen (Versuch $versuch)."
 
-    # Die Quellen aus dem Arbeitsverzeichnis in Sicherheit bringen. `mktemp -d`
-    # liegt außerhalb des Repos, wird vom Reset also nicht angefasst.
-    RETTUNG="$(mktemp -d)"
-    for pfad in "${QUELLEN[@]}"; do
-      [ -e "$pfad" ] || continue
-      mkdir -p "$RETTUNG/$(dirname "$pfad")"
-      cp -r "$pfad" "$RETTUNG/$pfad"
-    done
-
-    git reset --hard origin/main --quiet
-
-    # Zurückspielen — und hier steckte bis zum 24.08.2026 ein Fehler, der das
-    # Repository in 14 Tagen um 13.458 Dateien aufgebläht hat.
-    #
-    # `cp -r QUELLE ZIEL` legt die Quelle **in** das Ziel, wenn das Ziel bereits
-    # ein Verzeichnis ist. Genau das ist hier der Normalfall: Der `git reset`
-    # eine Zeile höher stellt `data/adn-raw` aus dem Fernstand wieder her, also
-    # existiert der Ordner, wenn die Rettung zurückkommt. Ergebnis:
-    # `data/adn-raw/adn-raw`.
-    #
-    # Und es blieb nicht bei einer Ebene: Beim nächsten Lauf wurde der bereits
-    # verschachtelte Ordner gerettet und erneut hineinkopiert. Am 21.08.2026
-    # wuchs die Tiefe an einem einzigen Tag von 1 auf 8 — im Takt der Läufe.
-    # Zuletzt lag `data/proposals` 21 Ebenen tief; auf Windows liess sich das
-    # Repository nicht mehr auschecken („Filename too long"), und `git pull`
-    # brach ab.
-    #
-    # Der Fehler war unsichtbar, weil er nichts kaputt macht: Die Läufe liefen
-    # grün, die Daten stimmten, nur wuchs im Hintergrund eine Kopie der Kopie.
-    #
-    # Deshalb Zielordner erst weg, dann kopieren. Das ist eindeutig, egal ob das
-    # Ziel existiert oder nicht — und behandelt einzelne Dateien mit.
-    for pfad in "${QUELLEN[@]}"; do
-      [ -e "$RETTUNG/$pfad" ] || continue
-      mkdir -p "$(dirname "$pfad")"
-      # `dub-confirmed.yaml` wächst — sie wird zusammengeführt, nicht ersetzt.
-      #
-      # Für jede andere Quelle ist „Arbeitsstand gewinnt" richtig: Der Lauf hat
-      # sie gerade frisch geholt. Diese eine trägt Belege, und der Fernstand kann
-      # welche haben, die dieser Lauf nie gesehen hat. Am 31.08.2026 hat genau
-      # das 300 Belege gekostet — zwei Bauläufe kurz hintereinander, dazwischen
-      # ein Push mit 210 neuen, und der ältere Lauf schrieb seinen Stand darüber.
-      if [ "$pfad" = "data/dub-confirmed.yaml" ] && [ -e "$pfad" ]; then
-        node tools/dub-belege-vereinen.mjs "$pfad" "$RETTUNG/$pfad" || true
-        continue
-      fi
-      rm -rf "$pfad"
-      cp -r "$RETTUNG/$pfad" "$pfad"
-    done
-    rm -rf "$RETTUNG"
+    # Nur die eigenen Änderungen an den Quellen kommen zurück (`tools/quellen-aufsetzen.sh`, seit 05.10.2026) — die Lehren zu `cp -r`, zum fehlenden
+    # Pfad und zu den zusammengeführten Dateien stehen dort.
+    quellen_aufsetzen origin/main
 
     # Erzeugnisse passen jetzt weder zum einen noch zum anderen Stand — neu
     # bauen ist die einzige richtige Antwort.
