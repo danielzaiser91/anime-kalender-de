@@ -10,8 +10,8 @@
     "lastCount": 82
   },
   "crunchyroll": {
-    "lastOk": "2026-10-05T12:06:04.144Z",
-    "lastRun": "2026-10-05T12:06:04.144Z",
+    "lastOk": "2026-10-05T14:33:45.178Z",
+    "lastRun": "2026-10-05T14:33:45.178Z",
     "lastCount": 14
   },
   "anisearch": {
@@ -145,9 +145,9 @@
     "lastCount": 26
   },
   "tv-programm": {
-    "lastOk": "2026-10-05T12:06:11.753Z",
-    "lastRun": "2026-10-05T12:06:11.753Z",
-    "lastCount": 290
+    "lastOk": "2026-10-05T14:33:55.834Z",
+    "lastRun": "2026-10-05T14:33:55.834Z",
+    "lastCount": 293
   },
   "tv-de": {
     "lastOk": "2026-10-05T00:04:11.173Z",
@@ -181,8 +181,9 @@
   },
   "crunchyroll-woche": {
     "lastOk": "2026-10-05T12:06:09.828Z",
-    "lastRun": "2026-10-05T12:06:09.828Z",
-    "lastCount": 46
+    "lastRun": "2026-10-05T14:33:51.505Z",
+    "lastCount": 0,
+    "lastError": "Woche nicht lesbar aus „Crunchyrolls aktuelles Wochenprogramm im Sommer 2026\""
   },
   "adn-news": {
     "lastOk": "2026-10-05T11:28:56.565Z",
@@ -190,8 +191,8 @@
     "lastCount": 75
   },
   "messbelege": {
-    "lastOk": "2026-10-05T12:06:10.976Z",
-    "lastRun": "2026-10-05T12:06:10.976Z",
+    "lastOk": "2026-10-05T14:33:54.570Z",
+    "lastRun": "2026-10-05T14:33:54.570Z",
     "lastCount": 0
   },
   "beleg-lesungen": {
