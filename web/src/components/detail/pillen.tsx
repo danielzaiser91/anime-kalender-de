@@ -8,6 +8,7 @@ import { AnbieterIcon } from '../../lib/anbieter-icon.tsx'
 import { MerkenKnopf } from './merken.tsx'
 import { expandEvents, istErschienen } from '@shared/logic.ts'
 import { verweiseFuer } from './verweise.ts'
+import { einzelneAusgaben } from './disc-regeln.ts'
 
 /*
   **Pillen: neutrale Fläche, Markenstreifen links** (Daniel, 19.09.2026: „rot auf rot, orange auf
@@ -220,7 +221,7 @@ export function discPillen(
       />,
     )
   }
-  const einzeln = ausgaben.filter((a) => a[2] === 't' || (a[2] === 'e' && ausgaben.some((b) => b[1] === a[1] && b[2] === 'g')))
+  const einzeln = einzelneAusgaben(ausgaben)
   if (einzeln.length) {
     pillen.push(
       <button
