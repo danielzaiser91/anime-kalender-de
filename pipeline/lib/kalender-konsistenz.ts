@@ -65,8 +65,6 @@ function doppelteSlugs(releases: Release[]): Befund[] {
 function releasesOhneTitel(releases: Release[], titelIds: Set<number>): Befund[] {
   const befunde: Befund[] = []
   for (const r of releases) {
-    /* Ein Crunchyroll-Ereignis ohne Anime-Titel (Anime Awards) trägt gewollt `titleId -1` (`06-cr-simuldubs.ts`) — kein Befund. */
-    if (r.titleId === -1 && r.slug.startsWith('cr-')) continue
     if (!(r.titleId < 0 || !titelIds.has(r.titleId))) continue
     befunde.push({
       regel: 'titel',
