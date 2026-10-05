@@ -1,0 +1,53 @@
+name: Einrichten
+description: >
+  Gemeinsamer Anfang der Datenläufe nach dem Checkout: Melder bereitlegen, Node, Abhängigkeiten, AniList-Cache, Browser.
+  Steht an einer Stelle, damit die Datenläufe nicht je 40 Zeilen Einrichtung tragen und sich nicht auseinanderentwickeln (05.10.2026).
+inputs:
+  cache:
+    description: 'AniList-Cache (data/cache): restore = nur lesen, save = lesen und am Ende unter eigenem Schlüssel ablegen, aus = nichts'
+    default: restore
+  playwright:
+    description: 'Chromium für Playwright installieren'
+    default: 'false'
+runs:
+  using: composite
+  steps:
+    # Das Meldeskript an einen Ort legen, den kein Zweigwechsel wegnimmt: Am 21.08.2026 hat ein Lauf seinen Zweig gewechselt, auf dem es
+    # `tools/lauf-melden.sh` noch nicht gab — Exit 127 machte einen Lauf rot, dessen Arbeit fertig war.
+    - name: Melder bereitlegen
+      shell: bash
+      run: |
+        cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+        echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: npm
+
+    - name: Abhängigkeiten installieren
+      shell: bash
+      run: npm ci
+
+    # `data/cache/` liegt nicht im Repo. Wer ihn schreibt (save), legt ihn am Ende unter seinem eigenen Schlüssel ab; alle anderen lesen nur — sonst
+    # speichert ein Lauf mit altem Stand unter dem neueren Schlüssel und verdrängt den frischen (Vorfall 29.09.2026, docs/wissen/betrieb.md).
+    - name: AniList-Cache ablegen
+      if: inputs.cache == 'save'
+      uses: actions/cache@v4
+      with:
+        path: data/cache
+        key: anilist-cache-${{ github.run_id }}
+        restore-keys: anilist-cache-
+
+    - name: AniList-Cache lesen
+      if: inputs.cache == 'restore'
+      uses: actions/cache/restore@v4
+      with:
+        path: data/cache
+        key: anilist-cache-${{ github.run_id }}
+        restore-keys: anilist-cache-
+
+    - name: Browser installieren
+      if: inputs.playwright == 'true'
+      shell: bash
+      run: npx playwright install --with-deps chromium || echo "::warning::Browser nicht installiert"
