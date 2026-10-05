@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-05T12:10:38.043Z",
+  "stand": "2026-10-05T14:28:39.821Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7858,24 +7858,13 @@
     {
       "titleId": 187941,
       "titel": "Reincarnated as a Dragon Hatchling",
-      "plattform": "adn",
-      "url": "https://animationdigitalnetwork.com/de/video/1347-reincarnated-as-a-dragon-hatchling",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-05",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 187941,
-      "titel": "Reincarnated as a Dragon Hatchling",
       "plattform": "primevideo",
       "url": "https://www.amazon.de/dp/B0F18LDC9W",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-05",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 195153,
