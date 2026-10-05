@@ -15,7 +15,7 @@ const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
 export function QuellenKnopf({ belege, betreff }: { belege: NewsBeleg[]; betreff?: string }) {
   const [offen, setOffen] = useState(false)
   if (!belege.length) return null
-  const archiv = Boolean(WORKER) && belege.some((b) => b.bild)
+  const archiv = (Boolean(WORKER) && belege.some((b) => b.bild)) || belege.some((b) => b.messung)
   const wort = archiv ? 'Beleg' : 'Quelle'
   const text = belege.length > 1 ? `${wort === 'Beleg' ? 'Belege' : 'Quellen'} ${belege.length}` : wort
   return (
@@ -164,7 +164,9 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
         </div>
       </div>
       <div className={`min-h-0 flex-1 ${einpassen ? 'flex items-center justify-center p-3 md:p-6' : 'overflow-auto p-3 md:p-6'}`} onClick={zu}>
-        {!bild ? null : fehler ? (
+        {!bild ? (
+          beleg.messung ? <Messung m={beleg.messung} /> : null
+        ) : fehler ? (
           <p className="p-4 text-sm text-rose-300">{fehler}</p>
         ) : url ? (
           <div className={einpassen ? 'relative max-h-full max-w-full' : 'relative mx-auto w-full max-w-[1800px]'} onClick={(e) => e.stopPropagation()}>
@@ -183,5 +185,19 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
         )}
       </div>
     </>
+  )
+}
+
+/** Unsere Messung als Beleg, wo kein Bild möglich ist: was der Anbieter-Katalog an dem Tag zu den Folgen sagte. */
+function Messung({ m }: { m: NonNullable<NewsBeleg['messung']> }) {
+  return (
+    <div className="mx-auto max-w-2xl rounded-lg border border-white/10 bg-slate-900 p-4 text-sm text-slate-200" onClick={(e) => e.stopPropagation()}>
+      <p className="mb-2 font-semibold">Unsere Messung vom {datumKurz(m.am)} ({m.quelle})</p>
+      <ul className="space-y-1">
+        {m.zeilen.map((z) => (
+          <li key={z}>{z}</li>
+        ))}
+      </ul>
+    </div>
   )
 }

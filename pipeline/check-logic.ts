@@ -17,7 +17,10 @@
  * Aufruf: npm run check:logic
  */
 import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
-import { readdirSync, readFileSync } from 'node:fs'
+import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { gzipSync } from 'node:zlib'
 import { titelAus } from './lib/anisearch-titel.ts'
 import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.ts'
 import yaml from 'js-yaml'
@@ -37,6 +40,7 @@ import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { deutschAbgeschlossen } from '../web/src/components/detail/antwort-regeln.ts'
+import { messungenFuerFolgen } from './lib/news-messung.ts'
 import { newsSatz } from '../web/src/lib/news-text.ts'
 import { omuMeldungen } from './lib/news-omu.ts'
 import { discBonusAus } from './lib/disc-bonus.ts'
@@ -8135,6 +8139,23 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   pruefe('Ankündigung nennt Quelle und deren älteres Datum', /laut anime2you\.de vom 21\.08\./.test(satz), satz)
   pruefe('ohne Eintragstag oder bei gleichem Tag bleibt der Satz kurz', !/laut/.test(newsSatz(ank)) && !/laut/.test(newsSatz(ank, '2026-08-21')))
   pruefe('„neu auf Deutsch" und Folgen tragen keinen Quellvermerk', !/laut/.test(newsSatz({ ...ank, art: 'neu' } as never, '2026-09-27')))
+  /* Eigene Messung als Beleg für „Folge N auf Deutsch bei Crunchyroll" (Daniel, 05.10.2026). */
+  {
+    const dir = mkdtempSync(join(tmpdir(), 'cr-messung-'))
+    writeFileSync(
+      join(dir, 'GT1.de.json.gz'),
+      gzipSync(JSON.stringify({ holtAm: '2026-10-01T11:00:00Z', episodes: { s1: { items: [
+        { episode_number: 9, season_title: 'Staffel 1', versions: [{ audio_locale: 'ko-KR', guid: 'A9KO' }] },
+        { episode_number: 10, season_title: 'Staffel 1', versions: [{ audio_locale: 'ko-KR', guid: 'A10KO' }, { audio_locale: 'de-DE', guid: 'A10DE' }] },
+      ] } } })),
+    )
+    const mel = (von: number, bis: number) => ({ art: 'folgen', platform: 'crunchyroll', von, bis, belege: [{ url: 'https://www.crunchyroll.com/de/series/GT1/', name: 'crunchyroll.com' }] }) as unknown as NewsEintrag['meldungen'][number]
+    const eintrag = (m: NewsEintrag['meldungen'][number]) => ({ am: '2026-09-30', titelId: 1, titel: 'T', slug: '1', meldungen: [m] }) as unknown as NewsEintrag
+    const messung = messungenFuerFolgen([eintrag(mel(10, 10))], dir)[0]!.meldungen[0]!.belege?.[0]?.messung
+    pruefe('Folge mit deutscher Fassung: Messung nennt Tag, Staffel und Kennung', messung?.am === '2026-10-01' && messung.zeilen.length === 1 && messung.zeilen[0]!.includes('A10DE') && messung.zeilen[0]!.includes('Staffel 1'), JSON.stringify(messung))
+    pruefe('Folge ohne deutsche Fassung im Katalog: keine Messung, keine Behauptung', messungenFuerFolgen([eintrag(mel(9, 9))], dir)[0]!.meldungen[0]!.belege?.[0]?.messung === undefined)
+    rmSync(dir, { recursive: true, force: true })
+  }
   pruefe('Serienseiten tragen kein Artikeldatum', !traegtArtikeldatum('https://www.anisearch.de/article/1,x') && traegtArtikeldatum('https://www.anime2you.de/news/1/'))
   /* Qualitätssicherung der Belege (Daniel, 05.10.2026): Altbestand ohne Wand-Prüfung kommt zuerst wieder dran, eine Wand entzieht das Bild. */
   const lesung = (extra: Record<string, unknown>) => ({ am: '2026-10-03', hash: 'h', ...extra })

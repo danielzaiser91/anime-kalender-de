@@ -38,6 +38,8 @@ export interface NewsBeleg {
   markierung?: [number, number, number, number]
   /** Beleg-Lesung: wann wir die Quelle zum ersten Mal, zuletzt und wann wir das Bild gesichert haben (Beleg-Fenster, Daniel 05.10.2026). */
   erstGeprueftAm?: string; zuletztGeprueftAm?: string; bildAm?: string
+  /** Eigene Messung statt Bild (Crunchyroll-Serienseiten lassen sich nicht fotografieren): was der Katalog am Tag `am` zu den Folgen der Meldung sagte. */
+  messung?: { am: string; quelle: string; zeilen: string[] }
 }
 
 export interface NewsMeldung {
