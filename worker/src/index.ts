@@ -1579,6 +1579,7 @@ export default {
       case '/lauf':
         return handleLauf(request, env, ctx)
       case '/health': {
+        ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch(() => {})) // stellt den Taktgeber der Schnellmessung sicher
         const count = await env.DB.prepare(
           "SELECT COUNT(*) AS n FROM subscribers WHERE status = 'active'",
         ).first<{ n: number }>()
