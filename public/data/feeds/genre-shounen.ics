@@ -6,56 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Shounen
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-28#5@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260928T151000Z
-DTEND:20260928T154000Z
-SUMMARY:Dragon Ball – Folge 5/22
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-28#6@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260928T153500Z
-DTEND:20260928T160500Z
-SUMMARY:Dragon Ball – Folge 6/22
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260928T160000Z
-DTEND:20260928T163000Z
-SUMMARY:Detektiv Conan – Folge 144/151
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-183423-tv-prosieben-maxx@2026-09-28#1@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260928T162500Z
-DTEND:20260928T165500Z
-SUMMARY:One Piece Log: Fish-Man Island Saga
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/16301/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-183423-tv-prosieben-maxx@2026-09-28#2@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260928T165500Z
-DTEND:20260928T172500Z
-SUMMARY:One Piece Log: Fish-Man Island Saga
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/16301/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-09-29#7@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260929T151000Z
