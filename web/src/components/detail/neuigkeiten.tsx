@@ -5,7 +5,7 @@ import { useLang } from '../../lib/i18n.tsx'
 import { artLabel, datumKurz, newsSatz } from '../../lib/news-text.ts'
 import { NEWS_FARBE } from '../NewsView.tsx'
 import { AbgeloestHinweis } from '../news-abgeloest.tsx'
-import { QuellenZeile } from '../news-belege.tsx'
+import { QuellenKnopf } from '../beleg-dialog.tsx'
 import { Klapptext } from '../klapptext.tsx'
 import { NachtragText } from '../news-nachtrag.tsx'
 import { todayIso } from '@shared/time.ts'
@@ -84,7 +84,7 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
         <span className="shrink-0 rounded-md bg-ak-flaeche-2 px-1.5 py-0.5 text-[11px] font-semibold tabular-nums text-ak-text">{datum}</span>
         <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${NEWS_FARBE[z.m.art]}`}>{artLabel(z.m)}</span>
         {/* Eine geschätzte Meldung zeigt keine Quelle — die Seite dahinter nennt den Termin nicht. */}
-        {!z.m.geschaetzt && <QuellenZeile belege={belege} />}
+        {!z.m.geschaetzt && <QuellenKnopf belege={belege} betreff={newsSatz(z.m)} />}
       </span>
       <span className={`text-[13px] font-medium leading-snug ${abgeloest ? 'text-ak-leise line-through' : 'text-ak-text'}`}>{newsSatz(z.m)}</span>
       {/* **Lange Vermerke nur aufgeklappt**: Der erste Satz steht da, der

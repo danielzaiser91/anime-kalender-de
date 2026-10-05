@@ -8,7 +8,7 @@
  */
 import { gzipSync } from 'node:zlib'
 import type { Page } from 'playwright'
-import { bannerEntfernen } from './cookie-banner.ts'
+import { sperreEntfernen } from './cookie-banner.ts'
 
 /** So hoch darf der Ausschnitt ab der Überschrift werden — genug für Datum, Kopf und die ersten Absätze. */
 const MAX_HOEHE = 1100
@@ -20,11 +20,12 @@ export interface Beleg {
   markierung?: [number, number, number, number]
 }
 
-export async function belegAusschnitt(seite: Page, suchen: string[] = []): Promise<Beleg | undefined> {
+/** `'wand'`: Eine Zustimmungswand oder ein Banner bleibt trotz Entfernen im Bild — dann gibt es kein Bild. */
+export async function belegAusschnitt(seite: Page, suchen: string[] = []): Promise<Beleg | 'wand' | undefined> {
   await seite.setViewportSize({ width: 520, height: 900 })
   await seite.addStyleTag({ content: 'img,picture,video,figure,svg,iframe{display:none!important} *{background-image:none!important} html{filter:grayscale(1)}' })
   /* Zustimmungswände und Banner liegen fest oder klebend über dem Text — entfernt, nicht beantwortet. */
-  await bannerEntfernen(seite)
+  if (!(await sperreEntfernen(seite))) return 'wand'
   const ausschnitt = await seite.evaluate(({ maxHoehe, suchen }) => {
     document.querySelectorAll('body *').forEach((e) => {
       const p = getComputedStyle(e).position
@@ -45,7 +46,7 @@ export async function belegAusschnitt(seite: Page, suchen: string[] = []): Promi
       while (e?.parentElement && e.parentElement !== document.body) e = e.parentElement
       e?.remove()
     }
-    if (imWeg()) return undefined
+    if (imWeg()) return 'wand' as const
     const wurzel = (document.querySelector('article') ?? document.querySelector('main') ?? document.body) as HTMLElement
     const h1 = document.querySelector('h1')
     const absaetze = [...wurzel.querySelectorAll('p, li, h2, h3')].filter((e) => (e as HTMLElement).innerText.trim().length > 20)
@@ -75,6 +76,7 @@ export async function belegAusschnitt(seite: Page, suchen: string[] = []): Promi
     return { clip, text: wurzel.innerText, markierung }
   }, { maxHoehe: MAX_HOEHE, suchen })
   if (!ausschnitt) return undefined
+  if (ausschnitt === 'wand') return 'wand'
   const cdp = await seite.context().newCDPSession(seite)
   const { data } = await cdp.send('Page.captureScreenshot', { format: 'webp', quality: 20, captureBeyondViewport: true, clip: ausschnitt.clip })
   await cdp.detach()

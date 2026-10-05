@@ -7,11 +7,10 @@ import { anbieterDerMeldung, artLabel, datumKurz, newsSatz } from '../lib/news-t
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { todayIso, addDays } from '@shared/time.ts'
 import { AbgeloestHinweis } from './news-abgeloest.tsx'
-import { quellenLabel } from './news-belege.tsx'
 import { Klapptext } from './klapptext.tsx'
 import { NachtragText } from './news-nachtrag.tsx'
 import { VerlaufZeilen } from './news-verlauf.tsx'
-import { BelegKnopf } from './beleg-dialog.tsx'
+import { QuellenKnopf } from './beleg-dialog.tsx'
 import { ohneEingeordnete, verlaeufeAus, type Stand } from '../lib/news-verlauf.ts'
 
 /**
@@ -540,27 +539,10 @@ function MeldungZeile({
 }
 
 /**
- * Die Quelle in der einzeiligen Liste: der erste Beleg mit Rubrik, weitere als „+N" (die Namen im
- * Tooltip). Eine Spalte wie im Panel passt hier nicht — die Zeile ist auf dem Handy schon voll.
+ * Die Quellen in der einzeiligen Liste: ein Knopf, der das Beleg-Fenster mit allen Quellen öffnet (Hostnamen füllten die Zeile).
  */
 function QuelleKurz({ m }: { m: NewsMeldung }) {
-  const { t } = useLang()
   const belege = m.belege?.length ? m.belege : istLink(m.quelle) ? [{ url: m.quelle, name: hostVon(m.quelle) }] : []
   if (!belege.length) return null
-  const [erster, ...weitere] = belege
-  return (
-    <span className="flex shrink-0 items-center gap-1 text-[10px] text-slate-400">
-      <a
-        href={erster.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        title={t('news.quelleTitel', { quelle: erster.url })}
-        className="max-w-[9rem] truncate underline decoration-dotted underline-offset-2 hover:text-slate-600 dark:hover:text-slate-200"
-      >
-        {quellenLabel(erster)}
-      </a>
-      {weitere.length > 0 && <span title={weitere.map(quellenLabel).join(' · ')}>+{weitere.length}</span>}
-      <BelegKnopf beleg={belege.find((b) => 'bild' in b)} titel={quellenLabel(erster)} />
-    </span>
-  )
+  return <QuellenKnopf belege={belege} />
 }

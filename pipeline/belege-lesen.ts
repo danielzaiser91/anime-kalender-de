@@ -17,9 +17,9 @@ import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
 import { todayIso } from '../shared/time.ts'
-import type { Release, Title } from '../shared/types.ts'
+import type { NewsEintrag, Release, Title } from '../shared/types.ts'
 import {
-  adressenMitOffenemTermin, crunchyrollDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
+  adressenAusNews, adressenMitOffenemTermin, crunchyrollDatum, entzieheBild, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
 import { belegAusschnitt } from './lib/beleg-bild.ts'
@@ -37,7 +37,7 @@ const zahl = (name: string, vorgabe: number) => (args.includes(name) ? Number(ar
 
 /** Adressen, die einen noch offenen Termin belegen — oder noch nie gelesen wurden. */
 function belegAdressen(gedaechtnis: BelegGedaechtnis, heute: string): string[] {
-  return adressenMitOffenemTermin(readJson<Release[]>('public/data/releases.json', []), gedaechtnis, heute)
+  return [...adressenMitOffenemTermin(readJson<Release[]>('public/data/releases.json', []), gedaechtnis, heute), ...adressenAusNews(readJson<NewsEintrag[]>('public/data/news.json', []))]
 }
 
 interface Gelesen {
@@ -110,10 +110,15 @@ async function main(): Promise<void> {
         /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
         const ziel = letzte?.hash === hash ? letzte : lesung
         /* Auch ein Bild ohne Fundstelle wird neu gemacht (04.10.2026): Ältere Belege bekommen so ihre Markierung. */
-        if (!ziel.bild || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0)) {
+        if (!ziel.bild || !ziel.qs || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0)) {
           const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
           const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [])
+          if (beleg === 'wand') {
+            entzieheBild(gedaechtnis, url)
+            throw new Error('Zustimmungswand bleibt im Bild — kein Beleg')
+          }
           if (beleg) {
+            ziel.qs = 'ok'
             if (beleg.markierung) ziel.markierung = lesung.markierung = beleg.markierung
             ziel.bild = await ablegen(`${basis}.webp`, beleg.bild, 'image/webp')
             ziel.text = await ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')

@@ -2,6 +2,7 @@ import { writeJson, readJson, log } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
 import { omuTitelAusKatalog } from '../lib/news-omu.ts'
+import { belegeFuerAlle, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { type Release, type ReleaseEvent, type Title, type DataMeta, type NewsEintrag } from '../../shared/types.ts'
 
 export function schreibeKernUndNews({ releases, events, titles, meta }: {
@@ -37,7 +38,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   let newsFuerRss: ReturnType<typeof baueNews> | undefined
   {
     const newsHistorie = readJson<NewsHistorie>('data/news-historie.json', { zuerst: {} })
-    const meldungen = baueNews(
+    const meldungen = belegeFuerAlle(baueNews(
       [...titles.values()],
       releases,
       readJson<{ id: number; seit: string }[]>(`${OUT}/neu-mit-synchro.json`, []),
@@ -48,7 +49,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
       newsHistorie,
       /* Das zuvor ausgelieferte `news.json` speist beim ersten Lauf den Verlauf. */
       readJson<NewsEintrag[]>(`${OUT}/news.json`, []), omuTitelAusKatalog(OUT),
-    )
+    ), readJson<BelegGedaechtnis>('data/beleg-lesungen.json', {}))
     writeJson(`${OUT}/news.json`, meldungen)
     newsFuerRss = meldungen
     writeJson('data/news-historie.json', newsHistorie)

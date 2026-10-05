@@ -1092,3 +1092,21 @@ Daniel, 10:13: Mail „Tageslimit überschritten" vom Vortag, am Morgen schon 60
 wechselnden und treffen ihn kaum. **Behebung:** `worker/src/export-speicher.ts` legt die drei Auszüge in R2 (`export/…`), `pruefung.ts` verwirft sie nach jedem POST/DELETE; neu gerechnet wird
 beim nächsten Abruf, also höchstens einmal je Bau. Eine Stunde danach lasen alle Abfragen zusammen 1.600 Zeilen. **Wache:** `wrangler d1 insights DB --config wrangler.toml --sort-type sum
 --sort-by reads --timePeriod 1d --limit 10 --json` (kostet kein Kontingent); Ziel unter 25 % (1,25 Mio.) am Tag, Warnung des Wachlaufs bei 50 %.
+
+## Belege: Quellen-Knopf, Abdeckung und Wand-Prüfung (05.10.2026)
+
+**Oberfläche:** Eine Meldung zeigt statt Hostnamen-Links einen Knopf „Quelle"/„Quellen" (mit ▣ „Beleg"/„Belege", wenn mindestens eine Quelle ein gesichertes Bild hat). Er öffnet das Beleg-Fenster
+(`web/src/components/beleg-dialog.tsx`) mit einem Reiter je Quelle: Erklärung, Originaladresse, Bild mit „Zur Fundstelle". Der archivierte Text (`.txt.gz`) und das HTML bleiben **privat** (Daniel, 05.10.2026);
+sie dienen Hash, Fundstelle und Nachweis, nicht der Anzeige.
+
+**Abdeckung:** Gemessen 05.10.2026: nur 71 von 482 Meldungen hatten einen Beleg-Knopf. Ursachen: 177 Meldungen trugen nur eine nackte `quelle` (Folgen, „Neu auf Deutsch"), und die Lesung kannte nur Artikel zu offenen Terminen
+auf sechs Domains. Jetzt macht `belegeFuerAlle` (`pipeline/lib/beleg-lesung.ts`, beim Schreiben von `news.json`) aus jeder Quelle einen Beleg mit Bild, wo eines gesichert ist; `belege-lesen.ts` liest auch die Adressen
+der Meldungen (`adressenAusNews`) und Crunchyroll-Serienseiten, Tokyo-Revengers-Seite und Disney+-Pressebereich. aniSearch-Katalogseiten (`/anime/…`) bleiben draußen. **Offen:** Quellen ohne lesbare Seite
+(ADN-Schnittstelle, TMDB) und ungeprüfte Domains (tv.de, Kinoheld, plus.rtl.de, Wikipedia, MOTN, Amazon, Netflix) — jede neue Domain erst nach Handprüfung auf Banner (`data/beleg-domains.json`).
+
+**Wand-Prüfung:** Audit am 05.10.2026 über alle 85 gesicherten Bilder (Kontaktbögen): **3 zeigten eine Zustimmungswand** (alle Anime2You/contentpass, Altbestand vom 03.10. vor der Wand-Prüfung); der Text-Abgleich
+auf Banner-Wörter fand sie nicht, weil sie nicht im Artikeltext stehen. Seitdem: `sperreEntfernen` (`pipeline/lib/cookie-banner.ts`) tastet das Fenster vor jedem Foto an einem Raster ab und entfernt alles Feste, Klebende,
+Dialoghafte oder Einwilligungstext-Tragende über dem Artikel (dreimal); bleibt etwas, gibt es **kein Bild** (`'wand'`), der Lauf zählt es als Störung, und die Adresse verliert ihr Bild (`entzieheBild`, `qs: wand`).
+Ein Bild trägt `qs: ok`, wenn es mit der Prüfung entstand; Altbestand ohne `qs` und Wände kommen in der Warteschlange zuerst wieder dran. `npm run check:beleg-wand` baut sieben Wandarten nach
+(festes Banner, absolute Wand mit Abdunklung, Dialog, Wand im Artikel, Block vor dem Artikel, sich neu aufbauende Wand); `npm run check:belege` zählt geprüfte und ungeprüfte Bilder und wird rot bei Wänden oder bei seit
+06.10.2026 gelesenen Bildern ohne `qs`. **Audit wiederholen:** Bilder über `/beleg?key=…` laden und als Kontaktbogen ansehen (Skript im Scratchpad der Sitzung vom 05.10.2026, Vorgehen: `data/beleg-lesungen.json` → je Lesung ein Bild).

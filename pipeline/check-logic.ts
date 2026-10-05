@@ -29,6 +29,7 @@ import { BELEG_SCHLUESSEL as ABLAGE_SCHLUESSEL } from '../shared/beleg-schluesse
 import { kalenderTag, ohneDoppelteFolgen, verspaetungsMeldungen } from './lib/news-verspaetung.ts'
 import { nachgereichteFolgen } from './bau/verpasst-am-termin.ts'
 import { mitArtikeldaten } from './lib/beleg-lesung.ts'
+import type { NewsEintrag } from '../shared/types.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
@@ -180,7 +181,7 @@ import { passendeAdresse } from './fetch-kinoheld.ts'
 import { staffelNummern } from './lib/staffel-nummern.ts'
 import { loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
-import { adressenMitOffenemTermin, crunchyrollDatum, istArtikel, merkeLesung, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
+import { adressenAusNews, adressenMitOffenemTermin, belegeFuerAlle, crunchyrollDatum, entzieheBild, istArtikel, merkeLesung, traegtArtikeldatum, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
@@ -8118,6 +8119,37 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   pruefe('unbekannte Dateien bleiben unberührt', uebersetzeDatei('meta.json', { titleCount: 3 }, ak) !== undefined)
   /* Karenz der Favoriten-Umschreibung: ab dem 05.11.2026 entfallen web/src/lib/kennung-umzug.ts, worker/src/favoriten-kennung.ts (Zweig ohne Vorsatz) und data/anilist-ak.json. */
   pruefe('Favoriten-Umschreibung (AniList → ak) ist ausgelaufen und gehört entfernt', todayIso() < '2026-11-05', 'siehe kennung-umzug.ts / favoriten-kennung.ts')
+}
+
+/* Jede Meldung führt ihre Quellen als Belege (Daniel, 05.10.2026): Quellen-Knopf mit Reitern, Bild wo gesichert. */
+{
+  pruefe('Serienseite bei Crunchyroll wird gelesen', istArtikel('https://www.crunchyroll.com/de/series/GT00378123/'))
+  pruefe('aniSearch-Katalogseite bleibt draußen', !istArtikel('https://www.anisearch.de/anime/12079,tomb-raider-king'))
+  pruefe('Pressebereich und Serienseite von Hand geprüfter Domains werden gelesen', istArtikel('https://press.disneyplus.com/x') && istArtikel('https://tokyo-revengers-anime.com/'))
+  pruefe('eine ungeprüfte Domain wird nicht gelesen', !istArtikel('https://www.tv.de/sendung/x'))
+  pruefe('Serienseiten tragen kein Artikeldatum', !traegtArtikeldatum('https://www.crunchyroll.com/de/series/GT00378123/') && traegtArtikeldatum('https://www.anime2you.de/news/1/'))
+  /* Qualitätssicherung der Belege (Daniel, 05.10.2026): Altbestand ohne Wand-Prüfung kommt zuerst wieder dran, eine Wand entzieht das Bild. */
+  const lesung = (extra: Record<string, unknown>) => ({ am: '2026-10-03', hash: 'h', ...extra })
+  const ged = {
+    'https://www.anime2you.de/news/1/': { zuletzt: '2026-10-05', lesungen: [lesung({ bild: 'alt.jpg' })] },
+    'https://www.anime2you.de/news/2/': { zuletzt: '2026-10-05', lesungen: [lesung({ bild: 'neu.webp', qs: 'ok' })] },
+    'https://www.anime2you.de/news/3/': { zuletzt: '2026-09-01', lesungen: [lesung({ bild: 'x.webp', qs: 'ok' })] },
+  } as unknown as BelegGedaechtnis
+  const schlange = warteschlange(Object.keys(ged), ged, '2026-10-05', 7, 10)
+  pruefe('Altbestand ohne Prüfung kommt zuerst, geprüfte frische Bilder bleiben draußen', schlange[0] === 'https://www.anime2you.de/news/1/' && !schlange.includes('https://www.anime2you.de/news/2/') && schlange.includes('https://www.anime2you.de/news/3/'), schlange.join(' '))
+  entzieheBild(ged, 'https://www.anime2you.de/news/1/')
+  const l1 = ged['https://www.anime2you.de/news/1/']!.lesungen[0]!
+  pruefe('eine Wand entzieht das Bild und merkt es', l1.bild === undefined && l1.qs === 'wand', JSON.stringify(l1))
+  const meldung = (extra: Record<string, unknown>) => ({ art: 'folgen', ...extra }) as unknown as NewsEintrag['meldungen'][number]
+  const eintrag = (m: NewsEintrag['meldungen'][number]) => ({ am: '2026-10-05', titelId: 1, titel: 'T', slug: '1', meldungen: [m] }) as unknown as NewsEintrag
+  const url = 'https://www.crunchyroll.com/de/series/GT00378123/'
+  const alle = adressenAusNews([eintrag(meldung({ quelle: url })), eintrag(meldung({ quelle: 'kein Link', belege: [{ url: 'https://a.example/x', name: 'a' }] }))])
+  pruefe('Adressen aus den Meldungen: nackte Quelle und Belege, kein Nicht-Link', alle.length === 2 && alle.includes(url) && alle.includes('https://a.example/x'), alle.join(' '))
+  const gedaechtnis = { [url]: { zuletzt: '2026-10-05', lesungen: [{ am: '2026-10-05', hash: 'h', bild: 'k.webp', markierung: [0.1, 0.2, 0.3, 0.4] }] } } as unknown as BelegGedaechtnis
+  const raus = belegeFuerAlle([eintrag(meldung({ quelle: url }))], gedaechtnis)[0]!.meldungen[0]!
+  pruefe('eine nackte Quelle wird zum Beleg mit Bild und Fundstelle', raus.belege?.length === 1 && raus.belege[0]!.bild === 'k.webp' && raus.belege[0]!.markierung?.[0] === 0.1, JSON.stringify(raus.belege))
+  const ohne = belegeFuerAlle([eintrag(meldung({ quelle: 'https://b.example/y' }))], gedaechtnis)[0]!.meldungen[0]!
+  pruefe('eine ungelesene Quelle bleibt Beleg ohne Bild', ohne.belege?.length === 1 && !ohne.belege[0]!.bild)
 }
 
 console.log('\nFolgentitel aus Crunchyroll:')

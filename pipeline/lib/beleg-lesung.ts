@@ -7,7 +7,8 @@
  * Rechnungen — der Abruf liegt in `pipeline/belege-lesen.ts`.
  */
 import { createHash } from 'node:crypto'
-import type { Quelle, Release } from '../../shared/types.ts'
+import type { NewsBeleg, NewsEintrag, Quelle, Release } from '../../shared/types.ts'
+import { hostVon } from '../../shared/quelle.ts'
 import { releaseStatus } from '../../shared/logic.ts'
 
 /** Artikel, keine Kalender, APIs oder Katalogseiten — nur sie haben einen Text, der sich ändern kann. */
@@ -16,6 +17,10 @@ const ARTIKEL = [
   /^https:\/\/www\.anime2you\.de\/news\/\d+\//,
   /^https:\/\/www\.anisearch\.de\/(?:article\/\d+|news\/)/,
   /^https:\/\/news\.animationdigitalnetwork\.com\/de\/\d{4}\//,
+  /* Seiten ohne Artikeldatum, deren Domains von Hand geprüft sind (`data/beleg-domains.json`): Serienseiten, Hersteller- und Pressebereiche. aniSearch-Katalogseiten (`/anime/…`) bleiben draußen. */
+  /^https:\/\/www\.crunchyroll\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?series\/[A-Z0-9]+/,
+  /^https:\/\/tokyo-revengers-anime\.com\//,
+  /^https:\/\/press\.disneyplus\.com\//,
 ]
 
 export function istArtikel(url: string): boolean {
@@ -27,7 +32,8 @@ export function istArtikel(url: string): boolean {
  * nicht: Ihr „Veröffentlicht:" ist der Erscheinungstag der Ausgabe — der Tooltip nannte so „veröffentlicht
  * am 19.11.2026" für einen Artikel vom September (03.10.2026).
  */
-export const traegtArtikeldatum = (url: string): boolean => !/anisearch\.de\/article\//.test(url)
+export const traegtArtikeldatum = (url: string): boolean =>
+  !/anisearch\.de\/article\/|crunchyroll\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?series\/|tokyo-revengers-anime\.com\//.test(url)
 
 export interface Lesung {
   /** Tag der Lesung (Europe/Berlin). */
@@ -42,6 +48,8 @@ export interface Lesung {
   aenderungOhneDatum?: true
   /** Schlüssel in der privaten Ablage, falls das Hochladen gelang. */
   bild?: string
+  /** Qualitätssicherung (05.10.2026): `ok` = mit der Wand-Prüfung fotografiert; `wand` = die Seite war eine Zustimmungswand, das Bild wurde entzogen. Ohne Eintrag: Altbestand, wird neu gelesen. */
+  qs?: 'ok' | 'wand'
   /** Wo die Aussage im Bild steht: `[links, oben, Breite, Höhe]` als Anteile von 0 bis 1. */
   markierung?: [number, number, number, number]
   /** Artikeltext, gepackt (seit 03.10.2026; davor die ganze HTML-Seite in `html`). */
@@ -103,9 +111,23 @@ export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heu
   const grenze = new Date(Date.parse(heute) - abstandTage * 86_400_000).toISOString().slice(0, 10)
   return [...new Set(urls)]
     .filter(istArtikel)
-    .filter((u) => !gedaechtnis[u] || gedaechtnis[u]!.zuletzt <= grenze || frischUndHeuteNochNicht(gedaechtnis[u]!, heute))
-    .sort((a, b) => (gedaechtnis[a]?.zuletzt ?? '').localeCompare(gedaechtnis[b]?.zuletzt ?? ''))
+    .filter((u) => !gedaechtnis[u] || gedaechtnis[u]!.zuletzt <= grenze || frischUndHeuteNochNicht(gedaechtnis[u]!, heute) || bildOhnePruefung(gedaechtnis[u]!))
+    .sort((a, b) => Number(bildOhnePruefung(gedaechtnis[b])) - Number(bildOhnePruefung(gedaechtnis[a])) || (gedaechtnis[a]?.zuletzt ?? '').localeCompare(gedaechtnis[b]?.zuletzt ?? ''))
     .slice(0, limit)
+}
+
+/** Altbestand ohne Wand-Prüfung (Bild, `qs` fehlt) und Adressen, deren Bild als Wand entzogen wurde — kommen zuerst wieder an die Reihe. */
+export const bildOhnePruefung = (e: BelegGedaechtnis[string] | undefined): boolean => Boolean(e?.lesungen.some((l) => (l.bild && !l.qs) || l.qs === 'wand'))
+
+/** Eine Wand hinter dieser Adresse: Alle Bilder der Adresse werden entzogen (sie zeigen die Wand), die Lesungen tragen `qs: wand`. */
+export function entzieheBild(gedaechtnis: BelegGedaechtnis, url: string): void {
+  for (const l of gedaechtnis[url]?.lesungen ?? []) {
+    delete l.bild
+    delete l.text
+    delete l.html
+    delete l.markierung
+    l.qs = 'wand'
+  }
 }
 
 /** Eine neue Lesung kommt nur dazu, wenn sich Text oder Daten geändert haben; sonst rückt `zuletzt` vor. */
@@ -151,4 +173,34 @@ export function mitArtikeldaten(quellen: Quelle[], gedaechtnis: BelegGedaechtnis
       ...(aktualisiert && aktualisiert !== veroeffentlicht ? { aktualisiertAm: aktualisiert } : {}),
     }
   })
+}
+
+/** Alle Adressen, auf die die Meldungen als Quelle zeigen — auch die nackte `quelle` ohne Beleg-Eintrag (Folgen, „Neu auf Deutsch"). */
+export function adressenAusNews(eintraege: NewsEintrag[]): string[] {
+  const urls = new Set<string>()
+  for (const e of eintraege)
+    for (const m of e.meldungen) {
+      for (const b of m.belege ?? []) urls.add(b.url)
+      if (typeof m.quelle === 'string' && /^https?:\/\//.test(m.quelle)) urls.add(m.quelle)
+    }
+  return [...urls]
+}
+
+/**
+ * **Jede Meldung führt ihre Quellen als Belege, mit Bild, wo eines gesichert ist** (Daniel, 05.10.2026). Eine nackte `quelle` wird zum Beleg-Eintrag, und jeder Beleg
+ * bekommt Bild, Fundstelle und Daten aus dem Gedächtnis der Beleg-Lesung, auch wenn er nicht über einen Termin kam.
+ */
+export function belegeFuerAlle(eintraege: NewsEintrag[], gedaechtnis: BelegGedaechtnis): NewsEintrag[] {
+  const ergaenze = (b: NewsBeleg): NewsBeleg => {
+    const [mit] = mitArtikeldaten([{ url: b.url, name: b.name, gesehenAm: '' }], gedaechtnis)
+    const { bild, markierung, veroeffentlichtAm, aktualisiertAm, ausgabeAm } = mit!
+    return { ...b, ...(b.bild || !bild ? {} : { bild, ...(markierung ? { markierung } : {}) }), ...(b.veroeffentlichtAm || !veroeffentlichtAm ? {} : { veroeffentlichtAm }), ...(b.aktualisiertAm || !aktualisiertAm ? {} : { aktualisiertAm }), ...(b.ausgabeAm || !ausgabeAm ? {} : { ausgabeAm }) }
+  }
+  return eintraege.map((e) => ({
+    ...e,
+    meldungen: e.meldungen.map((m) => {
+      const roh = m.belege?.length ? m.belege : typeof m.quelle === 'string' && /^https?:\/\//.test(m.quelle) ? [{ url: m.quelle, name: hostVon(m.quelle) }] : []
+      return roh.length ? { ...m, belege: roh.map(ergaenze) } : m
+    }),
+  }))
 }
