@@ -2,6 +2,7 @@ import { type Env } from './env.ts'
 import { speicherePruefung } from './pruefung-speichern.ts'
 import { loeschePruefungen } from './pruefung-loeschen.ts'
 import { beantwortePruefungLesen } from './pruefung-lesen.ts'
+import { exporteVerwerfen } from './export-speicher.ts'
 
 export async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
   const offen = {
@@ -94,7 +95,9 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
   }
 
   if (request.method === 'DELETE') {
-    return await loeschePruefungen({ request, env, antwort })
+    const geloescht = await loeschePruefungen({ request, env, antwort })
+    await exporteVerwerfen(env)
+    return geloescht
   }
 
   if (request.method !== 'POST') return antwort({ error: 'GET, POST oder DELETE erwartet' }, 405)
@@ -102,5 +105,7 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
   const token = request.headers.get('X-Lauf-Token') ?? ''
   if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
 
-  return await speicherePruefung({ request, antwort, token, env, ctx })
+  const gespeichert = await speicherePruefung({ request, antwort, token, env, ctx })
+  await exporteVerwerfen(env)
+  return gespeichert
 }

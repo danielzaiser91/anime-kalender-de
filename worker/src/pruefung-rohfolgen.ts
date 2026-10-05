@@ -1,4 +1,5 @@
 import { type Env } from './env.ts'
+import { ausSpeicher } from './export-speicher.ts'
 
 export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
   request: Request<unknown, CfProperties<unknown>>
@@ -70,14 +71,14 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         Adresse nennt die Reihe aber („Food Wars!" für B0CK66ZZ8G, 552 Folgen). Eine Abfrage mit
         GROUP BY, keine Unterabfrage je Zeile (Kontingent, siehe betrieb.md).
       */
-      /* Beide Vollexporte (`namen`, `alle`) sind 30 Minuten zwischengespeichert — sie lasen je Bau rund 100.000 Zeilen (04.10.2026). */
-      if (new URL(request.url).searchParams.get('namen') === '1') return ausCache(async () => {
+      /* Die Vollexporte liegen in R2 (`export-speicher.ts`) und werden bei jedem Schreibzugriff verworfen. */
+      if (new URL(request.url).searchParams.get('namen') === '1') return ausSpeicher(env, 'namen', async () => {
         const { results } = await env.DB.prepare(
           `SELECT url, MAX(titel) AS titel FROM pruefung WHERE titel IS NOT NULL AND url IS NOT NULL GROUP BY url`,
         ).all()
-        return antwort({ namen: results ?? [] })
+        return { namen: results ?? [] }
       })
-      if (new URL(request.url).searchParams.get('alle') === '1') return ausCache(async () => {
+      if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, async () => {
         const { results } = await env.DB.prepare(
           `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
                   seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen
@@ -86,8 +87,9 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
           .bind(Number.isFinite(nach) ? nach : 0)
           .all()
         const zeilen = (results ?? []) as { id: number }[]
-        return antwort({ folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null })
+        return { folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null }
       })
+      return ausSpeicher(env, `offen-${Number.isFinite(nach) ? nach : 0}`, async () => {
       const { results } = await env.DB.prepare(
         /*
           **Der Serienname kommt aus der Meldung derselben Adresse.**
@@ -124,10 +126,11 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         "SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0 AND (vorhanden IS NULL OR vorhanden <> 'nein')",
       ).first<{ n: number }>()
       const zeilen = (results ?? []) as { id: number }[]
-      return antwort({
+      return {
         folgen: zeilen,
         gesamt: gesamt?.n ?? 0,
         /* Ist die Seite voll, steht die Fortsetzung dabei — sonst ausdrücklich null. */
         weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null,
+      }
       })
 }
