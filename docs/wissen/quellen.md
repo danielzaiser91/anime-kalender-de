@@ -3131,3 +3131,16 @@ an `api@anisearch.com`), und messen, wie viele Titel ein aniSearch-Cover haben; 
   Rechtefrage: Die Nutzungsbedingungen für Bilder kennen wir nicht — die Frage steht in der Mail an `api@anisearch.com`.
 - **Folge:** Sobald aniSearch zustimmt (oder schweigt und wir das Risiko bewusst tragen), lässt sich das Cover pro Titel aus `ak` → aniSearch-Kennung bilden und AniList als Bildquelle abschalten.
   1 % bekommt den eigenen Platzhalter statt `ecchi.v1`.
+
+## aniSearch-Dubs-Endpoint gemessen (05.10.2026)
+
+Abruf mit Token am 05.10.2026 ca. 22:30 (je ein Aufruf: `/v1/anime/dubs`, `/associated?source=myanimelist`, `/titles`; Docs: `api.anisearch.com/docs/api_database_anime.html#dubs`, nur mit Browser-Kennung lesbar, sonst „423 Locked").
+
+- **Format:** `{"<aniSearch-ID>": {"dubbed": ["ja","en","de"], "planned": [...], "paused": [...], "canceled": [...]}}`, 15.147 Einträge, 465 KB. Limit mit Token: **1 Abruf je Stunde** (ohne Token 1 je 24 h), geteilt über alle IPs des Tokens. Einzel-IDs: 5 s Abstand mit Token. Ungültiger Token = 401 und 24 h IP-Sperre (IPv6: /64).
+- **Zugang:** `Authorization: Bearer <Token>`; die API verlangt eine Browser-Kennung (`KENNUNG` aus `pipeline/lib/kennung.ts`), eine nackte Projektkennung bekommt 423. Der Token steht in `my_secrets.md`.
+- **Deutsch bei aniSearch:** 2.939 Titel `dubbed`, 44 `planned`, 67 `canceled`, 0 `paused`.
+- **Abgleich über MAL-Kennung (`/associated?source=myanimelist`):** Von den 2.939 deutsch synchronisierten Titeln stehen 2.565 in unserem Hauptbestand, 5 bei uns hinter „ohne Synchro" (Reporter Blues, Bikini Warriors OVA, TANK CHAIR, Seven Knights of the Marronnier Kingdom), **297 in keiner unserer Listen** (davon 128 aus den 2000ern, 60 aus den 1990ern, 36 seit 2020, z. B. Specials und Ableger von Slime, My Hero Academia, Mushoku Tensei, JoJo Stone Ocean), 72 ohne MAL-Zuordnung (meist alte Serien: Willy Fog, Es war einmal …). Die 297 sind Kandidaten, kein Befund: die MAL-Kennung kann auf einen anderen Eintrag zeigen als unsere.
+- **Angekündigt (`planned` de):** 44 Titel; 34 im Hauptbestand, 7 bei uns „ohne Synchro" (Detective Is Already Dead S2, Aoashi S2, PSYREN, Firefly Wedding, Vermilion Mask, Ranma1/2 S3, Iceblade Sorcerer II), 3 nicht im Bestand.
+- **Abgebrochen (`canceled` de):** 67 Titel; 35 im Hauptbestand, 22 bei uns ohne Synchro.
+- **Gegenprobe Hauptbestand:** 161 unserer Titel mit MAL-Kennung nennt aniSearch ohne Deutsch (z. B. Rozen Maiden: Dreaming und Cardcaptor Sakura mit `canceled: de`, Yu-Gi-Oh! GX und Hamtaro ebenfalls, bei uns `high`/`very-high`). Das ist eine Prüfliste für Handbelege, kein Beweis gegen uns.
+- **Nutzen:** (1) täglich eine Prüfliste „aniSearch kennt de, wir nicht" (5 + 297 + 72) und „wir behaupten de, aniSearch nicht" (161); (2) `planned` als Hinweis auf Ankündigungen (Beleg bleibt aniSearch); (3) kein Ersatz für Belege, weil `dubbed` keine Folgen, Plattformen oder Termine nennt. **Noch nicht eingebaut.** Messskripte liegen nur im Scratchpad; vor dem Bau die 5 + 7 Titel von Hand ansehen.
