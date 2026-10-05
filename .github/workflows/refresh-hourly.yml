@@ -1,42 +1,19 @@
 name: Stündlich — Sendezeiten
 
-# **Dieser Lauf sammelt und reicht ein — er baut nicht und er schreibt nicht
-# auf `main`.**
+# **Dieser Lauf sammelt und reicht ein — er baut nicht und schreibt nicht auf `main`.** Der Fund geht als Pull Request auf einen eigenen Zweig (`tools/quellen-pr.sh`)
+# und wird gemergt, wenn GitHub `MERGEABLE` sagt; sonst übernimmt „Claude — Daten-PR zusammenführen". Den Datensatz baut „Bestand — zusammenführen und bauen"; dass
+# eine Quelle schweigt, meldet dort `data:check` (Daniel, 30.08.2026: „wöchentlich und stündlich sollte nie rot sein können, alles was sie machen ist sammeln und liefern").
 #
-# Drei Schritte, seit dem 30.08.2026:
+# Der Crunchyroll-Kalender ist die einzige Quelle, die sich mehrmals täglich ändert: Uhrzeiten verschieben sich, Folgen kommen dazu, Staffeln fallen aus.
+# Alles andere ändert sich höchstens täglich und läuft im Tageslauf. Gepusht wird nur bei echter Änderung.
 #
-#   1. sammeln — jeder Abruf mit `continue-on-error`, eine ausgefallene Quelle
-#      hält den Rest nicht auf
-#   2. einreichen — die Quellen gehen als Pull Request auf einen eigenen Zweig
-#   3. mergen, **wenn** GitHub `MERGEABLE` sagt; sonst bleibt der Zweig stehen
-#      und „Claude — Daten-PR zusammenführen" löst den Konflikt
-#
-# Daniel dazu: „lass die läufe pr's erstellen mit ziel in bestand zu mergen,
-# aber nur wenn keine conflicte existieren soll gemerged werden … So ist es
-# sicherer. Weil wenn die läufe committen könnte es trotzdem zu conflicts
-# führen."
-#
-# Der Grund für die Trennung überhaupt ist seine Vorgabe vom selben Tag:
-# „wöchentlich und stündlich sollte nie rot sein können, alles was sie machen
-# ist sammeln und liefern." Vorher machte ein Widerspruch im **gebauten**
-# Bestand einen Lauf rot, dessen Abrufe fehlerlos durchgelaufen waren — beim
-# Wochenlauf 58 Minuten Arbeit an fünf fremden Servern, quittiert mit einem
-# roten Kreuz.
-#
-# Den Datensatz baut „Bestand — zusammenführen und bauen"; dass eine Quelle
-# schweigt, meldet dort `data:check` — an der Stelle, die es beurteilen kann.
-
-# Der Crunchyroll-Kalender ist die einzige Quelle, die sich mehrmals täglich
-# ändert: Uhrzeiten verschieben sich, Folgen kommen dazu, Staffeln fallen aus.
-# Alles andere (AniList-Metadaten, Disc-Termine, Kinostarts) ändert sich
-# höchstens täglich und läuft deshalb im großen Nachtlauf.
-#
-# Committet wird nur bei echter Änderung — sonst rauscht das Repo mit 24 leeren
-# Commits pro Tag voll.
+# Umbau vom 05.10.2026: eigene Gruppe `stunde` (vorher `daten`: ein Wochenlauf hielt den Stundenlauf bis zu anderthalb Stunden an), Schritte über `tools/schritt.sh`
+# (Zeitgrenze, sichtbares Scheitern, gelbe Meldung), Einrichtung als eigene Aktion, AniList-Cache nur gelesen (ein Lauf, der ihn unverändert wieder ablegt, verdrängte
+# am 29.09.2026 den frischen Stand).
 
 on:
-  # Zeitplan: Cloudflare-Wecker (`worker/src/wecker.ts`) startet diesen Lauf per workflow_dispatch zur festen Stunde (UTC). GitHubs eigener Cron kam
-  # gemessen 4–7 Stunden zu spät und würde Läufe verdoppeln; `wecker-wache.yml` holt Überfälliges nach, falls der Wecker ausfällt (05.10.2026).
+  # Zeitplan: Cloudflare-Wecker (`worker/src/wecker.ts`) startet diesen Lauf per workflow_dispatch zur vollen Stunde (UTC). GitHubs eigener Cron kam
+  # gemessen alle ~4,6 Stunden und würde Läufe verdoppeln; `wecker-wache.yml` holt Überfälliges nach, falls der Wecker ausfällt (05.10.2026).
   workflow_dispatch:
     inputs:
       tvde:
@@ -49,189 +26,87 @@ permissions:
   pull-requests: write
 
 concurrency:
-  # Läuft ein Nachtlauf, hat der Vorrang: Zwei Jobs, die dieselben Dateien
-  # committen, erzeugen sonst einen Push-Konflikt.
   group: stunde
   cancel-in-progress: false
 
 jobs:
   sendezeiten:
     runs-on: ubuntu-latest
-    # Zeitgrenze, damit ein einzelner gedrosselter Schritt nicht den ganzen Tag
-    # stilllegt. Am 29.08.2026 hing „Deutsche Sprechrollen von Anime News
-    # Network" **1 Stunde 50 Minuten** an einem Schritt — kein Fehler, sondern
-    # AniLists Rate-Limit, das der Abruf korrekt abwartet. Weil Tages- und
-    # Wochenlauf dieselbe Concurrency-Gruppe „daten" teilen, stand damit auch
-    # der Datenbau: Die an dem Tag gebauten Verbesserungen kamen nicht heraus.
-    #
-    # 25 Minuten sind ein Vielfaches der gemessenen zwei Minuten. Laeuft es darueber hinaus, ist der
-    # naechste planmaessige Lauf der bessere Weg — die Abrufe sind idempotent,
-    # ihre Warteschlangen laufen ueber das Alter.
+    # Gemessen zwei Minuten (Median); 25 sind ein Vielfaches. Läuft es darüber hinaus, ist der nächste Lauf der bessere Weg — die Abrufe sind idempotent.
     timeout-minutes: 25
-    # Zweck und Ziel gehen an die Statusanzeige mit. Ohne sie steht dort nur
-    # der Workflow-Name, und der sagt bei drei Auftrags-Läufen dreimal
-    # dasselbe (Daniel, 21.08.2026: „Zweck sollte kurz beschreiben wofür
-    # dieser lauf ist"). Der Lauf weiß es, die Anzeige nicht — also liefert
-    # er es mit.
+    # Zweck und Ziel gehen an die Statusanzeige mit (Daniel, 21.08.2026: „Zweck sollte kurz beschreiben wofür dieser lauf ist").
     env:
-      LAUF_ZWECK: "Hält die Sendetermine von anime-kalender.de stündlich aktuell"
-      LAUF_ZIEL: "Crunchyroll-Kalender der nächsten drei Wochen einlesen und Datensatz bauen"
-      LAUF_SCHRITTE: '2'
+      LAUF_ZWECK: 'Hält die Sendetermine von anime-kalender.de stündlich aktuell'
+      LAUF_ZIEL: 'Crunchyroll-Kalender der nächsten drei Wochen, Wochenprogramm und TV-Programm einlesen'
+      LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+      JOB_ANZEIGE: Sendezeiten
     steps:
-      # Sofort anmelden, noch vor allem anderen.
-      #
-      # Der Schritt weiter unten braucht das ausgecheckte Skript und läuft
-      # deshalb erst nach Checkout und npm-Einrichtung — das sind dreißig bis
-      # sechzig Sekunden, in denen die Statusanzeige nichts weiß. Daniel am
-      # 21.08.2026: „der läuft sogar schon seit 1min aber ist erst jetzt in
-      # der app aufgetaucht."
-      #
-      # Ein curl braucht nichts als das Token. Schlägt er fehl, läuft der Job
-      # weiter — die spätere Anmeldung holt es nach.
+      # Sofort anmelden, noch vor Checkout und Einrichtung (30–60 Sekunden, in denen die Statusanzeige sonst nichts weiß; Daniel, 21.08.2026).
       - name: Sofort anmelden
         continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: |
           if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
-          printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zustand":"laeuft","url":"%s","notiz":"wird eingerichtet"}' \
-            "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" \
+          printf '{"lauf_id":"%s","repo":"%s","workflow":"%s","zweck":"%s","ziel":"%s","zustand":"laeuft","url":"%s","notiz":"wird eingerichtet"}' \
+            "$GITHUB_RUN_ID" "$GITHUB_REPOSITORY" "$GITHUB_WORKFLOW" "$LAUF_ZWECK" "$LAUF_ZIEL" \
             "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" > /tmp/anmeldung.json
           curl -sS --max-time 10 -X POST "https://newsletter.animekalender.workers.dev/lauf" \
             -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
             --data-binary @/tmp/anmeldung.json > /dev/null || true
 
-
+      # Ohne `ref` holte checkout den Commit des Auslösers — bei einem eingereihten Lauf den Stand von vor der Wartezeit (so am 09.08.2026).
       - uses: actions/checkout@v4
         with:
-          # Ohne `ref` holt checkout den Commit, für den der Lauf ausgelöst
-          # wurde — bei einem eingereihten Lauf also den Stand von vor der
-          # Wartezeit. Der Lauf baut dann auf veralteten Daten und scheitert
-          # beim Push am Konflikt. Genau so am 09.08.2026 passiert, als dieser
-          # Lauf hinter dem Nachtlauf wartete und danach dessen frisch
-          # gepushte Dateien nicht kannte.
           ref: main
 
-      # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
-      # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
-      # Das Meldeskript an einen Ort legen, den kein Zweigwechsel wegnimmt.
-      #
-      # Am 21.08.2026 hat ein Auftrags-Lauf seinen eigenen Zweig angelegt und
-      # ist dorthin gewechselt — auf dem gab es `tools/lauf-melden.sh` noch
-      # nicht. Die Abmeldung scheiterte mit Exit 127 und machte einen Lauf rot,
-      # dessen Arbeit fertig und richtig war.
-      - name: Melder bereitlegen
-        run: |
-          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
-          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
-
-      - name: Lauf anmelden
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" laeuft
-
-      - uses: actions/setup-node@v4
+      - name: Einrichten
+        id: einrichten
+        uses: ./.github/actions/einrichten
         with:
-          node-version: 22
-          cache: npm
+          cache: restore
+          playwright: 'true'
 
-      - run: npm ci
-
-      # `data/cache/` liegt bewusst nicht im Repo, wird aber vom Build
-      # gebraucht — ohne ihn entstünde ein Datensatz ganz ohne Titel. Der
-      # Cache-Schlüssel wechselt täglich, damit die Metadaten nicht ewig
-      # altern; greift er nicht, holt der nächste Schritt sie neu.
-      - name: AniList-Cache wiederverwenden
-        id: cache
-        uses: actions/cache@v4
-        with:
-          path: data/cache
-          key: anilist-cache-${{ github.run_id }}
-          restore-keys: anilist-cache-
-
+      # `data/cache/` wird vom Build gebraucht — ohne ihn entstünde ein Datensatz ganz ohne Titel. Fehlt er, holt dieser Schritt die Rohdaten.
       - name: Rohdaten holen, falls kein Cache da ist
-        continue-on-error: true
-        if: steps.cache.outputs.cache-matched-key == ''
+        if: steps.einrichten.outputs.cache-treffer == ''
         env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
           SITE_URL: ${{ vars.SITE_URL }}
-        run: npm run data:fetch
+        run: bash tools/schritt.sh --zeit 15m "Rohdaten holen" -- npm run data:fetch
 
-      - name: Fortschritt — Rohdaten holen, falls kein Cache da ist
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Rohdaten holen, falls kein Cache da ist"
-
-      - name: Browser installieren
-        continue-on-error: true
-        run: npx playwright install --with-deps chromium
-
+      # Drei Wochen genügen stündlich; der Wochenlauf schaut weiter zurück.
       - name: Crunchyroll-Kalender lesen
-        continue-on-error: true
-        # Drei Wochen genügen stündlich; der Wochenlauf schaut weiter zurück.
-        run: npx tsx pipeline/scrape-crunchyroll.ts --weeks 3
+        run: bash tools/schritt.sh --zeit 10m "Crunchyroll-Kalender" -- npx tsx pipeline/scrape-crunchyroll.ts --weeks 3
 
-      # Kommende Synchro-Folgen stehen nur im Wochenprogramm (gemessen 25.09.2026: der Kalender
-      # führt sie nicht). Direkt hinter dem Kalender, weil die Anschlussprüfung dessen Stand braucht;
-      # Abweichungen gehen als Vorfall an den Worker, daher das Token.
+      # Kommende Synchro-Folgen stehen nur im Wochenprogramm (gemessen 25.09.2026: der Kalender führt sie nicht). Direkt hinter dem Kalender, weil die
+      # Anschlussprüfung dessen Stand braucht; Abweichungen gehen als Vorfall an den Worker, daher das Token.
       - name: Crunchyroll-Wochenprogramm lesen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npx tsx pipeline/scrape-crunchyroll-woche.ts
+        run: bash tools/schritt.sh --zeit 8m "Crunchyroll-Wochenprogramm" -- npx tsx pipeline/scrape-crunchyroll-woche.ts
 
-      # Ein geschätzter Termin, an dem nichts erschien, darf nicht stehen bleiben,
-      # als wäre er eingetreten. Läuft direkt hinter dem Kalender-Abruf, weil er
-      # dessen Beobachtungen braucht.
+      # Ein geschätzter Termin, an dem nichts erschien, darf nicht stehen bleiben, als wäre er eingetreten. Braucht die Beobachtungen des Kalender-Abrufs.
       - name: Verpasste Termine prüfen
-        continue-on-error: true
-        run: npx tsx pipeline/termine-pruefen.ts
+        run: bash tools/schritt.sh --zeit 5m "Verpasste Termine" -- npx tsx pipeline/termine-pruefen.ts
 
-      # Was der Prüflauf eben gemessen hat, als Bild festhalten: Crunchyrolls Kalender an dem Tag,
-      # auf den sich eine Meldung „nicht erschienen"/„verspätet erschienen" bezieht (privat, R2).
-      # Öffnet nur dann einen Browser, wenn ein frischer Vermerk noch kein Bild hat.
+      # Was der Prüflauf gemessen hat, als Bild festhalten (privat, R2). Öffnet nur dann einen Browser, wenn ein frischer Vermerk noch kein Bild hat.
       - name: Messbelege ablegen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npx tsx pipeline/messbelege.ts
+        run: bash tools/schritt.sh --zeit 10m "Messbelege" -- npx tsx pipeline/messbelege.ts
 
-      # Das TV-Programm von RTL+ nennt nur den laufenden Tag — mehrmals täglich
-      # abgefragt, damit keine Sendung durchrutscht (16.09.2026, status.md).
+      # Das TV-Programm von RTL+ nennt nur den laufenden Tag — mehrmals täglich abgefragt, damit keine Sendung durchrutscht (16.09.2026).
       - name: TV-Programm von RTL+ lesen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: npm run data:tv-programm -- ${{ inputs.tvde && '--tvde' || '' }}
+        run: bash tools/schritt.sh --zeit 5m "TV-Programm" -- npm run data:tv-programm -- ${{ inputs.tvde && '--tvde' || '' }}
 
-      - name: Fortschritt — Crunchyroll-Kalender lesen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Crunchyroll-Kalender lesen"
-
-      # Der Briefkasten wird weiterhin stündlich geleert — nur eine Stufe
-      # später: „Bestand — zusammenführen und bauen" läuft direkt hinter diesem
-      # Lauf und arbeitet die Meldungen ein. Was abends gemeldet wird, steht
-      # damit unverändert eine Stunde später auf der Seite.
-
-      # Nicht mehr direkt auf main: Der Fund geht als Pull Request ein und wird
-      # nur gemergt, wenn er sich sauber einfügt. Sonst bleibt der Zweig stehen,
-      # und „Claude — Daten-PR zusammenführen" löst den Konflikt mit Blick auf
-      # beide Seiten — statt ihn per Reset zu überfahren.
       - name: Quellen als Pull Request einreichen
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           bash tools/quellen-pr.sh "chore(data): Sendezeiten gesammelt"
 
+      - name: Fehlschläge auswerten
+        id: auswerten
+        if: always()
+        run: bash tools/schritte-auswerten.sh
+
+      # Nur bei einem Fehlschlag: Dieser Lauf läuft stündlich, eine Erfolgsmeldung wäre Lärm in einem Kanal, den auch andere lesen.
       - name: Ergebnis nach Discord melden
-        # Nur bei einem Fehlschlag. Dieser Lauf läuft täglich beziehungsweise
-        # stündlich; eine Erfolgsmeldung wäre Lärm in einem Kanal, den auch
-        # andere lesen.
         if: failure()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
@@ -241,6 +116,4 @@ jobs:
       - name: Lauf abmelden
         continue-on-error: true
         if: always()
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
+        run: bash tools/lauf-abmelden.sh "${{ job.status }}" "${{ steps.auswerten.outputs.fehler }}"

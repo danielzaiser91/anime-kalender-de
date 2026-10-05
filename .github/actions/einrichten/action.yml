@@ -9,6 +9,10 @@ inputs:
   playwright:
     description: 'Chromium für Playwright installieren'
     default: 'false'
+outputs:
+  cache-treffer:
+    description: 'Schlüssel des gefundenen AniList-Caches; leer, wenn keiner da war (dann muss der Lauf die Rohdaten selbst holen)'
+    value: ${{ steps.lesen.outputs.cache-matched-key }}
 runs:
   using: composite
   steps:
@@ -40,6 +44,7 @@ runs:
         restore-keys: anilist-cache-
 
     - name: AniList-Cache lesen
+      id: lesen
       if: inputs.cache == 'restore'
       uses: actions/cache/restore@v4
       with:
