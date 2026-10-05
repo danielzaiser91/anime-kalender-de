@@ -1,6 +1,24 @@
 {
-  "geholtAm": "2026-10-04T10:37:35.519Z",
+  "geholtAm": "2026-10-05T11:28:56.565Z",
   "artikel": [
+    {
+      "titel": "School Babysitters – die besondere KiTa im Stream bei ADN",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/",
+      "datum": "2026-10-05",
+      "showIds": [
+        502,
+        344
+      ]
+    },
+    {
+      "titel": "Warum gibt es diese Woche keine neue Folge One Piece?",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/04/warum-gibt-es-diese-woche-keine-neue-folge-one-piece/",
+      "datum": "2026-10-04",
+      "showIds": [
+        561,
+        1412
+      ]
+    },
     {
       "titel": "Nia Liston: The Merciless Maiden – alle Infos zum neuen Isekai",
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/03/nia-liston-the-merciless-maiden-alle-infos-zum-neuen-isekai/",
@@ -714,51 +732,6 @@
         1384,
         1383,
         1381
-      ]
-    },
-    {
-      "titel": "Streame Sailor Moon Super S auf Deutsch bei ADN",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/04/01/streame-sailor-moon-super-s-auf-deutsch-bei-adn/",
-      "datum": "2026-04-01",
-      "showIds": [
-        427
-      ]
-    },
-    {
-      "titel": "Line-up zur Frühlings-Season 2026: Neue Anime bei ADN",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/03/30/line-up-zur-fruehlings-season-2026-neue-anime-bei-adn/",
-      "datum": "2026-03-30",
-      "showIds": [
-        561,
-        1008,
-        1383,
-        1375,
-        1382,
-        1385,
-        1384,
-        427,
-        329,
-        1071,
-        1369,
-        1381,
-        1395,
-        1378,
-        1379,
-        1333,
-        438,
-        1397,
-        1389,
-        1390,
-        1069,
-        1396,
-        1391,
-        131,
-        522,
-        1370,
-        1368,
-        1364,
-        770,
-        190
       ]
     }
   ]
