@@ -2,6 +2,7 @@ import type { NewsEintrag, ReleaseEvent } from '../../shared/types.ts'
 import { PLATFORMS, RELEASE_TYPES, anbieterName } from '../../shared/types.ts'
 import { formatDate, weekdayName } from '../../shared/time.ts'
 import { sorteVon, SORTEN, wichtigkeit, type Sorte } from './mail-sorten.ts'
+import { messText, messZelle, type Messwerte } from './monitor-statistik.ts'
 import {
   badge,
   calendarUrl,
@@ -733,6 +734,7 @@ export function outageMail(
 export function weeklyStatusMail(
   lines: MonitorLine[],
   siteUrl: string,
+  messwerte: Map<string, Messwerte> = new Map(),
 ): { subject: string; html: string; text: string } {
   const down = lines.filter((l) => !l.ok)
   const subject =
@@ -751,7 +753,7 @@ export function weeklyStatusMail(
         <td style="padding:5px 0;border-top:1px solid #232c40;color:#d7dced;">${escapeHtml(l.name)}</td>
         <td style="padding:5px 0;border-top:1px solid #232c40;text-align:right;color:#7c879e;font-size:13px;white-space:nowrap;">${
           l.ok ? `${l.ms} ms` : escapeHtml(l.reason ?? 'weg')
-        }</td>
+        }</td>${messZelle(messwerte.get(l.url))}
       </tr>`,
     )
     .join('')
@@ -759,7 +761,7 @@ export function weeklyStatusMail(
   const html = SHELL(
     subject,
     `<p style="margin:0 0 8px;">Stand der letzten Prüfung aller ${lines.length} überwachten
-     Seiten:</p>
+     Seiten, daneben Durchschnitt, Höchstwert und Zahl der Läufe der letzten 7 Tage:</p>
      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>
      <p style="margin:18px 0 0;color:#7c879e;font-size:12px;">
        Diese Mail kommt einmal die Woche, auch wenn alles läuft — daran erkennst du,
@@ -771,7 +773,7 @@ export function weeklyStatusMail(
 
   const text =
     `${subject}\n\n` +
-    lines.map((l) => `${l.ok ? 'ok  ' : 'WEG '} ${l.name} — ${l.ok ? `${l.ms} ms` : (l.reason ?? '')}`).join('\n')
+    lines.map((l) => `${l.ok ? 'ok  ' : 'WEG '} ${l.name} — ${l.ok ? `${l.ms} ms` : (l.reason ?? '')}${messText(messwerte.get(l.url))}`).join('\n')
 
   return { subject, html, text }
 }

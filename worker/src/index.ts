@@ -18,6 +18,7 @@ import { buildIcs } from '../../shared/ics.ts'
 import { sendMail } from './mail.ts'
 import { checkAllSites, confirmOutages } from './monitor.ts'
 import { schreibeStaende, schreibeVerlauf } from './monitor-speicher.ts'
+import { ladeMesswerte } from './monitor-statistik.ts'
 import {
   BRAND,
   confirmMail,
@@ -1160,7 +1161,7 @@ export async function runMonitor(
     if (already) {
       log.push('Wochenübersicht diese Woche bereits verschickt')
     } else {
-      const mail = weeklyStatusMail(lines, env.SITE_URL)
+      const mail = weeklyStatusMail(lines, env.SITE_URL, await ladeMesswerte(env.DB, nowIso))
       await sendMail(env, { to, ...mail, fromName: BRAND.monitor.name })
       if (!force) {
         await env.DB.prepare(
