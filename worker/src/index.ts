@@ -17,7 +17,7 @@ import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { buildIcs } from '../../shared/ics.ts'
 import { sendMail } from './mail.ts'
 import { checkAllSites, confirmOutages } from './monitor.ts'
-import { schreibeStaende } from './monitor-speicher.ts'
+import { schreibeStaende, schreibeVerlauf } from './monitor-speicher.ts'
 import {
   BRAND,
   confirmMail,
@@ -1083,6 +1083,7 @@ export async function runMonitor(
     new Map([...before].map(([url, row]) => [url, row.last_ok_at])),
     nowIso,
   )
+  await schreibeVerlauf(env.DB, results, nowIso)
 
   // Seiten, die aus SITES entfernt wurden, blieben als Zeile stehen und damit
   // auf ihrem letzten Stand — meist rot, weil sie ja wegen eines Fehlers

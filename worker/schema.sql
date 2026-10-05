@@ -74,3 +74,12 @@ CREATE TABLE IF NOT EXISTS site_status (
   last_ok_at   TEXT,
   fail_streak  INTEGER NOT NULL DEFAULT 0
 );
+
+-- Messverlauf je Seite und Lauf, 60 Tage — siehe migrations/044.
+CREATE TABLE IF NOT EXISTS site_history (
+  url         TEXT NOT NULL,
+  checked_at  TEXT NOT NULL,
+  ok          INTEGER NOT NULL,
+  ms          INTEGER NOT NULL,
+  PRIMARY KEY (url, checked_at)
+);
