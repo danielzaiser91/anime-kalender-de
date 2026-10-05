@@ -65,5 +65,17 @@
     "wand": "keine sichtbar",
     "fix": "beleg-bild.ts: sperreEntfernen, Leer-Wächter",
     "beleg": "Zwei Filmseiten angesehen: Titel, Daten, Veröffentlichung lesbar."
+  },
+  "www.manime.de": {
+    "geprueft": "2026-10-05",
+    "wand": "keine",
+    "fix": "—",
+    "beleg": "Aufnahme der News „RTL/TOGGO zensiert Dragon Ball Daima\" vom 05.10.2026 angesehen: Artikel lesbar, kein Banner; robots.txt: User-agent * ohne Sperre"
+  },
+  "collectors-junkies.com": {
+    "geprueft": "2026-10-05",
+    "wand": "keine sichtbar",
+    "fix": "—",
+    "beleg": "Aufnahme des Beitrags „Code Geass Gesamtausgabe\" vom 05.10.2026 angesehen: Beitrag lesbar, kein Banner; robots.txt sperrt nur GPTBot, Ahrefs, MJ12 u. a., nicht den Browser-Zugriff"
   }
 }

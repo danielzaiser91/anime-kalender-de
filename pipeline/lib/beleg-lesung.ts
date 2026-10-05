@@ -26,6 +26,9 @@ const ARTIKEL = [
   /^https:\/\/de\.wikipedia\.org\/wiki\//,
   /^https:\/\/www\.kinoheld\.de\/film\//,
   /^https:\/\/press\.disneyplus\.com\//,
+  /* Seit 05.10.2026 von Hand geprüft (robots.txt erlaubt alle Agenten; Bild angesehen, kein Banner): manime.de-News und Collectors-Junkies-Beiträge. */
+  /^https:\/\/www\.manime\.de\/news\//,
+  /^https:\/\/collectors-junkies\.com\/[a-z0-9-]{20,}\/?$/,
 ]
 
 export function istArtikel(url: string): boolean {
@@ -51,6 +54,8 @@ export interface Lesung {
   ausgabe?: string
   /** Der Hash wechselte, ohne dass sich ein Datum änderte — jedes Mal eine Anomalie, die untersucht wird. */
   aenderungOhneDatum?: true
+  /** Fassung der Hash-Regel (2 seit 05.10.2026: relative Zeitangaben zählen nicht). Hashes verschiedener Fassungen sind nicht vergleichbar. */
+  hf?: 2
   /** Schlüssel in der privaten Ablage, falls das Hochladen gelang. */
   bild?: string
   /** Das Datum in der Kopfzeile des Artikels weicht von Veröffentlicht/Aktualisiert laut Seitendaten ab — jedes Mal untersuchen (Daniel, 05.10.2026). */
@@ -83,9 +88,13 @@ export function adressenMitOffenemTermin(releases: Release[], gedaechtnis: Beleg
   return [...offen].filter(([u, o]) => o || !gedaechtnis[u]).map(([u]) => u)
 }
 
-/** Leerraum und unsichtbare Zeichen zählen nicht als Änderung. */
+/** Leerraum, unsichtbare Zeichen und relative Zeitangaben („vor 5 Tagen", Kommentare) zählen nicht als Änderung — sie wechseln täglich, ohne dass sich der Artikel ändert (Fassung 2, 05.10.2026). */
 export function textHash(text: string): string {
-  const norm = text.replace(/[­​]/g, '').replace(/\s+/g, ' ').trim()
+  const norm = text
+    .replace(/[­​]/g, '')
+    .replace(/\bvor (?:\d+|einer|einem|ein) (?:Sekunden?|Minuten?|Stunden?|Tag(?:en)?|Wochen?|Monat(?:en)?|Jahr(?:en)?)\b/gi, 'vor …')
+    .replace(/\s+/g, ' ')
+    .trim()
   return createHash('sha256').update(norm).digest('hex').slice(0, 16)
 }
 

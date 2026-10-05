@@ -117,6 +117,7 @@ async function main(): Promise<void> {
         const lesung: Lesung = {
           am: heute,
           hash,
+          hf: 2,
           veroeffentlicht: mitDatum ? (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)) : undefined,
           aktualisiert: mitDatum ? (isoTag(g.aktualisiert) ?? crunchyrollDatum(g.aktualisiert)) : undefined,
           /* Eine Produktseite nennt den Erscheinungstag der Ausgabe — eine andere Aussage als ein Veröffentlichungsdatum. */
@@ -132,7 +133,7 @@ async function main(): Promise<void> {
         /* Nur eine Lesung mit Wand-Prüfung (`qs: ok`) taugt zum Vergleich: Altbestand wurde mit anderem Text gehasht, eine Wand zeigt nur die Wand. Beide werden ersetzt, nicht ergänzt. */
         const letzte = gedaechtnis[url]?.lesungen.filter((l) => l.qs === 'ok').at(-1)
         /* Ein neuer Text bei gleichen Daten darf nicht vorkommen: Er heißt, dass Unwesentliches den Hash ändert (Daniel, 03.10.2026). */
-        if (letzte && letzte.hash !== hash && letzte.veroeffentlicht === lesung.veroeffentlicht && letzte.aktualisiert === lesung.aktualisiert && letzte.ausgabe === lesung.ausgabe) {
+        if (letzte && letzte.hf === 2 && letzte.hash !== hash && letzte.veroeffentlicht === lesung.veroeffentlicht && letzte.aktualisiert === lesung.aktualisiert && letzte.ausgabe === lesung.ausgabe) {
           lesung.aenderungOhneDatum = true
           warn(`Beleg ${url}: Text geändert, Daten gleich — untersuchen (tools/belege-pruefen.mjs)`)
         }

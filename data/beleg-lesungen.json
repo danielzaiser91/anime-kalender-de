@@ -4373,62 +4373,6 @@
       }
     ]
   },
-  "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/": {
-    "zuletzt": "2026-10-05",
-    "lesungen": [
-      {
-        "am": "2026-10-05",
-        "hash": "029df6d6cb4d909c",
-        "veroeffentlicht": "2026-09-28",
-        "aktualisiert": "2026-10-01",
-        "qs": "ok",
-        "markierung": [
-          0.07884615384615384,
-          0.13827433628318583,
-          0.8538461538461538,
-          0.01943618639380531
-        ],
-        "bild": "www.anime2you.de/a5f528664cdcca70/2026-10-05-029df6d6cb4d909c.webp",
-        "text": "www.anime2you.de/a5f528664cdcca70/2026-10-05-029df6d6cb4d909c.txt.gz"
-      },
-      {
-        "am": "2026-10-05",
-        "hash": "445d9e46024c81ed",
-        "veroeffentlicht": "2026-09-28",
-        "aktualisiert": "2026-10-01",
-        "aenderungOhneDatum": true,
-        "qs": "ok",
-        "markierung": [
-          0.07884615384615384,
-          0.13827433628318583,
-          0.8538461538461538,
-          0.01943618639380531
-        ],
-        "markierungen": {
-          "1686": [
-            0.07884615384615384,
-            0.13827433628318583,
-            0.8538461538461538,
-            0.01943618639380531
-          ],
-          "9756": [
-            0.07884615384615384,
-            0.3075912610619469,
-            0.8538461538461538,
-            0.01943618639380531
-          ],
-          "187941": [
-            0.07884615384615384,
-            0.2645706581858407,
-            0.8538461538461538,
-            0.01943618639380531
-          ]
-        },
-        "bild": "www.anime2you.de/a5f528664cdcca70/2026-10-05-445d9e46024c81ed.webp",
-        "text": "www.anime2you.de/a5f528664cdcca70/2026-10-05-445d9e46024c81ed.txt.gz"
-      }
-    ]
-  },
   "https://www.whats-on-netflix.com/news/steel-ball-run-part-2-netflix-release-date/": {
     "zuletzt": "2026-10-05",
     "lesungen": [
