@@ -258,6 +258,12 @@ let geholt = 0
 let neu = 0
 let deutsch = 0
 let fehlerInFolge = 0
+/* Zwischenstand sichern (05.10.2026): Der Lauf braucht für 400 Seiten ~40 Minuten und schrieb früher erst nach der Schleife — ein Abbruch (Zeitgrenze, Sperre) verlor alles. */
+const sichern = (): void => writeJson('data/anisearch-titel.json', bestand, true)
+process.on('SIGTERM', () => {
+  sichern()
+  process.exit(143)
+})
 for (const t of warteschlange.slice(0, GRENZE)) {
   const asId = bruecke[String(t.id)]!
   try {
@@ -301,6 +307,7 @@ for (const t of warteschlange.slice(0, GRENZE)) {
       if (fund.quelle !== 'ueberschrift') deutsch++
     }
     geholt++
+    if (geholt % 25 === 0) sichern()
     if (geholt % 100 === 0)
       log(`  ${geholt}/${Math.min(GRENZE, warteschlange.length)} — zuletzt „${fund?.titel ?? '—'}"`)
   } catch (err) {
@@ -313,7 +320,7 @@ for (const t of warteschlange.slice(0, GRENZE)) {
   await sleep(TAKT_MS)
 }
 
-writeJson('data/anisearch-titel.json', bestand, true)
+sichern()
 log(
   `${geholt} Seiten geholt, ${neu} Titel gesichert (${deutsch} davon belegt deutsch), ` +
     `${Object.keys(bestand).length} insgesamt`,
