@@ -27,7 +27,7 @@
 import { chromium } from 'playwright'
 import { normalizeTitle, type CrunchyrollData } from './lib/crunchyroll.ts'
 import { todayIso } from '../shared/time.ts'
-import { MONATE, wocheAus } from '../shared/wochenprogramm.ts'
+import { MONATE, neuesterWochenartikel, wocheAus } from '../shared/wochenprogramm.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { meldeAbbruch } from './lib/abbruch.ts'
@@ -207,7 +207,7 @@ async function main(): Promise<void> {
       await seite.goto(UEBERSICHT, { waitUntil: 'domcontentloaded', timeout: 60_000 })
       await seite.waitForTimeout(3000)
       const links = await seite.$$eval('a[href*="wochenprogramm"]', (as) => as.map((a) => (a as HTMLAnchorElement).href))
-      artikel = links.sort().at(-1) ?? ''
+      artikel = neuesterWochenartikel(links) ?? ''
       if (!artikel) throw new Error('Kein Wochenprogramm-Artikel in der Kategorie gefunden')
     }
     log(`Wochenprogramm: ${artikel}`)

@@ -40,3 +40,16 @@ export function wocheAus(ueberschrift: string, jahr: number): string | null {
   /* Eine Woche über den Jahreswechsel („vom 29. Dezember bis 4. Januar") beginnt im Vorjahr. */
   return iso(monatVon === 12 && monatBis === 1 ? jahr - 1 : jahr, monatVon, Number(m[1]))
 }
+
+/**
+ * Der neueste Wochenprogramm-Artikel unter den Adressen der Kategorie: nach dem Datum in der Adresse („…/2026/10/5/…"), nicht nach dem Text.
+ * Anlass (05.10.2026): `links.sort().at(-1)` hielt „…/2026/7/6/…" für neuer als „…/2026/10/5/…" („7" > „1"); die eingefrorene Sommer-Seite blieb gewählt,
+ * und `data/crunchyroll-woche.json` kam seit 12:07 UTC nicht mehr an. Adressen ohne Datum zählen zuletzt.
+ */
+export function neuesterWochenartikel(links: string[]): string | undefined {
+  const tag = (l: string): number => {
+    const m = /\/(\d{4})\/(\d{1,2})\/(\d{1,2})\//.exec(l)
+    return m ? Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : -1
+  }
+  return [...links].sort((a, b) => tag(b) - tag(a))[0]
+}

@@ -26,7 +26,7 @@ import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.t
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
 import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, releaseStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
-import { wocheAus } from '../shared/wochenprogramm.ts'
+import { neuesterWochenartikel, wocheAus } from '../shared/wochenprogramm.ts'
 import { artikelNenntTitel, folgeAmVerpasstenTermin, messbelegSchluessel, offeneMessbelege, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { BELEG_SCHLUESSEL as ABLAGE_SCHLUESSEL } from '../shared/beleg-schluessel.ts'
 import { kalenderTag, ohneDoppelteFolgen, verspaetungsMeldungen } from './lib/news-verspaetung.ts'
@@ -5193,6 +5193,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 */
 {
   const ueberschrift = (t: string) => `Crunchyrolls aktuelles Wochenprogramm ${t}`
+  pruefe('Wochenprogramm: der neueste Artikel gilt nach Datum in der Adresse, nicht nach Text (Sommer 7/6 vor Herbst 10/5)', neuesterWochenartikel(['https://x/2026/7/6/crunchyroll-wochenprogramm-sommer-2026', 'https://x/2026/10/5/crunchyroll-wochenprogramm-herbst-2026', 'https://x/ohne-datum']) === 'https://x/2026/10/5/crunchyroll-wochenprogramm-herbst-2026' && neuesterWochenartikel([]) === undefined)
   pruefe('Wochenprogramm: Monat ausgeschrieben', wocheAus(ueberschrift('vom 21. bis 27. September'), 2026) === '2026-09-21')
   pruefe('Wochenprogramm: kurze Zahlen', wocheAus(ueberschrift('vom 28.9. bis 4.10.'), 2026) === '2026-09-28')
   pruefe('Wochenprogramm: gemischt', wocheAus(ueberschrift('vom 28. September bis 4.10.'), 2026) === '2026-09-28')
