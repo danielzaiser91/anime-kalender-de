@@ -258094,7 +258094,7 @@
         "nr": 13
       }
     ],
-    "geholtAm": "2026-09-01T18:50:21.769Z"
+    "geholtAm": "2026-10-05T14:42:42.696Z"
   },
   "13776": {
     "anisearchId": 13776,
@@ -288470,7 +288470,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T20:58:13.367Z"
+    "geholtAm": "2026-10-05T14:45:13.518Z"
   },
   "16224": {
     "anisearchId": 16224,
@@ -289725,7 +289725,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-01T17:58:45.849Z"
+    "geholtAm": "2026-10-05T14:39:57.918Z"
   },
   "16397": {
     "anisearchId": 16397,
@@ -294429,7 +294429,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T17:30:04.921Z"
+    "geholtAm": "2026-10-05T14:39:51.020Z"
   },
   "16884": {
     "anisearchId": 16884,
@@ -295354,7 +295354,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-14T11:40:05.771Z"
+    "geholtAm": "2026-10-05T14:43:58.044Z"
   },
   "16976": {
     "anisearchId": 16976,
@@ -309441,43 +309441,103 @@
     "anisearchId": 17984,
     "folgen": [
       {
-        "nr": 1
+        "nr": 1,
+        "datum": "2026-07-08",
+        "minuten": 24,
+        "de": "Die Liebe rettet natürlich die Welt.",
+        "en": "It’s Always Love That Saves the World",
+        "ja": "Ai Koso, Sekai o Sukuun da yo naa (愛こそ, 世界を救うんだよなぁ)"
       },
       {
-        "nr": 2
+        "nr": 2,
+        "datum": "2026-07-15",
+        "minuten": 24,
+        "de": "Stehst du auf die Ästhetik des Vergehens?",
+        "en": "Do You Enjoy the Aesthetics of Destruction?",
+        "ja": "Horobi no Bigaku ga Okonomi Desu ka? (滅びの美学がお好みですか?)"
       },
       {
-        "nr": 3
+        "nr": 3,
+        "datum": "2026-07-22",
+        "minuten": 24,
+        "de": "He, du kleiner Scheißer!",
+        "en": "Hey, Brat",
+        "ja": "Oi, Kusogaki (おい, クソガキ)"
       },
       {
-        "nr": 4
+        "nr": 4,
+        "datum": "2026-07-29",
+        "minuten": 24,
+        "de": "Schon wieder ’ne 180-Grad-Wende …",
+        "en": "They’re Flip-Flopping Again?",
+        "ja": "Mata Te no Hiragaeshi ka yo (また手のひら返しかよ)"
       },
       {
-        "nr": 5
+        "nr": 5,
+        "datum": "2026-08-05",
+        "minuten": 24,
+        "de": "Ich lieb’s halt, so zu tun als ob",
+        "en": "I Love Facades",
+        "ja": "Tatemae ga Daisuki Deshi tene (建前が大好きでしてね)"
       },
       {
-        "nr": 6
+        "nr": 6,
+        "datum": "2026-08-12",
+        "minuten": 24,
+        "de": "Wenn’s euch nicht passt, hau ich einfach ab.",
+        "en": "If You Don’t Like It, I’ll Just Run",
+        "ja": "Iya Nara Ore wa Nigeru dake Desu (嫌なら俺は逃げるだけです)"
       },
       {
-        "nr": 7
+        "nr": 7,
+        "datum": "2026-08-19",
+        "minuten": 24,
+        "de": "Halt die Fresse, du Abschaum!",
+        "en": "Shut Your Filthy Mouth, Scum",
+        "ja": "Kitanai Kuchi o Tojiro, Gomi ga (汚い口を閉じろ, ゴミが)"
       },
       {
-        "nr": 8
+        "nr": 8,
+        "datum": "2026-08-26",
+        "minuten": 24,
+        "de": "Ist doch krank, Liebe in Zahlen zu messen!",
+        "en": "You Can’t Quantify Love!",
+        "ja": "Ai o Suuchi de Hakaru Nante Okashii yo! (愛を数値ではかるなんておかしいよ!)"
       },
       {
-        "nr": 9
+        "nr": 9,
+        "datum": "2026-09-02",
+        "minuten": 24,
+        "de": "Livia …",
+        "en": "Livia…",
+        "ja": "Livia…… (リビア……)"
       },
       {
-        "nr": 10
+        "nr": 10,
+        "datum": "2026-09-09",
+        "minuten": 24,
+        "de": "Gib ruhig Salz in die Wunde!",
+        "en": "They Hit Where It Hurts",
+        "ja": "Itai Tokoro o Tsuki Yagaru (痛いところを突きやがる)"
       },
       {
-        "nr": 11
+        "nr": 11,
+        "datum": "2026-09-16",
+        "minuten": 24,
+        "de": "Das ist doch gerade scheißegal!",
+        "en": "I Don’t Care About That!",
+        "ja": "Sonna no Dou datte Ii! (そんなのどうだっていい!)"
       },
       {
-        "nr": 12
+        "nr": 12,
+        "datum": "2026-09-23",
+        "minuten": 24,
+        "de": "Diese Welt ist hart zu Statisten.",
+        "en": "This World Is Tough for Mobs",
+        "ja": "Mob ni Kibishii Sekai (モブに厳しい世界)"
       }
     ],
-    "geholtAm": "2026-09-01T18:19:27.532Z"
+    "geholtAm": "2026-10-05T14:40:04.788Z"
   },
   "18041": {
     "anisearchId": 18041,
@@ -319915,7 +319975,7 @@
         "nr": 24
       }
     ],
-    "geholtAm": "2026-09-01T18:29:55.423Z"
+    "geholtAm": "2026-10-05T14:40:11.657Z"
   },
   "18914": {
     "anisearchId": 18914,
@@ -323203,7 +323263,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T20:55:59.148Z"
+    "geholtAm": "2026-10-05T14:44:04.921Z"
   },
   "19246": {
     "anisearchId": 19246,
@@ -323773,7 +323833,7 @@
         "nr": 10
       }
     ],
-    "geholtAm": "2026-09-01T18:37:27.082Z"
+    "geholtAm": "2026-10-05T14:40:18.524Z"
   },
   "19294": {
     "anisearchId": 19294,
@@ -324500,6 +324560,48 @@
     ],
     "geholtAm": "2026-09-01T18:37:48.215Z"
   },
+  "19353": {
+    "anisearchId": 19353,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      }
+    ],
+    "geholtAm": "2026-10-05T14:43:37.597Z"
+  },
   "19373": {
     "anisearchId": 19373,
     "folgen": [
@@ -325030,7 +325132,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T20:56:12.481Z"
+    "geholtAm": "2026-10-05T14:44:11.776Z"
   },
   "19443": {
     "anisearchId": 19443,
@@ -325078,7 +325180,7 @@
         "nr": 14
       }
     ],
-    "geholtAm": "2026-09-01T18:39:12.779Z"
+    "geholtAm": "2026-10-05T14:40:25.391Z"
   },
   "19444": {
     "anisearchId": 19444,
@@ -328434,7 +328536,7 @@
         "nr": 24
       }
     ],
-    "geholtAm": "2026-09-01T18:42:58.175Z"
+    "geholtAm": "2026-10-05T14:40:32.256Z"
   },
   "19634": {
     "anisearchId": 19634,
@@ -328443,7 +328545,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T18:43:05.210Z"
+    "geholtAm": "2026-10-05T14:40:39.111Z"
   },
   "19635": {
     "anisearchId": 19635,
@@ -328538,7 +328640,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T18:43:26.338Z"
+    "geholtAm": "2026-10-05T14:40:45.972Z"
   },
   "19638": {
     "anisearchId": 19638,
@@ -330275,7 +330377,7 @@
         "nr": 24
       }
     ],
-    "geholtAm": "2026-09-01T18:44:50.912Z"
+    "geholtAm": "2026-10-05T14:40:52.837Z"
   },
   "19779": {
     "anisearchId": 19779,
@@ -330956,43 +331058,103 @@
     "anisearchId": 19951,
     "folgen": [
       {
-        "nr": 1
+        "nr": 1,
+        "datum": "2026-07-04",
+        "minuten": 24,
+        "de": "Kampf auf Leben und Tod? Silberner Ritter vs. Silberner Ritter!",
+        "en": "Duel to the Death? Silver Knight VS Silver Knight!",
+        "ja": "Shitou? Hakugin no Kishi tai Hakugin no Kishi! (死闘? 白銀の騎士対白銀の騎士!)"
       },
       {
-        "nr": 2
+        "nr": 2,
+        "datum": "2026-07-13",
+        "minuten": 24,
+        "de": "Der Giftzahn des Attentäters bedroht die Elfenbraut",
+        "en": "The Toxic Fangs of Assassination Target the Elvish Bride",
+        "ja": "Elf no Hanayome ni Semarishi, Ansatsu no Dokuga (エルフの花嫁に迫りし, 暗殺の毒牙)"
       },
       {
-        "nr": 3
+        "nr": 3,
+        "datum": "2026-07-20",
+        "minuten": 24,
+        "de": "Der Untergang der Schurken und der Reigen der Geschwister",
+        "en": "The Fall of Villains and the Dance of Sibling Love",
+        "ja": "Akutou Sange to Kyoudai Kizuna no Mai (悪党散華と兄妹絆の舞)"
       },
       {
-        "nr": 4
+        "nr": 4,
+        "datum": "2026-07-27",
+        "minuten": 24,
+        "de": "Der Geist der Heiligen Maid wandert durch das verfluchte Heim",
+        "en": "The Saint’s Spirit Wanders the Cursed Sanctuary",
+        "ja": "Noroi no Sato ni Seijo no Tamashii ga Samayou (呪いの里に聖女の霊が彷徨う)"
       },
       {
-        "nr": 5
+        "nr": 5,
+        "datum": "2026-08-03",
+        "minuten": 24,
+        "de": "Schrecken! Der Schatten der Untoten, die unter der Erde wimmeln",
+        "en": "Terror! Shadows of Undeath Lurking Down Below",
+        "ja": "Kyoufu! Chitei ni Ugomeku Shiryou no Kage (恐怖! 地底に蠢く死霊の影)"
       },
       {
-        "nr": 6
+        "nr": 6,
+        "datum": "2026-08-10",
+        "minuten": 24,
+        "de": "Das Gesetz der anderen Welt, das in der Quelle des Drachenkönigs schwebt",
+        "en": "The Nature of This World Floats Upon the Dragon Lord’s Spring",
+        "ja": "Ryuuou no Izumi ni Ukabu wa Kono Yo no Kotowari (龍王の泉に浮かぶは異世界[このよ]の理)"
       },
       {
-        "nr": 7
+        "nr": 7,
+        "datum": "2026-08-17",
+        "minuten": 24,
+        "de": "Was im Ninja-Dorf aufblüht, ist die Seele eines wahren Mannes!",
+        "en": "The Spirit of Chivalry Blooms at the Shinobi Village!",
+        "ja": "Shinobizato ni Saku wa, Otokodamashi! (忍び里に咲くは, 漢魂!)"
       },
       {
-        "nr": 8
+        "nr": 8,
+        "datum": "2026-08-24",
+        "minuten": 24,
+        "de": "Hör das Rauschen der Gezeiten, die traurigen Gefühle einer Kunoichi",
+        "en": "The Sea Hears the Tale of the Tragic Kunoichi’s Past",
+        "ja": "Shiosai yo Kike, Kanashiki Kunoichi no Omoi (潮騒よ聞け, 哀しきくノ一の想い)"
       },
       {
-        "nr": 9
+        "nr": 9,
+        "datum": "2026-08-31",
+        "minuten": 24,
+        "de": "Das Brüllen der schwarzen Bestie läutet das Wiedersehen ein",
+        "en": "Reunited to the Sound of a Dark Beast’s Howl",
+        "ja": "Saikai wa Kuroki Kemono no Houkou to Tomo ni (再会は黒き獣の咆哮と共に)"
       },
       {
-        "nr": 10
+        "nr": 10,
+        "datum": "2026-09-07",
+        "minuten": 24,
+        "de": "Das unbarmherzige Gesetz! Tränenüberströmt auf der Jagd nach dem Bruder",
+        "en": "The Cold-Blooded Code! Hunting a Brother With Tears in Her Eyes",
+        "ja": "Hijou no Okite! Namida o Idakite Ani o Ou (非常の掟! 涙を抱きて義兄[あに]を追う)"
       },
       {
-        "nr": 11
+        "nr": 11,
+        "datum": "2026-09-14",
+        "minuten": 24,
+        "de": "Blutige Schlacht! Tod in der zerstörten Stadt",
+        "en": "Blood Duel! Death Amidst the Collapsing City",
+        "ja": "Kettou! Houkai no Machi ni Shisu (血闘! 崩壊の街に死す)"
       },
       {
-        "nr": 12
+        "nr": 12,
+        "datum": "2026-09-21",
+        "minuten": 24,
+        "de": "Hervorragend! Das Urteil des Skeletts, das das Böse vertreibt!",
+        "en": "Divine Punishment! The Skeleton Metes Out Justice That Obliterates Evil!",
+        "ja": "Appare! Aku o Kechirasu Gaikotsu Sabaki! (天晴! 悪を蹴散らす骸骨裁き!)"
       }
     ],
-    "geholtAm": "2026-09-01T18:45:47.191Z"
+    "geholtAm": "2026-10-05T14:40:59.688Z"
   },
   "19952": {
     "anisearchId": 19952,
@@ -331136,7 +331298,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-01T18:46:01.272Z"
+    "geholtAm": "2026-10-05T14:41:06.542Z"
   },
   "19963": {
     "anisearchId": 19963,
@@ -331492,7 +331654,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-28T13:12:45.144Z"
+    "geholtAm": "2026-10-05T14:44:18.644Z"
   },
   "20000": {
     "anisearchId": 20000,
@@ -331537,7 +331699,7 @@
         "nr": 10
       }
     ],
-    "geholtAm": "2026-09-01T20:57:06.201Z"
+    "geholtAm": "2026-10-05T14:44:25.524Z"
   },
   "20073": {
     "anisearchId": 20073,
@@ -331888,6 +332050,48 @@
     ],
     "geholtAm": "2026-09-01T18:46:50.555Z"
   },
+  "20172": {
+    "anisearchId": 20172,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      }
+    ],
+    "geholtAm": "2026-10-05T14:39:44.159Z"
+  },
   "20183": {
     "anisearchId": 20183,
     "folgen": [
@@ -332222,7 +332426,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-01T18:47:11.666Z"
+    "geholtAm": "2026-10-05T14:41:13.390Z"
   },
   "20264": {
     "anisearchId": 20264,
@@ -332321,7 +332525,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T20:57:33.101Z"
+    "geholtAm": "2026-10-05T14:44:32.375Z"
   },
   "20293": {
     "anisearchId": 20293,
@@ -332429,40 +332633,95 @@
     "anisearchId": 20297,
     "folgen": [
       {
-        "nr": 1
+        "nr": 1,
+        "datum": "2026-07-12",
+        "minuten": 24,
+        "de": "Auch wenn ich als Schurkin unerfahren bin",
+        "en": "Though I Am an Inept Villainess",
+        "ja": "Futsutsuka na Akujo de wa Gozaimasu ga (ふつつかな悪女ではございますが)"
       },
       {
-        "nr": 2
+        "nr": 2,
+        "datum": "2026-07-19",
+        "minuten": 24,
+        "de": "Hier soll ich leben?",
+        "en": "Will I Be Living Here?",
+        "ja": "Koko de, Kurasu no Desuka? (ここで, 暮らすのですか?)"
       },
       {
-        "nr": 3
+        "nr": 3,
+        "datum": "2026-07-26",
+        "minuten": 24,
+        "de": "Brust heraus, Blick nach vorn",
+        "en": "Shoulders Back, Look Forward",
+        "ja": "Mune o Hiroge, Shisen wa Mae ni (胸を広げ, 視線は前に)"
       },
       {
-        "nr": 4
+        "nr": 4,
+        "datum": "2026-08-02",
+        "minuten": 24,
+        "de": "Mein Schweifstern",
+        "en": "My Miracle Comet",
+        "ja": "Watakushi no, Houkiboshi (わたくしの, ほうき星)"
       },
       {
-        "nr": 5
+        "nr": 5,
+        "datum": "2026-08-09",
+        "minuten": 24,
+        "de": "Wer ist das Mädchen?",
+        "en": "Who Is That Girl?",
+        "ja": "Ano Onna wa Dare Da (あの女は誰だ)"
       },
       {
-        "nr": 6
+        "nr": 6,
+        "datum": "2026-08-16",
+        "minuten": 24,
+        "de": "Ich lasse nicht zu, dass Ihr sterbt",
+        "en": "I Won’t Let You Die",
+        "ja": "Shinasetari Shinai (死なせたりしない)"
       },
       {
-        "nr": 7
+        "nr": 7,
+        "datum": "2026-08-23",
+        "minuten": 24,
+        "de": "Die Bedeutung der Entgegennahme einer Waffe",
+        "en": "Meaning of Entrusting a Weapon",
+        "ja": "Buki o Sazukeru Koto no Imi (武器を授けることの意味)"
       },
       {
-        "nr": 8
+        "nr": 8,
+        "datum": "2026-08-30",
+        "minuten": 24,
+        "de": "Wie eine Schurkin, wie eine Schurkin",
+        "en": "Like a Villainess, Like a Villainess",
+        "ja": "Akujo Rashiku Akujo Rashiku (悪女らしく悪女らしく)"
       },
       {
-        "nr": 9
+        "nr": 9,
+        "datum": "2026-09-06",
+        "minuten": 24,
+        "de": "Ich rette dich, koste es, was es wolle",
+        "en": "I Will Make Sure to Save You",
+        "ja": "Kanarazu Otasuke Itashimasu (必ずお助けいたします)"
       },
       {
-        "nr": 10
+        "nr": 10,
+        "datum": "2026-09-13",
+        "minuten": 24,
+        "de": "Wir teilen uns den Fluch",
+        "en": "Split Curses, Too",
+        "ja": "Noroi no Hanbunko (呪いも半分こ)"
       },
       {
-        "nr": 11
+        "nr": 11,
+        "datum": "2026-09-21",
+        "minuten": 24,
+        "de": "Eine üble Schurkin",
+        "en": "Quite the Villainess",
+        "ja": "Taishita Akujo Desu yo (たいした悪女ですよ)"
       }
     ],
-    "geholtAm": "2026-09-01T18:47:39.865Z"
+    "geholtAm": "2026-10-05T14:41:20.256Z"
   },
   "20355": {
     "anisearchId": 20355,
@@ -332627,7 +332886,7 @@
         "nr": 19
       }
     ],
-    "geholtAm": "2026-09-01T18:47:46.899Z"
+    "geholtAm": "2026-10-05T14:41:27.102Z"
   },
   "20372": {
     "anisearchId": 20372,
@@ -332730,6 +332989,48 @@
       }
     ],
     "geholtAm": "2026-09-01T18:47:53.941Z"
+  },
+  "20376": {
+    "anisearchId": 20376,
+    "folgen": [
+      {
+        "nr": 1
+      },
+      {
+        "nr": 2
+      },
+      {
+        "nr": 3
+      },
+      {
+        "nr": 4
+      },
+      {
+        "nr": 5
+      },
+      {
+        "nr": 6
+      },
+      {
+        "nr": 7
+      },
+      {
+        "nr": 8
+      },
+      {
+        "nr": 9
+      },
+      {
+        "nr": 10
+      },
+      {
+        "nr": 11
+      },
+      {
+        "nr": 12
+      }
+    ],
+    "geholtAm": "2026-10-05T14:43:44.460Z"
   },
   "20379": {
     "anisearchId": 20379,
@@ -332920,8 +333221,8 @@
     ],
     "geholtAm": "2026-09-01T18:48:22.088Z"
   },
-  "20466": {
-    "anisearchId": 20466,
+  "20463": {
+    "anisearchId": 20463,
     "folgen": [
       {
         "nr": 1
@@ -332931,36 +333232,18 @@
       },
       {
         "nr": 3
-      },
-      {
-        "nr": 4
-      },
-      {
-        "nr": 5
-      },
-      {
-        "nr": 6
-      },
-      {
-        "nr": 7
-      },
-      {
-        "nr": 8
-      },
-      {
-        "nr": 9
-      },
-      {
-        "nr": 10
-      },
-      {
-        "nr": 11
-      },
-      {
-        "nr": 12
       }
     ],
-    "geholtAm": "2026-09-01T18:48:08.014Z"
+    "geholtAm": "2026-10-05T14:43:51.309Z"
+  },
+  "20466": {
+    "anisearchId": 20466,
+    "folgen": [
+      {
+        "nr": 1
+      }
+    ],
+    "geholtAm": "2026-10-05T14:41:33.972Z"
   },
   "20494": {
     "anisearchId": 20494,
@@ -333206,7 +333489,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-01T18:48:43.216Z"
+    "geholtAm": "2026-10-05T14:41:47.684Z"
   },
   "20681": {
     "anisearchId": 20681,
@@ -333427,7 +333710,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T20:57:39.810Z"
+    "geholtAm": "2026-10-05T14:44:39.233Z"
   },
   "20704": {
     "anisearchId": 20704,
@@ -333469,7 +333752,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-09T14:03:35.426Z"
+    "geholtAm": "2026-10-05T14:42:01.391Z"
   },
   "20705": {
     "anisearchId": 20705,
@@ -333505,7 +333788,7 @@
         "nr": 10
       }
     ],
-    "geholtAm": "2026-09-28T13:13:12.132Z"
+    "geholtAm": "2026-10-05T14:43:30.735Z"
   },
   "20716": {
     "anisearchId": 20716,
@@ -333547,7 +333830,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-09T14:03:42.608Z"
+    "geholtAm": "2026-10-05T14:41:54.535Z"
   },
   "20717": {
     "anisearchId": 20717,
@@ -333625,7 +333908,7 @@
         "nr": 24
       }
     ],
-    "geholtAm": "2026-09-01T18:49:04.340Z"
+    "geholtAm": "2026-10-05T14:42:08.251Z"
   },
   "20768": {
     "anisearchId": 20768,
@@ -333849,7 +334132,7 @@
         "nr": 6
       }
     ],
-    "geholtAm": "2026-09-28T13:13:18.870Z"
+    "geholtAm": "2026-10-05T14:44:46.095Z"
   },
   "20836": {
     "anisearchId": 20836,
@@ -333858,7 +334141,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T18:49:18.413Z"
+    "geholtAm": "2026-10-05T14:42:21.991Z"
   },
   "20852": {
     "anisearchId": 20852,
@@ -334095,7 +334378,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T20:57:53.236Z"
+    "geholtAm": "2026-10-05T14:44:52.964Z"
   },
   "20865": {
     "anisearchId": 20865,
@@ -334276,7 +334559,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T20:58:06.657Z"
+    "geholtAm": "2026-10-05T14:44:59.810Z"
   },
   "20885": {
     "anisearchId": 20885,
@@ -334288,7 +334571,7 @@
         "nr": 2
       }
     ],
-    "geholtAm": "2026-09-14T11:39:58.868Z"
+    "geholtAm": "2026-10-05T14:42:15.124Z"
   },
   "20893": {
     "anisearchId": 20893,
@@ -334430,9 +334713,12 @@
       },
       {
         "nr": 12
+      },
+      {
+        "nr": 13
       }
     ],
-    "geholtAm": "2026-09-01T18:49:53.609Z"
+    "geholtAm": "2026-10-05T14:42:28.860Z"
   },
   "20904": {
     "anisearchId": 20904,
@@ -334874,7 +335160,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T18:50:28.803Z"
+    "geholtAm": "2026-10-05T14:42:49.565Z"
   },
   "21031": {
     "anisearchId": 21031,
@@ -335082,7 +335368,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-01T18:48:15.045Z"
+    "geholtAm": "2026-10-05T14:41:40.829Z"
   },
   "21094": {
     "anisearchId": 21094,
@@ -335091,7 +335377,7 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T18:50:00.646Z"
+    "geholtAm": "2026-10-05T14:42:35.843Z"
   },
   "21117": {
     "anisearchId": 21117,
@@ -335133,7 +335419,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-28T13:12:58.644Z"
+    "geholtAm": "2026-10-05T14:45:06.657Z"
   },
   "21171": {
     "anisearchId": 21171,
@@ -335175,7 +335461,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-01T18:50:42.875Z"
+    "geholtAm": "2026-10-05T14:42:56.428Z"
   },
   "21198": {
     "anisearchId": 21198,
@@ -335319,7 +335605,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-01T18:50:56.954Z"
+    "geholtAm": "2026-10-05T14:43:03.287Z"
   },
   "21226": {
     "anisearchId": 21226,
@@ -335361,7 +335647,7 @@
         "nr": 12
       }
     ],
-    "geholtAm": "2026-09-01T18:51:03.984Z"
+    "geholtAm": "2026-10-05T14:43:10.150Z"
   },
   "21293": {
     "anisearchId": 21293,
@@ -335463,9 +335749,12 @@
       },
       {
         "nr": 12
+      },
+      {
+        "nr": 13
       }
     ],
-    "geholtAm": "2026-09-01T18:51:25.092Z"
+    "geholtAm": "2026-10-05T14:43:17.015Z"
   },
   "21505": {
     "anisearchId": 21505,
@@ -335483,6 +335772,6 @@
         "nr": 1
       }
     ],
-    "geholtAm": "2026-09-01T18:51:32.126Z"
+    "geholtAm": "2026-10-05T14:43:23.874Z"
   }
 }
