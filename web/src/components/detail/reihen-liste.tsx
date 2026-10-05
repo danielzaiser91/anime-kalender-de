@@ -4,6 +4,7 @@ import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
 import { Tooltip } from '../ui.tsx'
+import { istEingeklappt } from './reihen-regeln.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -419,9 +420,9 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 )
               }
 
-              /* Teile ohne deutsche Synchro sind eingeklappt — angekündigte und der gewählte Teil bleiben sichtbar. */
+              /* Teile ohne belegte deutsche Synchro sind eingeklappt — nur der gewählte Teil bleibt sichtbar (`reihen-regeln.ts`). */
               const ohneOffen = reiheOhneOffen === reihenSchluessel
-              const eingeklappt = (m: FranchiseMember) => Boolean(m.ohneSynchro) && !kuenftig(m) && m.id !== title.id
+              const eingeklappt = (m: FranchiseMember) => istEingeklappt(m, title.id)
               const sichtbar = (m: FranchiseMember) => ohneOffen || !eingeklappt(m)
               const lang = reihenTeile.length >= 15
               const suchText = reiheSuche.reihe === reihenSchluessel ? reiheSuche.text.trim() : ''
