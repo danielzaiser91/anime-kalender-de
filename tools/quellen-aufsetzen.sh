@@ -70,3 +70,19 @@ quellen_aufsetzen() {
   rm -rf "$rettung"
   echo "Quellen auf $fernstand aufgesetzt: $QUELLEN_GEAENDERT eigene Änderung(en) zurückgelegt."
 }
+
+# Dateien, die der Lauf unter data/, public/data/ oder daniel-zum-abarbeiten/ geändert oder neu angelegt hat, die aber in keiner Quellenliste stehen — sie gingen beim
+# Aufsetzen verloren. Handgepflegte Dateien ändert kein Lauf; erscheint eine hier, fehlt sie in `tools/quellen-liste.sh` (oder der Lauf schreibt Unerwartetes).
+quellen_verloren() {
+  local zeile datei q gedeckt
+  while IFS= read -r zeile; do
+    [ -n "$zeile" ] || continue
+    datei="${zeile:3}"
+    case "$datei" in data/cache/*|public/og/*) continue ;; esac
+    gedeckt=0
+    for q in "${QUELLEN[@]}"; do
+      if [ "$datei" = "$q" ] || [[ "$datei" == "$q/"* ]]; then gedeckt=1; break; fi
+    done
+    [ "$gedeckt" = 1 ] || printf '%s\n' "$datei"
+  done < <(git -c status.renames=false status --porcelain -uall -- data public/data daniel-zum-abarbeiten 2>/dev/null)
+}

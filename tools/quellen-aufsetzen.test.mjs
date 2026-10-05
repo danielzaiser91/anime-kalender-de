@@ -61,6 +61,12 @@ try {
   schreibe(anderer, 'data/source-health.json', JSON.stringify({ alt: { lastRun: '2026-10-01T00:00:00Z' }, adn: { lastRun: '2026-10-05T11:00:00Z' } }))
   sh(anderer, `git add -A && ${git} commit -q -m anderer && git push -q origin HEAD:main`)
 
+  // Eine Datei, die in keiner Quellenliste steht, aber vom Lauf geschrieben wurde, geht verloren — und muss auffallen (voices, adn-vde-historie, 05.10.2026).
+  schreibe(lauf, 'data/unbekannt-vom-lauf.json', '{}')
+  const verloren = sh(lauf, 'source tools/quellen-liste.sh; source tools/quellen-aufsetzen.sh; quellen_verloren').trim()
+  pruefe('eine nicht eingetragene, vom Lauf geschriebene Datei wird gemeldet, eingetragene nicht', verloren === 'data/unbekannt-vom-lauf.json', verloren)
+  rmSync(join(lauf, 'data/unbekannt-vom-lauf.json'))
+
   sh(lauf, 'git fetch -q origin main')
   const ausgabe = sh(lauf, 'source tools/quellen-liste.sh; source tools/quellen-aufsetzen.sh; quellen_aufsetzen origin/main')
   const lies = (pfad) => readFileSync(join(lauf, pfad), 'utf8')

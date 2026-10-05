@@ -80,6 +80,15 @@ melde "zweig=$ZWEIG"
 # **Der Zweig wird auf dem jüngsten Stand von `main` geschnitten, nicht auf dem vom Start des Laufs** (05.10.2026). Ein langer Lauf (Woche: bis 90 Minuten)
 # sonst hätte jede Datei geändert, die ein anderer Lauf inzwischen auch anfasste — der Pull Request wäre bei jedem Zusammentreffen im Konflikt gelandet.
 # Zurückgelegt werden nur die eigenen Änderungen an den Quellen; `source-health.json` und `dub-confirmed.yaml` werden zusammengeführt.
+# **Was der Lauf geschrieben hat, aber nicht einreicht, wird gemeldet — vor dem Aufsetzen, danach ist es weg.** Zweimal ging so Arbeit still verloren:
+# `public/data/voices` (seit 30.08.) und `data/adn-vde-historie.json` (seit 10.09.) standen in keiner Liste, und jeder Lauf warf sie weg.
+VERLOREN="$(quellen_verloren | head -20)"
+if [ -n "$VERLOREN" ]; then
+  echo "::warning title=Nicht eingereichte Dateien::Der Lauf hat Dateien geschrieben, die in tools/quellen-liste.sh fehlen und verloren gehen: $(printf '%s' "$VERLOREN" | tr '\n' ' ' | cut -c1-400)"
+  if [ -n "${GITHUB_STEP_SUMMARY:-}" ]; then
+    { echo "### Nicht eingereichte Dateien"; echo '```'; echo "$VERLOREN"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+  fi
+fi
 git fetch origin main --quiet
 quellen_aufsetzen origin/main
 echo "--- Arbeitsverzeichnis vor dem Stagen: $(pwd), Zweig $(git rev-parse --abbrev-ref HEAD)"
