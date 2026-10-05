@@ -36,12 +36,12 @@ done < <(git diff --cached --name-only)
 
 [ ${#betroffen[@]} -eq 0 ] && exit 0
 
-# Läufe, die selbst auf main committen. Deploy, Aussehen und die Claude-Läufe schreiben
-# keine Quellen; die Sammler reichen per Pull Request ein, dort meldet GitHub den Konflikt.
+# Läufe, die selbst auf main committen (Bestandsbau, Datenlauf auf Abruf, Crunchyroll-Rückstand). Deploy, Aussehen, die Claude-Läufe und die Wachen schreiben
+# keine Quellen; die Sammler (Stündlich, Täglich, Wöchentlich, ADN, aniSearch-Katalog) reichen per Pull Request ein, dort meldet GitHub den Konflikt (05.10.2026).
 laufend=$(gh run list --repo danielzaiser91/anime-kalender-de --limit 30 \
   --json status,workflowName,databaseId \
   --jq '.[] | select(.status=="in_progress" or .status=="queued")
-        | select(.workflowName | test("^(Deploy|Aussehen|Claude)") | not)
+        | select(.workflowName | test("^(Deploy|Aussehen|Claude|Wöchentlich|Täglich|Stündlich|ADN — laufende|aniSearch-Katalog|Wache)") | not)
         | "\(.databaseId)  \(.workflowName)"' 2>/dev/null)
 if [ $? -ne 0 ]; then
   echo "quellen-commit-wache: Laufstand nicht abrufbar — Commit ohne Prüfung durchgelassen" >&2
