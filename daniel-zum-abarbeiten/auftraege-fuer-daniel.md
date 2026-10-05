@@ -12,11 +12,6 @@ Stand: 05.10.2026 23:10
    - Erwartet: Folge 2 erscheint zur genannten Zeit bei Disney+.
    - Falsch, wenn: Sie erscheint zu einer anderen Zeit oder gar nicht. Dann Zeit in der Meldung berichtigen (News-Meldung, keine Umschreibung).
 
-2. **aniSearch: Antwort auf die Token-Anfrage** (nach 12.10. ohne Antwort: anderen Kontaktweg wählen)
-   - Vorher: Mail am 02.10. und Nachfass am 05.10.2026 ca. 10:35 Uhr abgeschickt (inkl. Cover-Frage).
-   - Erwartet: Antwort von `api@anisearch.com`.
-   - Wenn bis 12.10. keine kommt: Kontaktformular oder Forum von aniSearch nutzen — du entscheidest.
-
 3. **Favoriten-Umschreibung entfernen — 05.11.2026** (ich mache das; `check:logic` wird dann rot und erinnert)
    - Nur zur Kenntnis: Bis dahin schreiben Browser und Worker alte AniList-Favoriten auf unsere Kennung um.
 
