@@ -32,7 +32,7 @@ import { BELEG_SCHLUESSEL as ABLAGE_SCHLUESSEL } from '../shared/beleg-schluesse
 import { kalenderTag, ohneDoppelteFolgen, verspaetungsMeldungen } from './lib/news-verspaetung.ts'
 import { nachgereichteFolgen } from './bau/verpasst-am-termin.ts'
 import { mitArtikeldaten } from './lib/beleg-lesung.ts'
-import { faelligeLaeufe } from '../worker/src/wecker.ts'
+import { faelligeLaeufe } from '../shared/weckplan.ts'
 import type { NewsEintrag } from '../shared/types.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
@@ -4798,7 +4798,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     )
     pruefe(
       'ein fehlendes Zugangspaket wird gemeldet, nicht verschluckt',
-      taeglich.includes("steps.cr_neu_beurteilen.outcome == 'failure'"),
+      taeglich.includes('Crunchyroll-Urteil übersprungen: CR_ZUGANG fehlt oder ist abgelaufen') && taeglich.includes('"$MELDER" fehler'),
       'ein Lauf, der still gegen ein abgelaufenes Paket läuft, sieht acht Tage lang aus wie ein gesunder',
     )
   }

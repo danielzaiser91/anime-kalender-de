@@ -55,6 +55,7 @@ export const LAUF_ARTEN = [
   'Wöchentlich — tiefer Durchlauf',
   'Wache — Delta und Briefkasten',
   'Wache — Datenbankverbrauch',
+  'Wache — Wecker',
   'ADN — laufende Serien',
   'Datenlauf auf Abruf',
   'aniSearch-Katalog',
