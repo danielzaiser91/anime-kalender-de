@@ -5,5 +5,5 @@
  */
 export const NAMENSGEBUNDENE_RELATIONEN = new Set(['OTHER', 'CHARACTER'])
 
-/** Mindestlänge des gemeinsamen Namensanfangs je Beziehungsart. Bei `CHARACTER` 9: „Tales of" (8) verband sonst Parodie-Kurzserien mit eigenständigen Spielen (Messung 05.10.2026). */
-export const namensanfangMindestens = (relationType: string): number => (relationType === 'CHARACTER' ? 9 : 8)
+/** Mindestlänge des gemeinsamen Namensanfangs je Beziehungsart. Bei `CHARACTER` 10: „Tales of" (8) verband Parodie-Kurzserien mit Spielen, „Meitantei" (9) Precure mit Conan (Messung 05.10.2026). */
+export const namensanfangMindestens = (relationType: string): number => (relationType === 'CHARACTER' ? 10 : 8)

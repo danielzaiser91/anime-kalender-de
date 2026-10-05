@@ -8018,6 +8018,7 @@ console.log('\nCharakter-Beziehung:')
   pruefe('Charakter: wie OTHER nur mit Namensprüfung', NAMENSGEBUNDENE_RELATIONEN.has('CHARACTER') && !FRANCHISE_RELATIONS.has('CHARACTER'))
   pruefe('Charakter: Black Jack und Black Jack: Capital Transfer To Heian gehören zusammen', otherZaehlt(['Black Jack: Heian Sento', 'Black Jack: Capital Transfer To Heian'], ['Black Jack', 'Black Jack']))
   pruefe('Charakter: „Tales of" (8 Zeichen) verbindet keine Spiele-Serien, bei OTHER bleibt 8', !otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('OTHER')))
+  pruefe('Charakter: „Meitantei" (9 Zeichen) bindet Precure nicht an Conan, Black Jack (10) bleibt gebunden', !otherZaehlt(['Meitantei Conan: Hanamaru na Answer'], ['Meitantei Precure!'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Black Jack: Heian Sento'], ['Black Jack'], namensanfangMindestens('CHARACTER')))
   pruefe('Charakter: ein Gastauftritt ohne gemeinsamen Namen bleibt draußen (Gundam/Patlabor)', !otherZaehlt(['Mobile Suit Gundam'], ['Mobile Police Patlabor']))
 }
 console.log('\nSchnellfilter:')
