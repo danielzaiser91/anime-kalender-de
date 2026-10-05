@@ -23,7 +23,7 @@ Stand: 05.10.2026 20:00
 4. **One Piece: Folgenpfeil, Folgenliste, Disc-Aufklapper ansehen** (alles live seit ca. 20:00)
    [One Piece](https://anime-kalender.de/t/12/)
    - Vorher: kein Pfeil an der Antwort, Folgen ab 11 ohne Flagge als „noch nicht erschienen", die 20 Boxen unter „Disc" nicht erreichbar.
-   - Erwartet: Pfeil an der Antwort öffnet die Folgenliste (1180 Folgen, 1119 auf Deutsch); Folgen über 10 ohne „noch nicht erschienen"; unter Disc ein Aufklapper „Einzelne Ausgaben" mit den Boxen.
+   - Erwartet: Pfeil an der Antwort öffnet die Folgenliste (1180 Folgen, 1119 auf Deutsch); Folgen über 10 ohne „noch nicht erschienen"; unter Disc ein Aufklapper „Einzelausgaben" (19 Ausgaben) mit den Boxen.
    - Falsch, wenn: kein Pfeil, oder Folgen ab 11 tragen „noch nicht erschienen", oder der Aufklapper fehlt. Der Folgenpfeil fehlte bei 1.671 Titeln (Übersetzungsfehler in Stufe 1) und ist jetzt behoben — Stichprobe: [Detektiv Conan](https://anime-kalender.de/t/204/).
 
 5. **Entscheidung: angekündigte Teile in der Reihen-Box** (ich habe eine Wahl getroffen, bei Widerspruch sagen)
