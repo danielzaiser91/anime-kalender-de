@@ -303,6 +303,9 @@ const NUR_VON_HAND = {
   'data:anisearch:reparse': 'liest das Archiv neu ein, ohne einen einzigen Abruf',
   'data:anisearch:check': 'Prüfung gegen das Archiv — hängt in `check:*`, nicht in einem Datenlauf',
   'data:disc-proposals': 'erzeugt Vorschläge, die ein Mensch einzeln annimmt',
+  'data:cr-einzelwerke': 'braucht ein anonymes Token mit deutscher Region — auf GitHubs US-Rechnern bricht es ab; läuft von Daniels Rechner (check-sources führt eine Frist von 21 Tagen)',
+  'data:cr-filmbloecke': 'wie data:cr-einzelwerke',
+  'data:cr-katalog': 'wie data:cr-einzelwerke',
 }
 
 {
@@ -375,48 +378,52 @@ const NUR_VON_HAND = {
 
 
 /*
-  **Wer dieselben Dateien schreibt, gehört in dieselbe Concurrency-Gruppe.**
+  **Wer auf `main` schreibt, steht allein; wer eine fremde Quelle drosselt, teilt eine Sperre.**
 
-  Am 29.08.2026 lief ein Abruf auf Abruf parallel zum Tageslauf, und beide holten
-  gleichzeitig aniSearch-Seiten: Der vereinbarte Takt von sechs Sekunden wurde
-  damit effektiv zu drei, ohne dass es jemand entschieden hatte. aniSearch gehört
-  einer kleinen Redaktion, und der Takt ist eine Zusage.
+  Bis zum 05.10.2026 galt: alle Datenläufe in einer Gruppe `daten`. Anlass war der 29.08.2026 — ein Abruf auf Abruf lief parallel zum Tageslauf, beide holten
+  gleichzeitig aniSearch-Seiten (der Takt von sechs Sekunden wurde zu dreien), und wer zuletzt committete, gewann. Die Gruppe löste beides, kostete aber:
+  Der Wochenlauf hielt Bau und Stundenlauf bis zu anderthalb Stunden an (15 von 148 Bauläufen in sieben Tagen abgebrochen).
 
-  Dazu schreiben beide dieselben Dateien; wer zuletzt committet, gewinnt — am
-  selben Tag hat das eine frisch berichtigte Datei wieder falsch gemacht.
+  Heute trennt die Bauart die Fälle:
+  - **Schreiben auf `main`** (`commit-data.sh`) tut nur der Bestandsbau, in der Gruppe `bau`. Alle Sammler reichen per Pull Request ein
+    (`quellen-pr.sh`), jeder in seiner eigenen Gruppe; Konflikte zwischen Dateien entstehen nicht, weil nur die eigenen Änderungen zurückgelegt werden
+    (`tools/quellen-aufsetzen.sh`).
+  - **aniSearch** (Takt als Zusage) hat eine eigene Sperre: Jeder Job, der `data:anisearch*` aufruft und nicht im Tageslauf steht, trägt
+    `concurrency: group: anisearch` auf Job-Ebene.
 */
 {
-  const gruppen = new Map()
-  for (const datei of readdirSync(new URL('../.github/workflows/', import.meta.url))) {
+  const dir = new URL('../.github/workflows/', import.meta.url)
+  const nurCode = (inhalt) => inhalt.split('\n').filter((z) => !z.trim().startsWith('#'))
+  for (const datei of readdirSync(dir)) {
     if (!datei.endsWith('.yml')) continue
-    const inhalt = readFileSync(new URL('../.github/workflows/' + datei, import.meta.url), 'utf8')
-    /*
-      Nur Workflows, die in den **Bestand** schreiben — erkennbar am Aufruf von
-      `commit-data.sh`. Ein Deploy baut nur, ein Auftrags-Lauf arbeitet an einem
-      Zweig; beide teilen sich die Quelle nicht.
-    */
-    /* Ein **Aufruf**, keine Erwähnung: `deploy.yml` nennt das Skript nur im Kommentar. */
-    const zeilen2 = inhalt.split("\n")
-    const ruftAuf = zeilen2.some((z) => !z.trim().startsWith("#") && z.includes("commit-data.sh"))
-    if (!ruftAuf) continue
-    /* Zwischen `concurrency:` und `group:` stehen oft Kommentarzeilen. */
-    const zeilenW = inhalt.split(String.fromCharCode(10))
-    const cIndex = zeilenW.findIndex((l) => l.trim() === 'concurrency:')
-    const gZeile = cIndex < 0 ? undefined : zeilenW.slice(cIndex + 1, cIndex + 6).find((l) => l.trim().startsWith('group:'))
-    const g = gZeile ? gZeile.split(':')[1].trim() : undefined
-    gruppen.set(datei, g ?? null)
+    const inhalt = readFileSync(new URL(datei, dir), 'utf8')
+    const zeilen = nurCode(inhalt)
+    const commit = zeilen.some((z) => z.includes('commit-data.sh'))
+    const pr = zeilen.some((z) => z.includes('quellen-pr.sh'))
+    const cIndex = zeilen.findIndex((l) => l.trim() === 'concurrency:')
+    const gZeile = cIndex < 0 ? undefined : zeilen.slice(cIndex + 1, cIndex + 4).find((l) => l.trim().startsWith('group:'))
+    const gruppe = gZeile ? gZeile.split(':')[1].trim() : undefined
+    if (commit && datei !== 'bestand-bauen.yml') {
+      console.error(`✗ ${datei} ruft commit-data.sh auf — nur der Bestandsbau schreibt auf main, alle anderen reichen per quellen-pr.sh ein.`)
+      fehler++
+    }
+    if (commit && gruppe !== 'bau') {
+      console.error(`✗ ${datei} schreibt auf main, steht aber in der Gruppe "${gruppe ?? 'keine'}" statt "bau".`)
+      fehler++
+    }
+    if (pr && (!gruppe || gruppe === 'bau')) {
+      console.error(`✗ ${datei} reicht Pull Requests ein, hat aber keine eigene Concurrency-Gruppe (gefunden: "${gruppe ?? 'keine'}").`)
+      fehler++
+    }
   }
-  const abweichend = [...gruppen.entries()].filter(([, g]) => g !== 'daten')
-  for (const [datei, g] of abweichend) {
-    console.error(
-      `✗ ${datei} startet Datenläufe, steht aber in der Concurrency-Gruppe "${g ?? 'keine'}" ` +
-        'statt "daten" — dann laufen zwei Läufe gleichzeitig gegen dieselbe fremde Quelle ' +
-        'und schreiben dieselben Dateien.',
-    )
-    fehler++
+  for (const datei of ['anisearch-katalog.yml', 'refresh-weekly.yml']) {
+    const inhalt = readFileSync(new URL(datei, dir), 'utf8')
+    if (!/concurrency:\s*\n\s+group:\s*anisearch\s*\n/.test(inhalt)) {
+      console.error(`✗ ${datei} ruft aniSearch ab, trägt aber keine Job-Sperre "group: anisearch" — der Takt von sechs Sekunden ist eine Zusage.`)
+      fehler++
+    }
   }
 }
-
 
 /*
   **Wer „nichts zu tun" meldet, muss es als Erfolg melden.**
