@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-05T11:32:14.864Z",
+  "scrapedAt": "2026-10-05T14:43:20.786Z",
   "proposals": [
     {
       "articleTitle": "Crunchyroll erweitert Anime-Katalog um sechs Neuzugänge + Synchro",
@@ -509,7 +509,9 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-05"
     },
     {
       "articleTitle": "Prime Video nimmt fünf Anime-Neuzugänge ins Programm",
@@ -521,7 +523,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-05"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -674,7 +678,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-05"
     },
     {
       "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
@@ -1051,7 +1057,9 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-05"
     },
     {
       "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -1063,7 +1071,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-05"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -1172,7 +1182,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-05"
     },
     {
       "articleTitle": "In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm",
