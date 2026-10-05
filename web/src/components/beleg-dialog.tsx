@@ -136,6 +136,10 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
     }
   }, [bild])
   const zurFundstelle = () => {
+    if (markiert) {
+      setMarkiert(false)
+      return
+    }
     setEinpassen(false)
     setMarkiert(true)
     /* Erst nach dem Umschalten auf volle Breite liegt die Marke an ihrem Platz. */
@@ -151,7 +155,7 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
             {bild ? ' Wir sichern von jeder Quelle ein Bild, damit prüfbar bleibt, worauf die Meldung beruht.' : ''}
           </p>
           {x !== undefined && url && (
-            <button type="button" onClick={zurFundstelle} className={`${BTN} border-rose-400 text-rose-200`}>Zur Fundstelle</button>
+            <button type="button" onClick={zurFundstelle} className={`${BTN} border-rose-400 text-rose-200`}>{markiert ? 'Marke aus' : 'Zur Fundstelle'}</button>
           )}
           {url && (
             <button type="button" onClick={() => setEinpassen((e) => !e)} aria-pressed={einpassen} className={BTN}>
