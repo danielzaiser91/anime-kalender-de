@@ -1,7 +1,7 @@
 {
   "adn": {
-    "lastOk": "2026-10-05T11:29:51.963Z",
-    "lastRun": "2026-10-05T11:29:51.963Z",
+    "lastOk": "2026-10-05T14:40:36.213Z",
+    "lastRun": "2026-10-05T14:40:36.213Z",
     "lastCount": 5
   },
   "anime2you": {
@@ -60,8 +60,8 @@
     "lastCount": 400
   },
   "motn-changes": {
-    "lastOk": "2026-10-05T11:29:53.605Z",
-    "lastRun": "2026-10-05T11:29:53.605Z",
+    "lastOk": "2026-10-05T14:40:37.685Z",
+    "lastRun": "2026-10-05T14:40:37.685Z",
     "lastCount": 0
   },
   "motn": {
@@ -125,18 +125,18 @@
     "lastCount": 0
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-10-05T14:39:20.172Z",
-    "lastRun": "2026-10-05T14:39:20.172Z",
+    "lastOk": "2026-10-05T14:39:30.300Z",
+    "lastRun": "2026-10-05T14:39:30.300Z",
     "lastCount": 103
   },
   "cartoons": {
-    "lastOk": "2026-10-05T11:32:46.995Z",
-    "lastRun": "2026-10-05T11:32:46.995Z",
+    "lastOk": "2026-10-05T14:43:14.105Z",
+    "lastRun": "2026-10-05T14:43:14.105Z",
     "lastCount": 0
   },
   "trailer": {
-    "lastOk": "2026-10-05T11:38:53.954Z",
-    "lastRun": "2026-10-05T11:38:53.954Z",
+    "lastOk": "2026-10-05T14:46:58.371Z",
+    "lastRun": "2026-10-05T14:46:58.371Z",
     "lastCount": 0
   },
   "wikidata-titel": {
@@ -155,13 +155,13 @@
     "lastCount": 0
   },
   "toggo": {
-    "lastOk": "2026-10-05T11:30:37.721Z",
-    "lastRun": "2026-10-05T11:30:37.721Z",
+    "lastOk": "2026-10-05T14:41:20.872Z",
+    "lastRun": "2026-10-05T14:41:20.872Z",
     "lastCount": 20
   },
   "wikipedia-folgen": {
-    "lastOk": "2026-10-05T11:31:40.521Z",
-    "lastRun": "2026-10-05T11:31:40.521Z",
+    "lastOk": "2026-10-05T14:42:20.823Z",
+    "lastRun": "2026-10-05T14:42:20.823Z",
     "lastCount": 7
   },
   "kinoheld": {
@@ -196,8 +196,8 @@
     "lastCount": 0
   },
   "beleg-lesungen": {
-    "lastOk": "2026-10-04T10:37:12.008Z",
-    "lastRun": "2026-10-05T11:28:34.811Z",
-    "lastCount": 0
+    "lastOk": "2026-10-05T14:39:38.005Z",
+    "lastRun": "2026-10-05T14:39:38.005Z",
+    "lastCount": 1
   }
 }
