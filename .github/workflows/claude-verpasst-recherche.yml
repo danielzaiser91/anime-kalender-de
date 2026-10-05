@@ -20,10 +20,8 @@ name: Claude — ausgebliebene Folgen recherchieren
 # wird. Eingereicht wird wie bei jedem Sammel-Lauf über `quellen-pr.sh`.
 
 on:
-  schedule:
-    # 11:17 UTC = 13:17 Berlin (Sommerzeit). Die meisten Simulcast-Dubs laufen
-    # nachmittags und abends; wer gestern ausblieb, ist dann über sechs Stunden alt.
-    - cron: '17 11 * * *'
+  # Zeitplan: Cloudflare-Wecker (`worker/src/wecker.ts`) startet diesen Lauf per workflow_dispatch zur festen Stunde (UTC). GitHubs eigener Cron kam
+  # gemessen 4–7 Stunden zu spät und würde Läufe verdoppeln; `wecker-wache.yml` holt Überfälliges nach, falls der Wecker ausfällt (05.10.2026).
   workflow_dispatch:
 
 permissions:

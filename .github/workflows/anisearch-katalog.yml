@@ -14,8 +14,8 @@
 name: aniSearch-Katalog
 
 on:
-  schedule:
-    - cron: '0 6 * * *'
+  # Zeitplan: Cloudflare-Wecker (`worker/src/wecker.ts`) startet diesen Lauf per workflow_dispatch zur festen Stunde (UTC). GitHubs eigener Cron kam
+  # gemessen 4–7 Stunden zu spät und würde Läufe verdoppeln; `wecker-wache.yml` holt Überfälliges nach, falls der Wecker ausfällt (05.10.2026).
   workflow_dispatch:
     inputs:
       grenze:

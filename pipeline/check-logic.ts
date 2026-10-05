@@ -32,6 +32,7 @@ import { BELEG_SCHLUESSEL as ABLAGE_SCHLUESSEL } from '../shared/beleg-schluesse
 import { kalenderTag, ohneDoppelteFolgen, verspaetungsMeldungen } from './lib/news-verspaetung.ts'
 import { nachgereichteFolgen } from './bau/verpasst-am-termin.ts'
 import { mitArtikeldaten } from './lib/beleg-lesung.ts'
+import { faelligeLaeufe } from '../worker/src/wecker.ts'
 import type { NewsEintrag } from '../shared/types.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
@@ -8166,6 +8167,14 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Messung: bei mehreren Staffeln mit derselben Folgennummer nur die zum Meldungstag laufende', mehrere?.zeilen.length === 1 && mehrere.zeilen[0]!.includes('S3DE'), JSON.stringify(mehrere))
     pruefe('Folge ohne deutsche Fassung im Katalog: keine Messung, keine Behauptung', messungenFuerFolgen([eintrag(mel(9, 9))], dir)[0]!.meldungen[0]!.belege?.[0]?.messung === undefined)
     rmSync(dir, { recursive: true, force: true })
+  }
+  /* Der Wecker startet die Datenläufe pünktlich (GitHubs Cron kam 4–7 Stunden zu spät, 05.10.2026). */
+  {
+    const um = (iso: string) => faelligeLaeufe(new Date(iso)).sort().join(',')
+    pruefe('Wecker: jede Stunde der Stundenlauf', um('2026-10-06T13:00:00Z') === 'refresh-hourly.yml', um('2026-10-06T13:00:00Z'))
+    pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf', um('2026-10-06T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml', um('2026-10-06T04:00:00Z'))
+    pruefe('Wecker: Montag 05 Uhr UTC der Wochenlauf, Dienstag nicht', um('2026-10-05T05:00:00Z') === 'refresh-hourly.yml,refresh-weekly.yml' && um('2026-10-06T05:00:00Z') === 'refresh-hourly.yml', um('2026-10-05T05:00:00Z'))
+    pruefe('Wecker: ADN alle sechs Stunden, Sonntag zählt als 7', um('2026-10-04T08:00:00Z') === 'adn-laufende.yml,refresh-hourly.yml' && um('2026-10-04T05:00:00Z') === 'refresh-hourly.yml')
   }
   /* Ein Artikel für zwei Titel: Jeder bekommt die Marke seiner eigenen Zeile (Bleach und Madoka, 05.10.2026). */
   {

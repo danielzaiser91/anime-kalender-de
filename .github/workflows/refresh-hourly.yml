@@ -35,10 +35,8 @@ name: Stündlich — Sendezeiten
 # Commits pro Tag voll.
 
 on:
-  schedule:
-    # :23 statt :00 — zur vollen Stunde treffen alle Cron-Jobs der Welt
-    # gleichzeitig auf dieselben Server.
-    - cron: '23 * * * *'
+  # Zeitplan: Cloudflare-Wecker (`worker/src/wecker.ts`) startet diesen Lauf per workflow_dispatch zur festen Stunde (UTC). GitHubs eigener Cron kam
+  # gemessen 4–7 Stunden zu spät und würde Läufe verdoppeln; `wecker-wache.yml` holt Überfälliges nach, falls der Wecker ausfällt (05.10.2026).
   workflow_dispatch:
     inputs:
       tvde:

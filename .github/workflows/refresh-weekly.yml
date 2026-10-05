@@ -14,19 +14,17 @@ name: Wöchentlich — tiefer Durchlauf
 #   Die Reihenfolge innerhalb einer Familie ist die alte; Schritte, die eine Datei der Vorwoche lesen, tun das weiter (`docs/wissen/betrieb.md`).
 # - Jeder Schritt läuft über `tools/schritt.sh`: Zeitgrenze, Ergebnis in der Zusammenfassung, gelbe Meldung statt stillem Haken. Der Pull Request steht
 #   am Ende jedes Jobs mit `if: always()` — ein hängender Schritt kostet nur sich selbst, nicht den Fund der übrigen.
-# - Der Zeitplan kommt vom Cloudflare-Wecker (`worker/src/wecker.ts`); GitHubs eigener Cron kam 4 bis 7 Stunden zu spät und bleibt nur als Rückfall
-#   (Job `anmelden` überspringt den Lauf, wenn in den letzten 20 Stunden schon einer startete).
+# - Der Zeitplan kommt vom Cloudflare-Wecker (`worker/src/wecker.ts`); GitHubs eigener Cron kam 4 bis 7 Stunden zu spät. Fällt der Wecker aus, holt
+#   `wecker-wache.yml` den Lauf nach.
 
 on:
-  schedule:
-    # Rückfall zum Wecker: Montags 05:41 UTC.
-    - cron: '41 5 * * 1'
+  # Zeitplan: Cloudflare-Wecker (`worker/src/wecker.ts`) startet diesen Lauf per workflow_dispatch zur festen Stunde (UTC). GitHubs eigener Cron kam
+  # gemessen 4–7 Stunden zu spät und würde Läufe verdoppeln; `wecker-wache.yml` holt Überfälliges nach, falls der Wecker ausfällt (05.10.2026).
   workflow_dispatch:
 
 permissions:
   contents: write
   pull-requests: write
-  actions: read
 
 concurrency:
   group: woche
@@ -44,19 +42,9 @@ jobs:
     outputs:
       laufen: ${{ steps.pruefen.outputs.laufen }}
     steps:
-      - name: Rückfall-Cron überspringen, wenn schon ein Lauf startete
+      - name: Lauf freigeben
         id: pruefen
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          laufen=true
-          if [ "${{ github.event_name }}" = schedule ]; then
-            seit="$(date -u -d '20 hours ago' +%Y-%m-%dT%H:%M:%SZ)"
-            andere="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow refresh-weekly.yml --limit 10 --json databaseId,createdAt \
-              --jq "[.[] | select(.createdAt > \"$seit\" and .databaseId != ${{ github.run_id }})] | length")"
-            if [ "${andere:-0}" -gt 0 ]; then laufen=false; echo "Ein Lauf startete bereits — dieser Rückfall-Cron tut nichts."; fi
-          fi
-          echo "laufen=$laufen" >> "$GITHUB_OUTPUT"
+        run: echo "laufen=true" >> "$GITHUB_OUTPUT"
 
       - name: Lauf anmelden
         if: steps.pruefen.outputs.laufen == 'true'

@@ -30,10 +30,8 @@ name: Täglich — alle Quellen
 # Die stündliche Aktion deckt nur Crunchyroll ab.
 
 on:
-  schedule:
-    # 04:17 UTC — abseits der vollen Stunde, damit die Fremd-APIs nicht
-    # gleichzeitig von tausend Cron-Jobs getroffen werden.
-    - cron: '17 4 * * *'
+  # Zeitplan: Cloudflare-Wecker (`worker/src/wecker.ts`) startet diesen Lauf per workflow_dispatch zur festen Stunde (UTC). GitHubs eigener Cron kam
+  # gemessen 4–7 Stunden zu spät und würde Läufe verdoppeln; `wecker-wache.yml` holt Überfälliges nach, falls der Wecker ausfällt (05.10.2026).
   workflow_dispatch:
 
 permissions:

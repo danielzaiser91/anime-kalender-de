@@ -27,10 +27,8 @@
 name: ADN — laufende Serien
 
 on:
-  schedule:
-    # Alle sechs Stunden. Die Minute ist ungerade gewählt, damit der Lauf nicht
-    # mit den anderen Datenläufen zur vollen Stunde kollidiert.
-    - cron: '17 2,8,14,20 * * *'
+  # Zeitplan: Cloudflare-Wecker (`worker/src/wecker.ts`) startet diesen Lauf per workflow_dispatch zur festen Stunde (UTC). GitHubs eigener Cron kam
+  # gemessen 4–7 Stunden zu spät und würde Läufe verdoppeln; `wecker-wache.yml` holt Überfälliges nach, falls der Wecker ausfällt (05.10.2026).
   workflow_dispatch:
 
 concurrency:
