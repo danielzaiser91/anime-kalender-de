@@ -103,3 +103,7 @@ export function gesamtGeschaetzt(title: Title, releases: Release[], n: ReleaseEv
 export function ungefaehr(wert: string | number, geschaetzt: boolean | undefined): string {
   return geschaetzt ? `≈ ${wert}` : String(wert)
 }
+
+/** Bis zu welcher Folge die Folgenliste „erschienen" kennt: Nur bei laufender Ausstrahlung ist `raus` eine Folgennummer; bei `fertig` ist es die Zahl der Ereignisse (One Piece: 10) und ließ ab Folge 11 alles ohne Flagge als „noch nicht erschienen" stehen. */
+export const erschieneneFuerFolgenliste = (a: { art: string; raus?: unknown } | undefined): number | undefined =>
+  a?.art === 'laeuft' && typeof a.raus === 'number' ? a.raus : undefined

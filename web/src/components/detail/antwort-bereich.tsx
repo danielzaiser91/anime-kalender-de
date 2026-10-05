@@ -15,6 +15,7 @@ import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
 import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
 import { type sortiereNachZugang } from './wege-sortieren.ts'
+import { erschieneneFuerFolgenliste } from './antwort-regeln.ts'
 
 export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, title, t, today, wegeHinweis, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
   antwort: ReturnType<typeof berechneAntwort>
@@ -61,7 +62,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
           today={today}
           wegeHinweis={wegeHinweis}
           notiz={kastenNotiz?.note}
-          folgen={<FolgenBereich titleId={title.id} erschienen={'raus' in antwort && typeof antwort.raus === 'number' ? antwort.raus : undefined} />}
+          folgen={<FolgenBereich titleId={title.id} erschienen={erschieneneFuerFolgenliste(antwort)} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={
             /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
