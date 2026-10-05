@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-10-05T11:28:55.540Z",
+  "aufgeloestAm": "2026-10-05T14:45:19.843Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -3937,6 +3937,31 @@
       "seriesId": "G24H1NZXD",
       "ziel": "https://www.crunchyroll.com/watch/GJWU2M393?__cf_chl_rt_tk=EFLSU9c.Su49U5sNWZfPkWdr_ZK1VwMUFWMV4Ou2kpA-1790599686-1.0.1.1-MQPvFMJsIt.1LMFlAZuWqdI.Dk1WNmrIn1a.vYqjuvY",
       "geprueftAm": "2026-09-28"
+    },
+    "https://www.crunchyroll.com/love-chunibyo-other-delusions-heart-throb-/episode-13-799361": {
+      "seriesId": "GYJQV73V6",
+      "ziel": "https://www.crunchyroll.com/de/watch/G0DUN3W45",
+      "geprueftAm": "2026-10-05"
+    },
+    "https://www.crunchyroll.com/lupin-the-3rd-movies/fujiko-mines-lge-unbekannt-822260": {
+      "seriesId": "GMTE00261521",
+      "ziel": "https://www.crunchyroll.com/de/watch/GZ7UVXD2P",
+      "geprueftAm": "2026-10-05"
+    },
+    "https://www.crunchyroll.com/steinsgate-0": {
+      "seriesId": "GYW4D15K6",
+      "ziel": "https://www.crunchyroll.com/de/series/GYW4D15K6/steinsgate-0",
+      "geprueftAm": "2026-10-05"
+    },
+    "https://www.crunchyroll.com/steinsgate-0/episode-24-valentines-of-crystal-polymorphism-bittersweet-intermedio-850036": {
+      "seriesId": "GYWE7W5GY",
+      "ziel": "https://www.crunchyroll.com/de/watch/GD9UVP809/valentines-of-crystal-polymorphism-bittersweet-intermedio-",
+      "geprueftAm": "2026-10-05"
+    },
+    "https://www.crunchyroll.com/watch/G7PU4V3MJ": {
+      "seriesId": "GP5HJ80VJ",
+      "ziel": "https://www.crunchyroll.com/de/watch/G7PU4V3MJ",
+      "geprueftAm": "2026-10-05"
     }
   }
 }
