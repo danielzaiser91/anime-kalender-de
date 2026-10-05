@@ -76,7 +76,7 @@ interface Katalog {
  * **Frage** ändert, muss den Cache verwerfen. `+mal-1` ist der Zusatz, der das beim nächsten Lauf
  * auslöst (einmalig alles neu, rund zehn Minuten).
  */
-const REL_FASSUNG = `${[...FRANCHISE_RELATIONS].sort().join(',')}+other-namen-8+eltern+mal-1`
+const REL_FASSUNG = `${[...FRANCHISE_RELATIONS].sort().join(',')}+other-namen-8-character-9+eltern+mal-1`
 
 const DATEI = 'data/cache/anilist-katalog.json'
 /** Erster Jahrgang mit nennenswertem Bestand. Davor gibt es einzelne Kurzfilme. */

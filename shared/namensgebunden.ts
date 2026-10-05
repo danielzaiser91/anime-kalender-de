@@ -4,3 +4,6 @@
  * an der Reihe und stand allein): Mit gemeinsamem Namensanfang ist es dieselbe Reihe, ohne ihn ein Gastauftritt.
  */
 export const NAMENSGEBUNDENE_RELATIONEN = new Set(['OTHER', 'CHARACTER'])
+
+/** Mindestlänge des gemeinsamen Namensanfangs je Beziehungsart. Bei `CHARACTER` 9: „Tales of" (8) verband sonst Parodie-Kurzserien mit eigenständigen Spielen (Messung 05.10.2026). */
+export const namensanfangMindestens = (relationType: string): number => (relationType === 'CHARACTER' ? 9 : 8)

@@ -7,7 +7,7 @@ import {
   providerKind,
   PLATFORM_PRIORITY,
 } from '../../shared/mappings.ts'
-import { NAMENSGEBUNDENE_RELATIONEN } from '../../shared/namensgebunden.ts'
+import { NAMENSGEBUNDENE_RELATIONEN, namensanfangMindestens } from '../../shared/namensgebunden.ts'
 import { resolve } from 'node:path'
 import { ROOT, log, warn } from '../lib/util.ts'
 import { existsSync, readFileSync } from 'node:fs'
@@ -125,7 +125,7 @@ export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anise
     (NAMENSGEBUNDENE_RELATIONEN.has(edge.relationType) &&
       otherZaehlt(
         [media.title.romaji, media.title.english],
-        [edge.node?.title?.romaji, edge.node?.title?.english],
+        [edge.node?.title?.romaji, edge.node?.title?.english], namensanfangMindestens(edge.relationType),
       ))
 
   const crossoverEltern = new Map<number, number[]>()

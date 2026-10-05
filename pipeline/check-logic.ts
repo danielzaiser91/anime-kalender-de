@@ -165,6 +165,7 @@ import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
 import { erschieneneFolgen, deutscheFolgen } from './bau/folgen-dateien.ts'
 import { unzugeordnet } from './lib/sammel-unzugeordnet.ts'
 import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
+import { namensanfangMindestens } from '../shared/namensgebunden.ts'
 import { NAMENSGEBUNDENE_RELATIONEN } from '../shared/namensgebunden.ts'
 import { schnellSetzen, schnellZustand, type SchnellId } from '../web/src/lib/schnellfilter.ts'
 import { ergaenzeTeilnamen } from './bau/adn-teilnamen.ts'
@@ -8016,6 +8017,7 @@ console.log('\nCharakter-Beziehung:')
 {
   pruefe('Charakter: wie OTHER nur mit Namensprüfung', NAMENSGEBUNDENE_RELATIONEN.has('CHARACTER') && !FRANCHISE_RELATIONS.has('CHARACTER'))
   pruefe('Charakter: Black Jack und Black Jack: Capital Transfer To Heian gehören zusammen', otherZaehlt(['Black Jack: Heian Sento', 'Black Jack: Capital Transfer To Heian'], ['Black Jack', 'Black Jack']))
+  pruefe('Charakter: „Tales of" (8 Zeichen) verbindet keine Spiele-Serien, bei OTHER bleibt 8', !otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('OTHER')))
   pruefe('Charakter: ein Gastauftritt ohne gemeinsamen Namen bleibt draußen (Gundam/Patlabor)', !otherZaehlt(['Mobile Suit Gundam'], ['Mobile Police Patlabor']))
 }
 console.log('\nSchnellfilter:')

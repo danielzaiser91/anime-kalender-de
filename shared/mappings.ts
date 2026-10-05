@@ -154,10 +154,11 @@ export const FRANCHISE_RELATIONS = new Set([
 export function otherZaehlt(
   namenA: (string | null | undefined)[],
   namenB: (string | null | undefined)[],
+  mindestLaenge = 8,
 ): boolean {
   for (const a of namenA) {
     for (const b of namenB) {
-      if (gemeinsameWortlaenge(a, b) >= 8) return true
+      if (gemeinsameWortlaenge(a, b) >= mindestLaenge) return true
     }
   }
   return false
