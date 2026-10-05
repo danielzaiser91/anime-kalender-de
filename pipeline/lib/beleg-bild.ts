@@ -82,12 +82,27 @@ function messeAusschnitt({ maxHoehe, maxBisStelle, suchen, stelle }: { maxHoehe:
   return { clip, text: wurzel.innerText, ...(markierung ? { markierung } : {}) }
 }
 
+/** Anwendungsseiten (Joyn, Disney+, Kinoheld) zeigen ihren Titel als Bild, das wir ausblenden — er steht dann als Textzeile über dem Ausschnitt (Daniel, 05.10.2026). */
+async function titelzeileSetzen(seite: Page): Promise<void> {
+  if (!/\/\/(?:www\.)?(?:joyn\.de|disneyplus\.com|kinoheld\.de)\//.test(seite.url())) return
+  await seite.evaluate(() => {
+    const roh = document.querySelector<HTMLMetaElement>('meta[property="og:title"]')?.content || document.title
+    const titel = roh.split(/\s[|\u2013\u2014-]\s/)[0]!.trim()
+    if (!titel) return
+    const zeile = document.createElement('h1')
+    zeile.textContent = titel
+    zeile.setAttribute('style', 'position:static;margin:0;background:#fff;color:#000;font:700 18px/1.3 sans-serif;padding:8px 16px')
+    document.body.prepend(zeile)
+  })
+}
+
 /** `'wand'`: Eine Zustimmungswand oder ein Banner bleibt trotz Entfernen im Bild — dann gibt es kein Bild. `'leer'`: Die Aufnahme ist einfarbig (Seite nicht gezeichnet). */
 export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: string[] = []): Promise<Beleg | 'wand' | 'leer' | undefined> {
   await seite.setViewportSize({ width: 520, height: 900 })
   await seite.addStyleTag({ content: 'img,picture,video,figure,svg,iframe{display:none!important} *{background-image:none!important} html{filter:grayscale(1)}' })
   /* Zustimmungswände und Banner liegen fest oder klebend über dem Text — entfernt, nicht beantwortet; bleibt eine, gibt es kein Bild. */
   if (!(await sperreEntfernen(seite))) return 'wand'
+  await titelzeileSetzen(seite)
   const stelle = await stuetzstelle(seite, suchen, tage)
   const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: MAX_BIS_STELLE, suchen, stelle })
   if (!gemessen || gemessen === 'wand') return gemessen
