@@ -1,4 +1,5 @@
 import { type Env } from './env.ts'
+import { ausSpeicher } from './export-speicher.ts'
 import { zaehleOffenePruefungen } from './pruefung-zaehlen.ts'
 import { liefereRohfolgen } from './pruefung-rohfolgen.ts'
 import { berechnePruefstand } from './pruefung-stand.ts'
@@ -144,8 +145,8 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
       je Folge wird aus allen Beobachtungen neu gerechnet, nicht aus den 500 offenen. Seitenweise wie
       bei den Rohfolgen; gemessen am 22.09.2026: 4.467 Zeilen, eine Seite.
     */
-    /* Zwischengespeichert (04.10.2026, D1-Kontingent): Jeder Bau holte alle Seiten neu, 36 Bauten an einem Tag lasen so 4,5 Mio. Zeilen. */
-    if (sucheP.get('alle') === '1') return ausCache(async () => {
+    /* In R2 zwischengespeichert (`export-speicher.ts`, 05.10.2026): Der Edge-Cache half nicht, jeder Bau holte alle Seiten neu (4,5 Mio. Zeilen an einem Tag). */
+    if (sucheP.get('alle') === '1') return ausSpeicher(env, `pruefung-alle-${Number(sucheP.get('nach') ?? 0) || 0}`, async () => {
       const nach = Number(sucheP.get('nach') ?? 0)
       const { results } = await env.DB.prepare(
         `SELECT id, plattform, url, befund, folge_nr, staffel, staffeln, folgen, teil_von, teil_bis,
@@ -155,7 +156,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
         .bind(Number.isFinite(nach) ? nach : 0)
         .all()
       const zeilen = (results ?? []) as { id: number }[]
-      return antwort({ pruefungen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null })
+      return { pruefungen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null }
     })
 
     const nurPlattform = sucheP.get('plattform')
