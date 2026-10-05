@@ -184,8 +184,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261007T133000Z
 DTEND:20261007T140000Z
 SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/13080/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -195,8 +194,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261007T153000Z
 DTEND:20261007T160000Z
 SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/14858/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -279,8 +277,7 @@ DTSTART:20261009T150000Z
 DTEND:20261009T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
  Folge 23/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16234/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -305,24 +302,12 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-10-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261010T093000Z
-DTEND:20261010T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 22/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/15570/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00378078@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261010T160000Z
 DTEND:20261010T163000Z
 SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 9/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16797/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -387,9 +372,8 @@ UID:cr-G6793XKZY@2026-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261017T093000Z
 DTEND:20261017T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 23/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 22/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/15570/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -421,7 +405,7 @@ UID:cr-G6793XKZY@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261024T093000Z
 DTEND:20261024T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 24/24
+SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 23/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/15570/
@@ -449,6 +433,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
  er Zeit.\nDetails: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-G6793XKZY@2026-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261031T103000Z
+DTEND:20261031T110000Z
+SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 24/24
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/15570/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00378078@2026-10-31@anime-kalender-de
