@@ -99,10 +99,10 @@ jobs:
 
       - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Tiefendurchlauf gesammelt (AniList)"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Tiefendurchlauf gesammelt (AniList)'
+          fund: anilist
 
       - name: Fehlschläge auswerten
         id: auswerten
@@ -137,10 +137,10 @@ jobs:
 
       - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Tiefendurchlauf gesammelt (ADN)"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Tiefendurchlauf gesammelt (ADN)'
+          fund: adn
 
       - name: Fehlschläge auswerten
         id: auswerten
@@ -186,10 +186,10 @@ jobs:
 
       - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Tiefendurchlauf gesammelt (Crunchyroll)"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Tiefendurchlauf gesammelt (Crunchyroll)'
+          fund: crunchyroll
 
       - name: Fehlschläge auswerten
         id: auswerten
@@ -231,10 +231,10 @@ jobs:
 
       - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Tiefendurchlauf gesammelt (aniSearch)"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Tiefendurchlauf gesammelt (aniSearch)'
+          fund: anisearch
 
       - name: Fehlschläge auswerten
         id: auswerten
@@ -294,10 +294,10 @@ jobs:
 
       - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Tiefendurchlauf gesammelt (TMDB und JustWatch)"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Tiefendurchlauf gesammelt (TMDB und JustWatch)'
+          fund: tmdb
 
       - name: Fehlschläge auswerten
         id: auswerten
@@ -337,10 +337,10 @@ jobs:
 
       - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Tiefendurchlauf gesammelt (RTL+ und Links)"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Tiefendurchlauf gesammelt (RTL+ und Links)'
+          fund: rtl
 
       - name: Fehlschläge auswerten
         id: auswerten
@@ -407,10 +407,10 @@ jobs:
 
       - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Tiefendurchlauf gesammelt (übrige Quellen)"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Tiefendurchlauf gesammelt (übrige Quellen)'
+          fund: sonst
 
       - name: Fehlschläge auswerten
         id: auswerten

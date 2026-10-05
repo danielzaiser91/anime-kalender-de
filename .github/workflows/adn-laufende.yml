@@ -67,12 +67,12 @@ jobs:
         run: bash tools/schritt.sh --zeit 5m "Zusicherungen prüfen" -- npm run check:adn-gedaechtnis
 
       # Ein Lauf ohne Änderung ist der Normalfall — die meisten Freischaltungen passieren einmal pro Woche und Serie; dann entsteht kein Pull Request.
-      - name: Änderungen einreichen
+      - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): ADN — laufende Serien aufgefrischt"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): ADN — laufende Serien aufgefrischt'
+          fund: auffrischen
 
       - name: Fehlschläge auswerten
         id: auswerten

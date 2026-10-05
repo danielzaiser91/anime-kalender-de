@@ -138,12 +138,12 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Messung gegen die eigenen Belege"
 
-      - name: Ergebnis sichern
+      - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Tonspuren von der Streaming Availability API"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Tonspuren von der Streaming Availability API'
+          fund: tonspuren
 
       # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
       - name: Lauf abmelden

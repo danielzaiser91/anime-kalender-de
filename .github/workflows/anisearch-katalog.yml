@@ -67,8 +67,9 @@ jobs:
         run: |
           npm run data:anisearch -- --limit "${{ inputs.grenze || '2800' }}" --katalog
 
-      - name: Fund als Pull Request einreichen
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): aniSearch-Katalog gesammelt"
+      - name: Quellen als Pull Request einreichen
+        if: always()
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): aniSearch-Katalog gesammelt'
+          fund: katalog

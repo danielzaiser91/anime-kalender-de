@@ -1,0 +1,40 @@
+name: Einreichen
+description: >
+  Reicht die Quellen eines Sammel-Laufs als Pull Request ein (`tools/quellen-pr.sh`) und sichert den Fund vorher als Artefakt. Scheitert das Einreichen
+  (Konflikt, Workflow-Dateien weichen ab, GitHub gestört), bleibt der Fund 14 Tage abrufbar und lässt sich mit „Fund nachliefern" einspielen — ein Sammel-Lauf
+  verliert seine Arbeit nicht mehr am letzten Schritt (Wochenlauf vom 05.10.2026: 107 Minuten Abrufe gingen so verloren).
+inputs:
+  nachricht:
+    description: 'Commit- und Titelzeile des Pull Requests'
+    required: true
+  fund:
+    description: 'Name des Fund-Artefakts (je Job eindeutig)'
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Quellen als Pull Request einreichen
+      id: pr
+      continue-on-error: true
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        # Das Aufsetzen legt hier die geänderten Quelldateien ab, bevor es auf den Stand von main wechselt.
+        FUND_DIR: ${{ runner.temp }}/fund
+      run: bash tools/quellen-pr.sh "${{ inputs.nachricht }}"
+
+    - name: Fund sichern
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: fund-${{ inputs.fund }}
+        path: ${{ runner.temp }}/fund
+        retention-days: 14
+        if-no-files-found: ignore
+
+    - name: Einreichen fehlgeschlagen
+      if: steps.pr.outcome == 'failure'
+      shell: bash
+      run: |
+        echo "::error::Der Pull Request konnte nicht angelegt werden. Der Fund liegt als Artefakt „fund-${{ inputs.fund }}“ bereit — „Fund nachliefern“ spielt ihn ein."
+        exit 1

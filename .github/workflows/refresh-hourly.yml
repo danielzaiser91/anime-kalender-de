@@ -95,10 +95,11 @@ jobs:
         run: bash tools/schritt.sh --zeit 5m "TV-Programm" -- npm run data:tv-programm -- ${{ inputs.tvde && '--tvde' || '' }}
 
       - name: Quellen als Pull Request einreichen
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Sendezeiten gesammelt"
+        if: always()
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Sendezeiten gesammelt'
+          fund: sendezeiten
 
       - name: Fehlschläge auswerten
         id: auswerten

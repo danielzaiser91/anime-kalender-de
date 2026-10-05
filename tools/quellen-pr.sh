@@ -77,9 +77,6 @@ melde "zweig=$ZWEIG"
 # Deshalb: **je Pfad einzeln**, und ein fehlender kostet nur sich selbst. Die
 # Zahl der Fehlgriffe steht im Protokoll, damit eine wachsende Lücke auffällt,
 # bevor sie jemanden etwas kostet.
-# **Der Zweig wird auf dem jüngsten Stand von `main` geschnitten, nicht auf dem vom Start des Laufs** (05.10.2026). Ein langer Lauf (Woche: bis 90 Minuten)
-# sonst hätte jede Datei geändert, die ein anderer Lauf inzwischen auch anfasste — der Pull Request wäre bei jedem Zusammentreffen im Konflikt gelandet.
-# Zurückgelegt werden nur die eigenen Änderungen an den Quellen; `source-health.json` und `dub-confirmed.yaml` werden zusammengeführt.
 # **Was der Lauf geschrieben hat, aber nicht einreicht, wird gemeldet — vor dem Aufsetzen, danach ist es weg.** Zweimal ging so Arbeit still verloren:
 # `public/data/voices` (seit 30.08.) und `data/adn-vde-historie.json` (seit 10.09.) standen in keiner Liste, und jeder Lauf warf sie weg.
 VERLOREN="$(quellen_verloren | head -20)"
@@ -89,31 +86,54 @@ if [ -n "$VERLOREN" ]; then
     { echo "### Nicht eingereichte Dateien"; echo '```'; echo "$VERLOREN"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
   fi
 fi
-git fetch origin main --quiet
-quellen_aufsetzen origin/main
-echo "--- Arbeitsverzeichnis vor dem Stagen: $(pwd), Zweig $(git rev-parse --abbrev-ref HEAD)"
-echo "--- Zahl geänderter Dateien: $(git status --porcelain | wc -l)"
 
-FEHLEND=0
-for QUELLE in "${QUELLEN[@]}"; do
-  if ! git add -- "$QUELLE" 2>/dev/null; then
-    FEHLEND=$((FEHLEND + 1))
-    echo "    übersprungen (nicht vorhanden): $QUELLE"
+# **Der Zweig wird auf dem jüngsten Stand von `main` geschnitten, nicht auf dem vom Start des Laufs** (05.10.2026). Zwei Gründe:
+#
+# 1. Ein langer Lauf (Woche: bis 90 Minuten) hätte sonst jede Datei geändert, die ein anderer Lauf inzwischen auch anfasste — der Pull Request wäre bei jedem
+#    Zusammentreffen im Konflikt gelandet. Zurückgelegt werden nur die eigenen Änderungen; `source-health.json` und `dub-confirmed.yaml` werden zusammengeführt.
+# 2. GitHub lehnt den Push eines Zweigs ab, dessen Workflow-Dateien von `main` abweichen („refusing to allow a GitHub App to create or update workflow …").
+#    Wer während eines laufenden Sammlers einen Workflow änderte, ließ dessen Pull Request scheitern — der Wochenlauf vom 05.10.2026 verlor so 107 Minuten
+#    Abrufe. Auf dem jüngsten `main` geschnitten stimmen die Dateien überein; ändert sich `main` genau zwischen Schnitt und Push, setzt die Schleife neu auf.
+PUSH_OK=0
+for versuch in 1 2 3; do
+  git fetch origin main --quiet
+  quellen_aufsetzen origin/main
+  echo "--- Arbeitsverzeichnis vor dem Stagen: $(pwd), Zweig $(git rev-parse --abbrev-ref HEAD) (Versuch $versuch)"
+  echo "--- Zahl geänderter Dateien: $(git status --porcelain | wc -l)"
+
+  FEHLEND=0
+  for QUELLE in "${QUELLEN[@]}"; do
+    if ! git add -- "$QUELLE" 2>/dev/null; then
+      FEHLEND=$((FEHLEND + 1))
+      echo "    übersprungen (nicht vorhanden): $QUELLE"
+    fi
+  done
+  if [ "$FEHLEND" -gt 0 ]; then
+    echo "--- $FEHLEND von ${#QUELLEN[@]} Pfaden gibt es gerade nicht — das ist erlaubt, sie entstehen bei Bedarf."
   fi
-done
-if [ "$FEHLEND" -gt 0 ]; then
-  echo "--- $FEHLEND von ${#QUELLEN[@]} Pfaden gibt es gerade nicht — das ist erlaubt, sie entstehen bei Bedarf."
-fi
-if git diff --staged --quiet; then
-  echo "Keine Änderung an den Quellen — kein Pull Request."
-  melde "gemerged=true"
-  melde "pr="
-  exit 0
-fi
+  if git diff --staged --quiet; then
+    echo "Keine Änderung an den Quellen — kein Pull Request."
+    melde "gemerged=true"
+    melde "pr="
+    exit 0
+  fi
 
-git checkout -b "$ZWEIG" --quiet
-git -c user.name="$BOT_NAME" -c user.email="$BOT_MAIL" commit -m "$NACHRICHT" --quiet
-git push -u origin "$ZWEIG" --quiet
+  git checkout -B "$ZWEIG" --quiet
+  git -c user.name="$BOT_NAME" -c user.email="$BOT_MAIL" commit -m "$NACHRICHT" --quiet
+  if git push -u origin "$ZWEIG" --force --quiet; then
+    PUSH_OK=1
+    break
+  fi
+  echo "::warning::Push abgelehnt (Versuch $versuch von 3) — setze auf dem neuen Stand von main neu auf."
+  # Zurück auf einen losen Kopf; die Änderungen bleiben im Arbeitsverzeichnis, die nächste Runde legt sie auf den neuen Stand.
+  git checkout --detach --quiet
+  git reset --mixed HEAD~1 --quiet
+  sleep $((5 + RANDOM % 10))
+done
+if [ "$PUSH_OK" != 1 ]; then
+  echo "::error::Der Pull Request konnte nach drei Versuchen nicht angelegt werden. Die geholten Daten sind im Lauf-Verzeichnis, nicht im Repo."
+  exit 1
+fi
 
 # `gh pr create` braucht GH_TOKEN in der Umgebung; der Workflow reicht das
 # GITHUB_TOKEN durch.

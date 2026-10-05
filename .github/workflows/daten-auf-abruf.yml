@@ -156,10 +156,9 @@ jobs:
               npm run "$LAUF" ;;
           esac
 
-      - name: Ergebnis einreichen
-      # Seit dem 05.10.2026 als Pull Request statt Push auf `main` (`tools/quellen-pr.sh`): Der Lauf blockiert weder den Bau noch wird er von ihm blockiert.
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Lauf auf Abruf"
+      - name: Quellen als Pull Request einreichen
+        if: always()
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Lauf auf Abruf'
+          fund: lauf

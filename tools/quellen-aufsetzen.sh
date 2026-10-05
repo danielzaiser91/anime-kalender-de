@@ -34,6 +34,14 @@ quellen_aufsetzen() {
     esac
   done < <(git -c status.renames=false status --porcelain -uall -- "${QUELLEN[@]}" 2>/dev/null)
 
+  # Sicherung für den Fall, dass das Einreichen scheitert: Die geänderten Dateien liegen dann als Artefakt bereit (`.github/actions/einreichen`, `fund-nachliefern.yml`).
+  if [ -n "${FUND_DIR:-}" ]; then
+    rm -rf "$FUND_DIR"
+    mkdir -p "$FUND_DIR"
+    [ -d "$rettung/files" ] && cp -r "$rettung/files" "$FUND_DIR/files"
+    cp "$rettung/.geloescht" "$FUND_DIR/geloescht.txt"
+  fi
+
   git reset --hard "$fernstand" --quiet
 
   QUELLEN_GEAENDERT=0

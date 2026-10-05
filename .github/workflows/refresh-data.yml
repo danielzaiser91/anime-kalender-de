@@ -155,10 +155,10 @@ jobs:
 
       - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): Tagesquellen gesammelt"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Tagesquellen gesammelt'
+          fund: sammeln
 
       - name: Fehlschläge auswerten
         id: auswerten
@@ -197,10 +197,10 @@ jobs:
 
       - name: Quellen als Pull Request einreichen
         if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bash tools/quellen-pr.sh "chore(data): aniSearch-Tagesquellen gesammelt"
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): aniSearch-Tagesquellen gesammelt'
+          fund: anisearch
 
       - name: Fehlschläge auswerten
         id: auswerten
