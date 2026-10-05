@@ -11,7 +11,7 @@
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
 import type { NewsEintrag, PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
-import { runSchnellmessung } from './schnellmessung.ts'
+import { sichereSchnellmessung } from './schnellmesser.ts'
 import { ladeAbbild, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
 import { anbieterName } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
@@ -43,6 +43,7 @@ import { handleCrZugang } from './cr-zugang.ts'
 import { handleBeleg } from './beleg.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
 
 export { Ereignisse }
+export { Schnellmesser } from './schnellmesser.ts'
 
 interface SubscriberRow {
   id: string
@@ -1588,12 +1589,9 @@ export default {
     }
   },
 
-  async scheduled(event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+  async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()
-    if (event.cron === '*/5 * * * *') {
-      ctx.waitUntil(runSchnellmessung(env, now).then((m) => console.log(`[schnell] ${m}`)).catch((e) => console.error('[schnell]', e)))
-      return
-    }
+    ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => console.error('[schnell]', e)))
     ctx.waitUntil(starteFaelligeLaeufe(env).catch((e) => console.error('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
     ctx.waitUntil(
       runDigest(env, now)

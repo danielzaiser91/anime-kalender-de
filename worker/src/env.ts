@@ -25,4 +25,6 @@ export interface Env extends MailEnv, PushEnv {
   MONITOR_EMAIL?: string
   /** Private Beleg-Ablage (Screenshots, HTML). Optional: Ohne Bindung antwortet /beleg mit 503. */
   BELEGE?: R2Bucket
+  /** Taktgeber der Schnellmessung (Durable Object mit Alarm), siehe schnellmesser.ts. */
+  SCHNELLMESSER: DurableObjectNamespace
 }

@@ -6,7 +6,7 @@ compatibility_date = "2025-05-01"
 # der Berliner Ortszeit — so stimmt der Versandzeitpunkt auch über die
 # Sommerzeitumstellung hinweg, ohne zwei Cron-Einträge zu verbrauchen.
 [triggers]
-crons = ["0 * * * *", "*/5 * * * *"] # stündlich: alles; alle 5 Minuten: nur die Schnellmessung (schnellmessung.ts)
+crons = ["0 * * * *"]
 
 [[d1_databases]]
 binding = "DB"
@@ -48,6 +48,15 @@ class_name = "Ereignisse"
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["Ereignisse"]
+
+# Taktgeber der Schnellmessung (schnellmesser.ts): Alarm alle 5 Minuten.
+[[durable_objects.bindings]]
+name = "SCHNELLMESSER"
+class_name = "Schnellmesser"
+
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["Schnellmesser"]
 
 # Private Beleg-Ablage (02.10.2026): je Lesung eines Artikels Bild und HTML. Kein öffentlicher
 # Zugang am Bucket — gelesen und geschrieben wird nur über /beleg mit LAUF_TOKEN.
