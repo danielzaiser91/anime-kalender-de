@@ -26,6 +26,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261007
+DTEND;VALUE=DATE:20261008
+SUMMARY:Naruto Shippuden – Staffel 3
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:naruto-shippuden-the-movie-5-blood-prison-2026-11-19@2026-11-19@anime-k
  alender-de
 DTSTAMP:20200101T000000Z

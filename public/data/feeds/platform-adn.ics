@@ -26,6 +26,36 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:bleach-diamonddust-rebellion-adn@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:Bleach: The DiamondDust Rebellion
+DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/t/2398/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:bleach-fade-to-black-adn@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:Bleach: Fade to Black
+DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/t/3282/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:bleach-hell-verse-adn@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:Bleach: The Hell Verse
+DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
+ t.\nDetails: https://anime-kalender.de/t/4477/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-1686-adn@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261012
