@@ -904,7 +904,7 @@ export function DetailPanel({
 
   // nirgends eine deutsche Inhaltsangabe — dort wäre die Alternative eine
   // leere Fläche.
-  const { plot } = plotVon({ synopsis, titleId, ersatz })
+  const { plot } = plotVon({ synopsis, anilistId: title.al, ersatz })
   const keywords = allKeywords ? title.keywords : title.keywords.slice(0, KEYWORD_PREVIEW)
 
   return (

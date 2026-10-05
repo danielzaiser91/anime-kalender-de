@@ -20,6 +20,7 @@
  * Aufruf: `node tools/trailer-dialog-bild.mjs [titelId]` · `npm run check:trailer`
  * Ergebnis: `docs/trailer-dialog-<thema>.png`
  */
+import { akVon } from './ak-von.mjs'
 import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
@@ -145,7 +146,7 @@ for (const fall of FAELLE) {
   for (const thema of ['dunkel', 'hell']) {
     await seite.emulateMedia({ colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
     await seite.goto('about:blank')
-    await seite.goto(`http://ak.test/#/datenbank?t=${fall.id}`, { waitUntil: 'networkidle' })
+    await seite.goto(`http://ak.test/#/datenbank?t=${akVon(fall.id)}`, { waitUntil: 'networkidle' })
 
     /* Der Text wechselt mit der Sprache — gefunden wird über das gemeinsame Wort. */
     const pille = seite.getByRole('button', { name: /Trailer/ })

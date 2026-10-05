@@ -9,9 +9,9 @@ import { type FranchiseMember } from '@shared/types.ts'
 const KURZ = 100
 export const aussagekraeftig = (s: Synopsis | undefined): s is Synopsis => Boolean(s?.de || (s?.en && s.en.trim().length >= KURZ))
 
-export function plotVon({ synopsis, titleId, ersatz }: {
+export function plotVon({ synopsis, anilistId, ersatz }: {
   synopsis: Synopsis | undefined
-  titleId: number
+  anilistId: number | undefined
   ersatz: { plot: Synopsis; von: FranchiseMember; } | undefined
 }) {
   const plot = (() => {
@@ -27,7 +27,7 @@ export function plotVon({ synopsis, titleId, ersatz }: {
       return {
         text: synopsis.en,
         fallback: true,
-        quelle: { name: 'anilist.co', url: `https://anilist.co/anime/${titleId}` },
+        quelle: { name: 'anilist.co', url: anilistId ? `https://anilist.co/anime/${anilistId}` : 'https://anilist.co/' },
       }
     }
     if (!ersatz) return undefined
@@ -38,7 +38,7 @@ export function plotVon({ synopsis, titleId, ersatz }: {
       vonTeil: ersatz.von,
       quelle: ersatz.plot.de
         ? (ersatz.plot.deSource ?? { name: 'anisearch.de', url: 'https://www.anisearch.de/' })
-        : { name: 'anilist.co', url: `https://anilist.co/anime/${ersatz.von.id}` },
+        : { name: 'anilist.co', url: ersatz.von.al ? `https://anilist.co/anime/${ersatz.von.al}` : 'https://anilist.co/' },
     }
   })()
   return { plot }

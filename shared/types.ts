@@ -301,7 +301,7 @@ export interface FolgenFenster {
 }
 
 export interface Title {
-  id: number
+  id: number; al?: number // `id`: in der Ausgabe unsere Kennung `ak`, in der Pipeline AniList; `al`: AniList, nur für den Quellenverweis
   malId?: number
   slug: string
   titleDe?: string
@@ -850,7 +850,7 @@ export type DiscAusgabe = [kurz: string, format: 'b' | 'd' | 'u', art: 'g' | 't'
  * würde die Datei verdoppeln, ohne eine Frage zu beantworten.
  */
 export interface FranchiseMember {
-  id: number
+  id: number; al?: number // `al`: AniList-Kennung für den Quellenverweis
   name: string
   format?: string
   jpYear?: number

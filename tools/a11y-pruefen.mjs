@@ -1,6 +1,7 @@
 // Barrierefreiheit: axe-core (vom CDN) über alle Ansichten, beide Themen, gegen dist/.
 // Aufruf: npx vite build && node tools/a11y-pruefen.mjs [--kontrast] [--hell|--dunkel]  (18.09.2026)
 //   --kontrast  gruppiert die Kontrastfehler nach Farbpaar statt nach Regel
+import { akVon } from './ak-von.mjs'
 import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
@@ -11,7 +12,7 @@ const T = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', 
 const PUNKT = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==', 'base64')
 const KONTRAST = process.argv.includes('--kontrast')
 const THEMEN = process.argv.includes('--hell') ? ['light'] : process.argv.includes('--dunkel') ? ['dark'] : ['light', 'dark']
-const ANSICHTEN = ['woche', 'monat', 'datenbank', 'news', 'abo', 'newsletter', 'quellen', 'woche?t=170083']
+const ANSICHTEN = ['woche', 'monat', 'datenbank', 'news', 'abo', 'newsletter', 'quellen', 'woche?t=' + akVon(170083)]
 
 const b = await chromium.launch()
 const s = await b.newPage({ viewport: { width: 1280, height: 900 } })

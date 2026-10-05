@@ -115,7 +115,7 @@ export async function pushFavorites(token: string, favorites: number[]): Promise
   const res = await fetch(`${WORKER_URL}/favorites`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ token, favorites }),
+    body: JSON.stringify({ token, favorites, ak: 1 }),
   })
   const body = (await res.json()) as { ok?: boolean; count?: number; error?: string }
   if (res.status === 404) {

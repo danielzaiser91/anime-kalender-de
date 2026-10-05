@@ -1,4 +1,5 @@
 import { pushText, pushZiel, type PushEreignis, type WeitererAnbieter } from './push-text.ts'
+import { ladeAbbild, leseFavoriten } from './favoriten-kennung.ts'
 
 /**
  * **Web-Push ohne Nutzlast — der Zustell-PoC** (18.09.2026, Plan in status.md).
@@ -11,6 +12,7 @@ import { pushText, pushZiel, type PushEreignis, type WeitererAnbieter } from './
 export interface PushEnv {
   VAPID_PRIVATE_JWK?: string
   VAPID_PUBLIC?: string
+  SITE_URL: string
 }
 
 const b64url = (buf: ArrayBuffer | Uint8Array): string => {
@@ -90,7 +92,7 @@ export async function pushVersand(
   let geloescht = 0
   const schluessel = (w: WeitererAnbieter) => `${w.id}:${w.anbieter}`
   for (const abo of results ?? []) {
-    const favoriten = new Set(abo.favoriten.split(',').filter(Boolean).map(Number))
+    const favoriten = leseFavoriten(abo.favoriten, await ladeAbbild(env))
     const gemeldet = abo.gemeldet ? abo.gemeldet.split('\n') : []
     const bekannt = new Set(gemeldet)
     const auchBei = weitere.filter((w) => favoriten.has(w.id) && !bekannt.has(schluessel(w)))

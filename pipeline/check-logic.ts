@@ -16,6 +16,7 @@
  *
  * Aufruf: npm run check:logic
  */
+import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 import { readdirSync, readFileSync } from 'node:fs'
 import { titelAus } from './lib/anisearch-titel.ts'
 import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.ts'
@@ -8094,11 +8095,30 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   pruefe('die Fundstelle wandert mit dem Bild an die Quelle', JSON.stringify((mit[0] as { markierung?: number[] }).markierung) === '[0.1,0.2,0.8,0.3]')
   const lang = 'Tokyo Revengers: Takemichi reist in die Vergangenheit und versucht, das Schicksal seiner Freunde zu ändern, bis die Bande Toman zerbricht.'
   const von = { id: 2, name: 'Staffel 1' } as never
-  const kurz = plotVon({ synopsis: { en: 'Sequel to Tokyo Revengers: Tenjiku-hen.' } as never, titleId: 7, ersatz: { plot: { de: lang } as never, von } })
+  const kurz = plotVon({ synopsis: { en: 'Sequel to Tokyo Revengers: Tenjiku-hen.' } as never, anilistId: 7, ersatz: { plot: { de: lang } as never, von } })
   pruefe('ein Ein-Satz-Platzhalter weicht der Handlung des Vorgängers (Tokyo Revengers S3)', kurz.plot?.text === lang && kurz.plot?.vonTeil !== undefined)
-  const eigen = plotVon({ synopsis: { en: lang } as never, titleId: 7, ersatz: { plot: { de: 'Anderer Text, auch lang genug, um als Handlung zu gelten, und deshalb nicht der eigene.'.repeat(2) } as never, von } })
+  const eigen = plotVon({ synopsis: { en: lang } as never, anilistId: 7, ersatz: { plot: { de: 'Anderer Text, auch lang genug, um als Handlung zu gelten, und deshalb nicht der eigene.'.repeat(2) } as never, von } })
   pruefe('eine eigene, ausreichend lange Handlung bleibt', eigen.plot?.text === lang && eigen.plot?.vonTeil === undefined)
 }
+/* Die Ausgabe in eigenen Kennungen (Stufe 1, 05.10.2026): die Grenze zwischen AniList-Kennung und `ak`. */
+{
+  const ak = (n: number) => (n < 0 ? n : n + 1000)
+  const titel = uebersetzeDatei('titles.json', [{ id: 5, franchiseId: 3, slug: 'x-5', titleEn: 'X' }, { id: -7, slug: 'c-7' }], ak) as Record<string, unknown>[]
+  pruefe('Titel: Kennung, Reihe und Adresse laufen auf ak, die AniList-Kennung bleibt als al', titel[0]!.id === 1005 && titel[0]!.franchiseId === 1003 && titel[0]!.slug === '1005' && titel[0]!.al === 5, JSON.stringify(titel[0]))
+  pruefe('Cartoons (negative Kennung) bleiben, wie sie sind', titel[1]!.id === -7 && titel[1]!.al === undefined && titel[1]!.slug === 'c-7', JSON.stringify(titel[1]))
+  const rel = uebersetzeDatei('releases.json', [{ slug: 'r-1', titleId: 5 }], ak) as { slug: string; titleId: number }[]
+  pruefe('Termine: titleId auf ak, Termin-Adresse unverändert', rel[0]!.titleId === 1005 && rel[0]!.slug === 'r-1')
+  const news = uebersetzeDatei('news.json', [{ titelId: 5, slug: 'x-5', meldungen: [{ teilId: 3 }, {}] }], ak) as { titelId: number; slug: string; meldungen: { teilId?: number }[] }[]
+  pruefe('News: titelId, Adresse und Teil-Kennung', news[0]!.titelId === 1005 && news[0]!.slug === '1005' && news[0]!.meldungen[0]!.teilId === 1003 && news[0]!.meldungen[1]!.teilId === undefined)
+  const reihen = uebersetzeDatei('franchises.json', { '3': [{ id: 5, name: 'X' }] }, ak) as Record<string, { id: number; al: number }[]>
+  pruefe('Reihen: Schlüssel und Mitglieder auf ak', reihen['1003']?.[0]?.id === 1005 && reihen['1003']?.[0]?.al === 5, JSON.stringify(reihen))
+  const kurz = uebersetzeDatei('reihen.json', { '5': { f: 3, j: 1998 } }, ak) as Record<string, { f: number; j: number }>
+  pruefe('Reihen-Zuordnung: Schlüssel und Reihenkennung', kurz['1005']?.f === 1003 && kurz['1005']?.j === 1998)
+  pruefe('unbekannte Dateien bleiben unberührt', uebersetzeDatei('meta.json', { titleCount: 3 }, ak) !== undefined)
+  /* Karenz der Favoriten-Umschreibung: ab dem 05.11.2026 entfallen web/src/lib/kennung-umzug.ts, worker/src/favoriten-kennung.ts (Zweig ohne Vorsatz) und data/anilist-ak.json. */
+  pruefe('Favoriten-Umschreibung (AniList → ak) ist ausgelaufen und gehört entfernt', todayIso() < '2026-11-05', 'siehe kennung-umzug.ts / favoriten-kennung.ts')
+}
+
 console.log('\nFolgentitel aus Crunchyroll:')
 {
   /* Daniel, 04.10.2026: aniSearch hat für viele Serien keine Folgentitel; Crunchyroll trägt sie deutsch in derselben Antwort, die die Synchro misst. */

@@ -530,7 +530,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
       const res = await fetch(`${WORKER_URL}/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, frequency, platforms, favorites: [...favorites] }),
+        body: JSON.stringify({ email, frequency, platforms, favorites: [...favorites], ak: 1 }),
       })
       const body = (await res.json()) as { ok?: boolean; error?: string }
       if (!res.ok || !body.ok) throw new Error(body.error ?? 'Unbekannter Fehler')

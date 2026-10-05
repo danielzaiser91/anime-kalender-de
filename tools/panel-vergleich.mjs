@@ -12,6 +12,7 @@
  *   node tools/panel-vergleich.mjs [basis] [kandidat] [anzahl]   Vorgabe: origin/main HEAD 80
  * Exit 0 = gleich, 1 = verschieden (Unterschiede unter $TMPDIR/panel-vergleich/).
  */
+import { akVon } from './ak-von.mjs'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
@@ -97,7 +98,7 @@ async function rendere(dist, ids) {
   const ergebnis = {}
   for (const id of ids) {
     await seite.goto('about:blank')
-    await seite.goto(`http://ak.test/#/datenbank?t=${id}`, { waitUntil: 'networkidle' })
+    await seite.goto(`http://ak.test/#/datenbank?t=${akVon(id)}`, { waitUntil: 'networkidle' })
     const panel = seite.locator('[data-panel="titel"]')
     try {
       await panel.waitFor({ state: 'visible', timeout: 15_000 })

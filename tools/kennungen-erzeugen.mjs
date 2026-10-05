@@ -30,8 +30,22 @@ for (const datei of ['public/data/titles.json', 'public/data/ohne-synchro.json']
   for (const t of Array.isArray(liste) ? liste : Object.values(liste)) {
     if (!Number.isInteger(t?.id)) continue
     ids.add(t.id)
+    if (Number.isInteger(t.franchiseId) && t.franchiseId > 0) ids.add(t.franchiseId)
     if (Number.isInteger(t.anisearchId) && t.anisearchId > 0) ausTitel.set(t.id, t.anisearchId)
   }
+}
+/* Auch Reihen-Mitglieder, Termine und Meldungen nennen Titel, die in keiner der beiden Listen stehen; die Übersetzung der Ausgabe braucht für jede genannte Kennung eine eigene. */
+const reihen = lies('public/data/franchises.json', {})
+for (const [schluessel, mitglieder] of Object.entries(reihen)) {
+  ids.add(Number(schluessel))
+  for (const m of mitglieder) if (Number.isInteger(m?.id) && m.id > 0) ids.add(m.id)
+}
+for (const [datei, feld] of [['releases', 'titleId'], ['events', 'titleId'], ['meldungen', 'titleId'], ['news', 'titelId'], ['neu-mit-synchro', 'id']]) {
+  for (const x of lies(`public/data/${datei}.json`, [])) if (Number.isInteger(x?.[feld]) && x[feld] > 0) ids.add(x[feld])
+}
+for (const [schluessel, v] of Object.entries(lies('public/data/reihen.json', {}))) {
+  ids.add(Number(schluessel))
+  if (Number.isInteger(v?.f) && v.f > 0) ids.add(v.f)
 }
 const aniSearch = lies('data/anisearch.json', {})
 const eintraege = aniSearch.eintraege ?? aniSearch

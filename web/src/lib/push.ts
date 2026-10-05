@@ -29,7 +29,7 @@ async function senden(abo: PushSubscription, favoriten: number[] | null): Promis
   const res = await fetch(`${WORKER}/push/abo`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(favoriten ? { subscription: abo.toJSON(), favoriten } : { subscription: abo.toJSON(), abmelden: true }),
+    body: JSON.stringify(favoriten ? { subscription: abo.toJSON(), favoriten, ak: 1 } : { subscription: abo.toJSON(), abmelden: true }),
   })
   if (!res.ok) throw new Error('Der Dienst hat das Abo nicht angenommen.')
 }

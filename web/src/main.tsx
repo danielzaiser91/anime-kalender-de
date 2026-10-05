@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import { applyDocumentLanguage } from './lib/i18n.tsx'
 import { registerServiceWorker } from './lib/pwa.ts'
+import { kennungUmzug } from './lib/kennung-umzug.ts'
 /* Selbst gehostet statt über Google Fonts: Ein Abruf dort übermittelt die IP-Adresse (DSGVO). */
 import '@fontsource/unbounded/500.css'
 import '@fontsource/unbounded/700.css'
@@ -23,11 +24,15 @@ registerServiceWorker()
 // LanguageProvider bei jedem Sprachwechsel — es gibt nur noch Deutsch.
 applyDocumentLanguage()
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+/* Gemerkte Titel ziehen vor dem ersten Rendern auf unsere Kennung um (einmalig, bis 05.11.2026). */
+void kennungUmzug().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+  ladeschirmEntfernen()
+})
 
 /**
  * **Der Ladeschirm geht weg, wenn wirklich etwas dasteht.**
@@ -41,9 +46,11 @@ createRoot(document.getElementById('root')!).render(
  * während der Schirm noch darüberliegt — sonst blitzt für einen Rahmen der
  * leere Grund durch.
  */
-requestAnimationFrame(() => {
+function ladeschirmEntfernen() {
   requestAnimationFrame(() => {
-    document.documentElement.classList.remove('ak-laedt')
-    document.getElementById('ak-ladeschirm')?.remove()
+    requestAnimationFrame(() => {
+      document.documentElement.classList.remove('ak-laedt')
+      document.getElementById('ak-ladeschirm')?.remove()
+    })
   })
-})
+}

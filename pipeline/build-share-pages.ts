@@ -25,6 +25,7 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
+import { ladeAkVon } from './lib/ausgabe-kennung.ts'
 
 const DIST = resolve(ROOT, 'dist')
 const SITE = (process.env.SITE_URL ?? 'https://anime-kalender.de/').replace(
@@ -434,18 +435,21 @@ function main(): void {
 
   const alleTitel = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titelListe = (Array.isArray(alleTitel) ? alleTitel : alleTitel.titles).filter((t) => t.slug)
-  for (const t of titelListe) {
-    const dir = resolve(DIST, 't', t.slug)
+  /* Die Adresse eines Titels ist `/t/<ak>/` — unsere Kennung, ohne Namen (Stufe 1 der eigenen Kennungen). */
+  const { akVon } = ladeAkVon(resolve(ROOT, 'data/kennungen.json'))
+  const mitAk = titelListe.map((t) => ({ t, ak: akVon(t.id) }))
+  for (const { t, ak } of mitAk) {
+    const dir = resolve(DIST, 't', String(ak))
     mkdirSync(dir, { recursive: true })
-    const seite = (before + titelKopf(t) + after).replace(
+    const seite = (before + titelKopf({ ...t, id: ak, slug: String(ak) }) + after).replace(
       ROOT_TAG,
-      `<div id="root">${titelInhalt(t, synopses[String(t.id)]?.de, jeTitel.get(t.id) ?? [])}</div>`,
+      `<div id="root">${titelInhalt({ ...t, id: ak, slug: String(ak) }, synopses[String(t.id)]?.de, jeTitel.get(t.id) ?? [])}</div>`,
     )
     writeFileSync(resolve(dir, 'index.html'), seite, 'utf8')
   }
 
   log(`${releases.length} Teilen-Seiten, ${titelListe.length} Titel-Seiten, Übersicht und Startseite geschrieben`)
-  writeSitemap(releases, titelListe)
+  writeSitemap(releases, mitAk.map(({ t, ak }) => ({ ...t, slug: String(ak) })))
 }
 
 /*

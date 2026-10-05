@@ -17,6 +17,7 @@
  * Aufruf: node tools/kino-kasten-bild.mjs [<AniList-Id>]   (Standard: 200929)
  * Ergebnis: docs/kino-kasten-<hell|dunkel>.png
  */
+import { akVon } from './ak-von.mjs'
 import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
@@ -71,7 +72,7 @@ console.log(`Kino-Kasten an Titel ${id}:\n`)
 for (const thema of ['dunkel', 'hell']) {
   await seite.emulateMedia({ colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
   await seite.goto('about:blank')
-  await seite.goto(`http://ak.test/#/datenbank?t=${id}`, { waitUntil: 'networkidle' })
+  await seite.goto(`http://ak.test/#/datenbank?t=${akVon(id)}`, { waitUntil: 'networkidle' })
   await seite.waitForSelector('[role="dialog"]', { timeout: 15_000 })
   await seite.waitForTimeout(800)
   const text = await seite.evaluate(() => document.querySelector('[role="dialog"]')?.innerText ?? '')

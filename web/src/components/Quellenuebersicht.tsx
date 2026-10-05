@@ -59,7 +59,7 @@ export function Quellenuebersicht({ title, releases }: { title: Title; releases:
         speist: t('quellen.feedTermine'),
         anzahl: q.anzahl,
       })),
-      { name: 'AniList', url: `https://anilist.co/anime/${title.id}`, speist: t('quellen.feedWerk') },
+      { name: 'AniList', url: `https://anilist.co/anime/${title.al}`, speist: t('quellen.feedWerk') },
     ]
     /*
       **Verlinkt, wo wir eine Kennung haben.** Daniels Vorgabe vom 29.08.2026:

@@ -19,6 +19,7 @@
  * Antwort-Kastens auf der Konsole — springt er zwischen zwei Titeln, steht es
  * dort schwarz auf weiß.
  */
+import { akVon } from './ak-von.mjs'
 import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
@@ -118,7 +119,7 @@ async function main() {
         stehen nicht in `titles-core.json`, und dort würde das Panel nie
         erscheinen. Die Datenbank lädt `titles.json` nach — also alle.
       */
-      await seite.goto(`http://ak.test/#/datenbank?t=${id}`, { waitUntil: 'networkidle' })
+      await seite.goto(`http://ak.test/#/datenbank?t=${akVon(id)}`, { waitUntil: 'networkidle' })
       const panel = seite.locator('[data-panel="titel"]')
       try {
         await panel.waitFor({ state: 'visible', timeout: 15_000 })

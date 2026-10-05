@@ -11,6 +11,7 @@
  * Die Termine kommen aus denselben JSON-Dateien, die auch die Website lädt.
  */
 import type { NewsEintrag, PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
+import { ladeAbbild, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
 import { anbieterName } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { buildIcs } from '../../shared/ics.ts'
@@ -58,21 +59,6 @@ interface SubscriberRow {
 }
 
 /** Kommagetrennte Zahlenliste aus der Datenbank in ein Set. */
-function parseIdList(raw: string | null | undefined): Set<number> {
-  return new Set(
-    (raw ?? '')
-      .split(',')
-      .map((v) => Number(v.trim()))
-      .filter((v) => Number.isInteger(v) && v > 0),
-  )
-}
-
-/** Nur ganze Zahlen übernehmen — die Liste kommt aus dem Browser. */
-function cleanIdList(input: unknown): string {
-  if (!Array.isArray(input)) return ''
-  return [...new Set(input.map(Number).filter((v) => Number.isInteger(v) && v > 0))].join(',')
-}
-
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i
 
 function cors(env: Env): Record<string, string> {
@@ -96,7 +82,7 @@ function baseUrl(request: Request): string {
 }
 
 async function handleSubscribe(request: Request, env: Env): Promise<Response> {
-  let payload: { email?: string; frequency?: string; platforms?: string[]; favorites?: number[] }
+  let payload: { email?: string; frequency?: string; platforms?: string[]; favorites?: number[]; ak?: number }
   try {
     payload = await request.json()
   } catch {
@@ -106,7 +92,7 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
   const email = (payload.email ?? '').trim().toLowerCase()
   const frequency = payload.frequency === 'daily' ? 'daily' : 'weekly'
   const platforms = (payload.platforms ?? []).filter((p) => /^[a-z]+$/.test(p)).join(',')
-  const favorites = cleanIdList(payload.favorites)
+  const favorites = schreibeFavoriten(payload.favorites, payload.ak)
 
   if (!EMAIL_RE.test(email)) return json(env, { error: 'Diese E-Mail-Adresse sieht nicht gültig aus.' }, 400)
 
@@ -556,11 +542,11 @@ async function handleFavoritesGet(request: Request, env: Env): Promise<Response>
    * dem Browser, in dem das Abo bestätigt wurde, und er beantwortet ohnehin
    * schon die schärfere Frage, ob es zu dieser Adresse ein Abo gibt.
    */
-  return json(env, { ok: true, favorites: [...parseIdList(row.favorites)], email: row.email })
+  return json(env, { ok: true, favorites: [...leseFavoriten(row.favorites, await ladeAbbild(env))], email: row.email })
 }
 
 async function handleFavorites(request: Request, env: Env): Promise<Response> {
-  let payload: { token?: string; favorites?: number[] }
+  let payload: { token?: string; favorites?: number[]; ak?: number }
   try {
     payload = await request.json()
   } catch {
@@ -571,7 +557,7 @@ async function handleFavorites(request: Request, env: Env): Promise<Response> {
   if (!token) return json(env, { error: 'Kein Abgleich-Schlüssel übergeben.' }, 400)
   if (!(await schluesselErneuert(env, token))) return json(env, { error: SCHLUESSEL_UNGUELTIG }, 404)
 
-  const favorites = cleanIdList(payload.favorites)
+  const favorites = schreibeFavoriten(payload.favorites, payload.ak)
   const result = await env.DB.prepare(
     "UPDATE subscribers SET favorites = ?1, favorites_at = ?2 WHERE pref_token = ?3 AND status = 'active'",
   )
@@ -581,7 +567,7 @@ async function handleFavorites(request: Request, env: Env): Promise<Response> {
   if (!result.meta.changes) {
     return json(env, { error: 'Dieser Abgleich-Schlüssel gehört zu keinem aktiven Abo.' }, 404)
   }
-  return json(env, { ok: true, count: favorites ? favorites.split(',').length : 0 })
+  return json(env, { ok: true, count: zaehleFavoriten(favorites) })
 }
 
 /**
@@ -753,7 +739,7 @@ async function handleFavoritenFeed(request: Request, env: Env): Promise<Response
     .bind(k)
     .first<{ favorites: string | null }>()
   if (!row) return text('Zu dieser Adresse gibt es kein aktives Abo mehr.', 404)
-  const favoriten = parseIdList(row.favorites)
+  const favoriten = leseFavoriten(row.favorites, await ladeAbbild(env))
   const events = (await loadEvents(env)).filter((e) => favoriten.has(e.titleId))
   const ics = buildIcs(events, { siteUrl: env.SITE_URL, calendarName: 'Anime-Kalender DE – Meine Favoriten' })
   return new Response(ics, {
@@ -921,7 +907,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
 
       // Gemerkte Titel nach vorn: Eine neue Folge einer Serie, der jemand
       // folgt, ist ihm wichtiger als irgendein Disc-Release.
-      const favorites = parseIdList(sub.favorites)
+      const favorites = leseFavoriten(sub.favorites, await ladeAbbild(env))
 
       /**
        * Gemerkte Titel, die **seit der letzten Mail an diesen Abonnenten** eine
@@ -1489,7 +1475,7 @@ export default {
         /* Abo anlegen oder Favoriten nachführen. Kein Konto: der Endpunkt ist der Schlüssel. */
         if (request.method !== 'POST') return json(env, { error: 'POST erwartet' }, 405)
         if (!(await imRahmen(env, 'push-abo', 300, 60))) return json(env, { error: 'Zu viele Anfragen.' }, 429)
-        let body: { subscription?: { endpoint?: string }; favoriten?: number[]; abmelden?: boolean }
+        let body: { subscription?: { endpoint?: string }; favoriten?: number[]; abmelden?: boolean; ak?: number }
         try {
           body = await request.json()
         } catch {
@@ -1501,7 +1487,7 @@ export default {
           await env.DB.prepare('DELETE FROM push_abo WHERE endpoint = ?1').bind(endpoint).run()
           return json(env, { ok: true, abgemeldet: true })
         }
-        const favoriten = cleanIdList(body.favoriten) ?? ''
+        const favoriten = schreibeFavoriten(body.favoriten, body.ak)
         await env.DB.prepare(
           `INSERT INTO push_abo (endpoint, favoriten, erstellt) VALUES (?1, ?2, ?3)
            ON CONFLICT(endpoint) DO UPDATE SET favoriten = excluded.favoriten`,

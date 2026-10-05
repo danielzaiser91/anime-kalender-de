@@ -7,7 +7,7 @@ import { useLang } from '../lib/i18n.tsx'
  * **Die eigene AniList-Liste als Favoriten übernehmen** (18.09.2026, Feature-Vergleich:
  * Simkl-Import). Wer seine Liste mitbringt, sieht sofort, was davon deutsch vertont ist.
  *
- * Unsere Titelkennungen *sind* AniList-Kennungen — es braucht keine Zuordnung, nur den
+ * Unsere Titel tragen ihre AniList-Kennung als `al` — es braucht nur den
  * Schnitt mit unserem Bestand. Gefragt wird AniLists öffentliche GraphQL-Schnittstelle
  * direkt aus dem Browser, ohne Anmeldung; das geht nur bei öffentlichen Listen.
  * Übernommen wird „schaue ich", „geplant" und „pausiert": das, wofür eine Erinnerung
@@ -70,8 +70,9 @@ export function AniListImport({ data }: { data: Dataset }) {
       const ids = new Set(
         (body.data?.MediaListCollection?.lists ?? []).flatMap((l) => (l.entries ?? []).map((e) => e.mediaId)),
       )
-      const bestand = new Set((await loadAllTitles(data)).map((x) => x.id))
-      const treffer = [...ids].filter((id) => bestand.has(id))
+      /* Unsere Titel tragen ihre AniList-Kennung als `al`; die Favoriten selbst laufen über unsere Kennung. */
+      const nachAniList = new Map((await loadAllTitles(data)).filter((x) => x.al).map((x) => [x.al!, x.id]))
+      const treffer = [...ids].map((id) => nachAniList.get(id)).filter((x): x is number => x !== undefined)
       favoritenErgaenzen(treffer)
       setLage({ art: 'fertig', treffer: treffer.length, gesamt: ids.size })
     } catch (e) {
