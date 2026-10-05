@@ -15,7 +15,7 @@
  *
  * Aufruf: npx tsx pipeline/fetch-adn.ts [--from -30] [--to 60]
  */
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { gunzipSync, gzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
@@ -236,6 +236,8 @@ function sortiereFolgen(episodes: AdnEpisode[]): void {
 
 /** Wohin die Rohantworten je Serie wandern. */
 const ARCHIV_DIR = resolve(ROOT, 'data/adn-raw')
+/** Wann welche Serie zuletzt im Katalog-Durchgang gefragt wurde (Warteschlange nach Alter, im Repo statt im Dateisystem). */
+const KATALOG_STAND = 'data/adn-katalog-stand.json'
 
 /**
  * Legt die vollständige Antwort einer Serie gzip-komprimiert ab.
@@ -408,14 +410,13 @@ async function fetchCatalog(): Promise<AdnShow[]> {
    * bekommt ihn.
    */
   const KATALOG_LIMIT = Number(args[args.indexOf('--limit') + 1]) || 0
-  const alterDesArchivs = (id: number): number => {
-    try {
-      return statSync(`${ARCHIV_DIR}/${id}.json.gz`).mtimeMs
-    } catch {
-      /* Kein Archiv heißt „noch nie geholt" — die kommen zuerst. */
-      return 0
-    }
-  }
+  /*
+    **Das Alter steht im Repo, nicht im Dateisystem** (05.10.2026): Nach einem frischen Checkout tragen alle Archivdateien die Checkout-Zeit, die Sortierung blieb
+    stabil bei der Reihenfolge der Liste, und jede Woche kamen dieselben 600 dran. Jetzt merkt `data/adn-katalog-stand.json`, wann welche Serie zuletzt gefragt wurde;
+    wer noch nie dran war, kommt zuerst.
+  */
+  const stand = readJson<Record<string, string>>(KATALOG_STAND, {})
+  const alterDesArchivs = (id: number): number => Date.parse(stand[String(id)] ?? '') || 0
   let alle = [...nachId.values(), ...zusaetzlich.values()]
   if (KATALOG_LIMIT > 0) {
     alle = alle.sort((a, b) => alterDesArchivs(a.id) - alterDesArchivs(b.id)).slice(0, KATALOG_LIMIT)
@@ -443,6 +444,7 @@ async function fetchCatalog(): Promise<AdnShow[]> {
         continue
       }
       fehlerInFolge = 0
+      stand[String(eintrag.id)] = new Date().toISOString()
       const videos = antwort.videos
       if (videos.length) archiviereSerie(eintrag.id, videos)
       const deutsch = videos.filter((v) => v.languages?.includes('vde'))
@@ -472,6 +474,7 @@ async function fetchCatalog(): Promise<AdnShow[]> {
     }
     await sleep(700)
   }
+  writeJson(KATALOG_STAND, stand)
 
   // Zuordnung nachschlagen, solange wir online sind.
   //

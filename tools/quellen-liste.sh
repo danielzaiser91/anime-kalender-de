@@ -54,6 +54,8 @@ QUELLEN=(
   data/adn-raw
   # Messreihe: wann ein `vde` (deutsche Fassung) bei ADN zum ersten Mal gesehen wurde. Fehlte hier und im ADN-Lauf — seit dem 10.09.2026 ging jede Beobachtung verloren.
   data/adn-vde-historie.json
+  # Wann die Serien des ADN-Katalogs zuletzt gefragt wurden — ohne sie wäre die Warteschlange nach einem Checkout wieder dieselbe (05.10.2026).
+  data/adn-katalog-stand.json
   # Dasselbe für aniSearch: 110 Seiten liegen im Repo, jede weitere, die ein
   # Lauf holt, fiele ohne diese Zeile unter den Tisch — und ein Abruf über 2.612
   # Seiten ist genau das, was das Archiv ersparen soll.
