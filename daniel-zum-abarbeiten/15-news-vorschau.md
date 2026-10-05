@@ -1,6 +1,6 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-04. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-05. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
@@ -16,7 +16,7 @@ Stand: 2026-10-04. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10 (Monat) | adn | – unklar | [ADN nimmt »86 EIGHTY-SIX« in sein Programm auf](https://www.anime2you.de/news/1052781/86-eighty-six-bald-auf-adn/) |
 | 2026-10-27, 2026-10 (Monat) | kino | ✅ zugesagt | [Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«](https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/) |
 | 2026-10-09, 2026-10 (Monat) | ? | ✅ zugesagt | [Deutscher Synchro-Trailer zu »Avatar: Die sieben Häfen« + Visual](https://www.anime2you.de/news/1048545/avatar-die-sieben-haefen-deutscher-trailer/) |
-| 2026-10-03, 2026-10 (Monat) | primevideo | – unklar | [Prime Video zeigt »Seven Knights of Marronnier Kingdom« im Simulcast](https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/) |
+| 2026-10 (Monat) | primevideo | – unklar | [Prime Video zeigt »Seven Knights of Marronnier Kingdom« im Simulcast](https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/) |
 | 2026-10 (Monat) | ? | ✅ zugesagt | [Deutscher Trailer zu »My Love Story with Yamada-kun at Lv999« + Cast](https://www.anime2you.de/news/1047161/my-love-story-with-yamada-kun-at-lv999-deutscher-trailer/) |
 | 2026-10-22, 2026-10 (Monat) | disc | ✅ zugesagt | [»Detektei Layton« erscheint als Blu-ray-Komplettbox + Design](https://www.anime2you.de/news/1044532/detektei-layton-blu-ray-komplettbox/) |
 | 2026-10-30, 2026-10 (Monat) | crunchyroll | – unklar | [Crunchyroll bald nicht mehr auf Nintendo Switch verfügbar](https://www.anime2you.de/news/1044861/crunchyroll-bald-nicht-mehr-auf-nintendo-switch/) |
@@ -56,42 +56,42 @@ Stand: 2026-10-04. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 5 |
-| adn-catalog | 5.9 Tage her | 117 |
+| adn-catalog | 7.0 Tage her | 117 |
 | adn-news | 0.0 Tage her | 75 |
-| anilist-voices | 5.9 Tage her | 0 |
-| anime-offline-database | 5.9 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 37 |
-| anisearch | 1.0 Tage her | 120 |
-| anisearch-folgen | 5.9 Tage her | 117 |
-| ann-voices | 5.9 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 60 |
+| anilist-voices | 7.0 Tage her | 0 |
+| anime-offline-database | 7.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 82 |
+| anisearch | 1.0 Tage her | 3195 |
+| anisearch-folgen | 6.9 Tage her | 117 |
+| ann-voices | 7.0 Tage her | 8876 |
+| beleg-lesungen | 1.0 Tage her | 0 |
 | cartoons | 1.0 Tage her | 0 |
-| cinestar | 5.9 Tage her | 1 |
-| cr-einzelwerke | 10.9 Tage her | 0 |
-| cr-filmbloecke | 10.9 Tage her | 0 |
-| crunchyroll | 0.0 Tage her | 18 |
-| crunchyroll-dub | 0.0 Tage her | 1108 |
-| crunchyroll-neu | 0.0 Tage her | 97 |
-| crunchyroll-offene | 5.9 Tage her | 5 |
-| crunchyroll-woche | 0.2 Tage her | 46 |
-| fsk | 5.9 Tage her | 4 |
-| justwatch-audio | 11.0 Tage her | 0 |
-| kinoheld | 5.9 Tage her | 0 |
-| link-check | 5.9 Tage her | 400 |
-| messbelege | 0.2 Tage her | 2 |
-| motn | 32.1 Tage her | 1888 |
+| cinestar | 7.0 Tage her | 1 |
+| cr-einzelwerke | 12.0 Tage her | 0 |
+| cr-filmbloecke | 12.0 Tage her | 0 |
+| crunchyroll | 0.0 Tage her | 19 |
+| crunchyroll-dub | 0.0 Tage her | 1109 |
+| crunchyroll-neu | 0.0 Tage her | 103 |
+| crunchyroll-offene | 6.9 Tage her | 5 |
+| crunchyroll-woche | 0.0 Tage her | 46 |
+| fsk | 7.0 Tage her | 4 |
+| justwatch-audio | 12.0 Tage her | 0 |
+| kinoheld | 6.9 Tage her | 0 |
+| link-check | 6.9 Tage her | 400 |
+| messbelege | 0.0 Tage her | 0 |
+| motn | 33.1 Tage her | 1888 |
 | motn-changes | 0.0 Tage her | 0 |
-| rohfolgen | 0.9 Tage her | 0 |
-| rtlplus-folgen | 5.9 Tage her | 2 |
-| tmdb-folgen | 5.9 Tage her | 858 |
-| tmdb-kino | 5.9 Tage her | 4 |
-| tmdb-titles | 5.9 Tage her | 400 |
+| rohfolgen | 1.9 Tage her | 0 |
+| rtlplus-folgen | 6.9 Tage her | 2 |
+| tmdb-folgen | 6.9 Tage her | 858 |
+| tmdb-kino | 7.0 Tage her | 4 |
+| tmdb-titles | 6.9 Tage her | 400 |
 | toggo | 0.0 Tage her | 20 |
 | trailer | 1.0 Tage her | 0 |
-| tv-de | 0.4 Tage her | 0 |
-| tv-programm | 0.2 Tage her | 244 |
-| vorfaelle | 0.2 Tage her | 0 |
-| wikidata-imdb | 5.9 Tage her | 4740 |
-| wikidata-titel | 5.9 Tage her | 26 |
+| tv-de | 0.5 Tage her | 0 |
+| tv-programm | 0.0 Tage her | 290 |
+| vorfaelle | 0.0 Tage her | 0 |
+| wikidata-imdb | 6.9 Tage her | 4740 |
+| wikidata-titel | 7.0 Tage her | 26 |
 | wikipedia-folgen | 0.0 Tage her | 7 |
-| youtube-check | 5.9 Tage her | 1 |
+| youtube-check | 6.9 Tage her | 1 |

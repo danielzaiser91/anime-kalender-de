@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-04T10:37:34.485Z",
+  "scrapedAt": "2026-10-05T11:28:55.517Z",
   "serien": [
     {
       "url": "http://www.crunchyroll.com/de/a-place-further-than-the-universe",
@@ -41017,7 +41017,7 @@
       "seriesId": "G24H1N3MP",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-21",
+      "geprueftAm": "2026-10-05",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -41338,9 +41338,9 @@
         {
           "name": "Season 3",
           "staffelId": "GS00374452JAJP",
-          "folgen": 13,
-          "kacheln": 13,
-          "deutsch": 10,
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 12,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -41403,6 +41403,18 @@
               "guid": "GE00374462DEDE",
               "laufend": 10,
               "verfuegbarAb": "2026-09-20T15:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GE00374463DEDE",
+              "laufend": 11,
+              "verfuegbarAb": "2026-10-04T15:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GE00374464DEDE",
+              "laufend": 12,
+              "verfuegbarAb": "2026-10-04T15:00:00Z"
             }
           ]
         }
@@ -49753,7 +49765,7 @@
       "seriesId": "G24H1N3MP",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-21",
+      "geprueftAm": "2026-10-05",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -50074,9 +50086,9 @@
         {
           "name": "Season 3",
           "staffelId": "GS00374452JAJP",
-          "folgen": 13,
-          "kacheln": 13,
-          "deutsch": 10,
+          "folgen": 14,
+          "kacheln": 14,
+          "deutsch": 12,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -50139,6 +50151,18 @@
               "guid": "GE00374462DEDE",
               "laufend": 10,
               "verfuegbarAb": "2026-09-20T15:00:00Z"
+            },
+            {
+              "nummer": 11,
+              "guid": "GE00374463DEDE",
+              "laufend": 11,
+              "verfuegbarAb": "2026-10-04T15:00:00Z"
+            },
+            {
+              "nummer": 12,
+              "guid": "GE00374464DEDE",
+              "laufend": 12,
+              "verfuegbarAb": "2026-10-04T15:00:00Z"
             }
           ]
         }
@@ -65073,7 +65097,7 @@
       "seriesId": "GNVHKN933",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-28",
+      "geprueftAm": "2026-10-05",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -65247,7 +65271,7 @@
           "staffelId": "GS00378132JAJP",
           "folgen": 12,
           "kacheln": 12,
-          "deutsch": 10,
+          "deutsch": 11,
           "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
@@ -65310,6 +65334,12 @@
               "guid": "GE00380164DEDE",
               "laufend": 10,
               "verfuegbarAb": "2026-09-27T14:00:00Z"
+            },
+            {
+              "nummer": 35,
+              "guid": "GE00380165DEDE",
+              "laufend": 11,
+              "verfuegbarAb": "2026-10-04T14:00:00Z"
             }
           ]
         }
@@ -72767,7 +72797,7 @@
       "seriesId": "GT00371881",
       "quelle": "api",
       "katalog": "de",
-      "geprueftAm": "2026-09-28",
+      "geprueftAm": "2026-10-05",
       "deutschImAngebot": true,
       "staffeln": [
         {
@@ -72775,8 +72805,8 @@
           "staffelId": "GS00371882JAJP",
           "folgen": 11,
           "kacheln": 11,
-          "deutsch": 9,
-          "fremd": 2,
+          "deutsch": 10,
+          "fremd": 1,
           "deutscheFassung": true,
           "deutscheFolgen": [
             {
@@ -72832,6 +72862,12 @@
               "guid": "GE00378877DEDE",
               "laufend": 9,
               "verfuegbarAb": "2026-09-27T15:45:00Z"
+            },
+            {
+              "nummer": 10,
+              "guid": "GE00378878DEDE",
+              "laufend": 10,
+              "verfuegbarAb": "2026-10-04T15:45:00Z"
             }
           ]
         }
@@ -179807,6 +179843,33 @@
               "guid": "GE00384228DEDE",
               "laufend": 1,
               "verfuegbarAb": "2026-09-27T14:30:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.crunchyroll.com/de/series/GT00384006/reborn-as-a-space-mercenary-i-woke-up-piloting-the-strongest-starship",
+      "seriesId": "GT00384006",
+      "quelle": "api",
+      "katalog": "de",
+      "geprueftAm": "2026-10-05",
+      "deutschImAngebot": true,
+      "staffeln": [
+        {
+          "name": "Staffel 1",
+          "staffelId": "GS00384035JAJP",
+          "folgen": 1,
+          "kacheln": 1,
+          "deutsch": 1,
+          "fremd": 0,
+          "deutscheFassung": true,
+          "deutscheFolgen": [
+            {
+              "nummer": 1,
+              "guid": "GE00389229DEDE",
+              "laufend": 1,
+              "verfuegbarAb": "2026-10-04T14:00:00Z"
             }
           ]
         }

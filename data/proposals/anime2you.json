@@ -1,6 +1,48 @@
 {
-  "scrapedAt": "2026-10-04T10:40:41.763Z",
+  "scrapedAt": "2026-10-05T11:32:14.864Z",
   "proposals": [
+    {
+      "articleTitle": "Crunchyroll erweitert Anime-Katalog um sechs Neuzugänge + Synchro",
+      "articleUrl": "https://www.anime2you.de/news/1057488/crunchyroll-reborn-as-a-space-mercenary-und-mehr/",
+      "publishedAt": "2026-10-04",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-05"
+    },
+    {
+      "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/",
+      "publishedAt": "2026-10-04",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-05"
+    },
+    {
+      "articleTitle": "Prime Video ergänzt drei Anime-Neuzugänge auf Deutsch",
+      "articleUrl": "https://www.anime2you.de/news/1057464/prime-video-marronniers-und-mehr/",
+      "publishedAt": "2026-10-04",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-05"
+    },
     {
       "articleTitle": "Acht Anime-Neuzugänge ab sofort auf Crunchyroll verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1057187/crunchyroll-black-clover-second-season-und-mehr/",
@@ -55,7 +97,7 @@
       ],
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-04"
+      "sammelGelesen": "2026-10-05"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -112,26 +154,7 @@
       ],
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-04"
-    },
-    {
-      "articleTitle": "Disney+ ergänzt zwei weitere Anime-Titel auf Deutsch",
-      "articleUrl": "https://www.anime2you.de/news/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/",
-      "publishedAt": "2026-10-02",
-      "category": "streaming",
-      "platforms": [
-        "disneyplus"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "zeiten": [
-        {
-          "tag": "Samstag",
-          "zeit": "19:00",
-          "satz": "rc« – Episode 1 Ab 3. November: »Honey Lemon Soda« Ab sofort: »Tokyo Revengers: War of the Three Titan Arc« Episoden: 1 verfügbar Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Samstag um 19:00 Uhr Stream: Disney+ Handlung: Nachdem seine"
-        }
-      ],
-      "alreadyCurated": false
+      "sammelGelesen": "2026-10-05"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -414,7 +437,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-04"
+      "sammelGelesen": "2026-10-05"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -473,6 +496,30 @@
           "context": "Sonderpreis AniMoon Publishing hat ein neues Monatsangebot gestartet: Im Oktober 2026 gibt es die dritte Staffel von »ARIFURETA: From Common"
         }
       ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix ergänzt zwei Neuzugänge und holt zwei Serien zurück",
+      "articleUrl": "https://www.anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/",
+      "publishedAt": "2026-10-01",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video nimmt fünf Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1056121/prime-video-demon-slayer-kimetsu-no-yaiba-und-mehr/",
+      "publishedAt": "2026-10-01",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
       "dub": "unklar",
       "alreadyCurated": false
     },
@@ -541,9 +588,7 @@
           "satz": "lut durch seine Adern fließt, gerät er selbst ins Visier des Momotarou-Clans. »With Vengeance, Sincerely, Your Broken Saintess« – Staffel 2 Start: 1. Oktober 2026 Simulcast: Jeden Donnerstag um 18:15 Uhr Sprache: Japanisch (UT) Stream: anivers"
         }
       ],
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-04"
+      "alreadyCurated": false
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -618,6 +663,18 @@
       "alreadyCurated": false
     },
     {
+      "articleTitle": "Crunchyroll kündigt acht neue Simulcasts für Herbst 2026 an",
+      "articleUrl": "https://www.anime2you.de/news/1055887/crunchyroll-acht-neue-herbst-2026-simulcasts/",
+      "publishedAt": "2026-09-30",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
       "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
       "publishedAt": "2026-09-29",
@@ -642,38 +699,9 @@
       "platforms": [
         "primevideo"
       ],
-      "dates": [
-        {
-          "iso": "2026-10-01",
-          "context": "hen Originalton mit deutschen Untertiteln auf Abruf zur Verfügung. Am 1. Oktober 2026 folgen die erste Staffel von […] Der Beitrag Prime V"
-        }
-      ],
+      "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "Attack on Titan",
-          "zusatz": "Staffel 1",
-          "datum": "2026-10-01",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "Prime Video"
-          ],
-          "folgen": 25
-        },
-        {
-          "titel": "Kubo Won’t Let Me Be Invisible",
-          "datum": "2026-10-01",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "Prime Video"
-          ],
-          "folgen": 12
-        }
-      ],
-      "sammelGelesen": "2026-10-03"
+      "alreadyCurated": false
     },
     {
       "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
@@ -732,248 +760,7 @@
           "satz": "ernative Version der Serie und stellt dabei vor allem die Beziehung zwischen Utena, Anthy und dem Prinzen in den Mittelpunkt. 17. Oktober: »Dreamland« (Simulcast) Simulcast: Jeden Samstag um 19:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
         }
       ],
-      "alreadyCurated": false,
-      "sammel": [
-        {
-          "titel": "Reincarnated as a Sword",
-          "zusatz": "Staffel 2",
-          "datum": "2026-09-30",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN",
-            "Prime Video"
-          ]
-        },
-        {
-          "titel": "Tougen Anki",
-          "zusatz": "Staffel 2",
-          "datum": "2026-10-02",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Suikoden",
-          "datum": "2026-10-03",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Even the Student Council Has Its Holes!",
-          "datum": "2026-10-03",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Now That I Can Control Reality With A Mouse Cursor, I’m Gonna Click Away On The Girls!",
-          "datum": "2026-10-04",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "My Girlfriend’s Friend",
-          "datum": "2026-10-04",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Nia Liston: The Merciless Maiden",
-          "datum": "2026-10-06",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Dreamland",
-          "datum": "2026-10-17",
-          "deutsch": false,
-          "woechentlich": true,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Monster Strike: Deadverse Reloaded",
-          "datum": "2026-10-01",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ],
-          "folgen": 10
-        },
-        {
-          "titel": "School Babysitters",
-          "datum": "2026-10-05",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ],
-          "folgen": 12
-        },
-        {
-          "titel": "86 EIGHTY-SIX",
-          "datum": "2026-10-08",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ],
-          "folgen": 23
-        },
-        {
-          "titel": "BLEACH: Memories of Nobody",
-          "datum": "2026-10-12",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "BLEACH: The DiamondDust Rebellion",
-          "datum": "2026-10-12",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "BLEACH: Fade to Black",
-          "datum": "2026-10-12",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "BLEACH: The Hell Verse",
-          "datum": "2026-10-12",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Revolutionary Girl Utena",
-          "datum": "2026-10-15",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ],
-          "folgen": 39
-        },
-        {
-          "titel": "Revolutionary Girl Utena: The Movie",
-          "datum": "2026-10-15",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Chiikawa",
-          "zusatz": "Episode 121 bis 240",
-          "datum": "2026-10-19",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN",
-            "Prime Video"
-          ]
-        },
-        {
-          "titel": "Reincarnated as a Dragon Hatchling",
-          "datum": "2026-10-22",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN",
-            "Prime Video"
-          ],
-          "folgen": 12
-        },
-        {
-          "titel": "THE LEGEND OF HEI II",
-          "datum": "2026-10-26",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Reborn!",
-          "zusatz": "Episode 52 bis 101",
-          "datum": "2026-10-28",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Puella Magi Madoka Magica",
-          "datum": "2026-10-29",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ],
-          "folgen": 12
-        },
-        {
-          "titel": "Puella Magi Madoka Magica – Film 1: Beginnings",
-          "datum": "2026-10-29",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Puella Magi Madoka Magica – Film 2: Eternal",
-          "datum": "2026-10-29",
-          "deutsch": false,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        },
-        {
-          "titel": "Puella Magi Madoka Magica – Film 3: Rebellion",
-          "datum": "2026-10-29",
-          "deutsch": true,
-          "woechentlich": false,
-          "stream": [
-            "ADN"
-          ]
-        }
-      ],
-      "sammelGelesen": "2026-10-04"
+      "alreadyCurated": false
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -981,16 +768,33 @@
       "publishedAt": "2026-09-28",
       "category": "streaming",
       "platforms": [],
-      "dates": [
-        {
-          "iso": "2026-09-30",
-          "context": "weite Staffel der Fantasy-Serie »Reincarnated as a Sword«, die ab dem 30. September 2026 jeden Mittwoch um 17:30 Uhr im japanischen Original"
-        }
-      ],
+      "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-03"
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disney+ ergänzt Anime-Katalog mit drei weiteren Neuzugängen",
+      "articleUrl": "https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/",
+      "publishedAt": "2026-09-28",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/",
+      "publishedAt": "2026-09-28",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -1002,26 +806,7 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "zeiten": [
-        {
-          "tag": "Samstag",
-          "zeit": "15:30",
-          "satz": "t Boss Appeared!« – Staffel 2 »As a Reincarnated Aristocrat« – Staffel 3 »Overgeared« »A Wild Last Boss Appeared!« – Staffel 2 Episoden: 1 Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 15:30 Uhr Hinweis: Deutsche Synchronisation angek"
-        },
-        {
-          "tag": "Sonntag",
-          "zeit": "17:00",
-          "satz": "hnet in dieser Welt gelandet ist. »As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World« – Staffel 3 Episoden: 1 Sprache: Japanisch (UT) Simulcast: Jeden Sonntag um 17:00 Uhr Hinweis: Deutsche Synchronisation angek"
-        },
-        {
-          "tag": "Sonntag",
-          "zeit": "16:30",
-          "satz": "lle gewöhnt, rückt eine gewaltige feindliche Armee an und zwingt Ars und seine Verbündeten in den Kampf. »Overgeared« Episoden: 1 Sprache: Deutsch, Japanisch (UT) Simulcast: Jeden Sonntag um 16:30 Uhr Stream: Crunchyroll , Prime Video Handl"
-        }
-      ],
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-04"
+      "alreadyCurated": false
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",
@@ -1107,6 +892,18 @@
       "alreadyCurated": false
     },
     {
+      "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf RTL+ verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/",
+      "publishedAt": "2026-09-25",
+      "category": "streaming",
+      "platforms": [
+        "rtlplus"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
       "articleTitle": "In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm",
       "articleUrl": "https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/",
       "publishedAt": "2026-09-24",
@@ -1164,6 +961,30 @@
           "context": "ierten »Madoka Magica«-Films enthüllt. Wir fassen zusammen. Kinostart im November 2026 Der Sequel-Film mit dem Titel »Puella Magi Madoka Mag"
         }
       ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disney+ kündigt sechs weitere Anime-Neuzugänge an",
+      "articleUrl": "https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/",
+      "publishedAt": "2026-09-24",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Prime Video verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1053585/prime-video-ghost-cat-anzu-und-mehr/",
+      "publishedAt": "2026-09-24",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
       "dub": "unklar",
       "alreadyCurated": false
     },
@@ -1400,6 +1221,18 @@
       "alreadyCurated": false
     },
     {
+      "articleTitle": "Disney+ entfernt weitere Streaming-Funktion in Deutschland",
+      "articleUrl": "https://www.anime2you.de/news/1052501/disney-entfernt-airplay-in-deutschland/",
+      "publishedAt": "2026-09-21",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
       "articleTitle": "Netflix kündigt fünf Anime-Simulcasts für Herbst 2026 an",
       "articleUrl": "https://www.anime2you.de/news/1052324/netflix-fuenf-herbst-2026-simulcasts/",
       "publishedAt": "2026-09-20",
@@ -1407,12 +1240,7 @@
       "platforms": [
         "netflix"
       ],
-      "dates": [
-        {
-          "iso": "2026-09-25",
-          "context": "tails nachfolgend zusammen. Fünf Simulcasts im Herbst 2026 Bereits am 25. September 2026 startet die weltweit gleichzeitige Veröffentlichung"
-        }
-      ],
+      "dates": [],
       "dub": "unklar",
       "alreadyCurated": false
     },
@@ -1441,12 +1269,7 @@
       "platforms": [
         "crunchyroll"
       ],
-      "dates": [
-        {
-          "iso": "2026-10-02",
-          "context": "ki«, die den »Nikko Kegon Falls«-Handlungsstrang adaptiert und ab dem 2. Oktober 2026 im japanischen Originalton mit deutschen Untertiteln v"
-        }
-      ],
+      "dates": [],
       "dub": "unklar",
       "alreadyCurated": false
     },
@@ -1465,6 +1288,30 @@
         }
       ],
       "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disney+ ergänzt zwei weitere Anime-Neuzugänge in seinem Programm",
+      "articleUrl": "https://www.anime2you.de/news/1051128/disney-plus-campfire-cooking-und-mehr/",
+      "publishedAt": "2026-09-17",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll kündigt 19 neue Simulcasts für Herbst 2026 an",
+      "articleUrl": "https://www.anime2you.de/news/1050718/crunchyroll-19-neue-herbst-2026-simulcasts/",
+      "publishedAt": "2026-09-15",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
       "alreadyCurated": false
     },
     {
@@ -1502,6 +1349,30 @@
           "context": ". Ein erstes Produktbild könnt ihr euch weiter unten ansehen. Release im November 2026 »Godzilla Minus One« erscheint am 5. November 2026 in"
         }
       ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Disney+ verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/",
+      "publishedAt": "2026-09-14",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video nimmt drei Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1049795/prime-video-trinity-seven-und-mehr/",
+      "publishedAt": "2026-09-13",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
       "dub": "unklar",
       "alreadyCurated": false
     },
@@ -1733,6 +1604,18 @@
       "alreadyCurated": false
     },
     {
+      "articleTitle": "Prime Video ergänzt drei weitere Anime-Neuzugänge",
+      "articleUrl": "https://www.anime2you.de/news/1048315/prime-video-date-a-live-staffel-2-und-mehr/",
+      "publishedAt": "2026-09-09",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
       "articleTitle": "Prime Video zeigt »Seven Knights of Marronnier Kingdom« im Simulcast",
       "articleUrl": "https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/",
       "publishedAt": "2026-09-07",
@@ -1741,10 +1624,6 @@
         "primevideo"
       ],
       "dates": [
-        {
-          "iso": "2026-10-03",
-          "context": "2026 »Die sieben Ritter des Königreichs der Marronniers« wird ab dem 3. Oktober 2026 im japanischen Fernsehen ausgestrahlt. […] Der Beitr"
-        },
         {
           "month": "2026-10",
           "context": "of the Marronnier Kingdom) gesichert hat. Wir fassen zusammen. Start im Oktober 2026 »Die sieben Ritter des Königreichs der Marronniers« wi"
@@ -1802,6 +1681,18 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1047034/disney-plus-classroom-of-the-elite-und-mehr/",
+      "publishedAt": "2026-09-06",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
@@ -1928,6 +1819,18 @@
         }
       ],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Disney+ verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1046324/one-piece-ab-sofort-auf-disney-plus/",
+      "publishedAt": "2026-09-03",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
@@ -2290,12 +2193,7 @@
         "primevideo",
         "aniverse"
       ],
-      "dates": [
-        {
-          "month": "2026-09",
-          "context": "Neue Anime-Katalogtitel im September 2026 bei aniverse Der Prime Video Channel aniverse erweit"
-        }
-      ],
+      "dates": [],
       "dub": "unklar",
       "alreadyCurated": false
     },
@@ -2379,6 +2277,30 @@
           "context": "elbook veröffentlichen wird. Wir fassen die Details zusammen. Release im Dezember 2026 Die limitierte 4K-Steelbook-Edition von »Suzume«, die"
         }
       ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Disney+ verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1045209/disney-plus-black-clover-und-mehr/",
+      "publishedAt": "2026-08-30",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Netflix nimmt drei Anime-Neuzugänge in seinen Katalog auf",
+      "articleUrl": "https://www.anime2you.de/news/1045191/netflix-gintama-film-und-mehr/",
+      "publishedAt": "2026-08-30",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
       "dub": "ja",
       "alreadyCurated": false
     },
@@ -2617,13 +2539,20 @@
       "platforms": [
         "adn"
       ],
-      "dates": [
-        {
-          "month": "2026-09",
-          "context": "r 2026 an Der Streaming-Dienst ADN erweitert sein Anime-Programm auch im September 2026 mit mehreren Neuzugängen. Welche Titel euch im komme"
-        }
-      ],
+      "dates": [],
       "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Prime Video fügt zwei Anime-Neuzugänge auf Deutsch hinzu",
+      "articleUrl": "https://www.anime2you.de/news/1044599/prime-video-yu-gi-oh-5ds-und-mehr/",
+      "publishedAt": "2026-08-27",
+      "category": "streaming",
+      "platforms": [
+        "primevideo"
+      ],
+      "dates": [],
+      "dub": "ja",
       "alreadyCurated": false
     },
     {
@@ -2844,6 +2773,18 @@
       "alreadyCurated": false
     },
     {
+      "articleTitle": "Zwei Anime-Neuzugänge ab sofort auf Deutsch bei Netflix",
+      "articleUrl": "https://www.anime2you.de/news/1043235/netflix-kill-blue-synchro-und-mehr/",
+      "publishedAt": "2026-08-20",
+      "category": "streaming",
+      "platforms": [
+        "netflix"
+      ],
+      "dates": [],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
+    {
       "articleTitle": "Netflix: Alle Anime-Neuzugänge im September 2026",
       "articleUrl": "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/",
       "publishedAt": "2026-08-19",
@@ -2851,12 +2792,7 @@
       "platforms": [
         "netflix"
       ],
-      "dates": [
-        {
-          "month": "2026-09",
-          "context": "Netflix: Alle Anime-Neuzugänge im September 2026 Der Streaming-Dienst Netflix baut sein Anime-Program"
-        }
-      ],
+      "dates": [],
       "dub": "unklar",
       "alreadyCurated": false
     },
