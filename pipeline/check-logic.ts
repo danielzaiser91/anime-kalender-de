@@ -16,7 +16,7 @@
  *
  * Aufruf: npm run check:logic
  */
-import { uebersetzeDatei } from './lib/ausgabe-kennung.ts'
+import { ladeAkVon, uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -8124,6 +8124,15 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   pruefe('Reihen: Schlüssel und Mitglieder auf ak', reihen['1003']?.[0]?.id === 1005 && reihen['1003']?.[0]?.al === 5, JSON.stringify(reihen))
   const kurz = uebersetzeDatei('reihen.json', { '5': { f: 3, j: 1998 } }, ak) as Record<string, { f: number; j: number }>
   pruefe('Reihen-Zuordnung: Schlüssel und Reihenkennung', kurz['1005']?.f === 1003 && kurz['1005']?.j === 1998)
+  const verz = uebersetzeDatei('folgen/index.json', [7, 5], ak) as number[]
+  pruefe('Folgenverzeichnis: Kennungen laufen auf ak, sonst fehlt der Folgenpfeil (One Piece)', JSON.stringify(verz) === '[1005,1007]', JSON.stringify(verz))
+  {
+    /* Gegenprobe am echten Bestand: Jede Folgendatei steht nach der Übersetzung auch im Verzeichnis, und umgekehrt. */
+    const { akVon } = ladeAkVon('data/kennungen.json')
+    const dateien = readdirSync('public/data/folgen').filter((f) => /^\d+\.json$/.test(f)).map((f) => akVon(Number(f.slice(0, -5))))
+    const index = new Set(uebersetzeDatei('folgen/index.json', JSON.parse(readFileSync('public/data/folgen/index.json', 'utf8')) as number[], akVon) as number[])
+    pruefe('Folgenverzeichnis deckt jede Folgendatei (nach Übersetzung)', dateien.length === index.size && dateien.every((k) => index.has(k)), `${dateien.length} Dateien, ${index.size} im Verzeichnis`)
+  }
   pruefe('unbekannte Dateien bleiben unberührt', uebersetzeDatei('meta.json', { titleCount: 3 }, ak) !== undefined)
   /* Karenz der Favoriten-Umschreibung: ab dem 05.11.2026 entfallen web/src/lib/kennung-umzug.ts, worker/src/favoriten-kennung.ts (Zweig ohne Vorsatz) und data/anilist-ak.json. */
   pruefe('Favoriten-Umschreibung (AniList → ak) ist ausgelaufen und gehört entfernt', todayIso() < '2026-11-05', 'siehe kennung-umzug.ts / favoriten-kennung.ts')

@@ -74,6 +74,9 @@ export function uebersetzeDatei(name: string, daten: unknown, ak: AkVon): unknow
     case 'synonyme.json':
     case 'folgen/zaehlung.json':
       return schluessel(daten, ak)
+    /* Das Verzeichnis der Folgenlisten: Die Seite fragt mit `ak`, ohne Übersetzung fand sie für 1.671 Titel keine Liste und zeigte keinen Folgenpfeil (One Piece, 05.10.2026). */
+    case 'folgen/index.json':
+      return Array.isArray(daten) ? daten.map((n) => ak(n as number)).sort((a, b) => a - b) : daten
     default:
       return daten
   }
