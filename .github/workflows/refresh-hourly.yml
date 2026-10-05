@@ -53,7 +53,7 @@ permissions:
 concurrency:
   # Läuft ein Nachtlauf, hat der Vorrang: Zwei Jobs, die dieselben Dateien
   # committen, erzeugen sonst einen Push-Konflikt.
-  group: daten
+  group: stunde
   cancel-in-progress: false
 
 jobs:

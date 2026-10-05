@@ -35,6 +35,10 @@ permissions:
 jobs:
   katalog:
     runs-on: ubuntu-latest
+    # Dieselbe Sperre wie der aniSearch-Job des Wochenlaufs: Der Sechs-Sekunden-Takt ist eine Zusage, nie zwei Läufe zugleich (05.10.2026).
+    concurrency:
+      group: anisearch
+      cancel-in-progress: false
     # Rund 2.800 Seiten im Sechs-Sekunden-Takt: knapp fünf Stunden.
     timeout-minutes: 330
     steps:

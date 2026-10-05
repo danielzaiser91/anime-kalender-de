@@ -51,9 +51,9 @@ permissions:
   contents: write
 
 concurrency:
-  # Dieselbe Gruppe wie die Sammler: Zwei Läufe, die dieselben Dateien
-  # committen, erzeugen sonst einen Push-Konflikt.
-  group: daten
+  # Nur ein Bau zugleich. Die Sammler haben seit dem 05.10.2026 eigene Gruppen (stunde, tag, woche, …): Sie reichen Pull Requests ein, und der Bau legt bei
+  # bewegtem Fernstand nur seine eigenen Änderungen zurück (`tools/quellen-aufsetzen.sh`) — niemand überschreibt mehr, was ein anderer Lauf aktualisiert hat.
+  group: bau
   cancel-in-progress: false
 
 jobs:

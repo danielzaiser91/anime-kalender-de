@@ -37,11 +37,12 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
-# Dieselbe Gruppe wie die Datenläufe: Zwei Läufe, die `data/` committen,
-# überschreiben sich sonst gegenseitig.
+# Gruppe der Abruf-Läufe (seit 05.10.2026 mit Pull Request statt Push): Zwei Läufe gegen dieselbe Quelle
+# sollen nicht zugleich laufen.
 concurrency:
-  group: daten
+  group: abruf
   cancel-in-progress: false
 
 jobs:
@@ -145,8 +146,10 @@ jobs:
         # Durchgang über dieselben Seiten wäre dieselbe Last auf einem fremden
         # Server, nur ohne Gegenwert.
         if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          bash tools/commit-data.sh "chore(data): Crunchyroll-Rückstand nachgeholt"
+          bash tools/quellen-pr.sh "chore(data): Crunchyroll-Rückstand nachgeholt"
 
       # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
       - name: Lauf abmelden

@@ -41,7 +41,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: daten
+  group: tag
   cancel-in-progress: false
 
 jobs:

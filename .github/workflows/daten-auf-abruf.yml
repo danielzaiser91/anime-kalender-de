@@ -87,7 +87,7 @@ on:
         type: boolean
 
 concurrency:
-  group: daten
+  group: abruf
   cancel-in-progress: false
 
 jobs:
@@ -102,6 +102,7 @@ jobs:
     timeout-minutes: 330
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
 
@@ -155,9 +156,10 @@ jobs:
               npm run "$LAUF" ;;
           esac
 
-      - name: Ergebnis committen
+      - name: Ergebnis einreichen
+      # Seit dem 05.10.2026 als Pull Request statt Push auf `main` (`tools/quellen-pr.sh`): Der Lauf blockiert weder den Bau noch wird er von ihm blockiert.
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-          NUR_QUELLEN: '1'
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          bash tools/commit-data.sh "chore(data): Lauf auf Abruf"
+          bash tools/quellen-pr.sh "chore(data): Lauf auf Abruf"

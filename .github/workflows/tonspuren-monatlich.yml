@@ -30,9 +30,10 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
-  group: daten
+  group: abruf
   cancel-in-progress: false
 
 jobs:
@@ -139,8 +140,10 @@ jobs:
 
       - name: Ergebnis sichern
         if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          bash tools/commit-data.sh "chore(data): Tonspuren von der Streaming Availability API"
+          bash tools/quellen-pr.sh "chore(data): Tonspuren von der Streaming Availability API"
 
       # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
       - name: Lauf abmelden
