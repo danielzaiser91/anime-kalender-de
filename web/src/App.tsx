@@ -165,12 +165,11 @@ export default function App() {
 
   const openTitleId = useMemo(() => {
     if (route.title) return route.title
-    if (route.release && data) return data.releaseBySlug.get(route.release)?.titleId
     return undefined
-  }, [route.release, route.title, data])
+  }, [route.title, data])
 
   const setFilters = (filters: FilterState) => navigate({ filters: { ...filters, search: route.filters.search } })
-  const setView = (view: ViewId) => navigate({ view, release: undefined, title: undefined })
+  const setView = (view: ViewId) => navigate({ view, title: undefined, disc: undefined })
   /* Gesucht wird in Kalender und Datenbank; von anderen Seiten aus führt die Suche in die Datenbank. */
   const setSuche = (search: string) =>
     navigate({
@@ -200,10 +199,10 @@ export default function App() {
         view={route.view}
         onView={setView}
         /* Echte Adressen (Mittelklick), mit Basis-Pfad: der neue Tab startet ohne den Titel-Pfad. */
-        startHref={`${import.meta.env.BASE_URL}${buildHash({ ...route, view: 'woche', date: todayIso(), release: undefined, title: undefined })}`}
-        hrefFuer={(ziel) => `${import.meta.env.BASE_URL}${buildHash({ ...route, view: ziel, release: undefined, title: undefined })}`}
+        startHref={`${import.meta.env.BASE_URL}${buildHash({ ...route, view: 'woche', date: todayIso(), title: undefined, disc: undefined })}`}
+        hrefFuer={(ziel) => `${import.meta.env.BASE_URL}${buildHash({ ...route, view: ziel, title: undefined, disc: undefined })}`}
         onStart={() => {
-          navigate({ view: 'woche', date: todayIso(), release: undefined, title: undefined })
+          navigate({ view: 'woche', date: todayIso(), title: undefined, disc: undefined })
           window.dispatchEvent(new Event('ak-zu-heute'))
         }}
         suche={route.filters.search}
@@ -257,7 +256,7 @@ export default function App() {
                   hidden={hidden}
                   onToggleFavorite={toggle}
                   onToggleHidden={toggleHidden}
-                  onOpenTitle={(id) => navigate({ title: id, release: undefined })}
+                  onOpenTitle={(id) => navigate({ title: id, disc: undefined })}
                   suche={route.filters.search}
                   gewaehlt={route.sort}
                   onSortChange={(sort) => navigate({ sort })}
@@ -285,28 +284,19 @@ export default function App() {
         <DetailPanel
           data={data}
           titleId={openTitleId}
-          terminOffen={Boolean(route.release)}
-          releaseSlug={route.release}
+          discZuerst={route.disc}
           favorites={favorites}
           hidden={hidden}
           onToggleFavorite={toggle}
           onToggleHidden={toggleHidden}
-          onClose={() => navigate({ release: undefined, title: undefined })}
-          /*
-            Ein Wechsel in der Reihe führt auf dieselbe Adressform wie ein Klick im Kalender: Hat der
-            Titel ein Release, gewinnt dessen Slug (eigene Teilen-Seite), sonst bleibt die Kennung
-            (Daniel, 03.09.2026: zwei Adressen für dieselbe Ansicht — „wieso?").
-          */
-          onOpenTitle={(id) => {
-            const slug = data?.releases.find((r) => r.titleId === id)?.slug
-            navigate(slug ? { release: slug, title: undefined } : { title: id, release: undefined })
-          }}
+          onClose={() => navigate({ title: undefined, disc: undefined })}
+          onOpenTitle={(id) => navigate({ title: id, disc: undefined })}
           onFilterBy={(kind, value) => {
             const filters =
               kind === 'genre'
                 ? { ...route.filters, genres: toggleValue(route.filters.genres, value) }
                 : { ...route.filters, keywords: toggleValue(route.filters.keywords, value) }
-            navigate({ filters, release: undefined, title: undefined, view: 'datenbank' })
+            navigate({ filters, title: undefined, disc: undefined, view: 'datenbank' })
           }}
         />
       )}
@@ -320,7 +310,7 @@ function useTastenSpruenge(route: ReturnType<typeof useRoute>[0], navigate: Retu
     const onKey = (e: KeyboardEvent) => {
       const el = document.activeElement
       if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) return
-      if (route.release || route.title) return
+      if (route.title) return
       if (route.view !== 'woche' && route.view !== 'monat') return
       const isMonth = route.view === 'monat'
       if (e.key === 'ArrowLeft') navigate({ date: isMonth ? addMonths(route.date, -1) : addDays(route.date, -7) })

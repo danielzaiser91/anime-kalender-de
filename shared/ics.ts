@@ -42,6 +42,8 @@ export interface IcsOptions {
   /** Basis-URL der Seite, für Links im Termin. */
   siteUrl?: string
   calendarName?: string
+  /** Übersetzt die Titelkennung des Termins in die der Seite (`ak`), wo die Pipeline noch mit AniList-Kennungen arbeitet. */
+  titelId?: (id: number) => number
   /**
    * **Erinnerung vor dem Termin** (18.09.2026, Feature-Vergleich: Simkl, LiveChart).
    * Nur für Dateien, die jemand ausdrücklich für einen Titel herunterlädt — in den
@@ -75,7 +77,7 @@ export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): strin
   if (ev.timeEstimated) lines.push('Uhrzeit voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.')
   if (ev.estimated)
     lines.push('Geschätzter Termin, aus dem bisherigen Wochenrhythmus fortgeschrieben.')
-  if (opts.siteUrl) lines.push(`Details: ${opts.siteUrl}#/release/${ev.releaseSlug}`)
+  if (opts.siteUrl) lines.push(`Details: ${opts.siteUrl.replace(/\/$/, '')}/t/${opts.titelId?.(ev.titleId) ?? ev.titleId}/`)
   return lines.join('\n')
 }
 

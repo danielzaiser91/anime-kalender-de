@@ -5,7 +5,7 @@
  *
  * Warum überhaupt: Diese App nutzt Hash-Routing. Alles hinter dem `#` schickt
  * ein Browser nie an den Server — WhatsApp, Discord, Telegram, Slack und die
- * Suchmaschinen sehen von `…/#/woche?r=cr-XY` also nur `…/anime-kalender-de/`
+ * Suchmaschinen sehen von `…/#/woche?t=123` also nur `…/anime-kalender-de/`
  * und ziehen für jeden Link dieselbe Vorschau. Eine eigene Vorschau je Titel
  * kann es nur geben, wenn es zu ihr einen eigenen Pfad und eine eigene Datei
  * gibt. Genau die entstehen hier.
@@ -25,7 +25,7 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
-import { ladeAkVon } from './lib/ausgabe-kennung.ts'
+import { ladeAkVon, type AkVon } from './lib/ausgabe-kennung.ts'
 
 const DIST = resolve(ROOT, 'dist')
 const SITE = (process.env.SITE_URL ?? 'https://anime-kalender.de/').replace(
@@ -87,10 +87,11 @@ function body(
   synopsis: string | undefined,
   today: string,
   geschwister: Release[],
+  ak: number,
 ): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
-  const hash = `#/woche?${next ? `d=${next.date}&` : ''}r=${release.slug}`
+  const hash = `#/woche?${next ? `d=${next.date}&` : ''}t=${ak}`
   const art = RELEASE_TYPES[release.releaseType].short
   const platform = anbieterName(release.platform, release.sender)
 
@@ -257,10 +258,9 @@ function body(
  * Typ presst, behauptet für eine Blu-ray-Box dieselbe Sache wie für eine
  * wöchentliche Ausstrahlung.
  */
-function strukturierteDaten(release: Release, title: Title | undefined, today: string): string {
+function strukturierteDaten(release: Release, title: Title | undefined, today: string, url: string): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
-  const url = `${SITE}r/${release.slug}/`
 
   const istFilm = title?.format === 'MOVIE'
   const daten: Record<string, unknown> = {
@@ -317,14 +317,14 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
   return `    <script type="application/ld+json">${JSON.stringify(daten)}</script>`
 }
 
-function head(release: Release, title: Title | undefined, today: string): string {
+function head(release: Release, title: Title | undefined, today: string, ak: number): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
-  const url = `${SITE}r/${release.slug}/`
+  const url = `${SITE}t/${ak}/`
   const image = `${SITE}og/${release.slug}.jpg?v=${OG_FASSUNG}`
   const headline = `${release.name} — ${RELEASE_TYPES[release.releaseType].short} bei ${anbieterName(release.platform, release.sender)}`
   const description = describe(release, title, today)
-  const hash = `#/woche?${next ? `d=${next.date}&` : ''}r=${release.slug}`
+  const hash = `#/woche?${next ? `d=${next.date}&` : ''}t=${ak}`
 
   return `    <title>${esc(headline)}</title>
     <meta name="description" content="${esc(description)}" />
@@ -344,7 +344,7 @@ function head(release: Release, title: Title | undefined, today: string): string
     <meta name="twitter:description" content="${esc(description)}" />
     <meta name="twitter:image" content="${image}" />
     <link rel="canonical" href="${url}" />
-${strukturierteDaten(release, title, today)}
+${strukturierteDaten(release, title, today, url)}
     <script>
       // Läuft vor dem Modul-Skript der App, weil klassische Inline-Skripte
       // nicht deferred sind. Nur setzen, wenn der Besucher nicht schon selbst
@@ -375,6 +375,8 @@ function main(): void {
     Object.assign(synopses, readJson<Record<string, { de?: string; en?: string }>>(`public/data/synopses/${gruppe}.json`, {}))
   }
   const today = todayIso()
+  /* Die Adresse eines Titels ist `/t/<ak>/` — unsere Kennung, ohne Namen (Stufe 1 der eigenen Kennungen). */
+  const { akVon } = ladeAkVon(resolve(ROOT, 'data/kennungen.json'))
 
   // Nur der deutsche Text kommt auf die Seite. Ein englischer Absatz auf einer
   // durchweg deutschen Seite hilft weder dem Leser noch der Suche.
@@ -391,24 +393,6 @@ function main(): void {
     const liste = jeTitel.get(r.titleId)
     if (liste) liste.push(r)
     else jeTitel.set(r.titleId, [r])
-  }
-
-  for (const release of releases) {
-    const dir = resolve(DIST, 'r', release.slug)
-    mkdirSync(dir, { recursive: true })
-    const title = titleById.get(release.titleId)
-    const inhalt = body(
-      release,
-      title,
-      synopses[String(release.titleId)]?.de,
-      today,
-      (jeTitel.get(release.titleId) ?? []).filter((g) => g.slug !== release.slug),
-    )
-    const seite = (before + head(release, title, today) + after).replace(
-      ROOT_TAG,
-      `<div id="root">${inhalt}</div>`,
-    )
-    writeFileSync(resolve(dir, 'index.html'), seite, 'utf8')
   }
 
   /**
@@ -430,26 +414,27 @@ function main(): void {
    * Zwei Seiten schließen die Lücke: diese Übersicht verlinkt alle Termine, und
    * die Startseite verlinkt die Übersicht samt der nächsten Termine.
    */
-  schreibeUebersicht(releases, titleById, today, before, after, ROOT_TAG)
-  schreibeStartseite(releases, titleById, today, template, ROOT_TAG)
+  schreibeUebersicht(releases, titleById, today, before, after, ROOT_TAG, akVon)
+  schreibeStartseite(releases, titleById, today, template, ROOT_TAG, akVon)
 
   const alleTitel = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titelListe = (Array.isArray(alleTitel) ? alleTitel : alleTitel.titles).filter((t) => t.slug)
-  /* Die Adresse eines Titels ist `/t/<ak>/` — unsere Kennung, ohne Namen (Stufe 1 der eigenen Kennungen). */
-  const { akVon } = ladeAkVon(resolve(ROOT, 'data/kennungen.json'))
   const mitAk = titelListe.map((t) => ({ t, ak: akVon(t.id) }))
+  /* Eine Seite je Titel: Hat er Termine, trägt sie den nächsten (sonst den letzten) samt der übrigen; sonst die schlichte Titelseite. */
   for (const { t, ak } of mitAk) {
     const dir = resolve(DIST, 't', String(ak))
     mkdirSync(dir, { recursive: true })
-    const seite = (before + titelKopf({ ...t, id: ak, slug: String(ak) }) + after).replace(
-      ROOT_TAG,
-      `<div id="root">${titelInhalt({ ...t, id: ak, slug: String(ak) }, synopses[String(t.id)]?.de, jeTitel.get(t.id) ?? [])}</div>`,
-    )
-    writeFileSync(resolve(dir, 'index.html'), seite, 'utf8')
+    const eigene = jeTitel.get(t.id) ?? []
+    const haupt = naechsterTermin(eigene, today)
+    const kopf = haupt ? head(haupt, t, today, ak) : titelKopf({ ...t, id: ak, slug: String(ak) })
+    const inhalt = haupt
+      ? body(haupt, t, synopses[String(t.id)]?.de, today, eigene.filter((g) => g.slug !== haupt.slug), ak)
+      : titelInhalt({ ...t, id: ak, slug: String(ak) }, synopses[String(t.id)]?.de, eigene)
+    writeFileSync(resolve(dir, 'index.html'), (before + kopf + after).replace(ROOT_TAG, `<div id="root">${inhalt}</div>`), 'utf8')
   }
 
-  log(`${releases.length} Teilen-Seiten, ${titelListe.length} Titel-Seiten, Übersicht und Startseite geschrieben`)
-  writeSitemap(releases, mitAk.map(({ t, ak }) => ({ ...t, slug: String(ak) })))
+  log(`${titelListe.length} Titel-Seiten, Übersicht und Startseite geschrieben`)
+  writeSitemap(mitAk.map(({ t, ak }) => ({ ...t, slug: String(ak) })))
 }
 
 /*
@@ -461,6 +446,12 @@ function main(): void {
   Vorschaubild ist das Banner von AniList (breit, große Karte), ohne Banner das Cover
   (kleine Karte) — eigene Bilder für 2.774 Titel wären rund 170 MB im Repo.
 */
+/** Der nächste Termin eines Titels, sonst der letzte. */
+function naechsterTermin(rs: Release[], today: string): Release | undefined {
+  const nachDatum = [...rs].sort((a, b) => a.schedule.firstEpisodeDate.localeCompare(b.schedule.firstEpisodeDate))
+  return nachDatum.find((r) => r.schedule.firstEpisodeDate >= today) ?? nachDatum[nachDatum.length - 1]
+}
+
 function titelName(t: Title): string {
   return t.titleDe ?? t.titleEn ?? t.titleRomaji ?? t.slug
 }
@@ -519,7 +510,7 @@ function titelInhalt(t: Title, synopsis: string | undefined, eigene: Release[]):
       ${
         eigene.length
           ? `<h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Termine</h2>\n      ` +
-            liste(eigene.map((r) => `<li><a href="${esc(SITE)}r/${esc(r.slug)}/" style="color:#7dd3fc;">${esc(r.name)}</a></li>`))
+            liste(eigene.map((r) => `<li>${esc(r.name)}</li>`))
           : ''
       }
       <p><a href="${esc(SITE + '#/woche?t=' + t.id)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
@@ -531,12 +522,12 @@ const STIL =
   'max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;' +
   'font-family:system-ui,sans-serif;line-height:1.6;'
 
-function terminZeile(release: Release, titel: Title | undefined): string {
+function terminZeile(release: Release, titel: Title | undefined, ak: number): string {
   const name = esc(release.name || titel?.titleDe || titel?.titleEn || release.slug)
   const datum = release.schedule.firstEpisodeDate.split('-').reverse().join('.')
   const anbieter = esc(anbieterName(release.platform, release.sender))
   return (
-    `      <li><a href="${SITE}r/${release.slug}/" style="color:#7dd3fc;">${name}</a>` +
+    `      <li><a href="${SITE}t/${ak}/" style="color:#7dd3fc;">${name}</a>` +
     ` — ${datum}, ${anbieter}</li>\n`
   )
 }
@@ -548,6 +539,7 @@ function schreibeUebersicht(
   before: string,
   after: string,
   rootTag: string,
+  akVon: AkVon,
 ): void {
   const sortiert = [...releases].sort((a, b) =>
     b.schedule.firstEpisodeDate.localeCompare(a.schedule.firstEpisodeDate),
@@ -556,7 +548,7 @@ function schreibeUebersicht(
   const vergangen = sortiert.filter((r) => r.schedule.firstEpisodeDate < today)
 
   const liste = (rs: Release[]) =>
-    rs.map((r) => terminZeile(r, titleById.get(r.titleId))).join('')
+    rs.map((r) => terminZeile(r, titleById.get(r.titleId), akVon(r.titleId))).join('')
 
   const inhalt =
     `<article style="${STIL}">\n` +
@@ -594,7 +586,7 @@ function schreibeUebersicht(
     itemListElement: naechsteZwanzig.map((r, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      url: `${SITE}r/${r.slug}/`,
+      url: `${SITE}t/${akVon(r.titleId)}/`,
       name: titleById.get(r.titleId)?.titleDe ?? r.name,
     })),
   }
@@ -637,6 +629,7 @@ function schreibeStartseite(
   today: string,
   template: string,
   rootTag: string,
+  akVon: AkVon,
 ): void {
   const naechste = [...releases]
     .filter((r) => r.schedule.firstEpisodeDate >= today)
@@ -650,7 +643,7 @@ function schreibeStartseite(
     (naechste.length
       ? `      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Als nächstes</h2>\n` +
         `      <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">\n` +
-        naechste.map((r) => terminZeile(r, titleById.get(r.titleId))).join('') +
+        naechste.map((r) => terminZeile(r, titleById.get(r.titleId), akVon(r.titleId))).join('') +
         `      </ul>\n`
       : '') +
     `      <p><a href="${SITE}termine/" style="color:#7dd3fc;">Alle ${releases.length} Termine ansehen</a></p>\n` +
@@ -708,19 +701,13 @@ function schreibeStartseite(
  * bekommt eine Suchmaschine nie zu sehen, sie würde für jede dieser Adressen
  * dieselbe Startseite indexieren.
  */
-function writeSitemap(releases: Release[], titel: Title[] = []): void {
+function writeSitemap(titel: Title[] = []): void {
   // Die Übersicht gehört dazu: Sie ist der Einstieg zu allen Teilen-Seiten.
   const today = todayIso()
   const urls = [
     { loc: SITE, priority: '1.0', changefreq: 'daily' },
     // Der Einstieg zu allen Teilen-Seiten — er muss selbst gefunden werden.
     { loc: `${SITE}termine/`, priority: '0.9', changefreq: 'daily' },
-    ...releases.map((r) => ({
-      loc: `${SITE}r/${r.slug}/`,
-      priority: '0.7',
-      // Ein laufender Simuldub ändert sich wöchentlich, ein Disc-Termin steht.
-      changefreq: r.releaseType === 'weekly' ? 'weekly' : 'monthly',
-    })),
     ...titel.map((t) => ({ loc: `${SITE}t/${t.slug}/`, priority: '0.6', changefreq: 'weekly' })),
   ]
 

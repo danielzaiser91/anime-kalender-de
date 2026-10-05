@@ -44,8 +44,7 @@ export function ShareIcon({ slug, name }: { slug: string; name: string }) {
     <Tooltip text={t('detail.shareHint')} seite="unten">
       <button
         type="button"
-        /* Titel-Seite `/t/`, nicht `/r/` — dort liegen nur Termine (toter Link, Daniel 19.09.2026). */
-        onClick={() => share(slug, name, 't')}
+        onClick={() => share(slug, name)}
         aria-label={t('detail.share')}
         className="cursor-pointer rounded p-1 text-lg leading-none text-slate-400 transition hover:bg-slate-500/10 hover:text-sky-400"
       >

@@ -52,9 +52,9 @@ export interface AppRoute {
   view: ViewId
   /** Ankerdatum der Kalenderansichten. */
   date: string
-  /** Geöffnetes Detail-Panel. */
-  release?: string
+  /** Geöffnetes Detail-Panel (unsere Kennung); `disc`: Der Titel wurde über einen Disc-Termin geöffnet, der Kasten startet auf „Disc". */
   title?: number
+  disc?: true
   filters: FilterState
   /** Gewählte Sortierung der Datenbank — in der Adresse, damit ein geteilter Link sie mitnimmt (21.09.2026). */
   sort?: DbSort
@@ -142,8 +142,8 @@ export function parseHash(hash: string): AppRoute {
   return {
     view,
     date: params.get('d') ?? todayIso(),
-    release: params.get('r') ?? undefined,
     title: params.get('t') ? Number(params.get('t')) : undefined,
+    disc: params.get('disc') === '1' ? true : undefined,
     filters,
     sort: DB_SORTS.find((s) => s === params.get('sort')),
   }
@@ -159,6 +159,7 @@ export function buildHash(route: AppRoute): string {
   if (f.minConfidence !== 'low') params.set('conf', f.minConfidence)
   if (route.date !== todayIso()) params.set('d', route.date)
   if (route.title) params.set('t', String(route.title))
+  if (route.title && route.disc) params.set('disc', '1')
   if (route.sort) params.set('sort', route.sort)
 
   const query = params.toString()
@@ -166,20 +167,18 @@ export function buildHash(route: AppRoute): string {
 }
 
 /**
- * **Der offene Titel steht im Pfad, nicht mehr doppelt im Hash** (Daniel, 01.10.2026:
- * `…/r/apothecary-diaries-s3-cour1/#/woche?xp=disc&r=apothecary-diaries-s3-cour1`).
- * Seitwärts geteilte Seiten liegen unter `/r/<slug>/`; diese Adresse trägt den
- * Titel bereits. `parseHash` liest `r`/`t` weiter als Rückfall für alte Links.
+ * **Der offene Titel steht im Pfad `/t/<ak>/`, nicht doppelt im Hash** (Stufe 1d, 05.10.2026: eine Adresse für alles,
+ * Termin-Adressen `/r/` gibt es nicht mehr).
  */
-export function releaseAusPfad(pathname: string): string | undefined {
+export function titelAusPfad(pathname: string): number | undefined {
   const basis = (import.meta.env?.BASE_URL ?? '/').replace(/\/$/, '')
-  const m = new RegExp(`^${basis}/r/([^/]+)/?$`).exec(pathname)
-  return m?.[1] ? decodeURIComponent(m[1]) : undefined
+  const m = new RegExp(`^${basis}/t/(\\d+)/?$`).exec(pathname)
+  return m?.[1] ? Number(m[1]) : undefined
 }
 
 /** Füllt den offenen Titel aus dem Pfad, wenn der Hash keinen nennt. */
 function mitPfad(route: AppRoute, pathname: string): AppRoute {
-  return route.release ? route : { ...route, release: releaseAusPfad(pathname) }
+  return route.title ? route : { ...route, title: titelAusPfad(pathname) }
 }
 
 /**
@@ -197,7 +196,7 @@ function hashAufraeumen(neu: AppRoute, hash: string): void {
  *
  * Hintergrund: Diese App routet über den Hash, und alles hinter dem `#`
  * bekommt kein Server und kein Crawler je zu sehen. Ein kopierter Link der
- * Form `…/#/woche?r=black-torch` kann deshalb prinzipiell keine eigene
+ * Form `…/#/woche?t=123` kann deshalb prinzipiell keine eigene
  * Vorschau haben — WhatsApp, Discord und Co. fragen dafür `…/` ab und finden
  * dort das Standardbild. Daran lässt sich server-seitig nichts ändern.
  *
@@ -207,9 +206,9 @@ function hashAufraeumen(neu: AppRoute, hash: string): void {
  * genau diesen Pfad in die Adresse — ohne Neuladen, die App läuft weiter.
  * Wer die Adresse dann kopiert, teilt automatisch die Fassung mit Vorschau.
  */
-export function syncSharePath(release: string | undefined, titelSlug?: string): void {
+export function syncSharePath(titelSlug?: string): void {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '')
-  const target = zielPfad(release, titelSlug)
+  const target = zielPfad(titelSlug)
   if (window.location.pathname === target) return
   // Nur innerhalb der eigenen Seite umschreiben. Läuft die App aus einem
   // Unterverzeichnis, das nicht zum Muster passt, bleibt der Pfad unangetastet.
@@ -217,14 +216,13 @@ export function syncSharePath(release: string | undefined, titelSlug?: string): 
   history.replaceState(history.state, '', target + window.location.search + window.location.hash)
 }
 
-/** Der Pfad zur geöffneten Karte; ein Titel ohne Termin hat eine eigene Seite unter `/t/`. */
-function zielPfad(release: string | undefined, titelSlug?: string): string {
+/** Der Pfad zum geöffneten Titel: `/t/<ak>/`. */
+function zielPfad(titelSlug?: string): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, '')
-  if (release) return `${base}/r/${encodeURIComponent(release)}/`
   return titelSlug ? `${base}/t/${encodeURIComponent(titelSlug)}/` : `${base}/`
 }
 
-const panelOffen = (r: Pick<AppRoute, 'release' | 'title'>) => Boolean(r.release || r.title)
+const panelOffen = (r: Pick<AppRoute, 'title'>) => Boolean(r.title)
 
 /**
  * **Zurück schließt das Panel** (Daniel, 02.10.2026: auf dem Handy sprang „zurück" zur Woche davor
@@ -233,7 +231,7 @@ const panelOffen = (r: Pick<AppRoute, 'release' | 'title'>) => Boolean(r.release
  * ihn weg, und das ✕ geht denselben Schritt, statt einen zweiten Eintrag zu stapeln.
  */
 function panelVerlauf(route: AppRoute, next: Partial<AppRoute>, merged: AppRoute): 'zurueck' | 'eintrag' | undefined {
-  const nurPanel = Object.keys(next).every((k) => k === 'release' || k === 'title')
+  const nurPanel = Object.keys(next).every((k) => k === 'title' || k === 'disc')
   if (panelOffen(route) && !panelOffen(merged) && nurPanel && history.state?.panel) return 'zurueck'
   if (!panelOffen(route) && panelOffen(merged)) return 'eintrag'
   return undefined
@@ -243,7 +241,7 @@ function panelVerlauf(route: AppRoute, next: Partial<AppRoute>, merged: AppRoute
 function panelUnterlegen(route: AppRoute): void {
   if (!panelOffen(route) || history.state?.panel) return
   const url = window.location.pathname + window.location.search + window.location.hash
-  history.replaceState(null, '', zielPfad(undefined) + window.location.search + buildHash({ ...route, release: undefined, title: undefined }))
+  history.replaceState(null, '', zielPfad(undefined) + window.location.search + buildHash({ ...route, title: undefined, disc: undefined }))
   history.pushState({ panel: true }, '', url)
 }
 
@@ -273,8 +271,8 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
   }, [])
 
   useEffect(() => {
-    syncSharePath(route.release)
-  }, [route.release])
+    if (!route.title) syncSharePath()
+  }, [route.title])
 
   const navigate = (next: Partial<AppRoute>) => {
     const merged: AppRoute = { ...route, ...next }
@@ -284,11 +282,11 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
     if (verlauf === 'zurueck') return history.back()
     const hash = buildHash(merged)
     if (verlauf === 'eintrag') {
-      history.pushState({ panel: true }, '', zielPfad(merged.release) + window.location.search + hash)
+      history.pushState({ panel: true }, '', zielPfad() + window.location.search + hash)
       return setRoute(merged)
     }
-    /* Pfad zuerst — ohne `r` im Hash ist `/r/<slug>/` die einzige Spur des Titels. */
-    syncSharePath(merged.release)
+    /* Der Pfad `/t/<ak>/` des offenen Titels schreibt das Panel selbst; hier nur das Zurücksetzen beim Schließen. */
+    if (!merged.title) syncSharePath()
     if (hash !== window.location.hash) window.location.hash = hash
     else setRoute(merged)
   }

@@ -90,3 +90,10 @@ Worker: neue Listen tragen den Vorsatz `ak:` (der Browser schickt `ak: 1`), List
 (`worker/src/favoriten-kennung.ts`); kein Schemawechsel in D1. **Am 05.11.2026 entfernen:** `kennung-umzug.ts` (samt Aufruf in `main.tsx`), den Zweig ohne Vorsatz und `ladeAbbild`
 im Worker, `anilist-ak.json` aus `ausgabe-kennung.ts`. `check:logic` wird an dem Tag rot (Zusicherung „Favoriten-Umschreibung … ausgelaufen").
 **Werkzeuge:** Prüfwerkzeuge, die die ausgelieferte Seite öffnen, übersetzen ihre Fälle mit `tools/ak-von.mjs`; `tools/panel-vergleich.mjs` vergleicht über diese Grenze hinweg nicht (Stand vor Stufe 1 kennt `ak` nicht).
+
+## Stufe 1d umgesetzt (05.10.2026): eine Adresse für alles
+
+`/r/<slug>/` und `r=` sind weg. Ein Klick auf eine Karte öffnet den **Titel** (`#/…?t=<ak>`, Pfad `/t/<ak>/`); kam der Klick von einem Disc-Termin, steht `disc=1` im Hash und der Stream/Disc-Umschalter startet auf „Disc"
+(`AppRoute.disc`). `build-share-pages.ts` schreibt je Titel eine Seite: Hat er Termine, ist es die bisherige Termin-Seite des nächsten (sonst letzten) Termins samt Strukturdaten, sonst die schlichte Titelseite;
+die Sitemap kennt nur noch `/t/` (2.790 Adressen statt 3.521), Übersicht und Startseite verlinken die Titelseiten. Mail-Link, Kalenderdatei (`Details:`) und Teilen-Knopf nutzen `/t/<ak>/`.
+**Ungültige Adressen** (`/r/…`, `/t/<alter Name>/`) landen über `public/404.html` auf der Startseite. Die Vorschaubilder `og/<Termin>.jpg` hängen weiter an den Termin-Adressnamen und werden noch gebaut (`og:image` der Titelseite).

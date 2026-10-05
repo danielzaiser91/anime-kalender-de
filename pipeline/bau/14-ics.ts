@@ -3,6 +3,7 @@ import { OUT } from './grundlagen.ts'
 import { newsRss } from '../lib/news-rss.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { buildIcs } from '../../shared/ics.ts'
+import { ladeAkVon } from '../lib/ausgabe-kennung.ts'
 import { type ReleaseEvent, type PlatformId, type Title, type DataMeta } from '../../shared/types.ts'
 import type { NewsEintrag } from '../../shared/types.ts'
 
@@ -44,14 +45,15 @@ export function schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, ge
   const aboEvents = events.filter((e) => e.date >= aboGrenze)
 
   const siteUrl = process.env.SITE_URL ?? 'https://anime-kalender.de/'
-  writeText(`${OUT}/feeds/all.ics`, buildIcs(aboEvents, { siteUrl, calendarName: 'Anime-Kalender DE' }))
+  const titelId = ladeAkVon('data/kennungen.json').akVon
+  writeText(`${OUT}/feeds/all.ics`, buildIcs(aboEvents, { siteUrl, titelId, calendarName: 'Anime-Kalender DE' }))
 
   for (const platform of platforms) {
     const subset = aboEvents.filter((e) => e.platform === platform)
     if (!subset.length) continue
     writeText(
       `${OUT}/feeds/platform-${platform}.ics`,
-      buildIcs(subset, { siteUrl, calendarName: `Anime-Kalender DE – ${platform}` }),
+      buildIcs(subset, { siteUrl, titelId, calendarName: `Anime-Kalender DE – ${platform}` }),
     )
   }
 
@@ -61,7 +63,7 @@ export function schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, ge
     if (subset.length < 3) continue
     writeText(
       `${OUT}/feeds/genre-${slugify(genre)}.ics`,
-      buildIcs(subset, { siteUrl, calendarName: `Anime-Kalender DE – ${genre}` }),
+      buildIcs(subset, { siteUrl, titelId, calendarName: `Anime-Kalender DE – ${genre}` }),
     )
   }
 

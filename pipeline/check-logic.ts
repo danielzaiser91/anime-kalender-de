@@ -137,7 +137,7 @@ import {
 import { verweiseFuer } from '../web/src/components/detail/verweise.ts'
 import { ergebnisText, zaehlTeile } from '../web/src/components/db-kopfzeile.tsx'
 import { activeFilterCount, EMPTY_FILTERS, reihenKopf, type FilterState } from '../web/src/lib/filters.ts'
-import { buildHash } from '../web/src/lib/router.ts'
+import { buildHash, titelAusPfad } from '../web/src/lib/router.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
 import { crAdresseZu, crNamensindex, crNamensindexAusDatei } from './lib/cr-katalog-adresse.ts'
 import { sendezeiten } from './lib/sendezeit.ts'
@@ -5901,17 +5901,13 @@ pruefe(
 }
 {
   /*
-    **Der offene Titel steht nicht doppelt in der Adresse**:
-    `/r/<slug>/` im Pfad **und** `r=<slug>` im Hash. `buildHash` schreibt `r` nicht
-    mehr; den Titel trägt der Pfad (`releaseAusPfad`).
+    **Eine Adresse für alles** (Stufe 1d, 05.10.2026): Der offene Titel steht im Pfad `/t/<ak>/` und mit `t=` im Hash;
+    Termin-Adressen (`/r/`, `r=`) gibt es nicht mehr, ein altes `r=` wird ignoriert.
   */
-  const hash = buildHash({
-    view: 'woche',
-    date: todayIso(),
-    release: 'apothecary-diaries-s3-cour1',
-    filters: { ...EMPTY_FILTERS },
-  })
-  pruefe('der offene Titel steht nicht doppelt in der Adresse (kein r=)', !/[?&]r=/.test(hash), hash)
+  const hash = buildHash({ view: 'woche', date: todayIso(), title: 15503, filters: { ...EMPTY_FILTERS } })
+  pruefe('der offene Titel steht mit t= im Hash', /[?&]t=15503\b/.test(hash) && !/[?&]r=/.test(hash), hash)
+  pruefe('ein Disc-Termin wird nur mit offenem Titel vermerkt', buildHash({ view: 'woche', date: todayIso(), disc: true, filters: { ...EMPTY_FILTERS } }) === buildHash({ view: 'woche', date: todayIso(), filters: { ...EMPTY_FILTERS } }))
+  pruefe('/t/<ak>/ liefert den Titel, /r/<slug>/ nichts', titelAusPfad('/t/15503/') === 15503 && titelAusPfad('/r/black-torch/') === undefined && titelAusPfad('/t/black-torch/') === undefined)
 }
 {
   /*

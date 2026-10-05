@@ -41,20 +41,13 @@
   </head>
   <body>
     <main>
-      <h1>Diese Seite gibt es nicht mehr</h1>
-      <p>
-        Vielleicht war es der Link zu einem Termin, den wir inzwischen anders
-        führen. Im Kalender findest du alle aktuellen Termine.
-      </p>
+      <h1>Diese Seite gibt es nicht</h1>
+      <p>Im Kalender findest du alle aktuellen Termine.</p>
       <a href="/">Zum Kalender</a>
     </main>
     <script>
-      /*
-        Bis zum 19.09.2026 teilte der Link-Knopf im Panel /r/<Titel-Slug>/ — eine Seite, die es
-        nie gab. Solche Links enden auf die AniList-Kennung; sie führen jetzt zum Titel.
-      */
-      var m = /^\/[rt]\/[a-z0-9-]+-(\d+)\/?$/.exec(location.pathname)
-      if (m) location.replace('/#/woche?t=' + m[1])
+      /* Eine ungültige Adresse (alte Termin-Seiten `/r/…`, alte Titel-Adressen) führt zur Startseite (Daniel, 05.10.2026: keine Rückwärtskompatibilität). */
+      location.replace('/')
     </script>
   </body>
 </html>

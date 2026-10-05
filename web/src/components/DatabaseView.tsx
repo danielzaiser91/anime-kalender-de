@@ -240,13 +240,8 @@ export function DatabaseView({
                   {main.fsk !== undefined && <FskBadge fsk={main.fsk} small />}
                   <FavoriteStar active={favorite} onToggle={() => onToggleFavorite(main.id)} />
                   <HideEye hidden={false} onToggle={() => onToggleHidden(main.id)} />
-                  {/* Geteilt wird der Release, nicht der Anime — nur zu ihm
-                      gibt es eine Seite mit eigenem Vorschaubild. */}
-                  {releases[0] && (
-                    <ShareIcon
-                      onShare={() => share(releases[0].slug, releases[0].name)}
-                      copied={copiedSlug === releases[0].slug}
-                    />
+                  {main.slug && !main.ohneSynchro && main.id > 0 && (
+                    <ShareIcon onShare={() => share(main.slug, main.titleDe ?? main.titleEn ?? main.titleRomaji ?? '')} copied={copiedSlug === main.slug} />
                   )}
                 </span>
                 {grouped && members.length > 1 && (

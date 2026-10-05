@@ -48,13 +48,11 @@ import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
 import { SchlagworteAbschnitt } from './detail/Schlagworte.tsx'
 import { plotVon, aussagekraeftig } from './detail/plot.ts'
-import { startetMitDisc } from './detail/disc-start.ts'
 
 export function DetailPanel({
   data,
   titleId,
-  terminOffen = false,
-  releaseSlug,
+  discZuerst = false,
   favorites,
   hidden,
   onToggleFavorite,
@@ -65,10 +63,8 @@ export function DetailPanel({
 }: {
   data: Dataset
   titleId: number
-  /** Über einen Termin geöffnet — dann gehört die Adresse dem Termin (`/r/`). */
-  terminOffen?: boolean
-  /** Der Termin aus der Adresse — entscheidet, ob das Panel mit „Disc" startet. */
-  releaseSlug?: string
+  /** Über einen Disc-Termin geöffnet: Der Stream/Disc-Umschalter startet auf „Disc". */
+  discZuerst?: boolean
   favorites: Set<number>
   hidden: Set<number>
   onToggleFavorite: (id: number) => void
@@ -104,8 +100,8 @@ export function DetailPanel({
   */
   useEffect(() => {
     /* Cartoons (negative Kennung) und Titel ohne Synchro haben keine Titel-Seite. */
-    if (!terminOffen && title?.slug && title.id > 0 && !title.ohneSynchro) syncSharePath(undefined, title.slug)
-  }, [terminOffen, title?.slug, title?.id, title?.ohneSynchro])
+    if (title?.slug && title.id > 0 && !title.ohneSynchro) syncSharePath(title.slug)
+  }, [title?.slug, title?.id, title?.ohneSynchro])
   /**
    * Der leere Rückfall braucht ein `useMemo`, sonst ist er bei jedem Durchlauf
    * ein neues Array — und jeder Hook, der `releases` als Abhängigkeit führt,
@@ -1112,7 +1108,7 @@ export function DetailPanel({
             discOffen={discOffen}
             setDiscOffen={setDiscOffen}
             discReleases={discReleases}
-            discZuerst={startetMitDisc(data, releaseSlug)}
+            discZuerst={discZuerst}
           />
           <UnterDerAntwort data={data} title={title} favorites={favorites} />
           {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}

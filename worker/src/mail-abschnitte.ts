@@ -28,17 +28,15 @@ export function escapeHtml(value: string): string {
 }
 
 /**
- * Die Ansicht im Kalender, die genau diesen Termin zeigt.
+ * Die Ansicht im Kalender, die den Titel dieses Termins zeigt.
  *
- * Bewusst über die Teilen-Seite `/r/<slug>/` statt direkt über `#/woche?…`:
+ * Bewusst über die Teilen-Seite `/t/<ak>/` statt direkt über `#/woche?…`:
  * Alles hinter dem `#` erreicht keinen Server, eine weitergeleitete Mail hätte
- * damit nie eine Vorschau. Die Teilen-Seite hat eigene Vorschaubilder und
- * springt anschließend selbst in die Wochenansicht — der Hash sagt ihr nur,
- * welcher Tag gemeint ist.
+ * damit nie eine Vorschau. Die Teilen-Seite springt anschließend selbst in die
+ * Wochenansicht — der Hash sagt ihr nur, welcher Tag gemeint ist.
  */
 export function calendarUrl(ctx: RowContext, ev: ReleaseEvent): string {
-  const slug = encodeURIComponent(ev.releaseSlug)
-  return `${ctx.siteUrl.replace(/\/$/, '')}/r/${slug}/#/woche?d=${ev.date}&r=${slug}`
+  return `${ctx.siteUrl.replace(/\/$/, '')}/t/${ev.titleId}/#/woche?d=${ev.date}&t=${ev.titleId}`
 }
 
 /** Eine Zeile unter der Rubrik-Überschrift — sie sagt, was hier zu finden ist. */

@@ -54,7 +54,10 @@ export function KalenderBereich(p: KalenderBereichProps) {
     ? zaehlung(stream, p.tvAn ? tv : 0, handel, t)
     : wochenSpanne(route.date)
   const setFilters = (filters: FilterState) => navigate({ filters })
-  const oeffnen = (release: string) => navigate({ release, title: undefined })
+  const oeffnen = (slug: string) => {
+    const r = p.data.releaseBySlug.get(slug)
+    navigate({ title: r?.titleId, disc: r?.releaseType === 'disc' ? true : undefined })
+  }
   const zurWoche = (datum: string) => {
     merkeZielTag(datum)
     navigate({ view: 'woche', date: datum })
