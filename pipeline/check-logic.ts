@@ -4885,6 +4885,11 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   const arten = (tag: string) => baueNews([t], [rel(tag)], [{ id: 7, seit: heute }], [], { zuerst: {} }).flatMap((e) => e.meldungen).map((m) => m.art)
   pruefe('Start heute: nur „Neu auf Deutsch", keine Ankündigung', !arten(heute).includes('angekuendigt'), JSON.stringify(arten(heute)))
   pruefe('Start morgen bleibt eine Ankündigung', arten(addDays(heute, 1)).includes('angekuendigt'), JSON.stringify(arten(addDays(heute, 1))))
+  /* Die Termin-Pflege führt Meldungen aus früheren Bauten wieder ein (so blieb die Ankündigung am 05.10.2026 trotz des ersten Filters stehen). */
+  const verlauf = { zuerst: {} }
+  const erst = baueNews([t], [rel(heute)], [{ id: 7, seit: heute }], [], verlauf)
+  const zweit = baueNews([t], [rel(heute)], [{ id: 7, seit: heute }], [], verlauf, erst).flatMap((e) => e.meldungen).map((m) => m.art)
+  pruefe('auch mit den Meldungen des vorigen Baus keine Ankündigung am Starttag', !zweit.includes('angekuendigt'), JSON.stringify(zweit))
 }
 
 /*
