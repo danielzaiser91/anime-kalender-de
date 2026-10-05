@@ -185,3 +185,76 @@
   sources:
     - https://www.anime2you.de/news/1053081/cyberpunk-edgerunners-ii-sneak-peek-teaser/
     - https://www.anime2you.de/news/1043405/cyberpunk-edgerunners-2-netflix-termin/
+
+# Nachträge vom Abgleich Kalender gegen Ankündigungen (05.10.2026): Meldungen, die der Anime2You-Leser nicht übernommen hatte.
+- slug: naruto-shippuden-s3-disneyplus
+  anilistId: 1735
+  search: "Naruto: Shippuuden"
+  titleDe: "Naruto Shippuden – Staffel 3"
+  platform: disneyplus
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-10-07"
+    episodeCount: 52
+  sources: [https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/]
+
+- slug: bleach-diamonddust-rebellion-adn
+  anilistId: 2889
+  search: "Bleach the Movie: The DiamondDust Rebellion"
+  titleDe: "Bleach: The DiamondDust Rebellion"
+  platform: adn
+  releaseType: movie
+  schedule: { firstEpisodeDate: "2026-10-12" }
+  sources: [https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/]
+
+- slug: bleach-fade-to-black-adn
+  anilistId: 4835
+  search: "Bleach the Movie: Fade to Black"
+  titleDe: "Bleach: Fade to Black"
+  platform: adn
+  releaseType: movie
+  schedule: { firstEpisodeDate: "2026-10-12" }
+  sources: [https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/]
+
+- slug: bleach-hell-verse-adn
+  anilistId: 8247
+  search: "Bleach the Movie: Hell Verse"
+  titleDe: "Bleach: The Hell Verse"
+  platform: adn
+  releaseType: movie
+  schedule: { firstEpisodeDate: "2026-10-12" }
+  sources: [https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/]
+
+- slug: my-hero-academia-vigilantes-s1-netflix
+  anilistId: 185736
+  search: "My Hero Academia: Vigilantes"
+  titleDe: "My Hero Academia: Vigilantes – Staffel 1"
+  platform: netflix
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-10-06"
+    episodeCount: 13
+  sources: [https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/]
+
+- slug: my-hero-academia-vigilantes-s2-netflix
+  anilistId: 195322
+  search: "My Hero Academia: Vigilantes Season 2"
+  titleDe: "My Hero Academia: Vigilantes – Staffel 2"
+  platform: netflix
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-10-06"
+    episodeCount: 13
+  sources: [https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/]
+
+- slug: ranma-s3-folge1-netflix
+  anilistId: 209872
+  search: "Ranma1/2 (2024) Season 3"
+  titleDe: "Ranma ½ – Staffel 3"
+  platform: netflix
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-10-05"
+    episodeCount: 1
+  note: "Folge 1 gibt es seit dem 05.10. mit deutscher Synchronisation; ob weitere Folgen synchron folgen, ist offen."
+  sources: [https://www.anime2you.de/news/1057709/netflix-ranma-12-staffel-3-deutsche-synchro/]
