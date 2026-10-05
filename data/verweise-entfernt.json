@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-04T23:06:48.061Z",
+  "stand": "2026-10-05T00:08:50.875Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7999,6 +7999,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-05",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8065,6 +8076,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-05",
+      "letzterWeg": true
+    },
+    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8085,6 +8107,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-05",
       "letzterWeg": false
+    },
+    {
+      "titleId": 189123,
+      "titel": "Blue Box Season 2",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81663323",
+      "seriesId": null,
+      "grund": "der Anbieter führt 25 Folgen, und die belegten Titel füllen sie exakt — für 12 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-05",
+      "letzterWeg": true
     },
     {
       "titleId": 213805,
