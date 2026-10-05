@@ -50,7 +50,14 @@ function pruefzeile(b: NewsBeleg, mitBild: boolean): string {
     b.zuletztGeprueftAm && b.zuletztGeprueftAm !== b.erstGeprueftAm && `zuletzt geprüft am ${datumKurz(b.zuletztGeprueftAm)}`,
     mitBild && b.bildAm && `Bild vom ${datumKurz(b.bildAm)}`,
   ].filter(Boolean)
-  return teile.length ? ` ${teile.join(' · ')}.` : ''
+  return teile.length ? ` ${(teile.join(' · ') as string).replace(/^./, (c) => c.toUpperCase())}.` : ''
+}
+
+/** Zwei Quellen desselben Anbieters bekommen eine Nummer: „anime2you.de 1", „anime2you.de 2". */
+function tabName(b: NewsBeleg, alle: NewsBeleg[]): string {
+  const name = quellenLabel(b)
+  const gleich = alle.filter((x) => quellenLabel(x) === name)
+  return gleich.length > 1 ? `${name} ${gleich.indexOf(b) + 1}` : name
 }
 
 const BTN = 'cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs hover:bg-white/10'
@@ -91,7 +98,7 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
                 className={`shrink-0 cursor-pointer rounded-t border border-b-0 px-3 py-1 text-xs ${i === aktiv ? 'border-slate-500 bg-slate-800 font-bold text-white' : 'border-transparent text-slate-400 hover:text-white'}`}
               >
                 {b.bild && WORKER ? '▣ ' : ''}
-                {quellenLabel(b)}
+                {tabName(b, belege)}
               </button>
             ))}
           </div>
