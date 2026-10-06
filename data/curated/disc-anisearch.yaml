@@ -29,16 +29,6 @@
   schedule: { firstEpisodeDate: "2026-09-18" }
   sources: ["https://www.anisearch.de/article/15034,the-quintessential-quintuplets-staffel-1-2-komplettset-sammelschuber"]
 
-- slug: steins-gate-0-polymorpher-valentin-bittersweet-intermedio-2026-10-16
-  anilistId: 104174
-  titleDe: "Steins;Gate 0: Polymorpher Valentin - Bittersweet Intermedio"
-  platform: disc
-  releaseType: disc
-  publisher: "Wakanim DE"
-  edition: "Komplettset Blu-ray · Komplettset"
-  schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: ["https://www.anisearch.de/article/213058,steins-gate-0-komplettset-blu-ray"]
-
 - slug: naruto-shippuden-the-movie-5-blood-prison-2026-11-19
   anilistId: 10589
   titleDe: "Naruto Shippuden: The Movie 5 - Blood Prison"
@@ -191,16 +181,6 @@
   schedule: { firstEpisodeDate: "2026-11-19" }
   sources: ["https://www.anisearch.de/article/216205,naruto-shippuden-the-movie-collection-blu-ray-8-filme-re-release"]
 
-- slug: my-next-life-as-a-villainess-all-routes-lead-to-doom-ich-habe-die-mir-vorbestimm
-  anilistId: 136829
-  titleDe: "My Next Life as a Villainess: All Routes Lead to Doom! Ich habe die mir vorbestimmte Person getroffen"
-  platform: disc
-  releaseType: disc
-  publisher: "Crunchyroll"
-  edition: "Komplettset Blu-ray · Komplettset"
-  schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: ["https://www.anisearch.de/article/213891,my-next-life-as-a-villainess-wie-ueberlebe-ich-in-einem-dating-game-x-komplettset-blu-ray"]
-
 - slug: vampire-princess-miyu-2026-09-08
   anilistId: 1384
   titleDe: "Vampire Princess Miyu"
@@ -336,16 +316,6 @@
   schedule: { firstEpisodeDate: "2027-02-19" }
   sources: ["https://www.anisearch.de/article/214951,yaiba-samurai-legend-staffel-1-vol-2-2-limited-edition-blu-ray"]
 
-- slug: miss-kobayashi-s-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-2026-10-1
-  anilistId: 181839
-  titleDe: "Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe"
-  platform: disc
-  releaseType: disc
-  publisher: "Crunchyroll"
-  edition: "Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe Blu-ray"
-  schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: ["https://www.anisearch.de/article/213787,miss-kobayashis-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-blu-ray"]
-
 - slug: sakamoto-days-teil-2-vol-3-2026-11-13
   anilistId: 184237
   titleDe: "Sakamoto Days: Teil 2 – Vol. 3"
@@ -402,7 +372,7 @@
   titleDe: "Steins;Gate 0"
   platform: disc
   releaseType: disc
-  publisher: "Wakanim DE"
+  publisher: "peppermint anime"
   edition: "Komplettset Blu-ray · Komplettset"
   schedule: { firstEpisodeDate: "2026-10-16" }
   sources: ["https://www.anisearch.de/article/213058,steins-gate-0-komplettset-blu-ray"]
@@ -551,3 +521,5 @@
   edition: "Gesamtausgabe: Limited Steelbook Edition Blu-ray · Gesamtausgabe: Limited Steelbook Edition"
   schedule: { firstEpisodeDate: "2027-01-15" }
   sources: ["https://www.anisearch.de/article/210291,sailor-moon-sailor-stars-gesamtausgabe-limited-steelbook-edition-blu-ray"]
+
+# Bereinigt am 06.10.2026: Villainess-Film (Artikel gehörte zu Staffel 2, steht bei den Hand-Terminen), Steins;Gate-0-Special (Komplettset gehört zur Serie) und Dragon-Maid-Film (steht mit richtiger Kennung bei den Hand-Terminen); Steins;Gate 0: Label peppermint anime laut Anime2You-Übersicht.

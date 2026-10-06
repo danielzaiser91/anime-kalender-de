@@ -257,9 +257,10 @@
   publisher: "Crunchyroll"
   edition: "Limited Edition mit Sammelschuber, Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-16" }
-  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/, https://www.anime2you.de/news/1035810/dr-stone-staffel-4-blu-ray-termin/]
+  sources: [https://www.anime2you.de/news/1035826/amazon-22-blu-ray-neuheiten-vorbestellbar/, https://www.anime2you.de/news/1035810/dr-stone-staffel-4-blu-ray-termin/, https://www.anime2you.de/news/1043546/dr-stone-staffel-4-blu-ray-sammelschuber/]
 
 - slug: dragon-maid-lonely-dragon-movie-disc
+  anilistId: 181839
   search: "Kobayashi-san Chi no Maid Dragon"
   titleDe: "Miss Kobayashi's Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe"
   platform: disc
