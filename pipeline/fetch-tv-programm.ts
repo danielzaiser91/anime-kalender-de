@@ -118,6 +118,12 @@ export const TVDE_SENDER: Record<string, string> = {
   'prosieben-fun': 'ProSieben FUN',
 }
 
+/**
+ * Sendernamen, die der Namensindex wegen zwei gleichnamiger Titel streicht, von Hand zugeordnet (06.10.2026: tv.de nennt „Yashahime", beide Staffeln heißen
+ * bei uns „Yashahime: Princess Half-Demon"). Die Folgen, die zur zweiten Staffel gehören, hängt `sendungNeuZuordnen` über die Folgentitel um.
+ */
+export const TV_NAMEN: Record<string, number> = { yashahime: 118399 }
+
 /** Berliner Zeitversatz eines Tages als „+02:00". */
 function berlinVersatz(tag: string): string {
   const teil = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Berlin', timeZoneName: 'shortOffset' })
@@ -233,6 +239,7 @@ export function namenIndex(): Map<string, number> {
     }
   }
   for (const k of doppelt) namen.delete(k)
+  for (const [k, id] of Object.entries(TV_NAMEN)) namen.set(k, id)
   return namen
 }
 

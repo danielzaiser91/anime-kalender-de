@@ -193,7 +193,7 @@ import { staffelNummern } from './lib/staffel-nummern.ts'
 import { loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { adressenAusNews, adressenMitOffenemTermin, belegeFuerAlle, crunchyrollDatum, entzieheBild, kopfzeilenDatum, istArtikel, merkeLesung, traegtArtikeldatum, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
-import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
+import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, TV_NAMEN, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -5193,6 +5193,10 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 */
 {
   const ueberschrift = (t: string) => `Crunchyrolls aktuelles Wochenprogramm ${t}`
+  {
+    const titelIds = new Set((JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number }[]).map((t) => t.id))
+    pruefe('TV-Handnamen: jede Kennung gibt es im Bestand (sonst hängt eine Sendung an einem toten Titel)', Object.values(TV_NAMEN).every((id) => titelIds.has(id)))
+  }
   {
     const seite = "<section class=\"tw:flex tw:flex-row tw:justify-stretch tw:bg-gray-50\">\n    \n    \n    <div class=\"tw:aspect-4/3 tw:h-full tw:relative\">\n        <img class=\"tw:absolute tw:top-0 tw:left-0 tw:h-full tw:w-full tw:object-cover\"\n             src=\"https://cfres-71f3.kxcdn.com/si/2026/10/09/2446020129/406850158_320x240.jpeg\" alt=\"Yashahime\">\n        <span class=\"tw:absolute tw:inline-block tw:left-0 tw:top-0 tw:px-0.5 tw:py-0.5 tw:text-overline-1 tw:uppercase tw:bg-secondary tw:text-inverse\">16:45</span>\n    </div>\n    <a class=\"tw:flex-1 tw:flex tw:flex-col tw:items-start tw:justify-start tw:py-1 tw:px-1.5 tw:gap-0.5\" href=\"/sendung/yashahime/yashahime-gegenangriff-der-drei-prinzessinnen,2446020129/\">\n        <header>\n            <h3 class=\"tw:text-subtitle-2 tw:max-sm:min-h-[3em]\">\n                Yashahime<span class=\"tw:max-xs:hidden\">: Gegenangriff der drei Prinzessinnen</span>\n            </h3>\n        </header>\n        <span class=\"tw:max-sm:hidden tw:text-body-2\">Animeserie</span>\n        <p class=\"tw:max-sm:hidden tw:line-clamp-3\">Towa und Setsuna engagieren Moroha für einen Auftrag: Die Halbdämonen-Prinzessinnen wollen Rache an Zero nehmen und sie vernichten. Doch Riku stellt sich ihnen ebenfalls in den Weg und kämpft auf der Seite der Dämonin. Außerdem enthüllt er, dass nun alle sieben Regenbogenperlen an einem Ort versammelt sind ...</p>\n    </a>\n</section>"
     const alt = seite.replace(/tw:/g, 'tw-')
