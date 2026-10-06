@@ -75,6 +75,19 @@
     episodeCount: 40
   sources: [https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/]
 
+- slug: yu-gi-oh-s4-disneyplus
+  anilistId: 481
+  platformUrl: https://www.disneyplus.com/de-de/browse/entity-870b9187-690d-4a9e-8704-b48564b31322
+  search: "Yu☆Gi☆Oh! Duel Monsters"
+  titleDe: "Yu-Gi-Oh! – Staffel 4"
+  platform: disneyplus
+  releaseType: batch
+  schedule:
+    firstEpisodeDate: "2026-09-28"
+    episodeCount: 40
+  note: "Nur mit deutscher Tonspur."
+  sources: [https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/]
+
 - slug: black-clover-s1-disneyplus
   search: "Black Clover"
   titleDe: "Black Clover – Staffel 1"
