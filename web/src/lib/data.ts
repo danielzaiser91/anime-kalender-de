@@ -241,6 +241,7 @@ export interface Synopsis {
    * womöglich noch mit dem falschen Namen.
    */
   deSource?: { name: string; url: string }
+  asUrl?: string
 }
 
 /**

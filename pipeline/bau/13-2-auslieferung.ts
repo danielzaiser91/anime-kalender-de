@@ -38,26 +38,16 @@ export function baueAuslieferung({
   const slim = allTitles.map((t) => {
     const ausAnisearch = anisearch[t.id]?.descriptionDe
     const ausTmdb = tmdbTitles[t.id]
+    const asId = anisearchHand[t.id] ?? anisearch[t.id]?.anisearchId
     if (t.synopsis || ausAnisearch || ausTmdb?.overviewDe) {
       const eintrag: SynopsisEintrag = { en: t.synopsis }
       if (ausAnisearch) {
         const { text, url } = trenneQuelle(ausAnisearch)
         eintrag.de = text
-        /*
-          **Ein Quellenverweis führt zum Werk, nicht in ein Verzeichnis.**
-
-          Der Rückfall lautete `anisearch.de/anime/` — die Anime-Übersicht der
-          ganzen Seite, für 221 von 2.497 Verweisen (gemessen 12.09.2026). Wer
-          dort klickt, sucht danach von Hand weiter; die Angabe „Quelle:
-          aniSearch" wird damit unüberprüfbar.
-
-          Die Kennung liegt im Haus: 2.621 Titel tragen `anisearchId`. Wo auch
-          die fehlt, geht es zur Suche mit dem Titel — `/search?q=`, denn
-          `/anime/index?text=` antwortet mit „Deine Suchanfrage ist ungültig".
-        */
+        /* Ein Quellenverweis führt zum Werk, nicht in ein Verzeichnis; ohne Kennung bleibt nur die Suche (Dominik, aniSearch, 06.10.2026). */
         eintrag.deSource = {
           name: 'anisearch.de',
-          url: url ? anisearchKanonisch(url) : anisearchSeite(anisearchHand[t.id] ?? anisearch[t.id]?.anisearchId, t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id)),
+          url: url ? anisearchKanonisch(url) : anisearchSeite(asId, t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id)),
         }
       } else if (ausTmdb?.overviewDe) {
         eintrag.de = ausTmdb.overviewDe
@@ -68,6 +58,7 @@ export function baueAuslieferung({
             : 'https://www.themoviedb.org/',
         }
       }
+      if (!ausAnisearch && Number.isFinite(asId)) eintrag.asUrl = anisearchSeite(asId, '')
       synopses[t.id] = eintrag
     }
     const { synopsis: _drop, ...rest } = t
@@ -82,7 +73,6 @@ export function baueAuslieferung({
       `annId` nur, wo auch Stimmen belegt sind: Ohne sie führt der Verweis auf
       eine Seite, die zu unserer Frage nichts sagt.
     */
-    const asId = anisearchHand[t.id] ?? anisearch[t.id]?.anisearchId
     const annId = mitStimmen.has(t.id) ? annKennungen[String(t.id)] : undefined
     return {
       ...rest,

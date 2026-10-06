@@ -9,6 +9,8 @@ export interface SynopsisEintrag {
   de?: string
   en?: string
   deSource?: { name: string; url: string }
+  /** Titelseite bei aniSearch mit Slug, wo die Beschreibung nicht von dort stammt (für Pille und Quellenübersicht). */
+  asUrl?: string
 }
 
 export function schreibeSynopsenUndReichereAn({ allTitles, releases, kanalJeAdresse }: {
