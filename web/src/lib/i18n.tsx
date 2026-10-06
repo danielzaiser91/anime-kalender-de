@@ -71,7 +71,10 @@ const TEXTE = {
   // Kurzform für die Übersichtszeile: Stichworte statt Satz — der Vollsatz steht aufgeklappt darunter.
   'news.alle': 'Alles',
   'news.weitere': '+{n} weitere',
-  'news.aeltere': 'Ältere News',
+  'news.aeltere': 'Ältere News (bis {datum})',
+  'news.seit': 'seit {datum}',
+  'news.gleich': '{n} weitere „auch bei …“-Meldungen anzeigen',
+  'news.gleichZu': '„auch bei …“-Meldungen einklappen',
   // Der Chip nennt die Art, die Zeile nennt die Umstände — sonst steht beides zweimal da
   // („Kino 29.09." neben dem Chip „Im Kino").
   'news.kurz.neu': 'bei {anbieter}',

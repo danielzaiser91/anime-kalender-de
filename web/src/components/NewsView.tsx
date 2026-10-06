@@ -12,6 +12,7 @@ import { NachtragText } from './news-nachtrag.tsx'
 import { VerlaufZeilen } from './news-verlauf.tsx'
 import { QuellenKnopf } from './beleg-dialog.tsx'
 import { ohneEingeordnete, verlaeufeAus, type Stand } from '../lib/news-verlauf.ts'
+import { AELTERE_SCHRITT_TAGE, teileGleichmelder } from '../lib/news-gruppen.ts'
 
 /**
  * **Was sich getan hat — ein Anime, ein Tag, eine Zeile.**
@@ -209,8 +210,9 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
     einen button ‚ältere News' anbieten"). Die Filterzähler zählen, was gerade
     gezeigt wird — sonst stünde „Disc 12" über einer Liste mit drei.
   */
-  const [aeltereZeigen, setAeltereZeigen] = useState(false)
-  const grenze = addDays(todayIso(), -14)
+  const [aeltereTage, setAeltereTage] = useState(0)
+  const [gleichOffen, setGleichOffen] = useState<Set<string>>(new Set())
+  const grenze = addDays(todayIso(), -14 - aeltereTage)
 
   useEffect(() => {
     let abgebrochen = false
@@ -225,10 +227,10 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
   /* Überholte Meldungen stehen unter der, die sie überholt hat — nicht mehr in ihrer eigenen Tagesliste. */
   const verlaeufe = useMemo(() => verlaeufeAus(meldungen ?? []), [meldungen])
   const sichtbar = useMemo(
-    () => ohneEingeordnete(aeltereZeigen ? (meldungen ?? []) : (meldungen ?? []).filter((e) => e.am >= grenze), verlaeufe.eingeordnet),
-    [meldungen, aeltereZeigen, grenze, verlaeufe],
+    () => ohneEingeordnete((meldungen ?? []).filter((e) => e.am >= grenze), verlaeufe.eingeordnet),
+    [meldungen, grenze, verlaeufe],
   )
-  const aeltereGibtEs = !aeltereZeigen && ohneEingeordnete(meldungen ?? [], verlaeufe.eingeordnet).some((e) => e.am < grenze)
+  const aeltereGibtEs = ohneEingeordnete(meldungen ?? [], verlaeufe.eingeordnet).some((e) => e.am < grenze)
 
   /* Wie oft jede Art vorkommt — die Filterleiste zeigt nur, was es gibt. */
   const jeArt = useMemo(() => {
@@ -313,7 +315,9 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
   return (
     <section className="mx-auto w-full max-w-5xl px-3 py-4">
       <div className="mb-2 flex items-baseline justify-between gap-3">
-        <h1 className="text-lg font-semibold text-slate-800 dark:text-slate-100">{t('news.titel')}</h1>
+        <h1 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
+          {t('news.titel')} <span className="text-xs font-normal text-slate-500 dark:text-slate-400">· {t('news.seit', { datum: datumKurz(grenze) })}</span>
+        </h1>
         <a href={feedUrl('news.xml')} className="text-xs text-slate-500 underline-offset-2 hover:underline dark:text-slate-400" title={t('news.rssHint')}>
           RSS
         </a>
@@ -326,6 +330,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
           <button
             type="button"
             onClick={() => setFilter(null)}
+            aria-pressed={filter === null}
             className={`rounded-full px-2.5 py-1 text-xs transition ${
               filter === null
                 ? 'bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900'
@@ -339,6 +344,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
               key={a}
               type="button"
               onClick={() => setFilter(filter === a ? null : a)}
+              aria-pressed={filter === a}
               className={`rounded-full px-2.5 py-1 text-xs transition ${
                 filter === a ? 'ring-2 ring-slate-400 dark:ring-slate-500' : 'hover:brightness-95'
               } ${NEWS_FARBE[a]}`}
@@ -351,10 +357,13 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
 
       {meldungen && !tage.length && <p className="text-sm text-slate-500 dark:text-slate-400">{t('news.leer')}</p>}
 
-      {tage.map(([tag, liste]) => (
+      {tage.map(([tag, alle]) => {
+        const { normal, gleich } = teileGleichmelder(alle)
+        const liste = gleichOffen.has(tag) ? [...normal, ...gleich] : normal
+        return (
         <div key={tag} className="mb-4">
-          <h3 className="sticky top-0 z-10 bg-slate-50/90 py-1 text-xs font-semibold uppercase tracking-wide text-slate-500 backdrop-blur dark:bg-slate-950/90 dark:text-slate-400">
-            {tagName(tag)} <span className="font-normal normal-case">· {liste.length}</span>
+          <h3 className="sticky top-0 z-10 bg-slate-50/90 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600 backdrop-blur dark:bg-slate-950/90 dark:text-slate-400">
+            {tagName(tag)}
           </h3>
           {/*
             **Drei Zeilen je Eintrag, zwei Einträge nebeneinander** (Daniel,
@@ -467,16 +476,27 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
               )
             })}
           </ul>
+          {gleich.length > 0 && (
+            <button
+              type="button"
+              aria-expanded={gleichOffen.has(tag)}
+              onClick={() => setGleichOffen((alt) => { const neu = new Set(alt); if (!neu.delete(tag)) neu.add(tag); return neu })}
+              className="mt-1 w-full rounded-lg border border-dashed border-slate-300 py-1.5 text-xs text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
+            >
+              {gleichOffen.has(tag) ? t('news.gleichZu') : t('news.gleich', { n: gleich.length })}
+            </button>
+          )}
         </div>
-      ))}
+        )
+      })}
 
       {aeltereGibtEs && (
         <button
           type="button"
-          onClick={() => setAeltereZeigen(true)}
+          onClick={() => setAeltereTage((n) => n + AELTERE_SCHRITT_TAGE)}
           className="mt-1 w-full rounded-lg border border-slate-200 py-2 text-sm text-slate-600 transition hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900/60"
         >
-          {t('news.aeltere')}
+          {t('news.aeltere', { datum: datumKurz(addDays(grenze, -AELTERE_SCHRITT_TAGE)) })}
         </button>
       )}
     </section>
@@ -510,7 +530,7 @@ function MeldungZeile({
         <button
           type="button"
           onClick={oeffne}
-          className="flex min-w-0 flex-1 items-center gap-2 rounded py-1 pr-1 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
+          className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-0.5 rounded py-1 pr-1 text-left hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-sky-500 dark:hover:bg-slate-900/60"
         >
           <span className={`shrink-0 rounded px-1.5 py-0.5 text-[11px] ${NEWS_FARBE[m.art]}`}>
             {artLabel(m)}
@@ -521,7 +541,7 @@ function MeldungZeile({
             </span>
           )}
           <span
-            className={`min-w-0 flex-1 truncate text-xs ${
+            className={`min-w-0 flex-1 basis-40 text-xs ${
               m.ersetzt || m.zurueckgezogen
                 ? 'text-slate-400 line-through dark:text-slate-500'
                 : 'text-slate-600 dark:text-slate-300'

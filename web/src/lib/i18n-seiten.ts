@@ -17,7 +17,7 @@ export const TEXTE_SEITEN = {
   'news.quelleVeroeffentlicht': '{name} · veröffentlicht am {datum}',
   'news.quelleAktualisiert': '{name} · veröffentlicht am {datum}, aktualisiert am {aktualisiert}',
   'antwort.deSeitDisc': 'Die deutsche Tonspur steht bei der Disc-Ausgabe laut aniSearch (Bonus oder Teil der Ausgabe) — ob dieses Werk selbst gesprochen ist, ist nicht je Titel belegt.',
-  'news.art.angekuendigtNeuerAnbieter': 'Angekündigt · neuer Anbieter',
+  'news.art.angekuendigtNeuerAnbieter': 'Angekündigt',
   'news.lautQuelle': '— laut {quelle} vom {datum}',
   'detail.laufzeit': '{n} Min.',
   'detail.laufzeitJe': 'je {n} Min.',

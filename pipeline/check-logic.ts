@@ -167,6 +167,7 @@ import { unzugeordnet } from './lib/sammel-unzugeordnet.ts'
 import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
 import { namensanfangMindestens } from '../shared/namensgebunden.ts'
 import { bereinigeNews } from './lib/news-bereinigen.ts'
+import { teileGleichmelder } from '../web/src/lib/news-gruppen.ts'
 import { alarmEntscheidung } from '../shared/schnellmessung-regeln.ts'
 import { NAMENSGEBUNDENE_RELATIONEN } from '../shared/namensgebunden.ts'
 import { schnellSetzen, schnellZustand, type SchnellId } from '../web/src/lib/schnellfilter.ts'
@@ -8031,6 +8032,13 @@ console.log('\nCharakter-Beziehung:')
 {
   pruefe('Charakter: wie OTHER nur mit Namensprüfung', NAMENSGEBUNDENE_RELATIONEN.has('CHARACTER') && !FRANCHISE_RELATIONS.has('CHARACTER'))
   pruefe('Charakter: Black Jack und Black Jack: Capital Transfer To Heian gehören zusammen', otherZaehlt(['Black Jack: Heian Sento', 'Black Jack: Capital Transfer To Heian'], ['Black Jack', 'Black Jack']))
+  {
+    const eintrag = (id: number, weiterer: boolean) => ({ am: '2026-10-03', titelId: id, titel: 'T' + id, slug: 't', meldungen: [{ art: 'neu', platform: 'joyn', weiterer }] }) as never as import('../shared/types.ts').NewsEintrag
+    const viele = [1, 2, 3, 4, 5].map((i) => eintrag(i, true)).concat([eintrag(9, false)])
+    const geteilt = teileGleichmelder(viele)
+    pruefe('News-Ansicht: ab vier „auch bei"-Einträgen je Tag werden sie eingeklappt, der Rest bleibt', geteilt.gleich.length === 5 && geteilt.normal.length === 1)
+    pruefe('News-Ansicht: unter vier bleibt alles beisammen', teileGleichmelder(viele.slice(0, 3)).gleich.length === 0)
+  }
   {
     const t = { id: 7 } as never
     const basis = { art: 'angekuendigt', platform: 'adn', datum: '2026-10-12', release: 'r1', quelle: 'https://q/1', am: '2026-10-05', titel: t, schluessel: 'a' } as never as import('./lib/news-verlauf.ts').DatiertNews
