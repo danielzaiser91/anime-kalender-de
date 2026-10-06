@@ -159,7 +159,8 @@
     # Anime2You (04.10.2026): „1 von 20 verfügbar", „Jeden Samstag eine neue Episode", Deutsch und Japanisch mit Untertiteln.
     observed:
       1: "2026-10-03"
-  note: "Prime Video zeigt die Serie mit deutscher Sprachfassung und im Original mit Untertiteln im Simulcast; heise nennt den 04.10. für den Amazon-Start, Anime2You den 03.10. (Samstag)."
+  # heise nennt den 04.10. für den Amazon-Start, Anime2You den 03.10. (Samstag); es gilt Anime2You.
+  note: "Prime Video zeigt die Serie mit deutscher Sprachfassung und im Original mit Untertiteln im Simulcast."
   sources:
     - https://www.anime2you.de/news/1057464/prime-video-marronniers-und-mehr/
     - https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/
@@ -227,7 +228,7 @@
   platform: disneyplus
   releaseType: movie
   schedule: { firstEpisodeDate: "2026-09-28" }
-  note: "Anime2You nannte am 24.09. den 27.09., am 28.09. den 28.09.; es gilt die spätere Meldung."
+  # Anime2You nannte am 24.09. den 27.09., am 28.09. den 28.09.; es gilt die spätere Meldung.
   sources:
     - https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/
 
