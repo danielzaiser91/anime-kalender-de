@@ -2021,5 +2021,95 @@
   "7th-prince-s2-box": {},
   "my-happy-marriage-special-netflix": {},
   "tokyo-revengers-s3-disneyplus": {},
-  "tokyo-revengers-s3-disneyplus-wochentakt": {}
+  "tokyo-revengers-s3-disneyplus-wochentakt": {},
+  "naruto-shippuden-s3-disneyplus": {
+    "tmdbId": 31910,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/31910/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "primevideo",
+      "disneyplus",
+      "crunchyroll",
+      "rtlplus"
+    ]
+  },
+  "bleach-diamonddust-rebellion-adn": {
+    "tmdbId": 17101,
+    "fsk": 12
+  },
+  "bleach-fade-to-black-adn": {
+    "tmdbId": 17165,
+    "fsk": 16
+  },
+  "bleach-hell-verse-adn": {
+    "tmdbId": 73245,
+    "fsk": 16
+  },
+  "my-hero-academia-vigilantes-s1-netflix": {
+    "tmdbId": 280110,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/280110-illegals/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "my-hero-academia-vigilantes-s2-netflix": {},
+  "ranma-s3-folge1-netflix": {}
 }

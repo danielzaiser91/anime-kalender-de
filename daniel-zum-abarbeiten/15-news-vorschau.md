@@ -1,6 +1,6 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-05. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-06. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
@@ -10,7 +10,6 @@ Stand: 2026-10-05. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 |---|---|---|---|
 | 2026-10 (Monat) | primevideo, aniverse | ✅ zugesagt | [Neue Anime-Katalogtitel im Oktober 2026 bei aniverse](https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/) |
 | 2026-10-31, 2026-10 (Monat) | disc | – unklar | [AniMoon-Angebot: Dritte »ARIFURETA«-Staffel zum Sonderpreis](https://www.anime2you.de/news/1056076/animoon-arifureta-staffel-3-sonderpreis/) |
-| 2026-10 (Monat) | adn | – unklar | [ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an](https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/) |
 | 2026-10 (Monat) | disc | – unklar | [Anime-Neuheiten im Oktober 2026 auf DVD und Blu-ray](https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/) |
 | 2026-10-27, 2026-10 (Monat) | kino | – unklar | [In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm](https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/) |
 | 2026-10 (Monat) | adn | – unklar | [ADN nimmt »86 EIGHTY-SIX« in sein Programm auf](https://www.anime2you.de/news/1052781/86-eighty-six-bald-auf-adn/) |
@@ -24,7 +23,7 @@ Stand: 2026-10-05. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-10-22, 2026-10 (Monat) | disc | – unklar | [Disc-Termin von »There’s No Freaking Way I’ll Be Your Lover! Unless…«](https://www.anime2you.de/news/1043903/theres-no-freaking-way-ill-be-your-lover-unless-disc-termin/) |
 | 2026-10-30, 2026-10 (Monat) | disc | – unklar | [Erste »DAN DA DAN«-Staffel erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1039547/dan-da-dan-staffel-1-blu-ray-komplettbox/) |
 | 2026-10-16, 2026-10 (Monat) | crunchyroll, disc | – unklar | [Design der Blu-ray-Box der vierten »Rent-A-Girlfriend«-Staffel + Extras](https://www.anime2you.de/news/1039040/rent-a-girlfriend-staffel-4-box-design/) |
-| 2026-10-05 | ? | – unklar | [Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN](https://www.anime2you.de/news/1055796/mediamarkt-saturn-neue-mehrwertsteuer-aktion/) |
+| 2026-10-07 | ? | – unklar | [Amazon startet Prime Deal Days mit XXL-Anime-Angeboten](https://www.anime2you.de/news/1057737/amazon-prime-deal-days-2026/) |
 | 2026-10-10 | netflix | – unklar | [Action-Anime »Rooster Fighter« bald auf Netflix verfügbar](https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/) |
 | 2026-10-11, 2026-10-18 | crunchyroll, netflix, adn | – unklar | [Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast](https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/) |
 | 2026-10-17 | crunchyroll, adn | – unklar | [Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer](https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/) |
@@ -48,6 +47,7 @@ Stand: 2026-10-05. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-06, 2026-11 (Monat) | crunchyroll, disc | ✅ zugesagt | [Erste »A Wild Last Boss Appeared!«-Staffel erscheint auf Blu-ray](https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/) |
 | 2026-11-19, 2026-11 (Monat) | disc | – unklar | [»Kubo Won’t Let Me Be Invisible« erscheint als Blu-ray-Komplettbox](https://www.anime2you.de/news/1044503/kubo-wont-let-me-be-invisible-blu-ray-komplettbox/) |
 | 2026-11 (Monat) | crunchyroll, disc | – unklar | [Erste »Clevatess«-Staffel erscheint als Limited Edition auf Blu-ray](https://www.anime2you.de/news/1044108/clevatess-staffel-1-blu-ray-release/) |
+| 2026-11 (Monat) | crunchyroll, disc | – unklar | [Vierte »Rising of the Shield Hero«-Staffel erscheint auf Blu-ray + Design](https://www.anime2you.de/news/1044133/shield-hero-staffel-4-blu-ray-release/) |
 
 … und 34 weitere.
 
@@ -56,42 +56,42 @@ Stand: 2026-10-05. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 5 |
-| adn-catalog | 7.1 Tage her | 117 |
+| adn-catalog | 0.5 Tage her | 108 |
 | adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 7.1 Tage her | 0 |
-| anime-offline-database | 7.1 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 82 |
-| anisearch | 0.1 Tage her | 3196 |
-| anisearch-folgen | 7.1 Tage her | 117 |
-| ann-voices | 7.1 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 1 |
-| cartoons | 0.1 Tage her | 0 |
-| cinestar | 7.1 Tage her | 1 |
-| cr-einzelwerke | 12.1 Tage her | 0 |
-| cr-filmbloecke | 12.1 Tage her | 0 |
+| anilist-voices | 0.6 Tage her | 0 |
+| anime-offline-database | 0.6 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 84 |
+| anisearch | 0.6 Tage her | 3196 |
+| anisearch-folgen | 0.6 Tage her | 440 |
+| ann-voices | 0.6 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 60 |
+| cartoons | 0.6 Tage her | 0 |
+| cinestar | 0.6 Tage her | 1 |
+| cr-einzelwerke | 12.7 Tage her | 0 |
+| cr-filmbloecke | 12.7 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 19 |
-| crunchyroll-dub | 0.1 Tage her | 1109 |
+| crunchyroll-dub | 0.6 Tage her | 1120 |
 | crunchyroll-neu | 0.0 Tage her | 103 |
-| crunchyroll-offene | 7.1 Tage her | 5 |
-| crunchyroll-woche | 0.1 Tage her | 0 |
-| fsk | 7.1 Tage her | 4 |
-| justwatch-audio | 12.1 Tage her | 0 |
-| kinoheld | 7.1 Tage her | 0 |
-| link-check | 7.1 Tage her | 400 |
+| crunchyroll-offene | 0.6 Tage her | 7 |
+| crunchyroll-woche | 0.0 Tage her | 64 |
+| fsk | 0.6 Tage her | 3 |
+| justwatch-audio | 0.6 Tage her | 29 |
+| kinoheld | 0.6 Tage her | 0 |
+| link-check | 0.5 Tage her | 287 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 33.2 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 0 |
-| rohfolgen | 2.0 Tage her | 0 |
-| rtlplus-folgen | 7.1 Tage her | 2 |
-| tmdb-folgen | 7.1 Tage her | 858 |
-| tmdb-kino | 7.1 Tage her | 4 |
-| tmdb-titles | 7.1 Tage her | 400 |
+| motn | 33.8 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 1 |
+| rohfolgen | 0.5 Tage her | 0 |
+| rtlplus-folgen | 0.6 Tage her | 2 |
+| tmdb-folgen | 0.6 Tage her | 861 |
+| tmdb-kino | 0.6 Tage her | 3 |
+| tmdb-titles | 0.6 Tage her | 400 |
 | toggo | 0.0 Tage her | 20 |
-| trailer | 0.1 Tage her | 0 |
-| tv-de | 0.6 Tage her | 0 |
-| tv-programm | 0.0 Tage her | 293 |
+| trailer | 0.6 Tage her | 0 |
+| tv-de | 0.2 Tage her | 34 |
+| tv-programm | 0.0 Tage her | 294 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 7.1 Tage her | 4740 |
-| wikidata-titel | 7.1 Tage her | 26 |
+| wikidata-imdb | 0.6 Tage her | 4766 |
+| wikidata-titel | 0.6 Tage her | 26 |
 | wikipedia-folgen | 0.0 Tage her | 7 |
-| youtube-check | 7.1 Tage her | 1 |
+| youtube-check | 0.6 Tage her | 1 |
