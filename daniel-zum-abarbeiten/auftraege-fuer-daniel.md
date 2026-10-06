@@ -34,8 +34,10 @@ Stand: 06.10.2026 10:15
    Der Endpoint nennt 5 + 297 + 72 Titel mit deutscher Synchro, die bei uns fehlen, und 161 Titel von uns, die aniSearch ohne Deutsch führt. Ich würde daraus eine Liste bauen, die nichts automatisch ändert.
    - Sag „ja" oder „nein".
 
-9. **Antwort von Dominik (aniSearch) abwarten**
-   Du hast die Mail am 05.10. abgeschickt. Fragen darin: Passt die Quellenzeile, und was heißt „unter Vorbehalt". Bis zur Antwort ändere ich nichts mehr an aniSearch.
+9. **Antwort von Dominik (aniSearch) abschicken** — seine Bedingung ist erfüllt und gemessen
+   Dominik hat am 06.10. geantwortet: Der „Vorbehalt" war die fehlende direkte Verlinkung bei den übernommenen Beschreibungen, und unser Beispiel führte noch auf die Suche. Jetzt tragen 2.495 von 2.495 Quellenlinks die Titelseite mit Slug (im gebauten Datensatz gemessen), die Pille und die Quellenübersicht ebenfalls, wo die Beschreibung von aniSearch kommt.
+   - Entwurf zum Abschicken (Anrede wie in seiner Mail, du): [antwort-an-dominik-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/antwort-an-dominik-2026-10-06.md)
+   - Falsch, wenn: ein aniSearch-Link in der Beschreibungsquelle eines Titels noch `/search?q=` enthält (Panel öffnen, „Quelle: aniSearch" anklicken).
 
 10. **Entscheidung: Hosting** (Recherche liegt vor: [hosting-vergleich-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/hosting-vergleich-2026-10-06.md))
    Empfehlung: GitHub Pages vorerst behalten und Cloudflare (Workers Static Assets, 0 €, Zone liegt schon dort) als zweites Deploy-Ziel vorbereiten. Umschalten, wenn die 30-Tage-Messung (`site_probe`) unter 99,9 % liegt oder ein Ausfall der ausgelieferten Seite belegt ist. Pages bleibt dann als Rückfall.
