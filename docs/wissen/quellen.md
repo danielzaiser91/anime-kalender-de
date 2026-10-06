@@ -3144,3 +3144,12 @@ Abruf mit Token am 05.10.2026 ca. 22:30 (je ein Aufruf: `/v1/anime/dubs`, `/asso
 - **Abgebrochen (`canceled` de):** 67 Titel; 35 im Hauptbestand, 22 bei uns ohne Synchro.
 - **Gegenprobe Hauptbestand:** 161 unserer Titel mit MAL-Kennung nennt aniSearch ohne Deutsch (z. B. Rozen Maiden: Dreaming und Cardcaptor Sakura mit `canceled: de`, Yu-Gi-Oh! GX und Hamtaro ebenfalls, bei uns `high`/`very-high`). Das ist eine Prüfliste für Handbelege, kein Beweis gegen uns.
 - **Nutzen:** (1) täglich eine Prüfliste „aniSearch kennt de, wir nicht" (5 + 297 + 72) und „wir behaupten de, aniSearch nicht" (161); (2) `planned` als Hinweis auf Ankündigungen (Beleg bleibt aniSearch); (3) kein Ersatz für Belege, weil `dubbed` keine Folgen, Plattformen oder Termine nennt. **Noch nicht eingebaut.** Messskripte liegen nur im Scratchpad; vor dem Bau die 5 + 7 Titel von Hand ansehen.
+
+## Cover: Rückfall für kleine AniList-Cover (gemessen 06.10.2026)
+
+Bericht: alle 2.787 Titel haben ein AniList-Cover. 2.236 (80,2 %) liegen als 460-px-Datei vor (höher gibt AniList nicht her), 551 (19,8 %) nur als `medium` mit ca. 225 px, einer (AniList 204585) hat den Platzhalter `default.jpg`.
+
+- **Kitsu** (kein Key, Zuordnung per MAL-ID): 14 von 15 Stichproben richtig samt Staffel, `original` in 11 von 14 größer als AniList (bis 2230×3230); bei den kleinen AniList-Covern 2 von 4 verbessert. Nutzungsbedingungen hinter Cloudflare nicht lesbar, also keine belegte Erlaubnis.
+- **TMDB**: AGB gelesen. Nichtkommerziell frei mit Logo und „not endorsed or certified by TMDB", Cache höchstens 6 Monate, bei Erlösabsicht Vertrag mit sales@themoviedb.org. Auflösung nicht gemessen (Key nur in der CI nutzbar), Anime-Passung schwach.
+- **TheTVDB** frei unter 50.000 USD Jahresumsatz mit Link-Attribution; Jikan von hier nicht erreichbar; Fanart.tv gesperrt.
+- **Empfehlung:** Rückfall nur für die 552 Titel mit `medium`/Platzhalter, nicht für die 460er. Aufwand 0,5–1 Tag (Feld in `pipeline/lib/anilist.ts`, Auswahl in `bau/13-1-anreichern.ts`/`13-5-kerndateien.ts`, Attribution im Impressum). Vorher klären: Kitsu-Nutzungsaussage, ob die Seite als kommerziell gilt.
