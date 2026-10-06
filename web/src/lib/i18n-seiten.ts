@@ -37,7 +37,7 @@ export const TEXTE_SEITEN = {
   'db.ohne': 'ohne',
   'news.art.nachgetragen': 'Rückwirkend eingetragen',
   'detail.merkenGoogleSerie': 'Google Kalender · jede Woche',
-  'detail.folgenFortschritt': '{raus} von {gesamt} Fg.',
+  'detail.folgenFortschritt': '{raus} Fg.',
   'news.nachtrag.quelle': 'Uhrzeit und Quelle',
   'news.nachtrag.grund': 'Warum erst jetzt',
   'news.nachtrag.abhilfe': 'Was wir geändert haben',

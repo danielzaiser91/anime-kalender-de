@@ -434,14 +434,14 @@ export function ReleasePille({
   */
   const datum = release.schedule?.firstEpisodeDate
   /*
-    **Wie weit eine laufende Wochenserie ist** (Daniel, 04.10.2026: „1 Folge erschienen" fehlt in der Pille): nur wo die
-    Folgenzahl belegt ist und noch etwas aussteht.
+    **Wie weit eine laufende Wochenserie ist** (Daniel, 04.10.2026; 06.10.2026: „folge ist wichtiger" als „seit"): die Zahl der
+    erschienenen Folgen, ohne Gesamtzahl — bei zwei Anbietern mit versetztem Start unterscheidet sie sie, das gleiche „seit" nicht.
+    Das Startdatum folgt dahinter („1 Fg. · seit 04.10.2026").
   */
   const fortschritt = ((): string => {
-    if (release.releaseType !== 'weekly' || release.platform === 'tv' || release.schedule?.episodeCountAssumed) return ''
-    const termine = expandEvents(release)
-    const raus = termine.filter((e) => istErschienen(e)).length
-    return raus > 0 && raus < termine.length ? t('detail.folgenFortschritt', { raus, gesamt: termine.length }) : ''
+    if (release.releaseType !== 'weekly' || release.platform === 'tv') return ''
+    const raus = expandEvents(release).filter((e) => istErschienen(e)).length
+    return raus > 0 ? t('detail.folgenFortschritt', { raus }) : ''
   })()
   /* Ein TOGGO-Sender trägt TOGGOs Orange, nicht das allgemeine TV-Grün. */
   const farbe = /^TOGGO/i.test(release.sender ?? '')
@@ -556,6 +556,7 @@ export function ReleasePille({
           */}
           {[
             zweite,
+            fortschritt,
             /*
               Bei einer TV-Sichtung ist das Datum unsere erste Sichtung, kein Start. Genannt wird
               der nächste Sendetag, sonst die letzte Sichtung — „im TV am 23.09." über einer
@@ -575,7 +576,6 @@ export function ReleasePille({
                   ),
                 })
               : datum && t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) }),
-            fortschritt,
           ]
             .filter(Boolean)
             .join(' · ')
