@@ -3,27 +3,27 @@
   "ueberlaenge": {
     "pipeline": {
       "funktionen": 11142,
-      "dateien": 1496
+      "dateien": 1487
     },
     "shared": {
       "funktionen": 247,
       "dateien": 443
     },
     "web/src": {
-      "funktionen": 6051,
-      "dateien": 1225
+      "funktionen": 5892,
+      "dateien": 1168
     },
     "worker/src": {
-      "funktionen": 1176,
-      "dateien": 870
+      "funktionen": 1159,
+      "dateien": 830
     },
     "extension": {
-      "funktionen": 7435,
-      "dateien": 16809
+      "funktionen": 7355,
+      "dateien": 16691
     },
     "tools": {
-      "funktionen": 270,
-      "dateien": 107
+      "funktionen": 265,
+      "dateien": 101
     }
   }
 }
