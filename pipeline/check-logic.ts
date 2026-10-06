@@ -8378,7 +8378,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   pruefe('Special unter geteiltem Serien-Treffer erbt nichts (Death Note: Relight)', !darfTrefferErben(special, serie))
   pruefe('Special mit gleicher Folgenzahl behält den Treffer', darfTrefferErben({ ...special, episodes: 37 }, serie))
   pruefe('Special, dessen Name der Treffer trägt, behält ihn', darfTrefferErben({ ...special, namen: ['death note'] }, serie))
-  pruefe('Treffer ohne TV-Geschwister bleibt (Kakegurui Twin)', darfTrefferErben({ ...special, format: 'ONA' }, { ...serie, teiltMitSerie: false }))
+  pruefe('Treffer ohne TV-Geschwister bleibt (Kakegurui Twin); ein SPECIAL erbt auch dann nichts (Picture Drama)', darfTrefferErben({ ...special, format: 'ONA' }, { ...serie, teiltMitSerie: false }) && !darfTrefferErben(special, { ...serie, teiltMitSerie: false }))
   pruefe('TV und Filmtreffer bleiben unberührt', darfTrefferErben({ ...special, format: 'TV' }, serie) && darfTrefferErben(special, { ...serie, art: 'film' }))
   const mini = gesperrteSerienTreffer({
     medien: [{ id: 1, format: 'TV', episodes: 37, title: { romaji: 'Death Note', english: null } }, { id: 2, format: 'SPECIAL', episodes: 1, title: { romaji: 'Relight', english: null } }],

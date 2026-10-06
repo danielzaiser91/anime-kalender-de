@@ -32,7 +32,7 @@ export function darfTrefferErben(titel: TitelAngabe, treffer: TrefferAngabe): bo
   if (!KURZFORMEN.includes(titel.format ?? '') || treffer.art !== 'serie') return true
   if (titel.namen.some((n) => n && treffer.namen.includes(n))) return true
   if (titel.episodes !== null && treffer.folgen.includes(titel.episodes)) return true
-  return !treffer.teiltMitSerie
+  return !treffer.teiltMitSerie && titel.format !== 'SPECIAL'
 }
 
 export interface MedienAngabe {
