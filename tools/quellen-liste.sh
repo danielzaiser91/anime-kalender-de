@@ -23,6 +23,7 @@ QUELLEN=(
   data/anisearch-titel.json
   data/anisearch-artikel.json
   data/anisearch-sprecher.json
+  data/anisearch-slugs.json
   data/wikidata-titel.json
   data/titel-de.yaml
   # „Auf Deutsch seit" von Hand, wo aniSearchs Datum den Untertitel-Start meint (19.09.2026).
