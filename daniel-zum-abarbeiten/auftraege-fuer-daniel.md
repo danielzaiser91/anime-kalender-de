@@ -35,7 +35,7 @@ Stand: 06.10.2026 10:15
    - Sag „ja" oder „nein".
 
 9. **Antwort von Dominik (aniSearch) abschicken** — seine Bedingung ist erfüllt und gemessen
-   Dominik hat am 06.10. geantwortet: Der „Vorbehalt" war die fehlende direkte Verlinkung bei den übernommenen Beschreibungen, und unser Beispiel führte noch auf die Suche. Jetzt tragen 2.495 von 2.495 Quellenlinks die Titelseite mit Slug (im gebauten Datensatz gemessen), die Pille und die Quellenübersicht ebenfalls, wo die Beschreibung von aniSearch kommt.
+   Dominik hat am 06.10. geantwortet: Der „Vorbehalt" war die fehlende direkte Verlinkung bei den übernommenen Beschreibungen, und unser Beispiel führte noch auf die Suche. Jetzt tragen 2.495 von 2.495 Quellenlinks die Titelseite mit Slug (im gebauten Datensatz gemessen), die Pille und die Quellenübersicht überall, wo wir eine Kennung haben (live bei One Piece, Gantz, Ranma S3 geprüft).
    - Entwurf zum Abschicken (Anrede wie in seiner Mail, du): [antwort-an-dominik-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/antwort-an-dominik-2026-10-06.md)
    - Falsch, wenn: ein aniSearch-Link in der Beschreibungsquelle eines Titels noch `/search?q=` enthält (Panel öffnen, „Quelle: aniSearch" anklicken).
 

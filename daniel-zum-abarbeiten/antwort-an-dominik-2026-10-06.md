@@ -10,11 +10,11 @@ Jetzt führt jeder Quellenlink an einer von euch übernommenen Beschreibung dire
 
 Die Slugs holen wir über den Endpunkt aus deiner Mail, einmal pro Woche in einem Abruf. Für 135 Titel, bei denen uns die Kennung fehlte, habe ich außerdem eure eigene Zuordnung /v1/anime/associated genutzt. Sie stimmt bei 2.627 von 2.628 Titeln mit unserer überein, in einem Fall hat sie uns korrigiert.
 
-Der aniSearch-Link neben dem Cover und die Quellenübersicht im Panel führen ebenfalls auf die Adresse mit Slug, wo die Beschreibung von euch stammt. Wo sie anderswo herkommt, gehen sie über die Kennung allein, dort leitet aniSearch einmal um. Bei 17 Titeln kennen wir noch keine Kennung, dort steht weiter der Link zur Suche.
+Der aniSearch-Link neben dem Cover und die Quellenübersicht im Panel führen überall dort auf die Adresse mit Slug, wo wir eine Kennung kennen (stichprobenhaft live geprüft: One Piece, Gantz, Ranma 1/2 Staffel 3). Bei 17 Titeln kennen wir noch keine Kennung, dort steht weiter der Link zur Suche.
 
 Viele Grüße
 Daniel
 
 ---
 
-Stand der Messung: 06.10.2026, Bestandsbau 18:03 Uhr; Live-Probe One Piece (Pille und Quellenübersicht mit Slug), Gantz und Ranma 1/2 S3 (Kennung ohne Slug).
+Stand der Messung: 06.10.2026, Bestandsbau 18:03 Uhr; Live-Probe One Piece, Gantz und Ranma 1/2 S3: Pille mit Slug (Deploy nach dem Bau von 20:08 Uhr).
