@@ -146,3 +146,33 @@
     - https://tokyo-revengers-anime.com/news/archives/4935
     - https://press.disneyplus.com/news/next-on-disney-plus-october-2026
     - https://www.anime2you.de/news/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/
+
+# Nachtrag 06.10.2026 aus dem Abgleich mit heise (Neue Filme und Serien im Oktober 2026) und Anime2You: Prime Video, deutsche Synchro und OmU im Simulcast.
+- slug: seven-knights-marronnier-kingdom-primevideo
+  anilistId: 212799
+  titleDe: "Die sieben Ritter des Königreichs der Marronniers"
+  platform: primevideo
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-03"
+    episodeCount: 20
+    # Anime2You (04.10.2026): „1 von 20 verfügbar", „Jeden Samstag eine neue Episode", Deutsch und Japanisch mit Untertiteln.
+    observed:
+      1: "2026-10-03"
+  note: "Prime Video zeigt die Serie mit deutscher Sprachfassung und im Original mit Untertiteln im Simulcast; heise nennt den 04.10. für den Amazon-Start, Anime2You den 03.10. (Samstag)."
+  sources:
+    - https://www.anime2you.de/news/1057464/prime-video-marronniers-und-mehr/
+    - https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/
+
+- slug: tank-chair-primevideo
+  anilistId: 209499
+  titleDe: "Tank Chair"
+  platform: primevideo
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-04"
+    # Anime2You (04.10.2026): ab sofort, „Jeden Sonntag eine neue Episode", Deutsch und Japanisch (UT). Die Folgenzahl nennt die Meldung nicht.
+    observed:
+      1: "2026-10-04"
+  sources:
+    - https://www.anime2you.de/news/1057464/prime-video-marronniers-und-mehr/
