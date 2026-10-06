@@ -326,5 +326,21 @@
     - name: KSM Anime — Complete Edition (AKIBA PASS Shop)
       url: https://akibapassshop.de/products/25ksm036-trinity-seven-complete-edition-bluray
       kind: buy
+    # Apple TV: Daniels Fundstelle vom 03.10.2026 („12 Folgen deutsch"); die Seite ist JS-gerendert, ein Abruf am 06.10.2026 las dort „nur Japanisch" (unzuverlässig).
+    - name: Apple TV
+      url: https://tv.apple.com/de/show/trinity-seven/umc.cmc.7eakl74wi015vmpq0tu4a62oy
+      kind: stream
   sources:
     - https://akibapassshop.de/products/25ksm036-trinity-seven-complete-edition-bluray
+    - https://tv.apple.com/de/show/trinity-seven/umc.cmc.7eakl74wi015vmpq0tu4a62oy
+
+# Trinity Seven Film 1 (Eternity Library & Alchemic Girl): Amazon-Seite aus Daniels Fundstelle vom 03.10.2026 (Kauf/Leihe und aniverse); beim Prüfen am 06.10.2026
+# nicht abrufbar (HTTP 503). Im Bestand stand bisher nur B07PT38YPQ ohne Folgen.
+- anilistId: 21874
+  title: 'Trinity Seven: Eternity Library & Alchemic Girl'
+  links:
+    - name: Amazon (Kauf/Leihe, aniverse)
+      url: https://www.amazon.de/gp/video/detail/0OJUVIHWYKKJRXYFBZBRU1KP78
+      kind: buy
+  sources:
+    - https://www.amazon.de/gp/video/detail/0OJUVIHWYKKJRXYFBZBRU1KP78
