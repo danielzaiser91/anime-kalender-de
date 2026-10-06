@@ -50,6 +50,8 @@ export interface NewsMeldung {
   kanal?: string
   /** Bei `neu`: ein weiterer Anbieter, nicht die erste Synchro des Titels (18.09.2026). */
   weiterer?: boolean
+  /** Bei `neu` und `angekuendigt` (Streaming): Jahre seit dem japanischen Start (ab fünf) — „Nach 14 Jahren endlich …"; `discSeitText`: so lange gibt es die deutsche Fassung schon auf Disc („4 Monaten"). */
+  jahre?: number; discSeitText?: string
   /** Bei `angekuendigt`: Start nur mit Untertiteln (OmU) — ob eine deutsche Synchro angekündigt ist (Daniel, 06.10.2026: beide Auskünfte sind interessant). */
   omu?: 'synchro-angekuendigt' | 'synchro-offen'
   /** Bei `disc`: welche Ausgabe („Vol. 1/2", „Gesamtausgabe", „Box 9") — ohne sie sagt der Satz bei jedem Volume dasselbe. */

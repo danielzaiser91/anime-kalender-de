@@ -30,3 +30,18 @@ export function neuZeile(t: Pick<Title, 'jpStartTag'>, r: Pick<Release, 'release
   }
   return teile.join(' · ')
 }
+
+/**
+ * **„Nach 14 Jahren endlich …"** (Daniel, 06.10.2026, an Kamisama Kiss): Liegt der japanische Start mindestens fünf Jahre zurück, nennt die
+ * Meldung die Jahre und freut sich mit. Gab es die deutsche Fassung schon vorher auf Disc oder im TV (aniSearch, `deErstausgabe` mit
+ * Synchro, mindestens drei Monate früher), heißt es „endlich im Stream" und die Dauer steht dabei.
+ */
+export function neuJahre(t: Pick<Title, 'jpYear' | 'deErstausgabe'>, tag: string): { jahre?: number; discSeitText?: string } {
+  const jahre = t.jpYear ? Number(tag.slice(0, 4)) - t.jpYear : 0
+  if (jahre < 5) return {}
+  const von = t.deErstausgabe?.synchro && t.deErstausgabe.von
+  const tage = von ? tagesDiff(tag, von) : 0
+  if (!von || tage < 90) return { jahre }
+  const monate = Math.round(tage / 30.4)
+  return { jahre, discSeitText: monate < 24 ? `${monate} Monaten` : `${Math.floor(monate / 12)} Jahren` }
+}

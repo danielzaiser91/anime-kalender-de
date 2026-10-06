@@ -49,6 +49,7 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
   const datum = m.datum ? datumKurz(m.datum) : ''
   switch (m.art) {
     case 'neu':
+      if (m.jahre && anbieter) return t(m.discSeitText ? 'news.neuNachJahrenStream' : 'news.neuNachJahren', { jahre: m.jahre, anbieter, disc: m.discSeitText ?? '' })
       if (m.weiterer) return t('news.auchBei', { anbieter })
       return anbieter ? t('news.neu', { anbieter }) : t('news.neuOhne')
     case 'folgen':
@@ -60,6 +61,7 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
          eigene, leisere Zeile daneben — in der Übersicht kurz, im Aufgeklappten ausführlich. */
       if (m.omu) return t(m.omu === 'synchro-angekuendigt' ? 'news.omuAngekuendigt' : 'news.omuOffen', { datum, anbieter }) + lautQuelle(m, am)
       if (m.platform === 'tv' && m.datum) return t('news.angekuendigtTv', { sender: m.anbieter ? ` bei ${m.anbieter}` : '', tag: weekdayName(m.datum), datum }) + lautQuelle(m, am)
+      if (m.jahre && anbieter) return t(m.discSeitText ? 'news.angekNachJahrenStream' : 'news.angekNachJahren', { jahre: m.jahre, datum, anbieter, disc: m.discSeitText ?? '' }) + lautQuelle(m, am)
       return t('news.angekuendigt', { datum, anbieter }) + lautQuelle(m, am)
     case 'disc':
       return t(m.ausgabe ? 'news.discAusgabe' : 'news.disc', { datum, ausgabe: m.ausgabe ?? '' }) + lautQuelle(m, am)

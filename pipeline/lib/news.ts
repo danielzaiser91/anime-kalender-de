@@ -33,7 +33,7 @@ import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
-import { neuZeile } from './news-neu-zeile.ts'
+import { neuJahre, neuZeile } from './news-neu-zeile.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -155,7 +155,7 @@ function terminMeldungen(
         ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),
         quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => s.dub === true && s.platform !== r.platform)) ? { weiterer: true } : {}),
         /* Eine angekündigte Staffel trägt ihre Einordnung im Satz (Simuldub-Vermutung). */
-        ...(art === 'angekuendigt' && r.schedule?.estimated && r.note ? { hinweis: r.note } : {}),
+        ...(art === 'angekuendigt' && r.schedule?.estimated && r.note ? { hinweis: r.note } : {}), ...(art === 'angekuendigt' && r.platform !== 'tv' ? neuJahre(t, datum) : {}),
       })
     }
     for (const m of verspaetungsMeldungen(r)) raus.push({ ...m, titel: t })
@@ -300,7 +300,7 @@ export function baueNews(
       ...kopf(t),
       platform: anbieter ?? (erreichtRelease && !['kino', 'tv'].includes(erreichtRelease.platform) ? erreichtRelease.platform : undefined),
       quelle: t.streams.find((s) => s.dub === true && s.platform === anbieter)?.url ?? (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
-      belege: (erreichtRelease && belegeVonRelease(erreichtRelease)) || undefined, hinweis: neuZeile(t, erreichtRelease, heute),
+      belege: (erreichtRelease && belegeVonRelease(erreichtRelease)) || undefined, hinweis: neuZeile(t, erreichtRelease, heute), ...neuJahre(t, erreicht ?? n.seit),
     })
   }
 

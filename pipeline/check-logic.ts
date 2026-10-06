@@ -194,7 +194,7 @@ import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts
 import { aehnlicherKern, einzigeJeSlug, releasesAusTvProgramm, sendungNeuZuordnen, tvdeSendeplatz } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
 import { anisearchKanonisch, anisearchSeite } from './lib/anisearch-seite.ts'
-import { neuZeile } from './lib/news-neu-zeile.ts'
+import { neuJahre, neuZeile } from './lib/news-neu-zeile.ts'
 import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
 import { passendeAdresse } from './fetch-kinoheld.ts'
@@ -8382,6 +8382,9 @@ console.log('\nFolgentitel aus Crunchyroll:')
   pruefe('Neu-Zeile: ohne japanischen Start nur Start und Takt', neuZeile({}, woche, '2026-10-06') === 'ab 04.10. · sonntags wöchentlich')
   pruefe('Neu-Zeile: Staffel auf einmal mit belegter Zahl', neuZeile({ jpStartTag: '2026-09-01' }, { releaseType: 'batch', schedule: { firstEpisodeDate: '2026-10-06', episodeCount: 13 } } as never, '2026-10-06') === 'ab 06.10. · alle 13 Folgen auf einmal · 5 Wochen nach der japanischen Fassung')
   pruefe('Neu-Zeile: lange zurückliegender Start (Katalog) bekommt keine', neuZeile({ jpStartTag: '2003-01-01' }, { releaseType: 'weekly', schedule: { firstEpisodeDate: '2024-01-07' } }, '2026-10-06') === undefined)
+  const kamisama = neuJahre({ jpYear: 2012, deErstausgabe: { von: '2026-06-15', synchro: true } } as never, '2026-10-08')
+  pruefe('Nach 14 Jahren: Disc seit vier Monaten, Satz mit Begeisterung (Kamisama Kiss)', kamisama.jahre === 14 && kamisama.discSeitText === '4 Monaten' && newsSatz({ art: 'angekuendigt', platform: 'primevideo', datum: '2026-10-08', ...kamisama } as never) === 'Nach 14 Jahren endlich im Stream auf Deutsch: ab 08.10.2026 bei Prime Video! (Auf Disc gibt es die Synchro seit 4 Monaten)')
+  pruefe('Nach 12 Jahren: ohne frühere deutsche Fassung „endlich auf Deutsch", unter fünf Jahren nichts', newsSatz({ art: 'neu', platform: 'primevideo', ...neuJahre({ jpYear: 2014 } as never, '2026-10-06') } as never) === 'Nach 12 Jahren endlich auf Deutsch: jetzt mit Synchro bei Prime Video!' && Object.keys(neuJahre({ jpYear: 2024 } as never, '2026-10-06')).length === 0)
 }
 pruefe('aniSearch-Quellenlink: mit Kennung die Titelseite (nie die Suche), ohne Kennung die Suche', /^https:\/\/www\.anisearch\.de\/anime\/2227(,[a-z0-9-]+)?$/.test(anisearchSeite(2227, 'One Piece')) && anisearchSeite(undefined, 'One Piece') === 'https://www.anisearch.de/search?q=One%20Piece' && /^https:\/\/www\.anisearch\.de\/anime\/2227(,[a-z0-9-]+)?$/.test(anisearchKanonisch('https://www.anisearch.de/anime/2227')) && anisearchKanonisch('https://example.org/x') === 'https://example.org/x')
 pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15') === 'https://tv.de/sender/prosieben-maxx/09.10.2026/#09.20:00' && tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15', '2446020190') === 'https://tv.de/sendung/r/s,2446020190/')

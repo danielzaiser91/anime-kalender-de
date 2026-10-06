@@ -105,6 +105,7 @@ export function newsSatz(m: NewsMeldung): string {
   const datum = m.datum ? m.datum.split('-').reverse().join('.') : ''
   switch (m.art) {
     case 'neu':
+      if (m.jahre && anbieter) return m.discSeitText ? `Nach ${m.jahre} Jahren endlich im Stream auf Deutsch bei ${anbieter}! (Auf Disc gibt es die Synchro seit ${m.discSeitText})` : `Nach ${m.jahre} Jahren endlich auf Deutsch: jetzt mit Synchro bei ${anbieter}!`
       if (m.weiterer && anbieter) return `Jetzt auch auf Deutsch bei ${anbieter}`
       return anbieter ? `Erstmals mit deutscher Synchro bei ${anbieter}` : 'Erstmals mit deutscher Synchro'
     case 'folgen':
@@ -114,6 +115,7 @@ export function newsSatz(m: NewsMeldung): string {
     case 'angekuendigt':
       if (m.omu) return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''} mit Untertiteln, ${m.omu === 'synchro-angekuendigt' ? 'deutsche Synchro angekündigt' : 'keine deutsche Synchro angekündigt'}`
       if (m.platform === 'tv' && m.datum) return `Im TV${m.anbieter ? ` bei ${m.anbieter}` : ''} am ${['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'][new Date(`${m.datum}T12:00:00Z`).getUTCDay()]}, den ${datum}`
+      if (m.jahre && anbieter) return m.discSeitText ? `Nach ${m.jahre} Jahren endlich im Stream auf Deutsch: ab ${datum} bei ${anbieter}! (Auf Disc gibt es die Synchro seit ${m.discSeitText})` : `Nach ${m.jahre} Jahren endlich auf Deutsch: ab ${datum} mit Synchro bei ${anbieter}!`
       return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''}`
     case 'disc':
       return m.ausgabe ? `${m.ausgabe} erscheint am ${datum} auf Disc` : `Erscheint am ${datum} auf Disc`
