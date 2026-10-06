@@ -23,7 +23,7 @@ import { findDates, parseFeed, type FoundDate } from './lib/feed.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { sendezeiten, type Sendezeit } from './lib/sendezeit.ts'
-import { loadCurated } from './lib/curated.ts'
+import { eingearbeiteteAdressen } from './lib/eingearbeitet.ts'
 import type { PlatformId } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, type SammelEintrag } from './lib/sammelartikel.ts'
@@ -288,11 +288,8 @@ async function fetchText(url: string): Promise<string | undefined> {
 }
 
 async function main(): Promise<void> {
-  // Welche Artikel sind schon eingearbeitet? Steht in den `sources` der
-  // kuratierten Einträge — die Adresse ist der Schlüssel.
-  const curatedSources = new Set(
-    loadCurated().flatMap((entry) => (entry.sources ?? []).map((s) => s.replace(/\/$/, ''))),
-  )
+  // Welche Artikel sind schon eingearbeitet? Ihre Adresse steht in einer Handdatei (Termine, Ankündigungen, Erstausgaben, Belege).
+  const curatedSources = eingearbeiteteAdressen()
 
   const today = todayIso()
   const proposals: Proposal[] = []

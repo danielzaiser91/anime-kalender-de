@@ -10,6 +10,7 @@
  */
 import { readJson } from './lib/util.ts'
 import { readSourceHealth } from './lib/health.ts'
+import { eingearbeiteteAdressen } from './lib/eingearbeitet.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Proposal } from './scrape-anime2you.ts'
 
@@ -19,8 +20,15 @@ const today = todayIso()
 
 const out: string[] = ['## Kuratierung: was noch fehlt', '']
 
-const open = proposals
-  .filter((p) => !p.alreadyCurated)
+/* Der Bericht prüft selbst nach, statt dem Stand vom Einlesen zu trauen: Eine Meldung, deren Adresse jetzt in einer Handdatei steht, ist eingearbeitet. */
+const eingearbeitet = eingearbeiteteAdressen()
+/* Disc-Meldungen laufen über die Disc-Übersicht (`check:disc-uebersicht`); sie stehen hier nur als Zahl, damit die Streaming-, TV- und Kinolücken oben lesbar bleiben. */
+const alle = proposals
+  .filter((p) => !p.alreadyCurated && !eingearbeitet.has(p.articleUrl.replace(/\/$/, '')))
+  .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today))
+const discAnzahl = alle.filter((p) => p.category === 'disc').length
+const open = alle
+  .filter((p) => p.category !== 'disc')
   .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today))
   .sort((a, b) => {
     const first = (p: Proposal) => p.dates.map((d) => d.iso ?? d.month).sort()[0] ?? '9999'
@@ -40,6 +48,7 @@ if (!open.length) {
   if (open.length > 40) out.push('', `… und ${open.length - 40} weitere.`)
 }
 
+if (discAnzahl) out.push('', `Dazu ${discAnzahl} Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.`)
 out.push('', '## Quellen', '', '| Quelle | zuletzt erfolgreich | Treffer |', '|---|---|---|')
 for (const [name, state] of Object.entries(health).sort()) {
   const age = state.lastOk
