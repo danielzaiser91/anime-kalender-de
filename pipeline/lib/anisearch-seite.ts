@@ -14,3 +14,9 @@ export function anisearchSeite(asId: number | undefined, suchName: string): stri
   const slug = slugs[String(asId)]
   return `https://www.anisearch.de/anime/${asId}${slug ? `,${slug}` : ''}`
 }
+
+/** Eine aniSearch-Adresse mit Kennung (aus dem Beschreibungstext) in die kanonische Form mit Slug bringen; alles andere bleibt. */
+export function anisearchKanonisch(url: string): string {
+  const treffer = /^(https?:\/\/(?:www\.)?anisearch\.de)\/anime\/(\d+)(?:,[^/?#]*)?\/?$/.exec(url)
+  return treffer ? anisearchSeite(Number(treffer[2]), '') : url
+}
