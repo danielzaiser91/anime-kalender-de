@@ -23,7 +23,7 @@ export const SEITEN_NEUERUNGEN: SeitenNeuerung[] = [
 ]
 
 /** Die jüngsten Neuerungen der letzten `tage` Tage, höchstens `max`. */
-export function jungeNeuerungen(heute: string, tage = 30, max = 4): SeitenNeuerung[] {
+export function jungeNeuerungen(heute: string, tage = 30, max = 3): SeitenNeuerung[] {
   const grenze = addDays(heute, -tage)
   return SEITEN_NEUERUNGEN.filter((n) => n.datum >= grenze).slice(0, max)
 }
