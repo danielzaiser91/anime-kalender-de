@@ -49,6 +49,8 @@ on:
           - data:anisearch-artikel
           # Deutsche Sprecher je Figur (seiyuu-Seite), ~3.200 Seiten.
           - data:anisearch-sprecher
+          # Slugs der aniSearch-Titelseiten für kanonische Quellenlinks (ein Abruf, eigenes Limit: 1 je Stunde mit Token, 24 h ohne).
+          - data:anisearch-slugs
           - data:cr-dub
           # Neuzugänge bei Crunchyroll. Auf Abruf, wenn der Lauf ein Feld
           # mehr mitschreibt — die bekannten Funde bekommen es dann nachgetragen.
