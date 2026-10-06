@@ -630,7 +630,7 @@ export function AntwortKasten({
       sucht sie: wann er den Film zu Hause sehen kann (Madoka, 17.09.2026).
     */
     neben = antwort.hatSynchro
-      ? ''
+      ? deSeitZeile(title, T)
       : antwort.imKino && !(title.streams ?? []).length
         ? T('antwort.filmDeStreamOffen')
         : antwort.ohneWeg
@@ -638,10 +638,9 @@ export function AntwortKasten({
           : ''
     gedaempft = !antwort.hatSynchro
     zaehl = ''
+    nebenTitel = antwort.hatSynchro && title.deErstausgabe ? T(deSeitQuelleSchluessel(title.deErstausgabe.quelle)) : undefined
     /*
-      **Hier stand dreimal, was oben schon steht.**
-
-      „2022 erschienen · ab 12 Altersfreigabe · 8-bit Studio" — und in der
+      **Hier stand dreimal, was oben schon steht.** „2022 erschienen · ab 12 Altersfreigabe · 8-bit Studio" — und in der
       Unterzeile am Cover, drei Zentimeter darüber: „Film · JP 2022 · 8-bit".
       Die Altersfreigabe stand als einzige nur
       hier — sie ist jetzt eine Marke an der Unterzeile, wo die anderen
