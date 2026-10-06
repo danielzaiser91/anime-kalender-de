@@ -21,6 +21,7 @@ Messungen, verworfene Quellen) und alles, was Code-Kommentare „in `status.md`"
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **aniSearch-Einträge statt AniList-Ordnung (Daniel, 06.10.2026 23:05)** | 5 | Entscheidung: Wir nehmen alle aniSearch-Kennungen und führen jeden Titel so, wie aniSearch ihn führt. Auslöser: Angel Beats! Specials, Pokémon XYZ Specials, Kishibe Rohan (ein AniList-Eintrag, mehrere aniSearch-Einträge). Gemessen: 169 MAL-IDs haben mehrere aniSearch-Einträge, 141 davon in unserem Bestand, dahinter 291 aniSearch-Einträge ohne eigenen Titel (38 im Hauptbestand). **Vorgehen:** erst PoC an diesen Fällen (Schlüssel `id` für Titel ohne AniList-Kennung, Adressen, Favoriten in localStorage/D1, Folgen- und Anbieter-Zuordnung), dann Umbau; Umbau und Verhaltensänderung getrennt. Bis dahin stehen die zehn eindeutigen Kennungen in `data/anisearch-ids-hand.yaml`. Hintergrund: `docs/wissen/sitzung-2026-10-02-analyse-und-umstellung.md` §5/§7 (Einheit Werk vs. Staffel). |
 
 ### Queue
 

@@ -18,6 +18,10 @@ filterbar, durchsuchbar, als Kalendereintrag übernehmbar (Daniel, 11.08.2026). 
 
 Nicht Ziel: Community, Bewertungen, Wasserstandsmeldungen zu japanischen Ausstrahlungen.
 
+**Die Seite ist nichtkommerziell und bleibt es:** niemals Werbung, Tracking zu Werbezwecken oder
+sonstige kommerzielle Ziele (Daniel, 06.10.2026). Das trägt die Quellen-Zugänge (aniSearch-API, TMDB)
+und darf bei keiner Entscheidung aufgeweicht werden.
+
 ## Grundsatz: nichts behaupten, was nicht belegt ist
 
 - **Kein Termin ohne `sources`** (`npm run data:validate` bricht ab).
