@@ -26,6 +26,7 @@
  */
 import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
 import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from './news-verlauf.ts'
+import { bereinigeNews } from './news-bereinigen.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
@@ -247,6 +248,11 @@ export function nurAngekuendigt(releases: Release[], titleId: number, plattform:
   return !termine.some((d) => d <= tag)
 }
 
+/** Teil und Kennung einer Meldung. „Titel / Titel“ sagt nichts (26 Meldungen am 06.10.2026): ohne eigenen Teilnamen bleibt es bei der Kennung. */
+function teilFelder(teilname: string, kopf: string, teilId: number): { teil?: string; teilId: number } {
+  return teilname.toLowerCase() === kopf.toLowerCase() ? { teilId } : { teil: teilname, teilId }
+}
+
 /**
  * Baut die Meldungen. `historie` wird dabei **ergänzt** — der Aufrufer schreibt
  * sie zurück, damit das Datum einer Meldung beim nächsten Bau dasselbe bleibt.
@@ -418,7 +424,7 @@ export function baueNews(
 
   datiert = ohneDoppelteFolgen(verschmelzeGleicheQuelle(datiert))
   datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute }))
-  datiert = ohneKuenstlicheAnkuendigung(datiert)
+  datiert = bereinigeNews(ohneKuenstlicheAnkuendigung(datiert))
 
   const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()
   for (const m of datiert) {
@@ -456,7 +462,7 @@ export function baueNews(
       .sort((a, b) => rang[a.art] - rang[b.art] || (a.datum ?? '').localeCompare(b.datum ?? ''))
       .map((m) => {
         const { am: _am, titel: teil, schluessel: _s, ...rest } = m
-        return teil.id === kopfT.id ? rest : { ...rest, teil: teilName(teil, kopf), teilId: teil.id }
+        return teil.id === kopfT.id ? rest : { ...rest, ...teilFelder(teilName(teil, kopf), kopf, teil.id) }
       })
     eintraege.push({
       am: g.am,

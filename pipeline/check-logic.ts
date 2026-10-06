@@ -166,6 +166,7 @@ import { erschieneneFolgen, deutscheFolgen } from './bau/folgen-dateien.ts'
 import { unzugeordnet } from './lib/sammel-unzugeordnet.ts'
 import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
 import { namensanfangMindestens } from '../shared/namensgebunden.ts'
+import { bereinigeNews } from './lib/news-bereinigen.ts'
 import { alarmEntscheidung } from '../shared/schnellmessung-regeln.ts'
 import { NAMENSGEBUNDENE_RELATIONEN } from '../shared/namensgebunden.ts'
 import { schnellSetzen, schnellZustand, type SchnellId } from '../web/src/lib/schnellfilter.ts'
@@ -8030,6 +8031,16 @@ console.log('\nCharakter-Beziehung:')
 {
   pruefe('Charakter: wie OTHER nur mit Namensprüfung', NAMENSGEBUNDENE_RELATIONEN.has('CHARACTER') && !FRANCHISE_RELATIONS.has('CHARACTER'))
   pruefe('Charakter: Black Jack und Black Jack: Capital Transfer To Heian gehören zusammen', otherZaehlt(['Black Jack: Heian Sento', 'Black Jack: Capital Transfer To Heian'], ['Black Jack', 'Black Jack']))
+  {
+    const t = { id: 7 } as never
+    const basis = { art: 'angekuendigt', platform: 'adn', datum: '2026-10-12', release: 'r1', quelle: 'https://q/1', am: '2026-10-05', titel: t, schluessel: 'a' } as never as import('./lib/news-verlauf.ts').DatiertNews
+    const doppelt = bereinigeNews([basis, { ...basis, schluessel: 'b' }])
+    pruefe('News: dieselbe Aussage steht nur einmal', doppelt.length === 1)
+    const ersetzt = bereinigeNews([{ ...basis, ersetzt: { datum: '2026-10-12', release: 'r1', quelle: 'https://q/1' } } as never, { ...basis, schluessel: 'c' }])
+    pruefe('News: neben einer gültigen Fassung verliert die ersetzte', ersetzt.length === 1 && !ersetzt[0]!.ersetzt)
+    pruefe('News: ohne Quelle und ohne Beleg fällt die Meldung weg', bereinigeNews([{ ...basis, quelle: undefined, belege: undefined } as never]).length === 0)
+    pruefe('News: ein Zeitstempel als Tag wird zum Tag', bereinigeNews([{ ...basis, am: '2026-08-30T15:00:00.000Z' } as never])[0]!.am === '2026-08-30')
+  }
   pruefe('Charakter: „Tales of" (8 Zeichen) verbindet keine Spiele-Serien, bei OTHER bleibt 8', !otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('OTHER')))
   pruefe('Charakter: „Meitantei" (9 Zeichen) bindet Precure nicht an Conan, Black Jack (10) bleibt gebunden', !otherZaehlt(['Meitantei Conan: Hanamaru na Answer'], ['Meitantei Precure!'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Black Jack: Heian Sento'], ['Black Jack'], namensanfangMindestens('CHARACTER')))
   {
