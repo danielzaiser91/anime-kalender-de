@@ -52,6 +52,8 @@ export interface NewsMeldung {
   weiterer?: boolean
   /** Bei `angekuendigt`: Start nur mit Untertiteln (OmU) — ob eine deutsche Synchro angekündigt ist (Daniel, 06.10.2026: beide Auskünfte sind interessant). */
   omu?: 'synchro-angekuendigt' | 'synchro-offen'
+  /** Bei `disc`: welche Ausgabe („Vol. 1/2", „Gesamtausgabe", „Box 9") — ohne sie sagt der Satz bei jedem Volume dasselbe. */
+  ausgabe?: string
   /** Der Termin, um den es geht (angekündigt, Disc, Kino, verpasst). */
   datum?: string
   /** Uhrzeit des Termins ("HH:MM", Berlin), wo die Quelle sie nennt — bei `nachgetragen` im Satz. */

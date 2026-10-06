@@ -27,6 +27,7 @@
 import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
 import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from './news-verlauf.ts'
 import { bereinigeNews } from './news-bereinigen.ts'
+import { ausgabeKurz } from './news-ausgabe.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
@@ -150,6 +151,7 @@ function terminMeldungen(
         ...(r.kanal ? { kanal: r.kanal } : {}),
         datum,
         release: r.slug,
+        ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),
         quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => s.dub === true && s.platform !== r.platform)) ? { weiterer: true } : {}),
         /* Eine angekündigte Staffel trägt ihre Einordnung im Satz (Simuldub-Vermutung). */
         ...(art === 'angekuendigt' && r.schedule?.estimated && r.note ? { hinweis: r.note } : {}),

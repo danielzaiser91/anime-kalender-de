@@ -271,7 +271,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
       case 'angekuendigt':
         return t(m.omu ? 'news.kurz.omu' : 'news.kurz.angekuendigt', { datum, anbieter })
       case 'disc':
-        return t('news.kurz.disc', { datum })
+        return t(m.ausgabe ? 'news.kurz.discAusgabe' : 'news.kurz.disc', { datum, ausgabe: m.ausgabe ?? '' })
       case 'kino':
         return t('news.kurz.kino', { datum })
       case 'verspaetet':

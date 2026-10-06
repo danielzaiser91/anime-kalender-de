@@ -167,6 +167,7 @@ import { unzugeordnet } from './lib/sammel-unzugeordnet.ts'
 import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
 import { namensanfangMindestens } from '../shared/namensgebunden.ts'
 import { bereinigeNews } from './lib/news-bereinigen.ts'
+import { ausgabeKurz } from './lib/news-ausgabe.ts'
 import { DISC_UEBERSICHT, discAbgleich, leseDiscUebersicht } from './lib/disc-uebersicht.ts'
 import { teileGleichmelder } from '../web/src/lib/news-gruppen.ts'
 import { alarmEntscheidung } from '../shared/schnellmessung-regeln.ts'
@@ -8057,6 +8058,7 @@ console.log('\nCharakter-Beziehung:')
     pruefe('Disc-Übersicht: die Adresse einer Monatsübersicht wird erkannt, ein anderer Artikel nicht', DISC_UEBERSICHT.test('https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/') && !DISC_UEBERSICHT.test('https://www.anime2you.de/news/1052934/akiba-pass-shop-neun-disc-neuheiten-vorbestellbar/'))
     pruefe('Disc-Übersicht: derselbe Titel am selben Tag ist gedeckt, am anderen Tag „anderer-tag", sonst „fehlt"', discAbgleich(z[0]!, [{ name: 'Summer Wars – Ultimate Edition', datum: '2026-10-22' }]).art === 'gedeckt' && discAbgleich(z[0]!, [{ name: 'Summer Wars', datum: '2026-03-05' }]).art === 'anderer-tag' && discAbgleich(z[0]!, [{ name: 'Black Butler', datum: '2026-10-22' }]).art === 'fehlt')
   }
+  pruefe('News: die Ausgabe einer Disc steht kurz im Satz', ausgabeKurz('Vol. 1/2: Limited Steelcase Edition Blu-ray + Sammelschuber') === 'Vol. 1/2' && ausgabeKurz('Gesamtausgabe Blu-ray (Re-Release)') === 'Gesamtausgabe' && ausgabeKurz('Komplettset + Sammelschuber · Komplettset Blu-ray + Sammelschuber') === 'Komplettset' && ausgabeKurz('Limited Edition mit Sammelschuber, DVD & Blu-ray') === undefined && ausgabeKurz(undefined) === undefined)
   pruefe('Charakter: „Tales of" (8 Zeichen) verbindet keine Spiele-Serien, bei OTHER bleibt 8', !otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('OTHER')))
   pruefe('Charakter: „Meitantei" (9 Zeichen) bindet Precure nicht an Conan, Black Jack (10) bleibt gebunden', !otherZaehlt(['Meitantei Conan: Hanamaru na Answer'], ['Meitantei Precure!'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Black Jack: Heian Sento'], ['Black Jack'], namensanfangMindestens('CHARACTER')))
   {

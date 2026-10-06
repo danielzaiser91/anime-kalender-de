@@ -61,7 +61,7 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
       if (m.omu) return t(m.omu === 'synchro-angekuendigt' ? 'news.omuAngekuendigt' : 'news.omuOffen', { datum, anbieter }) + lautQuelle(m, am)
       return t('news.angekuendigt', { datum, anbieter }) + lautQuelle(m, am)
     case 'disc':
-      return t('news.disc', { datum }) + lautQuelle(m, am)
+      return t(m.ausgabe ? 'news.discAusgabe' : 'news.disc', { datum, ausgabe: m.ausgabe ?? '' }) + lautQuelle(m, am)
     case 'kino':
       return t('news.kino', { datum }) + lautQuelle(m, am)
     case 'verspaetet':

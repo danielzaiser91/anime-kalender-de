@@ -115,7 +115,7 @@ export function newsSatz(m: NewsMeldung): string {
       if (m.omu) return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''} mit Untertiteln, ${m.omu === 'synchro-angekuendigt' ? 'deutsche Synchro angekündigt' : 'keine deutsche Synchro angekündigt'}`
       return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''}`
     case 'disc':
-      return `Erscheint am ${datum} auf Disc`
+      return m.ausgabe ? `${m.ausgabe} erscheint am ${datum} auf Disc` : `Erscheint am ${datum} auf Disc`
     case 'kino':
       return `Kinostart am ${datum}`
     case 'verspaetet':
