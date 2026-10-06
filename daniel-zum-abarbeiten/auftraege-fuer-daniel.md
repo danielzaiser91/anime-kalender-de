@@ -43,6 +43,11 @@ Stand: 06.10.2026 10:15
    Empfehlung: GitHub Pages vorerst behalten und Cloudflare (Workers Static Assets, 0 €, Zone liegt schon dort) als zweites Deploy-Ziel vorbereiten. Umschalten, wenn die 30-Tage-Messung (`site_probe`) unter 99,9 % liegt oder ein Ausfall der ausgelieferten Seite belegt ist. Pages bleibt dann als Rückfall.
    - Sag „so", oder was du anders willst (z. B. gleich eigener Server).
 
+11. **Entscheidung: Cover-Rückfall für 552 Titel** (Messung: `docs/wissen/quellen.md`, „Cover: Rückfall für kleine AniList-Cover")
+   80 % unserer Cover sind bei AniList in der besten Größe (460 px). Bei 552 Titeln (20 %) gibt es dort nur ca. 225 px, und die Großansicht wird unscharf. Zwei Quellen kämen als Rückfall in Frage: TMDB (Nutzungsbedingungen lesbar: nichtkommerziell frei, mit Logo und Hinweis „nicht von TMDB geprüft", Cache höchstens 6 Monate) oder Kitsu (bessere Auflösung, Bedingungen nicht lesbar).
+   - Die Frage, die nur du beantworten kannst: **Gilt die Seite als nichtkommerziell** (keine Werbung, keine Erlöse, auch nicht über Newsletter oder Partnerlinks)? Wenn ja, baue ich den TMDB-Rückfall (Aufwand etwa ein halber Tag, Hinweis im Impressum). Wenn nein oder unsicher, lassen wir es bei AniList.
+   - Sag „ja, nichtkommerziell" oder „lassen".
+
 ## Entscheidungen, die ich getroffen habe (zur Kenntnis, bei Widerspruch sagen)
 
 - Domains für Belege: Reihenfolge Joyn, Disney+, Netflix, Wikipedia, Kinoheld, Amazon — jede erst nach Handprüfung auf Banner und Wand.
