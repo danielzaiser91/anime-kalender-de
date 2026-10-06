@@ -73,6 +73,8 @@ const TEXTE = {
   'news.weitere': '+{n} weitere',
   'news.aeltere': 'Ältere News (bis {datum})',
   'news.seit': 'seit {datum}',
+  'news.seite': 'Neu auf der Seite',
+  'news.seiteAnsehen': 'ansehen ›',
   'news.gleich': '{n} weitere „auch bei …“-Meldungen anzeigen',
   'news.gleichZu': '„auch bei …“-Meldungen einklappen',
   // Der Chip nennt die Art, die Zeile nennt die Umstände — sonst steht beides zweimal da

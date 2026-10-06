@@ -11,6 +11,7 @@ import { Klapptext } from './klapptext.tsx'
 import { NachtragText } from './news-nachtrag.tsx'
 import { VerlaufZeilen } from './news-verlauf.tsx'
 import { QuellenKnopf } from './beleg-dialog.tsx'
+import { SeitenNeuerungen } from './SeitenNeuerungen.tsx'
 import { ohneEingeordnete, verlaeufeAus, type Stand } from '../lib/news-verlauf.ts'
 import { AELTERE_SCHRITT_TAGE, teileGleichmelder } from '../lib/news-gruppen.ts'
 
@@ -322,6 +323,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
           RSS
         </a>
       </div>
+      <SeitenNeuerungen />
       <KinoKarussell data={data} oeffne={oeffne} />
 
       {/* Filterleiste: nur Arten, die wirklich vorkommen — ein leerer Filter ist eine Sackgasse. */}
