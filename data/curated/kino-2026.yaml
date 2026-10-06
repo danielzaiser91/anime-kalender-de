@@ -79,9 +79,9 @@
   platform: kino
   releaseType: movie
   publisher: "Crunchyroll"
-  note: "Kinostart bestätigt; die Sprachfassungen hat der Verleih noch nicht bekanntgegeben."
+  note: "Kinostart im Originalton mit deutschen Untertiteln; eine deutsche Synchronfassung ist nicht bestätigt."
   schedule: { firstEpisodeDate: "2026-11-24" }
-  sources: [https://www.anime2you.de/news/1036604/madoka-magica-walpurgisnacht-rising-kinostart/]
+  sources: [https://www.anime2you.de/news/1036604/madoka-magica-walpurgisnacht-rising-kinostart/, https://www.anime2you.de/news/1053546/madoka-magica-film-deutscher-kinostart/]
 
 - slug: all-you-need-is-kill-kino
   anilistId: 187892
@@ -93,3 +93,17 @@
   note: "Deutsche Synchronfassung bestätigt, zusätzlich japanischer Originalton mit Untertiteln."
   schedule: { firstEpisodeDate: "2026-09-29" }
   sources: [https://www.anime2you.de/news/1039622/all-you-need-is-kill-deutscher-kinostart/]
+
+# Nachtrag 06.10.2026 (Abgleich der Kinostarts Oktober bis Dezember): Anime2You „Kinoliste", Verleih peppermint anime, über 100 Kinos in Deutschland und Österreich.
+# insidekino nennt zusätzlich den 20.10. (vermutlich Eventvorstellung); als Starttag gilt der 27.10. aus der Meldung.
+- slug: rascal-dear-friend-kino
+  anilistId: 199340
+  titleDe: "Rascal Does Not Dream of a Dear Friend"
+  platform: kino
+  releaseType: movie
+  publisher: "peppermint anime"
+  note: "Kinostart im Originalton mit deutschen Untertiteln; eine deutsche Synchronfassung ist nicht geplant."
+  schedule: { firstEpisodeDate: "2026-10-27" }
+  sources:
+    - https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/
+    - https://www.anime2you.de/news/1049457/rascal-does-not-dream-of-a-dear-friend-deutscher-kinostart/
