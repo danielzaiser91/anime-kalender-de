@@ -36,6 +36,16 @@ DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
+UID:rascal-dear-friend-kino@2026-10-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:Rascal Does Not Dream of a Dear Friend
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
+ gt.\nDetails: https://anime-kalender.de/t/17068/
+CATEGORIES:Kino
+END:VEVENT
+BEGIN:VEVENT
 UID:madoka-walpurgisnacht-rising-kino@2026-11-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261124
