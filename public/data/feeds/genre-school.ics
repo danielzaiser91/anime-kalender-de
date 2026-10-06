@@ -46,6 +46,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-213805-netflix@2026-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261001T080000Z
+DTEND:20261001T083000Z
+SUMMARY:The Ramparts of Ice Staffel 2 – Folge 1/1
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/17776/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T160000Z
@@ -124,6 +135,17 @@ SUMMARY:Hände weg\, Kotesashi-kun
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
   nicht bestätigt.\nDetails: https://anime-kalender.de/t/16628/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-189123-netflix@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T080000Z
+DTEND:20261004T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 1/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-10-04#8@anime-kalender-de
@@ -278,6 +300,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-189123-netflix@2026-10-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261011T080000Z
+DTEND:20261011T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 2/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T140000Z
@@ -341,6 +374,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-189123-netflix@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261018T080000Z
+DTEND:20261018T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 3/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T083000Z
@@ -359,6 +403,17 @@ SUMMARY:There’s No Freaking Way I’ll Be Your Lover! Unless… (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16362/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-189123-netflix@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261025T080000Z
+DTEND:20261025T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 4/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
@@ -382,6 +437,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-189123-netflix@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261101T080000Z
+DTEND:20261101T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 5/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:a-silent-voice-2026-11-06@2026-11-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261106
@@ -390,6 +456,28 @@ SUMMARY:A Silent Voice (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/7492/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-189123-netflix@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261108T080000Z
+DTEND:20261108T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 6/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-189123-netflix@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261115T080000Z
+DTEND:20261115T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 7/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-148969-disc@2026-11-19@anime-kalender-de
@@ -452,6 +540,28 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-189123-netflix@2026-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261122T080000Z
+DTEND:20261122T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 8/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-189123-netflix@2026-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261129T080000Z
+DTEND:20261129T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 9/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:the-familiar-of-zero-2026-12-04@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
@@ -472,6 +582,28 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-189123-netflix@2026-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261206T080000Z
+DTEND:20261206T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 10/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-189123-netflix@2026-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261213T080000Z
+DTEND:20261213T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 11/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:please-put-them-on-takamine-vol2@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261218
@@ -490,6 +622,17 @@ SUMMARY:Detektiv Conan – Box 1 (30th Anniversary Edition) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-189123-netflix@2026-12-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261220T080000Z
+DTEND:20261220T083000Z
+SUMMARY:Blue Box: Staffel 2 – Folge 12/≈12
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-143103-kino@2027-01-26@anime-kalender-de

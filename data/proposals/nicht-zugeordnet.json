@@ -2,6 +2,15 @@
   "stand": "2026-10-06",
   "eintraege": [
     {
+      "titel": "Demon Slayer: Kimetsu no Yaiba – Infinity Castle I",
+      "artikel": "https://www.anime2you.de/news/1054791/prime-video-attack-on-titan-und-mehr/",
+      "tag": "2026-09-29",
+      "anbieter": [
+        "primevideo"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
       "titel": "86 EIGHTY-SIX",
       "artikel": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
       "tag": "2026-10-08",
@@ -43,6 +52,15 @@
       "tag": "2026-10-29",
       "anbieter": [
         "adn"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "Cyberpunk: Edgerunners II",
+      "artikel": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
+      "tag": "2026-10-20",
+      "anbieter": [
+        "netflix"
       ],
       "quelle": "Sammelartikel"
     }

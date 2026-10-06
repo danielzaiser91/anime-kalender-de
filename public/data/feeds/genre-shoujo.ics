@@ -6,6 +6,17 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Shoujo
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:auto-213805-netflix@2026-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261001T080000Z
+DTEND:20261001T083000Z
+SUMMARY:The Ramparts of Ice Staffel 2 – Folge 1/1
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
+ er Zeit.\nDetails: https://anime-kalender.de/t/17776/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:hana-kimi-s2@2026-10-02#10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T160000Z
