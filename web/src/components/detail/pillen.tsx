@@ -74,10 +74,10 @@ const marke = (farbe?: string) => (farbe ? ({ '--marke': farbe } as React.CSSPro
  * dieselbe Falle wie bei den drei erfundenen Amazon-Adressen vom 23.08.2026.
  * Die Suche ist einen Klick länger und immer richtig.
  */
-export function AniSearchVerweis({ title }: { title: Title }) {
+export function AniSearchVerweis({ title, ziel }: { title: Title; ziel?: string }) {
   return (
     <span className="ml-auto flex shrink-0 items-center gap-1">
-      {verweiseFuer(title).map((v) => (
+      {verweiseFuer(title, ziel).map((v) => (
         <Tooltip key={v.name} text={v.hinweis} eigenerFokus className="shrink-0">
           <a
             href={v.ziel}

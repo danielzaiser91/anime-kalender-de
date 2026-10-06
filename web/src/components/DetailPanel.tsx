@@ -1065,9 +1065,8 @@ export function DetailPanel({
           reihenName={reihenName}
           title={title}
           kinoRelease={kinoRelease}
+          asZiel={plot?.quelle.url.includes('anisearch.de/anime/') ? plot.quelle.url : undefined}
         />
-
-        {/* Aus demselben Grund wie oben — siehe den Hinweis am Block davor. */}
         <div className="relative flex flex-col gap-4 px-4 pb-8">
           {/*
             Die Antwortzeile — der erste Block nach der Bühne.

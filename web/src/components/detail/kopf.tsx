@@ -4,7 +4,8 @@ import { AniSearchVerweis } from './pillen.tsx'
 import { type FranchiseMember, type Title, type Release } from '@shared/types.ts'
 import type { JSX } from 'react'
 
-export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title, kinoRelease }: {
+export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title, kinoRelease, asZiel }: {
+  asZiel?: string
   bewertung: JSX.Element | null
   reihenTeile: FranchiseMember[]
   teilName: string
@@ -90,7 +91,7 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
             */}
             <span className="ml-auto flex flex-wrap items-center justify-end gap-2">
               {(title.trailer || kinoRelease) && <TrailerKino trailer={title.trailer} titel={anzeigeName(title)} />}
-              <AniSearchVerweis title={title} />
+              <AniSearchVerweis title={title} ziel={asZiel} />
             </span>
           </div>
           {reihenTeile.length > 1 && teilName !== reihenName && (

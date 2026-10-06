@@ -29,14 +29,15 @@ export interface Verweis {
   hinweis: string
 }
 
-export function verweiseFuer(title: Title): Verweis[] {
+/** `asZiel`: die kanonische aniSearch-Adresse mit Slug, wo die Beschreibung sie schon trägt (Panel, `deSource`). */
+export function verweiseFuer(title: Title, asZiel?: string): Verweis[] {
   const raus: Verweis[] = []
   const tmdb = title.westlich && title.tmdbId ? `https://www.themoviedb.org/tv/${title.tmdbId}` : undefined
   if (tmdb) raus.push({ name: 'TMDB', ziel: tmdb, hinweis: 'Bei TMDB ansehen' })
   else if (title.anisearchId)
     raus.push({
       name: 'aniSearch',
-      ziel: `https://www.anisearch.de/anime/${title.anisearchId}`,
+      ziel: asZiel ?? `https://www.anisearch.de/anime/${title.anisearchId}`,
       hinweis: 'Bei aniSearch ansehen',
     })
   else
