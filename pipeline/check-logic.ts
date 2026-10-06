@@ -167,6 +167,7 @@ import { unzugeordnet } from './lib/sammel-unzugeordnet.ts'
 import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
 import { namensanfangMindestens } from '../shared/namensgebunden.ts'
 import { bereinigeNews } from './lib/news-bereinigen.ts'
+import { DISC_UEBERSICHT, discAbgleich, leseDiscUebersicht } from './lib/disc-uebersicht.ts'
 import { teileGleichmelder } from '../web/src/lib/news-gruppen.ts'
 import { alarmEntscheidung } from '../shared/schnellmessung-regeln.ts'
 import { NAMENSGEBUNDENE_RELATIONEN } from '../shared/namensgebunden.ts'
@@ -8048,6 +8049,13 @@ console.log('\nCharakter-Beziehung:')
     pruefe('News: neben einer gültigen Fassung verliert die ersetzte', ersetzt.length === 1 && !ersetzt[0]!.ersetzt)
     pruefe('News: ohne Quelle und ohne Beleg fällt die Meldung weg', bereinigeNews([{ ...basis, quelle: undefined, belege: undefined } as never]).length === 0)
     pruefe('News: ein Zeitstempel als Tag wird zum Tag', bereinigeNews([{ ...basis, am: '2026-08-30T15:00:00.000Z' } as never])[0]!.am === '2026-08-30')
+  }
+  {
+    const html = '<article class="disc-day-card" data-disc-day-card><header class="disc-day-card__head"><h3 class="disc-day-card__title">22. Oktober 2026</h3></header><ul><li class="disc-title-row" data-disc-title-card data-disc-title="summer wars (ultimate edition)" data-disc-label="ksm-anime" data-disc-format="film" data-disc-medium="4k-blu-ray" data-disc-edition=""><div><span class="disc-title-row__title">Summer Wars (Ultimate Edition)</span></div></li></ul></article>'
+    const z = leseDiscUebersicht(html)
+    pruefe('Disc-Übersicht: Tag, Titel, Label und Medium werden gelesen', z.length === 1 && z[0]!.datum === '2026-10-22' && z[0]!.titel === 'Summer Wars (Ultimate Edition)' && z[0]!.label === 'ksm-anime' && z[0]!.medium === '4k-blu-ray')
+    pruefe('Disc-Übersicht: die Adresse einer Monatsübersicht wird erkannt, ein anderer Artikel nicht', DISC_UEBERSICHT.test('https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/') && !DISC_UEBERSICHT.test('https://www.anime2you.de/news/1052934/akiba-pass-shop-neun-disc-neuheiten-vorbestellbar/'))
+    pruefe('Disc-Übersicht: derselbe Titel am selben Tag ist gedeckt, am anderen Tag „anderer-tag", sonst „fehlt"', discAbgleich(z[0]!, [{ name: 'Summer Wars – Ultimate Edition', datum: '2026-10-22' }]).art === 'gedeckt' && discAbgleich(z[0]!, [{ name: 'Summer Wars', datum: '2026-03-05' }]).art === 'anderer-tag' && discAbgleich(z[0]!, [{ name: 'Black Butler', datum: '2026-10-22' }]).art === 'fehlt')
   }
   pruefe('Charakter: „Tales of" (8 Zeichen) verbindet keine Spiele-Serien, bei OTHER bleibt 8', !otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('OTHER')))
   pruefe('Charakter: „Meitantei" (9 Zeichen) bindet Precure nicht an Conan, Black Jack (10) bleibt gebunden', !otherZaehlt(['Meitantei Conan: Hanamaru na Answer'], ['Meitantei Precure!'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Black Jack: Heian Sento'], ['Black Jack'], namensanfangMindestens('CHARACTER')))

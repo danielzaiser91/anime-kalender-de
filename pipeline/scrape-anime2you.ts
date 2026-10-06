@@ -28,6 +28,7 @@ import type { PlatformId } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, type SammelEintrag } from './lib/sammelartikel.ts'
 import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './lib/disc-verschiebungen.ts'
+import { DISC_UEBERSICHT, leseDiscUebersicht, type DiscZeile } from './lib/disc-uebersicht.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 
@@ -160,6 +161,9 @@ export interface Proposal {
   sammel?: SammelEintrag[]
   /** Wann der Sammelartikel zuletzt gelesen wurde — Anime2You trägt Titel nach. */
   sammelGelesen?: string
+  /** Zeilen einer Monatsübersicht „Disc-Neuheiten <Monat>“ (`lib/disc-uebersicht.ts`); Abgleich mit dem Kalender: `check-disc-uebersicht.ts`. */
+  discZeilen?: DiscZeile[]
+  discGelesen?: string
   /** true, wenn dieser Artikel schon als Quelle in data/curated/ steht. */
   alreadyCurated: boolean
 }
@@ -239,6 +243,32 @@ async function sammelartikelNachholen(alle: Proposal[], heute: string): Promise<
     const sammel = leseSammelartikel(artikelZeilen(html), p.publishedAt)
     log(`Sammelartikel „${p.articleTitle}": ${sammel.length} Titel, ${sammel.filter((e) => e.deutsch).length} mit deutschem Ton`)
     aus.push({ ...p, sammel, sammelGelesen: heute })
+  }
+  return aus
+}
+
+/** Monatsübersichten der Disc-Neuheiten lesen: eine junge alle drei Tage (Anime2You trägt nach), eine ältere einmal. Höchstens drei Abrufe je Lauf. */
+async function discUebersichtNachholen(alle: Proposal[], heute: string): Promise<Proposal[]> {
+  const aus: Proposal[] = []
+  let geholt = 0
+  for (const p of alle) {
+    const jung = p.publishedAt >= addDays(heute, -60)
+    const faellig = !p.discGelesen || (jung && p.discGelesen <= addDays(heute, -3))
+    if (!DISC_UEBERSICHT.test(p.articleUrl) || !faellig || geholt >= 3) {
+      aus.push(p)
+      continue
+    }
+    geholt++
+    const html = await fetchText(p.articleUrl)
+    await sleep(1500)
+    const zeilen = html ? leseDiscUebersicht(html) : []
+    if (!zeilen.length) {
+      warn(`Disc-Übersicht „${p.articleTitle}": keine Zeile gelesen — Seite umgebaut?`)
+      aus.push(p)
+      continue
+    }
+    log(`Disc-Übersicht „${p.articleTitle}": ${zeilen.length} Titel`)
+    aus.push({ ...p, discZeilen: zeilen, discGelesen: heute })
   }
   return aus
 }
@@ -363,7 +393,7 @@ async function main(): Promise<void> {
     .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length || p.sammel?.some((e) => (e.datum ?? '') >= today))
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
-  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), proposals: await sammelartikelNachholen(await verschiebungenNachholen(all), today) }, true)
+  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), proposals: await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), today), today) }, true)
 
   const offen = all.filter((p) => !p.alreadyCurated)
   log(`${all.length} Vorschläge gespeichert, davon ${offen.length} noch nicht eingearbeitet.`)
