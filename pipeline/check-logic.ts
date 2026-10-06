@@ -8403,6 +8403,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   pruefe('TMDB: anderes Jahr gibt nichts', tmdbFolgentitel({ ...serie, jpYear: 2024 } as unknown as Title, 'Beispiel Serie', eintrag, nummern) === undefined)
   pruefe('TMDB: Titel gleich dem englischen oder ohne englischen Vergleich ist keiner', tmdbFolgentitel(serie, 'Beispiel Serie', { folgen: folgen(1, 12, 2026, (i) => `Episode title ${i}`) }, nummern) === undefined && tmdbFolgentitel(serie, 'Beispiel Serie', { folgen: eintrag.folgen.map((f) => ({ ...f, en: undefined })) }, nummern) === undefined)
   pruefe('TMDB: Platzhalter „Folge 3" ist kein Titel', tmdbFolgentitel(serie, 'Beispiel Serie', { folgen: folgen(1, 12, 2026, (i) => `Folge ${i}`) }, nummern) === undefined)
+  pruefe('TMDB: „… II" trifft den Namen ohne Zahl, ein anderer Name nicht', tmdbFolgentitel({ ...serie, titleRomaji: 'Beispiel Serie II' } as unknown as Title, 'Beispiel Serie', eintrag, nummern)?.size === 12 && tmdbFolgentitel({ ...serie, titleRomaji: 'Beispiel Serie II' } as unknown as Title, 'Anderes Werk', eintrag, nummern) === undefined)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

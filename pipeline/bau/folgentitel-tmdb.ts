@@ -38,7 +38,8 @@ function echterTitel(f: TmdbFolge): string | undefined {
  */
 export function tmdbFolgentitel(titel: Title, tmdbNameDe: string | undefined, eintrag: TmdbEintrag | undefined, nummern: number[]): Map<number, string> | undefined {
   if (!eintrag?.folgen || !FORMATE.has(titel.format ?? '') || !titel.episodes || titel.episodes < 6 || !titel.jpYear) return undefined
-  const unser = [titel.titleDe, titel.titleEn, titel.titleRomaji].map(tmdbName)
+  /* Auch ohne angehängte Staffelzahl („… II", „… 3"): TMDB führt die Staffeln unter dem Namen der ersten (Landei II, 06.10.2026). */
+  const unser = [titel.titleDe, titel.titleEn, titel.titleRomaji].map(tmdbName).flatMap((n) => [n, n.replace(/(?:iii|ii|iv|[2-5])$/, '')])
   if (!tmdbNameDe || !unser.includes(tmdbName(tmdbNameDe))) return undefined
   const jeStaffel = new Map<number, TmdbFolge[]>()
   for (const f of eintrag.folgen) if (f.s >= 1) jeStaffel.set(f.s, [...(jeStaffel.get(f.s) ?? []), f])
