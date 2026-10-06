@@ -102,3 +102,5 @@ CREATE TABLE IF NOT EXISTS monitor_alarm (
   grund          TEXT,
   geschlossen_am TEXT
 );
+
+CREATE INDEX IF NOT EXISTS idx_site_probe_zeit ON site_probe (checked_at);
