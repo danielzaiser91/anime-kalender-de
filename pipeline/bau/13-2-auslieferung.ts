@@ -3,6 +3,7 @@ import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { adressKern } from '../lib/dub-confirmed.ts'
+import { anisearchSeite } from '../lib/anisearch-seite.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
 
@@ -56,13 +57,7 @@ export function baueAuslieferung({
         */
         eintrag.deSource = {
           name: 'anisearch.de',
-          url:
-            url ??
-            (t.anisearchId
-              ? `https://www.anisearch.de/anime/${t.anisearchId}`
-              : `https://www.anisearch.de/search?q=${encodeURIComponent(
-                  t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id),
-                )}`),
+          url: url ?? anisearchSeite(anisearchHand[t.id] ?? anisearch[t.id]?.anisearchId, t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id)),
         }
       } else if (ausTmdb?.overviewDe) {
         eintrag.de = ausTmdb.overviewDe

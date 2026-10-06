@@ -193,6 +193,7 @@ import { neuesteErschienen } from '../web/src/lib/gesehen.ts'
 import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts'
 import { aehnlicherKern, einzigeJeSlug, releasesAusTvProgramm, sendungNeuZuordnen, tvdeSendeplatz } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
+import { anisearchSeite } from './lib/anisearch-seite.ts'
 import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
 import { passendeAdresse } from './fetch-kinoheld.ts'
@@ -8373,6 +8374,7 @@ console.log('\nFolgentitel aus Crunchyroll:')
   pruefe('aniSearch-Titel bleibt, die Lücke füllt Crunchyroll', gefuellt?.[0]?.de === 'Eigener Titel' && gefuellt?.[1]?.de === 'Treffen in der Höhle')
   pruefe('fehlt die Liste ganz, entsteht sie aus Crunchyroll', mitCrTiteln(undefined, cr)?.length === 2)
 }
+pruefe('aniSearch-Quellenlink: mit Kennung die Titelseite (nie die Suche), ohne Kennung die Suche', /^https:\/\/www\.anisearch\.de\/anime\/2227(,[a-z0-9-]+)?$/.test(anisearchSeite(2227, 'One Piece')) && anisearchSeite(undefined, 'One Piece') === 'https://www.anisearch.de/search?q=One%20Piece')
 pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15') === 'https://tv.de/sender/prosieben-maxx/09.10.2026/#09.20:00' && tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15', '2446020190') === 'https://tv.de/sendung/r/s,2446020190/')
 /* Specials erben den Serien-Treffer nicht, wo er mit einer TV-Serie geteilt wird und weder Name noch Folgenzahl passen. */
 {

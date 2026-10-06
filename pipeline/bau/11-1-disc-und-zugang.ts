@@ -4,6 +4,7 @@ import { ausgabeZumDiscTermin, type DiscAusgabe } from '../lib/disc-termin.ts'
 import { zugangsart } from '../../shared/zugangsart.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
+import { anisearchSeite } from '../lib/anisearch-seite.ts'
 
 export function ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdresse }: {
   titles: Map<number, Title>
@@ -97,7 +98,7 @@ export function ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdr
             ihre Tonspur; ohne Synchro-Marke kann es eine untertitelte Ausgabe sein.
           */
           name: 'Ausgabe bei aniSearch',
-          url: as ? `https://www.anisearch.de/anime/${as}` : `https://www.anisearch.de/anime/${title.id}`,
+          url: anisearchSeite(as, title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id)),
           kind: 'buy',
         },
       ]
@@ -210,7 +211,7 @@ function ergaenzeDiscWege(titles: Map<number, Title>, releases: Release[]) {
           Silberscheiben-Zeichen; der Name nennt nur noch die Quelle.
         */
         name: 'aniSearch',
-        url: erste.url ?? `https://www.anisearch.de/anime/${title.id}`,
+        url: erste.url ?? anisearchSeite(undefined, title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id)),
         kind: 'buy',
       },
     ]
