@@ -292,8 +292,11 @@ console.log('Sendeplan gegen belegtes Ende:')
     ...release,
     slug: 'sbr',
     platform: 'netflix',
+    netflixOriginal: true,
     schedule: { firstEpisodeDate: '2026-09-25', episodeCount: 7 },
   })
+  const lizenz = expandEvents({ ...release, slug: 'mha', platform: 'netflix', schedule: { firstEpisodeDate: '2026-10-06' } })
+  pruefe('Netflix-Lizenztitel (Vigilantes): keine geschätzte Zeit, „Zeit offen"', lizenz[0]?.time === undefined && !lizenz[0]?.timeEstimated, lizenz[0])
   pruefe('Netflix im Sommer: ≈ 10:00', netflix[0]?.time === '10:00' && netflix[0]?.timeEstimated === true, netflix[0])
   pruefe('Netflix im Winter: ≈ 09:00 (06.11.2026)', netflix[6]?.date === '2026-11-06' && netflix[6]?.time === '09:00', netflix[6])
   const belegt = expandEvents({ ...release, slug: 'nf2', platform: 'netflix', schedule: { firstEpisodeDate: '2026-09-25', time: '17:30' } })

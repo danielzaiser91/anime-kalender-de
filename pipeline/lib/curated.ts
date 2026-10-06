@@ -20,6 +20,8 @@ export interface CuratedEntry {
   publisher?: string
   edition?: string
   note?: string
+  /** Siehe `Release.netflixOriginal`. */
+  netflixOriginal?: boolean
   /** Siehe `Release.nachtrag`. */
   nachtrag?: { kurz: string; abschnitte: { art: string; text: string }[] }
   /**

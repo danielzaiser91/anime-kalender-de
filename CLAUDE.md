@@ -22,7 +22,7 @@ Nicht Ziel: Community, Bewertungen, Wasserstandsmeldungen zu japanischen Ausstra
 
 - **Kein Termin ohne `sources`** (`npm run data:validate` bricht ab).
 - **Keine erfundenen Uhrzeiten** — `time` bleibt leer („Zeit offen"). Einzige Ausnahme Netflix:
-  08:00 UTC als `timeEstimated` („≈", ohne Countdown; Daniel, 25.09.2026).
+  08:00 UTC als `timeEstimated` („≈", ohne Countdown; Daniel, 25.09.2026) — nur bei Eigenproduktionen (`netflixOriginal`); Lizenztitel bleiben „Zeit offen" (Vigilantes, 06.10.2026).
 - **Abgeleitetes kennzeichnen:** Datum aus Simulcast statt Dub-Ankündigung → `estimated: true`;
   geratene Folgenzahl → `episodeCountAssumed`; beides „≈" im UI.
 - **Keine Folgenzahl erfinden**, auch nicht als Rückfall; ein Termin ohne belegte Stückzahl über

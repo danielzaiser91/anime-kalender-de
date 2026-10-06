@@ -140,6 +140,7 @@
   search: "JoJo no Kimyou na Bouken: Steel Ball Run"
   titleDe: "JoJo's Bizarre Adventure: Steel Ball Run – 1st STAGE"
   platform: netflix
+  netflixOriginal: true
   platformUrl: https://www.netflix.com/title/82116553
   releaseType: batch
   note: "Folge 1 von 12, allein vorab veröffentlicht: 47 Minuten Laufzeit, deutsche und japanische Sprachfassung. Die Folgen 2 bis 12 kommen ab dem 25.09.2026 im Wochentakt als „2nd & 3rd STAGE“."
@@ -155,6 +156,7 @@
   search: "JoJo no Kimyou na Bouken: Steel Ball Run"
   titleDe: "JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE"
   platform: netflix
+  netflixOriginal: true
   platformUrl: https://www.netflix.com/title/82116553
   releaseType: weekly
   note: "Die Folgen 2 bis 12 im Wochentakt. Folge 1 („1st STAGE“) lief bereits am 19.03.2026. Netflix nennt für Katalogtitel keine Uhrzeit."
@@ -178,6 +180,7 @@
   anilistId: 195539
   titleDe: "Cyberpunk: Edgerunners II"
   platform: netflix
+  netflixOriginal: true
   releaseType: batch
   schedule:
     firstEpisodeDate: "2026-10-20"

@@ -227,14 +227,13 @@ export function istAusgeblieben(ereignis: { verpasst?: { erschienenAm?: string }
  * Katalogtitel keine Uhrzeit, veröffentlicht Anime aber zu dieser. Belegt an „Steel Ball Run"
  * 2nd STAGE: Netflix Tudum „1 a.m. PDT / 5 p.m. JST", und Daniel sah Folge 2 um 09:35 noch nicht,
  * um 10:11 schon. Auf Daniels Wunsch („schreib das als voraussichtliche netflix uhrzeit für
- * releases die nur tag angaben haben") trägt jeder Netflix-Termin ohne belegte Uhrzeit diese,
- * gekennzeichnet als `timeEstimated` — im Sommer 10:00, im Winter 09:00 Berliner Zeit.
+ * releases die nur tag angaben haben") trug jeder Netflix-Termin diese. Seit dem 06.10.2026 nur noch Eigenproduktionen (`netflixOriginal`): Lizenztitel haben keine feste Zeit (My Hero Academia: Vigilantes fehlte um 14:44 noch). Als `timeEstimated`, im Sommer 10:00, im Winter 09:00 Berliner Zeit.
  */
 export const NETFLIX_UHRZEIT_UTC = '08:00'
 
 export function expandEvents(release: Release): ReleaseEvent[] {
   const termine = termineAusPlan(release)
-  if (release.platform !== 'netflix') return termine
+  if (release.platform !== 'netflix' || !release.netflixOriginal) return termine
   return termine.map((e) => (e.time ? e : { ...e, time: utcZeitInBerlin(e.date, NETFLIX_UHRZEIT_UTC), timeEstimated: true }))
 }
 
