@@ -39,3 +39,395 @@
   sources:
     - https://www.videobuster.de/dvd-bluray-verleih/194904/berserk-das-goldene-zeitalter-3
     - https://de.wikipedia.org/wiki/Berserk:_Das_goldene_Zeitalter_III
+
+# ---- Nachtrag 06.10.2026: Erstausgabe mit deutscher Tonspur, gelesen von Subagenten (Stichprobe: Quelle jeweils selbst abgerufen) ----
+# Transformers: Cybertron — fernsehserien.de: „Deutsche TV-Premiere 03.02.2007 Jetix" (nur 26 Folgen deutsch vertont, Studio Hamburg Synchron laut Snippet transformers.fandom.com/de).
+- anilistId: 928
+  title: 'Transformers: Cybertron'
+  von: '2007-02-03'
+  publisher: 'Jetix'
+  sources:
+    - https://www.fernsehserien.de/transformers-cybertron
+# Kirby — fernsehserien.de: „12.11.2003 Disney Channel"; nur 52 der ~100 Folgen deutsch.
+- anilistId: 2390
+  title: 'Kirby'
+  von: '2003-11-12'
+  publisher: 'Disney Channel'
+  sources:
+    - https://www.fernsehserien.de/kirby
+# Kizumonogatari I — bluray-disc.de: „29.09.2017", peppermint anime, „Deutsch DTS-HD MA 5.1"; Kino 16.01.2016 war OmU (OFDb).
+- anilistId: 9260
+  title: 'Kizumonogatari I: Blut und Eisen'
+  von: '2017-09-29'
+  publisher: 'peppermint anime'
+  sources:
+    - https://bluray-disc.de/blu-ray-filme/115066-kizumonogatari_i_blut_und_eisen
+    - https://www.synchronkartei.de/film/38404
+# Appleseed XIII: Tartaros — OFDb: Blu-ray „21. März 2014", Universum Film, „Deutsch (DTS-HD Master Audio 5.1)"; frühere Einzelveröffentlichung nicht geprüft.
+- anilistId: 10689
+  title: 'Appleseed XIII: Tartaros'
+  von: '2014-03-21'
+  publisher: 'Universum Film'
+  sources:
+    - https://www.ofdb.de/fassung/210503,427448,Appleseed-XIII-Tartaros/
+# Hakuoki Warrior Spirit of the Blue Sky — bluray-disc.de: „08.08.2016", KSM GmbH, „Deutsch DTS-HD MA 5.1"; Synchronkartei: DMT Hamburg.
+- anilistId: 13119
+  title: 'Hakuoki: Demon of the Fleeting Blossom - Warrior Spirit of the Blue Sky'
+  von: '2016-08-08'
+  publisher: 'KSM'
+  sources:
+    - https://bluray-disc.de/blu-ray-filme/79524-hakuoki_demon_of_the_fleeting_blossom_warrior_spirit_of_the_blue_sky
+    - https://www.synchronkartei.de/film/33713
+# Yo-Kai Watch — fernsehserien.de: „Deutsche TV-Premiere 09.05.2016 Nickelodeon".
+- anilistId: 19157
+  title: 'Yo-Kai Watch'
+  von: '2016-05-09'
+  publisher: 'Nickelodeon'
+  sources:
+    - https://www.fernsehserien.de/yo-kai-watch
+# Tenkai Knights — fernsehserien.de: „27.06.2014 ProSieben MAXX".
+- anilistId: 20905
+  title: 'Tenkai Knights: Die Tenkai Ritter'
+  von: '2014-06-27'
+  publisher: 'ProSieben MAXX'
+  sources:
+    - https://www.fernsehserien.de/tenkai-knights
+# GITS Arise Pyrophoric Cult — thelostdungeon.de: „28. Juli 2017", Universum Anime, „gute deutsche Synchronisation mit den bekannten Ghost-in-the-Shell-Sprechern"; Disc enthält nur die Pyrophoric-Cult-Fassung (2 Teile).
+- anilistId: 21056
+  title: 'Ghost in the Shell: Arise - Pyrophoric Cult'
+  von: '2017-07-28'
+  publisher: 'Universum Anime'
+  sources:
+    - https://www.thelostdungeon.de/2017/07/28/rezension-ghost-in-the-shell-arise-pyrophoric-cult/
+# Winter Cup Highlights Episode 3 — fernsehserien.de: „Deutsche TV-Premiere Fr. 25.11.2022 ProSieben MAXX", Sprachen Deutsch und japanisch OV; frühere Disc-Veröffentlichung nicht geprüft.
+- anilistId: 102839
+  title: 'Winter Cup Highlights Episode 3 – Winter Cup Highlights -Crossing the Door-'
+  von: '2022-11-25'
+  publisher: 'ProSieben MAXX'
+  sources:
+    - https://www.fernsehserien.de/kurokos-basketball/folgen/03-winter-cup-crossing-the-door-1602231
+# K: Seven Stories Side:Green — anime2you.de: „22. Oktober 2019", KSM Anime, Synchro G&G Studios, „Deutsch, Japanisch" (Side:One mit drei Filmen).
+- anilistId: 102347
+  title: 'K: Seven Stories Movie 3 - Side:Green - The Overwritten World'
+  von: '2019-10-22'
+  publisher: 'KSM Anime'
+  sources:
+    - https://www.anime2you.de/news/331328/k-seven-stories-sideone-blu-ray/
+# Fate/Grand Order Camelot Paladin; Agateram — bluray-disc.de: „01.12.2022", peppermint anime / Crunchyroll, „Deutsch DTS-HD MA 5.1".
+- anilistId: 103277
+  title: 'Fate/Grand Order Divine Realm of the Round Table: Camelot - Paladin; Agateram'
+  von: '2022-12-01'
+  publisher: 'peppermint anime'
+  sources:
+    - https://bluray-disc.de/blu-ray-filme/175757-fategrand_order_the_movie_divine_realm_of_the_round_table_camelot_paladin_agateram
+# ID: Invaded — pattotv.de: Volume 1 „am 1. Juli 2021", peppermint anime, Synchro @alpha Postproduktion München (anime2you: Disc-Start 01.07.2021).
+- anilistId: 110350
+  title: 'ID: Invaded'
+  von: '2021-07-01'
+  publisher: 'peppermint anime'
+  sources:
+    - https://www.pattotv.de/review-id-invaded-volume-1-blu-ray/
+    - https://www.anime2you.de/news/479215/id-invaded-sprechercast/
+# Date A Bullet — anime2you.de: Kino „August 29, 2021" „als Event mit deutscher Synchronisation im Kino", AniMoon (Blu-ray 07.02.2022, bluray-disc.de).
+- anilistId: 121034
+  title: 'Date A Bullet: Dead or Bullet & Nightmare or Queen'
+  von: '2021-08-29'
+  publisher: 'AniMoon Publishing'
+  sources:
+    - https://www.anime2you.de/news/496297/date-a-bullet-kinotermin/
+    - https://bluray-disc.de/blu-ray-filme/153093-date_a_bullet
+# Free! the Final Stroke Second Volume — bluray-disc.de: „18.08.2023", peppermint anime, „Deutsch DTS-HD MA 5.1"; früherer Kino-Start nicht geprüft.
+- anilistId: 133124
+  title: 'Free! the Final Stroke: The Second Volume'
+  von: '2023-08-18'
+  publisher: 'peppermint anime'
+  sources:
+    - https://bluray-disc.de/blu-ray-filme/173466-free_the_final_stroke_part_2_the_movie
+# Hamtaro: fernsehserien.de (abgerufen) „German premiere: September 23, 2002 on RTL II“; Polyband-DVD Vol. 1 (Deutsch DD 2.0) erst 03.03.2003.
+- anilistId: 508
+  title: 'Hamtaro: Kleine Hamster, große Abenteuer'
+  von: '2002-09-23'
+  publisher: 'RTL II'
+  sources:
+    - https://www.fernsehserien.de/hamtaro
+    - https://www.ofdb.de/fassung/25711,253909,Hamtaro-Kleine-Hamster-gro%C3%9Fe-Abenteuer/
+# Die Mumins: fernsehserien.de (abgerufen) „The German premiere occurred on October 17, 1992, via ZDF“; Synchronkartei (abgerufen): FSM Fernsehstudio München, 1992.
+- anilistId: 2150
+  title: 'Die Mumins'
+  von: '1992-10-17'
+  publisher: 'ZDF'
+  sources:
+    - https://www.fernsehserien.de/mumins-1990
+    - https://www.synchronkartei.de/serie/2294
+# Mardock Scramble Film 1: Ausschnitt Amazon.de „German (Dolby Digital 5.1) and Japanese (Dolby Digital 5.1)“, Datum 02.12.2011, Vertrieb LEONINE; Seiten nicht abgerufen.
+- anilistId: 8100
+  title: 'Mardock Scramble: The First Compression'
+  von: '2011-12-02'
+  publisher: 'LEONINE'
+  sources:
+    - https://www.amazon.de/-/en/Kazuya-Nakai/dp/B005L4KURI
+    - https://www.amazon.de/-/en/Mardock-Scramble-First-Compression-BLU-RAY/dp/B005ZJCGBC
+# Glitter Force Doki Doki: fernsehserien.de (abgerufen) „The series debuted on Netflix in Germany on August 18, 2017“; anime2you-Ausschnitt: mit deutscher Synchronisation.
+- anilistId: 16419
+  title: 'Glitter Force Doki Doki'
+  von: '2017-08-18'
+  publisher: 'Netflix'
+  sources:
+    - https://www.fernsehserien.de/dokidoki-precure
+    - https://www.anime2you.de/news/156072/
+# Persona 3 Movie #2: Ausschnitt Amazon.co.uk „German (PCM 2.0) and Japanese (PCM 2.0)“, Release 29.06.2018, AV Visionen; Seite nicht abgerufen.
+- anilistId: 20736
+  title: "Persona 3 the Movie: #2 Midsummer Knight's Dream"
+  von: '2018-06-29'
+  publisher: 'AV Visionen'
+  sources:
+    - https://www.amazon.co.uk/Persona-Midsummer-Knights-Blu-ray-Deutsch/dp/B07CCG1XVP
+    - https://www.animepro.de/anima/dvdtest/persona3-the-movie-2-midsummer-knights-dream-blu-ray
+# Persona 3 Movie #3: Ausschnitt Amazon.de „German (PCM 2.0) and Japanese (PCM 2.0)“, Release 31.08.2018, AV Visionen; Seite nicht abgerufen.
+- anilistId: 20737
+  title: 'Persona 3 the Movie: #3 Falling Down'
+  von: '2018-08-31'
+  publisher: 'AV Visionen'
+  sources:
+    - https://www.amazon.de/-/en/Persona-Falling-Down-Movie-Blu-ray/dp/B07C5NSSYR
+    - https://akibapassshop.de/products/15p05-04-persona-3-the-movie-03-falling-down-bluray
+# Kizumonogatari II: Ausschnitt bluray-disc.de „German DTS-HD MA 2.0“, Synchro Oxygen Sound Studios Berlin, Blu-ray 24.11.2017, peppermint anime; Seite nicht abgerufen.
+- anilistId: 21399
+  title: 'Kizumonogatari II: Heißes Blut'
+  von: '2017-11-24'
+  publisher: 'peppermint anime'
+  sources:
+    - https://bluray-disc.de/blu-ray-filme/115065-kizumonogatari_ii_heies_blut
+    - https://akibapassshop.de/Kizumonogatari-II-Heisses-Blut-BD
+# Free! Timeless Medley The Promise: Ausschnitt bluray-disc.de „German PCM 5.1 and Japanese PCM 5.1“, Blu-ray 25.05.2018, peppermint anime; Seite nicht abgerufen.
+- anilistId: 98496
+  title: 'Free! -Timeless Medley- The Promise'
+  von: '2018-05-25'
+  publisher: 'peppermint anime'
+  sources:
+    - https://bluray-disc.de/blu-ray-filme/117207-free_timeless_medley_02_the_promise
+    - https://akibapassshop.de/Free-Timeless-Medley-02-The-Promise-BD
+# Digimon tri. Chapter 6: Ausschnitt Amazon.de „German and Japanese audio in DTS-HD MA 5.1“, Blu-ray 29.05.2019, KSM Anime; Kinostart möglicherweise früher, nicht geprüft.
+- anilistId: 100181
+  title: 'Digimon Adventure tri. Chapter 6: Our Future'
+  von: '2019-05-29'
+  publisher: 'KSM Anime'
+  sources:
+    - https://www.amazon.de/-/en/Digimon-Adventure-tri-Chapter-Blu-ray/dp/B07PK6MXXH
+    - https://bluray-disc.de/blu-ray-filme/132199-digimon_adventure_tri_chapter_6_our_future_limited_futurepak_edition
+# K: Seven Stories Movie 4: Ausschnitt anime2you „Side Two“ 05.12.2019 mit deutscher Synchro (G&G Studios), Koch Media; Seiten nicht abgerufen.
+- anilistId: 102348
+  title: 'K: Seven Stories Movie 4 - Lost Small World - Outside the Cage'
+  von: '2019-12-05'
+  publisher: 'Koch Media'
+  sources:
+    - https://www.anime2you.de/news/381209/k-seven-stories-sidetwo-blu-ray/
+    - https://www.buecher.de/shop/anime/k-seven-stories-side-two-movie-4-6-blu-ray-box/blu-ray-disc/products_products/detail/prod_id/57920080/
+# Free! the Final Stroke Teil 1: Ausschnitt Amazon.de „German (DTS-HD Master Audio 5.1) and Japanese (DTS-HD Master Audio 5.1)“, Blu-ray/DVD 01.09.2022, peppermint anime.
+- anilistId: 107203
+  title: 'Free! the Final Stroke: The First Volume'
+  von: '2022-09-01'
+  publisher: 'peppermint anime'
+  sources:
+    - https://www.amazon.de/-/en/Free-Final-Stroke-First-Blu-ray/dp/B0B3XKXF4M
+    - https://akibapassshop.de/Free-the-Final-Stroke-the-First-Volume-DIGITAL-Deutsche-Synchronfassung-DE
+# Date A Bullet: Ausschnitt de.wikipedia „released on January 28, 2022“ mit deutscher Synchronisation und DTS-HD-Spur; Kinostart 29.08.2021 (Tonfassung im Kino nicht geprüft, daher Disc-Datum). AniMoon.
+- anilistId: 111852
+  title: 'Date A Bullet: Dead or Bullet & Nightmare or Queen'
+  von: '2022-01-28'
+  publisher: 'AniMoon Publishing GmbH'
+  sources:
+    - https://de.wikipedia.org/wiki/Dead_or_Bullet
+    - https://animoon-publishing.de/products/date-a-bullet
+# fernsehserien.de/zeichentrickserien.de: „Deutsche TV-Premiere 27.05.1996 Sat.1“ (de.wikipedia nennt zusätzlich 1991 auf Premiere, ohne Beleg, daher nicht genommen).
+- anilistId: 2282
+  title: 'Der kleine Bibelfuchs'
+  von: '1996-05-27'
+  publisher: 'Sat.1'
+  sources:
+    - https://www.fernsehserien.de/der-kleine-bibelfuchs
+    - https://www.zeichentrickserien.de/der-kleine-bibelfuchs.htm
+# de.wikipedia: Kurzfilm „wird am Anfang des Films gezeigt“; Kinostart Pokémon – Der Film 13.04.2000 (Warner Bros.). Tonspur des Kurzfilms nur indirekt belegt (deutscher Titel, Kinoeinsatz).
+- anilistId: 5526
+  title: 'Pikachus Ferien'
+  von: '2000-04-13'
+  publisher: 'Warner Bros. Entertainment (Kino)'
+  sources:
+    - https://de.wikipedia.org/wiki/Pok%C3%A9mon_%E2%80%93_Der_Film
+# bluray-disc.de: Release „27.11.2015“, peppermint anime, Audio „Deutsch PCM 2.0“ und „Japanisch PCM 2.0“.
+- anilistId: 14407
+  title: 'Persona 3 the Movie: #1 Spring of Birth'
+  von: '2015-11-27'
+  publisher: 'peppermint anime'
+  sources:
+    - https://bluray-disc.de/blu-ray-filme/88589-persona_3_the_movie_01_spring_of_birth_directors_cut
+    - https://www.synchronkartei.de/film/32312
+# Rezension thelostdungeon: Blu-ray Border 3+4 „released May 26, 2017“ von Universum Anime, Tonspuren Deutsch und Japanisch; Synchronkartei: EuroSync Berlin.
+- anilistId: 19193
+  title: 'Ghost in the Shell: Arise - Border:3 Ghost Tears'
+  von: '2017-05-26'
+  publisher: 'Universum Anime'
+  sources:
+    - https://www.thelostdungeon.de/2017/05/26/rezension-ghost-in-the-shell-arise-border-3-4/
+    - https://www.synchronkartei.de/film/37540
+# bluray-disc.de: Release 23.10.2017, KSM GmbH, „Deutsch DTS-HD MA 5.1“ und „Japanisch DTS-HD MA 5.1“.
+- anilistId: 20763
+  title: 'Arpeggio of Blue Steel: Ars Nova - DC'
+  von: '2017-10-23'
+  publisher: 'KSM GmbH'
+  sources:
+    - https://bluray-disc.de/blu-ray-filme/114120-arpeggio_of_blue_steel_ars_nova_dc
+# blu-ray.com: Release 26.01.2018, peppermint, Audio Japanisch und Deutsch (LPCM 2.0).
+- anilistId: 21400
+  title: 'Kizumonogatari III: Kaltes Blut'
+  von: '2018-01-26'
+  publisher: 'peppermint anime'
+  sources:
+    - https://www.blu-ray.com/movies/Kizumonogatari-Part-3-Reiketsu-hen-Blu-ray/186277/
+# fernsehserien.de: deutsche Streaming-Premiere 10.02.2017 Netflix; sumikai: 12 Folgen (aus den 3 Filmen) „sowohl in japanischer Sprachausgabe mit deutschen Untertiteln als auch mit einer deutschen Synchronisation“. Eintrag gilt für den Film Call of Justice 2 als Teil der 12 Folgen.
+- anilistId: 87482
+  title: 'CYBORG009 CALL OF JUSTICE 2'
+  von: '2017-02-10'
+  publisher: 'Netflix'
+  sources:
+    - https://www.fernsehserien.de/cyborg-009-call-of-justice
+    - https://sumikai.com/mangaanime/cyborg-009-call-of-justice-ab-heute-auf-netflix-169251/
+# animenachrichten (Review): Erscheinung 21.10.2019, peppermint anime, deutsche Fassung in PCM 5.1 und DTS-HD MA 5.1.
+- anilistId: 100652
+  title: 'Mademoiselle Hanamura 2 - Eine Romanze in Tokyo'
+  von: '2019-10-21'
+  publisher: 'peppermint anime'
+  sources:
+    - https://www.animenachrichten.de/news/102763/review-mademoiselle-hanamura-2-eine-romanze-in-tokyo-blu-ray
+    - https://www.synchronkartei.de/film/45112
+# anime2you: „Die ersten beiden Episoden erscheinen am 31. Oktober um 17:30 Uhr mit deutscher Sprachausgabe exklusiv für VIP-Mitglieder auf WAKANIM“ (2020, Jahr aus Simulcast/Synchronkartei; Wochentag/Jahr nicht in der abgerufenen Zusammenfassung ausgeschrieben).
+- anilistId: 118419
+  title: 'The Day I Became a God'
+  von: '2020-10-31'
+  publisher: 'Wakanim'
+  sources:
+    - https://www.anime2you.de/news/426391/wakanim-the-day-i-became-a-god-erscheint-auf-deutsch/
+    - https://www.synchronkartei.de/serie/48769
+# anime2you 16.03.2025: alle zwölf Episoden „nicht mehr nur im japanischen Originalton mit deutschen Untertiteln, sondern auch mit deutscher, englischer und französischer Vertonung“ auf Disney+. Datum = Meldungstag, Verfügbarkeit kann früher begonnen haben.
+- anilistId: 161476
+  title: 'Ishura'
+  von: '2025-03-16'
+  publisher: 'Disney+'
+  sources:
+    - https://www.anime2you.de/news/881626/ishura-deutsch-disney-plus/
+    - https://www.synchronkartei.de/serie/60049
+# anime2you: ProSieben MAXX zeigt das Special „mit deutscher Sprachausgabe“, TV-Premiere 16.12.2025 18:30 Uhr; Netflix/Crunchyroll/ADN nur OmU.
+- anilistId: 182469
+  title: 'One Piece Fan Letter'
+  von: '2025-12-16'
+  publisher: 'ProSieben MAXX'
+  sources:
+    - https://www.anime2you.de/news/956062/one-piece-fan-letter-auf-prosieben-maxx/
+# Cardcaptor Sakura: fernsehserien "German TV premiere ... April 5, 2003 on Fox Kids" (Pay-TV); de.wikipedia: "initially broadcast on Fox Kids (Premiere)", Pro7 erst 11.10.2003.
+- anilistId: 232
+  title: 'Cardcaptor Sakura'
+  von: '2003-04-05'
+  publisher: 'Fox Kids (Premiere)'
+  sources:
+    - https://www.fernsehserien.de/card-captor-sakura
+    - https://de.wikipedia.org/wiki/Card_Captor_Sakura
+# Gintama: manime-Review Box 1: Erscheinungsdatum "10.04.2017", Publisher "KSM Anime", Tonspur "Deutsch (DTS-HD 5.1)".
+- anilistId: 918
+  title: 'Gintama'
+  von: '2017-04-10'
+  publisher: 'KSM Anime'
+  sources:
+    - https://www.manime.de/news/review-gintama-box-1/0016555/
+    - https://www.fernsehserien.de/gintama
+# Speed Racer: fernsehserien "premiered in Germany on November 18, 1971, via ARD".
+- anilistId: 1445
+  title: 'Speed Racer'
+  von: '1971-11-18'
+  publisher: 'ARD'
+  sources:
+    - https://www.fernsehserien.de/speed-racer
+# MegaMan NT Warrior: fernsehserien "premiered in Germany on August 23, 2004, on RTL II".
+- anilistId: 1710
+  title: 'MegaMan NT Warrior'
+  von: '2004-08-23'
+  publisher: 'RTL II'
+  sources:
+    - https://www.fernsehserien.de/megaman-nt-warrior
+    - https://www.synchronkartei.de/serie/11929
+# Cat's Eye: de.wikipedia "Die deutsche Erstausstrahlung der Fernsehserie begann am 13. November 1995 bei RTL II."
+- anilistId: 2043
+  title: 'Cat’s Eye – Ein Supertrio'
+  von: '1995-11-13'
+  publisher: 'RTL II'
+  sources:
+    - https://de.wikipedia.org/wiki/Ein_Supertrio
+# B-Daman: fernsehserien Deutsche Erstausstrahlung "03.09.2005 Super RTL".
+- anilistId: 2789
+  title: 'B-Daman'
+  von: '2005-09-03'
+  publisher: 'Super RTL'
+  sources:
+    - https://www.fernsehserien.de/b-daman
+# Setons Welt der Tiere: fernsehserien "German Premiere: January 3, 1995 on Kabel 1".
+- anilistId: 7845
+  title: 'Setons Welt der Tiere'
+  von: '1995-01-03'
+  publisher: 'Kabel 1'
+  sources:
+    - https://www.fernsehserien.de/setons-welt-der-tiere
+# Persona 3 Film #4: ProSieben MAXX Sendetermin 28. September 2018 ("Winter of Rebirth", 20:15); Disc peppermint 26.10.2018. Dass Film 4 synchronisiert lief, ist nicht ausdrücklich zitiert (Artikel 239145: Filme mit deutscher Synchronisation).
+- anilistId: 21248
+  title: 'Persona 3 the Movie: #4 Winter of Rebirth'
+  von: '2018-09-28'
+  publisher: 'ProSieben MAXX'
+  sources:
+    - https://www.anime2you.de/news/237354/prosieben-maxx-zeigt-persona-3-filmreihe/
+    - https://www.anime2you.de/news/246859/uebersicht-anime-neuheiten-ab-kw-43-2018-im-handel/
+# Sinbad Magic Lamp: anime2you "Kinostart: 30. April 2019", "Deutsche Sprachfassung (synchronisiert)", KAZÉ (Kompilationsfilm aus allen drei Teilen); Trilogie-Blu-ray 14.06.2019 "Deutsch, Japanisch".
+- anilistId: 21368
+  title: 'Sinbad: The Magic Lamp and the Moving Islands'
+  von: '2019-04-30'
+  publisher: 'KAZÉ'
+  sources:
+    - https://www.anime2you.de/news/265839/die-abenteuer-des-jungen-sinbad-the-movie-kommt-in-die-deutschen-kinos/
+    - https://www.anime2you.de/news/318357/die-abenteuer-des-jungen-sinbad-die-trilogie-blu-ray/
+# Mademoiselle Hanamura 1: anime2you "kommt der Film hierzulande am 28. September 2018 in den Handel" (peppermint anime), Synchro Stutt i/O Synchron Stuttgart.
+- anilistId: 21833
+  title: 'Mademoiselle Hanamura 1 - Aufbruch zu modernen Zeiten'
+  von: '2018-09-28'
+  publisher: 'peppermint anime'
+  sources:
+    - https://www.anime2you.de/news/220146/mademoiselle-hanamura-disc-releasetermin-des-ersten-films/
+    - https://www.anime2you.de/news/233922/deutscher-sprechercast-von-mademoiselle-hanamura/
+# Cyborg009 Call of Justice: fernsehserien "German Premiere: February 10, 2017 on Netflix" (Serie aus 3 Filmen); anime2you: "mit deutscher Vertonung ... bei Netflix". Datum gilt für die Serie, Teil 3 nicht einzeln geprüft.
+- anilistId: 87483
+  title: 'Cyborg009 Call Of Justice 3'
+  von: '2017-02-10'
+  publisher: 'Netflix'
+  sources:
+    - https://www.fernsehserien.de/cyborg-009-call-of-justice
+    - https://www.anime2you.de/news/866645/netflix-entfernt-cyborg-009-call-of-justice/
+# Laughing Under the Clouds Gaiden: anime2you Blu-ray "Disc Release Date: July 12, 2019", Universum Anime, Audio "German and Japanese (DD 5.1)" (Trilogie, Teil 1 enthalten).
+- anilistId: 98452
+  title: 'Laughing Under the Clouds: Gaiden Part 1'
+  von: '2019-07-12'
+  publisher: 'Universum Anime'
+  sources:
+    - https://www.anime2you.de/news/321291/unterm-wolkenhimmel-laughing-under-the-clouds-gaiden-blu-ray/
+    - https://www.anime2you.de/news/277290/laughing-under-the-clouds-gaiden-erscheint-bei-universum-anime/
+# FGO Camelot Wandering: anime2you "will release in Germany on September 15, 2022 through publisher peppermint anime", "deutsche und japanischer Sprachausgabe".
+- anilistId: 103276
+  title: 'Fate/Grand Order Divine Realm of the Round Table: Camelot - Wandering; Agateram'
+  von: '2022-09-15'
+  publisher: 'peppermint anime'
+  sources:
+    - https://www.anime2you.de/news/575938/erster-fate-grand-order-camelot-film-disc-termin/
+    - https://www.anime2you.de/news/583187/erster-fate-grand-order-camelot-film-vorbestellbar/
+# Midnight Occult Civil Servants OVA: anime2you "kommt voraussichtlich am 18. Februar 2021 mit deutscher und japanischer Sprachausgabe in den Handel" (Ankündigung, KSM Anime) — tatsächlichen Termin prüfen.
+- anilistId: 110173
+  title: 'Midnight Occult Civil Servants OVA'
+  von: '2021-02-18'
+  publisher: 'KSM Anime'
+  sources:
+    - https://www.anime2you.de/news/452551/mocs-ova-deutscher-trailer/
+    - https://www.anime2you.de/news/431931/disc-termin-der-midnight-occult-civil-servants-ovas/
