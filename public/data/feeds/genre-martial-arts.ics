@@ -86,6 +86,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:hells-paradise-s1-joyn@2026-10-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261002
+DTEND;VALUE=DATE:20261003
+SUMMARY:Hell’s Paradise
+DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
+ bestätigt.\nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:Joyn
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-16870-tv-prosieben-maxx@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261003T003000Z
@@ -94,6 +104,26 @@ SUMMARY:The Last: Naruto the Movie
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6377/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:spy-x-family-s1-teil2-disneyplus@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:SPY x FAMILY Teil 2
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/13786/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:spy-x-family-s2-disneyplus@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:SPY x FAMILY Staffel 2
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/14846/
+CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de

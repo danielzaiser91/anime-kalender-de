@@ -106,6 +106,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:gachiakuta-teil1-disneyplus@2026-10-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261006
+SUMMARY:Gachiakuta
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/15952/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-07#19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T162500Z

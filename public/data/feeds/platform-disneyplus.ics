@@ -16,6 +16,46 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nDetai
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
+UID:spy-x-family-s1-teil1-disneyplus@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:SPY x FAMILY
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/13639/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:spy-x-family-s1-teil2-disneyplus@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:SPY x FAMILY Teil 2
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/13786/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:spy-x-family-s2-disneyplus@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:SPY x FAMILY Staffel 2
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/14846/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:gachiakuta-teil1-disneyplus@2026-10-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261006
+SUMMARY:Gachiakuta
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/15952/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261007
@@ -67,6 +107,16 @@ SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 5/13
 DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
  ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
  ls: https://anime-kalender.de/t/15957/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:honey-lemon-soda-disneyplus@2026-11-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Honey Lemon Soda
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/15739/
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT

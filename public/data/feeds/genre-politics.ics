@@ -150,6 +150,36 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:spy-x-family-s1-teil1-disneyplus@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:SPY x FAMILY
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/13639/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:spy-x-family-s1-teil2-disneyplus@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:SPY x FAMILY Teil 2
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/13786/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:spy-x-family-s2-disneyplus@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:SPY x FAMILY Staffel 2
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/14846/
+CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-05#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T162500Z

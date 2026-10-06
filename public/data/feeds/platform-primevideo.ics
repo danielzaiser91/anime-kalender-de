@@ -6,6 +6,16 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – primevideo
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:demon-slayer-s1-primevideo@2026-10-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
+SUMMARY:Demon Slayer: Kimetsu no Yaiba
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/t/9175/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-16498-primevideo@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261001
