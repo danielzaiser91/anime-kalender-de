@@ -92,6 +92,7 @@ import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../sh
 import { ausgestrahltOhneBeleg } from './bau/ohne-beleg.ts'
 import { crFolgentitel, mitCrTiteln, titelJeKennung } from './bau/folgentitel-cr.ts'
 import { tmdbFolgentitel } from './bau/folgentitel-tmdb.ts'
+import { darfTrefferErben, gesperrteSerienTreffer, type TrefferAngabe } from './lib/treffer-erben.ts'
 import { suchbegriffeJeAdresse } from './lib/beleg-suche.ts'
 import { plotVon } from '../web/src/components/detail/plot.ts'
 import { newsRss } from './lib/news-rss.ts'
@@ -8368,6 +8369,23 @@ console.log('\nFolgentitel aus Crunchyroll:')
   const gefuellt = mitCrTiteln([{ nr: 1, de: 'Eigener Titel' }, { nr: 2 }], cr)
   pruefe('aniSearch-Titel bleibt, die Lücke füllt Crunchyroll', gefuellt?.[0]?.de === 'Eigener Titel' && gefuellt?.[1]?.de === 'Treffen in der Höhle')
   pruefe('fehlt die Liste ganz, entsteht sie aus Crunchyroll', mitCrTiteln(undefined, cr)?.length === 2)
+}
+/* Specials erben den Serien-Treffer nicht, wo er mit einer TV-Serie geteilt wird und weder Name noch Folgenzahl passen. */
+{
+  const serie: TrefferAngabe = { art: 'serie', namen: ['death note'], folgen: [37], teiltMitSerie: true }
+  const special = { format: 'SPECIAL', episodes: 1, namen: ['death note relight'] }
+  pruefe('Special unter geteiltem Serien-Treffer erbt nichts (Death Note: Relight)', !darfTrefferErben(special, serie))
+  pruefe('Special mit gleicher Folgenzahl behält den Treffer', darfTrefferErben({ ...special, episodes: 37 }, serie))
+  pruefe('Special, dessen Name der Treffer trägt, behält ihn', darfTrefferErben({ ...special, namen: ['death note'] }, serie))
+  pruefe('Treffer ohne TV-Geschwister bleibt (Kakegurui Twin)', darfTrefferErben({ ...special, format: 'ONA' }, { ...serie, teiltMitSerie: false }))
+  pruefe('TV und Filmtreffer bleiben unberührt', darfTrefferErben({ ...special, format: 'TV' }, serie) && darfTrefferErben(special, { ...serie, art: 'film' }))
+  const mini = gesperrteSerienTreffer({
+    medien: [{ id: 1, format: 'TV', episodes: 37, title: { romaji: 'Death Note', english: null } }, { id: 2, format: 'SPECIAL', episodes: 1, title: { romaji: 'Relight', english: null } }],
+    tmdbTitles: { 1: { tmdbId: 5, kind: 'tv', nameDe: 'Death Note' }, 2: { tmdbId: 5, kind: 'tv', nameDe: 'Death Note' } },
+    justwatch: {},
+    tmdbFolgen: { 1: { folgen: Array.from({ length: 37 }, (_, i) => ({ s: 1, e: i + 1 })) } },
+  })
+  pruefe('gesperrt wird nur das Special, nie die Serie', mini.has('2') && !mini.has('1') && mini.size === 1)
 }
 /* Folgentitel aus TMDB: nur bei gleichem Namen, Format, Folgenzahl und Jahr; ein Titel gleich dem englischen ist keine Übersetzung. */
 {

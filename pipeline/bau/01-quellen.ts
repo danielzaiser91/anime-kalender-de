@@ -4,6 +4,7 @@ import { type AniListMedia } from '../lib/anilist.ts'
 import { type TmdbInfo } from '../lib/tmdb.ts'
 import { mehrdeutigeFilmzuordnungen } from '../lib/tmdb-eindeutig.ts'
 import { loadCurated } from '../lib/curated.ts'
+import { sperreSerienTreffer } from '../lib/treffer-erben.ts'
 
 /** Je AniList-ID: deutsche Handlung, FSK und Anbieter aus TMDB (`data/tmdb-titles.json`). */
 export type TmdbTitelEintrag = {
@@ -95,6 +96,7 @@ export function ladeQuellen() {
     )
     process.exit(1)
   }
+  sperreSerienTreffer([byAniId, byMal], tmdbTitles, tmdbMehrdeutig)
   return {
     byMal,
     confidenceRaw,
