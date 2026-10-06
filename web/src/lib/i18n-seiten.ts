@@ -154,7 +154,7 @@ export const TEXTE_SEITEN = {
   'news.restoreConnected': 'Dieser Browser ist mit deinem Abo verbunden.',
   // Der Link ist kein Notbehelf, sondern der Weg, ein weiteres Gerät zu
   // verbinden — genau dafür braucht man ihn, wenn hier schon alles stimmt.
-  'news.restoreAnyway': 'Link für ein anderes Gerät anfordern',
+  'news.restoreAnyway': 'Weiteres Gerät verbinden',
   'news.unsub': 'Abo beenden',
   'news.unsubConfirm': 'Wirklich abmelden?',
   'news.unsubYes': 'Ja, abmelden',

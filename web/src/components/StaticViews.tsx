@@ -782,11 +782,11 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
                 ✓ {t('news.restoreConnected')}
               </p>
             )}
-            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+            <div className="mt-3 flex flex-col items-start gap-3">
               <button
                 type="button"
                 onClick={() => setRestoreOffen(true)}
-                className="cursor-pointer text-[13px] text-slate-500 underline decoration-dotted underline-offset-2 transition hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+                className="cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1.5 text-[13px] font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
               >
                 {t('news.restoreAnyway')}
               </button>
@@ -799,6 +799,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
                 fragt, der zweite handelt. Kein Dialogfenster — die Frage steht
                 an derselben Stelle, an der auch der Knopf stand.
               */}
+              <div className="w-full border-t border-ak-rand pt-3">
               {abmeldeState === 'weg' ? (
                 <span className="text-[13px] text-slate-500 dark:text-slate-400">{t('news.unsubDone')}</span>
               ) : abmeldeState === 'fragt' ? (
@@ -836,6 +837,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
                   {t('news.unsub')}
                 </button>
               )}
+              </div>
             </div>
           </>
         ) : (
