@@ -53,8 +53,9 @@ const TVDE_NACH_NAME = new Map(Object.entries(TVDE_SENDER).map(([slug, name]) =>
 
 const berlinTag = (iso: string) => iso.slice(0, 10)
 
-/** Die Tagesseite des Senders bei tv.de, gesprungen zur Stunde der Sendung (`#TT.HH:00`; Daniel, 06.10.2026: Boruto, ProSieben MAXX). */
-export function tvdeSendeplatz(sender: string, startBerlin: string): string {
+/** Die Detailseite der Sendung bei tv.de (leitet auf die sprechende Adresse weiter), sonst die Tagesseite des Senders, gesprungen zur Stunde der Sendung (`#TT.HH:00`; Daniel, 06.10.2026: Boruto, ProSieben MAXX). */
+export function tvdeSendeplatz(sender: string, startBerlin: string, kennung?: string): string {
+  if (kennung) return `https://tv.de/sendung/r/s,${kennung}/`
   const [j, m, t] = startBerlin.slice(0, 10).split('-')
   return `https://tv.de/sender/${sender}/${t}.${m}.${j}/#${t}.${startBerlin.slice(11, 13)}:00`
 }
@@ -312,7 +313,7 @@ export function releasesAusTvProgramm(
         return tvde
           ? {
               herkunft: `Automatisch aus dem TV-Programm von tv.de (${liste.length} Sendungen gesichtet).${nr}`,
-              sources: [tvdeSendeplatz(tvde, erste.start), ...wikiQuelle],
+              sources: [tvdeSendeplatz(tvde, erste.start, (erste as { kennung?: string }).kennung), ...wikiQuelle],
             }
           : {
               herkunft: `Automatisch aus dem TV-Programm von RTL+ (${liste.length} Sendungen gesichtet).${nr}`,

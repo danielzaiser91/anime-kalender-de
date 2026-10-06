@@ -8370,7 +8370,7 @@ console.log('\nFolgentitel aus Crunchyroll:')
   pruefe('aniSearch-Titel bleibt, die Lücke füllt Crunchyroll', gefuellt?.[0]?.de === 'Eigener Titel' && gefuellt?.[1]?.de === 'Treffen in der Höhle')
   pruefe('fehlt die Liste ganz, entsteht sie aus Crunchyroll', mitCrTiteln(undefined, cr)?.length === 2)
 }
-pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15') === 'https://tv.de/sender/prosieben-maxx/09.10.2026/#09.20:00')
+pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15') === 'https://tv.de/sender/prosieben-maxx/09.10.2026/#09.20:00' && tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15', '2446020190') === 'https://tv.de/sendung/r/s,2446020190/')
 /* Specials erben den Serien-Treffer nicht, wo er mit einer TV-Serie geteilt wird und weder Name noch Folgenzahl passen. */
 {
   const serie: TrefferAngabe = { art: 'serie', namen: ['death note'], folgen: [37], teiltMitSerie: true }
