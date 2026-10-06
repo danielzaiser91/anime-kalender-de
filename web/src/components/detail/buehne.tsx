@@ -1,5 +1,5 @@
 import { ShareIcon } from './hilfen.tsx'
-import { CoverMaximieren } from './cover-max.tsx'
+import { CoverMaximieren, beiCoverKlick } from './cover-max.tsx'
 import { anzeigeName } from '@shared/titles.ts'
 import { HideEye, FavoriteStar, ReihenStern } from '../ui.tsx'
 import { FORMAT_DE } from '@shared/mappings.ts'
@@ -82,7 +82,7 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
           Der „Staffel 1"-Block darunter holt einen Teil davon wieder herein
           (sein `-mt-24`): Das Cover bleibt groß, der Weg zum Inhalt kurz.
         */}
-        <div className="relative h-[400px]">
+        <div className="relative h-[400px] cursor-zoom-in" onClick={beiCoverKlick}>
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 bg-cover"

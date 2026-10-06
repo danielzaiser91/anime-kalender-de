@@ -7,6 +7,11 @@ import { Tooltip } from '../ui.tsx'
  * maximiert. Die Ansicht liegt als eigene Schicht über allem (`createPortal`), damit darunter nichts ausgelöst wird;
  * ein Klick irgendwo in der Schicht oder Escape schließt sie. Sie hat keine Adresse — der Zustand lebt nur hier.
  */
+export const COVER_MAX_EREIGNIS = 'cover-maximieren'
+/** Klick auf das Cover: öffnet die Ansicht, außer ein Bedienelement im Bild wurde getroffen. */
+export const beiCoverKlick = (e: { target: EventTarget }): void => {
+  if (!(e.target as HTMLElement).closest('a,button,input,[role=button]')) window.dispatchEvent(new Event(COVER_MAX_EREIGNIS))
+}
 export function CoverMaximieren({ bild, titel }: { bild: string | undefined; titel: string }) {
   const [offen, setOffen] = useState(false)
   useEffect(() => {
@@ -19,6 +24,12 @@ export function CoverMaximieren({ bild, titel }: { bild: string | undefined; tit
     document.addEventListener('keydown', esc, true)
     return () => document.removeEventListener('keydown', esc, true)
   }, [offen])
+  /* Ein Klick auf das Cover selbst (`buehne.tsx`) öffnet dieselbe Ansicht wie das Symbol (Daniel, 06.10.2026). */
+  useEffect(() => {
+    const auf = () => setOffen(true)
+    window.addEventListener(COVER_MAX_EREIGNIS, auf)
+    return () => window.removeEventListener(COVER_MAX_EREIGNIS, auf)
+  }, [])
   if (!bild) return null
   return (
     <>
