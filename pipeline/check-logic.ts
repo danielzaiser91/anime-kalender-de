@@ -7149,9 +7149,9 @@ pruefe(
   } as unknown as Release
   const laeuft = tvAngabe(tv, op, [tv], '2026-09-22', '19:17')
   pruefe('TV: läuft bis zum Programmende, nicht 25 Minuten', laeuft?.laeuft?.text === 'Fg. 773 · Erneuter Albtraum', laeuft)
-  pruefe('TV: neben „läuft" steht die nächste Sendung', laeuft?.text === 'Nächste: Fg. 765 · Mi 04:25', laeuft)
+  pruefe('TV: neben „läuft" steht die nächste Sendung', laeuft?.text === 'Nächste: Fg. 765 · Mi 23.09. 04:25', laeuft)
   const danach = tvAngabe(tv, op, [tv], '2026-09-22', '19:20')
-  pruefe('TV: mit dem Programmende läuft nichts mehr', !danach?.laeuft && danach?.text === 'Fg. 765 · Mi 04:25 · Nekomamushi', danach)
+  pruefe('TV: mit dem Programmende läuft nichts mehr', !danach?.laeuft && danach?.text === 'Fg. 765 · Mi 23.09. 04:25 · Nekomamushi', danach)
   pruefe('TV: das Zeichen führt zur laufenden Sendung, danach zur nächsten', laeuft?.programm?.endsWith('s,773/') === true && danach?.programm?.endsWith('s,765/') === true)
   pruefe(
     'TV: ohne kommenden Termin keine Angabe — und damit keine Pille (22.09.2026)',

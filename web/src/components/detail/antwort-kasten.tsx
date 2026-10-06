@@ -630,7 +630,7 @@ export function AntwortKasten({
       sucht sie: wann er den Film zu Hause sehen kann (Madoka, 17.09.2026).
     */
     neben = antwort.hatSynchro
-      ? T('antwort.filmNeben')
+      ? ''
       : antwort.imKino && !(title.streams ?? []).length
         ? T('antwort.filmDeStreamOffen')
         : antwort.ohneWeg

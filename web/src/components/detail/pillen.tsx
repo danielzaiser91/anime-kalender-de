@@ -711,13 +711,16 @@ export function farbeZuAnbieter(voll: string): string | undefined {
     'Rakuten TV': '#bf0000',
     'Sky Store': '#0072c9',
     'freenet meinVOD': '#84bc34',
+    /* Sky Go gehört zu Sky (Hausfarbe wie Sky Store), Videoload zur Telekom (Magenta wie MagentaTV). */
+    'Sky Go': '#0072c9',
+    Videoload: '#e20074',
     /*
-      **Apple TV (#000000) und Google Play (#414141) stehen bewusst nicht hier.**
-      Ihre Hausfarben sind Schwarz und Dunkelgrau — auf dunklem Grund wäre die
-      Pille unsichtbar. Der neutrale Umriss ist dort die bessere Auskunft.
-      Videoload und Akibapass fehlen, weil zu ihnen keine belegte Farbe vorliegt;
-      geraten wird keine.
+      **Apple TV (#000000) und Google Play (#414141) tragen ein neutrales Grau, keine Hausfarbe.**
+      Schwarz wäre auf dunklem Grund unsichtbar; ein Umriss ohne Tönung sah neben den bunten Pillen
+      wie ein Platzhalter aus (Daniel, 06.10.2026). Akibapass fehlt, weil zu ihm keine belegte Farbe vorliegt.
     */
+    'Apple TV': '#a1a1aa',
+    'Google Play': '#a1a1aa',
   }
   if (SHOP_FARBEN[name]) return SHOP_FARBEN[name]
   for (const p of Object.values(PLATFORMS)) {

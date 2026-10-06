@@ -54,6 +54,7 @@ const TEXTE = {
   'news.folge': 'Folge {von} auf Deutsch bei {anbieter}',
   'news.folgen': 'Folgen {von}–{bis} auf Deutsch bei {anbieter}',
   'news.angekuendigt': 'Start am {datum} bei {anbieter}',
+  'news.angekuendigtTv': 'Im TV{sender} am {tag}, den {datum}',
   'news.omuAngekuendigt': 'Start am {datum} bei {anbieter} mit Untertiteln, deutsche Synchro angekündigt',
   'news.omuOffen': 'Start am {datum} bei {anbieter} mit Untertiteln, keine deutsche Synchro angekündigt',
   'news.kurz.omu': 'OmU ab {datum} · {anbieter}',
@@ -627,7 +628,6 @@ const TEXTE = {
   'antwort.deSeitQuelle': 'Deutsche Erstveröffentlichung laut aniSearch — wir haben dazu keinen eigenen Termin gemessen.',
   'antwort.deSeitWikipedia': 'Deutsche Erstausstrahlung laut Episodenliste der Wikipedia.',
   'antwort.filmTitel': 'Auf Deutsch verfügbar',
-  'antwort.filmNeben': 'Deutsche Synchronfassung',
   'antwort.filmOhneTitel': 'Noch keine deutsche Fassung',
   'antwort.filmOhneNeben': 'Kein deutscher Anbieter führt ihn bisher',
   // Ein angekündigter Kinofilm ohne deutsche Fassung: Der

@@ -83,7 +83,7 @@ export function tvAngabe(
       e.date === heute
         ? 'heute'
         : kommend && Date.parse(e.date) - Date.parse(heute) < 6.5 * 864e5
-          ? TAG[new Date(`${e.date}T12:00:00Z`).getUTCDay()]!
+          ? `${TAG[new Date(`${e.date}T12:00:00Z`).getUTCDay()]!} ${e.date.slice(8, 10)}.${e.date.slice(5, 7)}.`
           : `${e.date.slice(8, 10)}.${e.date.slice(5, 7)}.`
     const nr = nummer(e)
     zeit = [kommend ? '' : 'zuletzt', tag, e.time].filter(Boolean).join(' ')

@@ -147,7 +147,7 @@ function terminMeldungen(
         art,
         ...(art === 'nachgetragen' ? { von: r.schedule?.firstEpisodeNumber ?? 1, hinweis: r.nachtrag?.kurz, abschnitte: r.nachtrag?.abschnitte, ...(r.schedule?.time ? { zeit: r.schedule.time } : {}) } : {}),
         titel: t,
-        platform: r.platform,
+        platform: r.platform, ...(r.platform === 'tv' && r.sender ? { anbieter: r.sender } : {}),
         ...(r.kanal ? { kanal: r.kanal } : {}),
         datum,
         release: r.slug,

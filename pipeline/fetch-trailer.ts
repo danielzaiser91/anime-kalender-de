@@ -132,7 +132,7 @@ export interface TrailerEintrag {
   der Trailer seit Wochen im Index lag.
 */
 function filmteilVon(videoTitel: string): string {
-  const vor = videoTitel.split(/\b(?:(?:offizielle[rs]?|official|finale[rs]?|final|erste[rs]?|zweite[rs]?|neue[rs]?)\s+)*(?:teaser[\s-]*)?(?:trailer|teaser)\b/i)[0] ?? ''
+  const vor = videoTitel.split(/\b(?:(?:offizielle[rs]?|official|finale[rs]?|final|erste[rs]?|zweite[rs]?|neue[rs]?)\s+)*(?:synchro[\s-]*)?(?:teaser[\s-]*)?(?:trailer|teaser)\b/i)[0] ?? ''
   return normal(vor)
 }
 

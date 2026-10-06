@@ -113,6 +113,7 @@ export function newsSatz(m: NewsMeldung): string {
         : `Folge ${m.von} auf Deutsch bei ${anbieter}`
     case 'angekuendigt':
       if (m.omu) return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''} mit Untertiteln, ${m.omu === 'synchro-angekuendigt' ? 'deutsche Synchro angekündigt' : 'keine deutsche Synchro angekündigt'}`
+      if (m.platform === 'tv' && m.datum) return `Im TV${m.anbieter ? ` bei ${m.anbieter}` : ''} am ${['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'][new Date(`${m.datum}T12:00:00Z`).getUTCDay()]}, den ${datum}`
       return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''}`
     case 'disc':
       return m.ausgabe ? `${m.ausgabe} erscheint am ${datum} auf Disc` : `Erscheint am ${datum} auf Disc`
