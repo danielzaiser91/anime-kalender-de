@@ -1,16 +1,15 @@
 {
- "erzeugtAm": "2026-10-06T19:09:11.713Z",
+ "erzeugtAm": "2026-10-06T20:14:12.536Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 747,
-   "gesamt": 751,
+   "gemeldet": 749,
+   "gesamt": 753,
    "offen": 4,
-   "ohneSeite": 2,
+   "ohneSeite": 1,
    "suchAdressen": [
-    "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video",
-    "https://www.amazon.de/s?k=The%20Seven%20Knights%20of%20the%20Marronnier%20Kingdom&i=instant-video"
+    "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video"
    ],
    "ziel": "https://www.amazon.de/gp/video/detail/B0CQ4VL364",
    "ziele": [
@@ -77,19 +76,15 @@
    "name": "Suchadressen",
    "plattform": "suchadressen",
    "gemeldet": 0,
-   "gesamt": 3,
-   "offen": 3,
+   "gesamt": 2,
+   "offen": 2,
    "titel": 0,
-   "ohneSeite": 3,
+   "ohneSeite": 2,
    "ziel": "https://netflix.com",
    "ziele": [
     {
      "url": "https://netflix.com",
      "titel": "Meine ganz besondere Hochzeit: Special"
-    },
-    {
-     "url": "https://www.amazon.de/s?k=The%20Seven%20Knights%20of%20the%20Marronnier%20Kingdom&i=instant-video",
-     "titel": "Die sieben Ritter des Königreichs der Marronniers"
     },
     {
      "url": "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video",
