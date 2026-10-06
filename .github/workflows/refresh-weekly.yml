@@ -221,6 +221,10 @@ jobs:
       - name: Deutsche Texte und Anbieter von aniSearch
         run: bash tools/schritt.sh --zeit 25m "aniSearch — Texte und Anbieter" -- npm run data:anisearch -- --limit 60
 
+      # Die kanonischen Slugs der Titelseiten für die Quellenlinks (ein Abruf der API); braucht die Kennungen aus dem Schritt davor.
+      - name: aniSearch — Slugs der Titelseiten
+        run: bash tools/schritt.sh --zeit 5m "aniSearch — Slugs" -- npm run data:anisearch-slugs
+
       # Die Folgenlisten mit den deutschen Folgentiteln — braucht `data/anisearch.json` (anisearchId) aus dem Schritt davor.
       - name: aniSearch — Folgenlisten
         run: bash tools/schritt.sh --zeit 30m "aniSearch — Folgenlisten" -- npm run data:anisearch-folgen -- --limit 120
