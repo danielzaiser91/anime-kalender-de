@@ -434,14 +434,14 @@ export function ReleasePille({
   */
   const datum = release.schedule?.firstEpisodeDate
   /*
-    **Wie weit eine laufende Wochenserie ist** (Daniel, 04.10.2026: „1 Folge erschienen" fehlt in der Pille): nur wo die
-    Folgenzahl belegt ist und noch etwas aussteht.
+    **Wie weit eine laufende Wochenserie ist** (Daniel, 04.10.2026: „1 Folge erschienen" fehlt in der Pille): immer, solange noch
+    etwas aussteht; eine geschätzte Gesamtzahl steht mit „≈" (Daniel, 06.10.2026).
   */
   const fortschritt = ((): string => {
-    if (release.releaseType !== 'weekly' || release.platform === 'tv' || release.schedule?.episodeCountAssumed) return ''
+    if (release.releaseType !== 'weekly' || release.platform === 'tv') return ''
     const termine = expandEvents(release)
     const raus = termine.filter((e) => istErschienen(e)).length
-    return raus > 0 && raus < termine.length ? t('detail.folgenFortschritt', { raus, gesamt: termine.length }) : ''
+    return raus > 0 && raus < termine.length ? t('detail.folgenFortschritt', { raus, gesamt: `${release.schedule?.episodeCountAssumed ? '≈ ' : ''}${termine.length}` }) : ''
   })()
   /* Ein TOGGO-Sender trägt TOGGOs Orange, nicht das allgemeine TV-Grün. */
   const farbe = /^TOGGO/i.test(release.sender ?? '')
