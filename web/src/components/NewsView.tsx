@@ -282,7 +282,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
   }
 
   const tagName = (iso: string): string =>
-    iso === todayIso() ? t('news.heute') : iso === addDays(todayIso(), -1) ? t('news.gestern') : datumKurz(iso)
+    iso === todayIso() ? `${datumKurz(iso)} · ${t('news.heute')}` : iso === addDays(todayIso(), -1) ? `${datumKurz(iso)} · ${t('news.gestern')}` : datumKurz(iso)
 
   const schluessel = (e: NewsEintrag): string => `${e.am}|${e.titelId}`
 
