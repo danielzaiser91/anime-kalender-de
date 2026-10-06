@@ -405,7 +405,7 @@ export function titleFromMedia(media: AniListMedia, confidence: DubConfidence): 
     episodes: media.episodes ?? undefined,
     jpYear: media.seasonYear ?? media.startDate?.year ?? undefined,
     jpSeason: media.season ?? undefined,
-    jpEnd: isoDate(media.endDate) ?? isoDate(media.startDate),
+    jpEnd: isoDate(media.endDate) ?? isoDate(media.startDate), jpStartTag: media.startDate?.day ? isoDatumGenau(media.startDate) : undefined,
     genres: mapGenres(media),
     keywords: mapKeywords(media),
     coverImage: media.coverImage?.extraLarge ?? media.coverImage?.large ?? undefined,

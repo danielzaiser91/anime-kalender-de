@@ -61,7 +61,7 @@ export function baueAuslieferung({
       if (!ausAnisearch && Number.isFinite(asId)) eintrag.asUrl = anisearchSeite(asId, '')
       synopses[t.id] = eintrag
     }
-    const { synopsis: _drop, ...rest } = t
+    const { synopsis: _drop, jpStartTag: _jpStart, ...rest } = t
     /*
       **Die Kennungen der Quellen gehören an den Titel.**
 

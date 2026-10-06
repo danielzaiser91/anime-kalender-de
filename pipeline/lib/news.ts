@@ -33,6 +33,7 @@ import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
+import { neuZeile } from './news-neu-zeile.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
 const FENSTER_TAGE = 120
@@ -297,9 +298,9 @@ export function baueNews(
       fallback: anbieter || !erreicht || erreicht < n.seit ? n.seit : erreicht,
       art: 'neu',
       ...kopf(t),
-      platform: anbieter,
+      platform: anbieter ?? (erreichtRelease && !['kino', 'tv'].includes(erreichtRelease.platform) ? erreichtRelease.platform : undefined),
       quelle: t.streams.find((s) => s.dub === true && s.platform === anbieter)?.url ?? (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
-      belege: (erreichtRelease && belegeVonRelease(erreichtRelease)) || undefined,
+      belege: (erreichtRelease && belegeVonRelease(erreichtRelease)) || undefined, hinweis: neuZeile(t, erreichtRelease, heute),
     })
   }
 

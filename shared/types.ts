@@ -469,7 +469,7 @@ export interface Title {
   jpYear?: number
   jpSeason?: string
   /** Ende der japanischen Ausstrahlung als ISO-Datum, falls bekannt. */
-  jpEnd?: string
+  jpEnd?: string; jpStartTag?: string // nur im Bau: genauer japanischer Starttag (Tag, nicht Monat); wird nicht ausgeliefert
   /**
    * Kleinste AniList-ID der zusammenhängenden Reihe (Vorgänger/Nachfolger).
    * Dient dazu, Staffeln derselben Serie zu einer Karte zu bündeln.
