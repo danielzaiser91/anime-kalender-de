@@ -176,3 +176,89 @@
       1: "2026-10-04"
   sources:
     - https://www.anime2you.de/news/1057464/prime-video-marronniers-und-mehr/
+
+# Nachtrag 06.10.2026: Katalogstarts mit deutscher Synchro aus den Anime2You-Meldungen zu Disney+, Joyn+ und Prime Video (Abgleich mit den Oktober-Übersichten).
+- slug: spy-x-family-s1-teil1-disneyplus
+  anilistId: 140960
+  platform: disneyplus
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2026-10-04", episodeCount: 12 }
+  sources:
+    - https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/
+    - https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/
+
+- slug: spy-x-family-s1-teil2-disneyplus
+  anilistId: 142838
+  platform: disneyplus
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2026-10-04", episodeCount: 13 }
+  sources:
+    - https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/
+    - https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/
+
+- slug: spy-x-family-s2-disneyplus
+  anilistId: 158927
+  platform: disneyplus
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2026-10-04", episodeCount: 12 }
+  sources:
+    - https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/
+    - https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/
+
+- slug: gachiakuta-teil1-disneyplus
+  anilistId: 178025
+  platform: disneyplus
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2026-10-05", episodeCount: 12 }
+  note: "Disney+ führt Teil 1: zwölf von 24 Folgen (Anime2You, 05.10.2026)."
+  sources:
+    - https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/
+
+- slug: honey-lemon-soda-disneyplus
+  anilistId: 175443
+  platform: disneyplus
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2026-11-03", episodeCount: 12 }
+  sources:
+    - https://www.anime2you.de/news/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/
+
+- slug: jujutsu-kaisen-0-disneyplus
+  anilistId: 131573
+  platform: disneyplus
+  releaseType: movie
+  schedule: { firstEpisodeDate: "2026-09-28" }
+  note: "Anime2You nannte am 24.09. den 27.09., am 28.09. den 28.09.; es gilt die spätere Meldung."
+  sources:
+    - https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/
+
+- slug: demon-slayer-infinity-castle-1-disneyplus
+  anilistId: 178788
+  platform: disneyplus
+  releaseType: movie
+  schedule: { firstEpisodeDate: "2026-09-28" }
+  sources:
+    - https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/
+
+- slug: dororo-joyn
+  anilistId: 101347
+  platform: joyn
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2026-10-02", episodeCount: 24 }
+  sources:
+    - https://www.anime2you.de/news/1056837/joyn-plus-hells-paradise-und-mehr/
+
+- slug: hells-paradise-s1-joyn
+  anilistId: 128893
+  platform: joyn
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2026-10-02", episodeCount: 13 }
+  sources:
+    - https://www.anime2you.de/news/1056837/joyn-plus-hells-paradise-und-mehr/
+
+- slug: demon-slayer-s1-primevideo
+  anilistId: 101922
+  platform: primevideo
+  releaseType: batch
+  schedule: { firstEpisodeDate: "2026-10-01", episodeCount: 26 }
+  sources:
+    - https://www.anime2you.de/news/1056121/prime-video-demon-slayer-kimetsu-no-yaiba-und-mehr/
