@@ -115,6 +115,7 @@ export const TVDE_SENDER: Record<string, string> = {
   nickelodeon: 'Nickelodeon',
   kika: 'KiKA',
   'disney-channel': 'Disney Channel',
+  'prosieben-fun': 'ProSieben FUN',
 }
 
 /** Berliner Zeitversatz eines Tages als „+02:00". */

@@ -521,3 +521,50 @@
   edition: "Komplettbox, Blu-ray"
   schedule: { firstEpisodeDate: "2027-02-05" }
   sources: [https://www.anime2you.de/news/1048203/reincarnated-as-the-7th-prince-staffel-2-disc-termin/]
+
+# ---------------------------------------------------------------- 22.10.2026 (Nachtrag 06.10.2026)
+# Vier KSM-Ultimate-Editions aus der Anime2You-Monatsübersicht Oktober („22. Oktober 2026"); die Übersicht wurde bisher nicht ausgewertet.
+
+- slug: summer-wars-ultimate-edition
+  anilistId: 5681
+  search: "Summer Wars"
+  titleDe: "Summer Wars – Ultimate Edition"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Ultimate Edition, Limited Edition, 4K-Blu-ray & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-22" }
+  sources: [https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/]
+
+- slug: ame-und-yuki-ultimate-edition
+  anilistId: 12355
+  search: "Wolf Children"
+  titleDe: "Ame & Yuki – Die Wolfskinder – Ultimate Edition"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Ultimate Edition, Limited Edition, 4K-Blu-ray & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-22" }
+  sources: [https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/]
+
+- slug: maedchen-durch-die-zeit-ultimate-edition
+  anilistId: 2236
+  search: "The Girl Who Leapt Through Time"
+  titleDe: "Das Mädchen, das durch die Zeit sprang – Ultimate Edition"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Ultimate Edition, Limited Edition, 4K-Blu-ray & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-22" }
+  sources: [https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/]
+
+- slug: junge-und-das-biest-ultimate-edition
+  anilistId: 20981
+  search: "The Boy and the Beast"
+  titleDe: "Der Junge und das Biest – Ultimate Edition"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Ultimate Edition, Limited Edition, 4K-Blu-ray & Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-22" }
+  sources: [https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/]
