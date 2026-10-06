@@ -901,6 +901,7 @@ export function DetailPanel({
   // nirgends eine deutsche Inhaltsangabe — dort wäre die Alternative eine
   // leere Fläche.
   const { plot } = plotVon({ synopsis, anilistId: title.al, ersatz })
+  const asZiel = plot?.quelle.url.includes('anisearch.de/anime/') ? plot.quelle.url : undefined
   const keywords = allKeywords ? title.keywords : title.keywords.slice(0, KEYWORD_PREVIEW)
 
   return (
@@ -1065,7 +1066,7 @@ export function DetailPanel({
           reihenName={reihenName}
           title={title}
           kinoRelease={kinoRelease}
-          asZiel={plot?.quelle.url.includes('anisearch.de/anime/') ? plot.quelle.url : undefined}
+          asZiel={asZiel}
         />
         <div className="relative flex flex-col gap-4 px-4 pb-8">
           {/*
@@ -1275,8 +1276,7 @@ export function DetailPanel({
             eine Quelle von sechs und war nicht klickbar.
           */}
           <AehnlicheTitel title={title} data={data} onOpenTitle={onOpenTitle} />
-
-          <Quellenuebersicht title={title} releases={releases} />
+          <Quellenuebersicht title={title} releases={releases} asZiel={asZiel} />
         </div>
       </div>
     </>

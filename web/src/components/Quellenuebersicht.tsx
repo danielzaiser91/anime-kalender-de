@@ -27,7 +27,7 @@ import { useLang } from '../lib/i18n.tsx'
  * existiert, ist sie verlinkt; wo keine existiert, steht der Name ohne Link
  * statt einer erfundenen Adresse.
  */
-export function Quellenuebersicht({ title, releases }: { title: Title; releases: Release[] }) {
+export function Quellenuebersicht({ title, releases, asZiel }: { title: Title; releases: Release[]; asZiel?: string }) {
   const { t } = useLang()
   const [offen, setOffen] = useState(false)
 
@@ -73,7 +73,7 @@ export function Quellenuebersicht({ title, releases }: { title: Title; releases:
     if (title.titleDe) {
       raus.push({
         name: 'aniSearch',
-        url: title.anisearchId ? `https://www.anisearch.de/anime/${title.anisearchId}` : undefined,
+        url: asZiel ?? (title.anisearchId ? `https://www.anisearch.de/anime/${title.anisearchId}` : undefined),
         speist: t('quellen.feedDeutsch'),
       })
     }
