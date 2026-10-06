@@ -569,3 +569,26 @@
   edition: "Ultimate Edition, Limited Edition, 4K-Blu-ray & Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-22" }
   sources: [https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/]
+
+# ---------------------------------------------------------------- 30.10.2026 (Nachtrag 06.10.2026, Abgleich mit der Anime2You-Monatsübersicht Oktober)
+- slug: panties-returns-polyband
+  anilistId: 196840
+  search: "I Want You To Show Me Your Panties With a Disgusted Face Returns"
+  titleDe: "I Want You To Show Me Your Panties With a Disgusted Face Returns"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-30" }
+  sources: [https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/]
+
+- slug: dan-da-dan-s2-vol2-exklusiv
+  anilistId: 185660
+  search: "DAN DA DAN Season 2"
+  titleDe: "DAN DA DAN (Staffel 2) – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "AniMoon Publishing"
+  edition: "Vol. 2: Exklusiv, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-10-30" }
+  sources: [https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/]
