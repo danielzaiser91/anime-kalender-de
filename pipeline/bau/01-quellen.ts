@@ -31,7 +31,7 @@ export type AnisearchEintrag = {
     episodesEstimated?: boolean
     /** Der Titel je Sprache — hier steht der deutsche Name des Werks. */
     /* `publisher` und `status` tragen den Bezugsweg aus dem deutschen Block — siehe unten. */
-    languages?: { language?: string; title?: string; status?: string; released?: string; publisher?: string[] }[]
+    languages?: { language?: string; title?: string; status?: string; released?: string; publisher?: string[]; dubbed?: boolean }[]
     /** Weitere Namen, ohne Sprachkennzeichen — für die Suche (`synonyme.json`). */
     synonyms?: string[]
   }

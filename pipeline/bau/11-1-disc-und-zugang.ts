@@ -67,7 +67,7 @@ export function ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdr
       const block = (anisearch[title.id]?.info?.languages ?? []).find(
         (l) => l.language === 'Deutsch',
       )
-      if (!block?.publisher?.length) continue
+      if (!block?.publisher?.length || block.dubbed !== true) continue // ohne Marke „Synchronisiert“ nur eine untertitelte Ausgabe
       if (!['Abgeschlossen', 'Abgebrochen', 'Laufend'].includes(String(block.status))) continue
       /*
         **Ein Kinostart ist keine Ausgabe** (Daniel, 19.09.2026, „Detektiv Conan: Der gefallene

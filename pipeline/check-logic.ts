@@ -4096,9 +4096,14 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'der Bezugsweg aus dem Sprachblock verlangt Verlag und erschienenen Status',
-    bau.includes('if (!block?.publisher?.length) continue') &&
+    bau.includes('if (!block?.publisher?.length || block.dubbed !== true) continue') &&
       bau.includes("['Abgeschlossen', 'Abgebrochen', 'Laufend'].includes(String(block.status))"),
     'ohne die Riegel wird aus einer Ankündigung ein Bezugsweg',
+  )
+  pruefe(
+    'ohne Marke „Synchronisiert“ im deutschen Block entsteht kein Disc-Weg',
+    bau.includes('block.dubbed !== true) continue'),
+    'sonst führt „Ausgabe bei aniSearch“ bei untertitelten Ausgaben auf die Titelseite (Natsume Staffel 2, 06.10.2026)',
   )
   pruefe(
     'er trägt keine Sprachangabe',

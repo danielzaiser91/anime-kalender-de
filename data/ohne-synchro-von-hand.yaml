@@ -54,3 +54,75 @@
   zitat: 'nur die erste Staffel synchronisiert wurde und die zweite Staffel im japanischen Originalton mit deutschen Untertiteln'
   sources:
     - https://de.wikipedia.org/wiki/Love_Live!_Sunshine!!
+
+# Handprüfung E (Daniel, 06.10.2026) gegen den aniSearch-Dub-Endpunkt: bei allen keine deutsche Tonspur.
+
+- anilistId: 4081
+  title: 'Natsume’s Book of Friends Staffel 1'
+  belegtAm: '2026-10-06'
+  zitat: 'aniSearch /v1/anime/dubs 4776: dubbed = ja, en, es, keine deutsche Tonspur; von Daniel von Hand bestätigt.'
+  sources:
+    - https://www.anisearch.de/anime/4776
+
+- anilistId: 5300
+  title: 'Natsume’s Book of Friends Staffel 2'
+  belegtAm: '2026-10-06'
+  zitat: 'aniSearch /v1/anime/dubs 5078: dubbed = ja, en, es, keine deutsche Tonspur; von Daniel von Hand bestätigt.'
+  sources:
+    - https://www.anisearch.de/anime/5078
+
+- anilistId: 10030
+  title: 'Bakuman. Staffel 2'
+  belegtAm: '2026-10-06'
+  zitat: 'aniSearch /v1/anime/dubs 6834: dubbed = ja, fr, keine deutsche Tonspur; von Daniel von Hand bestätigt.'
+  sources:
+    - https://www.anisearch.de/anime/6834
+
+- anilistId: 145740
+  title: 'Grisaia: Phantom Trigger (TV 2025)'
+  belegtAm: '2026-10-06'
+  zitat: 'aniSearch /v1/anime/dubs 17161: dubbed = ja, keine deutsche Tonspur; von Daniel von Hand bestätigt.'
+  sources:
+    - https://www.anisearch.de/anime/17161
+
+- anilistId: 20663
+  title: 'Blade Dance of the Elementalers'
+  belegtAm: '2026-10-06'
+  zitat: 'aniSearch /v1/anime/dubs 9440: dubbed = ja, keine deutsche Tonspur; von Daniel von Hand bestätigt.'
+  sources:
+    - https://www.anisearch.de/anime/9440
+
+- anilistId: 101277
+  title: 'Wakaokami wa Shougakusei! (Kurz-Serie)'
+  belegtAm: '2026-10-06'
+  zitat: 'aniSearch /v1/anime/dubs 13438: dubbed = ja, en, es, keine deutsche Tonspur; von Daniel von Hand bestätigt.'
+  sources:
+    - https://www.anisearch.de/anime/13438
+
+- anilistId: 104396
+  title: '91 Daze'
+  belegtAm: '2026-10-06'
+  zitat: 'aniSearch /v1/anime/dubs 14632: dubbed = ja, keine deutsche Tonspur; von Daniel von Hand bestätigt.'
+  sources:
+    - https://www.anisearch.de/anime/14632
+
+- anilistId: 99749
+  title: 'Fairy Tail: Final Season'
+  belegtAm: '2026-10-06'
+  zitat: 'aniSearch /v1/anime/dubs 12640: dubbed = ja, en, fr, it, keine deutsche Tonspur; von Daniel von Hand bestätigt.'
+  sources:
+    - https://www.anisearch.de/anime/12640
+
+- anilistId: 100537
+  title: 'Servamp: Alice in the Garden (angekündigt, ohne Datum)'
+  belegtAm: '2026-10-06'
+  zitat: 'aniSearch /v1/anime/dubs 13018: dubbed = ja; de nur geplant, keine deutsche Tonspur; von Daniel von Hand bestätigt.'
+  sources:
+    - https://www.anisearch.de/anime/13018
+
+- anilistId: 20945
+  title: 'Fate/kaleid liner Prisma Illya 2wei! Short Anime'
+  belegtAm: '2026-10-06'
+  zitat: 'aniSearch /v1/anime/dubs 9947: dubbed = ja, keine deutsche Tonspur.'
+  sources:
+    - https://www.anisearch.de/anime/9947
