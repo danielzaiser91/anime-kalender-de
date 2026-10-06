@@ -32,6 +32,8 @@
 
 # Kurzformen für `quellen`, damit nicht jede Zeile dieselben Adressen trägt.
 quellen:
+  cr-simulcasts-8: https://www.anime2you.de/news/1055887/
+  adn-lineup: https://www.anime2you.de/news/1054748/
   lineup: https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026
   synchros: https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026
 
@@ -72,3 +74,20 @@ eintraege:
   - { anilistId: 211778, titel: "The World's Strongest Witch", platform: crunchyroll, omuAb: "2026-10-07", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
   - { anilistId: 202079, titel: "Uncle's Obsession with Cute Things", platform: crunchyroll, omuAb: "2026-10-04", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
   - { anilistId: 209562, titel: "VERTEX FORCE", platform: crunchyroll, omuAb: "2026-10-03", synchro: offen, stand: "2026-09-15", quellen: [lineup] }
+
+# --- Nachtrag 06.10.2026 aus den Anime2You-Artikeln „acht neue Simulcasts" (30.09., Crunchyroll) und ADN-Lineup (28.09.); alle nur mit Untertiteln, Zuordnung über Name und Japan-Start ±1 Tag ---
+  - { anilistId: 202250, titel: "Magic Repo Man: Dumped by My Party, I’ll Cash In With a Cute Support Fairy to Become the Strongest!", platform: crunchyroll, omuAb: "2026-10-03", synchro: offen, stand: "2026-09-30", quellen: [cr-simulcasts-8] }
+  - { anilistId: 209463, titel: "From Far Away", platform: crunchyroll, omuAb: "2026-10-04", synchro: offen, stand: "2026-09-30", quellen: [cr-simulcasts-8] }
+  - { anilistId: 200294, titel: "Super Psychic Policeman Chojo", platform: crunchyroll, omuAb: "2026-10-06", synchro: offen, stand: "2026-09-30", quellen: [cr-simulcasts-8] }
+  - { anilistId: 209502, titel: "The Cold Sato-san is Only Sweet to Me", platform: crunchyroll, omuAb: "2026-10-06", synchro: offen, stand: "2026-09-30", quellen: [cr-simulcasts-8] }
+  - { anilistId: 213068, titel: "Dandivine", platform: crunchyroll, omuAb: "2026-10-07", synchro: offen, stand: "2026-09-30", quellen: [cr-simulcasts-8] }
+  - { anilistId: 186742, titel: "A Certain Dark Item", platform: crunchyroll, omuAb: "2026-10-09", synchro: offen, stand: "2026-09-30", quellen: [cr-simulcasts-8] }
+  - { anilistId: 203473, titel: "HORROR COLLECTOR", platform: crunchyroll, omuAb: "2026-10-10", synchro: offen, stand: "2026-09-30", quellen: [cr-simulcasts-8] }
+  - { anilistId: 205896, titel: "Full Clearing Another World under a Goddess with Zero Believers", platform: crunchyroll, omuAb: "2026-10-11", synchro: offen, stand: "2026-09-30", quellen: [cr-simulcasts-8] }
+  - { anilistId: 159042, titel: "Reincarnated as a Sword Season 2", platform: adn, omuAb: "2026-09-30", synchro: offen, stand: "2026-09-28", quellen: [adn-lineup] }
+  - { anilistId: 204650, titel: "TOUGEN ANKI: Nikko Kegon Falls Arc", platform: adn, omuAb: "2026-10-02", synchro: offen, stand: "2026-09-28", quellen: [adn-lineup] }
+  - { anilistId: 187316, titel: "Suikoden: The Anime", platform: adn, omuAb: "2026-10-03", synchro: offen, stand: "2026-09-28", quellen: [adn-lineup] }
+  - { anilistId: 191656, titel: "Even the Student Council Has Its Holes!", platform: adn, omuAb: "2026-10-03", synchro: offen, stand: "2026-09-28", quellen: [adn-lineup] }
+  - { anilistId: 206774, titel: "Now That I Can Control Reality With A Mouse Cursor, I'm Gonna Click Away On The Girls!", platform: adn, omuAb: "2026-10-04", synchro: offen, stand: "2026-09-28", quellen: [adn-lineup] }
+  - { anilistId: 211877, titel: "My Girlfriend's Friend", platform: adn, omuAb: "2026-10-04", synchro: offen, stand: "2026-09-28", quellen: [adn-lineup] }
+  - { anilistId: 206949, titel: "Nia Liston: The Merciless Maiden", platform: adn, omuAb: "2026-10-06", synchro: offen, stand: "2026-09-28", quellen: [adn-lineup] }
