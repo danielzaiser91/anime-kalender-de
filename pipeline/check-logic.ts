@@ -91,6 +91,7 @@ import { germanizeUrl, netflixNeutral, providerName, stripAffiliate } from '../s
 import { buildIcs, fold as icsFold, googleCalendarUrl, wochenserie } from '../shared/ics.ts'
 import { ausgestrahltOhneBeleg } from './bau/ohne-beleg.ts'
 import { crFolgentitel, mitCrTiteln, titelJeKennung } from './bau/folgentitel-cr.ts'
+import { tmdbFolgentitel } from './bau/folgentitel-tmdb.ts'
 import { suchbegriffeJeAdresse } from './lib/beleg-suche.ts'
 import { plotVon } from '../web/src/components/detail/plot.ts'
 import { newsRss } from './lib/news-rss.ts'
@@ -8367,6 +8368,22 @@ console.log('\nFolgentitel aus Crunchyroll:')
   const gefuellt = mitCrTiteln([{ nr: 1, de: 'Eigener Titel' }, { nr: 2 }], cr)
   pruefe('aniSearch-Titel bleibt, die Lücke füllt Crunchyroll', gefuellt?.[0]?.de === 'Eigener Titel' && gefuellt?.[1]?.de === 'Treffen in der Höhle')
   pruefe('fehlt die Liste ganz, entsteht sie aus Crunchyroll', mitCrTiteln(undefined, cr)?.length === 2)
+}
+/* Folgentitel aus TMDB: nur bei gleichem Namen, Format, Folgenzahl und Jahr; ein Titel gleich dem englischen ist keine Übersetzung. */
+{
+  const folgen = (s: number, n: number, jahr: number, de: (i: number) => string) =>
+    Array.from({ length: n }, (_, i) => ({ s, e: i + 1, titel: de(i + 1), en: `Episode title ${i + 1}`, datum: `${jahr}-01-${String(i + 1).padStart(2, '0')}` }))
+  const serie = { id: 1, format: 'TV', episodes: 12, jpYear: 2026, titleRomaji: 'Beispiel Serie' } as unknown as Title
+  const nummern = Array.from({ length: 12 }, (_, i) => i + 1)
+  const eintrag = { folgen: folgen(1, 12, 2026, (i) => `Deutscher Titel ${i}`) }
+  const aus = tmdbFolgentitel(serie, 'Beispiel Serie', eintrag, nummern)
+  pruefe('TMDB: gleicher Name, Format, Zahl und Jahr geben die deutschen Titel', aus?.size === 12 && aus.get(3) === 'Deutscher Titel 3')
+  pruefe('TMDB: anderer Name (Mahoyome gegen Ancient Magus Bride) gibt nichts', tmdbFolgentitel(serie, 'Ganz Andere Serie', eintrag, nummern) === undefined)
+  pruefe('TMDB: SPECIAL (Tachikoma) gibt nichts', tmdbFolgentitel({ ...serie, format: 'SPECIAL' } as unknown as Title, 'Beispiel Serie', eintrag, nummern) === undefined)
+  pruefe('TMDB: zusammengefasste Staffel (Blue Box, 37 gegen 12 Folgen) gibt nichts', tmdbFolgentitel(serie, 'Beispiel Serie', { folgen: folgen(1, 37, 2026, (i) => `Titel ${i}`) }, nummern) === undefined)
+  pruefe('TMDB: anderes Jahr gibt nichts', tmdbFolgentitel({ ...serie, jpYear: 2024 } as unknown as Title, 'Beispiel Serie', eintrag, nummern) === undefined)
+  pruefe('TMDB: Titel gleich dem englischen oder ohne englischen Vergleich ist keiner', tmdbFolgentitel(serie, 'Beispiel Serie', { folgen: folgen(1, 12, 2026, (i) => `Episode title ${i}`) }, nummern) === undefined && tmdbFolgentitel(serie, 'Beispiel Serie', { folgen: eintrag.folgen.map((f) => ({ ...f, en: undefined })) }, nummern) === undefined)
+  pruefe('TMDB: Platzhalter „Folge 3" ist kein Titel', tmdbFolgentitel(serie, 'Beispiel Serie', { folgen: folgen(1, 12, 2026, (i) => `Folge ${i}`) }, nummern) === undefined)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

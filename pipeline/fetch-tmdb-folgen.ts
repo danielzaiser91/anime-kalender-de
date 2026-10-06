@@ -41,10 +41,20 @@ interface Folge {
   e: number
   /** Der Folgentitel, deutsch wenn vorhanden, sonst englisch. */
   titel: string | null
+  /** Der englische Titel derselben Folge (Staffel ab 1); fehlt in Einträgen vor dem 06.10.2026. */
+  en?: string | null
   /** Erstausstrahlung, `YYYY-MM-DD`. Der eigentliche Anker der Zuordnung. */
   datum: string | null
   /** Laufzeit in Minuten — trennt eine Anthologie von ihrer Sammelfassung. */
   minuten: number | null
+}
+
+/** Die englischen Titel einer Staffel: ein deutscher Titel, der ihnen gleicht, ist keine Übersetzung (TMDB fällt auf Englisch zurück). */
+async function englischeTitel(id: number, staffel: number, apiKey: string): Promise<Map<number, string>> {
+  if (staffel < 1) return new Map()
+  const j = await fetchJson<{ episodes?: { episode_number: number; name?: string }[] }>(`${BASE}/tv/${id}/season/${staffel}?api_key=${apiKey}&language=en-US`)
+  await sleep(120)
+  return new Map((j.episodes ?? []).flatMap((e) => (e.name?.trim() ? [[e.episode_number, e.name.trim()] as [number, string]] : [])))
 }
 
 interface Eintrag {
@@ -86,7 +96,7 @@ async function main(): Promise<void> {
     .filter((x) => x.tmdb?.tmdbId && x.tmdb.kind !== 'movie')
     .filter((x) => {
       const alt = bestand[String(x.t.id)]
-      return !alt || Date.parse(alt.geholtAm) < grenze
+      return !alt || Date.parse(alt.geholtAm) < grenze || alt.folgen.some((f) => f.s >= 1 && f.en === undefined)
     })
     .slice(0, LIMIT)
 
@@ -113,10 +123,10 @@ async function main(): Promise<void> {
         const staffel = await fetchJson<{
           episodes?: { episode_number: number; name?: string; air_date?: string; runtime?: number }[]
         }>(`${BASE}/tv/${id}/season/${s}?api_key=${apiKey}&language=de-DE`)
+        const en = await englischeTitel(id, s, apiKey)
         for (const e of staffel.episodes ?? []) {
           folgen.push({
-            s,
-            e: e.episode_number,
+            s, e: e.episode_number, en: en.get(e.episode_number) ?? null,
             titel: e.name?.trim() || null,
             datum: e.air_date || null,
             minuten: Number.isFinite(e.runtime) ? (e.runtime as number) : null,
