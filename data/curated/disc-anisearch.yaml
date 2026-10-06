@@ -7,6 +7,8 @@
 #
 # Mehrere Editionen am selben Tag sind ein Eintrag — sie stehen zusammengefasst in `edition`.
 
+# Entfernt am 06.10.2026: From Bureaucrat to Villainess (12.10.); der archivierte aniSearch-Bestand führt genau diese Ausgabe mit Flagge gb, also keine deutsche Disc.
+
 - slug: detektei-layton-katrielles-raetselhafte-faelle-2026-10-22
   anilistId: 100785
   titleDe: "Detektei Layton: Katrielles rätselhafte Fälle"
@@ -313,16 +315,6 @@
   edition: "Gesamtausgabe Blu-ray"
   schedule: { firstEpisodeDate: "2026-09-17" }
   sources: ["https://www.anisearch.de/article/210501,promise-of-wizard-gesamtausgabe-blu-ray"]
-
-- slug: from-bureaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12
-  anilistId: 172453
-  titleDe: "From Bureaucrat to Villainess: Dad’s Been Reincarnated!"
-  platform: disc
-  releaseType: disc
-  publisher: "Animation Digital Network (DE)"
-  edition: "Complete Series Blu-ray"
-  schedule: { firstEpisodeDate: "2026-10-12" }
-  sources: ["https://www.anisearch.de/article/215273,from-bureaucrat-to-villainess-dads-been-reincarnated-complete-series-blu-ray"]
 
 - slug: yaiba-samurai-legend-vol-1-2026-12-04
   anilistId: 177476
