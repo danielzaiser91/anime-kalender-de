@@ -2,7 +2,7 @@
 
 Alles, wofür ich dich brauche, steht hier — nummeriert, je Punkt ein Link, Vorher / Erwartet / Falsch, wenn …. Während des autonomen Modus (bis 23:30, Start 05.10.2026 13:32) frage ich nicht nach; ich lege sie dir auf Anfrage vor. Erledigtes wird abgehakt und rutscht nach unten.
 
-Stand: 05.10.2026 23:10
+Stand: 06.10.2026 10:15
 
 ## Offen
 
@@ -36,6 +36,10 @@ Stand: 05.10.2026 23:10
 
 9. **Antwort von Dominik (aniSearch) abwarten**
    Du hast die Mail am 05.10. abgeschickt. Fragen darin: Passt die Quellenzeile, und was heißt „unter Vorbehalt". Bis zur Antwort ändere ich nichts mehr an aniSearch.
+
+10. **Entscheidung: Hosting** (Recherche liegt vor: [hosting-vergleich-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/hosting-vergleich-2026-10-06.md))
+   Empfehlung: GitHub Pages vorerst behalten und Cloudflare (Workers Static Assets, 0 €, Zone liegt schon dort) als zweites Deploy-Ziel vorbereiten. Umschalten, wenn die 30-Tage-Messung (`site_probe`) unter 99,9 % liegt oder ein Ausfall der ausgelieferten Seite belegt ist. Pages bleibt dann als Rückfall.
+   - Sag „so", oder was du anders willst (z. B. gleich eigener Server).
 
 ## Entscheidungen, die ich getroffen habe (zur Kenntnis, bei Widerspruch sagen)
 
