@@ -604,7 +604,7 @@ export function digestMail(
       ? `<p style="margin:22px 0 0;padding:12px 14px;background:#1d2536;border-radius:9px;color:#9aa5bd;font-size:13px;line-height:1.6;">
            Du hast noch keine Favoriten hinterlegt. Markiere im Kalender die Serien, denen du folgst —
            ihre neuen Folgen stehen dann ganz oben in dieser Mail.<br>
-           <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten hier laden</a>
+           <a href="${options.syncUrl}" style="color:#7dd3fc;">Dieses Gerät mit dem Newsletter verbinden</a>
          </p>`
       : ''
 
@@ -628,7 +628,7 @@ export function digestMail(
           und dabei sein Abo beendet, ohne es zu wollen. -->
      <a href="${unsubUrl}" style="color:#7dd3fc;">Newsletter abbestellen</a> ·
      <a href="${siteUrl}#/datenschutz" style="color:#7dd3fc;">Datenschutz</a>${
-       options.syncUrl ? `<br>Neues Gerät? <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten hier laden</a> (öffnet den Kalender mit deinen gemerkten Serien, nichts wird geändert).` : ''
+       options.syncUrl ? `<br><a href="${options.syncUrl}" style="color:#7dd3fc;">Dieses Gerät mit dem Newsletter verbinden</a>` : ''
      }`,
   )
 
@@ -636,7 +636,7 @@ export function digestMail(
     `${subject}\n\n` +
     textKoerper({ ctx, meine, nachSorte, wiederholungen, verschoben, meldungen, siteUrl, neu, auchBei }) +
     `Kalender: ${siteUrl}\n` +
-    (options.syncUrl ? `Neues Gerät? Favoriten hier laden (öffnet den Kalender mit deinen gemerkten Serien): ${options.syncUrl}\n` : '') +
+    (options.syncUrl ? `Dieses Gerät mit dem Newsletter verbinden: ${options.syncUrl}\n` : '') +
     `\nDas hier ist der ${rhythmus.name} — er kommt ${rhythmus.wann}.\n` +
     (options.rhythmusUrl
       ? `Auf ${rhythmus.andere} umstellen: ${options.rhythmusUrl}\n`
