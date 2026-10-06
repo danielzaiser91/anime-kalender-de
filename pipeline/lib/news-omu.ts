@@ -37,10 +37,7 @@ export function omuMeldungen(
       datum: a.omuAb,
       quelle: a.quellen[0],
       belege: a.quellen.map((url) => ({ url, name: hostVon(url) })),
-      hinweis:
-        a.synchro === 'angekuendigt'
-          ? 'Zuerst mit Untertiteln (OmU). Eine deutsche Synchro ist angekündigt, ihr Termin steht noch aus.'
-          : 'Zuerst nur mit Untertiteln (OmU). Eine deutsche Synchro ist nicht angekündigt.',
+      omu: a.synchro === 'angekuendigt' ? 'synchro-angekuendigt' : 'synchro-offen',
     })
   }
   return raus

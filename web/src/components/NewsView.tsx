@@ -269,7 +269,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
           ? t('news.kurz.folgen', { von: m.von ?? '', bis: m.bis, anbieter })
           : t('news.kurz.folge', { von: m.von ?? '', anbieter })
       case 'angekuendigt':
-        return t('news.kurz.angekuendigt', { datum, anbieter })
+        return t(m.omu ? 'news.kurz.omu' : 'news.kurz.angekuendigt', { datum, anbieter })
       case 'disc':
         return t('news.kurz.disc', { datum })
       case 'kino':

@@ -50,6 +50,8 @@ export interface NewsMeldung {
   kanal?: string
   /** Bei `neu`: ein weiterer Anbieter, nicht die erste Synchro des Titels (18.09.2026). */
   weiterer?: boolean
+  /** Bei `angekuendigt`: Start nur mit Untertiteln (OmU) — ob eine deutsche Synchro angekündigt ist (Daniel, 06.10.2026: beide Auskünfte sind interessant). */
+  omu?: 'synchro-angekuendigt' | 'synchro-offen'
   /** Der Termin, um den es geht (angekündigt, Disc, Kino, verpasst). */
   datum?: string
   /** Uhrzeit des Termins ("HH:MM", Berlin), wo die Quelle sie nennt — bei `nachgetragen` im Satz. */

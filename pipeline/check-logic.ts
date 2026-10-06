@@ -7890,13 +7890,13 @@ console.log('\nOmU-Meldung:')
   const titel = { id: 7, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10-11', synchro: 'offen', quellen: ['https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/x'], stand: '2026-09-15' } } as never
   const monat = { id: 8, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10', synchro: 'offen', quellen: ['https://x'], stand: '2026-09-15' } } as never
   const m = omuMeldungen([titel, monat], [])
-  pruefe('OmU: ein Start mit Tag wird Meldung am Tag der Quelle, mit Beleg und Hinweis „nicht angekündigt"', m.length === 1 && m[0]!.fallback === '2026-09-15' && m[0]!.datum === '2026-10-11' && m[0]!.belege?.length === 1 && /nicht angekündigt/.test(m[0]!.hinweis ?? ''), m)
+  pruefe('OmU: ein Start mit Tag wird Meldung am Tag der Quelle, mit Beleg und Kennzeichen „Synchro offen"', m.length === 1 && m[0]!.fallback === '2026-09-15' && m[0]!.datum === '2026-10-11' && m[0]!.belege?.length === 1 && m[0]!.omu === 'synchro-offen', m)
   const rel = { titleId: 7, platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-10-11' } } as never
   pruefe('OmU: gibt es ein Release desselben Anbieters, entfällt die Meldung', omuMeldungen([titel], [rel]).length === 0)
   /* Der Bau legt `ankuendigung` erst beim Schreiben an den Titel — die Meldung muss sie selbst nachschlagen (Beerus, 04.10.2026). */
   const ohneFeld = { id: 9 } as never
   const aus = omuMeldungen([ohneFeld], [], new Map([[9, { platform: 'crunchyroll', omuAb: '2026-10-11', synchro: 'angekuendigt', quellen: ['https://x'], stand: '2026-10-01' } as never]]))
-  pruefe('OmU: ein Titel ohne Feld am Objekt bekommt seine Meldung über die Ankündigungsliste', aus.length === 1 && /ist angekündigt/.test(aus[0]!.hinweis ?? ''), aus)
+  pruefe('OmU: ein Titel ohne Feld am Objekt bekommt seine Meldung über die Ankündigungsliste', aus.length === 1 && aus[0]!.omu === 'synchro-angekuendigt', aus)
 }
 
 /* Ein Special als Bonus auf einer Disc mit deutscher Tonspur gilt als deutsch belegt (Daniel, 04.10.2026). */

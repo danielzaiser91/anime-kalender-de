@@ -58,6 +58,7 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
     case 'angekuendigt':
       /* **Der Satz bleibt kurz**. Der Vermerk (`hinweis`) steht seitdem als
          eigene, leisere Zeile daneben — in der Übersicht kurz, im Aufgeklappten ausführlich. */
+      if (m.omu) return t(m.omu === 'synchro-angekuendigt' ? 'news.omuAngekuendigt' : 'news.omuOffen', { datum, anbieter }) + lautQuelle(m, am)
       return t('news.angekuendigt', { datum, anbieter }) + lautQuelle(m, am)
     case 'disc':
       return t('news.disc', { datum }) + lautQuelle(m, am)
