@@ -8,23 +8,21 @@ X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
 UID:mononoke-movie-3-curse-of-the-serpent@2026-09-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20260929T080000Z
-DTEND:20260929T083000Z
+DTSTART;VALUE=DATE:20260929
+DTEND;VALUE=DATE:20260930
 SUMMARY:Mononoke – The Movie: Chapter III – Der Fluch der Schlange
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit voraussichtlich:
-  Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nDetails: 
- https://anime-kalender.de/t/16089/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht best
+ ätigt.\nDetails: https://anime-kalender.de/t/16089/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-213805-netflix@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261001T080000Z
-DTEND:20261001T083000Z
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
 SUMMARY:The Ramparts of Ice Staffel 2 – Folge 1/1
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/17776/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -42,45 +40,41 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261004T080000Z
-DTEND:20261004T083000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
 SUMMARY:Blue Box: Staffel 2 – Folge 1/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:ranma-s3-folge1-netflix@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261005T080000Z
-DTEND:20261005T083000Z
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261006
 SUMMARY:Ranma ½ – Staffel 3
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
- chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
- etails: https://anime-kalender.de/t/17567/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/17567/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:my-hero-academia-vigilantes-s1-netflix@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261006T080000Z
-DTEND:20261006T083000Z
+DTSTART;VALUE=DATE:20261006
+DTEND;VALUE=DATE:20261007
 SUMMARY:My Hero Academia: Vigilantes – Staffel 1
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
- chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
- etails: https://anime-kalender.de/t/16460/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/16460/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:my-hero-academia-vigilantes-s2-netflix@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261006T080000Z
-DTEND:20261006T083000Z
+DTSTART;VALUE=DATE:20261006
+DTEND;VALUE=DATE:20261007
 SUMMARY:My Hero Academia: Vigilantes – Staffel 2
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
- chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
- etails: https://anime-kalender.de/t/16903/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/16903/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -98,23 +92,21 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-179813-netflix@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T080000Z
-DTEND:20261010T083000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
 SUMMARY:Rooster Fighter
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
- chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
- etails: https://anime-kalender.de/t/16072/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/16072/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261011T080000Z
-DTEND:20261011T083000Z
+DTSTART;VALUE=DATE:20261011
+DTEND;VALUE=DATE:20261012
 SUMMARY:Blue Box: Staffel 2 – Folge 2/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -132,12 +124,11 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261018T080000Z
-DTEND:20261018T083000Z
+DTSTART;VALUE=DATE:20261018
+DTEND;VALUE=DATE:20261019
 SUMMARY:Blue Box: Staffel 2 – Folge 3/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -166,23 +157,21 @@ END:VEVENT
 BEGIN:VEVENT
 UID:my-happy-marriage-special-netflix@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261025T080000Z
-DTEND:20261025T083000Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
 SUMMARY:Meine ganz besondere Hochzeit: Special
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
- chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
- etails: https://anime-kalender.de/t/16794/
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/16794/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261025T080000Z
-DTEND:20261025T083000Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
 SUMMARY:Blue Box: Staffel 2 – Folge 4/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -200,12 +189,11 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261101T080000Z
-DTEND:20261101T083000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
 SUMMARY:Blue Box: Staffel 2 – Folge 5/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -223,12 +211,11 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261108T080000Z
-DTEND:20261108T083000Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
 SUMMARY:Blue Box: Staffel 2 – Folge 6/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -246,12 +233,11 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261115T080000Z
-DTEND:20261115T083000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
 SUMMARY:Blue Box: Staffel 2 – Folge 7/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -269,12 +255,11 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261122T080000Z
-DTEND:20261122T083000Z
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
 SUMMARY:Blue Box: Staffel 2 – Folge 8/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -292,12 +277,11 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261129T080000Z
-DTEND:20261129T083000Z
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
 SUMMARY:Blue Box: Staffel 2 – Folge 9/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -315,34 +299,31 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261206T080000Z
-DTEND:20261206T083000Z
+DTSTART;VALUE=DATE:20261206
+DTEND;VALUE=DATE:20261207
 SUMMARY:Blue Box: Staffel 2 – Folge 10/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-12-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261213T080000Z
-DTEND:20261213T083000Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
 SUMMARY:Blue Box: Staffel 2 – Folge 11/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-12-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261220T080000Z
-DTEND:20261220T083000Z
+DTSTART;VALUE=DATE:20261220
+DTEND;VALUE=DATE:20261221
 SUMMARY:Blue Box: Staffel 2 – Folge 12/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
- er Zeit.\nDetails: https://anime-kalender.de/t/16763/
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16763/
 CATEGORIES:Netflix
 END:VEVENT
 END:VCALENDAR

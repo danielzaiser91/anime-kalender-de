@@ -16,6 +16,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-10-03@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261003
+DTEND;VALUE=DATE:20261004
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 1/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-187331-primevideo@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261003
@@ -26,6 +37,16 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:Tank Chair – Folge 1/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-14713-primevideo@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261008
@@ -33,6 +54,29 @@ DTEND;VALUE=DATE:20261009
 SUMMARY:Kamisama Kiss
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
   nicht bestätigt.\nDetails: https://anime-kalender.de/t/6040/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-10-10@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 2/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-10-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261011
+DTEND;VALUE=DATE:20261012
+SUMMARY:Tank Chair – Folge 2/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -56,6 +100,29 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nUhrzeit noch nicht b
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-10-17@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261017
+DTEND;VALUE=DATE:20261018
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 3/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261018
+DTEND;VALUE=DATE:20261019
+SUMMARY:Tank Chair – Folge 3/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-128400-primevideo@2026-10-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261022
@@ -73,6 +140,309 @@ DTEND;VALUE=DATE:20261023
 SUMMARY:Your Forma
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
   nicht bestätigt.\nDetails: https://anime-kalender.de/t/15230/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-10-24@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 4/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:Tank Chair – Folge 4/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-10-31@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 5/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Tank Chair – Folge 5/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-11-07@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 6/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Tank Chair – Folge 6/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-11-14@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261114
+DTEND;VALUE=DATE:20261115
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 7/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:Tank Chair – Folge 7/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-11-21@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261121
+DTEND;VALUE=DATE:20261122
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 8/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
+SUMMARY:Tank Chair – Folge 8/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-11-28@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261128
+DTEND;VALUE=DATE:20261129
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 9/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
+SUMMARY:Tank Chair – Folge 9/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-12-05@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261205
+DTEND;VALUE=DATE:20261206
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 10/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261206
+DTEND;VALUE=DATE:20261207
+SUMMARY:Tank Chair – Folge 10/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-12-12@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 11/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
+SUMMARY:Tank Chair – Folge 11/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-12-19@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261219
+DTEND;VALUE=DATE:20261220
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 12/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-12-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261220
+DTEND;VALUE=DATE:20261221
+SUMMARY:Tank Chair – Folge 12/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-12-26@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261226
+DTEND;VALUE=DATE:20261227
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 13/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2027-01-02@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270102
+DTEND;VALUE=DATE:20270103
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 14/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2027-01-09@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270109
+DTEND;VALUE=DATE:20270110
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 15/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2027-01-16@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270116
+DTEND;VALUE=DATE:20270117
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 16/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2027-01-23@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270123
+DTEND;VALUE=DATE:20270124
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 17/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2027-01-30@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270130
+DTEND;VALUE=DATE:20270131
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 18/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2027-02-06@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270206
+DTEND;VALUE=DATE:20270207
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 19/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2027-02-13@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270213
+DTEND;VALUE=DATE:20270214
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 20/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 END:VCALENDAR

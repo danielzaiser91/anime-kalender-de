@@ -137,6 +137,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:Tank Chair – Folge 1/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T151000Z
@@ -288,6 +298,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-10-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261011
+DTEND;VALUE=DATE:20261012
+SUMMARY:Tank Chair – Folge 2/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T151000Z
@@ -370,6 +391,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261018
+DTEND;VALUE=DATE:20261019
+SUMMARY:Tank Chair – Folge 3/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cyberpunk-edgerunners-2-netflix@2026-10-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261020T080000Z
@@ -434,6 +466,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:Tank Chair – Folge 4/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:dan-da-dan-s2-vol2-exklusiv@2026-10-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261030
@@ -454,6 +497,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Tank Chair – Folge 5/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:strike-witches-s2-vol1@2026-11-06@anime-kalender-de
@@ -488,6 +542,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Tank Chair – Folge 6/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261115T150000Z
@@ -498,6 +563,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:Tank Chair – Folge 7/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:memories-2026-11-18@2026-11-18@anime-kalender-de
@@ -532,6 +608,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
+SUMMARY:Tank Chair – Folge 8/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261129T150000Z
@@ -542,6 +629,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
+SUMMARY:Tank Chair – Folge 9/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-178754-disc@2026-12-04@anime-kalender-de
@@ -566,6 +664,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261206
+DTEND;VALUE=DATE:20261207
+SUMMARY:Tank Chair – Folge 10/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-1313-disc@2026-12-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261210
@@ -588,6 +697,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
+SUMMARY:Tank Chair – Folge 11/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261220T150000Z
@@ -598,5 +718,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:tank-chair-primevideo@2026-12-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261220
+DTEND;VALUE=DATE:20261221
+SUMMARY:Tank Chair – Folge 12/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
+ hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
+CATEGORIES:Prime Video
 END:VEVENT
 END:VCALENDAR
