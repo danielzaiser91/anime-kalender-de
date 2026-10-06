@@ -8,7 +8,7 @@ import { kostenloseFolgen } from '../../shared/kostenlos.ts'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { VOICES_DIR } from './grundlagen.ts'
 import { widerlegeDeutscheTermine } from './widerlegung-woche.ts'
-import { ausgestrahltOhneBeleg } from './ohne-beleg.ts'
+import { ausgestrahltOhneBeleg, ohneSynchroVonHand } from './ohne-beleg.ts'
 
 /**
  * **Die zwei Auskünfte an den Termin schreiben** (28.09.2026, `shared/tv-signale.ts`).
@@ -161,6 +161,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
    * dem Toggle wieder auftaucht.
    */
   const verschoben: Title[] = []
+  const handNein = ohneSynchroVonHand()
   for (const id of [...titles.keys()]) {
     if (mitRelease.has(id)) continue
     /**
@@ -171,10 +172,10 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
      * gegen ein japanisches Startdatum in der Zukunft: AniList führt für
      * Vorabveröffentlichungen und Kinofassungen mitunter beides.
      */
-    if (mitStimmen.has(id)) continue
+    if (mitStimmen.has(id) && !handNein.has(id)) continue
     // Ohne bekanntes Startdatum wird nichts entfernt — Unwissen ist kein Beleg.
     const start = jpStart.get(id)
-    if (!(start && start > heuteIso) && !ausgestrahltOhneBeleg(titles.get(id)!)) continue
+    if (!(start && start > heuteIso) && !handNein.has(id) && !ausgestrahltOhneBeleg(titles.get(id)!)) continue
     const titel = titles.get(id)
     if (titel) verschoben.push(titel)
     titles.delete(id)

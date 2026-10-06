@@ -1,4 +1,8 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import yaml from 'js-yaml'
 import type { Title } from '../../shared/types.ts'
+import { ROOT } from '../lib/util.ts'
 
 /**
  * **Ein ausgestrahlter Titel, für den kein einziger Beleg einer deutschen Fassung vorliegt, gehört hinter „Anime ohne deutsche Synchro"**
@@ -13,4 +17,10 @@ import type { Title } from '../../shared/types.ts'
 export function ausgestrahltOhneBeleg(t: Title): boolean {
   if (!t.streams.length || t.deErstausgabe || t.streams.some((s) => s.dub === true)) return false
   return (t.jpYear ?? 0) >= 2023
+}
+
+/** Titel, für die eine Quelle ausdrücklich „keine deutsche Synchronfassung" sagt (`data/ohne-synchro-von-hand.yaml`); ohne Quelle zählt ein Eintrag nicht. */
+export function ohneSynchroVonHand(): Set<number> {
+  const liste = (yaml.load(readFileSync(resolve(ROOT, 'data/ohne-synchro-von-hand.yaml'), 'utf8')) ?? []) as { anilistId?: number; sources?: string[] }[]
+  return new Set(liste.filter((e) => e.anilistId && e.sources?.length).map((e) => e.anilistId!))
 }

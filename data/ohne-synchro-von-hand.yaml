@@ -1,0 +1,56 @@
+# Titel im Hauptbestand, für die eine Quelle ausdrücklich sagt: keine deutsche Synchronfassung (Recherche vom 06.10.2026, gelesen und geprüft).
+#
+# Wirkung: Der Titel steht hinter „Anime ohne deutsche Synchro" statt im Hauptbestand — verschoben, nicht gelöscht (`schreibeOhneSynchro`).
+# Nur eine ausdrückliche Aussage zählt („nur in Japan ausgestrahlt", „nur der Film erschienen"); „nichts gefunden" ist kein Eintrag.
+# Hand schlägt Ableitung: Auch deutsche Sprechrollen halten den Titel dann nicht im Hauptbestand. Wer einen Eintrag widerlegen will, löscht ihn samt Quelle im Commit.
+#
+# Felder: anilistId, title (zum Wiederfinden), belegtAm, zitat (wörtlich), sources (mindestens eine Adresse).
+
+- anilistId: 1453
+  title: 'Maison Ikkoku (Serie)'
+  belegtAm: '2026-10-06'
+  zitat: 'Auf Deutsch ist nur der Kinofilm bei Kazé erschienen.'
+  sources:
+    - https://de.wikipedia.org/wiki/Maison_Ikkoku
+
+- anilistId: 2459
+  title: 'Maison Ikkoku: Deserted Island'
+  belegtAm: '2026-10-06'
+  zitat: 'Auf Deutsch ist nur der Kinofilm bei Kazé erschienen. (Der Kinofilm ist ein anderes Werk.)'
+  sources:
+    - https://de.wikipedia.org/wiki/Maison_Ikkoku
+
+- anilistId: 5844
+  title: 'Pikachu no Obake Carnival'
+  belegtAm: '2026-10-06'
+  zitat: 'Erstausstrahlung DE: Nicht ausgestrahlt'
+  sources:
+    - https://www.pokewiki.de/Pikachu_no_Obake_Carnival
+
+- anilistId: 550
+  title: 'Yu☆Gi☆Oh! (1998)'
+  belegtAm: '2026-10-06'
+  zitat: 'Diese Serie wurde bisher nur in Japan ausgestrahlt.'
+  sources:
+    - https://de.wikipedia.org/wiki/Yu-Gi-Oh!
+
+- anilistId: 893
+  title: 'Dragon Ball: Der Weg zur Macht'
+  belegtAm: '2026-10-06'
+  zitat: 'nur der bis dahin unveröffentlichte vierte Film war als Originalfassung mit Untertiteln in der Komplett-Box auf DVD enthalten'
+  sources:
+    - https://de.wikipedia.org/wiki/Dragon_Ball_%E2%80%93_Der_Weg_zur_Macht
+
+- anilistId: 10444
+  title: 'Digimon Xros Wars: Evil Death Generals and the Seven Kingdoms'
+  belegtAm: '2026-10-06'
+  zitat: 'Eine Veröffentlichung der weiteren 49 Folgen steht bislang aus.'
+  sources:
+    - https://de.wikipedia.org/wiki/Digimon_Xros_Wars_%E2%80%93_Toki_o_Kakeru_Sh%C5%8Dnen_Hunter-tachi
+
+- anilistId: 98349
+  title: 'Love Live! Sunshine!! Staffel 2'
+  belegtAm: '2026-10-06'
+  zitat: 'nur die erste Staffel synchronisiert wurde und die zweite Staffel im japanischen Originalton mit deutschen Untertiteln'
+  sources:
+    - https://de.wikipedia.org/wiki/Love_Live!_Sunshine!!
