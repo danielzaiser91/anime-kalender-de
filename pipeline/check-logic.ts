@@ -6122,7 +6122,7 @@ pruefe(
   pruefe(
     'die TV-Wiederholungen stehen darunter, getrennt und klein',
     wo('📺 TV — Wiederholungen') > wo('📺 TV — Premieren') &&
-      m.html.includes('2 Sendungen — die Folgen liefen schon auf Deutsch') &&
+      !m.html.includes('die Folgen liefen schon auf Deutsch') &&
       m.html.includes('Dragon Ball Fg. 5'),
     String(wo('📺 TV — Wiederholungen')),
   )
@@ -6138,7 +6138,7 @@ pruefe(
     wo('📰 Neuigkeiten') > wo('📺 TV — Wiederholungen') &&
       m.html.includes('Start am 03.10.2026 bei Crunchyroll') &&
       m.html.includes('Quelle: crunchyroll.com') &&
-      m.html.includes('Im Kalender ansehen'),
+      m.html.includes('zum Kalender') && !m.html.includes('Im Kalender ansehen') && !m.html.includes('Ankündigungen, auf die niemand'),
   )
   pruefe(
     'und die Textfassung nennt sie ebenso',

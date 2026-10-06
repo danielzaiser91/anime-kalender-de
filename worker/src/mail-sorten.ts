@@ -49,9 +49,10 @@ export function abzeichen(ev: ReleaseEvent): string | undefined {
 }
 
 /** Die Reihenfolge der Abschnitte — genau die von Daniel genannte. */
+/** `hinweis` bleibt leer, wo er die Überschrift nur wiederholen würde (Daniel, 06.10.2026). */
 export const SORTEN: { sorte: Sorte; titel: string; farbe: string; hinweis: string }[] = [
-  { sorte: 'kino', titel: '🎬 Kino', farbe: '#eab308', hinweis: 'Kinostarts und letzte Spieltage.' },
-  { sorte: 'stream', titel: '▶ Neu bei den Anbietern', farbe: '#60a5fa', hinweis: 'Neue Folgen und Katalogtitel.' },
+  { sorte: 'kino', titel: '🎬 Kino', farbe: '#eab308', hinweis: '' },
+  { sorte: 'stream', titel: '▶ Neu bei den Anbietern', farbe: '#60a5fa', hinweis: '' },
   { sorte: 'disc', titel: '💿 Im Handel', farbe: '#22c55e', hinweis: 'Kaufen lohnt sich — hier gibt es die deutsche Fassung.' },
-  { sorte: 'tv-premiere', titel: '📺 TV — Premieren', farbe: '#2dd4bf', hinweis: 'Erstmals auf Deutsch im Fernsehen. Nicht verpassen.' },
+  { sorte: 'tv-premiere', titel: '📺 TV — Premieren', farbe: '#2dd4bf', hinweis: '' },
 ]

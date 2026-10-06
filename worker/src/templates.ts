@@ -8,6 +8,7 @@ import {
   calendarUrl,
   escapeHtml,
   hinweisZeile,
+  kalenderLink,
   newsBlock,
   newsText,
   tvWiederholungen,
@@ -165,7 +166,7 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
     Ohne Uhrzeit steht hier nichts — die Teile werden deshalb gesammelt und
     erst am Ende verbunden, sonst bliebe ein führender Trennpunkt stehen.
   */
-  const time = ev.time ? `${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : ''
+  const time = ev.time ? `${ev.timeEstimated ? 'ca. ' : ''}${ev.time} Uhr` : ev.releaseType === 'disc' ? 'im Handel' : ''
   const episode = ev.episode && !ev.sichtung ? `Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCountAssumed ? '≈' : ''}${ev.episodeCount}` : ''}` : ''
   const platform = PLATFORMS[ev.platform]
   /* Im Fernsehen ist der **Sender** die Auskunft, nicht das Wort „TV" (28.09.2026). */
@@ -186,7 +187,7 @@ function eventRow(ctx: RowContext, ev: ReleaseEvent, highlight: boolean): string
       ${highlight ? '<span style="color:#fbbf24;">★</span> ' : ''}<a href="${escapeHtml(
         calendarUrl(ctx, ev),
       )}" style="color:#fff;text-decoration:none;"><strong>${escapeHtml(ev.name)}</strong></a>${badge(ev)}<br>
-      <span style="color:#9aa5bd;font-size:13px;">${[escapeHtml(time), escapeHtml(episode), platformPart, ev.estimated ? 'geschätzt' : '']
+      <span style="color:#9aa5bd;font-size:13px;">${[escapeHtml(time), escapeHtml(episode), platformPart, ev.estimated ? 'geschätzt' : '', kalenderLink(calendarUrl(ctx, ev))]
         .filter(Boolean)
         .join(' · ')}</span>
     </td>
@@ -370,7 +371,7 @@ function koerper(o: {
   for (const rubrik of SORTEN) {
     const drin = o.nachSorte.get(rubrik.sorte) ?? []
     if (!drin.length) continue
-    body += heading(rubrik.titel, rubrik.farbe) + hinweisZeile(rubrik.hinweis) + dateSections(o.ctx, drin, false)
+    body += heading(rubrik.titel, rubrik.farbe) + (rubrik.hinweis ? hinweisZeile(rubrik.hinweis) : '') + dateSections(o.ctx, drin, false)
   }
   if (o.wiederholungen.length) body += tvWiederholungen(o.ctx, o.wiederholungen)
   if (o.meldungen.length) body += newsBlock(o.meldungen, o.siteUrl)
@@ -603,7 +604,7 @@ export function digestMail(
       ? `<p style="margin:22px 0 0;padding:12px 14px;background:#1d2536;border-radius:9px;color:#9aa5bd;font-size:13px;line-height:1.6;">
            Du hast noch keine Favoriten hinterlegt. Markiere im Kalender die Serien, denen du folgst —
            ihre neuen Folgen stehen dann ganz oben in dieser Mail.<br>
-           <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten übernehmen</a>
+           <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten hier laden</a>
          </p>`
       : ''
 
@@ -612,7 +613,7 @@ export function digestMail(
     `${body}${favouriteHint}
      <p style="margin:24px 0 0;"><a href="${siteUrl}"
        style="display:inline-block;background:#38bdf8;color:#06121d;text-decoration:none;padding:10px 18px;border-radius:9px;font-weight:700;">
-       Im Kalender ansehen</a></p>`,
+       Zum Kalender</a></p>`,
     // Welche Mail das hier ist, gehört hinein: Wer sie seit Monaten bekommt,
     // weiß sonst nicht mehr, ob er den täglichen oder den wöchentlichen
     // Rhythmus gewählt hat — und findet auch nicht, wo er das ändert.
@@ -627,7 +628,7 @@ export function digestMail(
           und dabei sein Abo beendet, ohne es zu wollen. -->
      <a href="${unsubUrl}" style="color:#7dd3fc;">Newsletter abbestellen</a> ·
      <a href="${siteUrl}#/datenschutz" style="color:#7dd3fc;">Datenschutz</a>${
-       options.syncUrl ? ` · <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten abgleichen</a>` : ''
+       options.syncUrl ? `<br>Neues Gerät? <a href="${options.syncUrl}" style="color:#7dd3fc;">Favoriten hier laden</a> (öffnet den Kalender mit deinen gemerkten Serien, nichts wird geändert).` : ''
      }`,
   )
 
@@ -635,7 +636,7 @@ export function digestMail(
     `${subject}\n\n` +
     textKoerper({ ctx, meine, nachSorte, wiederholungen, verschoben, meldungen, siteUrl, neu, auchBei }) +
     `Kalender: ${siteUrl}\n` +
-    (options.syncUrl ? `Favoriten abgleichen: ${options.syncUrl}\n` : '') +
+    (options.syncUrl ? `Neues Gerät? Favoriten hier laden (öffnet den Kalender mit deinen gemerkten Serien): ${options.syncUrl}\n` : '') +
     `\nDas hier ist der ${rhythmus.name} — er kommt ${rhythmus.wann}.\n` +
     (options.rhythmusUrl
       ? `Auf ${rhythmus.andere} umstellen: ${options.rhythmusUrl}\n`

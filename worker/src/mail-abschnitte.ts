@@ -39,6 +39,11 @@ export function calendarUrl(ctx: RowContext, ev: ReleaseEvent): string {
   return `${ctx.siteUrl.replace(/\/$/, '')}/t/${ev.titleId}/#/woche?d=${ev.date}&t=${ev.titleId}`
 }
 
+/** Der kleine Link am Ende einer Zeile: führt zur Titelseite im Kalender. */
+export function kalenderLink(url: string): string {
+  return `<a href="${escapeHtml(url)}" style="color:#7dd3fc;text-decoration:none;">zum Kalender &rsaquo;</a>`
+}
+
 /** Eine Zeile unter der Rubrik-Überschrift — sie sagt, was hier zu finden ist. */
 export function hinweisZeile(text: string): string {
   return `<p style="margin:6px 0 0;color:#9aa5bd;font-size:13px;">${text}</p>`
@@ -84,13 +89,9 @@ export function tvWiederholungen(ctx: RowContext, events: ReleaseEvent[]): strin
   const sortiert = [...events].sort(
     (a, b) => a.date.localeCompare(b.date) || (a.time ?? '99').localeCompare(b.time ?? '99'),
   )
-  const zeilen = sortiert.map((ev) => wiederholungsTeile(ev).map(escapeHtml).join(' · '))
+  const zeilen = sortiert.map((ev) => [...wiederholungsTeile(ev).map(escapeHtml), kalenderLink(calendarUrl(ctx, ev))].join(' · '))
   return `<p style="margin:26px 0 0;padding-bottom:6px;border-bottom:2px solid #3f4b63;color:#8b98b3;font-weight:700;font-size:15px;letter-spacing:.03em;">
       📺 TV — Wiederholungen
-    </p>
-    <p style="margin:6px 0 0;color:#8b98b3;font-size:13px;">
-      ${sortiert.length === 1 ? 'Eine Sendung' : `${sortiert.length} Sendungen`} — die Folgen liefen schon auf Deutsch.
-      <a href="${escapeHtml(calendarUrl(ctx, sortiert[0]))}" style="color:#7dd3fc;">Im Kalender ansehen &rsaquo;</a>
     </p>
     <p style="margin:8px 0 0;color:#8b98b3;font-size:13px;line-height:1.7;">${zeilen.join('<br>')}</p>`
 }
@@ -151,13 +152,12 @@ export function newsBlock(eintraege: NewsEintrag[], siteUrl: string): string {
     return `<p style="margin:10px 0 0;padding-top:8px;border-top:1px solid #232c40;">
         <a href="${link}" style="color:#fff;text-decoration:none;"><strong>${escapeHtml(e.titel)}</strong></a><br>
         <span style="color:#9aa5bd;font-size:13px;">${saetze.join(' · ')} —
-          <a href="${link}" style="color:#7dd3fc;">Im Kalender ansehen &rsaquo;</a></span>
+          ${kalenderLink(link)}</span>
       </p>`
   })
   return `<p style="margin:26px 0 0;padding-bottom:6px;border-bottom:2px solid #a78bfa;color:#a78bfa;font-weight:700;font-size:15px;letter-spacing:.03em;">
       📰 Neuigkeiten
     </p>
-    <p style="margin:6px 0 0;color:#9aa5bd;font-size:13px;">Ankündigungen, auf die niemand einen Termin setzen kann.</p>
     ${bloecke.join('')}`
 }
 
