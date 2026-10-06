@@ -13,7 +13,6 @@ import {
   pullFavorites,
   pushFavorites,
   requestRestore,
-  unsubscribeByToken,
   setSyncToken,
   type Einstellungen,
 } from '../lib/newsletterSync.ts'
@@ -21,6 +20,7 @@ import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
 import { InstallFooterOffer } from './InstallPrompt.tsx'
 import { Button, SectionTitle } from './ui.tsx'
 import { PushTest } from './PushTest.tsx'
+import { AboBeenden, type AbmeldeState } from './AboBeenden.tsx'
 
 const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
 const CONTACT_EMAIL = 'danielzaiser91@googlemail.com'
@@ -218,7 +218,7 @@ export function SubscribeView({ meta }: { meta: DataMeta }) {
  * Die Adresse bleibt außen vor — sie zu wechseln heißt, ein neues Abo mit neuer
  * Bestätigung anzulegen, und dafür gibt es das Formular.
  */
-function AboEinstellungen({ meta, onWechseln }: { meta: DataMeta; onWechseln: () => void }) {
+function AboEinstellungen({ meta, onWechseln, abmeldeState, setAbmeldeState }: { meta: DataMeta; onWechseln: () => void; abmeldeState: AbmeldeState; setAbmeldeState: (s: AbmeldeState) => void }) {
   const { t } = useLang()
   const [stand, setStand] = useState<Einstellungen | undefined>()
   const [fehler, setFehler] = useState('')
@@ -346,12 +346,6 @@ function AboEinstellungen({ meta, onWechseln }: { meta: DataMeta; onWechseln: ()
           {speichert === 'ok' && <p className="text-sm text-emerald-500">{t('news.prefsSaved')}</p>}
 
           <div className="flex flex-wrap items-center gap-3 border-t border-slate-200 pt-3 dark:border-white/10">
-            {/*
-              Abmelden steht bewusst **nicht** hier, sondern weiter unten im
-              Kasten „Favoriten verloren?". Dort gab es den Weg schon, zweistufig
-              und mit Abbruch; ein zweiter Knopf gleichen Namens auf derselben
-              Seite wäre die Sorte Dopplung, die diese Runde eigentlich beseitigt.
-            */}
             <button
               type="button"
               onClick={onWechseln}
@@ -359,6 +353,9 @@ function AboEinstellungen({ meta, onWechseln }: { meta: DataMeta; onWechseln: ()
             >
               {t('news.changeAddress')}
             </button>
+          </div>
+          <div className="border-t border-slate-200 pt-3 dark:border-white/10">
+            <AboBeenden state={abmeldeState} setState={setAbmeldeState} />
           </div>
         </div>
       )}
@@ -375,7 +372,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
   const [restoreState, setRestoreState] = useState<'idle' | 'sending' | 'done'>('idle')
   /** Formular trotz bestehender Verbindung zeigen — für den Fall eines toten Schlüssels. */
   const [restoreOffen, setRestoreOffen] = useState(false)
-  const [abmeldeState, setAbmeldeState] = useState<'idle' | 'fragt' | 'laeuft' | 'weg'>('idle')
+  const [abmeldeState, setAbmeldeState] = useState<AbmeldeState>('idle')
   /**
    * Was beim Verbinden vom Server dazukam — für die Rückmeldung mit Abwahl.
    *
@@ -615,7 +612,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
         bleiben.
       */}
       {verbindung.verbunden && !adresseWechseln ? (
-        <AboEinstellungen meta={meta} onWechseln={() => setAdresseWechseln(true)} />
+        <AboEinstellungen meta={meta} onWechseln={() => setAdresseWechseln(true)} abmeldeState={abmeldeState} setAbmeldeState={setAbmeldeState} />
       ) : (
       <Card>
         <form onSubmit={submit} className="flex flex-col gap-4">
@@ -799,45 +796,7 @@ export function NewsletterView({ meta, data }: { meta: DataMeta; data: Dataset }
                 fragt, der zweite handelt. Kein Dialogfenster — die Frage steht
                 an derselben Stelle, an der auch der Knopf stand.
               */}
-              <div className="w-full border-t border-ak-rand pt-3">
-              {abmeldeState === 'weg' ? (
-                <span className="text-[13px] text-slate-500 dark:text-slate-400">{t('news.unsubDone')}</span>
-              ) : abmeldeState === 'fragt' ? (
-                <span className="flex items-center gap-2 text-[13px]">
-                  <span className="text-slate-600 dark:text-slate-300">{t('news.unsubConfirm')}</span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const token = getSyncToken()
-                      if (!token) return
-                      setAbmeldeState('laeuft')
-                      unsubscribeByToken(token)
-                        .then(() => setAbmeldeState('weg'))
-                        .catch(() => setAbmeldeState('idle'))
-                    }}
-                    className="cursor-pointer font-medium text-red-500 underline underline-offset-2 hover:text-red-400"
-                  >
-                    {t('news.unsubYes')}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setAbmeldeState('idle')}
-                    className="cursor-pointer text-slate-500 underline underline-offset-2 hover:text-slate-700 dark:hover:text-slate-200"
-                  >
-                    {t('news.unsubNo')}
-                  </button>
-                </span>
-              ) : (
-                <button
-                  type="button"
-                  disabled={abmeldeState === 'laeuft'}
-                  onClick={() => setAbmeldeState('fragt')}
-                  className="cursor-pointer text-[13px] text-slate-500 underline decoration-dotted underline-offset-2 transition hover:text-red-500 disabled:opacity-60 dark:text-slate-400"
-                >
-                  {t('news.unsub')}
-                </button>
-              )}
-              </div>
+              {abmeldeState === 'weg' && <span className="text-[13px] text-slate-500 dark:text-slate-400">{t('news.unsubDone')}</span>}
             </div>
           </>
         ) : (

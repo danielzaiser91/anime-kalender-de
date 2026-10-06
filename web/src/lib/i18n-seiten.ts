@@ -103,7 +103,7 @@ export const TEXTE_SEITEN = {
   'news.franchiseHintNote':
     'Erscheint zu einer Reihe, von der du etwas gemerkt hast, eine neue Staffel, ein Film oder ein Special, steht es in der nächsten Mail.',
   'news.prefsSaved': '✓ Gespeichert.',
-  'news.changeAddress': 'Andere Adresse verwenden',
+  'news.changeAddress': 'E-Mail-Adresse ändern',
   'news.frequency': 'Rhythmus',
   'news.weekly': 'Wöchentlich',
   'news.weeklyHint': 'montags 07:00, alles der kommenden Woche',
