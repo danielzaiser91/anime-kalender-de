@@ -36,6 +36,26 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-21220-tv-prosieben-maxx@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261009T181500Z
+DTEND:20261009T184500Z
+SUMMARY:Boruto: Naruto the Movie
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/7680/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21220-tv-prosieben-maxx@2026-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261010T001500Z
+DTEND:20261010T004500Z
+SUMMARY:Boruto: Naruto the Movie
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/7680/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:naruto-shippuden-the-movie-5-blood-prison-2026-11-19@2026-11-19@anime-k
  alender-de
 DTSTAMP:20200101T000000Z

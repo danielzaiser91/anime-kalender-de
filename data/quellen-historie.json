@@ -5200,7 +5200,7 @@
       "url": "https://www.anisearch.de/anime/5037/episodes",
       "name": "anisearch.de",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2026-10-04"
     }
   ],
@@ -5691,6 +5691,14 @@
       "url": "https://www.anime2you.de/news/1057709/netflix-ranma-12-staffel-3-deutsche-synchro/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-05",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-21220-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sender/prosieben-maxx/",
+      "name": "tv.de",
+      "gesehenAm": "2026-10-06",
       "stand": "aktuell"
     }
   ]
