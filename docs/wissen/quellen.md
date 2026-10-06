@@ -3153,3 +3153,13 @@ Bericht: alle 2.787 Titel haben ein AniList-Cover. 2.236 (80,2 %) liegen als 460
 - **TMDB**: AGB gelesen. Nichtkommerziell frei mit Logo und „not endorsed or certified by TMDB", Cache höchstens 6 Monate, bei Erlösabsicht Vertrag mit sales@themoviedb.org. Auflösung nicht gemessen (Key nur in der CI nutzbar), Anime-Passung schwach.
 - **TheTVDB** frei unter 50.000 USD Jahresumsatz mit Link-Attribution; Jikan von hier nicht erreichbar; Fanart.tv gesperrt.
 - **Empfehlung:** Rückfall nur für die 552 Titel mit `medium`/Platzhalter, nicht für die 460er. Aufwand 0,5–1 Tag (Feld in `pipeline/lib/anilist.ts`, Auswahl in `bau/13-1-anreichern.ts`/`13-5-kerndateien.ts`, Attribution im Impressum). Vorher klären: Kitsu-Nutzungsaussage, ob die Seite als kommerziell gilt.
+
+## Monatsübersichten als Gegenprobe: heise, Filmstarts, whats-on-netflix (06.10.2026)
+
+Anlass: Daniel gab am 06.10.2026 die heise-Liste „Neue Filme und Serien bei Netflix, Disney+ und Amazon Prime im Oktober 2026" und die Filmstarts-Woche vom 5. bis 11.10. als Prüfstein für den Kalender.
+
+- **Was sie sind:** Redaktionelle Monats- und Wochenlisten der drei Abo-Dienste, mit Datum je Titel, **ohne Angabe der Sprachfassung** (heise: „im Abopreis inbegriffen", Filmstarts: Handlungstexte). Sie tragen deshalb nie die Aussage „deutsche Synchro" und sind **kein Beleg** für eine Synchro-Meldung, sondern ein Fundweg: Sie zeigen, welche Titel eines Dienstes in einem Monat starten; ob es eine Synchro gibt, sagt dann Anime2You oder der Dienst.
+- **robots.txt (06.10.2026):** heise, Filmstarts und whats-on-netflix sperren nur Verwaltungs-, Such- und Medienpfade, nicht die Nachrichtenartikel.
+- **Messung am 06.10.2026:** Von den Anime in beiden Listen hatten wir alle bis auf zwei: „Die sieben Ritter des Königreichs der Marronniers" (heise, Amazon-Liste) und, über die Anime2You-Meldung zu Prime Video, „Tank Chair". Beide Titel hatte Anime2You schon gemeldet (Marronniers am 07.09. und 04.10.); der Fehler lag bei uns, nicht an einer fehlenden Quelle. Einzigartig war heise also nicht, aber als **unabhängige Gegenprobe** gegen die eigene Lücke wirksam.
+- **Belegregel:** Eine Quelle hängt nur an der Meldung, deren Aussage sie trägt. heise nennt für Marronniers den 04.10. (Anime2You: Samstag 03.10.) und keine Sprachfassung; sie gehört deshalb nicht an die Meldung „Erstmals mit deutscher Synchro", sondern höchstens an eine Start-Meldung bei Prime Video.
+- **Vorgehen künftig:** Zu Monatsbeginn (und mittwochs, Filmstarts-Wochenliste) die Listen gegen `releases.json` lesen; was fehlt, mit Anime2You oder der Anbieterseite auf Synchro prüfen. Als Lauf noch nicht automatisiert; Entscheidung dazu offen, weil die Seiten kein stabiles Muster haben.
