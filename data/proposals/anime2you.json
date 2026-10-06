@@ -1,6 +1,81 @@
 {
-  "scrapedAt": "2026-10-05T14:42:54.744Z",
+  "scrapedAt": "2026-10-06T04:08:34.918Z",
   "proposals": [
+    {
+      "articleTitle": "Drei weitere Anime-Neustarts ab sofort auf Crunchyroll verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1057659/crunchyroll-reborn-as-a-goblin-und-mehr/",
+      "publishedAt": "2026-10-05",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Montag",
+          "zeit": "14:30",
+          "satz": "Wrong with Getting Reborn as a Goblin?« »PSYREN« »Hello, I am a Witch and my Crush Wants me to Make a Love Potion!« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Montag um 14:30 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Montag",
+          "zeit": "15:00",
+          "satz": "verbringen und vielleicht doch noch sein Herz erobern zu können. »So What’s Wrong with Getting Reborn as a Goblin?« Episoden: 2 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Montag um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Montag",
+          "zeit": "16:30",
+          "satz": "ich stetig weiterentwickeln und verfolgt fortan das Ziel, zum mächtigsten Goblin aller Zeiten aufzusteigen. »PSYREN« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Montag um 16:30 Uhr Hinweis: Deutsche Synchronisation angek"
+        }
+      ],
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disney+ nimmt zwei weitere Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/",
+      "publishedAt": "2026-10-05",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-06"
+    },
+    {
+      "articleTitle": "Crunchyroll zeigt »Red Riding Hood: A Detective Story« im Simulcast + Trailer",
+      "articleUrl": "https://www.anime2you.de/news/1057673/crunchyroll-zeigt-red-riding-hood/",
+      "publishedAt": "2026-10-05",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [
+        {
+          "month": "2027-01",
+          "context": "Tochuu de Shitai to Deau.«) gesichert hat. Wir fassen zusammen. Start im Januar 2027 »Red Riding Hood: A Detective Story« wird ab Januar 202"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Amazon startet Prime Deal Days mit XXL-Anime-Angeboten",
+      "articleUrl": "https://www.anime2you.de/news/1057737/amazon-prime-deal-days-2026/",
+      "publishedAt": "2026-10-05",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-07",
+          "context": "angeboten – darunter auch viele Anime-Blu-rays und -DVDs. Nur bis zum 7. Oktober Bis zum 7. Oktober 2026 um 23:59 Uhr gibt es unter anderem"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Crunchyroll erweitert Anime-Katalog um sechs Neuzugänge + Synchro",
       "articleUrl": "https://www.anime2you.de/news/1057488/crunchyroll-reborn-as-a-space-mercenary-und-mehr/",
@@ -555,43 +630,6 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "zeiten": [
-        {
-          "tag": "Mittwoch",
-          "zeit": "17:30",
-          "satz": "Wir fassen alle bislang angekündigten Titel zusammen. Sechs neue Simulcasts Den Anfang macht am 30. September 2026 die zweite »Reincarnated as a Sword« -Staffel, die fortan jeden Mittwoch um 17:30 Uhr veröffentlicht wird. Am 1. Oktober 2026"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "19:00",
-          "satz": "Staffel 2 »Tougen Anki« – Staffel 2 »With Vengeance, Sincerely, Your Broken Saintess« – Staffel 2 »Even the Student Council Has Its Holes!« Start: 3. Oktober 2026 Simulcast: Jeden Samstag um 19:00 Uhr Sprache: Japanisch (UT) Hinweis: Die Se"
-        },
-        {
-          "tag": "Sonntag",
-          "zeit": "18:05",
-          "satz": ". Dort trifft er auf eine Gruppe exzentrischer Mitschüler, die seinen Schulalltag ordentlich durcheinanderbringen. »My Girlfriend’s Friend« Start: 4. Oktober 2026 Simulcast: Jeden Sonntag um 18:05 Uhr Sprache: Japanisch (UT) Hinweis: Die Se"
-        },
-        {
-          "tag": "Sonntag",
-          "zeit": "18:00",
-          "satz": "e, ihn zu verführen. Kann Takeru ihr widerstehen? »Now That I Can Control Reality With a Mouse Cursor, I’m Gonna Click Away On The Girls!?« Start: 4. Oktober 2026 Simulcast: Jeden Sonntag um 18:00 Uhr Sprache: Japanisch (UT) Hinweis: Die Se"
-        },
-        {
-          "tag": "Mittwoch",
-          "zeit": "17:30",
-          "satz": "r die Realität beeinflussen kann, beschließt er, diese Fähigkeit für seine Rache an ihr zu nutzen. »Reincarnated as a Sword« – Staffel 2 Start: 30. September 2026 Simulcast: Jeden Mittwoch um 17:30 Uhr Sprache: Japanisch (UT) Hinweis: Zusätz"
-        },
-        {
-          "tag": "Freitag",
-          "zeit": "19:00",
-          "satz": "es wieder. Nun muss er herausfinden, wie er hierherkam und welches Schicksal ihn in dieser fremden Welt erwartet. »Tougen Anki« – Staffel 2 Start: 2. Oktober 2026 Simulcast: Jeden Freitag um 19:00 Uhr Sprache: Japanisch (UT) Hinweis: Zusätz"
-        },
-        {
-          "tag": "Donnerstag",
-          "zeit": "18:15",
-          "satz": "lut durch seine Adern fließt, gerät er selbst ins Visier des Momotarou-Clans. »With Vengeance, Sincerely, Your Broken Saintess« – Staffel 2 Start: 1. Oktober 2026 Simulcast: Jeden Donnerstag um 18:15 Uhr Sprache: Japanisch (UT) Stream: anivers"
-        }
-      ],
       "alreadyCurated": false,
       "sammel": [],
       "sammelGelesen": "2026-10-04"
@@ -712,6 +750,15 @@
       "alreadyCurated": false,
       "sammel": [
         {
+          "titel": "Demon Slayer: Kimetsu no Yaiba – Infinity Castle I",
+          "datum": "2026-09-29",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        },
+        {
           "titel": "Attack on Titan",
           "zusatz": "Staffel 1",
           "datum": "2026-10-01",
@@ -733,7 +780,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-03"
+      "sammelGelesen": "2026-10-06"
     },
     {
       "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
@@ -750,49 +797,7 @@
         }
       ],
       "dub": "unklar",
-      "zeiten": [
-        {
-          "tag": "Mittwoch",
-          "zeit": "17:30",
-          "satz": "Magica – Film 2: Eternal« (Sub) Ab 29.10.: »Puella Magi Madoka Magica – Film 3: Rebellion« (Sub) 30. September: »Reincarnated as a Sword« – Staffel 2 (Simulcast) Simulcast: Jeden Mittwoch um 17:30 Uhr Sprache: Japanisch (UT) Stream: ADN , P"
-        },
-        {
-          "tag": "Freitag",
-          "zeit": "18:00",
-          "satz": "en bedrohten »Strike Worlds«. Gemeinsam mit ihm begibt sie sich auf eine lange Reise, um diese Welten zu retten. 2. Oktober: »Tougen Anki« – Staffel 2 (Simulcast) Simulcast: Jeden Freitag um 18:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "13:00",
-          "satz": ", folgen Shiki und seine Freunde seiner Spur nach Nikko – und stoßen auf ein gigantisches Forschungszentrum voller Geheimnisse. 3. Oktober: »Suikoden« (Simulcast) Simulcast: Jeden Samstag um 13:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "19:00",
-          "satz": "Entschlossen, die Wahrheit aufzudecken, machen sie sich auf den Weg zurück in ihre Heimatstadt. 3. Oktober: »Even the Student Council Has Its Holes!« (Simulcast) Simulcast: Jeden Samstag um 19:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
-        },
-        {
-          "tag": "Sonntag",
-          "zeit": "18:00",
-          "satz": "ler, die ihm ein turbulentes Schuljahr bescheren. 4. Oktober: »Now That I Can Control Reality With A Mouse Cursor, I’m Gonna Click Away On The Girls!« (Simulcast) Simulcast: Jeden Sonntag um 18:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
-        },
-        {
-          "tag": "Sonntag",
-          "zeit": "18:05",
-          "satz": "t sich ihm plötzlich eine gefährliche Möglichkeit: Endlich kann er Mone für all die Demütigungen bezahlen lassen. 4. Oktober: »My Girlfriend’s Friend« (Simulcast) Simulcast: Jeden Sonntag um 18:05 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
-        },
-        {
-          "tag": "Dienstag",
-          "zeit": "14:55",
-          "satz": "te der Schule aushelfen. Dort finden die Brüder nach ihrem schweren Verlust langsam wieder neue Freude. 6. Oktober: »Nia Liston: The Merciless Maiden« (Simulcast) Simulcast: Jeden Dienstag um 14:55 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "19:00",
-          "satz": "ernative Version der Serie und stellt dabei vor allem die Beziehung zwischen Utena, Anthy und dem Prinzen in den Mittelpunkt. 17. Oktober: »Dreamland« (Simulcast) Simulcast: Jeden Samstag um 19:00 Uhr Sprache: Japanisch (UT) Stream: ADN Han"
-        }
-      ],
-      "alreadyCurated": false,
+      "alreadyCurated": true,
       "sammel": [
         {
           "titel": "Reincarnated as a Sword",
@@ -1045,7 +1050,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-03"
+      "sammelGelesen": "2026-10-06"
     },
     {
       "articleTitle": "Disney+ ergänzt Anime-Katalog mit drei weiteren Neuzugängen",
@@ -1248,18 +1253,6 @@
       "alreadyCurated": false
     },
     {
-      "articleTitle": "Disney+ kündigt sechs weitere Anime-Neuzugänge an",
-      "articleUrl": "https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/",
-      "publishedAt": "2026-09-24",
-      "category": "streaming",
-      "platforms": [
-        "disneyplus"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "alreadyCurated": false
-    },
-    {
       "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Prime Video verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1053585/prime-video-ghost-cat-anzu-und-mehr/",
       "publishedAt": "2026-09-24",
@@ -1269,7 +1262,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-06"
     },
     {
       "articleTitle": "Netflix: Alle Anime-Neuzugänge im Oktober 2026",
@@ -1286,7 +1281,125 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": true
+      "alreadyCurated": true,
+      "sammel": [
+        {
+          "titel": "The Ramparts of Ice",
+          "zusatz": "Staffel 2",
+          "datum": "2026-10-01",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Tougen Anki",
+          "zusatz": "Staffel 2",
+          "datum": "2026-10-02",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Ranma 1/2",
+          "zusatz": "Staffel 3",
+          "datum": "2026-10-03",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Blue Box",
+          "zusatz": "Staffel 2",
+          "datum": "2026-10-04",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "My Hero Academia: Vigilantes",
+          "zusatz": "Staffel 1 und 2",
+          "datum": "2026-10-06",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 26
+        },
+        {
+          "titel": "Rooster Fighter",
+          "datum": "2026-10-10",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Dragon Ball Super: Beerus",
+          "datum": "2026-10-18",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Cyberpunk: Edgerunners II",
+          "datum": "2026-10-20",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 10
+        },
+        {
+          "titel": "My Happy Marriage",
+          "zusatz": "Sonderfolgen",
+          "datum": "2026-10-25",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 3
+        },
+        {
+          "titel": "STEEL BALL RUN: JoJo’s Bizarre Adventure",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "Das Band der Unterwelt",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ]
+        },
+        {
+          "titel": "One Piece: Elbaph-Arc",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ]
+        }
+      ],
+      "sammelGelesen": "2026-10-06"
     },
     {
       "articleTitle": "Netflix enthüllt neuen Teaser zu »Cyberpunk: Edgerunners II«",
@@ -1513,7 +1626,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-06"
     },
     {
       "articleTitle": "Netflix kündigt fünf Anime-Simulcasts für Herbst 2026 an",

@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 12
+    "2026-10": 14
   },
   "gesehen": {
     "26341901:netflix": {
@@ -2818,7 +2818,7 @@
       "imdbId": "tt0460627",
       "tmdbId": "tv/1911",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-06",
       "deutsch": true
     },
     "removed:2358:prime": {
@@ -5648,7 +5648,7 @@
       "imdbId": "tt16358384",
       "tmdbId": "tv/153312",
       "dienst": "prime",
-      "am": "2026-09-29",
+      "am": "2026-10-05",
       "deutsch": true
     },
     "new:26343532:netflix": {
@@ -5710,7 +5710,17 @@
       "dienst": "netflix",
       "am": "2026-10-01",
       "deutsch": false
+    },
+    "new:26517994:prime": {
+      "art": "new",
+      "titel": "Kill Jackie",
+      "originalTitel": "Kill Jackie",
+      "imdbId": "tt35726020",
+      "tmdbId": "tv/284558",
+      "dienst": "prime",
+      "am": "2026-10-06",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-10-05T14:40:37.683Z"
+  "fetchedAt": "2026-10-06T04:06:09.319Z"
 }
