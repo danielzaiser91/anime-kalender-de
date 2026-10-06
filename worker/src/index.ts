@@ -12,6 +12,7 @@
  */
 import type { NewsEintrag, PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
 import { sichereSchnellmessung } from './schnellmesser.ts'
+import { handleVerlauf } from './verlauf.ts'
 import { ladeAbbild, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
 import { anbieterName } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
@@ -1549,6 +1550,8 @@ export default {
         ).all()
         return json(env, { sites: results ?? [] })
       }
+      case '/verlauf':
+        return json(env, await handleVerlauf(env))
       case '/cr-zugang':
         return handleCrZugang(request, env)
       case '/land':

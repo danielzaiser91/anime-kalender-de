@@ -56,6 +56,7 @@ const ACTIONS: Action[] = [
     danger: true,
   },
   { label: 'Status abrufen', path: '/status', hint: 'Letzter Stand aller Seiten, ohne Mail.' },
+  { label: 'Erreichbarkeit (48 h)', path: '/verlauf', hint: 'Antwortzeiten von anime-kalender.de je Stunde (alle 5 Minuten gemessen) und Alarme.' },
 ]
 
 export function AdminPanel({ token }: { token: string }) {
