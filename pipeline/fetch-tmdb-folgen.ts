@@ -59,6 +59,8 @@ async function englischeTitel(id: number, staffel: number, apiKey: string): Prom
 
 interface Eintrag {
   tmdbId: number
+  /** Name der Serie bei TMDB (deutsch, sonst englisch) — seit dem 06.10.2026; für den Namensabgleich der Folgentitel. */
+  nameDe?: string
   /** Wann zuletzt geholt — die Warteschlange rechnet damit. */
   geholtAm: string
   /** Wie viele Staffeln TMDB führt; sagt, ob ein Nachschlag nötig war. */
@@ -108,7 +110,7 @@ async function main(): Promise<void> {
   for (const { t, tmdb } of offen) {
     const id = tmdb!.tmdbId!
     try {
-      const serie = await fetchJson<{ seasons?: { season_number: number }[] }>(
+      const serie = await fetchJson<{ name?: string; seasons?: { season_number: number }[] }>(
         `${BASE}/tv/${id}?api_key=${apiKey}&language=de-DE`,
       )
       /*
@@ -136,7 +138,7 @@ async function main(): Promise<void> {
       }
 
       bestand[String(t.id)] = {
-        tmdbId: id,
+        tmdbId: id, ...(serie.name ? { nameDe: serie.name } : {}),
         geholtAm: new Date().toISOString().slice(0, 10),
         staffeln: nummern.length,
         folgen,

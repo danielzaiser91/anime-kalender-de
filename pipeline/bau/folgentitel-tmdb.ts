@@ -14,6 +14,8 @@ export interface TmdbFolge {
   datum: string | null
 }
 export interface TmdbEintrag {
+  /** Name der Serie bei TMDB, vom Folgen-Abruf mitgeschrieben; sonst gilt `nameDe` aus `tmdb-titles.json`. */
+  nameDe?: string
   folgen?: TmdbFolge[]
 }
 
@@ -40,7 +42,8 @@ export function tmdbFolgentitel(titel: Title, tmdbNameDe: string | undefined, ei
   if (!eintrag?.folgen || !FORMATE.has(titel.format ?? '') || !titel.episodes || titel.episodes < 6 || !titel.jpYear) return undefined
   /* Auch ohne angehängte Staffelzahl („… II", „… 3"): TMDB führt die Staffeln unter dem Namen der ersten (Landei II, 06.10.2026). */
   const unser = [titel.titleDe, titel.titleEn, titel.titleRomaji].map(tmdbName).flatMap((n) => [n, n.replace(/(?:iii|ii|iv|[2-5])$/, '')])
-  if (!tmdbNameDe || !unser.includes(tmdbName(tmdbNameDe))) return undefined
+  const tmdbSerie = eintrag.nameDe ?? tmdbNameDe
+  if (!tmdbSerie || !unser.includes(tmdbName(tmdbSerie))) return undefined
   const jeStaffel = new Map<number, TmdbFolge[]>()
   for (const f of eintrag.folgen) if (f.s >= 1) jeStaffel.set(f.s, [...(jeStaffel.get(f.s) ?? []), f])
   const passend = [...jeStaffel.values()].filter((fs) => {
