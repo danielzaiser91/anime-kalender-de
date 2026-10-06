@@ -29,3 +29,145 @@
 190327: 20466
 # Phase 2-3 (alle weiteren Folgen): https://www.anisearch.de/anime/21986
 210482: 21986
+
+# --- Aus der offiziellen Zuordnung von aniSearch (`GET /v1/anime/associated?source=myanimelist`, 06.10.2026) ---
+# Unsere MAL-Kennung → genau eine aniSearch-Kennung; Teilen sich zwei Titel eine Kennung, ist das aniSearchs eigene Zuordnung (Serie und Film auf einer Seite); die Kennung wirkt nur auf Links.
+# Gegenprobe der Zuordnung: bei 2.627 von 2.628 Titeln mit beiden Kennungen stimmt sie mit unserer überein.
+384: 585  # Gantz
+395: 585  # Gantz: Second Stage
+1023: 3471  # Wolf's Rain OVA
+2043: 2213  # Cat's Eye
+6245: 10873  # Spirit of Wonder: China-san Short Stories
+8100: 6110  # Mardock Scramble: The First Compression
+8888: 6300  # Code Geass: Akito the Exiled - The Wyvern Arrives
+9260: 6334  # Kizumonogatari Part 1: Tekketsu
+10218: 6574  # Berserk: The Golden Age Arc I - The Egg of the King
+10624: 6110  # Mardock Scramble: The Second Combustion
+10689: 6976  # Appleseed XIII: Tartaros
+10693: 6976  # Appleseed XIII: Ouranos
+12053: 6110  # Mardock Scramble: The Third Exhaust
+12113: 6574  # Berserk: The Golden Age Arc II - The Battle for Doldrey
+12115: 6574  # Berserk: The Golden Age Arc III - The Advent
+13117: 7634  # HAKUOKI: WILD DANCE OF TOKYO
+13119: 7634  # HAKUOKI: WARRIOR SPIRIT OF THE BLUE SKY
+13709: 1119  # Afro Samurai the Movie
+14407: 7939  # Persona 3 the Movie: #1 Spring of Birth
+15197: 6300  # Code Geass: Akito the Exiled - The Wyvern Divided
+15199: 6300  # Code Geass: Akito the Exiled - The Brightness Falls
+15201: 6300  # Code Geass: Akito the Exiled - Memories of Hatred
+17187: 8303  # Ghost in the Shell: Arise - Border:1 Ghost Pain
+19191: 8303  # Ghost in the Shell: Arise - Border:2 Ghost Whispers
+19193: 8303  # Ghost in the Shell: Arise - Border:3 Ghost Tears
+19195: 8303  # Ghost in the Shell: Arise - Border:4 Ghost Stands Alone
+19671: 9005  # FrFr! ~Free! short movie~
+20736: 7939  # Persona 3 the Movie: #2 Midsummer Knight's Dream
+20691: 9587  # Attack on Titan Part I: Crimson Bow and Arrow
+20692: 9587  # Attack on Titan Part II: Wings of Freedom
+20737: 7939  # Persona 3 the Movie: #3 Falling Down
+20763: 9798  # Arpeggio of Blue Steel - DC
+20764: 9798  # Arpeggio of Blue Steel - Cadenza
+20791: 9744  # Fate/stay night [Heaven's Feel] I. presage flower
+20802: 9754  # Digimon Adventure tri. Chapter 1: Reunion
+21120: 10146  # Haikyu!! the Movie: The End and the Beginning
+21032: 10156  # Sindbad: The Flying Princess and the Secret Island
+21244: 10146  # Haikyuu!! the Movie: The Winner and the Loser
+21178: 6300  # Code Geass: Akito the Exiled - To Beloved Ones
+21212: 10462  # AJIN: Demi-Human -Compel-
+21505: 10462  # Ajin: Shoutotsu
+21681: 10462  # Ajin: Shougeki
+21248: 7939  # Persona 3 the Movie: #4 Winter of Rebirth
+21852: 10072  # To Love Ru Darkness 2 Specials
+21399: 6334  # Kizumonogatari Part 2: Nekketsu
+21400: 6334  # Kizumonogatari Part 3: Reiketsu
+21368: 10156  # Sinbad: The Magic Lamp and the Moving Islands
+21500: 9754  # Digimon Adventure tri. Chapter 2: Determination
+21596: 9754  # Digimon Adventure tri. Chapter 3: Confession
+102093: 11269  # Winter Cup Highlights Episode 1 – Winter Cup Highlights -Shadow and Light-
+102836: 11269  # Winter Cup Highlights Episode 2 – Winter Cup Highlights -Beyond the Tears-
+102839: 11269  # Winter Cup Highlights Episode 3 – Winter Cup Highlights -Crossing the Door-
+100658: 10156  # Sinbad: Night at High Noon and the Wonder Gate
+21718: 9744  # Fate/stay night [Heaven's Feel] II. lost butterfly
+21719: 9744  # Fate/stay night [Heaven’s Feel] III. spring song
+21798: 11469  # K: SEVEN STORIES "R:B - BLAZE -"
+21833: 11483  # Haikara-san: Here Comes Miss Modern – Part 1
+98662: 12011  # Kabaneri of the Iron Fortress: Light That Gathers
+98663: 12011  # Kabaneri of the Iron Fortress: Life That Burns
+154100: 20524  # Fushou Akiyama Yukari no Sensha Kouza: Italy Sensha-hen
+87481: 11747  # CYBORG009 CALL OF JUSTICE 1
+87482: 11747  # CYBORG009 CALL OF JUSTICE 2
+87483: 11747  # Cyborg009 Call Of Justice 3
+87458: 11690  # Godzilla: Planet of the Monsters
+98495: 12307  # Free! -Timeless Medley- The Bond
+99938: 11767  # Girls und Panzer das Finale - Part 1
+97734: 9754  # Digimon Adventure tri. Chapter 4: Loss
+98874: 12083  # Overlord: The Dark Hero
+101811: 12052  # Code Geass: Lelouch of the Rebellion I - Initiation
+101812: 12052  # Code Geass: Lelouch of the Rebellion II - Transgression
+101813: 12052  # Code Geass: Lelouch of the Rebellion III - Glorification
+98402: 9754  # Digimon Adventure tri. Chapter 5: Coexistance
+98452: 12302  # Laughing Under the Clouds: Gaiden Part 1
+98884: 12328  # Haikyu!! The Movie: Talent and Sense
+98885: 12328  # Haikyu!! The Movie: Battle of Concepts
+98496: 12307  # Free! -Timeless Medley- The Promise
+100652: 11483  # Haikara-san: Here Comes Miss Modern – Part 2
+99196: 12302  # Laughing Under the Clouds: Gaiden Part 2
+99197: 12302  # Laughing Under the Clouds: Gaiden Part 3
+114448: 12698  # Knights of the Zodiac: Saint Seiya Part 2
+100049: 12797  # Re:ZERO -Starting Life in Another World- OVAs
+100181: 9754  # Digimon Adventure tri. Chapter 6: Our Future
+100561: 11690  # Godzilla: City on the Edge of Battle
+102346: 11469  # K: SEVEN STORIES "SIDE:BLUE - Sirius - "
+102347: 11469  # K: SEVEN STORIES "SIDE:GREEN - Overwrite World - "
+102348: 11469  # K: SEVEN STORIES "Lost Small World - Outside the Cage - "
+102349: 11469  # K: SEVEN STORIES "Memory of RED - BURN -"
+102350: 11469  # K: SEVEN STORIES "Circle Vision - Nameless Song - "
+102649: 13441  # PSYCHO-PASS: Sinners of the System 1 - Crime and Punishment
+104382: 13441  # PSYCHO-PASS: Sinners of the System 2 - First Guardian
+104990: 13441  # PSYCHO-PASS: Sinners of the System 3 - On the Other Side of Love and Hate
+101343: 13491  # Made in Abyss: Journey's Dawn
+101344: 13491  # Made in Abyss: Wandering Twilight
+101595: 13597  # Princess Principal: ~Crown Handler~ 1
+102353: 11690  # Godzilla: The Planet Eater
+107208: 11767  # Girls und Panzer das Finale - Part 2
+103276: 13775  # Fate/Grand Order Divine Realm of the Round Table: Camelot - Wandering; Agateram
+103277: 13775  # Fate/Grand Order Divine Realm of the Round Table: Camelot - Paladin; Agateram
+107203: 13918  # Free! the Final Stroke: The First Volume
+124115: 11767  # Girls und Panzer das Finale - Part 3
+132420: 11767  # Girls und Panzer das Finale - Part 4
+110173: 14468  # Midnight Occult Civil Servants OVA
+103713: 12190  # Pretty Guardian Sailor Moon Eternal The Movie Part 1
+111852: 14630  # Date A Bullet: Dead or Bullet & Nightmare or Queen
+103712: 12190  # Pretty Guardian Sailor Moon Eternal The Movie Part 2
+129759: 13597  # Princess Principal: ~Crown Handler~ 2
+137612: 13597  # Princess Principal: Crown Handler - Chapter 3
+120892: 12629  # Grisaia: Phantom Trigger THE ANIMATION - Stargazer
+121034: 14630  # Date A Bullet: Dead or Bullet & Nightmare or Queen
+215520: 19985  # Xiao Mao Diao Yu
+127863: 16690  # Bear Bear Bear Kuma! Kumadam-hen
+132232: 16120  # RE:cycle of the PENGUINDRUM Part 1: Your Train Is the Survival Tactic
+133124: 13918  # Free! the Final Stroke: The Second Volume
+135255: 17318  # Princess Principal: Crown Handler - Chapter 1: BUSY EASY MONEY
+141352: 16770  # The Seven Deadly Sins: Grudge of Edinburgh Part 1
+144677: 17066  # BASTARD!! -Heavy Metal, Dark Fantasy-
+148149: 17336  # Pretty Guardian Sailor Moon Cosmos The Movie: Part 1
+162291: 16770  # The Seven Deadly Sins: Grudge of Edinburgh Part 2
+165356: 18215  # Record of Ragnarok II Part 2
+186716: 13597  # Princess Principal: Crown Handler - Chapter 4
+204584: 13597  # Princess Principal: Crown Handler - Chapter 5
+204585: 13597  # Princess Principal: Crown Handler - Chapter 6
+179874: 21070  # Mononoke The Movie: Chapter Ⅲ - The Curse of the Serpent
+213847: 21717  # Star Wars: Visions Presents - The Ninth Jedi
+200637: 20994  # The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You Season 3
+204356: 21118  # My Hero Academia More
+209499: 21314  # TANK CHAIR
+209872: 21332  # Ranma1/2 (2024) Season 3
+209961: 21573  # SHIBOYUGI: Playing Death Games to Put Food on the Table 44: CLOUDY BEACH
+210031: 21357  # You and I Are Polar Opposites Season 2
+210032: 21361  # BAKI-DOU: The Invincible Samurai Part 2
+211308: 21489  # THE RIBBON HERO
+212888: 21586  # Overgeared
+213805: 21791  # The Ramparts of Ice Season 2
+118465: 15258  # World's End Harem
+
+# Lord of Mysteries Specials: unsere Brücke (manami) führt 20885, aniSearchs eigene Zuordnung zu MAL 62276 führt 21592 (06.10.2026). Es gilt aniSearch; Beschreibung und Folgen aus 20885 vorher gegenprüfen.
+199448: 21592
