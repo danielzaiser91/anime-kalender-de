@@ -4964,3 +4964,5 @@ Der Lauf (16:04 UTC) scheiterte nur im Schritt „Änderungen committen": Dreima
 - 04.10.2026 erledigt: Ranma 1/2 Staffel 3 und drei weitere (Aoashi S2, Black Clover S2, Apothekerin S3) — `bau/ohne-beleg.ts`/`10-termine.ts`: ausgestrahlte Titel ab 2023 mit Weg, aber ohne Stream-Synchro, Erstausgabe-Marke, Release und Sprechrollen gehen hinter „Anime ohne deutsche Synchro" (verschoben, nicht gelöscht). Die Pille „nur OmU" entfällt: hinter dem Toggle gibt es keine Pillen. Ältere Fernsehtitel ohne Weg (213 ohne Beleg gemessen) bleiben, ihre Synchro ist real.
 
 - 04.10.2026 erledigt: Demon Slayer Infinity Castle I bei Netflix — Handbeleg (`data/dub-confirmed.yaml`, `netflix.com/title/82723106`, Daniel hat die deutsche Tonspur von Hand geprüft); der Weg entsteht im Bau. Katalog-Lauf blockiert nichts mehr (siehe `docs/wissen/betrieb.md`).
+
+- 07.10.2026 erledigt: Nachlauf nach dem aniSearch-Katalog — `data:tmdb-poster`, `data:kitsu-folgen`, `data:anisearch-dubs` als npm-Skripte, im Wochenlauf und auf Abruf, `data/kitsu-folgen.json` im Bestand.
