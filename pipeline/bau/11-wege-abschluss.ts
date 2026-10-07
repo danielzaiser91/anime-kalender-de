@@ -8,6 +8,7 @@ import { streicheMagentaPartner } from './11-5-magenta-partner.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 import { entferneFremdeNachStaffeln, kennungAusAdresse } from './cr-serie-geteilt.ts'
+import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 import { log } from '../lib/util.ts'
 
 export function schliesseWegeAb({
@@ -57,6 +58,12 @@ export function schliesseWegeAb({
   })
 
   streicheMagentaPartner(titles)
+
+  /*
+    **Titel nur bei aniSearch tragen keine Wege, die der Name erraten hat** (07.10.2026: „Sword Art Online II: Debriefing" und acht weitere bekamen über den Namen die Crunchyroll-Serie
+    ihrer Hauptfassung — samt „Neu auf Deutsch bei Crunchyroll" in den News). Eine Kennung bei aniSearch belegt, dass es den Titel gibt, nicht, wo er läuft.
+  */
+  for (const t of titles.values()) if (t.id >= ANISEARCH_ID_BASIS) t.streams = []
 
   /* Die Wege aus JustWatch und aniSearch kommen nach der Katalog-Runde noch einmal dazu: Was keiner Staffel der Serie entspricht, fliegt hier endgültig (07.10.2026). */
   const fremd = entferneFremdeNachStaffeln(titles, kennungAusAdresse())
