@@ -25,10 +25,6 @@ Stand: 07.10.2026 09:00
    Empfehlung: GitHub Pages vorerst behalten und Cloudflare (Workers Static Assets, 0 €, Zone liegt schon dort) als zweites Deploy-Ziel vorbereiten. Umschalten, wenn die 30-Tage-Messung (`site_probe`) unter 99,9 % liegt oder ein Ausfall der ausgelieferten Seite belegt ist. Pages bleibt dann als Rückfall.
    - Sag „so", oder was du anders willst (z. B. gleich eigener Server).
 
-## Zurückgestellt (greifen wir später auf)
-
-- Tägliche Prüfliste aus dem aniSearch-Dubs-Endpunkt (Messung in `docs/wissen/quellen.md`): „Thema später" (Daniel, 06.10.2026).
-- Detailpanel: Mobile-Ansicht des Belegs (Rooster Fighter: zu viel Text, einklappbar machen), „Folgen" in der Zukunft mit eigenem Symbol und besserem Tooltip.
 
 ## Entscheidungen, die ich getroffen habe (zur Kenntnis, bei Widerspruch sagen)
 
