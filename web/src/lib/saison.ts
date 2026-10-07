@@ -1,5 +1,6 @@
 import type { Release, Title } from '@shared/types.ts'
 import { istSerie, saisonZeitraum, type SaisonTag } from '@shared/saison.ts'
+import { todayIso } from '@shared/time.ts'
 
 export { saisonText, saisonVon, versetzt } from '@shared/saison.ts'
 
@@ -27,12 +28,31 @@ function ersterTermin(releases: Release[] | undefined): { datum: string; geschae
 
 export const hatDeutsch = (t: Title): boolean => Boolean((t.streams ?? []).some((s) => s.dub === true) || t.deErstausgabe?.synchro || t.hasVoices)
 
+/** Wie weit wir die deutsche Fassung kennen — vom sichersten zum offensten Zustand. */
+export type Stufe = 'auf-deutsch' | 'bestaetigt' | 'angekuendigt' | 'termin' | 'ungeklaert' | 'offen'
+
+/**
+ * Die Stufe aus unserem Wissensstand (Daniel, 07.10.2026: „deutsch bestätigt oder deutsch angekündigt, je nach Wissensstand"; Tank Chair stand schon im Kalender und war doch „noch offen"):
+ * **Ein Termin im Kalender ist ein deutscher Termin** — der Kalender führt nur Veröffentlichungen mit deutscher Fassung (Untertitel allein gehören nicht hinein). Ein abgeleiteter Termin
+ * (`geschaetzt`: Simulcast-Datum statt Ankündigung der Synchro) zählt nicht. **Auf Deutsch** = erschienen; **bestätigt** = noch nicht erschienen, Tonspur belegt; **angekündigt** = noch nicht
+ * erschienen, Termin ohne Tonspur-Beleg; **Termin** = nur ein abgeleiteter Termin; **ungeklärt** = abgeleiteter Termin schon verstrichen; **offen** = kein Termin.
+ */
+export function stufeVon(t: Title, termin: { datum: string; geschaetzt: boolean } | undefined, heute: string): Stufe {
+  if (!termin) return hatDeutsch(t) ? 'bestaetigt' : 'offen'
+  const erschienen = termin.datum <= heute
+  if (hatDeutsch(t) || !termin.geschaetzt) return erschienen ? 'auf-deutsch' : hatDeutsch(t) ? 'bestaetigt' : 'angekuendigt'
+  return erschienen ? 'ungeklaert' : 'termin'
+}
+
 export interface SaisonZeile {
   /** Ein Titel aus dem Bestand — oder, im Ausblick, ein Katalogtitel hinter dem Schalter. */
   titel?: Title
   katalog?: SaisonKatalogTitel
   id: number
   deutsch: boolean
+  stufe: Stufe
+  /** Der erste deutsche Termin liegt in der Vergangenheit oder heute. */
+  erschienen: boolean
   /** Japanischer Starttag, wo bekannt. */
   jp?: string
   /** Erster deutscher Termin, wo einer belegt oder angekündigt ist; `geschaetzt`, wenn er abgeleitet ist. */
@@ -51,6 +71,7 @@ export function zeilenDerSaison(
   s: SaisonTag,
   datei: SaisonDatei | undefined,
   ausblick = false,
+  heute = todayIso(),
 ): SaisonZeile[] {
   const [von, bis] = saisonZeitraum(s)
   const zeilen: SaisonZeile[] = []
@@ -58,11 +79,11 @@ export function zeilenDerSaison(
     if (!istSerie(t.format)) continue
     const termin = ersterTermin(releasesByTitle.get(t.id))
     const imJapan = t.jpYear === s.jahr && t.jpSeason === s.saison
-    if (imJapan) zeilen.push({ id: t.id, titel: t, deutsch: hatDeutsch(t), jp: datei?.jp[String(t.id)], de: termin?.datum, geschaetzt: termin?.geschaetzt })
+    if (imJapan) zeilen.push({ id: t.id, titel: t, deutsch: hatDeutsch(t), stufe: stufeVon(t, termin, heute), erschienen: termin !== undefined && termin.datum <= heute, jp: datei?.jp[String(t.id)], de: termin?.datum, geschaetzt: termin?.geschaetzt })
   }
   if (ausblick) {
     const bekannt = new Set(zeilen.map((z) => z.id))
-    for (const k of datei?.katalog ?? []) if (!bekannt.has(k.id) && k.jpStart >= von && k.jpStart <= bis) zeilen.push({ id: k.id, katalog: k, deutsch: false, jp: k.jpStart })
+    for (const k of datei?.katalog ?? []) if (!bekannt.has(k.id) && k.jpStart >= von && k.jpStart <= bis) zeilen.push({ id: k.id, katalog: k, deutsch: false, stufe: 'offen', erschienen: false, jp: k.jpStart })
   }
-  return zeilen.sort((a, b) => Number(b.deutsch) - Number(a.deutsch) || (a.de ?? a.jp ?? '9').localeCompare(b.de ?? b.jp ?? '9') || a.id - b.id)
+  return zeilen.sort((a, b) => Number(b.erschienen) - Number(a.erschienen) || Number(b.deutsch) - Number(a.deutsch) || (a.de ?? a.jp ?? '9').localeCompare(b.de ?? b.jp ?? '9') || a.id - b.id)
 }

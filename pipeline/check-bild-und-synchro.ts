@@ -14,6 +14,7 @@ import { waehleStaffel } from './lib/tmdb-staffel.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { mitDubKennzeichen } from './lib/anisearch-termine.ts'
 import { erstausgabeAlsNeuigkeit } from '../web/src/components/detail/antwort-regeln.ts'
+import { stufeVon } from '../web/src/lib/saison.ts'
 import { sucheGen, sucheMitFundstellen, treibe } from '../web/src/lib/search.ts'
 import { istOhneBelegteSynchro, sortiereNachTitel } from '../web/src/lib/titel-sortierung.ts'
 import { anzeigeName } from '../shared/titles.ts'
@@ -39,6 +40,14 @@ pruefe('Staffel: gleiches Datum, aber andere Folgenzahl ist keine Staffel', waeh
 const alt = { id: 1, slug: 'x', titleRomaji: 'X', format: 'TV', episodes: 143, jpYear: 1989, jpStatus: 'FINISHED', streams: [], genres: [], keywords: [], studios: [], dubConfidence: 'low' } as unknown as Title
 const kopf = (erst: Title['deErstausgabe']) => berechneAntwort({ title: { ...alt, deErstausgabe: erst }, releases: [], today: '2026-10-07' })
 const teil = kopf({ synchro: true, teil: true })
+console.log('Saison-Stufen')
+const T0 = '2026-10-07'
+pruefe('Termin im Kalender, erschienen, ohne Tonspur-Beleg: auf Deutsch (Tank Chair)', stufeVon(alt, { datum: '2026-10-04', geschaetzt: false }, T0) === 'auf-deutsch')
+pruefe('Termin in der Zukunft ohne Beleg: angekündigt', stufeVon(alt, { datum: '2026-10-20', geschaetzt: false }, T0) === 'angekuendigt')
+pruefe('abgeleiteter Termin, verstrichen: Sprache ungeklärt', stufeVon(alt, { datum: '2026-10-03', geschaetzt: true }, T0) === 'ungeklaert')
+pruefe('abgeleiteter Termin, in der Zukunft: nur Termin', stufeVon(alt, { datum: '2026-10-20', geschaetzt: true }, T0) === 'termin')
+pruefe('belegte Tonspur, noch nicht erschienen: bestätigt', stufeVon({ ...alt, hasVoices: true }, { datum: '2026-10-20', geschaetzt: false }, T0) === 'bestaetigt')
+pruefe('kein Termin und kein Beleg: offen', stufeVon(alt, undefined, T0) === 'offen')
 pruefe('abgebrochener Dub ohne Zahl: „teilweise“, nicht „alle 143 Folgen“', teil?.art === 'teilweise' && teil.raus === undefined, teil)
 pruefe('Erstausgabe wandert in die Neuigkeiten: Tagesdatum und Synchro', erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '2016-11-10', synchro: true } }))
 pruefe('Erstausgabe bleibt im Kasten: ein Datum in der Zukunft', !erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '2999-01-01', synchro: true } }))
