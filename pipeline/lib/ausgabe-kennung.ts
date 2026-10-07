@@ -67,6 +67,11 @@ export function uebersetzeDatei(name: string, daten: unknown, ak: AkVon): unknow
         slug: typeof e.slug === 'string' && typeof e.titelId === 'number' ? String(ak(e.titelId)) : e.slug,
         meldungen: liste(e.meldungen, (m) => (typeof m.teilId === 'number' ? { ...m, teilId: ak(m.teilId) } : m)),
       }))
+    /* `jp` nach Titelkennung, `katalog` mit eigener Kennung — beide in `ak`, sonst findet die Seite keinen Japan-Starttag (Last Boss Staffel 2, 07.10.2026). */
+    case 'saison.json': {
+      const s = daten as { jp: Record<string, string>; katalog: Record<string, unknown>[] }
+      return { jp: schluessel(s.jp, ak), katalog: liste(s.katalog, (k) => ({ ...k, id: num(k.id, ak) })) }
+    }
     case 'franchises.json':
       return schluessel(daten, ak, (v) => liste(v, (m) => ({ ...m, id: num(m.id, ak), al: m.id })))
     case 'reihen.json':

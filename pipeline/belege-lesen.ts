@@ -23,6 +23,7 @@ import {
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
 import { BILD_FASSUNG, belegAusschnitt } from './lib/beleg-bild.ts'
+import { schreibeOhneFundstelle } from './lib/beleg-ohne-fundstelle.ts'
 import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse } from './lib/beleg-suche.ts'
 
 const DATEI = 'data/beleg-lesungen.json'
@@ -173,7 +174,7 @@ async function main(): Promise<void> {
     await browser.close()
   }
   writeJson(DATEI, gedaechtnis, true)
-  recordSource('beleg-lesungen', gelesen)
+  recordSource('beleg-lesungen', gelesen); schreibeOhneFundstelle(gedaechtnis, gruppen)
   log(`Belege: ${gelesen} gelesen, ${neu} mit neuem Stand, ${Object.keys(gedaechtnis).length} im Gedächtnis`)
 }
 

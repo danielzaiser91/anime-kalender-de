@@ -74,7 +74,7 @@ function quellenArt(b: NewsBeleg): string {
 /** Die einzige Kopfzeile in der Vorschau: Art der Quelle (bei mehreren: Reiter), die Werkzeuge des Ausschnitts (Portal in `ziel`) und ✕ oben rechts. */
 function BelegKopf({ belege, aktiv, setAktiv, zu, setZiel }: { belege: NewsBeleg[]; aktiv: number; setAktiv: (i: number) => void; zu: () => void; setZiel: (e: HTMLElement | null) => void }) {
   return (
-    <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-white/10 bg-slate-900 px-3 py-1.5 text-xs" onClick={(e) => e.stopPropagation()}>
+    <div className="flex shrink-0 flex-wrap items-center gap-1.5 border-b border-white/10 bg-slate-900 px-3 py-1.5 text-xs sm:gap-2" onClick={(e) => e.stopPropagation()}>
       {belege.length > 1 ? (
         <div role="tablist" className="flex min-w-0 gap-1 overflow-x-auto">
           {belege.map((b, i) => (
@@ -85,7 +85,7 @@ function BelegKopf({ belege, aktiv, setAktiv, zu, setZiel }: { belege: NewsBeleg
           ))}
         </div>
       ) : (
-        <b className="shrink-0 text-sm">Quelle: {quellenArt(belege[0]!)}</b>
+        <b className="shrink-0 text-sm"><span className="hidden sm:inline">Quelle: </span>{quellenArt(belege[0]!)}</b>
       )}
       <div ref={setZiel} className="flex min-w-0 flex-1 flex-wrap items-center gap-2" />
       <button type="button" onClick={zu} aria-label="Schließen" title="Schließen" className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-lg text-slate-300 hover:bg-white/10 hover:text-white">

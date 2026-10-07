@@ -19,6 +19,11 @@ export function schreibeSaisonDatei(titles: Map<number, Title>): void {
   const katalog = readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])
     .filter((t) => istSerie(t.format) && t.jpStart && /^\d{4}-\d{2}-\d{2}$/.test(t.jpStart) && t.jpStart >= naechsteVon && t.jpStart <= bis)
     .map((t) => ({ id: t.id, titleRomaji: t.titleRomaji, titleEn: t.titleEn, titleDe: t.titleDe, coverImage: t.coverImage, episodes: t.episodes, jpStart: t.jpStart! }))
-  writeJson(`${OUT}/saison.json`, { jp, katalog })
+  /* Serien des Fensters, die nicht im Kern-Datensatz stehen (Ankündigung ohne Termin): ohne sie fehlt etwa eine laufende Staffel 2 in der Liste ihrer Saison. */
+  const kern = new Set(readJson<{ id: number }[]>(`${OUT}/titles-core.json`, []).map((t) => t.id))
+  const ausBestand = [...titles.values()]
+    .filter((t) => istSerie(t.format) && t.jpStartTag && t.jpStartTag >= von && t.jpStartTag <= bis && !kern.has(t.id))
+    .map((t) => ({ id: t.id, titleRomaji: t.titleRomaji, titleEn: t.titleEn, titleDe: t.titleDe, coverImage: t.coverImage, episodes: t.episodes, jpStart: t.jpStartTag!, ...(t.ankuendigung?.synchro === 'angekuendigt' ? { angekuendigt: true } : {}) }))
+  writeJson(`${OUT}/saison.json`, { jp, katalog: [...ausBestand, ...katalog] })
   log(`saison.json: ${Object.keys(jp).length} Serien mit Japan-Start, ${katalog.length} angekündigte Katalogtitel der nächsten Saison`)
 }

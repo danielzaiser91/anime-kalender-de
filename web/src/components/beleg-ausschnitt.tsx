@@ -80,22 +80,22 @@ function Leiste({ ansicht, setAnsicht, eins, setEins, info, ohneFund, original, 
   if (!ziel) return null
   return createPortal(
     <>
-      <div role="tablist" aria-label="Ansicht des Belegs" className="flex rounded-full border border-slate-600 bg-slate-950 p-0.5 text-xs">
+      {!ohneFund && <div role="tablist" aria-label="Ansicht des Belegs" className="flex rounded-full border border-slate-600 bg-slate-950 p-0.5 text-xs">
         {(['ausschnitt', 'seite'] as const).map((a) => (
           <button key={a} type="button" role="tab" aria-selected={ansicht === a} onClick={() => setAnsicht(a)} className={`cursor-pointer whitespace-nowrap rounded-full px-3 py-1 ${ansicht === a ? 'bg-white font-bold text-slate-900' : 'text-slate-300 hover:text-white'}`}>
             {a === 'ausschnitt' ? 'Beleg' : <><span className="sm:hidden">Seite</span><span className="hidden sm:inline">Ganze Seite</span></>}
           </button>
         ))}
-      </div>
+      </div>}
       {ansicht === 'ausschnitt' && (
         <button type="button" aria-pressed={eins} onClick={() => setEins(!eins)} title="Originalgröße: echte Bildpunkte, seitlich verschiebbar" className={`${KNOPF} hidden sm:inline-block ${eins ? 'bg-white/15 font-bold' : ''}`}>
           1:1
         </button>
       )}
       <span className="flex-1" />
-      <Tooltip text={<>{info}{ohneFund && <span className="mt-1 block opacity-80">Keine Fundstelle markiert — gezeigt wird der Seitenanfang.</span>}</>} seite="unten" eigenerFokus>
-        <button type="button" aria-label="Woher der Beleg stammt" className={KNOPF}>
-          ⓘ
+      <Tooltip text={<>{ohneFund && <b className="mb-1 block">Fundstelle nicht gefunden — der Beleg wird geprüft.</b>}{info}</>} seite="unten" eigenerFokus>
+        <button type="button" aria-label={ohneFund ? 'Fundstelle nicht gefunden' : 'Woher der Beleg stammt'} className={`${KNOPF} ${ohneFund ? 'border-amber-400 text-amber-300' : ''}`}>
+          {ohneFund ? '⚠' : 'ⓘ'}
         </button>
       </Tooltip>
       <a href={original.url} target="_blank" rel="noopener noreferrer" title={`Originalseite bei ${original.host}`} aria-label={`Originalseite bei ${original.host} öffnen`} className={`${KNOPF} border-rose-400 text-rose-200`}>
@@ -132,7 +132,7 @@ const Huelle = ({ breite, children }: { breite: number; children: ReactNode }) =
  * `karte` (daneben eine kleine Übersichtskarte der Seite).
  */
 export function BelegAusschnitt({ url, name, markierung, variante, info, original, ziel }: { url: string; name: string; markierung?: Markierung; variante: string; info: string; original: { url: string; host: string }; ziel: HTMLElement | null }) {
-  const [ansicht, setAnsicht] = useState<Ansicht>('ausschnitt')
+  const [ansicht, setAnsicht] = useState<Ansicht>(markierung ? 'ausschnitt' : 'seite')
   const [mass, setMass] = useState<Mass>()
   const [eins, setEins] = useState(false)
   useEffect(() => {

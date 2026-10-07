@@ -13,6 +13,8 @@ export interface SaisonKatalogTitel {
   coverImage?: string
   episodes?: number
   jpStart: string
+  /** Die deutsche Fassung ist angekündigt (Anbieter-Lineup), ein Termin fehlt noch. */
+  angekuendigt?: boolean
 }
 export interface SaisonDatei {
   /** Titel-Kennung → japanischer Starttag (Hauptbestand, Serien im Fenster Vorjahr bis Ausblick). */
@@ -70,7 +72,6 @@ export function zeilenDerSaison(
   releasesByTitle: Map<number, Release[]>,
   s: SaisonTag,
   datei: SaisonDatei | undefined,
-  ausblick = false,
   heute = todayIso(),
 ): SaisonZeile[] {
   const [von, bis] = saisonZeitraum(s)
@@ -81,9 +82,9 @@ export function zeilenDerSaison(
     const imJapan = t.jpYear === s.jahr && t.jpSeason === s.saison
     if (imJapan) zeilen.push({ id: t.id, titel: t, deutsch: hatDeutsch(t), stufe: stufeVon(t, termin, heute), erschienen: termin !== undefined && termin.datum <= heute, jp: datei?.jp[String(t.id)], de: termin?.datum, geschaetzt: termin?.geschaetzt })
   }
-  if (ausblick) {
+  {
     const bekannt = new Set(zeilen.map((z) => z.id))
-    for (const k of datei?.katalog ?? []) if (!bekannt.has(k.id) && k.jpStart >= von && k.jpStart <= bis) zeilen.push({ id: k.id, katalog: k, deutsch: false, stufe: 'offen', erschienen: false, jp: k.jpStart })
+    for (const k of datei?.katalog ?? []) if (!bekannt.has(k.id) && k.jpStart >= von && k.jpStart <= bis) zeilen.push({ id: k.id, katalog: k, deutsch: false, stufe: k.angekuendigt ? 'angekuendigt' : 'offen', erschienen: false, jp: k.jpStart })
   }
   return zeilen.sort((a, b) => Number(b.erschienen) - Number(a.erschienen) || Number(b.deutsch) - Number(a.deutsch) || (a.de ?? a.jp ?? '9').localeCompare(b.de ?? b.jp ?? '9') || a.id - b.id)
 }

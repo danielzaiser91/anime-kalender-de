@@ -40,7 +40,7 @@ export function SaisonView({ data, favorites, oeffne }: { data: Dataset; favorit
     }
   }, [])
   const zeilen = useMemo(
-    () => zeilenDerSaison(data.titles, data.releasesByTitle, saisons[reiter], datei, reiter === 'ausblick'),
+    () => zeilenDerSaison(data.titles, data.releasesByTitle, saisons[reiter], datei),
     [data, datei, reiter, heute.jahr, heute.saison], // eslint-disable-line react-hooks/exhaustive-deps
   )
   const deutsch = zeilen.filter((z) => z.deutsch).length
