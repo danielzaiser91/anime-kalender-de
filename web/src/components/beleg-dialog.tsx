@@ -4,6 +4,8 @@ import type { NewsBeleg } from '@shared/types.ts'
 import { hostVon } from '@shared/quelle.ts'
 import { datumKurz } from '../lib/news-text.ts'
 import { quellenLabel } from './news-belege.tsx'
+import { BelegAusschnitt } from './beleg-ausschnitt.tsx'
+import { useVorschau } from '../lib/vorschau.ts'
 
 /** **Das Beleg-Bild** an einer Quelle; öffentlich lesbar (Daniel, 04.10.2026). Der archivierte Text (HTML) bleibt privat (Daniel, 05.10.2026). */
 const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
@@ -149,6 +151,7 @@ function useBelegBild(bild: string | undefined): { url?: string; fehler?: string
 function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
   const bild = WORKER ? beleg.bild : undefined
   const { url, fehler } = useBelegBild(bild)
+  const vorschau = useVorschau('beleg')
   const [einpassen, setEinpassen] = useState(false)
   const [markiert, setMarkiert] = useState(false)
   const marke = useRef<HTMLDivElement>(null)
@@ -168,10 +171,10 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
       <div className="shrink-0 border-b border-white/10 bg-slate-800 px-4 py-2" onClick={(e) => e.stopPropagation()}>
         <div className="flex flex-wrap items-center gap-2 text-xs leading-snug text-slate-300">
           <Erklaerung beleg={beleg} mitBild={Boolean(bild)} />
-          {x !== undefined && url && (
+          {x !== undefined && url && !vorschau && (
             <button type="button" onClick={zurFundstelle} className={`${BTN} border-rose-400 text-rose-200`}>{markiert ? 'Marke aus' : 'Zur Fundstelle'}</button>
           )}
-          {url && (
+          {url && !vorschau && (
             <button type="button" onClick={() => setEinpassen((e) => !e)} aria-pressed={einpassen} className={BTN}>
               {einpassen ? 'Volle Breite' : 'Einpassen'}
             </button>
@@ -186,6 +189,8 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
           beleg.messung ? <Messung m={beleg.messung} /> : null
         ) : fehler ? (
           <p className="p-4 text-sm text-rose-300">{fehler}</p>
+        ) : url && vorschau && x !== undefined ? (
+          <BelegAusschnitt url={url} name={beleg.name} markierung={[x, y ?? 0, b ?? 0, h ?? 0]} variante={vorschau} />
         ) : url ? (
           <div className={einpassen ? 'relative h-full max-w-full' : 'relative mx-auto w-full max-w-[1800px]'} onClick={(e) => e.stopPropagation()}>
             <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} />
