@@ -923,7 +923,7 @@ export function ImpressumView() {
             Metadaten: <a className="underline" href="https://anilist.co">AniList</a>
           </li>
           <li>
-            FSK: <a className="underline" href="https://www.themoviedb.org">TMDB</a> — diese Seite nutzt die
+            FSK und große Cover-Bilder: <a className="underline" href="https://www.themoviedb.org">TMDB</a> — diese Seite nutzt die
             TMDB-API, ist aber weder von TMDB unterstützt noch zertifiziert
           </li>
           <li>
@@ -1012,7 +1012,7 @@ export function DatenschutzView() {
         <p>
           Cover- und Bannerbilder werden direkt von den Servern von AniList (AniList, Delaware, USA)
           geladen. Dabei wird deine IP-Adresse dorthin übertragen — technisch unvermeidbar, wenn ein
-          Bild von einem fremden Server angezeigt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
+          Bild von einem fremden Server angezeigt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Öffnest du ein Cover in der Vergrößerung, lädt die Seite zusätzlich ein größeres Plakat vom Bildserver von TMDB (The Movie Database); auch dabei wird deine IP-Adresse dorthin übertragen. Ohne diese Handlung wird nichts von TMDB geladen.
         </p>
       </div>
 

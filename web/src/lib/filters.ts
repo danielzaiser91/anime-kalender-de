@@ -10,7 +10,7 @@ import type {
 } from '@shared/types.ts'
 import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import type { Dataset } from './data.ts'
-import { sucheMitFundstellen, type Fundstelle, type FundstelleArt, type Suchfeld } from './search.ts'
+import { sucheGen, sucheMitFundstellen, treibe, type Fundstelle, type FundstelleArt, type Suchfeld } from './search.ts'
 import { tvPremiere } from './tv-angabe.ts'
 import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { kostenloseFolgen } from '@shared/kostenlos.ts'
@@ -359,7 +359,7 @@ export function filterEvents(
 }
 
 /** Filter für die Datenbank-Ansicht: arbeitet auf Anime statt auf Terminen. */
-export function filterTitles(
+export function* filterTitlesGen(
   source: Title[],
   data: Dataset,
   f: FilterState,
@@ -368,9 +368,9 @@ export function filterTitles(
   fundstellen?: Map<string, Fundstelle[]>,
   /** Welcher Name auf der Karte steht — Träger der höchsten Trefferklasse (bei Gruppierung der Kopf). */
   sichtbarerName?: (t: Title) => string,
-): Title[] {
+): Generator<void, Title[]> {
   const vorgefiltert = source.filter((t) => passtTitel(t, data, f, today, favorites))
-  const gesucht = sucheMitFundstellen(
+  const gesucht = yield* sucheGen(
     vorgefiltert,
     f.search,
     (t) => suchfelder(undefined, t),
@@ -380,6 +380,9 @@ export function filterTitles(
   merkeFundstellen(gesucht, (t) => String(t.id), fundstellen)
   return gesucht.map((t) => t.item)
 }
+
+/** Dasselbe in einem Zug — für Aufrufer, die nicht abgeben müssen. */
+export const filterTitles = (...args: Parameters<typeof filterTitlesGen>): Title[] => treibe(filterTitlesGen(...args))
 
 /**
  * **Passt dieser Titel zum Filter?** — herausgelöst aus `filterTitles` (29.09.2026), damit die
@@ -497,7 +500,7 @@ export function eventsFuerAnsicht(
 }
 
 /** Dasselbe für die Datenbank-Ansicht (Schlüssel: Titel-Kennung). */
-export function titelFuerAnsicht(
+export function* titelFuerAnsichtGen(
   quelle: Title[],
   data: Dataset,
   f: FilterState,
@@ -505,11 +508,14 @@ export function titelFuerAnsicht(
   favorites: Set<number>,
   /** Gruppiert die Ansicht die Staffeln? Dann ist der **Reihenkopf** der sichtbare Name. */
   gruppiert = false,
-): { liste: Title[]; fundstellen: Map<string, Fundstelle[]> } {
+): Generator<void, { liste: Title[]; fundstellen: Map<string, Fundstelle[]> }> {
   const fundstellen = new Map<string, Fundstelle[]>()
   const sichtbar = gruppiert ? reihenKopf(quelle) : (t: Title) => anzeigeName(t)
-  return { liste: filterTitles(quelle, data, f, today, favorites, fundstellen, sichtbar), fundstellen }
+  return { liste: yield* filterTitlesGen(quelle, data, f, today, favorites, fundstellen, sichtbar), fundstellen }
 }
+
+/** Dasselbe in einem Zug. */
+export const titelFuerAnsicht = (...args: Parameters<typeof titelFuerAnsichtGen>) => treibe(titelFuerAnsichtGen(...args))
 
 /**
  * **Wer im Katalog als Reihe angezeigt wird** — für die Rangfolge der Suche (29.09.2026).

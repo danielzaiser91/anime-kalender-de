@@ -993,7 +993,7 @@ export function DetailPanel({
         */}
         <PanelBuehne
           reihenName={reihenName}
-          buehnenBild={buehnenBild}
+          buehnenBild={buehnenBild} grossBild={synopsis?.cg}
           title={title}
           onToggleHidden={onToggleHidden}
           favorites={favorites}

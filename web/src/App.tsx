@@ -3,8 +3,9 @@ import type { Title } from '@shared/types.ts'
 import type { Dataset } from './lib/data.ts'
 import { EinstellungenDialog, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadDataset, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
-import { eventsFuerAnsicht, titelFuerAnsicht, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
+import { eventsFuerAnsicht, titelFuerAnsichtGen, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
 import { SuchfundstellenContext } from './lib/such-kontext.ts'
+import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
 import type { Fundstelle } from './lib/search.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
@@ -30,6 +31,10 @@ import {
   SourcesView,
   SubscribeView,
 } from './components/StaticViews.tsx'
+
+/** Die Titelansicht, bevor etwas gerechnet ist. */
+const LEERE_ANSICHT = { liste: [] as Title[], fundstellen: new Map<string, Fundstelle[]>() }
+
 
 function Spinner({ label }: { label: string }) {
   return (
@@ -155,13 +160,13 @@ export default function App() {
     () => ({ alle: data ? data.events.map((e) => e.date) : [], sichtbar: eventListe.map((e) => e.date) }),
     [data, eventListe],
   )
-  const titles = useMemo(() => {
-    if (!data) return { liste: [] as Title[], fundstellen: new Map<string, Fundstelle[]>() }
+  const { wert: titles, laeuft: titelRechnet } = useZeitscheibe(() => {
+    if (!data) return leeresErgebnis(LEERE_ANSICHT)
     const basis = allTitles ?? data.titles
     const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
     const quelle = !cartoonsAus && cartoons ? [...mitOhne, ...cartoons] : mitOhne
-    return titelFuerAnsicht(quelle, data, route.filters, today, favorites, grouped)
-  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites, grouped])
+    return titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped)
+  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites, grouped], LEERE_ANSICHT)
 
   const openTitleId = useMemo(() => {
     if (route.title) return route.title
@@ -251,7 +256,7 @@ export default function App() {
                   onGroupedChange={setGrouped} cartoonsAus={cartoonsAusgeschlossen(route.filters)} onCartoonsAusChange={(aus) => setFilters(mitCartoonsAus(route.filters, aus))}
                   ohneSynchro={zeigeOhneSynchro}
                   onOhneSynchroChange={setZeigeOhneSynchro}
-                  ohneSynchroLaedt={zeigeOhneSynchro && !ohneSynchro}
+                  ohneSynchroLaedt={(zeigeOhneSynchro && !ohneSynchro) || titelRechnet}
                   favorites={favorites}
                   hidden={hidden}
                   onToggleFavorite={toggle}

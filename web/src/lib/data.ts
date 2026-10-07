@@ -242,6 +242,8 @@ export interface Synopsis {
    */
   deSource?: { name: string; url: string }
   asUrl?: string
+  /** Größtes brauchbares Plakat (TMDB): Pfad, Breite, Höhe — nur für die Vergrößerung des Covers. */
+  cg?: [string, number, number]
 }
 
 /**

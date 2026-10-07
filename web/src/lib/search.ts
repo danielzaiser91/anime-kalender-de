@@ -294,6 +294,8 @@ function woerterOriginal(feld: string): string[] {
 }
 
 /* Dieselben Namen werden bei jedem Suchlauf wieder normalisiert (18.863 Titel × Namensfelder, 07.10.2026: 300 ms am Stück) — jeder nur einmal. */
+/* Obergrenze für den Speicher auf schwachen Geräten: bei Überlauf wird neu begonnen (Treffer bleiben richtig, nur der Vorteil setzt aus). */
+const NORMALISIERT_MAX = 150_000
 const normalisiert = new Map<string, string>()
 
 export function normalize(value: string): string {
@@ -307,6 +309,7 @@ export function normalize(value: string): string {
     .replace(/ß/g, 'ss')
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
+  if (normalisiert.size >= NORMALISIERT_MAX) normalisiert.clear()
   normalisiert.set(value, neu)
   return neu
 }
@@ -490,12 +493,46 @@ function fundstellenFuer(
  * die Seite 300 ms). Sie fragt für jeden Eintrag jedes Wort mit Tippabstand ab. Passt schon ein Titel streng, werden ihre Treffer
  * ohnehin verworfen; dann genügt sie für die wenigen Einträge, die sonst Stufe 4 wären — Ergebnis und Reihenfolge bleiben gleich.
  */
-function stufenBewerten<T>(
+/**
+ * Die Suche arbeitet in **Schritten**: Alle `*Gen`-Funktionen sind Generatoren und geben nach `SCHRITT` Einträgen ab (`yield`). Wer sie
+ * zu Ende laufen lässt (`treibe`), bekommt das alte, synchrone Verhalten; die Oberfläche lässt dazwischen den Hauptfaden frei und
+ * verwirft veraltete Läufe (`use-zeitscheibe.ts`) — eine Eingabe friert die Seite nie ein, auch nicht auf einem Handy mit 18.863 Titeln
+ * (Daniel, 07.10.2026; gemessen mit 4-facher CPU-Drosselung: bis zu 3 s am Stück).
+ */
+const SCHRITT = 300
+/** Ein Vergleicher für alle Sortierungen — `localeCompare` baut ihn bei jedem Aufruf neu (bei 17.000 Treffern ein Mehrfaches der Zeit). */
+const KOLLATOR = new Intl.Collator('de')
+type Bewertet<T> = { item: T; rang: number; abstand: number; pos: number }
+
+/** Lässt einen Suchlauf bis zum Ende laufen (die synchrone Fassung). */
+export function treibe<R>(g: Generator<void, R>): R {
+  let r = g.next()
+  while (!r.done) r = g.next()
+  return r.value
+}
+
+/** Zwei nach `pos` geordnete Listen zu einer — ohne Sortieren. */
+function mische<T>(a: Bewertet<T>[], b: Bewertet<T>[]): Bewertet<T>[] {
+  const aus: Bewertet<T>[] = []
+  let i = 0
+  let j = 0
+  while (i < a.length || j < b.length) aus.push(j >= b.length || (i < a.length && a[i]!.pos < b[j]!.pos) ? a[i++]! : b[j++]!)
+  return aus
+}
+
+/**
+ * Die Stufen 0 bis 4 je Eintrag (Rangfolge siehe `sucheGen`).
+ *
+ * **Die teure ungefähre Stufe läuft nur, wo ihr Ergebnis noch zählt** (Daniel, 07.10.2026: „abc" über 18.863 Titel blockierte
+ * die Seite 300 ms). Sie fragt für jeden Eintrag jedes Wort mit Tippabstand ab. Passt schon ein Titel streng, werden ihre Treffer
+ * ohnehin verworfen; dann genügt sie für die wenigen Einträge, die sonst Stufe 4 wären — Ergebnis und Reihenfolge bleiben gleich.
+ */
+function* stufenGen<T>(
   quelle: T[],
   suchwoerter: string[],
   genau: (item: T) => Suchfeld[],
   titel: (item: T) => string[],
-): { item: T; rang: number; abstand: number }[] {
+): Generator<void, Bewertet<T>[]> {
   const ganz = suchwoerter.join(' ')
   /*
     **Zusammengeschrieben ist dasselbe wie getrennt** (21.09.2026). „sandland" traf „Sand Land:
@@ -506,26 +543,31 @@ function stufenBewerten<T>(
   const kompakt = (s: string) => s.replace(/[^\p{L}\p{N}]+/gu, '')
   const ganzKompakt = suchwoerter.join('')
   const kompaktZaehlt = ganzKompakt.length >= 4
-  const sicher: { item: T; rang: number; abstand: number; pos: number }[] = []
+  const sicher: Bewertet<T>[] = []
   const uebrig: { item: T; pos: number }[] = []
-  quelle.forEach((item, pos) => {
+  for (let pos = 0; pos < quelle.length; pos++) {
+    if (pos % SCHRITT === 0) yield
+    const item = quelle[pos]!
     const namen = titel(item).map(normalize)
     const namenKompakt = kompaktZaehlt ? namen.map(kompakt) : []
     if (namen.some((n) => n === ganz) || namenKompakt.some((n) => n === ganzKompakt)) sicher.push({ item, rang: 0, abstand: 0, pos })
     else if (namen.some((n) => n.startsWith(ganz)) || namenKompakt.some((n) => n.startsWith(ganzKompakt))) sicher.push({ item, rang: 1, abstand: 0, pos })
     else if (trifftGenau(suchwoerter, titel(item))) sicher.push({ item, rang: 2, abstand: keinWortanfang(suchwoerter, titel(item)) * 1000 + kuerzesterName(suchwoerter, titel(item)), pos })
     else uebrig.push({ item, pos })
-  })
+  }
   const titelPasst = sicher.length > 0
-  const spaet: { item: T; rang: number; abstand: number; pos: number }[] = []
-  for (const { item, pos } of uebrig) {
+  const spaet: Bewertet<T>[] = []
+  for (let k = 0; k < uebrig.length; k++) {
+    /* Die ungefähre Stufe ist die teure: hier öfter abgeben. */
+    if (k % (SCHRITT / 6) === 0) yield
+    const { item, pos } = uebrig[k]!
     const imZusatz = trifftGenau(suchwoerter, genau(item).map((f) => f.text))
     if (titelPasst && !imZusatz) continue
     if (trifftUngefaehr(suchwoerter, titel(item))) {
       if (!titelPasst) spaet.push({ item, rang: 3, abstand: tippAbstand(suchwoerter, titel(item)), pos })
     } else if (imZusatz) spaet.push({ item, rang: 4, abstand: 0, pos })
   }
-  return [...sicher, ...spaet].sort((a, b) => a.pos - b.pos).map(({ item, rang, abstand }) => ({ item, rang, abstand }))
+  return mische(sicher, spaet)
 }
 
 export function sucheMitFundstellen<T>(
@@ -536,6 +578,17 @@ export function sucheMitFundstellen<T>(
   /** Der **sichtbare** Name des Eintrags — Träger der höchsten Trefferklasse (29.09.2026). */
   sichtbarerName?: (item: T) => string,
 ): { item: T; rang: number; fundstellen: Fundstelle[] }[] {
+  return treibe(sucheGen(quelle, suchbegriff, genau, titel, sichtbarerName))
+}
+
+/** Die Suche in Schritten (siehe oben); `yield*` in der Oberfläche, `treibe` für die synchrone Fassung. */
+export function* sucheGen<T>(
+  quelle: T[],
+  suchbegriff: string,
+  genau: (item: T) => Suchfeld[],
+  titel: (item: T) => string[],
+  sichtbarerName?: (item: T) => string,
+): Generator<void, { item: T; rang: number; fundstellen: Fundstelle[] }[]> {
   /*
     **Füllwörter entscheiden nichts.** „abenteuer von dai" fand „Dais Abenteuer" nicht,
     weil „von" dort nicht vorkommt. Sie fallen weg, solange etwas
@@ -559,28 +612,27 @@ export function sucheMitFundstellen<T>(
     (nach Tippabstand) · 4 nur in Studio, Genre oder Keyword. Stufe 3 kommt nur hinzu,
     wenn kein Titel wörtlich passt — sonst hinge an „frieren" eine Liste ähnlicher Namen.
   */
-  const bewertet = stufenBewerten(quelle, suchwoerter, genau, titel)
+  const bewertet = yield* stufenGen(quelle, suchwoerter, genau, titel)
   const titelPasst = bewertet.some((b) => b.rang <= 2)
-  return (
-    bewertet
-      .filter((b) => !titelPasst || b.rang !== 3)
-      /*
-        **Die Fundstellen erst für die Behaltenen** — nicht für alle 2.753 Titel bei jedem
-        Tastendruck. Sie sind die Antwort auf „warum steht das hier", und die braucht nur, was
-        auch angezeigt wird. **Seit dem 29.09.2026 tragen sie auch die Rangfolge**: Feld,
-        Trefferart und Vollständigkeit (`trefferPunkte`).
-      */
-      .map((b) => {
-        const felder = genau(b.item)
-        const fundstellen = fundstellenFuer(suchwoerter, titel(b.item), felder, fueller)
-        const fehlend = Math.max(0, suchwoerter.length - fundstellen.filter((f) => !f.unscharf).length)
-        const stellen = stellenVon(fundstellen, titel(b.item), felder, alle)
-        const schluessel = trefferSchluessel(fundstellen, sichtbarerName?.(b.item), fehlend, stellen, suchwoerter, alle)
-        return { ...b, fundstellen, schluessel }
-      })
-      .sort((a, b) => trefferVergleich(a, b, sichtbarerName))
-      .map(({ item, rang, fundstellen }) => ({ item, rang, fundstellen }))
-  )
+  const behalten = bewertet.filter((b) => !titelPasst || b.rang !== 3)
+  /*
+    **Die Fundstellen erst für die Behaltenen** — nicht für alle 2.753 Titel bei jedem
+    Tastendruck. Sie sind die Antwort auf „warum steht das hier", und die braucht nur, was
+    auch angezeigt wird. **Seit dem 29.09.2026 tragen sie auch die Rangfolge**: Feld,
+    Trefferart und Vollständigkeit (`trefferPunkte`).
+  */
+  const mitStellen: (Bewertet<T> & { fundstellen: Fundstelle[]; schluessel: number[] })[] = []
+  for (let k = 0; k < behalten.length; k++) {
+    if (k % (SCHRITT / 3) === 0) yield
+    const b = behalten[k]!
+    const felder = genau(b.item)
+    const fundstellen = fundstellenFuer(suchwoerter, titel(b.item), felder, fueller)
+    const fehlend = Math.max(0, suchwoerter.length - fundstellen.filter((f) => !f.unscharf).length)
+    const stellen = stellenVon(fundstellen, titel(b.item), felder, alle)
+    mitStellen.push({ ...b, fundstellen, schluessel: trefferSchluessel(fundstellen, sichtbarerName?.(b.item), fehlend, stellen, suchwoerter, alle) })
+  }
+  yield
+  return mitStellen.sort((a, b) => trefferVergleich(a, b, sichtbarerName)).map(({ item, rang, fundstellen }) => ({ item, rang, fundstellen }))
 }
 
 /**
@@ -600,7 +652,7 @@ function trefferVergleich<T>(
   if (punkte) return punkte
   if (a.rang !== b.rang) return a.rang - b.rang
   if (a.abstand !== b.abstand) return a.abstand - b.abstand
-  return name ? name(a.item).localeCompare(name(b.item), 'de') : 0
+  return name ? KOLLATOR.compare(name(a.item), name(b.item)) : 0
 }
 
 /**

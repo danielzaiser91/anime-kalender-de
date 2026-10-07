@@ -1,5 +1,5 @@
 import { ShareIcon } from './hilfen.tsx'
-import { CoverMaximieren, beiCoverKlick } from './cover-max.tsx'
+import { CoverMaximieren, beiCoverKlick, coverVorwaermen } from './cover-max.tsx'
 import { anzeigeName } from '@shared/titles.ts'
 import { HideEye, FavoriteStar, ReihenStern } from '../ui.tsx'
 import { FORMAT_DE } from '@shared/mappings.ts'
@@ -8,9 +8,9 @@ import { WeitereTitel } from './weitere.tsx'
 import { type Title, type FranchiseMember } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 
-export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, favorites, onToggleFavorite, reihenIds, onClose, t, unterzeile, eigenerTeil }: {
+export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggleHidden, favorites, onToggleFavorite, reihenIds, onClose, t, unterzeile, eigenerTeil }: {
   reihenName: string
-  buehnenBild: string | undefined
+  buehnenBild: string | undefined; grossBild?: [string, number, number]
   title: Title
   onToggleHidden: (id: number) => void
   favorites: Set<number>
@@ -62,7 +62,7 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
           <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
           <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
           <ShareIcon slug={title.slug} name={anzeigeName(title)} />
-          <CoverMaximieren bild={buehnenBild} titel={anzeigeName(title)} />
+          <CoverMaximieren bild={buehnenBild} gross={grossBild} titel={anzeigeName(title)} />
         </div>
         {title.fsk !== undefined && (
           <span className="absolute right-11 top-0 z-10 rounded-b-lg bg-[rgba(8,12,18,.74)] px-2 py-1 text-xs font-semibold tabular-nums text-slate-200 backdrop-blur-[3px]">
@@ -82,7 +82,7 @@ export function PanelBuehne({ reihenName, buehnenBild, title, onToggleHidden, fa
           Der „Staffel 1"-Block darunter holt einen Teil davon wieder herein
           (sein `-mt-24`): Das Cover bleibt groß, der Weg zum Inhalt kurz.
         */}
-        <div className="relative h-[400px] cursor-zoom-in" onClick={beiCoverKlick}>
+        <div className="relative h-[400px] cursor-zoom-in" onClick={beiCoverKlick} onPointerEnter={coverVorwaermen} onTouchStart={coverVorwaermen}>
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 bg-cover"
