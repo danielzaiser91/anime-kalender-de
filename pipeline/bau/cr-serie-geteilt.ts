@@ -99,47 +99,75 @@ export function kennungAusAdresse(): KennungVon {
   return aufloeser
 }
 
-let staffelzahlenGeladen: Map<string, number[]> | undefined
-/** Die Folgenzahlen der deutschen Staffeln je Serienkennung, wie die Inhaltsschnittstelle sie zuletzt führte (`data/crunchyroll-dub.json`). */
-export function crStaffelzahlen(): Map<string, number[]> {
-  if (staffelzahlenGeladen) return staffelzahlenGeladen
-  const jung = new Map<string, { geprueftAm: string; zahlen: number[] }>()
-  for (const e of readJson<{ serien?: { seriesId?: string; geprueftAm?: string; staffeln?: { folgen?: number }[] }[] }>('data/crunchyroll-dub.json', {}).serien ?? []) {
-    const zahlen = (e.staffeln ?? []).map((st) => st.folgen).filter((n): n is number => typeof n === 'number' && n > 0)
-    if (!e.seriesId || !zahlen.length) continue
+export interface CrStaffel {
+  name: string
+  folgen: number
+}
+
+let staffelnGeladen: Map<string, CrStaffel[]> | undefined
+/** Die deutschen Staffeln je Serienkennung (Name, Folgenzahl), wie die Inhaltsschnittstelle sie zuletzt führte (`data/crunchyroll-dub.json`). */
+export function crStaffeln(): Map<string, CrStaffel[]> {
+  if (staffelnGeladen) return staffelnGeladen
+  const jung = new Map<string, { geprueftAm: string; staffeln: CrStaffel[] }>()
+  for (const e of readJson<{ serien?: { seriesId?: string; geprueftAm?: string; staffeln?: { name?: string; folgen?: number }[] }[] }>('data/crunchyroll-dub.json', {}).serien ?? []) {
+    const staffeln = (e.staffeln ?? []).filter((st): st is { name: string; folgen: number } => typeof st.folgen === 'number' && st.folgen > 0 && typeof st.name === 'string')
+    if (!e.seriesId || !staffeln.length) continue
     const alt = jung.get(e.seriesId)
-    if (!alt || String(e.geprueftAm) > alt.geprueftAm) jung.set(e.seriesId, { geprueftAm: String(e.geprueftAm), zahlen })
+    if (!alt || String(e.geprueftAm) > alt.geprueftAm) jung.set(e.seriesId, { geprueftAm: String(e.geprueftAm), staffeln })
   }
-  staffelzahlenGeladen = new Map([...jung].map(([k, v]) => [k, v.zahlen]))
-  return staffelzahlenGeladen
+  staffelnGeladen = new Map([...jung].map(([k, v]) => [k, v.staffeln]))
+  return staffelnGeladen
+}
+
+const FUELL = new Set(['the', 'of', 'and', 'season', 'staffel', 'german', 'dub', 'deutsch', 'part', 'cour', 'tv', 'st', 'nd', 'rd', 'th'])
+/** Die tragenden Wörter eines Namens: klein, ohne Satzzeichen und Füllwörter. */
+function woerterVon(text: string | undefined): string[] {
+  return (text ?? '').toLowerCase().normalize('NFKD').split(/[^\p{L}\p{N}]+/u).filter((w) => w && !FUELL.has(w))
+}
+
+/** Gehört dieser Staffelname zu diesem Titel? Jedes tragende Wort der Staffel muss in einem Namen des Titels stehen („Public School Arc" in „Black Butler: Public School Arc"). */
+export function staffelNameStimmt(staffelName: string, titel: Title): boolean {
+  const gesucht = woerterVon(staffelName)
+  if (!gesucht.length) return false
+  const vorhanden = new Set([titel.titleEn, titel.titleRomaji, titel.titleDe].flatMap((n) => woerterVon(n)))
+  return gesucht.every((w) => vorhanden.has(w))
 }
 
 /**
- * **Hat jede Staffel der Serie genau einen Titel mit ihrer Folgenzahl, gehört die Serie diesen Titeln — alle anderen an ihr sind fremd**
- * (Daniel, 07.10.2026, Black Butler: Die Serie führt bei Crunchyroll zwei deutsche Staffeln, Public School Arc mit 11 und Emerald Witch Arc mit 13 Folgen.
- * Auf sie zeigten neun Titel, darunter Staffel 1 von 2008 mit 24 Folgen — genau die Summe der beiden — und sie trug „alle 24 Folgen auf Deutsch" samt
- * Crunchyroll-Pille, obwohl keine ihrer Folgen dort liegt.)
+ * **Hat jede Staffel der Serie genau einen Titel, der ihr nach Folgenzahl UND Namen entspricht, gehört die Serie diesen Titeln — alle anderen an ihr sind fremd**
+ * (Daniel, 07.10.2026, Black Butler: Die Serie führt bei Crunchyroll zwei deutsche Staffeln, „-Public School Arc-" mit 11 und „-Emerald Witch Arc-" mit 13 Folgen.
+ * Auf sie zeigten neun Titel, darunter Staffel 1 von 2008 mit 24 Folgen — genau die Summe der beiden — mit „alle 24 Folgen auf Deutsch" und Crunchyroll-Pille,
+ * obwohl keine ihrer Folgen dort liegt.)
  *
- * Eng gefasst: Es zählt nur, wenn **jede** Staffel (Folgenzahl) von genau so vielen Titeln getroffen wird, wie die Serie Staffeln mit dieser Zahl hat.
- * Fasst Crunchyroll zusammen, was AniList trennt (Haikyu, Tokyo Ghoul), geht die Rechnung nicht auf — dann bleibt alles, wie es ist.
+ * **Eine Folgenzahl allein bestätigt nichts** (Daniel, 07.10.2026: „es muss eindeutig bestätigt werden"): Erst der Staffelname im Namen des Titels macht aus der
+ * Zählgleichheit eine Zuordnung. Fehlt er irgendwo (Crunchyroll nennt „Tsubasa Chronicle", wir „Tsubasa RESERVoir CHRoNiCLE"), geht die Rechnung nicht auf und alles
+ * bleibt, wie es ist. Ebenso, wo Crunchyroll zusammenfasst, was AniList trennt (Haikyu, Tokyo Ghoul).
  */
-export function entferneFremdeNachStaffeln(titles: Map<number, Title>, kennungVon: KennungVon, staffelzahlen: Map<string, number[]> = crStaffelzahlen()): number {
+export function entferneFremdeNachStaffeln(titles: Map<number, Title>, kennungVon: KennungVon, staffeln: Map<string, CrStaffel[]> = crStaffeln()): number {
   const anSerie = new Map<string, Title[]>()
   for (const t of titles.values()) {
     const s = t.streams.find((x) => x.platform === 'crunchyroll')
     const kennung = s && kennungVon(s.url)
-    if (kennung && staffelzahlen.has(kennung)) anSerie.set(kennung, [...(anSerie.get(kennung) ?? []), t])
+    if (kennung && staffeln.has(kennung)) anSerie.set(kennung, [...(anSerie.get(kennung) ?? []), t])
   }
   let weg = 0
   for (const [kennung, ts] of anSerie) {
-    const zahlen = staffelzahlen.get(kennung)!
     if (ts.length < 2) continue
-    const jeZahl = new Map<number, number>()
-    for (const z of zahlen) jeZahl.set(z, (jeZahl.get(z) ?? 0) + 1)
-    const aufgeht = [...jeZahl].every(([z, anzahl]) => ts.filter((t) => t.episodes === z).length === anzahl)
+    const frei = new Set(ts)
+    const zugeordnet = new Set<Title>()
+    let aufgeht = true
+    for (const st of staffeln.get(kennung)!) {
+      const kandidaten = [...frei].filter((t) => t.episodes === st.folgen && staffelNameStimmt(st.name, t))
+      if (kandidaten.length !== 1) {
+        aufgeht = false
+        break
+      }
+      zugeordnet.add(kandidaten[0]!)
+      frei.delete(kandidaten[0]!)
+    }
     if (!aufgeht) continue
     for (const t of ts) {
-      if (t.episodes !== undefined && jeZahl.has(t.episodes)) continue
+      if (zugeordnet.has(t)) continue
       t.streams = t.streams.filter((x) => !(x.platform === 'crunchyroll' && kennungVon(x.url) === kennung))
       weg++
     }

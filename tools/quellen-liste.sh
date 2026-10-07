@@ -26,6 +26,7 @@ QUELLEN=(
   data/anisearch-slugs.json
   data/anisearch-dubs.json
   data/tmdb-poster.json
+  data/kitsu-folgen.json
   data/cover-klein.json
   data/wikidata-titel.json
   data/titel-de.yaml

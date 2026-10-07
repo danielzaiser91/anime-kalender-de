@@ -24,7 +24,7 @@
  */
 import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSerie, type CrDubData, beurteileJeBlock, beurteileTeilblock } from './lib/crunchyroll-dub.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
-import { crStaffelzahlen, entferneFremdeNachStaffeln, kennungAusAdresse } from './bau/cr-serie-geteilt.ts'
+import { crStaffeln, entferneFremdeNachStaffeln, kennungAusAdresse } from './bau/cr-serie-geteilt.ts'
 import { termineAusSerie } from './lib/crunchyroll-termine.ts'
 import { readJson, ROOT } from './lib/util.ts'
 import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
@@ -1044,7 +1044,7 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   const roh = readJson<Title[] | { titles?: Title[] }>('public/data/titles.json', [])
   const liste = Array.isArray(roh) ? roh : (roh.titles ?? [])
   const titel = new Map(liste.map((t) => [t.id, { ...t, streams: [...t.streams] }]))
-  const weg = entferneFremdeNachStaffeln(titel, kennungAusAdresse(), crStaffelzahlen())
+  const weg = entferneFremdeNachStaffeln(titel, kennungAusAdresse(), crStaffeln())
   pruefe('im Bestand hängt kein Titel an einer Crunchyroll-Serie, die ihm nicht gehört', weg === 0, [...titel.values()].filter((t, i) => t.streams.length !== liste[i]!.streams.length).map((t) => t.titleEn ?? t.id).slice(0, 8))
 }
 
