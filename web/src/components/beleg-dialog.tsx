@@ -64,12 +64,45 @@ function tabName(b: NewsBeleg, alle: NewsBeleg[]): string {
 
 const BTN = 'cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs hover:bg-white/10'
 
+/** Welche Art Quelle es ist — der Rest (Datum, Prüfstand) steht im ⓘ; „Quelle: Anime2You-Artikel“ statt der Überschrift der Meldung (Daniel, 07.10.2026). */
+function quellenArt(b: NewsBeleg): string {
+  if (b.gemessenAm) return 'Eigene Messung'
+  if (b.ausgabeAm) return `Produktseite bei ${b.name}`
+  return /anime2you/i.test(b.name) ? 'Anime2You-Artikel' : `Artikel bei ${quellenLabel(b)}`
+}
+
+/** Die einzige Kopfzeile in der Vorschau: Art der Quelle (bei mehreren: Reiter), die Werkzeuge des Ausschnitts (Portal in `ziel`) und ✕ oben rechts. */
+function BelegKopf({ belege, aktiv, setAktiv, zu, setZiel }: { belege: NewsBeleg[]; aktiv: number; setAktiv: (i: number) => void; zu: () => void; setZiel: (e: HTMLElement | null) => void }) {
+  return (
+    <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-white/10 bg-slate-900 px-3 py-1.5 text-xs" onClick={(e) => e.stopPropagation()}>
+      {belege.length > 1 ? (
+        <div role="tablist" className="flex min-w-0 gap-1 overflow-x-auto">
+          {belege.map((b, i) => (
+            <button key={b.url} type="button" role="tab" aria-selected={i === aktiv} onClick={() => setAktiv(i)} className={`shrink-0 cursor-pointer rounded-full px-3 py-1 ${i === aktiv ? 'bg-white font-bold text-slate-900' : 'border border-slate-600 text-slate-300 hover:text-white'}`}>
+              <span className="sm:hidden">{i + 1}</span>
+              <span className="hidden sm:inline">{tabName(b, belege)}</span>
+            </button>
+          ))}
+        </div>
+      ) : (
+        <b className="shrink-0 text-sm">Quelle: {quellenArt(belege[0]!)}</b>
+      )}
+      <div ref={setZiel} className="flex min-w-0 flex-1 flex-wrap items-center gap-2" />
+      <button type="button" onClick={zu} aria-label="Schließen" title="Schließen" className="grid size-8 shrink-0 cursor-pointer place-items-center rounded-full text-lg text-slate-300 hover:bg-white/10 hover:text-white">
+        ✕
+      </button>
+    </div>
+  )
+}
+
 /**
  * **Das Fenster füllt den ganzen Bildschirm** und hängt am `<body>`: Im Detail-Panel (transformiert) bezog sich `fixed` auf das Panel,
  * und das Bild stand in dessen schmaler Spalte (Daniel, 04.10.2026). Oben die Reiter, darunter die gewählte Quelle.
  */
 function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: string; zu: () => void }) {
   const [aktiv, setAktiv] = useState(() => Math.max(0, belege.findIndex((b) => b.bild)))
+  const [ziel, setZiel] = useState<HTMLElement | null>(null)
+  const vorschau = useVorschau('beleg')
   useEffect(() => {
     const esc = (e: KeyboardEvent) => e.key === 'Escape' && zu()
     document.addEventListener('keydown', esc)
@@ -83,7 +116,8 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
   }, [zu])
   return createPortal(
     <div role="dialog" aria-modal="true" aria-label={`Quellen: ${betreff ?? ''}`} className="fixed inset-0 z-[60] flex flex-col bg-black/90 text-slate-200" onClick={zu}>
-      <div className="shrink-0 border-b border-white/10 bg-slate-900 px-4 pt-2" onClick={(e) => e.stopPropagation()}>
+      {vorschau && <BelegKopf belege={belege} aktiv={aktiv} setAktiv={setAktiv} zu={zu} setZiel={setZiel} />}
+      <div hidden={Boolean(vorschau)} className="shrink-0 border-b border-white/10 bg-slate-900 px-4 pt-2" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-3 text-sm">
           <b className="min-w-0 flex-1 truncate">{belege.length > 1 ? 'Quellen' : 'Quelle'}{betreff ? `: ${betreff}` : ''}</b>
           <button type="button" onClick={zu} className={BTN}>Schließen</button>
@@ -106,7 +140,7 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
           </div>
         )}
       </div>
-      <BelegAnsicht key={belege[aktiv]!.url} beleg={belege[aktiv]!} zu={zu} />
+      <BelegAnsicht key={belege[aktiv]!.url} beleg={belege[aktiv]!} zu={zu} leisteZiel={vorschau ? ziel : null} />
     </div>,
     document.body,
   )
@@ -148,7 +182,7 @@ function useBelegBild(bild: string | undefined): { url?: string; fehler?: string
 }
 
 /** Eine Quelle: Erklärung, Originaladresse und — wo gesichert — das Bild mit der Fundstelle. */
-function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
+function BelegAnsicht({ beleg, zu, leisteZiel }: { beleg: NewsBeleg; zu: () => void; leisteZiel: HTMLElement | null }) {
   const bild = WORKER ? beleg.bild : undefined
   const { url, fehler } = useBelegBild(bild)
   const vorschau = useVorschau('beleg')
@@ -168,7 +202,7 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
   }
   return (
     <>
-      <div className="shrink-0 border-b border-white/10 bg-slate-800 px-4 py-2" onClick={(e) => e.stopPropagation()}>
+      <div hidden={Boolean(vorschau && url)} className="shrink-0 border-b border-white/10 bg-slate-800 px-4 py-2" onClick={(e) => e.stopPropagation()}>
         <div className="flex flex-wrap items-center gap-2 text-xs leading-snug text-slate-300">
           <Erklaerung beleg={beleg} mitBild={Boolean(bild)} />
           {x !== undefined && url && !vorschau && (
@@ -190,7 +224,7 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
         ) : fehler ? (
           <p className="p-4 text-sm text-rose-300">{fehler}</p>
         ) : url && vorschau ? (
-          <BelegAusschnitt url={url} name={beleg.name} markierung={x === undefined ? undefined : [x, y ?? 0, b ?? 0, h ?? 0]} variante={vorschau} />
+          <BelegAusschnitt url={url} name={beleg.name} markierung={x === undefined ? undefined : [x, y ?? 0, b ?? 0, h ?? 0]} variante={vorschau} info={`${erklaerung(beleg)}${pruefzeile(beleg, true)} Wir sichern von jeder Quelle ein Bild, damit prüfbar bleibt, worauf die Meldung beruht.`} original={{ url: beleg.url, host: hostVon(beleg.url) }} ziel={leisteZiel} />
         ) : url ? (
           <div className={einpassen ? 'relative h-full max-w-full' : 'relative mx-auto w-full max-w-[1800px]'} onClick={(e) => e.stopPropagation()}>
             <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} />
