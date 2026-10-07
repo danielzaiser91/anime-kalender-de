@@ -920,7 +920,7 @@ export function ImpressumView() {
             Synchro-Nachweis: <a className="underline" href="https://mydublist.com">MyDubList</a> (CC BY 4.0)
           </li>
           <li>
-            Metadaten: <a className="underline" href="https://anilist.co">AniList</a>
+            Metadaten: <a className="underline" href="https://anilist.co">AniList</a>; Folgentitel und Folgenlängen, wo keine andere Quelle sie hat: <a className="underline" href="https://kitsu.app">Kitsu</a>
           </li>
           <li>
             FSK und große Cover-Bilder: <a className="underline" href="https://www.themoviedb.org">TMDB</a> — diese Seite nutzt die

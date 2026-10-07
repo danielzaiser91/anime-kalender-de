@@ -5,6 +5,7 @@
 import { readFileSync } from 'node:fs'
 import { keineSynchroLautAnisearch } from './bau/ohne-beleg.ts'
 import { entferneFremdeNachStaffeln } from './bau/cr-serie-geteilt.ts'
+import { mitKitsuTiteln } from './bau/folgentitel-kitsu.ts'
 import { ANISEARCH_ID_BASIS, anisearchNurKatalog } from './bau/anisearch-titel.ts'
 import { ohneBelegteSynchro } from './bau/synchro-belegt.ts'
 import { ausAnisearchDubs } from './lib/anisearch-synchro-ids.ts'
@@ -101,6 +102,17 @@ const einzeln = new Map([[1, crTitel(1, 12, 'Black Butler II')]])
 pruefe('ein einzelner Titel an der Serie wird nie entfernt', entferneFremdeNachStaffeln(einzeln, kv, arcs) === 0)
 const doppelt = new Map([[1, crTitel(1, 12, 'Serie X')], [2, crTitel(2, 12, 'Serie X')], [3, crTitel(3, 5, 'Serie X Special')]])
 pruefe('zwei Titel mit gleicher Zahl und gleichem Namen: keine Entscheidung', entferneFremdeNachStaffeln(doppelt, kv, new Map([['SERIE1', [{ name: 'Serie X', folgen: 12 }]]])) === 0)
+
+console.log('Folgentitel und Laufzeit aus Kitsu')
+const ova = { id: 7, episodes: 2 } as unknown as Title
+const kitsu = { k: 8338, f: [[1, 'Book of Murder Part 1', 58], [2, 'Book of Murder Part 2', 58]] as [number, string, number][] }
+const gefuellt = mitKitsuTiteln(ova, [{ nr: 1 }, { nr: 2 }], kitsu)
+pruefe('Kitsu füllt fehlende Titel und Minuten', gefuellt?.[0]?.en === 'Book of Murder Part 1' && gefuellt?.[1]?.minuten === 58, gefuellt)
+const vorhanden = mitKitsuTiteln(ova, [{ nr: 1, de: 'Eigener Titel', minuten: 30 }, { nr: 2 }], kitsu)
+pruefe('ein vorhandener Titel und eine vorhandene Minutenzahl bleiben', vorhanden?.[0]?.de === 'Eigener Titel' && vorhanden?.[0]?.en === undefined && vorhanden?.[0]?.minuten === 30)
+pruefe('andere Folgenzahl: nichts wird übernommen', mitKitsuTiteln({ id: 8, episodes: 3 } as unknown as Title, [{ nr: 1 }, { nr: 2 }, { nr: 3 }], kitsu)?.every((x) => !x.en) === true)
+pruefe('Platzhalter wie „Episode 3" sind kein Titel', mitKitsuTiteln(ova, [{ nr: 1 }, { nr: 2 }], { k: 1, f: [[1, 'Episode 1', 24], [2, 'Episode 2', 24]] })?.every((x) => !x.en) === true)
+pruefe('Nummern mit Lücke (1, 3): nichts', mitKitsuTiteln(ova, [{ nr: 1 }, { nr: 2 }], { k: 1, f: [[1, 'A', 24], [3, 'B', 24]] })?.every((x) => !x.en) === true)
 
 console.log('Titel nur bei aniSearch')
 const eintraege = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { dub: string; ty: string }>

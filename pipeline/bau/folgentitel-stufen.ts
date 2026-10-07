@@ -2,6 +2,7 @@ import type { Title } from '../../shared/types.ts'
 import { readJson } from '../lib/util.ts'
 import { crFolgentitel, ladeCrArchiv, mitCrTiteln, type CrSerie } from './folgentitel-cr.ts'
 import { tmdbFolgentitel, type TmdbEintrag } from './folgentitel-tmdb.ts'
+import { mitKitsuTiteln, type KitsuEintrag } from './folgentitel-kitsu.ts'
 
 interface Folge {
   nr: number
@@ -17,6 +18,7 @@ export interface TitelQuellen {
   crSerien: Map<string, CrSerie>
   tmdbFolgen: Record<string, TmdbEintrag>
   tmdbNamen: Record<string, { nameDe?: string }>
+  kitsu: Record<string, KitsuEintrag>
 }
 
 export function ladeTitelQuellen(): TitelQuellen {
@@ -25,6 +27,7 @@ export function ladeTitelQuellen(): TitelQuellen {
     crSerien: new Map(cr.filter((s) => s.katalog === 'de').map((s) => [s.url, s])),
     tmdbFolgen: readJson('data/tmdb-folgen.json', {}),
     tmdbNamen: readJson('data/tmdb-titles.json', {}),
+    kitsu: readJson('data/kitsu-folgen.json', {}),
   }
 }
 
@@ -38,11 +41,11 @@ function luecke(f: Folge[] | undefined): boolean {
  * die Archive werden nur geöffnet, wo es eine Lücke gibt.
  */
 export function mitFremdTiteln(t: Title, ausAs: Folge[] | undefined, q: TitelQuellen): Folge[] | undefined {
-  if (!luecke(ausAs)) return ausAs
+  if (!luecke(ausAs)) return mitKitsuTiteln(t, ausAs, q.kitsu[String(t.id)])
   const crUrl = t.streams.find((s) => s.platform === 'crunchyroll')?.url
   const crSerie = crUrl ? q.crSerien.get(crUrl) : undefined
   const mitCr = mitCrTiteln(ausAs, crFolgentitel(t, crSerie, ladeCrArchiv(crSerie?.seriesId)))
-  if (!luecke(mitCr)) return mitCr
+  if (!luecke(mitCr)) return mitKitsuTiteln(t, mitCr, q.kitsu[String(t.id)])
   const nummern = mitCr?.length ? mitCr.map((x) => x.nr) : Array.from({ length: t.episodes ?? 0 }, (_, i) => i + 1)
-  return mitCrTiteln(mitCr, tmdbFolgentitel(t, q.tmdbNamen[String(t.id)]?.nameDe, q.tmdbFolgen[String(t.id)], nummern))
+  return mitKitsuTiteln(t, mitCrTiteln(mitCr, tmdbFolgentitel(t, q.tmdbNamen[String(t.id)]?.nameDe, q.tmdbFolgen[String(t.id)], nummern)), q.kitsu[String(t.id)])
 }

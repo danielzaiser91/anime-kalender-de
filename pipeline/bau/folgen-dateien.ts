@@ -103,7 +103,7 @@ export function schreibeFolgenDateien(titel: Title[]): void {
     const f = mitFremdTiteln(t, ausAs, quellen)
     if (!f || f.length < 2) continue
     const minuten = new Set(f.map((x) => x.minuten).filter(Boolean))
-    const einheitlich = minuten.size === 1 ? [...minuten][0] : undefined
+    const einheitlich = minuten.size === 1 ? [...minuten][0] : minuten.size === 0 ? t.runtimeMin : undefined
     const de = deutscheFolgen(t, wikiFolgen, heute, Math.max(...f.map((x) => x.nr)))
     zaehlung[t.id] = [f.length, f.filter((x) => de.some(([von, bis]) => x.nr >= von && x.nr <= bis)).length]
     writeJson(`${ordner}/${t.id}.json`, {
