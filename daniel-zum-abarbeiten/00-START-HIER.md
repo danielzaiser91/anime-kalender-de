@@ -7,12 +7,12 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
 | 1 | Prime Video — Suchseiten | 1 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
-| 2 | [Prime Video — Titelseiten](07-primevideo.md) | 4 Adressen, 1 Verweis | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 3 | [Netflix](06-netflix-rest.md) | 1 Titel, 1 Verweis | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
-| 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 2 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
-| 5 | [Crunchyroll](07-crunchyroll.md) | 5 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
-| 7 | [Disney+](07-disneyplus.md) | 3 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
-| 8 | [Disney+ — sind es wirklich 2?](21-disneyplus-gruen.md) | 2 Titel, alle Folgen grün | ~2 min | die Frage, ob die Liste recht hat oder das Grün lügt |
+| 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 4 Adressen, 1 Verweis | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 3 | [Netflix](listen/06-netflix-rest.md) | 1 Titel, 1 Verweis | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 4 | [Suchadressen — welcher Titel steckt dahinter?](listen/18-suchadressen.md) | 2 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
+| 5 | [Crunchyroll](listen/07-crunchyroll.md) | 5 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
+| 7 | [Disney+](listen/07-disneyplus.md) | 3 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
+| 8 | [Disney+ — sind es wirklich 2?](listen/21-disneyplus-gruen.md) | 2 Titel, alle Folgen grün | ~2 min | die Frage, ob die Liste recht hat oder das Grün lügt |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
 Sie zeigt auf jeder Anbieterseite, was dort noch offen ist, liest die Tonspuren und
@@ -27,11 +27,11 @@ macht eine davon weniger.
 
 ## Zum Nachschlagen, nicht zum Abarbeiten
 
-- [07-alle-anbieter.md](07-alle-anbieter.md) — die Kurzschrift zum Antworten
-- [08-arbeitspakete.md](08-arbeitspakete.md) — dieselbe Arbeit in Blöcken
-- [10-kinostarts.md](10-kinostarts.md) — Kinotermine, die eine Fassung brauchen
-- [12-verpasste-termine.md](12-verpasste-termine.md) — Termine, die ein Anbieter hat verstreichen lassen
-- [13-tonspur-verdacht.md](13-tonspur-verdacht.md) — Verweise, denen eine zweite Quelle widerspricht
+- [07-alle-anbieter.md](listen/07-alle-anbieter.md) — die Kurzschrift zum Antworten
+- [08-arbeitspakete.md](listen/08-arbeitspakete.md) — dieselbe Arbeit in Blöcken
+- [10-kinostarts.md](listen/10-kinostarts.md) — Kinotermine, die eine Fassung brauchen
+- [12-verpasste-termine.md](listen/12-verpasste-termine.md) — Termine, die ein Anbieter hat verstreichen lassen
+- [13-tonspur-verdacht.md](listen/13-tonspur-verdacht.md) — Verweise, denen eine zweite Quelle widerspricht
 
 ## Warum hier weniger steht, als es aussieht
 
