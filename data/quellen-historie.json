@@ -5993,5 +5993,35 @@
       "gesehenAm": "2026-10-06",
       "stand": "aktuell"
     }
+  ],
+  "auto-118399-tv-prosieben-maxx": [
+    {
+      "url": "https://tv.de/sendung/r/s,2446019403/",
+      "name": "tv.de",
+      "gesehenAm": "2026-10-07",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-128893-tv-prosieben-fun": [
+    {
+      "url": "https://tv.de/sendung/r/s,2450039798/",
+      "name": "tv.de",
+      "gesehenAm": "2026-10-07",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.themoviedb.org/tv/117465",
+      "name": "themoviedb.org",
+      "gesehenAm": "2026-10-07",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-101347-tv-prosieben-fun": [
+    {
+      "url": "https://tv.de/sendung/r/s,2450039806/",
+      "name": "tv.de",
+      "gesehenAm": "2026-10-07",
+      "stand": "aktuell"
+    }
   ]
 }

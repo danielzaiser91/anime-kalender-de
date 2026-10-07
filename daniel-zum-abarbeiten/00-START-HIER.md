@@ -1,6 +1,6 @@
 # Was zu tun ist
 
-Stand: 2026-10-06 — **erzeugt aus dem ausgelieferten Datensatz**,
+Stand: 2026-10-07 — **erzeugt aus dem ausgelieferten Datensatz**,
 nicht von Hand gepflegt. Wer hier eine Zahl ändert, ändert sie am
 falschen Ort; sie kommt beim nächsten Lauf zurück.
 
