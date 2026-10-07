@@ -15,7 +15,7 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
 }) {
   return (
     <>
-      <div className="relative -mt-24 flex flex-col gap-3 p-4">
+      <div className="pointer-events-none relative -mt-24 flex flex-col gap-3 p-4">
         {/*
           Der Reihenname steht **über** dem Karussell, der gewählte Teil
           darunter.
@@ -82,20 +82,20 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
             gequetscht"). Wertung, Trailer und die Absprünge stehen in einer eigenen Zeile darüber,
             der Staffelname beginnt darunter — vorher teilte er sich die Zeile mit allen vieren.
           */}
-          <div className="flex flex-wrap items-center gap-2">
-            {bewertung}
+          <div className="pointer-events-none flex flex-wrap items-center gap-2">
+            {bewertung && <span className="pointer-events-auto">{bewertung}</span>}
             {/*
               **Der Trailer steht bei den Angaben zum Werk, nicht bei den
               Anbietern.** Er beantwortet eine andere Frage als „wo kann ich
               das sehen" — nämlich „will ich das überhaupt".
             */}
-            <span className="ml-auto flex flex-wrap items-center justify-end gap-2">
-              {(title.trailer || kinoRelease) && <TrailerKino trailer={title.trailer} titel={anzeigeName(title)} />}
-              <AniSearchVerweis title={title} ziel={asZiel} />
+            <span className="pointer-events-none ml-auto flex flex-wrap items-center justify-end gap-2">
+              {(title.trailer || kinoRelease) && <span className="pointer-events-auto"><TrailerKino trailer={title.trailer} titel={anzeigeName(title)} /></span>}
+              <span className="pointer-events-auto"><AniSearchVerweis title={title} ziel={asZiel} /></span>
             </span>
           </div>
           {reihenTeile.length > 1 && teilName !== reihenName && (
-            <h3 className="mt-1 min-w-0 text-xl font-bold leading-tight text-slate-900 dark:text-white">{teilName}</h3>
+            <h3 className="pointer-events-auto mt-1 w-fit min-w-0 text-xl font-bold leading-tight text-slate-900 dark:text-white">{teilName}</h3>
           )}
           {/*
             Die Pillen-Zeile trug nur noch die Wertung — Status und FSK sind
