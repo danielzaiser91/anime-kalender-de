@@ -4968,3 +4968,5 @@ Der Lauf (16:04 UTC) scheiterte nur im Schritt „Änderungen committen": Dreima
 - 07.10.2026 erledigt: Nachlauf nach dem aniSearch-Katalog — `data:tmdb-poster`, `data:kitsu-folgen`, `data:anisearch-dubs` als npm-Skripte, im Wochenlauf und auf Abruf, `data/kitsu-folgen.json` im Bestand.
 
 - 07.10.2026 erledigt: Crunchyroll-Zuordnung je Folge — `check:cr-folgen` (Folgentitel gegen alle Staffeln der CR-Serie, 239 von 251 bestätigt, Untergrenze 90 %); die zwölf offenen sind Titelsprache, Picture Dramas, K-On! (nur Staffel 2 bei CR).
+
+- 07.10.2026 erledigt: Titel ohne Synchro laut aniSearch-Dub-Endpunkt hinter dem Toggle (`keineSynchroLautAnisearch`) und die Dub-Liste als Beleg (`mitDubKennzeichen`: d = Synchro-Marke, c = Teilmarke, Kasten „Teilweise auf Deutsch“). Gegenprobe: `node tools/dub-abgleich.mjs` (07.10.2026: A) 10 Titel im Hauptbestand ohne Beleg, B) 891 Titel hinter dem Toggle mit d/c, die der Tageslauf 08.10. 04:01 nachzieht).
