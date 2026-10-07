@@ -10,7 +10,7 @@ import type {
 } from '@shared/types.ts'
 import { releaseStatus, titleStatus } from '@shared/logic.ts'
 import type { Dataset } from './data.ts'
-import { sucheGen, sucheMitFundstellen, treibe, type Fundstelle, type FundstelleArt, type Suchfeld } from './search.ts'
+import { sucheGen, treibe, type Fundstelle, type FundstelleArt, type Suchfeld } from './search.ts'
 import { tvPremiere } from './tv-angabe.ts'
 import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { kostenloseFolgen } from '@shared/kostenlos.ts'
@@ -333,19 +333,19 @@ export function releaseMatches(
  * Der Aufrufer reicht eine leere Map herein und bekommt sie gefüllt zurück; die Trefferkarten
  * lesen daraus, was hervorgehoben und was im Hinweis erklärt wird. Ohne Map ändert sich nichts.
  */
-export function filterEvents(
+export function* filterEventsGen(
   data: Dataset,
   f: FilterState,
   today: string,
   favorites: Set<number>,
   fundstellen?: Map<string, Fundstelle[]>,
-): ReleaseEvent[] {
+): Generator<void, ReleaseEvent[]> {
   const passend = data.releases
     .filter((r) => !f.favoritesOnly || favorites.has(r.titleId))
     .filter((r) => !f.favoritesExcluded || !favorites.has(r.titleId))
     .filter((r) => releaseMatches(r, data.titleById.get(r.titleId), f, today))
 
-  const gesucht = sucheMitFundstellen(
+  const gesucht = yield* sucheGen(
     passend,
     f.search,
     (r) => suchfelder(r, data.titleById.get(r.titleId)),
@@ -357,6 +357,9 @@ export function filterEvents(
   const allowed = new Set(gesucht.map((t) => t.item.slug))
   return data.events.filter((e) => allowed.has(e.releaseSlug))
 }
+
+/** Dasselbe in einem Zug. */
+export const filterEvents = (...args: Parameters<typeof filterEventsGen>): ReleaseEvent[] => treibe(filterEventsGen(...args))
 
 /** Filter für die Datenbank-Ansicht: arbeitet auf Anime statt auf Terminen. */
 export function* filterTitlesGen(
@@ -493,20 +496,23 @@ function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favo
  * **Die Termine der Ansicht samt ihren Fundstellen** — die zwei Zeilen, die `App` sonst selbst
  * rechnen müsste. `filterEvents` füllt die Map, hier wird beides zusammen zurückgegeben.
  */
-export function eventsFuerAnsicht(
+export function* eventsFuerAnsichtGen(
   data: Dataset,
   f: FilterState,
   today: string,
   favorites: Set<number>,
   tvAus: boolean,
-): { liste: ReleaseEvent[]; fundstellen: Map<string, Fundstelle[]> } {
+): Generator<void, { liste: ReleaseEvent[]; fundstellen: Map<string, Fundstelle[]> }> {
   const fundstellen = new Map<string, Fundstelle[]>()
-  const gefiltert = filterEvents(data, f, today, favorites, fundstellen).filter(
+  const gefiltert = (yield* filterEventsGen(data, f, today, favorites, fundstellen)).filter(
     /* Ausgeschaltet bleiben Premieren sichtbar. */
     (e) => !tvAus || e.platform !== 'tv' || tvPremiere(e, data),
   )
   return { liste: gefiltert, fundstellen }
 }
+
+/** Dasselbe in einem Zug. */
+export const eventsFuerAnsicht = (...args: Parameters<typeof eventsFuerAnsichtGen>) => treibe(eventsFuerAnsichtGen(...args))
 
 /** Dasselbe für die Datenbank-Ansicht (Schlüssel: Titel-Kennung). */
 export function* titelFuerAnsichtGen(

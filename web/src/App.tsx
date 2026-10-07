@@ -3,7 +3,7 @@ import type { Title } from '@shared/types.ts'
 import type { Dataset } from './lib/data.ts'
 import { EinstellungenDialog, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadDataset, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
-import { eventsFuerAnsicht, titelFuerAnsichtGen, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
+import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
 import { SuchfundstellenContext } from './lib/such-kontext.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
 import type { Fundstelle } from './lib/search.ts'
@@ -34,6 +34,7 @@ import {
 
 /** Die Titelansicht, bevor etwas gerechnet ist. */
 const LEERE_ANSICHT = { liste: [] as Title[], fundstellen: new Map<string, Fundstelle[]>() }
+const LEERE_TERMINE = { liste: [] as ReleaseEvent[], fundstellen: new Map<string, Fundstelle[]>() }
 
 
 function Spinner({ label }: { label: string }) {
@@ -147,12 +148,10 @@ export default function App() {
     loadCartoons(data).then(setCartoons)
   }, [data, cartoons, brauchtCartoons])
 
-  const events = useMemo(
-    () =>
-      data
-        ? eventsFuerAnsicht(data, route.filters, today, favorites, tvAus)
-        : { liste: [] as ReleaseEvent[], fundstellen: new Map<string, Fundstelle[]>() },
+  const { wert: events } = useZeitscheibe(
+    () => (data ? eventsFuerAnsichtGen(data, route.filters, today, favorites, tvAus) : leeresErgebnis(LEERE_TERMINE)),
     [data, route.filters, today, favorites, tvAus],
+    LEERE_TERMINE,
   )
   const eventListe = events.liste
   /* Für die Datumsauswahl: der Bereich aus allen Terminen, die Zählung aus der gefilterten Ansicht. */
