@@ -10,3 +10,4 @@
 {"am":"2026-10-05T11:42:33.643Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 214 → 215","datei2":"data/termine-ausgelassen.json"}
 {"am":"2026-10-05T14:52:40.261Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 215 → 216, Folgenzahl geht nicht auf 49 → 50","datei2":"data/termine-ausgelassen.json"}
 {"am":"2026-10-07T08:39:31.111Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 216 → 218","datei2":"data/termine-ausgelassen.json"}
+{"am":"2026-10-07T08:52:13.084Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 218 → 223, Folgenzahl geht nicht auf 45 → 47","datei2":"data/termine-ausgelassen.json"}
