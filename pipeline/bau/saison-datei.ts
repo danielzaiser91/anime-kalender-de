@@ -23,7 +23,7 @@ export function schreibeSaisonDatei(titles: Map<number, Title>): void {
   const kern = new Set(readJson<{ id: number }[]>(`${OUT}/titles-core.json`, []).map((t) => t.id))
   const ausBestand = [...titles.values()]
     .filter((t) => istSerie(t.format) && t.jpStartTag && t.jpStartTag >= von && t.jpStartTag <= bis && !kern.has(t.id))
-    .map((t) => ({ id: t.id, titleRomaji: t.titleRomaji, titleEn: t.titleEn, titleDe: t.titleDe, coverImage: t.coverImage, episodes: t.episodes, jpStart: t.jpStartTag!, ...(t.ankuendigung?.synchro === 'angekuendigt' ? { angekuendigt: true } : {}) }))
+    .map((t) => ({ id: t.id, titleRomaji: t.titleRomaji, titleEn: t.titleEn, titleDe: t.titleDe, coverImage: t.coverImage, episodes: t.episodes, jpStart: t.jpStartTag!, jpSeason: t.jpSeason, jpYear: t.jpYear, ...(t.ankuendigung?.synchro === 'angekuendigt' ? { angekuendigt: true } : {}) }))
   writeJson(`${OUT}/saison.json`, { jp, katalog: [...ausBestand, ...katalog] })
   log(`saison.json: ${Object.keys(jp).length} Serien mit Japan-Start, ${katalog.length} angekündigte Katalogtitel der nächsten Saison`)
 }

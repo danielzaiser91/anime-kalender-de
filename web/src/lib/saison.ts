@@ -15,6 +15,9 @@ export interface SaisonKatalogTitel {
   jpStart: string
   /** Die deutsche Fassung ist angekündigt (Anbieter-Lineup), ein Termin fehlt noch. */
   angekuendigt?: boolean
+  /** Die Saison laut AniList: gilt vor dem Starttag (ein Start Ende September kann zur Herbst-Saison zählen). */
+  jpSeason?: string
+  jpYear?: number
 }
 export interface SaisonDatei {
   /** Titel-Kennung → japanischer Starttag (Hauptbestand, Serien im Fenster Vorjahr bis Ausblick). */
@@ -84,7 +87,7 @@ export function zeilenDerSaison(
   }
   {
     const bekannt = new Set(zeilen.map((z) => z.id))
-    for (const k of datei?.katalog ?? []) if (!bekannt.has(k.id) && k.jpStart >= von && k.jpStart <= bis) zeilen.push({ id: k.id, katalog: k, deutsch: false, stufe: k.angekuendigt ? 'angekuendigt' : 'offen', erschienen: false, jp: k.jpStart })
+    for (const k of datei?.katalog ?? []) if (!bekannt.has(k.id) && (k.jpSeason ? k.jpYear === s.jahr && k.jpSeason === s.saison : k.jpStart >= von && k.jpStart <= bis)) zeilen.push({ id: k.id, katalog: k, deutsch: false, stufe: k.angekuendigt ? 'angekuendigt' : 'offen', erschienen: false, jp: k.jpStart })
   }
   return zeilen.sort((a, b) => Number(b.erschienen) - Number(a.erschienen) || Number(b.deutsch) - Number(a.deutsch) || (a.de ?? a.jp ?? '9').localeCompare(b.de ?? b.jp ?? '9') || a.id - b.id)
 }
