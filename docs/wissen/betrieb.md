@@ -1176,3 +1176,5 @@ Am 06.10.2026 gegen 22:00 trug ich zehn Titel in `data/ohne-synchro-von-hand.yam
 ## Prüfkette: das Ende der Ausgabe lesen, nicht den Rest (07.10.2026)
 
 `(npm run check:vor-commit > datei; echo "ENDE exit $?" >> datei)` und danach **die Zeile `ENDE exit N`** lesen. Am 07.10.2026 wurde ein Stand gepusht, obwohl `check:vor-commit` mit `exit 1` endete (eine `check:logic`-Zusicherung hing noch an der alten Funktion `titelFuerAnsicht`); die Hintergrundmeldung „completed (exit code 0)" gilt dem Mantel, nicht dem Befehl darin. Ein lokaler `data:build` bricht am Titelschwund-Riegel ab (älterer Cache); wer die Bau-Phasen dahinter prüfen will, löscht vorher `public/data/titles.json` (kein „vorher", kein Riegel) und setzt danach mit `git reset --hard` zurück.
+
+**Seit 07.10.2026: `bash tools/pushen.sh`** — führt die Prüfkette aus und pusht nur, wenn sie grün ist (`&&`-Kette mit `set -e`). Zweimal am selben Tag ging ein Stand mit roter Prüfung hinaus, weil Prüfung und Push mit `;` verbunden waren. Nach einem lokalen Bau-Test außerdem `git clean -fdq public/data`, sonst meldet `check:logic` übrig gebliebene Folgendateien als Verstoß.
