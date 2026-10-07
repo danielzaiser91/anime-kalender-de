@@ -24,14 +24,15 @@ function bereichUm([x, y, b, h]: Markierung, mass: Mass): Bereich {
 }
 
 /** Der Rahmen um die Fundstelle, in Anteilen des umgebenden Bildes. */
-function Rahmen({ r, innen }: { r: Bereich; innen?: Ref<HTMLDivElement> }) {
+function Rahmen({ r, innen }: { r?: Bereich; innen?: Ref<HTMLDivElement> }) {
+  if (!r) return null
   return <div ref={innen} aria-label="Fundstelle" className="pointer-events-none absolute rounded border-[3px] border-rose-500 bg-rose-500/10" style={{ left: `${r.x * 100}%`, top: `${r.y * 100}%`, width: `${r.b * 100}%`, height: `${r.h * 100}%` }} />
 }
 
 /** Nur der Bereich um die Fundstelle, vergrößert auf die Breite des Fensters. */
-function Ausschnittsbild({ url, name, fund, bereich, mass, eins }: { url: string; name: string; fund: Bereich; bereich: Bereich; mass: Mass; eins: boolean }) {
+function Ausschnittsbild({ url, name, fund, bereich, mass, eins }: { url: string; name: string; fund?: Bereich; bereich: Bereich; mass: Mass; eins: boolean }) {
   const { x, y, b, h } = bereich
-  const innen = { x: (fund.x - x) / b, y: (fund.y - y) / h, b: fund.b / b, h: fund.h / h }
+  const innen = fund && { x: (fund.x - x) / b, y: (fund.y - y) / h, b: fund.b / b, h: fund.h / h }
   return (
     <div className={eins ? 'overflow-x-auto' : ''}>
     <div className="relative overflow-hidden rounded border border-white/10" style={{ aspectRatio: `${b * mass.b} / ${h * mass.h}`, width: eins ? `${b * mass.b}px` : '100%', maxWidth: eins ? 'none' : '100%' }}>
@@ -43,7 +44,7 @@ function Ausschnittsbild({ url, name, fund, bereich, mass, eins }: { url: string
 }
 
 /** Die ganze Seite in voller Breite; die Marke scrollt ins Bild, sobald sie erscheint. */
-function Seitenbild({ url, name, fund }: { url: string; name: string; fund: Bereich }) {
+function Seitenbild({ url, name, fund }: { url: string; name: string; fund?: Bereich }) {
   const marke = useRef<HTMLDivElement>(null)
   useEffect(() => {
     const t = window.setTimeout(() => marke.current?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 60)
@@ -85,7 +86,7 @@ const Zurueck = ({ onClick }: { onClick: () => void }) => (
 )
 
 /** Die kleine Übersichtskarte: die ganze Seite, der Ausschnitt gestrichelt, die Fundstelle als Rahmen. */
-function Karte({ url, fund, bereich, onClick }: { url: string; fund: Bereich; bereich: Bereich; onClick: () => void }) {
+function Karte({ url, fund, bereich, onClick }: { url: string; fund?: Bereich; bereich: Bereich; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick} title="Ganze Seite ansehen" className="w-40 shrink-0 cursor-zoom-in self-center text-left md:self-start">
       <span className="relative block overflow-hidden rounded border border-white/10">
@@ -109,7 +110,7 @@ const Huelle = ({ breite, children }: { breite: string; children: ReactNode }) =
  * zuerst der Bereich um die Fundstelle; die ganze Seite bleibt einen Schritt entfernt. Drei Varianten: `schalter` (Umschalter „Beleg | Ganze Seite"), `klick` (nur der Ausschnitt,
  * ein Klick darauf zeigt die ganze Seite) und `karte` (Ausschnitt groß, daneben eine Übersichtskarte der Seite).
  */
-export function BelegAusschnitt({ url, name, markierung, variante }: { url: string; name: string; markierung: Markierung; variante: string }) {
+export function BelegAusschnitt({ url, name, markierung, variante }: { url: string; name: string; markierung?: Markierung; variante: string }) {
   const [ansicht, setAnsicht] = useState<Ansicht>('ausschnitt')
   const [mass, setMass] = useState<Mass>()
   const [eins, setEins] = useState(false)
@@ -119,11 +120,12 @@ export function BelegAusschnitt({ url, name, markierung, variante }: { url: stri
     bild.src = url
   }, [url])
   if (!mass) return <p className="p-4 text-sm text-slate-400">Lädt …</p>
-  const fund: Bereich = { x: markierung[0], y: markierung[1], b: markierung[2], h: markierung[3] }
-  const bereich = bereichUm(markierung, mass)
+  /* Ohne markierte Fundstelle zeigt der Ausschnitt den Seitenanfang (Überschrift und erste Absätze), ohne Rahmen. */
+  const fund: Bereich | undefined = markierung && { x: markierung[0], y: markierung[1], b: markierung[2], h: markierung[3] }
+  const bereich = markierung ? bereichUm(markierung, mass) : { x: 0, y: 0, b: 1, h: Math.min(1, mass.b / 2 / mass.h) }
   const ausschnitt = <Ausschnittsbild url={url} name={name} fund={fund} bereich={bereich} mass={mass} eins={eins} />
   const seite = <Seitenbild url={url} name={name} fund={fund} />
-  const gr = ansicht === 'ausschnitt' ? <Groesse eins={eins} setEins={setEins} /> : null
+  const gr = ansicht === 'ausschnitt' ? <>{!fund && <p className="mb-2 text-center text-xs text-slate-400">Keine Fundstelle markiert — gezeigt wird der Seitenanfang.</p>}<Groesse eins={eins} setEins={setEins} /></> : null
   const zurueck = () => setAnsicht('ausschnitt')
   const zurSeite = () => setAnsicht('seite')
   if (ansicht === 'seite' && variante !== 'schalter') {

@@ -189,8 +189,8 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
           beleg.messung ? <Messung m={beleg.messung} /> : null
         ) : fehler ? (
           <p className="p-4 text-sm text-rose-300">{fehler}</p>
-        ) : url && vorschau && x !== undefined ? (
-          <BelegAusschnitt url={url} name={beleg.name} markierung={[x, y ?? 0, b ?? 0, h ?? 0]} variante={vorschau} />
+        ) : url && vorschau ? (
+          <BelegAusschnitt url={url} name={beleg.name} markierung={x === undefined ? undefined : [x, y ?? 0, b ?? 0, h ?? 0]} variante={vorschau} />
         ) : url ? (
           <div className={einpassen ? 'relative h-full max-w-full' : 'relative mx-auto w-full max-w-[1800px]'} onClick={(e) => e.stopPropagation()}>
             <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} />
