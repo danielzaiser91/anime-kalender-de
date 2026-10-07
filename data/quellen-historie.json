@@ -6023,5 +6023,21 @@
       "gesehenAm": "2026-10-07",
       "stand": "aktuell"
     }
+  ],
+  "auto-10012621-tv-super-rtl": [
+    {
+      "url": "https://plus.rtl.de/tv-programm",
+      "name": "plus.rtl.de",
+      "gesehenAm": "2026-10-07",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-10012621-tv-toggo-plus": [
+    {
+      "url": "https://plus.rtl.de/tv-programm",
+      "name": "plus.rtl.de",
+      "gesehenAm": "2026-10-07",
+      "stand": "aktuell"
+    }
   ]
 }
