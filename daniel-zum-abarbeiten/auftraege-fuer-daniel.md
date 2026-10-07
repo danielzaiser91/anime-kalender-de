@@ -1,52 +1,34 @@
 # Aufträge für Daniel
 
-Alles, wofür ich dich brauche, steht hier — nummeriert, je Punkt ein Link, Vorher / Erwartet / Falsch, wenn …. Während des autonomen Modus (bis 23:30, Start 05.10.2026 13:32) frage ich nicht nach; ich lege sie dir auf Anfrage vor. Erledigtes wird abgehakt und rutscht nach unten.
+Alles, wofür ich dich brauche, steht hier — nummeriert, je Punkt ein Link, Vorher / Erwartet / Falsch, wenn …. Im autonomen Modus (bis 23:30, 07.10.2026) frage ich nicht nach; ich lege sie dir auf Anfrage vor. Erledigtes wird abgehakt und rutscht nach unten.
 
-Stand: 06.10.2026 10:15
+Stand: 07.10.2026 09:00
 
-## Offen
+## Datiert (nach Datum, das früheste zuerst)
 
-1. **Tokyo Revengers S3 Folge 2 — stündlich ab Fr 09.10. 19:00 nachsehen** (die Seite zeigt die Zeit „voraussichtlich")
+1. **Tokyo Revengers S3 Folge 2 — Fr 09.10. ab 19:00 stündlich nachsehen** (die Seite zeigt die Zeit „voraussichtlich")
    [Tokyo Revengers S3](https://anime-kalender.de/t/15957/)
    - Vorher: Folge 2 steht mit „Freitag 19:00" laut Disney+-Presse und offizieller Seite.
    - Erwartet: Folge 2 erscheint zur genannten Zeit bei Disney+.
    - Falsch, wenn: Sie erscheint zu einer anderen Zeit oder gar nicht. Dann Zeit in der Meldung berichtigen (News-Meldung, keine Umschreibung).
 
-3. **Favoriten-Umschreibung entfernen — 05.11.2026** (ich mache das; `check:logic` wird dann rot und erinnert)
+2. **Favoriten-Umschreibung entfernen — 05.11.2026** (ich mache das; `check:logic` wird dann rot und erinnert)
    - Nur zur Kenntnis: Bis dahin schreiben Browser und Worker alte AniList-Favoriten auf unsere Kennung um.
 
-4. **One Piece: Folgenpfeil, Folgenliste, Disc-Aufklapper ansehen** (alles live seit ca. 20:00)
-   [One Piece](https://anime-kalender.de/t/12/)
-   - Vorher: kein Pfeil an der Antwort, Folgen ab 11 ohne Flagge als „noch nicht erschienen", die 20 Boxen unter „Disc" nicht erreichbar.
-   - Erwartet: Pfeil an der Antwort öffnet die Folgenliste (1180 Folgen, 1119 auf Deutsch); Folgen über 10 ohne „noch nicht erschienen"; unter Disc ein Aufklapper „Einzelausgaben" (19 Ausgaben) mit den Boxen.
-   - Falsch, wenn: kein Pfeil, oder Folgen ab 11 tragen „noch nicht erschienen", oder der Aufklapper fehlt. Der Folgenpfeil fehlte bei 1.671 Titeln (Übersetzungsfehler in Stufe 1) und ist jetzt behoben — Stichprobe: [Detektiv Conan](https://anime-kalender.de/t/204/).
+## Offen
 
-5. **Entscheidung: angekündigte Teile in der Reihen-Box** (ich habe eine Wahl getroffen, bei Widerspruch sagen)
-   - Du schriebst am 04.10.: Mit „ohne Synchro ausblenden" sollen nur Teile mit belegter Synchro (oder der Titel selbst) in „Teile in dieser Reihe" stehen. Das habe ich so gebaut — auch angekündigte und laufende Teile ohne Synchro sind jetzt hinter dem Schalter (119 Teile). Das widerspricht deiner Entscheidung vom 04.09. („Black Clover Staffel 2 sofort sehen").
-   - Prüfen: [Ranma 1/2](https://anime-kalender.de/t/210/) — Staffel 3 (läuft) steht nur noch hinter dem Schalter.
-   - Wenn angekündigte Teile sichtbar bleiben sollen: sag es, dann nehme ich nur die laufenden aus (eine Zeile in `reihen-regeln.ts`).
+3. **Darf ich das offizielle TMDB-Logo herunterladen und im Impressum einbinden?** (Pflicht der TMDB-Bedingungen für die Plakate in der Vergrößerung)
+   - Quelle: die Markenseite von TMDB (`themoviedb.org/about/logos-attribution`), eine SVG-Datei, ca. wenige KB. Ohne dein Ja lade ich nichts herunter; bis dahin steht nur der Hinweis „nicht von TMDB geprüft" im Impressum.
+   - Sag „ja" oder leg die SVG selbst nach `web/public/` und nenne mir den Dateinamen.
 
-6. **One Piece bei Joyn: Weg und Adresse** (ich trage nichts ein, ohne dass du es bestätigst)
-   - Es gibt keinen Joyn-Weg und keinen Beleg für One Piece (JustWatch kennt Joyn nicht, nichts in `dub-confirmed.yaml`); die Adresse `joyn.de/serien/one-piece` antwortet mit 200, ist aber ungeprüft.
-   - Entscheidung: Soll ich einen Handbeleg „Joyn führt die zuletzt gesendeten Folgen als rollendes Fenster" ohne Folgenzahl eintragen? Dann bräuchte ich die Adresse, die du gesehen hast.
-
-8. **Entscheidung: tägliche Prüfliste aus dem aniSearch-Dubs-Endpoint** (Messung steht in `docs/wissen/quellen.md`, „aniSearch-Dubs-Endpoint gemessen")
-   Der Endpoint nennt 5 + 297 + 72 Titel mit deutscher Synchro, die bei uns fehlen, und 161 Titel von uns, die aniSearch ohne Deutsch führt. Ich würde daraus eine Liste bauen, die nichts automatisch ändert.
-   - Sag „ja" oder „nein".
-
-9. **Antwort von Dominik (aniSearch) abschicken** — seine Bedingung ist erfüllt und gemessen
-   Dominik hat am 06.10. geantwortet: Der „Vorbehalt" war die fehlende direkte Verlinkung bei den übernommenen Beschreibungen, und unser Beispiel führte noch auf die Suche. Jetzt tragen 2.495 von 2.495 Quellenlinks die Titelseite mit Slug (im gebauten Datensatz gemessen), die Pille und die Quellenübersicht überall, wo wir eine Kennung haben (live bei One Piece, Gantz, Ranma S3 geprüft).
-   - Entwurf zum Abschicken (Anrede wie in seiner Mail, du): [antwort-an-dominik-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/antwort-an-dominik-2026-10-06.md)
-   - Falsch, wenn: ein aniSearch-Link in der Beschreibungsquelle eines Titels noch `/search?q=` enthält (Panel öffnen, „Quelle: aniSearch" anklicken).
-
-10. **Entscheidung: Hosting** (Recherche liegt vor: [hosting-vergleich-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/hosting-vergleich-2026-10-06.md))
+4. **Entscheidung: Hosting** (Recherche liegt vor: [hosting-vergleich-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/hosting-vergleich-2026-10-06.md))
    Empfehlung: GitHub Pages vorerst behalten und Cloudflare (Workers Static Assets, 0 €, Zone liegt schon dort) als zweites Deploy-Ziel vorbereiten. Umschalten, wenn die 30-Tage-Messung (`site_probe`) unter 99,9 % liegt oder ein Ausfall der ausgelieferten Seite belegt ist. Pages bleibt dann als Rückfall.
    - Sag „so", oder was du anders willst (z. B. gleich eigener Server).
 
-11. **Entscheidung: Cover-Rückfall für 552 Titel** (Messung: `docs/wissen/quellen.md`, „Cover: Rückfall für kleine AniList-Cover")
-   80 % unserer Cover sind bei AniList in der besten Größe (460 px). Bei 552 Titeln (20 %) gibt es dort nur ca. 225 px, und die Großansicht wird unscharf. Zwei Quellen kämen als Rückfall in Frage: TMDB (Nutzungsbedingungen lesbar: nichtkommerziell frei, mit Logo und Hinweis „nicht von TMDB geprüft", Cache höchstens 6 Monate) oder Kitsu (bessere Auflösung, Bedingungen nicht lesbar).
-   - Die Frage, die nur du beantworten kannst: **Gilt die Seite als nichtkommerziell** (keine Werbung, keine Erlöse, auch nicht über Newsletter oder Partnerlinks)? Wenn ja, baue ich den TMDB-Rückfall (Aufwand etwa ein halber Tag, Hinweis im Impressum). Wenn nein oder unsicher, lassen wir es bei AniList.
-   - Sag „ja, nichtkommerziell" oder „lassen".
+## Zurückgestellt (greifen wir später auf)
+
+- Tägliche Prüfliste aus dem aniSearch-Dubs-Endpunkt (Messung in `docs/wissen/quellen.md`): „Thema später" (Daniel, 06.10.2026).
+- Detailpanel: Mobile-Ansicht des Belegs (Rooster Fighter: zu viel Text, einklappbar machen), „Folgen" in der Zukunft mit eigenem Symbol und besserem Tooltip.
 
 ## Entscheidungen, die ich getroffen habe (zur Kenntnis, bei Widerspruch sagen)
 
@@ -54,9 +36,15 @@ Stand: 06.10.2026 10:15
 - Ankündigungen: Eintrag bleibt am Fundtag, das ältere Quelldatum steht im Satz („— laut anime2you.de vom 21.08.").
 - Beleg-HTML bleibt privat; öffentlich nur Bild, Prüfdaten und Original-Link.
 - Crunchyroll-Serienseiten werden nicht fotografiert (Sony-Banner, Nutzungsbedingungen, schwarze Aufnahme).
+- Black Clover Staffel 2 und ähnliche Teile ohne belegte Synchro stehen in der Reihenliste hinter dem Schalter mit „DE ✕" (14 Titel, 07.10.2026).
+- aniSearch ist die Grundlage der Einträge (Daniel, 06.10.2026); Plan und Zahlen in `status.md` („AUFGABE aniSearch-Einträge vollständig").
 
 ## Erledigt
 
+- Antwort an Dominik (aniSearch) abgeschickt (06.10.2026).
+- Cover-Rückfall: „nichtkommerziell" bestätigt (06.10.2026); TMDB-Plakate für die Vergrößerung in Arbeit.
+- One Piece Folgenpfeil und Folgenliste: von dir gesehen, in Ordnung.
+- Handprüfung E/G abgeschlossen (alle 14 Urteile durch den Dub-Endpunkt bestätigt).
 - Stufe 1 und 1d der eigenen Kennungen (Seite spricht `ak`, `/t/<ak>/`, Favoriten umgezogen).
 - Testmail in Gmail angekommen; Adressen-Vorschlag `/t/<ak>/` bestätigt.
 - D1-Kontingent: Vollexporte in R2, Verbrauch unter 25 %.
