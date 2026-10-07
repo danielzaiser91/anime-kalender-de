@@ -4976,3 +4976,5 @@ Der Lauf (16:04 UTC) scheiterte nur im Schritt „Änderungen committen": Dreima
 - 07.10.2026: „Keine Synchro laut Dub-Liste" gilt jetzt auch ohne deutsche Ausgabe (`keineSynchroLautAnisearch`); im CI-Bau ohne sichtbare Wirkung, weil deutsche Sprecher und Releases die Regel schlagen (z. B. Hunter x Hunter 1999 mit Sprechern). Rest: 25 Kandidaten laut `node tools/dub-abgleich.mjs` (Teil A) zur Handprüfung.
 
 - 07.10.2026 erledigt: Folgenliste zeigt noch nicht erschienene Folgen mit Uhr-Symbol und klarerem Tooltip; Beleg-Fenster auf dem Handy zwei Zeilen mit Aufklappen; Erstausgabe als zurückdatierte Neuigkeit im Panel (Zeile unter „Auf Deutsch verfügbar“ entfällt, Kasten ohne Nebenzeile ohne Mindesthöhe); TMDB-Staffelplakate im Wochenlauf.
+
+- 07.10.2026 festgestellt, bereits erledigt: Reihen-Box blendet Teile ohne belegte Synchro mit aktivem Schalter aus (`reihen-regeln.ts`, `istEingeklappt`).
