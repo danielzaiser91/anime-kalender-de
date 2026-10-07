@@ -1172,3 +1172,7 @@ Am 06.10.2026 gegen 22:00 trug ich zehn Titel in `data/ohne-synchro-von-hand.yam
 - Ein Titel in `ohne-synchro.json` gilt jetzt als bekannt (verschoben, nicht gelöscht).
 - Woran man es erkennt: `DATEN_WARNUNG: Bestand nicht übernommen` im Bestandslauf, und `public/data/titles.json` ändert sich über Stunden nicht, obwohl `chore(data): Bestand neu gebaut` committet wird.
 - Vor jeder Änderung an `ohne-synchro-von-hand.yaml`: `npm run check:handbelege` nach einem lokalen Bau, und den nächsten Bestandslauf bis zum Deploy beobachten.
+
+## Prüfkette: das Ende der Ausgabe lesen, nicht den Rest (07.10.2026)
+
+`(npm run check:vor-commit > datei; echo "ENDE exit $?" >> datei)` und danach **die Zeile `ENDE exit N`** lesen. Am 07.10.2026 wurde ein Stand gepusht, obwohl `check:vor-commit` mit `exit 1` endete (eine `check:logic`-Zusicherung hing noch an der alten Funktion `titelFuerAnsicht`); die Hintergrundmeldung „completed (exit code 0)" gilt dem Mantel, nicht dem Befehl darin. Ein lokaler `data:build` bricht am Titelschwund-Riegel ab (älterer Cache); wer die Bau-Phasen dahinter prüfen will, löscht vorher `public/data/titles.json` (kein „vorher", kein Riegel) und setzt danach mit `git reset --hard` zurück.
