@@ -1164,3 +1164,11 @@ laufen deshalb hintereinander: `adn` hängt an `anilist`); `plus.rtl.de` 400–7
 
 **Offen:** Der Test der sieben Jobs am echten Lauf steht aus (erster Lauf nach dem Umbau, Abgleich mit dem Stand vom 28.09.: Dauer, Zahl der Funde je Quelle, PRs). `claude-verpasst-recherche.yml` reicht noch ohne Artefakt ein (der Claude-Schritt widerruft die
 Anmeldung; eine Sicherung bräuchte dort eine eigene Reihenfolge). Für aniSearch gibt es nur die Sperre zwischen Workflows, keinen gemeinsamen Zähler der 403/423/429-Abbrüche.
+
+## Ein Hand-Nein kann den Bestandsbau blockieren (06./07.10.2026)
+
+Am 06.10.2026 gegen 22:00 trug ich zehn Titel in `data/ohne-synchro-von-hand.yaml` ein. Zwei davon (Fairy Tail Final Season, Grisaia) hatten Handprüfungen in `dub-confirmed.yaml`. Nach dem Verschieben hinter den Toggle fand `check:handbelege` sie nicht mehr in `titles.json` („zeigen auf keinen Titel im Bestand“) und lehnte den Bestand ab: „Erzeugnisse und neue Meldungen werden nicht übernommen“. Die Läufe blieben grün, veröffentlicht wurde bis zum Morgen nichts (live `generatedAt` 06.10. 21:14 UTC, gemessen 07.10. 08:10).
+
+- Ein Titel in `ohne-synchro.json` gilt jetzt als bekannt (verschoben, nicht gelöscht).
+- Woran man es erkennt: `DATEN_WARNUNG: Bestand nicht übernommen` im Bestandslauf, und `public/data/titles.json` ändert sich über Stunden nicht, obwohl `chore(data): Bestand neu gebaut` committet wird.
+- Vor jeder Änderung an `ohne-synchro-von-hand.yaml`: `npm run check:handbelege` nach einem lokalen Bau, und den nächsten Bestandslauf bis zum Deploy beobachten.
