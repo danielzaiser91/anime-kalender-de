@@ -4,6 +4,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { keineSynchroLautAnisearch } from './bau/ohne-beleg.ts'
+import { ANISEARCH_ID_BASIS, anisearchNurKatalog } from './bau/anisearch-titel.ts'
 import { ohneBelegteSynchro } from './bau/synchro-belegt.ts'
 import { ausAnisearchDubs } from './lib/anisearch-synchro-ids.ts'
 import { waehlePlakat } from './lib/tmdb-plakat.ts'
@@ -79,6 +80,14 @@ sortiereNachTitel(gruppeMit)
 sortiereNachTitel(gruppeOhne)
 pruefe('mit Rang und ohne Rang ergibt dieselbe Reihenfolge', gruppeMit.every((g, i) => g.main.id === gruppeOhne[i]!.main.id))
 pruefe('die Reihenfolge ist die der deutschen Sortierung', gruppeOhne.every((g, i) => i === 0 || kollator.compare(anzeigeName(gruppeOhne[i - 1]!.main), anzeigeName(g.main)) <= 0))
+
+console.log('Titel nur bei aniSearch')
+const eintraege = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { dub: string; ty: string }>
+const ids = Object.keys(eintraege).map(Number)
+pruefe('es gibt Einträge', ids.length > 100, ids.length)
+pruefe('jede Kennung ist positiv und die Titelkennung liegt über allen AniList-Kennungen', ids.every((i) => i > 0 && ANISEARCH_ID_BASIS + i > 1_000_000))
+pruefe('jeder Eintrag trägt ein bekanntes Deutsch-Kennzeichen', Object.values(eintraege).every((e) => 'dpc-'.includes(e.dub) && e.dub.length === 1))
+pruefe('nur Einträge ohne Deutsch bleiben im Katalog', [...anisearchNurKatalog()].every((id) => eintraege[String(id - ANISEARCH_ID_BASIS)]?.dub === '-') && anisearchNurKatalog().size === Object.values(eintraege).filter((e) => e.dub === '-').length)
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) verletzt.`)

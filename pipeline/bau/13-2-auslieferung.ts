@@ -1,3 +1,4 @@
+import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 import { anisearchHand, kinoFeld, OUT, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
 import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
@@ -38,7 +39,7 @@ export function baueAuslieferung({
   const slim = allTitles.map((t) => {
     const ausAnisearch = anisearch[t.id]?.descriptionDe
     const ausTmdb = tmdbTitles[t.id]
-    const asId = anisearchHand[t.id] ?? anisearch[t.id]?.anisearchId
+    const asId = anisearchHand[t.id] ?? anisearch[t.id]?.anisearchId ?? (t.id >= ANISEARCH_ID_BASIS ? t.id - ANISEARCH_ID_BASIS : undefined)
     if (t.synopsis || ausAnisearch || ausTmdb?.overviewDe) {
       const eintrag: SynopsisEintrag = { en: t.synopsis }
       if (ausAnisearch) {

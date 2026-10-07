@@ -20,6 +20,7 @@ import { entwirreWeiterleitung, adressePasst, plattformAusAdresse } from '../../
 import { loadWatchLinks } from '../lib/curated.ts'
 import { type AniListMedia } from '../lib/anilist.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
+import { anisearchReihenKanten } from './anisearch-titel.ts'
 
 export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anisearch }: {
   byAniId: Record<string, AniListMedia>
@@ -183,7 +184,7 @@ export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anise
       ? ((yaml.load(readFileSync(datei, 'utf8')) as Array<{ ids?: number[] }> | null) ?? [])
       : []
     let verbunden = 0
-    for (const e of eintraege) {
+    for (const e of [...eintraege, ...anisearchReihenKanten(titles)]) {
       const ids = (e.ids ?? []).filter((id) => titles.has(id))
       for (const id of ids.slice(1)) {
         parent.set(id, parent.get(id) ?? id)

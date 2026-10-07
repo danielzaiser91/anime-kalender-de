@@ -8,6 +8,7 @@ import { kostenloseFolgen } from '../../shared/kostenlos.ts'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { VOICES_DIR } from './grundlagen.ts'
 import { widerlegeDeutscheTermine } from './widerlegung-woche.ts'
+import { anisearchNurKatalog } from './anisearch-titel.ts'
 import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } from './ohne-beleg.ts'
 
 /**
@@ -161,7 +162,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
    * dem Toggle wieder auftaucht.
    */
   const verschoben: Title[] = []
-  const handNein = ohneSynchroVonHand()
+  const handNein = new Set([...ohneSynchroVonHand(), ...anisearchNurKatalog()])
   for (const id of [...titles.keys()]) {
     if (mitRelease.has(id)) continue
     /**

@@ -1,6 +1,7 @@
 import { type Title, type DubConfidence } from '../../shared/types.ts'
 import { titleFromMedia, isoDate, isoDatumGenau } from './titel-hilfen.ts'
 import { type AniListMedia } from '../lib/anilist.ts'
+import { ergaenzeAnisearchTitel } from './anisearch-titel.ts'
 
 export function baueTitel({ byMal, confidenceRaw, byAniId }: {
   byMal: Record<string, AniListMedia>
@@ -41,5 +42,6 @@ export function baueTitel({ byMal, confidenceRaw, byAniId }: {
     const genau = isoDatumGenau(media.startDate)
     if (genau) jpStartAnzeige.set(media.id, genau)
   }
+  ergaenzeAnisearchTitel(titles, jpStart, jpStartAnzeige)
   return { titles, jpStart, jpStartAnzeige }
 }
