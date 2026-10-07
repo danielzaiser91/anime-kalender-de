@@ -1,6 +1,15 @@
 {
-  "geholtAm": "2026-10-06T02:01:15.310Z",
+  "geholtAm": "2026-10-07T02:02:06.724Z",
   "artikel": [
+    {
+      "titel": "School Babysitters – die besondere KiTa im Stream bei ADN",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/",
+      "datum": "2026-10-05",
+      "showIds": [
+        502,
+        344
+      ]
+    },
     {
       "titel": "Warum gibt es diese Woche keine neue Folge One Piece?",
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/04/warum-gibt-es-diese-woche-keine-neue-folge-one-piece/",
@@ -723,14 +732,6 @@
         1384,
         1383,
         1381
-      ]
-    },
-    {
-      "titel": "Streame Sailor Moon Super S auf Deutsch bei ADN",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/04/01/streame-sailor-moon-super-s-auf-deutsch-bei-adn/",
-      "datum": "2026-04-01",
-      "showIds": [
-        427
       ]
     }
   ]
