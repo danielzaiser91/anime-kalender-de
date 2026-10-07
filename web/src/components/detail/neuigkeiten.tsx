@@ -11,6 +11,8 @@ import { NachtragText } from '../news-nachtrag.tsx'
 import { todayIso } from '@shared/time.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { GlockeZeichen, PanelKarte } from './panel-karte.tsx'
+import { ErstausgabeZeile } from './erstausgabe-zeile.tsx'
+import { erstausgabeAlsNeuigkeit } from './antwort-regeln.ts'
 
 interface Zeile {
   am: string
@@ -50,15 +52,18 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
     }
   }, [])
   const zeilen = useMemo(() => meldungenImPanel(liste ?? [], titelId, todayIso()), [liste, titelId])
-  if (!zeilen.length) return null
+  const titel = data.titleById.get(titelId)
+  const erst = titel && erstausgabeAlsNeuigkeit(titel) ? titel : undefined
+  if (!zeilen.length && !erst) return null
   const gezeigt = alle ? zeilen : zeilen.slice(0, SICHTBAR)
   return (
-    <PanelKarte symbol={<GlockeZeichen />} titel={t('detail.neuigkeiten')} zaehler={zeilen.length} akzent="violet">
+    <PanelKarte symbol={<GlockeZeichen />} titel={t('detail.neuigkeiten')} zaehler={zeilen.length + (erst ? 1 : 0)} akzent="violet">
       {/* Zeitleiste: ein senkrechter Strich, je Meldung ein farbiger Punkt in der Farbe ihrer Art. */}
       <ul className="relative flex flex-col gap-3.5 pl-4 before:absolute before:bottom-1 before:left-[3px] before:top-1.5 before:w-px before:bg-ak-rand">
         {gezeigt.map((z, i) => (
           <NeuigkeitZeile key={`${z.am}-${z.m.art}-${i}`} z={z} data={data} />
         ))}
+        {erst && (alle || zeilen.length < SICHTBAR) && <ErstausgabeZeile title={erst} />}
       </ul>
       {zeilen.length > SICHTBAR && (
         <button type="button" onClick={() => setAlle(!alle)} aria-expanded={alle} className="mt-2 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1 text-xs font-bold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text">

@@ -10,7 +10,7 @@ import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
-import { deSeitQuelleSchluessel, terminSatz, ungefaehr } from './antwort-regeln.ts'
+import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr } from './antwort-regeln.ts'
 import { type Antwort } from './antwort-typ.ts'
 
 /**
@@ -499,7 +499,7 @@ export function AntwortKasten({
       Wo wir selbst gemessen haben, steht das Feld gar nicht erst da — die
       Übernahme in `build.ts` überspringt jeden Titel mit Termin.
     */
-    neben = deSeitZeile(title, T)
+    neben = erstausgabeAlsNeuigkeit(title) ? '' : deSeitZeile(title, T)
     nebenTitel = title.deErstausgabe
       ? T(deSeitQuelleSchluessel(title.deErstausgabe.quelle))
       : undefined
@@ -630,7 +630,7 @@ export function AntwortKasten({
       sucht sie: wann er den Film zu Hause sehen kann (Madoka, 17.09.2026).
     */
     neben = antwort.hatSynchro
-      ? deSeitZeile(title, T)
+      ? (erstausgabeAlsNeuigkeit(title) ? '' : deSeitZeile(title, T))
       : antwort.imKino && !(title.streams ?? []).length
         ? T('antwort.filmDeStreamOffen')
         : antwort.ohneWeg

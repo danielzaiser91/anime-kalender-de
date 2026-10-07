@@ -10,6 +10,8 @@ export const TEXTE_SEITEN = {
   */
   'detail.plotVonTeilFrueher': 'Zu diesem Teil gibt es keine eigene Handlung — hier steht die von „{teil}".',
   'antwort.teilweiseOhneZahl': 'Teilweise auf Deutsch — die Synchro wurde abgebrochen',
+  'detail.erstausgabeArt': 'Erstausgabe',
+  'detail.erstausgabeSatz': 'Erscheint erstmals in deutscher Sprachausgabe',
   'news.heute': 'Heute',
   'news.gestern': 'Gestern',
   'news.quelleTitel': 'Nachsehen, woher diese Meldung kommt: {quelle}',

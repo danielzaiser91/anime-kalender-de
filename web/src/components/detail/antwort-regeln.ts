@@ -107,3 +107,12 @@ export function ungefaehr(wert: string | number, geschaetzt: boolean | undefined
 /** Bis zu welcher Folge die Folgenliste „erschienen" kennt: Nur bei laufender Ausstrahlung ist `raus` eine Folgennummer; bei `fertig` ist es die Zahl der Ereignisse (One Piece: 10) und ließ ab Folge 11 alles ohne Flagge als „noch nicht erschienen" stehen. */
 export const erschieneneFuerFolgenliste = (a: { art: string; raus?: unknown } | undefined): number | undefined =>
   a?.art === 'laeuft' && typeof a.raus === 'number' ? a.raus : undefined
+
+/**
+ * **Die deutsche Erstausgabe steht in den Neuigkeiten, nicht unter „Auf Deutsch verfügbar"** (Daniel, 07.10.2026: „Text kann weg, der Trenner rückt nach oben;
+ * das Datum wandert in die Neuigkeiten, zurückdatiert"). Gilt nur mit Tagesdatum und Synchro-Marke — ohne Datum bleibt die Zeile im Kasten die einzige Spur.
+ */
+export function erstausgabeAlsNeuigkeit(title: { deErstausgabe?: { von?: string; synchro?: boolean } }): boolean {
+  const von = title.deErstausgabe?.von
+  return Boolean(title.deErstausgabe?.synchro && von && /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(von))
+}

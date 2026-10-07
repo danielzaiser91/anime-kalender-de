@@ -13,6 +13,7 @@ import { waehlePlakat } from './lib/tmdb-plakat.ts'
 import { waehleStaffel } from './lib/tmdb-staffel.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { mitDubKennzeichen } from './lib/anisearch-termine.ts'
+import { erstausgabeAlsNeuigkeit } from '../web/src/components/detail/antwort-regeln.ts'
 import { sucheGen, sucheMitFundstellen, treibe } from '../web/src/lib/search.ts'
 import { istOhneBelegteSynchro, sortiereNachTitel } from '../web/src/lib/titel-sortierung.ts'
 import { anzeigeName } from '../shared/titles.ts'
@@ -39,6 +40,9 @@ const alt = { id: 1, slug: 'x', titleRomaji: 'X', format: 'TV', episodes: 143, j
 const kopf = (erst: Title['deErstausgabe']) => berechneAntwort({ title: { ...alt, deErstausgabe: erst }, releases: [], today: '2026-10-07' })
 const teil = kopf({ synchro: true, teil: true })
 pruefe('abgebrochener Dub ohne Zahl: „teilweise“, nicht „alle 143 Folgen“', teil?.art === 'teilweise' && teil.raus === undefined, teil)
+pruefe('Erstausgabe wandert in die Neuigkeiten: Tagesdatum und Synchro', erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '2016-11-10', synchro: true } }))
+pruefe('Erstausgabe bleibt im Kasten: ohne Synchro-Marke', !erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '2016-11-10' } }))
+pruefe('Erstausgabe bleibt im Kasten: Datum nur auf das Jahr genau', !erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '1984-00-00', synchro: true } }))
 pruefe('vertonte Ausgabe ohne Teilmarke bleibt „fertig“', kopf({ synchro: true })?.art === 'fertig')
 pruefe('Staffel: ohne Startdatum keine Zuordnung', waehleStaffel(staffeln, undefined, 12) === undefined)
 pruefe('Staffel: zwei mögliche Staffeln sind keine Auskunft', waehleStaffel([...staffeln, { season_number: 3, air_date: '2005-11-10', episode_count: 12 }], '2005-10-25', 12) === undefined)
