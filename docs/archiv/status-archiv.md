@@ -4966,3 +4966,5 @@ Der Lauf (16:04 UTC) scheiterte nur im Schritt „Änderungen committen": Dreima
 - 04.10.2026 erledigt: Demon Slayer Infinity Castle I bei Netflix — Handbeleg (`data/dub-confirmed.yaml`, `netflix.com/title/82723106`, Daniel hat die deutsche Tonspur von Hand geprüft); der Weg entsteht im Bau. Katalog-Lauf blockiert nichts mehr (siehe `docs/wissen/betrieb.md`).
 
 - 07.10.2026 erledigt: Nachlauf nach dem aniSearch-Katalog — `data:tmdb-poster`, `data:kitsu-folgen`, `data:anisearch-dubs` als npm-Skripte, im Wochenlauf und auf Abruf, `data/kitsu-folgen.json` im Bestand.
+
+- 07.10.2026 erledigt: Crunchyroll-Zuordnung je Folge — `check:cr-folgen` (Folgentitel gegen alle Staffeln der CR-Serie, 239 von 251 bestätigt, Untergrenze 90 %); die zwölf offenen sind Titelsprache, Picture Dramas, K-On! (nur Staffel 2 bei CR).
