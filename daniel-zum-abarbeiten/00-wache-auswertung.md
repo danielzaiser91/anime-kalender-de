@@ -226,3 +226,14 @@ Abend Dutzende Änderungen. Sie meldet sie erst am nächsten Morgen gesammelt �
 wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 
 **Was komplett falsch läuft.** Nichts in diesem Lauf.
+
+
+## 07.10.2026 — Bestand-Bau rot (Lauf 37620950313), kein Wache-Befund
+
+**Was läuft korrekt.** Der Riegel gegen verlorene Titel hat gegriffen: Der Bau brach ab, ehe `public/data` mit 2931 statt 2939 Titeln geschrieben wurde (Zeile „ABBRUCH: 8 Titel wuerden aus dem Datensatz fallen", `pipeline/bau/13-2-auslieferung.ts`). Der Datensatz auf `main` blieb unverändert.
+
+**Wo ist Verbesserungspotenzial?** Der Riegel kannte nur „hinter den Toggle verschoben", nicht „unter anderer Kennung weitergeführt". Er zählt jetzt auch Titel mit, deren aniSearch-Kennung inzwischen einem AniList-Titel gehört (`anisearchUmgezogen`).
+
+**Wo sind echte Risiken und Lücken?** Die 8 Titel (alle Dub-Kennzeichen `c`, alte Serien wie „Iruka to Shounen" = „Der weiße Delphin") standen vorher als eigene aniSearch-Titel im Hauptbestand; ihre AniList-Gegenstücke (11421, 9978, 5091, 7956, 6262, 10282, 4439, 6771) liegen hinter dem Toggle. Die Zuordnung durch den Katalog-Lauf (11:20) verschiebt sie also faktisch aus dem Hauptbestand — ob das gewollt ist, ist offen (Eintrag in `status.md`). Kein Riegel meldet das.
+
+**Was läuft komplett falsch?** Nichts im Code. Die Ursache ist die Reihenfolge: `ergaenzeAnisearchTitel` (`pipeline/bau/anisearch-titel.ts`, Zeile mit `vergeben`) unterdrückt einen Titel, sobald `data/anisearch.json` seine Kennung vergibt, ohne zu prüfen, ob der Besitzer im Hauptbestand ankommt.
