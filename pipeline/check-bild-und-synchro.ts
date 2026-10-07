@@ -48,6 +48,9 @@ pruefe('abgeleiteter Termin, verstrichen: Sprache ungeklärt', stufeVon(alt, { d
 pruefe('abgeleiteter Termin, in der Zukunft: nur Termin', stufeVon(alt, { datum: '2026-10-20', geschaetzt: true }, T0) === 'termin')
 pruefe('belegte Tonspur, noch nicht erschienen: bestätigt', stufeVon({ ...alt, hasVoices: true }, { datum: '2026-10-20', geschaetzt: false }, T0) === 'bestaetigt')
 pruefe('kein Termin und kein Beleg: offen', stufeVon(alt, undefined, T0) === 'offen')
+const mitAnk = { ...alt, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10-03', synchro: 'angekuendigt' } } as typeof alt
+pruefe('Synchro vom Anbieter angekündigt, abgeleiteter Termin verstrichen: angekündigt (Black Clover, Apothekerin)', stufeVon(mitAnk, { datum: '2026-10-03', geschaetzt: true }, T0) === 'angekuendigt')
+pruefe('Synchro vom Anbieter angekündigt, kein Termin: angekündigt', stufeVon(mitAnk, undefined, T0) === 'angekuendigt')
 pruefe('abgebrochener Dub ohne Zahl: „teilweise“, nicht „alle 143 Folgen“', teil?.art === 'teilweise' && teil.raus === undefined, teil)
 pruefe('Erstausgabe wandert in die Neuigkeiten: Tagesdatum und Synchro', erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '2016-11-10', synchro: true } }))
 pruefe('Erstausgabe bleibt im Kasten: ein Datum in der Zukunft', !erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '2999-01-01', synchro: true } }))

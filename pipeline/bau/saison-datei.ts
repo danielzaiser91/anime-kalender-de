@@ -2,7 +2,7 @@ import { log, readJson, writeJson } from '../lib/util.ts'
 import type { Title } from '../../shared/types.ts'
 import { istSerie, saisonVon, saisonZeitraum, versetzt } from '../../shared/saison.ts'
 import { todayIso } from '../../shared/time.ts'
-import { OUT } from './grundlagen.ts'
+import { OUT, mitAnkuendigung } from './grundlagen.ts'
 
 /**
  * **`saison.json` für den Saison-Überblick** (Daniel, 07.10.2026): der japanische Starttag der Serien im Fenster „letzte bis nächste Saison" (`jp`, nur Hauptbestand —
@@ -23,7 +23,7 @@ export function schreibeSaisonDatei(titles: Map<number, Title>): void {
   const kern = new Set(readJson<{ id: number }[]>(`${OUT}/titles-core.json`, []).map((t) => t.id))
   const ausBestand = [...titles.values()]
     .filter((t) => istSerie(t.format) && t.jpStartTag && t.jpStartTag >= von && t.jpStartTag <= bis && !kern.has(t.id))
-    .map((t) => ({ id: t.id, titleRomaji: t.titleRomaji, titleEn: t.titleEn, titleDe: t.titleDe, coverImage: t.coverImage, episodes: t.episodes, jpStart: t.jpStartTag!, jpSeason: t.jpSeason, jpYear: t.jpYear, ...(t.ankuendigung?.synchro === 'angekuendigt' ? { angekuendigt: true } : {}) }))
+    .map((t) => ({ id: t.id, titleRomaji: t.titleRomaji, titleEn: t.titleEn, titleDe: t.titleDe, coverImage: t.coverImage, episodes: t.episodes, jpStart: t.jpStartTag!, jpSeason: t.jpSeason, jpYear: t.jpYear, ...(mitAnkuendigung(t).ankuendigung?.synchro === 'angekuendigt' ? { angekuendigt: true } : {}) }))
   writeJson(`${OUT}/saison.json`, { jp, katalog: [...ausBestand, ...katalog] })
   log(`saison.json: ${Object.keys(jp).length} Serien mit Japan-Start, ${katalog.length} angekündigte Katalogtitel der nächsten Saison`)
 }

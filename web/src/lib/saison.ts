@@ -43,10 +43,12 @@ export type Stufe = 'auf-deutsch' | 'bestaetigt' | 'angekuendigt' | 'termin' | '
  * erschienen, Termin ohne Tonspur-Beleg; **Termin** = nur ein abgeleiteter Termin; **ungeklärt** = abgeleiteter Termin schon verstrichen; **offen** = kein Termin.
  */
 export function stufeVon(t: Title, termin: { datum: string; geschaetzt: boolean } | undefined, heute: string): Stufe {
-  if (!termin) return hatDeutsch(t) ? 'bestaetigt' : 'offen'
+  /* Der Anbieter hat eine Synchro angekündigt, ohne Tag: unser Urteil ist „angekündigt“ — ein abgeleiteter Termin (Simulcast) ändert daran nichts (Daniel, 08.10.2026: Black Clover, Apothekerin). */
+  const synchroAngekuendigt = t.ankuendigung?.synchro === 'angekuendigt'
+  if (!termin) return hatDeutsch(t) ? 'bestaetigt' : synchroAngekuendigt ? 'angekuendigt' : 'offen'
   const erschienen = termin.datum <= heute
   if (hatDeutsch(t) || !termin.geschaetzt) return erschienen ? 'auf-deutsch' : hatDeutsch(t) ? 'bestaetigt' : 'angekuendigt'
-  return erschienen ? 'ungeklaert' : 'termin'
+  return synchroAngekuendigt ? 'angekuendigt' : erschienen ? 'ungeklaert' : 'termin'
 }
 
 export interface SaisonZeile {
@@ -82,8 +84,9 @@ export function zeilenDerSaison(
   for (const t of titles) {
     if (!istSerie(t.format)) continue
     const termin = ersterTermin(releasesByTitle.get(t.id))
-    const imJapan = t.jpYear === s.jahr && t.jpSeason === s.saison
-    if (imJapan) zeilen.push({ id: t.id, titel: t, deutsch: hatDeutsch(t), stufe: stufeVon(t, termin, heute), erschienen: termin !== undefined && termin.datum <= heute, jp: datei?.jp[String(t.id)], de: termin?.datum, geschaetzt: termin?.geschaetzt })
+    /* Ein verstrichener, nur abgeleiteter Termin (Simulcast-Tag) ist kein deutscher Erscheinungstag — die Zeile sagt dann „noch kein deutscher Termin“ statt „erschienen am“. */
+    const verstrichen = Boolean(termin?.geschaetzt && termin.datum <= heute && !hatDeutsch(t))
+    if (t.jpYear === s.jahr && t.jpSeason === s.saison) zeilen.push({ id: t.id, titel: t, deutsch: hatDeutsch(t), stufe: stufeVon(t, termin, heute), erschienen: termin !== undefined && termin.datum <= heute && !verstrichen, jp: datei?.jp[String(t.id)], de: verstrichen ? undefined : termin?.datum, geschaetzt: termin?.geschaetzt })
   }
   {
     const bekannt = new Set(zeilen.map((z) => z.id))
