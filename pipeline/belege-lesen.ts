@@ -22,7 +22,7 @@ import {
   adressenAusNews, adressenMitOffenemTermin, bildOhnePruefung, ohneMarkenJeTitel, crunchyrollDatum, entzieheBild, kopfzeilenDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
-import { belegAusschnitt } from './lib/beleg-bild.ts'
+import { BILD_FASSUNG, belegAusschnitt } from './lib/beleg-bild.ts'
 import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse } from './lib/beleg-suche.ts'
 
 const DATEI = 'data/beleg-lesungen.json'
@@ -138,11 +138,11 @@ async function main(): Promise<void> {
           warn(`Beleg ${url}: Text geändert, Daten gleich — untersuchen (tools/belege-pruefen.mjs)`)
         }
         /* Derselbe Text hat dasselbe Bild — eine Lesung mit neuem Datum verweist darauf, statt es neu zu erzeugen. */
-        if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html, markierung: letzte.markierung, markierungen: letzte.markierungen })
+        if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html, markierung: letzte.markierung, markierungen: letzte.markierungen, bildfassung: letzte.bildfassung })
         /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
         const ziel = letzte?.hash === hash ? letzte : lesung
         /* Auch ein Bild ohne Fundstelle wird neu gemacht (04.10.2026): Ältere Belege bekommen so ihre Markierung. */
-        if (!ziel.bild || !ziel.qs || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0) || ((gruppen.get(url)?.length ?? 0) > 1 && !ziel.markierungen)) {
+        if (!ziel.bild || !ziel.qs || (ziel.bildfassung ?? 1) < BILD_FASSUNG || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0) || ((gruppen.get(url)?.length ?? 0) > 1 && !ziel.markierungen)) {
           const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
           const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [], tage.get(url) ?? [], gruppen.get(url) ?? [])
           if (beleg === 'wand') {
@@ -151,7 +151,7 @@ async function main(): Promise<void> {
           }
           if (beleg === 'leer') throw new Error('Aufnahme einfarbig — kein Beleg')
           if (beleg) {
-            ziel.qs = 'ok'
+            ziel.qs = 'ok'; ziel.bildfassung = BILD_FASSUNG
             if (beleg.markierung) ziel.markierung = lesung.markierung = beleg.markierung
             if (beleg.markierungen) ziel.markierungen = lesung.markierungen = beleg.markierungen
             ziel.bild = await ablegen(`${basis}.webp`, beleg.bild, 'image/webp')

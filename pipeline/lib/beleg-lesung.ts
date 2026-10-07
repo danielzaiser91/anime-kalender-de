@@ -62,6 +62,8 @@ export interface Lesung {
   datumsabweichung?: string
   /** Qualitätssicherung (05.10.2026): `ok` = mit der Wand-Prüfung fotografiert; `wand` = die Seite war eine Zustimmungswand, das Bild wurde entzogen. Ohne Eintrag: Altbestand, wird neu gelesen. */
   qs?: 'ok' | 'wand'
+  /** Fassung der Aufnahme (`BILD_FASSUNG`): ältere Bilder werden neu aufgenommen. */
+  bildfassung?: number
   /** Wo die Aussage im Bild steht: `[links, oben, Breite, Höhe]` als Anteile von 0 bis 1. */
   markierung?: [number, number, number, number]
   /** Bei einem Artikel für mehrere Titel: die Fundstelle je Titel-Kennung (`markierung` gilt dann keinem einzelnen). */

@@ -32,13 +32,18 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
       const gesucht = suchen.map(norm)
       /* Alle Zeilen, die einen Titel **und** einen Termin nennen — ein Artikel belegt oft mehrere Termine, und das Bild soll sie alle zeigen. Sonst die erste mit einem Titel. */
       const stuetzend = kandidaten.filter((k) => gesucht.some((g) => k.text.includes(g)) && marken.some((m) => k.roh.includes(m)))
-      const gewaehlt = stuetzend.length ? stuetzend : gesucht.flatMap((g) => kandidaten.filter((k) => k.text.includes(g)).slice(0, 1)).slice(0, 1)
+      /* Ohne Termin im Text: lieber der Abschnitt mit dem Titel als Überschrift (Anbieter, Folgen, Sprache stehen darunter) als ein Listenpunkt in der Übersicht ganz oben. */
+      const alsUeberschrift = gesucht.flatMap((g) => kandidaten.filter((k) => /^H[23]$/.test(k.e.tagName) && k.text.includes(g)).slice(0, 1)).slice(0, 1)
+      const gewaehlt = stuetzend.length ? stuetzend : alsUeberschrift.length ? alsUeberschrift : gesucht.flatMap((g) => kandidaten.filter((k) => k.text.includes(g)).slice(0, 1)).slice(0, 1)
       if (!gewaehlt.length) return undefined
       const rects = gewaehlt.map((k) => k.e.getBoundingClientRect())
       const erste = rects.reduce((a, b) => (b.top < a.top ? b : a))
+      /* Bei einer Überschrift reicht die Stelle bis zur nächsten Überschrift oder Trennlinie, höchstens 450 Pixel tiefer. */
+      let abschnittUnten = 0
+      for (let n = stuetzend.length ? null : (alsUeberschrift[0]?.e.nextElementSibling ?? null); n && !/^(H[1-6]|HR)$/.test(n.tagName) && n.getBoundingClientRect().bottom - erste.top <= 450; n = n.nextElementSibling) abschnittUnten = Math.max(abschnittUnten, n.getBoundingClientRect().bottom)
       return {
         oben: erste.top + window.scrollY,
-        unten: Math.max(...rects.map((r) => r.bottom)) + window.scrollY,
+        unten: Math.max(abschnittUnten, ...rects.map((r) => r.bottom)) + window.scrollY,
         links: erste.left,
         breite: erste.width,
         /* Die Markierung gilt der obersten Zeile; der Ausschnitt reicht bis zur untersten. */

@@ -17,6 +17,9 @@ import type { Gruppe } from './beleg-suche.ts'
 const MAX_HOEHE = 1100
 /** Liegt die Stützstelle weiter unten, darf der Ausschnitt bis hierher reichen; darüber entfällt der Kopf und das Bild beginnt vor der Stelle. */
 const MAX_BIS_STELLE = 3600
+/** Doppelte Auflösung: lesbar auch auf dem Desktop (Daniel, 07.10.2026). Steigt die Fassung, werden alle Bilder einmal neu aufgenommen. */
+export const BILD_SKALA = 2
+export const BILD_FASSUNG = 2
 
 export interface Beleg {
   bild: Buffer
@@ -34,7 +37,7 @@ interface Messung {
 }
 
 /** Läuft im Browser: entfernt Reste, prüft auf Wände und misst den Ausschnitt samt Fundstelle. */
-function messeAusschnitt({ maxHoehe, maxBisStelle, suchen, stelle }: { maxHoehe: number; maxBisStelle: number; suchen: string[]; stelle?: Stelle }): Messung | 'wand' | undefined {
+function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle }: { maxHoehe: number; skala: number; maxBisStelle: number; suchen: string[]; stelle?: Stelle }): Messung | 'wand' | undefined {
   document.querySelectorAll('body *').forEach((e) => {
     const p = getComputedStyle(e).position
     if ((p === 'fixed' || p === 'sticky') && !e.contains(document.querySelector('h1'))) e.remove()
@@ -65,7 +68,7 @@ function messeAusschnitt({ maxHoehe, maxBisStelle, suchen, stelle }: { maxHoehe:
     } else unten = Math.max(unten, stelle.unten + 16)
     unten = Math.min(unten, oben + maxBisStelle)
   }
-  const clip = { x: 0, y: Math.max(0, oben), width: 520, height: unten - oben + 16, scale: 1 }
+  const clip = { x: 0, y: Math.max(0, oben), width: 520, height: unten - oben + 16, scale: skala }
   /* Die Fundstelle als Anteile des Bildes: die Stützstelle, sonst der erste Absatz im Ausschnitt, der einen der gesuchten Namen nennt. */
   const anteile = (r: { top: number; left: number; width: number; height: number }): [number, number, number, number] => [Math.max(0, r.left / 520), (r.top + window.scrollY - clip.y) / clip.height, Math.min(1, r.width / 520), r.height / clip.height]
   let markierung: [number, number, number, number] | undefined
@@ -108,7 +111,7 @@ export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: 
   await titelzeileSetzen(seite)
   const stelle = await stuetzstelle(seite, suchen, tage)
   const stellen = gruppen.length > 1 ? await Promise.all(gruppen.map(async (g) => [g.id, await stuetzstelle(seite, g.suchen, g.tage)] as const)) : []
-  const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: MAX_BIS_STELLE, suchen, stelle })
+  const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: MAX_BIS_STELLE, skala: BILD_SKALA, suchen, stelle })
   if (!gemessen || gemessen === 'wand') return gemessen
   const cdp = await seite.context().newCDPSession(seite)
   const { data } = await cdp.send('Page.captureScreenshot', { format: 'webp', quality: 20, captureBeyondViewport: true, clip: gemessen.clip })
