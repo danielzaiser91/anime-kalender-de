@@ -18,6 +18,7 @@ import { fetchJson, loadEnv, log, readJson, sleep, warn, writeJson } from './lib
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 import { passtFilm, waehlePlakat, type TmdbBild } from './lib/tmdb-plakat.ts'
+import { waehleStaffel, type TmdbStaffel } from './lib/tmdb-staffel.ts'
 
 const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || Infinity
 const ALLE = process.argv.includes('--alle')
@@ -60,6 +61,50 @@ async function filmeSuchen(
   return gefunden
 }
 
+type Bestand = Record<string, { p: string; w: number; h: number; l: string | null } | null>
+
+/**
+ * **Staffelplakate** (Daniel, 07.10.2026: größere Cover, auch für spätere Staffeln): Ein Titel ohne eigene TMDB-Zuordnung, dessen Reihe eine
+ * TMDB-Serie trägt, bekommt das Plakat der Staffel, die `waehleStaffel` sicher zuordnet (Beginn ±100 Tage und Folgenzahl ±1). Gemessen am 07.10.2026
+ * an 40 von 623 Kandidaten: 10 Treffer, alle mit Plakat ab 1.000 px; die übrigen sind OVAs, Specials und Filme ohne eigene Staffel und bleiben beim AniList-Cover.
+ */
+async function staffelPlakate(apiKey: string, zuordnung: Record<string, { tmdbId?: number; kind?: string }>, bestand: Bestand, limit: number): Promise<number> {
+  const reihen = readJson<Record<string, { id: number; jpStart?: string; episodes?: number }[]>>('public/data/franchises.json', {})
+  const serieVon = new Map<number, number>()
+  for (const mitglieder of Object.values(reihen)) {
+    const haupt = mitglieder.find((m) => zuordnung[String(m.id)]?.kind === 'tv' && zuordnung[String(m.id)]?.tmdbId)
+    if (haupt) for (const m of mitglieder) serieVon.set(m.id, zuordnung[String(haupt.id)]!.tmdbId!)
+  }
+  /* Nur, was der Monitor des letzten Baus ohne Zuordnung führt: die übrigen Reihenmitglieder erscheinen nirgends mit Cover. */
+  const gesucht = new Set(readJson<{ id: number; grund: string }[]>('data/cover-klein.json', []).filter((k) => k.grund === 'keine TMDB-Zuordnung').map((k) => k.id))
+  const offen = Object.values(reihen).flat().filter((t) => gesucht.has(t.id) && !(String(t.id) in bestand) && serieVon.has(t.id)).slice(0, limit)
+  const staffeln = new Map<number, TmdbStaffel[]>()
+  let gefunden = 0
+  for (const t of offen) {
+    try {
+      const serie = serieVon.get(t.id)!
+      if (!staffeln.has(serie)) {
+        staffeln.set(serie, (await fetchJson<{ seasons?: TmdbStaffel[] }>(`https://api.themoviedb.org/3/tv/${serie}?language=de-DE&api_key=${apiKey}`)).seasons ?? [])
+        await sleep(120)
+      }
+      const nummer = waehleStaffel(staffeln.get(serie)!, t.jpStart, t.episodes)
+      if (nummer === undefined) {
+        bestand[String(t.id)] = null
+        continue
+      }
+      const bilder = await fetchJson<{ posters?: TmdbBild[] }>(`https://api.themoviedb.org/3/tv/${serie}/season/${nummer}/images?include_image_language=ja,null,de,en&api_key=${apiKey}`)
+      const wahl = waehlePlakat(bilder.posters ?? [])
+      bestand[String(t.id)] = wahl ? { p: wahl.file_path, w: wahl.width, h: wahl.height, l: wahl.iso_639_1 } : null
+      if (wahl) gefunden++
+    } catch (e) {
+      warn(`TMDB-Staffelplakat ${t.id}: ${(e as Error).message.slice(0, 80)}`)
+    }
+    await sleep(120)
+  }
+  log(`TMDB-Staffelplakate: ${offen.length} Titel geprüft, ${gefunden} mit Plakat`)
+  return gefunden
+}
+
 async function main(): Promise<void> {
   loadEnv()
   const apiKey = process.env.TMDB_API_KEY
@@ -96,6 +141,7 @@ async function main(): Promise<void> {
     if (Object.keys(bestand).length % 200 === 0) writeJson('data/tmdb-poster.json', bestand)
   }
   gefunden += await filmeSuchen(apiKey, zuordnung, bestand)
+  gefunden += await staffelPlakate(apiKey, zuordnung, bestand, LIMIT)
   writeJson('data/tmdb-poster.json', bestand)
   log(`${gefunden} von ${offen.length} Titeln mit Plakat, ${fehler} Fehler`)
   recordSource('tmdb-poster', gefunden)

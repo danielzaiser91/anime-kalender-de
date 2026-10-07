@@ -10,6 +10,7 @@ import { ANISEARCH_ID_BASIS, anisearchNurKatalog } from './bau/anisearch-titel.t
 import { ohneBelegteSynchro } from './bau/synchro-belegt.ts'
 import { ausAnisearchDubs } from './lib/anisearch-synchro-ids.ts'
 import { waehlePlakat } from './lib/tmdb-plakat.ts'
+import { waehleStaffel } from './lib/tmdb-staffel.ts'
 import { sucheGen, sucheMitFundstellen, treibe } from '../web/src/lib/search.ts'
 import { istOhneBelegteSynchro, sortiereNachTitel } from '../web/src/lib/titel-sortierung.ts'
 import { anzeigeName } from '../shared/titles.ts'
@@ -28,6 +29,12 @@ pruefe('das japanische Plakat geht vor dem größeren englischen', waehlePlakat(
 pruefe('innerhalb einer Sprache gewinnt das breiteste', waehlePlakat([bild('ja', 1000, 1500), bild('ja', 2000, 3000)])?.width === 2000)
 pruefe('Querformate zählen nicht', waehlePlakat([bild('ja', 3000, 1500)]) === undefined)
 pruefe('ohne Bilder kein Plakat', waehlePlakat([]) === undefined)
+const staffeln = [{ season_number: 0, air_date: '2005-10-01', episode_count: 3 }, { season_number: 1, air_date: '2005-04-07', episode_count: 12 }, { season_number: 2, air_date: '2005-10-20', episode_count: 12 }]
+pruefe('Staffel: Beginn und Folgenzahl treffen die zweite', waehleStaffel(staffeln, '2005-10-20', 12) === 2)
+pruefe('Staffel: ein Special (Staffel 0) zählt nie', waehleStaffel(staffeln, '2005-10-01', 3) === undefined)
+pruefe('Staffel: gleiches Datum, aber andere Folgenzahl ist keine Staffel', waehleStaffel(staffeln, '2005-10-20', 49) === undefined)
+pruefe('Staffel: ohne Startdatum keine Zuordnung', waehleStaffel(staffeln, undefined, 12) === undefined)
+pruefe('Staffel: zwei mögliche Staffeln sind keine Auskunft', waehleStaffel([...staffeln, { season_number: 3, air_date: '2005-11-10', episode_count: 12 }], '2005-10-25', 12) === undefined)
 
 console.log('Teile ohne belegte Synchro')
 const titel = (t: Partial<Title>): Title => ({ id: 900001, jpYear: 2026, dubConfidence: 'low', streams: [], ...t }) as Title
