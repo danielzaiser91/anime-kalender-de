@@ -42,8 +42,8 @@ export interface SaisonZeile {
 
 /**
  * **Die Fernseh- und Web-Serien einer Saison** (Daniel, 07.10.2026: Saison-Überblick). Titel mit japanischem Start in dieser Saison, Deutsch zuerst, dann nach
- * erstem deutschen Termin. Der Ausblick (`ausblick`) nimmt zusätzlich Titel auf, deren deutscher Termin in die Saison fällt, und die Katalogtitel mit angekündigtem
- * Japan-Start aus `saison.json`.
+ * erstem deutschen Termin. Der Ausblick (`ausblick`) nimmt zusätzlich die Katalogtitel mit angekündigtem Japan-Start aus `saison.json` auf. **Ein deutscher Termin allein macht keinen Titel zur
+ * Serie der Saison** (07.10.2026: „Afro Samurai", 2007, stand wegen einer Disc-Neuausgabe im März 2027 als Serie des Winters 2027 da) — lieber „noch nichts bekannt" als ein alter Titel als neuer.
  */
 export function zeilenDerSaison(
   titles: Title[],
@@ -58,8 +58,7 @@ export function zeilenDerSaison(
     if (!istSerie(t.format)) continue
     const termin = ersterTermin(releasesByTitle.get(t.id))
     const imJapan = t.jpYear === s.jahr && t.jpSeason === s.saison
-    const imTermin = ausblick && termin !== undefined && termin.datum >= von && termin.datum <= bis
-    if (imJapan || imTermin) zeilen.push({ id: t.id, titel: t, deutsch: hatDeutsch(t), jp: datei?.jp[String(t.id)], de: termin?.datum, geschaetzt: termin?.geschaetzt })
+    if (imJapan) zeilen.push({ id: t.id, titel: t, deutsch: hatDeutsch(t), jp: datei?.jp[String(t.id)], de: termin?.datum, geschaetzt: termin?.geschaetzt })
   }
   if (ausblick) {
     const bekannt = new Set(zeilen.map((z) => z.id))

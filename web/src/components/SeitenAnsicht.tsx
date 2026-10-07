@@ -5,12 +5,12 @@ import { SaisonView } from './SaisonView.tsx'
 import { DatenschutzView, ImpressumView, NewsletterView, SourcesView, SubscribeView } from './StaticViews.tsx'
 
 /** Die Ansichten außerhalb von Kalender und Datenbank — je Adresse eine; die beiden Kalender-Ansichten und die Datenbank zeichnet `App.tsx` selbst. */
-export function SeitenAnsicht({ view, data, oeffne }: { view: ViewId; data: Dataset; oeffne: (id: number) => void }) {
+export function SeitenAnsicht({ view, data, favorites, oeffne }: { view: ViewId; data: Dataset; favorites: Set<number>; oeffne: (id: number) => void }) {
   switch (view) {
     case 'news':
       return <NewsView data={data} oeffne={oeffne} />
     case 'saison':
-      return <SaisonView data={data} oeffne={oeffne} />
+      return <SaisonView data={data} favorites={favorites} oeffne={oeffne} />
     case 'abo':
       return <SubscribeView meta={data.meta} />
     case 'newsletter':

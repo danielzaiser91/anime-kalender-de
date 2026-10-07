@@ -266,7 +266,7 @@ export default function App() {
           </>
         )}
 
-        <SeitenAnsicht view={route.view} data={data} oeffne={(id: number) => navigate({ title: id })} />
+        <SeitenAnsicht view={route.view} data={data} favorites={favorites} oeffne={(id: number) => navigate({ title: id })} />
       </main>
 
       <Footer meta={data.meta} />
