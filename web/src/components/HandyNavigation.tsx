@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import type { ViewId } from '../lib/router.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { KalenderZeichen, NewsZeichen, RasterZeichen, ZahnradZeichen } from './kalender/Zeichen.tsx'
+import { SaisonZeichen } from './saison-zeichen.tsx'
 
 /**
  * **Auf dem Handy steht die Navigation unten, in Daumenreichweite** — Kalender, Datenbank, News und
@@ -15,7 +16,7 @@ export function HandyNavigation({
   kalender,
   einstellungen,
 }: {
-  aktiv: 'kalender' | 'datenbank' | 'news' | undefined
+  aktiv: 'kalender' | 'datenbank' | 'news' | 'saison' | undefined
   onView: (v: ViewId) => void
   /** Woche oder Monat — „Kalender" behält die gewählte Ansicht. */
   kalender: ViewId
@@ -40,11 +41,12 @@ export function HandyNavigation({
   return createPortal(
     <nav
       aria-label={t('nav.bereich')}
-      className="fixed inset-x-3 bottom-[calc(12px+env(safe-area-inset-bottom))] z-30 grid grid-cols-4 rounded-[22px] border border-ak-rand bg-ak-flaeche/95 p-1.5 backdrop-blur md:hidden"
+      className="fixed inset-x-3 bottom-[calc(12px+env(safe-area-inset-bottom))] z-30 grid grid-cols-5 rounded-[22px] border border-ak-rand bg-ak-flaeche/95 p-1.5 backdrop-blur md:hidden"
     >
       {eintrag(aktiv === 'kalender', t('nav.kalender'), <KalenderZeichen />, () => onView(kalender), 'kalender')}
       {eintrag(aktiv === 'datenbank', t('view.datenbank' as TranslationKey), <RasterZeichen />, () => onView('datenbank'), 'datenbank')}
       {eintrag(aktiv === 'news', t('view.news'), <NewsZeichen />, () => onView('news'), 'news')}
+      {eintrag(aktiv === 'saison', t('view.saison' as TranslationKey), <SaisonZeichen />, () => onView('saison'), 'saison')}
       {eintrag(false, t('einstellungen.titel'), <ZahnradZeichen />, einstellungen, 'einstellungen')}
     </nav>,
     document.body,

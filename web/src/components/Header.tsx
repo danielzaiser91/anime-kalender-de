@@ -9,15 +9,16 @@ import { AboMenue } from './kalender/AboMenue.tsx'
 import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen, ZahnradZeichen } from './kalender/Zeichen.tsx'
 
 /** Die drei Bereiche der Seite. Woche und Monat sind beide „Kalender". */
-export const BEREICHE: { id: 'kalender' | 'datenbank' | 'news'; ziel: ViewId }[] = [
+export const BEREICHE: { id: 'kalender' | 'datenbank' | 'news' | 'saison'; ziel: ViewId }[] = [
   { id: 'kalender', ziel: 'woche' },
   { id: 'datenbank', ziel: 'datenbank' },
   { id: 'news', ziel: 'news' },
+  { id: 'saison', ziel: 'saison' },
 ]
 
-export function bereichVon(view: ViewId): 'kalender' | 'datenbank' | 'news' | undefined {
+export function bereichVon(view: ViewId): 'kalender' | 'datenbank' | 'news' | 'saison' | undefined {
   if (view === 'woche' || view === 'monat') return 'kalender'
-  if (view === 'datenbank' || view === 'news') return view
+  if (view === 'datenbank' || view === 'news' || view === 'saison') return view
   return undefined
 }
 

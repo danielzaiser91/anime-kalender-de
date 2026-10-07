@@ -39,6 +39,7 @@ const ALLE = [
   'monat',
   'datenbank',
   'news',
+  'saison',
   'abo',
   'newsletter',
   'quellen',

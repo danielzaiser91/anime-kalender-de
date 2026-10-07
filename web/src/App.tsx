@@ -17,21 +17,14 @@ import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header } from './components/Header.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
-import { NewsView } from './components/NewsView.tsx'
+import { SeitenAnsicht } from './components/SeitenAnsicht.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
 import { coverBild } from './lib/cover.ts'
 import { FilterBarDock } from './components/FilterBar.tsx'
 import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
 import { DatabaseView } from './components/DatabaseView.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
-import {
-  DatenschutzView,
-  Footer,
-  ImpressumView,
-  NewsletterView,
-  SourcesView,
-  SubscribeView,
-} from './components/StaticViews.tsx'
+import { Footer } from './components/StaticViews.tsx'
 
 /** Die Titelansicht, bevor etwas gerechnet ist. */
 const LEERE_ANSICHT = { liste: [] as Title[], fundstellen: new Map<string, Fundstelle[]>() }
@@ -273,12 +266,7 @@ export default function App() {
           </>
         )}
 
-        {route.view === 'news' && <NewsView data={data} oeffne={(id: number) => navigate({ title: id })} />}
-        {route.view === 'abo' && <SubscribeView meta={data.meta} />}
-        {route.view === 'newsletter' && <NewsletterView meta={data.meta} data={data} />}
-        {route.view === 'quellen' && <SourcesView meta={data.meta} />}
-        {route.view === 'impressum' && <ImpressumView />}
-        {route.view === 'datenschutz' && <DatenschutzView />}
+        <SeitenAnsicht view={route.view} data={data} oeffne={(id: number) => navigate({ title: id })} />
       </main>
 
       <Footer meta={data.meta} />

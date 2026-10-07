@@ -16,6 +16,7 @@ export type ViewId =
   | 'monat'
   | 'datenbank'
   | 'news'
+  | 'saison'
   | 'abo'
   | 'newsletter'
   | 'quellen'
@@ -28,6 +29,7 @@ export const VIEWS: { id: ViewId; label: string }[] = [
   { id: 'monat', label: 'Monat' },
   { id: 'datenbank', label: 'Datenbank' },
   { id: 'news', label: 'News' },
+  { id: 'saison', label: 'Saison' },
   { id: 'abo', label: 'Kalender-Abo' },
   { id: 'newsletter', label: 'Newsletter' },
   { id: 'quellen', label: 'Quellen' },
