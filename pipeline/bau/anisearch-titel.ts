@@ -48,7 +48,14 @@ export function anisearchNurKatalog(): Set<number> {
 /** Legt die Titel an, die bei uns noch keine eigene aniSearch-Kennung tragen. Gibt zurück, wie viele es sind. */
 export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>): number {
   const vergeben = new Set<number>(Object.values(anisearchHand))
-  for (const e of Object.values(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) if (e.anisearchId) vergeben.add(e.anisearchId)
+  /*
+    Eine Zuordnung zu einem AniList-Titel sperrt den Eintrag nur, wenn dieser Titel im Hauptbestand steht oder der Eintrag kein Deutsch führt: Liegt der
+    Titel nur im Katalog hinter dem Toggle, bliebe ein Eintrag mit deutscher Vertonung sonst bis zum nächsten Abruf ganz aus dem Hauptbestand (07.10.2026:
+    acht Titel mit abgebrochenem Dub fielen so aus dem Bau).
+  */
+  for (const [anilistId, e] of Object.entries(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) {
+    if (e.anisearchId && (titles.has(Number(anilistId)) || alle()[String(e.anisearchId)]?.dub === '-')) vergeben.add(e.anisearchId)
+  }
   let neu = 0
   for (const [schluessel, e] of Object.entries(alle())) {
     const asId = Number(schluessel)
