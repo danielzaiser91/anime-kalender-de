@@ -3,7 +3,7 @@
  * die Längengrenze reißt (`tools/umfang-pruefen.mjs`).
  */
 import { istErschienen, releaseStatus } from '@shared/logic.ts'
-import { formatDate, weekdayName } from '@shared/time.ts'
+import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
 
 /**
@@ -112,7 +112,10 @@ export const erschieneneFuerFolgenliste = (a: { art: string; raus?: unknown } | 
  * **Die deutsche Erstausgabe steht in den Neuigkeiten, nicht unter „Auf Deutsch verfügbar"** (Daniel, 07.10.2026: „Text kann weg, der Trenner rückt nach oben;
  * das Datum wandert in die Neuigkeiten, zurückdatiert"). Gilt nur mit Tagesdatum und Synchro-Marke — ohne Datum bleibt die Zeile im Kasten die einzige Spur.
  */
-export function erstausgabeAlsNeuigkeit(title: { deErstausgabe?: { von?: string; synchro?: boolean } }): boolean {
+export function erstausgabeAlsNeuigkeit(title: Pick<Title, 'deErstausgabe'> & Partial<Pick<Title, 'angebotSeit' | 'streams'>>, heute = todayIso()): boolean {
   const von = title.deErstausgabe?.von
-  return Boolean(title.deErstausgabe?.synchro && von && /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(von))
+  if (!title.deErstausgabe?.synchro || !von || !/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(von) || von > heute) return false
+  /* Liegt das Angebot eines Anbieters mit deutscher Tonspur davor, ist die Ausgabe nicht die erste Gelegenheit (wie in `deSeitZeile`). */
+  const angebot = title.angebotSeit
+  return !(angebot?.date && angebot.date < von && (title.streams ?? []).some((x) => x.platform === angebot.platform && x.dub === true))
 }

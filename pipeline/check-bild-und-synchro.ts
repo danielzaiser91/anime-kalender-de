@@ -41,6 +41,8 @@ const kopf = (erst: Title['deErstausgabe']) => berechneAntwort({ title: { ...alt
 const teil = kopf({ synchro: true, teil: true })
 pruefe('abgebrochener Dub ohne Zahl: „teilweise“, nicht „alle 143 Folgen“', teil?.art === 'teilweise' && teil.raus === undefined, teil)
 pruefe('Erstausgabe wandert in die Neuigkeiten: Tagesdatum und Synchro', erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '2016-11-10', synchro: true } }))
+pruefe('Erstausgabe bleibt im Kasten: ein Datum in der Zukunft', !erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '2999-01-01', synchro: true } }))
+pruefe('Erstausgabe bleibt im Kasten: ein deutscher Stream war früher da', !erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '2016-11-10', synchro: true }, angebotSeit: { date: '2015-01-01', platform: 'netflix' } as never, streams: [{ platform: 'netflix', dub: true } as never] }))
 pruefe('Erstausgabe bleibt im Kasten: ohne Synchro-Marke', !erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '2016-11-10' } }))
 pruefe('Erstausgabe bleibt im Kasten: Datum nur auf das Jahr genau', !erstausgabeAlsNeuigkeit({ deErstausgabe: { von: '1984-00-00', synchro: true } }))
 pruefe('vertonte Ausgabe ohne Teilmarke bleibt „fertig“', kopf({ synchro: true })?.art === 'fertig')

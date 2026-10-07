@@ -192,8 +192,8 @@ async function main() {
 
   await browser.close()
 
-  /* Die Mindesthöhe aus `DetailPanel.tsx` — 11rem bei 16 px Grundschrift. */
-  const MINDEST = 176
+  /* Die Mindesthöhe aus `antwort-kasten.tsx` — 11rem (176 px); „fertig" ohne Nebenzeile darf kleiner sein (Daniel, 07.10.2026), gemessen 172 px. */
+  const MINDEST = 160
 
   console.log('\nAntwort-Kasten je Titel:')
   for (const h of hoehen) {
