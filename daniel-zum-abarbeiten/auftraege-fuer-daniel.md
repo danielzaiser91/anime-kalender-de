@@ -30,6 +30,11 @@ Stand: 07.10.2026 09:00
    - Messung (echte Daten, Fernseh- und Web-Serien im Hauptbestand): Herbst 2026 14 Titel (6 mit Deutsch), Sommer 2026 19 (18), Frühling 29 (25), Winter 24 (23). Der Ausblick Winter 2027 hat noch keinen Titel im Hauptbestand, nur 12 Ankündigungen mit Japan-Start hinter dem Schalter.
    - Sag „1" oder „2" (oder was fehlt), danach baue ich die Ansicht `#/saison`.
 
+6. **Cover: Untergrenze für die Vergrößerung senken?** (deine Vorgabe war „mindestens doppelt so groß wie AniList", also 920 px)
+   - Gemessen: 338 Titel haben bei TMDB nur ein Plakat mit 500 bis 899 px (121 davon 700 bis 899 px, also 1,5- bis 1,9-fach); Kitsu liefert höchstens 550 px und hilft nicht. Ohne Änderung bleiben diese 338 beim AniList-Cover (460 px).
+   - Vorschlag: Grenze auf 690 px (1,5-fach) senken; dann bekommen 130 Titel ein sichtbar schärferes Bild, die 208 mit 500 bis 689 px bleiben beim AniList-Cover.
+   - Sag „so" oder „bei 920 bleiben".
+
 4. **Entscheidung: Hosting** (Recherche liegt vor: [hosting-vergleich-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/hosting-vergleich-2026-10-06.md))
    Empfehlung: GitHub Pages vorerst behalten und Cloudflare (Workers Static Assets, 0 €, Zone liegt schon dort) als zweites Deploy-Ziel vorbereiten. Umschalten, wenn die 30-Tage-Messung (`site_probe`) unter 99,9 % liegt oder ein Ausfall der ausgelieferten Seite belegt ist. Pages bleibt dann als Rückfall.
    - Sag „so", oder was du anders willst (z. B. gleich eigener Server).
