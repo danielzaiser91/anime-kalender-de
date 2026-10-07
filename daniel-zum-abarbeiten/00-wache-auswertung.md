@@ -237,3 +237,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Die 8 Titel (alle Dub-Kennzeichen `c`, alte Serien wie „Iruka to Shounen" = „Der weiße Delphin") standen vorher als eigene aniSearch-Titel im Hauptbestand; ihre AniList-Gegenstücke (11421, 9978, 5091, 7956, 6262, 10282, 4439, 6771) liegen hinter dem Toggle. Die Zuordnung durch den Katalog-Lauf (11:20) verschiebt sie also faktisch aus dem Hauptbestand — ob das gewollt ist, ist offen (Eintrag in `status.md`). Kein Riegel meldet das.
 
 **Was läuft komplett falsch?** Nichts im Code. Die Ursache ist die Reihenfolge: `ergaenzeAnisearchTitel` (`pipeline/bau/anisearch-titel.ts`, Zeile mit `vergeben`) unterdrückt einen Titel, sobald `data/anisearch.json` seine Kennung vergibt, ohne zu prüfen, ob der Besitzer im Hauptbestand ankommt.
+
+
+## 07.10.2026 (später) — Bestand-Bau rot (Lauf 37641860391), kein Wache-Befund
+
+**Was läuft korrekt.** Die Zusicherung „jeder Handtitel zeigt auf einen Titel im Bestand“ (`pipeline/check-logic.ts:5042`) hat gegriffen und verhindert, dass ein Bestand mit totem Handtitel (`✖ … gefunden: [21726]`) ausgeliefert wird; der Datensatz auf `main` blieb unverändert. Der Folgelauf 37642452101 zeigte denselben Befund — reproduzierbar, kein Zufall.
+
+**Wo ist Verbesserungspotenzial?** Der Lauf versuchte sechsmal zu pushen („Push abgelehnt, jemand war schneller“), obwohl er nichts Übernehmbares hatte; die Wiederholung kostete 13 Minuten und endete rot statt als Warnung. Wer die Zusicherung verletzt sieht, sollte den Push gar nicht erst versuchen.
+
+**Wo sind echte Risiken und Lücken?** Commit 0570debf6 (Dub-Liste `-` gilt jetzt auch ohne deutsche Ausgabe) verschiebt Titel aus dem Hauptbestand, ohne die Handtitel (`data/titel-de.yaml`) gegenzuprüfen — die fielen erst im Bau auf, nicht in `check:vor-commit`. Zudem fand ich 21726 im Checkout weder in `titles.json` des Laufs noch in `ohne-synchro.json`; ob „verschiebt, löscht nicht“ hier hält, ist nicht gemessen.
+
+**Was läuft komplett falsch?** `data/titel-de.yaml` Zeile 38: „Aggretsuko“ stand unter 21726 (Kurzfilmreihe 2016, aniSearch-Dub `-`), gemeint ist die Netflix-Serie 101571 (Dub `d`). Auf 101571 umgestellt, `check:logic` hält.
