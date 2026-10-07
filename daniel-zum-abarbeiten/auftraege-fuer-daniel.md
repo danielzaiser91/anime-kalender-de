@@ -17,9 +17,12 @@ Stand: 07.10.2026 09:00
 
 ## Offen
 
-3. **Darf ich das offizielle TMDB-Logo herunterladen und im Impressum einbinden?** (Pflicht der TMDB-Bedingungen für die Plakate in der Vergrößerung)
-   - Quelle: die Markenseite von TMDB (`themoviedb.org/about/logos-attribution`), eine SVG-Datei, ca. wenige KB. Ohne dein Ja lade ich nichts herunter; bis dahin steht nur der Hinweis „nicht von TMDB geprüft" im Impressum.
-   - Sag „ja" oder leg die SVG selbst nach `web/public/` und nenne mir den Dateinamen.
+3. **Beleg-Fenster am Desktop lesbar machen** (dein #2 — ich gehe davon aus, dass du das Beleg-Fenster meinst; sag, wenn nicht)
+   Das Seitenbild steht bis 1.800 px breit und wird auf einem Desktop verkleinert, die Schrift ist dann zu klein. Drei Wege, mein Vorschlag ist A:
+   - **A — Ausschnitt zuerst:** Das Fenster zeigt oben die markierte Fundstelle als Ausschnitt in Lesegröße (Bild um die Marke zugeschnitten, mit Rand), darunter die ganze Seite; „Ganze Seite" klappt sie auf. Auf dem Handy dasselbe, der Kopftext ist schon auf zwei Zeilen gekürzt.
+   - **B — Direkt zur Fundstelle:** Das Fenster öffnet in 100 % Größe an der Marke; gelesen wird durch Scrollen.
+   - **C — Lupe:** Das Bild bleibt klein, ein Klick vergrößert den Bereich unter dem Zeiger.
+   - Sag „A", „B" oder „C".
 
 4. **Entscheidung: Hosting** (Recherche liegt vor: [hosting-vergleich-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/hosting-vergleich-2026-10-06.md))
    Empfehlung: GitHub Pages vorerst behalten und Cloudflare (Workers Static Assets, 0 €, Zone liegt schon dort) als zweites Deploy-Ziel vorbereiten. Umschalten, wenn die 30-Tage-Messung (`site_probe`) unter 99,9 % liegt oder ein Ausfall der ausgelieferten Seite belegt ist. Pages bleibt dann als Rückfall.
@@ -37,6 +40,7 @@ Stand: 07.10.2026 09:00
 
 ## Erledigt
 
+- TMDB-Logo heruntergeladen und im Impressum eingebunden (07.10.2026, [Impressum](https://anime-kalender.de/#/impressum)).
 - Antwort an Dominik (aniSearch) abgeschickt (06.10.2026).
 - Cover-Rückfall: „nichtkommerziell" bestätigt (06.10.2026); TMDB-Plakate für die Vergrößerung in Arbeit.
 - One Piece Folgenpfeil und Folgenliste: von dir gesehen, in Ordnung.
