@@ -2111,5 +2111,583 @@
     ]
   },
   "my-hero-academia-vigilantes-s2-netflix": {},
-  "ranma-s3-folge1-netflix": {}
+  "ranma-s3-folge1-netflix": {},
+  "yu-gi-oh-s4-disneyplus": {
+    "tmdbId": 902,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/tv/902/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "disneyplus",
+      "rtlplus",
+      "primevideo",
+      "crunchyroll"
+    ]
+  },
+  "summer-wars-ultimate-edition": {
+    "tmdbId": 28874,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/28874/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "ame-und-yuki-ultimate-edition": {
+    "tmdbId": 110420,
+    "fsk": 6,
+    "justwatchUrl": "https://www.themoviedb.org/movie/110420/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "maedchen-durch-die-zeit-ultimate-edition": {
+    "tmdbId": 14069,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/14069/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "junge-und-das-biest-ultimate-edition": {
+    "tmdbId": 315465,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/movie/315465/watch?locale=DE",
+    "offers": [
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Apple TV Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "MagentaTV",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Sky Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Rakuten TV",
+        "kind": "rent"
+      },
+      {
+        "name": "Videoload",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "panties-returns-polyband": {},
+  "dan-da-dan-s2-vol2-exklusiv": {},
+  "rascal-dear-friend-kino": {
+    "tmdbId": 1553200
+  },
+  "seven-knights-marronnier-kingdom-primevideo": {
+    "tmdbId": 324326,
+    "justwatchUrl": "https://www.themoviedb.org/tv/324326/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ]
+  },
+  "tank-chair-primevideo": {
+    "tmdbId": 320377
+  },
+  "spy-x-family-s1-teil1-disneyplus": {
+    "tmdbId": 120089,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/120089-spyxfamily/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "crunchyroll",
+      "rtlplus",
+      "primevideo"
+    ]
+  },
+  "spy-x-family-s1-teil2-disneyplus": {},
+  "spy-x-family-s2-disneyplus": {},
+  "gachiakuta-teil1-disneyplus": {
+    "tmdbId": 256721,
+    "justwatchUrl": "https://www.themoviedb.org/tv/256721/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "honey-lemon-soda-disneyplus": {
+    "tmdbId": 247859,
+    "justwatchUrl": "https://www.themoviedb.org/tv/247859/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "jujutsu-kaisen-0-disneyplus": {
+    "tmdbId": 810693,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/movie/810693-0/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "rent"
+      },
+      {
+        "name": "maxdome Store",
+        "kind": "rent"
+      },
+      {
+        "name": "Freenet meinVOD",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "primevideo",
+      "disneyplus",
+      "crunchyroll",
+      "rtlplus"
+    ]
+  },
+  "demon-slayer-infinity-castle-1-disneyplus": {
+    "tmdbId": 1311031,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/movie/1311031/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "primevideo",
+      "disneyplus",
+      "crunchyroll"
+    ]
+  },
+  "dororo-joyn": {
+    "tmdbId": 83100,
+    "justwatchUrl": "https://www.themoviedb.org/tv/83100/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Joyn Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "ProSieben Fun Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Seven Entertainment Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Magenta TV+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "primevideo",
+      "joyn"
+    ]
+  },
+  "hells-paradise-s1-joyn": {
+    "tmdbId": 117465,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/117465/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Joyn Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "ProSieben Fun Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Seven Entertainment Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Magenta TV+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Video",
+        "kind": "buy"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "crunchyroll",
+      "joyn",
+      "primevideo"
+    ]
+  },
+  "demon-slayer-s1-primevideo": {
+    "tmdbId": 85937,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/tv/85937/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+",
+        "kind": "flatrate"
+      },
+      {
+        "name": "RTL+ Max Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Aniverse Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "primevideo",
+      "crunchyroll",
+      "rtlplus"
+    ]
+  }
 }
