@@ -750,7 +750,7 @@ export function AntwortKasten({
           9,75 auf 11rem zu erhöhen. Das trägt genau bis zum nächsten Zustand,
           den niemand vorhergesehen hat — und davon gab es seitdem zwei.
         */
-        `relative flex ${antwort.art === 'fertig' && !neben ? '' : 'min-h-[11rem]'} flex-col rounded-xl border px-3 pb-3 pt-2`,
+        `relative flex ${(antwort.art === 'fertig' || antwort.art === 'film') && !neben ? '' : 'min-h-[11rem]'} flex-col rounded-xl border px-3 pb-3 pt-2`,
         gedaempft
           ? 'border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.03]'
           : 'border-sky-400/40 bg-gradient-to-b from-sky-500/15 to-transparent dark:border-sky-400/30',
