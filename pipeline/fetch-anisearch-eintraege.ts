@@ -5,8 +5,7 @@
  * Kennung `10.000.000 + aniSearch-Kennung` an (mit Deutsch im Hauptbestand, sonst nur im Katalog hinter dem Schalter).
  *
  * **Reihenfolge der Abrufe:** erst die Einträge, bei denen aniSearch Deutsch nennt (vertont, geplant, abgebrochen — `data/anisearch-dub-ids.json`,
- * geschrieben vom Dub-Schritt), dann der Rest in aufsteigender Kennung (`/v1/anime/titles`). Zehn Kennungen je Abruf, mit Token alle 5, ohne alle
- * 10 Sekunden; `--limit` begrenzt die Zahl der Kennungen je Lauf (Standard 400).
+ * geschrieben vom Dub-Schritt), dann der Rest in aufsteigender Kennung (`/v1/anime/titles`). Zehn Kennungen je Abruf, alle 5 Sekunden, **nur mit Token**; `--limit` begrenzt die Zahl der Kennungen je Lauf (Standard 400).
  *
  * **Hentai bleibt draußen** (Kennzeichen 18+ am Cover, Hauptgenre Hentai oder das Schlagwort „Keine Jugendfreigabe"); die Kennungen stehen in
  * `data/anisearch-eintraege-ausgelassen.json`, damit sie nicht wieder geholt werden. Cover und Bild-Adressen übernehmen wir nicht
@@ -98,7 +97,13 @@ async function holen<T>(url: string, t: string | undefined): Promise<T | undefin
 
 async function main(): Promise<void> {
   const t = token()
-  const pause = t ? 5_500 : 10_500
+  /* Ohne Token antwortet `/v1/anime/<Kennungen>` mit 403 (gemessen im Lauf 37629092125, 07.10.2026) — in Actions braucht es das Secret `ANISEARCH_TOKEN`. */
+  if (!t) {
+    warn('aniSearch-Einträge: kein Token, kein Abruf (Secret ANISEARCH_TOKEN setzen)')
+    recordSource('anisearch-eintraege', 0, 'kein Token')
+    return
+  }
+  const pause = 5_500
   const eintraege = readJson<Record<string, Record<string, unknown>>>('data/anisearch-eintraege.json', {})
   const ausgelassen = new Set(readJson<number[]>('data/anisearch-eintraege-ausgelassen.json', []).map(String))
   const bekannt = new Set<string>([...Object.keys(eintraege), ...ausgelassen])

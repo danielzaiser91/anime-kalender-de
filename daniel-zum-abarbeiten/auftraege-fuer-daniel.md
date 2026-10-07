@@ -35,6 +35,11 @@ Stand: 07.10.2026 09:00
    - Vorschlag: Grenze auf 690 px (1,5-fach) senken; dann bekommen 130 Titel ein sichtbar schärferes Bild, die 208 mit 500 bis 689 px bleiben beim AniList-Cover.
    - Sag „so" oder „bei 920 bleiben".
 
+7. **GitHub-Secret `ANISEARCH_TOKEN` anlegen** (damit der Wochenlauf aniSearch-Einträge holen kann; ohne Token antwortet die API mit 403)
+   - Vorher: Ich hole die Einträge von diesem Rechner aus (Token aus `my_secrets.md`, 1 Abruf alle 5 Sekunden). Der Wochenlauf überspringt den Schritt mit Warnung.
+   - Auftrag: Im Terminal `gh secret set ANISEARCH_TOKEN --repo danielzaiser91/anime-kalender-de` ausführen und den Wert aus `my_secrets.md` (Abschnitt „aniSearch-API-Token“) einfügen. Einen Token trage ich selbst nirgends ein.
+   - Erwartet: Beim nächsten Wochenlauf steht im Protokoll „aniSearch-Einträge: N in diesem Lauf“.
+
 4. **Entscheidung: Hosting** (Recherche liegt vor: [hosting-vergleich-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/hosting-vergleich-2026-10-06.md))
    Empfehlung: GitHub Pages vorerst behalten und Cloudflare (Workers Static Assets, 0 €, Zone liegt schon dort) als zweites Deploy-Ziel vorbereiten. Umschalten, wenn die 30-Tage-Messung (`site_probe`) unter 99,9 % liegt oder ein Ausfall der ausgelieferten Seite belegt ist. Pages bleibt dann als Rückfall.
    - Sag „so", oder was du anders willst (z. B. gleich eigener Server).
