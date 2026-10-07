@@ -15,6 +15,7 @@ import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.
 import { mitDubKennzeichen } from './lib/anisearch-termine.ts'
 import { erstausgabeAlsNeuigkeit } from '../web/src/components/detail/antwort-regeln.ts'
 import { stufeVon } from '../web/src/lib/saison.ts'
+import { entferneGesperrte, mitSperre } from './bau/sperre.ts'
 import { sucheGen, sucheMitFundstellen, treibe } from '../web/src/lib/search.ts'
 import { istOhneBelegteSynchro, sortiereNachTitel } from '../web/src/lib/titel-sortierung.ts'
 import { anzeigeName } from '../shared/titles.ts'
@@ -165,6 +166,10 @@ pruefe('nur Einträge ohne Deutsch bleiben im Katalog', [...anisearchNurKatalog(
 console.log('F-Sperre (Fanservice-Urteil von Hand, data/fanservice-urteil.yaml)')
 const gesperrt = new Set([...readFileSync('data/fanservice-urteil.yaml', 'utf8').matchAll(/^\s*-\s*id:\s*(\d+)/gm)].map((m) => Number(m[1])))
 pruefe('die Sperrliste ist nicht leer und trägt gültige Kennungen', gesperrt.size > 0 && [...gesperrt].every((i) => i > 0))
+const probe = [{ titleId: 10013220 }, { titleId: 1 }]
+entferneGesperrte(probe)
+pruefe('die F-Sperre nimmt Termine und Meldungen eines gesperrten Titels aus den Listen, andere bleiben', probe.length === 1 && probe[0]!.titleId === 1, probe)
+pruefe('der gesperrte Titel trägt die Marke, andere nicht', mitSperre<Title>({ id: 10013220 } as Title, gesperrt).sperre === 'fanservice' && !('sperre' in mitSperre({ id: 1 }, gesperrt)))
 const jsonDatei = <T>(name: string): T => JSON.parse(readFileSync(`public/data/${name}`, 'utf8')) as T
 const prominent: [string, number[]][] = [
   ['releases.json', jsonDatei<{ titleId: number }[]>('releases.json').map((r) => r.titleId)],
@@ -173,7 +178,7 @@ const prominent: [string, number[]][] = [
   ['neu-mit-synchro.json', jsonDatei<{ id: number }[]>('neu-mit-synchro.json').map((r) => r.id)],
   ['titles-core.json', jsonDatei<{ id: number }[]>('titles-core.json').map((r) => r.id)],
 ]
-for (const [datei, kennungen] of prominent) pruefe(`kein gesperrter Titel in ${datei} (taucht einer auf: Filter bauen, status.md „Fanservice")`, !kennungen.some((i) => gesperrt.has(i)), kennungen.filter((i) => gesperrt.has(i)))
+for (const [datei, kennungen] of prominent) pruefe(`kein gesperrter Titel in ${datei} (die F-Sperre greift im Bau nicht, wenn einer auftaucht)`, !kennungen.some((i) => gesperrt.has(i)), kennungen.filter((i) => gesperrt.has(i)))
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) verletzt.`)

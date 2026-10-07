@@ -366,6 +366,8 @@ export interface Title {
    * Seite nie. Daniels Vorgabe vom 29.08.2026 lautet „beschrieben und verlinkt,
    * wo möglich" — hier ist es möglich.
    */
+  /** F-Sperre (`data/fanservice-urteil.yaml`): nur Fanservice — bleibt im Bestand, aber ohne Termine und Meldungen, nie im Kalender. */
+  sperre?: 'fanservice'
   anisearchId?: number
   /**
    * **Eine westliche Animationsserie, kein Anime.**

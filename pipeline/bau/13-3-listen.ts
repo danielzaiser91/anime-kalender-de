@@ -6,6 +6,7 @@ import { zugangsart } from '../../shared/zugangsart.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { todayIso } from '../../shared/time.ts'
 import { OUT, mitAnkuendigung } from './grundlagen.ts'
+import { fanservicesperre, mitSperre } from './sperre.ts'
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { type SlimTitel } from './13-2-auslieferung.ts'
 
@@ -308,5 +309,5 @@ export function schreibeListen({ slim, tmdbTitles, releases, titles }: {
     }
   }
 
-  writeJson(`${OUT}/titles.json`, slim.map(mitAnkuendigung))
+  writeJson(`${OUT}/titles.json`, slim.map((t) => mitSperre(mitAnkuendigung(t), fanservicesperre())))
 }

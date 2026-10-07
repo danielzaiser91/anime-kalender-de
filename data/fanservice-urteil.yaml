@@ -4,9 +4,9 @@
 # zu Unrecht (Haganai, Shimoneta, Scum's Wish). Es filtert deshalb nur das bestätigte Hentai (aniSearch-Altersmarke 18, Hauptgenre Hentai, Tag „Keine Jugendfreigabe";
 # bei AniList `isAdult`), alles andere ist ein Einzelfall mit eigenem Urteil — hier.
 #
-# **Wirkung:** Ein Titel hier erscheint nicht in Kalender, Neuigkeiten, Saison, „Neu mit Synchro", Kern-Datensatz, Startseite und Newsletter. Er bleibt in der Datenbank-Suche und
-# in der Reihen-Liste anderer Titel auffindbar. Heute taucht keiner der Titel in diesen Listen auf; `pipeline/check-bild-und-synchro.ts` wird rot, sobald einer dort erscheint —
-# dann wird der Filter gebaut (Todo in `status.md`).
+# **Wirkung:** Der Titel bleibt im Bestand (Datenbank-Suche, Reihen-Liste anderer Titel) und trägt in `titles.json` die Marke `sperre: fanservice`. Seine Termine und Meldungen werden im Bau
+# entfernt (`pipeline/bau/sperre.ts`, direkt nach den Terminen in `build.ts`): Er kann nicht im Kalender, in den Neuigkeiten, im Abo-Feed oder in den Kern-Dateien erscheinen.
+# `pipeline/check-bild-und-synchro.ts` prüft das an den erzeugten Dateien.
 #
 # Felder: `id` = unsere Titelkennung im Bau (AniList-Kennung, bei aniSearch-Titeln 10.000.000 + aniSearch-Kennung), `titel` nur zur Lesbarkeit, `grund` kurz.
 sperre:
