@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-07T15:02:40.209Z",
+  "scrapedAt": "2026-10-07T16:02:20.235Z",
   "window": {
     "from": "2026-09-28",
     "to": "2026-10-18"
@@ -987,7 +987,7 @@
     },
     "hana kimi s2": {
       "time": "18:00",
-      "weekday": 4,
+      "weekday": 2,
       "dates": [
         "2026-07-22",
         "2026-07-29",
@@ -996,7 +996,8 @@
         "2026-08-26",
         "2026-09-02",
         "2026-09-09",
-        "2026-10-02"
+        "2026-10-02",
+        "2026-10-07"
       ],
       "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
       "seriesId": "GT00365568",
@@ -1033,6 +1034,10 @@
         {
           "date": "2026-10-02",
           "episode": 12
+        },
+        {
+          "date": "2026-10-07",
+          "episode": 13
         }
       ],
       "earliest": {
@@ -1196,7 +1201,8 @@
         "2026-09-09",
         "2026-09-16",
         "2026-09-23",
-        "2026-09-30"
+        "2026-09-30",
+        "2026-10-07"
       ],
       "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
       "seriesId": "G0XHWM0D3",
@@ -1241,6 +1247,10 @@
         {
           "date": "2026-09-30",
           "episode": 10
+        },
+        {
+          "date": "2026-10-07",
+          "episode": 11
         }
       ],
       "earliest": {
@@ -1976,6 +1986,26 @@
       "date": "2026-10-07",
       "time": "15:30",
       "episode": 11,
+      "german": true
+    },
+    {
+      "key": "trapped in a dating sim the world of otome games is tough for mobs s2",
+      "rawTitle": "Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Staffel 2 (Deutsch)",
+      "seriesId": "G0XHWM0D3",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/G0XHWM0D3/trapped-in-a-dating-sim-the-world-of-otome-games-is-tough-for-mobs",
+      "date": "2026-10-07",
+      "time": "17:30",
+      "episode": 11,
+      "german": true
+    },
+    {
+      "key": "hana kimi s2",
+      "rawTitle": "Hana-Kimi Staffel 2 (Deutsch)",
+      "seriesId": "GT00365568",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00365568/hana-kimi",
+      "date": "2026-10-07",
+      "time": "18:00",
+      "episode": 13,
       "german": true
     }
   ]
