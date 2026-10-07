@@ -10,7 +10,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 | 2 | [Prime Video — Titelseiten](07-primevideo.md) | 4 Adressen, 1 Verweis | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 | 3 | [Netflix](06-netflix-rest.md) | 1 Titel, 1 Verweis | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 4 | [Suchadressen — welcher Titel steckt dahinter?](18-suchadressen.md) | 2 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
-| 5 | [Crunchyroll](07-crunchyroll.md) | 3 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
+| 5 | [Crunchyroll](07-crunchyroll.md) | 12 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 7 | [Disney+](07-disneyplus.md) | 3 Titel, 1 Verweis | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 | 8 | [Disney+ — sind es wirklich 2?](21-disneyplus-gruen.md) | 2 Titel, alle Folgen grün | ~2 min | die Frage, ob die Liste recht hat oder das Grün lügt |
 
@@ -20,7 +20,7 @@ schickt die Meldung ab. Die Listen hier sind zum Nachschlagen, nicht zum Abtippe
 
 ## Was das bringt
 
-Von 2765 Titeln zeigen **241** keinen einzigen Bezugsweg,
+Von 2939 Titeln zeigen **391** keinen einzigen Bezugsweg,
 **102** davon mit belegter deutscher Synchro. Für die ist die
 Antwort auf „wo kann ich das sehen?" heute: nirgends bekannt. Jede Meldung von hier
 macht eine davon weniger.
