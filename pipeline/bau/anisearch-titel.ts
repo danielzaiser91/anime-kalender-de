@@ -60,7 +60,8 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
       slug: `${slugify(anzeige)}-${id}`,
       titleRomaji: e.t,
       titleEn: e.en,
-      titleDe: e.de,
+      /* Ein deutscher Name mit angehängter Staffel- oder Teilnummer bleibt weg (`check:logic`: kein Titel trägt die Nummer eines seiner Teile im Namen); es gilt der englische. */
+      titleDe: e.de && !/[–—-]\s*(staffel|season|vol\.?|teil|part)\s*\d+\s*$/i.test(e.de) ? e.de : undefined,
       titleNative: e.n,
       format: FORMAT[e.ty] ?? 'SPECIAL',
       episodes: e.f,
