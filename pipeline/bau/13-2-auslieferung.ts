@@ -1,4 +1,4 @@
-import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
+import { ANISEARCH_ID_BASIS, anisearchUmgezogen } from './anisearch-titel.ts'
 import { anisearchHand, kinoFeld, OUT, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
 import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
@@ -136,7 +136,7 @@ export function baueAuslieferung({
        * Der Pull Request lag seit dem 21.09. offen und ließ sich nach den Änderungen vom
        * 23.09. nicht mehr sauber zusammenführen; die Zeile steht deshalb direkt hier.
        */
-      const hinterToggle = new Set(verschoben.map((t) => t.id))
+      const hinterToggle = new Set([...verschoben.map((t) => t.id), ...anisearchUmgezogen(new Set([...jetzt, ...verschoben.map((t) => t.id)]))]) // + umgezogene aniSearch-Titel (Lauf 37620950313)
       const verloren = vorher.filter((id) => !jetzt.has(id) && !hinterToggle.has(id))
       if (verloren.length > ERLAUBTER_VERLUST) {
         warn(

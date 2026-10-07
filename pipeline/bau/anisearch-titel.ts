@@ -84,6 +84,17 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
   return neu
 }
 
+/**
+ * Eigenkennungen, die ein Katalog-Lauf nachträglich einem AniList-Titel zugeordnet hat: Der Titel zieht um, er geht nicht verloren.
+ * `vorhanden` sind die AniList-Kennungen, die im Datensatz oder hinter dem Toggle ankommen.
+ */
+export function anisearchUmgezogen(vorhanden: Set<number>): Set<number> {
+  const umgezogen = new Set<number>()
+  const zuordnung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
+  for (const [anilist, e] of Object.entries(zuordnung)) if (e.anisearchId && vorhanden.has(Number(anilist))) umgezogen.add(ANISEARCH_ID_BASIS + e.anisearchId)
+  return umgezogen
+}
+
 /** Reihen-Kanten: Ein aniSearch-Titel gehört zur Reihe des Titels, der seine MAL-Kennung trägt. */
 export function anisearchReihenKanten(titles: Map<number, Title>): { ids: number[] }[] {
   const nachMal = new Map<number, number>()
