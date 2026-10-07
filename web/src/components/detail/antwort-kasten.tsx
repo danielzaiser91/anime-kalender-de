@@ -466,9 +466,9 @@ export function AntwortKasten({
       die Serie aber nicht abdecken. Vorher fiel dieser Fall in „fertig" und
       wurde zu „Alle 12 Folgen auf Deutsch", obwohl vier belegt waren.
     */
-    haupt = T('antwort.teilweiseZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
+    haupt = antwort.raus === undefined ? T('antwort.teilweiseOhneZahl') : T('antwort.teilweiseZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
     neben = antwort.restBelegt ? '' : T('antwort.teilweiseNeben')
-    anteil = Math.round((antwort.raus / antwort.gesamt) * 100)
+    anteil = antwort.raus === undefined ? undefined : Math.round((antwort.raus / antwort.gesamt) * 100)
     zaehl = ''
   } else if (antwort.art === 'fertig') {
     /*

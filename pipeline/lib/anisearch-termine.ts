@@ -70,15 +70,19 @@ export interface AnisearchTermin {
   zitat: string
   /** Der deutsche Block trägt aniSearchs Marke „Synchronisiert" (`dubbed`). */
   synchro?: boolean
+  /** Der Dub wurde abgebrochen (Kennzeichen `c`): nur ein Teil ist deutsch. */
+  teil?: boolean
 }
 
 /**
- * **Ein abgebrochener Dub ist eine Teilsynchro** (aniSearch-Dub-Endpunkt, Kennzeichen `c`): Ranma ½ (1989), zweite Staffel — 30 deutsche Folgen,
- * Kazé 2002, im Sprachblock nur „Abgebrochen" und ohne `dubbed`. Ohne die Marke gälte die Ausgabe nicht als Synchro und der Titel bliebe hinter dem Toggle.
+ * **Die Dub-Liste von aniSearch ist ein Beleg:** `d` (vertont) macht die Ausgabe zur Synchro, auch wo der Sprachblock kein Datum nennt; `c` (abgebrochen) macht
+ * sie zur Teilsynchro — Ranma ½ (1989), zweite Staffel, im Sprachblock nur „Abgebrochen" und ohne `dubbed`.
  */
 export function mitDubKennzeichen(titelId: number, termin: AnisearchTermin | undefined): AnisearchTermin | undefined {
   dubKennzeichen ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {})
-  return termin && dubKennzeichen[String(titelId)] === 'c' ? { ...termin, synchro: true } : termin
+  const kennzeichen = dubKennzeichen[String(titelId)]
+  if (kennzeichen !== 'c' && kennzeichen !== 'd') return termin
+  return { zitat: 'aniSearch-Dub-Liste', ...termin, synchro: true, ...(kennzeichen === 'c' ? { teil: true } : {}) }
 }
 let dubKennzeichen: Record<string, string> | undefined
 

@@ -11,6 +11,8 @@ import { ohneBelegteSynchro } from './bau/synchro-belegt.ts'
 import { ausAnisearchDubs } from './lib/anisearch-synchro-ids.ts'
 import { waehlePlakat } from './lib/tmdb-plakat.ts'
 import { waehleStaffel } from './lib/tmdb-staffel.ts'
+import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
+import { mitDubKennzeichen } from './lib/anisearch-termine.ts'
 import { sucheGen, sucheMitFundstellen, treibe } from '../web/src/lib/search.ts'
 import { istOhneBelegteSynchro, sortiereNachTitel } from '../web/src/lib/titel-sortierung.ts'
 import { anzeigeName } from '../shared/titles.ts'
@@ -33,6 +35,11 @@ const staffeln = [{ season_number: 0, air_date: '2005-10-01', episode_count: 3 }
 pruefe('Staffel: Beginn und Folgenzahl treffen die zweite', waehleStaffel(staffeln, '2005-10-20', 12) === 2)
 pruefe('Staffel: ein Special (Staffel 0) zählt nie', waehleStaffel(staffeln, '2005-10-01', 3) === undefined)
 pruefe('Staffel: gleiches Datum, aber andere Folgenzahl ist keine Staffel', waehleStaffel(staffeln, '2005-10-20', 49) === undefined)
+const alt = { id: 1, slug: 'x', titleRomaji: 'X', format: 'TV', episodes: 143, jpYear: 1989, jpStatus: 'FINISHED', streams: [], genres: [], keywords: [], studios: [], dubConfidence: 'low' } as unknown as Title
+const kopf = (erst: Title['deErstausgabe']) => berechneAntwort({ title: { ...alt, deErstausgabe: erst }, releases: [], today: '2026-10-07' })
+const teil = kopf({ synchro: true, teil: true })
+pruefe('abgebrochener Dub ohne Zahl: „teilweise“, nicht „alle 143 Folgen“', teil?.art === 'teilweise' && teil.raus === undefined, teil)
+pruefe('vertonte Ausgabe ohne Teilmarke bleibt „fertig“', kopf({ synchro: true })?.art === 'fertig')
 pruefe('Staffel: ohne Startdatum keine Zuordnung', waehleStaffel(staffeln, undefined, 12) === undefined)
 pruefe('Staffel: zwei mögliche Staffeln sind keine Auskunft', waehleStaffel([...staffeln, { season_number: 3, air_date: '2005-11-10', episode_count: 12 }], '2005-10-25', 12) === undefined)
 
@@ -49,6 +56,9 @@ pruefe('hohe Sicherheit bleibt unberührt', !ohneBelegteSynchro(titel({ dubConfi
 console.log('Keine Synchro laut aniSearch')
 const dubs = JSON.parse(readFileSync('data/anisearch-dubs.json', 'utf8')) as Record<string, string>
 const idMit = (kz: string) => Number(Object.keys(dubs).find((k) => dubs[k] === kz))
+pruefe('Dub-Liste d: ohne Sprachblock entsteht trotzdem eine Synchro-Marke', mitDubKennzeichen(idMit('d'), undefined)?.synchro === true)
+pruefe('Dub-Liste c: Synchro und Teilmarke', mitDubKennzeichen(idMit('c'), undefined)?.teil === true)
+pruefe('Dub-Liste -: der Termin bleibt, wie er ist', mitDubKennzeichen(idMit('-'), undefined) === undefined)
 const mitErst = (id: number, extra: Partial<Title> = {}) => titel({ id, deErstausgabe: { von: '2024-10-21', publisher: 'Crunchyroll' } as never, ...extra })
 pruefe('deutsche Ausgabe, aniSearch nennt kein Deutsch: keine Synchro', keineSynchroLautAnisearch(mitErst(idMit('-'))))
 pruefe('ein Stream mit belegter Synchro schlägt das', !keineSynchroLautAnisearch(mitErst(idMit('-'), { streams: [{ platform: 'netflix', dub: true } as never] })))

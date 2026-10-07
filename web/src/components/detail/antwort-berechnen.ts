@@ -221,7 +221,8 @@ export function berechneAntwort({ title, releases, today }: {
     if (!r.dub) continue
     for (let n = r.from; n <= Math.min(r.to, gesamt ?? r.to); n++) vereint.add(n)
   }
-  const vollstaendig = abdeckung.some((a) => a.vollstaendig) || Boolean(gesamt && vereint.size >= gesamt)
+  const teilOhneZahl = Boolean(title.deErstausgabe?.teil) && vereint.size === 0 && !belegen.some((s) => s.dub === true) // abgebrochener Dub ohne Bereiche ist nicht „alle“ (Ranma ½ Staffel 2+)
+  const vollstaendig = !teilOhneZahl && (abdeckung.some((a) => a.vollstaendig) || Boolean(gesamt && vereint.size >= gesamt))
   const belegteFolgen = Math.max(0, vereint.size, ...abdeckung.map((a) => a.belegt))
   /* Sind die übrigen Folgen als „ohne Deutsch" belegt, fehlt keine Angabe (Gundam GQuuuuuuX, Stichprobe 17.09.2026). */
   const restBelegt = mitUrteil.some((s) => {
@@ -367,7 +368,7 @@ export function berechneAntwort({ title, releases, today }: {
       Teilweise synchronisiert: Der Kasten nennt die belegte Zahl statt „alle".
       `laeuft` ist der Zustand, der genau das kann — er zeigt „x von y".
     */
-    return { art: 'teilweise' as const, raus: belegteFolgen, gesamt, restBelegt }
+    return { art: 'teilweise' as const, raus: teilOhneZahl ? undefined : belegteFolgen, gesamt, restBelegt }
   }
   if (hatSynchro || titleStatus(releases, today, title) === 'erschienen') {
     return { art: 'fertig' as const, raus: raus || gesamt, gesamt }

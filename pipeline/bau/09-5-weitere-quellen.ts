@@ -112,7 +112,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
         Boolean(fruehesteDisc) && (simulcast || nahAmStart) && (!termin.start || fruehesteDisc! > termin.start)
       if (discDatumGilt) {
         const disc = verlage.find((v) => verlagAlsDienst(v) === undefined)
-        title.deErstausgabe = { von: fruehesteDisc!, ...(disc ? { publisher: disc } : {}), ...(termin.synchro ? { synchro: true } : {}) }
+        title.deErstausgabe = { von: fruehesteDisc!, ...(disc ? { publisher: disc } : {}), ...(termin.synchro ? { synchro: true } : {}), ...(termin.teil ? { teil: true } : {}) }
         asDiscDatum++
         asNeu++
         continue
@@ -121,7 +121,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
         const disc = verlage.find((v) => verlagAlsDienst(v) === undefined)
         asSimulcast++
         if (!disc) continue
-        title.deErstausgabe = { publisher: disc, ...(termin.synchro ? { synchro: true } : {}) }
+        title.deErstausgabe = { publisher: disc, ...(termin.synchro ? { synchro: true } : {}), ...(termin.teil ? { teil: true } : {}) }
         asNeu++
         continue
       }
@@ -130,7 +130,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
         ...(termin.zeitraum ? { zeitraum: termin.zeitraum } : {}),
         ...(termin.ende ? { bis: termin.ende } : {}),
         ...(termin.publisher ? { publisher: termin.publisher } : {}),
-        ...(termin.synchro ? { synchro: true } : {}),
+        ...(termin.synchro ? { synchro: true } : {}), ...(termin.teil ? { teil: true } : {}),
       }
       asNeu++
     }

@@ -34,7 +34,7 @@ export type Antwort =
     }
   | { art: 'fertig'; raus?: number; gesamt?: number }
   /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
-  | { art: 'teilweise'; raus: number; gesamt: number; restBelegt: boolean }
+  | { art: 'teilweise'; raus?: number; gesamt: number; restBelegt: boolean }
   | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number; ohneWeg: boolean; imKino: boolean }
   /**
    * **Ein angekündigter Kinofilm ohne deutsche Fassung.** `jp` in der Genauigkeit

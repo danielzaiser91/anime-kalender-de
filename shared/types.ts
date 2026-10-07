@@ -437,12 +437,10 @@ export interface Title {
     bis?: string
     /** Verlag oder Dienst, im Klartext — „Kazé Deutschland", „Crunchyroll". */
     publisher?: string
-    /**
-     * aniSearch trägt am deutschen Block die Marke „Synchronisiert" (18.09.2026). Das ist
-     * das belastbare Signal (917 von 967 Handbelegen tragen sie); ohne sie kann die
-     * Ausgabe auch OmU sein.
-     */
+    /** aniSearch trägt am deutschen Block „Synchronisiert“ oder führt den Titel in der Dub-Liste: das belastbare Signal; ohne es kann die Ausgabe auch OmU sein. */
     synchro?: boolean
+    /** Der deutsche Dub wurde abgebrochen: nur ein Teil ist synchronisiert (Zahl unbekannt). */
+    teil?: boolean
     /** Woher das Datum stammt, wenn nicht von aniSearch (19.09.2026: Wikipedia-Episodenliste). */
     quelle?: 'wikipedia' | 'disc'
   }

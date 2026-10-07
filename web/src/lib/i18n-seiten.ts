@@ -9,6 +9,7 @@ export const TEXTE_SEITEN = {
     28.09.2026: „inkl Link zur Quelle"; „Heute"/„Gestern" beschriften die Tagesgruppen.
   */
   'detail.plotVonTeilFrueher': 'Zu diesem Teil gibt es keine eigene Handlung — hier steht die von „{teil}".',
+  'antwort.teilweiseOhneZahl': 'Teilweise auf Deutsch — die Synchro wurde abgebrochen',
   'news.heute': 'Heute',
   'news.gestern': 'Gestern',
   'news.quelleTitel': 'Nachsehen, woher diese Meldung kommt: {quelle}',
