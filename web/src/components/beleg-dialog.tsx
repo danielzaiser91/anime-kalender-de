@@ -110,6 +110,18 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
   )
 }
 
+/** Auf dem Handy zwei Zeilen; ein Tipp klappt den ganzen Text auf (Rooster Fighter: die Kopfzeile fraß den halben Bildschirm). */
+function Erklaerung({ beleg, mitBild }: { beleg: NewsBeleg; mitBild: boolean }) {
+  const [lang, setLang] = useState(false)
+  return (
+    <p className={`min-w-0 flex-1 cursor-pointer md:cursor-auto ${lang ? '' : 'line-clamp-2 md:line-clamp-none'}`} onClick={() => setLang((l) => !l)} aria-expanded={lang}>
+      {erklaerung(beleg)}
+      {pruefzeile(beleg, mitBild)}
+      {mitBild ? ' Wir sichern von jeder Quelle ein Bild, damit prüfbar bleibt, worauf die Meldung beruht.' : ''}
+    </p>
+  )
+}
+
 /** Eine Quelle: Erklärung, Originaladresse und — wo gesichert — das Bild mit der Fundstelle. */
 function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
   const bild = WORKER ? beleg.bild : undefined
@@ -149,11 +161,7 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
     <>
       <div className="shrink-0 border-b border-white/10 bg-slate-800 px-4 py-2" onClick={(e) => e.stopPropagation()}>
         <div className="flex flex-wrap items-center gap-2 text-xs leading-snug text-slate-300">
-          <p className="min-w-0 flex-1">
-            {erklaerung(beleg)}
-            {pruefzeile(beleg, Boolean(bild))}
-            {bild ? ' Wir sichern von jeder Quelle ein Bild, damit prüfbar bleibt, worauf die Meldung beruht.' : ''}
-          </p>
+          <Erklaerung beleg={beleg} mitBild={Boolean(bild)} />
           {x !== undefined && url && (
             <button type="button" onClick={zurFundstelle} className={`${BTN} border-rose-400 text-rose-200`}>{markiert ? 'Marke aus' : 'Zur Fundstelle'}</button>
           )}
