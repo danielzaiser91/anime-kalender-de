@@ -24,17 +24,6 @@ Stand: 07.10.2026 09:00
    - **C — Lupe:** Das Bild bleibt klein, ein Klick vergrößert den Bereich unter dem Zeiger.
    - Sag „A", „B" oder „C".
 
-5. **Saison-Überblick: Mockup ansehen und Anordnung wählen** — [saison-mockup.html](file:///C:/code/ai/_wtumbau/daniel-zum-abarbeiten/mockups/saison-mockup.html)
-   - Vorher: Es gibt nur Kalender, Datenbank und News; eine Saison-Sicht fehlt.
-   - Erwartet: Datei im Browser öffnen (Handy- und Desktop-Breite probieren). Oben **Anordnung 1** (Bänder: Jetzt groß, Zuletzt klein, Ausblick als Liste), darunter **Anordnung 2** (Reiter).
-   - Messung (echte Daten, Fernseh- und Web-Serien im Hauptbestand): Herbst 2026 14 Titel (6 mit Deutsch), Sommer 2026 19 (18), Frühling 29 (25), Winter 24 (23). Der Ausblick Winter 2027 hat noch keinen Titel im Hauptbestand, nur 12 Ankündigungen mit Japan-Start hinter dem Schalter.
-   - Sag „1" oder „2" (oder was fehlt), danach baue ich die Ansicht `#/saison`.
-
-6. **Cover: Untergrenze für die Vergrößerung senken?** (deine Vorgabe war „mindestens doppelt so groß wie AniList", also 920 px)
-   - Gemessen: 338 Titel haben bei TMDB nur ein Plakat mit 500 bis 899 px (121 davon 700 bis 899 px, also 1,5- bis 1,9-fach); Kitsu liefert höchstens 550 px und hilft nicht. Ohne Änderung bleiben diese 338 beim AniList-Cover (460 px).
-   - Vorschlag: Grenze auf 690 px (1,5-fach) senken; dann bekommen 130 Titel ein sichtbar schärferes Bild, die 208 mit 500 bis 689 px bleiben beim AniList-Cover.
-   - Sag „so" oder „bei 920 bleiben".
-
 7. **GitHub-Secret `ANISEARCH_TOKEN` anlegen** (damit der Wochenlauf aniSearch-Einträge holen kann; ohne Token antwortet die API mit 403)
    - Vorher: Ich hole die Einträge von diesem Rechner aus (Token aus `my_secrets.md`, 1 Abruf alle 5 Sekunden). Der Wochenlauf überspringt den Schritt mit Warnung.
    - Auftrag: Im Terminal `gh secret set ANISEARCH_TOKEN --repo danielzaiser91/anime-kalender-de` ausführen und den Wert aus `my_secrets.md` (Abschnitt „aniSearch-API-Token“) einfügen. Einen Token trage ich selbst nirgends ein.

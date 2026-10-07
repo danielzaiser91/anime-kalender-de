@@ -3,10 +3,11 @@ import type { Title } from '../../shared/types.ts'
 import type { SynopsisEintrag } from './13-1-anreichern.ts'
 
 /**
- * Mindestbreite eines Plakats, das das AniList-Cover in der Vergrößerung ersetzt: **doppelt so breit** wie dessen 460 Pixel
- * (Daniel, 07.10.2026). Was darunter liegt, bleibt beim AniList-Cover und steht in `data/cover-klein.json` — der Monitor.
+ * Mindestbreite eines Plakats, das das AniList-Cover in der Vergrößerung ersetzt: **anderthalbmal so breit** wie dessen 460 Pixel
+ * (Daniel, 07.10.2026: erst „doppelt", dann auf 690 gesenkt, weil 338 Titel nur Plakate von 500 bis 899 px haben und Kitsu höchstens 550 px liefert).
+ * Was darunter liegt, bleibt beim AniList-Cover und steht in `data/cover-klein.json` — der Monitor.
  */
-export const MIN_BREITE = 920
+export const MIN_BREITE = 690
 
 /**
  * **Das große Plakat an die Beschreibung hängen.** Die Gruppen `synopses/<n>.json` lädt das Panel ohnehin beim Öffnen; ein Feld
