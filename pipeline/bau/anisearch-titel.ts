@@ -42,7 +42,7 @@ export const FORMAT: Record<string, string> = {
   'TV-Series': 'TV', 'TV-Serie': 'TV',
   Movie: 'MOVIE', Film: 'MOVIE',
   OVA: 'OVA',
-  'TV-Special': 'SPECIAL', 'TV-Spezial': 'SPECIAL', Bonus: 'SPECIAL', Other: 'SPECIAL', Anderes: 'SPECIAL', CM: 'SPECIAL',
+  'TV-Special': 'SPECIAL', 'TV-Spezial': 'SPECIAL', Bonus: 'SPECIAL', Other: 'SPECIAL', Anderes: 'SPECIAL', CM: 'SPECIAL', Unbekannt: 'SPECIAL', Unknown: 'SPECIAL',
   Web: 'ONA',
   'Music Video': 'MUSIC', Musikvideo: 'MUSIC',
 }

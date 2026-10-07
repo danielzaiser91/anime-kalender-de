@@ -1,0 +1,15 @@
+# F-Sperre: Titel, die nur dazu gemacht sind, Fanservice zu zeigen, und die wir nie prominent zeigen.
+#
+# **Warum von Hand** (Daniel, 08.10.2026): Kein Merkmal trennt zuverlässig. „Ecchi" trifft 295 von 2.906 Titeln, die Freigabe „Mild Nudity" (Kitsu/MAL) etwa jeden dritten Titel
+# zu Unrecht (Haganai, Shimoneta, Scum's Wish). Es filtert deshalb nur das bestätigte Hentai (aniSearch-Altersmarke 18, Hauptgenre Hentai, Tag „Keine Jugendfreigabe";
+# bei AniList `isAdult`), alles andere ist ein Einzelfall mit eigenem Urteil — hier.
+#
+# **Wirkung:** Ein Titel hier erscheint nicht in Kalender, Neuigkeiten, Saison, „Neu mit Synchro", Kern-Datensatz, Startseite und Newsletter. Er bleibt in der Datenbank-Suche und
+# in der Reihen-Liste anderer Titel auffindbar. Heute taucht keiner der Titel in diesen Listen auf; `pipeline/check-bild-und-synchro.ts` wird rot, sobald einer dort erscheint —
+# dann wird der Filter gebaut (Todo in `status.md`).
+#
+# Felder: `id` = unsere Titelkennung im Bau (AniList-Kennung, bei aniSearch-Titeln 10.000.000 + aniSearch-Kennung), `titel` nur zur Lesbarkeit, `grund` kurz.
+sperre:
+  - id: 10013220
+    titel: "Bikini Warriors: Auch abseits der Figuren wollten wir etwas Schönes erzählen (Extra, aniSearch 13220)"
+    grund: "Fanservice als Selbstzweck (Daniel, 08.10.2026). Die übrigen Titel der Reihe sind nicht geprüft und bleiben unverändert."
