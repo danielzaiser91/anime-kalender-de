@@ -122,15 +122,10 @@ function Erklaerung({ beleg, mitBild }: { beleg: NewsBeleg; mitBild: boolean }) 
   )
 }
 
-/** Eine Quelle: Erklärung, Originaladresse und — wo gesichert — das Bild mit der Fundstelle. */
-function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
-  const bild = WORKER ? beleg.bild : undefined
+/** Holt das gesicherte Bild vom Worker und gibt es als Blob-Adresse zurück; räumt sie beim Schließen auf. */
+function useBelegBild(bild: string | undefined): { url?: string; fehler?: string } {
   const [url, setUrl] = useState<string>()
   const [fehler, setFehler] = useState<string>()
-  const [einpassen, setEinpassen] = useState(false)
-  const [markiert, setMarkiert] = useState(false)
-  const marke = useRef<HTMLDivElement>(null)
-  const [x, y, b, h] = beleg.markierung ?? []
   useEffect(() => {
     if (!bild) return
     let aktiv = true
@@ -147,6 +142,17 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
       if (blobUrl) URL.revokeObjectURL(blobUrl)
     }
   }, [bild])
+  return { url, fehler }
+}
+
+/** Eine Quelle: Erklärung, Originaladresse und — wo gesichert — das Bild mit der Fundstelle. */
+function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
+  const bild = WORKER ? beleg.bild : undefined
+  const { url, fehler } = useBelegBild(bild)
+  const [einpassen, setEinpassen] = useState(false)
+  const [markiert, setMarkiert] = useState(false)
+  const marke = useRef<HTMLDivElement>(null)
+  const [x, y, b, h] = beleg.markierung ?? []
   const zurFundstelle = () => {
     if (markiert) {
       setMarkiert(false)
