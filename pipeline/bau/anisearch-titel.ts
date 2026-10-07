@@ -10,7 +10,7 @@ import { slugify } from '../lib/util.ts'
  *
  * Quelle ist `data/anisearch-eintraege.json` (Kennung → kompakter Eintrag aus `/v1/anime/<Kennung>`, ohne Hentai). Der Titel bekommt die
  * Kennung `ANISEARCH_ID_BASIS + aniSearch-Kennung`; AniList-Kennungen liegen weit darunter, die Cartoons nutzen negative. Er trägt **kein Cover**
- * (die Bilder bei aniSearch sind nicht zur Weitergabe freigegeben) und keine MAL-Kennung (sie gehört der Hauptfassung, sonst verwechselt der
+ * von aniSearch (die Bilder dort sind nicht zur Weitergabe freigegeben; ein TMDB-Plakat gilt, wo eines zu Name und Jahr passt) und keine MAL-Kennung (sie gehört der Hauptfassung, sonst verwechselt der
  * Bau beide). Wo aniSearch Deutsch nicht kennt (`-`), bleibt er hinter dem Toggle (`anisearchNurKatalog`).
  */
 export const ANISEARCH_ID_BASIS = 10_000_000
@@ -34,7 +34,18 @@ type Eintrag = {
   dvon?: string
 }
 
-const FORMAT: Record<string, string> = { 'TV-Series': 'TV', Movie: 'MOVIE', OVA: 'OVA', 'TV-Special': 'SPECIAL', Web: 'ONA', Bonus: 'SPECIAL', Other: 'SPECIAL' }
+/**
+ * Die Typen, die aniSearch liefert — englisch ohne, deutsch mit ?lang=de (fetch-anisearch-eintraege.ts). Bis zum 07.10.2026 kannte die Tabelle nur die englischen Namen: Jede Serie, jeder
+ * Film und jede Web-Produktion aus der Eintragsdatei wurde zum „Special" (Super Wings: „Special · 52 Folgen"), und der Saison-Überblick sah keine einzige davon.
+ */
+export const FORMAT: Record<string, string> = {
+  'TV-Series': 'TV', 'TV-Serie': 'TV',
+  Movie: 'MOVIE', Film: 'MOVIE',
+  OVA: 'OVA',
+  'TV-Special': 'SPECIAL', 'TV-Spezial': 'SPECIAL', Bonus: 'SPECIAL', Other: 'SPECIAL', Anderes: 'SPECIAL', CM: 'SPECIAL',
+  Web: 'ONA',
+  'Music Video': 'MUSIC', Musikvideo: 'MUSIC',
+}
 const SICHERHEIT: Record<Eintrag['dub'], DubConfidence> = { d: 'high', p: 'normal', c: 'normal', '-': 'low' }
 
 let eintraege: Record<string, Eintrag> | undefined
@@ -47,6 +58,8 @@ export function anisearchNurKatalog(): Set<number> {
 
 /** Legt die Titel an, die bei uns noch keine eigene aniSearch-Kennung tragen. Gibt zurück, wie viele es sind. */
 export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>): number {
+  /* Cover: die aniSearch-Bilder dürfen wir nicht weitergeben; wo TMDB ein Plakat zu Name und Jahr kennt (`fetch-tmdb-poster.ts`), steht es als Cover. */
+  const poster = readJson<Record<string, { p: string } | null>>('data/tmdb-poster.json', {})
   const vergeben = new Set<number>(Object.values(anisearchHand))
   /*
     Eine Zuordnung zu einem AniList-Titel sperrt den Eintrag nur, wenn dieser Titel im Hauptbestand steht oder der Eintrag kein Deutsch führt: Liegt der
@@ -70,6 +83,7 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
       /* Ein deutscher Name mit angehängter Staffel- oder Teilnummer bleibt weg (`check:logic`: kein Titel trägt die Nummer eines seiner Teile im Namen); es gilt der englische. */
       titleDe: e.de && !/[–—-]\s*(staffel|season|vol\.?|teil|part)\s*\d+\s*$/i.test(e.de) ? e.de : undefined,
       titleNative: e.n,
+      ...(poster[String(id)] ? { coverImage: `https://image.tmdb.org/t/p/w500${poster[String(id)]!.p}` } : {}),
       format: FORMAT[e.ty] ?? 'SPECIAL',
       episodes: e.f,
       jpYear: e.y,

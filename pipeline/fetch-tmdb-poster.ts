@@ -105,6 +105,37 @@ async function staffelPlakate(apiKey: string, zuordnung: Record<string, { tmdbId
   return gefunden
 }
 
+/**
+ * **Serien und Web-Produktionen, die nur bei aniSearch stehen** (Daniel, 07.10.2026: „Super Wings" hatte kein Cover): Suche bei TMDB nach unseren Namen und dem Jahr, angenommen
+ * wird nur ein Treffer, dessen Name und Jahr passen (`passtFilm` mit den Feldern der Serie). Filme erledigt `filmeSuchen`.
+ */
+async function serienOhneCover(apiKey: string, bestand: Bestand): Promise<number> {
+  const offen = readJson<Title[]>('public/data/titles.json', []).filter((t) => t.id >= 10_000_000 && t.format !== 'MOVIE' && !t.coverImage && !(String(t.id) in bestand))
+  let gefunden = 0
+  for (const t of offen) {
+    try {
+      let treffer: { id: number } | undefined
+      for (const name of [t.titleEn, t.titleRomaji, t.titleDe].filter((n): n is string => Boolean(n))) {
+        const such = await fetchJson<{ results?: { id: number; name?: string; original_name?: string; first_air_date?: string }[] }>(
+          `https://api.themoviedb.org/3/search/tv?query=${encodeURIComponent(name)}&api_key=${apiKey}`,
+        )
+        treffer = (such.results ?? []).slice(0, 5).find((r) => passtFilm([t.titleEn, t.titleRomaji, t.titleDe], t.jpYear, { title: r.name, original_title: r.original_name, release_date: r.first_air_date }))
+        await sleep(120)
+        if (treffer) break
+      }
+      const bilder = treffer ? await fetchJson<{ posters?: TmdbBild[] }>(`https://api.themoviedb.org/3/tv/${treffer.id}/images?include_image_language=ja,null,de,en&api_key=${apiKey}`) : undefined
+      const wahl = bilder ? waehlePlakat(bilder.posters ?? []) : undefined
+      bestand[String(t.id)] = wahl ? { p: wahl.file_path, w: wahl.width, h: wahl.height, l: wahl.iso_639_1 } : null
+      if (wahl) gefunden++
+    } catch (e) {
+      warn(`TMDB-Serie ${t.id}: ${(e as Error).message.slice(0, 80)}`)
+    }
+    await sleep(120)
+  }
+  log(`TMDB-Serien nur bei aniSearch: ${offen.length} gesucht, ${gefunden} mit Plakat`)
+  return gefunden
+}
+
 async function main(): Promise<void> {
   loadEnv()
   const apiKey = process.env.TMDB_API_KEY
@@ -142,6 +173,7 @@ async function main(): Promise<void> {
   }
   gefunden += await filmeSuchen(apiKey, zuordnung, bestand)
   gefunden += await staffelPlakate(apiKey, zuordnung, bestand, LIMIT)
+  gefunden += await serienOhneCover(apiKey, bestand)
   writeJson('data/tmdb-poster.json', bestand)
   log(`${gefunden} von ${offen.length} Titeln mit Plakat, ${fehler} Fehler`)
   recordSource('tmdb-poster', gefunden)

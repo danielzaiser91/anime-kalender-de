@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs'
 import { keineSynchroLautAnisearch } from './bau/ohne-beleg.ts'
 import { entferneFremdeNachStaffeln } from './bau/cr-serie-geteilt.ts'
 import { mitKitsuTiteln } from './bau/folgentitel-kitsu.ts'
-import { ANISEARCH_ID_BASIS, anisearchNurKatalog } from './bau/anisearch-titel.ts'
+import { ANISEARCH_ID_BASIS, FORMAT, anisearchNurKatalog } from './bau/anisearch-titel.ts'
 import { ohneBelegteSynchro } from './bau/synchro-belegt.ts'
 import { ausAnisearchDubs } from './lib/anisearch-synchro-ids.ts'
 import { waehlePlakat } from './lib/tmdb-plakat.ts'
@@ -59,6 +59,11 @@ pruefe('ein geschätzter Termin (Start mit Untertiteln) hebt es nicht auf', ohne
 pruefe('ein älterer Titel bleibt unberührt', !ohneBelegteSynchro(titel({ jpYear: 2005 }), nichts))
 pruefe('hohe Sicherheit bleibt unberührt', !ohneBelegteSynchro(titel({ dubConfidence: 'high' }), nichts))
 
+console.log('aniSearch-Typnamen')
+const typen = new Set(Object.values(JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { ty: string }>).map((e) => e.ty))
+const unbekannt = [...typen].filter((ty) => !(ty in FORMAT))
+pruefe('jeder Typname der Eintragsdatei steht in der Formattabelle (deutsch und englisch)', unbekannt.length === 0, unbekannt)
+pruefe('„TV-Serie“ ist eine Serie, „Film“ ein Film', FORMAT['TV-Serie'] === 'TV' && FORMAT['Film'] === 'MOVIE')
 console.log('Keine Synchro laut aniSearch')
 const dubs = JSON.parse(readFileSync('data/anisearch-dubs.json', 'utf8')) as Record<string, string>
 const idMit = (kz: string) => Number(Object.keys(dubs).find((k) => dubs[k] === kz))
