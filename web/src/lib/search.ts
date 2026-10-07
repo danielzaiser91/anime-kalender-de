@@ -293,8 +293,13 @@ function woerterOriginal(feld: string): string[] {
   return feld.split(/[^\p{L}\p{N}]+/u).filter(Boolean)
 }
 
+/* Dieselben Namen werden bei jedem Suchlauf wieder normalisiert (18.863 Titel × Namensfelder, 07.10.2026: 300 ms am Stück) — jeder nur einmal. */
+const normalisiert = new Map<string, string>()
+
 export function normalize(value: string): string {
-  return value
+  const gemerkt = normalisiert.get(value)
+  if (gemerkt !== undefined) return gemerkt
+  const neu = value
     .toLowerCase()
     .replace(/[äÄ]/g, 'a')
     .replace(/[öÖ]/g, 'o')
@@ -302,6 +307,8 @@ export function normalize(value: string): string {
     .replace(/ß/g, 'ss')
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
+  normalisiert.set(value, neu)
+  return neu
 }
 
 /**
@@ -476,6 +483,51 @@ function fundstellenFuer(
   return raus.slice(0, 6)
 }
 
+/**
+ * Die Stufen 0 bis 4 je Eintrag (Rangfolge siehe `sucheMitFundstellen`).
+ *
+ * **Die teure ungefähre Stufe läuft nur, wo ihr Ergebnis noch zählt** (Daniel, 07.10.2026: „abc" über 18.863 Titel blockierte
+ * die Seite 300 ms). Sie fragt für jeden Eintrag jedes Wort mit Tippabstand ab. Passt schon ein Titel streng, werden ihre Treffer
+ * ohnehin verworfen; dann genügt sie für die wenigen Einträge, die sonst Stufe 4 wären — Ergebnis und Reihenfolge bleiben gleich.
+ */
+function stufenBewerten<T>(
+  quelle: T[],
+  suchwoerter: string[],
+  genau: (item: T) => Suchfeld[],
+  titel: (item: T) => string[],
+): { item: T; rang: number; abstand: number }[] {
+  const ganz = suchwoerter.join(' ')
+  /*
+    **Zusammengeschrieben ist dasselbe wie getrennt** (21.09.2026). „sandland" traf „Sand Land:
+    The Series" nicht als Titel, weil dort ein Leerzeichen steht; die unscharfe Stufe füllte die
+    Liste dann mit 38 Klangverwandten. Verglichen wird deshalb auch ohne Leer- und Satzzeichen —
+    erst ab vier Zeichen, darunter steckt ein Begriff in zu vielen Namen.
+  */
+  const kompakt = (s: string) => s.replace(/[^\p{L}\p{N}]+/gu, '')
+  const ganzKompakt = suchwoerter.join('')
+  const kompaktZaehlt = ganzKompakt.length >= 4
+  const sicher: { item: T; rang: number; abstand: number; pos: number }[] = []
+  const uebrig: { item: T; pos: number }[] = []
+  quelle.forEach((item, pos) => {
+    const namen = titel(item).map(normalize)
+    const namenKompakt = kompaktZaehlt ? namen.map(kompakt) : []
+    if (namen.some((n) => n === ganz) || namenKompakt.some((n) => n === ganzKompakt)) sicher.push({ item, rang: 0, abstand: 0, pos })
+    else if (namen.some((n) => n.startsWith(ganz)) || namenKompakt.some((n) => n.startsWith(ganzKompakt))) sicher.push({ item, rang: 1, abstand: 0, pos })
+    else if (trifftGenau(suchwoerter, titel(item))) sicher.push({ item, rang: 2, abstand: keinWortanfang(suchwoerter, titel(item)) * 1000 + kuerzesterName(suchwoerter, titel(item)), pos })
+    else uebrig.push({ item, pos })
+  })
+  const titelPasst = sicher.length > 0
+  const spaet: { item: T; rang: number; abstand: number; pos: number }[] = []
+  for (const { item, pos } of uebrig) {
+    const imZusatz = trifftGenau(suchwoerter, genau(item).map((f) => f.text))
+    if (titelPasst && !imZusatz) continue
+    if (trifftUngefaehr(suchwoerter, titel(item))) {
+      if (!titelPasst) spaet.push({ item, rang: 3, abstand: tippAbstand(suchwoerter, titel(item)), pos })
+    } else if (imZusatz) spaet.push({ item, rang: 4, abstand: 0, pos })
+  }
+  return [...sicher, ...spaet].sort((a, b) => a.pos - b.pos).map(({ item, rang, abstand }) => ({ item, rang, abstand }))
+}
+
 export function sucheMitFundstellen<T>(
   quelle: T[],
   suchbegriff: string,
@@ -507,30 +559,7 @@ export function sucheMitFundstellen<T>(
     (nach Tippabstand) · 4 nur in Studio, Genre oder Keyword. Stufe 3 kommt nur hinzu,
     wenn kein Titel wörtlich passt — sonst hinge an „frieren" eine Liste ähnlicher Namen.
   */
-  const ganz = suchwoerter.join(' ')
-  /*
-    **Zusammengeschrieben ist dasselbe wie getrennt** (21.09.2026). „sandland" traf „Sand Land:
-    The Series" nicht als Titel, weil dort ein Leerzeichen steht; die unscharfe Stufe füllte die
-    Liste dann mit 38 Klangverwandten. Verglichen wird deshalb auch ohne Leer- und Satzzeichen —
-    erst ab vier Zeichen,
-    darunter steckt ein Begriff in zu vielen Namen.
-  */
-  const kompakt = (s: string) => s.replace(/[^\p{L}\p{N}]+/gu, '')
-  const ganzKompakt = suchwoerter.join('')
-  const kompaktZaehlt = ganzKompakt.length >= 4
-  const bewertet: { item: T; rang: number; abstand: number }[] = []
-  for (const item of quelle) {
-    const namen = titel(item).map(normalize)
-    const namenKompakt = kompaktZaehlt ? namen.map(kompakt) : []
-    const alleFelder = genau(item)
-    const genauTexte = alleFelder.map((f) => f.text)
-    if (namen.some((n) => n === ganz) || namenKompakt.some((n) => n === ganzKompakt)) bewertet.push({ item, rang: 0, abstand: 0 })
-    else if (namen.some((n) => n.startsWith(ganz)) || namenKompakt.some((n) => n.startsWith(ganzKompakt)))
-      bewertet.push({ item, rang: 1, abstand: 0 })
-    else if (trifftGenau(suchwoerter, titel(item))) bewertet.push({ item, rang: 2, abstand: keinWortanfang(suchwoerter, titel(item)) * 1000 + kuerzesterName(suchwoerter, titel(item)) })
-    else if (trifftUngefaehr(suchwoerter, titel(item))) bewertet.push({ item, rang: 3, abstand: tippAbstand(suchwoerter, titel(item)) })
-    else if (trifftGenau(suchwoerter, genauTexte)) bewertet.push({ item, rang: 4, abstand: 0 })
-  }
+  const bewertet = stufenBewerten(quelle, suchwoerter, genau, titel)
   const titelPasst = bewertet.some((b) => b.rang <= 2)
   return (
     bewertet

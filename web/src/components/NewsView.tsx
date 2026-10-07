@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useUeberlaeuft } from '../lib/use-ueberlaeuft.ts'
 import { type NewsArt, type NewsEintrag, type NewsMeldung } from '@shared/types.ts'
 import { feedUrl, loadNews, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
@@ -94,7 +95,7 @@ function KinoKarussell({
   oeffne: (titelId: number) => void
 }): React.JSX.Element | null {
   const { t } = useLang()
-  const leiste = useRef<HTMLUListElement>(null)
+  const leiste = useRef<HTMLUListElement>(null); const ueberlaeuft = useUeberlaeuft(leiste, data)
   const heute = todayIso()
   const filme = useMemo(() => {
     const ab = addDays(heute, -KINO_RUECKBLICK_TAGE)
@@ -134,7 +135,7 @@ function KinoKarussell({
         <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
           {t('news.kino.titel')}
         </h2>
-        <div className="hidden gap-1 sm:flex">
+        <div className={ueberlaeuft ? 'hidden gap-1 sm:flex' : 'hidden'}>
           <button
             type="button"
             onClick={() => blaettern(-1)}
