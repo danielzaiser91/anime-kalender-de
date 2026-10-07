@@ -1,1 +1,1 @@
-globalThis.AK_PRIME_SUCHE = {"https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video":{"titel":"Tank Chair","suchbegriff":"Tank Chair","suchbegriffEn":"TANK CHAIR","id":209499,"folgen":null,"jahr":2026,"asId":null,"malId":63751,"imdb":"tt43691394"}}
+globalThis.AK_PRIME_SUCHE = {}
