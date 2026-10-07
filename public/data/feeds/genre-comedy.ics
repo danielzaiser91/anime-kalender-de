@@ -6,71 +6,11 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Comedy
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-29#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T151000Z
-DTEND:20260929T154000Z
-SUMMARY:Dragon Ball – Folge 7/26
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-29#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T153500Z
-DTEND:20260929T160500Z
-SUMMARY:Dragon Ball – Folge 8/26
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T160000Z
-DTEND:20260929T163000Z
-SUMMARY:Detektiv Conan – Folge 145/153
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T162500Z
-DTEND:20260929T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-183423-tv-prosieben-maxx@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T165000Z
-DTEND:20260929T172000Z
-SUMMARY:One Piece Log: Fish-Man Island Saga
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/16301/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T191500Z
-DTEND:20260929T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 4/9
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T150500Z
 DTEND:20260930T153500Z
-SUMMARY:Dragon Ball – Folge 9/26
+SUMMARY:Dragon Ball – Folge 9/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -80,7 +20,7 @@ UID:auto-112153-tv-toggo-plus@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T191500Z
 DTEND:20260930T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 5/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 5/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -100,7 +40,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-01#10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T151000Z
 DTEND:20261001T154000Z
-SUMMARY:Dragon Ball – Folge 10/26
+SUMMARY:Dragon Ball – Folge 10/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -110,7 +50,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-01#11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T153500Z
 DTEND:20261001T160500Z
-SUMMARY:Dragon Ball – Folge 11/26
+SUMMARY:Dragon Ball – Folge 11/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -120,7 +60,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T160000Z
 DTEND:20261001T163000Z
-SUMMARY:Detektiv Conan – Folge 146/153
+SUMMARY:Detektiv Conan – Folge 146/154
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -150,7 +90,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T191500Z
 DTEND:20261001T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 6/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 6/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -181,7 +121,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-02#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T151000Z
 DTEND:20261002T154000Z
-SUMMARY:Dragon Ball – Folge 12/26
+SUMMARY:Dragon Ball – Folge 12/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -191,7 +131,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-02#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T153500Z
 DTEND:20261002T160500Z
-SUMMARY:Dragon Ball – Folge 13/26
+SUMMARY:Dragon Ball – Folge 13/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -231,7 +171,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T160000Z
 DTEND:20261002T163000Z
-SUMMARY:Detektiv Conan – Folge 147/153
+SUMMARY:Detektiv Conan – Folge 147/154
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -261,7 +201,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T191500Z
 DTEND:20261002T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 7/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 7/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -515,7 +455,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T151000Z
 DTEND:20261005T154000Z
-SUMMARY:Dragon Ball – Folge 14/26
+SUMMARY:Dragon Ball – Folge 14/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -525,7 +465,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-05#15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T153500Z
 DTEND:20261005T160500Z
-SUMMARY:Dragon Ball – Folge 15/26
+SUMMARY:Dragon Ball – Folge 15/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -535,7 +475,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T160000Z
 DTEND:20261005T163000Z
-SUMMARY:Detektiv Conan – Folge 148/153
+SUMMARY:Detektiv Conan – Folge 148/154
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -565,7 +505,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T191500Z
 DTEND:20261005T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 8/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 8/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -585,7 +525,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T150500Z
 DTEND:20261006T153500Z
-SUMMARY:Dragon Ball – Folge 16/26
+SUMMARY:Dragon Ball – Folge 16/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -595,7 +535,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T191500Z
 DTEND:20261006T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 9/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 9/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -605,7 +545,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-07#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T151000Z
 DTEND:20261007T154000Z
-SUMMARY:Dragon Ball – Folge 17/26
+SUMMARY:Dragon Ball – Folge 17/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -615,27 +555,17 @@ UID:auto-223-tv-prosieben-maxx@2026-10-07#18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T153500Z
 DTEND:20261007T160500Z
-SUMMARY:Dragon Ball – Folge 18/26
+SUMMARY:Dragon Ball – Folge 18/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T160000Z
-DTEND:20261007T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17561/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261007T160000Z
-DTEND:20261007T163000Z
-SUMMARY:Detektiv Conan – Folge 149/153
+DTSTART:20261007T155500Z
+DTEND:20261007T162500Z
+SUMMARY:Detektiv Conan – Folge 149/154
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -661,6 +591,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T191500Z
+DTEND:20261007T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 10/10
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261007
@@ -675,7 +615,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-08#19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T151000Z
 DTEND:20261008T154000Z
-SUMMARY:Dragon Ball – Folge 19/26
+SUMMARY:Dragon Ball – Folge 19/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -685,7 +625,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-08#20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T153500Z
 DTEND:20261008T160500Z
-SUMMARY:Dragon Ball – Folge 20/26
+SUMMARY:Dragon Ball – Folge 20/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -695,7 +635,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T155500Z
 DTEND:20261008T162500Z
-SUMMARY:Detektiv Conan – Folge 150/153
+SUMMARY:Detektiv Conan – Folge 150/154
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -746,7 +686,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-09#21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T151000Z
 DTEND:20261009T154000Z
-SUMMARY:Dragon Ball – Folge 21/26
+SUMMARY:Dragon Ball – Folge 21/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -756,7 +696,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-09#22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T153500Z
 DTEND:20261009T160500Z
-SUMMARY:Dragon Ball – Folge 22/26
+SUMMARY:Dragon Ball – Folge 22/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -766,10 +706,21 @@ UID:auto-235-tv-prosieben-maxx@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T155500Z
 DTEND:20261009T162500Z
-SUMMARY:Detektiv Conan – Folge 151/153
+SUMMARY:Detektiv Conan – Folge 151/154
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261009T160000Z
+DTEND:20261009T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17561/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-09#21@anime-kalender-de
@@ -952,7 +903,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T151000Z
 DTEND:20261012T154000Z
-SUMMARY:Dragon Ball – Folge 23/26
+SUMMARY:Dragon Ball – Folge 23/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -962,7 +913,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-12#24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T153500Z
 DTEND:20261012T160500Z
-SUMMARY:Dragon Ball – Folge 24/26
+SUMMARY:Dragon Ball – Folge 24/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -972,7 +923,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T160000Z
 DTEND:20261012T163000Z
-SUMMARY:Detektiv Conan – Folge 152/153
+SUMMARY:Detektiv Conan – Folge 152/154
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1002,7 +953,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T151000Z
 DTEND:20261013T154000Z
-SUMMARY:Dragon Ball – Folge 25/26
+SUMMARY:Dragon Ball – Folge 25/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -1012,7 +963,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-13#26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T153500Z
 DTEND:20261013T160500Z
-SUMMARY:Dragon Ball – Folge 26/26
+SUMMARY:Dragon Ball – Folge 26/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -1022,9 +973,69 @@ UID:auto-235-tv-prosieben-maxx@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T155500Z
 DTEND:20261013T162500Z
-SUMMARY:Detektiv Conan – Folge 153/153
+SUMMARY:Detektiv Conan – Folge 153/154
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T162500Z
+DTEND:20261013T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-13#26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T165000Z
+DTEND:20261013T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-14#27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T151000Z
+DTEND:20261014T154000Z
+SUMMARY:Dragon Ball – Folge 27/28
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-14#28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T153500Z
+DTEND:20261014T160500Z
+SUMMARY:Dragon Ball – Folge 28/28
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T160000Z
+DTEND:20261014T163000Z
+SUMMARY:Detektiv Conan – Folge 154/154
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T165000Z
+DTEND:20261014T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -1087,16 +1098,6 @@ DTEND;VALUE=DATE:20261017
 SUMMARY:Rent-A-Girlfriend – Staffel 4 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16032/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-162670-disc@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Dr. Stone: New World (Teil 2) (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14954/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

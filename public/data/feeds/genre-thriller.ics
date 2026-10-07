@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Thriller
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:all-you-need-is-kill-kino@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260929
-DTEND;VALUE=DATE:20260930
-SUMMARY:All You Need is Kill
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nDetails: https://anime-kalender.de/t/16669/
-CATEGORIES:Kino
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T140000Z

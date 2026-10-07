@@ -46,16 +46,6 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-07@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261007T160000Z
-DTEND:20261007T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17561/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-14713-primevideo@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261008
@@ -64,6 +54,17 @@ SUMMARY:Kamisama Kiss
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
   nicht bestätigt.\nDetails: https://anime-kalender.de/t/6040/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:hana-kimi-s2@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261009T160000Z
+DTEND:20261009T163000Z
+SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17561/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:sailor-moon-s1-steelbook@2026-10-16@anime-kalender-de

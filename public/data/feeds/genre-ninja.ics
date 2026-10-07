@@ -66,6 +66,46 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-10-11#1@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261011T155500Z
+DTEND:20261011T162500Z
+SUMMARY:Hell’s Paradise – Folge 1/4
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-10-11#2@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261011T162000Z
+DTEND:20261011T165000Z
+SUMMARY:Hell’s Paradise – Folge 2/4
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T185500Z
+DTEND:20261012T192500Z
+SUMMARY:Hell’s Paradise – Folge 3/4
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T192000Z
+DTEND:20261012T195000Z
+SUMMARY:Hell’s Paradise – Folge 4/4
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
 UID:naruto-shippuden-the-movie-5-blood-prison-2026-11-19@2026-11-19@anime-k
  alender-de
 DTSTAMP:20200101T000000Z

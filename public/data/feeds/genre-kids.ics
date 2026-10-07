@@ -6,36 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Kids
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T140500Z
-DTEND:20260929T143500Z
-SUMMARY:Pokémon Horizonte – Folge 87/129
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T150500Z
-DTEND:20260929T153500Z
-SUMMARY:Pokémon Horizonte – Folge 87/129
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T191500Z
-DTEND:20260929T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 4/9
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T140500Z
@@ -60,7 +30,7 @@ UID:auto-112153-tv-toggo-plus@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T191500Z
 DTEND:20260930T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 5/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 5/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -90,7 +60,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T191500Z
 DTEND:20261001T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 6/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 6/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -120,7 +90,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T191500Z
 DTEND:20261002T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 7/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 7/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -190,7 +160,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T191500Z
 DTEND:20261005T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 8/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 8/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -220,7 +190,37 @@ UID:auto-112153-tv-toggo-plus@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T191500Z
 DTEND:20261006T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 9/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 9/10
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T140500Z
+DTEND:20261007T143500Z
+SUMMARY:Pokémon Horizonte – Folge 4/129
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T150500Z
+DTEND:20261007T153500Z
+SUMMARY:Pokémon Horizonte – Folge 4/129
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T191500Z
+DTEND:20261007T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 10/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus

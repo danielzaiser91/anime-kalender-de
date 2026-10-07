@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Survival
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:all-you-need-is-kill-kino@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260929
-DTEND;VALUE=DATE:20260930
-SUMMARY:All You Need is Kill
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nDetails: https://anime-kalender.de/t/16669/
-CATEGORIES:Kino
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-16498-primevideo@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261001
@@ -146,6 +136,46 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-10-11#1@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261011T155500Z
+DTEND:20261011T162500Z
+SUMMARY:Hell’s Paradise – Folge 1/4
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-10-11#2@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261011T162000Z
+DTEND:20261011T165000Z
+SUMMARY:Hell’s Paradise – Folge 2/4
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-10-12#3@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T185500Z
+DTEND:20261012T192500Z
+SUMMARY:Hell’s Paradise – Folge 3/4
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-128893-tv-prosieben-fun@2026-10-12#4@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T192000Z
+DTEND:20261012T195000Z
+SUMMARY:Hell’s Paradise – Folge 4/4
+DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
+ nDetails: https://anime-kalender.de/t/12442/
+CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
 UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261016
@@ -153,16 +183,6 @@ DTEND;VALUE=DATE:20261017
 SUMMARY:Dr. STONE: Science Future – Teil 1 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15604/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-162670-disc@2026-10-16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Dr. Stone: New World (Teil 2) (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14954/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

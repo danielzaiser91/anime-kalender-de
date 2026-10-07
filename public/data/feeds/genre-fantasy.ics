@@ -6,86 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Fantasy
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T140500Z
-DTEND:20260929T143500Z
-SUMMARY:Pokémon Horizonte – Folge 87/129
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T150500Z
-DTEND:20260929T153500Z
-SUMMARY:Pokémon Horizonte – Folge 87/129
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-29#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T151000Z
-DTEND:20260929T154000Z
-SUMMARY:Dragon Ball – Folge 7/26
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-09-29#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T153500Z
-DTEND:20260929T160500Z
-SUMMARY:Dragon Ball – Folge 8/26
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T162500Z
-DTEND:20260929T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-183423-tv-prosieben-maxx@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T165000Z
-DTEND:20260929T172000Z
-SUMMARY:One Piece Log: Fish-Man Island Saga
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/16301/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20260929T191500Z
-DTEND:20260929T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 4/9
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:mononoke-movie-3-curse-of-the-serpent@2026-09-29@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20260929
-DTEND;VALUE=DATE:20260930
-SUMMARY:Mononoke – The Movie: Chapter III – Der Fluch der Schlange
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Film\nUhrzeit noch nicht best
- ätigt.\nDetails: https://anime-kalender.de/t/16089/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:clevatess-s2@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T120000Z
@@ -130,7 +50,7 @@ UID:auto-223-tv-prosieben-maxx@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T150500Z
 DTEND:20260930T153500Z
-SUMMARY:Dragon Ball – Folge 9/26
+SUMMARY:Dragon Ball – Folge 9/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -160,7 +80,7 @@ UID:auto-112153-tv-toggo-plus@2026-09-30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20260930T191500Z
 DTEND:20260930T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 5/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 5/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -190,7 +110,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-01#10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T151000Z
 DTEND:20261001T154000Z
-SUMMARY:Dragon Ball – Folge 10/26
+SUMMARY:Dragon Ball – Folge 10/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -200,7 +120,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-01#11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T153500Z
 DTEND:20261001T160500Z
-SUMMARY:Dragon Ball – Folge 11/26
+SUMMARY:Dragon Ball – Folge 11/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -230,7 +150,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261001T191500Z
 DTEND:20261001T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 6/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 6/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -291,7 +211,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-02#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T151000Z
 DTEND:20261002T154000Z
-SUMMARY:Dragon Ball – Folge 12/26
+SUMMARY:Dragon Ball – Folge 12/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -301,7 +221,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-02#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T153500Z
 DTEND:20261002T160500Z
-SUMMARY:Dragon Ball – Folge 13/26
+SUMMARY:Dragon Ball – Folge 13/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -341,7 +261,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-02@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T191500Z
 DTEND:20261002T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 7/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 7/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -523,7 +443,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T151000Z
 DTEND:20261005T154000Z
-SUMMARY:Dragon Ball – Folge 14/26
+SUMMARY:Dragon Ball – Folge 14/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -533,7 +453,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-05#15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T153500Z
 DTEND:20261005T160500Z
-SUMMARY:Dragon Ball – Folge 15/26
+SUMMARY:Dragon Ball – Folge 15/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -563,7 +483,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T191500Z
 DTEND:20261005T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 8/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 8/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -603,7 +523,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T150500Z
 DTEND:20261006T153500Z
-SUMMARY:Dragon Ball – Folge 16/26
+SUMMARY:Dragon Ball – Folge 16/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -613,7 +533,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T191500Z
 DTEND:20261006T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 9/9
+SUMMARY:Pokémon Reisen: Die Serie – Folge 9/10
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -644,16 +564,47 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261007T133000Z
 DTEND:20261007T140000Z
 SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/13080/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T140500Z
+DTEND:20261007T143500Z
+SUMMARY:Pokémon Horizonte – Folge 4/129
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T144500Z
+DTEND:20261007T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T150500Z
+DTEND:20261007T153500Z
+SUMMARY:Pokémon Horizonte – Folge 4/129
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-07#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T151000Z
 DTEND:20261007T154000Z
-SUMMARY:Dragon Ball – Folge 17/26
+SUMMARY:Dragon Ball – Folge 17/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -664,7 +615,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261007T153000Z
 DTEND:20261007T160000Z
 SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/14858/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -673,7 +625,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-07#18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T153500Z
 DTEND:20261007T160500Z
-SUMMARY:Dragon Ball – Folge 18/26
+SUMMARY:Dragon Ball – Folge 18/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -704,9 +656,20 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261007T171500Z
 DTEND:20261007T174500Z
 SUMMARY:Tomb Raider King – Folge 11/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16348/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261007T191500Z
+DTEND:20261007T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 10/10
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
@@ -719,11 +682,21 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261008T144500Z
+DTEND:20261008T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-08#19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T151000Z
 DTEND:20261008T154000Z
-SUMMARY:Dragon Ball – Folge 19/26
+SUMMARY:Dragon Ball – Folge 19/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -733,7 +706,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-08#20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T153500Z
 DTEND:20261008T160500Z
-SUMMARY:Dragon Ball – Folge 20/26
+SUMMARY:Dragon Ball – Folge 20/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -769,6 +742,16 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261009T144500Z
+DTEND:20261009T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T150000Z
@@ -784,7 +767,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-09#21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T151000Z
 DTEND:20261009T154000Z
-SUMMARY:Dragon Ball – Folge 21/26
+SUMMARY:Dragon Ball – Folge 21/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -794,7 +777,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-09#22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T153500Z
 DTEND:20261009T160500Z
-SUMMARY:Dragon Ball – Folge 22/26
+SUMMARY:Dragon Ball – Folge 22/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -904,11 +887,21 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T144500Z
+DTEND:20261012T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T151000Z
 DTEND:20261012T154000Z
-SUMMARY:Dragon Ball – Folge 23/26
+SUMMARY:Dragon Ball – Folge 23/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -918,7 +911,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-12#24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T153500Z
 DTEND:20261012T160500Z
-SUMMARY:Dragon Ball – Folge 24/26
+SUMMARY:Dragon Ball – Folge 24/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -944,11 +937,21 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T144500Z
+DTEND:20261013T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T151000Z
 DTEND:20261013T154000Z
-SUMMARY:Dragon Ball – Folge 25/26
+SUMMARY:Dragon Ball – Folge 25/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -958,9 +961,29 @@ UID:auto-223-tv-prosieben-maxx@2026-10-13#26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T153500Z
 DTEND:20261013T160500Z
-SUMMARY:Dragon Ball – Folge 26/26
+SUMMARY:Dragon Ball – Folge 26/28
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T162500Z
+DTEND:20261013T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-13#26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T165000Z
+DTEND:20261013T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
@@ -985,6 +1008,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T144500Z
+DTEND:20261014T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-14#27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T151000Z
+DTEND:20261014T154000Z
+SUMMARY:Dragon Ball – Folge 27/28
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:trapped-in-a-dating-sim-s2@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T153000Z
@@ -994,6 +1037,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/14858/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-14#28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T153500Z
+DTEND:20261014T160500Z
+SUMMARY:Dragon Ball – Folge 28/28
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261014T165000Z
+DTEND:20261014T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:tomb-raider-king@2026-10-14@anime-kalender-de
