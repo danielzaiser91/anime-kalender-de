@@ -5,6 +5,17 @@ Was hier steht, wird nicht vergessen, und jede Arbeit am Projekt lässt sich
 daran messen. Sie wird fortgeschrieben, nicht neu geschrieben — was erreicht
 ist, bekommt einen Haken und bleibt stehen.
 
+## Leitziel: Mobile Performance und Best Practice
+
+> „mobile performance als leitziel … best practice sollte eig immer überall berücksichtigt werden für alle entscheidungen … eine perfekt entwickelte webseite" (Daniel, 07.10.2026)
+
+Die Seite ist auf einem Handy mit schwacher Leitung immer schnell und flüssig. Das gilt für jede Entscheidung — Bilder, Daten, Suche, Oberfläche, Fremddienste —, nicht erst für eigene Performance-Aufgaben.
+
+- **Budgets:** Erstaufruf wie in `ARCHITEKTUR.md` (heute 142 KB gzip, Schwelle 300 KB); alles Weitere erst auf Absicht (Klick, Öffnen). Handy, 4G langsam, CPU 4× gedrosselt: LCP ≤ 2,5 s, INP ≤ 200 ms, CLS ≤ 0,1, keine Eingabe-Aufgabe über 50 ms.
+- **Bilder:** kleine Fassung sofort, große erst auf Klick, `srcset`/`sizes`, Datensparmodus beachten (erstes Beispiel: Cover-Vergrößerung, 07.10.2026).
+- **Messen statt vermuten:** Jede sichtbare Änderung wird nach dem Deploy gedrosselt gemessen (Messrezept im Skill `web-best-practice`).
+- **Nichtkommerziell** bleibt Voraussetzung (`CLAUDE.md`).
+
 ## Hauptziel 1: Der Bestand ist vollständig und richtig
 
 > „alle anime müssen wir im bestand haben, alle verweise auf deutsche synchros

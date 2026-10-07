@@ -18,6 +18,9 @@ filterbar, durchsuchbar, als Kalendereintrag übernehmbar (Daniel, 11.08.2026). 
 
 Nicht Ziel: Community, Bewertungen, Wasserstandsmeldungen zu japanischen Ausstrahlungen.
 
+**Leitziel: Mobile Performance und Best Practice** (Daniel, 07.10.2026): schnell und flüssig auf dem Handy bei schwacher Leitung, bei *jeder*
+Entscheidung — Budgets, Bildauslieferung und Messrezept im Skill `web-best-practice`, Ziele in [ZIELE.md](ZIELE.md).
+
 **Die Seite ist nichtkommerziell und bleibt es:** niemals Werbung, Tracking zu Werbezwecken oder
 sonstige kommerzielle Ziele (Daniel, 06.10.2026). Das trägt die Quellen-Zugänge (aniSearch-API, TMDB)
 und darf bei keiner Entscheidung aufgeweicht werden.

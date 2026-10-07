@@ -13,3 +13,5 @@ Commit oder Doku, eine Zahl im Kommentar trägt trotzdem ihr Datum.
 **Umbau und Verhaltensänderung nie im selben Commit;** der Umbau wird vorher/nachher mit
 denselben Eingaben verglichen. Größen- oder Komplexitätsgrenzen eines Repos nie anheben;
 Wegwerfskripte ins Scratchpad. Prüfliste und Vorgehen: Skill `sauberer-code`.
+
+**Webseiten und Web-Apps:** Vor jeder Entscheidung zu Bildern, Laden, Daten, Oberfläche und Fremddiensten gilt Best Practice mit Leitziel „auf dem Handy bei schwacher Leitung immer schnell"; Budgets und Messrezept im Skill `web-best-practice`.
