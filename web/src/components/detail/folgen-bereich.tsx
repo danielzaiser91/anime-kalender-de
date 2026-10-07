@@ -125,9 +125,9 @@ function DeFlagge() {
 /** Eine Folge, die noch nicht erschienen ist: keine Flagge und kein „keine Synchro", sondern der Hinweis darauf. */
 function NochNichtErschienen() {
   return (
-    <Tooltip text="Noch nicht erschienen. Ob es eine deutsche Synchro gibt, zeigt sich mit dem Erscheinen." eigenerFokus>
-      <span role="img" aria-label="Noch nicht erschienen" className="inline-flex size-3.5 shrink-0 items-center justify-center rounded-full border border-dashed border-slate-400 text-[9px] leading-none text-slate-500 dark:border-slate-500 dark:text-slate-400">
-        …
+    <Tooltip text="Erscheint noch. Ob die Folge auf Deutsch kommt, belegt erst ihr Erscheinen." eigenerFokus>
+      <span role="img" aria-label="Noch nicht erschienen" className="inline-flex size-3.5 shrink-0 items-center justify-center text-slate-500 dark:text-slate-400">
+        <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true"><circle cx="8" cy="8" r="6.5" /><path d="M8 4.5V8l2.5 1.5" /></svg>
       </span>
     </Tooltip>
   )
