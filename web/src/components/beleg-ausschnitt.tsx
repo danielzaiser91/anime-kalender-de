@@ -51,7 +51,7 @@ function Seitenbild({ url, name, fund }: { url: string; name: string; fund?: Ber
     return () => window.clearTimeout(t)
   }, [])
   return (
-    <div className="relative mx-auto w-full max-w-[1800px]">
+    <div className="relative mx-auto w-full">
       <img src={url} alt={`Beleg: ${name}`} className="block w-full rounded" />
       <Rahmen r={fund} innen={marke} />
     </div>
@@ -99,8 +99,9 @@ function Karte({ url, fund, bereich, onClick }: { url: string; fund?: Bereich; b
   )
 }
 
-const Huelle = ({ breite, children }: { breite: string; children: ReactNode }) => (
-  <div className={`mx-auto ${breite}`} onClick={(e) => e.stopPropagation()}>
+/** Höchstens doppelt so breit wie das Bild selbst: Die Aufnahmen sind 520 px breit, auf 1.400 px gezogen sind sie verschwommen (Daniel, 07.10.2026: „am Desktop nicht lesbar“). */
+const Huelle = ({ breite, children }: { breite: number; children: ReactNode }) => (
+  <div className="mx-auto w-full" style={{ maxWidth: breite }} onClick={(e) => e.stopPropagation()}>
     {children}
   </div>
 )
@@ -126,11 +127,12 @@ export function BelegAusschnitt({ url, name, markierung, variante }: { url: stri
   const ausschnitt = <Ausschnittsbild url={url} name={name} fund={fund} bereich={bereich} mass={mass} eins={eins} />
   const seite = <Seitenbild url={url} name={name} fund={fund} />
   const gr = ansicht === 'ausschnitt' ? <>{!fund && <p className="mb-2 text-center text-xs text-slate-400">Keine Fundstelle markiert — gezeigt wird der Seitenanfang.</p>}<Groesse eins={eins} setEins={setEins} /></> : null
+  const maxB = Math.min(1800, mass.b * 2)
   const zurueck = () => setAnsicht('ausschnitt')
   const zurSeite = () => setAnsicht('seite')
   if (ansicht === 'seite' && variante !== 'schalter') {
     return (
-      <Huelle breite="max-w-5xl">
+      <Huelle breite={maxB}>
         <Zurueck onClick={zurueck} />
         {seite}
       </Huelle>
@@ -138,7 +140,7 @@ export function BelegAusschnitt({ url, name, markierung, variante }: { url: stri
   }
   if (variante === 'schalter') {
     return (
-      <Huelle breite="max-w-[1800px]">
+      <Huelle breite={maxB}>
         <Umschalter ansicht={ansicht} setAnsicht={setAnsicht} />
         {gr}
         {ansicht === 'ausschnitt' ? ausschnitt : seite}
@@ -147,7 +149,7 @@ export function BelegAusschnitt({ url, name, markierung, variante }: { url: stri
   }
   if (variante === 'klick') {
     return (
-      <Huelle breite="max-w-[1800px]">
+      <Huelle breite={maxB}>
         {gr}
         <button type="button" onClick={zurSeite} title="Klick zeigt die ganze Seite" className="block w-full cursor-zoom-out text-left">
           {ausschnitt}
@@ -157,7 +159,7 @@ export function BelegAusschnitt({ url, name, markierung, variante }: { url: stri
     )
   }
   return (
-    <Huelle breite="max-w-[1800px]">
+    <Huelle breite={maxB}>
       {gr}
       <div className="flex flex-col gap-3 md:flex-row md:items-start">
         <div className="min-w-0 flex-1">{ausschnitt}</div>

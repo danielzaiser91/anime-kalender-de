@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useLang } from '../lib/i18n.tsx'
 import { useThema } from '../lib/thema.ts'
+import { setzeVorschau, useDebug, useVorschau, VORSCHAUEN } from '../lib/vorschau.ts'
 
 /**
  * **Die Einstellungen — ein Zahnrad, ein Dialog, eine Liste von Schaltern.**
@@ -104,6 +105,7 @@ export function EinstellungenDialog({
           </span>
         </label>
         <ThemaZeile />
+        <DebugBereich schliessen={schliessen} />
       </div>
     </div>,
     document.body,
@@ -119,5 +121,48 @@ function ThemaZeile() {
       <input type="checkbox" checked={!dunkel} onChange={umschalten} className="h-4 w-4 shrink-0 accent-[#ff5a36]" />
       <span className="text-sm font-semibold">{t('kopf.hell')}</span>
     </label>
+  )
+}
+
+/**
+ * **Debug-Bereich: alle Vorschauen auf einen Blick** (Daniel, 07.10.2026). Sichtbar nur mit dem Flag `ak-debug` (Konsole: `akDebug()`). Je Vorschau: Name, Kurzbeschreibung,
+ * ein Schalter (aus oder eine der Varianten) und ein Sprung zu einem Beispielort, an dem man sie sieht.
+ */
+function DebugBereich({ schliessen }: { schliessen: () => void }) {
+  if (!useDebug()) return null
+  return (
+    <section className="mt-3 rounded-2xl border border-dashed border-amber-500/60 p-3" aria-label="Debug">
+      <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-amber-600 dark:text-amber-400">Debug · Vorschauen</h3>
+      <ul className="flex flex-col gap-2.5">
+        {Object.entries(VORSCHAUEN).map(([name, v]) => (
+          <VorschauZeile key={name} name={name} v={v} schliessen={schliessen} />
+        ))}
+      </ul>
+      <p className="mt-2 text-[11px] text-ak-leise">Ausschalten: <code>akDebug(false)</code> in der Konsole.</p>
+    </section>
+  )
+}
+
+function VorschauZeile({ name, v, schliessen }: { name: string; v: (typeof VORSCHAUEN)[string]; schliessen: () => void }) {
+  const aktiv = useVorschau(name)
+  return (
+    <li className="text-sm">
+      <div className="flex items-center gap-2">
+        <b className="min-w-0 flex-1">{v.titel}</b>
+        <select
+          aria-label={`Variante von ${v.titel}`}
+          value={aktiv ?? ''}
+          onChange={(e) => setzeVorschau(name, e.target.value === '' ? false : e.target.value)}
+          className="cursor-pointer rounded-lg border border-ak-rand bg-ak-flaeche-2 px-2 py-1 text-xs"
+        >
+          <option value="">aus</option>
+          {v.varianten.map((x) => (
+            <option key={x} value={x}>{x}</option>
+          ))}
+        </select>
+      </div>
+      <p className="mt-0.5 text-xs leading-snug text-ak-leise">{v.text}</p>
+      <a href={v.beispiel} onClick={schliessen} className="mt-1 inline-block text-xs font-semibold text-ak-akzent-text underline">Beispiel ansehen: {v.beispielText} →</a>
+    </li>
   )
 }

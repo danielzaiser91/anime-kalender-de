@@ -8,14 +8,19 @@ import { useSyncExternalStore } from 'react'
  *     akVorschau('beleg', false)        // ausschalten
  *     akVorschau()                      // Liste: Namen, Varianten, was gerade an ist
  *
+ * **Debug-Bereich:** Ist das Flag `ak-debug` gesetzt (`akDebug()` in der Konsole), erscheint in den Einstellungen die Liste aller Vorschauen mit Schalter, Beschreibung und einem Sprung zu einem Beispielort.
+ *
  * Der Wert liegt im `localStorage` dieses Browsers (`ak-vorschau`) und überlebt das Neuladen. Neue Vorschau = ein Eintrag in `VORSCHAUEN` und ein `useVorschau('name')` an der Stelle.
  */
 const SCHLUESSEL = 'ak-vorschau'
 const EREIGNIS = 'ak-vorschau-geaendert'
 
 /** Alle Vorschauen mit ihren Varianten und einer Zeile Beschreibung. */
-export const VORSCHAUEN: Record<string, { varianten: string[]; text: string }> = {
+export const VORSCHAUEN: Record<string, { varianten: string[]; text: string; titel: string; beispiel: string; beispielText: string }> = {
   beleg: {
+    titel: 'Beleg-Fenster als Ausschnitt',
+    beispiel: '#/woche?t=17554',
+    beispielText: 'Tank Chair öffnen, dann im Panel unter „Neuigkeiten“ auf „Beleg“ klicken',
     varianten: ['schalter', 'klick', 'karte'],
     text: 'Beleg-Fenster: Ausschnitt zuerst. schalter = Umschalter „Beleg | Ganze Seite", klick = nur Ausschnitt, Klick zeigt die ganze Seite, karte = Ausschnitt mit Übersichtskarte der Seite.',
   },
@@ -34,6 +39,22 @@ export function vorschauWert(name: string): string | undefined {
   return w && VORSCHAUEN[name]?.varianten.includes(w) ? w : undefined
 }
 
+const DEBUG = 'ak-debug'
+
+/** Ist der Debug-Bereich in den Einstellungen freigeschaltet? */
+export function debugAn(): boolean {
+  try {
+    return localStorage.getItem(DEBUG) === '1'
+  } catch {
+    return false
+  }
+}
+
+/** Schaltet eine Vorschau um (`false` = aus). Aus den Einstellungen und der Konsole aufgerufen. */
+export function setzeVorschau(name: string, wert: string | false): void {
+  setzen(name, wert)
+}
+
 function setzen(name: string, wert: string | false): void {
   const alle = lesen()
   if (wert === false) delete alle[name]
@@ -44,6 +65,18 @@ function setzen(name: string, wert: string | false): void {
     /* Privates Fenster ohne Speicher: dann gilt die Vorschau nur bis zum Neuladen nicht — es bleibt bei der gewohnten Ansicht. */
   }
   window.dispatchEvent(new Event(EREIGNIS))
+}
+
+/** Ob der Debug-Bereich freigeschaltet ist; reagiert auf `akDebug()` ohne Neuladen. */
+export function useDebug(): boolean {
+  return useSyncExternalStore(
+    (f) => {
+      window.addEventListener(EREIGNIS, f)
+      return () => window.removeEventListener(EREIGNIS, f)
+    },
+    debugAn,
+    () => false,
+  )
 }
 
 /** Die gewählte Variante einer Vorschau — `undefined`, wenn sie aus ist. Aktualisiert sich beim Umschalten in der Konsole ohne Neuladen. */
@@ -62,8 +95,18 @@ export function useVorschau(name: string): string | undefined {
   )
 }
 
-/** Der Konsolenbefehl `akVorschau`; ohne Argumente listet er die Vorschauen. */
+/** Die Konsolenbefehle `akVorschau` (Vorschauen) und `akDebug` (Debug-Bereich in den Einstellungen); ohne Argumente listet `akVorschau` die Vorschauen. */
 export function installiereVorschauBefehl(): void {
+  ;(window as unknown as { akDebug: unknown }).akDebug = (an: boolean = true) => {
+    try {
+      if (an) localStorage.setItem(DEBUG, '1')
+      else localStorage.removeItem(DEBUG)
+    } catch {
+      return console.warn('Der Browser lässt kein Speichern zu (privates Fenster?).')
+    }
+    window.dispatchEvent(new Event(EREIGNIS))
+    console.log(an ? 'Debug-Bereich an: Einstellungen (Zahnrad) öffnen.' : 'Debug-Bereich aus.')
+  }
   ;(window as unknown as { akVorschau: unknown }).akVorschau = (name?: string, wert: string | boolean = true) => {
     if (!name) {
       for (const [n, v] of Object.entries(VORSCHAUEN)) console.log(`${n} [${v.varianten.join(' | ')}] ${vorschauWert(n) ? `AN: ${vorschauWert(n)}` : 'aus'} — ${v.text}`)
