@@ -14,6 +14,8 @@ import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
 import { type SlimTitel } from './13-2-auslieferung.ts'
+import { ergaenzeCoverGross } from './cover-gross.ts'
+import { ohneBelegteSynchro } from './synchro-belegt.ts'
 
 export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige }: {
   titles: Map<number, Title>
@@ -66,7 +68,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     verschoben,
     deutscheReihe,
   )
-  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()])
+  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()]); ergaenzeCoverGross(synopses, slim)
   // Synopsen in Gruppen statt in einer Datei.
   //
   // Vorher lag alles in `synopses.json`: 3,8 MB, die beim ersten Öffnen eines
@@ -264,7 +266,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
       jpStart: t.jpStart ?? jpStartAnzeige.get(t.id),
       jpStatus: t.jpStatus,
       deStart: deStart.get(t.id),
-      ohneSynchro: (t as { ohneSynchro?: boolean }).ohneSynchro || undefined,
+      ohneSynchro: (t as { ohneSynchro?: boolean }).ohneSynchro || ohneBelegteSynchro(t, releases) || undefined,
       /* Die belegte deutsche Staffelangabe — sie entscheidet die Beschriftung. */
       staffelQuelle: staffelQuellen.get(t.id),
       /* Hängt er an einem anderen Teil **dieser** Reihe? Eine fremde Elternkante zählt nicht. */

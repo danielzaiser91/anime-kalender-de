@@ -6,6 +6,7 @@ import { type EntfernterVerweis } from './grundlagen.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { schreibeKernUndNews } from './13-5-kerndateien.ts'
 import { ergaenzeKennungen } from './13-6-kennungen.ts'
+import { ergaenzeTitelRang } from './titel-rang.ts'
 import { ergaenzeErstausgabeAngebot } from './13-7-erstausgabe-angebot.ts'
 import { schreibeZusatzdateien } from './13-4-zusatzdateien.ts'
 import { schreibeListen } from './13-3-listen.ts'
@@ -65,6 +66,6 @@ export function schreibeDatensatz({
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })
 
   const { newsFuerRss } = schreibeKernUndNews({ releases, events, titles, meta })
-  ergaenzeKennungen()
+  ergaenzeKennungen(); ergaenzeTitelRang()
   return { newsFuerRss }
 }

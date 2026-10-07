@@ -11,6 +11,8 @@ export interface SynopsisEintrag {
   deSource?: { name: string; url: string }
   /** Titelseite bei aniSearch mit Slug, wo die Beschreibung nicht von dort stammt (für Pille und Quellenübersicht). */
   asUrl?: string
+  /** Größtes brauchbares Plakat (TMDB): Pfad, Breite, Höhe — nur für die Vergrößerung des Covers. */
+  cg?: [string, number, number]
 }
 
 export function schreibeSynopsenUndReichereAn({ allTitles, releases, kanalJeAdresse }: {
