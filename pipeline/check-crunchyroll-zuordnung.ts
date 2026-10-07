@@ -24,6 +24,7 @@
  */
 import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSerie, type CrDubData, beurteileJeBlock, beurteileTeilblock } from './lib/crunchyroll-dub.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
+import { crStaffelzahlen, entferneFremdeNachStaffeln, kennungAusAdresse } from './bau/cr-serie-geteilt.ts'
 import { termineAusSerie } from './lib/crunchyroll-termine.ts'
 import { readJson, ROOT } from './lib/util.ts'
 import { ankuendigungenLaden } from './lib/ankuendigungen.ts'
@@ -1036,6 +1037,15 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
     verweiseEntfernt: fremdAbgaenge as never,
   })
   pruefe('Gegenprobe: eine andere Kennung lässt den Verweis stehen', fremd.streams.length === 1, fremd.streams)
+}
+
+/* Gegenprobe auf dem gebauten Bestand (07.10.2026, Black Butler): Kein Titel hängt an einer Crunchyroll-Serie, deren Staffeln alle anderen Titeln gehören. */
+{
+  const roh = readJson<Title[] | { titles?: Title[] }>('public/data/titles.json', [])
+  const liste = Array.isArray(roh) ? roh : (roh.titles ?? [])
+  const titel = new Map(liste.map((t) => [t.id, { ...t, streams: [...t.streams] }]))
+  const weg = entferneFremdeNachStaffeln(titel, kennungAusAdresse(), crStaffelzahlen())
+  pruefe('im Bestand hängt kein Titel an einer Crunchyroll-Serie, die ihm nicht gehört', weg === 0, [...titel.values()].filter((t, i) => t.streams.length !== liste[i]!.streams.length).map((t) => t.titleEn ?? t.id).slice(0, 8))
 }
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
