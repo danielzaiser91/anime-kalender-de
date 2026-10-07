@@ -242,7 +242,7 @@ function panelUnterlegen(route: AppRoute): void {
   if (!panelOffen(route) || history.state?.panel) return
   const url = window.location.pathname + window.location.search + window.location.hash
   history.replaceState(null, '', zielPfad(undefined) + window.location.search + buildHash({ ...route, title: undefined, disc: undefined }))
-  history.pushState({ panel: true }, '', url)
+  history.pushState({ panel: true, tief: true }, '', url)
 }
 
 export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
@@ -279,6 +279,11 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
     /* Ändert sich ein Schnellfilter, wird er zur Vorliebe — vor dem Adresswechsel, den `parseHash` danach liest. */
     vorliebenNachfuehren(route.filters, merged.filters)
     const verlauf = panelVerlauf(route, next, merged)
+    /* Ein geteilter Link (Newsletter) hat kein Vorher in der App: ✕ und Klick daneben ersetzen die Adresse, statt zurückzugehen (Daniel, 07.10.2026). */
+    if (verlauf === 'zurueck' && history.state?.tief) {
+      history.replaceState(null, '', zielPfad(undefined) + window.location.search + buildHash(merged))
+      return setRoute(merged)
+    }
     if (verlauf === 'zurueck') return history.back()
     const hash = buildHash(merged)
     if (verlauf === 'eintrag') {
