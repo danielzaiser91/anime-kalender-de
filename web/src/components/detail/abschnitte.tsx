@@ -69,7 +69,7 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
 const quelleLabel = (name: string): string => (name === 'anisearch.de' ? 'aniSearch' : name === 'anilist.co' ? 'AniList' : name)
 
 export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
-  plot: { text: string; fallback: boolean; quelle: { name: string; url: string; }; vonTeil?: undefined; } | { text: string; fallback: boolean; vonTeil: FranchiseMember; quelle: { name: string; url: string; }; } | undefined
+  plot: { text: string; fallback: boolean; quelle: { name: string; url: string; }; vonTeil?: undefined; } | { text: string; fallback: boolean; vonTeil: FranchiseMember; erschienen?: boolean; quelle: { name: string; url: string; }; } | undefined
   t: Translate
   plotOffen: boolean
   setPlotOffen: Dispatch<SetStateAction<boolean>>
@@ -86,7 +86,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
           */}
           {plot.vonTeil && (
             <p className="mb-1 text-[11px] text-amber-600 dark:text-amber-400/90">
-              {t('detail.plotVonTeil', { teil: plot.vonTeil.name })}
+              {t(plot.erschienen ? 'detail.plotVonTeilFrueher' : 'detail.plotVonTeil', { teil: plot.vonTeil.name })}
             </p>
           )}
           {/*

@@ -900,7 +900,7 @@ export function DetailPanel({
 
   // nirgends eine deutsche Inhaltsangabe — dort wäre die Alternative eine
   // leere Fläche.
-  const { plot } = plotVon({ synopsis, anilistId: title.al, ersatz })
+  const { plot } = plotVon({ synopsis, anilistId: title.al, ersatz, erschienen: (title.jpEnd ?? '9999') < today })
   const asZiel = plot?.quelle.url.includes('anisearch.de/anime/') ? plot.quelle.url : synopsis?.asUrl
   const keywords = allKeywords ? title.keywords : title.keywords.slice(0, KEYWORD_PREVIEW)
 

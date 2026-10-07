@@ -9,8 +9,10 @@ import { type FranchiseMember } from '@shared/types.ts'
 const KURZ = 100
 export const aussagekraeftig = (s: Synopsis | undefined): s is Synopsis => Boolean(s?.de || (s?.en && s.en.trim().length >= KURZ))
 
-export function plotVon({ synopsis, anilistId, ersatz }: {
+export function plotVon({ synopsis, anilistId, ersatz, erschienen }: {
   synopsis: Synopsis | undefined
+  /** Ist der Titel schon erschienen? Dann heißt der Hinweis nicht „Noch nicht erschienen". */
+  erschienen?: boolean
   anilistId: number | undefined
   ersatz: { plot: Synopsis; von: FranchiseMember; } | undefined
 }) {
@@ -36,6 +38,7 @@ export function plotVon({ synopsis, anilistId, ersatz }: {
       text: ersatz.plot.de ?? ersatz.plot.en!,
       fallback: !ersatz.plot.de,
       vonTeil: ersatz.von,
+      erschienen,
       quelle: ersatz.plot.de
         ? (ersatz.plot.deSource ?? { name: 'anisearch.de', url: 'https://www.anisearch.de/' })
         : { name: 'anilist.co', url: ersatz.von.al ? `https://anilist.co/anime/${ersatz.von.al}` : 'https://anilist.co/' },
