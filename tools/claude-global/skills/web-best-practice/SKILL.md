@@ -8,6 +8,21 @@ description: Vor jeder Entscheidung an einer Webseite oder Web-App (Bilder, Lade
 **Leitziel (Daniel, 07.10.2026):** eine möglichst perfekt entwickelte Webseite — auf einem Handy mit schwacher Leitung immer
 schnell und flüssig. Best Practice gilt bei **jeder** Entscheidung, nicht nur bei Performance-Aufgaben.
 
+## Von Anfang an mitbauen — nicht auf Nachfrage
+**Was Daniel sonst nachfragen würde („mach das asynchron", „sparsam laden", „auch für schwache Leitung"), gehört in dieselbe Änderung.**
+Anlass (07.10.2026): Die Suche lief über 18.863 Titel und blockierte beim Tippen; erst auf Hinweis wurde sie entprellt, gemerkt und
+beschleunigt. Gemeint ist keine Einzelfall-Regel, sondern diese Fragen, **bevor** die erste Zeile entsteht und nochmals vor dem Commit:
+1. **Wie oft wird es ausgelöst** (Tippen, Scrollen, Größenänderung, Lauf) und **was kostet ein Lauf mit der echten Datenmenge?** → entprellen/drosseln,
+   veraltete Läufe verwerfen, Ergebnisse merken, billige Prüfung vor teurer, nie den Hauptfaden blockieren. Mit Realdaten **messen**, nicht schätzen.
+2. **Was passiert bei zehnfacher Menge und auf einem schwachen Gerät?** Ohne Antwort ist es nicht fertig.
+3. **Was passiert bei Ausfall, Leere, Langsamkeit?** Zustand und Rückfall gehören dazu (Laden, leer, Fehler, Zeitüberschreitung).
+4. **Was wird wann geladen, und wie groß?** Nach Absicht, in der kleinsten brauchbaren Fassung, mit Cache.
+5. **Wer kann es nicht bedienen?** Tastatur, Screenreader, Touch, reduzierte Bewegung.
+6. **Was geht an Dritte?** Datenschutztext, Lizenz, Namensnennung.
+
+**Fertig** heißt: mit realer Datenmenge und gedrosseltem Handy gemessen, Zustände gestaltet, Fremddienste im Datenschutztext. Fehlt eines davon,
+ist die Aufgabe nicht erledigt — auch wenn der gefragte Teil funktioniert.
+
 ## Budgets (Projekt-Zahlen stehen in `ARCHITEKTUR.md` / `ZIELE.md`; hier die Richtwerte)
 - Erstaufruf: wenige hundert KB gzip, Kalender sofort benutzbar; alles Weitere **nach Absicht** laden (Klick, Öffnen), nicht vorab.
 - Core Web Vitals (Handy, 4G langsam, CPU 4× gedrosselt): LCP ≤ 2,5 s · INP ≤ 200 ms · CLS ≤ 0,1.

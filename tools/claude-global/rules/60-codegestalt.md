@@ -14,4 +14,4 @@ Commit oder Doku, eine Zahl im Kommentar trägt trotzdem ihr Datum.
 denselben Eingaben verglichen. Größen- oder Komplexitätsgrenzen eines Repos nie anheben;
 Wegwerfskripte ins Scratchpad. Prüfliste und Vorgehen: Skill `sauberer-code`.
 
-**Webseiten und Web-Apps:** Vor jeder Entscheidung zu Bildern, Laden, Daten, Oberfläche und Fremddiensten gilt Best Practice mit Leitziel „auf dem Handy bei schwacher Leitung immer schnell"; Budgets und Messrezept im Skill `web-best-practice`.
+**Webseiten und Web-Apps:** Vor jeder Entscheidung zu Bildern, Laden, Daten, Oberfläche und Fremddiensten gilt Best Practice mit Leitziel „auf dem Handy bei schwacher Leitung immer schnell"; Budgets und Messrezept im Skill `web-best-practice`. **Was Daniel sonst nachfragen würde (entprellen, merken, sparsam laden, Zustände, Datenschutz), baue ich in derselben Änderung mit; fertig heißt: mit realer Datenmenge und gedrosseltem Handy gemessen.**
