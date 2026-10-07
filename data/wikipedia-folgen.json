@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-10-06T04:06:51.733Z",
+  "geholtAm": "2026-10-07T04:09:01.518Z",
   "titel": {
     "21": {
       "seite": "One Piece (Anime)/Episodenliste",
@@ -14839,6 +14839,251 @@
           "st": 55,
           "dt": "Ein wundersamer Abschluss! Auf Wiedersehen, Goku, bis zum nächsten Mal!",
           "ead": "2019-09-27"
+        }
+      ]
+    },
+    "118399": {
+      "seite": "Yashahime: Princess Half-Demon",
+      "folgen": [
+        {
+          "nr": 1,
+          "st": 1,
+          "dt": "Inuyasha seither"
+        },
+        {
+          "nr": 2,
+          "st": 2,
+          "dt": "Die drei Prinzessinnen"
+        },
+        {
+          "nr": 3,
+          "st": 3,
+          "dt": "Traumschmetterling"
+        },
+        {
+          "nr": 4,
+          "st": 4,
+          "dt": "Das Tor zur Vergangenheit"
+        },
+        {
+          "nr": 5,
+          "st": 5,
+          "dt": "Jakotsumaru vom Palast der roten Knochen"
+        },
+        {
+          "nr": 6,
+          "st": 6,
+          "dt": "Katzen-Juan im alten Tempel"
+        },
+        {
+          "nr": 7,
+          "st": 7,
+          "dt": "Begegnung mittels Apfel"
+        },
+        {
+          "nr": 8,
+          "st": 8,
+          "dt": "Die Träume offenbarende Falle"
+        },
+        {
+          "nr": 9,
+          "st": 9,
+          "dt": "Meifuku, der Meioju"
+        },
+        {
+          "nr": 10,
+          "st": 10,
+          "dt": "Die goldene und silberne Regenbogenperle"
+        },
+        {
+          "nr": 11,
+          "st": 11,
+          "dt": "Der Fluch des menschenfressendes Teichs"
+        },
+        {
+          "nr": 12,
+          "st": 12,
+          "dt": "Neumondnacht-die schwarzhaarige Towa"
+        },
+        {
+          "nr": 13,
+          "st": 13,
+          "dt": "Leckerer Sengoku-Mönch"
+        },
+        {
+          "nr": 14,
+          "st": 14,
+          "dt": "Der Verursacher des Waldbrandes"
+        },
+        {
+          "nr": 15,
+          "st": 15,
+          "dt": "Mondfinsternis – Der schicksalshafte, schwere Abschied"
+        },
+        {
+          "nr": 16,
+          "st": 16,
+          "dt": "Morohas Klinge"
+        },
+        {
+          "nr": 17,
+          "st": 17,
+          "dt": "Die Falle der zwei Übel"
+        },
+        {
+          "nr": 18,
+          "st": 18,
+          "dt": "Sesshomaru und Kirinmaru"
+        },
+        {
+          "nr": 19,
+          "st": 19,
+          "dt": "Prinzessin Aiyas Beniyasha-Jagd"
+        },
+        {
+          "nr": 20,
+          "st": 20,
+          "dt": "Das verborgene Halbdämönen-Dorf"
+        },
+        {
+          "nr": 21,
+          "st": 21,
+          "dt": "Das Geheimnis der Regenbogenperlen"
+        },
+        {
+          "nr": 22,
+          "st": 22,
+          "dt": "Das gestohlene Siegel"
+        },
+        {
+          "nr": 23,
+          "st": 23,
+          "dt": "Gegenangriff der drei Prinzessinnen"
+        },
+        {
+          "nr": 24,
+          "st": 24,
+          "dt": "Was es bedeutet, Sesshomarus Töchter zu sein"
+        },
+        {
+          "nr": 25,
+          "st": 25,
+          "dt": "Tenseiga zu führen"
+        },
+        {
+          "nr": 26,
+          "st": 26,
+          "dt": "Dämonengeist des Meeres"
+        },
+        {
+          "nr": 27,
+          "st": 27,
+          "dt": "Der Fluch der Silberschuppe"
+        },
+        {
+          "nr": 28,
+          "st": 28,
+          "dt": "Die Barriere am Berg Musubi"
+        },
+        {
+          "nr": 29,
+          "st": 29,
+          "dt": "Das Mädchen namens Rion"
+        },
+        {
+          "nr": 30,
+          "st": 30,
+          "dt": "Hisui, der Yokai-Jäger"
+        },
+        {
+          "nr": 31,
+          "st": 31,
+          "dt": "Takechiyos Auftrag"
+        },
+        {
+          "nr": 32,
+          "st": 32,
+          "dt": "Nanaahoshis Mini-Galaxie"
+        },
+        {
+          "nr": 33,
+          "st": 33,
+          "dt": "Mayonakas Besuch"
+        },
+        {
+          "nr": 34,
+          "st": 34,
+          "dt": "Kampf bei Neumond, Teil 1"
+        },
+        {
+          "nr": 35,
+          "st": 35,
+          "dt": "Kampf bei Neumond, Teil 2"
+        },
+        {
+          "nr": 36,
+          "st": 36,
+          "dt": "Der Ort, an den Towa (nicht) gehört"
+        },
+        {
+          "nr": 37,
+          "st": 37,
+          "dt": "Zeros Begehr"
+        },
+        {
+          "nr": 38,
+          "st": 38,
+          "dt": "Kirinmaru des Morgengrauens"
+        },
+        {
+          "nr": 39,
+          "st": 39,
+          "dt": "Eltern und Kind wiedervereint"
+        },
+        {
+          "nr": 40,
+          "st": 40,
+          "dt": "Die Flucht der drei Prinzessinnen"
+        },
+        {
+          "nr": 41,
+          "st": 41,
+          "dt": "Akurus Windrädchen"
+        },
+        {
+          "nr": 42,
+          "st": 42,
+          "dt": "Die Windmühle der Zeit stürzt ein"
+        },
+        {
+          "nr": 43,
+          "st": 43,
+          "dt": "Die Bühne verdunkelt sich"
+        },
+        {
+          "nr": 44,
+          "st": 44,
+          "dt": "Wenn Yoreisei einschlägt"
+        },
+        {
+          "nr": 45,
+          "st": 45,
+          "dt": "Osamu Kirins Ayakashi-Jagd"
+        },
+        {
+          "nr": 46,
+          "st": 46,
+          "dt": "Der Yorei-Schmetterling der Verzweiflung"
+        },
+        {
+          "nr": 47,
+          "st": 47,
+          "dt": "Vater und Tochter"
+        },
+        {
+          "nr": 48,
+          "st": 48,
+          "dt": "Eine ewig währende Zukunft"
         }
       ]
     },

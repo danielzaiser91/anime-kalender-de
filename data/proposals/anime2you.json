@@ -1,6 +1,55 @@
 {
-  "scrapedAt": "2026-10-06T04:08:34.918Z",
+  "scrapedAt": "2026-10-07T04:11:09.511Z",
   "proposals": [
+    {
+      "articleTitle": "Sieben Anime-Neustarts ab sofort bei ADN verfügbar",
+      "articleUrl": "https://www.anime2you.de/news/1057665/adn-nia-liston-simulcast-und-mehr/",
+      "publishedAt": "2026-10-06",
+      "category": "streaming",
+      "platforms": [
+        "adn"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Samstag",
+          "zeit": "19:00",
+          "satz": "»Reincarnated as a Sword« – Staffel 2 »Suikoden« »Tougen Anki« – Staffel 2 »Even the Student Council Has Its Holes!« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 19:00 Uhr Stream: Prime Video , ADN Handlung: Ume"
+        },
+        {
+          "tag": "Sonntag",
+          "zeit": "18:05",
+          "satz": "uppe äußerst eigenwilliger Mitschüler, die seinen Schulalltag gehörig auf den Kopf stellen. »My Girlfriend’s Friend« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Sonntag um 18:05 Uhr Stream: Prime Video , ADN Handlung: Tak"
+        },
+        {
+          "tag": "Dienstag",
+          "zeit": "14:55",
+          "satz": "sich zu gewinnen. Damit stellt sie die Beziehung der beiden auf eine harte Probe. »Nia Liston: The Merciless Maiden« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 14:55 Uhr Stream: Prime Video , ADN Handlung: Ein"
+        },
+        {
+          "tag": "Sonntag",
+          "zeit": "18:00",
+          "satz": "hr wirklich ebenbürtig ist. »Now That I Can Control Reality With A Mouse Cursor, I’m Gonna Click Away On The Girls!« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Sonntag um 18:00 Uhr Stream: ADN Handlung: Der introvertiert"
+        },
+        {
+          "tag": "Mittwoch",
+          "zeit": "17:30",
+          "satz": "rsor die Realität verändern kann, sieht er seine Chance, sich zu revanchieren. »Reincarnated as a Sword« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 17:30 Uhr Stream: Prime Video , ADN Handlung: Fra"
+        },
+        {
+          "tag": "Samstag",
+          "zeit": "13:00",
+          "satz": "sie den Nekromanten Jean und begleiten ihn bei der Erforschung eines uralten Labyrinths voller Gefahren. »Suikoden« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 13:00 Uhr Stream: Prime Video , ADN Handlung: Wäh"
+        },
+        {
+          "tag": "Freitag",
+          "zeit": "18:00",
+          "satz": "eine Intrige und beschließen, die Wahrheit aufzudecken und in ihre Heimat zurückzukehren. »Tougen Anki« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Freitag um 18:00 Uhr Stream: Prime Video , ADN Handlung: Nac"
+        }
+      ],
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Drei weitere Anime-Neustarts ab sofort auf Crunchyroll verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1057659/crunchyroll-reborn-as-a-goblin-und-mehr/",
@@ -29,20 +78,6 @@
         }
       ],
       "alreadyCurated": false
-    },
-    {
-      "articleTitle": "Disney+ nimmt zwei weitere Anime-Neuzugänge ins Programm",
-      "articleUrl": "https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/",
-      "publishedAt": "2026-10-05",
-      "category": "streaming",
-      "platforms": [
-        "disneyplus"
-      ],
-      "dates": [],
-      "dub": "unklar",
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-06"
     },
     {
       "articleTitle": "Crunchyroll zeigt »Red Riding Hood: A Detective Story« im Simulcast + Trailer",
@@ -97,20 +132,6 @@
       "category": "streaming",
       "platforms": [
         "netflix"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-05"
-    },
-    {
-      "articleTitle": "Prime Video ergänzt drei Anime-Neuzugänge auf Deutsch",
-      "articleUrl": "https://www.anime2you.de/news/1057464/prime-video-marronniers-und-mehr/",
-      "publishedAt": "2026-10-04",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
       ],
       "dates": [],
       "dub": "ja",
@@ -589,20 +610,6 @@
       "sammelGelesen": "2026-10-05"
     },
     {
-      "articleTitle": "Prime Video nimmt fünf Anime-Neuzugänge ins Programm",
-      "articleUrl": "https://www.anime2you.de/news/1056121/prime-video-demon-slayer-kimetsu-no-yaiba-und-mehr/",
-      "publishedAt": "2026-10-01",
-      "category": "streaming",
-      "platforms": [
-        "primevideo"
-      ],
-      "dates": [],
-      "dub": "unklar",
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-05"
-    },
-    {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
       "articleUrl": "https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/",
       "publishedAt": "2026-09-30",
@@ -632,7 +639,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-04"
+      "sammelGelesen": "2026-10-07"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -1038,7 +1045,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-04"
+      "sammelGelesen": "2026-10-07"
     },
     {
       "articleTitle": "AKIBA PASS TV kündigt zwei neue Herbst-Simulcasts 2026 an",
@@ -1051,20 +1058,6 @@
       "alreadyCurated": false,
       "sammel": [],
       "sammelGelesen": "2026-10-06"
-    },
-    {
-      "articleTitle": "Disney+ ergänzt Anime-Katalog mit drei weiteren Neuzugängen",
-      "articleUrl": "https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/",
-      "publishedAt": "2026-09-28",
-      "category": "streaming",
-      "platforms": [
-        "disneyplus"
-      ],
-      "dates": [],
-      "dub": "ja",
-      "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-05"
     },
     {
       "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -1092,7 +1085,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-04"
+      "sammelGelesen": "2026-10-07"
     },
     {
       "articleTitle": "AniMoon-Angebot: »Higurashi GOU«-Komplettset zum Sonderpreis",
@@ -1124,7 +1117,298 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true,
+      "discZeilen": [
+        {
+          "datum": "2026-10-02",
+          "titel": "Black Butler: Emerald Witch Arc – Vol. 1",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-10-02",
+          "titel": "Blue Exorcist: The Blue Night Saga – Vol. 2",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": ""
+        },
+        {
+          "datum": "2026-10-02",
+          "titel": "Chainsaw Man – Staffel 1",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-10-02",
+          "titel": "My Hero Academia – Staffel 6",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-10-02",
+          "titel": "My Love Story with Yamada-kun at Lv999 – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-10-02",
+          "titel": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-10-02",
+          "titel": "Wind Breaker (Staffel 2) – Vol. 2",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": ""
+        },
+        {
+          "datum": "2026-10-02",
+          "titel": "Zombie Land Saga – Staffel 1 + 2",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "Bitte zieh dich an, Takamine! – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "Bocchi the Rock! – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "Bocchi the Rock! – Vol. 1 (Exklusiv)",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": ""
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "Dr. STONE: Science Future – Vol. 1",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "Miss Kobayashi’s Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe",
+          "label": "crunchyroll",
+          "format": "film",
+          "medium": "blu-ray",
+          "edition": ""
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "My Next Life as a Villainess – Staffel 2",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "Rent-A-Girlfriend – Staffel 4",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "Sailor Moon – Staffel 1",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe limited-edition steelbook"
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "Steins;Gate 0",
+          "label": "peppermint-anime",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "Vinland Saga – Staffel 2",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-10-16",
+          "titel": "Yashahime – Staffel 2",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-10-22",
+          "titel": "All You Need Is Kill",
+          "label": "ksm-anime",
+          "format": "film",
+          "medium": "blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-10-22",
+          "titel": "Ame & Yuki – Die Wolfskinder (Ultimate Edition)",
+          "label": "ksm-anime",
+          "format": "film",
+          "medium": "4k-blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-10-22",
+          "titel": "Das Mädchen, das durch die Zeit sprang (Ultimate Edition)",
+          "label": "ksm-anime",
+          "format": "film",
+          "medium": "4k-blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-10-22",
+          "titel": "Der Junge und das Biest (Ultimate Edition)",
+          "label": "ksm-anime",
+          "format": "film",
+          "medium": "4k-blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-10-22",
+          "titel": "Detektei Layton – Katrielles rätselhafte Fälle",
+          "label": "ksm-anime",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-10-22",
+          "titel": "Summer Wars (Ultimate Edition)",
+          "label": "ksm-anime",
+          "format": "film",
+          "medium": "4k-blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-10-23",
+          "titel": "2.5 Dimensional Seduction – Vol. 4",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-10-23",
+          "titel": "Inazuma Eleven – Staffel 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-10-23",
+          "titel": "Infinite Dendrogram – Vol. 2",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-10-23",
+          "titel": "Nukitashi – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-10-23",
+          "titel": "Sakamoto Days – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-10-23",
+          "titel": "Strike Witches (Staffel 2) – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-10-23",
+          "titel": "Virgin Road – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-10-30",
+          "titel": "DAN DA DAN (Staffel 2) – Vol. 2 (Exklusiv)",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition steelbook"
+        },
+        {
+          "datum": "2026-10-30",
+          "titel": "DAN DA DAN – Staffel 1",
+          "label": "polyband-anime",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe limited-edition"
+        },
+        {
+          "datum": "2026-10-30",
+          "titel": "I Want You To Show Me Your Panties With a Disgusted Face Returns",
+          "label": "polyband-anime",
+          "format": "",
+          "medium": "blu-ray",
+          "edition": ""
+        },
+        {
+          "datum": "2026-10-30",
+          "titel": "Shin Chan – Vol. 15",
+          "label": "polyband-anime",
+          "format": "serie",
+          "medium": "dvd",
+          "edition": ""
+        }
+      ],
+      "discGelesen": "2026-10-07"
     },
     {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
@@ -1210,7 +1494,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Design der Blu-ray-Komplettbox von »Failure Frame«",
@@ -1250,7 +1534,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Prime Video verfügbar",
@@ -1640,7 +1924,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-07"
     },
     {
       "articleTitle": "»Die Königin der 1000 Jahre« erscheint als Blu-ray-Komplettbox",
@@ -1669,7 +1955,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-07"
     },
     {
       "articleTitle": "Vier Dezember-Neuheiten 2026 bei Anime Planet vorbestellbar",
@@ -1698,7 +1986,9 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-07"
     },
     {
       "articleTitle": "Crunchyroll kündigt 19 neue Simulcasts für Herbst 2026 an",
@@ -1793,7 +2083,7 @@
         }
       ],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Deutscher Synchro-Trailer zu »Avatar: Die sieben Häfen« + Visual",
@@ -2028,7 +2318,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Deutscher Trailer zu »My Love Story with Yamada-kun at Lv999« + Cast",
@@ -2774,7 +3064,330 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "discZeilen": [
+        {
+          "datum": "2026-09-03",
+          "titel": "The Most Heretical Last Boss Queen – Staffel 1",
+          "label": "ksm-anime",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "A Couple of Cuckoos – Staffel 1",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "Blue Exorcist: The Blue Night Saga – Vol. 1",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "Die Tagebücher der Apothekerin – Staffel 1",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe limited-edition steelbook"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "Hakaba Kitaro: Der Junge vom Friedhof",
+          "label": "polyband-anime",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe limited-edition"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "I’m Standing On A Million Lives – Staffel 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "Log Horizon – Staffel 3",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "My Hero Academia: Vigilantes – Staffel 1",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "My One-Hit Kill Sister",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "Princess Principal – Staffel 1 + OVA",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "Re:Monster – Staffel 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "Re:ZERO (Staffel 3) – Vol. 1",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "Spice & Wolf: Merchant Meets The Wise Wolf – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-09-04",
+          "titel": "The Devil is a Part-Timer! – Staffel 2",
+          "label": "anime-house",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-09",
+          "titel": "Detektiv Conan – Vol. 9",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": ""
+        },
+        {
+          "datum": "2026-09-11",
+          "titel": "2.5 Dimensional Seduction – Vol. 4",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-09-11",
+          "titel": "Infinite Dendrogram – Vol. 2",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-09-11",
+          "titel": "Sakamoto Days – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-09-11",
+          "titel": "Shin Chan – Vol. 14",
+          "label": "polyband-anime",
+          "format": "serie",
+          "medium": "dvd",
+          "edition": ""
+        },
+        {
+          "datum": "2026-09-11",
+          "titel": "Strike Witches (Staffel 2) – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-09-11",
+          "titel": "Virgin Road: Die Henkerin und ihre Art zu leben – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-09-17",
+          "titel": "Promise of Wizard – Staffel 1",
+          "label": "ksm-anime",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-17",
+          "titel": "Witch Watch – Vol. 2",
+          "label": "ksm-anime",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-09-17",
+          "titel": "Yu-Gi-Oh! Duel Monsters",
+          "label": "ksm-anime",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-18",
+          "titel": "As a Reincarnated Aristocrat (Staffel 1) Vol. 2",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": ""
+        },
+        {
+          "datum": "2026-09-18",
+          "titel": "Call of the Night (Staffel 2) – Vol. 1",
+          "label": "peppermint-anime",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": ""
+        },
+        {
+          "datum": "2026-09-18",
+          "titel": "Call of the Night (Staffel 2) – Vol. 1 (Exklusiv)",
+          "label": "peppermint-anime",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-09-18",
+          "titel": "Code Geass – Staffel 1 & 2",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-18",
+          "titel": "Kaiju No. 8: Mission Recon",
+          "label": "crunchyroll",
+          "format": "film",
+          "medium": "blu-ray",
+          "edition": "limited-edition steelbook"
+        },
+        {
+          "datum": "2026-09-18",
+          "titel": "My Hero Academia (Staffel 7) – Vol. 3",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": ""
+        },
+        {
+          "datum": "2026-09-18",
+          "titel": "Ron Kamonohashi’s Forbidden Deductions (Staffel 2) – Vol. 1",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-09-18",
+          "titel": "The Ancient Magus‘ Bride – Staffel 2",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-18",
+          "titel": "The Quintessential Quintuplets – Staffel 1 & 2",
+          "label": "crunchyroll",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-18",
+          "titel": "Virgin Road: Die Henkerin und ihre Art zu leben – Vol. 2",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition"
+        },
+        {
+          "datum": "2026-09-24",
+          "titel": "My Gift Lvl 9999 Unlimited Gacha",
+          "label": "ksm-anime",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-25",
+          "titel": "Inazuma Eleven – Staffel 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "gesamtausgabe"
+        },
+        {
+          "datum": "2026-09-25",
+          "titel": "Nukitashi – Vol. 1",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "dvd blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-09-30",
+          "titel": "Bocchi the Rock! – Vol. 1 (Exklusiv)",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": ""
+        },
+        {
+          "datum": "2026-09-30",
+          "titel": "DAN DA DAN (Staffel 2) – Sammelschuber (Exklusiv)",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition sammelschuber"
+        },
+        {
+          "datum": "2026-09-30",
+          "titel": "DAN DA DAN (Staffel 2) – Vol. 1 (Exklusiv)",
+          "label": "animoon-publishing",
+          "format": "serie",
+          "medium": "blu-ray",
+          "edition": "limited-edition steelbook"
+        }
+      ],
+      "discGelesen": "2026-10-07"
     },
     {
       "articleTitle": "»Afro Samurai« erscheint im limitierten Steelbook auf Blu-ray",
@@ -2973,7 +3586,7 @@
         }
       ],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": true
     },
     {
       "articleTitle": "Disc-Termin von »There’s No Freaking Way I’ll Be Your Lover! Unless…«",
