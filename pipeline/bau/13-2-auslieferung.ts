@@ -137,7 +137,13 @@ export function baueAuslieferung({
        * 23.09. nicht mehr sauber zusammenführen; die Zeile steht deshalb direkt hier.
        */
       const hinterToggle = new Set(verschoben.map((t) => t.id))
-      const verloren = vorher.filter((id) => !jetzt.has(id) && !hinterToggle.has(id))
+      /*
+        Ein Titel nur bei aniSearch (ID ab `ANISEARCH_ID_BASIS`) ist abgelöst, sobald seine aniSearch-Kennung einem Titel mit AniList-Kennung zugeordnet wurde
+        (Katalog-Lauf 07.10.2026: acht Titel, Lauf 37618280396). Er lebt dann unter dem Nachfolger weiter — im Hauptbestand, sobald `anisearch-dubs.json` ihn führt.
+      */
+      const nachfolger = new Set<number>([...Object.values(anisearchHand), ...Object.values(anisearch).map((e) => e.anisearchId ?? 0)])
+      const abgeloest = (id: number) => id >= ANISEARCH_ID_BASIS && nachfolger.has(id - ANISEARCH_ID_BASIS)
+      const verloren = vorher.filter((id) => !jetzt.has(id) && !hinterToggle.has(id) && !abgeloest(id))
       if (verloren.length > ERLAUBTER_VERLUST) {
         warn(
           `ABBRUCH: ${verloren.length} Titel wuerden aus dem Datensatz fallen ` +

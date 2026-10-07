@@ -21,6 +21,7 @@ Messungen, verworfene Quellen) und alles, was Code-Kommentare „in `status.md`"
 
 | Aufgabe | SP | Notiz |
 |---|---|---|
+| **Bau-Abbruch 07.10.2026: 8 aniSearch-Titel abgelöst (Lauf 37618280396)** | 1 | Der Katalog-Lauf (7b1d2275) ordnete acht Titel nur bei aniSearch (ID 100…, Kennzeichen `c`) AniList-Titeln hinter dem Toggle zu; der Riegel in `13-2-auslieferung.ts` zählte sie als verloren und brach ab. Der Riegel kennt jetzt „abgelöst". **Zu prüfen:** `data:anisearch-dubs` auf Abruf, danach stehen die Nachfolger (4439, 5091, 6262, 6771, 7956, 9978, 10282, 11421) im Hauptbestand. |
 | **Cover-Ausbau (Daniel, 07.10.2026)** | 3 | Stand siehe `docs/wissen/datensatz.md` („Große Cover …"). **Offen:** (1) Messen: Dateigröße und gewählte `srcset`-Fassung der Vergrößerung auf gedrosseltem Handy; (2) Staffelplakate für die 738 Titel ohne TMDB-Zuordnung (`/tv/{id}/season/{n}/images`); (3) andere Quellen für die 338 zu kleinen Plakate (Kitsu `original`, aniSearch `cover.large` 600 px, Websuche); (4) erledigt 07.10.2026: TMDB-Logo (`public/icons/tmdb.svg`) im Impressum, Daniel hat den Download erlaubt. |
 | **Tägliche Prüfliste aus dem aniSearch-Dubs-Endpunkt (Daniel, 06.10.2026)** | 3 | Messung in `docs/wissen/quellen.md`; Liste täglich neu erzeugen und ablegen. |
 | **Detailpanel: zukünftige „Folgen" mit eigenem Symbol** | 3 | Eigenes Symbol und besserer Tooltip für Folgen, die noch in der Zukunft liegen (Daniel, 07.10.2026). |
