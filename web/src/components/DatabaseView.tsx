@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { sortiereNachTitel } from '../lib/titel-sortierung.ts'
 import type { Title } from '@shared/types.ts'
 import { titleStatus } from '@shared/logic.ts'
 import { FundstellenZeichen, TrefferName } from './Suchtreffer.tsx'
@@ -93,7 +94,7 @@ export function DatabaseView({
       : titles.map((tt) => ({ main: tt, members: [tt] }))
 
     if (sort === 'relevanz') return base
-    if (sort === 'titel') base.sort((a, b) => anzeigeName(a.main).localeCompare(anzeigeName(b.main), 'de'))
+    if (sort === 'titel') sortiereNachTitel(base)
     else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
     else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
     return base

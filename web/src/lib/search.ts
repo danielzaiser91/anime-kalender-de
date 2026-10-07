@@ -334,8 +334,8 @@ function bigramme(w: string): Set<string> {
 }
 
 /** Dice-Koeffizient über Buchstabenpaare: 0 = nichts gemein, 1 = gleich. */
-function aehnlichkeit(a: string, b: string): number {
-  const A = bigramme(a)
+/** `A` sind die Buchstabenpaare von `a` — der Aufrufer bildet sie einmal je Suchwort, nicht je Vergleich. */
+function aehnlichkeit(a: string, b: string, A: Set<string> = bigramme(a)): number {
   const B = bigramme(b)
   if (!A.size || !B.size) return a === b ? 1 : 0
   let gemeinsam = 0
@@ -392,6 +392,7 @@ const PRAEFIX_AB = 4
 function wortTrifftUngefaehr(suchwort: string, heuhaufen: string[]): boolean {
   const tol = toleranz(suchwort.length)
   if (!tol) return false
+  const paare = suchwort.length >= 5 ? bigramme(suchwort) : undefined
   for (const wort of heuhaufen) {
     // Ein gemeinsamer Anfang ist ein starkes Signal: „aesthetic" gegen
     // „aesthetica".
@@ -403,7 +404,7 @@ function wortTrifftUngefaehr(suchwort: string, heuhaufen: string[]): boolean {
       return true
     }
     if (abstand(suchwort, wort, tol) <= tol) return true
-    if (suchwort.length >= 5 && wort.length >= 5 && aehnlichkeit(suchwort, wort) >= AEHNLICH_AB) return true
+    if (paare && wort.length >= 5 && aehnlichkeit(suchwort, wort, paare) >= AEHNLICH_AB) return true
   }
   return false
 }
