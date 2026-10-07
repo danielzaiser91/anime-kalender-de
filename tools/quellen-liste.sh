@@ -25,6 +25,9 @@ QUELLEN=(
   data/anisearch-sprecher.json
   data/anisearch-slugs.json
   data/anisearch-dubs.json
+  data/anisearch-dub-ids.json
+  data/anisearch-eintraege.json
+  data/anisearch-eintraege-ausgelassen.json
   data/tmdb-poster.json
   data/kitsu-folgen.json
   data/cover-klein.json

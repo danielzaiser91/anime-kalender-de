@@ -45,6 +45,7 @@ on:
           - data:tmdb-poster
           - data:kitsu-folgen
           - data:anisearch-dubs
+          - data:anisearch-eintraege
           - data:anisearch
           - data:anisearch-folgen
           - data:anisearch-titel
@@ -155,7 +156,7 @@ jobs:
               # `--katalog` haengt die Titel hinter dem Toggle hinten an — 11.607
               # mit aniSearch-Kennung, von denen noch keiner geholt wurde.
               npm run "$LAUF" -- --limit "$GRENZE" ${{ inputs.katalog && '--katalog' || '' }} ;;
-            data:tmdb-folgen|data:tmdb-poster|data:kitsu-folgen|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:anisearch-artikel|data:anisearch-sprecher|data:cr-dub|data:justwatch|data:youtube:kauf)
+            data:tmdb-folgen|data:tmdb-poster|data:kitsu-folgen|data:anisearch-eintraege|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:anisearch-artikel|data:anisearch-sprecher|data:cr-dub|data:justwatch|data:youtube:kauf)
               npm run "$LAUF" -- --limit "$GRENZE" ;;
             *)
               npm run "$LAUF" ;;

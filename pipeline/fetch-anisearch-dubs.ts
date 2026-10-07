@@ -60,6 +60,8 @@ async function main(): Promise<void> {
     return
   }
   writeJson('data/anisearch-dubs.json', aus)
+  /* Alle Kennungen mit Deutsch (auch ohne Titel bei uns): Quelle für `fetch-anisearch-eintraege.ts`. */
+  writeJson('data/anisearch-dub-ids.json', Object.fromEntries(Object.entries(alle).map(([id, s]) => [id, deutschKennzeichen(s)] as const).filter(([, k]) => k !== '-')))
   log(`${Object.keys(alle).length} Einträge bei aniSearch, ${Object.keys(aus).length} von ${unsere.size} unserer Kennungen übernommen`)
   recordSource('anisearch-dubs', Object.keys(aus).length)
 }

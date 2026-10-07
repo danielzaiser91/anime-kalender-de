@@ -295,6 +295,10 @@ jobs:
       - name: aniSearch-Dub-Liste holen
         run: bash tools/schritt.sh --zeit 10m "aniSearch-Dubs" -- npm run data:anisearch-dubs
 
+      # Einträge, die aniSearch führt und wir noch nicht (erst die mit Deutsch, dann der Rest); 400 Kennungen je Woche, tokenlos alle 10 Sekunden ein Abruf.
+      - name: aniSearch-Einträge holen
+        run: bash tools/schritt.sh --zeit 25m "aniSearch-Einträge" -- npm run data:anisearch-eintraege -- --limit 400
+
       # Tonspuren laut JustWatch: die einzige maschinelle Quelle für Prime Video und die Kanal-Angebote. Fragt reihum alle Titel (alle vier Wochen jeder).
       - name: Tonspuren laut JustWatch
         run: bash tools/schritt.sh --zeit 35m "Tonspuren laut JustWatch" -- npm run data:justwatch -- --limit 800
