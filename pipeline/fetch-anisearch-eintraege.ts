@@ -60,10 +60,10 @@ export const istHentai = (r: Roh): boolean =>
 
 /**
  * **Was wir nicht brauchen** (gemessen 08.10.2026 an 10.800 Einträgen): Musikvideos (0 mit Synchro) und Werbespots (CM: 0 mit Synchro, im Mittel eine Minute) immer; „Anderes“ (Pilotfilme, Kurzclips)
- * nur, wenn weder eine Synchro noch ein deutscher Anbieter dabei ist. OVA, Film, Web, Bonus (dort stehen Extras wie „Angel Beats! Stairway to Heaven“) und Unbekannt bleiben.
+ * nur, wenn weder eine Synchro noch ein deutscher Anbieter dabei ist und die Laufzeit unter 20 Minuten liegt (längere sind OVA-artig; Daniel, 08.10.2026: Bikini Warriors). OVA, Film, Web, Bonus (dort stehen Extras wie „Angel Beats! Stairway to Heaven“) und Unbekannt bleiben.
  */
 export const istUnnoetig = (r: Roh): boolean =>
-  /^(Musikvideo|Music Video|CM|Commercial)$/i.test(r.type) || (/^(Anderes|Other)$/i.test(r.type) && dubKennzeichen(r) === '-' && !r.releases?.de?.publishers?.length)
+  /^(Musikvideo|Music Video|CM|Commercial)$/i.test(r.type) || (/^(Anderes|Other)$/i.test(r.type) && dubKennzeichen(r) === '-' && !r.releases?.de?.publishers?.length && (r.duration ?? 0) < 20)
 
 export function kompakt(r: Roh): Record<string, unknown> {
   const de = r.releases?.de
