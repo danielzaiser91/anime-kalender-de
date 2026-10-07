@@ -7,6 +7,7 @@
  * **Reihenfolge der Abrufe:** erst die Einträge, bei denen aniSearch Deutsch nennt (vertont, geplant, abgebrochen — `data/anisearch-dub-ids.json`,
  * geschrieben vom Dub-Schritt), dann der Rest in aufsteigender Kennung (`/v1/anime/titles`). Zehn Kennungen je Abruf, alle 5 Sekunden, **nur mit Token**; `--limit` begrenzt die Zahl der Kennungen je Lauf (Standard 400).
  *
+ * **Musikvideos, Werbespots und Sonstiges ohne Synchro und ohne deutschen Anbieter bleiben ebenfalls draußen** (`istUnnoetig`).
  * **Hentai bleibt draußen** (Kennzeichen 18+ am Cover, Hauptgenre Hentai oder das Schlagwort „Keine Jugendfreigabe"); die Kennungen stehen in
  * `data/anisearch-eintraege-ausgelassen.json`, damit sie nicht wieder geholt werden. Cover und Bild-Adressen übernehmen wir nicht
  * (nicht zur Weitergabe freigegeben).
@@ -56,6 +57,13 @@ export function dubKennzeichen(r: Pick<Roh, 'releases'>): 'd' | 'p' | 'c' | '-' 
 
 export const istHentai = (r: Roh): boolean =>
   r.cover?.nsfw === 18 || /hentai/i.test(r.genres?.main?.[0] ?? '') || (r.genres?.tags ?? []).includes('Keine Jugendfreigabe')
+
+/**
+ * **Was wir nicht brauchen** (gemessen 08.10.2026 an 10.800 Einträgen): Musikvideos (0 mit Synchro) und Werbespots (CM: 0 mit Synchro, im Mittel eine Minute) immer; „Anderes“ (Pilotfilme, Kurzclips)
+ * nur, wenn weder eine Synchro noch ein deutscher Anbieter dabei ist. OVA, Film, Web, Bonus (dort stehen Extras wie „Angel Beats! Stairway to Heaven“) und Unbekannt bleiben.
+ */
+export const istUnnoetig = (r: Roh): boolean =>
+  /^(Musikvideo|Music Video|CM|Commercial)$/i.test(r.type) || (/^(Anderes|Other)$/i.test(r.type) && dubKennzeichen(r) === '-' && !r.releases?.de?.publishers?.length)
 
 export function kompakt(r: Roh): Record<string, unknown> {
   const de = r.releases?.de
@@ -124,7 +132,7 @@ async function main(): Promise<void> {
       continue
     }
     for (const r of antwort.results ?? []) {
-      if (istHentai(r)) ausgelassen.add(String(r.id))
+      if (istHentai(r) || istUnnoetig(r)) ausgelassen.add(String(r.id))
       else eintraege[String(r.id)] = kompakt(r)
       neu++
     }
@@ -132,7 +140,7 @@ async function main(): Promise<void> {
     writeJson('data/anisearch-eintraege-ausgelassen.json', [...ausgelassen].map(Number).sort((a, b) => a - b))
     await sleep(pause)
   }
-  log(`${neu} Einträge neu, ${Object.keys(eintraege).length} insgesamt, ${ausgelassen.size} ausgelassen (Hentai)`)
+  log(`${neu} Einträge neu, ${Object.keys(eintraege).length} insgesamt, ${ausgelassen.size} ausgelassen (Hentai, Musikvideo, CM, Sonstiges)`)
   recordSource('anisearch-eintraege', neu)
 }
 
