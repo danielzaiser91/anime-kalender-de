@@ -459619,30 +459619,36 @@
   },
   "195604": {
     "anisearchId": 20716,
-    "streams": [],
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GRE50KV36/black-clover"
+      }
+    ],
     "info": {
       "languages": [
         {
           "language": "Japanisch",
           "title": "Black Clover 2nd Season",
           "titleNative": "ブラッククローバー 2nd Season",
-          "status": "Zukünftig",
-          "released": "10.2026 - ?"
+          "status": "Laufend",
+          "released": "03.10.2026 - ?"
         },
         {
           "language": "Englisch",
           "title": "Black Clover: Season 2",
-          "status": "Zukünftig",
-          "released": "10.2026 - ?",
+          "status": "Laufend",
+          "released": "21.09.2026 - ?",
           "publisher": [
-            "Crunchyroll"
+            "Crunchyroll",
+            "bilibili"
           ]
         },
         {
           "language": "Deutsch",
           "title": "Black Clover: Staffel 2",
-          "status": "Zukünftig",
-          "released": "10.2026 - ?",
+          "status": "Laufend",
+          "released": "03.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
           ]
@@ -459650,8 +459656,8 @@
         {
           "language": "Spanisch",
           "title": "Black Clover: Temporada 2",
-          "status": "Zukünftig",
-          "released": "10.2026 - ?",
+          "status": "Laufend",
+          "released": "03.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
           ]
@@ -459659,8 +459665,8 @@
         {
           "language": "Französisch",
           "title": "Black Clover : Saison 2",
-          "status": "Zukünftig",
-          "released": "10.2026 - ?",
+          "status": "Laufend",
+          "released": "03.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
           ]
@@ -459668,8 +459674,8 @@
         {
           "language": "Italienisch",
           "title": "Black Clover: Stagione 2",
-          "status": "Zukünftig",
-          "released": "10.2026 - ?",
+          "status": "Laufend",
+          "released": "03.10.2026 - ?",
           "publisher": [
             "Crunchyroll"
           ]
@@ -459702,11 +459708,12 @@
           "url": "https://bclover.jp/"
         }
       ],
+      "broadcast": "Samstag 23:00 (JST)",
       "synonyms": [
-        "Black Clover Second Season Alle anzeigen"
+        "Black Clover Second Season"
       ]
     },
-    "fetchedAt": "2026-09-06T06:32:37.535Z"
+    "fetchedAt": "2026-10-07T04:02:03.417Z"
   },
   "195734": {
     "anisearchId": 20745,
