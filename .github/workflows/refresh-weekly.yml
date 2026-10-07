@@ -223,6 +223,8 @@ jobs:
 
       # Die kanonischen Slugs der Titelseiten für die Quellenlinks (ein Abruf der API); braucht die Kennungen aus dem Schritt davor.
       - name: aniSearch — Slugs der Titelseiten
+        env:
+          ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
         run: bash tools/schritt.sh --zeit 5m "aniSearch — Slugs" -- npm run data:anisearch-slugs
 
       # Die Folgenlisten mit den deutschen Folgentiteln — braucht `data/anisearch.json` (anisearchId) aus dem Schritt davor.
@@ -293,10 +295,14 @@ jobs:
 
       # Welche Titel aniSearch als deutsch vertont führt (ein Abruf; mit Token eine Abfrage je Stunde).
       - name: aniSearch-Dub-Liste holen
+        env:
+          ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
         run: bash tools/schritt.sh --zeit 10m "aniSearch-Dubs" -- npm run data:anisearch-dubs
 
       # Einträge, die aniSearch führt und wir noch nicht (erst die mit Deutsch, dann der Rest); 400 Kennungen je Woche, tokenlos alle 10 Sekunden ein Abruf.
       - name: aniSearch-Einträge holen
+        env:
+          ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
         run: bash tools/schritt.sh --zeit 25m "aniSearch-Einträge" -- npm run data:anisearch-eintraege -- --limit 400
 
       # Tonspuren laut JustWatch: die einzige maschinelle Quelle für Prime Video und die Kanal-Angebote. Fragt reihum alle Titel (alle vier Wochen jeder).

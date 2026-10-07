@@ -146,6 +146,7 @@ jobs:
           CR_ZUGANG: ${{ env.CR_ZUGANG_FRISCH || secrets.CR_ZUGANG }}
           CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
         run: |
           set -euo pipefail
           LAUF='${{ inputs.lauf || (github.event.schedule == '0 0 * * *' && 'data:anisearch-artikel') || (github.event.schedule == '0 2 * * *' && 'data:anisearch-sprecher') || (github.event.schedule == '0 4 * * *' && 'data:anisearch') || 'data:toggo' }}'
