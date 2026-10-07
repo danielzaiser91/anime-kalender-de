@@ -68,7 +68,7 @@ pruefe('Dub-Liste -: der Termin bleibt, wie er ist', mitDubKennzeichen(idMit('-'
 const mitErst = (id: number, extra: Partial<Title> = {}) => titel({ id, deErstausgabe: { von: '2024-10-21', publisher: 'Crunchyroll' } as never, ...extra })
 pruefe('deutsche Ausgabe, aniSearch nennt kein Deutsch: keine Synchro', keineSynchroLautAnisearch(mitErst(idMit('-'))))
 pruefe('ein Stream mit belegter Synchro schlägt das', !keineSynchroLautAnisearch(mitErst(idMit('-'), { streams: [{ platform: 'netflix', dub: true } as never] })))
-pruefe('ohne deutsche Ausgabe gilt die Regel nicht', !keineSynchroLautAnisearch(titel({ id: idMit('-') })))
+pruefe('auch ohne deutsche Ausgabe: aniSearch nennt kein Deutsch, kein Beleg', keineSynchroLautAnisearch(titel({ id: idMit('-') })))
 pruefe('Deutsch vertont: bleibt', !keineSynchroLautAnisearch(mitErst(idMit('d'))))
 pruefe('Deutsch abgebrochen (Teilsynchro): bleibt', !keineSynchroLautAnisearch(mitErst(idMit('c'))))
 pruefe('Deutsch geplant: bleibt', !keineSynchroLautAnisearch(mitErst(idMit('p'))))
