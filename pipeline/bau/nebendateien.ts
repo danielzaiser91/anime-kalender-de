@@ -45,7 +45,7 @@ import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
  * liegt, kann eine DVD sein; das entscheidet ein Blick, kein Abruf.
  */
 export function schreibeSuchadressen(offen: { id: number; titel: string; plattform: string; url: string }[]): void {
-  const ziel = 'daniel-zum-abarbeiten/18-suchadressen.md'
+  const ziel = 'daniel-zum-abarbeiten/listen/18-suchadressen.md'
   const stand = new Date().toISOString().slice(0, 10)
   if (!offen.length) {
     writeText(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'))

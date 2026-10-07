@@ -38,7 +38,7 @@ import { readJson, log } from './lib/util.ts'
 import type { Title, Release } from '../shared/types.ts'
 
 const QUELLE = 'data/proposals/anime2you.json'
-const ZIEL = 'daniel-zum-abarbeiten/10-kinostarts.md'
+const ZIEL = 'daniel-zum-abarbeiten/listen/10-kinostarts.md'
 
 interface Vorschlag {
   articleTitle: string
@@ -173,7 +173,7 @@ function main(): void {
     '',
   ].join('\n')
 
-  if (!existsSync('daniel-zum-abarbeiten')) mkdirSync('daniel-zum-abarbeiten', { recursive: true })
+  if (!existsSync('daniel-zum-abarbeiten/listen')) mkdirSync('daniel-zum-abarbeiten/listen', { recursive: true })
   writeFileSync(ZIEL, text)
 
   log(

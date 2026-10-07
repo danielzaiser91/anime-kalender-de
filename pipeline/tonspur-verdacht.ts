@@ -217,7 +217,7 @@ const zeilen = [
     ),
   '',
 ]
-writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/13-tonspur-verdacht.md'), zeilen.join('\n'))
+writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/13-tonspur-verdacht.md'), zeilen.join('\n'))
 
 log(
   `${jeSchluessel.size} Verweise beobachtet (${neuerStand} neu) — ` +

@@ -64,7 +64,7 @@ export function sammleBelege({
    * Die Erweiterung meldet Seiten, die unser Datensatz gar nicht kennt: Ein
    * Anbieter führt denselben Anime unter mehreren Kennungen, und aniSearch
    * nennt nur eine. Solche Meldungen landen in
-   * `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md` — und blieben dort
+   * `daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md` — und blieben dort
    * liegen, weil es **keinen Weg gab, die Adresse einzutragen**. Am 10.09.2026
    * warteten so 54 Meldungen zu drei Haikyu!!-Staffeln, zwei davon für Titel
    * ohne einen einzigen Prime-Verweis.

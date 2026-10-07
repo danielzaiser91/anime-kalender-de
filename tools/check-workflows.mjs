@@ -347,7 +347,7 @@ const NUR_VON_HAND = {
   **Gezählt wird nur, was geschrieben wird, nicht was genannt wird** (01.10.2026).
   Die erste Fassung sammelte jeden zitierten Pfad — und schlug Alarm, als
   `report-start.ts` eine **handgeschriebene** Anleitung verlinkte
-  (`datei: 'daniel-zum-abarbeiten/21-disneyplus-gruen.md'`). Der Deploy war damit ab
+  (`datei: 'daniel-zum-abarbeiten/listen/21-disneyplus-gruen.md'`). Der Deploy war damit ab
   dem 30.09. 22:30 dreimal rot, und die Seite stand still. Jetzt zählt ein Pfad nur,
   wenn im Umfeld ein `writeFileSync`/`writeJson`/`writeText` steht.
 */
@@ -359,7 +359,7 @@ const NUR_VON_HAND = {
     if (!/\.(ts|mjs)$/.test(datei)) continue
     const zeilen = readFileSync(new URL('../pipeline/' + datei, import.meta.url), 'utf8').split('\n')
     zeilen.forEach((zeile, i) => {
-      for (const m of zeile.matchAll(/['"`](daniel-zum-abarbeiten\/[\w.-]+\.md)['"`]/g)) {
+      for (const m of zeile.matchAll(/['"`](daniel-zum-abarbeiten\/[\w./-]+\.md)['"`]/g)) {
         /* Drei Zeilen Umfeld: Ein `writeFileSync(` darf vor seinem Pfad umbrechen. */
         const umfeld = zeilen.slice(Math.max(0, i - 2), i + 1).join('\n')
         if (SCHREIBT.test(umfeld)) geschrieben.add(m[1])

@@ -98,7 +98,7 @@ QUELLEN=(
   data/urteile.json
   data/amazon-gti-belegt.json
   data/justwatch-handpruefung.json
-  daniel-zum-abarbeiten/20-justwatch-handpruefung.md
+  daniel-zum-abarbeiten/listen/20-justwatch-handpruefung.md
   data/prime-unzugeordnet.json
   data/cr-vorschlaege.json
   data/adn-vorschlaege.json
@@ -270,7 +270,7 @@ QUELLEN=(
   # Hand geprüft — eine verworfene Fassung kostet den Prüfschritt erneut.
   data/curated/disc-anisearch.yaml
   data/motn-messung.md
-  daniel-zum-abarbeiten/07-alle-anbieter.md
+  daniel-zum-abarbeiten/listen/07-alle-anbieter.md
   # Die Liste, mit der die Browser-Erweiterung arbeitet. Sie entsteht aus dem
   # gebauten Datensatz und veraltet ohne diese Zeile still: Bis zum 25.08.2026
   # lief ihr Erzeuger in keinem Workflow, die Datei stammte vom 23.08., und die
@@ -302,7 +302,7 @@ QUELLEN=(
   # rot („stimmt mit der ausgelieferten überein", Lauf 35567600545).
   public/data/pruefliste-stand.json
   public/data/pruefstand.json
-  daniel-zum-abarbeiten/08-arbeitspakete.md
+  daniel-zum-abarbeiten/listen/08-arbeitspakete.md
   # Die Listen je Anbieter — sieben Dateien, die `data:dub-checks` bei jedem Lauf
   # neu schreibt und die bis zum 29.08.2026 keine einzige Zeile hier hatten.
   # Ergebnis: Der Lauf erzeugte sie, der Commit nahm sie nicht mit, der `git
@@ -312,31 +312,31 @@ QUELLEN=(
   # Genau die Falle aus CLAUDE.md, „Ein neuer Abruf braucht drei Dinge", nur fuer
   # ein Erzeugnis: Wer eine Datei schreibt, ohne sie hier einzutragen, schreibt
   # sie in jedem Lauf umsonst.
-  daniel-zum-abarbeiten/07-adn.md
+  daniel-zum-abarbeiten/listen/07-adn.md
   # Was Anime2You angekündigt hat und noch nicht im Datensatz steht — der Weg,
   # der bei „Kill Blue" gefehlt hat (07.09.2026).
   # Warum die Wache verlorene Urteile gemeldet hat — die Wache selbst kann das
   # nicht wissen (07.09.2026).
   daniel-zum-abarbeiten/00-wache-auswertung.md
-  daniel-zum-abarbeiten/15-news-vorschau.md
-  daniel-zum-abarbeiten/16-justwatch-tonspuren.md
+  daniel-zum-abarbeiten/listen/15-news-vorschau.md
+  daniel-zum-abarbeiten/listen/16-justwatch-tonspuren.md
   # Verweise, die auf eine Suche zeigten statt auf eine Titelseite — der Bau
   # entfernt sie und legt die Frage hier ab (10.09.2026).
-  daniel-zum-abarbeiten/18-suchadressen.md
+  daniel-zum-abarbeiten/listen/18-suchadressen.md
   data/suchadressen-offen.json
-  daniel-zum-abarbeiten/12-verpasste-termine.md
-  daniel-zum-abarbeiten/13-tonspur-verdacht.md
-  daniel-zum-abarbeiten/07-crunchyroll.md
-  daniel-zum-abarbeiten/07-disneyplus.md
-  daniel-zum-abarbeiten/07-joyn.md
-  daniel-zum-abarbeiten/07-netflix.md
-  daniel-zum-abarbeiten/07-primevideo.md
-  daniel-zum-abarbeiten/07-youtube.md
-  daniel-zum-abarbeiten/06-netflix-rest.md
-  daniel-zum-abarbeiten/09-youtube-liste.md
-  daniel-zum-abarbeiten/10-rtlplus.md
-  daniel-zum-abarbeiten/10-kinostarts.md
-  daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md
-  daniel-zum-abarbeiten/17-vorfaelle.md
+  daniel-zum-abarbeiten/listen/12-verpasste-termine.md
+  daniel-zum-abarbeiten/listen/13-tonspur-verdacht.md
+  daniel-zum-abarbeiten/listen/07-crunchyroll.md
+  daniel-zum-abarbeiten/listen/07-disneyplus.md
+  daniel-zum-abarbeiten/listen/07-joyn.md
+  daniel-zum-abarbeiten/listen/07-netflix.md
+  daniel-zum-abarbeiten/listen/07-primevideo.md
+  daniel-zum-abarbeiten/listen/07-youtube.md
+  daniel-zum-abarbeiten/listen/06-netflix-rest.md
+  daniel-zum-abarbeiten/listen/09-youtube-liste.md
+  daniel-zum-abarbeiten/listen/10-rtlplus.md
+  daniel-zum-abarbeiten/listen/10-kinostarts.md
+  daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md
+  daniel-zum-abarbeiten/listen/17-vorfaelle.md
   daniel-zum-abarbeiten/00-START-HIER.md
 )

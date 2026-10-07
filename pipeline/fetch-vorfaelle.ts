@@ -14,7 +14,7 @@
  * aufgefallen.
  *
  * Seit 4.17.10 meldet die Erweiterung sie an den Worker. Dieser Lauf holt sie
- * ab, fasst sie zusammen und schreibt `daniel-zum-abarbeiten/17-vorfaelle.md`.
+ * ab, fasst sie zusammen und schreibt `daniel-zum-abarbeiten/listen/17-vorfaelle.md`.
  *
  * **Abgeholte Vorfälle werden gelöscht.** Einer, der liegen bleibt, taucht beim
  * nächsten Lauf wieder auf und sieht aus wie ein neuer — dieselbe Falle, die
@@ -73,7 +73,7 @@ async function main(): Promise<void> {
   const alle = daten.vorfaelle ?? []
   log(`${alle.length} Vorfall/Vorfälle abgeholt.`)
 
-  const ziel = resolve(ROOT, 'daniel-zum-abarbeiten/17-vorfaelle.md')
+  const ziel = resolve(ROOT, 'daniel-zum-abarbeiten/listen/17-vorfaelle.md')
   if (!alle.length) {
     /*
       **Null Vorfälle ist der Bestzustand, kein Ausfall.**
@@ -131,9 +131,9 @@ async function main(): Promise<void> {
     return
   }
 
-  mkdirSync(resolve(ROOT, 'daniel-zum-abarbeiten'), { recursive: true })
+  mkdirSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen'), { recursive: true })
   writeFileSync(ziel, zeilen.join('\n') + '\n', 'utf8')
-  log(`daniel-zum-abarbeiten/17-vorfaelle.md geschrieben (${jeArt.size} Art(en)).`)
+  log(`daniel-zum-abarbeiten/listen/17-vorfaelle.md geschrieben (${jeArt.size} Art(en)).`)
 
   /*
     **Erst schreiben, dann löschen.** Bricht der Lauf zwischen beidem ab, ist

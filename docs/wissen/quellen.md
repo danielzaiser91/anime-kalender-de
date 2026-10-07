@@ -224,7 +224,7 @@ Zwei Folgen daraus:
   (`/playapi/cadmium/manifest/1`, rund 198 KB) mit `audioTracks`, `language` und
   `languageDescription`.
 
-  Daraus folgt der Ablauf in `daniel-zum-abarbeiten/06-netflix-rest.md`: **Abspielen** verlinkt direkt auf
+  Daraus folgt der Ablauf in `daniel-zum-abarbeiten/listen/06-netflix-rest.md`: **Abspielen** verlinkt direkt auf
   `/watch/<reihe>`, der Player startet, die Erweiterung liest, ein Klick meldet.
 
 - **Was auf der Titelseite läuft, ist nicht die Serie.** Der Player führt dort eine Sitzung
@@ -250,7 +250,7 @@ Zwei Folgen daraus:
     Untertitel statt Synchro, also genau die Trennlinie dieses Projekts, ausgesprochen vom
     Uploader selbst. `pipeline/lib/titel-muster.mjs` erkennt sie, ebenso eine fremde
     Synchronfassung („English Dub"). Ein `dub: false` folgt daraus **nicht** von selbst; die
-    Fälle stehen ganz oben in `daniel-zum-abarbeiten/09-youtube-liste.md`.
+    Fälle stehen ganz oben in `daniel-zum-abarbeiten/listen/09-youtube-liste.md`.
 
   **Beim Preis wiegt ein Irrtum schwerer als beim Termin.** Wer „kostenlos" liest und an einer
   Kasse landet, ist schlechter dran als jemand, der gar keine Auskunft bekommen hätte.
@@ -282,7 +282,7 @@ Zwei Folgen daraus:
   Crunchyroll-Kanals ist ein Hinweis, kein Beleg; dieselbe Playlist enthält auch untertitelte
   Folgen.
 - `npm run data:dub-checks` erzeugt aus dem aktuellen Stand die Arbeitsliste
-  `daniel-zum-abarbeiten/07-alle-anbieter.md` — nach hinten sortiert von heute, ohne Künftiges (das kann niemand
+  `daniel-zum-abarbeiten/listen/07-alle-anbieter.md` — nach hinten sortiert von heute, ohne Künftiges (das kann niemand
   nachsehen) und ohne bereits Geprüftes. Eine Zeile ist eine **Reihe auf einem Anbieter**: Wer
   den Verweis öffnet, sieht dort in aller Regel alle Staffeln auf einmal.
 
@@ -1859,7 +1859,7 @@ warf **230 statt 43** Adressen weg — die Differenz waren genau die, die eine
 spätere Runde noch aufgelöst hätte.
 
 Was übrig bleibt, wechselt den Ort statt zu verschwinden:
-`daniel-zum-abarbeiten/18-suchadressen.md`. Bei Prime kann die Frage niemand
+`daniel-zum-abarbeiten/listen/18-suchadressen.md`. Bei Prime kann die Frage niemand
 anders beantworten — Amazons robots.txt sperrt 19 Bots namentlich, und die acht
 Adressen, die aniSearch dazu kennt, stehen im Link-Check auf `unklar`.
 

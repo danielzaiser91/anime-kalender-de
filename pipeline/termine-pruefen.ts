@@ -27,7 +27,7 @@
  * niemand hingesehen hat — ihn als verpasst zu führen wäre eine Behauptung
  * über etwas Ungeprüftes.
  *
- * Was hier landet, gehört gelesen: `daniel-zum-abarbeiten/12-verpasste-termine.md`
+ * Was hier landet, gehört gelesen: `daniel-zum-abarbeiten/listen/12-verpasste-termine.md`
  * listet die Fälle samt Feldern für die Handrecherche. Ein dort eingetragener
  * `neuErwartet` wird vom nächsten Lauf bestätigt oder verworfen.
  *
@@ -434,7 +434,7 @@ const zeilen = [
   ),
   '',
 ]
-writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/12-verpasste-termine.md'), zeilen.join('\n'))
+writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/12-verpasste-termine.md'), zeilen.join('\n'))
 
 log(
   `${neu} Termin(e) neu als verpasst vermerkt, ${nachgeholt} nachgeholt, ${offen.length} offen ` +

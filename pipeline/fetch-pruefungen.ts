@@ -574,7 +574,7 @@ for (const gruppe of jeAdresse.values()) {
    * meldete sich als `title/80237957`, bei uns steht `title/81278456`. Die
    * Adresse kann die Frage deshalb grundsätzlich nicht beantworten; der Auftrag
    * kann es immer. Am 02.09.2026 warteten 36 Meldungen in
-   * `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md` auf eine Bestätigung,
+   * `daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md` auf eine Bestätigung,
    * die niemand hätte geben müssen.
    *
    * Seit dem 02.09.2026 tragen alle drei Melder `titelId` mit (staffelgenau aus
@@ -1364,9 +1364,9 @@ if (zeilen.length && !TROCKEN) {
  * nicht mehr gibt — am 23.08.2026 standen dort drei Zeilen, deren Meldungen
  * längst abgehakt waren.
  */
-if (!ohneZuordnung.length && !TROCKEN && existsSync(resolve(ROOT, 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'))) {
-  rmSync(resolve(ROOT, 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'))
-  log('daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md entfernt — nichts mehr offen')
+if (!ohneZuordnung.length && !TROCKEN && existsSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'))) {
+  rmSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'))
+  log('daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md entfernt — nichts mehr offen')
 }
 if (ohneZuordnung.length && !TROCKEN) {
   const kopf = [
@@ -1438,8 +1438,8 @@ if (ohneZuordnung.length && !TROCKEN) {
             : 'Vorschlag bestätigen, dann Adresse eintragen'
     return `| ${o.plattform} | ${o.url} | ${o.name || '—'} | ${o.befund} | ${namen.join('<br>') || '—'} | ${zuTun} |`
   })
-  writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'), [...kopf, ...tabelle, ''].join('\n'))
-  log(`${ohneZuordnung.length} Meldung(en) ohne Zuordnung in daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md`)
+  writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'), [...kopf, ...tabelle, ''].join('\n'))
+  log(`${ohneZuordnung.length} Meldung(en) ohne Zuordnung in daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md`)
 }
 
 if (Object.keys(anbieterStruktur).length && !TROCKEN) {

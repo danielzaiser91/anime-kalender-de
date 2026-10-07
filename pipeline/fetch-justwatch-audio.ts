@@ -468,7 +468,7 @@ function liste(titles: Title[], bestand: Record<string, Befund>): void {
     '| Titel | Anbieter | JustWatch sagt | Tonspuren | Quelle |',
     '|---|---|---|---|---|',
   ]
-  mkdirSync('daniel-zum-abarbeiten', { recursive: true })
+  mkdirSync('daniel-zum-abarbeiten/listen', { recursive: true })
   const zweiter = ohneWeg.length
     ? [
         '',
@@ -484,10 +484,10 @@ function liste(titles: Title[], bestand: Record<string, Befund>): void {
       ]
     : []
   writeFileSync(
-    'daniel-zum-abarbeiten/16-justwatch-tonspuren.md',
+    'daniel-zum-abarbeiten/listen/16-justwatch-tonspuren.md',
     `${[...kopf, ...zeilen, ...zweiter].join('\n')}\n`,
   )
-  log(`JustWatch: ${mitAussage} offene Verweise mit Tonspur-Angabe → daniel-zum-abarbeiten/16-justwatch-tonspuren.md`)
+  log(`JustWatch: ${mitAussage} offene Verweise mit Tonspur-Angabe → daniel-zum-abarbeiten/listen/16-justwatch-tonspuren.md`)
 }
 
 await main()

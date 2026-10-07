@@ -38,7 +38,7 @@ if (!TOKEN) {
 }
 
 const WORKER = 'https://newsletter.animekalender.workers.dev'
-const LISTE = 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'
+const LISTE = 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'
 
 /*
   **Gezählt wird über `?zaehlen=1`, nicht über die Liste.**

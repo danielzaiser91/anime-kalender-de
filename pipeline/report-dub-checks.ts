@@ -330,7 +330,7 @@ md.push(
   '',
 )
 
-writeText('daniel-zum-abarbeiten/07-alle-anbieter.md', md.join('\n'))
+writeText('daniel-zum-abarbeiten/listen/07-alle-anbieter.md', md.join('\n'))
 
 /**
  * Und dieselben Zeilen noch einmal, je Anbieter getrennt.
@@ -352,7 +352,7 @@ for (const z of zuPruefen) {
 
 const dateiJeAnbieter = new Map<PlatformId, string>()
 for (const [platform, zeilenDesAnbieters] of jeAnbieter) {
-  const name = `daniel-zum-abarbeiten/07-${platform}.md`
+  const name = `daniel-zum-abarbeiten/listen/07-${platform}.md`
   dateiJeAnbieter.set(platform, name)
   const offen = zeilenDesAnbieters.reduce((n, z) => n + z.offen.length, 0)
   const text = [
@@ -385,7 +385,7 @@ for (const [platform, zeilenDesAnbieters] of jeAnbieter) {
   Daniel wurde danach auf eine längst beantwortete Seite geschickt.
 */
 for (const platform of Object.keys(PLATFORMS) as PlatformId[]) {
-  const name = `daniel-zum-abarbeiten/07-${platform}.md`
+  const name = `daniel-zum-abarbeiten/listen/07-${platform}.md`
   if (dateiJeAnbieter.has(platform) || !existsSync(resolve(ROOT, name))) continue
   writeText(
     name,
@@ -491,7 +491,7 @@ for (let start = 0; start < nachNutzen.length; start += PAKETGROESSE) {
   )
 }
 
-writeText('daniel-zum-abarbeiten/08-arbeitspakete.md', batches.join('\n'))
+writeText('daniel-zum-abarbeiten/listen/08-arbeitspakete.md', batches.join('\n'))
 log(`Arbeitspakete geschrieben: ${Math.ceil(nachNutzen.length / PAKETGROESSE)} Pakete zu je ${PAKETGROESSE} Zeilen`)
 
 /**
@@ -507,7 +507,7 @@ const zurueck: string[] = [
   '',
   `Stand ${heute} · **${zurueckgestellt.reduce((n, z) => n + z.offen.length, 0)} offene Verweise** in **${zurueckgestellt.length} Zeilen**.`,
   '',
-  'Diese Verweise stehen **nicht** in `daniel-zum-abarbeiten/07-alle-anbieter.md`. Zwei Gründe:',
+  'Diese Verweise stehen **nicht** in `daniel-zum-abarbeiten/listen/07-alle-anbieter.md`. Zwei Gründe:',
   'Bei `RTL+` verlangt das Nachsehen ein laufendes Abo (Daniel am 21.08.2026: „ich hol mir kein rtl+',
   'abo um das zu prüfen"), bei `Crunchyroll` beantwortet es unser eigener wöchentlicher Lauf — und die',
   'tote Seite entfernt der Bau (28.09.2026).',

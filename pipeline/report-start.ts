@@ -63,7 +63,7 @@ const ohneWegMitSynchro = ohneWeg.filter((t) => t.hasVoices).length
 /** Wie viele Suchadressen offen sind — gezählt an den Überschriften der Liste. */
 const suchadressen = (() => {
   try {
-    return (readFileSync('daniel-zum-abarbeiten/18-suchadressen.md', 'utf8').match(/^## /gm) ?? [])
+    return (readFileSync('daniel-zum-abarbeiten/listen/18-suchadressen.md', 'utf8').match(/^## /gm) ?? [])
       .length
   } catch {
     return 0
@@ -83,7 +83,7 @@ const aufgaben = [
   {
     nr: 2,
     titel: 'Prime Video — Titelseiten',
-    datei: 'daniel-zum-abarbeiten/07-primevideo.md',
+    datei: 'daniel-zum-abarbeiten/listen/07-primevideo.md',
     umfang: `${zaehl(primeSeiten, 'Adresse', 'Adressen')}, ${zaehl(offen.get('primevideo') ?? 0, 'Verweis', 'Verweise')}`,
     zeit: '~15 s je Titel',
     loest: 'die Erweiterung liest die Tonspuren selbst',
@@ -92,7 +92,7 @@ const aufgaben = [
   {
     nr: 3,
     titel: 'Netflix',
-    datei: 'daniel-zum-abarbeiten/06-netflix-rest.md',
+    datei: 'daniel-zum-abarbeiten/listen/06-netflix-rest.md',
     umfang: `${zaehl(netflixListe, 'Titel', 'Titel')}, ${zaehl(offen.get('netflix') ?? 0, 'Verweis', 'Verweise')}`,
     zeit: '~1 min je Titel',
     loest: 'die einzige Quelle für Netflix-Tonspuren',
@@ -109,7 +109,7 @@ const aufgaben = [
     */
     nr: 4,
     titel: 'Suchadressen — welcher Titel steckt dahinter?',
-    datei: 'daniel-zum-abarbeiten/18-suchadressen.md',
+    datei: 'daniel-zum-abarbeiten/listen/18-suchadressen.md',
     umfang: zaehl(suchadressen, 'Adresse', 'Adressen'),
     zeit: '~30 s je Titel',
     loest: 'Verweise, die ins Leere zeigten, statt zum Titel',
@@ -118,7 +118,7 @@ const aufgaben = [
   {
     nr: 5,
     titel: 'Crunchyroll',
-    datei: 'daniel-zum-abarbeiten/07-crunchyroll.md',
+    datei: 'daniel-zum-abarbeiten/listen/07-crunchyroll.md',
     umfang: zaehl(offen.get('crunchyroll') ?? 0, 'Verweis', 'Verweise'),
     zeit: '~15 s je Titel',
     loest: 'Specials und Filme, die in keinem Block stehen',
@@ -127,7 +127,7 @@ const aufgaben = [
   {
     nr: 6,
     titel: 'YouTube',
-    datei: 'daniel-zum-abarbeiten/09-youtube-liste.md',
+    datei: 'daniel-zum-abarbeiten/listen/09-youtube-liste.md',
     umfang: zaehl(offen.get('youtube') ?? 0, 'Verweis', 'Verweise'),
     zeit: '~30 s je Video',
     loest: 'der Videotitel nennt oft schon die Fassung',
@@ -136,7 +136,7 @@ const aufgaben = [
   {
     nr: 7,
     titel: 'Disney+',
-    datei: 'daniel-zum-abarbeiten/07-disneyplus.md',
+    datei: 'daniel-zum-abarbeiten/listen/07-disneyplus.md',
     umfang: `${disneyListe} Titel, ${zaehl(offen.get('disneyplus') ?? 0, 'Verweis', 'Verweise')}`,
     zeit: '~30 s je Titel',
     loest: 'der Playback-Aufruf liest die Sprachen ohne Wiedergabe',
@@ -150,7 +150,7 @@ const aufgaben = [
   {
     nr: 8,
     titel: 'Disney+ — sind es wirklich 2?',
-    datei: 'daniel-zum-abarbeiten/21-disneyplus-gruen.md',
+    datei: 'daniel-zum-abarbeiten/listen/21-disneyplus-gruen.md',
     umfang: '2 Titel, alle Folgen grün',
     zeit: '~2 min',
     loest: 'die Frage, ob die Liste recht hat oder das Grün lügt',
@@ -187,11 +187,11 @@ md.push(
   '',
   '## Zum Nachschlagen, nicht zum Abarbeiten',
   '',
-  '- [07-alle-anbieter.md](07-alle-anbieter.md) — die Kurzschrift zum Antworten',
-  '- [08-arbeitspakete.md](08-arbeitspakete.md) — dieselbe Arbeit in Blöcken',
-  '- [10-kinostarts.md](10-kinostarts.md) — Kinotermine, die eine Fassung brauchen',
-  '- [12-verpasste-termine.md](12-verpasste-termine.md) — Termine, die ein Anbieter hat verstreichen lassen',
-  '- [13-tonspur-verdacht.md](13-tonspur-verdacht.md) — Verweise, denen eine zweite Quelle widerspricht',
+  '- [07-alle-anbieter.md](listen/07-alle-anbieter.md) — die Kurzschrift zum Antworten',
+  '- [08-arbeitspakete.md](listen/08-arbeitspakete.md) — dieselbe Arbeit in Blöcken',
+  '- [10-kinostarts.md](listen/10-kinostarts.md) — Kinotermine, die eine Fassung brauchen',
+  '- [12-verpasste-termine.md](listen/12-verpasste-termine.md) — Termine, die ein Anbieter hat verstreichen lassen',
+  '- [13-tonspur-verdacht.md](listen/13-tonspur-verdacht.md) — Verweise, denen eine zweite Quelle widerspricht',
   '',
   /*
     **Der Ordner sieht nach mehr Arbeit aus, als darin steckt.**

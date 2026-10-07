@@ -137,7 +137,7 @@ git add -- "${QUELLEN[@]}" 2>/dev/null || true
 1. **`git add` ist alles-oder-nichts.** Ein Pfad, den es nicht gibt, beendet den
    Aufruf mit `fatal: pathspec … did not match any files` — die 81 anderen
    werden **nicht** gestagt. Hier fehlte
-   `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md`, eine Liste, die nur
+   `daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md`, eine Liste, die nur
    bei Bedarf entsteht und seit dem 03.09. zu Recht fehlt.
 2. **`2>/dev/null || true` verschweigt genau die Zeile, die es sagt.** Nach außen
    war der Lauf grün und "hatte nichts zu tun".

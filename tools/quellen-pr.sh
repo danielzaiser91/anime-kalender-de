@@ -59,7 +59,7 @@ melde "zweig=$ZWEIG"
 # Gemessen am 06.09.2026 im Lauf 34048827567, nachdem eine Ausgabe eingebaut war:
 #
 #     --- Zahl geänderter Dateien: 9
-#     fatal: pathspec 'daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md'
+#     fatal: pathspec 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'
 #            did not match any files
 #     Keine Änderung an den Quellen — kein Pull Request.
 #

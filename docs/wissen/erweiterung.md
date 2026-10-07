@@ -898,7 +898,7 @@ In diesem Projekt heißt das: **an den Worker melden.** Der Weg lag seit Monaten
 vor (Meldungen, Netzfunde, Laufstatus gehen ihn alle), er wurde für Diagnosen
 nur nie benutzt. Seit 4.17.11 melden alle drei Melder ihre Vorfälle an
 `/vorfall`, und `pipeline/fetch-vorfaelle.ts` legt sie unter
-`daniel-zum-abarbeiten/17-vorfaelle.md` ab — dort, wo der nächste Durchgang sie
+`daniel-zum-abarbeiten/listen/17-vorfaelle.md` ab — dort, wo der nächste Durchgang sie
 ohnehin liest.
 
 **Drei Riegel halten den Melder harmlos**, und sie gehören zu jedem solchen

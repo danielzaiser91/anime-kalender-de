@@ -24,7 +24,7 @@ Stand: 07.10.2026 09:00
    - **C — Lupe:** Das Bild bleibt klein, ein Klick vergrößert den Bereich unter dem Zeiger.
    - Sag „A", „B" oder „C".
 
-5. **Saison-Überblick: Mockup ansehen und Anordnung wählen** — [saison-mockup.html](file:///C:/code/ai/_wtumbau/daniel-zum-abarbeiten/saison-mockup.html)
+5. **Saison-Überblick: Mockup ansehen und Anordnung wählen** — [saison-mockup.html](file:///C:/code/ai/_wtumbau/daniel-zum-abarbeiten/mockups/saison-mockup.html)
    - Vorher: Es gibt nur Kalender, Datenbank und News; eine Saison-Sicht fehlt.
    - Erwartet: Datei im Browser öffnen (Handy- und Desktop-Breite probieren). Oben **Anordnung 1** (Bänder: Jetzt groß, Zuletzt klein, Ausblick als Liste), darunter **Anordnung 2** (Reiter).
    - Messung (echte Daten, Fernseh- und Web-Serien im Hauptbestand): Herbst 2026 14 Titel (6 mit Deutsch), Sommer 2026 19 (18), Frühling 29 (25), Winter 24 (23). Der Ausblick Winter 2027 hat noch keinen Titel im Hauptbestand, nur 12 Ankündigungen mit Japan-Start hinter dem Schalter.

@@ -245,7 +245,7 @@ pruefe(
  * Daniel am 10.09.2026: „info bringt nix, du liest nix aus der console aus, ich
  * lese auch nix aus … du musst informiert werden über issues." Seit 4.17.10
  * meldet jede der drei Erweiterungsdateien ihre Vorfälle an den Worker, und ein
- * Datenlauf legt sie unter `daniel-zum-abarbeiten/17-vorfaelle.md` ab.
+ * Datenlauf legt sie unter `daniel-zum-abarbeiten/listen/17-vorfaelle.md` ab.
  *
  * Diese Zusicherung hält fest, dass keine davon beim nächsten Umbau
  * zurückfällt — eine Datei, die wieder nur `console.warn` schreibt, meldet

@@ -420,7 +420,7 @@ for (const [id, eintraege] of jeAdresse) {
         `title/80237957`, bei uns steht `title/81278456`). Findet der Bau die
         gemeldete Adresse nicht im Datensatz, fällt er auf einen Namensvergleich
         zurück, der ausdrücklich kein Beleg ist — am 02.09.2026 warteten so 36
-        Meldungen in `daniel-zum-abarbeiten/11-meldungen-ohne-zuordnung.md` auf
+        Meldungen in `daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md` auf
         Daniels Bestätigung.
 
         Dabei steht die Antwort fest, bevor die Meldung entsteht: Wer aus der

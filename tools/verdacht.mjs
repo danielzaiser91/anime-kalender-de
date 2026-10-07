@@ -4,7 +4,7 @@
  * `pipeline/tonspur-verdacht.ts` findet Verweise, bei denen die Streaming
  * Availability API ihre eigene Aussage **zurückgenommen** hat: früher deutscher
  * Ton, jetzt keiner mehr. Bis zum 31.08.2026 landeten sie nur in
- * `daniel-zum-abarbeiten/13-tonspur-verdacht.md` — einer Datei, die Daniel
+ * `daniel-zum-abarbeiten/listen/13-tonspur-verdacht.md` — einer Datei, die Daniel
  * neben der Erweiterung hätte abarbeiten müssen.
  *
  * **Ein Schweigen ist kein Verdacht.** Die erste Fassung fragte, ob die Quelle

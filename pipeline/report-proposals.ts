@@ -84,8 +84,8 @@ console.log(text)
  * Er überlebt den Lauf, und er steht beim nächsten Sitzungsstart da.
  */
 const { writeFileSync, mkdirSync } = await import('node:fs')
-mkdirSync('daniel-zum-abarbeiten', { recursive: true })
+mkdirSync('daniel-zum-abarbeiten/listen', { recursive: true })
 writeFileSync(
-  'daniel-zum-abarbeiten/15-news-vorschau.md',
+  'daniel-zum-abarbeiten/listen/15-news-vorschau.md',
   `# Angekündigt, aber noch nicht im Datensatz\n\nStand: ${today}. Erzeugt von \`npm run data:report\` aus den Anime2You-Vorschlägen.\n\n${text}\n`,
 )

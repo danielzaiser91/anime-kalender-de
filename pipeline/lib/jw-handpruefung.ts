@@ -11,7 +11,7 @@
  *
  * Für einen Titel, den JustWatch in den letzten `FRISCH_TAGE` Tagen erstmals beantwortet
  * hat, entsteht dort kein Nein, sondern ein Eintrag in `data/justwatch-handpruefung.json`
- * und in der Liste `daniel-zum-abarbeiten/20-justwatch-handpruefung.md`. Ältere Einträge
+ * und in der Liste `daniel-zum-abarbeiten/listen/20-justwatch-handpruefung.md`. Ältere Einträge
  * haben sich bewährt und wirken wie bisher.
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
@@ -41,7 +41,7 @@ export interface Handpruefung {
 }
 
 const DATEI = resolve(ROOT, 'data/justwatch-handpruefung.json')
-const LISTE = resolve(ROOT, 'daniel-zum-abarbeiten/20-justwatch-handpruefung.md')
+const LISTE = resolve(ROOT, 'daniel-zum-abarbeiten/listen/20-justwatch-handpruefung.md')
 
 /**
  * Vermerkt Fälle einer Quelle. Die Fälle derselben Quelle werden ersetzt (der Lauf kennt

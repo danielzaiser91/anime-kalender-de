@@ -300,7 +300,7 @@ export function bereinigeWege({
    * Sie sieht aus wie ein Weg und endet auf „Es konnte nichts gefunden werden".
    *
    * Die Frage dahinter geht deshalb nicht verloren, sie wechselt den Ort:
-   * `daniel-zum-abarbeiten/18-suchadressen.md`.
+   * `daniel-zum-abarbeiten/listen/18-suchadressen.md`.
    */
   let suchAdressen = 0
   let ausSuche = 0

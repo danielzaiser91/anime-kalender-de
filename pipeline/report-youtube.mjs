@@ -107,9 +107,9 @@ const zeilen = [
   ...offen.map(([u, v]) => `| ${zelle(name(v.anilistId))} | ${zelle(v.videoTitel)} | ${zelle(v.kanal)} | [öffnen](${u}) |`),
   '',
 ]
-writeFileSync(resolve(wurzel, 'daniel-zum-abarbeiten/09-youtube-liste.md'), zeilen.join('\n'))
+writeFileSync(resolve(wurzel, 'daniel-zum-abarbeiten/listen/09-youtube-liste.md'), zeilen.join('\n'))
 console.log(
-  `daniel-zum-abarbeiten/09-youtube-liste.md: ${andereFassung.length} mit fremder Fassung im Titel, ` +
+  `daniel-zum-abarbeiten/listen/09-youtube-liste.md: ${andereFassung.length} mit fremder Fassung im Titel, ` +
     `${deutscherTitel.length} mit deutschem Titel, ` +
     `${kostenpflichtig.length} kostenpflichtig, ${offen.length} ohne Hinweis`,
 )
