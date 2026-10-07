@@ -221,7 +221,9 @@ if (fehler.length) {
  */
 let verwaisteBelege = 0
 {
-  const bekannt = new Set(titel.map((t) => t.id))
+  /* Hinter dem Toggle liegt verschoben, nicht gelöscht: ein Titel in `ohne-synchro.json` ist bekannt. */
+  const hinterToggle = readJson<{ id: number }[]>(resolve(ROOT, 'public/data/ohne-synchro.json'), [])
+  const bekannt = new Set([...titel, ...hinterToggle].map((t) => t.id))
   const verwaist = [
     ...new Map(
       loadDubChecks()
