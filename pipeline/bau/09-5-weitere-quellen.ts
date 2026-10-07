@@ -1,5 +1,5 @@
 import { readJson, log, ROOT } from '../lib/util.ts'
-import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from '../lib/anisearch-termine.ts'
+import { eigenerTerminVerdraengt, mitDubKennzeichen, terminAusEintrag, verlagAlsDienst } from '../lib/anisearch-termine.ts'
 import yaml from 'js-yaml'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -50,9 +50,9 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
     let asDiscDatum = 0
     const discFuerErstausgabe = readJson<Record<string, { datum: string }[]>>('data/disc-ausgaben.json', {})
     for (const title of titles.values()) {
-      const termin = terminAusEintrag(
+      const termin = mitDubKennzeichen(title.id, terminAusEintrag(
         asRoh[String(title.id)]?.info as { languages?: never[] } | undefined,
-      )
+      ))
       if (!termin || eigenerTerminVerdraengt(eigenerStart.get(title.id), termin)) continue
       /*
         **Eine deutsche Fassung gibt es nicht vor dem Original.** Sechs Einträge

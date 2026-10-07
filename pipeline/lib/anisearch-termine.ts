@@ -41,6 +41,7 @@
  * einem Verlagsnamen eine Plattform zu raten hieße, eine Pille zu bauen, die
  * ins Leere führt. Der Name steht deshalb so da, wie er dasteht.
  */
+import { readJson } from './util.ts'
 /** Was aniSearch je Sprache über eine Veröffentlichung sagt. */
 interface Sprachblock {
   language?: string
@@ -70,6 +71,16 @@ export interface AnisearchTermin {
   /** Der deutsche Block trägt aniSearchs Marke „Synchronisiert" (`dubbed`). */
   synchro?: boolean
 }
+
+/**
+ * **Ein abgebrochener Dub ist eine Teilsynchro** (aniSearch-Dub-Endpunkt, Kennzeichen `c`): Ranma ½ (1989), zweite Staffel — 30 deutsche Folgen,
+ * Kazé 2002, im Sprachblock nur „Abgebrochen" und ohne `dubbed`. Ohne die Marke gälte die Ausgabe nicht als Synchro und der Titel bliebe hinter dem Toggle.
+ */
+export function mitDubKennzeichen(titelId: number, termin: AnisearchTermin | undefined): AnisearchTermin | undefined {
+  dubKennzeichen ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {})
+  return termin && dubKennzeichen[String(titelId)] === 'c' ? { ...termin, synchro: true } : termin
+}
+let dubKennzeichen: Record<string, string> | undefined
 
 /**
  * Deutsches Datum in ISO-Form.
