@@ -98,3 +98,51 @@ export function kennungAusAdresse(): KennungVon {
   aufloeser = (u) => /\/series\/([A-Z0-9]+)/.exec(u)?.[1] ?? je.get(kern(u))
   return aufloeser
 }
+
+let staffelzahlenGeladen: Map<string, number[]> | undefined
+/** Die Folgenzahlen der deutschen Staffeln je Serienkennung, wie die Inhaltsschnittstelle sie zuletzt führte (`data/crunchyroll-dub.json`). */
+export function crStaffelzahlen(): Map<string, number[]> {
+  if (staffelzahlenGeladen) return staffelzahlenGeladen
+  const jung = new Map<string, { geprueftAm: string; zahlen: number[] }>()
+  for (const e of readJson<{ serien?: { seriesId?: string; geprueftAm?: string; staffeln?: { folgen?: number }[] }[] }>('data/crunchyroll-dub.json', {}).serien ?? []) {
+    const zahlen = (e.staffeln ?? []).map((st) => st.folgen).filter((n): n is number => typeof n === 'number' && n > 0)
+    if (!e.seriesId || !zahlen.length) continue
+    const alt = jung.get(e.seriesId)
+    if (!alt || String(e.geprueftAm) > alt.geprueftAm) jung.set(e.seriesId, { geprueftAm: String(e.geprueftAm), zahlen })
+  }
+  staffelzahlenGeladen = new Map([...jung].map(([k, v]) => [k, v.zahlen]))
+  return staffelzahlenGeladen
+}
+
+/**
+ * **Hat jede Staffel der Serie genau einen Titel mit ihrer Folgenzahl, gehört die Serie diesen Titeln — alle anderen an ihr sind fremd**
+ * (Daniel, 07.10.2026, Black Butler: Die Serie führt bei Crunchyroll zwei deutsche Staffeln, Public School Arc mit 11 und Emerald Witch Arc mit 13 Folgen.
+ * Auf sie zeigten neun Titel, darunter Staffel 1 von 2008 mit 24 Folgen — genau die Summe der beiden — und sie trug „alle 24 Folgen auf Deutsch" samt
+ * Crunchyroll-Pille, obwohl keine ihrer Folgen dort liegt.)
+ *
+ * Eng gefasst: Es zählt nur, wenn **jede** Staffel (Folgenzahl) von genau so vielen Titeln getroffen wird, wie die Serie Staffeln mit dieser Zahl hat.
+ * Fasst Crunchyroll zusammen, was AniList trennt (Haikyu, Tokyo Ghoul), geht die Rechnung nicht auf — dann bleibt alles, wie es ist.
+ */
+export function entferneFremdeNachStaffeln(titles: Map<number, Title>, kennungVon: KennungVon, staffelzahlen: Map<string, number[]> = crStaffelzahlen()): number {
+  const anSerie = new Map<string, Title[]>()
+  for (const t of titles.values()) {
+    const s = t.streams.find((x) => x.platform === 'crunchyroll')
+    const kennung = s && kennungVon(s.url)
+    if (kennung && staffelzahlen.has(kennung)) anSerie.set(kennung, [...(anSerie.get(kennung) ?? []), t])
+  }
+  let weg = 0
+  for (const [kennung, ts] of anSerie) {
+    const zahlen = staffelzahlen.get(kennung)!
+    if (ts.length < 2) continue
+    const jeZahl = new Map<number, number>()
+    for (const z of zahlen) jeZahl.set(z, (jeZahl.get(z) ?? 0) + 1)
+    const aufgeht = [...jeZahl].every(([z, anzahl]) => ts.filter((t) => t.episodes === z).length === anzahl)
+    if (!aufgeht) continue
+    for (const t of ts) {
+      if (t.episodes !== undefined && jeZahl.has(t.episodes)) continue
+      t.streams = t.streams.filter((x) => !(x.platform === 'crunchyroll' && kennungVon(x.url) === kennung))
+      weg++
+    }
+  }
+  return weg
+}

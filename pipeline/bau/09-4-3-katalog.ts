@@ -3,7 +3,7 @@ import { kapitelImBlock, deutscheFolgenNachDemEnde, type CrDubData } from '../li
 import { type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
-import { serienBesitz, istFremd, entferneFremdeCrWege } from './cr-serie-geteilt.ts'
+import { serienBesitz, istFremd, entferneFremdeCrWege, entferneFremdeNachStaffeln } from './cr-serie-geteilt.ts'
 import { vorDemStart } from '../lib/crunchyroll-vollstaendig.ts'
 
 export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
@@ -298,7 +298,7 @@ export function ordneCrKatalogZu({ titles, crDub, verweiseEntfernt }: {
         if (ausKatalogNeuer)
           log(`${ausKatalogNeuer} Nein(s) vom Katalog überholt: er ist jünger und führt de-DE`)
       }
-      if (ausKennung) log(`${ausKennung} über die Serienkennung im deutschen Katalog belegt`); { const fremd = entferneFremdeCrWege(titles, nachKennung, serienBesitz(titles, kennungVon, nachKennung), kennungVon); if (fremd) log(`${fremd} Crunchyroll-Wege auf eine Serie entfernt, die nicht zu ihnen gehört (Folgensumme übersteigt die Serie)`) }
+      if (ausKennung) log(`${ausKennung} über die Serienkennung im deutschen Katalog belegt`); { const fremd = entferneFremdeCrWege(titles, nachKennung, serienBesitz(titles, kennungVon, nachKennung), kennungVon) + entferneFremdeNachStaffeln(titles, kennungVon); if (fremd) log(`${fremd} Crunchyroll-Wege auf eine Serie entfernt, die nicht zu ihnen gehört (Folgensumme übersteigt die Serie)`) }
     }
 
     /**
