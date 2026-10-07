@@ -369,7 +369,16 @@ export function* filterTitlesGen(
   /** Welcher Name auf der Karte steht — Träger der höchsten Trefferklasse (bei Gruppierung der Kopf). */
   sichtbarerName?: (t: Title) => string,
 ): Generator<void, Title[]> {
-  const vorgefiltert = source.filter((t) => passtTitel(t, data, f, today, favorites))
+  /* Auch das Vorfiltern über alle Titel gibt zwischendurch ab — ein Block von 18.863 Einträgen friert sonst ein (gemessen mit Handy-Drosselung). */
+  const vorgefiltert: Title[] = []
+  let marke = performance.now()
+  for (const t of source) {
+    if (performance.now() - marke > 6) {
+      yield
+      marke = performance.now()
+    }
+    if (passtTitel(t, data, f, today, favorites)) vorgefiltert.push(t)
+  }
   const gesucht = yield* sucheGen(
     vorgefiltert,
     f.search,

@@ -494,12 +494,14 @@ function fundstellenFuer(
  * ohnehin verworfen; dann genügt sie für die wenigen Einträge, die sonst Stufe 4 wären — Ergebnis und Reihenfolge bleiben gleich.
  */
 /**
- * Die Suche arbeitet in **Schritten**: Alle `*Gen`-Funktionen sind Generatoren und geben nach `SCHRITT` Einträgen ab (`yield`). Wer sie
+ * Die Suche arbeitet in **Schritten**: Alle `*Gen`-Funktionen sind Generatoren und geben nach `TAKT_MS` Millisekunden ab (`yield`) — nach Zeit statt
+ * nach Anzahl, denn ein Eintrag kostet je nach Namensfülle ein Vielfaches des anderen. Wer sie
  * zu Ende laufen lässt (`treibe`), bekommt das alte, synchrone Verhalten; die Oberfläche lässt dazwischen den Hauptfaden frei und
  * verwirft veraltete Läufe (`use-zeitscheibe.ts`) — eine Eingabe friert die Seite nie ein, auch nicht auf einem Handy mit 18.863 Titeln
  * (Daniel, 07.10.2026; gemessen mit 4-facher CPU-Drosselung: bis zu 3 s am Stück).
  */
-const SCHRITT = 300
+/** Wie lange die Suche am Stück rechnet, bevor sie abgibt; klein gegen die 50-ms-Grenze für „lange Aufgaben", auch bei vierfach gedrosselter CPU. */
+const TAKT_MS = 6
 /** Ein Vergleicher für alle Sortierungen — `localeCompare` baut ihn bei jedem Aufruf neu (bei 17.000 Treffern ein Mehrfaches der Zeit). */
 const KOLLATOR = new Intl.Collator('de')
 type Bewertet<T> = { item: T; rang: number; abstand: number; pos: number }
@@ -545,8 +547,9 @@ function* stufenGen<T>(
   const kompaktZaehlt = ganzKompakt.length >= 4
   const sicher: Bewertet<T>[] = []
   const uebrig: { item: T; pos: number }[] = []
+  let marke = performance.now()
   for (let pos = 0; pos < quelle.length; pos++) {
-    if (pos % SCHRITT === 0) yield
+    if (performance.now() - marke > TAKT_MS) { yield; marke = performance.now() }
     const item = quelle[pos]!
     const namen = titel(item).map(normalize)
     const namenKompakt = kompaktZaehlt ? namen.map(kompakt) : []
@@ -558,8 +561,7 @@ function* stufenGen<T>(
   const titelPasst = sicher.length > 0
   const spaet: Bewertet<T>[] = []
   for (let k = 0; k < uebrig.length; k++) {
-    /* Die ungefähre Stufe ist die teure: hier öfter abgeben. */
-    if (k % (SCHRITT / 6) === 0) yield
+    if (performance.now() - marke > TAKT_MS) { yield; marke = performance.now() }
     const { item, pos } = uebrig[k]!
     const imZusatz = trifftGenau(suchwoerter, genau(item).map((f) => f.text))
     if (titelPasst && !imZusatz) continue
@@ -622,8 +624,9 @@ export function* sucheGen<T>(
     Trefferart und Vollständigkeit (`trefferPunkte`).
   */
   const mitStellen: (Bewertet<T> & { fundstellen: Fundstelle[]; schluessel: number[] })[] = []
+  let marke = performance.now()
   for (let k = 0; k < behalten.length; k++) {
-    if (k % (SCHRITT / 3) === 0) yield
+    if (performance.now() - marke > TAKT_MS) { yield; marke = performance.now() }
     const b = behalten[k]!
     const felder = genau(b.item)
     const fundstellen = fundstellenFuer(suchwoerter, titel(b.item), felder, fueller)
