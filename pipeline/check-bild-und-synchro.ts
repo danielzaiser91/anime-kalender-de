@@ -9,7 +9,7 @@ import { ohneBelegteSynchro } from './bau/synchro-belegt.ts'
 import { ausAnisearchDubs } from './lib/anisearch-synchro-ids.ts'
 import { waehlePlakat } from './lib/tmdb-plakat.ts'
 import { sucheGen, sucheMitFundstellen, treibe } from '../web/src/lib/search.ts'
-import { sortiereNachTitel } from '../web/src/lib/titel-sortierung.ts'
+import { istOhneBelegteSynchro, sortiereNachTitel } from '../web/src/lib/titel-sortierung.ts'
 import { anzeigeName } from '../shared/titles.ts'
 import type { Release, Title } from '../shared/types.ts'
 
@@ -80,6 +80,10 @@ sortiereNachTitel(gruppeMit)
 sortiereNachTitel(gruppeOhne)
 pruefe('mit Rang und ohne Rang ergibt dieselbe Reihenfolge', gruppeMit.every((g, i) => g.main.id === gruppeOhne[i]!.main.id))
 pruefe('die Reihenfolge ist die der deutschen Sortierung', gruppeOhne.every((g, i) => i === 0 || kollator.compare(anzeigeName(gruppeOhne[i - 1]!.main), anzeigeName(g.main)) <= 0))
+
+console.log('Datenbank blendet angekündigte Titel ohne belegte Synchro aus')
+pruefe('ein Titel mit dem Merkmal os gilt als ohne belegte Synchro', istOhneBelegteSynchro({ id: 1, os: true } as unknown as Title))
+pruefe('ein gewöhnlicher Titel nicht', !istOhneBelegteSynchro({ id: 2 } as unknown as Title))
 
 console.log('Titel nur bei aniSearch')
 const eintraege = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { dub: string; ty: string }>

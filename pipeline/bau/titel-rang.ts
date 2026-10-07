@@ -2,6 +2,8 @@ import { anzeigeName } from '../../shared/titles.ts'
 import type { Title } from '../../shared/types.ts'
 import { OUT } from './grundlagen.ts'
 import { log, readJson, writeJson } from '../lib/util.ts'
+import type { Release } from '../../shared/types.ts'
+import { ohneBelegteSynchro } from './synchro-belegt.ts'
 
 const DATEIEN = ['titles.json', 'ohne-synchro.json', 'cartoons.json']
 
@@ -20,6 +22,18 @@ export function ergaenzeTitelRang(): void {
   alle.forEach((x, i) => {
     ;(x.t as Title & { tr?: number }).tr = i
   })
+  /*
+    **Angekündigte Titel ohne belegte Synchro** (Daniel, 07.10.2026, Black Clover Staffel 2): Sie bleiben im Kalender, weil dort ihre Ankündigung steht,
+    gehören aber hinter den Schalter „Anime ohne deutsche Synchro“ — in der Datenbank und in der Suche. Das Merkmal `os` steht nur an diesen Titeln.
+  */
+  const releases = readJson<Release[]>(`${OUT}/releases.json`, [])
+  let ohneBeleg = 0
+  for (const t of listen[0]!.titel) {
+    if (ohneBelegteSynchro(t, releases)) {
+      ;(t as Title & { os?: boolean }).os = true
+      ohneBeleg++
+    }
+  }
   for (const l of listen) if (l.titel.length) writeJson(l.pfad, l.titel)
-  log(`Titelrang für ${alle.length} Titel gerechnet`)
+  log(`Titelrang für ${alle.length} Titel gerechnet, ${ohneBeleg} ohne belegte Synchro markiert`)
 }

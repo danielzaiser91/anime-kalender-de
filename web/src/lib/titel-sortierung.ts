@@ -4,6 +4,9 @@ import type { Title } from '@shared/types.ts'
 /** Ein Vergleicher für alle Sortierungen — `localeCompare` baut ihn bei jedem Aufruf neu. */
 const KOLLATOR = new Intl.Collator('de')
 
+/** Ein angekündigter Titel ohne belegte deutsche Fassung (Merkmal `os` vom Bau): gehört hinter den Schalter „ohne deutsche Synchro“. */
+export const istOhneBelegteSynchro = (t: Title): boolean => Boolean((t as Title & { os?: boolean }).os)
+
 /** Ein Titel mit seinem vom Bau gerechneten Platz in der Sortierung. */
 type MitRang = Title & { tr?: number }
 

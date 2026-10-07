@@ -6,6 +6,7 @@ import { loadAllTitles, loadCartoons, loadDataset, loadOhneSynchro, loadSynonyme
 import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
 import { SuchfundstellenContext } from './lib/such-kontext.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
+import { istOhneBelegteSynchro } from './lib/titel-sortierung.ts'
 import type { Fundstelle } from './lib/search.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
@@ -161,7 +162,7 @@ export default function App() {
   )
   const { wert: titles, laeuft: titelRechnet } = useZeitscheibe(() => {
     if (!data) return leeresErgebnis(LEERE_ANSICHT)
-    const basis = allTitles ?? data.titles
+    const basis = (allTitles ?? data.titles).filter((t) => zeigeOhneSynchro || !istOhneBelegteSynchro(t))
     const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
     const quelle = !cartoonsAus && cartoons ? [...mitOhne, ...cartoons] : mitOhne
     return titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped)
