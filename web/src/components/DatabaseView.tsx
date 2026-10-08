@@ -10,7 +10,7 @@ import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { DbSchalter } from './db-kopfzeile.tsx'
 import { DbKarte } from './db-karte.tsx'
-import { DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
+import { DbLeer, DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
 import { sortiereNachRelevanz } from '../lib/db-relevanz.ts'
 import { useVorschau } from '../lib/vorschau.ts'
 import { useShare } from '../lib/share.ts'
@@ -85,8 +85,7 @@ export function DatabaseView({
   const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
-  /* Beim Suchen gilt die Treffergüte, bis jemand selbst eine andere Sortierung wählt. */
-  /* `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
+  /* Beim Suchen gilt die Treffergüte, bis jemand selbst sortiert; `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
   /* Vorschau `db-sortierung`: auch ohne Suche gilt „Relevanz" (laufend und bald neu zuerst) als Vorgabe. */
   const relevanzStandard = useVorschau('db-sortierung') === 'relevanz'
   const relevanzMoeglich = relevanzStandard || !!suche.trim()
@@ -144,6 +143,7 @@ export function DatabaseView({
         ))}
       </div>
 
+      {groups.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
       {visible < groups.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={groups.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
     </div>
   )

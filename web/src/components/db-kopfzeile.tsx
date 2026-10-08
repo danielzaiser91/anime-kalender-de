@@ -72,9 +72,12 @@ export function DbKopfzeile({ titles, ergebnisse, gebuendelt, suche }: { titles:
   return (
     <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
       <span className="font-semibold text-slate-800 dark:text-slate-100">{ergebnisText(ergebnisse, gebuendelt, suche, t)}</span>
-      <span className="inline-flex items-center gap-1.5">
-        {t('db.davon')} <DeFlaggeZeichen /> {paar(z.anime, z.cartoons)}
-      </span>
+      {/* Bei null Ergebnissen sagte „davon 0 Anime und 0 Cartoons" dasselbe noch einmal. */}
+      {ergebnisse > 0 && (
+        <span className="inline-flex items-center gap-1.5">
+          {t('db.davon')} <DeFlaggeZeichen /> {paar(z.anime, z.cartoons)}
+        </span>
+      )}
       {z.ohneAnime + z.ohneCartoons > 0 && (
         <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-500/10 px-1.5 py-0.5">
           {paar(z.ohneAnime, z.ohneCartoons)} {t('db.ohne')} <DeFlaggeZeichen />

@@ -47,6 +47,28 @@ export function DbSortWahl({ sort, onChange, relevanz, suche }: { sort: DbSort; 
   )
 }
 
+/**
+ * Kein Treffer: Die Zählzeile sagt schon „0 Ergebnisse für …" — hier steht nur, was jetzt helfen kann. Leise, ohne
+ * Signalfarbe; der Schalter für den Bestand ohne Synchro als Knopf, weil er der häufigste Grund für eine leere Liste ist.
+ */
+export function DbLeer({ ohneSynchro, onOhneSynchro }: { ohneSynchro: boolean; onOhneSynchro: () => void }) {
+  const { t } = useLang()
+  return (
+    <div className="mx-auto flex max-w-md flex-col items-center gap-3 rounded-2xl border border-dashed border-ak-rand px-6 py-10 text-center">
+      <p className="text-sm text-ak-leise">{t('db.leerTipps')}</p>
+      {!ohneSynchro && (
+        <button
+          type="button"
+          onClick={onOhneSynchro}
+          className="cursor-pointer rounded-full border border-ak-rand px-4 py-2 text-sm font-semibold text-ak-text transition hover:border-ak-leise hover:bg-ak-flaeche-2"
+        >
+          {t('db.leerOhneSynchro')}
+        </button>
+      )}
+    </div>
+  )
+}
+
 /** „N weitere anzeigen" unter dem Raster. */
 export function MehrKnopf({ schritt, rest, onClick }: { schritt: number; rest: number; onClick: () => void }) {
   const { t } = useLang()
