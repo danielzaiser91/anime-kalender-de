@@ -41,6 +41,7 @@ import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
+import { planeKatalogLauf } from './lib/katalog-plan.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { deutschAbgeschlossen, erschieneneFuerFolgenliste } from '../web/src/components/detail/antwort-regeln.ts'
 import { einzelneAusgaben } from '../web/src/components/detail/disc-regeln.ts'
@@ -8581,6 +8582,14 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   const [altAk, neuAk] = paare[0]!
   pruefe('Umleitung (Browser): Liste und Karten ziehen auf den Nachfolger um, ohne Doppel; Zahlen und Tage ordnen sich sinnvoll', umleiteListe([altAk, neuAk, 5], abbild).join() === `${neuAk},5` && umleiteKarte({ [altAk]: 3, [neuAk]: 5 }, abbild)[neuAk] === 5 && umleiteKarte({ [altAk]: '2026-10-01', [neuAk]: '2026-10-08' }, abbild)[neuAk] === '2026-10-01')
   pruefe('Umleitung (Worker): gespeicherte Liste mit ak: wird auf den Nachfolger umgeschrieben, eine fremde Zahl bleibt', [...leseFavoriten(`ak:${altAk},7`, { umleitung: abbild })].join() === `${neuAk},7` && [...leseFavoriten(`ak:${altAk},7`)].join() === `${altAk},7`)
+  /* AniList-Katalog: der Frischlauf holt nie mehr als die frischen Jahre, auch bei geändertem Fingerabdruck (Tageslauf 09.10.2026: zehn Minuten ab 1907). */
+  const katalogArgs = { relFassung: 'neu', jahr: 2026, abJahr: 1907, frischSeiten: 10 }
+  const altStand = { relFassung: 'alt', fertigeJahre: [1907, 1908] }
+  const frischAlt = planeKatalogLauf({ ...katalogArgs, vorhanden: altStand, frischGewuenscht: true })
+  const wochenAlt = planeKatalogLauf({ ...katalogArgs, vorhanden: altStand, frischGewuenscht: false })
+  pruefe('Katalog: --frisch bei anderem Fingerabdruck startet im laufenden Jahr, nicht im Volllauf, und lässt Fingerabdruck und fertige Jahre unangetastet', frischAlt.frisch && frischAlt.ersteJahr === 2026 && frischAlt.nachlaufSeiten === 10 && frischAlt.relFassung === 'alt' && frischAlt.fertig.join() === '1907,1908', frischAlt)
+  pruefe('Katalog: der Wochenlauf bei anderem Fingerabdruck holt alles neu und setzt den neuen Fingerabdruck', !wochenAlt.frisch && wochenAlt.ersteJahr === 1907 && wochenAlt.fertig.length === 0 && wochenAlt.relFassung === 'neu', wochenAlt)
+  pruefe('Katalog: --frisch ohne vorhandenen Katalog tut nichts', planeKatalogLauf({ ...katalogArgs, vorhanden: undefined, frischGewuenscht: true }).ueberspringen)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
