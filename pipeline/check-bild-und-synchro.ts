@@ -3,7 +3,7 @@
  * Zugang über den Dub-Endpunkt und die Suche in Schritten. Läuft hinter `check:logic` (ein eigenes Skript hält dessen Datei unter der Grenze).
  */
 import { readFileSync } from 'node:fs'
-import { keineSynchroLautAnisearch } from './bau/ohne-beleg.ts'
+import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch } from './bau/ohne-beleg.ts'
 import { entferneFremdeNachStaffeln } from './bau/cr-serie-geteilt.ts'
 import { mitKitsuTiteln } from './bau/folgentitel-kitsu.ts'
 import { ANISEARCH_ID_BASIS, FORMAT, anisearchNurKatalog } from './bau/anisearch-titel.ts'
@@ -91,6 +91,9 @@ pruefe('auch ohne deutsche Ausgabe: aniSearch nennt kein Deutsch, kein Beleg', k
 pruefe('Deutsch vertont: bleibt', !keineSynchroLautAnisearch(mitErst(idMit('d'))))
 pruefe('Deutsch abgebrochen (Teilsynchro): bleibt', !keineSynchroLautAnisearch(mitErst(idMit('c'))))
 pruefe('Deutsch geplant: bleibt', !keineSynchroLautAnisearch(mitErst(idMit('p'))))
+const mitStreamOhneBeleg = (id: number) => titel({ id, jpYear: 2026, streams: [{ platform: 'netflix' } as never] })
+pruefe('2023+ mit ungeprüftem Weg, aniSearch „d": kein Verschieben', !ausgestrahltOhneBeleg(mitStreamOhneBeleg(idMit('d'))))
+pruefe('2023+ mit ungeprüftem Weg, aniSearch „-": Verschieben bleibt', ausgestrahltOhneBeleg(mitStreamOhneBeleg(idMit('-'))))
 const neu = ausAnisearchDubs([])
 pruefe('Titel mit vertontem, geplantem oder abgebrochenem Deutsch kommen in den Bestand', neu.length > 0 && neu.every((id) => 'dpc'.includes(dubs[String(id)] ?? '-')))
 pruefe('was schon im Bestand steht, wird nicht noch einmal geholt', !ausAnisearchDubs(neu.map((id) => ({ id }))).length)

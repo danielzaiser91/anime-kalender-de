@@ -16,10 +16,14 @@ import { readJson, ROOT } from '../lib/util.ts'
  */
 export function ausgestrahltOhneBeleg(t: Title): boolean {
   if (!t.streams.length || t.deErstausgabe || t.streams.some((s) => s.dub === true)) return false
+  /* aniSearch führt die Vertonung (d) oder eine abgebrochene (c): Das ist ein Beleg; sonst verwaiste der aniSearch-Zwilling (Scott Pilgrim hebt ab, Bestandsbau 08.10.2026). */
+  if (['d', 'c'].includes(dubKennzeichen(t.id) ?? '')) return false
   return (t.jpYear ?? 0) >= 2023
 }
 
 let dubsAnisearch: Record<string, string> | undefined
+
+const dubKennzeichen = (anilistId: number): string | undefined => (dubsAnisearch ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {}))[String(anilistId)]
 
 /**
  * **Eine deutsche Ausgabe ohne deutsche Vertonung ist keine Synchro** (Daniel, 06.10.2026, Handprüfung E: 10 von 10 Titeln, bei denen
@@ -30,8 +34,7 @@ let dubsAnisearch: Record<string, string> | undefined
  * schlägt das, die Aufrufer schließen Releases und deutsche Sprecher davor aus. Ohne Datei gilt die Regel nie.
  */
 export function keineSynchroLautAnisearch(t: Title): boolean {
-  dubsAnisearch ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {})
-  return dubsAnisearch[String(t.id)] === '-' && !t.streams.some((s) => s.dub === true)
+  return dubKennzeichen(t.id) === '-' && !t.streams.some((s) => s.dub === true)
 }
 
 type HandUrteil = { anilistId?: number; sources?: string[]; keinAnime?: boolean }

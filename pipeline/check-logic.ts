@@ -8202,7 +8202,7 @@ console.log('\nGoogle-Kalender: wöchentliche Serie:')
 console.log('\nAusgestrahlt ohne deutschen Beleg:')
 {
   /* Ranma 1/2 Staffel 3 (Daniel, 04.10.2026): Weg da, kein deutscher Beleg → hinter den Toggle; belegte und alte Titel bleiben. */
-  const titel = (jpYear: number, streams: { platform: string; dub?: boolean }[], extra: Partial<Title> = {}) => ({ id: 1, jpYear, streams, ...extra }) as unknown as Title
+  const titel = (jpYear: number, streams: { platform: string; dub?: boolean }[], extra: Partial<Title> = {}) => ({ id: -7, jpYear, streams, ...extra }) as unknown as Title
   pruefe('neue Staffel mit ungeprüftem Weg und ohne Beleg wird verschoben', ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }])))
   pruefe('ein Weg mit belegter Synchro bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix', dub: true }])))
   pruefe('eine Erstausgabe-Marke bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }], { deErstausgabe: { synchro: true } } as Partial<Title>)))
