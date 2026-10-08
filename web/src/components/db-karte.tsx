@@ -98,7 +98,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
             alt=""
             loading="lazy"
             className={[
-              'h-full w-full object-cover transition duration-300 group-hover:scale-105',
+              'h-full w-full object-cover transition group-hover:scale-105',
               // Entsättigt statt blass: Ein blasses Bild sieht nach
               // Ladefehler aus, ein graues nach Absicht. Beim Zeigen
               // kommt die Farbe zurück — dann schaut jemand genau hin.

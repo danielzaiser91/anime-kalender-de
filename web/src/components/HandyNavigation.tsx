@@ -50,7 +50,7 @@ export function HandyNavigation({
       className={[
         'fixed inset-x-3 bottom-[calc(12px+env(safe-area-inset-bottom))] z-30 grid grid-cols-5 rounded-[22px] border border-ak-rand bg-ak-flaeche/95 p-1.5 backdrop-blur md:hidden',
         /* Nur mit Vorschau „leisten": sanft nach unten aus dem Bild; ein Tastenfokus holt sie zurück (`onFocus`). */
-        ausblenden && 'transition-transform duration-200',
+        ausblenden && 'transition-transform',
         versteckt && 'translate-y-[calc(100%+24px+env(safe-area-inset-bottom))]',
       ]
         .filter(Boolean)

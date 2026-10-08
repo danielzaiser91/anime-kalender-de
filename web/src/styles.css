@@ -151,8 +151,9 @@ html:not(.dark) {
   }
 }
 
+/* Alle Übergänge der Seite bleiben unter 150 ms (08.10.2026) — schnell genug, um nicht aufzuhalten. */
 .animate-fade-in {
-  animation: fade-in 0.18s ease-out both;
+  animation: fade-in 0.15s ease-out both;
 }
 
 /*
@@ -188,13 +189,21 @@ html:not(.dark) {
 }
 
 .animate-slide-in {
-  animation: slide-in 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: slide-in 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/*
+  Wer weniger Bewegung will, bekommt keine: Animationen enden sofort im Endzustand, Übergänge
+  springen. Eine Regel für alles statt `motion-reduce:` an jeder Stelle — Vergessenes gibt es so nicht.
+*/
 @media (prefers-reduced-motion: reduce) {
-  .animate-fade-in,
-  .animate-slide-in {
-    animation: none;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

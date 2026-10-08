@@ -83,7 +83,7 @@ export function CoverMaximieren({ bild, gross, titel }: { bild: string | undefin
       onClick={(e) => { e.stopPropagation(); setOffen(false) }}
       className="fixed inset-0 z-[80] grid cursor-zoom-out place-items-center bg-black/90 p-3"
     >
-      <img src={bild} alt={titel} className={`[grid-area:1/1] max-h-full max-w-full object-contain transition-opacity duration-300 motion-reduce:transition-none ${geladen ? 'opacity-0' : ''}`} />
+      <img src={bild} alt={titel} className={`[grid-area:1/1] max-h-full max-w-full object-contain transition-opacity ${geladen ? 'opacity-0' : ''}`} />
       <button
         ref={schliessen}
         type="button"
@@ -101,7 +101,7 @@ export function CoverMaximieren({ bild, gross, titel }: { bild: string | undefin
           decoding="async"
           onLoad={() => setGeladen(true)}
           onError={() => setKaputt(true)}
-          className={`[grid-area:1/1] max-h-full max-w-full object-contain transition-opacity duration-300 motion-reduce:transition-none ${geladen ? '' : 'opacity-0'}`}
+          className={`[grid-area:1/1] max-h-full max-w-full object-contain transition-opacity ${geladen ? '' : 'opacity-0'}`}
         />
       )}
     </div>,

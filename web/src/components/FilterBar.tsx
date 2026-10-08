@@ -41,7 +41,7 @@ export function FilterBarDock(props: FilterBarProps) {
       className={[
         'fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto md:bottom-[calc(1rem+env(safe-area-inset-bottom))] max-w-[1180px]',
         pille && 'right-2 left-auto mx-0 w-max max-w-[calc(100vw-1rem)] md:right-4 md:max-w-[calc(100vw-2rem)]',
-        v === 'ausblenden' && 'transition-[bottom] duration-200 [html[data-nav-weg]_&]:max-md:bottom-[calc(0.5rem+env(safe-area-inset-bottom))]',
+        v === 'ausblenden' && 'transition-[bottom] [html[data-nav-weg]_&]:max-md:bottom-[calc(0.5rem+env(safe-area-inset-bottom))]',
       ]
         .filter(Boolean)
         .join(' ')}

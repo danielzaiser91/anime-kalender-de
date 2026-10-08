@@ -83,7 +83,7 @@ export function Steuerleiste(p: SteuerProps) {
       className={[
         'pointer-events-none fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 flex justify-center md:bottom-2',
         /* Vorschau „leisten": rückt mit nach unten, wenn die Navigation weicht (`data-nav-weg` an <html>). */
-        ausblenden && 'transition-[bottom] duration-200 [html[data-nav-weg]_&]:max-md:bottom-[calc(0.5rem+env(safe-area-inset-bottom))]',
+        ausblenden && 'transition-[bottom] [html[data-nav-weg]_&]:max-md:bottom-[calc(0.5rem+env(safe-area-inset-bottom))]',
       ]
         .filter(Boolean)
         .join(' ')}
