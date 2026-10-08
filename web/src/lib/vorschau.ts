@@ -25,11 +25,11 @@ export const VORSCHAUEN: Record<string, { varianten: string[]; text: string; tit
     text: 'Beleg-Fenster: Ausschnitt zuerst. schalter = Umschalter „Beleg | Ganze Seite", klick = nur Ausschnitt, Klick zeigt die ganze Seite, karte = Ausschnitt mit Übersichtskarte der Seite.',
   },
   startgeruest: {
-    titel: 'Start mit Gerüst',
+    titel: 'Start mit Spinner statt Gerüst',
     beispiel: '#/woche',
-    beispielText: 'Seite neu laden (am besten mit gedrosselter Leitung): Kopf, Navigation und Wochen-Skelett stehen sofort',
-    varianten: ['skelett'],
-    text: 'Am Handy siehst du sofort Kopf, Navigation und ein Wochen-Skelett, statt lange auf einen leeren Bildschirm zu warten.',
+    beispielText: 'Seite neu laden: statt Kopf, Navigation und Wochen-Skelett erscheinen wie früher drei Punkte',
+    varianten: ['spinner'],
+    text: 'Der Start mit Gerüst ist Standard (seit 08.10.2026); „spinner" bringt den alten Start mit Punkten zurück.',
   },
   leisten: {
     titel: 'Schlankere Leisten',

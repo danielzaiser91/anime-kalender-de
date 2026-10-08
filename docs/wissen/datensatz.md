@@ -552,3 +552,12 @@ ziehen bei 2× das `large`-Cover, PNG bis 553 KB), nur die Bilder im Sichtfeld m
    Messung ≤ 2,5 s zeigen, sonst zurücknehmen. Ein Gewinn unter 0,8 s rechtfertigt den zweiten Pfad nicht.
 3. **Vorher** (billiger, größerer Hebel auf das sichtbare Ergebnis): Kartenbilder mit passender Breite (`sizes`), PNG-Cover
    vermeiden, nur Sichtfeld-Bilder vorrangig; CLS der Hülle auf < 0,1 bringen. Jeweils mit demselben Rezept nachmessen.
+
+## Bilder und CLS am Start behoben (08.10.2026)
+
+Ursachen: (1) Die Wochenkachel (173 CSS-px) zog bei 2× AniLists `large` (460 px, als PNG bis 553 KB; AniList liefert kein WebP/AVIF, `medium` wiegt ~150 KB);
+auch der Offline-Vorrat in `App.tsx` holte `large`. (2) CLS 0,607: Ohne Vorschau `startgeruest` rechnete die App erst eine leere Woche (7 Tage à 190 px)
+und sprang beim ersten Ergebnis auf 9.200 px. Änderung: `coverBild(…, dichte)` mit `KACHEL_DICHTE = 1,5` (Kachel und Offline-Vorrat), und das Gerüst
+(`useErstesErgebnis`) ist Standard; `akVorschau('startgeruest', 'spinner')` bringt den alten Start zurück.
+Messung mit `tools/archiv/ladegewicht-messung.mjs --lokal=dist` (gebautes Verzeichnis, Leitung 1,6 Mbit/s nachgebildet, Median 2 Läufe), vorher → nachher:
+Bilder 21 / 2.988 KB → 31 / 1.647 KB (die kleineren laden früher nach) · erstes Karten-Bild 7,5–9,5 s → 4,0–4,4 s · CLS 0,607 → 0 · Code+Daten unverändert 567 KB.
