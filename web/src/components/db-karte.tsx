@@ -54,6 +54,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
    * Detail-Panels, wo sie hingehört.
    */
   const keinDub = members.every((m) => m.ohneSynchro)
+  const teilbar = main.slug && !main.ohneSynchro && main.id > 0 ? main.slug : undefined
 
   if (isHidden) {
     return (
@@ -97,7 +98,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
             alt=""
             loading="lazy"
             className={[
-              'h-full w-full object-cover transition duration-300 group-hover:scale-105',
+              'h-full w-full object-cover transition group-hover:scale-105',
               // Entsättigt statt blass: Ein blasses Bild sieht nach
               // Ladefehler aus, ein graues nach Absicht. Beim Zeigen
               // kommt die Farbe zurück — dann schaut jemand genau hin.
@@ -128,25 +129,14 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
             {t('db.noDubBadge')}
           </span>
         )}
-        {/*
-          Alles Bedienbare in **einer** Spalte oben rechts, unter der
-          FSK-Kennzeichnung.
-
-          Vorher lagen Stern und Auge oben links, die FSK oben rechts —
-          zwei Häufchen in gegenüberliegenden Ecken, ohne dass die
-          Aufteilung etwas bedeutet hätte. Jetzt gibt es eine einzige
-          Spalte: Ganz oben die Angabe zum Titel, darunter das, was man
-          mit ihm tun kann. Das Cover bleibt links frei, und genau dort
-          steht bei fast jedem Anime das Gesicht.
-        */}
-        <span className="absolute right-1 top-1 flex flex-col items-center gap-0.5 rounded-md bg-slate-900/60 p-0.5 backdrop-blur-[2px]">
-          {main.fsk !== undefined && <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />}
-          <FavoriteStar active={favorite} onToggle={() => onToggleFavorite(main.id)} />
-          <HideEye hidden={false} onToggle={() => onToggleHidden(main.id)} />
-          {main.slug && !main.ohneSynchro && main.id > 0 && (
-            <ShareIcon onShare={() => share(main.slug, main.titleDe ?? main.titleEn ?? main.titleRomaji ?? '')} copied={copiedSlug === main.slug} />
-          )}
-        </span>
+        <KartenKnoepfe
+          main={main}
+          favorite={favorite}
+          onToggleFavorite={() => onToggleFavorite(main.id)}
+          onToggleHidden={() => onToggleHidden(main.id)}
+          onShare={teilbar ? () => share(teilbar, main.titleDe ?? main.titleEn ?? main.titleRomaji ?? '') : undefined}
+          copied={!!teilbar && copiedSlug === teilbar}
+        />
         {grouped && members.length > 1 && (
           /*
             Über den Balken statt darauf: Der Hinweis „keine deutsche
@@ -201,5 +191,38 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
         </span>
       </div>
     </div>
+  )
+}
+
+const KNOPF_GRUND = 'flex flex-col items-center rounded-full bg-[rgba(13,15,20,.72)] p-0.5 text-[#f2f1ee]'
+const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0'
+
+/**
+ * FSK und Bedienung in **einer** Spalte oben rechts; das Cover bleibt links frei, dort steht meist das Gesicht.
+ *
+ * Die FSK ist eine Angabe und steht immer. Stern, Auge und Teilen erscheinen wie in der Wochen-Kachel erst beim
+ * Zeigen oder per Tastatur — vorher lag ein dunkler Streifen auf jedem Cover, im hellen Thema am auffälligsten.
+ * Ein gesetzter Stern bleibt sichtbar. Der Stern ist auf jedem Gerät ein Knopf (28 px, kein zusätzlicher
+ * Treffer-Wrapper); Auge und Teilen gibt es auf dem Handy (unter `sm`) im Panel, nicht auf dem Bild.
+ */
+function KartenKnoepfe({ main, favorite, onToggleFavorite, onToggleHidden, onShare, copied }: {
+  main: Title
+  favorite: boolean
+  onToggleFavorite: () => void
+  onToggleHidden: () => void
+  onShare?: () => void
+  copied: boolean
+}) {
+  return (
+    <span className="absolute right-1 top-1 flex flex-col items-end gap-1" onClick={(e) => e.stopPropagation()}>
+      {main.fsk !== undefined && <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />}
+      <span className={`${KNOPF_GRUND} ${favorite ? '' : ERST_BEIM_ZEIGEN}`}>
+        <FavoriteStar active={favorite} onToggle={onToggleFavorite} />
+      </span>
+      <span className={`${KNOPF_GRUND} hidden sm:flex ${ERST_BEIM_ZEIGEN}`}>
+        <HideEye hidden={false} onToggle={onToggleHidden} />
+        {onShare && <ShareIcon onShare={onShare} copied={copied} />}
+      </span>
+    </span>
   )
 }

@@ -61,6 +61,8 @@ export const TEXTE_SEITEN = {
   'db.animeUnd': 'Anime und',
   'db.cartoons': 'Cartoons',
   'db.ohne': 'ohne',
+  'db.leerTipps': 'Vielleicht hilft eine andere Schreibweise — gesucht wird auch im japanischen und englischen Titel — oder weniger Filter.',
+  'db.leerOhneSynchro': 'Auch Anime ohne deutsche Synchro zeigen',
   'news.art.nachgetragen': 'Rückwirkend eingetragen',
   'detail.merkenGoogleSerie': 'Google Kalender · jede Woche',
   'detail.folgenFortschritt': '{raus} Fg.',
