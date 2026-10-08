@@ -18,10 +18,11 @@ export function DbSchalter({ ohneSynchro, onOhneSynchroChange, laedt, grouped, o
   onCartoonsAusChange: (next: boolean) => void
 }) {
   const { t } = useLang()
-  const pille = 'inline-flex items-center rounded-full border px-3 py-1.5 transition'
+  const pille = 'inline-flex shrink-0 items-center rounded-full border px-3 py-1.5 whitespace-nowrap transition'
   const ruhig = 'border-slate-300 dark:border-white/15'
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    /* Auf dem Handy eine rollbare Reihe (drei Zeilen Schalter über dem Raster waren zu viel), ab `sm` umbrechend. */
+    <div className="-mx-4 flex items-center gap-2 overflow-x-auto px-4 py-0.5 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
       <span className={`${pille} ${ohneSynchro ? 'border-amber-400/60 bg-amber-50 dark:border-amber-400/40 dark:bg-amber-400/10' : `${ruhig} border-dashed`}`}>
         <Toggle checked={ohneSynchro} onChange={onOhneSynchroChange} label={t('db.withoutDub')} hint={t('db.withoutDubHint')} />
       </span>

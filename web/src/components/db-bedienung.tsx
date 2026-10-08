@@ -32,9 +32,10 @@ export function DbSortWahl({ sort, onChange, relevanz, suche }: { sort: DbSort; 
   const { t } = useLang()
   return (
     <label className="ml-auto flex cursor-pointer items-center gap-2">
-      {t('db.sort')}
+      <span className="hidden sm:inline">{t('db.sort')}</span>
       <select
         value={sort}
+        aria-label={t('db.sort')}
         onChange={(e) => onChange(e.target.value as DbSort)}
         className="cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5"
       >
