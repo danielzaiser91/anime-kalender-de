@@ -9,6 +9,7 @@ import { mitKitsuTiteln } from './bau/folgentitel-kitsu.ts'
 import { ANISEARCH_ID_BASIS, FORMAT, anisearchNurKatalog } from './bau/anisearch-titel.ts'
 import { ohneBelegteSynchro } from './bau/synchro-belegt.ts'
 import { ausAnisearchDubs } from './lib/anisearch-synchro-ids.ts'
+import { malOhneAnilistTitel } from './lib/anisearch-cover.ts'
 import { waehlePlakat } from './lib/tmdb-plakat.ts'
 import { waehleStaffel } from './lib/tmdb-staffel.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
@@ -162,6 +163,17 @@ pruefe('es gibt Einträge', ids.length > 100, ids.length)
 pruefe('jede Kennung ist positiv und die Titelkennung liegt über allen AniList-Kennungen', ids.every((i) => i > 0 && ANISEARCH_ID_BASIS + i > 1_000_000))
 pruefe('jeder Eintrag trägt ein bekanntes Deutsch-Kennzeichen', Object.values(eintraege).every((e) => 'dpc-'.includes(e.dub) && e.dub.length === 1))
 pruefe('nur Einträge ohne Deutsch bleiben im Katalog', [...anisearchNurKatalog()].every((id) => eintraege[String(id - ANISEARCH_ID_BASIS)]?.dub === '-') && anisearchNurKatalog().size === Object.values(eintraege).filter((e) => e.dub === '-').length)
+
+console.log('Cover für aniSearch-Titel (AniList über die MAL-Kennung)')
+const probeEintraege = { 1: { y: 2026, mal: 10 }, 2: { y: 2026, mal: 11 }, 3: { y: 2020, mal: 12 }, 4: { y: 2026 }, 5: { y: 2026, mal: 14 }, 6: { y: 2026, mal: 10 } }
+const offeneMal = malOhneAnilistTitel(probeEintraege, new Set([11]), { 14: { id: 1, cover: 'x' } }, 2025)
+pruefe('abgefragt wird: junger Eintrag mit MAL-Kennung, ohne AniList-Titel, ohne Cover im Cache, jede Kennung einmal', JSON.stringify(offeneMal) === '[10]', offeneMal)
+/* Ausnahme mit Ablauf: Beide Titel hatten am 08.10.2026 kein Cover, bis der Abruf es holt; danach gilt die Regel ohne Ausnahme. */
+const koernOhneCover = new Map([[10021566, 'Dragon Ball Super: Beerus'], [10021751, 'Fool Night']])
+const ausnahmeGilt = new Date().toISOString().slice(0, 10) <= '2026-10-15'
+const kern = JSON.parse(readFileSync('public/data/titles-core.json', 'utf8')) as { id: number; coverImage?: string }[]
+const ohneCover = kern.filter((t) => !t.coverImage && !(ausnahmeGilt && koernOhneCover.has(t.id))).map((t) => t.id)
+pruefe('jeder Kern-Titel trägt ein Cover', ohneCover.length === 0, ohneCover)
 
 console.log('F-Sperre (Fanservice-Urteil von Hand, data/fanservice-urteil.yaml)')
 const gesperrt = new Set([...readFileSync('data/fanservice-urteil.yaml', 'utf8').matchAll(/^\s*-\s*id:\s*(\d+)/gm)].map((m) => Number(m[1])))
