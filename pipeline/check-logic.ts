@@ -6746,17 +6746,17 @@ pruefe(
   )
 }
 {
-  /* Preload der Startdaten (18.09.2026): dieselben Dateien wie loadDataset(), sonst lädt der Browser umsonst. */
-  const vite = readFileSync('vite.config.ts', 'utf8')
+  /* Preload der Startdaten (18.09.2026): dieselben Dateien wie loadDataset() und loadWochenStart(), sonst lädt der Browser umsonst. */
+  const vorlade = readFileSync('tools/vite-vorladen.ts', 'utf8')
   const daten = readFileSync('web/src/lib/data.ts', 'utf8')
-  const vorgeladen = [...(/const startdaten = \[([^\]]*)\]/.exec(vite)?.[1] ?? '').matchAll(/'([^']+)'/g)].map((m) => m[1]).sort()
-  const block = /export async function loadDataset[\s\S]*?\]\)/.exec(daten)?.[0] ?? ''
-  const geladen = [...block.matchAll(/loadJson<[^>]+>\('([^']+)'\)/g)].map((m) => m[1]).sort()
-  pruefe(
-    'die vorgeladenen Startdaten sind genau die, die loadDataset() holt',
-    vorgeladen.length > 0 && JSON.stringify(vorgeladen) === JSON.stringify(geladen),
-    `${vorgeladen} / ${geladen}`,
-  )
+  const vorgeladen = (name: string) => [...(new RegExp(String.raw`const ${name} = \[([^\]]*)\]`).exec(vorlade)?.[1] ?? '').matchAll(/'([^']+)'/g)].map((m) => `${m[1]}.json`).sort()
+  const geladen = (kopf: RegExp) => {
+    const block = kopf.exec(daten)?.[0] ?? ''
+    return [...block.matchAll(/loadJson<[^>]+>\('([^']+)'\)/g), ...block.matchAll(/(loadMeta)\(\)/g)].map((m) => (m[1] === 'loadMeta' ? 'meta.json' : m[1]!)).sort()
+  }
+  for (const [name, kopf, liste] of [['loadDataset()', /export async function loadDataset[\s\S]*?\]\)/, 'VOLL'], ['loadWochenStart()', /export function loadWochenStart[\s\S]*?\]\)/, 'WOCHE']] as const) {
+    pruefe(`die vorgeladenen Startdaten (${liste}) sind genau die, die ${name} holt`, vorgeladen(liste).length > 0 && JSON.stringify(vorgeladen(liste)) === JSON.stringify(geladen(kopf)), `${vorgeladen(liste)} / ${geladen(kopf)}`)
+  }
 }
 {
   /* aniSearchs Synchro-Marke reist mit der Erstausgabe (18.09.2026, Niklaas / Jakobus Nimmersatt). */
