@@ -8342,6 +8342,7 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf', um('2026-10-06T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml', um('2026-10-06T04:00:00Z'))
     pruefe('Wecker: Montag 05 Uhr UTC der Wochenlauf, Dienstag nicht', um('2026-10-05T05:00:00Z') === 'refresh-hourly.yml,refresh-weekly.yml' && um('2026-10-06T05:00:00Z') === 'refresh-hourly.yml', um('2026-10-05T05:00:00Z'))
     pruefe('Wecker: ADN alle sechs Stunden, Sonntag zählt als 7', um('2026-10-04T08:00:00Z') === 'adn-laufende.yml,refresh-hourly.yml' && um('2026-10-04T05:00:00Z') === 'refresh-hourly.yml')
+    pruefe('Wecker: der Monatslauf der Tonspuren am 2. um 04 Uhr UTC, am 3. nicht', um('2026-11-02T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml' && um('2026-11-03T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml', um('2026-11-02T04:00:00Z'))
   }
   /* Ein Artikel für zwei Titel: Jeder bekommt die Marke seiner eigenen Zeile (Bleach und Madoka, 05.10.2026). */
   {
