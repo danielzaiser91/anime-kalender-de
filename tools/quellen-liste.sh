@@ -286,6 +286,9 @@ QUELLEN=(
   # 12.09.2026. Ohne diese Zeile wirft der Reset im CI-Lauf weg, was der
   # Abruf geholt hat, und die Seite verliert 906 Titel.
   data/cartoons.json
+  # Wikidata-Aussagen zu den Cartoons (Reihen) und die Handreihen daneben (09.10.2026). Ohne diese Zeilen wirft der Reset im CI-Lauf den Abruf weg.
+  data/cartoon-reihen.json
+  data/cartoon-reihen-von-hand.yaml
   data/cr-katalog-de.json
   data/cr-katalog-zuordnung.json
   extension/offene-amazon.js

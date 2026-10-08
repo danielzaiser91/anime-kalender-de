@@ -17,6 +17,7 @@ import { type SlimTitel } from './13-2-auslieferung.ts'
 import { ergaenzeCoverGross } from './cover-gross.ts'
 import { ohneBelegteSynchro } from './synchro-belegt.ts'
 import { schreibeSaisonDatei } from './saison-datei.ts'
+import { cartoonsMitReihe } from './cartoon-reihen.ts'
 
 export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige }: {
   titles: Map<number, Title>
@@ -176,11 +177,9 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
   const ausKatalog = readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])
   /* Die belegte deutsche Staffelangabe (aniSearch) steuert die Beschriftung, nicht den Titel. */
   const staffelQuellen = staffelQuellenAusAnisearch()
-  const imBestand = new Set(slim.map((t) => t.id))
-  const fuerReihen = [
-    ...slim,
-    ...ausKatalog.filter((t) => !imBestand.has(t.id)).map((t) => ({ ...t, ohneSynchro: true })),
-  ]
+  const cartoons = cartoonsMitReihe()
+  const imBestand = new Set([...slim, ...cartoons].map((t) => t.id))
+  const fuerReihen = [...slim, ...cartoons, ...ausKatalog.filter((t) => !imBestand.has(t.id)).map((t) => ({ ...t, ohneSynchro: true }))]
 
   /**
    * **Was an einem anderen Teil der Reihe hängt, ist Beiwerk.**

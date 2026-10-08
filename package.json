@@ -45,7 +45,7 @@
     "data:anisearch:reparse": "tsx pipeline/reparse-anisearch.ts",
     "check:folgen": "tsx pipeline/check-folgen-zuordnung.ts",
     "check:disc-uebersicht": "tsx pipeline/check-disc-uebersicht.ts",
-    "check:logic": "tsx pipeline/check-logic.ts && tsx pipeline/check-invarianten.ts && tsx pipeline/check-detektiv-funde.ts && tsx pipeline/check-disney-gesamtnummer.ts && tsx pipeline/check-wochen-datei.ts",
+    "check:logic": "tsx pipeline/check-logic.ts && tsx pipeline/check-invarianten.ts && tsx pipeline/check-detektiv-funde.ts && tsx pipeline/check-disney-gesamtnummer.ts && tsx pipeline/check-wochen-datei.ts && tsx pipeline/check-cartoon-reihen.ts",
     "check:kalender": "tsx pipeline/kalender-befund.ts",
     "check:search": "tsx pipeline/check-search.ts",
     "check:cache-abhaengigkeit": "node tools/check-cache-abhaengigkeit.mjs",
@@ -133,6 +133,7 @@
     "data:justwatch-cartoons": "tsx pipeline/fetch-justwatch-audio.ts --nur-cartoons --limit 2000",
     "data:trailer": "tsx pipeline/fetch-trailer.ts",
     "data:cartoons": "tsx pipeline/fetch-cartoons.ts",
+    "data:cartoon-reihen": "tsx pipeline/fetch-cartoon-reihen.ts",
     "data:cr-offene": "tsx pipeline/fetch-crunchyroll-offene.ts",
     "data:kanal-gegenprobe": "tsx pipeline/kanal-gegenprobe.ts",
     "check:stichprobe": "node tools/panel-stichprobe.mjs"

@@ -73,6 +73,7 @@ on:
           - data:katalog
           - data:trailer
           - data:cartoons
+          - data:cartoon-reihen
           - data:youtube:kauf
           # Abrufbarkeit der YouTube-Verweise in Deutschland. Läuft sonst nur im
           # Wochenlauf; auf Abruf gebraucht, wenn die Quelle als stumm gemeldet wird
