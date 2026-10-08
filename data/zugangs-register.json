@@ -342,6 +342,7 @@
       "workflows": [
         "claude-daten-merge.yml",
         "claude-verpasst-recherche.yml",
+        "delta-wache.yml",
         "fund-nachliefern.yml",
         "wecker-wache.yml"
       ],
