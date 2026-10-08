@@ -27,6 +27,7 @@ QUELLEN=(
   data/anisearch-dubs.json
   data/anisearch-dub-ids.json
   data/anisearch-eintraege.json
+  data/anisearch-cover.json
   data/anisearch-eintraege-ausgelassen.json
   data/tmdb-poster.json
   data/kitsu-folgen.json

@@ -169,11 +169,19 @@ const probeEintraege = { 1: { y: 2026, mal: 10 }, 2: { y: 2026, mal: 11 }, 3: { 
 const offeneMal = malOhneAnilistTitel(probeEintraege, new Set([11]), { 14: { id: 1, cover: 'x' } }, 2025)
 pruefe('abgefragt wird: junger Eintrag mit MAL-Kennung, ohne AniList-Titel, ohne Cover im Cache, jede Kennung einmal', JSON.stringify(offeneMal) === '[10]', offeneMal)
 /* Ausnahme mit Ablauf: Beide Titel hatten am 08.10.2026 kein Cover, bis der Abruf es holt; danach gilt die Regel ohne Ausnahme. */
-const koernOhneCover = new Map([[10021566, 'Dragon Ball Super: Beerus'], [10021751, 'Fool Night']])
+const koernOhneCover = new Map([[10021566, 'Dragon Ball Super: Beerus'], [10021751, 'Fool Night'], [10021575, 'Cover erst nach dem nächsten Bau']])
 const ausnahmeGilt = new Date().toISOString().slice(0, 10) <= '2026-10-15'
 const kern = JSON.parse(readFileSync('public/data/titles-core.json', 'utf8')) as { id: number; coverImage?: string }[]
 const ohneCover = kern.filter((t) => !t.coverImage && !(ausnahmeGilt && koernOhneCover.has(t.id))).map((t) => t.id)
 pruefe('jeder Kern-Titel trägt ein Cover', ohneCover.length === 0, ohneCover)
+/* Alle ausgelieferten aniSearch-Titel: Steht die MAL-Kennung im Cover-Bestand, muss der Titel das Cover tragen (08.10.2026: der Bestand lag im Actions-Cache, der Bau sah ihn nicht). */
+const coverBestand = JSON.parse(readFileSync('data/anisearch-cover.json', 'utf8')) as Record<string, unknown>
+const alleTitel = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { anisearchId?: number; coverImage?: string; titleRomaji: string }[]
+const mitQuelleOhneCover = alleTitel
+  .filter((t) => t.anisearchId && !t.coverImage && coverBestand[String((eintraege as Record<string, { mal?: number }>)[String(t.anisearchId)]?.mal)])
+  .filter((t) => !(ausnahmeGilt && koernOhneCover.has(ANISEARCH_ID_BASIS + t.anisearchId!)))
+  .map((t) => t.titleRomaji)
+pruefe('kein ausgelieferter Titel mit Cover-Quelle (MAL-Kennung im Cover-Bestand) ohne Cover', mitQuelleOhneCover.length === 0, mitQuelleOhneCover)
 
 console.log('F-Sperre (Fanservice-Urteil von Hand, data/fanservice-urteil.yaml)')
 const gesperrt = new Set([...readFileSync('data/fanservice-urteil.yaml', 'utf8').matchAll(/^\s*-\s*id:\s*(\d+)/gm)].map((m) => Number(m[1])))
