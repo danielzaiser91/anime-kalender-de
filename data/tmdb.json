@@ -2689,5 +2689,23 @@
       "crunchyroll",
       "rtlplus"
     ]
-  }
+  },
+  "adn-1423-s1-20261008-116589": {
+    "tmdbId": 100565,
+    "justwatchUrl": "https://www.themoviedb.org/tv/100565/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
+  },
+  "adn-1423-s1-20261008-131586": {}
 }

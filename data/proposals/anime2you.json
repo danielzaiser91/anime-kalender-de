@@ -1,6 +1,45 @@
 {
-  "scrapedAt": "2026-10-08T04:13:46.754Z",
+  "scrapedAt": "2026-10-08T23:03:38.496Z",
   "proposals": [
+    {
+      "articleTitle": "»Fate/stay night: Heaven’s Feel« erscheint als limitierte Blu-ray-Komplettbox",
+      "articleUrl": "https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/",
+      "publishedAt": "2026-10-08",
+      "category": "disc",
+      "platforms": [
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-18",
+          "context": "box von »Fate/stay night: Heaven’s Feel« erscheint voraussichtlich am 18. Dezember 2026 als Digipak und enthält die drei Filme »presage flow"
+        },
+        {
+          "month": "2026-12",
+          "context": "ttbox veröffentlichen wird. Wir fassen alle Details zusammen. Release im Dezember 2026 Die Komplettbox von »Fate/stay night: Heaven’s Feel«"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Crunchyroll bringt »Apothecary Diaries«-Film in die deutschen Kinos",
+      "articleUrl": "https://www.anime2you.de/news/1058311/crunchyroll-apothecary-diaries-film-im-kino/",
+      "publishedAt": "2026-10-08",
+      "category": "kino",
+      "platforms": [
+        "crunchyroll",
+        "kino"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-11",
+          "context": "»Die Tagebücher der Apothekerin: The Late Lady’s Treasure« feiert am 11. Dezember 2026 seine Premiere […] Der Beitrag Crunchyroll bringt"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Crunchyroll ergänzt zehn weitere Anime-Neuzugänge",
       "articleUrl": "https://www.anime2you.de/news/1058202/crunchyroll-cold-sato-san-und-mehr/",
@@ -732,7 +771,7 @@
       "dub": "ja",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-05"
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -850,7 +889,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-05"
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
@@ -912,7 +951,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-06"
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
@@ -1182,7 +1221,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-06"
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -1196,7 +1235,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-05"
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -1533,7 +1572,7 @@
           "edition": ""
         }
       ],
-      "discGelesen": "2026-10-08"
+      "discGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
@@ -1598,7 +1637,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-05"
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm",
