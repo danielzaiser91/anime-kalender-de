@@ -80,6 +80,13 @@ export const VORSCHAUEN: Record<string, { varianten: string[]; text: string; tit
     varianten: ['relevanz'],
     text: 'Die Datenbank beginnt mit dem, was jetzt oder bald auf Deutsch läuft, statt mit dem Alphabet ab „.hack“.',
   },
+  'sprecher-suche': {
+    titel: 'Sprecher-Suche',
+    beispiel: '#/datenbank?q=Konrad%20B%C3%B6sherz',
+    beispielText: 'In der Datenbank „Konrad Bösherz“ suchen; im Panel unter „Deutsche Stimmen“ auf einen Namen tippen',
+    varianten: ['an'],
+    text: 'Die Suche findet Synchronsprecher: eine Gruppe „Sprecher“ über den Treffern, je Name die Titel mit Rolle; im Panel führt jeder Sprechername zu dieser Liste.',
+  },
   'tv-kasten': {
     titel: 'TV-Kasten ohne Abschneiden',
     beispiel: '#/woche',

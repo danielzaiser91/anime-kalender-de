@@ -1,5 +1,9 @@
-import { useMemo, useState } from 'react'
+import { lazy, Suspense, useMemo, useState } from 'react'
 import { sortiereNachTitel } from '../lib/titel-sortierung.ts'
+import { SPRECHER_AB_ZEICHEN } from '../lib/sprecher.ts'
+
+/* Vorschau „sprecher-suche": eigener Chunk, geladen erst bei einer Suche ab drei Zeichen. */
+const SprecherTreffer = lazy(() => import('./SprecherTreffer.tsx').then((m) => ({ default: m.SprecherTreffer })))
 import type { Title } from '@shared/types.ts'
 import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
@@ -90,6 +94,7 @@ export function DatabaseView({
   const sort = (gewaehlt === 'relevanz' && !relevanzMoeglich ? undefined : gewaehlt) ?? (relevanzMoeglich ? 'relevanz' : 'titel')
   const ruhigOhne = useVorschau('db-ohne-synchro') === 'ruhig'
   const reserve = useVorschau('db-reserve') === 'ruhig'
+  const sprecher = useVorschau('sprecher-suche') === 'an' && suche.trim().length >= SPRECHER_AB_ZEICHEN
 
   const groups = useMemo(() => {
     const base: TitleGroup[] = grouped
@@ -118,6 +123,12 @@ export function DatabaseView({
         )}
         <DbSortWahl sort={sort} onChange={onSortChange} relevanz={relevanzMoeglich} suche={!!suche.trim()} />
       </div>
+
+      {sprecher && (
+        <Suspense fallback={null}>
+          <SprecherTreffer suche={suche.trim()} data={data} onOpen={onOpenTitle} />
+        </Suspense>
+      )}
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
         {groups.slice(0, visible).map(({ main, members }) => (
