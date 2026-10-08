@@ -12,6 +12,7 @@ import { todayIso, addDays } from '../../shared/time.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
+import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
@@ -378,7 +379,7 @@ export function schreibeOhneSynchro(
   const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
 
   writeJson(`${OUT}/ohne-synchro.json`, alle.map((t) => mitLaufzeit(mitAnkuendigung(t))))
-  meldeOhneSynchro(alle.length, eintraege.length, nachgetragen.length, alle.filter((t) => t.malId).length)
+  meldeOhneSynchro(alle, eintraege.length, nachgetragen.length, bekannt)
 }
 
 /**
@@ -390,7 +391,14 @@ export function schreibeOhneSynchro(
  * Genau das ließ `ohne-synchro.json` zweimal mit null Kennungen dastehen, ohne dass etwas rot wurde
  * (Einzelheiten in `docs/wissen/betrieb.md`). Eine Zahl im Protokoll macht es sichtbar.
  */
-function meldeOhneSynchro(anzahl: number, katalog: number, nachgetragen: number, mitMal: number): void {
+function meldeOhneSynchro(alle: { id: number; malId?: number }[], katalog: number, nachgetragen: number, bekannt: Map<number, number>): void {
+  const anzahl = alle.length
+  const mitMal = alle.filter((t) => t.malId).length
+  const kaputt = keinAnimeFehler(keinAnimeVonHand(), bekannt, new Set(alle.map((t) => t.id)))
+  if (kaputt.length) {
+    for (const f of kaputt) console.error('  ✖', f)
+    process.exit(1)
+  }
   if (!mitMal && anzahl) {
     warn(`Keine MAL-Kennung an ${anzahl} Titeln — der AniList-Katalog im Cache ist zu alt (data:katalog).`)
   }

@@ -126,3 +126,30 @@
   zitat: 'aniSearch /v1/anime/dubs 9947: dubbed = ja, keine deutsche Tonspur.'
   sources:
     - https://www.anisearch.de/anime/9947
+
+# Kein Anime: aniSearch stuft diese Specials als Diashow ein (Antwort an Daniel, 08.10.2026, auf unsere Discord-Themen). Sie liegen
+# hinter dem Toggle statt im Hauptbestand; `keinAnime: true` lässt den Bau abbrechen, sobald einer wieder im Hauptbestand steht
+# oder hinter dem Toggle fehlt (`keinAnimeFehler`).
+- anilistId: 100519
+  title: 'Princess Principal Picture Drama'
+  belegtAm: '2026-10-08'
+  keinAnime: true
+  zitat: 'Der Begriff Anime leitet sich von Animation ab. Die Princess Principal Picture Dramas zur TV-Serie lassen sich hingegen eher als Diashow beschreiben. Keine Animation → kein Anime.'
+  sources:
+    - 'aniSearch-Antwort an Daniel, 08.10.2026'
+
+- anilistId: 123074
+  title: 'Yu-Gi-Oh! Capsule Monsters (Kapselmonster)'
+  belegtAm: '2026-10-08'
+  keinAnime: true
+  zitat: 'Reine Auftragsproduktionen westlicher Firmen, bei denen die asiatischen Produzenten keine oder nur sehr wenige künstlerische Freiheit haben, werden bei uns in der Datenbank nicht aufgenommen.'
+  sources:
+    - 'aniSearch-Antwort 08.10.2026: reine Auftragsproduktion westlicher Firmen, nicht aufgenommen'
+
+- anilistId: 107342
+  title: 'Anohana: Menma e no Tegami (Special)'
+  belegtAm: '2026-10-08'
+  keinAnime: true
+  zitat: 'Der Begriff Anime leitet sich von Animation ab. Das Anohana-Special mit den Briefen an Menma lässt sich hingegen eher als Diashow beschreiben. Keine Animation → kein Anime.'
+  sources:
+    - 'aniSearch-Antwort an Daniel, 08.10.2026'

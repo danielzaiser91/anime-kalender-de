@@ -171,7 +171,7 @@ import { FRANCHISE_RELATIONS, otherZaehlt } from '../shared/mappings.ts'
 import { namensanfangMindestens } from '../shared/namensgebunden.ts'
 import { bereinigeNews } from './lib/news-bereinigen.ts'
 import { ausgabeKurz } from './lib/news-ausgabe.ts'
-import { ohneSynchroVonHand } from './bau/ohne-beleg.ts'
+import { keinAnimeFehler, keinAnimeVonHand, ohneSynchroVonHand } from './bau/ohne-beleg.ts'
 import { DISC_UEBERSICHT, discAbgleich, leseDiscUebersicht } from './lib/disc-uebersicht.ts'
 import { teileGleichmelder } from '../web/src/lib/news-gruppen.ts'
 import { alarmEntscheidung } from '../shared/schnellmessung-regeln.ts'
@@ -8078,6 +8078,13 @@ console.log('\nCharakter-Beziehung:')
     const ids = new Set([...lies('public/data/titles.json'), ...lies('public/data/ohne-synchro.json')].map((t) => t.id))
     const nein = ohneSynchroVonHand()
     pruefe('Ohne Synchro von Hand: jeder Eintrag hat eine Quelle und gehört zu einem Titel des Bestands (sonst wirkt er nirgends)', nein.size >= 7 && [...nein].every((id) => ids.has(id)), [...nein].filter((id) => !ids.has(id)).join(','))
+  }
+  {
+    const kein = keinAnimeVonHand()
+    pruefe('Kein Anime von Hand: die beiden Diashow-Specials (Princess Principal Picture Drama 100519, Anohana Menma e no Tegami 107342) stehen mit Quelle in der Liste und im Ohne-Synchro-Urteil', kein.has(100519) && kein.has(107342) && kein.has(123074) && [...kein].every((id) => ohneSynchroVonHand().has(id)))
+    pruefe('Kein Anime von Hand: hinter dem Toggle ist in Ordnung', keinAnimeFehler([100519, 107342], new Set<number>(), new Set([100519, 107342, 5])).length === 0)
+    pruefe('Kein Anime von Hand: ein Titel im Hauptbestand wird gemeldet', keinAnimeFehler([100519], new Set([100519]), new Set([100519])).some((f) => f.includes('im Hauptbestand')))
+    pruefe('Kein Anime von Hand: ein Titel, der nirgends steht, wird gemeldet (verschoben, nicht gelöscht)', keinAnimeFehler([107342], new Set<number>(), new Set([5])).some((f) => f.includes('hinter dem Toggle')))
   }
   pruefe('Charakter: „Tales of" (8 Zeichen) verbindet keine Spiele-Serien, bei OTHER bleibt 8', !otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Tales of Symphonia'], ['Tales of Gekijou'], namensanfangMindestens('OTHER')))
   pruefe('Charakter: „Meitantei" (9 Zeichen) bindet Precure nicht an Conan, Black Jack (10) bleibt gebunden', !otherZaehlt(['Meitantei Conan: Hanamaru na Answer'], ['Meitantei Precure!'], namensanfangMindestens('CHARACTER')) && otherZaehlt(['Black Jack: Heian Sento'], ['Black Jack'], namensanfangMindestens('CHARACTER')))
