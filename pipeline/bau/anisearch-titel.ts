@@ -1,4 +1,6 @@
-import { log, readJson } from '../lib/util.ts'
+import { log, readJson, warn } from '../lib/util.ts'
+import { todayIso } from '../../shared/time.ts'
+import { ohneSynchroVonHand } from './ohne-beleg.ts'
 import type { DubConfidence, Title } from '../../shared/types.ts'
 import { anisearchHand } from './grundlagen.ts'
 import { slugify } from '../lib/util.ts'
@@ -56,21 +58,49 @@ export function anisearchNurKatalog(): Set<number> {
   return new Set(Object.entries(alle()).filter(([, e]) => e.dub === '-').map(([id]) => ANISEARCH_ID_BASIS + Number(id)))
 }
 
+type Zuordnung = Record<string, { anisearchId?: number }>
+const zuordnungen = (): Zuordnung => readJson<Zuordnung>('data/anisearch.json', {})
+const mitDeutsch = (dub?: string): boolean => dub === 'd' || dub === 'p' || dub === 'c'
+
 /**
  * Eigenkennungen, die ein Katalog-Lauf nachträglich einem AniList-Titel zugeordnet hat: Der Titel zieht um, er geht nicht verloren.
- * `vorhanden` sind die AniList-Kennungen, die im Hauptbestand oder hinter dem Toggle ankommen.
+ * Führt aniSearch Deutsch (d/p/c), muss der Nachfolger im `hauptbestand` stehen; ohne Deutsch genügt `hinterToggle`.
  */
-export function anisearchUmgezogen(vorhanden: Set<number>): Set<number> {
+export function anisearchUmgezogen(hauptbestand: Set<number>, hinterToggle: Set<number>, zuordnung: Zuordnung = zuordnungen(), eintraege: Record<string, Eintrag> = alle()): Set<number> {
   const umgezogen = new Set<number>()
-  const zuordnung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
-  for (const [anilist, e] of Object.entries(zuordnung)) if (e.anisearchId && vorhanden.has(Number(anilist))) umgezogen.add(ANISEARCH_ID_BASIS + e.anisearchId)
+  for (const [anilist, z] of Object.entries(zuordnung)) {
+    if (!z.anisearchId) continue
+    const ziel = Number(anilist)
+    if (hauptbestand.has(ziel) || (hinterToggle.has(ziel) && !mitDeutsch(eintraege[String(z.anisearchId)]?.dub))) umgezogen.add(ANISEARCH_ID_BASIS + z.anisearchId)
+  }
   return umgezogen
 }
 
-/** Umgezogene Titel, deren Nachfolger im Hauptbestand, hinter dem Toggle oder im AniList-Katalog ankommt (Lauf 37730481739). */
-export function anisearchUmgezogenInBestand(jetzt: Set<number>, hinterToggle: Set<number>): Set<number> {
+/**
+ * Einträge mit Deutsch bei aniSearch (d/p/c), deren eigener oder zugeordneter AniList-Titel nicht im `hauptbestand` steht (Daniel, 08.10.2026:
+ * Teilsynchro gehört in den Hauptbestand). Ausgenommen: noch nicht gestartet (Ankündigung bleibt hinter dem Toggle) und `ausgenommen` (Handurteil „keine Synchro").
+ */
+export function dubNurHinterToggle(hauptbestand: Set<number>, heute: string, ausgenommen: Set<number> = new Set(), zuordnung: Zuordnung = zuordnungen(), eintraege: Record<string, Eintrag> = alle()): string[] {
+  const anilistIds = new Map<number, number[]>()
+  for (const [anilist, z] of Object.entries(zuordnung)) if (z.anisearchId) anilistIds.set(z.anisearchId, [...(anilistIds.get(z.anisearchId) ?? []), Number(anilist)])
+  return Object.entries(eintraege)
+    .filter(([schluessel, e]) => {
+      if (!mitDeutsch(e.dub) || (e.von && e.von > heute)) return false
+      const kennungen = [ANISEARCH_ID_BASIS + Number(schluessel), ...(anilistIds.get(Number(schluessel)) ?? [])]
+      return !kennungen.some((id) => hauptbestand.has(id) || ausgenommen.has(id))
+    })
+    .map(([schluessel]) => schluessel)
+}
+
+/**
+ * Für den Verlust-Riegel des Baus: die umgezogenen Eigenkennungen (Lauf 37730481739, 37735573290: acht Titel mit abgebrochenem Dub, 2908 → 2930). Nachfolger hinter dem Toggle
+ * zählt auch der AniList-Katalog. Meldet zusätzlich Einträge mit Deutsch, die nicht im Hauptbestand stehen.
+ */
+export function anisearchUmgezogenInBestand(hauptbestand: Set<number>, hinterToggle: Set<number>): Set<number> {
   const katalog = readJson<{ eintraege?: { id: number }[] }>('data/cache/anilist-katalog.json', {}).eintraege ?? []
-  return anisearchUmgezogen(new Set([...jetzt, ...hinterToggle, ...katalog.map((e) => e.id)]))
+  const abseits = dubNurHinterToggle(hauptbestand, todayIso(), ohneSynchroVonHand())
+  if (abseits.length) warn(`${abseits.length} aniSearch-Einträge mit Deutsch (d/p/c) stehen nicht im Hauptbestand: ${abseits.slice(0, 10).join(', ')}`)
+  return anisearchUmgezogen(hauptbestand, new Set([...hinterToggle, ...katalog.map((e) => e.id)]))
 }
 
 /** Legt die Titel an, die bei uns noch keine eigene aniSearch-Kennung tragen. Gibt zurück, wie viele es sind. */

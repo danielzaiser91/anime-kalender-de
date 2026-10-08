@@ -101,6 +101,7 @@ import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { LAUF_ABFRAGEN, LAUF_ARTEN, SQL_EINE_ART } from '../worker/src/lauf-sql.ts'
 import { geteilteWegeTrotzWiderlegung, pruefeErgebnis } from './lib/pruefung.ts'
+import { anisearchUmgezogen, dubNurHinterToggle } from './bau/anisearch-titel.ts'
 import { pruefeKalenderKonsistenz } from './lib/kalender-konsistenz.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -8426,6 +8427,22 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   pruefe('TMDB: Titel gleich dem englischen oder ohne englischen Vergleich ist keiner', tmdbFolgentitel(serie, 'Beispiel Serie', { folgen: folgen(1, 12, 2026, (i) => `Episode title ${i}`) }, nummern) === undefined && tmdbFolgentitel(serie, 'Beispiel Serie', { folgen: eintrag.folgen.map((f) => ({ ...f, en: undefined })) }, nummern) === undefined)
   pruefe('TMDB: Platzhalter „Folge 3" ist kein Titel', tmdbFolgentitel(serie, 'Beispiel Serie', { folgen: folgen(1, 12, 2026, (i) => `Folge ${i}`) }, nummern) === undefined)
   pruefe('TMDB: „… II" trifft den Namen ohne Zahl, ein anderer Name nicht', tmdbFolgentitel({ ...serie, titleRomaji: 'Beispiel Serie II' } as unknown as Title, 'Beispiel Serie', eintrag, nummern)?.size === 12 && tmdbFolgentitel({ ...serie, titleRomaji: 'Beispiel Serie II' } as unknown as Title, 'Anderes Werk', eintrag, nummern) === undefined)
+}
+/* aniSearch-Einträge mit Deutsch (d/p/c) bleiben im Hauptbestand — auch wenn ihre Kennung an einen AniList-Titel umzieht (Lauf 37735573290, 08.10.2026). */
+{
+  const eintrag = (dub: string, von = '1976-04-01') => ({ t: 'X', ty: 'TV-Serie', dub, von }) as never
+  const eintraege = { 10: eintrag('c'), 11: eintrag('-'), 12: eintrag('p', '2099-01-01'), 13: eintrag('d') }
+  const zuordnung = { 500: { anisearchId: 10 }, 501: { anisearchId: 11 }, 503: { anisearchId: 13 } }
+  const umzug = (haupt: number[], toggle: number[]) => anisearchUmgezogen(new Set(haupt), new Set(toggle), zuordnung, eintraege)
+  pruefe('Umzug: Nachfolger im Hauptbestand ist kein Verlust', umzug([500], []).has(10_000_010))
+  pruefe('Umzug: Teilsynchro (c) mit Nachfolger nur hinter dem Toggle bleibt ein Verlust', !umzug([], [500]).has(10_000_010))
+  pruefe('Umzug: ohne Deutsch (-) genügt der Nachfolger hinter dem Toggle', umzug([], [501]).has(10_000_011))
+  pruefe('Umzug: Nachfolger fehlt ganz, kein Umzug', umzug([], []).size === 0)
+  const ausgenommen = new Set<number>()
+  const abseits = (haupt: number[]) => dubNurHinterToggle(new Set(haupt), '2026-10-08', ausgenommen, zuordnung, eintraege)
+  pruefe('Deutsch (c, d) nur hinter dem Toggle wird gemeldet, - und Ankündigung (p, noch nicht gestartet) nicht', abseits([]).join() === '10,13', abseits([]))
+  pruefe('eigener Titel oder zugeordneter AniList-Titel im Hauptbestand genügt', abseits([10_000_010, 503]).length === 0)
+  pruefe('Handurteil „keine Synchro" nimmt den Eintrag aus', dubNurHinterToggle(new Set(), '2026-10-08', new Set([500, 10_000_013]), zuordnung, eintraege).length === 0)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
