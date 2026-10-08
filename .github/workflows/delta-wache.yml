@@ -81,6 +81,15 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: node tools/briefkasten-wache.mjs | tee briefkasten.txt
 
+      # Zugänge: Läufe in ihrer Frist, leeres Claude-Kontingent, Wecker, Ablauf (data/zugangs-register.json).
+      # Kein eigenes Secret nötig — liest nur den Verlauf der Läufe.
+      - name: Zugänge und Kontingent
+        id: zugaenge
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node tools/zugangs-waechter.mjs | tee zugaenge.txt
+
       # **Der Exit-Code kommt aus `steps.*.outcome`, nicht aus der Pipe.**
       #
       # `node … | tee` gibt den Rückgabewert von `tee` zurück, und der gelingt
@@ -90,11 +99,12 @@ jobs:
       - name: Ergebnis in die Wache-Datei schreiben
         run: |
           LAGE=ok
-          if [ "${{ steps.delta.outcome }}" != "success" ] || [ "${{ steps.kasten.outcome }}" != "success" ]; then
+          if [ "${{ steps.delta.outcome }}" != "success" ] || [ "${{ steps.kasten.outcome }}" != "success" ] || [ "${{ steps.zugaenge.outcome }}" != "success" ]; then
             LAGE=befund
           fi
+          cat zugaenge.txt >> briefkasten.txt 2>/dev/null || true
           node tools/wache-schreiben.mjs delta.txt briefkasten.txt "$LAGE"
-          rm -f delta.txt briefkasten.txt
+          rm -f delta.txt briefkasten.txt zugaenge.txt
           echo "LAGE=$LAGE" >> "$GITHUB_ENV"
 
       - name: Vortagsstand sichern
@@ -173,7 +183,7 @@ jobs:
       # rote Zeile ohne Absender, und wer sie sieht, weiß nicht, wo er nachsehen
       # soll. Die übrigen Läufe dieses Repos senden dieselben Felder.
       - name: Befund melden und rot werden
-        if: steps.delta.outcome != 'success' || steps.kasten.outcome != 'success'
+        if: steps.delta.outcome != 'success' || steps.kasten.outcome != 'success' || steps.zugaenge.outcome != 'success'
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: |
