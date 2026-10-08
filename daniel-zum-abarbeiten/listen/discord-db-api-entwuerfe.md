@@ -50,14 +50,14 @@ Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
 
 ---
 
-## 3 · Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami
+## 3 · AnoHana: Die Blume, die wir an jenem Tag sahen – Special „Menma e no Tegami"
 
-**Überschrift:** `Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami – Special, MAL 38963`
+**Überschrift:** `AnoHana: Die Blume, die wir an jenem Tag sahen – Special „Menma e no Tegami", MAL 38963`
 
 ```
 Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
 
-**Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami**, ein Special zu Ano Hana.
+**AnoHana: Die Blume, die wir an jenem Tag sahen – Special „Menma e no Tegami"**, ein Special zur Serie. Ein deutscher Titel des Specials ist mir nicht bekannt; „AnoHana: Die Blume, die wir an jenem Tag sahen" ist der deutsche Titel der Serie. Japanischer Titel: Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami
 - MAL: https://myanimelist.net/anime/38963
 - AniList: https://anilist.co/anime/107342
 - IMDb: https://www.imdb.com/title/tt9561688/
@@ -71,14 +71,14 @@ Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
 
 ---
 
-## 4 · Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival – Yuugi to Kaiba!
+## 4 · Yu-Gi-Oh! The Dark Side of Dimensions – Special „Eien no Rival"
 
-**Überschrift:** `Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival – Yuugi to Kaiba! – Special, MAL 33997`
+**Überschrift:** `Yu-Gi-Oh! The Dark Side of Dimensions – Special „Eien no Rival" (Yuugi to Kaiba), MAL 33997`
 
 ```
 Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
 
-**Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival – Yuugi to Kaiba!**, ein 26-Minuten-Special, das vor dem Film läuft.
+**Yu-Gi-Oh! The Dark Side of Dimensions – Special „Eien no Rival" (Yuugi to Kaiba)**, ein 26-Minuten-Special, das vor dem Film läuft. Ein deutscher Titel des Specials ist mir nicht bekannt; der Film heißt auch auf Deutsch „Yu-Gi-Oh! The Dark Side of Dimensions". Titel bei AniList und MAL: Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival - Yuugi to Kaiba!
 - AniList: https://anilist.co/anime/102505/YuGiOh-The-Dark-Side-of-Dimensions-Special-Eien-no-Rival-Yuugi-to-Kaiba
 - MAL: https://myanimelist.net/anime/33997
 
