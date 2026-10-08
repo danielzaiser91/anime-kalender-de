@@ -27,7 +27,7 @@ import { titelAus } from './lib/anisearch-titel.ts'
 import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
-import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, releaseStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
+import { anzeigeFolge, expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, releaseStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
 import { neuesterWochenartikel, wocheAus } from '../shared/wochenprogramm.ts'
 import { artikelNenntTitel, folgeAmVerpasstenTermin, messbelegSchluessel, offeneMessbelege, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { BELEG_SCHLUESSEL as ABLAGE_SCHLUESSEL } from '../shared/beleg-schluessel.ts'
@@ -5451,6 +5451,10 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'eine TV-Sichtung mit Folgenliste zeigt ihre Nummern, eine ohne nicht',
     mitNr[0] !== undefined && halb[0] !== undefined && expandEvents(mitNr[0]).every((e) => !e.sichtung) && expandEvents(halb[0]).every((e) => e.sichtung),
   )
+  pruefe(
+    'Teilen-Seite: eine Sichtungs-Nummer wird nicht als Folge genannt (/t/12/ sagte Folge 21 für One Piece, 08.10.2026)',
+    halb[0] !== undefined && expandEvents(halb[0]).every((e) => !anzeigeFolge(e)) && expandEvents(mitNr[0]!).some((e) => anzeigeFolge(e)),
+  )
   /* RTL+-Wochentermin (19.09.2026): nur gemessener Wochentakt, nur laufend, nur mit belegter Synchro. */
   {
     const bx = { id: 165159, titleDe: 'Beyblade X', streams: [{ platform: 'rtlplus', url: 'x', dub: true }] } as unknown as Title
@@ -6746,17 +6750,17 @@ pruefe(
   )
 }
 {
-  /* Preload der Startdaten (18.09.2026): dieselben Dateien wie loadDataset(), sonst lädt der Browser umsonst. */
-  const vite = readFileSync('vite.config.ts', 'utf8')
+  /* Preload der Startdaten (18.09.2026): dieselben Dateien wie loadDataset() und loadWochenStart(), sonst lädt der Browser umsonst. */
+  const vorlade = readFileSync('tools/vite-vorladen.ts', 'utf8')
   const daten = readFileSync('web/src/lib/data.ts', 'utf8')
-  const vorgeladen = [...(/const startdaten = \[([^\]]*)\]/.exec(vite)?.[1] ?? '').matchAll(/'([^']+)'/g)].map((m) => m[1]).sort()
-  const block = /export async function loadDataset[\s\S]*?\]\)/.exec(daten)?.[0] ?? ''
-  const geladen = [...block.matchAll(/loadJson<[^>]+>\('([^']+)'\)/g)].map((m) => m[1]).sort()
-  pruefe(
-    'die vorgeladenen Startdaten sind genau die, die loadDataset() holt',
-    vorgeladen.length > 0 && JSON.stringify(vorgeladen) === JSON.stringify(geladen),
-    `${vorgeladen} / ${geladen}`,
-  )
+  const vorgeladen = (name: string) => [...(new RegExp(String.raw`const ${name} = \[([^\]]*)\]`).exec(vorlade)?.[1] ?? '').matchAll(/'([^']+)'/g)].map((m) => `${m[1]}.json`).sort()
+  const geladen = (kopf: RegExp) => {
+    const block = kopf.exec(daten)?.[0] ?? ''
+    return [...block.matchAll(/loadJson<[^>]+>\('([^']+)'\)/g), ...block.matchAll(/(loadMeta)\(\)/g)].map((m) => (m[1] === 'loadMeta' ? 'meta.json' : m[1]!)).sort()
+  }
+  for (const [name, kopf, liste] of [['loadDataset()', /export async function loadDataset[\s\S]*?\]\)/, 'VOLL'], ['loadWochenStart()', /export function loadWochenStart[\s\S]*?\]\)/, 'WOCHE']] as const) {
+    pruefe(`die vorgeladenen Startdaten (${liste}) sind genau die, die ${name} holt`, vorgeladen(liste).length > 0 && JSON.stringify(vorgeladen(liste)) === JSON.stringify(geladen(kopf)), `${vorgeladen(liste)} / ${geladen(kopf)}`)
+  }
 }
 {
   /* aniSearchs Synchro-Marke reist mit der Erstausgabe (18.09.2026, Niklaas / Jakobus Nimmersatt). */
@@ -8245,6 +8249,8 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     const index = new Set(uebersetzeDatei('folgen/index.json', JSON.parse(readFileSync('public/data/folgen/index.json', 'utf8')) as number[], akVon) as number[])
     pruefe('Folgenverzeichnis deckt jede Folgendatei (nach Übersetzung)', dateien.length === index.size && dateien.every((k) => index.has(k)), `${dateien.length} Dateien, ${index.size} im Verzeichnis`)
   }
+  const sprecher = uebersetzeDatei('sprecher/k.json', { 'Konrad Bösherz': [{ id: 5, rollen: ['Robin'], ann: true }] }, ak) as Record<string, { id: number; rollen: string[]; ann?: true }[]>
+  pruefe('Sprecher-Gruppe: Titelkennung auf ak, Name und Rollen unverändert', sprecher['Konrad Bösherz']?.[0]?.id === 1005 && sprecher['Konrad Bösherz']?.[0]?.rollen[0] === 'Robin' && sprecher['Konrad Bösherz']?.[0]?.ann === true, JSON.stringify(sprecher))
   pruefe('unbekannte Dateien bleiben unberührt', uebersetzeDatei('meta.json', { titleCount: 3 }, ak) !== undefined)
   /* Karenz der Favoriten-Umschreibung: ab dem 05.11.2026 entfallen web/src/lib/kennung-umzug.ts, worker/src/favoriten-kennung.ts (Zweig ohne Vorsatz) und data/anilist-ak.json. */
   pruefe('Favoriten-Umschreibung (AniList → ak) ist ausgelaufen und gehört entfernt', todayIso() < '2026-11-05', 'siehe kennung-umzug.ts / favoriten-kennung.ts')

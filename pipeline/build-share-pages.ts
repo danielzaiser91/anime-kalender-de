@@ -20,7 +20,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { PLATFORMS, RELEASE_TYPES, SYNOPSIS_GROUPS, anbieterName, type Release, type Title } from '../shared/types.ts'
-import { expandEvents } from '../shared/logic.ts'
+import { anzeigeFolge, expandEvents } from '../shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
@@ -54,7 +54,7 @@ function describe(release: Release, title: Title | undefined, today: string): st
       : release.releaseType === 'disc'
         ? ''
         : ' (Uhrzeit noch offen)'
-    const episode = next.episode ? `Folge ${next.episode}` : null
+    const episode = anzeigeFolge(next) ? `Folge ${next.episode}` : null
     parts.push(
       release.releaseType === 'disc'
         ? `Erscheint am ${when} auf ${release.edition ?? 'DVD und Blu-ray'}.`
@@ -109,7 +109,7 @@ function body(
     .map((e) => {
       const wann = `${weekdayName(e.date)}, ${formatDate(e.date)}`
       const zeit = e.time ? ` um ${e.time} Uhr` : ''
-      const folge = e.episode ? `Folge ${e.episode}${e.episodeCount ? ` von ${e.episodeCount}` : ''}: ` : ''
+      const folge = anzeigeFolge(e) ? `Folge ${e.episode}${e.episodeCount ? ` von ${e.episodeCount}` : ''}: ` : ''
       const abgeleitet = e.estimated ? ' (Termin abgeleitet)' : ''
       return `<li>${esc(`${folge}${wann}${zeit}${abgeleitet}`)}</li>`
     })

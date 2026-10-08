@@ -60,6 +60,12 @@ export function uebersetzeDatei(name: string, daten: unknown, ak: AkVon): unknow
     case 'releases.json':
     case 'events.json':
       return liste(daten, (r) => ({ ...r, titleId: num(r.titleId, ak) }))
+    /* Die Wochen-Datei trägt Titel, Releases und Termine wie die drei vollen Dateien. */
+    case 'woche.json': {
+      const w = daten as { titles: unknown; releases: unknown; events: unknown }
+      const mitTitelId = (r: Record<string, unknown>) => ({ ...r, titleId: num(r.titleId, ak) })
+      return { ...w, titles: liste(w.titles, (t) => titel(t, ak)), releases: liste(w.releases, mitTitelId), events: liste(w.events, mitTitelId) }
+    }
     case 'meldungen.json':
       return liste(daten, (m) => ({ ...m, titleId: num(m.titleId, ak) }))
     case 'neu-mit-synchro.json':
@@ -87,14 +93,21 @@ export function uebersetzeDatei(name: string, daten: unknown, ak: AkVon): unknow
     case 'folgen/index.json':
       return Array.isArray(daten) ? daten.map((n) => ak(n as number)).sort((a, b) => a - b) : daten
     default:
+      /* Sprecher-Gruppen: je Name eine Titelliste, deren `id` auf `ak` läuft (sonst findet die Suche keinen Titelnamen, 08.10.2026). */
+      if (name.startsWith('sprecher/')) return schluesselWerte(daten, (l) => liste(l, (e) => ({ ...e, id: num(e.id, ak) })))
       return daten
   }
+}
+
+/** Objekt mit unveränderten Schlüsseln, nur die Werte übersetzt. */
+function schluesselWerte(o: unknown, wert: (v: unknown) => unknown): Record<string, unknown> {
+  return Object.fromEntries(Object.entries(o as Record<string, unknown>).map(([k, v]) => [k, wert(v)]))
 }
 
 const lies = (pfad: string) => JSON.parse(readFileSync(pfad, 'utf8')) as unknown
 const schreibe = (pfad: string, daten: unknown) => writeFileSync(pfad, JSON.stringify(daten))
 
-/** Teildateien nach Kennung: `synopses/`, `disc/` (neu gruppiert) und `folgen/`, `voices/` (je Titel, Dateiname und Inhalt). */
+/** Teildateien nach Kennung: `synopses/`, `disc/` (neu gruppiert), `folgen/`, `voices/` (je Titel, Dateiname und Inhalt) und `sprecher/` (nur Inhalt). */
 function uebersetzeTeildateien(wurzel: string, ak: AkVon): void {
   for (const ordner of ['synopses', 'disc']) {
     const pfad = join(wurzel, ordner)
@@ -111,7 +124,7 @@ function uebersetzeTeildateien(wurzel: string, ak: AkVon): void {
     }
     for (const [g, inhalt] of gruppen) schreibe(join(pfad, `${g}.json`), inhalt)
   }
-  for (const ordner of ['folgen', 'voices']) {
+  for (const ordner of ['folgen', 'voices', 'sprecher']) {
     const pfad = join(wurzel, ordner)
     if (!existsSync(pfad)) continue
     const neuPfad = join(wurzel, `${ordner}.neu`)

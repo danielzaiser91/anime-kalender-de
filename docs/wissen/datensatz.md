@@ -553,6 +553,25 @@ ziehen bei 2× das `large`-Cover, PNG bis 553 KB), nur die Bilder im Sichtfeld m
 3. **Vorher** (billiger, größerer Hebel auf das sichtbare Ergebnis): Kartenbilder mit passender Breite (`sizes`), PNG-Cover
    vermeiden, nur Sichtfeld-Bilder vorrangig; CLS der Hülle auf < 0,1 bringen. Jeweils mit demselben Rezept nachmessen.
 
+## Wochen-Datei zuerst umgesetzt (08.10.2026)
+
+**Bau.** `bau/13-8-wochen-datei.ts` schneidet nach dem Titelrang `woche.json` aus `titles-core.json`, `releases.json`, `events.json` (Logik in `shared/wochen-datei.ts`):
+Montag–Sonntag der Bauwoche (`todayIso()`, Europe/Berlin), dazu alle Releases der gezeigten Titel (`istPremiere` zählt über sie) und je Titel die letzte schon
+erschienene Folge vor der Woche (`neuesteErschienen` für „N neu"). Reihenfolge der vollen Dateien bleibt. **Zusicherung** (Bau bricht ab, `check:logic` → `check-wochen-datei.ts`):
+jeder Termin, jedes Release, jeder Titel steht byte-gleich in den vollen Dateien (auch nach der Übersetzung in `ak`), jeder Termin der Woche steht drin, jeder Termin hat Release und Titel.
+Größe 30,9 KB gzip (166 KB roh; 107 Termine, 56 Releases, 39 Titel); der Repo-Zuwachs ist ein Tagesdiff dieser Größe, die veröffentlichte Seite wächst um dieselbe Datei.
+
+**Start.** `lib/start-daten.ts` (`useStartdaten`): Die Wochenansicht holt `woche.json` + `meta.json` und rendert daraus; `data` ist die Wochen-Datei nur, solange sie reicht
+(Wochenansicht, keine Suche, Anker **und** heute in ihrer Woche – sonst fehlten inzwischen erschienene Folgen). Panel, andere Ansichten, Suche, andere Wochen warten wie vorher
+auf `voll` und lösen das Laden sofort aus; sonst beginnt es, sobald die Karten im Sichtfeld ihr Bild haben (spätestens 6 s), im Leerlauf, oder sofort bei Tippen/Scrollen/Taste.
+Ein Skript im `<head>` (`tools/vite-vorladen.ts`) wählt per Adresse, ob `woche.json` oder die drei vollen Dateien vorgeladen werden, und meldet das als `window.__akWoche`.
+Fehlt oder veraltet die Wochen-Datei, läuft der Start wie vorher. Bis die vollen Daten da sind, zeigt das Datumsfeld (`DatumSprung`, nur ab `sm`) nur die Zählung der Woche.
+
+**Gemessen** (`ladegewicht-messung.mjs --lokal`, Handy 390 px, 1,6 Mbit/s + 150 ms, CPU 4×, Median von 5), vorher → nachher: erste Wochenkarten 3,60 s → **2,27 s** (−1,33 s);
+erstes Karten-Bild 4,75 s → 2,84 s; Bytes bis zu den Karten (ohne Bilder) 568 → ≈ 295 KB gzip; TBT 673 → 568 ms; CLS 0 → 0; FCP/LCP-Element im Harness (Marke im Gerüst) 1,7 → 1,8 s.
+Alle Nicht-Bild-Dateien fertig erst nach ≈ 11,8 s statt 3,1 s (Nachladen hinter den Bildern); Gesamtbytes ohne Bilder +33 KB (die Wochen-Datei). Ergebnis der Wochenansicht
+Byte-gleich zum alten Build (`main`-HTML nach dem Nachladen, 173.450 Zeichen), einziger Unterschied zwischen frühem und spätem Stand ist das scrollabhängige `aria-current` am Heute-Knopf (auch im alten Build).
+
 ## Bilder und CLS am Start behoben (08.10.2026)
 
 Ursachen: (1) Die Wochenkachel (173 CSS-px) zog bei 2× AniLists `large` (460 px, als PNG bis 553 KB; AniList liefert kein WebP/AVIF, `medium` wiegt ~150 KB);
@@ -586,3 +605,12 @@ Bilder 21 / 2.988 KB → 31 / 1.647 KB (die kleineren laden früher nach) · ers
 - **Grenze:** Hyouken II startet bei AniList am 09.10.; bis dahin liegt der AniList-Titel (ohne Termin) hinter dem Toggle, die Zeile fehlt im Hauptbestand. Am Tag nach dem Start (ab 09.10.) steht er im Hauptbestand.
 - **Eigene Kennungen (`ak`):** Die `ak` der vier aniSearch-Zeilen war öffentlich (Adresse `/t/<ak>/`, Favoriten, versandte Mail-Links). `data/kennungen.json` trägt dafür ein viertes Feld `zuAk` (Nachfolger): `akVon` übersetzt die alte Kennung in die des AniList-Titels (News-Verlauf, Meldungen, Reihen nennen nie die alte); `build-share-pages.ts` schreibt `/t/<alt>/` als Weiterleitung (`noindex`), `ak-umleitung.json` (`[[alt, neu], …]`) schreibt gemerkte Titel um — im Browser einmalig je neuem Paar vor dem ersten Rendern (`web/src/lib/ak-umleitung.ts`, Marke `kennung:umleitung`, höchstens 1,5 s Wartezeit), im Worker beim Lesen jeder Liste (`worker/src/favoriten-lesen.ts`). Dauerhaft, anders als die Karenz bis 05.11.2026. Eine künftige Dublette: Zeile in der Handdatei, `zuAk` an der alten Zeile, ggf. `ALTE_AUTO_KENNUNG`.
 - **Probe am Bau (08.10.2026, Cache mit den vier AniList-Titeln, Basis gegen Zweig):** Titelzahl 2922 → 2920 (10021084 und 10021575 entfallen, Psyren 204011 trägt die Erstausgabe); Beerus und Fool Night behalten `auto-10021566-crunchyroll` und `auto-10021751-netflix` (ein Release je Plattform, `vergangen` im Termin-Verlauf leer, kein „zurückgezogen" in `news.json`). Ohne Slug-Erhalt stand dort für beide „zurückgezogen" und ein neuer Slug.
+
+## Sprecher-Suche hinter der Vorschau `sprecher-suche` (08.10.2026)
+
+Idee 2 aus [ideen-2026-10-08.md](ideen-2026-10-08.md). Quellen, Auflagen und Vollständigkeit: [quellen.md](quellen.md), Abschnitt „Sprecher-Suche: Datenquellen".
+
+- **Laden:** `sprecher.json` (20 KB gepackt) kommt beim Fokus auf das Suchfeld oder bei einer Suche ab drei Zeichen — nie im Startpfad; die Rollen einer Gruppe (`sprecher/<buchstabe>.json`) erst beim Aufklappen eines Namens, die Titelnamen aus der schon gemerkten `titles.json`. Die Treffer-Komponente ist ein eigener Chunk (`SprecherTreffer.tsx`, `lazy`), die Standardansicht lädt ihn nie. Gesucht wird im Browser, keine Anfrage an Dritte.
+- **Abgleich** (`web/src/lib/sprecher.ts`, `sucheSprecher`): jedes Suchwort muss im normalisierten Namen stehen (`shared/sprecher.ts`: Kleinschreibung, ä→a, ß→ss, Akzente weg); ganzer Name vor Wortanfang vor Teil, dann Titelzahl. Keine unscharfe Suche — ein Name ist eine Behauptung über eine Person. Höchstens 8 Namen, der Rest als „N weitere — genauer tippen".
+- **Anzeige:** Gruppe „Sprecher" über den Treffern in Datenbank und Woche (`role="status"` sagt die Trefferzahl an), je Name ein Aufklapp-Knopf (`aria-expanded`/`aria-controls`, 44 px hoch), darunter die Titel mit Rolle als Sprung ins Panel, bei ANN-Rollen der Pflichtlink „ANN ↗". Genau ein Treffer mit vollem Namen klappt von selbst auf. Im Panel sind die Namen unter „Deutsche Stimmen" Knöpfe (`zurSprecherSuche`: Panel zu, `#/datenbank?q=<Name>`).
+- **Was sie nicht tut:** keine Bewertung, keine Sprecher-Seite mit Biografie, keine Zusammenlegung von Schreibvarianten, kein Eintrag in `SUCHFELD_ARTEN` (das Fragezeichen am Suchfeld nennt „Sprecher" noch nicht — nachziehen, wenn Daniel die Vorschau freigibt).

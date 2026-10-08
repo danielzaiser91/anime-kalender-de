@@ -6,6 +6,7 @@ import { type Voices, loadVoices, type Dataset, loadCartoons, loadAllTitles } fr
 import { aehnlicheTitel } from '../../lib/aehnlich.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { useVorschau } from '../../lib/vorschau.ts'
+import { zurSprecherSuche } from '../../lib/sprecher.ts'
 import { TIPPFLAECHE_HOCH, TREFFER_24_HOCH } from './tippziel.ts'
 
 /**
@@ -71,6 +72,7 @@ export function VoiceCast({ titleId }: { titleId: number }) {
   const { t } = useLang()
   const [open, setOpen] = useState(false)
   const [stimmen, setStimmen] = useState<Voices | undefined>()
+  const sprecherSuche = useVorschau('sprecher-suche') === 'an'
 
   // Titelwechsel: zuklappen und vergessen. Sonst stünde beim nächsten Anime
   // kurz die Besetzung des vorherigen da.
@@ -123,7 +125,19 @@ export function VoiceCast({ titleId }: { titleId: number }) {
                       {r.character}
                     </dt>
                     <dd className="truncate text-slate-700 dark:text-slate-200" title={r.actor}>
-                      {r.actor}
+                      {sprecherSuche ? (
+                        /* Vorschau `sprecher-suche`: der Name führt zur Liste aller Titel mit dieser Stimme. */
+                        <button
+                          type="button"
+                          onClick={() => zurSprecherSuche(r.actor)}
+                          aria-label={t('detail.voicesSuchen', { name: r.actor })}
+                          className={`max-w-full cursor-pointer truncate text-left underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text ${TREFFER_24_HOCH}`}
+                        >
+                          {r.actor}
+                        </button>
+                      ) : (
+                        r.actor
+                      )}
                     </dd>
                   </Fragment>
                 ))}
@@ -227,7 +241,8 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
       {open && (
         <div className="mt-2">
           {alle === undefined ? (
-            <p className="text-sm text-slate-400">{t('detail.aehnlichLaedt')}</p>
+            /* Vor dem Sichtbarwerden lädt noch nichts — dann steht hier nur Platz, keine Ladeanzeige (08.10.2026). */
+            imBild ? <p className="text-sm text-slate-400">{t('detail.aehnlichLaedt')}</p> : <div className="h-6" aria-hidden />
           ) : vorschlaege.length === 0 ? (
             <p className="text-sm text-slate-400">{t('detail.aehnlichKeine')}</p>
           ) : (
