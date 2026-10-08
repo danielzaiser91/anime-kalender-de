@@ -101,6 +101,13 @@ export const VORSCHAUEN: Record<string, { varianten: string[]; text: string; tit
     varianten: ['an'],
     text: 'Du weißt, was der Haken bei einem Anbieter heißt, und das Kalender-Symbol verdeckt keinen Text mehr.',
   },
+  'meine-woche': {
+    titel: 'Meine Woche',
+    beispiel: '#/woche',
+    beispielText: 'In der Woche auf „Meine Woche“ umschalten: nur gemerkte Titel auf den eigenen Plattformen, mit Sprung zum Anbieter',
+    varianten: ['an', 'leer'],
+    text: 'Du siehst auf einen Blick, was du diese Woche auf Deutsch sehen kannst — nur deine Favoriten, nur deine Plattformen. leer = der Einstieg ohne Favoriten.',
+  },
   'news-platzhalter': {
     titel: 'News ohne graue Kacheln',
     beispiel: '#/news',
