@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
 import { eigeneKennungen } from './tools/vite-kennungen.ts'
+import { vorladeSkript } from './tools/vite-vorladen.ts'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
@@ -70,17 +71,20 @@ function versionDatei() {
  * einem gedrosselten Handy): Die vier JSON-Dateien der ersten Ansicht starteten erst bei
  * 1.353 ms, nachdem das Bündel (fertig bei 1.162 ms) ausgeführt war. Ein Preload im HTML
  * holt sie ab dem ersten Byte der Seite. `crossorigin` muss zu `fetch()` passen
- * (Modus cors), sonst lädt der Browser jede Datei zweimal. Liste = `loadDataset()`.
+ * (Modus cors), sonst lädt der Browser jede Datei zweimal. Welche Dateien: `tools/vite-vorladen.ts`.
  */
-const startdaten = ['meta.json', 'titles-core.json', 'releases.json', 'events.json']
 function datenVorladen() {
   return {
     name: 'daten-vorladen',
     transformIndexHtml(html: string) {
-      const links = startdaten
-        .map((d) => `    <link rel="preload" as="fetch" crossorigin="anonymous" href="${base}data/${d}?v=${buildId}" />`)
-        .join('\n')
-      return html.replace('</head>', `${links}\n  </head>`)
+      let woche: { von: string; bis: string } | undefined
+      try {
+        const w = JSON.parse(readFileSync(new URL('./public/data/woche.json', import.meta.url), 'utf8'))
+        if (w?.von && w?.bis) woche = { von: w.von, bis: w.bis }
+      } catch {
+        // Ohne Wochen-Datei starten alle Adressen aus den vollen Dateien.
+      }
+      return html.replace('</head>', `    ${vorladeSkript({ base, buildId, woche })}\n  </head>`)
     },
   }
 }

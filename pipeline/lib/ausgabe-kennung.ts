@@ -60,6 +60,12 @@ export function uebersetzeDatei(name: string, daten: unknown, ak: AkVon): unknow
     case 'releases.json':
     case 'events.json':
       return liste(daten, (r) => ({ ...r, titleId: num(r.titleId, ak) }))
+    /* Die Wochen-Datei trägt Titel, Releases und Termine wie die drei vollen Dateien. */
+    case 'woche.json': {
+      const w = daten as { titles: unknown; releases: unknown; events: unknown }
+      const mitTitelId = (r: Record<string, unknown>) => ({ ...r, titleId: num(r.titleId, ak) })
+      return { ...w, titles: liste(w.titles, (t) => titel(t, ak)), releases: liste(w.releases, mitTitelId), events: liste(w.events, mitTitelId) }
+    }
     case 'meldungen.json':
       return liste(daten, (m) => ({ ...m, titleId: num(m.titleId, ak) }))
     case 'neu-mit-synchro.json':
