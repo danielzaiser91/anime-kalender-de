@@ -69,6 +69,9 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
         `), davon ${abgeloest} abgelöst und sichtbar geblieben`,
     )
   }
+  /* Releases kommen nach `baueMeta` noch hinzu (motn-*, Erstausgaben): gezählt wird, was in der Datei steht. */
+  meta.releaseCount = releases.length
+  meta.eventCount = events.length
   writeJson(`${OUT}/meta.json`, meta, true)
   return { newsFuerRss }
 }
