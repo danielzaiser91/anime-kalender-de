@@ -27,16 +27,8 @@ export interface AnnRolle {
   actor: string
 }
 
-/**
- * Adresse des Encyclopedia-Eintrags — Pflicht, wo die Angaben gezeigt werden.
- *
- * Steht hier und nicht in der Oberfläche, damit es genau eine Stelle gibt, an
- * der die Form festgelegt ist. Eine zweite Fassung liefe irgendwann auseinander,
- * und dann stünde da ein toter Link unter einer Auflage, die wir erfüllen müssen.
- */
-export function annUrl(annId: number): string {
-  return `https://www.animenewsnetwork.com/encyclopedia/anime.php?id=${annId}`
-}
+/** Die Adressform liegt in `shared/ann.ts`, weil auch die Oberfläche sie braucht (Sprecher-Suche). */
+export { annUrl } from '../../shared/ann.ts'
 
 /**
  * Liest die deutschen Sprechrollen aus einer Encyclopedia-Antwort.

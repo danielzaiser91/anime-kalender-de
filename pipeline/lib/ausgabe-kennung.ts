@@ -93,14 +93,21 @@ export function uebersetzeDatei(name: string, daten: unknown, ak: AkVon): unknow
     case 'folgen/index.json':
       return Array.isArray(daten) ? daten.map((n) => ak(n as number)).sort((a, b) => a - b) : daten
     default:
+      /* Sprecher-Gruppen: je Name eine Titelliste, deren `id` auf `ak` läuft (sonst findet die Suche keinen Titelnamen, 08.10.2026). */
+      if (name.startsWith('sprecher/')) return schluesselWerte(daten, (l) => liste(l, (e) => ({ ...e, id: num(e.id, ak) })))
       return daten
   }
+}
+
+/** Objekt mit unveränderten Schlüsseln, nur die Werte übersetzt. */
+function schluesselWerte(o: unknown, wert: (v: unknown) => unknown): Record<string, unknown> {
+  return Object.fromEntries(Object.entries(o as Record<string, unknown>).map(([k, v]) => [k, wert(v)]))
 }
 
 const lies = (pfad: string) => JSON.parse(readFileSync(pfad, 'utf8')) as unknown
 const schreibe = (pfad: string, daten: unknown) => writeFileSync(pfad, JSON.stringify(daten))
 
-/** Teildateien nach Kennung: `synopses/`, `disc/` (neu gruppiert) und `folgen/`, `voices/` (je Titel, Dateiname und Inhalt). */
+/** Teildateien nach Kennung: `synopses/`, `disc/` (neu gruppiert), `folgen/`, `voices/` (je Titel, Dateiname und Inhalt) und `sprecher/` (nur Inhalt). */
 function uebersetzeTeildateien(wurzel: string, ak: AkVon): void {
   for (const ordner of ['synopses', 'disc']) {
     const pfad = join(wurzel, ordner)
@@ -117,7 +124,7 @@ function uebersetzeTeildateien(wurzel: string, ak: AkVon): void {
     }
     for (const [g, inhalt] of gruppen) schreibe(join(pfad, `${g}.json`), inhalt)
   }
-  for (const ordner of ['folgen', 'voices']) {
+  for (const ordner of ['folgen', 'voices', 'sprecher']) {
     const pfad = join(wurzel, ordner)
     if (!existsSync(pfad)) continue
     const neuPfad = join(wurzel, `${ordner}.neu`)
