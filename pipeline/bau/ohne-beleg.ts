@@ -34,8 +34,31 @@ export function keineSynchroLautAnisearch(t: Title): boolean {
   return dubsAnisearch[String(t.id)] === '-' && !t.streams.some((s) => s.dub === true)
 }
 
+type HandUrteil = { anilistId?: number; sources?: string[]; keinAnime?: boolean }
+
+function leseHandUrteile(): HandUrteil[] {
+  return (yaml.load(readFileSync(resolve(ROOT, 'data/ohne-synchro-von-hand.yaml'), 'utf8')) ?? []) as HandUrteil[]
+}
+
 /** Titel, für die eine Quelle ausdrücklich „keine deutsche Synchronfassung" sagt (`data/ohne-synchro-von-hand.yaml`); ohne Quelle zählt ein Eintrag nicht. */
 export function ohneSynchroVonHand(): Set<number> {
-  const liste = (yaml.load(readFileSync(resolve(ROOT, 'data/ohne-synchro-von-hand.yaml'), 'utf8')) ?? []) as { anilistId?: number; sources?: string[] }[]
-  return new Set(liste.filter((e) => e.anilistId && e.sources?.length).map((e) => e.anilistId!))
+  return new Set(leseHandUrteile().filter((e) => e.anilistId && e.sources?.length).map((e) => e.anilistId!))
+}
+
+/** Die Einträge daraus, die eine Quelle als „kein Anime" einstuft (Diashow statt Animation, aniSearch 08.10.2026). */
+export function keinAnimeVonHand(): Set<number> {
+  return new Set(leseHandUrteile().filter((e) => e.keinAnime && e.anilistId && e.sources?.length).map((e) => e.anilistId!))
+}
+
+/**
+ * Zusicherung zu „kein Anime": keiner steht im Hauptbestand, jeder liegt hinter dem Toggle (verschoben, nicht gelöscht).
+ * Gibt die Fehlermeldungen zurück; leer heißt in Ordnung.
+ */
+export function keinAnimeFehler(keinAnime: Iterable<number>, hauptbestand: { has(id: number): boolean }, hinterToggle: Set<number>): string[] {
+  const fehler: string[] = []
+  for (const id of keinAnime) {
+    if (hauptbestand.has(id)) fehler.push(`Anime ${id}: als „kein Anime" von Hand eingestuft, steht aber im Hauptbestand`)
+    else if (!hinterToggle.has(id)) fehler.push(`Anime ${id}: als „kein Anime" von Hand eingestuft, fehlt aber hinter dem Toggle`)
+  }
+  return fehler
 }
