@@ -32,7 +32,7 @@ import { BELEG_SCHLUESSEL as ABLAGE_SCHLUESSEL } from '../shared/beleg-schluesse
 import { kalenderTag, ohneDoppelteFolgen, verspaetungsMeldungen } from './lib/news-verspaetung.ts'
 import { nachgereichteFolgen } from './bau/verpasst-am-termin.ts'
 import { mitArtikeldaten, textHash } from './lib/beleg-lesung.ts'
-import { faelligeLaeufe } from '../shared/weckplan.ts'
+import { faelligeLaeufe, startErlaubt } from '../shared/weckplan.ts'
 import type { NewsEintrag } from '../shared/types.ts'
 import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
@@ -8339,10 +8339,22 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   {
     const um = (iso: string) => faelligeLaeufe(new Date(iso)).sort().join(',')
     pruefe('Wecker: jede Stunde der Stundenlauf', um('2026-10-06T13:00:00Z') === 'refresh-hourly.yml', um('2026-10-06T13:00:00Z'))
-    pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf', um('2026-10-06T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml', um('2026-10-06T04:00:00Z'))
+    pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf (und der Nachhol-Kandidat Tonspuren)', um('2026-10-06T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml', um('2026-10-06T04:00:00Z'))
     pruefe('Wecker: Montag 05 Uhr UTC der Wochenlauf, Dienstag nicht', um('2026-10-05T05:00:00Z') === 'refresh-hourly.yml,refresh-weekly.yml' && um('2026-10-06T05:00:00Z') === 'refresh-hourly.yml', um('2026-10-05T05:00:00Z'))
     pruefe('Wecker: ADN alle sechs Stunden, Sonntag zählt als 7', um('2026-10-04T08:00:00Z') === 'adn-laufende.yml,refresh-hourly.yml' && um('2026-10-04T05:00:00Z') === 'refresh-hourly.yml')
-    pruefe('Wecker: der Monatslauf der Tonspuren am 2. um 04 Uhr UTC, am 3. nicht', um('2026-11-02T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml' && um('2026-11-03T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml', um('2026-11-02T04:00:00Z'))
+    pruefe('Wecker: der Monatslauf der Tonspuren am 2. um 04 Uhr UTC, am 1. nicht', um('2026-11-02T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml' && um('2026-11-01T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml', um('2026-11-02T04:00:00Z'))
+  }
+  /* Monatslauf nachholen: ein abgebrochener Lauf am 2. führt am 3. zum Start, ein erfolgreicher nicht (motn 02.10.2026 nach 4 s abgebrochen). */
+  {
+    const um = (iso: string) => faelligeLaeufe(new Date(iso)).includes('tonspuren-monatlich.yml')
+    const w = 'tonspuren-monatlich.yml'
+    const lauf = (created_at: string, conclusion: string, status = 'completed') => ({ created_at, conclusion, status })
+    const am3 = new Date('2026-10-03T04:00:00Z')
+    pruefe('Nachholen: Monatslauf ab dem 2. täglich zur Prüfung fällig, davor nicht', um('2026-10-03T04:00:00Z') && um('2026-10-31T04:00:00Z') && !um('2026-10-01T04:00:00Z') && !um('2026-10-03T05:00:00Z'))
+    pruefe('Nachholen: abgebrochener Lauf am 2. (davor Erfolg vor 30 Tagen) -> Start am 3.', startErlaubt(w, [lauf('2026-10-02T04:00:00Z', 'cancelled'), lauf('2026-09-02T08:46:21Z', 'success')], am3))
+    pruefe('Nachholen: erfolgreicher Lauf am 2. -> kein Start am 3.', !startErlaubt(w, [lauf('2026-10-02T04:00:00Z', 'success'), lauf('2026-09-02T08:46:21Z', 'success')], am3))
+    pruefe('Nachholen: laufender Lauf sperrt, keine Läufe -> Start', !startErlaubt(w, [lauf('2026-10-02T04:00:00Z', '', 'in_progress')], am3) && startErlaubt(w, [], am3))
+    pruefe('Doppelstart-Schutz der übrigen Workflows bleibt: neuester Lauf zählt auch abgebrochen', !startErlaubt('refresh-hourly.yml', [lauf('2026-10-03T03:50:00Z', 'cancelled')], am3) && startErlaubt('refresh-hourly.yml', [lauf('2026-10-03T03:00:00Z', 'success')], am3))
   }
   /* Ein Artikel für zwei Titel: Jeder bekommt die Marke seiner eigenen Zeile (Bleach und Madoka, 05.10.2026). */
   {
