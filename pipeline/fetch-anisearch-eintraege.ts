@@ -142,7 +142,8 @@ async function main(): Promise<void> {
     await sleep(pause)
   }
   log(`${neu} Einträge neu, ${Object.keys(eintraege).length} insgesamt, ${ausgelassen.size} ausgelassen (Hentai, Musikvideo, CM, Sonstiges)`)
-  recordSource('anisearch-eintraege', neu)
+  /* Nichts offen ist Erfolg; lauter Fehlschläge (403 ohne gültiges Token) sind keiner und tragen ihre Ursache in `lastError`. */
+  recordSource('anisearch-eintraege', neu, fehler > 0 ? `${fehler} Abrufe fehlgeschlagen (HTTP-Fehler, Token prüfen)` : undefined, undefined, ziel.length === 0)
 }
 
 if (process.argv[1]?.endsWith('fetch-anisearch-eintraege.ts')) await main()
