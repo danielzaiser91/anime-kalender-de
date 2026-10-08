@@ -8,10 +8,9 @@ import type { Title } from '@shared/types.ts'
 import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { DbKopfzeile, DbSchalter } from './db-kopfzeile.tsx'
+import { DbSchalter } from './db-kopfzeile.tsx'
 import { DbKarte } from './db-karte.tsx'
-import { DbSortWahl, MehrKnopf } from './db-bedienung.tsx'
-import { OhneSynchroZeile } from './db-vorschau.tsx'
+import { DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
 import { sortiereNachRelevanz } from '../lib/db-relevanz.ts'
 import { useVorschau } from '../lib/vorschau.ts'
 import { useShare } from '../lib/share.ts'
@@ -115,14 +114,7 @@ export function DatabaseView({
     <div className="flex flex-col gap-4">
       <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} cartoonsAus={cartoonsAus} onCartoonsAusChange={onCartoonsAusChange} />
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
-        {ruhigOhne && ohneSynchro ? (
-          <OhneSynchroZeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} />
-        ) : (
-          <DbKopfzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} />
-        )}
-        <DbSortWahl sort={sort} onChange={onSortChange} relevanz={relevanzMoeglich} suche={!!suche.trim()} />
-      </div>
+      <DbZaehlzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} ruhig={ruhigOhne && ohneSynchro} sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich} />
 
       {sprecher && (
         <Suspense fallback={null}>
