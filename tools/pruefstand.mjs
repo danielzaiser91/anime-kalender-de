@@ -220,7 +220,7 @@ const stand = ANBIETER.map((a) => {
   const suchAdressen = a.suchdatei ? Object.keys(listeLesen(a.suchdatei, a.suchglobal)) : null
   if (suchAdressen) ohneSeite = suchAdressen.length
 
-  const [schluessel, wert] = liste[0] ?? []
+  const [schluessel, wert] = liste.find(([, w]) => a.offene(w) > 0) ?? liste[0] ?? [] // erster offener: Disney+ führt auch beantwortete
   return {
     name: a.name,
     /* Der Schlüssel, unter dem der Worker die Meldungen im Briefkasten zählt. */

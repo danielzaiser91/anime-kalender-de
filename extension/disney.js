@@ -207,6 +207,8 @@
   const offeneFragen = new Map()
   /** Je Adresse die gemeldeten Folgennummern — für die Liste. */
   let briefkasten = new Map()
+  /* Adressen, unter denen je gemeldet wurde — auch übernommene (Worker-Feld `gemeldet`). */
+  let gemeldeteAdressen = new Set()
   /* Adressen mit Wiedervorlage, zu denen nach deren `seit` gemeldet wurde — siehe `istErledigt`. */
   let erneutBeantwortet = new Set()
   /* Für den Durchgang (`disney-durchgang.js`): Ergebnis von Prüfen und Melden als Ereignis. */
@@ -422,9 +424,9 @@
    * erledigt — er ist beantwortet, nur eben mit Nein.
    *
    * Der Wert kommt aus dem Briefkasten, nicht aus einem eigenen Gedächtnis:
-   * Sobald der stündliche Lauf die Meldungen übernommen hat, ist der Eintrag
-   * hier wieder offen — und das ist richtig so, denn dann steht die Antwort im
-   * Datensatz und der Titel fällt bei der nächsten Listenerzeugung heraus.
+   * Der Briefkasten führt nur Unübernommenes; `gemeldeteAdressen` (Worker-Feld `gemeldet`) kennt
+   * auch Übernommenes seit dem Prüfstand — sonst wäre ein übernommener Titel bis zur nächsten
+   * Listenerzeugung wieder „offen" (08.10.2026).
    */
   function istErledigt(e) {
     /*
@@ -433,7 +435,7 @@
       „alles gemeldet“ da, und auf der Titelseite gab es nichts zu melden (26.09.2026).
     */
     if (e.seit) return erneutBeantwortet.has(e.url)
-    return briefkasten.has(e.url)
+    return briefkasten.has(e.url) || gemeldeteAdressen.has(e.url)
   }
 
   function offeneEintraege() {
@@ -475,6 +477,7 @@
         if (!gesammelt.has(url)) gesammelt.set(url, [])
       }
       briefkasten = gesammelt
+      gemeldeteAdressen = new Set(Array.isArray(daten.gemeldet) ? daten.gemeldet : [])
     } catch {
       /* Ohne Auskunft bleibt die Liste bei dem, was der Datensatz sagt. */
     }
@@ -1079,13 +1082,10 @@
     zustand: () => ({ kennung: kennung(location.href), eintragUrl: eintrag?.url ?? null, startseite: /\/home\/?$/.test(location.pathname) }),
     melden,
     merkeZiel,
-    zeigeEnde: ({ grund, erledigt, uebersprungen }) =>
+    zeigeEnde: (info) =>
       zeigePruefung(
-        `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'} · ${erledigt} Titel` +
-          (uebersprungen.length
-            ? `\n${uebersprungen.length} übersprungen: ${uebersprungen.map((u) => Object.values(liste).find((e) => e.url === u.url)?.titel ?? u.url).join(', ')}`
-            : ''),
-        { klasse: uebersprungen.length ? 'schlecht' : 'gut' },
+        globalThis.akDisneyEndeText(info, (url) => Object.values(liste).find((e) => e.url === url)?.titel ?? url),
+        { klasse: info.uebersprungen.length ? 'schlecht' : 'gut' },
       ),
   }
 

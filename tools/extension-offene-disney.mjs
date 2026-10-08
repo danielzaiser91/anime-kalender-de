@@ -64,9 +64,8 @@ const offen = {}
 for (const [id, eintraege] of jeAdresse) {
   const sortiert = [...eintraege].sort(vergleiche)
   const verdacht = eintraege.map((e) => verdaechtig.get(e.t?.id ?? e.id)).find(Boolean)
-  /* Ist alles beantwortet, gehört die Seite nicht auf die Liste — außer eine
-     zweite Quelle widerspricht dem Urteil. */
-  if (!verdacht && sortiert.every((e) => e.dub !== undefined)) continue
+  /* Beantwortete Seiten stehen mit lauter `offen: false` drin: Der Melder darf dort berichtigen,
+     Prüfliste und Durchgang zählen nur Einträge mit offener Staffel (`disney.js`). */
   offen[id] = {
     ...(verdacht ? { wiedervorlage: verdachtHinweis(verdacht) } : {}),
     /* Ab wann eine Meldung die Wiedervorlage beantwortet — ältere zählen nicht (disney.js). */

@@ -1997,6 +1997,17 @@ ohne Ergebnis nach drei Minuten (Umleitung, Fehlerseite) wird übersprungen und 
 `globalThis.AK_DISNEY` bereit (offene Titel, melden, Ziel merken, Ende anzeigen). Sandkasten-Test:
 `extension/disney-durchgang.test.cjs`. Am echten Disney+ noch nicht gelaufen (braucht Daniels Anmeldung).
 
+### Drei Melder-Fehler (4.24.12, 08.10.2026)
+
+- **Beantwortete Seiten haben einen Melder.** `offene-disney.js` führt alle Disney+-Adressen, beantwortete mit
+  lauter `offen: false` (vorher fehlten sie, auf Naruto Shippuden entstand gar kein Melder). Prüfliste und
+  Durchgang zählen nur Einträge mit offener Staffel (`offeneEintraege`), ebenso `pruefstand.mjs` und
+  `report-start.ts`. Die Liste wuchs von 1,3 auf 10,9 KB.
+- **Gemeldet bleibt erledigt:** `briefkastenHolen` liest zusätzlich das Worker-Feld `gemeldet`
+  (auch Übernommenes seit dem Prüfstand); `istErledigt` prüft beides.
+- **Die Endanzeige des Durchgangs nennt den Grund** je übersprungenem Titel (`akDisneyEndeText`).
+- Tests: `disney.test.cjs` (Liste, Naruto 53/59/54, `gemeldet`, Endtext).
+
 ### Der Weg ohne Klick trägt über die Adresse (28.09.2026)
 
 Die offene Frage aus dem 19.09. lautete: Erkennt die Erweiterung eine Amazon-Seite, die
