@@ -1867,3 +1867,8 @@
 /* Wiedervorlage (21.09.2026): blau — Daniel: „das icon für wiedervorlage bei den episoden …
    mach die blau oder so, dann ist es ok und keine seperate liste für wiedervorlage ist notwendig". */
 .ak-zeile.ak-wiedervorlage { box-shadow: inset 3px 0 0 #58a6ff; }
+
+/* Wiedergabeseite: Kasten weg, solange kein Durchgang läuft (Marke setzt box.js). */
+html.ak-im-player:not(.ak-durchgang) .ak-box {
+  display: none !important;
+}

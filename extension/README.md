@@ -49,3 +49,5 @@ dort holt ein Pipeline-Schritt die Einträge und trägt sie in `data/dub-confirm
   erscheinen erst, wenn eine Folge läuft (geprüft am 21.08.2026).
 - **Crunchyroll, Prime Video** — der Rahmen steht, die Leseroutine fehlt. Crunchyroll braucht
   sie ohnehin nicht: Dort liefert die eigene Content-API die Auskunft je Folge.
+
+- **Wiedergabeseiten** (Disney+ `/play/`, Netflix `/watch/`) — der Kasten ist dort ausgeblendet, außer während eines Netflix-Durchgangs; Prime Video erkennt den Player selbst.
