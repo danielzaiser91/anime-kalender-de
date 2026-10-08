@@ -488,3 +488,22 @@ Baus gilt sie überall, wo diese Seite entsteht. Der Deploy wird dadurch rot, be
 existiert. In der Prüfkette oben steht sie trotzdem eigens, damit ein Verstoß beim Namen
 genannt wird und nicht als Baufehler erscheint.
 
+## Eine Datenkorrektur gehört ins Repo, nicht in `data/cache/` (08.10.2026)
+
+**Anlass.** PR 444 legte eine Cover-Zuordnung („Dragon Ball Super: Beerus", „Fool Night", Titel 21575) in
+`data/cache/anilist-anisearch-mal.json`. `data/cache/` liegt nicht im Repo, nur Datenläufe befüllen ihn, und diese
+Datei schreibt nur der Wochenlauf (letzter 05.10., nächster ~12.10.). Der Bau fand sie leer, die Cover fehlten live;
+die PR-Prüfungen waren lokal mit gefülltem Cache grün. Behoben mit PR 470 (`data/anisearch-cover.json`, Zusicherung in
+`check-bild-und-synchro.ts`).
+
+**Regel.** Eine Handkorrektur oder Vorbelegung gehört nach `data/…` im Repo. Fertig heißt erst: nach Bau und Deploy
+auf der Live-Seite gemessen (Datei oder Seite, erwarteter Wert) — grüne PR-Prüfungen belegen es nicht, weil sie mit
+dem lokalen Cache laufen. Was ein Bauer live messen soll, steht vorher im PR.
+
+**Absicherung.** `data/cache-register.json` führt jede Cache-Datei mit Schreiber, Läufen, Intervall und der Folge
+eines leeren Caches; `tools/check-cache-abhaengigkeit.mjs` (in `check:workflows`, also in `check:vor-commit` und im
+Deploy) bricht ab, wenn Code, Werkzeuge oder Workflows eine nicht eingetragene Datei nennen oder ein Eintrag keine
+Fundstelle mehr hat. Der Bau zählt die vom Register als nötig markierten Caches (`pipeline/bau/cache-stand.ts`) und
+warnt bei leerem oder fehlendem Stand, statt still auf `{}` zurückzufallen. Neue Cache-Datei: erst fragen, ob sie
+nicht nach `data/` gehört (dann `tools/quellen-liste.sh`), sonst ins Register.
+
