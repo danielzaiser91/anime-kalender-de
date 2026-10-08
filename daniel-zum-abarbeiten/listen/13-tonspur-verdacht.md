@@ -11,7 +11,7 @@ Nur der Wechsel von „deutsch" auf „nicht mehr genannt" zählt.
 Der Vergleichsmaßstab steht in `data/motn-tonspur.json`: je Verweis die zuletzt gesehene
 Aussage. Ohne Vorstand gibt es keinen Verdacht, nur einen ersten Eintrag.
 
-Stand: 2026-09-02 · 0 offen · 319 Verweise beobachtet
+Stand: 2026-10-08 · 0 offen · 334 Verweise beobachtet
 
 | Titel | Anbieter | Folgen | nannte Deutsch seit | Wechsel bemerkt | Verweis |
 |---|---|---|---|---|---|
