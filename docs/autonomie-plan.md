@@ -406,3 +406,65 @@ Ballast. Er kommt in `status.md`, nicht in eine neue Fassung.
 
 Das ist die eigentliche Lehre des 28.08.2026: Achtundzwanzig Fassungen an einem
 Tag sind kein Fleiß, sondern ein Ausweichen vor der eigentlichen Arbeit.
+
+## Fahrplan zur Vollautomatisierung — Stand 08.10.2026
+
+Auftrag (Daniel, 08.10.2026): Das Projekt soll irgendwann ohne sein Zutun laufen — Daten aktuell halten, Neuigkeiten mitbekommen und einarbeiten. Dieser Abschnitt misst den Ist-Stand gegen dieses Ziel und ordnet die nächsten Schritte nach Hebel. Alle Zahlen: 08.10.2026, aus Workflows, `gh run list`, `data/source-health.json` und den Wissensdateien gelesen; was nicht nachgesehen wurde, steht als solches da.
+
+### 1. Was ohne Daniel läuft (belegt)
+
+| Aufgabe | Wie | Beleg |
+|---|---|---|
+| Takt der Datenläufe | Cloudflare-Wecker startet per `workflow_dispatch`: Stunden-Lauf stündlich, Tageslauf 04 UTC, Wochenlauf Mo 05 UTC, ADN 02/08/14/20, Recherche 11, aniSearch-Katalog 06 | `shared/weckplan.ts` |
+| Ausfall des Weckers | zweite Linie `wecker-wache.yml` (GitHub-Cron alle 3 h) startet Überfälliges nach | `.github/workflows/wecker-wache.yml` |
+| Sammeln, Zusammenführen, Bauen, Veröffentlichen | Sammler reichen Pull Requests ein; `claude-daten-merge.yml` löst Konflikte; `bestand-bauen.yml` hängt per `workflow_run` an den Sammlern; `deploy.yml` danach | Workflow-Köpfe; Tageslauf 06.–08.10. je grün, Bau 6 von 8 jüngsten grün (1 abgebrochen, 1 läuft) |
+| Roter Lauf | `claude-reparatur.yml` springt bei Rot von Bau und Wache an (7 Starts in den letzten 40 Läufen, alle übersprungen, also war nichts rot) | `gh run list`, 08.10.2026 |
+| Stille Quellen | `data:check` im Bau (Fristen je Quelle), `schritt.sh` (Zeitgrenze, Anmerkung statt grünem Haken), tägliche Delta-Wache 07:20 UTC | `bestand-bauen.yml:259`, `check-sources.ts`, `delta-wache.yml` |
+| Crunchyroll-Zugang | Vercel-Weiche in Frankfurt liefert das Paket in jedem Lauf (seit 16.09.2026); `crunchyroll-dub` zuletzt 08.10. 04:09 UTC ok | `refresh-data.yml:89–100`, `source-health.json` |
+| Anteil Handarbeit an den Commits | seit 24.09.2026: 517 Daten-Commits der Läufe gegen 832 Commits unter Daniels Namen (die Agenten committen so), davon 24 mit „Handbeleg/belegt" im Titel | `git log --since=2026-09-24`, 08.10.2026 |
+
+Zustand der Läufe am 08.10.2026: in den letzten 40 Läufen keiner rot (nur Abbrüche durch Gruppen), drei offene Issues (#299, #333, #419; zwei davon „Push abgelehnt, Wettlauf"), ein offener PR (#474).
+
+### 2. Was noch an Daniel oder an Handarbeit hängt
+
+| Handgriff | Umfang | Warum | Beleg |
+|---|---|---|---|
+| **Erweiterungs-Meldungen** (Netflix, Prime, Disney+) | rund 2.880 Handbelege im Bestand; offen heute 18 Einträge (Prime 4, Netflix 2, Suchadressen 2, Crunchyroll 8, Disney+ 2); laufende Synchro kehrt wöchentlich zurück | Sprachangaben gibt nur eine angemeldete Sitzung heraus; Prime ist wegen der 19 namentlichen Bot-Blöcke in Amazons robots.txt dauerhaft Handarbeit | `daniel-zum-abarbeiten/00-START-HIER.md`, `docs/wissen/erweiterung.md` (4.23.2), Phase 5 und 7 oben |
+| **Hintergrund-Aufträge der Erweiterung** (Phase 7: Netflix, Disney+ ohne Klick je Folge) | Netflix 2.018, Disney+ 74 Belege erreichbar | als gebaut nicht belegt: „▶ alle durchgehen" braucht einen Klick und Daniels Browser | `erweiterung.md` 4.24.0; eine Auftragsabholung vom Worker habe ich nicht gefunden |
+| **Dauerauftrag „Wache durchsehen"** | Stempel 02.10.2026 15:05, seit sechs Tagen überfällig (Frist 24 h) | der Agent soll lesen und beurteilen; kein Lauf tut es | `status.md`, `00-wache-auswertung.md` (letzter Eintrag 02.10.) |
+| **Handeinträge für Neuigkeiten** | `data/curated/streaming-herbst-2026.yaml`, `data/ankuendigungen.yaml` (13 Titel von Hand, der Crunchyroll-Lineup-Artikel wird nicht gelesen), `data/erstausgabe-von-hand.yaml`, Liste `data/proposals/nicht-zugeordnet.json` | Meldungen aus Sammelartikeln werden gelesen, aber nicht jede einem Titel zugeordnet; fehlende Titel werden nicht selbst ergänzt | `status.md` (Queue 04.10., Crunchyroll-Lineup 08.10.), `pipeline/lib/sammel-unzugeordnet.ts` |
+| **Zugangs- und Kontingentfragen** | Claude-Läufe laufen auf Daniels Abo; ist es leer, endet der Schritt nach 1 s, die Doku sagt „nichts zu tun". Ein Register der Token-Ablaufdaten (Wecker-Token, `CR_WEICHE_TOKEN`, aniSearch-Token, OAuth) fand ich nicht (Suche in `docs/wissen`, `tools`, `worker/src/wecker.ts`, 08.10.2026) | läuft, bis ein Token abläuft; dann stehen Wecker, Recherche und Reparatur still | `betrieb.md` „Claude-Läufe scheitern in einer Sekunde …" |
+| **Entscheidungen** | Hosting, Cover-/Saison-Wahl, Rechtsfragen | gehören Daniel, kein Automatisierungsziel | `auftraege.md` |
+
+Bleibt auch bei Vollautomatisierung bei Daniel oder im Browser: Prime-Tonspuren (Betreiber-Sperre, Phase 5 und 7), Entscheidungen über Geld, Außenwirkung und Rechtsgrauzonen.
+
+### 3. Stille Ausfälle (neu gefunden oder offen)
+
+1. **Der Monatslauf für Netflix-Tonspuren hängt nicht am Wecker.** `tonspuren-monatlich.yml` läuft nur über GitHubs eigenen Cron (`17 4 2 * *`), steht nicht in `WECKPLAN` und wird von `wecker-wache` nicht nachgeholt. Der Lauf vom 02.10.2026 10:29 UTC wurde abgebrochen (Grund nicht geprüft; die Gruppe `abruf` teilen sich drei Workflows). `source-health.json` führt `motn` mit letztem Erfolg am 02.09.2026: 36 Tage bei einer Frist von 33 (`check-sources.ts:150`). Ungeklärter Widerspruch: Der Bau war seither grün, obwohl `data:check` darin läuft (`bestand-bauen.yml:259`); nicht nachgemessen, ob die Frist dort anders greift.
+2. **Der Dauerauftrag „Crunchyroll-Zugangspaket" in `status.md` beschreibt einen vermutlich überholten Handgriff** (Paket von Hand holen). Seit 16.09.2026 holt die Weiche es in jedem Lauf; der Text trägt den Stempel 29.09. Ob der Rückfall `CR_ZUGANG` entbehrlich ist, ist nicht geprüft.
+3. **Zwei Wächter fehlen:** Kontingent-Ausfall der Claude-Läufe (sieht nur, wer ins Protokoll schaut) und Token-Ablauf (kein Register).
+4. **Die Wache sieht Verluste, keine falschen Angaben** (Befunde 27.09. und 29.09.2026 in `00-wache-auswertung.md`). Abhilfe sind Invarianten am Ergebnis (`architektur-bewertung.md`, Hebel 1).
+5. **Issues räumen sich nicht selbst:** #299 (04.10.) und #333 (05.10.) „Push abgelehnt" stehen offen, obwohl der Bau danach lief. Nicht geprüft, ob sie noch Ursachen tragen.
+
+### 4. Die nächsten zehn Schritte, nach Hebel
+
+Hebel = wie viel Eingreifen der Schritt künftig erspart oder wie früh er einen stillen Ausfall sichtbar macht. Aufwand: S unter 1 h, M ein Tag, L Wochen. „Bauer allein" = ein Bauer im eigenen Worktree kann ihn bauen und prüfen, ohne Daniel zu brauchen.
+
+| # | Schritt | Aufwand | Beleg | Bauer allein |
+|---|---|---|---|---|
+| 1 | Monatslauf `tonspuren-monatlich.yml` in `WECKPLAN` aufnehmen (Tag 2, Nachhol-Regel in `wecker-wache`), danach einmal anstoßen und `motn` prüfen | S | Abschnitt 3.1 | ja |
+| 2 | Register der Zugänge und Token (Ablaufdatum, Ort, Erneuerungsweg) plus Wächter für „Claude-Lauf endete nach 1 s mit `is_error`" und „Token läuft in 14 Tagen ab"; dabei den Dauerauftrag „Crunchyroll-Zugangspaket" auf den Weiche-Stand bringen | S–M | Abschnitt 2 „Zugangs- und Kontingentfragen", 3.2, 3.3 | ja; die Ablaufdaten liest Daniel einmal aus den Konten ab: nein |
+| 3 | „Wache durchsehen" als wöchentlicher Claude-Lauf, der die vier Fragen beantwortet und `00-wache-auswertung.md` per Pull Request fortschreibt; der Dauerauftrag in `status.md` entfällt | M | Abschnitt 2, Zeile „Dauerauftrag" | ja |
+| 4 | Invarianten am Ergebnis im Bau (Slugs eindeutig, Titel vorhanden, Folgen monoton, `meta`-Zahlen, Zählworte aus `COUNT`) — fängt falsche Angaben statt nur Verluste | M | `befund-2026-10-02.md` B-07, `architektur-bewertung.md` Hebel 1, Abschnitt 3.4 | ja |
+| 5 | Erweiterung: Aufträge vom Worker abholen und im Hintergrund abarbeiten (Netflix, Disney+; Wiedervorlage ohne Klick). Prime bleibt ausgenommen | L | Phase 7 oben, `erweiterung.md` 4.23.2 und 4.24.0 | nein (Abnahme in Daniels angemeldeter Sitzung) |
+| 6 | Neuigkeiten selbst einarbeiten: Titel aus Sammelartikeln aus dem Katalog ergänzen, `nicht-zugeordnet.json` abbauen, Handeinträge wie `streaming-herbst-2026.yaml` aus Quellen ableiten | M | `status.md` Queue „Abend 04.10.", `sammel-unzugeordnet.ts` | ja |
+| 7 | Crunchyroll-Lineup-Artikel automatisch lesen: Synchro angekündigt, Handlungstext, Vorrang nach Daniels Regel; Nutzungsrechte vorab klären | M | `status.md` „Crunchyroll-Lineup-Artikel", `ankuendigungen.yaml` | ja; die Rechtsentscheidung trifft Daniel |
+| 8 | Bestandslauf baut nur bei bewegten Quellen doppelt; Issues „Push abgelehnt" schließen sich nach grünem Bau selbst | S–M | `status.md` „Bestandslauf: Doppelbau", Issues #299, #333 | ja |
+| 9 | Wiedervorlage nach Alter für Urteile und Handbelege (180 Tage) | M | `status.md` „Meldemodell in vier Stufen", Phase 7 Punkt 4 | ja |
+| 10 | Meldemodell Stufe 3: Setzstellen in `build.ts` durch das Urteil ersetzen (Deckung heute 74 %) | L | `status.md` „Meldemodell in vier Stufen" | ja |
+
+Begründung der Reihenfolge: 1 bis 3 sind klein und schließen Ausfälle, die heute niemand sieht; ohne sie wäre jede weitere Automatisierung ungeprüft. 4 macht die Wache fähig, falsche Angaben zu finden. 5 ist der größte Hebel für die Handarbeit, braucht aber als einziger Daniels Sitzung; 6 und 7 gehen ohne ihn und decken die Neuigkeiten ab. 8 bis 10 festigen.
+
+### 5. Messgröße
+
+Nicht die Länge einer Liste, sondern **Daniels Handgriffe pro Woche**: Einträge in `daniel-zum-abarbeiten/auftraege.md`, die nicht Entscheidung oder Rechtsfrage sind, plus offene Einträge im Prüfstand der Erweiterung. Ausgangswert 08.10.2026: 3 Aufträge (1 Test, 1 Entscheidung, 1 Sitzungswechsel; die Datei liegt noch im Haupt-Arbeitsordner, nicht auf `main`) und 18 offene Prüfstandseinträge. Ziel: keine Aufträge außer Entscheidungen; im Prüfstand nur Prime.

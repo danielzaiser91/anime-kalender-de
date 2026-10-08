@@ -4978,3 +4978,14 @@ Der Lauf (16:04 UTC) scheiterte nur im Schritt „Änderungen committen": Dreima
 - 07.10.2026 erledigt: Folgenliste zeigt noch nicht erschienene Folgen mit Uhr-Symbol und klarerem Tooltip; Beleg-Fenster auf dem Handy zwei Zeilen mit Aufklappen; Erstausgabe als zurückdatierte Neuigkeit im Panel (Zeile unter „Auf Deutsch verfügbar“ entfällt, Kasten ohne Nebenzeile ohne Mindesthöhe); TMDB-Staffelplakate im Wochenlauf.
 
 - 07.10.2026 festgestellt, bereits erledigt: Reihen-Box blendet Teile ohne belegte Synchro mit aktivem Schalter aus (`reihen-regeln.ts`, `istEingeklappt`).
+
+## Erledigt, aus der Queue ausgelagert am 08.10.2026
+
+Umordnung für den Autonomie-Fahrplan; Wortlaut unverändert.
+
+| Aufgabe | SP | Notiz |
+|---|---|---|
+| **Erledigt (05.10.2026): Magilumière Staffel 2** | 1 | Ursache, Quelle und Code-Lücke: siehe `docs/wissen/datensatz.md`, „Magilumière Staffel 2 …". Wirkt mit dem nächsten Bestandsbau. |
+| **Erledigt (05.10.2026): Magenta-Pillen** | 1 | Gemessen: 162 Magenta-Verweise (120 Filme zum Kaufen/Leihen, 10 Serien-Staffelseiten, 8 Abo-Folgenseiten mit Joyn-Weg, Rest Kauf). `pipeline/bau/11-5-magenta-partner.ts` streicht die 8 Abo-Folgenseiten, wo Joyn/Disney+ eigene Pillen haben; Staffelübersichten (Tokyo Revengers S1, ProSieben fun) und Kaufseiten bleiben. Offen: Hanni und Nanni (Folgenadresse, kein Joyn-/Disney+-Weg) — Ziel unbekannt, bleibt. |
+| **Erledigt am 04.10.2026: AniList-Streaming-Links gemessen (Crunchyroll)** | 1 | Von 310 Crunchyroll-Wegen mit Katalogeintrag passt bei 46 der Katalogname nicht zum Titelnamen; fast alle sind legitime Franchise-Serienseiten (Black Butler, Dr. STONE, Blue Exorcist, `sharedWith` > 1). Ein echter Fehler (Reborn as a Space Mercenary) ist behoben, sonst keiner. Netflix/Disney+ nicht messbar (kein Katalog). Offen: Hauptquelle-Umstellung auf aniSearch macht die AniList-Links ohnehin überflüssig. |
+| **FSK: Abruf eingestellt (08.10.2026, Entscheidung Daniel)** | 1 | Grund Rechtsbefund (FSK-Impressum), Werte kommen aus TMDB DE; Details in [quellen.md](docs/wissen/quellen.md) „FSK-Lücke: Datenbank-PoC und Quellenlage". Ersatzquelle JustWatch/Prime läuft als eigener Auftrag. Erledigt, sobald der PR gemergt ist. |
