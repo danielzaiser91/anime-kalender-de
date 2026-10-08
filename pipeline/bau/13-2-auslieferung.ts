@@ -1,5 +1,5 @@
 import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
-import { anisearchHand, kinoFeld, OUT, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
+import { anisearchHand, kinoFeld, mitAnkuendigung, OUT, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
 import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
@@ -98,7 +98,7 @@ export function baueAuslieferung({
   // Der Kalender braucht nur die Titel, zu denen es einen Termin gibt. Die
   // vollständige Liste (mehrere Megabyte) lädt erst die Datenbank-Ansicht nach.
   const referenced = new Set(releases.map((r) => r.titleId))
-  writeJson(`${OUT}/titles-core.json`, slim.filter((t) => referenced.has(t.id)))
+  writeJson(`${OUT}/titles-core.json`, slim.filter((t) => referenced.has(t.id)).map(mitAnkuendigung)) // mit Ankündigung: die Saison-Ansicht liest nur den Kern (Daniel, 08.10.2026)
   /**
    * Kein Titel geht verloren — der Build bricht lieber ab.
    *
