@@ -153,9 +153,24 @@
     - name: TOGGO
       url: https://www.toggo.de/yu-gi-oh-pty647/folge/ins-spiel-gezogen-vep24158
       kind: stream
+    # Die Mini-Serie „Kapselmonster" (12 Folgen) liegt den deutschen Gesamtausgaben bei (Daniel, 08.10.2026; Händlerseiten mit dem Wortlaut „Kapselmonster").
+    - name: "Amazon — Complete Edition (Blu-ray, alle fünf Staffeln + Kapselmonster)"
+      url: https://www.amazon.de/Yu-Gi-Oh-Duel-Monsters-Complete-Blu-rays/dp/B0GQHJGFV9
+      kind: buy
+    - name: "Akiba Pass — Complete Edition Ep 1-224 + Kapselmonster (Blu-ray)"
+      url: https://akibapassshop.de/products/23a056-yu-gi-oh-complete-edition-ep-1-224-kapselmonster-bluray
+      kind: buy
+    - name: "DTM — Complete Edition, 10 Discs (Blu-ray)"
+      url: https://dtmshop.dtm.at/YU-GI-OH-Blu-Ray-10Discs-Complete-Edition-Ep-1-224-Kapselmonster/1134797
+      kind: buy
+    - name: "Amazon — Staffel 5.1 (DVD, Bonus: komplette Mini-Serie Kapselmonster)"
+      url: https://www.amazon.de/Yu-Gi-Oh-Staffel-5-1-Episode-185-198/dp/B01IO8MFD4
+      kind: buy
   sources:
     - https://www.fernsehserien.de/yu-gi-oh/folgen/6x01-ins-spiel-gezogen-137612
     - https://www.toggo.de/yu-gi-oh-pty647/folge/ins-spiel-gezogen-vep24158
+    - https://akibapassshop.de/products/23a056-yu-gi-oh-complete-edition-ep-1-224-kapselmonster-bluray
+    - https://dtmshop.dtm.at/YU-GI-OH-Blu-Ray-10Discs-Complete-Edition-Ep-1-224-Kapselmonster/1134797
 
 # TOGGO zeigt die Folgen nach der TV-Ausstrahlung (TOGGO plus, ab 28.08.2026)
 # eine Weile zum Abruf — am 16.09.2026 standen dort nur die Folgen 12 bis 16

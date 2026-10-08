@@ -1,32 +1,78 @@
-# Entwürfe für aniSearch-Discord, Forumkanal „#db_api"
+# Discord „#db_api": vier Themen, je Titel eines
 
-Dominik (aniSearch) bittet, fehlende Titel dort **je Titel als eigenes Thema** zu melden. Die E-Mail an Dominik nennt drei Titel; sie stehen unten als 1 bis 3. Ein vierter ist optional.
-Gegengeprüft am 08.10.2026 gegen die vollständige Titelliste der aniSearch-API (`/v1/anime/titles`): Keiner der vier steht dort.
-
-Zuerst ein Thema je Titel mit der Überschrift als Themenname und dem Text darunter als erste Nachricht.
+Jedes Thema: die **Überschrift** als Themenname, der **Text** (Block darunter) 1:1 als erste Nachricht einfügen. Jeder Text ist unter 2.000 Zeichen und steht für sich.
+Gegengeprüft am 08.10.2026 gegen die vollständige Titelliste der aniSearch-API (`/v1/anime/titles`): Keiner der vier Titel steht dort. Die Zahl hinter „Zeichen" ist die Länge des Textes.
 
 ---
 
-**1 · Thema:** `Princess Principal Picture Drama – MAL 36485`
+## 1 · Yu-Gi-Oh! Capsule Monsters (Kapselmonster) — der ausführliche Fall
 
-> Hallo zusammen, zu diesem Titel finde ich keinen Eintrag: Princess Principal Picture Drama, Special zur Serie, MAL 36485 (auch bei AniList geführt: https://anilist.co/anime/100519). Gibt es dazu einen Eintrag, oder fehlt er noch? Danke!
+**Überschrift:** `Yu-Gi-Oh! Capsule Monsters (Kapselmonster) – TV-Miniserie 2006, 12 Folgen, deutsche Fassung`
 
-**2 · Thema:** `Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami – MAL 38963`
+```
+Hallo zusammen, zu dieser Serie finde ich bei euch keinen Eintrag:
 
-> Hallo zusammen, zu diesem Titel finde ich keinen Eintrag: Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami, Special, MAL 38963 (IMDb: https://www.imdb.com/title/tt9561688/). Gibt es dazu einen Eintrag, oder fehlt er noch? Danke!
+**Yu-Gi-Oh! Capsule Monsters** (deutsch: *Yu-Gi-Oh! Kapselmonster*), TV-Miniserie mit 12 Folgen, Spin-off von Yu-Gi-Oh! Duel Monsters, im Auftrag von 4Kids Entertainment produziert. Erstausstrahlung laut TMDB am 09.09.2006. Keine MAL-Kennung; AniList: https://anilist.co/anime/123074
 
-**3 · Thema:** `Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival – Yuugi to Kaiba! – MAL 33997`
+**Deutsche Fassung vorhanden:**
+- Synchronkartei mit deutscher Besetzung (u. a. Sebastian Schulz, Konrad Bösherz, Robin Kahnmeyer): https://www.synchronkartei.de/serie/59171
+- Wikipedia: bei RTL II als sechste Staffel der zweiten Yu-Gi-Oh!-Serie ausgestrahlt: https://de.wikipedia.org/wiki/Yu-Gi-Oh!
+- Liegt den deutschen Gesamtausgaben als „Kapselmonster-Mini-Serie" (12 Folgen) bei: https://akibapassshop.de/products/23a056-yu-gi-oh-complete-edition-ep-1-224-kapselmonster-bluray, https://dtmshop.dtm.at/YU-GI-OH-Blu-Ray-10Discs-Complete-Edition-Ep-1-224-Kapselmonster/1134797, https://www.amazon.de/Yu-Gi-Oh-Duel-Monsters-Complete-Blu-rays/dp/B0GQHJGFV9
 
-> Hallo zusammen, zu diesem Titel finde ich keinen Eintrag: Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival – Yuugi to Kaiba!, ein 26-Minuten-Special vor dem Film, MAL 33997 (AniList: https://anilist.co/anime/102505). Die Kennung 10086 ist der Film selbst, nicht das Special. Gibt es dazu einen Eintrag, oder fehlt er noch? Danke!
+**Die Serie ist anderswo geführt:** TMDB https://www.themoviedb.org/tv/11767 · IMDb https://www.imdb.com/title/tt6540806/ · Rotten Tomatoes https://www.rottentomatoes.com/tv/yu_gi_oh_capsule_monsters/s01
+
+In der Titelliste der API (/v1/anime/titles) habe ich nach „Capsule Monsters" gesucht, ohne Treffer. Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
+```
 
 ---
 
-**Optional · 4 · Thema:** `Yu-Gi-Oh! Capsule Monsters (Duel Monsters ALEX) – TV, 2006`
+## 2 · Princess Principal Picture Drama
 
-> Hallo zusammen, zu diesem Titel finde ich keinen Eintrag: Yu-Gi-Oh! Capsule Monsters (Duel Monsters ALEX), TV-Serie 2006, ohne MAL-Eintrag (AniList: https://anilist.co/anime/123074). Gibt es dazu einen Eintrag, oder fehlt er noch? Danke!
+**Überschrift:** `Princess Principal Picture Drama – Special, MAL 36485`
+
+```
+Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
+
+**Princess Principal Picture Drama**, ein Special zur Serie Princess Principal.
+- AniList: https://anilist.co/anime/100519/Princess-Principal-Picture-Drama
+- MAL: https://myanimelist.net/anime/36485/Princess_Principal_Picture_Drama
+
+In der Titelliste der API (/v1/anime/titles) habe ich danach gesucht, ohne Treffer. Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
+```
 
 ---
 
-Nicht mehr in der Liste, weil bei aniSearch vorhanden: Angel Beats! Specials (aniSearch 6864 „Stairway to Heaven" und 10510 „Hell's Kitchen") und Pokémon XYZ Specials (aniSearch 11938 und 11939). Ookami Heart ist ein Musikvideo (MAL 35778), das wir ohnehin nicht führen.
+## 3 · Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami
+
+**Überschrift:** `Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami – Special, MAL 38963`
+
+```
+Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
+
+**Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami**, ein Special zu Ano Hana.
+- MAL: https://myanimelist.net/anime/38963
+- AniList: https://anilist.co/anime/107342
+- IMDb: https://www.imdb.com/title/tt9561688/
+
+In der Titelliste der API (/v1/anime/titles) habe ich danach gesucht, ohne Treffer. Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
+```
+
+---
+
+## 4 · Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival – Yuugi to Kaiba!
+
+**Überschrift:** `Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival – Yuugi to Kaiba! – Special, MAL 33997`
+
+```
+Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
+
+**Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival – Yuugi to Kaiba!**, ein 26-Minuten-Special, das vor dem Film läuft. Die Kennung 10086 ist der Film selbst, nicht das Special.
+- AniList: https://anilist.co/anime/102505/YuGiOh-The-Dark-Side-of-Dimensions-Special-Eien-no-Rival-Yuugi-to-Kaiba
+- MAL: https://myanimelist.net/anime/33997
+
+In der Titelliste der API (/v1/anime/titles) habe ich danach gesucht, ohne Treffer. Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
+```
+
+---
 
 Antwortet aniSearch mit einer Kennung (Adresse `anisearch.de/anime/<ID>,<slug>`), trage ich sie in `data/anisearch-ids-hand.yaml` ein.

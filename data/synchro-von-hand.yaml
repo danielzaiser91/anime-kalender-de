@@ -23,6 +23,9 @@
   sources:
     - https://en.wikipedia.org/wiki/Yu-Gi-Oh!_Capsule_Monsters
     - https://www.fernsehserien.de/yu-gi-oh/episodenguide/staffel-6/3762
+    # Daniel, 08.10.2026, gelesen und bestätigt: deutsche Sprecher dokumentiert (Synchronkartei), RTL II als sechste Staffel der zweiten Serie (de.wikipedia).
+    - https://www.synchronkartei.de/serie/59171
+    - https://de.wikipedia.org/wiki/Yu-Gi-Oh!
 
 # Aus dem TOGGO-Katalog (19.09.2026): TOGGO zeigt nur deutsche Fassungen (Daniel). Von 252
 # TOGGO-Serien fehlten nur diese zwei im Bestand; MyDubList kennt beide nicht.
