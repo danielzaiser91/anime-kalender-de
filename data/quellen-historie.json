@@ -6039,5 +6039,23 @@
       "gesehenAm": "2026-10-07",
       "stand": "aktuell"
     }
+  ],
+  "auto-10021566-crunchyroll": [
+    {
+      "url": "https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-08",
+      "sagt": "2026-10-11",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-10021751-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1043399/fool-night-netflix-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-08",
+      "sagt": "2026-11-26",
+      "stand": "aktuell"
+    }
   ]
 }

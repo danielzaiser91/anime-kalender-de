@@ -253,6 +253,16 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-10021751-netflix@2026-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261126
+DTEND;VALUE=DATE:20261127
+SUMMARY:Fool Night
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/26071/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:steel-ball-run-2nd-3rd-stage@2026-11-27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261127T080000Z
