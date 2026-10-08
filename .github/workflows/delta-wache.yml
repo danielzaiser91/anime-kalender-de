@@ -33,6 +33,7 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 concurrency:
   group: delta-wache
@@ -120,6 +121,46 @@ jobs:
           # Der tägliche Datenlauf kann zwischendurch gepusht haben.
           git pull -q --rebase origin main || true
           git push -q; echo "push exit=$?"
+
+      # **Wochenwache = der Teil von „Wache durchsehen" (status.md), der kein Modell braucht** (Fahrplan Schritt 3,
+      # `docs/autonomie-plan.md`): endete jeder Datenlauf in seiner Frist **erfolgreich**, ist der Datensatz frisch,
+      # schweigt eine Quelle? Montags und auf Abruf. Ein Befund wird eine Zeile in `data/meldungen-an-claude.jsonl`
+      # (der Posteingang, `pipeline/lib/meldung.ts`) und eine Warnung im Protokoll — kein roter Lauf, denn rot machen
+      # sollen Sammler, nicht ihre Wache. `npm ci` fällt nur an diesem einen Wochentag an.
+      - name: Wochenwache — Läufe, Stand, stumme Quellen
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "$(date -u +%u)" != 1 ] && [ "${{ github.event_name }}" != workflow_dispatch ]; then
+            echo "Wochenwache läuft nur montags und auf Abruf."
+            exit 0
+          fi
+          npm ci --no-audit --no-fund
+          node tools/wache-woechentlich.mjs | tee -a "$GITHUB_STEP_SUMMARY"
+          npx tsx pipeline/check-sources.ts --nur-melden > /dev/null
+          git diff -U0 data/meldungen-an-claude.jsonl | grep '^+{' | cut -c2- > "$RUNNER_TEMP/neue-meldungen.jsonl" || true
+          wc -l < "$RUNNER_TEMP/neue-meldungen.jsonl" | xargs echo "Neue Meldungen:"
+
+      # Die Zeilen werden auf den frischen Stand von `main` gelegt (angehängt, nie umgeschrieben): Ein Datenlauf
+      # kann dieselbe Datei gleichzeitig verändert haben, und ein Rebase darüber scheitert am Dateiende.
+      - name: Wochenmeldungen ablegen
+        if: always()
+        run: |
+          neu="$RUNNER_TEMP/neue-meldungen.jsonl"
+          if [ ! -s "$neu" ]; then exit 0; fi
+          git config user.name "anime-kalender-bot"
+          git config user.email "bot@anime-kalender.de"
+          for versuch in 1 2 3; do
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            cat "$neu" >> data/meldungen-an-claude.jsonl
+            git add data/meldungen-an-claude.jsonl
+            git commit -q -m "chore(wache): Wochenwache meldet einen Befund"
+            if git push -q origin HEAD:main; then echo "Abgelegt (Versuch $versuch)."; exit 0; fi
+            sleep $((versuch * 5))
+          done
+          echo "::warning title=Wochenwache::Meldung konnte nicht abgelegt werden — steht im Protokoll oben."
 
       # Der Lauf meldet sich in Daniels Statusanzeige — dort sieht er ihn neben
       # den Datenläufen, ohne GitHub zu öffnen. Die Datei bleibt die

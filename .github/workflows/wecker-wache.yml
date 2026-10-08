@@ -27,14 +27,15 @@ jobs:
     steps:
       - name: Überfällige Läufe nachholen
         run: |
+          # Mit ":ohne-abbruch" zählt ein abgebrochener Lauf nicht als Start (der Monatslauf wurde am 02.10.2026 nach 4 s abgebrochen und nie wiederholt).
           # Workflow : erlaubtes Alter des letzten Starts in Stunden (etwas mehr als der Takt, damit eine kleine Verspätung keinen Doppelstart auslöst)
-          PLAN="refresh-hourly.yml:3 refresh-data.yml:30 refresh-weekly.yml:192 adn-laufende.yml:9 claude-verpasst-recherche.yml:30 anisearch-katalog.yml:30"
+          PLAN="refresh-hourly.yml:3 refresh-data.yml:30 refresh-weekly.yml:192 adn-laufende.yml:9 claude-verpasst-recherche.yml:30 anisearch-katalog.yml:30 tonspuren-monatlich.yml:744:ohne-abbruch"
           jetzt="$(date -u +%s)"
           nachgeholt=0
           for eintrag in $PLAN; do
-            wf="${eintrag%%:*}"; max="${eintrag##*:}"
+            wf="${eintrag%%:*}"; rest="${eintrag#*:}"; max="${rest%%:*}"; ohne=""; case "$rest" in *:ohne-abbruch) ohne=1;; esac
             aktiv="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "$wf" --limit 5 --json status --jq '[.[] | select(.status=="in_progress" or .status=="queued" or .status=="pending" or .status=="waiting")] | length')"
-            letzter="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "$wf" --limit 1 --json createdAt --jq '.[0].createdAt // empty')"
+            letzter="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow "$wf" --limit 10 --json createdAt,conclusion --jq "[.[] | select(.conclusion != \"cancelled\" or \"$ohne\" == \"\")] | .[0].createdAt // empty")"
             if [ -z "$letzter" ]; then alter=99999; else alter=$(( (jetzt - $(date -u -d "$letzter" +%s)) / 3600 )); fi
             printf '%-34s letzter Start vor %5s h (erlaubt %s h), aktiv: %s\n' "$wf" "$alter" "$max" "${aktiv:-0}"
             if [ "$alter" -gt "$max" ] && [ "${aktiv:-0}" -eq 0 ]; then
