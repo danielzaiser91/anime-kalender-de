@@ -736,7 +736,8 @@ export function Tooltip({
         aria-describedby={kindFokus ? undefined : verweis}
         /* `inline-flex`: Die Hülle nimmt die Höhe ihres Kinds, nicht die der Zeile — sonst stehen Plaketten versetzt. */
         className={[
-          `inline-flex items-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${TREFFER_24_MIN}`,
+          /* Mit `kindFokus` ist das Kind der Auslöser (z. B. ein Knopf) und bringt seine eigene Trefferfläche mit; ein `::after` der Hülle läge sonst über ihm und finge den Klick ab (Heute-Knopf, 08.10.2026). */
+          `inline-flex items-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${kindFokus ? '' : TREFFER_24_MIN}`,
           unterstrichen ? 'cursor-help underline decoration-dotted underline-offset-2' : '',
         ].join(' ')}
       >
