@@ -227,7 +227,8 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
       {open && (
         <div className="mt-2">
           {alle === undefined ? (
-            <p className="text-sm text-slate-400">{t('detail.aehnlichLaedt')}</p>
+            /* Vor dem Sichtbarwerden lädt noch nichts — dann steht hier nur Platz, keine Ladeanzeige (08.10.2026). */
+            imBild ? <p className="text-sm text-slate-400">{t('detail.aehnlichLaedt')}</p> : <div className="h-6" aria-hidden />
           ) : vorschlaege.length === 0 ? (
             <p className="text-sm text-slate-400">{t('detail.aehnlichKeine')}</p>
           ) : (

@@ -15,7 +15,7 @@ import {
   reihenVertreter,
 } from '@shared/titles.ts'
 import {
-  loadAllTitles, loadFranchises, loadOhneSynchro,
+  ladeTitelBestand, loadFranchises,
   loadDiscAusgaben,
   loadSynopsis, type Synopsis
 } from '../lib/data.ts'
@@ -437,7 +437,7 @@ export function DetailPanel({
     if (data.titleById.has(titleId) || versucht.current === titleId) return
     versucht.current = titleId
     setHolt(true)
-    Promise.all([loadAllTitles(data), loadOhneSynchro(data)])
+    ladeTitelBestand(data, titleId)
       .catch(() => {})
       .finally(() => setHolt(false))
   }, [data, titleId])
@@ -593,7 +593,7 @@ export function DetailPanel({
       Ladewege sind gegen Mehrfachaufrufe gesichert und tun beim zweiten Mal
       nichts, das Paar kostet also nur beim ersten Wechsel etwas.
     */
-    Promise.all([loadAllTitles(data), loadOhneSynchro(data)])
+    ladeTitelBestand(data, id)
       .catch(() => {})
       .finally(() => {
         setWechselt(false)

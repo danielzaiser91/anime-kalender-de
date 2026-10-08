@@ -27,7 +27,7 @@ import { titelAus } from './lib/anisearch-titel.ts'
 import { bauQuelltext, panelQuelltext, workerQuelltext } from './lib/quelltext.ts'
 import yaml from 'js-yaml'
 import { discSlug, slugify } from './lib/util.ts'
-import { expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, releaseStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
+import { anzeigeFolge, expandEvents, lastEpisodeDate, istErschienen, sendeplatz, titleStatus, releaseStatus, bereicheMitTermin, merkbareTermine } from '../shared/logic.ts'
 import { neuesterWochenartikel, wocheAus } from '../shared/wochenprogramm.ts'
 import { artikelNenntTitel, folgeAmVerpasstenTermin, messbelegSchluessel, offeneMessbelege, rechercheFaellig } from './lib/ausgeblieben.ts'
 import { BELEG_SCHLUESSEL as ABLAGE_SCHLUESSEL } from '../shared/beleg-schluessel.ts'
@@ -5450,6 +5450,10 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe(
     'eine TV-Sichtung mit Folgenliste zeigt ihre Nummern, eine ohne nicht',
     mitNr[0] !== undefined && halb[0] !== undefined && expandEvents(mitNr[0]).every((e) => !e.sichtung) && expandEvents(halb[0]).every((e) => e.sichtung),
+  )
+  pruefe(
+    'Teilen-Seite: eine Sichtungs-Nummer wird nicht als Folge genannt (/t/12/ sagte Folge 21 für One Piece, 08.10.2026)',
+    halb[0] !== undefined && expandEvents(halb[0]).every((e) => !anzeigeFolge(e)) && expandEvents(mitNr[0]!).some((e) => anzeigeFolge(e)),
   )
   /* RTL+-Wochentermin (19.09.2026): nur gemessener Wochentakt, nur laufend, nur mit belegter Synchro. */
   {

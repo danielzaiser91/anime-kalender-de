@@ -248,6 +248,11 @@ export function merkbareTermine(release: Release, today: string): ReleaseEvent[]
   return expandEvents(release).filter((e) => e.date > today && !istAusgeblieben(e))
 }
 
+/** Eine Folgennummer darf erscheinen, wenn sie belegt ist — bei einer TV-Sichtung ohne Folgenliste ist sie nur unsere Zählung. */
+export function anzeigeFolge(e: Pick<ReleaseEvent, 'episode' | 'sichtung'>): boolean {
+  return Boolean(e.episode) && !e.sichtung
+}
+
 function termineAusPlan(release: Release): ReleaseEvent[] {
   const s = release.schedule
   if (!s?.firstEpisodeDate || release.widerlegt) return []
