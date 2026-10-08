@@ -1,6 +1,6 @@
 # Aufträge für Daniel
 
-Alles, wofür ich dich brauche, steht hier — nummeriert, je Punkt ein Link, Vorher / Erwartet / Falsch, wenn …. Entscheidungen und Erledigtes stehen in [archiv/entscheidungen-und-erledigt.md](file:///C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/archiv/entscheidungen-und-erledigt.md).
+Alles, wofür ich dich brauche, steht hier — nummeriert, je Punkt ein Link, Vorher / Erwartet / Falsch, wenn …. Entscheidungen und Erledigtes stehen in [archiv/entscheidungen-und-erledigt.md](file:///C:/code/ai/_wtumbau/daniel-zum-abarbeiten/archiv/entscheidungen-und-erledigt.md).
 
 Stand: 08.10.2026 00:30
 
