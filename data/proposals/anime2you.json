@@ -1,6 +1,131 @@
 {
-  "scrapedAt": "2026-10-07T04:11:09.511Z",
+  "scrapedAt": "2026-10-08T04:13:46.754Z",
   "proposals": [
+    {
+      "articleTitle": "Crunchyroll ergänzt zehn weitere Anime-Neuzugänge",
+      "articleUrl": "https://www.anime2you.de/news/1058202/crunchyroll-cold-sato-san-und-mehr/",
+      "publishedAt": "2026-10-07",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "zeiten": [
+        {
+          "tag": "Mittwoch",
+          "zeit": "19:15",
+          "satz": "Mage Enjoys a Second Lease on Life« »The World’s Strongest Witch« »A Returner’s Magic Should Be Special« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 19:15 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Dienstag",
+          "zeit": "16:30",
+          "satz": "ngenheit zurückkehrt, will er die Zukunft verändern und den Untergang verhindern. »Battle Spirits [Re] ZEKKAI NO KU« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 16:30 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Mittwoch",
+          "zeit": "19:00",
+          "satz": "en verfolgt wird, schließt er sich ihm an und begibt sich auf eine Reise, die Geschichte schreiben soll. »Dandivine« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 19:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Mittwoch",
+          "zeit": "17:15",
+          "satz": "Shijima landet im Cockpit des legendären Roboters und muss sich der neuen Bedrohung stellen. »Magic Knight Rayearth« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 17:15 Uhr Hinweis: Deutsche Synchronisation angek"
+        },
+        {
+          "tag": "Mittwoch",
+          "zeit": "15:00",
+          "satz": "phiro, die drei Mädchen als legendäre Magic Knights um Hilfe, um ihre Welt zu retten. »Sasaki and Peeps« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Dienstag",
+          "zeit": "16:45",
+          "satz": "ger Magier aus einer anderen Welt ist, der Sasaki mit besonderen Kräften ausstattet. »Super Psychic Policeman Chojo« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 16:45 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Dienstag",
+          "zeit": "15:30",
+          "satz": "uku für Recht und Ordnung und stellt sich den dortigen Verbrechern entgegen. »The Cold Sato-san is Only Sweet to Me« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 15:30 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Mittwoch",
+          "zeit": "15:30",
+          "satz": "Durch ihre gemeinsamen Interessen kommen sich die beiden langsam näher. »The Detective Is Already Dead« – Staffel 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 15:30 Uhr Hinweis: Deutsche Synchronisation angek"
+        },
+        {
+          "tag": "Dienstag",
+          "zeit": "17:30",
+          "satz": "wörung und zurück zu seiner verstorbenen Partnerin. »The Laid-Off Cheat-Granting Mage Enjoys a Second Lease on Life« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Dienstag um 17:30 Uhr Stream: Prime Video , Crunchyroll Handl"
+        },
+        {
+          "tag": "Mittwoch",
+          "zeit": "15:00",
+          "satz": "usgestoßene, mit denen er gegen Monster kämpft und nach einem Platz in der Welt sucht. »The World’s Strongest Witch« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Mittwoch um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
+        }
+      ],
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-08"
+    },
+    {
+      "articleTitle": "AniMoon startet Online-Rabattaktion zur Frankfurter Buchmesse 2026",
+      "articleUrl": "https://www.anime2you.de/news/1058234/animoon-frankfurter-buchmesse-2026-rabattaktion/",
+      "publishedAt": "2026-10-07",
+      "category": "disc",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-11",
+          "context": ". 10 % Rabatt mit Code Mit dem Gutscheincode FBM26 gibt es vom 7. bis 11. Oktober 2026 im AniMoon-Shop einen Preisnachlass in Höhe von 10 Pr"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Design der 4K-Steelbook-Edition von »Suzume« + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1058090/suzume-4k-steelbook-edition-design/",
+      "publishedAt": "2026-10-07",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "026 Das limitierte 4K-Steelbook von »Suzume« kommt voraussichtlich am 4. Dezember 2026 in den Handel. Dieses beinhaltet den rund 122-minütig"
+        },
+        {
+          "month": "2026-12",
+          "context": "t, das ihr euch weiter unten in diesem Artikel ansehen könnt. Release im Dezember 2026 Das limitierte 4K-Steelbook von »Suzume« kommt voraus"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Design der Blu-ray-Staffelbox von »A Wild Last Boss Appeared!« + Extras",
+      "articleUrl": "https://www.anime2you.de/news/1058101/a-wild-last-boss-appeared-blu-ray-design/",
+      "publishedAt": "2026-10-07",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-11-06",
+          "context": "el auf Deutsch und Japanisch beinhaltet, erscheint voraussichtlich am 6. November […] Der Beitrag Design der Blu-ray-Staffelbox von »A Wil"
+        },
+        {
+          "month": "2026-11",
+          "context": "t, das ihr euch weiter unten in diesem Artikel ansehen könnt. Release im November 2026 Die Komplettbox, die alle zwölf Episoden der ersten S"
+        }
+      ],
+      "dub": "ja",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Sieben Anime-Neustarts ab sofort bei ADN verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1057665/adn-nia-liston-simulcast-und-mehr/",
@@ -123,7 +248,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-05"
+      "sammelGelesen": "2026-10-08"
     },
     {
       "articleTitle": "Drei Anime-Neuzugänge ab sofort auf Netflix verfügbar",
@@ -137,7 +262,7 @@
       "dub": "ja",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-05"
+      "sammelGelesen": "2026-10-08"
     },
     {
       "articleTitle": "Acht Anime-Neuzugänge ab sofort auf Crunchyroll verfügbar",
@@ -193,7 +318,7 @@
       ],
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-05"
+      "sammelGelesen": "2026-10-08"
     },
     {
       "articleTitle": "Anime-Drama »A New Dawn« erscheint auf Blu-ray + Design",
@@ -250,7 +375,7 @@
       ],
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-05"
+      "sammelGelesen": "2026-10-08"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -533,7 +658,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-05"
+      "sammelGelesen": "2026-10-08"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -1408,7 +1533,7 @@
           "edition": ""
         }
       ],
-      "discGelesen": "2026-10-07"
+      "discGelesen": "2026-10-08"
     },
     {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",

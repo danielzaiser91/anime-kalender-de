@@ -1,8 +1,8 @@
 {
-  "scrapedAt": "2026-10-07T04:08:06.437Z",
+  "scrapedAt": "2026-10-08T04:10:42.036Z",
   "window": {
-    "from": "2026-08-23",
-    "to": "2026-12-21"
+    "from": "2026-08-24",
+    "to": "2026-12-22"
   },
   "shows": [
     {
@@ -800,313 +800,91 @@
       "batch": true
     },
     {
-      "showId": 1423,
-      "title": "86 EIGHTY-SIX",
-      "originalTitle": "86 ―エイティシックス―",
-      "age": "16+",
-      "url": "https://animationdigitalnetwork.com/de/video/1423",
+      "showId": 197,
+      "title": "Bleach: Memories of Nobody - Movie 1",
+      "originalTitle": "Gekijōban Bleach: Memories of Nobody",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/197",
       "episodes": [
         {
-          "date": "2026-10-08",
+          "date": "2026-10-12",
           "time": "09:00",
-          "episode": 1,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32631-folge-1",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
+          "url": "https://animationdigitalnetwork.com/de/video/197-bleach-memories-of-nobody-movie-1/2515-film",
+          "seasonReference": "bleach_film",
           "order": 1,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 1",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0001/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 2,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32632-folge-2",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 2,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 2",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0002/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 3,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32633-folge-3",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 3,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 3",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0003/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 4,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32634-folge-4",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 4,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 4",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0004/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 5,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32635-folge-5",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 5,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 5",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0005/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 6,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32636-folge-6",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 6,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 6",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0006/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 7,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32637-folge-7",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 7,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 7",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0007/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 8,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32638-folge-8",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 8,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 8",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0008/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 9,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32639-folge-9",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 9,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 9",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0009/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 10,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32640-folge-10",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 10,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 10",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0010/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 11,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32641-folge-11",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 11,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 11",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0011/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 12,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32642-folge-12",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 12,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 12",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0012/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 13,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32643-folge-13",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 13,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 13",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0013/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 14,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32644-folge-14",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 14,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 14",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0014/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 15,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32645-folge-15",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 15,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 15",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0015/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 16,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32646-folge-16",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 16,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 16",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0016/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 17,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32647-folge-17",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 17,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 17",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0017/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 18,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32648-folge-18",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 18,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 18",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0018/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 19,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32649-folge-19",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 19,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 19",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0019/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 20,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32650-folge-20",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 20,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 20",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0020/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 21,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32651-folge-21",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 21,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 21",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0021/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 22,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32652-folge-22",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 22,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 22",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0022/web/license_320x180.jpg"
-        },
-        {
-          "date": "2026-10-08",
-          "time": "09:00",
-          "episode": 23,
-          "url": "https://animationdigitalnetwork.com/de/video/1423-eighty-six/32653-folge-23",
-          "season": "1",
-          "seasonReference": "eightysix_tv",
-          "order": 23,
-          "type": "EPS",
-          "duration": 1440,
-          "title": "86 EIGHTY-SIX - Folge 23",
-          "image": "https://image.animationdigitalnetwork.com/license/eightysix/tv_0023/web/license_320x180.jpg"
+          "type": "MOV",
+          "duration": 5571,
+          "title": "Bleach: Memories of Nobody - Movie 1 - Film",
+          "image": "https://image.animationdigitalnetwork.com/license/bleach/film_0001/web/license_320x180.jpg"
         }
       ],
-      "batch": true
+      "batch": false
+    },
+    {
+      "showId": 198,
+      "title": "Bleach: The Diamond Dust Rebellion - Movie 2",
+      "originalTitle": "Bleach - The DiamondDust Rebellion - Mou Hitotsu no Hyourinmaru",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/198",
+      "episodes": [
+        {
+          "date": "2026-10-12",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/198-bleach-the-diamond-dust-rebellion-movie-2/2516-film-1",
+          "seasonReference": "bleach_film",
+          "order": 1,
+          "type": "MOV",
+          "duration": 5565,
+          "title": "Bleach: The Diamond Dust Rebellion - Movie 2 - Film 1",
+          "image": "https://image.animationdigitalnetwork.com/license/bleach/film_0002/web/license_320x180.jpg"
+        }
+      ],
+      "batch": false
+    },
+    {
+      "showId": 352,
+      "title": "Bleach: Fade to Black - Movie 3",
+      "originalTitle": "Bleach : Fade to Black - Kimi no Na wo Yobu",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/352",
+      "episodes": [
+        {
+          "date": "2026-10-12",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/352-bleach-fade-to-black-movie-3/6248-film-1",
+          "seasonReference": "bleach_film",
+          "order": 1,
+          "type": "MOV",
+          "duration": 5632,
+          "title": "Bleach: Fade to Black - Movie 3 - Film 1",
+          "image": "https://image.animationdigitalnetwork.com/license/bleach/film_0003/web/license_320x180.jpg"
+        }
+      ],
+      "batch": false
+    },
+    {
+      "showId": 361,
+      "title": "Bleach: Hell Verse - Movie 4",
+      "originalTitle": "Bleach - Jigoku-Hen",
+      "age": "12+",
+      "url": "https://animationdigitalnetwork.com/de/video/361",
+      "episodes": [
+        {
+          "date": "2026-10-12",
+          "time": "09:00",
+          "episode": 1,
+          "url": "https://animationdigitalnetwork.com/de/video/361-bleach-hell-verse-movie-4/6505-film-1",
+          "seasonReference": "bleach_film",
+          "order": 1,
+          "type": "MOV",
+          "duration": 5635,
+          "title": "Bleach: Hell Verse - Movie 4 - Film 1",
+          "image": "https://image.animationdigitalnetwork.com/license/bleach/film_0004/web/license_320x180.jpg"
+        }
+      ],
+      "batch": false
     }
   ]
 }

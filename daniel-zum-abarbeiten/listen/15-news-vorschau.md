@@ -1,6 +1,6 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-07. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
@@ -28,49 +28,51 @@ Stand: 2026-10-07. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-03-01 | netflix | – unklar | [Netflix startet große Werbeoffensive in 15 weiteren Ländern](https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/) |
 | 2027-05-07, 2027-04-30 | kino | – unklar | [Nintendo verschiebt »The Legend of Zelda«-Film erneut + Bilder](https://www.anime2you.de/news/1010428/the-legend-of-zelda-film-erneut-verschoben/) |
 
-Dazu 49 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 51 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 5 |
-| adn-catalog | 1.5 Tage her | 108 |
+| adn | 0.0 Tage her | 8 |
+| adn-catalog | 2.5 Tage her | 108 |
 | adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 1.6 Tage her | 0 |
-| anime-offline-database | 1.6 Tage her | 8876 |
+| anilist-voices | 2.6 Tage her | 0 |
+| anime-offline-database | 2.6 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 84 |
-| anisearch | 0.7 Tage her | 2800 |
-| anisearch-folgen | 1.6 Tage her | 440 |
-| ann-voices | 1.6 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 56 |
+| anisearch | 0.7 Tage her | 2799 |
+| anisearch-dubs | 0.6 Tage her | 8117 |
+| anisearch-eintraege | **noch nie** | 0 |
+| anisearch-folgen | 2.6 Tage her | 440 |
+| ann-voices | 2.6 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 32 |
 | cartoons | 1.0 Tage her | 1 |
-| cinestar | 1.6 Tage her | 1 |
-| cr-einzelwerke | 13.7 Tage her | 0 |
-| cr-filmbloecke | 13.7 Tage her | 0 |
+| cinestar | 2.6 Tage her | 1 |
+| cr-einzelwerke | 14.7 Tage her | 0 |
+| cr-filmbloecke | 14.7 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 19 |
-| crunchyroll-dub | 1.6 Tage her | 1120 |
-| crunchyroll-neu | 0.0 Tage her | 103 |
-| crunchyroll-offene | 1.6 Tage her | 7 |
+| crunchyroll-dub | 0.0 Tage her | 1121 |
+| crunchyroll-neu | 0.0 Tage her | 107 |
+| crunchyroll-offene | 2.6 Tage her | 7 |
 | crunchyroll-woche | 0.0 Tage her | 64 |
-| fsk | 1.6 Tage her | 3 |
-| justwatch-audio | 1.6 Tage her | 29 |
-| kinoheld | 1.6 Tage her | 0 |
-| link-check | 1.6 Tage her | 287 |
+| fsk | 2.6 Tage her | 3 |
+| justwatch-audio | 2.6 Tage her | 29 |
+| kinoheld | 2.6 Tage her | 0 |
+| link-check | 2.6 Tage her | 287 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 34.8 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 74 |
-| rohfolgen | 0.3 Tage her | 0 |
-| rtlplus-folgen | 1.6 Tage her | 2 |
-| tmdb-folgen | 0.7 Tage her | 867 |
-| tmdb-kino | 1.6 Tage her | 3 |
-| tmdb-titles | 0.7 Tage her | 300 |
-| toggo | 0.0 Tage her | 21 |
-| trailer | 1.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 54 |
-| tv-programm | 0.0 Tage her | 302 |
+| motn | 35.8 Tage her | 1888 |
+| motn-changes | 0.0 Tage her | 24 |
+| rohfolgen | 1.3 Tage her | 0 |
+| rtlplus-folgen | 2.6 Tage her | 2 |
+| tmdb-folgen | 1.7 Tage her | 867 |
+| tmdb-kino | 2.6 Tage her | 3 |
+| tmdb-titles | 1.7 Tage her | 300 |
+| toggo | 0.0 Tage her | 22 |
+| trailer | 1.0 Tage her | 7 |
+| tv-de | 0.2 Tage her | 56 |
+| tv-programm | 0.0 Tage her | 294 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 1.6 Tage her | 4766 |
-| wikidata-titel | 1.6 Tage her | 26 |
-| wikipedia-folgen | 0.0 Tage her | 8 |
-| youtube-check | 1.6 Tage her | 1 |
+| wikidata-imdb | 2.6 Tage her | 4766 |
+| wikidata-titel | 2.6 Tage her | 26 |
+| wikipedia-folgen | 0.0 Tage her | 9 |
+| youtube-check | 2.6 Tage her | 1 |
