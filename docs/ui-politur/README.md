@@ -13,6 +13,7 @@ Die Bilder hier zeigen links vorher (Live-Stand), rechts nachher (gebautes `dist
 | `db-leer-desktop-dunkel.webp`, `db-leer-handy-hell.webp` | Kein Treffer: ein leiser Kasten mit dem, was helfen kann, und dem Knopf „Auch Anime ohne deutsche Synchro zeigen"; die Zeile „davon 0 Anime und 0 Cartoons" entfällt bei null. |
 | `news-handy-dunkel.webp` | News auf dem Handy: die Filterchips rollen seitlich statt vier Zeilen zu füllen. |
 | — | Statuspille „Erschienen" neutral wie „abgeschlossen" — der Akzent stand auf fast jeder Kachel; „laufend" und „angekündigt" behalten ihre Farbe. |
+| — | Vergrößertes Cover (Klick aufs Panel-Bild): das TMDB-Plakat kommt nur, wenn es dasselbe Motiv wie das AniList-Cover ist (dHash-Vergleich zweier Kleinstbilder beim Öffnen); sonst bleibt das Panel-Bild (Daniel, Ishura). Klick-Test für die kleinen Ziele: `node tools/archiv/klick-ziele.mjs`. |
 | — | Alle Übergänge höchstens 150 ms (Cover-Zoom, Cover-Überblendung, Leisten, Panel-Einfahren); `prefers-reduced-motion` global in `styles.css` statt an einzelnen Stellen. |
 
 ## Messung (gedrosseltes Handy, `node tools/archiv/ladegewicht-messung.mjs --lokal=dist --n=3`)
