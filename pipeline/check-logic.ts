@@ -8202,7 +8202,7 @@ console.log('\nGoogle-Kalender: wöchentliche Serie:')
 console.log('\nAusgestrahlt ohne deutschen Beleg:')
 {
   /* Ranma 1/2 Staffel 3 (Daniel, 04.10.2026): Weg da, kein deutscher Beleg → hinter den Toggle; belegte und alte Titel bleiben. */
-  const titel = (jpYear: number, streams: { platform: string; dub?: boolean }[], extra: Partial<Title> = {}) => ({ id: 1, jpYear, streams, ...extra }) as unknown as Title
+  const titel = (jpYear: number, streams: { platform: string; dub?: boolean }[], extra: Partial<Title> = {}) => ({ id: 999_999_999, jpYear, streams, ...extra }) as unknown as Title
   pruefe('neue Staffel mit ungeprüftem Weg und ohne Beleg wird verschoben', ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }])))
   pruefe('ein Weg mit belegter Synchro bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix', dub: true }])))
   pruefe('eine Erstausgabe-Marke bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }], { deErstausgabe: { synchro: true } } as Partial<Title>)))
@@ -8503,6 +8503,21 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   pruefe('Deutsch (c, d) nur hinter dem Toggle wird gemeldet, - und Ankündigung (p, noch nicht gestartet) nicht', abseits([]).join() === '10,13', abseits([]))
   pruefe('eigener Titel oder zugeordneter AniList-Titel im Hauptbestand genügt', abseits([10_000_010, 503]).length === 0)
   pruefe('Handurteil „keine Synchro" nimmt den Eintrag aus', dubNurHinterToggle(new Set(), '2026-10-08', new Set([500, 10_000_013]), zuordnung, eintraege).length === 0)
+  /* Geplanter Dub (p) bei angekündigtem oder noch nicht gestartetem AniList-Titel ist ein dokumentierter Grund; für d und c gilt er nicht (Scott Pilgrim hebt ab, Lauf 37832745133). */
+  const gestartetP = { ...eintraege, 12: eintrag('p', '2026-10-08') }
+  const mitP = (angekuendigt: number[]) => dubNurHinterToggle(new Set(), '2026-10-08', ausgenommen, { ...zuordnung, 502: { anisearchId: 12 } }, gestartetP, new Set(angekuendigt)).join()
+  pruefe('geplanter Dub, gestartet, AniList-Titel nicht im Hauptbestand: wird gemeldet', mitP([]) === '10,12,13', mitP([]))
+  pruefe('geplanter Dub bei angekündigtem AniList-Titel: dokumentierter Grund', mitP([502]) === '10,13', mitP([502]))
+  pruefe('ein Grund „angekündigt" gilt nicht für vertont (d) oder abgebrochen (c)', mitP([500, 502, 503]) === '10,13', mitP([500, 502, 503]))
+}
+/* aniSearch „vertont" (d) oder „abgebrochen" (c) ist ein Synchro-Beleg: der Titel bleibt trotz Streams ohne eigenen Beleg im Hauptbestand; „geplant" (p) nicht. */
+{
+  const ohneBelegAls = (id: number) => ausgestrahltOhneBeleg({ id, jpYear: 2026, streams: [{ platform: 'netflix' } as never] } as unknown as Title)
+  const dubs = JSON.parse(readFileSync('data/anisearch-dubs.json', 'utf8')) as Record<string, string>
+  const mit = (k: string) => Number(Object.keys(dubs).find((id) => dubs[id] === k))
+  pruefe('aniSearch vertont (d): kein Verschieben hinter den Toggle', !ohneBelegAls(mit('d')))
+  pruefe('aniSearch abgebrochen (c): kein Verschieben hinter den Toggle', !ohneBelegAls(mit('c')))
+  pruefe('aniSearch nur geplant (p) oder ohne Deutsch (-): bleibt ohne Beleg', ohneBelegAls(mit('p')) && ohneBelegAls(mit('-')))
 }
 /* Gleiche MAL-Kennung bei einem aniSearch- und einem AniList-Titel: Dublette, außer sie ist in MAL_AUSNAHMEN begründet (Befund 08.10.2026, 4 Dubletten). */
 {

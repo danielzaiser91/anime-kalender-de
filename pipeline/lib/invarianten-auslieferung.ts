@@ -33,7 +33,7 @@ export interface SynchroQuellen {
  * Bekannt offen, bis die Ursache behoben ist (08.10.2026: der Bestandsbau brach daran ab, Scott Pilgrim Takes Off 170206:
  * aniSearch führt ihn mit „d", sein Zwilling kommt nicht in den Hauptbestand). Läuft am 15.10.2026 ab, danach wird die Regel wieder hart.
  */
-const BEKANNT_OFFEN = new Set<number>([170206])
+const BEKANNT_OFFEN = new Set<number>([])
 const BEKANNT_OFFEN_BIS = '2026-10-15'
 
 /**
