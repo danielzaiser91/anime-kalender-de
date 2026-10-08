@@ -10,7 +10,7 @@
       "dateien": 443
     },
     "web/src": {
-      "funktionen": 5516,
+      "funktionen": 5545,
       "dateien": 1108
     },
     "worker/src": {
@@ -18,8 +18,8 @@
       "dateien": 830
     },
     "extension": {
-      "funktionen": 7342,
-      "dateien": 16647
+      "funktionen": 7344,
+      "dateien": 16649
     },
     "tools": {
       "funktionen": 265,

@@ -614,6 +614,7 @@ Idee 2 aus [ideen-2026-10-08.md](ideen-2026-10-08.md). Quellen, Auflagen und Vol
 - **Abgleich** (`web/src/lib/sprecher.ts`, `sucheSprecher`): jedes Suchwort muss im normalisierten Namen stehen (`shared/sprecher.ts`: Kleinschreibung, ä→a, ß→ss, Akzente weg); ganzer Name vor Wortanfang vor Teil, dann Titelzahl. Keine unscharfe Suche — ein Name ist eine Behauptung über eine Person. Höchstens 8 Namen, der Rest als „N weitere — genauer tippen".
 - **Anzeige:** Gruppe „Sprecher" über den Treffern in Datenbank und Woche (`role="status"` sagt die Trefferzahl an), je Name ein Aufklapp-Knopf (`aria-expanded`/`aria-controls`, 44 px hoch), darunter die Titel mit Rolle als Sprung ins Panel, bei ANN-Rollen der Pflichtlink „ANN ↗". Genau ein Treffer mit vollem Namen klappt von selbst auf. Im Panel sind die Namen unter „Deutsche Stimmen" Knöpfe (`zurSprecherSuche`: Panel zu, `#/datenbank?q=<Name>`).
 - **Was sie nicht tut:** keine Bewertung, keine Sprecher-Seite mit Biografie, keine Zusammenlegung von Schreibvarianten, kein Eintrag in `SUCHFELD_ARTEN` (das Fragezeichen am Suchfeld nennt „Sprecher" noch nicht — nachziehen, wenn Daniel die Vorschau freigibt).
+
 ## Rollbare Reihen auf dem Handy: `sr-only` braucht einen positionierten Vorfahren (08.10.2026)
 
 Die Datenbank-Schalter rollen auf dem Handy seitlich (`overflow-x-auto`, Pillen `shrink-0 whitespace-nowrap`). Beim ersten Bau standen

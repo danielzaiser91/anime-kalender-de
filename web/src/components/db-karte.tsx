@@ -202,8 +202,8 @@ const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 grou
  *
  * Die FSK ist eine Angabe und steht immer. Stern, Auge und Teilen erscheinen wie in der Wochen-Kachel erst beim
  * Zeigen oder per Tastatur — vorher lag ein dunkler Streifen auf jedem Cover, im hellen Thema am auffälligsten.
- * Ein gesetzter Stern bleibt sichtbar. Auf dem Handy (unter `sm`) wären die Knöpfe 28-px-Ziele auf dem Bild;
- * dort steht nur der gesetzte Stern als Zeichen, bedient wird im Panel.
+ * Ein gesetzter Stern bleibt sichtbar. Der Stern ist auf jedem Gerät ein Knopf (28 px, kein zusätzlicher
+ * Treffer-Wrapper); Auge und Teilen gibt es auf dem Handy (unter `sm`) im Panel, nicht auf dem Bild.
  */
 function KartenKnoepfe({ main, favorite, onToggleFavorite, onToggleHidden, onShare, copied }: {
   main: Title
@@ -213,23 +213,15 @@ function KartenKnoepfe({ main, favorite, onToggleFavorite, onToggleHidden, onSha
   onShare?: () => void
   copied: boolean
 }) {
-  const { t } = useLang()
   return (
-    <span className="absolute right-1 top-1 flex flex-col items-end gap-1">
+    <span className="absolute right-1 top-1 flex flex-col items-end gap-1" onClick={(e) => e.stopPropagation()}>
       {main.fsk !== undefined && <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />}
-      {favorite && (
-        <span className="text-base text-amber-400 drop-shadow-[0_1px_2px_rgba(0,0,0,.8)] sm:hidden" role="img" aria-label={t('kal.favorit')}>
-          ★
-        </span>
-      )}
-      <span className="hidden flex-col items-end gap-1 sm:flex" onClick={(e) => e.stopPropagation()}>
-        <span className={`${KNOPF_GRUND} ${favorite ? '' : ERST_BEIM_ZEIGEN}`}>
-          <FavoriteStar active={favorite} onToggle={onToggleFavorite} />
-        </span>
-        <span className={`${KNOPF_GRUND} ${ERST_BEIM_ZEIGEN}`}>
-          <HideEye hidden={false} onToggle={onToggleHidden} />
-          {onShare && <ShareIcon onShare={onShare} copied={copied} />}
-        </span>
+      <span className={`${KNOPF_GRUND} ${favorite ? '' : ERST_BEIM_ZEIGEN}`}>
+        <FavoriteStar active={favorite} onToggle={onToggleFavorite} />
+      </span>
+      <span className={`${KNOPF_GRUND} hidden sm:flex ${ERST_BEIM_ZEIGEN}`}>
+        <HideEye hidden={false} onToggle={onToggleHidden} />
+        {onShare && <ShareIcon onShare={onShare} copied={copied} />}
       </span>
     </span>
   )
