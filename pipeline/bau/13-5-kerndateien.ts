@@ -1,6 +1,7 @@
 import { writeJson, readJson, log } from '../lib/util.ts'
 import { pruefeInvarianten, zaehlworteStimmen } from '../lib/invarianten.ts'
 import { OUT } from './grundlagen.ts'
+import { auslieferungsInvarianten } from './auslieferung-pruefen.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
 import { omuTitelAusKatalog } from '../lib/news-omu.ts'
 import { belegeFuerAlle, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
@@ -29,6 +30,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
     `watchLinks` mit eigener Plattform und bleiben unberührt.
   */
   bruecheBeiWiderspruchAb(pruefeInvarianten(releases, events, titles))
+  bruecheBeiWiderspruchAb({ fehler: auslieferungsInvarianten(), warnungen: [] })
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
 
