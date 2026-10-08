@@ -13,6 +13,8 @@ const ANILIST = [
   ['medium', 230],
   ['large', 460],
 ] as const
+/** Kachel-Cover bis Dichte 1,5: AniList `medium` (~150 statt ~550 KB als PNG); Kachel und Offline-Vorrat nehmen dieselbe Größe. */
+export const KACHEL_DICHTE = 1.5
 const TMDB = [92, 154, 185, 342, 500, 780]
 
 export function coverBild(
@@ -20,14 +22,17 @@ export function coverBild(
   cssBreite: number,
   /** Für Raster, deren Kartenbreite mit dem Fenster wächst: die `sizes`-Angabe selbst. */
   sizes = `${cssBreite}px`,
+  /** Höchste bediente Pixeldichte (Standard 2). Kacheln nehmen 1,5: AniList liefert nur PNG/JPG, `large` wiegt als PNG bis 550 KB, `medium` rund 150 KB. */
+  dichte = 2,
 ): { src?: string; srcSet?: string; sizes?: string } {
   if (!url) return {}
   const a = /\/cover\/(small|medium|large|extraLarge)\//.exec(url)
   if (a) {
     const obergrenze = a[1] === 'extraLarge' ? 3 : ANILIST.findIndex(([n]) => n === a[1]) + 1
-    const stufen = ANILIST.slice(0, obergrenze)
+    const zulaessig = ANILIST.filter(([, w], i) => i === 0 || w <= cssBreite * dichte).length
+    const stufen = ANILIST.slice(0, Math.min(obergrenze, zulaessig))
     const variante = (n: string) => url.replace(a[0], `/cover/${n}/`)
-    const passend = stufen.find(([, w]) => w >= cssBreite * 2) ?? stufen[stufen.length - 1]!
+    const passend = stufen.find(([, w]) => w >= cssBreite * dichte) ?? stufen[stufen.length - 1]!
     return {
       src: variante(passend[0]),
       srcSet: stufen.map(([n, w]) => `${variante(n)} ${w}w`).join(', '),

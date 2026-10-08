@@ -19,7 +19,7 @@ import { Header } from './components/Header.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
 import { SeitenAnsicht } from './components/SeitenAnsicht.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
-import { coverBild } from './lib/cover.ts'
+import { coverBild, KACHEL_DICHTE } from './lib/cover.ts'
 import { FilterBarDock } from './components/FilterBar.tsx'
 import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
 import { DatabaseView } from './components/DatabaseView.tsx'
@@ -91,7 +91,8 @@ export default function App() {
   /* TV-Termine ausblenden. */
   const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
   const [route, navigate] = useRoute()
-  const geruest = useVorschau('startgeruest') === 'skelett'
+  /* Standard seit 08.10.2026 (CLS 0,607 durch die Zwischenwoche); „spinner" ist der alte Start. */
+  const geruest = useVorschau('startgeruest') !== 'spinner'
   const dbReserve = useVorschau('db-reserve') === 'ruhig'
   const { favorites, toggle } = useFavorites()
   const { hidden, toggle: toggleHidden } = useHidden()
@@ -119,7 +120,7 @@ export default function App() {
     const to = addDays(from, 13)
     const urls = data.events
       .filter((e) => e.date >= from && e.date <= to)
-      .map((e) => coverBild(data.titleById.get(e.titleId)?.coverImage, 160).src)
+      .map((e) => coverBild(data.titleById.get(e.titleId)?.coverImage, 160, undefined, KACHEL_DICHTE).src)
       .filter((url): url is string => Boolean(url))
     cacheCoversForOffline(urls)
   }, [data, today])

@@ -4,7 +4,7 @@ import { PLATFORMS } from '@shared/types.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { useShare } from '../../lib/share.ts'
-import { coverBild } from '../../lib/cover.ts'
+import { coverBild, KACHEL_DICHTE } from '../../lib/cover.ts'
 import { FavoriteStar, HideEye, ShareIcon, Tooltip } from '../ui.tsx'
 import { anbieterUndFolge, VerpasstMarke, ZeitMarke } from './Marken.tsx'
 import { FundstellenZeichen, TrefferName } from '../Suchtreffer.tsx'
@@ -95,7 +95,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
   const { share, copiedSlug } = useShare()
   const cover = p.title?.coverImage
   const farbe = PLATFORMS[p.event.platform]?.color ?? '#888'
-  const bild = coverBild(cover, p.breit ? 320 : 160, p.breit ? '(min-width: 1024px) 320px, 92vw' : '(min-width: 1024px) 160px, 46vw')
+  const bild = coverBild(cover, p.breit ? 320 : 160, p.breit ? '(min-width: 1024px) 320px, 92vw' : '(min-width: 1024px) 160px, 46vw', KACHEL_DICHTE)
   return (
     <div className="relative">
     <div

@@ -122,7 +122,7 @@
         0%, 70%, 100% { opacity: 0.25; transform: scale(0.8) }
         35% { opacity: 1; transform: scale(1) }
       }
-      /* Vorschau `startgeruest`: statt der Punkte ein Kopf- und Karten-Skelett, schon vor dem Skript-Bündel. */
+      /* Start mit Gerüst (Standard; Vorschau `startgeruest` = `spinner` bringt die Punkte zurück): statt der Punkte ein Kopf- und Karten-Skelett, schon vor dem Skript-Bündel. */
       #ak-geruest { display: none }
       html.ak-geruest #ak-ladeschirm { display: block; place-items: unset }
       html.ak-geruest #ak-ladeschirm > div:first-child { display: none }
@@ -139,7 +139,7 @@
     <script>
       document.documentElement.classList.add('ak-laedt')
       try {
-        if (JSON.parse(localStorage.getItem('ak-vorschau') || '{}').startgeruest === 'skelett') {
+        if (JSON.parse(localStorage.getItem('ak-vorschau') || '{}').startgeruest !== 'spinner') {
           // Thema schon jetzt wählen (wie main.tsx), sonst zeigt das Gerüst kurz die falsche Farbe.
           var t = localStorage.getItem('theme')
           var dunkel = t ? t === 'dark' : !matchMedia('(prefers-color-scheme: light)').matches
