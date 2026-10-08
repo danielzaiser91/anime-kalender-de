@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-08T11:25:55.668Z",
+  "stand": "2026-10-08T11:41:41.952Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -8063,17 +8063,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-08",
       "letzterWeg": false
-    },
-    {
-      "titleId": 10011742,
-      "titel": "Black Clover",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-08",
-      "letzterWeg": true
     },
     {
       "titleId": 141534,
