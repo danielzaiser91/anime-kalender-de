@@ -138,3 +138,5 @@ Newsletter) — eine Zeile, kein neues Schema.
   Handy `docs/meine-woche-{an,leer}-handy-{hell,dunkel}.png`. Messung: Überbreite 0, Konsolenfehler 0.
 - Ohne Vorschau: `KalenderBereich` zeichnet exakt wie vorher (ein `useVorschau`, ein `useSyncExternalStore`
   mehr, kein zusätzlicher Abruf).
+
+**Stand 09.10.2026 (Daniel):** zurückgestellt, nicht auf die Webseite. Am 16.10.2026 erneut vorstellen (Mockup `daniel-zum-abarbeiten/mockups/meine-woche.html`), dann entscheiden, ob wir es nehmen. Die Idee ist interessant.

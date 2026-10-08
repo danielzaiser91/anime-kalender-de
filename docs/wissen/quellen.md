@@ -3287,3 +3287,7 @@ Titel heute (Seite 3 von 3). Den Katalog holte nur `refresh-weekly.yml`.
 Fix: Nachlauf ohne `format_in`, Filter `gehoertInKatalog()` (formatlos nur bei `NOT_YET_RELEASED`); `data:katalog -- --frisch`
 läuft täglich in `refresh-data.yml` (laufendes + 3 Jahre, 500 jüngste Kennungen, ~30 Abfragen); danach prüft eine
 Stichprobe die 100 jüngsten Kennungen gegen den Katalog und beendet den Schritt sonst rot.
+
+## Crunchyroll: bestehende Abrufe bleiben eingeschränkt (Daniel, 09.10.2026)
+
+Die Nutzungsbedingungen von Crunchyroll (§5) untersagen automatisierten Zugriff und gewerbliche Nutzung (Wortlaut in `sammelartikel-poc.md`). Entscheidung von Daniel (Option A, eingeschränkt, Vorschlag angenommen): Die bestehenden Abrufe (Wochenkalender, Beleg-Lesung, Dub-Abfrage über die Weiche) bleiben mit niedriger Frequenz und ohne Konto. Es kommen keine neuen Crunchyroll-Abrufe dazu; Crunchyroll dient höchstens als Gegenprobe. Bei einer Sperre oder einem Schreiben von Crunchyroll wird sofort eingestellt (dann Option B: nur der öffentliche Kalender, Synchro-Belege aus aniSearch, Anime2You, JustWatch und den Meldungen der Erweiterung). Nichtkommerziell, wie bei JustWatch entschieden.
