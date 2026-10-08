@@ -211,6 +211,8 @@
   let gemeldeteAdressen = new Set()
   /* Adressen mit Wiedervorlage, zu denen nach deren `seit` gemeldet wurde — siehe `istErledigt`. */
   let erneutBeantwortet = new Set()
+  /* Adressen, zu denen die Ferne (`?gemeldet=`) Meldungen kennt, die die 30 Minuten alte Liste noch nicht führt. */
+  let wartetAufUebernahme = new Set()
   /* Für den Durchgang (`disney-durchgang.js`): Ergebnis von Prüfen und Melden als Ereignis. */
   const signal = (art, detail) => document.dispatchEvent(new CustomEvent(`ak-disney-${art}`, { detail }))
 
@@ -281,35 +283,8 @@
     void vielleichtPruefen()
   })
 
-  /**
-   * Arbeitet eine Liste in mehreren Bahnen ab.
-   *
-   * Nacheinander mit 300 ms Pause brauchten 56 Folgen über eine Minute, und
-   * beim Melden zählte der Knopf sichtbar durch (Daniel, 26.08.2026:
-   * „beschleunige das"). Die Antwortzeit liegt bei rund 200 ms je Aufruf, also
-   * wartet der Ablauf die meiste Zeit.
-   *
-   * Fünf Bahnen sind ein Kompromiss: schnell genug, dass niemand zusieht, und
-   * weit entfernt von dem, was ein Mensch beim Durchklicken auslösen würde.
-   * Die Reihenfolge bleibt erhalten, weil jedes Ergebnis an seinen Platz
-   * zurückgeschrieben wird.
-   */
-  const BAHNEN = 5
-  async function inBahnen(liste, arbeit, melde) {
-    const raus = new Array(liste.length)
-    let naechster = 0
-    let fertig = 0
-    const bahn = async () => {
-      for (;;) {
-        const i = naechster++
-        if (i >= liste.length) return
-        raus[i] = await arbeit(liste[i], i)
-        melde?.(++fertig)
-      }
-    }
-    await Promise.all(Array.from({ length: Math.min(BAHNEN, liste.length) }, bahn))
-    return raus
-  }
+  /* Bahnen, Senden mit Wiederholung, frische Meldungen: `disney-netz.js` */
+  const { inBahnen } = globalThis.AK_DISNEY_NETZ
 
   const frage = (playbackId) =>
     new Promise((fertig) => {
@@ -435,7 +410,7 @@
       „alles gemeldet“ da, und auf der Titelseite gab es nichts zu melden (26.09.2026).
     */
     if (e.seit) return erneutBeantwortet.has(e.url)
-    return briefkasten.has(e.url) || gemeldeteAdressen.has(e.url)
+    return briefkasten.has(e.url) || gemeldeteAdressen.has(e.url) || wartetAufUebernahme.has(e.url)
   }
 
   function offeneEintraege() {
@@ -487,6 +462,12 @@
       if (e.seit && e.url && (await gemeldeteHolen(e.url, e.seit)).size) beantwortet.add(e.url)
     }
     erneutBeantwortet = beantwortet
+    /* Autoritativ je offener Adresse nachfragen (gebündelt, gemerkt); ohne Auskunft bleibt der Zustand. */
+    const offene = offeneEintraege().filter((e) => !e.seit && !istErledigt(e)).map((e) => e.url)
+    wartetAufUebernahme = await globalThis.AK_DISNEY_NETZ.frischGemeldet(
+      [...new Set([...offene, ...wartetAufUebernahme])],
+      (u) => gemeldeteHolen(u),
+    )
   }
 
   function dialogSchliessen() {
@@ -596,11 +577,13 @@
         /* Ohne Meldung: was unser Bestand erwartet, mit „ca." — Disney+ teilt Staffeln anders ein. */
         const grau = document.createElement('span')
         grau.style.cssText = 'margin-left:8px;opacity:.6'
+        const wartet = istErledigt(e)
         const folgenZahl = e.staffeln
           .filter((st) => st.offen)
           .reduce((n, st) => n + (st.folgen ?? 0), 0)
-        grau.textContent =
-          `${e.offen} Staffel${e.offen === 1 ? '' : 'n'}` + (folgenZahl ? `, ca. ${folgenZahl} Folgen` : '')
+        grau.textContent = wartet
+          ? 'gemeldet, wartet auf Übernahme'
+          : `${e.offen} Staffel${e.offen === 1 ? '' : 'n'}` + (folgenZahl ? `, ca. ${folgenZahl} Folgen` : '')
         zeile.appendChild(grau)
       }
 
@@ -703,7 +686,7 @@
 
     if (!zuPruefen.length) {
       zeigePruefung(`${eintrag.titel}\n✓ ${nachStaffeln(alle)} gemeldet`, { klasse: 'gut' })
-      return signal('geprueft', { url: eintrag.url, zuMelden: 0 })
+      return signal('geprueft', { url: eintrag.url, zuMelden: 0, schon: alle.length })
     }
     zeigePruefung(
       `${eintrag.titel}\nprüfe ${zuPruefen.length} Folgen …` +
@@ -805,12 +788,12 @@
       })
 
     let geschafft = 0
-    const gescheitert = []
+    const gescheitert = new Map() // Folgenschlüssel → Fehlertext
     await inBahnen(
       echte,
       async (r) => {
-      try {
-        const antwort = await fetch(WORKER, {
+        /* Mit Wiederholung und `keepalive` (`disney-netz.js`): ein Fehlschlag ohne Antwort ist meist vorübergehend. */
+        const antwort = await globalThis.AK_DISNEY_NETZ.sende(WORKER, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
           body: JSON.stringify({
@@ -830,22 +813,7 @@
             staffel: r.staffel,
             staffeln,
             serientitel: eintrag.titel,
-            /*
-              **Die Rohfolge — sammeln und zuordnen sind getrennt.**
-
-              Daniel am 01.09.2026: „wenn disney+ sich entscheidet staffeln und
-              episoden wild zu gruppieren, muss das dem sammeln egal sein,
-              einfach alles melden was da ist."
-
-              Der Anlass steht am selben Tag im Bestand: Disney+ führt „Go, Go,
-              Loser Ranger" als **eine** Staffel mit 24 Folgen, unser Bestand als
-              zwei zu je zwölf. Der Beleg gab alle 24 dem ersten Titel — ein
-              Bereich „1 bis 24" bei zwölf Folgen.
-
-              Was hier mitgeht, ist die Angabe der Seite, unverändert. Ob die
-              Staffelnummer stimmt, entscheidet `fetch-rohfolgen.ts` über
-              Folgentitel und Erstausstrahlung, nicht der Sammler.
-            */
+            /* Die Rohfolge, unverändert: Sammeln und Zuordnen sind getrennt (docs/wissen/erweiterung.md, 01.09.2026). */
             rohfolgen: [
               {
                 gti: r.playbackId ?? null,
@@ -865,20 +833,24 @@
           /* Sofort merken — ein zweiter Klick soll nichts verdoppeln. */
           gemeldeteNummern.add(folgenSchluessel(r.staffel, r.nummer))
         } else {
-          gescheitert.push(`S${r.staffel}E${r.nummer}: HTTP ${antwort.status}`)
+          /* Eine ausgefallene Meldung ist kein Grund, die übrigen zu lassen. */
+          gescheitert.set(folgenSchluessel(r.staffel, r.nummer), `S${r.staffel}E${r.nummer}: ${antwort.fehler}`)
         }
-      } catch (fehler) {
-        /* Eine ausgefallene Meldung ist kein Grund, die übrigen zu lassen. */
-        gescheitert.push(`S${r.staffel}E${r.nummer}: ${fehler}`)
-      }
       },
       (n) => zeigePruefung(`${eintrag.titel}\nmelde ${n}/${echte.length}`, { laeuft: true }),
+      3, // Bahnen: fünf gleichzeitige Meldungen brachten Fehlschläge ohne Antwort (08.10.2026)
     )
-    if (gescheitert.length) {
-      console.warn(`[Anime-Kalender] ${gescheitert.length} Meldungen kamen nicht an:`, gescheitert)
+    /* Die Anfrage kann angekommen sein und nur die Antwort ausgeblieben (Naruto Shippuden: 166/166 da, 14 „Failed to fetch“) — erst fragen, dann „nicht angekommen“. */
+    if (gescheitert.size)
+      for (const k of await gemeldeteHolen(eintrag.url ?? location.href.split('?')[0]))
+        if (gescheitert.delete(k)) (geschafft++, gemeldeteNummern.add(k))
+    if (geschafft) wartetAufUebernahme.add(eintrag.url ?? location.href.split('?')[0])
+    const fehler = [...gescheitert.values()]
+    if (fehler.length) {
+      console.warn(`[Anime-Kalender] ${fehler.length} Meldungen kamen nicht an:`, fehler)
       /* Verlorene Befunde gehen an den Worker, nicht in die Konsole (10.09.2026). */
       void vorfallMelden('melden_fehlgeschlagen', {
-        text: `${gescheitert.length} Meldung(en) kamen nicht an: ${gescheitert.slice(0, 3).join('; ')}`,
+        text: `${fehler.length} Meldung(en) kamen nicht an: ${fehler.slice(0, 3).join('; ')}`,
       })
     }
     await briefkastenHolen()
@@ -891,11 +863,12 @@
       `${eintrag.titel}\n✓ ${nachStaffeln(
         alle.filter((f) => gemeldeteNummern.has(folgenSchluessel(f.staffel, f.nummer))),
       )} gemeldet (${echte.filter((r) => r.sprachen.includes('de')).length}× deutsch)` +
-        (gescheitert.length ? `\n${gescheitert.length} kamen nicht an — siehe Konsole` : '') +
+        (fehler.length ? `\n${fehler.length} kamen nicht an — Klick sendet sie erneut` : '') +
         `\nÜbernahme ab ${uhrzeit(naechsteUebernahme())}`,
       {
         /* Rot heißt: etwas kam nicht an — der Grund steht in der Zeile darunter. */
         klasse: geschafft === echte.length ? 'gut' : 'schlecht',
+        klick: geschafft === echte.length ? null : melden,
       },
     )
     signal('gemeldet', { ok: geschafft === echte.length })

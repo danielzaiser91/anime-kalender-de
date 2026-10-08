@@ -42,7 +42,7 @@
       }
     }
     function beenden(lauf, grund) {
-      const info = { grund, erledigt: lauf.erledigt.length, uebersprungen: lauf.uebersprungen }
+      const info = { grund, erledigt: lauf.erledigt.length, uebersprungen: lauf.uebersprungen, schon: lauf.schon ?? [] }
       try {
         speicher.removeItem(LAUF)
         speicher.setItem(ENDE, JSON.stringify(info))
@@ -60,8 +60,10 @@
       schreiben(lauf)
       oeffne(naechster)
     }
-    function abhaken(lauf, uebersprungen) {
+    function abhaken(lauf, uebersprungen, schon = false) {
       if (uebersprungen) lauf.uebersprungen.push({ url: lauf.aktuell, grund: uebersprungen })
+      /* Schon gemeldet ist kein Überspringen: Der Titel war beantwortet, nur die Liste wusste es nicht. */
+      if (schon) (lauf.schon ??= []).push(lauf.aktuell)
       lauf.erledigt.push(lauf.aktuell)
       weiter(lauf)
     }
@@ -75,7 +77,7 @@
       geprueft(d) {
         const lauf = lesen()
         if (!lauf || lauf.meldet || d?.url !== lauf.aktuell) return
-        if (!(d.zuMelden > 0)) return abhaken(lauf, d.fehler ? `keine Antwort (${d.fehler})` : null)
+        if (!(d.zuMelden > 0)) return abhaken(lauf, d.fehler ? `keine Antwort (${d.fehler})` : null, d.schon > 0)
         lauf.meldet = true
         schreiben(lauf)
         melde()
@@ -98,11 +100,12 @@
     }
   }
   /** Der Text der Endanzeige: je übersprungenem Titel eine Zeile mit Grund — `titelFuer(url)` liefert den Namen. */
-  function endeText({ grund, erledigt, uebersprungen }, titelFuer) {
+  function endeText({ grund, erledigt, uebersprungen, schon = [] }, titelFuer) {
     const kopf = `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'} · ${erledigt} Titel`
-    if (!uebersprungen.length) return kopf
+    const bereits = schon.length ? `\n${schon.length} schon gemeldet: ${schon.map(titelFuer).join(', ')}` : ''
+    if (!uebersprungen.length) return kopf + bereits
     const zeilen = uebersprungen.map((u) => `• ${titelFuer(u.url)}: ${u.grund}`)
-    return `${kopf}\n${uebersprungen.length} übersprungen:\n${zeilen.join('\n')}`
+    return `${kopf}${bereits}\n${uebersprungen.length} übersprungen:\n${zeilen.join('\n')}`
   }
   globalThis.akDisneyDurchgang = durchgang
   globalThis.akDisneyEndeText = endeText
