@@ -644,3 +644,23 @@ und die Prüfung im Browser entfällt.
 
 Messung ohne Netz auf den gebauten Ständen (Playwright, Seite aus `dist/` über `page.route`, Handy 390 × 844, CDP 1,6 Mbit/s × 4 als Ersatz für gzip, 150 ms, CPU 4×, Median von 5, 12 s): TBT vor 501 (`0e6bae771`) 260 ms, nach 501 258, nach 502 291, nach 503 271 ms; Desktop 348 / 323 / 320 / 366 ms — kein Sprung, Streuung ±40 ms. Die Live-Seite maß am selben Abend 393–507 ms (acht Läufe `perf.cjs`), nicht 0,9 s; der Wert 0,9 ließ sich nicht wiederholen. Lange Aufgaben (Handy, 4× CPU): erster Aufbau der Woche 4 Stück zu 60–250 ms (die 200+-ms-Aufgabe ist eine erzwungene Layoutberechnung durch `klebendeUnterkante()` beim Sprung zu heute), und eine Aufgabe 90–140 ms beim Einsetzen der vollen Daten (React-Neuzeichnen, kein `JSON.parse`). Letztere läuft jetzt als `startTransition` (Handy 90 → 55 ms, Desktop 95–140 → 91 ms).
 Dress-Up Darling (AniList 132405): dHash-Abstand AniList-Cover gegen TMDB-Plakat = 16 (Schwelle 18, also gleiches Motiv). Die Live-Datei `data/synopses/21.json` (134.250 Byte) enthält den Eintrag 132405 samt `cg` nicht, die im Repo (152.179 Byte, `08bd2d45f`) schon — ohne `cg` gibt es kein großes Plakat. Ursache liegt im ausgelieferten Bestand, nicht an der Schwelle.
+
+## Ein Werk, das auch Anime ist, ist kein Cartoon: Rooster Fighter (09.10.2026)
+
+Daniel (08.10.2026, 23:55): „Rooster Fighter" stand zweimal im Bestand, als Anime (AniList 179813, `ak` 16072, MAL 59393, Disney+ mit Deutsch) und als
+Cartoon (TMDB 259819, Disney+ ohne Deutsch-Angabe). Ursache: `fetch-cartoons.ts` holt alle TMDB-Serien mit Genre Animation und `schreibeCartoons()`
+legt sie an, ohne den Anime-Bestand zu kennen. Regel (Daniel): Was AniList, aniSearch oder MAL als Anime führen, ist ein Anime.
+
+Umsetzung: `pipeline/lib/cartoon-zwilling.ts` (reiner Vergleich), `pipeline/bau/cartoon-zu-anime.ts` (läuft nach `ohne-synchro.json`, damit nur ein
+tatsächlich ausgelieferter Zwilling den Cartoon ersetzt). Belegt ist ein Zwilling über die TMDB-Kennung aus `tmdb-titles.json`, sonst über den vollen
+normalisierten Namen; dazu immer Jahr (±1) und Folgenzahl (gleich oder ganzes Vielfaches, TMDB zählt Staffeln). Ein Cartoon hat keine MAL-Kennung; MAL und
+aniSearch kommen über den Anime-Titel (`malId`, Titel `10_000_000+id`) ins Spiel. Passt Jahr oder Folgenzahl nicht, bleibt der Cartoon stehen und muss in
+`ZWILLING_AUSNAHMEN` begründet sein. Der Umzug steht in `data/cartoon-umzug.json` (wächst nur) und wird in `ak-umleitung.json` zu `[Cartoon, ak]`: gemerkte
+Cartoons (Browser) und `#/…?t=<Cartoon>` ziehen auf den Anime-Titel. Der Worker speichert nur positive Kennungen, dort ändert sich nichts.
+
+Messung 09.10.2026 auf dem Datensatz von `main`: 919 Cartoons, 19 Zwillinge (Rooster Fighter, Devil May Cry, Terminator Zero, Ninja Kamui, Rick and Morty: The Anime,
+Mech Cadets, Scott Pilgrim Takes Off, ONI, Tekken: Bloodline, Star Wars: Visions, Pacific Rim: The Black, Fena, Eden, Blade Runner: Black Lotus, Saint Seiya: Knights of the
+Zodiac, YooHoo to the Rescue, Larva Island, Pac-Man and the Ghostly Adventures, Afro Samurai), 7 gleichnamige, aber andere Werke in `ZWILLING_AUSNAHMEN` (Bakugan ungeklärt).
+Bei 9 der 19 fehlt dem Anime-Titel ein Anbieter, den der Cartoon nannte (Devil May Cry, Mech Cadets, ONI,
+Pacific Rim, YooHoo, Fena, Blade Runner, Saint Seiya, Afro Samurai) — die TMDB-Anbieter des Cartoons gehen mit ihm verloren; als Anime-Weg nachzutragen ist offen.
+Der Vergleich nutzt nur ausgelieferte Dateien; Titel, die nur im AniList-Katalog liegen, sind erst dann Zwillinge, wenn `ohne-synchro.json` sie führt.

@@ -43,6 +43,9 @@ und darf bei keiner Entscheidung aufgeweicht werden.
   der japanische Titel nicht (`bewerteTreffer`). Ein Namensvergleich allein ist kein Beleg.
 - **Ein Vorfilter verschiebt, er löscht nicht** — wer aus dem Hauptbestand fällt, muss nachweislich
   hinter dem Toggle ankommen.
+- **Was AniList, aniSearch oder MAL als Anime führen, ist kein Cartoon** (Daniel, 08.10.2026) — der
+  Cartoon zieht auf den Anime-Titel um (`cartoon-umzug.json`); Beleg: TMDB-Kennung, sonst Name **und**
+  Jahr **und** Folgenzahl, im Zweifel Ausnahmeliste statt Zusammenlegung (`check:logic`).
 - **„Früheste Beobachtung" ist nicht „erste Folge"** (`earliest` ist nur der früheste gesehene Tag),
   und der erste Eintrag einer Staffelliste ist nicht deren erste Folge — nach Nummer zählen.
 - **„Im Angebot seit" ist nicht „erschienen am"** (`dateMeaning: 'available-from'`).
