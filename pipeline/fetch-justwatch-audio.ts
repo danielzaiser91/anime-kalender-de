@@ -67,6 +67,11 @@ interface Befund {
   jwId?: string
   tmdbId?: number
   jwPfad?: string
+  /**
+   * Altersangabe von JustWatch (DE), roh wie geliefert („12", „16", auch ""). Fehlt das Feld, wurde noch
+   * nicht danach gefragt; `null` = JustWatch nennt keine. Anbieter-Einstufung, keine FSK-Freigabe (08.10.2026).
+   */
+  altersangabe?: string | null
   angebote: Angebot[]
   /** Kein Treffer bei JustWatch — festgehalten, damit der Titel nicht täglich neu gesucht wird. */
   ohneTreffer?: boolean
@@ -86,6 +91,7 @@ query Suche($q: String!, $country: Country!, $language: Language!) {
         content(country: $country, language: $language) {
           title
           fullPath
+          ageCertification
           externalIds { tmdbId }
         }
         offers(country: $country, platform: WEB) {
@@ -103,7 +109,7 @@ query Suche($q: String!, $country: Country!, $language: Language!) {
 interface JwKnoten {
   id: string
   objectType: string
-  content: { title: string; fullPath: string; externalIds?: { tmdbId?: number | null } | null }
+  content: { title: string; fullPath: string; ageCertification?: string | null; externalIds?: { tmdbId?: number | null } | null }
   offers?:
     | {
         monetizationType: string
@@ -113,6 +119,15 @@ interface JwKnoten {
         package?: { clearName?: string } | null
       }[]
     | null
+}
+
+/**
+ * Altersangabe nachholen (08.10.2026): Treffer aus der Zeit vor dem Feld haben keine `altersangabe`;
+ * für Titel ohne FSK werden sie vorgezogen — dieselbe Abfrage, nur früher als die 28-Tage-Frist.
+ */
+function alterNachholen(t: Title, bestand: Record<string, Befund>): boolean {
+  const e = bestand[String(t.id)]
+  return t.fsk === undefined && Boolean(e?.jwId && !e.ohneTreffer && e.altersangabe === undefined)
 }
 
 /** Eine Sperre wartet `fetchJson` mit Backoff ab; erst danach kommt sie hier als Fehler an. */
@@ -195,35 +210,9 @@ async function main(): Promise<void> {
     **auf**, und dann muss die Frage neu gestellt werden dürfen.
   */
   /*
-    **Zwei Sorten Lücke, eine Quelle.**
-
-    Die zweite ist die größere und war beim ersten Bau nicht mitgedacht: **243
-    Titel im Hauptbestand haben gar keinen Bezugsweg** (gemessen 07.09.2026),
-    133 davon mit TMDB-Kennung. Für sie beantwortet JustWatch nicht die
-    Sprachfrage, sondern die davor — „wo gibt es das überhaupt?", also Punkt 4
-    des Projektziels („Nicht nur wann, auch wo").
-
-    Ein Titel im Hauptbestand hat per Definition eine belegte deutsche Synchro.
-    Ein Angebot, das JustWatch dort nennt, ist deshalb ein Weg, den wir zeigen
-    dürfen — die Sprachfrage bleibt davon unberührt.
-  */
-  /*
-    **Dritter Grund, hier zu fragen: ein Weg ohne Ziel.**
-
-    Wo TMDB Anbieter nennt, aber keinen Deeplink liefert, trägt der Bezugsweg
-    seit jeher die TMDB-Übersichtsseite — die Pille „maxdome" öffnete also
-    themoviedb.org statt store.maxdome.de. JustWatch nennt
-    je Angebot die Adresse beim Anbieter selbst; gemessen sind das 1.187 Wege auf
-    364 Titeln, und bei den zehn schon gefragten ließen sich 16 von 20 ersetzen.
-
-    Diese Titel haben einen Weg und fielen deshalb durch beide Bedingungen
-    darüber — „hat einen Weg" heißt hier eben nicht „hat ein Ziel".
-  */
-  /*
-    **Seit dem 17.09.2026 fragt der Lauf reihum alle Titel**. Gefragt wurden bis dahin nur die drei Lücken
-    darüber — 1.641 von 2.772 Titeln. Ein neues Angebot bei einem Titel, dessen Wege
-    alle beurteilt sind, kam so nie an (Apple TV, maxdome …). Die drei Lücken stehen
-    weiter vorn in der Schlange; ohne TMDB-Kennung wird gar nicht erst gefragt.
+    Der Lauf fragt reihum alle Titel mit TMDB-Kennung (seit 17.09.2026); vorn stehen drei Lücken: Wege ohne
+    Sprachurteil, Titel ganz ohne Weg (243 im Hauptbestand, 07.09.2026) und Wege, die nur auf die TMDB-Übersicht
+    zeigen statt zum Anbieter (1.187 auf 364 Titeln, 16.09.2026).
   */
   const dringend = (t: Title) =>
     (t.streams ?? []).some((s) => s.dub === undefined) ||
@@ -264,11 +253,13 @@ async function main(): Promise<void> {
       (t) =>
         (bestand[String(t.id)]?.geprueftAm ?? '') < grenze ||
         kennungGewechselt(t) ||
-        fehlschlagOhneKennung(t),
+        fehlschlagOhneKennung(t) ||
+        alterNachholen(t, bestand),
     )
     .sort(
       (a, b) =>
         Number(kennungGewechselt(b)) - Number(kennungGewechselt(a)) ||
+        Number(alterNachholen(b, bestand)) - Number(alterNachholen(a, bestand)) ||
         Number(dringend(b)) - Number(dringend(a)) ||
         (bestand[String(a.id)]?.geprueftAm ?? '').localeCompare(bestand[String(b.id)]?.geprueftAm ?? ''),
     )
@@ -354,6 +345,7 @@ async function main(): Promise<void> {
         jwId: treffer.id,
         tmdbId: erwartet,
         jwPfad: treffer.content.fullPath,
+        altersangabe: treffer.content.ageCertification ?? null,
         angebote,
       }
       getroffen++

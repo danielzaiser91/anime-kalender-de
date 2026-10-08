@@ -3233,3 +3233,21 @@ Rückfall) > Prime-Siegel/ADN (nur Hinweis). Die FSK-Datenbank erst nach geklär
 Anlass: aniSearch antwortete Daniel zu Yu-Gi-Oh! Capsule Monsters (123074), die bei TMDB hinterlegten Erstausstrahlungsdaten seien fehlerhaft: Sie beziehen sich auf die Ausstrahlung im US-TV, die Erstausstrahlung lief Monate früher auf dem irischen Sender RTÉ Two. Folge: Ein TMDB-Datum `first_air_date` ist bei westlichen Auftragsproduktionen kein belegtes Weltpremieren-Datum, sondern höchstens der US-Start. Nicht als „Erstausstrahlung" ausgeben, ohne ein zweites Datum gegenzulesen.
 
 Dieselbe Antwort: Reine Auftragsproduktionen westlicher Firmen (asiatische Produzenten ohne künstlerische Freiheit) nimmt aniSearch nicht auf; Capsule Monsters steht deshalb mit Quelle „aniSearch-Antwort 08.10.2026" in `data/ohne-synchro-von-hand.yaml` (`keinAnime: true`, hinter dem Toggle), ebenso die beiden Diashow-Specials (Princess Principal Picture Drama 100519, Anohana Menma e no Tegami 107342).
+
+## FSK-Rückfall aus JustWatch: Altersangabe als Anbieter-Einstufung (08.10.2026)
+
+Titel ohne FSK-Freigabe (TMDB) bekommen JustWatchs `content.ageCertification` (DE) als `fsk` mit `fskQuelle: 'justwatch'`
+(`pipeline/bau/11-2-1-fsk-justwatch.ts`). Das Feld hängt an derselben Abfrage wie die Tonspuren
+(`fetch-justwatch-audio.ts`, Befund-Feld `altersangabe`, roh; `null` = JustWatch nennt keine) — kein zusätzlicher Abruf.
+Anzeige: „ab 12 laut Anbieter" im Panel, gestrichelter Rand und Tooltip an der Plakette; Termine und Releases tragen weiter nur Freigaben.
+
+- **Rechte (gelesen 08.10.2026):** `robots.txt` von `www.` und `apis.justwatch.com`: `User-agent: *` / `Disallow:` (leer). Die
+  Nutzungsbedingungen (support.justwatch.com/article/just-watchs-terms-of-use) verlangen persönliche, nicht-kommerzielle Nutzung
+  und untersagen Scraping: „users will not engage in or use any data mining, robots, scraping or similar data gathering or
+  extraction methods". Das gilt der Website allgemein, nicht der Altersangabe; die Schnittstelle fragt das Projekt seit
+  07.09.2026 mit Pause und Limit. Wer die Grundsatzfrage neu stellt, stellt sie für alle JustWatch-Daten.
+  **Entscheidung Daniel, 08.10.2026: JustWatch wird weiter genutzt (nicht-kommerzielles Projekt), die Altersangabe wird dort mitgeholt.**
+- **Werte:** Zeichenketten „0/6/12/16/18", teils leer (`""`). Anderes (z. B. „14", „PG-13") wird verworfen und im Bau-Log gezählt.
+- **Abdeckung (Stichprobe 08.10.2026):** 497 der 1.705 Titel ohne FSK haben einen JustWatch-Treffer; an 25 davon 21 mit Stufe
+  (84 %), vier leer — hochgerechnet rund 420 Titel. Vorbehalt: Bei 3 von 10 Doppelten wich JustWatch von der FSK ab; bei
+  Widerspruch gilt die Freigabe, der Bau zählt Abweichungen. Die übrigen Treffer ohne `altersangabe` holt der Lauf vorgezogen nach.

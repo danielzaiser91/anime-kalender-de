@@ -6,6 +6,7 @@ import { fuehreAusgabenZusammen } from './11-4-ausgaben.ts'
 import { bereinigeWege } from './11-3-bereinigung.ts'
 import { streicheMagentaPartner } from './11-5-magenta-partner.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
+import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 import { entferneFremdeNachStaffeln, kennungAusAdresse } from './cr-serie-geteilt.ts'
 import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
@@ -45,6 +46,7 @@ export function schliesseWegeAb({
   ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdresse })
 
   ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen })
+  uebernehmeFskAusJustwatch({ titles, tmdbMehrdeutig })
 
   bereinigeWege({
     titles,
