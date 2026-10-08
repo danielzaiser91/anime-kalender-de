@@ -108,6 +108,25 @@ pruefe('ohne Staffelangabe: genau ein Werk → dessen Kennung',
 pruefe('ohne Staffelangabe: zwei Werke → keine Kennung',
   titelId({ eigene: BLEACH, seite: DISNEY_BLEACH, staffelNr: null }) === null)
 
+/* Gesamtnummer: der Versatz einer Staffel ist die Summe der Vorstaffeln laut Seite (Naruto Shippuden 53/59/54). */
+const vor = (nr, seite) => {
+  const kontext = { ergebnis: null }
+  vm.createContext(kontext)
+  vm.runInContext(
+    `${['folgenDerSeite', 'folgenVorStaffel'].map(schneide).join('\n\n')}\nergebnis = folgenVorStaffel(${nr}, ${JSON.stringify(seite)})`,
+    kontext,
+  )
+  return kontext.ergebnis
+}
+const SHIPPUDEN = [53, 59, 54].map((gesamt, i) => ({ name: `Staffel ${i + 1}`, gesamt }))
+pruefe('Shippuden: Staffel 1 hat keinen Versatz', vor(1, SHIPPUDEN) === 0)
+pruefe('Shippuden: Staffel 2 beginnt hinter 53', vor(2, SHIPPUDEN) === 53)
+pruefe('Shippuden: Staffel 3 beginnt hinter 112', vor(3, SHIPPUDEN) === 112)
+pruefe('Staffel, die die Seite nicht führt → kein Versatz', vor(4, SHIPPUDEN) === null)
+pruefe('Vorstaffel ohne Zahl → kein Versatz', vor(3, [SHIPPUDEN[0], { name: 'Staffel 2' }, SHIPPUDEN[2]]) === null)
+pruefe('Vorstaffel ohne Nummer im Namen → kein Versatz', vor(2, [{ name: 'Extras', gesamt: 5 }, SHIPPUDEN[1]]) === null)
+pruefe('ohne Liste der Seite → kein Versatz für Staffel 2', vor(2, []) === null)
+
 console.log()
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) verletzt: ${fehler.join(', ')}`)

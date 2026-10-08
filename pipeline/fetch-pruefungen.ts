@@ -22,12 +22,12 @@ import { dirname, resolve } from 'node:path'
 import {
   beschreibeBereiche,
   bildeBereiche,
-  ordneMeldungZu,
   ordneNachStaffelliste,
   verteileAufStaffeln,
   type AnbieterStaffel,
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
+import { ordneMeldungZuPlattform } from './lib/disney-gesamtnummer.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
@@ -978,7 +978,7 @@ for (const gruppe of jeAdresse.values()) {
       const ankerStaffel = anker ? staffeln.find((x) => x.id === anker.id) : undefined
       const treffer = ankerStaffel
         ? { staffel: ankerStaffel, folgeInStaffel: anker!.nr }
-        : ordneMeldungZu({ folge: m.folge_nr, staffel: m.staffel }, staffeln, anbieterStaffeln)
+        : ordneMeldungZuPlattform(m.plattform, { folge: m.folge_nr, staffel: m.staffel }, staffeln, anbieterStaffeln)
       if (!treffer) continue
       if (ankerStaffel) ueberFolgentitel++
       const bisher = jeStaffel.get(treffer.staffel.id) ?? []

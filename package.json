@@ -45,7 +45,7 @@
     "data:anisearch:reparse": "tsx pipeline/reparse-anisearch.ts",
     "check:folgen": "tsx pipeline/check-folgen-zuordnung.ts",
     "check:disc-uebersicht": "tsx pipeline/check-disc-uebersicht.ts",
-    "check:logic": "tsx pipeline/check-logic.ts",
+    "check:logic": "tsx pipeline/check-logic.ts && tsx pipeline/check-disney-gesamtnummer.ts",
     "check:kalender": "tsx pipeline/kalender-befund.ts",
     "check:search": "tsx pipeline/check-search.ts",
     "check:workflows": "node tools/check-workflows.mjs && node tools/quellen-aufsetzen.test.mjs && node tools/quellen-pr.test.mjs",
