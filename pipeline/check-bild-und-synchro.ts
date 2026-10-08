@@ -165,9 +165,9 @@ pruefe('jeder Eintrag trägt ein bekanntes Deutsch-Kennzeichen', Object.values(e
 pruefe('nur Einträge ohne Deutsch bleiben im Katalog', [...anisearchNurKatalog()].every((id) => eintraege[String(id - ANISEARCH_ID_BASIS)]?.dub === '-') && anisearchNurKatalog().size === Object.values(eintraege).filter((e) => e.dub === '-').length)
 
 console.log('Cover für aniSearch-Titel (AniList über die MAL-Kennung)')
-const probeEintraege = { 1: { y: 2026, mal: 10 }, 2: { y: 2026, mal: 11 }, 3: { y: 2020, mal: 12 }, 4: { y: 2026 }, 5: { y: 2026, mal: 14 }, 6: { y: 2026, mal: 10 } }
+const probeEintraege = { 1: { y: 2026, mal: 10, dub: '-' }, 2: { y: 2026, mal: 11, dub: '-' }, 3: { y: 2020, mal: 12, dub: '-' }, 4: { y: 2026, dub: '-' }, 5: { y: 2026, mal: 14, dub: '-' }, 6: { y: 2026, mal: 10, dub: '-' }, 7: { y: 1998, mal: 15, dub: 'd' } }
 const offeneMal = malOhneAnilistTitel(probeEintraege, new Set([11]), { 14: { id: 1, cover: 'x' } }, 2025)
-pruefe('abgefragt wird: junger Eintrag mit MAL-Kennung, ohne AniList-Titel, ohne Cover im Cache, jede Kennung einmal', JSON.stringify(offeneMal) === '[10]', offeneMal)
+pruefe('abgefragt wird: Eintrag mit MAL-Kennung, ohne AniList-Titel, ohne Cover im Cache, jede Kennung einmal; ohne Deutsch nur jung, mit Deutsch jedes Alter', JSON.stringify(offeneMal) === '[10,15]', offeneMal)
 /* Ausnahme mit Ablauf: Beide Titel hatten am 08.10.2026 kein Cover, bis der Abruf es holt; danach gilt die Regel ohne Ausnahme. */
 const koernOhneCover = new Map([[10021566, 'Dragon Ball Super: Beerus'], [10021751, 'Fool Night'], [10021575, 'Cover erst nach dem nächsten Bau']])
 const ausnahmeGilt = new Date().toISOString().slice(0, 10) <= '2026-10-15'
