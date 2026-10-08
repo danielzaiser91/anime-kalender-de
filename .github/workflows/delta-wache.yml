@@ -51,6 +51,16 @@ jobs:
         with:
           node-version: 22
 
+      # Der Vortagsstand der ausgelassenen Termine (`tools/wache-schreiben.mjs`) liegt nicht im
+      # Repo. Eigenes Präfix, nicht `anilist-cache-`; gesichert wird auch nach einem Befund
+      # (`always()`), denn ein roter Lauf überspringt sonst das Speichern von `actions/cache`.
+      - name: Vortagsstand wiederherstellen
+        uses: actions/cache/restore@v4
+        with:
+          path: .wache-stand/ausgelassen.json
+          key: wache-stand-${{ github.run_id }}
+          restore-keys: wache-stand-
+
       # `npm ci` wäre hier Verschwendung: Beide Skripte kommen mit dem aus, was
       # Node selbst mitbringt — kein Import aus `node_modules`.
 
@@ -85,6 +95,13 @@ jobs:
           node tools/wache-schreiben.mjs delta.txt briefkasten.txt "$LAGE"
           rm -f delta.txt briefkasten.txt
           echo "LAGE=$LAGE" >> "$GITHUB_ENV"
+
+      - name: Vortagsstand sichern
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .wache-stand/ausgelassen.json
+          key: wache-stand-${{ github.run_id }}
 
       # **Nur ein Befund wird committet** (Daniel, 26.09.2026: „Behalten, still bei Ruhe"). 25 Tage
       # lang stand hier täglich „Unauffällig" als eigener Commit — Rauschen in der Historie, keine

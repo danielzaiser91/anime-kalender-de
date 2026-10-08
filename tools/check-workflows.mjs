@@ -502,6 +502,29 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml'))) {
   }
 }
 
+/*
+  Der Vortagsvergleich der Wache braucht seinen Stand zwischen den Läufen: Er liegt nicht im Repo,
+  also muss `delta-wache.yml` ihn aus dem Actions-Cache holen (`cache/restore`) und auch nach einem
+  Befund sichern (`cache/save` mit `always()`), beide mit dem Pfad, den `wache-schreiben.mjs` liest.
+  Fehlte das, griffe der Vergleich nie — ohne dass etwas rot würde.
+*/
+{
+  const stand = /const STAND = '([^']+)'/.exec(readFileSync(resolve(process.cwd(), 'tools/wache-schreiben.mjs'), 'utf8'))?.[1]
+  const doc = parse(readFileSync(resolve(DIR, 'delta-wache.yml'), 'utf8'))
+  const schritte = Object.values(doc?.jobs ?? {}).flatMap((j) => j?.steps ?? [])
+  const holt = schritte.some((s) => String(s.uses ?? '').startsWith('actions/cache/restore@') && String(s.with?.path) === stand)
+  const sichert = schritte.some(
+    (s) => String(s.uses ?? '').startsWith('actions/cache/save@') && String(s.with?.path) === stand && /always\(\)/.test(String(s.if ?? '')),
+  )
+  if (!stand || !holt || !sichert) {
+    console.error(
+      `✗ delta-wache.yml: der Vortagsstand (${stand}) wird nicht wiederhergestellt (actions/cache/restore) ` +
+        'oder nicht mit `if: always()` gesichert (actions/cache/save) — der Vortagsvergleich fände nie einen Vortag.',
+    )
+    fehler++
+  }
+}
+
 if (fehler) {
   console.error(`\n${fehler} Problem(e) in den Workflow-Dateien.`)
   process.exit(1)
