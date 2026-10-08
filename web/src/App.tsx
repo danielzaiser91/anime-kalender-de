@@ -25,6 +25,10 @@ import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
 import { DatabaseView } from './components/DatabaseView.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
 import { Footer } from './components/StaticViews.tsx'
+import { StartGeruest, WochenSkelett } from './components/StartGeruest.tsx'
+import { DbGeruest } from './components/db-vorschau.tsx'
+import { useVorschau } from './lib/vorschau.ts'
+import { useErstesErgebnis } from './lib/erstes-ergebnis.ts'
 
 /** Die Titelansicht, bevor etwas gerechnet ist. */
 const LEERE_ANSICHT = { liste: [] as Title[], fundstellen: new Map<string, Fundstelle[]>() }
@@ -87,6 +91,8 @@ export default function App() {
   /* TV-Termine ausblenden. */
   const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
   const [route, navigate] = useRoute()
+  const geruest = useVorschau('startgeruest') === 'skelett'
+  const dbReserve = useVorschau('db-reserve') === 'ruhig'
   const { favorites, toggle } = useFavorites()
   const { hidden, toggle: toggleHidden } = useHidden()
   // Hält Newsletter und Push aktuell — hier oben, damit es unabhängig von der geöffneten Ansicht greift.
@@ -142,7 +148,7 @@ export default function App() {
     loadCartoons(data).then(setCartoons)
   }, [data, cartoons, brauchtCartoons])
 
-  const { wert: events } = useZeitscheibe(
+  const { wert: events, veraltet: eventsVeraltet } = useZeitscheibe(
     () => (data ? eventsFuerAnsichtGen(data, route.filters, today, favorites, tvAus) : leeresErgebnis(LEERE_TERMINE)),
     [data, route.filters, today, favorites, tvAus],
     LEERE_TERMINE,
@@ -153,13 +159,15 @@ export default function App() {
     () => ({ alle: data ? data.events.map((e) => e.date) : [], sichtbar: eventListe.map((e) => e.date) }),
     [data, eventListe],
   )
-  const { wert: titles, laeuft: titelRechnet } = useZeitscheibe(() => {
+  const { wert: titles, laeuft: titelRechnet, veraltet: titelVeraltet } = useZeitscheibe(() => {
     if (!data) return leeresErgebnis(LEERE_ANSICHT)
     const basis = (allTitles ?? data.titles).filter((t) => zeigeOhneSynchro || !istOhneBelegteSynchro(t))
     const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
     const quelle = !cartoonsAus && cartoons ? [...mitOhne, ...cartoons] : mitOhne
     return titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped)
   }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites, grouped], LEERE_ANSICHT)
+  const dbBereit = useErstesErgebnis(!!allTitles, titelVeraltet)
+  const kalenderBereit = useErstesErgebnis(!!data, eventsVeraltet)
 
   const openTitleId = useMemo(() => {
     if (route.title) return route.title
@@ -187,27 +195,31 @@ export default function App() {
     )
   }
 
-  if (!data) return <Spinner label={t('app.loading')} />
+  const kopf = (
+    <Header
+      view={route.view}
+      onView={setView}
+      /* Echte Adressen (Mittelklick), mit Basis-Pfad: der neue Tab startet ohne den Titel-Pfad. */
+      startHref={`${import.meta.env.BASE_URL}${buildHash({ ...route, view: 'woche', date: todayIso(), title: undefined, disc: undefined })}`}
+      hrefFuer={(ziel) => `${import.meta.env.BASE_URL}${buildHash({ ...route, view: ziel, title: undefined, disc: undefined })}`}
+      onStart={() => {
+        navigate({ view: 'woche', date: todayIso(), title: undefined, disc: undefined })
+        window.dispatchEvent(new Event('ak-zu-heute'))
+      }}
+      suche={route.filters.search}
+      setSuche={setSuche}
+      favorites={favorites}
+      einstellungen={() => setEinstellungenOffen(true)}
+    />
+  )
+
+  if (!data) return geruest ? <StartGeruest kopf={kopf} /> : <Spinner label={t('app.loading')} />
 
   const kalender = route.view === 'woche' || route.view === 'monat'
 
   return (
     <div className={`flex min-h-full flex-col ${kalender ? FUSS_ABSTAND.kalender : FUSS_ABSTAND.sonst}`}>
-      <Header
-        view={route.view}
-        onView={setView}
-        /* Echte Adressen (Mittelklick), mit Basis-Pfad: der neue Tab startet ohne den Titel-Pfad. */
-        startHref={`${import.meta.env.BASE_URL}${buildHash({ ...route, view: 'woche', date: todayIso(), title: undefined, disc: undefined })}`}
-        hrefFuer={(ziel) => `${import.meta.env.BASE_URL}${buildHash({ ...route, view: ziel, title: undefined, disc: undefined })}`}
-        onStart={() => {
-          navigate({ view: 'woche', date: todayIso(), title: undefined, disc: undefined })
-          window.dispatchEvent(new Event('ak-zu-heute'))
-        }}
-        suche={route.filters.search}
-        setSuche={setSuche}
-        favorites={favorites}
-        einstellungen={() => setEinstellungenOffen(true)}
-      />
+      {kopf}
       <EinstellungenDialog
         offen={einstellungenOffen}
         schliessen={() => setEinstellungenOffen(false)}
@@ -216,7 +228,8 @@ export default function App() {
       />
 
       <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-6 sm:px-6 lg:px-10">
-        {kalender && (
+        {kalender && geruest && !kalenderBereit && <WochenSkelett />}
+        {kalender && (!geruest || kalenderBereit) && (
           <SuchfundstellenContext.Provider value={events.fundstellen}>
             <KalenderBereich
               data={data}
@@ -240,7 +253,7 @@ export default function App() {
             <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
             {/* Das Filterfeld der Datenbank dockt unten an — wie im Kalender. */}
             <FilterBarDock meta={data.meta} filters={route.filters} onChange={setFilters} showConfidence favoriteCount={favorites.size} />
-            {allTitles ? (
+            {allTitles && (!dbReserve || dbBereit) ? (
               <SuchfundstellenContext.Provider value={titles.fundstellen}>
                 <DatabaseView
                   data={data}
@@ -260,6 +273,8 @@ export default function App() {
                   onSortChange={(sort) => navigate({ sort })}
                 />
               </SuchfundstellenContext.Provider>
+            ) : dbReserve ? (
+              <DbGeruest label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
             ) : (
               <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
             )}
