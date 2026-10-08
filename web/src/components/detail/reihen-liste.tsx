@@ -4,7 +4,8 @@ import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
 import { Tooltip } from '../ui.tsx'
-import { istEingeklappt } from './reihen-regeln.ts'
+import { istEingeklappt, sprechendeBeschriftung } from './reihen-regeln.ts'
+import { useVorschau } from '../../lib/vorschau.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -24,6 +25,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
   setReiheSuche: Dispatch<SetStateAction<{ reihe: number; text: string; }>>
   setReiheReiter: Dispatch<SetStateAction<{ reihe: number; titel: string; } | null>>
 }) {
+  const sprechend = useVorschau('reihe-namen') === 'voll'
   return (
     <>
       {reihenTeile.length > 1 && (
@@ -243,25 +245,12 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                   erfinden; die Staffelangabe reicht aber, denn welche Reihe
                   gemeint ist, steht zwei Zeilen höher.
                 */
-                /*
-                  **Und nur bei einer Hauptstaffel.**
-
-                  Unter „Specials & OVAs" stand „Staffel 2" — der Eintrag ist
-                  aber „Maomao no Hitorigoto Staffel 2", die zweite Staffel
-                  einer Mini-Serie, nicht die der Hauptserie (Daniel,
-                  12.09.2026: „solche staffel bezeichnungen dürfen nur bei
-                  hauptserie einzeln so aufgelistet sein … Maomao no
-                  Hitorigoto Staffel 2 müsste da stehen").
-
-                  Die Kürzung lebt davon, dass die Reihe eine Zeile höher
-                  steht — und das trägt nur für die Hauptserie. Beim Beiwerk
-                  gehört der fremde Reihenname dazu: Er ist gerade das, was
-                  den Eintrag von der Hauptserie unterscheidet.
-                */
+                /* Nur bei einer Hauptstaffel: Beim Beiwerk gehört der fremde Reihenname dazu, er unterscheidet den Eintrag von der Hauptserie. */
                 const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
                 if (istHauptstaffel(m) && staffelTeil && rest === voll && rest !== staffelTeil[1]) rest = staffelTeil[1]!
                 /* Und die erste Staffel heißt „Staffel 1", ein Teil „Staffel 1 - Teil 2". */
-                const beschriftung = (istHauptstaffel(m) && staffelLabel.get(m.id)) || rest || voll
+                const kurz = (istHauptstaffel(m) && staffelLabel.get(m.id)) || rest || voll
+                const beschriftung = sprechend ? sprechendeBeschriftung(kurz, voll) : kurz
                 return (
                   <button
                     key={m.id}

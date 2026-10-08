@@ -1,8 +1,20 @@
 import { TrailerKino } from './kino.tsx'
-import { anzeigeName } from '@shared/titles.ts'
+import { anzeigeName, eindeutschenStaffel } from '@shared/titles.ts'
 import { AniSearchVerweis } from './pillen.tsx'
+import { sprechendeBeschriftung } from './reihen-regeln.ts'
+import { useVorschau } from '../../lib/vorschau.ts'
 import { type FranchiseMember, type Title, type Release } from '@shared/types.ts'
 import type { JSX } from 'react'
+
+/** Der gewählte Teil im Klartext; bei „Reihe: Name 2" („2" allein sagt nichts) mit vollem Namen, wenn die Vorschau `reihe-namen` an ist. */
+function TeilUeberschrift({ teilName, title }: { teilName: string; title: Title }) {
+  const voll = useVorschau('reihe-namen') === 'voll'
+  return (
+    <h3 className="pointer-events-auto mt-1 w-fit min-w-0 text-xl font-bold leading-tight text-slate-900 dark:text-white">
+      {voll ? sprechendeBeschriftung(teilName, eindeutschenStaffel(anzeigeName(title))) : teilName}
+    </h3>
+  )
+}
 
 export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title, kinoRelease, asZiel }: {
   asZiel?: string
@@ -13,107 +25,30 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
   title: Title
   kinoRelease: Release
 }) {
+  const kompakt = useVorschau('panel-kopf') === 'kompakt'
+  /* Mit großen Tipp-Zielen ist die Knopfleiste höher als das kompakte Cover; der Block rückt weniger weit hinein. */
+  const rueckt = useVorschau('tippziele') === 'gross' ? 'max-sm:-mt-6' : 'max-sm:-mt-12'
   return (
     <>
-      <div className="pointer-events-none relative -mt-24 flex flex-col gap-3 p-4">
-        {/*
-          Der Reihenname steht **über** dem Karussell, der gewählte Teil
-          darunter.
-
-          Vorher trugen beide Zeilen denselben Reihennamen, und welcher Teil
-          gerade offen war, stand nur als blauer Rahmen an einer der
-          Vorschaukarten — bei acht Karten nebeneinander ein Rahmen zu viel,
-          um ihn zu bemerken. Jetzt beantwortet die Zeile unter dem Karussell
-          die Frage im Klartext: „Staffel 3".
-
-          Die beiden Bedienelemente teilen sich entsprechend auf: Der
-          Reihen-Stern gehört zur Reihe und steht oben, Stern und Auge
-          gehören zum gewählten Teil und stehen unten. Das ersetzt zugleich
-          die frühere absolute Positionierung — zwei Sterne übereinander
-          brauchte es nur, solange beide in derselben Zeile hingen.
-        */}
-        {/*
-          Titel und Bedienelemente stehen seit dem 24.08.2026 auf der Bühne
-          weiter oben. Hier stand bis dahin beides — der Reihenname als
-          Überschrift und daneben Teilen, Auge, Stern und Reihen-Stern.
-
-          Die frühere Begründung dafür bleibt gültig und ist mit umgezogen:
-          Die Bedienelemente gehören an den Anfang des Kopfbereichs, nicht
-          unter das Karussell, wo sie bei einem Einzeltitel eine eigene Zeile
-          für zwei Symbole gebraucht hätten.
-        */}
-
-
+      {/*
+        Der Block rückt ins Cover hinein (`-mt-24`), damit das Bild groß bleibt und der erste Inhalt im Blick (Daniel, 03.09.2026).
+        Titel und Bedienelemente stehen auf der Bühne darüber; Format, Jahr und Studio in deren Unterzeile; Genres im Details-Bereich.
+      */}
+      <div className={`pointer-events-none relative flex flex-col gap-3 p-4 ${kompakt ? `-mt-24 ${rueckt}` : '-mt-24'}`}>
         <div className="min-w-0 flex-1">
           {/*
-            Die zweite Titelzeile entfällt, wenn sie nur die erste wiederholt.
-
-            Bei „Banana Fish" stand der Name viermal untereinander: als
-            Reihenname über dem Karussell, hier noch einmal, und darunter als
-            Umschrift und in Originalschrift — dreimal davon identisch.
-            Ein Titel ohne
-            weitere Reihenteile hat schlicht keinen unterscheidenden Zusatz;
-            dann trägt ihn die Zeile über dem Karussell allein.
-          */}
-          {/*
-            **Die Wertung steht vor dem Namen, nicht darunter.**
-
-            Sie war eine eigene Zeile unter dem Staffelnamen — 24 px für eine
-            Pille, die neben ihn passt. `items-baseline` setzt sie auf die Schriftlinie des
-            Namens statt an seine Oberkante.
-          */}
-          {/*
-            **Der aniSearch-Verweis steht rechts in derselben Zeile.**
-
-            Daniel am 07.09.2026: „hier im grün markierten bereich wäre platz
-            für ein AniSearch Link. mach das" — und gleich danach der
-            Geltungsbereich: „anisearch link für alle titel dort einfügen wo
-            wir anisearch links haben, ansonsten anisearch search seite mit dem
-            titel da einfügen. überall soll da ein link sein."
-
-            Deshalb wird die Zeile jetzt **immer** gerendert, nicht mehr nur
-            bei einem Reihenteil mit eigenem Namen. Der Staffelname darin folgt
-            weiter seiner alten Bedingung; ohne ihn bleibt eine Zeile aus
-            Wertung links und Verweis rechts — beides Angaben, die vorher
-            entweder gar nicht oder nur an einer Stelle standen.
-          */}
-          {/*
-            **Der Titel hat die volle Breite des Panels** (Daniel, 03.10.2026: „titel wird stark
-            gequetscht"). Wertung, Trailer und die Absprünge stehen in einer eigenen Zeile darüber,
-            der Staffelname beginnt darunter — vorher teilte er sich die Zeile mit allen vieren.
+            Eigene Zeile über dem Staffelnamen (Daniel, 03.10.2026: „titel wird stark gequetscht"): Wertung links, Trailer und
+            Absprünge (aniSearch, MAL) rechts. Der Verweis steht bei allen Titeln, ohne Kennung als Suche (Daniel, 07.09.2026).
           */}
           <div className="pointer-events-none flex flex-wrap items-center gap-2">
             {bewertung && <span className="pointer-events-auto">{bewertung}</span>}
-            {/*
-              **Der Trailer steht bei den Angaben zum Werk, nicht bei den
-              Anbietern.** Er beantwortet eine andere Frage als „wo kann ich
-              das sehen" — nämlich „will ich das überhaupt".
-            */}
             <span className="pointer-events-none ml-auto flex flex-wrap items-center justify-end gap-2">
               {(title.trailer || kinoRelease) && <span className="pointer-events-auto"><TrailerKino trailer={title.trailer} titel={anzeigeName(title)} /></span>}
               <span className="pointer-events-auto"><AniSearchVerweis title={title} ziel={asZiel} /></span>
             </span>
           </div>
-          {reihenTeile.length > 1 && teilName !== reihenName && (
-            <h3 className="pointer-events-auto mt-1 w-fit min-w-0 text-xl font-bold leading-tight text-slate-900 dark:text-white">{teilName}</h3>
-          )}
-          {/*
-            Die Pillen-Zeile trug nur noch die Wertung — Status und FSK sind
-            seit dem 13.08.2026 im Terminblock, wo sie je Release gelten. Eine
-            eigene Zeile für eine einzelne Pille ist Platz ohne Auskunft; sie
-            steht jetzt neben dem Staffelnamen (siehe `bewertung` oben).
-          */}
-          {/*
-            Format, Jahr und Studio stehen seit dem 24.08.2026 in der Bühne,
-            direkt unter dem Titel — dieselbe Angabe zweimal im selben Bild
-            wäre eine Zeile für nichts.
-
-            Die Genres sind ans Ende gewandert, in den Details-Bereich. Ihre
-            Begründung vom 12.08.2026 bleibt gültig — sie beantworten „ist das
-            überhaupt meins?" —, aber diese Frage stellt sich **nach** der,
-            wegen der jemand das Panel öffnet: wann kommt es, wo läuft es. Wer
-            den Titel schon kennt, überspringt die Genres ohnehin.
-          */}
+          {/* Die zweite Titelzeile entfällt, wenn sie nur den Reihennamen darüber wiederholt. */}
+          {reihenTeile.length > 1 && teilName !== reihenName && <TeilUeberschrift teilName={teilName} title={title} />}
         </div>
       </div>
     </>

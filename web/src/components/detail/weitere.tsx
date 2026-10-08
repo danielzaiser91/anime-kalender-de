@@ -5,6 +5,8 @@ import { eindeutschenStaffel, anzeigeName } from '@shared/titles.ts'
 import { type Voices, loadVoices, type Dataset, loadCartoons, loadAllTitles } from '../../lib/data.ts'
 import { aehnlicheTitel } from '../../lib/aehnlich.ts'
 import { coverBild } from '../../lib/cover.ts'
+import { useVorschau } from '../../lib/vorschau.ts'
+import { TIPPFLAECHE_HOCH } from './tippziel.ts'
 
 /**
  * Alle weiteren Schreibweisen eines Titels — eingeklappt, an einer Stelle.
@@ -22,6 +24,7 @@ import { coverBild } from '../../lib/cover.ts'
 export function WeitereTitel({ title }: { title: Title }) {
   const { t } = useLang()
   const [offen, setOffen] = useState(false)
+  const gross = useVorschau('tippziele') === 'gross'
 
   const gezeigt = title.titleDe ?? title.titleEn ?? title.titleRomaji
   const weitere: { label: string; wert: string }[] = []
@@ -39,7 +42,7 @@ export function WeitereTitel({ title }: { title: Title }) {
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}
-        className="cursor-pointer text-slate-400 underline decoration-dotted underline-offset-2 hover:text-sky-400 dark:text-slate-500"
+        className={`cursor-pointer text-slate-400 underline decoration-dotted underline-offset-2 hover:text-sky-400 dark:text-slate-500 ${gross ? TIPPFLAECHE_HOCH : ''}`}
       >
         {offen ? t('detail.otherTitlesHide') : t('detail.otherTitles', { count: weitere.length })}
       </button>

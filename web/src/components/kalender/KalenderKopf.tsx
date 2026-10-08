@@ -4,6 +4,7 @@ import { useLang, type Translate } from '../../lib/i18n.tsx'
 import { DatumSprung } from '../DatumSprung.tsx'
 import { FilterZeichen, LinksZeichen, RechtsZeichen } from './Zeichen.tsx'
 import { Tooltip } from '../ui.tsx'
+import { useVorschau } from '../../lib/vorschau.ts'
 
 /** ISO-Kalenderwoche: die Woche, in der der Donnerstag liegt. */
 function kalenderwoche(iso: string): number {
@@ -71,13 +72,20 @@ export interface SteuerProps {
 export function Steuerleiste(p: SteuerProps) {
   const { t } = useLang()
   const monat = p.view === 'monat'
+  const ausblenden = useVorschau('leisten') === 'ausblenden'
   const schritt = (dir: number) => p.onDate(monat ? addMonths(p.date, dir) : addDays(p.date, dir * 7))
   const heuteSichtbar = monat ? todayIso().slice(0, 7) === p.date.slice(0, 7) : startOfWeek(todayIso()) === startOfWeek(p.date)
   const rund = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
   return (
     <div
       data-steuerleiste
-      className="pointer-events-none fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 flex justify-center md:bottom-2"
+      className={[
+        'pointer-events-none fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 flex justify-center md:bottom-2',
+        /* Vorschau „leisten": rückt mit nach unten, wenn die Navigation weicht (`data-nav-weg` an <html>). */
+        ausblenden && 'transition-[bottom] duration-200 [html[data-nav-weg]_&]:max-md:bottom-[calc(0.5rem+env(safe-area-inset-bottom))]',
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
       <div className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-ak-rand bg-ak-flaeche/95 p-1.5 shadow-[0_12px_32px_rgba(0,0,0,.35)] backdrop-blur sm:gap-2">
         <div role="group" aria-label={t('kal.zeitraum')} className="flex rounded-full bg-ak-flaeche-2 p-0.5">

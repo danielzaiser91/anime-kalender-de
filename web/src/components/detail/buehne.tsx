@@ -1,7 +1,6 @@
-import { ShareIcon } from './hilfen.tsx'
-import { CoverMaximieren, beiCoverKlick, coverVorwaermen } from './cover-max.tsx'
-import { anzeigeName } from '@shared/titles.ts'
-import { HideEye, FavoriteStar, ReihenStern } from '../ui.tsx'
+import { beiCoverKlick, coverVorwaermen } from './cover-max.tsx'
+import { BuehnenLeiste } from './buehnen-leiste.tsx'
+import { useVorschau } from '../../lib/vorschau.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { jpAngabe } from './kino.tsx'
 import { WeitereTitel } from './weitere.tsx'
@@ -21,6 +20,7 @@ export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggl
   unterzeile: (string | undefined)[]
   eigenerTeil: FranchiseMember | undefined
 }) {
+  const kompakt = useVorschau('panel-kopf') === 'kompakt'
   return (
     <>
       <div className="relative shrink-0" style={{ isolation: 'isolate' }}>
@@ -31,39 +31,7 @@ export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggl
           {reihenName}
         </h2>
         {/* Schließen, Merken, Teilen und die Altersfreigabe stehen in der Titelzeile statt auf dem Cover (Daniel, 04.10.2026). */}
-        {/*
-          Senkrecht an der rechten Kante, direkt unter der Titelzeile. Jedes
-          Symbol behält seinen dunklen Grund: Auf einem hellen Cover wäre ein
-          blankes Symbol sonst genauso unlesbar wie blanker Text.
-        */}
-        {/*
-          In der Ecke, nicht neben ihr: `top-0 right-0`, und gerundet ist nur
-          die Kante, die ins Bild zeigt.
-        */}
-        <div className="absolute right-0 top-0 z-10 flex flex-col items-center gap-1.5 rounded-bl-lg bg-slate-900/85 px-1.5 py-2 backdrop-blur-[3px]">
-          {/* Schließen steht ganz oben, wo man es sucht. */}
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label={t('detail.close')}
-            className="cursor-pointer px-1 text-sm text-white transition hover:opacity-70"
-          >
-            ✕
-          </button>
-          {reihenIds.length > 1 && (
-            <ReihenStern
-              alleGemerkt={reihenIds.every((id) => favorites.has(id))}
-              anzahl={reihenIds.length}
-              onMerken={() => {
-                for (const id of reihenIds) if (!favorites.has(id)) onToggleFavorite(id)
-              }}
-            />
-          )}
-          <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
-          <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
-          <ShareIcon slug={title.slug} name={anzeigeName(title)} />
-          <CoverMaximieren bild={buehnenBild} gross={grossBild} titel={anzeigeName(title)} />
-        </div>
+        <BuehnenLeiste title={title} favorites={favorites} onToggleFavorite={onToggleFavorite} onToggleHidden={onToggleHidden} reihenIds={reihenIds} onClose={onClose} t={t} buehnenBild={buehnenBild} grossBild={grossBild} />
         {title.fsk !== undefined && (
           <span className="absolute right-11 top-0 z-10 rounded-b-lg bg-[rgba(8,12,18,.74)] px-2 py-1 text-xs font-semibold tabular-nums text-slate-200 backdrop-blur-[3px]">
             {t('antwort.fskAb', { n: title.fsk })}
@@ -82,7 +50,7 @@ export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggl
           Der „Staffel 1"-Block darunter holt einen Teil davon wieder herein
           (sein `-mt-24`): Das Cover bleibt groß, der Weg zum Inhalt kurz.
         */}
-        <div className="relative h-[400px] cursor-zoom-in" onClick={beiCoverKlick} onPointerEnter={coverVorwaermen} onTouchStart={coverVorwaermen}>
+        <div className={`relative cursor-zoom-in ${kompakt ? 'h-[400px] max-sm:h-[200px]' : 'h-[400px]'}`} onClick={beiCoverKlick} onPointerEnter={coverVorwaermen} onTouchStart={coverVorwaermen}>
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 bg-cover"

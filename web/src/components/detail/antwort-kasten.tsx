@@ -10,6 +10,7 @@ import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
+import { AnbieterLegende } from './anbieter-legende.tsx'
 import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr } from './antwort-regeln.ts'
 import { type Antwort } from './antwort-typ.ts'
 
@@ -897,64 +898,8 @@ export function AntwortKasten({
       {pillen.length > 0 && (
         <div className="mt-auto shrink-0 border-t border-slate-200/70 pt-2.5 dark:border-white/10">
           {/*
-            **Umbrechen statt scrollen — der Platz ist ohnehin reserviert.**
-
-            Die Geschichte dieser Zeile in drei Schritten:
-
-            1. Bis zum 03.09.2026 waren zwei Reihen fest reserviert, und
-               `grid-flow-col` füllte erst die Spalte: Zwei Pillen standen
-               untereinander, obwohl nebeneinander Platz für vier war. Daniels
-               Urteil: „zu viel platz verschwendung."
-            2. Danach **eine** Reihe mit `overflow-x-auto`. Das löste die
-               Verschwendung und schuf die Gegenrichtung: Der Kasten ist für
-               zwei Zeilen hoch, die Pillen blieben in der ersten, und darunter
-               erschien ein Rollbalken über leerem Raum (Daniel, 07.09.2026:
-               „die blaue box ist extra 2 zeilen hoch, verteilen sich die pills
-               nicht über die 2 zeilen … 1 zeile die doppelt so hoch wie pills
-               ist und flex-wrap hat, müsste es doch easy gefixed sein?").
-            3. Jetzt `flex-wrap`: Die Pillen füllen die erste Reihe und
-               brechen in die zweite um, wenn sie nicht passen.
-
-            **Die feste Höhe bleibt trotzdem gewahrt.** Sie war Daniels Vorgabe
-            vom 03.09. („height Änderung der Box durch feste Höhe verhindern"),
-            und `check:panel` misst sie. Deshalb begrenzt `max-h` die Reihe auf
-            zwei Zeilen; was auch dort nicht hineinpasst — bei fünf und mehr
-            Anbietern — wird gescrollt, jetzt aber senkrecht und erst dann.
-          */}
-          {/*
-            `max-h` deckt **genau zwei** Pillenreihen — 4,4rem sind zwei Pillen
-            à 28 px plus Abstand. Größer gesetzt schneidet der Kasten ab, statt
-            zu scrollen: Er hat eine feste Höhe, und was die Reihe darüber
-            hinaus zulässt, ragt einfach hinaus (07.09.2026 an „Kill Blue" mit
-            fünf Anbietern gemessen). Ab der dritten Reihe wird gescrollt — das
-            ist die Ausnahme für fünf und mehr Wege, nicht der Normalfall.
-          */}
-          {/*
-            **Zwei Reihen zweizeiliger Pillen, nicht einzeiliger.** Seit jede
-            Pille ihre Folgenzahl trägt (14.09.2026), ist sie rund 42 px hoch;
-            zwei Reihen brauchen damit etwa 94 px, `4.4rem` gab 70 — bei „Kill
-            Blue" lag die vierte Pille abgeschnitten im Rollbereich.
-
-            **Und drei einzeilige Reihen passen hinein (7.5rem).** Seit die
-            Pillen ihr Anbieterzeichen tragen (16.09.2026), sind sie rund 20 px
-            breiter; „Final Fantasy VII: Advent Children" mit sieben Wegen brach
-            in eine dritte Reihe um, die bei 6rem 11 px in den Rollbereich hing.
-          */}
-          {/*
-            **Und seit dem 17.09.2026 rollt hier gar nichts mehr — der Kasten wächst.**
-
-            Die Höchsthöhe ist seit dem 07.09. dreimal nachgezogen worden (4.4 → 6 →
-            7.5rem), jedes Mal auf den Fall, der gerade aufgefallen war. Mit JustWatchs
-            Angeboten je Titel hat ein bekannter Film acht bis dreizehn Wege („Weathering
-            with You": 13), und jede Zahl, die man hier einsetzt, schneidet die nächste
-            Reihe an: Bei „Your Name." ragten 18 px aus dem Kasten, bei 9,25rem waren es
-            27 px eine Reihe weiter.
-
-            Ein Rollbereich **im** Panel, das selbst rollt, ist ohnehin die schlechtere
-            Antwort — auf dem Handy trifft man ihn kaum, und eine halb verdeckte Pille
-            sieht aus wie ein Fehler. Die Wege sind die Kernauskunft dieser Seite; sie
-            stehen jetzt vollständig da. Die Mindesthöhe bleibt, der Kasten springt im
-            Regelfall also weiterhin nicht.
+            Die Pillen brechen um, der Kasten wächst mit: Ein Rollbereich im scrollenden Panel trifft man am Handy kaum, und eine halb
+            verdeckte Pille sieht aus wie ein Fehler. Die Mindesthöhe verhindert Sprünge im Regelfall (`check:panel` misst sie).
           */}
           {/* `items-stretch`: Eine Pille ohne zweite Zeile wird so hoch wie ihre Nachbarn (Daniel, 19.09.2026, TOGGO neben RTL+). */}
           <div className="flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5 gap-y-2.5 pb-1 pt-1">
@@ -984,6 +929,7 @@ export function AntwortKasten({
               pillen
             )}
           </div>
+          <AnbieterLegende />
         </div>
       )}
     </section>

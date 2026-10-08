@@ -73,6 +73,13 @@ export const VORSCHAUEN: Record<string, { varianten: string[]; text: string; tit
     varianten: ['ruhig'],
     text: 'Die Liste ohne deutsche Synchro sagt es einmal klar am Anfang, statt es auf jeder Karte zu wiederholen.',
   },
+  'db-sortierung': {
+    titel: 'Datenbank nach Relevanz',
+    beispiel: '#/datenbank',
+    beispielText: 'Datenbank ohne Sortierung in der Adresse öffnen; „Titel A–Z“ bleibt wählbar',
+    varianten: ['relevanz'],
+    text: 'Die Datenbank beginnt mit dem, was jetzt oder bald auf Deutsch läuft, statt mit dem Alphabet ab „.hack“.',
+  },
   'tv-kasten': {
     titel: 'TV-Kasten ohne Abschneiden',
     beispiel: '#/woche',

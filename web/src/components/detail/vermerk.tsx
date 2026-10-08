@@ -302,13 +302,17 @@ export function VermerkAuskunft({
   häkchen oben rechts … bei hover tooltip"). „DE ✓" kostete rund 35 px je Pille; unbelegte
   Wege tragen gar kein Zeichen mehr — der Tooltip sagt, was das Häkchen heißt.
 */
+export const DUB_HAKEN_KLASSE =
+  'grid size-4 place-items-center rounded-full bg-emerald-500 text-[9px] font-black leading-none text-white ring-2 ring-white dark:ring-[#0f1b2e]'
+
 export function DubEcke({ dub }: { dub?: boolean }) {
   const { t } = useLang()
   if (dub !== true) return null
   return (
-    <span className="absolute -right-1 -top-1.5 z-10">
+    /* `data-dub-haken`: Die Legende unter den Pillen zeigt sich nur, wenn mindestens ein Haken dasteht. */
+    <span data-dub-haken className="absolute -right-1 -top-1.5 z-10">
       <Tooltip text={t('detail.dubYes')} seite="oben">
-        <span className="grid size-4 place-items-center rounded-full bg-emerald-500 text-[9px] font-black leading-none text-white ring-2 ring-white dark:ring-[#0f1b2e]">
+        <span className={DUB_HAKEN_KLASSE}>
           ✓
         </span>
       </Tooltip>
