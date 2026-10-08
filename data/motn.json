@@ -1,8 +1,9 @@
 {
-  "fetchedAt": "2026-09-02T08:52:21.646Z",
+  "fetchedAt": "2026-10-08T12:31:38.430Z",
   "verbrauch": {
     "2026-08": 962,
-    "2026-09": 400
+    "2026-09": 400,
+    "2026-10": 66
   },
   "shows": {
     "tt0988824": {
@@ -30808,7 +30809,7 @@
           "seit": "2026-06-04"
         }
       },
-      "geprueftAm": "2026-08-21"
+      "geprueftAm": "2026-10-08"
     },
     "tt0494187": {
       "imdbId": "tt0494187",
@@ -32112,6 +32113,209 @@
       "folgen": 228,
       "folgenLautQuelle": 202,
       "dienste": {
+        "netflix": {
+          "gelistet": [
+            1,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            28,
+            29,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185,
+            186,
+            187,
+            188,
+            189,
+            190
+          ],
+          "deutsch": [
+            1,
+            28,
+            29
+          ],
+          "seit": "2024-03-09"
+        },
         "crunchyroll": {
           "gelistet": [
             1,
@@ -32269,503 +32473,9 @@
           ],
           "deutsch": [],
           "seit": "2026-03-31"
-        },
-        "netflix": {
-          "gelistet": [
-            1,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24,
-            25,
-            26,
-            27,
-            28,
-            29,
-            30,
-            31,
-            32,
-            33,
-            34,
-            35,
-            36,
-            37,
-            38,
-            39,
-            40,
-            41,
-            42,
-            43,
-            44,
-            45,
-            46,
-            47,
-            48,
-            49,
-            50,
-            51,
-            52,
-            53,
-            54,
-            55,
-            56,
-            57,
-            58,
-            59,
-            60,
-            61,
-            62,
-            63,
-            64,
-            65,
-            66,
-            67,
-            68,
-            69,
-            70,
-            71,
-            72,
-            73,
-            74,
-            75,
-            76,
-            77,
-            78,
-            79,
-            80,
-            81,
-            82,
-            83,
-            84,
-            85,
-            86,
-            87,
-            88,
-            89,
-            90,
-            91,
-            92,
-            93,
-            94,
-            95,
-            96,
-            97,
-            98,
-            99,
-            100,
-            101,
-            102,
-            103,
-            104,
-            105,
-            106,
-            107,
-            108,
-            109,
-            110,
-            111,
-            112,
-            113,
-            114,
-            115,
-            116,
-            117,
-            118,
-            119,
-            120,
-            121,
-            122,
-            123,
-            124,
-            125,
-            126,
-            127,
-            128,
-            129,
-            130,
-            131,
-            132,
-            133,
-            134,
-            135,
-            136,
-            137,
-            138,
-            139,
-            140,
-            141,
-            142,
-            143,
-            144,
-            145,
-            146,
-            147,
-            148,
-            149,
-            150,
-            151,
-            152,
-            153,
-            154,
-            155,
-            156,
-            157,
-            158,
-            159,
-            160,
-            161,
-            162,
-            163,
-            164,
-            165,
-            166,
-            167,
-            168,
-            169,
-            170,
-            171,
-            172,
-            173,
-            174,
-            175,
-            176,
-            177,
-            178,
-            179,
-            180,
-            181,
-            182,
-            183,
-            184,
-            185,
-            186,
-            187,
-            188,
-            189,
-            190
-          ],
-          "deutsch": [
-            1,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24,
-            25,
-            26,
-            27,
-            28,
-            29,
-            30,
-            31,
-            32,
-            33,
-            34,
-            35,
-            36,
-            37,
-            38,
-            39,
-            40,
-            41,
-            42,
-            43,
-            44,
-            45,
-            46,
-            47,
-            48,
-            49,
-            50,
-            51,
-            52,
-            53,
-            54,
-            55,
-            56,
-            57,
-            58,
-            59,
-            60,
-            61,
-            62,
-            63,
-            64,
-            65,
-            66,
-            67,
-            68,
-            69,
-            70,
-            71,
-            72,
-            73,
-            74,
-            75,
-            76,
-            77,
-            78,
-            79,
-            80,
-            81,
-            82,
-            83,
-            84,
-            85,
-            86,
-            87,
-            88,
-            89,
-            90,
-            91,
-            92,
-            93,
-            94,
-            95,
-            96,
-            97,
-            98,
-            99,
-            100,
-            101,
-            102,
-            103,
-            104,
-            105,
-            106,
-            107,
-            108,
-            109,
-            110,
-            111,
-            112,
-            113,
-            114,
-            115,
-            116,
-            117,
-            118,
-            119,
-            120,
-            121,
-            122,
-            123,
-            124,
-            125,
-            126,
-            127,
-            128,
-            129,
-            130,
-            131,
-            132,
-            133,
-            134,
-            135,
-            136,
-            137,
-            138,
-            139,
-            140,
-            141,
-            142,
-            143,
-            144,
-            145,
-            146,
-            147,
-            148,
-            149,
-            150,
-            151,
-            152,
-            153,
-            154,
-            155,
-            156,
-            157,
-            158,
-            159,
-            160,
-            161,
-            162,
-            163,
-            164,
-            165,
-            166,
-            167,
-            168,
-            169,
-            170,
-            171,
-            172,
-            173,
-            174,
-            175,
-            176,
-            177,
-            178,
-            179,
-            180,
-            181,
-            182,
-            183,
-            184,
-            185,
-            186,
-            187,
-            188,
-            189,
-            190
-          ],
-          "seit": "2024-03-09"
         }
       },
-      "addons": {
-        "animedigitalde": {
-          "gelistet": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            75,
-            76,
-            77,
-            78,
-            79,
-            80,
-            81,
-            82,
-            83,
-            84,
-            85,
-            86,
-            87,
-            88,
-            89,
-            90,
-            91,
-            92,
-            93,
-            94,
-            95,
-            96,
-            97,
-            98,
-            114,
-            115,
-            116,
-            117,
-            118,
-            119,
-            120,
-            121,
-            122,
-            123,
-            124,
-            125,
-            126,
-            127,
-            128,
-            129,
-            130,
-            131,
-            132,
-            133,
-            134,
-            135,
-            136,
-            137
-          ],
-          "deutsch": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            75,
-            76,
-            77,
-            78,
-            79,
-            80,
-            81,
-            82,
-            83,
-            84,
-            85,
-            86,
-            87,
-            88,
-            89,
-            90,
-            91,
-            92,
-            93,
-            94,
-            95,
-            96,
-            97,
-            98
-          ],
-          "seit": "2025-07-31"
-        }
-      },
-      "geprueftAm": "2026-08-21"
+      "geprueftAm": "2026-10-08"
     },
     "tt0248119": {
       "imdbId": "tt0248119",
@@ -32774,7 +32484,7 @@
       "jahr": 1993,
       "folgen": 13,
       "dienste": {},
-      "geprueftAm": "2026-08-21"
+      "geprueftAm": "2026-10-08"
     },
     "tt22248376": {
       "imdbId": "tt22248376",
@@ -34183,7 +33893,7 @@
           "seit": "2024-03-11"
         }
       },
-      "geprueftAm": "2026-08-21"
+      "geprueftAm": "2026-10-08"
     },
     "tt20013848": {
       "imdbId": "tt20013848",
@@ -36204,8 +35914,7 @@
       "titel": "The Apothecary Diaries",
       "originalTitel": "薬屋のひとりごと",
       "jahr": 2023,
-      "folgen": 49,
-      "folgenLautQuelle": 48,
+      "folgen": 60,
       "dienste": {
         "netflix": {
           "gelistet": [
@@ -36290,67 +35999,11 @@
             24
           ],
           "deutsch": [],
-          "seit": "2026-01-08"
+          "seit": "2026-01-08",
+          "laeuftAusAm": "9998-11-30"
         }
       },
-      "addons": {
-        "crunchyrollde": {
-          "gelistet": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24
-          ],
-          "deutsch": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24
-          ],
-          "seit": "2025-12-27"
-        }
-      },
-      "geprueftAm": "2026-09-02"
+      "geprueftAm": "2026-10-08"
     },
     "tt37532356": {
       "imdbId": "tt37532356",
@@ -39845,7 +39498,7 @@
       "jahr": 2005,
       "folgen": 52,
       "dienste": {},
-      "geprueftAm": "2026-08-21"
+      "geprueftAm": "2026-10-08"
     },
     "tt31031809": {
       "imdbId": "tt31031809",
@@ -45379,49 +45032,8 @@
       "originalTitel": "あの日見た花の名前を僕達はまだ知らない。",
       "jahr": 2011,
       "folgen": 11,
-      "dienste": {
-        "primevideo": {
-          "gelistet": [
-            1
-          ],
-          "deutsch": [
-            1
-          ],
-          "seit": "2026-04-17"
-        }
-      },
-      "addons": {
-        "aniversede": {
-          "gelistet": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11
-          ],
-          "deutsch": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11
-          ],
-          "seit": "2026-04-17"
-        }
-      },
-      "geprueftAm": "2026-08-21"
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
     },
     "tt2188671": {
       "imdbId": "tt2188671",
@@ -51364,7 +50976,7 @@
           "laeuftAusAm": "9998-11-30"
         }
       },
-      "geprueftAm": "2026-08-21"
+      "geprueftAm": "2026-10-08"
     },
     "tt0184109": {
       "imdbId": "tt0184109",
@@ -67927,6 +67539,1010 @@
       "folgen": 0,
       "dienste": {},
       "geprueftAm": "2026-09-02"
+    },
+    "tt1882240": {
+      "imdbId": "tt1882240",
+      "titel": "Beelzebub",
+      "originalTitel": "べるぜバブ",
+      "jahr": 2011,
+      "folgen": 60,
+      "dienste": {
+        "netflix": {
+          "gelistet": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60
+          ],
+          "deutsch": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60
+          ],
+          "seit": "2026-07-24"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1216222": {
+      "imdbId": "tt1216222",
+      "titel": "To Love Ru",
+      "originalTitel": "To LOVEる -とらぶる-",
+      "jahr": 2008,
+      "folgen": 64,
+      "dienste": {
+        "primevideo": {
+          "gelistet": [
+            27
+          ],
+          "deutsch": [
+            27
+          ],
+          "seit": "2026-10-06"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1410218": {
+      "imdbId": "tt1410218",
+      "titel": "K-ON!",
+      "originalTitel": "けいおん!",
+      "jahr": 2009,
+      "folgen": 36,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt0282303": {
+      "imdbId": "tt0282303",
+      "titel": "Once Upon a Time… Space",
+      "originalTitel": "Il était une fois… l'Espace",
+      "jahr": 1982,
+      "folgen": 26,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1579911": {
+      "imdbId": "tt1579911",
+      "titel": "Monsuno",
+      "originalTitel": "Monsuno",
+      "jahr": 2012,
+      "folgen": 65,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt28524965": {
+      "imdbId": "tt28524965",
+      "titel": "Bakugan",
+      "originalTitel": "Bakugan",
+      "jahr": 2023,
+      "folgen": 26,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt0953916": {
+      "imdbId": "tt0953916",
+      "titel": "Air Gear",
+      "originalTitel": "エア・ギア",
+      "jahr": 2006,
+      "folgen": 25,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt0486171": {
+      "imdbId": "tt0486171",
+      "titel": "Ikki Tousen",
+      "originalTitel": "一騎当千",
+      "jahr": 2003,
+      "folgen": 49,
+      "dienste": {
+        "crunchyroll": {
+          "gelistet": [
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37
+          ],
+          "deutsch": [],
+          "seit": "2026-03-31",
+          "laeuftAusAm": "9998-11-30"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt39229727": {
+      "imdbId": "tt39229727",
+      "titel": "SNOWBALL EARTH",
+      "originalTitel": "スノウボールアース",
+      "jahr": 2026,
+      "folgen": 13,
+      "dienste": {
+        "disneyplus": {
+          "gelistet": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "deutsch": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "seit": "2026-04-23"
+        },
+        "crunchyroll": {
+          "gelistet": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "deutsch": [],
+          "seit": "2026-04-03",
+          "laeuftAusAm": "9998-11-30"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt2230051": {
+      "imdbId": "tt2230051",
+      "titel": "High School DxD",
+      "originalTitel": "ハイスクールD×D",
+      "jahr": 2012,
+      "folgen": 49,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt5194246": {
+      "imdbId": "tt5194246",
+      "titel": "Beautiful Bones: Sakurako's Investigation",
+      "originalTitel": "櫻子さんの足下には死体が埋まっている",
+      "jahr": 2015,
+      "folgen": 12,
+      "dienste": {
+        "crunchyroll": {
+          "gelistet": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "deutsch": [],
+          "seit": "2026-03-31",
+          "laeuftAusAm": "9998-11-30"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt5879454": {
+      "imdbId": "tt5879454",
+      "titel": "Kiss Him, Not Me",
+      "originalTitel": "私がモテてどうすんだ",
+      "jahr": 2016,
+      "folgen": 12,
+      "dienste": {
+        "crunchyroll": {
+          "gelistet": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "deutsch": [],
+          "seit": "2026-03-31",
+          "laeuftAusAm": "9998-11-30"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt14979456": {
+      "imdbId": "tt14979456",
+      "titel": "When Will Ayumu Make His Move?",
+      "originalTitel": "それでも歩は寄せてくる",
+      "jahr": 2022,
+      "folgen": 12,
+      "dienste": {
+        "primevideo": {
+          "gelistet": [
+            1,
+            1,
+            2,
+            2,
+            3,
+            3,
+            4,
+            4,
+            5,
+            5,
+            6,
+            6,
+            7,
+            7,
+            8,
+            8,
+            9,
+            9,
+            10,
+            10,
+            11,
+            11,
+            12,
+            12
+          ],
+          "deutsch": [
+            1,
+            1,
+            2,
+            2,
+            3,
+            3,
+            4,
+            4,
+            5,
+            5,
+            6,
+            6,
+            7,
+            7,
+            8,
+            8,
+            9,
+            9,
+            10,
+            10,
+            11,
+            11,
+            12,
+            12
+          ],
+          "seit": "2026-10-06"
+        }
+      },
+      "addons": {
+        "aniversede": {
+          "gelistet": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "deutsch": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "seit": "2026-10-06"
+        },
+        "animedigitalde": {
+          "gelistet": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "deutsch": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "seit": "2026-10-06"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt32291998": {
+      "imdbId": "tt32291998",
+      "titel": "Plus-Sized Elf",
+      "originalTitel": "エルフさんは痩せられない。",
+      "jahr": 2024,
+      "folgen": 12,
+      "dienste": {
+        "primevideo": {
+          "gelistet": [
+            1,
+            1,
+            2,
+            2,
+            3,
+            3,
+            4,
+            4,
+            5,
+            5,
+            6,
+            6,
+            7,
+            7,
+            8,
+            8,
+            9,
+            9,
+            10,
+            10,
+            11,
+            11,
+            12,
+            12
+          ],
+          "deutsch": [
+            1,
+            1,
+            2,
+            2,
+            3,
+            3,
+            4,
+            4,
+            5,
+            5,
+            6,
+            6,
+            7,
+            7,
+            8,
+            8,
+            9,
+            9,
+            10,
+            10,
+            11,
+            11,
+            12,
+            12
+          ],
+          "seit": "2026-10-06"
+        }
+      },
+      "addons": {
+        "aniversede": {
+          "gelistet": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "deutsch": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "seit": "2026-10-06"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt39443176": {
+      "imdbId": "tt39443176",
+      "titel": "Gals Can't Be Kind to Otaku!?",
+      "originalTitel": "オタクに優しいギャルはいない!?",
+      "jahr": 2026,
+      "folgen": 12,
+      "dienste": {
+        "crunchyroll": {
+          "gelistet": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ],
+          "deutsch": [],
+          "seit": "2026-04-08",
+          "laeuftAusAm": "9998-11-30"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt43691353": {
+      "imdbId": "tt43691353",
+      "titel": "Overgeared",
+      "originalTitel": "テムパル～アイテムの力～",
+      "jahr": 2026,
+      "folgen": 6,
+      "folgenLautQuelle": 12,
+      "dienste": {
+        "crunchyroll": {
+          "gelistet": [
+            1,
+            2
+          ],
+          "deutsch": [],
+          "seit": "2026-09-27",
+          "laeuftAusAm": "9998-11-30"
+        }
+      },
+      "addons": {
+        "crunchyrollde": {
+          "gelistet": [
+            1
+          ],
+          "deutsch": [
+            1
+          ],
+          "seit": "2026-09-27"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt36517689": {
+      "imdbId": "tt36517689",
+      "titel": "THE GHOST IN THE SHELL",
+      "originalTitel": "攻殻機動隊 THE GHOST IN THE SHELL",
+      "jahr": 2026,
+      "folgen": 10,
+      "dienste": {
+        "primevideo": {
+          "gelistet": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "deutsch": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "seit": "2026-07-08"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt0385700": {
+      "imdbId": "tt0385700",
+      "titel": "Final Fantasy VII: Advent Children",
+      "originalTitel": "Final Fantasy VII: Advent Children",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt0473658": {
+      "imdbId": "tt0473658",
+      "titel": "Inuyasha the Movie 4: Fire on the Mystic Island",
+      "originalTitel": "犬夜叉 紅蓮の蓬莱島",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1067920": {
+      "imdbId": "tt1067920",
+      "titel": "Detective Conan: The Last Wizard of the Century",
+      "originalTitel": "名探偵コナン 世紀末の魔術師",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt0466551": {
+      "imdbId": "tt0466551",
+      "titel": "Tsubasa Chronicle The Movie: The Princess in the Birdcage Kingdom",
+      "originalTitel": "劇場版ツバサ・クロニクル 鳥カゴの国の姫君",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1068773": {
+      "imdbId": "tt1068773",
+      "titel": "Detective Conan: Captured in Her Eyes",
+      "originalTitel": "名探偵コナン 瞳の中の暗殺者",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt0260191": {
+      "imdbId": "tt0260191",
+      "titel": "Gundam Wing: The Endless Waltz",
+      "originalTitel": "新機動戦記ガンダムＷ Endless Waltz 特別篇",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1343046": {
+      "imdbId": "tt1343046",
+      "titel": "Detective Conan: The Raven Chaser",
+      "originalTitel": "名探偵コナン 漆黒の追跡者（チェイサー）",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1468322": {
+      "imdbId": "tt1468322",
+      "titel": "Oblivion Island: Haruka and the Magic Mirror",
+      "originalTitel": "ホッタラケの島 遥と魔法の鏡",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1468843": {
+      "imdbId": "tt1468843",
+      "titel": "Pokémon: Arceus and the Jewel of Life",
+      "originalTitel": "劇場版ポケットモンスター ダイヤモンド&パール アルセウス 超克の時空へ",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1460738": {
+      "imdbId": "tt1460738",
+      "titel": "Eden of the East Movie I: The King of Eden",
+      "originalTitel": "東のエデン 劇場版I The King of Eden",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1636815": {
+      "imdbId": "tt1636815",
+      "titel": "Detective Conan: The Lost Ship in the Sky",
+      "originalTitel": "名探偵コナン 天空の難破船（ロスト・シップ）",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1468321": {
+      "imdbId": "tt1468321",
+      "titel": "Eden of the East Movie II: Paradise Lost",
+      "originalTitel": "東のエデン 劇場版II Paradise Lost",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1690470": {
+      "imdbId": "tt1690470",
+      "titel": "Pokémon: Zoroark - Master of Illusions",
+      "originalTitel": "劇場版ポケットモンスター ダイヤモンド&パール 幻影の覇者 ゾロアーク",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1568921": {
+      "imdbId": "tt1568921",
+      "titel": "Arrietty",
+      "originalTitel": "借りぐらしのアリエッティ",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1840372": {
+      "imdbId": "tt1840372",
+      "titel": "Detective Conan: Quarter of Silence",
+      "originalTitel": "名探偵コナン 沈黙の15分（クォーター）",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1798188": {
+      "imdbId": "tt1798188",
+      "titel": "From Up on Poppy Hill",
+      "originalTitel": "コクリコ坂から",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt1853614": {
+      "imdbId": "tt1853614",
+      "titel": "A Letter to Momo",
+      "originalTitel": "ももへの手紙",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt2131586": {
+      "imdbId": "tt2131586",
+      "titel": "Detective Conan: The Eleventh Striker",
+      "originalTitel": "名探偵コナン １１人目のストライカー",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt2549540": {
+      "imdbId": "tt2549540",
+      "titel": "Pokémon the Movie: Kyurem vs. the Sword of Justice",
+      "originalTitel": "劇場版ポケットモンスター ベストウイッシュ キュレムVS聖剣士 ケルディオ",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt3303446": {
+      "imdbId": "tt3303446",
+      "titel": "Detective Conan: Private Eye in the Distant Sea",
+      "originalTitel": "名探偵コナン・絶海の探偵",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt2263944": {
+      "imdbId": "tt2263944",
+      "titel": "Dragon Ball Z: Battle of Gods",
+      "originalTitel": "ドラゴンボールZ 神と神",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt3354302": {
+      "imdbId": "tt3354302",
+      "titel": "Code Geass: Akito the Exiled 3: The Brightness Falls",
+      "originalTitel": "コードギアス 亡国のアキト 第3章「輝くもの天より堕つ」",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt3341598": {
+      "imdbId": "tt3341598",
+      "titel": "Magical Sisters Yoyo & Nene",
+      "originalTitel": "魔女っこ姉妹のヨヨとネネ",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt2013293": {
+      "imdbId": "tt2013293",
+      "titel": "The Wind Rises",
+      "originalTitel": "風立ちぬ",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt2576852": {
+      "imdbId": "tt2576852",
+      "titel": "The Tale of The Princess Kaguya",
+      "originalTitel": "かぐや姫の物語",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt3257582": {
+      "imdbId": "tt3257582",
+      "titel": "Pokémon the Movie: Genesect and the Legend Awakened",
+      "originalTitel": "劇場版ポケットモンスター ベストウイッシュ 神速のゲノセクト ミュウツー覚醒",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt3178174": {
+      "imdbId": "tt3178174",
+      "titel": "Giovanni's Island",
+      "originalTitel": "ジョバンニの島",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt3830998": {
+      "imdbId": "tt3830998",
+      "titel": "Lupin the Third: Jigen's Gravestone",
+      "originalTitel": "LUPIN THE IIIRD 次元大介の墓標",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt5443130": {
+      "imdbId": "tt5443130",
+      "titel": "Haikyu!! the Movie: The End and the Beginning",
+      "originalTitel": "ハイキュー!! 終わりと始まり",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt6335734": {
+      "imdbId": "tt6335734",
+      "titel": "Night Is Short, Walk On Girl",
+      "originalTitel": "夜は短し歩けよ乙女",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt6452332": {
+      "imdbId": "tt6452332",
+      "titel": "Lu Over the Wall",
+      "originalTitel": "夜明け告げるルーのうた",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt8076344": {
+      "imdbId": "tt8076344",
+      "titel": "Penguin Highway",
+      "originalTitel": "ペンギン・ハイウェイ",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt10068544": {
+      "imdbId": "tt10068544",
+      "titel": "Made in Abyss: Wandering Twilight",
+      "originalTitel": "劇場版総集編【後編】メイドインアビス 放浪する黄昏",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt8328740": {
+      "imdbId": "tt8328740",
+      "titel": "Okko's Inn",
+      "originalTitel": "若おかみは小学生！",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt9193612": {
+      "imdbId": "tt9193612",
+      "titel": "Ride Your Wave",
+      "originalTitel": "きみと、波にのれたら",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt15799550": {
+      "imdbId": "tt15799550",
+      "titel": "Fruits Basket -prelude-",
+      "originalTitel": "フルーツバスケット－prelude－",
+      "folgen": 0,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
+    },
+    "tt41298100": {
+      "imdbId": "tt41298100",
+      "titel": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship!",
+      "originalTitel": "目覚めたら最強装備と宇宙船持ちだったので、一戸建て目指して傭兵として自由に生きたい",
+      "jahr": 2026,
+      "folgen": 1,
+      "dienste": {
+        "crunchyroll": {
+          "gelistet": [
+            1
+          ],
+          "deutsch": [],
+          "seit": "2026-10-04",
+          "laeuftAusAm": "9998-11-30"
+        }
+      },
+      "geprueftAm": "2026-10-08"
+    },
+    "tt38268282": {
+      "imdbId": "tt38268282",
+      "titel": "STEEL BALL RUN JoJo's Bizarre Adventure",
+      "originalTitel": "スティール・ボール・ラン ジョジョの奇妙な冒険",
+      "jahr": 2026,
+      "folgen": 2,
+      "dienste": {},
+      "geprueftAm": "2026-10-08"
     }
   },
   "gesucht": {
@@ -68778,6 +69394,10 @@
       "imdbId": "tt33310730",
       "geprueftAm": "2026-08-21"
     },
+    "195516": {
+      "imdbId": "tt26743760",
+      "geprueftAm": "2026-10-08"
+    },
     "195600": {
       "imdbId": "tt37532356",
       "geprueftAm": "2026-08-21"
@@ -68797,6 +69417,10 @@
     "210032": {
       "imdbId": "tt0981456",
       "geprueftAm": "2026-09-02"
+    },
+    "210482": {
+      "imdbId": "tt2359704",
+      "geprueftAm": "2026-10-08"
     }
   },
   "tmdb": {
@@ -73359,6 +73983,262 @@
     "movie/570269": {
       "imdbId": "tt9826484",
       "geprueftAm": "2026-09-02"
+    },
+    "tv/62715": {
+      "imdbId": "tt4644488",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/96884": {
+      "imdbId": "tt11858104",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/38603": {
+      "imdbId": "tt1882240",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/37565": {
+      "imdbId": "tt0477543",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/34742": {
+      "imdbId": "tt1216222",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/42253": {
+      "imdbId": "tt1410218",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/4727": {
+      "imdbId": "tt0282303",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/56402": {
+      "imdbId": "tt1579911",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/45790": {
+      "imdbId": "tt2359704",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/233783": {
+      "imdbId": "tt28524965",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/31670": {
+      "imdbId": "tt0953916",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/45783": {
+      "imdbId": "tt2348803",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/37584": {
+      "imdbId": "tt0486171",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/336301": {
+      "imdbId": null,
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/335660": {
+      "imdbId": null,
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/296232": {
+      "imdbId": "tt39229727",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/45950": {
+      "imdbId": "tt2230051",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/64699": {
+      "imdbId": "tt5194246",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/68188": {
+      "imdbId": "tt5879454",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/116168": {
+      "imdbId": "tt14979456",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/243743": {
+      "imdbId": "tt32291998",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/309163": {
+      "imdbId": "tt39443176",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/324502": {
+      "imdbId": "tt43691353",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/39434": {
+      "imdbId": "tt1913273",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/255358": {
+      "imdbId": "tt36517689",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/333069": {
+      "imdbId": null,
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/334201": {
+      "imdbId": null,
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/647": {
+      "imdbId": "tt0385700",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/34297": {
+      "imdbId": "tt0473658",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/28808": {
+      "imdbId": "tt1067920",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/42180": {
+      "imdbId": "tt0466551",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/20677": {
+      "imdbId": "tt1068773",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/22914": {
+      "imdbId": "tt0260191",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/28764": {
+      "imdbId": "tt1343046",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/39544": {
+      "imdbId": "tt1468322",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/39057": {
+      "imdbId": "tt1468843",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/35435": {
+      "imdbId": "tt1460738",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/97375": {
+      "imdbId": "tt1636815",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/44734": {
+      "imdbId": "tt1468321",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/50087": {
+      "imdbId": "tt1690470",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/51739": {
+      "imdbId": "tt1568921",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/77617": {
+      "imdbId": "tt1840372",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/83389": {
+      "imdbId": "tt1798188",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/100271": {
+      "imdbId": "tt1853614",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/122583": {
+      "imdbId": "tt2131586",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/150213": {
+      "imdbId": "tt2549540",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/228805": {
+      "imdbId": "tt3303446",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/126963": {
+      "imdbId": "tt2263944",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/347200": {
+      "imdbId": "tt3354302",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/239530": {
+      "imdbId": "tt3341598",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/149870": {
+      "imdbId": "tt2013293",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/149871": {
+      "imdbId": "tt2576852",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/227679": {
+      "imdbId": "tt3257582",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/239367": {
+      "imdbId": "tt3178174",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/260516": {
+      "imdbId": "tt3830998",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/347183": {
+      "imdbId": "tt5443130",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/430214": {
+      "imdbId": "tt6335734",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/436120": {
+      "imdbId": "tt6452332",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/508422": {
+      "imdbId": "tt8076344",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/526429": {
+      "imdbId": "tt10068544",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/521296": {
+      "imdbId": "tt8328740",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/530079": {
+      "imdbId": "tt9193612",
+      "geprueftAm": "2026-10-08"
+    },
+    "movie/896499": {
+      "imdbId": "tt15799550",
+      "geprueftAm": "2026-10-08"
+    },
+    "tv/283692": {
+      "imdbId": "tt41298100",
+      "geprueftAm": "2026-10-08"
     }
   },
   "katalogCursor": "19918200:Barbapapa en famille"

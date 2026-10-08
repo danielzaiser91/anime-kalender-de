@@ -1,21 +1,21 @@
 # Kontrollmessung: Streaming Availability API
 
-Stand 2026-09-02. Erzeugt von `npm run data:motn:check`, **nicht von Hand pflegen**.
+Stand 2026-10-08. Erzeugt von `npm run data:motn:check`, **nicht von Hand pflegen**.
 
-Bestand: **1888 Serien** der Quelle, davon **779 Zuordnungen**
-zu unseren Einträgen. Davon ließen sich **468** gegen einen unabhängigen Beleg halten
+Bestand: **1943 Serien** der Quelle, davon **808 Zuordnungen**
+zu unseren Einträgen. Davon ließen sich **531** gegen einen unabhängigen Beleg halten
 (Handprüfung oder Crunchyroll-Serienseite).
 
 | | Zahl |
 |---|---|
-| bestätigt (wir ja, Quelle ja) | 151 |
-| **widersprochen** (wir nein, Quelle ja) | 0 |
-| Quelle schweigt (wir ja, Quelle führt es nicht) | 317 |
+| bestätigt (wir ja, Quelle ja) | 190 |
+| **widersprochen** (wir nein, Quelle ja) | 1 |
+| Quelle schweigt (wir ja, Quelle führt es nicht) | 340 |
 
 **Nur die mittlere Zeile ist ein Widerspruch.** Die untere ist der bekannte Verzug der Quelle:
 Sie belegt, was da ist, nie was fehlt (siehe `pipeline/lib/motn.ts`).
 
-**Wie belastbar die Null ist: 19 der 468 Vergleiche standen gegen ein belegtes *Nein*.**
+**Wie belastbar die Null ist: 26 der 531 Vergleiche standen gegen ein belegtes *Nein*.**
 Nur die können überhaupt ein Widerspruch werden — die übrigen messen, ob die Quelle eine
 bekannte Synchro auch kennt, nicht ob sie eine erfindet. Die Decke dafür liegt in unserem
 eigenen Bestand: Belegte Absagen gibt es kaum, und mehr Anfragen an die Quelle ändern das
@@ -26,11 +26,11 @@ das Gegenteil belegt haben" — nicht „sie tut es nie".
 
 | Anbieter | verglichen | bestätigt | widersprochen | Quelle schweigt |
 |---|---|---|---|---|
-| crunchyroll | 219 | 6 | 0 | 213 |
-| crunchyroll — Kanal `crunchyrollde` | 95 | 69 | 0 | 26 |
-| primevideo | 70 | 44 | 0 | 26 |
-| netflix | 56 | 18 | 0 | 38 |
-| disneyplus | 19 | 10 | 0 | 9 |
+| crunchyroll | 236 | 9 | 0 | 227 |
+| crunchyroll — Kanal `crunchyrollde` | 96 | 71 | 0 | 25 |
+| netflix | 87 | 46 | 0 | 41 |
+| primevideo | 82 | 49 | 1 | 32 |
+| disneyplus | 21 | 11 | 0 | 10 |
 | adn — Kanal `animedigitalde` | 9 | 4 | 0 | 5 |
 
 **Crunchyroll ist hier der Prüfstein, nicht das Ziel.** Für 190 Serien wissen wir aus unserem
@@ -48,9 +48,15 @@ Frage dieselbe ist: Gibt es diese Folge auf Deutsch?
 widersprechen sich zwischen Serien- und Episodenebene selbst, und für Prime Video und Disney+
 fehlt bislang jede Trefferquote.
 
+## Widersprüche im Einzelnen
+
+| Titel | Anbieter | unsere Angabe | Herkunft | Folgen der Quelle |
+|---|---|---|---|---|
+| Date a Live IV | primevideo | keine Synchro | Handprüfung | 35–46 |
+
 ## Deutscher Ton bei Netflix, aber keine Zuordnung
 
-**52 Serien** trägt die Quelle mit deutschem Netflix-Ton, ohne dass ein Beleg
+**51 Serien** trägt die Quelle mit deutschem Netflix-Ton, ohne dass ein Beleg
 daraus wird. Fast immer ist es die Folgenrechnung: Die Quelle nummeriert ihre Folgen nicht,
 zugeordnet wird über die **Position** in ihrer Liste, und die geht nur auf, wenn die Länge
 exakt zu unserer Staffelaufteilung passt. 26 Einträge für 25 Folgen heißen, dass irgendwo ein
@@ -61,7 +67,6 @@ Antwort.
 
 | unser Titel | Serie laut Quelle | Jahr | Folgen in der Liste | ihr `episodeCount` | Netflix-Folgen mit deutschem Ton |
 |---|---|---|---|---|---|
-| JoJo’s Bizarre Adventure: Diamond Is Unbreakable | JoJo's Bizarre Adventure | 2012 | 228 | 202 | 191 |
 | Pokémon Horizonte | Pokémon Horizons | 2023 | 148 | 147 | 89 |
 | The Seven Deadly Sins | The Seven Deadly Sins | 2014 | 96 | = | 76 |
 | Shaman King (2021) | SHAMAN KING | 2021 | 52 | = | 52 |
@@ -85,7 +90,6 @@ Antwort.
 | Swordgai The Animation | SWORD GAI: The Animation | 2018 | 24 | = | 24 |
 | Ghost in the Shell: SAC_2045 | Ghost in the Shell: SAC_2045 | 2020 | 24 | = | 24 |
 | Meine Wiedergeburt als Schleim in einer anderen Welt | That Time I Got Reincarnated as a Slime | 2018 | 96 | = | 24 |
-| Die Tagebücher der Apothekerin | The Apothecary Diaries | 2023 | 49 | 48 | 24 |
 | Fate/Grand Order Absolute Demonic Front: Babylonia | Fate/Grand Order Absolute Demonic Front: Babylonia | 2019 | 21 | = | 21 |
 | Great Pretender | Great Pretender | 2020 | 27 | = | 18 |
 | Altered Carbon: Resleeved | Altered Carbon | 2018 | 18 | = | 18 |
@@ -113,6 +117,7 @@ Antwort.
 | Kakegurui Twin | KAKEGURUI TWIN | 2022 | 6 | = | 6 |
 | Mobile Suit Gundam: Requiem for Vengeance | Gundam: Requiem for Vengeance | 2024 | 6 | = | 6 |
 | Spriggan | SPRIGGAN | 2022 | 6 | = | 6 |
+| JoJo’s Bizarre Adventure | JoJo's Bizarre Adventure | 2012 | 228 | 202 | 3 |
 
 ## Was diese Quelle liefern kann
 
