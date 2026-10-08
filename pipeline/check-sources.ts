@@ -55,6 +55,8 @@ const FRISTEN: Record<string, number> = {
 
   // Wöchentlich, montags.
   'adn-catalog': 9,
+  // Wochenlauf (refresh-weekly.yml, 400 Kennungen je Lauf); ohne Eintrag galt die Standardfrist von 4 Tagen.
+  'anisearch-eintraege': 9,
   'anilist-voices': 9,
   'anime-offline-database': 9,
   'ann-voices': 9,
