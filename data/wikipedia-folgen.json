@@ -1,5 +1,5 @@
 {
-  "geholtAm": "2026-10-07T04:09:01.518Z",
+  "geholtAm": "2026-10-08T04:11:38.993Z",
   "titel": {
     "21": {
       "seite": "One Piece (Anime)/Episodenliste",
@@ -16189,6 +16189,587 @@
           "nr": 24,
           "st": 24,
           "dt": "Die Exkursion"
+        }
+      ]
+    },
+    "10012621": {
+      "seite": "Super Wings",
+      "folgen": [
+        {
+          "nr": 1,
+          "dt": "Drachenfliegen leicht gemacht"
+        },
+        {
+          "nr": 2,
+          "dt": "Schattenspiele"
+        },
+        {
+          "nr": 3,
+          "dt": "Einladung zum Maskenball"
+        },
+        {
+          "nr": 4,
+          "dt": "Ein Lava spuckender Vulkan"
+        },
+        {
+          "nr": 5,
+          "dt": "Königliche Hundebabys"
+        },
+        {
+          "nr": 6,
+          "dt": "Schlittenfahren in der Wüste"
+        },
+        {
+          "nr": 7,
+          "dt": "Monster im Garten"
+        },
+        {
+          "nr": 8,
+          "dt": "Seeungeheuerliches Schottland"
+        },
+        {
+          "nr": 9,
+          "dt": "Karneval in Rio"
+        },
+        {
+          "nr": 10,
+          "dt": "Eine Jurte voller Sterne"
+        },
+        {
+          "nr": 11,
+          "dt": "Schnelllaufschuhe"
+        },
+        {
+          "nr": 12,
+          "dt": "Im Land der Pyramiden"
+        },
+        {
+          "nr": 13,
+          "dt": "Lampenfieber auf dem Eis"
+        },
+        {
+          "nr": 14,
+          "dt": "Trommelfest"
+        },
+        {
+          "nr": 15,
+          "dt": "Allein auf großer Bühne"
+        },
+        {
+          "nr": 16,
+          "dt": "Papierfliegerei"
+        },
+        {
+          "nr": 17,
+          "dt": "Im Wikingercamp"
+        },
+        {
+          "nr": 18,
+          "dt": "Schlittenhunderennen"
+        },
+        {
+          "nr": 19,
+          "dt": "Fliegende Riesentorte"
+        },
+        {
+          "nr": 20,
+          "dt": "Auf Gespensterjagd"
+        },
+        {
+          "nr": 21,
+          "dt": "Lieblingsstar hautnah"
+        },
+        {
+          "nr": 22,
+          "dt": "Scheue Paradiesvögel"
+        },
+        {
+          "nr": 23,
+          "dt": "Schwingt die Pinsel!"
+        },
+        {
+          "nr": 24,
+          "dt": "Geburtstagsfeier in Mexiko"
+        },
+        {
+          "nr": 25,
+          "dt": "Elefantenbabybad"
+        },
+        {
+          "nr": 26,
+          "dt": "Essen mit Familie"
+        },
+        {
+          "nr": 27,
+          "dt": "Show vor großem Publikum"
+        },
+        {
+          "nr": 28,
+          "dt": "Seifenkistenrennen"
+        },
+        {
+          "nr": 29,
+          "dt": "Käsejagd"
+        },
+        {
+          "nr": 30,
+          "dt": "Entlaufener Dinosaurier"
+        },
+        {
+          "nr": 31,
+          "dt": "Verlorene Fundstücke"
+        },
+        {
+          "nr": 32,
+          "dt": "Australische Tiere"
+        },
+        {
+          "nr": 33,
+          "dt": "Verirrte Pinguine"
+        },
+        {
+          "nr": 34,
+          "dt": "Moritz, der Zauberer"
+        },
+        {
+          "nr": 35,
+          "dt": "Ausflug ins All"
+        },
+        {
+          "nr": 36,
+          "dt": "Feuer im Wald"
+        },
+        {
+          "nr": 37,
+          "dt": "Auf der Suche nach Marek"
+        },
+        {
+          "nr": 38,
+          "dt": "Alle Farben der Welt"
+        },
+        {
+          "nr": 39,
+          "dt": "Piratenschatzsuche"
+        },
+        {
+          "nr": 40,
+          "dt": "Echte Piloten"
+        },
+        {
+          "nr": 41,
+          "dt": "Verschwundenes Spielzeug"
+        },
+        {
+          "nr": 42,
+          "dt": "Löwentanz"
+        },
+        {
+          "nr": 43,
+          "dt": "Rasante Fahrt im Dunkeln"
+        },
+        {
+          "nr": 44,
+          "dt": "Gigantischer Schneemann"
+        },
+        {
+          "nr": 45,
+          "dt": "Endlich ein Fahrrad"
+        },
+        {
+          "nr": 46,
+          "dt": "Rasender Inselzug"
+        },
+        {
+          "nr": 47,
+          "dt": "Fliegender Teddybär"
+        },
+        {
+          "nr": 48,
+          "dt": "Freunde unter Wasser"
+        },
+        {
+          "nr": 49,
+          "dt": "Fühl die Musik!"
+        },
+        {
+          "nr": 50,
+          "dt": "Ritterspiele"
+        },
+        {
+          "nr": 51,
+          "dt": "Wünsche aus der Wunderlampe"
+        },
+        {
+          "nr": 52,
+          "dt": "Chaos auf dem Bauernhof"
+        },
+        {
+          "nr": 1,
+          "dt": "Chaos in Hong Kong"
+        },
+        {
+          "nr": 2,
+          "dt": "Die Suche nach dem Yeti"
+        },
+        {
+          "nr": 3,
+          "dt": "Schwimmende Schweinchen"
+        },
+        {
+          "nr": 4,
+          "dt": "Das Muskelpaket"
+        },
+        {
+          "nr": 5,
+          "dt": "Team Tango"
+        },
+        {
+          "nr": 6,
+          "dt": "Eisbären und Eisberge"
+        },
+        {
+          "nr": 7,
+          "dt": "Hilfe in den Alpen"
+        },
+        {
+          "nr": 8,
+          "dt": "Eine große Idee"
+        },
+        {
+          "nr": 9,
+          "dt": "Gefahr auf der Baustelle"
+        },
+        {
+          "nr": 10,
+          "dt": "Riesige Roboter"
+        },
+        {
+          "nr": 11,
+          "dt": "Ein pelziger Ausreißer"
+        },
+        {
+          "nr": 12,
+          "dt": "Das Riesenbaby"
+        },
+        {
+          "nr": 13,
+          "dt": "Trickreiche Trolle"
+        },
+        {
+          "nr": 14,
+          "dt": "Der Riesendino"
+        },
+        {
+          "nr": 15,
+          "dt": "Reise in die Vergangenheit (1)"
+        },
+        {
+          "nr": 16,
+          "dt": "Reise in die Vergangenheit (2)"
+        },
+        {
+          "nr": 17,
+          "dt": "Fröhliches Halloween"
+        },
+        {
+          "nr": 18,
+          "dt": "Der kleine Detektiv"
+        },
+        {
+          "nr": 19,
+          "dt": "Julios Homerun"
+        },
+        {
+          "nr": 20,
+          "dt": "Die Waffelteig-Welle"
+        },
+        {
+          "nr": 21,
+          "dt": "Sheriff Susanna"
+        },
+        {
+          "nr": 22,
+          "dt": "Jett und der Wal"
+        },
+        {
+          "nr": 23,
+          "dt": "Verschwunden im Bermuda-Dreieck"
+        },
+        {
+          "nr": 24,
+          "dt": "Verschwunden im Bermuda-Dreieck"
+        },
+        {
+          "nr": 25,
+          "dt": "Lach, Prinz, lach!"
+        },
+        {
+          "nr": 26,
+          "dt": "Das Piano Problem"
+        },
+        {
+          "nr": 27,
+          "dt": "Die Brieffreundin vom Mars"
+        },
+        {
+          "nr": 28,
+          "dt": "Weihnachten in Australien"
+        },
+        {
+          "nr": 29,
+          "dt": "Von Singapur nach Ecuador"
+        },
+        {
+          "nr": 30,
+          "dt": "Der Drache fliegt"
+        },
+        {
+          "nr": 31,
+          "dt": "Immer der Nase nach"
+        },
+        {
+          "nr": 32,
+          "dt": "Der rollende Riesenkürbis"
+        },
+        {
+          "nr": 33,
+          "dt": "Verzwickter Zwillings-Zwist"
+        },
+        {
+          "nr": 34,
+          "dt": "Schnee in der Wüste"
+        },
+        {
+          "nr": 35,
+          "dt": "Die Suche nach der Meerjungfrau"
+        },
+        {
+          "nr": 36,
+          "dt": "Dalmatiner-Hundesport"
+        },
+        {
+          "nr": 37,
+          "dt": "Ein Vogelhaus in Barcelona"
+        },
+        {
+          "nr": 38,
+          "dt": "Der Kater im Karton"
+        },
+        {
+          "nr": 39,
+          "dt": "Die Ruhe vor dem Sturm"
+        },
+        {
+          "nr": 40,
+          "dt": "Eine ganz besondere Lieferung (1)"
+        },
+        {
+          "nr": 41,
+          "dt": "Eine ganz besondere Lieferung (2)"
+        },
+        {
+          "nr": 42,
+          "dt": "Das große Ballett"
+        },
+        {
+          "nr": 43,
+          "dt": "Der Hirte und seine Schafe"
+        },
+        {
+          "nr": 44,
+          "dt": "Dinos im Regen"
+        },
+        {
+          "nr": 45,
+          "dt": "Das Kreisel-Chaos"
+        },
+        {
+          "nr": 46,
+          "dt": "Gewirbelt und gefischt!"
+        },
+        {
+          "nr": 47,
+          "dt": "Mit der Kutsche durch Rom"
+        },
+        {
+          "nr": 48,
+          "dt": "Das Kamel im Kostüm"
+        },
+        {
+          "nr": 49,
+          "dt": "Jett, der Spion"
+        },
+        {
+          "nr": 50,
+          "dt": "Das große Gokart Rennen"
+        },
+        {
+          "nr": 51,
+          "dt": "Der Hindernisparcours"
+        },
+        {
+          "nr": 52,
+          "dt": "Loch Ness friert zu!"
+        },
+        {
+          "nr": 1,
+          "dt": "Auf den Spuren der Wildpferde"
+        },
+        {
+          "nr": 2,
+          "dt": "Baumhaus in Gefahr"
+        },
+        {
+          "nr": 3,
+          "dt": "Mission auf dem Mond"
+        },
+        {
+          "nr": 4,
+          "dt": "Der mutige Pilot"
+        },
+        {
+          "nr": 5,
+          "dt": "Das Gepäck ist weg!"
+        },
+        {
+          "nr": 6,
+          "dt": "Helden der heißen Quellen"
+        },
+        {
+          "nr": 7,
+          "dt": "Das Computervirus"
+        },
+        {
+          "nr": 8,
+          "dt": "Spaß auf den Philippinen"
+        },
+        {
+          "nr": 9,
+          "dt": "Die Entenpolizei"
+        },
+        {
+          "nr": 10,
+          "dt": "Rauf und runter"
+        },
+        {
+          "nr": 11,
+          "dt": "Basketball im All"
+        },
+        {
+          "nr": 12,
+          "dt": "Jett, der Surfer"
+        },
+        {
+          "nr": 13,
+          "dt": "Das Riesenkäfer-Problem (Teil 1)"
+        },
+        {
+          "nr": 14,
+          "dt": "Das Riesenkäfer-Problem (Teil 2)"
+        },
+        {
+          "nr": 15,
+          "dt": "Die unterirdische Stadt"
+        },
+        {
+          "nr": 16,
+          "dt": "Der Damm der Biber"
+        },
+        {
+          "nr": 17,
+          "dt": "Trubel in Thailand"
+        },
+        {
+          "nr": 18,
+          "dt": "Die größte Sandburg der Welt"
+        },
+        {
+          "nr": 19,
+          "dt": "Theater in China"
+        },
+        {
+          "nr": 20,
+          "dt": "Regenzeit in Kenia"
+        },
+        {
+          "nr": 21,
+          "dt": "Galileas Sternbild"
+        },
+        {
+          "nr": 22,
+          "dt": "Moskaus Metro"
+        },
+        {
+          "nr": 23,
+          "dt": "Die Geigerin von Budapest"
+        },
+        {
+          "nr": 24,
+          "dt": "Chaos am Imbisswagen"
+        },
+        {
+          "nr": 25,
+          "dt": "Mutig wie ein Löwe"
+        },
+        {
+          "nr": 26,
+          "dt": "Geburtstagsparty am Leuchtturm"
+        },
+        {
+          "nr": 27,
+          "dt": "Welpen im Ballsaal"
+        },
+        {
+          "nr": 28,
+          "dt": "Die Suche nach dem Mantarochen"
+        },
+        {
+          "nr": 29,
+          "dt": "Jett und die Fata Morgana"
+        },
+        {
+          "nr": 30,
+          "dt": "Königliche Kutschfahrt"
+        },
+        {
+          "nr": 31,
+          "dt": "Jett, das Stuntflugzeug (Teil 1)"
+        },
+        {
+          "nr": 32,
+          "dt": "Jett, das Stuntflugzeug (Teil 2)"
+        },
+        {
+          "nr": 33,
+          "dt": "Elefantöses Bauchweh"
+        },
+        {
+          "nr": 34,
+          "dt": "Abenteuer im Schnee"
+        },
+        {
+          "nr": 35,
+          "dt": "Hochzeit unter Wasser"
+        },
+        {
+          "nr": 36,
+          "dt": "Klebriges Chaos in Kanada"
+        },
+        {
+          "nr": 37,
+          "dt": "Helfer für die Helfer"
+        },
+        {
+          "nr": 38,
+          "dt": "Ein Wiedersehen im Weltall"
+        },
+        {
+          "nr": 39,
+          "dt": "Der Riesen-Burrito"
+        },
+        {
+          "nr": 40,
+          "dt": "Die Kiwi-Katastrophe"
         }
       ]
     }

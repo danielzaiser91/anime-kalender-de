@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 18
+    "2026-10": 22
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1058,7 +1058,7 @@
       "imdbId": "tt9813792",
       "tmdbId": "tv/124364",
       "dienst": "prime",
-      "am": "2026-09-30",
+      "am": "2026-10-07",
       "deutsch": true
     },
     "removed:39338:prime": {
@@ -1218,7 +1218,7 @@
       "imdbId": "tt0102962",
       "tmdbId": "tv/47357",
       "dienst": "prime",
-      "am": "2026-08-18",
+      "am": "2026-10-07",
       "deutsch": false
     },
     "removed:37870:prime": {
@@ -2098,7 +2098,7 @@
       "imdbId": "tt0305058",
       "tmdbId": "tv/63225",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-07",
       "deutsch": false
     },
     "removed:14387:prime": {
@@ -2378,7 +2378,7 @@
       "imdbId": "tt11192306",
       "tmdbId": "tv/95057",
       "dienst": "prime",
-      "am": "2026-09-25",
+      "am": "2026-10-07",
       "deutsch": true
     },
     "removed:56951:prime": {
@@ -3118,7 +3118,7 @@
       "imdbId": "tt3747572",
       "tmdbId": "tv/61457",
       "dienst": "prime",
-      "am": "2026-09-04",
+      "am": "2026-10-07",
       "deutsch": true
     },
     "removed:10751193:prime": {
@@ -3648,7 +3648,7 @@
       "imdbId": "tt15328804",
       "tmdbId": "tv/128718",
       "dienst": "prime",
-      "am": "2026-09-07",
+      "am": "2026-10-07",
       "deutsch": false
     },
     "removed:1110:prime": {
@@ -6059,7 +6059,7 @@
       "tmdbId": "tv/244447",
       "dienst": "netflix",
       "am": "2026-10-06",
-      "deutsch": false
+      "deutsch": true
     },
     "new:5461238:netflix": {
       "art": "new",
@@ -6460,7 +6460,247 @@
       "dienst": "prime",
       "am": "2026-10-06",
       "deutsch": true
+    },
+    "new:86172:prime": {
+      "art": "new",
+      "titel": "Ekkehard",
+      "originalTitel": "Ekkehard",
+      "imdbId": "tt0899229",
+      "tmdbId": "tv/81454",
+      "dienst": "prime",
+      "am": "2026-10-08",
+      "deutsch": true
+    },
+    "new:26635417:netflix": {
+      "art": "new",
+      "titel": "Inside The Circle",
+      "originalTitel": "El Círculo",
+      "imdbId": "tt36743307",
+      "tmdbId": "tv/290233",
+      "dienst": "netflix",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "new:24887:prime": {
+      "art": "new",
+      "titel": "The Mr. Peabody & Sherman Show",
+      "originalTitel": "The Mr. Peabody & Sherman Show",
+      "imdbId": "tt5021206",
+      "tmdbId": "tv/71377",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": true
+    },
+    "new:25946853:prime": {
+      "art": "new",
+      "titel": "Carrie",
+      "originalTitel": "Carrie",
+      "imdbId": "tt11540908",
+      "tmdbId": "tv/288673",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": true
+    },
+    "new:19824996:netflix": {
+      "art": "new",
+      "titel": "After the Quake",
+      "originalTitel": "地震のあとで",
+      "imdbId": "tt36686908",
+      "tmdbId": "tv/286732",
+      "dienst": "netflix",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "new:9683:netflix": {
+      "art": "new",
+      "titel": "History of the Eagles",
+      "originalTitel": "History of the Eagles",
+      "imdbId": "tt2194326",
+      "tmdbId": "tv/74906",
+      "dienst": "netflix",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "new:6312:prime": {
+      "art": "new",
+      "titel": "The Bonfire of Destiny",
+      "originalTitel": "Le Bazar de la Charité",
+      "imdbId": "tt9050352",
+      "tmdbId": "tv/93742",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": true
+    },
+    "new:26891931:netflix": {
+      "art": "new",
+      "titel": "#Love",
+      "originalTitel": "#Love",
+      "imdbId": "tt38674953",
+      "tmdbId": "tv/302882",
+      "dienst": "netflix",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "removed:2632:prime": {
+      "art": "removed",
+      "titel": "She-Ra and the Princesses of Power",
+      "originalTitel": "She-Ra and the Princesses of Power",
+      "imdbId": "tt7745956",
+      "tmdbId": "tv/79732",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "removed:27635:prime": {
+      "art": "removed",
+      "titel": "The Legend of Tim Tyler: The Boy Who Lost His Laugh",
+      "originalTitel": "Timm Thaler",
+      "imdbId": "tt0081947",
+      "tmdbId": "tv/8744",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": true
+    },
+    "removed:20030453:prime": {
+      "art": "removed",
+      "titel": "Abandoned",
+      "originalTitel": "Abandoned",
+      "imdbId": "tt6127226",
+      "tmdbId": "tv/247862",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "removed:89892:prime": {
+      "art": "removed",
+      "titel": "Big Five",
+      "originalTitel": "Big Five",
+      "imdbId": "tt13710622",
+      "tmdbId": "tv/115071",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "removed:83186:prime": {
+      "art": "removed",
+      "titel": "Rafa Nadal Academy",
+      "originalTitel": "Rafa Nadal Academy",
+      "imdbId": "tt20867006",
+      "tmdbId": "tv/133843",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "removed:19854984:prime": {
+      "art": "removed",
+      "titel": "CoComelon JJ's Animal Time",
+      "originalTitel": "CoComelon JJ's Animal Time",
+      "imdbId": "tt30888139",
+      "tmdbId": "tv/247813",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": true
+    },
+    "removed:50385:prime": {
+      "art": "removed",
+      "titel": "The Adventurers of Modern Art",
+      "originalTitel": "Les Aventuriers de l'art moderne",
+      "imdbId": "tt3588552",
+      "tmdbId": "tv/86036",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "removed:51174:prime": {
+      "art": "removed",
+      "titel": "Rekkit Rabbit",
+      "originalTitel": "Rekkit",
+      "imdbId": "tt1671567",
+      "tmdbId": "tv/57662",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "removed:10270758:prime": {
+      "art": "removed",
+      "titel": "The Money Game",
+      "originalTitel": "The Money Game",
+      "imdbId": "tt31048383",
+      "tmdbId": "tv/261681",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "removed:7343:prime": {
+      "art": "removed",
+      "titel": "Laakhon Mein Ek",
+      "originalTitel": "Laakhon Mein Ek",
+      "imdbId": "tt7269100",
+      "tmdbId": "tv/74538",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "removed:54976:prime": {
+      "art": "removed",
+      "titel": "Scheibenwischer",
+      "originalTitel": "Scheibenwischer",
+      "imdbId": "tt0229927",
+      "tmdbId": "tv/30806",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": true
+    },
+    "removed:18811:prime": {
+      "art": "removed",
+      "titel": "Berlin, Berlin",
+      "originalTitel": "Berlin, Berlin",
+      "imdbId": "tt0312097",
+      "tmdbId": "tv/11904",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": true
+    },
+    "removed:4066:prime": {
+      "art": "removed",
+      "titel": "Manhunt",
+      "originalTitel": "Manhunt",
+      "imdbId": "tt7801964",
+      "tmdbId": "tv/85052",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": true
+    },
+    "removed:41118:netflix": {
+      "art": "removed",
+      "titel": "Castle and Castle",
+      "originalTitel": "Castle and Castle",
+      "imdbId": "tt9898916",
+      "tmdbId": "tv/83709",
+      "dienst": "netflix",
+      "am": "2026-10-07",
+      "deutsch": false
+    },
+    "removed:492:prime": {
+      "art": "removed",
+      "titel": "Demon Slayer: Kimetsu no Yaiba",
+      "originalTitel": "鬼滅の刃",
+      "imdbId": "tt9335498",
+      "tmdbId": "tv/85937",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": true
+    },
+    "removed:1842:prime": {
+      "art": "removed",
+      "titel": "Top Gear",
+      "originalTitel": "Top Gear",
+      "imdbId": "tt0163503",
+      "tmdbId": "tv/4498",
+      "dienst": "prime",
+      "am": "2026-10-07",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-10-07T04:08:15.085Z"
+  "fetchedAt": "2026-10-08T04:10:51.095Z"
 }
