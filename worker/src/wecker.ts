@@ -1,5 +1,5 @@
 import type { Env } from './env.ts'
-import { abstandMin, faelligeLaeufe } from '../../shared/weckplan.ts'
+import { faelligeLaeufe, startErlaubt, type LaufStand } from '../../shared/weckplan.ts'
 
 /**
  * **Der Wecker für die Datenläufe.** GitHubs eigener Cron-Plan feuert nicht pünktlich: gemessen am 05.10.2026 kam „Stündlich" alle ~4,6 Stunden, „Täglich"
@@ -18,20 +18,18 @@ const KOPF = (env: Env) => ({
   'X-GitHub-Api-Version': '2022-11-28',
 })
 
-/** Wie viele Minuten der letzte Start dieses Workflows zurückliegt; `null`, wenn unbekannt (dann wird gestartet). */
-async function minutenSeitLetztemStart(env: Env, workflow: string, jetzt: Date): Promise<number | null> {
-  const r = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/${workflow}/runs?per_page=1`, { headers: KOPF(env) })
-  if (!r.ok) return null
-  const j = (await r.json()) as { workflow_runs?: { created_at?: string }[] }
-  const t = Date.parse(j.workflow_runs?.[0]?.created_at ?? '')
-  return Number.isFinite(t) ? (jetzt.getTime() - t) / 60000 : null
+/** Die letzten Läufe dieses Workflows (neuester zuerst); leer, wenn die API nicht antwortet (dann wird gestartet). */
+async function letzteLaeufe(env: Env, workflow: string): Promise<LaufStand[]> {
+  const r = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/${workflow}/runs?per_page=10`, { headers: KOPF(env) })
+  if (!r.ok) return []
+  return ((await r.json()) as { workflow_runs?: LaufStand[] }).workflow_runs ?? []
 }
 
 async function starte(env: Env, workflow: string, jetzt: Date): Promise<void> {
   /* Doppelstarts abfangen: Am 05.10.2026 kamen zwei Starts im Abstand von zehn Sekunden; Ursache ungeklärt, der Schutz gilt unabhängig davon. */
-  const her = await minutenSeitLetztemStart(env, workflow, jetzt).catch(() => null)
-  if (her !== null && her < abstandMin(workflow)) {
-    console.log(`[wecker] ${workflow}: übersprungen, letzter Start vor ${her.toFixed(1)} min`)
+  const laeufe = await letzteLaeufe(env, workflow).catch(() => [])
+  if (!startErlaubt(workflow, laeufe, jetzt)) {
+    console.log(`[wecker] ${workflow}: übersprungen (Mindestabstand oder Lauf aktiv)`)
     return
   }
   const r = await fetch(`https://api.github.com/repos/${REPO}/actions/workflows/${workflow}/dispatches`, {
