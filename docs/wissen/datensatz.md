@@ -662,5 +662,5 @@ Messung 09.10.2026 auf dem Datensatz von `main`: 919 Cartoons, 19 Zwillinge (Roo
 Mech Cadets, Scott Pilgrim Takes Off, ONI, Tekken: Bloodline, Star Wars: Visions, Pacific Rim: The Black, Fena, Eden, Blade Runner: Black Lotus, Saint Seiya: Knights of the
 Zodiac, YooHoo to the Rescue, Larva Island, Pac-Man and the Ghostly Adventures, Afro Samurai), 7 gleichnamige, aber andere Werke in `ZWILLING_AUSNAHMEN` (Bakugan ungeklärt).
 Bei 9 der 19 fehlt dem Anime-Titel ein Anbieter, den der Cartoon nannte (Devil May Cry, Mech Cadets, ONI,
-Pacific Rim, YooHoo, Fena, Blade Runner, Saint Seiya, Afro Samurai) — die TMDB-Anbieter des Cartoons gehen mit ihm verloren; als Anime-Weg nachzutragen ist offen.
+Pacific Rim, YooHoo, Fena, Blade Runner, Saint Seiya, Afro Samurai) — diese Anbieter übernimmt der Anime-Titel als Weg mit `herkunft: "tmdb"` und ohne Sprachangabe (Projektziel 4; `uebernehmeAnbieter`, Zusicherung in `check-cartoon-zwilling.ts`).
 Der Vergleich nutzt nur ausgelieferte Dateien; Titel, die nur im AniList-Katalog liegen, sind erst dann Zwillinge, wenn `ohne-synchro.json` sie führt.
