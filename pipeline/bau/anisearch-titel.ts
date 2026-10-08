@@ -67,6 +67,12 @@ export function anisearchUmgezogen(vorhanden: Set<number>): Set<number> {
   return umgezogen
 }
 
+/** Umgezogene Titel, deren Nachfolger im Hauptbestand, hinter dem Toggle oder im AniList-Katalog ankommt (Lauf 37730481739). */
+export function anisearchUmgezogenInBestand(jetzt: Set<number>, hinterToggle: Set<number>): Set<number> {
+  const katalog = readJson<{ eintraege?: { id: number }[] }>('data/cache/anilist-katalog.json', {}).eintraege ?? []
+  return anisearchUmgezogen(new Set([...jetzt, ...hinterToggle, ...katalog.map((e) => e.id)]))
+}
+
 /** Legt die Titel an, die bei uns noch keine eigene aniSearch-Kennung tragen. Gibt zurück, wie viele es sind. */
 export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>): number {
   /* Cover: die aniSearch-Bilder dürfen wir nicht weitergeben; wo TMDB ein Plakat zu Name und Jahr kennt (`fetch-tmdb-poster.ts`), steht es als Cover. */
