@@ -149,3 +149,28 @@ Nötig oder hilfreich, heute an einen Menschen zu geben (im Korpus 8 von 221 Aus
 6. **Wiederlesen bei Änderung**: Crunchyroll pflegt den Lineup-Artikel nach (`dateModified` 05.10. bei
    Veröffentlichung 15.09.), Anime2You trägt Titel nach (`modified` in der REST-Antwort). Gelesen wird, wenn
    sich das Änderungsdatum bewegt — dieselbe Regel wie in `belege-lesen.ts`.
+
+## Vorschlagslauf (eingehängt 08.10.2026, nur Vorschlagsmodus)
+
+`pipeline/fetch-sammelartikel.ts` (`npm run data:sammelartikel`) läuft im Tageslauf `refresh-data.yml` hinter dem
+Anime2You-Schritt. Er liest **nur Anime2You** (Crunchyroll bleibt unberührt, Nutzungsbedingungen siehe oben) und schreibt
+**nur** `data/proposals/aussagen.json` (je Aussage: Kennung, `erstGesehen`, `geaendert`, `offenOderUnklar`, Ergebnis mit
+Zitat, Konfidenz, Zuordnung, Bestandsabgleich; ohne Handlungstexte; Protokoll 60 Tage) und `data/sammelartikel-stand.json`
+(`stand` = jüngster `modified_gmt`, `pauseBis`, `letzterAusgang`). `schreibeNurVorschlag()` verweigert jeden anderen Pfad;
+`data/curated/` und `data/ankuendigungen.yaml` sind tabu — die Übernahme ist ein späterer, getrennter Schritt nach
+einigen Wochen Auswertung dieser Datei (Schwellen: Empfehlung 2–4 oben).
+
+- **Weg:** `wp-json/wp/v2/posts?modified_after=<Stand>&per_page=100&_fields=…,content` — ein Aufruf liefert Volltext bis
+  100 Artikel (08.10.2026: 350 Artikel seit 14.09. in vier Aufrufen, 18 s). `orderby=modified` leitet der CDN auf die
+  Liste ohne Parameter um (301) — nicht verwenden. Sammelartikel erkennt der Lauf an der Form (mindestens zwei Aussagen);
+  Abgangsmeldungen („verlassen … den Katalog") werden vorher ausgelassen (`ABGANG`, „Verfügbar bis" ist kein Start).
+- **robots.txt** wird je Lauf gelesen (`robotsErlaubt`, namentliche Gruppe vor `*`); nicht lesbar oder verboten = kein Abruf.
+- **Pause statt Abbruch:** 403/429/Zeitüberschreitung (drei Versuche, 5 s/20 s) → `pauseBis` (Retry-After, 1–24 h), Stand
+  rückt nicht vor, Exit 0. **Ausweichweg** (getestet mit `--ausweichweg`): Streaming-Feed (25 Meldungen) + Artikelseiten,
+  höchstens 12 je Lauf; dort rückt der Stand nicht vor (Wiederlesen ist wegen der Kennung unschädlich).
+- **Wochenwache** (`tools/wache-woechentlich.mjs`, montags): Zeile „Sammelartikel: N neue Aussagen, davon M offen/unklar"
+  (letzte sieben Tage; offen/unklar = nicht zugeordnet, Vorbehalt oder `deutsch: unklar`), dazu ein Hinweis in
+  `data/meldungen-an-claude.jsonl`; Befund erst nach 96 h ohne Lauf.
+- **Bekannte Grenze:** Netflix-Meldungen über verlängerte Lizenzen („Death Note bleibt") liest der Leser als „ab sofort"
+  (Konfidenz 0,8, Hinweis im Zitat) — vor einer Übernahme gegenzulesen.
+- Messung 08.10.2026 (Fenster seit 14.09.): 350 Artikel, 43 Sammelartikel, 277 Aussagen, 42 offen/unklar.

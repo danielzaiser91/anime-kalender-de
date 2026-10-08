@@ -64,6 +64,22 @@ try {
   befunde.push(`public/data/meta.json nicht lesbar: ${String(e.message).split('\n')[0]}`)
 }
 
+// Sammelartikel-Vorschläge (pipeline/fetch-sammelartikel.ts, nur Vorschlagsmodus): eine Zeile mit den Zahlen der letzten sieben Tage.
+// Kein Befund — die Aussagen warten auf Auswertung; stumm gilt der Lauf erst nach vier Tagen ohne Lesezeitpunkt.
+try {
+  const vorschlaege = JSON.parse(readFileSync('data/proposals/aussagen.json', 'utf8'))
+  const stand = JSON.parse(readFileSync('data/sammelartikel-stand.json', 'utf8'))
+  const grenze = new Date(jetzt - 7 * 24 * H).toISOString().slice(0, 10)
+  const neu = (vorschlaege.aussagen ?? []).filter((v) => v.erstGesehen > grenze)
+  const zeile = `Sammelartikel: ${neu.length} neue Aussagen, davon ${neu.filter((v) => v.offenOderUnklar).length} offen/unklar`
+  console.log(zeile)
+  if (!TROCKEN) appendFileSync('data/meldungen-an-claude.jsonl', JSON.stringify({ am: new Date().toISOString(), quelle: 'wache-woechentlich', schwere: 'hinweis', text: zeile }) + '\n', 'utf8')
+  const alter = (jetzt - Date.parse(stand.letzterLauf)) / H
+  if (!(alter <= 96)) befunde.push(`Sammelartikel-Lauf zuletzt vor ${Math.round(alter)} h (letzter Ausgang: ${stand.letzterAusgang ?? 'unbekannt'}, Pause bis ${stand.pauseBis ?? '-'})`)
+} catch (e) {
+  console.log(`Sammelartikel: noch kein Stand (${String(e.message).split('\n')[0]})`)
+}
+
 if (!befunde.length) {
   console.log('Wochenwache: unauffällig')
 } else {

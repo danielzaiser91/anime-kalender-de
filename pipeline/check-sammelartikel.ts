@@ -9,6 +9,7 @@ import { aussagenAusAnime2You } from './lib/aussagen-anime2you.ts'
 import { aussagenAusLineup, aussagenAusSynchros } from './lib/aussagen-crunchyroll.ts'
 import { Katalog, normName, ordneZu } from './lib/aussagen-zuordnung.ts'
 import { datumAus } from './lib/aussagen.ts'
+import { ABGANG, beschneide, fuehreZusammen, inPause, leseAb, pauseBis, robotsErlaubt, schreibeNurVorschlag, wachezeile } from './lib/sammelartikel-lauf.ts'
 
 const artikel = { url: 'https://www.anime2you.de/news/1/x/', veroeffentlicht: '2026-09-28', ueberschrift: 'ADN kündigt 25 Simulcasts an' }
 
@@ -126,5 +127,42 @@ assert.equal(ordneZu({ ...katalogtitel, titel: 'Revolutionary Girl Utena', datum
 const onePiece = ordneZu({ ...katalogtitel, titel: 'One Piece', zusatz: 'Staffel 4 bis 8', datum: '2026-09-17' }, katalog)
 assert.deepEqual([onePiece.zuordnung?.anilistId, onePiece.zuordnung?.vorbehalt], [21, 'Zusatz „Staffel 4 bis 8" nicht aufgelöst'])
 assert.equal(ordneZu({ ...katalogtitel, titel: 'Gibt es nicht', datum: '2026-10-15' }, katalog).offen?.grund, 'kein Titel mit diesem Namen')
+
+
+// --- Vorschlagslauf (`lib/sammelartikel-lauf.ts`) ---------------------------------------------------
+const lesung = (titel: string, extra: Record<string, unknown> = {}) => ({
+  ...simulcast, titel, art: 'start' as const, plattformen: ['netflix'], datum: '2026-10-03', deutsch: 'ja' as const, konfidenz: 0.95, gruende: [], zitat: `»${titel}«`,
+  quelle: { url: 'https://www.anime2you.de/news/9/x/', veroeffentlicht: '2026-10-01', leser: 'anime2you-sammel' as const },
+  bestand: { status: 'neu' as const }, ...extra,
+})
+const erst = fuehreZusammen([], [lesung('A'), lesung('B', { offen: { grund: 'kein Titel', kandidaten: [] } })], '2026-10-08')
+assert.deepEqual([erst.neu.length, erst.liste.filter((v) => v.offenOderUnklar).length], [2, 1], 'neu: zwei, davon eine offen')
+const zweit = fuehreZusammen(erst.liste, [lesung('A'), lesung('B', { offen: { grund: 'kein Titel', kandidaten: [] } }), lesung('C')], '2026-10-09')
+assert.deepEqual([zweit.neu.length, zweit.geaendert.length, zweit.liste.length], [1, 0, 3], 'dieselben Aussagen sind nichts Neues')
+assert.equal(zweit.liste[0], erst.liste[0], 'Unverändertes bleibt dasselbe Objekt')
+const nachgepflegt = fuehreZusammen(zweit.liste, [lesung('A', { datum: '2026-10-04' })], '2026-10-10')
+assert.deepEqual([nachgepflegt.neu.length, nachgepflegt.geaendert.length], [0, 1], 'anderer Tag im selben Artikel = geändert')
+assert.equal(nachgepflegt.liste.find((v) => v.ergebnis.titel === 'A')?.erstGesehen, '2026-10-08', 'erstGesehen bleibt')
+assert.equal(wachezeile(zweit.liste, '2026-10-12').text, 'Sammelartikel: 3 neue Aussagen, davon 1 offen/unklar')
+assert.equal(wachezeile(zweit.liste, '2026-10-20').text, 'Sammelartikel: 0 neue Aussagen, davon 0 offen/unklar', 'nach sieben Tagen nicht mehr neu')
+assert.equal(beschneide(zweit.liste, '2027-01-01').length, 0, 'nach 60 Tagen fällt der Vorschlag aus dem Protokoll')
+assert.equal(leseAb({ stand: '2026-10-08T14:18:16Z' }, new Date('2026-10-20T00:00:00Z')), '2026-10-08T14:18:16Z')
+assert.equal(leseAb({}, new Date('2026-10-22T00:00:00Z')), '2026-10-01T00:00:00Z', 'ohne Stand: 21 Tage zurück')
+assert.ok(inPause({ pauseBis: '2026-10-08T17:00:00Z' }, new Date('2026-10-08T16:00:00Z')))
+assert.ok(!inPause({ pauseBis: '2026-10-08T17:00:00Z' }, new Date('2026-10-08T17:00:01Z')))
+assert.equal(pauseBis(new Date('2026-10-08T16:00:00Z'), 5), '2026-10-08T17:00:00Z', 'mindestens eine Stunde')
+assert.equal(pauseBis(new Date('2026-10-08T16:00:00Z'), 999_999), '2026-10-09T16:00:00Z', 'höchstens ein Tag')
+for (const verboten of ['data/curated/streaming-herbst-2026.yaml', 'data/ankuendigungen.yaml', 'data/dub-confirmed.yaml', 'public/data/releases.json']) {
+  assert.throws(() => schreibeNurVorschlag(verboten), /darf .* nicht schreiben/, `${verboten} bleibt tabu`)
+}
+schreibeNurVorschlag('data/proposals/aussagen.json')
+schreibeNurVorschlag('data\\sammelartikel-stand.json')
+const robots = 'User-agent: *\nDisallow: /wordpress/wp-admin/\n\nUser-agent: DotBot\nDisallow: /\n\nUser-agent: AhrefsBot\nDisallow: /\n'
+assert.ok(robotsErlaubt(robots, '/wp-json/wp/v2/posts'), 'Anime2Yous robots.txt (08.10.2026) erlaubt die Schnittstelle')
+assert.ok(!robotsErlaubt('User-agent: *\nDisallow: /wp-json/\n', '/wp-json/wp/v2/posts'), 'ein Verbot für alle gilt')
+assert.ok(!robotsErlaubt('User-agent: anime-kalender\nDisallow: /\n\nUser-agent: *\nAllow: /\n', '/wp-json/wp/v2/posts'), 'ein namentliches Verbot gilt vor dem Sternchen')
+assert.ok(robotsErlaubt('User-agent: *\nDisallow: /wp-json/\nAllow: /wp-json/wp/v2/\n', '/wp-json/wp/v2/posts'), 'die genauere Regel gewinnt')
+assert.ok(ABGANG.test('Drei Anime-Serien verlassen bald den Prime-Video-Katalog') && ABGANG.test('Prime Video entfernt drei Anime-Serien aus seinem Programm'))
+assert.ok(!ABGANG.test('Netflix ergänzt zwei Neuzugänge und holt zwei Serien zurück'), 'Rückkehr ist kein Abgang')
 
 console.log('check:sammelartikel ok')

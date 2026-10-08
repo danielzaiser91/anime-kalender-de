@@ -111,6 +111,9 @@ QUELLEN=(
   data/curated-ids.json
   data/source-health.json
   data/proposals
+  # Stand des Sammelartikel-Vorschlagslaufs (`pipeline/fetch-sammelartikel.ts`): ab wann Anime2You als Nächstes gelesen wird, und eine Pause nach Sperre.
+  # Ohne diese Zeile läse jeder Lauf bei bewegtem Fernstand wieder dieselben 21 Tage.
+  data/sammelartikel-stand.json
   # Gedächtnis, keine Momentaufnahme — und deshalb hier lebenswichtig.
   #
   # `data/synchro-historie.json` hält fest, seit wann ein Titel eine belegte
