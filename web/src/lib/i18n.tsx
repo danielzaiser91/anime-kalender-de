@@ -681,6 +681,8 @@ const TEXTE = {
   'antwort.discNeben': 'Kaufausgabe — erscheint an einem Tag komplett',
   'antwort.discSeit': 'seit {datum}',
   'einstellungen.titel': 'Einstellungen',
+  /* Kurzwort für die Handy-Tab-Leiste (Zelle ~64 px); der volle Name bleibt aria-label. */
+  'nav.einstellungenKurz': 'Optionen',
   'einstellungen.schliessen': 'Einstellungen schließen',
   'einstellungen.cartoonsAus': 'Westliche Anime (Cartoons) ausblenden',
   'einstellungen.cartoonsAusHinweis':
