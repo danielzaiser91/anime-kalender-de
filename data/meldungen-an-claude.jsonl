@@ -12,3 +12,5 @@
 {"am":"2026-10-07T08:39:31.111Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 216 → 218","datei2":"data/termine-ausgelassen.json"}
 {"am":"2026-10-07T08:52:13.084Z","quelle":"bestand-bauen","schwere":"warnung","text":"Terminableitung verwirft mehr: Blöcke und Titel verschieden viele 218 → 223, Folgenzahl geht nicht auf 45 → 47","datei2":"data/termine-ausgelassen.json"}
 {"am":"2026-10-08T04:09:22.555Z","quelle":"beleg-lesen","schwere":"hinweis","text":"3 Belege ohne Fundstelle — von Hand prüfen","datei2":"daniel-zum-abarbeiten/listen/22-belege-ohne-fundstelle.md"}
+{"am":"2026-10-08T12:23:04.497Z","quelle":"wache-woechentlich","schwere":"warnung","text":"Wochenwache: tonspuren-monatlich.yml: letzter erfolgreicher Lauf vor 868 h, erlaubt 792 h"}
+{"am":"2026-10-08T12:23:04.941Z","quelle":"wache-woechentlich","schwere":"warnung","text":"Stumme Quellen (Frist überschritten): anisearch-eintraege noch nie, motn seit 36 Tagen","datei2":"data/source-health.json"}
