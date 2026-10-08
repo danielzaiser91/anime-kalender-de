@@ -18,7 +18,9 @@ export function DbSchalter({ ohneSynchro, onOhneSynchroChange, laedt, grouped, o
   onCartoonsAusChange: (next: boolean) => void
 }) {
   const { t } = useLang()
-  const pille = 'inline-flex shrink-0 items-center rounded-full border px-3 py-1.5 whitespace-nowrap transition'
+  /* `relative`: das `sr-only`-Input des Schalters ist absolut positioniert und ragte sonst aus der rollbaren Reihe
+     bis zur Seitenkante — das Handy legte den Viewport 594 statt 390 px breit an (gemessen, 08.10.2026). */
+  const pille = 'relative inline-flex shrink-0 items-center rounded-full border px-3 py-1.5 whitespace-nowrap transition'
   const ruhig = 'border-slate-300 dark:border-white/15'
   return (
     /* Auf dem Handy eine rollbare Reihe (drei Zeilen Schalter über dem Raster waren zu viel), ab `sm` umbrechend. */
