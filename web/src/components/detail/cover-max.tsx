@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { gleichesBild } from './cover-gleich.ts'
 
 /**
  * **Das Cover groß ansehen** (Daniel, 04.10.2026; seit dem 06.10.2026 öffnet der Klick aufs Cover, das Symbol in der Leiste entfiel):
@@ -10,6 +11,8 @@ import { createPortal } from 'react-dom'
  * ist schon geladen. Erst **mit dem Öffnen** — nie vorab — fordert die Ansicht das große Plakat an (TMDB, `srcset` mit 500 und 780 px
  * Breite; der Browser nimmt die kleinste Fassung, die für Fenster und Bildschirmdichte reicht). Bei Datensparmodus oder langsamer
  * Leitung gibt es nur die 500er. Das große Bild blendet sich über das kleine, sobald es da ist; fällt es aus, bleibt das kleine.
+ * **Nur dasselbe Motiv** (08.10.2026, Ishura): TMDB wählt das größte Plakat, nicht unbedingt das AniList-Bild — vor dem Überblenden prüft
+ * `cover-gleich.ts` per dHash, ob beide dasselbe zeigen; sonst bleibt das AniList-Cover (unscharf, aber dasselbe Bild wie im Panel).
  */
 export const COVER_MAX_EREIGNIS = 'cover-maximieren'
 const TMDB_BILD = 'https://image.tmdb.org/t/p'
@@ -44,8 +47,18 @@ export function CoverMaximieren({ bild, gross, titel }: { bild: string | undefin
   const [offen, setOffen] = useState(false)
   const [geladen, setGeladen] = useState(false)
   const [kaputt, setKaputt] = useState(false)
+  /* Das große Plakat nur, wenn es dasselbe Motiv ist wie das Cover im Panel (`cover-gleich.ts`). */
+  const [gleich, setGleich] = useState(false)
   const grossPfad = gross?.[0]
   const schliessen = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    if (!offen || !bild || !grossPfad) return
+    let aktiv = true
+    void gleichesBild(bild, grossPfad).then((g) => aktiv && setGleich(g))
+    return () => {
+      aktiv = false
+    }
+  }, [offen, bild, grossPfad])
   /* Fokus in die Ansicht holen und beim Schließen zurückgeben: Tastatur und Screenreader bleiben nicht hinter der Schicht hängen. */
   useEffect(() => {
     if (!offen) return
@@ -72,9 +85,10 @@ export function CoverMaximieren({ bild, gross, titel }: { bild: string | undefin
   useEffect(() => {
     setGeladen(false)
     setKaputt(false)
+    setGleich(false)
   }, [grossPfad])
   if (!bild || !offen) return null
-  const gr = gross && !kaputt ? grossesBild(gross) : undefined
+  const gr = gross && !kaputt && gleich ? grossesBild(gross) : undefined
   return createPortal(
     <div
       role="dialog"
