@@ -580280,6 +580280,74 @@
     },
     "fetchedAt": "2026-09-25T10:08:41.993Z"
   },
+  "199340": {
+    "anisearchId": 20924,
+    "descriptionDe": "Mit einem einzigen Geständnis gerät Sakuta Azusagawas Realität ins Wanken: Am 1. April erklärt Mai Sakurajima öffentlich, dass sie die geheimnisvolle Internet-Sängerin Toko Kirishima ist. Doch genau diesen Moment hatte Sakuta bereits Monate zuvor in einem Traum gesehen. Als daraufhin immer mehr eigentlich unmögliche Ereignisse Wirklichkeit werden, stimmen Sakutas Erinnerungen zunehmend nicht mehr mit der Welt um ihn herum überein.\n\nSchließlich erreicht ihn eine rätselhafte Nachricht von seinem Ich aus einer anderen möglichen Realität: Er muss Toko Kirishima aufhalten, bevor die Wirklichkeit vollständig umgeschrieben wird. Auf der Suche nach Toko versucht Sakuta herauszufinden, was hinter den Veränderungen steckt und wie sich die ursprüngliche Welt wiederherstellen lässt. Doch je weiter sich die Realität verändert, desto schwieriger wird es für ihn, zwischen dem Gewesenen und dem Wirklichen zu unterscheiden … \n\nQuelle: www.anisearch.de/anime/20924",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Seishun Buta Yarou wa Dear Friend no Yume o Minai",
+          "titleNative": "Seishun Buta Yarō wa Dear Friend no Yume o Minai",
+          "status": "Zukünftig",
+          "released": "16.10.2026"
+        },
+        {
+          "language": "Deutsch",
+          "title": "Rascal Does Not Dream of a Dear Friend",
+          "status": "Zukünftig",
+          "released": "27.10.2026",
+          "publisher": [
+            "peppermint anime GmbH"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "season": "Herbst 2026",
+      "studios": [
+        "CloverWorks Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hajime KAMOSHIDA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Souichi MASUI",
+          "role": "Direction"
+        },
+        {
+          "name": "Satomi TAMURA",
+          "role": "Character Design"
+        },
+        {
+          "name": "fox capture plan",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/aobuta_anime"
+        },
+        {
+          "name": "Tiktok",
+          "url": "https://www.tiktok.com/@aobuta_official"
+        },
+        {
+          "name": "Ao Buta",
+          "url": "https://ao-buta.com/dearfriend/"
+        }
+      ],
+      "synonyms": [
+        "Seishun Buta Yarou wa Dear Friend no Yume wo Minai"
+      ]
+    },
+    "fetchedAt": "2026-10-08T04:01:43.546Z"
+  },
   "199342": {
     "anisearchId": 20926,
     "streams": [],
