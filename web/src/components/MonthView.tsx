@@ -11,6 +11,7 @@ import { buendeleTermine } from '../lib/buendel.ts'
 import { Schwebe } from './kalender/Schwebe.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { FernsehZeichen } from './kalender/Zeichen.tsx'
+import { TREFFER_24_HOCH } from './detail/tippziel.ts'
 import { anbieterUndFolge, ZeitMarke } from './kalender/Marken.tsx'
 
 export interface MonatProps {
@@ -114,7 +115,7 @@ function ZelleGross({ tag, stream, tv, p, heute, t }: ZellProps) {
         <Schwebe art="beides" breite={340} label={t('kal.tvAmTag', { datum: formatDate(tag.date) })} className="mt-auto block" inhalt={<TvInhalt tag={tag} p={p} />}>
           <button
             type="button"
-            className="flex cursor-pointer items-center gap-1.5 rounded-md text-xs font-bold text-ak-tv hover:underline"
+            className={`flex cursor-pointer items-center gap-1.5 rounded-md text-xs font-bold text-ak-tv hover:underline ${TREFFER_24_HOCH}`}
             aria-label={t('kal.tvAmTag', { datum: formatDate(tag.date) })}
           >
             <FernsehZeichen groesse={14} />

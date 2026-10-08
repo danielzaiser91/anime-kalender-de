@@ -4,6 +4,7 @@ import { FSK_COLORS, PLATFORMS, RELEASE_TYPES, anbieterName } from '@shared/type
 import type { Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { plakettenStil } from '../lib/kontrast.ts'
+import { TREFFER_24, TREFFER_24_MIN } from './detail/tippziel.ts'
 
 /** Gemeinsamer Fokus- und Zeigerstil aller anklickbaren Elemente. */
 const CLICKABLE = 'cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
@@ -340,7 +341,7 @@ export function FavoriteStar({
       className={[
         'inline-flex items-center justify-center rounded-full transition',
         CLICKABLE,
-        size === 'sm' ? 'size-5 text-[13px]' : 'size-7 text-base',
+        size === 'sm' ? `size-5 text-[13px] ${TREFFER_24}` : 'size-7 text-base',
         active
           ? 'text-amber-400 drop-shadow-[0_0_4px_rgba(251,191,36,.55)]'
           : 'text-slate-400/70 hover:text-amber-300 dark:text-slate-500 dark:hover:text-amber-300',
@@ -470,7 +471,7 @@ export function HideEye({
       className={[
         'inline-flex items-center justify-center rounded-full transition',
         CLICKABLE,
-        size === 'sm' ? 'size-5' : 'size-7',
+        size === 'sm' ? `size-5 ${TREFFER_24}` : 'size-7',
         hidden
           ? 'text-sky-500 dark:text-sky-400'
           : 'text-slate-400/70 hover:text-sky-500 dark:text-slate-500 dark:hover:text-sky-400',
@@ -520,7 +521,7 @@ export function ShareIcon({
       className={[
         'inline-flex items-center justify-center rounded-full transition',
         CLICKABLE,
-        size === 'sm' ? 'size-5 text-[12px]' : 'size-7 text-sm',
+        size === 'sm' ? `size-5 text-[12px] ${TREFFER_24}` : 'size-7 text-sm',
         copied
           ? 'text-emerald-400'
           : 'text-slate-400/70 hover:text-sky-400 dark:text-slate-500 dark:hover:text-sky-300',
@@ -735,7 +736,7 @@ export function Tooltip({
         aria-describedby={kindFokus ? undefined : verweis}
         /* `inline-flex`: Die Hülle nimmt die Höhe ihres Kinds, nicht die der Zeile — sonst stehen Plaketten versetzt. */
         className={[
-          'inline-flex items-center outline-none',
+          `inline-flex items-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-sky-400 ${TREFFER_24_MIN}`,
           unterstrichen ? 'cursor-help underline decoration-dotted underline-offset-2' : '',
         ].join(' ')}
       >

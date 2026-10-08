@@ -1,4 +1,4 @@
-import { TIPPFLAECHE } from './tippziel.ts'
+import { TIPPFLAECHE, TREFFER_24 } from './tippziel.ts'
 
 /**
  * Klassen des Kalender-Knopfs („Merken") an Pillen. `neben` (Vorschau `anbieter-legende`): Der Knopf sitzt als eigenes Element
@@ -16,7 +16,7 @@ export function merkenKnopfKlasse(mitFarbe: boolean, neben: boolean, gross: bool
     : mitFarbe
       ? 'grid size-7 shrink-0 cursor-pointer place-items-center rounded-full bg-white transition hover:brightness-110 dark:bg-[#162238]'
       : 'grid size-7 shrink-0 cursor-pointer place-items-center rounded-full bg-slate-500/10 text-slate-700 transition hover:bg-slate-500/20 dark:bg-white/10 dark:text-slate-200 dark:hover:bg-white/15'
-  return gross ? `${basis} ${TIPPFLAECHE}` : basis
+  return `${basis} ${gross ? TIPPFLAECHE : TREFFER_24}`
 }
 
 export const merkenSymbolKlasse = (mitFarbe: boolean, neben: boolean): string => (mitFarbe && !neben ? 'size-3.5' : 'size-4')

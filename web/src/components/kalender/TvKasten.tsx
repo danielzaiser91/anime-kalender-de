@@ -6,6 +6,7 @@ import { buendeleTermine } from '../../lib/buendel.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { FernsehZeichen } from './Zeichen.tsx'
+import { TREFFER_24_HOCH } from '../detail/tippziel.ts'
 
 /**
  * Die Fernsehtermine eines Tages als Liste neben den Postern. Wiederholungen desselben Titels beim
@@ -106,7 +107,7 @@ function TvZeile({
           type="button"
           onClick={() => setAuf(!auf)}
           aria-expanded={auf}
-          className="ml-[76px] flex min-h-11 cursor-pointer items-center rounded px-1 text-xs font-semibold text-ak-tv hover:underline sm:min-h-0"
+          className={`ml-[76px] flex min-h-11 cursor-pointer items-center rounded px-1 text-xs font-semibold text-ak-tv hover:underline sm:min-h-0 ${TREFFER_24_HOCH}`}
         >
           {auf
             ? t('kal.buendelAuch', { zeiten: weitere.map((w) => w.time ?? '–').join(', ') })
