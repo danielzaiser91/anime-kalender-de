@@ -5,7 +5,7 @@ import { applyDocumentLanguage } from './lib/i18n.tsx'
 import { registerServiceWorker } from './lib/pwa.ts'
 import { kennungUmzug } from './lib/kennung-umzug.ts'
 import { installiereVorschauBefehl } from './lib/vorschau.ts'
-import { beobachteVersion } from './lib/aktualisierung.ts'
+import { pruefeVersionBeimLaden } from './lib/aktualisierung.ts'
 /* Selbst gehostet statt über Google Fonts: Ein Abruf dort übermittelt die IP-Adresse (DSGVO). */
 import '@fontsource/unbounded/500.css'
 import '@fontsource/unbounded/700.css'
@@ -21,7 +21,7 @@ document.documentElement.style.colorScheme = dark ? 'dark' : 'light'
 
 // Offline-Fähigkeit anmelden. Schlägt das fehl, läuft die Seite normal weiter.
 registerServiceWorker()
-beobachteVersion() // Neuer Code nach einem Deploy: Seite erkennt ihn über version.json und lädt neu
+pruefeVersionBeimLaden() // Neuer Code nach einem Deploy: beim Laden über version.json erkannt, einmal neu geladen (nie mitten in der Benutzung)
 installiereVorschauBefehl() // Konsole: akVorschau() — neue Oberflächen live, aber nur auf Zuruf
 
 // Sprache, Titel und Beschreibung im Dokument setzen. Früher machte das der
