@@ -6,6 +6,7 @@
   "description": "Wochenkalender für alle Anime-Releases mit deutscher Synchronisation",
   "scripts": {
     "dev": "vite",
+    "build:schlank": "vite build && tsx pipeline/build-share-pages.ts",
     "build": "npm run check:umfang && npm run check:hooks && npm run check:folgen && tsc -b --noEmit && vite build && tsx pipeline/build-share-pages.ts",
     "preview": "npm run build && wrangler dev",
     "data:fetch": "tsx pipeline/fetch.ts",

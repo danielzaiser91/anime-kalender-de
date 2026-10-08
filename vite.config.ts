@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
 import { eigeneKennungen } from './tools/vite-kennungen.ts'
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 
 import { cloudflare } from "@cloudflare/vite-plugin";
 
@@ -48,6 +49,22 @@ function datenStand(): string {
 
 const buildId = datenStand()
 
+/** Kennung des Codes: im CI die Commit-Kennung, lokal die Bauzeit. Sie steht im Bündel und in `version.json` (siehe `web/src/lib/aktualisierung.ts`). */
+const appVersion = (process.env.GITHUB_SHA ?? `lokal-${Date.now()}`).slice(0, 12)
+
+function versionDatei() {
+  let ziel = ''
+  return {
+    name: 'version-datei',
+    configResolved(c: { root: string; build: { outDir: string } }) {
+      ziel = resolve(c.root, c.build.outDir, 'version.json')
+    },
+    closeBundle() {
+      writeFileSync(ziel, JSON.stringify({ v: appVersion, daten: buildId }))
+    },
+  }
+}
+
 /**
  * **Die Startdaten laden parallel zum Programm, nicht danach** (18.09.2026, gemessen auf
  * einem gedrosselten Handy): Die vier JSON-Dateien der ersten Ansicht starteten erst bei
@@ -72,8 +89,8 @@ export default defineConfig({
   base,
   root: 'web',
   publicDir: '../public',
-  define: { __BUILD_ID__: JSON.stringify(buildId) },
-  plugins: [react(), tailwindcss(), cloudflare(), datenVorladen(), eigeneKennungen()],
+  define: { __BUILD_ID__: JSON.stringify(buildId), __APP_VERSION__: JSON.stringify(appVersion) },
+  plugins: [react(), tailwindcss(), cloudflare(), datenVorladen(), eigeneKennungen(), versionDatei()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./web/src', import.meta.url)),

@@ -47,6 +47,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # **Zwei Wege zum Deploy** (Daniel, 08.10.2026): Der Bau und die Prüfungen laufen nebeneinander. **Hart** (Standard): Deployt wird erst, wenn beides grün ist.
+  # **Schlank** (`[schlank]` in der Commit-Nachricht, gesetzt von `bash tools/pushen.sh --schlank`): Für kleine Änderungen, die lokal vollständig geprüft sind. Deployt wird
+  # gleich nach dem Bau; die Prüfungen laufen weiter und melden sich rot, wenn doch etwas nicht stimmt.
   build:
     runs-on: ubuntu-latest
     # Zweck und Ziel gehen an die Statusanzeige mit. Ohne sie steht dort nur
@@ -109,6 +112,84 @@ jobs:
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" laeuft
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fortschritt — Abhängigkeiten installiert
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Abhängigkeiten installiert"
+
+      - name: Bauen
+        env:
+          PAGES_BASE: /
+          VITE_NEWSLETTER_API: ${{ vars.NEWSLETTER_API_URL }}
+          SCHLANK: ${{ contains(github.event.head_commit.message, '[schlank]') && '1' || '' }}
+        run: |
+          if [ -n "$SCHLANK" ]; then npm run build:schlank; else npm run build; fi
+
+      - name: Fortschritt — Seite gebaut
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Seite gebaut"
+
+      # Hier stand bis zum 17.08.2026 ein SPA-Fallback: cp dist/index.html
+      # dist/404.html. Er ist weg, und zwar aus zwei Gründen.
+      #
+      # Erstens braucht ihn diese Anwendung nicht. Sie routet über den Hash;
+      # echte Pfade gibt es nur drei — /, /termine/ und /r/<slug>/ —, und alle
+      # drei liegen als Datei im Bauwerk. Ein anderer Pfad ist wirklich nicht
+      # vorhanden.
+      #
+      # Zweitens richtete er Schaden an: Seit die Startseite vorgerenderten
+      # Inhalt trägt, lieferte jeder unbekannte Pfad eine vollständig
+      # aussehende Seite unter dem Status 404 aus. Für Google ist das eine
+      # „Soft 404" — er sieht Inhalt, wo ein Fehler gemeldet wird.
+      #
+      # public/404.html übernimmt: richtiger Status, passender Inhalt, ein Weg
+      # zurück zum Kalender, und noindex.
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Fortschritt — Artefakt hochgeladen
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" schritt "Artefakt hochgeladen"
+
+  pruefen:
+    runs-on: ubuntu-latest
+    env:
+      LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
+      LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
+      LAUF_SCHRITTE: '6'
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
+    steps:
+      - uses: actions/checkout@v4
+
+      # Meldet der Statusanzeige, dass hier etwas läuft. Ohne LAUF_TOKEN
+      # passiert nichts — eine fehlende Meldung darf keinen Lauf rot machen.
+      # Das Meldeskript an einen Ort legen, den kein Zweigwechsel wegnimmt.
+      #
+      # Am 21.08.2026 hat ein Auftrags-Lauf seinen eigenen Zweig angelegt und
+      # ist dorthin gewechselt — auf dem gab es `tools/lauf-melden.sh` noch
+      # nicht. Die Abmeldung scheiterte mit Exit 127 und machte einen Lauf rot,
+      # dessen Arbeit fertig und richtig war.
+      - name: Melder bereitlegen
+        run: |
+          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
 
       - uses: actions/setup-node@v4
         with:
@@ -222,71 +303,9 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: bash "$MELDER" schritt "Hooks-Regeln geprüft"
 
-      - name: Bauen
-        env:
-          PAGES_BASE: /
-          VITE_NEWSLETTER_API: ${{ vars.NEWSLETTER_API_URL }}
-        run: npm run build
-
-      - name: Fortschritt — Seite gebaut
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Seite gebaut"
-
-      # Hier stand bis zum 17.08.2026 ein SPA-Fallback: cp dist/index.html
-      # dist/404.html. Er ist weg, und zwar aus zwei Gründen.
-      #
-      # Erstens braucht ihn diese Anwendung nicht. Sie routet über den Hash;
-      # echte Pfade gibt es nur drei — /, /termine/ und /r/<slug>/ —, und alle
-      # drei liegen als Datei im Bauwerk. Ein anderer Pfad ist wirklich nicht
-      # vorhanden.
-      #
-      # Zweitens richtete er Schaden an: Seit die Startseite vorgerenderten
-      # Inhalt trägt, lieferte jeder unbekannte Pfad eine vollständig
-      # aussehende Seite unter dem Status 404 aus. Für Google ist das eine
-      # „Soft 404" — er sieht Inhalt, wo ein Fehler gemeldet wird.
-      #
-      # public/404.html übernimmt: richtiger Status, passender Inhalt, ein Weg
-      # zurück zum Kalender, und noindex.
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
-      - name: Fortschritt — Artefakt hochgeladen
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" schritt "Artefakt hochgeladen"
-
-      # Abmeldung im selben Job wie die Anmeldung. Der Job "deploy" darunter
-      # hat keinen Auscheckvorgang — dort gäbe es dieses Skript gar nicht,
-      # und ein gescheiterter Meldeschritt hätte jeden erfolgreichen Deploy
-      # rot gemacht.
-      - name: Lauf abmelden
-        continue-on-error: true
-        if: always()
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-        run: bash "$MELDER" "${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
-
-      # **Überholte rote Läufe verschwinden von selbst** (18.09.2026). „Roter Lauf gesehen,
-      # aber stehen gelassen" war dreimal rückfällig (Rückfall-Register) — das Werkzeug lief
-      # nur, wenn jemand daran dachte. Es nimmt ausschließlich Läufe ab, deren Workflow
-      # danach grün durchlief; ein roter Lauf ohne grünen Nachfolger bleibt sichtbar.
-      - name: Überholte rote Läufe abnehmen
-        if: success()
-        continue-on-error: true
-        env:
-          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
-          node tools/laeufe-aufraeumen.mjs
-
-  deploy:
-    needs: build
+  deploy_hart:
+    needs: [build, pruefen]
+    if: ${{ !contains(github.event.head_commit.message, '[schlank]') }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -294,3 +313,48 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy_schlank:
+    needs: build
+    if: ${{ contains(github.event.head_commit.message, '[schlank]') }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Abmeldung und Aufräumen am Ende, nach allen Jobs: Sie brauchen das Meldeskript (Auscheckvorgang) und den Gesamtstand.
+  abschluss:
+    needs: [build, pruefen, deploy_hart, deploy_schlank]
+    if: always() && needs.build.result != 'skipped'
+    runs-on: ubuntu-latest
+    env:
+      LAUF_ZWECK: "Veröffentlicht den aktuellen Stand von anime-kalender.de"
+      LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
+      LAUF_SCHRITTE: '6'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Melder bereitlegen
+        run: |
+          cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
+          echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+
+      - name: Lauf abmelden
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+        run: bash "$MELDER" "${{ contains(needs.*.result, 'failure') && 'fehler' || contains(needs.*.result, 'cancelled') && 'abgebrochen' || 'ok' }}"
+
+      # **Überholte rote Läufe verschwinden von selbst** (18.09.2026): nur Läufe, deren Workflow danach grün durchlief.
+      - name: Überholte rote Läufe abnehmen
+        if: ${{ !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$LAUF_TOKEN" ]; then exit 0; fi
+          node tools/laeufe-aufraeumen.mjs
