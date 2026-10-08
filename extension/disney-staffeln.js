@@ -45,6 +45,47 @@
     return Number(s.gesamt)
   }
 
+  /**
+   * Wie viele Folgen die Staffeln **vor** dieser auf der Seite führen (Summe ihrer Gesamtzahlen).
+   *
+   * Disney+ zählt je Staffel neu; unser Bestand führt manche Serien als ein Werk mit
+   * Gesamtnummern (Naruto Shippuden: Staffel 2 Folge 1 ist unsere Folge 54). Die Pipeline
+   * braucht dafür den Versatz — aus der Seite gelesen, nie aus den gemeldeten Folgen, denn die
+   * können unvollständig sein (abgebrochenes Nachladen). Fehlt bei einer Vorstaffel die Zahl
+   * oder trägt sie keine eindeutige Nummer im Namen, bleibt es bei `null`: lieber keine Zahl.
+   */
+  function folgenVorStaffel(staffelNr, anbieterStaffeln) {
+    const liste = Array.isArray(anbieterStaffeln) ? anbieterStaffeln : []
+    const nr = Number(staffelNr)
+    if (!Number.isInteger(nr) || nr < 1) return null
+    if (nr === 1) return 0
+    if (folgenDerSeite(nr, liste) == null) return null
+    let summe = 0
+    for (let platz = 1; platz < nr; platz++) {
+      const s = liste[platz - 1]
+      const imNamen = /(\d+)/.exec(String(s?.name ?? ''))
+      if (!s || !Number.isFinite(Number(s.gesamt)) || !imNamen || Number(imNamen[1]) !== platz) return null
+      summe += Number(s.gesamt)
+    }
+    return summe
+  }
+
+  /** Die Staffelliste einer Meldung: was gemeldet wurde (`folgen`, `erste`) plus `gesamt` und `davor` laut Seite. */
+  function staffelnDerMeldung(echte, anbieterStaffeln) {
+    return [...new Set(echte.map((r) => r.staffel))]
+      .filter((nr) => nr)
+      .map((nr) => {
+        const dazu = echte.filter((r) => r.staffel === nr)
+        return {
+          seq: nr,
+          folgen: dazu.length,
+          erste: Math.min(...dazu.map((r) => r.nummer)),
+          davor: folgenVorStaffel(nr, anbieterStaffeln),
+          gesamt: folgenDerSeite(nr, anbieterStaffeln),
+        }
+      })
+  }
+
   function titelIdFuer(staffeln, staffelNr, anbieterStaffeln) {
     try {
       const liste = Array.isArray(staffeln) ? staffeln : []
@@ -80,5 +121,5 @@
     }
   }
 
-  globalThis.AK_DISNEY_STAFFELN = { titelIdFuer }
+  globalThis.AK_DISNEY_STAFFELN = { titelIdFuer, staffelnDerMeldung }
 })()

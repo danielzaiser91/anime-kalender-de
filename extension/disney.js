@@ -761,12 +761,7 @@
     }
 
     /* Wie Disney+ die Reihe teilt — damit lässt sich die Meldung später unserer Staffel zuordnen. */
-    const staffeln = [...new Set(echte.map((r) => r.staffel))]
-      .filter((nr) => nr)
-      .map((nr) => {
-        const dazu = echte.filter((r) => r.staffel === nr)
-        return { seq: nr, folgen: dazu.length, erste: Math.min(...dazu.map((r) => r.nummer)) }
-      })
+    const staffeln = globalThis.AK_DISNEY_STAFFELN.staffelnDerMeldung(echte, anbieterStaffeln)
 
     let geschafft = 0
     const gescheitert = new Map() // Folgenschlüssel → Fehlertext
