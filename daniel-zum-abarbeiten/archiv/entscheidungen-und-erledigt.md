@@ -13,6 +13,7 @@
 
 ## Erledigt
 
+- aniSearch-Discord „#db_api": vier Themen eingestellt (Yu-Gi-Oh! Capsule Monsters, Princess Principal Picture Drama, Anohana „Letter to Menma", Yu-Gi-Oh! Dark Side of Dimensions Special), 08.10.2026, Daniel. Wartet auf Antwort von aniSearch.
 - GitHub-Secret `ANISEARCH_TOKEN` angelegt (07.10.2026, Daniel).
 - TMDB-Logo heruntergeladen und im Impressum eingebunden (07.10.2026, [Impressum](https://anime-kalender.de/#/impressum)).
 - Antwort an Dominik (aniSearch) abgeschickt (06.10.2026).

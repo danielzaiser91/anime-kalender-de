@@ -2,7 +2,7 @@
 
 Alles, wofür ich dich brauche, steht hier — nummeriert, je Punkt ein Link, Vorher / Erwartet / Falsch, wenn …. Entscheidungen und Erledigtes stehen in [archiv/entscheidungen-und-erledigt.md](file:///C:/code/ai/_wtumbau/daniel-zum-abarbeiten/archiv/entscheidungen-und-erledigt.md).
 
-Stand: 08.10.2026 00:30
+Stand: 08.10.2026 03:10
 
 ## Datiert (nach Datum, das früheste zuerst)
 
@@ -16,12 +16,6 @@ Stand: 08.10.2026 00:30
    - Nur zur Kenntnis: Bis dahin schreiben Browser und Worker alte AniList-Favoriten auf unsere Kennung um.
 
 ## Offen
-
-3. **aniSearch-Discord: fehlende Titel melden** (Dominik will sie je Titel als eigenes Thema im Forumkanal „#db_api"; das darf nur du posten)
-   [Entwürfe, ein Thema je Titel](file:///C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/listen/discord-db-api-entwuerfe.md)
-   - Vorher: Drei Titel (laut deiner E-Mail an Dominik, dazu ein optionaler vierter) fehlen bei aniSearch.
-   - Auftrag: Je Titel kurz auf aniSearch suchen. Gibt es ihn doch, die Adresse `anisearch.de/anime/<ID>,<slug>` an mich geben (kein Thema nötig). Sonst Überschrift und Text aus dem Entwurf als neues Thema in „#db_api" einstellen.
-   - Erwartet: aniSearch legt die Einträge an oder antwortet; ich trage die Kennungen dann in `data/anisearch-ids-hand.yaml` ein.
 
 4. **Entscheidung: Hosting** (Recherche liegt vor: [hosting-vergleich-2026-10-06.md](file:///C:/code/ai/anime-kalender-de/docs/wissen/hosting-vergleich-2026-10-06.md))
    Empfehlung: GitHub Pages vorerst behalten und Cloudflare (Workers Static Assets, 0 €, Zone liegt schon dort) als zweites Deploy-Ziel vorbereiten. Umschalten, wenn die 30-Tage-Messung (`site_probe`) unter 99,9 % liegt oder ein Ausfall der ausgelieferten Seite belegt ist. Pages bleibt dann als Rückfall.
