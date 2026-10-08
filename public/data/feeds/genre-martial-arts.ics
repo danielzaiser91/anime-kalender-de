@@ -66,16 +66,6 @@ DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nUhrzeit noch nicht
 CATEGORIES:Joyn
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-16870-tv-prosieben-maxx@2026-10-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T003000Z
-DTEND:20261003T010000Z
-SUMMARY:The Last: Naruto the Movie
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6377/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:spy-x-family-s1-teil2-disneyplus@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261004
@@ -210,16 +200,6 @@ UID:auto-21220-tv-prosieben-maxx@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T181500Z
 DTEND:20261009T184500Z
-SUMMARY:Boruto: Naruto the Movie
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/7680/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21220-tv-prosieben-maxx@2026-10-10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261010T001500Z
-DTEND:20261010T004500Z
 SUMMARY:Boruto: Naruto the Movie
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/7680/
