@@ -12,6 +12,7 @@ import { Klapptext } from './klapptext.tsx'
 import { NachtragText } from './news-nachtrag.tsx'
 import { VerlaufZeilen } from './news-verlauf.tsx'
 import { QuellenKnopf } from './beleg-dialog.tsx'
+import { KinoPlakette, NewsCover } from './news-kachel.tsx'
 import { SeitenNeuerungen } from './SeitenNeuerungen.tsx'
 import { ohneEingeordnete, verlaeufeAus, type Stand } from '../lib/news-verlauf.ts'
 import { AELTERE_SCHRITT_TAGE, teileGleichmelder } from '../lib/news-gruppen.ts'
@@ -181,13 +182,7 @@ function KinoKarussell({
                       className="h-full w-full object-cover transition-transform group-hover:scale-105"
                     />
                   )}
-                  <span
-                    className={`absolute left-1 top-1 rounded px-1 py-px text-[10px] font-semibold ${
-                      kommt ? 'bg-slate-900/80 text-white' : 'bg-rose-600 text-white'
-                    }`}
-                  >
-                    {zeile}
-                  </span>
+                  <KinoPlakette kommt={kommt} text={zeile} />
                 </span>
                 <span className="line-clamp-2 text-xs font-medium text-slate-800 group-hover:underline dark:text-slate-100">
                   {name}
@@ -320,7 +315,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
         <h1 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
           {t('news.titel')} <span className="text-xs font-normal text-slate-500 dark:text-slate-400">· {t('news.seit', { datum: datumKurz(grenze) })}</span>
         </h1>
-        <a href={feedUrl('news.xml')} className="text-xs text-slate-500 underline-offset-2 hover:underline dark:text-slate-400" title={t('news.rssHint')}>
+        <a href={feedUrl('news.xml')} className="ak-tz text-xs text-slate-500 underline-offset-2 hover:underline dark:text-slate-400" title={t('news.rssHint')}>
           RSS
         </a>
       </div>
@@ -334,7 +329,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
             type="button"
             onClick={() => setFilter(null)}
             aria-pressed={filter === null}
-            className={`rounded-full px-2.5 py-1 text-xs transition ${
+            className={`ak-tz rounded-full px-2.5 py-1 text-xs transition ${
               filter === null
                 ? 'bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
@@ -348,7 +343,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
               type="button"
               onClick={() => setFilter(filter === a ? null : a)}
               aria-pressed={filter === a}
-              className={`rounded-full px-2.5 py-1 text-xs transition ${
+              className={`ak-tz rounded-full px-2.5 py-1 text-xs transition ${
                 filter === a ? 'ring-2 ring-slate-400 dark:ring-slate-500' : 'hover:brightness-95'
               } ${NEWS_FARBE[a]}`}
             >
@@ -394,11 +389,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                     aria-expanded={e.meldungen.length > 1 ? auf : undefined}
                     className="flex w-full items-center gap-2.5 py-1.5 text-left hover:bg-slate-50 dark:hover:bg-slate-900/60"
                   >
-                    {e.cover ? (
-                      <img {...coverBild(e.cover, 40)} alt="" loading="lazy" className="h-14 w-10 shrink-0 rounded object-cover" />
-                    ) : (
-                      <span className="h-14 w-10 shrink-0 rounded bg-slate-200 dark:bg-slate-800" />
-                    )}
+                    <NewsCover e={e} />
                     <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                       {/* Zeile 1: der Titel, allein — er ist, wonach man die Liste überfliegt. */}
                       <span className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">{e.titel}</span>

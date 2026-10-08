@@ -25,7 +25,7 @@ export function SeitenNeuerungen(): React.JSX.Element | null {
               {n.ziel && (
                 <>
                   {' '}
-                  <a href={n.ziel} className="whitespace-nowrap underline underline-offset-2">
+                  <a href={n.ziel} className="ak-tz whitespace-nowrap underline underline-offset-2">
                     {t('news.seiteAnsehen')}
                   </a>
                 </>

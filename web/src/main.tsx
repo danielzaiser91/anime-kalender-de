@@ -5,6 +5,7 @@ import { applyDocumentLanguage } from './lib/i18n.tsx'
 import { registerServiceWorker } from './lib/pwa.ts'
 import { kennungUmzug } from './lib/kennung-umzug.ts'
 import { installiereVorschauBefehl } from './lib/vorschau.ts'
+import { TippzieleSchalter } from './components/tippziele.tsx'
 import { pruefeVersionBeimLaden } from './lib/aktualisierung.ts'
 /* Selbst gehostet statt über Google Fonts: Ein Abruf dort übermittelt die IP-Adresse (DSGVO). */
 import '@fontsource/unbounded/500.css'
@@ -33,6 +34,7 @@ void kennungUmzug().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <App />
+      <TippzieleSchalter />
     </StrictMode>,
   )
   ladeschirmEntfernen()

@@ -1,0 +1,23 @@
+/* Vorschau „tippziele“ (gross): Mindest-Trefferfläche 44 px. Nur aktiv, wenn <html data-tippziele> gesetzt ist (components/tippziele.tsx). */
+
+/* Links und Chips: unsichtbare Trefferfläche über ::after, das Bild bleibt gleich. */
+html[data-tippziele='gross'] .ak-tz {
+  position: relative;
+}
+html[data-tippziele='gross'] .ak-tz::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}
+
+/* Fußzeile: echtes Padding, sonst überlappen die Flächen umgebrochener Zeilen (Zeilenabstand 4 px) und keine käme auf 44 px. */
+html[data-tippziele='gross'] footer p a {
+  padding-block: 14px;
+}
+html[data-tippziele='gross'] footer p.flex {
+  row-gap: 0;
+}

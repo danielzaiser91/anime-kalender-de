@@ -81,7 +81,7 @@ function PlatformToggleList({
           type="button"
           onClick={onAll}
           className={[
-            'cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition',
+            'ak-tz cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition',
             isAll
               ? 'border-transparent bg-slate-100 text-slate-900'
               : 'border-slate-300/70 text-slate-600 dark:border-white/15 dark:text-slate-300',
@@ -98,7 +98,7 @@ function PlatformToggleList({
             type="button"
             onClick={() => onToggle(p)}
             className={[
-              'cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition',
+              'ak-tz cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition',
               active
                 ? 'border-transparent bg-slate-100 text-slate-900'
                 : 'border-slate-300/70 text-slate-600 hover:border-slate-400 dark:border-white/15 dark:text-slate-300',
