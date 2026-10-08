@@ -29,6 +29,7 @@ import type { Meldung, Quelle, Release, ReleaseType, Title } from '../../shared/
 import { quelleAnzeigeName } from '../../shared/quelle.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
 import type { SammelEintrag } from './sammelartikel.ts'
+import { folgenzahlUeberWerk } from './pruefung.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
 export interface Vorschlag {
@@ -461,7 +462,8 @@ export function zeitplanAusVorschlag(
   const katalog = art === 'batch' && v.folgen && treffer.jpYear && treffer.jpYear < Number(tag.slice(0, 4))
   return {
     releaseType: art,
-    schedule: { firstEpisodeDate: tag, ...(v.folgen && art === 'batch' ? { episodeCount: v.folgen } : {}) },
+    /* Eine Zahl weit über dem Werk (86: 23 für Teil 1 mit 11) gehört dem ganzen Katalogeintrag, nicht diesem Titel — Keine Folgenzahl erfinden. */
+    schedule: { firstEpisodeDate: tag, ...(v.folgen && art === 'batch' && !(treffer.episodes && folgenzahlUeberWerk(v.folgen, treffer.episodes)) ? { episodeCount: v.folgen } : {}) },
     ...(katalog ? { dateMeaning: 'available-from' as const } : {}),
   }
 }

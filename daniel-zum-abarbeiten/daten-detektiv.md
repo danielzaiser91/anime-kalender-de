@@ -1,20 +1,20 @@
 # Daten-Detektiv — Funde vom 2026-10-08
 
-Datensatz-Stand: 2026-10-08T14:13:17.463Z. Sortiert nach Hebel (Nutzerwirkung × Sicherheit), dann Trefferzahl. Jede Regel: wie viele Einheiten geprüft, wie viele Treffer.
+Datensatz-Stand: 2026-10-08T15:15:31.382Z. Sortiert nach Hebel (Nutzerwirkung × Sicherheit), dann Trefferzahl. Jede Regel: wie viele Einheiten geprüft, wie viele Treffer.
 
 | Regel | Hebel | Empf. | Treffer | geprüft | Was ein Besucher Falsches sähe |
 |---|---|---|---|---|---|
 | D-24 Im Bestand ohne jeden Beleg | 3.0 | weich | **16** | 2925 | Zählt als „belegte deutsche Synchro", ohne dass irgendetwas sie belegt |
-| D-06 Hinter dem Toggle, aber Quelle führt Synchro | 3.0 | hart | **6** | 20656 | Ein Titel mit deutscher Fassung fehlt im Hauptbestand |
-| D-01 Datum steigt nicht mit der Folgennummer | 3.0 | hart | **1** | 642 | Kalender zeigt eine spätere Folge vor einer früheren |
+| D-06 Hinter dem Toggle, aber Quelle führt Synchro | 3.0 | hart | **1** | 20656 | Ein Titel mit deutscher Fassung fehlt im Hauptbestand |
+| D-01 Datum steigt nicht mit der Folgennummer | 3.0 | hart | **0** | 642 | Kalender zeigt eine spätere Folge vor einer früheren |
 | D-23 Widerlegter Termin mit Kalendereinträgen | 3.0 | hart | **0** | 764 | Ein widerlegter Termin steht im Kalender |
 | D-02 Release-Folgenzahl über der Titel-Folgenzahl | 2.6 | weich | **7** | 564 | Panel verspricht Folgen, die das Werk nicht hat |
-| D-13 Film oder Einzelwerk mit mehreren Folgen | 2.0 | hart | **3** | 764 | Panel zählt „x von n Folgen" für einen Film |
+| D-13 Film oder Einzelwerk mit mehreren Folgen | 2.0 | hart | **2** | 764 | Panel zählt „x von n Folgen" für einen Film |
 | D-16 Disc ohne Produktseite als Kaufweg | 2.0 | weich | **157** | 160 | „Kaufen" führt ins Leere oder auf eine Suche |
 | D-11 „Premiere" Jahre nach der aniSearch-Erstausgabe | 2.0 | weich | **13** | 45 | „Start der deutschen Fassung" für eine Fassung, die es seit Jahren gibt |
-| D-17 News-Meldung zeigt auf verschwundenes Release | 2.0 | weich | **8** | 480 | Meldung verliert ihren Beleg-Link (fällt auf die Anbieterseite zurück), Termin-Verlauf reißt ab |
 | D-19 Termin bei einem Anbieter ohne Weg dorthin | 2.0 | weich | **3** | 548 | Panel nennt den Anbieter, aber keinen Link |
 | D-07 Doppelte Werke | 2.0 | weich | **1** | 23581 | Zwei Karten für ein Werk, Termine auf der falschen |
+| D-17 News-Meldung zeigt auf verschwundenes Release | 2.0 | weich | **0** | 480 | Meldung verliert ihren Beleg-Link (fällt auf die Anbieterseite zurück), Termin-Verlauf reißt ab |
 | D-08 Titel ohne Weg, JustWatch kennt einen mit deutschem Ton (387 ohne Weg und Termin) | 1.5 | weich | **4** | 387 | Besucher erfährt nicht, wo er den Titel sehen kann |
 | D-10 „Läuft" ohne Lebenszeichen seit 60 Tagen | 1.5 | weich | **0** | 37 | Kalender kündigt Woche für Woche Folgen an, die niemand belegt |
 | D-03 Weg laut Link-Prüfung tot (404) — 870 Wege nie geprüft | 1.5 | weich | **0** | 1284 | Besucher klickt auf eine Seite, die es nicht gibt |
@@ -44,22 +44,11 @@ Stichprobe: 08.10.2026: 16/16 per Definition echt (B-01) — fast nur Specials/O
 - Tsubasa: Shunraiki (2009, 2 Fg.): dubConfidence high, kein Stream, Termin, Weg, aniSearch-Ausgabe [↗](https://anime-kalender.de/t/tsubasa-spring-thunder-chronicles-4938/)
 - … und 8 weitere (vollständig im JSON)
 
-## D-06 Hinter dem Toggle, aber Quelle führt Synchro — 6 Treffer
+## D-06 Hinter dem Toggle, aber Quelle führt Synchro — 1 Treffer
 
 Stichprobe: 08.10.2026: 6/6 — Handbeleg dub:true (Our Last Crusade S2, Prime), aniSearch „d" (Scott Pilgrim, Rick and Morty, BeyWheelz, Titipo 2), JustWatch de-Ton (FMA 4-koma)
 
-- Hagane no Renkinjutsushi: FULLMETAL ALCHEMIST - Arakawa Hiromu Kaki Oroshi 4-koma Gekijou (2009, 16 Fg.): JustWatch de-Ton (RTL+ Max Amazon Channel, Aniverse Amazon Channel) [↗](https://anime-kalender.de/t/7902/)
-- BeyWheelz (2012, 13 Fg.): aniSearch-Kennung „d" [↗](https://anime-kalender.de/t/136668/)
-- Our Last Crusade or the Rise of a New World: Staffel 2 (2024, 12 Fg.): Handbeleg dub:true (primevideo) [↗](https://anime-kalender.de/t/139825/)
-- Rick and Morty: The Anime (2024, 10 Fg.): aniSearch-Kennung „d" [↗](https://anime-kalender.de/t/150103/)
 - Scott Pilgrim hebt ab (2023, 8 Fg.): aniSearch-Dub-Liste; aniSearch-Kennung „d" [↗](https://anime-kalender.de/t/170206/)
-- Titipo Titipo 2 (2019, 26 Fg.): aniSearch-Kennung „d" [↗](https://anime-kalender.de/t/188067/)
-
-## D-01 Datum steigt nicht mit der Folgennummer — 1 Treffer
-
-Stichprobe: 08.10.2026: 1/1 echt (Lycoris Recoil, B-05); 4 TV-Sichtungen mit Wiederholungen sind ausgenommen
-
-- Lycoris Recoil: Folge 5 am 2022-08-20 (beobachtet), Folge 6 am 2022-08-06 [↗](https://anime-kalender.de/r/lycoris-recoil-crunchyroll-de-2022-07-23/)
 
 ## D-02 Release-Folgenzahl über der Titel-Folgenzahl — 7 Treffer
 
@@ -73,11 +62,10 @@ Stichprobe: 08.10.2026: 6/7 echt — 86 (ADN: 23 Folgen auf dem 11-Folgen-Titel 
 - The Last: Naruto the Movie (tv, auto-16870-tv-prosieben-maxx): 2 Folgen, Titel The Last: Naruto the Movie (2014, 1 Fg.) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet). [↗](https://anime-kalender.de/r/auto-16870-tv-prosieben-maxx/)
 - Boruto: Naruto the Movie (tv, auto-21220-tv-prosieben-maxx): 2 Folgen, Titel Boruto: Naruto the Movie (2015, 1 Fg.) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet). [↗](https://anime-kalender.de/r/auto-21220-tv-prosieben-maxx/)
 
-## D-13 Film oder Einzelwerk mit mehreren Folgen — 3 Treffer
+## D-13 Film oder Einzelwerk mit mehreren Folgen — 2 Treffer
 
 Stichprobe: 08.10.2026: 2/3 echt (zwei Kinofilme bei ProSieben MAXX mit „2 Folgen" = 2 Sendungen); Steel Ball Run ONA ist die bekannte Ausnahme
 
-- JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE (netflix, steel-ball-run-2nd-3rd-stage): 11 Folgen, aber Titel ist ONA mit 1 Folge(n) [↗](https://anime-kalender.de/r/steel-ball-run-2nd-3rd-stage/)
 - The Last: Naruto the Movie (ProSieben MAXX, auto-16870-tv-prosieben-maxx): 2 Folgen, aber Titel ist MOVIE mit 1 Folge(n) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet). [↗](https://anime-kalender.de/r/auto-16870-tv-prosieben-maxx/)
 - Boruto: Naruto the Movie (ProSieben MAXX, auto-21220-tv-prosieben-maxx): 2 Folgen, aber Titel ist MOVIE mit 1 Folge(n) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet). [↗](https://anime-kalender.de/r/auto-21220-tv-prosieben-maxx/)
 
@@ -108,19 +96,6 @@ Stichprobe: 08.10.2026: 13/13 — alles Disney+-Katalogaufnahmen aus batch-2026.
 - Bleach: The DiamondDust Rebellion (adn): Termin 2026-10-12 als Premiere, aniSearch nennt deutsche Erstausgabe 2011-08-26 (Kazé Deutschland) [↗](https://anime-kalender.de/r/bleach-diamonddust-rebellion-adn/)
 - Bleach: Fade to Black (adn): Termin 2026-10-12 als Premiere, aniSearch nennt deutsche Erstausgabe 2020-07-20 (Kazé Deutschland) [↗](https://anime-kalender.de/r/bleach-fade-to-black-adn/)
 - … und 5 weitere (vollständig im JSON)
-
-## D-17 News-Meldung zeigt auf verschwundenes Release — 8 Treffer
-
-Stichprobe: 08.10.2026: 8/8 — Slugs in news.json existieren in releases.json nicht (umbenannt: adn-1423-… → auto-116589-adn; Disc-Slugs abgeschnitten); neuigkeiten.tsx fällt dann auf die Anbieterseite zurück
-
-- „86: Eighty Six" (angekuendigt, 2026-10-08): Release adn-1423-s1-20261008-116589 gibt es nicht mehr
-- „86: Eighty Six" (angekuendigt, 2026-10-08): Release adn-1423-s1-20261008-131586 gibt es nicht mehr
-- „Meine ganz besondere Hochzeit" (angekuendigt, 2026-10-25): Release auto-147103-netflix gibt es nicht mehr
-- „Dr. Stone" (disc, 2026-10-16): Release auto-162670-disc gibt es nicht mehr
-- „From Bureaucrat to Villainess: Dad’s Been Reincarnated!" (disc, 2026-10-12): Release from-bureaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12 gibt es nicht mehr
-- „Miss Kobayashi’s Dragon Maid" (disc, 2026-10-16): Release miss-kobayashi-s-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-2026-10-1 gibt es nicht mehr
-- „My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game?" (disc, 2026-10-16): Release my-next-life-as-a-villainess-all-routes-lead-to-doom-ich-habe-die-mir-vorbestimm gibt es nicht mehr
-- „Steins;Gate" (disc, 2026-10-16): Release steins-gate-0-polymorpher-valentin-bittersweet-intermedio-2026-10-16 gibt es nicht mehr
 
 ## D-19 Termin bei einem Anbieter ohne Weg dorthin — 3 Treffer
 
@@ -192,3 +167,10 @@ Stichprobe: 08.10.2026: 3 Bereiche über der Folgenzahl echt (B-12: Mushoku Tens
 - Mushoku Tensei: Jobless Reincarnation Cour 2 (2021, 12 Fg.): netflix-Bereich bis Folge 23 bei 12 Folgen
 - The Faraway Paladin (2021, 12 Fg.): crunchyroll-Adresse bedient 2 Titel, sharedWith sagt 3
 - … und 21 weitere (vollständig im JSON)
+
+## Gegenüber dem vorigen Lauf
+
+- D-01: +0 −1
+- D-13: +0 −1
+- D-06: +0 −5
+- D-17: +0 −8

@@ -55,11 +55,66 @@ export function verweiseAufgeloest(releases: Release[], events: ReleaseEvent[], 
   return { fehler, warnungen }
 }
 
+/** Releases, deren Anbieter selbst ein nicht steigendes Folgendatum liefert (Quelle belegt, nicht unser Rechenfehler); jeder Eintrag mit Grund und Messdatum. */
+export const DATUM_VOM_ANBIETER: Record<string, string> = {
+  'lycoris-recoil-crunchyroll-de-2022-07-23': 'Crunchyrolls Katalog datiert Folge 6 auf 2022-08-06T16:00Z, vor Folge 5 (gemessen 08.10.2026, data/crunchyroll-dub.json)',
+}
+
+/** D-01: Eine spätere Folge liegt vor einer früheren (Lycoris Recoil). TV-Sichtungen zeigen Wiederholungen in beliebiger Reihenfolge und zählen nicht. */
+export function folgenDatumSteigt(releases: Release[], events: ReleaseEvent[]): string[] {
+  const ausgenommen = new Set([...releases.filter((r) => r.releaseType === 'disc' || r.tvLetzteSichtung).map((r) => r.slug), ...Object.keys(DATUM_VOM_ANBIETER)])
+  const je = new Map<string, ReleaseEvent[]>()
+  for (const e of events) if (e.episode != null && !ausgenommen.has(e.releaseSlug)) (je.get(e.releaseSlug) ?? je.set(e.releaseSlug, []).get(e.releaseSlug)!).push(e)
+  const fehler: string[] = []
+  for (const [slug, liste] of je) {
+    const s = liste.sort((a, b) => a.episode! - b.episode! || a.date.localeCompare(b.date))
+    const i = s.findIndex((e, k) => k > 0 && e.episode !== s[k - 1].episode && e.date < s[k - 1].date)
+    if (i > 0) fehler.push(`"${slug}": Folge ${s[i].episode} (${s[i].date}) liegt vor Folge ${s[i - 1].episode} (${s[i - 1].date})`)
+  }
+  return fehler
+}
+
+/** D-13: Ein Film ist ein Werk — mehrere TV-Sendungen sind Wiederholungen, keine Folgen. Gilt für Film-Format und Release-Typ Film, nicht für Discs. */
+export function filmOhneMehrereFolgen(releases: Release[], titles: Map<number, Title>): string[] {
+  return releases
+    .filter((r) => (r.schedule.episodeCount ?? 0) > 1 && r.releaseType !== 'disc' && (r.releaseType === 'movie' || titles.get(r.titleId)?.format === 'MOVIE'))
+    .map((r) => `"${r.slug}": Film mit ${r.schedule.episodeCount} Folgen`)
+}
+
+/** D-14: Die deutsche Fassung erscheint nicht vor der japanischen Erstausstrahlung (westliche Serien und Titel ohne Jahr ausgenommen). */
+export function deutschNichtVorJapan(releases: Release[], titles: Map<number, Title>): string[] {
+  const fehler: string[] = []
+  for (const r of releases) {
+    const t = titles.get(r.titleId)
+    if (t?.jpYear && !t.westlich && r.titleId >= 0 && r.year < t.jpYear) fehler.push(`"${r.slug}": deutsch ${r.schedule.firstEpisodeDate}, Japan erst ${t.jpYear}`)
+  }
+  return fehler
+}
+
+/** D-21: Zwei Termine mit derselben Kennung verschmelzen im Kalender-Abo (ICS-UID). */
+export function terminKennungenEindeutig(events: ReleaseEvent[]): string[] {
+  const zahl = new Map<string, number>()
+  for (const e of events) zahl.set(e.id, (zahl.get(e.id) ?? 0) + 1)
+  return [...zahl].filter(([, n]) => n > 1).map(([id, n]) => `Termin-Kennung "${id}" kommt ${n}× vor`)
+}
+
+/** D-23: Ein widerlegter Termin steht nicht im Kalender. */
+export function widerlegteOhneTermine(releases: Release[], events: ReleaseEvent[]): string[] {
+  const widerlegt = new Set(releases.filter((r) => r.widerlegt).map((r) => r.slug))
+  const zahl = new Map<string, number>()
+  for (const e of events) if (widerlegt.has(e.releaseSlug)) zahl.set(e.releaseSlug, (zahl.get(e.releaseSlug) ?? 0) + 1)
+  return [...zahl].map(([slug, n]) => `"${slug}": widerlegt, aber ${n} Termin(e) im Kalender`)
+}
+
 /** Alle Invarianten über Releases und Termine. */
 export function pruefeInvarianten(releases: Release[], events: ReleaseEvent[], titles: Map<number, Title>): Invarianten {
   const verweise = verweiseAufgeloest(releases, events, titles)
   return {
-    fehler: [...slugsEindeutig(releases), ...folgennummernEindeutig(releases, events), ...verweise.fehler],
+    fehler: [
+      ...slugsEindeutig(releases), ...folgennummernEindeutig(releases, events), ...verweise.fehler,
+      ...folgenDatumSteigt(releases, events), ...filmOhneMehrereFolgen(releases, titles), ...deutschNichtVorJapan(releases, titles),
+      ...terminKennungenEindeutig(events), ...widerlegteOhneTermine(releases, events),
+    ],
     warnungen: verweise.warnungen,
   }
 }

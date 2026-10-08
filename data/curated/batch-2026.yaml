@@ -23,6 +23,7 @@
   titleDe: "Yu-Gi-Oh! – Staffel 2"
   platform: disneyplus
   releaseType: batch
+  dateMeaning: available-from
   schedule:
     firstEpisodeDate: "2026-08-01"
     episodeCount: 48
@@ -34,6 +35,7 @@
   titleDe: "Naruto – Staffel 4"
   platform: disneyplus
   releaseType: batch
+  dateMeaning: available-from
   schedule:
     firstEpisodeDate: "2026-08-05"
     episodeCount: 57
@@ -45,6 +47,7 @@
   titleDe: "Naruto Shippuden – Staffel 1"
   platform: disneyplus
   releaseType: batch
+  dateMeaning: available-from
   schedule:
     firstEpisodeDate: "2026-08-05"
     episodeCount: 53
@@ -70,6 +73,7 @@
   titleDe: "Yu-Gi-Oh! – Staffel 3"
   platform: disneyplus
   releaseType: batch
+  dateMeaning: available-from
   schedule:
     firstEpisodeDate: "2026-08-29"
     episodeCount: 40
@@ -98,6 +102,7 @@
   # keinem Namen abzuleiten ist.
   platformUrl: "https://www.disneyplus.com/de-de/browse/entity-484054dc-6486-477a-a31a-87163fbbb65a"
   releaseType: batch
+  dateMeaning: available-from
   schedule:
     firstEpisodeDate: "2026-08-30"
     episodeCount: 51
@@ -209,6 +214,7 @@
   titleDe: "Naruto Shippuden – Staffel 3"
   platform: disneyplus
   releaseType: batch
+  dateMeaning: available-from
   schedule:
     firstEpisodeDate: "2026-10-07"
     episodeCount: 52
@@ -220,6 +226,7 @@
   titleDe: "Bleach: The DiamondDust Rebellion"
   platform: adn
   releaseType: movie
+  dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-12" }
   sources: [https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/]
 
@@ -229,6 +236,7 @@
   titleDe: "Bleach: Fade to Black"
   platform: adn
   releaseType: movie
+  dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-12" }
   sources: [https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/]
 
@@ -238,8 +246,35 @@
   titleDe: "Bleach: The Hell Verse"
   platform: adn
   releaseType: movie
+  dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-12" }
   sources: [https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/]
+
+# 86 bei ADN: eine Serienkennung (1423, 23 Folgen, vde + vostde, alle am 08.10.2026 verfügbar) für zwei AniList-Titel. Der Sammelartikel nennt 23 Folgen und
+# hing sie samt ADN-Termin an Staffel 1 (11 Folgen); 11 + 12 geht auf, also je ein Eintrag. Serie und Folgenliste gemessen 08.10.2026
+# (gw.api.animationdigitalnetwork.com/show/1423 und /video/show/1423, Header X-Target-Distribution: de). Die Slugs sind die der früheren ADN-Blöcke,
+# auf die zwei News-Meldungen zeigen.
+- slug: adn-1423-s1-20261008-116589
+  anilistId: 116589
+  search: "86: Eighty Six"
+  titleDe: "86: Eighty Six"
+  platform: adn
+  platformUrl: https://animationdigitalnetwork.com/de/video/1423-eighty-six
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-10-08", episodeCount: 11 }
+  sources: [https://news.animationdigitalnetwork.com/de/2026/09/21/86-eighty-six-kommt-im-oktober-zu-adn/, https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/]
+
+- slug: adn-1423-s1-20261008-131586
+  anilistId: 131586
+  search: "86: Eighty Six Part 2"
+  titleDe: "86: Eighty Six – Teil 2"
+  platform: adn
+  platformUrl: https://animationdigitalnetwork.com/de/video/1423-eighty-six
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-10-08", episodeCount: 12, firstEpisodeNumber: 12 }
+  sources: [https://news.animationdigitalnetwork.com/de/2026/09/21/86-eighty-six-kommt-im-oktober-zu-adn/, https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/]
 
 - slug: my-hero-academia-vigilantes-s1-netflix
   anilistId: 185736
