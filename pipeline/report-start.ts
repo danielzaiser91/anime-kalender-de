@@ -33,6 +33,13 @@ function ausListe(pfad: string): Record<string, unknown> {
   }
 }
 
+/** Einträge mit offener Staffel — die Disney+-Liste führt auch beantwortete Seiten (`offen: false`). */
+function zaehleOffene(liste: Record<string, unknown>): number {
+  return Object.values(liste).filter((e) =>
+    ((e as { staffeln?: { offen?: boolean }[] }).staffeln ?? []).some((st) => st.offen),
+  ).length
+}
+
 /** „1 Verweis" statt „1 Verweise" — die Liste liest ein Mensch. */
 const zaehl = (n: number, eins: string, viele: string) => `${n} ${n === 1 ? eins : viele}`
 
@@ -49,7 +56,7 @@ for (const t of titles) {
 const primeSuchen = Object.keys(ausListe('extension/offene-amazon-suche.js')).length
 const primeSeiten = Object.keys(ausListe('extension/offene-amazon.js')).length
 const netflixListe = Object.keys(ausListe('extension/offene-netflix.js')).length
-const disneyListe = Object.keys(ausListe('extension/offene-disney.js')).length
+const disneyListe = zaehleOffene(ausListe('extension/offene-disney.js'))
 
 const ohneWeg = titles.filter((t) => !(t.streams ?? []).length && !(t.watchLinks ?? []).length)
 const ohneWegMitSynchro = ohneWeg.filter((t) => t.hasVoices).length

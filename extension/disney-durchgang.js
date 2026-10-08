@@ -97,7 +97,15 @@
       },
     }
   }
+  /** Der Text der Endanzeige: je übersprungenem Titel eine Zeile mit Grund — `titelFuer(url)` liefert den Namen. */
+  function endeText({ grund, erledigt, uebersprungen }, titelFuer) {
+    const kopf = `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'} · ${erledigt} Titel`
+    if (!uebersprungen.length) return kopf
+    const zeilen = uebersprungen.map((u) => `• ${titelFuer(u.url)}: ${u.grund}`)
+    return `${kopf}\n${uebersprungen.length} übersprungen:\n${zeilen.join('\n')}`
+  }
   globalThis.akDisneyDurchgang = durchgang
+  globalThis.akDisneyEndeText = endeText
   if (typeof document === 'undefined' || typeof location === 'undefined') return
 
   const seite = () => globalThis.AK_DISNEY
