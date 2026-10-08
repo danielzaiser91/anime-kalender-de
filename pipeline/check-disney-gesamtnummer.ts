@@ -4,7 +4,7 @@
  * Fälle aus dem Bestand: Naruto Shippuden (53/59/54, Handbeleg Daniel 08.10.2026, AniList 500 Folgen),
  * Yozakura Family (27 + 12, Bestand führt nur Staffel 2 mit 12) und Naruto (AniList 220).
  */
-import { entfernteJeAdresse } from './lib/entfernte-verweise.ts'
+import { entfernteJeAdresse, mitEntfernten } from './lib/entfernte-verweise.ts'
 import { ordneNachStaffelliste } from './lib/folgenbereiche.ts'
 import { schluesselAdresse } from './lib/zuordnung.ts'
 import { gesamtnummerDisney, ordneMeldungZuPlattform, type DisneyStaffel } from './lib/disney-gesamtnummer.ts'
@@ -85,6 +85,8 @@ const entfernt = entfernteJeAdresse([
   { titleId: 1, url: BLEACH, grund: 'deutscher Katalog führt unter dieser Kennung keine einzige Staffel' },
 ])
 pruefe('nur das belegte Nein zählt', entfernt.get(schluesselAdresse(BLEACH))?.join() === '185874', [...entfernt])
+pruefe('benannte 3 Titel + entfernte Staffel 4', mitEntfernten([116674, 159322, 169755], [185874]).join() === '116674,159322,169755,185874')
+pruefe('ein einzelner benannter Titel bleibt allein', mitEntfernten([159322], [185874]).join() === '159322')
 const z = ordneNachStaffelliste(seite, vier)
 pruefe('mit ihr: vier Paare, kein Problem', !z.problem && z.paare.length === 4, z)
 

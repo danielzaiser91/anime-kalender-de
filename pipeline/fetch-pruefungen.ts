@@ -28,7 +28,7 @@ import {
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
 import { ordneMeldungZuPlattform } from './lib/disney-gesamtnummer.ts'
-import { ergaenzeUmEntfernte } from './lib/entfernte-verweise.ts'
+import { ergaenzeUmEntfernte, mitEntfernten } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
@@ -198,7 +198,7 @@ for (const t of liste) {
   }
 }
 
-ergaenzeUmEntfernte(nachUrl, resolve(ROOT, 'data/verweise-entfernt.json')) // Staffeln ohne deutschen Ton
+const entferntJeAdresse = ergaenzeUmEntfernte(nachUrl, resolve(ROOT, 'data/verweise-entfernt.json')) // Staffeln ohne deutschen Ton
 
 /**
  * **Auch eine vorgeschlagene Adresse ist eine Adresse.**
@@ -586,7 +586,7 @@ for (const gruppe of jeAdresse.values()) {
   const ausMeldung = gruppe
     .map((m) => (m as { titel_id?: number | null }).titel_id)
     .filter((n): n is number => Number.isFinite(n as number))
-  let ids = ausMeldung.length ? [...new Set(ausMeldung)] : (nachUrl.get(schluesselAdresse(p.url)) ?? [])
+  let ids = ausMeldung.length ? mitEntfernten(ausMeldung, entferntJeAdresse.get(schluesselAdresse(p.url))) : (nachUrl.get(schluesselAdresse(p.url)) ?? [])
   if (ausMeldung.length) ausMeldungZugeordnet++
   if (!ids.length && p.url.includes('/s?k=')) {
     const ausAdresse = ausSuchadresse(p.url)
