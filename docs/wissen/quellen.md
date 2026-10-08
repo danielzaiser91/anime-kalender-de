@@ -3176,11 +3176,15 @@ Anwendungen, Dienste und Daten dürfen nicht ohne vorherige schriftliche Zustimm
 irgendeiner Weise, auch nicht auszugsweise, genutzt oder verwendet werden." Die `robots.txt`
 erlaubt dagegen alles (`User-agent: *`, `Disallow:` leer) — die beiden Texte widersprechen sich.
 
-- Die Klausel trifft **auch den bestehenden Abruf** `pipeline/fetch-fsk.ts` (Kinofilme).
+- **Entschieden (Daniel, 08.10.2026): Abruf eingestellt, ersatzlos.** `pipeline/fetch-fsk.ts`,
+  `data/fsk-kino.json`, `npm run data:fsk` und der Schritt in `refresh-weekly.yml` sind entfernt.
+  Grund: Rechtsbefund. Gemessen vorher: Das Feld `fsk` füllte der Abruf nie (von 1.264 Titeln mit `fsk`
+  stammen 1.262 aus TMDB DE, 2 aus ADN-Altersangabe, 0 aus der FSK-Datenbank); `data/fsk-kino.json`
+  (Stand 05.10.2026, 8 Kino-Releases) las außer `tools/quellen-liste.sh` nichts. Sprachfassung der Kinostarts
+  belegt weiter CineStar. Ersatzquelle für fehlende Werte (JustWatch/Prime) ist ein eigener Auftrag.
+  Zusicherung: `check:logic` meldet jeden Zugriff auf `fsk.de/fskapi` in `pipeline/` und `tools/`.
 - Die FSK bietet eine Anmelde-API („direkte Anbindung an über 500.000 FSK-Freigaben",
-  https://www.fsk.de/unternehmen/); Preis und Bedingungen nicht gefunden.
-- **Offen, Entscheidung Daniel:** schriftlich um Zustimmung bitten (Kontakt https://www.fsk.de/kontakt/)
-  oder den Abruf einstellen. Bis dahin kein Massenabruf. Eintrag in `status.md` unter „Zu besprechen".
+  https://www.fsk.de/unternehmen/); Preis und Bedingungen nicht gefunden. Nicht genutzt.
 
 ### FSK-Datenbank (`/fskapi/ReleaseSearch`)
 

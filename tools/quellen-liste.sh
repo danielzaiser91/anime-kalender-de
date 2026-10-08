@@ -218,9 +218,6 @@ QUELLEN=(
   # Kalender — ohne diese Zeile wäre der Fund nach jedem CI-Lauf wieder weg,
   # und niemand sähe je, dass ein Kinostart fehlt.
   data/tmdb-kino.json
-  # Die Sprachfassung der Kinostarts, bei der FSK belegt. Sie ist die einzige
-  # geprueefte Quelle, die deutsche Synchro von OmU unterscheidet.
-  data/fsk-kino.json
   # Kinostart-Ankündigungen ohne deutsche Fassung, von Hand recherchiert. Der Bau
   # liest die Datei nur; sie steht hier, weil check:workflows jedes data/-Literal
   # in einer schreibenden Datei zählt.
