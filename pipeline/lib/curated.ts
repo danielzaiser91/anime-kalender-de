@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { ROOT } from './util.ts'
-import type { Fsk, PlatformId, ReleaseType, Schedule } from '../../shared/types.ts'
+import type { DateMeaning, Fsk, PlatformId, ReleaseType, Schedule } from '../../shared/types.ts'
 
 export interface CuratedEntry {
   slug: string
@@ -17,6 +17,8 @@ export interface CuratedEntry {
   buyUrl?: string
   releaseType: ReleaseType
   fsk?: Fsk
+  /** Siehe `Release.dateMeaning`; für Katalogaufnahmen älterer Titel `available-from`. */
+  dateMeaning?: DateMeaning
   publisher?: string
   edition?: string
   note?: string

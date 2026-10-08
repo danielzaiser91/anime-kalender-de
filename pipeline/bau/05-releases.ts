@@ -213,6 +213,7 @@ export function baueReleases({
       buyUrl:
         entry.buyUrl ?? (entry.releaseType === 'disc' ? amazonSearchUrl(name) : undefined),
       releaseType: entry.releaseType,
+      ...(entry.dateMeaning ? { dateMeaning: entry.dateMeaning } : {}),
       fsk,
       publisher: entry.publisher,
       edition: entry.edition,
