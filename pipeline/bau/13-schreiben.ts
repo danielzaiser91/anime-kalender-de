@@ -10,6 +10,7 @@ import { ergaenzeTitelRang } from './titel-rang.ts'
 import { schreibeWochenDatei } from './13-8-wochen-datei.ts'
 import { ergaenzeErstausgabeAngebot } from './13-7-erstausgabe-angebot.ts'
 import { schreibeZusatzdateien } from './13-4-zusatzdateien.ts'
+import { ordneCartoonsZuAnime } from './cartoon-zu-anime.ts'
 import { schreibeSprecherIndex } from './sprecher-index.ts'
 import { schreibeListen } from './13-3-listen.ts'
 import { baueAuslieferung } from './13-2-auslieferung.ts'
@@ -66,6 +67,7 @@ export function schreibeDatensatz({
   schreibeListen({ slim, tmdbTitles, releases, titles })
 
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })
+  ordneCartoonsZuAnime()
   schreibeSprecherIndex({ ausgeliefert: new Set(slim.map((t) => t.id)) })
 
   const { newsFuerRss } = schreibeKernUndNews({ releases, events, titles, meta })

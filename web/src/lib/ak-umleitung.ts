@@ -27,10 +27,21 @@ function anwenden(abbild: Map<number, number>): void {
   }
 }
 
+/** Eine geöffnete Adresse `#/…?t=<Cartoon>`: Cartoons, die als Anime geführt werden, stehen mit ihrer negativen Kennung in `ak-umleitung.json`. */
+const CARTOON_IN_ADRESSE = /([?&]t=)(-\d+)(?!\d)/
+
+function adresseUmschreiben(abbild: Map<number, number>): void {
+  const treffer = CARTOON_IN_ADRESSE.exec(location.hash)
+  const ziel = treffer && abbild.get(Number(treffer[2]))
+  if (ziel) history.replaceState(history.state, '', `${location.pathname}${location.search}${location.hash.replace(CARTOON_IN_ADRESSE, `$1${ziel}`)}`)
+}
+
 async function umleiten(): Promise<void> {
   try {
-    if (![...LISTEN, ...KARTEN].some((k) => localStorage.getItem(k))) return
+    const mitAdresse = CARTOON_IN_ADRESSE.test(location.hash)
+    if (!mitAdresse && ![...LISTEN, ...KARTEN].some((k) => localStorage.getItem(k))) return
     const paare = await loadJson<[number, number][]>('ak-umleitung.json')
+    if (mitAdresse) adresseUmschreiben(new Map(paare))
     if (paare.length <= Number(localStorage.getItem(MARKE) ?? 0)) return
     anwenden(new Map(paare))
     localStorage.setItem(MARKE, String(paare.length))

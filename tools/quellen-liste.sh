@@ -19,6 +19,7 @@
 QUELLEN=(
   data/anisearch.json
   data/kennungen.json
+  data/cartoon-umzug.json
   data/anisearch-folgen.json
   data/anisearch-titel.json
   data/anisearch-artikel.json

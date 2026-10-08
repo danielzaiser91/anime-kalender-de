@@ -243,6 +243,15 @@ export function bestesSynonym(
 const KATALOG_FORMATE = ['TV', 'TV_SHORT', 'MOVIE', 'SPECIAL', 'OVA', 'ONA']
 
 /**
+ * Ob ein AniList-Eintrag in den Katalog gehört. Eine noch nicht erschienene Ankündigung
+ * ohne Format zählt mit: AniList legt neue Titel oft zuerst ohne Format und Datum an, und
+ * `format_in` verwirft sie (gemessen 09.10.2026: 28 von 63 fehlenden jüngsten Titeln).
+ */
+export function gehoertInKatalog(format: string | null | undefined, status: string | null | undefined): boolean {
+  return format ? KATALOG_FORMATE.includes(format) : status === 'NOT_YET_RELEASED'
+}
+
+/**
  * Eine Seite des Gesamtkatalogs.
  *
  * **Warum jahrweise abgefragt wird:** AniList lässt je Abfrage nur 5.000
@@ -264,13 +273,14 @@ export async function katalogSeite(
   von?: number,
   bis?: number,
   absteigend = false,
+  formatlose = false, // ohne `format_in` abfragen, selbst filtern (`gehoertInKatalog`): nimmt formatlose Ankündigungen mit
 ): Promise<{ eintraege: KatalogEintrag[]; weiter: boolean }> {
   const datumsFilter = von !== undefined ? 'startDate_greater: $von, startDate_lesser: $bis,' : ''
   const datumsArgs = von !== undefined ? '$von: FuzzyDateInt, $bis: FuzzyDateInt,' : ''
-  const query = `query ($p: Int, ${datumsArgs} $f: [MediaFormat]) {
+  const query = `query ($p: Int, ${datumsArgs} ${formatlose ? '' : '$f: [MediaFormat]'}) {
     Page(page: $p, perPage: 50) {
       pageInfo { hasNextPage }
-      media(type: ANIME, isAdult: false, format_in: $f, ${datumsFilter} sort: ${absteigend ? 'ID_DESC' : 'ID'}) {
+      media(type: ANIME, isAdult: false, ${formatlose ? '' : 'format_in: $f,'} ${datumsFilter} sort: ${absteigend ? 'ID_DESC' : 'ID'}) {
         id idMal
         title { romaji english native }
         synonyms countryOfOrigin
@@ -282,7 +292,7 @@ export async function katalogSeite(
       }
     }
   }`
-  const vars: Record<string, unknown> = { p: seite, f: KATALOG_FORMATE }
+  const vars: Record<string, unknown> = formatlose ? { p: seite } : { p: seite, f: KATALOG_FORMATE }
   if (von !== undefined) {
     vars.von = von
     vars.bis = bis
@@ -316,7 +326,7 @@ export async function katalogSeite(
 
   return {
     weiter: data?.Page?.pageInfo?.hasNextPage ?? false,
-    eintraege: (data?.Page?.media ?? []).map((m) => ({
+    eintraege: (data?.Page?.media ?? []).filter((m) => !formatlose || gehoertInKatalog(m.format, m.status)).map((m) => ({
       id: m.id, mal: m.idMal ?? undefined,
       t: [m.title.romaji, m.title.english, m.title.native],
       format: m.format,
