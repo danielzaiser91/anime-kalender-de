@@ -1,6 +1,6 @@
 # Netflix: was noch zu prüfen ist
 
-Stand 2026-10-08 · **1 offene Verweise** in **1 Zeilen**.
+Stand 2026-10-08 · **2 offene Verweise** in **2 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -10,3 +10,4 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-09-25 | JoJo’s Bizarre Adventure | [STEEL BALL RUN JoJo's Bizarre Adventure 2nd - 3rd STAGE](https://www.netflix.com/title/82116553) |
+| 2 | 2023-11-17 | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
