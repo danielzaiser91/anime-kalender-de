@@ -43,13 +43,6 @@
       "bauBraucht": false,
       "fehlt": "Kurzlebiger Merkzettel innerhalb eines Laufs; ohne ihn wird nichts abgehakt"
     },
-    "wache-ausgelassen.json": {
-      "schreiber": "tools/wache-schreiben.mjs",
-      "laeufe": ["delta-wache.yml (täglich 07:20 UTC; stellt den Cache nicht wieder her, der Vortagsvergleich greift in der CI nie)"],
-      "intervall": "täglich",
-      "bauBraucht": false,
-      "fehlt": "Kein Vortagsvergleich in der Wache, nur Zahlen"
-    },
     "covers": {
       "schreiber": "pipeline/build-og.ts (npm run data:og)",
       "laeufe": ["bestand-bauen.yml (lädt bei Bedarf nach)"],
