@@ -21420,3 +21420,40 @@
       dub: true
   checkedAt: '2026-10-07'
   note: "Folge 1 auf Deutsch bei Disney+ — von Daniel am 07.10.2026 selbst gesehen."
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-08 ---
+
+- anilistId: 196144
+  title: "Snowball Earth"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    - from: 11
+      to: 13
+      dub: false
+      checked: [11, 12, 13]
+  checkedAt: '2026-10-08'
+  note: "Folgen 1–10 mit deutschem Ton, Folgen 11–13 ohne deutschen Ton — Tonspuren: en, es-419, ja, pt-BR"
+- anilistId: 99263
+  title: "The Rising of the Shield Hero"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-1b84d641-1bb3-422d-be4c-8e24c7b547cc
+  dub: true
+  checkedAt: '2026-10-08'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, ja, pt-BR"
+- anilistId: 1735
+  title: "Naruto Shippuden"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-ef04e263-4751-486c-9001-616f2adf09ba
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 59
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+  checkedAt: '2026-10-08'
+  note: "Folgen 1–59 mit deutschem Ton — Tonspuren: de, ja"

@@ -33,17 +33,17 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
+| [Netflix](07-netflix.md) | 1 |
 | [ADN](07-adn.md) | 1 |
-| [Disney+](07-disneyplus.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
-| 2 | 2019-06-26 | The Rising of the Shield Hero | [Hauptserie](https://www.disneyplus.com/browse/entity-1b84d641-1bb3-422d-be4c-8e24c7b547cc) |
+| 1 | 2026-09-25 | JoJo’s Bizarre Adventure | [STEEL BALL RUN JoJo's Bizarre Adventure 2nd - 3rd STAGE](https://www.netflix.com/title/82116553) |
+| 2 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
 - **ADN:** Der Titel steht nicht im ADN-Bestand mit Sprachcode vde. Möglich, dass er inzwischen dazugekommen ist.
-- **Disney+:** Disney+ hat keine öffentliche Schnittstelle; die Sprachwahl steht nur im Player.
+- **Netflix:** Netflix veröffentlicht keinen maschinenlesbaren Katalog; die Sprachliste steht nur im eingeloggten Player.

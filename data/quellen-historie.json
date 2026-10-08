@@ -4805,11 +4805,18 @@
   ],
   "auto-180523-disc": [
     {
+      "url": "https://www.anime2you.de/news/1058101/a-wild-last-boss-appeared-blu-ray-design/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-08",
+      "sagt": "2026-11-06",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1044401/a-wild-last-boss-appeared-staffel-1-blu-ray-release/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-11-06",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ],
   "apothecary-diaries-s3-cour1": [
@@ -6026,6 +6033,12 @@
   ],
   "auto-10012621-tv-super-rtl": [
     {
+      "url": "https://de.wikipedia.org/wiki/Super_Wings",
+      "name": "de.wikipedia.org",
+      "gesehenAm": "2026-10-08",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://plus.rtl.de/tv-programm",
       "name": "plus.rtl.de",
       "gesehenAm": "2026-10-07",
@@ -6033,6 +6046,12 @@
     }
   ],
   "auto-10012621-tv-toggo-plus": [
+    {
+      "url": "https://de.wikipedia.org/wiki/Super_Wings",
+      "name": "de.wikipedia.org",
+      "gesehenAm": "2026-10-08",
+      "stand": "aktuell"
+    },
     {
       "url": "https://plus.rtl.de/tv-programm",
       "name": "plus.rtl.de",
@@ -6055,6 +6074,80 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-08",
       "sagt": "2026-11-26",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-197": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-08",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-08",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-198": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-08",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-08",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-352": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-08",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-08",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-361": [
+    {
+      "url": "https://news.animationdigitalnetwork.com/de/2026/09/28/line-up-zur-herbst-season-2026-neue-anime-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-08",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-08",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-142770-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1058090/suzume-4k-steelbook-edition-design/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-08",
+      "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-116589-adn": [
+    {
+      "url": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-08",
+      "sagt": "2026-10-08",
       "stand": "aktuell"
     }
   ]

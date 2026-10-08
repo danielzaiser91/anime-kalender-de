@@ -4,14 +4,16 @@ Was der Browser-Erweiterung aufgefallen ist, seit dieser Lauf zuletzt gelesen ha
 Bis zum 10.09.2026 stand das in der Browserkonsole — also an einer Stelle, die
 niemand liest: Daniel schaut dort nicht hin, und der Agent kommt gar nicht daran.
 
-Stand: 2026-10-05 19:08 · 1 Vorfall/Vorfälle
+Stand: 2026-10-08 07:12 · 1 Vorfall/Vorfälle
 
 **Ein Vorfall ist nicht zwingend ein Fehler.** „Keine Tonspur gelesen" ist ein
 vorgesehener Fall — interessant wird er erst durch seine Häufigkeit.
 
-## wochenprogramm — 1×
+## melden_fehlgeschlagen — 1×
+
+Die Meldung kam nicht beim Worker an — der Befund ist verloren.
 
 | Wann | Plattform | Reihe | Folge | Was | Version |
 |---|---|---|---|---|---|
-| 2026-10-05 19:07 | crunchyroll | — | — | Lauf abgebrochen: Woche nicht lesbar aus „Crunchyrolls aktuelles Wochenprogramm im Sommer 2026" | — |
+| 2026-10-08 07:06 | disneyplus | — | — | 14 Meldung(en) kamen nicht an: S1E5: TypeError: Failed to fetch; S1E11: TypeError: Failed to fetch; S1E19: TypeError: Failed to fetch | 4.24.12 |
 

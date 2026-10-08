@@ -348,6 +348,16 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-142770-disc@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:Suzume
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: Film\nUhrzeit noch nicht
+  bestätigt.\nDetails: https://anime-kalender.de/t/13781/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:detektiv-conan-box1-30th-anniversary@2026-12-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261218

@@ -35,5 +35,5 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | Disney+ | The Rising of the Shield Hero | [Hauptserie](https://www.disneyplus.com/browse/entity-1b84d641-1bb3-422d-be4c-8e24c7b547cc) |
-| 2 | ADN | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
+| 1 | ADN | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
+| 2 | Netflix | JoJo’s Bizarre Adventure | [STEEL BALL RUN JoJo's Bizarre Adventure 2nd - 3rd STAGE](https://www.netflix.com/title/82116553) |

@@ -394,6 +394,36 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-198@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T070000Z
+DTEND:20261012T073000Z
+SUMMARY:Bleach: The Diamond Dust Rebellion - Movie 2
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/t/2398/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-352@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T070000Z
+DTEND:20261012T073000Z
+SUMMARY:Bleach: Fade to Black - Movie 3
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/t/3282/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-361@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T070000Z
+DTEND:20261012T073000Z
+SUMMARY:Bleach: Hell Verse - Movie 4
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/t/4477/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T151000Z
@@ -926,6 +956,16 @@ DTEND;VALUE=DATE:20261205
 SUMMARY:Jujutsu Kaisen (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/10969/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-142770-disc@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:Suzume
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: Film\nUhrzeit noch nicht
+  bestätigt.\nDetails: https://anime-kalender.de/t/13781/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

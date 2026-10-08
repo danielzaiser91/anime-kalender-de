@@ -820,6 +820,36 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:adn-198@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T070000Z
+DTEND:20261012T073000Z
+SUMMARY:Bleach: The Diamond Dust Rebellion - Movie 2
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/t/2398/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-352@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T070000Z
+DTEND:20261012T073000Z
+SUMMARY:Bleach: Fade to Black - Movie 3
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/t/3282/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
+UID:adn-361@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T070000Z
+DTEND:20261012T073000Z
+SUMMARY:Bleach: Hell Verse - Movie 4
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
+ me-kalender.de/t/4477/
+CATEGORIES:ADN
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T151000Z
