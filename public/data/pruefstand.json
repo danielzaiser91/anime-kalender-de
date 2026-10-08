@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-08T23:27:54.830Z",
+ "erzeugtAm": "2026-10-08T23:41:11.678Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -33,9 +33,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 381,
-   "gesamt": 389,
-   "offen": 8,
+   "gemeldet": 382,
+   "gesamt": 391,
+   "offen": 9,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/80212481",
    "ziele": [
@@ -70,6 +70,10 @@
     {
      "url": "https://www.netflix.com/title/82116553",
      "titel": "Steel Ball Run: Jojo’s Bizarre Adventure"
+    },
+    {
+     "url": "https://www.netflix.com/title/83189604",
+     "titel": "Dragon Ball Super: Beerus"
     }
    ],
    "naechster": "YooHoo: Retter in der Not"
