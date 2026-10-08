@@ -81,6 +81,7 @@ Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
 **Yu-Gi-Oh! The Dark Side of Dimensions Special**, ein 26-Minuten-Special mit einer Folge vom 17.04.2016, das vor dem Film läuft: Jounouchi und Mokuba fassen die Rivalität zwischen Yuugi und Kaiba zusammen (laut MAL). Ein deutscher Titel des Specials ist mir nicht bekannt; der Film heißt auch auf Deutsch „Yu-Gi-Oh! The Dark Side of Dimensions". Vollständiger Titel bei AniList: Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival - Yuugi to Kaiba!
 - AniList: https://anilist.co/anime/102505/YuGiOh-The-Dark-Side-of-Dimensions-Special-Eien-no-Rival-Yuugi-to-Kaiba
 - MAL: https://myanimelist.net/anime/33997
+- Yu-Gi-Oh! Wiki („Eternal Rival: Yugi and Kaiba"): https://yugioh.fandom.com/wiki/Eternal_Rival_Yugi_and_Kaiba
 
 **Endpunkte** (08.10.2026, je 200 OK):
 - `GET /v1/anime/associated?source=myanimelist` → der Schlüssel `33997` fehlt (18.867 Schlüssel insgesamt).
