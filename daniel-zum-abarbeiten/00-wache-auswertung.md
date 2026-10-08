@@ -248,3 +248,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** Commit 0570debf6 (Dub-Liste `-` gilt jetzt auch ohne deutsche Ausgabe) verschiebt Titel aus dem Hauptbestand, ohne die Handtitel (`data/titel-de.yaml`) gegenzuprüfen — die fielen erst im Bau auf, nicht in `check:vor-commit`. Zudem fand ich 21726 im Checkout weder in `titles.json` des Laufs noch in `ohne-synchro.json`; ob „verschiebt, löscht nicht“ hier hält, ist nicht gemessen.
 
 **Was läuft komplett falsch?** `data/titel-de.yaml` Zeile 38: „Aggretsuko“ stand unter 21726 (Kurzfilmreihe 2016, aniSearch-Dub `-`), gemeint ist die Netflix-Serie 101571 (Dub `d`). Auf 101571 umgestellt, `check:logic` hält.
+
+
+## 08.10.2026 — Bestand-Bau rot (Lauf 37730481739), kein Wache-Befund
+
+**Was läuft korrekt.** Der Verlust-Riegel (`pipeline/bau/13-2-auslieferung.ts`, „ABBRUCH: 8 Titel wuerden aus dem Datensatz fallen (2908 → 2930)") hat gegriffen; `public/data` auf `main` blieb unverändert. Es sind dieselben acht Titel wie am 07.10. (10000325 u. a., aniSearch-Dub „abgebrochen").
+
+**Wo ist Verbesserungspotenzial?** Dieselbe Ursache hat nun drei Pull Requests erzeugt (#411, #412, #439), keiner wurde zusammengeführt; #412 ist inzwischen konfliktbehaftet. Die Einreichung eines Fixes durch einen roten Lauf bleibt liegen, solange niemand mergt — der nächste Lauf wird wieder rot und baut den dritten.
+
+**Wo sind echte Risiken und Lücken?** #439 hätte nicht gereicht: Es zählt den Nachfolger nur, wenn er im Hauptbestand (`slim`) steht; die acht AniList-Titel (11421, 9978, 5091, 7956, 6262, 10282, 4439, 6771) stehen aber in `ohne-synchro.json`, also hinter dem Toggle. Offen bleibt die inhaltliche Frage aus dem Eintrag vom 07.10.: Titel mit Dub-Kennzeichen `c` standen als eigene aniSearch-Titel im Hauptbestand und liegen nach der Zuordnung dahinter. Kein Riegel meldet das.
+
+**Was läuft komplett falsch?** Nichts im Bau selbst. Die Annahme des Riegels („jede verschwundene Kennung ist ein Verlust") kennt keinen Kennungswechsel. Neu: `anisearchUmgezogen` (`pipeline/bau/anisearch-titel.ts`) rechnet eine Kennung als umgezogen, wenn ihr AniList-Nachfolger im Hauptbestand, in `verschoben` oder im AniList-Katalog ankommt; #411, #412, #439 sind damit überholt. Nicht lokal gemessen (kein Cache).

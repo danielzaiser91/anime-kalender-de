@@ -56,6 +56,17 @@ export function anisearchNurKatalog(): Set<number> {
   return new Set(Object.entries(alle()).filter(([, e]) => e.dub === '-').map(([id]) => ANISEARCH_ID_BASIS + Number(id)))
 }
 
+/**
+ * Eigenkennungen, die ein Katalog-Lauf nachträglich einem AniList-Titel zugeordnet hat: Der Titel zieht um, er geht nicht verloren.
+ * `vorhanden` sind die AniList-Kennungen, die im Hauptbestand oder hinter dem Toggle ankommen.
+ */
+export function anisearchUmgezogen(vorhanden: Set<number>): Set<number> {
+  const umgezogen = new Set<number>()
+  const zuordnung = readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})
+  for (const [anilist, e] of Object.entries(zuordnung)) if (e.anisearchId && vorhanden.has(Number(anilist))) umgezogen.add(ANISEARCH_ID_BASIS + e.anisearchId)
+  return umgezogen
+}
+
 /** Legt die Titel an, die bei uns noch keine eigene aniSearch-Kennung tragen. Gibt zurück, wie viele es sind. */
 export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>): number {
   /* Cover: die aniSearch-Bilder dürfen wir nicht weitergeben; wo TMDB ein Plakat zu Name und Jahr kennt (`fetch-tmdb-poster.ts`), steht es als Cover. */
