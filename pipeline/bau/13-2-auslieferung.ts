@@ -1,4 +1,4 @@
-import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
+import { ANISEARCH_ID_BASIS, anisearchUmgezogen } from './anisearch-titel.ts'
 import { anisearchHand, kinoFeld, mitAnkuendigung, OUT, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
 import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
@@ -137,6 +137,12 @@ export function baueAuslieferung({
        * 23.09. nicht mehr sauber zusammenführen; die Zeile steht deshalb direkt hier.
        */
       const hinterToggle = new Set(verschoben.map((t) => t.id))
+      /*
+        Ein aniSearch-Titel, dessen Kennung jetzt an einem AniList-Titel hängt, ist umgezogen, nicht verloren — Bedingung: der Nachfolger kommt im Hauptbestand,
+        in `verschoben` oder im AniList-Katalog (hinter dem Toggle) an (Lauf 37730481739: acht Titel mit abgebrochenem Dub, 2908 → 2930).
+      */
+      const katalog = readJson<{ eintraege?: { id: number }[] }>('data/cache/anilist-katalog.json', {}).eintraege ?? []
+      for (const id of anisearchUmgezogen(new Set([...jetzt, ...hinterToggle, ...katalog.map((e) => e.id)]))) hinterToggle.add(id)
       const verloren = vorher.filter((id) => !jetzt.has(id) && !hinterToggle.has(id))
       if (verloren.length > ERLAUBTER_VERLUST) {
         warn(
