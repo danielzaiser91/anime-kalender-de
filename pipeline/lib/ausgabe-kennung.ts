@@ -7,7 +7,7 @@
  * Negative Kennungen (Cartoons aus TMDB) bleiben, wie sie sind.
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 
 export type AkVon = (anilist: number) => number
 
@@ -167,6 +167,16 @@ export function uebersetzeVerzeichnis(wurzel: string, kennungenPfad: string): { 
   }
   uebersetzeTeildateien(wurzel, akVon)
   schreibe(join(wurzel, 'anilist-ak.json'), zeilen.map((z) => [z[3] ?? z[0], z[1]]))
-  schreibe(join(wurzel, 'ak-umleitung.json'), umleitungen(zeilen))
+  schreibe(join(wurzel, 'ak-umleitung.json'), [...umleitungen(zeilen), ...cartoonUmzug(kennungenPfad, akVon)])
   return { dateien }
+}
+
+/**
+ * Cartoons, die als Anime geführt werden (`data/cartoon-umzug.json`, `bau/cartoon-zu-anime.ts`), als `[Cartoon-Kennung, ak des Anime]`:
+ * Gemerkte Cartoons und die Adresse `#/datenbank?t=<Cartoon>` ziehen damit auf den Anime-Titel um. Die Datei liegt neben `kennungen.json`.
+ */
+export function cartoonUmzug(kennungenPfad: string, akVon: AkVon): [number, number][] {
+  const pfad = join(dirname(kennungenPfad), 'cartoon-umzug.json')
+  if (!existsSync(pfad)) return []
+  return (lies(pfad) as [number, number][]).map(([cartoon, anime]) => [cartoon, akVon(anime)])
 }
