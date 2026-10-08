@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { loadJson } from '../../lib/data.ts'
 import { Tooltip } from '../ui.tsx'
 import { DeFlaggeZeichen } from '../de-flagge.tsx'
+import { TREFFER_24_HOCH } from './tippziel.ts'
 
 /**
  * **Die Folgenliste im Antwortkasten** (Daniel, 04.10.2026): Ein Pfeil klappt sie auf, der Kasten wächst mit,
@@ -72,7 +73,7 @@ export function FolgenBereich({ titleId, erschienen }: { titleId: number; erschi
   const deutsch = (nr: number) => liste?.de.some(([von, bis]) => nr >= von && nr <= bis) ?? false
   return (
     <div className="mt-2 border-t border-slate-300 pt-1.5 text-xs text-slate-700 dark:border-white/10 dark:text-slate-200">
-      <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className="flex w-full cursor-pointer items-center gap-1.5 py-0.5 text-left font-semibold">
+      <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className={`flex w-full cursor-pointer items-center gap-1.5 py-0.5 text-left font-semibold ${TREFFER_24_HOCH}`}>
         <span aria-hidden className={`inline-block transition-transform ${offen ? 'rotate-90' : ''}`}>▸</span>
         Folgen{folgen ? ` (${folgen.length})` : ''}
         {liste?.min ? <span className="font-normal text-slate-500 dark:text-slate-400">· ~{liste.min} Min. je Folge</span> : null}

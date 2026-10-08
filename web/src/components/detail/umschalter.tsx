@@ -5,6 +5,7 @@
  * zweite: „headline auf selbe zeile wie den toggle, trennstrich genau
  * darunter, dann die pills." Gibt es keine zweite Seite, gibt es nichts umzuschalten.
  */
+import { TREFFER_24_HOCH } from './tippziel.ts'
 export function Umschalter({ aktivDisc, streamLeer, discLeer, onWahl, T }: {
   aktivDisc: boolean
   streamLeer: boolean
@@ -31,7 +32,7 @@ export function Umschalter({ aktivDisc, streamLeer, discLeer, onWahl, T }: {
           disabled={o.leer}
           onClick={() => onWahl(o.an)}
           className={[
-            'rounded-full px-2.5 py-0.5 transition',
+            `rounded-full px-2.5 py-0.5 transition ${TREFFER_24_HOCH}`,
             aktivDisc === o.an
               ? 'bg-slate-900 font-medium text-white dark:bg-white/90 dark:text-slate-900'
               : o.leer

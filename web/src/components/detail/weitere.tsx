@@ -6,7 +6,7 @@ import { type Voices, loadVoices, type Dataset, loadCartoons, loadAllTitles } fr
 import { aehnlicheTitel } from '../../lib/aehnlich.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { useVorschau } from '../../lib/vorschau.ts'
-import { TIPPFLAECHE_HOCH } from './tippziel.ts'
+import { TIPPFLAECHE_HOCH, TREFFER_24_HOCH } from './tippziel.ts'
 
 /**
  * Alle weiteren Schreibweisen eines Titels — eingeklappt, an einer Stelle.
@@ -42,7 +42,7 @@ export function WeitereTitel({ title }: { title: Title }) {
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}
-        className={`cursor-pointer text-slate-400 underline decoration-dotted underline-offset-2 hover:text-sky-400 dark:text-slate-500 ${gross ? TIPPFLAECHE_HOCH : ''}`}
+        className={`cursor-pointer text-slate-400 underline decoration-dotted underline-offset-2 hover:text-sky-400 dark:text-slate-500 ${gross ? TIPPFLAECHE_HOCH : TREFFER_24_HOCH}`}
       >
         {offen ? t('detail.otherTitlesHide') : t('detail.otherTitles', { count: weitere.length })}
       </button>
@@ -100,7 +100,7 @@ export function VoiceCast({ titleId }: { titleId: number }) {
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+        className={`flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 ${TREFFER_24_HOCH}`}
       >
         <span aria-hidden className={`transition-transform ${open ? 'rotate-90' : ''}`}>
           ›
@@ -216,7 +216,7 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+        className={`flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 ${TREFFER_24_HOCH}`}
       >
         <span aria-hidden className={`transition-transform ${open ? 'rotate-90' : ''}`}>
           ›

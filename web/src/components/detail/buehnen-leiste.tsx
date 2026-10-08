@@ -2,7 +2,7 @@ import { ShareIcon } from './hilfen.tsx'
 import { CoverMaximieren } from './cover-max.tsx'
 import { anzeigeName } from '@shared/titles.ts'
 import { HideEye, FavoriteStar, ReihenStern } from '../ui.tsx'
-import { TIPPFLAECHE_KINDER } from './tippziel.ts'
+import { TIPPFLAECHE_KINDER, TREFFER_24 } from './tippziel.ts'
 import { useVorschau } from '../../lib/vorschau.ts'
 import { type Title } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
@@ -32,7 +32,7 @@ export function BuehnenLeiste({ title, favorites, onToggleFavorite, onToggleHidd
         type="button"
         onClick={onClose}
         aria-label={t('detail.close')}
-        className={`cursor-pointer px-1 text-sm text-white transition hover:opacity-70 ${gross ? 'py-1.5' : ''}`}
+        className={`cursor-pointer px-1 text-sm text-white transition hover:opacity-70 ${gross ? 'py-1.5' : TREFFER_24}`}
       >
         ✕
       </button>
