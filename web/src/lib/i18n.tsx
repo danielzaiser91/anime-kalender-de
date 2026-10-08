@@ -701,7 +701,7 @@ const TEXTE = {
   'antwort.faktEdition': 'Ausgabe',
   'antwort.faktStudio': 'Studio',
   'antwort.fskAb': 'ab {n}',
-  'detail.lastEpisode': 'Letzte Folge',
+  'antwort.fskAnbieter': 'ab {n} laut Anbieter',  'detail.lastEpisode': 'Letzte Folge',
   'detail.allDates': 'Alle Termine',
   'detail.showAllDates': 'alle {count} Termine anzeigen',
   'detail.showFewer': 'weniger anzeigen',

@@ -34,7 +34,7 @@ export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggl
         <BuehnenLeiste title={title} favorites={favorites} onToggleFavorite={onToggleFavorite} onToggleHidden={onToggleHidden} reihenIds={reihenIds} onClose={onClose} t={t} buehnenBild={buehnenBild} grossBild={grossBild} />
         {title.fsk !== undefined && (
           <span className="absolute right-11 top-0 z-10 rounded-b-lg bg-[rgba(8,12,18,.74)] px-2 py-1 text-xs font-semibold tabular-nums text-slate-200 backdrop-blur-[3px]">
-            {t('antwort.fskAb', { n: title.fsk })}
+            {t(title.fskQuelle ? 'antwort.fskAnbieter' : 'antwort.fskAb', { n: title.fsk })}
           </span>
         )}
 

@@ -140,7 +140,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
           steht bei fast jedem Anime das Gesicht.
         */}
         <span className="absolute right-1 top-1 flex flex-col items-center gap-0.5 rounded-md bg-slate-900/60 p-0.5 backdrop-blur-[2px]">
-          {main.fsk !== undefined && <FskBadge fsk={main.fsk} small />}
+          {main.fsk !== undefined && <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />}
           <FavoriteStar active={favorite} onToggle={() => onToggleFavorite(main.id)} />
           <HideEye hidden={false} onToggle={() => onToggleHidden(main.id)} />
           {main.slug && !main.ohneSynchro && main.id > 0 && (

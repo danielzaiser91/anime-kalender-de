@@ -46,6 +46,7 @@ import { istEingeklappt } from '../web/src/components/detail/reihen-regeln.ts'
 import { messungenFuerFolgen } from './lib/news-messung.ts'
 import { ergaenzeErstausgabeAngebot } from './bau/13-7-erstausgabe-angebot.ts'
 import { streicheMagentaPartner } from './bau/11-5-magenta-partner.ts'
+import { fskQuelleFehler, stufeAusJustwatch } from './bau/11-2-1-fsk-justwatch.ts'
 import { newsSatz } from '../web/src/lib/news-text.ts'
 import { omuMeldungen } from './lib/news-omu.ts'
 import { discBonusAus } from './lib/disc-bonus.ts'
@@ -7785,6 +7786,14 @@ pruefe(
   pruefe('Belege: erledigte Termine beenden das Lesen, nie Gelesenes kommt einmal dran', erledigt.join() === 'https://x/neu,https://x/nie', erledigt)
   pruefe('Belege: frischer Artikel täglich, älterer erst nach sieben Tagen',
     JSON.stringify(warteschlange(Object.keys(frisch), frisch, '2026-10-04', 7, 5)) === '["https://www.anime2you.de/news/5/f/"]')
+
+  /* FSK aus JustWatch: nur Stufen der FSK-Skala, nie neben einer TMDB-Freigabe. */
+  pruefe('FSK-JustWatch: „12", „12+" und „FSK 16" werden Stufen', [stufeAusJustwatch('12'), stufeAusJustwatch('12+'), stufeAusJustwatch(' FSK 16 ')].join() === '12,12,16')
+  pruefe('FSK-JustWatch: Leeres, Fremdes und Fehlende fallen weg', ['', 'PG-13', '14', '7+', null, undefined].every((x) => stufeAusJustwatch(x) === undefined))
+  const jwTitel = (id: number, fsk?: number): Title => ({ id, fsk, fskQuelle: 'justwatch' }) as unknown as Title
+  pruefe('FSK-JustWatch: gültige Stufe ohne TMDB-Wert besteht', fskQuelleFehler([jwTitel(1, 12), jwTitel(2, 0)], () => undefined).length === 0)
+  pruefe('FSK-JustWatch: ungültige Stufe wird gemeldet', fskQuelleFehler([jwTitel(1, 14)], () => undefined).length === 1)
+  pruefe('FSK-JustWatch: Quelle neben TMDB-Freigabe wird gemeldet', fskQuelleFehler([jwTitel(1, 12)], () => 16).length === 1)
 
   /* JustWatch: neue Fehlschläge sagen nichts über die Schnittstelle, verlorene Treffer schon. */
   pruefe('JustWatch: der Lauf vom 28.09.2026 (26 Treffer, 2 leer, 0 verfehlt) ist plausibel', !istUnplausibel({ getroffen: 26, leer: 2, verfehlt: 0 }))

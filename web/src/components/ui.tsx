@@ -28,20 +28,9 @@ function mitHinweis(text: string | undefined, seite: 'oben' | 'unten', kind: Rea
 }
 
 /**
- * Der Synchro-Stand eines einzelnen Verweises: ✓, ✕ oder ?
- *
- * Steht hier und nicht im Detail-Panel, weil dieselbe Auskunft an zwei Stellen
- * gebraucht wird — unter dem Titel und in der Ansicht „Wo sehen?". Zwei
- * Fassungen desselben Zeichens liefen sonst auseinander.
- */
-/**
- * Ob es an diesem Anbieter eine deutsche Synchro gibt.
- *
- * **Es gibt nur noch zwei Zustände: belegt und offen.** Das rote Kreuz ist weg,
- * und mit ihm die Anbieter, die es getragen hätten — steht fest, dass es dort
- * keine deutsche Fassung gibt, wird der Verweis gar nicht mehr ausgeliefert.
- * Aussortiert wird beim Bauen,
- * siehe `build.ts`; hier kann `dub === false` deshalb nicht mehr ankommen.
+ * Ob es an diesem Anbieter eine deutsche Synchro gibt: ✓ (belegt) oder ? (offen). Das rote Kreuz ist weg —
+ * steht fest, dass es keine Fassung gibt, liefert `build.ts` den Verweis gar nicht aus (`dub === false` kommt nie an).
+ * Steht hier, weil unter dem Titel und in „Wo sehen?" dieselbe Auskunft gebraucht wird.
  */
 export function DubMark({ dub }: { dub?: boolean }) {
   const { t } = useLang()
@@ -177,12 +166,14 @@ export function DiscZeichen({ className = 'size-3.5' }: { className?: string }) 
   )
 }
 
-export function FskBadge({ fsk, small }: { fsk: Fsk; small?: boolean }) {
+/** `quelle: 'justwatch'` = Anbieter-Einstufung statt Freigabe: Hinweis im Tooltip, gestrichelter Rand. */
+export function FskBadge({ fsk, small, quelle }: { fsk: Fsk; small?: boolean; quelle?: 'justwatch' }) {
+  const { t } = useLang()
   const bg = FSK_COLORS[fsk]
   /* Dunkle Ziffer bis FSK 12: Weiß auf dem FSK-Grün hatte nur 3,6:1, #111 hat 5,3:1 (18.09.2026). */
   const dark = fsk <= 12
   return mitHinweis(
-    `FSK ${fsk}`,
+    quelle ? t('antwort.fskAnbieter', { n: fsk }) : `FSK ${fsk}`,
     'oben',
     <span
       className={[
@@ -190,7 +181,7 @@ export function FskBadge({ fsk, small }: { fsk: Fsk; small?: boolean }) {
         'rounded-sm font-bold',
         small ? 'h-4 min-w-6 px-1 text-[10px]' : 'h-5 min-w-7 px-1 text-[11px]',
       ].join(' ')}
-      style={{ background: bg, color: dark ? '#111' : '#fff', border: '1px solid rgba(0,0,0,.25)' }}
+      style={{ background: bg, color: dark ? '#111' : '#fff', border: `1px ${quelle ? 'dashed rgba(0,0,0,.55)' : 'solid rgba(0,0,0,.25)'}` }}
     >
       {fsk}
     </span>,
