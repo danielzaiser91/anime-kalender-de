@@ -39,14 +39,20 @@ const befund = lage === 'befund'
   Vortagsstand vorliegt, ihre Veränderung; ein Zuwachs gehört zu den Auffälligkeiten.
 */
 const AUSGELASSEN = 'data/termine-ausgelassen.json'
-const STAND = 'data/cache/wache-ausgelassen.json'
+// Nicht unter data/cache: Den Ordner verwaltet ein anderer Actions-Cache (anilist-cache-).
+const STAND = '.wache-stand/ausgelassen.json'
 let ausgelassenText = '(keine Ausgabe)'
 const zuwachs = []
 try {
   const jetztStand = JSON.parse(readFileSync(AUSGELASSEN, 'utf8')).jeGrund ?? {}
   let vorher = {}
+  let vortagText = 'kein Vortagsstand (erster Lauf oder Cache verloren) — keine Veränderung berechnet'
   try {
-    vorher = JSON.parse(readFileSync(STAND, 'utf8'))
+    const gespeichert = JSON.parse(readFileSync(STAND, 'utf8'))
+    vorher = gespeichert.jeGrund ?? {}
+    const alter = Math.floor((Date.now() - Date.parse(gespeichert.datum)) / 864e5)
+    vortagText = `Vergleich mit dem Stand vom ${gespeichert.datum}`
+    if (!(alter <= 3)) zuwachs.push(`Vortagsvergleich: der gespeicherte Stand ist ${alter} Tage alt (${gespeichert.datum})`)
   } catch {
     /* Erster Lauf: kein Vergleich, nur Zahlen. */
   }
@@ -58,9 +64,9 @@ try {
       const zeichen = !Object.keys(vorher).length ? '' : diff > 0 ? ` (+${diff})` : diff < 0 ? ` (${diff})` : ' (±0)'
       return `${String(n).padStart(4)}  ${grund}${zeichen}`
     })
-  ausgelassenText = zeilen.length ? zeilen.join('\n') : 'nichts ausgelassen'
+  ausgelassenText = (zeilen.length ? zeilen.join('\n') : 'nichts ausgelassen') + `\n(${vortagText})`
   mkdirSync(dirname(STAND), { recursive: true })
-  writeFileSync(STAND, JSON.stringify(jetztStand) + '\n')
+  writeFileSync(STAND, JSON.stringify({ datum: new Date().toISOString().slice(0, 10), jeGrund: jetztStand }) + '\n')
 } catch {
   ausgelassenText = 'Datei fehlt — der letzte Bau hat nichts ausgelassen oder ist nicht gelaufen.'
 }
