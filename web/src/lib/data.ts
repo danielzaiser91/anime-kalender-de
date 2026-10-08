@@ -1,5 +1,6 @@
 import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { SYNOPSIS_GROUPS, type DiscAusgabe } from '@shared/types.ts'
+import type { WochenDatei } from '@shared/wochen-datei.ts'
 import type { DataMeta, Franchises, Meldung, NewsEintrag, Release, ReleaseEvent, Title } from '@shared/types.ts'
 
 export interface Dataset {
@@ -43,14 +44,40 @@ export async function loadJson<T>(path: string): Promise<T> {
   return (await res.json()) as T
 }
 
+/** `meta.json` wird vom Wochen-Start und vom vollen Datensatz gebraucht — ein Abruf. */
+let metaPromise: Promise<DataMeta> | undefined
+const loadMeta = () => (metaPromise ??= loadJson<DataMeta>('meta.json'))
+
 export async function loadDataset(): Promise<Dataset> {
   const [titles, releases, events, meta] = await Promise.all([
     loadJson<Title[]>('titles-core.json'),
     loadJson<Release[]>('releases.json'),
     loadJson<ReleaseEvent[]>('events.json'),
-    loadJson<DataMeta>('meta.json'),
+    loadMeta(),
   ])
+  return baueDataset(titles, releases, events, meta)
+}
 
+/** Der Wochen-Start: die Woche des Baus als kleiner Datensatz (`shared/wochen-datei.ts`). */
+export interface WochenStart {
+  data: Dataset
+  von: string
+  bis: string
+}
+
+let wochenStartPromise: Promise<WochenStart> | undefined
+
+/** `woche.json` + `meta.json` statt der drei vollen Dateien — für den Erstaufruf der Wochenansicht. */
+export function loadWochenStart(): Promise<WochenStart> {
+  wochenStartPromise ??= Promise.all([loadJson<WochenDatei>('woche.json'), loadMeta()]).then(([w, meta]) => ({
+    data: baueDataset(w.titles, w.releases, w.events, meta),
+    von: w.von,
+    bis: w.bis,
+  }))
+  return wochenStartPromise
+}
+
+function baueDataset(titles: Title[], releases: Release[], events: ReleaseEvent[], meta: DataMeta): Dataset {
   const titleById = new Map(titles.map((t) => [t.id, t]))
   const releaseBySlug = new Map(releases.map((r) => [r.slug, r]))
 

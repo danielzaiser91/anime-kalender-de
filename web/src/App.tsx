@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
-import type { Dataset } from './lib/data.ts'
 import { EinstellungenDialog, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
-import { loadAllTitles, loadCartoons, loadDataset, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
+import { loadAllTitles, loadCartoons, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
+import { useStartdaten } from './lib/start-daten.ts'
 import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
 import { SuchfundstellenContext } from './lib/such-kontext.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
@@ -73,9 +73,7 @@ const FUSS_ABSTAND = {
 
 export default function App() {
   const { t } = useLang()
-  const [data, setData] = useState<Dataset>()
   const [allTitles, setAllTitles] = useState<Title[]>()
-  const [error, setError] = useState<string>()
   // Vorgabe aus: Wer die Datenbank öffnet, sucht meist einen bestimmten Titel.
   const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') === '1')
   /*
@@ -102,12 +100,8 @@ export default function App() {
   // Bittet den Browser einmalig, den lokalen Speicher nicht selbst zu räumen (iOS-Safari: sieben Tage).
   useEffect(speicherSichern, [])
   const today = todayIso()
-
-  useEffect(() => {
-    loadDataset()
-      .then(setData)
-      .catch((e: Error) => setError(e.message))
-  }, [])
+  /* Die Wochenansicht startet aus der kleinen Wochen-Datei; `data` ist bis zum vollen Datensatz (`voll`) nur diese Woche. */
+  const { data, voll, error } = useStartdaten(route, today)
 
   useEffect(() => {
     localStorage.setItem('groupSeasons', grouped ? '1' : '0')
@@ -143,7 +137,7 @@ export default function App() {
   }, [data, zeigeOhneSynchro, ohneSynchro])
 
   /* Cartoons haben keinen Termin; geladen werden sie nur für die Datenbank und für einen direkt geöffneten Cartoon (18.09.2026). */
-  const brauchtCartoons = route.view === 'datenbank' || (route.title !== undefined && !!data && !data.titleById.has(route.title))
+  const brauchtCartoons = route.view === 'datenbank' || (route.title !== undefined && !!voll && !voll.titleById.has(route.title))
   useEffect(() => {
     if (!data || cartoons || !brauchtCartoons) return
     loadCartoons(data).then(setCartoons)
@@ -289,7 +283,7 @@ export default function App() {
 
       <InstallDialog />
 
-      {openTitleId !== undefined && (
+      {openTitleId !== undefined && voll && (
         <DetailPanel
           data={data}
           titleId={openTitleId}

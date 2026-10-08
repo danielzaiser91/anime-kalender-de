@@ -7,8 +7,10 @@ import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { schreibeKernUndNews } from './13-5-kerndateien.ts'
 import { ergaenzeKennungen } from './13-6-kennungen.ts'
 import { ergaenzeTitelRang } from './titel-rang.ts'
+import { schreibeWochenDatei } from './13-8-wochen-datei.ts'
 import { ergaenzeErstausgabeAngebot } from './13-7-erstausgabe-angebot.ts'
 import { schreibeZusatzdateien } from './13-4-zusatzdateien.ts'
+import { schreibeSprecherIndex } from './sprecher-index.ts'
 import { schreibeListen } from './13-3-listen.ts'
 import { baueAuslieferung } from './13-2-auslieferung.ts'
 import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
@@ -64,8 +66,10 @@ export function schreibeDatensatz({
   schreibeListen({ slim, tmdbTitles, releases, titles })
 
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })
+  schreibeSprecherIndex({ ausgeliefert: new Set(slim.map((t) => t.id)) })
 
   const { newsFuerRss } = schreibeKernUndNews({ releases, events, titles, meta })
   ergaenzeKennungen(); ergaenzeTitelRang()
+  schreibeWochenDatei()
   return { newsFuerRss }
 }

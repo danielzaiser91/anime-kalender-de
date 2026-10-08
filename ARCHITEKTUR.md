@@ -90,6 +90,10 @@ verschwendete Zeit.
 Der Kalender zeigt ohnehin nie mehr als eine Woche gleichzeitig. Aufwand: klein, die
 Ladelogik dafür steht bereits.
 
+*Stand 08.10.2026:* Die Summe lag bei ≈ 590 KB (Start, mit Code). Statt der Monatsteilung startet
+die Wochenansicht aus `woche.json` (31 KB), die vollen Dateien laden danach nach — Zahlen und
+Regeln in `docs/wissen/datensatz.md`, „Wochen-Datei zuerst umgesetzt".
+
 ### 2. Ein Datenfeld interessiert nur eine Minderheit
 
 **Auslöser:** Eine neue Angabe würde `titles.json` deutlich vergrößern, aber die wenigsten
