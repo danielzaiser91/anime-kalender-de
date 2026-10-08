@@ -137,7 +137,17 @@ export function baueAuslieferung({
        * 23.09. nicht mehr sauber zusammenführen; die Zeile steht deshalb direkt hier.
        */
       const hinterToggle = new Set(verschoben.map((t) => t.id))
-      const verloren = vorher.filter((id) => !jetzt.has(id) && !hinterToggle.has(id))
+      /*
+        **Eine neue Kennung für denselben Eintrag ist kein Verlust.** Erhält ein Titel, der bisher nur als aniSearch-Titel (Kennung ab
+        `ANISEARCH_ID_BASIS`) stand, einen AniList-Titel mit derselben aniSearch-Kennung (`data/anisearch.json`), übernimmt dieser die Rolle
+        (08.10.2026, Lauf 37727079699: acht Titel mit abgebrochenem Dub, 2908 → 2930).
+      */
+      const anisearchZuAnilist = new Map<number, number>()
+      for (const [anilistId, e] of Object.entries(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) {
+        if (e.anisearchId && jetzt.has(Number(anilistId))) anisearchZuAnilist.set(e.anisearchId, Number(anilistId))
+      }
+      const abgeloest = (id: number) => id >= ANISEARCH_ID_BASIS && anisearchZuAnilist.has(id - ANISEARCH_ID_BASIS)
+      const verloren = vorher.filter((id) => !jetzt.has(id) && !hinterToggle.has(id) && !abgeloest(id))
       if (verloren.length > ERLAUBTER_VERLUST) {
         warn(
           `ABBRUCH: ${verloren.length} Titel wuerden aus dem Datensatz fallen ` +
