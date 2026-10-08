@@ -1,7 +1,9 @@
 # Discord „#db_api": vier Themen, je Titel eines
 
 Jedes Thema: die **Überschrift** als Themenname, der **Text** (Block darunter) 1:1 als erste Nachricht einfügen. Jeder Text ist unter 2.000 Zeichen und steht für sich.
-Gegengeprüft am 08.10.2026 gegen die vollständige Titelliste der aniSearch-API (`/v1/anime/titles`): Keiner der vier Titel steht dort. Die Zahl hinter „Zeichen" ist die Länge des Textes.
+Gegengeprüft am 08.10.2026 gegen die aniSearch-API: Keiner der vier Titel steht in der Titelliste (`/v1/anime/titles`), und die drei mit MAL-Kennung fehlen in `/v1/anime/associated?source=myanimelist` (18.867 Schlüssel).
+
+**Forum-Richtlinien (Screenshot):** klarer Titel ✓ · ein Thema je Beitrag ✓ · Endpunkt und Beispielanfrage mit Antwort ✓ (in jedem Text) · deutsch ist willkommen ✓ · **vor dem Posten im Kanal nach vorhandenen Beiträgen suchen** (das kannst nur du: Suche nach den Titeln, damit kein Duplikat entsteht).
 
 ---
 
@@ -19,9 +21,11 @@ Hallo zusammen, zu dieser Serie finde ich bei euch keinen Eintrag:
 - Wikipedia: bei RTL II als sechste Staffel der zweiten Yu-Gi-Oh!-Serie ausgestrahlt: https://de.wikipedia.org/wiki/Yu-Gi-Oh!
 - Liegt den deutschen Gesamtausgaben als „Kapselmonster-Mini-Serie" (12 Folgen) bei: https://akibapassshop.de/products/23a056-yu-gi-oh-complete-edition-ep-1-224-kapselmonster-bluray, https://dtmshop.dtm.at/YU-GI-OH-Blu-Ray-10Discs-Complete-Edition-Ep-1-224-Kapselmonster/1134797, https://www.amazon.de/Yu-Gi-Oh-Duel-Monsters-Complete-Blu-rays/dp/B0GQHJGFV9
 
-**Die Serie ist anderswo geführt:** TMDB https://www.themoviedb.org/tv/11767 · IMDb https://www.imdb.com/title/tt6540806/ · Rotten Tomatoes https://www.rottentomatoes.com/tv/yu_gi_oh_capsule_monsters/s01
+**Auch geführt bei:** TMDB https://www.themoviedb.org/tv/11767 · IMDb https://www.imdb.com/title/tt6540806/ · Rotten Tomatoes https://www.rottentomatoes.com/tv/yu_gi_oh_capsule_monsters/s01
 
-In der Titelliste der API (/v1/anime/titles) habe ich nach „Capsule Monsters" gesucht, ohne Treffer. Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
+**Endpunkt:** `GET https://api.anisearch.com/v1/anime/titles` (08.10.2026, 200 OK). Suche nach „Capsule Monsters" in allen Titeln und Synonymen: kein Treffer.
+
+Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
 ```
 
 ---
@@ -37,7 +41,11 @@ Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
 - AniList: https://anilist.co/anime/100519/Princess-Principal-Picture-Drama
 - MAL: https://myanimelist.net/anime/36485/Princess_Principal_Picture_Drama
 
-In der Titelliste der API (/v1/anime/titles) habe ich danach gesucht, ohne Treffer. Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
+**Endpunkte** (08.10.2026, je 200 OK):
+- `GET /v1/anime/associated?source=myanimelist` → der Schlüssel `36485` fehlt (18.867 Schlüssel insgesamt).
+- `GET /v1/anime/titles` → Suche nach „Princess Principal Picture Drama": kein Treffer.
+
+Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
 ```
 
 ---
@@ -54,7 +62,11 @@ Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
 - AniList: https://anilist.co/anime/107342
 - IMDb: https://www.imdb.com/title/tt9561688/
 
-In der Titelliste der API (/v1/anime/titles) habe ich danach gesucht, ohne Treffer. Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
+**Endpunkte** (08.10.2026, je 200 OK):
+- `GET /v1/anime/associated?source=myanimelist` → der Schlüssel `38963` fehlt (18.867 Schlüssel insgesamt).
+- `GET /v1/anime/titles` → Suche nach „Menma e no Tegami": kein Treffer.
+
+Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
 ```
 
 ---
@@ -66,11 +78,16 @@ In der Titelliste der API (/v1/anime/titles) habe ich danach gesucht, ohne Treff
 ```
 Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
 
-**Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival – Yuugi to Kaiba!**, ein 26-Minuten-Special, das vor dem Film läuft. Die Kennung 10086 ist der Film selbst, nicht das Special.
+**Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival – Yuugi to Kaiba!**, ein 26-Minuten-Special, das vor dem Film läuft.
 - AniList: https://anilist.co/anime/102505/YuGiOh-The-Dark-Side-of-Dimensions-Special-Eien-no-Rival-Yuugi-to-Kaiba
 - MAL: https://myanimelist.net/anime/33997
 
-In der Titelliste der API (/v1/anime/titles) habe ich danach gesucht, ohne Treffer. Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
+**Endpunkte** (08.10.2026, je 200 OK):
+- `GET /v1/anime/associated?source=myanimelist` → der Schlüssel `33997` fehlt (18.867 Schlüssel insgesamt).
+- `GET /v1/anime/titles` → Suche nach „Eien no Rival": kein Treffer.
+- `GET /v1/anime/10086?lang=de` → „Yuu Gi Ou: The Dark Side of Dimensions", Typ Film, 2016, MAL 28771. Die Kennung 10086 ist also der Film selbst, nicht das Special.
+
+Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
 ```
 
 ---
