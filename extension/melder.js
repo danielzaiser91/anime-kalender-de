@@ -4055,6 +4055,7 @@ async function durchlaufStarten(grenze) {
     er einen zweiten Start abweist.
   */
   DURCHLAUF.laeuft = true
+  document.documentElement.classList.add('ak-durchgang')
   /* Der Takt hält sich ab jetzt heraus — siehe durchlaufLaeuftHier(). */
   durchlaufFlagSetzen(true)
   DURCHLAUF.abbruch = false
@@ -4381,6 +4382,7 @@ async function durchlaufStarten(grenze) {
 
   videoAbdrehen(false)
   DURCHLAUF.laeuft = false
+  document.documentElement.classList.remove('ak-durchgang')
   durchlaufFlagSetzen(false)
   /* Was der Leser während des Laufs schickte, jetzt übernehmen (siehe `nachrichtEmpfangen`). */
   if (DURCHLAUF.listeNachLauf) {

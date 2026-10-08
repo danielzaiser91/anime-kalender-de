@@ -179,3 +179,27 @@ function akBerichtSchalter(laden) {
     schalten: laden,
   }
 }
+
+/**
+ * **Auf der Wiedergabeseite ist der Kasten weg** (Daniel, 08.10.2026, Disney+): Er deckte
+ * Video und Player-Bedienung. Nur visuell (`melder.css`, `html.ak-im-player`), die Melder-
+ * Logik läuft unverändert weiter. Läuft ein Durchgang (`html.ak-durchgang`), bleibt der Kasten:
+ * Er ist dann der Notausgang. Prime Video erkennt seinen Player selbst (`amazon.js`).
+ *
+ * Belegt: Disney+ `/de-de/play/<uuid>` (Daniels Screenshot), Netflix `/watch/<id>`
+ * (`imPlayer()` in `melder.js`).
+ */
+function akPlayerSeite(host, pfad) {
+  if (/(^|\.)disneyplus\.com$/.test(host)) return /^\/(?:[a-z]{2}-[a-z]{2}\/)?play\//i.test(pfad)
+  if (/(^|\.)netflix\.com$/.test(host)) return pfad.startsWith('/watch/')
+  return false
+}
+
+function akPlayerMarke() {
+  document.documentElement.classList.toggle('ak-im-player', akPlayerSeite(location.hostname, location.pathname))
+}
+
+akPlayerMarke()
+/* SPA-Wechsel ohne Neuladen: Navigation API (Chrome 102+), sonst nur Zurück-Knopf. */
+if (window.navigation) window.navigation.addEventListener('currententrychange', akPlayerMarke)
+else window.addEventListener('popstate', akPlayerMarke)
