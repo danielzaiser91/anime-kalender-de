@@ -5,6 +5,7 @@ import { DatumSprung } from '../DatumSprung.tsx'
 import { FilterZeichen, LinksZeichen, RechtsZeichen } from './Zeichen.tsx'
 import { Tooltip } from '../ui.tsx'
 import { useVorschau } from '../../lib/vorschau.ts'
+import { useHeuteLage, type HeuteLage } from '../../lib/heute-im-bild.ts'
 
 /** ISO-Kalenderwoche: die Woche, in der der Donnerstag liegt. */
 function kalenderwoche(iso: string): number {
@@ -74,7 +75,7 @@ export function Steuerleiste(p: SteuerProps) {
   const monat = p.view === 'monat'
   const ausblenden = useVorschau('leisten') === 'ausblenden'
   const schritt = (dir: number) => p.onDate(monat ? addMonths(p.date, dir) : addDays(p.date, dir * 7))
-  const heuteSichtbar = monat ? todayIso().slice(0, 7) === p.date.slice(0, 7) : startOfWeek(todayIso()) === startOfWeek(p.date)
+  const lage = useHeuteLage(monat, p.date)
   const rund = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
   return (
     <div
@@ -110,20 +111,14 @@ export function Steuerleiste(p: SteuerProps) {
         <button type="button" onClick={() => schritt(-1)} aria-label={t('kal.voriger')} className={rund}>
           <LinksZeichen />
         </button>
-        {/* In der Woche bleibt „heute" klickbar und scrollt zum heutigen Tag. */}
-        <Tooltip text={heuteSichtbar ? (monat ? t('nav.todayHere') : t('nav.todayScroll')) : t('nav.todayGo')} seite="oben" eigenerFokus>
-          <button
-            type="button"
-            onClick={() => {
-              p.onDate(todayIso())
-              if (!monat) window.dispatchEvent(new Event('ak-zu-heute'))
-            }}
-            disabled={heuteSichtbar && monat}
-            className="h-11 shrink-0 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche px-3 text-sm font-bold text-ak-text transition hover:border-ak-leise disabled:cursor-default disabled:opacity-40 sm:px-4"
-          >
-            {t('nav.today')}
-          </button>
-        </Tooltip>
+        <HeuteKnopf
+          lage={lage}
+          monat={monat}
+          onClick={() => {
+            p.onDate(todayIso())
+            if (!monat) window.dispatchEvent(new Event('ak-zu-heute'))
+          }}
+        />
         <button type="button" onClick={() => schritt(1)} aria-label={t('kal.naechster')} className={rund}>
           <RechtsZeichen />
         </button>
@@ -132,6 +127,45 @@ export function Steuerleiste(p: SteuerProps) {
         </span>
       </div>
     </div>
+  )
+}
+
+const HEUTE_TEXT = {
+  hier: 'nav.todayHere', frueher: 'nav.todayZurueck', spaeter: 'nav.todayVor', oben: 'nav.todayHoch', unten: 'nav.todayRunter',
+} as const satisfies Record<HeuteLage, string>
+const HEUTE_PFEIL: Partial<Record<HeuteLage, [string, string]>> = {
+  frueher: ['‹', ''], spaeter: ['', '›'], oben: ['↑', ''], unten: ['', '↓'],
+}
+
+/**
+ * „heute" ist die Rückkehr-Aktion: Liegt heute außerhalb des Sichtbaren, ist der Knopf betont und
+ * zeigt die Richtung; liegt es im Bild, ist er ruhig (`aria-current`). Die Pfeilplätze sind immer
+ * da, damit die Breite nicht springt. In der Woche bleibt er klickbar und scrollt zum heutigen Tag.
+ */
+function HeuteKnopf({ lage, monat, onClick }: { lage: HeuteLage; monat: boolean; onClick: () => void }) {
+  const { t } = useLang()
+  const hier = lage === 'hier'
+  const [vor, nach] = HEUTE_PFEIL[lage] ?? ['', '']
+  const text = hier && !monat ? t('nav.todayScroll') : t(HEUTE_TEXT[lage])
+  const pfeil = 'w-3 text-center text-base leading-none'
+  return (
+    <Tooltip text={text} seite="oben" eigenerFokus>
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={hier && monat}
+        aria-label={`${t('nav.today')}: ${text}`}
+        aria-current={hier ? 'date' : undefined}
+        className={[
+          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
+          hier ? 'border-ak-rand bg-transparent text-ak-leise hover:border-ak-leise hover:text-ak-text' : 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent',
+        ].join(' ')}
+      >
+        <span aria-hidden className={pfeil}>{vor}</span>
+        {t('nav.today')}
+        <span aria-hidden className={pfeil}>{nach}</span>
+      </button>
+    </Tooltip>
   )
 }
 
