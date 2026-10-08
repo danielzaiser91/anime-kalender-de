@@ -2,10 +2,10 @@ import { istQuellenAusfall, mediaByMalIds, type AniListMedia } from './anilist.t
 import { log, readJson, warn, writeJson } from './util.ts'
 
 /**
- * **Cover für Titel, die nur bei aniSearch stehen** (08.10.2026: „Dragon Ball Super: Beerus" und „Fool Night" hatten keines, AniList kennt beide).
+ * **Cover für Titel, die nur bei aniSearch stehen** (08.10.2026: „Dragon Ball Super: Beerus" und „Fool Night" hatten keines, AniList kennt beide). Die Datei liegt im Repo und nicht in `data/cache/`: Der Bau-Lauf sieht den Cache erst nach dem nächsten Wochenlauf.
  * Die Titelkennung bleibt `10000000 + aniSearch-Kennung`; nur das Bild kommt von AniList, über die MAL-Kennung des aniSearch-Eintrags.
  */
-const CACHE = 'data/cache/anilist-anisearch-mal.json'
+const CACHE = 'data/anisearch-cover.json'
 
 type Eintrag = { y?: number; mal?: number }
 type Treffer = { id: number; cover: string }
