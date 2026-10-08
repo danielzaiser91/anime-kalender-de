@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { DataMeta } from '@shared/types.ts'
 import { activeFilterCount, type FilterState } from '../lib/filters.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { useVorschau } from '../lib/vorschau.ts'
 import { FilterDetailsFeld } from './FilterDetails.tsx'
 import { AktiveFilter } from './kalender/AktiveFilter.tsx'
 
@@ -28,12 +29,21 @@ export type FilterBarProps = {
  * weg. Platz für die letzten Kacheln lässt die Fußzeile (kein Leerraum oben, 04.10.2026).
  */
 export function FilterBarDock(props: FilterBarProps) {
+  const v = useVorschau('leisten')
+  const pille = v === 'pille'
   return (
-    <>
-      <div className="fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto md:bottom-[calc(1rem+env(safe-area-inset-bottom))] max-w-[1180px]">
-        <FilterBar {...props} />
-      </div>
-    </>
+    <div
+      className={[
+        'fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto md:bottom-[calc(1rem+env(safe-area-inset-bottom))] max-w-[1180px]',
+        /* Vorschau „leisten", Variante pille: am Desktop nur so breit wie der Inhalt, rechts unten. */
+        pille && 'md:right-4 md:left-auto md:mx-0 md:w-max md:max-w-[calc(100vw-2rem)]',
+        v === 'ausblenden' && 'transition-[bottom] duration-200 [html[data-nav-weg]_&]:max-md:bottom-[calc(0.5rem+env(safe-area-inset-bottom))]',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <FilterBar {...props} pille={pille} />
+    </div>
   )
 }
 
@@ -43,13 +53,14 @@ export function FilterBar({
   onChange,
   showConfidence,
   favoriteCount,
-}: FilterBarProps) {
+  pille,
+}: FilterBarProps & { pille?: boolean }) {
   const { t } = useLang()
   const [open, setOpen] = useState(false)
   const count = activeFilterCount(filters)
 
   return (
-    <div className="rounded-2xl border border-ak-rand bg-ak-flaeche">
+    <div className={pille && open ? 'rounded-2xl border border-ak-rand bg-ak-flaeche md:w-[min(720px,calc(100vw-2rem))]' : 'rounded-2xl border border-ak-rand bg-ak-flaeche'}>
       {/* Die Leiste bleibt an ihrer Stelle, der Inhalt klappt darüber auf (Daniel, 04.10.2026). */}
       {open && (
         <div className="max-h-[calc(100dvh-15rem)] animate-fade-in overflow-y-auto overscroll-contain border-b border-ak-linie">
