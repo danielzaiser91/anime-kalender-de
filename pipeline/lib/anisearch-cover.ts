@@ -7,40 +7,53 @@ import { log, readJson, warn, writeJson } from './util.ts'
  */
 const CACHE = 'data/anisearch-cover.json'
 
-type Eintrag = { y?: number; mal?: number }
+const BLOCK = 50
+
+type Eintrag = { y?: number; mal?: number; dub?: string }
 type Treffer = { id: number; cover: string }
 
-/** MAL-Kennungen junger aniSearch-Einträge, zu denen AniList noch nichts im Bestand hat und der Cache kein Cover kennt. */
+/**
+ * MAL-Kennungen von aniSearch-Einträgen, zu denen AniList noch nichts im Bestand hat und der Cache kein Cover kennt. Einträge mit deutscher Fassung (d/p/c)
+ * werden ohne Jahresgrenze gefragt, denn sie alle sind Titel im Hauptbestand (08.10.2026: 93 ältere ohne Cover); die übrigen nur ab `ab`, weil über 8.000
+ * nur im Katalog stehen.
+ */
 export function malOhneAnilistTitel(eintraege: Record<string, Eintrag>, bekannteMal: Set<number>, cache: Record<string, Treffer>, ab: number): number[] {
   const mal = Object.values(eintraege)
-    .filter((e): e is Eintrag & { mal: number } => Boolean(e.mal) && (e.y ?? 0) >= ab && !bekannteMal.has(e.mal!) && !cache[String(e.mal)])
+    .filter((e): e is Eintrag & { mal: number } => Boolean(e.mal) && (e.dub !== '-' || (e.y ?? 0) >= ab) &&!bekannteMal.has(e.mal!) && !cache[String(e.mal)])
     .map((e) => e.mal)
   return [...new Set(mal)]
 }
 
 /**
- * Fragt AniList nach den fehlenden MAL-Kennungen (Blöcke zu 50, Rate-Limit-Wartezeit steckt in `mediaByMalIds`). Jugendfreie Treffer mit Cover
- * kommen in den Cache. Ausgenommen sind MAL-Kennungen, die wir ohnehin führen (`malBestand`, `aniBestand`). Gibt zurück, ob AniList ausgefallen war.
+ * Fragt AniList nach den fehlenden MAL-Kennungen, Block für Block (50 je Anfrage; Abstand und Rate-Limit-Wartezeit stecken in `gql`). Jugendfreie Treffer
+ * mit Cover kommen in den Cache, der nach jedem Block geschrieben wird. Wen AniList nicht kennt, bleibt ohne Eintrag und wird im nächsten Lauf wieder
+ * gefragt (Nichtauskunft ist kein Befund). Scheitert ein Block nach allen Wartezeiten, ruht der Abruf bis zum nächsten Lauf. Ausgenommen sind MAL-Kennungen, die wir ohnehin führen (`malBestand`, `aniBestand`). Gibt zurück, ob AniList ausgefallen war.
  */
 export async function holeAnisearchCover(malBestand: Record<string, unknown>, aniBestand: Record<string, AniListMedia>): Promise<boolean> {
   const bekannteMal = new Set([...Object.keys(malBestand).map(Number), ...Object.values(aniBestand).flatMap((m) => (m.idMal ? [m.idMal] : []))])
   const cache = readJson<Record<string, Treffer>>(CACHE, {})
   const offen = malOhneAnilistTitel(readJson<Record<string, Eintrag>>('data/anisearch-eintraege.json', {}), bekannteMal, cache, new Date().getFullYear() - 1)
   if (!offen.length) return false
+  let abgefragt = 0
+  let ausgefallen = false
   try {
-    const gefunden = await mediaByMalIds(offen)
-    for (const [mal, m] of gefunden) {
-      const cover = m.coverImage?.extraLarge ?? m.coverImage?.large
-      if (!m.isAdult && cover) cache[String(mal)] = { id: m.id, cover }
+    for (let i = 0; i < offen.length; i += BLOCK) {
+      const block = offen.slice(i, i + BLOCK)
+      const gefunden = await mediaByMalIds(block, undefined, true)
+      for (const [mal, m] of gefunden) {
+        const cover = m.coverImage?.extraLarge ?? m.coverImage?.large
+        if (!m.isAdult && cover) cache[String(mal)] = { id: m.id, cover }
+      }
+      abgefragt += block.length
+      writeJson(CACHE, cache, true)
     }
   } catch (err) {
-    if (!istQuellenAusfall(err)) throw err
-    warn(`AniList ist gerade nicht erreichbar — aniSearch-Cover übersprungen (${(err as Error).message})`)
-    return true
+    if (!istQuellenAusfall(err) && !/rate-limit/i.test((err as Error).message)) throw err
+    ausgefallen = true
+    warn(`AniList-Abruf der aniSearch-Cover pausiert nach ${abgefragt} von ${offen.length} Kennungen, der Rest folgt im nächsten Lauf (${(err as Error).message})`)
   }
-  writeJson(CACHE, cache, true)
-  log(`AniList-Cover für aniSearch-Titel: ${offen.length} MAL-Kennungen abgefragt, ${Object.keys(cache).length} Cover im Cache`)
-  return false
+  log(`AniList-Cover für aniSearch-Titel: ${abgefragt} von ${offen.length} MAL-Kennungen abgefragt, ${Object.keys(cache).length} Cover im Cache`)
+  return ausgefallen
 }
 
 /** Kennung des aniSearch-Titels → Cover-Adresse von AniList, aus dem Cache. */

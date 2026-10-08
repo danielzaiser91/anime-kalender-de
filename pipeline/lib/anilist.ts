@@ -381,6 +381,8 @@ export async function katalogSeite(
 export async function mediaByMalIds(
   malIds: number[],
   onProgress?: (done: number, total: number) => void,
+  /** Ein fehlgeschlagener Block wirft, statt als „nichts gefunden" zu gelten (für Aufrufer, die Nichtauskunft nicht als Befund speichern dürfen). */
+  strikt = false,
 ): Promise<Map<number, AniListMedia>> {
   const out = new Map<number, AniListMedia>()
   const query = `query ($ids: [Int]) {
@@ -395,6 +397,7 @@ export async function mediaByMalIds(
         if (m.idMal != null) out.set(m.idMal, m)
       }
     } catch (err) {
+      if (strikt) throw err
       warn(`Batch ab Index ${i} fehlgeschlagen: ${(err as Error).message}`)
     }
     onProgress?.(Math.min(i + 50, malIds.length), malIds.length)
