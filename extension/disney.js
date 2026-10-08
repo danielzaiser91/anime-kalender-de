@@ -204,6 +204,8 @@
   let gelaufen = false
   let ergebnisse = []
   let gemeldeteNummern = new Set()
+  /* Laut Prüfstand schon beantwortet (`disney-beantwortet.js`): undefined = ungeklärt, true = passiv, false = prüfen. */
+  let beantwortet
   const offeneFragen = new Map()
   /** Je Adresse die gemeldeten Folgennummern — für die Liste. */
   let briefkasten = new Map()
@@ -230,19 +232,9 @@
     if (Number.isFinite(e.data.erwartet)) erwartet = e.data.erwartet
     if (e.data.bereit) bereit = true
 
-    if (!eintrag) return
+    if (!eintrag || beantwortet !== false) return
 
-    /*
-      **Die Anforderung wird wiederholt, solange sie auf ein Hindernis trifft.**
-
-      Der erste Anlauf setzte `angefordert` und war fertig damit. Fehlte in dem
-      Moment noch das Token, stieg der Leser stumm aus — und nebenan stand für
-      immer „sammle Folgen … 86/86". Daniel am 26.08.2026: „sammelt er oder
-      lügt er? … nichts passiert auch nach mehreren minuten nicht."
-
-      Jetzt nennt der Leser sein Hindernis, und der nächste Anlass — ein
-      weiterer Aufruf der Seite — versucht es erneut.
-    */
+    /* Die Anforderung wird wiederholt, solange der Leser ein Hindernis meldet (fehlendes Token); sonst stand „sammle Folgen" für immer da (26.08.2026). */
     if (e.data.hindernis) {
       angefordert = false
       zeigePruefung(`${eintrag.titel}\nwarte auf die Seite (${e.data.hindernis}) …`)
@@ -256,18 +248,7 @@
       zeigePruefung(`${eintrag.titel}\nsammle Folgen …`, { laeuft: true })
       return
     }
-    /*
-      **Losgelegt wird, wenn die Folgen da sind — nicht, wenn ein Signal kommt.**
-
-      Der erste Anlauf wartete auf `vollstaendig`. Blieb das aus, stand der Knopf
-      bei „sammle Folgen … 86/86, 71 gemeldet, 15 zu prüfen" und rührte sich
-      nicht mehr; Daniel hat fünf Minuten zugesehen (26.08.2026). Ein Signal
-      kann ausbleiben, eine Zahl nicht: Sind so viele Folgen beisammen, wie die
-      Staffeln zusammen ansagen, gibt es nichts mehr zu sammeln.
-
-      `vollstaendig` bleibt als zweiter Weg — wo eine Staffel weniger liefert,
-      als sie ansagt, ist es der einzige.
-    */
+    /* Losgelegt wird, wenn die Folgen da sind (so viele wie die Staffeln ansagen) oder `vollstaendig` kommt — ein Signal kann ausbleiben, eine Zahl nicht (26.08.2026). */
     const beisammen = erwartet > 0 && folgen.length >= erwartet
     if (!e.data.vollstaendig && !beisammen) {
       if (erwartet) {
@@ -986,22 +967,29 @@
     erwartet = 0
     ergebnisse = []
     gemeldeteNummern = new Set()
+    beantwortet = undefined
+    globalThis.AK_DISNEY_BEANTWORTET.entfernen()
     pruefKnopf?.remove()
     pruefKnopf = null
     dialogSchliessen()
 
     zeigeUebersicht()
     if (!eintrag) return void vielleichtFehlerseite()
-    /*
-      Vorab, nicht erst nach dem Sammeln: Nur so kann die Anzeige während des
-      Sammelns schon sagen, wie viele Folgen überhaupt noch anstehen („1e1-15
-      stehen in der liste, also müssten es 71/71 nicht 86/86 sein").
-    */
+    /* Vorab, nicht erst nach dem Sammeln: So nennt die Anzeige schon beim Sammeln, wie viele Folgen noch anstehen. */
     void gemeldeteHolen(eintrag.url ?? location.href.split('?')[0], eintrag.seit ?? null).then((n) => {
       gemeldeteNummern = n
     })
-    window.postMessage({ marke: MARKE_STEUER, frageListe: true }, '*')
-    setTimeout(() => window.postMessage({ marke: MARKE_STEUER, frageListe: true }, '*'), 2500)
+    /* Beantwortet laut Prüfstand → nur Hinweis, sonst der bisherige Weg (`disney-beantwortet.js`). */
+    void globalThis.AK_DISNEY_BEANTWORTET.klaere({
+      url: eintrag.url ?? location.href.split('?')[0],
+      kennungVon: kennung,
+      aktuell: () => jetzt === seite,
+      zeige: (text, o) => zeigePruefung(`${eintrag.titel}\n${text}`, o),
+      knopf: () => pruefKnopf,
+      setze: (b) => (beantwortet = b),
+      signal: (d) => signal('geprueft', { url: eintrag.url, ...d }),
+      anfrage: () => window.postMessage({ marke: MARKE_STEUER, frageListe: true }, '*'),
+    })
   }
 
   /**

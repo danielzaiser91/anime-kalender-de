@@ -12,18 +12,20 @@
   Seite** und stellt ihn den Anzeigen bereit — eigene Datei, weil `disney.js` über der Zeilengrenze
   liegt (check:umfang).
 */
-globalThis.akGemeldetSeit = (() => {
+/* Die ganze Antwort, einmal je Seite; `null` bei Netzfehler. */
+globalThis.akPruefstand = (() => {
   const STAND_URL = 'https://newsletter.animekalender.workers.dev/pruefung?stand=1'
   let geholt = null
-  const stand = () => {
+  return () => {
     if (!geholt) {
       geholt = fetch(STAND_URL, { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : null))
-        .then((j) => j?.pruefstandAm ?? null)
         .catch(() => null)
     }
     return geholt
   }
-  /* Ohne Prüfstand-Zeit bleibt es beim alten, großzügigeren Maßstab des Eintrags. */
-  return async (eintragSeit) => (await stand()) ?? eintragSeit ?? null
 })()
+
+/* Ohne Prüfstand-Zeit bleibt es beim alten, großzügigeren Maßstab des Eintrags. */
+globalThis.akGemeldetSeit = async (eintragSeit) =>
+  (await globalThis.akPruefstand())?.pruefstandAm ?? eintragSeit ?? null

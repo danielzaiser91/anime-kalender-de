@@ -1856,6 +1856,14 @@
   white-space: pre-line;
 }
 
+/* „trotzdem erneut melden" (disney-beantwortet.js): klein, nicht der Hauptweg. */
+.ak-disney-kasten .ak-melder.ak-klein {
+  width: auto;
+  font-size: 11px;
+  padding: 2px 8px;
+  opacity: 0.7;
+}
+
 /* Wiedervorlage (21.09.2026): blau — Daniel: „das icon für wiedervorlage bei den episoden …
    mach die blau oder so, dann ist es ok und keine seperate liste für wiedervorlage ist notwendig". */
 .ak-zeile.ak-wiedervorlage { box-shadow: inset 3px 0 0 #58a6ff; }
