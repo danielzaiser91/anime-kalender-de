@@ -9,7 +9,7 @@
  * Aufruf: npm run data:fetch  [-- --force] [-- --skip-anilist]
  */
 import { mediaByMalIds, searchMedia, type AniListMedia, istQuellenAusfall } from './lib/anilist.ts'
-import { ausAnisearchDubs } from './lib/anisearch-synchro-ids.ts'
+import { ausAnisearchDubs, ausAnisearchHand } from './lib/anisearch-synchro-ids.ts'
 import { holeAnisearchCover } from './lib/anisearch-cover.ts'
 import { loadCurated, loadSynchroVonHand } from './lib/curated.ts'
 import { lookupTmdb, type TmdbInfo } from './lib/tmdb.ts'
@@ -123,7 +123,7 @@ async function main(): Promise<void> {
   // AniList-Daten der kuratierten Titel nachladen, falls sie nicht über MAL kamen.
   const byAniId = readJson<Record<string, AniListMedia>>('data/cache/anilist-by-id.json', {})
   /* Titel mit Handbeleg (`data/synchro-von-hand.yaml`) kommen über denselben Weg in den Bestand. */
-  const handIds = [...loadSynchroVonHand().map((e) => e.anilistId), ...ausAnisearchDubs(Object.values(cached))]
+  const handIds = [...loadSynchroVonHand().map((e) => e.anilistId), ...ausAnisearchDubs(Object.values(cached)), ...ausAnisearchHand(Object.values(cached))]
   const neededIds = [...new Set([...Object.values(resolved), ...handIds])].filter(
     (id) => FORCE || !byAniId[id] || nochOffen(byAniId[id]),
   )

@@ -1,4 +1,6 @@
-import { readJson } from './util.ts'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { readJson, ROOT } from './util.ts'
 
 /**
  * **Titel, die aniSearch mit deutscher Vertonung führt, kommen in den Hauptbestand** (Daniel, 07.10.2026: „wir nehmen alle Kennungen
@@ -14,4 +16,16 @@ export function ausAnisearchDubs(imBestand: { id: number }[]): number[] {
   return Object.entries(dubs)
     .filter(([id, kennzeichen]) => 'dpc'.includes(kennzeichen) && !bekannt.has(Number(id)))
     .map(([id]) => Number(id))
+}
+
+/**
+ * **Der AniList-Titel eines aniSearch-Eintrags, den die Handdatei bindet (`data/anisearch-ids-hand.yaml`), gehört in den Bestand** — auch ohne Deutsch
+ * (`-`), das `ausAnisearchDubs` nicht holt. Sonst fände der Bau den Titel nicht, an den er die Meldungen und Termine des aufgegangenen aniSearch-Titels
+ * hängen muss (Dubletten, `docs/wissen/datensatz.md`, 08.10.2026). Zurück kommen nur Kennungen, zu denen es einen aniSearch-Eintrag gibt.
+ */
+export function ausAnisearchHand(imBestand: { id: number }[]): number[] {
+  const bekannt = new Set(imBestand.map((m) => m.id))
+  const eintraege = readJson<Record<string, unknown>>('data/anisearch-eintraege.json', {})
+  const hand = readFileSync(resolve(ROOT, 'data/anisearch-ids-hand.yaml'), 'utf8')
+  return [...hand.matchAll(/^(\d+):\s*(\d+)/gm)].filter(([, anilist, anisearch]) => anisearch! in eintraege && !bekannt.has(Number(anilist))).map(([, anilist]) => Number(anilist))
 }

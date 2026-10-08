@@ -13,7 +13,7 @@
 import type { NewsEintrag, PlatformId, Release, ReleaseEvent } from '../../shared/types.ts'
 import { sichereSchnellmessung } from './schnellmesser.ts'
 import { handleVerlauf } from './verlauf.ts'
-import { ladeAbbild, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
+import { ladeKennungen, leseFavoriten, schreibeFavoriten, zaehleFavoriten } from './favoriten-kennung.ts'
 import { anbieterName } from '../../shared/types.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
 import { buildIcs } from '../../shared/ics.ts'
@@ -547,7 +547,7 @@ async function handleFavoritesGet(request: Request, env: Env): Promise<Response>
    * dem Browser, in dem das Abo bestätigt wurde, und er beantwortet ohnehin
    * schon die schärfere Frage, ob es zu dieser Adresse ein Abo gibt.
    */
-  return json(env, { ok: true, favorites: [...leseFavoriten(row.favorites, await ladeAbbild(env))], email: row.email })
+  return json(env, { ok: true, favorites: [...leseFavoriten(row.favorites, await ladeKennungen(env))], email: row.email })
 }
 
 async function handleFavorites(request: Request, env: Env): Promise<Response> {
@@ -744,7 +744,7 @@ async function handleFavoritenFeed(request: Request, env: Env): Promise<Response
     .bind(k)
     .first<{ favorites: string | null }>()
   if (!row) return text('Zu dieser Adresse gibt es kein aktives Abo mehr.', 404)
-  const favoriten = leseFavoriten(row.favorites, await ladeAbbild(env))
+  const favoriten = leseFavoriten(row.favorites, await ladeKennungen(env))
   const events = (await loadEvents(env)).filter((e) => favoriten.has(e.titleId))
   const ics = buildIcs(events, { siteUrl: env.SITE_URL, calendarName: 'Anime-Kalender DE – Meine Favoriten' })
   return new Response(ics, {
@@ -912,7 +912,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
 
       // Gemerkte Titel nach vorn: Eine neue Folge einer Serie, der jemand
       // folgt, ist ihm wichtiger als irgendein Disc-Release.
-      const favorites = leseFavoriten(sub.favorites, await ladeAbbild(env))
+      const favorites = leseFavoriten(sub.favorites, await ladeKennungen(env))
 
       /**
        * Gemerkte Titel, die **seit der letzten Mail an diesen Abonnenten** eine

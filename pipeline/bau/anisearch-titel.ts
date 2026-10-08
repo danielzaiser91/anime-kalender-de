@@ -59,7 +59,11 @@ export function anisearchNurKatalog(): Set<number> {
 }
 
 type Zuordnung = Record<string, { anisearchId?: number }>
-const zuordnungen = (): Zuordnung => readJson<Zuordnung>('data/anisearch.json', {})
+/** Die Zuordnung AniList → aniSearch: Abruf-Ergebnis (`data/anisearch.json`), darüber die Handdatei (`data/anisearch-ids-hand.yaml`). */
+const zuordnungen = (): Zuordnung => ({
+  ...readJson<Zuordnung>('data/anisearch.json', {}),
+  ...Object.fromEntries(Object.entries(anisearchHand).map(([anilist, anisearchId]) => [anilist, { anisearchId }])),
+})
 const mitDeutsch = (dub?: string): boolean => dub === 'd' || dub === 'p' || dub === 'c'
 
 /**
@@ -103,18 +107,32 @@ export function anisearchUmgezogenInBestand(hauptbestand: Set<number>, hinterTog
   return anisearchUmgezogen(hauptbestand, new Set([...hinterToggle, ...katalog.map((e) => e.id)]))
 }
 
+const erstausgabeAus = (e: Eintrag) => ({ ...(e.dvon && /^\d{4}-\d{2}-\d{2}$/.test(e.dvon) ? { von: e.dvon } : {}), publisher: e.pub?.[0], synchro: e.dub === 'd' })
+
+/** Der AniList-Titel, an den die Handdatei einen aniSearch-Eintrag bindet, übernimmt dessen deutsche Erstausgabe — sonst ginge sie mit dem aufgegangenen Titel verloren. */
+function erstausgabeUebernehmen(titles: Map<number, Title>): void {
+  for (const [anilist, anisearchId] of Object.entries(anisearchHand)) {
+    const t = titles.get(Number(anilist))
+    const e = alle()[String(anisearchId)]
+    if (t && e && e.dub !== '-' && !t.deErstausgabe) t.deErstausgabe = erstausgabeAus(e)
+  }
+}
+
 /** Legt die Titel an, die bei uns noch keine eigene aniSearch-Kennung tragen. Gibt zurück, wie viele es sind. */
 export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>): number {
   /* Cover: die aniSearch-Bilder dürfen wir nicht weitergeben; wo TMDB ein Plakat zu Name und Jahr kennt (`fetch-tmdb-poster.ts`), steht es als Cover. */
   const poster = readJson<Record<string, { p: string } | null>>('data/tmdb-poster.json', {})
-  const vergeben = new Set<number>(Object.values(anisearchHand))
+  const vergeben = new Set<number>()
   /*
     Eine Zuordnung zu einem AniList-Titel sperrt den Eintrag nur, wenn dieser Titel im Hauptbestand steht oder der Eintrag kein Deutsch führt: Liegt der
     Titel nur im Katalog hinter dem Toggle, bliebe ein Eintrag mit deutscher Vertonung sonst bis zum nächsten Abruf ganz aus dem Hauptbestand (07.10.2026:
-    acht Titel mit abgebrochenem Dub fielen so aus dem Bau).
+    acht Titel mit abgebrochenem Dub fielen so aus dem Bau). Für die Handdatei gilt es strenger: Auch ohne Deutsch muss der AniList-Titel da sein (Dubletten,
+    `docs/wissen/datensatz.md`), sonst bliebe das Werk ohne Zeile und der Termin ohne Titel, an den die Meldungen ihn hängen.
   */
-  for (const [anilistId, e] of Object.entries(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) {
-    if (e.anisearchId && (titles.has(Number(anilistId)) || alle()[String(e.anisearchId)]?.dub === '-')) vergeben.add(e.anisearchId)
+  for (const [anilistId, e] of Object.entries(zuordnungen())) {
+    if (!e.anisearchId) continue
+    const ohneDeutsch = alle()[String(e.anisearchId)]?.dub === '-' && !(Number(anilistId) in anisearchHand)
+    if (titles.has(Number(anilistId)) || ohneDeutsch) vergeben.add(e.anisearchId)
   }
   let neu = 0
   for (const [schluessel, e] of Object.entries(alle())) {
@@ -140,7 +158,7 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
       studios: e.st ?? [],
       dubConfidence: SICHERHEIT[e.dub],
       streams: [],
-      ...(e.dub !== '-' ? { deErstausgabe: { ...(e.dvon && /^\d{4}-\d{2}-\d{2}$/.test(e.dvon) ? { von: e.dvon } : {}), publisher: e.pub?.[0], synchro: e.dub === 'd' } } : {}),
+      ...(e.dub !== '-' ? { deErstausgabe: erstausgabeAus(e) } : {}),
     } as Title)
     if (e.von) {
       jpStart.set(id, e.von)
@@ -148,6 +166,7 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
     }
     neu++
   }
+  erstausgabeUebernehmen(titles)
   if (neu) log(`${neu} Titel nur bei aniSearch ergänzt (${anisearchNurKatalog().size} davon ohne Deutsch, nur im Katalog)`)
   return neu
 }

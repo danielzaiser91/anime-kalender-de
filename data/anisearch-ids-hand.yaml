@@ -30,6 +30,17 @@
 # Phase 2-3 (alle weiteren Folgen): https://www.anisearch.de/anime/21986
 210482: 21986
 
+# Dubletten (08.10.2026, `docs/wissen/datensatz.md`): derselbe Titel stand als AniList- und als aniSearch-Zeile da. Gleiche MAL-Kennung, 12 Folgen, gleicher Start;
+# die Bindung lässt die aniSearch-Zeile entfallen, sobald der AniList-Titel im Bestand ist (`ergaenzeAnisearchTitel`), und holt ihn dorthin (`ausAnisearchHand`).
+# Psyren (MAL 63098)
+204011: 21084
+# Dragon Ball Super: Beerus (MAL 63367)
+206814: 21566
+# Hyouken no Majutsushi ga Sekai o Suberu II (MAL 64254)
+212503: 21575
+# Fool Night (MAL 64459)
+213457: 21751
+
 # --- Aus der offiziellen Zuordnung von aniSearch (`GET /v1/anime/associated?source=myanimelist`, 06.10.2026) ---
 # Unsere MAL-Kennung → genau eine aniSearch-Kennung; Teilen sich zwei Titel eine Kennung, ist das aniSearchs eigene Zuordnung (Serie und Film auf einer Seite); die Kennung wirkt nur auf Links.
 # Gegenprobe der Zuordnung: bei 2.627 von 2.628 Titeln mit beiden Kennungen stimmt sie mit unserer überein.

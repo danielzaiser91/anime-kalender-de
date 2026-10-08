@@ -8,7 +8,8 @@ import { type Env } from './env.ts'
  * (ein Monat Karenz, Daniel: danach nur noch `ak`). Dann entfallen `ladeAbbild`, der Zweig ohne Vorsatz und `data/anilist-ak.json`;
  * die Prüfung in `pipeline/check-logic.ts` wird an dem Tag rot.
  */
-const VORSATZ = 'ak:'
+import { leseFavoriten, VORSATZ, type Kennungen } from './favoriten-lesen.ts'
+export { leseFavoriten, type Kennungen }
 
 let abbildGeladen: { bis: number; karte: Map<number, number> } | undefined
 
@@ -23,15 +24,20 @@ export async function ladeAbbild(env: Pick<Env, 'SITE_URL'>): Promise<Map<number
   return abbildGeladen.karte
 }
 
-/** Liest eine gespeicherte Liste; ohne Vorsatz wird über `abbild` umgerechnet (fehlt es, bleiben die Zahlen, wie sie sind). */
-export function leseFavoriten(raw: string | null | undefined, abbild?: Map<number, number>): Set<number> {
-  const text = raw ?? ''
-  const neu = text.startsWith(VORSATZ)
-  const zahlen = (neu ? text.slice(VORSATZ.length) : text)
-    .split(',')
-    .map((v) => Number(v.trim()))
-    .filter((v) => Number.isInteger(v) && v > 0)
-  return new Set(neu || !abbild ? zahlen : zahlen.map((id) => abbild.get(id)).filter((id): id is number => id !== undefined))
+let umleitungGeladen: { bis: number; karte: Map<number, number> } | undefined
+
+/** Zusammengeführte Titel, alt → neu (`ak-umleitung.json` der Seite, höchstens stündlich neu; Dubletten 08.10.2026). Dauerhaft, nicht Teil der Karenz. */
+async function ladeUmleitung(env: Pick<Env, 'SITE_URL'>): Promise<Map<number, number> | undefined> {
+  if (umleitungGeladen && umleitungGeladen.bis > Date.now()) return umleitungGeladen.karte
+  const res = await fetch(`${env.SITE_URL.replace(/\/$/, '')}/data/ak-umleitung.json`, { cf: { cacheTtl: 3600 } } as RequestInit)
+  if (!res.ok) return undefined
+  umleitungGeladen = { bis: Date.now() + 3600_000, karte: new Map((await res.json()) as [number, number][]) }
+  return umleitungGeladen.karte
+}
+
+export async function ladeKennungen(env: Pick<Env, 'SITE_URL'>): Promise<Kennungen> {
+  const [abbild, umleitung] = await Promise.all([ladeAbbild(env).catch(() => undefined), ladeUmleitung(env).catch(() => undefined)])
+  return { abbild, umleitung }
 }
 
 /** Nur ganze Zahlen übernehmen — die Liste kommt aus dem Browser; `ak: 1` kennzeichnet sie als unsere Kennung. */

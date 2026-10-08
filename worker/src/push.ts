@@ -1,5 +1,5 @@
 import { pushText, pushZiel, type PushEreignis, type WeitererAnbieter } from './push-text.ts'
-import { ladeAbbild, leseFavoriten } from './favoriten-kennung.ts'
+import { ladeKennungen, leseFavoriten } from './favoriten-kennung.ts'
 
 /**
  * **Web-Push ohne Nutzlast — der Zustell-PoC** (18.09.2026, Plan in status.md).
@@ -92,7 +92,7 @@ export async function pushVersand(
   let geloescht = 0
   const schluessel = (w: WeitererAnbieter) => `${w.id}:${w.anbieter}`
   for (const abo of results ?? []) {
-    const favoriten = leseFavoriten(abo.favoriten, await ladeAbbild(env))
+    const favoriten = leseFavoriten(abo.favoriten, await ladeKennungen(env))
     const gemeldet = abo.gemeldet ? abo.gemeldet.split('\n') : []
     const bekannt = new Set(gemeldet)
     const auchBei = weitere.filter((w) => favoriten.has(w.id) && !bekannt.has(schluessel(w)))

@@ -5,7 +5,7 @@
 import { readFileSync } from 'node:fs'
 
 const roh = JSON.parse(readFileSync(new URL('../data/kennungen.json', import.meta.url), 'utf8'))
-const karte = new Map(roh.titel.map((z) => [z[1], z[0]]))
+const karte = new Map(roh.titel.map((z) => [z[1], z[3] ?? z[0]]))
 
 export function akVon(anilist) {
   const ak = karte.get(Number(anilist))
