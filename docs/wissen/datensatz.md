@@ -496,3 +496,59 @@ Eine Quelle für Folgentage gibt es nicht (aniSearch-Folgen nennen nur Nummern; 
 - **Suche in Zeitscheiben.** `sucheGen`, `filterTitlesGen`, `filterEventsGen` sind Generatoren, die nach 6 ms abgeben; `use-zeitscheibe.ts` treibt sie, verwirft veraltete Läufe und lässt das vorige Ergebnis stehen (`laeuft`). Die synchronen Namen (`filterTitles`, `sucheMitFundstellen`) sind Mäntel (`treibe`) mit unverändertem Ergebnis (18 Abfragen gegen den alten Stand verglichen, 0 Abweichungen). Die teure ungefähre Stufe läuft nur, wo ihr Ergebnis zählt. **Gemessen (Handy, 4× CPU, ohne Synchro, 18.864 Titel):** „abc" 836 + 389 ms → 121 + 58 ms; „xqzvwkkk" 2.969 + 2.914 + 2.084 + 1.966 ms → 112 ms; Feld leeren (volle Liste, 18.864 Ergebnisse) 468 + 391 ms → 89 ms. Größter verbleibender Block 121 ms bei vierfach gedrosselter CPU (React-Zeichnen), rund ein Viertel davon auf einem echten Handy. Die Sortierung nach `tr` ordnet ein statt zu vergleichen (`ordneNachRang`, linear).
 - **Keine Synchro laut aniSearch.** `fetch-anisearch-dubs.ts` schreibt `data/anisearch-dubs.json` (Titel-Kennung → `d` vertont, `p` geplant, `c` abgebrochen, `-` nicht genannt); `keineSynchroLautAnisearch` (`bau/ohne-beleg.ts`) schiebt Titel mit deutscher Ausgabe, deren Kennzeichen `-` ist und die keinen Stream mit belegter Synchro haben, hinter den Toggle (Handprüfung E: 10 von 10 bestätigt). `ausAnisearchDubs` holt umgekehrt die Titel mit `d`/`p`/`c` in den Bestand (Ranma ½ 1989: 30 deutsche Folgen, Dub abgebrochen). Der Disc-Weg „Ausgabe bei aniSearch" entsteht nur noch mit der Marke „Synchronisiert".
 - **Teile ohne belegte Synchro.** `bau/synchro-belegt.ts` markiert in der Reihenliste (nicht im Kalender) Teile ab 2023 mit geringer Sicherheit, ohne belegten Stream, Sprecher oder sicheren Termin als `ohneSynchro` (14 Titel, darunter Black Clover Staffel 2).
+
+## Ladegewicht des Erstaufrufs und „Wochen-Datei zuerst" (08.10.2026)
+
+Reine Messung der Live-Seite `https://anime-kalender.de/`, noch kein Umbau. Rezept: `tools/archiv/ladegewicht-messung.mjs`
+(Playwright, 390 × 844, 2× Pixeldichte, `isMobile`, ohne Cache und Service Worker, CDP 1,6 Mbit/s Down, 150 ms, CPU 4×; 5 Läufe).
+
+**Vorbemerkung:** `titles.json` (3,6 MB) wird beim Start schon nicht geladen — der Start holt `titles-core.json`, `releases.json`,
+`events.json`, `meta.json` (alle als `preload`, gzip). Der Vorschlag heißt also konkret: diese drei Dateien durch einen
+Wochen-Ausschnitt ersetzen und den Rest danach nachladen.
+
+**Übertragene Bytes beim Start (gzip, 08.10.2026):** HTML 4,8 KB · `index-*.js` 191,9 KB · `index-*.css` 27,9 KB · Schriften 46,5 KB
+(2 woff2, ohne Kompression) · `titles-core.json` 153,9 KB · `releases.json` 97,3 KB · `events.json` 65,7 KB · `meta.json` 3,7 KB
+= **591,8 KB ohne Bilder** (Daten allein 316,9 KB = 54 %). Dazu **21 Bilder = 3.002 KB** (alle von AniList, 12 davon `large`; drei
+PNG-Cover zu 553 / 541 / 504 KB) — die Bilder wiegen das 5-Fache von Code und Daten.
+
+**Zeiten (Median von 5, nach Navigationsbeginn):**
+
+| Messgröße | Wert |
+|---|---|
+| FCP (erst die statische SEO-Hülle) | 3,30 s |
+| letzte Nicht-Bild-Datei fertig | 3,70 s |
+| erste echte Wochenkarten sichtbar (`Details zu …`) | 3,77 s (3,70–3,89) |
+| LCP (`H1 „Diese Woche"`, nur 1 von 5 Läufen meldete ihn) | 3,53 s |
+| TBT | 250 ms (211–347) |
+| CLS | **0,607** (alle 5 Läufe) — Hülle wird durch die App ersetzt, Budget 0,1 gerissen |
+| erstes Karten-Bild im Sichtfeld fertig | 10,5 s (10,47–10,70) |
+
+Die Rechnung passt zur Messung: 592 KB bei 200 KB/s = 2,9 s plus Round-Trips ≈ 3,7 s. Der Start ist bandbreitengebunden, nicht
+CPU-gebunden (Lücke „letzte Datei → erste Karte" nur 20–190 ms).
+
+**Wochen-Datei, gerechnet aus den echten Dateien** (Stand der Daten vom 08.10.2026, Woche 05.–11.10.: Events der Woche, deren
+Releases, deren Titel; gzip Stufe 6, auf das Verhältnis der Live-Größen umgerechnet):
+
+| Ausschnitt | Events / Releases / Titel | gzip |
+|---|---|---|
+| diese Woche | 87 / 42 / 39 | **≈ 30 KB** (Events 2,8 · Releases 12,2 · Titel 14,0) |
+| Woche ±1 (3 Wochen) | 255 / 93 / 83 | ≈ 57 KB |
+| 6 Wochen | 414 / 129 / 116 | ≈ 76 KB |
+
+Start mit Wochen-Datei: 591,8 − 316,9 + 30,4 = **≈ 305 KB** statt 592 KB (−287 KB, −48 %). Mit dem an der Messung geeichten Modell
+(Bytes / 200 KB/s + etwa 0,8 s Round-Trips und Ausführung) kommen die ersten Karten bei **≈ 2,3–2,5 s statt 3,8 s (≈ −1,4 s)**. Das ist
+**gerechnet, nicht gemessen** (Playwright-Routen umgehen die CDP-Drosselung; ein echter Gegenversuch braucht einen Server mit dem Ausschnitt).
+Danach lädt die volle Fassung im Hintergrund nach (+≈ 317 KB, davon ≈ 30 KB doppelt) — nötig für Wochenwechsel, Suche, Monatsansicht.
+
+**Was die Wochen-Datei nicht löst:** Das erste Karten-Bild kommt erst nach ≈ 10,5 s, weil 3 MB Bilder um dieselbe Leitung laufen; das
+verkürzt sich durch den früheren Start nur um dieselben ≈ 1,4 s. Größere Hebel stehen daneben: Bildgröße (Karten ≈ 173 CSS-px breit
+ziehen bei 2× das `large`-Cover, PNG bis 553 KB), nur die Bilder im Sichtfeld mit Vorrang, CLS 0,607 der Hülle.
+
+**Empfehlung:**
+1. **Wochen-Datei zuerst lohnt**, aber als zweiter Schritt nach den Bildern: Bytes ohne Bilder −48 %, Karten ≈ −1,4 s, Kosten: zweiter
+   Datenpfad, doppelte Konsistenzprüfung (`check:logic` muss Ausschnitt = Teilmenge des Ganzen zusichern) und ein Wochenwechsel vor
+   dem Nachladen.
+2. **Schwelle:** umsetzen, solange die ersten Karten auf Slow 4G / CPU 4× über **2,5 s** liegen (heute 3,8 s); nach dem Umbau muss die
+   Messung ≤ 2,5 s zeigen, sonst zurücknehmen. Ein Gewinn unter 0,8 s rechtfertigt den zweiten Pfad nicht.
+3. **Vorher** (billiger, größerer Hebel auf das sichtbare Ergebnis): Kartenbilder mit passender Breite (`sizes`), PNG-Cover
+   vermeiden, nur Sichtfeld-Bilder vorrangig; CLS der Hülle auf < 0,1 bringen. Jeweils mit demselben Rezept nachmessen.
