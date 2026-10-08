@@ -322,14 +322,14 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
       <SeitenNeuerungen />
       <KinoKarussell data={data} oeffne={oeffne} />
 
-      {/* Filterleiste: nur Arten, die wirklich vorkommen — ein leerer Filter ist eine Sackgasse. */}
+      {/* Filterleiste: nur Arten, die wirklich vorkommen (ein leerer Filter ist eine Sackgasse); auf dem Handy eine rollbare Reihe statt vier Zeilen Chips. */}
       {meldungen && meldungen.length > 0 && (
-        <div className="mb-3 flex flex-wrap gap-1">
+        <div className="-mx-3 mb-3 flex gap-1 overflow-x-auto px-3 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
           <button
             type="button"
             onClick={() => setFilter(null)}
             aria-pressed={filter === null}
-            className={`ak-tz rounded-full px-2.5 py-1 text-xs transition ${
+            className={`ak-tz shrink-0 rounded-full px-2.5 py-1 text-xs whitespace-nowrap transition ${
               filter === null
                 ? 'bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900'
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700'
@@ -343,7 +343,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
               type="button"
               onClick={() => setFilter(filter === a ? null : a)}
               aria-pressed={filter === a}
-              className={`ak-tz rounded-full px-2.5 py-1 text-xs transition ${
+              className={`ak-tz shrink-0 rounded-full px-2.5 py-1 text-xs whitespace-nowrap transition ${
                 filter === a ? 'ring-2 ring-slate-400 dark:ring-slate-500' : 'hover:brightness-95'
               } ${NEWS_FARBE[a]}`}
             >
