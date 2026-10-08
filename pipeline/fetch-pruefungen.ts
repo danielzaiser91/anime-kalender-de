@@ -28,6 +28,7 @@ import {
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
 import { ordneMeldungZuPlattform } from './lib/disney-gesamtnummer.ts'
+import { ergaenzeUmEntfernte } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
@@ -192,13 +193,12 @@ for (const t of liste) {
     /* Die Prüfliste öffnet die Amazon-Seite (`seite`), nicht JustWatchs gti-Adresse (17.09.2026). */
     for (const u of new Set([s.url, s.seite])) {
       if (!u) continue
-      const k = schluesselAdresse(u)
-      const liste2 = nachUrl.get(k) ?? []
-      liste2.push(t.id)
-      nachUrl.set(k, liste2)
+      nachUrl.set(schluesselAdresse(u), [...(nachUrl.get(schluesselAdresse(u)) ?? []), t.id])
     }
   }
 }
+
+ergaenzeUmEntfernte(nachUrl, resolve(ROOT, 'data/verweise-entfernt.json')) // Staffeln ohne deutschen Ton
 
 /**
  * **Auch eine vorgeschlagene Adresse ist eine Adresse.**

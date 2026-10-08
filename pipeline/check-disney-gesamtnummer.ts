@@ -4,6 +4,9 @@
  * Fälle aus dem Bestand: Naruto Shippuden (53/59/54, Handbeleg Daniel 08.10.2026, AniList 500 Folgen),
  * Yozakura Family (27 + 12, Bestand führt nur Staffel 2 mit 12) und Naruto (AniList 220).
  */
+import { entfernteJeAdresse } from './lib/entfernte-verweise.ts'
+import { ordneNachStaffelliste } from './lib/folgenbereiche.ts'
+import { schluesselAdresse } from './lib/zuordnung.ts'
 import { gesamtnummerDisney, ordneMeldungZuPlattform, type DisneyStaffel } from './lib/disney-gesamtnummer.ts'
 
 let fehler = 0
@@ -70,6 +73,20 @@ pruefe(
   'Netflix: nicht betroffen',
   ordneMeldungZuPlattform('netflix', { folge: 1, staffel: 2 }, SHIPPUDEN, sh)?.folgeInStaffel === 1,
 )
+
+console.log('\nBleach TYBW: Staffel ohne deutschen Ton gehört zur Adresse')
+const BLEACH = 'https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy'
+const drei = [{ id: 116674, titel: 'S1', folgen: 13 }, { id: 159322, titel: 'S2', folgen: 13 }, { id: 169755, titel: 'S3', folgen: 14 }]
+const vier = [...drei, { id: 185874, titel: 'S4', folgen: 10 }]
+const seite = staffeln([13, 13, 14, 8])
+pruefe('ohne die entfernte Staffel: Zuordnung verweigert', Boolean(ordneNachStaffelliste(seite, drei).problem))
+const entfernt = entfernteJeAdresse([
+  { titleId: 185874, url: BLEACH, grund: 'belegtes Nein: dort gibt es keine deutsche Tonspur' },
+  { titleId: 1, url: BLEACH, grund: 'deutscher Katalog führt unter dieser Kennung keine einzige Staffel' },
+])
+pruefe('nur das belegte Nein zählt', entfernt.get(schluesselAdresse(BLEACH))?.join() === '185874', [...entfernt])
+const z = ordneNachStaffelliste(seite, vier)
+pruefe('mit ihr: vier Paare, kein Problem', !z.problem && z.paare.length === 4, z)
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
