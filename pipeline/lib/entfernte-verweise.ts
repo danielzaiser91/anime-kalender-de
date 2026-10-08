@@ -7,6 +7,7 @@
  * ist — die Meldung vom 08.10.2026 blieb liegen).
  */
 import { existsSync, readFileSync } from 'node:fs'
+import { ordneNachStaffelliste, type AnbieterStaffel, type Staffeleintrag } from './folgenbereiche.ts'
 import { schluesselAdresse } from './zuordnung.ts'
 
 export type EntfernterVerweis = { titleId: number; url: string; grund: string }
@@ -27,11 +28,25 @@ export function entfernteJeAdresse(verweise: EntfernterVerweis[]): Map<string, n
 }
 
 /** Hängt die entfernten Titel an Adressen, die `nachUrl` schon kennt; unbekannte Adressen bleiben unbekannt. */
-export function ergaenzeUmEntfernte(nachUrl: Map<string, number[]>, datei: string): void {
+export function ergaenzeUmEntfernte(nachUrl: Map<string, number[]>, datei: string): Map<string, number[]> {
+  const hinzu = new Map<string, number[]>()
   for (const [k, entfernt] of entfernteJeAdresse(ladeEntfernteVerweise(datei))) {
     const bisher = nachUrl.get(k)
-    if (bisher) nachUrl.set(k, [...bisher, ...entfernt.filter((id) => !bisher.includes(id))])
+    if (!bisher) continue
+    const neu = entfernt.filter((id) => !bisher.includes(id))
+    nachUrl.set(k, [...bisher, ...neu])
+    hinzu.set(k, neu)
   }
+  return hinzu
+}
+
+/**
+ * Die Titel, die eine Meldung selbst benennt (`titel_id`), stammen aus der Auftragsliste und
+ * kennen die entfernte Staffel nicht — sie wären die 3 von 4 Staffeln. Bei mehreren benannten
+ * Titeln einer Adresse kommen die entfernten dazu; ein einzelner benannter Titel bleibt allein.
+ */
+export function mitEntfernten(benannt: number[], entfernteDerAdresse: number[] = []): number[] {
+  return benannt.length > 1 ? [...new Set([...benannt, ...entfernteDerAdresse])] : [...new Set(benannt)]
 }
 
 function ladeEntfernteVerweise(datei: string): EntfernterVerweis[] {
@@ -42,4 +57,19 @@ function ladeEntfernteVerweise(datei: string): EntfernterVerweis[] {
   } catch {
     return []
   }
+}
+
+/**
+ * Hat die Meldung weniger Titel benannt, als die Adresse hat, und die Zuordnung scheitert daran,
+ * gilt die ganze Adresse — wenn sie aufgeht (Kengan Ashura: Netflix 12 + 12 + 28, Bestand
+ * 12/12/12/16; benannt waren nur die zwei offenen, 08.10.2026). Sonst bleibt es bei den benannten.
+ */
+export function staffelnMitAdresse(
+  anbieter: AnbieterStaffel[] | undefined,
+  benannt: Staffeleintrag[],
+  ganzeAdresse: Staffeleintrag[],
+): Staffeleintrag[] {
+  if (!anbieter || !benannt.length || !ordneNachStaffelliste(anbieter, benannt).problem) return benannt
+  const ganz = ordneNachStaffelliste(anbieter, ganzeAdresse)
+  return ganzeAdresse.length > benannt.length && !ganz.problem ? ganzeAdresse : benannt
 }
