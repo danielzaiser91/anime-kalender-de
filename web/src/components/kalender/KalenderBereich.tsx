@@ -3,6 +3,7 @@ import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'
 import type { AppRoute } from '../../lib/router.ts'
 import { activeFilterCount, type FilterState } from '../../lib/filters.ts'
+import { SucheWocheZeile, useSucheZusammen } from './SucheWoche.tsx'
 import { addDays, monthName, startOfMonth, startOfWeek, todayIso } from '@shared/time.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { merkeZielTag } from '../../lib/ziel-tag.ts'
@@ -63,6 +64,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
     navigate({ view: 'woche', date: datum })
   }
   const heute = todayIso()
+  const [suche, sucheZusammen] = useSucheZusammen(route.filters.search, monat)
   useEscapeSchliesst(filterOffen, () => setFilterOffen(false))
 
   return (
@@ -97,6 +99,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
         />
         </div>
       )}
+      {sucheZusammen && <SucheWocheZeile data={p.data} suche={suche} imZeitraum={imZeitraum} navigate={navigate} />}
       {monat ? (
         <MonthView data={p.data} events={p.events} anchorDate={route.date} hidden={p.hidden} onOpen={oeffnen} onPickDay={zurWoche} />
       ) : (
@@ -108,6 +111,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
           hidden={p.hidden}
           tvAn={p.tvAn}
           gefiltert={activeFilterCount(route.filters) > 0 || route.filters.search.trim() !== ''}
+          leereTageZu={sucheZusammen}
           onToggleFavorite={p.onToggleFavorite}
           onToggleHidden={p.onToggleHidden}
           onOpen={oeffnen}

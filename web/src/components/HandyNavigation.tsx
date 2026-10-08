@@ -4,6 +4,8 @@ import type { ViewId } from '../lib/router.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { KalenderZeichen, NewsZeichen, RasterZeichen, ZahnradZeichen } from './kalender/Zeichen.tsx'
 import { SaisonZeichen } from './saison-zeichen.tsx'
+import { useVorschau } from '../lib/vorschau.ts'
+import { useNavVersteckt } from '../lib/nav-scroll.ts'
 
 /**
  * **Auf dem Handy steht die Navigation unten, in Daumenreichweite** — Kalender, Datenbank, News und
@@ -38,10 +40,20 @@ export function HandyNavigation({
       <span className="max-w-full truncate">{label}</span>
     </button>
   )
+  const ausblenden = useVorschau('leisten') === 'ausblenden'
+  const { versteckt, zeigen } = useNavVersteckt(ausblenden)
   return createPortal(
     <nav
       aria-label={t('nav.bereich')}
-      className="fixed inset-x-3 bottom-[calc(12px+env(safe-area-inset-bottom))] z-30 grid grid-cols-5 rounded-[22px] border border-ak-rand bg-ak-flaeche/95 p-1.5 backdrop-blur md:hidden"
+      onFocus={zeigen}
+      className={[
+        'fixed inset-x-3 bottom-[calc(12px+env(safe-area-inset-bottom))] z-30 grid grid-cols-5 rounded-[22px] border border-ak-rand bg-ak-flaeche/95 p-1.5 backdrop-blur md:hidden',
+        /* Nur mit Vorschau „leisten": sanft nach unten aus dem Bild; ein Tastenfokus holt sie zurück (`onFocus`). */
+        ausblenden && 'transition-transform duration-200',
+        versteckt && 'translate-y-[calc(100%+24px+env(safe-area-inset-bottom))]',
+      ]
+        .filter(Boolean)
+        .join(' ')}
     >
       {eintrag(aktiv === 'kalender', t('nav.kalender'), <KalenderZeichen />, () => onView(kalender), 'kalender')}
       {eintrag(aktiv === 'datenbank', t('view.datenbank' as TranslationKey), <RasterZeichen />, () => onView('datenbank'), 'datenbank')}
