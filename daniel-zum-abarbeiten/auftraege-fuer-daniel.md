@@ -19,7 +19,7 @@ Stand: 08.10.2026 00:30
 
 3. **aniSearch-Discord: fehlende Titel melden** (Dominik will sie je Titel als eigenes Thema im Forumkanal „#db_api"; das darf nur du posten)
    [Entwürfe, ein Thema je Titel](file:///C:/code/ai/anime-kalender-de/daniel-zum-abarbeiten/listen/discord-db-api-entwuerfe.md)
-   - Vorher: Sieben Titel haben bei aniSearch keine Kennung, ihr aniSearch-Link führt nur auf die Suche.
+   - Vorher: Drei Titel (laut deiner E-Mail an Dominik, dazu ein optionaler vierter) fehlen bei aniSearch.
    - Auftrag: Je Titel kurz auf aniSearch suchen. Gibt es ihn doch, die Adresse `anisearch.de/anime/<ID>,<slug>` an mich geben (kein Thema nötig). Sonst Überschrift und Text aus dem Entwurf als neues Thema in „#db_api" einstellen.
    - Erwartet: aniSearch legt die Einträge an oder antwortet; ich trage die Kennungen dann in `data/anisearch-ids-hand.yaml` ein.
 
