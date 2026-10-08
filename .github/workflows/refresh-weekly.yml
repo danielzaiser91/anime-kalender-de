@@ -397,9 +397,6 @@ jobs:
       - name: Kinotermine und Sprachfassung von CineStar
         run: bash tools/schritt.sh --zeit 10m "CineStar" -- npm run data:cinestar
 
-      - name: Sprachfassung der Kinostarts bei der FSK
-        run: bash tools/schritt.sh --zeit 10m "FSK" -- npm run data:fsk
-
       # Eine SPARQL-Abfrage über alle offenen MAL-Kennungen: Kandidatenliste, kein Titel.
       - name: Deutsche Werktitel bei Wikidata
         run: bash tools/schritt.sh --zeit 10m "Werktitel bei Wikidata" -- npm run data:wikidata-titel

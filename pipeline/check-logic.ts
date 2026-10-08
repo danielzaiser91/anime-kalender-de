@@ -4594,6 +4594,25 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 }
 
 /**
+ * Kein Abruf bei der FSK-Datenbank: Das FSK-Impressum untersagt jede Nutzung ihrer Daten
+ * ohne schriftliche Zustimmung (quellen.md, „FSK-Lücke"). Die Adresse wird hier gestückelt,
+ * damit diese Datei sich nicht selbst findet.
+ */
+{
+  const verboten = 'fsk.de' + '/fskapi'
+  const treffer = ['pipeline', 'tools', '.github/workflows']
+    .flatMap((ordner) => readdirSync(ordner, { recursive: true, withFileTypes: true })
+      .filter((e) => e.isFile() && /\.(ts|mjs|cjs|js|sh|ya?ml)$/.test(e.name))
+      .map((e) => join(e.parentPath, e.name)))
+    .filter((pfad) => readFileSync(pfad, 'utf8').includes(verboten))
+  pruefe(
+    'kein Code spricht die FSK-Datenbank an',
+    treffer.length === 0,
+    `${treffer.join(', ')} — die FSK untersagt die Nutzung ohne schriftliche Zustimmung`,
+  )
+}
+
+/**
  * **Drei ADN-Serienkennungen, die ein Datenlauf schon einmal weggeräumt hat.**
  *
  * Am 09.09.2026 sind sie über `/show?limit=100&offset=…` belegt und in
