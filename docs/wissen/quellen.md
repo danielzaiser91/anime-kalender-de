@@ -3253,3 +3253,9 @@ Anzeige: „ab 12 laut Anbieter" im Panel, gestrichelter Rand und Tooltip an der
 - **Abdeckung (Stichprobe 08.10.2026):** 497 der 1.705 Titel ohne FSK haben einen JustWatch-Treffer; an 25 davon 21 mit Stufe
   (84 %), vier leer — hochgerechnet rund 420 Titel. Vorbehalt: Bei 3 von 10 Doppelten wich JustWatch von der FSK ab; bei
   Widerspruch gilt die Freigabe, der Bau zählt Abweichungen. Die übrigen Treffer ohne `altersangabe` holt der Lauf vorgezogen nach.
+
+## Ranma ½ (1989): deutsche Folgen und Discs (08.10.2026)
+
+- **Deutsch sind die Folgen 1–80 der Gesamtserie** (18 der ersten Serie, AniList 210, plus 62 von Nettōhen, AniList 149939 mit 143 Folgen). Belege: de.wikipedia.org „Ranma ½", Abschnitt „Deutsche Umsetzung" (RTL II ab 11.04.2002; „Von den übrigen 81 Folgen gibt es keine deutsche Fassung") und zeichentrickserien.de/dvd/ranma-1-2.htm („Box 1–3 (Folge 1–80)", Label AV2 / Anime Virtual, 26–27 Folgen je Box); giga.de nennt dieselbe Zahl („80 von 161"). Daniels „30" ließ sich nicht belegen.
+- **Disc:** drei Boxen (Box 2: Folgen 28–54, Box 3: 55–80), Sammlung „Box 1–3" bei aniSearch (`article/4074`, Verlag dort „Kazé Deutschland", Wikipedia: Anime Virtual). Eintrag in `data/watch-links.yaml` mit `dubRanges` 1–62 in der AniList-Zählung von 149939 (Folge 19 der Gesamtserie = Folge 1). Nicht lokal gebaut (Cache fehlt): Wirkung im Panel nach dem nächsten Bestandslauf prüfen.
+- **Beleg-Aufnahmen:** Ein Bild älterer `BILD_FASSUNG` stand in der Warteschlange am Ende (Sortierung nach letzter Lesung) und blieb hinter dem Limit von 60 — `bildOhnePruefung` zählt es jetzt mit. Bei Artikeln für mehrere Titel reicht der Ausschnitt bis zur Fundstelle des tiefsten Titels (Tank Chair fehlte die Marke).

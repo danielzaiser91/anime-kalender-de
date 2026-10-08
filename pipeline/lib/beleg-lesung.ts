@@ -11,6 +11,9 @@ import type { NewsBeleg, NewsEintrag, Quelle, Release } from '../../shared/types
 import { hostVon } from '../../shared/quelle.ts'
 import { releaseStatus } from '../../shared/logic.ts'
 
+/** Fassung der Aufnahme: steigt sie, werden alle Bilder einmal neu aufgenommen (2 seit 07.10.2026: doppelte Auflösung). */
+export const BILD_FASSUNG = 2
+
 /** Artikel, keine Kalender, APIs oder Katalogseiten — nur sie haben einen Text, der sich ändern kann. */
 const ARTIKEL = [
   /^https:\/\/www\.crunchyroll\.com\/(?:[a-z]{2}(?:-[a-z]{2})?\/)?news\/[a-z-]+\/\d{4}\//,
@@ -146,8 +149,9 @@ export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heu
 export const ohneMarkenJeTitel = (gedaechtnis: BelegGedaechtnis, mehrereTitel: Set<string>): Set<string> =>
   new Set(Object.keys(gedaechtnis).filter((u) => mehrereTitel.has(u) && gedaechtnis[u]!.lesungen.some((l) => l.bild) && !gedaechtnis[u]!.lesungen.at(-1)?.markierungen))
 
-/** Altbestand ohne Wand-Prüfung (Bild, `qs` fehlt) und Adressen, deren Bild als Wand entzogen wurde — kommen zuerst wieder an die Reihe. */
-export const bildOhnePruefung = (e: BelegGedaechtnis[string] | undefined): boolean => Boolean(e?.lesungen.some((l) => (l.bild && !l.qs) || l.qs === 'wand'))
+/** Altbestand ohne Wand-Prüfung (Bild, `qs` fehlt), entzogene Wände und Bilder älterer Fassung kommen zuerst wieder an die Reihe — sonst steht ein frisch gelesener Artikel am Ende der Warteschlange, hinter dem Limit. */
+export const bildOhnePruefung = (e: BelegGedaechtnis[string] | undefined): boolean =>
+  Boolean(e?.lesungen.some((l) => (l.bild && !l.qs) || l.qs === 'wand' || (l.bild && (l.bildfassung ?? 1) < BILD_FASSUNG)))
 
 /** Eine Wand hinter dieser Adresse: Alle Bilder der Adresse werden entzogen (sie zeigen die Wand), die Lesungen tragen `qs: wand`. */
 export function entzieheBild(gedaechtnis: BelegGedaechtnis, url: string): void {

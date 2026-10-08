@@ -19,7 +19,7 @@ const MAX_HOEHE = 1100
 const MAX_BIS_STELLE = 3600
 /** Doppelte Auflösung: lesbar auch auf dem Desktop (Daniel, 07.10.2026). Steigt die Fassung, werden alle Bilder einmal neu aufgenommen. */
 export const BILD_SKALA = 2
-export const BILD_FASSUNG = 2
+export { BILD_FASSUNG } from './beleg-lesung.ts'
 
 export interface Beleg {
   bild: Buffer
@@ -37,7 +37,7 @@ interface Messung {
 }
 
 /** Läuft im Browser: entfernt Reste, prüft auf Wände und misst den Ausschnitt samt Fundstelle. */
-function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle }: { maxHoehe: number; skala: number; maxBisStelle: number; suchen: string[]; stelle?: Stelle }): Messung | 'wand' | undefined {
+function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle, bisUnten }: { maxHoehe: number; skala: number; maxBisStelle: number; suchen: string[]; stelle?: Stelle; bisUnten?: number }): Messung | 'wand' | undefined {
   document.querySelectorAll('body *').forEach((e) => {
     const p = getComputedStyle(e).position
     if ((p === 'fixed' || p === 'sticky') && !e.contains(document.querySelector('h1'))) e.remove()
@@ -66,6 +66,8 @@ function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle }: { ma
       oben = Math.max(0, stelle.oben - 500)
       unten = stelle.unten + 16
     } else unten = Math.max(unten, stelle.unten + 16)
+    /* Mehrere Titel im Artikel: der Ausschnitt reicht bis zur Fundstelle des tiefsten, sonst fehlt dem unteren die Marke. */
+    if (bisUnten) unten = Math.max(unten, bisUnten + 16)
     unten = Math.min(unten, oben + maxBisStelle)
   }
   const clip = { x: 0, y: Math.max(0, oben), width: 520, height: unten - oben + 16, scale: skala }
@@ -111,7 +113,8 @@ export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: 
   await titelzeileSetzen(seite)
   const stelle = await stuetzstelle(seite, suchen, tage)
   const stellen = gruppen.length > 1 ? await Promise.all(gruppen.map(async (g) => [g.id, await stuetzstelle(seite, g.suchen, g.tage)] as const)) : []
-  const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: MAX_BIS_STELLE, skala: BILD_SKALA, suchen, stelle })
+  const bisUnten = Math.max(0, ...stellen.map(([, st]) => st?.unten ?? 0)) || undefined
+  const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: MAX_BIS_STELLE, skala: BILD_SKALA, suchen, stelle, bisUnten })
   if (!gemessen || gemessen === 'wand') return gemessen
   const cdp = await seite.context().newCDPSession(seite)
   const { data } = await cdp.send('Page.captureScreenshot', { format: 'webp', quality: 20, captureBeyondViewport: true, clip: gemessen.clip })
