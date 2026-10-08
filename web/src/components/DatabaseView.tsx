@@ -4,9 +4,12 @@ import type { Title } from '@shared/types.ts'
 import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { useLang } from '../lib/i18n.tsx'
 import { DbKopfzeile, DbSchalter } from './db-kopfzeile.tsx'
 import { DbKarte } from './db-karte.tsx'
+import { DbSortWahl, MehrKnopf } from './db-bedienung.tsx'
+import { OhneSynchroZeile } from './db-vorschau.tsx'
+import { sortiereNachRelevanz } from '../lib/db-relevanz.ts'
+import { useVorschau } from '../lib/vorschau.ts'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -76,46 +79,44 @@ export function DatabaseView({
   gewaehlt?: DbSort
   onSortChange: (next: DbSort) => void
 }) {
-  const { t } = useLang()
   const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
   /* Beim Suchen gilt die Treffergüte, bis jemand selbst eine andere Sortierung wählt. */
   /* `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
-  const sort = (gewaehlt === 'relevanz' && !suche.trim() ? undefined : gewaehlt) ?? (suche.trim() ? 'relevanz' : 'titel')
-
+  /* Vorschau `db-sortierung`: auch ohne Suche gilt „Relevanz" (laufend und bald neu zuerst) als Vorgabe. */
+  const relevanzStandard = useVorschau('db-sortierung') === 'relevanz'
+  const relevanzMoeglich = relevanzStandard || !!suche.trim()
+  const sort = (gewaehlt === 'relevanz' && !relevanzMoeglich ? undefined : gewaehlt) ?? (relevanzMoeglich ? 'relevanz' : 'titel')
+  const ruhigOhne = useVorschau('db-ohne-synchro') === 'ruhig'
+  const reserve = useVorschau('db-reserve') === 'ruhig'
 
   const groups = useMemo(() => {
     const base: TitleGroup[] = grouped
       ? groupByFranchise(titles)
       : titles.map((tt) => ({ main: tt, members: [tt] }))
 
-    if (sort === 'relevanz') return base
+    if (sort === 'relevanz') {
+      if (!suche.trim()) sortiereNachRelevanz(base, data, today)
+      return base
+    }
     if (sort === 'titel') sortiereNachTitel(base)
     else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
     else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
     return base
-  }, [titles, grouped, sort])
+  }, [titles, grouped, sort, suche, data, today])
 
   return (
     <div className="flex flex-col gap-4">
       <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} cartoonsAus={cartoonsAus} onCartoonsAusChange={onCartoonsAusChange} />
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
-        <DbKopfzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} />
-        <label className="ml-auto flex cursor-pointer items-center gap-2">
-          {t('db.sort')}
-          <select
-            value={sort}
-            onChange={(e) => onSortChange(e.target.value as DbSort)}
-            className="cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5"
-          >
-            {suche.trim() && <option value="relevanz">{t('db.sortRelevanz')}</option>}
-            <option value="titel">{t('db.sortTitle')}</option>
-            <option value="jahr">{t('db.sortYear')}</option>
-            <option value="score">{t('db.sortScore')}</option>
-          </select>
-        </label>
+        {ruhigOhne && ohneSynchro ? (
+          <OhneSynchroZeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} />
+        ) : (
+          <DbKopfzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} />
+        )}
+        <DbSortWahl sort={sort} onChange={onSortChange} relevanz={relevanzMoeglich} suche={!!suche.trim()} />
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
@@ -134,20 +135,13 @@ export function DatabaseView({
             onOpenTitle={onOpenTitle}
             share={share}
             copiedSlug={copiedSlug}
+            ruhigOhne={ruhigOhne}
+            platzhalter={reserve}
           />
         ))}
       </div>
 
-      {visible < groups.length && (
-        <button
-          type="button"
-          onClick={() => setVisible((v) => v + PAGE_SIZE * 2)}
-          className="mx-auto cursor-pointer rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-200/60 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/10"
-        >
-          {t('db.more', { count: Math.min(PAGE_SIZE * 2, groups.length - visible) })}
-          <span className="ml-2 text-xs text-slate-500 dark:text-slate-400">{t('db.remaining', { count: groups.length - visible })}</span>
-        </button>
-      )}
+      {visible < groups.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={groups.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
     </div>
   )
 }

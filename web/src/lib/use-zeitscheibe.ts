@@ -19,14 +19,14 @@ function abgeben(): Promise<void> {
  * bleibt das vorige stehen und `laeuft` ist wahr. Ändert sich `abhaengig` währenddessen, wird der alte Lauf verworfen — es rechnet immer
  * nur der jüngste. Ist die Rechnung billig (leere Suche), steht das Ergebnis schon im ersten Durchgang da, ohne Zwischenbild.
  */
-export function useZeitscheibe<T>(erzeuge: () => Generator<void, T>, abhaengig: unknown[], leer: T): { wert: T; laeuft: boolean } {
+export function useZeitscheibe<T>(erzeuge: () => Generator<void, T>, abhaengig: unknown[], leer: T): { wert: T; laeuft: boolean; veraltet: boolean } {
   /* Der erste Lauf beginnt schon beim Anlegen: ist er billig, gibt es nie ein leeres Bild. */
   const erster = useRef<{ gen: Generator<void, T>; fertig?: { wert: T } } | undefined>(undefined)
-  const [zustand, setZustand] = useState<{ wert: T; laeuft: boolean }>(() => {
+  const [zustand, setZustand] = useState<{ wert: T; laeuft: boolean; abh: unknown[] }>(() => {
     const gen = erzeuge()
     const r = gen.next()
     erster.current = { gen, fertig: r.done ? { wert: r.value } : undefined }
-    return r.done ? { wert: r.value, laeuft: false } : { wert: leer, laeuft: true }
+    return r.done ? { wert: r.value, laeuft: false, abh: abhaengig } : { wert: leer, laeuft: true, abh: abhaengig }
   })
   useEffect(() => {
     let verworfen = false
@@ -40,7 +40,7 @@ export function useZeitscheibe<T>(erzeuge: () => Generator<void, T>, abhaengig: 
         const r = gen.next()
         if (verworfen) return
         if (r.done) {
-          setZustand({ wert: r.value, laeuft: false })
+          setZustand({ wert: r.value, laeuft: false, abh: abhaengig })
           return
         }
         if (performance.now() - von > BUDGET_MS) {
@@ -57,7 +57,9 @@ export function useZeitscheibe<T>(erzeuge: () => Generator<void, T>, abhaengig: 
     // `erzeuge` ist bei jedem Rendern neu — maßgeblich ist, was in `abhaengig` steht.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, abhaengig)
-  return zustand
+  /* Das Ergebnis stammt noch aus anderen Eingaben, der neue Lauf hat noch nichts geliefert. */
+  const veraltet = zustand.abh.length !== abhaengig.length || zustand.abh.some((a, i) => !Object.is(a, abhaengig[i]))
+  return { wert: zustand.wert, laeuft: zustand.laeuft, veraltet }
 }
 
 /** Ein „Lauf", der sofort fertig ist — für den Zustand, in dem es noch nichts zu rechnen gibt. */

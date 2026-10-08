@@ -5,6 +5,7 @@ import type { Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { FundstellenZeichen, TrefferName } from './Suchtreffer.tsx'
+import { CoverPlatzhalter } from './db-vorschau.tsx'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Tooltip } from './ui.tsx'
 
 export interface DbKarteProps {
@@ -20,10 +21,14 @@ export interface DbKarteProps {
   onOpenTitle: (id: number) => void
   share: (slug: string, title: string) => Promise<void>
   copiedSlug: string | undefined
+  /** Vorschau `db-ohne-synchro`: der Hinweis steht einmal oben, nicht auf jeder Kachel. */
+  ruhigOhne?: boolean
+  /** Vorschau `db-reserve`: Cover ohne Bild zeigen eine Farbfläche mit Anfangsbuchstaben. */
+  platzhalter?: boolean
 }
 
 /** Eine Kachel der Datenbank (oder, ausgeblendet, ihr Platzhalter). */
-export function DbKarte({ main, members, data, today, grouped, favorites, hidden, onToggleFavorite, onToggleHidden, onOpenTitle, share, copiedSlug }: DbKarteProps) {
+export function DbKarte({ main, members, data, today, grouped, favorites, hidden, onToggleFavorite, onToggleHidden, onOpenTitle, share, copiedSlug, ruhigOhne, platzhalter }: DbKarteProps) {
   const { t } = useLang()
   const releases = members.flatMap((m) => data.releasesByTitle.get(m.id) ?? [])
   const status = titleStatus(releases, today, main)
@@ -117,7 +122,8 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
             </Tooltip>
           </span>
         )}
-        {keinDub && (
+        {!main.coverImage && platzhalter && <CoverPlatzhalter name={anzeigeName(main)} />}
+        {keinDub && !ruhigOhne && (
           <span className="absolute inset-x-0 bottom-0 bg-slate-900/80 px-1.5 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-[1px]">
             {t('db.noDubBadge')}
           </span>
@@ -152,7 +158,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
           <span
             className={[
               'absolute right-1 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white',
-              keinDub ? 'bottom-7' : 'bottom-1',
+              keinDub && !ruhigOhne ? 'bottom-7' : 'bottom-1',
             ].join(' ')}
           >
             {t('db.seasons', { count: members.length })}
@@ -184,7 +190,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
                 favorite ? 'font-medium text-amber-600 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400',
               ].join(' ')}
             >
-              {favorite ? t('db.noDubWatched') : t('db.noDubWatch')}
+              {favorite ? t('db.noDubWatched') : ruhigOhne ? null : t('db.noDubWatch')}
             </span>
           ) : (
             <>
