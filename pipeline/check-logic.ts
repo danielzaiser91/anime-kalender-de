@@ -8110,6 +8110,7 @@ console.log('\nCharakter-Beziehung:')
   {
     const kein = keinAnimeVonHand()
     pruefe('Kein Anime von Hand: die beiden Diashow-Specials (Princess Principal Picture Drama 100519, Anohana Menma e no Tegami 107342) stehen mit Quelle in der Liste und im Ohne-Synchro-Urteil', kein.has(100519) && kein.has(107342) && kein.has(123074) && [...kein].every((id) => ohneSynchroVonHand().has(id)))
+    pruefe('Ohne Synchro von Hand: das Dark-Side-of-Dimensions-Special (102505, ohne deutschen Beleg, aniSearch 08.10.2026) steht hinter dem Toggle, ist aber kein „kein Anime“', ohneSynchroVonHand().has(102505) && !kein.has(102505))
     pruefe('Kein Anime von Hand: hinter dem Toggle ist in Ordnung', keinAnimeFehler([100519, 107342], new Set<number>(), new Set([100519, 107342, 5])).length === 0)
     pruefe('Kein Anime von Hand: ein Titel im Hauptbestand wird gemeldet', keinAnimeFehler([100519], new Set([100519]), new Set([100519])).some((f) => f.includes('im Hauptbestand')))
     pruefe('Kein Anime von Hand: ein Titel, der nirgends steht, wird gemeldet (verschoben, nicht gelöscht)', keinAnimeFehler([107342], new Set<number>(), new Set([5])).some((f) => f.includes('hinter dem Toggle')))

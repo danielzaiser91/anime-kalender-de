@@ -138,6 +138,15 @@
   sources:
     - 'aniSearch-Antwort an Daniel, 08.10.2026'
 
+# Kein deutscher Beleg, und die Produzenten führen das Special selbst nicht als Veröffentlichung (aniSearch-Antwort 08.10.2026).
+# Bleibt Anime (aniSearch: Aufnahme noch zu prüfen), steht aber hinter dem Toggle statt im Hauptbestand.
+- anilistId: 102505
+  title: 'Yu-Gi-Oh! The Dark Side of Dimensions Special: Eien no Rival - Yuugi to Kaiba!'
+  belegtAm: '2026-10-08'
+  zitat: 'Kombination aus Werbung, Recap und Audiokommentar; fehlt auf den offiziellen Streamingplattformen und Home-Video-Veröffentlichungen.'
+  sources:
+    - 'aniSearch-Antwort an Daniel, 08.10.2026'
+
 - anilistId: 123074
   title: 'Yu-Gi-Oh! Capsule Monsters (Kapselmonster)'
   belegtAm: '2026-10-08'

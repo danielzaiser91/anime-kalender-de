@@ -3234,6 +3234,8 @@ Anlass: aniSearch antwortete Daniel zu Yu-Gi-Oh! Capsule Monsters (123074), die 
 
 Dieselbe Antwort: Reine Auftragsproduktionen westlicher Firmen (asiatische Produzenten ohne künstlerische Freiheit) nimmt aniSearch nicht auf; Capsule Monsters steht deshalb mit Quelle „aniSearch-Antwort 08.10.2026" in `data/ohne-synchro-von-hand.yaml` (`keinAnime: true`, hinter dem Toggle), ebenso die beiden Diashow-Specials (Princess Principal Picture Drama 100519, Anohana Menma e no Tegami 107342).
 
+Vierte Antwort (Yu-Gi-Oh! The Dark Side of Dimensions Special: Eien no Rival - Yuugi to Kaiba!, MAL 33997, AniList 102505), wörtlich: „Bei diesem Special handelt es sich meinem Eindruck nach um eine Kombination aus Werbung, Recap und Audiokommentar - es wird zwar anscheinend von den Produzenten nicht wirklich als offiziell betrachtet (da es auf den offiziellen Streamingplattformen und Home Video Veröffentlichungen fehlt), eine Aufnahme ist aber dennoch zu prüfen." Entscheidung 08.10.2026: Es ist Anime (kein `keinAnime`), aber ohne jeden deutschen Beleg (Wege leer, `dubConfidence` low, keine Handprüfung, Websuche ohne Treffer) und ohne offizielle Veröffentlichung; deshalb Eintrag ohne `keinAnime` in `data/ohne-synchro-von-hand.yaml` (hinter dem Toggle, nicht gelöscht). Der Film (21265) hat dagegen RTL+-Synchro. Fällt eine deutsche Fassung auf, den Eintrag samt Quelle im Commit löschen. Die aniSearch-Kennung steht noch aus (`data/anisearch-ids-hand.yaml`, erst nach Nennung durch aniSearch).
+
 ## FSK-Rückfall aus JustWatch: Altersangabe als Anbieter-Einstufung (08.10.2026)
 
 Titel ohne FSK-Freigabe (TMDB) bekommen JustWatchs `content.ageCertification` (DE) als `fsk` mit `fskQuelle: 'justwatch'`
