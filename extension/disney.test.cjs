@@ -455,6 +455,108 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
   )
 }
 
+/**
+ * Beantwortet laut Prüfstand → kein „melden" (08.10.2026, Naruto Shippuden und Shield Hero).
+ *
+ * Der Prüfstand führt in anbieter[].ziele die offenen Adressen; wer dort fehlt, ist erledigt.
+ * Bleach (offen, Meldungen mit Folgentiteln) bleibt auf dem alten Weg.
+ */
+{
+  const vm = require('node:vm')
+  const quelleDisney = readFileSync(__dirname + '/disney.js', 'utf8')
+  const von = quelleDisney.indexOf('  function kennung(url)')
+  const kennungDisney = quelleDisney.slice(von, quelleDisney.indexOf('\n  }\n', von) + 4).replace(/^ {2}/gm, '')
+  const kennungVon = vm.runInNewContext('(' + kennungDisney.replace('function kennung', 'function') + ')')
+
+  const NARUTO = 'https://www.disneyplus.com/de-de/browse/entity-ef04e263-4751-486c-9001-616f2adf09ba'
+  const SHIELD = 'https://www.disneyplus.com/de-de/browse/entity-1b84d641-1bb3-422d-be4c-8e24c7b547cc'
+  const BLEACH = 'https://www.disneyplus.com/de-de/series/bleach/6g48QKlgQdWK'
+  const stand = {
+    pruefstandAm: '2026-10-08T07:30:28Z',
+    anbieter: [
+      { plattform: 'netflix', ziele: [{ url: NARUTO, titel: 'falscher Anbieter' }] },
+      { plattform: 'disneyplus', ziele: [{ url: 'https://www.disneyplus.com/browse/entity-x', titel: 'x' }, { url: 'https://www.disneyplus.com/series/bleach/6g48QKlgQdWK', titel: 'Bleach' }] },
+    ],
+  }
+
+  /** Eine frische Seite: Skripte aus dem Manifest, ein Prüfstand-Abruf, eine Kulisse für den Zweitknopf. */
+  const seite = (holen) => {
+    const knoepfe = []
+    const ktx = {
+      globalThis: null,
+      fetch: holen,
+      setTimeout: (f) => f && 0,
+      document: {
+        createElement: () => ({ remove() { this.weg = true } }),
+      },
+    }
+    ktx.globalThis = ktx
+    for (const datei of ['pruefstand-zeit.js', 'disney-beantwortet.js']) vm.runInNewContext(readFileSync(__dirname + '/' + datei, 'utf8'), ktx)
+    return { ktx, knoepfe, modul: ktx.AK_DISNEY_BEANTWORTET }
+  }
+  const ok = (j) => async () => ({ ok: true, json: async () => j })
+
+  const lauf = async (holen, url) => {
+    const s = seite(holen)
+    const log = { anfragen: 0, zeigt: [], setze: [], signale: [], zweit: null }
+    const knopf = { parentNode: { appendChild: (k) => (log.zweit = k) } }
+    await s.modul.klaere({
+      url,
+      kennungVon,
+      aktuell: () => true,
+      zeige: (t, o) => log.zeigt.push([t, o]),
+      knopf: () => knopf,
+      setze: (b) => log.setze.push(b),
+      signal: (d) => log.signale.push(d),
+      anfrage: () => log.anfragen++,
+    })
+    return log
+  }
+
+  warten.push(
+    (async () => {
+      let l = await lauf(ok(stand), NARUTO)
+      pruefe('Adresse nicht in ziele → passiver Zustand, nichts gesammelt', l.anfragen === 0 && l.setze[0] === true && /im Datensatz beantwortet/.test(l.zeigt[0][0]) && l.zeigt[0][1].klasse === 'gut', l)
+      pruefe('Passiv meldet dem Durchgang „schon gemeldet", keine Meldung', l.signale[0]?.zuMelden === 0 && l.signale[0]?.schon === 1, l.signale)
+      pruefe('Passiv bietet „trotzdem erneut melden" an', l.zweit?.textContent === 'trotzdem erneut melden' && typeof l.zweit?.onclick === 'function', l.zweit)
+      const anfragenVorKlick = l.anfragen
+      l.zweit.onclick()
+      pruefe('„trotzdem erneut melden" startet den bisherigen Weg', anfragenVorKlick === 0 && l.anfragen === 1 && l.setze.at(-1) === false && /sammle Folgen/.test(l.zeigt.at(-1)[0]), l)
+
+      l = await lauf(ok(stand), SHIELD)
+      pruefe('Auch Shield Hero (nicht in ziele) ist passiv', l.anfragen === 0 && l.setze[0] === true, l)
+
+      l = await lauf(ok(stand), BLEACH)
+      pruefe('Adresse in ziele (Bleach, andere Schreibweise) → alter Weg, kein Hinweis', l.anfragen === 1 && l.setze[0] === false && !l.zweit && !l.signale.length, l)
+
+      l = await lauf(async () => { throw new Error('Failed to fetch') }, NARUTO)
+      pruefe('Prüfstand nicht erreichbar → alter Weg', l.anfragen === 1 && l.setze[0] === false && !l.zweit, l)
+      l = await lauf(async () => ({ ok: false, json: async () => ({}) }), NARUTO)
+      pruefe('Prüfstand antwortet mit Fehler → alter Weg', l.anfragen === 1 && l.setze[0] === false, l)
+      l = await lauf(ok({ anbieter: [{ plattform: 'netflix', ziele: [] }] }), NARUTO)
+      pruefe('Prüfstand ohne Disney+-Liste → alter Weg', l.anfragen === 1 && l.setze[0] === false, l)
+      l = await lauf(ok({ anbieter: [{ plattform: 'disneyplus' }] }), NARUTO)
+      pruefe('Disney+ ohne ziele-Feld → alter Weg', l.anfragen === 1 && l.setze[0] === false, l)
+
+      /* Einmal je Seite geholt. */
+      let abrufe = 0
+      const s = seite(async () => (abrufe++, { ok: true, json: async () => stand }))
+      await s.modul.istBeantwortet(NARUTO, kennungVon)
+      await s.modul.istBeantwortet(SHIELD, kennungVon)
+      await s.ktx.akGemeldetSeit(null)
+      pruefe('Prüfstand wird einmal je Seite geholt (auch für den Zeitmaßstab)', abrufe === 1, abrufe)
+    })(),
+  )
+
+  /* Verdrahtung: der Hörer in disney.js wartet, bis geklärt ist, dass geprüft werden soll. */
+  pruefe('disney.js sammelt erst, wenn die Klärung „nicht beantwortet" ergab', /!eintrag \|\| beantwortet !== false\) return/.test(quelleDisney))
+  pruefe('disney.js ruft die Klärung nach dem Seitenwechsel auf', quelleDisney.includes('AK_DISNEY_BEANTWORTET.klaere('))
+  pruefe('Manifest lädt disney-beantwortet.js vor disney.js', (() => {
+    const js = JSON.parse(readFileSync(__dirname + '/manifest.json', 'utf8')).content_scripts.find((g) => g.js.includes('disney.js')).js
+    return js.indexOf('disney-beantwortet.js') >= 0 && js.indexOf('disney-beantwortet.js') < js.indexOf('disney.js') && js.indexOf('pruefstand-zeit.js') < js.indexOf('disney-beantwortet.js')
+  })())
+}
+
 Promise.all(warten).then(() => {
   const fehler = faelle.filter((x) => !x).length
   console.log(fehler ? `\n${fehler} Fall/Fälle durchgefallen` : '\n✓ Der Leser findet nur echte Folgen')
