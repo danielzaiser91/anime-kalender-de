@@ -1,0 +1,61 @@
+{
+  "_hinweis": "Register aller Dateien unter data/cache/ (liegt nicht im Repo, nur Datenläufe befüllen sie). Geprüft von tools/check-cache-abhaengigkeit.mjs: Jede im Code genannte Cache-Datei muss hier stehen. Eine Handkorrektur gehört nach data/, nicht hierher. Stand der Messung: 08.10.2026.",
+  "dateien": {
+    "anilist-media.json": {
+      "schreiber": "pipeline/fetch.ts (npm run data:fetch)",
+      "laeufe": ["refresh-data.yml (täglich 04:00 UTC, speichert den Cache)", "refresh-weekly.yml, Job anilist (montags 05:00 UTC, speichert den Cache)"],
+      "intervall": "täglich",
+      "bauBraucht": true,
+      "fehlt": "Bau bricht ab, wenn auch anilist-by-id.json leer ist (01-quellen.ts)"
+    },
+    "anilist-by-id.json": {
+      "schreiber": "pipeline/fetch.ts (npm run data:fetch)",
+      "laeufe": ["refresh-data.yml (täglich 04:00 UTC, speichert den Cache)", "refresh-weekly.yml, Job anilist (montags 05:00 UTC, speichert den Cache)"],
+      "intervall": "täglich",
+      "bauBraucht": true,
+      "fehlt": "Bau bricht ab, wenn auch anilist-media.json leer ist (01-quellen.ts)"
+    },
+    "dub-confidence.json": {
+      "schreiber": "pipeline/fetch.ts (npm run data:fetch)",
+      "laeufe": ["refresh-data.yml (täglich 04:00 UTC, speichert den Cache)", "refresh-weekly.yml, Job anilist (montags 05:00 UTC, speichert den Cache)"],
+      "intervall": "täglich",
+      "bauBraucht": true,
+      "fehlt": "Rückfall auf {}: keine Synchro-Sicherheit aus dem Cache; der Bau meldet die Zahl (cache-stand.ts)"
+    },
+    "anilist-katalog.json": {
+      "schreiber": "pipeline/fetch-anilist-katalog.ts (npm run data:katalog)",
+      "laeufe": ["refresh-weekly.yml, Job anilist (montags 05:00 UTC, speichert den Cache)", "daten-auf-abruf.yml, Lauf data:katalog (auf Abruf)"],
+      "intervall": "wöchentlich",
+      "bauBraucht": true,
+      "fehlt": "ohne-synchro.json bleibt stehen (nebendateien.ts), Sendeplatz-Suche, Umzugs-Riegel und Eltern-Kanten laufen leer; der Bau meldet die Zahl (cache-stand.ts)"
+    },
+    "kinocheck-kanal.json": {
+      "schreiber": "pipeline/fetch-trailer.ts (npm run data:trailer)",
+      "laeufe": ["refresh-data.yml (täglich 04:00 UTC)", "daten-auf-abruf.yml, Lauf data:trailer (auf Abruf)"],
+      "intervall": "täglich",
+      "bauBraucht": false,
+      "fehlt": "Nur der Trailer-Lauf liest ihn (eigener Zwischenstand); fehlt er, holt der Lauf den Kanal neu"
+    },
+    "pruefungen-abhaken.json": {
+      "schreiber": "pipeline/fetch-pruefungen.ts (--abhaken-spaeter)",
+      "laeufe": ["bestand-bauen.yml (je Bauzyklus; wird dort gelöscht und neu geschrieben)"],
+      "intervall": "je Bauzyklus",
+      "bauBraucht": false,
+      "fehlt": "Kurzlebiger Merkzettel innerhalb eines Laufs; ohne ihn wird nichts abgehakt"
+    },
+    "covers": {
+      "schreiber": "pipeline/build-og.ts (npm run data:og)",
+      "laeufe": ["bestand-bauen.yml (lädt bei Bedarf nach)"],
+      "intervall": "je Bauzyklus",
+      "bauBraucht": false,
+      "fehlt": "Wird bei Bedarf neu geladen"
+    },
+    "og-schriften": {
+      "schreiber": "pipeline/lib/og-schriften.ts",
+      "laeufe": ["bestand-bauen.yml (packt bei Bedarf um)"],
+      "intervall": "je Bauzyklus",
+      "bauBraucht": false,
+      "fehlt": "Wird bei Bedarf neu erzeugt"
+    }
+  }
+}

@@ -9,6 +9,8 @@ export interface Weckplan {
   /** Leer = jede Stunde. */
   stunden?: number[]
   wochentag?: number
+  /** Tag im Monat (UTC); fehlt er, gilt der Eintrag an jedem Tag. */
+  tagImMonat?: number
   /** Mindestabstand zum letzten Start desselben Workflows in Minuten — schützt vor Doppelstarts (gemessen 05.10.2026: zwei Starts im Abstand von zehn Sekunden). */
   abstandMin: number
 }
@@ -21,6 +23,8 @@ export const WECKPLAN: Weckplan[] = [
   { workflow: 'adn-laufende.yml', stunden: [2, 8, 14, 20], abstandMin: 240 },
   { workflow: 'claude-verpasst-recherche.yml', stunden: [11], abstandMin: 600 },
   { workflow: 'anisearch-katalog.yml', stunden: [6], abstandMin: 600 },
+  // Monatskontingent der Streaming Availability API (Reset am Ersten). Vorher nur GitHubs Cron: ein abgebrochener Lauf blieb ohne Nachhol-Start (`motn` am 08.10.2026 36 Tage still).
+  { workflow: 'tonspuren-monatlich.yml', stunden: [4], tagImMonat: 2, abstandMin: 20160 },
 ]
 
 /** Mindestabstand eines Workflows in Minuten (Vorgabe 30 für Unbekannte). */
@@ -30,5 +34,5 @@ export const abstandMin = (workflow: string, plan: Weckplan[] = WECKPLAN): numbe
 export function faelligeLaeufe(jetzt: Date, plan: Weckplan[] = WECKPLAN): string[] {
   const stunde = jetzt.getUTCHours()
   const wochentag = jetzt.getUTCDay() === 0 ? 7 : jetzt.getUTCDay()
-  return plan.filter((p) => (!p.stunden || p.stunden.includes(stunde)) && (!p.wochentag || p.wochentag === wochentag)).map((p) => p.workflow)
+  return plan.filter((p) => (!p.stunden || p.stunden.includes(stunde)) && (!p.wochentag || p.wochentag === wochentag) && (!p.tagImMonat || p.tagImMonat === jetzt.getUTCDate())).map((p) => p.workflow)
 }

@@ -1,4 +1,5 @@
 import { writeJson, readJson, log } from '../lib/util.ts'
+import { pruefeInvarianten, zaehlworteStimmen } from '../lib/invarianten.ts'
 import { OUT } from './grundlagen.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
 import { omuTitelAusKatalog } from '../lib/news-omu.ts'
@@ -27,6 +28,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
     steht, trägt die Video-Adresse. Discs und Shop-Artikel laufen über
     `watchLinks` mit eigener Plattform und bleiben unberührt.
   */
+  bruecheBeiWiderspruchAb(pruefeInvarianten(releases, events, titles))
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
 
@@ -69,6 +71,29 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
         `), davon ${abgeloest} abgelöst und sichtbar geblieben`,
     )
   }
+  /* Releases kommen nach `baueMeta` noch hinzu (motn-*, Erstausgaben): gezählt wird, was in der Datei steht. */
+  meta.releaseCount = releases.length
+  meta.eventCount = events.length
   writeJson(`${OUT}/meta.json`, meta, true)
+  bruecheBeiWiderspruchAb({ fehler: zaehlworteAusDateien(), warnungen: [] })
   return { newsFuerRss }
+}
+
+/** Die Zählworte der Oberfläche müssen zur Länge der ausgelieferten Dateien passen (B-07). */
+function zaehlworteAusDateien(): string[] {
+  const laenge = (datei: string) => readJson<unknown[]>(`${OUT}/${datei}`, []).length
+  return zaehlworteStimmen(readJson(`${OUT}/meta.json`, { titleCount: -1, releaseCount: -1, eventCount: -1 }), {
+    titles: laenge('titles.json'),
+    releases: laenge('releases.json'),
+    events: laenge('events.json'),
+  })
+}
+
+/** Ein Widerspruch im erzeugten Ergebnis bricht den Bau ab — lieber keine frischen Daten als falsche. */
+function bruecheBeiWiderspruchAb({ fehler, warnungen }: { fehler: string[]; warnungen: string[] }): void {
+  for (const w of warnungen) log(`  ⚠ ${w}`)
+  if (!fehler.length) return
+  for (const f of fehler) console.error('  ✖', f)
+  console.error(`\n${fehler.length} Widerspruch/Widersprüche im ausgelieferten Ergebnis — Bau abgebrochen.`)
+  process.exit(1)
 }

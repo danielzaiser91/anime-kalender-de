@@ -64,6 +64,8 @@ Datensatz?), `check:cr-zuordnung` (Einzelfälle plus Untergrenze auf dem echten 
 die einzige Quelle, die weder rät noch schweigt — ihr Vorrang in `build.ts` hängt an einer
 Reihenfolge (`if (stream.dub !== undefined) continue`).
 
+**Eine Datenkorrektur gehört ins Repo (`data/…`), nie nach `data/cache/`** (nicht im Repo; jede Cache-Datei steht in `data/cache-register.json`, `check:cache-abhaengigkeit`). Fertig heißt erst: nach Bau und Deploy auf der Live-Seite gemessen.
+
 ## Datenläufe: wer auf `main` schreibt, und was beim Ändern zu beachten ist
 
 Seit dem 05.10.2026 (`docs/wissen/betrieb.md`, „Datenläufe neu geschnitten"; Skill `datenlaeufe-entwerfen`):

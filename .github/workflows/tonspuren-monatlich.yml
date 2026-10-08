@@ -12,9 +12,8 @@ name: Monatlich — Tonspuren von der Streaming Availability API
 # fehlgeschlagener Lauf noch Luft hat.
 
 on:
-  schedule:
-    # Am 2. jedes Monats um 04:17 UTC.
-    - cron: '17 4 2 * *'
+  # Zeitplan: Cloudflare-Wecker (`shared/weckplan.ts`) startet diesen Lauf am 2. jedes Monats um 04 Uhr UTC; `wecker-wache.yml` holt ihn nach, wenn der letzte
+  # nicht abgebrochene Start über 31 Tage zurückliegt. GitHubs eigener Cron würde ihn verdoppeln.
   workflow_dispatch:
     inputs:
       budget:
