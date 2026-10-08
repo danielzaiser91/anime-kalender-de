@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-08T10:20:14.125Z",
+  "stand": "2026-10-08T10:39:11.796Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7834,17 +7834,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 185874,
-      "titel": "Bleach: Thousand-Year Blood War - The Calamity",
-      "plattform": "disneyplus",
-      "url": "https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-08",
-      "letzterWeg": true
-    },
-    {
       "titleId": 186559,
       "titel": "Pokémon: Dragoran – Besondere Lieferung",
       "plattform": "youtube",
@@ -7999,6 +7988,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-08",
+      "letzterWeg": true
+    },
+    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8065,6 +8065,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-08",
+      "letzterWeg": true
+    },
+    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8074,17 +8085,6 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-08",
       "letzterWeg": false
-    },
-    {
-      "titleId": 10011742,
-      "titel": "Black Clover",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-08",
-      "letzterWeg": true
     },
     {
       "titleId": 141534,

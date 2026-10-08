@@ -21466,3 +21466,42 @@
   dub: true
   checkedAt: '2026-09-29'
   note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, zh|Mandarin, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), es|Spanisch (Lateinamerika), hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 10: Begegnung mit dem Unbekannten — Netflix: Staffel 1"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-08 ---
+
+- anilistId: 116674
+  title: "Bleach: Thousand-Year Blood War"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy
+  dub: true
+  checkedAt: '2026-10-08'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 7, 8"
+- anilistId: 159322
+  title: "Bleach: Thousand-Year Blood War"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy
+  dub: true
+  checkedAt: '2026-10-08'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 7, 8"
+- anilistId: 169755
+  title: "Bleach: Thousand-Year Blood War"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy
+  dub: true
+  checkedAt: '2026-10-08'
+  note: "Folgen 1–14 mit deutschem Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 7, 8"
+- anilistId: 185874
+  title: "Bleach: Thousand-Year Blood War - The Calamity"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/series/bleach-thousand-year-blood-war/4Afet1Q421gy
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 6
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6]
+    - from: 7
+      to: 8
+      dub: false
+      checked: [7, 8]
+  checkedAt: '2026-10-08'
+  note: "Folgen 1–6 mit deutschem Ton, Folgen 7–8 ohne deutschen Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 7, 8"
