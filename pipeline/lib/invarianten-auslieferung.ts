@@ -30,6 +30,13 @@ export interface SynchroQuellen {
 }
 
 /**
+ * Bekannt offen, bis die Ursache behoben ist (08.10.2026: der Bestandsbau brach daran ab, Scott Pilgrim Takes Off 170206:
+ * aniSearch führt ihn mit „d", sein Zwilling kommt nicht in den Hauptbestand). Läuft am 15.10.2026 ab, danach wird die Regel wieder hart.
+ */
+const BEKANNT_OFFEN = new Set<number>([170206])
+const BEKANNT_OFFEN_BIS = '2026-10-15'
+
+/**
  * D-06: Ein Titel hinter dem Toggle („keine deutsche Synchro"), obwohl aniSearch ihn als vertont (`d`) führt oder ein Handbeleg `dub: true` sagt.
  * Ausgenommen: sein aniSearch-Zwilling steht im Hauptbestand (dann ist er umgezogen, nicht verloren), ein Handurteil „keine Synchro"
  * und ein Titel, dessen japanischer Start noch aussteht (die Ankündigung bleibt hinter dem Toggle).
@@ -39,6 +46,7 @@ export function synchroHinterToggle(a: Pick<Auslieferung, 'titles' | 'ohneSynchr
   const treffer: { titel: Title; quellen: string[] }[] = []
   for (const o of a.ohneSynchro) {
     if (haupt.has(o.id) || q.handKeine.has(o.id) || (o.jpStart && o.jpStart > q.heute)) continue
+    if (BEKANNT_OFFEN.has(o.id) && q.heute <= BEKANNT_OFFEN_BIS) continue
     if (o.anisearchId && haupt.has(ANISEARCH_ID_BASIS + o.anisearchId)) continue
     const quellen = [
       q.dubsAnilist[String(o.id)] === 'd' && 'aniSearch-Dub-Liste',
