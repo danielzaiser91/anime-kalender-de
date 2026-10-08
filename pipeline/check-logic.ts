@@ -5845,7 +5845,7 @@ pruefe(
   const quelltext = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
   pruefe(
     '… und der Import fragt ihn vor der Zählung',
-    quelltext.indexOf('folgeUeberTitel(') > 0 && quelltext.indexOf('folgeUeberTitel(') < quelltext.indexOf('ordneMeldungZu({'),
+    quelltext.indexOf('folgeUeberTitel(') > 0 && quelltext.indexOf('folgeUeberTitel(') < quelltext.indexOf('ordneMeldungZuPlattform('),
   )
 }
 {
