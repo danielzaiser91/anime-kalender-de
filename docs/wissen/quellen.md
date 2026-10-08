@@ -2852,7 +2852,7 @@ Anlass: Daniel fand Magic Knight Rayearth (2026) auf Crunchyrolls Startseite (�
 
 **Befund nebenbei:** Black Clover Staffel 2 trug seit dem 15.09. den Hinweis „Eine deutsche Fassung ist noch nicht angekündigt" — am selben Tag hatte Crunchyroll sie angekündigt. Die Season-Artikel waren nie Teil eines Laufs.
 
-**Offen:** Den Lineup-Artikel je Season automatisch lesen (Titelblöcke mit `OmU:` und `DE:`), statt ihn von Hand zu übertragen. Bis dahin ist `data/ankuendigungen.yaml` Handpflege.
+**Offen:** Den Lineup-Artikel je Season automatisch lesen (Titelblöcke mit `OmU:` und `DE:`), statt ihn von Hand zu übertragen. Bis dahin ist `data/ankuendigungen.yaml` Handpflege. **PoC 08.10.2026** ([sammelartikel-poc.md](sammelartikel-poc.md)): der Leser liest beide Season-Artikel und trifft die Handdatei in 42 von 42 Lineup-Einträgen; Crunchyrolls Nutzungsbedingungen untersagen automatisierten Zugriff aber ausdrücklich (Abschnitt 5, Wortlaut dort), und Anime2You spiegelt beide Artikel am selben Tag — der empfohlene Weg.
 
 ## RTL+: Dragon Ball Daima steht in keiner Programm-Sitemap (25.09.2026)
 
