@@ -90,6 +90,15 @@ export function loadAllTitles(data: Dataset): Promise<Title[]> {
   return allTitlesPromise
 }
 
+/**
+ * Macht einen unbekannten Titel auffindbar: erst der Hauptbestand (791 KB gzip), den Katalog ohne Synchro (1,9 MB gzip)
+ * nur, wenn der Titel dort noch fehlt. Vorher holte jeder Titel außerhalb des Kalenders beide (Stand 08.10.2026).
+ */
+export async function ladeTitelBestand(data: Dataset, id: number): Promise<void> {
+  await loadAllTitles(data)
+  if (!data.titleById.has(id)) await loadOhneSynchro(data)
+}
+
 let ohneSynchroPromise: Promise<Title[]> | undefined
 
 /**
