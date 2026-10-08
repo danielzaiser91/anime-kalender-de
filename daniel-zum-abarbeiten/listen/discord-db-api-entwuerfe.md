@@ -50,14 +50,14 @@ Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
 
 ---
 
-## 3 · AnoHana: Die Blume, die wir an jenem Tag sahen – Special „Menma e no Tegami"
+## 3 · Anohana: The Flower We Saw That Day – Letter to Menma (Menma e no Tegami)
 
-**Überschrift:** `AnoHana: Die Blume, die wir an jenem Tag sahen – Special „Menma e no Tegami", MAL 38963`
+**Überschrift:** `Anohana: The Flower We Saw That Day – Letter to Menma (Menma e no Tegami), MAL 38963`
 
 ```
 Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
 
-**AnoHana: Die Blume, die wir an jenem Tag sahen – Special „Menma e no Tegami"**, ein Special zur Serie. Ein deutscher Titel des Specials ist mir nicht bekannt; „AnoHana: Die Blume, die wir an jenem Tag sahen" ist der deutsche Titel der Serie. Japanischer Titel: Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami
+**Anohana: The Flower We Saw That Day – Letter to Menma**, ein 12-Minuten-Special vom 22.02.2012 zur Serie (deutscher Serientitel: *AnoHana: Die Blume, die wir an jenem Tag sahen*; einen deutschen Titel des Specials kenne ich nicht). Japanischer Titel: Ano Hi Mita Hana no Namae wo Bokutachi wa Mada Shiranai.: Menma e no Tegami
 - MAL: https://myanimelist.net/anime/38963
 - AniList: https://anilist.co/anime/107342
 - IMDb: https://www.imdb.com/title/tt9561688/
