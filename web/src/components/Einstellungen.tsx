@@ -72,7 +72,7 @@ export function EinstellungenDialog({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md rounded-3xl border border-ak-rand bg-ak-flaeche p-5 text-ak-text shadow-2xl"
+        className="w-full max-w-2xl rounded-3xl border border-ak-rand bg-ak-flaeche p-5 text-ak-text shadow-2xl"
       >
         <div className="mb-3 flex items-center gap-3">
           <h2 className="flex-1 font-display text-lg font-bold">
