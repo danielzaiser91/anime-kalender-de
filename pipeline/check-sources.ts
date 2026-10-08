@@ -16,6 +16,7 @@ import { readSourceHealth } from './lib/health.ts'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { log, warn, writeJson } from './lib/util.ts'
+import { meldeAnClaude } from './lib/meldung.ts'
 
 const args = process.argv.slice(2)
 const index = args.indexOf('--max-age')
@@ -178,6 +179,14 @@ function main(): void {
     } else {
       log(`${name}: ok, vor ${label}, ${state.lastCount} Treffer`)
     }
+  }
+
+  /* Wochenwache (`delta-wache.yml`): stumme Quellen als Meldung an Claude, ohne `blocker.json` zu überschreiben (die Datei gehört dem Bau). */
+  if (args.includes('--nur-melden')) {
+    if (stale.length) {
+      meldeAnClaude('wache-woechentlich', 'warnung', `Stumme Quellen (Frist überschritten): ${stale.map((n) => `${n} ${Number.isFinite(daysSince(health[n]?.lastOk)) ? `seit ${daysSince(health[n]?.lastOk).toFixed(0)} Tagen` : 'noch nie'}`).join(', ')}`, 'data/source-health.json')
+    }
+    return
   }
 
   /*
