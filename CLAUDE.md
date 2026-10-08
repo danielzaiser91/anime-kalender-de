@@ -177,6 +177,8 @@ Je Thema eine Datei; die Abschnittsüberschriften sind der Index
 - [docs/wissen/datensatz.md](docs/wissen/datensatz.md) — Bau und Anzeige
 - [docs/wissen/projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md) — Volltext dieser
   Regeln mit Anlässen
+- [docs/wissen/meine-woche.md](docs/wissen/meine-woche.md) — Konzept „Meine Woche" (persönliche Woche aus
+  Favoriten und Plattformen, Erinnerungswege, Datenschutz); Prototyp hinter `akVorschau('meine-woche')`
 
 Neue Erkenntnisse als eigener `##`-Abschnitt mit Datum in die passende Datei — ein Eintrag hier
 ist nicht mehr nötig.
