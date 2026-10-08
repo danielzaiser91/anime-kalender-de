@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { startTransition, useCallback, useEffect, useRef, useState } from 'react'
 import { wocheDeckt } from '@shared/wochen-datei.ts'
 import { loadDataset, loadWochenStart, type Dataset, type WochenStart } from './data.ts'
 import type { AppRoute } from './router.ts'
@@ -55,7 +55,7 @@ function planeNachladen(starte: () => void): () => void {
  *
  * Die Wochenansicht startet aus `woche.json` (≈ 30 KB statt ≈ 317 KB) und lädt die vollen Dateien danach im Hintergrund (`planeNachladen`).
  * `data` ist die Wochen-Datei nur, solange sie für diese Ansicht reicht (Woche und heute in ihrer Woche, keine Suche, Wochenansicht);
- * jede andere Ansicht, jede Suche und jedes Panel warten auf `voll` und lösen das Laden sofort aus. Fehlt oder veraltet die
+ * jede andere Ansicht, jede Suche und jedes Panel warten auf `voll` und lösen das Laden sofort aus. `voll` kommt als Übergang (`startTransition`): das Neuzeichnen mit allen Daten läuft in Zeitscheiben statt als eine lange Aufgabe. Fehlt oder veraltet die
  * Wochen-Datei, läuft der Start wie vorher.
  */
 export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset; voll?: Dataset; error?: string } {
@@ -69,7 +69,7 @@ export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset;
     if (geladen.current) return
     geladen.current = true
     loadDataset()
-      .then(setVoll)
+      .then((d) => startTransition(() => setVoll(d)))
       .catch((e: Error) => setError(e.message))
   }, [])
 

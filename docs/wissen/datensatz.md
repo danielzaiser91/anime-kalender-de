@@ -639,3 +639,8 @@ per dHash verglichen; erst ab Abstand ≤ 18 kommt das große Plakat, sonst blei
 Beide CDNs erlauben `crossOrigin` (geprüft mit `Origin`-Kopf). Besser und noch offen: im Bau unter allen TMDB-Plakaten das dem
 AniList-Cover ähnlichste wählen (statt des größten) und `cg` nur dann schreiben — dann gibt es für mehr Titel ein scharfes gleiches Bild
 und die Prüfung im Browser entfällt.
+
+## TBT-Befund nach 501–503 und Plakat Dress-Up Darling (08.10.2026)
+
+Messung ohne Netz auf den gebauten Ständen (Playwright, Seite aus `dist/` über `page.route`, Handy 390 × 844, CDP 1,6 Mbit/s × 4 als Ersatz für gzip, 150 ms, CPU 4×, Median von 5, 12 s): TBT vor 501 (`0e6bae771`) 260 ms, nach 501 258, nach 502 291, nach 503 271 ms; Desktop 348 / 323 / 320 / 366 ms — kein Sprung, Streuung ±40 ms. Die Live-Seite maß am selben Abend 393–507 ms (acht Läufe `perf.cjs`), nicht 0,9 s; der Wert 0,9 ließ sich nicht wiederholen. Lange Aufgaben (Handy, 4× CPU): erster Aufbau der Woche 4 Stück zu 60–250 ms (die 200+-ms-Aufgabe ist eine erzwungene Layoutberechnung durch `klebendeUnterkante()` beim Sprung zu heute), und eine Aufgabe 90–140 ms beim Einsetzen der vollen Daten (React-Neuzeichnen, kein `JSON.parse`). Letztere läuft jetzt als `startTransition` (Handy 90 → 55 ms, Desktop 95–140 → 91 ms).
+Dress-Up Darling (AniList 132405): dHash-Abstand AniList-Cover gegen TMDB-Plakat = 16 (Schwelle 18, also gleiches Motiv). Die Live-Datei `data/synopses/21.json` (134.250 Byte) enthält den Eintrag 132405 samt `cg` nicht, die im Repo (152.179 Byte, `08bd2d45f`) schon — ohne `cg` gibt es kein großes Plakat. Ursache liegt im ausgelieferten Bestand, nicht an der Schwelle.
