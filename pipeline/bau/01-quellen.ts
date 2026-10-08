@@ -3,6 +3,7 @@ import { type DubConfidence, type Fsk, type PlatformId } from '../../shared/type
 import { type AniListMedia } from '../lib/anilist.ts'
 import { type TmdbInfo } from '../lib/tmdb.ts'
 import { mehrdeutigeFilmzuordnungen } from '../lib/tmdb-eindeutig.ts'
+import { meldeCacheStand } from './cache-stand.ts'
 import { loadCurated } from '../lib/curated.ts'
 import { sperreSerienTreffer } from '../lib/treffer-erben.ts'
 
@@ -96,6 +97,7 @@ export function ladeQuellen() {
     )
     process.exit(1)
   }
+  meldeCacheStand()
   sperreSerienTreffer([byAniId, byMal], tmdbTitles, tmdbMehrdeutig)
   return {
     byMal,
