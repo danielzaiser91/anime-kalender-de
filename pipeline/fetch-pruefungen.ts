@@ -28,7 +28,7 @@ import {
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
 import { ordneMeldungZuPlattform } from './lib/disney-gesamtnummer.ts'
-import { ergaenzeUmEntfernte, mitEntfernten } from './lib/entfernte-verweise.ts'
+import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
@@ -930,7 +930,7 @@ for (const gruppe of jeAdresse.values()) {
     ist ein offener Punkt und kein erledigter.
   */
   let geschrieben = 0
-  const staffeln = staffelnDerAdresse(ids)
+  let staffeln = staffelnDerAdresse(ids)
 
   /**
    * Was der Anbieter selbst über seine Staffeln sagt — wenn er es gesagt hat.
@@ -950,7 +950,7 @@ for (const gruppe of jeAdresse.values()) {
     } catch {
       return undefined
     }
-  })()
+  })(); staffeln = staffelnMitAdresse(anbieterStaffeln, staffeln, staffelnDerAdresse(nachUrl.get(schluesselAdresse(p.url)) ?? []))
 
   /**
    * Die Meldungen den Staffeln zuschlagen, je eine Liste von Bereichen.

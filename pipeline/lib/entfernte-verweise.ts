@@ -7,6 +7,7 @@
  * ist — die Meldung vom 08.10.2026 blieb liegen).
  */
 import { existsSync, readFileSync } from 'node:fs'
+import { ordneNachStaffelliste, type AnbieterStaffel, type Staffeleintrag } from './folgenbereiche.ts'
 import { schluesselAdresse } from './zuordnung.ts'
 
 export type EntfernterVerweis = { titleId: number; url: string; grund: string }
@@ -56,4 +57,19 @@ function ladeEntfernteVerweise(datei: string): EntfernterVerweis[] {
   } catch {
     return []
   }
+}
+
+/**
+ * Hat die Meldung weniger Titel benannt, als die Adresse hat, und die Zuordnung scheitert daran,
+ * gilt die ganze Adresse — wenn sie aufgeht (Kengan Ashura: Netflix 12 + 12 + 28, Bestand
+ * 12/12/12/16; benannt waren nur die zwei offenen, 08.10.2026). Sonst bleibt es bei den benannten.
+ */
+export function staffelnMitAdresse(
+  anbieter: AnbieterStaffel[] | undefined,
+  benannt: Staffeleintrag[],
+  ganzeAdresse: Staffeleintrag[],
+): Staffeleintrag[] {
+  if (!anbieter || !benannt.length || !ordneNachStaffelliste(anbieter, benannt).problem) return benannt
+  const ganz = ordneNachStaffelliste(anbieter, ganzeAdresse)
+  return ganzeAdresse.length > benannt.length && !ganz.problem ? ganzeAdresse : benannt
 }
