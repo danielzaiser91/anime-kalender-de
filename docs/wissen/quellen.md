@@ -3163,3 +3163,63 @@ Anlass: Daniel gab am 06.10.2026 die heise-Liste „Neue Filme und Serien bei Ne
 - **Messung am 06.10.2026:** Von den Anime in beiden Listen hatten wir alle bis auf zwei: „Die sieben Ritter des Königreichs der Marronniers" (heise, Amazon-Liste) und, über die Anime2You-Meldung zu Prime Video, „Tank Chair". Beide Titel hatte Anime2You schon gemeldet (Marronniers am 07.09. und 04.10.); der Fehler lag bei uns, nicht an einer fehlenden Quelle. Einzigartig war heise also nicht, aber als **unabhängige Gegenprobe** gegen die eigene Lücke wirksam.
 - **Belegregel:** Eine Quelle hängt nur an der Meldung, deren Aussage sie trägt. heise nennt für Marronniers den 04.10. (Anime2You: Samstag 03.10.) und keine Sprachfassung; sie gehört deshalb nicht an die Meldung „Erstmals mit deutscher Synchro", sondern höchstens an eine Start-Meldung bei Prime Video.
 - **Vorgehen künftig:** Zu Monatsbeginn (und mittwochs, Filmstarts-Wochenliste) die Listen gegen `releases.json` lesen; was fehlt, mit Anime2You oder der Anbieterseite auf Synchro prüfen. Als Lauf noch nicht automatisiert; Entscheidung dazu offen, weil die Seiten kein stabiles Muster haben.
+
+## FSK-Lücke: Datenbank-PoC und Quellenlage (08.10.2026)
+
+Stand: `fsk` fehlt bei 1.683 von 2.908 Titeln. Gemessen an einer Stichprobe von 60 Titeln
+(Seed 20261008, n = 60, Hochrechnung grob ±12 Prozentpunkte). Es ist ein PoC, nichts davon ist gebaut.
+
+### Rechtsbefund — offen, Entscheidung Daniel
+
+Das Impressum der FSK (https://www.fsk.de/impressum/) sagt wörtlich: „Alle Inhalte, Informationen,
+Anwendungen, Dienste und Daten dürfen nicht ohne vorherige schriftliche Zustimmung der FSK in
+irgendeiner Weise, auch nicht auszugsweise, genutzt oder verwendet werden." Die `robots.txt`
+erlaubt dagegen alles (`User-agent: *`, `Disallow:` leer) — die beiden Texte widersprechen sich.
+
+- Die Klausel trifft **auch den bestehenden Abruf** `pipeline/fetch-fsk.ts` (Kinofilme).
+- Die FSK bietet eine Anmelde-API („direkte Anbindung an über 500.000 FSK-Freigaben",
+  https://www.fsk.de/unternehmen/); Preis und Bedingungen nicht gefunden.
+- **Offen, Entscheidung Daniel:** schriftlich um Zustimmung bitten (Kontakt https://www.fsk.de/kontakt/)
+  oder den Abruf einstellen. Bis dahin kein Massenabruf. Eintrag in `status.md` unter „Zu besprechen".
+
+### FSK-Datenbank (`/fskapi/ReleaseSearch`)
+
+| Abgleich an 60 Titeln | Treffer |
+|---|---|
+| bisheriger Abgleich, strikt | 10 (17 %) |
+| mit wörtlichen Titelformen (Satzzeichen behalten, Präfix vor dem ersten Satzzeichen, EN/Romaji/DE) | 28 eindeutig |
+| widersprüchlich (Bungo Stray Dogs 3: 12 und 16) | 1 |
+| nur andere Staffel desselben Franchise (kein Wert übernehmen) | 9 |
+| kein Eintrag | 22 |
+
+Der Hauptfehler des alten Abgleichs war das Entfernen der Satzzeichen: Treffer sind wörtliche
+Teilzeichenketten („Food Wars" findet 14, „Yuri on Ice" 0).
+
+Technik: Titel ist Pflicht (mindestens 2 Zeichen); die Antwort ist bei 400 Treffern gedeckelt;
+der Datumsfilter funktioniert; `page`/`limit` wirken nicht. Die Sitemap enthält keine Prüfseiten
+— kein Vollabzug möglich (Zwei-Zeichen-Fragmente gegen den Deckel wären unpraktikabel).
+2–40 s je Abruf, 142 Abrufe ohne 403/429. Mehrere Disc-Blöcke desselben Titels streuen; Regel
+„höchster Wert, bei Streuung kennzeichnen" ist zu entscheiden.
+
+### Weitere Quellen
+
+| Quelle | Ergebnis |
+|---|---|
+| TMDB (DE) | 1 von 60, nichts Neues |
+| JustWatch `ageCertification` (DE) | 15 Werte bei 20 Titeltreffern (nur exakter Titel, also Untergrenze), 5 neu; gegen die FSK bei 10 Doppeln 3 Abweichungen — nur als gekennzeichnete Anbieter-Angabe |
+| Wikidata P1981 | 0 von 60 |
+| aniSearch-API | kein Altersfeld |
+| Crunchyroll | US-/Eigensystem (`cr-tv`), keine FSK |
+| ADN | `age` „10+" ist keine FSK-Stufe, nur Hinweis |
+| Prime Video | die Erweiterung liest das Siegel, speichert es nicht |
+
+Nicht gemessen: Prime, Netflix, Disney+, Joyn, OFDb, bluray-disc.de, EPG, KJM; AGB von JustWatch
+und TMDB nicht gelesen.
+
+### Obergrenze und Reihenfolge
+
+Hochrechnung auf die 1.683: FSK-Datenbank etwa 800 Titel, mit JustWatch etwa 950, also rund 55 %
+(±12 Prozentpunkte). Der Rest sind Streaming-only-Titel, Specials und Web-Kurzformate.
+
+Reihenfolge und Widerspruchsregel: FSK-Datenbank > TMDB-DE > JustWatch (gekennzeichneter
+Rückfall) > Prime-Siegel/ADN (nur Hinweis). Die FSK-Datenbank erst nach geklärter Zustimmung.
