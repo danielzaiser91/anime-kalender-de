@@ -146,7 +146,7 @@ Bindings: D1 `DB`, R2 `BELEGE`, DO `EREIGNISSE`. Migrationen in `worker/migratio
 | Falsche Synchro-Angabe an einem Titel | Beleg prüfen (`data/dub-confirmed.yaml`, `urteile.json`, `verweise-von-hand.yaml`), **nicht** in `public/data` editieren (wird überschrieben). Danach `npm run check:handbelege` |
 | Termin falsch | Quelle in `data/curated/*.yaml` bzw. `ankuendigungen.yaml` korrigieren; bei Beobachtungen `schedule.observed`; Zusicherung in `pipeline/check-logic.ts` ergänzen |
 | Neues Feld am Titel | Typ in `shared/types.ts`; in `13-*` schreiben; **nicht** nach `titles-core.json`, wenn nicht die Mehrheit es braucht (Ladelast) |
-| Neue Prüfung am Datensatz | `pipeline/lib/pruefung.ts` (läuft im Bau); Gegenprobe außerhalb: `tools/daten-befund.mjs` |
+| Neue Prüfung am Datensatz | `pipeline/lib/pruefung.ts` (läuft im Bau); Gegenprobe außerhalb: `tools/daten-befund.mjs`; gegen Zweitquellen mit Hebel-Sortierung: `npm run detektiv` ([daten-detektiv.md](daten-detektiv.md)) |
 | Neue Funktion, die Nutzer merken | Eine Zeile in `web/src/lib/seiten-neuerungen.ts` (Datum, ein Satz, Hash-Adresse): erscheint in der News-Ansicht unter „Neu auf der Seite" (30 Tage, höchstens 3). Nicht für Korrekturen und Umbauten (Daniel, 06.10.2026) |
 | Oberflächentext | `lib/i18n*.ts`; Kurztexte nach Skill `kurze-texte-fuer-nutzer` |
 | Große Funktion zerlegen | Skill `zerlegen`, `tools/modul-umzug.mjs`, Gleichheitsbeweis `tools/bau-vergleich.mjs` / `panel-vergleich.mjs` |
