@@ -72,6 +72,13 @@ export function quellenName(url: string): string {
  * interessant sein, aber sie gehört nicht in einen Terminkalender. Lieber eine
  * Meldung weniger als eine Seite voller Ankündigungen ohne Terminbezug.
  */
+/**
+ * Die Kennung im Slug eines automatischen Termins bleibt die des aniSearch-Titels, der in einem AniList-Titel aufgegangen ist
+ * (`data/anisearch-ids-hand.yaml`, Dubletten 08.10.2026): Der Slug ist die Teilen-Adresse `/r/<slug>/` und der Schlüssel von Termin-Verlauf und
+ * Quellengedächtnis — ein neuer Slug ließe eine 404 zurück und meldete den Termin als zurückgezogen. `check:logic` hält die Tabelle zur Handdatei.
+ */
+export const ALTE_AUTO_KENNUNG: Record<number, number> = { 206814: 10_021_566, 213457: 10_021_751 }
+
 const TERMIN_WOERTER =
   /\b(start(et|en)?|erschein(t|en|ung)|ver(ö|oe)ffentlich|termin|ab dem|ab \d|premiere|kommt|release|simulcast|synchro)/i
 
@@ -417,7 +424,7 @@ export function releasesAus(
        * Titel und Anbieter identifizieren das Release ohnehin eindeutig; mehr
        * als eines je Kombination lässt `releasesAus` nicht zu.
        */
-      slug: `auto-${treffer.id}-${platform}`,
+      slug: `auto-${ALTE_AUTO_KENNUNG[treffer.id] ?? treffer.id}-${platform}`,
       titleId: treffer.id,
       name,
       platform: platform as Release['platform'],

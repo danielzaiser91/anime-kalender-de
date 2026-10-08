@@ -102,7 +102,8 @@ import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { LAUF_ABFRAGEN, LAUF_ARTEN, SQL_EINE_ART } from '../worker/src/lauf-sql.ts'
 import { geteilteWegeTrotzWiderlegung, pruefeErgebnis } from './lib/pruefung.ts'
-import { anisearchUmgezogen, dubNurHinterToggle } from './bau/anisearch-titel.ts'
+import { anisearchUmgezogen, dubNurHinterToggle, ergaenzeAnisearchTitel } from './bau/anisearch-titel.ts'
+import { MAL_AUSNAHMEN, malDubletten } from './lib/mal-dubletten.ts'
 import { pruefeKalenderKonsistenz } from './lib/kalender-konsistenz.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { netflixTitelAdresse } from './lib/netflix-adresse.ts'
@@ -162,7 +163,7 @@ import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
-import { istAbschied, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
+import { ALTE_AUTO_KENNUNG, istAbschied, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
 import { leseSammelartikel, vorschlaegeAusSammelartikel, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
@@ -8481,6 +8482,39 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   pruefe('Deutsch (c, d) nur hinter dem Toggle wird gemeldet, - und Ankündigung (p, noch nicht gestartet) nicht', abseits([]).join() === '10,13', abseits([]))
   pruefe('eigener Titel oder zugeordneter AniList-Titel im Hauptbestand genügt', abseits([10_000_010, 503]).length === 0)
   pruefe('Handurteil „keine Synchro" nimmt den Eintrag aus', dubNurHinterToggle(new Set(), '2026-10-08', new Set([500, 10_000_013]), zuordnung, eintraege).length === 0)
+}
+/* Gleiche MAL-Kennung bei einem aniSearch- und einem AniList-Titel: Dublette, außer sie ist in MAL_AUSNAHMEN begründet (Befund 08.10.2026, 4 Dubletten). */
+{
+  const mal = (asId: number, malId: number) => ({ [String(asId)]: { mal: malId } })
+  const paar = [{ id: 500, malId: 77 }, { id: 10_000_042, malId: undefined }]
+  pruefe('MAL-Dublette: aniSearch-Titel mit der MAL eines AniList-Titels wird gemeldet', malDubletten(paar, mal(42, 77), '2026-10-08').length === 1)
+  pruefe('MAL-Dublette: andere MAL, keine MAL oder kein AniList-Partner melden nichts', malDubletten(paar, mal(42, 78), '2026-10-08').length === 0 && malDubletten(paar, {}, '2026-10-08').length === 0 && malDubletten([paar[1]!], mal(42, 77), '2026-10-08').length === 0)
+  const teil = Object.keys(MAL_AUSNAHMEN).map(Number)[0]!
+  pruefe('MAL-Dublette: ein begründeter Teil (Reporter Blues, aniSearch 3873) meldet nichts', malDubletten([{ id: 500, malId: 77 }, { id: 10_000_000 + teil }], mal(teil, 77), '2026-10-08').length === 0)
+  pruefe('MAL-Dublette: der Übergang der vier Dubletten gilt bis 15.10.2026, danach nicht mehr', malDubletten([{ id: 204011, malId: 63098 }, { id: 10_021_084 }], mal(21084, 63098), '2026-10-15').length === 0 && malDubletten([{ id: 204011, malId: 63098 }, { id: 10_021_084 }], mal(21084, 63098), '2026-10-16').length === 1)
+  const lies = (f: string) => JSON.parse(readFileSync(f, 'utf8')) as Title[]
+  /* Geprüft wird der Hauptbestand (aniSearch- und AniList-Titel) gegen alle AniList-Titel; die aniSearch-Katalogtitel hinter dem Toggle zählt der Befund nicht. */
+  const alle = [...lies('public/data/titles.json'), ...lies('public/data/ohne-synchro.json').filter((t) => t.id < 10_000_000)]
+  const eintraege = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { mal?: number }>
+  const meldungen = malDubletten(alle, eintraege, todayIso())
+  pruefe('MAL-Dublette: im ausgelieferten Datensatz trägt kein aniSearch-Titel die MAL eines AniList-Titels ohne dokumentierte Ausnahme', meldungen.length === 0, meldungen)
+  pruefe('MAL-Dublette: jede Ausnahme nennt ihren Grund, und die Kennungen der Ausnahmen sind aniSearch-Kennungen im Eintragsbestand', Object.entries(MAL_AUSNAHMEN).every(([id, g]) => g.length > 10 && id in eintraege))
+  /* Die vier Dubletten: Handbindung, AniList-Titel im Bestand → die aniSearch-Zeile entfällt, der AniList-Titel übernimmt die Erstausgabe; ohne ihn bleibt die Zeile. */
+  const dubletten = [[204011, 21084], [206814, 21566], [212503, 21575], [213457, 21751]] as const
+  const ohne = new Map<number, Title>()
+  ergaenzeAnisearchTitel(ohne, new Map(), new Map())
+  pruefe('MAL-Dublette: fehlt der AniList-Titel, bleibt die aniSearch-Zeile (kein Werk geht verloren)', dubletten.every(([, as]) => ohne.has(10_000_000 + as)))
+  const mit = new Map<number, Title>(dubletten.map(([al]) => [al, { id: al, streams: [] } as unknown as Title]))
+  ergaenzeAnisearchTitel(mit, new Map(), new Map())
+  pruefe('MAL-Dublette: steht der AniList-Titel im Bestand, entfällt die aniSearch-Zeile', dubletten.every(([, as]) => !mit.has(10_000_000 + as)))
+  pruefe('MAL-Dublette: Psyren (aniSearch: Dub geplant) übernimmt die deutsche Erstausgabe, Beerus und Fool Night (kein Deutsch) bekommen keine', mit.get(204011)!.deErstausgabe?.von === '2026-10-05' && !mit.get(206814)!.deErstausgabe && !mit.get(213457)!.deErstausgabe)
+  const kette = anisearchUmgezogen(new Set([204011]), new Set(), undefined, undefined)
+  pruefe('MAL-Dublette: die Handbindung zählt als Umzug (Verlust-Riegel des Baus)', kette.has(10_021_084))
+  const handText = readFileSync('data/anisearch-ids-hand.yaml', 'utf8')
+  pruefe(
+    'MAL-Dublette: jede alte Slug-Kennung automatischer Termine (ALTE_AUTO_KENNUNG) ist die aniSearch-Kennung, die die Handdatei an den AniList-Titel bindet',
+    Object.entries(ALTE_AUTO_KENNUNG).every(([al, alt]) => new RegExp(`^${al}:\\s*${alt - 10_000_000}\\b`, 'm').test(handText)),
+  )
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
