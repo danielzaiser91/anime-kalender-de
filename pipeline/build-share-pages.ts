@@ -25,7 +25,7 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
-import { ladeAkVon, type AkVon } from './lib/ausgabe-kennung.ts'
+import { ladeAkVon, umleitungen, type AkVon } from './lib/ausgabe-kennung.ts'
 
 const DIST = resolve(ROOT, 'dist')
 const SITE = (process.env.SITE_URL ?? 'https://anime-kalender.de/').replace(
@@ -376,7 +376,7 @@ function main(): void {
   }
   const today = todayIso()
   /* Die Adresse eines Titels ist `/t/<ak>/` — unsere Kennung, ohne Namen (Stufe 1 der eigenen Kennungen). */
-  const { akVon } = ladeAkVon(resolve(ROOT, 'data/kennungen.json'))
+  const { akVon, zeilen: kennungsZeilen } = ladeAkVon(resolve(ROOT, 'data/kennungen.json'))
 
   // Nur der deutsche Text kommt auf die Seite. Ein englischer Absatz auf einer
   // durchweg deutschen Seite hilft weder dem Leser noch der Suche.
@@ -433,6 +433,7 @@ function main(): void {
     writeFileSync(resolve(dir, 'index.html'), (before + kopf + after).replace(ROOT_TAG, `<div id="root">${inhalt}</div>`), 'utf8')
   }
 
+  schreibeUmleitungen(umleitungen(kennungsZeilen))
   log(`${titelListe.length} Titel-Seiten, Übersicht und Startseite geschrieben`)
   writeSitemap(mitAk.map(({ t, ak }) => ({ ...t, slug: String(ak) })))
 }
@@ -446,6 +447,23 @@ function main(): void {
   Vorschaubild ist das Banner von AniList (breit, große Karte), ohne Banner das Cover
   (kleine Karte) — eigene Bilder für 2.774 Titel wären rund 170 MB im Repo.
 */
+/**
+ * Die alte Adresse einer zusammengeführten Kennung (`/t/<alt>/`, in Mails und Verlinkungen verschickt) leitet auf die neue weiter —
+ * ohne Eintrag im Index (`noindex`) und ohne Sitemap.
+ */
+function schreibeUmleitungen(paare: [number, number][]): void {
+  for (const [alt, neu] of paare) {
+    const ziel = `${SITE}t/${neu}/`
+    const dir = resolve(DIST, 't', String(alt))
+    mkdirSync(dir, { recursive: true })
+    writeFileSync(
+      resolve(dir, 'index.html'),
+      `<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Weiterleitung</title><meta name="robots" content="noindex"><link rel="canonical" href="${ziel}"><meta http-equiv="refresh" content="0; url=${ziel}"><script>location.replace(${JSON.stringify(ziel)}+location.hash)</script></head><body><a href="${ziel}">Weiter zum Titel</a></body></html>`,
+      'utf8',
+    )
+  }
+}
+
 /** Der nächste Termin eines Titels, sonst der letzte. */
 function naechsterTermin(rs: Release[], today: string): Release | undefined {
   const nachDatum = [...rs].sort((a, b) => a.schedule.firstEpisodeDate.localeCompare(b.schedule.firstEpisodeDate))

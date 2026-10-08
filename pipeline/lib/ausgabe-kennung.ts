@@ -14,9 +14,13 @@ export type AkVon = (anilist: number) => number
 /** Gruppengröße der Teildateien `synopses/` und `disc/` (`SYNOPSIS_GROUPS` im Web). */
 const GRUPPEN = 32
 
-export function ladeAkVon(kennungenPfad: string): { akVon: AkVon; zeilen: [number, number, number][] } {
-  const roh = JSON.parse(readFileSync(kennungenPfad, 'utf8')) as { titel: [number, number, number][] }
-  const karte = new Map(roh.titel.map((z) => [z[1], z[0]]))
+/** Eine Zeile von `data/kennungen.json`: `[ak, AniList-Kennung, aniSearch-Kennung, zuAk?]`; `zuAk` nennt den Nachfolger einer zusammengeführten Kennung. */
+export type KennungsZeile = [number, number, number, number?]
+
+export function ladeAkVon(kennungenPfad: string): { akVon: AkVon; zeilen: KennungsZeile[] } {
+  const roh = JSON.parse(readFileSync(kennungenPfad, 'utf8')) as { titel: KennungsZeile[] }
+  /* Eine zusammengeführte Kennung (Dublette, `zuAk`) übersetzt sich in die ihres Nachfolgers: Nichts in der Ausgabe nennt die alte. */
+  const karte = new Map(roh.titel.map((z) => [z[1], z[3] ?? z[0]]))
   const akVon: AkVon = (anilist) => {
     if (!Number.isInteger(anilist) || anilist < 0) return anilist
     const ak = karte.get(anilist)
@@ -127,7 +131,12 @@ function uebersetzeTeildateien(wurzel: string, ak: AkVon): void {
   }
 }
 
-/** Schreibt `wurzel` (= `dist/data`) in unseren Kennungen um und legt `anilist-ak.json` (`[[ak, anilist], …]`) für Import und Favoriten-Umschreibung ab. */
+/** Die zusammengeführten Kennungen als `[alt, neu]`: Umleitung der Adresse `/t/<alt>/` und Umschreibung gemerkter Titel (Browser, Worker). */
+export function umleitungen(zeilen: KennungsZeile[]): [number, number][] {
+  return zeilen.filter((z) => z[3] !== undefined).map((z) => [z[0], z[3]!])
+}
+
+/** Schreibt `wurzel` (= `dist/data`) in unseren Kennungen um und legt `anilist-ak.json` (`[[ak, anilist], …]`) für Import und Favoriten-Umschreibung sowie `ak-umleitung.json` ab. */
 export function uebersetzeVerzeichnis(wurzel: string, kennungenPfad: string): { dateien: number } {
   const { akVon, zeilen } = ladeAkVon(kennungenPfad)
   let dateien = 0
@@ -144,6 +153,7 @@ export function uebersetzeVerzeichnis(wurzel: string, kennungenPfad: string): { 
     dateien++
   }
   uebersetzeTeildateien(wurzel, akVon)
-  schreibe(join(wurzel, 'anilist-ak.json'), zeilen.map((z) => [z[0], z[1]]))
+  schreibe(join(wurzel, 'anilist-ak.json'), zeilen.map((z) => [z[3] ?? z[0], z[1]]))
+  schreibe(join(wurzel, 'ak-umleitung.json'), umleitungen(zeilen))
   return { dateien }
 }

@@ -4,6 +4,7 @@ import App from './App.tsx'
 import { applyDocumentLanguage } from './lib/i18n.tsx'
 import { registerServiceWorker } from './lib/pwa.ts'
 import { kennungUmzug } from './lib/kennung-umzug.ts'
+import { akUmleitung } from './lib/ak-umleitung.ts'
 import { installiereVorschauBefehl } from './lib/vorschau.ts'
 import { TippzieleSchalter } from './components/tippziele.tsx'
 import { pruefeVersionBeimLaden } from './lib/aktualisierung.ts'
@@ -29,8 +30,8 @@ installiereVorschauBefehl() // Konsole: akVorschau() — neue Oberflächen live,
 // LanguageProvider bei jedem Sprachwechsel — es gibt nur noch Deutsch.
 applyDocumentLanguage()
 
-/* Gemerkte Titel ziehen vor dem ersten Rendern auf unsere Kennung um (einmalig, bis 05.11.2026). */
-void kennungUmzug().then(() => {
+/* Gemerkte Titel ziehen vor dem ersten Rendern auf unsere Kennung um (einmalig, bis 05.11.2026) und zusammengeführte auf ihren Nachfolger (`ak-umleitung.json`). */
+void kennungUmzug().then(akUmleitung).then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <App />

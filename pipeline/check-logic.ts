@@ -16,7 +16,9 @@
  *
  * Aufruf: npm run check:logic
  */
-import { ladeAkVon, uebersetzeDatei } from './lib/ausgabe-kennung.ts'
+import { ladeAkVon, uebersetzeDatei, umleitungen } from './lib/ausgabe-kennung.ts'
+import { umleiteKarte, umleiteListe } from '../web/src/lib/ak-umleiten.ts'
+import { leseFavoriten } from '../worker/src/favoriten-kennung.ts'
 import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -8515,6 +8517,36 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
     'MAL-Dublette: jede alte Slug-Kennung automatischer Termine (ALTE_AUTO_KENNUNG) ist die aniSearch-Kennung, die die Handdatei an den AniList-Titel bindet',
     Object.entries(ALTE_AUTO_KENNUNG).every(([al, alt]) => new RegExp(`^${al}:\\s*${alt - 10_000_000}\\b`, 'm').test(handText)),
   )
+  /* Hyouken II: die deutsche Erstausgabe der aniSearch-Zeile wandert unverändert zum AniList-Titel (Psyren ist oben geprüft). */
+  pruefe('MAL-Dublette: Hyouken II übernimmt die Erstausgabe der aufgegangenen Zeile unverändert', Boolean(ohne.get(10_021_575)?.deErstausgabe) && JSON.stringify(mit.get(212503)!.deErstausgabe) === JSON.stringify(ohne.get(10_021_575)!.deErstausgabe))
+  /* Der Auto-Termin von Beerus und Fool Night behält seinen Slug; ein vorhandener Release derselben Plattform verdrängt ihn, statt einen zweiten Termin zu bilden. */
+  const meldung = (titleId: number, name: string, plattform: string, kontext: string) =>
+    ({ articleTitle: `Termin von »${name}«`, articleUrl: 'https://www.anime2you.de/news/1/', category: 'streaming', platforms: [plattform], titleId, dates: [{ iso: '2026-10-11', context: kontext }] }) as unknown as Parameters<typeof releasesAus>[0][number]
+  for (const [al, name, plattform, slug] of [[206814, 'Dragon Ball Super: Beerus', 'crunchyroll', 'auto-10021566-crunchyroll'], [213457, 'Fool Night', 'netflix', 'auto-10021751-netflix']] as const) {
+    const titelListe = [{ id: al, titleEn: name, format: 'TV', episodes: 12 }] as unknown as Parameters<typeof releasesAus>[1]
+    const v = meldung(al, name, plattform, `ab dem 11. Oktober 2026 bei ${plattform} abrufbar`)
+    const aus = releasesAus([v], titelListe, [], '2026-10-08')
+    pruefe(`Auto-Termin ${name}: Slug bleibt ${slug}, Titel ist der AniList-Titel`, aus.length === 1 && aus[0]!.slug === slug && aus[0]!.titleId === al, aus.map((r) => [r.slug, r.titleId]))
+    const fremd = [{ slug: 'cr-fremd', titleId: al, platform: plattform }] as unknown as Parameters<typeof releasesAus>[2]
+    pruefe(`Auto-Termin ${name}: kommt ein Release derselben Plattform dazu, entsteht kein zweiter Termin`, releasesAus([v], titelListe, fremd, '2026-10-08').length === 0)
+  }
+  /* Kennungen: jede zusammengeführte aniSearch-Zeile hat einen Nachfolger, der selbst nicht zusammengeführt ist; die Ausgabe nennt nur den Nachfolger. */
+  const { akVon, zeilen } = ladeAkVon('data/kennungen.json')
+  const jeAnilist = new Map(zeilen.map((z) => [z[1], z]))
+  pruefe('Kennung: die aniSearch-Zeile jeder Dublette hat die ak des AniList-Titels als Nachfolger (zuAk), und der Nachfolger ist kein Zwischenglied',
+    dubletten.every(([al, as]) => {
+      const alt = jeAnilist.get(10_000_000 + as)
+      const ziel = jeAnilist.get(al)
+      return alt !== undefined && ziel !== undefined && alt[3] === ziel[0] && ziel[3] === undefined
+    }))
+  pruefe('Kennung: akVon der aufgegangenen Zeile ist die ak des AniList-Titels (News-Verlauf, Meldungen, Reihen nennen nie die alte)', dubletten.every(([al, as]) => akVon(10_000_000 + as) === akVon(al)))
+  const paare = umleitungen(zeilen)
+  pruefe('Kennung: ak-umleitung.json führt jede alte ak auf eine andere ak, die nicht selbst umgeleitet wird', paare.length >= 4 && paare.every(([alt, neu]) => alt !== neu && !paare.some(([a]) => a === neu)), paare)
+  /* Browser und Worker schreiben gemerkte Titel um. */
+  const abbild = new Map(paare)
+  const [altAk, neuAk] = paare[0]!
+  pruefe('Umleitung (Browser): Liste und Karten ziehen auf den Nachfolger um, ohne Doppel; Zahlen und Tage ordnen sich sinnvoll', umleiteListe([altAk, neuAk, 5], abbild).join() === `${neuAk},5` && umleiteKarte({ [altAk]: 3, [neuAk]: 5 }, abbild)[neuAk] === 5 && umleiteKarte({ [altAk]: '2026-10-01', [neuAk]: '2026-10-08' }, abbild)[neuAk] === '2026-10-01')
+  pruefe('Umleitung (Worker): gespeicherte Liste mit ak: wird auf den Nachfolger umgeschrieben, eine fremde Zahl bleibt', [...leseFavoriten(`ak:${altAk},7`, { umleitung: abbild })].join() === `${neuAk},7` && [...leseFavoriten(`ak:${altAk},7`)].join() === `${altAk},7`)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

@@ -23,15 +23,37 @@ export async function ladeAbbild(env: Pick<Env, 'SITE_URL'>): Promise<Map<number
   return abbildGeladen.karte
 }
 
-/** Liest eine gespeicherte Liste; ohne Vorsatz wird über `abbild` umgerechnet (fehlt es, bleiben die Zahlen, wie sie sind). */
-export function leseFavoriten(raw: string | null | undefined, abbild?: Map<number, number>): Set<number> {
+let umleitungGeladen: { bis: number; karte: Map<number, number> } | undefined
+
+/** Zusammengeführte Titel, alt → neu (`ak-umleitung.json` der Seite, höchstens stündlich neu; Dubletten 08.10.2026). Dauerhaft, nicht Teil der Karenz. */
+async function ladeUmleitung(env: Pick<Env, 'SITE_URL'>): Promise<Map<number, number> | undefined> {
+  if (umleitungGeladen && umleitungGeladen.bis > Date.now()) return umleitungGeladen.karte
+  const res = await fetch(`${env.SITE_URL.replace(/\/$/, '')}/data/ak-umleitung.json`, { cf: { cacheTtl: 3600 } } as RequestInit)
+  if (!res.ok) return undefined
+  umleitungGeladen = { bis: Date.now() + 3600_000, karte: new Map((await res.json()) as [number, number][]) }
+  return umleitungGeladen.karte
+}
+
+/** Was zum Lesen einer Liste gebraucht wird: AniList → ak (Karenz bis 05.11.2026) und alt → neu zusammengeführter Titel. */
+export type Kennungen = { abbild?: Map<number, number>; umleitung?: Map<number, number> }
+
+export async function ladeKennungen(env: Pick<Env, 'SITE_URL'>): Promise<Kennungen> {
+  const [abbild, umleitung] = await Promise.all([ladeAbbild(env).catch(() => undefined), ladeUmleitung(env).catch(() => undefined)])
+  return { abbild, umleitung }
+}
+
+/** Liest eine gespeicherte Liste; ohne Vorsatz wird über `abbild` umgerechnet (fehlt es, bleiben die Zahlen, wie sie sind), zusammengeführte Titel wandern auf ihren Nachfolger. */
+export function leseFavoriten(raw: string | null | undefined, kennungen: Kennungen = {}): Set<number> {
+  const { abbild, umleitung } = kennungen
   const text = raw ?? ''
   const neu = text.startsWith(VORSATZ)
   const zahlen = (neu ? text.slice(VORSATZ.length) : text)
     .split(',')
     .map((v) => Number(v.trim()))
     .filter((v) => Number.isInteger(v) && v > 0)
-  return new Set(neu || !abbild ? zahlen : zahlen.map((id) => abbild.get(id)).filter((id): id is number => id !== undefined))
+  if (!neu && !abbild) return new Set(zahlen)
+  const inAk = neu ? zahlen : zahlen.map((id) => abbild!.get(id)).filter((id): id is number => id !== undefined)
+  return new Set(umleitung ? inAk.map((id) => umleitung.get(id) ?? id) : inAk)
 }
 
 /** Nur ganze Zahlen übernehmen — die Liste kommt aus dem Browser; `ak: 1` kennzeichnet sie als unsere Kennung. */
