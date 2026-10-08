@@ -1,0 +1,427 @@
+{
+  "stand": "2026-10-08",
+  "hinweis": "Nur Namen, nie Werte. Die Workflows je Zugang prüft tools/zugangs-waechter.mjs --register-pruefen gegen .github/workflows/. gueltigBis bleibt null, bis Daniel das Ablaufdatum aus dem Konto abliest (ISO-Datum); der Wächter warnt dann 14 Tage vorher.",
+  "laeufe": {
+    "refresh-hourly.yml": {
+      "fristStunden": 5,
+      "name": "Stündlich — Sendezeiten"
+    },
+    "refresh-data.yml": {
+      "fristStunden": 36,
+      "name": "Täglich — alle Quellen"
+    },
+    "refresh-weekly.yml": {
+      "fristStunden": 216,
+      "name": "Wöchentlich — tiefer Durchlauf"
+    },
+    "daten-auf-abruf.yml": {
+      "fristStunden": 36,
+      "name": "Datenlauf auf Abruf (Cron 21:05, 00:00, 02:00 UTC)"
+    },
+    "anisearch-katalog.yml": {
+      "fristStunden": 36,
+      "name": "aniSearch-Katalog"
+    },
+    "tonspuren-monatlich.yml": {
+      "fristStunden": 840,
+      "name": "Monatlich — Tonspuren (Cron am 2.; 35 Tage)"
+    },
+    "bestand-bauen.yml": {
+      "fristStunden": 24,
+      "name": "Bestand — zusammenführen und bauen"
+    },
+    "d1-verbrauch.yml": {
+      "fristStunden": 48,
+      "name": "Wache — Datenbankverbrauch"
+    },
+    "claude-verpasst-recherche.yml": {
+      "fristStunden": 48,
+      "name": "Claude — ausgebliebene Folgen recherchieren",
+      "claude": true
+    },
+    "claude-daten-merge.yml": {
+      "fristStunden": 48,
+      "name": "Claude — Daten-PR zusammenführen",
+      "claude": true
+    },
+    "claude-reparatur.yml": {
+      "fristStunden": null,
+      "name": "Claude — roten Datenlauf untersuchen (startet nur bei Rot)",
+      "claude": true
+    },
+    "claude-auftrag.yml": {
+      "fristStunden": null,
+      "name": "Claude — Auftrag abarbeiten (von Hand)",
+      "claude": true
+    }
+  },
+  "zugaenge": [
+    {
+      "id": "CLAUDE_CODE_OAUTH_TOKEN",
+      "ort": "github-secret",
+      "wofuer": "Anmeldung der Claude-Läufe am Abo von Daniel (claude setup-token). Er ist zugleich das Kontingent: ist es leer, scheitern die Läufe.",
+      "workflows": [
+        "claude-auftrag.yml",
+        "claude-daten-merge.yml",
+        "claude-reparatur.yml",
+        "claude-verpasst-recherche.yml"
+      ],
+      "gueltig": {
+        "text": "Laufzeit des Tokens im Repo nicht belegt; das Kontingent des Abos begrenzt die Nutzung",
+        "beleg": "docs/wissen/betrieb.md „Claude-Läufe scheitern in einer Sekunde“; docs/archiv/status-archiv.md (setup-token)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "claude setup-token auf Daniels Rechner, Wert per gh secret set über stdin ablegen"
+      },
+      "folge": "Recherche zu ausgebliebenen Folgen, Daten-PR-Zusammenführung und Reparatur-Lauf stehen still; der Schritt endet nach Sekunden, die Doku liest sich wie „nichts zu tun“. Daten-PRs bleiben offen."
+    },
+    {
+      "id": "LAUF_TOKEN",
+      "ort": "github-secret",
+      "wofuer": "Gemeinsames Geheimnis zwischen Läufen, Statusanzeige und Worker (Routen /lauf, /pruefung, /beleg, /cr-zugang …); derselbe Wert liegt als Worker-Secret.",
+      "workflows": [
+        "anisearch-katalog.yml",
+        "aussehen-pruefen.yml",
+        "bestand-bauen.yml",
+        "claude-auftrag.yml",
+        "claude-daten-merge.yml",
+        "claude-reparatur.yml",
+        "claude-verpasst-recherche.yml",
+        "crunchyroll-nachholen.yml",
+        "d1-verbrauch.yml",
+        "daten-auf-abruf.yml",
+        "delta-wache.yml",
+        "deploy.yml",
+        "refresh-data.yml",
+        "refresh-hourly.yml",
+        "refresh-weekly.yml",
+        "region-test.yml",
+        "tonspuren-monatlich.yml"
+      ],
+      "gueltig": {
+        "text": "läuft nicht ab (eigenes Geheimnis, kein Anbieter-Token)",
+        "beleg": "docs/wissen/befund-2026-10-02.md C-02",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Neuer Wert in GitHub-Secret und Worker-Secret zugleich, Optionen der Erweiterung nachziehen"
+      },
+      "folge": "Läufe melden sich nicht mehr in der Statusanzeige, Belege und Meldungen der Erweiterung werden vom Worker abgelehnt; Daten bleiben unberührt."
+    },
+    {
+      "id": "CR_WEICHE_TOKEN",
+      "ort": "github-secret",
+      "wofuer": "Zugang zur Vercel-Weiche in Frankfurt, die das deutsche Crunchyroll-Zugangspaket liefert (Vercel-Env WEICHE_TOKEN ist das Gegenstück).",
+      "workflows": [
+        "claude-auftrag.yml",
+        "crunchyroll-nachholen.yml",
+        "daten-auf-abruf.yml",
+        "refresh-data.yml",
+        "refresh-weekly.yml",
+        "weiche-test.yml"
+      ],
+      "gueltig": {
+        "text": "läuft nicht ab (eigenes Geheimnis); das Paket selbst gilt 24 Stunden und wird in jedem Lauf neu geholt",
+        "beleg": "tools/cr-zugang-holen.mjs; .github/workflows/refresh-data.yml (Schritt „Zugangspaket über die Weiche holen“)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "automatisch",
+        "text": "Das Paket erneuert jeder Lauf selbst; das Token ändert sich nur bei bewusster Rotation (Vercel-Env und Secret gleichzeitig)"
+      },
+      "folge": "Crunchyroll-Urteile fallen auf CR_ZUGANG zurück, danach auf den Abbruch statt US-Katalog; deutsche Synchro-Angaben veralten."
+    },
+    {
+      "id": "CR_ZUGANG",
+      "ort": "github-secret",
+      "wofuer": "Rückfall: von Hand geholtes Crunchyroll-Zugangspaket, falls die Weiche ausfällt.",
+      "workflows": [
+        "claude-auftrag.yml",
+        "crunchyroll-nachholen.yml",
+        "daten-auf-abruf.yml",
+        "refresh-data.yml",
+        "refresh-weekly.yml"
+      ],
+      "gueltig": {
+        "text": "24 Stunden ab Holen",
+        "beleg": "tools/cr-zugang-holen.mjs (Signatur 24 h); refresh-data.yml",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "node tools/cr-zugang-holen.mjs --secret von einem Rechner in Deutschland; im Normalbetrieb unnötig, solange die Weiche läuft"
+      },
+      "folge": "Wirkt nur, wenn die Weiche zugleich ausfällt; sonst unbemerkt, weil das Secret nach einem Tag ohnehin abgelaufen ist."
+    },
+    {
+      "id": "ANISEARCH_TOKEN",
+      "ort": "github-secret",
+      "wofuer": "aniSearch-API (Synchro-Liste, Limit 1 Abruf je Stunde mit Token, ohne Token 1 je 24 h).",
+      "workflows": [
+        "daten-auf-abruf.yml",
+        "refresh-weekly.yml"
+      ],
+      "gueltig": {
+        "text": "Laufzeit nicht belegt; ein ungültiger Token sperrt die IP 24 h",
+        "beleg": "docs/wissen/quellen.md (aniSearch-API)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Neuen Schlüssel im aniSearch-Konto holen, gh secret set; Wert steht in my_secrets.md"
+      },
+      "folge": "aniSearch-Abruf scheitert oder wird gesperrt; Synchro-Liste und Katalog veralten, der Bau meldet die Quelle über data:check."
+    },
+    {
+      "id": "ANILIST_TOKEN",
+      "ort": "github-secret",
+      "wofuer": "AniList-API (höheres Limit beim Katalog-Abgleich).",
+      "workflows": [
+        "anisearch-katalog.yml",
+        "daten-auf-abruf.yml"
+      ],
+      "gueltig": {
+        "text": "Laufzeit nicht belegt",
+        "beleg": "Suche in docs/wissen/quellen.md ohne Treffer, 08.10.2026",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Neuen Token im AniList-Konto erzeugen, gh secret set"
+      },
+      "folge": "AniList-Abrufe scheitern am Limit oder laufen ohne Token; Katalogabgleich verlangsamt."
+    },
+    {
+      "id": "TMDB_API_KEY",
+      "ort": "github-secret",
+      "wofuer": "TMDB-API (Folgen, Streamingzuordnung, Bilder).",
+      "workflows": [
+        "anisearch-katalog.yml",
+        "bestand-bauen.yml",
+        "claude-auftrag.yml",
+        "daten-auf-abruf.yml",
+        "refresh-data.yml",
+        "refresh-hourly.yml",
+        "refresh-weekly.yml",
+        "tonspuren-monatlich.yml"
+      ],
+      "gueltig": {
+        "text": "Laufzeit nicht belegt; Anbieter-Schlüssel ohne bekanntes Ablaufdatum",
+        "beleg": "keiner im Repo",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Neuen Schlüssel im TMDB-Konto, gh secret set"
+      },
+      "folge": "TMDB-Abrufe schlagen fehl; Folgenlisten und Streamingzuordnung veralten, data:check meldet die Quelle."
+    },
+    {
+      "id": "YOUTUBE_API_KEY",
+      "ort": "github-secret",
+      "wofuer": "YouTube Data API (Trailer, Kanalabruf).",
+      "workflows": [
+        "claude-auftrag.yml",
+        "daten-auf-abruf.yml",
+        "refresh-data.yml",
+        "refresh-weekly.yml"
+      ],
+      "gueltig": {
+        "text": "Laufzeit nicht belegt; das Tageskontingent des Projekts begrenzt die Nutzung",
+        "beleg": "keiner im Repo",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Schlüssel in der Google Cloud Console, gh secret set"
+      },
+      "folge": "Trailer-Abruf scheitert; der Rest des Laufs bleibt unberührt."
+    },
+    {
+      "id": "STREAMING_API_KEY",
+      "ort": "github-secret",
+      "wofuer": "Streaming Availability API (Netflix-Tonspuren, Änderungen der letzten Tage).",
+      "workflows": [
+        "claude-auftrag.yml",
+        "refresh-data.yml",
+        "tonspuren-monatlich.yml"
+      ],
+      "gueltig": {
+        "text": "Laufzeit nicht belegt; Tarif mit Monatskontingent",
+        "beleg": "pipeline/fetch-motn-changes.ts (Schlüssel siehe my_secrets.md)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Neuen Schlüssel beim Anbieter, gh secret set"
+      },
+      "folge": "Der Lauf tut nichts (Warnung „STREAMING_API_KEY fehlt“); Netflix-Tonspuren veralten, data:check meldet motn nach 33 Tagen."
+    },
+    {
+      "id": "SERPER_API_KEY",
+      "ort": "github-secret",
+      "wofuer": "Serper (Google-Treffer) für die Kinoheld-Suche, erster Weg vor DuckDuckGo.",
+      "workflows": [
+        "refresh-weekly.yml"
+      ],
+      "gueltig": {
+        "text": "Laufzeit nicht belegt; das Guthaben begrenzt die Nutzung",
+        "beleg": "docs/wissen/quellen.md (Kinoheld, 19.09.2026)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Neuer Schlüssel bei serper.dev, gh secret set"
+      },
+      "folge": "Kinoheld-Suche fällt auf DuckDuckGo zurück; einzelne Kinoadressen fehlen."
+    },
+    {
+      "id": "DISCORD_WEBHOOK",
+      "ort": "github-secret",
+      "wofuer": "Meldung neuer Termine in den Discord-Kanal.",
+      "workflows": [
+        "bestand-bauen.yml",
+        "refresh-data.yml",
+        "refresh-hourly.yml",
+        "refresh-weekly.yml"
+      ],
+      "gueltig": {
+        "text": "läuft nicht ab, solange der Webhook im Kanal nicht gelöscht wird",
+        "beleg": "Discord-Verhalten, im Repo nicht geprüft",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Neuen Webhook im Kanal anlegen, gh secret set"
+      },
+      "folge": "Nur die Discord-Meldung entfällt; Daten unberührt."
+    },
+    {
+      "id": "CLOUDFLARE_API_TOKEN",
+      "ort": "github-secret",
+      "wofuer": "Cloudflare-API-Token „anime-kalender-deploy“ (D1, Workers Scripts, Account Settings) für die Verbrauchswache.",
+      "workflows": [
+        "d1-verbrauch.yml"
+      ],
+      "gueltig": {
+        "text": "Laufzeit nicht belegt; Gültigkeit prüfbar über /user/tokens/verify",
+        "beleg": "docs/wissen/betrieb.md „Der Cloudflare-Token liegt nicht im Repo“",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Im Cloudflare-Dashboard Roll, danach alle Stellen nachziehen (Wert in my_secrets.md)"
+      },
+      "folge": "Verbrauchswache der Datenbank wird rot; der Newsletter-Worker bleibt unberührt."
+    },
+    {
+      "id": "CLOUDFLARE_ANALYTICS_TOKEN",
+      "ort": "github-secret",
+      "wofuer": "Lese-Token für die D1-Analytics (wrangler d1 insights).",
+      "workflows": [
+        "d1-verbrauch.yml"
+      ],
+      "gueltig": {
+        "text": "Laufzeit nicht belegt; derselbe Wert wie das Deploy-Token, nur mit Analytics-Recht",
+        "beleg": "docs/wissen/betrieb.md (28.09.2026)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Siehe CLOUDFLARE_API_TOKEN"
+      },
+      "folge": "Verbrauchswache wird rot."
+    },
+    {
+      "id": "GITHUB_TOKEN",
+      "ort": "github-automatisch",
+      "wofuer": "Von GitHub je Lauf ausgestelltes Token (Pull Requests, Läufe auslösen).",
+      "workflows": [
+        "claude-daten-merge.yml",
+        "claude-verpasst-recherche.yml",
+        "fund-nachliefern.yml",
+        "wecker-wache.yml"
+      ],
+      "gueltig": {
+        "text": "gilt nur für die Dauer des Laufs",
+        "beleg": "GitHub-Doku",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "automatisch",
+        "text": "GitHub stellt es je Lauf neu aus"
+      },
+      "folge": "Kein Ablauf; die Rechte regelt der permissions-Block je Workflow."
+    },
+    {
+      "id": "GITHUB_WECKER_TOKEN",
+      "ort": "worker-secret",
+      "wofuer": "Fine-grained PAT (nur dieses Repo, Actions: Read and write); der Cloudflare-Wecker startet damit die Datenläufe zur vollen Stunde.",
+      "workflows": [
+        "refresh-hourly.yml"
+      ],
+      "gueltig": {
+        "text": "Ablauf des PAT im GitHub-Konto, im Repo nicht festgehalten",
+        "beleg": "docs/wissen/betrieb.md „Stunden-Wecker über Cloudflare“",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Neuen PAT erzeugen, im Ordner worker/ wrangler secret put GITHUB_WECKER_TOKEN --config wrangler.toml"
+      },
+      "folge": "Der Cloudflare-Wecker startet nichts mehr; wecker-wache.yml holt Überfälliges über GitHubs unpünktlichen Cron nach (Warnung „Wecker überfällig“).",
+      "wecker": true
+    },
+    {
+      "id": "MAIL_API_KEY",
+      "ort": "worker-secret",
+      "wofuer": "Mailversand des Newsletters (Double-Opt-in, Versand).",
+      "workflows": [],
+      "gueltig": {
+        "text": "Laufzeit nicht belegt",
+        "beleg": "worker/wrangler.toml (wrangler secret put MAIL_API_KEY)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Neuer Schlüssel beim Mailanbieter, wrangler secret put"
+      },
+      "folge": "Newsletter und Bestätigungsmails entfallen; die Läufe bleiben unberührt, der Wächter prüft ihn nicht."
+    },
+    {
+      "id": "VAPID_PRIVATE_JWK",
+      "ort": "worker-secret",
+      "wofuer": "Schlüsselpaar für Web-Push der Statusanzeige.",
+      "workflows": [],
+      "gueltig": {
+        "text": "läuft nicht ab (eigenes Schlüsselpaar)",
+        "beleg": "worker/src (VAPID_PRIVATE_JWK, VAPID_PUBLIC)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "keiner",
+        "text": "Ein Wechsel würde alle Push-Abos entwerten"
+      },
+      "folge": "Push-Benachrichtigungen entfallen; der Wächter prüft ihn nicht."
+    },
+    {
+      "id": "WEICHE_TOKEN",
+      "ort": "vercel-env",
+      "wofuer": "Gegenstück zu CR_WEICHE_TOKEN in der Vercel-Weiche (weiche-vercel/).",
+      "workflows": [],
+      "gueltig": {
+        "text": "läuft nicht ab",
+        "beleg": "docs/wissen/quellen.md (Weiche, 16.09.2026)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "Bei Rotation zusammen mit CR_WEICHE_TOKEN ändern"
+      },
+      "folge": "Siehe CR_WEICHE_TOKEN; der Wächter deckt es über die Läufe von CR_WEICHE_TOKEN ab."
+    }
+  ]
+}
