@@ -72,6 +72,11 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: bash tools/schritt.sh --zeit 25m "Rohdaten holen" -- npm run data:fetch
 
+      # Neuanlagen und Ankündigungen (laufendes und drei kommende Jahre, jüngste 500 Kennungen) kommen täglich in den Gesamtkatalog statt erst im Wochenlauf
+      # (Maiden Blood, 09.10.2026). Rund 30 Abfragen; endet rot, wenn die Stichprobe der jüngsten Kennungen etwas vermisst.
+      - name: AniList-Gesamtkatalog auffrischen
+        run: bash tools/schritt.sh --zeit 10m "AniList-Katalog auffrischen" -- npm run data:katalog -- --frisch
+
       # Schlägt der Lauf fehl (Seitenumbau, Ausfall), bleiben die zuletzt gespeicherten Zeiten stehen — der Build läuft trotzdem weiter.
       - name: Deutsche Sendezeiten von Crunchyroll lesen
         run: bash tools/schritt.sh --zeit 10m "Sendezeiten von Crunchyroll" -- npm run data:crunchyroll
