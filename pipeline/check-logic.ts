@@ -8380,11 +8380,13 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   const lesung = (extra: Record<string, unknown>) => ({ am: '2026-10-03', hash: 'h', ...extra })
   const ged = {
     'https://www.anime2you.de/news/1/': { zuletzt: '2026-10-05', lesungen: [lesung({ bild: 'alt.jpg' })] },
-    'https://www.anime2you.de/news/2/': { zuletzt: '2026-10-05', lesungen: [lesung({ bild: 'neu.webp', qs: 'ok' })] },
-    'https://www.anime2you.de/news/3/': { zuletzt: '2026-09-01', lesungen: [lesung({ bild: 'x.webp', qs: 'ok' })] },
+    'https://www.anime2you.de/news/2/': { zuletzt: '2026-10-05', lesungen: [lesung({ bild: 'neu.webp', qs: 'ok', bildfassung: 2 })] },
+    'https://www.anime2you.de/news/3/': { zuletzt: '2026-09-01', lesungen: [lesung({ bild: 'x.webp', qs: 'ok', bildfassung: 2 })] },
+    'https://www.anime2you.de/news/4/': { zuletzt: '2026-10-05', lesungen: [lesung({ bild: 'f1.webp', qs: 'ok' })] },
   } as unknown as BelegGedaechtnis
   const schlange = warteschlange(Object.keys(ged), ged, '2026-10-05', 7, 10)
   pruefe('Altbestand ohne Prüfung kommt zuerst, geprüfte frische Bilder bleiben draußen', schlange[0] === 'https://www.anime2you.de/news/1/' && !schlange.includes('https://www.anime2you.de/news/2/') && schlange.includes('https://www.anime2you.de/news/3/'), schlange.join(' '))
+  pruefe('Bild älterer Fassung wird trotz frischem Tag neu aufgenommen (Tank Chair, 08.10.2026)', schlange.includes('https://www.anime2you.de/news/4/'), schlange.join(' '))
   entzieheBild(ged, 'https://www.anime2you.de/news/1/')
   const l1 = ged['https://www.anime2you.de/news/1/']!.lesungen[0]!
   pruefe('eine Wand entzieht das Bild und merkt es', l1.bild === undefined && l1.qs === 'wand', JSON.stringify(l1))
