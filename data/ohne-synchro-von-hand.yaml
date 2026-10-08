@@ -138,6 +138,14 @@
   sources:
     - 'aniSearch-Antwort an Daniel, 08.10.2026'
 
+- anilistId: 123074
+  title: 'Yu-Gi-Oh! Capsule Monsters (Kapselmonster)'
+  belegtAm: '2026-10-08'
+  keinAnime: true
+  zitat: 'Reine Auftragsproduktionen westlicher Firmen, bei denen die asiatischen Produzenten keine oder nur sehr wenige künstlerische Freiheit haben, werden bei uns in der Datenbank nicht aufgenommen.'
+  sources:
+    - 'aniSearch-Antwort 08.10.2026: reine Auftragsproduktion westlicher Firmen, nicht aufgenommen'
+
 - anilistId: 107342
   title: 'Anohana: Menma e no Tegami (Special)'
   belegtAm: '2026-10-08'

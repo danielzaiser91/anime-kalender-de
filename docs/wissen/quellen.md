@@ -3223,3 +3223,9 @@ Hochrechnung auf die 1.683: FSK-Datenbank etwa 800 Titel, mit JustWatch etwa 950
 
 Reihenfolge und Widerspruchsregel: FSK-Datenbank > TMDB-DE > JustWatch (gekennzeichneter
 Rückfall) > Prime-Siegel/ADN (nur Hinweis). Die FSK-Datenbank erst nach geklärter Zustimmung.
+
+## TMDB-Erstausstrahlung kann das US-Datum sein (aniSearch-Auskunft 08.10.2026)
+
+Anlass: aniSearch antwortete Daniel zu Yu-Gi-Oh! Capsule Monsters (123074), die bei TMDB hinterlegten Erstausstrahlungsdaten seien fehlerhaft: Sie beziehen sich auf die Ausstrahlung im US-TV, die Erstausstrahlung lief Monate früher auf dem irischen Sender RTÉ Two. Folge: Ein TMDB-Datum `first_air_date` ist bei westlichen Auftragsproduktionen kein belegtes Weltpremieren-Datum, sondern höchstens der US-Start. Nicht als „Erstausstrahlung" ausgeben, ohne ein zweites Datum gegenzulesen.
+
+Dieselbe Antwort: Reine Auftragsproduktionen westlicher Firmen (asiatische Produzenten ohne künstlerische Freiheit) nimmt aniSearch nicht auf; Capsule Monsters steht deshalb mit Quelle „aniSearch-Antwort 08.10.2026" in `data/ohne-synchro-von-hand.yaml` (`keinAnime: true`, hinter dem Toggle), ebenso die beiden Diashow-Specials (Princess Principal Picture Drama 100519, Anohana Menma e no Tegami 107342).
