@@ -1,0 +1,1968 @@
+{
+ "heute": "2026-10-08",
+ "stand": "2026-10-08T14:13:17.463Z",
+ "regeln": [
+  {
+   "id": "D-24",
+   "name": "Im Bestand ohne jeden Beleg",
+   "folge": "Zählt als „belegte deutsche Synchro\", ohne dass irgendetwas sie belegt",
+   "geprueft": 2925,
+   "treffer": [
+    {
+     "schluessel": "495",
+     "text": "Bakuretsu Hunters (1995, 26 Fg.): dubConfidence very-high, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/sorcerer-hunters-495/"
+    },
+    {
+     "schluessel": "733",
+     "text": "KIZUNA (1994, 2 Fg.): dubConfidence low, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/kizuna-733/"
+    },
+    {
+     "schluessel": "760",
+     "text": "Tenjou Tenge: THE PAST CHAPTER (2005, 1 Fg.): dubConfidence high, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/tenjhotenge-the-past-chapter-760/"
+    },
+    {
+     "schluessel": "1719",
+     "text": "Rozen Maiden: Ouvertüre (2006, 2 Fg.): dubConfidence high, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/rozen-maiden-ouvertuere-1719/"
+    },
+    {
+     "schluessel": "2237",
+     "text": "Rozen Maiden: Meitantei Kun-Kun (2004, 1 Fg.): dubConfidence high, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/rozen-maiden-detective-kun-kun-2237/"
+    },
+    {
+     "schluessel": "2419",
+     "text": "Spirit of Wonder: China-san no Yuuutsu (1992, 1 Fg.): dubConfidence high, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/spirit-of-wonder-miss-china-s-ring-2419/"
+    },
+    {
+     "schluessel": "3005",
+     "text": "Eigi: SHADOW SKILL (1995, 1 Fg.): dubConfidence normal, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/eigi-shadow-skill-3005/"
+    },
+    {
+     "schluessel": "4938",
+     "text": "Tsubasa: Shunraiki (2009, 2 Fg.): dubConfidence high, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/tsubasa-spring-thunder-chronicles-4938/"
+    },
+    {
+     "schluessel": "5155",
+     "text": "Genji Monogatari Sennenki (2009, 11 Fg.): dubConfidence low, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/millennium-old-journal-tale-of-genji-5155/"
+    },
+    {
+     "schluessel": "9062",
+     "text": "Angel Beats! Tokubetsu-hen (2010, 2 Fg.): dubConfidence very-high, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/angel-beats-specials-9062/"
+    },
+    {
+     "schluessel": "154147",
+     "text": "Girls und Panzer Heartful Tank Disc: Fushou Akiyama Yukari no Sensha Kouza (2013, 2 Fg.): dubConfidence low, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/girls-und-panzer-heartful-tank-disc-fushou-akiyama-yukari-no-sensha-kouza-154147/"
+    },
+    {
+     "schluessel": "99717",
+     "text": "Tekkon Kinkreet Pilot (1999, 1 Fg.): dubConfidence low, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/tekkon-kinkreet-pilot-99717/"
+    },
+    {
+     "schluessel": "106499",
+     "text": "Pocket Monsters XY&Z Tokubetsu-hen (2016, 2 Fg.): dubConfidence normal, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/pokemon-the-series-xyz-specials-106499/"
+    },
+    {
+     "schluessel": "99643",
+     "text": "Ookami Heart (2014, 2 Fg.): dubConfidence low, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/ookami-heart-99643/"
+    },
+    {
+     "schluessel": "102651",
+     "text": "The Perfect World (2018, 1 Fg.): dubConfidence low, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/the-perfect-world-102651/"
+    },
+    {
+     "schluessel": "145850",
+     "text": "GREEN DA KA RA x Mirai no Mirai (2018, 2 Fg.): dubConfidence low, kein Stream, Termin, Weg, aniSearch-Ausgabe",
+     "ort": "/t/green-da-ka-ra-x-mirai-no-mirai-145850/"
+    }
+   ],
+   "hebel": 3,
+   "einstufung": {
+    "wirkung": 3,
+    "sicherheit": 1,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 16/16 per Definition echt (B-01) — fast nur Specials/OVAs älterer Serien, Quelle vermutlich MyDubList"
+   }
+  },
+  {
+   "id": "D-06",
+   "name": "Hinter dem Toggle, aber Quelle führt Synchro",
+   "folge": "Ein Titel mit deutscher Fassung fehlt im Hauptbestand",
+   "geprueft": 20656,
+   "treffer": [
+    {
+     "schluessel": "7902",
+     "text": "Hagane no Renkinjutsushi: FULLMETAL ALCHEMIST - Arakawa Hiromu Kaki Oroshi 4-koma Gekijou (2009, 16 Fg.): JustWatch de-Ton (RTL+ Max Amazon Channel, Aniverse Amazon Channel)",
+     "ort": "/t/7902/"
+    },
+    {
+     "schluessel": "136668",
+     "text": "BeyWheelz (2012, 13 Fg.): aniSearch-Kennung „d\"",
+     "ort": "/t/136668/"
+    },
+    {
+     "schluessel": "139825",
+     "text": "Our Last Crusade or the Rise of a New World: Staffel 2 (2024, 12 Fg.): Handbeleg dub:true (primevideo)",
+     "ort": "/t/139825/"
+    },
+    {
+     "schluessel": "150103",
+     "text": "Rick and Morty: The Anime (2024, 10 Fg.): aniSearch-Kennung „d\"",
+     "ort": "/t/150103/"
+    },
+    {
+     "schluessel": "170206",
+     "text": "Scott Pilgrim hebt ab (2023, 8 Fg.): aniSearch-Dub-Liste; aniSearch-Kennung „d\"",
+     "ort": "/t/170206/"
+    },
+    {
+     "schluessel": "188067",
+     "text": "Titipo Titipo 2 (2019, 26 Fg.): aniSearch-Kennung „d\"",
+     "ort": "/t/188067/"
+    }
+   ],
+   "hebel": 3,
+   "einstufung": {
+    "wirkung": 3,
+    "sicherheit": 1,
+    "empfehlung": "hart",
+    "stichprobe": "08.10.2026: 6/6 — Handbeleg dub:true (Our Last Crusade S2, Prime), aniSearch „d\" (Scott Pilgrim, Rick and Morty, BeyWheelz, Titipo 2), JustWatch de-Ton (FMA 4-koma)"
+   }
+  },
+  {
+   "id": "D-01",
+   "name": "Datum steigt nicht mit der Folgennummer",
+   "folge": "Kalender zeigt eine spätere Folge vor einer früheren",
+   "geprueft": 642,
+   "treffer": [
+    {
+     "schluessel": "lycoris-recoil-crunchyroll-de-2022-07-23",
+     "text": "Lycoris Recoil: Folge 5 am 2022-08-20 (beobachtet), Folge 6 am 2022-08-06",
+     "ort": "/r/lycoris-recoil-crunchyroll-de-2022-07-23/"
+    }
+   ],
+   "hebel": 3,
+   "einstufung": {
+    "wirkung": 3,
+    "sicherheit": 1,
+    "empfehlung": "hart",
+    "stichprobe": "08.10.2026: 1/1 echt (Lycoris Recoil, B-05); 4 TV-Sichtungen mit Wiederholungen sind ausgenommen"
+   }
+  },
+  {
+   "id": "D-23",
+   "name": "Widerlegter Termin mit Kalendereinträgen",
+   "folge": "Ein widerlegter Termin steht im Kalender",
+   "geprueft": 764,
+   "treffer": [],
+   "hebel": 3,
+   "einstufung": {
+    "wirkung": 3,
+    "sicherheit": 1,
+    "empfehlung": "hart",
+    "stichprobe": "08.10.2026: 0 Treffer (Riegel in termineAusPlan greift)"
+   }
+  },
+  {
+   "id": "D-02",
+   "name": "Release-Folgenzahl über der Titel-Folgenzahl",
+   "folge": "Panel verspricht Folgen, die das Werk nicht hat",
+   "geprueft": 564,
+   "treffer": [
+    {
+     "schluessel": "adn-22",
+     "text": "Air Gear (adn, adn-22): 26 Folgen, Titel Air Gear (2006, 25 Fg.) — ADN listet 26 Folgen mit deutschem Ton, die Serie hat 25 — die Zuordnung ist über die Folg",
+     "ort": "/r/adn-22/"
+    },
+    {
+     "schluessel": "adn-655-s2-20240613",
+     "text": "Clannad (adn, adn-655-s2-20240613): 25 Folgen, Titel Clannad (2007, 23 Fg.)",
+     "ort": "/r/adn-655-s2-20240613/"
+    },
+    {
+     "schluessel": "adn-1143",
+     "text": "Wolf’s Rain (adn, adn-1143): 30 Folgen, Titel Wolf’s Rain (2003, 26 Fg.)",
+     "ort": "/r/adn-1143/"
+    },
+    {
+     "schluessel": "auto-11499-primevideo",
+     "text": "Sankarea: Undying Love (primevideo, auto-11499-primevideo): 13 Folgen, Titel Sankarea: Undying Love (2012, 12 Fg.) — Automatisch übernommen aus „»Sankarea«\".",
+     "ort": "/r/auto-11499-primevideo/"
+    },
+    {
+     "schluessel": "auto-116589-adn",
+     "text": "86: Eighty Six (adn, auto-116589-adn): 23 Folgen, Titel 86: Eighty Six (2021, 11 Fg.) — Automatisch übernommen aus „»86 EIGHTY-SIX«\".",
+     "ort": "/r/auto-116589-adn/"
+    },
+    {
+     "schluessel": "auto-16870-tv-prosieben-maxx",
+     "text": "The Last: Naruto the Movie (tv, auto-16870-tv-prosieben-maxx): 2 Folgen, Titel The Last: Naruto the Movie (2014, 1 Fg.) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet).",
+     "ort": "/r/auto-16870-tv-prosieben-maxx/"
+    },
+    {
+     "schluessel": "auto-21220-tv-prosieben-maxx",
+     "text": "Boruto: Naruto the Movie (tv, auto-21220-tv-prosieben-maxx): 2 Folgen, Titel Boruto: Naruto the Movie (2015, 1 Fg.) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet).",
+     "ort": "/r/auto-21220-tv-prosieben-maxx/"
+    }
+   ],
+   "hebel": 2.58,
+   "einstufung": {
+    "wirkung": 3,
+    "sicherheit": 0.86,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 6/7 echt — 86 (ADN: 23 Folgen auf dem 11-Folgen-Titel = beide Staffeln), Wolf’s Rain 30/26, Clannad 25/23, Sankarea 13/12, zwei TV-Filme; Air Gear 26/25 ist in `herkunft` erklärt"
+   }
+  },
+  {
+   "id": "D-13",
+   "name": "Film oder Einzelwerk mit mehreren Folgen",
+   "folge": "Panel zählt „x von n Folgen\" für einen Film",
+   "geprueft": 764,
+   "treffer": [
+    {
+     "schluessel": "steel-ball-run-2nd-3rd-stage",
+     "text": "JoJo's Bizarre Adventure: Steel Ball Run – 2nd & 3rd STAGE (netflix, steel-ball-run-2nd-3rd-stage): 11 Folgen, aber Titel ist ONA mit 1 Folge(n)",
+     "ort": "/r/steel-ball-run-2nd-3rd-stage/"
+    },
+    {
+     "schluessel": "auto-16870-tv-prosieben-maxx",
+     "text": "The Last: Naruto the Movie (ProSieben MAXX, auto-16870-tv-prosieben-maxx): 2 Folgen, aber Titel ist MOVIE mit 1 Folge(n) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet).",
+     "ort": "/r/auto-16870-tv-prosieben-maxx/"
+    },
+    {
+     "schluessel": "auto-21220-tv-prosieben-maxx",
+     "text": "Boruto: Naruto the Movie (ProSieben MAXX, auto-21220-tv-prosieben-maxx): 2 Folgen, aber Titel ist MOVIE mit 1 Folge(n) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet).",
+     "ort": "/r/auto-21220-tv-prosieben-maxx/"
+    }
+   ],
+   "hebel": 2.0100000000000002,
+   "einstufung": {
+    "wirkung": 3,
+    "sicherheit": 0.67,
+    "empfehlung": "hart",
+    "stichprobe": "08.10.2026: 2/3 echt (zwei Kinofilme bei ProSieben MAXX mit „2 Folgen\" = 2 Sendungen); Steel Ball Run ONA ist die bekannte Ausnahme"
+   }
+  },
+  {
+   "id": "D-16",
+   "name": "Disc ohne Produktseite als Kaufweg",
+   "folge": "„Kaufen\" führt ins Leere oder auf eine Suche",
+   "geprueft": 160,
+   "treffer": [
+    {
+     "schluessel": "detektei-layton-katrielles-raetselhafte-faelle-2026-10-22",
+     "text": "Detektei Layton: Katrielles rätselhafte Fälle: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Detektei%20Layton%3A%20Katrielles%20r%C3%A4tselhafte%20F%C3%A4lle%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "the-quintessential-quintuplets-2026-09-18",
+     "text": "The Quintessential Quintuplets: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20Quintessential%20Quintuplets%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "naruto-shippuden-the-movie-5-blood-prison-2026-11-19",
+     "text": "Naruto Shippuden: The Movie 5 - Blood Prison: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Naruto%20Shippuden%3A%20The%20Movie%205%20-%20Blood%20Prison%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "naruto-shippuden-the-ova-naruto-ein-genie-und-drei-wuensche-2026-11-19",
+     "text": "Naruto Shippuden: The OVA - Naruto, ein Genie und drei Wünsche: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Naruto%20Shippuden%3A%20The%20OVA%20-%20Naruto%2C%20ein%20Genie%20und%20drei%20W%C3%BCnsche%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "naruto-shippuden-flammende-chunin-pruefung-naruto-gegen-konohamaru-2026-11-19",
+     "text": "Naruto Shippuden: Flammende Chunin-Prüfung - Naruto gegen Konohamaru!: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Naruto%20Shippuden%3A%20Flammende%20Chunin-Pr%C3%BCfung%20-%20Naruto%20gegen%20Konohamaru!%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "miss-kobayashi-s-dragon-maid-s-2026-11-06",
+     "text": "Miss Kobayashi’s Dragon Maid S: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Miss%20Kobayashi%E2%80%99s%20Dragon%20Maid%20S%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "the-quintessential-quintuplets-2-2026-09-18",
+     "text": "The Quintessential Quintuplets 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20Quintessential%20Quintuplets%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "zombie-land-saga-revenge-2026-10-02",
+     "text": "Zombie Land Saga Revenge: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Zombie%20Land%20Saga%20Revenge%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "jujutsu-kaisen-2026-12-04",
+     "text": "Jujutsu Kaisen: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Jujutsu%20Kaisen%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "jujutsu-kaisen-2027-05-07",
+     "text": "Jujutsu Kaisen: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Jujutsu%20Kaisen%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "the-familiar-of-zero-2026-12-04",
+     "text": "The Familiar of Zero: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20Familiar%20of%20Zero%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sailor-moon-super-s-2026-12-04",
+     "text": "Sailor Moon Super S: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sailor%20Moon%20Super%20S%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "the-devil-is-a-part-timer-ii-2026-09-04",
+     "text": "The Devil Is a Part-Timer! II: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20Devil%20Is%20a%20Part-Timer!%20II%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "a-couple-of-cuckoos-2026-09-04",
+     "text": "A Couple of Cuckoos: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=A%20Couple%20of%20Cuckoos%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "good-luck-girl-vol-1-2026-11-20",
+     "text": "Good Luck Girl! – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Good%20Luck%20Girl!%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "good-luck-girl-vol-2-2027-02-05",
+     "text": "Good Luck Girl! – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Good%20Luck%20Girl!%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "road-to-ninja-naruto-the-movie-2026-11-19",
+     "text": "Road to Ninja: Naruto the Movie: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Road%20to%20Ninja%3A%20Naruto%20the%20Movie%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "vampire-princess-miyu-2026-09-08",
+     "text": "Vampire Princess Miyu: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Vampire%20Princess%20Miyu%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "gods-games-we-play-2026-12-01",
+     "text": "Gods’ Games We Play: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Gods%E2%80%99%20Games%20We%20Play%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "memories-2026-11-18",
+     "text": "Memories: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Memories%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "the-ancient-magus-bride-staffel-2-2026-09-18",
+     "text": "The Ancient Magus’ Bride: Staffel 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20Ancient%20Magus%E2%80%99%20Bride%3A%20Staffel%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "code-geass-lelouch-of-the-rebellion-2026-09-18",
+     "text": "Code Geass: Lelouch of the Rebellion: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Code%20Geass%3A%20Lelouch%20of%20the%20Rebellion%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "2-5-dimensional-seduction-2026-09-07",
+     "text": "2.5 Dimensional Seduction: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=2.5%20Dimensional%20Seduction%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "the-ancient-magus-bride-staffel-2-cour-2-2026-09-18",
+     "text": "The Ancient Magus’ Bride Staffel 2 (Teil 2): Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20Ancient%20Magus%E2%80%99%20Bride%20Staffel%202%20(Cour%202)%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "the-last-naruto-the-movie-2026-11-19",
+     "text": "The Last: Naruto the Movie: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20Last%3A%20Naruto%20the%20Movie%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "my-hero-academia-yuei-heroes-battle-2026-10-20",
+     "text": "My Hero Academia: Yuei Heroes Battle: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=My%20Hero%20Academia%3A%20Yuei%20Heroes%20Battle%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "i-parry-everything-2026-09-28",
+     "text": "I Parry Everything!: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=I%20Parry%20Everything!%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "promise-of-wizard-2026-09-17",
+     "text": "Promise of Wizard: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Promise%20of%20Wizard%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "yaiba-samurai-legend-vol-1-2026-12-04",
+     "text": "Yaiba: Samurai Legend – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Yaiba%3A%20Samurai%20Legend%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "yaiba-samurai-legend-vol-2-2027-02-19",
+     "text": "Yaiba: Samurai Legend – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Yaiba%3A%20Samurai%20Legend%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sakamoto-days-teil-2-vol-3-2026-11-13",
+     "text": "Sakamoto Days: Teil 2 – Vol. 3: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sakamoto%20Days%3A%20Teil%202%20%E2%80%93%20Vol.%203%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sakamoto-days-teil-2-vol-4-2026-12-18",
+     "text": "Sakamoto Days: Teil 2 – Vol. 4: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sakamoto%20Days%3A%20Teil%202%20%E2%80%93%20Vol.%204%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "my-gift-lvl-9999-unlimited-gacha-backstabbed-in-a-backwater-dungeon-i-m-out-for-",
+     "text": "My Gift Lvl 9999 Unlimited Gacha: Backstabbed in a Backwater Dungeon, I’m Out for Revenge!: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=My%20Gift%20Lvl%209999%20Unlimited%20Gacha%3A%20Backstabbed%20in%20a%20Backwater%20Dungeon%2C%20I%E2%80%99m%20Out%20for%20Revenge!%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "kamisama-kiss-staffel-2-2026-11-15",
+     "text": "Kamisama Kiss: Staffel 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Kamisama%20Kiss%3A%20Staffel%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "a-silent-voice-2026-11-06",
+     "text": "A Silent Voice: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=A%20Silent%20Voice%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "steins-gate-0-2026-10-16",
+     "text": "Steins;Gate 0: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Steins%3BGate%200%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "boruto-naruto-the-movie-2026-11-19",
+     "text": "Boruto: Naruto the Movie: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Boruto%3A%20Naruto%20the%20Movie%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "naruto-shippuden-the-movie-2026-11-19",
+     "text": "Naruto Shippuden: The Movie: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Naruto%20Shippuden%3A%20The%20Movie%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "code-geass-lelouch-of-the-rebellion-r2-2026-09-18",
+     "text": "Code Geass: Lelouch of the Rebellion R2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Code%20Geass%3A%20Lelouch%20of%20the%20Rebellion%20R2%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "hallo-kurt-2026-12-03",
+     "text": "Hallo Kurt!: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Hallo%20Kurt!%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "hakaba-kitaro-der-junge-vom-friedhof-2026-09-04",
+     "text": "Hakaba Kitaro: Der Junge vom Friedhof: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Hakaba%20Kitaro%3A%20Der%20Junge%20vom%20Friedhof%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "naruto-shippuden-the-movie-bonds-2026-11-19",
+     "text": "Naruto Shippuden: The Movie - Bonds: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Naruto%20Shippuden%3A%20The%20Movie%20-%20Bonds%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sailor-moon-s-2026-11-06",
+     "text": "Sailor Moon S: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sailor%20Moon%20S%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sailor-moon-s-2026-12-04",
+     "text": "Sailor Moon S: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sailor%20Moon%20S%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "naruto-shippuden-the-movie-die-erben-des-willens-des-feuers-2026-11-19",
+     "text": "Naruto Shippuden: The Movie - Die Erben des Willens des Feuers: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Naruto%20Shippuden%3A%20The%20Movie%20-%20Die%20Erben%20des%20Willens%20des%20Feuers%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sailor-moon-r-2026-11-06",
+     "text": "Sailor Moon R: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sailor%20Moon%20R%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "naruto-shippuden-the-movie-4-the-lost-tower-2026-11-19",
+     "text": "Naruto Shippuden: The Movie 4 - The Lost Tower: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Naruto%20Shippuden%3A%20The%20Movie%204%20-%20The%20Lost%20Tower%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "princess-principal-2026-09-04",
+     "text": "Princess Principal: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Princess%20Principal%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "miss-kobayashi-s-dragon-maid-valentinstag-und-onsen-erwartet-nicht-zu-viel-2026-",
+     "text": "Miss Kobayashi's Dragon Maid: Valentinstag und Onsen (Erwartet nicht zu viel!): Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Miss%20Kobayashi's%20Dragon%20Maid%3A%20Valentinstag%20und%20Onsen%20(Erwartet%20nicht%20zu%20viel!)%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sailor-moon-sailor-stars-2027-01-15",
+     "text": "Sailor Moon Sailor Stars: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sailor%20Moon%20Sailor%20Stars%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "attack-on-titan-final-season-steelbook",
+     "text": "Attack on Titan – Finale Staffel: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Attack%20on%20Titan%20%E2%80%93%20Final%20Season%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "black-clover-s3-bundle",
+     "text": "Black Clover – Staffel 3: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Black%20Clover%20%E2%80%93%20Staffel%203%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "blue-exorcist-beyond-the-snow-saga-vol2",
+     "text": "Blue Exorcist: Beyond the Snow Saga – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Blue%20Exorcist%3A%20Beyond%20the%20Snow%20Saga%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "campfire-cooking-s1-box",
+     "text": "Campfire Cooking in Another World – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Campfire%20Cooking%20in%20Another%20World%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "girls-band-cry-vol1",
+     "text": "Girls Band Cry – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Girls%20Band%20Cry%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "reincarnated-as-the-7th-prince-s1-box",
+     "text": "I Was Reincarnated as the 7th Prince – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=I%20Was%20Reincarnated%20as%20the%207th%20Prince%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "villainess-who-goes-down-in-history-box",
+     "text": "I'll Become a Villainess Who Goes Down in History: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=I'll%20Become%20a%20Villainess%20Who%20Goes%20Down%20in%20History%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "im-standing-on-a-million-lives-s1-box",
+     "text": "I'm Standing on a Million Lives – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=I'm%20Standing%20on%20a%20Million%20Lives%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "my-one-hit-kill-sister-s1-box",
+     "text": "My One-Hit Kill Sister – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=My%20One-Hit%20Kill%20Sister%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "re-monster-s1-box",
+     "text": "Re:Monster – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Re%3AMonster%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "strike-witches-s2-vol1",
+     "text": "Strike Witches (Staffel 2) – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Strike%20Witches%20(Staffel%202)%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "cafe-terrace-and-its-goddesses-s1-box",
+     "text": "The Café Terrace and Its Goddesses – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20Caf%C3%A9%20Terrace%20and%20Its%20Goddesses%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "case-study-of-vanitas-s1-vol2",
+     "text": "The Case Study of Vanitas (Staffel 1) – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20Case%20Study%20of%20Vanitas%20(Staffel%201)%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "virgin-road-vol1",
+     "text": "Virgin Road – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Virgin%20Road%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "wind-breaker-s2-vol1",
+     "text": "Wind Breaker (Staffel 2) – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Wind%20Breaker%20(Staffel%202)%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "worlds-end-harem-vol2",
+     "text": "World's End Harem – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=World's%20End%20Harem%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "2-5-dimensional-seduction-vol4",
+     "text": "2.5 Dimensional Seduction – Vol. 4: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=2.5%20Dimensional%20Seduction%20%E2%80%93%20Vol.%204%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "inazuma-eleven-s1-box",
+     "text": "Inazuma Eleven – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Inazuma%20Eleven%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "infinite-dendrogram-vol2",
+     "text": "Infinite Dendrogram – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Infinite%20Dendrogram%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "robin-hood-box",
+     "text": "Robin Hood: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Robin%20Hood%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sword-of-the-demon-hunter-vol1",
+     "text": "Sword of the Demon Hunter – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sword%20of%20the%20Demon%20Hunter%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sword-of-the-demon-hunter-vol2",
+     "text": "Sword of the Demon Hunter – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sword%20of%20the%20Demon%20Hunter%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "most-heretical-last-boss-queen-s1-box",
+     "text": "The Most Heretical Last Boss Queen – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20Most%20Heretical%20Last%20Boss%20Queen%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "witch-watch-vol1",
+     "text": "Witch Watch – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Witch%20Watch%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "as-a-reincarnated-aristocrat-s1-vol1",
+     "text": "As a Reincarnated Aristocrat (Staffel 1) – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=As%20a%20Reincarnated%20Aristocrat%20(Staffel%201)%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "please-put-them-on-takamine-vol1",
+     "text": "Bitte zieh dich an, Takamine! – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Bitte%20zieh%20dich%20an%2C%20Takamine!%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "demon-slayer-s1-steelbook",
+     "text": "Demon Slayer – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Demon%20Slayer%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "my-love-story-with-yamada-kun-vol1",
+     "text": "My Love Story with Yamada-kun at Lv999 – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=My%20Love%20Story%20with%20Yamada-kun%20at%20Lv999%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sakamoto-days-vol1",
+     "text": "Sakamoto Days – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sakamoto%20Days%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "tougen-anki-part1",
+     "text": "Tougen Anki – Teil 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Tougen%20Anki%20%E2%80%93%20Part%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "vampire-knight-guilty-box",
+     "text": "Vampire Knight Guilty: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Vampire%20Knight%20Guilty%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "dandadan-s2-vol3",
+     "text": "DAN DA DAN (Staffel 2) – Vol. 3: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=DAN%20DA%20DAN%20(Staffel%202)%20%E2%80%93%20Vol.%203%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "inazuma-eleven-movie-team-oger",
+     "text": "Inazuma Eleven – The Movie: Team Oger Attacks!: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Inazuma%20Eleven%20%E2%80%93%20The%20Movie%3A%20Team%20Oger%20Attacks!%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "nukitashi-vol1",
+     "text": "Nukitashi – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Nukitashi%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "recovery-of-an-mmo-junkie-vol2",
+     "text": "Recovery of an MMO Junkie – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Recovery%20of%20an%20MMO%20Junkie%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "dandadan-s2-vol1-steelcase",
+     "text": "DAN DA DAN (Staffel 2) – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=DAN%20DA%20DAN%20(Staffel%202)%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "please-put-them-on-takamine-vol2",
+     "text": "Bitte zieh dich an, Takamine! – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Bitte%20zieh%20dich%20an%2C%20Takamine!%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "im-standing-on-a-million-lives-s2-box",
+     "text": "I'm Standing on a Million Lives – Staffel 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=I'm%20Standing%20on%20a%20Million%20Lives%20%E2%80%93%20Staffel%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sakamoto-days-vol2",
+     "text": "Sakamoto Days – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sakamoto%20Days%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "blue-exorcist-blue-night-saga-vol1",
+     "text": "Blue Exorcist: The Blue Night Saga – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Blue%20Exorcist%3A%20The%20Blue%20Night%20Saga%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "detective-conan-box9",
+     "text": "Detektiv Conan – Box 9: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Detektiv%20Conan%20%E2%80%93%20Box%209%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "log-horizon-s3-box",
+     "text": "Log Horizon – Staffel 3: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Log%20Horizon%20%E2%80%93%20Staffel%203%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "my-hero-academia-vigilantes-s1-box",
+     "text": "My Hero Academia: Vigilantes – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=My%20Hero%20Academia%3A%20Vigilantes%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "re-zero-s3-vol1",
+     "text": "Re:ZERO – Staffel 3 – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Re%3AZERO%20%E2%80%93%20Staffel%203%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "sailor-moon-s1-steelbook",
+     "text": "Sailor Moon – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Sailor%20Moon%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "bocchi-the-rock-vol1",
+     "text": "Bocchi the Rock! – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Bocchi%20the%20Rock!%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "yu-gi-oh-komplettbox-ksm",
+     "text": "Yu-Gi-Oh! – Komplettbox: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Yu-Gi-Oh!%20%E2%80%93%20Komplettbox%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "as-a-reincarnated-aristocrat-s1-vol2",
+     "text": "As a Reincarnated Aristocrat – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=As%20a%20Reincarnated%20Aristocrat%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "kaiju-no8-mission-recon-steelbook",
+     "text": "Kaiju No. 8: Mission Recon – Der Film: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Kaiju%20No.%208%3A%20Mission%20Recon%20%E2%80%93%20Der%20Film%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "ron-kamonohashi-s2-vol1",
+     "text": "Master Detective Ron Kamonohashi – Staffel 2 – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Master%20Detective%20Ron%20Kamonohashi%20%E2%80%93%20Staffel%202%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "my-hero-academia-s7-vol3",
+     "text": "My Hero Academia – Staffel 7 – Vol. 3: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=My%20Hero%20Academia%20%E2%80%93%20Staffel%207%20%E2%80%93%20Vol.%203%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "black-butler-emerald-witch-vol1",
+     "text": "Black Butler: Emerald Witch Arc – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Black%20Butler%3A%20Emerald%20Witch%20Arc%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "blue-exorcist-blue-night-saga-vol2",
+     "text": "Blue Exorcist: The Blue Night Saga – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Blue%20Exorcist%3A%20The%20Blue%20Night%20Saga%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "chainsaw-man-s1-bundle",
+     "text": "Chainsaw Man – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Chainsaw%20Man%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "my-hero-academia-s6-box",
+     "text": "My Hero Academia – Staffel 6: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=My%20Hero%20Academia%20%E2%80%93%20Staffel%206%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "wind-breaker-s2-vol2",
+     "text": "Wind Breaker – Staffel 2 – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Wind%20Breaker%20%E2%80%93%20Staffel%202%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "zombie-land-saga-s1-s2-bundle",
+     "text": "Zombie Land Saga – Staffel 1 + 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Zombie%20Land%20Saga%20%E2%80%93%20Staffel%201%20%2B%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "my-love-story-with-yamada-kun-vol2",
+     "text": "My Love Story with Yamada-kun at Lv999 – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=My%20Love%20Story%20with%20Yamada-kun%20at%20Lv999%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "bocchi-the-rock-vol2",
+     "text": "Bocchi the Rock! – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Bocchi%20the%20Rock!%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "girls-band-cry-vol2",
+     "text": "Girls Band Cry – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Girls%20Band%20Cry%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "dr-stone-science-future-part1",
+     "text": "Dr. STONE: Science Future – Teil 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Dr.%20STONE%3A%20Science%20Future%20%E2%80%93%20Part%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "dragon-maid-lonely-dragon-movie-disc",
+     "text": "Miss Kobayashi's Dragon Maid: Ein einsamer Drache sehnt sich nach Liebe: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Miss%20Kobayashi's%20Dragon%20Maid%3A%20Ein%20einsamer%20Drache%20sehnt%20sich%20nach%20Liebe%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "my-next-life-as-a-villainess-s2-bundle",
+     "text": "My Next Life as a Villainess – Staffel 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=My%20Next%20Life%20as%20a%20Villainess%20%E2%80%93%20Staffel%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "rent-a-girlfriend-s4-box",
+     "text": "Rent-A-Girlfriend – Staffel 4: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Rent-A-Girlfriend%20%E2%80%93%20Staffel%204%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "vinland-saga-s2-bundle",
+     "text": "Vinland Saga – Staffel 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Vinland%20Saga%20%E2%80%93%20Staffel%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "yashahime-s2-box",
+     "text": "Yashahime: Princess Half-Demon – Staffel 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Yashahime%3A%20Princess%20Half-Demon%20%E2%80%93%20Staffel%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "spice-and-wolf-2024-vol3",
+     "text": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 3: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Spice%20and%20Wolf%3A%20Merchant%20Meets%20the%20Wise%20Wolf%20%E2%80%93%20Vol.%203%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "bocchi-the-rock-vol3",
+     "text": "Bocchi the Rock! – Vol. 3: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Bocchi%20the%20Rock!%20%E2%80%93%20Vol.%203%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "my-love-story-with-yamada-kun-vol3",
+     "text": "My Love Story with Yamada-kun at Lv999 – Vol. 3: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=My%20Love%20Story%20with%20Yamada-kun%20at%20Lv999%20%E2%80%93%20Vol.%203%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "anne-shirley-vol2",
+     "text": "Anne Shirley: Anne mit den roten Haaren – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Anne%20Shirley%3A%20Anne%20mit%20den%20roten%20Haaren%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "call-of-the-night-s2-vol2",
+     "text": "Call of the Night – Staffel 2 – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Call%20of%20the%20Night%20%E2%80%93%20Staffel%202%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "shin-chan-vol15",
+     "text": "Shin Chan – Vol. 15: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Shin%20Chan%20%E2%80%93%20Vol.%2015%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "spice-and-wolf-2024-vol4",
+     "text": "Spice and Wolf: Merchant Meets the Wise Wolf – Vol. 4: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Spice%20and%20Wolf%3A%20Merchant%20Meets%20the%20Wise%20Wolf%20%E2%80%93%20Vol.%204%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "oshi-no-ko-s3-vol1",
+     "text": "Oshi no Ko – Staffel 3 – Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Oshi%20no%20Ko%20%E2%80%93%20Staffel%203%20%E2%80%93%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "oshi-no-ko-s3-vol2",
+     "text": "Oshi no Ko – Staffel 3 – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Oshi%20no%20Ko%20%E2%80%93%20Staffel%203%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "all-you-need-is-kill-disc",
+     "text": "All You Need is Kill: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=All%20You%20Need%20is%20Kill%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "afro-samurai-steelbook",
+     "text": "Afro Samurai + Afro Samurai Resurrection: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Afro%20Samurai%20%2B%20Afro%20Samurai%20Resurrection%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "failure-frame-box",
+     "text": "Failure Frame – Komplettbox: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Failure%20Frame%20%E2%80%93%20Komplettbox%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "tougen-anki-part2",
+     "text": "Tougen Anki – Teil 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Tougen%20Anki%20%E2%80%93%20Part%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "detektiv-conan-film-28-disc",
+     "text": "Detektiv Conan – 28. Film: Der Flashback des Einäugigen: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Detektiv%20Conan%20%E2%80%93%2028.%20Film%3A%20Der%20Flashback%20des%20Ein%C3%A4ugigen%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "dragon-maid-s1-steelbook",
+     "text": "Miss Kobayashi’s Dragon Maid – Staffel 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Miss%20Kobayashi%E2%80%99s%20Dragon%20Maid%20%E2%80%93%20Staffel%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "the-100-girlfriends-s2-vol1",
+     "text": "The 100 Girlfriends – Staffel 2, Vol. 1: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=The%20100%20Girlfriends%20%E2%80%93%20Staffel%202%2C%20Vol.%201%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "detektiv-conan-box1-30th-anniversary",
+     "text": "Detektiv Conan – Box 1 (30th Anniversary Edition): Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Detektiv%20Conan%20%E2%80%93%20Box%201%20(30th%20Anniversary%20Edition)%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "7th-prince-s2-box",
+     "text": "I Was Reincarnated as the 7th Prince – Staffel 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=I%20Was%20Reincarnated%20as%20the%207th%20Prince%20%E2%80%93%20Staffel%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "summer-wars-ultimate-edition",
+     "text": "Summer Wars – Ultimate Edition: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Summer%20Wars%20%E2%80%93%20Ultimate%20Edition%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "ame-und-yuki-ultimate-edition",
+     "text": "Ame & Yuki – Die Wolfskinder – Ultimate Edition: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Ame%20%26%20Yuki%20%E2%80%93%20Die%20Wolfskinder%20%E2%80%93%20Ultimate%20Edition%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "maedchen-durch-die-zeit-ultimate-edition",
+     "text": "Das Mädchen, das durch die Zeit sprang – Ultimate Edition: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Das%20M%C3%A4dchen%2C%20das%20durch%20die%20Zeit%20sprang%20%E2%80%93%20Ultimate%20Edition%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "junge-und-das-biest-ultimate-edition",
+     "text": "Der Junge und das Biest – Ultimate Edition: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=Der%20Junge%20und%20das%20Biest%20%E2%80%93%20Ultimate%20Edition%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "panties-returns-polyband",
+     "text": "I Want You To Show Me Your Panties With a Disgusted Face Returns: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=I%20Want%20You%20To%20Show%20Me%20Your%20Panties%20With%20a%20Disgusted%20Face%20Returns%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "dan-da-dan-s2-vol2-exklusiv",
+     "text": "DAN DA DAN (Staffel 2) – Vol. 2: Kaufweg ist eine Amazon-Suche",
+     "ort": "https://www.amazon.de/s?k=DAN%20DA%20DAN%20(Staffel%202)%20%E2%80%93%20Vol.%202%20Anime%20Blu-ray"
+    },
+    {
+     "schluessel": "auto-180523-disc",
+     "text": "A Wild Last Boss Appeared!: kein Kaufweg",
+     "ort": "/r/auto-180523-disc/"
+    },
+    {
+     "schluessel": "auto-173693-disc",
+     "text": "Loner Life in Another World: kein Kaufweg",
+     "ort": "/r/auto-173693-disc/"
+    },
+    {
+     "schluessel": "auto-127050-disc",
+     "text": "Love of Kill: kein Kaufweg",
+     "ort": "/r/auto-127050-disc/"
+    },
+    {
+     "schluessel": "auto-384-disc",
+     "text": "Gantz: kein Kaufweg",
+     "ort": "/r/auto-384-disc/"
+    },
+    {
+     "schluessel": "auto-1313-disc",
+     "text": "Digimon 02: kein Kaufweg",
+     "ort": "/r/auto-1313-disc/"
+    },
+    {
+     "schluessel": "auto-1638-disc",
+     "text": "Peter Pan: kein Kaufweg",
+     "ort": "/r/auto-1638-disc/"
+    },
+    {
+     "schluessel": "auto-166477-disc",
+     "text": "The Café Terrace and Its Goddesses: kein Kaufweg",
+     "ort": "/r/auto-166477-disc/"
+    },
+    {
+     "schluessel": "auto-178869-disc",
+     "text": "Clevatess: kein Kaufweg",
+     "ort": "/r/auto-178869-disc/"
+    },
+    {
+     "schluessel": "auto-178754-disc",
+     "text": "Kaiju No. 8: Staffel 2: kein Kaufweg",
+     "ort": "/r/auto-178754-disc/"
+    },
+    {
+     "schluessel": "auto-813-disc",
+     "text": "Dragon Ball Z: kein Kaufweg",
+     "ort": "/r/auto-813-disc/"
+    },
+    {
+     "schluessel": "auto-183291-disc",
+     "text": "Pass the Monster Meat, Milady!: kein Kaufweg",
+     "ort": "/r/auto-183291-disc/"
+    },
+    {
+     "schluessel": "auto-171018-disc",
+     "text": "Dan Da Dan: kein Kaufweg",
+     "ort": "/r/auto-171018-disc/"
+    },
+    {
+     "schluessel": "auto-148969-disc",
+     "text": "Kubo Won’t Let Me Be Invisible: kein Kaufweg",
+     "ort": "/r/auto-148969-disc/"
+    },
+    {
+     "schluessel": "auto-187663-disc",
+     "text": "Das Reisetagebuch des Sammlers: kein Kaufweg",
+     "ort": "/r/auto-187663-disc/"
+    },
+    {
+     "schluessel": "auto-132405-disc",
+     "text": "My Dress-Up Darling: kein Kaufweg",
+     "ort": "/r/auto-132405-disc/"
+    },
+    {
+     "schluessel": "auto-184591-disc",
+     "text": "There’s No Freaking Way I’ll Be Your Lover! Unless…: kein Kaufweg",
+     "ort": "/r/auto-184591-disc/"
+    },
+    {
+     "schluessel": "auto-1550-disc",
+     "text": "Mila Superstar: kein Kaufweg",
+     "ort": "/r/auto-1550-disc/"
+    }
+   ],
+   "hebel": 2,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 1,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 157/160 — 138 Amazon-Suchen (B-09), 19 ohne Kaufweg; bekannt, nur Zählung"
+   }
+  },
+  {
+   "id": "D-11",
+   "name": "„Premiere\" Jahre nach der aniSearch-Erstausgabe",
+   "folge": "„Start der deutschen Fassung\" für eine Fassung, die es seit Jahren gibt",
+   "geprueft": 45,
+   "treffer": [
+    {
+     "schluessel": "yu-gi-oh-s2-disneyplus",
+     "text": "Yu-Gi-Oh! – Staffel 2 (disneyplus): Termin 2026-08-01 als Premiere, aniSearch nennt deutsche Erstausgabe 2003-03-10 (Universal Pictures Germany)",
+     "ort": "/r/yu-gi-oh-s2-disneyplus/"
+    },
+    {
+     "schluessel": "naruto-s4-disneyplus",
+     "text": "Naruto – Staffel 4 (disneyplus): Termin 2026-08-05 als Premiere, aniSearch nennt deutsche Erstausgabe 2006-09-18 (Panini Video)",
+     "ort": "/r/naruto-s4-disneyplus/"
+    },
+    {
+     "schluessel": "naruto-shippuden-s1-disneyplus",
+     "text": "Naruto Shippuden – Staffel 1 (disneyplus): Termin 2026-08-05 als Premiere, aniSearch nennt deutsche Erstausgabe 2009-04-23 (Panini Video)",
+     "ort": "/r/naruto-shippuden-s1-disneyplus/"
+    },
+    {
+     "schluessel": "yu-gi-oh-s3-disneyplus",
+     "text": "Yu-Gi-Oh! – Staffel 3 (disneyplus): Termin 2026-08-29 als Premiere, aniSearch nennt deutsche Erstausgabe 2003-03-10 (Universal Pictures Germany)",
+     "ort": "/r/yu-gi-oh-s3-disneyplus/"
+    },
+    {
+     "schluessel": "black-clover-s1-disneyplus",
+     "text": "Black Clover – Staffel 1 (disneyplus): Termin 2026-08-30 als Premiere, aniSearch nennt deutsche Erstausgabe 2023-02-23 (Kazé Deutschland)",
+     "ort": "/r/black-clover-s1-disneyplus/"
+    },
+    {
+     "schluessel": "naruto-shippuden-s3-disneyplus",
+     "text": "Naruto Shippuden – Staffel 3 (disneyplus): Termin 2026-10-07 als Premiere, aniSearch nennt deutsche Erstausgabe 2009-04-23 (Panini Video)",
+     "ort": "/r/naruto-shippuden-s3-disneyplus/"
+    },
+    {
+     "schluessel": "bleach-diamonddust-rebellion-adn",
+     "text": "Bleach: The DiamondDust Rebellion (adn): Termin 2026-10-12 als Premiere, aniSearch nennt deutsche Erstausgabe 2011-08-26 (Kazé Deutschland)",
+     "ort": "/r/bleach-diamonddust-rebellion-adn/"
+    },
+    {
+     "schluessel": "bleach-fade-to-black-adn",
+     "text": "Bleach: Fade to Black (adn): Termin 2026-10-12 als Premiere, aniSearch nennt deutsche Erstausgabe 2020-07-20 (Kazé Deutschland)",
+     "ort": "/r/bleach-fade-to-black-adn/"
+    },
+    {
+     "schluessel": "bleach-hell-verse-adn",
+     "text": "Bleach: The Hell Verse (adn): Termin 2026-10-12 als Premiere, aniSearch nennt deutsche Erstausgabe 2020-08-24 (Kazé Deutschland)",
+     "ort": "/r/bleach-hell-verse-adn/"
+    },
+    {
+     "schluessel": "spy-x-family-s1-teil1-disneyplus",
+     "text": "SPY x FAMILY (disneyplus): Termin 2026-10-04 als Premiere, aniSearch nennt deutsche Erstausgabe 2023-08-18",
+     "ort": "/r/spy-x-family-s1-teil1-disneyplus/"
+    },
+    {
+     "schluessel": "spy-x-family-s1-teil2-disneyplus",
+     "text": "SPY x FAMILY Teil 2 (disneyplus): Termin 2026-10-04 als Premiere, aniSearch nennt deutsche Erstausgabe 2024-08-16",
+     "ort": "/r/spy-x-family-s1-teil2-disneyplus/"
+    },
+    {
+     "schluessel": "dororo-joyn",
+     "text": "Dororo (joyn): Termin 2026-10-02 als Premiere, aniSearch nennt deutsche Erstausgabe 2020-04-01 (AniMoon Publishing GmbH)",
+     "ort": "/r/dororo-joyn/"
+    },
+    {
+     "schluessel": "demon-slayer-s1-primevideo",
+     "text": "Demon Slayer: Kimetsu no Yaiba (primevideo): Termin 2026-10-01 als Premiere, aniSearch nennt deutsche Erstausgabe 2020-08-24 (peppermint anime GmbH)",
+     "ort": "/r/demon-slayer-s1-primevideo/"
+    }
+   ],
+   "hebel": 2,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 1,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 13/13 — alles Disney+-Katalogaufnahmen aus batch-2026.yaml ohne `dateMeaning`, deutsche Fassung laut aniSearch 2003–2023; Panel sagt „im Angebot ab\", die News „angekündigt\" — Typ-Vertrag (`premiere` = erschien) verletzt"
+   }
+  },
+  {
+   "id": "D-17",
+   "name": "News-Meldung zeigt auf verschwundenes Release",
+   "folge": "Meldung verliert ihren Beleg-Link (fällt auf die Anbieterseite zurück), Termin-Verlauf reißt ab",
+   "geprueft": 480,
+   "treffer": [
+    {
+     "schluessel": "86: Eighty Six|adn-1423-s1-20261008-116589",
+     "text": "„86: Eighty Six\" (angekuendigt, 2026-10-08): Release adn-1423-s1-20261008-116589 gibt es nicht mehr"
+    },
+    {
+     "schluessel": "86: Eighty Six|adn-1423-s1-20261008-131586",
+     "text": "„86: Eighty Six\" (angekuendigt, 2026-10-08): Release adn-1423-s1-20261008-131586 gibt es nicht mehr"
+    },
+    {
+     "schluessel": "Meine ganz besondere Hochzeit|auto-147103-netflix",
+     "text": "„Meine ganz besondere Hochzeit\" (angekuendigt, 2026-10-25): Release auto-147103-netflix gibt es nicht mehr"
+    },
+    {
+     "schluessel": "Dr. Stone|auto-162670-disc",
+     "text": "„Dr. Stone\" (disc, 2026-10-16): Release auto-162670-disc gibt es nicht mehr"
+    },
+    {
+     "schluessel": "From Bureaucrat to Villainess: Dad’s Been Reincarnated!|from-bureaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12",
+     "text": "„From Bureaucrat to Villainess: Dad’s Been Reincarnated!\" (disc, 2026-10-12): Release from-bureaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12 gibt es nicht mehr"
+    },
+    {
+     "schluessel": "Miss Kobayashi’s Dragon Maid|miss-kobayashi-s-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-2026-10-1",
+     "text": "„Miss Kobayashi’s Dragon Maid\" (disc, 2026-10-16): Release miss-kobayashi-s-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-2026-10-1 gibt es nicht mehr"
+    },
+    {
+     "schluessel": "My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game?|my-next-life-as-a-villainess-all-routes-lead-to-doom-ich-habe-die-mir-vorbestimm",
+     "text": "„My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game?\" (disc, 2026-10-16): Release my-next-life-as-a-villainess-all-routes-lead-to-doom-ich-habe-die-mir-vorbestimm gibt es nicht mehr"
+    },
+    {
+     "schluessel": "Steins;Gate|steins-gate-0-polymorpher-valentin-bittersweet-intermedio-2026-10-16",
+     "text": "„Steins;Gate\" (disc, 2026-10-16): Release steins-gate-0-polymorpher-valentin-bittersweet-intermedio-2026-10-16 gibt es nicht mehr"
+    }
+   ],
+   "hebel": 2,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 1,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 8/8 — Slugs in news.json existieren in releases.json nicht (umbenannt: adn-1423-… → auto-116589-adn; Disc-Slugs abgeschnitten); neuigkeiten.tsx fällt dann auf die Anbieterseite zurück"
+   }
+  },
+  {
+   "id": "D-19",
+   "name": "Termin bei einem Anbieter ohne Weg dorthin",
+   "folge": "Panel nennt den Anbieter, aber keinen Link",
+   "geprueft": 548,
+   "treffer": [
+    {
+     "schluessel": "auto-187331-primevideo",
+     "text": "Hände weg, Kotesashi-kun: Termin 2026-10-03 bei primevideo, Titel hat dort keinen Weg",
+     "ort": "/r/auto-187331-primevideo/"
+    },
+    {
+     "schluessel": "auto-14713-primevideo",
+     "text": "Kamisama Kiss: Termin 2026-10-08 bei primevideo, Titel hat dort keinen Weg",
+     "ort": "/r/auto-14713-primevideo/"
+    },
+    {
+     "schluessel": "auto-116589-adn",
+     "text": "86: Eighty Six: Termin 2026-10-08 bei adn, Titel hat dort keinen Weg",
+     "ort": "/r/auto-116589-adn/"
+    }
+   ],
+   "hebel": 2,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 1,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 3/3 per Daten echt (86 bei ADN, Kamisama Kiss und Kotesashi-kun bei Prime: Termin ohne Weg und ohne platformUrl)"
+   }
+  },
+  {
+   "id": "D-07",
+   "name": "Doppelte Werke",
+   "folge": "Zwei Karten für ein Werk, Termine auf der falschen",
+   "geprueft": 23581,
+   "treffer": [
+    {
+     "schluessel": "aniSearch:585|13|2004",
+     "text": "aniSearch 585|13|2004: Gantz (2004, 13 Fg.) [384] / Gantz (2004, 13 Fg.) [395]"
+    }
+   ],
+   "hebel": 2,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 1,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 1/1 — Gantz 384 und 395 (2nd Stage) tragen dieselbe aniSearch-Kennung 585; MAL-Dubletten aniSearch↔AniList prüft schon check:logic"
+   }
+  },
+  {
+   "id": "D-08",
+   "name": "Titel ohne Weg, JustWatch kennt einen mit deutschem Ton (387 ohne Weg und Termin)",
+   "folge": "Besucher erfährt nicht, wo er den Titel sehen kann",
+   "geprueft": 387,
+   "treffer": [
+    {
+     "schluessel": "310",
+     "text": "Drei kleine Geister (1991, 50 Fg.): kein Weg im Bestand, JustWatch nennt deutschen Ton bei Amazon Prime Video, Amazon Prime Video with Ads",
+     "ort": "/t/three-little-ghosts-310/"
+    },
+    {
+     "schluessel": "8408",
+     "text": "Durarara!! Specials (2010, 2 Fg.): kein Weg im Bestand, JustWatch nennt deutschen Ton bei Crunchyroll, Crunchyroll Amazon Channel",
+     "ort": "/t/durarara-specials-8408/"
+    },
+    {
+     "schluessel": "102093",
+     "text": "Kuroko’s Basketball - Winter Cup Highlights Movie 1 Shadow and Light (2016, 1 Fg.): kein Weg im Bestand, JustWatch nennt deutschen Ton bei Amazon Prime Video, Amazon Prime Video with Ads, Aniverse Amazon Channel, Amazon Video",
+     "ort": "/t/winter-cup-highlights-episode-1-winter-cup-highlights-shadow-and-light-102093/"
+    },
+    {
+     "schluessel": "120892",
+     "text": "Grisaia: Phantom Trigger THE ANIMATION - Stargazer (2020, 1 Fg.): kein Weg im Bestand, JustWatch nennt deutschen Ton bei Amazon Prime Video, Amazon Prime Video with Ads, Aniverse Amazon Channel, Apple TV Store, Amazon Video, MagentaTV, maxdome Store",
+     "ort": "/t/grisaia-phantom-trigger-the-animation-stargazer-120892/"
+    }
+   ],
+   "hebel": 1.5,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 0.75,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 4 Treffer, JustWatch-Tonspur nicht von Hand gegengeprüft (Prüfhierarchie: JustWatch unter Anbieter-API)"
+   }
+  },
+  {
+   "id": "D-10",
+   "name": "„Läuft\" ohne Lebenszeichen seit 60 Tagen",
+   "folge": "Kalender kündigt Woche für Woche Folgen an, die niemand belegt",
+   "geprueft": 37,
+   "treffer": [],
+   "hebel": 1.5,
+   "einstufung": {
+    "wirkung": 3,
+    "sicherheit": 0.5,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 0 von 37 laufenden Wochen-Releases"
+   }
+  },
+  {
+   "id": "D-03",
+   "name": "Weg laut Link-Prüfung tot (404) — 870 Wege nie geprüft",
+   "folge": "Besucher klickt auf eine Seite, die es nicht gibt",
+   "geprueft": 1284,
+   "treffer": [],
+   "hebel": 1.5,
+   "einstufung": {
+    "wirkung": 3,
+    "sicherheit": 0.5,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 0 404 unter 1.284 geprüften; 870 Wege (CR 672, ADN 139, YouTube 55) kennt link-check.json nicht — CR/ADN laufen über ihre Kataloge (verweise-entfernt.json)"
+   }
+  },
+  {
+   "id": "D-12",
+   "name": "Weg „deutsch\", Zweitquelle sagt „kein Deutsch\" (16 weitere durch Handbeleg/Urteil entschieden)",
+   "folge": "„DE ✓\" an einem Weg ohne deutschen Ton",
+   "geprueft": 270,
+   "treffer": [],
+   "hebel": 1.5,
+   "einstufung": {
+    "wirkung": 3,
+    "sicherheit": 0.5,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 0 Treffer; 16 MotN-Widersprüche sind durch gemessene Urteile (urteile.json „deutsch\") entschieden — Prüfhierarchie karte.md §10"
+   }
+  },
+  {
+   "id": "D-04",
+   "name": "Vergangener Termin ohne gesehene Folge",
+   "folge": "Panel zählt eine Folge als erschienen, die kein Abruf je gesehen hat",
+   "geprueft": 177,
+   "treffer": [
+    {
+     "schluessel": "thunder-3",
+     "text": "Thunder 3: 5 vergangene Termine ohne Beobachtung (Folge 1, 2, 3, 4, 5), obwohl Folge 6 am 2026-08-12 gesehen wurde",
+     "ort": "/r/thunder-3/"
+    }
+   ],
+   "hebel": 1,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 0.5,
+    "empfehlung": "nein",
+    "stichprobe": "08.10.2026: 1 Treffer (Thunder 3: Beobachtung beginnt bei Folge 6) — die Termine tragen ohnehin „≈\""
+   }
+  },
+  {
+   "id": "D-14",
+   "name": "Deutscher Termin vor der japanischen Erstausstrahlung",
+   "folge": "Das Datum oder die Titelzuordnung ist falsch",
+   "geprueft": 761,
+   "treffer": [],
+   "hebel": 1,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 0.5,
+    "empfehlung": "hart",
+    "stichprobe": "08.10.2026: 0 Treffer"
+   }
+  },
+  {
+   "id": "D-20",
+   "name": "Künftiger Termin ohne Quelle der letzten 90 Tage",
+   "folge": "Eine verschobene Ankündigung bleibt als Termin stehen",
+   "geprueft": 129,
+   "treffer": [],
+   "hebel": 1,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 0.5,
+    "empfehlung": "weich",
+    "stichprobe": "08.10.2026: 0 von 129 künftigen Terminen"
+   }
+  },
+  {
+   "id": "D-21",
+   "name": "Event-Kennung doppelt",
+   "folge": "Im Kalender-Abo verschmelzen zwei Termine zu einem",
+   "geprueft": 3228,
+   "treffer": [],
+   "hebel": 1,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 0.5,
+    "empfehlung": "hart",
+    "stichprobe": "08.10.2026: 0 Treffer"
+   }
+  },
+  {
+   "id": "D-05",
+   "name": "Cover fehlt, Zweitquelle kennt eines (148 von 2925 ohne Cover)",
+   "folge": "Karte ohne Bild, obwohl ein Bild da wäre",
+   "geprueft": 148,
+   "treffer": [],
+   "hebel": 1,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 0.5,
+    "empfehlung": "nein",
+    "stichprobe": "08.10.2026: 0 von 148 ohne Cover haben eine Zweitquelle (anisearch-cover, tmdb-poster, anisearch.json)"
+   }
+  },
+  {
+   "id": "D-15",
+   "name": "Reihen-Verweis ins Leere",
+   "folge": "Karussell der Reihe zeigt ein Glied ohne Seite",
+   "geprueft": 2925,
+   "treffer": [],
+   "hebel": 1,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 0.5,
+    "empfehlung": "hart",
+    "stichprobe": "08.10.2026: 0 Treffer (franchises.json führt nur Reihen ab zwei Gliedern)"
+   }
+  },
+  {
+   "id": "D-22",
+   "name": "Folgenzahl: AniList gegen aniSearch-Folgenliste",
+   "folge": "„x von n Folgen\" rechnet mit der falschen Gesamtzahl",
+   "geprueft": 1979,
+   "treffer": [
+    {
+     "schluessel": "202",
+     "text": "Wolf’s Rain (2003, 26 Fg.): 26 Folgen laut AniList, aniSearch-Folgenliste hat 30",
+     "ort": "/t/wolf-s-rain-202/"
+    },
+    {
+     "schluessel": "508",
+     "text": "Hamtaro: Kleine Hamster, große Abenteuer (2000, 193 Fg.): 193 Folgen laut AniList, aniSearch-Folgenliste hat 296",
+     "ort": "/t/hamtaro-508/"
+    },
+    {
+     "schluessel": "620",
+     "text": "Mermaid Forest (2003, 13 Fg.): 13 Folgen laut AniList, aniSearch-Folgenliste hat 11",
+     "ort": "/t/mermaid-forest-tv-620/"
+    },
+    {
+     "schluessel": "877",
+     "text": "Nana (2006, 47 Fg.): 47 Folgen laut AniList, aniSearch-Folgenliste hat 50",
+     "ort": "/t/nana-877/"
+    },
+    {
+     "schluessel": "1023",
+     "text": "Wolf's Rain OVA (2004, 4 Fg.): 4 Folgen laut AniList, aniSearch-Folgenliste hat 30",
+     "ort": "/t/wolf-s-rain-ova-1023/"
+    },
+    {
+     "schluessel": "1247",
+     "text": "Project Blue Earth SOS (2006, 6 Fg.): 6 Folgen laut AniList, aniSearch-Folgenliste hat 12",
+     "ort": "/t/project-blue-earth-sos-1247/"
+    },
+    {
+     "schluessel": "1448",
+     "text": "Voltron: Verteidiger des Universums (1981, 52 Fg.): 52 Folgen laut AniList, aniSearch-Folgenliste hat 76",
+     "ort": "/t/go-lion-1448/"
+    },
+    {
+     "schluessel": "1575",
+     "text": "Code Geass: Lelouch of the Rebellion (2006, 25 Fg.): 25 Folgen laut AniList, aniSearch-Folgenliste hat 27",
+     "ort": "/t/code-geass-lelouch-of-the-rebellion-1575/"
+    },
+    {
+     "schluessel": "1816",
+     "text": "Sonic X (2003, 52 Fg.): 52 Folgen laut AniList, aniSearch-Folgenliste hat 78",
+     "ort": "/t/sonic-x-1816/"
+    },
+    {
+     "schluessel": "3053",
+     "text": "Kickers (1986, 26 Fg.): 26 Folgen laut AniList, aniSearch-Folgenliste hat 23",
+     "ort": "/t/fight-kickers-3053/"
+    },
+    {
+     "schluessel": "7791",
+     "text": "K-On!! (2010, 26 Fg.): 26 Folgen laut AniList, aniSearch-Folgenliste hat 24",
+     "ort": "/t/k-on-season-2-7791/"
+    },
+    {
+     "schluessel": "8408",
+     "text": "Durarara!! Specials (2010, 2 Fg.): 2 Folgen laut AniList, aniSearch-Folgenliste hat 24",
+     "ort": "/t/durarara-specials-8408/"
+    },
+    {
+     "schluessel": "10947",
+     "text": "Koukaku Kidoutai: Stand Alone Complex - The Laughing Man - Tachikoma no Hibi (2005, 1 Fg.): 1 Folgen laut AniList, aniSearch-Folgenliste hat 26",
+     "ort": "/t/ghost-in-the-shell-stand-alone-complex-the-laughing-man-tachikomatic-days-10947/"
+    },
+    {
+     "schluessel": "20635",
+     "text": "Dragon Ball Z Kai: The Final Chapters (2014, 69 Fg.): 69 Folgen laut AniList, aniSearch-Folgenliste hat 61",
+     "ort": "/t/dragon-ball-z-kai-the-final-chapters-20635/"
+    },
+    {
+     "schluessel": "109002",
+     "text": "Code Geass: Boukoku no Akito 2 - Hikisakareshi Yokuryuu Picture Drama (2013, 1 Fg.): 1 Folgen laut AniList, aniSearch-Folgenliste hat 4",
+     "ort": "/t/code-geass-boukoku-no-akito-2-hikisakareshi-yokuryuu-picture-drama-109002/"
+    },
+    {
+     "schluessel": "20995",
+     "text": "To Love Ru: Darkness 2nd (2015, 12 Fg.): 12 Folgen laut AniList, aniSearch-Folgenliste hat 14",
+     "ort": "/t/to-love-ru-darkness-2-20995/"
+    },
+    {
+     "schluessel": "21852",
+     "text": "To LOVE-Ru Darkness 2nd Specials (2015, 2 Fg.): 2 Folgen laut AniList, aniSearch-Folgenliste hat 14",
+     "ort": "/t/to-love-ru-darkness-2-specials-21852/"
+    },
+    {
+     "schluessel": "21717",
+     "text": "Fate/Extra: Last Encore - Oblitus Copernican Theory (2018, 13 Fg.): 13 Folgen laut AniList, aniSearch-Folgenliste hat 10",
+     "ort": "/t/fate-extra-last-encore-21717/"
+    },
+    {
+     "schluessel": "113917",
+     "text": "Psycho-Pass 3: First Inspector (2020, 3 Fg.): 3 Folgen laut AniList, aniSearch-Folgenliste hat 1",
+     "ort": "/t/psycho-pass-3-first-inspector-113917/"
+    },
+    {
+     "schluessel": "116673",
+     "text": "Burn the Witch (2020, 3 Fg.): 3 Folgen laut AniList, aniSearch-Folgenliste hat 1",
+     "ort": "/t/burn-the-witch-116673/"
+    },
+    {
+     "schluessel": "146885",
+     "text": "Bakugan: Evolutions (2022, 30 Fg.): 30 Folgen laut AniList, aniSearch-Folgenliste hat 26",
+     "ort": "/t/bakugan-evolutions-146885/"
+    },
+    {
+     "schluessel": "146646",
+     "text": "Baki Hanma: Staffel 2 (2023, 27 Fg.): 27 Folgen laut AniList, aniSearch-Folgenliste hat 13",
+     "ort": "/t/baki-hanma-season-2-146646/"
+    },
+    {
+     "schluessel": "146722",
+     "text": "JoJo’s Bizarre Adventure: Stone Ocean – Teil 2 (2022, 26 Fg.): 26 Folgen laut AniList, aniSearch-Folgenliste hat 12",
+     "ort": "/t/jojo-s-bizarre-adventure-stone-ocean-part-2-146722/"
+    },
+    {
+     "schluessel": "151126",
+     "text": "I’m Quitting Heroing OVA (2022, 2 Fg.): 2 Folgen laut AniList, aniSearch-Folgenliste hat 4",
+     "ort": "/t/i-m-quitting-heroing-remember-the-work-trip-is-first-and-foremost-a-learning-opp-151126/"
+    },
+    {
+     "schluessel": "151384",
+     "text": "Kaguya-sama: Love Is War - The First Kiss That Never Ends (2023, 4 Fg.): 4 Folgen laut AniList, aniSearch-Folgenliste hat 1",
+     "ort": "/t/kaguya-sama-love-is-war-the-first-kiss-that-never-ends-151384/"
+    },
+    {
+     "schluessel": "156001",
+     "text": "The Eminence in Shadow: Mini Episoden (2022, 17 Fg.): 17 Folgen laut AniList, aniSearch-Folgenliste hat 26",
+     "ort": "/t/em-shade-shorts-156001/"
+    },
+    {
+     "schluessel": "169930",
+     "text": "T・P Bon (2024, 24 Fg.): 24 Folgen laut AniList, aniSearch-Folgenliste hat 12",
+     "ort": "/t/t-p-bon-169930/"
+    },
+    {
+     "schluessel": "175642",
+     "text": "Sand Land: The Series (2024, 13 Fg.): 13 Folgen laut AniList, aniSearch-Folgenliste hat 22",
+     "ort": "/t/sand-land-the-series-175642/"
+    },
+    {
+     "schluessel": "181841",
+     "text": "City The Animation (2025, 13 Fg.): 13 Folgen laut AniList, aniSearch-Folgenliste hat 22",
+     "ort": "/t/city-the-animation-181841/"
+    }
+   ],
+   "hebel": 0.6,
+   "einstufung": {
+    "wirkung": 2,
+    "sicherheit": 0.3,
+    "empfehlung": "nein",
+    "stichprobe": "08.10.2026: 29/1.979; Stichprobe 5: Wolf’s Rain 30 = 26 + 4 OVA, Hamtaro 296 = Gesamtserie, Mermaid Forest 11/13, K-On!! 24/26 — meist andere Zählweise, keine Fehler bei uns"
+   }
+  },
+  {
+   "id": "D-09",
+   "name": "Wochentakt-Abweichung zwischen beobachteten Folgen",
+   "folge": "Fortschreibung ab dem letzten Stützpunkt kann einen falschen Wochentag treffen",
+   "geprueft": 151,
+   "treffer": [
+    {
+     "schluessel": "hana-kimi-s2",
+     "text": "Hana-Kimi – Staffel 2: 4→5: 16 Tage, 6→7: 5 Tage, 9→10: 23 Tage, 12→13: 5 Tage",
+     "ort": "/r/hana-kimi-s2/"
+    },
+    {
+     "schluessel": "mushoku-tensei-s3",
+     "text": "Mushoku Tensei: Jobless Reincarnation – Staffel 3: 3→4: 4 Tage, 5→6: 14 Tage, 8→9: 14 Tage, 10→11: 14 Tage (+1)",
+     "ort": "/r/mushoku-tensei-s3/"
+    },
+    {
+     "schluessel": "skeleton-knight-s2",
+     "text": "Skeleton Knight in Another World – Staffel 2: 1→2: 9 Tage",
+     "ort": "/r/skeleton-knight-s2/"
+    },
+    {
+     "schluessel": "you-and-i-are-polar-opposites-s2",
+     "text": "You and I Are Polar Opposites – Staffel 2: 4→5: 5 Tage, 7→8: 28 Tage, 11→12: 14 Tage",
+     "ort": "/r/you-and-i-are-polar-opposites-s2/"
+    },
+    {
+     "schluessel": "cr-GVDHX8504",
+     "text": "Reborn as a Vending Machine, I Now Wander the Dungeon Staffel 3: 10→11: 14 Tage",
+     "ort": "/r/cr-GVDHX8504/"
+    },
+    {
+     "schluessel": "cr-GYZJ43JMR",
+     "text": "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4: 4→5: 14 Tage, 16→17: 14 Tage",
+     "ort": "/r/cr-GYZJ43JMR/"
+    },
+    {
+     "schluessel": "cr-G6793XKZY",
+     "text": "Ascendance of a Bookworm Staffel 4: 4→5: 14 Tage, 12→13: 14 Tage, 19→20: 14 Tage, 21→22: 14 Tage",
+     "ort": "/r/cr-G6793XKZY/"
+    },
+    {
+     "schluessel": "cr-G6NVG970Y",
+     "text": "Welcome to Demon School! Iruma-kun Staffel 4: 18→19: 21 Tage",
+     "ort": "/r/cr-G6NVG970Y/"
+    },
+    {
+     "schluessel": "cr-GRGG9798R",
+     "text": "Re:ZERO -Starting Life in Another World- Staffel 4: 11→12: 84 Tage, 13→14: 35 Tage",
+     "ort": "/r/cr-GRGG9798R/"
+    },
+    {
+     "schluessel": "darling-in-the-franxx-crunchyroll-de-2018-01-13",
+     "text": "Darling in the Franxx: 15→16: 14 Tage, 19→20: 14 Tage",
+     "ort": "/r/darling-in-the-franxx-crunchyroll-de-2018-01-13/"
+    },
+    {
+     "schluessel": "my-hero-academia-vigilantes-staffel-2-crunchyroll-de-2026-01-05",
+     "text": "My Hero Academia: Vigilantes Staffel 2: 10→11: 21 Tage, 11→12: 14 Tage",
+     "ort": "/r/my-hero-academia-vigilantes-staffel-2-crunchyroll-de-2026-01-05/"
+    },
+    {
+     "schluessel": "platinum-end-crunchyroll-de-2021-11-18",
+     "text": "Platinum End: 12→13: 14 Tage",
+     "ort": "/r/platinum-end-crunchyroll-de-2021-11-18/"
+    },
+    {
+     "schluessel": "the-maid-i-hired-recently-is-mysterious-crunchyroll-de-2022-08-13",
+     "text": "The Maid I Hired Recently Is Mysterious: 6→7: 14 Tage",
+     "ort": "/r/the-maid-i-hired-recently-is-mysterious-crunchyroll-de-2022-08-13/"
+    },
+    {
+     "schluessel": "chainsaw-man-crunchyroll-de-2022-11-01",
+     "text": "Chainsaw Man: 8→9: 14 Tage",
+     "ort": "/r/chainsaw-man-crunchyroll-de-2022-11-01/"
+    },
+    {
+     "schluessel": "lycoris-recoil-crunchyroll-de-2022-07-23",
+     "text": "Lycoris Recoil: 5→6: -14 Tage, 6→7: 28 Tage",
+     "ort": "/r/lycoris-recoil-crunchyroll-de-2022-07-23/"
+    },
+    {
+     "schluessel": "sacrificial-princess-and-the-king-of-beasts-crunchyroll-de-2023-05-10",
+     "text": "Sacrificial Princess and the King of Beasts: 8→9: 14 Tage",
+     "ort": "/r/sacrificial-princess-and-the-king-of-beasts-crunchyroll-de-2023-05-10/"
+    },
+    {
+     "schluessel": "spice-and-wolf-merchant-meets-the-wise-wolf-crunchyroll-de-2024-04-22",
+     "text": "Spice and Wolf: Merchant Meets the Wise Wolf: 18→19: 14 Tage",
+     "ort": "/r/spice-and-wolf-merchant-meets-the-wise-wolf-crunchyroll-de-2024-04-22/"
+    },
+    {
+     "schluessel": "quality-assurance-in-another-world-crunchyroll-de-2024-07-05",
+     "text": "Quality Assurance in Another World: 4→5: 13 Tage, 5→6: 1 Tage",
+     "ort": "/r/quality-assurance-in-another-world-crunchyroll-de-2024-07-05/"
+    },
+    {
+     "schluessel": "metallic-rouge-crunchyroll-de-2024-01-10",
+     "text": "Metallic Rouge: 10→11: 21 Tage",
+     "ort": "/r/metallic-rouge-crunchyroll-de-2024-01-10/"
+    },
+    {
+     "schluessel": "bucchigiri-crunchyroll-de-2024-02-03",
+     "text": "Bucchigiri?!: 6→7: 14 Tage",
+     "ort": "/r/bucchigiri-crunchyroll-de-2024-02-03/"
+    },
+    {
+     "schluessel": "witch-watch-crunchyroll-de-2025-04-20",
+     "text": "Witch Watch: 20→21: 21 Tage, 22→23: 14 Tage",
+     "ort": "/r/witch-watch-crunchyroll-de-2025-04-20/"
+    },
+    {
+     "schluessel": "blue-exorcist-beyond-the-snow-saga-crunchyroll-de-2024-10-27",
+     "text": "Blue Exorcist: Beyond the Snow Saga: 1→2: 6 Tage, 2→3: 8 Tage, 10→11: 21 Tage",
+     "ort": "/r/blue-exorcist-beyond-the-snow-saga-crunchyroll-de-2024-10-27/"
+    },
+    {
+     "schluessel": "blue-exorcist-the-blue-night-saga-crunchyroll-de-2025-01-26",
+     "text": "Blue Exorcist: The Blue Night Saga: 7→8: 6 Tage, 10→11: 8 Tage",
+     "ort": "/r/blue-exorcist-the-blue-night-saga-crunchyroll-de-2025-01-26/"
+    },
+    {
+     "schluessel": "shangri-la-frontier-crunchyroll-de-2023-10-22",
+     "text": "Shangri-La Frontier: 10→11: 14 Tage, 14→15: 14 Tage",
+     "ort": "/r/shangri-la-frontier-crunchyroll-de-2023-10-22/"
+    },
+    {
+     "schluessel": "i-m-the-evil-lord-of-an-intergalactic-empire-crunchyroll-de-2025-04-27",
+     "text": "I’m the Evil Lord of an Intergalactic Empire!: 2→3: 6 Tage",
+     "ort": "/r/i-m-the-evil-lord-of-an-intergalactic-empire-crunchyroll-de-2025-04-27/"
+    },
+    {
+     "schluessel": "mashle-magic-and-muscles-crunchyroll-de-2023-05-05",
+     "text": "Mashle: Magic and Muscles: 6→7: 14 Tage",
+     "ort": "/r/mashle-magic-and-muscles-crunchyroll-de-2023-05-05/"
+    },
+    {
+     "schluessel": "dan-da-dan-crunchyroll-de-2024-10-04",
+     "text": "Dan Da Dan: 1→2: 6 Tage",
+     "ort": "/r/dan-da-dan-crunchyroll-de-2024-10-04/"
+    },
+    {
+     "schluessel": "the-great-cleric-crunchyroll-de-2023-07-28",
+     "text": "The Great Cleric: 6→7: 14 Tage",
+     "ort": "/r/the-great-cleric-crunchyroll-de-2023-07-28/"
+    },
+    {
+     "schluessel": "fairy-tail-100-years-quest-crunchyroll-de-2024-08-11",
+     "text": "Fairy Tail: 100 Years Quest: 13→14: 14 Tage",
+     "ort": "/r/fairy-tail-100-years-quest-crunchyroll-de-2024-08-11/"
+    },
+    {
+     "schluessel": "frieren-nach-dem-ende-der-reise-crunchyroll-de-2023-10-27",
+     "text": "Frieren: Nach dem Ende der Reise: 12→13: 14 Tage",
+     "ort": "/r/frieren-nach-dem-ende-der-reise-crunchyroll-de-2023-10-27/"
+    },
+    {
+     "schluessel": "frieren-nach-dem-ende-der-reise-crunchyroll-de-2026-02-06",
+     "text": "Frieren: Nach dem Ende der Reise: 5→6: 14 Tage",
+     "ort": "/r/frieren-nach-dem-ende-der-reise-crunchyroll-de-2026-02-06/"
+    },
+    {
+     "schluessel": "hell-s-paradise-crunchyroll-de-2023-04-29",
+     "text": "Hell’s Paradise: 8→9: 14 Tage",
+     "ort": "/r/hell-s-paradise-crunchyroll-de-2023-04-29/"
+    },
+    {
+     "schluessel": "i-was-reincarnated-as-the-7th-prince-so-i-can-take-my-time-perfecting-2024-04-23",
+     "text": "I Was Reincarnated as the 7th Prince So I Can Take My Time Perfecting My Magical Ability: 1→2: 14 Tage",
+     "ort": "/r/i-was-reincarnated-as-the-7th-prince-so-i-can-take-my-time-perfecting-2024-04-23/"
+    },
+    {
+     "schluessel": "zom-100-bucket-list-of-the-dead-crunchyroll-de-2023-07-30",
+     "text": "Zom 100: Bucket List of the Dead: 4→5: 14 Tage, 5→6: 14 Tage, 7→8: 14 Tage, 9→10: 106 Tage",
+     "ort": "/r/zom-100-bucket-list-of-the-dead-crunchyroll-de-2023-07-30/"
+    },
+    {
+     "schluessel": "shy-crunchyroll-de-2023-10-23",
+     "text": "Shy: 10→11: 14 Tage",
+     "ort": "/r/shy-crunchyroll-de-2023-10-23/"
+    },
+    {
+     "schluessel": "kamikatsu-meine-arbeit-als-missionar-in-einer-gottlosen-welt-crunchyr-2023-04-26",
+     "text": "KamiKatsu: Meine Arbeit als Missionar in einer gottlosen Welt: 7→8: 14 Tage, 10→11: 14 Tage",
+     "ort": "/r/kamikatsu-meine-arbeit-als-missionar-in-einer-gottlosen-welt-crunchyr-2023-04-26/"
+    },
+    {
+     "schluessel": "gachiakuta-crunchyroll-de-2025-07-06",
+     "text": "Gachiakuta: 2→3: 14 Tage, 13→14: 28 Tage",
+     "ort": "/r/gachiakuta-crunchyroll-de-2025-07-06/"
+    },
+    {
+     "schluessel": "i-ll-become-a-villainess-who-goes-down-in-history-crunchyroll-de-2024-10-22",
+     "text": "I’ll Become a Villainess Who Goes Down in History: 12→13: 14 Tage",
+     "ort": "/r/i-ll-become-a-villainess-who-goes-down-in-history-crunchyroll-de-2024-10-22/"
+    },
+    {
+     "schluessel": "sentenced-to-be-a-hero-crunchyroll-de-2026-01-03",
+     "text": "Sentenced to Be a Hero: 1→2: 12 Tage, 10→11: 14 Tage, 11→12: 21 Tage",
+     "ort": "/r/sentenced-to-be-a-hero-crunchyroll-de-2026-01-03/"
+    },
+    {
+     "schluessel": "you-and-i-are-polar-opposites-crunchyroll-de-2026-01-11",
+     "text": "You and I Are Polar Opposites: 7→8: 21 Tage, 9→10: 14 Tage",
+     "ort": "/r/you-and-i-are-polar-opposites-crunchyroll-de-2026-01-11/"
+    },
+    {
+     "schluessel": "wistoria-wand-and-sword-crunchyroll-de-2024-07-28",
+     "text": "Wistoria: Wand and Sword: 3→4: 14 Tage",
+     "ort": "/r/wistoria-wand-and-sword-crunchyroll-de-2024-07-28/"
+    },
+    {
+     "schluessel": "a-couple-of-cuckoos-crunchyroll-de-2022-05-22",
+     "text": "A Couple of Cuckoos: 12→13: 14 Tage",
+     "ort": "/r/a-couple-of-cuckoos-crunchyroll-de-2022-05-22/"
+    },
+    {
+     "schluessel": "trigun-stampede-crunchyroll-de-2023-02-04",
+     "text": "Trigun Stampede: 7→8: 14 Tage",
+     "ort": "/r/trigun-stampede-crunchyroll-de-2023-02-04/"
+    },
+    {
+     "schluessel": "ayakashi-triangle-crunchyroll-de-2023-01-30",
+     "text": "Ayakashi Triangle: 4→5: 35 Tage, 6→7: 196 Tage",
+     "ort": "/r/ayakashi-triangle-crunchyroll-de-2023-01-30/"
+    },
+    {
+     "schluessel": "shikimori-s-not-just-a-cutie-crunchyroll-de-2022-04-23",
+     "text": "Shikimori’s Not Just a Cutie: 1→2: 14 Tage, 6→7: 14 Tage, 8→9: 14 Tage",
+     "ort": "/r/shikimori-s-not-just-a-cutie-crunchyroll-de-2022-04-23/"
+    },
+    {
+     "schluessel": "shin-ikki-tousen-crunchyroll-de-2022-05-31",
+     "text": "Shin Ikki Tousen: 1→2: 8 Tage, 2→3: 6 Tage",
+     "ort": "/r/shin-ikki-tousen-crunchyroll-de-2022-05-31/"
+    },
+    {
+     "schluessel": "ich-bin-eine-spinne-na-und-crunchyroll-de-2021-01-08",
+     "text": "Ich bin eine Spinne, na und?: 12→13: 14 Tage, 23→24: 15 Tage",
+     "ort": "/r/ich-bin-eine-spinne-na-und-crunchyroll-de-2021-01-08/"
+    },
+    {
+     "schluessel": "the-dawn-of-the-witch-crunchyroll-de-2022-04-07",
+     "text": "The Dawn of the Witch: 6→7: 14 Tage",
+     "ort": "/r/the-dawn-of-the-witch-crunchyroll-de-2022-04-07/"
+    },
+    {
+     "schluessel": "das-band-der-unterwelt-crunchyroll-de-2026-04-04",
+     "text": "Das Band der Unterwelt: 4→5: 28 Tage, 12→13: 14 Tage",
+     "ort": "/r/das-band-der-unterwelt-crunchyroll-de-2026-04-04/"
+    }
+   ],
+   "hebel": 0.5,
+   "einstufung": {
+    "wirkung": 1,
+    "sicherheit": 0.5,
+    "empfehlung": "nein",
+    "stichprobe": "08.10.2026: 49/151 — Bündel und Pausen sind Normalfall, Stützpunkte fangen sie; nur Kennzahl"
+   }
+  },
+  {
+   "id": "D-25",
+   "name": "Handlung fehlt, aniSearch hat eine (158 ohne Handlung)",
+   "folge": "Panel ohne Beschreibung, obwohl eine vorliegt",
+   "geprueft": 158,
+   "treffer": [],
+   "hebel": 0.5,
+   "einstufung": {
+    "wirkung": 1,
+    "sicherheit": 0.5,
+    "empfehlung": "nein",
+    "stichprobe": "08.10.2026: 0 von 158 ohne Handlung haben eine aniSearch-Beschreibung"
+   }
+  },
+  {
+   "id": "D-18",
+   "name": "Weg-Felder widersprechen sich",
+   "folge": "Folgenbereiche oder „geteilte Seite\" werden falsch angezeigt",
+   "geprueft": 2154,
+   "treffer": [
+    {
+     "schluessel": "20605|https://www.amazon.de/gp/video/detail/B0D188KVH4|shared",
+     "text": "Tokyo Ghoul (2014, 12 Fg.): primevideo-Adresse bedient 2 Titel, sharedWith sagt nichts"
+    },
+    {
+     "schluessel": "20691|https://www.crunchyroll.com/de/series/GR751KNZY/attack-on-titan|shared",
+     "text": "Shingeki no Kyojin Zenpen: Guren no Yumiya (2014, 1 Fg.): crunchyroll-Adresse bedient 4 Titel, sharedWith sagt 5"
+    },
+    {
+     "schluessel": "20692|https://www.crunchyroll.com/de/series/GR751KNZY/attack-on-titan|shared",
+     "text": "Attack on Titan - Movie Teil 2: Flügel der Freiheit (2015, 1 Fg.): crunchyroll-Adresse bedient 4 Titel, sharedWith sagt 5"
+    },
+    {
+     "schluessel": "102351|https://www.amazon.de/gp/video/detail/B0D188KVH4|shared",
+     "text": "Tokyo Ghoul:re (2018, 12 Fg.): primevideo-Adresse bedient 2 Titel, sharedWith sagt nichts"
+    },
+    {
+     "schluessel": "101595|https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal|shared",
+     "text": "Princess Principal: Crown Handler - Chapter 1 (2021, 1 Fg.): crunchyroll-Adresse bedient 4 Titel, sharedWith sagt 6"
+    },
+    {
+     "schluessel": "129759|https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal|shared",
+     "text": "Princess Principal: Crown Handler - Chapter 2 (2021, 1 Fg.): crunchyroll-Adresse bedient 4 Titel, sharedWith sagt 6"
+    },
+    {
+     "schluessel": "127720|https://www.netflix.com/title/80987039|bereich",
+     "text": "Mushoku Tensei: Jobless Reincarnation Cour 2 (2021, 12 Fg.): netflix-Bereich bis Folge 23 bei 12 Folgen"
+    },
+    {
+     "schluessel": "132473|https://www.crunchyroll.com/de/series/GEXH3W8G1/the-faraway-paladin|shared",
+     "text": "The Faraway Paladin (2021, 12 Fg.): crunchyroll-Adresse bedient 2 Titel, sharedWith sagt 3"
+    },
+    {
+     "schluessel": "135255|https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal|shared",
+     "text": "Princess Principal: Crown Handler - Chapter 1: BUSY EASY MONEY (2021, 1 Fg.): crunchyroll-Adresse bedient 4 Titel, sharedWith sagt 6"
+    },
+    {
+     "schluessel": "139630|https://www.crunchyroll.com/de/series/G6NQ5DWZ6/my-hero-academia|shared",
+     "text": "My Hero Academia Staffel 6 (2022, 25 Fg.): crunchyroll-Adresse bedient 6 Titel, sharedWith sagt 8"
+    },
+    {
+     "schluessel": "143085|https://www.crunchyroll.com/de/series/GEXH3W8G1/the-faraway-paladin|shared",
+     "text": "The Faraway Paladin: The Lord of Rust Mountains (2023, 12 Fg.): crunchyroll-Adresse bedient 2 Titel, sharedWith sagt 3"
+    },
+    {
+     "schluessel": "145064|https://www.crunchyroll.com/de/series/GRDV0019R/jujutsu-kaisen|shared",
+     "text": "Jujutsu Kaisen: Staffel 2 (2023, 23 Fg.): crunchyroll-Adresse bedient 7 Titel, sharedWith sagt 8"
+    },
+    {
+     "schluessel": "145139|https://www.crunchyroll.com/de/series/GY5P48XEY/demon-slayer-kimetsu-no-yaiba|shared",
+     "text": "Demon Slayer: Kimetsu no Yaiba - Swordsmith Village Arc (2023, 11 Fg.): crunchyroll-Adresse bedient 6 Titel, sharedWith sagt 9"
+    },
+    {
+     "schluessel": "146065|https://www.crunchyroll.com/de/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation|shared",
+     "text": "Mushoku Tensei: Jobless Reincarnation (2023, 13 Fg.): crunchyroll-Adresse bedient 3 Titel, sharedWith sagt 4"
+    },
+    {
+     "schluessel": "146638|https://www.netflix.com/title/80992228|bereich",
+     "text": "Kengan Ashura: Staffel 2 (2023, 12 Fg.): netflix-Bereich bis Folge 28 bei 12 Folgen"
+    },
+    {
+     "schluessel": "150672|https://www.amazon.de/gp/video/detail/B0GFPBT6FG|bereich",
+     "text": "Oshi no Ko: Mein Star (2023, 11 Fg.): primevideo-Bereich bis Folge 12 bei 11 Folgen"
+    },
+    {
+     "schluessel": "163139|https://www.crunchyroll.com/de/series/G6NQ5DWZ6/my-hero-academia|shared",
+     "text": "My Hero Academia: Season 7 (2024, 21 Fg.): crunchyroll-Adresse bedient 6 Titel, sharedWith sagt 8"
+    },
+    {
+     "schluessel": "163134|https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-|shared",
+     "text": "Re:Zero - Starting Life in Another World: Staffel 3 (2024, 16 Fg.): crunchyroll-Adresse bedient 2 Titel, sharedWith sagt 4"
+    },
+    {
+     "schluessel": "166240|https://www.crunchyroll.com/de/series/GY5P48XEY/demon-slayer-kimetsu-no-yaiba|shared",
+     "text": "Demon Slayer: Kimetsu no Yaiba - Hashira Training Arc (2024, 8 Fg.): crunchyroll-Adresse bedient 6 Titel, sharedWith sagt 9"
+    },
+    {
+     "schluessel": "166715|https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler|shared",
+     "text": "Black Butler: Public School Arc (2024, 11 Fg.): crunchyroll-Adresse bedient 3 Titel, sharedWith sagt 12"
+    },
+    {
+     "schluessel": "166873|https://www.crunchyroll.com/de/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation|shared",
+     "text": "Mushoku Tensei: Jobless Reincarnation - Staffel 2 Cour 2 (2024, 12 Fg.): crunchyroll-Adresse bedient 3 Titel, sharedWith sagt 4"
+    },
+    {
+     "schluessel": "167141|https://www.crunchyroll.com/de/series/GY79P41KR/sword-art-online-alternative-gun-gale-online|shared",
+     "text": "Sword Art Online Alternative: Gun Gale Online II (2024, 12 Fg.): crunchyroll-Adresse bedient 2 Titel, sharedWith sagt 3"
+    },
+    {
+     "schluessel": "172463|https://www.crunchyroll.com/de/series/GRDV0019R/jujutsu-kaisen|shared",
+     "text": "Jujutsu Kaisen: Staffel 3 – Teil 1 (2026, 12 Fg.): crunchyroll-Adresse bedient 7 Titel, sharedWith sagt 8"
+    },
+    {
+     "schluessel": "178789|https://www.crunchyroll.com/de/series/G24H1N3MP/mushoku-tensei-jobless-reincarnation|shared",
+     "text": "Mushoku Tensei: Jobless Reincarnation (2026, 14 Fg.): crunchyroll-Adresse bedient 3 Titel, sharedWith sagt 4"
+    },
+    {
+     "schluessel": "179054|https://www.crunchyroll.com/de/series/GYQ43P3E6/black-butler|shared",
+     "text": "Black Butler: Emerald Witch Arc (2025, 13 Fg.): crunchyroll-Adresse bedient 3 Titel, sharedWith sagt 12"
+    },
+    {
+     "schluessel": "182896|https://www.crunchyroll.com/de/series/G6NQ5DWZ6/my-hero-academia|shared",
+     "text": "My Hero Academia: Final Season (2025, 11 Fg.): crunchyroll-Adresse bedient 6 Titel, sharedWith sagt 8"
+    },
+    {
+     "schluessel": "189046|https://www.crunchyroll.com/de/series/GRGG9798R/rezero--starting-life-in-another-world-|shared",
+     "text": "Re:Zero - Starting Life in Another World: Staffel 4 (2026, 19 Fg.): crunchyroll-Adresse bedient 2 Titel, sharedWith sagt 4"
+    },
+    {
+     "schluessel": "204356|https://www.crunchyroll.com/de/series/G6NQ5DWZ6/my-hero-academia|shared",
+     "text": "Boku no Hero Academia No. 170+1: More (2026, 1 Fg.): crunchyroll-Adresse bedient 6 Titel, sharedWith sagt 8"
+    },
+    {
+     "schluessel": "211711|https://www.crunchyroll.com/de/series/G6NQ5DWZ6/my-hero-academia|shared",
+     "text": "My Hero Academia: I Am a Hero Too (2026, 1 Fg.): crunchyroll-Adresse bedient 6 Titel, sharedWith sagt 8"
+    }
+   ],
+   "hebel": 0.3,
+   "einstufung": {
+    "wirkung": 1,
+    "sicherheit": 0.3,
+    "empfehlung": "nein",
+    "stichprobe": "08.10.2026: 3 Bereiche über der Folgenzahl echt (B-12: Mushoku Tensei Cour 2, Kengan Ashura S2, Oshi no Ko); 26 sharedWith-Abweichungen zählen auch AniList-Titel außerhalb des Bestands"
+   }
+  }
+ ]
+}

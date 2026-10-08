@@ -175,6 +175,7 @@ Je Thema eine Datei; die Abschnittsüberschriften sind der Index
   robots.txt, News-Quellen
 - [docs/wissen/betrieb.md](docs/wissen/betrieb.md) — Läufe, Worker, Git, Prüfungen
 - [docs/wissen/datensatz.md](docs/wissen/datensatz.md) — Bau und Anzeige
+- [docs/wissen/daten-detektiv.md](docs/wissen/daten-detektiv.md) — `npm run detektiv`: 25 Regeln gegen Zweitquellen, Funde nach Hebel, hart/weich/nein
 - [docs/wissen/projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md) — Volltext dieser
   Regeln mit Anlässen
 
