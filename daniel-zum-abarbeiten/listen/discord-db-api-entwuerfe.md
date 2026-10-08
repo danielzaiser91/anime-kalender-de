@@ -71,14 +71,14 @@ Falls ich etwas übersehen habe, sagt Bescheid, sonst ist es eine Lücke. Danke!
 
 ---
 
-## 4 · Yu-Gi-Oh! The Dark Side of Dimensions – Special „Eien no Rival"
+## 4 · Yu-Gi-Oh! The Dark Side of Dimensions Special (Eien no Rival)
 
-**Überschrift:** `Yu-Gi-Oh! The Dark Side of Dimensions – Special „Eien no Rival" (Yuugi to Kaiba), MAL 33997`
+**Überschrift:** `Yu-Gi-Oh! The Dark Side of Dimensions Special (Eien no Rival), MAL 33997`
 
 ```
 Hallo zusammen, zu diesem Titel finde ich bei euch keinen Eintrag:
 
-**Yu-Gi-Oh! The Dark Side of Dimensions – Special „Eien no Rival" (Yuugi to Kaiba)**, ein 26-Minuten-Special, das vor dem Film läuft. Ein deutscher Titel des Specials ist mir nicht bekannt; der Film heißt auch auf Deutsch „Yu-Gi-Oh! The Dark Side of Dimensions". Titel bei AniList und MAL: Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival - Yuugi to Kaiba!
+**Yu-Gi-Oh! The Dark Side of Dimensions Special**, ein 26-Minuten-Special mit einer Folge vom 17.04.2016, das vor dem Film läuft: Jounouchi und Mokuba fassen die Rivalität zwischen Yuugi und Kaiba zusammen (laut MAL). Ein deutscher Titel des Specials ist mir nicht bekannt; der Film heißt auch auf Deutsch „Yu-Gi-Oh! The Dark Side of Dimensions". Vollständiger Titel bei AniList: Yu☆Gi☆Oh! The Dark Side of Dimensions Special: Eien no Rival - Yuugi to Kaiba!
 - AniList: https://anilist.co/anime/102505/YuGiOh-The-Dark-Side-of-Dimensions-Special-Eien-no-Rival-Yuugi-to-Kaiba
 - MAL: https://myanimelist.net/anime/33997
 
