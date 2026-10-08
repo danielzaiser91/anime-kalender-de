@@ -76,7 +76,7 @@ export function Steuerleiste(p: SteuerProps) {
   const ausblenden = useVorschau('leisten') === 'ausblenden'
   const schritt = (dir: number) => p.onDate(monat ? addMonths(p.date, dir) : addDays(p.date, dir * 7))
   const lage = useHeuteLage(monat, p.date)
-  const rund = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
+  const rund = 'flex size-11 max-[419px]:size-10 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
   return (
     <div
       data-steuerleiste
@@ -88,7 +88,7 @@ export function Steuerleiste(p: SteuerProps) {
         .filter(Boolean)
         .join(' ')}
     >
-      <div className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-ak-rand bg-ak-flaeche/95 p-1.5 shadow-[0_12px_32px_rgba(0,0,0,.35)] backdrop-blur sm:gap-2">
+      <div className="pointer-events-auto flex items-center gap-1.5 max-[419px]:gap-1 rounded-full border border-ak-rand bg-ak-flaeche/95 p-1.5 max-[419px]:p-1 shadow-[0_12px_32px_rgba(0,0,0,.35)] backdrop-blur sm:gap-2">
         <div role="group" aria-label={t('kal.zeitraum')} className="flex rounded-full bg-ak-flaeche-2 p-0.5">
           <Segment an={!monat} onClick={p.onWoche}>{t('view.woche')}</Segment>
           <Segment an={monat} onClick={p.onMonat}>{t('view.monat')}</Segment>
@@ -100,7 +100,7 @@ export function Steuerleiste(p: SteuerProps) {
           aria-controls="ak-filterfeld"
           aria-label={t('filter.button')}
           className={[
-            'flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3 text-sm font-bold transition sm:pr-4 sm:pl-3.5',
+            'flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3 max-[419px]:px-2.5 max-[369px]:px-2 text-sm font-bold transition sm:pr-4 sm:pl-3.5',
             p.filterOffen || p.filterAnzahl ? 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent' : 'border-ak-rand bg-ak-flaeche text-ak-text hover:border-ak-leise',
           ].join(' ')}
         >
@@ -157,7 +157,7 @@ function HeuteKnopf({ lage, monat, onClick }: { lage: HeuteLage; monat: boolean;
         aria-label={`${t('nav.today')}: ${text}`}
         aria-current={hier ? 'date' : undefined}
         className={[
-          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
+          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 max-[419px]:px-1.5 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
           hier ? 'border-ak-rand bg-transparent text-ak-leise hover:border-ak-leise hover:text-ak-text' : 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent',
         ].join(' ')}
       >
@@ -176,7 +176,7 @@ function Segment({ an, onClick, children }: { an: boolean; onClick: () => void; 
       aria-pressed={an}
       onClick={onClick}
       className={[
-        'h-10 cursor-pointer rounded-full px-3 text-sm font-bold transition sm:px-4',
+        'h-10 cursor-pointer rounded-full px-3 max-[419px]:px-2 max-[369px]:px-1.5 text-sm font-bold transition sm:px-4',
         an ? 'bg-ak-akzent text-ak-auf-akzent' : 'text-ak-leise hover:text-ak-text',
       ].join(' ')}
     >

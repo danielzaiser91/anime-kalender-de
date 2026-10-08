@@ -25,12 +25,13 @@ export function HandyNavigation({
   einstellungen: () => void
 }) {
   const { t } = useLang()
-  const eintrag = (an: boolean, label: string, zeichen: ReactNode, onClick: () => void, key: string) => (
+  const eintrag = (an: boolean, label: string, zeichen: ReactNode, onClick: () => void, key: string, voll?: string) => (
     <button
       key={key}
       type="button"
       onClick={onClick}
       aria-current={an ? 'page' : undefined}
+      aria-label={voll}
       className={[
         'flex h-[52px] min-w-0 cursor-pointer flex-col items-center justify-center gap-0.5 rounded-2xl text-xs transition',
         an ? 'bg-ak-akzent font-extrabold text-ak-auf-akzent' : 'font-semibold text-ak-leise hover:text-ak-text',
@@ -59,7 +60,7 @@ export function HandyNavigation({
       {eintrag(aktiv === 'datenbank', t('view.datenbank' as TranslationKey), <RasterZeichen />, () => onView('datenbank'), 'datenbank')}
       {eintrag(aktiv === 'news', t('view.news'), <NewsZeichen />, () => onView('news'), 'news')}
       {eintrag(aktiv === 'saison', t('view.saison' as TranslationKey), <SaisonZeichen />, () => onView('saison'), 'saison')}
-      {eintrag(false, t('einstellungen.titel'), <ZahnradZeichen />, einstellungen, 'einstellungen')}
+      {eintrag(false, t('nav.einstellungenKurz' as TranslationKey), <ZahnradZeichen />, einstellungen, 'einstellungen', t('einstellungen.titel'))}
     </nav>,
     document.body,
   )
