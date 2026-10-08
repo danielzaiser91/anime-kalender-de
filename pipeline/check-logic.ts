@@ -18,7 +18,7 @@
  */
 import { ladeAkVon, uebersetzeDatei, umleitungen } from './lib/ausgabe-kennung.ts'
 import { umleiteKarte, umleiteListe } from '../web/src/lib/ak-umleiten.ts'
-import { leseFavoriten } from '../worker/src/favoriten-kennung.ts'
+import { leseFavoriten } from '../worker/src/favoriten-lesen.ts'
 import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
