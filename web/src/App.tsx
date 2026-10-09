@@ -161,10 +161,7 @@ export default function App() {
   }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites, grouped], LEERE_ANSICHT)
   const kalenderBereit = useErstesErgebnis(!!data, eventsVeraltet)
 
-  const openTitleId = useMemo(() => {
-    if (route.title) return route.title
-    return undefined
-  }, [route.title, data])
+  const openTitleId = route.title || undefined
 
   const setFilters = (filters: FilterState) => navigate({ filters: { ...filters, search: route.filters.search } })
   const setView = (view: ViewId) => navigate({ view, title: undefined, disc: undefined })
