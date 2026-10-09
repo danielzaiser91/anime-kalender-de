@@ -1,13 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
-import { SprecherLeiste } from './components/SprecherLeiste.tsx'
 import { useSprecherAuswahl } from './lib/sprecher.ts'
 import { EinstellungenDialog } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
 import { useStartdaten } from './lib/start-daten.ts'
 import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, type FilterState } from './lib/filters.ts'
 import { useKalenderFilter } from './lib/kalender-filter.ts'
-import { SuchfundstellenContext } from './lib/such-kontext.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
 import { istOhneBelegteSynchro } from './lib/titel-sortierung.ts'
 import type { Fundstelle } from './lib/search.ts'
@@ -23,9 +21,8 @@ import { InstallDialog } from './components/InstallPrompt.tsx'
 import { SeitenAnsicht } from './components/SeitenAnsicht.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
 import { coverBild, KACHEL_DICHTE } from './lib/cover.ts'
-import { FilterBarDock } from './components/FilterBar.tsx'
 import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
-import { DatabaseView } from './components/DatabaseView.tsx'
+import { DatenbankBereich } from './components/DatenbankBereich.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
 import { Footer } from './components/StaticViews.tsx'
 import { StartGeruest, WochenSkelett } from './components/StartGeruest.tsx'
@@ -35,15 +32,6 @@ import { useErstesErgebnis } from './lib/erstes-ergebnis.ts'
 const LEERE_ANSICHT = { liste: [] as Title[], fundstellen: new Map<string, Fundstelle[]>() }
 const LEERE_TERMINE = { liste: [] as ReleaseEvent[], fundstellen: new Map<string, Fundstelle[]>() }
 
-
-function Spinner({ label }: { label: string }) {
-  return (
-    <div className="flex h-64 flex-col items-center justify-center gap-3 text-sm text-ak-leise">
-      <span className="size-6 animate-spin rounded-full border-2 border-ak-leise border-t-transparent" />
-      {label}
-    </div>
-  )
-}
 
 /** Eine Wahl, die im Browser bleibt statt in der Adresse — wer einen Link teilt, teilt nicht seine Vorlieben. */
 function useGemerkterSchalter(schluessel: string, lesen: () => boolean): [boolean, (an: boolean) => void] {
@@ -237,35 +225,23 @@ export default function App() {
         )}
 
         {route.view === 'datenbank' && (
-          <>
-            {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
-            <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
-            {/* Das Filterfeld der Datenbank dockt unten an — wie im Kalender. */}
-            <SprecherLeiste data={data} filters={route.filters}><FilterBarDock meta={data.meta} filters={route.filters} onChange={setFilters} showConfidence favoriteCount={favorites.size} /></SprecherLeiste>
-            {allTitles ? (
-              <SuchfundstellenContext.Provider value={titles.fundstellen}>
-                <DatabaseView
-                  data={data}
-                  titles={titles.liste}
-                  grouped={grouped}
-                  onGroupedChange={setGrouped}
-                  ohneSynchro={zeigeOhneSynchro}
-                  onOhneSynchroChange={setZeigeOhneSynchro}
-                  ohneSynchroLaedt={(zeigeOhneSynchro && !ohneSynchro) || titelRechnet || sprecher.laedt}
-                  favorites={favorites}
-                  hidden={hidden}
-                  onToggleFavorite={toggle}
-                  onToggleHidden={toggleHidden}
-                  onOpenTitle={(id) => navigate({ title: id, disc: undefined })}
-                  suche={route.filters.search}
-                  gewaehlt={route.sort}
-                  onSortChange={(sort) => navigate({ sort })}
-                />
-              </SuchfundstellenContext.Provider>
-            ) : (
-              <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
-            )}
-          </>
+          <DatenbankBereich
+            data={data}
+            route={route}
+            navigate={navigate}
+            setFilters={setFilters}
+            geladen={!!allTitles}
+            titles={titles}
+            grouped={grouped}
+            onGroupedChange={setGrouped}
+            ohneSynchro={zeigeOhneSynchro}
+            onOhneSynchroChange={setZeigeOhneSynchro}
+            laedt={(zeigeOhneSynchro && !ohneSynchro) || titelRechnet || sprecher.laedt}
+            favorites={favorites}
+            hidden={hidden}
+            onToggleFavorite={toggle}
+            onToggleHidden={toggleHidden}
+          />
         )}
 
         <SeitenAnsicht view={route.view} data={data} favorites={favorites} oeffne={(id: number) => navigate({ title: id })} />
