@@ -36,7 +36,7 @@ import { nachgereichteFolgen } from './bau/verpasst-am-termin.ts'
 import { mitArtikeldaten, textHash } from './lib/beleg-lesung.ts'
 import { faelligeLaeufe, startErlaubt } from '../shared/weckplan.ts'
 import type { NewsEintrag } from '../shared/types.ts'
-import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
+import { hauptstaffeln, reihenAnfang, staffelBeschriftungen, staffelStaende } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
@@ -5538,6 +5538,15 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('eine Staffel in anderer Sprache behält ihre Nummer', frieren.get(3) === 'Staffel 3' && frieren.get(2) === 'Staffel 2')
   const blue = staffelBeschriftungen([m(1, 'Bluelock', '2022'), m(2, 'Blue Lock: Staffel 2', '2024')], 'Bluelock')
   pruefe('„Blue Lock: Staffel 2" gehört zu „Bluelock"', blue.get(2) === 'Staffel 2')
+  /* Staffelnummer auch bei benannten Staffeln (Tokyo Revengers, 09.10.2026); eine einzige Staffel bleibt ohne. */
+  const tr = staffelStaende(
+    [m(1, 'Tokyo Revengers', '2021'), m(2, 'Tokyo Revengers: Christmas Showdown', '2023'), m(3, 'Tokyo Revengers: Tenjiku Arc', '2023-10'), m(4, 'Tokyo Revengers: War of the Three Titans', '2026')],
+    'Tokyo Revengers',
+  )
+  pruefe('benannte Staffeln tragen „Staffel N von M"', tr.get(1)?.staffel === 1 && tr.get(4)?.staffel === 4 && tr.get(4)?.von === 4 && tr.get(4)?.eigenerName === true)
+  pruefe('eine einzige Staffel hat keine Nummer', staffelStaende([m(1, 'One Piece', '1999')], 'One Piece').size === 0)
+  const pokeNr = staffelStaende([m(1, 'Pokémon', '1997'), m(2, 'Pokémon: Schwarz & Weiß Staffel 2', '2012')], 'Pokémon')
+  pruefe('„Schwarz & Weiß Staffel 2" ist die zweite Staffel mit eigenem Namen, nicht „Pokémon Staffel 2"', pokeNr.get(2)?.eigenerName === true)
 }
 /* Cartoons: ähnliche Titel am Mittel beider Listen, ein gemeinsames Schlagwort ist Pflicht (16.09.2026). */
 {

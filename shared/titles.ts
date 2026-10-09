@@ -153,7 +153,7 @@ function plaetzeInStaffel(eintraege: { id: number; staffel: number }[]): Map<num
 type StaffelEintrag = { id: number; staffel: number; teil?: number; eigenerName: boolean }
 type StaffelFeld = { id: number; name: string; jpYear?: number; jpStart?: string; staffelQuelle?: number }
 
-/** Ordnet jeden Eintrag einer Staffel zu (Regeln: siehe oben); `staffelBeschriftungen()` und `staffelNummern()` lesen daraus. */
+/** Ordnet jeden Eintrag einer Staffel zu (Regeln: siehe oben); `staffelBeschriftungen()` und `staffelStaende()` lesen daraus. */
 function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string): StaffelEintrag[] {
   const zeit = (m: T) => m.jpStart ?? String(m.jpYear ?? 9999)
   const sortiert = staffeln.slice().sort((a, b) => zeit(a).localeCompare(zeit(b)) || a.id - b.id)
@@ -231,6 +231,24 @@ export function staffelBeschriftungen<T extends StaffelFeld>(staffeln: T[], reih
     beschriftung.set(e.id, teil ? `Staffel ${e.staffel} - Teil ${teil}` : `Staffel ${e.staffel}`)
   }
   return beschriftung
+}
+
+export type StaffelNummer = { staffel: number; teil?: number; von: number; eigenerName: boolean }
+
+/**
+ * **Die Staffelnummer jedes Eintrags, auch bei eigenem Namen** (09.10.2026: „Staffel 4 von 4" für „War of the
+ * Three Titans"). `staffelBeschriftungen()` nummeriert nur Teile ohne Namen; hier zählt dieselbe Rechnung alle.
+ * Leer bei einer einzigen Staffel — dort unterscheidet die Nummer nichts (One Piece).
+ */
+export function staffelStaende<T extends StaffelFeld>(staffeln: T[], reihenName: string): Map<number, StaffelNummer> {
+  const eintraege = zaehleStaffeln(staffeln, reihenName)
+  const von = Math.max(0, ...eintraege.map((e) => e.staffel))
+  if (von < 2) return new Map()
+  const mitTeilen = new Set(eintraege.filter((e) => (e.teil ?? 1) >= 2).map((e) => e.staffel))
+  const platz = plaetzeInStaffel(eintraege)
+  return new Map(
+    eintraege.map((e) => [e.id, { staffel: e.staffel, teil: mitTeilen.has(e.staffel) ? (platz.get(e.id) ?? 1) : undefined, von, eigenerName: e.eigenerName }]),
+  )
 }
 
 const JAHRESZEIT: Record<string, number> = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
