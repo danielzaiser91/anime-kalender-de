@@ -133,6 +133,11 @@ jobs:
       - name: Nachrichtenlage bei Anime2You prüfen
         run: bash tools/schritt.sh --zeit 12m "Anime2You" -- npm run data:anime2you
 
+      # Vorschlagsmodus: liest Sammelartikel seit dem letzten Stand (data/sammelartikel-stand.json) und schreibt nur data/proposals/aussagen.json —
+      # nie data/curated/. Sperre oder Zeitüberschreitung ergibt eine Pause im Stand, keinen roten Lauf. Die Wochenwache meldet die Zahlen.
+      - name: Sammelartikel von Anime2You als Vorschläge lesen
+        run: bash tools/schritt.sh --zeit 8m "Sammelartikel (Vorschläge)" -- npm run data:sammelartikel
+
       # Der Abruf darüber holt die Meldungen, dieser Schritt macht sie sichtbar: `15-news-vorschau.md` listet jede Ankündigung mit künftigem Termin, die noch nicht im
       # Datensatz steht (bis 07.09.2026 lief `data:report` in keinem Workflow; bei „Kill Blue" lag die Ankündigung vier Tage vor dem Termin ungesehen im Repo).
       - name: Was angekündigt ist und noch fehlt
