@@ -103,6 +103,22 @@ pruefe('mit Suche gilt die Treffergüte, keine Gruppen', !istGruppiert('relevanz
 pruefe('A–Z, Jahr, Bewertung gruppieren nie', !istGruppiert('titel', '') && !istGruppiert('jahr', '') && !istGruppiert('score', ''))
 pruefe('die Überschrift „Läuft jetzt" ersetzt die Pille „Läuft", nicht aber „Abgeschlossen"', ueberschriftSagtStatus('laeuft', 'airing') && !ueberschriftSagtStatus('laeuft', 'abgeschlossen'))
 
+console.log('\nDatenbank-Relevanz: Cartoons haben keine Termine, aber ein Startdatum')
+const cartoonTitel = [
+  titel(30, { westlich: true, jpYear: 2019, jpStart: '2019-05-01' }),
+  titel(31, { westlich: true, jpYear: 2026 }),
+  titel(32, { westlich: true, jpYear: 2030, jpStart: '2030-01-01' }),
+  titel(33, { westlich: true, jpYear: undefined }),
+  titel(34, { jpYear: undefined, jpStart: "2019-05-01" }),
+]
+const gCartoon = lauf(cartoonTitel.map((c) => reihe(c)), [])
+pruefe('Cartoon mit Startdatum in der Vergangenheit → „Schon erschienen"', art(gCartoon, 30) === 'erschienen', art(gCartoon, 30))
+pruefe('Cartoon nur mit laufendem Jahr (Jahresende noch nicht erreicht) → „Ohne bekannten Termin"', art(gCartoon, 31) === 'unbekannt', art(gCartoon, 31))
+pruefe('Platzhalter in der Zukunft (2030-01-01) ist kein Datum → „Ohne bekannten Termin"', art(gCartoon, 32) === 'unbekannt', art(gCartoon, 32))
+pruefe('Cartoon ohne jedes Datum → „Ohne bekannten Termin"', art(gCartoon, 33) === 'unbekannt', art(gCartoon, 33))
+pruefe('Anime ohne Termin und mit nur einem japanischen Startdatum bleibt „Ohne bekannten Termin" (das ist keine deutsche Ausgabe)', art(gCartoon, 34) === 'unbekannt', art(gCartoon, 34))
+pruefe('Kein stiller Verlust: Summe der Gruppen = Gesamtzahl', gCartoon.reduce((n, g) => n + g.eintraege.length, 0) === cartoonTitel.length)
+
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)

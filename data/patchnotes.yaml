@@ -3,6 +3,10 @@
 # Optional: highlight: true (höchstens 2 je Tag), untertitel, symbol (stern | schluessel), link (Hash-Adresse "#/…").
 # live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
 - datum: "2026-10-09"
+  kategorie: bugfix
+  text: Alte Cartoons stehen unter „Schon erschienen“
+  live: false
+- datum: "2026-10-09"
   kategorie: feature
   text: "Filter am Handy: mehr Platz für die Titel"
   live: false
