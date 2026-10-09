@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 26
+    "2026-10": 30
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1858,7 +1858,7 @@
       "imdbId": "tt4655480",
       "tmdbId": "tv/62650",
       "dienst": "prime",
-      "am": "2026-09-29",
+      "am": "2026-10-09",
       "deutsch": true
     },
     "removed:7754:prime": {
@@ -2378,7 +2378,7 @@
       "imdbId": "tt11192306",
       "tmdbId": "tv/95057",
       "dienst": "prime",
-      "am": "2026-10-07",
+      "am": "2026-10-09",
       "deutsch": true
     },
     "removed:56951:prime": {
@@ -4408,7 +4408,7 @@
       "imdbId": "tt3655448",
       "tmdbId": "tv/62699",
       "dienst": "prime",
-      "am": "2026-09-25",
+      "am": "2026-10-09",
       "deutsch": false
     },
     "removed:13008:prime": {
@@ -6790,7 +6790,27 @@
       "dienst": "prime",
       "am": "2026-10-08",
       "deutsch": true
+    },
+    "removed:5461236:prime": {
+      "art": "removed",
+      "titel": "Alter Ego",
+      "originalTitel": "Alter Ego",
+      "imdbId": "tt26936873",
+      "tmdbId": "tv/240854",
+      "dienst": "prime",
+      "am": "2026-10-09",
+      "deutsch": true
+    },
+    "removed:24014:prime": {
+      "art": "removed",
+      "titel": "Suburbia - Women on the Edge",
+      "originalTitel": "Vorstadtweiber",
+      "imdbId": "tt4352342",
+      "tmdbId": "tv/61945",
+      "dienst": "prime",
+      "am": "2026-10-09",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-10-08T23:00:37.100Z"
+  "fetchedAt": "2026-10-09T12:00:21.361Z"
 }

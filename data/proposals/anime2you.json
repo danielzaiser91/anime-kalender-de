@@ -1,6 +1,20 @@
 {
-  "scrapedAt": "2026-10-08T23:03:38.496Z",
+  "scrapedAt": "2026-10-09T12:03:10.605Z",
   "proposals": [
+    {
+      "articleTitle": "Crunchyroll kündigt sechs neue Simulcast-Lizenzen für 2027 an",
+      "articleUrl": "https://www.anime2you.de/news/1058606/crunchyroll-the-boxer-und-mehr/",
+      "publishedAt": "2026-10-09",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll"
+      ],
+      "dates": [],
+      "dub": "unklar",
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-09"
+    },
     {
       "articleTitle": "»Fate/stay night: Heaven’s Feel« erscheint als limitierte Blu-ray-Komplettbox",
       "articleUrl": "https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/",
@@ -1712,7 +1726,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-06"
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Netflix: Alle Anime-Neuzugänge im Oktober 2026",
@@ -1847,7 +1861,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-06"
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Netflix enthüllt neuen Teaser zu »Cyberpunk: Edgerunners II«",
@@ -2076,7 +2090,7 @@
       "dub": "unklar",
       "alreadyCurated": false,
       "sammel": [],
-      "sammelGelesen": "2026-10-06"
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Netflix kündigt fünf Anime-Simulcasts für Herbst 2026 an",
@@ -2164,7 +2178,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Netflix nimmt ersten »Demon Slayer: Infinity Castle«-Film ins Programm",
@@ -2214,7 +2230,9 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Prime Video nimmt drei Anime-Neuzugänge ins Programm",
