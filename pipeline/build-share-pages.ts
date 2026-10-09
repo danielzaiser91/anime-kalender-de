@@ -746,10 +746,11 @@ function writeSitemap(titel: Title[] = []): void {
   // Die Übersicht gehört dazu: Sie ist der Einstieg zu allen Teilen-Seiten.
   const today = todayIso()
   const urls = [
-    { loc: SITE, priority: '1.0', changefreq: 'daily' },
+    { loc: SITE, priority: '1.0', changefreq: 'daily', lastmod: today },
     // Der Einstieg zu allen Teilen-Seiten — er muss selbst gefunden werden.
-    { loc: `${SITE}termine/`, priority: '0.9', changefreq: 'daily' },
-    ...titel.map((t) => ({ loc: `${SITE}t/${t.slug}/`, priority: '0.6', changefreq: 'weekly' })),
+    { loc: `${SITE}termine/`, priority: '0.9', changefreq: 'daily', lastmod: today },
+    // Titelseiten ohne lastmod: Ein belegbares Änderungsdatum je Seite gibt es nicht, „heute" wäre geraten.
+    ...titel.map((t) => ({ loc: `${SITE}t/${t.slug}/`, priority: '0.6', changefreq: 'weekly', lastmod: undefined as string | undefined })),
   ]
 
   const xml =
@@ -758,7 +759,7 @@ function writeSitemap(titel: Title[] = []): void {
     urls
       .map(
         (u) =>
-          `  <url>\n    <loc>${esc(u.loc)}</loc>\n    <lastmod>${today}</lastmod>\n` +
+          `  <url>\n    <loc>${esc(u.loc)}</loc>\n${u.lastmod ? `    <lastmod>${u.lastmod}</lastmod>\n` : ''}` +
           `    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`,
       )
       .join('\n') +
