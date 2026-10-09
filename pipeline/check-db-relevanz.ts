@@ -48,6 +48,10 @@ const disc = (titleId: number, am: string) => ({ titleId, releaseType: 'disc', s
 const g5 = lauf([reihe(titel(14, { deErstausgabe: { von: HEUTE } })), reihe(titel(15)), reihe(titel(16))], [disc(14, HEUTE), disc(15, HEUTE), disc(16, '2026-11-01')])
 pruefe('Boruto-Fall: Disc heute (mit und ohne Erstausgabe) → „Schon erschienen"', art(g5, 14) === 'erschienen' && art(g5, 15) === 'erschienen', [art(g5, 14), art(g5, 15)])
 pruefe('Disc in der Zukunft → „Demnächst"', art(g5, 16) === 'bald')
+const tv = (titleId: number, folgen: number) => ({ titleId, platform: 'tv', releaseType: 'weekly', schedule: { firstEpisodeDate: HEUTE, episodeCount: folgen } }) as unknown as Release
+const g6 = lauf([reihe(titel(21220, { deErstausgabe: { von: '2016-11-10', synchro: true } })), reihe(titel(18)), reihe(titel(19, { deErstausgabe: { von: '2016-11-10' } }))], [tv(21220, 1), tv(18, 1), tv(19, 12)])
+pruefe('Boruto-Film (Id 21220) und Film ohne Erstausgabe: eine TV-Sendung heute ist nicht „Läuft jetzt"', art(g6, 21220) === 'erschienen' && art(g6, 18) === 'erschienen', [art(g6, 21220), art(g6, 18)])
+pruefe('eine TV-Reihe mit mehreren Folgen läuft weiter', art(g6, 19) === 'laeuft')
 
 console.log('\nDatenbank-Relevanz: Reihen, Reihenfolge, Cartoons')
 const staffel1 = titel(8, { deErstausgabe: { von: '2020-01-01', bis: '2020-03-31' } })

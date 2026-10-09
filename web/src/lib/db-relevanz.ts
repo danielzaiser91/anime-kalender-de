@@ -23,8 +23,9 @@ const fruehesterTermin = (releases: Release[]): Release | undefined =>
 
 /** Ein einzelner Titel: aus `deErstausgabe`; ohne sie gilt der Status aus `titleStatus()`. */
 export function stufeTitelEin(t: Title, alle: Release[], today: string): Einstufung {
-  /* Eine Disc, die heute oder gerade erst erschien, läuft nicht: ein Disc-Termin ist nie „Läuft jetzt". */
-  const releases = alle.filter((r) => !(r.releaseType === 'disc' && releaseStatus(r, today) === 'airing'))
+  /* Eine Disc und eine Einzelsendung im Fernsehen (ein Film läuft einmal) sind keine laufende Erstausgabe. */
+  const einzel = (r: Release) => r.releaseType === 'disc' || (r.platform === 'tv' && (r.schedule?.episodeCount ?? 2) <= 1)
+  const releases = alle.filter((r) => !(einzel(r) && releaseStatus(r, today) === 'airing'))
   const e = t.deErstausgabe
   if (!e) {
     const status = titleStatus(releases, today, t)

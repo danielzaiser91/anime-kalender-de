@@ -612,7 +612,7 @@ Ohne Suche startet die Datenbank in drei Gruppen: „Läuft jetzt", „Demnächs
 Mockup „Datenbank-Einstieg"). Die Regel steht in `web/src/lib/db-relevanz.ts`, die Reihenfolge in `db-liste.ts`,
 die Zusicherungen in `pipeline/check-db-relevanz.ts`. Maßgeblich ist die deutsche Erstausgabe (`deErstausgabe`):
 ein späteres Neuerscheinen bei einem weiteren Anbieter zählt nicht (Rooster Fighter, Id 179813 → erschienen);
-ohne `deErstausgabe` gilt `titleStatus()`. Gemessen in der Seite am 09.10.2026 (mit Cartoons): ungebündelt 29 / 57 / 3.727 Titel, gebündelt 28 / 53 / 2.409 Reihen; Datensatz ohne Cartoons (gebündelt):
+ohne `deErstausgabe` gilt `titleStatus()`. Gemessen in der Seite am 09.10.2026 (mit Cartoons): ungebündelt 27 / 57 / 3.729 Titel, gebündelt 27 / 53 / 2.410 Reihen (Disc und Einzelsendung im TV zählen nicht als „läuft"); Datensatz ohne Cartoons (gebündelt):
 28 / 54 / 1.514 Franchises, ohne den Bestand „ohne Synchro" 28 / 53 / 1.509. Mit Suche gilt weiter die Treffergüte;
 `?sort=relevanz` ist jetzt immer gültig. Die Statuspille entfällt, wo die Überschrift sie schon sagt.
 
