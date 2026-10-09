@@ -8,6 +8,11 @@
   live: false
 - datum: "2026-10-09"
   kategorie: feature
+  text: Saison-Ausblick mit Japan-Start aller kommenden Serien
+  link: "#/saison"
+  live: false
+- datum: "2026-10-09"
+  kategorie: feature
   text: "Filter am Handy: mehr Platz für die Titel"
   live: false
 - datum: "2026-10-09"

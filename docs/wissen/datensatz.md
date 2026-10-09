@@ -698,6 +698,10 @@ bleiben (die Handdatei bindet sie); bei mehr als einem Treffer auf einer Seite w
 (`zuAk`), sie stand nur hinter dem Schalter. Zusicherung: `pipeline/check-anisearch-dubletten.ts` (Teil von `check:logic`), mit Übergang bis 16.10.2026, bis der
 nächste Datenlauf den Datensatz neu gebaut hat.
 
+**Cours (09.10.2026, Tougen Anki Nikko Kegon):** AniList führt 24 Folgen, aniSearch zwei Zeilen zu 12 (die zweite „… - Dai 2 Cour" ohne MAL). Gehen die Folgen der
+Zeilen mit gleicher MAL, Formatklasse und Jahr (±1) in der Zahl des Katalogtitels auf, entfallen alle (`coursZeilen`); gemessen auf dem Bestand trifft das genau diese zwei.
+Titel 15906 ist ein anderes Werk (MAL 50066); Tougen Anki Staffel 1 ist AniList 177474, aniSearch 19258, und die Suche findet ihn im Hauptbestand.
+
 ### Magical Explorer zweimal (09.10.2026, Nachtrag)
 
 Daniel sah die Dublette nach dem Fix weiter: **Der ausgelieferte Bestand war seit dem 09.10.2026 00:26 nicht mehr neu gebaut worden.** Jeder Bestandsbau lief durch, wurde aber
@@ -751,3 +755,7 @@ Die Fußzeile nannte `titleCount` (alle Titel des Hauptbestands) „Anime mit be
 ## Datenschutztext folgt dem Datenfluss (09.10.2026)
 
 `DatenschutzView` (`StaticViews.tsx`) sagte, Favoriten „verlassen dein Gerät nicht“. Tatsächlich gehen sie mit Newsletter-Abgleich (`newsletterSync.ts`, Worker `/favorites`, auch Kalender-Feed) und Web-Push (`push.ts`, Worker `/push/abo`, Endpunkt plus Favoriten, Push-Dienst des Browserherstellers) an den Worker. Dritthosts im Browser: AniList-Bilder, TMDB (schon bei Hover/Touch auf das Cover im Panel per `preconnect`, `cover-max.tsx`; größeres Plakat und w92-Vergleich beim Öffnen der Vergrößerung), YouTube-nocookie erst beim Abspielen, graphql.anilist.co beim AniList-Import. Wer einen neuen Aufruf zu einem fremden Host oder neue Daten an den Worker einbaut, ergänzt den Text im selben Zug. Keine Rechtsprüfung; DSGVO-Pflichten unverändert.
+
+## Saison-Ausblick: kommende Saisons nach Terminschärfe (09.10.2026)
+
+Reiter „Ausblick“ der Saison-Ansicht (`SaisonAusblick.tsx`, Gruppenbildung `web/src/lib/saison-ausblick.ts`). Quellen: Hauptbestand (`jpYear`/`jpSeason`), `saison.json` und die eigene, erst im Reiter nachgeladene `saison-ausblick.json` (Bau: `pipeline/bau/saison-datei.ts`, Serien aus `ohne-synchro.json` nach der laufenden Saison, auch ohne Datum; Stand 09.10.2026: 364 Einträge, 12,5 KB gzip). Japan-Start steht so genau wie AniList ihn kennt (Tag, Monat, Saison, Jahr); die Gruppenüberschrift trägt Saison oder Jahr, die Karte nur Tag/Monat. Ein deutscher Termin erscheint nur, wo einer belegt ist (`estimated` → „voraussichtlich“); Anbieter sind die der Synchro oder der Synchro-Ankündigung. Nichts fällt weg: Titel ohne Saison stehen unter ihrem Jahr, Titel ohne jedes Datum unter „Ohne Termin“ (nur Namen, ohne Cover). Messung 09.10.2026 (Serien ohne Synchro, nach der laufenden Saison): 61 mit Monat, 64 mit Jahr, 239 ohne Datum; mit Tag nur die der nächsten Saison (in `saison.json`).
