@@ -6,7 +6,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { todayIso } from '../shared/time.ts'
-import { findeAnisearchDubletten, gleichesWerk, type KatalogKandidat } from './bau/anisearch-dubletten.ts'
+import { anisearchZeilenDoppelt, findeAnisearchDubletten, gleichesWerk, type KatalogKandidat } from './bau/anisearch-dubletten.ts'
 import { undatierteKennungen } from './lib/katalog-plan.ts'
 
 let verletzt = 0
@@ -46,6 +46,15 @@ console.log('\naniSearch-Zeile und AniList-Katalogtitel (ein Werk, eine Zeile):'
   pruefe('Zwei Zeilen für einen Katalogtitel: keine wird geraten', !u.zeilenWeg.has(zeile(902)) && !u.zeilenWeg.has(zeile(903)))
   const haupt = findeAnisearchDubletten([], [zeile(1022)], katalog, eintraege)
   pruefe('Steht die Zeile im Hauptbestand (Termin, Meldung), entfällt der Katalogtitel statt ihrer', haupt.katalogWeg.get(567) === zeile(1022) && haupt.zeilenWeg.size === 0)
+  const magical = { '18711': { mal: 56733, ty: 'TV-Serie', y: 2026, f: 13, dub: '-' } }
+  pruefe('Magical Explorer: aniSearch „TV-Serie", AniList ONA, gleiche MAL und 13 Folgen → eine Zeile',
+    findeAnisearchDubletten([zeile(18711)], [], [{ id: 169581, mal: 56733, format: 'ONA', jahr: 2026, folgen: 13 }], magical).zeilenWeg.get(zeile(18711)) === 169581)
+  const ausgabe = [{ id: 169581, anisearchId: 18711, malId: 56733, format: 'ONA', jpYear: 2026, episodes: 13 }, { id: zeile(18711) }]
+  pruefe('Ausgabe-Invariante: Zeile und AniList-Titel mit ihrer Kennung stehen beide da → Fehler', anisearchZeilenDoppelt(ausgabe, magical).length === 1)
+  pruefe('Ausgabe-Invariante: nur der AniList-Titel (Zeile entfallen) → in Ordnung', anisearchZeilenDoppelt(ausgabe.slice(0, 1), magical).length === 0)
+  pruefe('Ausgabe-Invariante: ohne Kennung, aber gleiche MAL/Format/Jahr/Folgen → Fehler', anisearchZeilenDoppelt([{ ...ausgabe[0]!, anisearchId: undefined }, ausgabe[1]!], magical).length === 1)
+  pruefe('Ausgabe-Invariante: Zeile mit Deutsch (Handdatei) und begründete Ausnahme (MAL_AUSNAHMEN) melden nichts',
+    anisearchZeilenDoppelt(ausgabe, { '18711': { ...magical['18711'], dub: 'd' } }).length === 0 && anisearchZeilenDoppelt([{ id: 5, anisearchId: 3873 }, { id: zeile(3873) }], { '3873': { ty: 'TV-Serie', dub: '-' } }).length === 0)
   pruefe('Jahr daneben (mehr als eins) oder andere Folgenzahl: kein gleiches Werk',
     !gleichesWerk({ mal: 5, ty: 'TV-Serie', y: 2000, f: 12, dub: '-' }, { id: 1, mal: 5, format: 'TV', jahr: 2003, folgen: 12 }) &&
       !gleichesWerk({ mal: 5, ty: 'TV-Serie', y: 2000, f: 12, dub: '-' }, { id: 1, mal: 5, format: 'TV', jahr: 2000, folgen: 24 }))
@@ -75,6 +84,8 @@ console.log('\nAusgelieferter Datensatz:')
     doppelt.length === 0 || bis,
     doppelt.slice(0, 5),
   )
+  const ausgeliefert = anisearchZeilenDoppelt([...titel, ...ohne], eintraege)
+  pruefe(`Ausgabe-Invariante auf dem Bestand (Übergang bis ${UEBERGANG_BIS}: ${ausgeliefert.length} Paare; der Bau selbst bricht ohne Übergang ab)`, ausgeliefert.length === 0 || bis, ausgeliefert.slice(0, 3))
 }
 
 if (verletzt) {
