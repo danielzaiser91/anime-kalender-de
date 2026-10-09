@@ -2,7 +2,7 @@ import { PLATFORMS } from '@shared/types.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
-import { loadOhneSynchro, type Dataset } from '../lib/data.ts'
+import { ladeTitelBestand, type Dataset } from '../lib/data.ts'
 import { coverBild } from '../lib/cover.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import type { SaisonZeile, Stufe } from '../lib/saison.ts'
@@ -34,9 +34,9 @@ export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZ
   const anbieter = [...new Set([...(z.titel?.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform), ...angekuendigt].map((p) => PLATFORMS[p]?.name ?? p))].slice(0, 3)
   const jp = ausblick ? jpDatum(z) : z.jp && tag(z.jp)
   const rand = favorit ? 'border-amber-400/70 shadow-[0_0_0_1px_rgba(251,191,36,.3)]' : z.erschienen ? 'border-ak-rand hover:border-ak-leise' : 'border-dashed border-ak-rand hover:border-ak-leise'
-  /* Ein Katalogtitel liegt hinter dem Schalter: Erst beim Klick wird die große Datei geholt, damit das Panel ihn kennt. */
+  /* Ein Titel außerhalb des Kerns liegt in titles.json, ein Katalogtitel hinter dem Schalter: Erst beim Klick wird geholt, was das Panel zum Finden braucht. */
   const klick = async () => {
-    if (!z.titel) await loadOhneSynchro(data)
+    if (!z.titel) await ladeTitelBestand(data, z.id)
     oeffne(z.id)
   }
   return (

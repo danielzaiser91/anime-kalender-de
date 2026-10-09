@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { saisonText } from '@shared/saison.ts'
 import { todayIso } from '@shared/time.ts'
-import { loadJson, loadOhneSynchro, type Dataset } from '../lib/data.ts'
+import { loadJson, ladeTitelBestand, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import type { SaisonDatei, SaisonKatalogTitel, SaisonZeile } from '../lib/saison.ts'
 import { ausblickGruppen, type AusblickGruppe } from '../lib/saison-ausblick.ts'
@@ -47,7 +47,7 @@ export function SaisonAusblick({ data, datei, favorites, oeffne }: { data: Datas
 /** Titel ohne jedes Datum: nur Namen, ohne Titelbild — es sind viele, und sie haben nichts zu zeigen außer dem Namen. */
 function OhneTermin({ g, data, oeffne }: { g: AusblickGruppe; data: Dataset; oeffne: (id: number) => void }) {
   const klick = async (z: SaisonZeile) => {
-    if (!z.titel) await loadOhneSynchro(data)
+    if (!z.titel) await ladeTitelBestand(data, z.id)
     oeffne(z.id)
   }
   return (
