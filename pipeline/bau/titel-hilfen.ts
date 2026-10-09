@@ -392,6 +392,11 @@ function mapStreams(media: AniListMedia): StreamLink[] {
   )
 }
 
+/** Japan ist der Normalfall und steht nie im Feld (Ladelast); fehlt die Angabe, bleibt das Feld leer statt zu raten. */
+export function landAusAnilist(code: string | null | undefined): { land?: string } {
+  return code && code !== 'JP' ? { land: code } : {}
+}
+
 export function titleFromMedia(media: AniListMedia, confidence: DubConfidence): Title {
   const display = media.title.english ?? media.title.romaji ?? media.title.native ?? `#${media.id}`
   return {
@@ -424,6 +429,7 @@ export function titleFromMedia(media: AniListMedia, confidence: DubConfidence): 
       ),
     ].slice(0, 3),
     score: media.averageScore ?? undefined,
+    ...landAusAnilist(media.countryOfOrigin),
     dubConfidence: confidence,
     streams: mapStreams(media),
   }
