@@ -606,6 +606,16 @@ Bilder 21 / 2.988 KB → 31 / 1.647 KB (die kleineren laden früher nach) · ers
 - **Eigene Kennungen (`ak`):** Die `ak` der vier aniSearch-Zeilen war öffentlich (Adresse `/t/<ak>/`, Favoriten, versandte Mail-Links). `data/kennungen.json` trägt dafür ein viertes Feld `zuAk` (Nachfolger): `akVon` übersetzt die alte Kennung in die des AniList-Titels (News-Verlauf, Meldungen, Reihen nennen nie die alte); `build-share-pages.ts` schreibt `/t/<alt>/` als Weiterleitung (`noindex`), `ak-umleitung.json` (`[[alt, neu], …]`) schreibt gemerkte Titel um — im Browser einmalig je neuem Paar vor dem ersten Rendern (`web/src/lib/ak-umleitung.ts`, Marke `kennung:umleitung`, höchstens 1,5 s Wartezeit), im Worker beim Lesen jeder Liste (`worker/src/favoriten-lesen.ts`). Dauerhaft, anders als die Karenz bis 05.11.2026. Eine künftige Dublette: Zeile in der Handdatei, `zuAk` an der alten Zeile, ggf. `ALTE_AUTO_KENNUNG`.
 - **Probe am Bau (08.10.2026, Cache mit den vier AniList-Titeln, Basis gegen Zweig):** Titelzahl 2922 → 2920 (10021084 und 10021575 entfallen, Psyren 204011 trägt die Erstausgabe); Beerus und Fool Night behalten `auto-10021566-crunchyroll` und `auto-10021751-netflix` (ein Release je Plattform, `vergangen` im Termin-Verlauf leer, kein „zurückgezogen" in `news.json`). Ohne Slug-Erhalt stand dort für beide „zurückgezogen" und ein neuer Slug.
 
+## Datenbank-Vorgabe „Relevanz" mit Gruppen (09.10.2026)
+
+Ohne Suche startet die Datenbank in drei Gruppen: „Läuft jetzt", „Demnächst", „Schon erschienen" (Daniel, Variante C im
+Mockup „Datenbank-Einstieg"). Die Regel steht in `web/src/lib/db-relevanz.ts`, die Reihenfolge in `db-liste.ts`,
+die Zusicherungen in `pipeline/check-db-relevanz.ts`. Maßgeblich ist die deutsche Erstausgabe (`deErstausgabe`):
+ein späteres Neuerscheinen bei einem weiteren Anbieter zählt nicht (Rooster Fighter, Id 179813 → erschienen);
+ohne `deErstausgabe` gilt `titleStatus()`. Gemessen in der Seite am 09.10.2026 (mit Cartoons): ungebündelt 29 / 57 / 3.727 Titel, gebündelt 28 / 53 / 2.409 Reihen; Datensatz ohne Cartoons (gebündelt):
+28 / 54 / 1.514 Franchises, ohne den Bestand „ohne Synchro" 28 / 53 / 1.509. Mit Suche gilt weiter die Treffergüte;
+`?sort=relevanz` ist jetzt immer gültig. Die Statuspille entfällt, wo die Überschrift sie schon sagt.
+
 ## Sprecher-Suche hinter der Vorschau `sprecher-suche` (08.10.2026)
 
 Idee 2 aus [ideen-2026-10-08.md](ideen-2026-10-08.md). Quellen, Auflagen und Vollständigkeit: [quellen.md](quellen.md), Abschnitt „Sprecher-Suche: Datenquellen".
@@ -696,13 +706,3 @@ Der Katalog-Frischlauf holt das laufende und die kommenden Jahre sowie die jüng
 in jedem Lauf alle Einträge ohne `start` nach Kennung (`id_in`, 50 je Abfrage). Offen: The Boxer ist laut anime2you (1058533, 1058606, 09.10.2026) ein Crunchyroll-Simulcast
 im Original mit Untertiteln, Start unbekannt, keine Synchro genannt — für eine Ankündigung ohne Termin kennt `ankuendigungen.yaml` kein Feld (`omuAb` ist Pflicht und wird in
 `vorDemStart`, `ankuendigungs-termin` und der Meldung als Datum gelesen).
-
-## Datenbank-Vorgabe „Relevanz" mit Gruppen (09.10.2026)
-
-Ohne Suche startet die Datenbank in drei Gruppen: „Läuft jetzt", „Demnächst", „Schon erschienen" (Daniel, Variante C im
-Mockup „Datenbank-Einstieg"). Die Regel steht in `web/src/lib/db-relevanz.ts`, die Reihenfolge in `db-liste.ts`,
-die Zusicherungen in `pipeline/check-db-relevanz.ts`. Maßgeblich ist die deutsche Erstausgabe (`deErstausgabe`):
-ein späteres Neuerscheinen bei einem weiteren Anbieter zählt nicht (Rooster Fighter, Id 179813 → erschienen);
-ohne `deErstausgabe` gilt `titleStatus()`. Gemessen am Datensatz vom 09.10.2026 (alle Titel, gebündelt):
-28 / 54 / 1.514 Franchises, ohne den Bestand „ohne Synchro" 28 / 53 / 1.509. Mit Suche gilt weiter die Treffergüte;
-`?sort=relevanz` ist jetzt immer gültig. Die Statuspille entfällt, wo die Überschrift sie schon sagt.
