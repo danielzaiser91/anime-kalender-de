@@ -43,6 +43,12 @@ pruefe('laufender Termin → „Läuft jetzt"', art(g3, 5) === 'laeuft')
 pruefe('Termin in der Zukunft → „Demnächst"', art(g3, 6) === 'bald')
 pruefe('abgeschlossener Termin → „Schon erschienen"', art(g3, 7) === 'erschienen')
 
+console.log('\nDatenbank-Relevanz: Disc-Termine')
+const disc = (titleId: number, am: string) => ({ titleId, releaseType: 'disc', schedule: { firstEpisodeDate: am } }) as unknown as Release
+const g5 = lauf([reihe(titel(14, { deErstausgabe: { von: HEUTE } })), reihe(titel(15)), reihe(titel(16))], [disc(14, HEUTE), disc(15, HEUTE), disc(16, '2026-11-01')])
+pruefe('Boruto-Fall: Disc heute (mit und ohne Erstausgabe) → „Schon erschienen"', art(g5, 14) === 'erschienen' && art(g5, 15) === 'erschienen', [art(g5, 14), art(g5, 15)])
+pruefe('Disc in der Zukunft → „Demnächst"', art(g5, 16) === 'bald')
+
 console.log('\nDatenbank-Relevanz: Reihen, Reihenfolge, Cartoons')
 const staffel1 = titel(8, { deErstausgabe: { von: '2020-01-01', bis: '2020-03-31' } })
 const staffel2 = titel(9, { deErstausgabe: { von: '2026-10-01', bis: '2026-12-20' } })

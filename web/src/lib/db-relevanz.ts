@@ -22,7 +22,9 @@ const fruehesterTermin = (releases: Release[]): Release | undefined =>
     .sort((a, b) => a.schedule!.firstEpisodeDate.localeCompare(b.schedule!.firstEpisodeDate))[0]
 
 /** Ein einzelner Titel: aus `deErstausgabe`; ohne sie gilt der Status aus `titleStatus()`. */
-export function stufeTitelEin(t: Title, releases: Release[], today: string): Einstufung {
+export function stufeTitelEin(t: Title, alle: Release[], today: string): Einstufung {
+  /* Eine Disc, die heute oder gerade erst erschien, läuft nicht: ein Disc-Termin ist nie „Läuft jetzt". */
+  const releases = alle.filter((r) => !(r.releaseType === 'disc' && releaseStatus(r, today) === 'airing'))
   const e = t.deErstausgabe
   if (!e) {
     const status = titleStatus(releases, today, t)
