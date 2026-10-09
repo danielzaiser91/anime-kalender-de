@@ -1,3 +1,4 @@
+import { leseAuslieferbarePatchnotes } from '../lib/patchnotes.ts'
 import { type PlatformId, type DataMeta, type Title, type Release, type ReleaseEvent } from '../../shared/types.ts'
 
 export function baueMeta({ titles, releases, events, motnBelege }: {
@@ -34,6 +35,7 @@ export function baueMeta({ titles, releases, events, motnBelege }: {
     platforms,
     providers,
     years,
+    patchnotesStand: leseAuslieferbarePatchnotes()[0]?.datum,
     attribution: [
       'Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0',
       'Metadaten: AniList (https://anilist.co)',
