@@ -4,7 +4,7 @@ import { FSK_COLORS, PLATFORMS, RELEASE_TYPES, anbieterName } from '@shared/type
 import type { Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { plakettenStil } from '../lib/kontrast.ts'
-import { TREFFER_24, TREFFER_24_MIN } from './detail/tippziel.ts'
+import { TIPPFLAECHE, TREFFER_24, TREFFER_24_MIN } from './detail/tippziel.ts'
 
 /** Gemeinsamer Fokus- und Zeigerstil aller anklickbaren Elemente. */
 const CLICKABLE = 'cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
@@ -320,10 +320,13 @@ export function FavoriteStar({
   active,
   onToggle,
   size = 'md',
+  grosseFlaeche,
 }: {
   active: boolean
   onToggle: () => void
   size?: 'sm' | 'md'
+  /** Trefferfläche 44 px, Zeichen unverändert — für den Stern allein auf dem Cover. */
+  grosseFlaeche?: boolean
 }) {
   const { t } = useLang()
   const hinweis = t(active ? 'card.unfavourite' : 'card.favourite')
@@ -341,7 +344,7 @@ export function FavoriteStar({
       className={[
         'inline-flex items-center justify-center rounded-full transition',
         CLICKABLE,
-        size === 'sm' ? `size-5 text-[13px] ${TREFFER_24}` : 'size-7 text-base',
+        size === 'sm' ? `size-5 text-[13px] ${TREFFER_24}` : `size-7 text-base${grosseFlaeche ? ` ${TIPPFLAECHE}` : ''}`,
         active
           ? 'text-amber-400 drop-shadow-[0_0_4px_rgba(251,191,36,.55)]'
           : 'text-slate-400/70 hover:text-amber-300 dark:text-slate-500 dark:hover:text-amber-300',

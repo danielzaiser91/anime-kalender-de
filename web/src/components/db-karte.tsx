@@ -211,7 +211,7 @@ function KartenKnoepfe({ main, favorite, onToggleFavorite, onToggleHidden, onSha
     <span className="absolute right-1 top-1 flex flex-col items-end gap-1" onClick={(e) => e.stopPropagation()}>
       {main.fsk !== undefined && <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />}
       <span className={`${KNOPF_GRUND} ${favorite ? '' : ERST_BEIM_ZEIGEN}`}>
-        <FavoriteStar active={favorite} onToggle={onToggleFavorite} />
+        <FavoriteStar active={favorite} onToggle={onToggleFavorite} grosseFlaeche />
       </span>
       <span className={`${KNOPF_GRUND} hidden sm:flex ${ERST_BEIM_ZEIGEN}`}>
         <HideEye hidden={false} onToggle={onToggleHidden} />
