@@ -15,9 +15,9 @@
     "lastCount": 14
   },
   "anisearch": {
-    "lastOk": "2026-10-09T11:00:39.039Z",
-    "lastRun": "2026-10-09T11:00:39.039Z",
-    "lastCount": 2655
+    "lastOk": "2026-10-09T11:53:58.839Z",
+    "lastRun": "2026-10-09T11:53:58.839Z",
+    "lastCount": 14226
   },
   "adn-catalog": {
     "lastOk": "2026-10-05T15:08:01.498Z",
@@ -211,7 +211,8 @@
   },
   "anisearch-zuordnung": {
     "lastOk": "2026-10-09T11:52:11.342Z",
-    "lastRun": "2026-10-09T11:52:11.342Z",
-    "lastCount": 18447
+    "lastRun": "2026-10-09T11:54:00.109Z",
+    "lastCount": 0,
+    "lastError": "HTTP 429"
   }
 }
