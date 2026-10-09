@@ -40,6 +40,7 @@ import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/ti
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
+import { loescheAbgelaufenes, SQL_RATE_LIMIT_LOESCHEN, SQL_UNBESTAETIGT_LOESCHEN } from '../worker/src/loeschfristen.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
 import { planeKatalogLauf } from './lib/katalog-plan.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
@@ -6787,6 +6788,17 @@ pruefe(
   pruefe('„pokemon" bringt den exakten Titel vor den Film', such('pokemon')[0] === 'Pokémon', such('pokemon').join(' / '))
   pruefe('„one pice" findet One Piece, auch wenn ein Keyword die strenge Stufe füllt', such('one pice')[0] === 'One Piece', such('one pice').join(' / '))
   pruefe('ein sinnloser Begriff findet nichts', such('xqzvwkkk').length === 0)
+}
+{
+  /* Löschfristen (09.10.2026): Datenschutztext sagt 60 Minuten Ratenbegrenzung und 7 Tage unbestätigte Anmeldung — der Worker löscht entsprechend, und `scheduled` ruft es auf. */
+  const aufrufe: { sql: string; grenze: string }[] = []
+  const attrappe = { DB: { prepare: (sql: string) => ({ bind: (grenze: string) => ({ run: async () => (aufrufe.push({ sql, grenze }), { meta: { changes: 2 } }) }) }) } }
+  const jetzt = new Date('2026-10-09T12:00:00.000Z')
+  const n = await loescheAbgelaufenes(attrappe as never, jetzt)
+  pruefe('Löschlauf: Ratenbegrenzung älter als 60 Minuten', aufrufe[0]?.sql === SQL_RATE_LIMIT_LOESCHEN && aufrufe[0].grenze === '2026-10-09T11:00:00.000Z', JSON.stringify(aufrufe[0]))
+  pruefe('Löschlauf: nur unbestätigte Anmeldungen älter als 7 Tage', aufrufe[1]?.sql === SQL_UNBESTAETIGT_LOESCHEN && aufrufe[1].grenze === '2026-10-02T12:00:00.000Z' && SQL_UNBESTAETIGT_LOESCHEN.includes("status = 'pending'"), JSON.stringify(aufrufe[1]))
+  pruefe('Löschlauf meldet die Zahlen', n.rateLimit === 2 && n.unbestaetigt === 2)
+  pruefe('… und wird stündlich aus `scheduled` aufgerufen', /async scheduled[\s\S]{0,400}loescheAbgelaufenes\(env, now\)/.test(readFileSync('worker/src/index.ts', 'utf8')))
 }
 {
   /* Web-Push-Text (18.09.2026): eine Sache ausgeschrieben, mehrere gebündelt, nichts → kein Push. */
