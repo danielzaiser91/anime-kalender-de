@@ -25,10 +25,10 @@ export function SaisonAusblick({ data, datei, favorites, oeffne }: { data: Datas
   const anzahl = gruppen.reduce((n, g) => n + g.zeilen.length, 0)
   return (
     <>
-      <p className="mt-3 text-sm text-ak-leise">{t('saison.hinweisAusblick', { n: anzahl })}</p>
+      <p className="mt-3 text-sm text-ak-leise">{t('saison.hinweisAusblick', { n: anzahl, ohne: gruppen.find((g) => g.schluessel === 'ohne')?.zeilen.length ?? 0 })}</p>
       {gruppen.map((g, i) => (
         <details key={g.schluessel} open={i === 0} className="mt-4">
-          <summary className="cursor-pointer text-sm font-bold text-ak-leise">
+          <summary className="flex min-h-10 cursor-pointer items-center text-sm font-bold text-ak-leise">
             {g.saison ? saisonText(g.saison) : g.jahr ? t('saison.jahrOffen', { jahr: g.jahr }) : t('saison.ohneTermin')} <span className="font-normal">· {g.zeilen.length}</span>
           </summary>
           {g.schluessel === 'ohne' ? <OhneTermin g={g} data={data} oeffne={oeffne} /> : (
@@ -51,10 +51,10 @@ function OhneTermin({ g, data, oeffne }: { g: AusblickGruppe; data: Dataset; oef
     oeffne(z.id)
   }
   return (
-    <ul className="mt-2 columns-1 gap-4 text-sm sm:columns-2 lg:columns-3">
+    <ul className="mt-2 flex flex-wrap gap-2 text-sm">
       {g.zeilen.map((z) => (
-        <li key={z.id} className="break-inside-avoid py-0.5">
-          <button type="button" onClick={() => void klick(z)} className="cursor-pointer text-left hover:underline">{zeilenName(z)}</button>
+        <li key={z.id} className="min-w-0 max-w-full">
+          <button type="button" onClick={() => void klick(z)} className="inline-flex min-h-10 max-w-full cursor-pointer items-center rounded-full border border-ak-rand px-3 text-left hover:border-ak-leise"><span className="line-clamp-2">{zeilenName(z)}</span></button>
         </li>
       ))}
     </ul>

@@ -19,7 +19,7 @@ export const TEXTE_SEITEN = {
   'saison.hinweisJetzt': '{n} Fernseh- und Web-Serien starten in dieser Saison in Japan, {de} davon gibt es auf Deutsch.',
   'saison.hinweisEins': 'Eine Fernseh- oder Web-Serie startet in dieser Saison in Japan.',
   'saison.hinweisZuletzt': 'Letzte Saison: {n} Serien, {de} davon auf Deutsch.',
-  'saison.hinweisAusblick': '{n} angekündigte Serien in Japan. „Noch offen“ heißt: Wir kennen noch keine deutsche Fassung.',
+  'saison.hinweisAusblick': '{n} Serien in Japan, {ohne} davon noch ohne Termin. „Noch offen“ heißt: Wir kennen noch keine deutsche Fassung.',
   'saison.jahrOffen': '{jahr}, Saison offen',
   'saison.ohneTermin': 'Ohne Termin',
   'saison.leer': 'Für {saison} ist noch keine Serie bekannt. Sobald eine angekündigt ist, erscheint sie hier.',

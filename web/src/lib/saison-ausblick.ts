@@ -52,7 +52,7 @@ export function ausblickGruppen(
   for (const t of titles) {
     if (!istSerie(t.format) || !t.jpYear) continue
     const saison = t.jpSeason ? ({ jahr: t.jpYear, saison: t.jpSeason } as SaisonTag) : undefined
-    if (saison ? saisonZeitraum(saison)[0] <= nach : t.jpYear <= jetzt.jahr) continue
+    if (saison ? saisonZeitraum(saison)[0] <= nach : t.jpYear < jetzt.jahr) continue
     const termin = ersterTermin(releasesByTitle.get(t.id))
     bekannt.add(t.id)
     const jp = datei?.jp[String(t.id)]
