@@ -1,19 +1,13 @@
-import { lazy, Suspense, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { sortiereNachTitel } from '../lib/titel-sortierung.ts'
-import { SPRECHER_AB_ZEICHEN } from '../lib/sprecher.ts'
 
-/* Vorschau „sprecher-suche": eigener Chunk, geladen erst bei einer Suche ab drei Zeichen. */
-const SprecherTreffer = lazy(() => import('./SprecherTreffer.tsx').then((m) => ({ default: m.SprecherTreffer })))
 import type { Title } from '@shared/types.ts'
 import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { DbKopfzeile, DbSchalter } from './db-kopfzeile.tsx'
+import { DbSchalter } from './db-kopfzeile.tsx'
 import { DbKarte } from './db-karte.tsx'
-import { DbSortWahl, MehrKnopf } from './db-bedienung.tsx'
-import { OhneSynchroZeile } from './db-vorschau.tsx'
-import { sortiereNachRelevanz } from '../lib/db-relevanz.ts'
-import { useVorschau } from '../lib/vorschau.ts'
+import { DbLeer, DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -86,49 +80,27 @@ export function DatabaseView({
   const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
-  /* Beim Suchen gilt die Treffergüte, bis jemand selbst eine andere Sortierung wählt. */
-  /* `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
-  /* Vorschau `db-sortierung`: auch ohne Suche gilt „Relevanz" (laufend und bald neu zuerst) als Vorgabe. */
-  const relevanzStandard = useVorschau('db-sortierung') === 'relevanz'
-  const relevanzMoeglich = relevanzStandard || !!suche.trim()
+  /* Beim Suchen gilt die Treffergüte, bis jemand selbst sortiert; `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
+  const relevanzMoeglich = !!suche.trim()
   const sort = (gewaehlt === 'relevanz' && !relevanzMoeglich ? undefined : gewaehlt) ?? (relevanzMoeglich ? 'relevanz' : 'titel')
-  const ruhigOhne = useVorschau('db-ohne-synchro') === 'ruhig'
-  const reserve = useVorschau('db-reserve') === 'ruhig'
-  const sprecher = useVorschau('sprecher-suche') === 'an' && suche.trim().length >= SPRECHER_AB_ZEICHEN
 
   const groups = useMemo(() => {
     const base: TitleGroup[] = grouped
       ? groupByFranchise(titles)
       : titles.map((tt) => ({ main: tt, members: [tt] }))
 
-    if (sort === 'relevanz') {
-      if (!suche.trim()) sortiereNachRelevanz(base, data, today)
-      return base
-    }
+    if (sort === 'relevanz') return base
     if (sort === 'titel') sortiereNachTitel(base)
     else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
     else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
     return base
-  }, [titles, grouped, sort, suche, data, today])
+  }, [titles, grouped, sort])
 
   return (
     <div className="flex flex-col gap-4">
       <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} cartoonsAus={cartoonsAus} onCartoonsAusChange={onCartoonsAusChange} />
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
-        {ruhigOhne && ohneSynchro ? (
-          <OhneSynchroZeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} />
-        ) : (
-          <DbKopfzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} />
-        )}
-        <DbSortWahl sort={sort} onChange={onSortChange} relevanz={relevanzMoeglich} suche={!!suche.trim()} />
-      </div>
-
-      {sprecher && (
-        <Suspense fallback={null}>
-          <SprecherTreffer suche={suche.trim()} data={data} onOpen={onOpenTitle} />
-        </Suspense>
-      )}
+      <DbZaehlzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich} />
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
         {groups.slice(0, visible).map(({ main, members }) => (
@@ -146,12 +118,11 @@ export function DatabaseView({
             onOpenTitle={onOpenTitle}
             share={share}
             copiedSlug={copiedSlug}
-            ruhigOhne={ruhigOhne}
-            platzhalter={reserve}
           />
         ))}
       </div>
 
+      {groups.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
       {visible < groups.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={groups.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
     </div>
   )

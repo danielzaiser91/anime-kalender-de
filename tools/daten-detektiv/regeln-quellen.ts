@@ -5,6 +5,8 @@
 import type { Bestand } from './laden.ts'
 import { titelName } from './laden.ts'
 import { regel, type Regel, type Treffer } from './regel.ts'
+import { synchroHinterToggle } from '../../pipeline/lib/invarianten-auslieferung.ts'
+import type { Title } from '../../shared/types.ts'
 
 const STREAM_PLATTFORMEN = new Set(['crunchyroll', 'netflix', 'primevideo', 'disneyplus', 'adn', 'aniverse', 'wow', 'joyn', 'rtlplus', 'youtube'])
 
@@ -25,19 +27,17 @@ export function toteWege(b: Bestand): Regel {
 
 /** D-06: Hinter dem Toggle („keine deutsche Synchro"), obwohl eine Quelle eine Synchro führt. */
 export function toggleTrotzSynchroQuelle(b: Bestand): Regel {
-  const treffer: Treffer[] = []
   const crDeutsch = new Set(b.crDub.filter((s) => s.staffeln?.some((st) => st.deutscheFassung)).map((s) => s.seriesId))
-  for (const o of b.ohneSynchro) {
-    const quellen: string[] = []
-    if (b.anisearchDubs[String(o.id)] === 'd') quellen.push('aniSearch-Dub-Liste')
-    if (o.anisearchId && b.anisearchDubIds[String(o.anisearchId)] === 'd') quellen.push('aniSearch-Kennung „d"')
-    const hand = [...b.dubConfirmed].filter(([k, dub]) => dub && k.startsWith(`${o.id}|`)).map(([k]) => k.split('|')[1])
-    if (hand.length) quellen.push(`Handbeleg dub:true (${hand.join(', ')})`)
-    const jw = (b.justwatch[String(o.id)]?.angebote ?? []).filter((a) => a.audio?.includes('de') && a.art !== 'BUY')
-    if (jw.length) quellen.push(`JustWatch de-Ton (${[...new Set(jw.map((a) => a.anbieter))].join(', ')})`)
-    for (const s of o.streams ?? []) if (s.platform === 'crunchyroll' && crDeutsch.has(s.url.split('/').pop() ?? '')) quellen.push('CR-Katalog deutsch')
-    if (quellen.length) treffer.push({ schluessel: String(o.id), text: `${titelName(o)}: ${quellen.join('; ')}${o.ankuendigung ? ' (Ankündigung vorhanden)' : ''}`, ort: `/t/${o.slug ?? o.id}/` })
+  /* Die harte Regel (`lib/invarianten-auslieferung.ts`) plus zwei schwächere Quellen. JustWatch führt unter der Serie auch ihre Specials (FMA 4-koma teilte sich die Kennung mit Brotherhood), dort zählt es nicht. */
+  const weitere = (o: Title): string[] => {
+    const jw = o.format === 'SPECIAL' ? [] : (b.justwatch[String(o.id)]?.angebote ?? []).filter((a) => a.audio?.includes('de') && a.art !== 'BUY')
+    return [
+      jw.length ? `JustWatch de-Ton (${[...new Set(jw.map((a) => a.anbieter))].join(', ')})` : '',
+      (o.streams ?? []).some((s) => s.platform === 'crunchyroll' && crDeutsch.has(s.url.split('/').pop() ?? '')) ? 'CR-Katalog deutsch' : '',
+    ].filter(Boolean)
   }
+  const treffer: Treffer[] = synchroHinterToggle(b, { dubsAnilist: b.anisearchDubs, dubIds: b.anisearchDubIds, handbelegteIds: b.handbelegteIds, handKeine: b.handKeine, heute: b.heute, weitere })
+    .map(({ titel: o, quellen }) => ({ schluessel: String(o.id), text: `${titelName(o)}: ${quellen.join('; ')}${o.ankuendigung ? ' (Ankündigung vorhanden)' : ''}`, ort: `/t/${o.slug ?? o.id}/` }))
   return regel('D-06', 'Hinter dem Toggle, aber Quelle führt Synchro', 'Ein Titel mit deutscher Fassung fehlt im Hauptbestand', b.ohneSynchro.length, treffer)
 }
 
@@ -105,7 +105,8 @@ export function newsVerweise(b: Bestand): Regel {
   let geprueft = 0
   for (const n of b.news) for (const m of n.meldungen) {
     geprueft++
-    if (m.release && !slugs.has(m.release)) treffer.push({ schluessel: `${n.titel}|${m.release}`, text: `„${n.titel}" (${m.art}, ${m.datum ?? '?'}): Release ${m.release} gibt es nicht mehr` })
+    /* Eine abgelöste oder zurückgezogene Meldung bleibt mit ihrem alten Release-Slug stehen — das ist der Verlauf (`lib/news-verlauf.ts`), kein Verweis ins Leere. */
+    if (m.release && !slugs.has(m.release) && !m.ersetzt && !m.zurueckgezogen) treffer.push({ schluessel: `${n.titel}|${m.release}`, text: `„${n.titel}" (${m.art}, ${m.datum ?? '?'}): Release ${m.release} gibt es nicht mehr` })
     else if (n.titleId != null && !ids.has(n.titleId)) treffer.push({ schluessel: `${n.titel}|${n.titleId}`, text: `„${n.titel}" (${m.art}): Titel ${n.titleId} gibt es nicht` })
   }
   return regel('D-17', 'News-Meldung zeigt auf verschwundenes Release', 'Meldung verliert ihren Beleg-Link (fällt auf die Anbieterseite zurück), Termin-Verlauf reißt ab', geprueft, treffer)

@@ -147,12 +147,10 @@ export interface StreamLink {
    * umgestellt ist (17.09.2026). An ihr hängen Handbelege und Prüfliste.
    */
   seite?: string
-  /**
-   * true  — deutsche Synchro dort belegt
-   * false — dort ausdrücklich nur Originalton mit Untertiteln
-   * fehlt — nicht geprüft
-   */
+  /** true — deutsche Synchro dort belegt; false — dort ausdrücklich nur Originalton mit Untertiteln; fehlt — nicht geprüft */
   dub?: boolean
+  /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026). */
+  herkunft?: 'tmdb'
   /**
    * Wo in dieser Staffel der deutsche Ton liegt — wenn er nicht überall liegt.
    *
@@ -926,7 +924,7 @@ export interface DataMeta {
    * Videobuster, die Prime-Video-Kanäle. Nach Häufigkeit sortiert.
    */
   providers: string[]
-  years: number[]
+  years: number[]; patchnotesStand?: string // Letzteres: jüngster Patch-Notes-Tag (Ungelesen-Punkt)
   attribution: string[]
 }
 

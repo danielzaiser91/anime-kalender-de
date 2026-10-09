@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { startTransition, useCallback, useEffect, useRef, useState } from 'react'
 import { wocheDeckt } from '@shared/wochen-datei.ts'
 import { loadDataset, loadWochenStart, type Dataset, type WochenStart } from './data.ts'
 import type { AppRoute } from './router.ts'
@@ -8,11 +8,11 @@ const NACHLADEN_SPAETESTENS_MS = 6000
 const BILD_PRUEFUNG_MS = 300
 const BEDIENUNG = ['pointerdown', 'keydown', 'wheel', 'touchstart'] as const
 
-/** Ob die Adresse die Wochenansicht ohne Suche meint — nur dann kann die Wochen-Datei reichen. */
-const wochenansichtOhneSuche = (route: AppRoute): boolean => route.view === 'woche' && route.filters.search.trim() === ''
+/** Ob die Adresse die Wochenansicht meint — nur dann kann die Wochen-Datei reichen (die Woche hat keine Suche mehr). */
+const wochenansicht = (route: AppRoute): boolean => route.view === 'woche'
 
 /** Beim Start zusätzlich ohne Panel: Ein geteilter Link auf einen Titel braucht die vollen Daten sofort. */
-const wochenStartMoeglich = (route: AppRoute): boolean => wochenansichtOhneSuche(route) && route.title === undefined
+const wochenStartMoeglich = (route: AppRoute): boolean => wochenansicht(route) && route.title === undefined
 
 /** Ob die Karten im Sichtfeld ihr Bild haben: Dann hat die Leitung Platz für die vollen Daten. */
 function sichtbareBilderFertig(): boolean {
@@ -54,8 +54,8 @@ function planeNachladen(starte: () => void): () => void {
  * **Die Daten der App: erst die Woche, dann alles.**
  *
  * Die Wochenansicht startet aus `woche.json` (≈ 30 KB statt ≈ 317 KB) und lädt die vollen Dateien danach im Hintergrund (`planeNachladen`).
- * `data` ist die Wochen-Datei nur, solange sie für diese Ansicht reicht (Woche und heute in ihrer Woche, keine Suche, Wochenansicht);
- * jede andere Ansicht, jede Suche und jedes Panel warten auf `voll` und lösen das Laden sofort aus. Fehlt oder veraltet die
+ * `data` ist die Wochen-Datei nur, solange sie für diese Ansicht reicht (Woche und heute in ihrer Woche, Wochenansicht);
+ * jede andere Ansicht und jedes Panel warten auf `voll` und lösen das Laden sofort aus. `voll` kommt als Übergang (`startTransition`): das Neuzeichnen mit allen Daten läuft in Zeitscheiben statt als eine lange Aufgabe. Fehlt oder veraltet die
  * Wochen-Datei, läuft der Start wie vorher.
  */
 export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset; voll?: Dataset; error?: string } {
@@ -69,7 +69,7 @@ export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset;
     if (geladen.current) return
     geladen.current = true
     loadDataset()
-      .then(setVoll)
+      .then((d) => startTransition(() => setVoll(d)))
       .catch((e: Error) => setError(e.message))
   }, [])
 
@@ -82,7 +82,7 @@ export function useStartdaten(route: AppRoute, heute: string): { data?: Dataset;
       .catch(starteVoll)
   }, [heute, starteVoll])
 
-  const teilGueltig = teil !== undefined && wochenansichtOhneSuche(route) && wocheDeckt(teil, route.date, heute)
+  const teilGueltig = teil !== undefined && wochenansicht(route) && wocheDeckt(teil, route.date, heute)
   const verlangtVoll = teil !== undefined && (!teilGueltig || route.title !== undefined)
   useEffect(() => {
     if (verlangtVoll) starteVoll()

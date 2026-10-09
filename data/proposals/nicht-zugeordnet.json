@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-08",
+  "stand": "2026-10-09",
   "eintraege": [
     {
       "titel": "Demon Slayer: Kimetsu no Yaiba – Infinity Castle I",
@@ -7,6 +7,15 @@
       "tag": "2026-09-29",
       "anbieter": [
         "primevideo"
+      ],
+      "quelle": "Sammelartikel"
+    },
+    {
+      "titel": "86 EIGHTY-SIX",
+      "artikel": "https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/",
+      "tag": "2026-10-08",
+      "anbieter": [
+        "adn"
       ],
       "quelle": "Sammelartikel"
     },

@@ -37,5 +37,9 @@ description: Prüfliste für Struktur und Umfang beim Schreiben oder Ändern von
 5. Eigener Commit; Verhaltensänderungen danach separat.
 
 ## Vor dem Commit
+- Senior-Gegenfrage: „Würde ein Senior das für überkompliziert halten?" Wenn ja, vereinfachen, bevor committet wird.
+- Zeilen-Rückführung: Jede geänderte Zeile führt auf den Auftrag zurück; Nebenher-„Verbesserungen" und
+  fremder toter Code bleiben draußen (nur melden), eigene Waisen (Imports, Variablen, Funktionen) sind entfernt.
+  Ausnahme: Regeln eines Repos, die ein Anfassen verlangen (z. B. Chronik-Kommentare des angefassten Abschnitts kürzen).
 - Diff lesen: Angebaut statt herausgelöst? Duplikat? Unnötige oder lange Kommentare?
 - Prüfkette des Repos (Typen, Lint, Tests, Größenprüfung) grün.

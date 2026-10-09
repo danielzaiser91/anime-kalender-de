@@ -2,7 +2,11 @@
  * Texte der Poster-Gestaltung (26.09.2026): Kopfleiste, Abo-Menü, Kalenderkopf, Filterfeld, Woche
  * und Monat. Eigene Datei, weil `i18n.tsx` über 800 Zeilen liegt; `TEXTE` dort nimmt sie auf.
  */
+/* Die Texte des Sprecher-Filters reisen mit: `i18n.tsx` ist über der Dateigrenze und wächst nicht mehr. */
+import { TEXTE_SPRECHER } from './i18n-sprecher.ts'
+
 export const TEXTE_KALENDER = {
+  ...TEXTE_SPRECHER,
   'kopf.startseite': 'Anime-Kalender DE — zur aktuellen Woche',
   'kopf.suche': 'Anime suchen',
   'kopf.sucheOeffnen': 'Suche öffnen',
@@ -16,29 +20,6 @@ export const TEXTE_KALENDER = {
   'nav.kalender': 'Kalender',
   'nav.bereich': 'Bereich',
 
-  /* „Meine Woche" (Prototyp hinter Vorschau `meine-woche`, 08.10.2026). */
-  'mw.alle': 'Alle Termine',
-  'mw.meine': 'Meine Woche',
-  'mw.plattformen': 'Meine Plattformen',
-  'mw.plattformenAlle': 'Nichts gewählt: alle Anbieter zählen. Bleibt nur in diesem Browser.',
-  'mw.plattformenHinweis': 'Nur diese Anbieter zählen. Bleibt nur in diesem Browser.',
-  'mw.zahl': '{n} Termine deiner {fav} Favoriten',
-  'mw.nichts': 'Diese Woche nichts von deinen {fav} Favoriten',
-  'mw.anderswo': 'Diese Woche nur auf abgewählten Anbietern',
-  'mw.frei': 'frei',
-  'mw.ansehen': 'Ansehen',
-  'mw.ruhig': 'Gerade ruhig · {n}',
-  'mw.naechste': 'nächste: {tag}',
-  'mw.keinTermin': 'kein Termin bekannt',
-  'mw.einstieg': 'Merk dir Titel mit dem Stern ★ — dann steht hier, was du diese Woche auf Deutsch sehen kannst.',
-  'mw.einstiegKnopf': 'Titel in der Datenbank suchen',
-  'mw.erinnern': 'Nichts verpassen',
-  'mw.ics': 'Kalenderdatei (nur meine Titel)',
-  'mw.abo': 'Kalender-Abo mit Favoriten',
-  'mw.aboAn': 'Kalender-Abo ✓',
-  'mw.push': 'Push am Tag der Folge',
-  'mw.pushAn': 'Push ✓',
-  'mw.erinnernHinweis': 'Die Datei entsteht hier im Browser, acht Wochen voraus mit Wecker. Abo und Push laufen über den Newsletter-Dienst (Double-Opt-in, jederzeit löschbar).',
 
   'kal.dieseWoche': 'Diese Woche',
   'kal.naechsteWoche': 'Nächste Woche',
@@ -51,12 +32,6 @@ export const TEXTE_KALENDER = {
   'kal.termine': '{n} Termine',
   'kal.keinTermin': 'Kein Termin an diesem Tag.',
   'kal.nichtsGefiltert': 'Nichts für diese Filter.',
-  'kal.sucheWoche1': '1 Treffer in dieser Woche',
-  'kal.sucheWocheN': '{n} Treffer in dieser Woche',
-  'kal.sucheDb': '{n} in der Datenbank',
-  'kal.sucheDbLaedt': 'Datenbank wird durchsucht …',
-  'kal.sucheAnzeigen': 'anzeigen',
-  'kal.keinTreffer': 'Kein Treffer',
   'kal.imTv': 'Im Fernsehen',
   'kal.tvWeitere': '+{n} weitere',
   'kal.keineAusstrahlung': 'Keine Ausstrahlung.',

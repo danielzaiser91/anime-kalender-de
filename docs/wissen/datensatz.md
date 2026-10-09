@@ -577,7 +577,7 @@ Byte-gleich zum alten Build (`main`-HTML nach dem Nachladen, 173.450 Zeichen), e
 Ursachen: (1) Die Wochenkachel (173 CSS-px) zog bei 2× AniLists `large` (460 px, als PNG bis 553 KB; AniList liefert kein WebP/AVIF, `medium` wiegt ~150 KB);
 auch der Offline-Vorrat in `App.tsx` holte `large`. (2) CLS 0,607: Ohne Vorschau `startgeruest` rechnete die App erst eine leere Woche (7 Tage à 190 px)
 und sprang beim ersten Ergebnis auf 9.200 px. Änderung: `coverBild(…, dichte)` mit `KACHEL_DICHTE = 1,5` (Kachel und Offline-Vorrat), und das Gerüst
-(`useErstesErgebnis`) ist Standard; `akVorschau('startgeruest', 'spinner')` bringt den alten Start zurück.
+(`useErstesErgebnis`) ist Standard; der Vorschau-Schalter ist seit 09.10.2026 entfernt.
 Messung mit `tools/archiv/ladegewicht-messung.mjs --lokal=dist` (gebautes Verzeichnis, Leitung 1,6 Mbit/s nachgebildet, Median 2 Läufe), vorher → nachher:
 Bilder 21 / 2.988 KB → 31 / 1.647 KB (die kleineren laden früher nach) · erstes Karten-Bild 7,5–9,5 s → 4,0–4,4 s · CLS 0,607 → 0 · Code+Daten unverändert 567 KB.
 
@@ -614,3 +614,85 @@ Idee 2 aus [ideen-2026-10-08.md](ideen-2026-10-08.md). Quellen, Auflagen und Vol
 - **Abgleich** (`web/src/lib/sprecher.ts`, `sucheSprecher`): jedes Suchwort muss im normalisierten Namen stehen (`shared/sprecher.ts`: Kleinschreibung, ä→a, ß→ss, Akzente weg); ganzer Name vor Wortanfang vor Teil, dann Titelzahl. Keine unscharfe Suche — ein Name ist eine Behauptung über eine Person. Höchstens 8 Namen, der Rest als „N weitere — genauer tippen".
 - **Anzeige:** Gruppe „Sprecher" über den Treffern in Datenbank und Woche (`role="status"` sagt die Trefferzahl an), je Name ein Aufklapp-Knopf (`aria-expanded`/`aria-controls`, 44 px hoch), darunter die Titel mit Rolle als Sprung ins Panel, bei ANN-Rollen der Pflichtlink „ANN ↗". Genau ein Treffer mit vollem Namen klappt von selbst auf. Im Panel sind die Namen unter „Deutsche Stimmen" Knöpfe (`zurSprecherSuche`: Panel zu, `#/datenbank?q=<Name>`).
 - **Was sie nicht tut:** keine Bewertung, keine Sprecher-Seite mit Biografie, keine Zusammenlegung von Schreibvarianten, kein Eintrag in `SUCHFELD_ARTEN` (das Fragezeichen am Suchfeld nennt „Sprecher" noch nicht — nachziehen, wenn Daniel die Vorschau freigibt).
+
+## Sprecher-Filter der Datenbank (09.10.2026)
+
+Ersetzt die Sprecher-Suche (Seite in PR 546 gelöscht); der Index aus dem Bau (`sprecher.json`, `sprecher/<buchstabe>.json`) bleibt. Freigabe und Verknüpfung (Daniel, 09.10.2026): eigener Filter in der Filterliste, **nicht** in der Suche.
+
+- **Verknüpfung** (`lib/sprecher-auswahl.ts`, Zusicherung `check:logic` → `check-sprecher-filter.ts`): „mit"-Sprecher ODER, „ohne"-Sprecher UND, beides UND alle anderen Filter. Gespeichert wie die übrigen Listen (`FilterLists.sprecher`; Adresse `sp=` und `xsp=`, Namen, nur Datenbank — im Kalender weder gelesen noch geschrieben). Der Zähler am Filterknopf und „Sprecher (n)" in der Überschrift zählen mit und ohne.
+- **Laden** (`lib/sprecher.ts`): beim Öffnen des Filterkastens nichts; `sprecher.json` (20 KB gepackt) erst beim Fokus im Feld; je gewähltem Namen und je sichtbarem Vorschlag die Gruppendatei (7–23 KB gepackt, einmal je Buchstabe zwischengespeichert). Steht ein Name in der Adresse, kommt nur seine Gruppe. Nichts davon in `titles.json`. Ein Fehlschlag bleibt nicht im Zwischenspeicher („Erneut versuchen" holt neu). Solange eine Gruppe fehlt, zeigt die Liste „lädt"/leer statt eines Bestands, der den Filter ignoriert.
+- **Eingabe:** ab zwei Zeichen, entprellt (120 ms), höchstens 8 Vorschläge (Wortanfang vor Treffer im Wort), nur Namen aus dem Index; Vorschläge im Fluss der Seite (das Filterfeld scrollt selbst), Tastatur (↑ ↓ Enter Esc), Tippziele ≥ 28 px. Der Pfeil klappt die Titel auf und wählt nichts. Die Eingabe verlässt das Gerät nie.
+- Der Filter erscheint nur, wo `SprecherLeiste` die Titelnamen bereitstellt (Datenbank).
+
+## Rollbare Reihen auf dem Handy: `sr-only` braucht einen positionierten Vorfahren (08.10.2026)
+
+Die Datenbank-Schalter rollen auf dem Handy seitlich (`overflow-x-auto`, Pillen `shrink-0 whitespace-nowrap`). Beim ersten Bau standen
+Navigation und Filterleiste außerhalb des Bildes: Das `sr-only`-Checkbox-Input des Schalters ist `position: absolute`, und ohne
+positionierten Vorfahren liegt es relativ zur Seite — bei der dritten Pille also bei x ≈ 580 px, außerhalb des rollbaren Kastens. Die
+Seite bekam damit einen Überlauf von 594 px, und Chrome legt den Handy-Viewport (`isMobile`) dann so breit an (`innerWidth` 594 statt
+390). `contain: inline-size`, `min-width: 0` und `overflow-x: hidden` ändern daran nichts; die Pille `relative` setzen schon.
+Messen: `document.documentElement.scrollWidth` gegen `innerWidth` im festen 390-px-Fenster — `tools/ansicht-bild.mjs --handy` sieht es ebenfalls.
+Gleiches gilt für jedes absolut positionierte Kind (Blase, Marke) in einer rollenden Reihe.
+
+## Vergrößertes Cover zeigt ein anderes Plakat als das Panel (Ishura, 08.10.2026)
+
+Daniel (18:20): Ishura (`/t/14933/`), Klick aufs Cover im Panel — ein anderes Bild als im Panel. Ursache: Das Panel zeigt das
+AniList-Cover (`large`, 460 px, hier das Gruppenbild); die Vergrößerung blendet das TMDB-Plakat aus `synopses/<n>.json` (`cg`) darüber,
+und `fetch-tmdb-poster.ts` wählt je Titel das **größte Hochformat** (japanisch vor schriftlos vor deutsch vor englisch) — bei Ishura
+das Key Visual mit Totenschädel und Schriftzug 異修羅, ein anderes Motiv derselben Serie (TMDB 220286, Zuordnung stimmt). Keine Verwechslung
+über MAL/aniSearch; die 1.833 Titel mit TMDB-Plakat sind alle so gewählt, wie oft das Motiv abweicht, war nicht gezählt.
+Stichprobe (15 Titel, dHash 9 × 8 zwischen AniList `small` und TMDB `w92`): 6 gleiche Motive mit Abstand 4–16, 9 andere mit 23–38.
+
+Behoben in der Seite (`detail/cover-gleich.ts`): Vor dem Überblenden werden beide Kleinstbilder (zusammen unter 10 KB, nur beim Öffnen)
+per dHash verglichen; erst ab Abstand ≤ 18 kommt das große Plakat, sonst bleibt das AniList-Cover — unschärfer, aber dasselbe Bild.
+Beide CDNs erlauben `crossOrigin` (geprüft mit `Origin`-Kopf). Besser und noch offen: im Bau unter allen TMDB-Plakaten das dem
+AniList-Cover ähnlichste wählen (statt des größten) und `cg` nur dann schreiben — dann gibt es für mehr Titel ein scharfes gleiches Bild
+und die Prüfung im Browser entfällt.
+
+## TBT-Befund nach 501–503 und Plakat Dress-Up Darling (08.10.2026)
+
+Messung ohne Netz auf den gebauten Ständen (Playwright, Seite aus `dist/` über `page.route`, Handy 390 × 844, CDP 1,6 Mbit/s × 4 als Ersatz für gzip, 150 ms, CPU 4×, Median von 5, 12 s): TBT vor 501 (`0e6bae771`) 260 ms, nach 501 258, nach 502 291, nach 503 271 ms; Desktop 348 / 323 / 320 / 366 ms — kein Sprung, Streuung ±40 ms. Die Live-Seite maß am selben Abend 393–507 ms (acht Läufe `perf.cjs`), nicht 0,9 s; der Wert 0,9 ließ sich nicht wiederholen. Lange Aufgaben (Handy, 4× CPU): erster Aufbau der Woche 4 Stück zu 60–250 ms (die 200+-ms-Aufgabe ist eine erzwungene Layoutberechnung durch `klebendeUnterkante()` beim Sprung zu heute), und eine Aufgabe 90–140 ms beim Einsetzen der vollen Daten (React-Neuzeichnen, kein `JSON.parse`). Letztere läuft jetzt als `startTransition` (Handy 90 → 55 ms, Desktop 95–140 → 91 ms).
+Dress-Up Darling (AniList 132405): dHash-Abstand AniList-Cover gegen TMDB-Plakat = 16 (Schwelle 18, also gleiches Motiv). Die Live-Datei `data/synopses/21.json` (134.250 Byte) enthält den Eintrag 132405 samt `cg` nicht, die im Repo (152.179 Byte, `08bd2d45f`) schon — ohne `cg` gibt es kein großes Plakat. Ursache liegt im ausgelieferten Bestand, nicht an der Schwelle.
+
+## Ein Werk, das auch Anime ist, ist kein Cartoon: Rooster Fighter (09.10.2026)
+
+Daniel (08.10.2026, 23:55): „Rooster Fighter" stand zweimal im Bestand, als Anime (AniList 179813, `ak` 16072, MAL 59393, Disney+ mit Deutsch) und als
+Cartoon (TMDB 259819, Disney+ ohne Deutsch-Angabe). Ursache: `fetch-cartoons.ts` holt alle TMDB-Serien mit Genre Animation und `schreibeCartoons()`
+legt sie an, ohne den Anime-Bestand zu kennen. Regel (Daniel): Was AniList, aniSearch oder MAL als Anime führen, ist ein Anime.
+
+Umsetzung: `pipeline/lib/cartoon-zwilling.ts` (reiner Vergleich), `pipeline/bau/cartoon-zu-anime.ts` (läuft nach `ohne-synchro.json`, damit nur ein
+tatsächlich ausgelieferter Zwilling den Cartoon ersetzt). Belegt ist ein Zwilling über die TMDB-Kennung aus `tmdb-titles.json`, sonst über den vollen
+normalisierten Namen; dazu immer Jahr (±1) und Folgenzahl (gleich oder ganzes Vielfaches, TMDB zählt Staffeln). Ein Cartoon hat keine MAL-Kennung; MAL und
+aniSearch kommen über den Anime-Titel (`malId`, Titel `10_000_000+id`) ins Spiel. Passt Jahr oder Folgenzahl nicht, bleibt der Cartoon stehen und muss in
+`ZWILLING_AUSNAHMEN` begründet sein. Der Umzug steht in `data/cartoon-umzug.json` (wächst nur) und wird in `ak-umleitung.json` zu `[Cartoon, ak]`: gemerkte
+Cartoons (Browser) und `#/…?t=<Cartoon>` ziehen auf den Anime-Titel. Der Worker speichert nur positive Kennungen, dort ändert sich nichts.
+
+Messung 09.10.2026 auf dem Datensatz von `main`: 919 Cartoons, 19 Zwillinge (Rooster Fighter, Devil May Cry, Terminator Zero, Ninja Kamui, Rick and Morty: The Anime,
+Mech Cadets, Scott Pilgrim Takes Off, ONI, Tekken: Bloodline, Star Wars: Visions, Pacific Rim: The Black, Fena, Eden, Blade Runner: Black Lotus, Saint Seiya: Knights of the
+Zodiac, YooHoo to the Rescue, Larva Island, Pac-Man and the Ghostly Adventures, Afro Samurai), 7 gleichnamige, aber andere Werke in `ZWILLING_AUSNAHMEN` (Bakugan ungeklärt).
+Bei 9 der 19 fehlt dem Anime-Titel ein Anbieter, den der Cartoon nannte (Devil May Cry, Mech Cadets, ONI,
+Pacific Rim, YooHoo, Fena, Blade Runner, Saint Seiya, Afro Samurai) — diese Anbieter übernimmt der Anime-Titel als Weg mit `herkunft: "tmdb"` und ohne Sprachangabe (Projektziel 4; `uebernehmeAnbieter`, Zusicherung in `check-cartoon-zwilling.ts`).
+Der Vergleich nutzt nur ausgelieferte Dateien; Titel, die nur im AniList-Katalog liegen, sind erst dann Zwillinge, wenn `ohne-synchro.json` sie führt.
+
+## aniSearch-Zeile und AniList-Katalogtitel: ein Werk, eine Zeile (09.10.2026)
+
+Daniel fand „The Laid-Off Cheat-Granting Mage" zweimal in der Datenbank. Ursache: Die aniSearch-Zeilen (`data/anisearch-eintraege.json`, 8.261 Einträge) und der
+AniList-Katalog hinter dem Schalter (`ohne-synchro.json`) kamen unabhängig voneinander in die Ausgabe; `anisearch.json` ordnet nur Titel zu, die einmal
+abgerufen wurden. Gemessen am Datensatz von `main` (09.10.2026): **2.389 Paare** (gleiche MAL, Formatklasse, Jahr ±1, Folgenzahl gleich oder auf einer Seite offen), fast
+alle Zeilen ohne Deutsch (`dub: '-'`) hinter dem Schalter; die Prüfung `malDubletten` sah sie nie, weil sie nur Zeilen im Hauptbestand mit AniList-Titeln in
+`titles.json` vergleicht und die Ausgabe keine MAL an der Zeile trägt.
+
+Regel (`pipeline/bau/anisearch-dubletten.ts`, aufgerufen aus `schreibeOhneSynchro`): Eine Zeile hinter dem Schalter entfällt zugunsten des Katalogtitels; steht
+die Zeile im Hauptbestand oder trägt sie einen Termin (Beerus, Fool Night), entfällt der Katalogtitel. Zeilen mit Deutsch (`d`/`p`/`c`) und Zeilen aus `MAL_AUSNAHMEN`
+bleiben (die Handdatei bindet sie); bei mehr als einem Treffer auf einer Seite wird nichts geraten. Die Kennung der entfallenen Zeile bekommt keine Umleitung
+(`zuAk`), sie stand nur hinter dem Schalter. Zusicherung: `pipeline/check-anisearch-dubletten.ts` (Teil von `check:logic`), mit Übergang bis 16.10.2026, bis der
+nächste Datenlauf den Datensatz neu gebaut hat.
+
+### Undatierte Katalogeinträge veralten (The Boxer, 09.10.2026)
+
+Der Katalog-Frischlauf holt das laufende und die kommenden Jahre sowie die jüngsten Kennungen. Ein Eintrag **ohne Startdatum mit älterer Kennung** (The Boxer,
+163794, angekündigt) erreichte keiner der beiden Wege: Er blieb mit Platzhalter-Cover und falschem Herkunftsland (KR statt JP) stehen, obwohl AniList das Cover am
+09.10.2026 nachgetragen hatte. 169 von 279 undatierten Ankündigungen haben eine Kennung unter 200.000. `frischeUndatierte` (`fetch-anilist-katalog.ts`) holt jetzt
+in jedem Lauf alle Einträge ohne `start` nach Kennung (`id_in`, 50 je Abfrage). Offen: The Boxer ist laut anime2you (1058533, 1058606, 09.10.2026) ein Crunchyroll-Simulcast
+im Original mit Untertiteln, Start unbekannt, keine Synchro genannt — für eine Ankündigung ohne Termin kennt `ankuendigungen.yaml` kein Feld (`omuAb` ist Pflicht und wird in
+`vorDemStart`, `ankuendigungs-termin` und der Meldung als Datum gelesen).

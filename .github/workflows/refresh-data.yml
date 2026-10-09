@@ -72,6 +72,11 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: bash tools/schritt.sh --zeit 25m "Rohdaten holen" -- npm run data:fetch
 
+      # Neuanlagen und Ankündigungen (laufendes und drei kommende Jahre, jüngste 500 Kennungen) kommen täglich in den Gesamtkatalog statt erst im Wochenlauf
+      # (Maiden Blood, 09.10.2026). Rund 30 Abfragen; endet rot, wenn die Stichprobe der jüngsten Kennungen etwas vermisst.
+      - name: AniList-Gesamtkatalog auffrischen
+        run: bash tools/schritt.sh --zeit 10m "AniList-Katalog auffrischen" -- npm run data:katalog -- --frisch
+
       # Schlägt der Lauf fehl (Seitenumbau, Ausfall), bleiben die zuletzt gespeicherten Zeiten stehen — der Build läuft trotzdem weiter.
       - name: Deutsche Sendezeiten von Crunchyroll lesen
         run: bash tools/schritt.sh --zeit 10m "Sendezeiten von Crunchyroll" -- npm run data:crunchyroll
@@ -194,6 +199,12 @@ jobs:
       # anisearch.de war vom Anschluss des Betreibers aus nicht erreichbar; die Sperre verschwand von selbst.
       - name: Deutsche Texte und Anbieter von aniSearch
         run: bash tools/schritt.sh --zeit 50m "aniSearch — Texte und Anbieter" -- npm run data:anisearch
+
+      # aniSearchs Brücke MAL → aniSearch (API, ein Abruf): ordnet Titeln ohne Titelseite ihre Kennung zu und arbeitet so `data/anisearch-offen.json` ab (09.10.2026).
+      - name: aniSearch-Kennungen zuordnen
+        env:
+          ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
+        run: bash tools/schritt.sh --zeit 5m "aniSearch — Kennungen" -- npm run data:anisearch-zuordnung
 
       # Deutsche Disc-Ausgaben aus dem aniSearch-Archiv — kein Abruf, nur das Auswerten dessen, was der Schritt davor ablegt. Muss vor dem Bau laufen: Er macht daraus
       # die Bezugswege für Titel, die sonst keinen einzigen zeigen (176 am 29.08.2026).

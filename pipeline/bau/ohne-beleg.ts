@@ -15,11 +15,21 @@ import { readJson, ROOT } from '../lib/util.ts'
  * etwa 25 ab 2024 mit Weg). Wie überall gilt: ein Vorfilter verschiebt, er löscht nicht (`schreibeOhneSynchro`).
  */
 export function ausgestrahltOhneBeleg(t: Title): boolean {
-  if (!t.streams.length || t.deErstausgabe || t.streams.some((s) => s.dub === true)) return false
+  if (!t.streams.length || t.deErstausgabe || t.streams.some((s) => s.dub === true) || deutschLautAnisearch(t)) return false
   return (t.jpYear ?? 0) >= 2023
 }
 
 let dubsAnisearch: Record<string, string> | undefined
+
+/**
+ * aniSearchs Dub-Liste führt Deutsch als vertont (`d`) oder abgebrochen (`c`, Teilsynchro): Das ist ein Beleg, wie ihn `keineSynchroLautAnisearch` für das Gegenteil gelten lässt.
+ * Geplant (`p`) ist eine Ankündigung, kein Beleg. Ohne diesen Beleg wanderte Scott Pilgrim hebt ab (170206) hinter den Toggle (Lauf 37832745133).
+ */
+export function deutschLautAnisearch(t: Title): boolean {
+  dubsAnisearch ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {})
+  const k = dubsAnisearch[String(t.id)]
+  return k === 'd' || k === 'c'
+}
 
 /**
  * **Eine deutsche Ausgabe ohne deutsche Vertonung ist keine Synchro** (Daniel, 06.10.2026, Handprüfung E: 10 von 10 Titeln, bei denen

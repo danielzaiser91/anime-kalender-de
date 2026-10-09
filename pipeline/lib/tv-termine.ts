@@ -213,6 +213,23 @@ export function sendungNeuZuordnen(
   })
 }
 
+/** Ein Film mit höchstens einer Folge (AniList `MOVIE`): jede weitere Sendung ist eine Wiederholung. */
+export const istEinzelfilm = (t: Pick<Title, 'format' | 'episodes'>): boolean => t.format === 'MOVIE' && (t.episodes ?? 1) <= 1
+
+/** Neue Folgentitel in Sendereihenfolge; ohne Folgentitel zählt jeder Sendetag. Füllt `observed` und `zeitJeFolge`, gibt die Zahl der Folgen zurück. */
+function zaehleOhneListe(liste: TvSendung[], observed: Record<number, string>, zeitJeFolge: Record<number, string>): number {
+  const gesehen = new Set<string>()
+  let n = 0
+  for (const s of liste) {
+    const schluessel = s.folge ?? `tag:${berlinTag(s.start)}`
+    if (gesehen.has(schluessel)) continue
+    gesehen.add(schluessel)
+    observed[++n] = berlinTag(s.start)
+    zeitJeFolge[n] = berlinZeit(s.start)
+  }
+  return n
+}
+
 export function releasesAusTvProgramm(
   sendungen: TvSendung[],
   titles: Map<number, Title>,
@@ -257,6 +274,8 @@ export function releasesAusTvProgramm(
     }
     const observed: Record<number, string> = {}
     const zeitJeFolge: Record<number, string> = {}
+    /* Ein Kinofilm läuft mehrmals, bleibt aber ein Werk: spätere Sendungen sind Wiederholungen (stehen unter `sendungen`), keine Folge 2. */
+    const sichtungen = !mitWiki && istEinzelfilm(title) ? [erste] : liste
     let n = 0
     let ab = 1
     if (mitWiki) {
@@ -272,18 +291,10 @@ export function releasesAusTvProgramm(
       ab = Math.min(...nrn)
       n = Math.max(...nrn) - ab + 1
     } else {
-      /* Neue Folgentitel in Sendereihenfolge; ohne Folgentitel zählt jeder Sendetag. */
-      const gesehen = new Set<string>()
-      for (const s of liste) {
-        const schluessel = s.folge ?? `tag:${berlinTag(s.start)}`
-        if (gesehen.has(schluessel)) continue
-        gesehen.add(schluessel)
-        observed[++n] = berlinTag(s.start)
-        zeitJeFolge[n] = berlinZeit(s.start)
-      }
+      n = zaehleOhneListe(sichtungen, observed, zeitJeFolge)
     }
     /* Die Uhrzeit nur, wenn alle Sendungen um dieselbe liefen. */
-    const zeiten = new Set(liste.map((s) => berlinZeit(s.start)))
+    const zeiten = new Set(sichtungen.map((s) => berlinZeit(s.start)))
     const name = title.titleDe ?? title.titleEn ?? title.titleRomaji ?? erste.titel
     aus.push({
       slug: `auto-${title.id}-tv-${slugTeil(erste.sender)}`,

@@ -5,7 +5,6 @@ import type { Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { FundstellenZeichen, TrefferName } from './Suchtreffer.tsx'
-import { CoverPlatzhalter } from './db-vorschau.tsx'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Tooltip } from './ui.tsx'
 
 export interface DbKarteProps {
@@ -21,14 +20,10 @@ export interface DbKarteProps {
   onOpenTitle: (id: number) => void
   share: (slug: string, title: string) => Promise<void>
   copiedSlug: string | undefined
-  /** Vorschau `db-ohne-synchro`: der Hinweis steht einmal oben, nicht auf jeder Kachel. */
-  ruhigOhne?: boolean
-  /** Vorschau `db-reserve`: Cover ohne Bild zeigen eine Farbfläche mit Anfangsbuchstaben. */
-  platzhalter?: boolean
 }
 
 /** Eine Kachel der Datenbank (oder, ausgeblendet, ihr Platzhalter). */
-export function DbKarte({ main, members, data, today, grouped, favorites, hidden, onToggleFavorite, onToggleHidden, onOpenTitle, share, copiedSlug, ruhigOhne, platzhalter }: DbKarteProps) {
+export function DbKarte({ main, members, data, today, grouped, favorites, hidden, onToggleFavorite, onToggleHidden, onOpenTitle, share, copiedSlug }: DbKarteProps) {
   const { t } = useLang()
   const releases = members.flatMap((m) => data.releasesByTitle.get(m.id) ?? [])
   const status = titleStatus(releases, today, main)
@@ -54,6 +49,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
    * Detail-Panels, wo sie hingehört.
    */
   const keinDub = members.every((m) => m.ohneSynchro)
+  const teilbar = main.slug && !main.ohneSynchro && main.id > 0 ? main.slug : undefined
 
   if (isHidden) {
     return (
@@ -97,7 +93,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
             alt=""
             loading="lazy"
             className={[
-              'h-full w-full object-cover transition duration-300 group-hover:scale-105',
+              'h-full w-full object-cover transition group-hover:scale-105',
               // Entsättigt statt blass: Ein blasses Bild sieht nach
               // Ladefehler aus, ein graues nach Absicht. Beim Zeigen
               // kommt die Farbe zurück — dann schaut jemand genau hin.
@@ -116,37 +112,25 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
           vor.
         */}
         {main.westlich && (
-          <span className="absolute left-1 top-1 rounded bg-violet-600/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]">
+          <span className="absolute left-1 top-1 rounded bg-slate-600/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]">
             <Tooltip text={t('db.westlichHinweis')} eigenerFokus>
               {t('db.westlich')}
             </Tooltip>
           </span>
         )}
-        {!main.coverImage && platzhalter && <CoverPlatzhalter name={anzeigeName(main)} />}
-        {keinDub && !ruhigOhne && (
+        {keinDub && (
           <span className="absolute inset-x-0 bottom-0 bg-slate-900/80 px-1.5 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-[1px]">
             {t('db.noDubBadge')}
           </span>
         )}
-        {/*
-          Alles Bedienbare in **einer** Spalte oben rechts, unter der
-          FSK-Kennzeichnung.
-
-          Vorher lagen Stern und Auge oben links, die FSK oben rechts —
-          zwei Häufchen in gegenüberliegenden Ecken, ohne dass die
-          Aufteilung etwas bedeutet hätte. Jetzt gibt es eine einzige
-          Spalte: Ganz oben die Angabe zum Titel, darunter das, was man
-          mit ihm tun kann. Das Cover bleibt links frei, und genau dort
-          steht bei fast jedem Anime das Gesicht.
-        */}
-        <span className="absolute right-1 top-1 flex flex-col items-center gap-0.5 rounded-md bg-slate-900/60 p-0.5 backdrop-blur-[2px]">
-          {main.fsk !== undefined && <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />}
-          <FavoriteStar active={favorite} onToggle={() => onToggleFavorite(main.id)} />
-          <HideEye hidden={false} onToggle={() => onToggleHidden(main.id)} />
-          {main.slug && !main.ohneSynchro && main.id > 0 && (
-            <ShareIcon onShare={() => share(main.slug, main.titleDe ?? main.titleEn ?? main.titleRomaji ?? '')} copied={copiedSlug === main.slug} />
-          )}
-        </span>
+        <KartenKnoepfe
+          main={main}
+          favorite={favorite}
+          onToggleFavorite={() => onToggleFavorite(main.id)}
+          onToggleHidden={() => onToggleHidden(main.id)}
+          onShare={teilbar ? () => share(teilbar, main.titleDe ?? main.titleEn ?? main.titleRomaji ?? '') : undefined}
+          copied={!!teilbar && copiedSlug === teilbar}
+        />
         {grouped && members.length > 1 && (
           /*
             Über den Balken statt darauf: Der Hinweis „keine deutsche
@@ -158,7 +142,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
           <span
             className={[
               'absolute right-1 rounded bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white',
-              keinDub && !ruhigOhne ? 'bottom-7' : 'bottom-1',
+              keinDub ? 'bottom-7' : 'bottom-1',
             ].join(' ')}
           >
             {t('db.seasons', { count: members.length })}
@@ -190,7 +174,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
                 favorite ? 'font-medium text-amber-600 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400',
               ].join(' ')}
             >
-              {favorite ? t('db.noDubWatched') : ruhigOhne ? null : t('db.noDubWatch')}
+              {favorite ? t('db.noDubWatched') : t('db.noDubWatch')}
             </span>
           ) : (
             <>
@@ -201,5 +185,38 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
         </span>
       </div>
     </div>
+  )
+}
+
+const KNOPF_GRUND = 'flex flex-col items-center rounded-full bg-[rgba(13,15,20,.72)] p-0.5 text-[#f2f1ee]'
+const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0'
+
+/**
+ * FSK und Bedienung in **einer** Spalte oben rechts; das Cover bleibt links frei, dort steht meist das Gesicht.
+ *
+ * Die FSK ist eine Angabe und steht immer. Stern, Auge und Teilen erscheinen wie in der Wochen-Kachel erst beim
+ * Zeigen oder per Tastatur — vorher lag ein dunkler Streifen auf jedem Cover, im hellen Thema am auffälligsten.
+ * Ein gesetzter Stern bleibt sichtbar. Der Stern ist auf jedem Gerät ein Knopf (28 px, kein zusätzlicher
+ * Treffer-Wrapper); Auge und Teilen gibt es auf dem Handy (unter `sm`) im Panel, nicht auf dem Bild.
+ */
+function KartenKnoepfe({ main, favorite, onToggleFavorite, onToggleHidden, onShare, copied }: {
+  main: Title
+  favorite: boolean
+  onToggleFavorite: () => void
+  onToggleHidden: () => void
+  onShare?: () => void
+  copied: boolean
+}) {
+  return (
+    <span className="absolute right-1 top-1 flex flex-col items-end gap-1" onClick={(e) => e.stopPropagation()}>
+      {main.fsk !== undefined && <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />}
+      <span className={`${KNOPF_GRUND} ${favorite ? '' : ERST_BEIM_ZEIGEN}`}>
+        <FavoriteStar active={favorite} onToggle={onToggleFavorite} />
+      </span>
+      <span className={`${KNOPF_GRUND} hidden sm:flex ${ERST_BEIM_ZEIGEN}`}>
+        <HideEye hidden={false} onToggle={onToggleHidden} />
+        {onShare && <ShareIcon onShare={onShare} copied={copied} />}
+      </span>
+    </span>
   )
 }

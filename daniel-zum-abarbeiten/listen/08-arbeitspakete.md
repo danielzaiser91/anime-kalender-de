@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-08 · **2 offene Verweise** in **2 Zeilen**,
+Stand 2026-10-09 · **8 offene Verweise** in **8 Zeilen**,
 aufgeteilt in **1 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -31,9 +31,15 @@ Mehrere Einträge in einer Zeile werden mit Punkt getrennt in derselben Reihenfo
 beantwortet (`1.0` = erster ja, zweiter nein). Eine einzelne Angabe gilt für alle Einträge
 der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 
-## Paket 1 — Zeilen 1 bis 2
+## Paket 1 — Zeilen 1 bis 8
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | ADN | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
-| 2 | Netflix | JoJo’s Bizarre Adventure | [STEEL BALL RUN JoJo's Bizarre Adventure 2nd - 3rd STAGE](https://www.netflix.com/title/82116553) |
+| 1 | Netflix | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
+| 2 | ADN | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
+| 3 | Netflix | JoJo’s Bizarre Adventure | [STEEL BALL RUN JoJo's Bizarre Adventure 2nd - 3rd STAGE](https://www.netflix.com/title/82116553) |
+| 4 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 5 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 6 | Netflix | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
+| 7 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
+| 8 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |

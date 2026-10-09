@@ -104,6 +104,17 @@ async function holen<T>(url: string, t: string | undefined): Promise<T | undefin
   return undefined
 }
 
+/**
+ * aniSearch-Kennungen, die ein AniList-Titel trägt (`data/anisearch.json`) und die deshalb keinen eigenen Eintrag brauchen. **Nicht, wenn aniSearch Deutsch führt (d/p/c)
+ * und der AniList-Titel nicht im Hauptbestand steht**: Er läge sonst nur im Katalog hinter dem Toggle, und der Eintrag, aus dem der Hauptbestand-Titel entsteht, würde nie geholt
+ * (Scott Pilgrim hebt ab, 08.10.2026: aniSearch „vertont", im Hauptbestand fehlend).
+ */
+export function durchAnilistBekannt(zuordnung: Record<string, { anisearchId?: number }>, dubIds: Record<string, string>, hauptIds: Set<number>): string[] {
+  return Object.entries(zuordnung)
+    .filter(([anilist, e]) => e.anisearchId && !(dubIds[String(e.anisearchId)] && !hauptIds.has(Number(anilist))))
+    .map(([, e]) => String(e.anisearchId))
+}
+
 async function main(): Promise<void> {
   const t = token()
   /* Ohne Token antwortet `/v1/anime/<Kennungen>` mit 403 (gemessen im Lauf 37629092125, 07.10.2026) — in Actions braucht es das Secret `ANISEARCH_TOKEN`. */
@@ -116,9 +127,11 @@ async function main(): Promise<void> {
   const eintraege = readJson<Record<string, Record<string, unknown>>>('data/anisearch-eintraege.json', {})
   const ausgelassen = new Set(readJson<number[]>('data/anisearch-eintraege-ausgelassen.json', []).map(String))
   const bekannt = new Set<string>([...Object.keys(eintraege), ...ausgelassen])
-  for (const e of Object.values(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) if (e.anisearchId) bekannt.add(String(e.anisearchId))
+  const dubIds = readJson<Record<string, string>>('data/anisearch-dub-ids.json', {})
+  const hauptIds = new Set(readJson<{ id: number }[]>('public/data/titles.json', []).map((x) => x.id))
+  for (const id of durchAnilistBekannt(readJson('data/anisearch.json', {}), dubIds, hauptIds)) bekannt.add(id)
   for (const m of readFileSync('data/anisearch-ids-hand.yaml', 'utf8').matchAll(/^(\d+):\s*(\d+)/gm)) bekannt.add(m[2]!)
-  const deutsch = Object.keys(readJson<Record<string, string>>('data/anisearch-dub-ids.json', {})).filter((id) => !bekannt.has(id))
+  const deutsch = Object.keys(dubIds).filter((id) => !bekannt.has(id))
   const titelListe = await holen<Record<string, unknown>>('https://api.anisearch.com/v1/anime/titles', t)
   const rest = Object.keys(titelListe ?? {}).filter((id) => !bekannt.has(id) && !deutsch.includes(id)).sort((a, b) => Number(a) - Number(b))
   const ziel = [...deutsch, ...rest].slice(0, LIMIT)

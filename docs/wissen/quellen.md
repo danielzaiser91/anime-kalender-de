@@ -3276,3 +3276,28 @@ Die Sprecher-Suche (Vorschau `sprecher-suche`) zeigt nichts Neues, sie macht die
 **Vollständigkeit:** 1.963 von 2.925 ausgelieferten Titeln (67 %) haben Sprecherdaten (`hasVoices`). Die Suche findet also nur, was AniList und ANN führen; ein fehlender Treffer heißt „nicht belegt", nicht „spricht dort nicht". Die Quellzeile sagt deshalb „Angaben von AniList …", keine Vollständigkeit. 2.607 Sprecher nach Zusammenziehen doppelter Leerzeichen (5 Fälle); 29 Namen unterscheiden sich nur in Umlaut/Akzent/Bindestrich („Claudia Lössl"/„Claudia Lossl", „Jamie-Lee Blank"/„Jamie Lee Blank") — **nicht zusammengelegt**, weil eine Gleichsetzung eine Behauptung wäre; die Suche normalisiert beide Seiten und findet sie gemeinsam.
 
 **Index:** `pipeline/bau/sprecher-index.ts` schreibt `public/data/sprecher.json` (Name, Titelzahl, Gruppe; 20 KB gepackt) und `public/data/sprecher/<buchstabe>.json` (Titel mit Rollen je Name; größte Gruppe „m" 36 KB gepackt). Zusicherungen im Bau: Index ≤ 40 KB und Gruppe ≤ 60 KB gepackt, kein Sprecher ohne Titel, jede Rolle an einem ausgelieferten Titel (`titles.json`) mit Figur; Dateien zu nicht ausgelieferten Titeln werden gezählt und im Log gemeldet (2 am 08.10.2026).
+
+## AniList-Katalog: Neuanlagen kamen erst im Wochenlauf, formatlose gar nicht (09.10.2026)
+
+„Maiden Blood" (AniList 215791, TV, `NOT_YET_RELEASED`, Start nur „2027") fehlte in `ohne-synchro.json`.
+Gemessen am 09.10.2026 an 700 jüngsten AniList-Kennungen (ID_DESC): von 449 mit Startjahr ≥ 2026 oder ohne Datum und
+Kennung > 200000 fehlten 63; 28 davon hatten `format: null` (der Nachlauf fragte mit `format_in` und verwarf sie),
+32 sind `MUSIC` (gewollt draußen), der Rest Neuanlagen nach dem letzten Katalogstand. Der Jahreslauf 2027 findet den
+Titel heute (Seite 3 von 3). Den Katalog holte nur `refresh-weekly.yml`.
+Fix: Nachlauf ohne `format_in`, Filter `gehoertInKatalog()` (formatlos nur bei `NOT_YET_RELEASED`); `data:katalog -- --frisch`
+läuft täglich in `refresh-data.yml` (laufendes + 3 Jahre, 500 jüngste Kennungen, ~30 Abfragen); danach prüft eine
+Stichprobe die 100 jüngsten Kennungen gegen den Katalog und beendet den Schritt sonst rot.
+
+## Crunchyroll: bestehende Abrufe bleiben eingeschränkt (Daniel, 09.10.2026)
+
+Die Nutzungsbedingungen von Crunchyroll (§5) untersagen automatisierten Zugriff und gewerbliche Nutzung (Wortlaut in `sammelartikel-poc.md`). Entscheidung von Daniel (Option A, eingeschränkt, Vorschlag angenommen): Die bestehenden Abrufe (Wochenkalender, Beleg-Lesung, Dub-Abfrage über die Weiche) bleiben mit niedriger Frequenz und ohne Konto. Es kommen keine neuen Crunchyroll-Abrufe dazu; Crunchyroll dient höchstens als Gegenprobe. Bei einer Sperre oder einem Schreiben von Crunchyroll wird sofort eingestellt (dann Option B: nur der öffentliche Kalender, Synchro-Belege aus aniSearch, Anime2You, JustWatch und den Meldungen der Erweiterung). Nichtkommerziell, wie bei JustWatch entschieden.
+
+
+## aniSearch-Direktlink: nie eine Suche, Liste der offenen Titel (09.10.2026)
+
+Anlass (Daniel): Bei „The Boxer" stand eine Suchseite, bei „Laid Off Cheat Granting Mage" ein „?" statt der aniSearch-Titelseite. Gemessen am 09.10.2026 (23.581 Titel in `titles.json` und `ohne-synchro.json`): **16.360 ohne `anisearchId`**, fast alle hinter dem Toggle. Zwei Ursachen: (1) 5.466 reine aniSearch-Titel (Kennung = 10.000.000 + aniSearch-Kennung) trugen die Kennung nur in `titles.json`, nicht in `ohne-synchro.json`; (2) die AniList-Katalogtitel kannten nur, was `anisearch.json` und die Handdatei hergaben.
+
+- **Regel:** Die Oberfläche zeigt nur `anime/<Kennung>`; ohne Kennung steht kein aniSearch-Weg da, kein „?". `anisearchSeite()` liefert ohne Kennung `undefined`; der Bau erzeugt keinen Weg ohne Adresse. `keinAnisearchSuchlink` (`lib/invarianten-auslieferung.ts`) bricht den Bau ab, wenn `titles*.json`, `ohne-synchro.json`, `cartoons.json` oder `synopses/` einen Suchlink enthalten; `check:logic` prüft `releases.json` nach.
+- **Zuordnung:** `bau/anisearch-kennung.ts` (Handdatei, Abruf-Ergebnis, Kennung eines reinen aniSearch-Titels, zuletzt aniSearchs eigene MAL-Brücke `data/anisearch-mal.json`). Die Brücke holt `fetch-anisearch-zuordnung.ts` (`GET /v1/anime/associated?source=myanimelist`, ein API-Abruf, täglich im aniSearch-Job von `refresh-data.yml`); behalten werden nur beidseitig eindeutige Paare, und eine schon an einen anderen AniList-Titel vergebene Kennung wird nicht ein zweites Mal vergeben. Kein Namensabgleich, kein Seitenabruf.
+- **Liste:** `data/anisearch-offen.json` (Kennung, MAL, Titel, Jahr, Grund `ohne-mal` oder `mal-ohne-eindeutige-zuordnung`) schreibt der Bau nur bei Änderung; sie schrumpft mit jeder Brücke.
+- **Messung:** Mit der Brücke vom 09.10.2026 (18.868 MAL-Kennungen, 18.445 eindeutig) bleiben 3.361 Titel offen (1.130 ohne MAL-Kennung). Gegenprobe: bei den 2.962 zugeordneten Titeln, die auch als aniSearch-Eintrag vorliegen, weichen nur 26 im Jahr um mehr als eins ab; drei bestehende Zuordnungen widersprechen der Brücke (3 von 6.951). **Befund:** 3.059 der über MAL zugeordneten AniList-Zeilen haben eine eigene aniSearch-Zeile (Kennung 10.000.000 +) mit derselben Titelseite — Dubletten-Kandidaten, nicht Teil dieser Änderung.

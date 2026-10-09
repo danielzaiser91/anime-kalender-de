@@ -162,6 +162,7 @@
       "wofuer": "aniSearch-API (Synchro-Liste, Limit 1 Abruf je Stunde mit Token, ohne Token 1 je 24 h).",
       "workflows": [
         "daten-auf-abruf.yml",
+        "refresh-data.yml",
         "refresh-weekly.yml"
       ],
       "gueltig": {
@@ -307,8 +308,8 @@
         "d1-verbrauch.yml"
       ],
       "gueltig": {
-        "text": "Laufzeit nicht belegt; Gültigkeit prüfbar über /user/tokens/verify",
-        "beleg": "docs/wissen/betrieb.md „Der Cloudflare-Token liegt nicht im Repo“",
+        "text": "Kein Ablaufdatum: Das Token „anime-kalender-deploy“ hat im Cloudflare-Dashboard keine Ablaufspalte gefüllt, Status aktiv (abgelesen von Daniel am 09.10.2026)",
+        "beleg": "Daniels Screenshot Cloudflare → Profil → API-Tokens, 09.10.2026",
         "gueltigBis": null
       },
       "erneuerung": {
@@ -325,8 +326,8 @@
         "d1-verbrauch.yml"
       ],
       "gueltig": {
-        "text": "Laufzeit nicht belegt; derselbe Wert wie das Deploy-Token, nur mit Analytics-Recht",
-        "beleg": "docs/wissen/betrieb.md (28.09.2026)",
+        "text": "Kein Ablaufdatum (derselbe Wert wie das Deploy-Token, abgelesen am 09.10.2026)",
+        "beleg": "Daniels Screenshot Cloudflare → Profil → API-Tokens, 09.10.2026",
         "gueltigBis": null
       },
       "erneuerung": {
@@ -365,8 +366,8 @@
         "refresh-hourly.yml"
       ],
       "gueltig": {
-        "text": "Ablauf des PAT im GitHub-Konto, im Repo nicht festgehalten",
-        "beleg": "docs/wissen/betrieb.md „Stunden-Wecker über Cloudflare“",
+        "text": "Kein Ablaufdatum: Das Token „anime-kalender Wecker“ trägt im GitHub-Konto „no expiration date“ (abgelesen von Daniel am 09.10.2026)",
+        "beleg": "Daniels Screenshot GitHub → Settings → Personal access tokens → Fine-grained, 09.10.2026",
         "gueltigBis": null
       },
       "erneuerung": {

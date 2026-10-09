@@ -8,6 +8,7 @@ import { addDays } from '../../shared/time.ts'
 import type { Bestand } from './laden.ts'
 import { titelName } from './laden.ts'
 import { regel, type Regel, type Treffer } from './regel.ts'
+import { DATUM_VOM_ANBIETER } from '../../pipeline/lib/invarianten.ts'
 
 const TAGE_OHNE_LEBENSZEICHEN = 60
 
@@ -23,7 +24,7 @@ export function datumMonoton(b: Bestand): Regel {
   const je = eventsJeRelease(b.events)
   for (const r of b.releases) {
     /* Eine TV-Sichtung zeigt Wiederholungen in beliebiger Reihenfolge — dort ist Folge 5 nach Folge 78 kein Widerspruch. */
-    if (r.releaseType === 'disc' || r.tvLetzteSichtung) continue
+    if (r.releaseType === 'disc' || r.tvLetzteSichtung || r.slug in DATUM_VOM_ANBIETER) continue
     const s = (je.get(r.slug) ?? []).filter((e) => e.episode != null).sort((a, c) => a.episode! - c.episode! || a.date.localeCompare(c.date))
     for (let i = 1; i < s.length; i++) {
       if (s[i].episode !== s[i - 1].episode && s[i].date < s[i - 1].date) {
@@ -98,7 +99,8 @@ export function filmMitFolgen(b: Bestand): Regel {
     const t = titel.get(r.titleId)
     const n = r.schedule.episodeCount ?? 0
     if (n <= 1 || r.releaseType === 'disc') continue
-    if (r.releaseType === 'movie' || t?.format === 'MOVIE' || t?.episodes === 1)
+    /* Ein ONA mit AniList-Folgenzahl 1 und elf belegten Folgen (Steel Ball Run) ist kein Film, sondern eine falsche AniList-Zahl — gehört nicht hierher. */
+    if (r.releaseType === 'movie' || t?.format === 'MOVIE')
       treffer.push({ schluessel: r.slug, text: `${r.name} (${r.sender ?? r.platform}, ${r.slug}): ${n} Folgen, aber ${r.releaseType === 'movie' ? 'Release-Typ Film' : `Titel ist ${t?.format} mit ${t?.episodes} Folge(n)`}${r.herkunft ? ` — ${r.herkunft.slice(0, 80)}` : ''}`, ort: `/r/${r.slug}/` })
   }
   return regel('D-13', 'Film oder Einzelwerk mit mehreren Folgen', 'Panel zählt „x von n Folgen" für einen Film', b.releases.length, treffer)

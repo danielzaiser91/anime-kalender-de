@@ -43,14 +43,40 @@ Handbeleg Daniels, die höchste Beweisstufe; (2) 86 bei ADN mit 23 Folgen auf de
 Plattform-Kennung = Franchise); (3) zwei Kinofilme als Zweiteiler aus zwei TV-Sendungen (D-13); (4) 13
 Disney+-Katalogaufnahmen als „Premiere" (D-11); (5) acht News-Meldungen ohne gültigen Release-Slug (D-17).
 
-## Vorschlag für den Betrieb
+## Betrieb (umgesetzt 08.10.2026, PR „Funde des Daten-Detektivs")
 
-- **Hart (in `pipeline/lib/invarianten.ts`):** D-06 (Handbeleg/aniSearch-„d" nie hinter dem Toggle — ergänzt
-  `dubNurHinterToggle`), D-01 (ohne TV-Sichtungen), D-13 (`MOVIE`/`episodes = 1` ⇒ `episodeCount ≤ 1`), D-14,
-  D-15, D-21, D-23. Alle sieben: 0–1 echte Treffer heute, keine Fehlalarme in der Stichprobe.
-- **Weich (wöchentlich in `delta-wache.yml`, Wochenwache):** `npm run detektiv`, Bericht als Artefakt und ins
-  Wache-Protokoll; rot nur bei **neuen** Schlüsseln in D-02, D-11, D-17, D-19, D-24 (das JSON trägt das Delta).
+- **Hart — Bau bricht ab:** D-01, D-13, D-14, D-21, D-23 in `pipeline/lib/invarianten.ts` (an Releases und Terminen), D-06 und D-15 in
+  `pipeline/lib/invarianten-auslieferung.ts` (an den geschriebenen Dateien; Aufruf `bau/auslieferung-pruefen.ts` aus `13-5-kerndateien.ts`).
+  Gegenprobe je Regel in `pipeline/check-invarianten.ts` (Teil von `check:logic`), `--bestand` fährt sie über `public/data`. Festlegungen:
+  D-01 kennt eine Liste belegter Anbieterdaten (`DATUM_VOM_ANBIETER`: Lycoris Recoil, Crunchyroll datiert Folge 6 vor Folge 5); D-13 gilt für Format
+  `MOVIE` und Release-Typ Film, nicht für ein ONA mit falscher AniList-Zahl (Steel Ball Run); D-06 nimmt den aniSearch-Zwilling im Hauptbestand,
+  Handurteil „keine Synchro", künftigen Start und `nichtImBestand`-Handbelege aus. **Risiko:** Zwischen dem Dub-Schritt (`dub-ids`) und dem Eintrags-Schritt
+  (`anisearch-eintraege`) kann eine neue `d`-Kennung kurz ohne Eintrag sein — ein Bau in dem Fenster bricht ab, bis der Eintrag geholt ist.
+- **Weich — Wochenwache:** `tools/wache-woechentlich.mjs` ruft `tools/daten-detektiv.ts --wache` (D-02, D-03, D-08, D-10, D-11, D-12, D-16, D-17, D-19, D-20, D-24) und meldet
+  nur Schlüssel, die nicht in `data/detektiv-bekannt.json` stehen. Neue Funde: beheben oder mit `npx tsx tools/daten-detektiv.ts --bekannt-schreiben --neue-aufnehmen`
+  bewusst aufnehmen; ohne `--neue-aufnehmen` wird die Datei nur kleiner. Die Datei enthält nur Fälle, die geprüft und als gegeben eingestuft sind.
 - **Nicht laufen lassen:** D-04, D-05, D-09, D-18, D-22, D-25 — Kennzahlen ohne Handlung oder Zählweise-Unterschiede.
+
+## Funde und was daraus wurde (08.10.2026)
+
+- **D-06** — drei der sechs (BeyWheelz, Rick and Morty: The Anime, Titipo 2) standen mit ihrem aniSearch-Zwilling (`10 000 000 + aniSearch-Kennung`) längst im Hauptbestand:
+  Fehlalarm, die Regel kennt den Zwilling jetzt. Fullmetal Alchemist 4-koma: JustWatch führt unter der Serie auch ihre Specials, de-Ton gehört der Hauptserie — JustWatch zählt
+  für Specials nicht. Our Last Crusade S2: der Handbeleg trägt `nichtImBestand` und die Notiz „Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"; Crunchyrolls Katalog führt die Staffel
+  ohne de-DE, aniSearch nennt Deutsch ohne „vertont" — nicht geändert. **Echt: Scott Pilgrim hebt ab** — `fetch-anisearch-eintraege.ts` hielt jede von einem AniList-Titel getragene Kennung
+  für bekannt, auch wenn der AniList-Titel nur im Katalog hinter dem Toggle lag; der Eintrag, aus dem der Hauptbestand-Titel entsteht, wurde nie geholt. Behoben (`durchAnilistBekannt`),
+  vier Einträge nachgeholt (18828 `d`; 13018, 19993, 20477 `p`).
+- **D-02/D-19, 86** — der Sammelartikel nannte 23 Folgen für ADN-Serie 1423 und hing sie samt Termin an Staffel 1 (11 Folgen); die automatischen Releases tragen immer eine `herkunft`,
+  und damit entging die Zahl der Ergebnisprüfung (Faktor 2). Die ADN-Blöcke (`adn-1423-s1-20261008-…`) stehen in keiner der beiden ADN-Dateien mehr (`adn.json` vom 08.10. 04:10 UTC, `adn-catalog.json` vom 05.10.: Serie 1423 nicht darin; warum sie
+  aus dem Kalender verschwand, ist nicht geklärt — der Katalogendpunkt liefert bekanntlich nur einen Teil der Serien). Jetzt zwei kuratierte Einträge unter den alten Slugs (11 + 12 = 23 laut ADN-Folgenliste, `firstEpisodeNumber: 12`),
+  dazu `zeitplanAusVorschlag`: eine Zahl über `folgenzahlUeberWerk` wird nicht übernommen. Wolf’s Rain (ADN: 30 Folgen mit `vde`, AniList 26) und Sankarea (13 / 12) tragen die Zahl ihrer Quelle, nicht geändert.
+  **Befund offen: Clannad bei ADN** — Block „Staffel 1" (24 Folgen, Folge 24 „Tomoyo After") ist Clannad, Block „Staffel 2" (25, „Kyô After") After Story; `ordneBloeckeZuStaffeln`
+  ordnet 24 → After Story (24) und 25 → Clannad (23): vertauscht, einschließlich der Adresse `…/655?s=2` am Titel Clannad. Ein Umbau der Zuordnung verändert alle ADN-Serien und braucht eigenen Commit mit Vorher/Nachher.
+- **D-13** — The Last und Boruto: zwei Sendungen am Abend und in der Nacht sind eine Wiederholung desselben Films. `releasesAusTvProgramm` zählt für `MOVIE` mit höchstens einer Folge nur die erste Sendung (die anderen stehen unter `sendungen`).
+- **D-11** — 13 Katalogaufnahmen (Disney+, ADN, Joyn, Prime) tragen jetzt `dateMeaning: available-from`; `CuratedEntry` kennt das Feld.
+- **D-17** — alle acht Meldungen sind `zurueckgezogen` (Verlauf, `lib/news-verlauf.ts`): das ist Absicht, keine Lücke. Die Regel zählt nur noch Meldungen, die weder abgelöst noch zurückgezogen sind.
+  Bei 86 war „zurückgezogen" falsch (der Termin blieb), die zwei Meldungen zeigen wieder auf vorhandene Slugs.
+- **D-01** — Lycoris Recoil: Crunchyrolls Katalog datiert Folge 6 auf 06.08.2022 16:00 UTC, vor Folge 5; Quelle, kein Rechenfehler — als belegtes Anbieterdatum ausgenommen.
+- **D-19 (Rest)** — Hände weg, Kotesashi-kun und Kamisama Kiss (Prime/Aniverse-Kanal): Termin ohne Weg, ein Weg entsteht nur aus einer Messung; bleibt in `detektiv-bekannt.json`.
 
 ## Grenzen
 

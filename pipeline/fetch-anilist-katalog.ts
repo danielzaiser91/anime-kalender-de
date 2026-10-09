@@ -30,9 +30,12 @@
  *
  * Aufruf: npm run data:katalog              (setzt fort, überspringt fertige Jahre)
  *         npm run data:katalog -- --neu     (von vorn)
+ *         npm run data:katalog -- --frisch  (nur laufendes und kommende Jahre plus die jüngsten
+ *                                            10 Seiten Kennungen; läuft täglich, ~30 Abfragen)
  */
 import { FRANCHISE_RELATIONS } from '../shared/mappings.ts'
 import { katalogSeite, type KatalogEintrag } from './lib/anilist.ts'
+import { planeKatalogLauf, undatierteKennungen } from './lib/katalog-plan.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 
 interface Katalog {
@@ -84,13 +87,20 @@ const AB_JAHR = 1907
 
 const args = process.argv.slice(2)
 const NEU = args.includes('--neu')
+const FRISCH = args.includes('--frisch')
+/** Seiten à 50 Kennungen im Frischlauf — 500 jüngste Kennungen decken mehrere Wochen Neuanlagen. */
+const FRISCH_SEITEN = 10
 
 async function main(): Promise<void> {
   const vorhanden = NEU ? undefined : readJson<Katalog | undefined>(DATEI, undefined)
   const bekannt = new Map<number, KatalogEintrag>((vorhanden?.eintraege ?? []).map((e) => [e.id, e]))
-  const veraltet = Boolean(vorhanden) && vorhanden?.relFassung !== REL_FASSUNG
-  const fertig = new Set(veraltet ? [] : (vorhanden?.fertigeJahre ?? []))
-  if (veraltet) {
+  const plan = planeKatalogLauf({
+    vorhanden, frischGewuenscht: FRISCH, relFassung: REL_FASSUNG, jahr: new Date().getFullYear(), abJahr: AB_JAHR, frischSeiten: FRISCH_SEITEN,
+  })
+  if (plan.ueberspringen) return warn('Frischlauf ohne vorhandenen Katalog übersprungen - der Wochenlauf holt ihn')
+  const { frisch, veraltet } = plan
+  const fertig = new Set(plan.fertig)
+  if (veraltet && !frisch) {
     log(
       'Der Fingerabdruck des Katalogs hat sich geändert - alle Jahre werden neu geholt ' +
         `(Cache: ${vorhanden?.relFassung ?? 'ohne Angabe'})`,
@@ -102,7 +112,7 @@ async function main(): Promise<void> {
   const bisJahr = new Date().getFullYear() + 3
   let abfragen = 0
 
-  for (let jahr = AB_JAHR; jahr <= bisJahr; jahr++) {
+  for (let jahr = plan.ersteJahr; jahr <= bisJahr; jahr++) {
     // Das laufende und die kommenden Jahre nie als „fertig" abhaken — dort
     // kommen laufend Titel dazu.
     const dauerhaftFertig = jahr < new Date().getFullYear()
@@ -134,44 +144,97 @@ async function main(): Promise<void> {
       }
     }
     if (imJahr) log(`  ${jahr}: ${imJahr} Titel (${bekannt.size} insgesamt)`)
-    if (abfragen % 20 < 2) sichern(bekannt, fertig)
+    if (abfragen % 20 < 2) sichern(bekannt, fertig, plan.relFassung)
   }
 
-  /**
-   * Nachlauf über die jüngsten Kennungen.
-   *
-   * Titel ohne Startdatum haben keinen Jahrgang und fallen durch die Zerlegung
-   * oben. Ein Filter „Datum ist leer" existiert bei AniList nicht — wohl aber
-   * die Sortierung nach Kennung absteigend, und undatierte Einträge sind fast
-   * ausschließlich frisch angelegte Ankündigungen. Genau die will jemand
-   * merken, der auf eine Synchro wartet.
-   */
-  let neueImNachlauf = 0
-  for (let seite = 1; seite <= 100; seite++) {
+  const hoechsteId = await nachlauf(bekannt, plan.nachlaufSeiten)
+
+  sichern(bekannt, fertig, plan.relFassung)
+  log(`Katalog: ${bekannt.size} Anime insgesamt`)
+  await pruefeJuengste(bekannt, hoechsteId)
+}
+
+/** Frischt die Einträge ohne Startdatum nach Kennung auf (`undatierteKennungen`): Cover, Datum und Herkunft, die AniList später nachträgt. */
+async function frischeUndatierte(bekannt: Map<number, KatalogEintrag>): Promise<void> {
+  const kennungen = undatierteKennungen([...bekannt.values()])
+  let geaendert = 0
+  for (let ab = 0; ab < kennungen.length; ab += 50) {
+    try {
+      const { eintraege } = await katalogSeite(1, undefined, undefined, false, true, kennungen.slice(ab, ab + 50))
+      for (const e of eintraege) {
+        if (JSON.stringify(bekannt.get(e.id)) !== JSON.stringify(e)) geaendert++
+        bekannt.set(e.id, e)
+      }
+    } catch (err) {
+      warn(`Undatierte, ab ${ab}: ${(err as Error).message}`)
+      break
+    }
+  }
+  log(`Undatierte Einträge nach Kennung aufgefrischt: ${kennungen.length} geholt, ${geaendert} geändert`)
+}
+
+/**
+ * Nachlauf über die jüngsten Kennungen; liefert die höchste gesehene Kennung.
+ *
+ * Titel ohne Startdatum haben keinen Jahrgang und fallen durch die Zerlegung nach Jahren. Ein
+ * Filter „Datum ist leer" existiert bei AniList nicht — wohl aber die Sortierung nach Kennung
+ * absteigend, und undatierte Einträge sind fast ausschließlich frisch angelegte Ankündigungen.
+ * Ohne Formatfilter: Ankündigungen ohne Format (Maiden Blood, 09.10.2026) fielen sonst durch.
+ */
+async function nachlauf(bekannt: Map<number, KatalogEintrag>, seiten: number): Promise<number> {
+  await frischeUndatierte(bekannt)
+  let neu = 0
+  let hoechsteId = 0
+  for (let seite = 1; seite <= seiten; seite++) {
     let ergebnis
     try {
-      ergebnis = await katalogSeite(seite, undefined, undefined, true)
+      ergebnis = await katalogSeite(seite, undefined, undefined, true, true)
     } catch (err) {
       warn(`Nachlauf, Seite ${seite}: ${(err as Error).message}`)
       break
     }
     for (const e of ergebnis.eintraege) {
-      if (!bekannt.has(e.id)) neueImNachlauf++
+      hoechsteId = Math.max(hoechsteId, e.id)
+      if (!bekannt.has(e.id)) neu++
       bekannt.set(e.id, e)
     }
     if (!ergebnis.weiter) break
   }
-  log(`Nachlauf über die jüngsten Kennungen: ${neueImNachlauf} zusätzliche Titel ohne Jahrgang`)
-
-  sichern(bekannt, fertig)
-  log(`Katalog: ${bekannt.size} Anime insgesamt`)
+  log(`Nachlauf über die jüngsten Kennungen: ${neu} zusätzliche Titel`)
+  return hoechsteId
 }
 
-function sichern(bekannt: Map<number, KatalogEintrag>, fertig: Set<number>): void {
+/**
+ * Zusicherung: Die jüngsten Kennungen bei AniList stehen im Katalog.
+ *
+ * Stichprobe nach dem Lauf (zwei frische Seiten, 100 Kennungen). Fehlt ein Titel, den
+ * `gehoertInKatalog` zulässt, ist der Katalog unvollständig — der Lauf endet rot. Kennungen über
+ * `hoechsteId` sind erst während des Laufs entstanden und zählen nicht.
+ */
+async function pruefeJuengste(bekannt: Map<number, KatalogEintrag>, hoechsteId: number): Promise<void> {
+  if (!hoechsteId) {
+    warn('Zusicherung nicht prüfbar: der Nachlauf hat keine einzige Kennung geholt')
+    process.exitCode = 1
+    return
+  }
+  const fehlend: number[] = []
+  for (let seite = 1; seite <= 2; seite++) {
+    const { eintraege } = await katalogSeite(seite, undefined, undefined, true, true)
+    for (const e of eintraege) if (e.id <= hoechsteId && !bekannt.has(e.id)) fehlend.push(e.id)
+  }
+  if (fehlend.length) {
+    warn(`Zusicherung verletzt: ${fehlend.length} der 100 jüngsten AniList-Kennungen fehlen im Katalog (${fehlend.slice(0, 8).join(', ')})`)
+    process.exitCode = 1
+  } else {
+    log('Stichprobe: die 100 jüngsten AniList-Kennungen stehen im Katalog')
+  }
+}
+
+function sichern(bekannt: Map<number, KatalogEintrag>, fertig: Set<number>, relFassung: string | undefined): void {
   const katalog: Katalog = {
     geholtAm: new Date().toISOString(),
     fertigeJahre: [...fertig].sort((a, b) => a - b),
-    relFassung: REL_FASSUNG,
+    relFassung,
     eintraege: [...bekannt.values()].sort((a, b) => a.id - b.id),
   }
   writeJson(DATEI, katalog, true)

@@ -43,6 +43,9 @@ und darf bei keiner Entscheidung aufgeweicht werden.
   der japanische Titel nicht (`bewerteTreffer`). Ein Namensvergleich allein ist kein Beleg.
 - **Ein Vorfilter verschiebt, er löscht nicht** — wer aus dem Hauptbestand fällt, muss nachweislich
   hinter dem Toggle ankommen.
+- **Was AniList, aniSearch oder MAL als Anime führen, ist kein Cartoon** (Daniel, 08.10.2026) — der
+  Cartoon zieht auf den Anime-Titel um (`cartoon-umzug.json`); Beleg: TMDB-Kennung, sonst Name **und**
+  Jahr **und** Folgenzahl, im Zweifel Ausnahmeliste statt Zusammenlegung (`check:logic`).
 - **„Früheste Beobachtung" ist nicht „erste Folge"** (`earliest` ist nur der früheste gesehene Tag),
   und der erste Eintrag einer Staffelliste ist nicht deren erste Folge — nach Nummer zählen.
 - **„Im Angebot seit" ist nicht „erschienen am"** (`dateMeaning: 'available-from'`).
@@ -179,7 +182,7 @@ Je Thema eine Datei; die Abschnittsüberschriften sind der Index
 - [docs/wissen/projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md) — Volltext dieser
   Regeln mit Anlässen
 - [docs/wissen/meine-woche.md](docs/wissen/meine-woche.md) — Konzept „Meine Woche" (persönliche Woche aus
-  Favoriten und Plattformen, Erinnerungswege, Datenschutz); Prototyp hinter `akVorschau('meine-woche')`
+  Favoriten und Plattformen, Erinnerungswege, Datenschutz); Prototyp (Code am 09.10.2026 entfernt, in der Git-Historie)
 
 Neue Erkenntnisse als eigener `##`-Abschnitt mit Datum in die passende Datei — ein Eintrag hier
 ist nicht mehr nötig.

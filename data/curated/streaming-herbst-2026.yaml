@@ -183,6 +183,7 @@
   anilistId: 140960
   platform: disneyplus
   releaseType: batch
+  dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-04", episodeCount: 12 }
   sources:
     - https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/
@@ -192,6 +193,7 @@
   anilistId: 142838
   platform: disneyplus
   releaseType: batch
+  dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-04", episodeCount: 13 }
   sources:
     - https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/
@@ -244,6 +246,7 @@
   anilistId: 101347
   platform: joyn
   releaseType: batch
+  dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-02", episodeCount: 24 }
   sources:
     - https://www.anime2you.de/news/1056837/joyn-plus-hells-paradise-und-mehr/
@@ -260,6 +263,7 @@
   anilistId: 101922
   platform: primevideo
   releaseType: batch
+  dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-01", episodeCount: 26 }
   sources:
     - https://www.anime2you.de/news/1056121/prime-video-demon-slayer-kimetsu-no-yaiba-und-mehr/

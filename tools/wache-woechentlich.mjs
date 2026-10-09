@@ -80,6 +80,19 @@ try {
   console.log(`Sammelartikel: noch kein Stand (${String(e.message).split('\n')[0]})`)
 }
 
+/*
+  **Weiche Regeln des Daten-Detektivs** (`docs/wissen/daten-detektiv.md`): Befund nur bei Schlüsseln, die nicht in `data/detektiv-bekannt.json` stehen.
+  Die harten Regeln laufen als Bau-Invarianten (`pipeline/lib/invarianten*.ts`) und brechen den Bau ab, nicht diese Wache.
+*/
+try {
+  const ausgabe = execFileSync('npx', ['tsx', 'tools/daten-detektiv.ts', '--wache'], { encoding: 'utf8', maxBuffer: 32 << 20, shell: process.platform === 'win32' })
+  const neu = JSON.parse(ausgabe.trim().split('\n').at(-1)).neu
+  console.log(`Daten-Detektiv (weiche Regeln): ${neu.length} neue Schlüssel`)
+  if (neu.length) befunde.push(`Daten-Detektiv: ${neu.length} neue Funde, z. B. ${neu.slice(0, 3).map((n) => `${n.id} ${n.text}`).join(' | ')} (npm run detektiv -- --nur ${[...new Set(neu.map((n) => n.id))].join(',')})`)
+} catch (e) {
+  befunde.push(`Daten-Detektiv: Lauf fehlgeschlagen (${String(e.message).split('\n')[0]})`)
+}
+
 if (!befunde.length) {
   console.log('Wochenwache: unauffällig')
 } else {

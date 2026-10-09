@@ -18,10 +18,13 @@ export function DbSchalter({ ohneSynchro, onOhneSynchroChange, laedt, grouped, o
   onCartoonsAusChange: (next: boolean) => void
 }) {
   const { t } = useLang()
-  const pille = 'inline-flex items-center rounded-full border px-3 py-1.5 transition'
+  /* `relative`: das `sr-only`-Input des Schalters ist absolut positioniert und ragte sonst aus der rollbaren Reihe
+     bis zur Seitenkante — das Handy legte den Viewport 594 statt 390 px breit an (gemessen, 08.10.2026). */
+  const pille = 'relative inline-flex shrink-0 items-center rounded-full border px-3 py-1.5 whitespace-nowrap transition'
   const ruhig = 'border-slate-300 dark:border-white/15'
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    /* Auf dem Handy eine rollbare Reihe (drei Zeilen Schalter über dem Raster waren zu viel), ab `sm` umbrechend. */
+    <div className="-mx-4 flex items-center gap-2 overflow-x-auto px-4 py-0.5 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
       <span className={`${pille} ${ohneSynchro ? 'border-amber-400/60 bg-amber-50 dark:border-amber-400/40 dark:bg-amber-400/10' : `${ruhig} border-dashed`}`}>
         <Toggle checked={ohneSynchro} onChange={onOhneSynchroChange} label={t('db.withoutDub')} hint={t('db.withoutDubHint')} />
       </span>
@@ -72,9 +75,12 @@ export function DbKopfzeile({ titles, ergebnisse, gebuendelt, suche }: { titles:
   return (
     <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
       <span className="font-semibold text-slate-800 dark:text-slate-100">{ergebnisText(ergebnisse, gebuendelt, suche, t)}</span>
-      <span className="inline-flex items-center gap-1.5">
-        {t('db.davon')} <DeFlaggeZeichen /> {paar(z.anime, z.cartoons)}
-      </span>
+      {/* Bei null Ergebnissen sagte „davon 0 Anime und 0 Cartoons" dasselbe noch einmal. */}
+      {ergebnisse > 0 && (
+        <span className="inline-flex items-center gap-1.5">
+          {t('db.davon')} <DeFlaggeZeichen /> {paar(z.anime, z.cartoons)}
+        </span>
+      )}
       {z.ohneAnime + z.ohneCartoons > 0 && (
         <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-500/10 px-1.5 py-0.5">
           {paar(z.ohneAnime, z.ohneCartoons)} {t('db.ohne')} <DeFlaggeZeichen />

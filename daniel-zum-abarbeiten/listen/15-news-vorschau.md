@@ -1,10 +1,10 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-09. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-19 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+20 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
@@ -19,6 +19,7 @@ Stand: 2026-10-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2026-11-26, 2026-11 (Monat) | netflix | ⚠️ offen | [Netflix-Termin des Thriller-Anime »Fool Night« + Teaser](https://www.anime2you.de/news/1043399/fool-night-netflix-termin/) |
 | 2026-11-03, 2026-11 (Monat) | netflix | – unklar | [Netflix kündigt neuen Original-Anime »Bass X Machina« an + Teaser](https://www.anime2you.de/news/1043257/netflix-bass-x-machina-angekuendigt/) |
 | 2026-11-03, 2026-11-05, 2026-11 (Monat) | kino | – unklar | [Deutscher Kinostart von »Godzilla Minus Zero« steht fest + Teaser](https://www.anime2you.de/news/1033172/godzilla-minus-zero-deutscher-kinostart/) |
+| 2026-12-11 | crunchyroll, kino | – unklar | [Crunchyroll bringt »Apothecary Diaries«-Film in die deutschen Kinos](https://www.anime2you.de/news/1058311/crunchyroll-apothecary-diaries-film-im-kino/) |
 | 2027-01 (Monat) | crunchyroll | – unklar | [Crunchyroll zeigt »Red Riding Hood: A Detective Story« im Simulcast + Trailer](https://www.anime2you.de/news/1057673/crunchyroll-zeigt-red-riding-hood/) |
 | 2027-01 (Monat) | netflix | – unklar | [Netflix zeigt »Bride of the Barrier Master« im Simulcast + Teaser](https://www.anime2you.de/news/1052617/netflix-bride-of-the-barrier-master-simulcast/) |
 | 2027-01-26, 2027-01 (Monat) | crunchyroll, kino | ✅ zugesagt | [Crunchyroll bringt »Witch on the Holy Night« ins Kino + Trailer](https://www.anime2you.de/news/1048494/crunchyroll-witch-on-the-holy-night-kinostart/) |
@@ -28,51 +29,52 @@ Stand: 2026-10-08. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-03-01 | netflix | – unklar | [Netflix startet große Werbeoffensive in 15 weiteren Ländern](https://www.anime2you.de/news/1055001/netflix-startet-grosse-werbeoffensive/) |
 | 2027-05-07, 2027-04-30 | kino | – unklar | [Nintendo verschiebt »The Legend of Zelda«-Film erneut + Bilder](https://www.anime2you.de/news/1010428/the-legend-of-zelda-film-erneut-verschoben/) |
 
-Dazu 51 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 52 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
-| adn | 0.0 Tage her | 8 |
-| adn-catalog | 2.5 Tage her | 108 |
-| adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 2.6 Tage her | 0 |
-| anime-offline-database | 2.6 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 84 |
-| anisearch | 0.7 Tage her | 2799 |
-| anisearch-dubs | 0.6 Tage her | 8117 |
-| anisearch-eintraege | **noch nie** | 0 |
-| anisearch-folgen | 2.6 Tage her | 440 |
-| ann-voices | 2.6 Tage her | 8876 |
-| beleg-lesungen | 0.0 Tage her | 32 |
-| cartoons | 1.0 Tage her | 1 |
-| cinestar | 2.6 Tage her | 1 |
-| cr-einzelwerke | 14.7 Tage her | 0 |
-| cr-filmbloecke | 14.7 Tage her | 0 |
+| adn | 0.0 Tage her | 7 |
+| adn-catalog | 3.9 Tage her | 108 |
+| adn-news | 0.4 Tage her | 75 |
+| anilist-voices | 3.9 Tage her | 0 |
+| anime-offline-database | 3.9 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 83 |
+| anisearch | 0.0 Tage her | 2655 |
+| anisearch-dubs | 1.9 Tage her | 8117 |
+| anisearch-eintraege | 0.9 Tage her | 0 |
+| anisearch-folgen | 3.9 Tage her | 440 |
+| anisearch-zuordnung | 0.0 Tage her | 18447 |
+| ann-voices | 3.9 Tage her | 8876 |
+| beleg-lesungen | 1.3 Tage her | 0 |
+| cartoons | 0.5 Tage her | 1 |
+| cinestar | 3.9 Tage her | 1 |
+| cr-einzelwerke | 16.0 Tage her | 0 |
+| cr-filmbloecke | 16.0 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 19 |
-| crunchyroll-dub | 0.0 Tage her | 1121 |
+| crunchyroll-dub | 1.3 Tage her | 1121 |
 | crunchyroll-neu | 0.0 Tage her | 107 |
-| crunchyroll-offene | 2.6 Tage her | 7 |
-| crunchyroll-woche | 0.0 Tage her | 64 |
-| fsk | 2.6 Tage her | 3 |
-| justwatch-audio | 2.6 Tage her | 29 |
-| kinoheld | 2.6 Tage her | 0 |
-| link-check | 2.6 Tage her | 287 |
+| crunchyroll-offene | 3.9 Tage her | 7 |
+| crunchyroll-woche | 0.0 Tage her | 65 |
+| fsk | 3.9 Tage her | 3 |
+| justwatch-audio | 3.9 Tage her | 29 |
+| kinoheld | 3.9 Tage her | 0 |
+| link-check | 3.9 Tage her | 287 |
 | messbelege | 0.0 Tage her | 0 |
-| motn | 35.8 Tage her | 1888 |
-| motn-changes | 0.0 Tage her | 24 |
-| rohfolgen | 1.3 Tage her | 0 |
-| rtlplus-folgen | 2.6 Tage her | 2 |
-| tmdb-folgen | 1.7 Tage her | 867 |
-| tmdb-kino | 2.6 Tage her | 3 |
-| tmdb-titles | 1.7 Tage her | 300 |
+| motn | 1.0 Tage her | 1943 |
+| motn-changes | 0.0 Tage her | 2 |
+| rohfolgen | 1.1 Tage her | 0 |
+| rtlplus-folgen | 3.9 Tage her | 2 |
+| tmdb-folgen | 3.0 Tage her | 867 |
+| tmdb-kino | 3.9 Tage her | 3 |
+| tmdb-titles | 3.0 Tage her | 300 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 7 |
-| tv-de | 0.2 Tage her | 56 |
-| tv-programm | 0.0 Tage her | 294 |
+| trailer | 0.5 Tage her | 0 |
+| tv-de | 0.5 Tage her | 62 |
+| tv-programm | 0.0 Tage her | 285 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 2.6 Tage her | 4766 |
-| wikidata-titel | 2.6 Tage her | 26 |
+| wikidata-imdb | 3.9 Tage her | 4766 |
+| wikidata-titel | 3.9 Tage her | 26 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 2.6 Tage her | 1 |
+| youtube-check | 3.9 Tage her | 1 |

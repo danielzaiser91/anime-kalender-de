@@ -37,6 +37,10 @@ export interface Pruefergebnis {
 const FOLGENZAHL_FAKTOR = 2
 const FOLGENZAHL_MINDESTABSTAND = 10
 
+/** Eine Folgenzahl, die zum Werk nicht mehr passen kann (mehrere Staffeln in einem Eintrag): mehr als das Doppelte und mindestens zehn mehr. */
+export const folgenzahlUeberWerk = (folgen: number, werkFolgen: number): boolean =>
+  folgen > werkFolgen * FOLGENZAHL_FAKTOR && folgen - werkFolgen >= FOLGENZAHL_MINDESTABSTAND
+
 /** Ab wann ein Termin so weit weg ist, dass er einen Beleg braucht. */
 const FERNE_ZUKUNFT_TAGE = 550
 
@@ -132,8 +136,7 @@ export function pruefeErgebnis(
     if (title?.episodes && s.episodeCount) {
       const diff = s.episodeCount - title.episodes
       if (
-        s.episodeCount > title.episodes * FOLGENZAHL_FAKTOR &&
-        diff >= FOLGENZAHL_MINDESTABSTAND &&
+        folgenzahlUeberWerk(s.episodeCount, title.episodes) &&
         // Ein Release, das ausdrücklich mitten in der Zählung einsetzt oder das
         // seine Abweichung selbst erklärt, ist kein Verdachtsfall. „Steel Ball
         // Run – 2nd & 3rd STAGE" deckt elf Folgen ab, während der

@@ -15,6 +15,7 @@ import { tvPremiere } from './tv-angabe.ts'
 import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { kostenloseFolgen } from '@shared/kostenlos.ts'
 import { synonymeFuer } from './data.ts'
+import { passtSprecher, type SprecherAuswahl } from './sprecher-auswahl.ts'
 
 /**
  * Die Listen, die es sowohl als Einschluss als auch als Ausschluss gibt.
@@ -35,6 +36,11 @@ export interface FilterLists {
   years: number[]
   genres: string[]
   keywords: string[]
+  /**
+   * Deutsche Sprecher, nach Namen. Anders als die übrigen Listen gilt hier eine feste Verknüpfung:
+   * eingeschlossene Sprecher mit ODER, ausgeschlossene mit UND (`SprecherAuswahl`); deshalb kein `ModusFeld`.
+   */
+  sprecher: string[]
 }
 
 export type ListKey = keyof FilterLists
@@ -48,6 +54,7 @@ export const LIST_KEYS: ListKey[] = [
   'years',
   'genres',
   'keywords',
+  'sprecher',
 ]
 
 export interface FilterState extends FilterLists {
@@ -130,6 +137,7 @@ const emptyLists = (): FilterLists => ({
   years: [],
   genres: [],
   keywords: [],
+  sprecher: [],
 })
 
 /**
@@ -371,6 +379,8 @@ export function* filterTitlesGen(
   fundstellen?: Map<string, Fundstelle[]>,
   /** Welcher Name auf der Karte steht — Träger der höchsten Trefferklasse (bei Gruppierung der Kopf). */
   sichtbarerName?: (t: Title) => string,
+  /** Titel der gewählten Sprecher (`lib/sprecher-auswahl.ts`); ohne Angabe wirkt der Sprecher-Filter nicht. */
+  sprecher?: SprecherAuswahl,
 ): Generator<void, Title[]> {
   /* Auch das Vorfiltern über alle Titel gibt zwischendurch ab — ein Block von 18.863 Einträgen friert sonst ein (gemessen mit Handy-Drosselung). */
   const vorgefiltert: Title[] = []
@@ -380,7 +390,7 @@ export function* filterTitlesGen(
       yield
       marke = performance.now()
     }
-    if (passtTitel(t, data, f, today, favorites)) vorgefiltert.push(t)
+    if (passtTitel(t, data, f, today, favorites, sprecher)) vorgefiltert.push(t)
   }
   const gesucht = yield* sucheGen(
     vorgefiltert,
@@ -400,7 +410,8 @@ export const filterTitles = (...args: Parameters<typeof filterTitlesGen>): Title
  * **Passt dieser Titel zum Filter?** — herausgelöst aus `filterTitles` (29.09.2026), damit die
  * Funktion unter der Längengrenze bleibt. Inhalt unverändert.
  */
-function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favorites: Set<number>): boolean {
+function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favorites: Set<number>, sprecher?: SprecherAuswahl): boolean {
+  if (sprecher && !passtSprecher(t.id, sprecher)) return false
   if (f.favoritesOnly && !favorites.has(t.id)) return false
   if (f.favoritesExcluded && favorites.has(t.id)) return false
   /**
@@ -523,10 +534,11 @@ export function* titelFuerAnsichtGen(
   favorites: Set<number>,
   /** Gruppiert die Ansicht die Staffeln? Dann ist der **Reihenkopf** der sichtbare Name. */
   gruppiert = false,
+  sprecher?: SprecherAuswahl,
 ): Generator<void, { liste: Title[]; fundstellen: Map<string, Fundstelle[]> }> {
   const fundstellen = new Map<string, Fundstelle[]>()
   const sichtbar = gruppiert ? reihenKopf(quelle) : (t: Title) => anzeigeName(t)
-  return { liste: yield* filterTitlesGen(quelle, data, f, today, favorites, fundstellen, sichtbar), fundstellen }
+  return { liste: yield* filterTitlesGen(quelle, data, f, today, favorites, fundstellen, sichtbar, sprecher), fundstellen }
 }
 
 /** Dasselbe in einem Zug. */

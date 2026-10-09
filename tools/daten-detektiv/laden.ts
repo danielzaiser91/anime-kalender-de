@@ -33,7 +33,7 @@ export interface Bestand {
   releases: Release[]
   events: ReleaseEvent[]
   franchises: Record<string, Array<{ id: number; name: string }>>
-  news: Array<{ titel: string; titleId?: number; meldungen: Array<{ art: string; datum?: string; release?: string }> }>
+  news: Array<{ titel: string; titleId?: number; meldungen: Array<{ art: string; datum?: string; release?: string; ersetzt?: unknown; zurueckgezogen?: unknown }> }>
   meta: { titleCount: number; releaseCount: number; eventCount: number; generatedAt: string }
   synopsen: Set<number>
   // Zweitquellen
@@ -49,6 +49,10 @@ export interface Bestand {
   crDub: CrSerie[]
   /** Handbelege `anilistId|platform` → dub (true/false), höchste Beweisstufe. */
   dubConfirmed: Map<string, boolean>
+  /** AniList-Kennungen mit Handbeleg `dub: true`, ohne die bewusst nicht im Bestand geführten (`nichtImBestand`). */
+  handbelegteIds: Set<number>
+  /** AniList-Kennungen mit Handurteil „keine Synchro" samt Quelle (`data/ohne-synchro-von-hand.yaml`). */
+  handKeine: Set<number>
   /** Gemessene Urteile `titleId|platform` → Menge der Urteile („deutsch", „kein deutsch", …). */
   urteile: Map<string, Set<string>>
   /** aniSearch-Rohdaten je Titel-Kennung — nur `descriptionDe`, die Datei ist 24 MB. */
@@ -62,6 +66,18 @@ function handbelege(): Map<string, boolean> {
   for (const e of (yaml(readFileSync(pfad, 'utf8')) as Array<{ anilistId: number; platform: string; dub?: boolean }>) ?? [])
     if (typeof e.dub === 'boolean') m.set(`${e.anilistId}|${e.platform}`, e.dub)
   return m
+}
+
+function handbelegteIds(): Set<number> {
+  const pfad = resolve(WURZEL, 'data/dub-confirmed.yaml')
+  const liste = (existsSync(pfad) ? yaml(readFileSync(pfad, 'utf8')) : []) as Array<{ anilistId: number; dub?: boolean; nichtImBestand?: boolean }> | null
+  return new Set((liste ?? []).filter((e) => e.dub === true && !e.nichtImBestand).map((e) => e.anilistId))
+}
+
+function handKeine(): Set<number> {
+  const pfad = resolve(WURZEL, 'data/ohne-synchro-von-hand.yaml')
+  const liste = (existsSync(pfad) ? yaml(readFileSync(pfad, 'utf8')) : []) as Array<{ anilistId?: number; sources?: string[] }> | null
+  return new Set((liste ?? []).filter((e) => e.anilistId && e.sources?.length).map((e) => e.anilistId!))
 }
 
 function urteile(): Map<string, Set<string>> {
@@ -111,6 +127,8 @@ export function ladeBestand(heute = new Date().toISOString().slice(0, 10)): Best
     motnTonspur: lies('data/motn-tonspur.json', []),
     crDub: lies<{ serien: CrSerie[] }>('data/crunchyroll-dub.json', { serien: [] }).serien,
     dubConfirmed: handbelege(),
+    handbelegteIds: handbelegteIds(),
+    handKeine: handKeine(),
     urteile: urteile(),
     anisearchBeschreibung: anisearchBeschreibungen(),
   }

@@ -61,6 +61,8 @@ export const TEXTE_SEITEN = {
   'db.animeUnd': 'Anime und',
   'db.cartoons': 'Cartoons',
   'db.ohne': 'ohne',
+  'db.leerTipps': 'Vielleicht hilft eine andere Schreibweise — gesucht wird auch im japanischen und englischen Titel — oder weniger Filter.',
+  'db.leerOhneSynchro': 'Auch Anime ohne deutsche Synchro zeigen',
   'news.art.nachgetragen': 'Rückwirkend eingetragen',
   'detail.merkenGoogleSerie': 'Google Kalender · jede Woche',
   'detail.folgenFortschritt': '{raus} Fg.',
@@ -235,19 +237,6 @@ export const TEXTE_SEITEN = {
   'sources.catalogTitle': 'Woher kommen Sprachen und Folgenzahlen?',
   'sources.catalogText':
     'Aus den öffentlich abrufbaren Katalogdaten der Anbieter — dort steht je Folge, welche Tonspuren es gibt. Wir übernehmen daraus nur Tatsachen: Sprache, Folgenzahl, Datum. Keine Texte, keine Bilder, keine Videos. Die Anbieter betreiben diese Seite nicht und unterstützen sie nicht.',
-  /* Sprecher-Suche (Vorschau `sprecher-suche`, 08.10.2026). */
-  'sprecher.titel': 'Sprecher',
-  'sprecher.laedt': 'Sprecher werden geladen …',
-  'sprecher.fehler': 'Die Sprecherliste ließ sich nicht laden.',
-  'sprecher.keine': 'Kein Sprecher zu „{suche}"',
-  'sprecher.gefunden1': '1 Sprecher gefunden',
-  'sprecher.gefundenN': '{n} Sprecher gefunden',
-  'sprecher.weitere': '{n} weitere — genauer tippen',
-  'sprecher.titel1': '1 Titel',
-  'sprecher.titelN': '{n} Titel',
-  'sprecher.als': 'als {rolle}',
-  'sprecher.quelle': 'Angaben von AniList, bei „ANN ↗" auch von Anime News Network · Stand {stand}',
-  'detail.voicesSuchen': 'Weitere Titel mit {name} suchen',
   'sources.staleTitle': 'Was passiert mit alten Quellen?',
   'sources.staleText':
     'Sie bleiben stehen. Verschiebt sich ein Termin, markieren wir die frühere Quelle als veraltet und klappen sie unter dem Termin ein. So bleibt nachvollziehbar, woher der alte Tag kam.',

@@ -1,0 +1,74 @@
+# Patch-Notes „Neu auf der Webseite“ (Dialog im News-Bereich). Von Hand gepflegt; neue Funktion der Seite = eine Zeile hier.
+# datum in Anführungszeichen. kategorie: feature | bugfix. text: höchstens 8 Wörter, Besucher-Deutsch, kein Punkt am Ende.
+# Optional: highlight: true (höchstens 2 je Tag), untertitel, symbol (stern | schluessel), link (Hash-Adresse "#/…").
+# live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
+- datum: "2026-10-09"
+  kategorie: feature
+  highlight: true
+  text: Alle Namen auf jeder Titelseite
+  untertitel: deutsch · englisch · Romaji · japanisch
+  live: true
+- datum: "2026-10-09"
+  kategorie: feature
+  text: Neuigkeiten-Pillen in vier Farben
+  live: true
+- datum: "2026-10-09"
+  kategorie: feature
+  text: Einstellungen ohne Debug-Bereich
+  live: true
+- datum: "2026-10-09"
+  kategorie: bugfix
+  text: Keine doppelten Titel hinter dem Schalter
+  live: true
+- datum: "2026-10-08"
+  kategorie: feature
+  highlight: true
+  text: Seite lädt am Handy schneller
+  untertitel: weniger Bilddaten, nichts springt
+  live: true
+- datum: "2026-10-08"
+  kategorie: feature
+  highlight: true
+  text: Heute-Knopf zeigt die Richtung
+  untertitel: orange, wenn heute nicht im Bild liegt
+  live: true
+- datum: "2026-10-08"
+  kategorie: feature
+  text: Einstellungen-Dialog breiter
+  live: true
+- datum: "2026-10-08"
+  kategorie: feature
+  text: Wochenstart lädt schneller
+  live: true
+- datum: "2026-10-08"
+  kategorie: feature
+  text: Titelseiten laden 1,9 MB weniger
+  live: true
+- datum: "2026-10-08"
+  kategorie: feature
+  text: "Erweiterung: Melder auf Wiedergabeseiten ausgeblendet"
+  live: true
+- datum: "2026-10-08"
+  kategorie: feature
+  text: "Ranma ½: Folgen 1–80 auf Deutsch"
+  live: true
+- datum: "2026-10-08"
+  kategorie: feature
+  text: "Naruto Shippuden: Folgen 1–166 auf Deutsch"
+  live: true
+- datum: "2026-10-08"
+  kategorie: bugfix
+  text: Heute-Knopf wieder klickbar
+  live: true
+- datum: "2026-10-08"
+  kategorie: bugfix
+  text: Scott Pilgrim wieder im Hauptbestand
+  live: true
+- datum: "2026-10-08"
+  kategorie: bugfix
+  text: Ishura-Großansicht zeigt das richtige Cover
+  live: true
+- datum: "2026-10-08"
+  kategorie: bugfix
+  text: Cover für Fool Night und Beerus
+  live: true

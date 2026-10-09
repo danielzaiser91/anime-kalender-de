@@ -41,6 +41,7 @@ import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
 import { toggoAngabe } from '../web/src/lib/toggo.ts'
+import { planeKatalogLauf } from './lib/katalog-plan.ts'
 import { ohneEingeordnete, verlaeufeAus } from '../web/src/lib/news-verlauf.ts'
 import { deutschAbgeschlossen, erschieneneFuerFolgenliste } from '../web/src/components/detail/antwort-regeln.ts'
 import { einzelneAusgaben } from '../web/src/components/detail/disc-regeln.ts'
@@ -199,6 +200,9 @@ import { folgeUeberTitel, folgentitelAusNotiz } from './lib/folgentitel-anker.ts
 import { aehnlicherKern, einzigeJeSlug, releasesAusTvProgramm, sendungNeuZuordnen, tvdeSendeplatz } from './lib/tv-termine.ts'
 import { folgenAusTabellen, folgenAusWikitext, wikiDatum } from './lib/wikipedia-folgen.ts'
 import { anisearchKanonisch, anisearchSeite } from './lib/anisearch-seite.ts'
+import { eindeutigePaare } from './lib/anisearch-zuordnung.ts'
+import { loeseKennungen } from './bau/anisearch-kennung.ts'
+import { keinAnisearchSuchlink } from './lib/invarianten-auslieferung.ts'
 import { neuJahre, neuZeile } from './lib/news-neu-zeile.ts'
 import { durchzaehlen, rtlplusWochentermine, staffelEintraege, videosAusSitemap, zuordnen } from './lib/rtlplus-folgen.ts'
 import { figurAusAdresse, serieFuerFigur, serienAdresse } from './lib/toggo-serien.ts'
@@ -6317,6 +6321,7 @@ pruefe(
   */
   const suchfeldQuelle = readFileSync('web/src/components/Suchfeld.tsx', 'utf8')
   const headerQuelle = readFileSync('web/src/components/Header.tsx', 'utf8')
+  const kopfSucheQuelle = readFileSync('web/src/components/kopf-suche.tsx', 'utf8')
   const uiQuelle = readFileSync('web/src/components/ui.tsx', 'utf8')
   pruefe(
     'das Fragezeichen sitzt im Feld rechts',
@@ -6327,7 +6332,7 @@ pruefe(
   )
   pruefe(
     '… und das Feld lässt rechts Platz für beide Knöpfe',
-    /\bpr-24\b/.test(headerQuelle),
+    /\bpr-24\b/.test(kopfSucheQuelle),
     'pr-24 fehlt im Feld',
   )
   /*
@@ -6388,8 +6393,8 @@ pruefe(
     positionierte Elemente malen in Baumreihenfolge übereinander: Die Hülle steht hinter der Lupe und
     deckte sie mit ihrem Hintergrund zu. `z-10` an der Lupe holt sie zurück.
   */
-  const lupen = headerQuelle.match(/pointer-events-none absolute/g) ?? []
-  const ueberDemFeld = headerQuelle.match(/pointer-events-none absolute[^"]*z-10/g) ?? []
+  const lupen = kopfSucheQuelle.match(/pointer-events-none absolute/g) ?? []
+  const ueberDemFeld = kopfSucheQuelle.match(/pointer-events-none absolute[^"]*z-10/g) ?? []
   pruefe(
     'die Lupe im Feld bleibt sichtbar',
     lupen.length > 0 && lupen.length === ueberDemFeld.length,
@@ -6479,17 +6484,14 @@ pruefe(
   const absprunge = verweiseFuer(nurTitel({ anisearchId: 1234, malId: 5678 }))
   pruefe(
     'die Absprünge führen auf die Titelseiten',
-    absprunge.some((v) => v.name === 'aniSearch' && v.ziel === 'https://www.anisearch.de/anime/1234' && !v.suche) &&
-      absprunge.some((v) => v.name === 'MAL' && v.ziel === 'https://myanimelist.net/anime/5678' && !v.suche),
+    absprunge.some((v) => v.name === 'aniSearch' && v.ziel === 'https://www.anisearch.de/anime/1234') &&
+      absprunge.some((v) => v.name === 'MAL' && v.ziel === 'https://myanimelist.net/anime/5678'),
     JSON.stringify(absprunge),
   )
   const ohneAnisearch = verweiseFuer(nurTitel({ titleDe: 'Shibuya', malId: 5678 }))
   pruefe(
-    'ohne aniSearch-Kennung führt der Weg auf die Suche und trägt ein „?"',
-    ohneAnisearch.length === 2 &&
-      ohneAnisearch[0]!.suche === true &&
-      /^https:\/\/www\.anisearch\.de\/search\?q=/.test(ohneAnisearch[0]!.ziel) &&
-      ohneAnisearch.some((v) => v.name === 'MAL'),
+    'ohne aniSearch-Kennung steht kein aniSearch-Weg da (nie eine Suche, nie ein „?"); der MAL-Weg bleibt',
+    ohneAnisearch.length === 1 && ohneAnisearch[0]!.name === 'MAL' && !ohneAnisearch.some((v) => /anisearch/.test(v.ziel)),
     JSON.stringify(ohneAnisearch),
   )
   pruefe(
@@ -6707,7 +6709,7 @@ pruefe(
   )
   pruefe(
     'und die Ansicht sagt der Suche, ob gruppiert wird',
-    /titelFuerAnsichtGen\(quelle, data, route\.filters, today, favorites, grouped\)/.test(appQuelle),
+    /titelFuerAnsichtGen\(quelle, data, route\.filters, today, favorites, grouped(, sprecher\.auswahl)?\)/.test(appQuelle),
   )
   /*
     **Eine Serie kann Deutsch führen, auch wenn die untersuchte Staffel die japanische ist**
@@ -8115,6 +8117,16 @@ console.log('\nCharakter-Beziehung:')
     pruefe('Ohne Synchro von Hand: jeder Eintrag hat eine Quelle und gehört zu einem Titel des Bestands (sonst wirkt er nirgends)', nein.size >= 7 && [...nein].every((id) => ids.has(id)), [...nein].filter((id) => !ids.has(id)).join(','))
   }
   {
+    // Jedes Handurteil „nein" steht nicht im Hauptbestand und trägt hinter dem Toggle `ohneSynchro:true`.
+    // Ausnahme: ein Titel mit Release (belegter deutscher Termin) bleibt im Hauptbestand — `10-termine.ts` überspringt ihn vor dem Handurteil.
+    const lies = (f: string) => JSON.parse(readFileSync(f, 'utf8')) as { id: number; ohneSynchro?: boolean }[]
+    const haupt = new Set(lies('public/data/titles.json').map((t) => t.id))
+    const hinter = new Map(lies('public/data/ohne-synchro.json').map((t) => [t.id, t]))
+    const mitRelease = new Set((JSON.parse(readFileSync('public/data/releases.json', 'utf8')) as { titleId: number }[]).map((r) => r.titleId))
+    const fehler = [...ohneSynchroVonHand()].filter((id) => !mitRelease.has(id) && (haupt.has(id) || hinter.get(id)?.ohneSynchro !== true))
+    pruefe('Ohne Synchro von Hand: jedes Handurteil „nein" steht nicht im Hauptbestand und trägt hinter dem Toggle ohneSynchro:true (außer mit belegtem deutschem Release)', fehler.length === 0, fehler.map((id) => `${id} ${haupt.has(id) ? 'im Hauptbestand' : hinter.has(id) ? 'ohne ohneSynchro-Marke' : 'fehlt hinter dem Toggle'}`).join('; '))
+  }
+  {
     const kein = keinAnimeVonHand()
     pruefe('Kein Anime von Hand: die beiden Diashow-Specials (Princess Principal Picture Drama 100519, Anohana Menma e no Tegami 107342) stehen mit Quelle in der Liste und im Ohne-Synchro-Urteil', kein.has(100519) && kein.has(107342) && kein.has(123074) && [...kein].every((id) => ohneSynchroVonHand().has(id)))
     pruefe('Ohne Synchro von Hand: das Dark-Side-of-Dimensions-Special (102505, ohne deutschen Beleg, aniSearch 08.10.2026) steht hinter dem Toggle, ist aber kein „kein Anime“', ohneSynchroVonHand().has(102505) && !kein.has(102505))
@@ -8202,7 +8214,7 @@ console.log('\nGoogle-Kalender: wöchentliche Serie:')
 console.log('\nAusgestrahlt ohne deutschen Beleg:')
 {
   /* Ranma 1/2 Staffel 3 (Daniel, 04.10.2026): Weg da, kein deutscher Beleg → hinter den Toggle; belegte und alte Titel bleiben. */
-  const titel = (jpYear: number, streams: { platform: string; dub?: boolean }[], extra: Partial<Title> = {}) => ({ id: 1, jpYear, streams, ...extra }) as unknown as Title
+  const titel = (jpYear: number, streams: { platform: string; dub?: boolean }[], extra: Partial<Title> = {}) => ({ id: 999_999_999, jpYear, streams, ...extra }) as unknown as Title
   pruefe('neue Staffel mit ungeprüftem Weg und ohne Beleg wird verschoben', ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }])))
   pruefe('ein Weg mit belegter Synchro bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix', dub: true }])))
   pruefe('eine Erstausgabe-Marke bleibt', !ausgestrahltOhneBeleg(titel(2026, [{ platform: 'netflix' }], { deErstausgabe: { synchro: true } } as Partial<Title>)))
@@ -8452,7 +8464,22 @@ console.log('\nFolgentitel aus Crunchyroll:')
   pruefe('Nach 14 Jahren: Disc seit vier Monaten, Satz mit Begeisterung (Kamisama Kiss)', kamisama.jahre === 14 && kamisama.discSeitText === '4 Monaten' && newsSatz({ art: 'angekuendigt', platform: 'primevideo', datum: '2026-10-08', ...kamisama } as never) === 'Nach 14 Jahren endlich im Stream auf Deutsch: ab 08.10.2026 bei Prime Video! (Auf Disc gibt es die Synchro seit 4 Monaten)')
   pruefe('Nach 12 Jahren: ohne frühere deutsche Fassung „endlich auf Deutsch", unter fünf Jahren nichts', newsSatz({ art: 'neu', platform: 'primevideo', ...neuJahre({ jpYear: 2014 } as never, '2026-10-06') } as never) === 'Nach 12 Jahren endlich auf Deutsch: jetzt mit Synchro bei Prime Video!' && Object.keys(neuJahre({ jpYear: 2024 } as never, '2026-10-06')).length === 0)
 }
-pruefe('aniSearch-Quellenlink: mit Kennung die Titelseite (nie die Suche), ohne Kennung die Suche', /^https:\/\/www\.anisearch\.de\/anime\/2227(,[a-z0-9-]+)?$/.test(anisearchSeite(2227, 'One Piece')) && anisearchSeite(undefined, 'One Piece') === 'https://www.anisearch.de/search?q=One%20Piece' && /^https:\/\/www\.anisearch\.de\/anime\/2227(,[a-z0-9-]+)?$/.test(anisearchKanonisch('https://www.anisearch.de/anime/2227')) && anisearchKanonisch('https://example.org/x') === 'https://example.org/x')
+pruefe('aniSearch-Quellenlink: mit Kennung die Titelseite, ohne Kennung gar keine Adresse (nie die Suche)', /^https:\/\/www\.anisearch\.de\/anime\/2227(,[a-z0-9-]+)?$/.test(anisearchSeite(2227) ?? '') && anisearchSeite(undefined) === undefined && /^https:\/\/www\.anisearch\.de\/anime\/2227(,[a-z0-9-]+)?$/.test(anisearchKanonisch('https://www.anisearch.de/anime/2227')) && anisearchKanonisch('https://example.org/x') === 'https://example.org/x')
+{
+  /* Die Kennung kommt nur aus aniSearchs eigener MAL-Brücke, und nur eindeutig: eine MAL-Kennung mit zwei aniSearch-Kennungen, eine aniSearch-Kennung mit zwei MAL-Kennungen und eine schon vergebene bleiben auf der Liste (Daniel, 09.10.2026). */
+  const paare = eindeutigePaare({ 10: [100], 11: [101, 102], 12: [103], 13: [103], 14: [104], 15: [105] })
+  pruefe('Brücke MAL → aniSearch: nur beidseitig eindeutige Paare', JSON.stringify(paare) === JSON.stringify({ 10: 100, 14: 104, 15: 105 }), JSON.stringify(paare))
+  const k = loeseKennungen([{ id: 1, mal: 10 }, { id: 2, mal: 11 }, { id: 3 }, { id: 4, mal: 14 }, { id: 5, mal: 15 }, { id: 6, mal: 15 }, { id: 10_000_070 }, { id: 7, mal: 99 }], new Map([[4, 104]]), paare)
+  pruefe(
+    'Kennungen: Brücke ordnet zu; ohne MAL, mehrdeutig, schon vergeben oder von zwei Titeln beansprucht bleibt offen; ein reiner aniSearch-Titel trägt seine Kennung',
+    JSON.stringify([...k]) === JSON.stringify([[4, 104], [10_000_070, 70], [1, 100]]) && !k.has(5) && !k.has(6) && !k.has(7),
+    JSON.stringify([...k]),
+  )
+  const such = keinAnisearchSuchlink([{ datei: 'a.json', text: '{"url":"https://www.anisearch.de/search?q=x"}' }, { datei: 'b.json', text: '{"url":"https://www.anisearch.de/anime/12,x"}' }, { datei: 'c.json', text: 'https://www.anisearch.de/anime/index?text=y' }])
+  pruefe('Zusicherung: ein aniSearch-Suchlink in der Auslieferung wird gemeldet, ein Direktlink nicht', such.length === 2 && such[0]!.startsWith('a.json') && such[1]!.startsWith('c.json'), JSON.stringify(such))
+  const hier = readFileSync('public/data/releases.json', 'utf8')
+  pruefe('Zusicherung: releases.json enthält keinen aniSearch-Suchlink', keinAnisearchSuchlink([{ datei: 'releases.json', text: hier }]).length === 0)
+}
 pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15') === 'https://tv.de/sender/prosieben-maxx/09.10.2026/#09.20:00' && tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15', '2446020190') === 'https://tv.de/sendung/r/s,2446020190/')
 /* Specials erben den Serien-Treffer nicht, wo er mit einer TV-Serie geteilt wird und weder Name noch Folgenzahl passen. */
 {
@@ -8503,6 +8530,21 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   pruefe('Deutsch (c, d) nur hinter dem Toggle wird gemeldet, - und Ankündigung (p, noch nicht gestartet) nicht', abseits([]).join() === '10,13', abseits([]))
   pruefe('eigener Titel oder zugeordneter AniList-Titel im Hauptbestand genügt', abseits([10_000_010, 503]).length === 0)
   pruefe('Handurteil „keine Synchro" nimmt den Eintrag aus', dubNurHinterToggle(new Set(), '2026-10-08', new Set([500, 10_000_013]), zuordnung, eintraege).length === 0)
+  /* Geplanter Dub (p) bei angekündigtem oder noch nicht gestartetem AniList-Titel ist ein dokumentierter Grund; für d und c gilt er nicht (Scott Pilgrim hebt ab, Lauf 37832745133). */
+  const gestartetP = { ...eintraege, 12: eintrag('p', '2026-10-08') }
+  const mitP = (angekuendigt: number[]) => dubNurHinterToggle(new Set(), '2026-10-08', ausgenommen, { ...zuordnung, 502: { anisearchId: 12 } }, gestartetP, new Set(angekuendigt)).join()
+  pruefe('geplanter Dub, gestartet, AniList-Titel nicht im Hauptbestand: wird gemeldet', mitP([]) === '10,12,13', mitP([]))
+  pruefe('geplanter Dub bei angekündigtem AniList-Titel: dokumentierter Grund', mitP([502]) === '10,13', mitP([502]))
+  pruefe('ein Grund „angekündigt" gilt nicht für vertont (d) oder abgebrochen (c)', mitP([500, 502, 503]) === '10,13', mitP([500, 502, 503]))
+}
+/* aniSearch „vertont" (d) oder „abgebrochen" (c) ist ein Synchro-Beleg: der Titel bleibt trotz Streams ohne eigenen Beleg im Hauptbestand; „geplant" (p) nicht. */
+{
+  const ohneBelegAls = (id: number) => ausgestrahltOhneBeleg({ id, jpYear: 2026, streams: [{ platform: 'netflix' } as never] } as unknown as Title)
+  const dubs = JSON.parse(readFileSync('data/anisearch-dubs.json', 'utf8')) as Record<string, string>
+  const mit = (k: string) => Number(Object.keys(dubs).find((id) => dubs[id] === k))
+  pruefe('aniSearch vertont (d): kein Verschieben hinter den Toggle', !ohneBelegAls(mit('d')))
+  pruefe('aniSearch abgebrochen (c): kein Verschieben hinter den Toggle', !ohneBelegAls(mit('c')))
+  pruefe('aniSearch nur geplant (p) oder ohne Deutsch (-): bleibt ohne Beleg', ohneBelegAls(mit('p')) && ohneBelegAls(mit('-')))
 }
 /* Gleiche MAL-Kennung bei einem aniSearch- und einem AniList-Titel: Dublette, außer sie ist in MAL_AUSNAHMEN begründet (Befund 08.10.2026, 4 Dubletten). */
 {
@@ -8566,6 +8608,14 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   const [altAk, neuAk] = paare[0]!
   pruefe('Umleitung (Browser): Liste und Karten ziehen auf den Nachfolger um, ohne Doppel; Zahlen und Tage ordnen sich sinnvoll', umleiteListe([altAk, neuAk, 5], abbild).join() === `${neuAk},5` && umleiteKarte({ [altAk]: 3, [neuAk]: 5 }, abbild)[neuAk] === 5 && umleiteKarte({ [altAk]: '2026-10-01', [neuAk]: '2026-10-08' }, abbild)[neuAk] === '2026-10-01')
   pruefe('Umleitung (Worker): gespeicherte Liste mit ak: wird auf den Nachfolger umgeschrieben, eine fremde Zahl bleibt', [...leseFavoriten(`ak:${altAk},7`, { umleitung: abbild })].join() === `${neuAk},7` && [...leseFavoriten(`ak:${altAk},7`)].join() === `${altAk},7`)
+  /* AniList-Katalog: der Frischlauf holt nie mehr als die frischen Jahre, auch bei geändertem Fingerabdruck (Tageslauf 09.10.2026: zehn Minuten ab 1907). */
+  const katalogArgs = { relFassung: 'neu', jahr: 2026, abJahr: 1907, frischSeiten: 10 }
+  const altStand = { relFassung: 'alt', fertigeJahre: [1907, 1908] }
+  const frischAlt = planeKatalogLauf({ ...katalogArgs, vorhanden: altStand, frischGewuenscht: true })
+  const wochenAlt = planeKatalogLauf({ ...katalogArgs, vorhanden: altStand, frischGewuenscht: false })
+  pruefe('Katalog: --frisch bei anderem Fingerabdruck startet im laufenden Jahr, nicht im Volllauf, und lässt Fingerabdruck und fertige Jahre unangetastet', frischAlt.frisch && frischAlt.ersteJahr === 2026 && frischAlt.nachlaufSeiten === 10 && frischAlt.relFassung === 'alt' && frischAlt.fertig.join() === '1907,1908', frischAlt)
+  pruefe('Katalog: der Wochenlauf bei anderem Fingerabdruck holt alles neu und setzt den neuen Fingerabdruck', !wochenAlt.frisch && wochenAlt.ersteJahr === 1907 && wochenAlt.fertig.length === 0 && wochenAlt.relFassung === 'neu', wochenAlt)
+  pruefe('Katalog: --frisch ohne vorhandenen Katalog tut nichts', planeKatalogLauf({ ...katalogArgs, vorhanden: undefined, frischGewuenscht: true }).ueberspringen)
 }
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
