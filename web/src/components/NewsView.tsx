@@ -53,7 +53,7 @@ import { AELTERE_SCHRITT_TAGE, teileGleichmelder } from '../lib/news-gruppen.ts'
  * „was genau".
  */
 const GRUEN = 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
-const ORANGE = 'bg-orange-500/15 text-orange-700 dark:text-orange-300'
+const ORANGE = 'bg-orange-500/15 text-orange-800 dark:text-orange-300'
 const GELB = 'bg-yellow-500/20 text-yellow-800 dark:text-yellow-300'
 const GRAU = 'bg-slate-500/15 text-slate-700 dark:text-slate-300'
 export const NEWS_FARBE: Record<NewsArt, string> = {

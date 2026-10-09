@@ -60,7 +60,6 @@ export interface WocheProps {
   hidden: Set<number>
   tvAn: boolean
   gefiltert: boolean
-  /** Vorschau „suche-woche": Tage ohne Treffer als schmale Zeile. */
   onToggleFavorite: (titleId: number) => void
   onToggleHidden: (titleId: number) => void
   onOpen: (slug: string, date: string) => void
