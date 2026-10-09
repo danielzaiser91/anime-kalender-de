@@ -696,3 +696,13 @@ Der Katalog-Frischlauf holt das laufende und die kommenden Jahre sowie die jüng
 in jedem Lauf alle Einträge ohne `start` nach Kennung (`id_in`, 50 je Abfrage). Offen: The Boxer ist laut anime2you (1058533, 1058606, 09.10.2026) ein Crunchyroll-Simulcast
 im Original mit Untertiteln, Start unbekannt, keine Synchro genannt — für eine Ankündigung ohne Termin kennt `ankuendigungen.yaml` kein Feld (`omuAb` ist Pflicht und wird in
 `vorDemStart`, `ankuendigungs-termin` und der Meldung als Datum gelesen).
+
+## Datenbank-Vorgabe „Relevanz" mit Gruppen (09.10.2026)
+
+Ohne Suche startet die Datenbank in drei Gruppen: „Läuft jetzt", „Demnächst", „Schon erschienen" (Daniel, Variante C im
+Mockup „Datenbank-Einstieg"). Die Regel steht in `web/src/lib/db-relevanz.ts`, die Reihenfolge in `db-liste.ts`,
+die Zusicherungen in `pipeline/check-db-relevanz.ts`. Maßgeblich ist die deutsche Erstausgabe (`deErstausgabe`):
+ein späteres Neuerscheinen bei einem weiteren Anbieter zählt nicht (Rooster Fighter, Id 179813 → erschienen);
+ohne `deErstausgabe` gilt `titleStatus()`. Gemessen am Datensatz vom 09.10.2026 (alle Titel, gebündelt):
+28 / 54 / 1.514 Franchises, ohne den Bestand „ohne Synchro" 28 / 53 / 1.509. Mit Suche gilt weiter die Treffergüte;
+`?sort=relevanz` ist jetzt immer gültig. Die Statuspille entfällt, wo die Überschrift sie schon sagt.
