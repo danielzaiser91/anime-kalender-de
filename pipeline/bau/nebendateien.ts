@@ -1,6 +1,6 @@
 import { writeText, writeJson, readJson, log, warn } from '../lib/util.ts'
 import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
-import { type CartoonEintrag, type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon } from '../lib/cartoons.ts'
+import { type CartoonEintrag, type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon, tonAnbieterNamen } from '../lib/cartoons.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { type PlatformId, type Title, type Release, type Quelle } from '../../shared/types.ts'
 import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
@@ -200,7 +200,8 @@ function setzeTonHinweise(
   const hand = new Set(belege.filter((b) => b.available === false || b.dub === false).map((b) => `${b.anilistId}|${b.platform}`))
   let hinweise = 0
   for (const t of titel) {
-    const anbieter = jwTonAnbieter(jw[String(t.id)]?.angebote).filter((n) => !hand.has(`${t.id}|${plattformVon(n)}`))
+    const roh = jwTonAnbieter(jw[String(t.id)]?.angebote).filter((n) => !hand.has(`${t.id}|${plattformVon(n)}`))
+    const anbieter = tonAnbieterNamen(roh)
     if (!anbieter.length) continue
     t.dubHinweis = { quelle: 'justwatch', anbieter }
     hinweise++

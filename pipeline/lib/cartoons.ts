@@ -19,7 +19,7 @@
  * `westlich: true` ist das Feld, an dem die Oberfläche beide Sorten
  * unterscheidet — und an dem der Schalter in den Einstellungen hängt.
  */
-import type { PlatformId, StreamLink, Title } from '../../shared/types.ts'
+import { PLATFORMS, type PlatformId, type StreamLink, type Title } from '../../shared/types.ts'
 
 export interface CartoonEintrag {
   id: number
@@ -163,4 +163,10 @@ export function jwTonAnbieter(angebote: JwAngebotTon[] | undefined): string[] {
     .filter((a) => a.art === 'FLATRATE' && a.anbieter && a.audio?.includes('de'))
     .map((a) => a.anbieter as string)
   return [...new Set(namen)]
+}
+
+/** Eigene Anbieternamen statt JustWatchs (Prime Video und Prime Video with Ads sind ein Anbieter), je Anbieter einmal. */
+export function tonAnbieterNamen(roh: string[]): string[] {
+  const ohneZusatz = (n: string) => n.replace(/ (Standard )?with Ads$| Amazon Channel$/, '')
+  return [...new Set(roh.map((n) => { const p = plattformVon(n); return p ? PLATFORMS[p].name : ohneZusatz(n) }))]
 }
