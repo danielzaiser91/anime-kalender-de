@@ -4,7 +4,7 @@ import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
 import { Tooltip } from '../ui.tsx'
-import { istEingeklappt } from './reihen-regeln.ts'
+import { istEingeklappt, zeileInListeSichtbar } from './reihen-regeln.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -60,7 +60,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
             zusammen.
           */}
           <div className="relative -mt-1 rounded-xl border border-slate-200 dark:border-white/10">
-          <div className="max-h-[13.5rem] overflow-y-auto p-2">
+          <div data-reihe-liste className="relative max-h-[13.5rem] overflow-y-auto p-2">
             {(() => {
               /*
                 **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
@@ -256,11 +256,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                     role="tab"
                     aria-selected={gewaehlt}
                     disabled={wechselt}
-                    ref={
-                      gewaehlt
-                        ? (el) => el?.scrollIntoView({ block: 'nearest' })
-                        : undefined
-                    }
+                    ref={gewaehlt ? zeileInListeSichtbar : undefined}
                     onClick={() => !gewaehlt && wechsleZu(m.id)}
                     className={[
                       /*

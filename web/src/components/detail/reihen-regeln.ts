@@ -9,3 +9,15 @@ import type { FranchiseMember } from '@shared/types.ts'
 export function istEingeklappt(m: Pick<FranchiseMember, 'id' | 'ohneSynchro'>, geoeffneteId: number): boolean {
   return Boolean(m.ohneSynchro) && m.id !== geoeffneteId
 }
+
+/**
+ * Rückt die gewählte Zeile in die Mitte ihrer Liste, falls sie außerhalb liegt — und scrollt nur die Liste.
+ * `scrollIntoView` scrollte das ganze Panel, es öffnete vorgescrollt (Handy 393 px, 09.10.2026).
+ */
+export function zeileInListeSichtbar(zeile: HTMLElement | null): void {
+  const box = zeile?.closest<HTMLElement>('[data-reihe-liste]')
+  if (!zeile || !box) return
+  const oben = zeile.offsetTop
+  if (oben >= box.scrollTop && oben + zeile.offsetHeight <= box.scrollTop + box.clientHeight) return
+  box.scrollTop = oben - (box.clientHeight - zeile.offsetHeight) / 2
+}
