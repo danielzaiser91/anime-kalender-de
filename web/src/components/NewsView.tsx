@@ -326,9 +326,9 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
       <SeitenNeuerungen />
       <KinoKarussell data={data} oeffne={oeffne} />
 
-      {/* Filterleiste: nur Arten, die wirklich vorkommen (ein leerer Filter ist eine Sackgasse); auf dem Handy eine rollbare Reihe statt vier Zeilen Chips. */}
+      {/* Filterleiste: nur Arten, die wirklich vorkommen (ein leerer Filter ist eine Sackgasse). py-2.5 fängt die 44-px-Trefferfläche (.ak-tz::after) ein, sonst scrollt die Leiste senkrecht; auf dem Handy eine rollbare Reihe statt vier Zeilen Chips. */}
       {meldungen && meldungen.length > 0 && (
-        <div className="-mx-3 mb-3 flex gap-1 overflow-x-auto px-3 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
+        <div className="-mx-3 -mt-2.5 mb-0.5 flex gap-1 overflow-x-auto px-3 py-2.5 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
           <button
             type="button"
             onClick={() => setFilter(null)}
