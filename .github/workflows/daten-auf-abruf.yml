@@ -46,6 +46,8 @@ on:
           - data:kitsu-folgen
           - data:anisearch-dubs
           - data:anisearch-eintraege
+          # Brücke MAL → aniSearch (ein API-Abruf): ordnet Titeln ohne Titelseite ihre Kennung zu.
+          - data:anisearch-zuordnung
           - data:anisearch
           - data:anisearch-folgen
           - data:anisearch-titel

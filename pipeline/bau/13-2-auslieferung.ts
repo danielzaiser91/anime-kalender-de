@@ -1,5 +1,6 @@
-import { ANISEARCH_ID_BASIS, anisearchUmgezogenInBestand } from './anisearch-titel.ts'
-import { anisearchHand, kinoFeld, mitAnkuendigung, OUT, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
+import { anisearchUmgezogenInBestand } from './anisearch-titel.ts'
+import { anisearchKennungen } from './anisearch-kennung.ts'
+import { kinoFeld, mitAnkuendigung, OUT, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
 import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
@@ -36,20 +37,17 @@ export function baueAuslieferung({
   verschoben: Title[]
   verweiseEntfernt: EntfernterVerweis[]
 }) {
+  const kennungen = anisearchKennungen(allTitles.map((t) => ({ id: t.id, mal: t.malId })))
   const slim = allTitles.map((t) => {
     const ausAnisearch = anisearch[t.id]?.descriptionDe
     const ausTmdb = tmdbTitles[t.id]
-    const asId = anisearchHand[t.id] ?? anisearch[t.id]?.anisearchId ?? (t.id >= ANISEARCH_ID_BASIS ? t.id - ANISEARCH_ID_BASIS : undefined)
+    const asId = kennungen.get(t.id)
     if (t.synopsis || ausAnisearch || ausTmdb?.overviewDe) {
       const eintrag: SynopsisEintrag = { en: t.synopsis }
       if (ausAnisearch) {
         const { text, url } = trenneQuelle(ausAnisearch)
         eintrag.de = text
-        /* Ein Quellenverweis führt zum Werk, nicht in ein Verzeichnis; ohne Kennung bleibt nur die Suche (Dominik, aniSearch, 06.10.2026). */
-        eintrag.deSource = {
-          name: 'anisearch.de',
-          url: url ? anisearchKanonisch(url) : anisearchSeite(asId, t.titleDe ?? t.titleEn ?? t.titleRomaji ?? String(t.id)),
-        }
+        eintrag.deSource = { name: 'anisearch.de', url: url ? anisearchKanonisch(url) : (anisearchSeite(asId) ?? 'https://www.anisearch.de/') }
       } else if (ausTmdb?.overviewDe) {
         eintrag.de = ausTmdb.overviewDe
         eintrag.deSource = {
@@ -59,7 +57,7 @@ export function baueAuslieferung({
             : 'https://www.themoviedb.org/',
         }
       }
-      if (!ausAnisearch && Number.isFinite(asId)) eintrag.asUrl = anisearchSeite(asId, '')
+      if (!ausAnisearch && asId !== undefined) eintrag.asUrl = anisearchSeite(asId)
       synopses[t.id] = eintrag
     }
     const { synopsis: _drop, jpStartTag: _jpStart, ...rest } = t
