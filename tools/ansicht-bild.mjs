@@ -123,6 +123,33 @@ function untereLeisteBuendig({ name, nav: m }) {
   return false
 }
 
+/**
+ * Monatszelle am Handy (09.10.2026): Punkte in Anbieterfarbe statt Cover. Kein sichtbares Bild im Raster, jeder Punkt
+ * mindestens 8 px, das Tippziel der Zelle mindestens 40 px hoch und breit, und der Knopf nennt Titel (aria-label).
+ */
+function pruefeMonatPunkte(seite) {
+  return seite.evaluate(() => {
+    const knoepfe = [...document.querySelectorAll('main button')].filter((b) => b.offsetParent && b.querySelector('[data-monatspunkt]'))
+    const bilder = [...document.querySelectorAll('main img')].filter((i) => i.offsetParent).length
+    const kleinPunkt = [...document.querySelectorAll('[data-monatspunkt]')].filter((p) => p.getBoundingClientRect().width < 8).length
+    const kleinZiel = knoepfe.filter((b) => { const r = b.getBoundingClientRect(); return r.width < 40 || r.height < 40 }).length
+    const ohneTitel = knoepfe.filter((b) => !/: .{3,}/.test(b.getAttribute('aria-label') ?? '')).length
+    return { zellen: knoepfe.length, bilder, kleinPunkt, kleinZiel, ohneTitel }
+  })
+}
+
+/** Druckt Befunde von `pruefeMonatPunkte`; wahr, wenn rot. */
+function monatPunkteRot(m) {
+  const fehler = []
+  if (m.zellen === 0) fehler.push('keine Zelle mit Punkten gefunden')
+  if (m.bilder) fehler.push(`${m.bilder} sichtbare Bilder im Monat`)
+  if (m.kleinPunkt) fehler.push(`${m.kleinPunkt} Punkte unter 8 px`)
+  if (m.kleinZiel) fehler.push(`${m.kleinZiel} Tageszellen unter 40 px Tippziel`)
+  if (m.ohneTitel) fehler.push(`${m.ohneTitel} Zellen ohne Titel im aria-label`)
+  for (const f of fehler) console.log(`  ✕ Monat am Handy: ${f}`)
+  return fehler.length > 0
+}
+
 async function main() {
   if (!existsSync(path.join(DIST, 'index.html'))) {
     console.error('dist/ fehlt — erst `npm run build`.')
@@ -198,7 +225,7 @@ async function main() {
           doc: document.documentElement.scrollWidth,
           fenster: window.innerWidth,
         }))
-        befunde.push({ name, fehler: [...fehler], ueberbreite: breite.doc - breite.fenster, nav: HANDY ? await untereLeisteMasse(seite) : null })
+        befunde.push({ name, fehler: [...fehler], ueberbreite: breite.doc - breite.fenster, nav: HANDY ? await untereLeisteMasse(seite) : null, punkte: HANDY && name === 'monat' ? await pruefeMonatPunkte(seite) : null })
       }
     }
   }
@@ -211,7 +238,7 @@ async function main() {
     const ueber = b.ueberbreite > 1 ? `${b.ueberbreite} px` : '—'
     console.log(`  ${b.name.padEnd(12)} ${ueber.padEnd(11)} ${b.fehler.length || '—'}`)
     for (const f of b.fehler.slice(0, 3)) console.log(`      ${f}`)
-    if (b.ueberbreite > 1 || b.fehler.length || !untereLeisteBuendig(b)) rot = true
+    if (b.ueberbreite > 1 || b.fehler.length || !untereLeisteBuendig(b) || (b.punkte && monatPunkteRot(b.punkte))) rot = true
   }
   console.log(rot ? '\n  ✕ etwas stimmt nicht — siehe oben' : '\n  ok  keine Überbreite, keine Fehler')
   if (rot) process.exitCode = 1

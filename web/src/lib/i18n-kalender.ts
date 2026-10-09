@@ -56,6 +56,8 @@ export const TEXTE_KALENDER = {
   'fachwort.omu': 'Originalton mit deutschen Untertiteln — keine deutsche Synchro',
   'fachwort.zeitumstellung': 'Am 25.10.2026 endet in Deutschland die Sommerzeit: Die Uhren werden um 1 Stunde zurückgestellt. Bleibt die Sendezeit im Ausland gleich, liegt sie in Deutschland ab dann 1 Stunde früher auf der Uhr.',
   'kal.mehrLabel': 'Alle {n} Termine am {datum} zeigen',
+  'kal.tagMitTiteln': '{datum}: {titel}',
+  'kal.undWeitere': 'und {n} weitere',
   'kal.alleAmTag': 'Alle Termine am {datum}',
   'kal.zurWoche': 'In der Woche zeigen',
   'kal.tagOeffnen': 'Woche mit dem {datum} öffnen',
