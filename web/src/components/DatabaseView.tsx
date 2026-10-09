@@ -6,8 +6,7 @@ import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { DbSchalter } from './db-kopfzeile.tsx'
-import { DbKarte } from './db-karte.tsx'
-import { DbLeer, DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
+import { DbLeer, DbRaster, DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -102,25 +101,19 @@ export function DatabaseView({
 
       <DbZaehlzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich} />
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
-        {groups.slice(0, visible).map(({ main, members }) => (
-          <DbKarte
-            key={main.id}
-            main={main}
-            members={members}
-            data={data}
-            today={today}
-            grouped={grouped}
-            favorites={favorites}
-            hidden={hidden}
-            onToggleFavorite={onToggleFavorite}
-            onToggleHidden={onToggleHidden}
-            onOpenTitle={onOpenTitle}
-            share={share}
-            copiedSlug={copiedSlug}
-          />
-        ))}
-      </div>
+      <DbRaster
+        groups={groups.slice(0, visible)}
+        data={data}
+        today={today}
+        grouped={grouped}
+        favorites={favorites}
+        hidden={hidden}
+        onToggleFavorite={onToggleFavorite}
+        onToggleHidden={onToggleHidden}
+        onOpenTitle={onOpenTitle}
+        share={share}
+        copiedSlug={copiedSlug}
+      />
 
       {groups.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
       {visible < groups.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={groups.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}

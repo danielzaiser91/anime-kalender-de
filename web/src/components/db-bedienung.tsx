@@ -2,6 +2,8 @@ import type { Title } from '@shared/types.ts'
 import { useLang } from '../lib/i18n.tsx'
 import type { DbSort } from '../lib/router.ts'
 import { DbKopfzeile } from './db-kopfzeile.tsx'
+import { DbKarte, type DbKarteProps } from './db-karte.tsx'
+import type { TitleGroup } from './DatabaseView.tsx'
 
 /** Zählzeile links, Sortierung rechts. */
 export function DbZaehlzeile({ titles, ergebnisse, gebuendelt, suche, sort, onSortChange, relevanz }: {
@@ -76,5 +78,16 @@ export function MehrKnopf({ schritt, rest, onClick }: { schritt: number; rest: n
       {t('db.more', { count: Math.min(schritt, rest) })}
       <span className="ml-2 text-xs text-slate-500 dark:text-slate-400">{t('db.remaining', { count: rest })}</span>
     </button>
+  )
+}
+
+/** Das Kachelraster der Datenbank. */
+export function DbRaster({ groups, ...rest }: Omit<DbKarteProps, 'main' | 'members'> & { groups: TitleGroup[] }) {
+  return (
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
+      {groups.map(({ main, members }) => (
+        <DbKarte key={main.id} main={main} members={members} {...rest} />
+      ))}
+    </div>
   )
 }
