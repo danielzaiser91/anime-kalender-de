@@ -4,6 +4,7 @@ import { EinstellungenDialog, CARTOONS_AUS, cartoonsAusGespeichert } from './com
 import { loadAllTitles, loadCartoons, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
 import { useStartdaten } from './lib/start-daten.ts'
 import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
+import { useKalenderFilter } from './lib/kalender-filter.ts'
 import { SuchfundstellenContext } from './lib/such-kontext.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
 import { istOhneBelegteSynchro } from './lib/titel-sortierung.ts'
@@ -89,6 +90,8 @@ export default function App() {
   /* TV-Termine ausblenden. */
   const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
   const [route, navigate] = useRoute()
+  /* Die Filter von Woche und Monat: nur im Speicher, nicht in der Adresse, nicht mit der Datenbank geteilt (`kalender-filter.ts`). */
+  const { filters: kalenderFilters, kalenderNavigate } = useKalenderFilter(route, navigate)
   /* Standard seit 08.10.2026 (CLS 0,607 durch die Zwischenwoche); „spinner" ist der alte Start. */
   const geruest = useVorschau('startgeruest') !== 'spinner'
   const dbReserve = useVorschau('db-reserve') === 'ruhig'
@@ -144,8 +147,8 @@ export default function App() {
   }, [data, cartoons, brauchtCartoons])
 
   const { wert: events, veraltet: eventsVeraltet } = useZeitscheibe(
-    () => (data ? eventsFuerAnsichtGen(data, route.filters, today, favorites, tvAus) : leeresErgebnis(LEERE_TERMINE)),
-    [data, route.filters, today, favorites, tvAus],
+    () => (data ? eventsFuerAnsichtGen(data, kalenderFilters, today, favorites, tvAus) : leeresErgebnis(LEERE_TERMINE)),
+    [data, kalenderFilters, today, favorites, tvAus],
     LEERE_TERMINE,
   )
   const eventListe = events.liste
@@ -171,12 +174,14 @@ export default function App() {
 
   const setFilters = (filters: FilterState) => navigate({ filters: { ...filters, search: route.filters.search } })
   const setView = (view: ViewId) => navigate({ view, title: undefined, disc: undefined })
-  /* Gesucht wird in Kalender und Datenbank; von anderen Seiten aus führt die Suche in die Datenbank. */
+  /* Gesucht wird nur in der Datenbank; von anderen Seiten aus führt die Suche dorthin. */
   const setSuche = (search: string) =>
     navigate({
       filters: { ...route.filters, search },
-      ...(['woche', 'monat', 'datenbank'].includes(route.view) || !search ? {} : { view: 'datenbank' as ViewId }),
+      ...(route.view === 'datenbank' || !search ? {} : { view: 'datenbank' as ViewId }),
     })
+  /* Das Such-Symbol im Kalender: in die Datenbank, mit leerer Suche (der Kopf setzt dort den Fokus). */
+  const zurSuche = () => navigate({ view: 'datenbank', filters: { ...route.filters, search: '' }, title: undefined, disc: undefined })
 
   if (error) {
     return (
@@ -203,6 +208,7 @@ export default function App() {
       }}
       suche={route.filters.search}
       setSuche={setSuche}
+      zurSuche={zurSuche}
       favorites={favorites}
       einstellungen={() => setEinstellungenOffen(true)}
     />
@@ -228,8 +234,8 @@ export default function App() {
           <SuchfundstellenContext.Provider value={events.fundstellen}>
             <KalenderBereich
               data={data}
-              route={route}
-              navigate={navigate}
+              route={{ ...route, filters: kalenderFilters }}
+              navigate={kalenderNavigate}
               events={eventListe}
               favorites={favorites}
               hidden={hidden}
