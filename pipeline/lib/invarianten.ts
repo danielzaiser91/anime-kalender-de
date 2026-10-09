@@ -121,11 +121,12 @@ export function pruefeInvarianten(releases: Release[], events: ReleaseEvent[], t
 
 /** Zählworte der Oberfläche (Fußzeile, Ladehinweis) gegen die Länge der ausgelieferten Dateien (B-07, B-08). */
 export function zaehlworteStimmen(
-  meta: { titleCount: number; releaseCount: number; eventCount: number },
-  datei: { titles: number; releases: number; events: number },
+  meta: { titleCount: number; belegtCount?: number; releaseCount: number; eventCount: number },
+  datei: { titles: number; belegt?: number; releases: number; events: number },
 ): string[] {
   const paare: [string, number, number][] = [
     ['titleCount', meta.titleCount, datei.titles],
+    ...(datei.belegt === undefined ? [] : [['belegtCount', meta.belegtCount ?? -1, datei.belegt] as [string, number, number]]),
     ['releaseCount', meta.releaseCount, datei.releases],
     ['eventCount', meta.eventCount, datei.events],
   ]

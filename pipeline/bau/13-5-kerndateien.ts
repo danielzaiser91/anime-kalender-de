@@ -1,5 +1,6 @@
 import { writeJson, readJson, log } from '../lib/util.ts'
 import { pruefeInvarianten, zaehlworteStimmen } from '../lib/invarianten.ts'
+import { zaehleBelegte } from '../lib/belegstaerke.ts'
 import { OUT } from './grundlagen.ts'
 import { auslieferungsInvarianten } from './auslieferung-pruefen.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
@@ -76,6 +77,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   /* Releases kommen nach `baueMeta` noch hinzu (motn-*, Erstausgaben): gezählt wird, was in der Datei steht. */
   meta.releaseCount = releases.length
   meta.eventCount = events.length
+  meta.belegtCount = zaehleBelegte(readJson<Pick<Title, 'dubConfidence'>[]>(`${OUT}/titles.json`, []))
   writeJson(`${OUT}/meta.json`, meta, true)
   bruecheBeiWiderspruchAb({ fehler: zaehlworteAusDateien(), warnungen: [] })
   return { newsFuerRss }
@@ -86,6 +88,7 @@ function zaehlworteAusDateien(): string[] {
   const laenge = (datei: string) => readJson<unknown[]>(`${OUT}/${datei}`, []).length
   return zaehlworteStimmen(readJson(`${OUT}/meta.json`, { titleCount: -1, releaseCount: -1, eventCount: -1 }), {
     titles: laenge('titles.json'),
+    belegt: zaehleBelegte(readJson<Pick<Title, 'dubConfidence'>[]>(`${OUT}/titles.json`, [])),
     releases: laenge('releases.json'),
     events: laenge('events.json'),
   })

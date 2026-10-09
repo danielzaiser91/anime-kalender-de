@@ -48,7 +48,8 @@ console.log('\nInvarianten am Ergebnis:')
   // B-07/B-08: Fußzeile nannte 610 Releases, die Datei hatte 722
   const z = zaehlworteStimmen({ titleCount: 10, releaseCount: 610, eventCount: 5 }, { titles: 10, releases: 722, events: 5 })
   pruefe('Zählwort ungleich Dateilänge wird gemeldet', z.length === 1 && z[0].includes('610') && z[0].includes('722'), z)
-  pruefe('passende Zählworte gehen durch', zaehlworteStimmen({ titleCount: 1, releaseCount: 2, eventCount: 3 }, { titles: 1, releases: 2, events: 3 }).length === 0)
+  pruefe('passende Zählworte gehen durch', zaehlworteStimmen({ titleCount: 1, belegtCount: 1, releaseCount: 2, eventCount: 3 }, { titles: 1, belegt: 1, releases: 2, events: 3 }).length === 0)
+  pruefe('ungesetztes „belegt“ wird gemeldet', zaehlworteStimmen({ titleCount: 3, belegtCount: 0, releaseCount: 2, eventCount: 3 }, { titles: 3, belegt: 2, releases: 2, events: 3 }).length === 1)
 }
 
 /* Die harten Regeln des Daten-Detektivs (D-01, D-13, D-14, D-21, D-23 an Releases und Terminen; D-06, D-15 an den Dateien). */

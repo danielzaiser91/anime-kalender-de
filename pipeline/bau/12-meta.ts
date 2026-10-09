@@ -28,6 +28,7 @@ export function baueMeta({ titles, releases, events, motnBelege }: {
   const meta: DataMeta = {
     generatedAt: new Date().toISOString(),
     titleCount: allTitles.length,
+    belegtCount: 0, // wie releaseCount erst nach der Auslieferung bekannt (13-5-kerndateien)
     releaseCount: releases.length,
     eventCount: events.length,
     genres,

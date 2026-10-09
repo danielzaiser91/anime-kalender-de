@@ -75,6 +75,11 @@ export function hochOhneBeleg(titel: Title[], s: Pick<Belegsignale, 'handbelegt'
     .map((t) => t.id)
 }
 
+/** Zählwort der Fußzeile „belegt“: Stufe ≥ stark, wie der Belegstärke-Filter sie zeigt; der Rest heißt dort „angekündigt oder wahrscheinlich“. */
+export function zaehleBelegte(titel: Pick<Title, 'dubConfidence'>[]): number {
+  return titel.filter((t) => t.dubConfidence === 'high' || t.dubConfidence === 'very-high').length
+}
+
 /** Alle Titel mit der Stufe aus ihren Quellen; die Eingabe bleibt unverändert. */
 export function mitBelegstaerke<T extends Kette & Pick<Title, 'dubConfidence'>>(titel: T[], releases: Release[]): (T & Pick<Title, 'einzelquelle'>)[] {
   const signale = ladeBelegsignale(releases)

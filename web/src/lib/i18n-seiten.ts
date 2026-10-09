@@ -212,7 +212,8 @@ export const TEXTE_SEITEN = {
   'news.how':
     'Die Anmeldung ist ein Double-Opt-in: Wir schicken erst eine Bestätigungsmail, gespeichert wird das Abo erst nach deinem Klick. Adresse, Rhythmus und Plattformwahl liegen in einer Cloudflare-D1-Datenbank. Der Versand läuft über einen Cron-Job, der die Termine aus genau diesem Kalender zieht.',
 
-  'footer.stats': '{titles} Anime mit belegter deutscher Synchro · {releases} Releases · {events} Termine',
+  'footer.stats': '{belegt} Anime mit belegter deutscher Synchro · {rest} angekündigt oder wahrscheinlich · {releases} Releases · {events} Termine',
+  'footer.statsGesamt': '{titles} Anime mit deutscher Synchro · {releases} Releases · {events} Termine',
   'footer.updated': 'Daten zuletzt aktualisiert:',
   'footer.sources': 'Quellen',
   'footer.code': 'Quellcode',
