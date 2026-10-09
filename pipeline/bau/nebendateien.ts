@@ -13,6 +13,7 @@ import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } fro
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
+import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
 import { findeAnisearchDubletten, type DublettenUrteil } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
@@ -180,6 +181,7 @@ export function schreibeCartoons(): void {
     }
   }
   if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)
+  ordneCartoonReihen(titel)
   writeJson(`${OUT}/cartoons.json`, titel)
   log(`${titel.length} westliche Animationsserien geschrieben`)
 }

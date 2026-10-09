@@ -1,0 +1,7642 @@
+{
+  "79": {
+    "qid": "Q331031",
+    "geholtAm": "2026-10-08",
+    "label": "Dora",
+    "rel": {
+      "P8345": [
+        "Q125477265"
+      ],
+      "P156": [
+        "Q17501992"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "130": {
+    "qid": "Q971920",
+    "geholtAm": "2026-10-08",
+    "label": "All Grown Up – Fast erwachsen",
+    "rel": {
+      "P155": [
+        "Q304290"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "178": {
+    "qid": "Q786120",
+    "geholtAm": "2026-10-08",
+    "label": "Teenage Robot",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "246": {
+    "qid": "Q11572",
+    "geholtAm": "2026-10-08",
+    "label": "Avatar – Der Herr der Elemente",
+    "rel": {
+      "P8345": [
+        "Q60518601"
+      ],
+      "P156": [
+        "Q132592986",
+        "Q16453000",
+        "Q18790"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "251": {
+    "qid": "Q622946",
+    "geholtAm": "2026-10-08",
+    "label": "Aqua Teen Hunger Force",
+    "rel": {
+      "P156": [
+        "Q137294796"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "292": {
+    "qid": "Q1947125",
+    "geholtAm": "2026-10-08",
+    "label": "Moral Orel",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "334": {
+    "qid": "Q1418875",
+    "geholtAm": "2026-10-08",
+    "label": "Sealab 2021",
+    "rel": {
+      "P155": [
+        "Q928317"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "346": {
+    "qid": "Q217674",
+    "geholtAm": "2026-10-08",
+    "label": "American Dragon",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "416": {
+    "qid": "Q2668194",
+    "geholtAm": "2026-10-08",
+    "label": "Harvey Birdman, Attorney at Law",
+    "rel": {
+      "P179": [
+        "Q2396238"
+      ],
+      "P8345": [
+        "Q123027355"
+      ],
+      "P144": [
+        "Q2667921"
+      ],
+      "P156": [
+        "Q65091175"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "446": {
+    "qid": "Q928845",
+    "geholtAm": "2026-10-08",
+    "label": "Juniper Lee",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "543": {
+    "qid": "Q1215573",
+    "geholtAm": "2026-10-08",
+    "label": "Die Prouds",
+    "rel": {
+      "P156": [
+        "Q110588565",
+        "Q203707"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "552": {
+    "qid": "Q1476764",
+    "geholtAm": "2026-10-08",
+    "label": "Higglystadt Helden",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "557": {
+    "qid": "Q285276",
+    "geholtAm": "2026-10-08",
+    "label": "Camp Lazlo",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "604": {
+    "qid": "Q638600",
+    "geholtAm": "2026-10-08",
+    "label": "Teen Titans",
+    "rel": {
+      "P144": [
+        "Q927354"
+      ],
+      "P156": [
+        "Q3809524"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "653": {
+    "qid": "Q1994052",
+    "geholtAm": "2026-10-08",
+    "label": "Metalocalypse",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "656": {
+    "qid": "Q2571339",
+    "geholtAm": "2026-10-08",
+    "label": "Coco, der neugierige Affe",
+    "rel": {
+      "P361": [
+        "Q22079369"
+      ],
+      "P144": [
+        "Q5194776"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "670": {
+    "qid": "Q853870",
+    "geholtAm": "2026-10-08",
+    "label": "Baby Looney Tunes",
+    "rel": {
+      "P144": [
+        "Q622435"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "709": {
+    "qid": "Q8822",
+    "geholtAm": "2026-10-08",
+    "label": "Robot Chicken",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "897": {
+    "qid": "Q13923",
+    "geholtAm": "2026-10-08",
+    "label": "Die gruseligen Abenteuer von Billy und Mandy",
+    "rel": {
+      "P144": [
+        "Q139825671",
+        "Q917662"
+      ],
+      "P155": [
+        "Q139825671"
+      ],
+      "P156": [
+        "Q4345981"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "973": {
+    "qid": "Q522910",
+    "geholtAm": "2026-10-08",
+    "label": "Winnie Puuh’s Bilderbuch",
+    "rel": {
+      "P8345": [
+        "Q17984894"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "1433": {
+    "qid": "Q210311",
+    "geholtAm": "2026-10-08",
+    "label": "American Dad",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "1542": {
+    "qid": "Q4492840",
+    "geholtAm": "2026-10-08",
+    "label": "Frisky Dingo",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "1547": {
+    "qid": "Q958123",
+    "geholtAm": "2026-10-08",
+    "label": "Fillmore!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "1618": {
+    "qid": "Q250036",
+    "geholtAm": "2026-10-08",
+    "label": "Die Liga der Gerechten",
+    "rel": {
+      "P8345": [
+        "Q113460182"
+      ],
+      "P144": [
+        "Q735744"
+      ],
+      "P155": [
+        "Q2362994"
+      ],
+      "P156": [
+        "Q6669712"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "1647": {
+    "qid": "Q1220379",
+    "geholtAm": "2026-10-08",
+    "label": "Diego",
+    "rel": {
+      "P8345": [
+        "Q125477265"
+      ],
+      "P144": [
+        "Q331031"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "1720": {
+    "qid": "Q641521",
+    "geholtAm": "2026-10-08",
+    "label": "Fosters Haus für Fantasiefreunde",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "1763": {
+    "qid": "Q896559",
+    "geholtAm": "2026-10-08",
+    "label": "Braceface",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "1877": {
+    "qid": "Q217679",
+    "geholtAm": "2026-10-08",
+    "label": "Phineas und Ferb",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "1878": {
+    "qid": "Q798576",
+    "geholtAm": "2026-10-08",
+    "label": "Backyardigans – Die Hinterhofzwerge",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "1886": {
+    "qid": "Q2449187",
+    "geholtAm": "2026-10-08",
+    "label": "Tutenstein",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "2129": {
+    "qid": "Q838588",
+    "geholtAm": "2026-10-08",
+    "label": "Jimmy Neutron",
+    "rel": {
+      "P155": [
+        "Q1743785"
+      ],
+      "P156": [
+        "Q1064768"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "2309": {
+    "qid": "Q83978",
+    "geholtAm": "2026-10-08",
+    "label": "Danny Phantom",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "2345": {
+    "qid": "Q203707",
+    "geholtAm": "2026-10-08",
+    "label": "Kim Possible",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "2355": {
+    "qid": "Q590166",
+    "geholtAm": "2026-10-08",
+    "label": "Lilo & Stitch",
+    "rel": {
+      "P179": [
+        "Q6548398"
+      ],
+      "P8345": [
+        "Q6548398"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "2395": {
+    "qid": "Q2009343",
+    "geholtAm": "2026-10-08",
+    "label": "Disneys Tarzan",
+    "rel": {
+      "P8345": [
+        "Q17511804"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "2418": {
+    "qid": "Q2636213",
+    "geholtAm": "2026-10-08",
+    "label": "The Venture Bros.",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "2437": {
+    "qid": "Q917193",
+    "geholtAm": "2026-10-08",
+    "label": "Pocoyo",
+    "rel": {
+      "P156": [
+        "Q647681"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "2530": {
+    "qid": "Q841367",
+    "geholtAm": "2026-10-08",
+    "label": "Mr. Bean",
+    "rel": {
+      "P144": [
+        "Q484020"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "2580": {
+    "qid": "Q837622",
+    "geholtAm": "2026-10-08",
+    "label": "Stargate Infinity",
+    "rel": {
+      "P8345": [
+        "Q11927"
+      ],
+      "P144": [
+        "Q187462"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "2659": {
+    "qid": "Q2734101",
+    "geholtAm": "2026-10-08",
+    "label": "Maggie und das Biest",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "2723": {
+    "qid": "Q694101",
+    "geholtAm": "2026-10-08",
+    "label": "Samurai Jack",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "2980": {
+    "qid": "Q5982396",
+    "geholtAm": "2026-10-08",
+    "label": "Lucy, the Daughter of the Devil",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "3031": {
+    "qid": "Q616876",
+    "geholtAm": "2026-10-08",
+    "label": "Creepie",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "3090": {
+    "qid": "Q1466644",
+    "geholtAm": "2026-10-08",
+    "label": "Kleine Einsteins",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "3108": {
+    "qid": "Q1189984",
+    "geholtAm": "2026-10-08",
+    "label": "Superjail!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "3122": {
+    "qid": "Q616313",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: Clone Wars",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "3412": {
+    "qid": "Q745333",
+    "geholtAm": "2026-10-08",
+    "label": "Die Wayside Schule",
+    "rel": {
+      "P144": [
+        "Q7508546"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "3548": {
+    "qid": "Q2340289",
+    "geholtAm": "2026-10-08",
+    "label": "RoboRoach",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "3656": {
+    "qid": "Q956474",
+    "geholtAm": "2026-10-08",
+    "label": "Horseland, die Pferderanch",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "3661": {
+    "qid": "Q642069",
+    "geholtAm": "2026-10-08",
+    "label": "Team Galaxy",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "3793": {
+    "qid": "Q607346",
+    "geholtAm": "2026-10-08",
+    "label": "Invader Zim",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "3833": {
+    "qid": "Q1221366",
+    "geholtAm": "2026-10-08",
+    "label": "Diese Buxen Räuber",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "3854": {
+    "qid": "Q460707",
+    "geholtAm": "2026-10-08",
+    "label": "Spectacular Spider-Man",
+    "rel": {
+      "P144": [
+        "Q2510293"
+      ],
+      "P155": [
+        "Q777406"
+      ],
+      "P156": [
+        "Q401601"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "3902": {
+    "qid": "Q477959",
+    "geholtAm": "2026-10-08",
+    "label": "Shaun das Schaf",
+    "rel": {
+      "P144": [
+        "Q691528"
+      ],
+      "P156": [
+        "Q1460748"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "3934": {
+    "qid": "Q494748",
+    "geholtAm": "2026-10-08",
+    "label": "Micky Maus Wunderhaus",
+    "rel": {
+      "P155": [
+        "Q693268"
+      ],
+      "P156": [
+        "Q24970452"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "4194": {
+    "qid": "Q632672",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: The Clone Wars",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ],
+      "P155": [
+        "Q382289"
+      ],
+      "P156": [
+        "Q42051",
+        "Q97365172"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "4332": {
+    "qid": "Q1428283",
+    "geholtAm": "2026-10-08",
+    "label": "Stanley",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "4336": {
+    "qid": "Q268438",
+    "geholtAm": "2026-10-08",
+    "label": "Drawn Together",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "4623": {
+    "qid": "Q633432",
+    "geholtAm": "2026-10-08",
+    "label": "Kuzco’s Königsklasse",
+    "rel": {
+      "P144": [
+        "Q223163"
+      ],
+      "P155": [
+        "Q223163",
+        "Q937486"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "4627": {
+    "qid": "Q376045",
+    "geholtAm": "2026-10-08",
+    "label": "Tauschrausch",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "4630": {
+    "qid": "Q39037",
+    "geholtAm": "2026-10-08",
+    "label": "Cosmo & Wanda – Wenn Elfen helfen",
+    "rel": {
+      "P144": [
+        "Q616852"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "4686": {
+    "qid": "Q207746",
+    "geholtAm": "2026-10-08",
+    "label": "Ben 10",
+    "rel": {
+      "P8345": [
+        "Q5594233"
+      ],
+      "P156": [
+        "Q113676"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "4711": {
+    "qid": "Q5207208",
+    "geholtAm": "2026-10-08",
+    "label": "Da Boom Crew",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "4738": {
+    "qid": "Q2429870",
+    "geholtAm": "2026-10-08",
+    "label": "Di-Gata Defenders",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "5164": {
+    "qid": "Q943755",
+    "geholtAm": "2026-10-08",
+    "label": "Jojos Zirkus",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "5444": {
+    "qid": "Q899205",
+    "geholtAm": "2026-10-08",
+    "label": "Monster Buster Club",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "5678": {
+    "qid": "Q53091",
+    "geholtAm": "2026-10-08",
+    "label": "Drache & Co.",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "6040": {
+    "qid": "Q113676",
+    "geholtAm": "2026-10-08",
+    "label": "Ben 10: Alien Force",
+    "rel": {
+      "P8345": [
+        "Q5594233"
+      ],
+      "P155": [
+        "Q207746"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "6318": {
+    "qid": "Q4810418",
+    "geholtAm": "2026-10-08",
+    "label": "Assy McGee",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "7307": {
+    "qid": "Q1111001",
+    "geholtAm": "2026-10-08",
+    "label": "Fünf Freunde für alle Fälle",
+    "rel": {
+      "P144": [
+        "Q1134354"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "7869": {
+    "qid": "Q323335",
+    "geholtAm": "2026-10-08",
+    "label": "Die Pinguine aus Madagascar",
+    "rel": {
+      "P8345": [
+        "Q2261392"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "8620": {
+    "qid": "Q124296497",
+    "geholtAm": "2026-10-08",
+    "label": "Do, Re & Mi",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "9277": {
+    "qid": "Q2553159",
+    "geholtAm": "2026-10-08",
+    "label": "Die Gruselschule",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "9907": {
+    "qid": "Q756428",
+    "geholtAm": "2026-10-08",
+    "label": "Chowder",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "9921": {
+    "qid": "Q1348246",
+    "geholtAm": "2026-10-08",
+    "label": "Barnyard – Der tierisch verrückte Bauernhof",
+    "rel": {
+      "P144": [
+        "Q1129308"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "10219": {
+    "qid": "Q1068815",
+    "geholtAm": "2026-10-08",
+    "label": "Meister Mannys Werkzeugkiste",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "10283": {
+    "qid": "Q632670",
+    "geholtAm": "2026-10-08",
+    "label": "Archer",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "10548": {
+    "qid": "Q1140254",
+    "geholtAm": "2026-10-08",
+    "label": "Transformers: Animated",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "10779": {
+    "qid": "Q110800248",
+    "geholtAm": "2026-10-08",
+    "label": "Action Pack",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "10867": {
+    "qid": "Q874639",
+    "geholtAm": "2026-10-08",
+    "label": "Wonder Pets",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "11127": {
+    "qid": "Q2525030",
+    "geholtAm": "2026-10-08",
+    "label": "George Shrinks",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "11556": {
+    "qid": "Q6778527",
+    "geholtAm": "2026-10-08",
+    "label": "Marvin, das steppende Pferd",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "11982": {
+    "qid": "Q374037",
+    "geholtAm": "2026-10-08",
+    "label": "Max & Ruby",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "12225": {
+    "qid": "Q938985",
+    "geholtAm": "2026-10-08",
+    "label": "Peppa Wutz",
+    "rel": {
+      "P8345": [
+        "Q109061852"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "12620": {
+    "qid": "Q2345280",
+    "geholtAm": "2026-10-08",
+    "label": "Kong: The Animated Series",
+    "rel": {
+      "P8345": [
+        "Q3876200"
+      ],
+      "P144": [
+        "Q216810"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "13247": {
+    "qid": "Q18754962",
+    "geholtAm": "2026-10-08",
+    "label": "Sylvanian Families",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "13287": {
+    "qid": "Q2077667",
+    "geholtAm": "2026-10-08",
+    "label": "Miss Spider",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "13350": {
+    "qid": "Q1852022",
+    "geholtAm": "2026-10-08",
+    "label": "Jacob 2/2",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "13399": {
+    "qid": "Q1885979",
+    "geholtAm": "2026-10-08",
+    "label": "Timmy geht zur Schule",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "13507": {
+    "qid": "Q5305102",
+    "geholtAm": "2026-10-08",
+    "label": "Dragon – Der kleine blaue Drache",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "13871": {
+    "qid": "Q259954",
+    "geholtAm": "2026-10-08",
+    "label": "Die Koala Brüder",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "13910": {
+    "qid": "Q2817988",
+    "geholtAm": "2026-10-08",
+    "label": "Am Zoo 64",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "14826": {
+    "qid": "Q518874",
+    "geholtAm": "2026-10-08",
+    "label": "Ni hao, Kai-lan",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "15260": {
+    "qid": "Q53093",
+    "geholtAm": "2026-10-08",
+    "label": "Adventure Time – Abenteuerzeit mit Finn und Jake",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "15632": {
+    "qid": "Q34397",
+    "geholtAm": "2026-10-08",
+    "label": "The Cleveland Show",
+    "rel": {
+      "P8345": [
+        "Q55012102"
+      ],
+      "P144": [
+        "Q5930"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "15641": {
+    "qid": "Q637437",
+    "geholtAm": "2026-10-08",
+    "label": "Mighty B! Hier kommt Bessie",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "15804": {
+    "qid": "Q371440",
+    "geholtAm": "2026-10-08",
+    "label": "Batman: The Brave and the Bold",
+    "rel": {
+      "P144": [
+        "Q688982"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "16033": {
+    "qid": "Q625671",
+    "geholtAm": "2026-10-08",
+    "label": "Emily Erdbeer",
+    "rel": {
+      "P156": [
+        "Q7622486"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "16673": {
+    "qid": "Q1570778",
+    "geholtAm": "2026-10-08",
+    "label": "Kleine Prinzessin",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "17572": {
+    "qid": "Q18887",
+    "geholtAm": "2026-10-08",
+    "label": "Kick Buttowski – Keiner kann alles",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "18096": {
+    "qid": "Q4052979",
+    "geholtAm": "2026-10-08",
+    "label": "Watchmen",
+    "rel": {
+      "P144": [
+        "Q128444"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "18123": {
+    "qid": "Q680462",
+    "geholtAm": "2026-10-08",
+    "label": "Mission Scooby-Doo",
+    "rel": {
+      "P8345": [
+        "Q205683"
+      ],
+      "P144": [
+        "Q936279"
+      ],
+      "P155": [
+        "Q848677"
+      ],
+      "P156": [
+        "Q17508236"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "18351": {
+    "qid": "Q1352730",
+    "geholtAm": "2026-10-08",
+    "label": "Spezialagent Oso",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "18352": {
+    "qid": "Q917543",
+    "geholtAm": "2026-10-08",
+    "label": "The Garfield Show",
+    "rel": {
+      "P8345": [
+        "Q99395666"
+      ],
+      "P155": [
+        "Q576501"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "18686": {
+    "qid": "Q905387",
+    "geholtAm": "2026-10-08",
+    "label": "Fanboy & Chum Chum",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "18828": {
+    "qid": "Q523190",
+    "geholtAm": "2026-10-08",
+    "label": "T.U.F.F. Puppy",
+    "rel": {
+      "P155": [
+        "Q83978"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "19544": {
+    "qid": "Q115794785",
+    "geholtAm": "2026-10-08",
+    "label": "Afro Samurai",
+    "rel": {
+      "P144": [
+        "Q388128"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "19889": {
+    "qid": "Q1460748",
+    "geholtAm": "2026-10-08",
+    "label": "Timmy das Schäfchen",
+    "rel": {
+      "P155": [
+        "Q477959"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "20113": {
+    "qid": "Q4409783",
+    "geholtAm": "2026-10-08",
+    "label": "Die sieben kleinen Monster",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "20407": {
+    "qid": "Q781698",
+    "geholtAm": "2026-10-08",
+    "label": "Chuggington – Die Loks sind los!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "20710": {
+    "qid": "Q941012",
+    "geholtAm": "2026-10-08",
+    "label": "Angry Kid",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "21500": {
+    "qid": "Q3278689",
+    "geholtAm": "2026-10-08",
+    "label": "Hot Wheels Battle Force 5",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "21781": {
+    "qid": "Q1509756",
+    "geholtAm": "2026-10-08",
+    "label": "The Super Hero Squad Show",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "22938": {
+    "qid": "Q19886526",
+    "geholtAm": "2026-10-08",
+    "label": "Sammy - Kleine Flossen, große Abenteuer",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "24917": {
+    "qid": "Q3277286",
+    "geholtAm": "2026-10-08",
+    "label": "Ocean Girl - Prinzessin der Meere",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "27318": {
+    "qid": "Q15830438",
+    "geholtAm": "2026-10-08",
+    "label": "Die Brot-Piloten",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "30778": {
+    "qid": "Q1349311",
+    "geholtAm": "2026-10-08",
+    "label": "Dino-Zug",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "30905": {
+    "qid": "Q525094",
+    "geholtAm": "2026-10-08",
+    "label": "Dschungel, Dschungel!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "31132": {
+    "qid": "Q18148580",
+    "geholtAm": "2026-10-08",
+    "label": "Regular Show – Völlig abgedreht/Staffel 6",
+    "rel": {
+      "P179": [
+        "Q82617"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "31413": {
+    "qid": "Q7597029",
+    "geholtAm": "2026-10-08",
+    "label": "Fleckgeflutscht!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "31499": {
+    "qid": "Q830744",
+    "geholtAm": "2026-10-08",
+    "label": "Der Fisch-Club",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "31595": {
+    "qid": "Q611394",
+    "geholtAm": "2026-10-08",
+    "label": "Piets irre Pleiten",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "31623": {
+    "qid": "Q1041635",
+    "geholtAm": "2026-10-08",
+    "label": "Umizoomi",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "32246": {
+    "qid": "Q1035695",
+    "geholtAm": "2026-10-08",
+    "label": "Hero: 108",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "32315": {
+    "qid": "Q1066280",
+    "geholtAm": "2026-10-08",
+    "label": "Sym-Bionic Titan",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "32351": {
+    "qid": "Q1004381",
+    "geholtAm": "2026-10-08",
+    "label": "Ugly Americans",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "32388": {
+    "qid": "Q2631905",
+    "geholtAm": "2026-10-08",
+    "label": "Ben & Hollys kleines Königreich",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "32726": {
+    "qid": "Q392396",
+    "geholtAm": "2026-10-08",
+    "label": "Bob’s Burgers",
+    "rel": {
+      "P8345": [
+        "Q135194290"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "32896": {
+    "qid": "Q6382105",
+    "geholtAm": "2026-10-08",
+    "label": "Der Kater mit Hut",
+    "rel": {
+      "P361": [
+        "Q123765644"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "32910": {
+    "qid": "Q676310",
+    "geholtAm": "2026-10-08",
+    "label": "Transformers: Prime",
+    "rel": {
+      "P144": [
+        "Q1323565"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "33473": {
+    "qid": "Q2881007",
+    "geholtAm": "2026-10-08",
+    "label": "Die Abenteuer von Chuck & seinen Freunden",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "33623": {
+    "qid": "Q1211225",
+    "geholtAm": "2026-10-08",
+    "label": "Die Avengers – Die mächtigsten Helden der Welt",
+    "rel": {
+      "P144": [
+        "Q322646"
+      ],
+      "P156": [
+        "Q3896442"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "33765": {
+    "qid": "Q5415",
+    "geholtAm": "2026-10-08",
+    "label": "My Little Pony – Freundschaft ist Magie",
+    "rel": {
+      "P8345": [
+        "Q1071312"
+      ],
+      "P144": [
+        "Q1071312"
+      ],
+      "P155": [
+        "Q13502356",
+        "Q5239890"
+      ],
+      "P156": [
+        "Q20814663",
+        "Q89202542"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "33835": {
+    "qid": "Q7622486",
+    "geholtAm": "2026-10-08",
+    "label": "Emily Erdbeer - Neues aus Bitzibeerchenhausen",
+    "rel": {
+      "P155": [
+        "Q625671"
+      ],
+      "P156": [
+        "Q48790117"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "33880": {
+    "qid": "Q18790",
+    "geholtAm": "2026-10-08",
+    "label": "Die Legende von Korra",
+    "rel": {
+      "P8345": [
+        "Q60518601"
+      ],
+      "P155": [
+        "Q11572"
+      ],
+      "P156": [
+        "Q132592986",
+        "Q28532730"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "33955": {
+    "qid": "Q888245",
+    "geholtAm": "2026-10-08",
+    "label": "Pound Puppies – Der Pfotenclub",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "33965": {
+    "qid": "Q6653056",
+    "geholtAm": "2026-10-08",
+    "label": "Littlest Pet Shop – Tierisch gute Freunde",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "34356": {
+    "qid": "Q657855",
+    "geholtAm": "2026-10-08",
+    "label": "TRON: Der Aufstand",
+    "rel": {
+      "P8345": [
+        "Q17130203"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "34391": {
+    "qid": "Q401601",
+    "geholtAm": "2026-10-08",
+    "label": "Der ultimative Spider-Man",
+    "rel": {
+      "P155": [
+        "Q460707"
+      ],
+      "P156": [
+        "Q28207200"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "34449": {
+    "qid": "Q227103",
+    "geholtAm": "2026-10-08",
+    "label": "Zoés Zauberschrank",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "34867": {
+    "qid": "Q257839",
+    "geholtAm": "2026-10-08",
+    "label": "Creature Comforts",
+    "rel": {
+      "P144": [
+        "Q2671873"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "34891": {
+    "qid": "Q726784",
+    "geholtAm": "2026-10-08",
+    "label": "Jake und die Nimmerland Piraten",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "35094": {
+    "qid": "Q2875960",
+    "geholtAm": "2026-10-08",
+    "label": "Go Wild! Mission Wildnis",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "35335": {
+    "qid": "Q1167600",
+    "geholtAm": "2026-10-08",
+    "label": "Das Dschungelbuch",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "35725": {
+    "qid": "Q1637643",
+    "geholtAm": "2026-10-08",
+    "label": "Gormiti",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "37472": {
+    "qid": "Q1215265",
+    "geholtAm": "2026-10-08",
+    "label": "Die Oktonauten",
+    "rel": {
+      "P8345": [
+        "Q102395213"
+      ],
+      "P144": [
+        "Q27994946"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "37606": {
+    "qid": "Q114480817",
+    "geholtAm": "2026-10-08",
+    "label": "Die Ritter",
+    "rel": {
+      "P179": [
+        "Q906186"
+      ],
+      "P155": [
+        "Q114525401"
+      ],
+      "P156": [
+        "Q114518595"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "37746": {
+    "qid": "Q846454",
+    "geholtAm": "2026-10-08",
+    "label": "Summ, summ, super! – Die großen Abenteuer der Familie Biene",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "38693": {
+    "qid": "Q851818",
+    "geholtAm": "2026-10-08",
+    "label": "Ninjago",
+    "rel": {
+      "P144": [
+        "Q15631577"
+      ],
+      "P156": [
+        "Q118109722"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "38881": {
+    "qid": "Q2092189",
+    "geholtAm": "2026-10-08",
+    "label": "Transformers: Rescue Bots",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "39107": {
+    "qid": "Q850563",
+    "geholtAm": "2026-10-08",
+    "label": "Bubble Guppies",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "39373": {
+    "qid": "Q2705899",
+    "geholtAm": "2026-10-08",
+    "label": "Red vs. Blue",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "39680": {
+    "qid": "Q5099534",
+    "geholtAm": "2026-10-08",
+    "label": "China, IL",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "39898": {
+    "qid": "Q94428",
+    "geholtAm": "2026-10-08",
+    "label": "Kung Fu Panda",
+    "rel": {
+      "P361": [
+        "Q2081372"
+      ],
+      "P155": [
+        "Q487447"
+      ],
+      "P156": [
+        "Q15055043"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "40044": {
+    "qid": "Q5935752",
+    "geholtAm": "2026-10-08",
+    "label": "Hulk und das Team S.M.A.S.H.",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "40050": {
+    "qid": "Q5218925",
+    "geholtAm": "2026-10-08",
+    "label": "Der kleine Tiger Daniel",
+    "rel": {
+      "P144": [
+        "Q3234484"
+      ],
+      "P155": [
+        "Q136266592"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "40075": {
+    "qid": "Q550555",
+    "geholtAm": "2026-10-08",
+    "label": "Willkommen in Gravity Falls",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "40351": {
+    "qid": "Q986000",
+    "geholtAm": "2026-10-08",
+    "label": "Green Lantern: The Animated Series",
+    "rel": {
+      "P144": [
+        "Q32884"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "41997": {
+    "qid": "Q6868778",
+    "geholtAm": "2026-10-08",
+    "label": "Minnie Toons",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "42919": {
+    "qid": "Q20440051",
+    "geholtAm": "2026-10-08",
+    "label": "Wendy",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "44169": {
+    "qid": "Q4096495",
+    "geholtAm": "2026-10-08",
+    "label": "Brickleberry",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "44305": {
+    "qid": "Q276990",
+    "geholtAm": "2026-10-08",
+    "label": "DreamWorks Dragons",
+    "rel": {
+      "P8345": [
+        "Q3715071"
+      ],
+      "P144": [
+        "Q373096",
+        "Q857000"
+      ],
+      "P155": [
+        "Q373096"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "44593": {
+    "qid": "Q5837184",
+    "geholtAm": "2026-10-08",
+    "label": "Pac-Man und die Geisterabenteuer",
+    "rel": {
+      "P144": [
+        "Q173626"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "44931": {
+    "qid": "Q16522839",
+    "geholtAm": "2026-10-08",
+    "label": "Superbuch",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "45013": {
+    "qid": "Q4018081",
+    "geholtAm": "2026-10-08",
+    "label": "Sie nannten ihn Wander",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "45140": {
+    "qid": "Q3809524",
+    "geholtAm": "2026-10-08",
+    "label": "Teen Titans Go!",
+    "rel": {
+      "P144": [
+        "Q927354"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "46262": {
+    "qid": "Q114632",
+    "geholtAm": "2026-10-08",
+    "label": "Doc McStuffins, Spielzeugärztin",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "46432": {
+    "qid": "Q7396390",
+    "geholtAm": "2026-10-08",
+    "label": "Sabrina – Verhext nochmal!",
+    "rel": {
+      "P144": [
+        "Q3545771"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "46698": {
+    "qid": "Q5306013",
+    "geholtAm": "2026-10-08",
+    "label": "Randy Cunningham: Der Ninja aus der 9. Klasse",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "46848": {
+    "qid": "Q769943",
+    "geholtAm": "2026-10-08",
+    "label": "Angry Birds Toons",
+    "rel": {
+      "P8345": [
+        "Q165094"
+      ],
+      "P156": [
+        "Q17042722"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "46866": {
+    "qid": "Q15120683",
+    "geholtAm": "2026-10-08",
+    "label": "Sarah & Duck",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "46879": {
+    "qid": "Q13568247",
+    "geholtAm": "2026-10-08",
+    "label": "Micky Maus",
+    "rel": {
+      "P156": [
+        "Q101239733"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "46922": {
+    "qid": "Q113346",
+    "geholtAm": "2026-10-08",
+    "label": "Ben 10: Omniverse",
+    "rel": {
+      "P8345": [
+        "Q5594233"
+      ],
+      "P155": [
+        "Q5594233"
+      ],
+      "P156": [
+        "Q27061887"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "46928": {
+    "qid": "Q7553692",
+    "geholtAm": "2026-10-08",
+    "label": "Sofia die Erste",
+    "rel": {
+      "P155": [
+        "Q11723965"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "46974": {
+    "qid": "Q9030749",
+    "geholtAm": "2026-10-08",
+    "label": "Max Steel",
+    "rel": {
+      "P155": [
+        "Q9030747"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "47035": {
+    "qid": "Q15440507",
+    "geholtAm": "2026-10-08",
+    "label": "Uncle Grandpa",
+    "rel": {
+      "P144": [
+        "Q629301"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "47480": {
+    "qid": "Q16066330",
+    "geholtAm": "2026-10-08",
+    "label": "Die Tom und Jerry Show",
+    "rel": {
+      "P155": [
+        "Q2077391"
+      ],
+      "P156": [
+        "Q105963040"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "50035": {
+    "qid": "Q15987281",
+    "geholtAm": "2026-10-08",
+    "label": "Clarence",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "50137": {
+    "qid": "Q13479326",
+    "geholtAm": "2026-10-08",
+    "rel": {
+      "P8345": [
+        "Q113640157"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "51808": {
+    "qid": "Q3389299",
+    "geholtAm": "2026-10-08",
+    "label": "Robot and Monster",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "51817": {
+    "qid": "Q501338",
+    "geholtAm": "2026-10-08",
+    "label": "Teenage Mutant Ninja Turtles",
+    "rel": {
+      "P8345": [
+        "Q98713259"
+      ],
+      "P144": [
+        "Q2594023"
+      ],
+      "P155": [
+        "Q158869"
+      ],
+      "P156": [
+        "Q28938169"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "52051": {
+    "qid": "Q509210",
+    "geholtAm": "2026-10-08",
+    "label": "Mia and me – Abenteuer in Centopia",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "53401": {
+    "qid": "Q11756200",
+    "geholtAm": "2026-10-08",
+    "label": "Kein Keks für Kobolde",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "55371": {
+    "qid": "Q11690048",
+    "geholtAm": "2026-10-08",
+    "label": "Wolkenkinder",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "55924": {
+    "qid": "Q14702017",
+    "geholtAm": "2026-10-08",
+    "label": "Camp Sumpfgrund",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "56150": {
+    "qid": "Q4455892",
+    "geholtAm": "2026-10-08",
+    "label": "Terminator Salvation: The Machinima Series",
+    "rel": {
+      "P8345": [
+        "Q620588"
+      ],
+      "P144": [
+        "Q2449150"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "57480": {
+    "qid": "Q17142638",
+    "geholtAm": "2026-10-08",
+    "label": "Om Nom",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "57532": {
+    "qid": "Q15106029",
+    "geholtAm": "2026-10-08",
+    "label": "PAW Patrol",
+    "rel": {
+      "P8345": [
+        "Q104519129"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "57748": {
+    "qid": "Q14121477",
+    "geholtAm": "2026-10-08",
+    "label": "Henry Knuddelmonster",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "59427": {
+    "qid": "Q3896442",
+    "geholtAm": "2026-10-08",
+    "label": "Avengers – Gemeinsam unbesiegbar!",
+    "rel": {
+      "P155": [
+        "Q1211225"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "59429": {
+    "qid": "Q4808046",
+    "geholtAm": "2026-10-08",
+    "label": "Lucky Fred",
+    "rel": {
+      "P155": [
+        "Q5238101"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "60554": {
+    "qid": "Q28787",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars Rebels",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ],
+      "P155": [
+        "Q42051"
+      ],
+      "P156": [
+        "Q17738"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "60625": {
+    "qid": "Q15659308",
+    "geholtAm": "2026-10-08",
+    "label": "Rick and Morty",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "60789": {
+    "qid": "Q7583861",
+    "geholtAm": "2026-10-08",
+    "label": "Monsters vs. Aliens",
+    "rel": {
+      "P8345": [
+        "Q3866187"
+      ],
+      "P155": [
+        "Q7355119"
+      ],
+      "P156": [
+        "Q11717396"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "60904": {
+    "qid": "Q7843781",
+    "geholtAm": "2026-10-08",
+    "label": "TripTank",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "61119": {
+    "qid": "Q17183708",
+    "geholtAm": "2026-10-08",
+    "label": "Die 7Z",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "61174": {
+    "qid": "Q20020217",
+    "geholtAm": "2026-10-08",
+    "label": "Bee and PuppyCat",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "61175": {
+    "qid": "Q7615342",
+    "geholtAm": "2026-10-08",
+    "label": "Steven Universe",
+    "rel": {
+      "P8345": [
+        "Q106613425"
+      ],
+      "P156": [
+        "Q55861675",
+        "Q76677231"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "61222": {
+    "qid": "Q17733404",
+    "geholtAm": "2026-10-08",
+    "label": "BoJack Horseman",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "61330": {
+    "qid": "Q16354753",
+    "geholtAm": "2026-10-08",
+    "label": "Sheriff Callie’s Wilder Westen",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "61520": {
+    "qid": "Q11717396",
+    "geholtAm": "2026-10-08",
+    "label": "Sanjay & Craig",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "61593": {
+    "qid": "Q18152808",
+    "geholtAm": "2026-10-08",
+    "label": "Mr. Pickles",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "61617": {
+    "qid": "Q17065414",
+    "geholtAm": "2026-10-08",
+    "label": "Hinter der Gartenmauer",
+    "rel": {
+      "P144": [
+        "Q21160151"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "61751": {
+    "qid": "Q18636697",
+    "geholtAm": "2026-10-08",
+    "label": "King Julien",
+    "rel": {
+      "P8345": [
+        "Q2261392"
+      ],
+      "P156": [
+        "Q458802"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "61838": {
+    "qid": "Q14510331",
+    "geholtAm": "2026-10-08",
+    "label": "Barbie: Life in the Dreamhouse",
+    "rel": {
+      "P179": [
+        "Q2532722"
+      ],
+      "P8345": [
+        "Q121030754",
+        "Q167447"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "61886": {
+    "qid": "Q18786436",
+    "geholtAm": "2026-10-08",
+    "label": "Der gestiefelte Kater – Abenteuer in San Lorenzo",
+    "rel": {
+      "P8345": [
+        "Q1203222"
+      ],
+      "P144": [
+        "Q2283527",
+        "Q324262"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "61923": {
+    "qid": "Q13308931",
+    "geholtAm": "2026-10-08",
+    "label": "Star gegen die Mächte des Bösen",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "62181": {
+    "qid": "Q18152713",
+    "geholtAm": "2026-10-08",
+    "label": "Miles von Morgen",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "62211": {
+    "qid": "Q15711878",
+    "geholtAm": "2026-10-08",
+    "label": "Sonic Boom",
+    "rel": {
+      "P8345": [
+        "Q131916745"
+      ],
+      "P144": [
+        "Q1046812"
+      ],
+      "P155": [
+        "Q428130"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "62290": {
+    "qid": "Q17190450",
+    "geholtAm": "2026-10-08",
+    "label": "Thunderbirds Are Go",
+    "rel": {
+      "P8345": [
+        "Q115616329"
+      ],
+      "P144": [
+        "Q288085"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "62328": {
+    "qid": "Q22968570",
+    "geholtAm": "2026-10-08",
+    "label": "Goldie & Bär",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "62475": {
+    "qid": "Q19709285",
+    "geholtAm": "2026-10-08",
+    "label": "Heidi",
+    "rel": {
+      "P144": [
+        "Q271697"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "62487": {
+    "qid": "Q19263671",
+    "geholtAm": "2026-10-08",
+    "label": "Harveys schnabelhafte Abenteuer",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "62694": {
+    "qid": "Q16927889",
+    "geholtAm": "2026-10-08",
+    "label": "Milli+Maunz",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "63054": {
+    "qid": "Q59575446",
+    "geholtAm": "2026-10-08",
+    "label": "Lost in Oz",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "63090": {
+    "qid": "Q17197284",
+    "geholtAm": "2026-10-08",
+    "label": "Transformers: Robots in Disguise",
+    "rel": {
+      "P179": [
+        "Q2073466"
+      ],
+      "P144": [
+        "Q1323565"
+      ],
+      "P155": [
+        "Q676310"
+      ],
+      "P156": [
+        "Q42849603"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "63157": {
+    "qid": "Q16399005",
+    "geholtAm": "2026-10-08",
+    "label": "Turbo FAST",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "63181": {
+    "qid": "Q20649425",
+    "geholtAm": "2026-10-08",
+    "label": "Guardians of the Galaxy",
+    "rel": {
+      "P144": [
+        "Q2545790",
+        "Q5887360"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "63214": {
+    "qid": "Q21189791",
+    "geholtAm": "2026-10-08",
+    "label": "Supermansion",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "63350": {
+    "qid": "Q20856882",
+    "geholtAm": "2026-10-08",
+    "label": "Dinotrux",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "63401": {
+    "qid": "Q19881740",
+    "geholtAm": "2026-10-08",
+    "label": "We Bare Bears",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "63522": {
+    "qid": "Q19263611",
+    "geholtAm": "2026-10-08",
+    "label": "F Is for Family",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "63722": {
+    "qid": "Q19605592",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: Die Droiden Saga",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "64092": {
+    "qid": "Q21030716",
+    "geholtAm": "2026-10-08",
+    "label": "Danger Mouse",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "64198": {
+    "qid": "Q18358652",
+    "geholtAm": "2026-10-08",
+    "label": "Blaze und die Monster-Maschinen",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "64401": {
+    "qid": "Q17501992",
+    "geholtAm": "2026-10-08",
+    "label": "Dora and Friends",
+    "rel": {
+      "P144": [
+        "Q331031"
+      ],
+      "P155": [
+        "Q331031"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "64572": {
+    "qid": "Q7722597",
+    "geholtAm": "2026-10-08",
+    "label": "Alvinnn!!! und die Chipmunks",
+    "rel": {
+      "P8345": [
+        "Q917295"
+      ],
+      "P144": [
+        "Q917295"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "64586": {
+    "qid": "Q17632428",
+    "geholtAm": "2026-10-08",
+    "label": "Lassie",
+    "rel": {
+      "P144": [
+        "Q941640"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "64752": {
+    "qid": "Q19363670",
+    "geholtAm": "2026-10-08",
+    "label": "Die Garde der Löwen",
+    "rel": {
+      "P8345": [
+        "Q2901452"
+      ],
+      "P155": [
+        "Q223217"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "64783": {
+    "qid": "Q21752081",
+    "geholtAm": "2026-10-08",
+    "label": "Wir sind die Croods!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "64910": {
+    "qid": "Q28456898",
+    "geholtAm": "2026-10-08",
+    "label": "Wir sind Lalaloopsy",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "64931": {
+    "qid": "Q16165135",
+    "geholtAm": "2026-10-08",
+    "label": "Schwein Ziege Banane Grille",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "64965": {
+    "qid": "Q18130900",
+    "geholtAm": "2026-10-08",
+    "label": "Zack & Quack",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "65016": {
+    "qid": "Q20980476",
+    "geholtAm": "2026-10-08",
+    "label": "Descendants – Verhexte Welt",
+    "rel": {
+      "P8345": [
+        "Q55609394"
+      ],
+      "P144": [
+        "Q17278086"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "65047": {
+    "qid": "Q18155357",
+    "geholtAm": "2026-10-08",
+    "label": "Tumble Leaf",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "65228": {
+    "qid": "Q10900982",
+    "geholtAm": "2026-10-08",
+    "label": "Animals.",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "65417": {
+    "qid": "Q21539942",
+    "geholtAm": "2026-10-08",
+    "label": "PJ Masks – Pyjamahelden",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "65564": {
+    "qid": "Q21450445",
+    "geholtAm": "2026-10-08",
+    "label": "Bunnicula",
+    "rel": {
+      "P144": [
+        "Q4997821"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "65763": {
+    "qid": "Q115668233",
+    "geholtAm": "2026-10-08",
+    "label": "Die Neue Looney Tunes Show/Staffel 3",
+    "rel": {
+      "P179": [
+        "Q18155606"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "65858": {
+    "qid": "Q21866835",
+    "geholtAm": "2026-10-08",
+    "label": "LEGO Nexo Knights – Die Ritter der Zukunft",
+    "rel": {
+      "P144": [
+        "Q24451331"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "66149": {
+    "qid": "Q20107431",
+    "geholtAm": "2026-10-08",
+    "label": "Powerpuff Girls",
+    "rel": {
+      "P8345": [
+        "Q93477309"
+      ],
+      "P144": [
+        "Q1236206"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "66248": {
+    "qid": "Q24278800",
+    "geholtAm": "2026-10-08",
+    "label": "Kong – König der Affen",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "66487": {
+    "qid": "Q24034563",
+    "geholtAm": "2026-10-08",
+    "label": "Lego Star Wars: The Resistance Rises",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "66509": {
+    "qid": "Q18844753",
+    "geholtAm": "2026-10-08",
+    "label": "Q Pootle 5",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "66642": {
+    "qid": "Q26833707",
+    "geholtAm": "2026-10-08",
+    "label": "Atomic Time – Der Held an meiner Hand",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "66837": {
+    "qid": "Q24204124",
+    "geholtAm": "2026-10-08",
+    "label": "LEGO Star Wars: Die Abenteuer der Freemaker",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ],
+      "P144": [
+        "Q1191068",
+        "Q462"
+      ],
+      "P156": [
+        "Q75728479"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "67059": {
+    "qid": "Q21463810",
+    "geholtAm": "2026-10-08",
+    "label": "Jim Henson’s Wortparty",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "67098": {
+    "qid": "Q20899576",
+    "geholtAm": "2026-10-08",
+    "label": "Shimmer und Shine",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "67106": {
+    "qid": "Q22905673",
+    "geholtAm": "2026-10-08",
+    "label": "Die Nektons – Abenteurer der Tiefe",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "67111": {
+    "qid": "Q26201848",
+    "geholtAm": "2026-10-08",
+    "label": "HarmonQuest",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "67175": {
+    "qid": "Q24574641",
+    "geholtAm": "2026-10-08",
+    "label": "Elena von Avalor",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "67264": {
+    "qid": "Q26158054",
+    "geholtAm": "2026-10-08",
+    "label": "Beat Bugs",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "67329": {
+    "qid": "Q26964701",
+    "geholtAm": "2026-10-08",
+    "label": "Bottersnikes & Gumbles",
+    "rel": {
+      "P144": [
+        "Q4949004"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "67459": {
+    "qid": "Q30324675",
+    "geholtAm": "2026-10-08",
+    "label": "The Stinky & Dirty Show",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "67549": {
+    "qid": "Q22773153",
+    "geholtAm": "2026-10-08",
+    "label": "Schlimmer geht’s immer mit Milo Murphy",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "67657": {
+    "qid": "Q28443637",
+    "geholtAm": "2026-10-08",
+    "label": "Little Big Awesome",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "67862": {
+    "qid": "Q17042722",
+    "geholtAm": "2026-10-08",
+    "label": "Piggy Tales",
+    "rel": {
+      "P8345": [
+        "Q165094"
+      ],
+      "P155": [
+        "Q769943"
+      ],
+      "P156": [
+        "Q18608849"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "68073": {
+    "qid": "Q20642692",
+    "geholtAm": "2026-10-08",
+    "label": "Willkommen bei den Louds",
+    "rel": {
+      "P8345": [
+        "Q105953230"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "68267": {
+    "qid": "Q24905980",
+    "geholtAm": "2026-10-08",
+    "label": "Trolljäger: Geschichten aus Arcadia",
+    "rel": {
+      "P144": [
+        "Q97177551"
+      ],
+      "P156": [
+        "Q57418201"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "68295": {
+    "qid": "Q27061887",
+    "geholtAm": "2026-10-08",
+    "label": "Ben 10",
+    "rel": {
+      "P8345": [
+        "Q5594233"
+      ],
+      "P144": [
+        "Q207746"
+      ],
+      "P155": [
+        "Q113346"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "68368": {
+    "qid": "Q19954598",
+    "geholtAm": "2026-10-08",
+    "label": "Mighty Magiswords",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "68394": {
+    "qid": "Q25184087",
+    "geholtAm": "2026-10-08",
+    "label": "Unten am Fluss",
+    "rel": {
+      "P144": [
+        "Q936801"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "68435": {
+    "qid": "Q25092786",
+    "geholtAm": "2026-10-08",
+    "label": "Skylanders Academy",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "68665": {
+    "qid": "Q28196461",
+    "geholtAm": "2026-10-08",
+    "label": "Baymax – Robowabohu in Serie",
+    "rel": {
+      "P155": [
+        "Q13091172"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "68820": {
+    "qid": "Q26218296",
+    "geholtAm": "2026-10-08",
+    "label": "LEGO Friends",
+    "rel": {
+      "P144": [
+        "Q26218295"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "68837": {
+    "qid": "Q22674166",
+    "geholtAm": "2026-10-08",
+    "label": "Justice League Action",
+    "rel": {
+      "P8345": [
+        "Q113460182"
+      ],
+      "P144": [
+        "Q735744"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "69107": {
+    "qid": "Q25405256",
+    "geholtAm": "2026-10-08",
+    "label": "Dinotaps",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "69173": {
+    "qid": "Q18589688",
+    "geholtAm": "2026-10-08",
+    "label": "Oddbods",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "69450": {
+    "qid": "Q28433222",
+    "geholtAm": "2026-10-08",
+    "label": "Tarzan und Jane",
+    "rel": {
+      "P144": [
+        "Q5965446"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "69501": {
+    "qid": "Q18786502",
+    "geholtAm": "2026-10-08",
+    "label": "Bing",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "69538": {
+    "qid": "Q19593688",
+    "geholtAm": "2026-10-08",
+    "label": "Lalaloopsy",
+    "rel": {
+      "P144": [
+        "Q3216513"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "69776": {
+    "qid": "Q28401582",
+    "geholtAm": "2026-10-08",
+    "label": "Jeff & Some Aliens",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "69869": {
+    "qid": "Q28722822",
+    "geholtAm": "2026-10-08",
+    "label": "Drache Digby",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "69919": {
+    "qid": "Q27702037",
+    "geholtAm": "2026-10-08",
+    "label": "Die Welt der Winx",
+    "rel": {
+      "P144": [
+        "Q77522"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "69926": {
+    "qid": "Q20718341",
+    "geholtAm": "2026-10-08",
+    "label": "Oonas und Babas Insel",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "69930": {
+    "qid": "Q28407718",
+    "geholtAm": "2026-10-08",
+    "label": "Luna Petunia",
+    "rel": {
+      "P156": [
+        "Q53951892"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "70014": {
+    "qid": "Q18420601",
+    "geholtAm": "2026-10-08",
+    "label": "Leo Lausemaus",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "70047": {
+    "qid": "Q23680095",
+    "geholtAm": "2026-10-08",
+    "label": "Rapunzel: Die Serie",
+    "rel": {
+      "P361": [
+        "Q18636727"
+      ],
+      "P144": [
+        "Q4902053"
+      ],
+      "P155": [
+        "Q188439"
+      ],
+      "P156": [
+        "Q3224298"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "70082": {
+    "qid": "Q22026329",
+    "geholtAm": "2026-10-08",
+    "label": "Bianca Zauberkind",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "70140": {
+    "qid": "Q19593683",
+    "geholtAm": "2026-10-08",
+    "label": "Creative Galaxy",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "70437": {
+    "qid": "Q26252711",
+    "geholtAm": "2026-10-08",
+    "label": "Fragestunde mit den StoryBots",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "70454": {
+    "qid": "Q28454433",
+    "geholtAm": "2026-10-08",
+    "label": "Buddy Thunderstruck",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "70491": {
+    "qid": "Q26812640",
+    "geholtAm": "2026-10-08",
+    "label": "Bunsen ist ein Biest",
+    "rel": {
+      "P155": [
+        "Q39037"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "70784": {
+    "qid": "Q56064038",
+    "geholtAm": "2026-10-08",
+    "label": "Rocket & Groot",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "70823": {
+    "qid": "Q24970452",
+    "geholtAm": "2026-10-08",
+    "label": "Micky und die flinken Flitzer",
+    "rel": {
+      "P155": [
+        "Q494748"
+      ],
+      "P156": [
+        "Q106531664"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "70933": {
+    "qid": "Q30324732",
+    "geholtAm": "2026-10-08",
+    "label": "Angry Birds Blues",
+    "rel": {
+      "P8345": [
+        "Q165094"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "70967": {
+    "qid": "Q28233322",
+    "geholtAm": "2026-10-08",
+    "label": "Wolkig mit Aussicht auf Fleischbällchen",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "71024": {
+    "qid": "Q30610085",
+    "geholtAm": "2026-10-08",
+    "label": "Castlevania",
+    "rel": {
+      "P8345": [
+        "Q139388161"
+      ],
+      "P144": [
+        "Q2321818",
+        "Q2515184",
+        "Q48995880"
+      ],
+      "P156": [
+        "Q118641187"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "71377": {
+    "qid": "Q21043356",
+    "geholtAm": "2026-10-08",
+    "label": "Die Mr. Peabody & Sherman Show",
+    "rel": {
+      "P144": [
+        "Q6929072"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "71412": {
+    "qid": "Q30140895",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: Die Mächte des Schicksals",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "71680": {
+    "qid": "Q29578349",
+    "geholtAm": "2026-10-08",
+    "label": "Spirit: wild und frei",
+    "rel": {
+      "P144": [
+        "Q641315"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "71819": {
+    "qid": "Q30646967",
+    "geholtAm": "2026-10-08",
+    "label": "Baahubali: The Lost Legends",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "71986": {
+    "qid": "Q28443639",
+    "geholtAm": "2026-10-08",
+    "label": "Danger & Eggs",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "72089": {
+    "qid": "Q28324886",
+    "geholtAm": "2026-10-08",
+    "label": "Welpen Freunde",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "72350": {
+    "qid": "Q28739895",
+    "geholtAm": "2026-10-08",
+    "label": "DuckTales",
+    "rel": {
+      "P144": [
+        "Q214107"
+      ],
+      "P155": [
+        "Q214107"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "72442": {
+    "qid": "Q27645647",
+    "geholtAm": "2026-10-08",
+    "label": "Hotel Transsilvanien – Die Serie",
+    "rel": {
+      "P8345": [
+        "Q25136231"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "72468": {
+    "qid": "Q23013757",
+    "geholtAm": "2026-10-08",
+    "label": "OK K.O.! Neue Helden braucht die Welt",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "72705": {
+    "qid": "Q28207200",
+    "geholtAm": "2026-10-08",
+    "label": "Marvel Spider-Man",
+    "rel": {
+      "P155": [
+        "Q401601"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "72898": {
+    "qid": "Q28407173",
+    "geholtAm": "2026-10-08",
+    "label": "Niko und das Schwert des Lichts",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "73021": {
+    "qid": "Q33393380",
+    "geholtAm": "2026-10-08",
+    "label": "Disenchantment",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "73275": {
+    "qid": "Q70216368",
+    "geholtAm": "2026-10-08",
+    "label": "True: Gruselig süßes Halloween",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "73371": {
+    "qid": "Q28127297",
+    "geholtAm": "2026-10-08",
+    "label": "Splash und Bubbles",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "73472": {
+    "qid": "Q39056573",
+    "geholtAm": "2026-10-08",
+    "label": "Der Zauberschulbus ist wieder unterwegs",
+    "rel": {
+      "P8345": [
+        "Q7749467"
+      ],
+      "P144": [
+        "Q1189388"
+      ],
+      "P155": [
+        "Q1189204"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "73541": {
+    "qid": "Q24192010",
+    "geholtAm": "2026-10-08",
+    "label": "Rusty Rivets",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "73574": {
+    "qid": "Q25338372",
+    "geholtAm": "2026-10-08",
+    "label": "Go Jetters",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "73610": {
+    "qid": "Q41497629",
+    "geholtAm": "2026-10-08",
+    "label": "Mike Judge Presents: Tales From the Tour Bus",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "73673": {
+    "qid": "Q45708789",
+    "geholtAm": "2026-10-08",
+    "label": "Lego Elves: Geheimnisse von Elvendale",
+    "rel": {
+      "P144": [
+        "Q20647602"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "73811": {
+    "qid": "Q25303402",
+    "geholtAm": "2026-10-08",
+    "label": "Noddy, der kleine Detektiv",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "73919": {
+    "qid": "Q55639189",
+    "geholtAm": "2026-10-08",
+    "label": "Ant-Man",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74044": {
+    "qid": "Q40986571",
+    "geholtAm": "2026-10-08",
+    "label": "Neo Yokio",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74153": {
+    "qid": "Q23013687",
+    "geholtAm": "2026-10-08",
+    "label": "Lego Bionicle: Das Abenteuer beginnt",
+    "rel": {
+      "P8345": [
+        "Q803917"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "74204": {
+    "qid": "Q26812666",
+    "geholtAm": "2026-10-08",
+    "label": "Big Mouth",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74222": {
+    "qid": "Q26812661",
+    "geholtAm": "2026-10-08",
+    "label": "Kulipari – Die Frosch-Armee",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74243": {
+    "qid": "Q25213070",
+    "geholtAm": "2026-10-08",
+    "label": "Scream Street",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74280": {
+    "qid": "Q19650381",
+    "geholtAm": "2026-10-08",
+    "label": "Hey Duggee",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74317": {
+    "qid": "Q45161655",
+    "geholtAm": "2026-10-08",
+    "label": "No Activity",
+    "rel": {
+      "P144": [
+        "Q19954641"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "74323": {
+    "qid": "Q28407463",
+    "geholtAm": "2026-10-08",
+    "label": "Vampirina",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74332": {
+    "qid": "Q47223407",
+    "geholtAm": "2026-10-08",
+    "label": "Sherazade – Geschichten aus 1001 Nacht",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74440": {
+    "qid": "Q57899682",
+    "geholtAm": "2026-10-08",
+    "label": "Harley Quinn",
+    "rel": {
+      "P144": [
+        "Q849477"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "74495": {
+    "qid": "Q42301945",
+    "geholtAm": "2026-10-08",
+    "label": "Die Supermonster",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74728": {
+    "qid": "Q30607230",
+    "geholtAm": "2026-10-08",
+    "label": "Carmen Sandiego",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74866": {
+    "qid": "Q3505048",
+    "geholtAm": "2026-10-08",
+    "label": "Supa Strikas",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74879": {
+    "qid": "Q33101544",
+    "geholtAm": "2026-10-08",
+    "label": "Dennis & Fletscher",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "74916": {
+    "qid": "Q30602646",
+    "geholtAm": "2026-10-08",
+    "label": "Wacky Races – Autorennen Total",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "75116": {
+    "qid": "Q36508917",
+    "geholtAm": "2026-10-08",
+    "label": "Stretch Armstrong und die Flex Fighters",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "75367": {
+    "qid": "Q47464862",
+    "geholtAm": "2026-10-08",
+    "label": "Die heldenhafte Reise des tapferen Prinz Ivandoe",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "75488": {
+    "qid": "Q48814473",
+    "geholtAm": "2026-10-08",
+    "label": "Tashi",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "75523": {
+    "qid": "Q58445130",
+    "geholtAm": "2026-10-08",
+    "label": "Das Haus der 101 Dalmatiner",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "75804": {
+    "qid": "Q47191208",
+    "geholtAm": "2026-10-08",
+    "label": "Our Cartoon President",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "76021": {
+    "qid": "Q18166658",
+    "geholtAm": "2026-10-08",
+    "label": "Familie Fox - Die Geheimnishüter",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "76205": {
+    "qid": "Q43379468",
+    "geholtAm": "2026-10-08",
+    "label": "Trolls - Die Party geht weiter!",
+    "rel": {
+      "P144": [
+        "Q7845294"
+      ],
+      "P156": [
+        "Q105038217"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "76534": {
+    "qid": "Q46365050",
+    "geholtAm": "2026-10-08",
+    "label": "Die Abenteuer von Kid Danger",
+    "rel": {
+      "P144": [
+        "Q17328326"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "76605": {
+    "qid": "Q30325549",
+    "geholtAm": "2026-10-08",
+    "label": "Top Wing – Helden mit zwei Flügeln",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "76663": {
+    "qid": "Q48817040",
+    "geholtAm": "2026-10-08",
+    "label": "Lama Lama",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "76718": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "76809": {
+    "qid": "Q53951892",
+    "geholtAm": "2026-10-08",
+    "label": "Luna Petunia: Rückkehr nach Amazia",
+    "rel": {
+      "P155": [
+        "Q28407718"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "76941": {
+    "qid": "Q29098215",
+    "geholtAm": "2026-10-08",
+    "label": "Dorothy und der Zauberer von Oz",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "77331": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "77335": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "77410": {
+    "qid": "Q48773556",
+    "geholtAm": "2026-10-08",
+    "label": "Muppet Babies",
+    "rel": {
+      "P8345": [
+        "Q108273055"
+      ],
+      "P144": [
+        "Q502263"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "77606": {
+    "qid": "Q46993533",
+    "geholtAm": "2026-10-08",
+    "label": "The Boss Baby: Wieder im Geschäft",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "78173": {
+    "qid": "Q140650615",
+    "geholtAm": "2026-10-08",
+    "label": "Dragons: Race to the Edge",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "78254": {
+    "qid": "Q39050249",
+    "geholtAm": "2026-10-08",
+    "label": "Apfel & Lauch",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "78328": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "78839": {
+    "qid": "Q89432412",
+    "geholtAm": "2026-10-08",
+    "label": "Barbie: Dreamtopia",
+    "rel": {
+      "P8345": [
+        "Q45710303"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "78938": {
+    "qid": "Q47522558",
+    "geholtAm": "2026-10-08",
+    "label": "Spy Kids – Auf wichtiger Mission",
+    "rel": {
+      "P144": [
+        "Q2454758"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "79061": {
+    "qid": "Q47490878",
+    "geholtAm": "2026-10-08",
+    "label": "Craig of the Creek",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "79093": {
+    "qid": "Q52346040",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars Resistance",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ],
+      "P155": [
+        "Q28787"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "79356": {
+    "qid": "Q54958428",
+    "geholtAm": "2026-10-08",
+    "label": "Tuca & Bertie",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "79371": {
+    "qid": "Q53869935",
+    "geholtAm": "2026-10-08",
+    "label": "Die Abenteuer von Rocky & Bullwinkle",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "79385": {
+    "qid": "Q47458754",
+    "geholtAm": "2026-10-08",
+    "label": "Kibaoh Klashers",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "79681": {
+    "qid": "Q30889058",
+    "geholtAm": "2026-10-08",
+    "label": "Sieben Zwerge & ich",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "79732": {
+    "qid": "Q48731484",
+    "geholtAm": "2026-10-08",
+    "label": "She-Ra und die Prinzessinnen der Macht",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "79948": {
+    "qid": "Q54860858",
+    "geholtAm": "2026-10-08",
+    "label": "The Hollow",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "80026": {
+    "qid": "Q27536605",
+    "geholtAm": "2026-10-08",
+    "label": "Ranger Rob",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "80056": {
+    "qid": "Q55639697",
+    "geholtAm": "2026-10-08",
+    "label": "Fancy Nancy Clancy",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "80246": {
+    "qid": "Q55094113",
+    "geholtAm": "2026-10-08",
+    "label": "True: Magische Freunde",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "80247": {
+    "qid": "Q55094168",
+    "geholtAm": "2026-10-08",
+    "label": "True: Wunderbare Wünsche",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "80321": {
+    "qid": "Q46954185",
+    "geholtAm": "2026-10-08",
+    "label": "Kazoops!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "80402": {
+    "qid": "Q55391875",
+    "geholtAm": "2026-10-08",
+    "label": "Die Legende der Drei Caballeros",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "80587": {
+    "qid": "Q27645779",
+    "geholtAm": "2026-10-08",
+    "label": "Big City Greens",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "80805": {
+    "qid": "Q48731433",
+    "geholtAm": "2026-10-08",
+    "label": "Die Abenteuer des Captain Underpants",
+    "rel": {
+      "P144": [
+        "Q20979182"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "80942": {
+    "qid": "Q54932271",
+    "geholtAm": "2026-10-08",
+    "label": "Baumhausdetektive",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "81026": {
+    "qid": "Q28938169",
+    "geholtAm": "2026-10-08",
+    "label": "Der Aufstieg der Teenage Mutant Ninja Turtles",
+    "rel": {
+      "P8345": [
+        "Q98713259"
+      ],
+      "P144": [
+        "Q2594023"
+      ],
+      "P155": [
+        "Q501338"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "81046": {
+    "qid": "Q56063967",
+    "geholtAm": "2026-10-08",
+    "label": "Der Prinz der Drachen",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "81145": {
+    "qid": "Q55391825",
+    "geholtAm": "2026-10-08",
+    "label": "Cupcake und Dino – Dienste aller Art",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "81425": {
+    "qid": "Q26186385",
+    "geholtAm": "2026-10-08",
+    "label": "Talking Tom and Friends",
+    "rel": {
+      "P361": [
+        "Q15905320"
+      ],
+      "P8345": [
+        "Q15905320"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "81614": {
+    "qid": "Q1434624",
+    "geholtAm": "2026-10-08",
+    "label": "Simon’s Cat",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "81665": {
+    "qid": "Q30590402",
+    "geholtAm": "2026-10-08",
+    "label": "Summer Camp Island",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "81896": {
+    "qid": "Q25455988",
+    "geholtAm": "2026-10-08",
+    "label": "4 ½ Freunde",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "81983": {
+    "qid": "Q54405714",
+    "geholtAm": "2026-10-08",
+    "label": "Paradise PD",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "82080": {
+    "qid": "Q27964018",
+    "geholtAm": "2026-10-08",
+    "label": "Die unglaublichen Abenteuer von Blinky Bill",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "82279": {
+    "qid": "Q23057962",
+    "geholtAm": "2026-10-08",
+    "label": "Floogals",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "82456": {
+    "qid": "Q48813549",
+    "geholtAm": "2026-10-08",
+    "label": "Hilda",
+    "rel": {
+      "P8345": [
+        "Q123746600"
+      ],
+      "P156": [
+        "Q110287209"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "82561": {
+    "qid": "Q48817940",
+    "geholtAm": "2026-10-08",
+    "label": "Dallas & Robo",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "82623": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "82653": {
+    "qid": "Q60745518",
+    "geholtAm": "2026-10-08",
+    "label": "Bless the Harts",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "82679": {
+    "qid": "Q18364971",
+    "geholtAm": "2026-10-08",
+    "label": "Shaun the Sheep Championsheeps",
+    "rel": {
+      "P144": [
+        "Q477959"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "82707": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "82728": {
+    "qid": "Q39071378",
+    "geholtAm": "2026-10-08",
+    "label": "Bluey",
+    "rel": {
+      "P8345": [
+        "Q124656399"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "82747": {
+    "qid": "Q53939029",
+    "geholtAm": "2026-10-08",
+    "label": "Kung Fu Panda: Die Tatzen des Schicksals",
+    "rel": {
+      "P361": [
+        "Q2081372"
+      ],
+      "P156": [
+        "Q113078367"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "83002": {
+    "qid": "Q42849603",
+    "geholtAm": "2026-10-08",
+    "label": "Transformers: Cyberverse",
+    "rel": {
+      "P155": [
+        "Q17197284"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "83043": {
+    "qid": "Q75744934",
+    "geholtAm": "2026-10-08",
+    "label": "Marvel Rising: Neue Helden",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "83248": {
+    "qid": "Q57606006",
+    "geholtAm": "2026-10-08",
+    "label": "Larva Island",
+    "rel": {
+      "P144": [
+        "Q12593926"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "83470": {
+    "qid": "Q62670502",
+    "geholtAm": "2026-10-08",
+    "label": "Robozuna",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "83689": {
+    "qid": "Q59242746",
+    "geholtAm": "2026-10-08",
+    "label": "Magie in Motown",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "83723": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "84154": {
+    "qid": "Q57418201",
+    "geholtAm": "2026-10-08",
+    "label": "3 von oben: Geschichten aus Arcadia",
+    "rel": {
+      "P155": [
+        "Q24905980"
+      ],
+      "P156": [
+        "Q96463536"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "84200": {
+    "qid": "Q6669712",
+    "geholtAm": "2026-10-08",
+    "label": "Die Liga der Gerechten",
+    "rel": {
+      "P8345": [
+        "Q113460182"
+      ],
+      "P144": [
+        "Q735744"
+      ],
+      "P155": [
+        "Q250036"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "84387": {
+    "qid": "Q75515426",
+    "geholtAm": "2026-10-08",
+    "label": "Kinderlieder",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "84553": {
+    "qid": "Q104848864",
+    "geholtAm": "2026-10-08",
+    "label": "Blade Runner: Black Lotus",
+    "rel": {
+      "P8345": [
+        "Q48724847"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "84587": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "85000": {
+    "qid": "Q59635240",
+    "geholtAm": "2026-10-08",
+    "label": "The Shivering Truth",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "85349": {
+    "qid": "Q55603855",
+    "geholtAm": "2026-10-08",
+    "label": "Amphibia",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "85948": {
+    "qid": "Q62573569",
+    "geholtAm": "2026-10-08",
+    "label": "Star Trek: Lower Decks",
+    "rel": {
+      "P361": [
+        "Q3500963"
+      ],
+      "P8345": [
+        "Q1092"
+      ],
+      "P144": [
+        "Q1092",
+        "Q16290",
+        "Q191716"
+      ],
+      "P155": [
+        "Q62573305"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "86340": {
+    "qid": "Q55636530",
+    "geholtAm": "2026-10-08",
+    "label": "Undone",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "86831": {
+    "qid": "Q61740435",
+    "geholtAm": "2026-10-08",
+    "label": "Love, Death & Robots",
+    "rel": {
+      "P144": [
+        "Q1471965"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "86838": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "86957": {
+    "qid": "Q21463147",
+    "geholtAm": "2026-10-08",
+    "label": "Grünes Ei mit Speck",
+    "rel": {
+      "P144": [
+        "Q2759523"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "87247": {
+    "qid": "Q25471211",
+    "geholtAm": "2026-10-08",
+    "label": "Bakugan: Battle Planet",
+    "rel": {
+      "P361": [
+        "Q54888985"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "87399": {
+    "qid": "Q65059433",
+    "geholtAm": "2026-10-08",
+    "label": "Sherwood",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "87547": {
+    "qid": "Q56414780",
+    "geholtAm": "2026-10-08",
+    "label": "Freundinnen auf Mission",
+    "rel": {
+      "P144": [
+        "Q26218295"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "87822": {
+    "qid": "Q62659807",
+    "geholtAm": "2026-10-08",
+    "label": "Charlies Formen und Farben",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "87848": {
+    "qid": "Q39072223",
+    "geholtAm": "2026-10-08",
+    "label": "YooHoo: Retter in der Not",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "88071": {
+    "qid": "Q62658695",
+    "geholtAm": "2026-10-08",
+    "label": "Trailer Park Boys: The Animated Series",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "88367": {
+    "qid": "Q54076668",
+    "geholtAm": "2026-10-08",
+    "label": "Scooby-Doo und wer bist Du?",
+    "rel": {
+      "P8345": [
+        "Q205683"
+      ],
+      "P155": [
+        "Q17508236"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "88786": {
+    "qid": "Q54958603",
+    "geholtAm": "2026-10-08",
+    "label": "Victor & Valentino",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "88910": {
+    "qid": "Q60762685",
+    "geholtAm": "2026-10-08",
+    "label": "Gigantosaurus",
+    "rel": {
+      "P8345": [
+        "Q120825087"
+      ],
+      "P144": [
+        "Q127429302"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "89092": {
+    "qid": "Q48838016",
+    "geholtAm": "2026-10-08",
+    "label": "Barbie - Traumvilla-Abenteuer",
+    "rel": {
+      "P8345": [
+        "Q167447"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "89095": {
+    "qid": "Q55641477",
+    "geholtAm": "2026-10-08",
+    "label": "Polly Pocket",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "89456": {
+    "qid": "Q70106936",
+    "geholtAm": "2026-10-08",
+    "label": "Primal",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "89504": {
+    "qid": "Q65074571",
+    "geholtAm": "2026-10-08",
+    "label": "Chips und Toffel",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "90137": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "90306": {
+    "qid": "Q108304241",
+    "geholtAm": "2026-10-08",
+    "label": "Ultra City Smiths",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "90422": {
+    "qid": "Q30639132",
+    "geholtAm": "2026-10-08",
+    "label": "Die Ollie & Moon Show",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "90461": {
+    "qid": "Q65064444",
+    "geholtAm": "2026-10-08",
+    "label": "Monster bei der Arbeit",
+    "rel": {
+      "P8345": [
+        "Q6902872"
+      ],
+      "P155": [
+        "Q187726"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "90474": {
+    "qid": "Q60745241",
+    "geholtAm": "2026-10-08",
+    "label": "Beccas Bande",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "90855": {
+    "qid": "Q65052700",
+    "geholtAm": "2026-10-08",
+    "label": "Saint Seiya: Die Krieger des Zodiac",
+    "rel": {
+      "P8345": [
+        "Q99428860"
+      ],
+      "P144": [
+        "Q275956"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "91089": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "91246": {
+    "qid": "Q64355224",
+    "geholtAm": "2026-10-08",
+    "label": "Mao Mao - Beschützer vom Rubintal",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "91249": {
+    "qid": "Q83010409",
+    "geholtAm": "2026-10-08",
+    "label": "Snoopy in Space",
+    "rel": {
+      "P8345": [
+        "Q98149594"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "91363": {
+    "qid": "Q65980671",
+    "geholtAm": "2026-10-08",
+    "label": "What If…?",
+    "rel": {
+      "P361": [
+        "Q642878"
+      ],
+      "P144": [
+        "Q2089219"
+      ],
+      "P155": [
+        "Q64349029"
+      ],
+      "P156": [
+        "Q65980843"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "91433": {
+    "qid": "Q65072512",
+    "geholtAm": "2026-10-08",
+    "label": "T.O.T.S.",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "91656": {
+    "qid": "Q65967211",
+    "geholtAm": "2026-10-08",
+    "label": "Für immer Zwölf",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "91940": {
+    "qid": "Q25407405",
+    "geholtAm": "2026-10-08",
+    "label": "Wissper",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "92204": {
+    "qid": "Q73027924",
+    "geholtAm": "2026-10-08",
+    "label": "Spirit – wild und frei: Pferdegeschichten",
+    "rel": {
+      "P144": [
+        "Q29578349"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "92584": {
+    "qid": "Q67931306",
+    "geholtAm": "2026-10-08",
+    "label": "Eden",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "92649": {
+    "qid": "Q85806904",
+    "geholtAm": "2026-10-08",
+    "label": "Der Geist und Molly McGee",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "92684": {
+    "qid": "Q50822571",
+    "geholtAm": "2026-10-08",
+    "label": "Jack, der Monsterschreck",
+    "rel": {
+      "P144": [
+        "Q48989855"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "92685": {
+    "qid": "Q55635444",
+    "geholtAm": "2026-10-08",
+    "label": "Willkommen im Haus der Eulen",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "92788": {
+    "qid": "Q105562871",
+    "geholtAm": "2026-10-08",
+    "label": "Marvel's Moon Girl and Devil Dinosaur",
+    "rel": {
+      "P144": [
+        "Q111528634"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "92803": {
+    "qid": "Q81397988",
+    "geholtAm": "2026-10-08",
+    "label": "Mighty Mops",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "92880": {
+    "qid": "Q1940202",
+    "geholtAm": "2026-10-08",
+    "label": "Mittelland – Die Legende der Elfen",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "92885": {
+    "qid": "Q64595294",
+    "geholtAm": "2026-10-08",
+    "label": "Blue's Clues & You!",
+    "rel": {
+      "P144": [
+        "Q886105"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "93221": {
+    "qid": "Q65070183",
+    "geholtAm": "2026-10-08",
+    "label": "The Great North",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "93233": {
+    "qid": "Q107718958",
+    "geholtAm": "2026-10-08",
+    "label": "Centaurworld",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "93260": {
+    "qid": "Q65065824",
+    "geholtAm": "2026-10-08",
+    "label": "The Casagrandes",
+    "rel": {
+      "P8345": [
+        "Q105953230"
+      ],
+      "P144": [
+        "Q20642692"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "93508": {
+    "qid": "Q65074945",
+    "geholtAm": "2026-10-08",
+    "label": "Marvel Superhelden-Abenteuer",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "93588": {
+    "qid": "Q55075160",
+    "geholtAm": "2026-10-08",
+    "label": "Lucas the Spider",
+    "rel": {
+      "P144": [
+        "Q11687"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "93741": {
+    "qid": "Q96390384",
+    "geholtAm": "2026-10-08",
+    "label": "Jurassic World: Neue Abenteuer",
+    "rel": {
+      "P8345": [
+        "Q2336369"
+      ],
+      "P156": [
+        "Q125422428"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "93953": {
+    "qid": "Q69531245",
+    "geholtAm": "2026-10-08",
+    "label": "Die sechs Hände der Rache",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "94045": {
+    "qid": "Q67012759",
+    "geholtAm": "2026-10-08",
+    "label": "Dragons – Die jungen Drachenretter",
+    "rel": {
+      "P8345": [
+        "Q3715071"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "94107": {
+    "qid": "Q65121700",
+    "geholtAm": "2026-10-08",
+    "label": "Lego City - Abenteuer",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "94159": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "94252": {
+    "qid": "Q111106550",
+    "geholtAm": "2026-10-08",
+    "label": "Human Resources",
+    "rel": {
+      "P144": [
+        "Q26812666"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "94280": {
+    "qid": "Q76677231",
+    "geholtAm": "2026-10-08",
+    "label": "Steven Universe Future",
+    "rel": {
+      "P179": [
+        "Q7615342"
+      ],
+      "P8345": [
+        "Q106613425"
+      ],
+      "P155": [
+        "Q7615342"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "94550": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "94605": {
+    "qid": "Q85518571",
+    "geholtAm": "2026-10-08",
+    "label": "Arcane",
+    "rel": {
+      "P8345": [
+        "Q123173259"
+      ],
+      "P144": [
+        "Q223341"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "94745": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "94810": {
+    "qid": "Q85427543",
+    "geholtAm": "2026-10-08",
+    "label": "Adventure Time: Distant Lands",
+    "rel": {
+      "P144": [
+        "Q53093"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "94924": {
+    "qid": "Q107036301",
+    "geholtAm": "2026-10-08",
+    "label": "Trese: Hüterin der Stadt",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "94954": {
+    "qid": "Q75020770",
+    "geholtAm": "2026-10-08",
+    "label": "Hazbin Hotel",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "95071": {
+    "qid": "Q91849641",
+    "geholtAm": "2026-10-08",
+    "label": "Hallo Ninja",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "95543": {
+    "qid": "Q82882018",
+    "geholtAm": "2026-10-08",
+    "label": "The Rocketeer",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "95557": {
+    "qid": "Q55614601",
+    "geholtAm": "2026-10-08",
+    "label": "Invincible",
+    "rel": {
+      "P144": [
+        "Q1638157"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "95594": {
+    "qid": "Q55611494",
+    "geholtAm": "2026-10-08",
+    "label": "Fast & Furious Spy Racers",
+    "rel": {
+      "P144": [
+        "Q1576873"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "95775": {
+    "qid": "Q64399691",
+    "geholtAm": "2026-10-08",
+    "label": "Voll zu spät!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "96372": {
+    "qid": "Q84785333",
+    "geholtAm": "2026-10-08",
+    "label": "Momma Named Me Sheriff",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "96650": {
+    "qid": "Q85806336",
+    "geholtAm": "2026-10-08",
+    "label": "Paddingtons Abenteuer",
+    "rel": {
+      "P155": [
+        "Q2332113"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "96658": {
+    "qid": "Q66763559",
+    "geholtAm": "2026-10-08",
+    "label": "Masters of the Universe: Revelation",
+    "rel": {
+      "P361": [
+        "Q139592783"
+      ],
+      "P155": [
+        "Q696870"
+      ],
+      "P156": [
+        "Q124149676"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "96659": {
+    "qid": "Q108549399",
+    "geholtAm": "2026-10-08",
+    "label": "He-Man and the Masters of the Universe",
+    "rel": {
+      "P144": [
+        "Q696870"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "96713": {
+    "qid": "Q79225057",
+    "geholtAm": "2026-10-08",
+    "label": "Enthüllungen zu Mitternacht",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "96715": {
+    "qid": "Q107275696",
+    "geholtAm": "2026-10-08",
+    "label": "Chip und Chap: Das Leben im Park",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "97266": {
+    "qid": "Q81561474",
+    "geholtAm": "2026-10-08",
+    "label": "Tut Tut Cory Flitzer",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "97333": {
+    "qid": "Q124014009",
+    "geholtAm": "2026-10-08",
+    "label": "Twilight of the Gods",
+    "rel": {
+      "P144": [
+        "Q170148"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "97645": {
+    "qid": "Q56290639",
+    "geholtAm": "2026-10-08",
+    "label": "Solar Opposites",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "97699": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "97727": {
+    "qid": "Q108649787",
+    "geholtAm": "2026-10-08",
+    "label": "Inside Job",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "97959": {
+    "qid": "Q65090857",
+    "geholtAm": "2026-10-08",
+    "label": "Glücksbärchis – Entdecke die Magie!",
+    "rel": {
+      "P8345": [
+        "Q98110026"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "98198": {
+    "qid": "Q55606842",
+    "geholtAm": "2026-10-08",
+    "label": "Central Park",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "98240": {
+    "qid": "Q81336147",
+    "geholtAm": "2026-10-08",
+    "label": "Das ist Pony!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "98286": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "98494": {
+    "qid": "Q63456857",
+    "geholtAm": "2026-10-08",
+    "label": "Glitch Techs",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "98566": {
+    "qid": "Q85800956",
+    "geholtAm": "2026-10-08",
+    "label": "Short Circuit",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "98840": {
+    "qid": "Q20427434",
+    "geholtAm": "2026-10-08",
+    "label": "Shaun the Sheep: Mossy Bottom Shorts",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "99085": {
+    "qid": "Q48782434",
+    "geholtAm": "2026-10-08",
+    "label": "School of Roars",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "99560": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "99588": {
+    "qid": "Q64689263",
+    "geholtAm": "2026-10-08",
+    "label": "Kamp Koral: SpongeBobs Kinderjahre",
+    "rel": {
+      "P8345": [
+        "Q98109524"
+      ],
+      "P144": [
+        "Q83279"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "99777": {
+    "qid": "Q100272630",
+    "geholtAm": "2026-10-08",
+    "label": "Onyx Equinox",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "99788": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "99789": {
+    "qid": "Q60769974",
+    "geholtAm": "2026-10-08",
+    "label": "High Guardian Spice",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "99994": {
+    "qid": "Q199385",
+    "geholtAm": "2026-10-08",
+    "label": "Zigby, das Zebra",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "100349": {
+    "qid": "Q96394303",
+    "geholtAm": "2026-10-08",
+    "label": "Mulligan",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "100435": {
+    "qid": "Q65218678",
+    "geholtAm": "2026-10-08",
+    "label": "Enchantimals: Tales From Everwilde",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "100617": {
+    "qid": "Q65091279",
+    "geholtAm": "2026-10-08",
+    "label": "Transformers: War for Cybertron Trilogy",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "100746": {
+    "qid": "Q96374070",
+    "geholtAm": "2026-10-08",
+    "label": "Buddi",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "100796": {
+    "qid": "Q89117738",
+    "geholtAm": "2026-10-08",
+    "label": "Ollies Rucksack",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "100975": {
+    "qid": "Q80512398",
+    "geholtAm": "2026-10-08",
+    "label": "Mira - Die Meisterdetektivin",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "101313": {
+    "qid": "Q85748619",
+    "geholtAm": "2026-10-08",
+    "label": "Bo, Flo & Co. - Familie und so",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "101320": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "101396": {
+    "qid": "Q88729511",
+    "geholtAm": "2026-10-08",
+    "label": "Sternenstreif",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "101400": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "102134": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "102321": {
+    "qid": "Q96390788",
+    "geholtAm": "2026-10-08",
+    "label": "Looney Tunes Cartoons/Staffel 1",
+    "rel": {
+      "P179": [
+        "Q63226105"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "103174": {
+    "qid": "Q95469537",
+    "geholtAm": "2026-10-08",
+    "label": "Chico Bon Bon: Der Affe mit dem Werkzeuggürtel",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "103214": {
+    "qid": "Q109743630",
+    "geholtAm": "2026-10-08",
+    "label": "Santa Inc.",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "103407": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "103786": {
+    "qid": "Q96098899",
+    "geholtAm": "2026-10-08",
+    "label": "The Cuphead Show!",
+    "rel": {
+      "P144": [
+        "Q18149495"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "103822": {
+    "qid": "Q97656754",
+    "geholtAm": "2026-10-08",
+    "label": "Zenimation",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "103938": {
+    "qid": "Q3230877",
+    "geholtAm": "2026-10-08",
+    "label": "Die Unglaublichen Abenteuer des Kapitän Cousteau",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "104002": {
+    "qid": "Q109607131",
+    "geholtAm": "2026-10-08",
+    "label": "Die Fraggles: Back to the Rock",
+    "rel": {
+      "P144": [
+        "Q1212572"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "104065": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "104127": {
+    "qid": "Q60745839",
+    "geholtAm": "2026-10-08",
+    "label": "Crossing Swords",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "104653": {
+    "qid": "Q30689180",
+    "geholtAm": "2026-10-08",
+    "label": "Rainbow Rangers",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "104987": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "105034": {
+    "qid": "Q96483507",
+    "geholtAm": "2026-10-08",
+    "label": "Kleinreimstadt",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "105313": {
+    "qid": "Q89202542",
+    "geholtAm": "2026-10-08",
+    "label": "My Little Pony - Pony Life",
+    "rel": {
+      "P144": [
+        "Q1071312",
+        "Q5415"
+      ],
+      "P155": [
+        "Q5415"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "105398": {
+    "qid": "Q97854735",
+    "geholtAm": "2026-10-08",
+    "label": "Die Abenteuer des Captain Underpants im All",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "105797": {
+    "qid": "Q96463536",
+    "geholtAm": "2026-10-08",
+    "label": "Die Zauberer: Geschichten aus Arcadia",
+    "rel": {
+      "P155": [
+        "Q57418201"
+      ],
+      "P156": [
+        "Q107620059"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "105971": {
+    "qid": "Q97365172",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: The Bad Batch",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ],
+      "P144": [
+        "Q92466308"
+      ],
+      "P155": [
+        "Q632672"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "106009": {
+    "qid": "Q28532751",
+    "geholtAm": "2026-10-08",
+    "label": "Zahlenblocks",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "106238": {
+    "qid": "Q60746999",
+    "geholtAm": "2026-10-08",
+    "label": "Hoops",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "106393": {
+    "qid": "Q65250765",
+    "geholtAm": "2026-10-08",
+    "label": "Star Trek: Prodigy",
+    "rel": {
+      "P8345": [
+        "Q1092"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "106480": {
+    "qid": "Q97933331",
+    "geholtAm": "2026-10-08",
+    "label": "Fena: Pirate Princess",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "106528": {
+    "qid": "Q98708481",
+    "geholtAm": "2026-10-08",
+    "label": "Wortparty: Singt alle mit!",
+    "rel": {
+      "P144": [
+        "Q21463810"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "107422": {
+    "qid": "Q98689475",
+    "geholtAm": "2026-10-08",
+    "label": "Alien TV",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "109330": {
+    "qid": "Q98967604",
+    "geholtAm": "2026-10-08",
+    "label": "Madagascar: A Little Wild",
+    "rel": {
+      "P8345": [
+        "Q2261392"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "109607": {
+    "qid": "Q59960889",
+    "geholtAm": "2026-10-08",
+    "label": "Tanzt und singt mit True",
+    "rel": {
+      "P144": [
+        "Q39052390"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "109930": {
+    "qid": "Q101239733",
+    "geholtAm": "2026-10-08",
+    "label": "Die wunderbare Welt von Micky Maus",
+    "rel": {
+      "P155": [
+        "Q13568247"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "110126": {
+    "qid": "Q117219412",
+    "geholtAm": "2026-10-08",
+    "label": "Agent Elvis",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "110317": {
+    "qid": "Q100372329",
+    "geholtAm": "2026-10-08",
+    "label": "Mighty Express",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "110948": {
+    "qid": "Q106548071",
+    "geholtAm": "2026-10-08",
+    "label": "The Snoopy Show",
+    "rel": {
+      "P8345": [
+        "Q98149594"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "111111": {
+    "qid": "Q85763820",
+    "geholtAm": "2026-10-08",
+    "label": "Blood of Zeus",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "111312": {
+    "qid": "Q85782784",
+    "geholtAm": "2026-10-08",
+    "label": "Marvel’s M.O.D.O.K.",
+    "rel": {
+      "P144": [
+        "Q208927"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "111462": {
+    "qid": "Q101421664",
+    "geholtAm": "2026-10-08",
+    "label": "Der Befreier",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "111474": {
+    "qid": "Q104857863",
+    "geholtAm": "2026-10-08",
+    "label": "Gabby's Dollhouse",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "111834": {
+    "qid": "Q106609838",
+    "geholtAm": "2026-10-08",
+    "label": "Stilles Wasser",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "112148": {
+    "qid": "Q106349828",
+    "geholtAm": "2026-10-08",
+    "label": "Doug Unplugs",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "112162": {
+    "qid": "Q105206200",
+    "geholtAm": "2026-10-08",
+    "label": "Pacific Rim: The Black",
+    "rel": {
+      "P144": [
+        "Q1388653"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "112432": {
+    "qid": "Q31090460",
+    "geholtAm": "2026-10-08",
+    "label": "Jungle Beat",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "112439": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "112442": {
+    "qid": "Q101542356",
+    "geholtAm": "2026-10-08",
+    "label": "Mü-Mo das Müllmobil",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "112652": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "112742": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "112851": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "114419": {
+    "qid": "Q104089634",
+    "geholtAm": "2026-10-08",
+    "label": "Headspace: Eine Meditationsanleitung",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "114463": {
+    "qid": "Q108325631",
+    "geholtAm": "2026-10-08",
+    "label": "Zoomania+",
+    "rel": {
+      "P8345": [
+        "Q116753708"
+      ],
+      "P144": [
+        "Q15270647"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "114466": {
+    "qid": "Q109607643",
+    "geholtAm": "2026-10-08",
+    "label": "Baymax!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "114478": {
+    "qid": "Q104161600",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: Visionen",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "114481": {
+    "qid": "Q113480790",
+    "geholtAm": "2026-10-08",
+    "label": "Iwájú",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "114500": {
+    "qid": "Q115615897",
+    "geholtAm": "2026-10-08",
+    "label": "Win or Lose",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "114501": {
+    "qid": "Q108416593",
+    "geholtAm": "2026-10-08",
+    "label": "Dug Tage",
+    "rel": {
+      "P144": [
+        "Q174811"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "114502": {
+    "qid": "Q109975371",
+    "geholtAm": "2026-10-08",
+    "label": "Cars on the Road",
+    "rel": {
+      "P8345": [
+        "Q5046850"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "114505": {
+    "qid": "Q105085154",
+    "geholtAm": "2026-10-08",
+    "label": "Pixar Popcorn",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "114718": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "114771": {
+    "qid": "Q96418741",
+    "geholtAm": "2026-10-08",
+    "label": "Kingdom Force",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "115085": {
+    "qid": "Q104604467",
+    "geholtAm": "2026-10-08",
+    "label": "Kleinreimstadt zum Mitsingen",
+    "rel": {
+      "P144": [
+        "Q96483507"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "115577": {
+    "qid": "Q105221079",
+    "geholtAm": "2026-10-08",
+    "label": "Sonic Prime",
+    "rel": {
+      "P179": [
+        "Q1046812"
+      ],
+      "P144": [
+        "Q1046812"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "115895": {
+    "qid": "Q106510611",
+    "geholtAm": "2026-10-08",
+    "label": "Dino Ranch",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "116249": {
+    "qid": "Q104842973",
+    "geholtAm": "2026-10-08",
+    "label": "Kid Cosmic",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "117030": {
+    "qid": "Q106646751",
+    "geholtAm": "2026-10-08",
+    "label": "We Baby Bears – Bärchen wie wir",
+    "rel": {
+      "P144": [
+        "Q19881740"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "117074": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "117162": {
+    "qid": "Q104750296",
+    "geholtAm": "2026-10-08",
+    "label": "Ein lustiges Hundeleben",
+    "rel": {
+      "P144": [
+        "Q16385821"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "117678": {
+    "qid": "Q118641155",
+    "geholtAm": "2026-10-08",
+    "label": "Skull Island (Fernsehserie)",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "117682": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "117830": {
+    "qid": "Q122898486",
+    "geholtAm": "2026-10-08",
+    "label": "Tomb Raider: The Legend of Lara Croft",
+    "rel": {
+      "P8345": [
+        "Q111328790"
+      ],
+      "P144": [
+        "Q270503"
+      ],
+      "P155": [
+        "Q50562677"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "118022": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "118382": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "118534": {
+    "qid": "Q116674343",
+    "geholtAm": "2026-10-08",
+    "label": "Janes tierische Abenteuer",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "118546": {
+    "qid": "Q120824892",
+    "geholtAm": "2026-10-08",
+    "label": "Clone High",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "118956": {
+    "qid": "Q105538864",
+    "geholtAm": "2026-10-08",
+    "label": "DOTA: Dragon's Blood",
+    "rel": {
+      "P144": [
+        "Q771541"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "119831": {
+    "qid": "Q105811246",
+    "geholtAm": "2026-10-08",
+    "label": "Meine Stadt der Geister",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "119847": {
+    "qid": "Q114456754",
+    "geholtAm": "2026-10-08",
+    "label": "Spirit Rangers",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "120008": {
+    "qid": "Q106117866",
+    "geholtAm": "2026-10-08",
+    "label": "Kleider-Geschichten",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "120161": {
+    "qid": "Q118145920",
+    "geholtAm": "2026-10-08",
+    "label": "100% Wolf: Legend of the Moonstone",
+    "rel": {
+      "P144": [
+        "Q96417228"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "120964": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "121567": {
+    "qid": "Q115973512",
+    "geholtAm": "2026-10-08",
+    "label": "Koala Man",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "121628": {
+    "qid": "Q106714662",
+    "geholtAm": "2026-10-08",
+    "label": "Headspace: Eine Schlafanleitung",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "123548": {
+    "qid": "Q118641187",
+    "geholtAm": "2026-10-08",
+    "label": "Castlevania: Nocturne",
+    "rel": {
+      "P8345": [
+        "Q139388161"
+      ],
+      "P144": [
+        "Q2007022",
+        "Q2421908",
+        "Q2515184"
+      ],
+      "P155": [
+        "Q30610085"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "123594": {
+    "qid": "Q102595925",
+    "geholtAm": "2026-10-08",
+    "label": "Alle lieben Arlo",
+    "rel": {
+      "P144": [
+        "Q102036294"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "123625": {
+    "qid": "Q111012688",
+    "geholtAm": "2026-10-08",
+    "label": "ARK: The Animated Series",
+    "rel": {
+      "P144": [
+        "Q20031747"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "124331": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "124920": {
+    "qid": "Q97357676",
+    "geholtAm": "2026-10-08",
+    "label": "Rugrats",
+    "rel": {
+      "P144": [
+        "Q304290"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "125438": {
+    "qid": "Q110588565",
+    "geholtAm": "2026-10-08",
+    "label": "Die Prouds – Lauter und Trauter",
+    "rel": {
+      "P155": [
+        "Q1215573"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "125574": {
+    "qid": "Q111369513",
+    "geholtAm": "2026-10-08",
+    "label": "Transformers: BotBots",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "125760": {
+    "qid": "Q108031224",
+    "geholtAm": "2026-10-08",
+    "label": "Blippi",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "125909": {
+    "qid": "Q125988942",
+    "geholtAm": "2026-10-08",
+    "label": "Batman: Caped Crusader",
+    "rel": {
+      "P361": [
+        "Q4869422"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "125928": {
+    "qid": "Q119774569",
+    "geholtAm": "2026-10-08",
+    "label": "My Adventures with Superman",
+    "rel": {
+      "P144": [
+        "Q79015"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "126506": {
+    "qid": "Q107087854",
+    "geholtAm": "2026-10-08",
+    "label": "Smiling Friends",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "126725": {
+    "qid": "Q114496061",
+    "geholtAm": "2026-10-08",
+    "label": "Velma",
+    "rel": {
+      "P8345": [
+        "Q205683"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "126726": {
+    "qid": "Q118120073",
+    "geholtAm": "2026-10-08",
+    "label": "Fired on Mars",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "126817": {
+    "qid": "Q107599867",
+    "geholtAm": "2026-10-08",
+    "label": "We the People",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "126824": {
+    "qid": "Q103821269",
+    "geholtAm": "2026-10-08",
+    "label": "The Patrick Star Show",
+    "rel": {
+      "P8345": [
+        "Q98109524"
+      ],
+      "P144": [
+        "Q83279"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "127289": {
+    "qid": "Q108195973",
+    "geholtAm": "2026-10-08",
+    "label": "Ridley Jones",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "127366": {
+    "qid": "Q131303106",
+    "geholtAm": "2026-10-08",
+    "label": "Splinter Cell: Deathwatch",
+    "rel": {
+      "P361": [
+        "Q2514735"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "127372": {
+    "qid": "Q120108438",
+    "geholtAm": "2026-10-08",
+    "label": "Captain Laserhawk: A Blood Dragon Remix",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "127445": {
+    "qid": "Q107525408",
+    "geholtAm": "2026-10-08",
+    "label": "Tom and Jerry in New York",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "127575": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "127633": {
+    "qid": "Q106531664",
+    "geholtAm": "2026-10-08",
+    "label": "Mickey Mouse Funhouse",
+    "rel": {
+      "P155": [
+        "Q24970452"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "127635": {
+    "qid": "Q107015978",
+    "geholtAm": "2026-10-08",
+    "label": "Spidey und seine Super-Freunde",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "127727": {
+    "qid": "Q106362775",
+    "geholtAm": "2026-10-08",
+    "label": "Middlemost Post",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "127753": {
+    "qid": "Q107723290",
+    "geholtAm": "2026-10-08",
+    "label": "Johnny Test",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "128036": {
+    "qid": "Q17092594",
+    "geholtAm": "2026-10-08",
+    "label": "Q-Force",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "128071": {
+    "qid": "Q115668181",
+    "geholtAm": "2026-10-08",
+    "label": "Jellystone/Staffel 1",
+    "rel": {
+      "P179": [
+        "Q81328164"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "128072": {
+    "qid": "Q104868767",
+    "geholtAm": "2026-10-08",
+    "label": "Pikwik Pack",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "128255": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "129146": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "129604": {
+    "qid": "Q110709090",
+    "geholtAm": "2026-10-08",
+    "label": "Ada Twist",
+    "rel": {
+      "P144": [
+        "Q108822177"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "129902": {
+    "qid": "Q108192490",
+    "geholtAm": "2026-10-08",
+    "label": "Goofy in Anleitung zum zu Hause bleiben",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "129959": {
+    "qid": "Q113078367",
+    "geholtAm": "2026-10-08",
+    "label": "Kung Fu Panda: Der Drachenritter",
+    "rel": {
+      "P361": [
+        "Q2081372"
+      ],
+      "P155": [
+        "Q53939029"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "130077": {
+    "qid": "Q108685479",
+    "geholtAm": "2026-10-08",
+    "label": "Chicago Party Aunt",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "130688": {
+    "qid": "Q108607853",
+    "geholtAm": "2026-10-08",
+    "label": "Sharkdog",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "131364": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "131378": {
+    "qid": "Q108365889",
+    "geholtAm": "2026-10-08",
+    "label": "Adventure Time: Fionna and Cake",
+    "rel": {
+      "P8345": [
+        "Q106128427"
+      ],
+      "P144": [
+        "Q53093"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "131532": {
+    "qid": "Q108265829",
+    "geholtAm": "2026-10-08",
+    "label": "Monster High",
+    "rel": {
+      "P144": [
+        "Q36120"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "131721": {
+    "qid": "Q108673340",
+    "geholtAm": "2026-10-08",
+    "label": "Oggy Oggy",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "132559": {
+    "qid": "Q108919787",
+    "geholtAm": "2026-10-08",
+    "label": "The Croods: Family Tree",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "132983": {
+    "qid": "Q108649789",
+    "geholtAm": "2026-10-08",
+    "label": "Die Oktonauten auf dem Festland",
+    "rel": {
+      "P8345": [
+        "Q102395213"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "133106": {
+    "qid": "Q108490503",
+    "geholtAm": "2026-10-08",
+    "label": "Wolfboy und die Einfach-Alles-Fabrik",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "133152": {
+    "qid": "Q109288730",
+    "geholtAm": "2026-10-08",
+    "label": "Get Rolling With Otis",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "133355": {
+    "qid": "Q108839882",
+    "geholtAm": "2026-10-08",
+    "label": "Eine dunkle & grimmige Geschichte",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "133529": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "133620": {
+    "qid": "Q111955724",
+    "geholtAm": "2026-10-08",
+    "label": "Karmas Welt",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "133903": {
+    "qid": "Q108640888",
+    "geholtAm": "2026-10-08",
+    "label": "Marvel’s Hit-Monkey",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "134297": {
+    "qid": "Q109918301",
+    "geholtAm": "2026-10-08",
+    "label": "Olaf Präsentiert",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "134364": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "135411": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "135597": {
+    "qid": "Q109701408",
+    "geholtAm": "2026-10-08",
+    "label": "Fairfax",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "135934": {
+    "qid": "Q108881587",
+    "geholtAm": "2026-10-08",
+    "label": "The Legend of Vox Machina",
+    "rel": {
+      "P144": [
+        "Q104771348",
+        "Q22079668"
+      ],
+      "P156": [
+        "Q116446957"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "136300": {
+    "qid": "Q109058144",
+    "geholtAm": "2026-10-08",
+    "label": "Harriet the Spy",
+    "rel": {
+      "P144": [
+        "Q2899700"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "136322": {
+    "qid": "Q110516852",
+    "geholtAm": "2026-10-08",
+    "label": "Dragons – Die 9 Welten",
+    "rel": {
+      "P8345": [
+        "Q3715071"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "136752": {
+    "qid": "Q109497330",
+    "geholtAm": "2026-10-08",
+    "label": "Hunde im All",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "137164": {
+    "qid": "Q97327687",
+    "geholtAm": "2026-10-08",
+    "label": "The Freak Brothers",
+    "rel": {
+      "P144": [
+        "Q1802644"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "137644": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "138502": {
+    "qid": "Q109558622",
+    "geholtAm": "2026-10-08",
+    "label": "X-Men '97",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "138503": {
+    "qid": "Q113005299",
+    "geholtAm": "2026-10-08",
+    "label": "Spider-Man: Freshman-Jahr",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "138505": {
+    "qid": "Q111382701",
+    "geholtAm": "2026-10-08",
+    "label": "Marvel Zombies",
+    "rel": {
+      "P155": [
+        "Q108445250"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "138519": {
+    "qid": "Q106298154",
+    "geholtAm": "2026-10-08",
+    "label": "Nova One – Mission Sonnenstaub",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "138523": {
+    "qid": "Q105532940",
+    "geholtAm": "2026-10-08",
+    "label": "Thomas & seine Freunde – Alle Maschinen los!",
+    "rel": {
+      "P144": [
+        "Q4348667",
+        "Q501663"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "138600": {
+    "qid": "Q110127821",
+    "geholtAm": "2026-10-08",
+    "label": "Saturday Morning All Star Hits!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "138955": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "138987": {
+    "qid": "Q114196806",
+    "geholtAm": "2026-10-08",
+    "label": "Firebuds",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "139118": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "139480": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "139612": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "152483": {
+    "qid": "Q110663442",
+    "geholtAm": "2026-10-08",
+    "label": "The Boys Presents: Diabolical",
+    "rel": {
+      "P8345": [
+        "Q113071736"
+      ],
+      "P144": [
+        "Q48796994"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "153492": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "153528": {
+    "qid": "Q96373536",
+    "geholtAm": "2026-10-08",
+    "label": "Big Nate",
+    "rel": {
+      "P144": [
+        "Q3919692"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "153571": {
+    "qid": "Q115325603",
+    "geholtAm": "2026-10-08",
+    "label": "El Taubinio",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "153864": {
+    "qid": "Q112861077",
+    "geholtAm": "2026-10-08",
+    "label": "Moley",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "154302": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "154647": {
+    "qid": "Q110734526",
+    "geholtAm": "2026-10-08",
+    "label": "Angry Birds: Verrückter Sommer",
+    "rel": {
+      "P8345": [
+        "Q165094"
+      ],
+      "P144": [
+        "Q165094"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "154820": {
+    "qid": "Q106904680",
+    "geholtAm": "2026-10-08",
+    "label": "Alice in der Wunderland-Bäckerei",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "155063": {
+    "qid": "Q136690351",
+    "geholtAm": "2026-10-08",
+    "label": "Blippi Wonders",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "155292": {
+    "qid": "Q117351362",
+    "geholtAm": "2026-10-08",
+    "label": "Scott Pilgrim hebt ab",
+    "rel": {
+      "P8345": [
+        "Q133862344"
+      ],
+      "P144": [
+        "Q1199291"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "155779": {
+    "qid": "Q110211096",
+    "geholtAm": "2026-10-08",
+    "label": "Tiny Toons Looniversity",
+    "rel": {
+      "P144": [
+        "Q387943"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "155780": {
+    "qid": "Q115474830",
+    "geholtAm": "2026-10-08",
+    "label": "Batwheels",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "156007": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "156059": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "156587": {
+    "qid": "Q20439448",
+    "geholtAm": "2026-10-08",
+    "label": "Gloria und ihre Familie",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "156603": {
+    "qid": "Q25402962",
+    "geholtAm": "2026-10-08",
+    "label": "Wilf, der Hexenhund",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "156606": {
+    "qid": "Q112299937",
+    "geholtAm": "2026-10-08",
+    "label": "Hamster und Gretel",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "156608": {
+    "qid": "Q112425770",
+    "geholtAm": "2026-10-08",
+    "label": "Eureka!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "156610": {
+    "qid": "Q120108940",
+    "geholtAm": "2026-10-08",
+    "label": "Kizazi Moto: Generation Fire",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "156613": {
+    "qid": "Q112685369",
+    "geholtAm": "2026-10-08",
+    "label": "Der fantastische Yellow Yeti",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "156616": {
+    "qid": "Q119082176",
+    "geholtAm": "2026-10-08",
+    "label": "Waustelle: Alle pfoten packen an",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "156746": {
+    "qid": "Q134445774",
+    "geholtAm": "2026-10-08",
+    "label": "Pretzel and the Puppies",
+    "rel": {
+      "P144": [
+        "Q7242315"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "156934": {
+    "qid": "Q115633759",
+    "geholtAm": "2026-10-08",
+    "label": "Daniel Spellbound",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "156935": {
+    "qid": "Q105972851",
+    "geholtAm": "2026-10-08",
+    "label": "Ollies Odyssee",
+    "rel": {
+      "P144": [
+        "Q112862311"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "157125": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "157221": {
+    "qid": "Q116850694",
+    "geholtAm": "2026-10-08",
+    "label": "My Dad the Bounty Hunter",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "157285": {
+    "qid": "Q111054789",
+    "geholtAm": "2026-10-08",
+    "label": "The Guardians of Justice",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "157747": {
+    "qid": "Q111945020",
+    "geholtAm": "2026-10-08",
+    "label": "Transformatoren: EarthSpark",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "158138": {
+    "qid": "Q110722849",
+    "geholtAm": "2026-10-08",
+    "label": "Super Giant Robot Brothers",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "158139": {
+    "qid": "Q104540994",
+    "geholtAm": "2026-10-08",
+    "label": "Dead End: Paranormal Park",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "158307": {
+    "qid": "Q111532450",
+    "geholtAm": "2026-10-08",
+    "label": "Ice Age: Scrats Abenteuer",
+    "rel": {
+      "P8345": [
+        "Q943532"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "158511": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "158648": {
+    "qid": "Q111253624",
+    "geholtAm": "2026-10-08",
+    "label": "Team Zenko Go",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "158691": {
+    "qid": "Q111749122",
+    "geholtAm": "2026-10-08",
+    "label": "My Little Pony – Mit Huf und Herz",
+    "rel": {
+      "P8345": [
+        "Q1071312"
+      ],
+      "P155": [
+        "Q105747750"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "158694": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "158697": {
+    "qid": "Q113652379",
+    "geholtAm": "2026-10-08",
+    "label": "Deepa und Anoop",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "194703": {
+    "qid": "Q97358225",
+    "geholtAm": "2026-10-08",
+    "label": "Mecha Builders",
+    "rel": {
+      "P144": [
+        "Q155629"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "194768": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "195339": {
+    "qid": "Q109639866",
+    "geholtAm": "2026-10-08",
+    "label": "Pantheon",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "195352": {
+    "qid": "Q111962946",
+    "geholtAm": "2026-10-08",
+    "label": "Pinecone & Pony",
+    "rel": {
+      "P144": [
+        "Q26964786"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "195407": {
+    "qid": "Q111657626",
+    "geholtAm": "2026-10-08",
+    "label": "Die tierischen Fälle von Kit & Sam",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "195438": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "195439": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "195449": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "195452": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "195456": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "195530": {
+    "qid": "Q113555647",
+    "geholtAm": "2026-10-08",
+    "label": "Tekken: Bloodline",
+    "rel": {
+      "P8345": [
+        "Q116192998"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "195625": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "195926": {
+    "qid": "Q104843951",
+    "geholtAm": "2026-10-08",
+    "label": "Samurai Rabbit: Die Usagi-Chroniken",
+    "rel": {
+      "P144": [
+        "Q901608"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "196362": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "196428": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "196430": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "196436": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "196438": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "196460": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "196462": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "196843": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "197322": {
+    "qid": "Q48790117",
+    "geholtAm": "2026-10-08",
+    "label": "Strawberry Shortcake: Berry in the Big City",
+    "rel": {
+      "P155": [
+        "Q7622486"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "197429": {
+    "qid": "Q112702091",
+    "geholtAm": "2026-10-08",
+    "label": "Boss Baby: Zurück zu den Windeln",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "199175": {
+    "qid": "Q111952685",
+    "geholtAm": "2026-10-08",
+    "label": "Barbie: Es braucht zwei",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "200751": {
+    "qid": "Q124523835",
+    "geholtAm": "2026-10-08",
+    "label": "Brave Bunnies",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "200753": {
+    "qid": "Q127038615",
+    "geholtAm": "2026-10-08",
+    "label": "Kite Man: Hell Yeah!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "201213": {
+    "qid": "Q114658732",
+    "geholtAm": "2026-10-08",
+    "label": "Oni: Die Geschichte der Donnergöttin",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "201478": {
+    "qid": "Q116170880",
+    "geholtAm": "2026-10-08",
+    "label": "SuperKitties",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "202282": {
+    "qid": "Q116508000",
+    "geholtAm": "2026-10-08",
+    "label": "Rick and Morty: The Anime",
+    "rel": {
+      "P8345": [
+        "Q107264299"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "202284": {
+    "qid": "Q112225652",
+    "geholtAm": "2026-10-08",
+    "label": "Ninja Kamui",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "202667": {
+    "qid": "Q124634585",
+    "geholtAm": "2026-10-08",
+    "label": "Das zweitbeste Krankenhaus der Galaxie",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "202864": {
+    "qid": "Q113102594",
+    "geholtAm": "2026-10-08",
+    "label": "Farzar",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "202905": {
+    "qid": "Q127375630",
+    "geholtAm": "2026-10-08",
+    "label": "My Little Pony: Tell Your Tale",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "202998": {
+    "qid": "Q116763978",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: Die Abenteuer der jungen Jedi",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "203085": {
+    "qid": "Q112170063",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: Geschichten der Jedi",
+    "rel": {
+      "P179": [
+        "Q133810189"
+      ],
+      "P8345": [
+        "Q462"
+      ],
+      "P156": [
+        "Q125338461"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "203197": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "203489": {
+    "qid": "Q136214815",
+    "geholtAm": "2026-10-08",
+    "label": "Beavis and Butt-Head",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "203687": {
+    "qid": "Q113541172",
+    "geholtAm": "2026-10-08",
+    "label": "Bugs Bunny-Baumeister",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "203696": {
+    "qid": "Q122740156",
+    "geholtAm": "2026-10-08",
+    "label": "Jessica's Big Little World",
+    "rel": {
+      "P144": [
+        "Q47490878"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "203805": {
+    "qid": "Q115257888",
+    "geholtAm": "2026-10-08",
+    "label": "Dragon Age: Absolution",
+    "rel": {
+      "P144": [
+        "Q1766436"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "204024": {
+    "qid": "Q124062018",
+    "geholtAm": "2026-10-08",
+    "label": "Schere, Stein, Papier",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "204087": {
+    "qid": "Q133885514",
+    "geholtAm": "2026-10-08",
+    "label": "Duck & Goose",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "204135": {
+    "qid": "Q139709802",
+    "geholtAm": "2026-10-08",
+    "label": "Dragon Striker",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "204136": {
+    "qid": "Q113231509",
+    "geholtAm": "2026-10-08",
+    "label": "ZOMBIES: The Re-Animated Series",
+    "rel": {
+      "P8345": [
+        "Q113827666"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "204137": {
+    "qid": "Q140378359",
+    "geholtAm": "2026-10-08",
+    "label": "Die Doomies",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "204139": {
+    "qid": "Q119953340",
+    "geholtAm": "2026-10-08",
+    "label": "Primos",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "204154": {
+    "qid": "Q123110427",
+    "geholtAm": "2026-10-08",
+    "label": "Scavengers Reign",
+    "rel": {
+      "P144": [
+        "Q135237082"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "204358": {
+    "qid": "Q120668408",
+    "geholtAm": "2026-10-08",
+    "label": "Strange Planet",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "204684": {
+    "qid": "Q112760157",
+    "geholtAm": "2026-10-08",
+    "label": "Oddballs: Die seltsamen Abenteuer von James & Max",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "205070": {
+    "qid": "Q65058793",
+    "geholtAm": "2026-10-08",
+    "label": "Supa Team 4",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "205118": {
+    "qid": "Q116303776",
+    "geholtAm": "2026-10-08",
+    "label": "Me & Mickey",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "205164": {
+    "qid": "Q131983253",
+    "geholtAm": "2026-10-08",
+    "label": "Eva the Owlet",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "205192": {
+    "qid": "Q136405132",
+    "geholtAm": "2026-10-08",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "205214": {
+    "qid": "Q121314793",
+    "geholtAm": "2026-10-08",
+    "label": "Mech Cadets",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "205258": {
+    "qid": "Q113995978",
+    "geholtAm": "2026-10-08",
+    "label": "Sago Mini Freunde",
+    "rel": {
+      "P8345": [
+        "Q119163868"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "205783": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "208313": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "208759": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "208995": {
+    "qid": "Q77742886",
+    "geholtAm": "2026-10-08",
+    "label": "Clifford the Big Red Dog",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "209130": {
+    "qid": "Q124322966",
+    "geholtAm": "2026-10-08",
+    "label": "Slumberkins",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "209131": {
+    "qid": "Q123162945",
+    "geholtAm": "2026-10-08",
+    "label": "Interrupting Chicken",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "209549": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "209708": {
+    "qid": "Q116764988",
+    "geholtAm": "2026-10-08",
+    "label": "Princess Power",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "209710": {
+    "qid": "Q131302941",
+    "geholtAm": "2026-10-08",
+    "label": "CoComelon Lane",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "210249": {
+    "qid": "Q117254222",
+    "geholtAm": "2026-10-08",
+    "label": "Digman!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "210304": {
+    "qid": "Q115099084",
+    "geholtAm": "2026-10-08",
+    "label": "Best & Bester",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "210610": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "211005": {
+    "qid": "Q19704306",
+    "geholtAm": "2026-10-08",
+    "label": "Sherm!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "211069": {
+    "qid": "Q114768013",
+    "geholtAm": "2026-10-08",
+    "label": "Teletubbies",
+    "rel": {
+      "P144": [
+        "Q41403"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "211638": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "211675": {
+    "qid": "Q29561380",
+    "geholtAm": "2026-10-08",
+    "label": "Toon Marty",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "212989": {
+    "qid": "Q118109722",
+    "geholtAm": "2026-10-08",
+    "label": "Ninjago: Aufstieg der Drachen",
+    "rel": {
+      "P144": [
+        "Q15631577"
+      ],
+      "P155": [
+        "Q851818"
+      ],
+      "P156": [
+        "Q134300226"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "213249": {
+    "qid": "Q124995069",
+    "geholtAm": "2026-10-08",
+    "label": "Sausage Party: Foodtopia",
+    "rel": {
+      "P144": [
+        "Q17030810"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "213573": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "214875": {
+    "qid": "Q116745346",
+    "geholtAm": "2026-10-08",
+    "label": "Rubble & Crew",
+    "rel": {
+      "P144": [
+        "Q15106029"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "215586": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "215806": {
+    "qid": "Q123238761",
+    "geholtAm": "2026-10-08",
+    "label": "Hello Kitty: Super Style!",
+    "rel": {
+      "P144": [
+        "Q191794"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "216585": {
+    "qid": "Q55616534",
+    "geholtAm": "2026-10-08",
+    "label": "Lamput",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "216769": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "216770": {
+    "qid": "Q125652970",
+    "geholtAm": "2026-10-08",
+    "label": "Zokie vom Planeten Ruby",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "217272": {
+    "qid": "Q125201288",
+    "geholtAm": "2026-10-08",
+    "label": "Young Love",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "217658": {
+    "qid": "Q116640297",
+    "geholtAm": "2026-10-08",
+    "label": "Shape Island",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "218510": {
+    "qid": "Q132820652",
+    "geholtAm": "2026-10-08",
+    "label": "#1 Happy Family USA",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "218576": {
+    "qid": "Q124128361",
+    "geholtAm": "2026-10-08",
+    "label": "Not Quite Narwhal",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "218577": {
+    "qid": "Q123984516",
+    "geholtAm": "2026-10-08",
+    "label": "Die Tautropfentagebücher",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "218695": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "218998": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "219000": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "219004": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "219056": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "219080": {
+    "qid": "Q116446957",
+    "geholtAm": "2026-10-08",
+    "label": "The Mighty Nein",
+    "rel": {
+      "P144": [
+        "Q104603368",
+        "Q22079668"
+      ],
+      "P155": [
+        "Q108881587"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "219532": {
+    "qid": "Q126488864",
+    "geholtAm": "2026-10-08",
+    "label": "Exploding Kittens",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "219543": {
+    "qid": "Q116896366",
+    "geholtAm": "2026-10-08",
+    "label": "Creature Commandos",
+    "rel": {
+      "P179": [
+        "Q116545465"
+      ],
+      "P8345": [
+        "Q116545465"
+      ],
+      "P144": [
+        "Q2924461"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "220595": {
+    "qid": "Q117455649",
+    "geholtAm": "2026-10-08",
+    "label": "Kiya & the Kimoja Heroes",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "220602": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "220687": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "221230": {
+    "qid": "Q123900140",
+    "geholtAm": "2026-10-08",
+    "label": "The Tiny Chef Show",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "221504": {
+    "qid": "Q124094274",
+    "geholtAm": "2026-10-08",
+    "label": "Unicorn Academy",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "221852": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "223447": {
+    "qid": "Q124619287",
+    "geholtAm": "2026-10-08",
+    "label": "Jentry Chau vs. The Underworld",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "224022": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "224024": {
+    "qid": "Q130379832",
+    "geholtAm": "2026-10-08",
+    "label": "Max & the Midknights",
+    "rel": {
+      "P144": [
+        "Q110921819"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "224047": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "224263": {
+    "qid": "Q134100225",
+    "geholtAm": "2026-10-08",
+    "label": "Stranger Things: Tales From ‘85",
+    "rel": {
+      "P8345": [
+        "Q123728481"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "224958": {
+    "qid": "Q116688167",
+    "geholtAm": "2026-10-08",
+    "label": "Die verzwickten Zeitreisen von Sammy und Raj",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "224981": {
+    "qid": "Q117877102",
+    "geholtAm": "2026-10-08",
+    "label": "Kitti Katz",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "225180": {
+    "qid": "Q122899426",
+    "geholtAm": "2026-10-08",
+    "label": "Blue Eye Samurai",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "225261": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "225303": {
+    "qid": "Q133504026",
+    "geholtAm": "2026-10-08",
+    "label": "Bearbrick",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "225320": {
+    "qid": "Q121816819",
+    "geholtAm": "2026-10-08",
+    "label": "Dreamzzz",
+    "rel": {
+      "P144": [
+        "Q118906062"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "225361": {
+    "qid": "Q136649415",
+    "geholtAm": "2026-10-08",
+    "label": "Bat-Fam",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "225621": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "225659": {
+    "qid": "Q104382489",
+    "geholtAm": "2026-10-08",
+    "label": "Dorg Van Dango",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "225753": {
+    "qid": "Q138655592",
+    "geholtAm": "2026-10-08",
+    "label": "Silly Sundays",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "226057": {
+    "qid": "Q120599816",
+    "geholtAm": "2026-10-08",
+    "label": "Lu und die Krabbelbande",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "226126": {
+    "qid": "Q118464883",
+    "geholtAm": "2026-10-08",
+    "label": "Barney's World",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "226566": {
+    "qid": "Q121125994",
+    "geholtAm": "2026-10-08",
+    "label": "Milo",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "226745": {
+    "qid": "Q140144974",
+    "geholtAm": "2026-10-08",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "227837": {
+    "qid": "Q125406574",
+    "geholtAm": "2026-10-08",
+    "label": "Good Times: Black Again",
+    "rel": {
+      "P144": [
+        "Q1248045"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "227950": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "228436": {
+    "qid": "Q138605839",
+    "geholtAm": "2026-10-08",
+    "label": "Vida the Vet",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "228669": {
+    "qid": "Q121863673",
+    "geholtAm": "2026-10-08",
+    "label": "Arielle",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "228671": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "228672": {
+    "qid": "Q131542201",
+    "geholtAm": "2026-10-08",
+    "label": "StuGo",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "228674": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "228721": {
+    "qid": "Q115656979",
+    "geholtAm": "2026-10-08",
+    "label": "RoboGobo",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "228878": {
+    "qid": "Q130971959",
+    "geholtAm": "2026-10-08",
+    "label": "Common Side Effects",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "229023": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "229153": {
+    "qid": "Q120478197",
+    "geholtAm": "2026-10-08",
+    "label": "Captain Fall",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "229544": {
+    "qid": "Q124896137",
+    "geholtAm": "2026-10-08",
+    "label": "Among Us",
+    "rel": {
+      "P144": [
+        "Q96417649"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "231394": {
+    "qid": "Q121287737",
+    "geholtAm": "2026-10-08",
+    "label": "Die Abenteuer der Teenage Mutant Ninja Turtles",
+    "rel": {
+      "P8345": [
+        "Q98713259"
+      ],
+      "P144": [
+        "Q2594023"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "231725": {
+    "qid": "Q114563941",
+    "geholtAm": "2026-10-08",
+    "label": "Mermaid Magic",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "231727": {
+    "qid": "Q130325295",
+    "geholtAm": "2026-10-08",
+    "label": "Der letzte Wolf von Lyssia",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "231801": {
+    "qid": "Q141446652",
+    "geholtAm": "2026-10-08",
+    "label": "Get Jiro",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "232125": {
+    "qid": "Q108170999",
+    "geholtAm": "2026-10-08",
+    "label": "Ich bin Groot",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "232383": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "232869": {
+    "qid": "Q130783408",
+    "geholtAm": "2026-10-08",
+    "label": "Micky Maus Wunderhaus+",
+    "rel": {
+      "P144": [
+        "Q494748"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "233064": {
+    "qid": "Q121307719",
+    "geholtAm": "2026-10-08",
+    "label": "Barbie - Ein verborgener Zauber",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "234560": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "234586": {
+    "qid": "Q130753189",
+    "geholtAm": "2026-10-08",
+    "label": "Barbie Mysteries: The Great Horse Chase",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "234721": {
+    "qid": "Q124149676",
+    "geholtAm": "2026-10-08",
+    "label": "Masters of the Universe: Revolution",
+    "rel": {
+      "P361": [
+        "Q139592783"
+      ],
+      "P8345": [
+        "Q519710"
+      ],
+      "P155": [
+        "Q66763559"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "234800": {
+    "qid": "Q123376666",
+    "geholtAm": "2026-10-08",
+    "label": "Curses!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "235930": {
+    "qid": "Q122898407",
+    "geholtAm": "2026-10-08",
+    "label": "Devil May Cry",
+    "rel": {
+      "P144": [
+        "Q436567"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "235995": {
+    "qid": "Q124669051",
+    "geholtAm": "2026-10-08",
+    "label": "Hot Wheels Let's Race",
+    "rel": {
+      "P144": [
+        "Q585537"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "235997": {
+    "qid": "Q124323240",
+    "geholtAm": "2026-10-08",
+    "label": "Dee & Friends in Oz",
+    "rel": {
+      "P144": [
+        "Q130295"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "235998": {
+    "qid": "Q131999350",
+    "geholtAm": "2026-10-08",
+    "label": "Mighty MonsterWheelies",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "236234": {
+    "qid": "Q124047387",
+    "geholtAm": "2026-10-08",
+    "label": "Dora (Zeichentrickserie, 2024)",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "236364": {
+    "qid": "Q134269738",
+    "geholtAm": "2026-10-08",
+    "label": "Lana Longbeard",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "237476": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "237512": {
+    "qid": "Q125422428",
+    "geholtAm": "2026-10-08",
+    "label": "Jurassic World: Die Chaostheorie",
+    "rel": {
+      "P8345": [
+        "Q2336369"
+      ],
+      "P155": [
+        "Q96390384"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "237853": {
+    "qid": "Q125866728",
+    "geholtAm": "2026-10-08",
+    "label": "WondLa",
+    "rel": {
+      "P144": [
+        "Q7762843"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "238151": {
+    "qid": "Q123400770",
+    "geholtAm": "2026-10-08",
+    "label": "Carol & The End of the World",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "239287": {
+    "qid": "Q125996495",
+    "geholtAm": "2026-10-08",
+    "label": "Terminator Zero",
+    "rel": {
+      "P144": [
+        "Q620588"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "239668": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "241205": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "241388": {
+    "qid": "Q123953931",
+    "geholtAm": "2026-10-08",
+    "label": "Eyes of Wakanda",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "242531": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "246142": {
+    "qid": "Q135017040",
+    "geholtAm": "2026-10-08",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "246913": {
+    "qid": "Q127640242",
+    "geholtAm": "2026-10-08",
+    "label": "Morphle and the Magic Pets",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "247246": {
+    "qid": "Q125732790",
+    "geholtAm": "2026-10-08",
+    "label": "Cosmo & Wanda – Ein neuer Wunsch",
+    "rel": {
+      "P144": [
+        "Q39037"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "247813": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "249018": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "250458": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "251091": {
+    "qid": "Q125338461",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: Geschichten des Imperiums",
+    "rel": {
+      "P179": [
+        "Q133810189"
+      ],
+      "P8345": [
+        "Q462"
+      ],
+      "P155": [
+        "Q112170063"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "252105": {
+    "qid": "Q125505982",
+    "geholtAm": "2026-10-08",
+    "label": "Golden Axe",
+    "rel": {
+      "P144": [
+        "Q2640389"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "253760": {
+    "qid": "Q125823000",
+    "geholtAm": "2026-10-08",
+    "label": "Lego Star Wars: Rebuild the Galaxy",
+    "rel": {
+      "P144": [
+        "Q1191068"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "255041": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "255752": {
+    "qid": "Q134725613",
+    "geholtAm": "2026-10-08",
+    "label": "Haunted Hotel",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "255760": {
+    "qid": "Q138975593",
+    "geholtAm": "2026-10-08",
+    "label": "Kevin",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "255868": {
+    "qid": "Q130365301",
+    "geholtAm": "2026-10-08",
+    "label": "Traum Studios",
+    "rel": {
+      "P8345": [
+        "Q113956747"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "256694": {
+    "qid": "Q139843804",
+    "geholtAm": "2026-10-08",
+    "label": "Adventure Time: Side Quests",
+    "rel": {
+      "P144": [
+        "Q4686548"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "256695": {
+    "qid": "Q138821480",
+    "geholtAm": "2026-10-08",
+    "label": "Regular Show: The Lost Tapes",
+    "rel": {
+      "P144": [
+        "Q82617"
+      ],
+      "P155": [
+        "Q82617"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "256748": {
+    "qid": "Q136536157",
+    "geholtAm": "2026-10-08",
+    "label": "Haha, You Clowns",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "256795": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "258926": {
+    "qid": "Q136092554",
+    "geholtAm": "2026-10-08",
+    "label": "Tim Rex in Space",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "259819": {
+    "qid": "Q127863698",
+    "geholtAm": "2026-10-08",
+    "label": "Rooster Fighter (Anime)",
+    "rel": {
+      "P144": [
+        "Q106647301"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "261145": {
+    "qid": "Q121665318",
+    "geholtAm": "2026-10-08",
+    "label": "Der unglaubliche digitale Zirkus",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "261579": {
+    "qid": "Q129504978",
+    "geholtAm": "2026-10-08",
+    "label": "Secret Level (Fernsehserie)",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "261647": {
+    "qid": "Q139898190",
+    "geholtAm": "2026-10-08",
+    "label": "Sofia the First: Royal Magic",
+    "rel": {
+      "P155": [
+        "Q7553692"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "262153": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "262375": {
+    "qid": "Q134427756",
+    "geholtAm": "2026-10-08",
+    "label": "Long Story Short",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "271869": {
+    "qid": "Q135826332",
+    "geholtAm": "2026-10-08",
+    "label": "Super Happy Magic Forest",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "273266": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "274382": {
+    "qid": "Q132000506",
+    "geholtAm": "2026-10-08",
+    "label": "Wonder Pets: In the City",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "274388": {
+    "qid": "Q135218586",
+    "geholtAm": "2026-10-08",
+    "label": "Iron Man und seine fantastischen Freunde",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "277410": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "279158": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "281485": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "282727": {
+    "qid": "Q133891034",
+    "geholtAm": "2026-10-08",
+    "label": "Goldie",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "284833": {
+    "qid": "Q132592986",
+    "geholtAm": "2026-10-08",
+    "label": "Avatar: Die sieben Häfen",
+    "rel": {
+      "P155": [
+        "Q18790",
+        "Q28532730"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "285985": {
+    "qid": "Q27020440",
+    "geholtAm": "2026-10-08",
+    "label": "The Happos Family",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "286170": {
+    "qid": "Q133274247",
+    "geholtAm": "2026-10-08",
+    "label": "Wylde Pak",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "286277": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "288018": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "288055": {
+    "qid": "Q133810179",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: Geschichten der Unterwelt",
+    "rel": {
+      "P179": [
+        "Q133810189"
+      ],
+      "P8345": [
+        "Q462"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "289219": {
+    "qid": "Q134533491",
+    "geholtAm": "2026-10-08",
+    "label": "Star Wars: Maul – Shadow Lord",
+    "rel": {
+      "P8345": [
+        "Q462"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "289244": {
+    "qid": "Q46661498",
+    "geholtAm": "2026-10-08",
+    "label": "Bob’s Beach",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "289411": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "289483": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "289892": {
+    "qid": "Q76759345",
+    "geholtAm": "2026-10-08",
+    "label": "Helluva Boss",
+    "rel": {
+      "P144": [
+        "Q75020770"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "290295": {
+    "qid": "Q139387446",
+    "geholtAm": "2026-10-08",
+    "label": "Mating Season",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "290323": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "291074": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "291212": {
+    "qid": "Q115862593",
+    "geholtAm": "2026-10-08",
+    "label": "Murder Drones",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "291416": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "291904": {
+    "qid": "Q131353868",
+    "geholtAm": "2026-10-08",
+    "label": "Die fantastische Welt von Gumball/Staffel 7",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "292687": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "293205": {
+    "qid": "Q136325965",
+    "geholtAm": "2026-10-08",
+    "label": "Dr. Seuss’s Horton!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "293703": {
+    "qid": "Q136506703",
+    "geholtAm": "2026-10-08",
+    "label": "Dr. Seuss's Red Fish, Blue Fish",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "296756": {
+    "qid": "Q135742014",
+    "geholtAm": "2026-10-08",
+    "label": "President Curtis",
+    "rel": {
+      "P8345": [
+        "Q107264299"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "298343": {
+    "qid": "Q135943614",
+    "geholtAm": "2026-10-08",
+    "label": "Strip Law",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "299236": {
+    "qid": "Q136314190",
+    "geholtAm": "2026-10-08",
+    "label": "The Sisters Grimm",
+    "rel": {
+      "P144": [
+        "Q3235680"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "300480": {
+    "qid": "Q136839005",
+    "geholtAm": "2026-10-08",
+    "label": "Ricky Gervais' Alley Cats",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "301715": {
+    "qid": "Q136674548",
+    "geholtAm": "2026-10-08",
+    "label": "Armorsaurs",
+    "rel": {
+      "P144": [
+        "Q97339345"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "302540": {
+    "qid": "Q136483358",
+    "geholtAm": "2026-10-08",
+    "label": "The Bad Guys: Breaking In",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "302696": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "305165": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "306887": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "307325": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "307904": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "309792": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "314271": {
+    "qid": "Q141436451",
+    "geholtAm": "2026-10-08",
+    "label": "Bass X Machina",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "314478": {
+    "qid": "Q141336959",
+    "geholtAm": "2026-10-08",
+    "label": "Dang!",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "315531": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "316832": {
+    "qid": "Q139273201",
+    "geholtAm": "2026-10-08",
+    "label": "My Brother the Minotaur",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "316945": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "318918": {
+    "qid": "Q140674509",
+    "geholtAm": "2026-10-08",
+    "label": "Lego One Piece",
+    "rel": {
+      "P8345": [
+        "Q673"
+      ],
+      "P144": [
+        "Q109526557",
+        "Q710324"
+      ]
+    },
+    "aussagenAm": "2026-10-08"
+  },
+  "321207": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "321389": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "321508": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "321657": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "325153": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "327323": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "327346": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "327414": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "329249": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "329612": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "330569": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "331366": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "332652": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "333434": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "333859": {
+    "qid": "Q141271138",
+    "geholtAm": "2026-10-08",
+    "label": "Hane Kage: Veiled",
+    "rel": {},
+    "aussagenAm": "2026-10-08"
+  },
+  "334275": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "334454": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "335643": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "336478": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "336773": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  },
+  "337566": {
+    "qid": null,
+    "geholtAm": "2026-10-08"
+  }
+}
