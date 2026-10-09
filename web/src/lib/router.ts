@@ -10,6 +10,10 @@ import {
 } from './filters.ts'
 import { todayIso } from '@shared/time.ts'
 import { vorliebenLesen, vorliebenNachfuehren } from './vorlieben.ts'
+import { kalenderBasis } from './kalender-filter.ts'
+
+/** Woche und Monat haben ihre Filter nicht in der Adresse (`kalender-filter.ts`). */
+const istKalender = (view: ViewId): boolean => view === 'woche' || view === 'monat'
 
 export type ViewId =
   | 'woche'
@@ -128,17 +132,19 @@ export function parseHash(hash: string): AppRoute {
   const vorlieben = vorliebenLesen()
   const excluded = readLists(params, 'x')
   if (vorlieben.discAus && !excluded.releaseTypes.includes('disc')) excluded.releaseTypes = [...excluded.releaseTypes, 'disc']
+  const kalender = istKalender(view)
+  /* Im Kalender zählt von der Adresse nur `fav=1` (veröffentlichte Push-Links); Suche und Filter der Datenbank gelten dort nicht. */
   const filters: FilterState = {
     ...EMPTY_FILTERS,
-    ...readLists(params, ''),
-    excluded,
-    search: params.get('q') ?? '',
-    confirmedOnly: vorlieben.confirmedOnly || params.get('sicher') === '1',
+    ...(kalender ? {} : readLists(params, '')),
+    excluded: kalender ? { ...EMPTY_FILTERS.excluded, releaseTypes: excluded.releaseTypes.filter((a) => a === 'disc') } : excluded,
+    search: kalender ? '' : (params.get('q') ?? ''),
+    confirmedOnly: vorlieben.confirmedOnly || (!kalender && params.get('sicher') === '1'),
     favoritesOnly: vorlieben.favoritesOnly || params.get('fav') === '1' || !!alt?.favoriten,
-    availableOnly: vorlieben.availableOnly || params.get('wo') === '1' || !!alt?.verfuegbar,
-    kostenlosOnly: vorlieben.kostenlosOnly || params.get('frei') === '1',
+    availableOnly: vorlieben.availableOnly || (!kalender && params.get('wo') === '1') || !!alt?.verfuegbar,
+    kostenlosOnly: vorlieben.kostenlosOnly || (!kalender && params.get('frei') === '1'),
     favoritesExcluded: vorlieben.favoritesExcluded, kostenlosExcluded: vorlieben.kostenlosExcluded, confirmedExcluded: vorlieben.confirmedExcluded, availableExcluded: vorlieben.availableExcluded,
-    minConfidence: (params.get('conf') as DubConfidence) ?? 'low',
+    minConfidence: kalender ? 'low' : ((params.get('conf') as DubConfidence) ?? 'low'),
   }
 
   return {
@@ -154,11 +160,13 @@ export function parseHash(hash: string): AppRoute {
 export function buildHash(route: AppRoute): string {
   const params = new URLSearchParams()
   const f = route.filters
-  writeLists(params, f, '')
-  /* „Disc ausblenden" ist eine Vorliebe und steht nicht in der Adresse (`vorlieben.ts`). */
-  writeLists(params, { ...f.excluded, releaseTypes: f.excluded.releaseTypes.filter((a) => a !== 'disc') }, 'x')
-  if (f.search.trim()) params.set('q', f.search.trim())
-  if (f.minConfidence !== 'low') params.set('conf', f.minConfidence)
+  if (!istKalender(route.view)) {
+    writeLists(params, f, '')
+    /* „Disc ausblenden" ist eine Vorliebe und steht nicht in der Adresse (`vorlieben.ts`). */
+    writeLists(params, { ...f.excluded, releaseTypes: f.excluded.releaseTypes.filter((a) => a !== 'disc') }, 'x')
+    if (f.search.trim()) params.set('q', f.search.trim())
+    if (f.minConfidence !== 'low') params.set('conf', f.minConfidence)
+  }
   if (route.date !== todayIso()) params.set('d', route.date)
   if (route.title) params.set('t', String(route.title))
   if (route.title && route.disc) params.set('disc', '1')
@@ -185,11 +193,17 @@ function mitPfad(route: AppRoute, pathname: string): AppRoute {
 
 /**
  * **Der Adressbalken bekommt die kurze Fassung.** Eine alte Ansicht
- * (`#/agenda`) oder ein doppeltes `r=` wird ersetzt — `replaceState` schreibt
- * keinen Verlaufseintrag und feuert kein `hashchange`.
+ * (`#/agenda`), ein doppeltes `r=` oder ein Filter an Woche und Monat (alter geteilter Link) wird ersetzt
+ * — `replaceState` schreibt keinen Verlaufseintrag und feuert kein `hashchange`.
  */
+const KALENDER_FILTER_PARAM = /[?&](q|conf|sicher|wo|frei|x?(p|anb|rt|st|fsk|y|g|kw))=/
+
 function hashAufraeumen(neu: AppRoute, hash: string): void {
-  if (ALTE_ANSICHTEN[hash.replace(/^#\/?/, '').split('?')[0]] || /[?&]r=/.test(hash))
+  if (
+    ALTE_ANSICHTEN[hash.replace(/^#\/?/, '').split('?')[0]] ||
+    /[?&]r=/.test(hash) ||
+    (istKalender(neu.view) && KALENDER_FILTER_PARAM.test(hash))
+  )
     history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(neu))
 }
 
@@ -278,6 +292,8 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
 
   const navigate = (next: Partial<AppRoute>) => {
     const merged: AppRoute = { ...route, ...next }
+    /* Die Filter der Datenbank gehen nicht in den Kalender mit, die des Kalenders nicht in die Datenbank (`App.tsx`). */
+    if (istKalender(merged.view)) merged.filters = kalenderBasis(merged.filters)
     /* Ändert sich ein Schnellfilter, wird er zur Vorliebe — vor dem Adresswechsel, den `parseHash` danach liest. */
     vorliebenNachfuehren(route.filters, merged.filters)
     const verlauf = panelVerlauf(route, next, merged)

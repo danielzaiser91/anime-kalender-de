@@ -107,7 +107,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
           favorites={p.favorites}
           hidden={p.hidden}
           tvAn={p.tvAn}
-          gefiltert={activeFilterCount(route.filters) > 0 || route.filters.search.trim() !== ''}
+          gefiltert={activeFilterCount(route.filters) > 0}
           onToggleFavorite={p.onToggleFavorite}
           onToggleHidden={p.onToggleHidden}
           onOpen={oeffnen}

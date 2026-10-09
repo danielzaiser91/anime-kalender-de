@@ -6318,6 +6318,7 @@ pruefe(
   */
   const suchfeldQuelle = readFileSync('web/src/components/Suchfeld.tsx', 'utf8')
   const headerQuelle = readFileSync('web/src/components/Header.tsx', 'utf8')
+  const kopfSucheQuelle = readFileSync('web/src/components/kopf-suche.tsx', 'utf8')
   const uiQuelle = readFileSync('web/src/components/ui.tsx', 'utf8')
   pruefe(
     'das Fragezeichen sitzt im Feld rechts',
@@ -6328,7 +6329,7 @@ pruefe(
   )
   pruefe(
     '… und das Feld lässt rechts Platz für beide Knöpfe',
-    /\bpr-24\b/.test(headerQuelle),
+    /\bpr-24\b/.test(kopfSucheQuelle),
     'pr-24 fehlt im Feld',
   )
   /*
@@ -6389,8 +6390,8 @@ pruefe(
     positionierte Elemente malen in Baumreihenfolge übereinander: Die Hülle steht hinter der Lupe und
     deckte sie mit ihrem Hintergrund zu. `z-10` an der Lupe holt sie zurück.
   */
-  const lupen = headerQuelle.match(/pointer-events-none absolute/g) ?? []
-  const ueberDemFeld = headerQuelle.match(/pointer-events-none absolute[^"]*z-10/g) ?? []
+  const lupen = kopfSucheQuelle.match(/pointer-events-none absolute/g) ?? []
+  const ueberDemFeld = kopfSucheQuelle.match(/pointer-events-none absolute[^"]*z-10/g) ?? []
   pruefe(
     'die Lupe im Feld bleibt sichtbar',
     lupen.length > 0 && lupen.length === ueberDemFeld.length,
