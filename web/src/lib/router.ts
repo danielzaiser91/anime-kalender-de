@@ -82,6 +82,7 @@ const LIST_PARAM: Record<ListKey, string> = {
   years: 'y',
   genres: 'g',
   keywords: 'kw',
+  sprecher: 'sp',
 }
 
 /** Felder, deren Werte Zahlen sind — alle anderen bleiben Zeichenketten. */
@@ -196,7 +197,7 @@ function mitPfad(route: AppRoute, pathname: string): AppRoute {
  * (`#/agenda`), ein doppeltes `r=` oder ein Filter an Woche und Monat (alter geteilter Link) wird ersetzt
  * — `replaceState` schreibt keinen Verlaufseintrag und feuert kein `hashchange`.
  */
-const KALENDER_FILTER_PARAM = /[?&](q|conf|sicher|wo|frei|x?(p|anb|rt|st|fsk|y|g|kw))=/
+const KALENDER_FILTER_PARAM = /[?&](q|conf|sicher|wo|frei|x?(p|anb|rt|st|fsk|y|g|kw|sp))=/
 
 function hashAufraeumen(neu: AppRoute, hash: string): void {
   if (

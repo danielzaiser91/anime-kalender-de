@@ -6709,7 +6709,7 @@ pruefe(
   )
   pruefe(
     'und die Ansicht sagt der Suche, ob gruppiert wird',
-    /titelFuerAnsichtGen\(quelle, data, route\.filters, today, favorites, grouped\)/.test(appQuelle),
+    /titelFuerAnsichtGen\(quelle, data, route\.filters, today, favorites, grouped(, sprecher\.auswahl)?\)/.test(appQuelle),
   )
   /*
     **Eine Serie kann Deutsch führen, auch wenn die untersuchte Staffel die japanische ist**
