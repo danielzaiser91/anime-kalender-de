@@ -12,7 +12,7 @@ import { MAL_AUSNAHMEN } from '../lib/mal-dubletten.ts'
  * (`data/anisearch-ids-hand.yaml`) übernimmt. Bei mehr als einem Treffer auf einer der beiden Seiten entscheidet das Skript nicht.
  */
 export type KatalogKandidat = { id: number; mal?: number; format?: string | null; jahr?: number | null; folgen?: number | null }
-type Eintrag = { mal?: number; ty: string; y?: number; f?: number; dub: string }
+type Eintrag = { t?: string; mal?: number; ty: string; y?: number; f?: number; dub: string }
 
 /**
  * AniList kennt `TV_SHORT`, aniSearch nur „TV-Serie"; asiatische Web-Serien führt aniSearch als „TV-Serie", AniList als `ONA`
@@ -28,7 +28,19 @@ export function gleichesWerk(e: Eintrag, k: KatalogKandidat): boolean {
   return !(e.f && k.folgen && e.f !== k.folgen)
 }
 
-type Ausgeliefert = { id: number; malId?: number; anisearchId?: number; format?: string | null; jpYear?: number | null; episodes?: number | null }
+/**
+ * **Ein Katalogtitel, den aniSearch in Cours zerlegt** (Tougen Anki: Nikko-Kegon-Falls-Arc, 09.10.2026): AniList führt 24 Folgen, aniSearch zwei Zeilen zu je 12 —
+ * die erste mit der MAL-Kennung, die zweite („… - Dai 2 Cour") ohne, ihr Name beginnt mit dem der ersten. Gehören die Folgen der Zeilen zusammen zur Zahl des
+ * Katalogtitels, sind alle Zeilen dasselbe Werk. Gibt die Kennungen der Zeilen zurück, sonst leer.
+ */
+function coursZeilen(e: Eintrag, asId: number, k: KatalogKandidat, eintraege: Record<string, Eintrag>): number[] {
+  if (!e.mal || e.mal !== k.mal || !e.t || !e.f || !k.folgen || e.f >= k.folgen) return []
+  if (klasse(FORMAT[e.ty] ?? 'SPECIAL') !== klasse(k.format) || (e.y && k.jahr && Math.abs(e.y - k.jahr) > 1)) return []
+  const teile = Object.entries(eintraege).filter(([id, b]) => Number(id) !== asId && !b.mal && b.dub === '-' && b.ty === e.ty && b.f && b.t?.startsWith(`${e.t} - `) && (!b.y || !e.y || b.y - e.y <= 1))
+  return e.f + teile.reduce((s, [, b]) => s + b.f!, 0) === k.folgen ? [asId, ...teile.map(([id]) => Number(id))] : []
+}
+
+type Ausgeliefert ={ id: number; malId?: number; anisearchId?: number; format?: string | null; jpYear?: number | null; episodes?: number | null }
 
 /**
  * Invariante an der **ausgelieferten** Ausgabe (`titles.json` + `ohne-synchro.json`): keine aniSearch-Zeile ohne Deutsch neben einem AniList-Titel
@@ -87,6 +99,17 @@ export function findeAnisearchDubletten(hinter: number[], haupt: number[], katal
     const zeile = zeilen[0]!
     if (istHaupt.has(zeile)) urteil.katalogWeg.set(katalogId, zeile)
     else urteil.zeilenWeg.set(zeile, katalogId)
+  }
+  const frei = new Set(hinter)
+  for (const id of hinter) {
+    const asId = id - ANISEARCH_ID_BASIS
+    const e = eintraege[String(asId)]
+    if (!e || e.dub !== '-' || MAL_AUSNAHMEN[asId] || urteil.zeilenWeg.has(id)) continue
+    for (const k of nachMal.get(e.mal ?? 0) ?? []) {
+      const zeilen = coursZeilen(e, asId, k, eintraege).map((a) => ANISEARCH_ID_BASIS + a)
+      if (!zeilen.length || katalogUrteil.has(k.id) || !zeilen.every((z) => frei.has(z) && !MAL_AUSNAHMEN[z - ANISEARCH_ID_BASIS])) continue
+      for (const z of zeilen) urteil.zeilenWeg.set(z, k.id)
+    }
   }
   return urteil
 }
