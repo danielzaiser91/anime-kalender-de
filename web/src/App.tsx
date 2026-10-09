@@ -231,21 +231,19 @@ export default function App() {
       <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-6 sm:px-6 lg:px-10">
         {kalender && geruest && !kalenderBereit && <WochenSkelett />}
         {kalender && (!geruest || kalenderBereit) && (
-          <SuchfundstellenContext.Provider value={events.fundstellen}>
-            <KalenderBereich
-              data={data}
-              route={{ ...route, filters: kalenderFilters }}
-              navigate={kalenderNavigate}
-              events={eventListe}
-              favorites={favorites}
-              hidden={hidden}
-              onToggleFavorite={toggle}
-              onToggleHidden={toggleHidden}
-              tvAn={!tvAus}
-              setTvAn={(an) => setTvAus(!an)}
-              termine={termintage}
-            />
-          </SuchfundstellenContext.Provider>
+          <KalenderBereich
+            data={data}
+            route={{ ...route, filters: kalenderFilters }}
+            navigate={kalenderNavigate}
+            events={eventListe}
+            favorites={favorites}
+            hidden={hidden}
+            onToggleFavorite={toggle}
+            onToggleHidden={toggleHidden}
+            tvAn={!tvAus}
+            setTvAn={(an) => setTvAus(!an)}
+            termine={termintage}
+          />
         )}
 
         {route.view === 'datenbank' && (

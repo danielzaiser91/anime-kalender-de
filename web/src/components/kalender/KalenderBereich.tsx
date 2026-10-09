@@ -3,7 +3,6 @@ import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'
 import type { AppRoute } from '../../lib/router.ts'
 import { activeFilterCount, type FilterState } from '../../lib/filters.ts'
-import { SucheWocheZeile, useSucheZusammen } from './SucheWoche.tsx'
 import { addDays, monthName, startOfMonth, startOfWeek, todayIso } from '@shared/time.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { merkeZielTag } from '../../lib/ziel-tag.ts'
@@ -14,12 +13,9 @@ import { FilterFeld } from './FilterFeld.tsx'
 import { zaehlung } from './Marken.tsx'
 import { useVorschau } from '../../lib/vorschau.ts'
 import { useMeineWocheAn } from '../../lib/meine-woche.ts'
-import { SPRECHER_AB_ZEICHEN } from '../../lib/sprecher.ts'
 
 /* Vorschau „meine-woche": eigener Chunk, die Standardansicht lädt ihn nie (08.10.2026). */
 const MeineWoche = lazy(() => import('./MeineWoche.tsx').then((m) => ({ default: m.MeineWoche })))
-/* Vorschau „sprecher-suche": eigener Chunk, geladen erst bei einer Suche ab drei Zeichen. */
-const SprecherTreffer = lazy(() => import('../SprecherTreffer.tsx').then((m) => ({ default: m.SprecherTreffer })))
 
 export interface KalenderBereichProps {
   data: Dataset
@@ -72,10 +68,8 @@ export function KalenderBereich(p: KalenderBereichProps) {
     navigate({ view: 'woche', date: datum })
   }
   const heute = todayIso()
-  const [suche, sucheZusammen] = useSucheZusammen(route.filters.search, monat)
   useEscapeSchliesst(filterOffen, () => setFilterOffen(false))
   const meineVorschau = useVorschau('meine-woche')
-  const sprecher = useVorschau('sprecher-suche') === 'an' && !monat && suche.length >= SPRECHER_AB_ZEICHEN
   const [meineAn, setMeineAn] = useMeineWocheAn()
   const meine = !!meineVorschau && !monat && meineAn
 
@@ -112,12 +106,6 @@ export function KalenderBereich(p: KalenderBereichProps) {
         </div>
       )}
       {meineVorschau && !monat && <MeineWocheSchalter an={meineAn} setAn={setMeineAn} />}
-      {sucheZusammen && !meine && <SucheWocheZeile data={p.data} suche={suche} imZeitraum={imZeitraum} navigate={navigate} />}
-      {sprecher && !meine && (
-        <Suspense fallback={null}>
-          <SprecherTreffer suche={suche} data={p.data} onOpen={(id) => navigate({ title: id, disc: undefined })} />
-        </Suspense>
-      )}
       {meine ? (
         <Suspense fallback={null}>
           <MeineWoche data={p.data} anchorDate={route.date} favorites={p.favorites} leer={meineVorschau === 'leer'} onToggleFavorite={p.onToggleFavorite} onOpen={oeffnen} />
@@ -132,8 +120,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
           favorites={p.favorites}
           hidden={p.hidden}
           tvAn={p.tvAn}
-          gefiltert={activeFilterCount(route.filters) > 0 || route.filters.search.trim() !== ''}
-          leereTageZu={sucheZusammen}
+          gefiltert={activeFilterCount(route.filters) > 0}
           onToggleFavorite={p.onToggleFavorite}
           onToggleHidden={p.onToggleHidden}
           onOpen={oeffnen}

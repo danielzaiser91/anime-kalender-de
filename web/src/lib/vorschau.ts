@@ -45,13 +45,6 @@ export const VORSCHAUEN: Record<string, { varianten: string[]; text: string; tit
     varianten: ['gross'],
     text: 'Knöpfe, Links und Chips lassen sich mit dem Daumen sicher treffen, ohne Fehltipps auf den Nachbarn.',
   },
-  'suche-woche': {
-    titel: 'Suche in der Woche',
-    beispiel: '#/woche?q=dragon',
-    beispielText: 'In der Woche nach einem Titel suchen, den es diese Woche nicht gibt',
-    varianten: ['zusammen'],
-    text: 'Du siehst sofort, ob ein gesuchter Titel diese Woche läuft oder nur in der Datenbank steht, statt sieben leere Tage zu überfliegen.',
-  },
   'db-reserve': {
     titel: 'Ruhige Datenbank',
     beispiel: '#/datenbank',
