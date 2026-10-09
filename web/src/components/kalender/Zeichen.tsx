@@ -34,6 +34,11 @@ export const GlockenZeichen = ({ groesse }: Z) => (
     <path d="M10 20.5a2 2 0 0 0 4 0" />
   </Strich>
 )
+export const HerunterladenZeichen = ({ groesse }: Z) => (
+  <Strich groesse={groesse}>
+    <path d="M12 4v11M7 11l5 5 5-5M5 20h14" />
+  </Strich>
+)
 export const PostZeichen = ({ groesse }: Z) => (
   <Strich groesse={groesse}>
     <rect x="3" y="5" width="18" height="14" rx="2.5" />
@@ -109,9 +114,9 @@ export const KreuzZeichen = ({ groesse }: Z) => (
 )
 
 /** Das Kalender-Symbol aus dem Favicon (`public/icons/icon.svg`) — das Wiedererkennungszeichen im Kopf. */
-export function LogoZeichen({ groesse = 32 }: Z) {
+export function LogoZeichen({ groesse = 32, className = '' }: Z & { className?: string }) {
   return (
-    <svg viewBox="0 0 512 512" width={groesse} height={groesse} aria-hidden="true" className="shrink-0">
+    <svg viewBox="0 0 512 512" width={groesse} height={groesse} aria-hidden="true" className={`shrink-0 ${className}`}>
       <rect width="512" height="512" rx="102" fill="#1b2130" />
       <rect x="41" y="101" width="430" height="370" rx="95" fill="#e6e9f0" />
       <rect x="41" y="101" width="430" height="96" rx="95" fill="#38bdf8" />

@@ -6,7 +6,8 @@ import {
   rememberInstallDialog,
   useInstall,
 } from '../lib/pwa.ts'
-import { Button } from './ui.tsx'
+import { HerunterladenZeichen } from './kalender/Zeichen.tsx'
+import { Button, Tooltip } from './ui.tsx'
 
 /** Das App-Symbol, dasselbe Motiv wie auf dem Startbildschirm. */
 function AppMark() {
@@ -111,10 +112,27 @@ export function InstallButton() {
   const { t } = useLang()
   const { canPrompt, install } = useInstall()
   if (!canPrompt || !isHandheld()) return null
+  /* Rangfolge im Kopf (Daniel, 09.10.2026): unter 390 px kein Knopf, bis 639 px nur das Symbol, darüber mit Text. */
   return (
-    <Button size="sm" onClick={() => void install()} title={t('pwa.pitch')}>
-      ⬇ {t('pwa.install')}
-    </Button>
+    <>
+      <span className="hidden min-[390px]:block sm:hidden">
+        <Tooltip text={t('pwa.install')} seite="unten">
+          <button
+            type="button"
+            onClick={() => void install()}
+            aria-label={t('pwa.install')}
+            className={`flex size-11 shrink-0 cursor-pointer items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise`}
+          >
+            <HerunterladenZeichen groesse={20} />
+          </button>
+        </Tooltip>
+      </span>
+      <span className="hidden sm:block">
+        <Button size="sm" onClick={() => void install()} title={t('pwa.pitch')}>
+          <span className="whitespace-nowrap">⬇ {t('pwa.install')}</span>
+        </Button>
+      </span>
+    </>
   )
 }
 

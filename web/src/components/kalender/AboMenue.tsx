@@ -20,9 +20,10 @@ export function AboMenue({ onView, favorites }: { onView: (v: ViewId) => void; f
       <button
         type="button"
         aria-label={t('kopf.abo')}
-        className="relative flex h-11 cursor-pointer items-center gap-1 rounded-full border border-ak-rand bg-ak-flaeche px-3 text-ak-text transition hover:border-ak-leise"
+        className="relative flex size-11 cursor-pointer items-center justify-center gap-1 rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise sm:w-auto sm:px-3"
       >
-        <KalenderZeichen groesse={18} />
+        {/* Auf dem Handy nur die Glocke: Der Markenname hat Vorrang vor der Breite der Pille. */}
+        <span className="hidden sm:block"><KalenderZeichen groesse={18} /></span>
         <GlockenZeichen groesse={18} />
         {verbindung.verbunden && <span className="absolute top-1 right-1.5 size-2 rounded-full bg-emerald-500" aria-hidden="true" />}
       </button>

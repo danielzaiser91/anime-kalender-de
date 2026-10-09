@@ -36,7 +36,8 @@ function einfacherKlick(e: React.MouseEvent): boolean {
 /**
  * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema
  * und Einstellungen. Sie klebt oben und rollt mit. Auf dem Handy wandern die
- * Bereiche und das Zahnrad nach unten, die Suche klappt unter der Leiste auf.
+ * Bereiche und das Zahnrad nach unten, die Suche klappt unter der Leiste auf. Der Markenname steht immer ganz da;
+ * bei Platzmangel weicht die rechte Seite (Daniel, 09.10.2026).
  */
 export function Header({
   view,
@@ -67,7 +68,7 @@ export function Header({
   const { t } = useLang()
   const aktiv = bereichVon(view)
   const kalender = aktiv === 'kalender'
-  const { sucheAuf, eingabe, kopf, oeffnen } = useKopfSuche(view, kalender, zurSuche)
+  const { sucheAuf, eingabe, kopf, oeffnen } = useKopfSuche(view, kalender, suche, zurSuche)
   return (
     <header ref={kopf} className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
       <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6 lg:px-10">
@@ -80,10 +81,10 @@ export function Header({
             }
           }}
           aria-label={t('kopf.startseite')}
-          className="flex min-w-0 cursor-pointer items-center gap-2.5 text-ak-text"
+          className="flex shrink-0 cursor-pointer items-center gap-2 text-ak-text min-[360px]:gap-2.5"
         >
-          <LogoZeichen groesse={32} />
-          <span className="truncate font-display text-base font-bold tracking-[-0.01em] sm:text-xl">
+          <LogoZeichen className="size-7 min-[360px]:size-8" />
+          <span className="shrink-0 whitespace-nowrap font-display text-[14px] font-bold tracking-[-0.01em] min-[360px]:text-base sm:text-xl">
             anime<span className="text-ak-akzent">·</span>kalender
           </span>
         </a>
