@@ -101,8 +101,13 @@ const imFeld = await feld.inputValue()
 /* Nach der Ruhezeit muss die Trefferliste stehen. */
 await seite.waitForTimeout(600)
 const treffer = await seite.evaluate(() => {
-  const text = document.body.innerText.match(/([\d.]+)\s+Anime mit belegter/)
-  return text ? text[1] : '(nicht gefunden)'
+  /* Fußzeile: „N Anime mit belegter … · M angekündigt oder wahrscheinlich“ (Titelzahl = N + M) oder ohne Aufteilung „N Anime mit deutscher …“. */
+  const zahl = (s) => Number(s.replace(/\./g, ''))
+  const t = document.body.innerText
+  const geteilt = t.match(/([\d.]+)\s+Anime mit belegter[^·]*·\s*([\d.]+)\s+angekündigt/)
+  if (geteilt) return (zahl(geteilt[1]) + zahl(geteilt[2])).toLocaleString('de-DE')
+  const gesamt = t.match(/([\d.]+)\s+Anime mit deutscher/)
+  return gesamt ? gesamt[1] : '(nicht gefunden)'
 })
 
 await browser.close()
