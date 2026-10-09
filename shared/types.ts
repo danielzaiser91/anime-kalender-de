@@ -483,7 +483,7 @@ export interface Title {
   /** Woher `score` stammt; fehlt = AniList. Cartoons tragen die TMDB-Wertung. */
   scoreQuelle?: 'tmdb'
   fsk?: Fsk; fskQuelle?: 'justwatch' // fskQuelle gesetzt = Anbieter-Einstufung (JustWatch), keine FSK-Freigabe
-  dubConfidence: DubConfidence
+  dubConfidence: DubConfidence; einzelquelle?: boolean // alte Stufe low (true) bzw. nicht low (false), nur wo sie von dubConfidence abweicht (09.10.2026)
   /**
    * true bei Titeln **ohne** belegte deutsche Synchro.
    *

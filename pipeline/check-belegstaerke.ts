@@ -3,6 +3,7 @@
  * Läuft hinter `check:logic`; prüft die Regel an Beispielen und den ausgelieferten Datensatz gegen eine Neuberechnung.
  */
 import type { Title } from '../shared/types.ts'
+import { titleStatus } from '../shared/logic.ts'
 import { belegstaerke, hochOhneBeleg, type Belegsignale } from './lib/belegstaerke.ts'
 
 let fehler = 0
@@ -28,6 +29,14 @@ pruefe('Handbeleg allein: high', belegstaerke(titel(), { ...leer, handbelegt: ne
 pruefe('Handbeleg und Tonspur sind eine Quelle', belegstaerke(titel(tonspur), { ...leer, handbelegt: new Set([1]) }) === 'high')
 pruefe('Synchronkartei allein: high', belegstaerke(titel(), { ...leer, kartei: new Set([1]) }) === 'high')
 pruefe('stark plus mittel: very-high', belegstaerke(titel({ ...tonspur, ...anisearch }), leer) === 'very-high')
+
+console.log('\nBelegstärke: „erschienen“ folgt weiter der alten Stufe')
+{
+  const status = (x: object) => titleStatus([], '2026-10-09', { jpYear: 2020, streams: [], ...x } as never)
+  pruefe('alte Stufe nicht low, neue low: bleibt erschienen', status({ dubConfidence: 'low', einzelquelle: false }) === 'erschienen')
+  pruefe('alte Stufe low, neue höher: bleibt unbekannt', status({ dubConfidence: 'normal', einzelquelle: true }) === 'unbekannt')
+  pruefe('ohne Feld gilt dubConfidence', status({ dubConfidence: 'low' }) === 'unbekannt' && status({ dubConfidence: 'high' }) === 'erschienen')
+}
 
 console.log('\nBelegstärke: Zusicherung für die Auslieferung')
 {

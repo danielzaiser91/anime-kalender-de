@@ -143,7 +143,7 @@ const ERSCHIENEN_MINDESTABSTAND_TAGE = 365
 export function titleStatus(
   releases: Release[],
   today = todayIso(),
-  title?: Pick<Title, 'jpEnd' | 'jpYear' | 'dubConfidence' | 'streams'>,
+  title?: Pick<Title, 'jpEnd' | 'jpYear' | 'dubConfidence' | 'einzelquelle' | 'streams'>,
 ): ReleaseStatus {
   if (releases.length > 0) {
     const all = releases.map((r) => releaseStatus(r, today))
@@ -177,7 +177,7 @@ export function titleStatus(
   const ended = title?.jpEnd ?? (title?.jpYear ? `${title.jpYear}-12-31` : undefined)
   // Ohne einen belegten Verweis reicht eine einzige Quelle für den Satz „die
   // deutsche Fassung ist erschienen" nicht.
-  if (ended && title?.dubConfidence !== 'low' && ended < addDays(today, -ERSCHIENEN_MINDESTABSTAND_TAGE)) {
+  if (ended && !(title?.einzelquelle ?? title?.dubConfidence === 'low') && ended < addDays(today, -ERSCHIENEN_MINDESTABSTAND_TAGE)) {
     return 'erschienen'
   }
   return 'unbekannt'

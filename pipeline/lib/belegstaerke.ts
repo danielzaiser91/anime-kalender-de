@@ -57,7 +57,12 @@ export function hochOhneBeleg(titel: Title[], s: Pick<Belegsignale, 'handbelegt'
 }
 
 /** Alle Titel mit der Stufe aus ihren Quellen; die Eingabe bleibt unverändert. */
-export function mitBelegstaerke<T extends Kette>(titel: T[], releases: Release[]): (T & { dubConfidence: DubConfidence })[] {
+export function mitBelegstaerke<T extends Kette & Pick<Title, 'dubConfidence'>>(titel: T[], releases: Release[]): (T & Pick<Title, 'einzelquelle'>)[] {
   const signale = ladeBelegsignale(releases)
-  return titel.map((t) => ({ ...t, dubConfidence: belegstaerke(t, signale) }))
+  return titel.map((t) => {
+    const dubConfidence = belegstaerke(t, signale)
+    /* Die alte Stufe (`low` = eine MyDubList-Stimme) steuert weiter „erschienen“ und „ohne belegte Synchro“; das Feld steht nur, wo sie von der neuen abweicht. */
+    const einzelquelle = t.dubConfidence === 'low'
+    return { ...t, dubConfidence, ...(einzelquelle !== (dubConfidence === 'low') ? { einzelquelle } : {}) }
+  })
 }
