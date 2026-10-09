@@ -698,6 +698,18 @@ bleiben (die Handdatei bindet sie); bei mehr als einem Treffer auf einer Seite w
 (`zuAk`), sie stand nur hinter dem Schalter. Zusicherung: `pipeline/check-anisearch-dubletten.ts` (Teil von `check:logic`), mit Übergang bis 16.10.2026, bis der
 nächste Datenlauf den Datensatz neu gebaut hat.
 
+### Magical Explorer zweimal (09.10.2026, Nachtrag)
+
+Daniel sah die Dublette nach dem Fix weiter: **Der ausgelieferte Bestand war seit dem 09.10.2026 00:26 nicht mehr neu gebaut worden.** Jeder Bestandsbau lief durch, wurde aber
+mit „Bestand nicht übernommen" verworfen, weil `check:cr-zuordnung` „Titel nur bei aniSearch tragen keinen erratenen Weg" meldete: Seit #521 hängt der Cartoon-Zwilling
+(`cartoon-zu-anime.ts`) TMDB-Anbieter (`herkunft: 'tmdb'`) an Anime-Titel, auch an aniSearch-Zeilen (Devil May Cry, Mech Cadets, ONI, Pacific Rim, YooHoo). Die Zusicherung
+nimmt TMDB-Wege jetzt aus. Gemessen am Datensatz von `main`: 5.636 aniSearch-Zeilen, 2.568 Paare (1.342 über die aniSearch-Kennung des AniList-Titels, Rest über die MAL).
+Zweite Lücke: aniSearch führt asiatische Web-Serien als „TV-Serie", AniList als ONA; `gleichesWerk` verglich die Formatklassen streng (Magical Explorer, Snow Eagle Lord 3,
+Frontier Lord, Stepbrother …) — TV und ONA sind jetzt eine Klasse. Dritte Lücke: nur eine Gegenprobe auf dem Bestand, mit Übergang bis 16.10.; jetzt prüft der Bau selbst
+(`anisearchZeilenDoppelt`, in `auslieferungsInvarianten`) ohne Übergang, dass keine Zeile ohne Deutsch neben einem AniList-Titel mit ihrer Kennung oder gleichem Werk steht.
+Nach dem Bau (Näherung am Cache vom 09.10.): 2.848 Zeilen, 0 Paare. Offen und gewollt: 255 Zeilen ohne Deutsch bleiben unter gleicher MAL, weil Folgenzahl oder Format
+abweichen (Mehr-Staffel, Specials: Japan Anima(tor)'s Exhibition 36 Kurzfilme, Wappi-chan 2 × 13 gegen 26); 34 Zeilen mit Deutsch warten auf die Handdatei (u. a. Rick and Morty: The Anime, Titipo 2, Ao Ashi 2).
+
 ### Undatierte Katalogeinträge veralten (The Boxer, 09.10.2026)
 
 Der Katalog-Frischlauf holt das laufende und die kommenden Jahre sowie die jüngsten Kennungen. Ein Eintrag **ohne Startdatum mit älterer Kennung** (The Boxer,

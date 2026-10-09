@@ -172,7 +172,7 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
     neu++
   }
   erstausgabeUebernehmen(titles)
-  if (neu) log(`${neu} Titel nur bei aniSearch ergänzt (${anisearchNurKatalog().size} davon ohne Deutsch, nur im Katalog)`)
+  if (neu) log(`${neu} Titel nur bei aniSearch ergänzt (${anisearchNurKatalog().size} davon ohne Deutsch, nur im Katalog); ${[...vergeben].filter((a) => String(a) in alle()).length} Einträge entfallen, weil ein AniList-Titel ihre Kennung trägt`)
   return neu
 }
 

@@ -9,6 +9,8 @@ import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
 import { OUT } from './grundlagen.ts'
 import { ohneSynchroVonHand } from './ohne-beleg.ts'
+import { alle as anisearchEintraege } from './anisearch-titel.ts'
+import { anisearchZeilenDoppelt } from './anisearch-dubletten.ts'
 
 /** Die Dateien, in denen aniSearch-Wege stehen und die zu diesem Zeitpunkt des Baus schon frisch geschrieben sind (`releases.json` folgt erst danach; `check:logic` prüft sie nach). */
 function auslieferungstexte(): { datei: string; text: string }[] {
@@ -37,6 +39,7 @@ export function auslieferungsInvarianten(): string[] {
       handKeine: ohneSynchroVonHand(),
       heute: todayIso(),
     }),
+    ...anisearchZeilenDoppelt([...auslieferung.titles, ...auslieferung.ohneSynchro], anisearchEintraege()),
     ...reihenVerweiseAufgeloest(auslieferung),
     ...keinAnisearchSuchlink(auslieferungstexte()),
     ...hochOhneBeleg(auslieferung.titles, ladeBelegsignale([])).map((id) => `Titel ${id}: Belegstärke high ohne starke oder zwei mittlere Quellen`),
