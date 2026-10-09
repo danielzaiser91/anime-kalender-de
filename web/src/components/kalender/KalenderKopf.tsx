@@ -111,7 +111,7 @@ export function SteuerElemente(p: SteuerProps & { filterKnopf?: ReactNode }) {
   const monat = p.view === 'monat'
   const schritt = (dir: number) => p.onDate(monat ? addMonths(p.date, dir) : addDays(p.date, dir * 7))
   const lage = useHeuteLage(monat, p.date)
-  const rund = 'flex size-11 max-[419px]:size-10 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
+  const rund = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
   return (
     <>
       <div role="group" aria-label={t('kal.zeitraum')} className="flex rounded-full bg-ak-flaeche-2 p-0.5">
@@ -167,7 +167,7 @@ function HeuteKnopf({ lage, monat, onClick }: { lage: HeuteLage; monat: boolean;
         aria-label={`${t('nav.today')}: ${text}`}
         aria-current={hier ? 'date' : undefined}
         className={[
-          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 max-[419px]:px-1.5 max-[339px]:size-10 max-[339px]:justify-center max-[339px]:px-0 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
+          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 max-[419px]:px-1.5 max-[339px]:size-11 max-[339px]:justify-center max-[339px]:px-0 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
           hier ? 'border-ak-rand bg-transparent text-ak-leise hover:border-ak-leise hover:text-ak-text' : 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent',
         ].join(' ')}
       >
@@ -188,7 +188,7 @@ function Segment({ an, onClick, children }: { an: boolean; onClick: () => void; 
       aria-pressed={an}
       onClick={onClick}
       className={[
-        'h-10 cursor-pointer rounded-full px-3 max-[419px]:px-2 max-[369px]:px-1.5 text-sm font-bold transition sm:px-4',
+        'h-10 max-md:h-11 cursor-pointer rounded-full px-3 max-[419px]:px-2 max-[369px]:px-1.5 text-sm font-bold transition sm:px-4',
         an ? 'bg-ak-akzent text-ak-auf-akzent' : 'text-ak-leise hover:text-ak-text',
       ].join(' ')}
     >
