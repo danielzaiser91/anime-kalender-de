@@ -2,6 +2,8 @@ import { useState } from 'react'
 import type { ViewId } from '../../lib/router.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { useNewsletterVerbindung } from '../../lib/newsletterSync.ts'
+import { useInstall } from '../../lib/pwa.ts'
+import { InstallZeile } from '../InstallPrompt.tsx'
 import { pushAktivGemerkt, pushAusschalten, pushEinschalten, pushMoeglich } from '../../lib/push.ts'
 import { Schwebe } from './Schwebe.tsx'
 import { GlockenZeichen, KalenderZeichen, PostZeichen } from './Zeichen.tsx'
@@ -15,8 +17,10 @@ import { Schalter } from './FilterFeld.tsx'
 export function AboMenue({ onView, favorites }: { onView: (v: ViewId) => void; favorites: Set<number> }) {
   const { t } = useLang()
   const verbindung = useNewsletterVerbindung()
+  // Hier, nicht im Inhalt: Der entsteht erst beim Öffnen und hätte `beforeinstallprompt` verpasst.
+  const installation = useInstall()
   return (
-    <Schwebe art="klick" breite={330} label={t('kopf.abo')} inhalt={<AboInhalt onView={onView} favorites={favorites} verbindung={verbindung} />}>
+    <Schwebe art="klick" breite={330} label={t('kopf.abo')} inhalt={<AboInhalt onView={onView} favorites={favorites} verbindung={verbindung} installation={installation} />}>
       <button
         type="button"
         aria-label={t('kopf.abo')}
@@ -35,10 +39,12 @@ function AboInhalt({
   onView,
   favorites,
   verbindung,
+  installation,
 }: {
   onView: (v: ViewId) => void
   favorites: Set<number>
   verbindung: ReturnType<typeof useNewsletterVerbindung>
+  installation: ReturnType<typeof useInstall>
 }) {
   const { t } = useLang()
   const zeile = 'flex w-full cursor-pointer items-center gap-3 rounded-xl p-3 text-left text-ak-text transition hover:bg-ak-flaeche-2'
@@ -58,6 +64,7 @@ function AboInhalt({
         <Text titel={`${t('view.newsletter')}${verbindung.verbunden ? ' ✓' : ''}`} hinweis={newsletterHinweis} />
       </button>
       <PushZeile favorites={favorites} />
+      <InstallZeile {...installation} />
     </div>
   )
 }

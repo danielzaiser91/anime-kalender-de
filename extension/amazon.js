@@ -5767,7 +5767,7 @@ async function speicherSchreiben(werte) {
     const offen = offeneZahl()
     const suchen = suchOffen().length
     const gesamt = offen + suchen
-    uebersichtKnopf.classList.toggle('ak-fertig', !gesamt)
+    akZaehler(uebersichtKnopf, gesamt, !!primeLaufLesen())
     const lauf = primeLaufLesen()
     if (lauf) {
       /*

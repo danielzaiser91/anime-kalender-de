@@ -322,7 +322,7 @@ for (const { pfad, suche, stand, leer } of PFADE) {
       runtime: { id: 'test' },
       storage: { local: { get: (k, cb) => cb({}), set: (v, cb) => cb && cb() } },
     },
-    window: { addEventListener() {}, location: { pathname: pfad, search: '' } },
+    window: { addEventListener() {}, location: { pathname: pfad, search: '' } }, MutationObserver: class { observe() {} }, requestAnimationFrame: () => 0,
     /* In der Stand-Probe: leerer Briefkasten, der Worker-Stand nennt einen Eintrag. */
     fetch: (u) =>
       Promise.resolve({

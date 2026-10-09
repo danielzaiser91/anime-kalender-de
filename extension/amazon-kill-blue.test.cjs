@@ -154,7 +154,7 @@ function starte() {
         sync: { get: () => Promise.resolve({ token: 'test-token' }) },
       },
     },
-    window: {
+    akZaehler(k, z) { k?.classList?.toggle?.('ak-fertig', !z); return z }, window: {
       addEventListener(art, fn) {
         /* Der Test stellt den Titelwechsel nach — dafür braucht er den Hörer. */
         if (art === 'message') sandkasten.__nachrichtenHoerer = fn

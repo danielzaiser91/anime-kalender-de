@@ -5530,7 +5530,7 @@ function uebersichtZeigen() {
     23.08.2026: „dort sollen nur nicht gemeldete gezählt werden"). Ein „✓" hält den Zugang zur
     Liste offen; ganz weg ist er erst, wenn die Liste selbst leer ist.
   */
-  uebersichtKnopf.classList.toggle('ak-fertig', !offeneAdressen)
+  akZaehler(uebersichtKnopf, offeneAdressen)
   /* Ohne jeden Eintrag sagt der Knopf, warum nichts dasteht — ein Häkchen allein
      ließe offen, ob die Liste leer oder die Erweiterung kaputt ist. */
   uebersichtKnopf.textContent = !Object.keys(offeneTitel ?? {}).length
