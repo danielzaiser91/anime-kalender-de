@@ -27,15 +27,19 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
   const releaseBySlug = new Map(releases.map((r) => [r.slug, r]))
   let premier = 0
   let wiederholungen = 0
+  let ohneAussage = 0
   let finale = 0
   for (const ev of events) {
     const release = releaseBySlug.get(ev.releaseSlug)
     const title = titles.get(ev.titleId)
     if (release && title && ev.platform === 'tv' && ev.episode && !ev.sichtung) {
       const istEs = istPremiere(ev.episode, ev.date, title, releases, release.ersteDeutsch, ev.time)
-      ev.tvPremiere = istEs
-      if (istEs) premier++
-      else wiederholungen++
+      if (istEs === undefined) ohneAussage++
+      else {
+        ev.tvPremiere = istEs
+        if (istEs) premier++
+        else wiederholungen++
+      }
     }
     if (istStaffelfinale(ev, { releaseBySlug })) {
       ev.staffelfinale = true
@@ -43,7 +47,7 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
     }
     if (istStaffelstart(ev, { releaseBySlug })) ev.staffelstart = true
   }
-  log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${finale} Staffelfinale`)
+  log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${ohneAussage} ohne Aussage (kein Beleg), ${finale} Staffelfinale`)
 }
 
 export function rolleTermineAus({ releases, titles, jpStart }: {

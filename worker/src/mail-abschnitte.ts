@@ -91,7 +91,7 @@ export function tvWiederholungen(ctx: RowContext, events: ReleaseEvent[]): strin
   )
   const zeilen = sortiert.map((ev) => [...wiederholungsTeile(ev).map(escapeHtml), kalenderLink(calendarUrl(ctx, ev))].join(' · '))
   return `<p style="margin:26px 0 0;padding-bottom:6px;border-bottom:2px solid #3f4b63;color:#8b98b3;font-weight:700;font-size:15px;letter-spacing:.03em;">
-      📺 TV — Wiederholungen
+      📺 TV — Weitere Sendungen
     </p>
     <p style="margin:8px 0 0;color:#8b98b3;font-size:13px;line-height:1.7;">${zeilen.join('<br>')}</p>`
 }

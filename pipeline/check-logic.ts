@@ -55,7 +55,7 @@ import { omuMeldungen } from './lib/news-omu.ts'
 import { discBonusAus } from './lib/disc-bonus.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../shared/kostenlos.ts'
 import { istPremiere, tvAngabe } from '../web/src/lib/tv-angabe.ts'
-import { istKeinDeutscherStart } from '../shared/tv-signale.ts'
+import { ersterDeutscherTermin, istKeinDeutscherStart } from '../shared/tv-signale.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
 import { FSK_COLORS, PLATFORMS } from '../shared/types.ts'
 import {
@@ -6175,10 +6175,10 @@ pruefe(
   )
   pruefe(
     'die TV-Wiederholungen stehen darunter, getrennt und klein',
-    wo('📺 TV — Wiederholungen') > wo('📺 TV — Premieren') &&
+    wo('📺 TV — Weitere Sendungen') > wo('📺 TV — Premieren') &&
       !m.html.includes('die Folgen liefen schon auf Deutsch') &&
       m.html.includes('Dragon Ball Fg. 5'),
-    String(wo('📺 TV — Wiederholungen')),
+    String(wo('📺 TV — Weitere Sendungen')),
   )
   pruefe('die TV-Wiederholungen haben kein Premieren-Abzeichen', !/Dragon Ball Fg\. 5<\/strong><\/a> <span/.test(m.html))
   pruefe(
@@ -6189,7 +6189,7 @@ pruefe(
   pruefe('der Betreff nennt das Finale statt einer Zahl', m.subject === 'Finale bei Frieren', m.subject)
   pruefe(
     'die Neuigkeiten nennen Titel, Satz und Quelle',
-    wo('📰 Neuigkeiten') > wo('📺 TV — Wiederholungen') &&
+    wo('📰 Neuigkeiten') > wo('📺 TV — Weitere Sendungen') &&
       m.html.includes('Start am 03.10.2026 bei Crunchyroll') &&
       m.html.includes('Quelle: crunchyroll.com') &&
       m.html.includes('zum Kalender') && !m.html.includes('Im Kalender ansehen') && !m.html.includes('Ankündigungen, auf die niemand'),
@@ -7134,10 +7134,10 @@ pruefe(
   /* Premiere/Wiederholung — Daima: YouTube nur Folge 1, RTL+ ab 25.09. */
   const daima = { id: 170083, streams: [{ platform: 'youtube', url: 'y', dub: true, dubRanges: [{ from: 1, to: 1, dub: true }, { from: 2, to: 20, dub: false }] }] } as unknown as Title
   const rtl = { slug: 'd-rtl', titleId: 170083, name: 'D', platform: 'rtlplus', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-09-25', episodeCount: 20 }, sources: ['x'] } as unknown as Release
-  pruefe('Premiere: Folge 16 vor dem RTL+-Start', istPremiere(16, '2026-09-16', daima, [rtl]))
-  pruefe('Wiederholung: Folge 1 steht auf YouTube', !istPremiere(1, '2026-09-16', daima, [rtl]))
-  pruefe('Wiederholung: nach dem RTL+-Termin der Folge', !istPremiere(1, '2026-10-01', { ...daima, streams: [] } as Title, [rtl]))
-  pruefe('Wiederholung: lief laut Episodenliste schon früher auf Deutsch', !istPremiere(16, '2026-09-16', daima, [rtl], { 16: '2025-05-01' }))
+  pruefe('Premiere: Folge 16 vor dem RTL+-Start', istPremiere(16, '2026-09-16', daima, [rtl]) === true)
+  pruefe('Wiederholung: Folge 1 steht auf YouTube', istPremiere(1, '2026-09-16', daima, [rtl]) === false)
+  pruefe('Wiederholung: nach dem RTL+-Termin der Folge', istPremiere(1, '2026-10-01', { ...daima, streams: [] } as Title, [rtl]) === false)
+  pruefe('Wiederholung: lief laut Episodenliste schon früher auf Deutsch', istPremiere(16, '2026-09-16', daima, [rtl], { 16: '2025-05-01' }) === false)
   /*
     **Nachtwiederholung**. ProSieben MAXX zeigt One Piece abends und in
     derselben Nacht noch einmal; im Streaming ändert sich dazwischen nichts, also hielt die
@@ -7160,15 +7160,15 @@ pruefe(
   const ohneStream = { id: 21, streams: [] } as unknown as Title
   pruefe(
     'Premiere: die erste Ausstrahlung am Abend',
-    istPremiere(1093, '2026-09-22', ohneStream, [abends, nachts], undefined, '18:25'),
+    istPremiere(1093, '2026-09-22', ohneStream, [abends, nachts], { 1093: '2026-09-22', 1094: '2026-09-23' }, '18:25') === true,
   )
   pruefe(
     'Wiederholung: dieselbe Folge in der Nacht danach',
-    !istPremiere(1093, '2026-09-23', ohneStream, [abends, nachts], undefined, '04:25'),
+    istPremiere(1093, '2026-09-23', ohneStream, [abends, nachts], { 1093: '2026-09-22' }, '04:25') === false,
   )
   pruefe(
     'Eine andere Folge in derselben Nacht bleibt Premiere',
-    istPremiere(1094, '2026-09-23', ohneStream, [abends, nachts], undefined, '04:25'),
+    istPremiere(1094, '2026-09-23', ohneStream, [abends, nachts], { 1093: '2026-09-22', 1094: '2026-09-23' }, '04:25') === true,
   )
 }
 {
@@ -7202,6 +7202,7 @@ pruefe(
   pruefe('Erstausgabe früher: der automatische TV-Termin zählt nicht als deutscher Start', istKeinDeutscherStart(rtl12, superWings))
   pruefe('Erstausgabe früher: ein von Hand belegter TV-Termin bleibt ein Start', !istKeinDeutscherStart({ ...rtl12, automatisch: false }, superWings))
   pruefe('Ohne Erstausgabe: der automatische TV-Termin bleibt ein Start', !istKeinDeutscherStart(rtl12, { ...superWings, deErstausgabe: undefined } as Title))
+  pruefe('„Neu auf Deutsch" bezieht den ersten Termin ohne diese TV-Termine (nebendateien.ts)', readFileSync('pipeline/bau/nebendateien.ts', 'utf8').includes('ersterDeutscherTermin(releases, titles)') && ersterDeutscherTermin([rtl12], [superWings]).size === 0 && ersterDeutscherTermin([{ ...rtl12, automatisch: false }], [superWings]).get(10012621) === '2026-10-07')
   pruefe('Erstausgabe ohne Synchro-Marke widerlegt den Start nicht', !istKeinDeutscherStart(rtl12, { ...superWings, deErstausgabe: { von: '2017-01-25' } } as Title))
 }
 {
