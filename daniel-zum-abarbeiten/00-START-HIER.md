@@ -1,6 +1,6 @@
 # Was zu tun ist
 
-Stand: 2026-10-08 — **erzeugt aus dem ausgelieferten Datensatz**,
+Stand: 2026-10-09 — **erzeugt aus dem ausgelieferten Datensatz**,
 nicht von Hand gepflegt. Wer hier eine Zahl ändert, ändert sie am
 falschen Ort; sie kommt beim nächsten Lauf zurück.
 
@@ -10,6 +10,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 | 3 | [Netflix](listen/06-netflix-rest.md) | 9 Titel, 9 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 4 | [Suchadressen — welcher Titel steckt dahinter?](listen/18-suchadressen.md) | 2 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
 | 5 | [Crunchyroll](listen/07-crunchyroll.md) | 10 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
+| 7 | [Disney+](listen/07-disneyplus.md) | 1 Titel, 0 Verweise | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 | 8 | [Disney+ — sind es wirklich 2?](listen/21-disneyplus-gruen.md) | 2 Titel, alle Folgen grün | ~2 min | die Frage, ob die Liste recht hat oder das Grün lügt |
 
 **Alles außer Nummer 4, 5 und 6 läuft über die Browser-Erweiterung** aus `extension/`.
