@@ -1,4 +1,4 @@
-import { useMemo, type ReactNode } from 'react'
+import { useMemo, type ReactElement } from 'react'
 import type { Release } from '@shared/types.ts'
 import { ReleasePille } from './pillen.tsx'
 import { jetztBerlin } from '../../lib/toggo.ts'
@@ -20,7 +20,7 @@ export const tvVorbeiGruppen = (liste: TvZuletzt[]): Array<readonly [string, 'tv
   [...liste.map(({ release }) => `${release.slug}|vorbei`), ...(liste.length ? ['tv-vorbei-satz'] : [])].map((k) => [k, 'tv'] as const)
 
 /** Die Pillen mit dem letzten Termin, dahinter in voller Breite der Satz, dass keiner mehr aussteht. */
-export function tvVorbeiPillen(liste: TvZuletzt[], titel: string, today: string, satz: string): ReactNode[] {
+export function tvVorbeiPillen(liste: TvZuletzt[], titel: string, today: string, satz: string): ReactElement[] {
   if (!liste.length) return []
   return [
     ...liste.map(({ release, text }) => (
