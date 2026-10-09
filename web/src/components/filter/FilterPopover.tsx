@@ -8,6 +8,19 @@ import { useWerkzeugSlot } from './werkzeug-slot.tsx'
 const UNTEN = 94
 
 /**
+ * Macht alles außer Leiste und Fenster `inert`: Tab, Klick und Vorlesen erreichen den Hintergrund nicht, solange das
+ * Fenster offen ist. Gibt die Rücknahme zurück (nur, was hier gesperrt wurde).
+ */
+function hintergrundSperren(kopf: Element | null | undefined, slot: HTMLElement | null): () => void {
+  const ziele: Element[] = []
+  if (kopf) ziele.push(...Array.from(kopf.parentElement?.children ?? []).filter((e) => e !== kopf), ...Array.from(kopf.children).filter((e) => e !== slot))
+  ziele.push(...Array.from(document.body.children).filter((e) => !e.contains(kopf ?? null) && !e.hasAttribute('data-schleier') && e.tagName !== 'SCRIPT'))
+  const gesperrt = ziele.filter((e): e is HTMLElement => e instanceof HTMLElement && !e.inert)
+  gesperrt.forEach((e) => (e.inert = true))
+  return () => gesperrt.forEach((e) => (e.inert = false))
+}
+
+/**
  * Das Filterfenster der Werkzeugleiste: hängt 8 px unter der Leiste, scrollt in sich und nimmt höchstens den sichtbaren
  * Bereich bis zur Navigation (mit Tastatur kürzer). Kein Modal: dahinter liegt nur ein Schleier zum Wegtippen.
  * Escape und Zurück schließen; der Fokus geht hinein und beim Schließen zurück an den Auslöser.
@@ -32,6 +45,7 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
     const html = document.documentElement
     const vorher = html.style.overflow
     html.style.overflow = 'hidden'
+    const wieder = hintergrundSperren(kopf, slot)
     dialog.current?.focus()
     const taste = (e: KeyboardEvent) => e.key === 'Escape' && zu.current()
     window.addEventListener('keydown', taste)
@@ -39,6 +53,7 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
     return () => {
       window.removeEventListener('keydown', taste)
       html.style.overflow = vorher
+      wieder()
       if (kopf) delete kopf.dataset.filterOffen
       knopf?.focus()
     }
@@ -47,7 +62,7 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
   const oben = slot.getBoundingClientRect().bottom + 8
   return (
     <>
-      {createPortal(<div aria-hidden="true" onClick={schliessen} className="fixed inset-0 z-20 bg-black/30" />, document.body)}
+      {createPortal(<div data-schleier aria-hidden="true" onClick={schliessen} className="fixed inset-0 z-20 bg-black/30" />, document.body)}
       {createPortal(
         <div
           ref={dialog}
