@@ -81,10 +81,10 @@ console.log('\nBelegstärke: Zusicherung für die Auslieferung')
 {
   const t = (id: number, dubConfidence: Title['dubConfidence'], extra: Partial<Title> = {}) => ({ id, dubConfidence, streams: [], ...extra }) as Title
   const gefunden = hochOhneBeleg(
-    [t(1, 'high'), t(2, 'very-high'), t(3, 'low'), t(4, 'normal', anisearch), t(5, 'high', tonspur), t(6, 'high', anisearch), t(7, 'high'), t(8, 'high')],
-    { handbelegt: new Set([7]), kartei: new Set([8]), forum: new Set([9]) },
+    [t(1, 'high'), t(2, 'very-high'), t(3, 'low'), t(4, 'normal', anisearch), t(5, 'high', tonspur), t(6, 'high', anisearch), t(7, 'high'), t(8, 'high'), t(9, 'high')],
+    { handbelegt: new Set([7]), kartei: new Set([8]) },
   )
-  pruefe('hoch ohne starke Quelle und ohne aniSearch-Marke wird gemeldet', gefunden.join() === '1,2', gefunden)
+  pruefe('hoch ohne starke Quelle und ohne aniSearch-Marke (auch mit Forum-Treffer) wird gemeldet', gefunden.join() === '1,2,9', gefunden)
 }
 
 if (fehler) {
