@@ -610,7 +610,7 @@
     }
     disneyDebugZeile(kasten)
     /* Gezählt wird der Titel, nicht die Meldung — teilweise gemeldet ist noch offen (26.08.2026). */
-    const nochOffen = offen.filter((e) => !istErledigt(e)).length
+    const nochOffen = akZaehler(null, offen.filter((e) => !istErledigt(e)).length, !!globalThis.AK_DISNEY_DURCHGANG?.laeuft())
     uebersichtKnopf.textContent = nochOffen
       ? `Anime-Kalender: ${nochOffen} offen`
       : 'Anime-Kalender: alles gemeldet ✓'

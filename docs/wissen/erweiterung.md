@@ -2165,3 +2165,9 @@ Disney+ zählt je Staffel neu (Naruto Shippuden 53/59/54); führt unser Bestand 
 ## Kasten auf Wiedergabeseiten ausgeblendet (4.24.16, 08.10.2026)
 
 Disney+ `/de-de/play/<uuid>` und Netflix `/watch/<id>`: `box.js` setzt `html.ak-im-player`, `melder.css` blendet `.ak-box` aus (nur visuell, Logik läuft weiter). Wechsel ohne Neuladen über `navigation` (`currententrychange`), kein Takt. Ausnahme: Netflix-Durchgang (`html.ak-durchgang`), dort ist der Kasten der Notausgang. Prime erkennt den Player selbst (`amazon.js`, `imPlayer()`). Zusicherung: `box-player.test.cjs`.
+
+## Kasten einklappbar mit Zähler-Icon (4.24.17, 09.10.2026)
+
+Ein Icon (44 px, „AK" bzw. „▾") unten rechts klappt den Kasten aus und ein, auf Netflix, Disney+ und Prime gleich; Code nur in `box.js` (`akIconStarten`), Stil am Ende von `melder.css`. Standard eingeklappt; der Zustand liegt unter **einem** Schlüssel `akKastenZu` in `chrome.storage.local` (seitenübergreifend, Berechtigung `storage` bestand schon; `onChanged` gleicht offene Tabs ab). Eingeklappt ist rein visuell (`html.ak-zu`, Transition auf `opacity`/`transform`, aus bei `prefers-reduced-motion`); erfasst sind `.ak-box` sowie bei Prime `.ak-amazon-knopf`, `.ak-durchlauf`, die freistehende Übersicht. Ein Netflix-Durchgang (`html.ak-durchgang`) und ein laufender Disney+-/Prime-Durchgang halten den Kasten offen (Notausgang). Auf Wiedergabeseiten (4.24.16) ist auch das Icon weg.
+
+**Die Badge-Zahl ist keine zweite Zählung:** jeder Melder reicht über `akZaehler(n, pflicht)` die Zahl durch, die schon seinen Knopf beschriftet — Netflix `offeneAdressen` (`melder.js`, = `offeneTitelZahl()`), Disney+ `nochOffen` (`disney.js`, Prüfstand-bereinigt, 4.24.14), Prime `offen + suchen` (`amazon.js`). 0 zeigt ein gedämpft grünes „✓", ab 100 steht „99+" (der Wert steht im `aria-label`). Zusicherungen: `box-einklappen.test.cjs`; Bildmessung mit Playwright gegen eine Testseite mit `chrome.storage`-Mock (Skript im Scratchpad der Sitzung).
