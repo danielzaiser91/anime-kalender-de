@@ -10,8 +10,10 @@ Variablen. Vor jedem neuen Helfer nach einem vorhandenen suchen.
 **Kommentare sagen knapp das Warum;** Chronik (Anlass, Fehlerverlauf, Diskussion) gehört in
 Commit oder Doku, eine Zahl im Kommentar trägt trotzdem ihr Datum.
 
+**Nichts Ungefragtes:** Keine Funktion, Option, Konfiguration oder Abstraktion für Einmal-Code und keine Fehlerbehandlung für Fälle, die im Betrieb nicht eintreten können; ließe sich der Entwurf in einem Viertel der Zeilen schreiben, wird er so geschrieben (Neues bekommt trotzdem eine eigene Funktion, aber ohne Parameter für nie verlangte Fälle).
+
+**Chirurgisch:** Jede geänderte Zeile muss auf den Auftrag zurückführbar sein; Benachbartes nicht „verbessern", fremden toten Code nur melden, Reste der eigenen Änderung (Imports, Variablen, Funktionen) im selben Zug entfernen.
+
 **Umbau und Verhaltensänderung nie im selben Commit;** der Umbau wird vorher/nachher mit
 denselben Eingaben verglichen. Größen- oder Komplexitätsgrenzen eines Repos nie anheben;
 Wegwerfskripte ins Scratchpad. Prüfliste und Vorgehen: Skill `sauberer-code`.
-
-**Webseiten und Web-Apps:** Vor jeder Entscheidung zu Bildern, Laden, Daten, Oberfläche und Fremddiensten gilt Best Practice mit Leitziel „auf dem Handy bei schwacher Leitung immer schnell"; Budgets und Messrezept im Skill `web-best-practice`. **Was Daniel sonst nachfragen würde (entprellen, merken, sparsam laden, Zustände, Datenschutz), baue ich in derselben Änderung mit; fertig heißt: mit realer Datenmenge und gedrosseltem Handy gemessen.**
