@@ -1,0 +1,6486 @@
+# Treffer der Synchron-Forum-Liste „Synchronisierte Anime-Titel" (Nutzer „Chat Noir").
+# Quelle: https://215072.homepagemodules.de/t528765f11776745-uebersicht-Synchronisierte-Anime-Titel.html (auch forum.seriensynchron.de), Stand 24.12.2023.
+# Nur japanische Anime; fehlt ein Titel hier, ist das kein Befund. Gespeichert sind nur die zugeordneten AniList-IDs mit Listentitel, Jahr und Sender,
+# nicht die Liste. Erzeugt einmalig mit tools/synchron-forum-treffer.mjs; Unscharfes wurde von Hand entschieden (null = nicht zugeordnet).
+# Wirkung: Beleg „mittel" in pipeline/lib/belegstaerke.ts. Dokumentation: docs/wissen/quellen.md.
+
+- anilistId: 1
+  liste: "Cowboy Bebop, 1998"
+  sender: "MTV"
+- anilistId: 5
+  liste: "Cowboy Bebop: Der Film, 2001"
+  sender: "SONY PICTURES"
+- anilistId: 6
+  liste: "Trigun, 1998"
+  sender: "PANINI VIDEO"
+- anilistId: 7
+  liste: "Witch Hunter Robin, 2002"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 19
+  liste: "Monster, 2004"
+  sender: "KSM ANIME"
+- anilistId: 20
+  liste: "Naruto, 2002"
+  sender: "RTL2"
+- anilistId: 21
+  liste: "One Piece, 1999"
+  sender: "RTL2"
+- anilistId: 24
+  liste: "School Rumble, 2004"
+  sender: "TOKYOPOP"
+- anilistId: 26
+  liste: "Texhnolyze, 2003"
+  sender: "SPVISION"
+- anilistId: 27
+  liste: "Trinity Blood, 2005"
+  sender: "OVA FILMS"
+- anilistId: 30
+  liste: "Neon Genesis Evangelion, 1995"
+  sender: "ADV FILMS + NETFLIX"
+- anilistId: 31
+  liste: "Neon Genesis Evangelion: Death & Rebirth, 1997"
+  sender: "PANINI VIDEO"
+- anilistId: 32
+  liste: "Neon Genesis Evangelion: The End of Evangelion, 1997"
+  sender: "PANINI VIDEO"
+- anilistId: 43
+  liste: "Ghost in the Shell, 1995"
+  sender: "MANGA VIDEO + PANINI VIDEO"
+- anilistId: 44
+  liste: "Rurouni Kenshin: Trust & Betrayal, 1999"
+  sender: "KAZÉ ANIME"
+- anilistId: 46
+  liste: "Rurouni Kenshin: The Movie, 1997"
+  sender: "KAZÉ ANIME"
+- anilistId: 47
+  liste: "Akira, 1988"
+  sender: "WARNER BROS. + PANINI VIDEO"
+- anilistId: 48
+  liste: ".hack//SIGN, 2002"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 49
+  liste: "Oh! My Goddess (OVA), 1993"
+  sender: "ANIME VIDEO"
+- anilistId: 50
+  liste: "Oh! My Goddess, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 51
+  liste: "Angel Sanctuary, 2000"
+  sender: "OVA FILMS"
+- anilistId: 52
+  liste: "Angelic Layer, 2001"
+  sender: "ADV FILMS"
+- anilistId: 54
+  liste: "Appleseed, 2004"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 59
+  liste: "Chobits, 2002"
+  sender: "ADV FILMS"
+- anilistId: 60
+  liste: "Chrono Crusade, 2003"
+  sender: "OVA FILMS"
+- anilistId: 63
+  liste: "DearS, 2004"
+  sender: "TOKYOPOP"
+- anilistId: 64
+  liste: "Rozen Maiden, 2004"
+  sender: "TOKYOPOP"
+- anilistId: 65
+  liste: "Rozen Maiden: Träumend, 2005"
+  sender: "TOKYOPOP"
+- anilistId: 66
+  liste: "Azumanga Daioh, 2002"
+  sender: "ADV FILMS"
+- anilistId: 67
+  liste: "Basilisk: Chronik der Koga-Ninja, 2005"
+  sender: "OVA FILMS"
+- anilistId: 68
+  liste: "Black Cat, 2005"
+  sender: "OVA FILMS"
+- anilistId: 71
+  liste: "Full Metal Panic!, 2002"
+  sender: "ADV FILMS"
+- anilistId: 72
+  liste: "Full Metal Panic? Fumoffu, 2003"
+  sender: "ADV FILMS"
+- anilistId: 90
+  liste: "Gundam Wing, 1995"
+  sender: "RED PLANET"
+- anilistId: 93
+  liste: "Mobile Suit Gundam Seed, 2002"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 97
+  liste: "Last Exile, 2003"
+  sender: "PANINI VIDEO"
+- anilistId: 98
+  liste: "My-HiME, 2004"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 105
+  liste: "Boys Be..., 2000"
+  sender: "TRIMAX"
+- anilistId: 109
+  liste: "Burst Angel, 2004"
+  sender: "PANINI VIDEO"
+- anilistId: 115
+  liste: "El Hazard, 1998"
+  sender: "VOX"
+- anilistId: 117
+  liste: "El Hazard: Die phantastische Welt, 1995"
+  sender: "VOX"
+- anilistId: 121
+  liste: "Fullmetal Alchemist, 2003"
+  sender: "PANINI VIDEO"
+- anilistId: 134
+  liste: "Gunslinger Girl, 2003"
+  sender: "ANIME VIDEO"
+- anilistId: 142
+  liste: "Jeanne, die Kamikaze-Diebin, 1999"
+  sender: "RTL2"
+- anilistId: 145
+  liste: "Kare Kano: Mein Geheimnis, dein Geheimnis, 1998"
+  sender: "CARLSEN MANGA"
+- anilistId: 147
+  liste: "Die Ewigkeit, die du dir wünschst, 2003"
+  sender: "ANIME VIDEO"
+- anilistId: 149
+  liste: "Loveless, 2005"
+  sender: "TOKYOPOP"
+- anilistId: 150
+  liste: "Blood+, 2005"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 152
+  liste: "Solty Rei, 2005"
+  sender: "OVA FILMS"
+- anilistId: 154
+  liste: "Shaman King, 2001"
+  sender: "KABEL1"
+- anilistId: 155
+  liste: "X: The Movie, 1996"
+  sender: "OVA FILMS"
+- anilistId: 156
+  liste: "X: TV-Serie, 2001"
+  sender: "OVA FILMS"
+- anilistId: 157
+  liste: "Magister Negi Magi, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 161
+  liste: "Peace Maker Kurogane, 2003"
+  sender: "TOKYOPOP"
+- anilistId: 163
+  liste: "Power Stone, 1999"
+  sender: "RTL2"
+- anilistId: 164
+  liste: "Prinzessin Mononoke, 1997"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 165
+  liste: "RahXephon, 2002"
+  sender: "PANINI VIDEO"
+- anilistId: 166
+  liste: "Samurai 7, 2004"
+  sender: "PANINI VIDEO"
+- anilistId: 167
+  liste: "Scrapped Princess, 2003"
+  sender: "OVA FILMS"
+- anilistId: 174
+  liste: "Tenjo Tenge, 2004"
+  sender: "ANIME VIDEO"
+- anilistId: 177
+  liste: "Tsubasa Chronicle, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 182
+  liste: "The Vision of Escaflowne, 1996"
+  sender: "MTV"
+- anilistId: 189
+  liste: "Love Hina, 2000"
+  sender: "ANIME VIDEO"
+- anilistId: 190
+  liste: "Love Hina Again, 2002"
+  sender: "ANIME VIDEO"
+- anilistId: 191
+  liste: "Love Hina Xmas-Special, 2000"
+  sender: "ANIME VIDEO"
+- anilistId: 192
+  liste: "Love Hina Spring Special, 2001"
+  sender: "ANIME VIDEO"
+- anilistId: 198
+  liste: "Speed Grapher, 2005"
+  sender: "OVA FILMS"
+- anilistId: 199
+  liste: "Chihiros Reise ins Zauberland, 2001"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 202
+  liste: "Wolf’s Rain, 2003"
+  sender: "OVA FILMS"
+- anilistId: 205
+  liste: "Samurai Champloo, 2004"
+  sender: "PANINI VIDEO"
+- anilistId: 206
+  liste: "Record of Lodoss War: Chronicles of the Heroic Knight, 1998"
+  sender: "OVA FILMS"
+- anilistId: 207
+  liste: "Record of Lodoss War, 1990"
+  sender: "SPVISION"
+- anilistId: 208
+  liste: "R.O.D: Read or Die, 2001"
+  sender: "ANIME VIDEO"
+- anilistId: 210
+  liste: "Ranma 1/2, 1989"
+  sender: "RTL2"
+- anilistId: 222
+  liste: "Mezzo, 2004"
+  sender: "ADV FILMS"
+- anilistId: 223
+  liste: "Dragon Ball, 1986"
+  sender: "RTL2"
+- anilistId: 225
+  liste: "Dragon Ball GT, 1996"
+  sender: "RTL2"
+- anilistId: 226
+  liste: "Elfen Lied, 2004"
+  sender: "ADV FILMS"
+- anilistId: 227
+  liste: "FLCL, 2000"
+  sender: "SPVISION"
+- anilistId: 232
+  liste: "Cardcaptor Sakura, 1998"
+  sender: "FOX KIDS"
+- anilistId: 235
+  liste: "Detektiv Conan, 1996"
+  sender: "RTL2"
+- anilistId: 236
+  liste: "E’s Otherwise, 2003"
+  sender: "ANIME VIDEO"
+- anilistId: 237
+  liste: "Eureka Seven, 2005"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 239
+  liste: "Der Graf von Monte Christo: Gankutsuou, 2004"
+  sender: "KSM ANIME"
+- anilistId: 240
+  liste: "Genshiken, 2004"
+  sender: "ANIME VIDEO"
+- anilistId: 243
+  liste: "Gravitation, 2000"
+  sender: "ANIME VIDEO"
+- anilistId: 249
+  liste: "InuYasha, 2000"
+  sender: "RTL2"
+- anilistId: 256
+  liste: "The Voices of a Distant Star, 2002"
+  sender: "ANIME VIDEO"
+- anilistId: 257
+  liste: "Ikki Tousen: Dragon Girls, 2003"
+  sender: "ANIME VIDEO"
+- anilistId: 267
+  liste: "Gungrave, 2003"
+  sender: "PANINI VIDEO"
+- anilistId: 268
+  liste: "Golden Boy, 1995"
+  sender: "MTV"
+- anilistId: 269
+  liste: "Bleach, 2004"
+  sender: "PANINI VIDEO"
+- anilistId: 270
+  liste: "Hellsing, 2001"
+  sender: "OVA FILMS"
+- anilistId: 272
+  liste: "Noir, 2001"
+  sender: "OVA FILMS"
+- anilistId: 274
+  liste: "Kiddy Grade, 2002"
+  sender: "TOKYOPOP"
+- anilistId: 283
+  liste: "Anne mit den roten Haaren, 1979"
+  sender: "SAT.1"
+- anilistId: 287
+  liste: "Baki, 2001"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 288
+  liste: "Beyblade, 2001"
+  sender: "RTL2"
+- anilistId: 297
+  liste: "Grenadier, 2004"
+  sender: "TOKYOPOP"
+- anilistId: 298
+  liste: ".hack//Legend of the Twilight, 2003"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 302
+  liste: "Future Boy Conan, 1978"
+  sender: "POLYBAND ANIME"
+- anilistId: 303
+  liste: "Mini-Göttinnen, 1998"
+  sender: "RTL2"
+- anilistId: 304
+  liste: "Oh! My Goddess: Der Film, 2000"
+  sender: "ANIME VIDEO"
+- anilistId: 306
+  liste: "Magical Shopping Arcade: Abenobashi, 2002"
+  sender: "ADV FILMS"
+- anilistId: 307
+  liste: "Demetan, der Froschjunge, 1973"
+  sender: "SUPER RTL"
+- anilistId: 310
+  liste: "Drei kleine Geister, 1991"
+  sender: "SUPER RTL"
+- anilistId: 317
+  liste: "Final Fantasy VII: Advent Children, 2005"
+  sender: "SONY PICTURES"
+- anilistId: 321
+  liste: "Najica, 2001"
+  sender: "OVA FILMS"
+- anilistId: 322
+  liste: "Paradise Kiss, 2005"
+  sender: "PANINI VIDEO"
+- anilistId: 323
+  liste: "Paranoia Agent, 2004"
+  sender: "ANIME VIDEO"
+- anilistId: 329
+  liste: "Planetes, 2003"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 336
+  liste: "Meine Liebe, 2004"
+  sender: "TOKYOPOP"
+- anilistId: 338
+  liste: "Lady Oscar: Die Rose von Versailles, 1979"
+  sender: "RTL2"
+- anilistId: 339
+  liste: "Serial Experiments Lain, 1998"
+  sender: "SPVISION"
+- anilistId: 342
+  liste: "Starship Operators, 2005"
+  sender: "SPVISION"
+- anilistId: 345
+  liste: "Emma: Eine viktorianische Liebe, 2005"
+  sender: "TOKYOPOP"
+- anilistId: 350
+  liste: "DoReMi, 1999"
+  sender: "RTL2"
+- anilistId: 351
+  liste: "DoReMi Staffel 2, 2000"
+  sender: "RTL2"
+- anilistId: 355
+  liste: "Shakugan no Shana, 2005"
+  sender: "FILMCONFECT"
+- anilistId: 365
+  liste: "Fake, 1998"
+  sender: "OVA FILMS"
+- anilistId: 366
+  liste: "Agent Aika, 1997"
+  sender: "OVA FILMS"
+- anilistId: 371
+  liste: "Cardcaptor Sakura: The Movie - Die Reise nach Hongkong, 1999"
+  sender: "OVA FILMS"
+- anilistId: 372
+  liste: "Cardcaptor Sakura: Der Film - Die versiegelte Karte, 2000"
+  sender: "POLYBAND ANIME"
+- anilistId: 377
+  liste: "éX-Driver, 2000"
+  sender: "PANINI VIDEO"
+- anilistId: 380
+  liste: "Fushigi Yûgi: The Mysterious Play, 1996"
+  sender: "OVA FILMS"
+- anilistId: 381
+  liste: "Fushigi Yûgi New OVA: The Mysterious Play, 1997"
+  sender: "OVA FILMS"
+- anilistId: 384
+  liste: "Gantz, 2004"
+  sender: "OVA FILMS"
+- anilistId: 385
+  liste: "Gilgamesh, 2003"
+  sender: "ADV FILMS"
+- anilistId: 387
+  liste: "Haibane Renmei, 2002"
+  sender: "SPVISION"
+- anilistId: 389
+  liste: "The Karas, 2005"
+  sender: "PANINI VIDEO"
+- anilistId: 393
+  liste: "Escaflowne: The Movie, 2000"
+  sender: "DYBEX"
+- anilistId: 401
+  liste: "Rurouni Kenshin: The Chapter of Atonement, 2001"
+  sender: "SPVISION + KAZÉ ANIME"
+- anilistId: 405
+  liste: "Blood: The Last Vampire, 2000"
+  sender: "PANINI VIDEO"
+- anilistId: 412
+  liste: "He Is My Master: Stets zu Ihren Diensten, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 415
+  liste: "Meine Nachbarn die Yamadas, 1999"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 416
+  liste: "Pòrco Rósso, 1992"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 417
+  liste: "Ragnarök: The Animation, 2004"
+  sender: "PANINI VIDEO"
+- anilistId: 418
+  liste: "Ranma 1/2: Der Film - Big Trouble in Nekonron, China, 1991"
+  sender: "ANIME VIDEO"
+- anilistId: 420
+  liste: "Spriggan, 1998"
+  sender: "OVA FILMS"
+- anilistId: 430
+  liste: "Fullmetal Alchemist: Der Eroberer von Shamballa, 2005"
+  sender: "PANINI VIDEO"
+- anilistId: 431
+  liste: "Das wandelnde Schloss, 2004"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 433
+  liste: "The Place Promised In Our Early Days, 2004"
+  sender: "RAPID EYE MOVIES"
+- anilistId: 437
+  liste: "Perfect Blue, 1998"
+  sender: "RAPID EYE MOVIES"
+- anilistId: 438
+  liste: "Phantom: The Animation, 2004"
+  sender: "OVA FILMS"
+- anilistId: 441
+  liste: "Utena: La fillette révolutionnaire - The Movie, 1999"
+  sender: "ANIME VIDEO"
+- anilistId: 442
+  liste: "Naruto: The Movie - Geheimmission im Land des ewigen Schnees, 2004"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 448
+  liste: "Tenjo Tenge OVA, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 449
+  liste: "InuYasha: Der Film - Die Insel Hourai im Flammenmeer, 2004"
+  sender: "RED PLANET"
+- anilistId: 450
+  liste: "InuYasha: Der Film - Das Traumschloss im Inneren der Spiegel, 2002"
+  sender: "RED PLANET"
+- anilistId: 451
+  liste: "InuYasha: Der Film - Die Schwerter, die die Welt unterwerfen, 2003"
+  sender: "RED PLANET"
+- anilistId: 452
+  liste: "InuYasha: Der Film - Gefühle, die die Zeit überwinden, 2001"
+  sender: "RED PLANET"
+- anilistId: 459
+  liste: "One Piece: Der Film, 2000"
+  sender: "KAZÉ ANIME"
+- anilistId: 460
+  liste: "One Piece: Abenteuer auf der Spiralinsel, 2001"
+  sender: "KAZÉ ANIME"
+- anilistId: 461
+  liste: "One Piece: Chopper auf der Insel der seltsamen Tiere, 2002"
+  sender: "KAZÉ ANIME"
+- anilistId: 462
+  liste: "One Piece: The Movie - Das Dead End Rennen, 2003"
+  sender: "KAZÉ ANIME"
+- anilistId: 463
+  liste: "One Piece: Der Fluch des heiligen Schwertes, 2004"
+  sender: "KAZÉ ANIME"
+- anilistId: 464
+  liste: "One Piece: Baron Omatsuri und die geheimnisvolle Insel, 2005"
+  sender: "KAZÉ ANIME"
+- anilistId: 465
+  liste: "One Piece: Schloss Karakuris Metall-Soldaten, 2006"
+  sender: "KAZÉ ANIME"
+- anilistId: 467
+  liste: "Ghost in the Shell: Stand Alone Complex, 2002"
+  sender: "PANINI VIDEO"
+- anilistId: 468
+  liste: "Ghost in the Shell 2: Innocence, 2004"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 481
+  liste: "Yu-Gi-Oh!, 2000"
+  sender: "RTL2"
+- anilistId: 482
+  liste: "Yu-Gi-Oh! GX, 2004"
+  sender: "RTL2"
+- anilistId: 484
+  liste: "Saiyuki Requiem, 2001"
+  sender: "ANIME HOUSE"
+- anilistId: 486
+  liste: "Kino’s Journey, 2003"
+  sender: "ADV FILMS"
+- anilistId: 492
+  liste: "Armitage III: Dual-Matrix, 2002"
+  sender: "SPVISION"
+- anilistId: 493
+  liste: "Armitage III: Poly-Matrix, 1996"
+  sender: "SPVISION"
+- anilistId: 499
+  liste: "Demon City: Shinjuku, 1988"
+  sender: "SPVISION"
+- anilistId: 502
+  liste: "Dragon Ball: Die Legende von Shenlong, 1986"
+  sender: "POLYBAND ANIME"
+- anilistId: 507
+  liste: "Gravitation OVA, 1999"
+  sender: "ANIME VIDEO"
+- anilistId: 508
+  liste: "Hamtaro: Kleine Hamster, große Abenteuer, 2000"
+  sender: "RTL2"
+- anilistId: 512
+  liste: "Kikis kleiner Lieferservice, 1989"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 513
+  liste: "Das Schloss im Himmel, 1986"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 514
+  liste: "Das Bildnis der Petit Cossette, 2004"
+  sender: "TOKYOPOP"
+- anilistId: 517
+  liste: "School Rumble: Heute - Nachhilfe, 2005"
+  sender: "TOKYOPOP"
+- anilistId: 522
+  liste: "Robotic Angel, 2001"
+  sender: "SONY PICTURES"
+- anilistId: 523
+  liste: "Mein Nachbar Totoro, 1988"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 527
+  liste: "Pokémon, 1997"
+  sender: "RTL2"
+- anilistId: 528
+  liste: "Pokémon: Der Film - Mewtu gegen Mew, 1998"
+  sender: "WARNER BROS."
+- anilistId: 530
+  liste: "Sailor Moon: Das Mädchen mit den Zauberkräften, 1992"
+  sender: "ZDF"
+- anilistId: 531
+  liste: "Sailor Moon R Movie: Gefährliche Blumen, 1993"
+  sender: "RTL2"
+- anilistId: 532
+  liste: "Sailor Moon S, 1994"
+  sender: "RTL2"
+- anilistId: 534
+  liste: "The Slayers, 1995"
+  sender: "OVA FILMS"
+- anilistId: 535
+  liste: "The Slayers Next, 1996"
+  sender: "OVA FILMS"
+- anilistId: 536
+  liste: "Slayers Perfect, 1995"
+  sender: "OVA FILMS"
+- anilistId: 537
+  liste: "Tekken: Die Eiserne Faust!, 1998"
+  sender: "OVA FILMS"
+- anilistId: 539
+  liste: "Tenchi Muyo! (Episode 1 - 6), 1992"
+  sender: "PIONEER"
+- anilistId: 540
+  liste: "Tenchi Muyo! (Episode 8 - 13), 1994"
+  sender: "PIONEER"
+- anilistId: 543
+  liste: "Vampire Hunter D: Bloodlust, 2001"
+  sender: "VCL COMMUNICATIONS"
+- anilistId: 544
+  liste: "Venus Wars, 1989"
+  sender: "MANGA VIDEO"
+- anilistId: 552
+  liste: "Digimon, 1999"
+  sender: "RTL2"
+- anilistId: 565
+  liste: "Steamboy, 2004"
+  sender: "SONY PICTURES"
+- anilistId: 570
+  liste: "Jin-Roh: Die Wolfsbrigade, 2000"
+  sender: "OVA FILMS"
+- anilistId: 571
+  liste: "Moldiver, 1993"
+  sender: "PIONEER"
+- anilistId: 572
+  liste: "Nausicaä aus dem Tal der Winde, 1984"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 578
+  liste: "Die letzten Glühwürmchen, 1988"
+  sender: "ARTE"
+- anilistId: 585
+  liste: "Stimme des Herzens: Whisper of the Heart, 1995"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 588
+  liste: "Itsudatte My Santa!, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 594
+  liste: "Naruto: Die Geheimmission - Rettet das Dorf Takigakure, 2003"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 595
+  liste: "X OVA, 2001"
+  sender: "OVA FILMS"
+- anilistId: 596
+  liste: "Chibits: Sumomo und Kotoko liefern, 2003"
+  sender: "ADV FILMS"
+- anilistId: 597
+  liste: "Das Königreich der Katzen, 2002"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 599
+  liste: "Phantom Quest Corporation, 1994"
+  sender: "SPVISION"
+- anilistId: 603
+  liste: "Pretty Cure, 2004"
+  sender: "RTL2"
+- anilistId: 617
+  liste: "Ninja Scroll, 1993"
+  sender: "ANIMAZE"
+- anilistId: 618
+  liste: "Ninja Scroll: Die Serie, 2003"
+  sender: "ANIME VIDEO"
+- anilistId: 620
+  liste: "Mermaid Forest, 2003"
+  sender: "RED PLANET"
+- anilistId: 629
+  liste: "Maho Tsukai Tai! Magic User’s Club, 1996"
+  sender: "OVA FILMS"
+- anilistId: 647
+  liste: "In a Distant Time: Der Traum der Hortensie, 2002"
+  sender: "ANIME HOUSE"
+- anilistId: 659
+  liste: "Azumanga Daioh: Mini-Movie, 2001"
+  sender: "ADV FILMS"
+- anilistId: 669
+  liste: "Kujibiki Unbalance, 2004"
+  sender: "ANIME HOUSE"
+- anilistId: 673
+  liste: "My-Hime: Mini-Episoden, 2005"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 678
+  liste: "Shadow Skill, 1998"
+  sender: "ADV FILMS"
+- anilistId: 732
+  liste: "Vampire Hunter D, 1985"
+  sender: "OVA FILMS"
+- anilistId: 734
+  liste: "Kizuna: Liebe und viel Lärm um nichts, 2001"
+  sender: "ANIME HOUSE"
+- anilistId: 740
+  liste: "Sailor Moon R, 1993"
+  sender: "RTL2"
+- anilistId: 743
+  liste: "Flüstern des Meeres: Ocean Waves, 1993"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 746
+  liste: "Kiss in the Dark, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 747
+  liste: "Haru o daiteita, 2005"
+  sender: "TRIMAX"
+- anilistId: 759
+  liste: "Tokyo Godfathers, 2003"
+  sender: "SONY PICTURES"
+- anilistId: 770
+  liste: "Pale Cocoon, 2005"
+  sender: "DYBEX"
+- anilistId: 777
+  liste: "Hellsing Ultimate OVA, 2006"
+  sender: "OVA FILMS + NIPPONART"
+- anilistId: 779
+  liste: "Detektiv Conan: Der tickende Wolkenkratzer, 1997"
+  sender: "ANIME VIDEO"
+- anilistId: 780
+  liste: "Detektiv Conan: Das 14. Ziel, 1998"
+  sender: "ANIME VIDEO"
+- anilistId: 781
+  liste: "Detektiv Conan: Der Magier des letzten Jahrhunderts, 1999"
+  sender: "ANIME VIDEO"
+- anilistId: 790
+  liste: "Ergo Proxy, 2006"
+  sender: "SPVISION"
+- anilistId: 792
+  liste: "Ranma 1/2: Nihao My Concubine, 1992"
+  sender: "ANIME VIDEO"
+- anilistId: 793
+  liste: "xxxHOLiC: Ein Sommernachtstraum, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 801
+  liste: "Ghost in the Shell: Stand Alone Complex 2nd GIG, 2004"
+  sender: "PANINI VIDEO"
+- anilistId: 807
+  liste: "Tsubasa Chronicle: Die Prinzessin des Vogelkäfiglandes, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 808
+  liste: "Sorcerer Hunters: Heiße Früchtchen zum Vernaschen, 1996"
+  sender: "ADV FILMS"
+- anilistId: 811
+  liste: "I\"s Pure, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 812
+  liste: "Arjuna, 2001"
+  sender: "OVA FILMS"
+- anilistId: 813
+  liste: "Dragon Ball Z, 1989"
+  sender: "RTL2"
+- anilistId: 824
+  liste: "Guardian Hearts, 2003"
+  sender: "PINK LEMON"
+- anilistId: 849
+  liste: "Die Melancholie der Haruhi Suzumiya, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 853
+  liste: "Ouran High School Host Club, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 856
+  liste: "Utawarerumono: Heldenlied, 2006"
+  sender: "ADV FILMS"
+- anilistId: 857
+  liste: "Air Gear, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 859
+  liste: "Digimon Data Squad, 2006"
+  sender: "RTL2"
+- anilistId: 861
+  liste: "xxxHolic: Die Serie, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 866
+  liste: "Slayers Premium, 2001"
+  sender: "OVA FILMS"
+- anilistId: 867
+  liste: "Slayers Gorgeous, 1998"
+  sender: "OVA FILMS"
+- anilistId: 868
+  liste: "Slayers Great, 1997"
+  sender: "OVA FILMS"
+- anilistId: 869
+  liste: "Slayers Return, 1996"
+  sender: "OVA FILMS"
+- anilistId: 870
+  liste: "Dragon Half, 1993"
+  sender: "ADV FILMS"
+- anilistId: 874
+  liste: "Digimon Tamers, 2001"
+  sender: "RTL2"
+- anilistId: 875
+  liste: "Mind Game, 2004"
+  sender: "RAPID EYE MOVIES"
+- anilistId: 877
+  liste: "Nana, 2006"
+  sender: "KSM ANIME"
+- anilistId: 883
+  liste: "Yu Yu Hakusho: Poltergeist Report, 1994"
+  sender: "OVA FILMS"
+- anilistId: 887
+  liste: "The Candidate for Goddess: Kameraden, 2002"
+  sender: "OVA FILMS"
+- anilistId: 888
+  liste: "The Candidate for Goddess, 2000"
+  sender: "OVA FILMS"
+- anilistId: 889
+  liste: "Black Lagoon, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 891
+  liste: "Dragon Ball: Das Schloss der Dämonen, 1987"
+  sender: "POLYBAND ANIME"
+- anilistId: 892
+  liste: "Dragon Ball: Son-Gokus erstes Turnier, 1988"
+  sender: "POLYBAND ANIME"
+- anilistId: 894
+  liste: "Dragon Ball Z: Die Todeszone des Garlic Jr., 1989"
+  sender: "POLYBAND ANIME"
+- anilistId: 895
+  liste: "Dragon Ball Z: Der Stärkste auf Erden, 1990"
+  sender: "POLYBAND ANIME"
+- anilistId: 896
+  liste: "Dragon Ball Z: Die Entscheidungsschlacht, 1990"
+  sender: "POLYBAND ANIME"
+- anilistId: 897
+  liste: "Dragon Ball Z: Super-Saiyajin Son-Goku, 1991"
+  sender: "POLYBAND ANIME"
+- anilistId: 898
+  liste: "Dragon Ball Z: Rache für Freezer, 1991"
+  sender: "POLYBAND ANIME"
+- anilistId: 899
+  liste: "Dragon Ball Z: Coolers Rückkehr, 1992"
+  sender: "POLYBAND ANIME"
+- anilistId: 900
+  liste: "Dragon Ball Z: Angriff der Cyborgs, 1992"
+  sender: "POLYBAND ANIME"
+- anilistId: 901
+  liste: "Dragon Ball Z: Der Legendäre Super-Saiyajin, 1993"
+  sender: "POLYBAND ANIME"
+- anilistId: 902
+  liste: "Dragon Ball Z: Super-Saiyajin Son-Gohan, 1993"
+  sender: "POLYBAND ANIME"
+- anilistId: 903
+  liste: "Dragon Ball Z: Brolys Rückkehr, 1994"
+  sender: "POLYBAND ANIME"
+- anilistId: 904
+  liste: "Dragon Ball Z: Angriff der Bio-Kämpfer, 1994"
+  sender: "POLYBAND ANIME"
+- anilistId: 905
+  liste: "Dragon Ball Z: Die Fusion, 1995"
+  sender: "POLYBAND ANIME"
+- anilistId: 906
+  liste: "Dragon Ball Z: Drachenfaust, 1995"
+  sender: "POLYBAND ANIME"
+- anilistId: 907
+  liste: "Princess Princess, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 916
+  liste: "Tokkô, 2006"
+  sender: "AMASIA"
+- anilistId: 917
+  liste: "Riding Bean, 1989"
+  sender: "OVA FILMS"
+- anilistId: 918
+  liste: "Gintama, 2006"
+  sender: "KSM ANIME"
+- anilistId: 928
+  liste: "Transformers: Cybertron, 2005"
+  sender: "JETIX"
+- anilistId: 934
+  liste: "Higurashi no Naku Koro ni, 2006"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 935
+  liste: "Witchblade, 2006"
+  sender: "PANINI VIDEO"
+- anilistId: 936
+  liste: "Naruto: The Movie 2 - Die Legende des Steins von Gelel, 2005"
+  sender: "KSM ANIME"
+- anilistId: 937
+  liste: "Appleseed: Kampf um die Freiheit, 1988"
+  sender: "MANGA VIDEO"
+- anilistId: 942
+  liste: "The Good Witch of the West: Astraea Testament, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 951
+  liste: "Chibi Maruko-chan, 1990"
+  sender: "RTL2"
+- anilistId: 953
+  liste: "Planet of the Beast King - Jyu-Oh-Sei, 2006"
+  sender: "OVA FILMS"
+- anilistId: 958
+  liste: "Heat Guy J, 2002"
+  sender: "SPVISION"
+- anilistId: 963
+  liste: "Love Hina: Motokos Wahl, Schwert oder Liebe … Zum Heulen, 2001"
+  sender: "ANIME VIDEO"
+- anilistId: 966
+  liste: "Shin-chan, 1992"
+  sender: "RTL2"
+- anilistId: 969
+  liste: "Tsubasa Chronicle 2, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 985
+  liste: "Dragon Ball Z: Die Geschichte von Trunks, 1993"
+  sender: "RTL2"
+- anilistId: 986
+  liste: "Dragon Ball Z: Son-Gokus Vater - Das Bardock Special, 1990"
+  sender: "RTL2"
+- anilistId: 987
+  liste: "Dragon Ball GT: The Movie - Son-Goku Jr., 1997"
+  sender: "RTL2"
+- anilistId: 996
+  liste: "Sailor Moon Sailor Stars, 1996"
+  sender: "RTL2"
+- anilistId: 997
+  liste: "Sailor Moon S: Schneeprinzessin Kaguya, 1994"
+  sender: "RTL2"
+- anilistId: 1000
+  liste: "Die Abenteuer des fantastischen Weltraumpiraten Captain Harlock, 1978"
+  sender: "???"
+- anilistId: 1003
+  liste: "Oh! My Goddess Specials, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 1006
+  liste: "Tenchi Muyo: The Movie, 1996"
+  sender: "SPVISION"
+- anilistId: 1016
+  liste: "Battle Angel Alita, 1993"
+  sender: "MANGA VIDEO"
+- anilistId: 1029
+  liste: "Tränen der Erinnerung: Only Yesterday, 1991"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 1030
+  liste: "Pom Poko, 1994"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 1031
+  liste: "Yonna in the Solitary Fortress, 2006"
+  sender: "ANIME HOUSE"
+- anilistId: 1033
+  liste: "Millennium Actress, 2001"
+  sender: "DREAMWORKS + UNIVERSUM"
+- anilistId: 1034
+  liste: "Wings of Honneamise: Eroberung des Universums, 1987"
+  sender: "MANGA VIDEO"
+- anilistId: 1048
+  liste: "The Soultaker, 2001"
+  sender: "SPVISION"
+- anilistId: 1049
+  liste: "Goshu, der Cellist, 1982"
+  sender: "ZDF"
+- anilistId: 1050
+  liste: "Bobobo-bo Bo-bobo, 2003"
+  sender: "JETIX"
+- anilistId: 1051
+  liste: "Blue Submarine No. 6, 1998"
+  sender: "OVA FILMS"
+- anilistId: 1078
+  liste: "Cardcaptor Sakura: Futterneid - Kero und Spinner, 2000"
+  sender: "POLYBAND ANIME"
+- anilistId: 1079
+  liste: "Armitage III: OVA, 1995"
+  sender: "SPVISION"
+- anilistId: 1080
+  liste: "Yukikaze, 2002"
+  sender: "PANINI VIDEO"
+- anilistId: 1081
+  liste: "Space Pirate Captain Herlock: The Endless Odyssey - Outside Legend, 2002"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 1084
+  liste: "From I\"s, 2002"
+  sender: "ANIME VIDEO"
+- anilistId: 1088
+  liste: "Macross, 1982"
+  sender: "JAPAN HOME VIDEO"
+- anilistId: 1095
+  liste: "Mobile Police Patlabor 1: Der Film, 1989"
+  sender: "PANINI VIDEO"
+- anilistId: 1096
+  liste: "Mobile Police Patlabor 2: Der Film, 1993"
+  sender: "PANINI VIDEO"
+- anilistId: 1107
+  liste: "Wicked City, 1987"
+  sender: "MANGA VIDEO + SPVISION"
+- anilistId: 1108
+  liste: "Soul Hunter: Im Auftrag der Unsterblichen, 1999"
+  sender: "JUNIOR"
+- anilistId: 1117
+  liste: "Pokémon 2: Die Macht des Einzelnen, 1999"
+  sender: "WARNER BROS."
+- anilistId: 1118
+  liste: "Pokémon: Im Bann der Icognito, 2000"
+  sender: "WARNER BROS."
+- anilistId: 1119
+  liste: "Pokémon 4: Die zeitlose Begegnung, 2001"
+  sender: "BUENA VISTA"
+- anilistId: 1120
+  liste: "Pokémon Heroes: Der Film, 2002"
+  sender: "BUENA VISTA"
+- anilistId: 1121
+  liste: "Pokémon 6: Jirachi Wishmaker - Der Film, 2003"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 1122
+  liste: "Pokémon 7: Destiny Deoxys - Der Film, 2004"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 1132
+  liste: "Digimon Frontier, 2002"
+  sender: "RTL2"
+- anilistId: 1138
+  liste: "Medabots, 1999"
+  sender: "GIGA DIGITAL"
+- anilistId: 1140
+  liste: "Origin: Spirits of the Past, 2006"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 1143
+  liste: ".hack//SIGN: Intermezzo, 2003"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 1146
+  liste: "Tenchi Muyo! (Episode 7), 1993"
+  sender: "PIONEER"
+- anilistId: 1148
+  liste: "Doomed Megalopolis, 1991"
+  sender: "MANGA VIDEO"
+- anilistId: 1157
+  liste: "Final Fantasy: Unlimited, 2001"
+  sender: "ADV FILMS"
+- anilistId: 1164
+  liste: "Rune Soldier, 2001"
+  sender: "OVA FILMS"
+- anilistId: 1167
+  liste: "Samurai Gun, 2004"
+  sender: "ADV FILMS"
+- anilistId: 1170
+  liste: "Slayers Special: The Book of Spells, 1996"
+  sender: "OVA FILMS"
+- anilistId: 1171
+  liste: "Slayers Excellent, 1998"
+  sender: "OVA FILMS"
+- anilistId: 1172
+  liste: "The Slayers Try, 1997"
+  sender: "OVA FILMS"
+- anilistId: 1175
+  liste: "Metal Fighters: Frauen aus Stahl, 1994"
+  sender: "PREMIERE"
+- anilistId: 1182
+  liste: "Shamanic Princess, 1996"
+  sender: "OVA FILMS"
+- anilistId: 1191
+  liste: "Saber Marionette J Again, 1997"
+  sender: "ANIME HOUSE"
+- anilistId: 1194
+  liste: "Coyote Ragtime Show, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 1195
+  liste: "The Familiar of Zero, 2006"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 1208
+  liste: "Taro, der Drachenjunge, 1979"
+  sender: "DDR1"
+- anilistId: 1209
+  liste: "Nasu: Sommer in Andalusien, 2003"
+  sender: "DYBEX"
+- anilistId: 1210
+  liste: "Welcome to the N.H.K., 2006"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 1212
+  liste: "Oban Star-Racers, 2006"
+  sender: "JETIX"
+- anilistId: 1217
+  liste: "Seikimatsu Darling, 1996"
+  sender: "ANIME HOUSE"
+- anilistId: 1224
+  liste: "Aquarian Age: Sign for Evolution, 2002"
+  sender: "ADV FILMS"
+- anilistId: 1232
+  liste: "Saber Marionette R, 1995"
+  sender: "OVA FILMS"
+- anilistId: 1239
+  liste: "Sailor Moon Super S, 1995"
+  sender: "RTL2"
+- anilistId: 1240
+  liste: "Sailor Moon Super S: Reise ins Land der Träume, 1995"
+  sender: "RTL2"
+- anilistId: 1245
+  liste: "Twilight of the Dark Master, 1998"
+  sender: "VCL COMMUNICATIONS"
+- anilistId: 1247
+  liste: "Project Blue Earth SOS, 2006"
+  sender: "PANINI VIDEO"
+- anilistId: 1248
+  liste: "Zone of the Enders 2167: I DOLO, 2001"
+  sender: "PANINI VIDEO"
+- anilistId: 1251
+  liste: "Nadia und die Macht des Zaubersteins, 1990"
+  sender: "RTL2"
+- anilistId: 1252
+  liste: "Nadia: The Secret of Blue Water - The Movie, 1991"
+  sender: "OVA FILMS"
+- anilistId: 1256
+  liste: "Saint Seiya: Die Krieger des Zodiac - Movie 1: Die Legende des goldenen Apfels, 1987"
+  sender: "POLYBAND ANIME"
+- anilistId: 1261
+  liste: "Samurai Pizza Cats, 1990"
+  sender: "RTL"
+- anilistId: 1269
+  liste: "Biohunter, 1995"
+  sender: "VCL COMMUNICATIONS"
+- anilistId: 1279
+  liste: "Die geheimnisvollen Städte des Goldes, 1982"
+  sender: "DFF"
+- anilistId: 1285
+  liste: "M.D. Geist, 1986"
+  sender: "OVA FILMS"
+- anilistId: 1286
+  liste: "M.D. Geist II: Death Force, 1996"
+  sender: "OVA FILMS"
+- anilistId: 1292
+  liste: "Afro Samurai, 2007"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 1299
+  liste: "Flag, 2006"
+  sender: "OVA FILMS"
+- anilistId: 1303
+  liste: "Animatrix, 2003"
+  sender: "WARNER BROS."
+- anilistId: 1313
+  liste: "Digimon 02, 2000"
+  sender: "RTL2"
+- anilistId: 1327
+  liste: "Die Champions: Anpfiff für 11 Freunde, 1993"
+  sender: "KABEL1"
+- anilistId: 1333
+  liste: "Noozles, 1984"
+  sender: "RTL"
+- anilistId: 1335
+  liste: "Ghost in the Shell: Stand Alone Complex - Der Alltag der Tachikoma, 2002"
+  sender: "PANINI VIDEO"
+- anilistId: 1344
+  liste: "Cyber Desperado, 1993"
+  sender: "K-TOON"
+- anilistId: 1350
+  liste: "Parasite Dolls, 2003"
+  sender: "OVA FILMS"
+- anilistId: 1352
+  liste: "Cyber City Oedo 808, 1990"
+  sender: "SPVISION"
+- anilistId: 1357
+  liste: "Fist of the North Star (OVA), 2003"
+  sender: "OVA FILMS"
+- anilistId: 1358
+  liste: "Fist of the North Star, 1986"
+  sender: "MANGA VIDEO"
+- anilistId: 1361
+  liste: "Final Fantasy: Die Mächte in Dir, 2001"
+  sender: "SONY PICTURES"
+- anilistId: 1362
+  liste: "Street Fighter II: The Animated Movie, 1994"
+  sender: "MANGA VIDEO"
+- anilistId: 1363
+  liste: "Detektiv Conan: Der Killer in ihren Augen, 2000"
+  sender: "ANIME VIDEO"
+- anilistId: 1364
+  liste: "Detektiv Conan: Countdown zum Himmel, 2001"
+  sender: "ANIME VIDEO"
+- anilistId: 1365
+  liste: "Detektiv Conan: Das Phantom der Baker Street, 2002"
+  sender: "ANIME VIDEO"
+- anilistId: 1366
+  liste: "Detektiv Conan: Die Kreuzung des Labyrinths, 2003"
+  sender: "ANIME VIDEO"
+- anilistId: 1367
+  liste: "Detektiv Conan: Der Magier mit den Silberschwingen, 2004"
+  sender: "ANIME VIDEO"
+- anilistId: 1371
+  liste: "Hinotori: The Phoenix, 2004"
+  sender: "OVA FILMS"
+- anilistId: 1374
+  liste: "Guyver: The Bioboosted Armor, 2005"
+  sender: "ADV FILMS"
+- anilistId: 1375
+  liste: "Das Geheimnis von Daddy Langbein, 1990"
+  sender: "RTL2"
+- anilistId: 1384
+  liste: "Vampire Princess Miyu, 1988"
+  sender: "ANIME VIDEO"
+- anilistId: 1412
+  liste: "Lupin III.: Part 1, 1971"
+  sender: "CRUNCHYROLL"
+- anilistId: 1417
+  liste: "Lupin III: Der goldene Drache, 1994"
+  sender: "SPVISION"
+- anilistId: 1419
+  liste: "Lupin III: Farewell to Nostradamus, 1995"
+  sender: "SPVISION"
+- anilistId: 1430
+  liste: "Das Schloss des Cagliostro, 1979"
+  sender: "VCL + ANIME VIDEO"
+- anilistId: 1434
+  liste: "Lupin III: Der Schatz des Harimao, 1995"
+  sender: "SPVISION"
+- anilistId: 1436
+  liste: "Lupin III: Der Diamant der Dämmerung, 1996"
+  sender: "SPVISION"
+- anilistId: 1438
+  liste: "Lupin III: Der Höllentrip, 1993"
+  sender: "SPVISION"
+- anilistId: 1441
+  liste: "Night on the Galactic Railroad, 1985"
+  sender: "ANIME HOUSE"
+- anilistId: 1444
+  liste: "Sol Bianca, 1999"
+  sender: "TRIMAX"
+- anilistId: 1445
+  liste: "Speed Racer, 1967"
+  sender: "ARD"
+- anilistId: 1448
+  liste: "Voltron: Verteidiger des Universums, 1981"
+  sender: "RTL2"
+- anilistId: 1456
+  liste: "L/R: Licensed by Royalty, 2003"
+  sender: "SPVISION"
+- anilistId: 1462
+  liste: "Memories, 1995"
+  sender: "SONY PICTURES"
+- anilistId: 1469
+  liste: "Monster Rancher, 1999"
+  sender: "RTL2"
+- anilistId: 1470
+  liste: "City Hunter: Ein Fall für Ryo Saeba, 1987"
+  sender: "MTV"
+- anilistId: 1471
+  liste: "City Hunter: Ein Fall für Ryo Saeba 2, 1988"
+  sender: "MTV"
+- anilistId: 1474
+  liste: "City Hunter: Magnum with Love and Fate, 1989"
+  sender: "ANIME VIDEO"
+- anilistId: 1475
+  liste: "City Hunter: Bay City Wars, 1990"
+  sender: "ANIME VIDEO"
+- anilistId: 1476
+  liste: "City Hunter: Million Dollar Conspiracy, 1990"
+  sender: "ANIME VIDEO"
+- anilistId: 1477
+  liste: "City Hunter: The Secret Service, 1996"
+  sender: "ANIME VIDEO"
+- anilistId: 1478
+  liste: "City Hunter: Goodbye My Sweetheart, 1997"
+  sender: "ANIME VIDEO"
+- anilistId: 1479
+  liste: "City Hunter: Ryo Saeba, Live on the Scene, 1999"
+  sender: "ANIME VIDEO"
+- anilistId: 1482
+  liste: "D.Gray-man, 2006"
+  sender: "PANINI VIDEO"
+- anilistId: 1487
+  liste: ".hack//SIGN: Einstimmig, 2003"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 1498
+  liste: "Black Blood Brothers, 2006"
+  sender: "OVA FILMS"
+- anilistId: 1505
+  liste: "Detektiv Conan: Das Komplott über dem Ozean, 2005"
+  sender: "ANIME VIDEO"
+- anilistId: 1506
+  liste: "Detektiv Conan: Das Requiem der Detektive, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 1519
+  liste: "Black Lagoon: The Second Barrage, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 1520
+  liste: "Black Jack, 1993"
+  sender: "OVA FILMS"
+- anilistId: 1521
+  liste: "Black Jack: The Movie, 1996"
+  sender: "OVA FILMS"
+- anilistId: 1526
+  liste: "Pokémon: Lucario und das Geheimnis von Mew, 2005"
+  sender: "RTL2"
+- anilistId: 1527
+  liste: "Das Superhirn der Miragepokémon, 2006"
+  sender: "RTL2"
+- anilistId: 1530
+  liste: "Kanon, 2006"
+  sender: "FILMCONFECT"
+- anilistId: 1531
+  liste: "Shakugan no Shana: Schulausflug der Liebe und heißen Quellen!, 2006"
+  sender: "FILMCONFECT"
+- anilistId: 1533
+  liste: "Wedding Peach: Die Engel der Liebe, 1995"
+  sender: "RTL2"
+- anilistId: 1535
+  liste: "Death Note, 2006"
+  sender: "PANINI VIDEO"
+- anilistId: 1538
+  liste: "Pumpkin Scissors, 2006"
+  sender: "OVA FILMS"
+- anilistId: 1546
+  liste: "Magister Negi Magi Negima!?, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 1548
+  liste: "Die Königin der tausend Jahre, 1981"
+  sender: "TELE5"
+- anilistId: 1550
+  liste: "Mila Superstar, 1969"
+  sender: "RTL2"
+- anilistId: 1559
+  liste: "Kenichi: The Mightiest Disciple, 2006"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 1562
+  liste: "Perfect Girl, 2006"
+  sender: "ADV FILMS"
+- anilistId: 1564
+  liste: "Pokémon Advanced Generation, 2002"
+  sender: "RTL2"
+- anilistId: 1565
+  liste: "Pokémon: Diamant & Perl, 2006"
+  sender: "RTL2"
+- anilistId: 1566
+  liste: "Ghost in the Shell: Stand Alone Complex - Solid State Society, 2006"
+  sender: "NIPPONART"
+- anilistId: 1572
+  liste: "Kimba, der weiße Löwe, 1965"
+  sender: "ZDF"
+- anilistId: 1575
+  liste: "Code Geass: Lelouch of the Rebellion, 2006"
+  sender: "KAZÉ ANIME"
+- anilistId: 1582
+  liste: "Submarine 707R, 2003"
+  sender: "PANINI VIDEO"
+- anilistId: 1607
+  liste: "Venus versus Virus, 2007"
+  sender: "ADV FILMS"
+- anilistId: 1614
+  liste: "Super Kickers 2006, 2001"
+  sender: "RTL2"
+- anilistId: 1619
+  liste: "Magister Negi Magi Negima!? Spring Special, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 1638
+  liste: "Peter Pan, 1989"
+  sender: "RTL"
+- anilistId: 1645
+  liste: "Harlock Saga: Der Ring der Nibelungen - Rheingold, 1999"
+  sender: "OVA FILMS"
+- anilistId: 1663
+  liste: "Marco, 1976"
+  sender: "BR"
+- anilistId: 1665
+  liste: "Babel II, 1992"
+  sender: "K-TOON"
+- anilistId: 1668
+  liste: "Beyblade G Revolution, 2003"
+  sender: "RTL2"
+- anilistId: 1669
+  liste: "Beyblade V Force, 2002"
+  sender: "RTL2"
+- anilistId: 1675
+  liste: "Transformers: Armada, 2003"
+  sender: "RTL2"
+- anilistId: 1681
+  liste: "Brave Story: Ein Abenteuer jenseits der Realität, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 1685
+  liste: "Duel Masters, 2002"
+  sender: "RTL2"
+- anilistId: 1686
+  liste: "Bleach: The Movie - Memories of Nobody, 2006"
+  sender: "KAZÉ ANIME"
+- anilistId: 1689
+  liste: "5 Centimeters per Second, 2007"
+  sender: "KAZÉ ANIME"
+- anilistId: 1696
+  liste: "Murder Princess, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 1699
+  liste: "Romeo × Juliet, 2007"
+  sender: "OVA FILMS"
+- anilistId: 1709
+  liste: "Pokémon: Mewtu kehrt zurück, 2000"
+  sender: "WARNER BROS."
+- anilistId: 1710
+  liste: "MegaMan NT Warrior, 2002"
+  sender: "RTL2"
+- anilistId: 1723
+  liste: "Clannad: Der Film, 2007"
+  sender: "FILMCONFECT"
+- anilistId: 1726
+  liste: "Devil May Cry, 2007"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 1731
+  liste: "Tales of Symphonia: Sylvarant Arc, 2007"
+  sender: "KSM ANIME"
+- anilistId: 1732
+  liste: "Magister Negi Magi Negima!? Summer Special, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 1735
+  liste: "Naruto Shippuden, 2007"
+  sender: "RTL2 + KSM"
+- anilistId: 1760
+  liste: "Golgo 13: The Professional, 1983"
+  sender: "OVA FILMS"
+- anilistId: 1761
+  liste: "Golgo 13: Die Bienenkönigin, 1998"
+  sender: "VCL COMMUNICATIONS"
+- anilistId: 1767
+  liste: "Psycho Diver, 1997"
+  sender: "VCL COMMUNICATIONS"
+- anilistId: 1773
+  liste: "Fist of the North Star: Legend of Raoh - Death for Love, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 1774
+  liste: "Heat Guy J: Angel, 2003"
+  sender: "SPVISION"
+- anilistId: 1777
+  liste: "The Weathering Continent, 1992"
+  sender: "OVA FILMS"
+- anilistId: 1793
+  liste: "The Wind of Amnesia: Wind des Vergessens, 1990"
+  sender: "MANGA VIDEO"
+- anilistId: 1794
+  liste: "Dirty Pair: Affäre Nolandia, 1985"
+  sender: "ANIME HOUSE"
+- anilistId: 1795
+  liste: "Dirty Pair: Verschwörung um Flug 005, 1990"
+  sender: "ANIME HOUSE"
+- anilistId: 1796
+  liste: "Dirty Pair: Projekt E.D.E.N, 1987"
+  sender: "ANIME HOUSE"
+- anilistId: 1797
+  liste: "Animation Runner Kuromi, 2001"
+  sender: "ANIME HOUSE"
+- anilistId: 1798
+  liste: "Animation Runner Kuromi 2, 2004"
+  sender: "ANIME HOUSE"
+- anilistId: 1815
+  liste: "Shakugan no Shana: Der Film, 2007"
+  sender: "FILMCONFECT"
+- anilistId: 1816
+  liste: "Sonic X, 2003"
+  sender: "FOX KIDS"
+- anilistId: 1817
+  liste: "DearS: Zu heiß gebadet, 2005"
+  sender: "TOKYOPOP"
+- anilistId: 1818
+  liste: "Claymore: Schwert der Rache, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 1822
+  liste: "The Hakkenden: Die Legende der Hundekrieger, 1990"
+  sender: "PIONEER"
+- anilistId: 1827
+  liste: "Guardian of the Spirit, 2007"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 1829
+  liste: "Die Chroniken von Erdsee, 2006"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 1840
+  liste: "The Familiar of Zero 2: Knight of the Twin Moons, 2007"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 1853
+  liste: "Cutey Honey, 1997"
+  sender: "SAT.1"
+- anilistId: 1862
+  liste: "Strike Witches OVA, 2007"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 1887
+  liste: "Lucky Star, 2007"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 1889
+  liste: "Higurashi no Naku Koro ni Kai, 2007"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 1894
+  liste: "Yu-Gi-Oh! Der Film, 2005"
+  sender: "WARNER BROS."
+- anilistId: 1904
+  liste: "In a Distant Time: Priesterin des weißen Drachens, 2003"
+  sender: "ANIME HOUSE"
+- anilistId: 1906
+  liste: "In a Distant Time: Ein Tanz im Mondlicht, 2006"
+  sender: "ANIME HOUSE"
+- anilistId: 1943
+  liste: "Paprika, 2006"
+  sender: "SONY PICTURES"
+- anilistId: 1951
+  liste: "Manie Manie, 1987"
+  sender: "OVA FILMS"
+- anilistId: 1956
+  liste: "Ikki Tousen: Dragon Destiny, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 1957
+  liste: "Wedding Peach DX, 1996"
+  sender: "SPVISION"
+- anilistId: 1972
+  liste: "Die Abenteuer des Sherlock Holmes, 1984"
+  sender: "SWR"
+- anilistId: 1985
+  liste: "Goldorak: Kampf der Welten, 1975"
+  sender: "???"
+- anilistId: 2000
+  liste: "Roujin Z, 1991"
+  sender: "KAZÉ ANIME"
+- anilistId: 2001
+  liste: "Gurren Lagann, 2007"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 2025
+  liste: "Darker than Black, 2007"
+  sender: "PANINI VIDEO"
+- anilistId: 2030
+  liste: "El Cazador de la Bruja, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 2033
+  liste: "Tamala 2010: A Punkcat in Space!, 2002"
+  sender: "RAPID EYE MOVIES"
+- anilistId: 2041
+  liste: "Ein Fall für Super Pig, 1994"
+  sender: "RTL"
+- anilistId: 2043
+  liste: "Ein Supertrio: Cat’s Eye, 1983"
+  sender: "RTL2"
+- anilistId: 2055
+  liste: "Coo, der Dino aus dem Meer, 1993"
+  sender: "RTL"
+- anilistId: 2107
+  liste: "One Piece: Abenteuer in Alabasta - Die Wüstenprinzessin, 2007"
+  sender: "KAZÉ ANIME"
+- anilistId: 2116
+  liste: "Captain Tsubasa: Die tollen Fußballstars, 1983"
+  sender: "RTL2"
+- anilistId: 2127
+  liste: "Reideen: Im Kampf gegen die Mächte der Finsternis, 1996"
+  sender: "K-TOON"
+- anilistId: 2142
+  liste: "Blue Dragon, 2007"
+  sender: "RTL2"
+- anilistId: 2144
+  liste: "Naruto: The Movie 3 - Die Hüter des Sichelmondreiches, 2006"
+  sender: "KSM ANIME"
+- anilistId: 2150
+  liste: "Die Mumins, 1990"
+  sender: "ZDF"
+- anilistId: 2151
+  liste: "Die wunderbare Reise des kleinen Nils Holgersson mit den Wildgänsen, 1980"
+  sender: "ARD"
+- anilistId: 2154
+  liste: "Tekkonkinkreet, 2006"
+  sender: "SONY PICTURES"
+- anilistId: 2156
+  liste: "Bakugan: Spieler des Schicksals, 2007"
+  sender: "CARTOON NETWORK"
+- anilistId: 2163
+  liste: "AIKa R-16: Virgin Mission, 2007"
+  sender: "OVA FILMS"
+- anilistId: 2167
+  liste: "Clannad, 2007"
+  sender: "FILMCONFECT"
+- anilistId: 2171
+  liste: "Detektiv Conan: Die azurblaue Piratenflagge, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 2174
+  liste: "Fist of the North Star: Legend of Raoh - Fierce Fight, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 2178
+  liste: "Highlander: Die Macht der Vergeltung, 2008"
+  sender: "ASCOT ELITE"
+- anilistId: 2201
+  liste: "Pokémon Ranger und der Tempel des Meeres, 2006"
+  sender: "RTL2"
+- anilistId: 2221
+  liste: "Rock 'n' Roll Kids, 1983"
+  sender: "RTL2"
+- anilistId: 2224
+  liste: "Hikari: Die kleinen Superstars, 1986"
+  sender: "RTL2"
+- anilistId: 2225
+  liste: "Heidi, 1974"
+  sender: "ZDF"
+- anilistId: 2226
+  liste: "Familie Nikolaus, 1984"
+  sender: "RTL2"
+- anilistId: 2230
+  liste: "Angel, das Blumenmädchen, 1979"
+  sender: "???"
+- anilistId: 2231
+  liste: "Miyuki, 1983"
+  sender: "TELE5"
+- anilistId: 2236
+  liste: "Das Mädchen, das durch die Zeit sprang, 2006"
+  sender: "ANIME VIDEO"
+- anilistId: 2262
+  liste: "Sin: The Movie, 2000"
+  sender: "ADV FILMS"
+- anilistId: 2264
+  liste: "Jungle Emperor Leo: Der Kinofilm, 1997"
+  sender: "OVA FILMS"
+- anilistId: 2268
+  liste: "Transformers, 1984"
+  sender: "RTL"
+- anilistId: 2273
+  liste: "Gundam Wing: Endless Waltz, 1998"
+  sender: "POLYBAND ANIME"
+- anilistId: 2279
+  liste: "Der gestiefelte Kater, Perix der Kater und die drei Mausketiere, 1969"
+  sender: "OSTALGICA"
+- anilistId: 2281
+  liste: "Flint Hammerhead, 1998"
+  sender: "RTL2"
+- anilistId: 2282
+  liste: "Der kleine Bibelfuchs, 1997"
+  sender: "SAT.1"
+- anilistId: 2286
+  liste: "Little Nemo: Abenteuer im Schlummerland, 1989"
+  sender: "VCL COMMUNICATIONS"
+- anilistId: 2298
+  liste: "Mobile Suit Gundam Seed: Epilog, 2004"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 2311
+  liste: "Jungle Boy, Kenia, 1984"
+  sender: "RTL"
+- anilistId: 2313
+  liste: "Der Komet im Muminland, 1992"
+  sender: "ZDF"
+- anilistId: 2331
+  liste: "Odysseus 31, 1988"
+  sender: "TELE5"
+- anilistId: 2332
+  liste: "Plastic Little, 1994"
+  sender: "OVA FILMS"
+- anilistId: 2333
+  liste: "D’Artagnan und die drei Musketiere, 1987"
+  sender: "RTL2"
+- anilistId: 2334
+  liste: "Die 3 Musketiere, 1989"
+  sender: "???"
+- anilistId: 2361
+  liste: "Saber Rider und die Star Sheriffs, 1984"
+  sender: "TELE5"
+- anilistId: 2385
+  liste: "One Piece: Jackos Tanz Festival, 2001"
+  sender: "KAZÉ ANIME"
+- anilistId: 2386
+  liste: "One Piece: Die Könige des Fußballs, 2002"
+  sender: "KAZÉ ANIME"
+- anilistId: 2390
+  liste: "Kirby, 2001"
+  sender: "DISNEY CHANNEL"
+- anilistId: 2397
+  liste: "Digimon: Der Film (Teil 2), 2000"
+  sender: "20TH CENTURY FOX"
+- anilistId: 2404
+  liste: "Zombie-Loan, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 2418
+  liste: "Sword of the Stranger, 2007"
+  sender: "ANIMAZE"
+- anilistId: 2420
+  liste: "Spirit of Wonder (Specials), 2001"
+  sender: "PANINI VIDEO"
+- anilistId: 2427
+  liste: "Unico: Das phantastische Abenteuer eines Hörnchens, 1981"
+  sender: "ZDF"
+- anilistId: 2448
+  liste: "Ghost in the Shell: S.A.C 2nd GIG - Individual Eleven, 2006"
+  sender: "KSM ANIME"
+- anilistId: 2449
+  liste: "Ghost in the Shell: Stand Alone Complex - The Laughing Man, 2005"
+  sender: "KSM ANIME"
+- anilistId: 2460
+  liste: "Maison Ikkoku: Der Film, 1988"
+  sender: "ANIME VIDEO"
+- anilistId: 2472
+  liste: "Naruto Shippuden: The Movie, 2007"
+  sender: "KSM ANIME"
+- anilistId: 2476
+  liste: "School Days: Wer dir alles geben kann, kann dir auch alles nehmen ..., 2007"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 2486
+  liste: "Rumiko Takahashi Anthology, 2003"
+  sender: "RED PLANET"
+- anilistId: 2487
+  liste: "Der Planet der Dinosaurier, 1995"
+  sender: "TM3"
+- anilistId: 2490
+  liste: "One Piece: Die Könige des Piraten-Baseballs, 2004"
+  sender: "KAZÉ ANIME"
+- anilistId: 2542
+  liste: "Georgie, 1983"
+  sender: "RTL"
+- anilistId: 2543
+  liste: "Robin Hood, 1990"
+  sender: "RTL2"
+- anilistId: 2544
+  liste: "Familie Robinson, 1981"
+  sender: "TELE5"
+- anilistId: 2545
+  liste: "Huckleberry Finn, 1976"
+  sender: "TELE5"
+- anilistId: 2546
+  liste: "Die Kinder vom Berghof, 1983"
+  sender: "RTL2"
+- anilistId: 2547
+  liste: "Die kleine Prinzessin Sara, 1985"
+  sender: "RTL2"
+- anilistId: 2548
+  liste: "Eine fröhliche Familie, 1987"
+  sender: "RTL2"
+- anilistId: 2549
+  liste: "Perrine, 1978"
+  sender: "SAT.1"
+- anilistId: 2553
+  liste: "Niklaas, ein Junge aus Flandern, 1975"
+  sender: "SAT.1"
+- anilistId: 2554
+  liste: "Wunderbare Pollyanna, 1986"
+  sender: "RTL2"
+- anilistId: 2556
+  liste: "Leo: Der kleine Löwenkönig, 1989"
+  sender: "JUNIOR"
+- anilistId: 2557
+  liste: "Die singende Familie Trapp, 1991"
+  sender: "RTL2"
+- anilistId: 2558
+  liste: "Missis Jo und ihre fröhliche Familie, 1993"
+  sender: "RTL2"
+- anilistId: 2559
+  liste: "Die Schwarzen Brüder, 1995"
+  sender: "JUNIOR"
+- anilistId: 2561
+  liste: "Captain Future, 1978"
+  sender: "ZDF"
+- anilistId: 2565
+  liste: "Boubou, König der Tiere, 1966"
+  sender: "PROSIEBEN"
+- anilistId: 2566
+  liste: "Taro Alien, 2000"
+  sender: "RTL2"
+- anilistId: 2567
+  liste: "Pinocchio, 1976"
+  sender: "ZDF"
+- anilistId: 2568
+  liste: "Alle meine Freunde, 1983"
+  sender: "ARD"
+- anilistId: 2569
+  liste: "Das Dschungelbuch: Die Serie, 1989"
+  sender: "PREMIERE"
+- anilistId: 2570
+  liste: "Hanni und Nanni, 1991"
+  sender: "KIKA"
+- anilistId: 2571
+  liste: "Die Biene Maja, 1975"
+  sender: "ZDF"
+- anilistId: 2572
+  liste: "Alice im Wunderland, 1983"
+  sender: "ZDF"
+- anilistId: 2573
+  liste: "Lucy in Australien, 1982"
+  sender: "TELE5"
+- anilistId: 2574
+  liste: "Pinocchio, 1972"
+  sender: "RTL"
+- anilistId: 2575
+  liste: "Chack der Biber, 1975"
+  sender: "TELE5"
+- anilistId: 2576
+  liste: "Rascal, der Waschbär, 1977"
+  sender: "ZDF"
+- anilistId: 2577
+  liste: "Tom Sawyers Abenteuer, 1980"
+  sender: "JUNIOR"
+- anilistId: 2578
+  liste: "Tao Tao: Tiergeschichten aus aller Welt, 1983"
+  sender: "ZDF"
+- anilistId: 2579
+  liste: "Um die Welt mit Willy Fog, 1987"
+  sender: "TELE5"
+- anilistId: 2581
+  liste: "Mobile Suit Gundam 00, 2007"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 2589
+  liste: "Black Cat: Die Katze entfernt sich, 2006"
+  sender: "OVA FILMS"
+- anilistId: 2593
+  liste: "The Garden of Sinners: Thanatos, 2007"
+  sender: "KAZÉ ANIME"
+- anilistId: 2594
+  liste: "The Piano Forest, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 2611
+  liste: "Die Abenteuer des kleinen Panda, 1972"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 2612
+  liste: "Frau Pfeffertopf, 1983"
+  sender: "RTL2"
+- anilistId: 2618
+  liste: "Die Schatzinsel, 1978"
+  sender: "RTL2"
+- anilistId: 2623
+  liste: "Niklaas: Der Junge aus Flandern, 1997"
+  sender: "E-M-S"
+- anilistId: 2685
+  liste: "Tsubasa Tokyo Revelations, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 2746
+  liste: "Vexille, 2007"
+  sender: "ANIMAZE"
+- anilistId: 2759
+  liste: "Evangelion: 1.11 - You Are (Not) Alone., 2007"
+  sender: "UNIVERSUM + AMAZON"
+- anilistId: 2783
+  liste: "Däumelinchens Reise, 1992"
+  sender: "PREMIERE"
+- anilistId: 2787
+  liste: "Shakugan no Shana: Second, 2007"
+  sender: "FILMCONFECT"
+- anilistId: 2789
+  liste: "B-Daman, 2004"
+  sender: "SUPER RTL"
+- anilistId: 2793
+  liste: "Space Firebird 2772, 1980"
+  sender: "RTL"
+- anilistId: 2813
+  liste: "Alfred J. Kwak, 1989"
+  sender: "ZDF"
+- anilistId: 2814
+  liste: "Cubitus, der Wuschelhund, 1988"
+  sender: "SUPER RTL"
+- anilistId: 2815
+  liste: "Ollies total verrückte Farm, 1987"
+  sender: "SAT.1"
+- anilistId: 2824
+  liste: "Um die Welt mit Barbapapa, 1999"
+  sender: "RTL"
+- anilistId: 2825
+  liste: "Sindbad, 1975"
+  sender: "ZDF"
+- anilistId: 2826
+  liste: "Im Land des Zauberers von Oz, 1986"
+  sender: "RTL2"
+- anilistId: 2827
+  liste: "Calimero, 1974"
+  sender: "ZDF"
+- anilistId: 2831
+  liste: "Remi, 1980"
+  sender: "EWOOLUTION"
+- anilistId: 2836
+  liste: "Wickie und die starken Männer, 1974"
+  sender: "ZDF"
+- anilistId: 2842
+  liste: "Pokémon Mystery Dungeon: Team Flinke Freunde, 2007"
+  sender: "RTL2"
+- anilistId: 2847
+  liste: "Pokémon: Der Aufstieg von Darkrai, 2007"
+  sender: "UNIVERSAL PICTURES"
+- anilistId: 2848
+  liste: "Ein Sommer mit Coo, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 2882
+  liste: "Superbuch, 1981"
+  sender: "???"
+- anilistId: 2889
+  liste: "Bleach: The Movie - The Diamond Dust Rebellion, 2007"
+  sender: "KAZÉ ANIME"
+- anilistId: 2890
+  liste: "Ponyo: Das große Abenteuer am Meer, 2008"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 2892
+  liste: "Bob, der Flaschengeist, 1969"
+  sender: "RTL"
+- anilistId: 2904
+  liste: "Code Geass: Lelouch of the Rebellion R2, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 2905
+  liste: "Ikki Tousen: Dragon Destiny - Bonus, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 2912
+  liste: "Hallo Kurt!, 1981"
+  sender: "RTL2"
+- anilistId: 2913
+  liste: "Buschbabies: Im Land der wilden Tiere, 1992"
+  sender: "TELE5"
+- anilistId: 2933
+  liste: "Rock'n Cop, 1983"
+  sender: "RTL"
+- anilistId: 2952
+  liste: "Final Fantasy VII: Advent Children - Director’s Cut, 2009"
+  sender: "SONY PICTURES"
+- anilistId: 2961
+  liste: "Digimon: Der Film (Teil 1), 1999"
+  sender: "20TH CENTURY FOX"
+- anilistId: 2966
+  liste: "Spice and Wolf, 2008"
+  sender: "NIPPONART"
+- anilistId: 2969
+  liste: "Appleseed: Ex Machina, 2007"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 2993
+  liste: "Rosario + Vampire, 2008"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 3010
+  liste: "Z wie Zorro, 1996"
+  sender: "RTL2"
+- anilistId: 3012
+  liste: "Crush Gear Turbo, 2001"
+  sender: "TELE5"
+- anilistId: 3024
+  liste: "Choppy und die Prinzessin, 1967"
+  sender: "RTL2"
+- anilistId: 3027
+  liste: "Fist of the North Star: Legend of Yuria, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 3043
+  liste: "Die kleine Seejungfrau, 1975"
+  sender: "DDR1"
+- anilistId: 3044
+  liste: "Astro Boy, 1980"
+  sender: "KURAOKA ENTERTAINMENT"
+- anilistId: 3053
+  liste: "Kickers, 1986"
+  sender: "TELE5"
+- anilistId: 3054
+  liste: "Nadine: Stern der Seine, 1975"
+  sender: "RTL2"
+- anilistId: 3070
+  liste: "Negadon: Das Monster vom Mars, 2005"
+  sender: "ANIME HOUSE"
+- anilistId: 3075
+  liste: "Fliegendes Haus, 1982"
+  sender: "???"
+- anilistId: 3086
+  liste: "Strait Jacket: Legend of the Demon Hunter, 2007"
+  sender: "ANIMAZE"
+- anilistId: 3088
+  liste: "Tokyo Marble Chocolate, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 3089
+  liste: "The Sky Crawlers, 2008"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 3092
+  liste: "Junjo Romantica, 2008"
+  sender: "CRUNCHYROLL"
+- anilistId: 3110
+  liste: "Jeannie, 1992"
+  sender: "RTL2"
+- anilistId: 3112
+  liste: "Papillon Rose: New Generation, 2006"
+  sender: "TRIMAX"
+- anilistId: 3132
+  liste: "Christoph Columbus, 1992"
+  sender: "RTL"
+- anilistId: 3138
+  liste: "Solty Rei: Mit dem vorbeigehenden Gefühl, mit dem Herz des Gedankens, 2006"
+  sender: "OVA FILMS"
+- anilistId: 3162
+  liste: "Das Mädchen von der Farm, 1984"
+  sender: "RTL2"
+- anilistId: 3186
+  liste: "Schwanensee, 1981"
+  sender: "RTL"
+- anilistId: 3194
+  liste: "Die kleine Meerjungfrau Marina, 1991"
+  sender: "RTL"
+- anilistId: 3199
+  liste: "Tico: Ein toller Freund, 1994"
+  sender: "RTL2"
+- anilistId: 3201
+  liste: "Henry und der rosarote Drache, 1983"
+  sender: "KABEL1"
+- anilistId: 3231
+  liste: "Gunslinger Girl il teatrino, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 3312
+  liste: "Dr. Slump, 1997"
+  sender: "RTL2"
+- anilistId: 3313
+  liste: "Montana, 1994"
+  sender: "NICKELODEON"
+- anilistId: 3315
+  liste: "Spezialeinheit Metal Jack, 1991"
+  sender: "K-TOON"
+- anilistId: 3317
+  liste: "Die Sternenjäger, 1986"
+  sender: "PROSIEBEN"
+- anilistId: 3323
+  liste: "Kite Liberator: Angel of Death, 2008"
+  sender: "ANIMAZE"
+- anilistId: 3328
+  liste: "School Days: Magical Heart Kokoro, 2008"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 3342
+  liste: "Rin: Daughters of Mnemosyne, 2008"
+  sender: "NIPPONART"
+- anilistId: 3354
+  liste: "Zombie-Loan OVA, 2008"
+  sender: "ANIME VIDEO"
+- anilistId: 3367
+  liste: "Mein Heimatland Japan, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 3434
+  liste: "Bumpety Boo: Der kleine gelbe Superflitzer, 1985"
+  sender: "SUPER RTL"
+- anilistId: 3436
+  liste: "Gesucht, entdeckt, erfunden, 1983"
+  sender: "ZDF"
+- anilistId: 3446
+  liste: "Resident Evil: Degeneration, 2008"
+  sender: "SONY PICTURES"
+- anilistId: 3455
+  liste: "To Love-Ru: Trouble, 2008"
+  sender: "FILMCONFECT"
+- anilistId: 3457
+  liste: "Vampire Knight, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 3485
+  liste: "Ghost in the Shell: S.A.C. 2nd GIG - Der Alltag der Tachikoma, 2004"
+  sender: "PANINI VIDEO"
+- anilistId: 3488
+  liste: "Genji Monogatari: Die Geschichte von Prinz Genji, 1987"
+  sender: "ANIME HOUSE"
+- anilistId: 3508
+  liste: "Genius Party, 2007"
+  sender: "RAPID EYE MOVIES"
+- anilistId: 3576
+  liste: "Dinosaur King, 2007"
+  sender: "RTL2"
+- anilistId: 3588
+  liste: "Soul Eater, 2008"
+  sender: "POLYBAND ANIME"
+- anilistId: 3609
+  liste: "Voltron: Verteidiger des Universums (Staffel 2), 1982"
+  sender: "RTL2"
+- anilistId: 3624
+  liste: "Es war einmal … das Leben, 1986"
+  sender: "ARD"
+- anilistId: 3652
+  liste: "Higurashi no Naku Koro ni Rei, 2009"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 3667
+  liste: "Strike Witches, 2008"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 3712
+  liste: "The Familiar of Zero 3: “Rondo” of Princesses, 2008"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 3720
+  liste: "Tom, Crosby und die Mäusebrigade, 1974"
+  sender: "ZDF"
+- anilistId: 3723
+  liste: "Koalabärchens Streifzüge, 1984"
+  sender: "SAT.1"
+- anilistId: 3751
+  liste: "Anja und die vier Jahreszeiten, 1980"
+  sender: "DDR1"
+- anilistId: 3752
+  liste: "Der gestiefelte Kater reist um die Welt, 1976"
+  sender: "OSTALGICA"
+- anilistId: 3755
+  liste: "Däumelinchen, 1978"
+  sender: "DDR1"
+- anilistId: 3757
+  liste: "Aladdin und die Wunderlampe, 1982"
+  sender: "DDR1"
+- anilistId: 3760
+  liste: "The Golden Bird, 1987"
+  sender: "RTL"
+- anilistId: 3761
+  liste: "Dogtanian und die drei Musketiere, 1981"
+  sender: "SAT.1"
+- anilistId: 3782
+  liste: "The Garden of Sinners: Mordverdacht (Teil 1), 2007"
+  sender: "KAZÉ ANIME"
+- anilistId: 3783
+  liste: "The Garden of Sinners: Verbliebener Sinn für Schmerz, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 3784
+  liste: "Evangelion: 2.22 - You Can (Not) Advance., 2009"
+  sender: "UNIVERSUM + AMAZON"
+- anilistId: 3785
+  liste: "Evangelion: 3.33 - You Can (Not) Redo., 2012"
+  sender: "UNIVERSUM + AMAZON"
+- anilistId: 3786
+  liste: "Evangelion: 3.0+1.01 Thrice upon a Time, 2021"
+  sender: "AMAZON PRIME VIDEO"
+- anilistId: 3791
+  liste: "Air Gear: Special Trick, 2007"
+  sender: "ANIME VIDEO"
+- anilistId: 3809
+  liste: "Schneewittchen, 1994"
+  sender: "RTL2"
+- anilistId: 3810
+  liste: "Die kleinen Zwurze, 1980"
+  sender: "???"
+- anilistId: 3811
+  liste: "Der kleine Prinz, 1978"
+  sender: "KABEL1"
+- anilistId: 3812
+  liste: "Prinzessin Erdbeer, 1985"
+  sender: "SUPER RTL"
+- anilistId: 3823
+  liste: "Little Lulu, 1976"
+  sender: "???"
+- anilistId: 3828
+  liste: "Der goldene Feuervogel, 1979"
+  sender: "???"
+- anilistId: 3834
+  liste: "Blinki: Der außerirdische Wunderzwerg, 1974"
+  sender: "???"
+- anilistId: 3836
+  liste: "Belle und Sebastian, 1981"
+  sender: "RTL"
+- anilistId: 3842
+  liste: "Die Schatzinsel: Das große Abenteuer der Tiere, 1971"
+  sender: "ATLAS FILM"
+- anilistId: 3843
+  liste: "Alibaba und die 40 Räuber, 1971"
+  sender: "???"
+- anilistId: 3847
+  liste: "Die Wilden Schwäne, 1977"
+  sender: "DDR1"
+- anilistId: 3848
+  liste: "One Piece: Chopper und das Wunder der Winterkirschblüte, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 3858
+  liste: "Flitz, das Bienenkind, 1970"
+  sender: "ARD"
+- anilistId: 3915
+  liste: "Timefighters, 1975"
+  sender: "???"
+- anilistId: 3927
+  liste: "Mobile Suit Gundam 00 Second Season, 2008"
+  sender: "BEEZ ENTERTAINMENT"
+- anilistId: 3972
+  liste: "Yu-Gi-Oh! 5D’s, 2008"
+  sender: "RTL2"
+- anilistId: 4026
+  liste: "Pokémon: Giratina und der Himmelsritter, 2008"
+  sender: "RTL2"
+- anilistId: 4059
+  liste: "Clannad: OVA - Das Tomoyo Kapitel, 2008"
+  sender: "FILMCONFECT"
+- anilistId: 4060
+  liste: "Grimms Märchen, 1987"
+  sender: "TELE5"
+- anilistId: 4061
+  liste: "Grimms Märchen (2), 1988"
+  sender: "TELE5"
+- anilistId: 4063
+  liste: "Sekirei, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 4083
+  liste: "Micronauts, 1986"
+  sender: "ARD"
+- anilistId: 4087
+  liste: "Michiko & Hatchin, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 4094
+  liste: "Batman: Gotham Knight, 2008"
+  sender: "WARNER BROS."
+- anilistId: 4106
+  liste: "Trigun: The Movie - Badlands Rumble, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 4138
+  liste: "Bauzi, der Pinguin aus der Antarktis, 1988"
+  sender: "TAURUSVIDEO"
+- anilistId: 4155
+  liste: "One Piece Film: Strong World, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 4181
+  liste: "Clannad: After Story, 2008"
+  sender: "FILMCONFECT"
+- anilistId: 4182
+  liste: "Darker than Black: Unter voll erblühten Kirschbäumen, 2008"
+  sender: "PANINI VIDEO"
+- anilistId: 4196
+  liste: "Ikki Tousen: Great Guardians, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 4199
+  liste: "Prinz Arthus, 1979"
+  sender: "RTL2"
+- anilistId: 4214
+  liste: "Rosario + Vampire Capu2, 2008"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 4224
+  liste: "Toradora!, 2008"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 4246
+  liste: "Eureka Seven: Good Night, Sleep Tight, Young Lovers, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 4280
+  liste: "The Garden of Sinners: Der leere Tempel, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 4282
+  liste: "The Garden of Sinners: Paradoxe Helix, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 4312
+  liste: "Fist of the North Star: Legend of Toki, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 4437
+  liste: "Naruto Shippuden: The Movie - Bonds, 2008"
+  sender: "KSM ANIME"
+- anilistId: 4447
+  liste: "Detektiv Conan: Die Partitur des Grauens, 2008"
+  sender: "ANIME VIDEO"
+- anilistId: 4468
+  liste: "Der Kater mit den Zauberstiefeln, 1992"
+  sender: "KABEL1"
+- anilistId: 4472
+  liste: "Lucky Star OVA, 2008"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 4481
+  liste: "Alakazam: König der Tiere, 1960"
+  sender: "ORION"
+- anilistId: 4513
+  liste: "Erzählung einer weißen Schlange, 1958"
+  sender: "ZDF"
+- anilistId: 4514
+  liste: "Jackie und Jill: Die Bärenkinder vom Berg Tarak, 1977"
+  sender: "SAT.1"
+- anilistId: 4515
+  liste: "Puschel das Eichhorn, 1979"
+  sender: "ZDF"
+- anilistId: 4581
+  liste: "Corpse Princess, 2008"
+  sender: "CRUNCHYROLL"
+- anilistId: 4584
+  liste: "Topo Gigio, die Weltraummaus (1. Staffel), 1988"
+  sender: "PROSIEBEN"
+- anilistId: 4599
+  liste: "Abenteuer in den Weiden, 1993"
+  sender: "ARD"
+- anilistId: 4614
+  liste: "Prinz Arthus (Staffel 2), 1980"
+  sender: "RTL2"
+- anilistId: 4615
+  liste: "Rocky und seine Freunde, 1973"
+  sender: "ARD"
+- anilistId: 4654
+  liste: "A Certain Magical Index, 2008"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 4672
+  liste: "Ghost in the Shell 2.0, 2008"
+  sender: "NIPPONART"
+- anilistId: 4718
+  liste: "Agent Aika: Special Trial, 1998"
+  sender: "OVA FILMS"
+- anilistId: 4752
+  liste: "Vampire Knight Guilty, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 4765
+  liste: "Gunslinger Girl il teatrino OVA, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 4800
+  liste: "Die Abenteuer von Tom Sawyer und Huck Finn, 1994"
+  sender: "KABEL1"
+- anilistId: 4835
+  liste: "Bleach: The Movie - Fade to Black, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 4898
+  liste: "Black Butler, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 4901
+  liste: "Black Lagoon: Roberta’s Blood Trail, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 4948
+  liste: "Der Zauberer und die Banditen, 1959"
+  sender: "ARD"
+- anilistId: 4962
+  liste: "Mon Colle Knights, 2000"
+  sender: "JETIX"
+- anilistId: 4970
+  liste: "Afro Samurai: Resurrection, 2009"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 5006
+  liste: "Der gestiefelte Kater im wilden Westen, 1972"
+  sender: "OSTALGICA"
+- anilistId: 5025
+  liste: "Gota-Man, 1994"
+  sender: "TRIMAX"
+- anilistId: 5027
+  liste: "Yuna & Stitch, 2008"
+  sender: "DISNEY CHANNEL"
+- anilistId: 5081
+  liste: "Bakemonogatari, 2009"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 5084
+  liste: "Das Mädchen mit dem Zauberhaar, 2009"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 5090
+  liste: "Techno Police: Das Gesetz der Zukunft, 1982"
+  sender: "???"
+- anilistId: 5091
+  liste: "Ninja Superboy, 1979"
+  sender: "???"
+- anilistId: 5098
+  liste: "Die wunderbaren Abenteuer des Hans Christian Andersen, 1968"
+  sender: "CONSTANTIN FILM"
+- anilistId: 5114
+  liste: "Fullmetal Alchemist: Brotherhood, 2009"
+  sender: "KSM ANIME"
+- anilistId: 5136
+  liste: "FLAG - The Movie (Director’s Cut), 2007"
+  sender: "OVA FILMS"
+- anilistId: 5167
+  liste: "Cream Lemon: New Generation, 2006"
+  sender: "TRIMAX"
+- anilistId: 5178
+  liste: "First Squad: Moment der Wahrheit, 2009"
+  sender: "SONY PICTURES"
+- anilistId: 5204
+  liste: "The Garden of Sinners: Verlorene Erinnerung, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 5205
+  liste: "The Garden of Sinners: Mordverdacht (Teil 2), 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 5231
+  liste: "Inazuma Eleven, 2008"
+  sender: "RTL2"
+- anilistId: 5256
+  liste: "Pokémon Mystery Dungeon: Erkundungsteams Zeit und Dunkelheit, 2007"
+  sender: "RTL2"
+- anilistId: 5277
+  liste: "Sekirei: Pure Engagement, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 5291
+  liste: "Fist of the North Star: Legend of Kenshiro, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 5306
+  liste: "Tales of Symphonia: Tethe’alla Arc, 2010"
+  sender: "KSM ANIME"
+- anilistId: 5333
+  liste: "Ikki Tousen: Great Guardians - Bonus, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 5337
+  liste: "Bakugan: Neu Vestroia, 2010"
+  sender: "CARTOON NETWORK"
+- anilistId: 5341
+  liste: "Spice and Wolf II, 2009"
+  sender: "NIPPONART"
+- anilistId: 5355
+  liste: "Sengoku Basara: Samurai Kings, 2009"
+  sender: "MYVIDEO"
+- anilistId: 5356
+  liste: "Canaan, 2009"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 5460
+  liste: "Detektiv Conan: Der nachtschwarze Jäger, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 5530
+  liste: "Pandora Hearts, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 5630
+  liste: "Eden of the East, 2009"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 5680
+  liste: "K-On!, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 5681
+  liste: "Summer Wars, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 5764
+  liste: "The Familiar of Zero: Rondo of Princesses - Der verführerische Strand, 2008"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 5958
+  liste: "Angeloid: Sora no Otoshimono, 2009"
+  sender: "NIPPONART"
+- anilistId: 5962
+  liste: "Beyblade: Metal Fusion, 2009"
+  sender: "NICKELODEON"
+- anilistId: 5998
+  liste: "Haruka und der Zauberspiegel, 2009"
+  sender: "ANIMAZE"
+- anilistId: 6007
+  liste: "Spice and Wolf OVA, 2009"
+  sender: "NIPPONART"
+- anilistId: 6033
+  liste: "Dragon Ball Z Kai, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 6046
+  liste: "Tales of Vesperia: The First Strike, 2009"
+  sender: "ANIMAZE"
+- anilistId: 6072
+  liste: "Elf hungrige Katzen und ein Albatros, 1985"
+  sender: "TAURUSVIDEO"
+- anilistId: 6114
+  liste: "Rainbow: Die Sieben von Zelle Sechs, 2010"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 6115
+  liste: "Lupin III. vs Detektiv Conan: The Special, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 6127
+  liste: "Toradora SOS! Hurra, es schmeckt so lecker!, 2009"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 6172
+  liste: "Professor Layton und die ewige Diva, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 6178
+  liste: "Pokémon: Arceus und das Juwel des Lebens, 2009"
+  sender: "RTL2"
+- anilistId: 6205
+  liste: "Kämpfer, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 6211
+  liste: "Tokyo Magnitude 8.0, 2009"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 6213
+  liste: "A Certain Scientific Railgun, 2009"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 6325
+  liste: "Naruto Shippuden: The Movie - Die Erben des Willens des Feuers, 2009"
+  sender: "KSM ANIME"
+- anilistId: 6351
+  liste: "Clannad: After Story - Das Kyou-Kapitel, 2009"
+  sender: "FILMCONFECT"
+- anilistId: 6372
+  liste: "Eden of the East: Der König von Eden, 2009"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 6392
+  liste: "Training mit Hinako, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 6421
+  liste: "Fullmetal Alchemist: Brotherhood - OVA Collection, 2009"
+  sender: "KSM ANIME"
+- anilistId: 6467
+  liste: "Detektiv Conan: Das verlorene Schiff im Himmel, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 6547
+  liste: "Angel Beats!, 2010"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 6572
+  liste: "Shakugan no Shana S, 2009"
+  sender: "FILMCONFECT"
+- anilistId: 6581
+  liste: "Sengoku Basara: Samurai Kings - Die feuerspuckende Festung am Berg Fuji, 2010"
+  sender: "MYVIDEO"
+- anilistId: 6593
+  liste: "Elmer und der kleine Drache, 1997"
+  sender: "TRIMAX"
+- anilistId: 6610
+  liste: "King of Thorn, 2009"
+  sender: "ANIMAZE"
+- anilistId: 6634
+  liste: "Sengoku Basara: Samurai Kings 2, 2010"
+  sender: "MYVIDEO"
+- anilistId: 6637
+  liste: "Eden of the East: Das verlorene Paradies, 2010"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 6675
+  liste: "Redline, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 6702
+  liste: "Fairy Tail, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 6707
+  liste: "Black Butler II, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 6746
+  liste: "Durarara!!, 2010"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 6747
+  liste: "Dance in the Vampire Bund, 2010"
+  sender: "NIPPONART"
+- anilistId: 6771
+  liste: "Abenteuer im Maulwurfsland, 1986"
+  sender: "KABEL1"
+- anilistId: 6793
+  liste: "Black Butler: Sein Butler - Eine Aufführung, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 6811
+  liste: "InuYasha: The Final Act, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 6862
+  liste: "K-On! Extrafolge: Livemusik-Klub!, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 6867
+  liste: "Halo Legends, 2009"
+  sender: "WARNER BROS."
+- anilistId: 6875
+  liste: "Iron Man, 2010"
+  sender: "SONY PICTURES"
+- anilistId: 6877
+  liste: "Pichu Bros.: Einer für alle!, 2003"
+  sender: "THE POKÉMON COMPANY"
+- anilistId: 6880
+  liste: "Deadman Wonderland, 2011"
+  sender: "NIPPONART"
+- anilistId: 6899
+  liste: "Yuna & Stitch Staffel 2, 2009"
+  sender: "DISNEY CHANNEL"
+- anilistId: 6918
+  liste: "Wolverine, 2010"
+  sender: "SONY PICTURES"
+- anilistId: 6919
+  liste: "X-Men, 2011"
+  sender: "SONY PICTURES"
+- anilistId: 6920
+  liste: "Blade, 2011"
+  sender: "SONY PICTURES"
+- anilistId: 6922
+  liste: "Fate/Stay Night: Unlimited Blade Works, 2010"
+  sender: "ANIMAZE"
+- anilistId: 6927
+  liste: "Eden of the East: Air Communication, 2009"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 6951
+  liste: "Yu-Gi-Oh!: Bonds Beyond Time, 2010"
+  sender: "KSM ANIME"
+- anilistId: 6954
+  liste: "The Garden of Sinners: Epilog, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 7004
+  liste: "Calimero: Staffel 2, 1992"
+  sender: "RTL2"
+- anilistId: 7054
+  liste: "Maid-sama, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 7088
+  liste: "Demon King Daimao, 2010"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 7279
+  liste: "To: A Space Fantasy, 2009"
+  sender: "ANIMAZE"
+- anilistId: 7311
+  liste: "Das Verschwinden der Haruhi Suzumiya, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 7314
+  liste: "Yona Yona Pinguin, 2009"
+  sender: "UNIVERSAL PICTURES"
+- anilistId: 7334
+  liste: "Bakugan: Invasion der Gundalianer, 2010"
+  sender: "CARTOON NETWORK"
+- anilistId: 7336
+  liste: "Raumstation Cyborg 009 & Gefährlicher Countdown für Cyborg 009, 1980"
+  sender: "AVU"
+- anilistId: 7472
+  liste: "Gintama: The Movie, 2010"
+  sender: "KSM ANIME"
+- anilistId: 7580
+  liste: "Ikki Tousen: Xtreme Xecutor, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 7625
+  liste: "Hobberdy Dick: Der kleine Hauself, 1992"
+  sender: "KABEL1"
+- anilistId: 7674
+  liste: "Bakuman., 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 7695
+  liste: "Pokémon: Zoroark - Meister der Illusionen, 2010"
+  sender: "RTL2"
+- anilistId: 7711
+  liste: "Arrietty: Die wundersame Welt der Borger, 2010"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 7729
+  liste: "Die Polar-Bären, 1979"
+  sender: "AVU"
+- anilistId: 7779
+  liste: "Pixi im Wolkenkuckucksheim, 1971"
+  sender: "SAT.1"
+- anilistId: 7791
+  liste: "K-On!!, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 7817
+  liste: "B Gata H Kei, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 7845
+  liste: "Setons Welt der Tiere, 1989"
+  sender: "KABEL1"
+- anilistId: 7858
+  liste: "Angeloid: Sora no Otoshimono - Project Pink, 2010"
+  sender: "NIPPONART"
+- anilistId: 7897
+  liste: "Im Bett mit Hinako, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 7956
+  liste: "Robby der pfiffige Roboter, 1982"
+  sender: "???"
+- anilistId: 8074
+  liste: "Highschool of the Dead, 2010"
+  sender: "NIPPONART"
+- anilistId: 8115
+  liste: "Welcome to the Space Show, 2010"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 8142
+  liste: "Colorful, 2010"
+  sender: "KSM ANIME"
+- anilistId: 8240
+  liste: "Kum Kum, 1975"
+  sender: "SAT.1"
+- anilistId: 8245
+  liste: "Beyblade der Film: Die Legende von Atlantis, 2010"
+  sender: "NICKELODEON"
+- anilistId: 8246
+  liste: "Naruto Shippuden: The Movie 4 - The Lost Tower, 2010"
+  sender: "KSM ANIME"
+- anilistId: 8247
+  liste: "Bleach: The Movie - Hell Verse, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 8277
+  liste: "Samurai Girls, 2010"
+  sender: "FILMCONFECT"
+- anilistId: 8310
+  liste: "Magic Kaito: Kid the Phantom Thief, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 8373
+  liste: "Die Biene Maja (Staffel 2), 1982"
+  sender: "ZDF"
+- anilistId: 8407
+  liste: "Angeloid: Sora no Otoshimono Forte, 2010"
+  sender: "NIPPONART"
+- anilistId: 8410
+  liste: "Beyblade: Metal Masters, 2010"
+  sender: "NICKELODEON"
+- anilistId: 8425
+  liste: "Gosick, 2011"
+  sender: "KSM ANIME"
+- anilistId: 8438
+  liste: "Pokémon Ranger: Spuren des Lichts, 2010"
+  sender: "RTL2"
+- anilistId: 8460
+  liste: "Mirai Nikki OVA 2, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 8487
+  liste: "Onigamiden: Legend of the Millennium Dragon, 2011"
+  sender: "SONY PICTURES"
+- anilistId: 8494
+  liste: "Samurai Express, 1974"
+  sender: "RTL"
+- anilistId: 8507
+  liste: "Ikki Tousen: Xtreme Xecutor - Bonus, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 8584
+  liste: "Das Ende aller Tage (Null-Zeit – Der III. Weltkrieg), 1982"
+  sender: "VEGAS VIDEO"
+- anilistId: 8624
+  liste: "Digimon Fusion, 2010"
+  sender: "PROSIEBEN MAXX"
+- anilistId: 8764
+  liste: "Gon, der Höhlenfratz, 1996"
+  sender: "JUNIOR"
+- anilistId: 8841
+  liste: "Is This a Zombie?, 2011"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 8888
+  liste: "Code Geass: Akito the Exiled, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 8963
+  liste: "Yuna & Stitch: Kampf der Gigantchen, 2009"
+  sender: "DISNEY CHANNEL"
+- anilistId: 8964
+  liste: "Yuna & Stitch Staffel 3, 2010"
+  sender: "DISNEY CHANNEL"
+- anilistId: 8993
+  liste: "Juliet: Das Geheimnis, 1999"
+  sender: "TRIMAX"
+- anilistId: 8995
+  liste: "Tales of Symphonia: The United World Arc, 2011"
+  sender: "KSM ANIME"
+- anilistId: 9041
+  liste: "Infinite Stratos, 2011"
+  sender: "POLYBAND ANIME"
+- anilistId: 9107
+  liste: "Pokémon: Schwarz & Weiß, 2010"
+  sender: "RTL2"
+- anilistId: 9135
+  liste: "Fullmetal Alchemist: The Sacred Star of Milos, 2011"
+  sender: "ANIMAZE"
+- anilistId: 9181
+  liste: "Motto To Love-Ru: Trouble, 2010"
+  sender: "FILMCONFECT"
+- anilistId: 9253
+  liste: "Steins;Gate, 2011"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 9289
+  liste: "Hanasaku Iroha, 2011"
+  sender: "ANIME HOUSE"
+- anilistId: 9332
+  liste: ".hack//Quantum, 2010"
+  sender: "ANIMAZE"
+- anilistId: 9355
+  liste: "Sekirei: Pure Engagement - Zwei Plaudereien, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 9362
+  liste: "Samurai Girls OVA: Muneakiras Albtraum, 2010"
+  sender: "FILMCONFECT"
+- anilistId: 9365
+  liste: "Sisters of Wellber: Elegy for a Sad Warrior, 2007"
+  sender: "ANIMAZE"
+- anilistId: 9366
+  liste: "Maid-sama: Special - Das ist ein Bonus!, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 9367
+  liste: "Freezing, 2011"
+  sender: "POLYBAND ANIME"
+- anilistId: 9479
+  liste: "Coppelion, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 9488
+  liste: "Cencoroll Connect, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 9513
+  liste: "Beelzebub, 2011"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 9515
+  liste: "Highschool of the Dead OVA: Drifters of the Dead, 2011"
+  sender: "NIPPONART"
+- anilistId: 9544
+  liste: "Resident Evil: Damnation, 2012"
+  sender: "SONY PICTURES"
+- anilistId: 9548
+  liste: "Heidi: Kindheit in den Bergen, 1996"
+  sender: "ZDF"
+- anilistId: 9549
+  liste: "Heidi: Ein Sommer voller Glück, 1996"
+  sender: "ZDF"
+- anilistId: 9575
+  liste: "Jakobus Nimmersatt, 1980"
+  sender: "JUNIOR"
+- anilistId: 9617
+  liste: "K-On! The Movie, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 9734
+  liste: "K-On!! Pläne!, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 9737
+  liste: "Appleseed XIII, 2011"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 9744
+  liste: "Im Bad mit Hinako, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 9756
+  liste: "Puella Magi Madoka Magica, 2011"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 9760
+  liste: "Die Reise nach Agartha, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 9917
+  liste: "Pokémon: Der Film - Weiß: Victini und Zekrom, 2011"
+  sender: "RTL2"
+- anilistId: 9919
+  liste: "Blue Exorcist, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 9926
+  liste: "Sekaiichi Hatsukoi: The World’s Greatest First Love, 2011"
+  sender: "CRUNCHYROLL"
+- anilistId: 9936
+  liste: "Maken-Ki: Battling Venus, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 9941
+  liste: "Tiger & Bunny, 2011"
+  sender: "NETFLIX"
+- anilistId: 9963
+  liste: "Detektiv Conan: Die 15 Minuten der Stille, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 9978
+  liste: "Rückkehr der Dinosaurier, 1976"
+  sender: "???"
+- anilistId: 9989
+  liste: "AnoHana: Die Blume, die wir an jenem Tag sahen, 2011"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10015
+  liste: "Yu-Gi-Oh! Zexal, 2011"
+  sender: "RTL2"
+- anilistId: 10029
+  liste: "Der Mohnblumenberg, 2011"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 10067
+  liste: "Angel Beats! Another Epilogue, 2010"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 10076
+  liste: "Kämpfer: Für die Liebe, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 10087
+  liste: "Fate/Zero, 2011"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10162
+  liste: "Usagi Drop, 2011"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 10218
+  liste: "Berserk: Das Goldene Zeitalter, 2012"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 10282
+  liste: "Es war einmal, 1975"
+  sender: "ARD"
+- anilistId: 10330
+  liste: "Bakugan: Mechtanium Surge, 2011"
+  sender: "CARTOON NETWORK"
+- anilistId: 10370
+  liste: "Beyblade: Metal Fury, 2011"
+  sender: "NICKELODEON"
+- anilistId: 10389
+  liste: "Ein Brief an Momo, 2011"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 10417
+  liste: "Gyo: Der Tod aus dem Meer, 2012"
+  sender: "ANIMAZE"
+- anilistId: 10418
+  liste: "Deadman Wonderland: Der Besitzer der roten Messer, 2011"
+  sender: "NIPPONART"
+- anilistId: 10483
+  liste: "Samurai Kings 2: Einer leuchtenden Zukunft entgegen, 2011"
+  sender: "MYVIDEO"
+- anilistId: 10490
+  liste: "Blood-C: Die Serie, 2011"
+  sender: "ANIMAZE"
+- anilistId: 10589
+  liste: "Naruto Shippuden: The Movie 5 - Blood Prison, 2011"
+  sender: "KSM ANIME"
+- anilistId: 10620
+  liste: "Mirai Nikki, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 10659
+  liste: "Naruto Shippuden: The OVA - Naruto, ein Genie und drei Wünsche, 2010"
+  sender: "KSM ANIME"
+- anilistId: 10681
+  liste: "Blood-C: The Last Dark, 2012"
+  sender: "MAD DIMENSION"
+- anilistId: 10686
+  liste: "Naruto Shippuden: Flammende Chunin-Prüfung - Naruto gegen Konohamaru!, 2011"
+  sender: "KSM ANIME"
+- anilistId: 10702
+  liste: "Tekken: Blood Vengeance, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 10719
+  liste: "Haganai: I Don’t Have Many Friends, 2011"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 10721
+  liste: "Penguindrum, 2011"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10740
+  liste: "Pokémon: Der Film - Schwarz: Victini und Reshiram, 2011"
+  sender: "RTL2"
+- anilistId: 10790
+  liste: "Is This a Zombie? of the Dead, 2012"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 10793
+  liste: "Guilty Crown, 2011"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10794
+  liste: "Infinitie Stratos OVA: Ein Sextett sehnt sich nach Liebe, 2011"
+  sender: "POLYBAND ANIME"
+- anilistId: 10863
+  liste: "Steins;Gate: Egoistic Poriomania, 2012"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 11005
+  liste: "Holy Knight, 2012"
+  sender: "ANIMAZE"
+- anilistId: 11061
+  liste: "Hunter × Hunter, 2011"
+  sender: "KSM ANIME"
+- anilistId: 11077
+  liste: "Hellsing Ultimate: The Dawn, 2011"
+  sender: "NIPPONART"
+- anilistId: 11111
+  liste: "Another, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 11113
+  liste: "Usagi Drop Mini-Episoden, 2011"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 11177
+  liste: "B-Daman Crossfire, 2011"
+  sender: "PROSIEBEN MAXX"
+- anilistId: 11209
+  liste: "Maken-ki! OVA, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 11255
+  liste: "Ikki Tousen in Kyoto, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 11266
+  liste: "Blue Exorcist: Kuro reißt aus, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 11285
+  liste: "Black Rock Shooter, 2012"
+  sender: "NIPPONART"
+- anilistId: 11307
+  liste: "Es war einmal … der Weltraum, 1984"
+  sender: "ARD"
+- anilistId: 11319
+  liste: "The Familiar of Zero F, 2012"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 11359
+  liste: "Dragon Ball Z Kai: Frieden für die Zukunft!, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 11433
+  liste: "Waiting in the Summer, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 11441
+  liste: "Rurouni Kenshin: New Kyoto Arc, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 11499
+  liste: "Sankarea: Undying Love, 2012"
+  sender: "FILMCONFECT"
+- anilistId: 11553
+  liste: "Toradora! Das wahre Bento, 2011"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 11577
+  liste: "Steins;Gate: The Movie, 2013"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 11617
+  liste: "Highschool D×D, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 11633
+  liste: "Blood Lad, 2013"
+  sender: "NIPPONART"
+- anilistId: 11697
+  liste: "The Knight in the Area, 2012"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 11701
+  liste: "Another: Die Andere, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 11705
+  liste: "Dragon Age: Dawn of the Seeker, 2012"
+  sender: "ENTERTAINMENT ONE"
+- anilistId: 11737
+  liste: "Blue Exorcist: The Movie, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 11741
+  liste: "Fate/Zero (Staffel 2), 2012"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 11755
+  liste: "009 Re:Cyborg, 2012"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 11757
+  liste: "Sword Art Online, 2012"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 11759
+  liste: "Accel World, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 11763
+  liste: "Wanna Be the Strongest in the World!, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 11771
+  liste: "Kuroko’s Basketball: 1st Season, 2012"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 11887
+  liste: "Kokoro Connect, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 11981
+  liste: "Puella Magi Madoka Magica: Der Film - Rebellion, 2013"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 12029
+  liste: "Star Blazers 2199: Space Battleship Yamato, 2012"
+  sender: "KSM ANIME"
+- anilistId: 12049
+  liste: "Fairy Tail: The Movie - Phoenix Priestess, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 12113
+  liste: "Berserk: Das Goldene Zeitalter, 2012"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 12115
+  liste: "Berserk: Das Goldene Zeitalter, 2012"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 12117
+  liste: "Detektiv Conan: Der elfte Stürmer, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 12189
+  liste: "Hyouka, 2012"
+  sender: "KSM ANIME"
+- anilistId: 12191
+  liste: "Glitter Force, 2012"
+  sender: "NETFLIX"
+- anilistId: 12355
+  liste: "Ame & Yuki: Die Wolfskinder, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 12413
+  liste: "Jormungand, 2012"
+  sender: "ANIME HOUSE"
+- anilistId: 12445
+  liste: "Dusk Maiden of Amnesia, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 12449
+  liste: "Maken-ki! Geheimes Training, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 12477
+  liste: "Patema Inverted, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 12549
+  liste: "So, I Can’t Play H!, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 12671
+  liste: "Pokémon: Der Film - Kyurem gegen den Ritter der Redlichkeit, 2012"
+  sender: "RTL2"
+- anilistId: 12715
+  liste: "The Hakkenden: Die Legende der Hundekrieger (2), 1993"
+  sender: "PIONEER"
+- anilistId: 12859
+  liste: "One Piece Z, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 12967
+  liste: "Arcana Famiglia: La storia della Arcana Famiglia, 2012"
+  sender: "ANIME HOUSE"
+- anilistId: 12979
+  liste: "Naruto Spin off! Rock Lee & seine Ninja-Kumpels, 2012"
+  sender: "KSM ANIME"
+- anilistId: 13055
+  liste: "Sankarea: Undying Love OVA, 2012"
+  sender: "FILMCONFECT"
+- anilistId: 13161
+  liste: "Aesthetica of a Rogue Hero, 2012"
+  sender: "FILMCONFECT"
+- anilistId: 13185
+  liste: "Monsuno, 2012"
+  sender: "NICKELODEON"
+- anilistId: 13201
+  liste: "Monster Rancher (Staffel 2), 2000"
+  sender: "RTL2"
+- anilistId: 13203
+  liste: "Lupin III.: The Woman Called Fujiko Mine, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 13215
+  liste: "Das Leben des Budori Gusko, 2012"
+  sender: "ANIME HOUSE"
+- anilistId: 13231
+  liste: "Beyblade: Shogun Steel, 2012"
+  sender: "NICKELODEON"
+- anilistId: 13239
+  liste: "Mass Effect: Paragon Lost, 2012"
+  sender: "ENTERTAINMENT ONE"
+- anilistId: 13271
+  liste: "Hunter × Hunter: The Movie - Phantom Rouge, 2013"
+  sender: "KSM ANIME"
+- anilistId: 13331
+  liste: "Jormungand: Perfect Order, 2012"
+  sender: "ANIME HOUSE"
+- anilistId: 13333
+  liste: "Tari Tari, 2012"
+  sender: "ANIME HOUSE"
+- anilistId: 13357
+  liste: "Highschool D×D: Mini-Episoden, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 13391
+  liste: "Expelled from Paradise, 2014"
+  sender: "KSM ANIME"
+- anilistId: 13469
+  liste: "Hyouka OVA, 2012"
+  sender: "KSM ANIME"
+- anilistId: 13601
+  liste: "Psycho-Pass, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 13663
+  liste: "To Love Ru: Darkness, 2012"
+  sender: "FILMCONFECT"
+- anilistId: 13667
+  liste: "Road to Ninja: Naruto the Movie, 2012"
+  sender: "KSM ANIME"
+- anilistId: 13759
+  liste: "The Pet Girl of Sakurasou, 2012"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 14027
+  liste: "Haganai: Die Rundlauf-Geschichte, 2012"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 14075
+  liste: "Blast of Tempest, 2012"
+  sender: "KSM ANIME"
+- anilistId: 14093
+  liste: "Pokémon: Schwarz & Weiß Staffel 2, 2012"
+  sender: "RTL2"
+- anilistId: 14123
+  liste: "Pokémon Schwarze Edition 2 und Pokémon Weiße Edition 2 Trailer, 2012"
+  sender: "THE POKÉMON COMPANY"
+- anilistId: 14131
+  liste: "Girls & Panzer, 2012"
+  sender: "KSM ANIME"
+- anilistId: 14175
+  liste: "Hanasaku Iroha the Movie: Home Sweet Home, 2013"
+  sender: "ANIME HOUSE"
+- anilistId: 14189
+  liste: "Dusk Maiden of Amnesia: Mädchen der Austreibung, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 14345
+  liste: "Btooom!, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 14467
+  liste: "K, 2012"
+  sender: "KSM ANIME"
+- anilistId: 14513
+  liste: "Magi: The Labyrinth of Magic, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 14629
+  liste: "Starship Troopers: Invasion, 2012"
+  sender: "SONY PICTURES"
+- anilistId: 14669
+  liste: "Aura: Koga Maryuin’s Last War, 2013"
+  sender: "KSM ANIME"
+- anilistId: 14719
+  liste: "JoJo’s Bizarre Adventure, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 14735
+  liste: "Detektiv Conan: Detektiv auf hoher See, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 14741
+  liste: "Love, Chunibyo & Other Delusions!, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 14751
+  liste: "Pretty Guardian Sailor Moon Crystal, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 14813
+  liste: "My Teen Romantic Comedy SNAFU, 2013"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 14829
+  liste: "Fate/Kaleid Liner Prisma Illya, 2013"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 14837
+  liste: "Dragon Ball Z: Kampf der Götter, 2013"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 14967
+  liste: "Haganai: I Don’t Have Many Friends - Next, 2013"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 15037
+  liste: "Corpse Party: Tortured Souls, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 15039
+  liste: "AnoHana: Die Blume, die wir an jenem Tag sahen - The Movie, 2013"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 15119
+  liste: "Senran Kagura, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 15197
+  liste: "Code Geass: Akito the Exiled, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 15225
+  liste: "The Hentai Prince and the Stony Cat., 2013"
+  sender: "KSM ANIME"
+- anilistId: 15227
+  liste: "In This Corner of the World, 2016"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 15323
+  liste: "One Piece: Episode of Nami - Die Tränen der Navigatorin. Die Verbundenheit …, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 15335
+  liste: "Gintama: The Movie 2, 2013"
+  sender: "KSM ANIME"
+- anilistId: 15377
+  liste: "Samurai Girls 2: Samurai Bride, 2013"
+  sender: "FILMCONFECT"
+- anilistId: 15411
+  liste: "Arcana Famiglia: Capriccio im Stil der Arcana Famiglia, 2013"
+  sender: "ANIME HOUSE"
+- anilistId: 15451
+  liste: "Highschool D×D New, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 15489
+  liste: "Yu-Gi-Oh! Zexal II, 2012"
+  sender: "RTL2"
+- anilistId: 15565
+  liste: "Maken-Ki! Battling Venus: Staffel 2, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 15583
+  liste: "Date a Live, 2013"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 15809
+  liste: "The Devil Is a Part-Timer!, 2013"
+  sender: "ANIME HOUSE"
+- anilistId: 15811
+  liste: "Girls & Panzer OVA, 2012"
+  sender: "KSM ANIME"
+- anilistId: 15813
+  liste: "Yoyo & Nene: Die magischen Schwestern, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 15847
+  liste: "Iron Man: Rise of Technovore, 2013"
+  sender: "SONY PICTURES"
+- anilistId: 16001
+  liste: "Kokoro Connect OVAs, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 16067
+  liste: "Nagi no Asukara, 2013"
+  sender: "KSM ANIME"
+- anilistId: 16201
+  liste: "Aku no Hana: Die Blumen des Bösen, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 16239
+  liste: "One Piece: Episode of Ruffy – Abenteuer auf Hand Island, 2012"
+  sender: "KAZÉ ANIME"
+- anilistId: 16397
+  liste: "Photo Kano, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 16419
+  liste: "Glitter Force Doki Doki, 2013"
+  sender: "NETFLIX"
+- anilistId: 16498
+  liste: "Attack on Titan, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 16512
+  liste: "Devil Survivor 2: The Animation, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 16592
+  liste: "Danganronpa, 2013"
+  sender: "FILMCONFECT"
+- anilistId: 16662
+  liste: "Wie der Wind sich hebt, 2013"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 16664
+  liste: "Die Legende der Prinzessin Kaguya, 2013"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 16678
+  liste: "Pokémon: Evoli & seine Freunde, 2013"
+  sender: "THE POKÉMON COMPANY"
+- anilistId: 16680
+  liste: "Pokémon: Der Film - Genesect und die wiedererwachte Legende, 2013"
+  sender: "PROSIEBEN MAXX"
+- anilistId: 16694
+  liste: "Sankarea: Undying Love - Ich bin auch nur … ein Zombie …, 2012"
+  sender: "FILMCONFECT"
+- anilistId: 16762
+  liste: "Mirai Nikki: Redial, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 16782
+  liste: "The Garden of Words, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 16870
+  liste: "The Last: Naruto the Movie, 2014"
+  sender: "KSM ANIME"
+- anilistId: 16894
+  liste: "Kuroko’s Basketball: 2nd Season, 2013"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 16904
+  liste: "K: Missing Kings, 2014"
+  sender: "KSM ANIME"
+- anilistId: 16916
+  liste: "Kuroko’s Basketball: Tip Off, 2013"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 16934
+  liste: "Love, Chunibyo & Other Delusions! Extra Episode - Funkelndes …, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 17115
+  liste: "Pokémon: Schwarz & Weiß Staffel 2 - Episode N, 2013"
+  sender: "PROSIEBEN MAXX"
+- anilistId: 17269
+  liste: "Space Pirate Captain Harlock, 2013"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 17641
+  liste: "Date a Live: Date to Date, 2013"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 17657
+  liste: "Kater Tom und die fliegenden Zaubernüsse, 1992"
+  sender: "JUNIOR"
+- anilistId: 17821
+  liste: "Stella Women’s Academy, High School Division Class C3, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 17831
+  liste: "Dog & Scissors, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 17873
+  liste: "Pokémon: Schwarz & Weiß - Abenteuer in Einall und darüber hinaus, 2013"
+  sender: "PROSIEBEN MAXX"
+- anilistId: 17895
+  liste: "Golden Time, 2013"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 17909
+  liste: "The Eccentric Family, 2013"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 17919
+  liste: "Wish upon the Pleiades, 2015"
+  sender: "ANIME HOUSE"
+- anilistId: 18001
+  liste: "Freezing Vibration, 2013"
+  sender: "POLYBAND ANIME"
+- anilistId: 18115
+  liste: "Magi: The Kingdom of Magic, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 18153
+  liste: "Beyond the Boundary: Kyoukai no Kanata, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 18247
+  liste: "Infinite Stratos 2, 2013"
+  sender: "POLYBAND ANIME"
+- anilistId: 18277
+  liste: "Strike the Blood, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 18397
+  liste: "Attack on Titan OAD, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 18411
+  liste: "Gingitsune: Messenger Fox of the Gods, 2013"
+  sender: "ANIME HOUSE"
+- anilistId: 18429
+  liste: "Lupin III. vs Detektiv Conan: The Movie, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 18441
+  liste: "Blood Lad Ex, 2013"
+  sender: "NIPPONART"
+- anilistId: 18507
+  liste: "Free! Iwatobi Swim Club, 2013"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 18617
+  liste: "Girls und Panzer: Der Film, 2015"
+  sender: "KSM ANIME"
+- anilistId: 18619
+  liste: "Girls & Panzer: This Is the Real Anzio Battle!, 2014"
+  sender: "KSM ANIME"
+- anilistId: 18671
+  liste: "Love, Chunibyo & Other Delusions! Heart Throb, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 18679
+  liste: "Kill La Kill, 2013"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 18851
+  liste: "Fate/Kaleid Liner Prisma Illya: Der Tanz am Sporttag, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 18893
+  liste: "Arpeggio of Blue Steel: Ars Nova, 2013"
+  sender: "KSM ANIME"
+- anilistId: 18897
+  liste: "Nisekoi: Liebe, Lügen & Yakuza, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 19099
+  liste: "Mewtu vor dem Erwachen, 2013"
+  sender: "PROSIEBEN MAXX"
+- anilistId: 19109
+  liste: "Fate/Kaleid Liner Prisma Illya Mini-Episoden, 2013"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 19115
+  liste: "Giovannis Insel, 2014"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 19123
+  liste: "One Piece: Episode of Merry - Die Geschichte über ein ungewöhnliches Crewmitglied, 2013"
+  sender: "KAZÉ ANIME"
+- anilistId: 19157
+  liste: "Yo-Kai Watch, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 19163
+  liste: "Date a Live II, 2014"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 19255
+  liste: "Samurai Girls 2: Samurai Bride Specials, 2013"
+  sender: "FILMCONFECT"
+- anilistId: 19291
+  liste: "Pokémon: Die TV-Serie - XY, 2013"
+  sender: "PROSIEBEN MAXX"
+- anilistId: 19365
+  liste: "Samurai Flamenco, 2013"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 19429
+  liste: "Akuma no Riddle, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 19603
+  liste: "Fate/Stay Night: Unlimited Blade Works, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 19815
+  liste: "No Game No Life, 2014"
+  sender: "KSM ANIME"
+- anilistId: 19951
+  liste: "Hunter × Hunter: The Movie - The Last Mission, 2013"
+  sender: "KSM ANIME"
+- anilistId: 19957
+  liste: "Die Abenteuer des Huckleberry Finn, 1991"
+  sender: "ATLAS FILM"
+- anilistId: 19959
+  liste: "Die Barbapapas, 1977"
+  sender: "ZDF"
+- anilistId: 20021
+  liste: "Sword Art Online: Extra Edition, 2013"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20057
+  liste: "Space Dandy, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20159
+  liste: "Pokémon Origins, 2013"
+  sender: "THE POKÉMON COMPANY"
+- anilistId: 20442
+  liste: "Bayonetta: Bloody Fate, 2013"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 20447
+  liste: "Noragami, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20455
+  liste: "Super Sonico The Animation, 2014"
+  sender: "FILMCONFECT"
+- anilistId: 20457
+  liste: "Black Bullet, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20458
+  liste: "The Irregular at Magic High School, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20461
+  liste: "Le Chevalier D’Eon, 2006"
+  sender: "OVA FILMS"
+- anilistId: 20462
+  liste: "Chaika, die Sargprinzessin, 2014"
+  sender: "NIPPONART"
+- anilistId: 20464
+  liste: "Haikyu!!, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20467
+  liste: "Fate/Kaleid Liner Prisma Illya 2wei!, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20474
+  liste: "JoJo’s Bizarre Adventure: Stardust Crusaders, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20496
+  liste: "Sekai Seifuku: World Conquest Zvezda Plot, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20506
+  liste: "Atelier Escha & Logy: Alchemists of the Dusk Sky, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20513
+  liste: "Psycho-Pass 2, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20514
+  liste: "Psycho-Pass: The Movie, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20515
+  liste: "Stand By Me Doraemon, 2014"
+  sender: "NETFLIX"
+- anilistId: 20520
+  liste: "Love Stage!!, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20521
+  liste: "Hamatora: The Animation, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20527
+  liste: "One Week Friends, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20534
+  liste: "Brynhildr in the Darkness, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20540
+  liste: "Samurai Warriors SP: Die Legende der Sanada, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20546
+  liste: "Detektiv Conan: Der Scharfschütze aus einer anderen Dimension, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20552
+  liste: "Yu-Gi-Oh! Arc-V, 2014"
+  sender: "PROSIEBEN MAXX"
+- anilistId: 20553
+  liste: "KanColle: Fleet Girls Collection, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20555
+  liste: "Erinnerungen an Marnie, 2014"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 20572
+  liste: "Kill la Kill: Episode 25 - Erneuter Abschied, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20574
+  liste: "Hi Score Girl, 2018"
+  sender: "NETFLIX"
+- anilistId: 20588
+  liste: "Daimidaler: Prince vs. Penguin Empire, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20590
+  liste: "Rage of Bahamut: Genesis, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20594
+  liste: "Sword Art Online II, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20602
+  liste: "Amagi Brilliant Park, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20603
+  liste: "Kuroko’s Basketball: Kannst du das gleich nochmal machen?, 2014"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 20605
+  liste: "Tokyo Ghoul, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20606
+  liste: "Black Butler: Book of Circus, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20613
+  liste: "Akame ga Kill: Schwerter der Assassinen, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20614
+  liste: "Free! Eternal Summer, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20615
+  liste: "Selector Infected Wixoss, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20617
+  liste: "Ronja Räubertochter, 2014"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 20623
+  liste: "Parasyte: The Maxim, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20626
+  liste: "Fairy Tail (Staffel 2), 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20628
+  liste: "Legend of the Galactic Heroes: Die Neue These, 2018"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 20629
+  liste: "Terra Formars, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20631
+  liste: "Trinity Seven, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20632
+  liste: "Aldnoah.Zero, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20635
+  liste: "Dragon Ball Z Kai: The Final Chapters, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20638
+  liste: "Invaders of the Rokujyoma!?, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20643
+  liste: "Norn9, 2016"
+  sender: "KSM ANIME"
+- anilistId: 20644
+  liste: "Pokémon: Der Film - Diancie und der Kokon der Zerstörung, 2014"
+  sender: "DISNEY XD"
+- anilistId: 20646
+  liste: "Inou Battle Within Everyday Life, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20657
+  liste: "Saekano: How to Raise a Boring Girlfriend, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20661
+  liste: "Terror in Tokio, 2014"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 20665
+  liste: "Shigatsu wa Kimi no Uso: Sekunden in Moll, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20668
+  liste: "Shojo-Mangaka Nozaki-kun, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20670
+  liste: "Black Butler: Book of Murder, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20677
+  liste: "DRAMAtical Murder, 2014"
+  sender: "ANIME HOUSE"
+- anilistId: 20678
+  liste: "The Testament of Sister New Devil, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20683
+  liste: "Pokémon: Mega-Entwicklung - Sonderfolgen, 2014"
+  sender: "DISNEY XD"
+- anilistId: 20690
+  liste: "Star Blazers 2199: Space Battleship Yamato - Odyssey of the Celestial Arc, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20695
+  liste: "Sekai Seifuku: World Conquest Zvezda Plot - Operation “Neues Zvezda”, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20698
+  liste: "My Teen Romantic Comedy SNAFU: TOO!, 2015"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 20701
+  liste: "Wolf Girl & Black Prince, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20704
+  liste: "Anti Magic Academy: Test-Trupp 35, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20705
+  liste: "Seven Mortal Sins, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 20709
+  liste: "Miss Hokusai, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20712
+  liste: "Lance N’ Masques, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20714
+  liste: "Selector Spread Wixoss, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20719
+  liste: "Chaika, die Sargprinzessin: Avenging Battle, 2014"
+  sender: "NIPPONART"
+- anilistId: 20724
+  liste: "Chaika, die Sargprinzessin OVA, 2015"
+  sender: "NIPPONART"
+- anilistId: 20725
+  liste: "Kuroko’s Basketball: 3rd Season, 2015"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 20727
+  liste: "Blood Blockade Battlefront, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20730
+  liste: "Tales of Zestiria: Dawn of the Shepherd, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20741
+  liste: "Date a Live: The Movie – Mayuri Judgement, 2015"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 20745
+  liste: "Highschool D×D BorN, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20750
+  liste: "Maken-ki! Privates, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20754
+  liste: "School-Live!, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20755
+  liste: "Assassination Classroom, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20764
+  liste: "Arpeggio of Blue Steel: Ars Nova DC & Cadenza, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20767
+  liste: "Date a Live II: Kurumi Star Festival, 2014"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 20769
+  liste: "No Game No Life OVAs, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20770
+  liste: "Akatsuki no Yona: Prinzessin der Morgendämmerung, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20771
+  liste: "Shomin Sample, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20773
+  liste: "Gangsta., 2015"
+  sender: "NIPPONART"
+- anilistId: 20774
+  liste: "Sky Wizards Academy, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20775
+  liste: "Akame ga Kill! Theater, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20778
+  liste: "Dragon Ball Z: Resurrection ‚F‘, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20779
+  liste: "Beyond the Boundary: Kyoukai no Kanata - Morgendämmerung, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20786
+  liste: "Appleseed: Alpha, 2015"
+  sender: "SONY PICTURES"
+- anilistId: 20789
+  liste: "The Seven Deadly Sins, 2014"
+  sender: "NETFLIX"
+- anilistId: 20790
+  liste: "Magic Kaito 1412, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20791
+  liste: "Fate/Stay Night: Heaven’s Feel, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20792
+  liste: "Fate/Stay Night: Unlimited Blade Works 2, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20796
+  liste: "Junjo Romantica 3, 2015"
+  sender: "CRUNCHYROLL"
+- anilistId: 20799
+  liste: "JoJo’s Bizarre Adventure: Stardust Crusaders - Battle in Egypt, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20802
+  liste: "Digimon Adventure tri., 2015"
+  sender: "KSM ANIME"
+- anilistId: 20806
+  liste: "Cross Ange: Rondo of Angel and Dragon, 2014"
+  sender: "ANIME HOUSE"
+- anilistId: 20807
+  liste: "Prison School, 2015"
+  sender: "NIPPONART"
+- anilistId: 20811
+  liste: "Attack on Titan: Entscheidung ohne Reue, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20812
+  liste: "Shirobako, 2014"
+  sender: "KSM ANIME"
+- anilistId: 20815
+  liste: "The Rolling Girls, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20829
+  liste: "Seraph of the End, 2015"
+  sender: "UNIVERSAL PICTURES"
+- anilistId: 20832
+  liste: "Overlord, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20835
+  liste: "One Piece 3D2Y: Überwinde Ace’s Tod! Das Gelübde der Kameraden, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20839
+  liste: "Triage X, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20840
+  liste: "Maria the Virgin Witch, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20845
+  liste: "Fate/Kaleid Liner Prisma Illya 2wei Herz!, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20849
+  liste: "God Eater, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20850
+  liste: "Tokyo Ghoul √A, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20853
+  liste: "Aldnoah.Zero 2, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20862
+  liste: "Fate/Kaleid Liner Prisma Illya 2wei! Die Magical Girls auf Onsen-Reise, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20866
+  liste: "Brynhildr in the Darkness OVA, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20872
+  liste: "Plastic Memories, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20875
+  liste: "Swordgai The Animation, 2018"
+  sender: "NETFLIX"
+- anilistId: 20876
+  liste: "Nisekoi: Liebe, Lügen & Yakuza Staffel 2, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20878
+  liste: "Das Verschwinden des Conan Edogawa: Die zwei schlimmsten Tage seines Lebens, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20881
+  liste: "Heavy Object, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20884
+  liste: "Haikyu!! Lev ist hier!, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20889
+  liste: "Love, Chunibyo & Other Delusions: Heart Throb - Offenbarung des wahren Auges …, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20905
+  liste: "Tenkai Knights: Die Tenkai Ritter, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20908
+  liste: "The Case of Hana & Alice, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20910
+  liste: "Shimoneta: A Boring World Where the Concept of Dirty Jokes Doesn’t Exist, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20913
+  liste: "K: Return of Kings, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20919
+  liste: "Project Itoh: Genocidal Organ, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 20920
+  liste: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth, 2015"
+  sender: "ANIME HOUSE"
+- anilistId: 20923
+  liste: "Food Wars! Shokugeki no Soma, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20926
+  liste: "Akuma no Riddle: Wer siegt? (Überraschungstest), 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20931
+  liste: "Death Parade, 2015"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 20932
+  liste: "Project Itoh: Harmony, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20935
+  liste: "The Heroic Legend of Arslan, 2015"
+  sender: "UNIVERSAL PICTURES"
+- anilistId: 20938
+  liste: "Shirobako OVAs, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20944
+  liste: "Samurai Warriors, 2015"
+  sender: "KSM ANIME"
+- anilistId: 20954
+  liste: "A Silent Voice, 2016"
+  sender: "KSM ANIME"
+- anilistId: 20955
+  liste: "Rokka: Braves of the Six Flowers, 2015"
+  sender: "CRUNCHYROLL"
+- anilistId: 20956
+  liste: "Pokémon Omega Rubin und Alpha Saphir Trailer, 2014"
+  sender: "THE POKÉMON COMPANY"
+- anilistId: 20958
+  liste: "Attack on Titan Staffel 2, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 20960
+  liste: "Love Stage!! Daran war gar nichts leicht, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20964
+  liste: "Punch Line, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20965
+  liste: "Project Itoh: The Empire of Corpses, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 20966
+  liste: "Yamada-kun & the 7 Witches, 2015"
+  sender: "CRUNCHYROLL"
+- anilistId: 20968
+  liste: "The Anthem of the Heart, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20978
+  liste: "Lupin III.: Daisuke Jigens Grabstein, 2014"
+  sender: "KAZÉ ANIME"
+- anilistId: 20981
+  liste: "Der Junge und das Biest, 2015"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 20992
+  liste: "Haikyu!! Zweite Staffel, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 20993
+  liste: "Seraph of the End: Battle in Nagoya, 2015"
+  sender: "UNIVERSAL PICTURES"
+- anilistId: 20994
+  liste: "Gate, 2015"
+  sender: "ANIME HOUSE"
+- anilistId: 20995
+  liste: "To Love Ru Darkness 2nd, 2015"
+  sender: "FILMCONFECT"
+- anilistId: 20997
+  liste: "Charlotte, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21007
+  liste: "Wolf Girl & Black Prince: Misstrauen - Happening Kiss, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21049
+  liste: "ReLIFE, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21055
+  liste: "Chaos Dragon, 2015"
+  sender: "KSM ANIME"
+- anilistId: 21056
+  liste: "Ghost in the Shell: Arise - Pyrophoric Cult, 2015"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 21057
+  liste: "Ghost in the Shell: The New Movie, 2015"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 21058
+  liste: "Die rothaarige Schneeprinzessin, 2015"
+  sender: "KSM ANIME"
+- anilistId: 21066
+  liste: "Beautiful Bones: Sakurako’s Investigation, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21077
+  liste: "Amagi Brilliant Park: Keine Zeit zum Ausruhen!, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21078
+  liste: "Aoharu × Machinegun, 2015"
+  sender: "KSM ANIME"
+- anilistId: 21087
+  liste: "One Punch Man, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21091
+  liste: "Free Extra! Verbotenes aufs Ganze gehen, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21092
+  liste: "A Chivalry of a Failed Knight, 2015"
+  sender: "KSM ANIME"
+- anilistId: 21093
+  liste: "Die Monster Mädchen, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21098
+  liste: "Strike the Blood: Königreich der Valkyre, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21110
+  liste: "The Testament of Sister New Devil BURST, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21116
+  liste: "Valkyrie Drive: Mermaid, 2015"
+  sender: "KSM ANIME"
+- anilistId: 21123
+  liste: "Drifters, 2016"
+  sender: "UNIVERSAL PICTURES"
+- anilistId: 21127
+  liste: "Steins;Gate 0, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21128
+  liste: "Noragami Aragoto, 2015"
+  sender: "KSM ANIME"
+- anilistId: 21131
+  liste: "The Asterisk War, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21132
+  liste: "Tokyo Ghoul: Jack, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21140
+  liste: "Typhoon Noruda, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21155
+  liste: "Sword Art Offline II, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21158
+  liste: "High Speed! Free! Starting Days, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21170
+  liste: "Assassination Classroom II, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21175
+  liste: "Dragon Ball Super, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21180
+  liste: "Saekano: How to Raise a Boring Girlfriend.flat, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21188
+  liste: "Undefeated Bahamut Chronicle, 2016"
+  sender: "NIPPONART"
+- anilistId: 21190
+  liste: "The Perfect Insider, 2015"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 21191
+  liste: "Fairy Tail: The Movie - Dragon Cry, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 21192
+  liste: "Bikini Warriors, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21196
+  liste: "Kabaneri of the Iron Fortress, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21201
+  liste: "Schwarzesmarken, 2016"
+  sender: "CRUNCHYROLL"
+- anilistId: 21202
+  liste: "Konosuba: God’s Blessing on This Wonderful World!, 2016"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 21220
+  liste: "Boruto: Naruto the Movie, 2015"
+  sender: "KSM ANIME"
+- anilistId: 21221
+  liste: "Tales of Zestiria the X, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21230
+  liste: "One Piece: Episode of Sabo - Das Band der 3 Brüder, die wundersame Wiedervereinigung …, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21234
+  liste: "Erased: Die Stadt, in der es mich nicht gibt, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21235
+  liste: "Kuroko’s Basketball: Das Beste Geschenk, 2015"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 21236
+  liste: "Beyblade Burst, 2016"
+  sender: "NICKELODEON"
+- anilistId: 21247
+  liste: "The Testament of Sister New Devil: Basara Tojos schwerer und süßer Alltag, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21249
+  liste: "Concrete Revolutio, 2015"
+  sender: "KSM ANIME"
+- anilistId: 21256
+  liste: "Dimension W, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21258
+  liste: "Die rothaarige Schneeprinzessin: Staffel 2, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21264
+  liste: "Phantasy Star Online 2: The Animation, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21265
+  liste: "Yu-Gi-Oh! The Dark Side of Dimensions, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21266
+  liste: "Pokémon: Der Film - Hoopa und der Kampf der Geschichte, 2015"
+  sender: "NICKELODEON"
+- anilistId: 21269
+  liste: "Servamp, 2016"
+  sender: "NIPPONART"
+- anilistId: 21270
+  liste: "Pokémon: Pikachu und die Pokémon-Musiktruppe, 2015"
+  sender: "NICKELODEON"
+- anilistId: 21271
+  liste: "Was ist das für ein Schlüssel, Pikachu?, 2014"
+  sender: "THE POKÉMON COMPANY"
+- anilistId: 21275
+  liste: "Comet Lucifer, 2015"
+  sender: "KSM ANIME"
+- anilistId: 21279
+  liste: "Highschool D×D BorN: Mini-Episoden, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21290
+  liste: "And You Thought There Is Never a Girl Online?, 2016"
+  sender: "NIPPONART"
+- anilistId: 21291
+  liste: "Joker Game, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21311
+  liste: "Bungo Stray Dogs, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21318
+  liste: "Fate/Stay Night: Unlimited Blade Works - Sunny Day, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21319
+  liste: "Aokana: Four Rhythm Across the Blue, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21325
+  liste: "Fate/Kaleid Liner Prisma Illya 2wei Herz! Mini-Episoden, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21326
+  liste: "Tokyo Ghoul: Pinto, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21335
+  liste: "One Piece Film: Gold, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21338
+  liste: "Triage X: Recollection XOXO, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21339
+  liste: "Charlotte Special: Starke Persönlichkeiten, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21340
+  liste: "Magical Girl Raising Project, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21341
+  liste: "Ajin: Demi-Human, 2016"
+  sender: "NETFLIX"
+- anilistId: 21348
+  liste: "Haikyu!! Kampf gegen ungenügende Noten, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21355
+  liste: "Re:Zero - Starting Life in Another World, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21356
+  liste: "Pokémon: Die TV-Serie - XYZ, 2015"
+  sender: "NICKELODEON"
+- anilistId: 21361
+  liste: "Granblue Fantasy: The Animation, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21364
+  liste: "Gate (Staffel 2), 2016"
+  sender: "ANIME HOUSE"
+- anilistId: 21365
+  liste: "Dagashi Kashi, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21377
+  liste: "Kuroko’s Basketball The Movie: Last Game, 2017"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 21378
+  liste: "Hybrid × Heart Magias Academy Ataraxia, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21379
+  liste: "Fate/Kaleid Liner Prisma Illya 3rei!!, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21380
+  liste: "Divine Gate, 2016"
+  sender: "NIPPONART"
+- anilistId: 21385
+  liste: "The Seven Deadly Sins: Anzeichen eines Heiligen Kriegs, 2016"
+  sender: "NETFLIX"
+- anilistId: 21387
+  liste: "Bikini Warriors: Seinen Kunden zeigt man natürlich Dinge, sie sie nicht kennen, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21390
+  liste: "The Asterisk War II, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21394
+  liste: "Magi: Adventure of Sinbad, 2016"
+  sender: "NETFLIX"
+- anilistId: 21403
+  liste: "Sword Art Online The Movie: Ordinal Scale, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21410
+  liste: "Alderamin on the Sky, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21414
+  liste: "Aoharu × Machinegun: Das Schlachtfeld der Bestien!, 2015"
+  sender: "KSM ANIME"
+- anilistId: 21416
+  liste: "One Punch Man OVAs, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21421
+  liste: "Kiznaiver, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21425
+  liste: "Black Butler: Book of the Atlantic, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 21428
+  liste: "Grimgar, Ashes and Illusions, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21450
+  liste: "JoJo’s Bizarre Adventure: Diamond Is Unbreakable, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21459
+  liste: "My Hero Academia, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21462
+  liste: "Pretty Guardian Sailor Moon Crystal Season III, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21464
+  liste: "Resident Evil: Vendetta, 2017"
+  sender: "SONY PICTURES"
+- anilistId: 21470
+  liste: "Detektiv Conan: Der dunkelste Albtraum, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21485
+  liste: "One Piece: Abenteuer auf Nebulandia, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21489
+  liste: "The Testament of Sister New Devil Burst: Basara Tojos äußerst friedlicher Alltag, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21493
+  liste: "Sky Wizards Academy OVA: Lecty, die Tierpflegerin, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21496
+  liste: "Gantz:O, 2016"
+  sender: "NETFLIX"
+- anilistId: 21498
+  liste: "Blame!, 2017"
+  sender: "NETFLIX"
+- anilistId: 21500
+  liste: "Digimon Adventure tri., 2015"
+  sender: "KSM ANIME"
+- anilistId: 21507
+  liste: "Mob Psycho 100, 2016"
+  sender: "CRUNCHYROLL"
+- anilistId: 21509
+  liste: "Danganronpa 3: The End of Hope’s Peak Academy - Future Arc, 2016"
+  sender: "FILMCONFECT"
+- anilistId: 21516
+  liste: "Kuromukuro, 2016"
+  sender: "NETFLIX"
+- anilistId: 21518
+  liste: "Food Wars! The Second Plate, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21519
+  liste: "Your Name. Gestern, heute und für immer, 2016"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 21540
+  liste: "Concrete Revolutio: The Last Song, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21574
+  liste: "KonoSuba: God’s Blessing on This Wonderful World! Choker Game, 2016"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 21584
+  liste: "Love Live! Sunshine!!, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21596
+  liste: "Digimon Adventure tri., 2015"
+  sender: "KSM ANIME"
+- anilistId: 21613
+  liste: "Saga of Tanya the Evil, 2017"
+  sender: "CRUNCHYROLL"
+- anilistId: 21639
+  liste: "Keijo!!!!!!!!, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21646
+  liste: "Detektiv Conan: Die Sonnenblumen des Infernos, 2015"
+  sender: "KAZÉ ANIME"
+- anilistId: 21647
+  liste: "Orange, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21651
+  liste: "Pokémon: Der Film - Volcanion und das mechanische Wunderwerk, 2016"
+  sender: "NICKELODEON"
+- anilistId: 21660
+  liste: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth OVA, 2016"
+  sender: "ANIME HOUSE"
+- anilistId: 21665
+  liste: "B: The Beginning, 2018"
+  sender: "NETFLIX"
+- anilistId: 21676
+  liste: "Danmachi: Sword Oratoria, 2017"
+  sender: "ANIME HOUSE"
+- anilistId: 21683
+  liste: "Your Voice: Kimikoe, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21684
+  liste: "The Irregular at Magic High School: The Movie - The Girl Who Summons the Stars, 2017"
+  sender: "KSM ANIME"
+- anilistId: 21685
+  liste: "Eromanga Sensei, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21686
+  liste: "Küss ihn, nicht mich!, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21688
+  liste: "The Ancient Magus’ Bride: Those Awaiting a Star, 2016"
+  sender: "CRUNCHYROLL"
+- anilistId: 21698
+  liste: "Haikyu!! Karasuno vs. Shiratorizawa, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21699
+  liste: "KonoSuba: God’s Blessing on This Wonderful World! 2, 2017"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 21700
+  liste: "Akashic Records of Bastard Magical Instructor, 2017"
+  sender: "CRUNCHYROLL"
+- anilistId: 21701
+  liste: "Scum’s Wish, 2017"
+  sender: "NIPPONART"
+- anilistId: 21711
+  liste: "91 Days, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21714
+  liste: "Flip Flappers, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21717
+  liste: "Fate/Extra: Last Encore - Oblitus Copernican Theory, 2018"
+  sender: "NETFLIX"
+- anilistId: 21718
+  liste: "Fate/Stay Night: Heaven’s Feel, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21729
+  liste: "Kingsglaive: Final Fantasy XV, 2016"
+  sender: "SONY PICTURES"
+- anilistId: 21730
+  liste: "Star Blazers 2202: Space Battleship Yamato, 2017"
+  sender: "KSM ANIME"
+- anilistId: 21741
+  liste: "Touken Ranbu: Hanamaru, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21742
+  liste: "Katsugeki: Touken Ranbu, 2017"
+  sender: "KSM ANIME"
+- anilistId: 21756
+  liste: "Infini-T Force, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21771
+  liste: "Planetarian: Storyteller of the Stars, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21773
+  liste: "Anonymous Noise, 2017"
+  sender: "NIPPONART"
+- anilistId: 21776
+  liste: "Miss Kobayashi’s Dragon Maid, 2017"
+  sender: "CRUNCHYROLL"
+- anilistId: 21783
+  liste: "Star Fox Zero: Der Kampf beginnt, 2016"
+  sender: "NINTENDO"
+- anilistId: 21788
+  liste: "Ancien und das magische Königreich, 2017"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 21790
+  liste: "Joker Game: Die Abenteuer der Schwarzen Katze Yoru, 2016"
+  sender: "KSM ANIME"
+- anilistId: 21791
+  liste: "Bungo Stray Dogs: Der Einzelgänger, 2017"
+  sender: "KSM ANIME"
+- anilistId: 21798
+  liste: "K: Seven Stories, 2018"
+  sender: "KSM ANIME"
+- anilistId: 21815
+  liste: "Strike the Blood II, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21823
+  liste: "ACCA: 13-Territory Inspection Dept., 2017"
+  sender: "KSM ANIME"
+- anilistId: 21825
+  liste: "Danganronpa 3: The End of Hope’s Peak Academy - Despair Arc, 2016"
+  sender: "FILMCONFECT"
+- anilistId: 21827
+  liste: "Violet Evergarden, 2018"
+  sender: "NETFLIX + UNIVERSUM"
+- anilistId: 21830
+  liste: "Atom: The Beginning, 2017"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 21838
+  liste: "Izetta, die letzte Hexe, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 21851
+  liste: "Armed Girl’s Machiavellism, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 21855
+  liste: "UQ Holder! Magister Negi Magi Negima! 2, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 21856
+  liste: "My Hero Academia 2, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 21857
+  liste: "Masamune-kun’s Revenge, 2017"
+  sender: "CRUNCHYROLL"
+- anilistId: 21858
+  liste: "Little Witch Academia (TV), 2017"
+  sender: "NETFLIX"
+- anilistId: 21860
+  liste: "WorldEnd: What Do You Do at the End of the World? Are You Busy? Will You Save Us?, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 21861
+  liste: "Blue Exorcist: Kyoto Saga, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 21874
+  liste: "Trinity Seven: Eternity Library & Alchemic Girl, 2017"
+  sender: "KSM ANIME"
+- anilistId: 21875
+  liste: "No Game No Life Zero, 2017"
+  sender: "KSM ANIME"
+- anilistId: 21878
+  liste: "Gabriel DropOut, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 21894
+  liste: "ID-0, 2017"
+  sender: "NETFLIX"
+- anilistId: 87488
+  liste: "Fate/Kaleid Liner Prisma Illya 3rei!! Mini-Episoden, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 87539
+  liste: "The Dragon Dentist, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 97592
+  liste: "Interviews mit Monster-Mädchen, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 97619
+  liste: "Lupin III.: Goemon Ishikawa, der es Blut regnen lässt, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 97625
+  liste: "Tsugumomo, 2017"
+  sender: "NIPPONART"
+- anilistId: 97634
+  liste: "Pokémon: Die TV-Serie - Sonne & Mond, 2016"
+  sender: "NICKELODEON"
+- anilistId: 97635
+  liste: "Pokémon-Generationen, 2016"
+  sender: "THE POKÉMON COMPANY"
+- anilistId: 97645
+  liste: "Tales of Zestiria the X: Season 2, 2017"
+  sender: "KSM ANIME"
+- anilistId: 97663
+  liste: "Knight’s & Magic, 2017"
+  sender: "ANIME HOUSE"
+- anilistId: 97668
+  liste: "One Punch Man 2, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 97672
+  liste: "Danganronpa 3: The End of Hope’s Peak High School - Hope Arc, 2016"
+  sender: "FILMCONFECT"
+- anilistId: 97673
+  liste: "Nyanko Days, 2017"
+  sender: "ANIME HOUSE"
+- anilistId: 97682
+  liste: "Grimoire of Zero, 2017"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 97734
+  liste: "Digimon Adventure tri., 2015"
+  sender: "KSM ANIME"
+- anilistId: 97757
+  liste: "Fate/Kaleid Liner Prisma Illya: Vow in the Snow, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 97766
+  liste: "Gamers!, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 97767
+  liste: "Highschool D×D Hero, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 97768
+  liste: "Record of Grancrest War, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 97815
+  liste: "Fate/Grand Order: First Order, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 97832
+  liste: "Citrus, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 97833
+  liste: "NTR: Netsuzou Trap, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 97863
+  liste: "My First Girlfriend Is a Gal, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 97881
+  liste: "Cardcaptor Sakura: Clear Card Arc, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 97886
+  liste: "Blood Blockade Battlefront & Beyond, 2017"
+  sender: "KSM ANIME"
+- anilistId: 97888
+  liste: "Baki, 2018"
+  sender: "NETFLIX"
+- anilistId: 97907
+  liste: "Death March to the Parallel World Rhapsody, 2018"
+  sender: "CRUNCHYROLL"
+- anilistId: 97908
+  liste: "Fireworks: Alles eine Frage der Zeit, 2017"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 97917
+  liste: "Night is Short, Walk on Girl, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 97918
+  liste: "Kabaneri of the Iron Fortress: The Battle of Unato, 2019"
+  sender: "NETFLIX"
+- anilistId: 97922
+  liste: "Inuyashiki Last Hero, 2017"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 97938
+  liste: "Boruto: Naruto Next Generations, 2017"
+  sender: "KSM ANIME"
+- anilistId: 97940
+  liste: "Black Clover, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 97981
+  liste: "Mary und die Blume der Hexen, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 97985
+  liste: "Koro Sensei Quest!, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 97986
+  liste: "Made in Abyss, 2017"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 97996
+  liste: "KonoSuba: God’s Blessing on This Wonderful World!: Die Rückkehr der Abenteurer, 2017"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 98005
+  liste: "Welcome to the Ballroom, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 98035
+  liste: "Fate/Apocrypha, 2017"
+  sender: "NETFLIX"
+- anilistId: 98073
+  liste: "Lost Song: Das Lied der Wunder, 2018"
+  sender: "NETFLIX"
+- anilistId: 98202
+  liste: "Tsukigakirei, 2017"
+  sender: "KSM ANIME"
+- anilistId: 98222
+  liste: "Detektiv Conan: Der purpurrote Liebesbrief, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 98249
+  liste: "Lu over the Wall, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 98289
+  liste: "Beyblade Burst: Evolution, 2017"
+  sender: "NICKELODEON"
+- anilistId: 98298
+  liste: "Pokémon: Der Film - Du bist dran!, 2017"
+  sender: "NICKELODEON"
+- anilistId: 98314
+  liste: "Kakegurui: Das Leben ist ein Spiel, 2017"
+  sender: "NETFLIX"
+- anilistId: 98320
+  liste: "Love and Lies, 2017"
+  sender: "NIPPONART"
+- anilistId: 98384
+  liste: "Bungo Stray Dogs: Dead Apple, 2018"
+  sender: "KSM ANIME"
+- anilistId: 98436
+  liste: "The Ancient Magus’ Bride, 2017"
+  sender: "CRUNCHYROLL"
+- anilistId: 98437
+  liste: "Overlord II, 2017"
+  sender: "KSM ANIME"
+- anilistId: 98443
+  liste: "Juni Taisen: Zodiac War, 2017"
+  sender: "KSM ANIME"
+- anilistId: 98448
+  liste: "Kinos Reise: Die wunderschöne Welt - Die animierte Serie, 2017"
+  sender: "KSM ANIME"
+- anilistId: 98449
+  liste: "Die Walkinder, 2017"
+  sender: "NETFLIX"
+- anilistId: 98452
+  liste: "Unterm Wolkenhimmel: Laughing Under the Clouds - Gaiden, 2017"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 98460
+  liste: "Devilman Crybaby, 2018"
+  sender: "NETFLIX"
+- anilistId: 98491
+  liste: "In Another World with My Smartphone, 2017"
+  sender: "CRUNCHYROLL"
+- anilistId: 98495
+  liste: "Free! The Movie: Timeless Medley, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 98496
+  liste: "Free! The Movie: Timeless Medley, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 98497
+  liste: "Free! Take Your Marks, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 98505
+  liste: "Princess Principal, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 98580
+  liste: "Miss Kobayashi's Dragon Maid: Valentinstag und Onsen (Erwartet nicht zu viel!), 2017"
+  sender: "CRUNCHYROLL"
+- anilistId: 98603
+  liste: "Sengoku Night Blood, 2017"
+  sender: "ANIME HOUSE"
+- anilistId: 98604
+  liste: "Detektiv Conan: Episode ONE - Der geschrumpfte Meisterdetektiv, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 98635
+  liste: "ReLIFE: Final Arc, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 98659
+  liste: "Classroom of the Elite, 2017"
+  sender: "CRUNCHYROLL"
+- anilistId: 98707
+  liste: "Das Land der Juwelen, 2017"
+  sender: "KSM ANIME"
+- anilistId: 98762
+  liste: "Love, Chunibyo and Other Delusions! Take on Me, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 98776
+  liste: "Poupelle und die andere Seite des Himmels, 2020"
+  sender: "KSM ANIME"
+- anilistId: 98778
+  liste: "91 Days: Day 13, 2017"
+  sender: "KSM ANIME"
+- anilistId: 98814
+  liste: "Dimension W OVA: Do Robots Dream of Bathhouses?, 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 98820
+  liste: "Just Because!, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 98856
+  liste: "Armed Girl’s Machiavellism: Herzklopfen! Betriebsausflug der „Fünf Schwerter“, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 98873
+  liste: "Overlord (Movies), 2017"
+  sender: "KSM ANIME"
+- anilistId: 98878
+  liste: "My First Girlfriend Is a Gal OVA, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 99088
+  liste: "Pluto, 2023"
+  sender: "NETFLIX"
+- anilistId: 99131
+  liste: "Comic Girls, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 99147
+  liste: "Attack on Titan Staffel 3, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 99196
+  liste: "Unterm Wolkenhimmel: Laughing Under the Clouds - Gaiden, 2017"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 99197
+  liste: "Unterm Wolkenhimmel: Laughing Under the Clouds - Gaiden, 2017"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 99230
+  liste: "Rilakkuma und Kaoru, 2019"
+  sender: "NETFLIX"
+- anilistId: 99255
+  liste: "Food Wars! The Third Plate, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 99263
+  liste: "The Rising of the Shield Hero, 2018"
+  sender: "CRUNCHYROLL"
+- anilistId: 99394
+  liste: "Interviews mit Monster-Mädchen: Die Sommerferien der Werlinge, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 99420
+  liste: "Girls’ Last Tour, 2017"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 99423
+  liste: "Darling in the Franxx, 2018"
+  sender: "CRUNCHYROLL"
+- anilistId: 99425
+  liste: "Promare, 2019"
+  sender: "KSM ANIME"
+- anilistId: 99426
+  liste: "A Place Further Than the Universe, 2017"
+  sender: "KSM ANIME"
+- anilistId: 99457
+  liste: "Maquia: Eine unsterbliche Liebesgeschichte, 2018"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 99468
+  liste: "Nicht schon wieder, Takagi-san, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 99470
+  liste: "Grisaia Phantom Trigger: The Animation, 2019"
+  sender: "KSM ANIME"
+- anilistId: 99531
+  liste: "Devils’ Line, 2018"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 99539
+  liste: "The Seven Deadly Sins: Die Rückkehr der Gebote, 2018"
+  sender: "NETFLIX"
+- anilistId: 99540
+  liste: "The Seven Deadly Sins the Movie: Prisoners of the Sky, 2018"
+  sender: "PEPPERMINT + NETFLIX"
+- anilistId: 99586
+  liste: "Harukana Receive, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 99629
+  liste: "Angels of Death, 2018"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 99634
+  liste: "Attack on Titan: Lost Girls, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 99672
+  liste: "Two Car: Racing Sidecar, 2017"
+  sender: "ANIME HOUSE"
+- anilistId: 99693
+  liste: "Persona 5 the Animation, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 99698
+  liste: "King’s Game, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 99699
+  liste: "Golden Kamuy, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 99725
+  liste: "A.I.C.O. Incarnation, 2018"
+  sender: "NETFLIX"
+- anilistId: 99726
+  liste: "Recovery of an MMO Junkie, 2017"
+  sender: "CRUNCHYROLL"
+- anilistId: 99734
+  liste: "Dagashi Kashi Staffel 2, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 99750
+  liste: "I Want to Eat Your Pancreas, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 99796
+  liste: "Garo: Vanishing Line, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 99900
+  liste: "Pompo: The Cinéphile, 2021"
+  sender: "KSM ANIME"
+- anilistId: 99916
+  liste: "Kase-san and Morning Glories, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 99938
+  liste: "Girls und Panzer: Das Finale, 2017"
+  sender: "KSM ANIME"
+- anilistId: 99940
+  liste: "Junji Ito Collection, 2018"
+  sender: "KSM ANIME"
+- anilistId: 100010
+  liste: "Magical Girl Site, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100077
+  liste: "Hinamatsuri, 2018"
+  sender: "KSM ANIME"
+- anilistId: 100112
+  liste: "Wise Man’s Grandchild, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 100166
+  liste: "My Hero Academia 3, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100178
+  liste: "Liz und der Blaue Vogel, 2018"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 100179
+  liste: "Tada Never Falls in Love, 2018"
+  sender: "KSM ANIME"
+- anilistId: 100182
+  liste: "Sword Art Online: Alicization, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 100183
+  liste: "Sword Art Online Alternative: Gun Gale Online, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 100240
+  liste: "Tokyo Ghoul:re, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100248
+  liste: "Batman: Ninja, 2018"
+  sender: "WARNER BROS."
+- anilistId: 100251
+  liste: "Doreiku The Animation, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100268
+  liste: "Natsume Yujin-cho the Movie: Ephemeral Bond, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 100269
+  liste: "Fate/Kaleid Liner Prisma Illya: Prisma Phantasm, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 100298
+  liste: "Megalo Box, 2018"
+  sender: "POLYBAND ANIME"
+- anilistId: 100332
+  liste: "Kokkoku: Moment für Moment, 2018"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 100341
+  liste: "Last Hope, 2018"
+  sender: "NETFLIX"
+- anilistId: 100353
+  liste: "Mob Psycho 100 Reigen: Der Unbekannte Typ mit Kräften, 2018"
+  sender: "CRUNCHYROLL"
+- anilistId: 100356
+  liste: "Mutafukaz, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 100401
+  liste: "Forest of Piano, 2018"
+  sender: "NETFLIX"
+- anilistId: 100451
+  liste: "The Testament of Sister New Devil: Departures, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 100465
+  liste: "Attack on Titan Movie Teil 3: Gebrüll des Erwachens, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100469
+  liste: "Granblue Fantasy: The Animation - OVA2, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 100483
+  liste: "Yunas Geisterhaus, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100523
+  liste: "Eromanga Sensei OVA, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 100643
+  liste: "Made in Abyss: Seelen der Finsternis, 2020"
+  sender: "LEONINE ANIME"
+- anilistId: 100653
+  liste: "Detektiv Conan: Zero der Vollstrecker, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100663
+  liste: "Ultraman, 2019"
+  sender: "NETFLIX"
+- anilistId: 100665
+  liste: "Back Street Girls: Gokudols, 2018"
+  sender: "NETFLIX"
+- anilistId: 100668
+  liste: "Arifureta: From Commonplace to World’s Strongest, 2019"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 100673
+  liste: "Drachenflieger, 2018"
+  sender: "NETFLIX"
+- anilistId: 100675
+  liste: "Saekano the Movie: Finale, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 100722
+  liste: "Date a Live III, 2019"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 100723
+  liste: "My Hero Academia: Two Heroes, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100744
+  liste: "Pokémon: Der Film - Die Macht in uns, 2018"
+  sender: "SUPER RTL"
+- anilistId: 100745
+  liste: "Captain Tsubasa, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100749
+  liste: "Mirai: Das Mädchen aus der Zukunft, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100773
+  liste: "Food Wars! The Third Plate (Totsuki Train-Arc), 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 100780
+  liste: "Legend of the Galactic Heroes: Die Neue These (Staffel 2), 2019"
+  sender: "LEONINE ANIME"
+- anilistId: 100785
+  liste: "Detektei Layton: Katrielles rätselhafte Fälle, 2018"
+  sender: "KSM ANIME"
+- anilistId: 100876
+  liste: "Kakegurui ××, 2019"
+  sender: "NETFLIX"
+- anilistId: 100878
+  liste: "Saga of Tanya the Evil: The Movie, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 100891
+  liste: "Kengan Ashura, 2019"
+  sender: "NETFLIX"
+- anilistId: 100977
+  liste: "Cells at Work!, 2018"
+  sender: "WAKANIM"
+- anilistId: 100979
+  liste: "ACCA: 13-Territory Inspection Dept. OVAs, 2017"
+  sender: "KSM ANIME"
+- anilistId: 101004
+  liste: "How Not to Summon a Demon Lord, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 101016
+  liste: "Junji Ito: Tomie, 2018"
+  sender: "KSM ANIME"
+- anilistId: 101102
+  liste: "Assassination Classroom the Movie: 365 Days Time, 2016"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 101115
+  liste: "Beyblade Burst Turbo, 2018"
+  sender: "NICKELODEON"
+- anilistId: 101117
+  liste: "Free! Dive to the Future, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 101165
+  liste: "Goblin Slayer, 2018"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 101166
+  liste: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Arrow of the Orion, 2019"
+  sender: "ANIME HOUSE"
+- anilistId: 101167
+  liste: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth II, 2019"
+  sender: "ANIME HOUSE"
+- anilistId: 101213
+  liste: "Masamune-kun’s Revenge OAD, 2018"
+  sender: "CRUNCHYROLL"
+- anilistId: 101231
+  liste: "Flavors of Youth: Liebe in Shanghai, 2018"
+  sender: "NETFLIX"
+- anilistId: 101249
+  liste: "Penguin Highway, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 101280
+  liste: "Meine Wiedergeburt als Schleim in einer anderen Welt, 2018"
+  sender: "CRUNCHYROLL"
+- anilistId: 101281
+  liste: "Carole und Tuesday, 2019"
+  sender: "NETFLIX"
+- anilistId: 101283
+  liste: "Boogiepop and Others, 2019"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 101291
+  liste: "Rascal Does Not Dream of Bunny Girl Senpai, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 101302
+  liste: "Dragon Ball Super: Broly, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 101316
+  liste: "Die Welt in allen Farben: Iroduku, 2018"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 101317
+  liste: "Black Fox, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 101337
+  liste: "W’z, 2019"
+  sender: "KSM ANIME"
+- anilistId: 101338
+  liste: "Mob Psycho 100 II, 2019"
+  sender: "CRUNCHYROLL"
+- anilistId: 101347
+  liste: "Dororo, 2019"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 101348
+  liste: "Vinland Saga, 2019"
+  sender: "NETFLIX"
+- anilistId: 101349
+  liste: "Babylon, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 101350
+  liste: "Pet, 2020"
+  sender: "KAZÉ ANIME"
+- anilistId: 101361
+  liste: "Sirius the Jaeger, 2018"
+  sender: "NETFLIX"
+- anilistId: 101432
+  liste: "Violet Evergarden: Special, 2018"
+  sender: "NETFLIX + UNIVERSUM"
+- anilistId: 101470
+  liste: "Gakuen Basara: Samurai Highschool, 2018"
+  sender: "FILMCONFECT"
+- anilistId: 101474
+  liste: "Overlord III, 2018"
+  sender: "KSM ANIME"
+- anilistId: 101478
+  liste: "Okko und ihre Geisterfreunde, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 101500
+  liste: "Ingress: The Animation, 2018"
+  sender: "NETFLIX"
+- anilistId: 101525
+  liste: "Calamity of a Zombie Girl, 2018"
+  sender: "KSM ANIME"
+- anilistId: 101571
+  liste: "Aggretsuko, 2018"
+  sender: "NETFLIX"
+- anilistId: 101573
+  liste: "Bloom Into You, 2018"
+  sender: "KSM ANIME"
+- anilistId: 101595
+  liste: "Princess Principal: Crown Handler, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 101597
+  liste: "Ultramarine Magmell, 2019"
+  sender: "NETFLIX"
+- anilistId: 101610
+  liste: "Seven Days War, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 101705
+  liste: "The Orbital Children, 2022"
+  sender: "NETFLIX"
+- anilistId: 101759
+  liste: "The Promised Neverland, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 101811
+  liste: "Code Geass: Lelouch of the Rebellion (Filme), 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 101812
+  liste: "Code Geass: Lelouch of the Rebellion (Filme), 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 101813
+  liste: "Code Geass: Lelouch of the Rebellion (Filme), 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 101913
+  liste: "Starship Troopers: Traitor of Mars, 2018"
+  sender: "SONY PICTURES"
+- anilistId: 101921
+  liste: "Kaguya-sama: Love Is War, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 101922
+  liste: "Demon Slayer: Kimetsu no Yaiba, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 102058
+  liste: "Rudolf der schwarze Kater, 2016"
+  sender: "KSM ANIME"
+- anilistId: 102460
+  liste: "Tao Tao: Der kleine Pandabär, 1981"
+  sender: "JUNIOR"
+- anilistId: 102498
+  liste: "B: The Beginning - Die Nachfolge, 2021"
+  sender: "NETFLIX"
+- anilistId: 102649
+  liste: "Psycho-Pass: Sinners of the System, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 102832
+  liste: "Devils’ Line: Anytime Anywhere, 2018"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 102835
+  liste: "Revisions, 2019"
+  sender: "NETFLIX"
+- anilistId: 102891
+  liste: "The Deer King, 2022"
+  sender: "KSM ANIME"
+- anilistId: 102926
+  liste: "The Ones Within, 2019"
+  sender: "KSM ANIME"
+- anilistId: 102939
+  liste: "Midnight Occult Civil Servants, 2019"
+  sender: "KSM ANIME"
+- anilistId: 102976
+  liste: "KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson, 2019"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 103047
+  liste: "Violet Evergarden: Der Film, 2020"
+  sender: "LEONINE + NETFLIX"
+- anilistId: 103049
+  liste: "Forest of Piano Staffel 2, 2019"
+  sender: "NETFLIX"
+- anilistId: 103139
+  liste: "Domestic Girlfriend, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 103221
+  liste: "Children of the Sea, 2019"
+  sender: "POLYBAND ANIME"
+- anilistId: 103222
+  liste: "Magical Girl Spec Ops Asuka, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 103223
+  liste: "Bungo Stray Dogs 3, 2019"
+  sender: "KSM ANIME"
+- anilistId: 103275
+  liste: "Fate/Grand Order Absolute Demonic Front: Babylonia, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 103276
+  liste: "Fate/Grand Order: The Movie - Divine Realm of the Round Table: Camelot, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 103277
+  liste: "Fate/Grand Order: The Movie - Divine Realm of the Round Table: Camelot, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 103572
+  liste: "The Quintessential Quintuplets, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 103588
+  liste: "Free! Dive to the Future: Warmup im Vorfrühling, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 103632
+  liste: "Ich bin eine Spinne, na und?, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 103638
+  liste: "Kabukicho Sherlock, 2019"
+  sender: "KSM ANIME"
+- anilistId: 103713
+  liste: "Pretty Guardian Sailor Moon Eternal: Der Film, 2021"
+  sender: "NETFLIX"
+- anilistId: 103871
+  liste: "Zombie Land Saga, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 103887
+  liste: "Bescheidene Helden: Ponoc Short Films Theatre, 2018"
+  sender: "NETFLIX"
+- anilistId: 103900
+  liste: "We Never Learn, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 104051
+  liste: "Magia Record: Puella Magi Madoka Magica Side Story, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 104157
+  liste: "Rascal Does Not Dream of a Dreaming Girl, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 104162
+  liste: "Ben: Abenteuer auf der Mäuseinsel, 2015"
+  sender: "LIGHTHOUSE"
+- anilistId: 104174
+  liste: "Steins;Gate 0: Polymorpher Valentin - Bittersweet Intermedio, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 104217
+  liste: "Keine Cheats für die Liebe OVA, 2019"
+  sender: "ALTRAVERSE"
+- anilistId: 104243
+  liste: "Angels of Death (Episoden 13-16), 2018"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 104252
+  liste: "Demon Lord, Retry!, 2019"
+  sender: "KSM ANIME"
+- anilistId: 104253
+  liste: "The Magnificent Kotobuki, 2019"
+  sender: "KSM ANIME"
+- anilistId: 104276
+  liste: "My Hero Academia 4, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 104307
+  liste: "Hi Score Girl: Extra Stage, 2019"
+  sender: "NETFLIX"
+- anilistId: 104325
+  liste: "Why the Hell Are You Here, Teacher!?, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 104382
+  liste: "Psycho-Pass: Sinners of the System, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 104562
+  liste: "The Relative Worlds, 2019"
+  sender: "KSM ANIME"
+- anilistId: 104578
+  liste: "Attack on Titan Staffel 3 (Teil 2), 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 104647
+  liste: "My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game?, 2020"
+  sender: "KAZÉ ANIME"
+- anilistId: 104679
+  liste: "Chidori RSC: Rifle Is Beautiful, 2019"
+  sender: "ANIME HOUSE"
+- anilistId: 104721
+  liste: "Laidbackers, 2019"
+  sender: "ANIME HOUSE"
+- anilistId: 104722
+  liste: "Assassins Pride, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 105018
+  liste: "Ride Your Wave, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 105096
+  liste: "Hero Mask, 2018"
+  sender: "NETFLIX"
+- anilistId: 105143
+  liste: "One Piece: Stampede, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 105156
+  liste: "Cautious Hero: The Hero Is Overpowered but Overly Cautious, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 105190
+  liste: "Darwin’s Game, 2020"
+  sender: "WAKANIM"
+- anilistId: 105200
+  liste: "Aggretsuko: Staffel 2, 2019"
+  sender: "NETFLIX"
+- anilistId: 105228
+  liste: "Dorohedoro, 2020"
+  sender: "NETFLIX"
+- anilistId: 105245
+  liste: "W’z OVA, 2019"
+  sender: "KSM ANIME"
+- anilistId: 105310
+  liste: "Fire Force, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 105333
+  liste: "Dr. Stone, 2019"
+  sender: "CRUNCHYROLL"
+- anilistId: 105334
+  liste: "Fruits Basket, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 105391
+  liste: "Ikki Tousen: Western Wolves, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 105595
+  liste: "Mobile Suit Gundam Hathaway, 2021"
+  sender: "NETFLIX"
+- anilistId: 105662
+  liste: "Cells at Work! Erkältung, 2018"
+  sender: "WAKANIM"
+- anilistId: 105807
+  liste: "7 Seeds, 2019"
+  sender: "NETFLIX"
+- anilistId: 106154
+  liste: "Ghost in the Shell: SAC_2045, 2020"
+  sender: "NETFLIX"
+- anilistId: 106169
+  liste: "Persona 5 the Animation: Dunkle Sonne, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 106206
+  liste: "Detektiv Conan: Die stahlblaue Faust, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 106240
+  liste: "Hello World, 2019"
+  sender: "KSM ANIME"
+- anilistId: 106286
+  liste: "Weathering with You: Das Mädchen, das die Sonne berührte, 2019"
+  sender: "LEONINE ANIME"
+- anilistId: 106287
+  liste: "Pokémon: Mewtu schlägt zurück – Evolution, 2019"
+  sender: "NETFLIX"
+- anilistId: 106479
+  liste: "Bofuri: I Don’t Want to Get Hurt, So I’ll Max Out My Defense., 2020"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 106494
+  liste: "Aggretsuko: We Wish You a Metal Christmas, 2018"
+  sender: "NETFLIX"
+- anilistId: 106509
+  liste: "Meine Wiedergeburt als Schleim in einer anderern Welt OAD, 2019"
+  sender: "CRUNCHYROLL"
+- anilistId: 106625
+  liste: "Haikyu!! To the Top, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 106893
+  liste: "Cop Craft, 2019"
+  sender: "ANIME HOUSE"
+- anilistId: 106896
+  liste: "Persona 5 the Animation: Sterne und was unser ist, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 107012
+  liste: "Wonderland: Das Königreich im Keller, 2019"
+  sender: "KSM ANIME"
+- anilistId: 107068
+  liste: "Karakai Jozu no Takagi-san: Staffel 2, 2019"
+  sender: "NETFLIX"
+- anilistId: 107202
+  liste: "Free!: Road to the World - The Dream, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 107203
+  liste: "Free! The Final Stroke, 2021"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 107208
+  liste: "Girls und Panzer: Das Finale, 2017"
+  sender: "KSM ANIME"
+- anilistId: 107226
+  liste: "How Heavy Are the Dumbbells You Lift?, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 107313
+  liste: "Lupin III.: Fujiko Mines Lüge, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 107351
+  liste: "Haikyu!! Sonderbeitrag: Die Jugend beim Frühlingsturnier, 2017"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 107625
+  liste: "Words Bubble Up Like Soda Pop, 2021"
+  sender: "NETFLIX"
+- anilistId: 107660
+  liste: "Beastars, 2019"
+  sender: "NETFLIX"
+- anilistId: 107663
+  liste: "Astra Lost in Space, 2019"
+  sender: "LEONINE ANIME"
+- anilistId: 107717
+  liste: "Miss Kobayashi’s Dragon Maid S, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 107727
+  liste: "Ni no Kuni, 2019"
+  sender: "NETFLIX"
+- anilistId: 107905
+  liste: "Deine Geschichte in Dragon Quest, 2019"
+  sender: "NETFLIX"
+- anilistId: 107961
+  liste: "Hensuki: Are You Willing to Fall in Love with a Pervert, as Long as She’s a Cutie?, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 108241
+  liste: "Gleipnir, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 108260
+  liste: "Digimon Adventure: Last Evolution Kizuna, 2020"
+  sender: "KSM ANIME"
+- anilistId: 108307
+  liste: "Psycho-Pass 3, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 108353
+  liste: "Spriggan, 2022"
+  sender: "NETFLIX"
+- anilistId: 108356
+  liste: "Dragon’s Dogma, 2020"
+  sender: "NETFLIX"
+- anilistId: 108357
+  liste: "Vampire in the Garden, 2022"
+  sender: "NETFLIX"
+- anilistId: 108388
+  liste: "High School Prodigies Have It Easy Even In Another World!, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 108430
+  liste: "Given, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 108450
+  liste: "Queen Zaza: Die letzten Drachenfänger, 2020"
+  sender: "NETFLIX"
+- anilistId: 108463
+  liste: "Toilet-Bound Hanako-kun, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 108465
+  liste: "Mushoku Tensei: Jobless Reincarnation, 2021"
+  sender: "WAKANIM"
+- anilistId: 108478
+  liste: "No Guns Life, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 108487
+  liste: "Fragtime, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 108489
+  liste: "My Teen Romantic Comedy SNAFU: Climax, 2020"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 108511
+  liste: "Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 2, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 108522
+  liste: "Baki: Die Saga vom Raitai-Turnier, 2020"
+  sender: "NETFLIX"
+- anilistId: 108553
+  liste: "My Hero Academia: The Movie - Heroes Rising, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 108554
+  liste: "Special 7: Special Crime Investigation Unit, 2019"
+  sender: "ANIME HOUSE"
+- anilistId: 108577
+  liste: "Her Blue Sky, 2019"
+  sender: "KSM ANIME"
+- anilistId: 108581
+  liste: "Hi Score Girl II, 2019"
+  sender: "NETFLIX"
+- anilistId: 108598
+  liste: "Levius, 2019"
+  sender: "NETFLIX"
+- anilistId: 108623
+  liste: "Goblin Slayer: Goblin’s Crown, 2020"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 108626
+  liste: "Human Lost, 2019"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 108631
+  liste: "Cells at Work!! Staffel 2, 2021"
+  sender: "WAKANIM"
+- anilistId: 108632
+  liste: "Re:Zero - Starting Life in Another World Season 2, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 108725
+  liste: "The Promised Neverland Staffel 2, 2021"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 108759
+  liste: "Sword Art Online: Alicization - War of Underworld, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 108815
+  liste: "Avengers Confidential: Black Widow & Punisher, 2014"
+  sender: "SONY PICTURES"
+- anilistId: 108852
+  liste: "Bakugan: Battle Planet, 2019"
+  sender: "SUPER RTL"
+- anilistId: 108853
+  liste: "Beyblade Burst Rise, 2019"
+  sender: "NICKELODEON"
+- anilistId: 108928
+  liste: "The Seven Deadly Sins: Kaiserlicher Zorn der Götter, 2019"
+  sender: "NETFLIX"
+- anilistId: 108945
+  liste: "One Punch Man Season 2 OVAs, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 108987
+  liste: "Sakugan, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 109020
+  liste: "Sing “Yesterday” for Me, 2020"
+  sender: "KAZÉ ANIME"
+- anilistId: 109190
+  liste: "Violet Evergarden und das Band der Freundschaft, 2019"
+  sender: "LEONINE + NETFLIX"
+- anilistId: 109217
+  liste: "Eden, 2021"
+  sender: "NETFLIX"
+- anilistId: 109261
+  liste: "The Quintessential Quintuplets 2, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 109321
+  liste: "Val × Love, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 109418
+  liste: "Persona 5 the Animation: Ein Beweis für die Gerechtigkeit, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 109586
+  liste: "Cagaster of an Insect Cage, 2020"
+  sender: "NETFLIX"
+- anilistId: 109639
+  liste: "Dino Girl Gauko, 2019"
+  sender: "NETFLIX"
+- anilistId: 109819
+  liste: "Mob Psycho 100 II OVA: Der erste superbillige Ausflug des PS-Büros, 2019"
+  sender: "CRUNCHYROLL"
+- anilistId: 109911
+  liste: "Ultraman: Staffel 2, 2022"
+  sender: "NETFLIX"
+- anilistId: 109946
+  liste: "Super Crooks, 2021"
+  sender: "NETFLIX"
+- anilistId: 109963
+  liste: "Food Wars! The Fourth Plate, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 109979
+  liste: "Der Junge und der Reiher, 2023"
+  sender: "LEONINE/WILD BUNCH"
+- anilistId: 110173
+  liste: "Midnight Occult Civil Servants OVA, 2019"
+  sender: "KSM ANIME"
+- anilistId: 110224
+  liste: "The Journey: Die Legende vom guten Dieb, 2021"
+  sender: "KSM ANIME"
+- anilistId: 110265
+  liste: "Persona 5 the Animation: Ein magischer Valentinstag, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 110277
+  liste: "Attack on Titan: Final Season, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 110349
+  liste: "Great Pretender, 2020"
+  sender: "NETFLIX"
+- anilistId: 110350
+  liste: "ID: Invaded, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 110353
+  liste: "Deca-Dence, 2020"
+  sender: "WAKANIM"
+- anilistId: 110354
+  liste: "BNA, 2020"
+  sender: "NETFLIX"
+- anilistId: 110364
+  liste: "Pac-Man und die Geisterabenteuer, 2014"
+  sender: "NICKELODEON"
+- anilistId: 110413
+  liste: "Lupin III.: The First, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 110547
+  liste: "Arte, 2020"
+  sender: "POLYBAND ANIME"
+- anilistId: 110686
+  liste: "Hero Mask: Teil 2, 2019"
+  sender: "NETFLIX"
+- anilistId: 110732
+  liste: "Star Blazers 2199: Space Battleship Yamato - A Voyage to Remember, 2014"
+  sender: "KSM ANIME"
+- anilistId: 110733
+  liste: "Zombie Land Saga Revenge, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 110810
+  liste: "Kandagawa Jet Girls, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 110851
+  liste: "Fate/Grand Order Absolute Demonic Front: Babylonia - Initium Iter, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 110857
+  liste: "Aggretsuko: Staffel 3, 2020"
+  sender: "NETFLIX"
+- anilistId: 111131
+  liste: "Cannon Busters, 2019"
+  sender: "NETFLIX"
+- anilistId: 111312
+  liste: "Shin-chan: Crash! Königreich Kritzel und fast vier Helden, 2020"
+  sender: "POLYBAND ANIME"
+- anilistId: 111321
+  liste: "The Rising of the Shield Hero Season 2, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 111322
+  liste: "The Rising of the Shield Hero Season 3, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 111729
+  liste: "Arifureta: From Commonplace to World’s Strongest OVAs, 2019"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 111734
+  liste: "Given: The Movie, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 111790
+  liste: "Haikyu!! An Land vs. In der Luft / Der \"Weg\" des Balls, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 111852
+  liste: "Date a Bullet, 2020"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 111954
+  liste: "Die Abenteuer des kleinen Panda: Der Zirkus im Regen, 1973"
+  sender: "???"
+- anilistId: 111965
+  liste: "Peter Grill and the Philosopher’s Time, 2020"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 112124
+  liste: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth III, 2020"
+  sender: "ANIME HOUSE"
+- anilistId: 112125
+  liste: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth II OVA, 2020"
+  sender: "ANIME HOUSE"
+- anilistId: 112151
+  liste: "Demon Slayer: Kimetsu no Yaiba - The Movie: Mugen Train, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 112153
+  liste: "Pokémon Reisen: Die Serie, 2019"
+  sender: "NETFLIX"
+- anilistId: 112177
+  liste: "The Ones Within OVA, 2020"
+  sender: "KSM ANIME"
+- anilistId: 112300
+  liste: "The Irregular at Magic High School: Visitor Arc, 2020"
+  sender: "KSM ANIME"
+- anilistId: 112301
+  liste: "The Misfit of Demon King Academy, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 112323
+  liste: "Arifureta: From Commonplace to World’s Strongest 2nd Season, 2022"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 112357
+  liste: "Japan sinkt: 2020, 2020"
+  sender: "NETFLIX"
+- anilistId: 112444
+  liste: "Appare-Ranman!, 2020"
+  sender: "POLYBAND ANIME"
+- anilistId: 112608
+  liste: "I’ve Been Killing Slimes for 300 Years and Maxed Out My Level, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 112625
+  liste: "The Disastrous Life of Saiki K.: Reawakened, 2019"
+  sender: "NETFLIX"
+- anilistId: 112641
+  liste: "Kaguya-sama: Love Is War?, 2020"
+  sender: "WAKANIM"
+- anilistId: 112667
+  liste: "Our Last Crusade or the Rise of a New World, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 112686
+  liste: "7 Seeds: Teil 2, 2020"
+  sender: "NETFLIX"
+- anilistId: 112788
+  liste: "Ein Fremder am Strand, 2020"
+  sender: "KAZÉ ANIME"
+- anilistId: 112803
+  liste: "No Guns Life (Teil 2), 2020"
+  sender: "KAZÉ ANIME"
+- anilistId: 112818
+  liste: "Super HxEros, 2020"
+  sender: "WAKANIM"
+- anilistId: 112930
+  liste: "Yes, No, or Maybe?, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 113286
+  liste: "Monster Girl Doctor, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 113415
+  liste: "Jujutsu Kaisen, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 113538
+  liste: "Haikyu!! To the Top Cour 2, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 113595
+  liste: "Planetarian: Snow Globe, 2021"
+  sender: "KSM ANIME"
+- anilistId: 113596
+  liste: "Josie, der Tiger und die Fische, 2020"
+  sender: "KAZÉ ANIME"
+- anilistId: 113653
+  liste: "Detektiv Conan: Die scharlachrote Kugel, 2021"
+  sender: "KAZÉ ANIME"
+- anilistId: 113717
+  liste: "Ranking of Kings, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 113813
+  liste: "Rent-a-Girlfriend, 2020"
+  sender: "KAZÉ ANIME"
+- anilistId: 113917
+  liste: "Psycho-Pass 3: First Inspector, 2020"
+  sender: "KAZÉ ANIME"
+- anilistId: 113924
+  liste: "Why the Hell Are You Here, Teacher!? Episode 13, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 113936
+  liste: "Dr. Stone: Stone Wars, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 114043
+  liste: "Food Wars! The Fifth Plate, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 114099
+  liste: "Dragon Quest: The Adventure of Dai, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 114194
+  liste: "Beastars Staffel 2, 2021"
+  sender: "NETFLIX"
+- anilistId: 114232
+  liste: "Higehiro: After Being Rejected, I Shaved and Took in a High School Runaway, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 114236
+  liste: "Fire Force Staffel 2, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 114308
+  liste: "Sword Art Online: Alicization - War of Underworld (Teil 2), 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 114340
+  liste: "Bear Bear Bear Kuma!, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 114446
+  liste: "Higurashi: When They Cry Gou, 2020"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 114535
+  liste: "To Your Eternity, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 114564
+  liste: "Pokémon: Der Film - Geheimnisse des Dschungels, 2020"
+  sender: "NETFLIX"
+- anilistId: 114622
+  liste: "Dorohedoro OVA, 2020"
+  sender: "NETFLIX"
+- anilistId: 114745
+  liste: "Made in Abyss: Die Goldene Stadt der sengenden Sonne, 2022"
+  sender: "LEONINE ANIME"
+- anilistId: 114963
+  liste: "Um ein Schnurrhaar, 2020"
+  sender: "NETFLIX"
+- anilistId: 115113
+  liste: "Uzaki-chan Wants to Hang Out!, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 115230
+  liste: "Tower of God, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 115715
+  liste: "Altered Carbon: Resleeved, 2020"
+  sender: "NETFLIX"
+- anilistId: 115740
+  liste: "By the Grace of the Gods, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 115794
+  liste: "Dino Girl Gauko Staffel 2, 2020"
+  sender: "NETFLIX"
+- anilistId: 116005
+  liste: "Noblesse, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 116006
+  liste: "The God of High School, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 116226
+  liste: "Over the Sky, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 116242
+  liste: "I’m Standing on a Million Lives, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 116267
+  liste: "Tonikawa: Over the Moon for You, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 116287
+  liste: "Otherside Picnic, 2021"
+  sender: "KSM ANIME"
+- anilistId: 116415
+  liste: "Bakugan: Armored Alliance, 2020"
+  sender: "SUPER RTL"
+- anilistId: 116566
+  liste: "Akudama Drive, 2020"
+  sender: "KSM ANIME"
+- anilistId: 116588
+  liste: "Kombattanten werden entsandt!, 2021"
+  sender: "WAKANIM"
+- anilistId: 116589
+  liste: "86: Eighty Six, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 116605
+  liste: "Date a Live IV, 2022"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 116673
+  liste: "Burn the Witch, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 116674
+  liste: "Bleach: Thousand-Year Blood War, 2022"
+  sender: "DISNEY+"
+- anilistId: 116741
+  liste: "Die Schleim-Tagebücher, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 116752
+  liste: "The Seven Deadly Sins: Urteil des Drachen, 2021"
+  sender: "NETFLIX"
+- anilistId: 116756
+  liste: "Fate/Grand Order: Final Singularity - The Grand Temple of Time: Solomon, 2021"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 116786
+  liste: "Beyblade Burst Surge, 2020"
+  sender: "NICKELODEON"
+- anilistId: 117002
+  liste: "Magia Record: Puella Magi Madoka Magica Side Story Staffel 2 - The Eve of Awakening, 2021"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 117193
+  liste: "My Hero Academia 5, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 117197
+  liste: "Tiger & Bunny 2, 2022"
+  sender: "NETFLIX"
+- anilistId: 117343
+  liste: "Talentless Nana, 2020"
+  sender: "KSM ANIME"
+- anilistId: 117448
+  liste: "How Not to Summon a Demon Lord Ω, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 117533
+  liste: "Cells at Work! Code Black, 2021"
+  sender: "WAKANIM"
+- anilistId: 117612
+  liste: "How a Realist Hero Rebuilt the Kingdom, 2021"
+  sender: "POLYBAND ANIME"
+- anilistId: 117756
+  liste: "Ghost in the Shell: SAC_2045 Staffel 2, 2022"
+  sender: "NETFLIX"
+- anilistId: 117757
+  liste: "Iwakakeru! Sport Climbing Girls, 2020"
+  sender: "KAZÉ ANIME"
+- anilistId: 117989
+  liste: "Mother of the Goddess’ Dormitory, 2021"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 118375
+  liste: "The Hidden Dungeon Only I Can Enter, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 118390
+  liste: "Child of Kamiari Month, 2021"
+  sender: "NETFLIX"
+- anilistId: 118399
+  liste: "Yashahime: Princess Half-Demon, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 118419
+  liste: "The Day I Became a God, 2020"
+  sender: "WAKANIM"
+- anilistId: 118743
+  liste: "Fate/Kaleid Liner Prisma Illya the Movie Licht: Nameless Girl, 2021"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 119056
+  liste: "She Professed Herself Pupil of the Wise Man, 2021"
+  sender: "WAKANIM"
+- anilistId: 119321
+  liste: "Aya und die Hexe, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 119661
+  liste: "Re:Zero - Starting Life in Another World Season 2 (Teil 2), 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 119675
+  liste: "Shaman King (2021), 2021"
+  sender: "NETFLIX"
+- anilistId: 119683
+  liste: "Edens Zero, 2021"
+  sender: "NETFLIX"
+- anilistId: 119964
+  liste: "Pokétoon: The Pokémon Cartoon Animation, 2021"
+  sender: "THE POKÉMON COMPANY"
+- anilistId: 120120
+  liste: "Tokyo Revengers, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 120209
+  liste: "My Next Life as a Villainess: Wie überlebe ich in einem Dating-Game? X, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 120377
+  liste: "Cyberpunk: Edgerunners, 2022"
+  sender: "NETFLIX"
+- anilistId: 120608
+  liste: "The Dungeon of Black Company, 2021"
+  sender: "WAKANIM"
+- anilistId: 120697
+  liste: "Don’t Toy with Me, Miss Nagatoro, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 122349
+  liste: "My Hero Academia: Das todesmutige Überlebenstraining, 2020"
+  sender: "CRUNCHYROLL"
+- anilistId: 122575
+  liste: "Stand By Me Doraemon 2, 2020"
+  sender: "NETFLIX"
+- anilistId: 123802
+  liste: "The Saint’s Magic Power Is Omnipotent, 2021"
+  sender: "LEONINE ANIME"
+- anilistId: 123899
+  liste: "Sing a Bit of Harmony, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 124080
+  liste: "Horimiya, 2021"
+  sender: "WAKANIM"
+- anilistId: 124140
+  liste: "Sword Art Online: The Movie - Progressive: Aria of a Starless Night, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 124195
+  liste: "Baki Hanma, 2021"
+  sender: "NETFLIX"
+- anilistId: 124395
+  liste: "Uzaki-chan Wants to Hang Out! Staffel 2, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 124410
+  liste: "Rent-a-Girlfriend Staffel 2, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 124494
+  liste: "Resident Evil: Infinite Darkness, 2021"
+  sender: "SONY PICTURES"
+- anilistId: 124786
+  liste: "Godzilla: Singular Point, 2021"
+  sender: "NETFLIX"
+- anilistId: 125367
+  liste: "Kaguya-sama: Love Is War - Ultra Romantic, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 125426
+  liste: "Yakuza Goes Hausmann, 2021"
+  sender: "NETFLIX"
+- anilistId: 125428
+  liste: "High-Rise Invasion, 2021"
+  sender: "NETFLIX"
+- anilistId: 125440
+  liste: "Rilakkumas Abenteuer im Vergnügungspark, 2022"
+  sender: "NETFLIX"
+- anilistId: 125447
+  liste: "Thermae Romae Novae, 2022"
+  sender: "NETFLIX"
+- anilistId: 125838
+  liste: "The House of the Lost on the Cape, 2021"
+  sender: "LEONINE ANIME"
+- anilistId: 126047
+  liste: "Battle Game in 5 Seconds, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 126294
+  liste: "Pokémon Mystery Dungeon: Portale in die Unendlichkeit, 2012"
+  sender: "RTL2"
+- anilistId: 126546
+  liste: "Seirei Gensouki: Spirit Chronicles, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 126659
+  liste: "My Hero Academia: World Heroes’ Mission, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 126791
+  liste: "Full Dive: This Ultimate Next-Gen Full Dive RPG Is Even Shittier than Real Life!, 2021"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 127050
+  liste: "Love of Kill, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 127230
+  liste: "Chainsaw Man, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 127271
+  liste: "Belle, 2021"
+  sender: "KSM ANIME"
+- anilistId: 127366
+  liste: "I’m Standing on a Million Lives (Staffel 2), 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 127368
+  liste: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth III OVA, 2021"
+  sender: "ANIME HOUSE"
+- anilistId: 127371
+  liste: "Tonikawa: Over the Moon for You - Social Media, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 127399
+  liste: "Record of Ragnarok, 2021"
+  sender: "NETFLIX"
+- anilistId: 127401
+  liste: "Platinum End, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 127619
+  liste: "Aggretsuko: Staffel 4, 2021"
+  sender: "NETFLIX"
+- anilistId: 127720
+  liste: "Mushoku Tensei: Jobless Reincarnation Cour 2, 2021"
+  sender: "WAKANIM"
+- anilistId: 127911
+  liste: "Shikimori’s Not Just a Cutie, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 127958
+  liste: "Fortune Favors Lady Nikuko, 2021"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 128034
+  liste: "Orient, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 128207
+  liste: "The First Slam Dunk, 2022"
+  sender: "KSM ANIME"
+- anilistId: 128223
+  liste: "When Will Ayumu Make His Move?, 2022"
+  sender: "POLYBAND ANIME"
+- anilistId: 128390
+  liste: "Fire Force Staffel 2 Miniepisoden, 2021"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 128705
+  liste: "Blue Period, 2021"
+  sender: "NETFLIX"
+- anilistId: 128712
+  liste: "The Detective Is Already Dead, 2021"
+  sender: "WAKANIM"
+- anilistId: 128715
+  liste: "Sacrificial Princess and the King of Beasts, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 128740
+  liste: "The Seven Deadly Sins: Cursed by Light, 2021"
+  sender: "NETFLIX"
+- anilistId: 128893
+  liste: "Hell’s Paradise, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 129191
+  liste: "Der stärkste Held mit dem Mal der Schwäche, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 129192
+  liste: "My Isekai Life: I Gained a Second Character Class and Became the Strongest Sage …, 2022"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 129196
+  liste: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth IV, 2022"
+  sender: "ANIME HOUSE"
+- anilistId: 129201
+  liste: "Bright Sun: Dark Shadows, 2022"
+  sender: "DISNEY+"
+- anilistId: 129759
+  liste: "Princess Principal: Crown Handler, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 129874
+  liste: "Demon Slayer: Kimetsu no Yaiba - Mugen Train Arc, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 129898
+  liste: "The World’s Finest Assassin Gets Reincarnated in Another World as an Aristocrat, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 130050
+  liste: "Summer Ghost, 2021"
+  sender: "KSM ANIME"
+- anilistId: 130166
+  liste: "In the Land of Leadale, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 130253
+  liste: "Beyblade Burst QuadDrive, 2021"
+  sender: "NICKELODEON"
+- anilistId: 130298
+  liste: "The Eminence in Shadow, 2022"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 130586
+  liste: "The Greatest Demon Lord Is Reborn as a Typical Nobody, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 130592
+  liste: "The Devil Is a Part-Timer! II, 2022"
+  sender: "ANIME HOUSE"
+- anilistId: 130706
+  liste: "Akuma Kun, 2023"
+  sender: "NETFLIX"
+- anilistId: 130713
+  liste: "The Ancient Magus’ Bride: The Boy from the West and the Knight of the Blue Storm, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 131096
+  liste: "Bakugan: Geogan Rising, 2021"
+  sender: "SUPER RTL"
+- anilistId: 131149
+  liste: "Higurashi: When They Cry Sotsu, 2021"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 131518
+  liste: "Dr. Stone: New World, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 131520
+  liste: "The Quintessential Quintuplets Movie, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 131573
+  liste: "Jujutsu Kaisen 0, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 131646
+  liste: "The Case Study of Vanitas, 2021"
+  sender: "WAKANIM"
+- anilistId: 131680
+  liste: "Black Clover: Sword of the Wizard King, 2023"
+  sender: "NETFLIX"
+- anilistId: 131681
+  liste: "Attack on Titan: Final Season Part 2, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 131770
+  liste: "Detektiv Conan: Das Scharlachrote Alibi, 2021"
+  sender: "KAZÉ ANIME"
+- anilistId: 131930
+  liste: "Yasuke, 2021"
+  sender: "NETFLIX"
+- anilistId: 131942
+  liste: "JoJo’s Bizarre Adventure: Stone Ocean, 2021"
+  sender: "NETFLIX"
+- anilistId: 132052
+  liste: "A Couple of Cuckoos, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 132340
+  liste: "Tiffel & Taffel, 1992"
+  sender: "ARD"
+- anilistId: 132405
+  liste: "My Dress-Up Darling, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 132473
+  liste: "The Faraway Paladin, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 132474
+  liste: "Skeleton Knight in Another World, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 133124
+  liste: "Free! The Final Stroke, 2021"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 133175
+  liste: "The Dawn of the Witch, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 133844
+  liste: "Overlord IV, 2022"
+  sender: "KSM ANIME"
+- anilistId: 133898
+  liste: "Dragon Ball Super: Super Hero, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 133965
+  liste: "Komi Can’t Communicate, 2021"
+  sender: "NETFLIX"
+- anilistId: 134623
+  liste: "Lupin III. Part 6, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 135136
+  liste: "The Case Study of Vanitas (Staffel 2), 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 135429
+  liste: "Make My Day, 2023"
+  sender: "NETFLIX"
+- anilistId: 135432
+  liste: "Bright: Samurai Soul, 2021"
+  sender: "NETFLIX"
+- anilistId: 135660
+  liste: "Exception, 2022"
+  sender: "NETFLIX"
+- anilistId: 135806
+  liste: "Uncle from Another World, 2022"
+  sender: "NETFLIX"
+- anilistId: 136080
+  liste: "Magia Record: Puella Magi Madoka Magica Side Story Final Season - Dawn of …, 2022"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 136110
+  liste: "Beyblade: Shogun Steel (Dark Nebula Again Arc), 2013"
+  sender: "NICKELODEON"
+- anilistId: 136302
+  liste: "Goodbye, Don Glees! Wege Einer Freundschaft, 2022"
+  sender: "LEONINE ANIME"
+- anilistId: 136303
+  liste: "Shin Ikki Tousen, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 136430
+  liste: "Vinland Saga: Staffel 2, 2023"
+  sender: "CRUNCHYROLL + NETFLIX"
+- anilistId: 136435
+  liste: "Ippon Again!, 2023"
+  sender: "KSM ANIME"
+- anilistId: 136436
+  liste: "Miss Kobayashi’s Dragon Maid S: Japanische Gastfreundschaft OVA, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 136668
+  liste: "BeyWheelz, 2012"
+  sender: "NICKELODEON"
+- anilistId: 136707
+  liste: "Parallel World Pharmacy, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 136829
+  liste: "My Next Life as a Villainess: All Routes Lead to Doom! OVA, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 136947
+  liste: "Deep Insanity: The Lost Child, 2021"
+  sender: "WAKANIM"
+- anilistId: 137612
+  liste: "Princess Principal: Crown Handler, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 137822
+  liste: "Bluelock, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 138056
+  liste: "Record of Ragnarok: Staffel 2, 2023"
+  sender: "NETFLIX"
+- anilistId: 138060
+  liste: "Star Wars: Visionen, 2021"
+  sender: "DISNEY+"
+- anilistId: 138103
+  liste: "How Heavy Are the Dumbbells You Lift? Gnadenlose Trainingsstunde, 2019"
+  sender: "KAZÉ ANIME"
+- anilistId: 138379
+  liste: "Blue Thermal, 2022"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 138565
+  liste: "To Your Eternity: Staffel 2, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 138699
+  liste: "Pokémon Entwicklungen, 2021"
+  sender: "THE POKÉMON COMPANY"
+- anilistId: 138899
+  liste: "Ghost in the Shell: SAC_2045 - Sustainable War, 2021"
+  sender: "NETFLIX"
+- anilistId: 139273
+  liste: "Mobile Suit Gundam: Cucuruz Doan’s Island, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 139369
+  liste: "Management of a Novice Alchemist, 2022"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 139498
+  liste: "Meine Wiedergeburt als Schleim in einer anderen Welt: Der Film - Feuerrote Bande, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 139587
+  liste: "Reincarnated as a Sword, 2022"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 139589
+  liste: "Kotaro Lives Alone, 2022"
+  sender: "NETFLIX"
+- anilistId: 139630
+  liste: "My Hero Academia Staffel 6, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 139643
+  liste: "Drifting Home, 2022"
+  sender: "NETFLIX"
+- anilistId: 139648
+  liste: "How a Realist Hero Rebuilt the Kingdom Teil 2, 2022"
+  sender: "POLYBAND ANIME"
+- anilistId: 139804
+  liste: "Tribe Nine, 2022"
+  sender: "WAKANIM"
+- anilistId: 140002
+  liste: "Detektiv Conan: Zero’s Tea Time, 2022"
+  sender: "NETFLIX"
+- anilistId: 140005
+  liste: "Detektiv Conan: The Culprit Hanzawa, 2022"
+  sender: "NETFLIX"
+- anilistId: 140340
+  liste: "Yuna & Stitch: Kijimunaas Schwester, 2010"
+  sender: "DISNEY CHANNEL"
+- anilistId: 140439
+  liste: "Mob Psycho 100 III, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 140457
+  liste: "I’m Quitting Heroing, 2022"
+  sender: "KSM ANIME"
+- anilistId: 140596
+  liste: "Don’t Toy with Me, Miss Nagatoro 2nd Attack, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 140960
+  liste: "Spy × Family, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 140999
+  liste: "Sword Art Online: The Movie - Progressive: Scherzo of Deep Night, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 141208
+  liste: "Tonikawa: Over the Moon for You - Season 2, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 141212
+  liste: "Tonikawa: Over the Moon for You - Uniform, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 141351
+  liste: "Kakegurui Twin, 2022"
+  sender: "NETFLIX"
+- anilistId: 141352
+  liste: "The Seven Deadly Sins: Grudge of Edinburgh, 2022"
+  sender: "NETFLIX"
+- anilistId: 141391
+  liste: "Call of the Night, 2022"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 141534
+  liste: "Mushoku Tensei: Jobless Reincarnation - Eris auf Goblinjagd, 2022"
+  sender: "WAKANIM"
+- anilistId: 141902
+  liste: "One Piece Film: Red, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 141949
+  liste: "More than a Married Couple, but Not Lovers., 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 142074
+  liste: "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 142219
+  liste: "Detektiv Conan: Die Halloween-Braut, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 142329
+  liste: "Demon Slayer: Kimetsu no Yaiba - Entertainment District Arc, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 142455
+  liste: "Bubble, 2022"
+  sender: "NETFLIX"
+- anilistId: 142598
+  liste: "Reign of the Seven Spellblades, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 142770
+  liste: "Suzume, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 142794
+  liste: "Pokémon: Die Arceus-Chroniken, 2022"
+  sender: "NETFLIX"
+- anilistId: 142838
+  liste: "Spy × Family (Cour 2), 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 142849
+  liste: "Ayakashi Triangle, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 142876
+  liste: "Dr. Stone Special Episode: Ryusui, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 142984
+  liste: "Komi Can’t Communicate (Teil 2), 2022"
+  sender: "NETFLIX"
+- anilistId: 143085
+  liste: "The Faraway Paladin: The Lord of Rust Mountains, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 143270
+  liste: "Lycoris Recoil, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 144533
+  liste: "Bibliophile Princess (Eliana: Prinzessin der Bücher), 2022"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 144677
+  liste: "Bastard!! Der Gott der Zerstörung, 2022"
+  sender: "NETFLIX"
+- anilistId: 145064
+  liste: "Jujutsu Kaisen: Season 2, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 145139
+  liste: "Demon Slayer: Kimetsu no Yaiba - Swordsmith Village Arc, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 145545
+  liste: "Classroom of the Elite II, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 145604
+  liste: "Shinobi no Ittoki, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 145665
+  liste: "NieR:Automata Ver1.1a, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 145815
+  liste: "I’ve Somehow Gotten Stronger When I Improved My Farm-Related Skills, 2022"
+  sender: "POLYBAND ANIME"
+- anilistId: 146065
+  liste: "Mushoku Tensei: Jobless Reincarnation - Season 2, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 146171
+  liste: "Yuna & Stitch: Ein wahrer Held, 2011"
+  sender: "DISNEY CHANNEL"
+- anilistId: 146210
+  liste: "Vermeil in Gold, 2022"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 146233
+  liste: "Immoral Guild, 2022"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 146234
+  liste: "My One-Hit Kill Sister, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 146346
+  liste: "My Life as Inukai-san’s Dog, 2023"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 146637
+  liste: "Orient Cour 2, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 146638
+  liste: "Kengan Ashura: Staffel 2, 2023"
+  sender: "NETFLIX"
+- anilistId: 146646
+  liste: "Baki Hanma: Staffel 2, 2023"
+  sender: "NETFLIX"
+- anilistId: 146850
+  liste: "Farming Life in Another World, 2023"
+  sender: "KSM ANIME"
+- anilistId: 146885
+  liste: "Bakugan: Evolutions, 2022"
+  sender: "SUPER RTL"
+- anilistId: 146953
+  liste: "Masamune-kun’s Revenge R, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 146984
+  liste: "Attack on Titan: Final Season - The Final Chapters, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 147103
+  liste: "Meine ganz besondere Hochzeit, 2023"
+  sender: "NETFLIX"
+- anilistId: 147571
+  liste: "In Another World with My Smartphone 2, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 147729
+  liste: "Ultraman: Staffel 3, 2023"
+  sender: "NETFLIX"
+- anilistId: 147864
+  liste: "Onimai: Ab sofort Schwester!, 2022"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 147885
+  liste: "Play It Cool, Guys, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 148048
+  liste: "KamiKatsu: Meine Arbeit als Missionar in einer gottlosen Welt, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 148109
+  liste: "The Legendary Hero Is Dead!, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 148116
+  liste: "The Iceblade Sorcerer Shall Rule the World, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 148465
+  liste: "My Unique Skill Makes Me OP Even at Level 1, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 149073
+  liste: "My Hero Academia Staffel 5 OVAs, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 149326
+  liste: "The Maid I Hired Recently Is Mysterious, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 149939
+  liste: "Ranma 1/2 (Staffel 2+), 1989"
+  sender: "RTL2"
+- anilistId: 150075
+  liste: "Konosuba: An Explosion on This Wonderful World!, 2023"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 150653
+  liste: "Junji Ito Maniac: Japanese Tales of the Macabre, 2023"
+  sender: "NETFLIX"
+- anilistId: 151040
+  liste: "Trigun Stampede, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 151126
+  liste: "I’m Quitting Heroing OVA, 2022"
+  sender: "KSM ANIME"
+- anilistId: 151801
+  liste: "Mashle: Magic and Muscles, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 151806
+  liste: "Tomo-chan Is a Girl!, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 151847
+  liste: "Raeliana: Warum sie die Verlobte des Dukes wurde, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 151970
+  liste: "Shangri-La Frontier, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 153332
+  liste: "Die Parallelwelt-Chroniken des Aristokraten, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 153339
+  liste: "Sweet Reincarnation, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 153360
+  liste: "Reborn as a Vending Machine, Now I Wander the Dungeon, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 153452
+  liste: "Ranking of Kings: The Treasure Chest of Courage, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 153518
+  liste: "Delicious in Dungeon, 2023"
+  sender: "NETFLIX"
+- anilistId: 153687
+  liste: "Psycho-Pass: Providence, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 153845
+  liste: "I Got a Cheat Skill in Another World and Became Unrivaled in the Real World, Too, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 153906
+  liste: "Tekken: Bloodline, 2022"
+  sender: "NETFLIX"
+- anilistId: 153930
+  liste: "Romantic Killer, 2022"
+  sender: "NETFLIX"
+- anilistId: 154364
+  liste: "The Ancient Magus’ Bride: Season 2, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 154412
+  liste: "The Café Terrace and Its Goddesses, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 154587
+  liste: "Frieren: Nach dem Ende der Reise, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 154745
+  liste: "Rent-a-Girlfriend (Staffel 3), 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 154924
+  liste: "Lupin III. vs. Ein Supertrio: Cat’s Eye, 2023"
+  sender: "AMAZON PRIME VIDEO"
+- anilistId: 154982
+  liste: "Yakuza Goes Hausmann: Staffel 2, 2023"
+  sender: "NETFLIX"
+- anilistId: 154983
+  liste: "Aggretsuko: Staffel 5, 2023"
+  sender: "NETFLIX"
+- anilistId: 154999
+  liste: "Onmyoji, 2023"
+  sender: "NETFLIX"
+- anilistId: 155015
+  liste: "Onimusha, 2023"
+  sender: "NETFLIX"
+- anilistId: 155089
+  liste: "Giant Beasts of Ars, 2023"
+  sender: "KSM ANIME"
+- anilistId: 155389
+  liste: "Shy, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 155418
+  liste: "The Great Cleric, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 156001
+  liste: "The Eminence in Shadow: Mini Episoden, 2022"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 156841
+  liste: "Detektiv Conan: Das schwarze U-Boot, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 157198
+  liste: "Dead Mount Death Play, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 158704
+  liste: "I’m in Love with the Villainess, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 158870
+  liste: "Pokémon: Abenteuer eines Pokémon-Meisters, 2023"
+  sender: "NETFLIX"
+- anilistId: 158927
+  liste: "Spy × Family: Staffel 2, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 159322
+  liste: "Bleach: Thousand-Year Blood War - Teil 2, 2023"
+  sender: "DISNEY+"
+- anilistId: 159831
+  liste: "Zom 100: Bucket List of the Dead, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 159926
+  liste: "Bastard!! Der Gott der Zerstörung: Staffel 2, 2023"
+  sender: "NETFLIX"
+- anilistId: 160831
+  liste: "Gamera: Rebirth, 2023"
+  sender: "NETFLIX"
+- anilistId: 161441
+  liste: "Resident Evil: Death Island, 2023"
+  sender: "PLAION PICTURES"
+- anilistId: 161645
+  liste: "Die Tagebücher der Apothekerin, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 162694
+  liste: "The 100 Girlfriends Who Really, Really, Really, Really, REALLY Love You, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 162716
+  liste: "Petit Play It Cool, Guys, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 162803
+  liste: "Dead Mount Death Play (Cour 2), 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 162989
+  liste: "Mask Danshi: This Shouldn’t Lead to Love, 2023"
+  sender: "KSM ANIME"
+- anilistId: 163132
+  liste: "Horimiya: The Missing Pieces, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 163137
+  liste: "Ooku: The Inner Chambers, 2023"
+  sender: "NETFLIX"
+- anilistId: 163138
+  liste: "Yakitori: Soldiers of Misfortune, 2023"
+  sender: "NETFLIX"
+- anilistId: 165557
+  liste: "Kaguya-sama: Love Is War - Ultra Romantic: Ishigami Yu möchte sich unterhalten, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 166104
+  liste: "Tonikawa: Over the Moon for You - High School Days, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 166452
+  liste: "The Ancient Magus’ Bride: Season 2 (Cour 2), 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 168092
+  liste: "Pokémon: Winde aus Paldea, 2023"
+  sender: "THE POKÉMON COMPANY"
+- anilistId: 169826
+  liste: "Bakugan: Legends, 2023"
+  sender: "SUPER RTL"
+- anilistId: 170206
+  liste: "Scott Pilgrim hebt ab, 2023"
+  sender: "NETFLIX"
+- anilistId: 177166
+  liste: "Bakugan: Revolution, 2023"
+  sender: "SUPER RTL"
+- anilistId: 187052
+  liste: "Sylvanian Families, 2017"
+  sender: "NETFLIX"
+- anilistId: 187053
+  liste: "Sylvanian Families: Mini-Episodes - Ivy, 2018"
+  sender: "NETFLIX"
+- anilistId: 187054
+  liste: "Sylvanian Families: Mini-Episoden - Klee, 2019"
+  sender: "NETFLIX"
+- anilistId: 187055
+  liste: "Sylvanian Families: Mini Episodes - Peony, 2020"
+  sender: "NETFLIX"
+- anilistId: 10000479
+  liste: "Manga Love Story: Step Up Love Story, 2002"
+  sender: "ANIME VIDEO"
+- anilistId: 10001546
+  liste: "Die Tragödie der Belladonna, 1973"
+  sender: "RAPID EYE MOVIES"
+- anilistId: 10003453
+  liste: "Wundersame Geschichten, 1988"
+  sender: "ARD"
+- anilistId: 10003713
+  liste: "Cleopatra und die tollen Römer, 1970"
+  sender: "MIKE HUNTER/LASER PARADISE"
+- anilistId: 10003873
+  liste: "Reporter Blues, 1991"
+  sender: "PROSIEBEN"
+- anilistId: 10004158
+  liste: "One Piece: Strohhut-Theater, 2006"
+  sender: "KAZÉ ANIME"
+- anilistId: 10004749
+  liste: "Es war einmal … der Mensch, 1978"
+  sender: "ARD"
+- anilistId: 10004750
+  liste: "Es war einmal … Amerika, 1991"
+  sender: "ARD"
+- anilistId: 10005194
+  liste: "Death Note: Relight 2 - L’s Successors, 2008"
+  sender: "KAZÉ ANIME"
+- anilistId: 10005217
+  liste: "Es war einmal … Die Entdeckung unserer Welt, 1996"
+  sender: "ARD"
+- anilistId: 10005293
+  liste: "Es war einmal … Entdecker und Erfinder, 1994"
+  sender: "ARD"
+- anilistId: 10005407
+  liste: "Dante’s Inferno: Ein Animiertes Epos, 2010"
+  sender: "SONY PICTURES"
+- anilistId: 10005879
+  liste: "Gosho Aoyama’s Collection of Short Stories, 1999"
+  sender: "KAZÉ ANIME"
+- anilistId: 10006242
+  liste: "Yosuga No Sora: In Solitude Where We Are Least Alone, 2010"
+  sender: "ANIMOON PUBLISHING"
+- anilistId: 10006828
+  liste: "Spice and Wolf: Die Wölfin und der Schweif des Glücks, 2008"
+  sender: "NIPPONART"
+- anilistId: 10006864
+  liste: "Angel Beats! Stairway to Heaven, 2010"
+  sender: "UNIVERSUM ANIME"
+- anilistId: 10006984
+  liste: "Durarara!!: Gottes Mühlen mahlen langsam, aber sicher, 2010"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10006986
+  liste: "Durarara!! Frieden im ganzen Land, 2011"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10006990
+  liste: "Black Butler 2: Making of Black Butler, 2011"
+  sender: "KAZÉ ANIME"
+- anilistId: 10006994
+  liste: "Black Butler 2: Ciel im Wunderland, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 10007051
+  liste: "K-On!! Planungssitzung!, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 10007052
+  liste: "K-On!! Besuch!, 2010"
+  sender: "KAZÉ ANIME"
+- anilistId: 10007069
+  liste: "K-On! Extrafolge: Wintertag!, 2009"
+  sender: "KAZÉ ANIME"
+- anilistId: 10009303
+  liste: "Arjuna: Vor der Geburt, 2001"
+  sender: "OVA FILMS"
+- anilistId: 10009647
+  liste: "Mermaid Forest: Schatten der Unsterblichkeit, 2004"
+  sender: "RED PLANET"
+- anilistId: 10009918
+  liste: "Sword Art Online II: Debriefing, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10009991
+  liste: "Rage of Bahamut: Genesis - Special 6.5 Zusammenfassung, 2014"
+  sender: "KSM ANIME"
+- anilistId: 10010005
+  liste: "Fate/Stay Night: Unlimited Blade Works - Prolog, 2014"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10010468
+  liste: "Blood Blockade Battlefront: Trotz allem - Die besten und schlechtesten Zeiten, 2015"
+  sender: "KSM ANIME"
+- anilistId: 10010586
+  liste: "Detektiv Conan Making-of: Das mysteriöse Mordkomplott, 1999"
+  sender: "ANIME VIDEO"
+- anilistId: 10011387
+  liste: "Saekano: How to Raise a Boring Girlfriend - Fan-Service der Liebe und Jugend, 2015"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10011543
+  liste: "The Curious Kitty & Friends, 2016"
+  sender: "AMAZON PRIME VIDEO"
+- anilistId: 10011570
+  liste: "Tales of Zestiria the X Prologue: The Age of Chaos, 2016"
+  sender: "KSM ANIME"
+- anilistId: 10011635
+  liste: "Bikini Warriors (Episode 14+15), 2016"
+  sender: "KAZÉ ANIME"
+- anilistId: 10011938
+  liste: "Pokémon: Die Serie - XYZ: Die Legende von X, Y und Z!, 2016"
+  sender: "NICKELODEON"
+- anilistId: 10012084
+  liste: "Samurai Gun: Unauslöschbare Vergangenheit, 2005"
+  sender: "ADV FILMS"
+- anilistId: 10012341
+  liste: "My Hero Academia: Superheldennotizen, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 10012493
+  liste: "Tsukigakirei: Wie Alles Enstand, 2017"
+  sender: "KSM ANIME"
+- anilistId: 10013220
+  liste: "Bikini Warriors: Auch abseits der Figuren wollten wir etwas Schönes erzählen, 2017"
+  sender: "KAZÉ ANIME"
+- anilistId: 10013343
+  liste: "Thus Spoke Kishibe Rohan: Mutsu-kabe Hill, 2018"
+  sender: "NETFLIX"
+- anilistId: 10013418
+  liste: "Flavors of Youth: Die Reisnudeln, 2018"
+  sender: "NETFLIX"
+- anilistId: 10013419
+  liste: "Flavors of Youth: Eine kleine Modenschau, 2018"
+  sender: "NETFLIX"
+- anilistId: 10013560
+  liste: "Highschool D×D Hero: Holy hinter der Turnhalle, 2018"
+  sender: "KAZÉ ANIME"
+- anilistId: 10013612
+  liste: "Sword Art Online Alternative: Gun Gale Online - Refrain, 2018"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10013661
+  liste: "Fate/Extra: Last Encore - Illustrias Geocentric Theory, 2018"
+  sender: "NETFLIX"
+- anilistId: 10013694
+  liste: "Kickers (Harry-Episoden), 1988"
+  sender: "TELE5"
+- anilistId: 10013695
+  liste: "Kickers: Unsere Legende, 1987"
+  sender: "TELE5"
+- anilistId: 10014175
+  liste: "Sword Art Online: Alicization - Recollection, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10014211
+  liste: "Midnight Occult Civil Servants: Gefangen in der Zeitschleife, 2019"
+  sender: "KSM ANIME"
+- anilistId: 10014215
+  liste: "Demon Slayer: Kimetsu no Yaiba - Das Band der Geschwister, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10014497
+  liste: "Danmachi: Is It Wrong to Try to Pick Up Girls in a Dungeon? Familia Myth II: Episode 0, 2019"
+  sender: "ANIME HOUSE"
+- anilistId: 10014631
+  liste: "L/R: Licensed by Royalty – Sweet Enemies in the Same Desert, 2003"
+  sender: "SPVISION"
+- anilistId: 10014663
+  liste: "Sword Art Online: Alicization - War of Underworld Reflection, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10014752
+  liste: "Thus Spoke Kishibe Rohan: Bei der Beichte / Der Lauf, 2020"
+  sender: "NETFLIX"
+- anilistId: 10014885
+  liste: "Chidori RSC: Rifle Is Beautiful - Die Landesmeisterschaft ist nah, 2019"
+  sender: "ANIME HOUSE"
+- anilistId: 10014908
+  liste: "Kandagawa Jet Girls: Höhepunkte, 2019"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10015052
+  liste: "Sylvanian Families: Unser großer Traum kommt geflogen, 2019"
+  sender: "NETFLIX"
+- anilistId: 10015165
+  liste: "Sylvanian Families: Eine Stadt der Träume, 2017"
+  sender: "NETFLIX"
+- anilistId: 10015166
+  liste: "Sylvanian Families: Der Schatz von Sylvanian Village, 2016"
+  sender: "NETFLIX"
+- anilistId: 10015206
+  liste: "Baki: Staatsfeind Nummer 1, 2002"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10015492
+  liste: "Super HxEros: Der HxEros-Bericht, 2020"
+  sender: "WAKANIM"
+- anilistId: 10015501
+  liste: "Sword Art Online: Alicization - War of Underworld Episode 12.5, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10015835
+  liste: "Pacific Rim: The Black, 2021"
+  sender: "NETFLIX"
+- anilistId: 10015876
+  liste: "Meine Wiedergeburt als Schleim in einer anderen Welt: Hinata Sakaguchi, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 10015966
+  liste: "The Promised Neverland Season 2 Episode 5.5, 2021"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10016194
+  liste: "Demon Slayer: Kimetsu no Yaiba - Der Natagumo-Berg, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10016195
+  liste: "Demon Slayer: Kimetsu no Yaiba - Das Treffen der Säulen, 2020"
+  sender: "PEPPERMINT ANIME"
+- anilistId: 10016648
+  liste: "Lupin III. Part 6: Zeiten, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 10016980
+  liste: "The Faraway Paladin - Zusammenfassung: Der eingeschlagene Weg, 2021"
+  sender: "CRUNCHYROLL"
+- anilistId: 10017229
+  liste: "Pacific Rim: The Black - Staffel 2, 2022"
+  sender: "NETFLIX"
+- anilistId: 10017505
+  liste: "Bastard!! Der Gott der Zerstörung: Teil 2, 2022"
+  sender: "NETFLIX"
+- anilistId: 10017775
+  liste: "JoJo’s Bizarre Adventure: Stone Ocean (Teil 3), 2022"
+  sender: "NETFLIX"
+- anilistId: 10017859
+  liste: "Detektiv Conan: Lovestory im Polizeihauptquartier – Am Abend vor der Hochzeit, 2022"
+  sender: "CRUNCHYROLL"
+- anilistId: 10017913
+  liste: "Violet Evergarden: Erinnerungen, 2021"
+  sender: "NETFLIX"
+- anilistId: 10018499
+  liste: "Mushoku Tensei: Jobless Reincarnation - Der Leibwächter Fitts, 2023"
+  sender: "CRUNCHYROLL"
+- anilistId: 10018543
+  liste: "Regina Regenbogen, 1990"
+  sender: "FOX KIDS"
+- anilistId: 10018789
+  liste: "My Daemon, 2023"
+  sender: "NETFLIX"
