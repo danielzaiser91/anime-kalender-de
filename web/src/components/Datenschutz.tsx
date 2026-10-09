@@ -44,10 +44,11 @@ function BrowserAbschnitte() {
           Cover- und Bannerbilder werden direkt von den Servern von AniList (AniList, Delaware, USA)
           geladen. Dabei wird deine IP-Adresse dorthin übertragen — technisch unvermeidbar, wenn ein
           Bild von einem fremden Server angezeigt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
-          Fährst du im Detail-Panel über das Cover oder tippst es an, baut dein Browser eine Verbindung
-          zum Bildserver von TMDB (The Movie Database) auf; öffnest du die Vergrößerung, lädt die Seite
-          von dort ein größeres Plakat. Auch dabei wird deine IP-Adresse übertragen. Ohne diese
-          Handlung wird nichts von TMDB geladen.
+          Einige Cover und Plakate (vor allem bei Cartoons) kommen vom Bildserver von TMDB (The Movie
+          Database) und werden in Listen und Kacheln geladen, auch ohne Vergrößerung. Fährst du im
+          Detail-Panel über das Cover oder tippst es an, baut dein Browser außerdem schon eine
+          Verbindung dorthin auf; öffnest du die Vergrößerung, lädt die Seite von dort ein größeres
+          Plakat. Jedes Mal wird deine IP-Adresse übertragen.
         </p>
         <p className="mt-2">
           Spielst du einen Trailer ab, lädt die Seite erst dann den Player von YouTube
@@ -91,6 +92,10 @@ function DienstAbschnitte() {
           jeder Änderung abgeglichen; im Browser liegen dafür ein Abgleich-Schlüssel und deine
           Adresse. Der persönliche Kalender-Feed und die Wiederherstellung per Mail nutzen
           denselben Bestand.
+        </p>
+        <p className="mt-2">
+          Fordest du eine Wiederherstellungsmail an, legt der Dienst deine IP-Adresse zum
+          Missbrauchsschutz (Begrenzung der Anfragen) für 60 Minuten in der Datenbank ab.
         </p>
       </Abschnitt>
 

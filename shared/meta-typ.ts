@@ -2,7 +2,9 @@ import type { PlatformId } from './types.ts'
 
 export interface DataMeta {
   generatedAt: string
-  titleCount: number; belegtCount?: number // Letzteres (fehlt vor dem ersten Bau damit): Titel mit dubConfidence high/very-high; der Rest ist wahrscheinlich oder angekündigt
+  titleCount: number
+  /** Titel mit dubConfidence high/very-high; der Rest ist wahrscheinlich oder angekündigt. Fehlt vor dem ersten Bau damit. */
+  belegtCount?: number
   releaseCount: number
   eventCount: number
   genres: string[]
