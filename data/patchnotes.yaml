@@ -4,6 +4,10 @@
 # live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
 - datum: "2026-10-09"
   kategorie: bugfix
+  text: Filter am Handy überdecken nichts mehr
+  live: true
+- datum: "2026-10-09"
+  kategorie: bugfix
   text: App installieren steht nur noch an einer Stelle
   live: true
 - datum: "2026-10-09"
