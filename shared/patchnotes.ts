@@ -27,7 +27,9 @@ export const MAX_HIGHLIGHTS_JE_TAG = 2
 export const MAX_TAGE = 30
 
 const FELDER = new Set(['datum', 'kategorie', 'text', 'highlight', 'untertitel', 'symbol', 'link', 'live'])
-const woerter = (s: string): number => s.trim().split(/\s+/).filter(Boolean).length
+/** Nichts, was ein Besucher nicht sehen darf oder nicht versteht (Debug, Pipeline, Prüfungen, Erweiterung, versteckte Einstellungen). */
+export const VERBOTENE_WOERTER = /debug|pipeline|prüf|\bwache|wächter|worker|erweiterung|\bintern|geheim|zusicherung|invariante|workflow|datensatz/i
+const woerter =(s: string): number => s.trim().split(/\s+/).filter(Boolean).length
 
 function istTag(s: unknown): s is string {
   if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false
@@ -51,6 +53,10 @@ export function pruefePatchnotes(roh: unknown): string[] {
     else {
       if (woerter(e.text) > MAX_WOERTER) fehler.push(`${wo}: text hat mehr als ${MAX_WOERTER} Wörter („${e.text}“)`)
       if (/[.!]$/.test(e.text.trim())) fehler.push(`${wo}: text endet mit Satzzeichen („${e.text}“)`)
+    }
+    for (const feld of ['text', 'untertitel'] as const) {
+      const treffer = typeof e[feld] === 'string' ? VERBOTENE_WOERTER.exec(e[feld]) : null
+      if (treffer) fehler.push(`${wo}: ${feld} nennt „${treffer[0]}“ – nur Sichtbares für Besucher (${feld}: „${String(e[feld])}“)`)
     }
     if (e.untertitel !== undefined && (typeof e.untertitel !== 'string' || woerter(e.untertitel) > 10)) fehler.push(`${wo}: untertitel ungültig oder länger als 10 Wörter`)
     if (e.symbol !== undefined && !PATCH_SYMBOLE.includes(e.symbol as PatchSymbol)) fehler.push(`${wo}: symbol „${String(e.symbol)}“ ungültig`)
