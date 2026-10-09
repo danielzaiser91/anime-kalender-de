@@ -32,6 +32,31 @@ pruefe('Badge: 99 -> 99, 100 und 123 -> 99+', akBadgeText(99) === '99' && akBadg
 pruefe('Standard (nichts gespeichert) ist eingeklappt', akZuAusSpeicher(undefined) === true)
 pruefe('Nur gespeichertes false klappt aus', akZuAusSpeicher(false) === false && akZuAusSpeicher(true) === true)
 
+/* Klick im Pflichtfall (Durchgang): kein Kippen, kein Schreiben. */
+{
+  const geschrieben = []
+  const el = () => ({
+    appendChild() {}, addEventListener(a, f) { this.hoerer = f }, classList: { toggle() {}, contains: () => false }, querySelectorAll: () => [],
+  })
+  const k = {
+    location: { hostname: 'www.disneyplus.com', pathname: '/' },
+    document: { documentElement: { classList: { toggle() {}, contains: () => false } }, body: el(), createElement: el, querySelectorAll: () => [] },
+    window: { addEventListener() {}, navigation: { addEventListener() {} } },
+    chrome: { storage: { local: { get: () => ({ then() {} }), set: (o) => geschrieben.push(o) }, onChanged: { addListener() {} } } },
+    MutationObserver: class { observe() {} },
+    requestAnimationFrame: () => 0,
+  }
+  vm.createContext(k)
+  vm.runInContext(lies('box.js') + '\nakIconStarten(); this.t = { akZaehler, icon: akIcon, zu: () => akZu }', k)
+  k.t.akZaehler(null, 3, true)
+  k.t.icon.hoerer()
+  pruefe('Pflichtfall: Klick kippt nichts und schreibt nichts', k.t.zu() === true && geschrieben.length === 0, geschrieben)
+  pruefe('Pflichtfall: Icon ist aria-disabled', k.t.icon.ariaDisabled === 'true')
+  k.t.akZaehler(null, 3, false)
+  k.t.icon.hoerer()
+  pruefe('ohne Pflicht kippt der Klick und schreibt', k.t.zu() === false && geschrieben.length === 1, geschrieben)
+}
+
 const melder = lies('melder.js')
 const disney = lies('disney.js')
 const amazon = lies('amazon.js')

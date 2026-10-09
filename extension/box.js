@@ -252,13 +252,15 @@ function akZaehler(knopf, zahl, pflicht = false) {
 
 function akIconZeichnen() {
   const html = document.documentElement
-  const offen = !akZu || akPflicht || html.classList.contains('ak-durchgang')
+  const zwang = akPflicht || html.classList.contains('ak-durchgang')
+  const offen = !akZu || zwang
   html.classList.toggle('ak-zu', !offen)
   if (!akIcon) return
   akIcon.ariaExpanded = String(offen)
+  akIcon.ariaDisabled = String(zwang)
   const text = akBadgeText(akZahl)
   akIcon.ariaLabel =
-    (offen ? 'Anime-Kalender-Kasten einklappen' : 'Anime-Kalender-Kasten ausklappen') +
+    (zwang ? 'Anime-Kalender-Kasten bleibt offen, solange der Durchgang läuft' : offen ? 'Anime-Kalender-Kasten einklappen' : 'Anime-Kalender-Kasten ausklappen') +
       (akZahl === null ? '' : akZahl > 0 ? `, ${akZahl} Titel zu prüfen` : ', alles geprüft')
   akZeichen.textContent = offen ? '▾' : 'AK'
   const marke = akBadge
@@ -298,6 +300,8 @@ function akIconStarten() {
   akIcon.appendChild(akBadge)
   akIcon.hidden = true
   akIcon.addEventListener('click', () => {
+    /* Während eines Durchgangs bleibt der Kasten offen: kein Kippen, kein Schreiben. */
+    if (akIcon.ariaDisabled === 'true') return
     akZu = !akZu
     try {
       chrome.storage.local.set({ [AK_ZU_SCHLUESSEL]: akZu })
