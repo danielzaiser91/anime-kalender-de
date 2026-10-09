@@ -6,7 +6,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { todayIso } from '../shared/time.ts'
-import { anisearchZeilenDoppelt, findeAnisearchDubletten, gleichesWerk, type KatalogKandidat } from './bau/anisearch-dubletten.ts'
+import { anisearchZeilenDoppelt, findeAnisearchDubletten, gleichesWerk, zeilenMitKennungWeg, type KatalogKandidat } from './bau/anisearch-dubletten.ts'
 import { undatierteKennungen } from './lib/katalog-plan.ts'
 
 let verletzt = 0
@@ -55,6 +55,15 @@ console.log('\naniSearch-Zeile und AniList-Katalogtitel (ein Werk, eine Zeile):'
   pruefe('Ausgabe-Invariante: ohne Kennung, aber gleiche MAL/Format/Jahr/Folgen → Fehler', anisearchZeilenDoppelt([{ ...ausgabe[0]!, anisearchId: undefined }, ausgabe[1]!], magical).length === 1)
   pruefe('Ausgabe-Invariante: Zeile mit Deutsch (Handdatei) und begründete Ausnahme (MAL_AUSNAHMEN) melden nichts',
     anisearchZeilenDoppelt(ausgabe, { '18711': { ...magical['18711'], dub: 'd' } }).length === 0 && anisearchZeilenDoppelt([{ id: 5, anisearchId: 3873 }, { id: zeile(3873) }], { '3873': { ty: 'TV-Serie', dub: '-' } }).length === 0)
+  /* Alice in Cyberland: AniList 2 Folgen, aniSearch 1 — gleiche MAL, die Brücke bindet die Kennung. */
+  const alice = { '1339': { mal: 5330, ty: 'OVA', y: 1996, f: 1, dub: '-' } }
+  const aliceUrteil = findeAnisearchDubletten([zeile(1339)], [], [{ id: 5330, mal: 5330, format: 'OVA', jahr: 1996, folgen: 2 }], alice)
+  pruefe('Kennung gebunden, Folgenzahl abweichend: die Regel allein lässt die Zeile stehen', aliceUrteil.zeilenWeg.size === 0)
+  zeilenMitKennungWeg([zeile(1339)], new Map([[5330, 1339]]), alice, aliceUrteil)
+  pruefe('Kennung gebunden, Folgenzahl abweichend: die Zeile entfällt zugunsten des Katalogtitels', aliceUrteil.zeilenWeg.get(zeile(1339)) === 5330)
+  const mitDeutsch = findeAnisearchDubletten([], [], [], alice)
+  zeilenMitKennungWeg([zeile(1339)], new Map([[5330, 1339]]), { '1339': { ...alice['1339'], dub: 'd' } }, mitDeutsch)
+  pruefe('Kennung gebunden, aber Deutsch belegt: die Zeile bleibt', mitDeutsch.zeilenWeg.size === 0)
   pruefe('Jahr daneben (mehr als eins) oder andere Folgenzahl: kein gleiches Werk',
     !gleichesWerk({ mal: 5, ty: 'TV-Serie', y: 2000, f: 12, dub: '-' }, { id: 1, mal: 5, format: 'TV', jahr: 2003, folgen: 12 }) &&
       !gleichesWerk({ mal: 5, ty: 'TV-Serie', y: 2000, f: 12, dub: '-' }, { id: 1, mal: 5, format: 'TV', jahr: 2000, folgen: 24 }))
