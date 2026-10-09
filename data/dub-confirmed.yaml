@@ -21505,3 +21505,25 @@
       checked: [7, 8]
   checkedAt: '2026-10-08'
   note: "Folgen 1–6 mit deutschem Ton, Folgen 7–8 ohne deutschen Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 7, 8"
+# --- Cartoons: Netflix-Stichprobe von Daniel, 10.10.2026 (ohne JustWatch-Tonangabe, TMDB-Kennung negativ) ---
+- anilistId: -224981
+  title: "Kitti Katz"
+  platform: netflix
+  url: https://www.netflix.com/title/81093076
+  dub: true
+  checkedAt: '2026-10-10'
+  note: "Daniel, 10.10.2026: alle 10 Folgen auf Deutsch bei Netflix. Cartoon aus TMDB (negative Kennung); JustWatch nennt für Netflix keine Tonspur."
+- anilistId: -92684
+  title: "Jack, der Monsterschreck"
+  platform: netflix
+  url: https://www.netflix.com/title/80219119
+  dub: true
+  checkedAt: '2026-10-10'
+  note: "Daniel, 10.10.2026: Netflix führt drei „Bücher“ (Buch 1: 1 Folge, Buch 2: 10, Buch 3: 10 — zusammen 21 Folgen), alle auf Deutsch. Cartoon aus TMDB (negative Kennung); JustWatch nennt für Netflix keine Tonspur."
+- anilistId: -61838
+  title: "Barbie - Leben im Traumhaus"
+  platform: netflix
+  url: https://www.netflix.com/title/70294800
+  dub: true
+  checkedAt: '2026-10-10'
+  note: "Daniel, 10.10.2026: Netflix führt 12 Folgen, alle auf Deutsch (unser Datensatz führt 110 Folgen; welche Nummern Netflix zeigt, ist nicht belegt). Cartoon aus TMDB (negative Kennung); JustWatch nennt für Netflix keine Tonspur."
