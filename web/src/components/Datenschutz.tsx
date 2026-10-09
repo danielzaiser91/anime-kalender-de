@@ -1,22 +1,30 @@
+import type { ReactNode } from 'react'
+
 export const CONTACT_EMAIL = 'danielzaiser91@googlemail.com'
 
-export function DatenschutzView() {
+function Abschnitt({ titel, children }: { titel: string; children: ReactNode }) {
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Datenschutzerklärung</h1>
+    <div>
+      <h2 className="font-semibold text-slate-800 dark:text-slate-100">{titel}</h2>
+      {children}
+    </div>
+  )
+}
 
-      <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Verantwortlicher</h2>
+/** Was die Seite im Browser selbst tut: Aufruf, Bilder, Speicher, fremde Hosts. */
+function BrowserAbschnitte() {
+  return (
+    <>
+      <Abschnitt titel="Verantwortlicher">
         <p>
           Daniel Zaiser,{' '}
           <a className="underline hover:text-sky-400" href={`mailto:${CONTACT_EMAIL}`}>
             {CONTACT_EMAIL}
           </a>
         </p>
-      </div>
+      </Abschnitt>
 
-      <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Aufruf der Seite</h2>
+      <Abschnitt titel="Aufruf der Seite">
         <p>
           Diese Seite ist statisch. Sie setzt keine Cookies, kein Tracking, keine Analyse-Werkzeuge und
           keine Werbenetzwerke ein. Beim Abruf verarbeitet der Hoster GitHub Pages (GitHub Inc., 88
@@ -29,28 +37,43 @@ export function DatenschutzView() {
           </a>{' '}
           zusichert.
         </p>
-      </div>
+      </Abschnitt>
 
-      <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Bilder von Drittanbietern</h2>
+      <Abschnitt titel="Bilder und Inhalte von Drittanbietern">
         <p>
           Cover- und Bannerbilder werden direkt von den Servern von AniList (AniList, Delaware, USA)
           geladen. Dabei wird deine IP-Adresse dorthin übertragen — technisch unvermeidbar, wenn ein
-          Bild von einem fremden Server angezeigt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Öffnest du ein Cover in der Vergrößerung, lädt die Seite zusätzlich ein größeres Plakat vom Bildserver von TMDB (The Movie Database); auch dabei wird deine IP-Adresse dorthin übertragen. Ohne diese Handlung wird nichts von TMDB geladen.
+          Bild von einem fremden Server angezeigt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
+          Fährst du im Detail-Panel über das Cover oder tippst es an, baut dein Browser eine Verbindung
+          zum Bildserver von TMDB (The Movie Database) auf; öffnest du die Vergrößerung, lädt die Seite
+          von dort ein größeres Plakat. Auch dabei wird deine IP-Adresse übertragen. Ohne diese
+          Handlung wird nichts von TMDB geladen.
         </p>
-      </div>
+        <p className="mt-2">
+          Spielst du einen Trailer ab, lädt die Seite erst dann den Player von YouTube
+          (youtube-nocookie.com, Google); dorthin wird deine IP-Adresse übertragen. Importierst du
+          deine AniList-Liste, fragt dein Browser AniList direkt nach deinem Benutzernamen; zu uns
+          gelangt davon nichts.
+        </p>
+      </Abschnitt>
 
-      <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Lokale Speicherung im Browser</h2>
+      <Abschnitt titel="Lokale Speicherung im Browser">
         <p>
           Sprachwahl, Farbschema und deine Favoriten werden im <em>localStorage</em> deines Browsers
-          abgelegt. Diese Daten verlassen dein Gerät nicht und werden von uns weder gelesen noch
-          übertragen. Löschen kannst du sie jederzeit über die Browsereinstellungen.
+          abgelegt. Sie bleiben auf deinem Gerät; nur wenn du den Newsletter oder
+          Browser-Benachrichtigungen einschaltest, gehen die Favoriten an unseren Dienst (siehe unten).
+          Löschen kannst du sie jederzeit über die Browsereinstellungen.
         </p>
-      </div>
+      </Abschnitt>
+    </>
+  )
+}
 
-      <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Newsletter</h2>
+/** Was an unseren Dienst geht: Newsletter, Favoriten-Abgleich, Push. */
+function DienstAbschnitte() {
+  return (
+    <>
+      <Abschnitt titel="Newsletter">
         <p>
           Für den Newsletter speichern wir E-Mail-Adresse, gewählten Rhythmus, Plattformauswahl sowie
           Zeitpunkt und IP-Adresse von Anmeldung und Bestätigung. Letzteres dient allein dem Nachweis
@@ -63,31 +86,42 @@ export function DatenschutzView() {
           Auftragsverarbeitung nach Art. 28 DSGVO. Ein Widerruf ist jederzeit über den Abmeldelink in
           jeder Mail möglich; der Datensatz wird dabei vollständig gelöscht.
         </p>
-      </div>
-
-      <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">
-          Keine Erfolgsmessung im Newsletter
-        </h2>
-        <p>
-          Der Versand läuft über die eigene Absenderdomain{' '}
-          <code>send.anime-kalender.de</code>. Öffnungs- und Klick-Erfassung sind dort abgeschaltet:
-          Die Mails enthalten kein Zählpixel, und die Links führen direkt zum Ziel statt über einen
-          Zählserver. Wir erfahren also nicht, ob und wann du eine Mail geöffnet oder worauf du
-          geklickt hast.
+        <p className="mt-2">
+          Mit dem Newsletter wird auch deine Favoritenliste (AniList-Kennungen) gespeichert und bei
+          jeder Änderung abgeglichen; im Browser liegen dafür ein Abgleich-Schlüssel und deine
+          Adresse. Der persönliche Kalender-Feed und die Wiederherstellung per Mail nutzen
+          denselben Bestand.
         </p>
-      </div>
+      </Abschnitt>
 
-      <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Speicherdauer</h2>
+      <Abschnitt titel="Browser-Benachrichtigungen">
         <p>
-          Newsletter-Daten werden gespeichert, bis du dich abmeldest. Server-Logdaten des Hosters
-          werden nach dessen Vorgaben gelöscht.
+          Schaltest du sie ein, bestätigst du zuerst die Browserabfrage. Dann speichert unser Dienst
+          (Cloudflare) die Push-Adresse deines Browsers und deine Favoriten und schickt dir eine
+          Nachricht, wenn eine gemerkte Folge erscheint. Sie wird über den Push-Dienst deines
+          Browserherstellers (etwa Google, Mozilla, Apple oder Microsoft) zugestellt. Rechtsgrundlage
+          ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Ausschalten löscht den Eintrag bei uns.
         </p>
-      </div>
+      </Abschnitt>
 
-      <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Deine Rechte</h2>
+      <Abschnitt titel="Keine Erfolgsmessung im Newsletter">
+        <p>
+          Der Versand läuft über die eigene Absenderdomain <code>send.anime-kalender.de</code>.
+          Öffnungs- und Klick-Erfassung sind dort abgeschaltet: Die Mails enthalten kein Zählpixel, und
+          die Links führen direkt zum Ziel statt über einen Zählserver. Wir erfahren also nicht, ob und
+          wann du eine Mail geöffnet oder worauf du geklickt hast.
+        </p>
+      </Abschnitt>
+
+      <Abschnitt titel="Speicherdauer">
+        <p>
+          Newsletter-Daten werden gespeichert, bis du dich abmeldest, Push-Daten, bis du die
+          Benachrichtigungen ausschaltest. Server-Logdaten des Hosters werden nach dessen Vorgaben
+          gelöscht.
+        </p>
+      </Abschnitt>
+
+      <Abschnitt titel="Deine Rechte">
         <p>
           Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17),
           Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch
@@ -98,7 +132,17 @@ export function DatenschutzView() {
           Außerdem steht dir ein Beschwerderecht bei einer Aufsichtsbehörde zu, etwa dem Landesbeauftragten
           für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz.
         </p>
-      </div>
+      </Abschnitt>
+    </>
+  )
+}
+
+export function DatenschutzView() {
+  return (
+    <div className="mx-auto flex max-w-2xl flex-col gap-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+      <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Datenschutzerklärung</h1>
+      <BrowserAbschnitte />
+      <DienstAbschnitte />
     </div>
   )
 }
