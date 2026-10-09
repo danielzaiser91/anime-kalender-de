@@ -5,7 +5,7 @@ import { useSprecherAuswahl } from './lib/sprecher.ts'
 import { EinstellungenDialog } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
 import { useStartdaten } from './lib/start-daten.ts'
-import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
+import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, type FilterState } from './lib/filters.ts'
 import { useKalenderFilter } from './lib/kalender-filter.ts'
 import { SuchfundstellenContext } from './lib/such-kontext.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
@@ -248,7 +248,7 @@ export default function App() {
                   data={data}
                   titles={titles.liste}
                   grouped={grouped}
-                  onGroupedChange={setGrouped} cartoonsAus={cartoonsAusgeschlossen(route.filters)} onCartoonsAusChange={(aus) => setFilters(mitCartoonsAus(route.filters, aus))}
+                  onGroupedChange={setGrouped}
                   ohneSynchro={zeigeOhneSynchro}
                   onOhneSynchroChange={setZeigeOhneSynchro}
                   ohneSynchroLaedt={(zeigeOhneSynchro && !ohneSynchro) || titelRechnet || sprecher.laedt}

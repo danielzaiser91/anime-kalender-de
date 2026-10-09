@@ -571,15 +571,5 @@ export function toggleValue<T>(list: T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value]
 }
 
-/** Das Schlagwort, unter dem jeder westliche Cartoon läuft — Pille im Filter und Schalter „Cartoons ausblenden" teilen es. */
+/** Das Schlagwort, unter dem jeder westliche Cartoon läuft — Filter und Schnellfilter teilen es. */
 export const CARTOON_KEYWORD = 'Cartoon'
-
-export function cartoonsAusgeschlossen(f: FilterState): boolean {
-  return f.excluded.keywords.includes(CARTOON_KEYWORD)
-}
-
-export function mitCartoonsAus(f: FilterState, aus: boolean): FilterState {
-  const rest = f.excluded.keywords.filter((k) => k !== CARTOON_KEYWORD)
-  /* Ein Wert steht nie in beiden Listen (`toggleFilter`): sonst zeigt der Filter „Cartoon" doppelt, als gewählt und als ausgeschlossen. */
-  return { ...f, keywords: aus ? f.keywords.filter((k) => k !== CARTOON_KEYWORD) : f.keywords, excluded: { ...f.excluded, keywords: aus ? [...rest, CARTOON_KEYWORD] : rest } }
-}

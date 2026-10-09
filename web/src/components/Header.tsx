@@ -5,7 +5,7 @@ import { InstallButton } from './InstallPrompt.tsx'
 import { KopfSuchfeld, useKopfSuche } from './kopf-suche.tsx'
 import { HandyNavigation } from './HandyNavigation.tsx'
 import { AboMenue } from './kalender/AboMenue.tsx'
-import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen, ZahnradZeichen } from './kalender/Zeichen.tsx'
+import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen } from './kalender/Zeichen.tsx'
 
 /** Die drei Bereiche der Seite. Woche und Monat sind beide „Kalender". */
 export const BEREICHE: { id: 'kalender' | 'datenbank' | 'news' | 'saison'; ziel: ViewId }[] = [
@@ -34,8 +34,8 @@ function einfacherKlick(e: React.MouseEvent): boolean {
 }
 
 /**
- * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema
- * und Einstellungen. Sie klebt oben und rollt mit. Auf dem Handy wandern die
+ * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema.
+ * Sie klebt oben und rollt mit. Auf dem Handy wandern die
  * Bereiche und das Zahnrad nach unten, die Suche klappt unter der Leiste auf. Der Markenname steht immer ganz da;
  * bei Platzmangel weicht die rechte Seite (Daniel, 09.10.2026).
  */
@@ -120,9 +120,6 @@ export function Header({
           <InstallButton />
           <AboMenue onView={onView} favorites={favorites} />
           <ThemaKnopf />
-          <button type="button" onClick={einstellungen} aria-label={t('einstellungen.titel')} title={t('einstellungen.titel')} className={`${RUND} hidden md:flex`}>
-            <ZahnradZeichen />
-          </button>
         </div>
       </div>
       {sucheAuf && !kalender && (
