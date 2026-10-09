@@ -274,13 +274,14 @@ export async function katalogSeite(
   bis?: number,
   absteigend = false,
   formatlose = false, // ohne `format_in` abfragen, selbst filtern (`gehoertInKatalog`): nimmt formatlose Ankündigungen mit
+  kennungen?: number[], // nur diese Kennungen (höchstens 50): frischt Einträge auf, die kein Jahrgang und kein Nachlauf mehr erreicht
 ): Promise<{ eintraege: KatalogEintrag[]; weiter: boolean }> {
   const datumsFilter = von !== undefined ? 'startDate_greater: $von, startDate_lesser: $bis,' : ''
   const datumsArgs = von !== undefined ? '$von: FuzzyDateInt, $bis: FuzzyDateInt,' : ''
-  const query = `query ($p: Int, ${datumsArgs} ${formatlose ? '' : '$f: [MediaFormat]'}) {
+  const query = `query ($p: Int, ${datumsArgs} ${kennungen ? '$ids: [Int],' : ''} ${formatlose ? '' : '$f: [MediaFormat]'}) {
     Page(page: $p, perPage: 50) {
       pageInfo { hasNextPage }
-      media(type: ANIME, isAdult: false, ${formatlose ? '' : 'format_in: $f,'} ${datumsFilter} sort: ${absteigend ? 'ID_DESC' : 'ID'}) {
+      media(type: ANIME, isAdult: false, ${kennungen ? 'id_in: $ids,' : ''} ${formatlose ? '' : 'format_in: $f,'} ${datumsFilter} sort: ${absteigend ? 'ID_DESC' : 'ID'}) {
         id idMal
         title { romaji english native }
         synonyms countryOfOrigin
@@ -292,7 +293,7 @@ export async function katalogSeite(
       }
     }
   }`
-  const vars: Record<string, unknown> = formatlose ? { p: seite } : { p: seite, f: KATALOG_FORMATE }
+  const vars: Record<string, unknown> = { p: seite, ...(formatlose ? {} : { f: KATALOG_FORMATE }), ...(kennungen ? { ids: kennungen } : {}) }
   if (von !== undefined) {
     vars.von = von
     vars.bis = bis

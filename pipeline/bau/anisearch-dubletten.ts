@@ -1,0 +1,66 @@
+import { ANISEARCH_ID_BASIS, FORMAT } from './anisearch-titel.ts'
+import { MAL_AUSNAHMEN } from '../lib/mal-dubletten.ts'
+
+/**
+ * **Dasselbe Werk als AniList-Katalogtitel und als aniSearch-Zeile ist eine Dublette** (Daniel, 09.10.2026: „Laid-Off Cheat-Granting Mage"
+ * zweimal; gemessen 2.400 Katalogzeilen). Die aniSearch-Zeilen kommen aus `data/anisearch-eintraege.json`, der AniList-Katalog hinter dem
+ * Schalter kommt später dazu — keiner kannte den anderen, und `anisearch.json` ordnet nur Titel zu, die einmal abgerufen wurden.
+ *
+ * Dasselbe Werk heißt: gleiche MAL-Kennung, gleiche Formatklasse, Jahr höchstens eins daneben und gleiche Folgenzahl, wo beide sie nennen.
+ * Ein Special oder Teil unter der MAL der Serie unterscheidet sich in Format oder Folgen und bleibt (`MAL_AUSNAHMEN` zusätzlich).
+ * Nur Zeilen **ohne** Deutsch (`dub: '-'`) werden zusammengeführt; mit Deutsch trägt die Zeile eine Erstausgabe, die die Handdatei
+ * (`data/anisearch-ids-hand.yaml`) übernimmt. Bei mehr als einem Treffer auf einer der beiden Seiten entscheidet das Skript nicht.
+ */
+export type KatalogKandidat = { id: number; mal?: number; format?: string | null; jahr?: number | null; folgen?: number | null }
+type Eintrag = { mal?: number; ty: string; y?: number; f?: number; dub: string }
+
+/** AniList kennt `TV_SHORT`, aniSearch nur „TV-Serie". */
+const klasse = (format: string | null | undefined) => (format === 'TV_SHORT' ? 'TV' : format ?? '?')
+
+/** Passt die aniSearch-Zeile zum AniList-Katalogtitel als dasselbe Werk? */
+export function gleichesWerk(e: Eintrag, k: KatalogKandidat): boolean {
+  if (!e.mal || e.mal !== k.mal) return false
+  if (klasse(FORMAT[e.ty] ?? 'SPECIAL') !== klasse(k.format)) return false
+  if (e.y && k.jahr && Math.abs(e.y - k.jahr) > 1) return false
+  return !(e.f && k.folgen && e.f !== k.folgen)
+}
+
+export type DublettenUrteil = {
+  /** aniSearch-Zeilen hinter dem Schalter, die entfallen: Zeilenkennung → Katalogtitel, der sie vertritt. */
+  zeilenWeg: Map<number, number>
+  /** Katalogtitel, die entfallen, weil die aniSearch-Zeile im Hauptbestand steht (oder einen Termin trägt): Katalogkennung → Zeilenkennung. */
+  katalogWeg: Map<number, number>
+}
+
+/**
+ * @param hinter  Kennungen der aniSearch-Zeilen hinter dem Schalter (verschoben)
+ * @param haupt   Kennungen der aniSearch-Zeilen im Hauptbestand oder mit Termin/Meldung (`geschuetzt`): ihre Zeile bleibt
+ * @param katalog AniList-Katalog hinter dem Schalter
+ */
+export function findeAnisearchDubletten(hinter: number[], haupt: number[], katalog: KatalogKandidat[], eintraege: Record<string, Eintrag>): DublettenUrteil {
+  const nachMal = new Map<number, KatalogKandidat[]>()
+  for (const k of katalog) if (k.mal) nachMal.set(k.mal, [...(nachMal.get(k.mal) ?? []), k])
+  const treffer = (zeilenId: number): KatalogKandidat | undefined => {
+    const asId = zeilenId - ANISEARCH_ID_BASIS
+    const e = eintraege[String(asId)]
+    if (!e || e.dub !== '-' || MAL_AUSNAHMEN[asId]) return undefined
+    const passend = (nachMal.get(e.mal ?? 0) ?? []).filter((k) => gleichesWerk(e, k))
+    return passend.length === 1 ? passend[0] : undefined
+  }
+  const katalogUrteil = new Map<number, number[]>()
+  const aufnehmen = (zeilenId: number): void => {
+    const k = treffer(zeilenId)
+    if (k) katalogUrteil.set(k.id, [...(katalogUrteil.get(k.id) ?? []), zeilenId])
+  }
+  const alle = [...hinter, ...haupt]
+  for (const id of alle) aufnehmen(id)
+  const urteil: DublettenUrteil = { zeilenWeg: new Map(), katalogWeg: new Map() }
+  const istHaupt = new Set(haupt)
+  for (const [katalogId, zeilen] of katalogUrteil) {
+    if (zeilen.length !== 1) continue
+    const zeile = zeilen[0]!
+    if (istHaupt.has(zeile)) urteil.katalogWeg.set(katalogId, zeile)
+    else urteil.zeilenWeg.set(zeile, katalogId)
+  }
+  return urteil
+}

@@ -69,6 +69,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     new Map(slim.map((t) => [t.id, t.franchiseId ?? t.id])),
     verschoben,
     deutscheReihe,
+    new Set(releases.map((r) => r.titleId)),
   )
   schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()]); ergaenzeCoverGross(synopses, slim); schreibeSaisonDatei(titles); schreibeAnisearchOffen(slim)
   // Synopsen in Gruppen statt in einer Datei.

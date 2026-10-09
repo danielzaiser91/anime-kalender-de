@@ -57,3 +57,13 @@ export function planeKatalogLauf(args: {
     relFassung,
   }
 }
+
+/**
+ * Welche bekannten Katalogeinträge ein Lauf nach Kennung auffrischt: die **ohne Startdatum**. Kein Jahrgang erreicht sie, und der Nachlauf
+ * sieht nur die jüngsten Kennungen — „The Boxer" (Kennung 163794, angekündigt ohne Datum) blieb so mit dem Stand vom Anlegen stehen (Platzhalter-Cover, falsches
+ * Herkunftsland), obwohl AniList das Cover am 09.10.2026 nachgetragen hatte. Höchstens `grenze` je Lauf, die ältesten Stände zuerst gibt es nicht
+ * (der Cache führt keinen Abrufzeitpunkt je Eintrag), deshalb nach Kennung.
+ */
+export function undatierteKennungen(eintraege: { id: number; start?: string | null }[], grenze = 1000): number[] {
+  return eintraege.filter((e) => !e.start).map((e) => e.id).sort((a, b) => a - b).slice(0, grenze)
+}
