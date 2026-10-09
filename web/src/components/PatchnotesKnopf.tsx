@@ -21,10 +21,11 @@ export function PatchnotesKnopf({ stand }: { stand?: string }) {
   const oeffne = () => {
     laden.current = ladePatchnotes()
     setFehler(false)
-    import('./PatchnotesDialog.tsx').then(
-      (m) => setDialog(() => m.default),
-      () => setFehler(true),
-    )
+    // Nach vite:preloadError (preventDefault) löst import() mit undefined auf — auch das ist ein Ladefehler.
+    import('./PatchnotesDialog.tsx')
+      .then((m) => m.default)
+      .then((D) => setDialog(() => D))
+      .catch(() => setFehler(true))
     merkeGesehen(stand)
     setGesehen(stand)
   }
