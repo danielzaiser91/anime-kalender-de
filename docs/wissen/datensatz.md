@@ -664,3 +664,26 @@ Zodiac, YooHoo to the Rescue, Larva Island, Pac-Man and the Ghostly Adventures, 
 Bei 9 der 19 fehlt dem Anime-Titel ein Anbieter, den der Cartoon nannte (Devil May Cry, Mech Cadets, ONI,
 Pacific Rim, YooHoo, Fena, Blade Runner, Saint Seiya, Afro Samurai) — diese Anbieter übernimmt der Anime-Titel als Weg mit `herkunft: "tmdb"` und ohne Sprachangabe (Projektziel 4; `uebernehmeAnbieter`, Zusicherung in `check-cartoon-zwilling.ts`).
 Der Vergleich nutzt nur ausgelieferte Dateien; Titel, die nur im AniList-Katalog liegen, sind erst dann Zwillinge, wenn `ohne-synchro.json` sie führt.
+
+## aniSearch-Zeile und AniList-Katalogtitel: ein Werk, eine Zeile (09.10.2026)
+
+Daniel fand „The Laid-Off Cheat-Granting Mage" zweimal in der Datenbank. Ursache: Die aniSearch-Zeilen (`data/anisearch-eintraege.json`, 8.261 Einträge) und der
+AniList-Katalog hinter dem Schalter (`ohne-synchro.json`) kamen unabhängig voneinander in die Ausgabe; `anisearch.json` ordnet nur Titel zu, die einmal
+abgerufen wurden. Gemessen am Datensatz von `main` (09.10.2026): **2.389 Paare** (gleiche MAL, Formatklasse, Jahr ±1, Folgenzahl gleich oder auf einer Seite offen), fast
+alle Zeilen ohne Deutsch (`dub: '-'`) hinter dem Schalter; die Prüfung `malDubletten` sah sie nie, weil sie nur Zeilen im Hauptbestand mit AniList-Titeln in
+`titles.json` vergleicht und die Ausgabe keine MAL an der Zeile trägt.
+
+Regel (`pipeline/bau/anisearch-dubletten.ts`, aufgerufen aus `schreibeOhneSynchro`): Eine Zeile hinter dem Schalter entfällt zugunsten des Katalogtitels; steht
+die Zeile im Hauptbestand oder trägt sie einen Termin (Beerus, Fool Night), entfällt der Katalogtitel. Zeilen mit Deutsch (`d`/`p`/`c`) und Zeilen aus `MAL_AUSNAHMEN`
+bleiben (die Handdatei bindet sie); bei mehr als einem Treffer auf einer Seite wird nichts geraten. Die Kennung der entfallenen Zeile bekommt keine Umleitung
+(`zuAk`), sie stand nur hinter dem Schalter. Zusicherung: `pipeline/check-anisearch-dubletten.ts` (Teil von `check:logic`), mit Übergang bis 16.10.2026, bis der
+nächste Datenlauf den Datensatz neu gebaut hat.
+
+### Undatierte Katalogeinträge veralten (The Boxer, 09.10.2026)
+
+Der Katalog-Frischlauf holt das laufende und die kommenden Jahre sowie die jüngsten Kennungen. Ein Eintrag **ohne Startdatum mit älterer Kennung** (The Boxer,
+163794, angekündigt) erreichte keiner der beiden Wege: Er blieb mit Platzhalter-Cover und falschem Herkunftsland (KR statt JP) stehen, obwohl AniList das Cover am
+09.10.2026 nachgetragen hatte. 169 von 279 undatierten Ankündigungen haben eine Kennung unter 200.000. `frischeUndatierte` (`fetch-anilist-katalog.ts`) holt jetzt
+in jedem Lauf alle Einträge ohne `start` nach Kennung (`id_in`, 50 je Abfrage). Offen: The Boxer ist laut anime2you (1058533, 1058606, 09.10.2026) ein Crunchyroll-Simulcast
+im Original mit Untertiteln, Start unbekannt, keine Synchro genannt — für eine Ankündigung ohne Termin kennt `ankuendigungen.yaml` kein Feld (`omuAb` ist Pflicht und wird in
+`vorDemStart`, `ankuendigungs-termin` und der Meldung als Datum gelesen).

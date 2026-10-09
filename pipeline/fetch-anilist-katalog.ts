@@ -35,7 +35,7 @@
  */
 import { FRANCHISE_RELATIONS } from '../shared/mappings.ts'
 import { katalogSeite, type KatalogEintrag } from './lib/anilist.ts'
-import { planeKatalogLauf } from './lib/katalog-plan.ts'
+import { planeKatalogLauf, undatierteKennungen } from './lib/katalog-plan.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 
 interface Katalog {
@@ -154,6 +154,25 @@ async function main(): Promise<void> {
   await pruefeJuengste(bekannt, hoechsteId)
 }
 
+/** Frischt die Einträge ohne Startdatum nach Kennung auf (`undatierteKennungen`): Cover, Datum und Herkunft, die AniList später nachträgt. */
+async function frischeUndatierte(bekannt: Map<number, KatalogEintrag>): Promise<void> {
+  const kennungen = undatierteKennungen([...bekannt.values()])
+  let geaendert = 0
+  for (let ab = 0; ab < kennungen.length; ab += 50) {
+    try {
+      const { eintraege } = await katalogSeite(1, undefined, undefined, false, true, kennungen.slice(ab, ab + 50))
+      for (const e of eintraege) {
+        if (JSON.stringify(bekannt.get(e.id)) !== JSON.stringify(e)) geaendert++
+        bekannt.set(e.id, e)
+      }
+    } catch (err) {
+      warn(`Undatierte, ab ${ab}: ${(err as Error).message}`)
+      break
+    }
+  }
+  log(`Undatierte Einträge nach Kennung aufgefrischt: ${kennungen.length} geholt, ${geaendert} geändert`)
+}
+
 /**
  * Nachlauf über die jüngsten Kennungen; liefert die höchste gesehene Kennung.
  *
@@ -163,6 +182,7 @@ async function main(): Promise<void> {
  * Ohne Formatfilter: Ankündigungen ohne Format (Maiden Blood, 09.10.2026) fielen sonst durch.
  */
 async function nachlauf(bekannt: Map<number, KatalogEintrag>, seiten: number): Promise<number> {
+  await frischeUndatierte(bekannt)
   let neu = 0
   let hoechsteId = 0
   for (let seite = 1; seite <= seiten; seite++) {
