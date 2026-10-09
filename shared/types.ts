@@ -924,7 +924,7 @@ export interface DataMeta {
    * Videobuster, die Prime-Video-Kanäle. Nach Häufigkeit sortiert.
    */
   providers: string[]
-  years: number[]
+  years: number[]; patchnotesStand?: string // Letzteres: jüngster Patch-Notes-Tag (Ungelesen-Punkt)
   attribution: string[]
 }
 

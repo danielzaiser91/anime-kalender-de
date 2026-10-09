@@ -13,7 +13,7 @@ import { NachtragText } from './news-nachtrag.tsx'
 import { VerlaufZeilen } from './news-verlauf.tsx'
 import { QuellenKnopf } from './beleg-dialog.tsx'
 import { KinoPlakette, NewsCover } from './news-kachel.tsx'
-import { SeitenNeuerungen } from './SeitenNeuerungen.tsx'
+import { PatchnotesKnopf } from './PatchnotesKnopf.tsx'
 import { ohneEingeordnete, verlaeufeAus, type Stand } from '../lib/news-verlauf.ts'
 import { AELTERE_SCHRITT_TAGE, teileGleichmelder } from '../lib/news-gruppen.ts'
 
@@ -323,7 +323,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
           RSS
         </a>
       </div>
-      <SeitenNeuerungen />
+      <PatchnotesKnopf stand={data.meta.patchnotesStand} />
       <KinoKarussell data={data} oeffne={oeffne} />
 
       {/* Filterleiste: nur Arten, die wirklich vorkommen (ein leerer Filter ist eine Sackgasse). py-2.5 fängt die 44-px-Trefferfläche (.ak-tz::after) ein, sonst scrollt die Leiste senkrecht; auf dem Handy eine rollbare Reihe statt vier Zeilen Chips. */}

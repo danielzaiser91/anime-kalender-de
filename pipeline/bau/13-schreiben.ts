@@ -8,6 +8,7 @@ import { schreibeKernUndNews } from './13-5-kerndateien.ts'
 import { ergaenzeKennungen } from './13-6-kennungen.ts'
 import { ergaenzeTitelRang } from './titel-rang.ts'
 import { schreibeWochenDatei } from './13-8-wochen-datei.ts'
+import { schreibePatchnotes } from './13-9-patchnotes.ts'
 import { ergaenzeErstausgabeAngebot } from './13-7-erstausgabe-angebot.ts'
 import { schreibeZusatzdateien } from './13-4-zusatzdateien.ts'
 import { ordneCartoonsZuAnime } from './cartoon-zu-anime.ts'
@@ -74,5 +75,6 @@ export function schreibeDatensatz({
   const { newsFuerRss } = schreibeKernUndNews({ releases, events, titles, meta })
   ergaenzeKennungen(); ergaenzeTitelRang()
   schreibeWochenDatei()
+  schreibePatchnotes()
   return { newsFuerRss }
 }
