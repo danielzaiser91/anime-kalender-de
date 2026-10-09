@@ -9,8 +9,7 @@ import { MerkenKnopf } from './merken.tsx'
 import { expandEvents, istErschienen } from '@shared/logic.ts'
 import { verweiseFuer } from './verweise.ts'
 import { einzelneAusgaben } from './disc-regeln.ts'
-import { useVorschau } from '../../lib/vorschau.ts'
-import { TIPPFLAECHE_HOCH, TREFFER_24_HOCH } from './tippziel.ts'
+import { TIPPFLAECHE_HOCH } from './tippziel.ts'
 
 /*
   **Pillen: neutrale Fläche, Markenstreifen links** (Daniel, 19.09.2026: „rot auf rot, orange auf
@@ -77,7 +76,6 @@ const marke = (farbe?: string) => (farbe ? ({ '--marke': farbe } as React.CSSPro
  * Die Suche ist einen Klick länger und immer richtig.
  */
 export function AniSearchVerweis({ title, ziel }: { title: Title; ziel?: string }) {
-  const gross = useVorschau('tippziele') === 'gross'
   return (
     <span className="ml-auto flex shrink-0 items-center gap-1">
       {verweiseFuer(title, ziel).map((v) => (
@@ -90,7 +88,7 @@ export function AniSearchVerweis({ title, ziel }: { title: Title; ziel?: string 
               'inline-flex shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium transition',
               'border-slate-300 text-slate-600 hover:border-slate-400 hover:bg-slate-200/70 hover:text-slate-900',
               'dark:border-white/20 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white',
-              gross ? TIPPFLAECHE_HOCH : TREFFER_24_HOCH,
+              TIPPFLAECHE_HOCH,
             ].join(' ')}
           >
             {v.name}
@@ -500,7 +498,7 @@ export function ReleasePille({
         */
         <span className={`absolute -top-[11px] ${tv ? 'left-[22px]' : 'left-[10px]'} z-10`}>
           <Tooltip text={t('tv.premiereHinweis')} seite="oben">
-            <span className="block rounded-md bg-gradient-to-r from-fuchsia-600 to-amber-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(217,70,239,.7)]">
+            <span className="block rounded-md bg-orange-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(249,115,22,.6)]">
               ✦ Premiere
             </span>
           </Tooltip>

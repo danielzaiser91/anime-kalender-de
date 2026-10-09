@@ -1,5 +1,5 @@
 /**
- * Klassen für Vorschau `tippziele`: Mindest-Trefferfläche 44 px, optisch unverändert.
+ * Klassen für große Tipp-Ziele: Mindest-Trefferfläche 44 px, optisch unverändert.
  * Die Fläche liegt als unsichtbares `::after` über dem Element; es braucht `relative`.
  */
 export const TIPPFLAECHE =

@@ -10,7 +10,6 @@ import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
-import { AnbieterLegende } from './anbieter-legende.tsx'
 import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr } from './antwort-regeln.ts'
 import { type Antwort } from './antwort-typ.ts'
 
@@ -929,7 +928,6 @@ export function AntwortKasten({
               pillen
             )}
           </div>
-          <AnbieterLegende />
         </div>
       )}
     </section>
