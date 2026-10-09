@@ -1,16 +1,10 @@
 #!/usr/bin/env node
 /**
- * **Der Einstellungsdialog — sichtbar, erreichbar, und er schaltet wirklich.**
+ * **Der Einstellungsdialog — am Handy erreichbar und ohne Cartoon-Schalter.**
  *
- * Daniel am 12.09.2026: „bau eine einstellung seite, zahnrad icon sichtbar
- * platzieren, öffnet dialog, dort als erste option einfügen, ‚westliche anime
- * (Cartoons) ausblenden' - standardmäßig aus".
- *
- * Gemessen wird jede Hälfte dieses Satzes: dass das Zahnrad ohne Suchen da
- * ist, dass der Dialog aufgeht, dass die Option an erster Stelle steht, dass
- * sie **aus** beginnt — und dass ihr Umlegen die Titelzahl wirklich senkt. Der
- * letzte Punkt ist der eigentliche: Ein Schalter, der nichts bewirkt, sieht
- * auf einem Bild genauso aus wie einer, der wirkt.
+ * Cartoons schaltet nur der Schnellfilter (Filter `kw`/`xkw` in der Adresse). Gemessen wird: Das Zahnrad steht
+ * bei 393 px in der Tab-Leiste, der Dialog geht auf, enthält die Thema-Zeile und keine Cartoon-Zeile; am
+ * Rechner (1280 px) gibt es kein Zahnrad, weil der Dialog dort nichts enthielte.
  *
  * Aufruf: `node tools/einstellungen-bild.mjs` · `npm run check:einstellungen`
  */
@@ -39,7 +33,7 @@ if (!existsSync(DIST)) {
 }
 
 const browser = await chromium.launch()
-const seite = await browser.newPage({ viewportSize: { width: 1280, height: 900 } })
+const seite = await browser.newPage({ viewport: { width: 393, height: 852 } })
 await seite.route('**/*', async (route) => {
   const url = new URL(route.request().url())
   if (url.hostname !== 'ak.test') return route.fulfill({ status: 200, contentType: 'image/png', body: Buffer.alloc(0) })
@@ -60,78 +54,35 @@ const pruefe = (was, ok, zusatz) => {
   if (!ok) fehler.push(was)
 }
 
-/**
- * **Die Titelzahl aus der Trefferzeile — die Summe.**
- *
- * Seit dem 22.09.2026 steht dort bei geladenen westlichen Titeln „**N** Anime und **M** westliche
- * Serien mit belegter deutscher Synchro". Wer nur die erste Zahl liest, misst genau die, die sich
- * **nicht** ändert: Die westlichen sind in `N` schon abgezogen. Deshalb die Summe aus beiden —
- * der Schalter bewegt dann `N` und `M` und die Summe fällt um die westlichen (29.09.2026, der
- * Prüflauf war seit dem 22.09. rot, ohne dass es jemandem auffiel).
- */
-async function titelzahl() {
-  return seite.evaluate(() => {
-    const text = document.body.innerText
-    /* Seit dem 04.10.2026 steht dort „davon <Flagge> N Anime und M Cartoons". */
-    const m = text.match(/([\d.]+)\s+Anime\s+und\s+([\d.]+)\s+Cartoons/)
-    if (!m) return 0
-    const zahl = (s) => Number(String(s ?? '').replace(/\./g, ''))
-    return zahl(m[1]) + zahl(m[2])
-  })
+async function sichtbareZahnraeder() {
+  const alle = seite.getByRole('button', { name: 'Einstellungen' })
+  let n = 0
+  for (let i = 0; i < (await alle.count()); i++) if (await alle.nth(i).isVisible()) n++
+  return n
 }
 
 console.log('Die Einstellungen:\n')
 
 for (const thema of ['dunkel', 'hell']) {
   await seite.emulateMedia({ colorScheme: thema === 'dunkel' ? 'dark' : 'light' })
+
+  await seite.setViewportSize({ width: 393, height: 852 })
   await seite.goto('about:blank')
   await seite.goto('http://ak.test/#/datenbank', { waitUntil: 'networkidle' })
-  /* Die westlichen Titel kommen nachgeladen — ohne sie misst der Schalter nichts. */
   await seite.waitForTimeout(1500)
-
-  const zahnrad = seite.getByRole('button', { name: 'Einstellungen' })
-  if (thema === 'dunkel') {
-    pruefe('das Zahnrad steht in der Kopfleiste', await zahnrad.isVisible())
-  }
-  await zahnrad.click()
-
+  pruefe(`393 px: genau ein Zahnrad (${thema})`, (await sichtbareZahnraeder()) === 1)
+  await seite.getByRole('button', { name: 'Einstellungen' }).locator('visible=true').click()
   const dialog = seite.getByRole('dialog', { name: 'Einstellungen' })
   await dialog.waitFor({ state: 'visible', timeout: 10_000 })
   await seite.screenshot({ path: path.join(WURZEL, 'docs', `einstellungen-${thema}.png`) })
+  const text = await dialog.innerText()
+  pruefe(`393 px: Dialog enthält die Thema-Zeile (${thema})`, /Helles Design/.test(text), text)
+  pruefe(`393 px: Dialog hat keine Cartoon-Zeile (${thema})`, !/cartoon/i.test(text), text)
+  await seite.keyboard.press('Escape')
 
-  if (thema === 'dunkel') {
-    const ersteOption = await dialog.locator('label').first().innerText()
-    pruefe(
-      'die erste Option ist der Cartoon-Schalter',
-      /Westliche Anime \(Cartoons\) ausblenden/.test(ersteOption),
-      ersteOption.split('\n')[0],
-    )
-
-    const kasten = dialog.getByRole('checkbox').first()
-    pruefe('er ist standardmäßig aus', !(await kasten.isChecked()))
-
-    /* Der eigentliche Beleg: Wirkt er? */
-    await seite.keyboard.press('Escape')
-    await seite.waitForTimeout(400)
-    const mit = await titelzahl()
-
-    await zahnrad.click()
-    await dialog.waitFor({ state: 'visible', timeout: 5_000 })
-    await dialog.getByRole('checkbox').first().check()
-    await seite.keyboard.press('Escape')
-    await seite.waitForTimeout(600)
-    const ohne = await titelzahl()
-
-    pruefe('der Schalter blendet die westlichen Titel wirklich aus', ohne > 0 && ohne < mit, `${mit} → ${ohne}`)
-
-    /* Und die Wahl überlebt einen Neuaufbau der Seite. */
-    await seite.reload({ waitUntil: 'networkidle' })
-    await seite.waitForTimeout(1200)
-    await seite.getByRole('button', { name: 'Einstellungen' }).click()
-    const nachher = await seite.getByRole('dialog', { name: 'Einstellungen' }).getByRole('checkbox').first().isChecked()
-    pruefe('die Wahl bleibt nach dem Neuladen bestehen', nachher)
-    await seite.keyboard.press('Escape')
-  }
+  await seite.setViewportSize({ width: 1280, height: 900 })
+  await seite.waitForTimeout(400)
+  pruefe(`1280 px: kein Zahnrad (${thema})`, (await sichtbareZahnraeder()) === 0)
 }
 
 await browser.close()
