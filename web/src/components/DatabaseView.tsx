@@ -44,7 +44,7 @@ export function DatabaseView({
   data,
   titles,
   grouped,
-  onGroupedChange, cartoonsAus, onCartoonsAusChange,
+  onGroupedChange,
   ohneSynchro,
   onOhneSynchroChange,
   ohneSynchroLaedt,
@@ -60,7 +60,7 @@ export function DatabaseView({
   data: Dataset
   titles: Title[]
   grouped: boolean
-  onGroupedChange: (next: boolean) => void; cartoonsAus: boolean; onCartoonsAusChange: (next: boolean) => void
+  onGroupedChange: (next: boolean) => void
   /** Titel ohne belegte deutsche Synchro mitzeigen. */
   ohneSynchro: boolean
   onOhneSynchroChange: (next: boolean) => void
@@ -98,7 +98,7 @@ export function DatabaseView({
 
   return (
     <div className="flex flex-col gap-4">
-      <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} cartoonsAus={cartoonsAus} onCartoonsAusChange={onCartoonsAusChange} />
+      <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} />
 
       <DbZaehlzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich} />
 

@@ -224,8 +224,6 @@ const TEXTE = {
     'Fasst alle Staffeln, Filme und Specials einer Reihe zu einer Kachel zusammen. Gezeigt wird die erste Staffel, die übrigen stehen in ihrer Detailansicht.',
   // Titel ohne belegte deutsche Synchro — der Schalter, seine Begründung und
   // die Kennzeichnung an der Kachel. Eingeführt 13.08.2026.
-  'db.cartoonsAus': 'Cartoons ausblenden',
-  'db.cartoonsAusHinweis': 'Blendet die westlichen Serien aus. Dasselbe wie das Schlagwort „Cartoon" unter „Ausschließen" im Filter.',
   'db.withoutDub': 'Anime ohne deutsche Synchro',
   'db.withoutDubHint':
     'Holt zusätzlich alle Anime, zu denen wir keine deutsche Synchro kennen. Der Schalter beginnt bei jedem Aufruf wieder aus.',
@@ -324,6 +322,7 @@ const TEXTE = {
   // eine Dub-Vorschau. Ohne die Angabe sieht sie aus wie ein Weg zur Serie.
   'detail.nurFolge': 'nur Folge {n}',
   'detail.whereUnknown': 'Kein Anbieter bekannt.',
+  'detail.tvNurVorbei': 'Lief zuletzt im Fernsehen — kein Termin in der Zukunft bekannt.',
   // **Wo deutsche Sprechrollen belegt sind, ist „kein Anbieter" die halbe
   // Auskunft.** 277 Titel sind am 29.08.2026 in genau diesem Fall: Es gab eine
   // deutsche Fassung — Anime News Network führt die Sprecher —, und wir kennen
@@ -681,9 +680,6 @@ const TEXTE = {
   /* Kurzwort für die Handy-Tab-Leiste (Zelle ~64 px); der volle Name bleibt aria-label. */
   'nav.einstellungenKurz': 'Optionen',
   'einstellungen.schliessen': 'Einstellungen schließen',
-  'einstellungen.cartoonsAus': 'Westliche Anime (Cartoons) ausblenden',
-  'einstellungen.cartoonsAusHinweis':
-    'Serien wie Avatar oder Arcane entstehen nicht in Japan und gelten den Anime-Datenbanken deshalb nicht als Anime. Wir führen sie trotzdem — hier kannst du sie wegschalten.',
   'db.westlich': 'Cartoon',
   'db.westlichHinweis': 'Westliche Animation — kein Anime im Sinne der Datenbanken, aber auf Deutsch zu sehen.',
   'trailer.ansehen': 'Trailer anschauen',

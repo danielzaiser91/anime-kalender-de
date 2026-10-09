@@ -10,6 +10,8 @@ import { MerkenKnopf } from './merken.tsx'
 import { toggoAngabe, jetztBerlin } from '../../lib/toggo.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
+import type { TvZuletzt } from '../../lib/tv-zuletzt.ts'
+import { tvVorbeiGruppen, tvVorbeiPillen } from './tv-vorbei.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
 import type { Dispatch, SetStateAction } from 'react'
@@ -17,7 +19,7 @@ import { type berechneAntwort } from './antwort-berechnen.ts'
 import { type sortiereNachZugang } from './wege-sortieren.ts'
 import { erschieneneFuerFolgenliste } from './antwort-regeln.ts'
 
-export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, title, t, today, wegeHinweis, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
+export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
   antwort: ReturnType<typeof berechneAntwort>
   sortiertNachZugang: ReturnType<typeof sortiereNachZugang>
   streamReleases: Release[]
@@ -25,6 +27,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
   t: Translate
   today: string
   wegeHinweis: string | undefined
+  tvVorbei: TvZuletzt[]
   kastenNotiz: Release | undefined
   kaufausgabeZeile: string | undefined
   folgenLuecke: string | null
@@ -54,6 +57,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
                 ].map((k) => [k, art === 'kostenlos' ? 'frei' : art] as const),
               ),
               ...streamReleases.map((r) => [r.slug, r.platform === 'tv' ? 'tv' : 'abo'] as const),
+              ...tvVorbeiGruppen(tvVorbei),
             ])
           }
           antwort={antwort}
@@ -331,7 +335,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
                     tvText={tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16))}
                   />
                 )),
-              )}
+              ).concat(tvVorbeiPillen(tvVorbei, anzeigeName(title), today, t('detail.tvNurVorbei')))}
             /*
               **Disc ist, was man kauft** — Händler und Vorbestellungen.
               Vier Ausgaben desselben Verlags sind **eine** Auskunft, keine
