@@ -5,6 +5,7 @@ import {
   isHandheld,
   rememberInstallDialog,
   useInstall,
+  type InstallState,
 } from '../lib/pwa.ts'
 import { HerunterladenZeichen } from './kalender/Zeichen.tsx'
 import { Button, Tooltip } from './ui.tsx'
@@ -165,5 +166,29 @@ export function InstallFooterOffer() {
       </button>
       {showHint && <span className="text-slate-500 dark:text-slate-400">{t('pwa.iosHint')}</span>}
     </span>
+  )
+}
+
+/**
+ * Zeile „App installieren" im Glocken-Menü — nur am Handy. Der Zustand kommt von außen,
+ * weil das Menü seinen Inhalt erst beim Öffnen baut und `beforeinstallprompt` dort verpasst hätte.
+ */
+export function InstallZeile({ canPrompt, needsManual, install }: InstallState) {
+  const { t } = useLang()
+  const [showHint, setShowHint] = useState(false)
+  if ((!canPrompt && !needsManual) || !isHandheld()) return null
+  return (
+    <button
+      type="button"
+      data-schliesst={canPrompt ? '' : undefined}
+      onClick={() => (canPrompt ? void install() : setShowHint((v) => !v))}
+      className="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-xl p-3 text-left text-ak-text transition hover:bg-ak-flaeche-2"
+    >
+      <span className="text-ak-leise"><HerunterladenZeichen groesse={20} /></span>
+      <span className="flex min-w-0 flex-col gap-0.5">
+        <span className="text-sm font-bold">{t('pwa.install')}</span>
+        <span className="text-xs text-ak-leise">{showHint ? t('pwa.iosHint') : t('pwa.pitch')}</span>
+      </span>
+    </button>
   )
 }
