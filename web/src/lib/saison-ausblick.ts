@@ -63,7 +63,7 @@ export function ausblickGruppen(
     bekannt.add(k.id)
     const zeile: SaisonZeile = { id: k.id, katalog: k, deutsch: false, stufe: k.angekuendigt ? 'angekuendigt' : 'offen', erschienen: false, jp: k.jpStart, genau: genauigkeit(k.jpStart) }
     if (k.jpSeason && k.jpYear) ablegen(zeile, { jahr: k.jpYear, saison: k.jpSeason as SaisonTag['saison'] }, k.jpYear)
-    else if (!k.jpStart) ablegen(zeile, undefined, undefined)
+    else if (!k.jpStart) ablegen(zeile, undefined, k.jpYear)
     else if (k.jpStart.length === 4) ablegen(zeile, undefined, Number(k.jpStart))
     else ablegen(zeile, saisonVon(k.jpStart.length === 7 ? `${k.jpStart}-01` : k.jpStart), undefined)
   }

@@ -206,14 +206,16 @@ for (const [datei, kennungen] of prominent) pruefe(`kein gesperrter Titel in ${d
 console.log('Saison-Ausblick: nichts fällt weg')
 {
   const heute = todayIso()
-  const titel = jsonDatei<Title[]>('titles.json')
+  const voll = jsonDatei<Title[]>('titles.json')
+  /* Die Seite rechnet auf dem Kern, nicht auf dem vollen Bestand — sonst bliebe eine Serie ohne Release unbemerkt draußen (Devil May Cry: Staffel 2). */
+  const titel = jsonDatei<Title[]>('titles-core.json')
   const datei = jsonDatei<SaisonDatei>('saison.json')
   const ausblick = jsonDatei<{ katalog: SaisonKatalogTitel[] }>('saison-ausblick.json').katalog
   const gruppen = ausblickGruppen(titel, new Map(), datei, ausblick, heute)
   const inGruppen = gruppen.flatMap((g) => g.zeilen.map((z) => z.id))
   /* Quellmenge: kommende Serien des Hauptbestands (Saison nach der laufenden, oder ohne Saison im laufenden Jahr oder später) und alle Katalogtitel der Ausblick-Datei. */
   const kommend = (t: Title) => istSerie(t.format) && Boolean(t.jpYear) && (t.jpSeason ? saisonZeitraum({ jahr: t.jpYear!, saison: t.jpSeason as SaisonTag['saison'] })[0] > saisonZeitraum(saisonVon(heute))[1] : t.jpYear! >= saisonVon(heute).jahr)
-  const quelle = new Set([...titel.filter(kommend).map((t) => t.id), ...ausblick.map((k) => k.id)])
+  const quelle = new Set([...voll.filter(kommend).map((t) => t.id), ...ausblick.map((k) => k.id)])
   pruefe('jede Serie der Quellmenge steht in genau einer Gruppe', inGruppen.length === new Set(inGruppen).size && [...quelle].every((i) => inGruppen.includes(i)), [...quelle].filter((i) => !inGruppen.includes(i)))
 }
 
