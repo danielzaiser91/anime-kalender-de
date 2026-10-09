@@ -43,7 +43,7 @@ export function HandyNavigation({
     <nav
       aria-label={t('nav.bereich')}
       className={[
-        'fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 rounded-t-[22px] border-t border-ak-rand bg-ak-flaeche/95 pl-[max(0.375rem,env(safe-area-inset-left))] pr-[max(0.375rem,env(safe-area-inset-right))]pb-[calc(0.375rem+env(safe-area-inset-bottom))] pt-1.5 backdrop-blur md:hidden',
+        'fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 rounded-t-[22px] border-t border-ak-rand bg-ak-flaeche/95 pl-[max(0.375rem,env(safe-area-inset-left))] pr-[max(0.375rem,env(safe-area-inset-right))] pb-[calc(0.375rem+env(safe-area-inset-bottom))] pt-1.5 backdrop-blur md:hidden',
       ]
         .filter(Boolean)
         .join(' ')}

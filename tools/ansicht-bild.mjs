@@ -71,14 +71,21 @@ function untereLeisteMasse(seite) {
   return seite.evaluate(() => {
     const r = document.querySelector('body > nav')?.getBoundingClientRect()
     if (!r) return null
-    return { unten: Math.round(innerHeight - r.bottom), links: Math.round(r.left), rechts: Math.round(innerWidth - r.right) }
+    const s = getComputedStyle(document.querySelector('body > nav'))
+    return {
+      unten: Math.round(innerHeight - r.bottom),
+      links: Math.round(r.left),
+      rechts: Math.round(innerWidth - r.right),
+      padUnten: parseFloat(s.paddingBottom),
+      padRechts: parseFloat(s.paddingRight),
+    }
   })
 }
 
 /** Die Leiste dockt bündig an: kein Abstand unten, links, rechts. Meldet jede Abweichung. */
 function untereLeisteBuendig({ name, nav: m }) {
-  if (!m || (m.unten === 0 && m.links === 0 && m.rechts === 0)) return true
-  console.log(`  ✕ ${name}: untere Leiste nicht bündig (unten ${m.unten} px, links ${m.links} px, rechts ${m.rechts} px)`)
+  if (!m || (m.unten === 0 && m.links === 0 && m.rechts === 0 && m.padUnten >= 6 && m.padRechts >= 6)) return true
+  console.log(`  ✕ ${name}: untere Leiste nicht bündig oder ohne Innenabstand (Rand unten ${m.unten}, links ${m.links}, rechts ${m.rechts} px; Padding unten ${m.padUnten}, rechts ${m.padRechts} px, mind. 6)`)
   return false
 }
 
