@@ -31,7 +31,9 @@
  *      Folge + 1), oder
  *  (c) ein Streaming-Termin dieser Folge erst nach dem Sendetermin liegt (Dragon Ball DAIMA am
  *      16.–18.09.2026 auf TOGGO plus: RTL+ startet am 25.09.).
- * Liegt die deutsche Erstausgabe des Titels mehr als ein Jahr vor dem Termin, gilt nur (a): Ohne
+ * Liegt die deutsche Erstausgabe des Titels mehr als ein Jahr vor dem Termin, gilt nur (a) — auch (c)
+ * kommt dort bewusst nicht zum Zug (bekannte Grenze: ein späterer Streaming-Termin eines alten Titels
+ * kann eine Wiederveröffentlichung sein): Ohne
  * Beleg der Folge ist es eine Wiederholung oder unbekannt, nie eine Premiere. Eine Disc zählt nicht
  * mit — gefragt ist Streaming.
  *

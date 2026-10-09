@@ -56,6 +56,7 @@ import { discBonusAus } from './lib/disc-bonus.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../shared/kostenlos.ts'
 import { istPremiere, tvAngabe } from '../web/src/lib/tv-angabe.ts'
 import { ersterDeutscherTermin, istKeinDeutscherStart } from '../shared/tv-signale.ts'
+import { schreibeTvAuskunft } from './bau/10-termine.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
 import { FSK_COLORS, PLATFORMS } from '../shared/types.ts'
 import {
@@ -7204,6 +7205,18 @@ pruefe(
   pruefe('Erstausgabe früher: ein von Hand belegter TV-Termin bleibt ein Start', !istKeinDeutscherStart({ ...rtl12, automatisch: false }, superWings))
   pruefe('Ohne Erstausgabe: der automatische TV-Termin bleibt ein Start', !istKeinDeutscherStart(rtl12, { ...superWings, deErstausgabe: undefined } as Title))
   pruefe('„Neu auf Deutsch" bezieht den ersten Termin ohne diese TV-Termine (nebendateien.ts)', readFileSync('pipeline/bau/nebendateien.ts', 'utf8').includes('ersterDeutscherTermin(releases, titles)') && ersterDeutscherTermin([rtl12], [superWings]).size === 0 && ersterDeutscherTermin([{ ...rtl12, automatisch: false }], [superWings]).get(10012621) === '2026-10-07')
+  /* Der Bau schreibt dieselben Werte wie die Oberfläche: Releases anderer Titel verändern die Auskunft nicht. */
+  {
+    const daimaTitel = { id: 170083, streams: [], deErstausgabe: { von: '2026-08-28', quelle: 'wikipedia' } } as unknown as Title
+    const daimaTv = { slug: 'd-tv', titleId: 170083, name: 'DAIMA', platform: 'tv', sender: 'TOGGO plus', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-08-28', firstEpisodeNumber: 1, episodeCount: 3, observed: { 1: '2026-08-28', 2: '2026-08-29', 3: '2026-08-30' } }, sources: ['x'] } as unknown as Release
+    const fremd = tvRel('sw-alt', 'Super RTL', '08:00', 2, '2026-01-01')
+    const alle = [daimaTv, fremd, rtl12, toggo12, rtl27]
+    const evs = alle.flatMap((r) => expandEvents(r))
+    schreibeTvAuskunft(evs, alle, new Map([[170083, daimaTitel], [10012621, superWings]]))
+    const wert = (t: number, n: number) => evs.filter((e) => e.titleId === t && e.episode === n && !e.time?.startsWith('10:5')).map((e) => e.tvPremiere)
+    pruefe('Bau: DAIMA Fg. 2 und 3 tragen tvPremiere true', wert(170083, 2)[0] === true && wert(170083, 3)[0] === true, JSON.stringify([wert(170083, 2), wert(170083, 3)]))
+    pruefe('Bau: Super Wings Fg. 12 (erster Sender) und 27 tragen kein tvPremiere', evs.filter((e) => e.titleId === 10012621 && e.sender === 'Super RTL').every((e) => !('tvPremiere' in e)), JSON.stringify(evs.filter((e) => e.titleId === 10012621)))
+  }
   pruefe('Erstausgabe ohne Synchro-Marke widerlegt den Start nicht', !istKeinDeutscherStart(rtl12, { ...superWings, deErstausgabe: { von: '2017-01-25' } } as Title))
 }
 {

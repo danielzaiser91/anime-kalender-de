@@ -25,6 +25,9 @@ import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } 
  */
 export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], titles: Map<number, Title>): void {
   const releaseBySlug = new Map(releases.map((r) => [r.slug, r]))
+  /* Wie die Oberfläche: Die Auskunft sieht nur die Releases des eigenen Titels. */
+  const releasesJeTitel = new Map<number, Release[]>()
+  for (const r of releases) releasesJeTitel.set(r.titleId, [...(releasesJeTitel.get(r.titleId) ?? []), r])
   let premier = 0
   let wiederholungen = 0
   let ohneAussage = 0
@@ -33,7 +36,7 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
     const release = releaseBySlug.get(ev.releaseSlug)
     const title = titles.get(ev.titleId)
     if (release && title && ev.platform === 'tv' && ev.episode && !ev.sichtung) {
-      const istEs = istPremiere(ev.episode, ev.date, title, releases, release.ersteDeutsch, ev.time)
+      const istEs = istPremiere(ev.episode, ev.date, title, releasesJeTitel.get(ev.titleId) ?? [], release.ersteDeutsch, ev.time)
       if (istEs === undefined) ohneAussage++
       else {
         ev.tvPremiere = istEs
