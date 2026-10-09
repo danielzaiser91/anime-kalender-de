@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 34
+    "2026-10": 38
   },
   "gesehen": {
     "26341901:netflix": {
@@ -2099,7 +2099,7 @@
       "tmdbId": "tv/63225",
       "dienst": "prime",
       "am": "2026-10-07",
-      "deutsch": false
+      "deutsch": true
     },
     "removed:14387:prime": {
       "art": "removed",
@@ -6812,5 +6812,5 @@
       "deutsch": true
     }
   },
-  "fetchedAt": "2026-10-09T14:51:25.447Z"
+  "fetchedAt": "2026-10-09T16:10:44.855Z"
 }
