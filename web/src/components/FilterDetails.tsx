@@ -502,7 +502,7 @@ type FilterMehrProps = {
 
 const CONFIDENCE_STUFEN = ['low', 'normal', 'high', 'very-high'] as const
 
-const confidenceText = (t: Translate, i: number) => (i === 0 ? t('filter.source') : t('filter.sources', { n: i + 1 }))
+const confidenceText = (t: Translate, i: number) => t('filter.beleg').split('|')[i]!
 
 /**
  * Der Sprecher-Filter als Bereich; die Zahl der gewählten Sprecher steht in der Überschrift, wie der Zähler an „Filter“.

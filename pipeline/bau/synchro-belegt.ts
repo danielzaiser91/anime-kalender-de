@@ -13,7 +13,7 @@ const sichereTermine = new WeakMap<Release[], Set<number>>()
  * Ankündigung dort steht.
  */
 export function ohneBelegteSynchro(t: Title, releases: Release[]): boolean {
-  if (t.dubConfidence !== 'low' || (t.jpYear ?? 0) < 2023) return false
+  if (!(t.einzelquelle ?? t.dubConfidence === 'low') || (t.jpYear ?? 0) < 2023) return false
   if (t.streams?.some((s) => s.dub === true) || t.deErstausgabe?.synchro || t.hasVoices) return false
   let sicher = sichereTermine.get(releases)
   if (!sicher) {
