@@ -7,6 +7,10 @@
   text: Filter am Handy überdecken nichts mehr
   live: true
 - datum: "2026-10-09"
+  kategorie: bugfix
+  text: App installieren steht nur noch an einer Stelle
+  live: true
+- datum: "2026-10-09"
   kategorie: feature
   text: App installieren jetzt auch im Glocken-Menü
   untertitel: nur am Handy

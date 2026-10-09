@@ -17,7 +17,6 @@ import {
   type Einstellungen,
 } from '../lib/newsletterSync.ts'
 import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
-import { InstallFooterOffer } from './InstallPrompt.tsx'
 import { Button, SectionTitle } from './ui.tsx'
 import { PushTest } from './PushTest.tsx'
 import { AboBeenden, type AbmeldeState } from './AboBeenden.tsx'
@@ -1233,7 +1232,6 @@ export function Footer({ meta }: { meta: DataMeta }) {
           >
             {t('footer.code')}
           </a>
-          <InstallFooterOffer />
         </p>
       </div>
     </footer>
