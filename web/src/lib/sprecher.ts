@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 import { sprecherGruppe, type SprecherGruppe, type SprecherIndex } from '@shared/sprecher.ts'
 import { loadJson } from './data.ts'
 import { baueAuswahl, type SprecherAuswahl } from './sprecher-auswahl.ts'
@@ -15,7 +15,7 @@ import type { FilterState } from './filters.ts'
 export const TitelNamenContext = createContext<((id: number) => string | undefined) | undefined>(undefined)
 
 let indexPromise: Promise<SprecherIndex> | undefined
-const gruppenPromise = new Map<string, Promise<SprecherGruppe>>()
+const gruppenPromise = new Map<string, Promise<void>>()
 const GRUPPEN = new Map<string, SprecherGruppe>()
 
 /** Ein Fehlschlag bleibt nicht im Zwischenspeicher, sonst wäre „erneut versuchen" wirkungslos. */
@@ -33,16 +33,31 @@ export function ladeSprecherIndex(): Promise<SprecherIndex> {
   return indexPromise
 }
 
-function ladeGruppe(gruppe: string): Promise<SprecherGruppe> {
-  let p = gruppenPromise.get(gruppe)
-  if (!p) {
-    p = einmal(
-      () => loadJson<SprecherGruppe>(`sprecher/${gruppe}.json`).then((g) => (GRUPPEN.set(gruppe, g), g)),
-      () => gruppenPromise.delete(gruppe),
-    )
-    gruppenPromise.set(gruppe, p)
-  }
-  return p
+/**
+ * Gemeinsamer Stand der Gruppen für alle Aufrufer (Titelliste in `App`, Filterfeld, Vorschläge): Ein Abschluss oder Fehler
+ * meldet sich bei allen, damit auch die Instanz neu rechnet, die den Abruf nicht selbst angestoßen hat.
+ */
+let stand = 0
+const hoerer = new Set<() => void>()
+const FEHLER = new Set<string>()
+const abonniere = (h: () => void) => (hoerer.add(h), () => void hoerer.delete(h))
+const melde = () => {
+  stand++
+  hoerer.forEach((h) => h())
+}
+
+function holeGruppe(gruppe: string): void {
+  if (GRUPPEN.has(gruppe) || gruppenPromise.has(gruppe) || FEHLER.has(gruppe)) return
+  gruppenPromise.set(
+    gruppe,
+    loadJson<SprecherGruppe>(`sprecher/${gruppe}.json`)
+      .then((g) => void GRUPPEN.set(gruppe, g))
+      .catch(() => void FEHLER.add(gruppe))
+      .finally(() => {
+        gruppenPromise.delete(gruppe)
+        melde()
+      }),
+  )
 }
 
 export interface Laden {
@@ -75,23 +90,23 @@ export function useSprecherIndex(): Laden & { index?: SprecherIndex; starten: ()
 /** Die angeforderten Gruppen; `gruppe(id)` ist erst nach dem Laden gefüllt, ein Abschluss löst ein neues Rendern aus. */
 export function useSprecherGruppen(ids: readonly string[]): Laden & { gruppe: (id: string) => SprecherGruppe | undefined; stand: number } {
   const schluessel = [...new Set(ids)].sort().join('|')
-  const [stand, setStand] = useState(0)
-  const [fehler, setFehler] = useState(false)
-  const [versuch, setVersuch] = useState(0)
+  const jetzt = useSyncExternalStore(abonniere, () => stand)
   useEffect(() => {
-    const fehlend = schluessel ? schluessel.split('|').filter((g) => !GRUPPEN.has(g)) : []
-    if (!fehlend.length) return
-    let aktiv = true
-    setFehler(false)
-    Promise.all(fehlend.map(ladeGruppe))
-      .then(() => aktiv && setStand((s) => s + 1))
-      .catch(() => aktiv && setFehler(true))
-    return () => {
-      aktiv = false
-    }
-  }, [schluessel, versuch])
-  const laedt = !fehler && !!schluessel && schluessel.split('|').some((g) => !GRUPPEN.has(g))
-  return { gruppe: (id) => GRUPPEN.get(id), laedt, fehler, nochmal: () => setVersuch((v) => v + 1), stand }
+    if (schluessel) schluessel.split('|').forEach(holeGruppe)
+  }, [schluessel])
+  const noetig = schluessel ? schluessel.split('|') : []
+  const nochmal = () => {
+    noetig.forEach((g) => FEHLER.delete(g))
+    noetig.forEach(holeGruppe)
+    melde()
+  }
+  return {
+    gruppe: (id) => GRUPPEN.get(id),
+    laedt: noetig.some((g) => !GRUPPEN.has(g) && !FEHLER.has(g)),
+    fehler: noetig.some((g) => FEHLER.has(g)),
+    nochmal,
+    stand: jetzt,
+  }
 }
 
 /** Die Gruppen der gewählten Namen (mit und ohne). */

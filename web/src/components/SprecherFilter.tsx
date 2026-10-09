@@ -158,9 +158,10 @@ function Vorschlagsliste({ t, id, v, aktiv, zuKurz, waehlen }: { t: Translate; i
   const { index, vorschlag, treffer, gruppen } = v
   /* Im scrollenden Filterkasten die Vorschläge ins Bild holen (am Handy liegt das Feld oft am unteren Rand). */
   const liste = useRef<HTMLDivElement>(null)
+  const hatVorschlag = !!vorschlag
   useEffect(() => {
     liste.current?.scrollIntoView({ block: 'nearest' })
-  }, [treffer.length, !!vorschlag])
+  }, [treffer.length, hatVorschlag])
   const titelVon = (name: string): string[] | undefined =>
     gruppen.gruppe(sprecherGruppe(name))?.[name]
       ?.map((x) => titelName?.(x.id))
@@ -229,9 +230,12 @@ export function SprecherFilter({ filters, onChange, mode }: { filters: FilterSta
     if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && treffer.length) {
       e.preventDefault()
       setAktiv((a) => (a + (e.key === 'ArrowDown' ? 1 : treffer.length - 1)) % treffer.length)
-    } else if (e.key === 'Enter' && treffer[aktiv]) {
+    } else if (e.key === 'Enter') {
       e.preventDefault()
-      waehlen(treffer[aktiv][0])
+      /* Innerhalb der Entprellung gilt, was jetzt im Feld steht, nicht der Vorschlag der vorigen Eingabe. */
+      const aktuell = v.anfrage === eingabe.trim() ? treffer : v.index.index && eingabe.trim().length >= MIN_ZEICHEN ? sprecherVorschlaege(v.index.index.sprecher, eingabe.trim(), new Set(gewaehlt), MAX_VORSCHLAEGE).treffer : []
+      const ziel = aktuell[v.anfrage === eingabe.trim() ? aktiv : 0]
+      if (ziel) waehlen(ziel[0])
     } else if (e.key === 'Escape') setEingabe('')
   }
   const verlassen = (e: FocusEvent<HTMLDivElement>) => {

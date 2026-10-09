@@ -95,11 +95,11 @@ export function Group({
   modus,
   inline,
   suche,
-  breit,
+  klasse,
 }: {
   label: string
-  /** Über die ganze Breite des Filterkastens (Sprecher-Feld mit Vorschlägen). */
-  breit?: boolean
+  /** Zusätzliche Klassen, z. B. Platz im Raster des Filterkastens. */
+  klasse?: string
   children: ReactNode
   modus?: { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
   /** Label und Chips in **einer** Zeile — für kurze Gruppen wie „Schnell". */
@@ -108,7 +108,7 @@ export function Group({
   suche?: BereichsSuche
 }) {
   return (
-    <div className={[inline ? 'flex flex-wrap items-center gap-2' : 'flex flex-col gap-1.5', breit && 'sm:col-span-2'].filter(Boolean).join(' ')}>
+    <div className={[inline ? 'flex flex-wrap items-center gap-2' : 'flex flex-col gap-1.5', klasse].filter(Boolean).join(' ')}>
       <span className="flex items-center text-[10px] font-semibold uppercase tracking-[0.14em] text-ak-leise">
         <BereichsLabel label={label} suche={suche} />
         {modus && modus.anzahl > 1 ? <ModusSchalter wert={modus.wert} setzen={modus.setzen} /> : null}
@@ -129,7 +129,7 @@ function Bereich({
   texte,
   modus,
   inline,
-  breit,
+  klasse,
   children,
 }: {
   label: string
@@ -137,12 +137,12 @@ function Bereich({
   texte: (string | undefined)[]
   modus?: { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
   inline?: boolean
-  breit?: boolean
+  klasse?: string
   children: ReactNode
 }) {
   if (suche && !suche.bereich(label, texte)) return null
   return (
-    <Group label={label} modus={modus} inline={inline} suche={suche} breit={breit}>
+    <Group label={label} modus={modus} inline={inline} suche={suche} klasse={klasse}>
       {children}
     </Group>
   )
@@ -417,7 +417,7 @@ export function FilterDetails({
                 ))}
               </Bereich>
               <Bereich
-                label={genreLabel}
+                label={genreLabel} klasse="sm:col-start-2 sm:row-span-5"
                 suche={suche}
                 texte={genres.map((g) => tGenre(g))}
                 modus={modusVon2('genres', filters.genres.length)}
@@ -519,7 +519,7 @@ function SprecherBereich({
   const label = t('filter.sprecher')
   if (!useContext(TitelNamenContext)) return null
   return (
-    <Bereich label={anzahl ? `${label} (${anzahl})` : label} suche={suche} texte={[]} breit>
+    <Bereich label={anzahl ? `${label} (${anzahl})` : label} suche={suche} texte={[]}>
       <SprecherFilter filters={filters} onChange={set} mode={mode} />
     </Bereich>
   )
@@ -544,6 +544,7 @@ function Grundgruppen({
   const jahrLabel = t('filter.year')
   return (
     <>
+      <SprecherBereich t={t} filters={filters} set={set} mode={mode} suche={suche} />
       <Bereich label={artenLabel} suche={suche} texte={arten.map((a) => tRelease(a))} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
         {arten.filter((a) => zeigePille(suche, artenLabel, tRelease(a))).map((type) => (
           <Chip ton="gruen" key={type} color={RELEASE_TYPES[type].color} title={tRelease(type, 'hint')} {...chipState('releaseTypes', type)} onClick={() => pick('releaseTypes', type)}>
@@ -567,7 +568,6 @@ function Grundgruppen({
           </Chip>
         ))}
       </Bereich>
-      <SprecherBereich t={t} filters={filters} set={set} mode={mode} suche={suche} />
     </>
   )
 }
