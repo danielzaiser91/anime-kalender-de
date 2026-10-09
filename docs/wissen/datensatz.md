@@ -698,6 +698,10 @@ bleiben (die Handdatei bindet sie); bei mehr als einem Treffer auf einer Seite w
 (`zuAk`), sie stand nur hinter dem Schalter. Zusicherung: `pipeline/check-anisearch-dubletten.ts` (Teil von `check:logic`), mit Übergang bis 16.10.2026, bis der
 nächste Datenlauf den Datensatz neu gebaut hat.
 
+**Cours (09.10.2026, Tougen Anki Nikko Kegon):** AniList führt 24 Folgen, aniSearch zwei Zeilen zu 12 (die zweite „… - Dai 2 Cour" ohne MAL). Gehen die Folgen der
+Zeilen mit gleicher MAL, Formatklasse und Jahr (±1) in der Zahl des Katalogtitels auf, entfallen alle (`coursZeilen`); gemessen auf dem Bestand trifft das genau diese zwei.
+Titel 15906 ist ein anderes Werk (MAL 50066); Tougen Anki Staffel 1 ist AniList 177474, aniSearch 19258, und die Suche findet ihn im Hauptbestand.
+
 ### Magical Explorer zweimal (09.10.2026, Nachtrag)
 
 Daniel sah die Dublette nach dem Fix weiter: **Der ausgelieferte Bestand war seit dem 09.10.2026 00:26 nicht mehr neu gebaut worden.** Jeder Bestandsbau lief durch, wurde aber
