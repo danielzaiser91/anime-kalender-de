@@ -1,6 +1,6 @@
 import { readJson, writeJson, log, clearDir } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
-import { schreibeOhneSynchro, schreibeNeuMitSynchro, schreibeMeldungen } from './nebendateien.ts'
+import { schreibeOhneSynchro, schreibeNeuMitSynchro, schreibeMeldungen, hauptKandidaten } from './nebendateien.ts'
 import { schreibeFolgenDateien } from './folgen-dateien.ts'
 import {
   SYNOPSIS_GROUPS,
@@ -70,7 +70,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     new Map(slim.map((t) => [t.id, t.franchiseId ?? t.id])),
     verschoben,
     deutscheReihe,
-    new Set(releases.map((r) => r.titleId)),
+    new Set(releases.map((r) => r.titleId)), hauptKandidaten(slim),
   )
   schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()]); ergaenzeCoverGross(synopses, slim); schreibeSaisonDatei(titles); schreibeAnisearchOffen(slim)
   // Synopsen in Gruppen statt in einer Datei.

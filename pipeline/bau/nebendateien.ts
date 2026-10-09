@@ -16,7 +16,7 @@ import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
-import { findeAnisearchDubletten, type DublettenUrteil } from './anisearch-dubletten.ts'
+import { findeAnisearchDubletten, type DublettenUrteil, type KatalogKandidat } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 
 /**
@@ -212,24 +212,32 @@ function setzeTonHinweise(
 /**
  * Dasselbe Werk als aniSearch-Zeile und als AniList-Katalogtitel steht nur einmal im Katalog (`anisearch-dubletten.ts`): Eine Zeile hinter dem Schalter
  * weicht dem Katalogtitel; steht die Zeile im Hauptbestand oder trägt sie einen Termin (`geschuetzt`), weicht der Katalogtitel ihr.
+ * `hauptTitel` (gepflegte AniList-Titel) zählen als Gegenstück mit — dieselbe Menge, gegen die `anisearchZeilenDoppelt` die Ausgabe prüft (Bestandsbau 09.10.2026, 88 Paare).
  */
-function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Title[], geschuetzt: Set<number>, eintraege: KatalogEintrag[]): DublettenUrteil {
+function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Title[], geschuetzt: Set<number>, eintraege: KatalogEintrag[], hauptTitel: KatalogKandidat[]): DublettenUrteil {
   const zeile = (id: number) => id >= ANISEARCH_ID_BASIS
-  const katalog = eintraege.filter((e) => !bekannt.has(e.id)).map((e) => ({ id: e.id, mal: e.mal, format: e.format, jahr: e.jahr, folgen: e.folgen }))
+  const katalog = [...eintraege.filter((e) => !bekannt.has(e.id)).map((e) => ({ id: e.id, mal: e.mal, format: e.format, jahr: e.jahr, folgen: e.folgen })), ...hauptTitel]
   const hinter = verschoben.map((t) => t.id).filter((id) => zeile(id) && !geschuetzt.has(id))
   const haupt = [...bekannt.keys(), ...verschoben.map((t) => t.id).filter((id) => geschuetzt.has(id))].filter(zeile)
   const urteil = findeAnisearchDubletten(hinter, haupt, katalog, anisearchEintraege())
+  /* Ein gepflegter AniList-Titel bleibt immer stehen; er kann eine Zeile hinter dem Schalter ersetzen, aber nie selbst entfallen. */
+  for (const k of hauptTitel) urteil.katalogWeg.delete(k.id)
   if (urteil.zeilenWeg.size || urteil.katalogWeg.size) {
     log(`aniSearch-Dubletten: ${urteil.zeilenWeg.size} Zeilen hinter dem Schalter entfallen (der AniList-Katalogtitel gilt), ${urteil.katalogWeg.size} Katalogtitel entfallen (die Zeile steht im Hauptbestand)`)
   }
   return urteil
 }
 
+/** Die gepflegten AniList-Titel des Hauptbestands als Gegenstück für die Dublettenregel (aniSearch-Zeilen tragen eine Kennung ab `ANISEARCH_ID_BASIS`). */
+export function hauptKandidaten(slim: { id: number; malId?: number; format?: string; jpYear?: number; episodes?: number }[]): KatalogKandidat[] {
+  return slim.filter((t) => t.id < ANISEARCH_ID_BASIS).map((t) => ({ id: t.id, mal: t.malId, format: t.format, jahr: t.jpYear, folgen: t.episodes }))
+}
+
 export function schreibeOhneSynchro(
   bekannt: Map<number, number>,
   verschoben: Title[] = [],
   deutscheReihe: Map<number, string> = new Map(),
-  geschuetzt: Set<number> = new Set(),
+  geschuetzt: Set<number> = new Set(), hauptTitel: KatalogKandidat[] = [],
 ): void {
   const katalog = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {})
   const eintraege = katalog.eintraege ?? []
@@ -298,7 +306,7 @@ export function schreibeOhneSynchro(
       { titel?: string; quelle?: string; anisearchId?: number; englisch?: string; synonyme?: string[] }
     >
   >('data/anisearch-titel.json', {})
-  const dubletten = anisearchDublettenAbziehen(bekannt, verschoben, geschuetzt, eintraege)
+  const dubletten = anisearchDublettenAbziehen(bekannt, verschoben, geschuetzt, eintraege, hauptTitel)
   const kennungen = anisearchKennungen([...eintraege.map((e) => ({ id: e.id, mal: e.mal ?? undefined })), ...verschoben.map((t) => ({ id: t.id, mal: t.malId }))])
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id) && !dubletten.katalogWeg.has(e.id))

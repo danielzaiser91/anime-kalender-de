@@ -73,6 +73,9 @@ console.log('\naniSearch-Zeile und AniList-Katalogtitel (ein Werk, eine Zeile):'
   pruefe('Cours: führt AniList nur 12 Folgen, entfallen die erste Zeile (gleiches Werk) und der Folgeteil „Dai 2 Cour"', c12.zeilenWeg.get(zeile(21138)) === 204650 && c12.zeilenWeg.get(zeile(21972)) === 204650)
   const spezial = { ...cours, '7': { t: 'Kegon - Special', ty: 'TV-Serie', y: 2026, f: 1, dub: '-' } }
   pruefe('Cours: ein Special ohne Teilzählung unter dem Namen bleibt', !findeAnisearchDubletten([zeile(21138), zeile(7)], [], [{ id: 204650, mal: 63181, format: 'TV', jahr: 2026, folgen: 12 }], spezial).zeilenWeg.has(zeile(7)))
+  /* Bestandsbau 09.10.2026: gepflegter AniList-Titel (Hauptbestand) ohne aniSearch-Kennung neben einer Zeile hinter dem Schalter. */
+  const hb = findeAnisearchDubletten([zeile(5)], [], [{ id: 77, mal: 99, format: 'TV', jahr: 2026, folgen: 12 }], cours)
+  pruefe('Hauptbestandstitel als Kandidat: die Zeile hinter dem Schalter entfällt zugunsten des gepflegten Titels', hb.zeilenWeg.get(zeile(5)) === 77)
   pruefe('Cours: steht ein Teil im Hauptbestand (nicht frei), bleibt keiner entfallen', findeAnisearchDubletten([zeile(21138)], [zeile(21972)], [{ id: 204650, mal: 63181, format: 'TV', jahr: 2026, folgen: 24 }], cours).zeilenWeg.size === 0)
 }
 
