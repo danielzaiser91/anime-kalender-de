@@ -144,6 +144,12 @@ jobs:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: bash tools/schritt.sh --zeit 15m "Westliche Animationsserien" -- npm run data:cartoons
 
+      # Reihen der Cartoons aus Wikidata (09.10.2026): nur neue oder über 30 Tage alte Einträge, im Normalfall wenige Abrufe; ohne Antwort bleibt der alte Stand.
+      - name: Reihen der westlichen Animationsserien
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: bash tools/schritt.sh --zeit 15m "Reihen der westlichen Animationsserien" -- npm run data:cartoon-reihen
+
       # Deutsche Trailer zu Anime-Filmen (KinoChecks API und der Index seines Kanals); täglich, weil ein Trailer vor dem Kinostart erscheint.
       # TMDB_API_KEY fehlte bis 19.09.2026: Weg 3 (TMDBs Videoliste) lief in der Cloud nie.
       - name: Deutsche Trailer zu Anime-Filmen
