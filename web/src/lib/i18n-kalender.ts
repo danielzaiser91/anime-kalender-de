@@ -2,7 +2,11 @@
  * Texte der Poster-Gestaltung (26.09.2026): Kopfleiste, Abo-Menü, Kalenderkopf, Filterfeld, Woche
  * und Monat. Eigene Datei, weil `i18n.tsx` über 800 Zeilen liegt; `TEXTE` dort nimmt sie auf.
  */
+/* Die Texte des Sprecher-Filters reisen mit: `i18n.tsx` ist über der Dateigrenze und wächst nicht mehr. */
+import { TEXTE_SPRECHER } from './i18n-sprecher.ts'
+
 export const TEXTE_KALENDER = {
+  ...TEXTE_SPRECHER,
   'kopf.startseite': 'Anime-Kalender DE — zur aktuellen Woche',
   'kopf.suche': 'Anime suchen',
   'kopf.sucheOeffnen': 'Suche öffnen',
