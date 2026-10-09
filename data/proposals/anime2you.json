@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-09T12:03:10.605Z",
+  "scrapedAt": "2026-10-09T14:54:21.714Z",
   "proposals": [
     {
       "articleTitle": "Crunchyroll kündigt sechs neue Simulcast-Lizenzen für 2027 an",
@@ -2244,7 +2244,9 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Deutscher Kinostart von »Rascal Does Not Dream of a Dear Friend«",
@@ -2483,7 +2485,9 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Prime Video zeigt »Seven Knights of Marronnier Kingdom« im Simulcast",
@@ -2563,7 +2567,9 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "»A Silent Voice« erscheint als Steelbook-Edition auf Blu-ray",
@@ -2701,7 +2707,9 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Disc-Termin des zweiten Parts von »Tougen Anki« + Design",
@@ -3065,7 +3073,103 @@
       ],
       "dates": [],
       "dub": "unklar",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Gunslinger Girl",
+          "zusatz": "Staffel 1",
+          "datum": "2026-09-03",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 13
+        },
+        {
+          "titel": "Samurai Girls",
+          "datum": "2026-09-03",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Gantz",
+          "datum": "2026-09-10",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 26
+        },
+        {
+          "titel": "Nicht schon wieder, Takagi-san",
+          "zusatz": "Staffel 3",
+          "datum": "2026-09-10",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Attack on Titan",
+          "zusatz": "Staffel 1",
+          "datum": "2026-09-17",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 25
+        },
+        {
+          "titel": "Danganronpa",
+          "zusatz": "Staffel 1",
+          "datum": "2026-09-17",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 14
+        },
+        {
+          "titel": "Samurai Bride",
+          "datum": "2026-09-17",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 12
+        },
+        {
+          "titel": "Nicht schon wieder, Takagi-san: Der Film",
+          "datum": "2026-09-24",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ]
+        },
+        {
+          "titel": "Yandere Dark Elf",
+          "datum": "2026-09-24",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "aniverse"
+          ],
+          "folgen": 12
+        }
+      ],
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Netflix enthüllt Termin der neuen »My Happy Marriage«-Folgen + Trailer",
@@ -3160,7 +3264,9 @@
       ],
       "dates": [],
       "dub": "ja",
-      "alreadyCurated": false
+      "alreadyCurated": false,
+      "sammel": [],
+      "sammelGelesen": "2026-10-09"
     },
     {
       "articleTitle": "Netflix nimmt drei Anime-Neuzugänge in seinen Katalog auf",
