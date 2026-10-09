@@ -8117,6 +8117,16 @@ console.log('\nCharakter-Beziehung:')
     pruefe('Ohne Synchro von Hand: jeder Eintrag hat eine Quelle und gehört zu einem Titel des Bestands (sonst wirkt er nirgends)', nein.size >= 7 && [...nein].every((id) => ids.has(id)), [...nein].filter((id) => !ids.has(id)).join(','))
   }
   {
+    // Jedes Handurteil „nein" steht nicht im Hauptbestand und trägt hinter dem Toggle `ohneSynchro:true`.
+    // Ausnahme: ein Titel mit Release (belegter deutscher Termin) bleibt im Hauptbestand — `10-termine.ts` überspringt ihn vor dem Handurteil.
+    const lies = (f: string) => JSON.parse(readFileSync(f, 'utf8')) as { id: number; ohneSynchro?: boolean }[]
+    const haupt = new Set(lies('public/data/titles.json').map((t) => t.id))
+    const hinter = new Map(lies('public/data/ohne-synchro.json').map((t) => [t.id, t]))
+    const mitRelease = new Set((JSON.parse(readFileSync('public/data/releases.json', 'utf8')) as { titleId: number }[]).map((r) => r.titleId))
+    const fehler = [...ohneSynchroVonHand()].filter((id) => !mitRelease.has(id) && (haupt.has(id) || hinter.get(id)?.ohneSynchro !== true))
+    pruefe('Ohne Synchro von Hand: jedes Handurteil „nein" steht nicht im Hauptbestand und trägt hinter dem Toggle ohneSynchro:true (außer mit belegtem deutschem Release)', fehler.length === 0, fehler.map((id) => `${id} ${haupt.has(id) ? 'im Hauptbestand' : hinter.has(id) ? 'ohne ohneSynchro-Marke' : 'fehlt hinter dem Toggle'}`).join('; '))
+  }
+  {
     const kein = keinAnimeVonHand()
     pruefe('Kein Anime von Hand: die beiden Diashow-Specials (Princess Principal Picture Drama 100519, Anohana Menma e no Tegami 107342) stehen mit Quelle in der Liste und im Ohne-Synchro-Urteil', kein.has(100519) && kein.has(107342) && kein.has(123074) && [...kein].every((id) => ohneSynchroVonHand().has(id)))
     pruefe('Ohne Synchro von Hand: das Dark-Side-of-Dimensions-Special (102505, ohne deutschen Beleg, aniSearch 08.10.2026) steht hinter dem Toggle, ist aber kein „kein Anime“', ohneSynchroVonHand().has(102505) && !kein.has(102505))
