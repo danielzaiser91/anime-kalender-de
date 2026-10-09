@@ -4255,6 +4255,37 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 }
 
 /**
+ * **Ein Simulcast im Originalton mit Untertiteln ist kein Synchro-Termin** (Beerus, 09.10.2026).
+ * Der Artikel zu „Dragon Ball Super: Beerus" nennt Crunchyroll und ADN „im Originalton mit Untertiteln"; er
+ * stand als Crunchyroll-Termin im Kalender. Ein Termin entsteht nur aus einer ausdrücklichen Synchro-Aussage.
+ */
+{
+  const { dubBefund } = await import('./scrape-anime2you.ts')
+  const beerus =
+    '»Dragon Ball Super: Beerus« startet am 11. Oktober 2026 im japanischen Fernsehen sowie am selben Tag bei Crunchyroll und ADN im Originalton mit Untertiteln. Bei Netflix geht es am 18. Oktober 2026 los.'
+  pruefe('Beerus: „Originalton mit Untertiteln" ohne Synchro-Aussage ist „nur-omu"', dubBefund(beerus) === 'nur-omu', dubBefund(beerus))
+  pruefe(
+    'Rooster Fighter: „Einzelheiten zu den Sprachfassungen sind noch offen" ist offen, auch neben einem Satz über eine frühere Synchro',
+    dubBefund('Die erste Staffel gibt es bereits mit deutscher Synchronisation. Einzelheiten zu den angebotenen Sprachfassungen sind zum aktuellen Zeitpunkt noch offen.') === 'offen',
+  )
+  pruefe('Gundam Hathaway: „Welche Sprachfassungen …, wurde bislang noch nicht verraten" ist offen', dubBefund('Welche Sprachfassungen dabei angeboten werden, wurde bislang noch nicht verraten.') === 'offen')
+  const titel = [{ id: 206814, titleEn: 'Dragon Ball Super: Beerus', format: 'TV', episodes: 12 }] as unknown as Parameters<typeof releasesAus>[1]
+  const v = (dub: string | undefined) =>
+    ({
+      articleTitle: 'Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast',
+      articleUrl: 'https://www.anime2you.de/news/1056092/dragon-ball-super-beerus-simulcast/',
+      category: 'streaming',
+      platforms: ['crunchyroll'],
+      titleId: 206814,
+      dates: [{ iso: '2026-10-11', context: 'am 11. Oktober 2026 bei Crunchyroll' }],
+      ...(dub ? { dub } : {}),
+    }) as unknown as Parameters<typeof releasesAus>[0][number]
+  for (const dub of ['nur-omu', 'unklar', 'offen', undefined])
+    pruefe(`Beerus: Befund „${dub}" erzeugt keinen Termin`, releasesAus([v(dub)], titel, [], '2026-10-09').length === 0)
+  pruefe('Gegenprobe: Befund „ja" erzeugt den Termin', releasesAus([v('ja')], titel, [], '2026-10-09').length === 1)
+}
+
+/**
  * **Prime Video führen wir über amazon.de, nicht über primevideo.com.**
  *
  * Daniel am 07.09.2026 an „City The Animation": Der Titel stand zweimal mit
