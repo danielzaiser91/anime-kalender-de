@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
-import type { DataMeta, Title } from '@shared/types.ts'
+import type { DataMeta } from '@shared/types.ts'
 import { activeFilterCount, EMPTY_FILTERS, type FilterState } from '../../lib/filters.ts'
 import type { DbSort } from '../../lib/router.ts'
 import { DbSortWahl, DbZaehlzeile } from '../db-bedienung.tsx'
@@ -17,9 +17,8 @@ export interface DbKopfProps {
   filters: FilterState
   onFiltersChange: (next: FilterState) => void
   favoriteCount: number
-  titles: Title[]
   ergebnisse: number
-  gebuendelt: boolean
+  mitSynchro: number
   suche: string
   sort: DbSort
   onSortChange: (next: DbSort) => void
@@ -37,7 +36,7 @@ export function DbKopfbereich(p: DbKopfProps) {
   return (
     <>
       <DbSchalter ohneSynchro={p.ohneSynchro} onOhneSynchroChange={p.onOhneSynchroChange} laedt={p.laedt} grouped={p.grouped} onGroupedChange={p.onGroupedChange} />
-      <DbZaehlzeile titles={p.titles} ergebnisse={p.ergebnisse} gebuendelt={p.gebuendelt} suche={p.suche} sort={p.sort} onSortChange={p.onSortChange} />
+      <DbZaehlzeile ergebnisse={p.ergebnisse} mitSynchro={p.mitSynchro} suche={p.suche} sort={p.sort} onSortChange={p.onSortChange} />
     </>
   )
 }
@@ -49,7 +48,6 @@ function DbWerkzeug(p: DbKopfProps) {
   const zu = useCallback(() => setOffen(false), [])
   const anzahl = activeFilterCount(p.filters)
   const abschnitte: FilterAbschnitt[] = [
-    { id: 'zaehlung', inhalt: <div className="text-sm text-ak-leise"><DbKopfzeile titles={p.titles} ergebnisse={p.ergebnisse} gebuendelt={p.gebuendelt} suche={p.suche} /></div> },
     { id: 'aktiv', inhalt: anzahl ? <AktiveFilter filters={p.filters} onChange={p.onFiltersChange} /> : null },
     { id: 'anzeige', inhalt: <div className="[&>div]:mx-0 [&>div]:flex-wrap [&>div]:overflow-visible [&>div]:px-0"><DbSchalter ohneSynchro={p.ohneSynchro} onOhneSynchroChange={p.onOhneSynchroChange} laedt={p.laedt} grouped={p.grouped} onGroupedChange={p.onGroupedChange} /></div> },
   ]
@@ -57,8 +55,8 @@ function DbWerkzeug(p: DbKopfProps) {
     <>
       <Werkzeugleiste>
         <FilterRund ref={pille} offen={offen} anzahl={anzahl} onClick={() => setOffen(!offen)} />
-        <output aria-live="polite" className="shrink-0 text-xs font-semibold text-ak-text tabular-nums">
-          {p.ergebnisse.toLocaleString('de-DE')}
+        <output aria-live="polite" className="min-w-0 flex-1 tabular-nums">
+          <DbKopfzeile ergebnisse={p.ergebnisse} mitSynchro={p.mitSynchro} suche={p.suche} zweizeilig />
         </output>
         <DbSortWahl sort={p.sort} onChange={p.onSortChange} suche={!!p.suche.trim()} kompakt />
       </Werkzeugleiste>

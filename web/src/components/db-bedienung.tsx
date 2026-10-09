@@ -1,5 +1,4 @@
 import { Fragment } from 'react'
-import type { Title } from '@shared/types.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import type { RelevanzArt } from '../lib/db-relevanz.ts'
 import type { DbSort } from '../lib/router.ts'
@@ -8,17 +7,16 @@ import { DbKarte, type DbKarteProps } from './db-karte.tsx'
 import type { ListenEintrag } from '../lib/db-liste.ts'
 
 /** Zählzeile links, Sortierung rechts. */
-export function DbZaehlzeile({ titles, ergebnisse, gebuendelt, suche, sort, onSortChange }: {
-  titles: Title[]
+export function DbZaehlzeile({ ergebnisse, mitSynchro, suche, sort, onSortChange }: {
   ergebnisse: number
-  gebuendelt: boolean
+  mitSynchro: number
   suche: string
   sort: DbSort
   onSortChange: (next: DbSort) => void
 }) {
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
-      <DbKopfzeile titles={titles} ergebnisse={ergebnisse} gebuendelt={gebuendelt} suche={suche} />
+      <DbKopfzeile ergebnisse={ergebnisse} mitSynchro={mitSynchro} suche={suche} />
       <DbSortWahl sort={sort} onChange={onSortChange} suche={!!suche.trim()} />
     </div>
   )
