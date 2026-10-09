@@ -8,6 +8,7 @@ import {
   type FilterState,
   type ListKey,
 } from './filters.ts'
+import { FSK_COLORS, PLATFORMS, RELEASE_TYPES, STATUS_LABEL } from '@shared/types.ts'
 import { todayIso } from '@shared/time.ts'
 import { vorliebenLesen, vorliebenNachfuehren } from './vorlieben.ts'
 import { kalenderBasis } from './kalender-filter.ts'
@@ -88,6 +89,14 @@ const LIST_PARAM: Record<ListKey, string> = {
 /** Felder, deren Werte Zahlen sind — alle anderen bleiben Zeichenketten. */
 const NUMERIC_KEYS = new Set<ListKey>(['fsk', 'years'])
 
+/** Listen mit festem Wertebereich: Eine unbekannte Kennung in der Adresse (`?p=prime`) wird verworfen, sonst bricht die Anzeige der Chips. */
+const BEKANNTE_WERTE: Partial<Record<ListKey, Set<string>>> = {
+  platforms: new Set(Object.keys(PLATFORMS)),
+  releaseTypes: new Set(Object.keys(RELEASE_TYPES)),
+  statuses: new Set(Object.keys(STATUS_LABEL)),
+  fsk: new Set(Object.keys(FSK_COLORS)),
+}
+
 function splitList(value: string | null): string[] {
   return value ? value.split(',').filter(Boolean) : []
 }
@@ -96,7 +105,9 @@ function readLists(params: URLSearchParams, prefix: '' | 'x'): FilterLists {
   const lists = emptyLists()
   for (const key of LIST_KEYS) {
     const raw = splitList(params.get(prefix + LIST_PARAM[key]))
-    ;(lists as any)[key] = NUMERIC_KEYS.has(key) ? raw.map(Number) : raw
+    const werte = NUMERIC_KEYS.has(key) ? raw.map(Number) : raw
+    const bekannt = BEKANNTE_WERTE[key]
+    ;(lists as any)[key] = bekannt ? werte.filter((w) => bekannt.has(String(w))) : werte
   }
   /*
     **`disc` ist eine Veröffentlichungsart, keine Plattform** (01.10.2026; am

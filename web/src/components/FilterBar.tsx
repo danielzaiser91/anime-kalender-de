@@ -37,7 +37,7 @@ export function FilterBarDock(props: FilterBarProps) {
   return (
     <div
       className={[
-        'fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto md:bottom-[calc(1rem+env(safe-area-inset-bottom))] max-w-[1180px]',
+        'fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto flex max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col md:bottom-[calc(1rem+env(safe-area-inset-bottom))] max-w-[1180px]',
         pille && 'right-2 left-auto mx-0 w-max max-w-[calc(100vw-1rem)] md:right-4 md:max-w-[calc(100vw-2rem)]',
       ]
         .filter(Boolean)
@@ -62,10 +62,10 @@ export function FilterBar({
   const count = activeFilterCount(filters)
 
   return (
-    <div className={pille && open ? 'rounded-2xl border border-ak-rand bg-ak-flaeche md:w-[min(720px,calc(100vw-2rem))]' : 'rounded-2xl border border-ak-rand bg-ak-flaeche shadow-[0_12px_32px_rgba(0,0,0,.18)]'}>
+    <div className={pille && open ? 'flex min-h-0 flex-col rounded-2xl border border-ak-rand bg-ak-flaeche md:w-[min(720px,calc(100vw-2rem))]' : 'flex min-h-0 flex-col rounded-2xl border border-ak-rand bg-ak-flaeche shadow-[0_12px_32px_rgba(0,0,0,.18)]'}>
       {/* Die Leiste bleibt an ihrer Stelle, der Inhalt klappt darüber auf (Daniel, 04.10.2026). */}
       {open && (
-        <div className="max-h-[calc(100dvh-15rem)] animate-fade-in overflow-y-auto overscroll-contain border-b border-ak-linie">
+        <div className="min-h-0 flex-1 animate-fade-in overflow-y-auto overscroll-contain border-b border-ak-linie">
           <FilterDetailsFeld
             meta={meta}
             filters={filters}
@@ -77,7 +77,7 @@ export function FilterBar({
       )}
       {/* Auswahl links, Filter-Knopf rechts auf derselben Zeile. */}
       <div className="flex flex-wrap items-center gap-2 p-2">
-        <div className="min-w-0 flex-1">
+        <div className="max-h-[5.5rem] min-w-0 flex-1 overflow-y-auto">
           <AktiveFilter filters={filters} onChange={onChange} />
         </div>
         <button
