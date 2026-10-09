@@ -141,11 +141,12 @@ export function PatchTagBlock({ tag, index, heute, gestern, schliessen }: { tag:
 /** Fokusfalle: Tab wandert nur durch den Dialog, auch rückwärts vom Titel aus. */
 export function fokusfalle(e: React.KeyboardEvent, panel: HTMLElement | null): void {
   if (e.key !== 'Tab' || !panel) return
-  const f = [...panel.querySelectorAll<HTMLElement>('h2[tabindex], button, a[href]')]
+  const f = [...panel.querySelectorAll<HTMLElement>('button:not(:disabled), a[href]')]
   const erstes = f[0]
   const letztes = f[f.length - 1]
-  const aktiv = document.activeElement
-  const draussen = !panel.contains(aktiv)
+  const aktiv = document.activeElement as HTMLElement | null
+  // Der Titel (tabindex -1) trägt den Startfokus, ist aber kein Tab-Stopp: wie „draußen“ behandeln.
+  const draussen = !aktiv || !f.includes(aktiv)
   if (e.shiftKey && (aktiv === erstes || draussen)) (e.preventDefault(), letztes?.focus())
   else if (!e.shiftKey && (aktiv === letztes || draussen)) (e.preventDefault(), erstes?.focus())
 }
