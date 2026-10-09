@@ -615,6 +615,15 @@ Idee 2 aus [ideen-2026-10-08.md](ideen-2026-10-08.md). Quellen, Auflagen und Vol
 - **Anzeige:** Gruppe „Sprecher" über den Treffern in Datenbank und Woche (`role="status"` sagt die Trefferzahl an), je Name ein Aufklapp-Knopf (`aria-expanded`/`aria-controls`, 44 px hoch), darunter die Titel mit Rolle als Sprung ins Panel, bei ANN-Rollen der Pflichtlink „ANN ↗". Genau ein Treffer mit vollem Namen klappt von selbst auf. Im Panel sind die Namen unter „Deutsche Stimmen" Knöpfe (`zurSprecherSuche`: Panel zu, `#/datenbank?q=<Name>`).
 - **Was sie nicht tut:** keine Bewertung, keine Sprecher-Seite mit Biografie, keine Zusammenlegung von Schreibvarianten, kein Eintrag in `SUCHFELD_ARTEN` (das Fragezeichen am Suchfeld nennt „Sprecher" noch nicht — nachziehen, wenn Daniel die Vorschau freigibt).
 
+## Sprecher-Filter der Datenbank (09.10.2026)
+
+Ersetzt die Sprecher-Suche (Seite in PR 546 gelöscht); der Index aus dem Bau (`sprecher.json`, `sprecher/<buchstabe>.json`) bleibt. Freigabe und Verknüpfung (Daniel, 09.10.2026): eigener Filter in der Filterliste, **nicht** in der Suche.
+
+- **Verknüpfung** (`lib/sprecher-auswahl.ts`, Zusicherung `check:logic` → `check-sprecher-filter.ts`): „mit"-Sprecher ODER, „ohne"-Sprecher UND, beides UND alle anderen Filter. Gespeichert wie die übrigen Listen (`FilterLists.sprecher`; Adresse `sp=` und `xsp=`, Namen, nur Datenbank — im Kalender weder gelesen noch geschrieben). Der Zähler am Filterknopf und „Sprecher (n)" in der Überschrift zählen mit und ohne.
+- **Laden** (`lib/sprecher.ts`): beim Öffnen des Filterkastens nichts; `sprecher.json` (20 KB gepackt) erst beim Fokus im Feld; je gewähltem Namen und je sichtbarem Vorschlag die Gruppendatei (7–23 KB gepackt, einmal je Buchstabe zwischengespeichert). Steht ein Name in der Adresse, kommt nur seine Gruppe. Nichts davon in `titles.json`. Ein Fehlschlag bleibt nicht im Zwischenspeicher („Erneut versuchen" holt neu). Solange eine Gruppe fehlt, zeigt die Liste „lädt"/leer statt eines Bestands, der den Filter ignoriert.
+- **Eingabe:** ab zwei Zeichen, entprellt (120 ms), höchstens 8 Vorschläge (Wortanfang vor Treffer im Wort), nur Namen aus dem Index; Vorschläge im Fluss der Seite (das Filterfeld scrollt selbst), Tastatur (↑ ↓ Enter Esc), Tippziele ≥ 28 px. Der Pfeil klappt die Titel auf und wählt nichts. Die Eingabe verlässt das Gerät nie.
+- Der Filter erscheint nur, wo `SprecherLeiste` die Titelnamen bereitstellt (Datenbank).
+
 ## Rollbare Reihen auf dem Handy: `sr-only` braucht einen positionierten Vorfahren (08.10.2026)
 
 Die Datenbank-Schalter rollen auf dem Handy seitlich (`overflow-x-auto`, Pillen `shrink-0 whitespace-nowrap`). Beim ersten Bau standen
