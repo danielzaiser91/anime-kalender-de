@@ -96,7 +96,7 @@ OG-Tags, `build-share-pages.ts`) bzw. `/t/<titel-slug>/`. Alte Adressen `#/agend
 | Wochen-/Monatsraster, Karten | `components/WeekView.tsx`, `MonthView.tsx`, `kalender/PosterKarte.tsx`, `kalender/TvKasten.tsx`, `kalender/Schwebe.tsx` |
 | Untere Steuerleiste, Filterfeld | `kalender/KalenderKopf.tsx` (`Steuerleiste`), `FilterBar.tsx`, `kalender/FilterFeld.tsx`; Logik `lib/filters.ts` |
 | Datenbank-Ansicht, Suche | `DatabaseView.tsx`, `lib/search.ts`, `lib/filter-suche.ts`, `Suchfeld.tsx` |
-| Detail-Panel (Kopf, Antwortkasten, Pillen, Reihen, Neuigkeiten) | `DetailPanel.tsx` (1.290 Z., darin eine Funktion `DetailPanel` von 1.237 Z.; Limit 80/800, Überlänge nur sinkend per `check:umfang`) + `detail/*` — Antwort-Logik `detail/antwort-berechnen.ts`, `antwort-regeln.ts`, `antwort-kasten.tsx`; Pillen `detail/pillen.tsx`, `wege-sortieren.ts`, `verweise.ts` |
+| Detail-Panel (Kopf, Antwortkasten, Pillen, Reihen, Neuigkeiten) | `DetailPanel.tsx` (1.290 Z., darin eine Funktion `DetailPanel` von 1.237 Z.; Limit 80/800, Überlänge nur sinkend per `check:umfang`) + `detail/*` — Antwort-Logik `detail/antwort-berechnen.ts`, `antwort-regeln.ts`, `antwort-kasten.tsx`; Pillen `detail/pillen.tsx`, `wege-sortieren.ts`, `verweise.ts`; Reihe seit 09.10.2026 als Karte unter dem Kasten (`reihen-karte.tsx` Hülle, `reihen-liste.tsx` Liste, Staffelnummer `staffelStaende()` in `shared/titles.ts`, Listenscroll `zeileInListeSichtbar()` — nie `scrollIntoView`, das scrollt das Panel); leise Überschrift `aufklapp-kopf.tsx` |
 | News-Seite | `NewsView.tsx`, `news-belege.tsx`, `lib/news-text.ts`; Daten `pipeline/lib/news.ts` |
 | Statische Seiten, Newsletter-Formular, Abo | `StaticViews.tsx` (1.282 Z.) |
 | Texte (i18n de/en) | `lib/i18n.tsx`, `i18n-kalender.ts`, `i18n-seiten.ts` |
