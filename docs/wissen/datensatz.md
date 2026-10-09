@@ -718,6 +718,14 @@ oder läuft eine Sendung, entfällt die Anzeige. Stand 09.10.2026: 1 von 20 Tite
 betroffen (Super Wings). Die Programmquelle hält nur den laufenden Tag, der Verlauf stammt aus
 den bei uns gesichteten Terminen (`schedule.observed`, `sendungen`).
 
+## Herkunftsland im Hauptbestand: `land` nur bei ≠ JP (09.10.2026)
+Quelle ist `countryOfOrigin` aus AniList (Produktionsland, nicht die Vorlage); `titles.json` und
+`titles-core.json` tragen `land` (zwei Buchstaben) nur, wenn es nicht JP ist, Kennungen ab
+10.000.000 nie (Unbekannt, nichts raten). Zusicherung: `landFehler()` in `pruefung.ts` und
+`check:herkunftsland`. Alt-Einträge ohne das Feld holt `nochOffen` in `fetch.ts` einmal neu
+(Backfill im ersten CI-Datenlauf). Simulation auf dem Stand 09.10.2026: Hauptbestand KR 31,
+CN 27 (Kern: CN 3, KR 1); gzip +431 B bzw. +38 B. Oberfläche folgt separat.
+
 ## TV-Premiere nur, wo sie belegt ist (09.10.2026)
 
 Anlass: Super Wings (Staffel 1, deutsche Erstausgabe 25.01.2017) trug in der TV-Leiste PREMIERE und in den News „Erstmals mit deutscher Synchro". `istPremiere()` (`shared/tv-signale.ts`) liefert jetzt `true`/`false`/`undefined`: Premiere nur mit Beleg (Wikipedia-Erstausgabe der Folge ≥ Termin; Folge direkt hinter dem Bestand; Streaming-Termin der Folge erst nach der Sendung), Wiederholung nur mit Beleg, sonst **keine Aussage** — `tvPremiere` fehlt am Termin, keine Pille, im Newsletter unter „TV — Weitere Sendungen". Liegt die belegte deutsche Erstausgabe des Titels über ein Jahr zurück, zählt nur die Wikipedia-Erstausgabe der Folge. News: ein automatischer TV-Termin (`automatisch`) eines Titels mit früherer Erstausgabe zählt nicht als deutscher Start (`istKeinDeutscherStart`, wirkt in `neu-mit-synchro.json` und damit in News und Newsletter). `news.json` wird bei jedem Bau neu gebildet; die Super-Wings-Meldung vom 07.10. verschwindet beim nächsten Bau, bereits versendete Mails bleiben, wie sie waren. Gemessen auf dem Bestand vom 09.10.2026: 23 → 19 Premieren (nur Super Wings, 4 Termine), 1 von 14 „Neu auf Deutsch"-Meldungen entfällt. Zusicherung: `check:logic`, „Super Wings: …".

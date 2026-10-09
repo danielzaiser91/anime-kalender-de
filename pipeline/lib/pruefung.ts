@@ -44,6 +44,17 @@ export const folgenzahlUeberWerk = (folgen: number, werkFolgen: number): boolean
 /** Ab wann ein Termin so weit weg ist, dass er einen Beleg braucht. */
 const FERNE_ZUKUNFT_TAGE = 550
 
+/** `land` ist ein Länderkürzel ≠ JP und stammt von AniList; eine synthetische Kennung (≥ 10.000.000) hat keine Quelle dafür. */
+export function landFehler(titles: Map<number, Title>): string[] {
+  const fehler: string[] = []
+  for (const t of titles.values()) {
+    if (t.land === undefined) continue
+    if (!/^[A-Z]{2}$/.test(t.land) || t.land === 'JP') fehler.push(`Anime ${t.id}: Herkunftsland „${t.land}" ist kein Kürzel ≠ JP`)
+    else if (t.id >= 10_000_000) fehler.push(`Anime ${t.id}: Herkunftsland „${t.land}" ohne AniList-Kennung — keine Quelle`)
+  }
+  return fehler
+}
+
 export function pruefeErgebnis(
   releases: Release[],
   events: ReleaseEvent[],
@@ -212,7 +223,7 @@ export function pruefeErgebnis(
       if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)
         fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB, ohne als „über TMDB" gekennzeichnet zu sein`)
 
-  fehler.push(...geteilteWegeTrotzWiderlegung(releases, titles))
+  fehler.push(...landFehler(titles), ...geteilteWegeTrotzWiderlegung(releases, titles))
   return { fehler, warnungen }
 }
 
