@@ -24,7 +24,7 @@ export function DbZaehlzeile({ titles, ergebnisse, gebuendelt, suche, sort, onSo
 }
 
 /** Die Sortierwahl über dem Raster. „Relevanz" steht zur Wahl, wenn gesucht wird. */
-export function DbSortWahl({ sort, onChange, relevanz, suche }: { sort: DbSort; onChange: (next: DbSort) => void; relevanz: boolean; suche: boolean }) {
+export function DbSortWahl({ sort, onChange, relevanz, suche, kompakt }: { sort: DbSort; onChange: (next: DbSort) => void; relevanz: boolean; suche: boolean; kompakt?: boolean }) {
   const { t } = useLang()
   return (
     <label className="ml-auto flex cursor-pointer items-center gap-2">
@@ -33,7 +33,7 @@ export function DbSortWahl({ sort, onChange, relevanz, suche }: { sort: DbSort; 
         value={sort}
         aria-label={t('db.sort')}
         onChange={(e) => onChange(e.target.value as DbSort)}
-        className="cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5"
+        className={['cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5', kompakt && 'h-11 w-28 rounded-full'].filter(Boolean).join(' ')}
       >
         {relevanz && <option value="relevanz">{suche ? t('db.sortRelevanz') : 'Laufend & neu zuerst'}</option>}
         <option value="titel">{t('db.sortTitle')}</option>

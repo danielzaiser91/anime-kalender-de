@@ -17,6 +17,7 @@ import { useRoute, buildHash, type ViewId } from './lib/router.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header } from './components/Header.tsx'
+import { WerkzeugSlotProvider } from './components/filter/werkzeug-slot.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
 import { SeitenAnsicht } from './components/SeitenAnsicht.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
@@ -56,11 +57,19 @@ function tvAusGespeichert(): boolean {
 
 /** Unten docken Handy-Navigation und im Kalender die Steuerleiste an — der Fuß bleibt darüber lesbar. */
 const FUSS_ABSTAND = {
-  kalender: 'pb-[calc(10.5rem+env(safe-area-inset-bottom))] md:pb-24',
+  kalender: 'pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-24',
   sonst: 'pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0',
 }
 
 export default function App() {
+  return (
+    <WerkzeugSlotProvider>
+      <AppKern />
+    </WerkzeugSlotProvider>
+  )
+}
+
+function AppKern() {
   const { t } = useLang()
   const [allTitles, setAllTitles] = useState<Title[]>()
   // Vorgabe aus: Wer die Datenbank öffnet, sucht meist einen bestimmten Titel.

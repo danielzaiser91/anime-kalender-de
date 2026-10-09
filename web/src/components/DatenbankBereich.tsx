@@ -4,6 +4,7 @@ import type { FilterState } from '../lib/filters.ts'
 import type { Fundstelle } from '../lib/search.ts'
 import type { AppRoute } from '../lib/router.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { useMobil } from '../lib/use-mobil.ts'
 import { SuchfundstellenContext } from '../lib/such-kontext.ts'
 import { DatabaseView } from './DatabaseView.tsx'
 import { FilterBarDock } from './FilterBar.tsx'
@@ -41,12 +42,9 @@ export interface DatenbankBereichProps {
 export function DatenbankBereich(p: DatenbankBereichProps) {
   const { t } = useLang()
   const { data, route } = p
-  return (
+  const mobil = useMobil()
+  const ansicht = (
     <>
-      {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
-      <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
-      {/* Das Filterfeld der Datenbank dockt unten an — wie im Kalender. */}
-      <SprecherLeiste data={data} filters={route.filters}><FilterBarDock meta={data.meta} filters={route.filters} onChange={p.setFilters} showConfidence favoriteCount={p.favorites.size} /></SprecherLeiste>
       {p.geladen ? (
         <SuchfundstellenContext.Provider value={p.titles.fundstellen}>
           <DatabaseView
@@ -65,10 +63,27 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
             suche={route.filters.search}
             gewaehlt={route.sort}
             onSortChange={(sort) => p.navigate({ sort })}
+            filters={route.filters}
+            onFiltersChange={p.setFilters}
           />
         </SuchfundstellenContext.Provider>
       ) : (
         <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
+      )}
+    </>
+  )
+  return (
+    <>
+      {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
+      <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
+      {/* Am Rechner dockt das Filterfeld unten an; am Handy steht die Werkzeugleiste oben (`DbKopfbereich`). */}
+      {mobil ? (
+        <SprecherLeiste data={data} filters={route.filters}>{ansicht}</SprecherLeiste>
+      ) : (
+        <>
+          <SprecherLeiste data={data} filters={route.filters}><FilterBarDock meta={data.meta} filters={route.filters} onChange={p.setFilters} showConfidence favoriteCount={p.favorites.size} /></SprecherLeiste>
+          {ansicht}
+        </>
       )}
     </>
   )

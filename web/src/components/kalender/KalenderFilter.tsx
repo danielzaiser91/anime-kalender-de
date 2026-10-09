@@ -3,6 +3,8 @@ import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'
 import type { ViewId } from '../../lib/router.ts'
 import { activeFilterCount, type FilterState } from '../../lib/filters.ts'
+import { useMobil } from '../../lib/use-mobil.ts'
+import { KalenderWerkzeug } from '../filter/KalenderWerkzeug.tsx'
 import { Steuerleiste } from './KalenderKopf.tsx'
 import { FilterFeld } from './FilterFeld.tsx'
 
@@ -30,6 +32,7 @@ export interface KalenderFilterProps {
 export function KalenderFilter(p: KalenderFilterProps) {
   const [filterOffen, setFilterOffen] = useState(false)
   useEscapeSchliesst(filterOffen, () => setFilterOffen(false))
+  if (useMobil()) return <KalenderWerkzeug {...p} />
   return (
     <>
       <Steuerleiste

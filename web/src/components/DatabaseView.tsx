@@ -5,8 +5,9 @@ import type { Title } from '@shared/types.ts'
 import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { DbSchalter } from './db-kopfzeile.tsx'
-import { DbLeer, DbRaster, DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
+import { DbKopfbereich } from './filter/DbWerkzeug.tsx'
+import { DbLeer, DbRaster, MehrKnopf } from './db-bedienung.tsx'
+import type { FilterState } from '../lib/filters.ts'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -39,6 +40,18 @@ export function groupByFranchise(titles: Title[]): TitleGroup[] {
   })
 }
 
+function sortierteGruppen(titles: Title[], grouped: boolean, sort: DbSort): TitleGroup[] {
+  const base: TitleGroup[] = grouped
+    ? groupByFranchise(titles)
+    : titles.map((tt) => ({ main: tt, members: [tt] }))
+
+  if (sort === 'relevanz') return base
+  if (sort === 'titel') sortiereNachTitel(base)
+  else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
+  else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
+  return base
+}
+
 export function DatabaseView({
   data,
   titles,
@@ -55,6 +68,8 @@ export function DatabaseView({
   suche,
   gewaehlt,
   onSortChange,
+  filters,
+  onFiltersChange,
 }: {
   data: Dataset
   titles: Title[]
@@ -75,6 +90,9 @@ export function DatabaseView({
   /** Sortierung aus der Adresse (`?sort=`); ohne Wahl gilt die Vorgabe unten. */
   gewaehlt?: DbSort
   onSortChange: (next: DbSort) => void
+  /** Die Filter für die Werkzeugleiste am Handy. */
+  filters: FilterState
+  onFiltersChange: (next: FilterState) => void
 }) {
   const { share, copiedSlug } = useShare()
   const today = todayIso()
@@ -83,23 +101,17 @@ export function DatabaseView({
   const relevanzMoeglich = !!suche.trim()
   const sort = (gewaehlt === 'relevanz' && !relevanzMoeglich ? undefined : gewaehlt) ?? (relevanzMoeglich ? 'relevanz' : 'titel')
 
-  const groups = useMemo(() => {
-    const base: TitleGroup[] = grouped
-      ? groupByFranchise(titles)
-      : titles.map((tt) => ({ main: tt, members: [tt] }))
-
-    if (sort === 'relevanz') return base
-    if (sort === 'titel') sortiereNachTitel(base)
-    else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
-    else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
-    return base
-  }, [titles, grouped, sort])
+  const groups = useMemo(() => sortierteGruppen(titles, grouped, sort), [titles, grouped, sort])
 
   return (
     <div className="flex flex-col gap-4">
-      <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} />
-
-      <DbZaehlzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich} />
+      <DbKopfbereich
+        meta={data.meta} filters={filters} onFiltersChange={onFiltersChange} favoriteCount={favorites.size}
+        titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche}
+        sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich}
+        ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt}
+        grouped={grouped} onGroupedChange={onGroupedChange}
+      />
 
       <DbRaster
         groups={groups.slice(0, visible)}

@@ -4,6 +4,7 @@ import { useThema } from '../lib/thema.ts'
 import { InstallButton } from './InstallPrompt.tsx'
 import { KopfSuchfeld, useKopfSuche } from './kopf-suche.tsx'
 import { HandyNavigation } from './HandyNavigation.tsx'
+import { useKopfWerkzeug } from './filter/werkzeug-slot.tsx'
 import { AboMenue } from './kalender/AboMenue.tsx'
 import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen } from './kalender/Zeichen.tsx'
 
@@ -69,6 +70,7 @@ export function Header({
   const aktiv = bereichVon(view)
   const kalender = aktiv === 'kalender'
   const { sucheAuf, eingabe, kopf, oeffnen } = useKopfSuche(view, kalender, suche, zurSuche)
+  const { mitSlot, slotRef } = useKopfWerkzeug(kopf, view, aktiv)
   return (
     <header ref={kopf} className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
       <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6 lg:px-10">
@@ -104,6 +106,7 @@ export function Header({
           <KopfSuchfeld suche={suche} setSuche={setSuche} className="block" eingabe={eingabe} />
         </div>
       )}
+      {mitSlot && <div ref={slotRef} className="relative" />}
       <HandyNavigation aktiv={aktiv} onView={onView} kalender={kalender ? view : 'woche'} einstellungen={einstellungen} />
     </header>
   )
