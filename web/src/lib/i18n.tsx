@@ -386,7 +386,6 @@ const TEXTE = {
   'detail.dubNichtImAngebot': 'Nicht im Angebot: {bereiche}',
   'detail.dubFromTitel': 'Deutscher Ton ab Folge {n}',
   'detail.genres': 'Genres',
-  'detail.seriesPartsCount': '{count} Teile in dieser Reihe',
   // Die vier Gruppen der Reihenliste. „Hauptserie" statt „Staffeln", weil eine
   // Reihe aus einem einzigen Teil bestehen kann und „Staffeln" dann falsch
   // klingt; „Specials & OVAs" nennt beides, weil der Unterschied hier keiner ist.
