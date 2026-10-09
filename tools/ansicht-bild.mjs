@@ -66,6 +66,40 @@ const TYPEN = {
   '.webmanifest': 'application/manifest+json',
 }
 
+/**
+ * Zustand, in dem Beerus und Fool Night unter „Cartoon" standen (09.10.2026): Schalter „Anime ohne deutsche Synchro" an, danach
+ * der Schnellfilter „Cartoon". Doppelte Kennungen in der Liste ließen Kacheln als Geister im Raster stehen. Jede Kachel im Raster
+ * muss ein Cartoon sein, und das Raster darf keine fremden Knoten tragen.
+ */
+async function pruefeCartoonFilter(seite) {
+  await seite.goto('http://ak.test/#/datenbank', { waitUntil: 'networkidle' })
+  await seite.getByText('Anime ohne deutsche Synchro').first().click()
+  await seite.waitForTimeout(6000)
+  await seite.getByRole('button', { name: /^Filter/ }).first().click()
+  await seite.locator('[aria-label*="Cartoon"]').first().click()
+  await seite.waitForTimeout(6000)
+  const r = await seite.evaluate(() => {
+    const raster = [...document.querySelectorAll('div.grid')].find((g) => g.children.length > 20)
+    if (!raster) return 'kein Raster gefunden'
+    const fiber = raster[Object.keys(raster).find((k) => k.startsWith('__reactFiber'))]
+    const react = fiber.memoizedProps.children.length
+    const karten = [...raster.children].filter((c) => c.classList.contains('group'))
+    const fremd = karten.filter((k) => !/CARTOON/.test(k.innerText)).map((k) => k.innerText.split('\n')[3] ?? '?')
+    return { fremd, geister: karten.length - react }
+  })
+  if (typeof r === 'string') return r
+  if (r.fremd.length) return `✕ Kacheln ohne Cartoon im Raster: ${r.fremd.join(', ')}`
+  if (r.geister > 0) return `✕ ${r.geister} Kachel(n) im Raster, die React nicht kennt`
+  return 'ok'
+}
+
+/** Druckt den Befund von `pruefeCartoonFilter`; wahr, wenn er rot ist. */
+async function meldeCartoonFilter(seite) {
+  const befund = await pruefeCartoonFilter(seite)
+  console.log(`\nDatenbank, „Anime ohne deutsche Synchro" an + Cartoon-Filter: ${befund}`)
+  return befund !== 'ok'
+}
+
 async function main() {
   if (!existsSync(path.join(DIST, 'index.html'))) {
     console.error('dist/ fehlt — erst `npm run build`.')
@@ -146,9 +180,9 @@ async function main() {
     }
   }
 
+  let rot = ansichten.includes('datenbank') ? await meldeCartoonFilter(seite) : false
   await browser.close()
 
-  let rot = false
   console.log('\nAnsicht        Überbreite  Konsolenfehler')
   for (const b of befunde) {
     const ueber = b.ueberbreite > 1 ? `${b.ueberbreite} px` : '—'
