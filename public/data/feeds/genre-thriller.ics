@@ -110,4 +110,14 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  etails: https://anime-kalender.de/t/16757/
 CATEGORIES:Crunchyroll
 END:VEVENT
+BEGIN:VEVENT
+UID:auto-10021751-netflix@2026-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261126
+DTEND;VALUE=DATE:20261127
+SUMMARY:Fool Night
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/17705/
+CATEGORIES:Netflix
+END:VEVENT
 END:VCALENDAR

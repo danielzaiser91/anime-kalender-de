@@ -6,47 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – crunchyroll
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T150000Z
-DTEND:20261002T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 22/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16234/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-02#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17561/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-02#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17561/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-02#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17561/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261003T093000Z
@@ -236,7 +195,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261010T160000Z
 DTEND:20261010T163000Z
 SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 9/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16797/
 CATEGORIES:Crunchyroll
 END:VEVENT

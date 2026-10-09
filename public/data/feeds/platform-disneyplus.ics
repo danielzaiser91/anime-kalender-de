@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – disneyplus
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:tokyo-revengers-s3-disneyplus@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T170000Z
-DTEND:20261002T173000Z
-SUMMARY:Tokyo Revengers: War of the Three Titans – Folge 1/13
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nDetai
- ls: https://anime-kalender.de/t/15957/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:spy-x-family-s1-teil1-disneyplus@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261004
