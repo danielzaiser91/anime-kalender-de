@@ -29,6 +29,7 @@ import {
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { jetztBerlin } from '../lib/toggo.ts'
 import { tvAngabe } from '../lib/tv-angabe.ts'
+import { useTvVorbei } from './detail/tv-vorbei.tsx'
 import { KEYWORD_PREVIEW } from './detail/hilfen.tsx'
 import { folgenAuskunft } from './detail/folgen-angabe.ts'
 import { lueckeOhneAnbieter } from './detail/folgen-ohne-anbieter.ts'
@@ -652,26 +653,9 @@ export function DetailPanel({
    * Werkangaben weiter unten lassen sie weg.
    */
   /*
-    **Kein Weg bekannt — der Satz steht jetzt im Kasten.**
-
-    Die Bedingung ist dieselbe wie im früheren Abschnitt „WO LÄUFT ES", nur
-    ihr Ort hat sich geändert. Vier Ausschlüsse gehören dazu, jeder mit
-    eigenem Anlass:
-
-    - **Es gibt Wege** — dann sagen die Pillen alles.
-    - **Kein Titel ohne deutsche Fassung**: Oben steht
-      dann schon „Noch keine deutsche Fassung", und ein zweites Nein liest
-      sich wie eine eigene Feststellung. Sind Sprechrollen belegt, bleibt der
-      Satz — dort sagt er etwas anderes.
-    - **Kein laufender Kinofilm** (Daniel, 25.08.2026, „Detektiv Conan Film
-      29" lief in 36 Städten): Der Anbieter ist dann das Kino, und der Termin
-      steht darüber. Entschieden wird am belegten letzten Spieltag, nicht an
-      einer geschätzten Laufzeit.
-  */
-  /*
-    **Bei einem angekündigten Kinofilm steht dort, was der Stern bringt.**
-    „Kein Anbieter bekannt" ist bei einem Film, der noch gar nicht erschienen
-    ist, keine Auskunft — die Frage des Lesers ist, wann er ihn sehen kann.
+    **Kein Weg bekannt — der Satz steht im Kasten.** Kein Satz, wenn es Wege gibt, bei einem Titel ohne
+    deutsche Fassung (steht schon oben) oder während eines Kinolaufs (entschieden am belegten letzten
+    Spieltag). Ein angekündigter Kinofilm bekommt statt dessen, was der Stern bringt.
   */
   const wegeHinweis =
     title && antwort?.art === 'kino'
@@ -705,6 +689,8 @@ export function DetailPanel({
     )
       ? t(title.hasVoices ? 'detail.whereDubbedButGone' : 'detail.whereUnknown')
       : undefined
+
+  const tvVorbei = useTvVorbei(wegeHinweis, streamReleases, releases, today)
 
   /*
     **Welche Notiz gilt?** Die des Releases, dessen Termin oben steht.
@@ -1095,6 +1081,7 @@ export function DetailPanel({
             t={t}
             today={today}
             wegeHinweis={wegeHinweis}
+            tvVorbei={tvVorbei}
             kastenNotiz={kastenNotiz}
             kaufausgabeZeile={kaufausgabeZeile}
             folgenLuecke={folgenLuecke}
