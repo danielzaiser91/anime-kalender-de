@@ -30,17 +30,20 @@ export function gleichesWerk(e: Eintrag, k: KatalogKandidat): boolean {
 
 /**
  * **Ein Katalogtitel, den aniSearch in Cours zerlegt** (Tougen Anki: Nikko-Kegon-Falls-Arc, 09.10.2026): AniList führt 24 Folgen, aniSearch zwei Zeilen zu je 12 —
- * die erste mit der MAL-Kennung, die zweite („… - Dai 2 Cour") ohne, ihr Name beginnt mit dem der ersten. Gehören die Folgen der Zeilen zusammen zur Zahl des
- * Katalogtitels, sind alle Zeilen dasselbe Werk. Gibt die Kennungen der Zeilen zurück, sonst leer.
+ * die erste mit der MAL-Kennung, die zweite („… - Dai 2 Cour") ohne, ihr Name beginnt mit dem der ersten und trägt eine Teilzählung. Führt AniList 24 Folgen, gehen beide
+ * Zeilen in der Zahl auf; führt es nur 12, ist die erste schon `gleichesWerk`, und die weitere gehört trotzdem zum Bogen unter derselben MAL. Gibt die Kennungen der Zeilen
+ * zurück, sonst leer.
  */
+const TEILZAEHLUNG = /(?:\d\s*cour|cour\s*\d|part\s*\d|teil\s*\d)/i
 function coursZeilen(e: Eintrag, asId: number, k: KatalogKandidat, eintraege: Record<string, Eintrag>): number[] {
-  if (!e.mal || e.mal !== k.mal || !e.t || !e.f || !k.folgen || e.f >= k.folgen) return []
+  if (!e.mal || e.mal !== k.mal || !e.t || !e.f || !k.folgen || e.f > k.folgen) return []
   if (klasse(FORMAT[e.ty] ?? 'SPECIAL') !== klasse(k.format) || (e.y && k.jahr && Math.abs(e.y - k.jahr) > 1)) return []
-  const teile = Object.entries(eintraege).filter(([id, b]) => Number(id) !== asId && !b.mal && b.dub === '-' && b.ty === e.ty && b.f && b.t?.startsWith(`${e.t} - `) && (!b.y || !e.y || b.y - e.y <= 1))
-  return e.f + teile.reduce((s, [, b]) => s + b.f!, 0) === k.folgen ? [asId, ...teile.map(([id]) => Number(id))] : []
+  const teile = Object.entries(eintraege).filter(([id, b]) => Number(id) !== asId && !b.mal && b.dub === '-' && b.ty === e.ty && b.f && b.t?.startsWith(`${e.t} - `) && TEILZAEHLUNG.test(b.t.slice(e.t!.length)) && (!b.y || !e.y || b.y - e.y <= 1))
+  const passt = e.f === k.folgen ? teile.length > 0 : e.f + teile.reduce((s, [, b]) => s + b.f!, 0) === k.folgen
+  return passt ? [asId, ...teile.map(([id]) => Number(id))] : []
 }
 
-type Ausgeliefert ={ id: number; malId?: number; anisearchId?: number; format?: string | null; jpYear?: number | null; episodes?: number | null }
+type Ausgeliefert = { id: number; malId?: number; anisearchId?: number; format?: string | null; jpYear?: number | null; episodes?: number | null }
 
 /**
  * Invariante an der **ausgelieferten** Ausgabe (`titles.json` + `ohne-synchro.json`): keine aniSearch-Zeile ohne Deutsch neben einem AniList-Titel
@@ -104,10 +107,10 @@ export function findeAnisearchDubletten(hinter: number[], haupt: number[], katal
   for (const id of hinter) {
     const asId = id - ANISEARCH_ID_BASIS
     const e = eintraege[String(asId)]
-    if (!e || e.dub !== '-' || MAL_AUSNAHMEN[asId] || urteil.zeilenWeg.has(id)) continue
+    if (!e || e.dub !== '-' || MAL_AUSNAHMEN[asId]) continue
     for (const k of nachMal.get(e.mal ?? 0) ?? []) {
       const zeilen = coursZeilen(e, asId, k, eintraege).map((a) => ANISEARCH_ID_BASIS + a)
-      if (!zeilen.length || katalogUrteil.has(k.id) || !zeilen.every((z) => frei.has(z) && !MAL_AUSNAHMEN[z - ANISEARCH_ID_BASIS])) continue
+      if (!zeilen.length || (katalogUrteil.get(k.id) ?? [id]).some((z) => z !== id) || !zeilen.every((z) => frei.has(z) && !MAL_AUSNAHMEN[z - ANISEARCH_ID_BASIS])) continue
       for (const z of zeilen) urteil.zeilenWeg.set(z, k.id)
     }
   }
