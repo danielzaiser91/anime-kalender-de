@@ -923,8 +923,6 @@ function nachrichtEmpfangen(e) {
       überlebt das nicht.
     */
     knopfZeigen()
-    /* Im Player zeichnet `knopfZeigen()` nichts — dort ist das hier zuständig. */
-    playerZeigen()
     /*
       Die automatische Meldung beim Abspielen ist seit dem 26.08.2026 aus.
       Gemeldet wird nur noch über den Durchlauf oder von Hand — dann ist immer
@@ -1046,18 +1044,6 @@ function vielleichtSenden() {
   */
   if (!stand.reihe || !stand.spuren) {
     /*
-      **Erst wenn die Reihe steht, ist klar, ob uns die Folge angeht.** Vorher
-      wäre jede Zeile geraten — und im Player einer fremden Serie wäre sie
-      schlicht falsch. `playerAnzeige()` prüft das selbst; der Aufruf hier
-      trägt nur den Text, auf den gewartet wird.
-    */
-    playerAnzeige(
-      stand.reihe
-        ? 'Anime-Kalender: wartet auf die Tonspuren …'
-        : 'Anime-Kalender: wartet auf die Folgendaten …',
-      'laeuft',
-    )
-    /*
       **Bleibt es dabei, ist das ein Vorfall.** Fünfundzwanzig Sekunden reichen
       dem Player unter allen bisher gesehenen Bedingungen; danach kommt nichts
       mehr. Ohne diese Meldung bliebe es beim Schweigen — und genau das war der
@@ -1067,12 +1053,6 @@ function vielleichtSenden() {
       playerStummFrist = setTimeout(() => {
         playerStummFrist = null
         if (stand.reihe && stand.spuren) return
-        playerAnzeige(
-          stand.reihe
-            ? 'Anime-Kalender: keine Tonspuren gelesen — nicht gemeldet'
-            : 'Anime-Kalender: keine Folgendaten gelesen — nicht gemeldet',
-          'fehler',
-        )
         void vorfallMelden('player_stumm', {
           reihe: stand.reihe ?? null,
           folge_nr: stand.folgeNr ?? null,
@@ -1091,7 +1071,6 @@ function vielleichtSenden() {
   const k = schluessel()
   if (gesendet.has(k)) return
   gesendet.set(k, 'unterwegs')
-  playerAnzeige(`Anime-Kalender: meldet Folge ${stand.folgeNr ?? '?'} …`, 'laeuft')
   void melden({ automatisch: true })
 }
 
@@ -1364,30 +1343,6 @@ async function melden({ automatisch = false } = {}) {
   }
 }
 
-/**
- * **Im Player war die Erweiterung unsichtbar — und damit stumm.**
- *
- * Seit dem 22.08.2026 räumt `zeigeUebersicht()` im Player alles ab: „dort ist
- * die Erweiterung unsichtbar". Der Gedanke war richtig — eine Bedienleiste über
- * einem laufenden Video stört. Der Schluss war zu weit: Gemeldet wird **genau
- * hier**, und das Ergebnis ging an `knopf`, den es im Player nicht gibt.
- * `zeigeErgebnis()` fiel also still auf die erste Zeile zurück.
- *
- * Daniel am 10.09.2026, nachdem er eine Folge geöffnet hatte: „player hat sich
- * durch link geöffnet, nix ist weiter passiert. wurde es gemeldet ohne das ich
- * etwas visuell sehe? — wenn ja, dann ist das klarer verstoß gegen offene
- * kommunikation regel." Es war nicht gemeldet, und **auch das** war nicht zu
- * sehen: Zwischen „liest gerade", „fertig" und „gescheitert" konnte er nicht
- * unterscheiden.
- *
- * Die Anzeige ist deshalb klein und oben links, wo Netflix nur den Zurück-Pfeil
- * hat — sie stört nicht, aber sie ist da. Sie verschwindet nicht von selbst:
- * Wer nach zwanzig Sekunden hinsieht, will wissen, was passiert ist.
- */
-let playerFeld = null
-/* Textknoten und Knopf der Player-Anzeige — wiederverwendet, nicht neu gebaut. */
-let playerText = null
-let playerKnopf = null
 /** Läuft die Frist, nach der ein stummer Player als Vorfall gilt? */
 let playerStummFrist = null
 
@@ -1632,136 +1587,8 @@ function durchlaufLaeuftHier() {
   }
 }
 
-/**
- * **Die Anzeige verschwindet, sobald sie nicht mehr hingehört.**
- *
- * Sie räumte sich nur auf, solange man **im** Player war: `playerAnzeige()`
- * stieg bei `!imPlayer()` mit einem nackten `return` aus, und das Feld blieb
- * stehen. Nach dem Melden und dem Weg zurück zur Titelseite hing „Folge 13:
- * deutsche Tonspur gefunden" samt Knopf über der Übersicht (Daniel,
- * 12.09.2026: „der denkt wir sind noch im player obwohl wir bereits in
- * overview sind") — und ein Klick darauf hätte eine Folge gemeldet, die
- * niemand mehr ansieht.
- *
- * Dieselbe Regel wie für den Kasten: Wer ein Element einblendet, gibt ihm den
- * Weg hinaus mit. Der Takt ruft das hier bei jedem Durchlauf.
- */
-function playerFeldWeg() {
-  if (playerFeld?.isConnected) playerFeld.remove()
-  playerFeld = null
-  playerText = null
-  playerKnopf = null
-}
-
-function playerAnzeige(text, art = 'laeuft', knopfText = null) {
-  try {
-    if (!imPlayer() || !playerAuftragOffen()) {
-      /* Kein Player, kein Auftrag, keine Anzeige — und eine stehende geht weg. */
-      playerFeldWeg()
-      return
-    }
-    if (!playerFeld?.isConnected) {
-      playerFeld = document.createElement('div')
-      playerFeld.className = 'ak-player-anzeige'
-      document.body.appendChild(playerFeld)
-    }
-    playerFeld.dataset.art = art
-    /*
-      **Neu gebaut wird nur, was sich geändert hat.**
-
-      `playerZeigen()` läuft im Sekundentakt, und `replaceChildren` warf dabei
-      jedes Mal den ganzen Inhalt weg — samt Melde-Knopf. Sichtbar war das als
-      Pulsieren beim Überfahren, und es ist schlimmer als ein Schönheitsfehler: Ein Klick,
-      der zwischen Ersetzen und Mausloslassen fällt, trifft einen Knopf, den es
-      nicht mehr gibt.
-
-      Der Text steht deshalb in einem eigenen Knoten, der nur beschrieben wird,
-      wenn er etwas anderes sagen soll — der Knopf daneben bleibt stehen.
-    */
-    if (!playerText?.isConnected) {
-      playerText = document.createElement('span')
-      playerText.className = 'ak-player-text'
-      playerFeld.replaceChildren(playerText)
-    }
-    if (playerText.textContent !== text) playerText.textContent = text
-    /*
-      **Der Knopf, der im Player gefehlt hat.**
-
-      Die selbsttätige Meldung beim Abspielen ist seit dem 26.08.2026 aus:
-      „Gemeldet wird nur noch über den Durchlauf oder von Hand — dann ist immer
-      klar, woher eine Meldung stammt." Der Satz stimmt, nur gab es die Hand
-      nicht: `zeigeUebersicht()` räumt im Player alles ab, und der Durchlauf
-      nimmt Anfang und Ende, nicht eine bestimmte Folge.
-
-      Für einen Auftrag wie „Haikyu!! S1 Folge 26" blieb damit kein Weg. Daniel
-      am 10.09.2026, nachdem er die Folge über den Direktlink geöffnet hatte:
-      „nix ist weiter passiert."
-
-      Der Knopf ändert daran genau eine Sache — die Meldung bleibt eine bewusste
-      Handlung, sie ist nur endlich möglich.
-    */
-    if (knopfText) {
-      /* Derselbe Knopf, solange er dasselbe sagt — siehe oben. */
-      if (!playerKnopf?.isConnected) {
-        playerKnopf = document.createElement('button')
-        playerKnopf.type = 'button'
-        playerKnopf.className = 'ak-player-knopf'
-        playerKnopf.addEventListener('click', (e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          playerAnzeige('Anime-Kalender: meldet …', 'laeuft')
-          void melden({ automatisch: false })
-        })
-        playerFeld.appendChild(playerKnopf)
-      }
-      if (playerKnopf.textContent !== knopfText) playerKnopf.textContent = knopfText
-      /* Nur der Knopf nimmt Klicks an — die Fläche daneben gehört dem Player. */
-      playerFeld.classList.add('ak-player-bedienbar')
-    } else {
-      playerKnopf?.remove()
-      playerKnopf = null
-      playerFeld.classList.remove('ak-player-bedienbar')
-    }
-  } catch {
-    /* Eine Anzeige, die den Player stört, ist keine. */
-  }
-}
-
-/**
- * **Was im Player zu sehen ist — einmal je Takt entschieden.**
- *
- * Vier Lagen, und jede hat ihren eigenen Satz: Es fehlen noch Daten, es fehlen
- * die Tonspuren, es ist alles da (dann steht der Knopf bereit), oder die Folge
- * ist bereits gemeldet.
- */
-function playerZeigen() {
-  /* Verlassener Player oder kein Auftrag: Die Anzeige geht mit — siehe playerFeldWeg(). */
-  if (!imPlayer() || !playerAuftragOffen()) return playerFeldWeg()
-  if (gesendet.has(schluessel())) {
-    const wie = gesendet.get(schluessel())
-    if (wie === 'deutsch') playerAnzeige('Anime-Kalender: als deutsch gemeldet', 'gut')
-    else if (wie === 'kein_deutsch') playerAnzeige('Anime-Kalender: als „kein Deutsch" gemeldet', 'gut')
-    return
-  }
-  if (!stand.reihe) {
-    playerAnzeige('Anime-Kalender: wartet auf die Folgendaten …', 'laeuft')
-    return
-  }
-  if (!stand.spuren) {
-    playerAnzeige('Anime-Kalender: wartet auf die Tonspuren — Abspielen drücken', 'laeuft')
-    return
-  }
-  const { deutsch } = urteil(stand.spuren)
-  playerAnzeige(
-    `Folge ${stand.folgeNr ?? '?'}: ${deutsch ? 'deutsche Tonspur gefunden' : 'kein Deutsch gefunden'}`,
-    'laeuft',
-    deutsch ? 'Als deutsch melden' : 'Als „kein Deutsch" melden',
-  )
-}
-
 function zeigeErgebnis(text, gutgegangen) {
-  /* Im Player gibt es keinen Knopf — dort sagt es die eigene Anzeige. */
-  playerAnzeige(text, gutgegangen ? 'gut' : 'fehler')
+  /* Im Player gibt es nichts zu sehen (Daniel, 09.10.2026). */
   if (!knopf) return
   knopf.textContent = text
   knopf.classList.add(gutgegangen ? 'ak-erfolg' : 'ak-fehler')
@@ -1846,16 +1673,9 @@ function browseWegKnopf() {
 
 function knopfZeigen() {
   /*
-    **Im Player zeichnet `playerZeigen()`, sonst niemand.**
-
-    Der Melde-Knopf dieser Funktion gehört auf die Titelseite. Im Player gibt
-    es die eigene Anzeige oben links — und der Kasten unten rechts trug
-    daneben einen zweiten Knopf, dessen Text dort leer bleibt: ein schmaler
-    weißer Streifen über dem laufenden Bild (Daniel, 12.09.2026: „unten rechts
-    weiterhin kaputt", der Diagnosebericht nennt `knopf: ""`).
-
-    Zwei Anzeigen für dieselbe Sache waren schon am 10.09.2026 die Ursache —
-    damals andersherum, mit einer Anzeige, die es nicht gab.
+    **Im Player zeichnet niemand.** Der Melde-Knopf dieser Funktion gehört auf die Titelseite;
+    im Player blieb er als leerer weißer Streifen über dem Bild stehen (Daniel, 12.09.2026),
+    und die Player-Anzeige oben links ist seit 4.24.18 weg (Daniel, 09.10.2026).
   */
   if (imPlayer()) {
     knopfEntfernen()
@@ -6238,18 +6058,6 @@ setInterval(() => {
     knopfZeigen()
   } catch {
     /* Vor dem Laden des Speichers gibt es noch nichts zu zeichnen. */
-  }
-  /*
-    **Der Player braucht denselben Takt.**
-
-    Die Anzeige hing zuerst an der Leser-Nachricht — und die kommt nur, wenn
-    leser.js etwas findet. Bleibt sie aus, blieb auch die Anzeige aus, und genau
-    das war der Fall, den niemand sehen konnte (10.09.2026).
-  */
-  try {
-    playerZeigen()
-  } catch {
-    /* Ohne Prüfliste gibt es im Player nichts zu sagen. */
   }
   /*
     **Die Liste gehört in den Takt, nicht nur an den Pfadwechsel.**

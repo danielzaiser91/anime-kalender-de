@@ -11,7 +11,7 @@
  *
  * Die TV-Trennung hängt an `tvPremiere`, das der Bau an den Termin schreibt
  * (`shared/tv-signale.ts`): true = erstmals auf Deutsch, false = Wiederholung, **fehlend** =
- * keine Aussage (Sichtung ohne belegte Folgennummer). Fehlendes zählt zu den Wiederholungen —
+ * keine Aussage (Sichtung ohne belegte Folgennummer). Fehlendes kommt zu den weiteren Sendungen (nicht als Wiederholung behauptet) —
  * so war die Mail bisher: eine Sichtung ohne Nummer ist keine Premiere, die man ankündigen kann.
  */
 import type { ReleaseEvent } from '../../shared/types.ts'

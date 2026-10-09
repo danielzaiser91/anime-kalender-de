@@ -1,5 +1,4 @@
-import { useMemo, useState } from 'react'
-import { sortiereNachTitel } from '../lib/titel-sortierung.ts'
+import { Fragment, useMemo, useState } from 'react'
 
 import type { Title } from '@shared/types.ts'
 import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
@@ -7,7 +6,8 @@ import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { DbSchalter } from './db-kopfzeile.tsx'
 import { DbKarte } from './db-karte.tsx'
-import { DbLeer, DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
+import { DbGruppenKopf, DbLeer, DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
+import { ordneListe } from '../lib/db-liste.ts'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -80,50 +80,48 @@ export function DatabaseView({
   const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
-  /* Beim Suchen gilt die Treffergüte, bis jemand selbst sortiert; `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
-  const relevanzMoeglich = !!suche.trim()
-  const sort = (gewaehlt === 'relevanz' && !relevanzMoeglich ? undefined : gewaehlt) ?? (relevanzMoeglich ? 'relevanz' : 'titel')
+  /* Vorgabe ist „Relevanz": mit Suche die Treffergüte, ohne Suche die Gruppen „Läuft jetzt" / „Demnächst" / „Schon erschienen". */
+  const sort = gewaehlt ?? 'relevanz'
 
-  const groups = useMemo(() => {
+  const { liste, zahlen } = useMemo(() => {
     const base: TitleGroup[] = grouped
       ? groupByFranchise(titles)
       : titles.map((tt) => ({ main: tt, members: [tt] }))
-
-    if (sort === 'relevanz') return base
-    if (sort === 'titel') sortiereNachTitel(base)
-    else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
-    else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
-    return base
-  }, [titles, grouped, sort])
+    return ordneListe(base, sort, suche, data.releasesByTitle, today)
+  }, [titles, grouped, sort, suche, data.releasesByTitle, today])
 
   return (
     <div className="flex flex-col gap-4">
       <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} />
 
-      <DbZaehlzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich} />
+      <DbZaehlzeile titles={titles} ergebnisse={grouped ? liste.length : titles.length} gebuendelt={grouped} suche={suche} sort={sort} onSortChange={onSortChange} />
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
-        {groups.slice(0, visible).map(({ main, members }) => (
-          <DbKarte
-            key={main.id}
-            main={main}
-            members={members}
-            data={data}
-            today={today}
-            grouped={grouped}
-            favorites={favorites}
-            hidden={hidden}
-            onToggleFavorite={onToggleFavorite}
-            onToggleHidden={onToggleHidden}
-            onOpenTitle={onOpenTitle}
-            share={share}
-            copiedSlug={copiedSlug}
-          />
+        {liste.slice(0, visible).map(({ main, members, art, ab }, i) => (
+          <Fragment key={main.id}>
+            {art && art !== liste[i - 1]?.art && <DbGruppenKopf art={art} zahl={zahlen[art] ?? 0} />}
+            <DbKarte
+              main={main}
+              members={members}
+              data={data}
+              today={today}
+              grouped={grouped}
+              favorites={favorites}
+              hidden={hidden}
+              onToggleFavorite={onToggleFavorite}
+              onToggleHidden={onToggleHidden}
+              onOpenTitle={onOpenTitle}
+              share={share}
+              copiedSlug={copiedSlug}
+              gruppe={art}
+              ab={ab}
+            />
+          </Fragment>
         ))}
       </div>
 
-      {groups.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
-      {visible < groups.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={groups.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
+      {liste.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
+      {visible < liste.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={liste.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
     </div>
   )
 }
