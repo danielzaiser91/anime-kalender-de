@@ -116,3 +116,18 @@ export function findeAnisearchDubletten(hinter: number[], haupt: number[], katal
   }
   return urteil
 }
+
+/**
+ * **Trägt ein AniList-Katalogtitel die Kennung einer Zeile (aniSearchs MAL-Brücke, Handdatei), ist die Zeile sein aniSearch-Eintrag** — auch wenn Folgenzahl oder Format
+ * abweichen (Alice in Cyberland: 2 gegen 1 Folge, gleiche MAL, gleicher Start). Die Ausgabe-Invariante (`anisearchZeilenDoppelt`) verlangt das; der Bau lässt solche Zeilen
+ * hinter dem Schalter entfallen, sofern `urteil` über sie oder den Titel nicht schon entschieden hat. Ergänzt `urteil.zeilenWeg`.
+ */
+export function zeilenMitKennungWeg(hinter: number[], katalogKennungen: Map<number, number>, eintraege: Record<string, Eintrag>, urteil: DublettenUrteil): void {
+  const frei = new Set(hinter)
+  for (const [titelId, asId] of katalogKennungen) {
+    const zeile = ANISEARCH_ID_BASIS + asId
+    if (titelId >= ANISEARCH_ID_BASIS || !frei.has(zeile) || urteil.zeilenWeg.has(zeile) || urteil.katalogWeg.has(titelId)) continue
+    if (eintraege[String(asId)]?.dub !== '-' || MAL_AUSNAHMEN[asId]) continue
+    urteil.zeilenWeg.set(zeile, titelId)
+  }
+}

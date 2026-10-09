@@ -16,7 +16,7 @@ import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
-import { findeAnisearchDubletten, type DublettenUrteil } from './anisearch-dubletten.ts'
+import { findeAnisearchDubletten, zeilenMitKennungWeg, type DublettenUrteil } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 
 /**
@@ -191,12 +191,13 @@ export function schreibeCartoons(): void {
  * Dasselbe Werk als aniSearch-Zeile und als AniList-Katalogtitel steht nur einmal im Katalog (`anisearch-dubletten.ts`): Eine Zeile hinter dem Schalter
  * weicht dem Katalogtitel; steht die Zeile im Hauptbestand oder trägt sie einen Termin (`geschuetzt`), weicht der Katalogtitel ihr.
  */
-function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Title[], geschuetzt: Set<number>, eintraege: KatalogEintrag[]): DublettenUrteil {
+function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Title[], geschuetzt: Set<number>, eintraege: KatalogEintrag[], kennungen: Map<number, number>): DublettenUrteil {
   const zeile = (id: number) => id >= ANISEARCH_ID_BASIS
   const katalog = eintraege.filter((e) => !bekannt.has(e.id)).map((e) => ({ id: e.id, mal: e.mal, format: e.format, jahr: e.jahr, folgen: e.folgen }))
   const hinter = verschoben.map((t) => t.id).filter((id) => zeile(id) && !geschuetzt.has(id))
   const haupt = [...bekannt.keys(), ...verschoben.map((t) => t.id).filter((id) => geschuetzt.has(id))].filter(zeile)
   const urteil = findeAnisearchDubletten(hinter, haupt, katalog, anisearchEintraege())
+  zeilenMitKennungWeg(hinter, kennungen, anisearchEintraege(), urteil)
   if (urteil.zeilenWeg.size || urteil.katalogWeg.size) {
     log(`aniSearch-Dubletten: ${urteil.zeilenWeg.size} Zeilen hinter dem Schalter entfallen (der AniList-Katalogtitel gilt), ${urteil.katalogWeg.size} Katalogtitel entfallen (die Zeile steht im Hauptbestand)`)
   }
@@ -276,8 +277,8 @@ export function schreibeOhneSynchro(
       { titel?: string; quelle?: string; anisearchId?: number; englisch?: string; synonyme?: string[] }
     >
   >('data/anisearch-titel.json', {})
-  const dubletten = anisearchDublettenAbziehen(bekannt, verschoben, geschuetzt, eintraege)
   const kennungen = anisearchKennungen([...eintraege.map((e) => ({ id: e.id, mal: e.mal ?? undefined })), ...verschoben.map((t) => ({ id: t.id, mal: t.malId }))])
+  const dubletten = anisearchDublettenAbziehen(bekannt, verschoben, geschuetzt, eintraege, kennungen)
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id) && !dubletten.katalogWeg.has(e.id))
     .map((e) => {
