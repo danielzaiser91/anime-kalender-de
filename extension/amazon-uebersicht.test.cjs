@@ -376,7 +376,7 @@ function starte(seitenAsin, gespeichert = {}, liste = TEST_LISTE, alsVideoSeite 
         sync: { get: async () => ({ token: 'test' }) },
       },
     },
-    window: {
+    akZaehler(k, z) { k?.classList?.toggle?.('ak-fertig', !z); return z }, window: {
       addEventListener(art, fn) {
         if (art === 'message') traeger.hoerer = fn
       },

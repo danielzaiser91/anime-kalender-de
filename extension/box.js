@@ -96,6 +96,7 @@ function akBox(kennung, fuerAdresse) {
   kasten.appendChild(debug)
   document.body.appendChild(kasten)
   boxen.set(kennung, kasten)
+  akIconStarten()
   return kasten
 }
 
@@ -203,3 +204,134 @@ akPlayerMarke()
 /* SPA-Wechsel ohne Neuladen: Navigation API (Chrome 102+), sonst nur Zurück-Knopf. */
 if (window.navigation) window.navigation.addEventListener('currententrychange', akPlayerMarke)
 else window.addEventListener('popstate', akPlayerMarke)
+
+/**
+ * **Einklappbarer Kasten** (Daniel, 09.10.2026): ein kleines Icon unten rechts klappt den Kasten
+ * aus und ein, auf allen Seiten gleich (Disney+, Netflix, Prime). Standard: eingeklappt, damit
+ * Wiedergabe- und Stöberseiten frei bleiben. Ein Schlüssel für alle Seiten (`chrome.storage.local`,
+ * Berechtigung `storage` besteht schon). Eingeklappt ist nur visuell (`melder.css`, `html.ak-zu`);
+ * die Melder-Logik läuft weiter. Ein Durchgang (`html.ak-durchgang`, bei Disney+/Prime `pflicht`)
+ * hält den Kasten offen, er ist dann der Notausgang.
+ *
+ * Die Zahl im Badge liefert jeder Melder aus seiner eigenen Prüfliste über `akZaehler()` — dieselbe
+ * Variable, die seinen Knopf „N offen" beschriftet; hier wird nicht neu gezählt.
+ */
+const AK_ZU_SCHLUESSEL = 'akKastenZu'
+let akZu = true
+let akZahl = null
+let akPflicht = false
+let akIcon = null
+let akZeichen = null
+let akBadge = null
+let akPruefen = null
+const akBeobachtet = new WeakSet()
+
+/** Badge-Text: leer ohne Auskunft, „✓" bei 0, ab 100 „99+". */
+function akBadgeText(zahl) {
+  if (zahl === null || zahl === undefined) return ''
+  if (zahl <= 0) return '✓'
+  return zahl > 99 ? '99+' : String(zahl)
+}
+
+/** Nur ein ausdrückliches „ausgeklappt" (false) zählt; fehlender Wert = Standard eingeklappt. */
+function akZuAusSpeicher(wert) {
+  return wert !== false
+}
+
+/**
+ * Meldet die Zahl offener Titel der Seite (und ob ein Durchgang den Kasten offen halten muss),
+ * färbt dabei den Übersichts-Knopf (`ak-fertig`, falls vorhanden) und gibt die Zahl zurück.
+ */
+function akZaehler(knopf, zahl, pflicht = false) {
+  knopf?.classList.toggle('ak-fertig', !zahl)
+  akZahl = Number.isFinite(zahl) ? zahl : null
+  akPflicht = pflicht
+  akIconZeichnen()
+  return zahl
+}
+
+function akIconZeichnen() {
+  const html = document.documentElement
+  const offen = !akZu || akPflicht || html.classList.contains('ak-durchgang')
+  html.classList.toggle('ak-zu', !offen)
+  if (!akIcon) return
+  akIcon.ariaExpanded = String(offen)
+  const text = akBadgeText(akZahl)
+  akIcon.ariaLabel =
+    (offen ? 'Anime-Kalender-Kasten einklappen' : 'Anime-Kalender-Kasten ausklappen') +
+      (akZahl === null ? '' : akZahl > 0 ? `, ${akZahl} Titel zu prüfen` : ', alles geprüft')
+  akZeichen.textContent = offen ? '▾' : 'AK'
+  const marke = akBadge
+  marke.textContent = text
+  marke.hidden = !text || offen
+  marke.className = akZahl === 0 ? 'ak-icon-badge ak-icon-badge-leer' : 'ak-icon-badge'
+}
+
+/** Icon zeigen, solange irgendein Kasten Inhalt trägt und kein Player läuft. */
+function akIconSichtbarkeit() {
+  const html = document.documentElement
+  const kaesten = [...document.querySelectorAll('.ak-box')]
+  for (const k of kaesten) {
+    if (akBeobachtet.has(k)) continue
+    akBeobachtet.add(k)
+    new MutationObserver(akPruefen).observe(k, { childList: true, subtree: true, characterData: true })
+  }
+  const inhalt = kaesten.some((k) => k.querySelector(':scope > :not(:empty)'))
+  const imPlayer = html.classList.contains('ak-im-player') && !html.classList.contains('ak-durchgang')
+  const da = inhalt && !imPlayer
+  html.classList.toggle('ak-icon-da', da)
+  if (akIcon) akIcon.hidden = !da
+  akIconZeichnen()
+}
+
+function akIconStarten() {
+  if (akIcon || (window.top && window !== window.top)) return
+  akIcon = document.createElement('button')
+  akIcon.type = 'button'
+  akIcon.className = 'ak-icon'
+  akZeichen = document.createElement('span')
+  akZeichen.className = 'ak-icon-zeichen'
+  akBadge = document.createElement('span')
+  akBadge.className = 'ak-icon-badge'
+  akBadge.hidden = true
+  akIcon.appendChild(akZeichen)
+  akIcon.appendChild(akBadge)
+  akIcon.hidden = true
+  akIcon.addEventListener('click', () => {
+    akZu = !akZu
+    try {
+      chrome.storage.local.set({ [AK_ZU_SCHLUESSEL]: akZu })
+    } catch {
+      /* Kontext tot (Erweiterung neu geladen) — der Zustand gilt dann nur auf dieser Seite. */
+    }
+    akIconZeichnen()
+  })
+  document.body.appendChild(akIcon)
+  akIconZeichnen()
+  try {
+    chrome.storage.local.get(AK_ZU_SCHLUESSEL).then((x) => {
+      akZu = akZuAusSpeicher(x?.[AK_ZU_SCHLUESSEL])
+      akIconZeichnen()
+    })
+    chrome.storage.onChanged.addListener((aenderung, bereich) => {
+      if (bereich !== 'local' || !(AK_ZU_SCHLUESSEL in aenderung)) return
+      akZu = akZuAusSpeicher(aenderung[AK_ZU_SCHLUESSEL].newValue)
+      akIconZeichnen()
+    })
+  } catch {
+    /* ohne Speicher bleibt der Standard „eingeklappt" */
+  }
+  let geplant = false
+  const pruefen = () => {
+    if (geplant) return
+    geplant = true
+    requestAnimationFrame(() => {
+      geplant = false
+      akIconSichtbarkeit()
+    })
+  }
+  akPruefen = pruefen
+  new MutationObserver(pruefen).observe(document.body, { childList: true })
+  new MutationObserver(pruefen).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+  pruefen()
+}

@@ -58,6 +58,7 @@ export default [
           im Browser teilen sich beide denselben Scope.
         */
         akBox: 'readonly',
+        akZaehler: 'readonly',
         akDebugLeiste: 'readonly',
         akBerichtSchalter: 'readonly',
       },
