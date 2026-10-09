@@ -136,7 +136,8 @@ export function InstallFooterOffer() {
   if ((!canPrompt && !needsManual) || !isHandheld()) return null
 
   return (
-    <span className="inline-flex flex-wrap items-center gap-2">
+    // Ab 390 px steht der Knopf schon in der Kopfzeile; der Fuß bleibt für schmale Breiten und iOS-Anleitung.
+    <span className={`inline-flex flex-wrap items-center gap-2${canPrompt ? ' min-[390px]:hidden' : ''}`}>
       <button
         type="button"
         onClick={() => (canPrompt ? void install() : setShowHint((v) => !v))}
