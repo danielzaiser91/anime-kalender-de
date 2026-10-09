@@ -2,8 +2,7 @@ import { ShareIcon } from './hilfen.tsx'
 import { CoverMaximieren } from './cover-max.tsx'
 import { anzeigeName } from '@shared/titles.ts'
 import { HideEye, FavoriteStar, ReihenStern } from '../ui.tsx'
-import { TIPPFLAECHE_KINDER, TREFFER_24 } from './tippziel.ts'
-import { useVorschau } from '../../lib/vorschau.ts'
+import { TIPPFLAECHE_KINDER } from './tippziel.ts'
 import { type Title } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 
@@ -23,16 +22,15 @@ export function BuehnenLeiste({ title, favorites, onToggleFavorite, onToggleHidd
   grossBild?: [string, number, number]
 }) {
   /* Tipp-Ziele 44 px: unsichtbare Flächen über den Knöpfen, der Abstand ist so groß, dass sie sich nicht überdecken. */
-  const gross = useVorschau('tippziele') === 'gross'
   return (
     <div
-      className={`absolute right-0 top-0 z-10 flex flex-col items-center rounded-bl-lg bg-slate-900/85 px-1.5 py-2 backdrop-blur-[3px] ${gross ? `gap-4 ${TIPPFLAECHE_KINDER}` : 'gap-1.5'}`}
+      className={`absolute right-0 top-0 z-10 flex flex-col items-center rounded-bl-lg bg-slate-900/85 px-1.5 py-2 backdrop-blur-[3px] gap-4 ${TIPPFLAECHE_KINDER}`}
     >
       <button
         type="button"
         onClick={onClose}
         aria-label={t('detail.close')}
-        className={`cursor-pointer px-1 text-sm text-white transition hover:opacity-70 ${gross ? 'py-1.5' : TREFFER_24}`}
+        className={`cursor-pointer px-1 text-sm text-white transition hover:opacity-70 py-1.5`}
       >
         ✕
       </button>

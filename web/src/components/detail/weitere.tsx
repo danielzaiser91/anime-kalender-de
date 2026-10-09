@@ -5,8 +5,6 @@ import { eindeutschenStaffel, anzeigeName } from '@shared/titles.ts'
 import { type Voices, loadVoices, type Dataset, loadCartoons, loadAllTitles } from '../../lib/data.ts'
 import { aehnlicheTitel } from '../../lib/aehnlich.ts'
 import { coverBild } from '../../lib/cover.ts'
-import { useVorschau } from '../../lib/vorschau.ts'
-import { zurSprecherSuche } from '../../lib/sprecher.ts'
 import { TIPPFLAECHE_HOCH, TREFFER_24_HOCH } from './tippziel.ts'
 
 /**
@@ -25,7 +23,6 @@ import { TIPPFLAECHE_HOCH, TREFFER_24_HOCH } from './tippziel.ts'
 export function WeitereTitel({ title }: { title: Title }) {
   const { t } = useLang()
   const [offen, setOffen] = useState(false)
-  const gross = useVorschau('tippziele') === 'gross'
 
   const gezeigt = title.titleDe ?? title.titleEn ?? title.titleRomaji
   const weitere: { label: string; wert: string }[] = []
@@ -43,7 +40,7 @@ export function WeitereTitel({ title }: { title: Title }) {
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}
-        className={`cursor-pointer text-slate-400 underline decoration-dotted underline-offset-2 hover:text-sky-400 dark:text-slate-500 ${gross ? TIPPFLAECHE_HOCH : TREFFER_24_HOCH}`}
+        className={`cursor-pointer text-slate-400 underline decoration-dotted underline-offset-2 hover:text-sky-400 dark:text-slate-500 ${TIPPFLAECHE_HOCH}`}
       >
         {offen ? t('detail.otherTitlesHide') : t('detail.otherTitles', { count: weitere.length })}
       </button>
@@ -72,7 +69,6 @@ export function VoiceCast({ titleId }: { titleId: number }) {
   const { t } = useLang()
   const [open, setOpen] = useState(false)
   const [stimmen, setStimmen] = useState<Voices | undefined>()
-  const sprecherSuche = useVorschau('sprecher-suche') === 'an'
 
   // Titelwechsel: zuklappen und vergessen. Sonst stünde beim nächsten Anime
   // kurz die Besetzung des vorherigen da.
@@ -125,19 +121,7 @@ export function VoiceCast({ titleId }: { titleId: number }) {
                       {r.character}
                     </dt>
                     <dd className="truncate text-slate-700 dark:text-slate-200" title={r.actor}>
-                      {sprecherSuche ? (
-                        /* Vorschau `sprecher-suche`: der Name führt zur Liste aller Titel mit dieser Stimme. */
-                        <button
-                          type="button"
-                          onClick={() => zurSprecherSuche(r.actor)}
-                          aria-label={t('detail.voicesSuchen', { name: r.actor })}
-                          className={`max-w-full cursor-pointer truncate text-left underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text ${TREFFER_24_HOCH}`}
-                        >
-                          {r.actor}
-                        </button>
-                      ) : (
-                        r.actor
-                      )}
+                      {r.actor}
                     </dd>
                   </Fragment>
                 ))}

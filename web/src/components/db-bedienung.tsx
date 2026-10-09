@@ -2,32 +2,26 @@ import type { Title } from '@shared/types.ts'
 import { useLang } from '../lib/i18n.tsx'
 import type { DbSort } from '../lib/router.ts'
 import { DbKopfzeile } from './db-kopfzeile.tsx'
-import { OhneSynchroZeile } from './db-vorschau.tsx'
 
-/** Zählzeile links, Sortierung rechts. `ruhig` (Vorschau `db-ohne-synchro`): die Kurzform mit dem Hinweis einmal oben. */
-export function DbZaehlzeile({ titles, ergebnisse, gebuendelt, suche, ruhig, sort, onSortChange, relevanz }: {
+/** Zählzeile links, Sortierung rechts. */
+export function DbZaehlzeile({ titles, ergebnisse, gebuendelt, suche, sort, onSortChange, relevanz }: {
   titles: Title[]
   ergebnisse: number
   gebuendelt: boolean
   suche: string
-  ruhig: boolean
   sort: DbSort
   onSortChange: (next: DbSort) => void
   relevanz: boolean
 }) {
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
-      {ruhig ? (
-        <OhneSynchroZeile titles={titles} ergebnisse={ergebnisse} gebuendelt={gebuendelt} suche={suche} />
-      ) : (
-        <DbKopfzeile titles={titles} ergebnisse={ergebnisse} gebuendelt={gebuendelt} suche={suche} />
-      )}
+      <DbKopfzeile titles={titles} ergebnisse={ergebnisse} gebuendelt={gebuendelt} suche={suche} />
       <DbSortWahl sort={sort} onChange={onSortChange} relevanz={relevanz} suche={!!suche.trim()} />
     </div>
   )
 }
 
-/** Die Sortierwahl über dem Raster. „Relevanz" steht zur Wahl, wenn gesucht wird oder die Vorschau `db-sortierung` sie zur Vorgabe macht. */
+/** Die Sortierwahl über dem Raster. „Relevanz" steht zur Wahl, wenn gesucht wird. */
 export function DbSortWahl({ sort, onChange, relevanz, suche }: { sort: DbSort; onChange: (next: DbSort) => void; relevanz: boolean; suche: boolean }) {
   const { t } = useLang()
   return (
