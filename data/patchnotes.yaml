@@ -8,6 +8,11 @@
   live: true
 - datum: "2026-10-09"
   kategorie: feature
+  text: App installieren jetzt auch im Glocken-Menü
+  untertitel: nur am Handy
+  live: true
+- datum: "2026-10-09"
+  kategorie: feature
   highlight: true
   text: Alle Namen auf jeder Titelseite
   untertitel: deutsch · englisch · Romaji · japanisch
