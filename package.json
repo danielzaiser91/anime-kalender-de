@@ -45,7 +45,7 @@
     "data:anisearch:reparse": "tsx pipeline/reparse-anisearch.ts",
     "check:folgen": "tsx pipeline/check-folgen-zuordnung.ts",
     "check:disc-uebersicht": "tsx pipeline/check-disc-uebersicht.ts",
-    "check:logic": "tsx pipeline/check-logic.ts && tsx pipeline/check-invarianten.ts && tsx pipeline/check-detektiv-funde.ts && tsx pipeline/check-disney-gesamtnummer.ts && tsx pipeline/check-wochen-datei.ts && tsx pipeline/check-kalender-filter.ts && tsx pipeline/check-sprecher-filter.ts && tsx pipeline/check-cartoon-zwilling.ts && tsx pipeline/check-anisearch-dubletten.ts && tsx pipeline/check-patchnotes.ts && tsx pipeline/check-belegstaerke.ts && tsx pipeline/check-cartoon-reihen.ts && tsx pipeline/check-daten-kennung.ts && tsx pipeline/check-install-stellen.ts",
+    "check:logic": "tsx pipeline/check-logic.ts && tsx pipeline/check-invarianten.ts && tsx pipeline/check-detektiv-funde.ts && tsx pipeline/check-disney-gesamtnummer.ts && tsx pipeline/check-wochen-datei.ts && tsx pipeline/check-kalender-filter.ts && tsx pipeline/check-sprecher-filter.ts && tsx pipeline/check-cartoon-zwilling.ts && tsx pipeline/check-anisearch-dubletten.ts && tsx pipeline/check-patchnotes.ts && tsx pipeline/check-belegstaerke.ts && tsx pipeline/check-cartoon-reihen.ts && tsx pipeline/check-daten-kennung.ts && tsx pipeline/check-install-stellen.ts && tsx pipeline/check-db-relevanz.ts",
     "check:kalender": "tsx pipeline/kalender-befund.ts",
     "check:search": "tsx pipeline/check-search.ts",
     "check:cache-abhaengigkeit": "node tools/check-cache-abhaengigkeit.mjs",

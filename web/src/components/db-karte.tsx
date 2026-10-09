@@ -3,6 +3,7 @@ import { titleStatus } from '@shared/logic.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import type { Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { ueberschriftSagtStatus, type RelevanzArt } from '../lib/db-relevanz.ts'
 import { coverBild } from '../lib/cover.ts'
 import { FundstellenZeichen, TrefferName } from './Suchtreffer.tsx'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Tooltip } from './ui.tsx'
@@ -20,13 +21,17 @@ export interface DbKarteProps {
   onOpenTitle: (id: number) => void
   share: (slug: string, title: string) => Promise<void>
   copiedSlug: string | undefined
+  /** Unter welcher Gruppenüberschrift die Kachel steht (Relevanz-Ansicht), und ab wann es die deutsche Fassung gibt. */
+  gruppe?: RelevanzArt
+  ab?: string
 }
 
 /** Eine Kachel der Datenbank (oder, ausgeblendet, ihr Platzhalter). */
-export function DbKarte({ main, members, data, today, grouped, favorites, hidden, onToggleFavorite, onToggleHidden, onOpenTitle, share, copiedSlug }: DbKarteProps) {
+export function DbKarte({ main, members, data, today, grouped, favorites, hidden, onToggleFavorite, onToggleHidden, onOpenTitle, share, copiedSlug, gruppe, ab }: DbKarteProps) {
   const { t } = useLang()
   const releases = members.flatMap((m) => data.releasesByTitle.get(m.id) ?? [])
   const status = titleStatus(releases, today, main)
+  const statusZeigen = !gruppe || !ueberschriftSagtStatus(gruppe, status)
   const favorite = members.some((m) => favorites.has(m.id))
   // Eine Reihe gilt als ausgeblendet, sobald eine ihrer Staffeln es ist —
   // sonst käme das Cover über den Umweg der Fortsetzung doch wieder.
@@ -178,13 +183,24 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
             </span>
           ) : (
             <>
-              <StatusBadge status={status} small />
+              {statusZeigen && <StatusBadge status={status} small />}
+              {gruppe === 'bald' && ab && <AbPille ab={ab} />}
               {platform && <PlatformBadge platform={platform} small />}
             </>
           )}
         </span>
       </div>
     </div>
+  )
+}
+
+/** „ab 11.10." — Start der deutschen Fassung unter der Überschrift „Demnächst". */
+function AbPille({ ab }: { ab: string }) {
+  const { t } = useLang()
+  return (
+    <span className="inline-flex h-4 items-center rounded bg-amber-500/15 px-1.5 text-[10px] font-semibold leading-none text-amber-800 ring-1 ring-amber-500/40 dark:text-amber-400">
+      {t('db.ab', { datum: `${ab.slice(8, 10)}.${ab.slice(5, 7)}.` })}
+    </span>
   )
 }
 
