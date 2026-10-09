@@ -140,7 +140,7 @@ export function SteuerElemente(p: SteuerProps & { filterKnopf?: ReactNode }) {
   )
 }
 
-const HEUTE_TEXT = {
+export const HEUTE_TEXT = {
   hier: 'nav.todayHere', frueher: 'nav.todayZurueck', spaeter: 'nav.todayVor', oben: 'nav.todayHoch', unten: 'nav.todayRunter',
 } as const satisfies Record<HeuteLage, string>
 const HEUTE_PFEIL: Partial<Record<HeuteLage, [string, string]>> = {

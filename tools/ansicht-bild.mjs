@@ -123,6 +123,51 @@ function untereLeisteBuendig({ name, nav: m }) {
   return false
 }
 
+/**
+ * Die obere Handy-Leiste (Kalender Woche/Monat, Datenbank) passt bei 320 bis 440 px ohne Wischen: nichts ragt über den
+ * Rand, die Leiste selbst scrollt nicht, und jedes Tippziel ist mindestens 40 × 40 px. Gibt die Abweichungen zurück.
+ */
+async function pruefeObereLeiste(seite) {
+  const abweichungen = []
+  for (const breite of [320, 360, 393, 440]) {
+    await seite.setViewportSize({ width: breite, height: 800 })
+    for (const name of ['woche', 'monat', 'datenbank']) {
+      await seite.goto('about:blank')
+      await seite.goto(`http://ak.test/#/${name}`, { waitUntil: 'networkidle' })
+      await seite.locator('[role=toolbar]').first().waitFor({ state: 'visible', timeout: 20_000 })
+      await seite.waitForTimeout(1500)
+      const m = await seite.evaluate(() => {
+        const leiste = document.querySelector('[role=toolbar]')
+        const rects = [...leiste.querySelectorAll('button, select')].map((e) => {
+          const r = e.getBoundingClientRect()
+          return { name: e.getAttribute('aria-label') ?? e.textContent?.trim() ?? '?', links: r.left, rechts: r.right, b: r.width, h: r.height }
+        })
+        return { rollt: leiste.scrollWidth - leiste.clientWidth, fenster: innerWidth, rects }
+      })
+      const wo = `${name} ${breite} px`
+      if (m.rollt > 0) abweichungen.push(`${wo}: Leiste scrollt (${m.rollt} px zu breit)`)
+      for (const r of m.rects) {
+        if (r.links < 0 || r.rechts > m.fenster - 8) abweichungen.push(`${wo}: „${r.name}" ragt in den Randabstand (${Math.round(r.links)}–${Math.round(r.rechts)} von ${m.fenster})`)
+        if (r.b < 40 || r.h < 40) abweichungen.push(`${wo}: „${r.name}" ist nur ${Math.round(r.b)} × ${Math.round(r.h)} px groß (mind. 40 × 40)`)
+      }
+    }
+  }
+  return abweichungen
+}
+
+/** Die Zusatzprüfungen nach den Bildern; wahr, wenn eine rot ist. */
+async function meldeZusatzpruefungen(seite, ansichten, handy) {
+  /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
+  let rot = ansichten.includes('datenbank') && !handy ? await meldeCartoonFilter(seite) : false
+  if (handy && ['woche', 'monat', 'datenbank'].every((a) => ansichten.includes(a))) {
+    const leiste = await pruefeObereLeiste(seite)
+    console.log(`\nObere Leiste (320/360/393/440 px): ${leiste.length ? '' : 'ok'}`)
+    for (const l of leiste) console.log(`  ✕ ${l}`)
+    if (leiste.length) rot = true
+  }
+  return rot
+}
+
 async function main() {
   if (!existsSync(path.join(DIST, 'index.html'))) {
     console.error('dist/ fehlt — erst `npm run build`.')
@@ -203,7 +248,7 @@ async function main() {
     }
   }
 
-  let rot = ansichten.includes('datenbank') ? await meldeCartoonFilter(seite) : false
+  let rot = await meldeZusatzpruefungen(seite, ansichten, HANDY)
   await browser.close()
 
   console.log('\nAnsicht        Überbreite  Konsolenfehler')
