@@ -706,3 +706,14 @@ Der Katalog-Frischlauf holt das laufende und die kommenden Jahre sowie die jüng
 in jedem Lauf alle Einträge ohne `start` nach Kennung (`id_in`, 50 je Abfrage). Offen: The Boxer ist laut anime2you (1058533, 1058606, 09.10.2026) ein Crunchyroll-Simulcast
 im Original mit Untertiteln, Start unbekannt, keine Synchro genannt — für eine Ankündigung ohne Termin kennt `ankuendigungen.yaml` kein Feld (`omuAb` ist Pflicht und wird in
 `vorDemStart`, `ankuendigungs-termin` und der Meldung als Datum gelesen).
+
+## Lief nur noch früher im Fernsehen (09.10.2026)
+
+Super Wings: Das Panel sagte „Kein Anbieter bekannt", die TV-Leiste kannte den Titel. Eine
+TV-Pille ist ein Weg nur, solange eine Sendung läuft oder kommt (`tvAngabe`); ist alles vorbei,
+zeigt das Panel statt der Leere den letzten Termin je Sender (`lib/tv-zuletzt.ts`,
+`detail/tv-vorbei.tsx`) und „Lief zuletzt im Fernsehen — kein Termin in der Zukunft bekannt."
+Nur wo sonst „Kein Anbieter bekannt" stünde (keine andere Pille); steht irgendein TV-Termin aus
+oder läuft eine Sendung, entfällt die Anzeige. Stand 09.10.2026: 1 von 20 Titeln mit TV-Release
+betroffen (Super Wings). Die Programmquelle hält nur den laufenden Tag, der Verlauf stammt aus
+den bei uns gesichteten Terminen (`schedule.observed`, `sendungen`).

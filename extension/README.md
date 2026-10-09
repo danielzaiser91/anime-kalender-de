@@ -51,3 +51,5 @@ dort holt ein Pipeline-Schritt die Einträge und trägt sie in `data/dub-confirm
   sie ohnehin nicht: Dort liefert die eigene Content-API die Auskunft je Folge.
 
 - **Wiedergabeseiten** (Disney+ `/play/`, Netflix `/watch/`) — der Kasten ist dort ausgeblendet, außer während eines Netflix-Durchgangs; Prime Video erkennt den Player selbst.
+
+- **Einklappen** (4.24.17) — der Kasten ist standardmäßig zu: ein Icon unten rechts (Badge = Titel auf der Prüfliste, „✓" bei 0) klappt ihn aus und ein; der Zustand gilt für alle Seiten (`chrome.storage.local`, Schlüssel `akKastenZu`). Läuft ein Durchgang, bleibt er offen.

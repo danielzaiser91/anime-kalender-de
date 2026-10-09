@@ -4,6 +4,11 @@
 # live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
 - datum: "2026-10-09"
   kategorie: feature
+  text: App installieren jetzt auch im Glocken-Menü
+  untertitel: nur am Handy
+  live: true
+- datum: "2026-10-09"
+  kategorie: feature
   highlight: true
   text: Datenbank startet mit laufenden Titeln
   untertitel: dann demnächst, dann schon erschienen

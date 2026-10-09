@@ -322,6 +322,7 @@ const TEXTE = {
   // eine Dub-Vorschau. Ohne die Angabe sieht sie aus wie ein Weg zur Serie.
   'detail.nurFolge': 'nur Folge {n}',
   'detail.whereUnknown': 'Kein Anbieter bekannt.',
+  'detail.tvNurVorbei': 'Lief zuletzt im Fernsehen — kein Termin in der Zukunft bekannt.',
   // **Wo deutsche Sprechrollen belegt sind, ist „kein Anbieter" die halbe
   // Auskunft.** 277 Titel sind am 29.08.2026 in genau diesem Fall: Es gab eine
   // deutsche Fassung — Anime News Network führt die Sprecher —, und wir kennen
