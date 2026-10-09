@@ -52,6 +52,16 @@
   text: Datenschutz nennt Favoriten-Abgleich und Push
   live: false
 - datum: "2026-10-09"
+  kategorie: feature
+  highlight: true
+  text: Staffeln jetzt direkt unter dem Antwortkasten
+  untertitel: Reihe als Karte, mit Staffelnummer
+  live: false
+- datum: "2026-10-09"
+  kategorie: bugfix
+  text: Titelseite öffnet wieder oben
+  live: false
+- datum: "2026-10-09"
   kategorie: bugfix
   text: Filter am Handy überdecken nichts mehr
   live: true
