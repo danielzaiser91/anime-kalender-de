@@ -4,6 +4,39 @@ import type { FilterState } from '../lib/filters.ts'
 import { schnellSetzen, schnellZustand, type SchnellId, type SchnellZiel } from '../lib/schnellfilter.ts'
 import { Tooltip, TvZeichen, DiscZeichen } from './ui.tsx'
 
+export interface SchnellEintrag {
+  id: SchnellId
+  text: string
+  zeichen: ReactNode
+}
+
+/** Die Schnellfilter in Kartenreihenfolge; TV nur im Kalender, „verfügbar" nur mit Belegstärke. */
+export function schnellListe(t: Translate, showConfidence: boolean, mitTv: boolean): SchnellEintrag[] {
+  return [
+    { id: 'favoriten', text: t('filter.schnell.favoriten'), zeichen: '★' },
+    { id: 'kostenlos', text: t('filter.schnell.kostenlos'), zeichen: '🆓' },
+    { id: 'bestaetigt', text: t('filter.schnell.bestaetigt'), zeichen: '✓' },
+    ...(mitTv ? [{ id: 'tv' as const, text: t('filter.schnell.tv'), zeichen: <TvZeichen className="size-3 opacity-80" /> }] : []),
+    { id: 'disc', text: t('filter.schnell.disc'), zeichen: <DiscZeichen className="size-3 opacity-80" /> },
+    ...(showConfidence ? [{ id: 'verfuegbar' as const, text: t('filter.schnell.verfuegbar'), zeichen: '▶' }] : []),
+    { id: 'cartoon', text: t('filter.schnell.cartoon'), zeichen: '🎨' },
+  ]
+}
+
+/** Setzt einen Schnellfilter; nur TV ändert zusätzlich den Schalter der Ansicht. */
+export function schnellAnwenden(
+  filters: FilterState,
+  id: SchnellId,
+  ziel: SchnellZiel,
+  tvAn: boolean | undefined,
+  onChange: (next: FilterState) => void,
+  setTvAn?: (an: boolean) => void,
+): void {
+  const r = schnellSetzen(filters, id, ziel, tvAn)
+  onChange(r.filters)
+  if (id === 'tv' && r.tvAn !== undefined && r.tvAn !== tvAn) setTvAn?.(r.tvAn)
+}
+
 /**
  * **Die Schnellfilter als Karten mit zwei Stellungen** (Daniel, 04.10.2026): oben der kurze Name, darunter eine
  * Zeile über die ganze Breite der Karte, in der Mitte geteilt — links ✅ (nur anzeigen), rechts 🚫 (ausblenden).
@@ -29,20 +62,8 @@ export function SchnellKarten({
   /** Filtert Karten nach der Filtersuche (`zeigePille`). */
   zeige: (text: string) => boolean
 }) {
-  const karten: { id: SchnellId; text: string; zeichen: ReactNode }[] = [
-    { id: 'favoriten', text: t('filter.schnell.favoriten'), zeichen: '★' },
-    { id: 'kostenlos', text: t('filter.schnell.kostenlos'), zeichen: '🆓' },
-    { id: 'bestaetigt', text: t('filter.schnell.bestaetigt'), zeichen: '✓' },
-    ...(setTvAn ? [{ id: 'tv' as const, text: t('filter.schnell.tv'), zeichen: <TvZeichen className="size-3 opacity-80" /> }] : []),
-    { id: 'disc', text: t('filter.schnell.disc'), zeichen: <DiscZeichen className="size-3 opacity-80" /> },
-    ...(showConfidence ? [{ id: 'verfuegbar' as const, text: t('filter.schnell.verfuegbar'), zeichen: '▶' }] : []),
-    { id: 'cartoon', text: t('filter.schnell.cartoon'), zeichen: '🎨' },
-  ]
-  const setzen = (id: SchnellId, ziel: SchnellZiel) => {
-    const r = schnellSetzen(filters, id, ziel, tvAn)
-    onChange(r.filters)
-    if (id === 'tv' && r.tvAn !== undefined && r.tvAn !== tvAn) setTvAn?.(r.tvAn)
-  }
+  const karten = schnellListe(t, showConfidence, !!setTvAn)
+  const setzen = (id: SchnellId, ziel: SchnellZiel) => schnellAnwenden(filters, id, ziel, tvAn, onChange, setTvAn)
   return (
     <>
       {karten
