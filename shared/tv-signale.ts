@@ -84,7 +84,12 @@ export function istPremiere(
   return true
 }
 
-type MitReleases = { releaseBySlug: Map<string, Release> }
+/** Platzhalter, bis die Regel steht (Zusicherung zuerst rot). */
+export function istKeinDeutscherStart(_r: Release, _title: Title | undefined): boolean {
+  return false
+}
+
+type MitReleases ={ releaseBySlug: Map<string, Release> }
 
 /** Der wöchentliche Streaming-Release eines Termins — nur für ihn gibt es Start und Finale. */
 function woechentlich(e: ReleaseEvent, data: MitReleases): Release | undefined {

@@ -55,6 +55,7 @@ import { omuMeldungen } from './lib/news-omu.ts'
 import { discBonusAus } from './lib/disc-bonus.ts'
 import { kostenlosEtikett, kostenloseFolgen } from '../shared/kostenlos.ts'
 import { istPremiere, tvAngabe } from '../web/src/lib/tv-angabe.ts'
+import { istKeinDeutscherStart } from '../shared/tv-signale.ts'
 import { HELLE_GRUENDE, kontrast, plakettenStil, rgb, toenung } from '../web/src/lib/kontrast.ts'
 import { FSK_COLORS, PLATFORMS } from '../shared/types.ts'
 import {
@@ -7169,6 +7170,39 @@ pruefe(
     'Eine andere Folge in derselben Nacht bleibt Premiere',
     istPremiere(1094, '2026-09-23', ohneStream, [abends, nachts], undefined, '04:25'),
   )
+}
+{
+  /*
+    **Premiere nur, wo sie belegt ist** (Daniel, 09.10.2026, „Super Wings": alte Folgen der Staffel 1
+    trugen PREMIERE und eine Meldung „Erstmals mit deutscher Synchro"). Fehlen alle Belege, gibt es
+    keine Aussage (`undefined`) — weder Premiere noch Wiederholung.
+  */
+  const tvRel = (slug: string, sender: string, zeit: string, nr: number, tag: string, auto = true): Release =>
+    ({ slug, titleId: 10012621, name: 'Super Wings', platform: 'tv', sender, releaseType: 'weekly', automatisch: auto,
+       schedule: { firstEpisodeDate: tag, time: zeit, episodeCount: 1, firstEpisodeNumber: nr }, sources: ['x'] }) as unknown as Release
+  const superWings = { id: 10012621, streams: [], deErstausgabe: { von: '2017-01-25', synchro: true } } as unknown as Title
+  const rtl12 = tvRel('sw-rtl', 'Super RTL', '09:50', 12, '2026-10-07')
+  const toggo12 = tvRel('sw-toggo', 'TOGGO plus', '10:50', 12, '2026-10-07')
+  const rtl27 = tvRel('sw-rtl27', 'Super RTL', '10:00', 27, '2026-10-08')
+  const sw = [rtl12, toggo12, rtl27]
+  pruefe('Super Wings: alte Folge ohne Beleg ist weder Premiere noch Wiederholung', istPremiere(12, '2026-10-07', superWings, sw, undefined, '09:50') === undefined, istPremiere(12, '2026-10-07', superWings, sw, undefined, '09:50'))
+  pruefe('Super Wings: Folge 27 hinter Folge 12 ist ohne Beleg auch keine Premiere', istPremiere(27, '2026-10-08', superWings, sw, undefined, '10:00') === undefined)
+  pruefe('Super Wings: derselbe Tag, späterer Sender zeigt belegt eine Wiederholung', istPremiere(12, '2026-10-07', superWings, sw, undefined, '10:50') === false)
+  pruefe('Super Wings: Wikipedia-Erstausgabe der Folge am Termin belegt Premiere', istPremiere(12, '2026-10-07', superWings, sw, { 12: '2026-10-07' }, '09:50') === true)
+  pruefe('Super Wings: Wikipedia-Erstausgabe vor dem Termin belegt Wiederholung', istPremiere(12, '2026-10-07', superWings, sw, { 12: '2017-02-01' }, '09:50') === false)
+  /* Echte Premiere: Neue Staffel, Streaming hat bis Folge 12 geliefert, das Fernsehen zeigt 13. */
+  const neu = { id: 77, streams: [], deErstausgabe: { von: '2026-07-01', synchro: true } } as unknown as Title
+  const strm = { slug: 'n-rtl', titleId: 77, name: 'N', platform: 'rtlplus', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-07-01', episodeCount: 12 }, sources: ['x'] } as unknown as Release
+  pruefe('Echte Premiere: Folge 13 direkt hinter dem Streaming-Bestand bis 12', istPremiere(13, '2026-10-07', neu, [strm]) === true)
+  pruefe('Keine Aussage: Folge 15 lässt eine Lücke hinter dem Bestand', istPremiere(15, '2026-10-07', neu, [strm]) === undefined)
+  pruefe('Wiederholung: Folge 5 liegt im Streaming-Bestand', istPremiere(5, '2026-10-07', neu, [strm]) === false)
+  const alt = { ...neu, deErstausgabe: { von: '2019-01-01', synchro: true } } as Title
+  pruefe('Alter Titel: auch die Folge hinter dem Bestand ist ohne Erstausgabe-Beleg keine Premiere', istPremiere(13, '2026-10-07', alt, [strm]) === undefined)
+  /* Der News-Pfad: ein automatischer TV-Termin macht aus einem Titel mit früherer deutscher Erstausgabe keinen deutschen Start. */
+  pruefe('Erstausgabe früher: der automatische TV-Termin zählt nicht als deutscher Start', istKeinDeutscherStart(rtl12, superWings))
+  pruefe('Erstausgabe früher: ein von Hand belegter TV-Termin bleibt ein Start', !istKeinDeutscherStart({ ...rtl12, automatisch: false }, superWings))
+  pruefe('Ohne Erstausgabe: der automatische TV-Termin bleibt ein Start', !istKeinDeutscherStart(rtl12, { ...superWings, deErstausgabe: undefined } as Title))
+  pruefe('Erstausgabe ohne Synchro-Marke widerlegt den Start nicht', !istKeinDeutscherStart(rtl12, { ...superWings, deErstausgabe: { von: '2017-01-25' } } as Title))
 }
 {
   /*
