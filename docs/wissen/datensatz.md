@@ -707,3 +707,11 @@ Nur wo sonst „Kein Anbieter bekannt" stünde (keine andere Pille); steht irgen
 oder läuft eine Sendung, entfällt die Anzeige. Stand 09.10.2026: 1 von 20 Titeln mit TV-Release
 betroffen (Super Wings). Die Programmquelle hält nur den laufenden Tag, der Verlauf stammt aus
 den bei uns gesichteten Terminen (`schedule.observed`, `sendungen`).
+
+## Herkunftsland im Hauptbestand: `land` nur bei ≠ JP (09.10.2026)
+Quelle ist `countryOfOrigin` aus AniList (Produktionsland, nicht die Vorlage); `titles.json` und
+`titles-core.json` tragen `land` (zwei Buchstaben) nur, wenn es nicht JP ist, Kennungen ab
+10.000.000 nie (Unbekannt, nichts raten). Zusicherung: `landFehler()` in `pruefung.ts` und
+`check:herkunftsland`. Alt-Einträge ohne das Feld holt `nochOffen` in `fetch.ts` einmal neu
+(Backfill im ersten CI-Datenlauf). Simulation auf dem Stand 09.10.2026: Hauptbestand KR 31,
+CN 27 (Kern: CN 3, KR 1); gzip +431 B bzw. +38 B. Oberfläche folgt separat.

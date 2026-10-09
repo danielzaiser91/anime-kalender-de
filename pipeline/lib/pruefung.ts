@@ -223,8 +223,7 @@ export function pruefeErgebnis(
       if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)
         fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB, ohne als „über TMDB" gekennzeichnet zu sein`)
 
-  fehler.push(...landFehler(titles))
-  fehler.push(...geteilteWegeTrotzWiderlegung(releases, titles))
+  fehler.push(...landFehler(titles), ...geteilteWegeTrotzWiderlegung(releases, titles))
   return { fehler, warnungen }
 }
 

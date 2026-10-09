@@ -61,9 +61,8 @@ async function main(): Promise<void> {
     `isoDate()` machte daraus „31.10.2026". Dieselbe Falle
     wie in CLAUDE.md, „Ein Abruf, der nur ergänzt, veraltet zwangsläufig".
     Abgeschlossene und abgesetzte Titel ändern sich nicht mehr und bleiben im
-    Speicher.
+    Speicher. Auch ein Eintrag ohne Herkunftsland (Abruf vor dem 09.10.2026) wird einmal neu geholt.
   */
-  /* Auch ein Eintrag ohne Herkunftsland (Abruf vor dem 09.10.2026) wird einmal neu geholt. */
   const nochOffen = (m: AniListMedia | undefined): boolean =>
     Boolean(m) && ((m!.status !== 'FINISHED' && m!.status !== 'CANCELLED') || m!.countryOfOrigin === undefined)
   const cached = readJson<Record<string, AniListMedia>>('data/cache/anilist-media.json', {})

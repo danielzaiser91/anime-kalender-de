@@ -428,8 +428,7 @@ export function titleFromMedia(media: AniListMedia, confidence: DubConfidence): 
         (media.studios?.nodes ?? []).filter((s) => s.isAnimationStudio !== false).map((s) => s.name),
       ),
     ].slice(0, 3),
-    score: media.averageScore ?? undefined,
-    ...landAusAnilist(media.countryOfOrigin),
+    score: media.averageScore ?? undefined, ...landAusAnilist(media.countryOfOrigin),
     dubConfidence: confidence,
     streams: mapStreams(media),
   }
