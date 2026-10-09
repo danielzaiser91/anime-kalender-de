@@ -9,6 +9,7 @@ import { type KatalogEintrag } from '../lib/anilist.ts'
 import { englischAusSynonymen } from '../lib/anisearch-titel.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
+import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
@@ -590,11 +591,7 @@ export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): voi
     return
   }
 
-  const ersterTermin = new Map<number, string>()
-  for (const r of releases.filter((x) => !x.widerlegt /* kein deutscher Start */)) {
-    const bisher = ersterTermin.get(r.titleId)
-    if (!bisher || r.schedule.firstEpisodeDate < bisher) ersterTermin.set(r.titleId, r.schedule.firstEpisodeDate)
-  }
+  const ersterTermin = ersterDeutscherTermin(releases, titles)
 
   const grenze = addDays(heute, -FENSTER_TAGE)
   /*

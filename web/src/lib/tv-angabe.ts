@@ -66,11 +66,11 @@ export function tvAngabe(
   const laufEvent = laufend && termine.find((x) => `${x.date}T${x.time ?? ''}` === laufend.start)
   /* Premiere gilt der Folge, von der die Pille zuerst spricht — der laufenden, sonst der nächsten. */
   const bezug = laufEvent || e
-  const premiere = Boolean(
-    bezug?.episode &&
-      !bezug.sichtung &&
-      istPremiere(bezug.episode, bezug.date, title, releases, release.ersteDeutsch, bezug.time),
-  )
+  const aussage =
+    bezug?.episode && !bezug.sichtung
+      ? istPremiere(bezug.episode, bezug.date, title, releases, release.ersteDeutsch, bezug.time)
+      : undefined
+  const premiere = aussage === true
   let text = ''
   /*
     **Tag und Uhrzeit werden farbig hervorgehoben** (Daniel, 22.09.2026, ProSieben-MAXX-Pille).
@@ -90,7 +90,7 @@ export function tvAngabe(
     const teile = [
       nr ? `Fg. ${nr}` : undefined,
       zeit,
-      e.episode && !e.sichtung && !premiere && !laufend ? 'Wiederholung' : undefined,
+      aussage === false && !laufend ? 'Wiederholung' : undefined,
       /* Ohne laufende Sendung trägt die Zeile den Folgentitel der nächsten. */
       !laufend && kommend ? sendungZu(e)?.folge : undefined,
     ]
