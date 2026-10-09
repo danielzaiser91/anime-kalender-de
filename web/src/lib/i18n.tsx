@@ -681,9 +681,6 @@ const TEXTE = {
   /* Kurzwort für die Handy-Tab-Leiste (Zelle ~64 px); der volle Name bleibt aria-label. */
   'nav.einstellungenKurz': 'Optionen',
   'einstellungen.schliessen': 'Einstellungen schließen',
-  'einstellungen.cartoonsAus': 'Westliche Anime (Cartoons) ausblenden',
-  'einstellungen.cartoonsAusHinweis':
-    'Serien wie Avatar oder Arcane entstehen nicht in Japan und gelten den Anime-Datenbanken deshalb nicht als Anime. Wir führen sie trotzdem — hier kannst du sie wegschalten.',
   'db.westlich': 'Cartoon',
   'db.westlichHinweis': 'Westliche Animation — kein Anime im Sinne der Datenbanken, aber auf Deutsch zu sehen.',
   'trailer.ansehen': 'Trailer anschauen',

@@ -3,44 +3,13 @@ import { createPortal } from 'react-dom'
 import { useLang } from '../lib/i18n.tsx'
 import { useThema } from '../lib/thema.ts'
 
-/**
- * **Die Einstellungen — ein Zahnrad, ein Dialog, eine Liste von Schaltern.**
- *
- * Daniel am 12.09.2026, als er entschied, die westlichen Serien aufzunehmen:
- * „immer sichtbar, aber bau eine einstellung seite, zahnrad icon sichtbar
- * platzieren, öffnet dialog, dort als erste option einfügen, ‚westliche anime
- * (Cartoons) ausblenden' - standardmäßig aus".
- *
- * Die Seite hatte bis dahin keine Einstellungen: Was einstellbar war — Thema,
- * Staffeln zusammenfassen, Titel ohne Synchro — stand jeweils dort, wo es
- * wirkt. Das trägt, solange eine Einstellung zu **einer** Ansicht gehört. Der
- * Cartoon-Schalter gehört zu allen, und dafür braucht es einen Ort.
- *
- * **Gespeichert wird im Browser, nicht in der Adresse.** Eine Einstellung ist
- * keine Ansicht: Wer einen Link teilt, teilt nicht seine Vorlieben mit.
- */
-export const CARTOONS_AUS = 'cartoonsAus'
-
-/** Liest den gespeicherten Stand — die Vorgabe ist „aus", also Cartoons sichtbar. */
-export function cartoonsAusGespeichert(): boolean {
-  try {
-    return localStorage.getItem(CARTOONS_AUS) === '1'
-  } catch {
-    /* Privater Modus oder gesperrte Site-Daten: dann eben die Vorgabe. */
-    return false
-  }
-}
-
+/** Die Einstellungen: ein Zahnrad, ein Dialog. Cartoons werden nur über den Schnellfilter ein- und ausgeblendet. */
 export function EinstellungenDialog({
   offen,
   schliessen,
-  cartoonsAus,
-  setCartoonsAus,
 }: {
   offen: boolean
   schliessen: () => void
-  cartoonsAus: boolean
-  setCartoonsAus: (next: boolean) => void
 }) {
   const { t } = useLang()
 
@@ -87,22 +56,6 @@ export function EinstellungenDialog({
           </button>
         </div>
 
-        <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-ak-rand p-3 transition hover:bg-ak-flaeche-2">
-          <input
-            type="checkbox"
-            checked={cartoonsAus}
-            onChange={(e) => setCartoonsAus(e.target.checked)}
-            className="mt-0.5 h-4 w-4 shrink-0 accent-[#ff5a36]"
-          />
-          <span className="min-w-0">
-            <span className="block text-sm font-semibold">
-              {t('einstellungen.cartoonsAus')}
-            </span>
-            <span className="mt-0.5 block text-xs leading-snug text-ak-leise">
-              {t('einstellungen.cartoonsAusHinweis')}
-            </span>
-          </span>
-        </label>
         <ThemaZeile />
       </div>
     </div>,

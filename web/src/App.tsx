@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
 import { SprecherLeiste } from './components/SprecherLeiste.tsx'
 import { useSprecherAuswahl } from './lib/sprecher.ts'
-import { EinstellungenDialog, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
+import { EinstellungenDialog } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
 import { useStartdaten } from './lib/start-daten.ts'
 import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
@@ -84,8 +84,6 @@ export default function App() {
   const [zeigeOhneSynchro, setZeigeOhneSynchro] = useState(false)
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
   const [cartoons, setCartoons] = useState<Title[]>()
-  /* Standardmäßig aus, die Cartoons also sichtbar. */
-  const [cartoonsAus, setCartoonsAus] = useGemerkterSchalter(CARTOONS_AUS, cartoonsAusGespeichert)
   const [einstellungenOffen, setEinstellungenOffen] = useState(false)
   /* TV-Termine ausblenden. */
   const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
@@ -159,9 +157,9 @@ export default function App() {
     if (!data) return leeresErgebnis(LEERE_ANSICHT)
     const basis = (allTitles ?? data.titles).filter((t) => zeigeOhneSynchro || !istOhneBelegteSynchro(t))
     const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
-    const quelle = !cartoonsAus && cartoons ? [...mitOhne, ...cartoons] : mitOhne
+    const quelle = cartoons ? [...mitOhne, ...cartoons] : mitOhne
     return titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped, sprecher.auswahl)
-  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites, grouped, sprecher.auswahl], LEERE_ANSICHT)
+  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, route.filters, today, favorites, grouped, sprecher.auswahl], LEERE_ANSICHT)
   const kalenderBereit = useErstesErgebnis(!!data, eventsVeraltet)
 
   const openTitleId = route.title || undefined
@@ -218,8 +216,6 @@ export default function App() {
       <EinstellungenDialog
         offen={einstellungenOffen}
         schliessen={() => setEinstellungenOffen(false)}
-        cartoonsAus={cartoonsAus}
-        setCartoonsAus={setCartoonsAus}
       />
 
       <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-6 sm:px-6 lg:px-10">
