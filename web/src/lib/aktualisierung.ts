@@ -21,7 +21,7 @@ async function neuesteVersion(): Promise<string | undefined> {
 async function cacheLeeren(): Promise<void> {
   try {
     await (await navigator.serviceWorker?.getRegistration())?.update()
-    for (const name of await caches.keys()) if (name.startsWith('shell-')) await caches.delete(name)
+    for (const name of await caches.keys()) if (/^(shell|data)-/.test(name)) await caches.delete(name)
   } catch {
     /* Die Seite lädt auch ohne aufgeräumten Cache neu. */
   }
