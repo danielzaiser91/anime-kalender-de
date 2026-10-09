@@ -1097,7 +1097,29 @@ export function DetailPanel({
             discReleases={discReleases}
             discZuerst={discZuerst}
           />
-          <UnterDerAntwort data={data} title={title} favorites={favorites} />
+          <UnterDerAntwort
+            data={data}
+            title={title}
+            favorites={favorites}
+            reihe={
+            <ReihenListe
+              reihenTeile={reihenTeile}
+              t={t}
+              reihenName={reihenName}
+              title={title}
+              favorites={favorites}
+              wechselt={wechselt}
+              wechsleZu={wechsleZu}
+              reiheOhneOffen={reiheOhneOffen}
+              reihenSchluessel={reihenSchluessel}
+              reiheSuche={reiheSuche}
+              reiheReiter={reiheReiter}
+              setReiheOhneOffen={setReiheOhneOffen}
+              setReiheSuche={setReiheSuche}
+              setReiheReiter={setReiheReiter}
+            />
+            }
+          />
           {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
@@ -1150,50 +1172,6 @@ export function DetailPanel({
             geschlossen — und wer einen Abschnitt verschiebt, prüft danach einen
             Fall, der **in den anderen Zweig** fällt.
           */}
-
-          {/*
-            Der Umschalter über die Reihe.
-
-            Vorher gab es je Staffel eine eigene Kachel und ganz unten eine
-            Liste „Staffeln dieser Reihe" — die im Kalender fast immer leer war,
-            weil sie nur Staffeln mit Termin kannte. Wer von Staffel 4 zu
-            Staffel 2 wollte, fand keinen Weg dorthin, und „Alle Termine" gab es
-            nur bei der einen Staffel, die man gerade offen hatte (Daniel,
-            12.08.2026).
-
-            Jetzt trägt der Kopf den Reihennamen, und hier wird gewählt, worauf
-            sich alles darunter bezieht. Ein `select` statt einer Liste, weil
-            eine Reihe zehn Einträge haben kann und die Termine darunter der
-            eigentliche Inhalt bleiben sollen.
-          */}
-          {/*
-            Der Reihen-Umschalter steht seit dem 24.08.2026 hier, nach den
-            Anbietern -- nicht mehr als Erstes unter dem Kopf.
-
-            Er ist Navigation, keine Antwort: Wer das Panel oeffnet, will
-            zuerst wissen, wann und wo. Erst danach stellt sich die Frage nach
-            den anderen Teilen der Reihe.
-
-            Die Ueberschrift nennt die Zahl. Ein Band ohne sie sieht bei drei
-            sichtbaren Kacheln nach drei Teilen aus -- "Ghost in the Shell" hat
-            einundzwanzig.
-          */}
-          <ReihenListe
-            reihenTeile={reihenTeile}
-            t={t}
-            reihenName={reihenName}
-            title={title}
-            favorites={favorites}
-            wechselt={wechselt}
-            wechsleZu={wechsleZu}
-            reiheOhneOffen={reiheOhneOffen}
-            reihenSchluessel={reihenSchluessel}
-            reiheSuche={reiheSuche}
-            reiheReiter={reiheReiter}
-            setReiheOhneOffen={setReiheOhneOffen}
-            setReiheSuche={setReiheSuche}
-            setReiheReiter={setReiheReiter}
-          />
 
           {/*
             **Der Terminblock steht nur, wenn es noch etwas zu terminieren gibt.**

@@ -6,6 +6,7 @@ import { Fragment } from 'react'
 import { Tooltip } from '../ui.tsx'
 import { istEingeklappt, zeileInListeSichtbar } from './reihen-regeln.ts'
 import { ZeilenName } from './zeilen-name.tsx'
+import { ReihenKarte } from './reihen-karte.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -28,40 +29,9 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
   return (
     <>
       {reihenTeile.length > 1 && (
-        <div>
-          {/*
-            **Eine Liste über die volle Breite, kein Band mehr.**
-
-            In schmalen Kacheln hießen bei einer Reihe wie „Die Tagebücher der
-            Apothekerin" fast alle Einträge sichtbar gleich; der unterscheidende
-            Teil des Titels war abgeschnitten. Deshalb volle Breite mit Cover
-            links und eine Höchsthöhe mit drei sichtbaren Einträgen und einem
-            angeschnittenen vierten.
-
-            **Getrennt wird nach erschienen und angekündigt**, nicht nach
-            Werkart (seine Wahl unter drei Entwürfen). Das beantwortet die
-            Frage, mit der jemand hierherkommt: Was kann ich jetzt sehen?
-          */}
-          {/*
-            **Die Reihe schließt direkt an den Kasten an.**
-
-            Zwischen beiden stand eine Überschrift — „64 TEILE IN DIESER
-            REIHE" —, die nichts sagte, was die Liste nicht selbst zeigt.
-            Daniel am 03.09.2026: „‚x teile in dieser reihe' entfernen und
-            reihen bereich direkt an box anknüpfen. die x zahl unten links an
-            karussell-box heften. box border geben."
-
-            Die Zahl bleibt — bei drei sichtbaren Einträgen sieht eine Reihe
-            mit einundzwanzig Teilen sonst nach dreien aus. Sie steht jetzt
-            als Marke an der unteren Kante der Box, wo sie den Platz einer
-            Überschrift nicht braucht.
-
-            Der Rahmen macht aus der Liste einen Bereich: Ohne ihn schwamm
-            sie zwischen Kasten und Terminen, mit ihm gehört sie sichtbar
-            zusammen.
-          */}
-          <div className="relative -mt-1 rounded-xl border border-slate-200 dark:border-white/10">
-          <div data-reihe-liste className="relative max-h-[13.5rem] overflow-y-auto p-2">
+        <ReihenKarte reihenTeile={reihenTeile} reihenName={reihenName} title={title}>
+          {/* Seit dem 09.10.2026 eine Karte unter dem Antwortkasten; Innen-Scroll erst ab 8 Teilen. */}
+          <div data-reihe-liste className={['relative overflow-y-auto p-0.5', reihenTeile.length > 8 ? 'max-h-96' : ''].join(' ')}>
             {(() => {
               /*
                 **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
@@ -258,7 +228,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                       'flex w-full items-center gap-2 rounded-lg border p-1 text-left transition',
                       'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
                       gewaehlt
-                        ? 'border-sky-400 bg-sky-50 ring-1 ring-sky-400/50 dark:bg-sky-400/10'
+                        ? 'relative border-sky-400 bg-sky-50 ring-1 ring-sky-400/50 before:absolute before:inset-y-1.5 before:left-px before:w-[3px] before:rounded-sm before:bg-sky-400 dark:bg-sky-400/10'
                         : offen
                           ? 'cursor-pointer border-dashed border-slate-300 opacity-80 hover:opacity-100 dark:border-white/20'
                           : gemerkt
@@ -452,7 +422,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
               return (
                 <div className="flex flex-col gap-0.5">
                   {lang && (
-                    <div className="sticky -top-2 z-10 -mx-2 -mt-2 mb-1 flex flex-col gap-1.5 bg-white/95 px-2 pb-1.5 pt-2 backdrop-blur dark:bg-slate-900/95">
+                    <div className="sticky top-0 z-10 mb-1 flex flex-col gap-1.5 bg-ak-flaeche pb-1.5">
                       <input
                         type="search"
                         value={suchText ? reiheSuche.text : ''}
@@ -520,26 +490,8 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
               )
             })()}
           </div>
-          {/*
-            **Die Marke steht unter einer eigenen Linie, nicht im Bild.**
-
-            Erst hing sie im Scrollbereich und der letzte Eintrag lag halb in
-            ihrem Text; ein Verlauf half nur halb. Daniel: „border bottom
-            zwischen scrollbereich und ,x teile...' hinzufügen. und x teile
-            gleicher abstand zur border und border darunter … hab einfach
-            line-height:1 gemacht auf den text, dann hat abstand zu den 2
-            bordern gepasst."
-
-            `leading-none` nimmt der Zeile ihre eigene Höhe — dann sind die
-            4 px Polster oben und unten wirklich gleich, statt durch die
-            Zeilenhöhe verschoben.
-          */}
-          <div className="border-t border-slate-200 px-3 py-1 text-[10px] uppercase leading-none tracking-wide text-slate-400 dark:border-white/10 dark:text-slate-500">
-            {t('detail.seriesPartsCount', { count: reihenTeile.length })}
-          </div>
-          </div>
           {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
-        </div>
+        </ReihenKarte>
       )}
     </>
   )
