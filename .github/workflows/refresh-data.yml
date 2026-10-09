@@ -201,6 +201,12 @@ jobs:
       - name: Deutsche Texte und Anbieter von aniSearch
         run: bash tools/schritt.sh --zeit 50m "aniSearch — Texte und Anbieter" -- npm run data:anisearch
 
+      # aniSearchs Brücke MAL → aniSearch (API, ein Abruf): ordnet Titeln ohne Titelseite ihre Kennung zu und arbeitet so `data/anisearch-offen.json` ab (09.10.2026).
+      - name: aniSearch-Kennungen zuordnen
+        env:
+          ANISEARCH_TOKEN: ${{ secrets.ANISEARCH_TOKEN }}
+        run: bash tools/schritt.sh --zeit 5m "aniSearch — Kennungen" -- npm run data:anisearch-zuordnung
+
       # Deutsche Disc-Ausgaben aus dem aniSearch-Archiv — kein Abruf, nur das Auswerten dessen, was der Schritt davor ablegt. Muss vor dem Bau laufen: Er macht daraus
       # die Bezugswege für Titel, die sonst keinen einzigen zeigen (176 am 29.08.2026).
       - name: Deutsche Disc-Ausgaben aus dem Archiv

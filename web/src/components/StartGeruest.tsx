@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { useLang } from '../lib/i18n.tsx'
 
 /**
- * Vorschau `startgeruest`: Kopf und Navigation stehen sofort, darunter ein Wochen-Skelett statt eines
+ * Kopf und Navigation stehen sofort, darunter ein Wochen-Skelett statt eines
  * Spinners. Raster und Kartenform (2/3) sind die der echten Woche, damit beim Füllen nichts springt.
  */
 const KARTEN_PRO_TAG = [2, 2, 1]

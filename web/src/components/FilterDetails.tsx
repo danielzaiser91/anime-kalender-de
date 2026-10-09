@@ -14,7 +14,9 @@ import { bereichsSuche, titelWoerter, type BereichsSuche } from '../lib/filter-s
 import type { Translate } from '../lib/i18n.tsx'
 import type { Dispatch, SetStateAction, ReactNode } from 'react'
 import { useLang } from '../lib/i18n.tsx'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { SprecherFilter } from './SprecherFilter.tsx'
+import { TitelNamenContext } from '../lib/sprecher.ts'
 
 export const FSK_OPTIONS: Fsk[] = [0, 6, 12, 16, 18]
 
@@ -93,8 +95,11 @@ export function Group({
   modus,
   inline,
   suche,
+  klasse,
 }: {
   label: string
+  /** Zusätzliche Klassen, z. B. Platz im Raster des Filterkastens. */
+  klasse?: string
   children: ReactNode
   modus?: { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
   /** Label und Chips in **einer** Zeile — für kurze Gruppen wie „Schnell". */
@@ -103,7 +108,7 @@ export function Group({
   suche?: BereichsSuche
 }) {
   return (
-    <div className={inline ? 'flex flex-wrap items-center gap-2' : 'flex flex-col gap-1.5'}>
+    <div className={[inline ? 'flex flex-wrap items-center gap-2' : 'flex flex-col gap-1.5', klasse].filter(Boolean).join(' ')}>
       <span className="flex items-center text-[10px] font-semibold uppercase tracking-[0.14em] text-ak-leise">
         <BereichsLabel label={label} suche={suche} />
         {modus && modus.anzahl > 1 ? <ModusSchalter wert={modus.wert} setzen={modus.setzen} /> : null}
@@ -124,6 +129,7 @@ function Bereich({
   texte,
   modus,
   inline,
+  klasse,
   children,
 }: {
   label: string
@@ -131,11 +137,12 @@ function Bereich({
   texte: (string | undefined)[]
   modus?: { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
   inline?: boolean
+  klasse?: string
   children: ReactNode
 }) {
   if (suche && !suche.bereich(label, texte)) return null
   return (
-    <Group label={label} modus={modus} inline={inline} suche={suche}>
+    <Group label={label} modus={modus} inline={inline} suche={suche} klasse={klasse}>
       {children}
     </Group>
   )
@@ -410,7 +417,7 @@ export function FilterDetails({
                 ))}
               </Bereich>
               <Bereich
-                label={genreLabel}
+                label={genreLabel} klasse="sm:col-start-2 sm:row-span-5"
                 suche={suche}
                 texte={genres.map((g) => tGenre(g))}
                 modus={modusVon2('genres', filters.genres.length)}
@@ -421,7 +428,7 @@ export function FilterDetails({
                   </Chip>
                 ))}
               </Bereich>
-              <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} tRelease={tRelease} suche={suche} />
+              <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} tRelease={tRelease} suche={suche} set={set} mode={mode} />
             </div>
 
             {!suche && (
@@ -497,6 +504,27 @@ const CONFIDENCE_STUFEN = ['low', 'normal', 'high', 'very-high'] as const
 
 const confidenceText = (t: Translate, i: number) => (i === 0 ? t('filter.source') : t('filter.sources', { n: i + 1 }))
 
+/**
+ * Der Sprecher-Filter als Bereich; die Zahl der gewählten Sprecher steht in der Überschrift, wie der Zähler an „Filter“.
+ * Nur in der Datenbank: Dort stellt `App` die Titelnamen bereit (`TitelNamenContext`), im Kalender fehlen sie.
+ */
+function SprecherBereich({
+  t,
+  filters,
+  set,
+  mode,
+  suche,
+}: Pick<FilterMehrProps, 't' | 'filters' | 'set' | 'suche'> & { mode: 'include' | 'exclude' }) {
+  const anzahl = filters.sprecher.length + filters.excluded.sprecher.length
+  const label = t('filter.sprecher')
+  if (!useContext(TitelNamenContext)) return null
+  return (
+    <Bereich label={anzahl ? `${label} (${anzahl})` : label} suche={suche} texte={[]}>
+      <SprecherFilter filters={filters} onChange={set} mode={mode} />
+    </Bereich>
+  )
+}
+
 /** Release-Art, FSK und Jahr — stehen seit dem 01.10.2026 oben bei Anbietern und Genre. */
 function Grundgruppen({
   t,
@@ -507,13 +535,16 @@ function Grundgruppen({
   pick,
   tRelease,
   suche,
-}: Pick<FilterMehrProps, 't' | 'meta' | 'filters' | 'modusVon2' | 'chipState' | 'pick' | 'tRelease' | 'suche'>) {
+  set,
+  mode,
+}: Pick<FilterMehrProps, 't' | 'meta' | 'filters' | 'modusVon2' | 'chipState' | 'pick' | 'tRelease' | 'suche' | 'set'> & { mode: 'include' | 'exclude' }) {
   const artenLabel = t('filter.releaseType')
   const arten = Object.keys(RELEASE_TYPES) as ReleaseType[]
   const fskLabel = t('filter.fsk')
   const jahrLabel = t('filter.year')
   return (
     <>
+      <SprecherBereich t={t} filters={filters} set={set} mode={mode} suche={suche} />
       <Bereich label={artenLabel} suche={suche} texte={arten.map((a) => tRelease(a))} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
         {arten.filter((a) => zeigePille(suche, artenLabel, tRelease(a))).map((type) => (
           <Chip ton="gruen" key={type} color={RELEASE_TYPES[type].color} title={tRelease(type, 'hint')} {...chipState('releaseTypes', type)} onClick={() => pick('releaseTypes', type)}>

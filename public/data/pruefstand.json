@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-08T22:39:25.944Z",
+ "erzeugtAm": "2026-10-09T13:27:50.867Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -33,9 +33,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 381,
-   "gesamt": 389,
-   "offen": 8,
+   "gemeldet": 382,
+   "gesamt": 391,
+   "offen": 9,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/80212481",
    "ziele": [
@@ -70,6 +70,10 @@
     {
      "url": "https://www.netflix.com/title/82116553",
      "titel": "Steel Ball Run: Jojo’s Bizarre Adventure"
+    },
+    {
+     "url": "https://www.netflix.com/title/83189604",
+     "titel": "Dragon Ball Super: Beerus"
     }
    ],
    "naechster": "YooHoo: Retter in der Not"
@@ -77,13 +81,18 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 47,
+   "gemeldet": 46,
    "gesamt": 47,
-   "offen": 0,
+   "offen": 1,
    "ohneSeite": 0,
-   "ziel": "https://www.disneyplus.com/browse/entity-bc2dae95-23e6-45dc-8177-066425b10fa0",
-   "ziele": [],
-   "naechster": "Naruto"
+   "ziel": "https://www.disneyplus.com/de-de/browse/entity-79a3e335-2acc-408e-a942-1b0bac47d952",
+   "ziele": [
+    {
+     "url": "https://www.disneyplus.com/de-de/browse/entity-79a3e335-2acc-408e-a942-1b0bac47d952",
+     "titel": "Though I Am an Inept Villainess"
+    }
+   ],
+   "naechster": "Though I Am an Inept Villainess"
   },
   {
    "name": "Suchadressen",

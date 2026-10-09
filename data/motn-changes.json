@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 22
+    "2026-10": 30
   },
   "gesehen": {
     "26341901:netflix": {
@@ -1858,7 +1858,7 @@
       "imdbId": "tt4655480",
       "tmdbId": "tv/62650",
       "dienst": "prime",
-      "am": "2026-09-29",
+      "am": "2026-10-09",
       "deutsch": true
     },
     "removed:7754:prime": {
@@ -2378,7 +2378,7 @@
       "imdbId": "tt11192306",
       "tmdbId": "tv/95057",
       "dienst": "prime",
-      "am": "2026-10-07",
+      "am": "2026-10-09",
       "deutsch": true
     },
     "removed:56951:prime": {
@@ -3308,7 +3308,7 @@
       "imdbId": "tt1567432",
       "tmdbId": "tv/34524",
       "dienst": "prime",
-      "am": "2026-09-07",
+      "am": "2026-10-08",
       "deutsch": true
     },
     "removed:8593:prime": {
@@ -4408,7 +4408,7 @@
       "imdbId": "tt3655448",
       "tmdbId": "tv/62699",
       "dienst": "prime",
-      "am": "2026-09-25",
+      "am": "2026-10-09",
       "deutsch": false
     },
     "removed:13008:prime": {
@@ -6700,7 +6700,117 @@
       "dienst": "prime",
       "am": "2026-10-07",
       "deutsch": false
+    },
+    "new:25980564:netflix": {
+      "art": "new",
+      "titel": "Below",
+      "originalTitel": "Below",
+      "imdbId": "tt35934755",
+      "tmdbId": "tv/285322",
+      "dienst": "netflix",
+      "am": "2026-10-08",
+      "deutsch": false
+    },
+    "removed:77269:prime": {
+      "art": "removed",
+      "titel": "Flug in die Hölle",
+      "originalTitel": "Flug in die Hölle",
+      "imdbId": "tt0258578",
+      "tmdbId": "tv/73926",
+      "dienst": "prime",
+      "am": "2026-10-08",
+      "deutsch": false
+    },
+    "removed:9883212:prime": {
+      "art": "removed",
+      "titel": "Sakuna: Of Rice and Ruin",
+      "originalTitel": "天穂のサクナヒメ",
+      "imdbId": "tt32592756",
+      "tmdbId": "tv/255492",
+      "dienst": "prime",
+      "am": "2026-10-08",
+      "deutsch": false
+    },
+    "removed:10266719:prime": {
+      "art": "removed",
+      "titel": "Drink: A Look Inside the Glass",
+      "originalTitel": "Drink: A Look Inside the Glass",
+      "imdbId": "tt31719701",
+      "tmdbId": "tv/261306",
+      "dienst": "prime",
+      "am": "2026-10-08",
+      "deutsch": false
+    },
+    "removed:62101:prime": {
+      "art": "removed",
+      "titel": "Kubo Won't Let Me Be Invisible",
+      "originalTitel": "久保さんは僕を許さない",
+      "imdbId": "tt21844614",
+      "tmdbId": "tv/201889",
+      "dienst": "prime",
+      "am": "2026-10-08",
+      "deutsch": false
+    },
+    "removed:26344214:prime": {
+      "art": "removed",
+      "titel": "Castle Walls",
+      "originalTitel": "Castle Walls",
+      "imdbId": "tt38639909",
+      "tmdbId": "tv/331582",
+      "dienst": "prime",
+      "am": "2026-10-08",
+      "deutsch": false
+    },
+    "removed:217:prime": {
+      "art": "removed",
+      "titel": "Once Upon a Time",
+      "originalTitel": "Once Upon a Time",
+      "imdbId": "tt1843230",
+      "tmdbId": "tv/39272",
+      "dienst": "prime",
+      "am": "2026-10-08",
+      "deutsch": true
+    },
+    "removed:355:prime": {
+      "art": "removed",
+      "titel": "The Originals",
+      "originalTitel": "The Originals",
+      "imdbId": "tt2632424",
+      "tmdbId": "tv/46896",
+      "dienst": "prime",
+      "am": "2026-10-08",
+      "deutsch": true
+    },
+    "removed:131:prime": {
+      "art": "removed",
+      "titel": "The Vampire Diaries",
+      "originalTitel": "The Vampire Diaries",
+      "imdbId": "tt1405406",
+      "tmdbId": "tv/18165",
+      "dienst": "prime",
+      "am": "2026-10-08",
+      "deutsch": true
+    },
+    "removed:5461236:prime": {
+      "art": "removed",
+      "titel": "Alter Ego",
+      "originalTitel": "Alter Ego",
+      "imdbId": "tt26936873",
+      "tmdbId": "tv/240854",
+      "dienst": "prime",
+      "am": "2026-10-09",
+      "deutsch": true
+    },
+    "removed:24014:prime": {
+      "art": "removed",
+      "titel": "Suburbia - Women on the Edge",
+      "originalTitel": "Vorstadtweiber",
+      "imdbId": "tt4352342",
+      "tmdbId": "tv/61945",
+      "dienst": "prime",
+      "am": "2026-10-09",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-10-08T04:10:51.095Z"
+  "fetchedAt": "2026-10-09T12:00:21.361Z"
 }

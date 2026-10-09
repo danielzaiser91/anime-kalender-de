@@ -717,13 +717,13 @@ export function Tooltip({
     <span
       ref={anker}
       className={`relative inline-flex items-center ${className}`}
-      onMouseEnter={() => setOffen(true)}
+      onMouseEnter={() => !tipp.nachAntippen() && setOffen(true)}
       onMouseLeave={() => setOffen(false)}
-      onFocus={() => setOffen(true)}
+      onFocus={() => !tipp.nachAntippen() && setOffen(true)}
       onBlur={() => setOffen(false)}
       /* Auf dem Handy gibt es kein Überfahren: Antippen zeigt die Blase drei Sekunden (19.09.2026). */
       onTouchStart={() => {
-        tipp.beimAntippen()
+        if (!tipp.beimAntippen()) return
         setOffen(true)
         window.clearTimeout(zuTimer.current)
         zuTimer.current = window.setTimeout(() => setOffen(false), 3000)
@@ -759,7 +759,7 @@ export function Tooltip({
                   { left: -9999, top: 0 }
             }
             className={[
-              'pointer-events-none fixed z-50 w-max max-w-[min(20rem,80vw)]',
+              'pointer-events-none fixed z-[200] w-max max-w-[min(20rem,80vw)]',
               /* `whitespace-pre-line`: Mehrzeilige Hinweise (Anbieter-Pille) brauchen es, einzeilige
                  ändert es nicht — React würde `\n` sonst als Leerzeichen rendern (23.09.2026). */
               'whitespace-pre-line rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',
@@ -796,9 +796,9 @@ function useTippVerhalten(anker: RefObject<HTMLSpanElement | null>, offen: boole
     return () => document.removeEventListener('pointerdown', draussen, true)
   }, [offen, anker, schliessen])
   return {
-    beimAntippen: () => {
-      perTouch.current = true
-    },
+    /* Knopf/Link: keine Blase vor dem Klick, sonst schluckt iOS den ersten Tipp (Heute-Knopf, 09.10.2026); Maus-/Fokusereignisse nach einem Tipp sind kein Überfahren. */
+    beimAntippen: () => ((perTouch.current = true), !kindBedienbar),
+    nachAntippen: () => perTouch.current,
     beimKlick: (e: MouseEvent) => {
       if (perTouch.current && !kindBedienbar) {
         e.stopPropagation()

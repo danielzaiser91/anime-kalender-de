@@ -2,7 +2,6 @@ import { useState } from 'react'
 import type { DataMeta } from '@shared/types.ts'
 import { activeFilterCount, type FilterState } from '../lib/filters.ts'
 import { useLang } from '../lib/i18n.tsx'
-import { useVorschau } from '../lib/vorschau.ts'
 import { FilterDetailsFeld } from './FilterDetails.tsx'
 import { AktiveFilter } from './kalender/AktiveFilter.tsx'
 
@@ -33,15 +32,13 @@ export type FilterBarProps = {
  * Feld nimmt sie die volle Breite.
  */
 export function FilterBarDock(props: FilterBarProps) {
-  const v = useVorschau('leisten')
   const [open, setOpen] = useState(false)
-  const pille = v === 'pille' || (!open && activeFilterCount(props.filters) === 0)
+  const pille = (!open && activeFilterCount(props.filters) === 0)
   return (
     <div
       className={[
         'fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto md:bottom-[calc(1rem+env(safe-area-inset-bottom))] max-w-[1180px]',
         pille && 'right-2 left-auto mx-0 w-max max-w-[calc(100vw-1rem)] md:right-4 md:max-w-[calc(100vw-2rem)]',
-        v === 'ausblenden' && 'transition-[bottom] [html[data-nav-weg]_&]:max-md:bottom-[calc(0.5rem+env(safe-area-inset-bottom))]',
       ]
         .filter(Boolean)
         .join(' ')}

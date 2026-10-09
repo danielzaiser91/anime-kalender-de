@@ -130,7 +130,7 @@ Newsletter) — eine Zeile, kein neues Schema.
 
 ## Prototyp (dieser Zweig)
 
-- Vorschau `akVorschau('meine-woche')` (Varianten `an`, `leer`), Debug-Bereich in den Einstellungen.
+- Die Vorschau-Schalter (`akVorschau`) und der Debug-Bereich sind seit 09.10.2026 entfernt; der Prototyp liegt in der Git-Historie (vor Commit "UI aufräumen").
 - Dateien: `web/src/lib/meine-woche.ts` (Speicher, Rechnung, ICS), `web/src/components/kalender/MeineWoche.tsx`
   (Ansicht, per `lazy()` als eigener Chunk — die Standardansicht lädt ihn nie), Schalter in
   `KalenderBereich.tsx`, Texte `mw.*` in `i18n-kalender.ts`.
@@ -138,3 +138,5 @@ Newsletter) — eine Zeile, kein neues Schema.
   Handy `docs/meine-woche-{an,leer}-handy-{hell,dunkel}.png`. Messung: Überbreite 0, Konsolenfehler 0.
 - Ohne Vorschau: `KalenderBereich` zeichnet exakt wie vorher (ein `useVorschau`, ein `useSyncExternalStore`
   mehr, kein zusätzlicher Abruf).
+
+**Stand 09.10.2026 (Daniel):** zurückgestellt, nicht auf die Webseite. Am 16.10.2026 erneut vorstellen (Mockup `daniel-zum-abarbeiten/mockups/meine-woche.html`), dann entscheiden, ob wir es nehmen. Die Idee ist interessant.

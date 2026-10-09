@@ -24,6 +24,7 @@ import { anzeigeFolge, expandEvents } from '../shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
+import { andereNamen, titelJsonLd } from './lib/titel-namen.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
 import { ladeAkVon, umleitungen, type AkVon } from './lib/ausgabe-kennung.ts'
 
@@ -226,7 +227,7 @@ function body(
 
   return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(release.name)}</h1>
-      <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>
+      <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>${namenZeile(title, release.name)}
       ${synopsis ? `<p style="margin:0 0 1.5rem;">${esc(synopsis)}</p>` : ''}
       ${release.note ? `<p style="margin:0 0 1.5rem;color:#9aa5bd;">${esc(release.note)}</p>` : ''}
       <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Alle Termine mit deutscher Synchronisation</h2>
@@ -272,6 +273,8 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
     /* Dieselbe Beschreibung wie im og:description — eine Auskunft, eine Quelle. */
     description: describe(release, title, today),
   }
+  const andere = andereNamen(title, release.name)
+  if (andere.length) daten.alternateName = andere
 
   /* Nur setzen, was wirklich dasteht — ein leeres Feld ist schlechter als keins. */
   if (title?.genres?.length) daten.genre = title.genres.slice(0, 5).map((g) => GENRE_DE[g] ?? g)
@@ -484,6 +487,24 @@ function titelBeschreibung(t: Title): string {
   return teile.filter(Boolean).join(' ')
 }
 
+/** Auch Titel ohne Termin tragen Schema.org-Daten, mit allen Schreibweisen als `alternateName`. */
+function titelDaten(t: Title, name: string, url: string, description: string, bild: string | undefined): Record<string, unknown> {
+  const daten: Record<string, unknown> = { '@context': 'https://schema.org', '@type': t.format === 'MOVIE' ? 'Movie' : 'TVSeries', name, url, inLanguage: 'de', description }
+  const andere = andereNamen(t, name)
+  if (andere.length) daten.alternateName = andere
+  if (t.genres?.length) daten.genre = t.genres.slice(0, 5).map((g) => GENRE_DE[g] ?? g)
+  if (t.format !== 'MOVIE' && t.episodes) daten.numberOfEpisodes = t.episodes
+  if (t.jpYear) daten.datePublished = String(t.jpYear)
+  if (bild) daten.image = bild
+  return daten
+}
+
+/** „Auch bekannt als": die übrigen Schreibweisen im sichtbaren Text, damit Suchen nach englischem, Romaji- oder japanischem Namen die Seite finden. */
+function namenZeile(t: Title | undefined, gezeigt: string): string {
+  const andere = andereNamen(t, gezeigt)
+  return andere.length ? `<p style="margin:0 0 1rem;color:#9aa5bd;">Auch bekannt als: ${andere.map(esc).join(' · ')}</p>` : ''
+}
+
 function titelKopf(t: Title): string {
   const url = `${SITE}t/${t.slug}/`
   const name = titelName(t)
@@ -506,6 +527,7 @@ ${bild ? `    <meta property="og:image" content="${esc(bild)}" />
     <meta name="twitter:description" content="${esc(description)}" />
 ${bild ? `    <meta name="twitter:image" content="${esc(bild)}" />
 ` : ''}    <link rel="canonical" href="${url}" />
+${titelJsonLd(titelDaten(t, name, url, description, bild))}
     <script>
       if (!location.hash) location.hash = ${JSON.stringify(`#/woche?t=${t.id}`)};
     </script>`
@@ -518,6 +540,7 @@ function titelInhalt(t: Title, synopsis: string | undefined, eigene: Release[]):
   return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(name)}</h1>
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(titelBeschreibung(t))}</p>
+      ${namenZeile(t, name)}
       ${synopsis ? `<p style="margin:0 0 1.5rem;">${esc(synopsis)}</p>` : ''}
       ${
         wege.length
@@ -723,10 +746,11 @@ function writeSitemap(titel: Title[] = []): void {
   // Die Übersicht gehört dazu: Sie ist der Einstieg zu allen Teilen-Seiten.
   const today = todayIso()
   const urls = [
-    { loc: SITE, priority: '1.0', changefreq: 'daily' },
+    { loc: SITE, priority: '1.0', changefreq: 'daily', lastmod: today },
     // Der Einstieg zu allen Teilen-Seiten — er muss selbst gefunden werden.
-    { loc: `${SITE}termine/`, priority: '0.9', changefreq: 'daily' },
-    ...titel.map((t) => ({ loc: `${SITE}t/${t.slug}/`, priority: '0.6', changefreq: 'weekly' })),
+    { loc: `${SITE}termine/`, priority: '0.9', changefreq: 'daily', lastmod: today },
+    // Titelseiten ohne lastmod: Ein belegbares Änderungsdatum je Seite gibt es nicht, „heute" wäre geraten.
+    ...titel.map((t) => ({ loc: `${SITE}t/${t.slug}/`, priority: '0.6', changefreq: 'weekly', lastmod: undefined as string | undefined })),
   ]
 
   const xml =
@@ -735,7 +759,7 @@ function writeSitemap(titel: Title[] = []): void {
     urls
       .map(
         (u) =>
-          `  <url>\n    <loc>${esc(u.loc)}</loc>\n    <lastmod>${today}</lastmod>\n` +
+          `  <url>\n    <loc>${esc(u.loc)}</loc>\n${u.lastmod ? `    <lastmod>${u.lastmod}</lastmod>\n` : ''}` +
           `    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`,
       )
       .join('\n') +

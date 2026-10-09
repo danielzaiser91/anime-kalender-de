@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
 import type { ViewId } from '../lib/router.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { useThema } from '../lib/thema.ts'
 import { InstallButton } from './InstallPrompt.tsx'
-import { Suchfeld } from './Suchfeld.tsx'
+import { KopfSuchfeld, useKopfSuche } from './kopf-suche.tsx'
 import { HandyNavigation } from './HandyNavigation.tsx'
 import { AboMenue } from './kalender/AboMenue.tsx'
 import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen, ZahnradZeichen } from './kalender/Zeichen.tsx'
@@ -47,6 +46,7 @@ export function Header({
   hrefFuer,
   suche,
   setSuche,
+  zurSuche,
   favorites,
   einstellungen,
 }: {
@@ -59,19 +59,17 @@ export function Header({
   hrefFuer: (ziel: ViewId) => string
   suche: string
   setSuche: (s: string) => void
+  /** Im Kalender gibt es kein Suchfeld: das Symbol führt in die Datenbank (leere Suche). */
+  zurSuche: () => void
   favorites: Set<number>
   einstellungen: () => void
 }) {
   const { t } = useLang()
-  const [sucheAuf, setSucheAuf] = useState(false)
-  const eingabe = useRef<HTMLInputElement>(null)
-  useEffect(() => {
-    if (sucheAuf) eingabe.current?.focus()
-  }, [sucheAuf])
   const aktiv = bereichVon(view)
-  const feld = 'h-11 w-full rounded-full border border-ak-rand bg-ak-flaeche pr-24 pl-10 text-sm text-ak-text placeholder:text-ak-sehr-leise focus:border-ak-akzent focus:outline-none'
+  const kalender = aktiv === 'kalender'
+  const { sucheAuf, eingabe, kopf, oeffnen } = useKopfSuche(view, kalender, zurSuche)
   return (
-    <header className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
+    <header ref={kopf} className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
       <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6 lg:px-10">
         <a
           href={startHref}
@@ -114,11 +112,8 @@ export function Header({
           })}
         </nav>
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-          <label className="relative hidden w-64 lg:block xl:w-72">
-            <span className="pointer-events-none absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-ak-leise"><SuchZeichen /></span>
-            <Suchfeld wert={suche} setzen={setSuche} platzhalter={t('kopf.suche')} className={feld} />
-          </label>
-          <button type="button" onClick={() => setSucheAuf(!sucheAuf)} aria-expanded={sucheAuf} aria-label={t('kopf.sucheOeffnen')} className={`${RUND} lg:hidden`}>
+          {!kalender && <KopfSuchfeld suche={suche} setSuche={setSuche} className="hidden w-64 lg:block xl:w-72" />}
+          <button type="button" onClick={oeffnen} aria-expanded={kalender ? undefined : sucheAuf} aria-label={t('kopf.sucheOeffnen')} className={`${RUND} ${kalender ? '' : 'lg:hidden'}`}>
             <SuchZeichen />
           </button>
           <InstallButton />
@@ -129,15 +124,12 @@ export function Header({
           </button>
         </div>
       </div>
-      {sucheAuf && (
+      {sucheAuf && !kalender && (
         <div className="mx-auto max-w-[1600px] px-4 pb-3 lg:hidden">
-          <label className="relative block">
-            <span className="pointer-events-none absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-ak-leise"><SuchZeichen /></span>
-            <Suchfeld wert={suche} setzen={setSuche} platzhalter={t('kopf.suche')} className={feld} eingabe={eingabe} />
-          </label>
+          <KopfSuchfeld suche={suche} setSuche={setSuche} className="block" eingabe={eingabe} />
         </div>
       )}
-      <HandyNavigation aktiv={aktiv} onView={onView} kalender={aktiv === 'kalender' ? view : 'woche'} einstellungen={einstellungen} />
+      <HandyNavigation aktiv={aktiv} onView={onView} kalender={kalender ? view : 'woche'} einstellungen={einstellungen} />
     </header>
   )
 }

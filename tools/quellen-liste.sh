@@ -30,6 +30,8 @@ QUELLEN=(
   data/anisearch-eintraege.json
   data/anisearch-cover.json
   data/anisearch-eintraege-ausgelassen.json
+  data/anisearch-mal.json
+  data/anisearch-offen.json
   data/tmdb-poster.json
   data/kitsu-folgen.json
   data/cover-klein.json

@@ -14,6 +14,9 @@ import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
+import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
+import { findeAnisearchDubletten, type DublettenUrteil } from './anisearch-dubletten.ts'
+import { anisearchKennungen } from './anisearch-kennung.ts'
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
@@ -183,10 +186,27 @@ export function schreibeCartoons(): void {
   log(`${titel.length} westliche Animationsserien geschrieben`)
 }
 
+/**
+ * Dasselbe Werk als aniSearch-Zeile und als AniList-Katalogtitel steht nur einmal im Katalog (`anisearch-dubletten.ts`): Eine Zeile hinter dem Schalter
+ * weicht dem Katalogtitel; steht die Zeile im Hauptbestand oder trägt sie einen Termin (`geschuetzt`), weicht der Katalogtitel ihr.
+ */
+function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Title[], geschuetzt: Set<number>, eintraege: KatalogEintrag[]): DublettenUrteil {
+  const zeile = (id: number) => id >= ANISEARCH_ID_BASIS
+  const katalog = eintraege.filter((e) => !bekannt.has(e.id)).map((e) => ({ id: e.id, mal: e.mal, format: e.format, jahr: e.jahr, folgen: e.folgen }))
+  const hinter = verschoben.map((t) => t.id).filter((id) => zeile(id) && !geschuetzt.has(id))
+  const haupt = [...bekannt.keys(), ...verschoben.map((t) => t.id).filter((id) => geschuetzt.has(id))].filter(zeile)
+  const urteil = findeAnisearchDubletten(hinter, haupt, katalog, anisearchEintraege())
+  if (urteil.zeilenWeg.size || urteil.katalogWeg.size) {
+    log(`aniSearch-Dubletten: ${urteil.zeilenWeg.size} Zeilen hinter dem Schalter entfallen (der AniList-Katalogtitel gilt), ${urteil.katalogWeg.size} Katalogtitel entfallen (die Zeile steht im Hauptbestand)`)
+  }
+  return urteil
+}
+
 export function schreibeOhneSynchro(
   bekannt: Map<number, number>,
   verschoben: Title[] = [],
   deutscheReihe: Map<number, string> = new Map(),
+  geschuetzt: Set<number> = new Set(),
 ): void {
   const katalog = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {})
   const eintraege = katalog.eintraege ?? []
@@ -255,8 +275,10 @@ export function schreibeOhneSynchro(
       { titel?: string; quelle?: string; anisearchId?: number; englisch?: string; synonyme?: string[] }
     >
   >('data/anisearch-titel.json', {})
+  const dubletten = anisearchDublettenAbziehen(bekannt, verschoben, geschuetzt, eintraege)
+  const kennungen = anisearchKennungen([...eintraege.map((e) => ({ id: e.id, mal: e.mal ?? undefined })), ...verschoben.map((t) => ({ id: t.id, mal: t.malId }))])
   const ohne = eintraege
-    .filter((e) => !bekannt.has(e.id))
+    .filter((e) => !bekannt.has(e.id) && !dubletten.katalogWeg.has(e.id))
     .map((e) => {
       const [romaji, englisch, japanisch] = e.t
       const eintrag = ausAnisearch[String(e.id)]
@@ -306,21 +328,8 @@ export function schreibeOhneSynchro(
         titleEn: englisch ?? eintrag?.englisch ?? englischAusSynonymen(eintrag?.synonyme) ?? e.latein ?? undefined,
         /* Nur, wenn er wirklich etwas Neues sagt — sonst steht dieselbe Zeichenkette zweimal. */
         titleDe: deutsch && deutsch !== englisch && deutsch !== romaji ? deutsch : undefined,
-        /*
-          **Die Kennung geht mit — sonst nennt die Seite eine Quelle, zu der sie
-          nicht führt.**
-
-          Sie steht in derselben Datei wie der Titel und blieb trotzdem liegen:
-          Im Detail-Panel stand „aniSearch — deutscher Titel, Beschreibung" ohne
-          Verweis, und Daniel fragte zu Recht „warum ist anisearch nicht
-          anklickbar?" (03.09.2026). Gemessen: Titel 186148 trägt dort
-          `anisearchId: 20083`.
-
-          Das ist derselbe Fehlgriff wie am 28.08.2026 beim Feld `titelId` — ein
-          Wert wird geholt, abgelegt und am Ziel nicht ausgepackt. Der Einbau
-          endet am Empfänger, nicht am Sender.
-        */
-        anisearchId: eintrag?.anisearchId,
+        /* Die Kennung geht mit, sonst führt der aniSearch-Verweis ins Leere; zugeordnet wird sie in `anisearch-kennung.ts`. */
+        anisearchId: kennungen.get(e.id),
         titleNative: japanisch ?? undefined,
         format: e.format ?? undefined,
         episodes: e.folgen ?? undefined,
@@ -362,23 +371,10 @@ export function schreibeOhneSynchro(
       }
     })
 
-  /**
-   * Wer aus dem Hauptbestand verschoben wurde, muss hier ankommen — auch wenn
-   * der Katalog ihn nicht führt.
-   *
-   * Bis zum 17.08.2026 verließ sich der Vorfilter darauf, dass ein verschobener
-   * Titel über den AniList-Katalog von selbst wieder auftaucht. Bei acht von
-   * neun stimmte das. Der neunte, „Xiao Mao Diao Yu" (215520), stand in keinem
-   * der beiden Bestände und war damit über keinen Weg mehr erreichbar — auch
-   * nicht mit eingeschaltetem Toggle.
-   *
-   * Ein Titel, den man nirgends findet, ist stillschweigend gestrichen, und das
-   * verbietet der Projektgrundsatz: Gestrichen wird nur, was eine Quelle aktiv
-   * widerlegt. Ein fehlender Katalogeintrag widerlegt nichts.
-   */
+  /* Wer aus dem Hauptbestand verschoben wurde, muss hier ankommen, auch wenn der Katalog ihn nicht führt (ein Vorfilter verschiebt, er löscht nicht; „Xiao Mao Diao Yu", 17.08.2026). */
   const vorhanden = new Set(ohne.map((t) => t.id))
-  const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id))
-  const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
+  const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id) && !dubletten.zeilenWeg.has(t.id))
+  const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, ...(kennungen.has(t.id) ? { anisearchId: kennungen.get(t.id) } : {}), dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
 
   writeJson(`${OUT}/ohne-synchro.json`, alle.map((t) => mitLaufzeit(mitAnkuendigung(t))))
   meldeOhneSynchro(alle, eintraege.length, nachgetragen.length, bekannt)

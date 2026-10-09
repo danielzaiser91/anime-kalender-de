@@ -51,7 +51,7 @@ export const FORMAT: Record<string, string> = {
 const SICHERHEIT: Record<Eintrag['dub'], DubConfidence> = { d: 'high', p: 'normal', c: 'normal', '-': 'low' }
 
 let eintraege: Record<string, Eintrag> | undefined
-const alle = (): Record<string, Eintrag> => (eintraege ??= readJson<Record<string, Eintrag>>('data/anisearch-eintraege.json', {}))
+export const alle = (): Record<string, Eintrag> => (eintraege ??= readJson<Record<string, Eintrag>>('data/anisearch-eintraege.json', {}))
 
 /** Ausschließlich im Katalog: Einträge, bei denen aniSearch kein Deutsch nennt. */
 export function anisearchNurKatalog(): Set<number> {

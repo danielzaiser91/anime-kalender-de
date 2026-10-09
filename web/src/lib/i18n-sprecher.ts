@@ -1,0 +1,20 @@
+/** Texte des Sprecher-Filters der Datenbank (`components/SprecherFilter.tsx`); `TEXTE` in `i18n.tsx` nimmt sie auf. */
+export const TEXTE_SPRECHER = {
+  'filter.sprecher': 'Sprecher',
+  'filter.sprecher.platzhalter': 'Sprecher suchen …',
+  'filter.sprecher.mit': 'mit',
+  'filter.sprecher.ohne': 'ohne',
+  'filter.sprecher.umschalten': '{name}: {art} – antippen zum Umschalten',
+  'filter.sprecher.titelZahl': '{n} Titel',
+  'filter.sprecher.aufklappen': 'Titel von {name} anzeigen',
+  'filter.sprecher.zuklappen': 'Titel von {name} ausblenden',
+  'filter.sprecher.keiner': 'Kein Sprecher mit diesem Namen',
+  'filter.sprecher.mindestens': 'Mindestens zwei Buchstaben eingeben',
+  'filter.sprecher.mehr': '… {n} weitere – weiter eingrenzen',
+  'filter.sprecher.laedt': 'Lädt …',
+  'filter.sprecher.fehler': 'Die Sprecherliste konnte nicht geladen werden.',
+  'filter.sprecher.nochmal': 'Erneut versuchen',
+  'filter.sprecher.datenLaedt': 'Titel der Sprecher werden geladen …',
+  'filter.sprecher.datenFehler': 'Die Titel der gewählten Sprecher konnten nicht geladen werden.',
+  'filter.sprecher.hinweis': 'Zeigt Titel mit mindestens einem „mit“-Sprecher und ohne alle „ohne“-Sprecher.',
+}

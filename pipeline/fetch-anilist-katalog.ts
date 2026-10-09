@@ -35,6 +35,7 @@
  */
 import { FRANCHISE_RELATIONS } from '../shared/mappings.ts'
 import { katalogSeite, type KatalogEintrag } from './lib/anilist.ts'
+import { planeKatalogLauf, undatierteKennungen } from './lib/katalog-plan.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 
 interface Katalog {
@@ -93,11 +94,13 @@ const FRISCH_SEITEN = 10
 async function main(): Promise<void> {
   const vorhanden = NEU ? undefined : readJson<Katalog | undefined>(DATEI, undefined)
   const bekannt = new Map<number, KatalogEintrag>((vorhanden?.eintraege ?? []).map((e) => [e.id, e]))
-  const veraltet = Boolean(vorhanden) && vorhanden?.relFassung !== REL_FASSUNG
-  /* Ein veralteter Fingerabdruck verlangt den Volllauf; ein Frischlauf dürfte ihn sonst fälschlich „gültig" stempeln. */
-  const frisch = FRISCH && !veraltet && Boolean(vorhanden)
-  const fertig = new Set(veraltet ? [] : (vorhanden?.fertigeJahre ?? []))
-  if (veraltet) {
+  const plan = planeKatalogLauf({
+    vorhanden, frischGewuenscht: FRISCH, relFassung: REL_FASSUNG, jahr: new Date().getFullYear(), abJahr: AB_JAHR, frischSeiten: FRISCH_SEITEN,
+  })
+  if (plan.ueberspringen) return warn('Frischlauf ohne vorhandenen Katalog übersprungen - der Wochenlauf holt ihn')
+  const { frisch, veraltet } = plan
+  const fertig = new Set(plan.fertig)
+  if (veraltet && !frisch) {
     log(
       'Der Fingerabdruck des Katalogs hat sich geändert - alle Jahre werden neu geholt ' +
         `(Cache: ${vorhanden?.relFassung ?? 'ohne Angabe'})`,
@@ -109,7 +112,7 @@ async function main(): Promise<void> {
   const bisJahr = new Date().getFullYear() + 3
   let abfragen = 0
 
-  for (let jahr = frisch ? new Date().getFullYear() : AB_JAHR; jahr <= bisJahr; jahr++) {
+  for (let jahr = plan.ersteJahr; jahr <= bisJahr; jahr++) {
     // Das laufende und die kommenden Jahre nie als „fertig" abhaken — dort
     // kommen laufend Titel dazu.
     const dauerhaftFertig = jahr < new Date().getFullYear()
@@ -141,14 +144,33 @@ async function main(): Promise<void> {
       }
     }
     if (imJahr) log(`  ${jahr}: ${imJahr} Titel (${bekannt.size} insgesamt)`)
-    if (abfragen % 20 < 2) sichern(bekannt, fertig)
+    if (abfragen % 20 < 2) sichern(bekannt, fertig, plan.relFassung)
   }
 
-  const hoechsteId = await nachlauf(bekannt, frisch ? FRISCH_SEITEN : 100)
+  const hoechsteId = await nachlauf(bekannt, plan.nachlaufSeiten)
 
-  sichern(bekannt, fertig)
+  sichern(bekannt, fertig, plan.relFassung)
   log(`Katalog: ${bekannt.size} Anime insgesamt`)
   await pruefeJuengste(bekannt, hoechsteId)
+}
+
+/** Frischt die Einträge ohne Startdatum nach Kennung auf (`undatierteKennungen`): Cover, Datum und Herkunft, die AniList später nachträgt. */
+async function frischeUndatierte(bekannt: Map<number, KatalogEintrag>): Promise<void> {
+  const kennungen = undatierteKennungen([...bekannt.values()])
+  let geaendert = 0
+  for (let ab = 0; ab < kennungen.length; ab += 50) {
+    try {
+      const { eintraege } = await katalogSeite(1, undefined, undefined, false, true, kennungen.slice(ab, ab + 50))
+      for (const e of eintraege) {
+        if (JSON.stringify(bekannt.get(e.id)) !== JSON.stringify(e)) geaendert++
+        bekannt.set(e.id, e)
+      }
+    } catch (err) {
+      warn(`Undatierte, ab ${ab}: ${(err as Error).message}`)
+      break
+    }
+  }
+  log(`Undatierte Einträge nach Kennung aufgefrischt: ${kennungen.length} geholt, ${geaendert} geändert`)
 }
 
 /**
@@ -160,6 +182,7 @@ async function main(): Promise<void> {
  * Ohne Formatfilter: Ankündigungen ohne Format (Maiden Blood, 09.10.2026) fielen sonst durch.
  */
 async function nachlauf(bekannt: Map<number, KatalogEintrag>, seiten: number): Promise<number> {
+  await frischeUndatierte(bekannt)
   let neu = 0
   let hoechsteId = 0
   for (let seite = 1; seite <= seiten; seite++) {
@@ -207,11 +230,11 @@ async function pruefeJuengste(bekannt: Map<number, KatalogEintrag>, hoechsteId: 
   }
 }
 
-function sichern(bekannt: Map<number, KatalogEintrag>, fertig: Set<number>): void {
+function sichern(bekannt: Map<number, KatalogEintrag>, fertig: Set<number>, relFassung: string | undefined): void {
   const katalog: Katalog = {
     geholtAm: new Date().toISOString(),
     fertigeJahre: [...fertig].sort((a, b) => a - b),
-    relFassung: REL_FASSUNG,
+    relFassung,
     eintraege: [...bekannt.values()].sort((a, b) => a.id - b.id),
   }
   writeJson(DATEI, katalog, true)
