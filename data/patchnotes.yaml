@@ -13,10 +13,6 @@
   text: Neuigkeiten-Pillen in vier Farben
   live: true
 - datum: "2026-10-09"
-  kategorie: feature
-  text: Einstellungen ohne Debug-Bereich
-  live: true
-- datum: "2026-10-09"
   kategorie: bugfix
   text: Keine doppelten Titel hinter dem Schalter
   live: true
@@ -42,19 +38,7 @@
   live: true
 - datum: "2026-10-08"
   kategorie: feature
-  text: Titelseiten laden 1,9 MB weniger
-  live: true
-- datum: "2026-10-08"
-  kategorie: feature
-  text: "Erweiterung: Melder auf Wiedergabeseiten ausgeblendet"
-  live: true
-- datum: "2026-10-08"
-  kategorie: feature
-  text: "Ranma ½: Folgen 1–80 auf Deutsch"
-  live: true
-- datum: "2026-10-08"
-  kategorie: feature
-  text: "Naruto Shippuden: Folgen 1–166 auf Deutsch"
+  text: Titel-Details öffnen schneller
   live: true
 - datum: "2026-10-08"
   kategorie: bugfix
@@ -71,4 +55,12 @@
 - datum: "2026-10-08"
   kategorie: bugfix
   text: Cover für Fool Night und Beerus
+  live: true
+- datum: "2026-10-08"
+  kategorie: bugfix
+  text: "Ranma ½: deutsche Folgen korrigiert (1–80)"
+  live: true
+- datum: "2026-10-08"
+  kategorie: bugfix
+  text: "Naruto Shippuden: deutsche Folgen korrigiert (1–166)"
   live: true
