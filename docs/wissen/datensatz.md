@@ -612,8 +612,8 @@ Ohne Suche startet die Datenbank in drei Gruppen: „Läuft jetzt", „Demnächs
 Mockup „Datenbank-Einstieg"). Die Regel steht in `web/src/lib/db-relevanz.ts`, die Reihenfolge in `db-liste.ts`,
 die Zusicherungen in `pipeline/check-db-relevanz.ts`. Maßgeblich ist die deutsche Erstausgabe (`deErstausgabe`):
 ein späteres Neuerscheinen bei einem weiteren Anbieter zählt nicht (Rooster Fighter, Id 179813 → erschienen);
-ohne `deErstausgabe` gilt `titleStatus()`. Gemessen in der Seite am 09.10.2026 (mit Cartoons): ungebündelt 27 / 57 / 3.729 Titel, gebündelt 27 / 53 / 2.410 Reihen (Disc und Einzelsendung im TV zählen nicht als „läuft"); Datensatz ohne Cartoons (gebündelt):
-28 / 54 / 1.514 Franchises, ohne den Bestand „ohne Synchro" 28 / 53 / 1.509. Mit Suche gilt weiter die Treffergüte;
+ohne `deErstausgabe` bestimmt der früheste Nicht-Disc-Termin die Erstausgabe (Disc bestimmt nie „Demnächst"; liegt `von` vor dem frühesten Termin, ist sie vorbei, Toleranz 60 Tage; Einzelsendung im TV zählt nicht als „läuft"). Eine vierte, letzte Gruppe „Ohne bekannten Termin" fängt Status `unbekannt` ab.
+Gemessen in der Seite am 09.10.2026 (App-Vorgabe mit Cartoons, 3.813 Titel): ungebündelt 21 / 34 / 2.852 / 906, gebündelt 21 / 31 / 1.538 / 900 Reihen; die 900 sind Cartoons ohne Release und ohne Synchro-Hinweis (vorher unter „erschienen", daher die alte Zahl 3.729). Je Datei ohne Cartoons (titles.json komplett, ungebündelt): 21 / 35 / 2.859 / 11. Mit Suche gilt weiter die Treffergüte;
 `?sort=relevanz` ist jetzt immer gültig. Die Statuspille entfällt, wo die Überschrift sie schon sagt.
 
 ## Sprecher-Suche hinter der Vorschau `sprecher-suche` (08.10.2026)
