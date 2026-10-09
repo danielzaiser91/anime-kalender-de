@@ -53,7 +53,15 @@ function stufeOhneErstausgabe(t: Title, alle: Release[], nichtDisc: Release[], t
   }
   const disc = alle.filter((r) => istDisc(r) && releaseStatus(r, today) === 'tba').map(startVon).sort()
   if (disc.length && !hinweisAufSynchro) return { art: 'bald', ab: disc[0] }
-  return { art: titleStatus(alle, today, t) === 'unbekannt' ? 'unbekannt' : 'erschienen' }
+  if (titleStatus(alle, today, t) !== 'unbekannt') return { art: 'erschienen' }
+  return { art: cartoonSchonErschienen(t, today) ? 'erschienen' : 'unbekannt' }
+}
+
+/** Ein Cartoon hat keine Termine, aber ein Startdatum (TMDB): liegt es in der Vergangenheit, ist er erschienen; Platzhalter in der Zukunft (2030-01-01) sind kein Datum. */
+function cartoonSchonErschienen(t: Title, today: string): boolean {
+  if (!t.westlich) return false
+  const start = t.jpStart ?? (t.jpYear ? `${t.jpYear}-12-31` : undefined)
+  return start !== undefined && start <= today
 }
 
 /** Ein einzelner Titel. Disc-Termine bestimmen weder „Läuft jetzt" noch (außer als einzige) „Demnächst". */
