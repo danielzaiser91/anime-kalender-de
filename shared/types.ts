@@ -766,7 +766,7 @@ export interface ReleaseEvent {
    * auf „Premiere oder Wiederholung?" und „ist das das Finale?". Berechnet wird sie einmal im Bau,
    * die Einzelheiten stehen in `shared/tv-signale.ts` und `shared/kostenlos.ts`.
    *
-   * `tvPremiere` **nur bei `platform: 'tv'`**: true = erstmals auf Deutsch, false = Wiederholung.
+   * `tvPremiere` **nur bei `platform: 'tv'`**: true = erstmals auf Deutsch, false = Wiederholung, fehlt = keine Aussage.
    */
   tvPremiere?: boolean
   /** Letzte Folge einer Staffel mit belegter Folgenzahl (siehe `istStaffelfinale`). */

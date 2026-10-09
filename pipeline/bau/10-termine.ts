@@ -25,17 +25,24 @@ import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } 
  */
 export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], titles: Map<number, Title>): void {
   const releaseBySlug = new Map(releases.map((r) => [r.slug, r]))
+  /* Wie die Oberfläche: Die Auskunft sieht nur die Releases des eigenen Titels. */
+  const releasesJeTitel = new Map<number, Release[]>()
+  for (const r of releases) releasesJeTitel.set(r.titleId, [...(releasesJeTitel.get(r.titleId) ?? []), r])
   let premier = 0
   let wiederholungen = 0
+  let ohneAussage = 0
   let finale = 0
   for (const ev of events) {
     const release = releaseBySlug.get(ev.releaseSlug)
     const title = titles.get(ev.titleId)
     if (release && title && ev.platform === 'tv' && ev.episode && !ev.sichtung) {
-      const istEs = istPremiere(ev.episode, ev.date, title, releases, release.ersteDeutsch, ev.time)
-      ev.tvPremiere = istEs
-      if (istEs) premier++
-      else wiederholungen++
+      const istEs = istPremiere(ev.episode, ev.date, title, releasesJeTitel.get(ev.titleId) ?? [], release.ersteDeutsch, ev.time)
+      if (istEs === undefined) ohneAussage++
+      else {
+        ev.tvPremiere = istEs
+        if (istEs) premier++
+        else wiederholungen++
+      }
     }
     if (istStaffelfinale(ev, { releaseBySlug })) {
       ev.staffelfinale = true
@@ -43,7 +50,7 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
     }
     if (istStaffelstart(ev, { releaseBySlug })) ev.staffelstart = true
   }
-  log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${finale} Staffelfinale`)
+  log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${ohneAussage} ohne Aussage (kein Beleg), ${finale} Staffelfinale`)
 }
 
 export function rolleTermineAus({ releases, titles, jpStart }: {
