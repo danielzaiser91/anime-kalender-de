@@ -1,6 +1,5 @@
 import { TrailerKino } from './kino.tsx'
-import { anzeigeName, hauptstaffeln, staffelStaende } from '@shared/titles.ts'
-import { useLang } from '../../lib/i18n.tsx'
+import { anzeigeName } from '@shared/titles.ts'
 import { AniSearchVerweis } from './pillen.tsx'
 import { type FranchiseMember, type Title, type Release } from '@shared/types.ts'
 import type { JSX } from 'react'
@@ -23,10 +22,6 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
   title: Title
   kinoRelease: Release
 }) {
-  const { t } = useLang()
-  /* Die Zeile „Staffel 4 von 4" nur, wo der Teilname die Nummer nicht schon trägt („Staffel 3"). */
-  const stand = staffelStaende(hauptstaffeln(reihenTeile), reihenName).get(title.id)
-  const standZeile = stand && !/^Staffel\s+\d/.test(teilName) ? stand : null
   return (
     <>
       {/*
@@ -48,9 +43,6 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
           </div>
           {/* Die zweite Titelzeile entfällt, wenn sie nur den Reihennamen darüber wiederholt. */}
           {reihenTeile.length > 1 && teilName !== reihenName && <TeilUeberschrift teilName={teilName} />}
-          {standZeile && (
-            <p className="pointer-events-auto mt-0.5 text-[11px] text-ak-leise">{t('detail.staffelVon', { n: standZeile.staffel, von: standZeile.von })}</p>
-          )}
         </div>
       </div>
     </>
