@@ -17,6 +17,7 @@ import { type SlimTitel } from './13-2-auslieferung.ts'
 import { ergaenzeCoverGross } from './cover-gross.ts'
 import { ohneBelegteSynchro } from './synchro-belegt.ts'
 import { schreibeSaisonDatei } from './saison-datei.ts'
+import { schreibeAnisearchOffen } from './anisearch-kennung.ts'
 
 export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige }: {
   titles: Map<number, Title>
@@ -69,7 +70,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     verschoben,
     deutscheReihe,
   )
-  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()]); ergaenzeCoverGross(synopses, slim); schreibeSaisonDatei(titles)
+  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()]); ergaenzeCoverGross(synopses, slim); schreibeSaisonDatei(titles); schreibeAnisearchOffen(slim)
   // Synopsen in Gruppen statt in einer Datei.
   //
   // Vorher lag alles in `synopses.json`: 3,8 MB, die beim ersten Öffnen eines

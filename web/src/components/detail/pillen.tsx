@@ -45,36 +45,9 @@ const marke = (farbe?: string) => (farbe ? ({ '--marke': farbe } as React.CSSPro
  */
 
 /**
- * **Zu jedem Titel ein Weg zu aniSearch — auch ohne Kennung.**
- *
- * Daniel am 07.09.2026: „anisearch link für alle titel dort einfügen wo wir
- * anisearch links haben, ansonsten anisearch search seite mit dem titel da
- * einfügen. überall soll da ein link sein." Und einen Prompt später: „oder du
- * kannst statt search auch herausfinden was der tatsächliche link zum anime ist,
- * das wäre besser."
- *
- * Genau das ist die Reihenfolge hier. 2.621 der 2.768 Titel tragen eine
- * `anisearchId` (gemessen 07.09.2026, 94,7 %) — für sie führt der Verweis
- * direkt auf die Werkseite. Für die übrigen 147 gibt es keine geratene Kennung,
- * sondern die Suche mit dem Titel.
- *
- * **Und die Suchadresse ist `/search?q=`, nicht `/anime/index?text=`.**
- * Letztere antwortet mit HTTP 200 und „Deine Suchanfrage ist ungültig — bitte
- * sende Deine Suchanfrage erneut ab": ein Filterformular, das ohne Sitzung
- * nicht abschickt. Der Beleg dafür, dass es hier je funktioniert hat, war ein
- * Statuscode — genau der Fehler, den diese Akte für Amazon schon beschreibt:
- * **200 heißt „ich habe geantwortet", nicht „es gibt die Seite".**
- *
- * Gemessen am 12.09.2026, vier Formen gegeneinander: `/anime/index?text=` gibt
- * dreimal die Fehlermeldung, `/search?q=` liefert die Trefferliste — „Date A
- * Bullet" → `anime/14630`, „Kusuriya no Hitorigoto: Bouhi no Hihou" →
- * `anime/20990`. Ein Titel, den aniSearch nicht führt, ergibt dort eine leere
- * Liste; das ist die ehrliche Auskunft und keine Fehlerseite.
- *
- * **Warum keine Kennung geraten wird:** Eine erfundene Nummer führt auf eine
- * fremde Werkseite, und das ist von einer richtigen nicht zu unterscheiden —
- * dieselbe Falle wie bei den drei erfundenen Amazon-Adressen vom 23.08.2026.
- * Die Suche ist einen Klick länger und immer richtig.
+ * **Der aniSearch-Absprung ist immer ein Direktlink auf die Titelseite** (`anime/<Kennung>`). Ohne Kennung steht kein aniSearch-Eintrag da — nie eine
+ * Suche, nie ein „?" (Daniel, 09.10.2026). Eine geratene Kennung führte auf ein fremdes Werk (dieselbe Falle wie bei den erfundenen Amazon-Adressen
+ * vom 23.08.2026); die Titel ohne Kennung stehen in `data/anisearch-offen.json` und werden über aniSearchs MAL-Brücke nachgeordnet.
  */
 export function AniSearchVerweis({ title, ziel }: { title: Title; ziel?: string }) {
   const gross = useVorschau('tippziele') === 'gross'
@@ -94,8 +67,6 @@ export function AniSearchVerweis({ title, ziel }: { title: Title; ziel?: string 
             ].join(' ')}
           >
             {v.name}
-            {/* „?" heißt: Wir kennen keine eigene Seite, der Weg führt auf die Suche. */}
-            {v.suche && <span aria-hidden="true" className="font-bold">?</span>}
             {/* Der Pfeil sagt „führt hinaus" — ohne ihn liest sich das Wort als Quellenangabe. */}
             <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
               <path d="M4 2h6v6M10 2 2.5 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />

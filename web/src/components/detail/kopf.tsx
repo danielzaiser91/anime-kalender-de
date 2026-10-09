@@ -38,7 +38,7 @@ export function PanelKopf({ bewertung, reihenTeile, teilName, reihenName, title,
         <div className="min-w-0 flex-1">
           {/*
             Eigene Zeile über dem Staffelnamen (Daniel, 03.10.2026: „titel wird stark gequetscht"): Wertung links, Trailer und
-            Absprünge (aniSearch, MAL) rechts. Der Verweis steht bei allen Titeln, ohne Kennung als Suche (Daniel, 07.09.2026).
+            Absprünge (aniSearch, MAL) rechts. aniSearch nur mit Kennung als Direktlink, nie als Suche (Daniel, 09.10.2026).
           */}
           <div className="pointer-events-none flex flex-wrap items-center gap-2">
             {bewertung && <span className="pointer-events-auto">{bewertung}</span>}
