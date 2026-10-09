@@ -82,6 +82,8 @@ export function uebersetzeDatei(name: string, daten: unknown, ak: AkVon): unknow
       const s = daten as { jp: Record<string, string>; katalog: Record<string, unknown>[] }
       return { jp: schluessel(s.jp, ak), katalog: liste(s.katalog, (k) => ({ ...k, id: num(k.id, ak) })) }
     }
+    case 'saison-ausblick.json':
+      return { katalog: liste((daten as { katalog: unknown }).katalog, (k) => ({ ...k, id: num(k.id, ak) })) }
     case 'franchises.json':
       return schluessel(daten, ak, (v) => liste(v, (m) => ({ ...m, id: num(m.id, ak), al: m.id })))
     case 'reihen.json':

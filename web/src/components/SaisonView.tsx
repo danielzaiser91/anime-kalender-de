@@ -3,11 +3,12 @@ import { todayIso } from '@shared/time.ts'
 import { loadJson, type Dataset } from '../lib/data.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { saisonText, saisonVon, versetzt, zeilenDerSaison, type SaisonDatei, type SaisonZeile } from '../lib/saison.ts'
+import { SaisonAusblick } from './SaisonAusblick.tsx'
 import { SaisonKarte } from './SaisonKarte.tsx'
 
 type Reiter = 'jetzt' | 'zuletzt' | 'ausblick'
 const REITER = { jetzt: 'saison.reiterJetzt', zuletzt: 'saison.reiterZuletzt', ausblick: 'saison.reiterAusblick' } as const
-const HINWEIS = { jetzt: 'saison.hinweisJetzt', zuletzt: 'saison.hinweisZuletzt', ausblick: 'saison.hinweisAusblick' } as const
+const HINWEIS = { jetzt: 'saison.hinweisJetzt', zuletzt: 'saison.hinweisZuletzt' } as const
 
 /**
  * **Der Saison-Überblick** (Daniel, 07.10.2026, Anordnung 2 mit Reitern): aktuelle, letzte und nächste Anime-Saison in einer Ansicht — was davon auf Deutsch zu sehen ist,
@@ -27,7 +28,7 @@ export function SaisonView({ data, favorites, oeffne }: { data: Dataset; favorit
     }
   }, [])
   const zeilen = useMemo(
-    () => zeilenDerSaison(data.titles, data.releasesByTitle, saisons[reiter], datei),
+    () => (reiter === 'ausblick' ? [] : zeilenDerSaison(data.titles, data.releasesByTitle, saisons[reiter], datei)),
     [data, datei, reiter, heute.jahr, heute.saison], // eslint-disable-line react-hooks/exhaustive-deps
   )
   const deutsch = zeilen.filter((z) => z.deutsch).length
@@ -58,14 +59,20 @@ export function SaisonView({ data, favorites, oeffne }: { data: Dataset; favorit
             className={`cursor-pointer rounded-full border px-4 py-1.5 text-sm ${r === reiter ? 'border-ak-akzent text-ak-text' : 'border-ak-rand text-ak-text hover:border-ak-leise'}`}
           >
             <span className="font-extrabold">{t(REITER[r])}</span>
-            <span className="ml-1.5 font-normal text-ak-leise">{saisonText(saisons[r])}</span>
+            {r !== 'ausblick' && <span className="ml-1.5 font-normal text-ak-leise">{saisonText(saisons[r])}</span>}
           </button>
         ))}
       </div>
-      <p className="mt-3 text-sm text-ak-leise">{t(zeilen.length === 1 && reiter !== 'ausblick' ? 'saison.hinweisEins' : HINWEIS[reiter], { n: zeilen.length, de: deutsch })}</p>
-      {zeilen.length === 0 && <p className="mt-6 rounded-lg border border-dashed border-ak-rand p-4 text-sm text-ak-leise">{t('saison.leer', { saison: saisonText(saisons[reiter]) })}</p>}
-      {gruppe(kommt.length > 0 && erschienen.length > 0 ? 'saison.erschienen' : undefined, erschienen)}
-      {gruppe(erschienen.length > 0 ? 'saison.kommt' : undefined, kommt)}
+      {reiter === 'ausblick' ? (
+        <SaisonAusblick data={data} datei={datei} favorites={favorites} oeffne={oeffne} />
+      ) : (
+        <>
+          <p className="mt-3 text-sm text-ak-leise">{t(zeilen.length === 1 ? 'saison.hinweisEins' : HINWEIS[reiter], { n: zeilen.length, de: deutsch })}</p>
+          {zeilen.length === 0 && <p className="mt-6 rounded-lg border border-dashed border-ak-rand p-4 text-sm text-ak-leise">{t('saison.leer', { saison: saisonText(saisons[reiter]) })}</p>}
+          {gruppe(kommt.length > 0 && erschienen.length > 0 ? 'saison.erschienen' : undefined, erschienen)}
+          {gruppe(erschienen.length > 0 ? 'saison.kommt' : undefined, kommt)}
+        </>
+      )}
     </section>
   )
 }

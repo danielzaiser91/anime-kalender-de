@@ -12,7 +12,8 @@ export interface SaisonKatalogTitel {
   titleDe?: string
   coverImage?: string
   episodes?: number
-  jpStart: string
+  /** Japan-Start so genau wie bekannt (`JJJJ-MM-TT`, `JJJJ-MM`, `JJJJ`); fehlt, wenn AniList keinen nennt. */
+  jpStart?: string
   /** Die deutsche Fassung ist angekündigt (Anbieter-Lineup), ein Termin fehlt noch. */
   angekuendigt?: boolean
   /** Die Saison laut AniList: gilt vor dem Starttag (ein Start Ende September kann zur Herbst-Saison zählen). */
@@ -26,7 +27,7 @@ export interface SaisonDatei {
 }
 
 /** Der erste Termin je Titel und ob er geschätzt ist. */
-function ersterTermin(releases: Release[] | undefined): { datum: string; geschaetzt: boolean } | undefined {
+export function ersterTermin(releases: Release[] | undefined): { datum: string; geschaetzt: boolean } | undefined {
   const liste = (releases ?? []).flatMap((r) => (r.schedule?.firstEpisodeDate ? [{ datum: r.schedule.firstEpisodeDate, geschaetzt: Boolean(r.schedule.estimated) }] : []))
   return liste.sort((a, b) => a.datum.localeCompare(b.datum))[0]
 }
@@ -60,8 +61,9 @@ export interface SaisonZeile {
   stufe: Stufe
   /** Der erste deutsche Termin liegt in der Vergangenheit oder heute. */
   erschienen: boolean
-  /** Japanischer Starttag, wo bekannt. */
+  /** Japan-Start, wo bekannt; `genau` sagt, wie genau (nur im Ausblick gesetzt). */
   jp?: string
+  genau?: 'tag' | 'monat' | 'saison' | 'jahr'
   /** Erster deutscher Termin, wo einer belegt oder angekündigt ist; `geschaetzt`, wenn er abgeleitet ist. */
   de?: string
   geschaetzt?: boolean
@@ -90,7 +92,7 @@ export function zeilenDerSaison(
   }
   {
     const bekannt = new Set(zeilen.map((z) => z.id))
-    for (const k of datei?.katalog ?? []) if (!bekannt.has(k.id) && (k.jpSeason ? k.jpYear === s.jahr && k.jpSeason === s.saison : k.jpStart >= von && k.jpStart <= bis)) zeilen.push({ id: k.id, katalog: k, deutsch: false, stufe: k.angekuendigt ? 'angekuendigt' : 'offen', erschienen: false, jp: k.jpStart })
+    for (const k of datei?.katalog ?? []) if (!bekannt.has(k.id) && (k.jpSeason ? k.jpYear === s.jahr && k.jpSeason === s.saison : k.jpStart && k.jpStart >= von && k.jpStart <= bis)) zeilen.push({ id: k.id, katalog: k, deutsch: false, stufe: k.angekuendigt ? 'angekuendigt' : 'offen', erschienen: false, jp: k.jpStart })
   }
   return zeilen.sort((a, b) => Number(b.erschienen) - Number(a.erschienen) || Number(b.deutsch) - Number(a.deutsch) || (a.de ?? a.jp ?? '9').localeCompare(b.de ?? b.jp ?? '9') || a.id - b.id)
 }
