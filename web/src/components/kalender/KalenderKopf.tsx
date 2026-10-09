@@ -153,13 +153,15 @@ function HeuteKnopf({ lage, monat, onClick }: { lage: HeuteLage; monat: boolean;
         aria-label={`${t('nav.today')}: ${text}`}
         aria-current={hier ? 'date' : undefined}
         className={[
-          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 max-[419px]:px-1.5 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
+          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 max-[419px]:px-1.5 max-[339px]:size-10 max-[339px]:justify-center max-[339px]:px-0 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
           hier ? 'border-ak-rand bg-transparent text-ak-leise hover:border-ak-leise hover:text-ak-text' : 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent',
         ].join(' ')}
       >
-        <span aria-hidden className={pfeil}>{vor}</span>
-        {t('nav.today')}
-        <span aria-hidden className={pfeil}>{nach}</span>
+        <span aria-hidden className={`${pfeil} max-[339px]:hidden`}>{vor}</span>
+        {/* Unter 340 px passt die Leiste nur als Rundknopf: Zielscheibe, bei Abstand der Richtungspfeil. */}
+        <span aria-hidden className="hidden text-base leading-none max-[339px]:inline">{vor || nach || '◎'}</span>
+        <span className="max-[339px]:sr-only">{t('nav.today')}</span>
+        <span aria-hidden className={`${pfeil} max-[339px]:hidden`}>{nach}</span>
       </button>
     </Tooltip>
   )

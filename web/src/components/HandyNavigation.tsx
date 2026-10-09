@@ -36,7 +36,7 @@ export function HandyNavigation({
       ].join(' ')}
     >
       {zeichen}
-      <span className="max-w-full truncate">{label}</span>
+      <span className="max-w-full truncate max-[339px]:text-[11px] max-[339px]:tracking-tight">{label}</span>
     </button>
   )
   return createPortal(

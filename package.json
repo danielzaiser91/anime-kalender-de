@@ -125,6 +125,7 @@
     "mess:suche": "node tools/such-messung.mjs",
     "mess:filter": "node tools/filter-messung.mjs",
     "check:ansichten": "node tools/ansicht-bild.mjs",
+    "check:kopf": "node tools/kopf-pruefen.mjs",
     "check:tv-schalter": "node tools/tv-schalter-pruefen.mjs",
     "check:zurueck": "node tools/zurueck-pruefen.mjs",
     "check:news": "node tools/news-bild.mjs",
