@@ -53,7 +53,7 @@ function DbWerkzeug(p: DbKopfProps) {
   const abschnitte: FilterAbschnitt[] = [
     { id: 'zaehlung', inhalt: <div className="text-sm text-ak-leise"><DbKopfzeile titles={p.titles} ergebnisse={p.ergebnisse} gebuendelt={p.gebuendelt} suche={p.suche} /></div> },
     { id: 'aktiv', inhalt: anzahl ? <AktiveFilter filters={p.filters} onChange={p.onFiltersChange} /> : null },
-    { id: 'anzeige', inhalt: <DbSchalter ohneSynchro={p.ohneSynchro} onOhneSynchroChange={p.onOhneSynchroChange} laedt={p.laedt} grouped={p.grouped} onGroupedChange={p.onGroupedChange} /> },
+    { id: 'anzeige', inhalt: <div className="[&>div]:mx-0 [&>div]:flex-wrap [&>div]:overflow-visible [&>div]:px-0"><DbSchalter ohneSynchro={p.ohneSynchro} onOhneSynchroChange={p.onOhneSynchroChange} laedt={p.laedt} grouped={p.grouped} onGroupedChange={p.onGroupedChange} /></div> },
   ]
   return (
     <SchnellInLeiste.Provider value>
