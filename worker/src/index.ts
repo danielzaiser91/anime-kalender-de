@@ -41,7 +41,7 @@ import { handlePruefung } from './pruefung.ts'
 import { loadNews, newsFuerAbonnent, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
-import { handleBeleg } from './beleg.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
+import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
 
 export { Ereignisse }
 export { Schnellmesser } from './schnellmesser.ts'
@@ -1595,7 +1595,7 @@ export default {
 
   async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()
-    ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => console.error('[schnell]', e)))
+    ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => console.error('[schnell]', e))); ctx.waitUntil(loescheAbgelaufenes(env, now)) // Löschfristen der Datenschutzerklärung
     ctx.waitUntil(starteFaelligeLaeufe(env).catch((e) => console.error('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
     ctx.waitUntil(
       runDigest(env, now)
