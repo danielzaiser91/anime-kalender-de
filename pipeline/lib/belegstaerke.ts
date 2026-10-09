@@ -4,7 +4,7 @@ import yaml from 'js-yaml'
 import type { DubConfidence, Release, Title } from '../../shared/types.ts'
 import { loadDubChecks, type DubCheck } from './dub-confirmed.ts'
 import { loadSynchroVonHand } from './curated.ts'
-import { ROOT } from './util.ts'
+import { ROOT, log } from './util.ts'
 
 /**
  * **Belegstärke statt Quellenzahl** (Daniel, 09.10.2026): `dubConfidence` war die Zahl der MyDubList-Stimmen. Jetzt zählt die beste Quelle.
@@ -48,7 +48,9 @@ export function forumTitel(checks: DubCheck[]): Set<number> {
   const treffer = (yaml.load(readFileSync(resolve(ROOT, 'data/synchron-forum-treffer.yaml'), 'utf8')) as { anilistId: number }[] | null) ?? []
   const mitJa = new Set(checks.filter((c) => c.dub === true).map((c) => c.anilistId))
   const mitNein = new Set(checks.filter((c) => c.dub === false).map((c) => c.anilistId))
-  return new Set(treffer.map((t) => t.anilistId).filter((id) => !mitNein.has(id) || mitJa.has(id)))
+  const zugelassen = treffer.map((t) => t.anilistId).filter((id) => !mitNein.has(id) || mitJa.has(id))
+  log(`Synchron-Forum-Liste: ${zugelassen.length} von ${treffer.length} Treffern zählen, ${treffer.length - zugelassen.length} durch Handprüfung dub:false ausgeschlossen`)
+  return new Set(zugelassen)
 }
 
 export function ladeBelegsignale(releases: Release[]): Belegsignale {
@@ -64,12 +66,12 @@ export function ladeBelegsignale(releases: Release[]): Belegsignale {
 
 /**
  * Zusicherung für die ausgelieferten Titel: high oder very-high braucht eine starke Quelle oder (ohne sie) die aniSearch-Marke als eine der
- * zwei mittleren. Die TV-Termine stehen zu diesem Zeitpunkt des Baus noch nicht in `releases.json`, deshalb prüft das nur die Untergrenze.
+ * zwei mittleren (die Forum-Liste allein belegt kein high). Die TV-Termine stehen zu diesem Zeitpunkt des Baus noch nicht in `releases.json`, deshalb prüft das nur die Untergrenze.
  */
-export function hochOhneBeleg(titel: Title[], s: Pick<Belegsignale, 'handbelegt' | 'kartei' | 'forum'>): number[] {
+export function hochOhneBeleg(titel: Title[], s: Pick<Belegsignale, 'handbelegt' | 'kartei'>): number[] {
   return titel
     .filter((t) => t.dubConfidence === 'high' || t.dubConfidence === 'very-high')
-    .filter((t) => !t.streams?.some((st) => st.dub === true) && !s.handbelegt.has(t.id) && !s.kartei.has(t.id) && !s.forum.has(t.id) && !t.deErstausgabe?.synchro)
+    .filter((t) => !t.streams?.some((st) => st.dub === true) && !s.handbelegt.has(t.id) && !s.kartei.has(t.id) && !t.deErstausgabe?.synchro)
     .map((t) => t.id)
 }
 

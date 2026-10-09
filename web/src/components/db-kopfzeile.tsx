@@ -4,18 +4,16 @@ import { Toggle } from './ui.tsx'
 import { DeFlaggeZeichen } from './de-flagge.tsx'
 
 /**
- * **Die drei Schalter über der Datenbank in einer Zeile** (Daniel, 04.10.2026): Sie sitzen an einer festen Stelle und
+ * **Die zwei Schalter über der Datenbank in einer Zeile** (Daniel, 04.10.2026): Sie sitzen an einer festen Stelle und
  * rutschen nicht mehr, wenn die Zählung darunter länger oder kürzer wird. „Anime ohne deutsche Synchro" holt einen ganz
  * anderen Bestand dazu und leuchtet deshalb, sobald er an ist.
  */
-export function DbSchalter({ ohneSynchro, onOhneSynchroChange, laedt, grouped, onGroupedChange, cartoonsAus, onCartoonsAusChange }: {
+export function DbSchalter({ ohneSynchro, onOhneSynchroChange, laedt, grouped, onGroupedChange }: {
   ohneSynchro: boolean
   onOhneSynchroChange: (next: boolean) => void
   laedt: boolean
   grouped: boolean
   onGroupedChange: (next: boolean) => void
-  cartoonsAus: boolean
-  onCartoonsAusChange: (next: boolean) => void
 }) {
   const { t } = useLang()
   /* `relative`: das `sr-only`-Input des Schalters ist absolut positioniert und ragte sonst aus der rollbaren Reihe
@@ -30,9 +28,6 @@ export function DbSchalter({ ohneSynchro, onOhneSynchroChange, laedt, grouped, o
       </span>
       <span className={`${pille} ${ruhig}`}>
         <Toggle checked={grouped} onChange={onGroupedChange} label={t('db.groupSeasons')} hint={t('db.groupSeasonsHint')} />
-      </span>
-      <span className={`${pille} ${ruhig}`}>
-        <Toggle checked={cartoonsAus} onChange={onCartoonsAusChange} label={t('db.cartoonsAus')} hint={t('db.cartoonsAusHinweis')} />
       </span>
       {laedt && <span className="text-[11px] leading-snug text-slate-500 dark:text-slate-400">{t('db.withoutDubLoading')}</span>}
     </div>
