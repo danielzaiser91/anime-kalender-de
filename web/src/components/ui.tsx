@@ -759,7 +759,7 @@ export function Tooltip({
                   { left: -9999, top: 0 }
             }
             className={[
-              'pointer-events-none fixed z-50 w-max max-w-[min(20rem,80vw)]',
+              'pointer-events-none fixed z-[200] w-max max-w-[min(20rem,80vw)]',
               /* `whitespace-pre-line`: Mehrzeilige Hinweise (Anbieter-Pille) brauchen es, einzeilige
                  ändert es nicht — React würde `\n` sonst als Leerzeichen rendern (23.09.2026). */
               'whitespace-pre-line rounded-lg px-2.5 py-1.5 text-left text-[11px] leading-snug',

@@ -55,6 +55,14 @@ export function synchroHinterToggle(a: Pick<Auslieferung, 'titles' | 'ohneSynchr
 export const synchroNichtHinterToggle = (a: Pick<Auslieferung, 'titles' | 'ohneSynchro'>, q: SynchroQuellen): string[] =>
   synchroHinterToggle(a, q).map(({ titel, quellen }) => `Titel ${titel.id} (${titel.titleRomaji}): hinter dem Toggle, aber ${quellen.join(' und ')}`)
 
+/** Ein aniSearch-Suchlink (`/search?…`, `/anime/index?text=…`) — die Oberfläche zeigt nur Direktlinks auf `anime/<Kennung>` (Daniel, 09.10.2026). */
+export const ANISEARCH_SUCHLINK = /anisearch\.(?:de|com)\/(?:search|anime\/index)\b/i
+
+/** Kein ausgelieferter Text (Dateiname → Inhalt) enthält einen aniSearch-Suchlink. */
+export function keinAnisearchSuchlink(dateien: { datei: string; text: string }[]): string[] {
+  return dateien.filter((d) => ANISEARCH_SUCHLINK.test(d.text)).map((d) => `${d.datei}: enthält einen aniSearch-Suchlink — erlaubt sind nur Direktlinks auf anime/<Kennung>`)
+}
+
 /** D-15: Reihen-Verweise zeigen ins Leere — ein Glied ohne Titel, oder ein Titel einer mehrgliedrigen Reihe, die in `franchises.json` fehlt. */
 export function reihenVerweiseAufgeloest(a: Auslieferung): string[] {
   const bekannt = new Set([...a.titles, ...a.ohneSynchro, ...a.cartoons].map((t) => t.id))

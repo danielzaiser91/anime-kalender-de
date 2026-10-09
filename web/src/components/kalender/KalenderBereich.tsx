@@ -1,9 +1,8 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'
 import type { AppRoute } from '../../lib/router.ts'
 import { activeFilterCount, type FilterState } from '../../lib/filters.ts'
-import { SucheWocheZeile, useSucheZusammen } from './SucheWoche.tsx'
 import { addDays, monthName, startOfMonth, startOfWeek, todayIso } from '@shared/time.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { merkeZielTag } from '../../lib/ziel-tag.ts'
@@ -12,14 +11,6 @@ import { MonthView } from '../MonthView.tsx'
 import { KalenderKopf, Steuerleiste, wochenSpanne } from './KalenderKopf.tsx'
 import { FilterFeld } from './FilterFeld.tsx'
 import { zaehlung } from './Marken.tsx'
-import { useVorschau } from '../../lib/vorschau.ts'
-import { useMeineWocheAn } from '../../lib/meine-woche.ts'
-import { SPRECHER_AB_ZEICHEN } from '../../lib/sprecher.ts'
-
-/* Vorschau „meine-woche": eigener Chunk, die Standardansicht lädt ihn nie (08.10.2026). */
-const MeineWoche = lazy(() => import('./MeineWoche.tsx').then((m) => ({ default: m.MeineWoche })))
-/* Vorschau „sprecher-suche": eigener Chunk, geladen erst bei einer Suche ab drei Zeichen. */
-const SprecherTreffer = lazy(() => import('../SprecherTreffer.tsx').then((m) => ({ default: m.SprecherTreffer })))
 
 export interface KalenderBereichProps {
   data: Dataset
@@ -72,12 +63,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
     navigate({ view: 'woche', date: datum })
   }
   const heute = todayIso()
-  const [suche, sucheZusammen] = useSucheZusammen(route.filters.search, monat)
   useEscapeSchliesst(filterOffen, () => setFilterOffen(false))
-  const meineVorschau = useVorschau('meine-woche')
-  const sprecher = useVorschau('sprecher-suche') === 'an' && !monat && suche.length >= SPRECHER_AB_ZEICHEN
-  const [meineAn, setMeineAn] = useMeineWocheAn()
-  const meine = !!meineVorschau && !monat && meineAn
 
   return (
     <div className="flex flex-col gap-4">
@@ -111,18 +97,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
         />
         </div>
       )}
-      {meineVorschau && !monat && <MeineWocheSchalter an={meineAn} setAn={setMeineAn} />}
-      {sucheZusammen && !meine && <SucheWocheZeile data={p.data} suche={suche} imZeitraum={imZeitraum} navigate={navigate} />}
-      {sprecher && !meine && (
-        <Suspense fallback={null}>
-          <SprecherTreffer suche={suche} data={p.data} onOpen={(id) => navigate({ title: id, disc: undefined })} />
-        </Suspense>
-      )}
-      {meine ? (
-        <Suspense fallback={null}>
-          <MeineWoche data={p.data} anchorDate={route.date} favorites={p.favorites} leer={meineVorschau === 'leer'} onToggleFavorite={p.onToggleFavorite} onOpen={oeffnen} />
-        </Suspense>
-      ) : monat ? (
+      {monat ? (
         <MonthView data={p.data} events={p.events} anchorDate={route.date} hidden={p.hidden} onOpen={oeffnen} onPickDay={zurWoche} />
       ) : (
         <WeekView
@@ -132,34 +107,12 @@ export function KalenderBereich(p: KalenderBereichProps) {
           favorites={p.favorites}
           hidden={p.hidden}
           tvAn={p.tvAn}
-          gefiltert={activeFilterCount(route.filters) > 0 || route.filters.search.trim() !== ''}
-          leereTageZu={sucheZusammen}
+          gefiltert={activeFilterCount(route.filters) > 0}
           onToggleFavorite={p.onToggleFavorite}
           onToggleHidden={p.onToggleHidden}
           onOpen={oeffnen}
         />
       )}
-    </div>
-  )
-}
-
-/** „Alle Termine | Meine Woche" — die Wahl bleibt im Browser, nicht in der Adresse. */
-function MeineWocheSchalter({ an, setAn }: { an: boolean; setAn: (an: boolean) => void }) {
-  const { t } = useLang()
-  const knopf = (aktiv: boolean, text: string, ziel: boolean) => (
-    <button
-      type="button"
-      aria-pressed={aktiv}
-      onClick={() => setAn(ziel)}
-      className={['cursor-pointer rounded-full px-3.5 py-1.5 text-sm font-semibold transition', aktiv ? 'bg-ak-text text-ak-grund' : 'text-ak-leise hover:text-ak-text'].join(' ')}
-    >
-      {text}
-    </button>
-  )
-  return (
-    <div role="group" aria-label={t('mw.meine')} className="flex w-fit gap-1 rounded-full border border-ak-rand bg-ak-flaeche p-1">
-      {knopf(!an, t('mw.alle'), false)}
-      {knopf(an, `★ ${t('mw.meine')}`, true)}
     </div>
   )
 }

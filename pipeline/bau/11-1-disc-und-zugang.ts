@@ -88,17 +88,12 @@ export function ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdr
         )
       if (imKino) continue
       const as = anisearch[title.id]?.anisearchId
+      if (as === undefined) continue // ohne Kennung kein Direktlink, und nie eine Suche
       title.watchLinks = [
         {
-          /*
-            **Der Name behauptet keine Sprachfassung** (Stichprobe 17.09.2026). Er hieß
-            „Deutsche Ausgabe bei aniSearch" und stand bei allen 186 Titeln unter der
-            Überschrift „Noch keine deutsche Fassung" — zwei Sätze, die sich für den
-            Leser widersprechen. Der Sprachblock belegt eine Veröffentlichung hier, nicht
-            ihre Tonspur; ohne Synchro-Marke kann es eine untertitelte Ausgabe sein.
-          */
+          /* Der Name behauptet keine Sprachfassung: Der Sprachblock belegt eine Veröffentlichung, nicht ihre Tonspur (Stichprobe 17.09.2026, 186 Titel). */
           name: 'Ausgabe bei aniSearch',
-          url: anisearchSeite(as, title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id)),
+          url: anisearchSeite(as)!,
           kind: 'buy',
         },
       ]
@@ -194,6 +189,7 @@ function ergaenzeDiscWege(titles: Map<number, Title>, releases: Release[]) {
     const ausgaben = discAusgaben[String(title.id)]
     if (!ausgaben?.length) continue
     const erste = ausgaben[0]!
+    if (!erste.url) continue // ohne Adresse kein Weg: nie eine Suche
     title.watchLinks = [
       ...(title.watchLinks ?? []),
       {
@@ -202,7 +198,6 @@ function ergaenzeDiscWege(titles: Map<number, Title>, releases: Release[]) {
           ueber den Anbieternamen; „aniSearch — 6 Disc-Ausgaben" und
           „aniSearch — 2 Disc-Ausgaben" waeren dort zwei verschiedene
           Anbieter, und aus 176 Titeln wuerden Dutzende Einzelgruppen.
-          Beinahe eingebaut am 29.08.2026, gefangen beim Nachlesen.
         */
         /*
           **Das Wort „Disc" ist weg, das Zeichen sagt es besser.** Daniel am
@@ -211,7 +206,7 @@ function ergaenzeDiscWege(titles: Map<number, Title>, releases: Release[]) {
           Silberscheiben-Zeichen; der Name nennt nur noch die Quelle.
         */
         name: 'aniSearch',
-        url: erste.url ?? anisearchSeite(undefined, title.titleDe ?? title.titleEn ?? title.titleRomaji ?? String(title.id)),
+        url: erste.url,
         kind: 'buy',
       },
     ]

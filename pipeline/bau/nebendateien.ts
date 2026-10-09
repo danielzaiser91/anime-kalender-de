@@ -13,6 +13,7 @@ import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } fro
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
+import { anisearchKennungen } from './anisearch-kennung.ts'
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
@@ -253,6 +254,7 @@ export function schreibeOhneSynchro(
       { titel?: string; quelle?: string; anisearchId?: number; englisch?: string; synonyme?: string[] }
     >
   >('data/anisearch-titel.json', {})
+  const kennungen = anisearchKennungen([...eintraege.map((e) => ({ id: e.id, mal: e.mal ?? undefined })), ...verschoben.map((t) => ({ id: t.id, mal: t.malId }))])
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id))
     .map((e) => {
@@ -304,21 +306,8 @@ export function schreibeOhneSynchro(
         titleEn: englisch ?? eintrag?.englisch ?? englischAusSynonymen(eintrag?.synonyme) ?? e.latein ?? undefined,
         /* Nur, wenn er wirklich etwas Neues sagt — sonst steht dieselbe Zeichenkette zweimal. */
         titleDe: deutsch && deutsch !== englisch && deutsch !== romaji ? deutsch : undefined,
-        /*
-          **Die Kennung geht mit — sonst nennt die Seite eine Quelle, zu der sie
-          nicht führt.**
-
-          Sie steht in derselben Datei wie der Titel und blieb trotzdem liegen:
-          Im Detail-Panel stand „aniSearch — deutscher Titel, Beschreibung" ohne
-          Verweis, und Daniel fragte zu Recht „warum ist anisearch nicht
-          anklickbar?" (03.09.2026). Gemessen: Titel 186148 trägt dort
-          `anisearchId: 20083`.
-
-          Das ist derselbe Fehlgriff wie am 28.08.2026 beim Feld `titelId` — ein
-          Wert wird geholt, abgelegt und am Ziel nicht ausgepackt. Der Einbau
-          endet am Empfänger, nicht am Sender.
-        */
-        anisearchId: eintrag?.anisearchId,
+        /* Die Kennung geht mit, sonst führt der aniSearch-Verweis ins Leere; zugeordnet wird sie in `anisearch-kennung.ts`. */
+        anisearchId: kennungen.get(e.id),
         titleNative: japanisch ?? undefined,
         format: e.format ?? undefined,
         episodes: e.folgen ?? undefined,
@@ -376,7 +365,7 @@ export function schreibeOhneSynchro(
    */
   const vorhanden = new Set(ohne.map((t) => t.id))
   const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id))
-  const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
+  const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, ...(kennungen.has(t.id) ? { anisearchId: kennungen.get(t.id) } : {}), dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
 
   writeJson(`${OUT}/ohne-synchro.json`, alle.map((t) => mitLaufzeit(mitAnkuendigung(t))))
   meldeOhneSynchro(alle, eintraege.length, nachgetragen.length, bekannt)
