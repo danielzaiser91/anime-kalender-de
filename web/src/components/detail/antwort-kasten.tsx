@@ -676,7 +676,7 @@ export function AntwortKasten({
     */
     const ankuendigung = title.westlich ? undefined : title.ankuendigung
     haupt = title.westlich
-      ? T(title.streams.length ? 'antwort.westlichVerfuegbar' : 'antwort.westlichUngeprueft')
+      ? T(title.dubHinweis ? 'antwort.westlichJw' : title.streams.length ? 'antwort.westlichVerfuegbar' : 'antwort.westlichUngeprueft')
       : ankuendigung?.synchro === 'angekuendigt'
         ? T('antwort.synchroAngekuendigt')
         : T('antwort.ohneTitel')
@@ -693,7 +693,9 @@ export function AntwortKasten({
       Der Kasten sagt weiter, was **wir** belegen können — und darunter, was die
       Fremdquelle sagt. Beides zusammen ist die ehrliche Auskunft.
     */
-    neben = ankuendigung ? ankuendigungZeile(ankuendigung, T) : deSeitZeile(title, T, true)
+    neben = title.dubHinweis
+      ? T('antwort.westlichJwNeben', { anbieter: title.dubHinweis.anbieter.join(', ') })
+      : ankuendigung ? ankuendigungZeile(ankuendigung, T) : deSeitZeile(title, T, true)
     nebenTitel = ankuendigung
       ? T('antwort.ankuendigungQuelle', { anbieter: PLATFORMS[ankuendigung.platform]?.name ?? ankuendigung.platform, datum: formatDate(ankuendigung.stand) })
       : title.deErstausgabe
