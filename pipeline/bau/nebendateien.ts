@@ -1,6 +1,6 @@
 import { writeText, writeJson, readJson, log, warn } from '../lib/util.ts'
 import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
-import { type CartoonEintrag, alsTitel, plattformVon } from '../lib/cartoons.ts'
+import { type CartoonEintrag, type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon } from '../lib/cartoons.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { type PlatformId, type Title, type Release, type Quelle } from '../../shared/types.ts'
 import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
@@ -139,7 +139,7 @@ export function schreibeCartoons(): void {
     Tonspur-Angabe bleibt unbenutzt (CLAUDE.md, JustWatch gilt der Serie).
     Abonnement vor Kauf, wenn beide dasselbe Ziel haben.
   */
-  const jw = readJson<Record<string, { angebote?: { anbieter?: string; art?: string; url?: string }[] }>>(
+  const jw = readJson<Record<string, { angebote?: (JwAngebotTon & { url?: string })[] }>>(
     'data/justwatch-audio.json',
     {},
   )
@@ -182,9 +182,30 @@ export function schreibeCartoons(): void {
     }
   }
   if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)
+  setzeTonHinweise(titel, jw, belege)
   ordneCartoonReihen(titel)
   writeJson(`${OUT}/cartoons.json`, titel)
   log(`${titel.length} westliche Animationsserien geschrieben`)
+}
+
+/**
+ * Der Ton laut JustWatch gilt für die Serie (Entscheidung 07.09.2026): ein Hinweis am Titel, nie `dub` am Verweis.
+ * Ein Handbeleg „dort nicht deutsch“ nimmt den Anbieter wieder heraus.
+ */
+function setzeTonHinweise(
+  titel: Title[],
+  jw: Record<string, { angebote?: JwAngebotTon[] }>,
+  belege: { anilistId: number; platform: string; available?: boolean; dub?: boolean }[],
+): void {
+  const hand = new Set(belege.filter((b) => b.available === false || b.dub === false).map((b) => `${b.anilistId}|${b.platform}`))
+  let hinweise = 0
+  for (const t of titel) {
+    const anbieter = jwTonAnbieter(jw[String(t.id)]?.angebote).filter((n) => !hand.has(`${t.id}|${plattformVon(n)}`))
+    if (!anbieter.length) continue
+    t.dubHinweis = { quelle: 'justwatch', anbieter }
+    hinweise++
+  }
+  if (hinweise) log(`${hinweise} Cartoons mit deutschem Ton laut JustWatch (Serie)`)
 }
 
 /**

@@ -671,6 +671,9 @@ const TEXTE = {
   'antwort.ankuendigungQuelle': 'Laut {anbieter}, Stand {datum}',
   'antwort.westlichVerfuegbar': 'In Deutschland verfügbar',
   'antwort.westlichUngeprueft': 'Deutsche Fassung nicht geprüft',
+  // JustWatch gilt der Serie, nicht der Folge (Entscheidung 07.09.2026).
+  'antwort.westlichJw': 'Deutsche Fassung laut JustWatch',
+  'antwort.westlichJwNeben': 'Für die Serie, nicht je Folge: {anbieter}',
   'antwort.faktErschienen': 'erschienen',
   'antwort.faktFsk': 'Altersfreigabe',
   // Die drei Angaben, die es zu einer Kaufausgabe wirklich gibt — an der

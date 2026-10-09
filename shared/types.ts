@@ -384,6 +384,11 @@ export interface Title {
   /** Die TMDB-Kennung — bei westlichen Titeln die einzige, die sie haben. */
   tmdbId?: number
   /**
+   * Cartoons: JustWatch nennt für die Serie einen Flatrate-Weg mit deutscher Tonspur (09.10.2026).
+   * Gilt für die ganze Serie, nicht für einzelne Folgen — darum nie `StreamLink.dub`.
+   */
+  dubHinweis?: { quelle: 'justwatch'; anbieter: string[] }
+  /**
    * **Der deutsche Trailer, wo es einen gibt.**
    *
    * Daniel am 12.09.2026: „pack für anime filme trailer von diesem kanal" —
