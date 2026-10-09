@@ -1,5 +1,6 @@
 import { readJson } from '../lib/util.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
+import { hochOhneBeleg, ladeBelegsignale } from '../lib/belegstaerke.ts'
 import { keinAnisearchSuchlink, reihenVerweiseAufgeloest, synchroNichtHinterToggle } from '../lib/invarianten-auslieferung.ts'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -38,5 +39,6 @@ export function auslieferungsInvarianten(): string[] {
     }),
     ...reihenVerweiseAufgeloest(auslieferung),
     ...keinAnisearchSuchlink(auslieferungstexte()),
+    ...hochOhneBeleg(auslieferung.titles, ladeBelegsignale([])).map((id) => `Titel ${id}: Belegstärke high ohne starke oder zwei mittlere Quellen`),
   ]
 }
