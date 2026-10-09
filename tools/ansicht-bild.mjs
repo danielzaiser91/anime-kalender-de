@@ -66,6 +66,29 @@ const TYPEN = {
   '.webmanifest': 'application/manifest+json',
 }
 
+/** Abstände der unteren Handy-Leiste (Portal am body) zu Fensterrand unten, links, rechts. */
+function untereLeisteMasse(seite) {
+  return seite.evaluate(() => {
+    const r = document.querySelector('body > nav')?.getBoundingClientRect()
+    if (!r) return null
+    const s = getComputedStyle(document.querySelector('body > nav'))
+    return {
+      unten: Math.round(innerHeight - r.bottom),
+      links: Math.round(r.left),
+      rechts: Math.round(innerWidth - r.right),
+      padUnten: parseFloat(s.paddingBottom),
+      padRechts: parseFloat(s.paddingRight),
+    }
+  })
+}
+
+/** Die Leiste dockt bündig an: kein Abstand unten, links, rechts. Meldet jede Abweichung. */
+function untereLeisteBuendig({ name, nav: m }) {
+  if (!m || (m.unten === 0 && m.links === 0 && m.rechts === 0 && m.padUnten >= 6 && m.padRechts >= 6)) return true
+  console.log(`  ✕ ${name}: untere Leiste nicht bündig oder ohne Innenabstand (Rand unten ${m.unten}, links ${m.links}, rechts ${m.rechts} px; Padding unten ${m.padUnten}, rechts ${m.padRechts} px, mind. 6)`)
+  return false
+}
+
 async function main() {
   if (!existsSync(path.join(DIST, 'index.html'))) {
     console.error('dist/ fehlt — erst `npm run build`.')
@@ -141,7 +164,7 @@ async function main() {
           doc: document.documentElement.scrollWidth,
           fenster: window.innerWidth,
         }))
-        befunde.push({ name, fehler: [...fehler], ueberbreite: breite.doc - breite.fenster })
+        befunde.push({ name, fehler: [...fehler], ueberbreite: breite.doc - breite.fenster, nav: HANDY ? await untereLeisteMasse(seite) : null })
       }
     }
   }
@@ -154,7 +177,7 @@ async function main() {
     const ueber = b.ueberbreite > 1 ? `${b.ueberbreite} px` : '—'
     console.log(`  ${b.name.padEnd(12)} ${ueber.padEnd(11)} ${b.fehler.length || '—'}`)
     for (const f of b.fehler.slice(0, 3)) console.log(`      ${f}`)
-    if (b.ueberbreite > 1 || b.fehler.length) rot = true
+    if (b.ueberbreite > 1 || b.fehler.length || !untereLeisteBuendig(b)) rot = true
   }
   console.log(rot ? '\n  ✕ etwas stimmt nicht — siehe oben' : '\n  ok  keine Überbreite, keine Fehler')
   if (rot) process.exitCode = 1
