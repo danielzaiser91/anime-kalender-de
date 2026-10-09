@@ -1,6 +1,6 @@
 import { Meldungen } from './vermerk.tsx'
 import { type Release, type Title } from '@shared/types.ts'
-import { SectionTitle } from '../ui.tsx'
+import { Aufklappbar } from './aufklapp-kopf.tsx'
 import { BuchZeichen, PanelKarte } from './panel-karte.tsx'
 import { PLOT_PREVIEW } from './hilfen.tsx'
 import { type FranchiseMember } from '@shared/types.ts'
@@ -18,11 +18,9 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
 }) {
   return (
     <>
-      {(title.genres.length > 0 || title.score !== undefined) && (
-        <div>
-          <SectionTitle>{t('detail.werkangaben')}</SectionTitle>
-          {title.genres.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
+      {title.genres.length > 0 && (
+        <Aufklappbar titel={t('detail.werkangaben')}>
+          <div className="flex flex-wrap gap-1.5">
               {(genresOffen ? title.genres : title.genres.slice(0, 3)).map((g) => (
                 <Chip key={g} onClick={() => onFilterBy('genre', g)}>
                   {tGenre(g)}
@@ -37,9 +35,8 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
                   +{title.genres.length - 3}
                 </button>
               )}
-            </div>
-          )}
-        </div>
+          </div>
+        </Aufklappbar>
       )}
     </>
   )
