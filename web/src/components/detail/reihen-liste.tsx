@@ -4,7 +4,7 @@ import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
 import { SynchroMarke } from './reihen-marke.tsx'
-import { istEingeklappt } from './reihen-regeln.ts'
+import { istEingeklappt, zeileInListeSichtbar } from './reihen-regeln.ts'
 import { OhneSynchroSchalter, ReihenKopf } from './reihen-kopf.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
@@ -62,7 +62,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
           */}
           <div className="relative -mt-1 rounded-xl border border-slate-200 dark:border-white/10">
           {/* 22rem = Kopf (4,5rem) + fünf Zeilen à 3rem (Zeile 46 px + 2 px Abstand) + Polster; so bleiben fünf Teile sichtbar, die sechste lugt an. */}
-          <div className="max-h-[22rem] overflow-y-auto p-2">
+          <div data-reihe-liste className="relative max-h-[22rem] overflow-y-auto p-2">
             {(() => {
               /*
                 **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
@@ -258,11 +258,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                     role="tab"
                     aria-selected={gewaehlt}
                     disabled={wechselt}
-                    ref={
-                      gewaehlt
-                        ? (el) => el?.scrollIntoView({ block: 'nearest' })
-                        : undefined
-                    }
+                    ref={gewaehlt ? zeileInListeSichtbar : undefined}
                     onClick={() => !gewaehlt && wechsleZu(m.id)}
                     className={[
                       /*
