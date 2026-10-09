@@ -405,7 +405,6 @@ const TEXTE = {
   'detail.folgeOhneAnbieter': 'Für Folge {bereich} kennen wir keinen deutschen Anbieter.',
   'detail.werkangaben': 'Zum Werk',
   'detail.faktFsk': 'Altersfreigabe',
-  'detail.studio': 'Studio',
   'detail.keywords': 'Keywords',
   'detail.plot': 'Handlung',
   'detail.plotMore': 'mehr anzeigen',

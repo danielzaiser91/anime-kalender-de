@@ -644,12 +644,6 @@ export function DetailPanel({
       : t('antwort.kaufausgabeAmOhne', { datum })
   }, [title, releases, today, antwort, t])
 
-  /**
-   * Zeigt der Kasten oben eine Faktenzeile statt eines Balkens?
-   *
-   * Dann stehen Jahr, Altersfreigabe und Studio bereits dort, und die
-   * Werkangaben weiter unten lassen sie weg.
-   */
   /*
     **Kein Weg bekannt — der Satz steht im Kasten.** Kein Satz, wenn es Wege gibt, bei einem Titel ohne
     deutsche Fassung (steht schon oben) oder während eines Kinolaufs (entschieden am belegten letzten
@@ -718,14 +712,16 @@ export function DetailPanel({
     () => lueckeOhneAnbieter({ title, antwort, releaseJePlattform, today }),
     [title, antwort, releaseJePlattform, today],
   )
-  const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
+  /* Zeigt der Kasten eine Zählzeile („2 von 13 Folgen erschienen", „Alle 24 Folgen"), steht die Folgenzahl nicht noch einmal auf dem Cover. */
+  const folgenImKasten =
+    (antwort?.art === 'laeuft' && Boolean(antwort.gesamt)) || (antwort?.art === 'fertig' && (antwort.gesamt ?? 0) > 1) || antwort?.art === 'teilweise'
 
-  /** Die vier Werkangaben der Unterzeile — leer heißt: kein Kasten. */
+  /** Die Werkangaben der Unterzeile — leer heißt: kein Kasten. */
   const unterzeile = !title
     ? []
     : [
         title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
-        title.episodes && title.episodes > 1
+        title.episodes && title.episodes > 1 && !folgenImKasten
           ? `${title.episodes} ${t('detail.episodes')}`
           : undefined,
         jpAngabe(eigenerTeil?.jpStart ?? (title.westlich ? title.jpStart : undefined), title.jpYear, title.land),
@@ -985,6 +981,7 @@ export function DetailPanel({
           onClose={onClose}
           t={t}
           unterzeile={unterzeile}
+          folgenImKasten={folgenImKasten}
           eigenerTeil={eigenerTeil}
         />
 
@@ -1215,7 +1212,6 @@ export function DetailPanel({
             onFilterBy={onFilterBy}
             tGenre={tGenre}
             setGenresOffen={setGenresOffen}
-            faktenImKasten={faktenImKasten}
           />
 
           {title.hasVoices && <VoiceCast titleId={title.id} />}
