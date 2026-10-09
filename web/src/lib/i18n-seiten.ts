@@ -245,5 +245,6 @@ export const TEXTE_SEITEN = {
   'db.gruppeLaeuft': 'Läuft jetzt',
   'db.gruppeBald': 'Demnächst',
   'db.gruppeErschienen': 'Schon erschienen',
+  'db.gruppeUnbekannt': 'Ohne bekannten Termin',
   'db.ab': 'ab {datum}',
 }

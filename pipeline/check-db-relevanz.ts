@@ -49,9 +49,41 @@ const g5 = lauf([reihe(titel(14, { deErstausgabe: { von: HEUTE } })), reihe(tite
 pruefe('Boruto-Fall: Disc heute (mit und ohne Erstausgabe) → „Schon erschienen"', art(g5, 14) === 'erschienen' && art(g5, 15) === 'erschienen', [art(g5, 14), art(g5, 15)])
 pruefe('Disc in der Zukunft → „Demnächst"', art(g5, 16) === 'bald')
 const tv = (titleId: number, folgen: number) => ({ titleId, platform: 'tv', releaseType: 'weekly', schedule: { firstEpisodeDate: HEUTE, episodeCount: folgen } }) as unknown as Release
-const g6 = lauf([reihe(titel(21220, { deErstausgabe: { von: '2016-11-10', synchro: true } })), reihe(titel(18)), reihe(titel(19, { deErstausgabe: { von: '2016-11-10' } }))], [tv(21220, 1), tv(18, 1), tv(19, 12)])
+const g6 = lauf([reihe(titel(21220, { deErstausgabe: { von: '2016-11-10', synchro: true } })), reihe(titel(18)), reihe(titel(19, { deErstausgabe: { von: '2026-10-05' } }))], [tv(21220, 1), tv(18, 1), tv(19, 12)])
 pruefe('Boruto-Film (Id 21220) und Film ohne Erstausgabe: eine TV-Sendung heute ist nicht „Läuft jetzt"', art(g6, 21220) === 'erschienen' && art(g6, 18) === 'erschienen', [art(g6, 21220), art(g6, 18)])
 pruefe('eine TV-Reihe mit mehreren Folgen läuft weiter', art(g6, 19) === 'laeuft')
+
+console.log('\nDatenbank-Relevanz: Prüfer-Funde (echter Bestand vom 09.10.2026)')
+const plat = (titleId: number, platform: string, von: string, folgen: number, typ = 'weekly') =>
+  ({ titleId, platform, releaseType: typ, schedule: { firstEpisodeDate: von, episodeCount: folgen } }) as unknown as Release
+const g7 = lauf(
+  [
+    reihe(titel(179, { deErstausgabe: { von: '2023-02-23' } })), // Yashahime: deutsch seit 2023, TV ab 07.10.2026
+    reihe(titel(180)), // Gachiakuta: Crunchyroll 2025 bis 2026, jetzt Disney+ und TV
+    reihe(titel(181, { deErstausgabe: { von: '2024-01-10' } })), // deutsch längst da, nur ein späterer Termin steht an
+    reihe(titel(182)), // Vinland-Saga-Fall: früheres Streaming, dann Disc
+    reihe(titel(183)), // nur künftige Disc, kein Hinweis auf frühere Synchro
+    reihe(titel(184, { streams: [{ platform: 'primevideo', dub: true }] as unknown as Title['streams'] })), // Disc, aber Stream mit Synchro
+    reihe(titel(185, { jpYear: 2026 })), // Black-Clover-Fall: kein Termin, nichts belegt
+    reihe(titel(186, { jpYear: 2026 }), titel(187)), // Reihe mit einem Teil „erschienen"
+  ],
+  [
+    plat(179, 'tv', '2026-10-07', 12),
+    plat(180, 'crunchyroll', '2025-07-06', 24), plat(180, 'disneyplus', '2026-09-01', 24), plat(180, 'tv', '2026-10-05', 24),
+    plat(181, 'tv', '2026-10-20', 12),
+    plat(182, 'crunchyroll', '2024-01-01', 12), disc(182, '2026-11-01'),
+    disc(183, '2026-11-01'), disc(184, '2026-11-01'),
+  ],
+)
+pruefe('Yashahime: deutsche Fassung seit 2023, TV-Termin später → „Schon erschienen"', art(g7, 179) === 'erschienen', art(g7, 179))
+pruefe('Gachiakuta: erste Fassung (Crunchyroll) vorbei, späterer Lauf zählt nicht → „Schon erschienen"', art(g7, 180) === 'erschienen', art(g7, 180))
+pruefe('Erstausgabe vor einem künftigen Termin → „Schon erschienen", nicht „Demnächst"', art(g7, 181) === 'erschienen', art(g7, 181))
+pruefe('Vinland-Saga-Fall: früherer Streaming-Termin, Disc folgt → „Schon erschienen"', art(g7, 182) === 'erschienen', art(g7, 182))
+pruefe('nur künftige Disc, kein Hinweis auf Synchro → „Demnächst"', art(g7, 183) === 'bald', art(g7, 183))
+pruefe('künftige Disc, aber Stream mit Synchro → „Schon erschienen"', art(g7, 184) === 'erschienen', art(g7, 184))
+pruefe('kein belegter Termin → „Ohne bekannten Termin"', art(g7, 185) === 'unbekannt', art(g7, 185))
+pruefe('eine Reihe mit einem erschienenen Teil ist erschienen', art(g7, 186) === 'erschienen', art(g7, 186))
+pruefe('„Ohne bekannten Termin" steht als letzte Gruppe', g7.at(-1)?.art === 'unbekannt', g7.map((x) => x.art))
 
 console.log('\nDatenbank-Relevanz: Reihen, Reihenfolge, Cartoons')
 const staffel1 = titel(8, { deErstausgabe: { von: '2020-01-01', bis: '2020-03-31' } })

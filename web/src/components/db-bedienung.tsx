@@ -25,6 +25,7 @@ const GRUPPEN_TEXT: Record<RelevanzArt, { schluessel: TranslationKey; farbe: str
   laeuft: { schluessel: 'db.gruppeLaeuft', farbe: 'text-emerald-700 dark:text-emerald-400' },
   bald: { schluessel: 'db.gruppeBald', farbe: 'text-amber-700 dark:text-amber-400' },
   erschienen: { schluessel: 'db.gruppeErschienen', farbe: 'text-slate-600 dark:text-slate-300' },
+  unbekannt: { schluessel: 'db.gruppeUnbekannt', farbe: 'text-slate-500 dark:text-slate-400' },
 }
 
 /** Überschrift einer Gruppe in der Relevanz-Ansicht; sie trägt den Status, den die Kachel dann nicht wiederholt. */

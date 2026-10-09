@@ -1,12 +1,13 @@
 import type { Release, ReleaseStatus, Title } from '@shared/types.ts'
 import { releaseStatus, titleStatus } from '@shared/logic.ts'
+import { addDays } from '@shared/time.ts'
 
 /**
  * Datenbank ohne Suche: Gruppen statt einer langen Liste (Daniel, 09.10.2026, Variante C im Mockup „Datenbank-Einstieg").
  * Maßgeblich ist die **deutsche Erstausgabe** — ein späteres Neuerscheinen bei einem weiteren Anbieter macht einen
  * Titel nicht wieder zu einem laufenden (Rooster Fighter gehört unter „Schon erschienen").
  */
-export type RelevanzArt = 'laeuft' | 'bald' | 'erschienen'
+export type RelevanzArt = 'laeuft' | 'bald' | 'erschienen' | 'unbekannt'
 
 export interface Einstufung {
   art: RelevanzArt
@@ -14,39 +15,60 @@ export interface Einstufung {
   ab?: string
 }
 
-export const RELEVANZ_REIHENFOLGE: readonly RelevanzArt[] = ['laeuft', 'bald', 'erschienen']
+export const RELEVANZ_REIHENFOLGE: readonly RelevanzArt[] = ['laeuft', 'bald', 'erschienen', 'unbekannt']
 
-const fruehesterTermin = (releases: Release[]): Release | undefined =>
+/** aniSearch nennt bei Simuldubs den Simulcast-Start: ein paar Wochen Abstand zum eigenen Termin sind kein früheres Erscheinen. */
+const TOLERANZ_TAGE = 60
+
+const istDisc = (r: Release): boolean => r.releaseType === 'disc'
+/** Eine Einzelsendung im Fernsehen (ein Film läuft einmal) ist keine laufende Erstausgabe. */
+const istEinzelTv = (r: Release): boolean => r.platform === 'tv' && (r.schedule?.episodeCount ?? 2) <= 1
+const startVon = (r: Release): string => r.schedule?.firstEpisodeDate ?? ''
+
+/** Der früheste Termin mit gültigem Status (widerlegte fallen weg). */
+const fruehesterTermin = (releases: Release[], today: string): Release | undefined =>
   releases
-    .filter((r) => r.schedule?.firstEpisodeDate)
-    .sort((a, b) => a.schedule!.firstEpisodeDate.localeCompare(b.schedule!.firstEpisodeDate))[0]
+    .filter((r) => startVon(r) && releaseStatus(r, today) !== 'unbekannt')
+    .sort((a, b) => startVon(a).localeCompare(startVon(b)))[0]
 
-/** Ein einzelner Titel: aus `deErstausgabe`; ohne sie gilt der Status aus `titleStatus()`. */
-export function stufeTitelEin(t: Title, alle: Release[], today: string): Einstufung {
-  /* Eine Disc und eine Einzelsendung im Fernsehen (ein Film läuft einmal) sind keine laufende Erstausgabe. */
-  const einzel = (r: Release) => r.releaseType === 'disc' || (r.platform === 'tv' && (r.schedule?.episodeCount ?? 2) <= 1)
-  const releases = alle.filter((r) => !(einzel(r) && releaseStatus(r, today) === 'airing'))
-  const e = t.deErstausgabe
-  if (!e) {
-    const status = titleStatus(releases, today, t)
-    const termine = (s: string) => releases.filter((r) => releaseStatus(r, today) === s).map((r) => r.schedule?.firstEpisodeDate ?? '').sort()
-    if (status === 'airing') return { art: 'laeuft', ab: termine('airing').pop() || undefined }
-    if (status === 'tba') return { art: 'bald', ab: termine('tba').find(Boolean) }
-    return { art: 'erschienen' }
-  }
+/** Mit Erstausgabe von aniSearch: sie sagt, wann die deutsche Fassung begann; die Termine zeigen, ob dieser Lauf noch geht. */
+function stufeMitErstausgabe(e: NonNullable<Title['deErstausgabe']>, nichtDisc: Release[], today: string): Einstufung {
   if (e.von && e.von > today) return { art: 'bald', ab: e.von }
   if (e.bis) return e.bis >= today ? { art: 'laeuft', ab: e.von } : { art: 'erschienen' }
-  // Ohne Ende gilt der früheste Termin als erste Fassung; läuft nur ein späterer, ist die Erstausgabe vorbei.
-  const erste = fruehesterTermin(releases)
-  return erste && releaseStatus(erste, today) === 'airing' ? { art: 'laeuft', ab: erste.schedule!.firstEpisodeDate } : { art: 'erschienen' }
+  const erste = fruehesterTermin(nichtDisc, today)
+  // Begann die deutsche Fassung längst vor dem frühesten Termin, ist die Erstausgabe vorbei (Yashahime: seit 2023, TV ab 07.10.2026).
+  const vorbei = e.von ? !erste || addDays(e.von, TOLERANZ_TAGE) < startVon(erste) : false
+  return !vorbei && erste && releaseStatus(erste, today) === 'airing' && !istEinzelTv(erste) ? { art: 'laeuft', ab: startVon(erste) } : { art: 'erschienen' }
 }
 
-/** Eine Reihe: läuft, sobald ein Teil läuft; sonst demnächst, sobald einer bald beginnt. */
+/** Ohne Erstausgabe: der früheste Nicht-Disc-Termin ist die erste Fassung; nur Disc-Termine in der Zukunft sind dann die erste Fassung. */
+function stufeOhneErstausgabe(t: Title, alle: Release[], nichtDisc: Release[], today: string): Einstufung {
+  const hinweisAufSynchro = (t.streams ?? []).some((s) => s.dub === true)
+  const erste = fruehesterTermin(nichtDisc, today)
+  if (erste) {
+    const status = releaseStatus(erste, today)
+    if (status === 'airing') return istEinzelTv(erste) ? { art: 'erschienen' } : { art: 'laeuft', ab: startVon(erste) }
+    if (status === 'tba' && !hinweisAufSynchro) return { art: 'bald', ab: startVon(erste) }
+    return { art: 'erschienen' }
+  }
+  const disc = alle.filter((r) => istDisc(r) && releaseStatus(r, today) === 'tba').map(startVon).sort()
+  if (disc.length && !hinweisAufSynchro) return { art: 'bald', ab: disc[0] }
+  return { art: titleStatus(alle, today, t) === 'unbekannt' ? 'unbekannt' : 'erschienen' }
+}
+
+/** Ein einzelner Titel. Disc-Termine bestimmen weder „Läuft jetzt" noch (außer als einzige) „Demnächst". */
+export function stufeTitelEin(t: Title, alle: Release[], today: string): Einstufung {
+  const nichtDisc = alle.filter((r) => !istDisc(r))
+  return t.deErstausgabe ? stufeMitErstausgabe(t.deErstausgabe, nichtDisc, today) : stufeOhneErstausgabe(t, alle, nichtDisc, today)
+}
+
+/** Eine Reihe: läuft, sobald ein Teil läuft; sonst demnächst, sobald einer bald beginnt; „ohne Termin" nur, wenn kein Teil mehr weiß. */
 export function stufeReiheEin(members: Title[], releasesByTitle: Map<number, Release[]>, today: string): Einstufung {
   let laeuft: string | undefined
   let hatLaeuft = false
   let bald: string | undefined
   let hatBald = false
+  let hatErschienen = false
   for (const m of members) {
     const s = stufeTitelEin(m, releasesByTitle.get(m.id) ?? [], today)
     if (s.art === 'laeuft') {
@@ -55,11 +77,11 @@ export function stufeReiheEin(members: Title[], releasesByTitle: Map<number, Rel
     } else if (s.art === 'bald') {
       hatBald = true
       if (s.ab && (!bald || s.ab < bald)) bald = s.ab
-    }
+    } else if (s.art === 'erschienen') hatErschienen = true
   }
   if (hatLaeuft) return { art: 'laeuft', ab: laeuft }
   if (hatBald) return { art: 'bald', ab: bald }
-  return { art: 'erschienen' }
+  return { art: hatErschienen ? 'erschienen' : 'unbekannt' }
 }
 
 export interface RelevanzEintrag<T> {
@@ -89,7 +111,7 @@ export function gruppiereNachRelevanz<T extends { main: Title; members: Title[] 
   releasesByTitle: Map<number, Release[]>,
   today: string,
 ): RelevanzGruppe<T>[] {
-  const korb: Record<RelevanzArt, RelevanzEintrag<T>[]> = { laeuft: [], bald: [], erschienen: [] }
+  const korb: Record<RelevanzArt, RelevanzEintrag<T>[]> = { laeuft: [], bald: [], erschienen: [], unbekannt: [] }
   for (const gruppe of gruppen) {
     const s = stufeReiheEin(gruppe.members, releasesByTitle, today)
     korb[s.art].push({ gruppe, ab: s.ab })
@@ -101,6 +123,7 @@ export function gruppiereNachRelevanz<T extends { main: Title; members: Title[] 
 export function ueberschriftSagtStatus(art: RelevanzArt, status: ReleaseStatus): boolean {
   if (art === 'laeuft') return status === 'airing'
   if (art === 'bald') return status === 'tba'
+  if (art === 'unbekannt') return status === 'unbekannt'
   return status === 'abgeschlossen' || status === 'erschienen'
 }
 
