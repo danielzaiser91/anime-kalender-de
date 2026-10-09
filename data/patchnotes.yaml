@@ -4,6 +4,14 @@
 # live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
 - datum: "2026-10-09"
   kategorie: bugfix
+  text: Fußzeile trennt belegte von wahrscheinlichen Anime
+  live: false
+- datum: "2026-10-09"
+  kategorie: bugfix
+  text: Datenschutz nennt Favoriten-Abgleich und Push
+  live: false
+- datum: "2026-10-09"
+  kategorie: bugfix
   text: Filter am Handy überdecken nichts mehr
   live: true
 - datum: "2026-10-09"

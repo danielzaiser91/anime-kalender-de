@@ -1097,8 +1097,11 @@ export function Footer({ meta }: { meta: DataMeta }) {
         <p>
           <span className="font-semibold text-slate-700 dark:text-slate-200">{t('app.title')}</span>
           {' · '}
-          {t('footer.stats', {
+          {/* Ein Datensatz vor dem ersten Bau mit `belegtCount` (Übergang 09.10.2026) kennt die Aufteilung nicht — dann ohne „belegt“. */}
+          {t(meta.belegtCount === undefined ? 'footer.statsGesamt' : 'footer.stats', {
             titles: meta.titleCount.toLocaleString('de-DE'),
+            belegt: (meta.belegtCount ?? 0).toLocaleString('de-DE'),
+            rest: (meta.titleCount - (meta.belegtCount ?? 0)).toLocaleString('de-DE'),
             releases: meta.releaseCount,
             events: meta.eventCount,
           })}

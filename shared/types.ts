@@ -913,7 +913,7 @@ export type Franchises = Record<number, FranchiseMember[]>
 
 export interface DataMeta {
   generatedAt: string
-  titleCount: number
+  titleCount: number; belegtCount?: number // Letzteres (fehlt vor dem ersten Bau damit): Titel mit dubConfidence high/very-high; der Rest ist wahrscheinlich oder angekündigt
   releaseCount: number
   eventCount: number
   genres: string[]
