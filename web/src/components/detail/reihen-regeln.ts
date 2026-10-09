@@ -1,5 +1,6 @@
 import type { FranchiseMember } from '@shared/types.ts'
 import { erscheintErst } from '@shared/logic.ts'
+import type { StaffelNummer } from '@shared/titles.ts'
 
 /**
  * Ein Teil der Reihe ohne belegte deutsche Synchro steht hinter dem Schalter der Box „Teile in dieser Reihe" — auch ein angekündigter oder laufender. Nur der geöffnete Titel
@@ -10,6 +11,11 @@ import { erscheintErst } from '@shared/logic.ts'
  */
 export function istEingeklappt(m: Pick<FranchiseMember, 'id' | 'ohneSynchro' | 'jpStart' | 'jpStatus' | 'jpYear'>, geoeffneteId: number): boolean {
   return (Boolean(m.ohneSynchro) || erscheintErst(m)) && m.id !== geoeffneteId
+}
+
+/** „Staffel 4" bzw. „Staffel 4 - Teil 2". */
+export function staffelKurz(n: Pick<StaffelNummer, 'staffel' | 'teil'>): string {
+  return n.teil ? `Staffel ${n.staffel} - Teil ${n.teil}` : `Staffel ${n.staffel}`
 }
 
 /**

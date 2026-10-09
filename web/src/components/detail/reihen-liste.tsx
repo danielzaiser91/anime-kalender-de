@@ -1,11 +1,12 @@
 import { type FranchiseMember, type Title } from '@shared/types.ts'
-import { hauptstaffeln, staffelBeschriftungen, eindeutschenStaffel } from '@shared/titles.ts'
+import { hauptstaffeln, staffelBeschriftungen, staffelStaende, eindeutschenStaffel } from '@shared/titles.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
 import { SynchroMarke } from './reihen-marke.tsx'
 import { istEingeklappt, zeileInListeSichtbar } from './reihen-regeln.ts'
 import { OhneSynchroSchalter, ReihenKopf } from './reihen-kopf.tsx'
+import { ZeilenName } from './zeilen-name.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -193,28 +194,11 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
               ].filter((g) => g.teile.length > 0)
 
               /*
-                **Die Staffeln werden gezählt, damit die erste „Staffel 1"
-                heißt.** Sie trägt im Datensatz meist den bloßen Reihennamen;
-                nach dem Abzug unten bliebe nichts übrig, und im Panel stand
-                dann derselbe Text wie in der Überschrift darüber (Daniel:
-                „1. eintrag dort müsste staffel 1 heißen").
+                Gezählt wird nur, wo die Nummer etwas unterscheidet: One Piece (ein Eintrag) bleibt ohne „Staffel 1".
+                Ab zwei Staffeln trägt jede ihre Nummer, auch mit eigenem Namen; `staffelLabel` bleibt der Rückfall.
               */
-              /*
-                **„Staffel 1" nur, wo es eine Staffel 2 gibt.**
-
-                One Piece ist bei AniList **ein** Eintrag mit über tausend
-                Folgen — die Arcs sind keine eigenen Werke. In der Liste stand
-                trotzdem „Staffel 1", und daneben nichts weiter (Daniel,
-                03.09.2026: „wenn one piece alles meint, dann sollte nicht
-                staffel 1 stehen, sondern einfach ,One Piece'").
-
-                Gezählt wird deshalb nur, wo die Nummer etwas unterscheidet:
-                wenn **mindestens zwei** Hauptstaffeln keinen eigenen Namen
-                tragen. Hat ein Teil einen — „Log: Fish-Man Island Saga" —,
-                steht der da, und eine Nummer bräuchte er nicht.
-              */
-              /* Seit dem 13.09.2026 zählt `staffelBeschriftungen()` — auch „Teil 2" gehört zu seiner Staffel. */
               const staffelLabel = staffelBeschriftungen(reihenTeile.filter(istHauptstaffel), reihenName)
+              const nummern = staffelStaende(reihenTeile.filter(istHauptstaffel), reihenName)
 
               const zeile = (m: FranchiseMember, offen: boolean) => {
                 const gewaehlt = m.id === title.id
@@ -250,7 +234,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 if (istHauptstaffel(m) && staffelTeil && rest === voll && rest !== staffelTeil[1]) rest = staffelTeil[1]!
                 /* Und die erste Staffel heißt „Staffel 1", ein Teil „Staffel 1 - Teil 2". */
                 const kurz = (istHauptstaffel(m) && staffelLabel.get(m.id)) || rest || voll
-                const beschriftung = kurz
+                const beschriftung = <ZeilenName nr={nummern.get(m.id)} rest={rest} kurz={kurz} />
                 return (
                   <button
                     key={m.id}
@@ -299,7 +283,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                         />
                       )}
                     </span>
-                    <span className="flex min-w-0 flex-1 items-baseline gap-2">
+                    <span className="flex min-w-0 flex-1 items-center gap-2">
                       {/*
                         **Ohne deutsche Synchro steht vor dem Namen, nicht dahinter** (Daniel,
                         23.09.2026: „dieser in der reihe hat keine synchro, das muss sichtbar sein
@@ -318,7 +302,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                       <SynchroMarke t={t} m={m} ohneDe={ohneDe} />
                       <span
                         className={[
-                          'min-w-0 truncate text-sm leading-tight',
+                          'line-clamp-2 min-w-0 text-sm leading-tight',
                           ohneDe ? 'opacity-75' : '',
                           gewaehlt
                             ? 'font-medium text-sky-700 dark:text-sky-300'

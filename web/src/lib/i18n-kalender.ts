@@ -52,6 +52,7 @@ export const TEXTE_KALENDER = {
   'kal.favorit': 'Favorit',
   'detail.neuigkeiten': 'Neuigkeiten',
   'detail.neuigkeitenAlle': 'Alle {n} Meldungen',
+  'detail.staffelVon': 'Staffel {n} von {von}',
   'kal.startHinweis': 'Ab hier gibt es diese Staffel mit deutscher Synchro.',
   'kal.finaleHinweis': 'Letzte Folge der Staffel — danach ist sie auf Deutsch vollständig.',
   'kal.folge': 'Folge {n}',
