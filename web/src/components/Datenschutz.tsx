@@ -143,8 +143,13 @@ function DienstAbschnitte() {
           dich dafür an die oben genannte E-Mail-Adresse.
         </p>
         <p className="mt-2">
-          Außerdem steht dir ein Beschwerderecht bei einer Aufsichtsbehörde zu, etwa dem Landesbeauftragten
-          für den Datenschutz und die Informationsfreiheit Rheinland-Pfalz.
+          Außerdem steht dir ein Beschwerderecht bei einer Aufsichtsbehörde zu, insbesondere bei der für
+          mich zuständigen: dem Landesbeauftragten für den Datenschutz und die Informationsfreiheit
+          Rheinland-Pfalz (LfDI RLP), Hintere Bleiche 34, 55116 Mainz,{' '}
+          <a className="underline" href="https://www.datenschutz.rlp.de/">
+            datenschutz.rlp.de
+          </a>
+          .
         </p>
       </Abschnitt>
     </>
