@@ -9,6 +9,8 @@ dort nachlesen; neue Anlässe kommen dorthin, hier höchstens ein Halbsatz.
 Ein **Gesamtüberblick aller Anime mit deutscher Synchronfassung** — erschienen und angekündigt —,
 filterbar, durchsuchbar, als Kalendereintrag übernehmbar (Daniel, 11.08.2026). Dazu gehören:
 
+0. **Umfang: alle Animation, nicht nur japanische** — Anime, Cartoons, Zeichentrick und Ähnliches aus jedem Land (China, Korea, USA …); die Herkunft schließt nie aus (Daniel, 09.10.2026, Anlass: „Die Legende von Nezha").
+
 1. **Synchro ist nicht Untertitel** — die Trennlinie des Projekts (Chiikawa: 120 deutsche Folgen,
    alle untertitelt, steht zu Recht nicht im Kalender).
 2. **Nichts behaupten, was nicht belegt ist.**
