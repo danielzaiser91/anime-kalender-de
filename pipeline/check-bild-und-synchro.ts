@@ -15,7 +15,10 @@ import { waehleStaffel } from './lib/tmdb-staffel.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { mitDubKennzeichen } from './lib/anisearch-termine.ts'
 import { erstausgabeAlsNeuigkeit } from '../web/src/components/detail/antwort-regeln.ts'
-import { stufeVon } from '../web/src/lib/saison.ts'
+import { stufeVon, type SaisonDatei, type SaisonKatalogTitel } from '../web/src/lib/saison.ts'
+import { ausblickGruppen } from '../web/src/lib/saison-ausblick.ts'
+import { todayIso } from '../shared/time.ts'
+import { istSerie, saisonVon, saisonZeitraum, type SaisonTag } from '../shared/saison.ts'
 import { entferneGesperrte, mitSperre } from './bau/sperre.ts'
 import { sucheGen, sucheMitFundstellen, treibe } from '../web/src/lib/search.ts'
 import { istOhneBelegteSynchro, sortiereNachTitel } from '../web/src/lib/titel-sortierung.ts'
@@ -199,6 +202,22 @@ const prominent: [string, number[]][] = [
   ['titles-core.json', jsonDatei<{ id: number }[]>('titles-core.json').map((r) => r.id)],
 ]
 for (const [datei, kennungen] of prominent) pruefe(`kein gesperrter Titel in ${datei} (die F-Sperre greift im Bau nicht, wenn einer auftaucht)`, !kennungen.some((i) => gesperrt.has(i)), kennungen.filter((i) => gesperrt.has(i)))
+
+console.log('Saison-Ausblick: nichts fällt weg')
+{
+  const heute = todayIso()
+  const voll = jsonDatei<Title[]>('titles.json')
+  /* Die Seite rechnet auf dem Kern, nicht auf dem vollen Bestand — sonst bliebe eine Serie ohne Release unbemerkt draußen (Devil May Cry: Staffel 2). */
+  const titel = jsonDatei<Title[]>('titles-core.json')
+  const datei = jsonDatei<SaisonDatei>('saison.json')
+  const ausblick = jsonDatei<{ katalog: SaisonKatalogTitel[] }>('saison-ausblick.json').katalog
+  const gruppen = ausblickGruppen(titel, new Map(), datei, ausblick, heute)
+  const inGruppen = gruppen.flatMap((g) => g.zeilen.map((z) => z.id))
+  /* Quellmenge: kommende Serien des Hauptbestands (Saison nach der laufenden, oder ohne Saison im laufenden Jahr oder später) und alle Katalogtitel der Ausblick-Datei. */
+  const kommend = (t: Title) => istSerie(t.format) && Boolean(t.jpYear) && (t.jpSeason ? saisonZeitraum({ jahr: t.jpYear!, saison: t.jpSeason as SaisonTag['saison'] })[0] > saisonZeitraum(saisonVon(heute))[1] : t.jpYear! >= saisonVon(heute).jahr)
+  const quelle = new Set([...voll.filter(kommend).map((t) => t.id), ...ausblick.map((k) => k.id)])
+  pruefe('jede Serie der Quellmenge steht in genau einer Gruppe', inGruppen.length === new Set(inGruppen).size && [...quelle].every((i) => inGruppen.includes(i)), [...quelle].filter((i) => !inGruppen.includes(i)))
+}
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) verletzt.`)
