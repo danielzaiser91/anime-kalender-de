@@ -19,6 +19,8 @@ let schlimm = 0
 for (const [ausfall, erwartetDialog] of [[false, true], [true, false]]) {
   const ctx = await browser.newContext({ viewport: { width: 320, height: 826 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' })
   const seite = await ctx.newPage()
+  const seitenfehler = []
+  seite.on('pageerror', (e) => seitenfehler.push(String(e.stack).slice(0, 400)))
   await seite.route('**/*', async (route) => {
     const url = new URL(route.request().url())
     if (url.hostname !== 'ak.test') return route.fulfill({ status: 200, contentType: 'image/png', body: EIN_PUNKT })
@@ -30,12 +32,19 @@ for (const [ausfall, erwartetDialog] of [[false, true], [true, false]]) {
   await seite.goto('http://ak.test/#/news', { waitUntil: 'networkidle' })
   await seite.getByRole('button', { name: /Neu auf der Webseite/i }).first().click()
   await seite.waitForTimeout(1000)
+  if (ausfall) {
+    // Beim ersten Fehler lädt vite:preloadError still neu; erst der zweite Klick (Marke gesetzt) zeigt die Meldung.
+    await seite.waitForLoadState('networkidle')
+    await seite.getByRole('button', { name: /Neu auf der Webseite/i }).first().click()
+    await seite.waitForTimeout(1000)
+  }
   const dialog = await seite.locator('.pn').count()
   const seiteDa = await seite.locator('header').count()
   const meldung = await seite.getByRole('alert').filter({ hasText: /geladen/ }).count()
-  const ok = Boolean(dialog) === erwartetDialog && seiteDa > 0 && Boolean(meldung) === !erwartetDialog
+  const ok = Boolean(dialog) === erwartetDialog && seiteDa > 0 && Boolean(meldung) === !erwartetDialog && !seitenfehler.length
   if (!ok) schlimm++
-  console.log(`  ${ok ? '✓' : '✖'} Chunk ${ausfall ? 'fällt aus' : 'da'}: Dialog ${dialog}, Seite ${seiteDa}, Fehlermeldung ${meldung}`)
+  if (seitenfehler.length) console.log(seitenfehler)
+  console.log(`  ${ok ? '✓' : '✖'} Chunk ${ausfall ? 'fällt aus' : 'da'}: Dialog ${dialog}, Seite ${seiteDa}, Fehlermeldung ${meldung}, Seitenfehler ${seitenfehler.length}`)
   await ctx.close()
 }
 await browser.close()
