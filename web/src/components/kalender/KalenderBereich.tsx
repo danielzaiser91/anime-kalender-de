@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'
 import type { AppRoute } from '../../lib/router.ts'
@@ -8,8 +8,8 @@ import { useLang } from '../../lib/i18n.tsx'
 import { merkeZielTag } from '../../lib/ziel-tag.ts'
 import { WeekView } from '../WeekView.tsx'
 import { MonthView } from '../MonthView.tsx'
-import { KalenderKopf, Steuerleiste, wochenSpanne } from './KalenderKopf.tsx'
-import { FilterFeld } from './FilterFeld.tsx'
+import { KalenderKopf, wochenSpanne } from './KalenderKopf.tsx'
+import { KalenderFilter } from './KalenderFilter.tsx'
 import { zaehlung } from './Marken.tsx'
 
 export interface KalenderBereichProps {
@@ -41,7 +41,6 @@ function spanne(route: AppRoute): [string, string] {
 /** Der Kalender: Kopf, Filter und die Woche oder der Monat darunter. */
 export function KalenderBereich(p: KalenderBereichProps) {
   const { t } = useLang()
-  const [filterOffen, setFilterOffen] = useState(false)
   const { route, navigate } = p
   const monat = route.view === 'monat'
   const [von, bis] = spanne(route)
@@ -63,40 +62,27 @@ export function KalenderBereich(p: KalenderBereichProps) {
     navigate({ view: 'woche', date: datum })
   }
   const heute = todayIso()
-  useEscapeSchliesst(filterOffen, () => setFilterOffen(false))
 
   return (
     <div className="flex flex-col gap-4">
       <KalenderKopf view={route.view} date={route.date} unterzeile={unterzeile} />
-      <Steuerleiste
+      <KalenderFilter
+        data={p.data}
         view={route.view}
         date={route.date}
-        filterOffen={filterOffen}
-        filterAnzahl={activeFilterCount(route.filters) + (p.tvAn ? 0 : 1)}
+        filters={route.filters}
+        setFilters={setFilters}
+        tvAn={p.tvAn}
+        setTvAn={p.setTvAn}
+        favoriteCount={p.favorites.size}
         termine={p.termine}
-        onFilter={() => setFilterOffen(!filterOffen)}
+        zeitraum={zeitraum}
+        treffer={imZeitraum.length}
+        zeitraumWort={monat ? t('filter.imMonat', { monat: monthName(Number(von.slice(5, 7)) - 1) }) : t('filter.inDieserWoche')}
         onDate={(date) => navigate({ date })}
         onWoche={() => monat && zurWoche(heute.slice(0, 7) === route.date.slice(0, 7) ? heute : startOfMonth(route.date))}
         onMonat={() => navigate({ view: 'monat' })}
       />
-      {filterOffen && (
-        /* Das Filterfeld steht über der Steuerleiste — dort, wo man es geöffnet hat. Die gewählten
-           Filter stehen **im** Feld (`FilterFeld`), nicht mehr als eigene Zeile darüber. */
-        <div className="fixed inset-x-2 bottom-[calc(9.5rem+env(safe-area-inset-bottom))] z-30 mx-auto max-h-[calc(100dvh-15.75rem)] max-w-[1180px] overflow-y-auto rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,.45)] md:bottom-[4.5rem] md:max-h-[calc(100dvh-10rem)]">
-        <FilterFeld
-          data={p.data}
-          filters={route.filters}
-          onChange={setFilters}
-          tvAn={p.tvAn}
-          setTvAn={p.setTvAn}
-          favoriteCount={p.favorites.size}
-          zeitraum={zeitraum}
-          treffer={imZeitraum.length}
-          zeitraumWort={monat ? t('filter.imMonat', { monat: monthName(Number(von.slice(5, 7)) - 1) }) : t('filter.inDieserWoche')}
-          schliessen={() => setFilterOffen(false)}
-        />
-        </div>
-      )}
       {monat ? (
         <MonthView data={p.data} events={p.events} anchorDate={route.date} hidden={p.hidden} onOpen={oeffnen} onPickDay={zurWoche} />
       ) : (
@@ -115,14 +101,4 @@ export function KalenderBereich(p: KalenderBereichProps) {
       )}
     </div>
   )
-}
-
-/** Escape schließt das Filterfeld, solange es offen ist. */
-function useEscapeSchliesst(offen: boolean, schliessen: () => void) {
-  useEffect(() => {
-    if (!offen) return
-    const taste = (e: KeyboardEvent) => e.key === 'Escape' && schliessen()
-    window.addEventListener('keydown', taste)
-    return () => window.removeEventListener('keydown', taste)
-  }, [offen, schliessen])
 }

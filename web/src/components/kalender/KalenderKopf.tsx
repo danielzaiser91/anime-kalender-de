@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { ViewId } from '../../lib/router.ts'
 import { addDays, addMonths, diffDays, formatDateLong, monthName, startOfWeek, todayIso } from '@shared/time.ts'
 import { useLang, type Translate } from '../../lib/i18n.tsx'
@@ -71,10 +72,23 @@ export interface SteuerProps {
  */
 export function Steuerleiste(p: SteuerProps) {
   const { t } = useLang()
-  const monat = p.view === 'monat'
-  const schritt = (dir: number) => p.onDate(monat ? addMonths(p.date, dir) : addDays(p.date, dir * 7))
-  const lage = useHeuteLage(monat, p.date)
-  const rund = 'flex size-11 max-[419px]:size-10 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
+  const filterKnopf = (
+    <button
+      type="button"
+      onClick={p.onFilter}
+      aria-expanded={p.filterOffen}
+      aria-controls="ak-filterfeld"
+      aria-label={t('filter.button')}
+      className={[
+        'flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3 max-[419px]:px-2.5 max-[369px]:px-2 text-sm font-bold transition sm:pr-4 sm:pl-3.5',
+        p.filterOffen || p.filterAnzahl ? 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent' : 'border-ak-rand bg-ak-flaeche text-ak-text hover:border-ak-leise',
+      ].join(' ')}
+    >
+      <FilterZeichen />
+      <span className="hidden sm:inline">{t('filter.button')}</span>
+      {p.filterAnzahl > 0 && <span className="rounded-full bg-[#0d0f14] px-1.5 text-[11px] text-[#f2f1ee]">{p.filterAnzahl}</span>}
+    </button>
+  )
   return (
     <div
       data-steuerleiste
@@ -85,44 +99,44 @@ export function Steuerleiste(p: SteuerProps) {
         .join(' ')}
     >
       <div className="pointer-events-auto flex items-center gap-1.5 max-[419px]:gap-1 rounded-full border border-ak-rand bg-ak-flaeche/95 p-1.5 max-[419px]:p-1 shadow-[0_12px_32px_rgba(0,0,0,.35)] backdrop-blur sm:gap-2">
-        <div role="group" aria-label={t('kal.zeitraum')} className="flex rounded-full bg-ak-flaeche-2 p-0.5">
-          <Segment an={!monat} onClick={p.onWoche}>{t('view.woche')}</Segment>
-          <Segment an={monat} onClick={p.onMonat}>{t('view.monat')}</Segment>
-        </div>
-        <button
-          type="button"
-          onClick={p.onFilter}
-          aria-expanded={p.filterOffen}
-          aria-controls="ak-filterfeld"
-          aria-label={t('filter.button')}
-          className={[
-            'flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3 max-[419px]:px-2.5 max-[369px]:px-2 text-sm font-bold transition sm:pr-4 sm:pl-3.5',
-            p.filterOffen || p.filterAnzahl ? 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent' : 'border-ak-rand bg-ak-flaeche text-ak-text hover:border-ak-leise',
-          ].join(' ')}
-        >
-          <FilterZeichen />
-          <span className="hidden sm:inline">{t('filter.button')}</span>
-          {p.filterAnzahl > 0 && <span className="rounded-full bg-[#0d0f14] px-1.5 text-[11px] text-[#f2f1ee]">{p.filterAnzahl}</span>}
-        </button>
-        <button type="button" onClick={() => schritt(-1)} aria-label={t('kal.voriger')} className={rund}>
-          <LinksZeichen />
-        </button>
-        <HeuteKnopf
-          lage={lage}
-          monat={monat}
-          onClick={() => {
-            p.onDate(todayIso())
-            if (!monat) window.dispatchEvent(new Event('ak-zu-heute'))
-          }}
-        />
-        <button type="button" onClick={() => schritt(1)} aria-label={t('kal.naechster')} className={rund}>
-          <RechtsZeichen />
-        </button>
-        <span className="hidden sm:flex">
-          <DatumSprung date={p.date} termine={p.termine} onDate={p.onDate} />
-        </span>
+        <SteuerElemente {...p} filterKnopf={filterKnopf} />
       </div>
     </div>
+  )
+}
+
+/** Woche/Monat, Blättern, „heute" und Datumssprung — geteilt von Steuerleiste (Rechner) und Werkzeugleiste (Handy). */
+export function SteuerElemente(p: SteuerProps & { filterKnopf?: ReactNode }) {
+  const { t } = useLang()
+  const monat = p.view === 'monat'
+  const schritt = (dir: number) => p.onDate(monat ? addMonths(p.date, dir) : addDays(p.date, dir * 7))
+  const lage = useHeuteLage(monat, p.date)
+  const rund = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
+  return (
+    <>
+      <div role="group" aria-label={t('kal.zeitraum')} className="flex rounded-full bg-ak-flaeche-2 p-0.5">
+        <Segment an={!monat} onClick={p.onWoche}>{t('view.woche')}</Segment>
+        <Segment an={monat} onClick={p.onMonat}>{t('view.monat')}</Segment>
+      </div>
+      {p.filterKnopf}
+      <button type="button" onClick={() => schritt(-1)} aria-label={t('kal.voriger')} className={rund}>
+        <LinksZeichen />
+      </button>
+      <HeuteKnopf
+        lage={lage}
+        monat={monat}
+        onClick={() => {
+          p.onDate(todayIso())
+          if (!monat) window.dispatchEvent(new Event('ak-zu-heute'))
+        }}
+      />
+      <button type="button" onClick={() => schritt(1)} aria-label={t('kal.naechster')} className={rund}>
+        <RechtsZeichen />
+      </button>
+      <span className="hidden sm:flex">
+        <DatumSprung date={p.date} termine={p.termine} onDate={p.onDate} />
+      </span>
+    </>
   )
 }
 
@@ -153,7 +167,7 @@ function HeuteKnopf({ lage, monat, onClick }: { lage: HeuteLage; monat: boolean;
         aria-label={`${t('nav.today')}: ${text}`}
         aria-current={hier ? 'date' : undefined}
         className={[
-          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 max-[419px]:px-1.5 max-[339px]:size-10 max-[339px]:justify-center max-[339px]:px-0 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
+          'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 max-[419px]:px-1.5 max-[339px]:size-11 max-[339px]:justify-center max-[339px]:px-0 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
           hier ? 'border-ak-rand bg-transparent text-ak-leise hover:border-ak-leise hover:text-ak-text' : 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent',
         ].join(' ')}
       >
@@ -174,7 +188,7 @@ function Segment({ an, onClick, children }: { an: boolean; onClick: () => void; 
       aria-pressed={an}
       onClick={onClick}
       className={[
-        'h-10 cursor-pointer rounded-full px-3 max-[419px]:px-2 max-[369px]:px-1.5 text-sm font-bold transition sm:px-4',
+        'h-10 max-md:h-11 cursor-pointer rounded-full px-3 max-[419px]:px-2 max-[369px]:px-1.5 text-sm font-bold transition sm:px-4',
         an ? 'bg-ak-akzent text-ak-auf-akzent' : 'text-ak-leise hover:text-ak-text',
       ].join(' ')}
     >

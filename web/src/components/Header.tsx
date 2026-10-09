@@ -4,6 +4,7 @@ import { useThema } from '../lib/thema.ts'
 import { InstallButton } from './InstallPrompt.tsx'
 import { KopfSuchfeld, useKopfSuche } from './kopf-suche.tsx'
 import { HandyNavigation } from './HandyNavigation.tsx'
+import { useKopfWerkzeug } from './filter/werkzeug-slot.tsx'
 import { AboMenue } from './kalender/AboMenue.tsx'
 import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen } from './kalender/Zeichen.tsx'
 
@@ -69,6 +70,7 @@ export function Header({
   const aktiv = bereichVon(view)
   const kalender = aktiv === 'kalender'
   const { sucheAuf, eingabe, kopf, oeffnen } = useKopfSuche(view, kalender, suche, zurSuche)
+  const { mitSlot, slotRef } = useKopfWerkzeug(kopf, view, aktiv)
   return (
     <header ref={kopf} className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
       <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6 lg:px-10">
@@ -88,30 +90,7 @@ export function Header({
             anime<span className="text-ak-akzent">·</span>kalender
           </span>
         </a>
-        <nav aria-label={t('nav.bereich')} className="hidden gap-6 text-[15px] font-semibold md:flex">
-          {BEREICHE.map((b) => {
-            const ziel = b.id === 'kalender' && aktiv === 'kalender' ? view : b.ziel
-            return (
-              <a
-                key={b.id}
-                href={hrefFuer(ziel)}
-                onClick={(e) => {
-                  if (einfacherKlick(e)) {
-                    e.preventDefault()
-                    onView(ziel)
-                  }
-                }}
-                aria-current={aktiv === b.id ? 'page' : undefined}
-                className={[
-                  'cursor-pointer border-b-2 py-2 transition',
-                  aktiv === b.id ? 'border-ak-akzent text-ak-text' : 'border-transparent text-ak-leise hover:text-ak-text',
-                ].join(' ')}
-              >
-                {t(b.id === 'kalender' ? 'nav.kalender' : (`view.${b.id}` as TranslationKey))}
-              </a>
-            )
-          })}
-        </nav>
+        <KopfNavigation view={view} aktiv={aktiv} onView={onView} hrefFuer={hrefFuer} />
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
           {!kalender && <KopfSuchfeld suche={suche} setSuche={setSuche} className="hidden w-64 lg:block xl:w-72" />}
           <button type="button" onClick={oeffnen} aria-expanded={kalender ? undefined : sucheAuf} aria-label={t('kopf.sucheOeffnen')} className={`${RUND} ${kalender ? '' : 'lg:hidden'}`}>
@@ -127,8 +106,45 @@ export function Header({
           <KopfSuchfeld suche={suche} setSuche={setSuche} className="block" eingabe={eingabe} />
         </div>
       )}
+      {mitSlot && <div ref={slotRef} className="relative" />}
       <HandyNavigation aktiv={aktiv} onView={onView} kalender={kalender ? view : 'woche'} einstellungen={einstellungen} />
     </header>
+  )
+}
+
+/** Die drei Bereiche als Reiter (ab `md`); auf dem Handy stehen sie unten in `HandyNavigation`. */
+function KopfNavigation({ view, aktiv, onView, hrefFuer }: {
+  view: ViewId
+  aktiv: ReturnType<typeof bereichVon>
+  onView: (v: ViewId) => void
+  hrefFuer: (ziel: ViewId) => string
+}) {
+  const { t } = useLang()
+  return (
+    <nav aria-label={t('nav.bereich')} className="hidden gap-6 text-[15px] font-semibold md:flex">
+      {BEREICHE.map((b) => {
+        const ziel = b.id === 'kalender' && aktiv === 'kalender' ? view : b.ziel
+        return (
+          <a
+            key={b.id}
+            href={hrefFuer(ziel)}
+            onClick={(e) => {
+              if (einfacherKlick(e)) {
+                e.preventDefault()
+                onView(ziel)
+              }
+            }}
+            aria-current={aktiv === b.id ? 'page' : undefined}
+            className={[
+              'cursor-pointer border-b-2 py-2 transition',
+              aktiv === b.id ? 'border-ak-akzent text-ak-text' : 'border-transparent text-ak-leise hover:text-ak-text',
+            ].join(' ')}
+          >
+            {t(b.id === 'kalender' ? 'nav.kalender' : (`view.${b.id}` as TranslationKey))}
+          </a>
+        )
+      })}
+    </nav>
   )
 }
 

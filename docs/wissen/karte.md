@@ -95,6 +95,7 @@ OG-Tags, `build-share-pages.ts`) bzw. `/t/<titel-slug>/`. Alte Adressen `#/agend
 |---|---|
 | Wochen-/Monatsraster, Karten | `components/WeekView.tsx`, `MonthView.tsx`, `kalender/PosterKarte.tsx`, `kalender/TvKasten.tsx`, `kalender/Schwebe.tsx` |
 | Untere Steuerleiste, Filterfeld | `kalender/KalenderKopf.tsx` (`Steuerleiste`), `FilterBar.tsx`, `kalender/FilterFeld.tsx`; Logik `lib/filters.ts` |
+| Filter am Handy (Werkzeugleiste unter der Kopfzeile, rollt mit ihr ein; Filterfenster) | `components/filter/` (`Werkzeugleiste`, `FilterPopover`, `SchnellChips`, `DbWerkzeug`, `KalenderWerkzeug`, `filter-abschnitte`), Slot in `Header.tsx` über `werkzeug-slot.tsx`; Hooks `lib/use-mobil`, `use-einrollen`, `use-verlauf-eintrag`, `use-visual-viewport`. Am Rechner bleibt es bei Dock/Steuerleiste (`KalenderFilter`, `DatenbankBereich`). Gemessen 09.10.2026 bei 393 px: erste Karte DB 141 px, Kalender 278 px, unteres Band 78 px, Überlapp 0 |
 | Datenbank-Ansicht, Suche | `DatabaseView.tsx`, `lib/search.ts`, `lib/filter-suche.ts`, `Suchfeld.tsx` |
 | Detail-Panel (Kopf, Antwortkasten, Pillen, Reihen, Neuigkeiten) | `DetailPanel.tsx` (1.290 Z., darin eine Funktion `DetailPanel` von 1.237 Z.; Limit 80/800, Überlänge nur sinkend per `check:umfang`) + `detail/*` — Antwort-Logik `detail/antwort-berechnen.ts`, `antwort-regeln.ts`, `antwort-kasten.tsx`; Pillen `detail/pillen.tsx`, `wege-sortieren.ts`, `verweise.ts` |
 | News-Seite | `NewsView.tsx`, `news-belege.tsx`, `lib/news-text.ts`; Daten `pipeline/lib/news.ts` |

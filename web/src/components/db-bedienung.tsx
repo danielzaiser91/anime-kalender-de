@@ -1,8 +1,11 @@
+import { Fragment } from 'react'
 import type { Title } from '@shared/types.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import type { RelevanzArt } from '../lib/db-relevanz.ts'
 import type { DbSort } from '../lib/router.ts'
 import { DbKopfzeile } from './db-kopfzeile.tsx'
+import { DbKarte, type DbKarteProps } from './db-karte.tsx'
+import type { ListenEintrag } from '../lib/db-liste.ts'
 
 /** Zählzeile links, Sortierung rechts. */
 export function DbZaehlzeile({ titles, ergebnisse, gebuendelt, suche, sort, onSortChange }: {
@@ -40,7 +43,7 @@ export function DbGruppenKopf({ art, zahl }: { art: RelevanzArt; zahl: number })
 }
 
 /** Die Sortierwahl über dem Raster; „Relevanz" ist die Vorgabe (mit Suche: Treffergüte, sonst Gruppen). */
-export function DbSortWahl({ sort, onChange, suche }: { sort: DbSort; onChange: (next: DbSort) => void; suche: boolean }) {
+export function DbSortWahl({ sort, onChange, suche, kompakt }: { sort: DbSort; onChange: (next: DbSort) => void; suche: boolean; kompakt?: boolean }) {
   const { t } = useLang()
   return (
     <label className="ml-auto flex cursor-pointer items-center gap-2">
@@ -49,7 +52,7 @@ export function DbSortWahl({ sort, onChange, suche }: { sort: DbSort; onChange: 
         value={sort}
         aria-label={t('db.sort')}
         onChange={(e) => onChange(e.target.value as DbSort)}
-        className="cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5"
+        className={['cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5', kompakt && 'h-11 w-28 rounded-full'].filter(Boolean).join(' ')}
       >
         <option value="relevanz">{t(suche ? 'db.sortRelevanz' : 'db.sortRelevanzGruppen')}</option>
         <option value="titel">{t('db.sortTitle')}</option>
@@ -94,5 +97,19 @@ export function MehrKnopf({ schritt, rest, onClick }: { schritt: number; rest: n
       {t('db.more', { count: Math.min(schritt, rest) })}
       <span className="ml-2 text-xs text-slate-500 dark:text-slate-400">{t('db.remaining', { count: rest })}</span>
     </button>
+  )
+}
+
+/** Das Kachelraster der Datenbank, in der Relevanz-Ansicht mit Gruppenüberschriften. */
+export function DbRaster({ liste, zahlen, ...rest }: Omit<DbKarteProps, 'main' | 'members' | 'gruppe' | 'ab'> & { liste: ListenEintrag[]; zahlen: Partial<Record<RelevanzArt, number>> }) {
+  return (
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
+      {liste.map(({ main, members, art, ab }, i) => (
+        <Fragment key={main.id}>
+          {art && art !== liste[i - 1]?.art && <DbGruppenKopf art={art} zahl={zahlen[art] ?? 0} />}
+          <DbKarte main={main} members={members} gruppe={art} ab={ab} {...rest} />
+        </Fragment>
+      ))}
+    </div>
   )
 }

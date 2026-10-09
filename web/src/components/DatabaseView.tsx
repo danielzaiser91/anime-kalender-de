@@ -1,12 +1,12 @@
-import { Fragment, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import type { Title } from '@shared/types.ts'
 import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { DbSchalter } from './db-kopfzeile.tsx'
-import { DbKarte } from './db-karte.tsx'
-import { DbGruppenKopf, DbLeer, DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
+import { DbKopfbereich } from './filter/DbWerkzeug.tsx'
+import { DbLeer, DbRaster, MehrKnopf } from './db-bedienung.tsx'
+import type { FilterState } from '../lib/filters.ts'
 import { ordneListe } from '../lib/db-liste.ts'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
@@ -56,6 +56,8 @@ export function DatabaseView({
   suche,
   gewaehlt,
   onSortChange,
+  filters,
+  onFiltersChange,
 }: {
   data: Dataset
   titles: Title[]
@@ -76,6 +78,9 @@ export function DatabaseView({
   /** Sortierung aus der Adresse (`?sort=`); ohne Wahl gilt die Vorgabe unten. */
   gewaehlt?: DbSort
   onSortChange: (next: DbSort) => void
+  /** Die Filter für die Werkzeugleiste am Handy. */
+  filters: FilterState
+  onFiltersChange: (next: FilterState) => void
 }) {
   const { share, copiedSlug } = useShare()
   const today = todayIso()
@@ -84,41 +89,34 @@ export function DatabaseView({
   const sort = gewaehlt ?? 'relevanz'
 
   const { liste, zahlen } = useMemo(() => {
-    const base: TitleGroup[] = grouped
-      ? groupByFranchise(titles)
-      : titles.map((tt) => ({ main: tt, members: [tt] }))
+    const base: TitleGroup[] = grouped ? groupByFranchise(titles) : titles.map((tt) => ({ main: tt, members: [tt] }))
     return ordneListe(base, sort, suche, data.releasesByTitle, today)
   }, [titles, grouped, sort, suche, data.releasesByTitle, today])
 
   return (
     <div className="flex flex-col gap-4">
-      <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} />
+      <DbKopfbereich
+        meta={data.meta} filters={filters} onFiltersChange={onFiltersChange} favoriteCount={favorites.size}
+        titles={titles} ergebnisse={grouped ? liste.length : titles.length} gebuendelt={grouped} suche={suche}
+        sort={sort} onSortChange={onSortChange}
+        ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt}
+        grouped={grouped} onGroupedChange={onGroupedChange}
+      />
 
-      <DbZaehlzeile titles={titles} ergebnisse={grouped ? liste.length : titles.length} gebuendelt={grouped} suche={suche} sort={sort} onSortChange={onSortChange} />
-
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
-        {liste.slice(0, visible).map(({ main, members, art, ab }, i) => (
-          <Fragment key={main.id}>
-            {art && art !== liste[i - 1]?.art && <DbGruppenKopf art={art} zahl={zahlen[art] ?? 0} />}
-            <DbKarte
-              main={main}
-              members={members}
-              data={data}
-              today={today}
-              grouped={grouped}
-              favorites={favorites}
-              hidden={hidden}
-              onToggleFavorite={onToggleFavorite}
-              onToggleHidden={onToggleHidden}
-              onOpenTitle={onOpenTitle}
-              share={share}
-              copiedSlug={copiedSlug}
-              gruppe={art}
-              ab={ab}
-            />
-          </Fragment>
-        ))}
-      </div>
+      <DbRaster
+        liste={liste.slice(0, visible)}
+        zahlen={zahlen}
+        data={data}
+        today={today}
+        grouped={grouped}
+        favorites={favorites}
+        hidden={hidden}
+        onToggleFavorite={onToggleFavorite}
+        onToggleHidden={onToggleHidden}
+        onOpenTitle={onOpenTitle}
+        share={share}
+        copiedSlug={copiedSlug}
+      />
 
       {liste.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
       {visible < liste.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={liste.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}

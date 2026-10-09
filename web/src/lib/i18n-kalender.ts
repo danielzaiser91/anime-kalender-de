@@ -62,6 +62,10 @@ export const TEXTE_KALENDER = {
   'kal.tvAmTag': 'Im Fernsehen am {datum}',
 
   'filter.schnell': 'Schnell',
+  'filter.schnellGruppe': 'Schnellfilter',
+  'filter.zustand.aus': 'aus',
+  'filter.zustand.ja': 'nur anzeigen',
+  'filter.zustand.nein': 'ausgeblendet',
   'filter.mehr': 'mehr Filter ▾',
   'filter.weniger': 'weniger Filter ▴',
   'filter.anbieter': 'Anbieter',

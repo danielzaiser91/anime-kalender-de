@@ -192,6 +192,16 @@ html:not(.dark) {
   animation: slide-in 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Die Kopfleiste rollt am Handy beim Abwärtsscrollen ein (`use-einrollen.ts`); die Regel für weniger Bewegung unten greift mit. */
+@media (max-width: 767px) {
+  header[data-kopf-weg='1'] {
+    transform: translateY(-100%);
+  }
+  header {
+    transition: transform 160ms ease-out;
+  }
+}
+
 /*
   Wer weniger Bewegung will, bekommt keine: Animationen enden sofort im Endzustand, Übergänge
   springen. Eine Regel für alles statt `motion-reduce:` an jeder Stelle — Vergessenes gibt es so nicht.
