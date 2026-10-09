@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
 import { eigeneKennungen } from './tools/vite-kennungen.ts'
+import { datenKennung } from './tools/daten-kennung.ts'
 import { vorladeSkript } from './tools/vite-vorladen.ts'
 import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -30,25 +31,10 @@ const base = process.env.PAGES_BASE ?? '/'
  * Datenadressen. Die Kette hält von selbst; niemand muss eine Versionsnummer
  * pflegen.
  *
- * Als Kennung dient der **Datenstand** (`meta.generatedAt`), nicht der
- * Commit-Hash. Der Unterschied kostet nichts und spart einiges: Ein Deploy, der
- * nur Code ändert, lässt die Datenadressen in Ruhe — niemand lädt deswegen
- * `titles.json` (551 KB) erneut. Ändern sich die Daten, ändert sich die
- * Kennung, und genau dann soll neu geladen werden. Der stündliche Lauf
- * committet ohnehin nur bei echter Änderung.
+ * Als Kennung dient ein **Hash der Datendateien** (`tools/daten-kennung.ts`), nicht der Commit-Hash: Ein reiner Code-Deploy lässt die
+ * Datenadressen in Ruhe, jede Datenänderung — auch von Hand, ohne neues `generatedAt` — ergibt eine neue Adresse.
  */
-function datenStand(): string {
-  try {
-    const meta = JSON.parse(readFileSync(new URL('./public/data/meta.json', import.meta.url), 'utf8'))
-    // Nur Ziffern: "2026-08-12T14:07:33.001Z" → "20260812140733"
-    if (meta?.generatedAt) return String(meta.generatedAt).replace(/\D/g, '').slice(0, 14);
-  } catch {
-    // Noch nie gebaut oder Datei kaputt — dann tut es die Notlösung unten.
-  }
-  return (process.env.GITHUB_SHA ?? String(Date.now())).slice(0, 12)
-}
-
-const buildId = datenStand()
+const buildId = datenKennung(fileURLToPath(new URL('./public/data', import.meta.url)))
 
 /** Kennung des Codes: im CI die Commit-Kennung, lokal die Bauzeit. Sie steht im Bündel und in `version.json` (siehe `web/src/lib/aktualisierung.ts`). */
 const appVersion = (process.env.GITHUB_SHA ?? `lokal-${Date.now()}`).slice(0, 12)
