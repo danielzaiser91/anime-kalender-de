@@ -218,6 +218,7 @@ async function networkFirst(request, cacheName) {
   const cached = await cache.match(request)
 
   try {
+    // Ohne Kopie (nach einem Update-Neuladen) gibt es nichts, was das Zeitlimit retten könnte.
     const response = await Promise.race([
       /**
        * `no-cache` heißt hier nicht „nicht cachen", sondern „beim Server
@@ -233,9 +234,9 @@ async function networkFirst(request, cacheName) {
         if (r.ok) cache.put(request, r.clone())
         return r
       }),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Netz zu langsam')), NETWORK_TIMEOUT_MS),
-      ),
+      new Promise((_, reject) => {
+        if (cached) setTimeout(() => reject(new Error('Netz zu langsam')), NETWORK_TIMEOUT_MS)
+      }),
     ])
     return response
   } catch {
