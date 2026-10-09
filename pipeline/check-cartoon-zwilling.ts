@@ -44,6 +44,8 @@ console.log('\nCartoon oder Anime (ausgelieferter Datensatz):')
   const anime = [...lies<Title[]>('public/data/titles.json'), ...lies<Title[]>('public/data/ohne-synchro.json')]
   const { zwillinge, unsicher } = findeZwillinge(cartoons, anime, tmdbJeAnimeAus(lies('data/tmdb-titles.json')))
   pruefe('Kein ausgelieferter Cartoon hat einen Anime-Zwilling (AniList, aniSearch, MAL); gefunden = Cartoon- und Anime-Kennung', zwillinge.length === 0, zwillinge.map((z) => [z.cartoonId, z.zwilling]))
+  const mitAnimeKennung = cartoons.filter((c) => c.malId || c.anisearchId || c.id > 0)
+  pruefe('Kein ausgelieferter Cartoon trägt eine AniList- (positive Kennung), MAL- oder aniSearch-Kennung (was dort als Anime geführt wird, ist kein Cartoon)', mitAnimeKennung.length === 0, mitAnimeKennung.map((c) => c.id))
   const offen = unsicher.filter((u) => !(u.cartoonId in ZWILLING_AUSNAHMEN))
   pruefe('Jeder Cartoon mit gleichnamigem, aber unpassendem Anime-Eintrag steht begründet in ZWILLING_AUSNAHMEN', offen.length === 0, offen)
   pruefe('Jede Ausnahme nennt ihren Grund', Object.values(ZWILLING_AUSNAHMEN).every((g) => g.length > 20))
