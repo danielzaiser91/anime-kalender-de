@@ -3,6 +3,10 @@
 # Optional: highlight: true (höchstens 2 je Tag), untertitel, symbol (stern | schluessel), link (Hash-Adresse "#/…").
 # live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
 - datum: "2026-10-09"
+  kategorie: bugfix
+  text: App installieren steht nur noch an einer Stelle
+  live: true
+- datum: "2026-10-09"
   kategorie: feature
   text: App installieren jetzt auch im Glocken-Menü
   untertitel: nur am Handy
