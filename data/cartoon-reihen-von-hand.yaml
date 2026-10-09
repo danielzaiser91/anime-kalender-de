@@ -1,0 +1,13 @@
+# Cartoon-Reihen, die Wikidata nicht verbindet (Muster: data/reihen-von-hand.yaml).
+#
+# Jeder Eintrag: name, ids (negative Cartoon-Kennungen = -TMDB-Kennung, mindestens zwei) und quelle
+# (Adresse, die die Zugehörigkeit belegt — Wikipedia). Ohne Adresse bricht die Prüfung ab.
+# Nur eintragen, wo die Lücke bei Wikidata liegt: Eine Wikidata-Beziehung braucht keinen Eintrag.
+# Hintergrund: docs/wissen/cartoon-reihen.md.
+
+# TMDB führt jeden Teil als eigene Serie, Wikidata die Trilogie als ein Item mit der Kennung von „Siege".
+# Erdaufgang und Kingdom haben dort kein Item (Suche 09.10.2026 leer). Wikipedia: drei Teile
+# Siege (30.07.2020), Earthrise (30.12.2020), Kingdom (29.07.2021) der Trilogie.
+- name: 'Transformers: War for Cybertron Trilogy'
+  ids: [-100617, -117682, -128255]
+  quelle: https://en.wikipedia.org/wiki/Transformers:_War_for_Cybertron_Trilogy
