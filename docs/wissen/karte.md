@@ -168,3 +168,15 @@ Handbeleg (`dub-confirmed.yaml`) > Urteil aus Messung (`urteile.json`) > Anbiete
 aniSearch („Synchronisiert"-Marke) > Anime2You-Text > Schätzung. Widerspricht eine niedrigere Stufe einer höheren, gewinnt die höhere und
 der Widerspruch kommt auf eine Prüfliste (`check:quellen`, `kanal-gegenprobe`, `verdacht.mjs`). Dass diese Rangfolge existiert, steht
 nirgends an einer Stelle — dieser Absatz ist die erste Zusammenfassung (aus `quellen.md`, `datensatz.md` und `build.ts` rekonstruiert).
+
+## 11. Install-Angebot (09.10.2026)
+
+Genau eine Stelle oder keine: Kopf-Knopf (Handy, ab 390 px, nur wenn der Browser das Angebot macht), sonst Zeile im
+Glocken-Menü (direkt, iOS-Anleitung oder Browser-Hinweis); Fuß und Desktop nie. Tabelle: `web/src/lib/install-stellen.ts`,
+Zusicherung `pipeline/check-install-stellen.ts` (in `check:logic`), Browser-Lagen `npm run check:install` (nach `build`, ~15 s,
+auch in „Aussehen prüfen"). Ein Zustand für alle Stellen (`useInstall` in `pwa.ts`) — mit je eigenem State bot das Menü nach
+einem abgelehnten Angebot weiter „installieren“ an.
+
+Nur auf echten Geräten prüfbar (Daniel/Martin): Chrome Android nicht installiert (Kopf-Knopf, Installation läuft durch),
+installiert im Tab (Angebot verschwindet), Samsung Internet (Hinweis im Menü), iPhone Safari (Anleitung im Menü). Nach einem
+Deploy erst etwa 5 Minuten warten: GitHub Pages hält `index.html` bis zu ~10 Minuten im Cache, ein früher Test sieht den alten Stand.

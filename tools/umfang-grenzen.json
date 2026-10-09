@@ -10,16 +10,16 @@
       "dateien": 441
     },
     "web/src": {
-      "funktionen": 5436,
-      "dateien": 1090
+      "funktionen": 5441,
+      "dateien": 1089
     },
     "worker/src": {
       "funktionen": 1159,
       "dateien": 830
     },
     "extension": {
-      "funktionen": 7344,
-      "dateien": 16649
+      "funktionen": 7335,
+      "dateien": 16457
     },
     "tools": {
       "funktionen": 265,

@@ -240,4 +240,11 @@ export const TEXTE_SEITEN = {
   'sources.staleTitle': 'Was passiert mit alten Quellen?',
   'sources.staleText':
     'Sie bleiben stehen. Verschiebt sich ein Termin, markieren wir die frühere Quelle als veraltet und klappen sie unter dem Termin ein. So bleibt nachvollziehbar, woher der alte Tag kam.',
+  // Datenbank-Vorgabe „Relevanz": Gruppenüberschriften und Startdatum auf der Kachel.
+  'db.sortRelevanzGruppen': 'Relevanz',
+  'db.gruppeLaeuft': 'Läuft jetzt',
+  'db.gruppeBald': 'Demnächst',
+  'db.gruppeErschienen': 'Schon erschienen',
+  'db.gruppeUnbekannt': 'Ohne bekannten Termin',
+  'db.ab': 'ab {datum}',
 }

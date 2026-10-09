@@ -25,7 +25,6 @@ export interface DbKopfProps {
   suche: string
   sort: DbSort
   onSortChange: (next: DbSort) => void
-  relevanz: boolean
   ohneSynchro: boolean
   onOhneSynchroChange: (next: boolean) => void
   laedt: boolean
@@ -40,7 +39,7 @@ export function DbKopfbereich(p: DbKopfProps) {
   return (
     <>
       <DbSchalter ohneSynchro={p.ohneSynchro} onOhneSynchroChange={p.onOhneSynchroChange} laedt={p.laedt} grouped={p.grouped} onGroupedChange={p.onGroupedChange} />
-      <DbZaehlzeile titles={p.titles} ergebnisse={p.ergebnisse} gebuendelt={p.gebuendelt} suche={p.suche} sort={p.sort} onSortChange={p.onSortChange} relevanz={p.relevanz} />
+      <DbZaehlzeile titles={p.titles} ergebnisse={p.ergebnisse} gebuendelt={p.gebuendelt} suche={p.suche} sort={p.sort} onSortChange={p.onSortChange} />
     </>
   )
 }
@@ -66,7 +65,7 @@ function DbWerkzeug(p: DbKopfProps) {
         <RollReihe>
           <SchnellChips filters={p.filters} onChange={p.onFiltersChange} />
         </RollReihe>
-        <DbSortWahl sort={p.sort} onChange={p.onSortChange} relevanz={p.relevanz} suche={!!p.suche.trim()} kompakt />
+        <DbSortWahl sort={p.sort} onChange={p.onSortChange} suche={!!p.suche.trim()} kompakt />
       </Werkzeugleiste>
       <FilterPopover offen={offen} schliessen={zu} ausloeser={pille} label={t('filter.button')}>
         <Abschnitte liste={abschnitte} />

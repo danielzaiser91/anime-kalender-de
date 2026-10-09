@@ -204,6 +204,7 @@ const TEXTE = {
   'pwa.pitch': 'Öffnet sich wie eine App, im Vollbild, und läuft auch ohne Verbindung.',
   'pwa.install': 'App installieren',
   'pwa.stayInBrowser': 'Im Browser weiter',
+  'pwa.manualHint': 'Im Browser-Menü ⋮ „App installieren“ oder „Zum Startbildschirm“.',
   'pwa.iosHint': 'In Safari: auf Teilen tippen, dann „Zum Home-Bildschirm".',
   'card.hide': 'Titel ausblenden',
   'card.unhide': 'Titel wieder anzeigen',

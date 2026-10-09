@@ -606,6 +606,16 @@ Bilder 21 / 2.988 KB → 31 / 1.647 KB (die kleineren laden früher nach) · ers
 - **Eigene Kennungen (`ak`):** Die `ak` der vier aniSearch-Zeilen war öffentlich (Adresse `/t/<ak>/`, Favoriten, versandte Mail-Links). `data/kennungen.json` trägt dafür ein viertes Feld `zuAk` (Nachfolger): `akVon` übersetzt die alte Kennung in die des AniList-Titels (News-Verlauf, Meldungen, Reihen nennen nie die alte); `build-share-pages.ts` schreibt `/t/<alt>/` als Weiterleitung (`noindex`), `ak-umleitung.json` (`[[alt, neu], …]`) schreibt gemerkte Titel um — im Browser einmalig je neuem Paar vor dem ersten Rendern (`web/src/lib/ak-umleitung.ts`, Marke `kennung:umleitung`, höchstens 1,5 s Wartezeit), im Worker beim Lesen jeder Liste (`worker/src/favoriten-lesen.ts`). Dauerhaft, anders als die Karenz bis 05.11.2026. Eine künftige Dublette: Zeile in der Handdatei, `zuAk` an der alten Zeile, ggf. `ALTE_AUTO_KENNUNG`.
 - **Probe am Bau (08.10.2026, Cache mit den vier AniList-Titeln, Basis gegen Zweig):** Titelzahl 2922 → 2920 (10021084 und 10021575 entfallen, Psyren 204011 trägt die Erstausgabe); Beerus und Fool Night behalten `auto-10021566-crunchyroll` und `auto-10021751-netflix` (ein Release je Plattform, `vergangen` im Termin-Verlauf leer, kein „zurückgezogen" in `news.json`). Ohne Slug-Erhalt stand dort für beide „zurückgezogen" und ein neuer Slug.
 
+## Datenbank-Vorgabe „Relevanz" mit Gruppen (09.10.2026)
+
+Ohne Suche startet die Datenbank in drei Gruppen: „Läuft jetzt", „Demnächst", „Schon erschienen" (Daniel, Variante C im
+Mockup „Datenbank-Einstieg"). Die Regel steht in `web/src/lib/db-relevanz.ts`, die Reihenfolge in `db-liste.ts`,
+die Zusicherungen in `pipeline/check-db-relevanz.ts`. Maßgeblich ist die deutsche Erstausgabe (`deErstausgabe`):
+ein späteres Neuerscheinen bei einem weiteren Anbieter zählt nicht (Rooster Fighter, Id 179813 → erschienen);
+ohne `deErstausgabe` bestimmt der früheste Nicht-Disc-Termin die Erstausgabe (Disc bestimmt nie „Demnächst"; liegt `von` vor dem frühesten Termin, ist sie vorbei, Toleranz 60 Tage; Einzelsendung im TV zählt nicht als „läuft"). Eine vierte, letzte Gruppe „Ohne bekannten Termin" fängt Status `unbekannt` ab.
+Gemessen in der Seite am 09.10.2026 (App-Vorgabe mit Cartoons, 3.813 Titel): ungebündelt 21 / 34 / 2.852 / 906, gebündelt 21 / 31 / 1.538 / 900 Reihen; die 900 sind Cartoons ohne Release und ohne Synchro-Hinweis (vorher unter „erschienen", daher die alte Zahl 3.729). Je Datei ohne Cartoons (titles.json komplett, ungebündelt): 21 / 35 / 2.859 / 11. Mit Suche gilt weiter die Treffergüte;
+`?sort=relevanz` ist jetzt immer gültig. Die Statuspille entfällt, wo die Überschrift sie schon sagt.
+
 ## Sprecher-Suche hinter der Vorschau `sprecher-suche` (08.10.2026)
 
 Idee 2 aus [ideen-2026-10-08.md](ideen-2026-10-08.md). Quellen, Auflagen und Vollständigkeit: [quellen.md](quellen.md), Abschnitt „Sprecher-Suche: Datenquellen".

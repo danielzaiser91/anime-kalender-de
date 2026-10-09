@@ -5,6 +5,7 @@ import {
   isHandheld,
   rememberInstallDialog,
   useInstall,
+  useMenueInstall,
   type InstallState,
 } from '../lib/pwa.ts'
 import { HerunterladenZeichen } from './kalender/Zeichen.tsx'
@@ -138,53 +139,36 @@ export function InstallButton() {
 }
 
 /**
- * Das Angebot im Seitenfuß — der ruhige Ort dafür.
- *
- * Wer die Frage einmal beantwortet hat, bekommt sie nie wieder als Popup.
- * Weg ist die Möglichkeit damit aber nicht: Hier steht sie weiter, ohne sich
- * aufzudrängen. Auch auf iOS, wo es keinen Knopf geben kann — dort erscheint
- * die Anleitung.
+ * Zeile „App installieren“ im Glocken-Menü — nur am Handy und nur, wenn der Kopf-Knopf nicht da ist
+ * (Tabelle in `install-stellen.ts`). Der Zustand kommt von außen, weil das Menü seinen Inhalt erst
+ * beim Öffnen baut und `beforeinstallprompt` dort verpasst hätte.
  */
-export function InstallFooterOffer() {
-  const { t } = useLang()
-  const { canPrompt, needsManual, install } = useInstall()
-  const [showHint, setShowHint] = useState(false)
-  // `isHandheld()` fehlte hier, während der Knopf im Kopf es längst prüfte —
-  // deshalb bot der Fuß die Installation auch am Schreibtisch an, wo sie nicht
-  // gewollt ist (bemerkt am 10.08.2026).
-  if ((!canPrompt && !needsManual) || !isHandheld()) return null
-
-  return (
-    // Ab 390 px steht der Knopf schon in der Kopfzeile; der Fuß bleibt für schmale Breiten und iOS-Anleitung.
-    <span className={`inline-flex flex-wrap items-center gap-2${canPrompt ? ' min-[390px]:hidden' : ''}`}>
-      <button
-        type="button"
-        onClick={() => (canPrompt ? void install() : setShowHint((v) => !v))}
-        className="cursor-pointer underline underline-offset-2 hover:text-slate-700 dark:hover:text-slate-200"
-      >
-        ⬇ {t('pwa.install')}
-      </button>
-      {showHint && <span className="text-slate-500 dark:text-slate-400">{t('pwa.iosHint')}</span>}
-    </span>
-  )
-}
-
-/**
- * Zeile „App installieren" im Glocken-Menü — nur am Handy. Der Zustand kommt von außen,
- * weil das Menü seinen Inhalt erst beim Öffnen baut und `beforeinstallprompt` dort verpasst hätte.
- */
-export function InstallZeile({ canPrompt, needsManual, install }: InstallState) {
+export function InstallZeile(state: InstallState) {
   const { t } = useLang()
   const [showHint, setShowHint] = useState(false)
-  if ((!canPrompt && !needsManual) || !isHandheld()) return null
+  const stelle = useMenueInstall(state)
+  if (!stelle) return null
+  const symbol = <span className="text-ak-leise"><HerunterladenZeichen groesse={20} /></span>
+  if (stelle === 'hinweis') {
+    return (
+      <div className="flex min-h-11 w-full items-center gap-3 p-3 text-ak-text">
+        {symbol}
+        <span className="flex min-w-0 flex-col gap-0.5">
+          <span className="text-sm font-bold">{t('pwa.install')}</span>
+          <span className="text-xs text-ak-leise">{t('pwa.manualHint')}</span>
+        </span>
+      </div>
+    )
+  }
+  const direkt = stelle === 'direkt'
   return (
     <button
       type="button"
-      data-schliesst={canPrompt ? '' : undefined}
-      onClick={() => (canPrompt ? void install() : setShowHint((v) => !v))}
+      data-schliesst={direkt ? '' : undefined}
+      onClick={() => (direkt ? void state.install() : setShowHint((v) => !v))}
       className="flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-xl p-3 text-left text-ak-text transition hover:bg-ak-flaeche-2"
     >
-      <span className="text-ak-leise"><HerunterladenZeichen groesse={20} /></span>
+      {symbol}
       <span className="flex min-w-0 flex-col gap-0.5">
         <span className="text-sm font-bold">{t('pwa.install')}</span>
         <span className="text-xs text-ak-leise">{showHint ? t('pwa.iosHint') : t('pwa.pitch')}</span>

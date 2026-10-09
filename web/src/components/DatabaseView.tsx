@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import { sortiereNachTitel } from '../lib/titel-sortierung.ts'
 
 import type { Title } from '@shared/types.ts'
 import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
@@ -8,6 +7,7 @@ import type { Dataset } from '../lib/data.ts'
 import { DbKopfbereich } from './filter/DbWerkzeug.tsx'
 import { DbLeer, DbRaster, MehrKnopf } from './db-bedienung.tsx'
 import type { FilterState } from '../lib/filters.ts'
+import { ordneListe } from '../lib/db-liste.ts'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -38,18 +38,6 @@ export function groupByFranchise(titles: Title[]): TitleGroup[] {
     const sorted = members.slice().sort(nachAusstrahlung)
     return { main: reihenVertreter(sorted), members: sorted }
   })
-}
-
-function sortierteGruppen(titles: Title[], grouped: boolean, sort: DbSort): TitleGroup[] {
-  const base: TitleGroup[] = grouped
-    ? groupByFranchise(titles)
-    : titles.map((tt) => ({ main: tt, members: [tt] }))
-
-  if (sort === 'relevanz') return base
-  if (sort === 'titel') sortiereNachTitel(base)
-  else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
-  else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
-  return base
 }
 
 export function DatabaseView({
@@ -97,24 +85,27 @@ export function DatabaseView({
   const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
-  /* Beim Suchen gilt die Treffergüte, bis jemand selbst sortiert; `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
-  const relevanzMoeglich = !!suche.trim()
-  const sort = (gewaehlt === 'relevanz' && !relevanzMoeglich ? undefined : gewaehlt) ?? (relevanzMoeglich ? 'relevanz' : 'titel')
+  /* Vorgabe ist „Relevanz": mit Suche die Treffergüte, ohne Suche die Gruppen „Läuft jetzt" / „Demnächst" / „Schon erschienen". */
+  const sort = gewaehlt ?? 'relevanz'
 
-  const groups = useMemo(() => sortierteGruppen(titles, grouped, sort), [titles, grouped, sort])
+  const { liste, zahlen } = useMemo(() => {
+    const base: TitleGroup[] = grouped ? groupByFranchise(titles) : titles.map((tt) => ({ main: tt, members: [tt] }))
+    return ordneListe(base, sort, suche, data.releasesByTitle, today)
+  }, [titles, grouped, sort, suche, data.releasesByTitle, today])
 
   return (
     <div className="flex flex-col gap-4">
       <DbKopfbereich
         meta={data.meta} filters={filters} onFiltersChange={onFiltersChange} favoriteCount={favorites.size}
-        titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche}
-        sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich}
+        titles={titles} ergebnisse={grouped ? liste.length : titles.length} gebuendelt={grouped} suche={suche}
+        sort={sort} onSortChange={onSortChange}
         ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt}
         grouped={grouped} onGroupedChange={onGroupedChange}
       />
 
       <DbRaster
-        groups={groups.slice(0, visible)}
+        liste={liste.slice(0, visible)}
+        zahlen={zahlen}
         data={data}
         today={today}
         grouped={grouped}
@@ -127,8 +118,8 @@ export function DatabaseView({
         copiedSlug={copiedSlug}
       />
 
-      {groups.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
-      {visible < groups.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={groups.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
+      {liste.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
+      {visible < liste.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={liste.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
     </div>
   )
 }
