@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
+import { SprecherLeiste } from './components/SprecherLeiste.tsx'
+import { useSprecherAuswahl } from './lib/sprecher.ts'
 import { EinstellungenDialog, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
 import { useStartdaten } from './lib/start-daten.ts'
@@ -152,19 +154,17 @@ export default function App() {
     () => ({ alle: data ? data.events.map((e) => e.date) : [], sichtbar: eventListe.map((e) => e.date) }),
     [data, eventListe],
   )
+  const sprecher = useSprecherAuswahl(route.filters)
   const { wert: titles, laeuft: titelRechnet } = useZeitscheibe(() => {
     if (!data) return leeresErgebnis(LEERE_ANSICHT)
     const basis = (allTitles ?? data.titles).filter((t) => zeigeOhneSynchro || !istOhneBelegteSynchro(t))
     const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
     const quelle = !cartoonsAus && cartoons ? [...mitOhne, ...cartoons] : mitOhne
-    return titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped)
-  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites, grouped], LEERE_ANSICHT)
+    return titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped, sprecher.auswahl)
+  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites, grouped, sprecher.auswahl], LEERE_ANSICHT)
   const kalenderBereit = useErstesErgebnis(!!data, eventsVeraltet)
 
-  const openTitleId = useMemo(() => {
-    if (route.title) return route.title
-    return undefined
-  }, [route.title, data])
+  const openTitleId = route.title || undefined
 
   const setFilters = (filters: FilterState) => navigate({ filters: { ...filters, search: route.filters.search } })
   const setView = (view: ViewId) => navigate({ view, title: undefined, disc: undefined })
@@ -245,7 +245,7 @@ export default function App() {
             {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
             <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
             {/* Das Filterfeld der Datenbank dockt unten an — wie im Kalender. */}
-            <FilterBarDock meta={data.meta} filters={route.filters} onChange={setFilters} showConfidence favoriteCount={favorites.size} />
+            <SprecherLeiste data={data} filters={route.filters}><FilterBarDock meta={data.meta} filters={route.filters} onChange={setFilters} showConfidence favoriteCount={favorites.size} /></SprecherLeiste>
             {allTitles ? (
               <SuchfundstellenContext.Provider value={titles.fundstellen}>
                 <DatabaseView
@@ -255,7 +255,7 @@ export default function App() {
                   onGroupedChange={setGrouped} cartoonsAus={cartoonsAusgeschlossen(route.filters)} onCartoonsAusChange={(aus) => setFilters(mitCartoonsAus(route.filters, aus))}
                   ohneSynchro={zeigeOhneSynchro}
                   onOhneSynchroChange={setZeigeOhneSynchro}
-                  ohneSynchroLaedt={(zeigeOhneSynchro && !ohneSynchro) || titelRechnet}
+                  ohneSynchroLaedt={(zeigeOhneSynchro && !ohneSynchro) || titelRechnet || sprecher.laedt}
                   favorites={favorites}
                   hidden={hidden}
                   onToggleFavorite={toggle}
