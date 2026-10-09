@@ -30,6 +30,7 @@ import { quelleAnzeigeName } from '../../shared/quelle.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
 import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
+import { belegtSynchro } from './dub-nachholen.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
 export interface Vorschlag {
@@ -352,7 +353,7 @@ export function releasesAus(
   const out: Release[] = []
 
   for (const v of vorschlaege) {
-    if (v.alreadyCurated || istAbschied(v.articleTitle)) continue
+    if (v.alreadyCurated || istAbschied(v.articleTitle) || !belegtSynchro(v)) continue
     /*
       **Ein Fernsehtermin ist kein Streaming-Termin.** „Dragon Ball DAIMA" lief
       ab 28.08.2026 im TV bei TOGGO plus, abrufbar bei RTL+ erst ab 25.09. — der

@@ -29,6 +29,7 @@ import { addDays, todayIso } from '../shared/time.ts'
 import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, type SammelEintrag } from './lib/sammelartikel.ts'
 import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './lib/disc-verschiebungen.ts'
 import { DISC_UEBERSICHT, leseDiscUebersicht, type DiscZeile } from './lib/disc-uebersicht.ts'
+import { behalteGelesenes, dubNachholen } from './lib/dub-nachholen.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 
@@ -86,10 +87,14 @@ const PAUSE_HINTS: { art: string; pattern: RegExp }[] = [
 
 /** Formulierungen, die eine deutsche Sprachfassung ausdrücklich zusagen. */
 const DUB_CONFIRMED =
-  /(deutsche[rn]? (synchro|synchronisation|sprachfassung|fassung)|auf deutsch|deutsch(er)? ton|deutsch und japanisch|synchronfassung)/i
+  /(deutsche[rn]? (synchro|synchronisation|sprachfassung|fassung)|deutsche[rn]? (sowie|und) japanische[rn]? (sprachfassung|fassung|tonspur|synchrow*)|auf deutsch|deutsch(er)? ton|deutsch und japanisch|synchronfassung)/i
 /** Formulierungen, die sie ausdrücklich offen lassen — das ist die Warnung. */
 const DUB_OPEN =
-  /(sprachfassung(en)? (sind|stehen|ist) noch (offen|aus)|sprache unbekannt|noch nicht bekannt.{0,40}sprach)/i
+  /(sprachfassung(en)? (sind|stehen|ist) noch (offen|aus)|sprache unbekannt|noch nicht bekannt.{0,40}sprach|sprachfassung\w*[^.!?]{0,80}(noch offen|(bislang |noch )+nicht (verraten|bekannt|genannt))|bob (auch )?eine? deutschew* (synchrow*|sprachfassung)|synchronw*[^.!?]{0,60}noch (offen|nicht (bekannt|bestätigt|verraten)))/i
+/** „Hierzulande erscheint das Werk durch Carlsen Manga auf Deutsch" sagt nichts über den Anime. */
+const BUCH_BEZUG = /b(manga|roman|novel|buch|bücher|verlag|carlsen|tokyopop)b/i
+/** Ein Simulcast im Originalton mit Untertiteln — die Sprachfassung, die ausdrücklich **keine** Synchro ist. */
+const NUR_OMU = /(originalton|originalfassung|originalvertonung|japanisch\w*)[^.!?]{0,40}untertitel|\bomu\b/i
 /**
  * Wörter, die einen Satz über die Synchro zur **Frage** machen statt zur Zusage.
  *
@@ -118,11 +123,11 @@ const DUB_ZWEIFEL = /\b(ob\b|noch offen|noch nicht|nicht bekannt|unklar|bislang|
  * Zweifel, lautet der Befund `offen`. Bleibt einer ohne, ist es eine Zusage.
  * Ohne jeden Bezug bleibt es `unklar` — das ist die Mehrheit.
  */
-export function dubBefund(text: string): 'ja' | 'offen' | 'unklar' {
+export function dubBefund(text: string): 'ja' | 'offen' | 'nur-omu' | 'unklar' {
   if (DUB_OPEN.test(text)) return 'offen'
   const saetze = text.split(/(?<=[.!?])\s+|\n+/)
-  const mitBezug = saetze.filter((s) => DUB_CONFIRMED.test(s))
-  if (!mitBezug.length) return 'unklar'
+  const mitBezug = saetze.filter((s) => DUB_CONFIRMED.test(s) && !BUCH_BEZUG.test(s))
+  if (!mitBezug.length) return NUR_OMU.test(text) ? 'nur-omu' : 'unklar'
   const ohneZweifel = mitBezug.filter((s) => !DUB_ZWEIFEL.test(s))
   return ohneZweifel.length ? 'ja' : 'offen'
 }
@@ -134,8 +139,10 @@ export interface Proposal {
   category: string
   platforms: PlatformId[]
   dates: FoundDate[]
-  /** 'ja' — ausdrücklich zugesagt, 'offen' — ausdrücklich unklar, sonst 'unklar'. */
-  dub: 'ja' | 'offen' | 'unklar'
+  /** 'ja' — ausdrücklich zugesagt, 'offen' — ausdrücklich unklar, 'nur-omu' — nur Originalton mit Untertiteln, sonst 'unklar'. Nur 'ja' wird ein Termin. */
+  dub: 'ja' | 'offen' | 'nur-omu' | 'unklar'
+  /** Tag, an dem `dub` aus dem Artikeltext statt aus dem Feed-Auszug gebildet wurde (`lib/dub-nachholen.ts`). */
+  dubGelesen?: string
   /**
    * Gesetzt, wenn die Meldung eine Unterbrechung des Wochentakts ankündigt —
    * „pause", „verschoben", „entfällt" oder „recap".
@@ -381,7 +388,7 @@ async function main(): Promise<void> {
   /* Ein frischer Feed-Treffer kennt die gelesene Liste eines Sammelartikels nicht — sie bleibt erhalten, sonst verschwinden alle ihre Termine, bis der Artikel neu gelesen ist (ADN Oktober 2026, 05.10.2026). */
   for (const proposal of proposals) {
     const vorher = merged.get(proposal.articleUrl)
-    merged.set(proposal.articleUrl, vorher?.sammel ? { ...proposal, sammel: vorher.sammel, sammelGelesen: vorher.sammelGelesen } : proposal)
+    merged.set(proposal.articleUrl, behalteGelesenes(proposal, vorher))
   }
 
   const all = [...merged.values()]
@@ -390,7 +397,7 @@ async function main(): Promise<void> {
     .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length || p.sammel?.some((e) => (e.datum ?? '') >= today))
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
-  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), proposals: await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), today), today) }, true)
+  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), proposals: await dubNachholen(await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), today), today), today, fetchText, dubBefund) }, true)
 
   const offen = all.filter((p) => !p.alreadyCurated)
   log(`${all.length} Vorschläge gespeichert, davon ${offen.length} noch nicht eingearbeitet.`)
@@ -415,7 +422,10 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})
+/* Nur beim direkten Aufruf: `check:logic` importiert `dubBefund` und darf keinen Lauf auslösen. */
+if (process.argv[1]?.endsWith('scrape-anime2you.ts')) {
+  main().catch((err) => {
+    console.error(err)
+    process.exit(1)
+  })
+}

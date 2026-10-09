@@ -4268,6 +4268,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'Rooster Fighter: „Einzelheiten zu den Sprachfassungen sind noch offen" ist offen, auch neben einem Satz über eine frühere Synchro',
     dubBefund('Die erste Staffel gibt es bereits mit deutscher Synchronisation. Einzelheiten zu den angebotenen Sprachfassungen sind zum aktuellen Zeitpunkt noch offen.') === 'offen',
   )
+  pruefe('Suzume: „mit deutscher sowie japanischer Sprachfassung" ist eine Zusage', dubBefund('Die Box enthält den Film mit deutscher sowie japanischer Sprachfassung auf 4K-UHD-Blu-ray.') === 'ja')
+  pruefe('Fool Night: Synchro-Frage offen, Manga-Satz „erscheint auf Deutsch" ändert das nicht', dubBefund('Ob auch eine deutsche Synchronisation angeboten wird, ist noch offen. Hierzulande erscheint das Werk durch Carlsen Manga auf Deutsch.') === 'offen')
   pruefe('Gundam Hathaway: „Welche Sprachfassungen …, wurde bislang noch nicht verraten" ist offen', dubBefund('Welche Sprachfassungen dabei angeboten werden, wurde bislang noch nicht verraten.') === 'offen')
   const titel = [{ id: 206814, titleEn: 'Dragon Ball Super: Beerus', format: 'TV', episodes: 12 }] as unknown as Parameters<typeof releasesAus>[1]
   const v = (dub: string | undefined) =>
@@ -5588,7 +5590,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
       articleTitle: 'Starttermin von »Dragon Ball DAIMA« auf TOGGO plus und RTL+',
       articleUrl: 'https://www.anime2you.de/news/1039738/',
       category: 'streaming',
-      platforms: ['rtlplus'],
+      platforms: ['rtlplus'], dub: 'ja',
       titleId: 170083,
       dates: [{ iso: '2026-08-28', context }],
     }) as unknown as Parameters<typeof releasesAus>[0][number]
@@ -7737,7 +7739,7 @@ pruefe(
       !istAbschied('Netflix: Alle Anime-Neuzugänge im Oktober 2026'))
   pruefe('Abschied: wird kein Release',
     releasesAus(
-      [{ articleTitle: 'Netflix entfernt »Kuromukuro« aus seinem Programm', articleUrl: 'https://x', publishedAt: '2026-09-12', category: 'streaming', platforms: ['netflix'], dates: [{ iso: '2026-10-03', context: '' }] }],
+      [{ articleTitle: 'Netflix entfernt »Kuromukuro« aus seinem Programm', articleUrl: 'https://x', publishedAt: '2026-09-12', category: 'streaming', dub: 'ja', platforms: ['netflix'], dates: [{ iso: '2026-10-03', context: '' }] }],
       [{ id: 21516, titleDe: 'Kuromukuro', titleEn: 'Kuromukuro', franchiseId: 21516, streams: [] } as unknown as Title],
       [],
       '2026-10-02',
@@ -8613,7 +8615,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   pruefe('MAL-Dublette: Hyouken II übernimmt die Erstausgabe der aufgegangenen Zeile unverändert', Boolean(ohne.get(10_021_575)?.deErstausgabe) && JSON.stringify(mit.get(212503)!.deErstausgabe) === JSON.stringify(ohne.get(10_021_575)!.deErstausgabe))
   /* Der Auto-Termin von Beerus und Fool Night behält seinen Slug; ein vorhandener Release derselben Plattform verdrängt ihn, statt einen zweiten Termin zu bilden. */
   const meldung = (titleId: number, name: string, plattform: string, kontext: string) =>
-    ({ articleTitle: `Termin von »${name}«`, articleUrl: 'https://www.anime2you.de/news/1/', category: 'streaming', platforms: [plattform], titleId, dates: [{ iso: '2026-10-11', context: kontext }] }) as unknown as Parameters<typeof releasesAus>[0][number]
+    ({ articleTitle: `Termin von »${name}«`, articleUrl: 'https://www.anime2you.de/news/1/', category: 'streaming', dub: 'ja', platforms: [plattform], titleId, dates: [{ iso: '2026-10-11', context: kontext }] }) as unknown as Parameters<typeof releasesAus>[0][number]
   for (const [al, name, plattform, slug] of [[206814, 'Dragon Ball Super: Beerus', 'crunchyroll', 'auto-10021566-crunchyroll'], [213457, 'Fool Night', 'netflix', 'auto-10021751-netflix']] as const) {
     const titelListe = [{ id: al, titleEn: name, format: 'TV', episodes: 12 }] as unknown as Parameters<typeof releasesAus>[1]
     const v = meldung(al, name, plattform, `ab dem 11. Oktober 2026 bei ${plattform} abrufbar`)
