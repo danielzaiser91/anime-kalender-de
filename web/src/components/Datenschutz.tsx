@@ -30,25 +30,27 @@ function BrowserAbschnitte() {
           keine Werbenetzwerke ein. Beim Abruf verarbeitet der Hoster GitHub Pages (GitHub Inc., 88
           Colin P Kelly Jr Street, San Francisco, CA 94107, USA) technisch notwendige Server-Logdaten
           wie IP-Adresse, Zeitpunkt und aufgerufene Datei. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f
-          DSGVO (berechtigtes Interesse am sicheren Betrieb). Die Übermittlung in die USA stützt sich
-          auf die Standardvertragsklauseln, die GitHub in seinen{' '}
+          DSGVO (berechtigtes Interesse am sicheren Betrieb). GitHub ist nach dem EU-US Data Privacy
+          Framework zertifiziert und sichert zusätzlich Standardvertragsklauseln zu, nachzulesen in
+          den{' '}
           <a className="underline" href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement">
             Datenschutzbestimmungen
           </a>{' '}
-          zusichert.
+          von GitHub.
         </p>
       </Abschnitt>
 
       <Abschnitt titel="Bilder und Inhalte von Drittanbietern">
         <p>
-          Cover- und Bannerbilder werden direkt von den Servern von AniList (AniList, Delaware, USA)
-          geladen. Dabei wird deine IP-Adresse dorthin übertragen — technisch unvermeidbar, wenn ein
+          Cover- und Bannerbilder werden direkt von den Servern von AniList (AniList, Delaware, USA;
+          ausgeliefert über Cloudflare) geladen. Dabei wird deine IP-Adresse dorthin übertragen — technisch unvermeidbar, wenn ein
           Bild von einem fremden Server angezeigt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
           Einige Cover und Plakate (vor allem bei Cartoons) kommen vom Bildserver von TMDB (The Movie
-          Database) und werden in Listen und Kacheln geladen, auch ohne Vergrößerung. Fährst du im
+          Database, TMDB Inc., USA; ausgeliefert über BunnyCDN) und werden in Listen und Kacheln geladen, auch ohne Vergrößerung. Fährst du im
           Detail-Panel über das Cover oder tippst es an, baut dein Browser außerdem schon eine
           Verbindung dorthin auf; öffnest du die Vergrößerung, lädt die Seite von dort ein größeres
-          Plakat. Jedes Mal wird deine IP-Adresse übertragen.
+          Plakat. Jedes Mal wird deine IP-Adresse übertragen. Für die Übermittlung an AniList in die USA ist uns
+          keine Garantie nach Art. 44 ff. DSGVO bekannt.
         </p>
         <p className="mt-2">
           Spielst du einen Trailer ab, lädt die Seite erst dann den Player von YouTube
@@ -60,8 +62,10 @@ function BrowserAbschnitte() {
 
       <Abschnitt titel="Lokale Speicherung im Browser">
         <p>
-          Sprachwahl, Farbschema und deine Favoriten werden im <em>localStorage</em> deines Browsers
-          abgelegt. Sie bleiben auf deinem Gerät; nur wenn du den Newsletter oder
+          Farbschema, Ansicht, gewählte Anbieter, Favoriten und gesehene Folgen werden im{' '}
+          <em>localStorage</em> deines Browsers abgelegt, für die Offline-Nutzung außerdem
+          Seitendateien im Browser-Cache. Das ist für diese Funktionen nötig (§ 25 Abs. 2 Nr. 2
+          TDDDG). Alles bleibt auf deinem Gerät; nur wenn du den Newsletter oder
           Browser-Benachrichtigungen einschaltest, gehen die Favoriten an unseren Dienst (siehe unten).
           Löschen kannst du sie jederzeit über die Browsereinstellungen.
         </p>
@@ -79,12 +83,16 @@ function DienstAbschnitte() {
           Für den Newsletter speichern wir E-Mail-Adresse, gewählten Rhythmus, Plattformauswahl sowie
           Zeitpunkt und IP-Adresse von Anmeldung und Bestätigung. Letzteres dient allein dem Nachweis
           der Einwilligung. Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO. Die Anmeldung erfolgt im
-          Double-Opt-in-Verfahren: Ohne Klick auf den Bestätigungslink wird kein Abo aktiv.
+          Double-Opt-in-Verfahren: Ohne Klick auf den Bestätigungslink wird kein Abo aktiv;
+          unbestätigte Anmeldungen löschen wir nach 7 Tagen.
         </p>
         <p className="mt-2">
           Die Daten liegen in einer Cloudflare-D1-Datenbank (Cloudflare Germany GmbH bzw. Cloudflare,
-          Inc.); der Versand erfolgt über einen E-Mail-Dienstleister. Mit beiden bestehen Verträge zur
-          Auftragsverarbeitung nach Art. 28 DSGVO. Ein Widerruf ist jederzeit über den Abmeldelink in
+          Inc., USA); Cloudflare ist nach dem EU-US Data Privacy Framework zertifiziert. Bei jeder
+          Anfrage an unseren Dienst fällt technisch deine IP-Adresse an; gespeichert wird sie nur in den
+          hier genannten Fällen. Der Versand der Mails erfolgt über Resend (Plus Five Five, Inc., USA),
+          ebenfalls nach dem EU-US Data Privacy Framework zertifiziert, mit Standardvertragsklauseln.
+          Mit beiden bestehen Verträge zur Auftragsverarbeitung nach Art. 28 DSGVO. Ein Widerruf ist jederzeit über den Abmeldelink in
           jeder Mail möglich; der Datensatz wird dabei vollständig gelöscht.
         </p>
         <p className="mt-2">
@@ -94,7 +102,7 @@ function DienstAbschnitte() {
           denselben Bestand.
         </p>
         <p className="mt-2">
-          Fordest du eine Wiederherstellungsmail an, legt der Dienst deine IP-Adresse zum
+          Forderst du eine Wiederherstellungsmail an, legt der Dienst deine IP-Adresse zum
           Missbrauchsschutz (Begrenzung der Anfragen) für 60 Minuten in der Datenbank ab.
         </p>
       </Abschnitt>
@@ -120,8 +128,9 @@ function DienstAbschnitte() {
 
       <Abschnitt titel="Speicherdauer">
         <p>
-          Newsletter-Daten werden gespeichert, bis du dich abmeldest, Push-Daten, bis du die
-          Benachrichtigungen ausschaltest. Server-Logdaten des Hosters werden nach dessen Vorgaben
+          Newsletter-Daten werden gespeichert, bis du dich abmeldest; der Abgleich-Schlüssel verfällt
+          nach 12 Monaten ohne Nutzung. Push-Daten bleiben, bis du die Benachrichtigungen ausschaltest
+          oder dein Browser das Abo beendet. Server-Logdaten des Hosters werden nach dessen Vorgaben
           gelöscht.
         </p>
       </Abschnitt>
