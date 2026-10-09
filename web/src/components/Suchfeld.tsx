@@ -3,8 +3,6 @@ import type { Ref } from 'react'
 import { SUCHFELD_ARTEN } from '../lib/search.ts'
 import { translate } from '../lib/i18n.tsx'
 import { Fragezeichen } from './ui.tsx'
-import { useVorschau } from '../lib/vorschau.ts'
-import { sprecherVorladen } from '../lib/sprecher.ts'
 
 /**
  * **Die Eingabe muss laufen, auch wenn die Suche nicht hinterherkommt.**
@@ -31,7 +29,6 @@ export function Suchfeld({
   eingabe?: Ref<HTMLInputElement>
 }) {
   const [getippt, setGetippt] = useState(wert)
-  const sprecherSuche = useVorschau('sprecher-suche') === 'an'
 
   /* Von außen geänderte Suche (Zurücksetzen, Einstieg über eine Adresse) schlägt die eigene Anzeige. */
   useEffect(() => {
@@ -70,8 +67,6 @@ export function Suchfeld({
         type="search"
         value={getippt}
         onChange={(e) => setGetippt(e.target.value)}
-        /* Vorschau `sprecher-suche`: der Sprecher-Index kommt beim Fokus, nie im Startpfad. */
-        onFocus={sprecherSuche ? sprecherVorladen : undefined}
         placeholder={platzhalter}
         aria-label={platzhalter}
         className={`${className} [&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none`}

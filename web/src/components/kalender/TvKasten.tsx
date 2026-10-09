@@ -91,7 +91,7 @@ function TvZeile({
           <span className="ak-titel font-semibold text-ak-text">
             {ev.name}
             {premiere && (
-              <span className="ml-1.5 inline-block rounded-full bg-[#e14d8a] px-1.5 align-[1px] text-[10px] font-extrabold uppercase tracking-wider text-[#0d0f14]">
+              <span className="ml-1.5 inline-block rounded-full bg-orange-500 px-1.5 align-[1px] text-[10px] font-extrabold uppercase tracking-wider text-white">
                 {t('kal.premiere')}
               </span>
             )}

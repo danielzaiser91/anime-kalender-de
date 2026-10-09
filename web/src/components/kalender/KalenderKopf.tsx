@@ -4,7 +4,6 @@ import { useLang, type Translate } from '../../lib/i18n.tsx'
 import { DatumSprung } from '../DatumSprung.tsx'
 import { FilterZeichen, LinksZeichen, RechtsZeichen } from './Zeichen.tsx'
 import { Tooltip } from '../ui.tsx'
-import { useVorschau } from '../../lib/vorschau.ts'
 import { useHeuteLage, type HeuteLage } from '../../lib/heute-im-bild.ts'
 
 /** ISO-Kalenderwoche: die Woche, in der der Donnerstag liegt. */
@@ -73,7 +72,6 @@ export interface SteuerProps {
 export function Steuerleiste(p: SteuerProps) {
   const { t } = useLang()
   const monat = p.view === 'monat'
-  const ausblenden = useVorschau('leisten') === 'ausblenden'
   const schritt = (dir: number) => p.onDate(monat ? addMonths(p.date, dir) : addDays(p.date, dir * 7))
   const lage = useHeuteLage(monat, p.date)
   const rund = 'flex size-11 max-[419px]:size-10 shrink-0 cursor-pointer items-center justify-center rounded-full border border-ak-rand bg-ak-flaeche text-ak-text transition hover:border-ak-leise'
@@ -82,8 +80,6 @@ export function Steuerleiste(p: SteuerProps) {
       data-steuerleiste
       className={[
         'pointer-events-none fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 flex justify-center md:bottom-2',
-        /* Vorschau „leisten": rückt mit nach unten, wenn die Navigation weicht (`data-nav-weg` an <html>). */
-        ausblenden && 'transition-[bottom] [html[data-nav-weg]_&]:max-md:bottom-[calc(0.5rem+env(safe-area-inset-bottom))]',
       ]
         .filter(Boolean)
         .join(' ')}

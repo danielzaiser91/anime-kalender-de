@@ -4,8 +4,7 @@ import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
 import { Tooltip } from '../ui.tsx'
-import { istEingeklappt, sprechendeBeschriftung } from './reihen-regeln.ts'
-import { useVorschau } from '../../lib/vorschau.ts'
+import { istEingeklappt } from './reihen-regeln.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -25,7 +24,6 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
   setReiheSuche: Dispatch<SetStateAction<{ reihe: number; text: string; }>>
   setReiheReiter: Dispatch<SetStateAction<{ reihe: number; titel: string; } | null>>
 }) {
-  const sprechend = useVorschau('reihe-namen') === 'voll'
   return (
     <>
       {reihenTeile.length > 1 && (
@@ -250,7 +248,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 if (istHauptstaffel(m) && staffelTeil && rest === voll && rest !== staffelTeil[1]) rest = staffelTeil[1]!
                 /* Und die erste Staffel heißt „Staffel 1", ein Teil „Staffel 1 - Teil 2". */
                 const kurz = (istHauptstaffel(m) && staffelLabel.get(m.id)) || rest || voll
-                const beschriftung = sprechend ? sprechendeBeschriftung(kurz, voll) : kurz
+                const beschriftung = kurz
                 return (
                   <button
                     key={m.id}

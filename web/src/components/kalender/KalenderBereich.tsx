@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'
 import type { AppRoute } from '../../lib/router.ts'
@@ -11,11 +11,6 @@ import { MonthView } from '../MonthView.tsx'
 import { KalenderKopf, Steuerleiste, wochenSpanne } from './KalenderKopf.tsx'
 import { FilterFeld } from './FilterFeld.tsx'
 import { zaehlung } from './Marken.tsx'
-import { useVorschau } from '../../lib/vorschau.ts'
-import { useMeineWocheAn } from '../../lib/meine-woche.ts'
-
-/* Vorschau „meine-woche": eigener Chunk, die Standardansicht lädt ihn nie (08.10.2026). */
-const MeineWoche = lazy(() => import('./MeineWoche.tsx').then((m) => ({ default: m.MeineWoche })))
 
 export interface KalenderBereichProps {
   data: Dataset
@@ -69,9 +64,6 @@ export function KalenderBereich(p: KalenderBereichProps) {
   }
   const heute = todayIso()
   useEscapeSchliesst(filterOffen, () => setFilterOffen(false))
-  const meineVorschau = useVorschau('meine-woche')
-  const [meineAn, setMeineAn] = useMeineWocheAn()
-  const meine = !!meineVorschau && !monat && meineAn
 
   return (
     <div className="flex flex-col gap-4">
@@ -105,12 +97,7 @@ export function KalenderBereich(p: KalenderBereichProps) {
         />
         </div>
       )}
-      {meineVorschau && !monat && <MeineWocheSchalter an={meineAn} setAn={setMeineAn} />}
-      {meine ? (
-        <Suspense fallback={null}>
-          <MeineWoche data={p.data} anchorDate={route.date} favorites={p.favorites} leer={meineVorschau === 'leer'} onToggleFavorite={p.onToggleFavorite} onOpen={oeffnen} />
-        </Suspense>
-      ) : monat ? (
+      {monat ? (
         <MonthView data={p.data} events={p.events} anchorDate={route.date} hidden={p.hidden} onOpen={oeffnen} onPickDay={zurWoche} />
       ) : (
         <WeekView
@@ -126,27 +113,6 @@ export function KalenderBereich(p: KalenderBereichProps) {
           onOpen={oeffnen}
         />
       )}
-    </div>
-  )
-}
-
-/** „Alle Termine | Meine Woche" — die Wahl bleibt im Browser, nicht in der Adresse. */
-function MeineWocheSchalter({ an, setAn }: { an: boolean; setAn: (an: boolean) => void }) {
-  const { t } = useLang()
-  const knopf = (aktiv: boolean, text: string, ziel: boolean) => (
-    <button
-      type="button"
-      aria-pressed={aktiv}
-      onClick={() => setAn(ziel)}
-      className={['cursor-pointer rounded-full px-3.5 py-1.5 text-sm font-semibold transition', aktiv ? 'bg-ak-text text-ak-grund' : 'text-ak-leise hover:text-ak-text'].join(' ')}
-    >
-      {text}
-    </button>
-  )
-  return (
-    <div role="group" aria-label={t('mw.meine')} className="flex w-fit gap-1 rounded-full border border-ak-rand bg-ak-flaeche p-1">
-      {knopf(!an, t('mw.alle'), false)}
-      {knopf(an, `★ ${t('mw.meine')}`, true)}
     </div>
   )
 }

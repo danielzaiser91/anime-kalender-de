@@ -1,9 +1,6 @@
-import { lazy, Suspense, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { sortiereNachTitel } from '../lib/titel-sortierung.ts'
-import { SPRECHER_AB_ZEICHEN } from '../lib/sprecher.ts'
 
-/* Vorschau „sprecher-suche": eigener Chunk, geladen erst bei einer Suche ab drei Zeichen. */
-const SprecherTreffer = lazy(() => import('./SprecherTreffer.tsx').then((m) => ({ default: m.SprecherTreffer })))
 import type { Title } from '@shared/types.ts'
 import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
@@ -11,8 +8,6 @@ import type { Dataset } from '../lib/data.ts'
 import { DbSchalter } from './db-kopfzeile.tsx'
 import { DbKarte } from './db-karte.tsx'
 import { DbLeer, DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
-import { sortiereNachRelevanz } from '../lib/db-relevanz.ts'
-import { useVorschau } from '../lib/vorschau.ts'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -86,40 +81,26 @@ export function DatabaseView({
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
   /* Beim Suchen gilt die Treffergüte, bis jemand selbst sortiert; `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
-  /* Vorschau `db-sortierung`: auch ohne Suche gilt „Relevanz" (laufend und bald neu zuerst) als Vorgabe. */
-  const relevanzStandard = useVorschau('db-sortierung') === 'relevanz'
-  const relevanzMoeglich = relevanzStandard || !!suche.trim()
+  const relevanzMoeglich = !!suche.trim()
   const sort = (gewaehlt === 'relevanz' && !relevanzMoeglich ? undefined : gewaehlt) ?? (relevanzMoeglich ? 'relevanz' : 'titel')
-  const ruhigOhne = useVorschau('db-ohne-synchro') === 'ruhig'
-  const reserve = useVorschau('db-reserve') === 'ruhig'
-  const sprecher = useVorschau('sprecher-suche') === 'an' && suche.trim().length >= SPRECHER_AB_ZEICHEN
 
   const groups = useMemo(() => {
     const base: TitleGroup[] = grouped
       ? groupByFranchise(titles)
       : titles.map((tt) => ({ main: tt, members: [tt] }))
 
-    if (sort === 'relevanz') {
-      if (!suche.trim()) sortiereNachRelevanz(base, data, today)
-      return base
-    }
+    if (sort === 'relevanz') return base
     if (sort === 'titel') sortiereNachTitel(base)
     else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
     else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
     return base
-  }, [titles, grouped, sort, suche, data, today])
+  }, [titles, grouped, sort])
 
   return (
     <div className="flex flex-col gap-4">
       <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} cartoonsAus={cartoonsAus} onCartoonsAusChange={onCartoonsAusChange} />
 
-      <DbZaehlzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} ruhig={ruhigOhne && ohneSynchro} sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich} />
-
-      {sprecher && (
-        <Suspense fallback={null}>
-          <SprecherTreffer suche={suche.trim()} data={data} onOpen={onOpenTitle} />
-        </Suspense>
-      )}
+      <DbZaehlzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich} />
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
         {groups.slice(0, visible).map(({ main, members }) => (
@@ -137,8 +118,6 @@ export function DatabaseView({
             onOpenTitle={onOpenTitle}
             share={share}
             copiedSlug={copiedSlug}
-            ruhigOhne={ruhigOhne}
-            platzhalter={reserve}
           />
         ))}
       </div>
