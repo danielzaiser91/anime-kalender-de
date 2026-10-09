@@ -7,11 +7,11 @@
     },
     "shared": {
       "funktionen": 247,
-      "dateien": 441
+      "dateien": 431
     },
     "web/src": {
-      "funktionen": 5441,
-      "dateien": 1089
+      "funktionen": 5421,
+      "dateien": 989
     },
     "worker/src": {
       "funktionen": 1159,
