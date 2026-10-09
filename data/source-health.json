@@ -1,12 +1,12 @@
 {
   "adn": {
-    "lastOk": "2026-10-08T23:00:26.129Z",
-    "lastRun": "2026-10-08T23:00:26.129Z",
+    "lastOk": "2026-10-09T12:00:12.846Z",
+    "lastRun": "2026-10-09T12:00:12.846Z",
     "lastCount": 7
   },
   "anime2you": {
-    "lastOk": "2026-10-08T23:03:38.493Z",
-    "lastRun": "2026-10-08T23:03:38.493Z",
+    "lastOk": "2026-10-09T12:03:10.599Z",
+    "lastRun": "2026-10-09T12:03:10.599Z",
     "lastCount": 83
   },
   "crunchyroll": {
@@ -60,9 +60,9 @@
     "lastCount": 300
   },
   "motn-changes": {
-    "lastOk": "2026-10-08T23:00:37.102Z",
-    "lastRun": "2026-10-08T23:00:37.102Z",
-    "lastCount": 9
+    "lastOk": "2026-10-09T12:00:21.363Z",
+    "lastRun": "2026-10-09T12:00:21.363Z",
+    "lastCount": 2
   },
   "motn": {
     "lastOk": "2026-10-08T12:31:38.440Z",
@@ -125,18 +125,18 @@
     "lastCount": 0
   },
   "crunchyroll-neu": {
-    "lastOk": "2026-10-08T22:57:50.901Z",
-    "lastRun": "2026-10-08T22:57:50.901Z",
+    "lastOk": "2026-10-09T11:57:47.154Z",
+    "lastRun": "2026-10-09T11:57:47.154Z",
     "lastCount": 107
   },
   "cartoons": {
-    "lastOk": "2026-10-08T23:04:05.692Z",
-    "lastRun": "2026-10-08T23:04:05.692Z",
-    "lastCount": 1
+    "lastOk": "2026-10-09T12:03:31.280Z",
+    "lastRun": "2026-10-09T12:03:31.280Z",
+    "lastCount": 0
   },
   "trailer": {
-    "lastOk": "2026-10-08T23:08:19.274Z",
-    "lastRun": "2026-10-08T23:08:19.274Z",
+    "lastOk": "2026-10-09T12:08:01.948Z",
+    "lastRun": "2026-10-09T12:08:01.948Z",
     "lastCount": 0
   },
   "wikidata-titel": {
@@ -155,13 +155,13 @@
     "lastCount": 62
   },
   "toggo": {
-    "lastOk": "2026-10-09T01:08:21.170Z",
-    "lastRun": "2026-10-09T01:08:21.170Z",
+    "lastOk": "2026-10-09T12:01:07.556Z",
+    "lastRun": "2026-10-09T12:01:07.556Z",
     "lastCount": 22
   },
   "wikipedia-folgen": {
-    "lastOk": "2026-10-08T23:03:03.163Z",
-    "lastRun": "2026-10-08T23:03:03.163Z",
+    "lastOk": "2026-10-09T12:02:39.232Z",
+    "lastRun": "2026-10-09T12:02:39.232Z",
     "lastCount": 9
   },
   "kinoheld": {
@@ -196,7 +196,7 @@
   },
   "beleg-lesungen": {
     "lastOk": "2026-10-08T04:09:22.553Z",
-    "lastRun": "2026-10-08T22:59:02.440Z",
+    "lastRun": "2026-10-09T11:58:57.270Z",
     "lastCount": 0
   },
   "anisearch-dubs": {
