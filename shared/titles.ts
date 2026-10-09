@@ -150,13 +150,14 @@ function plaetzeInStaffel(eintraege: { id: number; staffel: number }[]): Map<num
   return platz
 }
 
-export function staffelBeschriftungen<T extends { id: number; name: string; jpYear?: number; jpStart?: string; staffelQuelle?: number }>(
-  staffeln: T[],
-  reihenName: string,
-): Map<number, string> {
+type StaffelEintrag = { id: number; staffel: number; teil?: number; eigenerName: boolean }
+type StaffelFeld = { id: number; name: string; jpYear?: number; jpStart?: string; staffelQuelle?: number }
+
+/** Ordnet jeden Eintrag einer Staffel zu (Regeln: siehe oben); `staffelBeschriftungen()` und `staffelNummern()` lesen daraus. */
+function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string): StaffelEintrag[] {
   const zeit = (m: T) => m.jpStart ?? String(m.jpYear ?? 9999)
   const sortiert = staffeln.slice().sort((a, b) => zeit(a).localeCompare(zeit(b)) || a.id - b.id)
-  const eintraege: { id: number; staffel: number; teil?: number; eigenerName: boolean }[] = []
+  const eintraege: StaffelEintrag[] = []
   let aktuell = 0
   for (const m of sortiert) {
     /* Nennt die belegte deutsche Quelle eine Staffel, gilt sie (86: Eighty Six, 01.10.2026). */
@@ -204,6 +205,11 @@ export function staffelBeschriftungen<T extends { id: number; name: string; jpYe
       eintraege.push({ id: m.id, staffel: aktuell, eigenerName: rest !== '' })
     }
   }
+  return eintraege
+}
+
+export function staffelBeschriftungen<T extends StaffelFeld>(staffeln: T[], reihenName: string): Map<number, string> {
+  const eintraege = zaehleStaffeln(staffeln, reihenName)
   const ohneNamen = new Set(eintraege.filter((e) => !e.eigenerName).map((e) => e.staffel))
   const mitTeilen = new Set(eintraege.filter((e) => (e.teil ?? 1) >= 2).map((e) => e.staffel))
   /*
