@@ -2,6 +2,7 @@
 type Env = { DB: { prepare(sql: string): { bind(...werte: string[]): { run(): Promise<{ meta?: { changes?: number } }> } } } }
 
 /** Die Fristen stehen so in der Datenschutzerklärung (`web/src/components/Datenschutz.tsx`); beide Stellen zusammen ändern. */
+/** Der Löschlauf läuft stündlich: eine Zeile lebt 60 bis 120 Minuten, der Text sagt „bis zu zwei Stunden". */
 export const RATE_LIMIT_MINUTEN = 60
 export const UNBESTAETIGT_TAGE = 7
 

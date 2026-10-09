@@ -62,7 +62,8 @@ function BrowserAbschnitte() {
 
       <Abschnitt titel="Lokale Speicherung im Browser">
         <p>
-          Farbschema, Ansicht, gewählte Anbieter, Favoriten und gesehene Folgen werden im{' '}
+          Farbschema, Ansicht, gewählte Anbieter, Vorlieben, Favoriten und gesehene Folgen sowie Merker für Hinweise und für
+          Benachrichtigungen werden im{' '}
           <em>localStorage</em> deines Browsers abgelegt, für die Offline-Nutzung außerdem
           Seitendateien im Browser-Cache. Das ist für diese Funktionen nötig (§ 25 Abs. 2 Nr. 2
           TDDDG). Alles bleibt auf deinem Gerät; nur wenn du den Newsletter oder
@@ -103,7 +104,7 @@ function DienstAbschnitte() {
         </p>
         <p className="mt-2">
           Forderst du eine Wiederherstellungsmail an, legt der Dienst deine IP-Adresse zum
-          Missbrauchsschutz (Begrenzung der Anfragen) für 60 Minuten in der Datenbank ab.
+          Missbrauchsschutz (Begrenzung der Anfragen) für bis zu zwei Stunden in der Datenbank ab.
         </p>
       </Abschnitt>
 
@@ -128,8 +129,7 @@ function DienstAbschnitte() {
 
       <Abschnitt titel="Speicherdauer">
         <p>
-          Newsletter-Daten werden gespeichert, bis du dich abmeldest; der Abgleich-Schlüssel verfällt
-          nach 12 Monaten ohne Nutzung. Push-Daten bleiben, bis du die Benachrichtigungen ausschaltest
+          Newsletter-Daten werden gespeichert, bis du dich abmeldest. Push-Daten bleiben, bis du die Benachrichtigungen ausschaltest
           oder dein Browser das Abo beendet. Server-Logdaten des Hosters werden nach dessen Vorgaben
           gelöscht.
         </p>
