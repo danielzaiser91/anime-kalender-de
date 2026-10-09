@@ -128,6 +128,7 @@
     "check:tv-schalter": "node tools/tv-schalter-pruefen.mjs",
     "check:zurueck": "node tools/zurueck-pruefen.mjs",
     "check:news": "node tools/news-bild.mjs",
+    "check:patchnotes-chunk": "node tools/patchnotes-ausfall-bild.mjs",
     "bild:kachel": "node tools/kachel-titel-messen.mjs",
     "check:leiste": "node tools/melder-leiste-bild.mjs",
     "data:justwatch": "tsx pipeline/fetch-justwatch-audio.ts",
