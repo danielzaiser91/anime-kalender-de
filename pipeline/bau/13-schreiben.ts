@@ -15,6 +15,7 @@ import { schreibeSprecherIndex } from './sprecher-index.ts'
 import { schreibeListen } from './13-3-listen.ts'
 import { baueAuslieferung } from './13-2-auslieferung.ts'
 import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
+import { mitBelegstaerke } from '../lib/belegstaerke.ts'
 
 export function schreibeDatensatz({
   allTitles,
@@ -50,7 +51,7 @@ export function schreibeDatensatz({
   })
 
   const { slim } = baueAuslieferung({
-    allTitles,
+    allTitles: mitBelegstaerke(allTitles, releases),
     anisearch,
     tmdbTitles,
     trenneQuelle,
