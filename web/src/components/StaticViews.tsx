@@ -916,9 +916,6 @@ export function ImpressumView() {
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Datenquellen</h2>
         <ul className="ml-4 list-disc space-y-0.5">
           <li>
-            Synchro-Nachweis: <a className="underline" href="https://mydublist.com">MyDubList</a> (CC BY 4.0)
-          </li>
-          <li>
             Metadaten: <a className="underline" href="https://anilist.co">AniList</a>; Folgentitel und Folgenlängen, wo keine andere Quelle sie hat: <a className="underline" href="https://kitsu.app">Kitsu</a>
           </li>
           <li>
@@ -978,7 +975,7 @@ export function ImpressumView() {
  * Quellen und Lizenzen als eigene Ansicht.
  *
  * Im Seitenfuß machte die Liste ihn sechs Zeilen lang. Verschwinden darf sie nicht — die anime-offline-database steht
- * unter ODbL, MyDubList unter CC BY 4.0, und beide verlangen die Nennung. Ein
+ * unter ODbL und verlangt die Nennung. Ein
  * Klick entfernt erfüllt das genauso wie unter jeder Seite, und hier ist Platz
  * zu erklären, wofür welche Quelle überhaupt gebraucht wird.
  */
@@ -986,8 +983,7 @@ export function ImpressumView() {
  * **Eine Adresse, die dasteht, gehört verlinkt.**
  *
  * `meta.attribution` sind fertige Sätze aus der Pipeline, und die Adresse steht
- * darin im Klartext: „Dub-Daten: MyDubList (https://mydublist.com) — CC BY
- * 4.0". Gerendert wurde der Satz roh — auf der Quellenseite standen damit sieben
+ * darin im Klartext, z. B. „Quelle (https://…) — Lizenz". Gerendert wurde der Satz roh — auf der Quellenseite standen damit sieben
  * ausgeschriebene URLs, die niemand anklicken konnte (gemessen am 03.09.2026).
  *
  * Der Lizenzhinweis verlangt die Nennung der Quelle; ein Klick dorthin ist das

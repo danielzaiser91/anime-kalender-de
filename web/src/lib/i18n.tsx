@@ -772,7 +772,6 @@ const TEXTE = {
   'quellen.feedFsk': 'Altersfreigabe',
   'quellen.note': 'Termine sind je Eintrag belegt und verlinkt. Bei den übrigen Angaben steht, welche Quelle sie im Regelfall liefert — sie werden nicht einzeln nachgewiesen.',
   'detail.malMeaning': 'Die Kennung dieses Anime bei MyAnimeList.',
-  'detail.dubProof': 'Synchro belegt über MyDubList ({sources})',
 
   ...TEXTE_SEITEN,
   ...TEXTE_KALENDER,
