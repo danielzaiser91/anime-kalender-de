@@ -11,9 +11,6 @@ import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.
 import { PosterKarte, type KartenArt } from './kalender/PosterKarte.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { anbieterUndFolge, zaehlung } from './kalender/Marken.tsx'
-import { LeererTag } from './kalender/SucheWoche.tsx'
-import { TvRand } from './kalender/TvRand.tsx'
-import { useVorschau } from '../lib/vorschau.ts'
 
 /** Ohne Uhrzeit hinter alles mit — ziffernbasiert, damit jede Kollation es hinten einsortiert. */
 const OHNE_UHRZEIT = '99:99'
@@ -63,8 +60,6 @@ export interface WocheProps {
   hidden: Set<number>
   tvAn: boolean
   gefiltert: boolean
-  /** Vorschau „suche-woche": Tage ohne Treffer als schmale Zeile. */
-  leereTageZu?: boolean
   onToggleFavorite: (titleId: number) => void
   onToggleHidden: (titleId: number) => void
   onOpen: (slug: string, date: string) => void
@@ -113,7 +108,6 @@ function TagZeile({
 }) {
   const heute = tag.date === today
   const vorbei = tag.date < today
-  if (p.leereTageZu && !tag.stream.length && !tag.disc.length && !tag.tv.length) return <LeererTag datum={tag.date} heute={heute} />
   /* Ausgeschaltet bleiben Premieren sichtbar — dann steht der Kasten nur für sie da. */
   const zeigeTv = p.tvAn || tag.tv.length > 0
   return (
@@ -137,14 +131,11 @@ function TagZeile({
   )
 }
 
-/** Rechte Spalte: der TV-Kasten. Standard rollt in Zeilenhöhe; Vorschau „tv-kasten": wachsen = volle Höhe, mehr = Rand mit „+N weitere". */
+/** Rechte Spalte: der TV-Kasten rollt in Zeilenhöhe. */
 function TvSpalte({ tag, p, vorbeiBis }: { tag: Tag; p: WocheProps; vorbeiBis?: string }) {
-  const v = useVorschau('tv-kasten')
   const kasten = (
     <TvKasten termine={tag.tv} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} onOpen={(ev) => p.onOpen(ev.releaseSlug, ev.date)} />
   )
-  if (v === 'wachsen') return <div className="relative">{kasten}</div>
-  if (v === 'mehr') return <TvRand>{kasten}</TvRand>
   return (
     <div className="relative lg:min-h-0">
       <div className="lg:absolute lg:inset-0 lg:overflow-y-auto lg:rounded-2xl">{kasten}</div>
@@ -195,11 +186,10 @@ function PosterRaster({
     <div
       className={[
         'grid grid-cols-2 content-start gap-x-3 gap-y-5 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-x-3.5',
-        /* Suche-Vorschau: ein Tag, den nur das Fernsehen trifft, braucht keine leere Posterzeile. */
-        p.leereTageZu && !tag.stream.length ? '' : 'lg:min-h-[250px]',
+        'lg:min-h-[250px]',
       ].join(' ')}
     >
-      {tag.stream.length === 0 && tag.disc.length === 0 && (p.gefiltert || !tag.tv.length) && !(p.leereTageZu && tag.tv.length) && (
+      {tag.stream.length === 0 && tag.disc.length === 0 && (p.gefiltert || !tag.tv.length) && (
         <p className="col-span-full pt-1 text-sm text-ak-sehr-leise">{t(p.gefiltert ? 'kal.nichtsGefiltert' : 'kal.keinTermin')}</p>
       )}
       {gruppen.map(([ev, ...weitere]) => {

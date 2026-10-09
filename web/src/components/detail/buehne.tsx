@@ -1,6 +1,5 @@
 import { beiCoverKlick, coverVorwaermen } from './cover-max.tsx'
 import { BuehnenLeiste } from './buehnen-leiste.tsx'
-import { useVorschau } from '../../lib/vorschau.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { jpAngabe } from './kino.tsx'
 import { WeitereTitel } from './weitere.tsx'
@@ -20,7 +19,6 @@ export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggl
   unterzeile: (string | undefined)[]
   eigenerTeil: FranchiseMember | undefined
 }) {
-  const kompakt = useVorschau('panel-kopf') === 'kompakt'
   return (
     <>
       <div className="relative shrink-0" style={{ isolation: 'isolate' }}>
@@ -50,7 +48,7 @@ export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggl
           Der „Staffel 1"-Block darunter holt einen Teil davon wieder herein
           (sein `-mt-24`): Das Cover bleibt groß, der Weg zum Inhalt kurz.
         */}
-        <div className={`relative cursor-zoom-in ${kompakt ? 'h-[400px] max-sm:h-[200px]' : 'h-[400px]'}`} onClick={beiCoverKlick} onPointerEnter={coverVorwaermen} onTouchStart={coverVorwaermen}>
+        <div className={`relative cursor-zoom-in h-[400px]`} onClick={beiCoverKlick} onPointerEnter={coverVorwaermen} onTouchStart={coverVorwaermen}>
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 bg-cover"

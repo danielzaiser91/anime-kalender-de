@@ -162,6 +162,7 @@
       "wofuer": "aniSearch-API (Synchro-Liste, Limit 1 Abruf je Stunde mit Token, ohne Token 1 je 24 h).",
       "workflows": [
         "daten-auf-abruf.yml",
+        "refresh-data.yml",
         "refresh-weekly.yml"
       ],
       "gueltig": {

@@ -182,7 +182,7 @@ Je Thema eine Datei; die Abschnittsüberschriften sind der Index
 - [docs/wissen/projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md) — Volltext dieser
   Regeln mit Anlässen
 - [docs/wissen/meine-woche.md](docs/wissen/meine-woche.md) — Konzept „Meine Woche" (persönliche Woche aus
-  Favoriten und Plattformen, Erinnerungswege, Datenschutz); Prototyp hinter `akVorschau('meine-woche')`
+  Favoriten und Plattformen, Erinnerungswege, Datenschutz); Prototyp (Code am 09.10.2026 entfernt, in der Git-Historie)
 
 Neue Erkenntnisse als eigener `##`-Abschnitt mit Datum in die passende Datei — ein Eintrag hier
 ist nicht mehr nötig.
