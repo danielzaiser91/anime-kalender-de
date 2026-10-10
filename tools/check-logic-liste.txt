@@ -1,0 +1,30 @@
+# Prüfungen von npm run check:logic, nacheinander, erster Fehler bricht ab.
+# Neuer Check = neue Zeile (Pfad ab Repo-Wurzel) mitten in die Liste, nicht ans Ende:
+# zwei Zweige, die dieselbe Stelle ergänzen, kollidieren sonst. Reihenfolge ist sonst egal.
+pipeline/check-logic.ts
+pipeline/check-invarianten.ts
+pipeline/check-detektiv-funde.ts
+pipeline/check-disney-gesamtnummer.ts
+pipeline/check-wochen-datei.ts
+pipeline/check-kalender-filter.ts
+pipeline/check-sprecher-filter.ts
+pipeline/check-cartoon-zwilling.ts
+pipeline/check-anisearch-dubletten.ts
+pipeline/check-anisearch-archiv.ts
+pipeline/check-reihen-namen.ts
+pipeline/check-patchnotes.ts
+pipeline/check-belegstaerke.ts
+pipeline/check-cartoon-reihen.ts
+pipeline/check-cartoon-ton.ts
+pipeline/check-daten-kennung.ts
+pipeline/check-install-stellen.ts
+pipeline/check-db-relevanz.ts
+pipeline/check-herkunftsland.ts
+pipeline/check-erscheint-erst.ts
+pipeline/check-anisearch-spalte.ts
+pipeline/check-premiere.ts
+pipeline/check-zaehlung.ts
+pipeline/check-anisearch-sprecher.ts
+pipeline/check-beleg-anbieter.ts
+pipeline/check-anisearch-reihen.ts
+pipeline/check-verweis-ziel.ts
