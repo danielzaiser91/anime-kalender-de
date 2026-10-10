@@ -35,7 +35,7 @@ Neues = eigene Funktion/Modul (nicht in Funktion > 80 oder Datei > 800 Zeilen an
 npm run check:vor-commit
 ```
 
-Nach Generatorlauf **alles** stagen. Vor dem Push zusätzlich `check:ansichten`/`check:panel` (bei `web/src`) und `check:handbelege` (bei geänderten Belegen). Jedes `tsc` mit `--noEmit`. Mess-/Versuchsläufe enden mit Exit 0.
+Prüfer nach Risiko: `node tools/pr-stufe.mjs <PR>` (Stufe 0 ohne Prüfer-Agent; Details im Volltext). Nach Generatorlauf **alles** stagen. Vor dem Push zusätzlich `check:ansichten`/`check:panel` (bei `web/src`) und `check:handbelege` (bei geänderten Belegen). Jedes `tsc` mit `--noEmit`. Mess-/Versuchsläufe enden mit Exit 0.
 
 ## Wissen nach Thema (`grep -n "^## " docs/wissen/<datei>.md`)
 
