@@ -2,6 +2,7 @@ declare const __APP_VERSION__: string | undefined
 const MEINE_VERSION = typeof __APP_VERSION__ === 'string' ? __APP_VERSION__ : 'dev'
 const MARKE = 'ak-neu-geladen'
 const WIEDERHOLUNG_MS = 2 * 60_000 // Marke gilt so lange; danach neuer Versuch (CDN-Verzögerung)
+const PAUSE_MS = 10 * 60_000 // so lange verborgen, dann zählt die Rückkehr wie ein Laden (Browser-Cache der Seite: max-age=600)
 
 /**
  * **Neuer Code ist beim nächsten Laden da** (Daniel, 08.10.2026): Nach einem Deploy hält der Browser die alte Seite bis zu zehn Minuten (`max-age=600` bei GitHub Pages). Der Bau legt deshalb
@@ -45,9 +46,22 @@ async function pruefe(): Promise<void> {
   if (neu && neu !== MEINE_VERSION) await neuLaden(neu)
 }
 
+/**
+ * Handy-Tabs und die installierte App bleiben Stunden offen und werden nie „geladen". Kommt jemand nach einer langen Pause
+ * zurück, gilt das wie ein Laden: einmal prüfen, bevor etwas bedient wird. Wer die Seite benutzt (sichtbar), wird nie unterbrochen.
+ */
+function pruefeNachPause(): void {
+  let verborgenSeit = 0
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) verborgenSeit = Date.now()
+    else if (verborgenSeit && Date.now() - verborgenSeit >= PAUSE_MS) void pruefe()
+  })
+}
+
 export function pruefeVersionBeimLaden(): void {
   if (import.meta.env.DEV || MEINE_VERSION === 'dev') return
   void pruefe()
+  pruefeNachPause()
   // Alter Stand verweist auf Chunks, die der Deploy gelöscht hat: still einmal neu laden.
   window.addEventListener('vite:preloadError', (e) => {
     e.preventDefault()
