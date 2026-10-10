@@ -3,69 +3,22 @@ import type { Release, Title } from '../../shared/types.ts'
 
 export const ARCHIV_DIR = 'data/anisearch-raw'
 
-type KatalogZeile = { id: number; titleDe?: string; dubConfidence?: string }
 type Cache = Record<string, { info?: unknown; fetchedAt?: string }>
 
 /**
- * Die Abrufliste von `fetch-anisearch.ts`: erst der Hauptbestand (Neues vor Auffrischung, Titel mit Termin vor dem Rest), dann — nur mit
- * `--katalog` (`katalogListe` gesetzt) — die Katalogtitel. Aus `main()` herausgelöst (10.10.2026), damit die Vorrangregel dort wachsen kann.
+ * Die Abrufliste von `fetch-anisearch.ts`: Titel des Hauptbestands mit bekannter Kennung in der ID-Brücke (Neues vor Auffrischung, Titel mit Termin vor dem Rest).
+ * Aus `main()` herausgelöst (10.10.2026); Archivlücken und Katalog ordnet `anisearch-archiv-vorrang.ts`.
  */
 export function baueWarteschlange(e: {
   ids: Record<number, number>
   titles: Title[]
   releases: Release[]
   cache: Cache
-  katalogListe?: KatalogZeile[]
   force: boolean
   limit: number
   veraltet: (eintrag: { fetchedAt?: string }) => boolean
-}): { queue: Title[]; katalogAngehaengt: number; katalogOffen: number } {
+}): Title[] {
   const { ids, titles, releases, cache, force: FORCE, limit: LIMIT, veraltet } = e
-  /**
-   * **`--katalog` nimmt auch die Titel hinter dem Toggle mit.**
-   *
-   * Die Warteschlange bestand bis zum 06.09.2026 nur aus dem Hauptbestand —
-   * also aus Titeln, für die eine deutsche Synchro schon belegt ist. Gemessen
-   * an diesem Tag: 2.619 aniSearch-Einträge, davon **2.461 mit `dubbed: true`**,
-   * und **null** davon fehlt im Hauptbestand. Die Quelle wird für das, wofür sie
-   * bisher benutzt wird, restlos ausgeschöpft.
-   *
-   * Daneben stehen **11.607 Katalogtitel mit aniSearch-Kennung, von denen noch
-   * kein einziger geholt wurde**. Für jeden davon sagt aniSearch dasselbe wie
-   * für die anderen: ob es eine deutsche Fassung gibt, seit wann, von welchem
-   * Verlag. Das ist genau die Frage, für die es dieses Projekt gibt — nur
-   * ungestellt.
-   *
-   * **Zuerst gemessen, dann geholt.** 11.607 Seiten sind bei 6 Sekunden Abstand
-   * gut 19 Stunden; ob sich das lohnt, entscheidet die Trefferquote einer
-   * Stichprobe, nicht die Hoffnung. Deshalb der Schalter statt einer Umstellung.
-   *
-   * Der Hauptbestand behält den Vortritt: Katalogtitel hängen sich hinten an,
-   * und die Auffrischung der belegten Titel läuft weiter wie bisher.
-   */
-  const katalog = e.katalogListe
-    ? e.katalogListe
-        .filter((k) => ids[k.id] && !cache[k.id])
-        /*
-          **Die aussichtsreichen zuerst — sonst misst eine Stichprobe nichts.**
-
-          Der Katalog steht in AniList-Reihenfolge, und die sagt über eine
-          deutsche Fassung nichts. Zwei Merkmale sagen etwas: ein **deutscher
-          Titel** (1.992 der 15.118 tragen einen — den hat jemand vergeben, weil
-          es eine deutsche Veröffentlichung gab) und `dubConfidence`.
-
-          Die erste Stichprobe über 59 Titel in Dateireihenfolge ergab **null**
-          Treffer. Das ist ein Befund über die Reihenfolge, nicht über den
-          Katalog — deshalb steht die Sortierung hier, bevor jemand aus dem
-          Ergebnis schließt, dort sei nichts zu holen.
-        */
-        .sort(
-          (a, b) =>
-            Number(Boolean(b.titleDe)) - Number(Boolean(a.titleDe)) ||
-            Number(b.dubConfidence === 'high') - Number(a.dubConfidence === 'high'),
-        )
-    : []
-
   // Titel mit Termin zuerst — das sind die, die tatsächlich jemand aufschlägt.
   const withRelease = new Set(releases.map((r) => r.titleId))
   const queue = titles
@@ -143,12 +96,5 @@ export function baueWarteschlange(e: {
     )
     .slice(0, LIMIT)
 
-  /*
-    Die Katalogtitel füllen auf, was der Hauptbestand vom Kontingent übrig
-    lässt. Sie tragen nur ihre Kennung — mehr braucht `fetchTitle` nicht.
-  */
-  const platz = Math.max(0, LIMIT - queue.length)
-  const angehaengt = katalog.slice(0, platz)
-  for (const k of angehaengt) queue.push({ id: k.id } as Title)
-  return { queue, katalogAngehaengt: angehaengt.length, katalogOffen: katalog.length }
+  return queue
 }

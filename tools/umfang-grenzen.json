@@ -2,8 +2,8 @@
   "_hinweis": "Wird nur von tools/umfang-pruefen.mjs --festschreiben gesenkt, nie von Hand erhöht.",
   "ueberlaenge": {
     "pipeline": {
-      "funktionen": 11013,
-      "dateien": 1487
+      "funktionen": 10918,
+      "dateien": 1482
     },
     "shared": {
       "funktionen": 247,
