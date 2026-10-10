@@ -4,6 +4,14 @@
 # live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
 - datum: "2026-10-10"
   kategorie: bugfix
+  text: Reihenliste zeigt am Handy fünf Teile auf einmal
+  live: false
+- datum: "2026-10-10"
+  kategorie: feature
+  text: Kalender-Abo und Newsletter nennen OmU-Termine
+  live: false
+- datum: "2026-10-10"
+  kategorie: bugfix
   text: Kalender zeigt, wo die Synchro noch offen ist
   live: false
 - datum: "2026-10-10"
