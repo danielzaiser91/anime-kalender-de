@@ -50,7 +50,7 @@ UID:auto-165159-tv-toggo-plus@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261003T184500Z
 DTEND:20261003T191500Z
-SUMMARY:Beyblade X – Folge 118/118
+SUMMARY:Beyblade X – Folge 118/119
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/15075/
 CATEGORIES:TOGGO plus
@@ -126,6 +126,16 @@ SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-165159-tv-toggo-plus@2026-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261010T184500Z
+DTEND:20261010T191500Z
+SUMMARY:Beyblade X – Folge 119/119
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/15075/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-10-11@anime-kalender-de
