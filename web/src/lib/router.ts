@@ -68,7 +68,12 @@ export interface AppRoute {
   /** Schalter der Datenbank in der Adresse (`ohne=1`, `staffeln=0|1`); fehlt der Parameter, gilt die Voreinstellung bzw. der gespeicherte Wert. */
   ohne?: true
   staffeln?: boolean
+  /** Gewählter Reiter der Saison-Ansicht (`s=`); ohne Wert „jetzt“. */
+  saison?: SaisonReiter
 }
+
+export const SAISON_REITER = ['jetzt', 'zuletzt', 'ausblick'] as const
+export type SaisonReiter = (typeof SAISON_REITER)[number]
 
 export type DbSort = 'relevanz' | 'titel' | 'jahr' | 'score'
 const DB_SORTS: readonly DbSort[] = ['relevanz', 'titel', 'jahr', 'score']
@@ -134,21 +139,25 @@ function writeLists(params: URLSearchParams, lists: FilterLists, prefix: '' | 'x
 }
 
 /**
- * **Schalter in der Adresse** (Datenbank: `ohne=1`, `staffeln=0|1`), damit ein geteilter Link beim Empfänger
+ * **Schalter in der Adresse** (Datenbank: `ohne=1`, `staffeln=0|1`; Saison: `s=zuletzt|ausblick`), damit ein geteilter Link beim Empfänger
  * gleich aussieht. Fehlt der Parameter oder ist der Wert ungültig, gilt still die Voreinstellung bzw. der gespeicherte Wert.
  */
-function schalterAusAdresse(params: URLSearchParams, view: ViewId): Pick<AppRoute, 'ohne' | 'staffeln'> {
+function schalterAusAdresse(params: URLSearchParams, view: ViewId): Pick<AppRoute, 'ohne' | 'staffeln' | 'saison'> {
   const staffeln = params.get('staffeln')
   return {
     ohne: view === 'datenbank' && params.get('ohne') === '1' ? true : undefined,
-    staffeln: view === 'datenbank' && (staffeln === '0' || staffeln === '1') ? staffeln === '1' : undefined,  }
+    staffeln: view === 'datenbank' && (staffeln === '0' || staffeln === '1') ? staffeln === '1' : undefined,
+    saison: view === 'saison' ? SAISON_REITER.find((r) => r === params.get('s')) : undefined,
+  }
 }
 
 function schalterInAdresse(params: URLSearchParams, route: AppRoute): void {
   if (route.view === 'datenbank') {
     if (route.ohne) params.set('ohne', '1')
     if (route.staffeln !== undefined) params.set('staffeln', route.staffeln ? '1' : '0')
-  }}
+  }
+  if (route.view === 'saison' && route.saison && route.saison !== 'jetzt') params.set('s', route.saison)
+}
 
 export function parseHash(hash: string): AppRoute {
   const raw = hash.replace(/^#\/?/, '')

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Prüft, dass geteilte Adressen beim Empfänger gleich aussehen: die Schalter der Datenbank (`ohne=`, `staffeln=`).
- * Gerendert wird `dist/` ohne Server (`page.route()`), wie in `ansicht-bild.mjs`.
+ * Prüft, dass geteilte Adressen beim Empfänger gleich aussehen: die Schalter der Datenbank (`ohne=`, `staffeln=`)
+ * und der Reiter der Saison-Ansicht (`s=`). Gerendert wird `dist/` ohne Server (`page.route()`), wie in `ansicht-bild.mjs`.
  *
  * Aufruf: node tools/adress-schalter-pruefen.mjs     (erst `npm run build`)
  * Exit 1, wenn eine Prüfung rot ist.
@@ -79,6 +79,25 @@ async function pruefeDatenbank(browser) {
   await g.context().close()
 }
 
+async function pruefeSaison(browser) {
+  const reiter = (seite) => seite.evaluate(() => [...document.querySelectorAll('[role=tab]')].findIndex((t) => t.getAttribute('aria-selected') === 'true'))
+  const s = await oeffne(browser, 'http://ak.test/#/saison?s=zuletzt')
+  pruefe('Saison: s=zuletzt wählt den zweiten Reiter', (await reiter(s)) === 1, await reiter(s))
+  const vorher = await verlauf(s)
+  await s.locator('[role=tab]').nth(2).click()
+  await s.waitForTimeout(300)
+  pruefe('Saison: Wechsel schreibt s=ausblick', (await hash(s)) === '#/saison?s=ausblick', await hash(s))
+  pruefe('Saison: kein neuer Verlaufseintrag', (await verlauf(s)) === vorher)
+  await s.locator('[role=tab]').nth(0).click()
+  await s.waitForTimeout(300)
+  pruefe('Saison: die Voreinstellung steht nicht in der Adresse', (await hash(s)) === '#/saison', await hash(s))
+  await s.context().close()
+
+  const f = await oeffne(browser, 'http://ak.test/#/saison?s=quatsch')
+  pruefe('Saison: ungültiger Wert fällt still auf „jetzt“', (await reiter(f)) === 0, await reiter(f))
+  await f.context().close()
+}
+
 async function main() {
   if (!existsSync(path.join(DIST, 'index.html'))) {
     console.error('dist/ fehlt — erst `npm run build`.')
@@ -88,6 +107,7 @@ async function main() {
   const browser = await chromium.launch()
   try {
     await pruefeDatenbank(browser)
+    await pruefeSaison(browser)
   } finally {
     await browser.close()
   }

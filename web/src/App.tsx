@@ -247,7 +247,7 @@ function AppKern() {
           />
         )}
 
-        <SeitenAnsicht view={route.view} data={data} favorites={favorites} oeffne={(id: number) => navigate({ title: id })} />
+        <SeitenAnsicht route={route} ersetze={ersetze} data={data} favorites={favorites} oeffne={(id: number) => navigate({ title: id })} />
       </main>
 
       <Footer meta={data.meta} />
