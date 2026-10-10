@@ -1,144 +1,146 @@
-# Patch-Notes „Neu auf der Webseite“ (Dialog im News-Bereich). Von Hand gepflegt; neue Funktion der Seite = eine Zeile hier.
-# datum in Anführungszeichen. kategorie: feature | bugfix. text: höchstens 8 Wörter, Besucher-Deutsch, kein Punkt am Ende.
+# Patch-Notes „Neu auf der Webseite“ (Dialog im News-Bereich). Jeder PR mit sichtbarer Wirkung bringt seine Zeile selbst mit (Nutzen für Besucher, nicht die Maßnahme).
+# kategorie: feature | bugfix. text: höchstens 8 Wörter, Besucher-Deutsch, kein Punkt am Ende, im ganzen File einmalig.
 # Optional: highlight: true (höchstens 2 je Tag), untertitel, symbol (stern | schluessel), link (Hash-Adresse "#/…").
-# live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
+# Den Tag setzt der Bau: der Tag des Commits, der die Zeile eingeführt hat (nach dem Merge auf main). Kein live-Feld, kein datum.
+# datum (in Anführungszeichen) gibt es nur als Nachtrag für Einträge, die älter sind als dieses Verfahren (bis 10.10.2026).
+# Keine Zeile nötig? Dann steht in der PR-Beschreibung „Patch Notes: keine – <Grund>“ (tools/check-patchnotes-pflicht.mjs).
 - datum: "2026-10-10"
   kategorie: feature
   highlight: true
   text: Staffeln jetzt direkt unter dem Antwortkasten
   untertitel: Reihe als Karte, mit Staffelnummer
-  live: false
 - datum: "2026-10-10"
   kategorie: bugfix
   text: Details öffnen wieder oben
-  live: false
 - datum: "2026-10-10"
   kategorie: bugfix
   text: Reihenliste zeigt am Handy fünf Teile auf einmal
-  live: false
 - datum: "2026-10-10"
   kategorie: feature
   text: Kalender-Abo und Newsletter nennen OmU-Termine
-  live: false
 - datum: "2026-10-10"
   kategorie: bugfix
   text: Kalender zeigt, wo die Synchro noch offen ist
-  live: false
 - datum: "2026-10-10"
   kategorie: bugfix
   text: Simulcast-Starts stehen als Wochentermin, nicht komplett
-  live: false
 - datum: "2026-10-10"
   kategorie: bugfix
   text: Untertitel-Starts stehen nicht mehr als Synchro-Termin
-  live: false
 - datum: "2026-10-10"
   kategorie: bugfix
   text: Neue Serien ohne Folgenzahl zeigen keine „0 Folgen“
-  live: false
+- datum: "2026-10-10"
+  kategorie: bugfix
+  text: Folgenzahl stimmt auch bei mehreren Anbietern
+  untertitel: kein „27 von 24“ mehr
+- datum: "2026-10-10"
+  kategorie: feature
+  text: Premiere-Markierung für erstmals deutsche Starts
+  untertitel: zuerst bei YAIBA, ProSieben MAXX
+- datum: "2026-10-10"
+  kategorie: feature
+  text: Simulcast-Start zeigt OmU, bis die Synchro kommt
+  untertitel: mit Meldung bei Neuigkeiten, z. B. PSYREN
+- datum: "2026-10-10"
+  kategorie: bugfix
+  text: Quellen zeigen jeden Anbieter nur einmal
+  untertitel: der stärkste Beleg bleibt
+- datum: "2026-10-10"
+  kategorie: bugfix
+  text: "Marronniers: Folge 2 jetzt als erschienen"
+- datum: "2026-10-10"
+  kategorie: bugfix
+  text: "Detail-Panel: nur noch ein Stern zum Merken"
+  untertitel: der Sammelstern für ganze Reihen entfällt
+- datum: "2026-10-10"
+  kategorie: feature
+  text: Datenbank fasst Staffeln einer Reihe zusammen
+- datum: "2026-10-10"
+  kategorie: feature
+  text: Titel mit Start in der Zukunft heißen „Geplant“
+- datum: "2026-10-10"
+  kategorie: bugfix
+  text: Wochenkarte zeigt keine Uhrzeit-Marke ohne Uhrzeit
 - datum: "2026-10-09"
   kategorie: feature
   text: Schlankere Leiste am Handy, Schnellfilter im Filter
-  live: false
 - datum: "2026-10-09"
   kategorie: bugfix
   text: Alte Cartoons stehen unter „Schon erschienen“
-  live: false
 - datum: "2026-10-09"
   kategorie: feature
   text: Saison-Ausblick mit Japan-Start aller kommenden Serien
   link: "#/saison"
-  live: false
 - datum: "2026-10-09"
   kategorie: feature
   text: "Filter am Handy: mehr Platz für die Titel"
-  live: false
 - datum: "2026-10-09"
   kategorie: bugfix
   text: Fußzeile trennt belegte von wahrscheinlichen Anime
-  live: false
 - datum: "2026-10-09"
   kategorie: bugfix
   text: Datenschutz nennt Favoriten-Abgleich und Push
-  live: false
 - datum: "2026-10-09"
   kategorie: bugfix
   text: Filter am Handy überdecken nichts mehr
-  live: true
 - datum: "2026-10-09"
   kategorie: bugfix
   text: App installieren steht nur noch an einer Stelle
-  live: true
 - datum: "2026-10-09"
   kategorie: feature
   text: App installieren jetzt auch im Glocken-Menü
   untertitel: nur am Handy
-  live: true
 - datum: "2026-10-09"
   kategorie: feature
   highlight: true
   text: Datenbank startet mit laufenden Titeln
   untertitel: dann demnächst, dann schon erschienen
-  live: false
 - datum: "2026-10-09"
   kategorie: feature
   highlight: true
   text: Alle Namen auf jeder Titelseite
   untertitel: deutsch · englisch · Romaji · japanisch
-  live: true
 - datum: "2026-10-09"
   kategorie: feature
   text: Neuigkeiten-Pillen in vier Farben
-  live: true
 - datum: "2026-10-09"
   kategorie: bugfix
   text: Keine doppelten Titel hinter dem Schalter
-  live: true
 - datum: "2026-10-08"
   kategorie: feature
   highlight: true
   text: Seite lädt am Handy schneller
   untertitel: weniger Bilddaten, nichts springt
-  live: true
 - datum: "2026-10-08"
   kategorie: feature
   highlight: true
   text: Heute-Knopf zeigt die Richtung
   untertitel: orange, wenn heute nicht im Bild liegt
-  live: true
 - datum: "2026-10-08"
   kategorie: feature
   text: Einstellungen-Dialog breiter
-  live: true
 - datum: "2026-10-08"
   kategorie: feature
   text: Wochenstart lädt schneller
-  live: true
 - datum: "2026-10-08"
   kategorie: feature
   text: Titel-Details öffnen schneller
-  live: true
 - datum: "2026-10-08"
   kategorie: bugfix
   text: Heute-Knopf wieder klickbar
-  live: true
 - datum: "2026-10-08"
   kategorie: bugfix
   text: Scott Pilgrim wieder im Hauptbestand
-  live: true
 - datum: "2026-10-08"
   kategorie: bugfix
   text: Ishura-Großansicht zeigt das richtige Cover
-  live: true
 - datum: "2026-10-08"
   kategorie: bugfix
   text: Cover für Fool Night und Beerus
-  live: true
 - datum: "2026-10-08"
   kategorie: bugfix
   text: "Ranma ½: deutsche Folgen korrigiert (1–80)"
-  live: true
 - datum: "2026-10-08"
   kategorie: bugfix
   text: "Naruto Shippuden: deutsche Folgen korrigiert (1–166)"
-  live: true
