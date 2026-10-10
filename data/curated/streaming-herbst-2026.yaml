@@ -157,6 +157,9 @@
   schedule:
     firstEpisodeDate: "2026-10-03"
     episodeCount: 20
+    # Uhrzeit: Folge 2 erschien zwischen 16:59 und 17:00 MESZ (Daniel, 10.10.2026), samstags. Ohne Uhrzeit zählt der Tag erst um 23:59
+    # als erschienen (`istErschienen`). Für Folge 1 und die Zeit ab der Umstellung (25.10.) ist 17:00 der Rhythmus, nicht gemessen.
+    time: "17:00"
     # Anime2You (04.10.2026): „1 von 20 verfügbar", „Jeden Samstag eine neue Episode", Deutsch und Japanisch mit Untertiteln.
     observed:
       1: "2026-10-03"
