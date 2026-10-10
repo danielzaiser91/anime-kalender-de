@@ -8557,6 +8557,17 @@
       dub: true
   checkedAt: '2026-10-02'
   note: "Alle 12 Folgen mit deutscher Synchro (Daniel, 02.10.2026). Widerlegt den Gebiets-Beleg vom 26.08.; aniSearch und JustWatch sagten es schon vorher."
+- anilistId: 179813
+  title: "Rooster Fighter"
+  platform: netflix
+  url: https://www.netflix.com/title/82647303
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+  checkedAt: '2026-10-10'
+  note: "Alle 12 Folgen mit deutscher Synchro (Daniel, 10.10.2026)."
 - anilistId: 140960
   title: "Spy × Family"
   platform: disneyplus

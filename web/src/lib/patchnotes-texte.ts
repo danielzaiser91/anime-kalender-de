@@ -14,7 +14,6 @@ export const PT = {
   gestern: 'gestern',
   highlight: 'HIGHLIGHT',
   ansehen: 'ansehen ›',
-  fuss: 'Nur, was schon online ist.',
   laden: 'Lädt …',
   fehler: 'Konnte nicht geladen werden.',
   nochmal: 'Nochmal versuchen',
