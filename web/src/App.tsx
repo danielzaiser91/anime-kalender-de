@@ -14,6 +14,7 @@ import { useFavorites, useHidden } from './lib/favorites.ts'
 import { speicherSichern, useNewsletterSync } from './lib/newsletterSync.ts'
 import { usePushNachfuehren } from './lib/push-nachfuehren.ts'
 import { useRoute, buildHash, type ViewId } from './lib/router.ts'
+import { useDbSchalter } from './lib/db-schalter.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header } from './components/Header.tsx'
@@ -72,19 +73,14 @@ export default function App() {
 function AppKern() {
   const { t } = useLang()
   const [allTitles, setAllTitles] = useState<Title[]>()
-  // Vorgabe an: Reihen als eine Kachel; nur ein gespeichertes '0' schaltet es aus.
-  const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') !== '0')
-  /*
-    Titel ohne deutsche Synchro mitzeigen — bewusst **nicht** gespeichert: Sie sind ein Werkzeug zum
-    Merken, kein Teil der Antwort der Seite.
-  */
-  const [zeigeOhneSynchro, setZeigeOhneSynchro] = useState(false)
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
   const [cartoons, setCartoons] = useState<Title[]>()
   const [einstellungenOffen, setEinstellungenOffen] = useState(false)
   /* TV-Termine ausblenden. */
   const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
-  const [route, navigate] = useRoute()
+  const [route, navigate, ersetze] = useRoute()
+  /* Staffeln zusammenfassen (Vorgabe an) und Titel ohne Synchro: Adresse, sonst gespeicherter bzw. voreingestellter Wert (`db-schalter.ts`). */
+  const { grouped, setGrouped, zeigeOhneSynchro, setZeigeOhneSynchro } = useDbSchalter(route, ersetze)
   /* Die Filter von Woche und Monat: nur im Speicher, nicht in der Adresse, nicht mit der Datenbank geteilt (`kalender-filter.ts`). */
   const { filters: kalenderFilters, kalenderNavigate } = useKalenderFilter(route, navigate)
   const { favorites, toggle } = useFavorites()
@@ -97,10 +93,6 @@ function AppKern() {
   const today = todayIso()
   /* Die Wochenansicht startet aus der kleinen Wochen-Datei; `data` ist bis zum vollen Datensatz (`voll`) nur diese Woche. */
   const { data, voll, error } = useStartdaten(route, today)
-
-  useEffect(() => {
-    localStorage.setItem('groupSeasons', grouped ? '1' : '0')
-  }, [grouped])
 
   // Cover der aktuellen und nächsten Woche für unterwegs sichern — dieselbe Größe wie die Kachel.
   useEffect(() => {
@@ -255,7 +247,7 @@ function AppKern() {
           />
         )}
 
-        <SeitenAnsicht view={route.view} data={data} favorites={favorites} oeffne={(id: number) => navigate({ title: id })} />
+        <SeitenAnsicht route={route} ersetze={ersetze} data={data} favorites={favorites} oeffne={(id: number) => navigate({ title: id })} />
       </main>
 
       <Footer meta={data.meta} />

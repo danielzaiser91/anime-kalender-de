@@ -1,5 +1,5 @@
 import { AntwortKasten } from './antwort-kasten.tsx'
-import { FolgenBereich } from './folgen-bereich.tsx'
+import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
 import { PLATFORMS, type StreamLink, type Release, type Title, type DiscAusgabe } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
 import { streamNurOmu } from '@shared/ankuendigung.ts'
@@ -18,12 +18,26 @@ import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
 import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
 import { type sortiereNachZugang } from './wege-sortieren.ts'
-import { erschieneneFuerFolgenliste } from './antwort-regeln.ts'
 
-export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
+/** Eine Pille je Termin: Sender oder Anbieter, Datum, Folge. */
+function terminPillen(rs: Release[], title: Title, releases: Release[], today: string) {
+  return rs.map((r) => (
+    <ReleasePille
+      key={r.slug}
+      release={r}
+      titel={anzeigeName(title)}
+      today={today}
+      tvText={tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16))}
+    />
+  ))
+}
+
+export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
   antwort: ReturnType<typeof berechneAntwort>
   sortiertNachZugang: ReturnType<typeof sortiereNachZugang>
   streamReleases: Release[]
+  /** Alle Termine mit Anbieter/Sender, auch die, deren Anbieter schon als Link da ist. */
+  terminReleases: Release[]
   title: Title
   t: Translate
   today: string
@@ -57,17 +71,18 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
                   ...streamWege.map((g) => `sw-${g.shop}-${g.eintraege[0].url}`),
                 ].map((k) => [k, art === 'kostenlos' ? 'frei' : art] as const),
               ),
-              ...streamReleases.map((r) => [r.slug, r.platform === 'tv' ? 'tv' : 'abo'] as const),
+              ...terminReleases.map((r) => [r.slug, r.platform === 'tv' ? 'tv' : 'abo'] as const),
               ...tvVorbeiGruppen(tvVorbei),
             ])
           }
           antwort={antwort}
+          terminPillen={terminPillen(terminReleases, title, releases, today)}
           title={title}
           t={t}
           today={today}
           wegeHinweis={wegeHinweis}
           notiz={kastenNotiz?.note}
-          folgen={<FolgenBereich titleId={title.id} erschienen={erschieneneFuerFolgenliste(antwort)} />}
+          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={
             /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
@@ -329,15 +344,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
                 ),
               )
               .concat(
-                streamReleases.map((r) => (
-                  <ReleasePille
-                    key={r.slug}
-                    release={r}
-                    titel={anzeigeName(title)}
-                    today={today}
-                    tvText={tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16))}
-                  />
-                )),
+                terminPillen(streamReleases, title, releases, today),
               ).concat(tvVorbeiPillen(tvVorbei, anzeigeName(title), today, t('detail.tvNurVorbei')))}
             /*
               **Disc ist, was man kauft** — Händler und Vorbestellungen.

@@ -62,3 +62,25 @@
   sources:
     - https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/
     - https://www.anime2you.de/news/1059541/
+
+# One Piece — Anime2You 1059541, 10.10.2026 (Programmplan von ProSieben MAXX): ab 5. November 2026 montags
+# bis freitags um 18:50 Uhr jeweils eine Folge mit deutscher Vertonung, Marine-Rookies-Arc (780–782) und
+# Whole-Cake-Island-Arc (783–877) = 98 Folgen. Nicht aufgenommen: die neun „Characters Log"-Specials ab 29.10.
+# (nur Originalton mit Untertiteln) und die Folgen ab 1123 im Frühjahr 2027 (kein Termin). Ein Termin von Hand
+# ersetzt den automatisch aus tv.de gebildeten Eintrag desselben Senders; die Sendungen hängt der Bau wieder an.
+# Das Ende (98 Sendetage) ist gerechnet und kennt keine Feiertagspausen.
+- slug: one-piece-whole-cake-island-prosieben-maxx
+  anilistId: 21
+  search: "One Piece"
+  platform: tv
+  sender: ProSieben MAXX
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-11-05"
+    firstEpisodeNumber: 780
+    time: "18:50"
+    episodeCount: 98
+    wochentage: [1, 2, 3, 4, 5]
+  note: "Wiederholung der Folgen 780 bis 877 mit deutscher Vertonung; die Characters-Log-Specials laufen nur im Originalton mit Untertiteln."
+  sources:
+    - https://www.anime2you.de/news/1059541/
