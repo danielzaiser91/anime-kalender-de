@@ -11,6 +11,9 @@
 - kategorie: feature
   text: "Neu Paramount+, zuerst Avatar: Die sieben Häfen"
   untertitel: Termine je Folgenblock, Deutsch und OmU
+- kategorie: bugfix
+  text: Crunchyroll-Kanal auf Prime mit aktueller Folgenzahl
+  untertitel: Von Crunchyroll übernommen, erkennbar am Hinweis an der Zahl
 - datum: "2026-10-10"
   kategorie: feature
   text: Künftige Termine zeigen ihren Sender oder Anbieter

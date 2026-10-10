@@ -26,8 +26,10 @@ pipeline/check-erscheint-erst.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-premiere.ts
 pipeline/check-zaehlung.ts
+pipeline/check-prime-kanal.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-anisearch-reihen.ts
+pipeline/check-anime2you-vorschlag.ts
 pipeline/check-werk-doppelt.ts
 pipeline/check-verweis-ziel.ts
