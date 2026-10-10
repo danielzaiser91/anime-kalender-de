@@ -18,11 +18,14 @@ export function anbieterVon(url: string): string {
 }
 
 const FEED = /\.(?:xml|rss|atom)$|\/feed\/?$/i
-const KALENDER = /calendar|kalender|simulcast|\/schedule|programm/i
+const KALENDER = /calendar|kalender|\/schedule|programm/i
 const ARTIKEL = /\/(?:news|article|artikel|blog|presse?|press)\b|\/\d{4}\/\d{1,2}\//i
 const KATALOG = /\/(?:series|watch|anime|title|serien|filme|film|browse|dp|gp\/video)\b/i
 
-/** Typ aus Host und Pfad: Feed vor Kalender vor Artikel vor Katalog; alles andere ist eine Seite. */
+/**
+ * Typ aus Host und Pfad: Feed, Kalender-Endpunkt (ADN), Artikel, Kalenderpfad, Katalog; alles andere ist eine Seite.
+ * Der Artikelpfad schlägt den Kalenderpfad: ein Wort im Titel („…-prime-video-simulcast") macht aus einem Artikel keinen Kalender.
+ */
 export function belegTyp(url: string): BelegTyp {
   let host = ''
   let pfad = url
@@ -34,7 +37,8 @@ export function belegTyp(url: string): BelegTyp {
     /* unlesbar: der Pfad ist die ganze Zeichenkette */
   }
   if (FEED.test(pfad)) return 'feed'
-  if (host.startsWith('gw.api.') || KALENDER.test(pfad)) return 'kalender'
+  if (host.startsWith('gw.api.')) return 'kalender'
   if (host.startsWith('news.') || ARTIKEL.test(pfad)) return 'artikel'
+  if (KALENDER.test(pfad)) return 'kalender'
   return KATALOG.test(pfad) ? 'katalog' : 'seite'
 }

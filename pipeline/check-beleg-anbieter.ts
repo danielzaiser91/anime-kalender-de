@@ -34,6 +34,12 @@ pruefe('Crunchyroll-Serie', belegTyp('https://www.crunchyroll.com/series/GXXX/x'
 pruefe('ADN-Kalender-Endpunkt', belegTyp('https://gw.api.animationdigitalnetwork.com/video/calendar?date=2026-10-10') === 'kalender')
 pruefe('Feed', belegTyp('https://www.anime2you.de/feed/') === 'feed')
 pruefe('Netflix-Titelseite', belegTyp('https://www.netflix.com/title/82647303') === 'katalog')
+const SIMULCAST_ARTIKEL = [
+  `${A2Y}/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/`,
+  `${A2Y}/1056092/dragon-ball-super-beerus-simulcast/`,
+  `${A2Y}/1056867/disney-plus-tokyo-revengers-simulcast-und-mehr/`,
+]
+pruefe('„simulcast" im Artikelpfad macht keinen Kalender', SIMULCAST_ARTIKEL.every((u) => belegTyp(u) === 'artikel'), SIMULCAST_ARTIKEL.map(belegTyp))
 
 console.log('\nBelege je Anbieter: der stärkste bleibt')
 {
@@ -61,8 +67,29 @@ console.log('\nBelege je Anbieter: der stärkste bleibt')
   const r = entdoppeleBelege([eintrag(beleg(YAIBA), beleg('https://www.manime.de/news/yaiba/1/'), beleg(NEBENSATZ))])
   pruefe('verschiedene Anbieter bleiben getrennt', urls(r.eintraege).length === 2 && r.vorher === 3)
 }
+{
+  const [a, b] = [`${A2Y}/1047200/marronnier-prime-video-simulcast/`, `${A2Y}/1057464/prime-video-marronniers-und-mehr/`].map((u) => beleg(u))
+  pruefe('zwei anime2you-Artikel, einer mit „simulcast" im Pfad: nur einer bleibt', urls(entdoppeleBelege([eintrag(a!, b!)]).eintraege).length === 1)
+}
+{
+  const CR = 'https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15'
+  const lineup = beleg(`${CR}/crunchyroll-anime-lineup-herbst-2026`)
+  const synchros = beleg(`${CR}/crunchyroll-deutsche-synchros-herbst-2026`)
+  const mitArt = (art: NewsMeldung['art']) => [{ ...eintrag(lineup, synchros), meldungen: [{ art, belege: [lineup, synchros] } as NewsMeldung] }]
+  pruefe('Synchro-Aussage: der Artikel mit „synchros" im Pfad bleibt', urls(entdoppeleBelege(mitArt('neu')).eintraege).join() === synchros.url)
+  pruefe('andere Aussage: die Reihenfolge entscheidet (kein Synchro-Vorrang)', urls(entdoppeleBelege(mitArt('folgen')).eintraege).join() === lineup.url)
+}
 
 console.log('\nBelege je Anbieter: Zusicherung des Baus')
+{
+  const [weg, bleibt] = [beleg(NEBENSATZ), beleg(YAIBA)]
+  const e = { ...eintrag(weg, bleibt), meldungen: [{ art: 'angekuendigt', quelle: NEBENSATZ, belege: [weg, bleibt] } as NewsMeldung] }
+  const r = entdoppeleBelege([e])
+  pruefe('quelle rückt vom entfallenen auf den behaltenen Beleg', r.eintraege[0]!.meldungen[0]!.quelle === YAIBA, r.eintraege[0]!.meldungen[0]!.quelle)
+  pruefe('quelle auf behaltenem Beleg: keine Meldung dazu', !belegFehler([e], r).some((f) => f.includes('Quelle')))
+  const alt = { ...r, eintraege: [{ ...r.eintraege[0]!, meldungen: [{ ...r.eintraege[0]!.meldungen[0]!, quelle: NEBENSATZ }] }] }
+  pruefe('quelle auf entfallenem Beleg wird gemeldet', belegFehler([e], alt).some((f) => f.includes('Quelle')))
+}
 {
   const fremd = ['https://www.manime.de/news/yaiba/1/', 'https://www.netflix.com/title/1', 'https://www.joyn.de/serien/yaiba', 'https://www.tv.de/yaiba/']
   const vorher = [eintrag(beleg(NEBENSATZ), beleg(YAIBA), ...fremd.map((u) => beleg(u)))]

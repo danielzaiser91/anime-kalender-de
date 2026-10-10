@@ -5,11 +5,12 @@
  *
  * Stärke, in dieser Reihenfolge:
  *  1. dem Titel gewidmet: Titelname (oder der Teil vor dem Doppelpunkt, ab 5 Zeichen) steht im Adresspfad;
+ *  1b. belegt die Meldung eine deutsche Synchro (`neu`, `angekuendigt`), gewinnt der Artikel, dessen Pfad „synchro", „dub" oder „deutsch" nennt;
  *  2. mehr Nachweisfelder: Fundstelle, Bild, Veröffentlichungsdatum, Ausgabedatum, Messung (der Artikeltext selbst liegt nur in der
  *     privaten Ablage, welche Angaben der Artikel im Einzelnen trägt, ist hier nicht bekannt);
  *  3. der ältere (Erstmeldung); ohne Datum zuletzt, dann die Reihenfolge in der Meldung.
  */
-import type { NewsBeleg, NewsEintrag } from '../../shared/types.ts'
+import type { NewsBeleg, NewsEintrag, NewsMeldung } from '../../shared/types.ts'
 import { anbieterVon, belegTyp } from '../../shared/beleg-anbieter.ts'
 import { log } from './util.ts'
 
@@ -30,23 +31,35 @@ function namenVon(e: Pick<NewsEintrag, 'titel' | 'slug'>): string[] {
   return [...new Set(roh.map(glatt))].filter((n) => n.length >= 7)
 }
 
-function gewidmet(url: string, namen: string[]): boolean {
+function glatterPfad(url: string): string {
   let pfad = url
   try {
     pfad = decodeURIComponent(new URL(url).pathname)
   } catch {
     /* unlesbar: die ganze Zeichenkette */
   }
-  const g = glatt(pfad)
+  return glatt(pfad)
+}
+
+const gewidmet = (url: string, namen: string[]): boolean => {
+  const g = glatterPfad(url)
   return namen.some((n) => g.includes(n))
 }
+
+/** Der Pfad nennt die Synchro: Wortanfang „synchro", „dub" oder „deutsch". */
+const nenntSynchro = (url: string): boolean => /-(?:synchro|dub|deutsch)/.test(glatterPfad(url))
+
+/** Aussagen über eine deutsche Synchro: neue und angekündigte Synchros. */
+const istSynchroAussage = (m: NewsMeldung): boolean => m.art === 'neu' || m.art === 'angekuendigt'
 
 const nachweise = (b: NewsBeleg): number => [b.markierung, b.bild, b.veroeffentlichtAm, b.ausgabeAm, b.messung ?? b.gemessenAm].filter(Boolean).length
 
 /** Negativ, wenn `a` der stärkere Beleg ist. */
-function vergleiche(a: NewsBeleg, b: NewsBeleg, namen: string[]): number {
+function vergleiche(a: NewsBeleg, b: NewsBeleg, namen: string[], synchro: boolean): number {
   const widmung = Number(gewidmet(b.url, namen)) - Number(gewidmet(a.url, namen))
   if (widmung) return widmung
+  const sprache = synchro ? Number(nenntSynchro(b.url)) - Number(nenntSynchro(a.url)) : 0
+  if (sprache) return sprache
   const felder = nachweise(b) - nachweise(a)
   if (felder) return felder
   const da = a.veroeffentlichtAm ?? '9999'
@@ -55,16 +68,25 @@ function vergleiche(a: NewsBeleg, b: NewsBeleg, namen: string[]): number {
 }
 
 /** Der stärkste Beleg je Anbieter und Typ; die Reihenfolge der Behaltenen bleibt die der Meldung. */
-export function staerksteJeAnbieter(belege: NewsBeleg[], namen: string[]): { behalten: NewsBeleg[]; entfallen: [NewsBeleg, NewsBeleg][] } {
+export function staerksteJeAnbieter(belege: NewsBeleg[], namen: string[], synchro = false): { behalten: NewsBeleg[]; entfallen: [NewsBeleg, NewsBeleg][] } {
   const sieger = new Map<string, NewsBeleg>()
   for (const b of belege) {
     const schluessel = `${anbieterVon(b.url)}|${belegTyp(b.url)}`
     const bisher = sieger.get(schluessel)
-    if (!bisher || vergleiche(b, bisher, namen) < 0) sieger.set(schluessel, b)
+    if (!bisher || vergleiche(b, bisher, namen, synchro) < 0) sieger.set(schluessel, b)
   }
   const behalten = belege.filter((b) => sieger.get(`${anbieterVon(b.url)}|${belegTyp(b.url)}`) === b)
   const entfallen = belege.filter((b) => !behalten.includes(b)).map((b): [NewsBeleg, NewsBeleg] => [b, sieger.get(`${anbieterVon(b.url)}|${belegTyp(b.url)}`)!])
   return { behalten, entfallen }
+}
+
+/**
+ * Zeigt `quelle` auf einen entfallenen Beleg, rückt sie auf den behaltenen desselben Anbieters und Typs (der Newsletter verlinkt `quelle`,
+ * Oberfläche und Newsletter nennen so denselben Beleg). Der Stärkere gewinnt, nicht die Quelle: sonst bliebe zu oft der Nebensatz-Artikel.
+ */
+function quelleNachEntfall(quelle: string | undefined, entfallen: [NewsBeleg, NewsBeleg][]): { quelle?: string } {
+  const ersatz = entfallen.find(([weg]) => weg.url === quelle)
+  return ersatz ? { quelle: ersatz[1].url } : {}
 }
 
 export function entdoppeleBelege(eintraege: NewsEintrag[]): { eintraege: NewsEintrag[]; entfallen: Entfallen[]; vorher: number } {
@@ -77,16 +99,16 @@ export function entdoppeleBelege(eintraege: NewsEintrag[]): { eintraege: NewsEin
       meldungen: e.meldungen.map((m) => {
         if (!m.belege?.length) return m
         vorher += m.belege.length
-        const r = staerksteJeAnbieter(m.belege, namen)
+        const r = staerksteJeAnbieter(m.belege, namen, istSynchroAussage(m))
         for (const [weg, bleibt] of r.entfallen) entfallen.push({ titel: e.titel, am: e.am, behalten: bleibt.url, entfallen: weg.url })
-        return r.entfallen.length ? { ...m, belege: r.behalten } : m
+        return r.entfallen.length ? { ...m, belege: r.behalten, ...quelleNachEntfall(m.quelle, r.entfallen) } : m
       }),
     }
   })
   return { eintraege: neu, entfallen, vorher }
 }
 
-/** Obergrenze für den Anteil entfallener Belege; am 10.10.2026 liegt er unter 5 %. Darüber stimmt etwas an der Regel nicht. */
+/** Obergrenze für den Anteil entfallener Belege; am 10.10.2026 liegt er bei 14,5 % (88 von 607). Darüber stimmt etwas an der Regel nicht. */
 const ANTEIL_MAX = 0.3
 
 /** Zusicherung: nichts doppelt, keine Meldung verliert alle Belege, Zahlen stimmen, Anteil bleibt plausibel. */
@@ -96,7 +118,9 @@ export function belegFehler(vorher: NewsEintrag[], r: ReturnType<typeof entdoppe
   const jeMeldung = (es: NewsEintrag[]) => es.flatMap((e) => e.meldungen.map((m) => ({ e, m })))
   const nachher = jeMeldung(r.eintraege)
   jeMeldung(vorher).forEach(({ e, m }, i) => {
-    if (m.belege?.length && !nachher[i]!.m.belege?.length) fehler.push(`Belege: ${e.titel} (${e.am}) verlor alle Belege`)
+    const n = nachher[i]!.m
+    if (m.belege?.length && !n.belege?.length) fehler.push(`Belege: ${e.titel} (${e.am}) verlor alle Belege`)
+    if (m.belege?.some((b) => b.url === m.quelle) && !n.belege?.some((b) => b.url === n.quelle)) fehler.push(`Belege: ${e.titel} (${e.am}) verweist mit der Quelle auf einen entfallenen Beleg`)
   })
   for (const { e, m } of nachher) {
     const schluessel = (m.belege ?? []).map((b) => `${anbieterVon(b.url)}|${belegTyp(b.url)}`)
