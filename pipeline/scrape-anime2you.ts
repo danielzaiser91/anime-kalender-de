@@ -29,7 +29,7 @@ import { addDays, todayIso } from '../shared/time.ts'
 import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, type SammelEintrag } from './lib/sammelartikel.ts'
 import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './lib/disc-verschiebungen.ts'
 import { DISC_UEBERSICHT, leseDiscUebersicht, type DiscZeile } from './lib/disc-uebersicht.ts'
-import { dubBefund } from './lib/sprachbefund.ts'
+import { dubBefund, type Sprachbefund } from './lib/sprachbefund.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 
@@ -92,8 +92,8 @@ export interface Proposal {
   category: string
   platforms: PlatformId[]
   dates: FoundDate[]
-  /** 'ja' — ausdrücklich zugesagt, 'offen' — ausdrücklich unklar, sonst 'unklar'. */
-  dub: 'ja' | 'offen' | 'unklar'
+  /** 'ja' — ausdrücklich zugesagt, 'offen' — ausdrücklich unklar, 'nein' — nur Originalton mit Untertiteln, sonst 'unklar'. */
+  dub: Sprachbefund
   /**
    * Gesetzt, wenn die Meldung eine Unterbrechung des Wochentakts ankündigt —
    * „pause", „verschoben", „entfällt" oder „recap".

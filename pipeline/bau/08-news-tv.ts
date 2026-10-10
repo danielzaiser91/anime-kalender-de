@@ -1,5 +1,5 @@
-import { readJson, log } from '../lib/util.ts'
-import { type Vorschlag, releasesAus } from '../lib/meldungen.ts'
+import { readJson, log, warn } from '../lib/util.ts'
+import { type Vorschlag, releasesAus, nurOriginaltonMeldungen } from '../lib/meldungen.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
 import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { schreibeUnzugeordnet } from '../lib/sammel-unzugeordnet.ts'
@@ -24,6 +24,10 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
     todayIso(),
   )
   releases.push(...ausMeldungen)
+  /* Kein Termin aus einer Meldung, die nur Originalton nennt — gezählt; über zehn (10.10.2026: 2) greift das Muster vermutlich zu weit. */
+  const nurOmu = nurOriginaltonMeldungen(rohVorschlaege.proposals ?? [])
+  const melde = nurOmu.length > 10 ? warn : log
+  melde(`${nurOmu.length} Anime2You-Meldungen nennen nur Originalton mit Untertiteln — kein deutscher Termin daraus${nurOmu.length ? `: ${nurOmu.map((v) => v.articleTitle).join(' | ')}` : ''}`)
   schreibeUnzugeordnet(sammelV, ausMeldungen)
   const verschoben = verschiebungenAnwenden(releases, rohVorschlaege.proposals ?? [], todayIso())
   if (verschoben.length) log(`${verschoben.length} Disc-Termine laut Anime2You verschoben: ${verschoben.map((v) => `${v.name} (${v.von} → ${v.nach})`).join(', ')}`)

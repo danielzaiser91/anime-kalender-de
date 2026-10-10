@@ -26,6 +26,12 @@ const DUB_OPEN =
  */
 const DUB_ZWEIFEL = /\b(ob\b|noch offen|noch nicht|nicht bekannt|unklar|bislang|steht (noch )?aus|keine angabe|fraglich)/i
 
+export type Sprachbefund = 'ja' | 'offen' | 'unklar' | 'nein'
+
+/** Originalton mit Untertiteln — ein Satz damit und ohne deutsche Fassung ist keine Synchro-Aussage. */
+const NUR_UNTERTITEL =
+  /(originalton mit (deutschen )?untertiteln|\bomu\b|mit deutschen untertiteln|im (japanischen )?originalton|japanisch(?:e[nr]?)? (?:ton|tonspur)\b|japanisch \(ut\)|(?:nur|ausschließlich) (?:mit )?untertitel)/i
+
 /**
  * **Satzweise statt über den ganzen Artikel.**
  *
@@ -36,12 +42,29 @@ const DUB_ZWEIFEL = /\b(ob\b|noch offen|noch nicht|nicht bekannt|unklar|bislang|
  * Gewertet wird deshalb je Satz: Trägt **jeder** Satz mit Synchro-Bezug einen
  * Zweifel, lautet der Befund `offen`. Bleibt einer ohne, ist es eine Zusage.
  * Ohne jeden Bezug bleibt es `unklar` — das ist die Mehrheit.
+ *
+ * **`nein`: Die Meldung nennt nur Originalton mit Untertiteln** und sagt keine deutsche Fassung zu.
+ * Ihr Termin ist dann kein deutscher („Dragon Ball Super: Beerus", Anime2You 01.10.2026: „bei
+ * Crunchyroll und ADN im Originalton mit Untertiteln" stand als Synchro-Start im Kalender).
  */
-export function dubBefund(text: string): 'ja' | 'offen' | 'unklar' {
-  if (DUB_OPEN.test(text)) return 'offen'
+export function dubBefund(text: string): Sprachbefund {
   const saetze = text.split(/(?<=[.!?])\s+|\n+/)
+  const nurUntertitel = saetze.some((s) => NUR_UNTERTITEL.test(s) && !DUB_CONFIRMED.test(s))
+  if (DUB_OPEN.test(text)) return nurUntertitel ? 'nein' : 'offen'
   const mitBezug = saetze.filter((s) => DUB_CONFIRMED.test(s))
-  if (!mitBezug.length) return 'unklar'
-  const ohneZweifel = mitBezug.filter((s) => !DUB_ZWEIFEL.test(s))
-  return ohneZweifel.length ? 'ja' : 'offen'
+  if (mitBezug.some((s) => !DUB_ZWEIFEL.test(s))) return 'ja'
+  if (nurUntertitel) return 'nein'
+  return mitBezug.length ? 'offen' : 'unklar'
+}
+
+/**
+ * Der Sprachbefund eines **gespeicherten** Vorschlags. Der Abruf wertete den ganzen Feed-Text;
+ * ältere Vorschläge kennen `nein` noch nicht, ihre Fundstellen tragen den Satz aber oft
+ * (Beerus: „… ADN im Originalton mit Untertiteln. Bei Netflix …"). Eine Zusage schlägt alles.
+ */
+export function spracheDerMeldung(v: { dub?: string; articleTitle: string; dates?: { context: string }[] }): Sprachbefund {
+  if (v.dub === 'ja' || v.dub === 'zugesagt') return 'ja'
+  const ausFundstellen = dubBefund([v.articleTitle, ...(v.dates ?? []).map((d) => d.context)].join('\n'))
+  if (v.dub === 'nein' || ausFundstellen === 'nein') return 'nein'
+  return v.dub === 'offen' ? 'offen' : ausFundstellen
 }

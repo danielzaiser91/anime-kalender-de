@@ -42,7 +42,7 @@ if (!open.length) {
   out.push('| Termin | Plattform | Synchro | Meldung |', '|---|---|---|---|')
   for (const p of open.slice(0, 40)) {
     const when = p.dates.map((d) => d.iso ?? `${d.month} (Monat)`).join(', ')
-    const dub = { ja: '✅ zugesagt', offen: '⚠️ offen', unklar: '– unklar' }[p.dub]
+    const dub = { ja: '✅ zugesagt', offen: '⚠️ offen', unklar: '– unklar', nein: '❌ nur Originalton' }[p.dub]
     out.push(`| ${when} | ${p.platforms.join(', ') || '?'} | ${dub} | [${p.articleTitle}](${p.articleUrl}) |`)
   }
   if (open.length > 40) out.push('', `… und ${open.length - 40} weitere.`)

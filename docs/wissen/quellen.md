@@ -3310,3 +3310,42 @@ Anlass (Daniel): Bei „The Boxer" stand eine Suchseite, bei „Laid Off Cheat G
 - **Wirkung:** `pipeline/lib/belegstaerke.ts`, Signal `forum` als mittlere Quelle (low -> normal, normal -> high), nie über high, ersetzt nie eine Handprüfung: Titel mit nur `dub: false` in `dub-confirmed.yaml` zählen nicht (der Build gibt die Zahl im Log aus). Messung auf dem Bestand vom 09.10.2026: Hauptbestand high 611 -> 798, normal 412 -> 338, low 374 -> 261 (very-high 1.529 unverändert); Toggle 2 Titel low -> normal.
 - **Erzeugung:** einmalig `node tools/synchron-forum-treffer.mjs <liste.tsv>`; 2.104 exakte Namenstreffer mit passender Folgenzahl automatisch, 54 unscharfe oder mehrdeutige Zeilen von Hand in `HAND` entschieden (im Zweifel `null`: Veldoras Tagebuch, GITS Arise, Hakuoki, Appleseed XIII, Stone Ocean Teil 2 u. a. bleiben unzugeordnet). Mehrteilige Filme (Digimon tri., Heaven's Feel) belegen alle Teile.
 - **Prüfung:** `pipeline/check-belegstaerke.ts` (in `check:logic`): Regel an Beispielen, jede ID im Datensatz, Listenjahr höchstens 2 Jahre neben AniList.
+
+## Ein Beleg steht nur bei der Aussage, die er trägt — „nur Originalton" ist kein deutscher Termin (10.10.2026)
+
+**Anlass:** „Dragon Ball Super: Beerus" stand als „Alle 0 Folgen im Angebot morgen, Sonntag 11.10.2026" im Kalender, die News
+„Start am 11.10.2026 bei Crunchyroll" trug als Beleg den Anime2You-Artikel 1056092 vom 01.10. Der sagt: Crunchyroll und ADN
+zeigen die Serie „im Originalton mit Untertiteln", Netflix ab 18.10. — keine deutsche Fassung.
+
+**Ursachen (gemessen am Datensatz vom 10.10.2026):**
+1. `dubBefund` kannte nur `ja`/`offen`/`unklar`; ein Satz „im Originalton mit Untertiteln" ohne deutsche Fassung ergab `unklar`.
+2. `releasesAus` (`pipeline/lib/meldungen.ts`) prüfte die Sprache gar nicht — jeder Vorschlag mit Tag und Anbieter wurde
+   ein deutscher Termin (Sammelartikel filtern seit jeher auf `deutsch`, Einzelartikel nicht).
+3. Ohne Folgenzahl (Werk noch nicht gestartet) schrieb der Antwortkasten `count: gesamt ?? episodeCount ?? 0` → „Alle 0 Folgen".
+
+**Entscheidung — eine Quelle je Aussage, die sie trägt; was sie nicht trägt, wird gekennzeichnet:**
+- `nein` (nur Originalton/OmU/„Japanisch (UT)", keine Zusage): die Meldung widerlegt die deutsche Fassung selbst → **kein
+  Release**. Eine früher daraus erschienene Ankündigung bleibt in den News sichtbar, zurückgezogen mit dem Grund „Die Quelle nennt
+  nur Originalton mit Untertiteln, keine deutsche Synchro." (`news-verlauf.ts`). Der Bau zählt solche Meldungen
+  (`08-news-tv.ts`, Warnung ab 11) und bricht ab, falls doch ein automatischer Termin eine davon als Beleg trägt
+  (`releasesAusNurOriginalton`, `13-5-kerndateien.ts`).
+- `unklar`/`offen` (Tag belegt, Sprache nicht): das Release bleibt — nicht widerlegt —, aber `note` sagt es („Termin laut Quelle –
+  ob mit deutscher Synchro, sagt sie nicht." bzw. „… ist dort noch offen."); die Notiz steht im Antwortkasten und als Hinweis an der
+  News. Discs ausgenommen: deutsche Ausgaben tragen fast immer deutschen Ton, eine reine OmU-Ausgabe nennt der Artikel (`nein`).
+- Melden mehrere Artikel denselben Titel und Anbieter, gewinnt der mit Sprachzusage (vorher: der erste in der Datei).
+- Ältere Vorschläge werden an ihren gespeicherten Fundstellen nachgewertet (`spracheDerMeldung`, `lib/sprachbefund.ts`).
+
+**Verworfen:** mehrere Belege je Release sammeln (würde Artikel anhängen, die nur den Tag tragen — genau der Fehler); alle
+`unklar`-Releases streichen (29 Einträge am 10.10., meist Discs; nicht widerlegt, Grundsatz „kennzeichnen statt weglassen").
+
+**Wirkung auf den Bestand vom 10.10.2026** (Messung mit `releasesAus` gegen den ausgelieferten Datensatz, der volle Bau brach
+lokal am veralteten `data/cache` ab): 1 Meldung nennt nur Originalton (Beerus) → `auto-10021566-crunchyroll` entfällt; Notiz an 2
+Streaming-Terminen (Fool Night „offen", Gundam Hathaway „sagt sie nicht"); Rooster Fighter belegt jetzt der Netflix-Sammelartikel
+(„Deutsch", 12 Folgen) statt des sprachlosen Einzelartikels. „Alle 0 Folgen" betraf 2 Titel ohne Folgenzahl (Beerus, Fool Night).
+
+**Recherche Beerus (10.10.2026):** Kein Beleg für eine deutsche Synchro. Crunchyroll-Lineup Herbst 2026 (nur OmU, keine DE-Zeile,
+`data/proposals/aussagen.json`), Anime2You-Netflix-Sammelartikel 1052708 („Sprache: Japanisch (UT)", 18.10.), Anime2You 1056092
+(OmU bei CR/ADN), aniSearch 21566 (`dub: "-"`, Sprachblock „Deutsch" ist der Untertitel-Eintrag), GamePro (vermutet OmU). Nicht
+erreicht: Crunchyroll-Seiten (clientseitig gerendert, WebFetch leer), aniSearch-Seiten (nie von Daniels IP). Wiedervorlage, sobald
+Crunchyroll/Netflix eine deutsche Tonspur zeigen (CR-Katalog-Lauf meldet es dann ohnehin).
+

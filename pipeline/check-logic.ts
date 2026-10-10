@@ -107,7 +107,7 @@ import { sucheZweistufig } from '../web/src/lib/search.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { LAUF_ABFRAGEN, LAUF_ARTEN, SQL_EINE_ART } from '../worker/src/lauf-sql.ts'
-import { geteilteWegeTrotzWiderlegung, pruefeErgebnis } from './lib/pruefung.ts'
+import { geteilteWegeTrotzWiderlegung, pruefeErgebnis, releasesAusNurOriginalton } from './lib/pruefung.ts'
 import { anisearchUmgezogen, dubNurHinterToggle, ergaenzeAnisearchTitel } from './bau/anisearch-titel.ts'
 import { MAL_AUSNAHMEN, malDubletten } from './lib/mal-dubletten.ts'
 import { pruefeKalenderKonsistenz } from './lib/kalender-konsistenz.ts'
@@ -169,7 +169,7 @@ import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
-import { ALTE_AUTO_KENNUNG, istAbschied, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
+import { ALTE_AUTO_KENNUNG, istAbschied, nurOriginaltonMeldungen, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
 import { leseSammelartikel, vorschlaegeAusSammelartikel, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
@@ -4259,6 +4259,56 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 }
 
 /**
+ * **Nur Originalton ist kein deutscher Termin** (10.10.2026, „Dragon Ball Super: Beerus"). Anime2You
+ * schrieb „bei Crunchyroll und ADN im Originalton mit Untertiteln"; der Vorschlag hieß „unklar", und
+ * der Bau machte daraus einen Synchro-Start am 11.10. mit dem Artikel als Beleg.
+ */
+{
+  const { dubBefund, spracheDerMeldung } = await import('./lib/sprachbefund.ts')
+  const beerus = '»Dragon Ball Super: Beerus« startet am 11. Oktober 2026 im japanischen Fernsehen sowie am selben Tag bei Crunchyroll und ADN im Originalton mit Untertiteln. Bei Netflix geht es am 18. Oktober 2026 los.'
+  pruefe('Sprache: „im Originalton mit Untertiteln" ohne deutsche Fassung heißt nein', dubBefund(beerus) === 'nein')
+  pruefe('Sprache: eine Zusage im selben Artikel schlägt den Originalton', dubBefund('Crunchyroll zeigt die Serie im Originalton mit Untertiteln. Die deutsche Synchronfassung folgt am 25. Oktober.') === 'ja')
+  pruefe('Sprache: offene Sprachfassung plus Originalton heißt nein — der Tag ist ein OmU-Tag', dubBefund('Die Sprachfassungen sind noch offen. Crunchyroll zeigt sie im Originalton mit Untertiteln.') === 'nein')
+  pruefe('Sprache: „Japanisch (UT)" aus einem Sammelartikel heißt nein', dubBefund('Simulcast: Jeden Sonntag\nSprache: Japanisch (UT)') === 'nein')
+  pruefe('Sprache: ein Satz mit Deutsch und Originalton ist eine Zusage', dubBefund('Der Film läuft auf Deutsch und im Originalton mit Untertiteln.') === 'ja')
+  const gespeichert = {
+    articleTitle: 'Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast',
+    dub: 'unklar',
+    dates: [{ context: 'Ab 11. Oktober 2026 »Dragon Ball Super: Beerus« startet am 11. Oktober 20' }, { context: 'hyroll und ADN im Originalton mit Untertiteln. Bei Netflix geht es am 18. Oktober 2026 […]' }],
+  }
+  pruefe('Sprache: ein gespeicherter Vorschlag („unklar") wird an seinen Fundstellen nachgewertet', spracheDerMeldung(gespeichert) === 'nein')
+  pruefe('Sprache: eine gespeicherte Zusage bleibt Zusage', spracheDerMeldung({ ...gespeichert, dub: 'zugesagt' }) === 'ja')
+
+  const titel = [{ id: 206814, titleEn: 'Dragon Ball Super: Beerus', format: 'TV' }] as unknown as Parameters<typeof releasesAus>[1]
+  const v = (url: string, dub: string, kontext: string, category = 'streaming', platforms = ['crunchyroll']) =>
+    ({ articleTitle: 'Termin von »Dragon Ball Super: Beerus«', articleUrl: url, category, platforms, titleId: 206814, dub, dates: [{ iso: '2026-10-11', context: kontext }] }) as unknown as Parameters<typeof releasesAus>[0][number]
+  const omu = { ...v('https://www.anime2you.de/news/1056092/x/', 'unklar', 'x'), articleTitle: gespeichert.articleTitle, dates: [{ iso: '2026-10-11', context: gespeichert.dates[1]!.context }] }
+  pruefe('Auto-Termin: aus einer Meldung mit nur Originalton entsteht kein Release', releasesAus([omu], titel, [], '2026-10-08').length === 0)
+  pruefe('Auto-Termin: die Meldung zählt als „nur Originalton" (Protokoll, Rückzugsgrund)', nurOriginaltonMeldungen([omu]).length === 1)
+  const still = releasesAus([v('https://a/1', 'unklar', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
+  pruefe('Auto-Termin: nennt die Meldung keine Sprache, sagt die Notiz das', /sagt sie nicht/.test(still?.note ?? ''), still?.note)
+  const offen = releasesAus([v('https://a/1', 'offen', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
+  pruefe('Auto-Termin: lässt die Meldung die Synchro offen, sagt die Notiz das', /noch offen/.test(offen?.note ?? ''), offen?.note)
+  const zugesagt = releasesAus([v('https://a/1', 'ja', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
+  pruefe('Auto-Termin: mit Sprachzusage keine Notiz', zugesagt !== undefined && zugesagt.note === undefined, zugesagt?.note)
+  const disc = releasesAus([v('https://a/1', 'unklar', 'erscheint am 11. Oktober 2026 auf Blu-ray', 'disc', ['disc'])], [{ ...titel[0]!, format: 'MOVIE' }], [], '2026-10-08')[0]
+  pruefe('Auto-Termin: eine Disc (auch eines Films) ohne Sprachangabe bekommt keine Notiz', disc !== undefined && disc.note === undefined, disc?.note)
+  const zwei = releasesAus([v('https://a/still', 'unklar', 'ab dem 11. Oktober 2026'), v('https://a/zusage', 'zugesagt', 'ab dem 11. Oktober 2026')], titel, [], '2026-10-08')
+  pruefe('Auto-Termin: melden zwei Artikel denselben Termin, belegt ihn der mit Sprachzusage', zwei.length === 1 && zwei[0]!.sources[0] === 'https://a/zusage', zwei.map((r) => r.sources))
+
+  const T = (id: number) => ({ id, franchiseId: id, titleDe: `T${id}` }) as unknown as Title
+  const alt: TerminVerlauf = { datum: '2026-10-11', art: 'angekuendigt', titelId: 1, name: 'T1', wurzel: 1, platform: 'crunchyroll', quelle: 'https://www.anime2you.de/news/1056092/x/', am: '2026-10-08' }
+  const verlauf = (nurOriginalton: Set<string>) =>
+    pflegeTerminverlauf({ datiert: [], nachId: new Map([[1, T(1)]]), historie: { termine: { r: [alt] }, vergangen: {} }, vorherige: [], name: (t) => t.titleDe ?? String(t.id), wurzel: (t) => t.id, grenze: '2026-09-01', heute: '2026-10-10', nurOriginalton })[0]
+  pruefe('News: eine Ankündigung aus einer Originalton-Meldung wird mit diesem Grund zurückgezogen', /nur Originalton/.test(verlauf(new Set([alt.quelle!]))?.zurueckgezogen?.grund ?? ''), verlauf(new Set([alt.quelle!]))?.zurueckgezogen)
+  pruefe('News: sonst bleibt der allgemeine Grund', verlauf(new Set())?.zurueckgezogen?.grund === 'Der Termin wurde zurückgezogen.')
+  pruefe(
+    'Bau: ein automatischer Termin mit Originalton-Beleg ist ein Widerspruch, ein Handeintrag nicht',
+    releasesAusNurOriginalton([{ slug: 'auto', automatisch: true, sources: ['https://u/'] }, { slug: 'hand', sources: ['https://u/'] }] as unknown as Release[], new Set(['https://u/'])).length === 1,
+  )
+}
+
+/**
  * **Prime Video führen wir über amazon.de, nicht über primevideo.com.**
  *
  * Daniel am 07.09.2026 an „City The Animation": Der Titel stand zweimal mit
@@ -6995,6 +7045,7 @@ pruefe(
     wurzel: (t) => t.franchiseId ?? t.id,
     grenze: '2026-09-01',
     heute: '2026-10-02',
+    nurOriginalton: new Set(),
   })
   pruefe('Verlauf: eine abgelöste Schätzung bleibt als Schätzung erkennbar', raus.length === 1 && raus[0]!.geschaetzt === true, raus[0])
   pruefe('Verlauf: sie steht als abgelöst (kein Nachfolger) da', raus[0]?.zurueckgezogen !== undefined, raus[0]?.zurueckgezogen)
