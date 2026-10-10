@@ -592,3 +592,15 @@
   edition: "Vol. 2: Exklusiv, Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-30" }
   sources: [https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/]
+
+# ---------------------------------------------------------------- nachgetragen am 10.10.2026
+# Anime2You 1058349: „mit deutscher Synchronisation sowie in der Originalfassung mit Untertiteln", Standard-Blu-ray, Crunchyroll.
+- slug: jujutsu-kaisen-hidden-inventory-premature-death-blu-ray
+  anilistId: 192809
+  titleDe: "Jujutsu Kaisen: Hidden Inventory / Premature Death – The Movie"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2027-01-15" }
+  sources: [https://www.anime2you.de/news/1058349/]
