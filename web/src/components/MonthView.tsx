@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -143,11 +143,11 @@ function ZelleHandy({ tag, stream, tv, p, heute, t }: ZellProps) {
     <button
       type="button"
       onClick={stream.length + tv.length ? undefined : () => p.onPickDay(tag.date)}
-      aria-label={stream.length + tv.length ? punkteLabel(stream, tv.length, datum, t) : t('kal.tagOeffnen', { datum })}
+      aria-label={stream.length + tv.length ? punkteLabel(stream, tv.length, datum, p.data, t) : t('kal.tagOeffnen', { datum })}
       className="flex size-full min-h-[74px] cursor-pointer flex-col items-start gap-1 p-1.5 text-left"
     >
       <TagesZahl tag={tag} heute={heute} />
-      <PunkteReihe stream={stream} />
+      <PunkteReihe stream={stream} data={p.data} />
       {tv.length > 0 && (
         <span className="mt-auto flex items-center gap-0.5 text-[11px] font-bold text-ak-tv">
           <FernsehZeichen groesse={11} />
@@ -165,22 +165,26 @@ function ZelleHandy({ tag, stream, tv, p, heute, t }: ZellProps) {
 }
 
 /** Am Handy ein Punkt je Streaming-Termin in der Anbieterfarbe statt 22 px großer Cover (kein Bild geladen); die Titel nennt der Knopf per aria-label und die Tagesliste. */
-function PunkteReihe({ stream }: { stream: ReleaseEvent[] }) {
+function PunkteReihe({ stream, data }: { stream: ReleaseEvent[]; data: Dataset }) {
   const zeigen = stream.length > PUNKTE_MAX ? stream.slice(0, PUNKTE_MAX - 1) : stream
   const mehr = stream.length - zeigen.length
   return (
     <span className="flex flex-wrap content-start gap-[3px]" aria-hidden="true">
       {zeigen.map((ev) => (
-        <span key={ev.id} data-monatspunkt className="block size-2.5 rounded-full" style={{ background: PLATFORMS[ev.platform]?.color }} />
+        <span key={ev.id} data-monatspunkt data-art={art(ev, data)} className="ak-punkt block size-2.5 rounded-full" style={{ '--punkt': PLATFORMS[ev.platform]?.color } as CSSProperties} />
       ))}
       {mehr > 0 && <span className="text-[10px] leading-[10px] font-extrabold text-ak-text">+{mehr}</span>}
     </span>
   )
 }
 
-/** Farbe trägt nie allein: Der Knopf nennt Titel und Anbieter der ersten Termine. */
-function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, t: ReturnType<typeof useLang>['t']): string {
-  const titel = stream.slice(0, LABEL_TITEL).map((ev) => `${ev.name} (${ev.platform === 'tv' ? (ev.sender ?? PLATFORMS.tv.name) : PLATFORMS[ev.platform].name})`)
+/** Farbe und Ring tragen nie allein: Der Knopf nennt Titel, Anbieter und Staffelstart/-finale der ersten Termine. */
+function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, data: Dataset, t: ReturnType<typeof useLang>['t']): string {
+  const titel = stream.slice(0, LABEL_TITEL).map((ev) => {
+    const a = art(ev, data)
+    const anbieter = ev.platform === 'tv' ? (ev.sender ?? PLATFORMS.tv.name) : PLATFORMS[ev.platform].name
+    return `${ev.name} (${a ? `${anbieter}, ${t(a === 'start' ? 'kal.start' : 'kal.finale')}` : anbieter})`
+  })
   const rest = stream.length - titel.length
   const teile = [...titel, ...(rest > 0 ? [t('kal.undWeitere', { n: rest })] : []), ...(tvZahl ? [t('kal.imTvZahl', { n: tvZahl })] : [])]
   return t('kal.tagMitTiteln', { datum, titel: teile.join(', ') })
