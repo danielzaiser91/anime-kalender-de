@@ -1,5 +1,5 @@
 /**
- * **Nach der Meldung steht „✓ gemeldet“** (4.24.21, 10.10.2026).
+ * **Nach der Meldung steht „✓ gemeldet“ — und neue Folgen heißen „Neue Folgen“** (4.24.21, 10.10.2026).
  *
  * Daniel am 10.10.2026 (Das Band der Unterwelt, Netflix 82719204): Nach „2/2" sprang der Knopf zurück auf
  * „▶ E1 + E15 prüfen → gilt für E1–15", obwohl alle 15 Meldungen im Briefkasten lagen. Der Rücksprung ließ
@@ -210,7 +210,7 @@ function ladeSeite(pfad, liste, suchteil, speicher) {
 const knopfText = (s) => s.text()
 
 ;(async () => {
-  console.log('Netflix: Abschluss „✓ gemeldet“\n')
+  console.log('Netflix: Abschluss „✓ gemeldet“ und „Neue Folgen“\n')
 
   /* 1. Der Fall vom 10.10.2026: Titel ohne Prüflisten-Eintrag, 15 Folgen, Randprobe E1 + E15. */
   const a = await seite()
@@ -241,6 +241,29 @@ const knopfText = (s) => s.text()
   d.run('durchlaufKnopfZeigen()')
   await d.run('durchlaufStandVergessen()')
   pruefe('„Stand verwerfen“ löscht den Abschluss', knopfText(d) !== '✓ gemeldet', knopfText(d))
+
+  /* 5. Die Plattform hat mehr Folgen als der Datensatz: „Neue Folgen“, und der Lauf meldet alles. */
+  const e = await seite({ bekannt: 11, vorher: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] })
+  await e.zeige()
+  pruefe('Briefkasten bis E11, Datensatz bis E11: „Neue Folgen 12–15“', knopfText(e) === 'Neue Folgen 12–15 · prüfen und melden', knopfText(e))
+  await e.run('durchlaufStarten()')
+  pruefe('der Lauf meldet alle 15 erneut, nicht nur E12–15', e.briefkasten.length === 11 + 15, e.briefkasten.length)
+  e.run('durchlaufKnopfZeigen()')
+  pruefe('danach „✓ gemeldet“', knopfText(e) === '✓ gemeldet', knopfText(e))
+
+  /* 6. Ohne Eintrag im Prüfstand, oder bei gleich vielen Folgen, bleibt es beim bisherigen Knopf. */
+  const f = await seite()
+  await f.zeige()
+  pruefe('ohne `bekannt`: kein „Neue Folgen“', !/Neue Folgen/.test(knopfText(f)), knopfText(f))
+  const g = await seite({ bekannt: 15 })
+  await g.zeige()
+  pruefe('Datensatz kennt alle 15: kein „Neue Folgen“', !/Neue Folgen/.test(knopfText(g)), knopfText(g))
+
+  /* 7. Zwei geladene Staffeln: Nummern nicht vergleichbar, kein Hinweis und kein Merker. */
+  const h = await seite({ bekannt: 11 })
+  h.run(`DURCHLAUF.alleFolgen = DURCHLAUF.folgen.concat([{ nummer: 1, videoId: 99, seasonId: 's2', titel: 'X' }])`)
+  await h.zeige()
+  pruefe('zwei Staffeln geladen: kein „Neue Folgen“', !/Neue Folgen/.test(knopfText(h)), knopfText(h))
 
   console.log('')
   if (faelle.includes(false)) {

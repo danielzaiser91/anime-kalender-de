@@ -1,5 +1,5 @@
 /*
-  **Nach der Meldung bleibt der Knopf bei „✓ gemeldet“** (4.24.21, 10.10.2026)
+  **Nach der Meldung bleibt der Knopf bei „✓ gemeldet“ — und neue Folgen heißen „Neue Folgen“** (4.24.21, 10.10.2026)
 
   Daniel am 10.10.2026 (Das Band der Unterwelt): Nach „2/2" sprang der Knopf zurück auf „▶ E1 + E15 prüfen",
   obwohl alle 15 Meldungen im Briefkasten lagen. Im Sandkasten lässt sich der Rücksprung nicht herstellen;
@@ -37,6 +37,17 @@ globalThis.AK_GEMELDET = (() => {
 
   const nurEineStaffel = (alleFolgen) => new Set(alleFolgen.map((f) => String(f.seasonId ?? ''))).size <= 1
 
+  /**
+   * Folgen hinter dem Stand des Datensatzes, die noch nicht gemeldet sind. Nur bei einer einzigen
+   * geladenen Staffel — bei mehreren zählt Netflix je Staffel neu und die Nummern sind nicht vergleichbar.
+   */
+  function neu(reihe, folgen, alleFolgen, gemeldet) {
+    if (!nurEineStaffel(alleFolgen)) return null
+    const bekannt = globalThis.akBekannt?.(stand, 'netflix', String(reihe))
+    const offen = folgen.filter((f) => !gemeldet.has(f.videoId)).map((f) => Number(f.nummer))
+    return bekannt ? globalThis.akNeueFolgen(bekannt, offen) : null
+  }
+
   /** Ein Lauf ist sauber zu Ende, wenn nichts abgebrochen, gestört oder offen ist und jede Folge gemeldet. */
   function lauf(D, reihe) {
     if (D.laeuft || D.mehrfach || D.uebergangen) {
@@ -56,7 +67,10 @@ globalThis.AK_GEMELDET = (() => {
     return false
   }
 
-  /** Der Knopf zeigt den Abschluss (aus, „✓ gemeldet“). `true`: beschriftet, `melder.js` zeichnet nichts mehr. */
+  /**
+   * Der Knopf zeigt den Abschluss (aus, „✓ gemeldet“) oder die neuen Folgen („Neue Folgen 12–15 · prüfen und
+   * melden“, der Klick prüft dann alle Folgen). `true`: Der Knopf ist beschriftet, `melder.js` zeichnet nichts mehr.
+   */
   function zeigen(D, reihe) {
     const knopf = D.knopf
     if (!knopf || lauf(D, reihe) || D.stoerung) return false
@@ -67,8 +81,14 @@ globalThis.AK_GEMELDET = (() => {
       knopf.classList.add('ak-fertig')
       return true
     }
-    return false
+    const n = neu(reihe, D.folgen, D.alleFolgen ?? [], D.gemeldet)
+    if (!n) return false
+    knopf.textContent = `Neue Folgen ${n.von}–${n.bis} · prüfen und melden`
+    knopf.title = 'Der Datensatz kennt diese Folgen noch nicht.\nDer Klick prüft alle Folgen erneut: die alten werden bestätigt, die neuen ergänzt.'
+    knopf.disabled = false
+    knopf.classList.remove('ak-fertig')
+    return true
   }
 
-  return { laden, zeigen }
+  return { laden, zeigen, neu }
 })()

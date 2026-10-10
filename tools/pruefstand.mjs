@@ -53,6 +53,25 @@ function adresseFuer(plattform, kennung) {
   return null
 }
 
+/**
+ * Die höchste Folge, die der Datensatz je Kennung belegt (obere Grenze seiner `dubRanges`) — damit die
+ * Erweiterung erkennt, wenn die Plattform mehr Folgen führt (4.24.21, 10.10.2026: Das Band der Unterwelt,
+ * Datensatz bis Folge 11, Disney+ und Netflix zeigen 15). Teilen sich mehrere Einträge eine Adresse,
+ * fehlt sie: Die Nummern sind dann nicht vergleichbar.
+ */
+function bekannteFolgen(plattform, kennung) {
+  const jeKennung = new Map()
+  for (const t of titel) {
+    for (const s of t.streams ?? []) {
+      const k = s.platform === plattform ? kennung(s.seite ?? s.url ?? '') : null
+      if (!k) continue
+      const bis = Math.max(0, ...(s.dubRanges ?? []).map((r) => Number(r.to) || 0))
+      jeKennung.set(k, jeKennung.has(k) ? 0 : bis)
+    }
+  }
+  return Object.fromEntries([...jeKennung].filter(([, bis]) => bis > 0))
+}
+
 const ANBIETER = [
   {
     name: 'Amazon',
@@ -237,7 +256,7 @@ const stand = ANBIETER.map((a) => {
     */
     ...(suchAdressen ? { suchAdressen } : {}),
     ziel: schluessel ? a.ziel(schluessel, wert) : null,
-    ziele,
+    ziele, bekannt: bekannteFolgen(a.plattform, a.kennung),
     /* Der Name des ersten offenen Eintrags — er steht als Titel am Knopf. */
     naechster: wert?.titel ?? null,
   }

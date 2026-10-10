@@ -3842,7 +3842,7 @@ async function durchlaufStarten(grenze) {
     `durchlaufAuftrag()` sähe über die Folgenzahl womöglich eine andere, belegte Staffel und fände
     nichts zu tun (Meine ganz besondere Hochzeit).
   */
-  const erzwungen = DURCHLAUF.erzwungen
+  const erzwungen = DURCHLAUF.erzwungen || Boolean(globalThis.AK_GEMELDET?.neu(reihe, DURCHLAUF.folgen, DURCHLAUF.alleFolgen ?? [], DURCHLAUF.gemeldet))
   DURCHLAUF.erzwungen = false
   if (erzwungen) DURCHLAUF.stichprobe = null
   const alleOffen = erzwungen ? [...DURCHLAUF.folgen] : durchlaufOffen()
