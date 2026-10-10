@@ -338,7 +338,7 @@ export function AntwortKasten({
           ? 'finale'
           : 'naechste'
     const kopf = antwort.komplett
-      ? T('antwort.alleFolgen', { count: antwort.gesamt ?? e.episodeCount ?? 0 })
+      ? (antwort.gesamt ?? e.episodeCount) ? T('antwort.alleFolgen', { count: (antwort.gesamt ?? e.episodeCount)! }) : T('antwort.alleFolgenOhneZahl') /* ohne Folgenzahl keine erfundene „0“ (Beerus, 10.10.2026) */
       : e.episode && !antwort.sichtung
         ? T(`antwort.${wasKommt}FolgeNr`, { n: e.episode })
         : T(`antwort.${wasKommt}Folge`)
