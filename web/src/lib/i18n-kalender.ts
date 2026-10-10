@@ -7,6 +7,9 @@ import { TEXTE_SPRECHER } from './i18n-sprecher.ts'
 
 export const TEXTE_KALENDER = {
   ...TEXTE_SPRECHER,
+  // Original noch nicht erschienen (Reihenliste, Datenbankkarte).
+  'geplant.marke': 'Geplant',
+  'geplant.hinweis': 'Das Original ist noch nicht erschienen',
   'kopf.startseite': 'Anime-Kalender DE — zur aktuellen Woche',
   'kopf.suche': 'Anime suchen',
   'kopf.sucheOeffnen': 'Suche öffnen',

@@ -183,6 +183,19 @@ export function titleStatus(
   return 'unbekannt'
 }
 
+/**
+ * Liegt der Start des Originals noch in der Zukunft? Dann ist eine fehlende deutsche Synchro kein Befund
+ * (Daniel, 10.10.2026: Reihenliste „Yaiba"). Ein volles Datum entscheidet; sonst der AniList-Status, zuletzt Monat oder Jahr
+ * (nur strikt später als heute). Im Zweifel `false` — lieber kein Label als ein falsches „Geplant".
+ */
+export function erscheintErst(t: Pick<Title, 'jpStart' | 'jpStatus' | 'jpYear'>, today = todayIso()): boolean {
+  if (t.jpStatus === 'FINISHED' || t.jpStatus === 'RELEASING') return false
+  const jp = t.jpStart ?? (t.jpYear ? String(t.jpYear) : '')
+  if (jp.length >= 10) return jp > today
+  if (t.jpStatus === 'NOT_YET_RELEASED') return true
+  return jp !== '' && jp > today.slice(0, jp.length)
+}
+
 /** Erzeugt aus der Termin-Regel eines Releases die einzelnen Kalender-Einträge. */
 /**
  * Ist dieser Termin schon durch — nach Datum **und** Uhrzeit?
