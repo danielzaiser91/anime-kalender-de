@@ -18,6 +18,7 @@
 # Kein Skript schreibt diese Dateien (gemessen 04.10.2026); wer eines hinzufügt, das sie schreibt, trägt sie hier wieder ein.
 QUELLEN=(
   data/anisearch.json
+  data/anisearch-archiv-weg.json
   data/kennungen.json
   data/cartoon-umzug.json
   data/anisearch-folgen.json
