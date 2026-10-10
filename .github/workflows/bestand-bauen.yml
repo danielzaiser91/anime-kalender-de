@@ -45,6 +45,16 @@ on:
     # Also: Was Claude zusammengeführt hat, baut der nächste planmäßige Lauf —
     # spätestens eine Stunde später. Ein Konflikt ist der Ausnahmefall, und
     # eine Stunde Verzug ist dort verkraftbar.
+  # Ein gemergter Handbeleg oder Pipeline-Umbau wartete bis zum nächsten Sammel-Lauf (10.10.2026: 25 Minuten bis zum Baustart).
+  # Jetzt baut jeder Push, der Bauquellen berührt. Pushes mit GITHUB_TOKEN (Sammler-Merges, dieser Lauf selbst, Wachen) lösen
+  # keinen Workflow aus — es entstehen keine Doppelläufe. Die Gruppe `bau` hält einen laufenden und einen wartenden Lauf.
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - '!data/cache/**'
+      - 'pipeline/**'
+      - 'shared/**'
   workflow_dispatch:
 
 permissions:

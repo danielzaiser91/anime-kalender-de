@@ -622,10 +622,12 @@ Workflows behauptet also etwas, das die Plattform nicht einhalten kann.
 - **Sendezeiten sind bis zu acht Stunden alt.** Wer prüft, ob ein Termin
   eingehalten wurde, misst gegen einen Stand, der einen halben Tag zurückliegen
   kann — nicht gegen „vor einer Stunde".
-- **Eine Codeänderung erreicht die Daten mit demselben Verzug.** Der Bau
-  (`bestand-bauen.yml`) hängt an den drei Sammel-Läufen; wer heute etwas an der
-  Pipeline ändert und die Wirkung sehen will, stößt ihn selbst an:
-  `gh workflow run bestand-bauen.yml`.
+- **Eine Codeänderung erreicht die Daten ohne Verzug (seit 11.10.2026).** Der Bau
+  (`bestand-bauen.yml`) hängt an den Sammel-Läufen und startet zusätzlich bei jedem
+  Push auf `main`, der `data/**` (ohne `data/cache/`), `pipeline/**` oder `shared/**`
+  berührt (am 10.10. vergingen 25 Minuten zwischen Merge und Baustart). Einen Hand-Anstoß
+  braucht es nicht mehr; kurz vor dem Stundenlauf erzeugte er nur einen zweiten Vollbau.
+  Sammler-Merges (`GITHUB_TOKEN`) lösen keinen Push-Lauf aus.
 - **„Stündlich" in einer Notiz oder einem Footer ist eine falsche Angabe.**
   Richtig ist „mehrmals täglich, im Mittel alle viereinhalb Stunden".
 
