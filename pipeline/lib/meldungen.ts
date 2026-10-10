@@ -40,7 +40,7 @@ export interface Vorschlag {
   titleId?: number
   category?: string
   platforms?: string[]
-  dates?: { iso?: string; month?: string; context: string }[]
+  dates?: { iso?: string; month?: string; context: string; /** Meldetag oder letzter Wochentag davor, kein genannter Starttag (`SammelEintrag.datumGeschaetzt`). */ geschaetzt?: boolean }[]
   dub?: string
   /** „pause", „verschoben", … — siehe `Proposal.pause`. */
   pause?: string
@@ -457,7 +457,7 @@ export function releasesAus(
       name,
       platform: platform as Release['platform'],
       ...(v.kanal && platform === 'primevideo' ? { kanal: v.kanal } : {}),
-      ...zeitplanAusVorschlag(v, art, tag, treffer, platform), ...sprachHinweis(sprache, platform),
+      ...zeitplanGeschaetzt(zeitplanAusVorschlag(v, art, tag, treffer, platform), v.dates?.some((d) => d.iso === tag && d.geschaetzt)), ...sprachHinweis(sprache, platform),
       year: Number(tag.slice(0, 4)),
       herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
       automatisch: true,
@@ -466,6 +466,11 @@ export function releasesAus(
     })
   }
   return out
+}
+
+/** Ein Tag, der nur der Meldetag ist („Ab sofort bei Netflix“), steht als abgeleitet (`schedule.estimated`), nicht als bestätigt. */
+function zeitplanGeschaetzt(plan: Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'>, geschaetzt?: boolean): Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'> {
+  return geschaetzt && plan.schedule ? { ...plan, schedule: { ...plan.schedule, estimated: true } } : plan
 }
 
 /**

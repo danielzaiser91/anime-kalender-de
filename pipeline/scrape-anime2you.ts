@@ -26,7 +26,7 @@ import { sendezeiten, type Sendezeit } from './lib/sendezeit.ts'
 import { eingearbeiteteAdressen } from './lib/eingearbeitet.ts'
 import type { PlatformId } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
-import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, type SammelEintrag } from './lib/sammelartikel.ts'
+import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, zaehleSammelVerwurf, type SammelEintrag } from './lib/sammelartikel.ts'
 import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './lib/disc-verschiebungen.ts'
 import { DISC_UEBERSICHT, leseDiscUebersicht, type DiscZeile } from './lib/disc-uebersicht.ts'
 import { dubBefund, type Sprachbefund } from './lib/sprachbefund.ts'
@@ -186,7 +186,8 @@ async function sammelartikelNachholen(alle: Proposal[], heute: string): Promise<
   let geholt = 0
   for (const p of alle) {
     const jung = p.publishedAt >= addDays(heute, -45)
-    const faellig = !p.sammelGelesen || (jung && p.sammelGelesen <= addDays(heute, -3))
+    /* Ein junger Artikel ohne gelesenen Eintrag wird erneut geholt: Der Leser lernt dazu (10.10.2026: 12 von 15 lieferten 0). */
+    const faellig = !p.sammelGelesen || (jung && (p.sammelGelesen <= addDays(heute, -3) || !p.sammel?.length))
     if (p.category !== 'streaming' || !ANBIETER_SAMMELARTIKEL.test(p.articleTitle) || !faellig || geholt >= 6) {
       aus.push(p)
       continue
@@ -199,7 +200,9 @@ async function sammelartikelNachholen(alle: Proposal[], heute: string): Promise<
       continue
     }
     const sammel = leseSammelartikel(artikelZeilen(html), p.publishedAt)
-    log(`Sammelartikel „${p.articleTitle}": ${sammel.length} Titel, ${sammel.filter((e) => e.deutsch).length} mit deutschem Ton`)
+    const anbieter = [...new Set(p.platforms.map((x) => (x === 'aniverse' ? 'primevideo' : x)))]
+    log(`Sammelartikel „${p.articleTitle}": ${sammel.length} Titel, ${sammel.filter((e) => e.deutsch).length} mit deutschem Ton, nicht übernommen: ${JSON.stringify(zaehleSammelVerwurf(sammel, anbieter.length === 1 ? anbieter[0] : undefined))}`)
+    if (!sammel.length) warn(`Sammelartikel „${p.articleTitle}": 0 Einträge gelesen — Vorlage geändert? ${p.articleUrl}`)
     aus.push({ ...p, sammel, sammelGelesen: heute })
   }
   return aus

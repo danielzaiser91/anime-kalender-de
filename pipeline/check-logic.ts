@@ -170,7 +170,7 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { ALTE_AUTO_KENNUNG, istAbschied, nurOriginaltonMeldungen, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
-import { leseSammelartikel, vorschlaegeAusSammelartikel, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
+import { leseSammelartikel, vorschlaegeAusSammelartikel, zaehleSammelVerwurf, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
 import { erschieneneFolgen, deutscheFolgen } from './bau/folgen-dateien.ts'
@@ -8342,6 +8342,22 @@ console.log('\nSammelartikel „Ab sofort":')
   pruefe('Ab sofort: Datum ist der Tag der Meldung, deutsch, wöchentlich, Disney+', tr?.datum === '2026-10-02' && tr.deutsch === true && tr.woechentlich === true && tr.stream.includes('Disney+'))
   pruefe('Ab sofort: „Ab 3. November" behält sein Datum', e.find((x) => /Honey/.test(x.titel))?.datum === '2026-11-03')
   pruefe('Disney+-Überschrift „ergänzt zwei weitere Anime-Titel" wird als Sammelartikel gelesen', ANBIETER_SAMMELARTIKEL.test('Disney+ ergänzt zwei weitere Anime-Titel auf Deutsch'))
+}
+console.log('\nSammelartikel ohne Tag in der Kopfzeile (Netflix 04.10.2026):')
+{
+  const blau = ['»Blue Box« – Staffel 2', 'Episoden: 1 verfügbar', 'Sprache: Deutsch, Japanisch (UT)', 'Simulcast: Jeden Sonntag eine neue Episode', 'Stream: Netflix']
+  const tod = ['»Death Note«', 'Episoden: 37 (komplett)', 'Sprache: Deutsch, Japanisch (UT)', 'Hinweis: Serie sollte ursprünglich am 30. September 2026 entfernt werden', 'Stream: Netflix']
+  const e = leseSammelartikel(['Ab sofort bei Netflix:', '»Blue Box« – Staffel 2', '»Death Note«', ...blau, ...tod].join('\n'), '2026-10-07')
+  const bb = e.find((x) => x.titel === 'Blue Box')
+  pruefe('Ohne Tag: nur die Kopfzeile mit Feld darunter zählt (die Titelliste oben nicht)', e.length === 2)
+  pruefe('Ohne Tag: „Jeden Sonntag“, eine Folge → letzter Sonntag vor der Meldung, als geschätzt', bb?.datum === '2026-10-04' && bb.datumGeschaetzt === true && bb.deutsch === true)
+  pruefe('Ohne Tag: „sollte entfernt werden“ → kein Meldetag als Start', e.find((x) => x.titel === 'Death Note')?.datum === undefined)
+  const ranma = leseSammelartikel(['Neue Simulcasts:', '»Ranma 1/2« – Staffel 3', '»Ranma 1/2« – Staffel 3', 'Start: 3. Oktober 2026', 'Sprache: Deutsch', 'Stream: Netflix'].join('\n'), '2026-09-20')[0]
+  pruefe('Ohne Tag: „Start: 3. Oktober 2026“ ist ein genannter Tag, nicht geschätzt', ranma?.datum === '2026-10-03' && !ranma.datumGeschaetzt)
+  pruefe('Ohne Tag: ohne „Ab sofort“-Liste und ohne Start kein Tag (nie der Meldetag)', leseSammelartikel(['Bald:', '»X«', '»X«', 'Start: 2027', 'Sprache: Deutsch', 'Stream: Netflix'].join('\n'), '2026-09-20')[0]?.datum === undefined)
+  pruefe('Verwurf: der Grund wird gezählt', zaehleSammelVerwurf(e)['kein Starttag'] === 1)
+  const v = vorschlaegeAusSammelartikel({ url: 'https://x/', publishedAt: '2026-10-07' }, e)
+  pruefe('Ein geschätzter Tag wandert als geschätzt in den Vorschlag', v.length === 1 && v[0]!.dates![0]!.geschaetzt === true)
 }
 console.log('\nGoogle-Kalender: wöchentliche Serie:')
 {
