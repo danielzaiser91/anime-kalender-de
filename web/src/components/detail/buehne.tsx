@@ -6,7 +6,7 @@ import { WeitereTitel } from './weitere.tsx'
 import { type Title, type FranchiseMember } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 
-export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggleHidden, favorites, onToggleFavorite, onClose, t, unterzeile, eigenerTeil }: {
+export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggleHidden, favorites, onToggleFavorite, onClose, t, unterzeile, folgenImKasten, eigenerTeil }: {
   reihenName: string
   buehnenBild: string | undefined; grossBild?: [string, number, number]
   title: Title
@@ -16,6 +16,7 @@ export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggl
   onClose: () => void
   t: Translate
   unterzeile: (string | undefined)[]
+  folgenImKasten: boolean
   eigenerTeil: FranchiseMember | undefined
 }) {
   return (
@@ -118,7 +119,7 @@ export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggl
                 Plural stimmt nicht, und ein Film hat keine Folgen, sondern ist
                 einer. Bei genau einer Einheit sagt das Format schon alles.
               */
-              title.episodes && title.episodes > 1
+              title.episodes && title.episodes > 1 && !folgenImKasten
                 ? `${title.episodes} ${t('detail.episodes')}`
                 : undefined,
               title.runtimeMin ? t(title.episodes && title.episodes > 1 ? 'detail.laufzeitJe' : 'detail.laufzeit', { n: title.runtimeMin }) : undefined,
