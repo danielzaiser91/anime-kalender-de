@@ -32,6 +32,8 @@ QUELLEN=(
   data/anisearch-eintraege-ausgelassen.json
   data/anisearch-mal.json
   data/anisearch-offen.json
+  # Stufe B der AniList-Ablösung (10.10.2026): Bau-Messung AniList gegen aniSearch, Feld für Feld; wird nicht ausgeliefert.
+  data/anisearch-abweichungen.json
   data/tmdb-poster.json
   data/kitsu-folgen.json
   data/cover-klein.json
