@@ -79,7 +79,8 @@ export function pruefeWochenDatei(w: WochenDatei, titles: Title[], releases: Rel
   }
   for (const e of w.events) {
     if (!imWochenRelease.has(e.releaseSlug)) fehler.push(`Wochen-Datei: Release ${e.releaseSlug} zu Termin ${e.id} fehlt`)
-    if (!imWochenTitel.has(e.titleId)) fehler.push(`Wochen-Datei: Titel ${e.titleId} zu Termin ${e.id} fehlt`)
+    /* `-1` = Termin ohne Titel im Bestand (z. B. ein ADN-Film): gibt es auch in den vollen Dateien nicht, das Raster kommt damit zurecht. */
+    if (e.titleId !== -1 && !imWochenTitel.has(e.titleId)) fehler.push(`Wochen-Datei: Titel ${e.titleId} zu Termin ${e.id} fehlt`)
   }
   return fehler.slice(0, 20)
 }

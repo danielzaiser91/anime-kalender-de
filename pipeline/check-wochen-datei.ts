@@ -5,6 +5,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { baueWochenDatei, pruefeWochenDatei, wocheDeckt, type WochenDatei } from '../shared/wochen-datei.ts'
+import { cartoonsMitTermin } from './bau/cartoon-kern.ts'
 import { ladeAkVon, uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 
 let verletzt = 0
@@ -45,7 +46,20 @@ console.log('\nWochen-Datei:')
   pruefe('ein Termin ohne Titel wird gemeldet', pruefeWochenDatei({ ...w, titles: w.titles.filter((t) => t.id !== 2) }, titles, releases, events).some((f) => f.includes('Titel 2')))
   pruefe('ein Eintrag, den es in den vollen Dateien nicht gibt, wird gemeldet', pruefeWochenDatei(w, titles, releases, events.filter((e) => e.id !== 'a-5')).some((f) => f.includes('a-5')))
 
-  pruefe('Anker und heute in der Woche: reicht', wocheDeckt(w, '2026-10-07', '2026-10-08'))
+  /* Cartoon (negative Kennung, 09.10.2026 Avatar: Die sieben Häfen) und Termin ohne Titel (-1, ADN-Film) in der Woche. */
+  const cartoons = [titel(-284833), titel(-5)]
+  const kern = [...titles, ...cartoonsMitTermin(cartoons, new Set([-284833]))]
+  pruefe('Cartoons mit Termin kommen in den Kern, andere nicht', kern.some((t) => t.id === -284833) && !kern.some((t) => t.id === -5))
+  const mitCartoon = [...events, termin('av@2026-10-09#1', 'av', -284833, '2026-10-09', 1), termin('film@2026-10-08', 'film', -1, '2026-10-08')]
+  const releasesC = [...releases, release('av', -284833), release('film', -1)]
+  const wc = baueWochenDatei('2026-10-08', kern, releasesC, mitCartoon)
+  pruefe('Cartoon-Termin der Woche bringt seinen Titel mit', wc.titles.some((t) => t.id === -284833))
+  const widerspruch = pruefeWochenDatei(wc, kern, releasesC, mitCartoon)
+  pruefe('Cartoon und Termin ohne Titel (-1) ergeben keinen Widerspruch', widerspruch.length === 0, widerspruch)
+  const ohneKern = pruefeWochenDatei(baueWochenDatei('2026-10-08', titles, releasesC, mitCartoon), titles, releasesC, mitCartoon)
+  pruefe('fehlt der Cartoon-Titel im Kern, wird das gemeldet', ohneKern.some((f) => f.includes('Titel -284833')))
+
+  pruefe('Anker und heute in der Woche: reicht',wocheDeckt(w, '2026-10-07', '2026-10-08'))
   pruefe('Anker in der Nachbarwoche: reicht nicht', !wocheDeckt(w, '2026-10-12', '2026-10-08') && !wocheDeckt(w, '2026-10-04', '2026-10-08'))
   pruefe('heute hinter der Woche (alter Stand): reicht nicht', !wocheDeckt(w, '2026-10-08', '2026-10-12'))
 }
