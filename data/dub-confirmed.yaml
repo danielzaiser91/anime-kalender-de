@@ -21427,10 +21427,10 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 1
+      to: 2
       dub: true
-  checkedAt: '2026-10-07'
-  note: "Folge 1 auf Deutsch bei Disney+ — von Daniel am 07.10.2026 selbst gesehen."
+  checkedAt: '2026-10-10'
+  note: "Folge 1 auf Deutsch bei Disney+ (Daniel, 07.10.2026). Folge 2 erschienen mit deutscher Synchro (Daniel, 10.10.2026, geprüft ca. 15:40)"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-10-08 ---
 
 - anilistId: 196144
@@ -21538,3 +21538,10 @@
   dub: true
   checkedAt: '2026-10-10'
   note: "Daniel, 10.10.2026: Netflix führt 12 Folgen, alle auf Deutsch (unser Datensatz führt 110 Folgen; welche Nummern Netflix zeigt, ist nicht belegt). Cartoon aus TMDB (negative Kennung); JustWatch nennt für Netflix keine Tonspur."
+- anilistId: 154965
+  title: "My Love Story with Yamada-kun at Lv999"
+  platform: netflix
+  url: https://www.netflix.com/title/81685150
+  dub: true
+  checkedAt: '2026-10-10'
+  note: "Nicht auf der Netflix-Seite gemessen, sondern Meldung von Anime2You (Artikel 1056287, anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/): Netflix führt eine eigene deutsche Synchronfassung, die von der Disc-Fassung (AniMoon) abweicht. Meldung vom 01.10.2026, Starttermin nicht belegt, Abruf 10.10.2026. Löst den Netflix-Befund vom 22.08.2026 (ohne deutschen Ton) ab."

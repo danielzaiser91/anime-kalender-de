@@ -3,7 +3,7 @@ import { hauptstaffeln, staffelBeschriftungen, eindeutschenStaffel } from '@shar
 import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
-import { Tooltip } from '../ui.tsx'
+import { SynchroMarke } from './reihen-marke.tsx'
 import { istEingeklappt } from './reihen-regeln.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
@@ -314,16 +314,10 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                         heißt es „gibt es nicht auf Deutsch", und genau das ist die Auskunft, um
                         die es geht.
 
-                        Künftige Teile tragen es nicht: Bei ihnen steht „ab <Datum>", und eine
-                        fehlende Synchro ist dort kein Befund, sondern der Normalzustand.
+                        Teile, deren Original noch aussteht, tragen stattdessen „Geplant"
+                        (10.10.2026): Eine fehlende Synchro ist dort der Normalzustand.
                       */}
-                      {ohneDe && (
-                        <span className="shrink-0 rounded border border-rose-400/50 bg-rose-500/15 px-1.5 py-px text-[9px] font-extrabold leading-tight tracking-wider text-rose-600 dark:text-rose-400">
-                          <Tooltip text={t('detail.reiheOhneSynchro')} eigenerFokus>
-                            🇩🇪 ✕
-                          </Tooltip>
-                        </span>
-                      )}
+                      <SynchroMarke t={t} m={m} ohneDe={ohneDe} />
                       <span
                         className={[
                           'min-w-0 truncate text-sm leading-tight',

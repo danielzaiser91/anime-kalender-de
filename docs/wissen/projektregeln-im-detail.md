@@ -408,6 +408,11 @@ und was er geholt hat, liegt unversioniert herum.
 den Regelfall ab; ein Lauf von Hand ist die Ausnahme für einen Nachzügler oder ein Kontingent,
 das sonst verfällt.
 
+## Prüfung nach Risiko: Stufen 0, 1, 2 (Daniel, 10.10.2026)
+
+Anlass: „keine Prüfer-Agenten bei Kleinigkeiten“. `node tools/pr-stufe.mjs <PR>` (Tabelle und Tests: `tools/pr-stufe.mjs`, `tools/pr-stufe.test.mjs`) stuft mechanisch aus Pfaden und Zeilenzahl des Diffs ein, im Zweifel Stufe 2.
+Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar und lässt bei Stufe 0 den Claude-Lauf aus.
+
 ## Vor dem Commit
 
 ```bash

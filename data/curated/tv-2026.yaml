@@ -35,3 +35,25 @@
     - https://www.anime2you.de/news/1044800/dragon-ball-daima-ab-heute-im-free-tv/
     - https://www.anime2you.de/news/1047175/toggo-plus-dragon-ball-daima-wiederholung/
     - https://www.manime.de/news/rtl-toggo-zensiert-dragon-ball-daima/0064225/
+
+# YAIBA: Samurai Legend — Anime2You, 09.10.2026: ab 5. November 2026 „jeweils von Montag bis Freitag
+# um 18:25 Uhr" auf ProSieben MAXX, deutsche Synchronfassung, erste Staffel 24 Folgen, danach auf Joyn.
+# 05.11. ist ein Donnerstag: Start am Donnerstag, danach Mo–Fr (kein Widerspruch). 18:25 passt zum
+# ersten Slot, den ProSieben MAXX laut tv.de-Sichtung (data/tv-programm.json) werktags bei One Piece
+# hat; der One-Piece-Artikel (1059541) nennt dafür ungenau „18:30". Joyn: kein Starttermin
+# genannt, deshalb keine eigene Plattform.
+- slug: yaiba-samurai-legend-prosieben-maxx
+  anilistId: 177476
+  search: "YAIBA: Samurai Legend"
+  platform: tv
+  sender: ProSieben MAXX
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-11-05"
+    time: "18:25"
+    episodeCount: 24
+    wochentage: [1, 2, 3, 4, 5]
+  note: "Nach der TV-Ausstrahlung sollen die Folgen kostenlos auf Joyn abrufbar sein (kein Termin genannt)."
+  sources:
+    - https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/
+    - https://www.anime2you.de/news/1059541/

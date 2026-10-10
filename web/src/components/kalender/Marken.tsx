@@ -67,6 +67,21 @@ export function VerpasstMarke({ event, t }: { event: ReleaseEvent; t: Translate 
 }
 
 /**
+ * **Ein Termin ohne belegte Synchro sagt es auf der Karte** (10.10.2026, Beerus): „OmU" oder „Synchro offen" statt eines
+ * stillen deutschen Termins. Die Erklärung steht im Tooltip und als Notiz im Panel.
+ */
+export function SpracheMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
+  if (!event.sprache) return null
+  return (
+    <Tooltip text={t(event.sprache === 'omu' ? 'fachwort.omu' : 'kal.synchroOffenHinweis')} seite="oben">
+      <span className="rounded bg-amber-500/15 px-1 text-[11px] font-semibold text-amber-700 dark:text-amber-300">
+        {t(event.sprache === 'omu' ? 'kal.omu' : 'kal.synchroOffen')}
+      </span>
+    </Tooltip>
+  )
+}
+
+/**
  * „8 Termine · 9 im TV · 12 im Handel" — Termine sind Streaming und Kino; Disc und Fernsehen stehen
  * mit eigener Zahl dahinter (30.09.2026, derselbe Trenner). Eine Null entfällt: „0 Termine" neben
  * „Kein Termin an diesem Tag" stünde doppelt da.

@@ -4,6 +4,14 @@
 # live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
 - datum: "2026-10-10"
   kategorie: bugfix
+  text: Kalender zeigt, wo die Synchro noch offen ist
+  live: false
+- datum: "2026-10-10"
+  kategorie: bugfix
+  text: Simulcast-Starts stehen als Wochentermin, nicht komplett
+  live: false
+- datum: "2026-10-10"
+  kategorie: bugfix
   text: Untertitel-Starts stehen nicht mehr als Synchro-Termin
   live: false
 - datum: "2026-10-10"

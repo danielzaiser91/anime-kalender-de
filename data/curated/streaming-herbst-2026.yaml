@@ -41,6 +41,7 @@
   # Lineup nennt „OmU: 3. Oktober, DE: TBA". Der alte Satz „Eine deutsche Fassung ist noch
   # nicht angekündigt" war seit dem 15.09. falsch.
   note: "Crunchyroll zeigt die Staffel ab dem 03.10.2026 mit Untertiteln. Die deutsche Synchro ist angekündigt, ihr Termin noch offen — das Datum ist der Start mit Untertiteln."
+  sprache: omu
   sources:
     - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026
     - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026
@@ -241,6 +242,17 @@
   schedule: { firstEpisodeDate: "2026-09-28" }
   sources:
     - https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/
+
+- slug: demon-slayer-infinity-castle-1-netflix
+  anilistId: 178788
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82723106
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-28" }
+  note: "Netflix, 155 Minuten; Anime2You nennt als Sprache Deutsch und Japanisch (UT)."
+  sources:
+    - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/
 
 - slug: dororo-joyn
   anilistId: 101347

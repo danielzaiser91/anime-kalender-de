@@ -4,6 +4,8 @@ import { zaehleBelegte } from '../lib/belegstaerke.ts'
 import { OUT } from './grundlagen.ts'
 import { auslieferungsInvarianten } from './auslieferung-pruefen.ts'
 import { releasesAusNurOriginalton } from '../lib/pruefung.ts'
+import { autoReleaseWidersprueche } from '../lib/auto-release-pruefung.ts'
+import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
 import { omuTitelAusKatalog } from '../lib/news-omu.ts'
 import { belegeFuerAlle, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
@@ -33,7 +35,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
     `watchLinks` mit eigener Plattform und bleiben unberührt.
   */
   bruecheBeiWiderspruchAb(pruefeInvarianten(releases, events, titles))
-  bruecheBeiWiderspruchAb({ fehler: [...auslieferungsInvarianten(), ...releasesAusNurOriginalton(releases, nurOriginaltonAdressen())], warnungen: [] })
+  bruecheBeiWiderspruchAb({ fehler: [...auslieferungsInvarianten(), ...releasesAusNurOriginalton(releases, nurOriginaltonAdressen()), ...autoReleaseFehler(releases)], warnungen: [] })
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
 
@@ -109,4 +111,10 @@ function bruecheBeiWiderspruchAb({ fehler, warnungen }: { fehler: string[]; warn
 function nurOriginaltonAdressen(): Set<string> {
   const vorschlaege = readJson<{ proposals?: Vorschlag[] }>('data/proposals/anime2you.json', {}).proposals ?? []
   return new Set(nurOriginaltonMeldungen(vorschlaege).map((v) => v.articleUrl))
+}
+
+/** Automatische Termine gegen ihre Meldungen (Einzel- und Sammelartikel): Sprachzusage oder Kennzeichnung, kein Wochentakt als „alle Folgen". */
+function autoReleaseFehler(releases: Release[]): string[] {
+  const roh = readJson<{ proposals?: Vorschlag[] }>('data/proposals/anime2you.json', {}).proposals ?? []
+  return autoReleaseWidersprueche(releases, [...roh, ...vorschlaegeAusAllenSammelartikeln(roh)])
 }

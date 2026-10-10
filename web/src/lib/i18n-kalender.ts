@@ -7,6 +7,9 @@ import { TEXTE_SPRECHER } from './i18n-sprecher.ts'
 
 export const TEXTE_KALENDER = {
   ...TEXTE_SPRECHER,
+  // Original noch nicht erschienen (Reihenliste, Datenbankkarte).
+  'geplant.marke': 'Geplant',
+  'geplant.hinweis': 'Das Original ist noch nicht erschienen',
   'kopf.startseite': 'Anime-Kalender DE — zur aktuellen Woche',
   'kopf.suche': 'Anime suchen',
   'kopf.sucheOeffnen': 'Suche öffnen',
@@ -54,6 +57,7 @@ export const TEXTE_KALENDER = {
   'kal.folgen': '{n} Folgen',
   'kal.folgenSpanne': 'Folgen {von}–{bis}',
   'fachwort.omu': 'Originalton mit deutschen Untertiteln — keine deutsche Synchro',
+  'kal.omu': 'OmU', 'kal.synchroOffen': 'Synchro offen', 'kal.synchroOffenHinweis': 'Der Termin ist belegt, eine deutsche Synchro nicht.',
   'fachwort.zeitumstellung': 'Am 25.10.2026 endet in Deutschland die Sommerzeit: Die Uhren werden um 1 Stunde zurückgestellt. Bleibt die Sendezeit im Ausland gleich, liegt sie in Deutschland ab dann 1 Stunde früher auf der Uhr.',
   'kal.mehrLabel': 'Alle {n} Termine am {datum} zeigen',
   'kal.alleAmTag': 'Alle Termine am {datum}',
