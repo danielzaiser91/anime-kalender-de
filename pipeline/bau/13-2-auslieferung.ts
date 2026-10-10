@@ -5,6 +5,7 @@ import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { adressKern } from '../lib/dub-confirmed.ts'
+import { kernTitel } from './kern-titel.ts'
 import { anisearchKanonisch, anisearchSeite } from '../lib/anisearch-seite.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
@@ -96,7 +97,7 @@ export function baueAuslieferung({
   // Der Kalender braucht nur die Titel, zu denen es einen Termin gibt. Die
   // vollständige Liste (mehrere Megabyte) lädt erst die Datenbank-Ansicht nach.
   const referenced = new Set(releases.map((r) => r.titleId))
-  writeJson(`${OUT}/titles-core.json`, slim.filter((t) => referenced.has(t.id)).map(mitAnkuendigung)) // mit Ankündigung: die Saison-Ansicht liest nur den Kern (Daniel, 08.10.2026)
+  writeJson(`${OUT}/titles-core.json`, kernTitel(slim, referenced)) // mit Ankündigung: die Saison-Ansicht liest nur den Kern (Daniel, 08.10.2026)
   /**
    * Kein Titel geht verloren — der Build bricht lieber ab.
    *
