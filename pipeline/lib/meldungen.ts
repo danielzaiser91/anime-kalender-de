@@ -347,6 +347,8 @@ export function terminDerMeldung(v: Pick<Vorschlag, 'dates' | 'pause'>): string 
  * ist) — `platforms[0]` machte daraus einen Streaming-Termin.
  */
 function anbieterDerMeldung(v: Vorschlag): string | undefined {
+  /* Gesamt-Feed (`allgemein`): ohne Rubrik ist nicht sicher, ob ein Streaming-Start oder ein Disc-Termin gemeint ist — Bericht ja, Release nein. */
+  if (v.category === 'allgemein') return undefined
   if (v.category === 'disc') return v.platforms?.includes('disc') ? 'disc' : undefined
   if (v.category === 'kino') return 'kino'
   return v.platforms?.find((p) => p !== 'disc' && p !== 'kino')

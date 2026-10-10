@@ -29,7 +29,7 @@ import { addDays, todayIso } from '../shared/time.ts'
 import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, zaehleSammelVerwurf, type SammelEintrag } from './lib/sammelartikel.ts'
 import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './lib/disc-verschiebungen.ts'
 import { DISC_UEBERSICHT, leseDiscUebersicht, type DiscZeile } from './lib/disc-uebersicht.ts'
-import { dubBefund, type Sprachbefund } from './lib/sprachbefund.ts'
+import { deutschlandBezug, dubBefund, type Sprachbefund } from './lib/sprachbefund.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 
@@ -38,6 +38,8 @@ const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalen
   (rund zwei Wochen) fangen einen verpassten Lauf auf und holen Sammelartikel nach, die wegfielen (siehe unten).
 */
 const STREAMING_SEITEN = 4
+const ALLGEMEIN_SEITEN = 4
+const ALLGEMEIN = 'allgemein'
 /** Ein Sprachhinweis ohne Tag wird nur kurz vorgehalten; danach ist die Meldung überholt. */
 const HINWEIS_TAGE = 45
 const FEEDS: { category: string; url: string }[] = [
@@ -47,6 +49,12 @@ const FEEDS: { category: string; url: string }[] = [
   })),
   { category: 'disc', url: 'https://www.anime2you.de/disc-news/feed/' },
   { category: 'kino', url: 'https://www.anime2you.de/kino-news/feed/' },
+  /* Zuletzt: Was die Rubrik-Feeds führen, behält seine Rubrik. Der Gesamt-Feed bringt den Rest (ProSieben MAXX, Paramount+, TV-Guide;
+     10.10.2026: nur 65 von 130 Artikeln lagen in den drei Rubrik-Feeds). Vier Seiten à 25 = rund acht Tage. */
+  ...Array.from({ length: ALLGEMEIN_SEITEN }, (_, i) => ({
+    category: ALLGEMEIN,
+    url: `https://www.anime2you.de/feed/${i ? `?paged=${i + 1}` : ''}`,
+  })),
 ]
 
 /** Wortmarken, an denen eine Plattform im Fließtext erkennbar ist. */
@@ -284,6 +292,12 @@ function meldeSendezeiten(all: Proposal[], volltexte: number): void {
   }
 }
 
+/** Warum eine Meldung kein Vorschlag wird — `undefined`, wenn sie einer wird. */
+function verwerfensgrund(kategorie: string, deutschlandBezogen: boolean, traegtAussage: boolean): string | undefined {
+  if (kategorie === ALLGEMEIN && !deutschlandBezogen) return 'Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)'
+  return traegtAussage ? undefined : `${kategorie}: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage`
+}
+
 async function main(): Promise<void> {
   // Welche Artikel sind schon eingearbeitet? Ihre Adresse steht in einer Handdatei (Termine, Ankündigungen, Erstausgaben, Belege).
   const curatedSources = eingearbeiteteAdressen()
@@ -295,6 +309,7 @@ async function main(): Promise<void> {
   /** Jeder Verwerfungspfad des Laufs mit Grund und Anzahl — ein stiller Ausfall fiele sonst erst im Kalender auf. */
   const verworfen = new Map<string, number>()
   const verwirf = (grund: string): void => void verworfen.set(grund, (verworfen.get(grund) ?? 0) + 1)
+  const gesehen = new Set<string>()
 
   for (const feed of FEEDS) {
     const xml = await fetchText(feed.url)
@@ -303,6 +318,11 @@ async function main(): Promise<void> {
     log(`Anime2You ${feed.category}: ${items.length} Meldungen`)
 
     for (const item of items) {
+      if (gesehen.has(item.link)) {
+        verwirf('schon in einem Rubrik-Feed gelesen')
+        continue
+      }
+      gesehen.add(item.link)
       const text = `${item.title}\n${item.content}`
       const dates = findDates(text, item.publishedAt)
       // Nur was in der Zukunft liegt oder gerade erst war, ist ein Termin-
@@ -352,8 +372,9 @@ async function main(): Promise<void> {
       const sammelartikel = feed.category === 'streaming' && ANBIETER_SAMMELARTIKEL.test(item.title)
       /* Eine Aussage zur deutschen Sprachfassung genügt auch ohne Tag („ab sofort mit deutscher Synchronisation“): Sie geht als Hinweis in die Ausgabe, einen Termin erfindet niemand. */
       const sprache = dub === 'ja' && !relevant.length && !pause && !zeiten && !sammelartikel
-      if (!relevant.length && !pause && !zeiten && !sammelartikel && !sprache) {
-        verwirf(`${feed.category}: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage`)
+      const grund = verwerfensgrund(feed.category, deutschlandBezug(text, dub), Boolean(relevant.length || pause || zeiten || sammelartikel || sprache))
+      if (grund) {
+        verwirf(grund)
         continue
       }
 

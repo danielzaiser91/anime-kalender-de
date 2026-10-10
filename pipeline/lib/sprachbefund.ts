@@ -77,3 +77,11 @@ export function spracheDerMeldung(v: { dub?: string; articleTitle: string; dates
   if (v.dub === 'nein' || ausFundstellen === 'nein') return 'nein'
   return v.dub === 'offen' ? 'offen' : ausFundstellen
 }
+
+/** Fernsehsender, Verlage und Dienste, die im Gesamt-Feed einen Deutschland-Bezug anzeigen, auch wo keine Plattform der Liste genannt wird. */
+const DEUTSCHLAND_BEZUG = /prosieben|rtl zwei|toggo|\bsky\b|free-tv|pay-tv|fernseh|tv-guide|paramount\+|deutschland|deutsche[rn]? (?:kinos?|synchro|sprach|fassung)|auf deutsch|polyband|peppermint|animoon|kazé|akiba/i
+
+/** Betrifft eine Meldung des Gesamt-Feeds die deutsche Fassung? Japanische Ankündigungen, Figuren und Trailer nicht. */
+export function deutschlandBezug(text: string, dub: Sprachbefund): boolean {
+  return dub !== 'unklar' || DEUTSCHLAND_BEZUG.test(text)
+}
