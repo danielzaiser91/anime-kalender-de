@@ -284,3 +284,44 @@
   schedule: { firstEpisodeDate: "2026-10-01", episodeCount: 26 }
   sources:
     - https://www.anime2you.de/news/1056121/prime-video-demon-slayer-kimetsu-no-yaiba-und-mehr/
+
+# Das Band der Unterwelt bei Netflix und Disney+ (Daniel, 10.10.2026, 18:41): Netflix zeigt Folge 12 bis 15 als verfügbar und
+# „Folge 16 – Verfügbar ab 17. Oktober". Folge 1 bis 11 lagen am 12.09. bereits da (Datum nicht bekannt, deshalb setzt dieser Plan
+# erst bei Folge 12 ein). Folge 12 nannte Netflix am 12.09. für den 19.09.; vier Wochen später ist Folge 16 angekündigt, dazwischen
+# gilt der Samstag. Uhrzeit nicht belegt (lizenzierter Anime, keine Netflix-Eigenproduktion), deshalb keine.
+- slug: das-band-der-unterwelt-netflix
+  anilistId: 195600
+  titleDe: "Das Band der Unterwelt"
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82719204
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-09-19"
+    firstEpisodeNumber: 12
+    episodeCount: 13
+    episodeCountAssumed: true
+    wochentage: [6]
+    observed:
+      12: "2026-09-19"
+      15: "2026-10-10"
+  note: "Netflix veröffentlicht direkt auf Deutsch, jeden Samstag eine Folge. Gesamtzahl 24 nach AniList, von Netflix nicht genannt."
+  sources:
+    - https://www.netflix.com/title/82719204
+
+# Disney+ (Daniel, 10.10.2026, 18:42): Folge 15 „Yuru und Danji", 24 Min., als „Neue Folge" markiert, Titel und Beschreibung deutsch.
+# Nur diese eine Beobachtung — ein Rhythmus ist daraus nicht zu messen, deshalb steht kein weiterer Termin da. Ob die Folgen 12 bis 15
+# eine deutsche Tonspur tragen, ist offen (deutsche Titel belegen keine Tonspur).
+- slug: das-band-der-unterwelt-disneyplus
+  anilistId: 195600
+  titleDe: "Das Band der Unterwelt"
+  platform: disneyplus
+  platformUrl: https://www.disneyplus.com/de-de/browse/entity-8cc06990-0faf-4a7e-ac1f-fb74cb4b9286
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-10"
+    firstEpisodeNumber: 15
+    episodeCount: 1
+    observed:
+      15: "2026-10-10"
+  sources:
+    - https://www.disneyplus.com/de-de/browse/entity-8cc06990-0faf-4a7e-ac1f-fb74cb4b9286
