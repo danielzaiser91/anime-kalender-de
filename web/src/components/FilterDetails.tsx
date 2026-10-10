@@ -8,7 +8,9 @@ import {
   type ReleaseStatus,
 } from '@shared/types.ts'
 import { Chip, Tooltip } from './ui.tsx'
-import { SchnellKarten } from './schnellfilter.tsx'
+import { TIPPFLAECHE_HOCH } from './detail/tippziel.ts'
+import { SchnellChips } from './schnellfilter.tsx'
+import { FilterSuche, KlickModusLeiste } from './filter/klick-modus.tsx'
 import { filterMode, modusVon, toggleFilter, type ModusFeld, type FilterState, type ListKey } from '../lib/filters.ts'
 import { bereichsSuche, titelWoerter, type BereichsSuche } from '../lib/filter-suche.ts'
 import type { Translate } from '../lib/i18n.tsx'
@@ -209,14 +211,15 @@ export function MeineAnbieter({
 }
 
 /**
- * **Die Schnell-Schalter** — Karten mit ✅ (nur anzeigen) und 🚫 (ausblenden), Logik in `lib/schnellfilter.ts`,
- * Darstellung in `schnellfilter.tsx` (Daniel, 04.10.2026). Sie sind Kurzformen echter Filter: Disc, TV und Cartoon
- * zeigen denselben Stand wie ihre Pillen in den Gruppen darunter, und ein Klick an einer Stelle wirkt an der anderen.
+ * **Die Schnell-Schalter** — ein Chip je Filter, Logik in `lib/schnellfilter.ts`, Darstellung in `schnellfilter.tsx`.
+ * Sie sind Kurzformen echter Filter: Disc, TV und Cartoon zeigen denselben Stand wie ihre Pillen in den Gruppen darunter,
+ * und ein Klick an einer Stelle wirkt an der anderen. Das Ziel eines Tipps gibt der Klick-Modus vor.
  */
 function SchnellSchalter({
   t,
   filters,
   set,
+  mode,
   favoriteCount,
   showConfidence,
   tvAn,
@@ -226,6 +229,7 @@ function SchnellSchalter({
   t: Translate
   filters: FilterState
   set: (patch: Partial<FilterState>) => void
+  mode: 'include' | 'exclude'
   favoriteCount?: number
   showConfidence: boolean
   tvAn?: boolean
@@ -233,65 +237,13 @@ function SchnellSchalter({
   suche?: BereichsSuche
 }) {
   const label = t('filter.schnell')
-  const texte =['favoriten', 'kostenlos', 'bestaetigt', 'tv', 'disc', 'verfuegbar', 'cartoon'].map((k) => t(`filter.schnell.${k}` as never))
+  const texte = ['favoriten', 'cartoon', 'kostenlos', 'tv', 'disc', 'bestaetigt', 'verfuegbar'].map((k) => t(`filter.schnell.${k}` as never))
+  /* Band über die volle Breite, kein Kasten: hebt die Schnellfilter ab (Mockup „Leiste neu“); Chips bleiben grün/rot. */
   return (
-    <div className="border-b border-ak-linie px-3 py-2.5">
-      <Bereich label={label} suche={suche} texte={texte} inline>
-        <SchnellKarten t={t} filters={filters} onChange={(next) => set(next)} favoriteCount={favoriteCount} showConfidence={showConfidence} tvAn={tvAn} setTvAn={setTvAn} zeige={(text) => zeigePille(suche, label, text)} />
+    <div className="border-y border-blue-600 bg-blue-600/[.08] px-3 py-3 dark:border-blue-400 dark:bg-blue-400/10">
+      <Bereich label={label} suche={suche} texte={texte} klasse="[&>div]:gap-y-3">
+        <SchnellChips t={t} filters={filters} onChange={(next) => set(next)} mode={mode} favoriteCount={favoriteCount} showConfidence={showConfidence} tvAn={tvAn} setTvAn={setTvAn} zeige={(text) => zeigePille(suche, label, text)} />
       </Bereich>
-    </div>
-  )
-}
-
-/**
- * **Klick-Modus und Filter-Suche in einer Zeile** — „Auswählen/Ausschließen" links, rechts das
- * Suchfeld für **alle** Pillen. Es ersetzt die drei einzelnen Suchfelder (Genre, Keyword, …):
- * Wer „fsk" tippt, sieht den FSK-Bereich; wer „fsk" in keiner Pille hat, sieht ihn nicht mehr.
- */
-function KlickModusZeile({
-  t,
-  mode,
-  setMode,
-  filterQuery,
-  setFilterQuery,
-}: {
-  t: Translate
-  mode: 'include' | 'exclude'
-  setMode: Dispatch<SetStateAction<'include' | 'exclude'>>
-  filterQuery: string
-  setFilterQuery: Dispatch<SetStateAction<string>>
-}) {
-  return (
-    <div className="flex flex-wrap items-center gap-3">
-      <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ak-leise">{t('filter.mode')}</span>
-      <div className="inline-flex overflow-hidden rounded-lg border border-ak-rand">
-        {(['include', 'exclude'] as const).map((m) => (
-          <button
-            key={m}
-            type="button"
-            onClick={() => setMode(m)}
-            aria-pressed={mode === m}
-            className={[
-              'cursor-pointer px-3 py-1.5 text-xs font-bold transition',
-              mode === m
-                ? m === 'exclude'
-                  ? 'bg-rose-500 text-white'
-                  : 'bg-ak-flaeche text-ak-text'
-                : 'text-ak-leise hover:bg-ak-flaeche-2',
-            ].join(' ')}
-          >
-            {m === 'exclude' ? `⊘ ${t('filter.modeExclude')}` : t('filter.modeInclude')}
-          </button>
-        ))}
-      </div>
-      <input
-        type="search"
-        value={filterQuery}
-        onChange={(e) => setFilterQuery(e.target.value)}
-        placeholder={t('filter.sucheAlle')}
-        aria-label={t('filter.sucheAlle')}
-        className="ml-auto w-full min-w-0 rounded-md border border-ak-rand bg-ak-flaeche px-2.5 py-1.5 text-xs text-ak-text sm:w-64"
-      />
     </div>
   )
 }
@@ -330,6 +282,7 @@ export function FilterDetails({
   platformZaehlung,
   genreListe,
   genreZaehlung,
+  zwischen,
 }: {
   t: Translate
   setMode: Dispatch<SetStateAction<'include' | 'exclude'>>
@@ -357,12 +310,14 @@ export function FilterDetails({
   /** Im Kalender: Schalter fürs Fernsehen und die Zahlen des Zeitraums. */
   tvAn?: boolean
   setTvAn?: (an: boolean) => void
-  /** Das Suchfeld in der Klick-Modus-Zeile — durchsucht alle Pillen (01.10.2026). */
+  /** Das Suchfeld unter dem Klick-Modus — durchsucht alle Pillen (01.10.2026). */
   filterQuery: string
   setFilterQuery: Dispatch<SetStateAction<string>>
   platformZaehlung?: Map<PlatformId, number>
   genreListe?: string[]
   genreZaehlung?: Map<string, number>
+  /** Abschnitte zwischen Schnell und Gruppen (aktive Filter, Schalter) — sie stehen unter dem klebenden Klick-Modus. */
+  zwischen?: ReactNode
 }) {
   const [mehr, setMehr] = useState(false)
   const plattformen: PlatformId[] = (platformZaehlung ? [...platformZaehlung.entries()].sort((a, b) => b[1] - a[1]).map(([p]) => p) : meta.platforms).filter((p) => p !== 'disc')
@@ -375,100 +330,97 @@ export function FilterDetails({
 
   return (
     <>
+      <KlickModusLeiste t={t} mode={mode} setMode={setMode} />
+      <FilterSuche t={t} filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
       <SchnellSchalter
         t={t}
         filters={filters}
         set={set}
+        mode={mode}
         favoriteCount={favoriteCount}
         showConfidence={showConfidence}
         tvAn={tvAn}
         setTvAn={setTvAn}
         suche={suche}
       />
-
-      {/* Klick-Modus in eigener Zeile, darunter der Kasten mit den betroffenen Filtern. */}
-      <div className="p-3">
-        <div className="rounded-2xl border border-ak-rand bg-ak-flaeche-2 px-3 py-2">
-          <KlickModusZeile t={t} mode={mode} setMode={setMode} filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
-
-          <div className="mt-3 rounded-xl border border-ak-rand bg-ak-flaeche p-2">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Bereich
-                label={plattformLabel}
-                suche={suche}
-                texte={plattformen.map((p) => PLATFORMS[p].name)}
-                modus={modusVon2('platforms', filters.platforms.length)}
+      {zwischen}
+      {/* Ein Rahmen: das Fenster. Die Gruppen trennen Überschriften; weitere (etwa „Herkunft") reihen sich im Raster ein. */}
+      <div className="px-3 py-2.5">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Bereich
+            label={plattformLabel}
+            suche={suche}
+            texte={plattformen.map((p) => PLATFORMS[p].name)}
+            modus={modusVon2('platforms', filters.platforms.length)}
+          >
+            <MeineAnbieter
+              aktuell={filters.platforms}
+              verfuegbar={meta.platforms}
+              setzen={(platforms) => set({ platforms })}
+            />
+            {sichtbarPlattformen.map((p) => (
+              <Chip
+                ton="gruen"
+                key={p}
+                color={PLATFORMS[p].color}
+                {...chipState('platforms', p)}
+                onClick={() => pick('platforms', p)}
               >
-                <MeineAnbieter
-                  aktuell={filters.platforms}
-                  verfuegbar={meta.platforms}
-                  setzen={(platforms) => set({ platforms })}
-                />
-                {sichtbarPlattformen.map((p) => (
-                  <Chip
-                    ton="gruen"
-                    key={p}
-                    color={PLATFORMS[p].color}
-                    {...chipState('platforms', p)}
-                    onClick={() => pick('platforms', p)}
-                  >
-                    {PLATFORMS[p].name} {mitZahl(platformZaehlung?.get(p))}
-                  </Chip>
-                ))}
-              </Bereich>
-              <Bereich
-                label={genreLabel} klasse="sm:col-start-2 sm:row-span-5"
-                suche={suche}
-                texte={genres.map((g) => tGenre(g))}
-                modus={modusVon2('genres', filters.genres.length)}
-              >
-                {genres.filter((g) => zeigePille(suche, genreLabel, tGenre(g))).map((g) => (
-                  <Chip ton="gruen" key={g} {...chipState('genres', g)} onClick={() => pick('genres', g)}>
-                    {tGenre(g)} {mitZahl(genreZaehlung?.get(g))}
-                  </Chip>
-                ))}
-              </Bereich>
-              <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} tRelease={tRelease} suche={suche} set={set} mode={mode} />
-            </div>
-
-            {!suche && (
-              <div className="mt-3 border-t border-dashed border-ak-linie pt-3">
-                <button
-                  type="button"
-                  onClick={() => setMehr(!mehr)}
-                  aria-expanded={mehr}
-                  className="cursor-pointer text-[13px] font-bold text-ak-akzent-text hover:underline"
-                >
-                  {mehr ? t('filter.weniger') : t('filter.mehr')}
-                </button>
-              </div>
-            )}
-            {/* **Auch die Filter hinter „mehr Filter" werden durchsucht**:
-                Während gesucht wird, klappt die Fläche auf, damit ein Treffer nicht verborgen bleibt. */}
-            {(mehr || suche) && (
-              <FilterMehr
-                t={t}
-                meta={meta}
-                filters={filters}
-                showConfidence={showConfidence}
-                modusVon2={modusVon2}
-                chipState={chipState}
-                pick={pick}
-                set={set}
-                tRelease={tRelease}
-                tKeyword={tKeyword}
-                showAllProviders={showAllProviders}
-                setShowAllProviders={setShowAllProviders}
-                shownKeywords={shownKeywords}
-                hiddenKeywordCount={hiddenKeywordCount}
-                setAllKeywords={setAllKeywords}
-                allKeywords={allKeywords}
-                matchingKeywords={matchingKeywords}
-                suche={suche}
-              />
-            )}
-          </div>
+                {PLATFORMS[p].name} {mitZahl(platformZaehlung?.get(p))}
+              </Chip>
+            ))}
+          </Bereich>
+          <Bereich
+            label={genreLabel} klasse="sm:col-start-2 sm:row-span-5"
+            suche={suche}
+            texte={genres.map((g) => tGenre(g))}
+            modus={modusVon2('genres', filters.genres.length)}
+          >
+            {genres.filter((g) => zeigePille(suche, genreLabel, tGenre(g))).map((g) => (
+              <Chip ton="gruen" key={g} {...chipState('genres', g)} onClick={() => pick('genres', g)}>
+                {tGenre(g)} {mitZahl(genreZaehlung?.get(g))}
+              </Chip>
+            ))}
+          </Bereich>
+          <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} tRelease={tRelease} suche={suche} set={set} mode={mode} />
         </div>
+
+        {!suche && (
+          <div className="mt-3 border-t border-dashed border-ak-linie pt-3">
+            <button
+              type="button"
+              onClick={() => setMehr(!mehr)}
+              aria-expanded={mehr}
+              className={`cursor-pointer text-[13px] font-bold text-ak-akzent-text hover:underline ${TIPPFLAECHE_HOCH}`}
+            >
+              {mehr ? t('filter.weniger') : t('filter.mehr')}
+            </button>
+          </div>
+        )}
+        {/* **Auch die Filter hinter „mehr Filter" werden durchsucht**:
+            Während gesucht wird, klappt die Fläche auf, damit ein Treffer nicht verborgen bleibt. */}
+        {(mehr || suche) && (
+          <FilterMehr
+            t={t}
+            meta={meta}
+            filters={filters}
+            showConfidence={showConfidence}
+            modusVon2={modusVon2}
+            chipState={chipState}
+            pick={pick}
+            set={set}
+            tRelease={tRelease}
+            tKeyword={tKeyword}
+            showAllProviders={showAllProviders}
+            setShowAllProviders={setShowAllProviders}
+            shownKeywords={shownKeywords}
+            hiddenKeywordCount={hiddenKeywordCount}
+            setAllKeywords={setAllKeywords}
+            allKeywords={allKeywords}
+            matchingKeywords={matchingKeywords}
+            suche={suche}
+          />
+        )}
       </div>
     </>
   )
@@ -680,6 +632,7 @@ export function FilterDetailsFeld({
   platformZaehlung,
   genreListe,
   genreZaehlung,
+  zwischen,
 }: {
   meta: DataMeta
   filters: FilterState
@@ -691,6 +644,7 @@ export function FilterDetailsFeld({
   platformZaehlung?: Map<PlatformId, number>
   genreListe?: string[]
   genreZaehlung?: Map<string, number>
+  zwischen?: ReactNode
 }) {
   const werkzeug = useFilterWerkzeug(meta, filters, onChange, tvAn, setTvAn)
   return (
@@ -705,6 +659,7 @@ export function FilterDetailsFeld({
       platformZaehlung={platformZaehlung}
       genreListe={genreListe}
       genreZaehlung={genreZaehlung}
+      zwischen={zwischen}
     />
   )
 }

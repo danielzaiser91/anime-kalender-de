@@ -55,16 +55,10 @@ export function FilterFeld(p: FilterFeldProps) {
     <section
       id="ak-filterfeld"
       aria-label={t('filter.button')}
-      className="animate-fade-in rounded-3xl border border-ak-rand bg-ak-flaeche"
+      className="animate-fade-in border-ak-rand bg-ak-flaeche md:rounded-3xl md:border"
     >
       {/* **Die gewählten Filter stehen im Filterfeld** — dieselbe Stelle wie im Datenbank-Reiter
-          (`FilterBar`). Vorher standen sie als eigene Zeile über der Woche und waren im offenen
-          Menü nicht zu sehen. */}
-      {etwasGewaehlt && (
-        <div className="border-b border-ak-linie px-3 py-2.5">
-          <AktiveFilter filters={p.filters} onChange={p.onChange} tvAn={p.tvAn} setTvAn={p.setTvAn} />
-        </div>
-      )}
+          (`FilterBar`), unter dem klebenden Klick-Modus (`zwischen`). */}
       <FilterDetailsFeld
         meta={p.data.meta}
         filters={p.filters}
@@ -76,6 +70,13 @@ export function FilterFeld(p: FilterFeldProps) {
         platformZaehlung={zaehlungen.proPlattform}
         genreListe={genreListe}
         genreZaehlung={zaehlungen.proGenre}
+        zwischen={
+          etwasGewaehlt && (
+            <div className="border-b border-ak-linie px-3 py-2.5">
+              <AktiveFilter filters={p.filters} onChange={p.onChange} tvAn={p.tvAn} setTvAn={p.setTvAn} />
+            </div>
+          )
+        }
       />
       <FilterFuss {...p} />
     </section>
@@ -153,7 +154,7 @@ export function Pille({
 function FilterFuss(p: FilterFeldProps) {
   const { t } = useLang()
   return (
-    <div className="flex flex-wrap items-center gap-3 border-t border-ak-linie px-5 pb-4 pt-3">
+    <div className="sticky bottom-0 flex flex-wrap items-center gap-3 border-t border-ak-linie bg-ak-flaeche px-5 pb-4 pt-3 md:rounded-b-3xl">
       <span className="text-sm text-ak-leise">
         <b className="font-extrabold text-ak-text">{p.treffer}</b> {t('filter.treffer', { gesamt: p.zeitraum.length, zeitraum: p.zeitraumWort })}
       </span>

@@ -6,6 +6,9 @@
 # datum (in Anführungszeichen) gibt es nur als Nachtrag für Einträge, die älter sind als dieses Verfahren (bis 10.10.2026).
 # Keine Zeile nötig? Dann steht in der PR-Beschreibung „Patch Notes: keine – <Grund>“ (tools/check-patchnotes-pflicht.mjs).
 - kategorie: feature
+  text: Filterfenster am Handy breiter, Knöpfe leichter zu treffen
+  untertitel: Schnellfilter als Chips, Klick-Modus bleibt oben
+- kategorie: feature
   text: Geteilte Links zeigen dieselbe Saison und dieselben Schalter
   untertitel: Auch Reiter und Schalter bleiben im Link
 - datum: "2026-10-10"

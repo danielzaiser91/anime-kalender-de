@@ -86,7 +86,7 @@ export function Chip({
         excluded
           ? // Rot und durchgestrichen: Ein bloß andersfarbiger Chip würde sich
             // wie eine zweite Auswahl lesen, nicht wie ein Verbot.
-            'border-rose-400/70 bg-rose-500/10 text-rose-600 line-through decoration-rose-500/70 dark:border-rose-400/50 dark:text-rose-300'
+            'border-rose-400/70 bg-rose-500/10 text-rose-700 line-through decoration-rose-500/70 dark:border-rose-400/50 dark:text-rose-300'
           : active
             ? ton === 'gruen'
               ? 'border-transparent bg-emerald-500 font-semibold text-emerald-950 dark:bg-emerald-500 dark:text-emerald-950'
