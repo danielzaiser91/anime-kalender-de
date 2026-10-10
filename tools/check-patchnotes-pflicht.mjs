@@ -67,11 +67,20 @@ function gegenproben() {
 
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
 
+function hatCommit(sha) {
+  try {
+    git('cat-file', '-e', `${sha}^{commit}`)
+    return true
+  } catch {
+    return false
+  }
+}
+
 /** Eingaben der Regel aus dem PR-Ereignis: geänderte Dateien gegen die Basis, alte und neue Fassung der Liste, Beschreibung. */
 function ausEreignis() {
   const pr = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8')).pull_request
   const basis = pr.base.sha
-  git('fetch', '--no-tags', '--depth=1', 'origin', basis)
+  if (!hatCommit(basis)) git('fetch', '--no-tags', '--depth=1', 'origin', basis)
   const dateien = git('diff', '--name-only', basis, 'HEAD').split('\n').filter(Boolean)
   let vorher = ''
   try {
