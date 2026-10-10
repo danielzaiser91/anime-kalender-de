@@ -10,8 +10,8 @@
     "lastCount": 80
   },
   "crunchyroll": {
-    "lastOk": "2026-10-10T18:02:19.988Z",
-    "lastRun": "2026-10-10T18:02:19.988Z",
+    "lastOk": "2026-10-10T19:02:05.737Z",
+    "lastRun": "2026-10-10T19:02:05.737Z",
     "lastCount": 14
   },
   "anisearch": {
@@ -90,9 +90,9 @@
     "lastCount": 867
   },
   "rohfolgen": {
-    "lastOk": "2026-10-10T16:54:29.915Z",
-    "lastRun": "2026-10-10T18:03:39.007Z",
-    "lastCount": 0
+    "lastOk": "2026-10-10T19:07:11.982Z",
+    "lastRun": "2026-10-10T19:07:11.982Z",
+    "lastCount": 1
   },
   "anisearch-folgen": {
     "lastOk": "2026-10-05T14:45:13.603Z",
@@ -120,8 +120,8 @@
     "lastCount": 7
   },
   "vorfaelle": {
-    "lastOk": "2026-10-10T18:03:36.581Z",
-    "lastRun": "2026-10-10T18:03:36.581Z",
+    "lastOk": "2026-10-10T19:07:09.276Z",
+    "lastRun": "2026-10-10T19:07:09.276Z",
     "lastCount": 0
   },
   "crunchyroll-neu": {
@@ -145,9 +145,9 @@
     "lastCount": 26
   },
   "tv-programm": {
-    "lastOk": "2026-10-10T18:02:35.117Z",
-    "lastRun": "2026-10-10T18:02:35.117Z",
-    "lastCount": 269
+    "lastOk": "2026-10-10T19:02:18.318Z",
+    "lastRun": "2026-10-10T19:02:18.318Z",
+    "lastCount": 263
   },
   "tv-de": {
     "lastOk": "2026-10-10T00:04:27.527Z",
@@ -180,8 +180,8 @@
     "lastCount": 2
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-10-10T18:02:26.558Z",
-    "lastRun": "2026-10-10T18:02:26.558Z",
+    "lastOk": "2026-10-10T19:02:12.516Z",
+    "lastRun": "2026-10-10T19:02:12.516Z",
     "lastCount": 65
   },
   "adn-news": {
@@ -191,7 +191,7 @@
   },
   "messbelege": {
     "lastOk": "2026-10-10T16:02:36.543Z",
-    "lastRun": "2026-10-10T18:02:32.869Z",
+    "lastRun": "2026-10-10T19:02:17.392Z",
     "lastCount": 0,
     "lastError": "page.evaluate: ReferenceError: __name is not defined\n    at eval (eval at evaluate (:311:30), <anonymous>:1:29)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
   },

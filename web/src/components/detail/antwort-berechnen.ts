@@ -3,7 +3,7 @@ import { expandEvents, istErschienen, istAusgeblieben, titleStatus } from '@shar
 import { dubAbdeckung } from '@shared/dub-grenze.ts'
 import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
-import { zaehleErschienen, istBelegtAbgeschlossen, gesamtGeschaetzt } from './antwort-regeln.ts'
+import { zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, gesamtGeschaetzt } from './antwort-regeln.ts'
 import { filmTermine } from './film-termine.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
 
@@ -98,10 +98,10 @@ export function berechneAntwort({ title, releases, today }: {
     Kalender) und legt die Folge zusätzlich auf ihren recherchierten neuen
     Termin. Für „noch X bis zum Finale" ist das eine Folge, nicht zwei.
   */
-  const kuenftig = offen
+  const kuenftig = ohneSchonErschienene(offen, alleEvents)
     .filter((e) => !istAusgeblieben(e) || !offen.some((o) => o.episode === e.episode && !istAusgeblieben(o)))
     .sort((a, b) => a.date.localeCompare(b.date) || (a.episode ?? 0) - (b.episode ?? 0))
-  const raus = zaehleErschienen(alleEvents)
+  const raus = zaehleErschienenJeAnbieter(alleEvents)
   /* Ein widerlegter deutscher Termin erzeugt kein Ereignis — er bekommt seine eigene Antwort (02.10.2026). */
   const widerlegt = releases.find((r) => r.widerlegt)?.widerlegt
   if (widerlegt && !alleEvents.length) {
