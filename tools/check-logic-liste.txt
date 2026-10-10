@@ -13,6 +13,7 @@ pipeline/check-anisearch-dubletten.ts
 pipeline/check-anisearch-archiv.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-patchnotes.ts
+tools/check-patchnotes-pflicht.mjs
 pipeline/check-belegstaerke.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-ton.ts
