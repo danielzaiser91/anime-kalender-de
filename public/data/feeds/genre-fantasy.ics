@@ -6,227 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Fantasy
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T140500Z
-DTEND:20261001T143500Z
-SUMMARY:Pokémon Horizonte – Folge 89/129
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T150500Z
-DTEND:20261001T153500Z
-SUMMARY:Pokémon Horizonte – Folge 89/129
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-01#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T151000Z
-DTEND:20261001T154000Z
-SUMMARY:Dragon Ball – Folge 10/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-01#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T153500Z
-DTEND:20261001T160500Z
-SUMMARY:Dragon Ball – Folge 11/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T162500Z
-DTEND:20261001T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-183423-tv-prosieben-maxx@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T165000Z
-DTEND:20261001T172000Z
-SUMMARY:One Piece Log: Fish-Man Island Saga
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/16301/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T191500Z
-DTEND:20261001T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 6/11
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:demon-slayer-s1-primevideo@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261001
-DTEND;VALUE=DATE:20261002
-SUMMARY:Demon Slayer: Kimetsu no Yaiba
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/9175/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-16498-primevideo@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261001
-DTEND;VALUE=DATE:20261002
-SUMMARY:Attack on Titan
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/6282/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T140500Z
-DTEND:20261002T143500Z
-SUMMARY:Pokémon Horizonte – Folge 1/129
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T150000Z
-DTEND:20261002T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 22/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16234/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T150500Z
-DTEND:20261002T153500Z
-SUMMARY:Pokémon Horizonte – Folge 1/129
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-02#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T151000Z
-DTEND:20261002T154000Z
-SUMMARY:Dragon Ball – Folge 12/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-02#13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T153500Z
-DTEND:20261002T160500Z
-SUMMARY:Dragon Ball – Folge 13/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-02#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T162500Z
-DTEND:20261002T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-02#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T165000Z
-DTEND:20261002T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-16870-tv-prosieben-maxx@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T181500Z
-DTEND:20261002T184500Z
-SUMMARY:The Last: Naruto the Movie
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6377/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T191500Z
-DTEND:20261002T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 7/11
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-10-02#19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T203500Z
-DTEND:20261002T210500Z
-SUMMARY:Gachiakuta – Folge 19/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-10-02#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T210500Z
-DTEND:20261002T213500Z
-SUMMARY:Gachiakuta – Folge 20/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-10-02#21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T213500Z
-DTEND:20261002T220500Z
-SUMMARY:Gachiakuta – Folge 21/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:blue-exorcist-blue-night-saga-vol2@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Blue Exorcist: The Blue Night Saga – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16498/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-176496-tv-prosieben-maxx@2026-10-03#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261002T220500Z
@@ -261,7 +40,7 @@ UID:auto-158871-tv-super-rtl@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261003T110000Z
 DTEND:20261003T113000Z
-SUMMARY:Pokémon Horizonte – Folge 129/129
+SUMMARY:Pokémon Horizonte – Folge 129/130
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -271,10 +50,21 @@ UID:auto-158871-tv-toggo-plus@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261003T120000Z
 DTEND:20261003T123000Z
-SUMMARY:Pokémon Horizonte – Folge 129/129
+SUMMARY:Pokémon Horizonte – Folge 129/130
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-10-03@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART:20261003T150000Z
+DTEND:20261003T153000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 1/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-03@anime-kalen
@@ -288,15 +78,14 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-03@anime-kalender-d
- e
+UID:das-band-der-unterwelt-netflix@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261003
 DTEND;VALUE=DATE:20261004
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 1/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 14/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-04@anime-kalender-de
@@ -329,11 +118,21 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:though-i-am-an-inept-villainess@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T154500Z
+DTEND:20261004T161500Z
+SUMMARY:Though I Am an Inept Villainess – Folge 10/11
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16711/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T140500Z
 DTEND:20261005T143500Z
-SUMMARY:Pokémon Horizonte – Folge 2/129
+SUMMARY:Pokémon Horizonte – Folge 2/130
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -343,7 +142,7 @@ UID:auto-158871-tv-toggo-plus@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T150500Z
 DTEND:20261005T153500Z
-SUMMARY:Pokémon Horizonte – Folge 2/129
+SUMMARY:Pokémon Horizonte – Folge 2/130
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -353,7 +152,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T151000Z
 DTEND:20261005T154000Z
-SUMMARY:Dragon Ball – Folge 14/30
+SUMMARY:Dragon Ball – Folge 14/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -363,7 +162,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-05#15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T153500Z
 DTEND:20261005T160500Z
-SUMMARY:Dragon Ball – Folge 15/30
+SUMMARY:Dragon Ball – Folge 15/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -393,7 +192,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T191500Z
 DTEND:20261005T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 8/11
+SUMMARY:Pokémon Reisen: Die Serie – Folge 8/12
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -413,7 +212,7 @@ UID:auto-158871-tv-super-rtl@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T140500Z
 DTEND:20261006T143500Z
-SUMMARY:Pokémon Horizonte – Folge 3/129
+SUMMARY:Pokémon Horizonte – Folge 3/130
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -423,7 +222,7 @@ UID:auto-158871-tv-toggo-plus@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T150500Z
 DTEND:20261006T153500Z
-SUMMARY:Pokémon Horizonte – Folge 3/129
+SUMMARY:Pokémon Horizonte – Folge 3/130
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -433,7 +232,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T150500Z
 DTEND:20261006T153500Z
-SUMMARY:Dragon Ball – Folge 16/30
+SUMMARY:Dragon Ball – Folge 16/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -443,7 +242,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T191500Z
 DTEND:20261006T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 9/11
+SUMMARY:Pokémon Reisen: Die Serie – Folge 9/12
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -483,7 +282,7 @@ UID:auto-158871-tv-super-rtl@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T140500Z
 DTEND:20261007T143500Z
-SUMMARY:Pokémon Horizonte – Folge 4/129
+SUMMARY:Pokémon Horizonte – Folge 4/130
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -503,7 +302,7 @@ UID:auto-158871-tv-toggo-plus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T150500Z
 DTEND:20261007T153500Z
-SUMMARY:Pokémon Horizonte – Folge 4/129
+SUMMARY:Pokémon Horizonte – Folge 4/130
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -513,7 +312,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-07#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T151000Z
 DTEND:20261007T154000Z
-SUMMARY:Dragon Ball – Folge 17/30
+SUMMARY:Dragon Ball – Folge 17/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -533,7 +332,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-07#18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T153500Z
 DTEND:20261007T160500Z
-SUMMARY:Dragon Ball – Folge 18/30
+SUMMARY:Dragon Ball – Folge 18/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -573,7 +372,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T191500Z
 DTEND:20261007T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 10/11
+SUMMARY:Pokémon Reisen: Die Serie – Folge 10/12
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -593,7 +392,7 @@ UID:auto-158871-tv-super-rtl@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T140500Z
 DTEND:20261008T143500Z
-SUMMARY:Pokémon Horizonte – Folge 5/129
+SUMMARY:Pokémon Horizonte – Folge 5/130
 DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
  ails: https://anime-kalender.de/t/14839/
 CATEGORIES:Super RTL
@@ -613,7 +412,7 @@ UID:auto-158871-tv-toggo-plus@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T150500Z
 DTEND:20261008T153500Z
-SUMMARY:Pokémon Horizonte – Folge 5/129
+SUMMARY:Pokémon Horizonte – Folge 5/130
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/14839/
 CATEGORIES:TOGGO plus
@@ -623,7 +422,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-08#19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T151000Z
 DTEND:20261008T154000Z
-SUMMARY:Dragon Ball – Folge 19/30
+SUMMARY:Dragon Ball – Folge 19/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -633,7 +432,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-08#20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T153500Z
 DTEND:20261008T160500Z
-SUMMARY:Dragon Ball – Folge 20/30
+SUMMARY:Dragon Ball – Folge 20/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -663,7 +462,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T191500Z
 DTEND:20261008T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 11/11
+SUMMARY:Pokémon Reisen: Die Serie – Folge 11/12
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -677,6 +476,16 @@ SUMMARY:Kamisama Kiss
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
   nicht bestätigt.\nDetails: https://anime-kalender.de/t/6040/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261009T140500Z
+DTEND:20261009T143500Z
+SUMMARY:Pokémon Horizonte – Folge 6/130
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-09@anime-kalender-de
@@ -700,11 +509,21 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261009T150500Z
+DTEND:20261009T153500Z
+SUMMARY:Pokémon Horizonte – Folge 6/130
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-09#21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T151000Z
 DTEND:20261009T154000Z
-SUMMARY:Dragon Ball – Folge 21/30
+SUMMARY:Dragon Ball – Folge 21/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -714,7 +533,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-09#22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T153500Z
 DTEND:20261009T160500Z
-SUMMARY:Dragon Ball – Folge 22/30
+SUMMARY:Dragon Ball – Folge 22/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -738,6 +557,16 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261009T191500Z
+DTEND:20261009T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 12/12
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-178025-tv-prosieben-maxx@2026-10-09#22@anime-kalender-de
@@ -790,6 +619,37 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261010T110000Z
+DTEND:20261010T113000Z
+SUMMARY:Pokémon Horizonte – Folge 130/130
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261010T120000Z
+DTEND:20261010T123000Z
+SUMMARY:Pokémon Horizonte – Folge 130/130
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-10-10@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART:20261010T150000Z
+DTEND:20261010T153000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 2/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-10@anime-kalen
  der-de
 DTSTAMP:20200101T000000Z
@@ -802,16 +662,14 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-10@anime-kalender-d
- e
+UID:das-band-der-unterwelt-netflix@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 2/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 15/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-11@anime-kalender-de
@@ -821,6 +679,16 @@ DTEND:20261011T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 3/12
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17645/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:though-i-am-an-inept-villainess@2026-10-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261011T154500Z
+DTEND:20261011T161500Z
+SUMMARY:Though I Am an Inept Villainess – Folge 11/11
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16711/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -838,7 +706,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T151000Z
 DTEND:20261012T154000Z
-SUMMARY:Dragon Ball – Folge 23/30
+SUMMARY:Dragon Ball – Folge 23/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -848,7 +716,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-12#24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T153500Z
 DTEND:20261012T160500Z
-SUMMARY:Dragon Ball – Folge 24/30
+SUMMARY:Dragon Ball – Folge 24/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -888,7 +756,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T151000Z
 DTEND:20261013T154000Z
-SUMMARY:Dragon Ball – Folge 25/30
+SUMMARY:Dragon Ball – Folge 25/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -898,7 +766,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-13#26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T153500Z
 DTEND:20261013T160500Z
-SUMMARY:Dragon Ball – Folge 26/30
+SUMMARY:Dragon Ball – Folge 26/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -959,7 +827,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-14#27@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T151000Z
 DTEND:20261014T154000Z
-SUMMARY:Dragon Ball – Folge 27/30
+SUMMARY:Dragon Ball – Folge 27/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -980,7 +848,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-14#28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T153500Z
 DTEND:20261014T160500Z
-SUMMARY:Dragon Ball – Folge 28/30
+SUMMARY:Dragon Ball – Folge 28/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -1031,7 +899,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-15#29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T151000Z
 DTEND:20261015T154000Z
-SUMMARY:Dragon Ball – Folge 29/30
+SUMMARY:Dragon Ball – Folge 29/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -1041,7 +909,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-15#30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T153500Z
 DTEND:20261015T160500Z
-SUMMARY:Dragon Ball – Folge 30/30
+SUMMARY:Dragon Ball – Folge 30/32
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -1077,6 +945,16 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nUhrzeit noch nicht b
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T144500Z
+DTEND:20261016T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T150000Z
@@ -1087,6 +965,46 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16234/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-16#31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T151000Z
+DTEND:20261016T154000Z
+SUMMARY:Dragon Ball – Folge 31/32
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-16#32@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T153500Z
+DTEND:20261016T160500Z
+SUMMARY:Dragon Ball – Folge 32/32
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-16#31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T162500Z
+DTEND:20261016T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-16#32@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T165000Z
+DTEND:20261016T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:sailor-moon-s1-steelbook@2026-10-16@anime-kalender-de
@@ -1143,13 +1061,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-17@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261017T150000Z
+DTEND:20261017T153000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 3/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261017
 DTEND;VALUE=DATE:20261018
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 3/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 16/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-18@anime-kalender-de
@@ -1238,13 +1167,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-24@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261024T150000Z
+DTEND:20261024T153000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 4/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261024
 DTEND;VALUE=DATE:20261025
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 4/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 17/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-25@anime-kalender-de
@@ -1313,13 +1253,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-31@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261031T160000Z
+DTEND:20261031T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 5/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 5/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 18/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-01@anime-kalender-de
@@ -1342,6 +1293,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16757/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261105T172500Z
+DTEND:20261105T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 1/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T172500Z
+DTEND:20261106T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 2/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:sailor-moon-s-2026-11-06@2026-11-06@anime-kalender-de
@@ -1409,13 +1380,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-07@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261107T160000Z
+DTEND:20261107T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 6/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 6/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 19/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-08@anime-kalender-de
@@ -1429,6 +1411,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T172500Z
+DTEND:20261109T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 3/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T172500Z
+DTEND:20261110T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 4/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-11-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261111T150000Z
@@ -1440,16 +1442,57 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261111T172500Z
+DTEND:20261111T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 5/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261112T172500Z
+DTEND:20261112T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 6/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T172500Z
+DTEND:20261113T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 7/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-14@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261114T160000Z
+DTEND:20261114T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 7/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261114
 DTEND;VALUE=DATE:20261115
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 7/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 20/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-15@anime-kalender-de
@@ -1473,6 +1516,26 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T172500Z
+DTEND:20261116T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 8/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261117T172500Z
+DTEND:20261117T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 9/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261118T150000Z
@@ -1482,6 +1545,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16757/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T172500Z
+DTEND:20261118T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 10/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261119T172500Z
+DTEND:20261119T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 11/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:the-last-naruto-the-movie-2026-11-19@2026-11-19@anime-kalender-de
@@ -1504,6 +1587,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261120T172500Z
+DTEND:20261120T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 12/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-813-disc@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
@@ -1517,13 +1610,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-21@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261121T160000Z
+DTEND:20261121T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 8/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 8/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 21/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-22@anime-kalender-de
@@ -1535,6 +1639,56 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261123T172500Z
+DTEND:20261123T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 13/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261124T172500Z
+DTEND:20261124T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 14/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261125T172500Z
+DTEND:20261125T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 15/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261126T172500Z
+DTEND:20261126T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 16/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261127T172500Z
+DTEND:20261127T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 17/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-173693-disc@2026-11-27@anime-kalender-de
@@ -1550,13 +1704,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-28@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261128T160000Z
+DTEND:20261128T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 9/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261128
 DTEND;VALUE=DATE:20261129
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 9/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 22/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-29@anime-kalender-de
@@ -1570,6 +1735,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261130T172500Z
+DTEND:20261130T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 18/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261201T172500Z
+DTEND:20261201T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 19/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:gods-games-we-play-2026-12-01@2026-12-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261201
@@ -1578,6 +1763,36 @@ SUMMARY:Gods’ Games We Play (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/13891/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261202T172500Z
+DTEND:20261202T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 20/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261203T172500Z
+DTEND:20261203T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 21/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261204T172500Z
+DTEND:20261204T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 22/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:miss-kobayashi-s-dragon-maid-s-2026-11-06@2026-12-04@anime-kalender-de
@@ -1683,13 +1898,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-05@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261205T160000Z
+DTEND:20261205T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 10/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-12-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261205
 DTEND;VALUE=DATE:20261206
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 10/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 23/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-12-06@anime-kalender-de
@@ -1701,6 +1927,26 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261207T172500Z
+DTEND:20261207T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 23/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261208T172500Z
+DTEND:20261208T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 24/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-1313-disc@2026-12-10@anime-kalender-de
@@ -1726,13 +1972,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-12@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261212T160000Z
+DTEND:20261212T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 11/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-12-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261212
 DTEND;VALUE=DATE:20261213
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 11/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 24/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-12-13@anime-kalender-de
@@ -1746,51 +2003,87 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe@2026-12-18@
+ anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flowe
+ r) (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/7340/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:fate-stay-night-heavens-feel-2-lost-butterfly-gesamtausgabe@2026-12-18@
+ anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterf
+ ly) (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8064/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:fate-stay-night-heavens-feel-3-spring-song-gesamtausgabe@2026-12-18@ani
+ me-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song
+ ) (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8065/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-19@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261219
-DTEND;VALUE=DATE:20261220
+DTSTART:20261219T160000Z
+DTEND:20261219T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 12/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-26@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261226
-DTEND;VALUE=DATE:20261227
+DTSTART:20261226T160000Z
+DTEND:20261226T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 13/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-02@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270102
-DTEND;VALUE=DATE:20270103
+DTSTART:20270102T160000Z
+DTEND:20270102T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 14/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-09@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270109
-DTEND;VALUE=DATE:20270110
+DTSTART:20270109T160000Z
+DTEND:20270109T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 15/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -1814,27 +2107,38 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:shield-hero-s4-vol2@2027-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:The Rising of the Shield Hero – Staffel 4 – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15657/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-16@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270116
-DTEND;VALUE=DATE:20270117
+DTSTART:20270116T160000Z
+DTEND:20270116T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 16/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-23@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270123
-DTEND;VALUE=DATE:20270124
+DTSTART:20270123T160000Z
+DTEND:20270123T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 17/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -1851,12 +2155,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-30@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270130
-DTEND;VALUE=DATE:20270131
+DTSTART:20270130T160000Z
+DTEND:20270130T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 18/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -1893,24 +2197,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-02-06@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270206
-DTEND;VALUE=DATE:20270207
+DTSTART:20270206T160000Z
+DTEND:20270206T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 19/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-02-13@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270213
-DTEND;VALUE=DATE:20270214
+DTSTART:20270213T160000Z
+DTEND:20270213T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 20/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT

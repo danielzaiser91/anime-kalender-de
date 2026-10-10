@@ -32,6 +32,9 @@ import { KENNUNG } from './lib/kennung.ts'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { ARCHIV_DIR, baueWarteschlange } from './lib/anisearch-warteschlange.ts'
+import { archivLuecken, verbinde, zurueckgestellt, type Auftrag, type WegListe, type Zeile } from './lib/anisearch-archiv-vorrang.ts'
+import { nachFehlern } from './lib/anisearch-sperre.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 const args = process.argv.slice(2)
@@ -363,8 +366,6 @@ const ARCHIV_ABSCHNITTE = [
   'status',
 ]
 
-const ARCHIV_DIR = 'data/anisearch-raw'
-
 /** Schneidet die aufhebenswerten Abschnitte aus der Seite. */
 function extractArchive(html: string): string {
   const teile: string[] = []
@@ -386,16 +387,16 @@ function extractArchive(html: string): string {
  * Nachtlauf in voller Größe erneut in die Historie wandern. So bleibt jede
  * Datei nach ihrem einzigen Schreibvorgang unangetastet.
  */
-function saveArchive(anisearchId: number, html: string): void {
+function saveArchive(anisearchId: number, html: string): boolean {
   const inhalt = extractArchive(html)
-  if (!inhalt) return
+  if (!inhalt) return false
   if (!existsSync(ARCHIV_DIR)) mkdirSync(ARCHIV_DIR, { recursive: true })
   const pfad = `${ARCHIV_DIR}/${anisearchId}.html.gz`
   const neu = gzipSync(inhalt, { level: 9 })
   // Unverändert nicht neu schreiben: Sonst erzeugt jeder Lauf mit --force
   // tausende neue Blobs in der Historie, obwohl sich nichts geändert hat.
-  if (existsSync(pfad) && readFileSync(pfad).equals(neu)) return
-  writeFileSync(pfad, neu)
+  if (!existsSync(pfad) || !readFileSync(pfad).equals(neu)) writeFileSync(pfad, neu)
+  return true
 }
 
 /** Letzter Ausweg für den Anbieternamen: die Domain. */
@@ -580,7 +581,13 @@ export function extractInfo(html: string): AnisearchInfo | undefined {
   return info
 }
 
-async function fetchTitle(anisearchId: number): Promise<Omit<AnisearchEntry, 'anisearchId'> | undefined> {
+type Abruf =
+  | { art: 'ok'; entry: Omit<AnisearchEntry, 'anisearchId'>; archiviert: boolean }
+  /** Endgültige Auskunft der Seite (404/410): gibt es nicht. Keine Nichtauskunft — die heißt `fehler`. */
+  | { art: 'weg'; code: number }
+  | { art: 'fehler' }
+
+async function fetchTitle(anisearchId: number): Promise<Abruf> {
   const url = `https://www.anisearch.de/anime/${anisearchId}`
   try {
     const response = await fetch(url, {
@@ -589,23 +596,90 @@ async function fetchTitle(anisearchId: number): Promise<Omit<AnisearchEntry, 'an
     })
     if (!response.ok) {
       warn(`aniSearch ${anisearchId}: HTTP ${response.status}`)
-      return undefined
+      return response.status === 404 || response.status === 410 ? { art: 'weg', code: response.status } : { art: 'fehler' }
     }
     const html = await response.text()
     // Zuerst archivieren, dann auswerten. Wenn ein Muster unten danebengreift,
     // liegt die Seite trotzdem vor und der Fehler ist ohne neuen Abruf zu
     // beheben — genau darum geht es beim Archiv.
-    saveArchive(anisearchId, html)
+    const archiviert = saveArchive(anisearchId, html)
     return {
-      descriptionDe: extractDescription(html),
-      streams: extractStreams(html),
-      info: extractInfo(html),
-      fetchedAt: new Date().toISOString(),
+      art: 'ok',
+      archiviert,
+      entry: {
+        descriptionDe: extractDescription(html),
+        streams: extractStreams(html),
+        info: extractInfo(html),
+        fetchedAt: new Date().toISOString(),
+      },
     }
   } catch (err) {
     warn(`aniSearch ${anisearchId}: ${(err as Error).message}`)
-    return undefined
+    return { art: 'fehler' }
   }
+}
+
+const WEG_DATEI = 'data/anisearch-archiv-weg.json'
+
+/**
+ * Holt die Seiten der Reihe nach, im Abstand von `DELAY_MS`. Fehlschläge in Folge (Sperre, Zeitüberschreitung) beenden den Lauf — mit Frist (`ende`)
+ * legt er stattdessen Pausen ein und fragt danach einzeln nach (`lib/anisearch-sperre.ts`). Wer nicht kam, bleibt in der Lücke; vermerkt wird nur
+ * eine endgültige Auskunft (404/410, Seite ohne Archivabschnitte).
+ */
+async function arbeiteAb(queue: Auftrag[], cache: Record<string, AnisearchEntry>, weg: WegListe, ende?: number) {
+  const z = { neu: 0, mitText: 0, mitStream: 0, weg: 0 }
+  let fehlerInFolge = 0
+  let pausen = 0
+  let abrufe = 0
+  const sichern = (): void => {
+    writeJson('data/anisearch.json', cache, true)
+    writeJson(WEG_DATEI, weg, true)
+  }
+  for (const { asId, titelIds } of queue) {
+    if (ende !== undefined && Date.now() >= ende) {
+      log('aniSearch: Frist erreicht — der Rest bleibt für den nächsten Lauf.')
+      break
+    }
+    const abruf = await fetchTitle(asId)
+    if (abruf.art === 'ok') {
+      for (const id of titelIds) cache[id] = { anisearchId: asId, ...abruf.entry }
+      z.neu++
+      if (abruf.entry.descriptionDe) z.mitText++
+      if (abruf.entry.streams.length) z.mitStream++
+      // Eine Seite ohne Archivabschnitte kann auch eine Sperrseite sein: zählt als Fehlschlag, gemerkt wird sie nur kurz.
+      if (abruf.archiviert) fehlerInFolge = 0
+      else {
+        fehlerInFolge++
+        weg[asId] = { code: 200, am: new Date().toISOString() }
+      }
+    } else if (abruf.art === 'weg') {
+      weg[asId] = { code: abruf.code, am: new Date().toISOString() }
+      z.weg++
+      fehlerInFolge = 0
+    } else fehlerInFolge++
+    const folge = nachFehlern(fehlerInFolge, MAX_FAILURES, pausen, ende === undefined ? undefined : ende - Date.now())
+    if (folge.art === 'ende') {
+      warn(`${MAX_FAILURES} Fehlschläge in Folge — aniSearch macht dicht. Lauf wird beendet.`)
+      break
+    }
+    if (folge.art === 'pause') {
+      sichern()
+      warn(`${MAX_FAILURES} Fehlschläge in Folge — Pause ${folge.minuten} Minuten, danach eine einzelne Anfrage.`)
+      await sleep(folge.minuten * 60_000)
+      pausen++
+      fehlerInFolge = MAX_FAILURES - 1
+    }
+    // Zwischendurch sichern. Ein Lauf über tausend Titel dauert eine gute
+    // halbe Stunde; würde erst am Ende geschrieben, wäre ein Abbruch kurz
+    // davor gleichbedeutend mit tausend vergeblichen Anfragen an eine fremde
+    // Seite. Genau das ist einmal passiert.
+    if (++abrufe % 25 === 0) sichern()
+    // Reichlich Abstand. Die Seite gehört einer kleinen Redaktion, nicht einem
+    // Rechenzentrum — ein Ansturm ist respektlos und endet in einer Sperre.
+    await sleep(DELAY_MS)
+  }
+  sichern()
+  return z
 }
 
 /** Nur bei direktem Aufruf loslaufen — der Parser wird auch importiert. */
@@ -619,142 +693,23 @@ async function main(): Promise<void> {
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const releases = readJson<Release[]>('public/data/releases.json', [])
   const cache = readJson<Record<string, AnisearchEntry>>('data/anisearch.json', {})
+  const weg = readJson<WegListe>(WEG_DATEI, {})
+  const katalog = readJson<Zeile[]>('public/data/ohne-synchro.json', [])
+  const mitTermin = new Set(releases.map((r) => r.titleId))
+  const luecken = () => archivLuecken({ haupt: titles, katalog, bruecke: ids.anisearch, mitTermin, hatCache: (id) => Boolean(cache[id]), weg, jetztMs: Date.now() })
+  const zaehle = (l: ReturnType<typeof luecken>): string => `Hauptbestand ${l.haupt.length}, Katalog ${l.katalog.length} Kennungen ohne Archivseite`
+  const vorher = luecken()
+  log(`aniSearch-Lücke vorher: ${zaehle(vorher)}`)
 
-  /**
-   * **`--katalog` nimmt auch die Titel hinter dem Toggle mit.**
-   *
-   * Die Warteschlange bestand bis zum 06.09.2026 nur aus dem Hauptbestand —
-   * also aus Titeln, für die eine deutsche Synchro schon belegt ist. Gemessen
-   * an diesem Tag: 2.619 aniSearch-Einträge, davon **2.461 mit `dubbed: true`**,
-   * und **null** davon fehlt im Hauptbestand. Die Quelle wird für das, wofür sie
-   * bisher benutzt wird, restlos ausgeschöpft.
-   *
-   * Daneben stehen **11.607 Katalogtitel mit aniSearch-Kennung, von denen noch
-   * kein einziger geholt wurde**. Für jeden davon sagt aniSearch dasselbe wie
-   * für die anderen: ob es eine deutsche Fassung gibt, seit wann, von welchem
-   * Verlag. Das ist genau die Frage, für die es dieses Projekt gibt — nur
-   * ungestellt.
-   *
-   * **Zuerst gemessen, dann geholt.** 11.607 Seiten sind bei 6 Sekunden Abstand
-   * gut 19 Stunden; ob sich das lohnt, entscheidet die Trefferquote einer
-   * Stichprobe, nicht die Hoffnung. Deshalb der Schalter statt einer Umstellung.
-   *
-   * Der Hauptbestand behält den Vortritt: Katalogtitel hängen sich hinten an,
-   * und die Auffrischung der belegten Titel läuft weiter wie bisher.
-   */
-  const mitKatalog = args.includes('--katalog')
-  const katalog = mitKatalog
-    ? readJson<Array<{ id: number; titleDe?: string; dubConfidence?: string }>>(
-        'public/data/ohne-synchro.json',
-        [],
-      )
-        .filter((k) => ids.anisearch[k.id] && !cache[k.id])
-        /*
-          **Die aussichtsreichen zuerst — sonst misst eine Stichprobe nichts.**
-
-          Der Katalog steht in AniList-Reihenfolge, und die sagt über eine
-          deutsche Fassung nichts. Zwei Merkmale sagen etwas: ein **deutscher
-          Titel** (1.992 der 15.118 tragen einen — den hat jemand vergeben, weil
-          es eine deutsche Veröffentlichung gab) und `dubConfidence`.
-
-          Die erste Stichprobe über 59 Titel in Dateireihenfolge ergab **null**
-          Treffer. Das ist ein Befund über die Reihenfolge, nicht über den
-          Katalog — deshalb steht die Sortierung hier, bevor jemand aus dem
-          Ergebnis schließt, dort sei nichts zu holen.
-        */
-        .sort(
-          (a, b) =>
-            Number(Boolean(b.titleDe)) - Number(Boolean(a.titleDe)) ||
-            Number(b.dubConfidence === 'high') - Number(a.dubConfidence === 'high'),
-        )
-    : []
-
-  // Titel mit Termin zuerst — das sind die, die tatsächlich jemand aufschlägt.
-  const withRelease = new Set(releases.map((r) => r.titleId))
-  const queue = titles
-    .filter((t) => ids.anisearch[t.id])
-    /**
-     * Geholt wird, was fehlt **oder was zu alt ist**.
-     *
-     * Sonst wäre jeder Titel nach dem ersten erfolgreichen Abruf dauerhaft
-     * erledigt, und sein Bestand an Anbietern fröre ein. Das ist genau
-     * dort falsch, wo sich am meisten ändert: Verliert ein Dienst die
-     * Lizenzrechte, nimmt er die deutsche Fassung wieder aus dem Angebot —
-     * Crunchyroll führt aus diesem Grund keine erste Staffel von „Attack on
-     * Titan" mehr. Ein Bestand, der nur wachsen kann,
-     * behauptet solche Angebote weiter.
-     *
-     * Vierzehn Tage sind der Kompromiss: aniSearch gehört einer kleinen
-     * Redaktion, jeder Abruf kostet dort Last, und Lizenzen wechseln nicht
-     * wöchentlich. Bei 2.612 Einträgen bedeutet das rund 190 Abrufe je Nacht,
-     * verteilt über die ohnehin laufende Warteschlange.
-     */
-    /*
-      **Eine fehlende Archivdatei ist ein Grund zum Nachholen — auch bei
-      frischem Abrufdatum.**
-
-      Am 29.08.2026 gemessen: 2.616 Titel haben einen vollständigen Eintrag mit
-      `info` und einem Abrufdatum von heute — und **1.660 davon haben keine
-      Archivdatei**. Das Archiv ist irgendwann verlorengegangen, vermutlich beim
-      Aufräumen der verschachtelten Ordner am 24.08.2026 (13.458 Dateien).
-
-      Gemerkt hat es niemand, denn die Warteschlange fragte nur nach dem Alter,
-      und das war in Ordnung. Der Lauf meldete „nichts nachzuladen", während
-      zwei Drittel des Archivs fehlten.
-
-      **Was daran hängt:** Aus dem Archiv kommen seit dem 29.08. die deutschen
-      Disc-Ausgaben — der einzige Bezugsweg für 173 Titel, die sonst keinen
-      zeigen. Ohne Archivdatei ist ein Titel dort unsichtbar, egal wie frisch
-      sein Eintrag aussieht.
-
-      Das ist dieselbe Lehre wie „Ein Abruf, der nur ergänzt, veraltet
-      zwangsläufig" (CLAUDE.md), eine Ebene tiefer: **Ein Abruf, der nur nach
-      dem Alter fragt, merkt einen Datenverlust nicht.**
-    */
-    .filter(
-      (t) =>
-        FORCE ||
-        !cache[t.id] ||
-        !cache[t.id].info ||
-        veraltet(cache[t.id]) ||
-        !existsSync(`${ARCHIV_DIR}/${ids.anisearch[t.id]}.html.gz`),
-    )
-    /*
-      **Wer noch nie geholt wurde, kommt vor jeder Auffrischung.**
-
-      Bis zum 04.09.2026 sortierte hier nur ein Kriterium: Titel mit Termin
-      zuerst. In derselben Gruppe standen damit zwei sehr verschiedene Fälle —
-      ein Titel ohne **jede** Angabe und 1.660 Titel, die nur ihre Archivdatei
-      nachholen (siehe den Absatz darüber). Bei 200 Abrufen je Lauf heißt das:
-      Der Neue wartet acht Läufe lang hinter Einträgen, die bereits vollständig
-      sind.
-
-      Genau so geschehen bei „Die Tagebücher der Apothekerin: Staffel 3": Die
-      ID-Brücke kannte die Zuordnung seit dem 31.08. (AniList 195516 → aniSearch
-      20704), der Titel lief am 01.10. an, und im Bestand stand weder eine
-      aniSearch-Kennung noch eine deutsche Beschreibung — die Seite zeigte
-      englischen AniList-Text. Er hatte recht: aniSearch führt die Seite,
-      wir hatten sie nur nie abgerufen.
-
-      Fehlt ein Eintrag ganz, kostet sein Abruf dasselbe wie eine Auffrischung
-      und bringt ungleich mehr — also zuerst.
-    */
-    .sort(
-      (a, b) =>
-        Number(!cache[b.id]) - Number(!cache[a.id]) ||
-        Number(withRelease.has(b.id)) - Number(withRelease.has(a.id)),
-    )
+  // Vorrang: Archivlücken des Hauptbestands, dann Auffrischung und Neues der ID-Brücke, mit --katalog zuletzt die Lücken des Katalogs.
+  const bisher = baueWarteschlange({ ids: ids.anisearch, titles, releases, cache, force: FORCE, limit: LIMIT, veraltet })
+  const queue = verbinde(
+    vorher.haupt,
+    bisher.map((t) => ({ asId: ids.anisearch[t.id]!, titelIds: [t.id] })),
+    args.includes('--katalog') ? vorher.katalog : [],
+  )
+    .filter((a) => !zurueckgestellt(weg, a.asId, Date.now()))
     .slice(0, LIMIT)
-
-  /*
-    Die Katalogtitel füllen auf, was der Hauptbestand vom Kontingent übrig
-    lässt. Sie tragen nur ihre Kennung — mehr braucht `fetchTitle` nicht.
-  */
-  if (katalog.length && queue.length < LIMIT) {
-    const platz = LIMIT - queue.length
-    for (const k of katalog.slice(0, platz)) queue.push({ id: k.id } as Title)
-    log(`aniSearch: ${Math.min(platz, katalog.length)} Katalogtitel angehängt (${katalog.length} offen)`)
-  }
 
   if (!queue.length) {
     log('aniSearch: nichts nachzuladen.')
@@ -762,38 +717,12 @@ async function main(): Promise<void> {
     return
   }
 
-  log(`aniSearch: ${queue.length} Titel werden geholt (${Object.keys(cache).length} bereits im Bestand)`)
-  let neu = 0
-  let mitText = 0
-  let mitStream = 0
-
-  let fehlerInFolge = 0
-  for (const title of queue) {
-    const anisearchId = ids.anisearch[title.id]
-    const entry = await fetchTitle(anisearchId)
-    if (entry) {
-      cache[title.id] = { anisearchId, ...entry }
-      neu++
-      fehlerInFolge = 0
-      if (entry.descriptionDe) mitText++
-      if (entry.streams.length) mitStream++
-    } else if (++fehlerInFolge >= MAX_FAILURES) {
-      warn(`${MAX_FAILURES} Fehlschläge in Folge — aniSearch macht dicht. Lauf wird beendet.`)
-      break
-    }
-    // Zwischendurch sichern. Ein Lauf über tausend Titel dauert eine gute
-    // halbe Stunde; würde erst am Ende geschrieben, wäre ein Abbruch kurz
-    // davor gleichbedeutend mit tausend vergeblichen Anfragen an eine fremde
-    // Seite. Genau das ist einmal passiert.
-    if (neu % 25 === 0) writeJson('data/anisearch.json', cache, true)
-    // Reichlich Abstand. Die Seite gehört einer kleinen Redaktion, nicht einem
-    // Rechenzentrum — ein Ansturm ist respektlos und endet in einer Sperre.
-    await sleep(DELAY_MS)
-  }
-
-  writeJson('data/anisearch.json', cache, true)
-  recordSource('anisearch', neu, neu ? undefined : 'kein Titel abrufbar')
-  log(`aniSearch: ${neu} geholt, davon ${mitText} mit deutschem Text, ${mitStream} mit Stream-Angabe`)
+  log(`aniSearch: ${queue.length} Seiten werden geholt (${Object.keys(cache).length} Titel bereits im Bestand)`)
+  const fristMin = Number(args[args.indexOf('--frist') + 1]) || 0
+  const z = await arbeiteAb(queue, cache, weg, fristMin ? Date.now() + fristMin * 60_000 : undefined)
+  recordSource('anisearch', z.neu, z.neu ? undefined : 'kein Titel abrufbar')
+  log(`aniSearch: ${z.neu} geholt, davon ${z.mitText} mit deutschem Text, ${z.mitStream} mit Stream-Angabe; ${z.weg} Seiten gibt es nicht mehr`)
+  log(`aniSearch-Lücke nachher: ${zaehle(luecken())}`)
 }
 
 if (IST_HAUPTLAUF) {

@@ -30,7 +30,9 @@
  *  (b) die Folge unmittelbar hinter dem belegten Bestand folgt (Streaming, bei frischer Erstausgabe auch frühere TV-Folgen; höchste bisher erschienene
  *      Folge + 1), oder
  *  (c) ein Streaming-Termin dieser Folge erst nach dem Sendetermin liegt (Dragon Ball DAIMA am
- *      16.–18.09.2026 auf TOGGO plus: RTL+ startet am 25.09.).
+ *      16.–18.09.2026 auf TOGGO plus: RTL+ startet am 25.09.), oder
+ *  (d) ein Handbeleg am Release steht (`Release.premiere`, `weg: 'tv'`): gleichwertig zu (a), gilt für das
+ *      ganze Release; ein früherer Beleg der Folge (Wiederholung) schlägt ihn.
  * Liegt die deutsche Erstausgabe des Titels mehr als ein Jahr vor dem Termin, gilt nur (a) — auch (c)
  * kommt dort bewusst nicht zum Zug (bekannte Grenze: ein späterer Streaming-Termin eines alten Titels
  * kann eine Wiederveröffentlichung sein): Ohne
@@ -86,6 +88,8 @@ export function istPremiere(
   ersteDeutsch?: Record<number, string>,
   /** Uhrzeit des Termins, um den es geht — trennt zwei Sendungen desselben Tages. */
   zeit?: string,
+  /** Der Handbeleg `Release.premiere` (`weg: 'tv'`) des Releases, zu dem der Termin gehört. */
+  handbeleg?: boolean,
 ): boolean | undefined {
   /* Lief sie schon früher auf Deutsch (Wikipedia-EAD, RTL+-Start), ist es eine Wiederholung —
      Dragon Ball Folge 1 auf ProSieben MAXX 2026 ist nicht deren Premiere (1999). */
@@ -123,8 +127,8 @@ export function istPremiere(
     if (bereiche.some((r) => r.dub && r.from <= folge && folge <= r.to)) return false
     for (const r of bereiche) if (r.dub) bestand = Math.max(bestand, r.to)
   }
-  /* (a) Die Erstausgabe der Folge liegt nicht vor dem Termin. */
-  if (erst) return true
+  /* (a) Die Erstausgabe der Folge liegt nicht vor dem Termin; (d) der Handbeleg des Releases. */
+  if (erst || handbeleg) return true
   /* Ein Titel mit alter deutscher Erstausgabe: ohne Beleg der Folge keine Aussage. */
   if (frueherDeutscheErstausgabe(title, datum, 365)) return undefined
   /* Frisch auf Deutsch (Erstausgabe innerhalb eines Jahres): Auch die früheren TV-Folgen gehören zum Bestand. */

@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 38
+    "2026-10": 41
   },
   "gesehen": {
     "26341901:netflix": {
@@ -6810,7 +6810,27 @@
       "dienst": "prime",
       "am": "2026-10-09",
       "deutsch": true
+    },
+    "new:14627:prime": {
+      "art": "new",
+      "titel": "Total Recall 2070",
+      "originalTitel": "Total Recall 2070",
+      "imdbId": "tt0159920",
+      "tmdbId": "tv/4541",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:24862419:netflix": {
+      "art": "new",
+      "titel": "Rooster Fighter",
+      "originalTitel": "Rooster Fighter",
+      "imdbId": "tt33086804",
+      "tmdbId": "tv/259819",
+      "dienst": "netflix",
+      "am": "2026-10-09",
+      "deutsch": true
     }
   },
-  "fetchedAt": "2026-10-09T16:10:44.855Z"
+  "fetchedAt": "2026-10-10T04:20:46.940Z"
 }

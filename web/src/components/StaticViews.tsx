@@ -20,7 +20,7 @@ import { AdminPanel, readAdminToken } from './AdminPanel.tsx'
 import { Button, SectionTitle } from './ui.tsx'
 import { PushTest } from './PushTest.tsx'
 import { AboBeenden, type AbmeldeState } from './AboBeenden.tsx'
-import { CONTACT_EMAIL } from './Datenschutz.tsx'
+import { ImpressumAnbieter } from './impressum-anbieter.tsx'
 
 const WORKER_URL = import.meta.env.VITE_NEWSLETTER_API ?? ''
 
@@ -861,27 +861,11 @@ export function ImpressumView() {
     <div className="mx-auto flex max-w-2xl flex-col gap-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
       <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Impressum</h1>
 
-      <div>
-        <h2 className="font-semibold text-slate-800 dark:text-slate-100">Anbieter</h2>
-        <p>
-          Daniel Zaiser
-          <br />
-          Kontakt ausschließlich per E-Mail:{' '}
-          <a className="underline hover:text-sky-400" href={`mailto:${CONTACT_EMAIL}`}>
-            {CONTACT_EMAIL}
-          </a>
-        </p>
-        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-          Dieses Angebot ist ein privates, nicht kommerzielles Fan-Projekt ohne Werbung, ohne
-          Affiliate-Links und ohne kostenpflichtige Leistungen. Eine Anschrift wird deshalb nicht
-          veröffentlicht; für Anliegen jeder Art genügt die E-Mail-Adresse oben, sie wird zeitnah
-          gelesen. Wer eine ladungsfähige Anschrift benötigt, bekommt sie auf Anfrage.
-        </p>
-      </div>
+      <ImpressumAnbieter />
 
       <div>
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Verantwortlich für den Inhalt</h2>
-        <p>Daniel Zaiser, erreichbar über die oben genannte Adresse.</p>
+        <p>Daniel Zaiser, Anschrift wie oben.</p>
       </div>
 
       <div>

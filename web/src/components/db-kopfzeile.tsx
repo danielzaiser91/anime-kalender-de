@@ -34,51 +34,33 @@ export function DbSchalter({ ohneSynchro, onOhneSynchroChange, laedt, grouped, o
   )
 }
 
-/** Anime und Cartoons, mit und ohne belegte deutsche Synchro — gezählt am Merker `ohneSynchro`, nicht an einer zweiten Regel. */
-export function zaehlTeile(titles: Title[]): { anime: number; cartoons: number; ohneAnime: number; ohneCartoons: number } {
-  const z = { anime: 0, cartoons: 0, ohneAnime: 0, ohneCartoons: 0 }
-  for (const t of titles) {
-    if (t.ohneSynchro) t.westlich ? z.ohneCartoons++ : z.ohneAnime++
-    else t.westlich ? z.cartoons++ : z.anime++
-  }
-  return z
+
+/** Kacheln, in denen mindestens ein Glied belegte deutsche Synchro hat — dieselbe Regel, nach der die Kachel ihr Band „keine deutsche Synchro" zeigt. */
+export function zaehleMitSynchro(liste: { members: Title[] }[]): number {
+  let n = 0
+  for (const k of liste) if (k.members.some((m) => !m.ohneSynchro)) n++
+  return n
 }
 
-/**
- * „2.300 Ergebnisse (gebündelt) für „wolf"". Mit Suchbegriff nennt die Zeile ihn, sonst liest sich die Null wie ein
- * leerer Bestand statt wie ein Ergebnis.
- */
-export function ergebnisText(anzahl: number, gebuendelt: boolean, suche: string, t: Translate): string {
+/** „2.300 Ergebnisse für „wolf"". Mit Suchbegriff nennt die Zeile ihn, sonst liest sich die Null wie ein leerer Bestand. */
+export function ergebnisText(anzahl: number, suche: string, t: Translate): string {
   const kopf = t(anzahl === 1 ? 'db.ergebnis1' : 'db.ergebnisse', { count: anzahl.toLocaleString('de-DE') })
-  return [kopf, gebuendelt ? t('db.gebuendelt') : '', suche.trim() ? t('db.ergebnisFuer', { suche: suche.trim() }) : ''].filter(Boolean).join(' ')
+  return suche.trim() ? `${kopf} ${t('db.ergebnisFuer', { suche: suche.trim() })}` : kopf
 }
 
 /**
- * Die Zählzeile: Ergebnisse, davon mit deutscher Flagge, und — wenn der Bestand ohne Synchro dabei ist — wie viele ohne.
- * Fasst die Ansicht Staffeln zusammen, zählt `ergebnisse` die Kacheln, die Teilzahlen weiter Titel (Daniel, 04.10.2026).
+ * Die Trefferzeile: Ergebnisse (Kacheln) und, nur wenn sie abweicht, wie viele davon deutsche Synchro haben.
+ * Desktop eine Zeile, am Handy (`zweizeilig`) zwei neben dem Filter-Knopf.
  */
-export function DbKopfzeile({ titles, ergebnisse, gebuendelt, suche }: { titles: Title[]; ergebnisse: number; gebuendelt: boolean; suche: string }) {
+export function DbKopfzeile({ ergebnisse, mitSynchro, suche, zweizeilig }: { ergebnisse: number; mitSynchro: number; suche: string; zweizeilig?: boolean }) {
   const { t } = useLang()
-  const z = zaehlTeile(titles)
-  const zahl = (n: number) => n.toLocaleString('de-DE')
-  const paar = (anime: number, cartoons: number) => (
-    <>
-      <b className="font-semibold text-slate-700 dark:text-slate-200">{zahl(anime)}</b> {t('db.animeUnd')}{' '}
-      <b className="font-semibold text-slate-700 dark:text-slate-200">{zahl(cartoons)}</b> {t('db.cartoons')}
-    </>
-  )
+  const zusatz = ergebnisse > 0 && mitSynchro !== ergebnisse
   return (
-    <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
-      <span className="font-semibold text-slate-800 dark:text-slate-100">{ergebnisText(ergebnisse, gebuendelt, suche, t)}</span>
-      {/* Bei null Ergebnissen sagte „davon 0 Anime und 0 Cartoons" dasselbe noch einmal. */}
-      {ergebnisse > 0 && (
-        <span className="inline-flex items-center gap-1.5">
-          {t('db.davon')} <DeFlaggeZeichen /> {paar(z.anime, z.cartoons)}
-        </span>
-      )}
-      {z.ohneAnime + z.ohneCartoons > 0 && (
-        <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-500/10 px-1.5 py-0.5">
-          {paar(z.ohneAnime, z.ohneCartoons)} {t('db.ohne')} <DeFlaggeZeichen />
+    <span className={zweizeilig ? 'flex min-w-0 flex-col leading-[1.1]' : 'flex flex-wrap items-center gap-x-2'}>
+      <span className={zweizeilig ? 'truncate text-xs font-semibold text-ak-text' : 'font-semibold text-slate-800 dark:text-slate-100'}>{ergebnisText(ergebnisse, suche, t)}</span>
+      {zusatz && (
+        <span className={zweizeilig ? 'inline-flex items-center gap-1 text-[11px] text-ak-leise' : 'inline-flex items-center gap-1'}>
+          {!zweizeilig && '·'} {t('db.mitSynchro', { count: mitSynchro.toLocaleString('de-DE') })} <DeFlaggeZeichen />
         </span>
       )}
     </span>

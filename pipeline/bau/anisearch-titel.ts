@@ -188,3 +188,53 @@ export function anisearchReihenKanten(titles: Map<number, Title>): { ids: number
   }
   return kanten
 }
+
+const namensform = (s: string): string => s.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, ' ').trim()
+
+/**
+ * Der längste Vorspann des Namens (vor einem „:" oder „ - "), der der volle Name eines anderen Titels ist
+ * („Demon Slayer: Kimetsu no Yaiba - Asakusa Arc" → „Demon Slayer: Kimetsu no Yaiba"). Gibt die Kennungen dieser Titel zurück.
+ */
+function reihenVorspann(t: Title, nachName: Map<string, Set<number>>): Set<number> | undefined {
+  let bester: { laenge: number; ids: Set<number> } | undefined
+  for (const name of [t.titleDe, t.titleEn, t.titleRomaji]) {
+    const teile = (name ?? '').split(/\s*(?::|\s[-–—]\s)\s*/)
+    for (let i = 1; i < teile.length; i++) {
+      const vorspann = namensform(teile.slice(0, i).join(' '))
+      const ids = nachName.get(vorspann)
+      if (vorspann.length >= 5 && ids && (!bester || vorspann.length > bester.laenge)) bester = { laenge: vorspann.length, ids }
+    }
+  }
+  return bester?.ids
+}
+
+/**
+ * Reihen-Kanten für aniSearch-Titel ohne Beziehung: aniSearch liefert keine, und ohne MAL-Kennung blieben Teile wie „Demon Slayer – Asakusa Arc" einzelne Karten, obwohl ihre Reihe da ist
+ * (Daniel, 10.10.2026). Ein alleinstehender aniSearch-Titel kommt zur Reihe, deren Titel sein Namensvorspann nennt — nur wenn alle Titel dieses Namens in **einer** Reihe stehen (`wurzel`),
+ * sonst keine Kante. Anders als das verworfene „vs"-Muster (siehe Crossover in `03-reihen.ts`) verbindet das nie zwei bestehende Reihen: Nur der Alleinstehende wandert.
+ */
+export function anisearchNamensKanten(titles: Map<number, Title>, wurzel: (id: number) => number): { ids: number[] }[] {
+  const nachName = new Map<string, Set<number>>()
+  const wurzelGroesse = new Map<number, number>()
+  for (const t of titles.values()) {
+    const w = wurzel(t.id)
+    wurzelGroesse.set(w, (wurzelGroesse.get(w) ?? 0) + 1)
+    for (const name of [t.titleDe, t.titleEn, t.titleRomaji]) {
+      if (!name) continue
+      const schluessel = namensform(name)
+      nachName.set(schluessel, (nachName.get(schluessel) ?? new Set()).add(t.id))
+    }
+  }
+  const kanten: { ids: number[] }[] = []
+  for (const t of titles.values()) {
+    if (t.id < ANISEARCH_ID_BASIS || wurzelGroesse.get(wurzel(t.id)) !== 1) continue
+    const treffer = reihenVorspann(t, nachName)
+    if (!treffer) continue
+    const andere = [...treffer].filter((id) => id !== t.id)
+    /* Ein gleichnamiger Alleinstehender (Dublette) zählt nur, wenn es keine Reihe mit mehreren Titeln gibt. */
+    const reihen = andere.filter((id) => wurzelGroesse.get(wurzel(id))! > 1)
+    const wurzeln = new Set((reihen.length ? reihen : andere).map(wurzel))
+    if (wurzeln.size === 1) kanten.push({ ids: [[...wurzeln][0]!, t.id] })
+  }
+  return kanten
+}

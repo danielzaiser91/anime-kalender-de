@@ -6,76 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Crime
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T160000Z
-DTEND:20261001T163000Z
-SUMMARY:Detektiv Conan – Folge 146/155
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T162500Z
-DTEND:20261001T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Detektiv Conan – Folge 147/155
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-02#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T162500Z
-DTEND:20261002T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-02#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T165000Z
-DTEND:20261002T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:sakamoto-days-vol2@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Sakamoto Days – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15940/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:chainsaw-man-s1-bundle@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Chainsaw Man – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12332/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:spy-x-family-s1-teil1-disneyplus@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261004
@@ -90,7 +20,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T160000Z
 DTEND:20261005T163000Z
-SUMMARY:Detektiv Conan – Folge 148/155
+SUMMARY:Detektiv Conan – Folge 148/156
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -130,7 +60,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T155500Z
 DTEND:20261007T162500Z
-SUMMARY:Detektiv Conan – Folge 149/155
+SUMMARY:Detektiv Conan – Folge 149/156
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -160,7 +90,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T160000Z
 DTEND:20261008T163000Z
-SUMMARY:Detektiv Conan – Folge 150/155
+SUMMARY:Detektiv Conan – Folge 150/156
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -168,9 +98,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261009T155500Z
-DTEND:20261009T162500Z
-SUMMARY:Detektiv Conan – Folge 151/155
+DTSTART:20261009T160000Z
+DTEND:20261009T163000Z
+SUMMARY:Detektiv Conan – Folge 151/156
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -200,7 +130,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T160000Z
 DTEND:20261012T163000Z
-SUMMARY:Detektiv Conan – Folge 152/155
+SUMMARY:Detektiv Conan – Folge 152/156
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -230,7 +160,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T155500Z
 DTEND:20261013T162500Z
-SUMMARY:Detektiv Conan – Folge 153/155
+SUMMARY:Detektiv Conan – Folge 153/156
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -260,7 +190,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T160000Z
 DTEND:20261014T163000Z
-SUMMARY:Detektiv Conan – Folge 154/155
+SUMMARY:Detektiv Conan – Folge 154/156
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -290,7 +220,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T160000Z
 DTEND:20261015T163000Z
-SUMMARY:Detektiv Conan – Folge 155/155
+SUMMARY:Detektiv Conan – Folge 155/156
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -310,6 +240,36 @@ UID:auto-21-tv-prosieben-maxx@2026-10-15#30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T165000Z
 DTEND:20261015T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T155500Z
+DTEND:20261016T162500Z
+SUMMARY:Detektiv Conan – Folge 156/156
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-16#31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T162500Z
+DTEND:20261016T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-16#32@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T165000Z
+DTEND:20261016T172000Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/

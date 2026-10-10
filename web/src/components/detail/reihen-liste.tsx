@@ -1,10 +1,13 @@
 import { type FranchiseMember, type Title } from '@shared/types.ts'
-import { hauptstaffeln, staffelBeschriftungen, eindeutschenStaffel } from '@shared/titles.ts'
+import { hauptstaffeln, staffelBeschriftungen, staffelStaende, eindeutschenStaffel } from '@shared/titles.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
-import { Tooltip } from '../ui.tsx'
-import { istEingeklappt } from './reihen-regeln.ts'
+import { SynchroMarke } from './reihen-marke.tsx'
+import { istEingeklappt, zeileInListeSichtbar } from './reihen-regeln.ts'
+import { OhneSynchroSchalter, ReihenKopf } from './reihen-kopf.tsx'
+import { ZeilenName } from './zeilen-name.tsx'
+import { ReihenKarte } from './reihen-karte.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -27,40 +30,9 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
   return (
     <>
       {reihenTeile.length > 1 && (
-        <div>
-          {/*
-            **Eine Liste über die volle Breite, kein Band mehr.**
-
-            In schmalen Kacheln hießen bei einer Reihe wie „Die Tagebücher der
-            Apothekerin" fast alle Einträge sichtbar gleich; der unterscheidende
-            Teil des Titels war abgeschnitten. Deshalb volle Breite mit Cover
-            links und eine Höchsthöhe mit drei sichtbaren Einträgen und einem
-            angeschnittenen vierten.
-
-            **Getrennt wird nach erschienen und angekündigt**, nicht nach
-            Werkart (seine Wahl unter drei Entwürfen). Das beantwortet die
-            Frage, mit der jemand hierherkommt: Was kann ich jetzt sehen?
-          */}
-          {/*
-            **Die Reihe schließt direkt an den Kasten an.**
-
-            Zwischen beiden stand eine Überschrift — „64 TEILE IN DIESER
-            REIHE" —, die nichts sagte, was die Liste nicht selbst zeigt.
-            Daniel am 03.09.2026: „‚x teile in dieser reihe' entfernen und
-            reihen bereich direkt an box anknüpfen. die x zahl unten links an
-            karussell-box heften. box border geben."
-
-            Die Zahl bleibt — bei drei sichtbaren Einträgen sieht eine Reihe
-            mit einundzwanzig Teilen sonst nach dreien aus. Sie steht jetzt
-            als Marke an der unteren Kante der Box, wo sie den Platz einer
-            Überschrift nicht braucht.
-
-            Der Rahmen macht aus der Liste einen Bereich: Ohne ihn schwamm
-            sie zwischen Kasten und Terminen, mit ihm gehört sie sichtbar
-            zusammen.
-          */}
-          <div className="relative -mt-1 rounded-xl border border-slate-200 dark:border-white/10">
-          <div className="max-h-[13.5rem] overflow-y-auto p-2">
+        <ReihenKarte reihenTeile={reihenTeile} reihenName={reihenName} title={title}>
+          {/* Seit dem 09.10.2026 eine Karte unter dem Antwortkasten: bis 8 Teile ohne Innen-Scroll, darüber fünf Zeilen sichtbar (22rem = Kopf + fünf Zeilen, Reihenliste 10.10.2026). */}
+          <div data-reihe-liste className={['relative overflow-y-auto p-0.5', reihenTeile.length > 8 ? 'max-h-[22rem]' : ''].join(' ')}>
             {(() => {
               /*
                 **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
@@ -191,28 +163,11 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
               ].filter((g) => g.teile.length > 0)
 
               /*
-                **Die Staffeln werden gezählt, damit die erste „Staffel 1"
-                heißt.** Sie trägt im Datensatz meist den bloßen Reihennamen;
-                nach dem Abzug unten bliebe nichts übrig, und im Panel stand
-                dann derselbe Text wie in der Überschrift darüber (Daniel:
-                „1. eintrag dort müsste staffel 1 heißen").
+                Gezählt wird nur, wo die Nummer etwas unterscheidet: One Piece (ein Eintrag) bleibt ohne „Staffel 1".
+                Ab zwei Staffeln trägt jede ihre Nummer, auch mit eigenem Namen; `staffelLabel` bleibt der Rückfall.
               */
-              /*
-                **„Staffel 1" nur, wo es eine Staffel 2 gibt.**
-
-                One Piece ist bei AniList **ein** Eintrag mit über tausend
-                Folgen — die Arcs sind keine eigenen Werke. In der Liste stand
-                trotzdem „Staffel 1", und daneben nichts weiter (Daniel,
-                03.09.2026: „wenn one piece alles meint, dann sollte nicht
-                staffel 1 stehen, sondern einfach ,One Piece'").
-
-                Gezählt wird deshalb nur, wo die Nummer etwas unterscheidet:
-                wenn **mindestens zwei** Hauptstaffeln keinen eigenen Namen
-                tragen. Hat ein Teil einen — „Log: Fish-Man Island Saga" —,
-                steht der da, und eine Nummer bräuchte er nicht.
-              */
-              /* Seit dem 13.09.2026 zählt `staffelBeschriftungen()` — auch „Teil 2" gehört zu seiner Staffel. */
               const staffelLabel = staffelBeschriftungen(reihenTeile.filter(istHauptstaffel), reihenName)
+              const nummern = staffelStaende(reihenTeile.filter(istHauptstaffel), reihenName)
 
               const zeile = (m: FranchiseMember, offen: boolean) => {
                 const gewaehlt = m.id === title.id
@@ -248,7 +203,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 if (istHauptstaffel(m) && staffelTeil && rest === voll && rest !== staffelTeil[1]) rest = staffelTeil[1]!
                 /* Und die erste Staffel heißt „Staffel 1", ein Teil „Staffel 1 - Teil 2". */
                 const kurz = (istHauptstaffel(m) && staffelLabel.get(m.id)) || rest || voll
-                const beschriftung = kurz
+                const beschriftung = <ZeilenName nr={nummern.get(m.id)} rest={rest} kurz={kurz} />
                 return (
                   <button
                     key={m.id}
@@ -256,11 +211,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                     role="tab"
                     aria-selected={gewaehlt}
                     disabled={wechselt}
-                    ref={
-                      gewaehlt
-                        ? (el) => el?.scrollIntoView({ block: 'nearest' })
-                        : undefined
-                    }
+                    ref={gewaehlt ? zeileInListeSichtbar : undefined}
                     onClick={() => !gewaehlt && wechsleZu(m.id)}
                     className={[
                       /*
@@ -278,7 +229,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                       'flex w-full items-center gap-2 rounded-lg border p-1 text-left transition',
                       'focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-60',
                       gewaehlt
-                        ? 'border-sky-400 bg-sky-50 ring-1 ring-sky-400/50 dark:bg-sky-400/10'
+                        ? 'relative border-sky-400 bg-sky-50 ring-1 ring-sky-400/50 before:absolute before:inset-y-1.5 before:left-px before:w-[3px] before:rounded-sm before:bg-sky-400 dark:bg-sky-400/10'
                         : offen
                           ? 'cursor-pointer border-dashed border-slate-300 opacity-80 hover:opacity-100 dark:border-white/20'
                           : gemerkt
@@ -301,7 +252,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                         />
                       )}
                     </span>
-                    <span className="flex min-w-0 flex-1 items-baseline gap-2">
+                    <span className="flex min-w-0 flex-1 items-center gap-2">
                       {/*
                         **Ohne deutsche Synchro steht vor dem Namen, nicht dahinter** (Daniel,
                         23.09.2026: „dieser in der reihe hat keine synchro, das muss sichtbar sein
@@ -314,19 +265,13 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                         heißt es „gibt es nicht auf Deutsch", und genau das ist die Auskunft, um
                         die es geht.
 
-                        Künftige Teile tragen es nicht: Bei ihnen steht „ab <Datum>", und eine
-                        fehlende Synchro ist dort kein Befund, sondern der Normalzustand.
+                        Teile, deren Original noch aussteht, tragen stattdessen „Geplant"
+                        (10.10.2026): Eine fehlende Synchro ist dort der Normalzustand.
                       */}
-                      {ohneDe && (
-                        <span className="shrink-0 rounded border border-rose-400/50 bg-rose-500/15 px-1.5 py-px text-[9px] font-extrabold leading-tight tracking-wider text-rose-600 dark:text-rose-400">
-                          <Tooltip text={t('detail.reiheOhneSynchro')} eigenerFokus>
-                            🇩🇪 ✕
-                          </Tooltip>
-                        </span>
-                      )}
+                      <SynchroMarke t={t} m={m} ohneDe={ohneDe} />
                       <span
                         className={[
-                          'min-w-0 truncate text-sm leading-tight',
+                          'line-clamp-2 min-w-0 text-sm leading-tight',
                           ohneDe ? 'opacity-75' : '',
                           gewaehlt
                             ? 'font-medium text-sky-700 dark:text-sky-300'
@@ -420,7 +365,8 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 .map((g) => ({ ...g, teile: g.teile.filter((m) => passtSuche(m) && (suchText ? true : sichtbar(m))) }))
                 .filter((g) => g.teile.length > 0)
               /* Reiter nur bei langen Reihen ohne laufende Suche; vorausgewählt ist die Gruppe des geöffneten Titels. */
-              const mitReitern = lang && !suchText && gefiltert.length > 1
+              const reiterZeile = lang && gruppen.filter((g) => g.teile.some(sichtbar)).length > 1
+              const mitReitern = reiterZeile && !suchText && gefiltert.length > 1
               const eigeneGruppe = gefiltert.find((g) => g.teile.some((m) => m.id === title.id))?.titel
               const aktiverReiter =
                 reiheReiter?.reihe === reihenSchluessel && gefiltert.some((g) => g.titel === reiheReiter.titel)
@@ -444,74 +390,31 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
               */
               const ohneSchalter =
                 zahlOhne > 0 && !suchText ? (
-                  <label className="ml-auto inline-flex shrink-0 cursor-pointer items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
-                    <input
-                      type="checkbox"
-                      className="sr-only"
-                      checked={!ohneOffen}
-                      onChange={() => setReiheOhneOffen(ohneOffen ? null : reihenSchluessel)}
-                    />
-                    <span
-                      aria-hidden="true"
-                      className={[
-                        'relative h-3.5 w-6 rounded-full transition',
-                        ohneOffen ? 'bg-slate-300 dark:bg-white/20' : 'bg-sky-500',
-                      ].join(' ')}
-                    >
-                      <span
-                        className={[
-                          'absolute top-0.5 size-2.5 rounded-full bg-white shadow transition-all',
-                          ohneOffen ? 'left-0.5' : 'left-3',
-                        ].join(' ')}
-                      />
-                    </span>
-                    {t('detail.reiheOhneSchalter', { n: zahlOhne })}
-                  </label>
+                  <OhneSynchroSchalter
+                    t={t}
+                    zahl={zahlOhne}
+                    ohneOffen={ohneOffen}
+                    onChange={() => setReiheOhneOffen(ohneOffen ? null : reihenSchluessel)}
+                  />
                 ) : null
 
               return (
                 <div className="flex flex-col gap-0.5">
                   {lang && (
-                    <div className="sticky -top-2 z-10 -mx-2 -mt-2 mb-1 flex flex-col gap-1.5 bg-white/95 px-2 pb-1.5 pt-2 backdrop-blur dark:bg-slate-900/95">
-                      <input
-                        type="search"
-                        value={suchText ? reiheSuche.text : ''}
-                        onChange={(e) => setReiheSuche({ reihe: reihenSchluessel, text: e.target.value })}
-                        placeholder={t('detail.reiheSuche')}
-                        aria-label={t('detail.reiheSuche')}
-                        className="w-full rounded-lg border border-slate-200 bg-transparent px-2.5 py-1 text-xs outline-none focus:border-sky-400 dark:border-white/10"
-                      />
-                      {(mitReitern || ohneSchalter) && (
-                        <div className="flex flex-wrap items-center gap-1">
-                      {mitReitern && (
-                        <div role="tablist" className="flex flex-wrap gap-1">
-                          {gefiltert.map((g) => (
-                            <button
-                              key={g.titel}
-                              type="button"
-                              role="tab"
-                              aria-selected={g.titel === aktiverReiter}
-                              onClick={() => setReiheReiter({ reihe: reihenSchluessel, titel: g.titel })}
-                              className={[
-                                'cursor-pointer rounded-full px-2.5 py-0.5 text-[11px] transition',
-                                g.titel === aktiverReiter
-                                  ? 'bg-sky-500/20 font-medium text-sky-700 dark:text-sky-200'
-                                  : 'text-slate-500 hover:bg-slate-200/70 dark:text-slate-400 dark:hover:bg-white/10',
-                              ].join(' ')}
-                            >
-                              {g.titel} <span className="tabular-nums">{g.teile.length}</span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                      {ohneSchalter}
-                        </div>
-                      )}
-                    </div>
+                    <ReihenKopf
+                      t={t}
+                      suche={suchText ? reiheSuche.text : ''}
+                      onSuche={(text) => setReiheSuche({ reihe: reihenSchluessel, text })}
+                      schalter={ohneSchalter}
+                      reiterZeile={reiterZeile}
+                      reiter={mitReitern ? gefiltert.map((g) => ({ titel: g.titel, anzahl: g.teile.length })) : null}
+                      aktiv={aktiverReiter}
+                      onReiter={(titel) => setReiheReiter({ reihe: reihenSchluessel, titel })}
+                    />
                   )}
                   {!lang && ohneSchalter && <div className="mb-1 flex">{ohneSchalter}</div>}
                   {!angezeigt.length && (
-                    <span className="px-1 py-2 text-xs text-slate-500 dark:text-slate-400">{t('detail.reiheKeinTreffer')}</span>
+                    <span className="px-1 py-2 text-xs text-slate-500 dark:text-slate-400">{t(!suchText && zahlOhne > 0 ? 'detail.reiheNurOhne' : 'detail.reiheKeinTreffer')}</span>
                   )}
                   <div role="tablist" aria-label={t('detail.seriesParts')} className="flex flex-col gap-0.5">
                   {angezeigt.map((g, i) => (
@@ -540,26 +443,8 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
               )
             })()}
           </div>
-          {/*
-            **Die Marke steht unter einer eigenen Linie, nicht im Bild.**
-
-            Erst hing sie im Scrollbereich und der letzte Eintrag lag halb in
-            ihrem Text; ein Verlauf half nur halb. Daniel: „border bottom
-            zwischen scrollbereich und ,x teile...' hinzufügen. und x teile
-            gleicher abstand zur border und border darunter … hab einfach
-            line-height:1 gemacht auf den text, dann hat abstand zu den 2
-            bordern gepasst."
-
-            `leading-none` nimmt der Zeile ihre eigene Höhe — dann sind die
-            4 px Polster oben und unten wirklich gleich, statt durch die
-            Zeilenhöhe verschoben.
-          */}
-          <div className="border-t border-slate-200 px-3 py-1 text-[10px] uppercase leading-none tracking-wide text-slate-400 dark:border-white/10 dark:text-slate-500">
-            {t('detail.seriesPartsCount', { count: reihenTeile.length })}
-          </div>
-          </div>
           {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
-        </div>
+        </ReihenKarte>
       )}
     </>
   )

@@ -12,6 +12,14 @@
  */
 import { type Env } from './env.ts'
 
+/** `bekannt` (höchste Folge laut Datensatz je Kennung, 4.24.21) kommt unverändert aus `pruefstand.json`. */
+function bekanntDazu<T extends { plattform: string }>(anbieter: T[], roh: unknown[] = []) {
+  const bekannt = new Map(
+    (roh as { plattform: string; bekannt?: Record<string, number> }[]).map((r) => [r.plattform, r.bekannt]),
+  )
+  return anbieter.map((a) => (bekannt.get(a.plattform) ? { ...a, bekannt: bekannt.get(a.plattform) } : a))
+}
+
 export async function berechnePruefstand({ env, antwort }: {
   env: Env
   antwort: (body: unknown, status?: number) => Response
@@ -199,5 +207,5 @@ export async function berechnePruefstand({ env, antwort }: {
           ziele: alleZiele,
         }
       })
-      return antwort({ anbieter, erzeugtAm: new Date().toISOString(), pruefstandAm: seit })
+      return antwort({ anbieter: bekanntDazu(anbieter, stand.anbieter), erzeugtAm: new Date().toISOString(), pruefstandAm: seit })
 }

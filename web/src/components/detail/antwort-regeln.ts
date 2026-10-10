@@ -2,7 +2,7 @@
  * **Zwei Regeln für den Antwort-Kasten** — ausgelagert, weil `berechneAntwort`
  * die Längengrenze reißt (`tools/umfang-pruefen.mjs`).
  */
-import { istErschienen, releaseStatus } from '@shared/logic.ts'
+import { anzeigeFolge, istErschienen, releaseStatus } from '@shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
 
@@ -15,9 +15,36 @@ import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
  * ändert die Summe nichts.
  */
 export function zaehleErschienen(events: ReleaseEvent[]): number {
-  let n = 0
-  for (const e of events) if (istErschienen(e)) n += e.episode != null ? 1 : (e.episodeCount ?? 1)
-  return n
+  const nummern = new Set<number>()
+  let ohneNummer = 0
+  for (const e of events) {
+    if (!istErschienen(e)) continue
+    if (e.episode != null) nummern.add(e.episode)
+    else ohneNummer += e.episodeCount ?? 1
+  }
+  return nummern.size + ohneNummer
+}
+
+/**
+ * **Ein Anbieter zählt für sich, der Kasten nimmt den weitesten.** Dieselbe Folge liegt bei
+ * Crunchyroll und Netflix: Beide zu addieren schrieb „27 von 24 Folgen erschienen" (Das Band der
+ * Unterwelt, 10.10.2026). Mehrere Releases eines Anbieters (Folge 1 als Abwurf, 2–12 im Wochentakt)
+ * addieren sich weiter.
+ */
+export function zaehleErschienenJeAnbieter(events: ReleaseEvent[]): number {
+  const jeAnbieter = new Map<string, ReleaseEvent[]>()
+  for (const e of events) jeAnbieter.set(e.platform, [...(jeAnbieter.get(e.platform) ?? []), e])
+  return Math.max(0, ...[...jeAnbieter.values()].map(zaehleErschienen))
+}
+
+/**
+ * **„Nächste Folge" ist eine, die noch nirgends erschienen ist.** Hat Crunchyroll Folge 15 schon
+ * gebracht, ist Netflix' Termin für Folge 15 keine neue Folge (Das Band der Unterwelt: „Folge 15
+ * erscheint heute"). TV-Sichtungen tragen unsere Zählung, keine belegte Nummer — sie entscheiden nichts.
+ */
+export function ohneSchonErschienene(offen: ReleaseEvent[], alle: ReleaseEvent[]): ReleaseEvent[] {
+  const da = new Set(alle.filter((e) => anzeigeFolge(e) && istErschienen(e)).map((e) => e.episode))
+  return offen.filter((e) => !anzeigeFolge(e) || !da.has(e.episode))
 }
 
 /**

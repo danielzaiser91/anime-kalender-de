@@ -11,6 +11,9 @@
 #   - das Ergebnis geht als Pull Request ein (`tools/quellen-pr.sh`), wie beim Tageslauf — kein Schreiben auf `main` mitten im
 #     Bau, kein Push-Wettlauf mit dem Bestandsbau.
 # Der Bestandsbau läuft währenddessen weiter; was dieser Lauf holt, baut der nächste planmäßige Lauf nach dem Merge.
+#
+# Reihenfolge der Seiten (10.10.2026, `pipeline/lib/anisearch-archiv-vorrang.ts`): zuerst die Lücken im Hauptbestand (Kennung ohne Archivseite), dann die des Katalogs —
+# auch die reinen aniSearch-Titel (Kennung ab 10.000.000), die der Lauf bis dahin nie holte. Nach einer Sperre pausiert der Lauf (10, 20, 40 Minuten) statt abzubrechen.
 name: aniSearch-Katalog
 
 on:
@@ -65,7 +68,8 @@ jobs:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
           ANILIST_TOKEN: ${{ secrets.ANILIST_TOKEN }}
         run: |
-          npm run data:anisearch -- --limit "${{ inputs.grenze || '2800' }}" --katalog
+          # Frist 290 Minuten: Pausen nach einer Sperre und der Sechs-Sekunden-Takt bleiben unter dem Zeitlimit des Jobs; was nicht kam, ist beim nächsten Lauf dran.
+          npm run data:anisearch -- --limit "${{ inputs.grenze || '2800' }}" --katalog --frist 290
 
       - name: Quellen als Pull Request einreichen
         if: always()

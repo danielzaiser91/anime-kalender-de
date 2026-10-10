@@ -19,6 +19,7 @@
 import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
 import { lastEpisodeDate } from '../../shared/logic.ts'
 import { addDays } from '../../shared/time.ts'
+import { premiereFehler } from './premiere.ts'
 
 export interface Pruefergebnis {
   fehler: string[]
@@ -223,7 +224,7 @@ export function pruefeErgebnis(
       if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)
         fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB, ohne als „über TMDB" gekennzeichnet zu sein`)
 
-  fehler.push(...landFehler(titles), ...geteilteWegeTrotzWiderlegung(releases, titles))
+  fehler.push(...landFehler(titles), ...geteilteWegeTrotzWiderlegung(releases, titles), ...premiereFehler(releases))
   return { fehler, warnungen }
 }
 
@@ -246,4 +247,9 @@ export function geteilteWegeTrotzWiderlegung(releases: Release[], titles: Map<nu
     if (weg) fehler.push(`Anime ${id}: alle Termine auf ${plattform} widerlegt, der geteilte Weg ${weg.url} trägt trotzdem „deutsch"`)
   }
   return fehler
+}
+
+/** Kein automatischer Termin trägt als Beleg eine Meldung, die nur Originalton nennt — sie widerlegt die deutsche Fassung (Beerus, 10.10.2026). Handeinträge zitieren solche Artikel bewusst (Kino-OmU). */
+export function releasesAusNurOriginalton(releases: Release[], adressen: ReadonlySet<string>): string[] {
+  return releases.filter((r) => r.automatisch && r.sources.some((u) => adressen.has(u))).map((r) => `"${r.slug}": Beleg nennt nur Originalton mit Untertiteln`)
 }

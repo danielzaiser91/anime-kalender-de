@@ -41,6 +41,7 @@
   # Lineup nennt „OmU: 3. Oktober, DE: TBA". Der alte Satz „Eine deutsche Fassung ist noch
   # nicht angekündigt" war seit dem 15.09. falsch.
   note: "Crunchyroll zeigt die Staffel ab dem 03.10.2026 mit Untertiteln. Die deutsche Synchro ist angekündigt, ihr Termin noch offen — das Datum ist der Start mit Untertiteln."
+  sprache: omu
   sources:
     - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-deutsche-synchros-herbst-2026
     - https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/crunchyroll-anime-lineup-herbst-2026
@@ -156,9 +157,14 @@
   schedule:
     firstEpisodeDate: "2026-10-03"
     episodeCount: 20
+    # Uhrzeit: Folge 2 erschien zwischen 16:59 und 17:00 MESZ (Daniel, 10.10.2026), samstags. Ohne Uhrzeit zählt der Tag erst um 23:59
+    # als erschienen (`istErschienen`). Für Folge 1 und die Zeit ab der Umstellung (25.10.) ist 17:00 der Rhythmus, nicht gemessen.
+    time: "17:00"
     # Anime2You (04.10.2026): „1 von 20 verfügbar", „Jeden Samstag eine neue Episode", Deutsch und Japanisch mit Untertiteln.
     observed:
       1: "2026-10-03"
+      # Folge 2: erschienen zwischen 16:59 und 17:00 MESZ, beobachtet von Daniel; Amazon-Seite nennt 11.10.
+      2: "2026-10-10"
   # heise nennt den 04.10. für den Amazon-Start, Anime2You den 03.10. (Samstag); es gilt Anime2You.
   note: "Prime Video zeigt die Serie mit deutscher Sprachfassung und im Original mit Untertiteln im Simulcast."
   sources:
@@ -242,6 +248,17 @@
   sources:
     - https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/
 
+- slug: demon-slayer-infinity-castle-1-netflix
+  anilistId: 178788
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82723106
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-28" }
+  note: "Netflix, 155 Minuten; Anime2You nennt als Sprache Deutsch und Japanisch (UT)."
+  sources:
+    - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/
+
 - slug: dororo-joyn
   anilistId: 101347
   platform: joyn
@@ -267,3 +284,39 @@
   schedule: { firstEpisodeDate: "2026-10-01", episodeCount: 26 }
   sources:
     - https://www.anime2you.de/news/1056121/prime-video-demon-slayer-kimetsu-no-yaiba-und-mehr/
+
+# Das Band der Unterwelt bei Netflix (Daniel, 10.10.2026, 18:41): Netflix zeigt Folge 12 bis 15 als verfügbar und
+# „Folge 16 – Verfügbar ab 17. Oktober". Folge 1 bis 11 lagen am 12.09. bereits da (Datum nicht bekannt, deshalb setzt dieser Plan
+# erst bei Folge 12 ein). Folge 12 nannte Netflix am 12.09. für den 19.09.; vier Wochen später ist Folge 16 angekündigt, dazwischen
+# gilt der Samstag. Uhrzeit nicht belegt (lizenzierter Anime, keine Netflix-Eigenproduktion), deshalb keine.
+- slug: das-band-der-unterwelt-netflix
+  anilistId: 195600
+  titleDe: "Das Band der Unterwelt"
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82719204
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-09-19"
+    firstEpisodeNumber: 12
+    episodeCount: 13
+    episodeCountAssumed: true
+    wochentage: [6]
+    observed:
+      12: "2026-09-19"
+      15: "2026-10-10"
+  note: "Netflix veröffentlicht direkt auf Deutsch, jeden Samstag eine Folge. Gesamtzahl 24 nach AniList, von Netflix nicht genannt."
+  sources:
+    - https://www.netflix.com/title/82719204
+
+# Folge 1 bis 11 desselben Titels bei Netflix: am 12.09. (Daniels Sichtung) schon im Angebot, der Starttag ist nicht bekannt.
+# Ohne diesen Eintrag zählte die Netflix-Pille nur die Wochenfolgen ab 12 („3 Fg.“ statt 15).
+- slug: das-band-der-unterwelt-netflix-folge-1-11
+  anilistId: 195600
+  titleDe: "Das Band der Unterwelt"
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82719204
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-12", firstEpisodeNumber: 1, episodeCount: 11 }
+  sources:
+    - https://www.netflix.com/title/82719204

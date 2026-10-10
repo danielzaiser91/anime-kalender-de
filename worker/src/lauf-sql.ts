@@ -69,6 +69,8 @@ export const LAUF_ARTEN = [
   'Aussehen prüfen',
   'Crunchyroll — Regionstest mit fremdem Token',
   'Crunchyroll — Weiche aus der Cloud messen',
+  'PR-Prüfkette',
+  'PR-Prüfer',
 ]
 
 /** Alle Abfragen dieses Moduls — für den Prüflauf. */

@@ -154,8 +154,8 @@ function terminMeldungen(
         release: r.slug,
         ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),
         quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => s.dub === true && s.platform !== r.platform)) ? { weiterer: true } : {}),
-        /* Eine angekündigte Staffel trägt ihre Einordnung im Satz (Simuldub-Vermutung). */
-        ...(art === 'angekuendigt' && r.schedule?.estimated && r.note ? { hinweis: r.note } : {}), ...(art === 'angekuendigt' && r.platform !== 'tv' ? neuJahre(t, datum) : {}),
+        /* Eine angekündigte Staffel trägt ihre Einordnung im Satz (Simuldub-Vermutung; Sprache laut Meldung offen, `meldungen.ts`). */
+        ...(art === 'angekuendigt' && (r.schedule?.estimated || r.automatisch || r.sprache) && r.note ? { hinweis: r.note } : {}), ...(art === 'angekuendigt' && r.platform !== 'tv' ? neuJahre(t, datum) : {}),
       })
     }
     for (const m of verspaetungsMeldungen(r)) raus.push({ ...m, titel: t })
@@ -266,7 +266,7 @@ export function baueNews(
   neuMitSynchro: NeuerTitel[],
   crNeu: CrNeueFolge[],
   historie: NewsHistorie,
-  vorherige: NewsEintrag[] = [], omuTitel: Title[] = [],
+  vorherige: NewsEintrag[] = [], omuTitel: Title[] = [], nurOriginalton: ReadonlySet<string> = new Set(),
 ): NewsEintrag[] {
   const heute = todayIso()
   const grenze = addDays(heute, -FENSTER_TAGE)
@@ -289,7 +289,7 @@ export function baueNews(
     if (!t) continue
     const anbieter = t.streams.find((s) => s.dub === true)?.platform
     const erreichtRelease = releases
-      .filter((r) => r.titleId === t.id && !r.widerlegt && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
+      .filter((r) => r.titleId === t.id && !r.widerlegt && !r.sprache && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
       .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
     const erreicht = erreichtRelease?.schedule?.firstEpisodeDate
     if ((!anbieter && !erreicht) || nurAngekuendigt(releases, t.id, anbieter, n.seit)) continue
@@ -426,7 +426,7 @@ export function baueNews(
   for (const t of titles) if (wurzelVon(t) === t.id) kopfTitel.set(t.id, t)
 
   datiert = ohneDoppelteFolgen(verschmelzeGleicheQuelle(datiert))
-  datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute }))
+  datiert.push(...pflegeTerminverlauf({ datiert, nachId, historie, vorherige, name, wurzel: wurzelVon, grenze, heute, nurOriginalton }))
   datiert = bereinigeNews(ohneKuenstlicheAnkuendigung(datiert))
 
   const gruppen = new Map<string, { am: string; wurzel: number; teile: typeof datiert }>()

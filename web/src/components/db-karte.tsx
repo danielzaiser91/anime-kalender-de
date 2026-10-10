@@ -1,5 +1,5 @@
 import type { Title } from '@shared/types.ts'
-import { titleStatus } from '@shared/logic.ts'
+import { erscheintErst, titleStatus } from '@shared/logic.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import type { Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
@@ -125,7 +125,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
         )}
         {keinDub && (
           <span className="absolute inset-x-0 bottom-0 bg-slate-900/80 px-1.5 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-[1px]">
-            {t('db.noDubBadge')}
+            {t(members.every((m) => erscheintErst(m, today)) ? 'geplant.marke' : 'db.noDubBadge')}
           </span>
         )}
         <KartenKnoepfe

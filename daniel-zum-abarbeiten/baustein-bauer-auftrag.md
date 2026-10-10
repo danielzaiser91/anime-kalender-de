@@ -10,3 +10,8 @@ live zu messen ist, zum Beispiel: "Nach Deploy: <Live-Adresse der Datei>, Titel 
 unter data/ im Repo, nie unter data/cache/ (data/cache-register.json). Der PR ist erst fertig gemeldet, wenn der
 gemessene Wert im Bericht steht; ist der Deploy noch nicht durch, steht dort "Messung offen: <was, wann>".
 ```
+
+## Pflichtteil für jeden Bauer/Rechercheur (Daniel, 10.10.2026; Prüfer ausgenommen)
+1. Nach der Analyse einmal `estimateMin` und den Plan als Schritte mit Prozent melden (`mcp__savvy-progress__step`: `steps` + `percent`).
+2. Im Bericht UND in der PR-Beschreibung (Abschnitt „Arbeitsweise“) am Ende zwei Zeilen: **Schätzung vs. Ist** (Minuten, Abweichung, Grund) und **Lehre** (eine Zeile: was beim nächsten Mal anders; oder „keine“).
+3. Die Hauptsitzung trägt beides in `berichte/schaetzungen.md` bzw. `berichte/lehren.md` ein und prüft im selben Zug, ob die Lehre schon in Skill/Vorlage steht.

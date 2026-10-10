@@ -230,6 +230,7 @@
     if (Array.isArray(e.data.folgen)) folgen = e.data.folgen
     if (Array.isArray(e.data.staffeln)) anbieterStaffeln = e.data.staffeln
     if (Number.isFinite(e.data.erwartet)) erwartet = e.data.erwartet
+    globalThis.AK_DISNEY_BEANTWORTET.folgenZahl(erwartet, gemeldeteNummern.size)
     if (e.data.bereit) bereit = true
 
     if (!eintrag || beantwortet !== false) return
@@ -978,6 +979,7 @@
     void globalThis.AK_DISNEY_BEANTWORTET.klaere({
       url: eintrag.url ?? location.href.split('?')[0],
       kennungVon: kennung,
+      zahlen: () => ({ erwartet, gemeldet: gemeldeteNummern.size }),
       aktuell: () => jetzt === seite,
       zeige: (text, o) => zeigePruefung(`${eintrag.titel}\n${text}`, o),
       knopf: () => pruefKnopf,

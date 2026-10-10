@@ -3310,3 +3310,118 @@ Anlass (Daniel): Bei „The Boxer" stand eine Suchseite, bei „Laid Off Cheat G
 - **Wirkung:** `pipeline/lib/belegstaerke.ts`, Signal `forum` als mittlere Quelle (low -> normal, normal -> high), nie über high, ersetzt nie eine Handprüfung: Titel mit nur `dub: false` in `dub-confirmed.yaml` zählen nicht (der Build gibt die Zahl im Log aus). Messung auf dem Bestand vom 09.10.2026: Hauptbestand high 611 -> 798, normal 412 -> 338, low 374 -> 261 (very-high 1.529 unverändert); Toggle 2 Titel low -> normal.
 - **Erzeugung:** einmalig `node tools/synchron-forum-treffer.mjs <liste.tsv>`; 2.104 exakte Namenstreffer mit passender Folgenzahl automatisch, 54 unscharfe oder mehrdeutige Zeilen von Hand in `HAND` entschieden (im Zweifel `null`: Veldoras Tagebuch, GITS Arise, Hakuoki, Appleseed XIII, Stone Ocean Teil 2 u. a. bleiben unzugeordnet). Mehrteilige Filme (Digimon tri., Heaven's Feel) belegen alle Teile.
 - **Prüfung:** `pipeline/check-belegstaerke.ts` (in `check:logic`): Regel an Beispielen, jede ID im Datensatz, Listenjahr höchstens 2 Jahre neben AniList.
+
+## Ein Beleg steht nur bei der Aussage, die er trägt — „nur Originalton" ist kein deutscher Termin (10.10.2026)
+
+**Anlass:** „Dragon Ball Super: Beerus" stand als „Alle 0 Folgen im Angebot morgen, Sonntag 11.10.2026" im Kalender, die News
+„Start am 11.10.2026 bei Crunchyroll" trug als Beleg den Anime2You-Artikel 1056092 vom 01.10. Der sagt: Crunchyroll und ADN
+zeigen die Serie „im Originalton mit Untertiteln", Netflix ab 18.10. — keine deutsche Fassung.
+
+**Ursachen (gemessen am Datensatz vom 10.10.2026):**
+1. `dubBefund` kannte nur `ja`/`offen`/`unklar`; ein Satz „im Originalton mit Untertiteln" ohne deutsche Fassung ergab `unklar`.
+2. `releasesAus` (`pipeline/lib/meldungen.ts`) prüfte die Sprache gar nicht — jeder Vorschlag mit Tag und Anbieter wurde
+   ein deutscher Termin (Sammelartikel filtern seit jeher auf `deutsch`, Einzelartikel nicht).
+3. Ohne Folgenzahl (Werk noch nicht gestartet) schrieb der Antwortkasten `count: gesamt ?? episodeCount ?? 0` → „Alle 0 Folgen".
+
+**Entscheidung — eine Quelle je Aussage, die sie trägt; was sie nicht trägt, wird gekennzeichnet:**
+- `nein` (nur Originalton/OmU/„Japanisch (UT)", keine Zusage): die Meldung widerlegt die deutsche Fassung selbst → **kein
+  Release**. Eine früher daraus erschienene Ankündigung bleibt in den News sichtbar, zurückgezogen mit dem Grund „Die Quelle nennt
+  nur Originalton mit Untertiteln, keine deutsche Synchro." (`news-verlauf.ts`). Der Bau zählt solche Meldungen
+  (`08-news-tv.ts`, Warnung ab 11) und bricht ab, falls doch ein automatischer Termin eine davon als Beleg trägt
+  (`releasesAusNurOriginalton`, `13-5-kerndateien.ts`).
+  `nein` nur, wenn der Text **keinerlei** Bezug auf eine deutsche Tonfassung trägt (`DEUTSCH_BEZUG`: „deutsche Tonspur",
+  „deutsch vertont", „Synchro", „Simuldub" …) — ein falsches Nein verwirft einen echten Termin; diese Formen werden bewusst
+  nicht zur Zusage („die deutsche Tonspur fehlt noch" wäre sonst `ja`). Jede verworfene Meldung steht mit Fundstelle in
+  `daniel-zum-abarbeiten/listen/23-nur-originalton.md`, eine geänderte Liste geht als Hinweis in den Posteingang (Prüfer-Befund PR 649).
+- `unklar`/`offen` (Tag belegt, Sprache nicht): das Release bleibt — nicht widerlegt —, aber `note` sagt es („Termin laut Quelle –
+  ob mit deutscher Synchro, sagt sie nicht." bzw. „… ist dort noch offen."); die Notiz steht im Antwortkasten und als Hinweis an der
+  News. Discs ausgenommen: deutsche Ausgaben tragen fast immer deutschen Ton, eine reine OmU-Ausgabe nennt der Artikel (`nein`).
+- Melden mehrere Artikel denselben Titel und Anbieter, gewinnt der mit Sprachzusage (vorher: der erste in der Datei).
+- Ältere Vorschläge werden an ihren gespeicherten Fundstellen nachgewertet (`spracheDerMeldung`, `lib/sprachbefund.ts`).
+
+**Verworfen:** mehrere Belege je Release sammeln (würde Artikel anhängen, die nur den Tag tragen — genau der Fehler); alle
+`unklar`-Releases streichen (29 Einträge am 10.10., meist Discs; nicht widerlegt, Grundsatz „kennzeichnen statt weglassen").
+
+**Wirkung auf den Bestand vom 10.10.2026** (Messung mit `releasesAus` gegen den ausgelieferten Datensatz, der volle Bau brach
+lokal am veralteten `data/cache` ab): 1 Meldung nennt nur Originalton (Beerus) → `auto-10021566-crunchyroll` entfällt; Notiz an 2
+Streaming-Terminen (Fool Night „offen", Gundam Hathaway „sagt sie nicht"); Rooster Fighter belegt jetzt der Netflix-Sammelartikel
+(„Deutsch", 12 Folgen) statt des sprachlosen Einzelartikels. „Alle 0 Folgen" betraf 2 Titel ohne Folgenzahl (Beerus, Fool Night).
+
+**Recherche Beerus (10.10.2026):** Kein Beleg für eine deutsche Synchro. Crunchyroll-Lineup Herbst 2026 (nur OmU, keine DE-Zeile,
+`data/proposals/aussagen.json`), Anime2You-Netflix-Sammelartikel 1052708 („Sprache: Japanisch (UT)", 18.10.), Anime2You 1056092
+(OmU bei CR/ADN), aniSearch 21566 (`dub: "-"`, Sprachblock „Deutsch" ist der Untertitel-Eintrag), GamePro (vermutet OmU). Nicht
+erreicht: Crunchyroll-Seiten (clientseitig gerendert, WebFetch leer), aniSearch-Seiten (nie von Daniels IP). Wiedervorlage, sobald
+Crunchyroll/Netflix eine deutsche Tonspur zeigen (CR-Katalog-Lauf meldet es dann ohnehin).
+
+## Beerus Teil 2: Wochenstart statt „alle Folgen", Kennzeichnung bis in die Karte (10.10.2026)
+
+Nach #649 zeigte die Live-Seite noch „Alle Folgen im Angebot morgen" (der Bestandsbau lief erst danach). Die Kette dahinter:
+
+1. **Takt:** `artDerMeldung` wählt für Streaming immer `batch`; der Wochenzweig in `zeitplanAusVorschlag` griff nur bei
+   `v.woechentlich`, und das setzen nur Sammelartikel. Jede Einzelmeldung ohne Folgenzahl wurde „alle Folgen". Jetzt: ohne
+   Folgenzahl wöchentlich, außer die Meldung sagt „komplett"/„alle Folgen"/„binge"/„auf einmal" (`taktDerMeldung`), das Werk
+   stammt aus einem früheren Jahr (Katalogzugang) oder es ist eine ONA bei Netflix (Eigenproduktion). Gegenprobe Fool Night:
+   Netflix-ONA, laut whats-on-netflix/hoshika „full-series drop" am 26.11.2026 → bleibt komplett. Sammelartikel tragen
+   „nicht wöchentlich" ausdrücklich.
+2. **Beleg-Kreis:** `ohneBelegteSynchro` (Reihenliste, ✕ DE) zählte jeden sicheren Termin als Beleg — auch einen Termin,
+   der selbst nur aus einer OmU-Meldung stammte. Ebenso „Neu auf Deutsch" (erreichter Termin).
+3. **Anzeige:** Ein Termin ohne belegte Synchro stand auf der Karte wie jeder deutsche Termin.
+
+**Behebung:** `Release.sprache` (`omu` | `offen`), vom Event geerbt. `releasesAus` setzt `offen` ohne Sprachzusage (nicht bei
+Disc); kuratierte OmU-Termine tragen `sprache: omu` (Madoka Walpurgisnacht, Rascal, Black Clover S2 — dessen Datum ist der
+OmU-Start). Gekennzeichnete Termine belegen keine Synchro; die Karte (Woche, Monat) zeigt „OmU"/„Synchro offen", die News
+„zurückgezogen: nur OmU". Der Bau bricht ab bei einem automatischen Termin ohne Sprachzusage und ohne Kennzeichnung und bei
+„alle Folgen" aus einer Meldung mit Wochentakt (`lib/auto-release-pruefung.ts`).
+
+**Zählung (ausgelieferter Bestand 10.10.2026, 56 künftige Nicht-Disc-Termine):** 10 ohne Stream mit Synchro, Erstausgabe oder
+Sprecher; davon OmU laut eigener Notiz 2 (Rascal, Madoka) → `omu`; Auto-Termine ohne Sprachzusage 2 (Fool Night, Gundam
+Hathaway) → `offen`. Die übrigen (Tank Chair, Tokyo Revengers S3, Bleach-Film ADN, A New Dawn Kino, My Happy Marriage Special,
+Witch on the Holy Night, Trinity Seven) tragen eine Sprachzusage ihrer Quelle. Automatische batch-Termine: 21, davon 17
+Katalogzugänge mit Folgenzahl (richtig), 2 betroffen (Beerus, Fool Night — Fool Night bleibt nach Gegenprobe komplett).
+
+**Offen:** ICS-Feeds und Newsletter kennzeichnen `sprache` noch nicht.
+
+
+## Anime2You: Lesefixes nach der Nachlese (10.10.2026)
+
+Anlass: Nachlese 27.09.–10.10.2026 (130 Artikel; `__assets/notes/anime2you-nachlese-2026-10-10.md`). Vier Lesefehler in `scrape-anime2you.ts`, alle beseitigt:
+
+- **Sammelartikel ohne Tag in der Kopfzeile** (`lib/sammelartikel.ts`): „Ab sofort bei Netflix:“-Listen führen je Titel nur „»Titel« – Staffel 2“ mit Feldern darunter. Vorher 0 Einträge (14 von 25 jungen Sammelartikeln seit 13.09.), jetzt 150 aus denselben 25 gespeicherten Artikeln (48 vorher). Tag: `Start:` im Feld, sonst Meldetag unter einer „Ab sofort …:“-Liste (bei „Jeden Sonntag“ und einer Folge der letzte solche Tag), als `datumGeschaetzt` → `schedule.estimated`. „Serie sollte entfernt werden“ (Death Note, Kuroko) bekommt keinen Tag. Mehrere Folgen auf einmal: kein Tag, nie geraten. Junge Artikel mit 0 Einträgen werden neu geholt und warnen.
+- **Sprachaussage ohne Termin**: `Proposal.hinweis = 'sprache'` (45 Tage), nie ein Release, Kandidat für `data/dub-confirmed.yaml`.
+- **Gesamt-Feed `/feed/`** (4 Seiten, nach den Rubrik-Feeds): Kategorie `allgemein`, nur mit Deutschland-Bezug (`deutschlandBezug`), erzeugt nie ein Release. robots.txt sperrt nur `/wp-admin/`; 4 Abrufe mehr je Lauf.
+- **Disc-Shop-Sammelmeldungen**: Die Tabelle „Titel Termin Format“ steht nur im Artikel, nicht im Feed-Auszug; `shopTabellenNachholen` liest sie (3 je Lauf, einmal je Artikel). `findDates` ergänzt „15.01.“ um das Jahr des Artikels, `geschaetzt: true`.
+
+**Verwerfungspfade** stehen mit Grund und Anzahl im Lauf-Protokoll und in `anime2you.json` (`verworfen`); Sammelartikel-Einträge zählt `zaehleSammelVerwurf` je Grund. Nicht im Umfang, nur Befund: Paramount+ als Plattform und Katalog-Abgänge (Naruto auf Prime, 31.10.) hat das Datenmodell nicht.
+
+## aniSearch als zweite Spalte: Abweichungsliste AniList gegen aniSearch (10.10.2026)
+
+Stufe B der AniList-Ablösung (Inventur `__assets/notes/anilist-restlos-raus-2026-10-10.md`). Der Bau (`pipeline/bau/anisearch-abweichungen.ts`, `baueTitelGemessen` = `baueTitel` plus Messung) vergleicht je Hauptbestand-Titel mit aniSearch-Daten (`data/anisearch.json`, nach AniList-Kennung geschlüsselt) zwölf Felder und schreibt `data/anisearch-abweichungen.json` (nur bei Änderung; in `tools/quellen-liste.sh`). **Nichts davon wird ausgeliefert**, AniList behält Vorrang; `tools/bau-vergleich.mjs` zeigt für `public/data/` keinen Unterschied.
+
+- **Felder und Abbildung** (`anisearch-spalte.ts`): Titel romaji/nativ aus der japanischen Sprachzeile (sonst Herkunftsland), englisch aus der englischen; Format über `FORMAT` aus `anisearch-titel.ts`; Folgen; `jpSeason`/`jpYear` aus „Herbst 2003" (Winter über den Jahreswechsel „1997/98" nach dem Beginn: Dezember = FALL des Startjahres (so führt AniList 113 von 161 Dezember-Starts, Rurouni-Kenshin-Film 20.12.1997 = FALL 1997), Januar/Februar = WINTER des Startjahres; ohne Saison das Jahr des Beginns); `jpEnd` = Ende, sonst Beginn, so genau wie die Angabe (Vergleich bis zur gröberen Genauigkeit); Status („Abgeschlossen" → FINISHED …); Studios (Rechtsform ignoriert, gleich, wenn eine Menge die andere enthält); MAL über die Brücke `anisearch-mal.json` umgekehrt; Beschreibung nur Vorhandensein (Deutsch gegen Englisch).
+- **Zähler je Feld**: gleich / abweichend (mit beiden Werten) / nur AniList / nur aniSearch / beide leer; `titel` nennt, wer fehlt (`ohneAnisearchEintrag`, `ohneInfo`, `nurAnisearch` = Titel mit Kennung ab 10.000.000). Die Datei hält die Zähler vollständig, aber je Feld höchstens 20 Beispiele (sonst 469 KB, bei jeder Änderung neu committet); die Volllisten schreibt `ANISEARCH_VOLLLISTE=<Pfad außerhalb des Repos> npx tsx pipeline/build.ts`. Ein Fehler der Messung stoppt den Bau nicht (Warnung „Messfehler Nr. N" im Protokoll). `pipeline/check-anisearch-spalte.ts` (in `check:logic`) hält Fixtures und Untergrenzen für `gleich` je Feld.
+- **Messung** (lokaler Cache vom 10.10.2026, älter als CI): 2.619 von 2.768 AniList-Titeln verglichen (149 ohne aniSearch-Eintrag). gleich/abweichend: Romaji 1546/1073, Englisch 1426/860, Nativ 903/1662, Format 2448/171, Folgen 2556/48, Jahr 2558/60, Saison 2321/221 (vor der Beginn-Ableitung des Winters 2461/157 und 2263/279: 97 Jahr- und 58 Saison-Abweichungen waren nur ein Abbildungsfehler; Rest bei Saison: SUMMER→FALL 51, WINTER→SPRING 47, SPRING→SUMMER 47, WINTER→FALL 46 = Dezember-Starts, die AniList als WINTER führt), Ende 2354/264, Status 2605/14, Studios 2206/208, MAL 2590/0 (29 nur AniList). Befunde: aniSearch-Nativtitel ist oft lateinisch umschrieben (Evangelion-Film: „Shinseiki … Gekijōban"), Romaji weicht in Schreibung und Zusätzen („(2005)", „W" statt „Wing") ab; `jpEnd` oft einen Tag später (Spätabend-Sendungen); Format MOVIE/OVA/SPECIAL uneinheitlich; AIC-Studio heißt bei aniSearch „Anime International Co." (Alias, keine Normalisierung).
+
+## aniSearch-Archivseiten: Lücken zuerst, Pause statt Abbruch (10.10.2026)
+
+Anlass: Für die AniList-Ablösung (Genres, Schlagwörter, Reihen aus den Archivseiten) fehlten Seiten. Gemessen 10.10.2026: Hauptbestand 306 von 2.928 Titeln ohne `data/anisearch-raw/<Kennung>.html.gz` (237 verschiedene Kennungen ohne Seite, dazu wenige mit Seite, aber ohne Cache-Eintrag), Katalog 3.003 Kennungen. **Ursache:** Die Warteschlange von `fetch-anisearch.ts` nahm nur Titel, die in der ID-Brücke (`data/anime-ids.json`) stehen; AniList-Titel mit Kennung aus Handdatei/MAL-Brücke und alle reinen aniSearch-Titel (Kennung ab 10.000.000) kamen nie dran. Der Katalog-Lauf hatte am 10.10. nur noch 9 Titel und lief 2 Minuten.
+
+- **Vorrangliste** (`pipeline/lib/anisearch-archiv-vorrang.ts`): erst Hauptbestand-Lücken (Titel mit Termin, AniList-Titel vor reinen aniSearch-Titeln), dann die bisherige Auffrischung, mit `--katalog` zuletzt die Katalog-Lücken (deutscher Titel/sichere Synchro zuerst). Jede Kennung einmal. Eine Lücke = Kennung ohne Archivdatei, bei AniList-Titeln mit eigener Kennung auch ohne Cache-Eintrag. **Geteilte Kennungen** (42 Kennungen, 117 Titel) werden archiviert, füllen aber keinen Cache-Eintrag (im Cache steht bisher keine Kennung doppelt).
+- **Takt unverändert:** HTML-Seiten, 6 s Abstand, `--limit` und neu `--frist <Minuten>`. Die Database-API liefert das Archivformat nicht; sie bleibt bei `fetch-anisearch-eintraege.ts`.
+- **Sperre überleben** (`lib/anisearch-sperre.ts`): Fünf Fehlschläge in Folge → Pause 10, dann 20, dann 40 Minuten, danach eine einzelne Anfrage; erst nach den drei Pausen (oder wenn die Frist nicht reicht) endet der Lauf. Ohne `--frist` (Schritte in `refresh-*.yml`) endet er wie bisher sofort. Eine Nichtauskunft (423, 429, 5xx, Zeitüberschreitung) wird nie vermerkt; die Titel bleiben in der Lücke.
+- **Endgültige Auskunft** steht in `data/anisearch-archiv-weg.json` (Kennung → Code, Datum): HTTP 404/410 60 Tage, Seite ohne Archivabschnitte (200) 14 Tage zurückgestellt.
+- **Zähler im Lauf-Protokoll:** „aniSearch-Lücke vorher/nachher: Hauptbestand N, Katalog M Kennungen ohne Archivseite".
+- **Schätzung:** 3.240 Seiten offen (237 + 3.003). Bei 6 s Abstand und 290 Minuten Frist holt ein Katalog-Lauf rund 2.500–2.700 Seiten → Lücke nach 2 Läufen (11.10. und 12.10., je 06:00 UTC) bis auf Zurückgestelltes zu; mit einer Sperre dazwischen 3–4 Läufe.
+
+## aniSearch-Sprecherseiten: Hauptbestand zuerst, Rohseiten im Archiv (10.10.2026)
+
+Anlass: Stufe D der AniList-Ablösung (Sprecher) braucht die Sprecherseiten des Hauptbestands. Gemessen 10.10.2026: von 2.849 verschiedenen Kennungen des Hauptbestands (2.924 Titel, 117 teilen eine Kennung) hatten 1.086 eine Seite; 1.763 offen, davon 1.519 mit Synchro-Marke. **Ursache:** `fetch-anisearch-sprecher.ts` nahm nur Kennungen aus `data/anisearch.json` und sortierte Titel ohne Marke zuerst; 7.630 Katalog-Kennungen standen vor dem Hauptbestand.
+
+- **Reihenfolge** (`pipeline/lib/anisearch-sprecher-reihe.ts`, `sprecherLuecken`): Hauptbestand (Marke zuerst, auch Kennungen, die `anisearch.json` nicht kennt), danach Katalog (ohne Marke zuerst, wie bisher). Jede Kennung einmal. Fällig = keine Seite, Parser-Stand alt oder älter als 180 Tage.
+- **Sperre, Frist, Zähler** wie bei den Archivseiten (`lib/anisearch-sperre.ts`): Pause 10/20/40 Minuten statt Abbruch, danach eine Einzelanfrage; die Frist ist das bestehende `--minuten` (Standard 100), also **keine Workflow-Änderung**. Log: „aniSearch-Sprecher-Lücke vorher/nachher: Hauptbestand N von M, Katalog K von L". HTTP 404/410 steht 60 Tage in `data/anisearch-sprecher-weg.json`; eine Nichtauskunft (429, 5xx, Zeitüberschreitung) nie. 15 Seiten ohne jede Besetzungszeile in Folge (484 von 5.078 sind leer) gelten als Sperrseite und werden nicht als Befund gespeichert.
+- **Archiv:** `data/anisearch-sprecher-raw/<Kennung>.html.gz` (gzip, Besetzungszeilen `<tr>…</tr>` roh, Kopf/Fuß weggelassen; Seiten ohne Zeilen nicht). Das Archiv `anisearch-raw` enthält keine Sprecher. Größe je Seite erst nach dem ersten Lauf bekannt.
+- **Schätzung:** Die Läufe der letzten Tage holten 830–860 Seiten (100 Minuten Frist, Grenze 1.100): Hauptbestand mit Marke in 2 Läufen, der ganze Hauptbestand in 3 (1.763 / ~850), danach Katalog.
+
+## PSYREN: Pille ohne Sprachangabe, Handlung nur englisch (10.10.2026)
+
+- **Pille:** Ein Weg beim Anbieter eines angekündigten Simulcasts ohne belegte Synchro (`dub` fehlt, `ankuendigung.platform` gleich) trägt in der Pille „OmU" und einen Tooltip (`streamNurOmu()`, `shared/ankuendigung.ts`). Gemessen 10.10.2026: 3 Titel im Hauptbestand (PSYREN, Black Clover S2, Apothekerin S3), 0 im Katalog. Der Weg bleibt, weil er der Ort ist, an dem die Synchro erscheinen soll.
+- **Handlung:** Die aniSearch-Seite von PSYREN (21084) war nie geholt worden — der Abruf ging nur über die ID-Brücke (anime-offline-database), PSYREN steht dort nicht, nur in `data/anisearch-ids-hand.yaml`. Seit #678 (10.10.2026) nimmt `archivLuecken()` auch `titles.anisearchId`; PSYREN steht an Stelle 70 von 237 Aufträgen des Hauptbestands und kommt im nächsten `data:anisearch`-Lauf. Von 2.928 Titeln des Hauptbestands hatten am 10.10.2026 315 keinen deutschen Text: 225 mit aniSearch-Kennung, aber nie geholter Seite, 86 mit geholter Seite ohne deutsche Beschreibung, 4 ohne Kennung. Die 86 und die 4 sind der Stoff der Lückenliste; Übersetzen ist ausgeschlossen.

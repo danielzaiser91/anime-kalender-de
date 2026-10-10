@@ -6,57 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Demons
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:demon-slayer-s1-primevideo@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261001
-DTEND;VALUE=DATE:20261002
-SUMMARY:Demon Slayer: Kimetsu no Yaiba
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/9175/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T150000Z
-DTEND:20261002T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 22/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16234/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:blue-exorcist-blue-night-saga-vol2@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Blue Exorcist: The Blue Night Saga – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16498/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:chainsaw-man-s1-bundle@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Chainsaw Man – Staffel 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12332/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:dororo-joyn@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Dororo
-DESCRIPTION:Plattform: Joyn\nRelease-Art: Katalogtitel\nUhrzeit noch nicht 
- bestätigt.\nDetails: https://anime-kalender.de/t/9059/
-CATEGORIES:Joyn
-END:VEVENT
-BEGIN:VEVENT
 UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-03@anime-kalen
  der-de
 DTSTAMP:20200101T000000Z
@@ -66,6 +15,16 @@ SUMMARY:Das Band der Unterwelt – Folge 23/24
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16919/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261003
+DTEND;VALUE=DATE:20261004
+SUMMARY:Das Band der Unterwelt – Folge 14/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:mushoku-tensei-s3@2026-10-04#11@anime-kalender-de
@@ -149,6 +108,16 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16919/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Das Band der Unterwelt – Folge 15/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-179813-netflix@2026-10-10@anime-kalender-de
@@ -252,6 +221,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T144500Z
+DTEND:20261016T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T150000Z
@@ -284,6 +263,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261017
+DTEND;VALUE=DATE:20261018
+SUMMARY:Das Band der Unterwelt – Folge 16/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:mushoku-tensei-s3@2026-10-18#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T150000Z
@@ -302,6 +292,48 @@ SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16011/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:Das Band der Unterwelt – Folge 17/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:Das Band der Unterwelt – Folge 18/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261105T172500Z
+DTEND:20261105T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 1/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T172500Z
+DTEND:20261106T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 2/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:sailor-moon-s-2026-11-06@2026-11-06@anime-kalender-de
@@ -354,6 +386,262 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:Das Band der Unterwelt – Folge 19/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T172500Z
+DTEND:20261109T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 3/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T172500Z
+DTEND:20261110T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 4/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261111T172500Z
+DTEND:20261111T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 5/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261112T172500Z
+DTEND:20261112T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 6/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T172500Z
+DTEND:20261113T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 7/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261114
+DTEND;VALUE=DATE:20261115
+SUMMARY:Das Band der Unterwelt – Folge 20/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T172500Z
+DTEND:20261116T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 8/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261117T172500Z
+DTEND:20261117T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 9/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T172500Z
+DTEND:20261118T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 10/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261119T172500Z
+DTEND:20261119T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 11/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261120T172500Z
+DTEND:20261120T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 12/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261121
+DTEND;VALUE=DATE:20261122
+SUMMARY:Das Band der Unterwelt – Folge 21/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261123T172500Z
+DTEND:20261123T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 13/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261124T172500Z
+DTEND:20261124T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 14/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:madoka-walpurgisnacht-rising-kino@2026-11-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261124
+DTEND;VALUE=DATE:20261125
+SUMMARY:Puella Magi Madoka Magica the Movie – Walpurgisnacht: Rising (OmU
+ )
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nOmU: Originalton mit deutsc
+ hen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht bestätigt.\
+ nDetails: https://anime-kalender.de/t/12975/
+CATEGORIES:Kino
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261125T172500Z
+DTEND:20261125T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 15/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261126T172500Z
+DTEND:20261126T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 16/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261127T172500Z
+DTEND:20261127T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 17/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261128
+DTEND;VALUE=DATE:20261129
+SUMMARY:Das Band der Unterwelt – Folge 22/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261130T172500Z
+DTEND:20261130T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 18/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261201T172500Z
+DTEND:20261201T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 19/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261202T172500Z
+DTEND:20261202T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 20/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261203T172500Z
+DTEND:20261203T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 21/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261204T172500Z
+DTEND:20261204T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 22/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:jujutsu-kaisen-2026-12-04@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
@@ -391,6 +679,60 @@ DTEND;VALUE=DATE:20261205
 SUMMARY:Sailor Moon S (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/488/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-12-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261205
+DTEND;VALUE=DATE:20261206
+SUMMARY:Das Band der Unterwelt – Folge 23/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261207T172500Z
+DTEND:20261207T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 23/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261208T172500Z
+DTEND:20261208T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 24/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-12-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:Das Band der Unterwelt – Folge 24/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe@2026-12-18@
+ anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flowe
+ r) (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/7340/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

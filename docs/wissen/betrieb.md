@@ -1199,3 +1199,11 @@ Alles, wovon die automatischen Läufe leben, steht in `data/zugangs-register.jso
 ## Der Vortagsvergleich der Wache fand nie einen Vortag (08.10.2026)
 
 `tools/wache-schreiben.mjs` vergleicht die ausgelassenen Termine mit dem Stand des Vortags. Der lag in `data/cache/`, das in der CI nur der Actions-Cache `anilist-cache-` füllt — `delta-wache.yml` stellte nichts wieder her, jeder Lauf war ein „erster Lauf" (die Läufe vom 02.–07.10. liefen grün, ohne je zu vergleichen). Jetzt liegt der Stand in `.wache-stand/ausgelassen.json` (mit Datum), wird mit eigenem Präfix `wache-stand-` per `actions/cache/restore` geholt und mit `if: always()` per `actions/cache/save` gesichert; die Wache nennt „Vergleich mit dem Stand vom …" oder „kein Vortagsstand", ein Stand über 3 Tage alt ist ein Befund. `check:workflows` bricht ab, wenn Restore oder Save fehlen oder den Pfad nicht nennen.
+
+## Prüfweg für Pull Requests: PR-Prüfkette und Prüfer-Review (10.10.2026)
+
+Vorher hatte kein Workflow den Trigger `pull_request`, `main` war ungeschützt (Befund: `daniel-zum-abarbeiten/berichte/pruefweg-pr-spezifikation.md`).
+Jetzt: `pr-pruefung.yml` (Job `PR-Prüfkette` = `check:vor-commit` mit Chromium; `PR-Aussehen` nicht verpflichtend, nur bei `web/src`) und `pr-pruefer.yml`
+(`pull_request_target`, läuft in der Fassung von `main`, kein Checkout des PR-Zweigs; Claude schreibt Protokoll und `urteil.json`, `GITHUB_TOKEN` kommentiert und gibt frei, nur
+wenn die SHA im Urteil dem Head entspricht). Beide überspringen `daten/`-Zweige, Fremd-Forks und Entwürfe. Die Laufzeit von `check:vor-commit` in der CI ist noch nicht gemessen.
+Ruleset, GitHub-App, Secrets und Auto-Merge sind Daniels Handgriffe (Spezifikation, Abschnitt 4); bis das Ruleset steht, erzwingen die Workflows nichts.

@@ -6,7 +6,8 @@ import { useLang } from '../../lib/i18n.tsx'
 import { useShare } from '../../lib/share.ts'
 import { coverBild, KACHEL_DICHTE } from '../../lib/cover.ts'
 import { FavoriteStar, HideEye, ShareIcon, Tooltip } from '../ui.tsx'
-import { anbieterUndFolge, VerpasstMarke, ZeitMarke } from './Marken.tsx'
+import { anbieterUndFolge, SpracheMarke, VerpasstMarke, ZeitMarke } from './Marken.tsx'
+import { PremiereMarke } from './PremiereMarke.tsx'
 import { FundstellenZeichen, TrefferName } from '../Suchtreffer.tsx'
 
 export type KartenArt = 'start' | 'finale'
@@ -84,7 +85,7 @@ export function PosterKarte(p: PosterKarteProps) {
         {!!p.neu && (
           <span className="rounded bg-ak-akzent/15 px-1 font-semibold text-ak-akzent-text">{t('fav.neuSeit', { n: p.neu })}</span>
         )}
-        <VerpasstMarke event={p.event} t={t} />
+        <VerpasstMarke event={p.event} t={t} /><SpracheMarke event={p.event} t={t} />
       </span>
     </article>
   )
@@ -121,6 +122,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
       <span className="absolute top-2 left-2 flex flex-wrap items-center gap-1.5">
         <ZeitMarke event={p.event} t={t} />
         {p.art && <ArtFahne art={p.art} />}
+        {p.event.premiere && <PremiereMarke platform={p.event.platform} vorher={p.event.premiereVorher} className="px-2 py-0.5" />}
       </span>
       {/*
         Teilen und Ausblenden erst beim Zeigen; der Stern bleibt, sobald er gesetzt ist. Unten rechts,

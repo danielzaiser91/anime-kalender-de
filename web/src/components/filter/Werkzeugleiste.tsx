@@ -17,8 +17,8 @@ export function Werkzeugleiste({ children }: { children: ReactNode }) {
   )
 }
 
-/** Die Filter-Pille: Zähler der aktiven Filter, `aria-expanded`, steuert das Filterfenster. */
-export const FilterPille = forwardRef<HTMLButtonElement, { offen: boolean; anzahl: number; onClick: () => void }>(function FilterPille({ offen, anzahl, onClick }, ref) {
+/** Der runde Filter-Knopf: Zähler der aktiven Filter als Badge, `aria-expanded`, steuert das Filterfenster. */
+export const FilterRund = forwardRef<HTMLButtonElement, { offen: boolean; anzahl: number; onClick: () => void }>(function FilterRund({ offen, anzahl, onClick }, ref) {
   const { t } = useLang()
   return (
     <button
@@ -30,18 +30,16 @@ export const FilterPille = forwardRef<HTMLButtonElement, { offen: boolean; anzah
       aria-haspopup="dialog"
       aria-label={anzahl ? `${t('filter.button')} (${anzahl})` : t('filter.button')}
       className={[
-        'flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3 text-sm font-bold transition',
+        'relative flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full border transition',
         offen || anzahl ? 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent' : 'border-ak-rand bg-ak-flaeche text-ak-text',
       ].join(' ')}
     >
       <FilterZeichen />
-      {t('filter.button')}
-      {anzahl > 0 && <span className="rounded-full bg-[#0d0f14] px-1.5 text-[11px] text-[#f2f1ee]">{anzahl}</span>}
+      {anzahl > 0 && (
+        <span aria-hidden className="absolute -top-0.5 -right-0.5 h-4 min-w-4 rounded-full bg-[#0d0f14] px-1 text-center text-[10px] leading-4 font-bold text-[#f2f1ee]">
+          {anzahl}
+        </span>
+      )}
     </button>
   )
 })
-
-/** Rollbare Reihe für alles neben der Pille; die Pille und feste Teile stehen außerhalb. */
-export function RollReihe({ children }: { children: ReactNode }) {
-  return <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto [scrollbar-width:none]">{children}</div>
-}

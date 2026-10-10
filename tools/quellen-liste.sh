@@ -18,12 +18,15 @@
 # Kein Skript schreibt diese Dateien (gemessen 04.10.2026); wer eines hinzufügt, das sie schreibt, trägt sie hier wieder ein.
 QUELLEN=(
   data/anisearch.json
+  data/anisearch-archiv-weg.json
   data/kennungen.json
   data/cartoon-umzug.json
   data/anisearch-folgen.json
   data/anisearch-titel.json
   data/anisearch-artikel.json
   data/anisearch-sprecher.json
+  data/anisearch-sprecher-weg.json
+  data/anisearch-sprecher-raw
   data/anisearch-slugs.json
   data/anisearch-dubs.json
   data/anisearch-dub-ids.json
@@ -32,6 +35,8 @@ QUELLEN=(
   data/anisearch-eintraege-ausgelassen.json
   data/anisearch-mal.json
   data/anisearch-offen.json
+  # Stufe B der AniList-Ablösung (10.10.2026): Bau-Messung AniList gegen aniSearch, Feld für Feld; wird nicht ausgeliefert.
+  data/anisearch-abweichungen.json
   data/tmdb-poster.json
   data/kitsu-folgen.json
   data/cover-klein.json
@@ -343,5 +348,6 @@ QUELLEN=(
   daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md
   daniel-zum-abarbeiten/listen/17-vorfaelle.md
   daniel-zum-abarbeiten/listen/22-belege-ohne-fundstelle.md
+  daniel-zum-abarbeiten/listen/23-nur-originalton.md
   daniel-zum-abarbeiten/00-START-HIER.md
 )

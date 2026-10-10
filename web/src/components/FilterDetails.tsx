@@ -16,7 +16,6 @@ import type { Dispatch, SetStateAction, ReactNode } from 'react'
 import { useLang } from '../lib/i18n.tsx'
 import { useContext, useState } from 'react'
 import { SprecherFilter } from './SprecherFilter.tsx'
-import { SchnellInLeiste } from './filter/schnell-in-leiste.ts'
 import { TitelNamenContext } from '../lib/sprecher.ts'
 
 export const FSK_OPTIONS: Fsk[] = [0, 6, 12, 16, 18]
@@ -233,7 +232,6 @@ function SchnellSchalter({
   setTvAn?: (an: boolean) => void
   suche?: BereichsSuche
 }) {
-  if (useContext(SchnellInLeiste)) return null
   const label = t('filter.schnell')
   const texte =['favoriten', 'kostenlos', 'bestaetigt', 'tv', 'disc', 'verfuegbar', 'cartoon'].map((k) => t(`filter.schnell.${k}` as never))
   return (

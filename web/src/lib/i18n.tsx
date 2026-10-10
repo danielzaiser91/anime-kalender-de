@@ -55,8 +55,8 @@ const TEXTE = {
   'news.folgen': 'Folgen {von}–{bis} auf Deutsch bei {anbieter}',
   'news.angekuendigt': 'Start am {datum} bei {anbieter}',
   'news.angekuendigtTv': 'Im TV{sender} am {tag}, den {datum}',
-  'news.omuAngekuendigt': 'Start am {datum} bei {anbieter} mit Untertiteln, deutsche Synchro angekündigt',
-  'news.omuOffen': 'Start am {datum} bei {anbieter} mit Untertiteln, keine deutsche Synchro angekündigt',
+  'news.omuAngekuendigt': 'Start {wann} bei {anbieter} mit Untertiteln, deutsche Synchro angekündigt',
+  'news.omuOffen': 'Start {wann} bei {anbieter} mit Untertiteln, keine deutsche Synchro angekündigt',
   'news.kurz.omu': 'OmU ab {datum} · {anbieter}',
   'news.disc': 'Erscheint am {datum} auf Disc',
   'news.discAusgabe': '{ausgabe} erscheint am {datum} auf Disc',
@@ -71,7 +71,7 @@ const TEXTE = {
   */
   'news.ersetzt': 'ersetzt durch {datum}',
   'news.ersetztTitel': 'Diese Meldung wurde von einer neueren Angabe abgelöst — nachsehen',
-  'news.zurueckgezogen': 'zurückgezogen',
+  'news.zurueckgezogen': 'zurückgezogen', 'news.zurueckgezogenOmu': 'zurückgezogen: nur OmU',
   'news.zurueckgezogenTitel': 'Die Ankündigung wurde durch eine Prüfung widerlegt',
   // Kurzform für die Übersichtszeile: Stichworte statt Satz — der Vollsatz steht aufgeklappt darunter.
   'news.alle': 'Alles',
@@ -249,13 +249,6 @@ const TEXTE = {
   // Titel ohne belegte deutsche Synchro im Detail-Panel. „Termin unbekannt"
   // wäre hier falsch: Unbekannt ist nicht der Termin, sondern ob es je eine
   // deutsche Fassung gibt.
-  // Reihen-Stern: die ganze Reihe auf einmal merken (13.08.2026).
-  'detail.seriesStarDo': 'Alle {count} Teile dieser Reihe merken',
-  'detail.seriesStarAllDone': 'Alle {count} Teile dieser Reihe sind gemerkt',
-  'detail.seriesStarHelp':
-    // Kein Markdown: Der Hinweis wird als reiner Text ausgegeben, Sternchen
-    // stünden dort wörtlich da — ausgerechnet neben einem Stern-Symbol.
-    'Merkt alle {count} Teile dieser Reihe auf einmal — auch Filme, Specials und Ableger ohne deutsche Synchro.',
 
   'detail.noDubTitle': 'Keine deutsche Synchro bekannt',
   'detail.noDubBody': 'Zu diesem Anime ist bisher keine deutsche Fassung bekannt.',
@@ -393,7 +386,6 @@ const TEXTE = {
   'detail.dubNichtImAngebot': 'Nicht im Angebot: {bereiche}',
   'detail.dubFromTitel': 'Deutscher Ton ab Folge {n}',
   'detail.genres': 'Genres',
-  'detail.seriesPartsCount': '{count} Teile in dieser Reihe',
   // Die vier Gruppen der Reihenliste. „Hauptserie" statt „Staffeln", weil eine
   // Reihe aus einem einzigen Teil bestehen kann und „Staffeln" dann falsch
   // klingt; „Specials & OVAs" nennt beides, weil der Unterschied hier keiner ist.
@@ -413,7 +405,6 @@ const TEXTE = {
   'detail.folgeOhneAnbieter': 'Für Folge {bereich} kennen wir keinen deutschen Anbieter.',
   'detail.werkangaben': 'Zum Werk',
   'detail.faktFsk': 'Altersfreigabe',
-  'detail.studio': 'Studio',
   'detail.keywords': 'Keywords',
   'detail.plot': 'Handlung',
   'detail.plotMore': 'mehr anzeigen',
@@ -532,7 +523,7 @@ const TEXTE = {
     „Erste Folge … · Wöchentlich · letzte Folge". Für `available-from` ist weder
     das eine noch das andere wahr — es kommt der ganze Block.
   */
-  'antwort.alleFolgen': 'Alle {count} Folgen',
+  'antwort.alleFolgen': 'Alle {count} Folgen', 'antwort.alleFolgenOhneZahl': 'Alle Folgen',
   'antwort.angebotRelativ': 'im Angebot {rel}, am {tag} den {datum}.',
   'antwort.angebotDatum': 'im Angebot ab {tag} den {datum}.',
   // Nur noch diese eine steht aus.

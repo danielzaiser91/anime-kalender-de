@@ -3,10 +3,15 @@ import { pruefeInvarianten, zaehlworteStimmen } from '../lib/invarianten.ts'
 import { zaehleBelegte } from '../lib/belegstaerke.ts'
 import { OUT } from './grundlagen.ts'
 import { auslieferungsInvarianten } from './auslieferung-pruefen.ts'
+import { releasesAusNurOriginalton } from '../lib/pruefung.ts'
+import { autoReleaseWidersprueche } from '../lib/auto-release-pruefung.ts'
+import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
 import { omuTitelAusKatalog } from '../lib/news-omu.ts'
 import { belegeFuerAlle, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
+import { entdoppeleUndMelde } from '../lib/beleg-anbieter.ts'
 import { messungenFuerFolgen } from '../lib/news-messung.ts'
+import { nurOriginaltonMeldungen, type Vorschlag } from '../lib/meldungen.ts'
 import { type Release, type ReleaseEvent, type Title, type DataMeta, type NewsEintrag } from '../../shared/types.ts'
 
 export function schreibeKernUndNews({ releases, events, titles, meta }: {
@@ -31,7 +36,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
     `watchLinks` mit eigener Plattform und bleiben unberührt.
   */
   bruecheBeiWiderspruchAb(pruefeInvarianten(releases, events, titles))
-  bruecheBeiWiderspruchAb({ fehler: auslieferungsInvarianten(), warnungen: [] })
+  bruecheBeiWiderspruchAb({ fehler: [...auslieferungsInvarianten(), ...releasesAusNurOriginalton(releases, nurOriginaltonAdressen()), ...autoReleaseFehler(releases)], warnungen: [] })
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
 
@@ -44,7 +49,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   let newsFuerRss: ReturnType<typeof baueNews> | undefined
   {
     const newsHistorie = readJson<NewsHistorie>('data/news-historie.json', { zuerst: {} })
-    const meldungen = messungenFuerFolgen(belegeFuerAlle(baueNews(
+    const meldungen = entdoppeleUndMelde(messungenFuerFolgen(belegeFuerAlle(baueNews(
       [...titles.values()],
       releases,
       readJson<{ id: number; seit: string }[]>(`${OUT}/neu-mit-synchro.json`, []),
@@ -54,8 +59,8 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
       ).folgen ?? [],
       newsHistorie,
       /* Das zuvor ausgelieferte `news.json` speist beim ersten Lauf den Verlauf. */
-      readJson<NewsEintrag[]>(`${OUT}/news.json`, []), omuTitelAusKatalog(OUT),
-    ), readJson<BelegGedaechtnis>('data/beleg-lesungen.json', {})))
+      readJson<NewsEintrag[]>(`${OUT}/news.json`, []), omuTitelAusKatalog(OUT), nurOriginaltonAdressen(),
+    ), readJson<BelegGedaechtnis>('data/beleg-lesungen.json', {}))))
     writeJson(`${OUT}/news.json`, meldungen)
     newsFuerRss = meldungen
     writeJson('data/news-historie.json', newsHistorie)
@@ -101,4 +106,16 @@ function bruecheBeiWiderspruchAb({ fehler, warnungen }: { fehler: string[]; warn
   for (const f of fehler) console.error('  ✖', f)
   console.error(`\n${fehler.length} Widerspruch/Widersprüche im ausgelieferten Ergebnis — Bau abgebrochen.`)
   process.exit(1)
+}
+
+/** Adressen der Anime2You-Meldungen, die nur Originalton nennen — der Grund, wenn eine Ankündigung daraus zurückgezogen wird. */
+function nurOriginaltonAdressen(): Set<string> {
+  const vorschlaege = readJson<{ proposals?: Vorschlag[] }>('data/proposals/anime2you.json', {}).proposals ?? []
+  return new Set(nurOriginaltonMeldungen(vorschlaege).map((v) => v.articleUrl))
+}
+
+/** Automatische Termine gegen ihre Meldungen (Einzel- und Sammelartikel): Sprachzusage oder Kennzeichnung, kein Wochentakt als „alle Folgen". */
+function autoReleaseFehler(releases: Release[]): string[] {
+  const roh = readJson<{ proposals?: Vorschlag[] }>('data/proposals/anime2you.json', {}).proposals ?? []
+  return autoReleaseWidersprueche(releases, [...roh, ...vorschlaegeAusAllenSammelartikeln(roh)])
 }

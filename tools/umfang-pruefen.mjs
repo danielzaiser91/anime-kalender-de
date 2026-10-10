@@ -16,11 +16,13 @@
  *   node tools/umfang-pruefen.mjs                 prüfen (Exit 1 bei Wachstum)
  *   node tools/umfang-pruefen.mjs --festschreiben gesunkene Werte übernehmen (erhöht nie)
  *   node tools/umfang-pruefen.mjs --liste         die größten Funktionen und Dateien zeigen
+ *   node tools/umfang-pruefen.mjs --ketten        Dateien mit Ketten (`a(); b()` in einer Zeile) samt Zeilennummern
  */
 import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import ts from 'typescript'
+import { findeKetten } from './umfang-ketten.mjs'
 
 export const GRENZE_FUNKTION = 80
 export const GRENZE_DATEI = 800
@@ -83,7 +85,10 @@ export function vermessen() {
     const bereich = BEREICHE.find((b) => pfad.startsWith(`${b}/`))
     const text = readFileSync(resolve(WURZEL, pfad), 'utf8')
     const zeilen = text.split('\n').length
-    stand[bereich] ??= { funktionen: 0, dateien: 0 }
+    stand[bereich] ??= { funktionen: 0, dateien: 0, ketten: 0 }
+    const ketten = findeKetten(pfad, text)
+    stand[bereich].ketten += ketten.length
+    if (ketten.length) einzeln.push({ art: 'Ketten', ort: `${pfad}: Zeile ${ketten.join(', ')}`, zeilen: ketten.length })
     if (!PRUEFSATZ.test(pfad) && zeilen > GRENZE_DATEI) {
       stand[bereich].dateien += zeilen - GRENZE_DATEI
       einzeln.push({ art: 'Datei', ort: pfad, zeilen })
@@ -101,16 +106,21 @@ const { stand, einzeln } = vermessen()
 const erlaubt = JSON.parse(readFileSync(GRENZEN, 'utf8'))
 
 if (process.argv.includes('--liste')) {
-  for (const e of einzeln.sort((a, b) => b.zeilen - a.zeilen).slice(0, 40)) console.log(`${String(e.zeilen).padStart(6)}  ${e.art.padEnd(8)} ${e.ort}`)
+  for (const e of einzeln.filter((e) => e.art !== 'Ketten').sort((a, b) => b.zeilen - a.zeilen).slice(0, 40)) console.log(`${String(e.zeilen).padStart(6)}  ${e.art.padEnd(8)} ${e.ort}`)
+  process.exit(0)
+}
+if (process.argv.includes('--ketten')) {
+  for (const e of einzeln.filter((e) => e.art === 'Ketten').sort((a, b) => b.zeilen - a.zeilen)) console.log(`${String(e.zeilen).padStart(4)}  ${e.ort}`)
   process.exit(0)
 }
 
 const zuViel = []
 const neu = structuredClone(erlaubt)
 for (const [bereich, werte] of Object.entries(stand)) {
-  for (const art of ['funktionen', 'dateien']) {
+  for (const art of ['funktionen', 'dateien', 'ketten']) {
     const grenze = erlaubt.ueberlaenge[bereich]?.[art] ?? 0
-    if (werte[art] > grenze) zuViel.push(`${bereich}: Überlänge der ${art} ${werte[art]} statt höchstens ${grenze}`)
+    const was = art === 'ketten' ? 'Ketten (mehrere Anweisungen/Felder/Einträge in einer Zeile)' : `Überlänge der ${art}`
+    if (werte[art] > grenze) zuViel.push(`${bereich}: ${was} ${werte[art]} statt höchstens ${grenze}`)
     else if (werte[art] < grenze) (neu.ueberlaenge[bereich] ??= {})[art] = werte[art]
   }
 }
@@ -131,6 +141,7 @@ if (zuViel.length) {
       zuViel.join('\n  ') +
       '\n\nNeues nicht in eine übergroße Funktion oder Datei schreiben, sondern als eigene Funktion' +
       '\n(eigenes Modul) herauslösen. Die größten Stellen: node tools/umfang-pruefen.mjs --liste' +
+      '\nKetten: jede Anweisung, jedes Typ-Feld, jeder Objekt-Eintrag in eine eigene Zeile (Fundstellen: --ketten).' +
       '\nDie Grenzen werden nicht angehoben — siehe CLAUDE.md, „Codegestalt".',
   )
   process.exit(1)

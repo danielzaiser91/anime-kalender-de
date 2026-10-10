@@ -30,6 +30,7 @@ import { quelleAnzeigeName } from '../../shared/quelle.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
 import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
+import { spracheDerMeldung, type Sprachbefund } from './sprachbefund.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
 export interface Vorschlag {
@@ -39,7 +40,7 @@ export interface Vorschlag {
   titleId?: number
   category?: string
   platforms?: string[]
-  dates?: { iso?: string; month?: string; context: string }[]
+  dates?: { iso?: string; month?: string; context: string; /** Meldetag oder letzter Wochentag davor, kein genannter Starttag (`SammelEintrag.datumGeschaetzt`). */ geschaetzt?: boolean }[]
   dub?: string
   /** „pause", „verschoben", … — siehe `Proposal.pause`. */
   pause?: string
@@ -340,6 +341,50 @@ export function terminDerMeldung(v: Pick<Vorschlag, 'dates' | 'pause'>): string 
   return v.pause === 'verschoben' ? tage.sort().at(-1) : tage[0]
 }
 
+/**
+ * Der Anbieter muss zur Art der Meldung passen. Ein Disc-Artikel führt oft
+ * beide Kennungen (`["crunchyroll","disc"]`, weil Crunchyroll der Verlag
+ * ist) — `platforms[0]` machte daraus einen Streaming-Termin.
+ */
+function anbieterDerMeldung(v: Vorschlag): string | undefined {
+  /* Gesamt-Feed (`allgemein`): ohne Rubrik ist nicht sicher, ob ein Streaming-Start oder ein Disc-Termin gemeint ist — Bericht ja, Release nein. */
+  if (v.category === 'allgemein') return undefined
+  if (v.category === 'disc') return v.platforms?.includes('disc') ? 'disc' : undefined
+  if (v.category === 'kino') return 'kino'
+  return v.platforms?.find((p) => p !== 'disc' && p !== 'kino')
+}
+
+function artDerMeldung(v: Vorschlag, platform: string, treffer: Title): ReleaseType {
+  if (v.category === 'kino' || treffer.format === 'MOVIE') return 'movie'
+  return v.category === 'disc' || platform === 'disc' ? 'disc' : 'batch'
+}
+
+/**
+ * **Ein Beleg steht nur bei der Aussage, die er trägt** (10.10.2026). Ein Release im Kalender sagt „auf Deutsch
+ * am …“. Nennt die Meldung nur Originalton mit Untertiteln, widerlegt sie das selbst — kein Release
+ * (`releasesAus`), eine früher daraus erschienene Ankündigung wird mit Grund zurückgezogen (`news-verlauf.ts`).
+ * Nennt sie den Tag, aber keine Sprachfassung (oder lässt sie offen), trägt sie nur den Tag: Das Release bleibt,
+ * die Notiz sagt es. Discs nicht — deutsche Ausgaben tragen fast immer deutschen Ton, und eine reine OmU-Ausgabe
+ * nennt der Artikel (`nein`). Melden mehrere Artikel denselben Termin, gewinnt der mit Sprachzusage.
+ */
+const SPRACH_NOTIZ: Partial<Record<Sprachbefund, string>> = {
+  unklar: 'Termin laut Quelle – ob mit deutscher Synchro, sagt sie nicht.',
+  offen: 'Termin laut Quelle – ob mit deutscher Synchro, ist dort noch offen.',
+}
+
+function sprachHinweis(sprache: Sprachbefund, platform: string): Pick<Release, 'note' | 'sprache'> {
+  const note = platform === 'disc' ? undefined : SPRACH_NOTIZ[sprache]
+  return note ? { note, sprache: 'offen' } : {}
+}
+
+const nachSprachzusage = (vorschlaege: Vorschlag[]) =>
+  [...vorschlaege].sort((a, b) => Number(spracheDerMeldung(b) === 'ja') - Number(spracheDerMeldung(a) === 'ja'))
+
+/** Meldungen mit Termin, die nur Originalton nennen — für das Protokoll des Baus und den Grund in den News. */
+export function nurOriginaltonMeldungen(vorschlaege: Vorschlag[]): Vorschlag[] {
+  return vorschlaege.filter((v) => !v.alreadyCurated && terminDerMeldung(v) && spracheDerMeldung(v) === 'nein')
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
@@ -351,8 +396,9 @@ export function releasesAus(
   const belegt = new Set(vorhanden.map((r) => `${r.titleId}|${r.platform}`))
   const out: Release[] = []
 
-  for (const v of vorschlaege) {
-    if (v.alreadyCurated || istAbschied(v.articleTitle)) continue
+  for (const v of nachSprachzusage(vorschlaege)) {
+    const sprache = spracheDerMeldung(v)
+    if (v.alreadyCurated || istAbschied(v.articleTitle) || sprache === 'nein') continue
     /*
       **Ein Fernsehtermin ist kein Streaming-Termin.** „Dragon Ball DAIMA" lief
       ab 28.08.2026 im TV bei TOGGO plus, abrufbar bei RTL+ erst ab 25.09. — der
@@ -378,30 +424,13 @@ export function releasesAus(
     const treffer = reihenTeil(basis, titel, v.articleTitle)
     if (!treffer) continue
 
-    /**
-     * Der Anbieter muss zur Art der Meldung passen. Ein Disc-Artikel führt oft
-     * beide Kennungen (`["crunchyroll","disc"]`, weil Crunchyroll der Verlag
-     * ist) — `platforms[0]` machte daraus einen Streaming-Termin.
-     */
-    const platform =
-      v.category === 'disc'
-        ? v.platforms?.includes('disc')
-          ? 'disc'
-          : undefined
-        : v.category === 'kino'
-          ? 'kino'
-          : v.platforms?.find((p) => p !== 'disc' && p !== 'kino')
+    const platform = anbieterDerMeldung(v)
     if (!platform) continue
     const schluessel = `${treffer.id}|${platform}`
     if (belegt.has(schluessel)) continue
     belegt.add(schluessel)
 
-    const art: ReleaseType =
-      v.category === 'kino' || treffer.format === 'MOVIE'
-        ? 'movie'
-        : v.category === 'disc' || platform === 'disc'
-          ? 'disc'
-          : 'batch'
+    const art = artDerMeldung(v, platform, treffer)
 
     const name = treffer.titleDe ?? treffer.titleEn ?? treffer.titleRomaji ?? `#${treffer.id}`
     const quelle: Quelle = {
@@ -430,7 +459,7 @@ export function releasesAus(
       name,
       platform: platform as Release['platform'],
       ...(v.kanal && platform === 'primevideo' ? { kanal: v.kanal } : {}),
-      ...zeitplanAusVorschlag(v, art, tag, treffer),
+      ...zeitplanGeschaetzt(zeitplanAusVorschlag(v, art, tag, treffer, platform), v.dates?.some((d) => d.iso === tag && d.geschaetzt)), ...sprachHinweis(sprache, platform),
       year: Number(tag.slice(0, 4)),
       herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
       automatisch: true,
@@ -441,20 +470,30 @@ export function releasesAus(
   return out
 }
 
+/** Ein Tag, der nur der Meldetag ist („Ab sofort bei Netflix“), steht als abgeleitet (`schedule.estimated`), nicht als bestätigt. */
+function zeitplanGeschaetzt(plan: Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'>, geschaetzt?: boolean): Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'> {
+  return geschaetzt && plan.schedule ? { ...plan, schedule: { ...plan.schedule, estimated: true } } : plan
+}
+
 /**
  * **Wie ein Sammelartikel-Eintrag in den Kalender kommt.** Ein Komplettpaket („Episoden: 13
  * (komplett)") trägt seine Folgenzahl; einer älteren Serie, die nur neu ins Angebot kommt, gilt
  * der Tag als „im Angebot seit", nicht als Erscheinen. Ein wöchentlicher Simulcast läuft
  * wöchentlich — mit AniLists Folgenzahl als Schätzung („≈"), ohne sie als einzelner Termin.
- * Eine Einzelmeldung ohne diese Angaben bleibt, wie sie war: ein Termin ohne Folgenzahl.
+ *
+ * **Eine Einzelmeldung ohne Folgenzahl ist ein Wochenstart, keine Komplettveröffentlichung** (10.10.2026): „Dragon Ball
+ * Super: Beerus … im Simulcast … Neue Folgen erscheinen wöchentlich" stand als „Alle Folgen im Angebot morgen". Komplett
+ * nur, wenn die Meldung es sagt (`taktDerMeldung`), das Werk in Japan aus einem früheren Jahr stammt (Katalogzugang) oder es eine
+ * Netflix-Eigenproduktion ohne Fernsehausstrahlung ist (ONA bei Netflix: „Fool Night“ kommt am 26.11.2026 komplett).
  */
 export function zeitplanAusVorschlag(
-  v: Pick<Vorschlag, 'folgen' | 'woechentlich'>,
+  v: Pick<Vorschlag, 'folgen' | 'woechentlich'> & Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>,
   art: ReleaseType,
   tag: string,
-  treffer: Pick<Title, 'episodes' | 'jpYear'>,
+  treffer: Pick<Title, 'episodes' | 'jpYear'> & Partial<Pick<Title, 'format'>>,
+  platform?: string,
 ): Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'> {
-  if (art === 'batch' && v.woechentlich && !v.folgen)
+  if (art === 'batch' && !v.folgen && (v.woechentlich ?? wochenstartOhneAngabe(v, tag, treffer, platform)))
     return {
       releaseType: 'weekly',
       schedule: { firstEpisodeDate: tag, ...(treffer.episodes ? { episodeCount: treffer.episodes, episodeCountAssumed: true } : {}) },
@@ -466,6 +505,23 @@ export function zeitplanAusVorschlag(
     schedule: { firstEpisodeDate: tag, ...(v.folgen && art === 'batch' && !(treffer.episodes && folgenzahlUeberWerk(v.folgen, treffer.episodes)) ? { episodeCount: v.folgen } : {}) },
     ...(katalog ? { dateMeaning: 'available-from' as const } : {}),
   }
+}
+
+const WOCHENTAKT = /(wöchentlich|simulcast|wochentakt|jeden (?:montag|dienstag|mittwoch|donnerstag|freitag|samstag|sonntag)|(?:neue|weitere) (?:folgen|episoden))/i
+const KOMPLETT = /(alle (?:\d+ )?(?:folgen|episoden)|sämtliche (?:folgen|episoden)|komplett|binge|auf einen schlag|auf einmal|gesamte staffel)/i
+
+/** Was eine Meldung über den Takt sagt — aus Überschrift und Fundstellen; eine Komplett-Angabe schlägt den Wochentakt. */
+export function taktDerMeldung(v: Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>): 'komplett' | 'woechentlich' | undefined {
+  const text = [v.articleTitle ?? '', ...(v.dates ?? []).map((d) => d.context)].join('\n')
+  return KOMPLETT.test(text) ? 'komplett' : WOCHENTAKT.test(text) ? 'woechentlich' : undefined
+}
+
+/** Ohne Folgenzahl: wöchentlich, außer die Meldung sagt „komplett", das Werk ist älter (Katalogzugang) oder eine Netflix-ONA. */
+function wochenstartOhneAngabe(v: Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>, tag: string, treffer: Partial<Pick<Title, 'jpYear' | 'format'>>, platform?: string): boolean {
+  const takt = taktDerMeldung(v)
+  if (takt) return takt === 'woechentlich'
+  if (platform === 'netflix' && treffer.format === 'ONA') return false
+  return !treffer.jpYear || treffer.jpYear >= Number(tag.slice(0, 4))
 }
 
 /**

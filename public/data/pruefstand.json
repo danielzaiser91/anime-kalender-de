@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-09T19:26:39.467Z",
+ "erzeugtAm": "2026-10-10T19:37:56.683Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,8 +7,10 @@
    "gemeldet": 749,
    "gesamt": 753,
    "offen": 4,
-   "ohneSeite": 0,
-   "suchAdressen": [],
+   "ohneSeite": 1,
+   "suchAdressen": [
+    "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video"
+   ],
    "ziel": "https://www.amazon.de/gp/video/detail/B0CQ4VL364",
    "ziele": [
     {
@@ -28,14 +30,36 @@
      "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
     }
    ],
-   "naechster": "Digimon Tamers"
+   "naechster": "Digimon Tamers",
+   "bekannt": {
+    "B0DGGZSKRM": 13,
+    "B0FKZM9J6V": 25,
+    "B0CH1GVRKK": 25,
+    "B0CVFNLP9D": 24,
+    "B0CGS3NC7T": 23,
+    "B0D4K9PV2F": 25,
+    "B0D4KNHDMT": 12,
+    "B0DJB5NGNK": 28,
+    "B0D2M355W6": 52,
+    "B0HC53WXQQ": 25,
+    "B0CHQGCNZB": 11,
+    "B0B6VQDB6D": 12,
+    "B0CJRZY5ND": 12,
+    "B0CJYLSY3D": 13,
+    "B0H7YCRTJN": 8,
+    "B0GXPFJJZK": 39,
+    "B0DQTBWY5K": 12,
+    "B0GZD5N2GP": 10,
+    "B0GDGLLYLS": 19,
+    "B0H1QXQL33": 12
+   }
   },
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 382,
-   "gesamt": 391,
-   "offen": 9,
+   "gemeldet": 383,
+   "gesamt": 393,
+   "offen": 10,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/80212481",
    "ziele": [
@@ -60,6 +84,14 @@
      "titel": "Scott Pilgrim hebt ab"
     },
     {
+     "url": "https://www.netflix.com/title/81215624",
+     "titel": "Onmyoji"
+    },
+    {
+     "url": "https://www.netflix.com/title/81218604",
+     "titel": "Banana Fish"
+    },
+    {
      "url": "https://www.netflix.com/title/81506915",
      "titel": "Devil May Cry"
     },
@@ -70,13 +102,39 @@
     {
      "url": "https://www.netflix.com/title/82116553",
      "titel": "Steel Ball Run: Jojo’s Bizarre Adventure"
-    },
-    {
-     "url": "https://www.netflix.com/title/83189604",
-     "titel": "Dragon Ball Super: Beerus"
     }
    ],
-   "naechster": "YooHoo: Retter in der Not"
+   "naechster": "YooHoo: Retter in der Not",
+   "bekannt": {
+    "70205012": 26,
+    "70297439": 52,
+    "80000603": 500,
+    "80103318": 13,
+    "80117781": 1,
+    "80221272": 13,
+    "81005375": 1,
+    "81028712": 1,
+    "81080523": 15,
+    "81095103": 1,
+    "81099976": 13,
+    "81171925": 1,
+    "81220435": 14,
+    "81239555": 30,
+    "81253271": 48,
+    "81409869": 1,
+    "81422700": 36,
+    "81497635": 12,
+    "81499847": 13,
+    "81564899": 1,
+    "81696980": 44,
+    "81698957": 1,
+    "81726714": 1,
+    "81924739": 48,
+    "82647303": 12,
+    "82719204": 10,
+    "82723106": 1,
+    "82760630": 1
+   }
   },
   {
    "name": "Disney+",
@@ -92,21 +150,36 @@
      "titel": "Though I Am an Inept Villainess"
     }
    ],
-   "naechster": "Though I Am an Inept Villainess"
+   "naechster": "Though I Am an Inept Villainess",
+   "bekannt": {
+    "bc2dae95-23e6-45dc-8177-066425b10fa0": 57,
+    "6g48QKlgQdWK": 51,
+    "870b9187-690d-4a9e-8704-b48564b31322": 49,
+    "ef04e263-4751-486c-9001-616f2adf09ba": 59,
+    "be391742-6617-42ad-b53a-be368ee73335": 24,
+    "0e46c665-5191-407f-8dc5-e22a0095578c": 100,
+    "eb5b776f-8162-491a-9aca-c1e9b56729e5": 12,
+    "4LgC0zEd5JEx": 9,
+    "8cc06990-0faf-4a7e-ac1f-fb74cb4b9286": 15
+   }
   },
   {
    "name": "Suchadressen",
    "plattform": "suchadressen",
    "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
+   "gesamt": 3,
+   "offen": 3,
    "titel": 0,
-   "ohneSeite": 2,
+   "ohneSeite": 3,
    "ziel": "https://netflix.com",
    "ziele": [
     {
      "url": "https://netflix.com",
      "titel": "Meine ganz besondere Hochzeit: Special"
+    },
+    {
+     "url": "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
+     "titel": "Assassination Classroom: Our Time - The Movie"
     },
     {
      "url": "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video",

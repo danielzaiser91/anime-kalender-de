@@ -55,6 +55,12 @@
   ],
   "beelzebub-netflix": [
     {
+      "url": "https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1032820/netflix-beelzebub-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
@@ -5561,11 +5567,18 @@
   ],
   "auto-179813-netflix": [
     {
+      "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "sagt": "2026-10-10",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-10",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ],
   "auto-173693-disc": [
@@ -6241,6 +6254,109 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-09",
       "sagt": "2026-09-20",
+      "stand": "aktuell"
+    }
+  ],
+  "jujutsu-kaisen-hidden-inventory-premature-death-blu-ray": [
+    {
+      "url": "https://www.anime2you.de/news/1058349/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "yaiba-samurai-legend-prosieben-maxx": [
+    {
+      "url": "https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1059541/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe": [
+    {
+      "url": "https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "fate-stay-night-heavens-feel-2-lost-butterfly-gesamtausgabe": [
+    {
+      "url": "https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "fate-stay-night-heavens-feel-3-spring-song-gesamtausgabe": [
+    {
+      "url": "https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "dr-stone-science-future-part2": [
+    {
+      "url": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "shield-hero-s4-vol2": [
+    {
+      "url": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "apothecary-diaries-s2-vol2": [
+    {
+      "url": "https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "demon-slayer-infinity-castle-1-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-10021915-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1044124/jujutsu-kaisen-staffel-1-steelbook-edition/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
+  ],
+  "das-band-der-unterwelt-netflix": [
+    {
+      "url": "https://www.netflix.com/title/82719204",
+      "name": "netflix.com",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "das-band-der-unterwelt-netflix-folge-1-11": [
+    {
+      "url": "https://www.netflix.com/title/82719204",
+      "name": "netflix.com",
+      "gesehenAm": "2026-10-10",
       "stand": "aktuell"
     }
   ]

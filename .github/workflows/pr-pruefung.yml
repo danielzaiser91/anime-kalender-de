@@ -1,0 +1,71 @@
+name: PR-Prüfkette
+
+# Pflicht-Check für Pull Requests auf main (Spezifikation: daniel-zum-abarbeiten/berichte/pruefweg-pr-spezifikation.md, 2a).
+# Bis zum 10.10.2026 lief jede Prüfung erst nach dem Merge. Der Job heißt `PR-Prüfkette`; dieser Name ist der
+# künftige Pflicht-Check im Ruleset. Berührt keinen Datenlauf: nur `pull_request`, nur lesen.
+#
+# Kein Pfadfilter auf Workflow-Ebene: ein ausgefilterter Pflicht-Check meldet sich nie, der PR hinge fest.
+# Daten-PRs der Sammler (`daten/`) überspringt der Job-`if` — übersprungen zählt als bestanden.
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-pruefung-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  kette:
+    name: PR-Prüfkette
+    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # `check:install` (Teil von check:vor-commit) rendert mit Chromium.
+      - name: Chromium holen
+        run: npx playwright install --with-deps chromium
+      - name: Prüfkette
+        env:
+          PAGES_BASE: /
+        run: npm run check:vor-commit
+
+  # Nicht verpflichtend: Aussehen (wie aussehen-pruefen.yml), nur bei Änderungen an der Oberfläche.
+  aussehen:
+    name: PR-Aussehen
+    if: ${{ !startsWith(github.head_ref, 'daten/') && !github.event.pull_request.draft }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Betrifft der PR die Oberfläche?
+        id: pfad
+        run: |
+          if git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep -qE '^(web/src/|extension/.*\.css$)'; then
+            echo "betroffen=1" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.pfad.outputs.betroffen == '1'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - if: steps.pfad.outputs.betroffen == '1'
+        run: npm ci
+      - if: steps.pfad.outputs.betroffen == '1'
+        run: npx playwright install --with-deps chromium
+      - if: steps.pfad.outputs.betroffen == '1'
+        run: npm run build
+      - if: steps.pfad.outputs.betroffen == '1'
+        run: npm run check:panel && npm run check:ansichten

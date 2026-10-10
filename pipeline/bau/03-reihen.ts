@@ -20,7 +20,22 @@ import { entwirreWeiterleitung, adressePasst, plattformAusAdresse } from '../../
 import { loadWatchLinks } from '../lib/curated.ts'
 import { type AniListMedia } from '../lib/anilist.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
-import { anisearchReihenKanten } from './anisearch-titel.ts'
+import { anisearchReihenKanten, anisearchNamensKanten } from './anisearch-titel.ts'
+
+/** Vereint die Titel jeder Kante mit dem ersten ihrer Liste (nur bekannte Titel); gibt die Zahl der Verbindungen zurück. */
+function verbindeKanten(kanten: Array<{ ids?: number[] }>, titles: Map<number, Title>, parent: Map<number, number>, union: (a: number, b: number) => void): number {
+  let verbunden = 0
+  for (const e of kanten) {
+    const ids = (e.ids ?? []).filter((id) => titles.has(id))
+    for (const id of ids.slice(1)) {
+      parent.set(id, parent.get(id) ?? id)
+      parent.set(ids[0]!, parent.get(ids[0]!) ?? ids[0]!)
+      union(ids[0]!, id)
+      verbunden++
+    }
+  }
+  return verbunden
+}
 
 export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anisearch }: {
   byAniId: Record<string, AniListMedia>
@@ -183,16 +198,8 @@ export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anise
     const eintraege = existsSync(datei)
       ? ((yaml.load(readFileSync(datei, 'utf8')) as Array<{ ids?: number[] }> | null) ?? [])
       : []
-    let verbunden = 0
-    for (const e of [...eintraege, ...anisearchReihenKanten(titles)]) {
-      const ids = (e.ids ?? []).filter((id) => titles.has(id))
-      for (const id of ids.slice(1)) {
-        parent.set(id, parent.get(id) ?? id)
-        parent.set(ids[0]!, parent.get(ids[0]!) ?? ids[0]!)
-        union(ids[0]!, id)
-        verbunden++
-      }
-    }
+    const verbunden = verbindeKanten([...eintraege, ...anisearchReihenKanten(titles)], titles, parent, union)
+      + verbindeKanten(anisearchNamensKanten(titles, find), titles, parent, union)
     if (verbunden) log(`${verbunden} Reihen-Verbindung(en) aus data/reihen-von-hand.yaml`)
   }
 

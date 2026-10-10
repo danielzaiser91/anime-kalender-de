@@ -599852,6 +599852,43 @@
     },
     "fetchedAt": "2026-10-09T06:05:03.626Z"
   },
+  "116045": {
+    "anisearchId": 5323,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Sore Ike! Anpanman: Tenohira o Taiyou ni",
+          "titleNative": "Sore Ike! Anpanman: Tenohira o Taiyō ni",
+          "status": "Abgeschlossen",
+          "released": "25.07.1998"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 50,
+      "season": "Sommer 1998",
+      "studios": [
+        "TMS Entertainment Co., Ltd."
+      ],
+      "adaptedFrom": "Andere",
+      "websites": [
+        {
+          "name": "Anpanman",
+          "url": "https://www.anpanman.jp/world/movie.html"
+        }
+      ],
+      "synonyms": [
+        "Anpanman Movie 10",
+        "Go! Anpanman: The Palm of the Hand to the Sun",
+        "Soreike! Anpanman: Tenohira o Taiyou ni",
+        "Soreike! Anpanman: Tenohira wo Taiyou ni",
+        "Sore Ike! Anpanman: Tenohira wo Taiyou ni"
+      ]
+    },
+    "fetchedAt": "2026-10-10T06:01:47.522Z"
+  },
   "116046": {
     "anisearchId": 8945,
     "descriptionDe": "Michi und ihrer Familie steht nun eine große Veränderung bevor, denn sie sind in das Happiness House umgezogen. Der große Baum mit zahlreichen verwinkelten Räumen birgt viele Geheimnisse, denn Michi findet beim Erkunden ein seltsames Objekt, was einer Nuss gleicht. Plötzlich erscheint aus dem Gegenstand Nanami-chan, ein seltsames Lebewesen. Zusammen mit ihr erleben Michi und ihre Familie nun viele gute wie auch schwierige Zeiten und während sie auch das eine oder andere Problem lösen müssen, wachsen die beiden immer mehr zusammen. \n\nQuelle: www.anisearch.de/anime/8945",
@@ -619756,6 +619793,36 @@
     },
     "fetchedAt": "2026-10-09T06:45:16.507Z"
   },
+  "122183": {
+    "anisearchId": 9189,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yonimo Kimyou na Man Gatarou",
+          "titleNative": "Yonimo Kimyō na Man Gatarō",
+          "status": "Abgeschlossen",
+          "released": "06.03.2009 - 10.04.2009"
+        }
+      ],
+      "format": "OVA",
+      "episodes": 8,
+      "runtimeMinutes": 9,
+      "season": "Frühling 2009",
+      "studios": [
+        "Studio Puyukai"
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Liverp",
+          "url": "https://www.liverp.co.jp/gatarou/kimyou/index.html"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-10T06:01:54.479Z"
+  },
   "122187": {
     "anisearchId": 11716,
     "streams": [],
@@ -625112,6 +625179,29 @@
       ]
     },
     "fetchedAt": "2026-10-09T06:53:13.668Z"
+  },
+  "124343": {
+    "anisearchId": 18015,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Erlangshen: Shenhai Jiaolong Ju",
+          "titleNative": "Er Lang Shen: Shen Hai Jiao Long Ju",
+          "status": "Abgeschlossen",
+          "released": "13.07.2024"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 100,
+      "season": "Sommer 2024",
+      "synonyms": [
+        "God with Three Eyes"
+      ]
+    },
+    "fetchedAt": "2026-10-10T06:02:01.413Z"
   },
   "124345": {
     "anisearchId": 15604,
@@ -803776,6 +803866,27 @@
     },
     "fetchedAt": "2026-10-06T07:51:11.698Z"
   },
+  "183692": {
+    "anisearchId": 19876,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kidou Senshi Gundam SEED Freedom Zero",
+          "titleNative": "Kidō Senshi Gundam SEED Freedom Zero",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Film",
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "Mobile Suit Gundam Seed Freedom Zero"
+      ]
+    },
+    "fetchedAt": "2026-10-10T06:02:08.355Z"
+  },
   "183744": {
     "anisearchId": 19700,
     "streams": [
@@ -818968,6 +819079,51 @@
     },
     "fetchedAt": "2026-10-09T10:23:35.384Z"
   },
+  "187918": {
+    "anisearchId": 20344,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Houkago Kitaku Biyori",
+          "titleNative": "Hōkago Kitaku Biyori",
+          "status": "Zukünftig",
+          "released": "04.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Frühling 2027",
+      "staff": [
+        {
+          "name": "Mai MATSUDA",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/hokabiyo_pr"
+        },
+        {
+          "name": "Hokabiyo",
+          "url": "https://hokabiyo.com/"
+        }
+      ],
+      "synonyms": [
+        "Journey Home After School",
+        "Walking Home With You",
+        "Heimweg nach der Schule"
+      ]
+    },
+    "fetchedAt": "2026-10-10T06:02:15.292Z"
+  },
   "187921": {
     "anisearchId": 20852,
     "descriptionDe": "Der Kampf zwischen Göttern und Menschen geht in die nächste, alles entscheidende Runde. Nachdem Buddhas umstrittener Sieg in Staffel 2 den Gleichstand mit 3:3 eingeläutet hatte, schickt Brunhilde nun ihre nächsten Kämpfer ins Rennen. Den Auftakt macht das mit Spannung erwartete Duell zwischen Qin Shi Huang, dem ersten Kaiser Chinas, und Hades, dem finsteren Herrscher der Unterwelt.\n\nAuf Seiten der Menschheit tritt bald darauf auch Nikola Tesla an, dessen ungewöhnlicher Kampfstil selbst die Götter vor neue Herausforderungen stellt. In einem Krieg, in dem es kein Zurück mehr gibt, steht weiterhin alles auf dem Spiel. Wer wohl den Sieg in den kommenden Duellen davontragen wird? \n\nQuelle: www.anisearch.de/anime/20852",
@@ -828041,6 +828197,29 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:34:29.815Z"
+  },
+  "194724": {
+    "anisearchId": 20710,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Nyuugaku Youhei",
+          "titleNative": "Nyūgaku Yōhei",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "adaptedFrom": "Webtoon",
+      "synonyms": [
+        "Ipak Yongbyeong",
+        "Mercenary Enrollment",
+        "Teenage Mercenary"
+      ]
+    },
+    "fetchedAt": "2026-10-10T06:02:22.244Z"
   },
   "194742": {
     "anisearchId": 20651,
@@ -846519,6 +846698,28 @@
     },
     "fetchedAt": "2026-10-09T10:55:43.298Z"
   },
+  "209218": {
+    "anisearchId": 21319,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Bad End Mokuzen no Heroine ni Tensei Shita Watashi, Konse de wa Ren’ai Suru Tsumori ga Cheat na Ani ga Hanashite Kuremasen!?",
+          "titleNative": "バッドエンド目前のヒロインに転生した私、今世では恋愛するつもりがチートな兄が離してくれません！？",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "adaptedFrom": "Light Novel",
+      "synonyms": [
+        "I Was Reincarnated as the Heroine on the Verge of a Bad Ending",
+        "and Il’m Determined to Fall in Love!"
+      ]
+    },
+    "fetchedAt": "2026-10-10T06:02:36.012Z"
+  },
   "209221": {
     "anisearchId": 21316,
     "streams": [],
@@ -847081,6 +847282,40 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:56:16.944Z"
+  },
+  "210073": {
+    "anisearchId": 21360,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Golden Kamuy: Saishuushou - Bousou Resshahen",
+          "titleNative": "Golden Kamuy: Saishūshō - Bōsō Resshahen",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "season": "Winter 2026/27",
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/kamuy_anime"
+        },
+        {
+          "name": "Kamuy Anime",
+          "url": "https://kamuy-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "Golden Kamuy: Final Season - Part 2",
+        "Golden Kamuy: Runaway Train Arc",
+        "Golden Kamuy: Der Verrückte Zug"
+      ]
+    },
+    "fetchedAt": "2026-10-10T06:01:40.580Z"
   },
   "210157": {
     "anisearchId": 21419,

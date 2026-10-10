@@ -993,7 +993,7 @@
     "erste": 1
    }
   ],
-  "gemeldetAm": "2026-10-09"
+  "gemeldetAm": "2026-10-10"
  },
  "80997338": {
   "staffeln": [
@@ -2163,11 +2163,22 @@
    {
     "seq": 1,
     "name": "",
-    "folgen": 8,
+    "folgen": 15,
     "erste": 1
    }
   ],
-  "gemeldetAm": "2026-08-26"
+  "gemeldetAm": "2026-10-10"
+ },
+ "82746480": {
+  "staffeln": [
+   {
+    "seq": 1,
+    "name": "",
+    "folgen": 13,
+    "erste": 1
+   }
+  ],
+  "gemeldetAm": "2026-10-10"
  },
  "82757009": {
   "staffeln": [

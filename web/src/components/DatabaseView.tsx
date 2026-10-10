@@ -5,6 +5,7 @@ import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import { DbKopfbereich } from './filter/DbWerkzeug.tsx'
+import { zaehleMitSynchro } from './db-kopfzeile.tsx'
 import { DbLeer, DbRaster, MehrKnopf } from './db-bedienung.tsx'
 import type { FilterState } from '../lib/filters.ts'
 import { ordneListe } from '../lib/db-liste.ts'
@@ -92,12 +93,13 @@ export function DatabaseView({
     const base: TitleGroup[] = grouped ? groupByFranchise(titles) : titles.map((tt) => ({ main: tt, members: [tt] }))
     return ordneListe(base, sort, suche, data.releasesByTitle, today)
   }, [titles, grouped, sort, suche, data.releasesByTitle, today])
+  const mitSynchro = useMemo(() => zaehleMitSynchro(liste), [liste])
 
   return (
     <div className="flex flex-col gap-4">
       <DbKopfbereich
         meta={data.meta} filters={filters} onFiltersChange={onFiltersChange} favoriteCount={favorites.size}
-        titles={titles} ergebnisse={grouped ? liste.length : titles.length} gebuendelt={grouped} suche={suche}
+        ergebnisse={liste.length} mitSynchro={mitSynchro} suche={suche}
         sort={sort} onSortChange={onSortChange}
         ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt}
         grouped={grouped} onGroupedChange={onGroupedChange}

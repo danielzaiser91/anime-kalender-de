@@ -1,10 +1,10 @@
 import { type StreamLink, type Release, type Title } from '@shared/types.ts'
 import { joynAngabe } from '../../lib/joyn.ts'
 import { dubBild, bereicheGekuerzt, dubLuecken, dubGrenze, dubAbdeckung, bereicheKurz } from '@shared/dub-grenze.ts'
-import { releaseStatus, expandEvents, istErschienen } from '@shared/logic.ts'
+import { releaseStatus, expandEvents } from '@shared/logic.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
-import { deutschAbgeschlossen } from './antwort-regeln.ts'
+import { deutschAbgeschlossen, zaehleErschienen } from './antwort-regeln.ts'
 
 export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }: {
   releases: Release[]
@@ -71,13 +71,10 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
     */
     if (release?.tvLetzteSichtung && release.platform !== 'tv' && releaseStatus(release, today) === 'airing')
       return t('detail.neuAm', { d: formatDate(release.tvLetzteSichtung) })
-    if (release?.releaseType === 'weekly' && releaseStatus(release, today) === 'airing') {
-      const raus = expandEvents(release).filter((e) => istErschienen(e)).length
-      return raus ? t('detail.folgenKurz', { n: raus }) : ''
-    }
-    /* Mehrere Releases, eines davon als Wochenserie: gezählt wird, was bei diesem Anbieter schon da ist. */
-    if (anbieterReleases.length > 1 && anbieterReleases.some((r) => r.releaseType === 'weekly')) {
-      const raus = anbieterReleases.flatMap((r) => expandEvents(r)).filter((e) => istErschienen(e)).length
+    /* Wochenserie, oder mehrere Releases mit einer Wochenserie: gezählt wird, was bei diesem Anbieter schon da ist (Abwurf Folge 1–11 plus Wochentakt ab 12 ergibt 15). */
+    const wochenlauf = release?.releaseType === 'weekly' && releaseStatus(release, today) === 'airing'
+    if (wochenlauf || (anbieterReleases.length > 1 && anbieterReleases.some((r) => r.releaseType === 'weekly'))) {
+      const raus = zaehleErschienen(anbieterReleases.flatMap((r) => expandEvents(r)))
       return raus ? t('detail.folgenKurz', { n: raus }) : ''
     }
     /* Decken die Bereiche den Titel nicht ab, nennt die Pille sie selbst — „Fg. 1–75" statt

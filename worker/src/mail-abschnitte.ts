@@ -8,6 +8,8 @@
  * Die Reihenfolge der Rubriken und die Einordnung eines Termins stehen in `mail-sorten.ts` —
  * dort ohne HTML, damit man die Regeln lesen kann.
  */
+import { SPRACHE_HINWEIS, SPRACHE_MARKE } from '../../shared/ics.ts'
+import { omuStartText } from '../../shared/ankuendigung.ts'
 import type { NewsEintrag, NewsMeldung, ReleaseEvent } from '../../shared/types.ts'
 import { PLATFORMS, anbieterName } from '../../shared/types.ts'
 import { abzeichen } from './mail-sorten.ts'
@@ -65,7 +67,10 @@ export function badge(ev: ReleaseEvent): string {
   const frei = ev.kostenlos
     ? ' <span style="padding:1px 7px;border:1px solid #22c55e;border-radius:999px;color:#22c55e;font-size:11px;font-weight:600;">heute kostenlos</span>'
     : ''
-  return marke + frei
+  const sprache = ev.sprache
+    ? ` <span title="${escapeHtml(SPRACHE_HINWEIS[ev.sprache])}" style="padding:1px 7px;border:1px solid #9aa5bd;border-radius:999px;color:#9aa5bd;font-size:11px;font-weight:600;">${SPRACHE_MARKE[ev.sprache]}</span>`
+    : ''
+  return marke + frei + sprache
 }
 
 /** Eine Zeile für die eingeklappte Wiederholungsliste — Titel, Folge, Zeit, Sender. */
@@ -113,7 +118,7 @@ export function newsSatz(m: NewsMeldung): string {
         ? `Folgen ${m.von}–${m.bis} auf Deutsch bei ${anbieter}`
         : `Folge ${m.von} auf Deutsch bei ${anbieter}`
     case 'angekuendigt':
-      if (m.omu) return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''} mit Untertiteln, ${m.omu === 'synchro-angekuendigt' ? 'deutsche Synchro angekündigt' : 'keine deutsche Synchro angekündigt'}`
+      if (m.omu) return `Start ${omuStartText(m.datum ?? '')}${anbieter ? ` bei ${anbieter}` : ''} mit Untertiteln, ${m.omu === 'synchro-angekuendigt' ? 'deutsche Synchro angekündigt' : 'keine deutsche Synchro angekündigt'}`
       if (m.platform === 'tv' && m.datum) return `Im TV${m.anbieter ? ` bei ${m.anbieter}` : ''} am ${['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'][new Date(`${m.datum}T12:00:00Z`).getUTCDay()]}, den ${datum}`
       if (m.jahre && anbieter) return m.discSeitText ? `Nach ${m.jahre} Jahren endlich im Stream auf Deutsch: ab ${datum} bei ${anbieter}! (Auf Disc gibt es die Synchro seit ${m.discSeitText})` : `Nach ${m.jahre} Jahren endlich auf Deutsch: ab ${datum} mit Synchro bei ${anbieter}!`
       return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''}`

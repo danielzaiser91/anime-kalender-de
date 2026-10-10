@@ -8557,6 +8557,17 @@
       dub: true
   checkedAt: '2026-10-02'
   note: "Alle 12 Folgen mit deutscher Synchro (Daniel, 02.10.2026). Widerlegt den Gebiets-Beleg vom 26.08.; aniSearch und JustWatch sagten es schon vorher."
+- anilistId: 179813
+  title: "Rooster Fighter"
+  platform: netflix
+  url: https://www.netflix.com/title/82647303
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 12
+      dub: true
+  checkedAt: '2026-10-10'
+  note: "Alle 12 Folgen mit deutscher Synchro (Daniel, 10.10.2026)."
 - anilistId: 140960
   title: "Spy × Family"
   platform: disneyplus
@@ -21416,10 +21427,10 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 1
+      to: 2
       dub: true
-  checkedAt: '2026-10-07'
-  note: "Folge 1 auf Deutsch bei Disney+ — von Daniel am 07.10.2026 selbst gesehen."
+  checkedAt: '2026-10-10'
+  note: "Folge 1 auf Deutsch bei Disney+ (Daniel, 07.10.2026). Folge 2 erschienen mit deutscher Synchro (Daniel, 10.10.2026, geprüft ca. 15:40)"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-10-08 ---
 
 - anilistId: 196144
@@ -21505,3 +21516,104 @@
       checked: [7, 8]
   checkedAt: '2026-10-08'
   note: "Folgen 1–6 mit deutschem Ton, Folgen 7–8 ohne deutschen Ton — Tonspuren: ja — Widersprüchliche Meldungen zu Folge 7, 8"
+# --- Cartoons: Netflix-Stichprobe von Daniel, 10.10.2026 (ohne JustWatch-Tonangabe, TMDB-Kennung negativ) ---
+- anilistId: -224981
+  title: "Kitti Katz"
+  platform: netflix
+  url: https://www.netflix.com/title/81093076
+  dub: true
+  checkedAt: '2026-10-10'
+  note: "Daniel, 10.10.2026: alle 10 Folgen auf Deutsch bei Netflix. Cartoon aus TMDB (negative Kennung); JustWatch nennt für Netflix keine Tonspur."
+- anilistId: -92684
+  title: "Jack, der Monsterschreck"
+  platform: netflix
+  url: https://www.netflix.com/title/80219119
+  dub: true
+  checkedAt: '2026-10-10'
+  note: "Daniel, 10.10.2026: Netflix führt drei „Bücher“ (Buch 1: 1 Folge, Buch 2: 10, Buch 3: 10 — zusammen 21 Folgen), alle auf Deutsch. Cartoon aus TMDB (negative Kennung); JustWatch nennt für Netflix keine Tonspur."
+- anilistId: -61838
+  title: "Barbie - Leben im Traumhaus"
+  platform: netflix
+  url: https://www.netflix.com/title/70294800
+  dub: true
+  checkedAt: '2026-10-10'
+  note: "Daniel, 10.10.2026: Netflix führt 12 Folgen, alle auf Deutsch (unser Datensatz führt 110 Folgen; welche Nummern Netflix zeigt, ist nicht belegt). Cartoon aus TMDB (negative Kennung); JustWatch nennt für Netflix keine Tonspur."
+- anilistId: 154965
+  title: "My Love Story with Yamada-kun at Lv999"
+  platform: netflix
+  url: https://www.netflix.com/title/81685150
+  dub: true
+  checkedAt: '2026-10-10'
+  note: "Nicht auf der Netflix-Seite gemessen, sondern Meldung von Anime2You (Artikel 1056287, anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/): Netflix führt eine eigene deutsche Synchronfassung, die von der Disc-Fassung (AniMoon) abweicht. Meldung vom 01.10.2026, Starttermin nicht belegt, Abruf 10.10.2026. Löst den Netflix-Befund vom 22.08.2026 (ohne deutschen Ton) ab."
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-10 ---
+
+- anilistId: 196144
+  title: "Snowball Earth"
+  platform: netflix
+  url: https://www.netflix.com/title/82746480
+  dub: false
+  checkedAt: '2026-10-10'
+  note: "Folgen 1–13 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], es|Spanisch (Lateinamerika), en|Englisch, pt-BR|Portugiesisch (Brasilien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 8: Einkaufszentrum Mishima aktiviert"
+- anilistId: 212799
+  title: "Die sieben Ritter des Königreichs der Marronniers"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0HG69RT1Y
+  dub: true
+  checkedAt: '2026-10-10'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), Türkçe, हिन्दी, ไทย, 日本語, 日本語 [音声による説明] — Amazon-Seite B0HG69RT1Y: alle 2 Folgen geprüft, Abos: Prime, FVOD — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.82c84934-b1f4-4ef5-b753-c4358fc076e6"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-10 ---
+
+- anilistId: 195600
+  title: "Das Band der Unterwelt"
+  platform: netflix
+  url: https://www.netflix.com/title/82719204
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 15
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  checkedAt: '2026-10-10'
+  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), ta|Tamil, te|Telugu, th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 15, dazwischen nicht geprüft — Folge 8: Verdacht und Überzeugung"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-10 ---
+
+- anilistId: 195600
+  title: "Das Band der Unterwelt"
+  platform: netflix
+  url: https://www.netflix.com/title/82719204
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 15
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  checkedAt: '2026-10-10'
+  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), ta|Tamil, te|Telugu, th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 15, dazwischen nicht geprüft — Folge 15: Yuru und Danji"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-10 ---
+
+- anilistId: 195600
+  title: "Das Band der Unterwelt"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/browse/entity-8cc06990-0faf-4a7e-ac1f-fb74cb4b9286
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 15
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  checkedAt: '2026-10-10'
+  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de, ja"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-10 ---
+
+- anilistId: 195600
+  title: "Das Band der Unterwelt"
+  platform: netflix
+  url: https://www.netflix.com/title/82719204
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  checkedAt: '2026-10-10'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), ta|Tamil, te|Telugu, th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Tenaga und Ashinaga"

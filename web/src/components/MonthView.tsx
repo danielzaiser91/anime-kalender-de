@@ -12,7 +12,8 @@ import { Schwebe } from './kalender/Schwebe.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { FernsehZeichen } from './kalender/Zeichen.tsx'
 import { TREFFER_24_HOCH } from './detail/tippziel.ts'
-import { anbieterUndFolge, ZeitMarke } from './kalender/Marken.tsx'
+import { anbieterUndFolge, SpracheMarke, ZeitMarke } from './kalender/Marken.tsx'
+import { PremiereMarke } from './kalender/PremiereMarke.tsx'
 
 export interface MonatProps {
   data: Dataset
@@ -294,12 +295,13 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
       </span>
       <span className="flex min-w-0 flex-col items-start gap-1">
         <span className="flex flex-wrap items-center gap-1.5">
-          <ZeitMarke event={ev} t={t} />
+          <ZeitMarke event={ev} t={t} /><SpracheMarke event={ev} t={t} />
           {a && (
             <span className={`rounded-full px-1.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14] ${a === 'start' ? 'bg-ak-akzent' : 'bg-ak-finale'}`}>
               {t(a === 'start' ? 'kal.start' : 'kal.finale')}
             </span>
           )}
+          {ev.premiere && <PremiereMarke platform={ev.platform} vorher={ev.premiereVorher} className="px-1.5" />}
         </span>
         <span className="line-clamp-2 text-[13px] font-bold leading-snug text-ak-text">{ev.name}</span>
         <span className="text-xs text-ak-leise">{anbieterUndFolge(ev, t, p.folgenBis?.get(ev.id))}</span>

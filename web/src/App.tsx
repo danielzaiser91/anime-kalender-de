@@ -72,8 +72,8 @@ export default function App() {
 function AppKern() {
   const { t } = useLang()
   const [allTitles, setAllTitles] = useState<Title[]>()
-  // Vorgabe aus: Wer die Datenbank öffnet, sucht meist einen bestimmten Titel.
-  const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') === '1')
+  // Vorgabe an: Reihen als eine Kachel; nur ein gespeichertes '0' schaltet es aus.
+  const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') !== '0')
   /*
     Titel ohne deutsche Synchro mitzeigen — bewusst **nicht** gespeichert: Sie sind ein Werkzeug zum
     Merken, kein Teil der Antwort der Seite.

@@ -29,3 +29,25 @@ globalThis.akPruefstand = (() => {
 /* Ohne Prüfstand-Zeit bleibt es beim alten, großzügigeren Maßstab des Eintrags. */
 globalThis.akGemeldetSeit = async (eintragSeit) =>
   (await globalThis.akPruefstand())?.pruefstandAm ?? eintragSeit ?? null
+
+/*
+  **Hat die Plattform mehr Folgen, als der Datensatz kennt?** (4.24.21, 10.10.2026)
+
+  `bekannt` aus `?stand=1` ist je Kennung die höchste Folge, die der Datensatz belegt
+  (`tools/pruefstand.mjs`); fehlt sie, ist nichts zu vergleichen. Ein Titel mit Folgen dahinter gilt
+  nicht als beantwortet — die Erweiterung meldet dann alles erneut (Daniel: „lieber alles erneut
+  melden als nur die neuen Folgen"), bestätigt also die alten Folgen und ergänzt die neuen.
+*/
+globalThis.akBekannt = (stand, plattform, kennung) => {
+  const n = (stand?.anbieter ?? []).find((a) => a.plattform === plattform)?.bekannt?.[kennung]
+  return Number.isFinite(n) && n > 0 ? n : null
+}
+
+/** Von den noch nicht gemeldeten Folgennummern die hinter `bekannt`: `{ von, bis }` oder `null`. */
+globalThis.akNeueFolgen = (bekannt, offeneNummern) => {
+  const neu = bekannt > 0 ? offeneNummern.filter((n) => n > bekannt) : []
+  return neu.length ? { von: Math.min(...neu), bis: Math.max(...neu) } : null
+}
+
+/** „Neue Folgen 12–15 · prüfen und melden“ bzw. „Neue Folge 16 · …“ — ein Text für Netflix und Disney+. */
+globalThis.akNeueText = ({ von, bis }) => `${von === bis ? `Neue Folge ${von}` : `Neue Folgen ${von}–${bis}`} · prüfen und melden`

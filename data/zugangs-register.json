@@ -53,6 +53,11 @@
       "fristStunden": null,
       "name": "Claude — Auftrag abarbeiten (von Hand)",
       "claude": true
+    },
+    "pr-pruefer.yml": {
+      "fristStunden": null,
+      "name": "Claude — Pull Request prüfen (startet je PR)",
+      "claude": true
     }
   },
   "zugaenge": [
@@ -64,7 +69,8 @@
         "claude-auftrag.yml",
         "claude-daten-merge.yml",
         "claude-reparatur.yml",
-        "claude-verpasst-recherche.yml"
+        "claude-verpasst-recherche.yml",
+        "pr-pruefer.yml"
       ],
       "gueltig": {
         "text": "Laufzeit des Tokens im Repo nicht belegt; das Kontingent des Abos begrenzt die Nutzung",
@@ -345,6 +351,7 @@
         "claude-verpasst-recherche.yml",
         "delta-wache.yml",
         "fund-nachliefern.yml",
+        "pr-pruefer.yml",
         "wecker-wache.yml"
       ],
       "gueltig": {

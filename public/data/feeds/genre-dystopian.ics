@@ -6,76 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Dystopian
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T162500Z
-DTEND:20261001T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-16498-primevideo@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261001
-DTEND;VALUE=DATE:20261002
-SUMMARY:Attack on Titan
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/6282/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-02#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T162500Z
-DTEND:20261002T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-02#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T165000Z
-DTEND:20261002T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-10-02#19@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T203500Z
-DTEND:20261002T210500Z
-SUMMARY:Gachiakuta – Folge 19/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-10-02#20@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T210500Z
-DTEND:20261002T213500Z
-SUMMARY:Gachiakuta – Folge 20/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178025-tv-prosieben-maxx@2026-10-02#21@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T213500Z
-DTEND:20261002T220500Z
-SUMMARY:Gachiakuta – Folge 21/24
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261004
@@ -291,6 +221,26 @@ UID:auto-21-tv-prosieben-maxx@2026-10-15#30@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T165000Z
 DTEND:20261015T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-16#31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T162500Z
+DTEND:20261016T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-16#32@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T165000Z
+DTEND:20261016T172000Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/

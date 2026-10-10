@@ -36,7 +36,7 @@ import { nachgereichteFolgen } from './bau/verpasst-am-termin.ts'
 import { mitArtikeldaten, textHash } from './lib/beleg-lesung.ts'
 import { faelligeLaeufe, startErlaubt } from '../shared/weckplan.ts'
 import type { NewsEintrag } from '../shared/types.ts'
-import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
+import { hauptstaffeln, reihenAnfang, staffelBeschriftungen, staffelStaende } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
@@ -107,7 +107,7 @@ import { sucheZweistufig } from '../web/src/lib/search.ts'
 import { coverBild } from '../web/src/lib/cover.ts'
 import { digestMail } from '../worker/src/templates.ts'
 import { LAUF_ABFRAGEN, LAUF_ARTEN, SQL_EINE_ART } from '../worker/src/lauf-sql.ts'
-import { geteilteWegeTrotzWiderlegung, pruefeErgebnis } from './lib/pruefung.ts'
+import { geteilteWegeTrotzWiderlegung, pruefeErgebnis, releasesAusNurOriginalton } from './lib/pruefung.ts'
 import { anisearchUmgezogen, dubNurHinterToggle, ergaenzeAnisearchTitel } from './bau/anisearch-titel.ts'
 import { MAL_AUSNAHMEN, malDubletten } from './lib/mal-dubletten.ts'
 import { pruefeKalenderKonsistenz } from './lib/kalender-konsistenz.ts'
@@ -156,7 +156,7 @@ import {
   type FundstelleArt,
 } from '../web/src/lib/search.ts'
 import { verweiseFuer } from '../web/src/components/detail/verweise.ts'
-import { ergebnisText, zaehlTeile } from '../web/src/components/db-kopfzeile.tsx'
+import { ergebnisText, zaehleMitSynchro } from '../web/src/components/db-kopfzeile.tsx'
 import { activeFilterCount, EMPTY_FILTERS, reihenKopf, type FilterState } from '../web/src/lib/filters.ts'
 import { buildHash, titelAusPfad } from '../web/src/lib/router.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
@@ -169,8 +169,9 @@ import { englischAusSynonymen } from './lib/anisearch-titel.ts'
 import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
-import { ALTE_AUTO_KENNUNG, istAbschied, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
-import { leseSammelartikel, vorschlaegeAusSammelartikel, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
+import { ALTE_AUTO_KENNUNG, istAbschied, nurOriginaltonMeldungen, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
+import { findDates } from './lib/feed.ts'
+import { leseSammelartikel, vorschlaegeAusSammelartikel, zaehleSammelVerwurf, sammelFaellig, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
 import { erschieneneFolgen, deutscheFolgen } from './bau/folgen-dateien.ts'
@@ -4232,7 +4233,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
  * falscher Sprachzusage ist schlimmer als kein Termin.
  */
 {
-  const { dubBefund } = await import('./scrape-anime2you.ts')
+  const { dubBefund } = await import('./lib/sprachbefund.ts')
   pruefe(
     'eine Frage über die Synchro gilt als offen, nicht als Zusage',
     dubBefund('Ob auch eine deutsche Synchronisation angeboten wird, ist zum aktuellen Zeitpunkt noch offen.') ===
@@ -4255,6 +4256,76 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
     'ohne jeden Synchro-Bezug bleibt es unklar',
     dubBefund('Die Serie startet am 26. November 2026 auf Netflix.') === 'unklar',
     'das ist die Mehrheit der Artikel, und „unklar" ist dort die ehrliche Antwort',
+  )
+}
+
+/**
+ * **Nur Originalton ist kein deutscher Termin** (10.10.2026, „Dragon Ball Super: Beerus"). Anime2You
+ * schrieb „bei Crunchyroll und ADN im Originalton mit Untertiteln"; der Vorschlag hieß „unklar", und
+ * der Bau machte daraus einen Synchro-Start am 11.10. mit dem Artikel als Beleg.
+ */
+{
+  const { dubBefund, spracheDerMeldung } = await import('./lib/sprachbefund.ts')
+  const beerus = '»Dragon Ball Super: Beerus« startet am 11. Oktober 2026 im japanischen Fernsehen sowie am selben Tag bei Crunchyroll und ADN im Originalton mit Untertiteln. Bei Netflix geht es am 18. Oktober 2026 los.'
+  pruefe('Sprache: „im Originalton mit Untertiteln" ohne deutsche Fassung heißt nein', dubBefund(beerus) === 'nein')
+  pruefe('Sprache: eine Zusage im selben Artikel schlägt den Originalton', dubBefund('Crunchyroll zeigt die Serie im Originalton mit Untertiteln. Die deutsche Synchronfassung folgt am 25. Oktober.') === 'ja')
+  pruefe('Sprache: offene Sprachfassung plus Originalton heißt nein — der Tag ist ein OmU-Tag', dubBefund('Die Sprachfassungen sind noch offen. Crunchyroll zeigt sie im Originalton mit Untertiteln.') === 'nein')
+  pruefe('Sprache: „Japanisch (UT)" aus einem Sammelartikel heißt nein', dubBefund('Simulcast: Jeden Sonntag\nSprache: Japanisch (UT)') === 'nein')
+  pruefe('Sprache: ein Satz mit Deutsch und Originalton ist eine Zusage', dubBefund('Der Film läuft auf Deutsch und im Originalton mit Untertiteln.') === 'ja')
+  pruefe('Sprache: „deutscher Sprachfassung sowie im Original mit Untertiteln" (Marronniers) bleibt ja', dubBefund('Die Serie erscheint in deutscher Sprachfassung sowie im Original mit Untertiteln.') === 'ja')
+  /* Prüfer-Befund PR 649: Formen, die `DUB_CONFIRMED` nicht kennt, dürfen neben „Originalton mit Untertiteln" kein Nein ergeben. */
+  for (const form of ['mit deutscher Tonspur', 'mit deutscher Sprachausgabe', 'als deutsches Dub', 'mit deutschem Ton', 'deutsch synchronisiert', 'deutsch vertont', 'als Simuldub', 'mit Synchro']) {
+    const befund = dubBefund(`Crunchyroll zeigt die Serie ab dem 11. Oktober im Originalton mit Untertiteln. Später kommt sie ${form}.`)
+    pruefe(`Sprache: „${form}" neben Originalton ist kein Nein (${befund})`, befund !== 'nein')
+  }
+  pruefe('Sprache: „Vertonung" der japanischen Neufassung ist kein Deutsch-Bezug', dubBefund('Die Saga erscheint mit einer neuen Vertonung, bei Crunchyroll im Originalton mit Untertiteln.') === 'nein')
+  const gespeichert = {
+    articleTitle: 'Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast',
+    dub: 'unklar',
+    dates: [{ context: 'Ab 11. Oktober 2026 »Dragon Ball Super: Beerus« startet am 11. Oktober 20' }, { context: 'hyroll und ADN im Originalton mit Untertiteln. Bei Netflix geht es am 18. Oktober 2026 […]' }],
+  }
+  pruefe('Sprache: ein gespeicherter Vorschlag („unklar") wird an seinen Fundstellen nachgewertet', spracheDerMeldung(gespeichert) === 'nein')
+  pruefe('Sprache: eine gespeicherte Zusage bleibt Zusage', spracheDerMeldung({ ...gespeichert, dub: 'zugesagt' }) === 'ja')
+
+  const titel = [{ id: 206814, titleEn: 'Dragon Ball Super: Beerus', format: 'TV' }] as unknown as Parameters<typeof releasesAus>[1]
+  const v = (url: string, dub: string, kontext: string, category = 'streaming', platforms = ['crunchyroll']) =>
+    ({ articleTitle: 'Termin von »Dragon Ball Super: Beerus«', articleUrl: url, category, platforms, titleId: 206814, dub, dates: [{ iso: '2026-10-11', context: kontext }] }) as unknown as Parameters<typeof releasesAus>[0][number]
+  const omu = { ...v('https://www.anime2you.de/news/1056092/x/', 'unklar', 'x'), articleTitle: gespeichert.articleTitle, dates: [{ iso: '2026-10-11', context: gespeichert.dates[1]!.context }] }
+  pruefe('Auto-Termin: aus einer Meldung mit nur Originalton entsteht kein Release', releasesAus([omu], titel, [], '2026-10-08').length === 0)
+  pruefe('Auto-Termin: die Meldung zählt als „nur Originalton" (Protokoll, Rückzugsgrund)', nurOriginaltonMeldungen([omu]).length === 1)
+  const still = releasesAus([v('https://a/1', 'unklar', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
+  pruefe('Auto-Termin: nennt die Meldung keine Sprache, sagt die Notiz das', /sagt sie nicht/.test(still?.note ?? ''), still?.note)
+  /* **Kennzeichnung bis in die Karte** (10.10.2026): Ein Termin ohne Sprachzusage trägt `sprache`, das Event erbt es, und er belegt keine Synchro. */
+  pruefe('Auto-Termin: ohne Sprachzusage ist der Termin gekennzeichnet (sprache: offen), das Event erbt es', still?.sprache === 'offen' && expandEvents(still!).every((e) => e.sprache === 'offen'), still?.sprache)
+  {
+    const { ohneBelegteSynchro } = await import('./bau/synchro-belegt.ts')
+    const { autoReleaseWidersprueche } = await import('./lib/auto-release-pruefung.ts')
+    const t = { id: 206814, dubConfidence: 'low', jpYear: 2026, streams: [] } as unknown as Title
+    const r = (sprache?: 'omu' | 'offen') => ({ slug: 'x', titleId: 206814, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-11' }, sources: ['https://a/1'], ...(sprache ? { sprache } : {}) }) as unknown as Release
+    pruefe('Beleg-Kette: ein OmU-/Sprache-offen-Termin macht den Titel nicht „belegt" (Reihenliste, ✕ DE)', ohneBelegteSynchro(t, [r('omu')]) && !ohneBelegteSynchro(t, [r()]))
+    const meldung = (dub: string, articleTitle: string) => ({ articleTitle, articleUrl: 'https://a/1', dub, dates: [{ iso: '2026-10-11', context: 'x' }] }) as unknown as Parameters<typeof releasesAus>[0][number]
+    const auto = (extra: object) => [{ ...r(), automatisch: true, ...extra }] as unknown as Release[]
+    pruefe('Bau-Prüfung: automatischer Termin ohne Sprachzusage und ohne Kennzeichnung ist ein Widerspruch', autoReleaseWidersprueche(auto({}), [meldung('unklar', 'Start')]).length === 1 && autoReleaseWidersprueche(auto({ sprache: 'offen' }), [meldung('unklar', 'Start')]).length === 0)
+    pruefe('Bau-Prüfung: „alle Folgen" (batch) aus einer Simulcast-Meldung ist ein Widerspruch', autoReleaseWidersprueche(auto({ releaseType: 'batch' }), [meldung('ja', '»X« im Simulcast')]).length === 1 && autoReleaseWidersprueche(auto({}), [meldung('ja', '»X« im Simulcast')]).length === 0)
+  }
+  const offen = releasesAus([v('https://a/1', 'offen', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
+  pruefe('Auto-Termin: lässt die Meldung die Synchro offen, sagt die Notiz das', /noch offen/.test(offen?.note ?? ''), offen?.note)
+  const zugesagt = releasesAus([v('https://a/1', 'ja', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
+  pruefe('Auto-Termin: mit Sprachzusage keine Notiz', zugesagt !== undefined && zugesagt.note === undefined, zugesagt?.note)
+  const disc = releasesAus([v('https://a/1', 'unklar', 'erscheint am 11. Oktober 2026 auf Blu-ray', 'disc', ['disc'])], [{ ...titel[0]!, format: 'MOVIE' }], [], '2026-10-08')[0]
+  pruefe('Auto-Termin: eine Disc (auch eines Films) ohne Sprachangabe bekommt keine Notiz', disc !== undefined && disc.note === undefined, disc?.note)
+  const zwei = releasesAus([v('https://a/still', 'unklar', 'ab dem 11. Oktober 2026'), v('https://a/zusage', 'zugesagt', 'ab dem 11. Oktober 2026')], titel, [], '2026-10-08')
+  pruefe('Auto-Termin: melden zwei Artikel denselben Termin, belegt ihn der mit Sprachzusage', zwei.length === 1 && zwei[0]!.sources[0] === 'https://a/zusage', zwei.map((r) => r.sources))
+
+  const T = (id: number) => ({ id, franchiseId: id, titleDe: `T${id}` }) as unknown as Title
+  const alt: TerminVerlauf = { datum: '2026-10-11', art: 'angekuendigt', titelId: 1, name: 'T1', wurzel: 1, platform: 'crunchyroll', quelle: 'https://www.anime2you.de/news/1056092/x/', am: '2026-10-08' }
+  const verlauf = (nurOriginalton: Set<string>) =>
+    pflegeTerminverlauf({ datiert: [], nachId: new Map([[1, T(1)]]), historie: { termine: { r: [alt] }, vergangen: {} }, vorherige: [], name: (t) => t.titleDe ?? String(t.id), wurzel: (t) => t.id, grenze: '2026-09-01', heute: '2026-10-10', nurOriginalton })[0]
+  pruefe('News: eine Ankündigung aus einer Originalton-Meldung wird mit diesem Grund zurückgezogen', /nur Originalton/.test(verlauf(new Set([alt.quelle!]))?.zurueckgezogen?.grund ?? ''), verlauf(new Set([alt.quelle!]))?.zurueckgezogen)
+  pruefe('News: sonst bleibt der allgemeine Grund', verlauf(new Set())?.zurueckgezogen?.grund === 'Der Termin wurde zurückgezogen.')
+  pruefe(
+    'Bau: ein automatischer Termin mit Originalton-Beleg ist ein Widerspruch, ein Handeintrag nicht',
+    releasesAusNurOriginalton([{ slug: 'auto', automatisch: true, sources: ['https://u/'] }, { slug: 'hand', sources: ['https://u/'] }] as unknown as Release[], new Set(['https://u/'])).length === 1,
   )
 }
 
@@ -5539,6 +5610,15 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('eine Staffel in anderer Sprache behält ihre Nummer', frieren.get(3) === 'Staffel 3' && frieren.get(2) === 'Staffel 2')
   const blue = staffelBeschriftungen([m(1, 'Bluelock', '2022'), m(2, 'Blue Lock: Staffel 2', '2024')], 'Bluelock')
   pruefe('„Blue Lock: Staffel 2" gehört zu „Bluelock"', blue.get(2) === 'Staffel 2')
+  /* Staffelnummer auch bei benannten Staffeln (Tokyo Revengers, 09.10.2026); eine einzige Staffel bleibt ohne. */
+  const tr = staffelStaende(
+    [m(1, 'Tokyo Revengers', '2021'), m(2, 'Tokyo Revengers: Christmas Showdown', '2023'), m(3, 'Tokyo Revengers: Tenjiku Arc', '2023-10'), m(4, 'Tokyo Revengers: War of the Three Titans', '2026')],
+    'Tokyo Revengers',
+  )
+  pruefe('benannte Staffeln tragen „Staffel N von M"', tr.get(1)?.staffel === 1 && tr.get(4)?.staffel === 4 && tr.get(4)?.von === 4 && tr.get(4)?.eigenerName === true)
+  pruefe('eine einzige Staffel hat keine Nummer', staffelStaende([m(1, 'One Piece', '1999')], 'One Piece').size === 0)
+  const pokeNr = staffelStaende([m(1, 'Pokémon', '1997'), m(2, 'Pokémon: Schwarz & Weiß Staffel 2', '2012')], 'Pokémon')
+  pruefe('„Schwarz & Weiß Staffel 2" ist die zweite Staffel mit eigenem Namen, nicht „Pokémon Staffel 2"', pokeNr.get(2)?.eigenerName === true)
 }
 /* Cartoons: ähnliche Titel am Mittel beider Listen, ein gemeinsames Schlagwort ist Pflicht (16.09.2026). */
 {
@@ -5874,6 +5954,23 @@ pruefe(
   )
   const bau = bauQuelltext()
   pruefe('… und build.ts setzt sie in keinem Feed', !/buildIcs\([^)]*erinnerung/.test(bau))
+}
+{
+  /* Kennzeichnung ohne belegte Synchro in ICS und Newsletter (10.10.2026); UID bleibt, Termine mit Synchro unverändert. */
+  const ev = { id: 'x', name: 'Test', date: '2026-10-01', time: '18:00', platform: 'netflix', releaseType: 'weekly', episode: 3, releaseSlug: 'x' } as unknown as ReleaseEvent
+  const roh = buildIcs([ev])
+  const omu = buildIcs([{ ...ev, sprache: 'omu' }])
+  const offen = buildIcs([{ ...ev, sprache: 'offen' }])
+  pruefe(
+    'ICS kennzeichnet OmU und „Synchro offen“ im Titel und in der Beschreibung, ohne die UID zu ändern',
+    omu.includes('SUMMARY:Test – Folge 3 (OmU)') && offen.includes('SUMMARY:Test – Folge 3 (Synchro offen)') &&
+      omu.includes('keine deutsche Synchro') && !roh.includes('OmU') && !roh.includes('Synchro offen') &&
+      roh.match(/UID:.*/)![0] === omu.match(/UID:.*/)![0],
+  )
+  pruefe(
+    'der Newsletter trägt dieselbe Marke',
+    badge({ ...ev, sprache: 'omu' } as ReleaseEvent).includes('>OmU<') && badge({ ...ev, sprache: 'offen' } as ReleaseEvent).includes('>Synchro offen<') && !badge(ev).includes('OmU'),
+  )
 }
 {
   /* RSS der Nachrichtenseite (18.09.2026): derselbe Satz wie auf der Seite, sauber maskiert. */
@@ -6444,16 +6541,13 @@ pruefe(
     `${activeFilterCount({ ...EMPTY_FILTERS, search: 'wolf' })}`,
   )
   pruefe(
-    'die Trefferzeile nennt den Suchbegriff und die Bündelung',
-    ergebnisText(0, false, 'link-click', translate) === '0 Ergebnisse für „link-click"' &&
-      ergebnisText(2300, true, '  ', translate) === '2.300 Ergebnisse (gebündelt)' &&
-      ergebnisText(1, false, '', translate) === '1 Ergebnis',
-    ergebnisText(2300, true, 'x', translate),
+    'die Trefferzeile nennt den Suchbegriff, ohne Bündelung',
+    ergebnisText(0, 'link-click', translate) === '0 Ergebnisse für „link-click"' && ergebnisText(2300, '  ', translate) === '2.300 Ergebnisse' && ergebnisText(1, '', translate) === '1 Ergebnis',
+    ergebnisText(2300, 'x', translate),
   )
-  pruefe(
-    'die Zählung trennt Anime und Cartoons, mit und ohne Synchro (Daniel, 04.10.2026)',
-    JSON.stringify(zaehlTeile([{ westlich: false }, { westlich: true }, { westlich: true }, { ohneSynchro: true }, { ohneSynchro: true, westlich: true }] as unknown as Title[])) === JSON.stringify({ anime: 1, cartoons: 2, ohneAnime: 1, ohneCartoons: 1 }),
-  )
+  /* Eine Kachel zählt „mit 🇩🇪", sobald ein Glied belegte Synchro hat — wie ihr Band (Trefferzeile, 09.10.2026). */
+  const kachel = (...ohne: boolean[]) => ({ members: ohne.map((o) => ({ ohneSynchro: o })) }) as unknown as { members: Title[] }
+  pruefe('die Trefferzeile zählt Kacheln mit mindestens einem synchronisierten Glied', zaehleMitSynchro([kachel(false, true), kachel(true, true), kachel(false), kachel(true)]) === 2)
   /*
     **Alle Suchwörter werden hervorgehoben, und ohne Innenabstand** (Daniel, 29.09.2026 mit Bild:
     „exiled knight wird hervorgehoben, knight nicht … es sollen alle teile hervorgehoben werden" und
@@ -6998,6 +7092,7 @@ pruefe(
     wurzel: (t) => t.franchiseId ?? t.id,
     grenze: '2026-09-01',
     heute: '2026-10-02',
+    nurOriginalton: new Set(),
   })
   pruefe('Verlauf: eine abgelöste Schätzung bleibt als Schätzung erkennbar', raus.length === 1 && raus[0]!.geschaetzt === true, raus[0])
   pruefe('Verlauf: sie steht als abgelöst (kein Nachfolger) da', raus[0]?.zurueckgezogen !== undefined, raus[0]?.zurueckgezogen)
@@ -7800,6 +7895,24 @@ pruefe(
   pruefe('Sammelartikel: Simulcast ohne bekannte Folgenzahl bleibt ein Termin, mit ihr ≈',
     zeitplanAusVorschlag({ woechentlich: true }, 'batch', '2026-10-01', {}).schedule.episodeCount === undefined &&
       zeitplanAusVorschlag({ woechentlich: true }, 'batch', '2026-10-01', { episodes: 12 }).schedule.episodeCountAssumed === true)
+  /* **Eine Einzelmeldung ohne Folgenzahl ist ein Wochenstart** (10.10.2026, Beerus: „im Simulcast … Neue Folgen erscheinen
+     wöchentlich" stand als „Alle Folgen im Angebot morgen"). Komplett nur mit Komplett-Angabe oder bei einem älteren Werk. */
+  const einzel = (articleTitle: string, context = '') => ({ articleTitle, dates: [{ iso: '2026-10-11', context }] })
+  pruefe('Einzelmeldung: „Simulcast" ohne Folgenzahl wird wöchentlich, nicht „alle Folgen"',
+    zeitplanAusVorschlag(einzel('Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast'), 'batch', '2026-10-11', { jpYear: 2026 }).releaseType === 'weekly')
+  pruefe('Einzelmeldung: „neue Folgen erscheinen wöchentlich" wird wöchentlich, auch bei einem älteren Werk',
+    zeitplanAusVorschlag(einzel('»X« startet bei Netflix', 'Neue Folgen erscheinen wöchentlich'), 'batch', '2026-10-11', { jpYear: 2024 }).releaseType === 'weekly')
+  pruefe('Einzelmeldung: „alle Folgen auf einmal" bleibt komplett',
+    zeitplanAusVorschlag(einzel('»X« bei Netflix', 'Alle 12 Folgen stehen auf einmal bereit'), 'batch', '2026-10-11', { jpYear: 2026 }).releaseType === 'batch')
+  pruefe('Einzelmeldung ohne Taktangabe: eine neue TV-Serie startet wöchentlich, ein älteres Werk kommt komplett (Dangers in My Heart 2)',
+    zeitplanAusVorschlag(einzel('»X«: Crunchyroll nennt Termin'), 'batch', '2026-11-26', { jpYear: 2026, format: 'TV' }, 'crunchyroll').releaseType === 'weekly' &&
+      zeitplanAusVorschlag(einzel('»The Dangers in My Heart« Staffel 2 auf Netflix'), 'batch', '2026-08-20', { jpYear: 2024 }).releaseType === 'batch')
+  pruefe('Einzelmeldung ohne Taktangabe: eine Netflix-ONA kommt komplett (Fool Night, 26.11.2026), eine TV-Serie bei Netflix wöchentlich',
+    zeitplanAusVorschlag(einzel('»Fool Night«: Netflix nennt Termin'), 'batch', '2026-11-26', { jpYear: 2026, format: 'ONA' }, 'netflix').releaseType === 'batch' &&
+      zeitplanAusVorschlag(einzel('»X« bei Netflix'), 'batch', '2026-10-18', { jpYear: 2026, format: 'TV' }, 'netflix').releaseType === 'weekly')
+  pruefe('Sammelartikel: ein Eintrag ohne „Simulcast"-Zeile bleibt komplett (ausdrücklich nicht wöchentlich)',
+    vorschlaegeAusSammelartikel({ url: 'https://x', publishedAt: '2026-09-23' }, sammel, 'netflix').every((v) => typeof v.woechentlich === 'boolean') &&
+      zeitplanAusVorschlag({ woechentlich: false, articleTitle: '»X«', dates: [] }, 'batch', '2026-10-11', { jpYear: 2026 }).releaseType === 'batch')
 
   /* aniSearchs Erstausgabe: ein späterer eigener Termin verdrängt sie nicht, derselbe schon. */
   pruefe('Erstausgabe: Rooster Fighter (Disney+ 15.03.–31.05.) bleibt neben dem Netflix-Start am 10.10.',
@@ -8004,7 +8117,17 @@ console.log('\nOmU-Meldung:')
   const titel = { id: 7, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10-11', synchro: 'offen', quellen: ['https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/x'], stand: '2026-09-15' } } as never
   const monat = { id: 8, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10', synchro: 'offen', quellen: ['https://x'], stand: '2026-09-15' } } as never
   const m = omuMeldungen([titel, monat], [])
-  pruefe('OmU: ein Start mit Tag wird Meldung am Tag der Quelle, mit Beleg und Kennzeichen „Synchro offen"', m.length === 1 && m[0]!.fallback === '2026-09-15' && m[0]!.datum === '2026-10-11' && m[0]!.belege?.length === 1 && m[0]!.omu === 'synchro-offen', m)
+  pruefe('OmU: ein Start mit Tag wird Meldung am Tag der Quelle, mit Beleg und Kennzeichen „Synchro offen"', m.length === 2 && m[0]!.fallback === '2026-09-15' && m[0]!.datum === '2026-10-11' && m[0]!.belege?.length === 1 && m[0]!.omu === 'synchro-offen', m)
+  /* PSYREN (10.10.2026): Die Quelle nennt nur „Oktober" — „Synchro angekündigt" hat trotzdem seinen Beleg und seinen Tag. */
+  const { omuStartText, omuLetzterTag, streamNurOmu } = await import('../shared/ankuendigung.ts')
+  pruefe('OmU: nennt die Quelle nur den Monat, wird es eine Meldung am Tag der Quelle mit dem Monat', m[1]!.datum === '2026-10' && m[1]!.fallback === '2026-09-15' && m[1]!.belege?.length === 1, m[1])
+  pruefe('OmU: „am 11.10.2026" mit Tag, „im Oktober 2026" mit Monat; der Monat bevorsteht bis zu seinem Ende', omuStartText('2026-10-11') === 'am 11.10.2026' && omuStartText('2026-10') === 'im Oktober 2026' && omuLetzterTag('2026-10') === '2026-10-31' && omuLetzterTag('2026-10-11') === '2026-10-11')
+  /* Die Pille beim Anbieter des Simulcasts sagt „OmU", solange dort keine deutsche Fassung belegt ist. */
+  const crOhne = { platform: 'crunchyroll', url: 'https://x' } as never
+  const crDub = { platform: 'crunchyroll', url: 'https://x', dub: true } as never
+  const prime = { platform: 'primevideo', url: 'https://y' } as never
+  pruefe('Pille: Anbieter des Simulcasts ohne belegte Synchro = OmU', streamNurOmu(monat, crOhne))
+  pruefe('Pille: belegte Synchro, anderer Anbieter oder kein Simulcast = keine OmU-Marke', !streamNurOmu(monat, crDub) && !streamNurOmu(monat, prime) && !streamNurOmu({ id: 1 } as never, crOhne))
   const rel = { titleId: 7, platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-10-11' } } as never
   pruefe('OmU: gibt es ein Release desselben Anbieters, entfällt die Meldung', omuMeldungen([titel], [rel]).length === 0)
   /* Der Bau legt `ankuendigung` erst beim Schreiben an den Titel — die Meldung muss sie selbst nachschlagen (Beerus, 04.10.2026). */
@@ -8257,6 +8380,37 @@ console.log('\nSammelartikel „Ab sofort":')
   pruefe('Ab sofort: „Ab 3. November" behält sein Datum', e.find((x) => /Honey/.test(x.titel))?.datum === '2026-11-03')
   pruefe('Disney+-Überschrift „ergänzt zwei weitere Anime-Titel" wird als Sammelartikel gelesen', ANBIETER_SAMMELARTIKEL.test('Disney+ ergänzt zwei weitere Anime-Titel auf Deutsch'))
 }
+console.log('\nDatum ohne Jahr in Disc-Tabellen („15.01.“, Anime2You 08.10.2026):')
+{
+  const d = findDates('Heaven’s Feel Box 18.12. Dr. STONE 15.01. Film 15.01.2027 um 18.30 Uhr', '2026-10-08', true)
+  pruefe('Ohne Jahr: steht dasselbe Datum auch mit Jahr im Text, gilt die Angabe mit Jahr', d.find((x) => x.iso === '2027-01-15')?.geschaetzt === undefined)
+  pruefe('Ohne Jahr: „18.12.“ liegt im Jahr des Artikels, geschätzt', d.find((x) => x.iso === '2026-12-18')?.geschaetzt === true)
+  pruefe('Ohne Jahr: eine Uhrzeit „18.30“ ist kein Datum', d.length === 2)
+  pruefe('Ohne Jahr: im Fließtext (ohne Anfrage) ist „Folge 3.5.“ kein Datum', findDates('Folge 3.5. läuft', '2026-10-08').length === 0)
+  pruefe('Ohne Jahr: Januar-Artikel mit „15.12.“ meint das Vorjahr', findDates('Box 15.12.', '2027-01-10', true)[0]?.iso === '2026-12-15')
+  pruefe('Ohne Jahr: November-Artikel mit „15.09.“ bleibt im Jahr, wird nicht zukünftig', findDates('Box 15.09.', '2026-11-10', true)[0]?.iso === '2026-09-15')
+  pruefe('Ohne Jahr: „ab 5.10. bis 7.10.2026“ — beide Tage, der mit Jahr nicht geschätzt', (() => { const x = findDates('ab 5.10. bis 7.10.2026', '2026-10-01', true); return x.length === 2 && !x.find((y) => y.iso === '2026-10-07')!.geschaetzt })())
+  pruefe('Ohne Jahr: dasselbe Datum mit Jahr nach dem ohne Jahr ersetzt die Schätzung', (() => { const x = findDates('Box 7.10. und am 7. Oktober 2026', '2026-10-01', true).filter((y) => y.iso === '2026-10-07'); return x.length === 1 && !x[0]!.geschaetzt })())
+  pruefe('Sammelartikel nachholen: Leer gelesen höchstens einmal am Tag, mit Einträgen alle drei Tage', !sammelFaellig({ publishedAt: '2026-10-05', sammelGelesen: '2026-10-10', sammel: [] }, '2026-10-10') && sammelFaellig({ publishedAt: '2026-10-05', sammelGelesen: '2026-10-09', sammel: [] }, '2026-10-10') && !sammelFaellig({ publishedAt: '2026-10-05', sammelGelesen: '2026-10-09', sammel: [{} as never] }, '2026-10-10') && sammelFaellig({ publishedAt: '2026-10-05', sammelGelesen: '2026-10-07', sammel: [{} as never] }, '2026-10-10'))
+}
+console.log('\nSammelartikel ohne Tag in der Kopfzeile (Netflix 04.10.2026):')
+{
+  const blau = ['»Blue Box« – Staffel 2', 'Episoden: 1 verfügbar', 'Sprache: Deutsch, Japanisch (UT)', 'Simulcast: Jeden Sonntag eine neue Episode', 'Stream: Netflix']
+  const tod = ['»Death Note«', 'Episoden: 37 (komplett)', 'Sprache: Deutsch, Japanisch (UT)', 'Hinweis: Serie sollte ursprünglich am 30. September 2026 entfernt werden', 'Stream: Netflix']
+  const e = leseSammelartikel(['Ab sofort bei Netflix:', '»Blue Box« – Staffel 2', '»Death Note«', ...blau, ...tod].join('\n'), '2026-10-07')
+  const bb = e.find((x) => x.titel === 'Blue Box')
+  pruefe('Ohne Tag: nur die Kopfzeile mit Feld darunter zählt (die Titelliste oben nicht)', e.length === 2)
+  pruefe('Ohne Tag: „Jeden Sonntag“, eine Folge → letzter Sonntag vor der Meldung, als geschätzt', bb?.datum === '2026-10-04' && bb.datumGeschaetzt === true && bb.deutsch === true)
+  pruefe('Ohne Tag: „sollte entfernt werden“ → kein Meldetag als Start', e.find((x) => x.titel === 'Death Note')?.datum === undefined)
+  const ranma = leseSammelartikel(['Neue Simulcasts:', '»Ranma 1/2« – Staffel 3', '»Ranma 1/2« – Staffel 3', 'Start: 3. Oktober 2026', 'Sprache: Deutsch', 'Stream: Netflix'].join('\n'), '2026-09-20')[0]
+  pruefe('Ohne Tag: „Start: 3. Oktober 2026“ ist ein genannter Tag, nicht geschätzt', ranma?.datum === '2026-10-03' && !ranma.datumGeschaetzt)
+  const ohneJahr = leseSammelartikel(['Ab sofort bei Netflix:', '»Ranma 1/2« – Staffel 3', '»Ranma 1/2« – Staffel 3', 'Start: 3. Oktober', 'Sprache: Deutsch', 'Stream: Netflix'].join('\n'), '2026-10-07')[0]
+  pruefe('Ohne Tag: „Start: 3. Oktober“ ohne Jahr gilt mit dem Jahr der Meldung, als geschätzt', ohneJahr?.datum === '2026-10-03' && ohneJahr.datumGeschaetzt === true)
+  pruefe('Ohne Tag: ohne „Ab sofort“-Liste und ohne Start kein Tag (nie der Meldetag)', leseSammelartikel(['Bald:', '»X«', '»X«', 'Start: 2027', 'Sprache: Deutsch', 'Stream: Netflix'].join('\n'), '2026-09-20')[0]?.datum === undefined)
+  pruefe('Verwurf: der Grund wird gezählt', zaehleSammelVerwurf(e)['kein Starttag'] === 1)
+  const v = vorschlaegeAusSammelartikel({ url: 'https://x/', publishedAt: '2026-10-07' }, e)
+  pruefe('Ein geschätzter Tag wandert als geschätzt in den Vorschlag', v.length === 1 && v[0]!.dates![0]!.geschaetzt === true)
+}
 console.log('\nGoogle-Kalender: wöchentliche Serie:')
 {
   /* Daniel, 04.10.2026 (Tokyo Revengers): Der Google-Link legt alle künftigen Wochentermine als wiederholten Eintrag an,
@@ -8375,6 +8529,8 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     const mitSynchro = { id: 178533 }
     pruefe('Reihen-Box: ein laufender oder angekündigter Teil ohne Synchro ist eingeklappt', istEingeklappt(ranma, 178533) && istEingeklappt(film, 178533))
     pruefe('Reihen-Box: ein Teil mit Synchro und der geöffnete Titel selbst bleiben sichtbar', !istEingeklappt(mitSynchro, 178533) && !istEingeklappt(ranma, 209872))
+    const geplant = { id: 206814, jpStart: '2099-10-11', jpStatus: 'NOT_YET_RELEASED', jpYear: 2099 }
+    pruefe('Reihen-Box: ein geplanter Teil (Original noch nicht erschienen) ist auch ohne Flag eingeklappt, der geöffnete bleibt sichtbar', istEingeklappt(geplant, 178533) && !istEingeklappt(geplant, 206814) && !istEingeklappt({ id: 1, jpStatus: 'FINISHED', jpYear: 2099 }, 178533))
   }
   pruefe('Folgenliste: bei „fertig" zählt raus (Ereignisse) nicht als Folgennummer (One Piece: 10)', erschieneneFuerFolgenliste({ art: 'fertig', raus: 10 }) === undefined && erschieneneFuerFolgenliste({ art: 'laeuft', raus: 5 }) === 5 && erschieneneFuerFolgenliste(undefined) === undefined)
   {
