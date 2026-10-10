@@ -7,7 +7,7 @@
  * (z. B. kommen die Disc-Wege in `schliesseWegeAb` erst nach der letzten Entfernung).
  */
 import { ladeQuellen } from './bau/01-quellen.ts'
-import { baueTitel } from './bau/02-titel.ts'
+import { baueTitelGemessen } from './bau/anisearch-abweichungen.ts'
 import { fuehreReihenZusammen } from './bau/03-reihen.ts'
 import { indiziereCrSendeplaetze } from './bau/04-cr-sendeplaetze.ts'
 import { baueReleases } from './bau/05-releases.ts'
@@ -33,7 +33,7 @@ function main(): void {
   const { byMal, byAniId, tmdbTitles, anisearch, curated, curatedIds, tmdb, anisearchEpisodes, tmdbMehrdeutig } =
     quellen
 
-  const { titles, jpStart, jpStartAnzeige } = baueTitel(quellen)
+  const { titles, jpStart, jpStartAnzeige } = baueTitelGemessen(quellen) // baueTitel plus Messung aniSearch gegen AniList (nichts wird ausgeliefert)
   const { tvJeTmdb, toteAdressen, netflixOhneKennung } = fuehreReihenZusammen({
     byAniId,
     byMal,
