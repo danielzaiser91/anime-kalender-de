@@ -160,6 +160,8 @@
     # Anime2You (04.10.2026): „1 von 20 verfügbar", „Jeden Samstag eine neue Episode", Deutsch und Japanisch mit Untertiteln.
     observed:
       1: "2026-10-03"
+      # Folge 2: erschienen zwischen 16:59 und 17:00 MESZ, beobachtet von Daniel; Amazon-Seite nennt 11.10.
+      2: "2026-10-10"
   # heise nennt den 04.10. für den Amazon-Start, Anime2You den 03.10. (Samstag); es gilt Anime2You.
   note: "Prime Video zeigt die Serie mit deutscher Sprachfassung und im Original mit Untertiteln im Simulcast."
   sources:
