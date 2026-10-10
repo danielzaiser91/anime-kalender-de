@@ -532,7 +532,7 @@ const TEXTE = {
     „Erste Folge … · Wöchentlich · letzte Folge". Für `available-from` ist weder
     das eine noch das andere wahr — es kommt der ganze Block.
   */
-  'antwort.alleFolgen': 'Alle {count} Folgen',
+  'antwort.alleFolgen': 'Alle {count} Folgen', 'antwort.alleFolgenOhneZahl': 'Alle Folgen',
   'antwort.angebotRelativ': 'im Angebot {rel}, am {tag} den {datum}.',
   'antwort.angebotDatum': 'im Angebot ab {tag} den {datum}.',
   // Nur noch diese eine steht aus.

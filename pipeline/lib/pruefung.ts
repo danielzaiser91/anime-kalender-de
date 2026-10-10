@@ -247,3 +247,8 @@ export function geteilteWegeTrotzWiderlegung(releases: Release[], titles: Map<nu
   }
   return fehler
 }
+
+/** Kein automatischer Termin trägt als Beleg eine Meldung, die nur Originalton nennt — sie widerlegt die deutsche Fassung (Beerus, 10.10.2026). Handeinträge zitieren solche Artikel bewusst (Kino-OmU). */
+export function releasesAusNurOriginalton(releases: Release[], adressen: ReadonlySet<string>): string[] {
+  return releases.filter((r) => r.automatisch && r.sources.some((u) => adressen.has(u))).map((r) => `"${r.slug}": Beleg nennt nur Originalton mit Untertiteln`)
+}

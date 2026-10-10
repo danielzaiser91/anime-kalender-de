@@ -24,6 +24,7 @@
  * Liegt in einer eigenen Datei, weil `baueNews` die Längengrenze reißt.
  */
 import { addDays } from '../../shared/time.ts'
+import { GRUND_NUR_ORIGINALTON } from '../../shared/news-typen.ts'
 import type { NewsArt, NewsEintrag, NewsMeldung, PlatformId, Title } from '../../shared/types.ts'
 
 /** Was zuletzt zu einem Termin auf der Nachrichtenseite stand. */
@@ -109,6 +110,7 @@ export function pflegeTerminverlauf({
   wurzel,
   grenze,
   heute,
+  nurOriginalton,
 }: {
   datiert: DatiertNews[]
   nachId: Map<number, Title>
@@ -118,6 +120,8 @@ export function pflegeTerminverlauf({
   wurzel: (t: Title) => number
   grenze: string
   heute: string
+  /** Adressen von Meldungen, die nur Originalton nennen (`nurOriginaltonMeldungen`) — Grund des Rückzugs. */
+  nurOriginalton: ReadonlySet<string>
 }): DatiertNews[] {
   const jetztProRelease = new Map<string, DatiertNews[]>()
   for (const m of datiert) if (m.release) jetztProRelease.set(m.release, [...(jetztProRelease.get(m.release) ?? []), m])
@@ -146,7 +150,7 @@ export function pflegeTerminverlauf({
     if (verlauf[release]) continue
     verlauf[release] = neue.map((n) => ausMeldung(n, name, wurzel))
   }
-  return verlaufsKette({ vergangen, verlauf, jetztProRelease, nachId, grenze, heute })
+  return verlaufsKette({ vergangen, verlauf, jetztProRelease, nachId, grenze, heute, nurOriginalton })
 }
 
 /**
@@ -161,6 +165,7 @@ function verlaufsKette({
   nachId,
   grenze,
   heute,
+  nurOriginalton,
 }: {
   vergangen: Record<string, TerminVerlauf[]>
   verlauf: Record<string, TerminVerlauf[]>
@@ -168,6 +173,7 @@ function verlaufsKette({
   nachId: Map<number, Title>
   grenze: string
   heute: string
+  nurOriginalton: ReadonlySet<string>
 }): DatiertNews[] {
   const raus: DatiertNews[] = []
   for (const [release, kette] of Object.entries(vergangen)) {
@@ -190,7 +196,7 @@ function verlaufsKette({
         titel,
         schluessel: `verlauf:${release}:${alt.art}:${tag(alt.datum)}:${i}`,
         ersetzt: nachfolger ? { datum: nachfolger.datum, release, quelle: nachfolger.quelle } : undefined,
-        zurueckgezogen: nachfolger ? undefined : { grund: 'Der Termin wurde zurückgezogen.' },
+        zurueckgezogen: nachfolger ? undefined : { grund: nurOriginalton.has(alt.quelle ?? '') ? GRUND_NUR_ORIGINALTON : 'Der Termin wurde zurückgezogen.' },
       })
     }
   }

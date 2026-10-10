@@ -30,6 +30,7 @@ import { quelleAnzeigeName } from '../../shared/quelle.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
 import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
+import { spracheDerMeldung, type Sprachbefund } from './sprachbefund.ts'
 
 /** Ein Fund, wie ihn `scrape-anime2you.ts` ablegt. */
 export interface Vorschlag {
@@ -340,6 +341,48 @@ export function terminDerMeldung(v: Pick<Vorschlag, 'dates' | 'pause'>): string 
   return v.pause === 'verschoben' ? tage.sort().at(-1) : tage[0]
 }
 
+/**
+ * Der Anbieter muss zur Art der Meldung passen. Ein Disc-Artikel führt oft
+ * beide Kennungen (`["crunchyroll","disc"]`, weil Crunchyroll der Verlag
+ * ist) — `platforms[0]` machte daraus einen Streaming-Termin.
+ */
+function anbieterDerMeldung(v: Vorschlag): string | undefined {
+  if (v.category === 'disc') return v.platforms?.includes('disc') ? 'disc' : undefined
+  if (v.category === 'kino') return 'kino'
+  return v.platforms?.find((p) => p !== 'disc' && p !== 'kino')
+}
+
+function artDerMeldung(v: Vorschlag, platform: string, treffer: Title): ReleaseType {
+  if (v.category === 'kino' || treffer.format === 'MOVIE') return 'movie'
+  return v.category === 'disc' || platform === 'disc' ? 'disc' : 'batch'
+}
+
+/**
+ * **Ein Beleg steht nur bei der Aussage, die er trägt** (10.10.2026). Ein Release im Kalender sagt „auf Deutsch
+ * am …“. Nennt die Meldung nur Originalton mit Untertiteln, widerlegt sie das selbst — kein Release
+ * (`releasesAus`), eine früher daraus erschienene Ankündigung wird mit Grund zurückgezogen (`news-verlauf.ts`).
+ * Nennt sie den Tag, aber keine Sprachfassung (oder lässt sie offen), trägt sie nur den Tag: Das Release bleibt,
+ * die Notiz sagt es. Discs nicht — deutsche Ausgaben tragen fast immer deutschen Ton, und eine reine OmU-Ausgabe
+ * nennt der Artikel (`nein`). Melden mehrere Artikel denselben Termin, gewinnt der mit Sprachzusage.
+ */
+const SPRACH_NOTIZ: Partial<Record<Sprachbefund, string>> = {
+  unklar: 'Termin laut Quelle – ob mit deutscher Synchro, sagt sie nicht.',
+  offen: 'Termin laut Quelle – ob mit deutscher Synchro, ist dort noch offen.',
+}
+
+function sprachHinweis(sprache: Sprachbefund, platform: string): Pick<Release, 'note'> {
+  const note = platform === 'disc' ? undefined : SPRACH_NOTIZ[sprache]
+  return note ? { note } : {}
+}
+
+const nachSprachzusage = (vorschlaege: Vorschlag[]) =>
+  [...vorschlaege].sort((a, b) => Number(spracheDerMeldung(b) === 'ja') - Number(spracheDerMeldung(a) === 'ja'))
+
+/** Meldungen mit Termin, die nur Originalton nennen — für das Protokoll des Baus und den Grund in den News. */
+export function nurOriginaltonMeldungen(vorschlaege: Vorschlag[]): Vorschlag[] {
+  return vorschlaege.filter((v) => !v.alreadyCurated && terminDerMeldung(v) && spracheDerMeldung(v) === 'nein')
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
@@ -351,8 +394,9 @@ export function releasesAus(
   const belegt = new Set(vorhanden.map((r) => `${r.titleId}|${r.platform}`))
   const out: Release[] = []
 
-  for (const v of vorschlaege) {
-    if (v.alreadyCurated || istAbschied(v.articleTitle)) continue
+  for (const v of nachSprachzusage(vorschlaege)) {
+    const sprache = spracheDerMeldung(v)
+    if (v.alreadyCurated || istAbschied(v.articleTitle) || sprache === 'nein') continue
     /*
       **Ein Fernsehtermin ist kein Streaming-Termin.** „Dragon Ball DAIMA" lief
       ab 28.08.2026 im TV bei TOGGO plus, abrufbar bei RTL+ erst ab 25.09. — der
@@ -378,30 +422,13 @@ export function releasesAus(
     const treffer = reihenTeil(basis, titel, v.articleTitle)
     if (!treffer) continue
 
-    /**
-     * Der Anbieter muss zur Art der Meldung passen. Ein Disc-Artikel führt oft
-     * beide Kennungen (`["crunchyroll","disc"]`, weil Crunchyroll der Verlag
-     * ist) — `platforms[0]` machte daraus einen Streaming-Termin.
-     */
-    const platform =
-      v.category === 'disc'
-        ? v.platforms?.includes('disc')
-          ? 'disc'
-          : undefined
-        : v.category === 'kino'
-          ? 'kino'
-          : v.platforms?.find((p) => p !== 'disc' && p !== 'kino')
+    const platform = anbieterDerMeldung(v)
     if (!platform) continue
     const schluessel = `${treffer.id}|${platform}`
     if (belegt.has(schluessel)) continue
     belegt.add(schluessel)
 
-    const art: ReleaseType =
-      v.category === 'kino' || treffer.format === 'MOVIE'
-        ? 'movie'
-        : v.category === 'disc' || platform === 'disc'
-          ? 'disc'
-          : 'batch'
+    const art = artDerMeldung(v, platform, treffer)
 
     const name = treffer.titleDe ?? treffer.titleEn ?? treffer.titleRomaji ?? `#${treffer.id}`
     const quelle: Quelle = {
@@ -430,7 +457,7 @@ export function releasesAus(
       name,
       platform: platform as Release['platform'],
       ...(v.kanal && platform === 'primevideo' ? { kanal: v.kanal } : {}),
-      ...zeitplanAusVorschlag(v, art, tag, treffer),
+      ...zeitplanAusVorschlag(v, art, tag, treffer), ...sprachHinweis(sprache, platform),
       year: Number(tag.slice(0, 4)),
       herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
       automatisch: true,

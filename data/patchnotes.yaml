@@ -2,6 +2,14 @@
 # datum in Anführungszeichen. kategorie: feature | bugfix. text: höchstens 8 Wörter, Besucher-Deutsch, kein Punkt am Ende.
 # Optional: highlight: true (höchstens 2 je Tag), untertitel, symbol (stern | schluessel), link (Hash-Adresse "#/…").
 # live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
+- datum: "2026-10-10"
+  kategorie: bugfix
+  text: Untertitel-Starts stehen nicht mehr als Synchro-Termin
+  live: false
+- datum: "2026-10-10"
+  kategorie: bugfix
+  text: Neue Serien ohne Folgenzahl zeigen keine „0 Folgen“
+  live: false
 - datum: "2026-10-09"
   kategorie: feature
   text: Schlankere Leiste am Handy, Schnellfilter im Filter
