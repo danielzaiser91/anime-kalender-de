@@ -21543,9 +21543,5 @@
   platform: netflix
   url: https://www.netflix.com/title/81685150
   dub: true
-  dubRanges:
-    - from: 1
-      to: 13
-      dub: true
   checkedAt: '2026-10-10'
-  note: "Nicht auf der Netflix-Seite gemessen, sondern Meldung von Anime2You (Artikel 1056287, anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/): Netflix führt eine eigene deutsche Synchronfassung, die von der Disc-Fassung (AniMoon) abweicht, 13 Folgen komplett. Meldung vom 01.10.2026, Starttermin nicht belegt, Abruf 10.10.2026. Löst den Netflix-Befund vom 22.08.2026 (ohne deutschen Ton) ab."
+  note: "Nicht auf der Netflix-Seite gemessen, sondern Meldung von Anime2You (Artikel 1056287, anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/): Netflix führt eine eigene deutsche Synchronfassung, die von der Disc-Fassung (AniMoon) abweicht. Meldung vom 01.10.2026, Starttermin nicht belegt, Abruf 10.10.2026. Löst den Netflix-Befund vom 22.08.2026 (ohne deutschen Ton) ab."
