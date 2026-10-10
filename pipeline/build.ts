@@ -18,7 +18,7 @@ import { pruefeSynchroJePlattform } from './bau/09-synchro.ts'
 import { rolleTermineAus } from './bau/10-termine.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { baueMeta } from './bau/12-meta.ts'
-import { schreibeDatensatz } from './bau/13-schreiben.ts'
+import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
 import { entferneGesperrte } from './bau/sperre.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
@@ -89,7 +89,7 @@ function main(): void {
     events,
     motnBelege: synchro.motnBelege,
   })
-  const { newsFuerRss } = schreibeDatensatz({
+  const { newsFuerRss } = schreibeDatensatzGemessen({
     allTitles,
     releases,
     kanalJeAdresse: synchro.kanalJeAdresse,
