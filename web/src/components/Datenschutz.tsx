@@ -54,9 +54,7 @@ function BrowserAbschnitte() {
         </p>
         <p className="mt-2">
           Spielst du einen Trailer ab, lädt die Seite erst dann den Player von YouTube
-          (youtube-nocookie.com, Google); dorthin wird deine IP-Adresse übertragen. Importierst du
-          deine AniList-Liste, fragt dein Browser AniList direkt nach deinem Benutzernamen; zu uns
-          gelangt davon nichts.
+          (youtube-nocookie.com, Google); dorthin wird deine IP-Adresse übertragen.
         </p>
       </Abschnitt>
 

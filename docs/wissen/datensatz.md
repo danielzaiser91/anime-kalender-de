@@ -352,8 +352,7 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   unter dem Antwortkasten). „N neu“ steht nur an der Kachel der neuesten **erschienenen** Folge
   (`neuesteErschienen()`, ohne Fernsehen, das eigene Nummern zählt; Zusicherung „Neu: …“). Der
   Push-Schalter sitzt im Abo-Menü, das Nachführen der Favoriten beim
-  Push-Dienst in `App` (`usePushNachfuehren`, vorher nur bei geöffneter Favoriten-Ansicht), der
-  AniList-Import unter „Nur Favoriten“ im Filterfeld.
+  Push-Dienst in `App` (`usePushNachfuehren`, vorher nur bei geöffneter Favoriten-Ansicht).
 - **Kopfleiste** klebt oben: Logo (das Favicon-Symbol), Suche (gilt für Kalender und Datenbank,
   von anderen Seiten führt sie in die Datenbank), Abo-Knopf nur mit Kalender- und Glockensymbol,
   Hell/Dunkel, Zahnrad. Auf dem Handy unten Kalender · Datenbank · News · Einstellungen; Hell/Dunkel
@@ -754,7 +753,7 @@ Die Fußzeile nannte `titleCount` (alle Titel des Hauptbestands) „Anime mit be
 
 ## Datenschutztext folgt dem Datenfluss (09.10.2026)
 
-`DatenschutzView` (`StaticViews.tsx`) sagte, Favoriten „verlassen dein Gerät nicht“. Tatsächlich gehen sie mit Newsletter-Abgleich (`newsletterSync.ts`, Worker `/favorites`, auch Kalender-Feed) und Web-Push (`push.ts`, Worker `/push/abo`, Endpunkt plus Favoriten, Push-Dienst des Browserherstellers) an den Worker. Dritthosts im Browser: AniList-Bilder, TMDB (schon bei Hover/Touch auf das Cover im Panel per `preconnect`, `cover-max.tsx`; größeres Plakat und w92-Vergleich beim Öffnen der Vergrößerung), YouTube-nocookie erst beim Abspielen, graphql.anilist.co beim AniList-Import. Wer einen neuen Aufruf zu einem fremden Host oder neue Daten an den Worker einbaut, ergänzt den Text im selben Zug. Keine Rechtsprüfung; DSGVO-Pflichten unverändert.
+`DatenschutzView` (`StaticViews.tsx`) sagte, Favoriten „verlassen dein Gerät nicht“. Tatsächlich gehen sie mit Newsletter-Abgleich (`newsletterSync.ts`, Worker `/favorites`, auch Kalender-Feed) und Web-Push (`push.ts`, Worker `/push/abo`, Endpunkt plus Favoriten, Push-Dienst des Browserherstellers) an den Worker. Dritthosts im Browser: AniList-Bilder, TMDB (schon bei Hover/Touch auf das Cover im Panel per `preconnect`, `cover-max.tsx`; größeres Plakat und w92-Vergleich beim Öffnen der Vergrößerung), YouTube-nocookie erst beim Abspielen (AniList-Listen-Import entfernt am 10.10.2026). Wer einen neuen Aufruf zu einem fremden Host oder neue Daten an den Worker einbaut, ergänzt den Text im selben Zug. Keine Rechtsprüfung; DSGVO-Pflichten unverändert.
 
 ## Saison-Ausblick: kommende Saisons nach Terminschärfe (09.10.2026)
 
