@@ -64,6 +64,10 @@ console.log('\naniSearch-Zeile und AniList-Katalogtitel (ein Werk, eine Zeile):'
   const mitDeutsch = findeAnisearchDubletten([], [], [], alice)
   zeilenMitKennungWeg([zeile(1339)], new Map([[5330, 1339]]), { '1339': { ...alice['1339'], dub: 'd' } }, mitDeutsch)
   pruefe('Kennung gebunden, aber Deutsch belegt: die Zeile bleibt', mitDeutsch.zeilenWeg.size === 0)
+  /* JJK Shimetsu Kaiyuu Kouhen: die Zeile trägt einen Termin (Hauptbestand), der Katalogtitel die Kennung → der Katalogtitel weicht. */
+  const imHaupt = findeAnisearchDubletten([], [zeile(1339)], [], alice)
+  zeilenMitKennungWeg([], new Map([[5330, 1339]]), alice, imHaupt, [zeile(1339)], new Set([5330]))
+  pruefe('Kennung gebunden, Zeile im Hauptbestand: der Katalogtitel entfällt', imHaupt.katalogWeg.get(5330) === zeile(1339) && imHaupt.zeilenWeg.size === 0)
   pruefe('Jahr daneben (mehr als eins) oder andere Folgenzahl: kein gleiches Werk',
     !gleichesWerk({ mal: 5, ty: 'TV-Serie', y: 2000, f: 12, dub: '-' }, { id: 1, mal: 5, format: 'TV', jahr: 2003, folgen: 12 }) &&
       !gleichesWerk({ mal: 5, ty: 'TV-Serie', y: 2000, f: 12, dub: '-' }, { id: 1, mal: 5, format: 'TV', jahr: 2000, folgen: 24 }))
