@@ -39,7 +39,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-          path: main
 
       - name: Diff bereitlegen
         id: diff
@@ -72,10 +71,11 @@ jobs:
         id: stufe
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           T="$RUNNER_TEMP/pruefer"
           stufe=2
-          if node main/tools/pr-stufe.mjs "$PR" > "$T/stufe.json"; then
+          if node tools/pr-stufe.mjs "$PR" > "$T/stufe.json"; then
             stufe=$(node -e 'console.log(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")).stufe)' "$T/stufe.json") || stufe=2
           fi
           echo "stufe=$stufe" >> "$GITHUB_OUTPUT"
@@ -94,9 +94,10 @@ jobs:
             gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$T/stufe.md"
           fi
 
-      # Token-Lage: Die Action schreibt das GITHUB_TOKEN per git config ins Arbeitsverzeichnis. Darum liegt der
-      # Checkout in main/, der Arbeitsordner ist kein Git-Repo: der Versuch scheitert (Fehler wird abgefangen), das Token
-      # steht in keiner Datei. Es steht aber in der Prozessumgebung, und /proc/self/environ ist per Grep/Glob
+      # Token-Lage: Die Action schreibt das GITHUB_TOKEN als Remote-URL nach .git/config (ein Checkout in einen
+      # Unterordner hat sie bei pull_request-Events am Git-Aufruf im Arbeitsordner scheitern lassen: kein Urteil, jeder Lauf rot).
+      # Darum sperrt die Settings-Liste Read auf .git/**; wie bei /proc gilt das für Grep/Glob nur best-effort.
+      # Das Token steht außerdem in der Prozessumgebung, und /proc/self/environ ist per Grep/Glob
       # theoretisch lesbar: Read-Deny-Regeln gelten für Grep/Glob laut Claude-Code-Doku nur best-effort, eigene
       # Grep-/Glob-Regeln wertet Claude Code nicht aus. Restrisiko begrenzt: Token nur pull-requests:write und
       # contents:read, Forks, Entwürfe und daten/-PRs sind ausgeschlossen, und es könnte nur im Protokoll-Kommentar
@@ -112,7 +113,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           allowed_bots: 'claude,github-actions'
           settings: |
-            {"permissions":{"deny":["Read(//proc/**)","Read(//sys/**)","Read(//run/**)","Read(//etc/**)","Bash"]}}
+            {"permissions":{"deny":["Read(//proc/**)","Read(//sys/**)","Read(//run/**)","Read(//etc/**)","Read(./.git/**)","Read(**/.git/**)","Bash"]}}
           claude_args: |
             --max-turns 40
             --allowedTools "Read(/${{ runner.temp }}/pruefer/**),Read(./**),Grep,Glob,Write(/${{ runner.temp }}/pruefer/**)"
@@ -126,7 +127,7 @@ jobs:
             Diff-Zustand: ${{ steps.diff.outputs.diff-zustand }}. Lautet er "unvollstaendig", ist der Diff leer,
             nicht abrufbar oder auf 400000 Byte gekürzt: Du hast nicht alles gesehen, nenne das im Protokoll und
             gib zwingend "aendern" aus, nie "ok".
-            Der Stand von main liegt in ${{ github.workspace }}/main (ohne die PR-Änderungen); lies dort CLAUDE.md und
+            Der Stand von main liegt in ${{ github.workspace }} (ohne die PR-Änderungen); lies dort CLAUDE.md und
             bei Bedarf die berührten Dateien zum Vergleich.
 
             Prüfe gegen die Projektregeln aus CLAUDE.md: nichts behaupten, was nicht belegt ist (kein Termin
