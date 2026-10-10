@@ -48,7 +48,7 @@ import { UnterDerAntwort } from './detail/unter-der-antwort.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
 import { SchlagworteAbschnitt } from './detail/Schlagworte.tsx'
-import { plotVon, aussagekraeftig } from './detail/plot.ts'
+import { plotVon, aussagekraeftig, eigenerAsZiel } from './detail/plot.ts'
 
 export function DetailPanel({
   data,
@@ -881,7 +881,7 @@ export function DetailPanel({
   // nirgends eine deutsche Inhaltsangabe — dort wäre die Alternative eine
   // leere Fläche.
   const { plot } = plotVon({ synopsis, anilistId: title.al, ersatz, erschienen: (title.jpEnd ?? '9999') < today })
-  const asZiel = plot?.quelle.url.includes('anisearch.de/anime/') ? plot.quelle.url : synopsis?.asUrl
+  const asZiel = eigenerAsZiel(plot, synopsis?.asUrl)
   const keywords = allKeywords ? title.keywords : title.keywords.slice(0, KEYWORD_PREVIEW)
 
   return (
