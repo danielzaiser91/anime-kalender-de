@@ -2,7 +2,7 @@ import { MitFachwoertern } from '../fachwort.tsx'
 import { type ReleaseEvent, type Title, type Release, PLATFORMS } from '@shared/types.ts'
 import { formatDate, weekdayName } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
-import { type ReactNode, useState, type ReactElement } from 'react'
+import { type ReactNode, useState } from 'react'
 import { useFolgenZaehlung } from './folgen-bereich.tsx'
 import { kostenloseFolgen, kostenlosEtikett } from '@shared/kostenlos.ts'
 import { Countdown, sendetageText } from './hilfen.tsx'
@@ -10,6 +10,7 @@ import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
+import { gruppeVon as gruppeVonPille, sichtbareStreamPillen } from './stream-pillen.ts'
 import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr } from './antwort-regeln.ts'
 import { type Antwort } from './antwort-typ.ts'
 
@@ -207,12 +208,10 @@ export function AntwortKasten({
     da: Man kann sie tätigen, bevor etwas erschienen ist.
   */
   const nochNichts = (antwort.art === 'laeuft' && antwort.raus === 0) || antwort.art === 'widerlegt'
-  const streamPillen = nochNichts ? [] : stream
+  const gruppeVon = (p: ReactNode) => gruppeVonPille(pillenGruppen, p)
+  const streamPillen = sichtbareStreamPillen(stream, nochNichts, pillenGruppen)
   const beides = streamPillen.length > 0 && disc.length > 0
-  /*
-    **Der Umschalter steht immer da, sobald es Pillen gibt** (`Umschalter`); die leere Seite ist
-    gesperrt. Stand er nur bei beidem, war eine einzelne Kaufpille nicht als Disc zu erkennen.
-  */
+  /* Der Umschalter zeigt nur Seiten mit Pillen; eine einzelne bleibt als Etikett (Kaufpille = „Disc"). */
   const aktivDisc = beides ? zeigeDisc : streamPillen.length === 0
   const pillen = aktivDisc ? disc : streamPillen
   const T = t as unknown as (k: string, v?: Record<string, string | number>) => string
@@ -225,7 +224,6 @@ export function AntwortKasten({
     `shared/kostenlos.ts`, verglichen mit den deutschen Folgen (laufend: den erschienenen; ohne
     Gesamtzahl: den meisten belegten eines Anbieters — Beyblade X: Disney+ 100, TOGGO 117).
   */
-  const gruppeVon = (p: ReactNode) => pillenGruppen.get(String((p as ReactElement)?.key ?? '')) ?? 'sonst'
   /*
     **Die Bereiche stehen immer**. Bis dahin gliederte
     das Panel nur, wenn es einen kostenlosen Weg gab — bei Gachiakuta stand „Kostenlos / Abo / TV",
