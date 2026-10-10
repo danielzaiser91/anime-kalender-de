@@ -39,10 +39,15 @@ fall('leerer Diff → 2', [], 2)
 // Umgehungsversuche (Prüfer-Befund PR 661)
 const diff = (...kopf) => kopf.join('\n')
 const aus = (text) => bestimmeStufe(liesDiff(text)).stufe
-const plus = '+x'
+const plus = '@@ -1 +1 @@\n+x'
+const inhalt = (pfad, ...zeilen) => diff(`diff --git a/${pfad} b/${pfad}`, '--- a/' + pfad, '+++ b/' + pfad, '@@ -1 +1 @@', ...zeilen)
+fall2('„+++evil()“ neben Kommentar in .ts → 1', aus(inhalt('web/src/x.ts', '+// ok', '+++evil()')), 1)
+fall2('„--x“ als entfernte Zeile in .ts → 1', aus(inhalt('web/src/x.ts', '---x')), 1)
+fall2('„---“ als Zeile einer Markdown-Tabelle → 0', aus(inhalt('docs/t.md', '+---', '+++---')), 0)
+fall2('Markdown unter pipeline → nicht 0', aus(inhalt('pipeline/README.md', '+x')) >= 1 ? 1 : 0, 1)
 fall2('quotierter Pfad neben Doku → 2', aus(diff('diff --git a/docs/a.md b/docs/a.md', plus, 'diff --git "a/pipeline/\\303\\274.ts" "b/pipeline/\\303\\274.ts"', plus)), 2)
 fall2('Umbenennung pipeline → docs → 2', aus(diff('diff --git a/pipeline/build.ts b/docs/build.md', 'similarity index 100%', 'rename from pipeline/build.ts', 'rename to docs/build.md')), 2)
-fall2('Löschung unter pipeline → 2', aus(diff('diff --git a/pipeline/x.ts b/pipeline/x.ts', 'deleted file mode 100644', '-x')), 2)
+fall2('Löschung unter pipeline → 2', aus(diff('diff --git a/pipeline/x.ts b/pipeline/x.ts', 'deleted file mode 100644', '@@ -1 +0,0 @@', '-x')), 2)
 fall('Code nach Kommentarende → nicht 0', [d('web/src/App.tsx', ["/* a */ fetch('//evil')"])], (s) => s >= 1)
 fall('Code nach Blockende → nicht 0', [d('web/src/App.tsx', ['* Kommentar', '*/ code()'])], (s) => s >= 1)
 fall('Blockkommentar → 0', [d('web/src/App.tsx', ['/*', ' * Warum', ' */'])], 0)

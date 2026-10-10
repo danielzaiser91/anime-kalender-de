@@ -35,9 +35,12 @@ const GRENZE_CSS = 30
 const GRENZE_KOMMENTAR = 30
 const GRENZE_GROSS = 300
 
-// Doku: .md nur außerhalb von Regel-/Werkzeug-/Workflow-Pfaden (dort wirkt Markdown global), in docs/mockups nur Bild-/Textendungen
-// (docs/ löst einen Deploy aus, andere Endungen dort sind mindestens Stufe 1).
-const DOKU = /^((?!\.claude\/|tools\/|\.github\/|extension\/|worker\/).+\.md|(docs|mockups|daniel-zum-abarbeiten)\/.+\.(md|png|svg|jpg|jpeg|webp|txt))$/
+// Doku: .md nur im Wurzelordner oder unter docs/mockups/daniel-zum-abarbeiten; Markdown unter pipeline, web, shared, data, tools,
+// .claude usw. ist mindestens Stufe 1 (fällt durch). Dort nur Bild-/Textendungen (docs/ löst einen Deploy aus,
+// andere Endungen sind mindestens Stufe 1).
+// Der Stufen-Kommentar des Prüfer-Workflows trägt eine Marke am Anfang. Ein untergeschobener Kommentar mit derselben Marke
+// ändert die Stufe nie: der Workflow berechnet sie neu und liest den Kommentar nicht (fail-safe).
+const DOKU = /^([^/]+\.md|(docs|mockups|daniel-zum-abarbeiten)\/.+\.(md|png|svg|jpg|jpeg|webp|txt))$/
 const DOKU_ANDERE_ENDUNG = /^(docs|mockups|daniel-zum-abarbeiten)\//
 const TEXT = /^(data\/patchnotes\.yaml|web\/src\/(.*\/)?i18n[^/]*\.tsx?)$/
 const CSS = /^(web\/src|extension)\/.*\.css$/
@@ -61,13 +64,16 @@ export function liesDiff(text) {
       if (kopf && kopf[1] !== kopf[2]) aktuell.quelle = kopf[1]
       dateien.push(aktuell)
     } else if (!aktuell) continue
+    else if (zeile.startsWith('@@')) aktuell.imHunk = true
+    // Nach dem ersten @@ ist jede +/- Zeile Inhalt, auch „+++evil()“ oder „---“; Kopfzeilen davor sind keiner.
+    else if (aktuell.imHunk && zeile.startsWith('+')) aktuell.hinzu.push(zeile.slice(1))
+    else if (aktuell.imHunk && zeile.startsWith('-')) aktuell.weg.push(zeile.slice(1))
+    else if (aktuell.imHunk) continue
     else if (/^(rename|copy) from (.*)$/.test(zeile)) aktuell.quelle = zeile.replace(/^(rename|copy) from /, '')
     else if (/^(old|new|deleted file|new file) mode /.test(zeile)) {
       if (/^(old|new) mode /.test(zeile)) aktuell.modus = true
       if (/mode 120000/.test(zeile)) aktuell.symlink = true
     } else if (/^(Binary files |GIT binary patch)/.test(zeile)) aktuell.binaer = true
-    else if (zeile.startsWith('+') && !zeile.startsWith('+++')) aktuell.hinzu.push(zeile.slice(1))
-    else if (zeile.startsWith('-') && !zeile.startsWith('---')) aktuell.weg.push(zeile.slice(1))
   }
   return dateien
 }
