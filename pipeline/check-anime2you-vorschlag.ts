@@ -53,24 +53,49 @@ pruefe('tv ohne Sender: verworfen', grund({ ...yaiba, sender: null })?.includes(
 pruefe('Adresse im Freitext: verworfen', grund({ ...yaiba, unsicher: 'siehe https://example.org' }) !== undefined)
 pruefe('Feld fehlt: verworfen', grund({ ...yaiba, art: 'sonstiges' }) !== undefined)
 const glatt = 'Ab dem 14. Oktober 2026 folgen die Episoden 1101 bis 1122, ehe am 29. Oktober 2026 die neun »Characters Log«-Specials starten.'
-const folgen = { ...yaiba, titel: 'One Piece', art: 'folgen', datum: '2026-10-14', uhrzeit: null, wochentage: null, sprache: 'unklar', folgen: '1101–1122', zitat: glatt } satisfies Vorschlag
-pruefe('Seitentext „1122 ,“, Zitat „1122,“: besteht (Leerraum zählt nicht)', 'ok' in pruefeVorschlag(folgen, bezug), grund(folgen))
+const ohneWeg = { plattform: null, sender: null, anbieter: null }
+const folgen = { ...yaiba, ...ohneWeg, titel: 'One Piece', art: 'folgen', datum: '2026-10-14', uhrzeit: null, wochentage: null, sprache: 'unklar', folgen: '1101–1122', zitat: glatt } satisfies Vorschlag
+const bezugOnePiece = { ...bezug, titel: 'One Piece: Neue Folgen und Specials' }
+pruefe('Seitentext „1122 ,“, Zitat „1122,“: besteht (Leerraum zählt nicht)', 'ok' in pruefeVorschlag(folgen, bezugOnePiece), pruefeVorschlag(folgen, bezugOnePiece))
 pruefe('Beschreibung eines Verworfenen nennt Titel, Art, Tag', beschreibe(folgen) === 'One Piece · folgen · 2026-10-14' && beschreibe(42) === 'unlesbar', beschreibe(folgen))
 
 console.log('\nAnime2You-Extraktion: Sprache')
 const avatar = { ...yaiba, titel: 'Avatar: Die sieben Häfen', plattform: null, anbieter: 'Paramount+', sender: null, datum: null, uhrzeit: null, wochentage: null, sprache: 'deutsch+omu', zitat: AVATAR } satisfies Vorschlag
 const a = pruefeVorschlag(avatar, bezug)
 pruefe('Avatar auf Paramount+: ohne Plattform, mit Anbieter, deutsch+omu', 'ok' in a && a.ok.plattform === null && a.ok.anbieter === 'Paramount+', a)
-const omu = { ...yaiba, titel: 'One Piece Characters Log', datum: '2026-10-29', uhrzeit: null, wochentage: null, zitat: ONE_PIECE_OMU }
-pruefe('deutsch bei „nur Originalton mit deutschen Untertiteln“: verworfen', grund(omu)?.includes('sprache') === true, grund(omu))
-pruefe('dasselbe als omu: besteht', 'ok' in pruefeVorschlag({ ...omu, sprache: 'omu' }, bezug))
+const omu = { ...yaiba, ...ohneWeg, titel: 'One Piece Characters Log', datum: '2026-10-29', uhrzeit: null, wochentage: null, zitat: ONE_PIECE_OMU }
+const grundOp = (v: unknown): string | undefined => {
+  const r = pruefeVorschlag(v, bezugOnePiece)
+  return 'grund' in r ? r.grund : undefined
+}
+pruefe('deutsch bei „nur Originalton mit deutschen Untertiteln“: verworfen', grundOp(omu)?.includes('sprache') === true, grundOp(omu))
+pruefe('dasselbe als omu: besteht', 'ok' in pruefeVorschlag({ ...omu, sprache: 'omu' }, bezugOnePiece))
 
 console.log('\nAnime2You-Extraktion: Wochentag')
 pruefe('Montag bis Freitag: fünf Tage', genannteTage('von Montag bis Freitag').size === 5)
 pruefe('Freitag bis Montag: umlaufend vier Tage', genannteTage('Freitag bis Montag').size === 4)
-const falschTag = `Der Start ist am Montag, 5. November 2026 um 18:25 Uhr mit deutscher Sprachfassung.`
+const falschTag = `YAIBA startet am Montag, 5. November 2026 um 18:25 Uhr auf ProSieben MAXX mit deutscher Sprachfassung.`
 const warn = pruefeVorschlag({ ...yaiba, zitat: falschTag, wochentage: 'Montag' }, { ...bezug, text: `${text}\n${falschTag}` })
 pruefe('Datum ist ein Donnerstag, Zitat sagt Montag: Warnung statt Verwerfung', 'ok' in warn && warn.ok.warnungen.length === 1, warn)
+
+console.log('\nAnime2You-Extraktion: Titel, Sender, Anbieter, Zitat')
+pruefe('Sender RTL, Zitat nennt ProSieben MAXX: verworfen', grund({ ...yaiba, sender: 'RTL' })?.includes('anderen Anbieter') === true, grund({ ...yaiba, sender: 'RTL' }))
+pruefe('Sender „ProSieben“, Zitat nennt nur ProSieben MAXX: verworfen', grund({ ...yaiba, sender: 'ProSieben' }) !== undefined)
+pruefe('Sender in anderer Schreibweise („ProSiebenMaxx“): besteht', 'ok' in pruefeVorschlag({ ...yaiba, sender: 'ProSiebenMaxx' }, bezug))
+pruefe('Plattform Crunchyroll, Zitat nennt ProSieben MAXX: verworfen', grund({ ...yaiba, ...ohneWeg, plattform: 'crunchyroll' })?.includes('crunchyroll') === true)
+const nurText = { ...bezug, text: `${text}\nDie Reihe läuft bei Crunchyroll.` }
+const imText = pruefeVorschlag({ ...folgen, plattform: 'crunchyroll' }, { ...nurText, titel: bezugOnePiece.titel })
+pruefe('Plattform nur im Artikeltext, nicht im Zitat: besteht mit Warnung', 'ok' in imText && imText.ok.warnungen.length === 1, imText)
+const prime = { ...avatar, plattform: 'primevideo', anbieter: null } satisfies Vorschlag
+pruefe('Plattform Prime Video, Zitat „Prime Video“: besteht', 'ok' in pruefeVorschlag(prime, bezug))
+const amazon = 'Die Serie ist ab sofort bei Amazon mit deutscher Synchronisation zu sehen, alle Folgen.'
+pruefe('Plattform Prime Video, Zitat „Amazon“: besteht', 'ok' in pruefeVorschlag({ ...prime, zitat: amazon }, { ...bezug, titel: 'Avatar: Die sieben Häfen bei Amazon', text: `${text}\n${amazon}` }))
+pruefe('Plattform Netflix, Zitat nennt Prime Video: verworfen', grund({ ...prime, plattform: 'netflix' })?.includes('anderen Anbieter') === true)
+pruefe('Titel steht weder im Zitat noch im Artikeltitel: verworfen', grund({ ...yaiba, titel: 'Naruto Shippuden' })?.includes('Titel') === true)
+pruefe('Titel nur mit Untertitel-Abweichung („YAIBA: Staffel 2“): besteht', 'ok' in pruefeVorschlag({ ...yaiba, titel: 'YAIBA: Staffel 2' }, bezug))
+const mitAdresse = 'YAIBA startet auf ProSieben MAXX, mehr unter https://example.org/x oder bei @jemand dabei.'
+const adresse = pruefeVorschlag({ ...yaiba, zitat: mitAdresse }, { ...bezug, text: `${text}\n${mitAdresse}` })
+pruefe('Zitat mit Adresse oder @: verworfen, nicht in den Kommentar', 'grund' in adresse && adresse.grund.includes('Adresse'), adresse)
 
 console.log('\nAnime2You-Extraktion: Artikel und Bestand')
 pruefe('Kennung aus der Adresse', artikelId('https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/') === '1059480')

@@ -1,12 +1,14 @@
 /**
  * **Prüfung der Claude-Antwort zu einem Anime2You-Artikel** (P2). Das Modell liefert Vorschläge, aber keinen Beleg gilt ohne Gegenprobe
- * am Artikeltext: Zitat wörtlich vorhanden, Tag und Uhrzeit stehen im Zitat, deutsche Fassung nur bei deutscher Wortmarke.
+ * am Artikeltext: Zitat wörtlich vorhanden, Titel, Sender und Anbieter stehen im Zitat (oder Artikeltitel bzw. -text), Tag und
+ * Uhrzeit stehen im Zitat, deutsche Fassung nur bei deutscher Wortmarke.
  * Was die Probe nicht besteht, wird mit Grund verworfen; was zweifelhaft bleibt (Wochentag), kommt mit Warnung durch.
  */
 import type { PlatformId } from '../../shared/types.ts'
 import { weekdayIndex, weekdayName } from '../../shared/time.ts'
 import { findDates } from './feed.ts'
 import { dubBefund } from './sprachbefund.ts'
+import { PLATTFORM_NAMEN, pruefeName, titelPasst } from './anime2you-abgleich.ts'
 
 export const ARTEN = ['start', 'folgen', 'disc', 'kino', 'ankuendigung', 'sprachfassung', 'pause', 'abgang'] as const
 export const SPRACHEN = ['deutsch', 'omu', 'deutsch+omu', 'unklar'] as const
@@ -52,6 +54,8 @@ export interface GepruefterVorschlag extends Vorschlag {
 
 export interface Artikelbezug {
   text: string
+  /** Überschrift des Artikels – neben dem Zitat die zweite Stelle, an der der Titel stehen darf. */
+  titel?: string
   veroeffentlicht: string
 }
 
@@ -67,7 +71,7 @@ export function sauber(wert: unknown, max: number): string | null | undefined {
 }
 
 /** Ohne Leerraum verglichen: Der Seitentext hat Lücken, wo Verweise standen („Folge 1122 , ehe“), das Modell schreibt sie glatt. */
-const norm = (s: string): string => s.replace(/[„“”"»«›‹'’‘]/g, "'").replace(/\s+/g, '').toLowerCase()
+const norm = (s: string): string => s.replace(/[|`<>[\]]/g, '').replace(/[„“”"»«›‹'’‘]/g, "'").replace(/\s+/g, '').toLowerCase()
 
 /** Kurzbeschreibung einer Rohantwort für die Liste der Verworfenen (Titel, Art, Tag, soweit lesbar). */
 export function beschreibe(roh: unknown): string {
@@ -127,9 +131,9 @@ export function leseVorschlag(roh: unknown): Vorschlag | string {
   if (typeof roh !== 'object' || roh === null) return 'kein Objekt'
   const r = roh as Record<string, unknown>
   const titel = sauber(r.titel, 120)
-  const zitat = typeof r.zitat === 'string' ? r.zitat.replace(/\s+/g, ' ').trim() : ''
+  const zitat = sauber(r.zitat, 500) ?? ''
   if (!titel) return 'titel fehlt oder ist unzulässig'
-  if (zitat.length < 20 || zitat.length > 500) return 'zitat fehlt oder ist nicht 20 bis 500 Zeichen lang'
+  if (zitat.length < 20) return 'zitat fehlt, ist kürzer als 20 oder länger als 500 Zeichen oder enthält Adresse oder @'
   if (!ARTEN.includes(r.art as never)) return `art „${String(r.art)}“ unbekannt`
   if (!SPRACHEN.includes(r.sprache as never)) return `sprache „${String(r.sprache)}“ unbekannt`
   if (r.plattform !== null && !PLATTFORMEN.includes(r.plattform as PlatformId)) return `plattform „${String(r.plattform)}“ nicht im Datenmodell – null setzen`
@@ -154,6 +158,25 @@ export function leseVorschlag(roh: unknown): Vorschlag | string {
   }
 }
 
+/** Titel, Sender, Anbieter und Plattform gegen Zitat und Artikel: der Grund der Verwerfung oder die Warnungen. */
+function pruefeNamen(v: Vorschlag, bezug: Artikelbezug): { grund?: string; warnungen: string[] } {
+  if (!titelPasst(v.titel, v.zitat, bezug.titel)) return { grund: 'Titel steht weder im Zitat noch im Artikeltitel', warnungen: [] }
+  const plattformName = v.plattform ? PLATTFORM_NAMEN[v.plattform] : undefined
+  const namen: [string, string | null | undefined][] = [
+    ['sender', v.sender],
+    ['anbieter', v.anbieter],
+    ['plattform', plattformName],
+  ]
+  const warnungen: string[] = []
+  for (const [feld, name] of namen) {
+    if (!name) continue
+    const r = pruefeName(feld, name, v.zitat, bezug.text)
+    if (r.grund) return { grund: r.grund, warnungen }
+    if (r.warnung) warnungen.push(r.warnung)
+  }
+  return { warnungen }
+}
+
 /** Gegenprobe am Artikel: `{ ok }` mit Warnungen oder `{ grund }` für die Verwerfung. */
 export function pruefeVorschlag(roh: unknown, bezug: Artikelbezug): { ok: GepruefterVorschlag } | { grund: string } {
   const v = leseVorschlag(roh)
@@ -162,6 +185,8 @@ export function pruefeVorschlag(roh: unknown, bezug: Artikelbezug): { ok: Geprue
   const grund = pruefeDatum(v, bezug) ?? pruefeUhrzeit(v) ?? pruefeSprache(v)
   if (grund) return { grund }
   if (v.plattform === 'tv' && !v.sender) return { grund: 'plattform tv ohne sender' }
-  const warnungen = v.datum ? wochentagsWarnung(v.datum, v.zitat) : []
+  const namen = pruefeNamen(v, bezug)
+  if (namen.grund) return { grund: namen.grund }
+  const warnungen = [...(v.datum ? wochentagsWarnung(v.datum, v.zitat) : []), ...namen.warnungen]
   return { ok: { ...v, wochentag: v.datum ? weekdayName(v.datum) : null, warnungen } }
 }

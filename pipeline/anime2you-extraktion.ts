@@ -123,7 +123,7 @@ function uebernehmen(ordner: string): void {
     }
     const text = readFileSync(resolve(ordner, 'artikel', `${k.id}.txt`), 'utf8')
     for (const roh of antwort) {
-      const geprueft = pruefeVorschlag(roh, { text, veroeffentlicht: k.veroeffentlicht })
+      const geprueft = pruefeVorschlag(roh, { text, titel: k.titel, veroeffentlicht: k.veroeffentlicht })
       if ('grund' in geprueft) verworfen.push({ artikelId: k.id, titel: k.titel, vorschlag: beschreibe(roh), grund: geprueft.grund })
       else neu.push({ ...geprueft.ok, artikelId: k.id, artikel: k.titel, quelle: k.url, veroeffentlicht: k.veroeffentlicht, gelesenAm: heute })
     }
