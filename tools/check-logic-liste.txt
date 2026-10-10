@@ -24,6 +24,7 @@ pipeline/check-herkunftsland.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-premiere.ts
+pipeline/check-tv-schaetzung.ts
 pipeline/check-zaehlung.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-beleg-anbieter.ts
