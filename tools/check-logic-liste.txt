@@ -27,4 +27,5 @@ pipeline/check-zaehlung.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-anisearch-reihen.ts
+pipeline/check-werk-doppelt.ts
 pipeline/check-verweis-ziel.ts

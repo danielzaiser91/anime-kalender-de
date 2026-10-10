@@ -35,6 +35,9 @@ QUELLEN=(
   data/anisearch-eintraege-ausgelassen.json
   data/anisearch-mal.json
   data/anisearch-offen.json
+  # Dublettenstufe 1 (10.10.2026): Prüfliste der wahrscheinlichen Paare und Lückenliste, beide vom Bau geschrieben.
+  data/dubletten-pruefliste.json
+  data/luecken-titel.json
   # Stufe B der AniList-Ablösung (10.10.2026): Bau-Messung AniList gegen aniSearch, Feld für Feld; wird nicht ausgeliefert.
   data/anisearch-abweichungen.json
   # Stufe C (10.10.2026): Bau-Messung der Reihen aus aniSearch-Beziehungen gegen die franchiseId; wird nicht ausgeliefert.
