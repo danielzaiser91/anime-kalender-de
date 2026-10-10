@@ -72,8 +72,8 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           allowed_bots: 'github-actions[bot]'
           settings: |
-            {"permissions":{"deny":["Read(//proc/**)","Read(//sys/**)","Read(//run/**)","Read(//etc/**)","Read(./.git/**)","Read(**/.git/**)","Bash"]}}
-          # Lesen: Arbeitsordner und Anleitung. Schreiben: nur die Antwortdateien. Kein Bash, kein Netz – der Artikeltext ist fremde Eingabe.
+            {"permissions":{"deny":["Read(//proc/**)","Read(//sys/**)","Read(//run/**)","Read(//etc/**)","Read(./.git/**)","Read(**/.git/**)","Edit(**/.git/**)","Write(**/.git/**)","Edit(**/.github/**)","Write(**/.github/**)","Bash"]}}
+          # Lesen: Arbeitsordner und Anleitung. Schreiben: nur die Antwortdateien (Edit/Write auf .git und .github ausdrücklich gesperrt). Kein Bash, kein Netz – der Artikeltext ist fremde Eingabe.
           claude_args: |
             --max-turns 80
             --model claude-sonnet-5
