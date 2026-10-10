@@ -53,6 +53,17 @@ export interface CuratedEntry {
   sources?: string[]
 }
 
+/** Die optionalen Felder eines kuratierten Eintrags, die unverändert ins Release wandern (fehlend = nicht gesetzt). */
+export function kuratierteZusaetze(entry: CuratedEntry): Partial<Release> {
+  return {
+    ...(entry.nachtrag ? { nachtrag: entry.nachtrag } : {}),
+    ...(entry.netflixOriginal ? { netflixOriginal: true } : {}),
+    ...(entry.sprache ? { sprache: entry.sprache } : {}),
+    ...(entry.schnitt ? { schnitt: entry.schnitt } : {}),
+    ...(entry.premiere ? { premiere: entry.premiere } : {}),
+  }
+}
+
 const CURATED_DIR = resolve(ROOT, 'data', 'curated')
 
 export function loadCurated(): CuratedEntry[] {
