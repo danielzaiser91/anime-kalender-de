@@ -9,9 +9,7 @@ export function ZeitMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
     ? `${event.timeEstimated || event.estimated ? '≈ ' : ''}${event.time}`
     : event.releaseType === 'disc'
       ? t('card.inStores')
-      : event.estimated
-        ? '≈ Termin'
-        : ''
+      : ''
   if (!text) return null
   const hinweis = event.timeEstimated ? t('card.zeitVoraussichtlich') : event.estimated ? t('legend.estimated') : ''
   const marke = (
