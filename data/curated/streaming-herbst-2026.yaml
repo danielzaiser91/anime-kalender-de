@@ -243,6 +243,17 @@
   sources:
     - https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/
 
+- slug: demon-slayer-infinity-castle-1-netflix
+  anilistId: 178788
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82723106
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-28" }
+  note: "Netflix, 155 Minuten; Anime2You nennt als Sprache Deutsch und Japanisch (UT)."
+  sources:
+    - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/
+
 - slug: dororo-joyn
   anilistId: 101347
   platform: joyn

@@ -116,13 +116,14 @@
   titleDe: "Beelzebub"
   platform: netflix
   releaseType: batch
-  herkunft: "Zum Start standen 24 der 60 Folgen bereit; die übrigen reicht Netflix nach."
+  herkunft: "Zum Start am 25.07.2026 standen 24 der 60 Folgen bereit; die restlichen Folgen kamen am 28.09.2026 hinzu, seitdem sind alle 60 da."
   schedule:
     firstEpisodeDate: "2026-07-25"
-    episodeCount: 24
+    episodeCount: 60
   sources:
     - https://www.anime2you.de/news/1032820/netflix-beelzebub-und-mehr/
     - https://www.anime2you.de/news/1034754/netflix-beelzebub-gintama-und-mehr/
+    - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/
 
 - slug: the-ribbon-hero-netflix
   anilistId: 211308
