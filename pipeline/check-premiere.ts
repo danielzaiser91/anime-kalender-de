@@ -18,12 +18,29 @@ function pruefe(name: string, ok: boolean): void {
 const QUELLE = 'https://example.org/belegt'
 function release(slug: string, extra: Partial<Release> = {}): Release {
   return {
-    slug, titleId: 1, name: slug, platform: 'netflix', releaseType: 'weekly',
-    schedule: { firstEpisodeDate: '2026-11-05' }, year: 2026, sources: [QUELLE], ...extra,
+    slug,
+    titleId: 1,
+    name: slug,
+    platform: 'netflix',
+    releaseType: 'weekly',
+    schedule: { firstEpisodeDate: '2026-11-05' },
+    year: 2026,
+    sources: [QUELLE],
+    ...extra,
   } as Release
 }
-const termin = (slug: string, date: string, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
-  ({ id: `${slug}@${date}`, releaseSlug: slug, titleId: 1, date, releaseType: 'weekly', platform: 'netflix', name: slug, ...extra }) as ReleaseEvent
+function termin(slug: string, date: string, extra: Partial<ReleaseEvent> = {}): ReleaseEvent {
+  return {
+    id: `${slug}@${date}`,
+    releaseSlug: slug,
+    titleId: 1,
+    date,
+    releaseType: 'weekly',
+    platform: 'netflix',
+    name: slug,
+    ...extra,
+  } as ReleaseEvent
+}
 
 // Prüfung
 const gut = release('stream-disc', { premiere: { weg: 'stream', quelle: QUELLE, vorher: 'disc', vorherDatum: '2023-01-12' } })

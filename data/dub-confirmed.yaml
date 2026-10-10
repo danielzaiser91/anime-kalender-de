@@ -21561,3 +21561,17 @@
   dub: true
   checkedAt: '2026-10-10'
   note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), Türkçe, हिन्दी, ไทย, 日本語, 日本語 [音声による説明] — Amazon-Seite B0HG69RT1Y: alle 2 Folgen geprüft, Abos: Prime, FVOD — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.82c84934-b1f4-4ef5-b753-c4358fc076e6"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-10 ---
+
+- anilistId: 195600
+  title: "Das Band der Unterwelt"
+  platform: netflix
+  url: https://www.netflix.com/title/82719204
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 15
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  checkedAt: '2026-10-10'
+  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), ta|Tamil, te|Telugu, th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 15, dazwischen nicht geprüft — Folge 8: Verdacht und Überzeugung"

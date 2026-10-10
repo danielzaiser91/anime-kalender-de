@@ -138,6 +138,16 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261003
+DTEND;VALUE=DATE:20261004
+SUMMARY:Das Band der Unterwelt – Folge 14/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-187331-primevideo@2026-10-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261003
@@ -1157,6 +1167,16 @@ DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
 CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Das Band der Unterwelt – Folge 15/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-179813-netflix@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
@@ -1982,6 +2002,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261017
+DTEND;VALUE=DATE:20261018
+SUMMARY:Das Band der Unterwelt – Folge 16/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T083000Z
@@ -2248,6 +2279,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:Das Band der Unterwelt – Folge 17/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T093000Z
@@ -2471,6 +2513,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16797/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:Das Band der Unterwelt – Folge 18/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-01@anime-kalender-de
@@ -2735,6 +2788,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:Das Band der Unterwelt – Folge 19/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261108T150000Z
@@ -2883,6 +2947,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261114
+DTEND;VALUE=DATE:20261115
+SUMMARY:Das Band der Unterwelt – Folge 20/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-15@anime-kalender-de
@@ -3284,6 +3359,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261121
+DTEND;VALUE=DATE:20261122
+SUMMARY:Das Band der Unterwelt – Folge 21/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261122T150000Z
@@ -3454,6 +3540,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261128
+DTEND;VALUE=DATE:20261129
+SUMMARY:Das Band der Unterwelt – Folge 22/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-29@anime-kalender-de
@@ -3785,6 +3882,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-12-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261205
+DTEND;VALUE=DATE:20261206
+SUMMARY:Das Band der Unterwelt – Folge 23/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261206T150000Z
@@ -3890,6 +3998,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-12-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:Das Band der Unterwelt – Folge 24/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-13@anime-kalender-de

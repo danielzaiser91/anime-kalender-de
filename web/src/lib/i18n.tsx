@@ -249,13 +249,6 @@ const TEXTE = {
   // Titel ohne belegte deutsche Synchro im Detail-Panel. „Termin unbekannt"
   // wäre hier falsch: Unbekannt ist nicht der Termin, sondern ob es je eine
   // deutsche Fassung gibt.
-  // Reihen-Stern: die ganze Reihe auf einmal merken (13.08.2026).
-  'detail.seriesStarDo': 'Alle {count} Teile dieser Reihe merken',
-  'detail.seriesStarAllDone': 'Alle {count} Teile dieser Reihe sind gemerkt',
-  'detail.seriesStarHelp':
-    // Kein Markdown: Der Hinweis wird als reiner Text ausgegeben, Sternchen
-    // stünden dort wörtlich da — ausgerechnet neben einem Stern-Symbol.
-    'Merkt alle {count} Teile dieser Reihe auf einmal — auch Filme, Specials und Ableger ohne deutsche Synchro.',
 
   'detail.noDubTitle': 'Keine deutsche Synchro bekannt',
   'detail.noDubBody': 'Zu diesem Anime ist bisher keine deutsche Fassung bekannt.',
