@@ -15,6 +15,7 @@
  * so war die Mail bisher: eine Sichtung ohne Nummer ist keine Premiere, die man ankündigen kann.
  */
 import type { ReleaseEvent } from '../../shared/types.ts'
+import { premiereLabel } from '../../shared/premiere.ts'
 
 export type Sorte = 'kino' | 'stream' | 'disc' | 'tv-premiere' | 'tv-wiederholung'
 
@@ -44,7 +45,7 @@ export function wichtigkeit(ev: ReleaseEvent): number {
 export function abzeichen(ev: ReleaseEvent): string | undefined {
   if (ev.staffelfinale) return 'Finale'
   if (ev.staffelstart) return 'Start'
-  if (ev.platform === 'tv' && ev.tvPremiere) return 'Premiere'
+  if (ev.platform === 'tv' && ev.tvPremiere) return premiereLabel(ev.premiereVorher)
   return undefined
 }
 

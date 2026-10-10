@@ -26,6 +26,8 @@ export interface CuratedEntry {
   netflixOriginal?: boolean
   /** Siehe `Release.sprache` — ein Termin ohne belegte deutsche Synchro (Kinostart nur OmU). */
   sprache?: Release['sprache']
+  /** Siehe `Release.premiere`. */
+  premiere?: Release['premiere']
   /** Siehe `Release.nachtrag`. */
   nachtrag?: { kurz: string; abschnitte: { art: string; text: string }[] }
   /**
