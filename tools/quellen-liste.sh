@@ -343,5 +343,6 @@ QUELLEN=(
   daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md
   daniel-zum-abarbeiten/listen/17-vorfaelle.md
   daniel-zum-abarbeiten/listen/22-belege-ohne-fundstelle.md
+  daniel-zum-abarbeiten/listen/23-nur-originalton.md
   daniel-zum-abarbeiten/00-START-HIER.md
 )

@@ -4271,6 +4271,13 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('Sprache: offene Sprachfassung plus Originalton heißt nein — der Tag ist ein OmU-Tag', dubBefund('Die Sprachfassungen sind noch offen. Crunchyroll zeigt sie im Originalton mit Untertiteln.') === 'nein')
   pruefe('Sprache: „Japanisch (UT)" aus einem Sammelartikel heißt nein', dubBefund('Simulcast: Jeden Sonntag\nSprache: Japanisch (UT)') === 'nein')
   pruefe('Sprache: ein Satz mit Deutsch und Originalton ist eine Zusage', dubBefund('Der Film läuft auf Deutsch und im Originalton mit Untertiteln.') === 'ja')
+  pruefe('Sprache: „deutscher Sprachfassung sowie im Original mit Untertiteln" (Marronniers) bleibt ja', dubBefund('Die Serie erscheint in deutscher Sprachfassung sowie im Original mit Untertiteln.') === 'ja')
+  /* Prüfer-Befund PR 649: Formen, die `DUB_CONFIRMED` nicht kennt, dürfen neben „Originalton mit Untertiteln" kein Nein ergeben. */
+  for (const form of ['mit deutscher Tonspur', 'mit deutscher Sprachausgabe', 'als deutsches Dub', 'mit deutschem Ton', 'deutsch synchronisiert', 'deutsch vertont', 'als Simuldub', 'mit Synchro']) {
+    const befund = dubBefund(`Crunchyroll zeigt die Serie ab dem 11. Oktober im Originalton mit Untertiteln. Später kommt sie ${form}.`)
+    pruefe(`Sprache: „${form}" neben Originalton ist kein Nein (${befund})`, befund !== 'nein')
+  }
+  pruefe('Sprache: „Vertonung" der japanischen Neufassung ist kein Deutsch-Bezug', dubBefund('Die Saga erscheint mit einer neuen Vertonung, bei Crunchyroll im Originalton mit Untertiteln.') === 'nein')
   const gespeichert = {
     articleTitle: 'Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast',
     dub: 'unklar',

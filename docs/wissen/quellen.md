@@ -3329,6 +3329,10 @@ zeigen die Serie „im Originalton mit Untertiteln", Netflix ab 18.10. — keine
   nur Originalton mit Untertiteln, keine deutsche Synchro." (`news-verlauf.ts`). Der Bau zählt solche Meldungen
   (`08-news-tv.ts`, Warnung ab 11) und bricht ab, falls doch ein automatischer Termin eine davon als Beleg trägt
   (`releasesAusNurOriginalton`, `13-5-kerndateien.ts`).
+  `nein` nur, wenn der Text **keinerlei** Bezug auf eine deutsche Tonfassung trägt (`DEUTSCH_BEZUG`: „deutsche Tonspur",
+  „deutsch vertont", „Synchro", „Simuldub" …) — ein falsches Nein verwirft einen echten Termin; diese Formen werden bewusst
+  nicht zur Zusage („die deutsche Tonspur fehlt noch" wäre sonst `ja`). Jede verworfene Meldung steht mit Fundstelle in
+  `daniel-zum-abarbeiten/listen/23-nur-originalton.md`, eine geänderte Liste geht als Hinweis in den Posteingang (Prüfer-Befund PR 649).
 - `unklar`/`offen` (Tag belegt, Sprache nicht): das Release bleibt — nicht widerlegt —, aber `note` sagt es („Termin laut Quelle –
   ob mit deutscher Synchro, sagt sie nicht." bzw. „… ist dort noch offen."); die Notiz steht im Antwortkasten und als Hinweis an der
   News. Discs ausgenommen: deutsche Ausgaben tragen fast immer deutschen Ton, eine reine OmU-Ausgabe nennt der Artikel (`nein`).

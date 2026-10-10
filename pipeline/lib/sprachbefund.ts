@@ -33,6 +33,15 @@ const NUR_UNTERTITEL =
   /(originalton mit (deutschen )?untertiteln|\bomu\b|mit deutschen untertiteln|im (japanischen )?originalton|japanisch(?:e[nr]?)? (?:ton|tonspur)\b|japanisch \(ut\)|(?:nur|ausschließlich) (?:mit )?untertitel)/i
 
 /**
+ * Irgendein Bezug auf eine deutsche Tonfassung, auch in Formen, die `DUB_CONFIRMED` nicht als Zusage liest („deutsche
+ * Tonspur", „deutsch vertont", „Synchro"). Steht so etwas im Text, wird „Originalton mit Untertiteln" nicht zum `nein`:
+ * Ein falsches Nein verwirft einen echten Termin, ein falsches `unklar` behält ihn mit Notiz. Die Formen nicht als Zusage
+ * aufzunehmen ist Absicht — „die deutsche Tonspur fehlt noch" wäre sonst ein `ja` (Prüfer-Befund PR 649, 10.10.2026).
+ */
+const DEUTSCH_BEZUG =
+  /deutsch\w*\s+(?:ton|sprach|dub\b|fassung|synchro|vertont|synchronisiert)|synchro|\b(?:simul)?dub\b|vertont\b|synchronisiert/i
+
+/**
  * **Satzweise statt über den ganzen Artikel.**
  *
  * Beide Muster oben liefen über den zusammengesetzten Text aus Titel,
@@ -43,13 +52,13 @@ const NUR_UNTERTITEL =
  * Zweifel, lautet der Befund `offen`. Bleibt einer ohne, ist es eine Zusage.
  * Ohne jeden Bezug bleibt es `unklar` — das ist die Mehrheit.
  *
- * **`nein`: Die Meldung nennt nur Originalton mit Untertiteln** und sagt keine deutsche Fassung zu.
+ * **`nein`: Die Meldung nennt nur Originalton mit Untertiteln** und erwähnt keine deutsche Tonfassung (`DEUTSCH_BEZUG`).
  * Ihr Termin ist dann kein deutscher („Dragon Ball Super: Beerus", Anime2You 01.10.2026: „bei
  * Crunchyroll und ADN im Originalton mit Untertiteln" stand als Synchro-Start im Kalender).
  */
 export function dubBefund(text: string): Sprachbefund {
   const saetze = text.split(/(?<=[.!?])\s+|\n+/)
-  const nurUntertitel = saetze.some((s) => NUR_UNTERTITEL.test(s) && !DUB_CONFIRMED.test(s))
+  const nurUntertitel = !DEUTSCH_BEZUG.test(text) && saetze.some((s) => NUR_UNTERTITEL.test(s))
   if (DUB_OPEN.test(text)) return nurUntertitel ? 'nein' : 'offen'
   const mitBezug = saetze.filter((s) => DUB_CONFIRMED.test(s))
   if (mitBezug.some((s) => !DUB_ZWEIFEL.test(s))) return 'ja'
