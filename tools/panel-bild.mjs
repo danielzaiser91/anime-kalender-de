@@ -58,6 +58,18 @@ const TYPEN = {
   '.webmanifest': 'application/manifest+json',
 }
 
+/** Das Panel öffnet oben, nichts ist vorgescrollt (`scrollIntoView` der Reihenliste scrollte es bis 09.10.2026 um 228–393 px). */
+async function pruefeNichtVorgescrollt(panel, id) {
+  const px = await panel.evaluate((el) => {
+    for (let e = el; e; e = e.parentElement) if (e.scrollTop > 0) return Math.round(e.scrollTop)
+    return 0
+  })
+  if (px > 0) {
+    console.log(`  ✕ ${id}: Panel öffnet um ${px} px vorgescrollt`)
+    process.exitCode = 1
+  }
+}
+
 async function main() {
   if (!existsSync(path.join(DIST, 'index.html'))) {
     console.error('dist/ fehlt — erst `npm run build`.')
@@ -149,7 +161,7 @@ async function main() {
       }
       /* Der Kasten ist die erste `section` im Panel — die Antwort auf „wann, wie weit, wo". */
       const kasten = panel.locator('section').first()
-      await kasten.waitFor({ state: 'visible', timeout: 15_000 })
+      await kasten.waitFor({ state: 'visible', timeout: 15_000 }).then(() => pruefeNichtVorgescrollt(panel, id))
       const box = await kasten.boundingBox()
       /*
         **Gemessen wird, ob etwas hinausragt — nicht, ob alle gleich hoch sind.**

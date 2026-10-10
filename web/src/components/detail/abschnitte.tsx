@@ -1,6 +1,6 @@
 import { Meldungen } from './vermerk.tsx'
 import { type Release, type Title } from '@shared/types.ts'
-import { SectionTitle } from '../ui.tsx'
+import { Aufklappbar } from './aufklapp-kopf.tsx'
 import { BuchZeichen, PanelKarte } from './panel-karte.tsx'
 import { PLOT_PREVIEW } from './hilfen.tsx'
 import { type FranchiseMember } from '@shared/types.ts'
@@ -8,22 +8,19 @@ import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 import { Chip } from '../ui.tsx'
 
-export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, setGenresOffen, faktenImKasten }: {
+export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, setGenresOffen }: {
   title: Title
   t: Translate
   genresOffen: boolean
   onFilterBy: (kind: 'genre' | 'keyword', value: string) => void
   tGenre: (name: string) => string
   setGenresOffen: Dispatch<SetStateAction<boolean>>
-  faktenImKasten: boolean
 }) {
   return (
     <>
-      {(title.genres.length > 0 || title.score !== undefined || title.studios?.[0]) && (
-        <div>
-          <SectionTitle>{t('detail.werkangaben')}</SectionTitle>
-          {title.genres.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
+      {title.genres.length > 0 && (
+        <Aufklappbar titel={t('detail.werkangaben')}>
+          <div className="flex flex-wrap gap-1.5">
               {(genresOffen ? title.genres : title.genres.slice(0, 3)).map((g) => (
                 <Chip key={g} onClick={() => onFilterBy('genre', g)}>
                   {tGenre(g)}
@@ -38,28 +35,8 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
                   +{title.genres.length - 3}
                 </button>
               )}
-            </div>
-          )}
-          <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-xs">
-            {/*
-              **Die Bewertung steht oben, nicht hier.**
-
-              Beide Stellen zeigten „★ 8.8 AniList" — einmal als Pille neben
-              dem Staffelnamen, einmal als Zeile hier. Gemessen am
-              03.09.2026: dieselbe Zahl zweimal auf einem Bildschirm, und
-              oben ist sie sichtbarer und trägt ihren Tooltip mit der
-              Herkunft. Die Zeile hier war die Wiederholung.
-            */}
-            {!faktenImKasten && title.studios?.[0] && (
-              <>
-                <dt className="text-slate-400 dark:text-slate-500">{t('detail.studio')}</dt>
-                <dd className="text-slate-600 dark:text-slate-300">{title.studios.join(', ')}</dd>
-              </>
-            )}
-            {/* Die Altersfreigabe stand hier bis zum 04.09.2026 ein zweites
-                Mal — sie ist jetzt ausschließlich eine Marke am Cover. */}
-          </dl>
-        </div>
+          </div>
+        </Aufklappbar>
       )}
     </>
   )
