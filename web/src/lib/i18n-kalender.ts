@@ -10,6 +10,8 @@ export const TEXTE_KALENDER = {
   // Original noch nicht erschienen (Reihenliste, Datenbankkarte).
   'geplant.marke': 'Geplant',
   'geplant.hinweis': 'Das Original ist noch nicht erschienen',
+  // Kurzfassung am Schalter der Reihenliste (einzeilige Kopfzeile); der volle Satz steht in `detail.reiheOhneSchalter` als Tooltip.
+  'detail.reiheOhneSchalterKurz': '{n} ohne Synchro',
   'kopf.startseite': 'Anime-Kalender DE — zur aktuellen Woche',
   'kopf.suche': 'Anime suchen',
   'kopf.sucheOeffnen': 'Suche öffnen',

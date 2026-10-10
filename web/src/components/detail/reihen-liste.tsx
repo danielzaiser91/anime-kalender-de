@@ -5,6 +5,7 @@ import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
 import { SynchroMarke } from './reihen-marke.tsx'
 import { istEingeklappt } from './reihen-regeln.ts'
+import { OhneSynchroSchalter, ReihenKopf } from './reihen-kopf.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -60,7 +61,8 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
             zusammen.
           */}
           <div className="relative -mt-1 rounded-xl border border-slate-200 dark:border-white/10">
-          <div className="max-h-[13.5rem] overflow-y-auto p-2">
+          {/* 22rem = Kopf (4,5rem) + fünf Zeilen à 3rem (Zeile 46 px + 2 px Abstand) + Polster; so bleiben fünf Teile sichtbar, die sechste lugt an. */}
+          <div className="max-h-[22rem] overflow-y-auto p-2">
             {(() => {
               /*
                 **Künftig ist, was nach diesem Jahr anfängt.** Ein Titel aus
@@ -414,7 +416,8 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 .map((g) => ({ ...g, teile: g.teile.filter((m) => passtSuche(m) && (suchText ? true : sichtbar(m))) }))
                 .filter((g) => g.teile.length > 0)
               /* Reiter nur bei langen Reihen ohne laufende Suche; vorausgewählt ist die Gruppe des geöffneten Titels. */
-              const mitReitern = lang && !suchText && gefiltert.length > 1
+              const reiterZeile = lang && gruppen.filter((g) => g.teile.some(sichtbar)).length > 1
+              const mitReitern = reiterZeile && !suchText && gefiltert.length > 1
               const eigeneGruppe = gefiltert.find((g) => g.teile.some((m) => m.id === title.id))?.titel
               const aktiverReiter =
                 reiheReiter?.reihe === reihenSchluessel && gefiltert.some((g) => g.titel === reiheReiter.titel)
@@ -438,70 +441,27 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
               */
               const ohneSchalter =
                 zahlOhne > 0 && !suchText ? (
-                  <label className="ml-auto inline-flex shrink-0 cursor-pointer items-center gap-1.5 text-[11px] text-slate-500 dark:text-slate-400">
-                    <input
-                      type="checkbox"
-                      className="sr-only"
-                      checked={!ohneOffen}
-                      onChange={() => setReiheOhneOffen(ohneOffen ? null : reihenSchluessel)}
-                    />
-                    <span
-                      aria-hidden="true"
-                      className={[
-                        'relative h-3.5 w-6 rounded-full transition',
-                        ohneOffen ? 'bg-slate-300 dark:bg-white/20' : 'bg-sky-500',
-                      ].join(' ')}
-                    >
-                      <span
-                        className={[
-                          'absolute top-0.5 size-2.5 rounded-full bg-white shadow transition-all',
-                          ohneOffen ? 'left-0.5' : 'left-3',
-                        ].join(' ')}
-                      />
-                    </span>
-                    {t('detail.reiheOhneSchalter', { n: zahlOhne })}
-                  </label>
+                  <OhneSynchroSchalter
+                    t={t}
+                    zahl={zahlOhne}
+                    ohneOffen={ohneOffen}
+                    onChange={() => setReiheOhneOffen(ohneOffen ? null : reihenSchluessel)}
+                  />
                 ) : null
 
               return (
                 <div className="flex flex-col gap-0.5">
                   {lang && (
-                    <div className="sticky -top-2 z-10 -mx-2 -mt-2 mb-1 flex flex-col gap-1.5 bg-white/95 px-2 pb-1.5 pt-2 backdrop-blur dark:bg-slate-900/95">
-                      <input
-                        type="search"
-                        value={suchText ? reiheSuche.text : ''}
-                        onChange={(e) => setReiheSuche({ reihe: reihenSchluessel, text: e.target.value })}
-                        placeholder={t('detail.reiheSuche')}
-                        aria-label={t('detail.reiheSuche')}
-                        className="w-full rounded-lg border border-slate-200 bg-transparent px-2.5 py-1 text-xs outline-none focus:border-sky-400 dark:border-white/10"
-                      />
-                      {(mitReitern || ohneSchalter) && (
-                        <div className="flex flex-wrap items-center gap-1">
-                      {mitReitern && (
-                        <div role="tablist" className="flex flex-wrap gap-1">
-                          {gefiltert.map((g) => (
-                            <button
-                              key={g.titel}
-                              type="button"
-                              role="tab"
-                              aria-selected={g.titel === aktiverReiter}
-                              onClick={() => setReiheReiter({ reihe: reihenSchluessel, titel: g.titel })}
-                              className={[
-                                'cursor-pointer rounded-full px-2.5 py-0.5 text-[11px] transition',
-                                g.titel === aktiverReiter
-                                  ? 'bg-sky-500/20 font-medium text-sky-700 dark:text-sky-200'
-                                  : 'text-slate-500 hover:bg-slate-200/70 dark:text-slate-400 dark:hover:bg-white/10',
-                              ].join(' ')}
-                            >
-                              {g.titel} <span className="tabular-nums">{g.teile.length}</span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                      {ohneSchalter}
-                        </div>
-                      )}
-                    </div>
+                    <ReihenKopf
+                      t={t}
+                      suche={suchText ? reiheSuche.text : ''}
+                      onSuche={(text) => setReiheSuche({ reihe: reihenSchluessel, text })}
+                      schalter={ohneSchalter}
+                      reiterZeile={reiterZeile}
+                      reiter={mitReitern ? gefiltert.map((g) => ({ titel: g.titel, anzahl: g.teile.length })) : null}
+                      aktiv={aktiverReiter}
+                      onReiter={(titel) => setReiheReiter({ reihe: reihenSchluessel, titel })}
+                    />
                   )}
                   {!lang && ohneSchalter && <div className="mb-1 flex">{ohneSchalter}</div>}
                   {!angezeigt.length && (
