@@ -47,6 +47,8 @@ async function fall(browser, name, lage, breite) {
     viewport: { width: desktop ? 1280 : breite, height: desktop ? 900 : 780 },
     isMobile: !desktop,
     hasTouch: !desktop,
+    // Der weiche Sprung zu „heute“ rollt ~1,5 s und schließt dabei das Menü (Schwebe: Rollen schließt); ohne Bewegung ist es ein Sprung.
+    reducedMotion: 'reduce',
     ...(lage.ua ? { userAgent: lage.ua } : {}),
   })
   // Das einmalige Popup ist keine Dauerstelle und würde die Klicks abfangen.
