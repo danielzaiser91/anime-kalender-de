@@ -4,6 +4,10 @@
 # live: true erst, wenn die Änderung auf der Seite sichtbar ist; nur live-Zeilen landen in public/data/patchnotes.json.
 - datum: "2026-10-10"
   kategorie: feature
+  text: Künftige Termine zeigen ihren Sender oder Anbieter
+  untertitel: Pille mit Datum und Folge, auch ohne erschienene Folge
+- datum: "2026-10-10"
+  kategorie: feature
   highlight: true
   text: Staffeln jetzt direkt unter dem Antwortkasten
   untertitel: Reihe als Karte, mit Staffelnummer
