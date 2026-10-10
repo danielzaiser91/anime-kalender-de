@@ -3411,3 +3411,12 @@ Anlass: Für die AniList-Ablösung (Genres, Schlagwörter, Reihen aus den Archiv
 - **Endgültige Auskunft** steht in `data/anisearch-archiv-weg.json` (Kennung → Code, Datum): HTTP 404/410 60 Tage, Seite ohne Archivabschnitte (200) 14 Tage zurückgestellt.
 - **Zähler im Lauf-Protokoll:** „aniSearch-Lücke vorher/nachher: Hauptbestand N, Katalog M Kennungen ohne Archivseite".
 - **Schätzung:** 3.240 Seiten offen (237 + 3.003). Bei 6 s Abstand und 290 Minuten Frist holt ein Katalog-Lauf rund 2.500–2.700 Seiten → Lücke nach 2 Läufen (11.10. und 12.10., je 06:00 UTC) bis auf Zurückgestelltes zu; mit einer Sperre dazwischen 3–4 Läufe.
+
+## aniSearch-Sprecherseiten: Hauptbestand zuerst, Rohseiten im Archiv (10.10.2026)
+
+Anlass: Stufe D der AniList-Ablösung (Sprecher) braucht die Sprecherseiten des Hauptbestands. Gemessen 10.10.2026: von 2.849 verschiedenen Kennungen des Hauptbestands (2.924 Titel, 117 teilen eine Kennung) hatten 1.086 eine Seite; 1.763 offen, davon 1.519 mit Synchro-Marke. **Ursache:** `fetch-anisearch-sprecher.ts` nahm nur Kennungen aus `data/anisearch.json` und sortierte Titel ohne Marke zuerst; 7.630 Katalog-Kennungen standen vor dem Hauptbestand.
+
+- **Reihenfolge** (`pipeline/lib/anisearch-sprecher-reihe.ts`, `sprecherLuecken`): Hauptbestand (Marke zuerst, auch Kennungen, die `anisearch.json` nicht kennt), danach Katalog (ohne Marke zuerst, wie bisher). Jede Kennung einmal. Fällig = keine Seite, Parser-Stand alt oder älter als 180 Tage.
+- **Sperre, Frist, Zähler** wie bei den Archivseiten (`lib/anisearch-sperre.ts`): Pause 10/20/40 Minuten statt Abbruch, danach eine Einzelanfrage; die Frist ist das bestehende `--minuten` (Standard 100), also **keine Workflow-Änderung**. Log: „aniSearch-Sprecher-Lücke vorher/nachher: Hauptbestand N von M, Katalog K von L". HTTP 404/410 steht 60 Tage in `data/anisearch-sprecher-weg.json`; eine Nichtauskunft (429, 5xx, Zeitüberschreitung) nie. 15 Seiten ohne jede Besetzungszeile in Folge (484 von 5.078 sind leer) gelten als Sperrseite und werden nicht als Befund gespeichert.
+- **Archiv:** `data/anisearch-sprecher-raw/<Kennung>.html.gz` (gzip, Besetzungszeilen `<tr>…</tr>` roh, Kopf/Fuß weggelassen; Seiten ohne Zeilen nicht). Das Archiv `anisearch-raw` enthält keine Sprecher. Größe je Seite erst nach dem ersten Lauf bekannt.
+- **Schätzung:** Die Läufe der letzten Tage holten 830–860 Seiten (100 Minuten Frist, Grenze 1.100): Hauptbestand mit Marke in 2 Läufen, der ganze Hauptbestand in 3 (1.763 / ~850), danach Katalog.

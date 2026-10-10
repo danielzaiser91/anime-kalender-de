@@ -1,3 +1,4 @@
+import { zurueckgestellt, type WegListe } from './anisearch-archiv-vorrang.ts'
 import type { Sprecher } from './anisearch-sprecher.ts'
 
 /** Hochzählen, sobald `sprecherAus()` ein Feld mehr liest. */
@@ -30,10 +31,28 @@ export function faellig(bestand: Record<string, Eintrag>, id: number, jetztMs: n
   return (jetztMs - Date.parse(e.fetchedAt)) / 86_400_000 >= ALTER_TAGE
 }
 
-/** Fällige Seiten, Titel ohne Synchro-Marke zuerst. */
-export function warteschlange(katalog: Katalog, bestand: Record<string, Eintrag>, jetztMs: number): number[] {
-  return [...katalog.entries()]
-    .filter(([id]) => faellig(bestand, id, jetztMs))
-    .sort((a, b) => Number(a[1]) - Number(b[1]))
-    .map(([id]) => id)
+export interface Luecken {
+  haupt: number[]
+  katalog: number[]
+}
+
+/**
+ * **Die Vorrangliste für Sprecherseiten:** zuerst die Lücken im Hauptbestand (Titel mit Synchro-Marke vor dem Rest), danach der Katalog (ohne Marke zuerst, wie bisher).
+ * Eine Lücke ist eine fällige Kennung, die nicht nach einer endgültigen Auskunft (404/410) noch in der Frist steht. Jede Kennung steht einmal — auch wenn sich
+ * mehrere Titel eine teilen (117 Titel, 10.10.2026).
+ */
+export function sprecherLuecken(e: {
+  haupt: number[]
+  katalog: Katalog
+  bestand: Record<string, Eintrag>
+  weg: WegListe
+  jetztMs: number
+}): Luecken {
+  const offen = (id: number): boolean => faellig(e.bestand, id, e.jetztMs) && !zurueckgestellt(e.weg, id, e.jetztMs)
+  const imHaupt = new Set(e.haupt)
+  const markiert = (id: number): number => Number(e.katalog.get(id) === true)
+  return {
+    haupt: [...imHaupt].filter(offen).sort((a, b) => markiert(b) - markiert(a)),
+    katalog: [...e.katalog.keys()].filter((id) => !imHaupt.has(id) && offen(id)).sort((a, b) => markiert(a) - markiert(b)),
+  }
 }
