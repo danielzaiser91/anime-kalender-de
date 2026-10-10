@@ -32,7 +32,7 @@ gegen('verbotenes Wort (Erweiterung) im Untertitel', [{ ...ok, untertitel: 'Erwe
 gegen('Link ohne Hash', [{ ...ok, link: 'https://x.de' }])
 pruefe('Patch-Notes (Gegenprobe): zwei Highlights am Tag sind erlaubt', pruefePatchnotes([1, 2].map((n) => ({ ...ok, text: `Neu ${n}`, highlight: true }))).length === 0)
 
-const aus = auslieferbarePatchnotes(mitDatum(roh as Record<string, unknown>[], () => new Map()))
+const aus = auslieferbarePatchnotes(mitDatum(roh as Record<string, unknown>[], (texte) => new Map(texte.map((t) => [t, '2026-10-10']))))
 pruefe('Patch-Notes: alle Einträge der Datei werden ausgeliefert, neueste zuerst', aus.length === (roh as unknown[]).length && aus.every((e, i) => i === 0 || aus[i - 1]!.datum >= e.datum))
 const probe = auslieferbarePatchnotes([
   { datum: '2026-10-08', kategorie: 'bugfix', text: 'B' },
