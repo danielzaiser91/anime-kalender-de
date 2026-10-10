@@ -1,7 +1,12 @@
 /** Tests für tools/pr-stufe.mjs: die Fälle der Stufentabelle. */
-import { bestimmeStufe } from './pr-stufe.mjs'
+import { bestimmeStufe, liesDiff } from './pr-stufe.mjs'
 
 const fehler = []
+const fall2 = (name, stufe, erwartet) => {
+  if (stufe === erwartet) return console.log(`  ✓ ${name}`)
+  fehler.push(name)
+  console.error(`  ✗ ${name} — Stufe ${stufe}`)
+}
 const zeilen = (n, text = 'x') => Array.from({ length: n }, () => text)
 const d = (pfad, hinzu = ['a'], weg = []) => ({ pfad, hinzu, weg })
 const fall = (name, dateien, erwartet) => {
@@ -30,6 +35,24 @@ fall('gemischt → höchste Stufe', [d('docs/a.md'), d('web/src/styles.css'), d(
 fall('unbekannter Pfad → 2', [d('irgendwas/neu.bin', ['x'])], 2)
 fall('über 300 Zeilen → 2', [d('web/src/components/Liste.tsx', zeilen(301))], 2)
 fall('leerer Diff → 2', [], 2)
+
+// Umgehungsversuche (Prüfer-Befund PR 661)
+const diff = (...kopf) => kopf.join('\n')
+const aus = (text) => bestimmeStufe(liesDiff(text)).stufe
+const plus = '+x'
+fall2('quotierter Pfad neben Doku → 2', aus(diff('diff --git a/docs/a.md b/docs/a.md', plus, 'diff --git "a/pipeline/\\303\\274.ts" "b/pipeline/\\303\\274.ts"', plus)), 2)
+fall2('Umbenennung pipeline → docs → 2', aus(diff('diff --git a/pipeline/build.ts b/docs/build.md', 'similarity index 100%', 'rename from pipeline/build.ts', 'rename to docs/build.md')), 2)
+fall2('Löschung unter pipeline → 2', aus(diff('diff --git a/pipeline/x.ts b/pipeline/x.ts', 'deleted file mode 100644', '-x')), 2)
+fall('Code nach Kommentarende → nicht 0', [d('web/src/App.tsx', ["/* a */ fetch('//evil')"])], (s) => s >= 1)
+fall('Code nach Blockende → nicht 0', [d('web/src/App.tsx', ['* Kommentar', '*/ code()'])], (s) => s >= 1)
+fall('Blockkommentar → 0', [d('web/src/App.tsx', ['/*', ' * Warum', ' */'])], 0)
+fall('.claude-Markdown → nicht 0', [d('.claude/rules/x.md')], (s) => s >= 1)
+fall('tools/claude-global-Markdown → nicht 0', [d('tools/claude-global/skills/a/SKILL.md')], (s) => s >= 1)
+fall('docs/deploy-Datei (.html) → nicht 0', [d('docs/seite.html')], (s) => s >= 1)
+fall2('Binärbild in docs → 0', aus(diff('diff --git a/docs/a.png b/docs/a.png', 'Binary files a/docs/a.png and b/docs/a.png differ')), 0)
+fall2('Binärdatei unter pipeline → 2', aus(diff('diff --git a/pipeline/a.bin b/pipeline/a.bin', 'Binary files a/pipeline/a.bin and b/pipeline/a.bin differ')), 2)
+fall2('Symlink in docs → 2', aus(diff('diff --git a/docs/l.md b/docs/l.md', 'new file mode 120000', plus)), 2)
+fall2('Moduswechsel einer Doku → 1', aus(diff('diff --git a/docs/a.md b/docs/a.md', 'old mode 100644', 'new mode 100755')), 1)
 
 if (fehler.length) {
   console.error(`\n${fehler.length} Fälle fehlgeschlagen`)

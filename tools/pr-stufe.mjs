@@ -35,7 +35,10 @@ const GRENZE_CSS = 30
 const GRENZE_KOMMENTAR = 30
 const GRENZE_GROSS = 300
 
-const DOKU = /^(.+\.md|docs\/.*|daniel-zum-abarbeiten\/.*|mockups\/.*)$/
+// Doku: .md nur außerhalb von Regel-/Werkzeug-/Workflow-Pfaden (dort wirkt Markdown global), in docs/mockups nur Bild-/Textendungen
+// (docs/ löst einen Deploy aus, andere Endungen dort sind mindestens Stufe 1).
+const DOKU = /^((?!\.claude\/|tools\/|\.github\/|extension\/|worker\/).+\.md|(docs|mockups|daniel-zum-abarbeiten)\/.+\.(md|png|svg|jpg|jpeg|webp|txt))$/
+const DOKU_ANDERE_ENDUNG = /^(docs|mockups|daniel-zum-abarbeiten)\//
 const TEXT = /^(data\/patchnotes\.yaml|web\/src\/(.*\/)?i18n[^/]*\.tsx?)$/
 const CSS = /^(web\/src|extension)\/.*\.css$/
 const WEB_CODE = /^web\/src\/.*\.tsx?$/
@@ -43,26 +46,70 @@ const RECHTSTEXT = /(impressum|datenschutz|nutzungsbedingungen)/i
 const STUFE_1 = /^(web\/src\/|extension\/|data\/dub-confirmed\.yaml$|data\/curated\/|data\/[^/]+\.yaml$)/
 const FAKTENZAHL = /\b\d{1,2}:\d{2}\b|\b\d{4}-\d{2}-\d{2}\b|\b\d{1,2}\.\d{1,2}\.(\d{2,4})?(?!\d)|\b\d+\s*(Folgen?|Episoden?|Staffeln?|Uhr)\b|\b\d{5,}\b/i
 
-/** Zerlegt einen Unified-Diff in Dateien mit hinzugefügten und entfernten Zeilen. */
+/**
+ * Zerlegt einen Unified-Diff in Dateien (Zielpfad, Quellpfad bei Umbenennen/Kopieren, hinzugefügte und entfernte Zeilen,
+ * Modus-/Symlink-/Binär-Merkmale). Ein Kopf, den die Regex nicht versteht (z. B. von git quotierter Pfad), wird eine
+ * Datei mit `unlesbar` und damit Stufe 2, nie den Zeilen der vorigen Datei zugeschlagen.
+ */
 export function liesDiff(text) {
   const dateien = []
   let aktuell = null
   for (const zeile of text.split('\n')) {
-    const kopf = /^diff --git a\/(.*) b\/(.*)$/.exec(zeile)
-    if (kopf) {
-      aktuell = { pfad: kopf[2], hinzu: [], weg: [] }
+    if (zeile.startsWith('diff --git ')) {
+      const kopf = /^diff --git a\/(\S.*) b\/(\S.*)$/.exec(zeile)
+      aktuell = { pfad: kopf ? kopf[2] : zeile, quelle: null, hinzu: [], weg: [], modus: false, symlink: false, binaer: false, unlesbar: !kopf || zeile.includes('"') }
+      if (kopf && kopf[1] !== kopf[2]) aktuell.quelle = kopf[1]
       dateien.push(aktuell)
-    } else if (aktuell && zeile.startsWith('+') && !zeile.startsWith('+++')) aktuell.hinzu.push(zeile.slice(1))
-    else if (aktuell && zeile.startsWith('-') && !zeile.startsWith('---')) aktuell.weg.push(zeile.slice(1))
+    } else if (!aktuell) continue
+    else if (/^(rename|copy) from (.*)$/.test(zeile)) aktuell.quelle = zeile.replace(/^(rename|copy) from /, '')
+    else if (/^(old|new|deleted file|new file) mode /.test(zeile)) {
+      if (/^(old|new) mode /.test(zeile)) aktuell.modus = true
+      if (/mode 120000/.test(zeile)) aktuell.symlink = true
+    } else if (/^(Binary files |GIT binary patch)/.test(zeile)) aktuell.binaer = true
+    else if (zeile.startsWith('+') && !zeile.startsWith('+++')) aktuell.hinzu.push(zeile.slice(1))
+    else if (zeile.startsWith('-') && !zeile.startsWith('---')) aktuell.weg.push(zeile.slice(1))
   }
   return dateien
 }
 
-const istKommentar = (z) => /^\s*(\/\/|\/\*|\*)/.test(z) || z.trim() === ''
+/** Nur Kommentarzeilen? Der Blockzustand wird verfolgt; Code vor/nach einem Kommentar zählt als Code, im Zweifel Code. */
+function nurKommentare(zeilen) {
+  let imBlock = false
+  for (const z of zeilen) {
+    let t = z.trim()
+    if (t === '') continue
+    if (!imBlock) {
+      if (t.startsWith('//')) continue
+      if (t.startsWith('/*')) t = t.slice(2)
+      else if (t.startsWith('*') && !t.startsWith('*/')) t = t.slice(1) // Hunk beginnt mitten im Blockkommentar
+      else return false
+      imBlock = true
+    }
+    const i = t.indexOf('*/')
+    if (i < 0) continue
+    if (t.slice(i + 2).trim() !== '') return false
+    imBlock = false
+  }
+  return true
+}
 
-/** Stufe einer einzelnen Datei samt Grund. */
+/** Stufe einer Datei: höchste Stufe aus Ziel- und Quellpfad (Umbenennen darf nicht herabstufen). */
 function stufeDatei(d) {
+  if (d.unlesbar) return [2, 'Diff-Kopf nicht lesbar (z. B. quotierter Pfad)']
+  if (d.symlink) return [2, 'Symlink']
+  const ziel = stufeNachPfad(d)
+  if (!d.quelle) return ziel
+  const quelle = stufeNachPfad({ ...d, pfad: d.quelle })
+  return quelle[0] > ziel[0] ? [quelle[0], `${quelle[1]} (Quelle ${d.quelle})`] : ziel
+}
+
+function stufeNachPfad(d) {
   const n = d.hinzu.length + d.weg.length
+  if (d.modus) return [Math.max(1, stufeOhneModus(d, n)[0]), 'Moduswechsel']
+  return stufeOhneModus(d, n)
+}
+
+function stufeOhneModus(d, n) {
   if (RECHTSTEXT.test(d.pfad)) return [1, 'Rechtstext']
   if (DOKU.test(d.pfad)) return [0, 'Doku']
   if (TEXT.test(d.pfad)) {
@@ -70,7 +117,8 @@ function stufeDatei(d) {
     return zahl ? [1, 'Text mit Tatsachenzahl (Uhrzeit, Datum, Folgenzahl oder ID)'] : [0, 'Text']
   }
   if (CSS.test(d.pfad)) return n <= GRENZE_CSS ? [0, `gescopte CSS (${n} Zeilen)`] : [1, `CSS über ${GRENZE_CSS} Zeilen (${n})`]
-  if (WEB_CODE.test(d.pfad) && n <= GRENZE_KOMMENTAR && [...d.hinzu, ...d.weg].every(istKommentar)) return [0, 'nur Kommentare']
+  if (WEB_CODE.test(d.pfad) && !d.binaer && n <= GRENZE_KOMMENTAR && nurKommentare(d.hinzu) && nurKommentare(d.weg)) return [0, 'nur Kommentare']
+  if (DOKU_ANDERE_ENDUNG.test(d.pfad)) return [1, 'Datei in docs/mockups mit anderer Endung']
   if (STUFE_1.test(d.pfad)) return [1, 'UI-Logik, Handbeleg oder Datenwert']
   return [2, 'Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt)']
 }

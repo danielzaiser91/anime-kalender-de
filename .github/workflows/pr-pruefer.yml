@@ -80,12 +80,19 @@ jobs:
           fi
           echo "stufe=$stufe" >> "$GITHUB_OUTPUT"
           {
+            echo "<!-- pr-stufe -->"
             echo "**Prüfstufe $stufe** für ${HEAD_SHA:0:9}"
             echo
             node -e 'const j=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log(j.begruendung.map(b=>"- "+b).join("\n"))' "$T/stufe.json" || true
           } > "$T/stufe.md"
           cat "$T/stufe.md" >> "$GITHUB_STEP_SUMMARY"
-          gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$T/stufe.md"
+          # Ein Kommentar je PR: den mit der Marke aktualisieren, sonst neu anlegen.
+          alt=$(gh api "repos/$GITHUB_REPOSITORY/issues/$PR/comments" --paginate -q '.[] | select(.body | startswith("<!-- pr-stufe -->")) | .id' | head -1) || alt=
+          if [ -n "$alt" ]; then
+            gh api -X PATCH "repos/$GITHUB_REPOSITORY/issues/comments/$alt" -F body=@"$T/stufe.md" > /dev/null
+          else
+            gh pr comment "$PR" --repo "$GITHUB_REPOSITORY" --body-file "$T/stufe.md"
+          fi
 
       # Token-Lage: Die Action schreibt das GITHUB_TOKEN per git config ins Arbeitsverzeichnis. Darum liegt der
       # Checkout in main/, der Arbeitsordner ist kein Git-Repo: der Versuch scheitert (Fehler wird abgefangen), das Token
