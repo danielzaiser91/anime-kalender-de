@@ -253,6 +253,28 @@
   sources:
     - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/
 
+- slug: pokemon-du-bist-dran-rtlplus
+  anilistId: 98298
+  titleDe: "Pokémon – Der Film: Du bist dran!"
+  platform: rtlplus
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-27" }
+  note: "Anime2You vom 27.09.2026: RTL+ zeigt den Film „ab sofort mit deutscher Synchronisation“; das Datum ist der Tag der Meldung."
+  sources:
+    - https://www.anime2you.de/news/1054460/rtl-plus-zwei-pokemon-filme/
+
+- slug: pokemon-die-macht-in-uns-rtlplus
+  anilistId: 100744
+  titleDe: "Pokémon – Der Film: Die Macht in uns"
+  platform: rtlplus
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-27" }
+  note: "Anime2You vom 27.09.2026: RTL+ zeigt den Film „ab sofort mit deutscher Synchronisation“; das Datum ist der Tag der Meldung."
+  sources:
+    - https://www.anime2you.de/news/1054460/rtl-plus-zwei-pokemon-filme/
+
 - slug: dororo-joyn
   anilistId: 101347
   platform: joyn
