@@ -113,9 +113,10 @@ const pad = (n: number | string): string => String(n).padStart(2, '0')
  * der letzte Sonntag bis zum Meldetag. Mehrere Folgen auf einmal lassen den ersten Tag offen — dann kein Datum, nie ein geratenes.
  */
 function startOhneKopfTag(feld: { start?: string; simulcast?: string; episoden?: string; bleibt?: boolean }, abSofortListe: boolean, veroeffentlicht: string): Pick<SammelEintrag, 'datum' | 'datumGeschaetzt'> {
-  const d = feld.start ? /^(\d{1,2})\.\s*([A-Za-zÄÖÜäöü]+)\s+(\d{4})/.exec(feld.start) : null
+  const d = feld.start ? /^(\d{1,2})\.\s*([A-Za-zÄÖÜäöü]+)(?:\s+(\d{4}))?/.exec(feld.start) : null
   const monat = d ? MONATE[d[2]!.toLowerCase()] : undefined
-  if (d && monat) return { datum: `${d[3]}-${pad(monat)}-${pad(d[1]!)}` }
+  /* „Start: 3. Oktober“ ohne Jahr: das Jahr der Meldung (`iso`), als geschätzt. */
+  if (d && monat) return d[3] ? { datum: `${d[3]}-${pad(monat)}-${pad(d[1]!)}` } : { datum: iso(Number(d[1]), monat, veroeffentlicht), datumGeschaetzt: true }
   /* „Serie sollte am 30. September entfernt werden“: sie war schon da, der Meldetag wäre kein Start. */
   if (!abSofortListe || feld.bleibt) return {}
   const tag = veroeffentlicht.slice(0, 10)
@@ -245,4 +246,13 @@ export function vorschlaegeAusSammelartikel(
     })
   }
   return raus
+}
+
+/**
+ * Muss ein gespeicherter Sammelartikel erneut gelesen werden? Nie gelesen: ja. Ein junger (45 Tage) mit Einträgen alle drei Tage
+ * („Wir aktualisieren diese Liste“), leer gelesen höchstens einmal am Tag — Ankündigungen ohne Liste bleiben legitim leer.
+ */
+export function sammelFaellig(p: { publishedAt: string; sammelGelesen?: string; sammel?: unknown[] }, heute: string): boolean {
+  if (!p.sammelGelesen) return true
+  return p.publishedAt >= addDays(heute, -45) && p.sammelGelesen <= addDays(heute, p.sammel?.length ? -3 : -1)
 }

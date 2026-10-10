@@ -5,6 +5,7 @@
  * Handvoll Datumsformen. Ein XML-Parser als Abhängigkeit wäre mehr Wartung als
  * Nutzen — und die Feeds hier sind alle WordPress, also gleich aufgebaut.
  */
+import { diffDays, toIsoDate } from '../../shared/time.ts'
 
 export interface FeedItem {
   title: string
@@ -49,7 +50,7 @@ export function parseFeed(xml: string): FeedItem[] {
     items.push({
       title: tag(item, 'title'),
       link,
-      publishedAt: date && !Number.isNaN(date.getTime()) ? date.toISOString().slice(0, 10) : '',
+      publishedAt: date && !Number.isNaN(date.getTime()) ? toIsoDate(date) : '',
       // `content:encoded` trägt den Volltext, `description` nur den Anriss.
       content: stripHtml(tag(item, 'content:encoded') || tag(item, 'description')),
     })
@@ -97,26 +98,29 @@ export interface FoundDate {
  * als erfundener Erster des Monats. Ein halbes Datum ist eine ehrliche Angabe,
  * ein geratenes nicht.
  */
-export function findDates(text: string, articleDate: string): FoundDate[] {
+export function findDates(text: string, articleDate: string, tabellenTageOhneJahr = false): FoundDate[] {
   const out: FoundDate[] = []
-  const seen = new Set<string>()
+  const seen = new Map<string, number>()
   const push = (found: FoundDate) => {
     const key = found.iso ?? found.month ?? ''
-    if (!key || seen.has(key)) return
-    seen.add(key)
+    if (!key) return
+    const bisher = seen.get(key)
+    // Eine Angabe mit Jahr schlägt dieselbe ohne Jahr.
+    if (bisher !== undefined) {
+      if (out[bisher]!.geschaetzt && !found.geschaetzt) out[bisher] = found
+      return
+    }
+    seen.set(key, out.length)
     out.push(found)
   }
   const context = (index: number) => text.slice(Math.max(0, index - 70), index + 70).replace(/\s+/g, ' ').trim()
-  const articleYear = Number(articleDate.slice(0, 4)) || new Date().getUTCFullYear()
-  const articleMonth = Number(articleDate.slice(5, 7)) || 1
 
   // "4. September 2026" / "4. September"
   const long = /(\d{1,2})\.\s*(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)(?:\s+(\d{4}))?/gi
   for (const m of text.matchAll(long)) {
     const day = Number(m[1])
     const month = MONTHS[m[2].toLowerCase()]
-    // Ohne Jahresangabe: das des Artikels, bei Rückwärtssprung das nächste.
-    const year = m[3] ? Number(m[3]) : month < articleMonth - 1 ? articleYear + 1 : articleYear
+    const year = m[3] ? Number(m[3]) : jahrNaechsterTag(articleDate, month, day)
     push({ iso: isoOf(year, month, day), context: context(m.index ?? 0) })
   }
 
@@ -125,10 +129,10 @@ export function findDates(text: string, articleDate: string): FoundDate[] {
     push({ iso: isoOf(Number(m[3]), Number(m[2]), Number(m[1])), context: context(m.index ?? 0) })
   }
 
-  /* „15.01.“ ohne Jahr (Disc-Tabellen): Jahr des Artikels, bei Rückwärtssprung das nächste — als geschätzt gekennzeichnet. */
-  for (const m of text.matchAll(/(?<![\d.])(\d{1,2})\.(\d{1,2})\.(?!\d)/g)) {
-    const month = Number(m[2])
-    const iso = isoOf(month < articleMonth - 1 ? articleYear + 1 : articleYear, month, Number(m[1]))
+  /* „15.01.“ ohne Jahr: nur auf Anfrage (Tabellen eines Shop-Artikels) — im Fließtext ist „Folge 3.5.“ kein Datum. Das Jahr wählt den
+     Tag, der dem Artikeldatum am nächsten liegt; die Angabe gilt als geschätzt. */
+  for (const m of tabellenTageOhneJahr ? text.matchAll(/(?<![\d.])(\d{1,2})\.(\d{1,2})\.(?!\d)/g) : []) {
+    const iso = isoOf(jahrNaechsterTag(articleDate, Number(m[2]), Number(m[1])), Number(m[2]), Number(m[1]))
     if (iso) push({ iso, context: context(m.index ?? 0), geschaetzt: true })
   }
 
@@ -140,6 +144,14 @@ export function findDates(text: string, articleDate: string): FoundDate[] {
   }
 
   return out
+}
+
+/** Jahr, in dem Tag und Monat dem Artikeldatum am nächsten liegen: Januar-Artikel mit „15.12.“ meint das Vorjahr, November-Artikel mit „15.09.“ bleibt im Jahr. */
+function jahrNaechsterTag(articleDate: string, month: number, day: number): number {
+  const jahr = Number(articleDate.slice(0, 4)) || new Date().getUTCFullYear()
+  const kandidaten = [jahr - 1, jahr, jahr + 1].filter((y) => isoOf(y, month, day))
+  const abstand = (y: number) => Math.abs(diffDays(articleDate, isoOf(y, month, day)!))
+  return kandidaten.sort((a, b) => abstand(a) - abstand(b))[0] ?? jahr
 }
 
 function isoOf(year: number, month: number, day: number): string | undefined {

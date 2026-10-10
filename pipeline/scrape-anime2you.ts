@@ -26,7 +26,7 @@ import { sendezeiten, type Sendezeit } from './lib/sendezeit.ts'
 import { eingearbeiteteAdressen } from './lib/eingearbeitet.ts'
 import type { PlatformId } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
-import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, zaehleSammelVerwurf, type SammelEintrag } from './lib/sammelartikel.ts'
+import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, zaehleSammelVerwurf, sammelFaellig, type SammelEintrag } from './lib/sammelartikel.ts'
 import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './lib/disc-verschiebungen.ts'
 import { DISC_UEBERSICHT, leseDiscUebersicht, type DiscZeile } from './lib/disc-uebersicht.ts'
 import { deutschlandBezug, dubBefund, type Sprachbefund } from './lib/sprachbefund.ts'
@@ -199,10 +199,7 @@ async function sammelartikelNachholen(alle: Proposal[], heute: string): Promise<
   const aus: Proposal[] = []
   let geholt = 0
   for (const p of alle) {
-    const jung = p.publishedAt >= addDays(heute, -45)
-    /* Ein junger Artikel ohne gelesenen Eintrag wird erneut geholt: Der Leser lernt dazu (10.10.2026: 12 von 15 lieferten 0). */
-    const faellig = !p.sammelGelesen || (jung && (p.sammelGelesen <= addDays(heute, -3) || !p.sammel?.length))
-    if (p.category !== 'streaming' || !ANBIETER_SAMMELARTIKEL.test(p.articleTitle) || !faellig || geholt >= 6) {
+    if (p.category !== 'streaming' || !ANBIETER_SAMMELARTIKEL.test(p.articleTitle) || !sammelFaellig(p, heute) || geholt >= 6) {
       aus.push(p)
       continue
     }
@@ -247,7 +244,7 @@ async function shopTabellenNachholen(alle: Proposal[], heute: string): Promise<P
       continue
     }
     /* Nach „Artikel teilen“ folgen Newsticker und Kommentare mit fremden Daten. */
-    const dates = findDates(text.split('Artikel teilen')[0]!, p.publishedAt).filter((d) => (d.iso ?? `${d.month}-31`) >= heute)
+    const dates = findDates(text.split('Artikel teilen')[0]!, p.publishedAt, true).filter((d) => (d.iso ?? `${d.month}-31`) >= heute)
     log(`Shop-Tabelle „${p.articleTitle}": ${dates.length} künftige Tage, davon ${dates.filter((d) => d.geschaetzt).length} mit ergänztem Jahr`)
     if (!dates.length) warn(`Shop-Tabelle „${p.articleTitle}": kein Tag gelesen — Seite umgebaut? ${p.articleUrl}`)
     aus.push({ ...p, dates, volltextGelesen: heute })

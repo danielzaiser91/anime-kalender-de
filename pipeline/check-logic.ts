@@ -171,7 +171,7 @@ import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { ALTE_AUTO_KENNUNG, istAbschied, nurOriginaltonMeldungen, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
 import { findDates } from './lib/feed.ts'
-import { leseSammelartikel, vorschlaegeAusSammelartikel, zaehleSammelVerwurf, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
+import { leseSammelartikel, vorschlaegeAusSammelartikel, zaehleSammelVerwurf, sammelFaellig, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
 import { erschieneneFolgen, deutscheFolgen } from './bau/folgen-dateien.ts'
@@ -8363,10 +8363,16 @@ console.log('\nSammelartikel „Ab sofort":')
 }
 console.log('\nDatum ohne Jahr in Disc-Tabellen („15.01.“, Anime2You 08.10.2026):')
 {
-  const d = findDates('Heaven’s Feel Box 18.12. Dr. STONE 15.01. Film 15.01.2027 um 18.30 Uhr', '2026-10-08')
+  const d = findDates('Heaven’s Feel Box 18.12. Dr. STONE 15.01. Film 15.01.2027 um 18.30 Uhr', '2026-10-08', true)
   pruefe('Ohne Jahr: steht dasselbe Datum auch mit Jahr im Text, gilt die Angabe mit Jahr', d.find((x) => x.iso === '2027-01-15')?.geschaetzt === undefined)
   pruefe('Ohne Jahr: „18.12.“ liegt im Jahr des Artikels, geschätzt', d.find((x) => x.iso === '2026-12-18')?.geschaetzt === true)
   pruefe('Ohne Jahr: eine Uhrzeit „18.30“ ist kein Datum', d.length === 2)
+  pruefe('Ohne Jahr: im Fließtext (ohne Anfrage) ist „Folge 3.5.“ kein Datum', findDates('Folge 3.5. läuft', '2026-10-08').length === 0)
+  pruefe('Ohne Jahr: Januar-Artikel mit „15.12.“ meint das Vorjahr', findDates('Box 15.12.', '2027-01-10', true)[0]?.iso === '2026-12-15')
+  pruefe('Ohne Jahr: November-Artikel mit „15.09.“ bleibt im Jahr, wird nicht zukünftig', findDates('Box 15.09.', '2026-11-10', true)[0]?.iso === '2026-09-15')
+  pruefe('Ohne Jahr: „ab 5.10. bis 7.10.2026“ — beide Tage, der mit Jahr nicht geschätzt', (() => { const x = findDates('ab 5.10. bis 7.10.2026', '2026-10-01', true); return x.length === 2 && !x.find((y) => y.iso === '2026-10-07')!.geschaetzt })())
+  pruefe('Ohne Jahr: dasselbe Datum mit Jahr nach dem ohne Jahr ersetzt die Schätzung', (() => { const x = findDates('Box 7.10. und am 7. Oktober 2026', '2026-10-01', true).filter((y) => y.iso === '2026-10-07'); return x.length === 1 && !x[0]!.geschaetzt })())
+  pruefe('Sammelartikel nachholen: Leer gelesen höchstens einmal am Tag, mit Einträgen alle drei Tage', !sammelFaellig({ publishedAt: '2026-10-05', sammelGelesen: '2026-10-10', sammel: [] }, '2026-10-10') && sammelFaellig({ publishedAt: '2026-10-05', sammelGelesen: '2026-10-09', sammel: [] }, '2026-10-10') && !sammelFaellig({ publishedAt: '2026-10-05', sammelGelesen: '2026-10-09', sammel: [{} as never] }, '2026-10-10') && sammelFaellig({ publishedAt: '2026-10-05', sammelGelesen: '2026-10-07', sammel: [{} as never] }, '2026-10-10'))
 }
 console.log('\nSammelartikel ohne Tag in der Kopfzeile (Netflix 04.10.2026):')
 {
@@ -8379,6 +8385,8 @@ console.log('\nSammelartikel ohne Tag in der Kopfzeile (Netflix 04.10.2026):')
   pruefe('Ohne Tag: „sollte entfernt werden“ → kein Meldetag als Start', e.find((x) => x.titel === 'Death Note')?.datum === undefined)
   const ranma = leseSammelartikel(['Neue Simulcasts:', '»Ranma 1/2« – Staffel 3', '»Ranma 1/2« – Staffel 3', 'Start: 3. Oktober 2026', 'Sprache: Deutsch', 'Stream: Netflix'].join('\n'), '2026-09-20')[0]
   pruefe('Ohne Tag: „Start: 3. Oktober 2026“ ist ein genannter Tag, nicht geschätzt', ranma?.datum === '2026-10-03' && !ranma.datumGeschaetzt)
+  const ohneJahr = leseSammelartikel(['Ab sofort bei Netflix:', '»Ranma 1/2« – Staffel 3', '»Ranma 1/2« – Staffel 3', 'Start: 3. Oktober', 'Sprache: Deutsch', 'Stream: Netflix'].join('\n'), '2026-10-07')[0]
+  pruefe('Ohne Tag: „Start: 3. Oktober“ ohne Jahr gilt mit dem Jahr der Meldung, als geschätzt', ohneJahr?.datum === '2026-10-03' && ohneJahr.datumGeschaetzt === true)
   pruefe('Ohne Tag: ohne „Ab sofort“-Liste und ohne Start kein Tag (nie der Meldetag)', leseSammelartikel(['Bald:', '»X«', '»X«', 'Start: 2027', 'Sprache: Deutsch', 'Stream: Netflix'].join('\n'), '2026-09-20')[0]?.datum === undefined)
   pruefe('Verwurf: der Grund wird gezählt', zaehleSammelVerwurf(e)['kein Starttag'] === 1)
   const v = vorschlaegeAusSammelartikel({ url: 'https://x/', publishedAt: '2026-10-07' }, e)
