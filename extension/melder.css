@@ -1216,6 +1216,11 @@
   /* Den Abstand macht der `gap` der Spalte — ein eigener margin doppelt ihn. */
   margin: 0;
   box-shadow: none;
+  /* Prime-Knopfregeln (min-height, content-box, text-align:left) ließen ihn überstehen und hoch werden. */
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  text-align: center;
 }
 
 /*
@@ -1802,8 +1807,17 @@ html.ak-im-player:not(.ak-durchgang) .ak-box {
   font: 700 14px/1 system-ui, sans-serif;
   box-shadow: 0 2px 10px rgb(0 0 0 / 40%);
   cursor: pointer;
+  /* Seitenregeln für `button` (Prime: min-height, margin, text-align:left, content-box) dürfen
+     weder das Zeichen aus der Mitte schieben noch die Maße ändern (10.10.2026). */
+  display: grid !important;
+  place-items: center;
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
 }
-.ak-icon[hidden] { display: none; }
+.ak-icon[hidden] { display: none !important; }
+.ak-icon-zeichen { display: block; font-size: 20px; line-height: 1; }
 .ak-icon:hover { border-color: #fff; }
 .ak-icon:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; }
 .ak-icon-badge {
@@ -1820,6 +1834,8 @@ html.ak-im-player:not(.ak-durchgang) .ak-box {
   font: 700 11px/20px system-ui, sans-serif;
   text-align: center;
   pointer-events: none;
+  display: block;
+  margin: 0;
 }
 .ak-icon-badge[hidden] { display: none; }
 .ak-icon-badge-leer { background: #2b6a3d; opacity: 0.85; }
