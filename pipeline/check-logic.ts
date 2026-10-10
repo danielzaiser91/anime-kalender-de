@@ -4232,7 +4232,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
  * falscher Sprachzusage ist schlimmer als kein Termin.
  */
 {
-  const { dubBefund } = await import('./scrape-anime2you.ts')
+  const { dubBefund } = await import('./lib/sprachbefund.ts')
   pruefe(
     'eine Frage über die Synchro gilt als offen, nicht als Zusage',
     dubBefund('Ob auch eine deutsche Synchronisation angeboten wird, ist zum aktuellen Zeitpunkt noch offen.') ===
