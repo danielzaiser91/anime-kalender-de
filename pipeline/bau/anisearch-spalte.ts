@@ -46,14 +46,21 @@ export function aniSearchZeitraum(released: string | undefined): { von?: string;
   return { von: aniSearchDatum(von), bis: aniSearchDatum(bis) }
 }
 
-/** „1997/98" (Winter über den Jahreswechsel) → 1998, wie AniList den Winter dem Jahr des Januars zuschlägt. */
-export function saisonJahrAnilistArt(s: string): number | undefined {
-  const m = s.match(/^(\d{4})(?:\/(\d{2}))?$/)
+/**
+ * aniSearchs Winter über den Jahreswechsel („1997/98") nach AniList-Art, abgeleitet aus dem Beginn: Januar/Februar sind WINTER des Startjahres,
+ * ein Dezember-Start FALL des Startjahres (gemessen 10.10.2026 an 2.910 AniList-Titeln: Dezember 113 FALL gegen 48 WINTER; Rurouni-Kenshin-Film
+ * 20.12.1997 = FALL 1997). Ohne Beginn oder bei anderem Monat bleibt der Schluss auf das spätere Jahr der Angabe.
+ */
+export function winterAnilistArt(jahresangabe: string, von: string | undefined): { jahr: number; saison: string } | undefined {
+  const m = jahresangabe.match(/^(\d{4})\/(\d{2})$/)
   if (!m) return undefined
+  const monat = Number(von?.slice(5, 7))
+  const startJahr = Number(von?.slice(0, 4))
+  if (monat === 12) return { jahr: startJahr, saison: 'FALL' }
+  if (monat === 1 || monat === 2) return { jahr: startJahr, saison: 'WINTER' }
   const jahr = Number(m[1])
-  if (!m[2]) return jahr
   const spaet = Math.floor(jahr / 100) * 100 + Number(m[2])
-  return spaet < jahr ? spaet + 100 : spaet
+  return { jahr: spaet < jahr ? spaet + 100 : spaet, saison: 'WINTER' }
 }
 
 /** Die Zeile der Ursprungsfassung (Japanisch, sonst das Herkunftsland). */
@@ -66,7 +73,8 @@ export function anisearchSpalte(e: AnisearchEintrag, mal: number[] = []): Spalte
   const jp = ursprung(sprachen)
   const { von, bis } = aniSearchZeitraum(jp?.released)
   const [saison, saisonJahr] = (info?.season ?? '').split(' ')
-  const jahr = saisonJahr ? saisonJahrAnilistArt(saisonJahr) : von ? Number(von.slice(0, 4)) : undefined
+  const winter = saison === 'Winter' && saisonJahr ? winterAnilistArt(saisonJahr, von) : undefined
+  const jahr = winter?.jahr ?? (saisonJahr ? Number(saisonJahr.slice(0, 4)) : von ? Number(von.slice(0, 4)) : undefined)
   return {
     titleRomaji: jp?.title,
     titleEn: sprachen.find((l) => l.language === 'Englisch')?.title,
@@ -74,7 +82,7 @@ export function anisearchSpalte(e: AnisearchEintrag, mal: number[] = []): Spalte
     format: info?.format ? FORMAT[info.format] : undefined,
     episodes: info?.episodes && info.episodes > 0 ? info.episodes : undefined,
     jpYear: jahr && Number.isFinite(jahr) ? jahr : undefined,
-    jpSeason: saison ? SAISON[saison] : undefined,
+    jpSeason: winter?.saison ?? (saison ? SAISON[saison] : undefined),
     jpEnd: bis ?? von,
     status: jp?.status ? STATUS[jp.status] : undefined,
     studios: info?.studios,

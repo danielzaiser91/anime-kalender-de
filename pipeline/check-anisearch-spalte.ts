@@ -3,8 +3,8 @@
  * Die Liste `data/anisearch-abweichungen.json` schreibt der Bau; fehlt sie noch, entfällt der Teil „Bestand". Läuft in `check:logic`.
  */
 import { existsSync, readFileSync } from 'node:fs'
-import { FELDER, aniSearchDatum, aniSearchZeitraum, anisearchSpalte, saisonJahrAnilistArt, urteil } from './bau/anisearch-spalte.ts'
-import { ABWEICHUNGEN_DATEI, type Bericht, type Paar, malJeAnisearch, pruefeZaehler, vergleichePaare } from './bau/anisearch-abweichungen.ts'
+import { FELDER, aniSearchDatum, aniSearchZeitraum, anisearchSpalte, winterAnilistArt, urteil } from './bau/anisearch-spalte.ts'
+import { ABWEICHUNGEN_DATEI, type Bericht, type Paar, kuerzeBericht, malJeAnisearch, vergleichePaare } from './bau/anisearch-abweichungen.ts'
 import type { AnisearchEintrag } from './bau/01-quellen.ts'
 
 let fehler = 0
@@ -32,7 +32,13 @@ const s = anisearchSpalte(eintrag, [121])
 pruefe('Spalte: Titel aus der japanischen Zeile, Englisch aus der englischen', s.titleRomaji === 'Hagane no Renkinjutsushi' && s.titleEn === 'Fullmetal Alchemist' && s.titleNative === '鋼の錬金術師')
 pruefe('Spalte: Format, Folgen, Saison, Jahr, Status, Ende, MAL abgebildet',
   s.format === 'TV' && s.episodes === 51 && s.jpSeason === 'FALL' && s.jpYear === 2003 && s.status === 'FINISHED' && s.jpEnd === '2004-10-02' && s.malId?.[0] === 121 && s.synopsis === true)
-pruefe('Spalte: Winter 1997/98 zählt wie bei AniList zum Jahr 1998, 1999/00 zu 2000', saisonJahrAnilistArt('1997/98') === 1998 && saisonJahrAnilistArt('1999/00') === 2000 && saisonJahrAnilistArt('2003') === 2003)
+pruefe('Spalte: Winter über den Jahreswechsel nach dem Beginn — Dezember = FALL des Startjahres (Rurouni-Kenshin-Film 20.12.1997), Januar/Februar = WINTER des Startjahres, ohne Beginn das spätere Jahr',
+  JSON.stringify(winterAnilistArt('1997/98', '1997-12-20')) === '{"jahr":1997,"saison":"FALL"}' && JSON.stringify(winterAnilistArt('1997/98', '1998-01-07')) === '{"jahr":1998,"saison":"WINTER"}' &&
+  JSON.stringify(winterAnilistArt('1999/00', undefined)) === '{"jahr":2000,"saison":"WINTER"}' && winterAnilistArt('2003', '2003-01-05') === undefined)
+pruefe('Spalte: Winter 1997/98 mit Dezember-Beginn ergibt FALL 1997', (() => {
+  const w = anisearchSpalte({ streams: [], info: { languages: [{ language: 'Japanisch', title: 'X', released: '20.12.1997' }], season: 'Winter 1997/98' } } as unknown as AnisearchEintrag)
+  return w.jpYear === 1997 && w.jpSeason === 'FALL'
+})())
 pruefe('Datum: so genau wie die Angabe, „?" bleibt leer', aniSearchDatum('04.10.2003') === '2003-10-04' && aniSearchDatum('10.2003') === '2003-10' && aniSearchDatum('2003') === '2003' && aniSearchDatum('?') === undefined)
 pruefe('Zeitraum: einzelnes Datum ist nur der Beginn, offenes Ende bleibt leer', JSON.stringify(aniSearchZeitraum('04.10.2003')) === '{"von":"2003-10-04"}' && aniSearchZeitraum('04.10.2003 - ?').bis === undefined)
 pruefe('Spalte: ohne Informationen entsteht nichts Geratenes', anisearchSpalte({ streams: [] } as AnisearchEintrag).titleRomaji === undefined && anisearchSpalte({ streams: [] } as AnisearchEintrag).jpYear === undefined)
@@ -54,16 +60,19 @@ const paare = [paar(1, { episodes: 12 }, { episodes: 12 }), paar(2, { episodes: 
 const v = vergleichePaare(paare)
 const ep = v.felder.episodes
 pruefe('Zähler: je ein Titel pro Urteil, Abweichung trägt beide Werte', ep.gleich === 1 && ep.abweichend === 1 && ep.nurAnilist === 1 && ep.nurAnisearch === 1 && ep.beideLeer === 1 && JSON.stringify(ep.abweichungen) === '[[2,12,13]]')
-pruefe('Zähler: die Summe je Feld stimmt mit der Titelzahl überein', (() => { try { pruefeZaehler({ ...v, titel: { gesamt: 5, verglichen: 5, ohneAnisearchEintrag: 0, ohneInfo: 0, nurAnisearch: 0 } }); return true } catch { return false } })())
-pruefe('Zähler: ein verlorener Titel wird bemerkt', (() => { try { pruefeZaehler({ ...v, titel: { gesamt: 6, verglichen: 6, ohneAnisearchEintrag: 0, ohneInfo: 0, nurAnisearch: 0 } }); return false } catch { return true } })())
+const lang = { ...v, stand: '', titel: { gesamt: 0, verglichen: 0, ohneAnisearchEintrag: 0, ohneInfo: 0, nurAnisearch: 0 } }
+lang.felder.episodes.abweichungen = Array.from({ length: 30 }, (_, i) => [i, 1, 2])
+lang.namen = { 1: 'a', 2: 'b' }
+const kurz = kuerzeBericht(lang)
+pruefe('Kürzen: Zähler bleiben, Beispiele auf 20, Namen nur noch zu den übrigen Kennungen', kurz.felder.episodes.abweichend === ep.abweichend && kurz.felder.episodes.abweichungen.length === 20 && Object.keys(kurz.namen).length === 2)
 
 /* Bestand: gemessen am 10.10.2026 mit 2.619 von 2.768 AniList-Titeln verglichen (94,6 %); die Grenzen lassen reichlich Spielraum und schlagen nur bei einem Bruch an. */
+/* Untergrenzen für `gleich` je Feld, rund 15 % unter dem Messwert vom 10.10.2026 (Romaji 1546, Englisch 1426, Nativ 903, Format 2448, Folgen 2556, Jahr 2558, Saison 2321, Ende 2354, Status 2605, Studios 2230, Beschreibung 2492, MAL 2590). */
+const GLEICH_MINDESTENS = { titleRomaji: 1300, titleEn: 1200, titleNative: 750, format: 2080, episodes: 2170, jpYear: 2170, jpSeason: 1970, jpEnd: 2000, status: 2210, studios: 1890, synopsis: 2110, malId: 2200 }
 if (existsSync(ABWEICHUNGEN_DATEI)) {
   const b = JSON.parse(readFileSync(ABWEICHUNGEN_DATEI, 'utf8')) as Bericht
-  try {
-    pruefeZaehler(b)
-  } catch (e) {
-    pruefe('Bestand: Zähler summieren sich', false, (e as Error).message)
+  for (const [f, grenze] of Object.entries(GLEICH_MINDESTENS) as [(typeof FELDER)[number], number][]) {
+    pruefe(`Bestand: ${f} stimmt bei mindestens ${grenze} Titeln überein`, b.felder[f].gleich >= grenze, `${b.felder[f].gleich}`)
   }
   const anilistTitel = b.titel.gesamt - b.titel.nurAnisearch
   pruefe('Bestand: mindestens 85 % der AniList-Titel haben aniSearch-Daten und sind verglichen', b.titel.verglichen >= 0.85 * anilistTitel, `${b.titel.verglichen} von ${anilistTitel}`)

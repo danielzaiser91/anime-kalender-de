@@ -1,17 +1,20 @@
-import { log, readJson, writeJson } from '../lib/util.ts'
+import { writeFileSync } from 'node:fs'
+import { log, readJson, warn, writeJson } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
 import type { AniListMedia } from '../lib/anilist.ts'
 import type { AnisearchEintrag } from './01-quellen.ts'
+import { baueTitel } from './02-titel.ts'
 import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 import { FELDER, type FeldName, type Spalte, type Urteil, anilistSpalte, anisearchSpalte, urteil } from './anisearch-spalte.ts'
 
 /**
  * **Abweichungsliste AniList gegen aniSearch** (`data/anisearch-abweichungen.json`, Stufe B der AniList-Ablösung, 10.10.2026). Je Feld die Zähler
- * gleich / abweichend / nur AniList / nur aniSearch / beide leer; bei Abweichungen beide Werte, bei den „nur"-Fällen die Kennungen. Nichts davon
+ * gleich / abweichend / nur AniList / nur aniSearch / beide leer; dazu je Feld höchstens 20 Beispiele (beide Werte bzw. Kennungen). Nichts davon
  * wird ausgeliefert: die Seite zeigt weiter den AniList-Wert, die Datei ist Messgrundlage für den Umzug.
  */
 export const ABWEICHUNGEN_DATEI = 'data/anisearch-abweichungen.json'
+const BEISPIELE = 20
 
 export type FeldBericht = Record<Urteil, number> & {
   abweichungen: [number, unknown, unknown][]
@@ -48,13 +51,16 @@ export function vergleichePaare(paare: Paar[]): Pick<Bericht, 'felder' | 'namen'
   return { felder, namen }
 }
 
-/** Zusicherung: je Feld ergeben die fünf Zähler genau die Zahl der verglichenen Titel — sonst ginge ein Titel unbemerkt verloren. */
-export function pruefeZaehler(b: Pick<Bericht, 'felder' | 'titel'>): void {
-  for (const f of FELDER) {
-    const x = b.felder[f]
-    const summe = x.gleich + x.abweichend + x.nurAnilist + x.nurAnisearch + x.beideLeer
-    if (summe !== b.titel.verglichen) throw new Error(`aniSearch-Abweichungen: Feld ${f} zählt ${summe} statt ${b.titel.verglichen} Titel`)
-  }
+/** Zähler vollständig, je Liste nur die ersten Beispiele — die Volllisten (469 KB) würden bei jeder Änderung neu committet. */
+export function kuerzeBericht(b: Bericht): Bericht {
+  const felder = Object.fromEntries(
+    FELDER.map((f) => {
+      const x = b.felder[f]
+      return [f, { ...x, abweichungen: x.abweichungen.slice(0, BEISPIELE), nurAnilistIds: x.nurAnilistIds.slice(0, BEISPIELE), nurAnisearchIds: x.nurAnisearchIds.slice(0, BEISPIELE) }]
+    }),
+  ) as Record<FeldName, FeldBericht>
+  const ids = new Set(FELDER.flatMap((f) => [...felder[f].abweichungen.map((a) => a[0]), ...felder[f].nurAnilistIds, ...felder[f].nurAnisearchIds]))
+  return { ...b, felder, namen: Object.fromEntries(Object.entries(b.namen).filter(([id]) => ids.has(Number(id)))) }
 }
 
 /** Kennungen, die aniSearchs eigene Brücke (MAL → aniSearch) je aniSearch-Eintrag nennt. */
@@ -88,12 +94,27 @@ export function sammlePaare({ titles, byMal, byAniId, anisearch }: Quellen, mal:
 const zaehlerZeile = (b: Bericht): string =>
   FELDER.map((f) => `${f} ${b.felder[f].gleich}=/${b.felder[f].abweichend}≠/${b.felder[f].nurAnilist}A/${b.felder[f].nurAnisearch}S`).join(' · ')
 
-/** Phase des Baus: vergleicht und schreibt die Liste — nur bei Änderung, damit der Stand nicht täglich committet wird. */
-export function schreibeAnisearchAbweichungen(q: Quellen): void {
+/** Vergleicht und schreibt die Liste — nur bei Änderung, damit der Stand nicht täglich committet wird. */
+function schreibeAnisearchAbweichungen(q: Quellen): void {
   const { paare, titel } = sammlePaare(q, malJeAnisearch(readJson<Record<string, number>>('data/anisearch-mal.json', {})))
-  const bericht: Bericht = { stand: todayIso(), titel, ...vergleichePaare(paare) }
-  pruefeZaehler(bericht)
+  const voll: Bericht = { stand: todayIso(), titel, ...vergleichePaare(paare) }
+  // Volllisten nur auf Wunsch und nur lokal: `ANISEARCH_VOLLLISTE=<Pfad außerhalb des Repos>`.
+  if (process.env.ANISEARCH_VOLLLISTE) writeFileSync(process.env.ANISEARCH_VOLLLISTE, JSON.stringify(voll))
+  const bericht = kuerzeBericht(voll)
   const alt = readJson<Partial<Bericht>>(ABWEICHUNGEN_DATEI, {})
   if (JSON.stringify({ ...alt, stand: '' }) !== JSON.stringify({ ...bericht, stand: '' })) writeJson(ABWEICHUNGEN_DATEI, bericht)
   log(`aniSearch gegen AniList: ${titel.verglichen} von ${titel.gesamt} Titeln verglichen (${titel.ohneAnisearchEintrag} ohne Eintrag, ${titel.ohneInfo} ohne Info) — ${zaehlerZeile(bericht)} — Liste: ${ABWEICHUNGEN_DATEI}`)
+}
+
+let messfehler = 0
+
+/** Bau-Phase `baueTitel` samt anschließender Messung. Die Messung darf den Bau nie stoppen: ein Fehler wird gezählt und gewarnt, der Bau läuft weiter. */
+export function baueTitelGemessen(q: Parameters<typeof baueTitel>[0] & Pick<Quellen, 'anisearch'>) {
+  const gebaut = baueTitel(q)
+  try {
+    schreibeAnisearchAbweichungen({ titles: gebaut.titles, byMal: q.byMal, byAniId: q.byAniId, anisearch: q.anisearch })
+  } catch (e) {
+    warn(`aniSearch-Abweichungsliste übersprungen (Messfehler Nr. ${++messfehler} in diesem Lauf): ${(e as Error).message}`)
+  }
+  return gebaut
 }
