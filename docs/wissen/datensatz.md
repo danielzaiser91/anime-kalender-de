@@ -767,6 +767,10 @@ Feld am kuratierten Release: `premiere: { weg: tv|stream, quelle, vorher?: disc|
 
 Erster Eintrag: YAIBA: Samurai Legend, ProSieben MAXX ab 05.11.2026 (`weg: tv`, ohne `vorher`; Anime2You 1059541). Offen: Newsletter ohne eigene Sorte für Streaming-Premieren; Kandidaten Beelzebub (Netflix) und Bleach: Memories of Nobody (ADN) fehlen, solange keine Quelle „erstmals“ sagt (Bericht `daniel-zum-abarbeiten/berichte/premiere-nach-disc.md`).
 
+## Nachleger-Zeilen im Antwortkasten (Daniel, 10.10.2026, Option 2)
+
+Der Kasten zählt den weitesten Anbieter; „Nächste Folge“ zeigt nur Folgen, die nirgends erschienen sind (`ohneSchonErschienene`). Was ein anderer Anbieter noch nachlegt, steht darunter: je Anbieter eine Zeile „Netflix: Folge 16 am Sa 17.10.“ (höchstens drei, früheste zuerst; geschätzt „≈“, Uhrzeit nur wo geführt). Logik `detail/nachleger.ts` (`nachlegerJeAnbieter`, Test in `pipeline/check-zaehlung.ts`), Anzeige `detail/nachleger-zeilen.tsx` im `folgen`-Platz des Kastens. TV, Kino und Disc sind ausgenommen: Die TV-Pille nennt Folge, Tag und Uhrzeit schon selbst (Hell’s Paradise, ProSieben FUN 11./12.10.).
+
 ## Belege: je Aussage und Anbieter nur der stärkste (10.10.2026)
 
 Daniel, Fall YAIBA: „Quellen 2" mit zwei gleich beschrifteten anime2you.de-Reitern; der zweite Artikel nannte den Titel nur im Nebensatz. „Der selbe Anbieter kann sich nicht selbst belegen."
