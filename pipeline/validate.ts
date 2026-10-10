@@ -32,6 +32,7 @@ function main(): void {
     if (e.schnitt && (!e.schnitt.was?.length || !e.schnitt.quellen?.length || e.schnitt.quellen.some((q) => !/^https:\/\//.test(q))))
       errors.push(`${at}: schnitt braucht was und quellen (https-Adressen)`)
     if (e.fsk !== undefined && !FSK.includes(e.fsk)) errors.push(`${at}: ungültige FSK "${e.fsk}"`)
+    if (e.sprache !== undefined && e.sprache !== 'omu' && e.sprache !== 'offen') errors.push(`${at}: sprache ist omu oder offen, nicht "${e.sprache}"`)
 
     const s = e.schedule
     if (!s?.firstEpisodeDate) {

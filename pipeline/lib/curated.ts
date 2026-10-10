@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { ROOT } from './util.ts'
-import type { DateMeaning, Fsk, PlatformId, ReleaseType, Schedule } from '../../shared/types.ts'
+import type { DateMeaning, Fsk, PlatformId, Release, ReleaseType, Schedule } from '../../shared/types.ts'
 
 export interface CuratedEntry {
   slug: string
@@ -24,6 +24,8 @@ export interface CuratedEntry {
   note?: string
   /** Siehe `Release.netflixOriginal`. */
   netflixOriginal?: boolean
+  /** Siehe `Release.sprache` — ein Termin ohne belegte deutsche Synchro (Kinostart nur OmU). */
+  sprache?: Release['sprache']
   /** Siehe `Release.nachtrag`. */
   nachtrag?: { kurz: string; abschnitte: { art: string; text: string }[] }
   /**

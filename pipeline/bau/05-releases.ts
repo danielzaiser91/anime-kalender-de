@@ -218,7 +218,7 @@ export function baueReleases({
       publisher: entry.publisher,
       edition: entry.edition,
       note: entry.note,
-      ...(entry.nachtrag ? { nachtrag: entry.nachtrag } : {}), ...(entry.netflixOriginal ? { netflixOriginal: true } : {}),
+      ...(entry.nachtrag ? { nachtrag: entry.nachtrag } : {}), ...(entry.netflixOriginal ? { netflixOriginal: true } : {}), ...(entry.sprache ? { sprache: entry.sprache } : {}),
       ...(entry.schnitt ? { schnitt: entry.schnitt } : {}),
       herkunft: entry.herkunft ?? durchzaehlungHinweis,
       disputedDates: entry.disputedDates,

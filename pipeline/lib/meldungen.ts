@@ -370,9 +370,9 @@ const SPRACH_NOTIZ: Partial<Record<Sprachbefund, string>> = {
   offen: 'Termin laut Quelle – ob mit deutscher Synchro, ist dort noch offen.',
 }
 
-function sprachHinweis(sprache: Sprachbefund, platform: string): Pick<Release, 'note'> {
+function sprachHinweis(sprache: Sprachbefund, platform: string): Pick<Release, 'note' | 'sprache'> {
   const note = platform === 'disc' ? undefined : SPRACH_NOTIZ[sprache]
-  return note ? { note } : {}
+  return note ? { note, sprache: 'offen' } : {}
 }
 
 const nachSprachzusage = (vorschlaege: Vorschlag[]) =>

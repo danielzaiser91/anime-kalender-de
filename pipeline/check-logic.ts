@@ -4294,6 +4294,19 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('Auto-Termin: die Meldung zählt als „nur Originalton" (Protokoll, Rückzugsgrund)', nurOriginaltonMeldungen([omu]).length === 1)
   const still = releasesAus([v('https://a/1', 'unklar', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
   pruefe('Auto-Termin: nennt die Meldung keine Sprache, sagt die Notiz das', /sagt sie nicht/.test(still?.note ?? ''), still?.note)
+  /* **Kennzeichnung bis in die Karte** (10.10.2026): Ein Termin ohne Sprachzusage trägt `sprache`, das Event erbt es, und er belegt keine Synchro. */
+  pruefe('Auto-Termin: ohne Sprachzusage ist der Termin gekennzeichnet (sprache: offen), das Event erbt es', still?.sprache === 'offen' && expandEvents(still!).every((e) => e.sprache === 'offen'), still?.sprache)
+  {
+    const { ohneBelegteSynchro } = await import('./bau/synchro-belegt.ts')
+    const { autoReleaseWidersprueche } = await import('./lib/auto-release-pruefung.ts')
+    const t = { id: 206814, dubConfidence: 'low', jpYear: 2026, streams: [] } as unknown as Title
+    const r = (sprache?: 'omu' | 'offen') => ({ slug: 'x', titleId: 206814, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-11' }, sources: ['https://a/1'], ...(sprache ? { sprache } : {}) }) as unknown as Release
+    pruefe('Beleg-Kette: ein OmU-/Sprache-offen-Termin macht den Titel nicht „belegt" (Reihenliste, ✕ DE)', ohneBelegteSynchro(t, [r('omu')]) && !ohneBelegteSynchro(t, [r()]))
+    const meldung = (dub: string, articleTitle: string) => ({ articleTitle, articleUrl: 'https://a/1', dub, dates: [{ iso: '2026-10-11', context: 'x' }] }) as unknown as Parameters<typeof releasesAus>[0][number]
+    const auto = (extra: object) => [{ ...r(), automatisch: true, ...extra }] as unknown as Release[]
+    pruefe('Bau-Prüfung: automatischer Termin ohne Sprachzusage und ohne Kennzeichnung ist ein Widerspruch', autoReleaseWidersprueche(auto({}), [meldung('unklar', 'Start')]).length === 1 && autoReleaseWidersprueche(auto({ sprache: 'offen' }), [meldung('unklar', 'Start')]).length === 0)
+    pruefe('Bau-Prüfung: „alle Folgen" (batch) aus einer Simulcast-Meldung ist ein Widerspruch', autoReleaseWidersprueche(auto({ releaseType: 'batch' }), [meldung('ja', '»X« im Simulcast')]).length === 1 && autoReleaseWidersprueche(auto({}), [meldung('ja', '»X« im Simulcast')]).length === 0)
+  }
   const offen = releasesAus([v('https://a/1', 'offen', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
   pruefe('Auto-Termin: lässt die Meldung die Synchro offen, sagt die Notiz das', /noch offen/.test(offen?.note ?? ''), offen?.note)
   const zugesagt = releasesAus([v('https://a/1', 'ja', 'ab dem 11. Oktober 2026 bei Crunchyroll')], titel, [], '2026-10-08')[0]
