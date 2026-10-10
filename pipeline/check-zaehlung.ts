@@ -2,7 +2,9 @@
  * Zusicherungen zur Folgenzählung im Detail-Panel (10.10.2026, „Das Band der Unterwelt“: „27 von 24 Folgen
  * erschienen“, Netflix „3 Fg.“). Läuft in `check:logic`. Erfundene Termine, kein echter Titel.
  */
+import { weekdayName } from '../shared/time.ts'
 import type { ReleaseEvent } from '../shared/types.ts'
+import { nachlegerJeAnbieter, nachlegerText } from '../web/src/components/detail/nachleger.ts'
 import { ohneSchonErschienene, zaehleErschienen, zaehleErschienenJeAnbieter } from '../web/src/components/detail/antwort-regeln.ts'
 
 let fehler = 0
@@ -53,6 +55,19 @@ const rest = ohneSchonErschienene(offen, [...crunchyroll.slice(0, 20), ...offen]
 pruefe('„Nächste Folge“: was woanders schon erschienen ist, fällt weg, die übrigen bleiben', rest.length === 1 && rest[0]!.episode === 25)
 const sichtung = [termin('tv', morgen, 3, { sichtung: true })]
 pruefe('eine TV-Sichtung (unsere Zählung) wird nicht herausgefiltert', ohneSchonErschienene(sichtung, [...crunchyroll, ...sichtung]).length === 1)
+
+/* Nachleger: Das Band der Unterwelt (Crunchyroll alle 24, Netflix macht mit Folge 16 weiter). */
+const tag = weekdayName('2999-10-17', true)
+const nfOffen = [termin('netflix', '2999-10-17', 16, { estimated: true, time: undefined }), termin('netflix', '2999-10-24', 17, { time: undefined })]
+const nachleger = nachlegerJeAnbieter([...crunchyroll, ...woche('netflix', 12, 15), ...nfOffen])
+pruefe('ein Anbieter, der hinterherhinkt, bekommt eine Zeile mit seinem nächsten Termin', nachleger.length === 1 && nachleger[0]!.von === 16 && nachleger[0]!.date === '2999-10-17')
+pruefe('geschätzter Termin: „≈“ statt „am“, ohne Uhrzeit', nachlegerText(nachleger[0]!) === `Netflix: Folge 16 ≈ ${tag} 17.10.`)
+pruefe('belegter Termin mit Uhrzeit', nachlegerText({ platform: 'netflix', von: 16, bis: 16, date: '2999-10-17', time: '08:00', geschaetzt: false }) === `Netflix: Folge 16 am ${tag} 17.10. um 08:00 Uhr`)
+pruefe('mehrere Folgen an einem Tag als Spanne', nachlegerText({ platform: 'netflix', von: 1, bis: 4, date: '2999-10-17', geschaetzt: false }) === `Netflix: Folge 1–4 am ${tag} 17.10.`)
+pruefe('was nirgends erschienen ist, ist „Nächste Folge“ und keine Nachleger-Zeile', nachlegerJeAnbieter([...crunchyroll.slice(0, 20), termin('netflix', '2999-01-01', 25)]).length === 0)
+pruefe('TV-Termine sind ausgenommen (die TV-Pille nennt sie selbst)', nachlegerJeAnbieter([...crunchyroll, termin('tv', '2999-01-01', 3)]).length === 0)
+const vier = ['netflix', 'prime', 'disney', 'hidive'].map((p, i) => termin(p, `2999-01-0${i + 1}`, 5))
+pruefe('höchstens drei Zeilen, die frühesten zuerst', nachlegerJeAnbieter([...crunchyroll, ...vier]).map((n) => n.platform).join() === 'netflix,prime,disney')
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : 'Zählung: alle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
