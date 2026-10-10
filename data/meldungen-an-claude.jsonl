@@ -15,3 +15,4 @@
 {"am":"2026-10-08T12:23:04.497Z","quelle":"wache-woechentlich","schwere":"warnung","text":"Wochenwache: tonspuren-monatlich.yml: letzter erfolgreicher Lauf vor 868 h, erlaubt 792 h"}
 {"am":"2026-10-08T12:23:04.941Z","quelle":"wache-woechentlich","schwere":"warnung","text":"Stumme Quellen (Frist überschritten): anisearch-eintraege noch nie, motn seit 36 Tagen","datei2":"data/source-health.json"}
 {"am":"2026-10-10T13:17:31.008Z","quelle":"bestand-bauen","schwere":"hinweis","text":"1 Meldungen ohne deutschen Termin (nur Originalton): Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast","datei2":"daniel-zum-abarbeiten/listen/23-nur-originalton.md"}
+{"am":"2026-10-10T14:03:50.616Z","quelle":"bestand-bauen","schwere":"hinweis","text":"1 Meldungen ohne deutschen Termin (nur Originalton): Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast","datei2":"daniel-zum-abarbeiten/listen/23-nur-originalton.md"}
