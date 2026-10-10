@@ -39,6 +39,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          path: main
 
       - name: Diff bereitlegen
         id: diff
@@ -65,9 +66,11 @@ jobs:
           echo "Diff-Zustand: $zustand"
           wc -c "$T/pr.diff"
 
-      # Kein GH_TOKEN im Job-env. Die Action braucht das Token als Eingabe und hält es in ihrer Umgebung; dass
-      # Claude es nicht über /proc liest, sichern die Berechtigungen (Read nur Arbeitsverzeichnis, /proc verboten,
-      # Write nur Temp, kein Bash). Eine Sandbox gegen alle Lesewege ist das nicht.
+      # Token-Lage: Die Action schreibt das GITHUB_TOKEN beim Start per git config in die Remote-URL des
+      # Arbeitsverzeichnisses. Darum liegt der Checkout in main/, der Arbeitsordner selbst ist kein Git-Repo: der
+      # Schreibversuch scheitert dort (die Action fängt den Fehler ab), das Token landet in keiner Datei. Es bleibt in
+      # der Prozessumgebung (/proc ist verboten). Grep/Glob ohne Pfadgrenze erreichen noch _runner_file_commands und
+      # ~/.config (nur Lesen, dort liegt kein Token). Eine Sandbox gegen alle Lesewege ist das nicht.
       - name: Prüfer
         uses: anthropics/claude-code-action@v1
         env:
@@ -89,7 +92,7 @@ jobs:
             Diff-Zustand: ${{ steps.diff.outputs.diff-zustand }}. Lautet er "unvollstaendig", ist der Diff leer,
             nicht abrufbar oder auf 400000 Byte gekürzt: Du hast nicht alles gesehen, nenne das im Protokoll und
             gib zwingend "aendern" aus, nie "ok".
-            Das Arbeitsverzeichnis ist der Stand von main (ohne die PR-Änderungen); lies dort CLAUDE.md und
+            Der Stand von main liegt in ${{ github.workspace }}/main (ohne die PR-Änderungen); lies dort CLAUDE.md und
             bei Bedarf die berührten Dateien zum Vergleich.
 
             Prüfe gegen die Projektregeln aus CLAUDE.md: nichts behaupten, was nicht belegt ist (kein Termin
