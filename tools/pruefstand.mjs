@@ -17,7 +17,7 @@
  * der Liste und „gemeldet" ist die Differenz — so stimmt die Rechnung auch
  * dann noch, wenn ein Erzeuger seinen Filter ändert.
  *
- * Die Datei ist winzig (unter 400 Byte) und liegt neben den anderen
+ * Die Datei ist klein (rund 4 KB am 10.10.2026, mit `bekannt`) und liegt neben den anderen
  * Erzeugnissen. Die Statusanzeige läuft aus einer lokalen Datei; sie kann
  * `titles.json` mit seinen gut 550 KB nicht bei jedem Takt laden, diese hier
  * schon.
@@ -27,6 +27,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { bekannteFolgen } from './pruefstand-bekannt.mjs'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
@@ -51,25 +52,6 @@ function adresseFuer(plattform, kennung) {
     }
   }
   return null
-}
-
-/**
- * Die höchste Folge, die der Datensatz je Kennung belegt (obere Grenze seiner `dubRanges`) — damit die
- * Erweiterung erkennt, wenn die Plattform mehr Folgen führt (4.24.21, 10.10.2026: Das Band der Unterwelt,
- * Datensatz bis Folge 11, Disney+ und Netflix zeigen 15). Teilen sich mehrere Einträge eine Adresse,
- * fehlt sie: Die Nummern sind dann nicht vergleichbar.
- */
-function bekannteFolgen(plattform, kennung) {
-  const jeKennung = new Map()
-  for (const t of titel) {
-    for (const s of t.streams ?? []) {
-      const k = s.platform === plattform ? kennung(s.seite ?? s.url ?? '') : null
-      if (!k) continue
-      const bis = Math.max(0, ...(s.dubRanges ?? []).map((r) => Number(r.to) || 0))
-      jeKennung.set(k, jeKennung.has(k) ? 0 : bis)
-    }
-  }
-  return Object.fromEntries([...jeKennung].filter(([, bis]) => bis > 0))
 }
 
 const ANBIETER = [
@@ -256,10 +238,15 @@ const stand = ANBIETER.map((a) => {
     */
     ...(suchAdressen ? { suchAdressen } : {}),
     ziel: schluessel ? a.ziel(schluessel, wert) : null,
-    ziele, bekannt: bekannteFolgen(a.plattform, a.kennung),
+    ziele,
     /* Der Name des ersten offenen Eintrags — er steht als Titel am Knopf. */
     naechster: wert?.titel ?? null,
   }
+})
+
+/* Die höchste Folge laut Datensatz je Kennung (4.24.21) — die Erweiterung vergleicht sie mit der Plattform. */
+ANBIETER.forEach((a, i) => {
+  stand[i].bekannt = bekannteFolgen(titel, a.plattform, a.kennung)
 })
 
 /**

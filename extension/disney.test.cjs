@@ -593,9 +593,16 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
       r = await durchlauf(mit({ [KENNUNG]: 11 }), 15, 15)
       pruefe('Alle 15 schon gemeldet (nach dem Prüfstand): bleibt „beantwortet"', r.log.setze[0] === true && r.log.anfragen === 0, r.log)
 
+      /* Bleach: Thousand-Year Blood War – The Calamity (185874): deutsch 1–6, 7–8 ohne, Disney+ führt 10. `tools/pruefstand-bekannt.mjs` gibt dafür keine Zahl aus. */
+      r = await durchlauf(mit({ 'andere-kennung': 8 }), 10)
+      pruefe('Teilsynchro ohne `bekannt` zur Kennung: bleibt "beantwortet", kein "Neue Folgen 9–10"', r.log.setze[0] === true && r.log.anfragen === 0 && !r.log.zeigt.some(([t]) => /Neue Folge/.test(t)), r.log)
+
+      r = await durchlauf(mit({ [KENNUNG]: 14 }), 15)
+      pruefe('Eine neue Folge: "Neue Folge 15" (Einzahl)', /^Neue Folge 15 · prüfen und melden$/.test(r.log.zeigt[0][0]), r.log)
+
       r = await durchlauf(mit(null), 15)
       pruefe('Ohne `bekannt` im Prüfstand: bleibt „beantwortet"', r.log.setze[0] === true && r.log.anfragen === 0, r.log)
-      pruefe('disney.js reicht die Folgenzahl der Seite weiter und gibt zahlen an die Klärung', quelleDisney.includes('AK_DISNEY_BEANTWORTET.folgenZahl((erwartet = e.data.erwartet)') && quelleDisney.includes('zahlen: () => ({ erwartet, gemeldet: gemeldeteNummern.size })'))
+      pruefe('disney.js reicht die Folgenzahl der Seite weiter und gibt zahlen an die Klärung', quelleDisney.includes('AK_DISNEY_BEANTWORTET.folgenZahl(erwartet, gemeldeteNummern.size)') && quelleDisney.includes('zahlen: () => ({ erwartet, gemeldet: gemeldeteNummern.size })'))
     })(),
   )
 

@@ -74,7 +74,7 @@ globalThis.AK_DISNEY_BEANTWORTET = (() => {
     const neueFolgen = (erwartet, gemeldet) => {
       if (!(bekannt > 0 && erwartet > bekannt && gemeldet < erwartet)) return false
       entfernen()
-      anfangen(`Neue Folgen ${bekannt + 1}–${erwartet} · prüfen und melden`)
+      anfangen(globalThis.akNeueText({ von: bekannt + 1, bis: erwartet }))
       return true
     }
     if (neueFolgen(zahlen().erwartet, zahlen().gemeldet)) return

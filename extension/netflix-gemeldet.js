@@ -17,35 +17,37 @@ globalThis.AK_GEMELDET = (() => {
   let merker = {}
   let stand = null
   let lief = false /* lief der Lauf bei der letzten Anzeige noch? */
+  let geladen = null
 
-  /** Merker und Prüfstand holen; der Aufrufer zeichnet danach den Knopf neu. */
+  /** Merker und Prüfstand holen (beim ersten `zeigen`); danach wird der Knopf neu gezeichnet. */
   async function laden() {
     merker = (await chrome.storage.local.get(SCHLUESSEL).catch(() => ({})))[SCHLUESSEL] ?? {}
     stand = (await globalThis.akPruefstand?.()) ?? null
+    globalThis.durchlaufKnopfZeigen?.() /* Funktion aus melder.js, gleicher Scope */
   }
 
   function aktiv(reihe, jetzt = Date.now()) {
-    const am = merker[String(reihe)]
+    const am = merker[String(reihe)]?.am
     if (!am || jetzt - Date.parse(am) > HOECHSTENS_MS) return false
     return !(stand?.pruefstandAm && stand.pruefstandAm > am)
   }
 
-  function schreiben() {
-    /* Ohne Speicher gilt der Abschluss nur bis zum Neuladen. */
-    chrome.storage.local.set({ [SCHLUESSEL]: merker }).catch(() => {})
-  }
+  /* Ohne Speicher gilt der Abschluss nur bis zum Neuladen. */
+  const schreiben = () => chrome.storage.local.set({ [SCHLUESSEL]: merker }).catch(() => {})
 
   const nurEineStaffel = (alleFolgen) => new Set(alleFolgen.map((f) => String(f.seasonId ?? ''))).size <= 1
 
   /**
    * Folgen hinter dem Stand des Datensatzes, die noch nicht gemeldet sind. Nur bei einer einzigen
    * geladenen Staffel — bei mehreren zählt Netflix je Staffel neu und die Nummern sind nicht vergleichbar.
+   * Was der letzte saubere Lauf schon abdeckte (`bis` im Merker), zählt nicht noch einmal als neu.
    */
   function neu(reihe, folgen, alleFolgen, gemeldet) {
     if (!nurEineStaffel(alleFolgen)) return null
     const bekannt = globalThis.akBekannt?.(stand, 'netflix', String(reihe))
     const offen = folgen.filter((f) => !gemeldet.has(f.videoId)).map((f) => Number(f.nummer))
-    return bekannt ? globalThis.akNeueFolgen(bekannt, offen) : null
+    const gedeckt = aktiv(reihe) ? merker[String(reihe)].bis : 0
+    return bekannt ? globalThis.akNeueFolgen(Math.max(bekannt, gedeckt), offen) : null
   }
 
   /** Ein Lauf ist sauber zu Ende, wenn nichts abgebrochen, gestört oder offen ist und jede Folge gemeldet. */
@@ -61,34 +63,31 @@ globalThis.AK_GEMELDET = (() => {
     const fertig = lief && !D.abbruch && !D.stoerung && !D.randOffen
     lief = false
     if (fertig && D.folgen.length && D.folgen.every((f) => D.gemeldet.has(f.videoId)) && nurEineStaffel(D.alleFolgen ?? [])) {
-      merker[String(reihe)] = new Date().toISOString()
+      merker[String(reihe)] = { am: new Date().toISOString(), bis: Math.max(...D.folgen.map((f) => Number(f.nummer))) }
       schreiben()
     }
     return false
   }
 
   /**
-   * Der Knopf zeigt den Abschluss (aus, „✓ gemeldet“) oder die neuen Folgen („Neue Folgen 12–15 · prüfen und
-   * melden“, der Klick prüft dann alle Folgen). `true`: Der Knopf ist beschriftet, `melder.js` zeichnet nichts mehr.
+   * Der Knopf zeigt die neuen Folgen („Neue Folgen 12–15 · prüfen und melden“, der Klick prüft alle Folgen) oder
+   * den Abschluss (aus, „✓ gemeldet“). Neue Folgen gewinnen: Kommen sie innerhalb der 36 Stunden dazu, bleibt der
+   * Merker nicht stehen. `true`: Der Knopf ist beschriftet, `melder.js` zeichnet nichts mehr.
    */
   function zeigen(D, reihe) {
     const knopf = D.knopf
+    geladen ??= laden()
     if (!knopf || lauf(D, reihe) || D.stoerung) return false
-    if (aktiv(reihe)) {
-      knopf.textContent = '✓ gemeldet'
-      knopf.title = 'Die Meldung ist angekommen. Der Datensatz zieht beim nächsten Bau nach.\n„↻ alle“ prüft noch einmal.'
-      knopf.disabled = true
-      knopf.classList.add('ak-fertig')
-      return true
-    }
     const n = neu(reihe, D.folgen, D.alleFolgen ?? [], D.gemeldet)
-    if (!n) return false
-    knopf.textContent = `Neue Folgen ${n.von}–${n.bis} · prüfen und melden`
-    knopf.title = 'Der Datensatz kennt diese Folgen noch nicht.\nDer Klick prüft alle Folgen erneut: die alten werden bestätigt, die neuen ergänzt.'
-    knopf.disabled = false
-    knopf.classList.remove('ak-fertig')
+    if (!n && !aktiv(reihe)) return false
+    knopf.textContent = n ? globalThis.akNeueText(n) : '✓ gemeldet'
+    knopf.title = n
+      ? 'Der Datensatz kennt diese Folgen noch nicht.\nDer Klick prüft alle Folgen erneut: die alten werden bestätigt, die neuen ergänzt.'
+      : 'Die Meldung ist angekommen. Der Datensatz zieht beim nächsten Bau nach.\n„↻ alle“ prüft noch einmal.'
+    knopf.disabled = !n
+    knopf.classList.toggle('ak-fertig', !n)
     return true
   }
 
-  return { laden, zeigen, neu }
+  return { zeigen, neu }
 })()

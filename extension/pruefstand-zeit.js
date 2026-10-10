@@ -48,3 +48,6 @@ globalThis.akNeueFolgen = (bekannt, offeneNummern) => {
   const neu = bekannt > 0 ? offeneNummern.filter((n) => n > bekannt) : []
   return neu.length ? { von: Math.min(...neu), bis: Math.max(...neu) } : null
 }
+
+/** „Neue Folgen 12–15 · prüfen und melden“ bzw. „Neue Folge 16 · …“ — ein Text für Netflix und Disney+. */
+globalThis.akNeueText = ({ von, bis }) => `${von === bis ? `Neue Folge ${von}` : `Neue Folgen ${von}–${bis}`} · prüfen und melden`

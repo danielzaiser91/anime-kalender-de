@@ -6113,7 +6113,7 @@ setInterval(() => {
  * Zählung vorher: Der Knopf zeigte 7, während der Dialog daneben „Alles
  * geprüft" sagte (Daniel, 23.08.2026, nach dem Neuladen).
  */
-void erledigtGeladen.then(() => uebersichtZeigen()).then(() => globalThis.AK_GEMELDET?.laden()).then(() => durchlaufKnopfZeigen())
+void erledigtGeladen.then(() => uebersichtZeigen())
 
 /*
   Den Stand holen — einmal beim Laden, danach alle fünf Minuten. Er ändert sich
