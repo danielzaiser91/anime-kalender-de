@@ -3,7 +3,7 @@
  * die tv.de-Sichtungen erst ab seinem Start. Läuft in `check:logic`.
  */
 import type { Release, Title } from '../shared/types.ts'
-import { releasesAusTvProgramm } from './lib/tv-termine.ts'
+import { releasesAusTvProgramm, sendungenAnhaengen } from './lib/tv-termine.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -27,6 +27,13 @@ const ohneStart = releasesAusTvProgramm(sichtungen, titles, [tvRelease({ firstEp
 pruefe('ein Handtermin ohne Starttag ersetzt alle Sichtungen', ohneStart.length === 0)
 const spaeter = releasesAusTvProgramm([sichtung('2026-12-01')], titles, [tvRelease(plan)])
 pruefe('nur spätere Sichtungen: nichts bleibt', spaeter.length === 0)
+
+const hand = tvRelease(plan)
+const beide = [hand, ...davor]
+sendungenAnhaengen(beide, sichtungen, '2026-10-01')
+const tage = (r: Release) => (r.sendungen ?? []).map((s) => s.start.slice(0, 10)).join()
+pruefe('Sichtungen vor dem Start hängen nur am Sichtungstermin', tage(davor[0]!) === '2026-10-12,2026-10-13', tage(davor[0]!))
+pruefe('Sendungen ab dem Start hängen nur am Handtermin', tage(hand) === '2026-11-05,2026-11-06', tage(hand))
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : 'TV-Sichtungen vor dem Start: alle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

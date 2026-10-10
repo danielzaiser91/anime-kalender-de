@@ -96,6 +96,29 @@ function spaetereStaffel(
 }
 
 /**
+ * Ordnet jede Sendung ab gestern dem TV-Termin gleichen Titels und Senders zu. Gibt es mehrere
+ * (Sichtungen vor dem Start plus Handtermin, One Piece/MAXX 10.10.2026), bekommt ihn der mit dem
+ * spätesten Start bis zum Sendetag, sonst der früheste — nie beide, sonst liefe zweimal „läuft gerade".
+ */
+function sendungenJeTermin(
+  releases: Release[],
+  sendungen: (TvSendung & { kennung?: string })[],
+  gestern: string,
+): Map<Release, (TvSendung & { kennung?: string })[]> {
+  const start = (r: Release) => r.schedule?.firstEpisodeDate ?? ''
+  const jeTermin = new Map<Release, (TvSendung & { kennung?: string })[]>()
+  for (const s of sendungen) {
+    if (berlinTag(s.ende) < gestern) continue
+    const kandidaten = releases
+      .filter((r) => r.platform === 'tv' && r.titleId === s.titleId && (r.sender ?? '').toLowerCase() === s.sender.toLowerCase())
+      .sort((a, b) => start(a).localeCompare(start(b)))
+    const r = kandidaten.filter((k) => start(k) <= berlinTag(s.start)).at(-1) ?? kandidaten[0]
+    if (r) jeTermin.set(r, [...(jeTermin.get(r) ?? []), s])
+  }
+  return jeTermin
+}
+
+/**
  * Hängt jedem TV-Termin seine Sendungen ab gestern an — auch den von Hand gepflegten, denn die
  * Frage „läuft das gerade, bis wann?" beantwortet nur das Programm (22.09.2026).
  */
@@ -105,16 +128,7 @@ export function sendungenAnhaengen(
   gestern: string,
   wiki: WikiListen = {},
 ): void {
-  const jeTermin = new Map<string, (TvSendung & { kennung?: string })[]>()
-  for (const s of sendungen) {
-    if (berlinTag(s.ende) < gestern) continue
-    const k = `${s.titleId}|${s.sender.toLowerCase()}`
-    jeTermin.set(k, [...(jeTermin.get(k) ?? []), s])
-  }
-  for (const r of releases) {
-    if (r.platform !== 'tv') continue
-    const liste = jeTermin.get(`${r.titleId}|${(r.sender ?? '').toLowerCase()}`)
-    if (!liste?.length) continue
+  for (const [r, liste] of sendungenJeTermin(releases, sendungen, gestern)) {
     /*
       Die Folgennummer je Sendung über den Folgentitel — auch dort, wo nicht jede Sendung in der
       Liste steht und der Termin deshalb nur zählt (One Piece 22.09.2026: 12 von 14 gefunden).

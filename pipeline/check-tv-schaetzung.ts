@@ -20,7 +20,7 @@ const plan = { firstEpisodeDate: '2026-11-05', episodeCount: 6, wochentage: [1, 
 const ohne = expandEvents(tvRelease(plan))
 pruefe('ohne Beobachtung: Folge 1 belegt, die übrigen geschätzt', !ohne[0]!.estimated && ohne.slice(1).every((e) => e.estimated), ohne.map((e) => e.estimated))
 const mit = expandEvents(tvRelease({ ...plan, observed: { 1: '2026-11-05', 3: '2026-11-09' } }))
-pruefe('mit Stützpunkten bleibt der Bereich dazwischen belegt', !mit[1]!.estimated && !mit[2]!.estimated && mit[3]!.estimated)
+pruefe('mit Stützpunkten bleibt der Bereich dazwischen belegt', !mit[1]!.estimated && !mit[2]!.estimated && mit[3]!.estimated === true)
 const wochentakt = expandEvents(tvRelease({ firstEpisodeDate: '2026-11-05', episodeCount: 3 }))
 pruefe('ohne Sendetage ändert sich nichts', wochentakt.every((e) => !e.estimated), wochentakt.map((e) => e.estimated))
 const einzel = expandEvents(tvRelease({ firstEpisodeDate: '2026-11-05', wochentage: [1, 2, 3, 4, 5] }))
