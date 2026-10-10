@@ -6,6 +6,7 @@ import { buendeleTermine } from '../../lib/buendel.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { FernsehZeichen } from './Zeichen.tsx'
+import { PremiereMarke } from './PremiereMarke.tsx'
 import { TREFFER_24_HOCH } from '../detail/tippziel.ts'
 
 /**
@@ -90,11 +91,7 @@ function TvZeile({
         <span className="flex min-w-0 flex-col">
           <span className="ak-titel font-semibold text-ak-text">
             {ev.name}
-            {premiere && (
-              <span className="ml-1.5 inline-block rounded-full bg-orange-500 px-1.5 align-[1px] text-[10px] font-extrabold uppercase tracking-wider text-white">
-                {t('kal.premiere')}
-              </span>
-            )}
+            {premiere && <PremiereMarke platform="tv" vorher={ev.premiereVorher} className="ml-1.5 inline-block px-1.5 align-[1px]" />}
           </span>
           <span className="text-xs text-ak-leise">
             {ev.sender}

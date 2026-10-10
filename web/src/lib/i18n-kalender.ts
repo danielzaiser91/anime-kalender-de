@@ -49,7 +49,6 @@ export const TEXTE_KALENDER = {
   'kal.buendelStream': '+{n} Folgen',
   'kal.start': 'Staffelstart',
   'kal.finale': 'Staffelfinale',
-  'kal.premiere': 'Premiere',
   'kal.favorit': 'Favorit',
   'detail.neuigkeiten': 'Neuigkeiten',
   'detail.neuigkeitenAlle': 'Alle {n} Meldungen',

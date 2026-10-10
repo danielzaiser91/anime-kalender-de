@@ -116,6 +116,11 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
 - Bei Fortsetzungen die **AniList-ID prüfen**, nicht der Suche vertrauen. `npx tsx
   pipeline/qa-resolve.ts` zeigt Verdachtsfälle; die Folgenzahl wird nur übernommen, wenn das
   japanische Ausstrahlungsjahr zum deutschen Termin passt.
+- **Meldungen mit „erstmals im Stream/TV“ als `premiere` eintragen** (Daniel, 10.10.2026): Sagt eine Quelle
+  ausdrücklich, dass ein Release erstmals auf Deutsch im Fernsehen oder Streaming erscheint, gehört am
+  kuratierten Release `premiere: { weg, quelle, vorher?, vorherDatum? }` dazu (`vorher: disc|kino`, wenn die
+  Fassung dort schon erschien — Anzeige „Premiere*“). Nie aus Abwesenheit oder „im Angebot seit“ ableiten;
+  eine Neuzugangsmeldung ohne das Wort „erstmals“ reicht nicht. Einzelheiten: `datensatz.md`.
 
 ## Was erzeugt wird, wird auch geprüft
 
@@ -564,7 +569,7 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 
 ### Codegestalt (Ergänzungen)
 
-- `check:umfang` (steckt in `build`) misst die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`, angehoben wird nie. `--liste` zeigt die größten Stellen.
+- `check:umfang` (steckt in `build`) misst die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`, angehoben wird nie. `--liste` zeigt die größten Stellen. Zusätzlich zählt er „Ketten" (`tools/umfang-ketten.mjs`, Ausgangswert 10.10.2026 je Bereich in `umfang-grenzen.json`): Anweisungen, Typ-Felder und Objekt-Einträge, die in der Zeile ihres Vorgängers beginnen (`a(); b()`, `x?: A; y?: B`, mehrere `...`-Spreads in einer Zeile) — sonst ließe sich die 80/800-Zählung durch Anhängen an bestehende Zeilen umgehen; ein Eintrag je Zeile, `--ketten` zeigt die Fundstellen, Listen ganz in einer Zeile (`{ a, b }`) bleiben erlaubt.
 - Verschoben wird mit `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`. Bei reinen Kommentar-Umbauten `node tools/nur-kommentare.mjs` (Code ohne Kommentare gleich).
 - Wegwerfskripte gehören ins Scratchpad, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
 - Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).

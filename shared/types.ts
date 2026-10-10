@@ -1,4 +1,5 @@
 import type { Zugangsart } from './zugangsart.ts'
+import type { PremiereVorher, ReleasePremiere } from './premiere.ts'
 /** Gemeinsame Typen für Pipeline, Web-App und Newsletter-Worker. */
 
 export type PlatformId =
@@ -739,6 +740,8 @@ export interface Release {
    * `uploadDate`) — liegt sie vor dem Sendetag, ist die TV-Sendung eine Wiederholung.
    */
   ersteDeutsch?: Record<number, string>
+  /** Handbeleg „Premiere“/„Premiere*“, nie abgeleitet (Daniel, 10.10.2026) — Regeln in `shared/premiere.ts`. */
+  premiere?: ReleasePremiere
 }
 
 export interface ReleaseEvent {
@@ -774,6 +777,9 @@ export interface ReleaseEvent {
    * `tvPremiere` **nur bei `platform: 'tv'`**: true = erstmals auf Deutsch, false = Wiederholung, fehlt = keine Aussage.
    */
   tvPremiere?: boolean
+  /** Streaming-Premiere laut Handbeleg `Release.premiere` (nur der erste Termin); `premiereVorher` macht „Premiere*“ daraus. */
+  premiere?: boolean
+  premiereVorher?: PremiereVorher
   /** Letzte Folge einer Staffel mit belegter Folgenzahl (siehe `istStaffelfinale`). */
   staffelfinale?: boolean
   /** Erste Folge einer wöchentlichen Staffel (siehe `istStaffelstart`). */
@@ -962,21 +968,7 @@ export const RELEASE_TYPES: Record<
   disc: { name: 'DVD / Blu-ray', short: 'Disc', color: '#22c55e', hint: 'Kaufbarer Datenträger' },
 }
 
-export const STATUS_LABEL: Record<ReleaseStatus, string> = {
-  airing: 'Läuft',
-  abgeschlossen: 'Abgeschlossen',
-  tba: 'TBA',
-  erschienen: 'Erschienen',
-  unbekannt: 'Termin unbekannt',
-}
-
-export const FSK_COLORS: Record<Fsk, string> = {
-  0: '#ffffff',
-  6: '#ffd400',
-  12: '#009d3e',
-  16: '#0075bf',
-  18: '#e30613',
-}
+export { STATUS_LABEL, FSK_COLORS } from './anzeige-konstanten.ts'
 
 /**
  * **Was für eine Meldung das ist.**
