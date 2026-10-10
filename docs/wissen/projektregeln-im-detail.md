@@ -209,6 +209,7 @@ gewartet** — im Hintergrund, bis er fertig ist.
 `tools/quellen-commit-wache.sh` hängt als pre-commit-Hook im lokalen Repo (einrichten mit
 `bash tools/quellen-commit-wache.sh --einrichten`) und hält jeden Commit an, der eine Datei aus
 `QUELLEN` enthält, solange ein Lauf außer Deploy, Aussehen und Claude läuft.
+**Seit dem 11.10.2026 nur noch für Commits auf `main` und nur, solange der Bestandsbau läuft** (der einzige Lauf, der direkt auf `main` schreibt; Branch-Commits und PR-Läufe sperren nichts mehr — am 10.10. hielt die Wache einen Branch-Commit 42 Minuten an).
 
 **Vierter Fall, 21.09.2026 — ausgelöst von einem Commit, der gar keine Quelle anfasste.** Während
 `bestand-bauen` lief, ging eine Doku-Änderung auf `main`. Der Fernstand hatte sich bewegt, der Lauf
