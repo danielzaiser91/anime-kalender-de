@@ -79,6 +79,8 @@ export interface FoundDate {
   iso?: string
   /** "2026-09" wenn nur der Monat genannt wurde. */
   month?: string
+  /** true, wenn das Jahr aus dem Artikeldatum ergänzt wurde (Tabellenzellen wie „15.01.“), nicht im Text stand. */
+  geschaetzt?: boolean
   /** Der Textausschnitt, in dem das Datum stand — zum Nachprüfen. */
   context: string
 }
@@ -121,6 +123,13 @@ export function findDates(text: string, articleDate: string): FoundDate[] {
   // "15.10.2026"
   for (const m of text.matchAll(/(\d{1,2})\.(\d{1,2})\.(\d{4})/g)) {
     push({ iso: isoOf(Number(m[3]), Number(m[2]), Number(m[1])), context: context(m.index ?? 0) })
+  }
+
+  /* „15.01.“ ohne Jahr (Disc-Tabellen): Jahr des Artikels, bei Rückwärtssprung das nächste — als geschätzt gekennzeichnet. */
+  for (const m of text.matchAll(/(?<![\d.])(\d{1,2})\.(\d{1,2})\.(?!\d)/g)) {
+    const month = Number(m[2])
+    const iso = isoOf(month < articleMonth - 1 ? articleYear + 1 : articleYear, month, Number(m[1]))
+    if (iso) push({ iso, context: context(m.index ?? 0), geschaetzt: true })
   }
 
   // "im September 2026" — Monat ohne Tag

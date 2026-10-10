@@ -170,6 +170,7 @@ import { loadSynchroVonHand } from './lib/curated.ts'
 import { mehrdeutigeFilmzuordnungen } from './lib/tmdb-eindeutig.ts'
 import { reiheFuehrtEsNicht } from './lib/cr-reihe.ts'
 import { ALTE_AUTO_KENNUNG, istAbschied, nurOriginaltonMeldungen, releasesAus, terminDerMeldung, quellenZusammenfuehren, zeitplanAusVorschlag } from './lib/meldungen.ts'
+import { findDates } from './lib/feed.ts'
 import { leseSammelartikel, vorschlaegeAusSammelartikel, zaehleSammelVerwurf, ANBIETER_SAMMELARTIKEL } from './lib/sammelartikel.ts'
 import { belegeVonRelease, nurAngekuendigt, verschmelzeGleicheQuelle } from './lib/news.ts'
 import { ergaenzeCrWeg, laufendeSerieImSlot } from './bau/titel-hilfen.ts'
@@ -8342,6 +8343,13 @@ console.log('\nSammelartikel „Ab sofort":')
   pruefe('Ab sofort: Datum ist der Tag der Meldung, deutsch, wöchentlich, Disney+', tr?.datum === '2026-10-02' && tr.deutsch === true && tr.woechentlich === true && tr.stream.includes('Disney+'))
   pruefe('Ab sofort: „Ab 3. November" behält sein Datum', e.find((x) => /Honey/.test(x.titel))?.datum === '2026-11-03')
   pruefe('Disney+-Überschrift „ergänzt zwei weitere Anime-Titel" wird als Sammelartikel gelesen', ANBIETER_SAMMELARTIKEL.test('Disney+ ergänzt zwei weitere Anime-Titel auf Deutsch'))
+}
+console.log('\nDatum ohne Jahr in Disc-Tabellen („15.01.“, Anime2You 08.10.2026):')
+{
+  const d = findDates('Heaven’s Feel Box 18.12. Dr. STONE 15.01. Film 15.01.2027 um 18.30 Uhr', '2026-10-08')
+  pruefe('Ohne Jahr: steht dasselbe Datum auch mit Jahr im Text, gilt die Angabe mit Jahr', d.find((x) => x.iso === '2027-01-15')?.geschaetzt === undefined)
+  pruefe('Ohne Jahr: „18.12.“ liegt im Jahr des Artikels, geschätzt', d.find((x) => x.iso === '2026-12-18')?.geschaetzt === true)
+  pruefe('Ohne Jahr: eine Uhrzeit „18.30“ ist kein Datum', d.length === 2)
 }
 console.log('\nSammelartikel ohne Tag in der Kopfzeile (Netflix 04.10.2026):')
 {
