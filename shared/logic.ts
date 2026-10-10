@@ -266,6 +266,30 @@ export function anzeigeFolge(e: Pick<ReleaseEvent, 'episode' | 'sichtung'>): boo
   return Boolean(e.episode) && !e.sichtung
 }
 
+/**
+ * Ob ein Termin des Plans geschätzt ist. Gesehen ist gesehen; fortgeschrieben bleibt eine Annahme,
+ * auch wenn der Start selbst belegt ist.
+ *
+ * Ein Sendeplan mit Sendetagen ohne jede Beobachtung belegt nur den Start (10.10.2026): Alles danach
+ * rechnet Wochentage fort und kennt weder Feiertags- noch Sendepausen.
+ */
+function terminGeschaetzt(
+  s: Release['schedule'],
+  episode: number,
+  date: string,
+  lastAnchor: { episode: number } | undefined,
+  first: number,
+): boolean | undefined {
+  const belegt =
+    s.observed?.[episode] ||
+    (s.belegtBis && episode <= s.belegtBis.folge && date <= s.belegtBis.am) ||
+    /* Zwischen zwei Stützpunkten eines Sendeplans ist der Tag belegt, nicht geschätzt. */
+    (s.wochentage?.length && lastAnchor && episode < lastAnchor.episode && !s.estimated)
+  if (belegt) return undefined
+  const nurStartBelegt = Boolean(s.wochentage?.length) && !lastAnchor
+  return lastAnchor || (nurStartBelegt && episode > first) ? true : s.estimated
+}
+
 function termineAusPlan(release: Release): ReleaseEvent[] {
   const s = release.schedule
   if (!s?.firstEpisodeDate || release.widerlegt) return []
@@ -453,17 +477,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
       date,
       episode,
       episodeCount: last,
-      // Gesehen ist gesehen; fortgeschrieben bleibt eine Annahme, auch wenn
-      // der Start selbst belegt ist.
-      estimated:
-        s.observed?.[episode] ||
-        (s.belegtBis && episode <= s.belegtBis.folge && date <= s.belegtBis.am) ||
-        /* Zwischen zwei Stützpunkten eines Sendeplans ist der Tag belegt, nicht geschätzt. */
-        (s.wochentage?.length && lastAnchor && episode < lastAnchor.episode && !s.estimated)
-          ? undefined
-          : lastAnchor
-            ? true
-            : s.estimated,
+      estimated: terminGeschaetzt(s, episode, date, lastAnchor, first),
       /*
         **Nur der Tag, an dem wirklich nichts kam, trägt den Vermerk.**
 
