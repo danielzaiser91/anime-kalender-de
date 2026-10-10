@@ -9,6 +9,7 @@ import { QuellenKnopf } from '../beleg-dialog.tsx'
 import { Klapptext } from '../klapptext.tsx'
 import { NachtragText } from '../news-nachtrag.tsx'
 import { todayIso } from '@shared/time.ts'
+import { omuLetzterTag } from '@shared/ankuendigung.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { GlockeZeichen, PanelKarte } from './panel-karte.tsx'
 import { ErstausgabeZeile } from './erstausgabe-zeile.tsx'
@@ -119,7 +120,7 @@ export function meldungenImPanel(liste: NewsEintrag[], titelId: number, heute: s
         Eine **angekündigte** Staffel bleibt sichtbar — sie ist noch kein Termin,
         den das Panel schon zeigt, sondern die Nachricht selbst.
       */
-      if (TERMIN_ARTEN.has(m.art) && m.datum && m.datum < heute) continue
+      if (TERMIN_ARTEN.has(m.art) && m.datum && omuLetzterTag(m.datum) < heute) continue
       zeilen.push({ am: e.am, m, teilId })
     }
   return zeilen.sort((a, b) => b.am.localeCompare(a.am))

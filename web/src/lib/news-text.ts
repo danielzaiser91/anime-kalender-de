@@ -1,6 +1,7 @@
 import { PLATFORMS, type NewsMeldung, type PlatformId } from '@shared/types.ts'
 import { translate as t } from './i18n.tsx'
 import { weekdayName } from '@shared/time.ts'
+import { omuDatumText, omuStartText } from '@shared/ankuendigung.ts'
 
 /**
  * **Der Satz zu einer Meldung — für die Nachrichtenseite und den RSS-Feed.**
@@ -15,6 +16,7 @@ import { weekdayName } from '@shared/time.ts'
  * „30T15:00:00.000Z.08.2026".
  */
 export function datumKurz(iso: string): string {
+  if (iso.length === 7) return omuDatumText(iso)
   const [j, m, t] = iso.slice(0, 10).split('-')
   return `${t}.${m}.${j}`
 }
@@ -59,7 +61,7 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
     case 'angekuendigt':
       /* **Der Satz bleibt kurz**. Der Vermerk (`hinweis`) steht seitdem als
          eigene, leisere Zeile daneben — in der Übersicht kurz, im Aufgeklappten ausführlich. */
-      if (m.omu) return t(m.omu === 'synchro-angekuendigt' ? 'news.omuAngekuendigt' : 'news.omuOffen', { datum, anbieter }) + lautQuelle(m, am)
+      if (m.omu) return t(m.omu === 'synchro-angekuendigt' ? 'news.omuAngekuendigt' : 'news.omuOffen', { wann: omuStartText(m.datum ?? ''), anbieter }) + lautQuelle(m, am)
       if (m.platform === 'tv' && m.datum) return t('news.angekuendigtTv', { sender: m.anbieter ? ` bei ${m.anbieter}` : '', tag: weekdayName(m.datum), datum }) + lautQuelle(m, am)
       if (m.jahre && anbieter) return t(m.discSeitText ? 'news.angekNachJahrenStream' : 'news.angekNachJahren', { jahre: m.jahre, datum, anbieter, disc: m.discSeitText ?? '' }) + lautQuelle(m, am)
       return t('news.angekuendigt', { datum, anbieter }) + lautQuelle(m, am)

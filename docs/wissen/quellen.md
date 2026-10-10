@@ -3411,3 +3411,8 @@ Anlass: Für die AniList-Ablösung (Genres, Schlagwörter, Reihen aus den Archiv
 - **Endgültige Auskunft** steht in `data/anisearch-archiv-weg.json` (Kennung → Code, Datum): HTTP 404/410 60 Tage, Seite ohne Archivabschnitte (200) 14 Tage zurückgestellt.
 - **Zähler im Lauf-Protokoll:** „aniSearch-Lücke vorher/nachher: Hauptbestand N, Katalog M Kennungen ohne Archivseite".
 - **Schätzung:** 3.240 Seiten offen (237 + 3.003). Bei 6 s Abstand und 290 Minuten Frist holt ein Katalog-Lauf rund 2.500–2.700 Seiten → Lücke nach 2 Läufen (11.10. und 12.10., je 06:00 UTC) bis auf Zurückgestelltes zu; mit einer Sperre dazwischen 3–4 Läufe.
+
+## PSYREN: Pille ohne Sprachangabe, Handlung nur englisch (10.10.2026)
+
+- **Pille:** Ein Weg beim Anbieter eines angekündigten Simulcasts ohne belegte Synchro (`dub` fehlt, `ankuendigung.platform` gleich) trägt in der Pille „OmU" und einen Tooltip (`streamNurOmu()`, `shared/ankuendigung.ts`). Gemessen 10.10.2026: 3 Titel im Hauptbestand (PSYREN, Black Clover S2, Apothekerin S3), 0 im Katalog. Der Weg bleibt, weil er der Ort ist, an dem die Synchro erscheinen soll.
+- **Handlung:** Die aniSearch-Seite von PSYREN (21084) war nie geholt worden — der Abruf ging nur über die ID-Brücke (anime-offline-database), PSYREN steht dort nicht, nur in `data/anisearch-ids-hand.yaml`. Seit #678 (10.10.2026) nimmt `archivLuecken()` auch `titles.anisearchId`; PSYREN steht an Stelle 70 von 237 Aufträgen des Hauptbestands und kommt im nächsten `data:anisearch`-Lauf. Von 2.928 Titeln des Hauptbestands hatten am 10.10.2026 315 keinen deutschen Text: 225 mit aniSearch-Kennung, aber nie geholter Seite, 86 mit geholter Seite ohne deutsche Beschreibung, 4 ohne Kennung. Die 86 und die 4 sind der Stoff der Lückenliste; Übersetzen ist ausgeschlossen.

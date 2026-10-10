@@ -60,6 +60,7 @@ export const TEXTE_KALENDER = {
   'kal.folgenSpanne': 'Folgen {von}–{bis}',
   'fachwort.omu': 'Originalton mit deutschen Untertiteln — keine deutsche Synchro',
   'kal.omu': 'OmU', 'kal.synchroOffen': 'Synchro offen', 'kal.synchroOffenHinweis': 'Der Termin ist belegt, eine deutsche Synchro nicht.',
+  'detail.pilleNurOmu': 'Hier läuft vorerst nur der Originalton mit deutschen Untertiteln. Eine deutsche Synchro ist noch nicht belegt.',
   'fachwort.zeitumstellung': 'Am 25.10.2026 endet in Deutschland die Sommerzeit: Die Uhren werden um 1 Stunde zurückgestellt. Bleibt die Sendezeit im Ausland gleich, liegt sie in Deutschland ab dann 1 Stunde früher auf der Uhr.',
   'kal.mehrLabel': 'Alle {n} Termine am {datum} zeigen',
   'kal.alleAmTag': 'Alle Termine am {datum}',

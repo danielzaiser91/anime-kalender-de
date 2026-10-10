@@ -8108,7 +8108,17 @@ console.log('\nOmU-Meldung:')
   const titel = { id: 7, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10-11', synchro: 'offen', quellen: ['https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/x'], stand: '2026-09-15' } } as never
   const monat = { id: 8, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10', synchro: 'offen', quellen: ['https://x'], stand: '2026-09-15' } } as never
   const m = omuMeldungen([titel, monat], [])
-  pruefe('OmU: ein Start mit Tag wird Meldung am Tag der Quelle, mit Beleg und Kennzeichen „Synchro offen"', m.length === 1 && m[0]!.fallback === '2026-09-15' && m[0]!.datum === '2026-10-11' && m[0]!.belege?.length === 1 && m[0]!.omu === 'synchro-offen', m)
+  pruefe('OmU: ein Start mit Tag wird Meldung am Tag der Quelle, mit Beleg und Kennzeichen „Synchro offen"', m.length === 2 && m[0]!.fallback === '2026-09-15' && m[0]!.datum === '2026-10-11' && m[0]!.belege?.length === 1 && m[0]!.omu === 'synchro-offen', m)
+  /* PSYREN (10.10.2026): Die Quelle nennt nur „Oktober" — „Synchro angekündigt" hat trotzdem seinen Beleg und seinen Tag. */
+  const { omuStartText, omuLetzterTag, streamNurOmu } = await import('../shared/ankuendigung.ts')
+  pruefe('OmU: nennt die Quelle nur den Monat, wird es eine Meldung am Tag der Quelle mit dem Monat', m[1]!.datum === '2026-10' && m[1]!.fallback === '2026-09-15' && m[1]!.belege?.length === 1, m[1])
+  pruefe('OmU: „am 11.10.2026" mit Tag, „im Oktober 2026" mit Monat; der Monat bevorsteht bis zu seinem Ende', omuStartText('2026-10-11') === 'am 11.10.2026' && omuStartText('2026-10') === 'im Oktober 2026' && omuLetzterTag('2026-10') === '2026-10-31' && omuLetzterTag('2026-10-11') === '2026-10-11')
+  /* Die Pille beim Anbieter des Simulcasts sagt „OmU", solange dort keine deutsche Fassung belegt ist. */
+  const crOhne = { platform: 'crunchyroll', url: 'https://x' } as never
+  const crDub = { platform: 'crunchyroll', url: 'https://x', dub: true } as never
+  const prime = { platform: 'primevideo', url: 'https://y' } as never
+  pruefe('Pille: Anbieter des Simulcasts ohne belegte Synchro = OmU', streamNurOmu(monat, crOhne))
+  pruefe('Pille: belegte Synchro, anderer Anbieter oder kein Simulcast = keine OmU-Marke', !streamNurOmu(monat, crDub) && !streamNurOmu(monat, prime) && !streamNurOmu({ id: 1 } as never, crOhne))
   const rel = { titleId: 7, platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-10-11' } } as never
   pruefe('OmU: gibt es ein Release desselben Anbieters, entfällt die Meldung', omuMeldungen([titel], [rel]).length === 0)
   /* Der Bau legt `ankuendigung` erst beim Schreiben an den Titel — die Meldung muss sie selbst nachschlagen (Beerus, 04.10.2026). */
