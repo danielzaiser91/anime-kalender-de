@@ -1056,8 +1056,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T040000Z
-DTEND:20261010T043000Z
+DTSTART:20261010T035500Z
+DTEND:20261010T042500Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -1066,8 +1066,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T042500Z
-DTEND:20261010T045500Z
+DTSTART:20261010T042000Z
+DTEND:20261010T045000Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -1076,8 +1076,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T045000Z
-DTEND:20261010T052000Z
+DTSTART:20261010T044500Z
+DTEND:20261010T051500Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -1086,8 +1086,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T051500Z
-DTEND:20261010T054500Z
+DTSTART:20261010T051000Z
+DTEND:20261010T054000Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -1141,8 +1141,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-11#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261011T125000Z
-DTEND:20261011T132000Z
+DTSTART:20261011T125500Z
+DTEND:20261011T132500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
@@ -1151,8 +1151,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-11#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261011T132000Z
-DTEND:20261011T135000Z
+DTSTART:20261011T132500Z
+DTEND:20261011T135500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
@@ -1161,8 +1161,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-11#6@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261011T135000Z
-DTEND:20261011T142000Z
+DTSTART:20261011T135500Z
+DTEND:20261011T142500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
@@ -1889,6 +1889,46 @@ SUMMARY:Yashahime: Princess Half-Demon – Staffel 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12763/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T035500Z
+DTEND:20261017T042500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T042500Z
+DTEND:20261017T045500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T045000Z
+DTEND:20261017T052000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T051500Z
+DTEND:20261017T054500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-G6793XKZY@2026-10-17@anime-kalender-de

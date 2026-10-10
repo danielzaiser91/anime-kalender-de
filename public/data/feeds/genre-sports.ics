@@ -90,8 +90,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T040000Z
-DTEND:20261010T043000Z
+DTSTART:20261010T035500Z
+DTEND:20261010T042500Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -100,8 +100,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T042500Z
-DTEND:20261010T045500Z
+DTSTART:20261010T042000Z
+DTEND:20261010T045000Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -110,8 +110,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T045000Z
-DTEND:20261010T052000Z
+DTSTART:20261010T044500Z
+DTEND:20261010T051500Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -120,8 +120,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T051500Z
-DTEND:20261010T054500Z
+DTSTART:20261010T051000Z
+DTEND:20261010T054000Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -148,6 +148,46 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanisch
  er Zeit.\nDetails: https://anime-kalender.de/t/16796/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T035500Z
+DTEND:20261017T042500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T042500Z
+DTEND:20261017T045500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T045000Z
+DTEND:20261017T052000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T051500Z
+DTEND:20261017T054500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-10-18@anime-kalender-de

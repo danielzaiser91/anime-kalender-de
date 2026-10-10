@@ -169,8 +169,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-11#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261011T125000Z
-DTEND:20261011T132000Z
+DTSTART:20261011T125500Z
+DTEND:20261011T132500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
@@ -179,8 +179,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-11#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261011T132000Z
-DTEND:20261011T135000Z
+DTSTART:20261011T132500Z
+DTEND:20261011T135500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
@@ -189,8 +189,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-11#6@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261011T135000Z
-DTEND:20261011T142000Z
+DTSTART:20261011T135500Z
+DTEND:20261011T142500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
