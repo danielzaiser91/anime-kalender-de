@@ -50995,6 +50995,66 @@
     "art": "gemessen",
     "tag": "2026-10-08"
   },
+  "196144|netflix|11": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|13": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|12": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|4": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|10": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|9": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|7": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|5": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|3": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|8": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|2": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|1": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
   "112153|netflix|0": {
     "urteil": "nicht verfügbar",
     "art": "gemessen",
@@ -67000,5 +67060,10 @@
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-10-08"
+  },
+  "196144|netflix|6": {
+    "urteil": "kein deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
   }
 }

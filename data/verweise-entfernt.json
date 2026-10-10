@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-10T14:04:00.170Z",
+  "stand": "2026-10-10T15:05:27.315Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -3303,7 +3303,7 @@
     },
     {
       "titleId": 20791,
-      "titel": "Fate/stay night [Heaven's Feel] I. presage flower",
+      "titel": "Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flower)",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/series/GXJHM39V0/fatestay-night-heavens-feel",
       "seriesId": "GXJHM39V0",
@@ -7248,18 +7248,7 @@
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-10",
-      "letzterWeg": true
-    },
-    {
-      "titleId": 154965,
-      "titel": "My Love Story with Yamada-kun at Lv999",
-      "plattform": "netflix",
-      "url": "https://www.netflix.com/title/81685150",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-10",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 154967,
@@ -7893,6 +7882,17 @@
       "titel": "Snowball Earth",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/series/GT00371869/snowball-earth",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-10",
+      "letzterWeg": false
+    },
+    {
+      "titleId": 196144,
+      "titel": "Snowball Earth",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/82746480",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
