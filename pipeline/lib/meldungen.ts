@@ -340,6 +340,22 @@ export function terminDerMeldung(v: Pick<Vorschlag, 'dates' | 'pause'>): string 
   return v.pause === 'verschoben' ? tage.sort().at(-1) : tage[0]
 }
 
+/**
+ * Der Anbieter muss zur Art der Meldung passen. Ein Disc-Artikel führt oft
+ * beide Kennungen (`["crunchyroll","disc"]`, weil Crunchyroll der Verlag
+ * ist) — `platforms[0]` machte daraus einen Streaming-Termin.
+ */
+function anbieterDerMeldung(v: Vorschlag): string | undefined {
+  if (v.category === 'disc') return v.platforms?.includes('disc') ? 'disc' : undefined
+  if (v.category === 'kino') return 'kino'
+  return v.platforms?.find((p) => p !== 'disc' && p !== 'kino')
+}
+
+function artDerMeldung(v: Vorschlag, platform: string, treffer: Title): ReleaseType {
+  if (v.category === 'kino' || treffer.format === 'MOVIE') return 'movie'
+  return v.category === 'disc' || platform === 'disc' ? 'disc' : 'batch'
+}
+
 export function releasesAus(
   vorschlaege: Vorschlag[],
   titel: Title[],
@@ -378,30 +394,13 @@ export function releasesAus(
     const treffer = reihenTeil(basis, titel, v.articleTitle)
     if (!treffer) continue
 
-    /**
-     * Der Anbieter muss zur Art der Meldung passen. Ein Disc-Artikel führt oft
-     * beide Kennungen (`["crunchyroll","disc"]`, weil Crunchyroll der Verlag
-     * ist) — `platforms[0]` machte daraus einen Streaming-Termin.
-     */
-    const platform =
-      v.category === 'disc'
-        ? v.platforms?.includes('disc')
-          ? 'disc'
-          : undefined
-        : v.category === 'kino'
-          ? 'kino'
-          : v.platforms?.find((p) => p !== 'disc' && p !== 'kino')
+    const platform = anbieterDerMeldung(v)
     if (!platform) continue
     const schluessel = `${treffer.id}|${platform}`
     if (belegt.has(schluessel)) continue
     belegt.add(schluessel)
 
-    const art: ReleaseType =
-      v.category === 'kino' || treffer.format === 'MOVIE'
-        ? 'movie'
-        : v.category === 'disc' || platform === 'disc'
-          ? 'disc'
-          : 'batch'
+    const art = artDerMeldung(v, platform, treffer)
 
     const name = treffer.titleDe ?? treffer.titleEn ?? treffer.titleRomaji ?? `#${treffer.id}`
     const quelle: Quelle = {
