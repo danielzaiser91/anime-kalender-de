@@ -17,7 +17,7 @@ import {
 import { todayIso } from '../../shared/time.ts'
 import { amazonSearchUrl } from '../../shared/mappings.ts'
 import { type TmdbInfo } from '../lib/tmdb.ts'
-import type { CuratedEntry } from '../lib/curated.ts'
+import { kuratierteZusaetze, type CuratedEntry } from '../lib/curated.ts'
 
 export function baueReleases({
   curated,
@@ -218,8 +218,7 @@ export function baueReleases({
       publisher: entry.publisher,
       edition: entry.edition,
       note: entry.note,
-      ...(entry.nachtrag ? { nachtrag: entry.nachtrag } : {}), ...(entry.netflixOriginal ? { netflixOriginal: true } : {}), ...(entry.sprache ? { sprache: entry.sprache } : {}),
-      ...(entry.schnitt ? { schnitt: entry.schnitt } : {}),
+      ...kuratierteZusaetze(entry),
       herkunft: entry.herkunft ?? durchzaehlungHinweis,
       disputedDates: entry.disputedDates,
       schedule,

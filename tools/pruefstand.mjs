@@ -17,7 +17,7 @@
  * der Liste und „gemeldet" ist die Differenz — so stimmt die Rechnung auch
  * dann noch, wenn ein Erzeuger seinen Filter ändert.
  *
- * Die Datei ist winzig (unter 400 Byte) und liegt neben den anderen
+ * Die Datei ist klein (rund 4 KB am 10.10.2026, mit `bekannt`) und liegt neben den anderen
  * Erzeugnissen. Die Statusanzeige läuft aus einer lokalen Datei; sie kann
  * `titles.json` mit seinen gut 550 KB nicht bei jedem Takt laden, diese hier
  * schon.
@@ -27,6 +27,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { bekannteFolgen } from './pruefstand-bekannt.mjs'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
@@ -241,6 +242,11 @@ const stand = ANBIETER.map((a) => {
     /* Der Name des ersten offenen Eintrags — er steht als Titel am Knopf. */
     naechster: wert?.titel ?? null,
   }
+})
+
+/* Die höchste Folge laut Datensatz je Kennung (4.24.21) — die Erweiterung vergleicht sie mit der Plattform. */
+ANBIETER.forEach((a, i) => {
+  stand[i].bekannt = bekannteFolgen(titel, a.plattform, a.kennung)
 })
 
 /**

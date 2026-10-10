@@ -13,6 +13,7 @@ import { TvKasten } from './kalender/TvKasten.tsx'
 import { FernsehZeichen } from './kalender/Zeichen.tsx'
 import { TREFFER_24_HOCH } from './detail/tippziel.ts'
 import { anbieterUndFolge, SpracheMarke, ZeitMarke } from './kalender/Marken.tsx'
+import { PremiereMarke } from './kalender/PremiereMarke.tsx'
 
 export interface MonatProps {
   data: Dataset
@@ -279,6 +280,7 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
               {t(a === 'start' ? 'kal.start' : 'kal.finale')}
             </span>
           )}
+          {ev.premiere && <PremiereMarke platform={ev.platform} vorher={ev.premiereVorher} className="px-1.5" />}
         </span>
         <span className="line-clamp-2 text-[13px] font-bold leading-snug text-ak-text">{ev.name}</span>
         <span className="text-xs text-ak-leise">{anbieterUndFolge(ev, t, p.folgenBis?.get(ev.id))}</span>

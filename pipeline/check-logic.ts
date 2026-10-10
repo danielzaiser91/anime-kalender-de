@@ -36,7 +36,7 @@ import { nachgereichteFolgen } from './bau/verpasst-am-termin.ts'
 import { mitArtikeldaten, textHash } from './lib/beleg-lesung.ts'
 import { faelligeLaeufe, startErlaubt } from '../shared/weckplan.ts'
 import type { NewsEintrag } from '../shared/types.ts'
-import { hauptstaffeln, reihenAnfang, staffelBeschriftungen } from '../shared/titles.ts'
+import { hauptstaffeln, reihenAnfang, staffelBeschriftungen, staffelStaende } from '../shared/titles.ts'
 import { staffelNummerAusQuelle } from './bau/staffel-quelle.ts'
 import { eigenerTerminVerdraengt, terminAusEintrag, verlagAlsDienst } from './lib/anisearch-termine.ts'
 import { pushText, pushZiel } from '../worker/src/push-text.ts'
@@ -5610,6 +5610,15 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe('eine Staffel in anderer Sprache behält ihre Nummer', frieren.get(3) === 'Staffel 3' && frieren.get(2) === 'Staffel 2')
   const blue = staffelBeschriftungen([m(1, 'Bluelock', '2022'), m(2, 'Blue Lock: Staffel 2', '2024')], 'Bluelock')
   pruefe('„Blue Lock: Staffel 2" gehört zu „Bluelock"', blue.get(2) === 'Staffel 2')
+  /* Staffelnummer auch bei benannten Staffeln (Tokyo Revengers, 09.10.2026); eine einzige Staffel bleibt ohne. */
+  const tr = staffelStaende(
+    [m(1, 'Tokyo Revengers', '2021'), m(2, 'Tokyo Revengers: Christmas Showdown', '2023'), m(3, 'Tokyo Revengers: Tenjiku Arc', '2023-10'), m(4, 'Tokyo Revengers: War of the Three Titans', '2026')],
+    'Tokyo Revengers',
+  )
+  pruefe('benannte Staffeln tragen „Staffel N von M"', tr.get(1)?.staffel === 1 && tr.get(4)?.staffel === 4 && tr.get(4)?.von === 4 && tr.get(4)?.eigenerName === true)
+  pruefe('eine einzige Staffel hat keine Nummer', staffelStaende([m(1, 'One Piece', '1999')], 'One Piece').size === 0)
+  const pokeNr = staffelStaende([m(1, 'Pokémon', '1997'), m(2, 'Pokémon: Schwarz & Weiß Staffel 2', '2012')], 'Pokémon')
+  pruefe('„Schwarz & Weiß Staffel 2" ist die zweite Staffel mit eigenem Namen, nicht „Pokémon Staffel 2"', pokeNr.get(2)?.eigenerName === true)
 }
 /* Cartoons: ähnliche Titel am Mittel beider Listen, ein gemeinsames Schlagwort ist Pflicht (16.09.2026). */
 {
@@ -8108,7 +8117,17 @@ console.log('\nOmU-Meldung:')
   const titel = { id: 7, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10-11', synchro: 'offen', quellen: ['https://www.crunchyroll.com/de/news/seasonal-lineup/2026/9/15/x'], stand: '2026-09-15' } } as never
   const monat = { id: 8, ankuendigung: { platform: 'crunchyroll', omuAb: '2026-10', synchro: 'offen', quellen: ['https://x'], stand: '2026-09-15' } } as never
   const m = omuMeldungen([titel, monat], [])
-  pruefe('OmU: ein Start mit Tag wird Meldung am Tag der Quelle, mit Beleg und Kennzeichen „Synchro offen"', m.length === 1 && m[0]!.fallback === '2026-09-15' && m[0]!.datum === '2026-10-11' && m[0]!.belege?.length === 1 && m[0]!.omu === 'synchro-offen', m)
+  pruefe('OmU: ein Start mit Tag wird Meldung am Tag der Quelle, mit Beleg und Kennzeichen „Synchro offen"', m.length === 2 && m[0]!.fallback === '2026-09-15' && m[0]!.datum === '2026-10-11' && m[0]!.belege?.length === 1 && m[0]!.omu === 'synchro-offen', m)
+  /* PSYREN (10.10.2026): Die Quelle nennt nur „Oktober" — „Synchro angekündigt" hat trotzdem seinen Beleg und seinen Tag. */
+  const { omuStartText, omuLetzterTag, streamNurOmu } = await import('../shared/ankuendigung.ts')
+  pruefe('OmU: nennt die Quelle nur den Monat, wird es eine Meldung am Tag der Quelle mit dem Monat', m[1]!.datum === '2026-10' && m[1]!.fallback === '2026-09-15' && m[1]!.belege?.length === 1, m[1])
+  pruefe('OmU: „am 11.10.2026" mit Tag, „im Oktober 2026" mit Monat; der Monat bevorsteht bis zu seinem Ende', omuStartText('2026-10-11') === 'am 11.10.2026' && omuStartText('2026-10') === 'im Oktober 2026' && omuLetzterTag('2026-10') === '2026-10-31' && omuLetzterTag('2026-10-11') === '2026-10-11')
+  /* Die Pille beim Anbieter des Simulcasts sagt „OmU", solange dort keine deutsche Fassung belegt ist. */
+  const crOhne = { platform: 'crunchyroll', url: 'https://x' } as never
+  const crDub = { platform: 'crunchyroll', url: 'https://x', dub: true } as never
+  const prime = { platform: 'primevideo', url: 'https://y' } as never
+  pruefe('Pille: Anbieter des Simulcasts ohne belegte Synchro = OmU', streamNurOmu(monat, crOhne))
+  pruefe('Pille: belegte Synchro, anderer Anbieter oder kein Simulcast = keine OmU-Marke', !streamNurOmu(monat, crDub) && !streamNurOmu(monat, prime) && !streamNurOmu({ id: 1 } as never, crOhne))
   const rel = { titleId: 7, platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-10-11' } } as never
   pruefe('OmU: gibt es ein Release desselben Anbieters, entfällt die Meldung', omuMeldungen([titel], [rel]).length === 0)
   /* Der Bau legt `ankuendigung` erst beim Schreiben an den Titel — die Meldung muss sie selbst nachschlagen (Beerus, 04.10.2026). */

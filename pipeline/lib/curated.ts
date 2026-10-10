@@ -26,6 +26,8 @@ export interface CuratedEntry {
   netflixOriginal?: boolean
   /** Siehe `Release.sprache` — ein Termin ohne belegte deutsche Synchro (Kinostart nur OmU). */
   sprache?: Release['sprache']
+  /** Siehe `Release.premiere`. */
+  premiere?: Release['premiere']
   /** Siehe `Release.nachtrag`. */
   nachtrag?: { kurz: string; abschnitte: { art: string; text: string }[] }
   /**
@@ -49,6 +51,17 @@ export interface CuratedEntry {
   keywords?: string[]
   schedule?: Schedule
   sources?: string[]
+}
+
+/** Die optionalen Felder eines kuratierten Eintrags, die unverändert ins Release wandern (fehlend = nicht gesetzt). */
+export function kuratierteZusaetze(entry: CuratedEntry): Partial<Release> {
+  return {
+    ...(entry.nachtrag ? { nachtrag: entry.nachtrag } : {}),
+    ...(entry.netflixOriginal ? { netflixOriginal: true } : {}),
+    ...(entry.sprache ? { sprache: entry.sprache } : {}),
+    ...(entry.schnitt ? { schnitt: entry.schnitt } : {}),
+    ...(entry.premiere ? { premiere: entry.premiere } : {}),
+  }
 }
 
 const CURATED_DIR = resolve(ROOT, 'data', 'curated')

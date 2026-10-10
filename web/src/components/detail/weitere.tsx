@@ -1,11 +1,12 @@
 import { type Title } from '@shared/types.ts'
+import { AufklappKopf } from './aufklapp-kopf.tsx'
 import { useLang } from '../../lib/i18n.tsx'
 import { useState, Fragment, useEffect, useRef, useMemo } from 'react'
 import { eindeutschenStaffel, anzeigeName } from '@shared/titles.ts'
 import { type Voices, loadVoices, type Dataset, loadCartoons, loadAllTitles } from '../../lib/data.ts'
 import { aehnlicheTitel } from '../../lib/aehnlich.ts'
 import { coverBild } from '../../lib/cover.ts'
-import { TIPPFLAECHE_HOCH, TREFFER_24_HOCH } from './tippziel.ts'
+import { TIPPFLAECHE_HOCH } from './tippziel.ts'
 
 /**
  * Alle weiteren Schreibweisen eines Titels — eingeklappt, an einer Stelle.
@@ -94,17 +95,9 @@ export function VoiceCast({ titleId }: { titleId: number }) {
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className={`flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 ${TREFFER_24_HOCH}`}
-      >
-        <span aria-hidden className={`transition-transform ${open ? 'rotate-90' : ''}`}>
-          ›
-        </span>
+      <AufklappKopf offen={open} onClick={() => setOpen((v) => !v)}>
         {t('detail.voices')}
-      </button>
+      </AufklappKopf>
 
       {open && (
         <div className="mt-2">
@@ -210,17 +203,9 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
 
   return (
     <div ref={bereich}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className={`flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 ${TREFFER_24_HOCH}`}
-      >
-        <span aria-hidden className={`transition-transform ${open ? 'rotate-90' : ''}`}>
-          ›
-        </span>
+      <AufklappKopf offen={open} onClick={() => setOpen((v) => !v)}>
         {t('detail.aehnlich')}
-      </button>
+      </AufklappKopf>
 
       {open && (
         <div className="mt-2">

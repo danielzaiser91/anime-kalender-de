@@ -2,6 +2,7 @@ import type { ReleaseEvent } from './types.ts'
 import { RELEASE_TYPES, anbieterName } from './types.ts'
 import { addDays, berlinToUtc, toIcsStamp } from './time.ts'
 import { istAusgeblieben } from './logic.ts'
+import { premiereHinweis } from './premiere.ts'
 
 const PRODID = '-//anime-kalender-de//Anime-Kalender DE//DE'
 
@@ -86,6 +87,7 @@ export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): strin
     `Release-Art: ${RELEASE_TYPES[ev.releaseType].name}`,
   ]
   if (ev.sprache) lines.push(SPRACHE_HINWEIS[ev.sprache])
+  if (ev.premiere || ev.tvPremiere) lines.push(premiereHinweis(ev.platform, ev.premiereVorher))
   if (!ev.time) lines.push('Uhrzeit noch nicht bestätigt.')
   if (ev.timeEstimated) lines.push('Uhrzeit voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.')
   if (ev.estimated)

@@ -10,6 +10,7 @@
 import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
 import { expandEvents } from '@shared/logic.ts'
 import { istPremiere } from '@shared/tv-signale.ts'
+import { premiereBelegtTv } from '@shared/premiere.ts'
 
 export { istPremiere }
 
@@ -68,7 +69,7 @@ export function tvAngabe(
   const bezug = laufEvent || e
   const aussage =
     bezug?.episode && !bezug.sichtung
-      ? istPremiere(bezug.episode, bezug.date, title, releases, release.ersteDeutsch, bezug.time)
+      ? istPremiere(bezug.episode, bezug.date, title, releases, release.ersteDeutsch, bezug.time, premiereBelegtTv(release))
       : undefined
   const premiere = aussage === true
   let text = ''
@@ -124,6 +125,7 @@ export function tvPremiere(
 ): boolean {
   if (e.platform !== 'tv' || !e.episode || e.sichtung) return false
   const titel = data.titleById.get(e.titleId)
+  const release = data.releaseBySlug.get(e.releaseSlug)
   return Boolean(
     titel &&
       istPremiere(
@@ -131,8 +133,9 @@ export function tvPremiere(
         e.date,
         titel,
         data.releasesByTitle.get(e.titleId) ?? [],
-        data.releaseBySlug.get(e.releaseSlug)?.ersteDeutsch,
+        release?.ersteDeutsch,
         e.time,
+        premiereBelegtTv(release),
       ),
   )
 }

@@ -548,6 +548,64 @@ pruefe('ein zweiter Abruf derselben Staffel verdoppelt nichts', folgen.size === 
     })(),
   )
 
+  /*
+    Mehr Folgen auf der Seite als im Datensatz (4.24.21, Das Band der Unterwelt: Datensatz bis Folge 11,
+    Disney+ zeigt 15): nicht beantwortet, der bisherige Weg meldet alles erneut.
+  */
+  warten.push(
+    (async () => {
+      const BAND = 'https://www.disneyplus.com/de-de/browse/entity-8cc06990-0faf-4a7e-ac1f-fb74cb4b9286'
+      const KENNUNG = '8cc06990-0faf-4a7e-ac1f-fb74cb4b9286'
+      const mit = (bekannt) => ({ ...stand, anbieter: [stand.anbieter[0], { ...stand.anbieter[1], ...(bekannt ? { bekannt } : {}) }] })
+      const durchlauf = async (pruefstand, erwartetVorher, gemeldet = 0) => {
+        const s = seite(ok(pruefstand))
+        const log = { anfragen: 0, zeigt: [], setze: [], signale: [], zweit: null }
+        const knopf = { parentNode: { appendChild: (k) => (log.zweit = k) } }
+        await s.modul.klaere({
+          url: BAND,
+          kennungVon,
+          aktuell: () => true,
+          zeige: (t, o) => log.zeigt.push([t, o]),
+          knopf: () => knopf,
+          setze: (b) => log.setze.push(b),
+          signal: (d) => log.signale.push(d),
+          anfrage: () => log.anfragen++,
+          zahlen: () => ({ erwartet: erwartetVorher, gemeldet }),
+        })
+        return { s, log }
+      }
+
+      let { log } = await durchlauf(mit({ [KENNUNG]: 11 }), 15)
+      pruefe('Seite hat 15, Datensatz 11 (Zahl schon da): nicht beantwortet, Hinweis „Neue Folgen 12–15"', log.setze[0] === false && /^Neue Folgen 12–15 · prüfen und melden$/.test(log.zeigt[0][0]) && !log.zweit && !log.signale.length, log)
+      pruefe('Dabei wird gesammelt', log.anfragen === 1, log)
+
+      let r = await durchlauf(mit({ [KENNUNG]: 11 }), 0)
+      pruefe('Zahl noch unbekannt: zunächst „beantwortet"', r.log.setze[0] === true && /im Datensatz beantwortet/.test(r.log.zeigt[0][0]), r.log)
+      r.s.modul.folgenZahl(15, 0)
+      pruefe('Kommt die Zahl später, kippt der Kasten auf „Neue Folgen 12–15"', r.log.setze.at(-1) === false && /Neue Folgen 12–15/.test(r.log.zeigt.at(-1)[0]) && r.log.anfragen === 1, r.log)
+      r.s.modul.folgenZahl(16, 0)
+      pruefe('… und nur einmal', r.log.anfragen === 1, r.log)
+
+      r = await durchlauf(mit({ [KENNUNG]: 11 }), 0)
+      r.s.modul.folgenZahl(11, 0)
+      pruefe('Gleich viele Folgen: bleibt „beantwortet"', r.log.setze.length === 1 && r.log.anfragen === 0, r.log)
+
+      r = await durchlauf(mit({ [KENNUNG]: 11 }), 15, 15)
+      pruefe('Alle 15 schon gemeldet (nach dem Prüfstand): bleibt „beantwortet"', r.log.setze[0] === true && r.log.anfragen === 0, r.log)
+
+      /* Bleach: Thousand-Year Blood War – The Calamity (185874): deutsch 1–6, 7–8 ohne, Disney+ führt 10. `tools/pruefstand-bekannt.mjs` gibt dafür keine Zahl aus. */
+      r = await durchlauf(mit({ 'andere-kennung': 8 }), 10)
+      pruefe('Teilsynchro ohne `bekannt` zur Kennung: bleibt "beantwortet", kein "Neue Folgen 9–10"', r.log.setze[0] === true && r.log.anfragen === 0 && !r.log.zeigt.some(([t]) => /Neue Folge/.test(t)), r.log)
+
+      r = await durchlauf(mit({ [KENNUNG]: 14 }), 15)
+      pruefe('Eine neue Folge: "Neue Folge 15" (Einzahl)', /^Neue Folge 15 · prüfen und melden$/.test(r.log.zeigt[0][0]), r.log)
+
+      r = await durchlauf(mit(null), 15)
+      pruefe('Ohne `bekannt` im Prüfstand: bleibt „beantwortet"', r.log.setze[0] === true && r.log.anfragen === 0, r.log)
+      pruefe('disney.js reicht die Folgenzahl der Seite weiter und gibt zahlen an die Klärung', quelleDisney.includes('AK_DISNEY_BEANTWORTET.folgenZahl(erwartet, gemeldeteNummern.size)') && quelleDisney.includes('zahlen: () => ({ erwartet, gemeldet: gemeldeteNummern.size })'))
+    })(),
+  )
+
   /* Verdrahtung: der Hörer in disney.js wartet, bis geklärt ist, dass geprüft werden soll. */
   pruefe('disney.js sammelt erst, wenn die Klärung „nicht beantwortet" ergab', /!eintrag \|\| beantwortet !== false\) return/.test(quelleDisney))
   pruefe('disney.js ruft die Klärung nach dem Seitenwechsel auf', quelleDisney.includes('AK_DISNEY_BEANTWORTET.klaere('))

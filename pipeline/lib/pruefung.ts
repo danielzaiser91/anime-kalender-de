@@ -19,6 +19,7 @@
 import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
 import { lastEpisodeDate } from '../../shared/logic.ts'
 import { addDays } from '../../shared/time.ts'
+import { premiereFehler } from './premiere.ts'
 
 export interface Pruefergebnis {
   fehler: string[]
@@ -223,7 +224,7 @@ export function pruefeErgebnis(
       if (/themoviedb\.org/.test(w.url) && !w.ueberTmdb)
         fehler.push(`Anime ${t.id}: Bezugsweg „${w.name}" zeigt auf TMDB, ohne als „über TMDB" gekennzeichnet zu sein`)
 
-  fehler.push(...landFehler(titles), ...geteilteWegeTrotzWiderlegung(releases, titles))
+  fehler.push(...landFehler(titles), ...geteilteWegeTrotzWiderlegung(releases, titles), ...premiereFehler(releases))
   return { fehler, warnungen }
 }
 

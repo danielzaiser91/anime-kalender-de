@@ -3842,7 +3842,7 @@ async function durchlaufStarten(grenze) {
     `durchlaufAuftrag()` sähe über die Folgenzahl womöglich eine andere, belegte Staffel und fände
     nichts zu tun (Meine ganz besondere Hochzeit).
   */
-  const erzwungen = DURCHLAUF.erzwungen
+  const erzwungen = DURCHLAUF.erzwungen || Boolean(globalThis.AK_GEMELDET?.neu(reihe, DURCHLAUF.folgen, DURCHLAUF.alleFolgen ?? [], DURCHLAUF.gemeldet))
   DURCHLAUF.erzwungen = false
   if (erzwungen) DURCHLAUF.stichprobe = null
   const alleOffen = erzwungen ? [...DURCHLAUF.folgen] : durchlaufOffen()
@@ -4623,9 +4623,6 @@ function durchlaufKnopfZeigen() {
         bis 155 deutsch, wollte melden, aber das input ist weg."
       */
       DURCHLAUF.grenzFeld = null
-      DURCHLAUF.grenzKnopf = null
-      DURCHLAUF.nochmalKnopf = null
-      DURCHLAUF.grenzeMeldenKnopf = null
     }
     schutzflaecheZeigen(false)
     return
@@ -4834,6 +4831,7 @@ function durchlaufKnopfZeigen() {
     Der Klick hat also immer funktioniert. Nur die Anzeige kam nicht mehr dazu.
   */
   if (DURCHLAUF.nochmalKnopf) DURCHLAUF.nochmalKnopf.hidden = DURCHLAUF.laeuft
+  if (globalThis.AK_GEMELDET?.zeigen(DURCHLAUF, gemeinteReihe())) return
   if (!DURCHLAUF.laeuft && DURCHLAUF.stoerung) {
     /*
       **Nicht jede Störung heißt „zu viele Tabs".**

@@ -307,3 +307,16 @@
   note: "Netflix veröffentlicht direkt auf Deutsch, jeden Samstag eine Folge. Gesamtzahl 24 nach AniList, von Netflix nicht genannt."
   sources:
     - https://www.netflix.com/title/82719204
+
+# Folge 1 bis 11 desselben Titels bei Netflix: am 12.09. (Daniels Sichtung) schon im Angebot, der Starttag ist nicht bekannt.
+# Ohne diesen Eintrag zählte die Netflix-Pille nur die Wochenfolgen ab 12 („3 Fg.“ statt 15).
+- slug: das-band-der-unterwelt-netflix-folge-1-11
+  anilistId: 195600
+  titleDe: "Das Band der Unterwelt"
+  platform: netflix
+  platformUrl: https://www.netflix.com/title/82719204
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-12", firstEpisodeNumber: 1, episodeCount: 11 }
+  sources:
+    - https://www.netflix.com/title/82719204

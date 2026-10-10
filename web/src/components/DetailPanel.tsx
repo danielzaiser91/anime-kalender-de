@@ -644,12 +644,6 @@ export function DetailPanel({
       : t('antwort.kaufausgabeAmOhne', { datum })
   }, [title, releases, today, antwort, t])
 
-  /**
-   * Zeigt der Kasten oben eine Faktenzeile statt eines Balkens?
-   *
-   * Dann stehen Jahr, Altersfreigabe und Studio bereits dort, und die
-   * Werkangaben weiter unten lassen sie weg.
-   */
   /*
     **Kein Weg bekannt — der Satz steht im Kasten.** Kein Satz, wenn es Wege gibt, bei einem Titel ohne
     deutsche Fassung (steht schon oben) oder während eines Kinolaufs (entschieden am belegten letzten
@@ -718,14 +712,16 @@ export function DetailPanel({
     () => lueckeOhneAnbieter({ title, antwort, releaseJePlattform, today }),
     [title, antwort, releaseJePlattform, today],
   )
-  const faktenImKasten = antwort?.art === 'film' || antwort?.art === 'disc'
+  /* Zeigt der Kasten eine Zählzeile („2 von 13 Folgen erschienen", „Alle 24 Folgen"), steht die Folgenzahl nicht noch einmal auf dem Cover. */
+  const folgenImKasten =
+    (antwort?.art === 'laeuft' && Boolean(antwort.gesamt)) || (antwort?.art === 'fertig' && (antwort.gesamt ?? 0) > 1) || antwort?.art === 'teilweise'
 
-  /** Die vier Werkangaben der Unterzeile — leer heißt: kein Kasten. */
+  /** Die Werkangaben der Unterzeile — leer heißt: kein Kasten. */
   const unterzeile = !title
     ? []
     : [
         title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
-        title.episodes && title.episodes > 1
+        title.episodes && title.episodes > 1 && !folgenImKasten
           ? `${title.episodes} ${t('detail.episodes')}`
           : undefined,
         jpAngabe(eigenerTeil?.jpStart ?? (title.westlich ? title.jpStart : undefined), title.jpYear, title.land),
@@ -985,6 +981,7 @@ export function DetailPanel({
           onClose={onClose}
           t={t}
           unterzeile={unterzeile}
+          folgenImKasten={folgenImKasten}
           eigenerTeil={eigenerTeil}
         />
 
@@ -1094,7 +1091,29 @@ export function DetailPanel({
             discReleases={discReleases}
             discZuerst={discZuerst}
           />
-          <UnterDerAntwort data={data} title={title} favorites={favorites} />
+          <UnterDerAntwort
+            data={data}
+            title={title}
+            favorites={favorites}
+            reihe={
+            <ReihenListe
+              reihenTeile={reihenTeile}
+              t={t}
+              reihenName={reihenName}
+              title={title}
+              favorites={favorites}
+              wechselt={wechselt}
+              wechsleZu={wechsleZu}
+              reiheOhneOffen={reiheOhneOffen}
+              reihenSchluessel={reihenSchluessel}
+              reiheSuche={reiheSuche}
+              reiheReiter={reiheReiter}
+              setReiheOhneOffen={setReiheOhneOffen}
+              setReiheSuche={setReiheSuche}
+              setReiheReiter={setReiheReiter}
+            />
+            }
+          />
           {discOffen && discAusgaben.length > 0 && <DiscEinzelListe ausgaben={discAusgaben} />}
           {/*
             „Wo läuft es" steht seit dem 24.08.2026 **vor** den Terminen.
@@ -1149,50 +1168,6 @@ export function DetailPanel({
           */}
 
           {/*
-            Der Umschalter über die Reihe.
-
-            Vorher gab es je Staffel eine eigene Kachel und ganz unten eine
-            Liste „Staffeln dieser Reihe" — die im Kalender fast immer leer war,
-            weil sie nur Staffeln mit Termin kannte. Wer von Staffel 4 zu
-            Staffel 2 wollte, fand keinen Weg dorthin, und „Alle Termine" gab es
-            nur bei der einen Staffel, die man gerade offen hatte (Daniel,
-            12.08.2026).
-
-            Jetzt trägt der Kopf den Reihennamen, und hier wird gewählt, worauf
-            sich alles darunter bezieht. Ein `select` statt einer Liste, weil
-            eine Reihe zehn Einträge haben kann und die Termine darunter der
-            eigentliche Inhalt bleiben sollen.
-          */}
-          {/*
-            Der Reihen-Umschalter steht seit dem 24.08.2026 hier, nach den
-            Anbietern -- nicht mehr als Erstes unter dem Kopf.
-
-            Er ist Navigation, keine Antwort: Wer das Panel oeffnet, will
-            zuerst wissen, wann und wo. Erst danach stellt sich die Frage nach
-            den anderen Teilen der Reihe.
-
-            Die Ueberschrift nennt die Zahl. Ein Band ohne sie sieht bei drei
-            sichtbaren Kacheln nach drei Teilen aus -- "Ghost in the Shell" hat
-            einundzwanzig.
-          */}
-          <ReihenListe
-            reihenTeile={reihenTeile}
-            t={t}
-            reihenName={reihenName}
-            title={title}
-            favorites={favorites}
-            wechselt={wechselt}
-            wechsleZu={wechsleZu}
-            reiheOhneOffen={reiheOhneOffen}
-            reihenSchluessel={reihenSchluessel}
-            reiheSuche={reiheSuche}
-            reiheReiter={reiheReiter}
-            setReiheOhneOffen={setReiheOhneOffen}
-            setReiheSuche={setReiheSuche}
-            setReiheReiter={setReiheReiter}
-          />
-
-          {/*
             **Der Terminblock steht nur, wenn es noch etwas zu terminieren gibt.**
 
             Daniel am 03.09.2026: „release termine bereich nur anzeigen, wenn es
@@ -1237,7 +1212,6 @@ export function DetailPanel({
             onFilterBy={onFilterBy}
             tGenre={tGenre}
             setGenresOffen={setGenresOffen}
-            faktenImKasten={faktenImKasten}
           />
 
           {title.hasVoices && <VoiceCast titleId={title.id} />}
