@@ -6,14 +6,13 @@ import { WeitereTitel } from './weitere.tsx'
 import { type Title, type FranchiseMember } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 
-export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggleHidden, favorites, onToggleFavorite, reihenIds, onClose, t, unterzeile, eigenerTeil }: {
+export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggleHidden, favorites, onToggleFavorite, onClose, t, unterzeile, eigenerTeil }: {
   reihenName: string
   buehnenBild: string | undefined; grossBild?: [string, number, number]
   title: Title
   onToggleHidden: (id: number) => void
   favorites: Set<number>
   onToggleFavorite: (id: number) => void
-  reihenIds: number[]
   onClose: () => void
   t: Translate
   unterzeile: (string | undefined)[]
@@ -29,7 +28,7 @@ export function PanelBuehne({ reihenName, buehnenBild, grossBild, title, onToggl
           {reihenName}
         </h2>
         {/* Schließen, Merken, Teilen und die Altersfreigabe stehen in der Titelzeile statt auf dem Cover (Daniel, 04.10.2026). */}
-        <BuehnenLeiste title={title} favorites={favorites} onToggleFavorite={onToggleFavorite} onToggleHidden={onToggleHidden} reihenIds={reihenIds} onClose={onClose} t={t} buehnenBild={buehnenBild} grossBild={grossBild} />
+        <BuehnenLeiste title={title} favorites={favorites} onToggleFavorite={onToggleFavorite} onToggleHidden={onToggleHidden} onClose={onClose} t={t} buehnenBild={buehnenBild} grossBild={grossBild} />
         {title.fsk !== undefined && (
           <span className="absolute right-11 top-0 z-10 rounded-b-lg bg-[rgba(8,12,18,.74)] px-2 py-1 text-xs font-semibold tabular-nums text-slate-200 backdrop-blur-[3px]">
             {t(title.fskQuelle ? 'antwort.fskAnbieter' : 'antwort.fskAb', { n: title.fsk })}

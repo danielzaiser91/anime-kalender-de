@@ -250,8 +250,6 @@ export function DetailPanel({
     return [...teile.values()].sort((a, b) => (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id)
   }, [title, reihe, data])
 
-  const reihenIds: number[] = useMemo(() => reihenTeile.map((m) => m.id), [reihenTeile])
-
   /**
    * Der eigene Eintrag in der Reihe — er trägt Felder, die `titles.json` nicht
    * führt. `jpStart` etwa steht dort bei keinem einzigen der 2.771 Titel; in
@@ -984,7 +982,6 @@ export function DetailPanel({
           onToggleHidden={onToggleHidden}
           favorites={favorites}
           onToggleFavorite={onToggleFavorite}
-          reihenIds={reihenIds}
           onClose={onClose}
           t={t}
           unterzeile={unterzeile}
