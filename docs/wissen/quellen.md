@@ -3381,3 +3381,14 @@ Katalogzugänge mit Folgenzahl (richtig), 2 betroffen (Beerus, Fool Night — Fo
 
 **Offen:** ICS-Feeds und Newsletter kennzeichnen `sprache` noch nicht.
 
+
+## Anime2You: Lesefixes nach der Nachlese (10.10.2026)
+
+Anlass: Nachlese 27.09.–10.10.2026 (130 Artikel; `__assets/notes/anime2you-nachlese-2026-10-10.md`). Vier Lesefehler in `scrape-anime2you.ts`, alle beseitigt:
+
+- **Sammelartikel ohne Tag in der Kopfzeile** (`lib/sammelartikel.ts`): „Ab sofort bei Netflix:“-Listen führen je Titel nur „»Titel« – Staffel 2“ mit Feldern darunter. Vorher 0 Einträge (14 von 25 jungen Sammelartikeln seit 13.09.), jetzt 150 aus denselben 25 gespeicherten Artikeln (48 vorher). Tag: `Start:` im Feld, sonst Meldetag unter einer „Ab sofort …:“-Liste (bei „Jeden Sonntag“ und einer Folge der letzte solche Tag), als `datumGeschaetzt` → `schedule.estimated`. „Serie sollte entfernt werden“ (Death Note, Kuroko) bekommt keinen Tag. Mehrere Folgen auf einmal: kein Tag, nie geraten. Junge Artikel mit 0 Einträgen werden neu geholt und warnen.
+- **Sprachaussage ohne Termin**: `Proposal.hinweis = 'sprache'` (45 Tage), nie ein Release, Kandidat für `data/dub-confirmed.yaml`.
+- **Gesamt-Feed `/feed/`** (4 Seiten, nach den Rubrik-Feeds): Kategorie `allgemein`, nur mit Deutschland-Bezug (`deutschlandBezug`), erzeugt nie ein Release. robots.txt sperrt nur `/wp-admin/`; 4 Abrufe mehr je Lauf.
+- **Disc-Shop-Sammelmeldungen**: Die Tabelle „Titel Termin Format“ steht nur im Artikel, nicht im Feed-Auszug; `shopTabellenNachholen` liest sie (3 je Lauf, einmal je Artikel). `findDates` ergänzt „15.01.“ um das Jahr des Artikels, `geschaetzt: true`.
+
+**Verwerfungspfade** stehen mit Grund und Anzahl im Lauf-Protokoll und in `anime2you.json` (`verworfen`); Sammelartikel-Einträge zählt `zaehleSammelVerwurf` je Grund. Nicht im Umfang, nur Befund: Paramount+ als Plattform und Katalog-Abgänge (Naruto auf Prime, 31.10.) hat das Datenmodell nicht.
