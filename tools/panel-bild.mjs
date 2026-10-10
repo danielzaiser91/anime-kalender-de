@@ -37,9 +37,10 @@ const DIST = path.join(WURZEL, 'dist')
   umgelegt ist — die Mini-Episoden der Apothekerin standen hier zuerst und
   öffneten kein Panel.
 
-  177476 (YAIBA): nur ein angekündigter TV-Termin — Schalter mit TV-Pille statt toter Seite (10.10.2026).
+  177476 (YAIBA) und 195539 (Edgerunners 2): nur ein angekündigter Termin — Schalter mit TV-/Netflix-Pille
+  statt toter Seite (10.10.2026).
 */
-const STANDARD = ['161645', '176301', '163132', '177476']
+const STANDARD = ['161645', '176301', '163132', '177476', '195539']
 
 /** Ein 1×1-Pixel-PNG, transparent — die Antwort auf jede fremde Bildanfrage. */
 const EIN_PUNKT = Buffer.from(

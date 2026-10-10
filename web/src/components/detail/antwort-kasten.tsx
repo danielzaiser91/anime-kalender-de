@@ -108,8 +108,11 @@ export function AntwortKasten({
   kaufausgabe,
   hinweis,
   pillenGruppen = new Map(),
+  terminPillen = [],
   discZuerst = false,
 }: {
+  /** Pillen mit Termin und Anbieter/Sender — sie stehen vor der ersten Folge statt der Streamwege. */
+  terminPillen?: React.ReactNode[]
   /** Bereich je Pillen-Schlüssel (`key`) — nur gebraucht, wenn es einen kostenlosen Weg gibt. */
   pillenGruppen?: Map<string, 'frei' | 'abo' | 'kauf' | 'tv' | 'unbekannt'>
   /** Über einen Disc-Termin geöffnet — dann steht der Umschalter auf „Disc". */
@@ -204,12 +207,11 @@ export function AntwortKasten({
     sagt „dort läuft es auf Deutsch" — dort läuft aber noch gar nichts, und der
     Klick führt auf eine Seite ohne eine einzige Folge.
 
-    **Kaufwege bleiben**, denn eine Vorbestellung ist genau für diesen Zustand
-    da: Man kann sie tätigen, bevor etwas erschienen ist.
+    **Kaufwege und Termin-Pillen bleiben:** Vorbestellung und Ankündigung sagen, wo es kommt.
   */
   const nochNichts = (antwort.art === 'laeuft' && antwort.raus === 0) || antwort.art === 'widerlegt'
   const gruppeVon = (p: ReactNode) => gruppeVonPille(pillenGruppen, p)
-  const streamPillen = sichtbareStreamPillen(stream, nochNichts, pillenGruppen)
+  const streamPillen = sichtbareStreamPillen(stream, antwort.art === 'widerlegt' ? [] : terminPillen, nochNichts)
   const beides = streamPillen.length > 0 && disc.length > 0
   /* Der Umschalter zeigt nur Seiten mit Pillen; eine einzelne bleibt als Etikett (Kaufpille = „Disc"). */
   const aktivDisc = beides ? zeigeDisc : streamPillen.length === 0
