@@ -642,7 +642,7 @@
   sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
 
 # ---------------------------------------------------------------- AKIBA PASS SHOP, Nachtrag 10.10.2026 (Anime2You 1058438 und 1056789)
-# Die Artikel nennen Tag und Monat ohne Jahr; die Januar-Termine sind als 2027 gelesen (Artikel vom 02./08.10.2026; 1056789 nennt für Apothecary Diaries ausdrücklich 15.01.2027).
+# Die Artikel nennen nur „15.01.“ ohne Jahr; 2027 ist aus dem Artikeldatum (02./08.10.2026) abgeleitet, daher `estimated: true`.
 # Sprachangaben stehen in keinem der beiden Artikel.
 - slug: dr-stone-science-future-part2
   anilistId: 189117
@@ -652,7 +652,7 @@
   publisher: "Crunchyroll"
   edition: "Komplettbox, Blu-ray"
   note: "Anime2You nennt „Staffel 4 – Part 2“; Zuordnung zu AniList „Part 2“ wie bei Part 1. Sprache der Disc im Artikel nicht genannt."
-  schedule: { firstEpisodeDate: "2027-01-15" }
+  schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
 
 - slug: shield-hero-s4-vol2
@@ -663,7 +663,7 @@
   publisher: "Crunchyroll"
   edition: "Blu-ray"
   note: "Sprache der Disc im Artikel nicht genannt."
-  schedule: { firstEpisodeDate: "2027-01-15" }
+  schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
 
 - slug: apothecary-diaries-s2-vol2
@@ -674,5 +674,5 @@
   publisher: "Crunchyroll"
   edition: "DVD & Blu-ray"
   note: "Sprache der Disc im Artikel nicht genannt."
-  schedule: { firstEpisodeDate: "2027-01-15" }
+  schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/]
