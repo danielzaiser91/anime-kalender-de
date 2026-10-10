@@ -4623,9 +4623,6 @@ function durchlaufKnopfZeigen() {
         bis 155 deutsch, wollte melden, aber das input ist weg."
       */
       DURCHLAUF.grenzFeld = null
-      DURCHLAUF.grenzKnopf = null
-      DURCHLAUF.nochmalKnopf = null
-      DURCHLAUF.grenzeMeldenKnopf = null
     }
     schutzflaecheZeigen(false)
     return
