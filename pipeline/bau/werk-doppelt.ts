@@ -24,7 +24,9 @@ export type WerkTitel = {
   anisearchId?: number
   franchiseId?: number
 }
-export type WerkPaar = { zeile: number; titel: number; grund: 'synonym' | 'beziehung' | 'name' }
+/** Obergrenze der wahrscheinlichen Paare in der Ausgabe (von Hand gepflegt, darf nur sinken); gelesen in `werk-doppelt-bau.ts`. */
+export const GRENZE = 'data/dubletten-grenze.json'
+export type WerkPaar ={ zeile: number; titel: number; grund: 'synonym' | 'beziehung' | 'name' }
 export type WerkUrteil = { sicher: WerkPaar[]; wahrscheinlich: WerkPaar[] }
 
 /** Namensschlüssel: Kleinschreibung, nur Buchstaben und Ziffern. */

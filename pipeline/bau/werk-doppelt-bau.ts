@@ -1,12 +1,10 @@
 import { log, readJson, writeJson } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
-import { findeWerkDubletten, type WerkEintrag, type WerkPaar, type WerkTitel, type WerkUrteil } from './werk-doppelt.ts'
+import { GRENZE, findeWerkDubletten, type WerkEintrag, type WerkPaar, type WerkTitel, type WerkUrteil } from './werk-doppelt.ts'
 
 /** Die Prüfliste der wahrscheinlichen Paare: `fetch-anisearch-eintraege.ts` holt zuerst deren Synonyme und Beziehungen, die das Paar bestätigen oder widerlegen. */
 export const PRUEFLISTE = 'data/dubletten-pruefliste.json'
-/** Obergrenze der wahrscheinlichen Paare in der Ausgabe; sie darf nur sinken. */
-export const GRENZE = 'data/dubletten-grenze.json'
 
 type MitFeldern = WerkTitel & { anisearchId?: number }
 
