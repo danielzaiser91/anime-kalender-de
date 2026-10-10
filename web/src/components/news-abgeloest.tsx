@@ -1,5 +1,6 @@
 import { istLink } from '@shared/quelle.ts'
 import type { NewsMeldung } from '@shared/types.ts'
+import { GRUND_NUR_ORIGINALTON } from '@shared/news-typen.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { datumKurz } from '../lib/news-text.ts'
 
@@ -32,7 +33,7 @@ export function AbgeloestHinweis({ m }: { m: NewsMeldung }) {
   }
   if (m.zurueckgezogen) {
     return (
-      <span title={t('news.zurueckgezogenTitel')} className="shrink-0 text-[10px] text-rose-600 dark:text-rose-400">
+      <span title={m.zurueckgezogen.grund === GRUND_NUR_ORIGINALTON ? GRUND_NUR_ORIGINALTON : t('news.zurueckgezogenTitel')} className="shrink-0 text-[10px] text-rose-600 dark:text-rose-400">
         {t('news.zurueckgezogen')}
       </span>
     )

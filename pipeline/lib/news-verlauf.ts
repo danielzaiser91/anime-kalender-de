@@ -24,6 +24,7 @@
  * Liegt in einer eigenen Datei, weil `baueNews` die Längengrenze reißt.
  */
 import { addDays } from '../../shared/time.ts'
+import { GRUND_NUR_ORIGINALTON } from '../../shared/news-typen.ts'
 import type { NewsArt, NewsEintrag, NewsMeldung, PlatformId, Title } from '../../shared/types.ts'
 
 /** Was zuletzt zu einem Termin auf der Nachrichtenseite stand. */
@@ -56,9 +57,6 @@ export interface TerminGedaechtnis {
 export type DatiertNews = NewsMeldung & { am: string; titel: Title; schluessel: string }
 
 const tag = (d: string | undefined) => (d ?? '').slice(0, 10)
-
-/** Die Ankündigung kam aus einer Meldung, die nur Originalton nennt — ihr eigener Beleg widerlegt sie. */
-const GRUND_NUR_ORIGINALTON = 'Die Quelle nennt nur Originalton mit Untertiteln, keine deutsche Synchro.'
 
 /** Der gespeicherte Stand einer ausgelieferten Meldung. */
 function ausMeldung(m: DatiertNews, name: (t: Title) => string, wurzel: (t: Title) => number): TerminVerlauf {

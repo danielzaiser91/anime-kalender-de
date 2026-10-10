@@ -130,6 +130,9 @@ export interface NewsMeldung {
   zurueckgezogen?: { grund?: string }
 }
 
+/** Rückzugsgrund, wenn die Ankündigung aus einer Meldung mit nur Originalton kam — ihr eigener Beleg widerlegt sie (10.10.2026). */
+export const GRUND_NUR_ORIGINALTON = 'Die Quelle nennt nur Originalton mit Untertiteln, keine deutsche Synchro.'
+
 /**
  * **Ein Anime an einem Tag — mit allem, was an ihm passiert ist.**
  *
