@@ -18,6 +18,7 @@ const HOSTS: Record<PlatformId, string[]> = {
   netflix: ['netflix.com'],
   primevideo: ['primevideo.com', 'amazon.de', 'amazon.com'],
   disneyplus: ['disneyplus.com'],
+  paramountplus: ['paramountplus.com'],
   // `.de` ist ADNs deutsche Domain und die häufigste in unseren Daten (75 von
   // 76 Verweisen) — sie zu vergessen hätte fast alle ADN-Verweise verworfen.
   adn: ['animationdigitalnetwork.de', 'animationdigitalnetwork.com', 'animedigitalnetwork.fr'],

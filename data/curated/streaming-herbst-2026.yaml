@@ -320,3 +320,35 @@
   schedule: { firstEpisodeDate: "2026-09-12", firstEpisodeNumber: 1, episodeCount: 11 }
   sources:
     - https://www.netflix.com/title/82719204
+
+# Avatar: Die sieben Häfen — Paramount+ (Anime2You 1059426 vom 09.10.2026, 1059483 vom 10.10.2026).
+# Westliche Produktion (TMDB 284833, Cartoon-Kennung -284833); bei AniList nicht geführt.
+# Folgen kommen in Blöcken: 1–3 am 09.10., 4–6 am 16.10., 7–9 am 23.10., 10–13 am 30.10.
+- slug: avatar-die-sieben-haefen-paramountplus
+  anilistId: -284833
+  titleDe: "Avatar: Die sieben Häfen"
+  platform: paramountplus
+  platformUrl: https://www.paramountplus.com/de/shows/avatar-seven-havens/
+  releaseType: weekly
+  schedule:
+    firstEpisodeDate: "2026-10-09"
+    episodeCount: 13
+    lastEpisodeDate: "2026-10-30"
+    observed:
+      1: "2026-10-09"
+      2: "2026-10-09"
+      3: "2026-10-09"
+      4: "2026-10-16"
+      5: "2026-10-16"
+      6: "2026-10-16"
+      7: "2026-10-23"
+      8: "2026-10-23"
+      9: "2026-10-23"
+      10: "2026-10-30"
+      11: "2026-10-30"
+      12: "2026-10-30"
+      13: "2026-10-30"
+  note: "Deutsche Synchronisation und englischer Originalton mit Untertiteln; zuerst drei Folgen, dann jeden Freitag drei bis vier. Wann die zweite Staffel startet, ist offen."
+  sources:
+    - https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/
+    - https://www.anime2you.de/news/1059483/avatar-kuruk-wave-of-chaos-angekuendigt/
