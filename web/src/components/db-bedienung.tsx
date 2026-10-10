@@ -50,7 +50,7 @@ export function DbSortWahl({ sort, onChange, suche, kompakt }: { sort: DbSort; o
         value={sort}
         aria-label={t('db.sort')}
         onChange={(e) => onChange(e.target.value as DbSort)}
-        className={['cursor-pointer rounded-md border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5', kompakt && 'h-11 w-28 rounded-full'].filter(Boolean).join(' ')}
+        className={['cursor-pointer border border-slate-300 bg-white px-2 py-1 text-sm dark:border-white/15 dark:bg-white/5', kompakt ? 'h-11 w-28 rounded-full' : 'rounded-md'].filter(Boolean).join(' ')}
       >
         <option value="relevanz">{t(suche ? 'db.sortRelevanz' : 'db.sortRelevanzGruppen')}</option>
         <option value="titel">{t('db.sortTitle')}</option>
