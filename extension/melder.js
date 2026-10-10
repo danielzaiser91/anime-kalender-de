@@ -4831,6 +4831,7 @@ function durchlaufKnopfZeigen() {
     Der Klick hat also immer funktioniert. Nur die Anzeige kam nicht mehr dazu.
   */
   if (DURCHLAUF.nochmalKnopf) DURCHLAUF.nochmalKnopf.hidden = DURCHLAUF.laeuft
+  if (globalThis.AK_GEMELDET?.zeigen(DURCHLAUF, gemeinteReihe())) return
   if (!DURCHLAUF.laeuft && DURCHLAUF.stoerung) {
     /*
       **Nicht jede Störung heißt „zu viele Tabs".**
@@ -6112,7 +6113,7 @@ setInterval(() => {
  * Zählung vorher: Der Knopf zeigte 7, während der Dialog daneben „Alles
  * geprüft" sagte (Daniel, 23.08.2026, nach dem Neuladen).
  */
-void erledigtGeladen.then(() => uebersichtZeigen())
+void erledigtGeladen.then(() => uebersichtZeigen()).then(() => globalThis.AK_GEMELDET?.laden()).then(() => durchlaufKnopfZeigen())
 
 /*
   Den Stand holen — einmal beim Laden, danach alle fünf Minuten. Er ändert sich
