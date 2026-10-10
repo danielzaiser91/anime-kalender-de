@@ -67,26 +67,49 @@ function iso(tag: number, monat: number, veroeffentlicht: string): string {
   return `${jahr}-${String(monat).padStart(2, '0')}-${String(tag).padStart(2, '0')}`
 }
 
+interface Kopf {
+  tag?: number
+  monat?: number
+  abSofort: boolean
+  titel: string
+  zusatz?: string
+  klammer?: string
+}
+
+/** Erkennt die Kopfzeile eines Eintrags („1. Oktober: »Titel« – Staffel 2 (Simulcast)“). */
+function liesKopf(zeile: string): Kopf | undefined {
+  const k = KOPF.exec(zeile)
+  if (!k) return undefined
+  const monat = k[2] ? MONATE[k[2].toLowerCase()] : k[3] ? Number(k[3]) : undefined
+  return {
+    ...(k[1] ? { tag: Number(k[1]) } : {}),
+    ...(monat ? { monat } : {}),
+    abSofort: !k[1] && /^\s*Ab\s+sofort:/i.test(zeile),
+    titel: k[4]!.trim(),
+    ...(k[5]?.trim() ? { zusatz: k[5].trim() } : {}),
+    ...(k[6] ? { klammer: k[6] } : {}),
+  }
+}
+
 /** Liest die Einträge eines Sammelartikels; die ausführliche Fassung eines Titels schlägt die Kurzliste. */
 export function leseSammelartikel(text: string, veroeffentlicht: string): SammelEintrag[] {
   const zeilen = text.split('\n').map((z) => z.trim()).filter(Boolean)
   const nachTitel = new Map<string, SammelEintrag & { felder: number }>()
   for (let i = 0; i < zeilen.length; i++) {
-    const k = KOPF.exec(zeilen[i]!)
+    const k = liesKopf(zeilen[i]!)
     if (!k) continue
-    const monat = k[2] ? MONATE[k[2].toLowerCase()] : k[3] ? Number(k[3]) : undefined
     const e: SammelEintrag & { felder: number } = {
-      titel: k[4]!.trim(),
-      ...(k[5]?.trim() ? { zusatz: k[5].trim() } : {}),
-      ...(k[1] && monat ? { datum: iso(Number(k[1]), monat, veroeffentlicht) } : {}),
+      titel: k.titel,
+      ...(k.zusatz ? { zusatz: k.zusatz } : {}),
+      ...(k.tag && k.monat ? { datum: iso(k.tag, k.monat, veroeffentlicht) } : {}),
       /* „Ab sofort: »Tokyo Revengers …«" (Disney+, 02.10.2026): der Tag der Meldung. */
-      ...(!k[1] && /^\s*Ab\s+sofort:/i.test(zeilen[i]!) ? { datum: veroeffentlicht.slice(0, 10) } : {}),
-      deutsch: /\b(Dub|Synchro)\b/i.test(k[6] ?? ''),
-      woechentlich: /simulcast/i.test(k[6] ?? ''),
+      ...(k.abSofort ? { datum: veroeffentlicht.slice(0, 10) } : {}),
+      deutsch: /\b(Dub|Synchro)\b/i.test(k.klammer ?? ''),
+      woechentlich: /simulcast/i.test(k.klammer ?? ''),
       stream: [],
       felder: 0,
     }
-    for (let j = i + 1; j < zeilen.length && !KOPF.test(zeilen[j]!); j++) {
+    for (let j = i + 1; j < zeilen.length && !liesKopf(zeilen[j]!); j++) {
       const z = zeilen[j]!
       const f = /^(Simulcast|Episoden|Sprache|Stream|Hinweis):\s*(.+)$/.exec(z)
       if (!f) continue
