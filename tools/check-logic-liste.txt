@@ -25,6 +25,8 @@ pipeline/check-paramount.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-premiere.ts
+pipeline/check-tv-schaetzung.ts
+pipeline/check-tv-sichtungen-vor-start.ts
 pipeline/check-zaehlung.ts
 pipeline/check-prime-kanal.ts
 pipeline/check-anisearch-sprecher.ts
