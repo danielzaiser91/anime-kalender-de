@@ -65,7 +65,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
           today={today}
           wegeHinweis={wegeHinweis}
           notiz={kastenNotiz?.note}
-          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} />}
+          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={
             /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine

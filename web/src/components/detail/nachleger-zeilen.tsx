@@ -9,12 +9,13 @@ import type { berechneAntwort } from './antwort-berechnen.ts'
 const MIT_NACHLEGERN = ['fertig', 'laeuft', 'teilweise']
 
 /** Die Zeilen unter dem Antwortkasten-Kopf, direkt über der Folgenliste (`folgen`-Platz des Kastens). */
-export function FolgenMitNachlegern({ titleId, antwort, releases }: {
+export function FolgenMitNachlegern({ titleId, antwort, releases, today }: {
   titleId: number
   antwort: ReturnType<typeof berechneAntwort>
   releases: Release[]
+  today: string
 }) {
-  const zeilen = antwort && MIT_NACHLEGERN.includes(antwort.art) ? nachlegerJeAnbieter(releases.flatMap((r) => expandEvents(r))) : []
+  const zeilen = antwort && MIT_NACHLEGERN.includes(antwort.art) ? nachlegerJeAnbieter(releases.flatMap((r) => expandEvents(r)), today) : []
   return (
     <>
       {zeilen.map((n) => (

@@ -1,4 +1,4 @@
-import { anzeigeFolge, istAusgeblieben, istErschienen } from '@shared/logic.ts'
+import { anzeigeFolge, istAusgeblieben } from '@shared/logic.ts'
 import { weekdayName } from '@shared/time.ts'
 import { anbieterName, type PlatformId, type ReleaseEvent } from '@shared/types.ts'
 import { ohneSchonErschienene } from './antwort-regeln.ts'
@@ -21,11 +21,12 @@ export interface Nachleger {
  * **Wer noch nachlegt, was woanders schon da ist** (Daniel, 10.10.2026, Option 2). „Nächste Folge“ zählt nur
  * Folgen, die nirgends erschienen sind (`ohneSchonErschienene`); Netflix' Folge 16 am 17.10. fiel damit aus dem
  * Kasten, obwohl Crunchyroll alle 24 hat. Hier steht je Anbieter der nächste solche Termin.
+ * Nur Termine nach `heute`: Einer von heute ohne Uhrzeit gilt erst um 23:59 als erschienen, ist aber schon da.
  * TV, Kino und Disc sind ausgenommen: Die TV-Pille nennt Folge, Tag und Uhrzeit selbst.
  */
-export function nachlegerJeAnbieter(events: ReleaseEvent[]): Nachleger[] {
+export function nachlegerJeAnbieter(events: ReleaseEvent[], heute: string): Nachleger[] {
   const stream = events.filter((e) => !['tv', 'kino', 'disc'].includes(e.platform) && e.releaseType !== 'disc')
-  const offen = stream.filter((e) => anzeigeFolge(e) && !istErschienen(e) && !istAusgeblieben(e))
+  const offen = stream.filter((e) => anzeigeFolge(e) && e.date > heute && !istAusgeblieben(e))
   const neu = new Set(ohneSchonErschienene(offen, stream))
   const jeAnbieter = new Map<PlatformId, ReleaseEvent[]>()
   for (const e of offen.filter((x) => !neu.has(x)))
