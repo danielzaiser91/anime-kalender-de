@@ -3,6 +3,8 @@ import { expandEvents } from '../../shared/logic.ts'
 import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-signale.ts'
 import { readJson, log, warn } from '../lib/util.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
+import { schreibePremiereMitMeldung } from '../lib/premiere.ts'
+import { premiereBelegtTv } from '../../shared/premiere.ts'
 import { todayIso } from '../../shared/time.ts'
 import { kostenloseFolgen } from '../../shared/kostenlos.ts'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
@@ -36,7 +38,7 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
     const release = releaseBySlug.get(ev.releaseSlug)
     const title = titles.get(ev.titleId)
     if (release && title && ev.platform === 'tv' && ev.episode && !ev.sichtung) {
-      const istEs = istPremiere(ev.episode, ev.date, title, releasesJeTitel.get(ev.titleId) ?? [], release.ersteDeutsch, ev.time)
+      const istEs = istPremiere(ev.episode, ev.date, title, releasesJeTitel.get(ev.titleId) ?? [], release.ersteDeutsch, ev.time, premiereBelegtTv(release))
       if (istEs === undefined) ohneAussage++
       else {
         ev.tvPremiere = istEs
@@ -51,6 +53,7 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
     if (istStaffelstart(ev, { releaseBySlug })) ev.staffelstart = true
   }
   log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${ohneAussage} ohne Aussage (kein Beleg), ${finale} Staffelfinale`)
+  schreibePremiereMitMeldung(events, releases, titles)
 }
 
 export function rolleTermineAus({ releases, titles, jpStart }: {

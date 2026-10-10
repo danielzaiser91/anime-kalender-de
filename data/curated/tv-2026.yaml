@@ -54,6 +54,11 @@
     episodeCount: 24
     wochentage: [1, 2, 3, 4, 5]
   note: "Nach der TV-Ausstrahlung sollen die Folgen kostenlos auf Joyn abrufbar sein (kein Termin genannt)."
+  # Handbeleg Premiere (10.10.2026): Anime2You 1059541 nennt es „deutsche TV-Premiere der ersten Staffel“;
+  # davor weder deutsche Disc (erste am 04.12.2026) noch deutscher Stream (Akibapass, ADN nur OmU).
+  premiere:
+    weg: tv
+    quelle: https://www.anime2you.de/news/1059541/
   sources:
     - https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/
     - https://www.anime2you.de/news/1059541/

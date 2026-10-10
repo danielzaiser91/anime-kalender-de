@@ -116,6 +116,11 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
 - Bei Fortsetzungen die **AniList-ID prüfen**, nicht der Suche vertrauen. `npx tsx
   pipeline/qa-resolve.ts` zeigt Verdachtsfälle; die Folgenzahl wird nur übernommen, wenn das
   japanische Ausstrahlungsjahr zum deutschen Termin passt.
+- **Meldungen mit „erstmals im Stream/TV“ als `premiere` eintragen** (Daniel, 10.10.2026): Sagt eine Quelle
+  ausdrücklich, dass ein Release erstmals auf Deutsch im Fernsehen oder Streaming erscheint, gehört am
+  kuratierten Release `premiere: { weg, quelle, vorher?, vorherDatum? }` dazu (`vorher: disc|kino`, wenn die
+  Fassung dort schon erschien — Anzeige „Premiere*“). Nie aus Abwesenheit oder „im Angebot seit“ ableiten;
+  eine Neuzugangsmeldung ohne das Wort „erstmals“ reicht nicht. Einzelheiten: `datensatz.md`.
 
 ## Was erzeugt wird, wird auch geprüft
 

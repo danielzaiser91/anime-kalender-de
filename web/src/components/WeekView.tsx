@@ -181,7 +181,7 @@ function PosterRaster({
   const gesehen = gesehenLesen()
   const art = (ev: ReleaseEvent): KartenArt | undefined =>
     istStaffelstart(ev, p.data) ? 'start' : istStaffelfinale(ev, p.data) ? 'finale' : undefined
-  const gruppen = buendeleTermine(tag.stream, (ev) => !!ev.verpasst || !!art(ev))
+  const gruppen = buendeleTermine(tag.stream, (ev) => !!ev.verpasst || !!art(ev) || !!ev.premiere)
   return (
     <div
       className={[

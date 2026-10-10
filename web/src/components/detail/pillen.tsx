@@ -3,6 +3,7 @@ import { type ReactNode } from 'react'
 import { Tooltip, DiscZeichen } from '../ui.tsx'
 import { formatDate } from '@shared/time.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
+import { PremiereFaehnchen, zeigtPremiere } from './premiere-faehnchen.tsx'
 import { useLang, translate } from '../../lib/i18n.tsx'
 import { AnbieterIcon } from '../../lib/anbieter-icon.tsx'
 import { MerkenKnopf } from './merken.tsx'
@@ -424,10 +425,11 @@ export function ReleasePille({
         PROSIEBEN_MAXX_ROT
       : PLATFORMS[release.platform]?.color
   const tv = release.platform === 'tv'
+  const premiere = zeigtPremiere(release, tvText?.premiere)
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
   return (
     <span
-      className={`relative inline-flex max-w-full items-center ${tv ? 'blase-links rounded-md pl-5' : 'rounded-full pl-3'} ${farbe ? 'blase-rechts' : ''} py-1 pr-4 ${tvText?.premiere ? 'mt-2 pt-3' : ''} ${farbe ? PILLE_MARKE : ''}`}
+      className={`relative inline-flex max-w-full items-center ${tv ? 'blase-links rounded-md pl-5' : 'rounded-full pl-3'} ${farbe ? 'blase-rechts' : ''} py-1 pr-4 ${premiere ? 'mt-2 pt-3' : ''} ${farbe ? PILLE_MARKE : ''}`}
       style={marke(farbe)}
     >
       {tv && (
@@ -461,20 +463,7 @@ export function ReleasePille({
           )}
         </span>
       )}
-      {tvText?.premiere && (
-        /*
-          **Premiere als Fähnchen auf der Kante**:
-          Es steht links neben dem Namen, rechts der Blase — aber mit seiner Unterkante auf der
-          Oberkante der Pille, sonst ragt es in die Namenszeile.
-        */
-        <span className={`absolute -top-[11px] ${tv ? 'left-[22px]' : 'left-[10px]'} z-10`}>
-          <Tooltip text={t('tv.premiereHinweis')} seite="oben">
-            <span className="block rounded-md bg-orange-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(249,115,22,.6)]">
-              ✦ Premiere
-            </span>
-          </Tooltip>
-        </span>
-      )}
+      {premiere && <PremiereFaehnchen release={release} />}
       {/*
         **Ohne Ziel kein Verweis** (Daniel, 17.09.2026, Kino-Pille): `href="#"` öffnete
         dieselbe Seite in einem neuen Tab. Dann trägt die Pille nur ihre Angaben und „Merken".
