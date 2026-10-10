@@ -71,7 +71,7 @@ const TEXTE = {
   */
   'news.ersetzt': 'ersetzt durch {datum}',
   'news.ersetztTitel': 'Diese Meldung wurde von einer neueren Angabe abgelöst — nachsehen',
-  'news.zurueckgezogen': 'zurückgezogen',
+  'news.zurueckgezogen': 'zurückgezogen', 'news.zurueckgezogenOmu': 'zurückgezogen: nur OmU',
   'news.zurueckgezogenTitel': 'Die Ankündigung wurde durch eine Prüfung widerlegt',
   // Kurzform für die Übersichtszeile: Stichworte statt Satz — der Vollsatz steht aufgeklappt darunter.
   'news.alle': 'Alles',

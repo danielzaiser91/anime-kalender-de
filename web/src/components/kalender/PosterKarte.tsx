@@ -6,7 +6,7 @@ import { useLang } from '../../lib/i18n.tsx'
 import { useShare } from '../../lib/share.ts'
 import { coverBild, KACHEL_DICHTE } from '../../lib/cover.ts'
 import { FavoriteStar, HideEye, ShareIcon, Tooltip } from '../ui.tsx'
-import { anbieterUndFolge, VerpasstMarke, ZeitMarke } from './Marken.tsx'
+import { anbieterUndFolge, SpracheMarke, VerpasstMarke, ZeitMarke } from './Marken.tsx'
 import { FundstellenZeichen, TrefferName } from '../Suchtreffer.tsx'
 
 export type KartenArt = 'start' | 'finale'
@@ -84,7 +84,7 @@ export function PosterKarte(p: PosterKarteProps) {
         {!!p.neu && (
           <span className="rounded bg-ak-akzent/15 px-1 font-semibold text-ak-akzent-text">{t('fav.neuSeit', { n: p.neu })}</span>
         )}
-        <VerpasstMarke event={p.event} t={t} />
+        <VerpasstMarke event={p.event} t={t} /><SpracheMarke event={p.event} t={t} />
       </span>
     </article>
   )
