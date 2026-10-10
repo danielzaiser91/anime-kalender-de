@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-10T04:17:04.308Z",
+  "stand": "2026-10-10T04:38:58.620Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -3200,7 +3200,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-10-10",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 897,
@@ -4842,6 +4842,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 155,
+      "titel": "X: The Movie",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GMTE00380050/x-the-movie",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-10",
+      "letzterWeg": true
+    },
+    {
       "titleId": 232,
       "titel": "Cardcaptor Sakura",
       "plattform": "adn",
@@ -6460,7 +6471,7 @@
     },
     {
       "titleId": 145850,
-      "titel": "GREEN DA KA RA x Mirai no Mirai",
+      "titel": "GREEN DA KA RA × Mirai no Mirai",
       "plattform": "youtube",
       "url": "https://www.youtube.com/watch?v=7hEXNRUFnRw",
       "seriesId": null,
@@ -7988,17 +7999,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 137612,
-      "titel": "Princess Principal: Crown Handler 3",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-10",
-      "letzterWeg": true
-    },
-    {
       "titleId": 128223,
       "titel": "When Will Ayumu Make His Move?",
       "plattform": "adn",
@@ -8065,17 +8065,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 186716,
-      "titel": "Princess Principal: Crown Handler - Chapter 4",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-10",
-      "letzterWeg": true
-    },
-    {
       "titleId": 173388,
       "titel": "Plus-Sized Elf",
       "plattform": "adn",
@@ -8096,6 +8085,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-10",
       "letzterWeg": false
+    },
+    {
+      "titleId": 170221,
+      "titel": "The Dangers in My Heart: TwiYaba",
+      "plattform": "netflix",
+      "url": "https://www.netflix.com/title/81788312",
+      "seriesId": null,
+      "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-10",
+      "letzterWeg": true
     },
     {
       "titleId": 223,

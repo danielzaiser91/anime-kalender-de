@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-10T04:17:24.062Z",
+ "erzeugtAm": "2026-10-10T04:39:10.785Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,8 +7,10 @@
    "gemeldet": 749,
    "gesamt": 753,
    "offen": 4,
-   "ohneSeite": 0,
-   "suchAdressen": [],
+   "ohneSeite": 1,
+   "suchAdressen": [
+    "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video"
+   ],
    "ziel": "https://www.amazon.de/gp/video/detail/B0CQ4VL364",
    "ziele": [
     {
@@ -34,8 +36,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 382,
-   "gesamt": 391,
-   "offen": 9,
+   "gesamt": 392,
+   "offen": 10,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/80212481",
    "ziele": [
@@ -58,6 +60,10 @@
     {
      "url": "https://www.netflix.com/title/81153115",
      "titel": "Scott Pilgrim hebt ab"
+    },
+    {
+     "url": "https://www.netflix.com/title/81218604",
+     "titel": "Banana Fish"
     },
     {
      "url": "https://www.netflix.com/title/81506915",
@@ -98,15 +104,19 @@
    "name": "Suchadressen",
    "plattform": "suchadressen",
    "gemeldet": 0,
-   "gesamt": 2,
-   "offen": 2,
+   "gesamt": 3,
+   "offen": 3,
    "titel": 0,
-   "ohneSeite": 2,
+   "ohneSeite": 3,
    "ziel": "https://netflix.com",
    "ziele": [
     {
      "url": "https://netflix.com",
      "titel": "Meine ganz besondere Hochzeit: Special"
+    },
+    {
+     "url": "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
+     "titel": "Assassination Classroom: Our Time - The Movie"
     },
     {
      "url": "https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video",

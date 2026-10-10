@@ -77,6 +77,46 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-10-04#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T083000Z
+DTEND:20261004T090000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 8/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17577/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-10-04#9@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T083000Z
+DTEND:20261004T090000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 9/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17577/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-10-04#10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T083000Z
+DTEND:20261004T090000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 10/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17577/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-10-04#11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T083000Z
+DTEND:20261004T090000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 11/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17577/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T143000Z
@@ -1011,6 +1051,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261018T083000Z
+DTEND:20261018T090000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 12/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17577/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T143000Z
@@ -1052,6 +1102,17 @@ DESCRIPTION:Plattform: Disney+\nRelease-Art: Wöchentlich (Simuldub)\nGesch
  ätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nDetai
  ls: https://anime-kalender.de/t/15957/
 CATEGORIES:Disney+
+END:VEVENT
+BEGIN:VEVENT
+UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261025T093000Z
+DTEND:20261025T100000Z
+SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17577/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-25@anime-kalender-de
@@ -1597,16 +1658,6 @@ DTEND;VALUE=DATE:20261226
 SUMMARY:Sakamoto Days: Teil 2 – Vol. 4 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16333/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:black-butler-emerald-witch-vol1@2027-01-31@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270131
-DTEND;VALUE=DATE:20270201
-SUMMARY:Black Butler: Emerald Witch Arc – Vol. 1 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16017/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

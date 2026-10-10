@@ -6,9 +6,10 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
+| 1 | Prime Video — Suchseiten | 1 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
 | 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 4 Adressen, 1 Verweis | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
-| 3 | [Netflix](listen/06-netflix-rest.md) | 9 Titel, 9 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
-| 4 | [Suchadressen — welcher Titel steckt dahinter?](listen/18-suchadressen.md) | 2 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
+| 3 | [Netflix](listen/06-netflix-rest.md) | 10 Titel, 10 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
+| 4 | [Suchadressen — welcher Titel steckt dahinter?](listen/18-suchadressen.md) | 3 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
 | 5 | [Crunchyroll](listen/07-crunchyroll.md) | 10 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
 | 7 | [Disney+](listen/07-disneyplus.md) | 1 Titel, 0 Verweise | ~30 s je Titel | der Playback-Aufruf liest die Sprachen ohne Wiedergabe |
 | 8 | [Disney+ — sind es wirklich 2?](listen/21-disneyplus-gruen.md) | 2 Titel, alle Folgen grün | ~2 min | die Frage, ob die Liste recht hat oder das Grün lügt |
