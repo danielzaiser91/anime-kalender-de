@@ -1,75 +1,61 @@
 {
   "stand": "2026-10-10",
   "deckung": {
-    "titel": 20717,
-    "mitSeite": 14245,
-    "ohneSeite": 3308,
+    "titel": 20718,
+    "mitSeite": 16835,
+    "ohneSeite": 719,
     "ohneAnisearchKennung": 3164,
-    "seitenImArchiv": 14234,
-    "kanten": 16123
+    "seitenImArchiv": 16756,
+    "kanten": 18209
   },
   "gesamt": {
-    "titel": 14245,
-    "gleich": 11061,
-    "fehlen": 1668,
-    "zusaetzlich": 803,
-    "gemischt": 713
+    "titel": 16835,
+    "gleich": 11468,
+    "fehlen": 1488,
+    "zusaetzlich": 2735,
+    "gemischt": 1144
   },
   "hauptbestand": {
-    "titel": 2618,
-    "gleich": 1905,
-    "fehlen": 324,
-    "zusaetzlich": 207,
-    "gemischt": 182
+    "titel": 2923,
+    "gleich": 1877,
+    "fehlen": 251,
+    "zusaetzlich": 493,
+    "gemischt": 302
   },
   "haelfteA": {
-    "titel": 6621,
-    "gleich": 5037,
-    "fehlen": 766,
-    "zusaetzlich": 454,
-    "gemischt": 364
+    "titel": 7844,
+    "gleich": 5244,
+    "fehlen": 685,
+    "zusaetzlich": 1367,
+    "gemischt": 548
   },
   "haelfteB": {
-    "titel": 7624,
-    "gleich": 6024,
-    "fehlen": 902,
-    "zusaetzlich": 349,
-    "gemischt": 349
+    "titel": 8991,
+    "gleich": 6224,
+    "fehlen": 803,
+    "zusaetzlich": 1368,
+    "gemischt": 596
   },
   "cluster": {
-    "einzel": 5464,
-    "gleich": 1798,
-    "zerlegt": 250,
-    "verschmilzt": 121,
-    "gemischt": 48
+    "einzel": 6260,
+    "gleich": 1722,
+    "zerlegt": 222,
+    "verschmilzt": 537,
+    "gemischt": 92
   },
   "beispiele": {
     "zerlegt": [
       {
-        "id": 552,
-        "name": "Digimon Adventure",
-        "titel": 29,
-        "referenz": 1,
-        "anisearch": 2
-      },
-      {
-        "id": 1000,
-        "name": "Uchuu Kaizoku Captain Harlock",
-        "titel": 29,
-        "referenz": 1,
-        "anisearch": 4
-      },
-      {
         "id": 1685,
         "name": "Duel Masters",
-        "titel": 29,
+        "titel": 31,
         "referenz": 1,
         "anisearch": 4
       },
       {
         "id": 9539,
         "name": "Cardfight!! Vanguard",
-        "titel": 28,
+        "titel": 30,
         "referenz": 1,
         "anisearch": 3
       },
@@ -81,6 +67,13 @@
         "anisearch": 2
       },
       {
+        "id": 11757,
+        "name": "Sword Art Online",
+        "titel": 24,
+        "referenz": 1,
+        "anisearch": 3
+      },
+      {
         "id": 19383,
         "name": "Yami Shibai",
         "titel": 19,
@@ -88,39 +81,11 @@
         "anisearch": 2
       },
       {
-        "id": 481,
-        "name": "Yu☆Gi☆Oh! Duel Monsters",
-        "titel": 18,
-        "referenz": 1,
-        "anisearch": 2
-      },
-      {
-        "id": 1707,
-        "name": "Kinnikuman Nisei",
-        "titel": 18,
-        "referenz": 1,
-        "anisearch": 2
-      },
-      {
-        "id": 11757,
-        "name": "Sword Art Online",
-        "titel": 18,
-        "referenz": 1,
-        "anisearch": 3
-      },
-      {
-        "id": 1064,
-        "name": "Mazinkaiser",
+        "id": 711,
+        "name": "Uchuu Senkan Yamato (Movie)",
         "titel": 17,
         "referenz": 1,
-        "anisearch": 5
-      },
-      {
-        "id": 3202,
-        "name": "Daisuki! Hello Kitty",
-        "titel": 17,
-        "referenz": 1,
-        "anisearch": 12
+        "anisearch": 2
       },
       {
         "id": 4737,
@@ -130,9 +95,9 @@
         "anisearch": 6
       },
       {
-        "id": 711,
-        "name": "Uchuu Senkan Yamato (Movie)",
-        "titel": 16,
+        "id": 269,
+        "name": "BLEACH",
+        "titel": 14,
         "referenz": 1,
         "anisearch": 2
       },
@@ -144,15 +109,15 @@
         "anisearch": 6
       },
       {
-        "id": 5081,
-        "name": "Bakemonogatari",
+        "id": 5231,
+        "name": "Inazuma Eleven",
         "titel": 14,
         "referenz": 1,
         "anisearch": 2
       },
       {
-        "id": 98514,
-        "name": "Uma Musume: Pretty Derby",
+        "id": 21355,
+        "name": "Re:Zero kara Hajimeru Isekai Seikatsu",
         "titel": 14,
         "referenz": 1,
         "anisearch": 2
@@ -165,11 +130,11 @@
         "anisearch": 6
       },
       {
-        "id": 269,
-        "name": "BLEACH",
+        "id": 287,
+        "name": "Grappler Baki (TV)",
         "titel": 13,
         "referenz": 1,
-        "anisearch": 2
+        "anisearch": 3
       },
       {
         "id": 2707,
@@ -179,25 +144,67 @@
         "anisearch": 3
       },
       {
-        "id": 5231,
-        "name": "Inazuma Eleven",
+        "id": 5082,
+        "name": "Battle Spirits: Shounen Toppa Bashin",
         "titel": 13,
+        "referenz": 1,
+        "anisearch": 2
+      },
+      {
+        "id": 98976,
+        "name": "Enmusubi no Youko-chan",
+        "titel": 13,
+        "referenz": 1,
+        "anisearch": 9
+      },
+      {
+        "id": 102558,
+        "name": "Hua Jianghu: Ling Zhu",
+        "titel": 13,
+        "referenz": 1,
+        "anisearch": 6
+      },
+      {
+        "id": 516,
+        "name": "Keroro Gunsou",
+        "titel": 12,
+        "referenz": 1,
+        "anisearch": 3
+      },
+      {
+        "id": 890,
+        "name": "Yuusha-Ou GaoGaiGar",
+        "titel": 12,
+        "referenz": 1,
+        "anisearch": 5
+      },
+      {
+        "id": 934,
+        "name": "Higurashi no Naku Koro ni",
+        "titel": 12,
         "referenz": 1,
         "anisearch": 2
       }
     ],
     "verschmilzt": [
       {
-        "id": 918,
-        "name": "Gintama",
-        "titel": 29,
-        "referenz": 2,
+        "id": 87539,
+        "name": "Ryuu no Haisha",
+        "titel": 34,
+        "referenz": 30,
         "anisearch": 1
       },
       {
-        "id": 194,
-        "name": "Macross Zero",
-        "titel": 23,
+        "id": 918,
+        "name": "Gintama",
+        "titel": 31,
+        "referenz": 3,
+        "anisearch": 1
+      },
+      {
+        "id": 4654,
+        "name": "Toaru Majutsu no Index",
+        "titel": 22,
         "referenz": 2,
         "anisearch": 1
       },
@@ -209,10 +216,108 @@
         "anisearch": 1
       },
       {
+        "id": 1253,
+        "name": "Saint Seiya: Meiou Hades Meikai-hen",
+        "titel": 20,
+        "referenz": 3,
+        "anisearch": 1
+      },
+      {
+        "id": 2048,
+        "name": "Kikou Ryouhei Merowlink",
+        "titel": 20,
+        "referenz": 5,
+        "anisearch": 1
+      },
+      {
+        "id": 2165,
+        "name": "Gegege no Kitarou (2007)",
+        "titel": 20,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
+        "id": 14131,
+        "name": "Girls und Panzer",
+        "titel": 20,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
         "id": 17489,
         "name": "Kero Kero Keroppi no Daibouken: Fushigi na Mame no Ki",
-        "titel": 16,
-        "referenz": 16,
+        "titel": 20,
+        "referenz": 20,
+        "anisearch": 1
+      },
+      {
+        "id": 530,
+        "name": "Bishoujo Senshi Sailor Moon",
+        "titel": 19,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
+        "id": 665,
+        "name": "JoJo no Kimyou na Bouken (2000)",
+        "titel": 18,
+        "referenz": 4,
+        "anisearch": 1
+      },
+      {
+        "id": 148972,
+        "name": "Xiong Chumo",
+        "titel": 18,
+        "referenz": 12,
+        "anisearch": 1
+      },
+      {
+        "id": 2222,
+        "name": "Dr. Slump: Arale-chan",
+        "titel": 17,
+        "referenz": 3,
+        "anisearch": 1
+      },
+      {
+        "id": 3366,
+        "name": "PERSONA -trinity soul-",
+        "titel": 17,
+        "referenz": 5,
+        "anisearch": 1
+      },
+      {
+        "id": 101922,
+        "name": "Kimetsu no Yaiba",
+        "titel": 17,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
+        "id": 2901,
+        "name": "Kochira Katsushikaku Kameari Kouenmae Hashutsujo THE MOVIE",
+        "titel": 15,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
+        "id": 5060,
+        "name": "Hetalia Axis Powers",
+        "titel": 15,
+        "referenz": 4,
+        "anisearch": 1
+      },
+      {
+        "id": 100790,
+        "name": "Oshiri Tantei",
+        "titel": 15,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
+        "id": 210,
+        "name": "Ranma 1/2",
+        "titel": 14,
+        "referenz": 2,
         "anisearch": 1
       },
       {
@@ -221,183 +326,106 @@
         "titel": 14,
         "referenz": 2,
         "anisearch": 1
-      },
-      {
-        "id": 924,
-        "name": "Transformers Masterforce",
-        "titel": 14,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 2222,
-        "name": "Dr. Slump: Arale-chan",
-        "titel": 14,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 4719,
-        "name": "Queen's Blade: Rurou no Senshi",
-        "titel": 14,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 20832,
-        "name": "Overlord",
-        "titel": 14,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 210,
-        "name": "Ranma 1/2",
-        "titel": 13,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 3366,
-        "name": "PERSONA -trinity soul-",
-        "titel": 12,
-        "referenz": 3,
-        "anisearch": 1
-      },
-      {
-        "id": 129,
-        "name": "Gensou Maden Saiyuuki",
-        "titel": 11,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 157,
-        "name": "Mahou Sensei Negima!",
-        "titel": 11,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 350,
-        "name": "Ojamajo Doremi",
-        "titel": 11,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 102462,
-        "name": "Dou Po Cangqiong Specials",
-        "titel": 11,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 177,
-        "name": "Tsubasa Chronicle",
-        "titel": 9,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 20615,
-        "name": "selector infected WIXOSS",
-        "titel": 9,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 101922,
-        "name": "Kimetsu no Yaiba",
-        "titel": 9,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 317,
-        "name": "Final Fantasy VII: Advent Children",
-        "titel": 8,
-        "referenz": 5,
-        "anisearch": 1
-      },
-      {
-        "id": 1341,
-        "name": "Violence Jack: Harem Bomber",
-        "titel": 8,
-        "referenz": 2,
-        "anisearch": 1
       }
     ],
     "gemischt": [
       {
-        "id": 80,
-        "name": "Kidou Senshi Gundam",
-        "titel": 128,
-        "referenz": 2,
-        "anisearch": 22
-      },
-      {
         "id": 235,
         "name": "Meitantei Conan",
-        "titel": 124,
-        "referenz": 5,
+        "titel": 146,
+        "referenz": 9,
         "anisearch": 5
       },
       {
-        "id": 527,
-        "name": "Pocket Monsters",
-        "titel": 104,
-        "referenz": 3,
-        "anisearch": 17
+        "id": 80,
+        "name": "Kidou Senshi Gundam",
+        "titel": 138,
+        "referenz": 10,
+        "anisearch": 23
       },
       {
         "id": 21,
         "name": "ONE PIECE",
-        "titel": 92,
-        "referenz": 2,
+        "titel": 125,
+        "referenz": 7,
         "anisearch": 4
+      },
+      {
+        "id": 527,
+        "name": "Pocket Monsters",
+        "titel": 124,
+        "referenz": 8,
+        "anisearch": 18
       },
       {
         "id": 1960,
         "name": "Sore Ike! Anpanman",
-        "titel": 69,
-        "referenz": 3,
+        "titel": 72,
+        "referenz": 6,
         "anisearch": 2
+      },
+      {
+        "id": 356,
+        "name": "Fate/stay night",
+        "titel": 70,
+        "referenz": 11,
+        "anisearch": 5
       },
       {
         "id": 501,
         "name": "Doraemon",
-        "titel": 63,
+        "titel": 64,
         "referenz": 9,
         "anisearch": 3
       },
       {
         "id": 603,
         "name": "Futari wa Precure",
-        "titel": 63,
+        "titel": 64,
         "referenz": 3,
         "anisearch": 20
       },
       {
-        "id": 356,
-        "name": "Fate/stay night",
-        "titel": 56,
-        "referenz": 3,
+        "id": 1694,
+        "name": "Idolm@ster Xenoglossia",
+        "titel": 47,
+        "referenz": 4,
         "anisearch": 5
       },
       {
         "id": 966,
         "name": "Crayon Shin-chan",
-        "titel": 44,
+        "titel": 46,
         "referenz": 3,
         "anisearch": 3
       },
       {
-        "id": 1694,
-        "name": "Idolm@ster Xenoglossia",
-        "titel": 43,
+        "id": 552,
+        "name": "Digimon Adventure",
+        "titel": 36,
         "referenz": 2,
+        "anisearch": 2
+      },
+      {
+        "id": 1000,
+        "name": "Uchuu Kaizoku Captain Harlock",
+        "titel": 36,
+        "referenz": 6,
         "anisearch": 5
+      },
+      {
+        "id": 15051,
+        "name": "Love Live! School idol project",
+        "titel": 33,
+        "referenz": 8,
+        "anisearch": 2
+      },
+      {
+        "id": 43,
+        "name": "GHOST IN THE SHELL: Koukaku Kidoutai",
+        "titel": 30,
+        "referenz": 4,
+        "anisearch": 2
       },
       {
         "id": 20,
@@ -407,67 +435,39 @@
         "anisearch": 2
       },
       {
-        "id": 43,
-        "name": "GHOST IN THE SHELL: Koukaku Kidoutai",
-        "titel": 25,
-        "referenz": 3,
-        "anisearch": 2
-      },
-      {
-        "id": 15051,
-        "name": "Love Live! School idol project",
-        "titel": 25,
-        "referenz": 2,
-        "anisearch": 2
-      },
-      {
         "id": 10257,
         "name": "Pretty Rhythm: Aurora Dream",
-        "titel": 22,
-        "referenz": 4,
+        "titel": 28,
+        "referenz": 8,
         "anisearch": 4
       },
       {
-        "id": 87435,
-        "name": "BanG Dream!",
-        "titel": 22,
-        "referenz": 2,
-        "anisearch": 3
-      },
-      {
-        "id": 288,
-        "name": "Bakuten Shoot Beyblade",
-        "titel": 21,
-        "referenz": 2,
-        "anisearch": 3
-      },
-      {
-        "id": 9883,
-        "name": "Osomatsu-kun (1988)",
-        "titel": 21,
-        "referenz": 2,
+        "id": 194,
+        "name": "Macross Zero",
+        "titel": 26,
+        "referenz": 4,
         "anisearch": 2
       },
       {
         "id": 518,
         "name": "Mahou no Princess Minky Momo",
-        "titel": 20,
-        "referenz": 4,
+        "titel": 24,
+        "referenz": 7,
         "anisearch": 2
       },
       {
-        "id": 3008,
-        "name": "Time Bokan Series: Yatterman",
-        "titel": 16,
-        "referenz": 2,
+        "id": 87435,
+        "name": "BanG Dream!",
+        "titel": 24,
+        "referenz": 3,
         "anisearch": 3
       },
       {
-        "id": 21288,
-        "name": "Monster Strike",
-        "titel": 16,
+        "id": 1575,
+        "name": "Code Geass: Hangyaku no Lelouch",
+        "titel": 23,
         "referenz": 2,
-        "anisearch": 2
+        "anisearch": 3
       }
     ]
   }

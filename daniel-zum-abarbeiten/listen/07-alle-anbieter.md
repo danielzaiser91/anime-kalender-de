@@ -33,24 +33,26 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Netflix](07-netflix.md) | 8 |
+| [Netflix](07-netflix.md) | 7 |
 | [ADN](07-adn.md) | 1 |
+| [Prime Video](07-primevideo.md) | 1 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-09-25 | JoJo’s Bizarre Adventure | [STEEL BALL RUN JoJo's Bizarre Adventure 2nd - 3rd STAGE](https://www.netflix.com/title/82116553) |
-| 2 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 3 | 2023-11-28 | Onmyoji: Shiranui Story | [Onmyoji](https://www.netflix.com/title/81215624) |
-| 4 | 2023-11-17 | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
-| 5 | 2023-08-10 | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
-| 6 | 2022-10-21 | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 7 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 8 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
+| 1 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 2 | 2023-11-28 | Onmyoji: Shiranui Story | [Onmyoji](https://www.netflix.com/title/81215624) |
+| 3 | 2023-11-17 | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
+| 4 | 2023-08-10 | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 5 | 2022-10-21 | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
+| 6 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
+| 7 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
+| 8 | 2019-11-22 | Midnight Occult Civil Servants | [OVA](https://www.amazon.de/gp/video/detail/B0CK43962K) |
 | 9 | 2019-03-15 | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
 - **ADN:** Der Titel steht nicht im ADN-Bestand mit Sprachcode vde. Möglich, dass er inzwischen dazugekommen ist.
 - **Netflix:** Netflix veröffentlicht keinen maschinenlesbaren Katalog; die Sprachliste steht nur im eingeloggten Player.
+- **Prime Video:** Prime Video nennt die Tonspuren erst auf der Produktseite, und die ist ohne Anmeldung unvollständig.

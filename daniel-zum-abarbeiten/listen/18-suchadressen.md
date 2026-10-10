@@ -26,5 +26,6 @@ hinter einem /dp/ kann eine DVD liegen.
 
 - Anbieter: **primevideo** · unser Titel 209499
 - war verlinkt als: <https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video>
+- aniSearch nennt: <https://www.amazon.de/dp/B0HJ8BDC2Y?tag=anisearch.de-21> — passt das?
 - **Antwort:** 
 

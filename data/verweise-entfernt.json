@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-10T21:04:17.854Z",
+  "stand": "2026-10-10T21:56:01.582Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -2441,7 +2441,7 @@
       "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
       "geprueftAm": "2026-08-26",
       "entferntAm": "2026-10-10",
-      "letzterWeg": true
+      "letzterWeg": false
     },
     {
       "titleId": 1033,
@@ -7945,7 +7945,7 @@
     },
     {
       "titleId": 118465,
-      "titel": "World's End Harem",
+      "titel": "World’s End Harem",
       "plattform": "crunchyroll",
       "url": "https://www.crunchyroll.com/de/worlds-end-harem",
       "seriesId": null,
@@ -7956,7 +7956,7 @@
     },
     {
       "titleId": 174188,
-      "titel": "Nukitashi",
+      "titel": "Nukitashi: Welcome to Love Island!",
       "plattform": "primevideo",
       "url": "https://www.amazon.de/gp/video/detail/amzn1.dv.gti.234d22cb-bca3-4855-b0f7-04a79eecdbcd?tag=justat1218-21&token=491B3E20E8D6C755745FD7E34BCE779F25003CB2",
       "seriesId": null,
@@ -7997,6 +7997,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-10",
       "letzterWeg": false
+    },
+    {
+      "titleId": 137612,
+      "titel": "Princess Principal: Crown Handler 3",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-10",
+      "letzterWeg": true
     },
     {
       "titleId": 128223,
@@ -8058,6 +8069,17 @@
       "titel": "Gushing over Magical Girls",
       "plattform": "adn",
       "url": "https://animationdigitalnetwork.com/de/video/1121",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-10",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 186716,
+      "titel": "Princess Principal: Crown Handler - Chapter 4",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GEXH3W414/princess-principal",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
