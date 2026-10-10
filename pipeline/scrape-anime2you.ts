@@ -26,10 +26,10 @@ import { sendezeiten, type Sendezeit } from './lib/sendezeit.ts'
 import { eingearbeiteteAdressen } from './lib/eingearbeitet.ts'
 import type { PlatformId } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
-import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, type SammelEintrag } from './lib/sammelartikel.ts'
+import { ANBIETER_SAMMELARTIKEL, artikelZeilen, leseSammelartikel, zaehleSammelVerwurf, sammelFaellig, type SammelEintrag } from './lib/sammelartikel.ts'
 import { SAMMELARTIKEL, leseVerschiebungstabelle, type Verschiebung } from './lib/disc-verschiebungen.ts'
 import { DISC_UEBERSICHT, leseDiscUebersicht, type DiscZeile } from './lib/disc-uebersicht.ts'
-import { dubBefund, type Sprachbefund } from './lib/sprachbefund.ts'
+import { deutschlandBezug, dubBefund, type Sprachbefund } from './lib/sprachbefund.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 
@@ -38,6 +38,10 @@ const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalen
   (rund zwei Wochen) fangen einen verpassten Lauf auf und holen Sammelartikel nach, die wegfielen (siehe unten).
 */
 const STREAMING_SEITEN = 4
+const ALLGEMEIN_SEITEN = 4
+const ALLGEMEIN = 'allgemein'
+/** Ein Sprachhinweis ohne Tag wird nur kurz vorgehalten; danach ist die Meldung überholt. */
+const HINWEIS_TAGE = 45
 const FEEDS: { category: string; url: string }[] = [
   ...Array.from({ length: STREAMING_SEITEN }, (_, i) => ({
     category: 'streaming',
@@ -45,6 +49,12 @@ const FEEDS: { category: string; url: string }[] = [
   })),
   { category: 'disc', url: 'https://www.anime2you.de/disc-news/feed/' },
   { category: 'kino', url: 'https://www.anime2you.de/kino-news/feed/' },
+  /* Zuletzt: Was die Rubrik-Feeds führen, behält seine Rubrik. Der Gesamt-Feed bringt den Rest (ProSieben MAXX, Paramount+, TV-Guide;
+     10.10.2026: nur 65 von 130 Artikeln lagen in den drei Rubrik-Feeds). Vier Seiten à 25 = rund acht Tage. */
+  ...Array.from({ length: ALLGEMEIN_SEITEN }, (_, i) => ({
+    category: ALLGEMEIN,
+    url: `https://www.anime2you.de/feed/${i ? `?paged=${i + 1}` : ''}`,
+  })),
 ]
 
 /** Wortmarken, an denen eine Plattform im Fließtext erkennbar ist. */
@@ -122,6 +132,10 @@ export interface Proposal {
   /** Zeilen einer Monatsübersicht „Disc-Neuheiten <Monat>“ (`lib/disc-uebersicht.ts`); Abgleich mit dem Kalender: `check-disc-uebersicht.ts`. */
   discZeilen?: DiscZeile[]
   discGelesen?: string
+  /** `sprache`: nur eine Aussage zur Sprachfassung, kein Termin — Kandidat für einen Handbeleg (`data/dub-confirmed.yaml`), nie ein Release. */
+  hinweis?: 'sprache'
+  /** Wann der Volltext eines Shop-Artikels gelesen wurde (`shopTabellenNachholen`). */
+  volltextGelesen?: string
   /** true, wenn dieser Artikel schon als Quelle in data/curated/ steht. */
   alreadyCurated: boolean
 }
@@ -185,9 +199,7 @@ async function sammelartikelNachholen(alle: Proposal[], heute: string): Promise<
   const aus: Proposal[] = []
   let geholt = 0
   for (const p of alle) {
-    const jung = p.publishedAt >= addDays(heute, -45)
-    const faellig = !p.sammelGelesen || (jung && p.sammelGelesen <= addDays(heute, -3))
-    if (p.category !== 'streaming' || !ANBIETER_SAMMELARTIKEL.test(p.articleTitle) || !faellig || geholt >= 6) {
+    if (p.category !== 'streaming' || !ANBIETER_SAMMELARTIKEL.test(p.articleTitle) || !sammelFaellig(p, heute) || geholt >= 6) {
       aus.push(p)
       continue
     }
@@ -199,8 +211,43 @@ async function sammelartikelNachholen(alle: Proposal[], heute: string): Promise<
       continue
     }
     const sammel = leseSammelartikel(artikelZeilen(html), p.publishedAt)
-    log(`Sammelartikel „${p.articleTitle}": ${sammel.length} Titel, ${sammel.filter((e) => e.deutsch).length} mit deutschem Ton`)
+    const anbieter = [...new Set(p.platforms.map((x) => (x === 'aniverse' ? 'primevideo' : x)))]
+    log(`Sammelartikel „${p.articleTitle}": ${sammel.length} Titel, ${sammel.filter((e) => e.deutsch).length} mit deutschem Ton, nicht übernommen: ${JSON.stringify(zaehleSammelVerwurf(sammel, anbieter.length === 1 ? anbieter[0] : undefined))}`)
+    if (!sammel.length) warn(`Sammelartikel „${p.articleTitle}": 0 Einträge gelesen — Vorlage geändert? ${p.articleUrl}`)
     aus.push({ ...p, sammel, sammelGelesen: heute })
+  }
+  return aus
+}
+
+/** Shop-Sammelmeldungen („13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar“): die Tabelle „Titel Termin Format“ steht nur im Artikel. */
+const SHOP_NEUHEITEN = /Disc-Neuheiten.{0,40}(?:SHOP|vorbestellbar)/i
+/** Höchstens so viele Shop-Artikel je Lauf; jeder wird einmal gelesen. */
+const HOECHSTENS_SHOPS = 3
+
+/**
+ * Tabellendaten ohne Jahr („15.01.“) aus dem ganzen Artikel lesen; das Jahr ergänzt `findDates` aus dem Artikeldatum und kennzeichnet es als
+ * geschätzt. Ein Artikel ohne Fund bleibt erkennbar (`volltextGelesen`) und wird nicht erneut geholt; die Zahl der Funde steht im Protokoll.
+ */
+async function shopTabellenNachholen(alle: Proposal[], heute: string): Promise<Proposal[]> {
+  const aus: Proposal[] = []
+  let geholt = 0
+  for (const p of alle) {
+    if (p.category !== 'disc' || !SHOP_NEUHEITEN.test(p.articleTitle) || p.volltextGelesen || geholt >= HOECHSTENS_SHOPS) {
+      aus.push(p)
+      continue
+    }
+    geholt++
+    const text = await artikelText(p.articleUrl)
+    await sleep(1500)
+    if (!text) {
+      aus.push(p)
+      continue
+    }
+    /* Nach „Artikel teilen“ folgen Newsticker und Kommentare mit fremden Daten. */
+    const dates = findDates(text.split('Artikel teilen')[0]!, p.publishedAt, true).filter((d) => (d.iso ?? `${d.month}-31`) >= heute)
+    log(`Shop-Tabelle „${p.articleTitle}": ${dates.length} künftige Tage, davon ${dates.filter((d) => d.geschaetzt).length} mit ergänztem Jahr`)
+    if (!dates.length) warn(`Shop-Tabelle „${p.articleTitle}": kein Tag gelesen — Seite umgebaut? ${p.articleUrl}`)
+    aus.push({ ...p, dates, volltextGelesen: heute })
   }
   return aus
 }
@@ -245,6 +292,49 @@ async function fetchText(url: string): Promise<string | undefined> {
   }
 }
 
+/** Frische Vorschläge über den gespeicherten Bestand legen. */
+function mitBestand(proposals: Proposal[]): Proposal[] {
+  // Bestehende Vorschläge behalten: Ein Feed zeigt nur die letzten Meldungen,
+  // ältere wären sonst nach einer Woche verschwunden, bevor jemand sie liest.
+  const previous = readJson<{ proposals: Proposal[] }>('data/proposals/anime2you.json', { proposals: [] })
+  const merged = new Map(previous.proposals.map((p) => [p.articleUrl, p]))
+  /* Ein frischer Feed-Treffer kennt die gelesene Liste eines Sammelartikels nicht — sie bleibt erhalten, sonst verschwinden alle ihre Termine, bis der Artikel neu gelesen ist (ADN Oktober 2026, 05.10.2026). */
+  for (const proposal of proposals) {
+    const vorher = merged.get(proposal.articleUrl)
+    merged.set(proposal.articleUrl, {
+      ...proposal,
+      ...(vorher?.sammel ? { sammel: vorher.sammel, sammelGelesen: vorher.sammelGelesen } : {}),
+      /* Ebenso die Tage aus dem Volltext eines Shop-Artikels (`shopTabellenNachholen`): Der Feed-Auszug kennt die Tabelle nicht. */
+      ...(vorher?.volltextGelesen ? { volltextGelesen: vorher.volltextGelesen, dates: vorher.dates } : {}),
+    })
+  }
+  return [...merged.values()]
+}
+
+/** Listet die gefundenen Sendezeiten auf und nennt, wie viele Volltexte geprüft wurden. */
+function meldeSendezeiten(all: Proposal[], volltexte: number): void {
+  // Sendezeiten eigens auflisten — sie sind der einzige Weg zu einer belegten
+  // Uhrzeit, und im Fließtext der Liste oben gingen sie unter.
+  //
+  // Die Zahl der geprüften Volltexte gehört dazu: „keine Sendezeit gefunden"
+  // beantwortet sonst nicht, ob überhaupt gesucht wurde. Außerhalb eines
+  // Season-Starts ist null der Normalfall, und genau dann sieht ein kaputter
+  // Zweig aus wie ein ruhiger Tag.
+  const mitZeit = all.filter((p) => p.zeiten?.length)
+  log(`${volltexte} Meldungen im Volltext auf Sendezeiten geprüft, ${mitZeit.length} mit Fund.`)
+  if (mitZeit.length) {
+    for (const p of mitZeit) {
+      for (const z of p.zeiten ?? []) log(`  · ${z.tag} ${z.zeit} — ${p.articleTitle}`)
+    }
+  }
+}
+
+/** Warum eine Meldung kein Vorschlag wird — `undefined`, wenn sie einer wird. */
+function verwerfensgrund(kategorie: string, deutschlandBezogen: boolean, traegtAussage: boolean): string | undefined {
+  if (kategorie === ALLGEMEIN && !deutschlandBezogen) return 'Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)'
+  return traegtAussage ? undefined : `${kategorie}: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage`
+}
+
 async function main(): Promise<void> {
   // Welche Artikel sind schon eingearbeitet? Ihre Adresse steht in einer Handdatei (Termine, Ankündigungen, Erstausgaben, Belege).
   const curatedSources = eingearbeiteteAdressen()
@@ -253,6 +343,10 @@ async function main(): Promise<void> {
   const proposals: Proposal[] = []
   /** Wie viele Volltexte dieser Lauf schon geholt hat — siehe HOECHSTENS_VOLLTEXTE. */
   let volltexte = 0
+  /** Jeder Verwerfungspfad des Laufs mit Grund und Anzahl — ein stiller Ausfall fiele sonst erst im Kalender auf. */
+  const verworfen = new Map<string, number>()
+  const verwirf = (grund: string): void => void verworfen.set(grund, (verworfen.get(grund) ?? 0) + 1)
+  const gesehen = new Set<string>()
 
   for (const feed of FEEDS) {
     const xml = await fetchText(feed.url)
@@ -261,6 +355,11 @@ async function main(): Promise<void> {
     log(`Anime2You ${feed.category}: ${items.length} Meldungen`)
 
     for (const item of items) {
+      if (gesehen.has(item.link)) {
+        verwirf('schon in einem Rubrik-Feed gelesen')
+        continue
+      }
+      gesehen.add(item.link)
       const text = `${item.title}\n${item.content}`
       const dates = findDates(text, item.publishedAt)
       // Nur was in der Zukunft liegt oder gerade erst war, ist ein Termin-
@@ -308,7 +407,13 @@ async function main(): Promise<void> {
         Datum und Sprache liest erst `sammelartikelNachholen` aus dem ganzen Artikel.
       */
       const sammelartikel = feed.category === 'streaming' && ANBIETER_SAMMELARTIKEL.test(item.title)
-      if (!relevant.length && !pause && !zeiten && !sammelartikel) continue
+      /* Eine Aussage zur deutschen Sprachfassung genügt auch ohne Tag („ab sofort mit deutscher Synchronisation“): Sie geht als Hinweis in die Ausgabe, einen Termin erfindet niemand. */
+      const sprache = dub === 'ja' && !relevant.length && !pause && !zeiten && !sammelartikel
+      const grund = verwerfensgrund(feed.category, deutschlandBezug(text, dub), Boolean(relevant.length || pause || zeiten || sammelartikel || sprache))
+      if (grund) {
+        verwirf(grund)
+        continue
+      }
 
       proposals.push({
         articleTitle: item.title,
@@ -320,6 +425,7 @@ async function main(): Promise<void> {
         dub,
         ...(pause ? { pause } : {}),
         ...(zeiten ? { zeiten } : {}),
+        ...(sprache ? { hinweis: 'sprache' as const } : {}),
         alreadyCurated: curatedSources.has(item.link.replace(/\/$/, '')),
       })
     }
@@ -332,45 +438,28 @@ async function main(): Promise<void> {
     return
   }
 
-  // Bestehende Vorschläge behalten: Ein Feed zeigt nur die letzten Meldungen,
-  // ältere wären sonst nach einer Woche verschwunden, bevor jemand sie liest.
-  const previous = readJson<{ proposals: Proposal[] }>('data/proposals/anime2you.json', { proposals: [] })
-  const merged = new Map(previous.proposals.map((p) => [p.articleUrl, p]))
-  /* Ein frischer Feed-Treffer kennt die gelesene Liste eines Sammelartikels nicht — sie bleibt erhalten, sonst verschwinden alle ihre Termine, bis der Artikel neu gelesen ist (ADN Oktober 2026, 05.10.2026). */
-  for (const proposal of proposals) {
-    const vorher = merged.get(proposal.articleUrl)
-    merged.set(proposal.articleUrl, vorher?.sammel ? { ...proposal, sammel: vorher.sammel, sammelGelesen: vorher.sammelGelesen } : proposal)
-  }
-
-  const all = [...merged.values()]
+  const all = mitBestand(proposals)
     // Kuratiertes neu bewerten; Sammelartikel mit Tabelle bleiben — der Bau liest ihre Termine.
     .map((p) => ({ ...p, alreadyCurated: curatedSources.has(p.articleUrl.replace(/\/$/, '')) }))
+    .filter((p) => {
+      const veraltet = p.hinweis === 'sprache' && p.publishedAt < addDays(today, -HINWEIS_TAGE)
+      if (veraltet) verwirf(`Sprachhinweis älter als ${HINWEIS_TAGE} Tage`)
+      return !veraltet
+    })
     .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length || p.sammel?.some((e) => (e.datum ?? '') >= today))
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
-  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), proposals: await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), today), today) }, true)
+  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), verworfen: Object.fromEntries(verworfen), proposals: await shopTabellenNachholen(await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), today), today), today) }, true)
 
   const offen = all.filter((p) => !p.alreadyCurated)
+  for (const [grund, n] of verworfen) log(`  verworfen: ${n} × ${grund}`)
+  log(`  Sprachhinweise ohne Tag: ${all.filter((p) => p.hinweis === 'sprache' && !p.alreadyCurated).length}`)
   log(`${all.length} Vorschläge gespeichert, davon ${offen.length} noch nicht eingearbeitet.`)
   for (const p of offen.slice(0, 15)) {
     const when = p.dates.map((d) => d.iso ?? d.month).join(', ')
     log(`  · [${p.platforms.join('/') || '?'}] ${p.articleTitle} — ${when} (Synchro: ${p.dub})`)
   }
-
-  // Sendezeiten eigens auflisten — sie sind der einzige Weg zu einer belegten
-  // Uhrzeit, und im Fließtext der Liste oben gingen sie unter.
-  //
-  // Die Zahl der geprüften Volltexte gehört dazu: „keine Sendezeit gefunden"
-  // beantwortet sonst nicht, ob überhaupt gesucht wurde. Außerhalb eines
-  // Season-Starts ist null der Normalfall, und genau dann sieht ein kaputter
-  // Zweig aus wie ein ruhiger Tag.
-  const mitZeit = all.filter((p) => p.zeiten?.length)
-  log(`${volltexte} Meldungen im Volltext auf Sendezeiten geprüft, ${mitZeit.length} mit Fund.`)
-  if (mitZeit.length) {
-    for (const p of mitZeit) {
-      for (const z of p.zeiten ?? []) log(`  · ${z.tag} ${z.zeit} — ${p.articleTitle}`)
-    }
-  }
+  meldeSendezeiten(all, volltexte)
 }
 
 main().catch((err) => {

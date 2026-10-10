@@ -40,7 +40,7 @@ export interface Vorschlag {
   titleId?: number
   category?: string
   platforms?: string[]
-  dates?: { iso?: string; month?: string; context: string }[]
+  dates?: { iso?: string; month?: string; context: string; /** Meldetag oder letzter Wochentag davor, kein genannter Starttag (`SammelEintrag.datumGeschaetzt`). */ geschaetzt?: boolean }[]
   dub?: string
   /** „pause", „verschoben", … — siehe `Proposal.pause`. */
   pause?: string
@@ -347,6 +347,8 @@ export function terminDerMeldung(v: Pick<Vorschlag, 'dates' | 'pause'>): string 
  * ist) — `platforms[0]` machte daraus einen Streaming-Termin.
  */
 function anbieterDerMeldung(v: Vorschlag): string | undefined {
+  /* Gesamt-Feed (`allgemein`): ohne Rubrik ist nicht sicher, ob ein Streaming-Start oder ein Disc-Termin gemeint ist — Bericht ja, Release nein. */
+  if (v.category === 'allgemein') return undefined
   if (v.category === 'disc') return v.platforms?.includes('disc') ? 'disc' : undefined
   if (v.category === 'kino') return 'kino'
   return v.platforms?.find((p) => p !== 'disc' && p !== 'kino')
@@ -457,7 +459,7 @@ export function releasesAus(
       name,
       platform: platform as Release['platform'],
       ...(v.kanal && platform === 'primevideo' ? { kanal: v.kanal } : {}),
-      ...zeitplanAusVorschlag(v, art, tag, treffer, platform), ...sprachHinweis(sprache, platform),
+      ...zeitplanGeschaetzt(zeitplanAusVorschlag(v, art, tag, treffer, platform), v.dates?.some((d) => d.iso === tag && d.geschaetzt)), ...sprachHinweis(sprache, platform),
       year: Number(tag.slice(0, 4)),
       herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
       automatisch: true,
@@ -466,6 +468,11 @@ export function releasesAus(
     })
   }
   return out
+}
+
+/** Ein Tag, der nur der Meldetag ist („Ab sofort bei Netflix“), steht als abgeleitet (`schedule.estimated`), nicht als bestätigt. */
+function zeitplanGeschaetzt(plan: Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'>, geschaetzt?: boolean): Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'> {
+  return geschaetzt && plan.schedule ? { ...plan, schedule: { ...plan.schedule, estimated: true } } : plan
 }
 
 /**
