@@ -1,4 +1,5 @@
-import { log, readJson, writeJson } from '../lib/util.ts'
+import { log, readJson, warn, writeJson } from '../lib/util.ts'
+import { meldeAnClaude } from '../lib/meldung.ts'
 import { todayIso } from '../../shared/time.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
 import { GRENZE, findeWerkDubletten, type WerkEintrag, type WerkPaar, type WerkTitel, type WerkUrteil } from './werk-doppelt.ts'
@@ -49,8 +50,15 @@ export function ohneWerkDubletten<T extends MitFeldern>(katalog: T[], geschuetzt
   return titel
 }
 
+/** Neue Namenspaare kommen täglich, und ein Teil ist nie belegbar: Über der Grenze warnt der Bau nur, er bricht nicht ab (Prüferbefund 10.10.2026). */
+function warnungUeberGrenze(anzahl: number, grenze: number): void {
+  const text = `${anzahl} wahrscheinliche Dubletten (gleicher Name, ohne Beleg von aniSearch) über der Grenze ${grenze} (${GRENZE}): ${PRUEFLISTE} ansehen, Synonyme/Beziehungen nachholen (fetch-anisearch-eintraege.ts)`
+  warn(`Werk-Dubletten: ${text}`)
+  meldeAnClaude('werk-doppelt', 'warnung', text, PRUEFLISTE)
+}
+
 /**
- * Zusicherung an der **ausgelieferten** Ausgabe: Kein sicheres Paar bleibt stehen (rot), und die wahrscheinlichen bleiben unter der Grenze (rot darüber, Hinweis darunter).
+ * Zusicherung an der **ausgelieferten** Ausgabe: Kein sicheres Paar bleibt stehen (rot), und die wahrscheinlichen bleiben unter der Grenze (darüber nur eine Warnung, darunter ein Hinweis zum Senken).
  * Leer heißt in Ordnung.
  */
 export function werkDoppelt(titles: WerkTitel[], ohneSynchro: WerkTitel[], eintraege: Record<string, WerkEintrag>): string[] {
@@ -58,7 +66,7 @@ export function werkDoppelt(titles: WerkTitel[], ohneSynchro: WerkTitel[], eintr
   const u = findeWerkDubletten([...titles, ...ohneSynchro], eintraege, katalogIds)
   const fehler = u.sicher.map((p) => `aniSearch-Zeile ${p.zeile} und AniList-Titel ${p.titel} sind sicher dasselbe Werk (${p.grund === 'synonym' ? 'Synonym' : 'Prequel/Sequel'} von aniSearch, Format, Jahr, Folgen, Staffelzählung) und stehen beide in der Ausgabe`)
   const grenze = readJson<{ wahrscheinlich?: number }>(GRENZE, {}).wahrscheinlich ?? 0
-  if (u.wahrscheinlich.length > grenze) fehler.push(`${u.wahrscheinlich.length} wahrscheinliche Dubletten (gleicher Name, ohne Beleg von aniSearch) über der Grenze ${grenze} (${GRENZE}): ${PRUEFLISTE} ansehen, Synonyme/Beziehungen nachholen (fetch-anisearch-eintraege.ts)`)
+  if (u.wahrscheinlich.length > grenze) warnungUeberGrenze(u.wahrscheinlich.length, grenze)
   else if (u.wahrscheinlich.length < grenze) log(`Werk-Dubletten: ${u.wahrscheinlich.length} wahrscheinlich, Grenze ${grenze} — in ${GRENZE} senken`)
   return fehler
 }

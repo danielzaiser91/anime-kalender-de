@@ -26,7 +26,7 @@ export type WerkTitel = {
 }
 /** Obergrenze der wahrscheinlichen Paare in der Ausgabe (von Hand gepflegt, darf nur sinken); gelesen in `werk-doppelt-bau.ts`. */
 export const GRENZE = 'data/dubletten-grenze.json'
-export type WerkPaar ={ zeile: number; titel: number; grund: 'synonym' | 'beziehung' | 'name' }
+export type WerkPaar = { zeile: number; titel: number; grund: 'synonym' | 'beziehung' | 'name' }
 export type WerkUrteil = { sicher: WerkPaar[]; wahrscheinlich: WerkPaar[] }
 
 /** Namensschlüssel: Kleinschreibung, nur Buchstaben und Ziffern. */
@@ -145,7 +145,7 @@ function kandidaten(e: WerkEintrag, asId: number, idx: Index): Map<WerkTitel, We
   const verwandt = Object.entries(e.rel ?? {}).filter(([, art]) => art === 'Prequel' || art === 'Sequel').map(([id]) => Number(id))
   for (const reihe of new Set(verwandt.map((id) => idx.reiheVonAs.get(id)).filter((r): r is number => r !== undefined))) {
     for (const k of idx.nachReihe.get(reihe) ?? []) {
-      if (gueltig(k) && gleichGezaehlt(nummern, nummernVon(k)) &&!verwandt.includes(k.anisearchId ?? 0)) merke(treffer, k, 'beziehung')
+      if (gueltig(k) && gleichGezaehlt(nummern, nummernVon(k)) && !verwandt.includes(k.anisearchId ?? 0)) merke(treffer, k, 'beziehung')
     }
   }
   return treffer

@@ -154,7 +154,7 @@ async function main(): Promise<void> {
   /* Zuerst die Zeilen auf der Prüfliste des Baus (gleicher Name, noch ohne Beleg): Ihre Synonyme und Beziehungen entscheiden, ob das Paar zusammengeführt wird. */
   const verdacht = new Set(readJson<{ paare?: { zeile: number }[] }>('data/dubletten-pruefliste.json', {}).paare?.map((p) => String(p.zeile - ANISEARCH_ID_BASIS)))
   const nachtragen = [...offeneZeilen.filter((id) => verdacht.has(id)), ...offeneZeilen.filter((id) => !verdacht.has(id))]
-  const ziel = [...deutsch, ...rest, ...nachtragen].slice(0, LIMIT)
+  const ziel = [...deutsch, ...nachtragen, ...rest].slice(0, LIMIT)
   log(`aniSearch-Einträge: ${deutsch.length} mit Deutsch offen, ${rest.length} weitere offen, ${nachtragen.length} ohne Synonyme, ${ziel.length} in diesem Lauf`)
   let neu = 0
   let fehler = 0
