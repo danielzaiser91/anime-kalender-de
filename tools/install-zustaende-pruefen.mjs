@@ -76,8 +76,7 @@ async function fall(browser, name, lage, breite) {
     // Wer das Angebot ablehnt, verbraucht das Ereignis — danach bietet der Browser nichts mehr an.
     if (await sichtbar(kopfKnopf)) await kopfKnopf.filter({ visible: true }).first().click()
     else {
-      await glocke.click()
-      await seite.getByText('App installieren', { exact: true }).first().click()
+      await klickeKette(glocke, seite.getByText('App installieren', { exact: true }).first())
     }
     // Bedingung statt Pause: Das Angebot ist verbraucht, wenn Kopf-Knopf und Menü wieder zu sind.
     await seite.waitForFunction(() => window.__entschieden === true)
@@ -85,12 +84,20 @@ async function fall(browser, name, lage, breite) {
     await karte.waitFor({ state: 'detached' })
   }
   const kopf = await sichtbar(kopfKnopf)
-  await glocke.click()
-  await karte.waitFor({ state: 'visible' })
-  // Der exakte Text kommt nur im Menü vor; die Kopf-Knöpfe tragen Symbol bzw. „⬇ App installieren“.
-  const menueText = await sichtbar(seite.getByText('App installieren', { exact: true }))
-  const hinweis = await sichtbar(seite.getByText('Im Browser-Menü', { exact: false }))
-  const menue = menueText > 0 || hinweis > 0 ? 1 : 0
+  // Das Menü kann beim Hydrieren schließen oder neu aufgebaut werden; darum öffnen und zählen, bei fehlender erwarteter Zeile zu und neu (höchstens 4 Versuche). Fehlt sie weiter, zählt der Fall rot.
+  let menue = 0
+  let hinweis = 0
+  for (let i = 1; i <= 4; i++) {
+    await klickeBisSichtbar(glocke, karte)
+    // Der exakte Text kommt nur im Menü vor; die Kopf-Knöpfe tragen Symbol bzw. „⬇ App installieren“.
+    await seite.getByText('App installieren', { exact: true }).first().waitFor({ state: 'visible', timeout: 1_500 }).catch(() => {})
+    const menueText = await sichtbar(seite.getByText('App installieren', { exact: true }))
+    hinweis = await sichtbar(seite.getByText('Im Browser-Menü', { exact: false }))
+    menue = menueText > 0 || hinweis > 0 ? 1 : 0
+    if (menue || desktop || lage.erwartet === 0 || kopf) break
+    await seite.keyboard.press('Escape')
+    await karte.waitFor({ state: 'detached', timeout: 2_000 }).catch(() => {})
+  }
   if (BILDER) await seite.screenshot({ path: path.join(BILDER, `glocke-${name}-${breite}.png`) })
   await seite.keyboard.press('Escape')
   await seite.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
@@ -100,6 +107,23 @@ async function fall(browser, name, lage, breite) {
   const soll = desktop || lage.erwartet === 0 ? 0 : 1
   const summe = kopf + menue + fuss
   return { ok: summe === soll, text: `${summe === soll ? 'ok    ' : 'ROT   '}${name.padEnd(13)} ${String(breite).padEnd(8)} Kopf ${kopf} · Menü ${menue}${hinweis ? ' (Hinweis)' : ''} · Fuß ${fuss} = ${summe} Stellen, soll ${soll}` }
+}
+
+// Ein Klick vor der Hydrierung trifft einen noch ungebundenen Handler oder ein Menü, das beim Hydrieren neu aufgebaut wird; darum wiederholen (höchstens 5 Versuche).
+async function klickeBisSichtbar(knopf, ziel) {
+  for (let i = 1; ; i++) {
+    if (!(await ziel.isVisible())) await knopf.click()
+    try { return await ziel.waitFor({ state: 'visible', timeout: 4_000 }) } catch (e) { if (i >= 5) throw e }
+  }
+}
+
+async function klickeKette(knopf, ziel) {
+  for (let i = 1; ; i++) {
+    try {
+      await klickeBisSichtbar(knopf, ziel)
+      return await ziel.click({ timeout: 4_000 })
+    } catch (e) { if (i >= 5) throw e }
+  }
 }
 
 async function main() {
