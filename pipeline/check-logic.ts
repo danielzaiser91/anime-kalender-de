@@ -7855,6 +7855,24 @@ pruefe(
   pruefe('Sammelartikel: Simulcast ohne bekannte Folgenzahl bleibt ein Termin, mit ihr ≈',
     zeitplanAusVorschlag({ woechentlich: true }, 'batch', '2026-10-01', {}).schedule.episodeCount === undefined &&
       zeitplanAusVorschlag({ woechentlich: true }, 'batch', '2026-10-01', { episodes: 12 }).schedule.episodeCountAssumed === true)
+  /* **Eine Einzelmeldung ohne Folgenzahl ist ein Wochenstart** (10.10.2026, Beerus: „im Simulcast … Neue Folgen erscheinen
+     wöchentlich" stand als „Alle Folgen im Angebot morgen"). Komplett nur mit Komplett-Angabe oder bei einem älteren Werk. */
+  const einzel = (articleTitle: string, context = '') => ({ articleTitle, dates: [{ iso: '2026-10-11', context }] })
+  pruefe('Einzelmeldung: „Simulcast" ohne Folgenzahl wird wöchentlich, nicht „alle Folgen"',
+    zeitplanAusVorschlag(einzel('Netflix, Crunchyroll und ADN zeigen »Dragon Ball Super: Beerus« im Simulcast'), 'batch', '2026-10-11', { jpYear: 2026 }).releaseType === 'weekly')
+  pruefe('Einzelmeldung: „neue Folgen erscheinen wöchentlich" wird wöchentlich, auch bei einem älteren Werk',
+    zeitplanAusVorschlag(einzel('»X« startet bei Netflix', 'Neue Folgen erscheinen wöchentlich'), 'batch', '2026-10-11', { jpYear: 2024 }).releaseType === 'weekly')
+  pruefe('Einzelmeldung: „alle Folgen auf einmal" bleibt komplett',
+    zeitplanAusVorschlag(einzel('»X« bei Netflix', 'Alle 12 Folgen stehen auf einmal bereit'), 'batch', '2026-10-11', { jpYear: 2026 }).releaseType === 'batch')
+  pruefe('Einzelmeldung ohne Taktangabe: eine neue TV-Serie startet wöchentlich, ein älteres Werk kommt komplett (Dangers in My Heart 2)',
+    zeitplanAusVorschlag(einzel('»X«: Crunchyroll nennt Termin'), 'batch', '2026-11-26', { jpYear: 2026, format: 'TV' }, 'crunchyroll').releaseType === 'weekly' &&
+      zeitplanAusVorschlag(einzel('»The Dangers in My Heart« Staffel 2 auf Netflix'), 'batch', '2026-08-20', { jpYear: 2024 }).releaseType === 'batch')
+  pruefe('Einzelmeldung ohne Taktangabe: eine Netflix-ONA kommt komplett (Fool Night, 26.11.2026), eine TV-Serie bei Netflix wöchentlich',
+    zeitplanAusVorschlag(einzel('»Fool Night«: Netflix nennt Termin'), 'batch', '2026-11-26', { jpYear: 2026, format: 'ONA' }, 'netflix').releaseType === 'batch' &&
+      zeitplanAusVorschlag(einzel('»X« bei Netflix'), 'batch', '2026-10-18', { jpYear: 2026, format: 'TV' }, 'netflix').releaseType === 'weekly')
+  pruefe('Sammelartikel: ein Eintrag ohne „Simulcast"-Zeile bleibt komplett (ausdrücklich nicht wöchentlich)',
+    vorschlaegeAusSammelartikel({ url: 'https://x', publishedAt: '2026-09-23' }, sammel, 'netflix').every((v) => typeof v.woechentlich === 'boolean') &&
+      zeitplanAusVorschlag({ woechentlich: false, articleTitle: '»X«', dates: [] }, 'batch', '2026-10-11', { jpYear: 2026 }).releaseType === 'batch')
 
   /* aniSearchs Erstausgabe: ein späterer eigener Termin verdrängt sie nicht, derselbe schon. */
   pruefe('Erstausgabe: Rooster Fighter (Disney+ 15.03.–31.05.) bleibt neben dem Netflix-Start am 10.10.',

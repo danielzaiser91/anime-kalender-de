@@ -457,7 +457,7 @@ export function releasesAus(
       name,
       platform: platform as Release['platform'],
       ...(v.kanal && platform === 'primevideo' ? { kanal: v.kanal } : {}),
-      ...zeitplanAusVorschlag(v, art, tag, treffer), ...sprachHinweis(sprache, platform),
+      ...zeitplanAusVorschlag(v, art, tag, treffer, platform), ...sprachHinweis(sprache, platform),
       year: Number(tag.slice(0, 4)),
       herkunft: `Automatisch übernommen aus „${v.articleTitle}".`,
       automatisch: true,
@@ -473,15 +473,20 @@ export function releasesAus(
  * (komplett)") trägt seine Folgenzahl; einer älteren Serie, die nur neu ins Angebot kommt, gilt
  * der Tag als „im Angebot seit", nicht als Erscheinen. Ein wöchentlicher Simulcast läuft
  * wöchentlich — mit AniLists Folgenzahl als Schätzung („≈"), ohne sie als einzelner Termin.
- * Eine Einzelmeldung ohne diese Angaben bleibt, wie sie war: ein Termin ohne Folgenzahl.
+ *
+ * **Eine Einzelmeldung ohne Folgenzahl ist ein Wochenstart, keine Komplettveröffentlichung** (10.10.2026): „Dragon Ball
+ * Super: Beerus … im Simulcast … Neue Folgen erscheinen wöchentlich" stand als „Alle Folgen im Angebot morgen". Komplett
+ * nur, wenn die Meldung es sagt (`taktDerMeldung`), das Werk in Japan aus einem früheren Jahr stammt (Katalogzugang) oder es eine
+ * Netflix-Eigenproduktion ohne Fernsehausstrahlung ist (ONA bei Netflix: „Fool Night“ kommt am 26.11.2026 komplett).
  */
 export function zeitplanAusVorschlag(
-  v: Pick<Vorschlag, 'folgen' | 'woechentlich'>,
+  v: Pick<Vorschlag, 'folgen' | 'woechentlich'> & Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>,
   art: ReleaseType,
   tag: string,
-  treffer: Pick<Title, 'episodes' | 'jpYear'>,
+  treffer: Pick<Title, 'episodes' | 'jpYear'> & Partial<Pick<Title, 'format'>>,
+  platform?: string,
 ): Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'> {
-  if (art === 'batch' && v.woechentlich && !v.folgen)
+  if (art === 'batch' && !v.folgen && (v.woechentlich ?? wochenstartOhneAngabe(v, tag, treffer, platform)))
     return {
       releaseType: 'weekly',
       schedule: { firstEpisodeDate: tag, ...(treffer.episodes ? { episodeCount: treffer.episodes, episodeCountAssumed: true } : {}) },
@@ -493,6 +498,23 @@ export function zeitplanAusVorschlag(
     schedule: { firstEpisodeDate: tag, ...(v.folgen && art === 'batch' && !(treffer.episodes && folgenzahlUeberWerk(v.folgen, treffer.episodes)) ? { episodeCount: v.folgen } : {}) },
     ...(katalog ? { dateMeaning: 'available-from' as const } : {}),
   }
+}
+
+const WOCHENTAKT = /(wöchentlich|simulcast|wochentakt|jeden (?:montag|dienstag|mittwoch|donnerstag|freitag|samstag|sonntag)|(?:neue|weitere) (?:folgen|episoden))/i
+const KOMPLETT = /(alle (?:\d+ )?(?:folgen|episoden)|sämtliche (?:folgen|episoden)|komplett|binge|auf einen schlag|auf einmal|gesamte staffel)/i
+
+/** Was eine Meldung über den Takt sagt — aus Überschrift und Fundstellen; eine Komplett-Angabe schlägt den Wochentakt. */
+export function taktDerMeldung(v: Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>): 'komplett' | 'woechentlich' | undefined {
+  const text = [v.articleTitle ?? '', ...(v.dates ?? []).map((d) => d.context)].join('\n')
+  return KOMPLETT.test(text) ? 'komplett' : WOCHENTAKT.test(text) ? 'woechentlich' : undefined
+}
+
+/** Ohne Folgenzahl: wöchentlich, außer die Meldung sagt „komplett", das Werk ist älter (Katalogzugang) oder eine Netflix-ONA. */
+function wochenstartOhneAngabe(v: Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>, tag: string, treffer: Partial<Pick<Title, 'jpYear' | 'format'>>, platform?: string): boolean {
+  const takt = taktDerMeldung(v)
+  if (takt) return takt === 'woechentlich'
+  if (platform === 'netflix' && treffer.format === 'ONA') return false
+  return !treffer.jpYear || treffer.jpYear >= Number(tag.slice(0, 4))
 }
 
 /**
