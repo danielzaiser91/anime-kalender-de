@@ -640,3 +640,128 @@
   note: "Voraussichtlicher Termin; deutsche und japanische Synchronisation laut Anime2You."
   schedule: { firstEpisodeDate: "2026-12-18" }
   sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
+
+# ---------------------------------------------------------------- AKIBA PASS SHOP, Nachtrag 10.10.2026 (Anime2You 1058438 und 1056789)
+# Die Artikel nennen Tag und Monat ohne Jahr; die Januar-Termine sind als 2027 gelesen (Artikel vom 02./08.10.2026; 1056789 nennt für Apothecary Diaries ausdrücklich 15.01.2027).
+# Sprachangaben stehen in keinem der beiden Artikel.
+- slug: dr-stone-science-future-part2
+  anilistId: 189117
+  titleDe: "Dr. STONE: Science Future – Part 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Komplettbox, Blu-ray"
+  note: "Anime2You nennt „Staffel 4 – Part 2“; Zuordnung zu AniList „Part 2“ wie bei Part 1. Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2027-01-15" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: shield-hero-s4-vol2
+  anilistId: 173780
+  titleDe: "The Rising of the Shield Hero – Staffel 4 – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2027-01-15" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: apothecary-diaries-s2-vol2
+  anilistId: 176301
+  titleDe: "Die Tagebücher der Apothekerin – Staffel 2 – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "DVD & Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2027-01-15" }
+  sources: [https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/]
+
+# Komplett-Bundles: Der Artikel nennt keine Sprache; die deutsche Synchro des Titels stammt aus dem Bestand, nicht aus dem Artikel.
+- slug: air-gear-komplett-bundle
+  anilistId: 857
+  titleDe: "Air Gear – Komplett-Bundle"
+  platform: disc
+  releaseType: disc
+  publisher: "Hardball Films"
+  edition: "Komplett-Bundle, DVD & Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: d-gray-man-komplett-bundle
+  anilistId: 1482
+  titleDe: "D.Gray-man – Komplett-Bundle"
+  platform: disc
+  releaseType: disc
+  publisher: "Hardball Films"
+  edition: "Komplett-Bundle, DVD & Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: love-hina-komplett-bundle
+  anilistId: 189
+  titleDe: "Love Hina – Komplett-Bundle"
+  platform: disc
+  releaseType: disc
+  publisher: "Hardball Films"
+  edition: "Komplett-Bundle, DVD & Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: ouran-high-school-host-club-komplett-bundle
+  anilistId: 853
+  titleDe: "Ouran High School Host Club – Komplett-Bundle"
+  platform: disc
+  releaseType: disc
+  publisher: "Hardball Films"
+  edition: "Komplett-Bundle, DVD & Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: shakugan-no-shana-s1-komplett-bundle
+  anilistId: 355
+  titleDe: "Shakugan no Shana – Staffel 1 & 2 – Komplett-Bundle (Staffel 1)"
+  platform: disc
+  releaseType: disc
+  publisher: "FilmConfect"
+  edition: "Komplett-Bundle Staffel 1 & 2, DVD & Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: shakugan-no-shana-s2-komplett-bundle
+  anilistId: 2787
+  titleDe: "Shakugan no Shana – Staffel 1 & 2 – Komplett-Bundle (Staffel 2)"
+  platform: disc
+  releaseType: disc
+  publisher: "FilmConfect"
+  edition: "Komplett-Bundle Staffel 1 & 2, DVD & Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: angeloid-sora-no-otoshimono-s1-komplett-bundle
+  anilistId: 5958
+  titleDe: "Angeloid – Sora no Otoshimono – Staffel 1 & 2 – Komplett-Bundle (Staffel 1)"
+  platform: disc
+  releaseType: disc
+  publisher: "Nipponart"
+  edition: "Komplett-Bundle Staffel 1 & 2, DVD & Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt; deutsche Synchro im Bestand nur als „hoch“ eingestuft."
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: angeloid-sora-no-otoshimono-s2-komplett-bundle
+  anilistId: 8407
+  titleDe: "Angeloid – Sora no Otoshimono – Staffel 1 & 2 – Komplett-Bundle (Staffel 2)"
+  platform: disc
+  releaseType: disc
+  publisher: "Nipponart"
+  edition: "Komplett-Bundle Staffel 1 & 2, DVD & Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt; deutsche Synchro im Bestand nur als „hoch“ eingestuft."
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
