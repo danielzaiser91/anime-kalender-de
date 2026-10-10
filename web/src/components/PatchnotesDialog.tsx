@@ -80,7 +80,6 @@ export default function PatchnotesDialog({ laden, beiZu }: { laden: Promise<Patc
             <PatchTagBlock key={tag.datum} tag={tag} index={i} heute={heute} gestern={addDays(heute, -1)} schliessen={zu} />
           ))}
         </div>
-        <footer className="pn-fuss">{PT.fuss}</footer>
       </div>
     </div>,
     document.body,
