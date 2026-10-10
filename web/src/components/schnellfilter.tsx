@@ -4,6 +4,7 @@ import type { FilterState } from '../lib/filters.ts'
 import { schnellSetzen, schnellZustand, type SchnellId, type SchnellZiel } from '../lib/schnellfilter.ts'
 import { TvZeichen, DiscZeichen } from './ui.tsx'
 import { TIPPFLAECHE_HOCH } from './detail/tippziel.ts'
+import { PILLE_JA, PILLE_NEIN } from './filter/pille-zustand.ts'
 
 export interface SchnellEintrag {
   id: SchnellId
@@ -38,20 +39,12 @@ export function schnellAnwenden(
   if (id === 'tv' && r.tvAn !== undefined && r.tvAn !== tvAn) setTvAn?.(r.tvAn)
 }
 
-/** Stil der Chips je Zustand. v1 = Pillenstil der App; v2 = nur der Rand gefärbt. Der Wechsel ist die Zeile `STIL`. */
-const STILE = {
-  v1: {
-    aus: 'border-ak-rand bg-ak-flaeche text-ak-text',
-    ja: 'border-transparent bg-emerald-500 font-bold text-emerald-950',
-    nein: 'border-rose-400/70 bg-rose-500/10 text-rose-700 line-through dark:text-rose-300',
-  },
-  v2: {
-    aus: 'border-ak-rand bg-ak-flaeche text-ak-text',
-    ja: 'border-2 border-emerald-600 bg-emerald-500/10 px-[11px] font-bold text-ak-text',
-    nein: 'border-2 border-rose-500 bg-rose-500/10 px-[11px] text-rose-700 line-through dark:text-rose-300',
-  },
+/** Stil der Chips je Zustand; gewählt und ausgeschlossen kommen aus `pille-zustand.ts`. */
+const STIL = {
+  aus: 'border-ak-rand bg-ak-flaeche text-ak-text',
+  ja: PILLE_JA,
+  nein: PILLE_NEIN,
 }
-const STIL = STILE.v1
 
 /**
  * **Die Schnellfilter als Chips** (Filterfenster-Entwurf, 09.10.2026): Aussehen wie die Filter-Pille der App, 32 px hoch,

@@ -7,7 +7,7 @@
 # Keine Zeile nötig? Dann steht in der PR-Beschreibung „Patch Notes: keine – <Grund>“ (tools/check-patchnotes-pflicht.mjs).
 - kategorie: feature
   text: Filterfenster am Handy breiter, Knöpfe leichter zu treffen
-  untertitel: Schnellfilter als Chips, Klick-Modus bleibt oben
+  untertitel: Gewählt grün, ausgeschlossen rot, überall gleich
 - kategorie: feature
   text: Geteilte Links zeigen dieselbe Saison und dieselben Schalter
   untertitel: Auch Reiter und Schalter bleiben im Link
