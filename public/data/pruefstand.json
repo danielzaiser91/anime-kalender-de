@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-10T11:34:44.821Z",
+ "erzeugtAm": "2026-10-10T12:43:31.354Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -35,8 +35,8 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 382,
-   "gesamt": 392,
+   "gemeldet": 383,
+   "gesamt": 393,
    "offen": 10,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/80212481",
