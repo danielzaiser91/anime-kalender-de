@@ -5,6 +5,9 @@
 # Der Text ist der Schlüssel fürs Datum: Wer einen Text später umschreibt, setzt datum von Hand, sonst wandert der Eintrag auf den Tag des Umschreibens.
 # datum (in Anführungszeichen) gibt es nur als Nachtrag für Einträge, die älter sind als dieses Verfahren (bis 10.10.2026).
 # Keine Zeile nötig? Dann steht in der PR-Beschreibung „Patch Notes: keine – <Grund>“ (tools/check-patchnotes-pflicht.mjs).
+- kategorie: feature
+  text: Geteilte Links zeigen dieselbe Saison und dieselben Schalter
+  untertitel: Auch Reiter und Schalter bleiben im Link
 - datum: "2026-10-10"
   kategorie: feature
   text: Künftige Termine zeigen ihren Sender oder Anbieter
