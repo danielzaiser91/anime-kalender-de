@@ -20,15 +20,9 @@
 import { ereignisSenden } from './ereignisse.ts'
 import { zahlOderNull, jetztIso } from './werte.ts'
 import { type Env } from './env.ts'
-import { handlePruefung } from './pruefung.ts'
+import { verarbeiteStapel } from './pruefung-stapel.ts'
 
-export async function speicherePruefung({ request, antwort, token, env, ctx }: {
-  request: Request<unknown, CfProperties<unknown>>
-  antwort: (body: unknown, status?: number) => Response
-  token: string
-  env: Env
-  ctx: ExecutionContext<unknown> | undefined
-}) {
+export async function speicherePruefung({ request, antwort, token, env, ctx }: Kontext) {
   let daten: Record<string, unknown>
   try {
     daten = (await request.json()) as Record<string, unknown>
@@ -40,8 +34,9 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
     **Ein Stapel: mehrere Meldungen in einer Anfrage**.
     Die Randprobe einer Netflix-Staffel schickte je Folge eine Anfrage — 25 Folgen, 25 Rundreisen.
 
-    Jedes Element läuft durch genau denselben Weg wie eine Einzelmeldung (derselbe Handler,
-    gleichzeitig), damit es keine zweite Fassung der Annahme gibt. Ein Ereignis für alle.
+    Jedes Element läuft durch genau denselben Weg wie eine Einzelmeldung (dieselbe Funktion,
+    gleichzeitig), damit es keine zweite Fassung der Annahme gibt. Ein Ereignis für alle, und die
+    Cache-Marke schreibt `handlePruefung` einmal am Ende — nicht je Meldung (siehe pruefung-stapel.ts).
 
     **Höchstens 10 je Stapel — eine Größengrenze, kein gemessenes Limit.** Die Doku nennt 50
     D1-Abfragen je Aufruf im kostenlosen Plan, jede `batch`-Anweisung einzeln gezählt
@@ -55,24 +50,7 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
     if (!stapel.length || stapel.length > PRUEFUNG_STAPEL_HOECHSTENS) {
       return antwort({ error: `stapel braucht 1 bis ${PRUEFUNG_STAPEL_HOECHSTENS} Meldungen` }, 400)
     }
-    const ergebnisse = await Promise.all(
-      stapel.map(async (einzeln) => {
-        if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) return { ok: false, status: 400 }
-        const r = await handlePruefung(
-          new Request(request.url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-            body: JSON.stringify(einzeln),
-          }),
-          env,
-        )
-        const inhalt = (await r.json().catch(() => ({}))) as { befund?: string }
-        return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status }
-      }),
-    )
-    const erste = stapel[0] as Record<string, unknown>
-    ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(erste?.plattform ?? 'unbekannt') }))
-    return antwort({ ok: true, ergebnisse })
+    return await speichereStapel({ request, antwort, token, env, ctx }, stapel)
   }
 
   /**
@@ -510,6 +488,36 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
   */
   ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(daten.plattform ?? 'unbekannt') }))
   return antwort({ ok: true, befund })
+}
+
+type Kontext = {
+  request: Request<unknown, CfProperties<unknown>>
+  antwort: (body: unknown, status?: number) => Response
+  token: string
+  env: Env
+  ctx: ExecutionContext<unknown> | undefined
+}
+
+async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, stapel: unknown[]) {
+  const ergebnisse = await verarbeiteStapel(stapel, async (einzeln) => {
+    if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) return { ok: false, status: 400 }
+    const r = await speicherePruefung({
+      request: new Request(request.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify(einzeln),
+      }),
+      antwort,
+      token,
+      env,
+      ctx: undefined,
+    })
+    const inhalt = (await r.json().catch(() => ({}))) as { befund?: string }
+    return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status }
+  })
+  const erste = stapel[0] as Record<string, unknown>
+  ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(erste?.plattform ?? 'unbekannt') }))
+  return antwort({ ok: true, ergebnisse })
 }
 
 /**

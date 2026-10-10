@@ -79,6 +79,29 @@ async function pruefeDatenbank(browser) {
   await g.context().close()
 }
 
+/** Datenbank → Woche → Datenbank: der Stand kommt zurück (Adresse, sonst Sitzung/Speicher), ohne dass ein Link die Einstellung überschreibt. */
+async function pruefeWechsel(browser) {
+  const zu = async (seite, ziel) => {
+    await seite.evaluate((h) => { location.hash = h }, ziel)
+    await seite.waitForTimeout(800)
+  }
+  const s = await oeffne(browser, 'http://ak.test/#/datenbank?q=yaiba')
+  await s.getByText(OHNE).first().click()
+  await s.waitForTimeout(400)
+  await zu(s, '#/woche')
+  await zu(s, '#/datenbank')
+  pruefe('Wechsel: „ohne Synchro“ bleibt nach Datenbank → Woche → Datenbank an', await an(s, OHNE))
+  pruefe('Wechsel: ohne=1 steht wieder in der Adresse', /ohne=1/.test(await hash(s)), await hash(s))
+  await s.context().close()
+
+  const l = await oeffne(browser, 'http://ak.test/#/datenbank?q=yaiba&ohne=1&staffeln=0')
+  await zu(l, '#/woche')
+  await zu(l, '#/datenbank')
+  pruefe('Wechsel (Link): beide Schalter kommen zurück', (await an(l, OHNE)) && !(await an(l, STAFFELN)))
+  pruefe('Wechsel (Link): der Speicher des Empfängers bleibt unberührt', (await l.evaluate(() => localStorage.getItem('groupSeasons'))) === null)
+  await l.context().close()
+}
+
 async function pruefeSaison(browser) {
   const reiter = (seite) => seite.evaluate(() => [...document.querySelectorAll('[role=tab]')].findIndex((t) => t.getAttribute('aria-selected') === 'true'))
   const s = await oeffne(browser, 'http://ak.test/#/saison?s=zuletzt')
@@ -107,6 +130,7 @@ async function main() {
   const browser = await chromium.launch()
   try {
     await pruefeDatenbank(browser)
+    await pruefeWechsel(browser)
     await pruefeSaison(browser)
   } finally {
     await browser.close()

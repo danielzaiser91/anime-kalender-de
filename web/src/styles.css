@@ -259,13 +259,35 @@ html.dark select option {
   Farbflächen; Text wechselt auf die leise Farbe, die in beiden Themen den Kontrast hält.
 */
 .ak-vorbei img,
+.ak-vorbei .ak-punkt,
 .ak-vorbei .ak-dimmen {
   opacity: 0.5;
   transition: opacity 0.15s;
 }
 .ak-vorbei:hover img,
+.ak-vorbei:hover .ak-punkt,
 .ak-vorbei:hover .ak-dimmen {
   opacity: 1;
+}
+
+/*
+  Monatspunkt am Handy (10.10.2026): Anbieterfarbe aus `--punkt`. Im hellen Thema erreichen Crunchyroll, Prime, WOW, ADN
+  und Kino gegen Weiß keine 3:1; der Rand aus 60 % Anbieterfarbe und 40 % Schwarz liegt bei allen Anbietern über 4,4:1.
+  Staffelstart/-finale: Ring mit 1 px Abstand (statt des früheren Rings ums Cover); der Außenrand hält die Nachbarn frei.
+*/
+.ak-punkt {
+  background: var(--punkt);
+}
+html:not(.dark) .ak-punkt {
+  border: 1px solid color-mix(in srgb, var(--punkt) 60%, black);
+}
+.ak-punkt[data-art] {
+  margin: 2px;
+  outline: 2px solid var(--ak-akzent);
+  outline-offset: 1px;
+}
+.ak-punkt[data-art='finale'] {
+  outline-color: var(--ak-finale-text);
 }
 .ak-vorbei .ak-titel {
   color: var(--ak-leise);
