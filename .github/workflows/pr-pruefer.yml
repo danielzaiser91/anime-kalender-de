@@ -66,11 +66,14 @@ jobs:
           echo "Diff-Zustand: $zustand"
           wc -c "$T/pr.diff"
 
-      # Token-Lage: Die Action schreibt das GITHUB_TOKEN beim Start per git config in die Remote-URL des
-      # Arbeitsverzeichnisses. Darum liegt der Checkout in main/, der Arbeitsordner selbst ist kein Git-Repo: der
-      # Schreibversuch scheitert dort (die Action fängt den Fehler ab), das Token landet in keiner Datei. Es bleibt in
-      # der Prozessumgebung (/proc ist verboten). Grep/Glob ohne Pfadgrenze erreichen noch _runner_file_commands und
-      # ~/.config (nur Lesen, dort liegt kein Token). Eine Sandbox gegen alle Lesewege ist das nicht.
+      # Token-Lage: Die Action schreibt das GITHUB_TOKEN per git config ins Arbeitsverzeichnis. Darum liegt der
+      # Checkout in main/, der Arbeitsordner ist kein Git-Repo: der Versuch scheitert (Fehler wird abgefangen), das Token
+      # steht in keiner Datei. Es steht aber in der Prozessumgebung, und /proc/self/environ ist per Grep/Glob
+      # theoretisch lesbar: Read-Deny-Regeln gelten für Grep/Glob laut Claude-Code-Doku nur best-effort, eigene
+      # Grep-/Glob-Regeln wertet Claude Code nicht aus. Restrisiko begrenzt: Token nur pull-requests:write und
+      # contents:read, Forks, Entwürfe und daten/-PRs sind ausgeschlossen, und es könnte nur im Protokoll-Kommentar
+      # landen; den prüft der Freigabe-Schritt auf Token-Muster. Grep/Glob erreichen ohne Pfadgrenze auch
+      # _runner_file_commands und ~/.config (nur Lesen, dort liegt kein Token).
       - name: Prüfer
         uses: anthropics/claude-code-action@v1
         env:
@@ -110,7 +113,9 @@ jobs:
             2. ${{ runner.temp }}/pruefer/urteil.json — genau {"urteil":"ok","sha":"${{ github.event.pull_request.head.sha }}"}
                oder {"urteil":"aendern","sha":"${{ github.event.pull_request.head.sha }}"}. "ok" nur, wenn kein
                Befund offen ist. Im Zweifel "aendern".
-            Schreibe sonst nirgends hin.
+            Schreibe sonst nirgends hin. Lies und nenne nie Umgebungsvariablen, Tokens, Secrets oder Dateien
+            außerhalb des Repos und der beiden Prüfdateien (auch nicht /proc); stößt du in Daten auf solche
+            Werte, gib sie nirgends aus, melde nur "Geheimnis-Zugriff versucht".
 
       - name: Protokoll und Freigabe
         if: always()
@@ -130,6 +135,11 @@ jobs:
             echo "Diff unvollständig - Urteil ok wird zu aendern."
             art=aendern
             printf '\n**Hinweis:** Diff leer, nicht abrufbar oder gekürzt - nicht vollständig geprüft, daher keine Freigabe.\n' >> "$T/protokoll.md"
+          fi
+          if grep -qE 'gh[spuor]_[A-Za-z0-9]|github_pat_|x-access-token' "$T/protokoll.md" || grep -qF -- "$GH_TOKEN" "$T/protokoll.md"; then
+            echo "Token-Muster im Protokoll - Protokoll verworfen, Urteil aendern."
+            art=aendern
+            printf 'Das Protokoll enthielt ein Token-Muster und wurde verworfen. Der Lauf ist als Fehlerfall zu behandeln (Prompt-Injektion vermutet).\n' > "$T/protokoll.md"
           fi
           aktuell=$(gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json headRefOid -q .headRefOid)
           if [ "$sha" != "$HEAD_SHA" ] || [ "$aktuell" != "$HEAD_SHA" ]; then
