@@ -3,10 +3,13 @@ import { EMPTY_FILTERS, LIST_KEYS, toggleFilter, type FilterState, type ListKey 
 import { useLang } from '../../lib/i18n.tsx'
 import { STATUS_LABEL_KEY } from '../FilterDetails.tsx'
 import { KreuzZeichen } from './Zeichen.tsx'
+import { PILLE_JA, PILLE_NEIN } from '../filter/pille-zustand.ts'
 
 interface Eintrag {
   label: string
   weg: () => void
+  /** Ausgeschlossen: roter Rand, durchgestrichen. */
+  aus?: boolean
 }
 
 /** Solange das Filterfeld zu ist: jeder gesetzte Filter als Chip zum Entfernen. */
@@ -33,7 +36,7 @@ export function AktiveFilter({
           type="button"
           onClick={e.weg}
           aria-label={t('filter.entfernen', { name: e.label })}
-          className="flex h-8 cursor-pointer items-center gap-1.5 rounded-full border border-ak-rand bg-ak-flaeche-2 pr-2.5 pl-3 text-[13px] font-semibold text-ak-text hover:border-ak-leise"
+          className={`flex h-8 cursor-pointer items-center gap-1.5 rounded-full border pr-2.5 pl-3 text-[13px] ${e.aus ? PILLE_NEIN : PILLE_JA}`}
         >
           {e.label}
           <KreuzZeichen groesse={14} />
@@ -75,16 +78,16 @@ function useEintraege(
     for (const wert of filters[key] as (string | number)[])
       liste.push({ label: name(key, wert), weg: () => onChange(toggleFilter(filters, key, wert as never, 'include')) })
     for (const wert of filters.excluded[key] as (string | number)[])
-      liste.push({ label: `⊘ ${name(key, wert)}`, weg: () => onChange(toggleFilter(filters, key, wert as never, 'exclude')) })
+      liste.push({ label: `⊘ ${name(key, wert)}`, aus: true, weg: () => onChange(toggleFilter(filters, key, wert as never, 'exclude')) })
   }
   if (filters.search.trim()) liste.push({ label: t('filter.suche', { q: filters.search.trim() }), weg: aus({ search: '' }) })
   if (filters.favoritesOnly) liste.push({ label: t('filter.nurFavoriten'), weg: aus({ favoritesOnly: false }) })
   if (filters.kostenlosOnly) liste.push({ label: t('filter.nurKostenlos'), weg: aus({ kostenlosOnly: false }) })
   if (filters.confirmedOnly) liste.push({ label: t('filter.bestaetigt'), weg: aus({ confirmedOnly: false }) })
-  if (filters.favoritesExcluded) liste.push({ label: `⊘ ${t('filter.schnell.favoriten')}`, weg: aus({ favoritesExcluded: false }) })
-  if (filters.kostenlosExcluded) liste.push({ label: `⊘ ${t('filter.schnell.kostenlos')}`, weg: aus({ kostenlosExcluded: false }) })
-  if (filters.confirmedExcluded) liste.push({ label: `⊘ ${t('filter.schnell.bestaetigt')}`, weg: aus({ confirmedExcluded: false }) })
-  if (filters.availableExcluded) liste.push({ label: `⊘ ${t('filter.schnell.verfuegbar')}`, weg: aus({ availableExcluded: false }) })
-  if (tvAn === false) liste.push({ label: t('filter.ohneTv'), weg: () => setTvAn?.(true) })
+  if (filters.favoritesExcluded) liste.push({ label: `⊘ ${t('filter.schnell.favoriten')}`, aus: true, weg: aus({ favoritesExcluded: false }) })
+  if (filters.kostenlosExcluded) liste.push({ label: `⊘ ${t('filter.schnell.kostenlos')}`, aus: true, weg: aus({ kostenlosExcluded: false }) })
+  if (filters.confirmedExcluded) liste.push({ label: `⊘ ${t('filter.schnell.bestaetigt')}`, aus: true, weg: aus({ confirmedExcluded: false }) })
+  if (filters.availableExcluded) liste.push({ label: `⊘ ${t('filter.schnell.verfuegbar')}`, aus: true, weg: aus({ availableExcluded: false }) })
+  if (tvAn === false) liste.push({ label: t('filter.ohneTv'), aus: true, weg: () => setTvAn?.(true) })
   return liste
 }

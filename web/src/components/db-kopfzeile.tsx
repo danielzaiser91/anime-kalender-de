@@ -2,6 +2,7 @@ import type { Title } from '@shared/types.ts'
 import { useLang, type Translate } from '../lib/i18n.tsx'
 import { Toggle } from './ui.tsx'
 import { DeFlaggeZeichen } from './de-flagge.tsx'
+import { PILLE_JA } from './filter/pille-zustand.ts'
 
 /**
  * **Die zwei Schalter über der Datenbank in einer Zeile** (Daniel, 04.10.2026): Sie sitzen an einer festen Stelle und
@@ -23,7 +24,7 @@ export function DbSchalter({ ohneSynchro, onOhneSynchroChange, laedt, grouped, o
   return (
     /* Auf dem Handy eine rollbare Reihe (drei Zeilen Schalter über dem Raster waren zu viel), ab `sm` umbrechend. */
     <div className="-mx-4 flex items-center gap-2 overflow-x-auto px-4 py-0.5 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
-      <span className={`${pille} ${ohneSynchro ? 'border-amber-400/60 bg-amber-50 dark:border-amber-400/40 dark:bg-amber-400/10' : `${ruhig} border-dashed`}`}>
+      <span className={`${pille} ${ohneSynchro ? PILLE_JA : `${ruhig} border-dashed`}`}>
         <Toggle checked={ohneSynchro} onChange={onOhneSynchroChange} label={t('db.withoutDub')} hint={t('db.withoutDubHint')} />
       </span>
       <span className={`${pille} ${ruhig}`}>

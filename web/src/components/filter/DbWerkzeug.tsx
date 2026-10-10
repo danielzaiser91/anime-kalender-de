@@ -61,8 +61,7 @@ function DbWerkzeug(p: DbKopfProps) {
         <DbSortWahl sort={p.sort} onChange={p.onSortChange} suche={!!p.suche.trim()} kompakt />
       </Werkzeugleiste>
       <FilterPopover offen={offen} schliessen={zu} ausloeser={pille} label={t('filter.button')}>
-        <Abschnitte liste={abschnitte} />
-        <FilterDetailsFeld meta={p.meta} filters={p.filters} onChange={p.onFiltersChange} showConfidence favoriteCount={p.favoriteCount} />
+        <FilterDetailsFeld meta={p.meta} filters={p.filters} onChange={p.onFiltersChange} showConfidence favoriteCount={p.favoriteCount} zwischen={<Abschnitte liste={abschnitte} />} />
         <FilterFuss zuruecksetzen={() => p.onFiltersChange({ ...EMPTY_FILTERS, search: p.filters.search })} fertig={zu} />
       </FilterPopover>
     </>

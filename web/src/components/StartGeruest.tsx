@@ -39,7 +39,7 @@ export function WochenSkelett() {
 /** Der Rumpf der Seite, solange die Daten laden. `kopf` ist der echte Header samt Navigation. */
 export function StartGeruest({ kopf }: { kopf: ReactNode }) {
   return (
-    <div className="flex min-h-full flex-col pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0">
+    <div className="flex min-h-full flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
       {kopf}
       <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-6 sm:px-6 lg:px-10">
         <WochenSkelett />

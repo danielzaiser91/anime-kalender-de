@@ -5,6 +5,7 @@ import type { Fsk, PlatformId, ReleaseStatus, ReleaseType } from '@shared/types.
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { plakettenStil } from '../lib/kontrast.ts'
 import { TIPPFLAECHE, TREFFER_24, TREFFER_24_MIN } from './detail/tippziel.ts'
+import { PILLE_JA, PILLE_NEIN } from './filter/pille-zustand.ts'
 
 /** Gemeinsamer Fokus- und Zeigerstil aller anklickbaren Elemente. */
 const CLICKABLE = 'cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
@@ -56,7 +57,6 @@ export function Chip({
   children,
   color,
   title,
-  ton,
 }: {
   active?: boolean
   /** Ausgeschlossen — muss sich auf einen Blick von „gewählt" unterscheiden. */
@@ -65,12 +65,6 @@ export function Chip({
   children: ReactNode
   color?: string
   title?: string
-  /**
-   * Farbe der Auswahl. `gruen` hebt gewählte **Filter** hervor: Orange/Rot liest
-   * sich dort wie ein Fehler, Grün heißt „drin". Die
-   * übrigen Chips der Seite bleiben neutral.
-   */
-  ton?: 'gruen'
 }) {
   return mitHinweis(
     title,
@@ -86,12 +80,10 @@ export function Chip({
         excluded
           ? // Rot und durchgestrichen: Ein bloß andersfarbiger Chip würde sich
             // wie eine zweite Auswahl lesen, nicht wie ein Verbot.
-            'border-rose-400/70 bg-rose-500/10 text-rose-600 line-through decoration-rose-500/70 dark:border-rose-400/50 dark:text-rose-300'
+            PILLE_NEIN
           : active
-            ? ton === 'gruen'
-              ? 'border-transparent bg-emerald-500 font-semibold text-emerald-950 dark:bg-emerald-500 dark:text-emerald-950'
-              : 'border-transparent bg-slate-100 text-slate-900 dark:bg-slate-100 dark:text-slate-900'
-            : 'border-slate-300/70 text-slate-600 hover:border-slate-400 hover:text-slate-900 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/40 dark:hover:text-white',
+            ? PILLE_JA
+            :'border-slate-300/70 text-slate-600 hover:border-slate-400 hover:text-slate-900 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/40 dark:hover:text-white',
       ].join(' ')}
     >
       {excluded && (
