@@ -507,3 +507,70 @@ Fundstelle mehr hat. Der Bau zählt die vom Register als nötig markierten Cache
 warnt bei leerem oder fehlendem Stand, statt still auf `{}` zurückzufallen. Neue Cache-Datei: erst fragen, ob sie
 nicht nach `data/` gehört (dann `tools/quellen-liste.sh`), sonst ins Register.
 
+## Wortlaut der `CLAUDE.md` vor der Kürzung vom 10.10.2026
+
+Die `CLAUDE.md` wurde am 10.10.2026 von 14 KB auf wenige KB gekürzt (Daniel: Start-Kontext zu groß). Was in den Abschnitten oben noch nicht stand, steht hier im bisherigen Wortlaut.
+
+### Projektziel (Ergänzungen)
+
+0. **Umfang: alle Animation, nicht nur japanische** — Anime, Cartoons, Zeichentrick und Ähnliches aus jedem Land (China, Korea, USA …); die Herkunft schließt nie aus (Daniel, 09.10.2026, Anlass: „Die Legende von Nezha").
+
+**Leitziel: Mobile Performance und Best Practice** (Daniel, 07.10.2026): schnell und flüssig auf dem Handy bei schwacher Leitung, bei *jeder*
+Entscheidung — Budgets, Bildauslieferung und Messrezept im Skill `web-best-practice`, Ziele in [ZIELE.md](../../ZIELE.md).
+
+**Die Seite ist nichtkommerziell und bleibt es:** niemals Werbung, Tracking zu Werbezwecken oder
+sonstige kommerzielle Ziele (Daniel, 06.10.2026). Das trägt die Quellen-Zugänge (aniSearch-API, TMDB)
+und darf bei keiner Entscheidung aufgeweicht werden.
+
+### Grundsatz (Ergänzungen)
+
+- Netflix-Uhrzeit (08:00 UTC als `timeEstimated`, „≈", ohne Countdown) nur bei Eigenproduktionen (`netflixOriginal`); Lizenztitel bleiben „Zeit offen" (Vigilantes, 06.10.2026).
+- **Namensabgleich:** der beste Treffer gewinnt, nicht der erste; `OVA`/`ONA`/`OAD`/`TV` zählen mit, der japanische Titel nicht (`bewerteTreffer`). Ein Namensvergleich allein ist kein Beleg.
+- **Was AniList, aniSearch oder MAL als Anime führen, ist kein Cartoon** (Daniel, 08.10.2026) — der Cartoon zieht auf den Anime-Titel um (`cartoon-umzug.json`); Beleg: TMDB-Kennung, sonst Name **und** Jahr **und** Folgenzahl, im Zweifel Ausnahmeliste statt Zusammenlegung (`check:logic`).
+- **Eine News-Meldung ist eine Aussage zu ihrem Tag:** nie umschreiben (Späteres ist eine neue Meldung), Belege nur ihrer eigenen Aussage, eine Quelle an genau einer Meldung; eigene Messung belegt der Anbieter-Kalender an diesem Tag ([news-plan.md](news-plan.md)).
+
+### Datenläufe: wer auf `main` schreibt, und was beim Ändern zu beachten ist
+
+Seit dem 05.10.2026 (`docs/wissen/betrieb.md`, „Datenläufe neu geschnitten"; Skill `datenlaeufe-entwerfen`):
+
+- **Auf `main` schreibt nur der Bestandsbau** (`tools/commit-data.sh`, Gruppe `bau`). Alle Sammler (Stündlich, Täglich, Wöchentlich, ADN, aniSearch-Katalog, Abruf, Nachholen) reichen per Pull Request ein
+  (`.github/actions/einreichen` → `tools/quellen-pr.sh`), jeder in eigener Gruppe. `tools/quellen-aufsetzen.sh` legt nur die **eigenen** Änderungen auf den jüngsten Stand zurück — niemand überschreibt,
+  was ein anderer Lauf aktualisiert hat. Wer eine neue Datei in einem Lauf schreibt, trägt sie in `tools/quellen-liste.sh` ein (sonst warnt `quellen_verloren` und die Datei geht verloren).
+- **Läuft ein Sammler, wird nichts nach `.github/workflows/` gepusht** — GitHub lehnt dann seinen Pull-Request-Zweig ab, und er verliert die Arbeit (Wochenlauf 05.10.2026: 107 Minuten). Vorher
+  `gh run list --status in_progress`. Ist doch etwas verloren, sichert der Lauf einen Fund als Artefakt (`fund-<Job>`): Workflow „Fund nachliefern" mit der Lauf-Nummer.
+- **Zeitpläne kommen vom Cloudflare-Wecker** (`shared/weckplan.ts`, `worker/src/wecker.ts`), nicht von GitHubs Cron (4–7 h zu spät). `wecker-wache.yml` holt Überfälliges nach.
+- **Commits an Quelldateien** warten nicht mehr auf Sammler (die liefern per Pull Request); `tools/quellen-commit-wache.sh` hält nur noch Commits an, solange ein direkt schreibender Lauf (Bestandsbau) läuft.
+  Zu jeder Datenkorrektur gehört weiterhin eine Zusicherung, die meldet, wenn sie verlorengeht.
+
+### Läufe (Ergänzungen)
+
+- **Ein roter Lauf wird bemerkt, nicht gemeldet** — an jeder Wachphase und nach jedem eigenen Push `LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs --trocken`, ansehen, handeln, Anzeige leeren. Vor `gh run delete` jeden Lauf einzeln ansehen.
+- Wer `.github/workflows/*` ändert, macht laufende Datenläufe rot (GitHub-App ohne `workflows`-Recht) — danach hinsehen und neu anstoßen.
+
+### Vor dem Commit (Ergänzungen)
+
+Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `check:panel` bei Änderungen an `web/src`, `check:handbelege` nach einem Bau bei geänderten oder umgehängten Belegen. Jeder rote Lauf ist eine Mail an Daniel.
+
+- Auch ein reiner Daten-Commit läuft durch `check:logic`; Schwellen nie auf den Messwert des Augenblicks senken.
+- Eigenschaften, die `pruefeErgebnis()` prüft, beim Anlegen setzen — die Prüfung läuft mitten im Bau, nicht am Ende.
+- Ein lokaler `npm run data:build` stoppt am Cache-Abbruch („N Titel würden fallen"), erreicht die Prüfungen aber vorher; danach die erzeugten Dateien mit `git checkout` zurücksetzen.
+- Jedes `tsc` braucht `--noEmit`; `check:worker` nicht weglassen (eigenes tsconfig); `check:hooks` prüft React-Hook-Regeln, die `tsc` nicht sieht.
+- Mess- und Versuchsläufe enden mit Exit 0 statt rot.
+
+### Codegestalt (Ergänzungen)
+
+- `check:umfang` (steckt in `build`) misst die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`, angehoben wird nie. `--liste` zeigt die größten Stellen.
+- Verschoben wird mit `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`. Bei reinen Kommentar-Umbauten `node tools/nur-kommentare.mjs` (Code ohne Kommentare gleich).
+- Wegwerfskripte gehören ins Scratchpad, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
+- Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).
+
+### Wissen nach Thema (Verweisliste)
+
+- [karte.md](karte.md) — Einstieg: Datenfluss, Verzeichnisse, welche Datei bei welcher Änderung, Rezepte, Werkzeugfallen. Dazu [befund-2026-10-02.md](befund-2026-10-02.md), [architektur-bewertung.md](architektur-bewertung.md); Gegenprobe: `node tools/daten-befund.mjs`; aniSearch-Umstellung: [sitzung-2026-10-02-analyse-und-umstellung.md](sitzung-2026-10-02-analyse-und-umstellung.md)
+- [erweiterung.md](erweiterung.md) — Browser-Erweiterung (Amazon, Netflix, Disney+): Melden, Durchgänge, Leser, Prüflisten
+- [quellen.md](quellen.md) — Datenquellen, Grenzen, Sperren, robots.txt, News-Quellen
+- [betrieb.md](betrieb.md) — Läufe, Worker, Git, Prüfungen
+- [datensatz.md](datensatz.md) — Bau und Anzeige
+- [daten-detektiv.md](daten-detektiv.md) — `npm run detektiv`: 25 Regeln gegen Zweitquellen, Funde nach Hebel
+- [meine-woche.md](meine-woche.md) — Konzept „Meine Woche"; Prototyp (Code am 09.10.2026 entfernt, in der Git-Historie)
+

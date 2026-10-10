@@ -1,145 +1,33 @@
 # Projektregeln: anime-kalender-de
 
-Kurzfassung (seit 26.09.2026). Anlässe, Zahlen und Laufkennungen zu jeder Regel stehen in
-[docs/wissen/projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md) — bei Zweifeln
-dort nachlesen; neue Anlässe kommen dorthin, hier höchstens ein Halbsatz.
+Kurzfassung. Volltext, Anlässe, Zahlen, Laufkennungen: [docs/wissen/projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md) — bei Zweifeln dort nachlesen; neue Anlässe kommen dorthin, hier höchstens ein Halbsatz.
 
 ## Projektziel
 
-Ein **Gesamtüberblick aller Anime mit deutscher Synchronfassung** — erschienen und angekündigt —,
-filterbar, durchsuchbar, als Kalendereintrag übernehmbar (Daniel, 11.08.2026). Dazu gehören:
+Gesamtüberblick aller **Animation mit deutscher Synchronfassung** (nicht nur japanisch), erschienen und angekündigt: filterbar, durchsuchbar, als Kalendereintrag übernehmbar. Synchro ist nicht Untertitel; nichts behaupten, was nicht belegt ist; Unsicheres kennzeichnen statt weglassen (gestrichen wird nur, was eine Quelle widerlegt); nicht nur wann, auch wo; rechtzeitig Bescheid geben (Kalender-Abo, ICS, Newsletter). Kein Ziel: Community, Bewertungen.
 
-0. **Umfang: alle Animation, nicht nur japanische** — Anime, Cartoons, Zeichentrick und Ähnliches aus jedem Land (China, Korea, USA …); die Herkunft schließt nie aus (Daniel, 09.10.2026, Anlass: „Die Legende von Nezha").
+**Leitziel Mobile Performance** (Skill `web-best-practice`, [ZIELE.md](ZIELE.md)). **Nichtkommerziell, für immer:** keine Werbung, kein Tracking zu Werbezwecken.
 
-1. **Synchro ist nicht Untertitel** — die Trennlinie des Projekts (Chiikawa: 120 deutsche Folgen,
-   alle untertitelt, steht zu Recht nicht im Kalender).
-2. **Nichts behaupten, was nicht belegt ist.**
-3. **Unsicheres kennzeichnen statt weglassen**; gestrichen wird nur, was eine Quelle aktiv widerlegt.
-4. **Nicht nur wann, auch wo** man es sehen oder kaufen kann.
-5. **Rechtzeitig Bescheid geben** — Kalender-Abo, ICS, Newsletter sind Kern, kein Beiwerk.
+## Harte Grundsätze (Details im Volltext)
 
-Nicht Ziel: Community, Bewertungen, Wasserstandsmeldungen zu japanischen Ausstrahlungen.
+- Kein Termin ohne `sources`; keine erfundenen Uhrzeiten (Ausnahme: Netflix-Eigenproduktion 08:00 UTC als `timeEstimated`); keine erfundene Folgenzahl.
+- Abgeleitetes kennzeichnen (`estimated`, `episodeCountAssumed`, „≈"); Wochentakt wird gemessen (`bestimmeRhythmus()`); belegtes Ende (`lastEpisodeDate`) schlägt Fortschreibung.
+- Plattform-Serienkennung = Franchise, keine Staffel (Zuordnung über Folgenzahl); ein Anime gehört genau einer Kennung. Namensabgleich: bester Treffer, nicht erster (`bewerteTreffer`).
+- Ein Vorfilter verschiebt, er löscht. „Früheste Beobachtung" ≠ erste Folge; „Im Angebot seit" ≠ „erschienen am". Anime auf AniList/aniSearch/MAL ist kein Cartoon (`cartoon-umzug.json`).
+- News-Meldung = Aussage zu ihrem Tag, nie umschreiben ([news-plan.md](docs/wissen/news-plan.md)). Geteilte Staffelstarts: `schedule.firstEpisodeNumber`; bei Fortsetzungen AniList-ID prüfen (`npx tsx pipeline/qa-resolve.ts`).
+- Der erzeugte Datensatz wird geprüft (`pipeline/lib/pruefung.ts`, `check:logic`, `check:handbelege`, `check:cr-zuordnung`, `check:quellen`); Handbelege (`data/dub-confirmed.yaml`) haben Vorrang (Reihenfolge in `build.ts`).
+- **Datenkorrektur gehört ins Repo (`data/…`), nie nach `data/cache/`**; fertig = nach Deploy live gemessen.
 
-**Leitziel: Mobile Performance und Best Practice** (Daniel, 07.10.2026): schnell und flüssig auf dem Handy bei schwacher Leitung, bei *jeder*
-Entscheidung — Budgets, Bildauslieferung und Messrezept im Skill `web-best-practice`, Ziele in [ZIELE.md](ZIELE.md).
+## Daten, Läufe, Architektur
 
-**Die Seite ist nichtkommerziell und bleibt es:** niemals Werbung, Tracking zu Werbezwecken oder
-sonstige kommerzielle Ziele (Daniel, 06.10.2026). Das trägt die Quellen-Zugänge (aniSearch-API, TMDB)
-und darf bei keiner Entscheidung aufgeweicht werden.
+- Auf `main` schreibt nur der Bestandsbau; Sammler liefern per Pull Request. Neue Datei im Lauf → `tools/quellen-liste.sh`. Nichts nach `.github/workflows/` pushen, solange ein Sammler läuft (`gh run list --status in_progress`). Zeitpläne vom Cloudflare-Wecker. Datenläufe remote: `gh workflow run <datei>.yml --repo danielzaiser91/anime-kalender-de`.
+- Roter Lauf wird bemerkt, nicht gemeldet: `node tools/laeufe-aufraeumen.mjs --trocken` an jeder Wachphase und nach jedem Push.
+- Fluss: `data/curated/*.yaml` + `data/cache/*` → `pipeline/build.ts` (Phasen `pipeline/bau/`) → `public/data/*` (committet). Bauweise: [ARCHITEKTUR.md](ARCHITEKTUR.md); neues Feld nur in `titles.json`, wenn die Mehrheit es braucht.
+- `shared/` ohne Node/DOM (Pipeline, Web, Worker). Status nur über `shared/logic.ts`; Zeitzonen nur `shared/time.ts` (Daten Europe/Berlin). Oberfläche/Doku deutsch, Feldnamen englisch. Newsletter-Worker optional; DSGVO-Pflichten nie entfernen.
 
-## Grundsatz: nichts behaupten, was nicht belegt ist
+## Codegestalt und Oberfläche
 
-- **Kein Termin ohne `sources`** (`npm run data:validate` bricht ab).
-- **Keine erfundenen Uhrzeiten** — `time` bleibt leer („Zeit offen"). Einzige Ausnahme Netflix:
-  08:00 UTC als `timeEstimated` („≈", ohne Countdown; Daniel, 25.09.2026) — nur bei Eigenproduktionen (`netflixOriginal`); Lizenztitel bleiben „Zeit offen" (Vigilantes, 06.10.2026).
-- **Abgeleitetes kennzeichnen:** Datum aus Simulcast statt Dub-Ankündigung → `estimated: true`;
-  geratene Folgenzahl → `episodeCountAssumed`; beides „≈" im UI.
-- **Keine Folgenzahl erfinden**, auch nicht als Rückfall; ein Termin ohne belegte Stückzahl über
-  eins ist ein Einzeltermin.
-- **Ein Wochentakt wird gemessen** (Abstand **und** Folgen je Termin, `bestimmeRhythmus()`).
-- **Ein belegtes Ende schlägt jede Fortschreibung** (`schedule.lastEpisodeDate`).
-- **Eine Plattform-Serienkennung ist ein Franchise, keine Staffel** — zerlegt über `season`,
-  zugeordnet über die Folgenzahl; geht die Summe nicht auf, lieber unzugeordnet. Umgekehrt gehört
-  ein Anime genau einer Kennung; ist ein Treffer vergeben, nächste Schreibweise probieren.
-- **Namensabgleich:** der beste Treffer gewinnt, nicht der erste; `OVA`/`ONA`/`OAD`/`TV` zählen mit,
-  der japanische Titel nicht (`bewerteTreffer`). Ein Namensvergleich allein ist kein Beleg.
-- **Ein Vorfilter verschiebt, er löscht nicht** — wer aus dem Hauptbestand fällt, muss nachweislich
-  hinter dem Toggle ankommen.
-- **Was AniList, aniSearch oder MAL als Anime führen, ist kein Cartoon** (Daniel, 08.10.2026) — der
-  Cartoon zieht auf den Anime-Titel um (`cartoon-umzug.json`); Beleg: TMDB-Kennung, sonst Name **und**
-  Jahr **und** Folgenzahl, im Zweifel Ausnahmeliste statt Zusammenlegung (`check:logic`).
-- **„Früheste Beobachtung" ist nicht „erste Folge"** (`earliest` ist nur der früheste gesehene Tag),
-  und der erste Eintrag einer Staffelliste ist nicht deren erste Folge — nach Nummer zählen.
-- **„Im Angebot seit" ist nicht „erschienen am"** (`dateMeaning: 'available-from'`).
-- **Eine News-Meldung ist eine Aussage zu ihrem Tag:** nie umschreiben (Späteres ist eine neue
-  Meldung), Belege nur ihrer eigenen Aussage, eine Quelle an genau einer Meldung; eigene Messung
-  belegt der Anbieter-Kalender an diesem Tag ([news-plan.md](docs/wissen/news-plan.md)).
-- Geteilte Staffelstarts über `schedule.firstEpisodeNumber`. Bei Fortsetzungen die AniList-ID
-  prüfen (`npx tsx pipeline/qa-resolve.ts`).
-
-## Was erzeugt wird, wird auch geprüft
-
-`pipeline/lib/pruefung.ts` prüft am Ende jedes Builds den **erzeugten** Datensatz und bricht bei
-Widerspruch ab (kein Termin nach `lastEpisodeDate`, keine Folgenzahl über dem Doppelten der
-AniList-Angabe ohne Grund, keine Releases mit zusammen mehr Folgen als der Anime, kein Release ohne
-Quelle). `check:logic` stellt reale Fehlerfälle nach. Drei Prüfungen sichern die
-Synchro-Auswertung, jede mit eigenem blinden Fleck: `check:handbelege` (Handprüfungen im
-Datensatz?), `check:cr-zuordnung` (Einzelfälle plus Untergrenze auf dem echten Bestand),
-`check:quellen` (Quelle widerspricht Handprüfung?). Handbelege in `data/dub-confirmed.yaml` sind
-die einzige Quelle, die weder rät noch schweigt — ihr Vorrang in `build.ts` hängt an einer
-Reihenfolge (`if (stream.dub !== undefined) continue`).
-
-**Eine Datenkorrektur gehört ins Repo (`data/…`), nie nach `data/cache/`** (nicht im Repo; jede Cache-Datei steht in `data/cache-register.json`, `check:cache-abhaengigkeit`). Fertig heißt erst: nach Bau und Deploy auf der Live-Seite gemessen.
-
-## Datenläufe: wer auf `main` schreibt, und was beim Ändern zu beachten ist
-
-Seit dem 05.10.2026 (`docs/wissen/betrieb.md`, „Datenläufe neu geschnitten"; Skill `datenlaeufe-entwerfen`):
-
-- **Auf `main` schreibt nur der Bestandsbau** (`tools/commit-data.sh`, Gruppe `bau`). Alle Sammler (Stündlich, Täglich, Wöchentlich, ADN, aniSearch-Katalog, Abruf, Nachholen) reichen per Pull Request ein
-  (`.github/actions/einreichen` → `tools/quellen-pr.sh`), jeder in eigener Gruppe. `tools/quellen-aufsetzen.sh` legt nur die **eigenen** Änderungen auf den jüngsten Stand zurück — niemand überschreibt,
-  was ein anderer Lauf aktualisiert hat. Wer eine neue Datei in einem Lauf schreibt, trägt sie in `tools/quellen-liste.sh` ein (sonst warnt `quellen_verloren` und die Datei geht verloren).
-- **Läuft ein Sammler, wird nichts nach `.github/workflows/` gepusht** — GitHub lehnt dann seinen Pull-Request-Zweig ab, und er verliert die Arbeit (Wochenlauf 05.10.2026: 107 Minuten). Vorher
-  `gh run list --status in_progress`. Ist doch etwas verloren, sichert der Lauf einen Fund als Artefakt (`fund-<Job>`): Workflow „Fund nachliefern" mit der Lauf-Nummer.
-- **Zeitpläne kommen vom Cloudflare-Wecker** (`shared/weckplan.ts`, `worker/src/wecker.ts`), nicht von GitHubs Cron (4–7 h zu spät). `wecker-wache.yml` holt Überfälliges nach.
-- **Commits an Quelldateien** warten nicht mehr auf Sammler (die liefern per Pull Request); `tools/quellen-commit-wache.sh` hält nur noch Commits an, solange ein direkt schreibender Lauf (Bestandsbau) läuft.
-  Zu jeder Datenkorrektur gehört weiterhin eine Zusicherung, die meldet, wenn sie verlorengeht.
-
-## Architektur, Datenfluss, Orte
-
-- Bauweise und Schwellen: [ARCHITEKTUR.md](ARCHITEKTUR.md). Ladelast, veröffentlichte Seite und
-  Repo-Größe sind drei verschiedene Dinge; ein neues Feld kommt nur nach `titles.json`, wenn die
-  Mehrheit der Besucher es braucht, sonst als eigene, nachgeladene Datei.
-- `data/curated/*.yaml` (Handarbeit, **jede Datei dort wird als Termine gelesen**) + `data/cache/*`
-  (APIs, nicht im Repo) → `pipeline/build.ts` (Phasen: `pipeline/bau/`) → `public/data/*`
-  (wird mit committet).
-- `shared/` wird von Pipeline, Web-App **und** Worker importiert — nichts mit Node-APIs oder DOM.
-- Status (`airing`/`abgeschlossen`/`tba`/`unbekannt`) nur über `shared/logic.ts` berechnen, nie
-  nachbauen: `lastEpisodeDate` ist meist nicht gesetzt. Ein Anbieter-Verweis gehört zum Release
-  seiner eigenen Plattform.
-- Zeitzonen nur über `shared/time.ts`; Datumsangaben im Datensatz sind Europe/Berlin.
-- Sprache: Oberfläche, Kommentare, Commits, Doku deutsch; Feldnamen englisch.
-- Newsletter-Worker (`worker/`) optional; DSGVO-Pflichten (Double-Opt-in, Abmeldelink, Impressum,
-  Datenschutz) nie entfernen.
-
-## Codegestalt: Neues bekommt eine eigene Funktion
-
-Anlass: `main()` in `build.ts` hatte 7.809 Zeilen, `DetailPanel` 3.125 — jede Ergänzung war klein.
-
-- **Nicht anbauen, herauslösen:** Keine Zeilen in eine Funktion über 80 oder eine Datei über 800
-  Zeilen; Neues wird eigene Funktion bzw. eigenes Modul. `check:umfang` (steckt in `build`) misst
-  die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`,
-  angehoben wird nie. `--liste` zeigt die größten Stellen.
-- **Daten sichtbar übergeben:** Eingaben als Parameter, Ergebnisse als Rückgabe — nicht über
-  geteilte `let`-Variablen einer großen Funktion. Wo Reihenfolge zählt, steht sie in den Aufrufen.
-- **Vor dem Schreiben suchen:** vorhandene Helfer in `pipeline/lib/`, `shared/`, `web/src/lib/`.
-- **Kommentare sagen warum, in ein bis drei Zeilen.** Anlass, Datum, Laufkennung und Chronik gehören
-  in den Commit oder nach `docs/wissen/` (ein Verweis genügt). Wer einen Abschnitt anfasst, kürzt
-  dessen Chronik mit.
-- **Umbau und Verhaltensänderung nie im selben Commit.** Ein Umbau beweist Gleichheit:
-  `node tools/bau-vergleich.mjs` (Bau-Ausgabe byte-gleich zu `origin/main`),
-  `node tools/panel-vergleich.mjs` (Panel-HTML gleich), bei reinen Kommentar-Umbauten
-  `node tools/nur-kommentare.mjs` (Code ohne Kommentare gleich). Verschoben wird mit
-  `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`.
-- **Wegwerfskripte gehören ins Scratchpad**, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
-- Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal
-  `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).
-
-## Keine Information zweimal
-
-Prüffrage vor jeder Zeile in der Oberfläche: Steht das schon auf demselben Bildschirm? Dann
-streichen, nicht umformulieren (Überschrift über Pillen, Zustand in Wort **und** Bild, Reihenname
-in jeder Zeile). Zwei Angaben, die heute nur zufällig übereinstimmen, sind keine Dopplung.
-
-## Läufe
-
-- **Datenläufe laufen remote:** `gh workflow run <datei>.yml --repo danielzaiser91/anime-kalender-de`.
-  Lokal nur, was nur hier geht (`tools/cr-zugang-holen.mjs`, `check:*`, `typecheck`, `build`, eine
-  Einzelmessung ohne Schreiben). Was nach Plan läuft, nicht von Hand anstoßen.
-- **Ein roter Lauf wird bemerkt, nicht gemeldet** — an jeder Wachphase und nach jedem eigenen Push
-  `LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs --trocken`, ansehen, handeln, Anzeige leeren. Vor
-  `gh run delete` jeden Lauf einzeln ansehen.
-- Wer `.github/workflows/*` ändert, macht laufende Datenläufe rot (GitHub-App ohne
-  `workflows`-Recht) — danach hinsehen und neu anstoßen.
+Neues = eigene Funktion/Modul (nicht in Funktion > 80 oder Datei > 800 Zeilen anbauen; `check:umfang` darf nur sinken). Daten als Parameter/Rückgabe. Vorher in `pipeline/lib/`, `shared/`, `web/src/lib/` suchen. Kommentare: Warum in 1–3 Zeilen. Umbau und Verhaltensänderung nie im selben Commit (`tools/bau-vergleich.mjs`, `panel-vergleich.mjs`, Skill `zerlegen`). Keine Information zweimal auf demselben Bildschirm.
 
 ## Vor dem Commit
 
@@ -147,44 +35,8 @@ in jeder Zeile). Zwei Angaben, die heute nur zufällig übereinstimmen, sind kei
 npm run check:vor-commit
 ```
 
-Die Kette: `data:validate · check:logic · check:workflows · typecheck · check:worker · check:hooks
-· check:extension · check:wiedervorlage · check:zugangsart · build`. Zusätzlich vor dem Push, was
-die CI zusätzlich fährt: `check:ansichten` und `check:panel` bei Änderungen an `web/src`,
-`check:handbelege` nach einem Bau bei geänderten oder umgehängten Belegen. Jeder rote Lauf ist
-eine Mail an Daniel.
+Nach Generatorlauf **alles** stagen. Vor dem Push zusätzlich `check:ansichten`/`check:panel` (bei `web/src`) und `check:handbelege` (bei geänderten Belegen). Jedes `tsc` mit `--noEmit`. Mess-/Versuchsläufe enden mit Exit 0.
 
-- Nach jedem Generatorlauf `git status` und **alles** stagen, was er geändert hat.
-- Auch ein reiner Daten-Commit läuft durch `check:logic`; Schwellen nie auf den Messwert des
-  Augenblicks senken.
-- Wer in `build.ts` ändert, was entfernt oder wie ein Feld gebildet wird, sucht zuerst die
-  Zusicherungen dazu (`grep -rn "<Feld>" pipeline/check-*.ts tools/*-pruefen*`). Eigenschaften, die
-  `pruefeErgebnis()` prüft, beim Anlegen setzen — die Prüfung läuft mitten im Bau, nicht am Ende.
-- Ein lokaler `npm run data:build` stoppt am Cache-Abbruch („N Titel würden fallen"), erreicht die
-  Prüfungen aber vorher; danach die erzeugten Dateien mit `git checkout` zurücksetzen.
-- Jedes `tsc` braucht `--noEmit`; `check:worker` nicht weglassen (eigenes tsconfig);
-  `check:hooks` prüft React-Hook-Regeln, die `tsc` nicht sieht.
-- Mess- und Versuchsläufe enden mit Exit 0 statt rot.
+## Wissen nach Thema (`grep -n "^## " docs/wissen/<datei>.md`)
 
-## Wissen nach Thema — vor der Arbeit lesen, nicht erinnern
-
-Je Thema eine Datei; die Abschnittsüberschriften sind der Index
-(`grep -n "^## " docs/wissen/<datei>.md`):
-
-- [docs/wissen/karte.md](docs/wissen/karte.md) — **Einstieg:** Datenfluss, Verzeichnisse, welche Datei bei welcher Änderung, Rezepte,
-  Werkzeugfallen. Dazu [befund-2026-10-02.md](docs/wissen/befund-2026-10-02.md) (offene Daten-/UX-/Betriebsbefunde) und
-  [architektur-bewertung.md](docs/wissen/architektur-bewertung.md); Gegenprobe des Datensatzes: `node tools/daten-befund.mjs`;
-  Entscheidungsstand zur aniSearch-Umstellung: [sitzung-2026-10-02-analyse-und-umstellung.md](docs/wissen/sitzung-2026-10-02-analyse-und-umstellung.md)
-- [docs/wissen/erweiterung.md](docs/wissen/erweiterung.md) — Browser-Erweiterung (Amazon, Netflix,
-  Disney+): Melden, Durchgänge, Leser, Prüflisten
-- [docs/wissen/quellen.md](docs/wissen/quellen.md) — Datenquellen, ihre Grenzen, Sperren,
-  robots.txt, News-Quellen
-- [docs/wissen/betrieb.md](docs/wissen/betrieb.md) — Läufe, Worker, Git, Prüfungen
-- [docs/wissen/datensatz.md](docs/wissen/datensatz.md) — Bau und Anzeige
-- [docs/wissen/daten-detektiv.md](docs/wissen/daten-detektiv.md) — `npm run detektiv`: 25 Regeln gegen Zweitquellen, Funde nach Hebel, hart/weich/nein
-- [docs/wissen/projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md) — Volltext dieser
-  Regeln mit Anlässen
-- [docs/wissen/meine-woche.md](docs/wissen/meine-woche.md) — Konzept „Meine Woche" (persönliche Woche aus
-  Favoriten und Plattformen, Erinnerungswege, Datenschutz); Prototyp (Code am 09.10.2026 entfernt, in der Git-Historie)
-
-Neue Erkenntnisse als eigener `##`-Abschnitt mit Datum in die passende Datei — ein Eintrag hier
-ist nicht mehr nötig.
+[karte.md](docs/wissen/karte.md) (Einstieg) · [erweiterung.md](docs/wissen/erweiterung.md) · [quellen.md](docs/wissen/quellen.md) · [betrieb.md](docs/wissen/betrieb.md) · [datensatz.md](docs/wissen/datensatz.md) · [daten-detektiv.md](docs/wissen/daten-detektiv.md) · [meine-woche.md](docs/wissen/meine-woche.md) · [projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md). Neue Erkenntnisse als `##`-Abschnitt mit Datum in die passende Datei.
