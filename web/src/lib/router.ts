@@ -65,6 +65,9 @@ export interface AppRoute {
   filters: FilterState
   /** Gewählte Sortierung der Datenbank — in der Adresse, damit ein geteilter Link sie mitnimmt (21.09.2026). */
   sort?: DbSort
+  /** Schalter der Datenbank in der Adresse (`ohne=1`, `staffeln=0|1`); fehlt der Parameter, gilt die Voreinstellung bzw. der gespeicherte Wert. */
+  ohne?: true
+  staffeln?: boolean
 }
 
 export type DbSort = 'relevanz' | 'titel' | 'jahr' | 'score'
@@ -130,6 +133,23 @@ function writeLists(params: URLSearchParams, lists: FilterLists, prefix: '' | 'x
   }
 }
 
+/**
+ * **Schalter in der Adresse** (Datenbank: `ohne=1`, `staffeln=0|1`), damit ein geteilter Link beim Empfänger
+ * gleich aussieht. Fehlt der Parameter oder ist der Wert ungültig, gilt still die Voreinstellung bzw. der gespeicherte Wert.
+ */
+function schalterAusAdresse(params: URLSearchParams, view: ViewId): Pick<AppRoute, 'ohne' | 'staffeln'> {
+  const staffeln = params.get('staffeln')
+  return {
+    ohne: view === 'datenbank' && params.get('ohne') === '1' ? true : undefined,
+    staffeln: view === 'datenbank' && (staffeln === '0' || staffeln === '1') ? staffeln === '1' : undefined,  }
+}
+
+function schalterInAdresse(params: URLSearchParams, route: AppRoute): void {
+  if (route.view === 'datenbank') {
+    if (route.ohne) params.set('ohne', '1')
+    if (route.staffeln !== undefined) params.set('staffeln', route.staffeln ? '1' : '0')
+  }}
+
 export function parseHash(hash: string): AppRoute {
   const raw = hash.replace(/^#\/?/, '')
   const [pathPart, queryPart] = raw.split('?')
@@ -166,6 +186,7 @@ export function parseHash(hash: string): AppRoute {
     disc: params.get('disc') === '1' ? true : undefined,
     filters,
     sort: DB_SORTS.find((s) => s === params.get('sort')),
+    ...schalterAusAdresse(params, view),
   }
 }
 
@@ -183,6 +204,7 @@ export function buildHash(route: AppRoute): string {
   if (route.title) params.set('t', String(route.title))
   if (route.title && route.disc) params.set('disc', '1')
   if (route.sort) params.set('sort', route.sort)
+  schalterInAdresse(params, route)
 
   const query = params.toString()
   return `#/${route.view}${query ? `?${query}` : ''}`
@@ -208,7 +230,7 @@ function mitPfad(route: AppRoute, pathname: string): AppRoute {
  * (`#/agenda`), ein doppeltes `r=` oder ein Filter an Woche und Monat (alter geteilter Link) wird ersetzt
  * — `replaceState` schreibt keinen Verlaufseintrag und feuert kein `hashchange`.
  */
-const KALENDER_FILTER_PARAM = /[?&](q|conf|sicher|wo|frei|x?(p|anb|rt|st|fsk|y|g|kw|sp))=/
+const KALENDER_FILTER_PARAM = /[?&](q|conf|sicher|wo|frei|ohne|staffeln|x?(p|anb|rt|st|fsk|y|g|kw|sp))=/
 
 function hashAufraeumen(neu: AppRoute, hash: string): void {
   if (
@@ -273,7 +295,7 @@ function panelUnterlegen(route: AppRoute): void {
   history.pushState({ panel: true, tief: true }, '', url)
 }
 
-export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
+export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next: Partial<AppRoute>) => void] {
   const [route, setRoute] = useState<AppRoute>(() => mitPfad(parseHash(window.location.hash), window.location.pathname))
 
   useEffect(() => {
@@ -326,5 +348,12 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
     else setRoute(merged)
   }
 
-  return [route, navigate]
+  /** Schalter umlegen: die Adresse wird ersetzt (kein Verlaufseintrag, kein `hashchange`), die übrigen Parameter bleiben. */
+  const ersetze = (next: Partial<AppRoute>) => {
+    const merged: AppRoute = { ...route, ...next }
+    history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(merged))
+    setRoute(merged)
+  }
+
+  return [route, navigate, ersetze]
 }
