@@ -2179,3 +2179,7 @@ Die Anzeige oben links im Netflix-Player („Folge 4: deutsche Tonspur gefunden 
 ## Prime-Seitenregeln für `button` verschoben Icon und Melde-Knopf (4.24.19, 10.10.2026)
 
 Auf Prime reichen Amazons Regeln für `button` (`min-height`, `margin`, `text-align: left`, `content-box`) in unsere Knöpfe: Das „▾" im Icon saß links der Mitte, der grüne Melde-Knopf wurde ~60 px hoch und lief über den Kasten hinaus (Lücke zur Übersichts-Pille). Fix nur in `melder.css`: `.ak-icon` mit `display: grid; place-items: center`, `box-sizing`/`min-height`/`margin` mit `!important`, Zeichen 20 px; `.ak-amazon-knopf-innen` ebenso, Text zentriert. Gemessen mit Playwright-Kulisse mit Prime-ähnlichen Resets: Knopf 60 → 32 px, Breite 368 → 340 px. Der „DE"-Chip ist das Flaggen-Emoji 🇩🇪, das Windows nicht zeichnet; ein SVG-Ersatz braucht DOM statt `textContent` an ~10 Stellen samt Tests und ist noch offen.
+
+## Lücke in der Netflix-Melde-Zeile (4.24.20, 10.10.2026)
+
+Nicht 4.24.19, sondern 4.24.17: `html.ak-icon-da .ak-durchlauf { margin-bottom: 52px }` (Freiraum über dem Icon) galt auch für die Knöpfe „↻ alle" und „▶ … prüfen" **im** Kasten und blähte die Melde-Zeile um 52 px auf (77 statt 29 px; Lücke zur „Anime-Kalender"-Pille). Fix: `html .ak-box .ak-durchlauf { margin-bottom: 0 }`; die Prime-Regeln aus 4.24.19 bleiben unberührt. Gemessen mit `check:netflix-kasten`-Kulisse.

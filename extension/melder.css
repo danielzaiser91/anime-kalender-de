@@ -1848,6 +1848,8 @@ html.ak-icon-da .ak-uebersicht.ak-amazon-uebersicht:not(.ak-uebersicht-innen) {
   transform-origin: bottom right;
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
 }
+/* Im Kasten liegt nichts über dem Icon: der Freiraum von 52px ließ eine Lücke in der Melde-Zeile (Netflix, 10.10.2026). */
+html .ak-box .ak-durchlauf { margin-bottom: 0; }
 html.ak-icon-da.ak-zu .ak-box,
 html.ak-icon-da.ak-zu .ak-amazon-knopf,
 html.ak-icon-da.ak-zu .ak-durchlauf,
