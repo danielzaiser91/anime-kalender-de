@@ -219,7 +219,7 @@ function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Ti
   const hinter = verschoben.map((t) => t.id).filter((id) => zeile(id) && !geschuetzt.has(id))
   const haupt = [...bekannt.keys(), ...verschoben.map((t) => t.id).filter((id) => geschuetzt.has(id))].filter(zeile)
   const urteil = findeAnisearchDubletten(hinter, haupt, katalog, anisearchEintraege())
-  zeilenMitKennungWeg(hinter, kennungen, anisearchEintraege(), urteil)
+  zeilenMitKennungWeg(hinter, kennungen, anisearchEintraege(), urteil, haupt, new Set(katalog.map((k) => k.id)))
   if (urteil.zeilenWeg.size || urteil.katalogWeg.size) {
     log(`aniSearch-Dubletten: ${urteil.zeilenWeg.size} Zeilen hinter dem Schalter entfallen (der AniList-Katalogtitel gilt), ${urteil.katalogWeg.size} Katalogtitel entfallen (die Zeile steht im Hauptbestand)`)
   }

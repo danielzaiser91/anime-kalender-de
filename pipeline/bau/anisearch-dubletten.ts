@@ -121,13 +121,17 @@ export function findeAnisearchDubletten(hinter: number[], haupt: number[], katal
  * **Trägt ein AniList-Katalogtitel die Kennung einer Zeile (aniSearchs MAL-Brücke, Handdatei), ist die Zeile sein aniSearch-Eintrag** — auch wenn Folgenzahl oder Format
  * abweichen (Alice in Cyberland: 2 gegen 1 Folge, gleiche MAL, gleicher Start). Die Ausgabe-Invariante (`anisearchZeilenDoppelt`) verlangt das; der Bau lässt solche Zeilen
  * hinter dem Schalter entfallen, sofern `urteil` über sie oder den Titel nicht schon entschieden hat. Ergänzt `urteil.zeilenWeg`.
+ * Steht die Zeile im Hauptbestand oder trägt sie einen Termin (`haupt`, JJK Shimetsu Kaiyuu Kouhen 10.10.2026), weicht stattdessen der Katalogtitel
+ * (`urteil.katalogWeg`); `katalogIds` sind die Titel hinter dem Schalter, nur diese können weichen.
  */
-export function zeilenMitKennungWeg(hinter: number[], katalogKennungen: Map<number, number>, eintraege: Record<string, Eintrag>, urteil: DublettenUrteil): void {
+export function zeilenMitKennungWeg(hinter: number[], katalogKennungen: Map<number, number>, eintraege: Record<string, Eintrag>, urteil: DublettenUrteil, haupt: number[] = [], katalogIds: Set<number> = new Set()): void {
   const frei = new Set(hinter)
+  const imHaupt = new Set(haupt)
   for (const [titelId, asId] of katalogKennungen) {
     const zeile = ANISEARCH_ID_BASIS + asId
-    if (titelId >= ANISEARCH_ID_BASIS || !frei.has(zeile) || urteil.zeilenWeg.has(zeile) || urteil.katalogWeg.has(titelId)) continue
+    if (titelId >= ANISEARCH_ID_BASIS || urteil.zeilenWeg.has(zeile) || urteil.katalogWeg.has(titelId)) continue
     if (eintraege[String(asId)]?.dub !== '-' || MAL_AUSNAHMEN[asId]) continue
-    urteil.zeilenWeg.set(zeile, titelId)
+    if (frei.has(zeile)) urteil.zeilenWeg.set(zeile, titelId)
+    else if (imHaupt.has(zeile) && katalogIds.has(titelId)) urteil.katalogWeg.set(titelId, zeile)
   }
 }
