@@ -21427,10 +21427,10 @@
   dub: true
   dubRanges:
     - from: 1
-      to: 1
+      to: 2
       dub: true
-  checkedAt: '2026-10-07'
-  note: "Folge 1 auf Deutsch bei Disney+ — von Daniel am 07.10.2026 selbst gesehen."
+  checkedAt: '2026-10-10'
+  note: "Folge 1 auf Deutsch bei Disney+ (Daniel, 07.10.2026). Folge 2 erschienen mit deutscher Synchro (Daniel, 10.10.2026, geprüft ca. 15:40)"
 # --- Aus dem Browser gemeldet, abgeholt am 2026-10-08 ---
 
 - anilistId: 196144
