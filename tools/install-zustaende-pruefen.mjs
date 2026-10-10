@@ -22,15 +22,16 @@ const BILDER = arg('--bilder') ? path.resolve(arg('--bilder')) : undefined
 const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.webmanifest': 'application/manifest+json' }
 const EIN_PUNKT = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64')
 const IOS_UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
-const EREIGNIS = `setTimeout(() => { const e = new Event('beforeinstallprompt'); e.prompt = async () => {}; e.userChoice = Promise.resolve({ outcome: 'dismissed' }); window.dispatchEvent(e) }, 300)`
+// Erst nach dem Laden feuern: Ein Zeitgeber ab Dokumentbeginn verfehlte unter Last den Hörer in `pwa.ts` (Flackern, 10.10.2026).
+const EREIGNIS = `const e = new Event('beforeinstallprompt'); e.prompt = async () => {}; e.userChoice = Promise.resolve({ outcome: 'dismissed' }); window.dispatchEvent(e)`
 const STANDALONE = `const o = window.matchMedia.bind(window); window.matchMedia = (q) => q.includes('display-mode: standalone') ? { matches: true, media: q, addEventListener() {}, removeEventListener() {} } : o(q);`
 
 const LAGEN = {
-  angebot: { init: EREIGNIS },
-  'ohne-angebot': { init: '' },
-  abgelehnt: { init: EREIGNIS, ablehnen: true },
-  ios: { ua: IOS_UA, init: '' },
-  installiert: { init: STANDALONE + EREIGNIS, erwartet: 0 },
+  angebot: { ereignis: true },
+  'ohne-angebot': {},
+  abgelehnt: { ereignis: true, ablehnen: true },
+  ios: { ua: IOS_UA },
+  installiert: { init: STANDALONE, ereignis: true, erwartet: 0 },
 }
 const BREITEN = [320, 389, 390, 439, 'desktop']
 
@@ -65,6 +66,11 @@ async function fall(browser, name, lage, breite) {
 
   const kopfKnopf = seite.locator('header button[aria-label="App installieren"], header button:has-text("App installieren")')
   const glocke = seite.locator('header button[aria-label^="Abonnieren"]').first()
+  if (lage.ereignis) {
+    await seite.evaluate(EREIGNIS)
+    // Bedingung statt Pause: Ab 390 px muss der Kopf-Knopf erscheinen, bevor gezählt wird.
+    if (!desktop && breite >= 390 && lage.erwartet !== 0) await kopfKnopf.first().waitFor({ state: 'visible', timeout: 10_000 })
+  }
   if (lage.ablehnen && !desktop) {
     // Wer das Angebot ablehnt, verbraucht das Ereignis — danach bietet der Browser nichts mehr an.
     if (await sichtbar(kopfKnopf)) await kopfKnopf.filter({ visible: true }).first().click()
