@@ -74,10 +74,10 @@ jobs:
       # contents:read, Forks, Entwürfe und daten/-PRs sind ausgeschlossen, und es könnte nur im Protokoll-Kommentar
       # landen; den prüft der Freigabe-Schritt auf Token-Muster. Grep/Glob erreichen ohne Pfadgrenze auch
       # _runner_file_commands und ~/.config (nur Lesen, dort liegt kein Token).
+      # Kein CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: braucht bubblewrap, das der Runner nicht hat (Lauf 38051777036 brach
+      # beim Installieren ab); Bash ist ohnehin verboten.
       - name: Prüfer
         uses: anthropics/claude-code-action@v1
-        env:
-          CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: '1'
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -126,10 +126,11 @@ jobs:
           set -u
           T="$RUNNER_TEMP/pruefer"
           if [ ! -s "$T/urteil.json" ] || [ ! -s "$T/protokoll.md" ]; then
-            echo "Kein Urteil geschrieben (Kontingent leer oder Lauf abgebrochen) - keine Freigabe."
-            exit 0
+            echo "::error::Kein Urteil geschrieben (urteil.json oder protokoll.md fehlt/leer) - keine Freigabe. Inhalt von $T:"
+            ls -la "$T" || true
+            exit 1
           fi
-          urteil=$(node -e 'const u=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log(u.urteil+" "+u.sha)' "$T/urteil.json") || { echo "urteil.json unlesbar - keine Freigabe."; exit 0; }
+          urteil=$(node -e 'const u=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));console.log(u.urteil+" "+u.sha)' "$T/urteil.json") || { echo "::error::urteil.json unlesbar - keine Freigabe."; exit 1; }
           art=${urteil% *}; sha=${urteil#* }
           if [ "$DIFF_ZUSTAND" != "ok" ] && [ "$art" = "ok" ]; then
             echo "Diff unvollständig - Urteil ok wird zu aendern."
