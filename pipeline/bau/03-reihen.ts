@@ -20,7 +20,7 @@ import { entwirreWeiterleitung, adressePasst, plattformAusAdresse } from '../../
 import { loadWatchLinks } from '../lib/curated.ts'
 import { type AniListMedia } from '../lib/anilist.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
-import { anisearchReihenKanten } from './anisearch-titel.ts'
+import { anisearchReihenKanten, anisearchNamensKanten } from './anisearch-titel.ts'
 
 /** Vereint die Titel jeder Kante mit dem ersten ihrer Liste (nur bekannte Titel); gibt die Zahl der Verbindungen zurück. */
 function verbindeKanten(kanten: Array<{ ids?: number[] }>, titles: Map<number, Title>, parent: Map<number, number>, union: (a: number, b: number) => void): number {
@@ -199,6 +199,7 @@ export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anise
       ? ((yaml.load(readFileSync(datei, 'utf8')) as Array<{ ids?: number[] }> | null) ?? [])
       : []
     const verbunden = verbindeKanten([...eintraege, ...anisearchReihenKanten(titles)], titles, parent, union)
+      + verbindeKanten(anisearchNamensKanten(titles, find), titles, parent, union)
     if (verbunden) log(`${verbunden} Reihen-Verbindung(en) aus data/reihen-von-hand.yaml`)
   }
 
