@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
@@ -29,6 +29,11 @@ export interface MonatProps {
 
 /** Wie viele Cover eine Zelle zeigt; ab einem mehr steht an der letzten Stelle „+N". */
 const PLATZ = 4
+
+/** Handy: höchstens so viele Punkte je Tag (3 × 3 in 36 px Zellbreite); darüber steht an letzter Stelle „+N". */
+const PUNKTE_MAX = 9
+/** So viele Titel nennt das aria-label eines Tages, dann „und N weitere". */
+const LABEL_TITEL = 5
 
 /**
  * Der Poster-Monat (26.09.2026): je Tag die Cover ohne Text. Zeigen auf ein Cover nennt Titel, Zeit
@@ -138,17 +143,11 @@ function ZelleHandy({ tag, stream, tv, p, heute, t }: ZellProps) {
     <button
       type="button"
       onClick={stream.length + tv.length ? undefined : () => p.onPickDay(tag.date)}
-      aria-label={stream.length + tv.length ? t('kal.mehrLabel', { n: stream.length + tv.length, datum }) : t('kal.tagOeffnen', { datum })}
+      aria-label={stream.length + tv.length ? punkteLabel(stream, tv.length, datum, p.data, t) : t('kal.tagOeffnen', { datum })}
       className="flex size-full min-h-[74px] cursor-pointer flex-col items-start gap-1 p-1.5 text-left"
     >
       <TagesZahl tag={tag} heute={heute} />
-      {stream.slice(0, 2).map((ev) => {
-        const cover = p.data.titleById.get(ev.titleId)?.coverImage
-        const a = art(ev, p.data)
-        const ring = a === 'start' ? ' ring-2 ring-ak-akzent' : a === 'finale' ? ' ring-2 ring-ak-finale' : ''
-        return cover ? <img key={ev.id} {...coverBild(cover, 22)} alt="" loading="lazy" className={`h-8 w-[22px] rounded-[5px] object-cover${ring}`} /> : null
-      })}
-      {stream.length > 2 && <span className="text-[10px] font-extrabold text-ak-text">+{stream.length - 2}</span>}
+      <PunkteReihe stream={stream} data={p.data} />
       {tv.length > 0 && (
         <span className="mt-auto flex items-center gap-0.5 text-[11px] font-bold text-ak-tv">
           <FernsehZeichen groesse={11} />
@@ -163,6 +162,32 @@ function ZelleHandy({ tag, stream, tv, p, heute, t }: ZellProps) {
       {knopf}
     </Schwebe>
   )
+}
+
+/** Am Handy ein Punkt je Streaming-Termin in der Anbieterfarbe statt 22 px großer Cover (kein Bild geladen); die Titel nennt der Knopf per aria-label und die Tagesliste. */
+function PunkteReihe({ stream, data }: { stream: ReleaseEvent[]; data: Dataset }) {
+  const zeigen = stream.length > PUNKTE_MAX ? stream.slice(0, PUNKTE_MAX - 1) : stream
+  const mehr = stream.length - zeigen.length
+  return (
+    <span className="flex flex-wrap content-start gap-[3px]" aria-hidden="true">
+      {zeigen.map((ev) => (
+        <span key={ev.id} data-monatspunkt data-art={art(ev, data)} className="ak-punkt block size-2.5 rounded-full" style={{ '--punkt': PLATFORMS[ev.platform]?.color } as CSSProperties} />
+      ))}
+      {mehr > 0 && <span className="text-[10px] leading-[10px] font-extrabold text-ak-text">+{mehr}</span>}
+    </span>
+  )
+}
+
+/** Farbe und Ring tragen nie allein: Der Knopf nennt Titel, Anbieter und Staffelstart/-finale der ersten Termine. */
+function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, data: Dataset, t: ReturnType<typeof useLang>['t']): string {
+  const titel = stream.slice(0, LABEL_TITEL).map((ev) => {
+    const a = art(ev, data)
+    const anbieter = ev.platform === 'tv' ? (ev.sender ?? PLATFORMS.tv.name) : PLATFORMS[ev.platform].name
+    return `${ev.name} (${a ? `${anbieter}, ${t(a === 'start' ? 'kal.start' : 'kal.finale')}` : anbieter})`
+  })
+  const rest = stream.length - titel.length
+  const teile = [...titel, ...(rest > 0 ? [t('kal.undWeitere', { n: rest })] : []), ...(tvZahl ? [t('kal.imTvZahl', { n: tvZahl })] : [])]
+  return t('kal.tagMitTiteln', { datum, titel: teile.join(', ') })
 }
 
 function TagesZahl({ tag, heute }: { tag: Tag; heute: boolean }) {

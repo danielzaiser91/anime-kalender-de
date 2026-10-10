@@ -25,6 +25,8 @@ QUELLEN=(
   data/anisearch-titel.json
   data/anisearch-artikel.json
   data/anisearch-sprecher.json
+  data/anisearch-sprecher-weg.json
+  data/anisearch-sprecher-raw
   data/anisearch-slugs.json
   data/anisearch-dubs.json
   data/anisearch-dub-ids.json
@@ -35,6 +37,8 @@ QUELLEN=(
   data/anisearch-offen.json
   # Stufe B der AniList-Ablösung (10.10.2026): Bau-Messung AniList gegen aniSearch, Feld für Feld; wird nicht ausgeliefert.
   data/anisearch-abweichungen.json
+  # Stufe C (10.10.2026): Bau-Messung der Reihen aus aniSearch-Beziehungen gegen die franchiseId; wird nicht ausgeliefert.
+  data/anisearch-reihen-abweichungen.json
   data/tmdb-poster.json
   data/kitsu-folgen.json
   data/cover-klein.json

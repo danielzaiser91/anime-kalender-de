@@ -286,6 +286,49 @@ async function neueFolgenFaelle() {
 
 }
 
+/**
+ * **Der Rücksprung vom 10.10.2026 (4.24.22): Der Worker speichert alle Stapel, bestätigt aber einen nicht.**
+ *
+ * Die Randprobe über 15 Folgen geht als Stapel 10 + 5 raus; `DURCHLAUF.gemeldet` füllt sich nur aus den
+ * Bestätigungen. Fehlte sie beim ersten Stapel, stand lokal "▶ E1 + E10 prüfen → gilt für E1-10" — genau Daniels
+ * Text —, obwohl der Briefkasten alle 15 führte. Der Abschluss fragt jetzt den Briefkasten.
+ */
+async function stapelFaelle() {
+  const s = await seite()
+  const echt = s.env.fetch
+  let stapel = 0
+  s.env.fetch = async (url, opt) => {
+    if (opt?.method === 'POST' && JSON.parse(opt.body).stapel && stapel++ === 0) {
+      await echt(url, opt) /* gespeichert … */
+      return { ok: true, json: async () => ({ ergebnisse: JSON.parse(opt.body).stapel.map(() => ({ ok: false, status: 500 })) }) } /* … aber nicht bestätigt */
+    }
+    return echt(url, opt)
+  }
+  await s.run('durchlaufStarten()')
+  await s.warte()
+  pruefe('(Vorbereitung) alle 15 liegen im Briefkasten', s.briefkasten.length === 15, s.briefkasten.length)
+  pruefe('erster Stapel nicht bestätigt: trotzdem „✓ gemeldet“ statt „E1 + E10“', knopfText(s) === '✓ gemeldet', knopfText(s))
+  pruefe('… mit Merker', s.speicher.netflixGemeldet?.[REIHE]?.bis === 15, s.speicher.netflixGemeldet)
+  pruefe('… und der Knopf ist nicht klickbar', s.run('DURCHLAUF.knopf.disabled') === true)
+
+  /* Fehlt die Meldung wirklich im Briefkasten, bleibt der Knopf ehrlich. */
+  const f = await seite()
+  const echtF = f.env.fetch
+  f.env.fetch = async (url, opt) => {
+    if (opt?.method === 'POST' && JSON.parse(opt.body).stapel) {
+      const b = JSON.parse(opt.body)
+      b.stapel = b.stapel.slice(0, 5) /* nur fünf kommen an */
+      await echtF(url, { ...opt, body: JSON.stringify(b) })
+      return { ok: true, json: async () => ({ ergebnisse: b.stapel.map(() => ({ ok: true })) }) }
+    }
+    return echtF(url, opt)
+  }
+  await f.run('durchlaufStarten()')
+  await f.warte()
+  pruefe('Briefkasten wirklich unvollständig: kein „✓ gemeldet“', knopfText(f) !== '✓ gemeldet', knopfText(f))
+  pruefe('… und kein Merker', !f.speicher.netflixGemeldet?.[REIHE], f.speicher.netflixGemeldet)
+}
+
 async function fehlerFaelle() {
   /* 9. Fehlerwege zeigen nie „✓ gemeldet“. */
   const ohneAbschluss = (name, s) => pruefe(name, knopfText(s) !== '✓ gemeldet', knopfText(s))
@@ -323,6 +366,7 @@ void (async () => {
   console.log('Netflix: Abschluss „✓ gemeldet“ und „Neue Folgen“\n')
   await abschlussFaelle()
   await neueFolgenFaelle()
+  await stapelFaelle()
   await fehlerFaelle()
   console.log('')
   if (faelle.includes(false)) {
