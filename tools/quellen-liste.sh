@@ -25,6 +25,8 @@ QUELLEN=(
   data/anisearch-titel.json
   data/anisearch-artikel.json
   data/anisearch-sprecher.json
+  data/anisearch-sprecher-weg.json
+  data/anisearch-sprecher-raw
   data/anisearch-slugs.json
   data/anisearch-dubs.json
   data/anisearch-dub-ids.json
