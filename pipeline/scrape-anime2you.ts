@@ -248,6 +248,38 @@ async function fetchText(url: string): Promise<string | undefined> {
   }
 }
 
+/** Frische Vorschläge über den gespeicherten Bestand legen. */
+function mitBestand(proposals: Proposal[]): Proposal[] {
+  // Bestehende Vorschläge behalten: Ein Feed zeigt nur die letzten Meldungen,
+  // ältere wären sonst nach einer Woche verschwunden, bevor jemand sie liest.
+  const previous = readJson<{ proposals: Proposal[] }>('data/proposals/anime2you.json', { proposals: [] })
+  const merged = new Map(previous.proposals.map((p) => [p.articleUrl, p]))
+  /* Ein frischer Feed-Treffer kennt die gelesene Liste eines Sammelartikels nicht — sie bleibt erhalten, sonst verschwinden alle ihre Termine, bis der Artikel neu gelesen ist (ADN Oktober 2026, 05.10.2026). */
+  for (const proposal of proposals) {
+    const vorher = merged.get(proposal.articleUrl)
+    merged.set(proposal.articleUrl, vorher?.sammel ? { ...proposal, sammel: vorher.sammel, sammelGelesen: vorher.sammelGelesen } : proposal)
+  }
+  return [...merged.values()]
+}
+
+/** Listet die gefundenen Sendezeiten auf und nennt, wie viele Volltexte geprüft wurden. */
+function meldeSendezeiten(all: Proposal[], volltexte: number): void {
+  // Sendezeiten eigens auflisten — sie sind der einzige Weg zu einer belegten
+  // Uhrzeit, und im Fließtext der Liste oben gingen sie unter.
+  //
+  // Die Zahl der geprüften Volltexte gehört dazu: „keine Sendezeit gefunden"
+  // beantwortet sonst nicht, ob überhaupt gesucht wurde. Außerhalb eines
+  // Season-Starts ist null der Normalfall, und genau dann sieht ein kaputter
+  // Zweig aus wie ein ruhiger Tag.
+  const mitZeit = all.filter((p) => p.zeiten?.length)
+  log(`${volltexte} Meldungen im Volltext auf Sendezeiten geprüft, ${mitZeit.length} mit Fund.`)
+  if (mitZeit.length) {
+    for (const p of mitZeit) {
+      for (const z of p.zeiten ?? []) log(`  · ${z.tag} ${z.zeit} — ${p.articleTitle}`)
+    }
+  }
+}
+
 async function main(): Promise<void> {
   // Welche Artikel sind schon eingearbeitet? Ihre Adresse steht in einer Handdatei (Termine, Ankündigungen, Erstausgaben, Belege).
   const curatedSources = eingearbeiteteAdressen()
@@ -335,17 +367,7 @@ async function main(): Promise<void> {
     return
   }
 
-  // Bestehende Vorschläge behalten: Ein Feed zeigt nur die letzten Meldungen,
-  // ältere wären sonst nach einer Woche verschwunden, bevor jemand sie liest.
-  const previous = readJson<{ proposals: Proposal[] }>('data/proposals/anime2you.json', { proposals: [] })
-  const merged = new Map(previous.proposals.map((p) => [p.articleUrl, p]))
-  /* Ein frischer Feed-Treffer kennt die gelesene Liste eines Sammelartikels nicht — sie bleibt erhalten, sonst verschwinden alle ihre Termine, bis der Artikel neu gelesen ist (ADN Oktober 2026, 05.10.2026). */
-  for (const proposal of proposals) {
-    const vorher = merged.get(proposal.articleUrl)
-    merged.set(proposal.articleUrl, vorher?.sammel ? { ...proposal, sammel: vorher.sammel, sammelGelesen: vorher.sammelGelesen } : proposal)
-  }
-
-  const all = [...merged.values()]
+  const all = mitBestand(proposals)
     // Kuratiertes neu bewerten; Sammelartikel mit Tabelle bleiben — der Bau liest ihre Termine.
     .map((p) => ({ ...p, alreadyCurated: curatedSources.has(p.articleUrl.replace(/\/$/, '')) }))
     .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length || p.sammel?.some((e) => (e.datum ?? '') >= today))
@@ -359,21 +381,7 @@ async function main(): Promise<void> {
     const when = p.dates.map((d) => d.iso ?? d.month).join(', ')
     log(`  · [${p.platforms.join('/') || '?'}] ${p.articleTitle} — ${when} (Synchro: ${p.dub})`)
   }
-
-  // Sendezeiten eigens auflisten — sie sind der einzige Weg zu einer belegten
-  // Uhrzeit, und im Fließtext der Liste oben gingen sie unter.
-  //
-  // Die Zahl der geprüften Volltexte gehört dazu: „keine Sendezeit gefunden"
-  // beantwortet sonst nicht, ob überhaupt gesucht wurde. Außerhalb eines
-  // Season-Starts ist null der Normalfall, und genau dann sieht ein kaputter
-  // Zweig aus wie ein ruhiger Tag.
-  const mitZeit = all.filter((p) => p.zeiten?.length)
-  log(`${volltexte} Meldungen im Volltext auf Sendezeiten geprüft, ${mitZeit.length} mit Fund.`)
-  if (mitZeit.length) {
-    for (const p of mitZeit) {
-      for (const z of p.zeiten ?? []) log(`  · ${z.tag} ${z.zeit} — ${p.articleTitle}`)
-    }
-  }
+  meldeSendezeiten(all, volltexte)
 }
 
 main().catch((err) => {
