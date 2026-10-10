@@ -53,7 +53,7 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
     if (istStaffelstart(ev, { releaseBySlug })) ev.staffelstart = true
   }
   log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${ohneAussage} ohne Aussage (kein Beleg), ${finale} Staffelfinale`)
-  schreibePremiereMitMeldung(events, releases)
+  schreibePremiereMitMeldung(events, releases, titles)
 }
 
 export function rolleTermineAus({ releases, titles, jpStart }: {

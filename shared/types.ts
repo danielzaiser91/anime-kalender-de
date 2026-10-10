@@ -1,4 +1,5 @@
 import type { Zugangsart } from './zugangsart.ts'
+import type { PremiereVorher, ReleasePremiere } from './premiere.ts'
 /** Gemeinsame Typen für Pipeline, Web-App und Newsletter-Worker. */
 
 export type PlatformId =
@@ -738,7 +739,9 @@ export interface Release {
    * Erste deutsche Veröffentlichung je Folge aus der Folgenliste (Wikipedia `EAD`, RTL+
    * `uploadDate`) — liegt sie vor dem Sendetag, ist die TV-Sendung eine Wiederholung.
    */
-  ersteDeutsch?: Record<number, string>; premiere?: { weg: 'tv' | 'stream'; quelle: string; vorher?: 'disc' | 'kino'; vorherDatum?: string } // Handbeleg „Premiere“/„Premiere*“, nie abgeleitet (Daniel, 10.10.2026): Regeln in shared/premiere.ts
+  ersteDeutsch?: Record<number, string>
+  /** Handbeleg „Premiere“/„Premiere*“, nie abgeleitet (Daniel, 10.10.2026) — Regeln in `shared/premiere.ts`. */
+  premiere?: ReleasePremiere
 }
 
 export interface ReleaseEvent {
@@ -773,7 +776,10 @@ export interface ReleaseEvent {
    *
    * `tvPremiere` **nur bei `platform: 'tv'`**: true = erstmals auf Deutsch, false = Wiederholung, fehlt = keine Aussage.
    */
-  tvPremiere?: boolean; premiere?: boolean; premiereVorher?: 'disc' | 'kino' // Streaming-Premiere (nur erster Termin) bzw. „Premiere*“ laut Handbeleg `Release.premiere`
+  tvPremiere?: boolean
+  /** Streaming-Premiere laut Handbeleg `Release.premiere` (nur der erste Termin); `premiereVorher` macht „Premiere*“ daraus. */
+  premiere?: boolean
+  premiereVorher?: PremiereVorher
   /** Letzte Folge einer Staffel mit belegter Folgenzahl (siehe `istStaffelfinale`). */
   staffelfinale?: boolean
   /** Erste Folge einer wöchentlichen Staffel (siehe `istStaffelstart`). */

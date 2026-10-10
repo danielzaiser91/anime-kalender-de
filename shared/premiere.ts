@@ -11,6 +11,15 @@ import type { PlatformId, Release } from './types.ts'
 /** Der Weg, auf dem eine deutsche Fassung schon vor der Premiere erschienen war. */
 export type PremiereVorher = 'disc' | 'kino'
 
+/** Der Handbeleg am kuratierten Release (`Release.premiere`). */
+export interface ReleasePremiere {
+  weg: 'tv' | 'stream'
+  quelle: string
+  vorher?: PremiereVorher
+  /** Pflicht, sobald `vorher` gesetzt ist: Tag der früheren Disc- bzw. Kino-Ausgabe. */
+  vorherDatum?: string
+}
+
 const VORHER: Record<PremiereVorher, string> = { disc: 'auf Disc', kino: 'im Kino' }
 
 /** Beschriftung des Zeichens: mit Sternchen, wenn es die Fassung vorher schon gab. */

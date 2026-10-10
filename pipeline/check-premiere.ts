@@ -5,7 +5,7 @@
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { istPremiere } from '../shared/tv-signale.ts'
 import { premiereHinweis, premiereLabel } from '../shared/premiere.ts'
-import { premiereFehler, schreibePremiere } from './lib/premiere.ts'
+import { premiereFehler, premiereWarnungen, schreibePremiere } from './lib/premiere.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean): void {
@@ -40,9 +40,24 @@ pruefe(
   premiereFehler([release('a', { premiere: { weg: 'stream', quelle: QUELLE } }), release('b', { schedule: { firstEpisodeDate: '2026-10-01' } })]).length === 1 &&
     premiereFehler([release('a', { premiere: { weg: 'stream', quelle: QUELLE } }), release('d', { releaseType: 'disc', schedule: { firstEpisodeDate: '2026-10-01' } })]).length === 0,
 )
+const premStream = release('a', { premiere: { weg: 'stream', quelle: QUELLE } })
+pruefe(
+  'selber Tag: anderer Weg schließt die Premiere aus, derselbe Weg (gemeinsamer Start) nicht',
+  premiereFehler([premStream, release('tvgleich', { platform: 'tv', schedule: { firstEpisodeDate: '2026-11-05' } })]).length === 1 &&
+    premiereFehler([premStream, release('streamgleich', { platform: 'crunchyroll', schedule: { firstEpisodeDate: '2026-11-05' } })]).length === 0,
+)
+
+// Warnung: Handbeleg ohne vorher gegen ältere deutsche Erstausgabe
+const altTitel = { id: 1, deErstausgabe: { von: '2023-01-12', synchro: true } } as unknown as Title
+pruefe(
+  'Warnung bei Handbeleg ohne vorher gegen ältere Erstausgabe, nicht mit vorher und nicht bei jüngerer',
+  premiereWarnungen([premStream], new Map([[1, altTitel]])).length === 1 &&
+    premiereWarnungen([gut], new Map([[1, altTitel]])).length === 0 &&
+    premiereWarnungen([premStream], new Map([[1, { id: 1, deErstausgabe: { von: '2026-12-04', synchro: true } } as unknown as Title]])).length === 0,
+)
 
 // Bau
-const stream = release('s', { premiere: { weg: 'stream', quelle: QUELLE, vorher: 'disc', vorherDatum: '2023-01-12' } })
+const stream =release('s', { premiere: { weg: 'stream', quelle: QUELLE, vorher: 'disc', vorherDatum: '2023-01-12' } })
 const evs = [termin('s', '2026-11-05'), termin('s', '2026-11-12')]
 const bau = schreibePremiere(evs, [stream])
 pruefe('Streaming: nur der erste Termin trägt Premiere*', evs[0].premiere === true && evs[0].premiereVorher === 'disc' && !evs[1].premiere && !evs[1].premiereVorher && bau.anzahl === 1)

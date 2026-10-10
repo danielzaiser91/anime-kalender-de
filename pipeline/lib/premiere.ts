@@ -5,7 +5,8 @@
  * nur an die Termine geschrieben und auf Widersprüche geprüft — nie abgeleitet: nicht aus
  * Abwesenheit eines früheren Termins, nicht aus „im Angebot seit“.
  */
-import type { Release, ReleaseEvent } from '../../shared/types.ts'
+import type { Release, ReleaseEvent, Title } from '../../shared/types.ts'
+import { frueherDeutscheErstausgabe } from '../../shared/tv-signale.ts'
 import { log, warn } from './util.ts'
 
 /** Fernsehen: `tvPremiere` trägt die Aussage (`istPremiere`); Streaming: nur der erste Termin des Releases. */
@@ -31,13 +32,45 @@ export function schreibePremiere(events: ReleaseEvent[], releases: Release[]): {
 }
 
 /** `schreibePremiere` samt Meldung im Bau-Protokoll; ein Widerspruch ist nur eine Warnung (die Wiederholung gewinnt ohnehin). */
-export function schreibePremiereMitMeldung(events: ReleaseEvent[], releases: Release[]): void {
+export function schreibePremiereMitMeldung(events: ReleaseEvent[], releases: Release[], titles: Map<number, Title>): void {
   const { anzahl, widersprueche } = schreibePremiere(events, releases)
-  for (const w of widersprueche) warn(w)
+  for (const w of [...widersprueche, ...premiereWarnungen(releases, titles)]) warn(w)
   if (anzahl) log(`Premiere laut Handbeleg: ${anzahl} Termine`)
 }
 
-const ISO =/^\d{4}-\d{2}-\d{2}$/
+/**
+ * Ein Handbeleg ohne `vorher` gegen eine ältere belegte deutsche Erstausgabe des Titels: `istPremiere()` übergeht
+ * dort die Sperre (Fall d vor dem Jahresschutz) — ein Mensch soll es sehen und `vorher` setzen oder den Beleg prüfen.
+ */
+export function premiereWarnungen(releases: Release[], titles: Map<number, Title>): string[] {
+  return releases
+    .filter((r) => r.premiere && !r.premiere.vorher)
+    .flatMap((r) => {
+      const titel = titles.get(r.titleId)
+      const start = r.schedule.firstEpisodeDate
+      return titel && frueherDeutscheErstausgabe(titel, start)
+        ? [`"${r.slug}" premiere: ohne vorher, aber die deutsche Erstausgabe des Titels (${titel.deErstausgabe?.von}) liegt vor ${start}`]
+        : []
+    })
+}
+
+const wegKlasse = (r: Release) => (r.platform === 'tv' ? 'tv' : 'stream')
+
+/**
+ * Ein Termin desselben Titels, der die Premiere ausschließt: früher (Disc und Kino zählen nicht) oder am selben
+ * Tag auf dem anderen Weg, denn dort lässt sich die Reihenfolge nicht belegen. Zwei Releases desselben Wegs am
+ * selben Tag starten gemeinsam, beide dürfen Premiere sein.
+ */
+function fruehererTermin(r: Release, releases: Release[]): Release | undefined {
+  const start = r.schedule.firstEpisodeDate
+  return releases.find((x) => {
+    if (x.titleId !== r.titleId || x === r || x.widerlegt || x.releaseType === 'disc' || x.platform === 'kino') return false
+    const tag = x.schedule.firstEpisodeDate
+    return tag < start || (tag === start && wegKlasse(x) !== wegKlasse(r))
+  })
+}
+
+const ISO = /^\d{4}-\d{2}-\d{2}$/
 
 /** Widersprüche zwischen einem Handbeleg und dem übrigen Datensatz; leer = in Ordnung. */
 export function premiereFehler(releases: Release[]): string[] {
@@ -55,9 +88,7 @@ export function premiereFehler(releases: Release[]): string[] {
     if (p.vorher && !(p.vorherDatum && ISO.test(p.vorherDatum) && p.vorherDatum < start))
       fehler.push(`${at}: vorher braucht ein vorherDatum (YYYY-MM-DD) vor dem Release ${start}`)
     if (!p.vorher && p.vorherDatum) fehler.push(`${at}: vorherDatum ohne vorher`)
-    const frueher = releases.find(
-      (x) => x.titleId === r.titleId && x !== r && !x.widerlegt && x.releaseType !== 'disc' && x.platform !== 'kino' && x.schedule.firstEpisodeDate < start,
-    )
+    const frueher = fruehererTermin(r, releases)
     if (frueher) fehler.push(`${at}: "${frueher.slug}" (${frueher.schedule.firstEpisodeDate}) liegt früher — dann ist es keine Premiere`)
   }
   return fehler
