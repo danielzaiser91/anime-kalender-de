@@ -1,8 +1,9 @@
 {
-  "geholtAm": "2026-10-10T00:40:22.768Z",
+  "geholtAm": "2026-10-10T04:20:51.405Z",
   "titel": {
     "20": {
       "serie": "VSE361",
+      "adresse": "https://www.toggo.de/naruto-pty606/serien/naruto-vse361",
       "folgen": [
         {
           "staffel": 1,
@@ -138,6 +139,7 @@
     },
     "1735": {
       "serie": "VSE379",
+      "adresse": "https://www.toggo.de/naruto-pty606/serien/naruto-shippuden-vse379",
       "folgen": [
         {
           "staffel": 1,
@@ -443,6 +445,7 @@
     },
     "2116": {
       "serie": "VSE435",
+      "adresse": "https://www.toggo.de/captain-tsubasa-pty655/serien/captain-tsubasa--die-tollen-fusballstars-vse435",
       "folgen": []
     },
     "2225": {
@@ -457,6 +460,7 @@
     },
     "3972": {
       "serie": "VSE432",
+      "adresse": "https://www.toggo.de/yu-gi-oh-pty647/serien/yu-gi-oh-5ds-vse432",
       "folgen": []
     },
     "9107": {
@@ -881,6 +885,7 @@
     },
     "20464": {
       "serie": "VSE433",
+      "adresse": "https://www.toggo.de/haikyu-pty652/serien/haikyu-vse433",
       "folgen": []
     },
     "21356": {
@@ -2174,7 +2179,6 @@
     },
     "158871": {
       "serie": "VSE292",
-      "adresse": "https://www.toggo.de/pokemon/serien/pokemon-horizonte-die-serie-vse292",
       "folgen": [
         {
           "staffel": 1,
@@ -2966,6 +2970,7 @@
     },
     "165159": {
       "serie": "VSE359",
+      "adresse": "https://www.toggo.de/beyblade-x-pty605/serien/beyblade-x-vse359",
       "folgen": [
         {
           "staffel": 1,
@@ -3909,6 +3914,7 @@
     },
     "187052": {
       "serie": "VSE385",
+      "adresse": "https://www.toggo.de/sylvanian-families-pty613/serien/sylvanian-families-vse385",
       "folgen": [
         {
           "staffel": 1,
@@ -4274,6 +4280,7 @@
     },
     "10012621": {
       "serie": "VSE173",
+      "adresse": "https://www.toggo.de/super-wings/serien/super-wings-vse173",
       "folgen": [
         {
           "staffel": 3,
