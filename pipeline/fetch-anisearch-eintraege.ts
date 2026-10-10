@@ -17,6 +17,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { ANISEARCH_ID_BASIS } from './bau/anisearch-titel.ts'
 
 const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || 400
 const GEHEIM = 'C:/code/ai/ai helper files/my_secrets.md'
@@ -39,6 +40,8 @@ interface Roh {
   genres?: { main?: string[]; tags?: string[] }
   studios?: { name: string }[]
   cover?: { nsfw?: number | null }
+  synonyms?: string[] | null
+  related?: { anime?: Record<string, string> } | null
   releases?: { de?: { title?: string; dubbed?: string; published_from?: string | null; publishers?: { name: string }[] }; en?: { title?: string } }
 }
 
@@ -66,6 +69,16 @@ export const istUnnoetig = (r: Roh): boolean =>
   /^(Musikvideo|Music Video|CM|Commercial)$/i.test(r.type) ||
   (/^(Unbekannt|Unknown)$/i.test(r.type) && !r.year) || (/^(Anderes|Other)$/i.test(r.type) && dubKennzeichen(r) === '-' && !r.releases?.de?.publishers?.length && (r.duration ?? 0) < 20)
 
+/** Höchstens fünf Synonyme, je höchstens 80 Zeichen, ohne den Titel selbst: Belege für den Abgleich in `bau/werk-doppelt.ts` (10.10.2026). */
+export const synonyme = (r: Pick<Roh, 'synonyms' | 'title'>): string[] =>
+  [...new Set((r.synonyms ?? []).map((s) => s.trim()).filter((s) => s && s.length <= 80 && s !== r.title))].slice(0, 5)
+
+/** Nur Prequel und Sequel als `{Kennung: Art}`; die übrigen Beziehungen (Nebengeschichte, Crossover …) braucht kein Abgleich. */
+export function beziehungen(r: Pick<Roh, 'related'>): Record<string, string> | undefined {
+  const raus = Object.fromEntries(Object.entries(r.related?.anime ?? {}).filter(([, art]) => art === 'Prequel' || art === 'Sequel'))
+  return Object.keys(raus).length ? raus : undefined
+}
+
 export function kompakt(r: Roh): Record<string, unknown> {
   const de = r.releases?.de
   const frei = <T>(w: T | null | undefined): T | undefined => w ?? undefined
@@ -85,6 +98,8 @@ export function kompakt(r: Roh): Record<string, unknown> {
     en: frei(r.releases?.en?.title),
     pub: de?.publishers?.map((p) => p.name),
     dvon: frei(de?.published_from),
+    syn: synonyme(r),
+    rel: beziehungen(r),
   }
 }
 
@@ -134,8 +149,13 @@ async function main(): Promise<void> {
   const deutsch = Object.keys(dubIds).filter((id) => !bekannt.has(id))
   const titelListe = await holen<Record<string, unknown>>('https://api.anisearch.com/v1/anime/titles', t)
   const rest = Object.keys(titelListe ?? {}).filter((id) => !bekannt.has(id) && !deutsch.includes(id)).sort((a, b) => Number(a) - Number(b))
-  const ziel = [...deutsch, ...rest].slice(0, LIMIT)
-  log(`aniSearch-Einträge: ${deutsch.length} mit Deutsch offen, ${rest.length} weitere offen, ${ziel.length} in diesem Lauf`)
+  /* Nachtrag: Zeilen ohne Deutsch, die noch keine Synonyme und Beziehungen tragen (`syn` fehlt), jüngste Kennung zuerst — dort entstehen die Dubletten. */
+  const offeneZeilen = Object.entries(eintraege).filter(([, e]) => e.dub === '-' && !e.syn).map(([id]) => id).sort((a, b) => Number(b) - Number(a))
+  /* Zuerst die Zeilen auf der Prüfliste des Baus (gleicher Name, noch ohne Beleg): Ihre Synonyme und Beziehungen entscheiden, ob das Paar zusammengeführt wird. */
+  const verdacht = new Set(readJson<{ paare?: { zeile: number }[] }>('data/dubletten-pruefliste.json', {}).paare?.map((p) => String(p.zeile - ANISEARCH_ID_BASIS)))
+  const nachtragen = [...offeneZeilen.filter((id) => verdacht.has(id)), ...offeneZeilen.filter((id) => !verdacht.has(id))]
+  const ziel = [...deutsch, ...rest, ...nachtragen].slice(0, LIMIT)
+  log(`aniSearch-Einträge: ${deutsch.length} mit Deutsch offen, ${rest.length} weitere offen, ${nachtragen.length} ohne Synonyme, ${ziel.length} in diesem Lauf`)
   let neu = 0
   let fehler = 0
   for (let k = 0; k < ziel.length; k += 10) {
@@ -146,7 +166,10 @@ async function main(): Promise<void> {
       continue
     }
     for (const r of antwort.results ?? []) {
-      if (istHentai(r) || istUnnoetig(r)) ausgelassen.add(String(r.id))
+      const alt = eintraege[String(r.id)]
+      /* Ein vorhandener Eintrag bekommt nur Synonyme und Beziehungen dazu; seine übrigen Felder bleiben, wie sie sind. */
+      if (alt) Object.assign(alt, { syn: synonyme(r), ...(beziehungen(r) ? { rel: beziehungen(r) } : {}) })
+      else if (istHentai(r) || istUnnoetig(r)) ausgelassen.add(String(r.id))
       else eintraege[String(r.id)] = kompakt(r)
       neu++
     }
