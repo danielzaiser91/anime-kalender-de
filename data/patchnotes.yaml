@@ -2,6 +2,7 @@
 # kategorie: feature | bugfix. text: höchstens 8 Wörter, Besucher-Deutsch, kein Punkt am Ende, im ganzen File einmalig.
 # Optional: highlight: true (höchstens 2 je Tag), untertitel, symbol (stern | schluessel), link (Hash-Adresse "#/…").
 # Den Tag setzt der Bau: der Tag des Commits, der die Zeile eingeführt hat (nach dem Merge auf main). Kein live-Feld, kein datum.
+# Der Text ist der Schlüssel fürs Datum: Wer einen Text später umschreibt, setzt datum von Hand, sonst wandert der Eintrag auf den Tag des Umschreibens.
 # datum (in Anführungszeichen) gibt es nur als Nachtrag für Einträge, die älter sind als dieses Verfahren (bis 10.10.2026).
 # Keine Zeile nötig? Dann steht in der PR-Beschreibung „Patch Notes: keine – <Grund>“ (tools/check-patchnotes-pflicht.mjs).
 - datum: "2026-10-10"
@@ -9,6 +10,10 @@
   highlight: true
   text: Staffeln jetzt direkt unter dem Antwortkasten
   untertitel: Reihe als Karte, mit Staffelnummer
+- datum: "2026-10-10"
+  kategorie: feature
+  text: Monat am Handy, alle Tage auf einen Blick
+  untertitel: Farbige Punkte statt Bilder, lädt schneller
 - datum: "2026-10-10"
   kategorie: bugfix
   text: Details öffnen wieder oben

@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process'
 import yaml from 'js-yaml'
 import { toIsoDate } from '../../shared/time.ts'
+import { warn } from './util.ts'
 
 /** Eine Fassung der Patch-Notes-Datei in einem Commit: Berliner Tag des Commits und die Texte, die darin stehen. */
 export interface Fassung {
@@ -33,6 +34,12 @@ function vertiefeFlachenKlon(): void {
   git('fetch', '--unshallow', '--filter=blob:none', '--quiet', 'origin')
 }
 
+/** Ein Datum darf nie einen Datenlauf abbrechen: scheitert git, bekommt jeder Text den heutigen Tag, mit Warnung. */
+function allesHeute(gesucht: string[], heute: string, grund: unknown): Map<string, string> {
+  warn(`Patch-Notes-Datum: git-Historie nicht lesbar, alle Einträge bekommen ${heute} (${(grund as Error).message})`)
+  return new Map(gesucht.map((t) => [t, heute]))
+}
+
 /** Alle Fassungen der Datei, neueste zuerst; ein Commit ohne lesbare Fassung (gelöscht) zählt als leer. */
 function fassungenAusGit(pfad: string): Fassung[] {
   const zeilen = git('log', '--format=%H %ct', '--', pfad).split('\n').filter(Boolean)
@@ -52,8 +59,13 @@ function fassungenAusGit(pfad: string): Fassung[] {
 /** Einführungstag je Text aus der Git-Historie; was dort nicht steht (noch nicht eingecheckt), bekommt den heutigen Tag. */
 export function tageAusGit(pfad: string, gesucht: string[], heute: string): Map<string, string> {
   if (!gesucht.length) return new Map()
-  vertiefeFlachenKlon()
-  const gefunden = einfuehrungstage(fassungenAusGit(pfad), gesucht)
+  let gefunden: Map<string, string>
+  try {
+    vertiefeFlachenKlon()
+    gefunden = einfuehrungstage(fassungenAusGit(pfad), gesucht)
+  } catch (err) {
+    return allesHeute(gesucht, heute, err)
+  }
   for (const t of gesucht) if (!gefunden.has(t)) gefunden.set(t, heute)
   return gefunden
 }

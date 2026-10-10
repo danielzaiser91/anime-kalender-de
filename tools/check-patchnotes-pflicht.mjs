@@ -1,6 +1,6 @@
 /**
- * Pflicht in der PR-Prüfkette (Daniel, 10.10.2026): Ein PR, der die Seite sichtbar ändert (`web/src/`, `data/curated/`,
- * `data/dub-confirmed.yaml`), bringt entweder einen neuen Eintrag in `data/patchnotes.yaml` mit oder trägt in der
+ * Pflicht in der PR-Prüfkette (Daniel, 10.10.2026): Ein PR, der die Seite sichtbar ändert (`web/src/`, `shared/`, `data/curated/`,
+ * `data/dub-confirmed.yaml`; nicht Zweige `daten/`, `claude/`), bringt entweder einen neuen Eintrag in `data/patchnotes.yaml` mit oder trägt in der
  * PR-Beschreibung eine Zeile „Patch Notes: keine – <Grund>“. Sonst ist die Prüfkette rot.
  *
  *   node tools/check-patchnotes-pflicht.mjs
@@ -15,7 +15,10 @@ import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
 
 const YAML_PFAD = 'data/patchnotes.yaml'
-const SICHTBAR = /^(web\/src\/|data\/curated\/|data\/dub-confirmed\.yaml$)/
+// `shared/` zählt ganz: die Web-Anzeige nutzt es, eine Einzelprüfung der Importe wäre brüchig; Daten-PRs befreit die Beschreibung.
+const SICHTBAR = /^(web\/src\/|shared\/|data\/curated\/|data\/dub-confirmed\.yaml$)/
+// Sammler- und Datenläufe (Zweige `daten/…`, `claude/…`) schreiben keine Patch Notes.
+const AUSGENOMMENE_ZWEIGE = /^(daten|claude)\//
 const KEINE_ZEILE = /^\s*Patch Notes:\s*keine\s*[–—-]\s*\S/im
 
 /** Texte der Einträge, die nachher in der Datei stehen und vorher nicht. */
@@ -26,7 +29,8 @@ export function neueTexte(vorher, nachher) {
 }
 
 /** Ergebnis der Regel für einen PR: `ok` und der Grund in einem Satz. */
-export function bewerte({ dateien, neu, beschreibung }) {
+export function bewerte({ dateien, neu, beschreibung, zweig = '' }) {
+  if (AUSGENOMMENE_ZWEIGE.test(zweig)) return { ok: true, grund: `Zweig ${zweig} (Daten-/Sammlerlauf) ausgenommen` }
   const sichtbar = dateien.filter((f) => SICHTBAR.test(f))
   if (!sichtbar.length) return { ok: true, grund: 'keine sichtbare Änderung' }
   if (neu.length) return { ok: true, grund: `neuer Eintrag in ${YAML_PFAD}: ${neu.join(' | ')}` }
@@ -52,6 +56,11 @@ function gegenproben() {
     ['Ausnahmezeile ohne Grund', { dateien: web, neu: [], beschreibung: 'Patch Notes: keine –' }, false],
     ['Ausnahme mitten im Satz zählt nicht', { dateien: web, neu: [], beschreibung: 'Ich sage Patch Notes: keine – weil' }, false],
     ['nur Pipeline, Doku', { dateien: ['pipeline/x.ts', 'docs/a.md'], neu: [], beschreibung: '' }, true],
+    ['shared/ zählt als sichtbar', { dateien: ['shared/logic.ts'], neu: [], beschreibung: '' }, false],
+    ['shared/ mit Ausnahmezeile', { dateien: ['shared/logic.ts'], neu: [], beschreibung: 'Patch Notes: keine – Technik' }, true],
+    ['Zweig daten/ ausgenommen', { dateien: ['data/curated/x.yaml'], neu: [], beschreibung: '', zweig: 'daten/crunchyroll' }, true],
+    ['Zweig claude/ ausgenommen', { dateien: ['shared/x.ts'], neu: [], beschreibung: '', zweig: 'claude/sammler' }, true],
+    ['Zweig feat/ nicht ausgenommen', { dateien: ['shared/x.ts'], neu: [], beschreibung: '', zweig: 'feat/daten/x' }, false],
   ]
   const alt = '- {kategorie: bugfix, text: A}\n- {kategorie: bugfix, text: B}\n'
   const neu = neueTexte(alt, '- {kategorie: bugfix, text: B}\n- {kategorie: bugfix, text: C}\n')
@@ -89,7 +98,7 @@ function ausEreignis() {
     /* Datei neu im PR. */
   }
   const nachher = existsSync(YAML_PFAD) ? readFileSync(YAML_PFAD, 'utf8') : ''
-  return { dateien, neu: neueTexte(vorher, nachher), beschreibung: pr.body ?? '' }
+  return { dateien, neu: neueTexte(vorher, nachher), beschreibung: pr.body ?? '', zweig: pr.head.ref }
 }
 
 function main() {

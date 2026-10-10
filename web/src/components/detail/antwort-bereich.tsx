@@ -1,5 +1,5 @@
 import { AntwortKasten } from './antwort-kasten.tsx'
-import { FolgenBereich } from './folgen-bereich.tsx'
+import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
 import { PLATFORMS, type StreamLink, type Release, type Title, type DiscAusgabe } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
 import { streamNurOmu } from '@shared/ankuendigung.ts'
@@ -18,7 +18,6 @@ import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
 import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
 import { type sortiereNachZugang } from './wege-sortieren.ts'
-import { erschieneneFuerFolgenliste } from './antwort-regeln.ts'
 
 export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
   antwort: ReturnType<typeof berechneAntwort>
@@ -67,7 +66,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
           today={today}
           wegeHinweis={wegeHinweis}
           notiz={kastenNotiz?.note}
-          folgen={<FolgenBereich titleId={title.id} erschienen={erschieneneFuerFolgenliste(antwort)} />}
+          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={
             /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
