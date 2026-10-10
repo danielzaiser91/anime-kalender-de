@@ -13,7 +13,7 @@ Release-Art, FSK, deutscher Titel.
   anilistId: 123456                 # optional; hat Vorrang vor `search`
   malId: 54321                      # optional
   titleDe: Black Torch              # deutscher Titel; sonst nimmt der Build den englischen
-  platform: crunchyroll             # crunchyroll|netflix|primevideo|disneyplus|adn|aniverse|wow|joyn|rtlplus|youtube|disc|kino|tv
+  platform: crunchyroll             # crunchyroll|netflix|primevideo|disneyplus|paramountplus|adn|aniverse|wow|joyn|rtlplus|youtube|disc|kino|tv
   sender: TOGGO plus                # nur bei platform tv: der Sender
   platformUrl: https://…            # optional; sonst nimmt der Build den AniList-Link
   buyUrl: https://…                 # optional; bei Disc sonst Amazon-Suchlink

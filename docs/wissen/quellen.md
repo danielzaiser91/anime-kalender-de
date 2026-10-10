@@ -3391,7 +3391,7 @@ Anlass: Nachlese 27.09.–10.10.2026 (130 Artikel; `__assets/notes/anime2you-nac
 - **Gesamt-Feed `/feed/`** (4 Seiten, nach den Rubrik-Feeds): Kategorie `allgemein`, nur mit Deutschland-Bezug (`deutschlandBezug`), erzeugt nie ein Release. robots.txt sperrt nur `/wp-admin/`; 4 Abrufe mehr je Lauf.
 - **Disc-Shop-Sammelmeldungen**: Die Tabelle „Titel Termin Format“ steht nur im Artikel, nicht im Feed-Auszug; `shopTabellenNachholen` liest sie (3 je Lauf, einmal je Artikel). `findDates` ergänzt „15.01.“ um das Jahr des Artikels, `geschaetzt: true`.
 
-**Verwerfungspfade** stehen mit Grund und Anzahl im Lauf-Protokoll und in `anime2you.json` (`verworfen`); Sammelartikel-Einträge zählt `zaehleSammelVerwurf` je Grund. Nicht im Umfang, nur Befund: Paramount+ als Plattform und Katalog-Abgänge (Naruto auf Prime, 31.10.) hat das Datenmodell nicht.
+**Verwerfungspfade** stehen mit Grund und Anzahl im Lauf-Protokoll und in `anime2you.json` (`verworfen`); Sammelartikel-Einträge zählt `zaehleSammelVerwurf` je Grund. Nicht im Umfang, nur Befund: Katalog-Abgänge (Naruto auf Prime, 31.10.) hat das Datenmodell nicht; Paramount+ ist seit 10.10.2026 eine Plattform (`paramountplus`).
 
 ## aniSearch als zweite Spalte: Abweichungsliste AniList gegen aniSearch (10.10.2026)
 
@@ -3434,6 +3434,13 @@ Anlass: Stufe D der AniList-Ablösung (Sprecher) braucht die Sprecherseiten des 
 
 - **Pille:** Ein Weg beim Anbieter eines angekündigten Simulcasts ohne belegte Synchro (`dub` fehlt, `ankuendigung.platform` gleich) trägt in der Pille „OmU" und einen Tooltip (`streamNurOmu()`, `shared/ankuendigung.ts`). Gemessen 10.10.2026: 3 Titel im Hauptbestand (PSYREN, Black Clover S2, Apothekerin S3), 0 im Katalog. Der Weg bleibt, weil er der Ort ist, an dem die Synchro erscheinen soll.
 - **Handlung:** Die aniSearch-Seite von PSYREN (21084) war nie geholt worden — der Abruf ging nur über die ID-Brücke (anime-offline-database), PSYREN steht dort nicht, nur in `data/anisearch-ids-hand.yaml`. Seit #678 (10.10.2026) nimmt `archivLuecken()` auch `titles.anisearchId`; PSYREN steht an Stelle 70 von 237 Aufträgen des Hauptbestands und kommt im nächsten `data:anisearch`-Lauf. Von 2.928 Titeln des Hauptbestands hatten am 10.10.2026 315 keinen deutschen Text: 225 mit aniSearch-Kennung, aber nie geholter Seite, 86 mit geholter Seite ohne deutsche Beschreibung, 4 ohne Kennung. Die 86 und die 4 sind der Stoff der Lückenliste; Übersetzen ist ausgeschlossen.
+
+## Paramount+ als Plattform: Avatar: Die sieben Häfen (10.10.2026)
+
+- **Plattform `paramountplus`:** Farbe `#0064ff` (Markenseite, simple-icons `0064FF`), mindestens 3,3:1 gegen alle Gründe beider Themen (`pipeline/check-paramount.ts`; die Plaketten-Schrift rechnet `plakettenStil` wie bei jeder Plattform). Icon aus simple-icons (CC0), Suche `paramountplus.com/de/search/?q=`, Adresse `paramountplus.com`, Zugang Abo.
+- **Eintrag:** `streaming-herbst-2026.yaml`, Cartoon-Kennung -284833 (TMDB; bei AniList nicht geführt, Suche „Avatar Seven Havens" 0 Treffer). Anime2You 1059426 (09.10.): Folgen 1–3 ab sofort Deutsch und OmU, 4–6 am 16.10., 7–9 am 23.10., 10–13 am 30.10.; 1059483 (10.10.): erste Staffel hat 13 Folgen, die Serie wächst auf vier Staffeln (nicht „26 Folgen").
+- **Bewusst nicht angefasst:** `ANISEARCH_PLATFORM`, `platformFromSite` und `ANBIETER` in `lib/cartoons.ts` kennen Paramount+ weiter nicht — sonst würden aniSearch-Verweise und die TMDB-/JustWatch-Wege der Cartoons zu Streams (Datenänderung, eigener Auftrag). Die Pillen „Paramount+ (über TMDB)" tragen seit dem Eintrag Farbe und Icon.
+- **Kalender:** Ein Termin mit Cartoon-Kennung steht im Kalender ohne Cover (`titles-core.json` führt nur AniList-Titel); das Detail-Panel lädt den Cartoon nach.
 
 ## Anime2You vollständig lesen, Stufe P2: Claude wertet neue Artikel aus (10.10.2026)
 

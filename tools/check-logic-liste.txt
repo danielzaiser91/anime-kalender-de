@@ -21,6 +21,7 @@ pipeline/check-daten-kennung.ts
 pipeline/check-install-stellen.ts
 pipeline/check-db-relevanz.ts
 pipeline/check-herkunftsland.ts
+pipeline/check-paramount.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-premiere.ts
