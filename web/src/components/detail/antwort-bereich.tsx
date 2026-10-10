@@ -2,6 +2,7 @@ import { AntwortKasten } from './antwort-kasten.tsx'
 import { FolgenBereich } from './folgen-bereich.tsx'
 import { PLATFORMS, type StreamLink, type Release, type Title, type DiscAusgabe } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
+import { streamNurOmu } from '@shared/ankuendigung.ts'
 import { Pille, farbeZuAnbieter, istToggo, ReleasePille, discPillen } from './pillen.tsx'
 import { DiscZeichen } from '../ui.tsx'
 import { AnbieterIcon, anbieterDatei } from '../../lib/anbieter-icon.tsx'
@@ -145,6 +146,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
                     unten={
                       [
                         folgenAngabe,
+                        streamNurOmu(title, s) ? t('kal.omu') : '',
                         s.teilBereich
                           ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
                           : '',
@@ -164,6 +166,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, ti
                     titel={
                       [
                         ...dubZeilen(s),
+                        streamNurOmu(title, s) ? t('detail.pilleNurOmu') : '',
                         s.teilBereich
                           ? t('detail.teilBereichTitel', {
                               von: s.teilBereich.von,

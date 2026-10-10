@@ -19,6 +19,11 @@ const dateien = readFileSync(join(tools, 'check-logic-liste.txt'), 'utf8')
   .map((z) => z.trim())
   .filter((z) => z && !z.startsWith('#'))
 
+if (dateien.length === 0) {
+  console.error('check:logic: tools/check-logic-liste.txt enthält keine Prüfung.')
+  process.exit(1)
+}
+
 for (const [i, datei] of dateien.entries()) {
   console.log(`[check:logic ${i + 1}/${dateien.length}] ${datei}`)
   const lauf = spawnSync(process.execPath, [tsx, datei], { cwd: wurzel, stdio: 'inherit' })
