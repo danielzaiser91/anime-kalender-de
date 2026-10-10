@@ -5,6 +5,7 @@ import { releaseStatus, expandEvents } from '@shared/logic.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { deutschAbgeschlossen, zaehleErschienen } from './antwort-regeln.ts'
+import { bestandVon } from './prime-kanal.ts'
 
 export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }: {
   releases: Release[]
@@ -16,7 +17,7 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
 
   const folgenAngabeFuer = (
     s:
-      | { platform?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges']; dub?: boolean; fenster?: StreamLink['fenster'] }
+      | { platform?: string; kanal?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges']; dub?: boolean; fenster?: StreamLink['fenster'] }
       | undefined,
   ): string => {
     /*
@@ -24,12 +25,14 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       ein rollendes Fenster; bei Dragon Ball Super stand sonst „131 Fg.“, abrufbar waren 20.
     */
     if (s?.platform === 'joyn') return joynAngabe(s.fenster) ?? ''
+    /* Prime über den Crunchyroll-Kanal ohne eigene Bereiche zählt mit den Releases von Crunchyroll (Slime Staffel 4, 10.10.2026); `bestandVon` steht nur, wo am Weg Deutsch belegt ist. */
+    const bestandsPlattform = bestandVon(s) && !s?.dubRanges?.some((r) => r.dub) ? 'crunchyroll' : s?.platform
     /*
       **Alle Releases des Anbieters zusammen** (21.09.2026, Steel Ball Run). Netflix führt Folge 1
       als eigenes Release (19.03.) und die Folgen 2–12 als Wochenserie ab 25.09.; AniList kennt nur
       die erste. Die Pille zählte ein Release und hielt das Werk für einfolgig — sie blieb leer.
     */
-    const anbieterReleases = s?.platform ? releases.filter((r) => r.platform === s.platform) : []
+    const anbieterReleases = bestandsPlattform ? releases.filter((r) => r.platform === bestandsPlattform) : []
     const folgenLautReleases = Math.max(
       0,
       ...anbieterReleases.map((r) => (r.schedule?.firstEpisodeNumber ?? 1) - 1 + (r.schedule?.episodeCount ?? 1)),
@@ -64,7 +67,7 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
     if (luecken) return t('detail.dubLuecken', { n: luecken })
     const grenze = dubGrenze(s?.dubRanges)
     if (grenze) return t(grenze.schluessel, { n: grenze.n })
-    const release = s?.platform ? releaseJePlattform.get(s.platform) : undefined
+    const release = bestandsPlattform ? releaseJePlattform.get(bestandsPlattform) : undefined
     /*
       Ein RTL+-Wochentermin setzt mitten in der Serie ein (Beyblade X ab Folge 101); die
       erschienenen zu zählen ergäbe „16 Fg." bei 115 Folgen auf RTL+ (19.09.2026).

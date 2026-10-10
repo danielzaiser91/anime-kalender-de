@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { DiscAusgabe, Release, Title } from '@shared/types.ts'
-import { bereicheMitTermin } from '@shared/logic.ts'
 import { addDays, formatDate, todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember, Franchises } from '@shared/types.ts'
@@ -31,6 +30,7 @@ import { useTvVorbei } from './detail/tv-vorbei.tsx'
 import { useTerminReleases } from './detail/termin-releases.ts'
 import { KEYWORD_PREVIEW } from './detail/hilfen.tsx'
 import { folgenAuskunft } from './detail/folgen-angabe.ts'
+import { titelMitTerminBereichen } from './detail/stream-bereiche.ts'
 import { lueckeOhneAnbieter } from './detail/folgen-ohne-anbieter.ts'
 import { dubZeilenVon } from './detail/dub-zeilen.ts'
 import { DiscEinzelListe } from './detail/pillen.tsx'
@@ -77,20 +77,10 @@ export function DetailPanel({
   const verbindung = useNewsletterVerbindung()
   const today = todayIso()
   const titelRoh: Title | undefined = data.titleById.get(titleId)
-  /*
-    **Belegte Bereiche plus erschienene Folgen des deutschen Wochenplans** (25.09.2026,
-    `bereicheMitTermin`): Sonst zählte das Panel bei einer laufenden Serie nur den Beleg vom
-    Prüftag — „10 von 12" neben „Ep 12/12" in der Woche (Vom Landei zum Schwertheiligen II).
-  */
-  const title = useMemo(() => {
-    if (!titelRoh?.streams?.length) return titelRoh
-    const rels = data.releasesByTitle.get(titelRoh.id) ?? []
-    if (!rels.some((r) => r.releaseType === 'weekly')) return titelRoh
-    return {
-      ...titelRoh,
-      streams: titelRoh.streams.map((s) => ({ ...s, dubRanges: bereicheMitTermin(s.dubRanges, rels, s.platform) })),
-    }
-  }, [titelRoh, data])
+  const title = useMemo(
+    () => titelMitTerminBereichen(titelRoh, data.releasesByTitle.get(titleId) ?? []),
+    [titelRoh, data, titleId],
+  )
   /*
     **Ein offener Titel bekommt seinen Teilen-Pfad `/t/<slug>/`** (19.09.2026). Bis dahin
     schrieb nur ein offener Termin einen Pfad in die Adressleiste; wer bei einem Titel die
