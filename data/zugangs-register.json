@@ -34,6 +34,11 @@
       "fristStunden": 48,
       "name": "Wache — Datenbankverbrauch"
     },
+    "claude-anime2you-extraktion.yml": {
+      "fristStunden": 48,
+      "name": "Claude — Anime2You-Artikel auswerten",
+      "claude": true
+    },
     "claude-verpasst-recherche.yml": {
       "fristStunden": 48,
       "name": "Claude — ausgebliebene Folgen recherchieren",
@@ -69,6 +74,7 @@
         "claude-auftrag.yml",
         "claude-daten-merge.yml",
         "claude-reparatur.yml",
+        "claude-anime2you-extraktion.yml",
         "claude-verpasst-recherche.yml",
         "pr-pruefer.yml"
       ],
@@ -94,6 +100,7 @@
         "claude-auftrag.yml",
         "claude-daten-merge.yml",
         "claude-reparatur.yml",
+        "claude-anime2you-extraktion.yml",
         "claude-verpasst-recherche.yml",
         "crunchyroll-nachholen.yml",
         "d1-verbrauch.yml",
@@ -348,6 +355,7 @@
       "wofuer": "Von GitHub je Lauf ausgestelltes Token (Pull Requests, Läufe auslösen).",
       "workflows": [
         "claude-daten-merge.yml",
+        "claude-anime2you-extraktion.yml",
         "claude-verpasst-recherche.yml",
         "delta-wache.yml",
         "fund-nachliefern.yml",
