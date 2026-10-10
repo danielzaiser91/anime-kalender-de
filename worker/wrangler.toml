@@ -63,3 +63,12 @@ new_sqlite_classes = ["Schnellmesser"]
 [[r2_buckets]]
 binding = "BELEGE"
 bucket_name = "anime-kalender-belege"
+
+# Workers Logs (10.10.2026): Ausnahmen waren nur als Zahl sichtbar (`scriptThrewException`), nie als
+# Text. `invocation_logs = false` hält die Anfrage-Daten (Adresse, Köpfe, IP) heraus; protokolliert
+# wird nur, was der Code selbst ausgibt, und das ist Fehlertyp und Anzahl, kein Meldungsinhalt.
+[observability]
+enabled = true
+
+[observability.logs]
+invocation_logs = false
