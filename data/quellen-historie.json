@@ -5561,11 +5561,18 @@
   ],
   "auto-179813-netflix": [
     {
+      "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "sagt": "2026-10-10",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-10",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ],
   "auto-173693-disc": [
