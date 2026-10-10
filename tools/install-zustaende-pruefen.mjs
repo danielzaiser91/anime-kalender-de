@@ -23,7 +23,7 @@ const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/cs
 const EIN_PUNKT = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64')
 const IOS_UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1'
 // Erst nach dem Laden feuern: Ein Zeitgeber ab Dokumentbeginn verfehlte unter Last den Hörer in `pwa.ts` (Flackern, 10.10.2026).
-const EREIGNIS = `const e = new Event('beforeinstallprompt'); e.prompt = async () => {}; e.userChoice = Promise.resolve({ outcome: 'dismissed' }); window.dispatchEvent(e)`
+const EREIGNIS = `const e = new Event('beforeinstallprompt'); e.prompt = async () => {}; e.userChoice = Promise.resolve({ outcome: 'dismissed' }).then((r) => { window.__entschieden = true; return r }); window.dispatchEvent(e)`
 const STANDALONE = `const o = window.matchMedia.bind(window); window.matchMedia = (q) => q.includes('display-mode: standalone') ? { matches: true, media: q, addEventListener() {}, removeEventListener() {} } : o(q);`
 
 const LAGEN = {
@@ -62,10 +62,11 @@ async function fall(browser, name, lage, breite) {
   const seite = await ctx.newPage()
   await seite.goto('http://ak.test/#/woche', { waitUntil: 'networkidle' })
   await seite.locator('header').first().waitFor({ state: 'visible', timeout: 20_000 })
-  await seite.waitForTimeout(900)
 
   const kopfKnopf = seite.locator('header button[aria-label="App installieren"], header button:has-text("App installieren")')
   const glocke = seite.locator('header button[aria-label^="Abonnieren"]').first()
+  await glocke.waitFor({ state: 'visible', timeout: 20_000 })
+  const karte =seite.locator('body > div[role="dialog"]')
   if (lage.ereignis) {
     await seite.evaluate(EREIGNIS)
     // Bedingung statt Pause: Ab 390 px muss der Kopf-Knopf erscheinen, bevor gezählt wird.
@@ -78,11 +79,14 @@ async function fall(browser, name, lage, breite) {
       await glocke.click()
       await seite.getByText('App installieren', { exact: true }).first().click()
     }
-    await seite.waitForTimeout(500)
+    // Bedingung statt Pause: Das Angebot ist verbraucht, wenn Kopf-Knopf und Menü wieder zu sind.
+    await seite.waitForFunction(() => window.__entschieden === true)
+    await kopfKnopf.first().waitFor({ state: 'hidden' })
+    await karte.waitFor({ state: 'detached' })
   }
   const kopf = await sichtbar(kopfKnopf)
   await glocke.click()
-  await seite.waitForTimeout(400)
+  await karte.waitFor({ state: 'visible' })
   // Der exakte Text kommt nur im Menü vor; die Kopf-Knöpfe tragen Symbol bzw. „⬇ App installieren“.
   const menueText = await sichtbar(seite.getByText('App installieren', { exact: true }))
   const hinweis = await sichtbar(seite.getByText('Im Browser-Menü', { exact: false }))
@@ -90,7 +94,6 @@ async function fall(browser, name, lage, breite) {
   if (BILDER) await seite.screenshot({ path: path.join(BILDER, `glocke-${name}-${breite}.png`) })
   await seite.keyboard.press('Escape')
   await seite.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
-  await seite.waitForTimeout(200)
   const fuss = await sichtbar(seite.locator('footer').getByText('App installieren'))
   await ctx.close()
 
