@@ -38,6 +38,8 @@ const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalen
   (rund zwei Wochen) fangen einen verpassten Lauf auf und holen Sammelartikel nach, die wegfielen (siehe unten).
 */
 const STREAMING_SEITEN = 4
+/** Ein Sprachhinweis ohne Tag wird nur kurz vorgehalten; danach ist die Meldung überholt. */
+const HINWEIS_TAGE = 45
 const FEEDS: { category: string; url: string }[] = [
   ...Array.from({ length: STREAMING_SEITEN }, (_, i) => ({
     category: 'streaming',
@@ -122,6 +124,8 @@ export interface Proposal {
   /** Zeilen einer Monatsübersicht „Disc-Neuheiten <Monat>“ (`lib/disc-uebersicht.ts`); Abgleich mit dem Kalender: `check-disc-uebersicht.ts`. */
   discZeilen?: DiscZeile[]
   discGelesen?: string
+  /** `sprache`: nur eine Aussage zur Sprachfassung, kein Termin — Kandidat für einen Handbeleg (`data/dub-confirmed.yaml`), nie ein Release. */
+  hinweis?: 'sprache'
   /** true, wenn dieser Artikel schon als Quelle in data/curated/ steht. */
   alreadyCurated: boolean
 }
@@ -288,6 +292,9 @@ async function main(): Promise<void> {
   const proposals: Proposal[] = []
   /** Wie viele Volltexte dieser Lauf schon geholt hat — siehe HOECHSTENS_VOLLTEXTE. */
   let volltexte = 0
+  /** Jeder Verwerfungspfad des Laufs mit Grund und Anzahl — ein stiller Ausfall fiele sonst erst im Kalender auf. */
+  const verworfen = new Map<string, number>()
+  const verwirf = (grund: string): void => void verworfen.set(grund, (verworfen.get(grund) ?? 0) + 1)
 
   for (const feed of FEEDS) {
     const xml = await fetchText(feed.url)
@@ -343,7 +350,12 @@ async function main(): Promise<void> {
         Datum und Sprache liest erst `sammelartikelNachholen` aus dem ganzen Artikel.
       */
       const sammelartikel = feed.category === 'streaming' && ANBIETER_SAMMELARTIKEL.test(item.title)
-      if (!relevant.length && !pause && !zeiten && !sammelartikel) continue
+      /* Eine Aussage zur deutschen Sprachfassung genügt auch ohne Tag („ab sofort mit deutscher Synchronisation“): Sie geht als Hinweis in die Ausgabe, einen Termin erfindet niemand. */
+      const sprache = dub === 'ja' && !relevant.length && !pause && !zeiten && !sammelartikel
+      if (!relevant.length && !pause && !zeiten && !sammelartikel && !sprache) {
+        verwirf(`${feed.category}: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage`)
+        continue
+      }
 
       proposals.push({
         articleTitle: item.title,
@@ -355,6 +367,7 @@ async function main(): Promise<void> {
         dub,
         ...(pause ? { pause } : {}),
         ...(zeiten ? { zeiten } : {}),
+        ...(sprache ? { hinweis: 'sprache' as const } : {}),
         alreadyCurated: curatedSources.has(item.link.replace(/\/$/, '')),
       })
     }
@@ -370,12 +383,19 @@ async function main(): Promise<void> {
   const all = mitBestand(proposals)
     // Kuratiertes neu bewerten; Sammelartikel mit Tabelle bleiben — der Bau liest ihre Termine.
     .map((p) => ({ ...p, alreadyCurated: curatedSources.has(p.articleUrl.replace(/\/$/, '')) }))
+    .filter((p) => {
+      const veraltet = p.hinweis === 'sprache' && p.publishedAt < addDays(today, -HINWEIS_TAGE)
+      if (veraltet) verwirf(`Sprachhinweis älter als ${HINWEIS_TAGE} Tage`)
+      return !veraltet
+    })
     .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length || p.sammel?.some((e) => (e.datum ?? '') >= today))
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
-  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), proposals: await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), today), today) }, true)
+  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), verworfen: Object.fromEntries(verworfen), proposals: await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), today), today) }, true)
 
   const offen = all.filter((p) => !p.alreadyCurated)
+  for (const [grund, n] of verworfen) log(`  verworfen: ${n} × ${grund}`)
+  log(`  Sprachhinweise ohne Tag: ${all.filter((p) => p.hinweis === 'sprache' && !p.alreadyCurated).length}`)
   log(`${all.length} Vorschläge gespeichert, davon ${offen.length} noch nicht eingearbeitet.`)
   for (const p of offen.slice(0, 15)) {
     const when = p.dates.map((d) => d.iso ?? d.month).join(', ')
