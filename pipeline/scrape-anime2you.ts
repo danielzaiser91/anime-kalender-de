@@ -134,6 +134,8 @@ export interface Proposal {
   discGelesen?: string
   /** `sprache`: nur eine Aussage zur Sprachfassung, kein Termin — Kandidat für einen Handbeleg (`data/dub-confirmed.yaml`), nie ein Release. */
   hinweis?: 'sprache'
+  /** Wann der Volltext eines Shop-Artikels gelesen wurde (`shopTabellenNachholen`). */
+  volltextGelesen?: string
   /** true, wenn dieser Artikel schon als Quelle in data/curated/ steht. */
   alreadyCurated: boolean
 }
@@ -220,6 +222,39 @@ async function sammelartikelNachholen(alle: Proposal[], heute: string): Promise<
   return aus
 }
 
+/** Shop-Sammelmeldungen („13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar“): die Tabelle „Titel Termin Format“ steht nur im Artikel. */
+const SHOP_NEUHEITEN = /Disc-Neuheiten.{0,40}(?:SHOP|vorbestellbar)/i
+/** Höchstens so viele Shop-Artikel je Lauf; jeder wird einmal gelesen. */
+const HOECHSTENS_SHOPS = 3
+
+/**
+ * Tabellendaten ohne Jahr („15.01.“) aus dem ganzen Artikel lesen; das Jahr ergänzt `findDates` aus dem Artikeldatum und kennzeichnet es als
+ * geschätzt. Ein Artikel ohne Fund bleibt erkennbar (`volltextGelesen`) und wird nicht erneut geholt; die Zahl der Funde steht im Protokoll.
+ */
+async function shopTabellenNachholen(alle: Proposal[], heute: string): Promise<Proposal[]> {
+  const aus: Proposal[] = []
+  let geholt = 0
+  for (const p of alle) {
+    if (p.category !== 'disc' || !SHOP_NEUHEITEN.test(p.articleTitle) || p.volltextGelesen || geholt >= HOECHSTENS_SHOPS) {
+      aus.push(p)
+      continue
+    }
+    geholt++
+    const text = await artikelText(p.articleUrl)
+    await sleep(1500)
+    if (!text) {
+      aus.push(p)
+      continue
+    }
+    /* Nach „Artikel teilen“ folgen Newsticker und Kommentare mit fremden Daten. */
+    const dates = findDates(text.split('Artikel teilen')[0]!, p.publishedAt).filter((d) => (d.iso ?? `${d.month}-31`) >= heute)
+    log(`Shop-Tabelle „${p.articleTitle}": ${dates.length} künftige Tage, davon ${dates.filter((d) => d.geschaetzt).length} mit ergänztem Jahr`)
+    if (!dates.length) warn(`Shop-Tabelle „${p.articleTitle}": kein Tag gelesen — Seite umgebaut? ${p.articleUrl}`)
+    aus.push({ ...p, dates, volltextGelesen: heute })
+  }
+  return aus
+}
+
 /** Monatsübersichten der Disc-Neuheiten lesen: eine junge alle drei Tage (Anime2You trägt nach), eine ältere einmal. Höchstens drei Abrufe je Lauf. */
 async function discUebersichtNachholen(alle: Proposal[], heute: string): Promise<Proposal[]> {
   const aus: Proposal[] = []
@@ -269,7 +304,12 @@ function mitBestand(proposals: Proposal[]): Proposal[] {
   /* Ein frischer Feed-Treffer kennt die gelesene Liste eines Sammelartikels nicht — sie bleibt erhalten, sonst verschwinden alle ihre Termine, bis der Artikel neu gelesen ist (ADN Oktober 2026, 05.10.2026). */
   for (const proposal of proposals) {
     const vorher = merged.get(proposal.articleUrl)
-    merged.set(proposal.articleUrl, vorher?.sammel ? { ...proposal, sammel: vorher.sammel, sammelGelesen: vorher.sammelGelesen } : proposal)
+    merged.set(proposal.articleUrl, {
+      ...proposal,
+      ...(vorher?.sammel ? { sammel: vorher.sammel, sammelGelesen: vorher.sammelGelesen } : {}),
+      /* Ebenso die Tage aus dem Volltext eines Shop-Artikels (`shopTabellenNachholen`): Der Feed-Auszug kennt die Tabelle nicht. */
+      ...(vorher?.volltextGelesen ? { volltextGelesen: vorher.volltextGelesen, dates: vorher.dates } : {}),
+    })
   }
   return [...merged.values()]
 }
@@ -412,7 +452,7 @@ async function main(): Promise<void> {
     .filter((p) => p.dates.some((d) => (d.iso ?? `${d.month}-31`) >= today) || !p.alreadyCurated || p.verschiebungen?.length || p.sammel?.some((e) => (e.datum ?? '') >= today))
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 
-  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), verworfen: Object.fromEntries(verworfen), proposals: await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), today), today) }, true)
+  writeJson('data/proposals/anime2you.json', { scrapedAt: new Date().toISOString(), verworfen: Object.fromEntries(verworfen), proposals: await shopTabellenNachholen(await discUebersichtNachholen(await sammelartikelNachholen(await verschiebungenNachholen(all), today), today), today) }, true)
 
   const offen = all.filter((p) => !p.alreadyCurated)
   for (const [grund, n] of verworfen) log(`  verworfen: ${n} × ${grund}`)
