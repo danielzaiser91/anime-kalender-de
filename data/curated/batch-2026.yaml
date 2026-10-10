@@ -125,6 +125,18 @@
     - https://www.anime2you.de/news/1034754/netflix-beelzebub-gintama-und-mehr/
     - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/
 
+- slug: yamada-kun-lv999-netflix
+  anilistId: 154965
+  titleDe: "My Love Story with Yamada-kun at Lv999"
+  platform: netflix
+  releaseType: batch
+  dateMeaning: available-from
+  herkunft: "Netflix führt eine eigene deutsche Synchronfassung, die von der Disc-Fassung (AniMoon) abweicht."
+  schedule: { firstEpisodeDate: "2026-10-01", episodeCount: 13 }
+  note: "Anime2You vom 01.10.2026: 13 Folgen komplett, deutsche Fassung neu bei Netflix, Japanisch (UT) schon vorher. Das Datum ist der Tag der Meldung."
+  sources:
+    - https://www.anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/
+
 - slug: the-ribbon-hero-netflix
   anilistId: 211308
   search: "THE RIBBON HERO"
