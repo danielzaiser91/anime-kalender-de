@@ -715,7 +715,7 @@ export interface Release {
    * ist belegt (die Quelle steht daneben), aber niemand hat gegengelesen, ob
    * die Meldung den richtigen Titel meint. Wer es weiß, kann widersprechen.
    */
-  automatisch?: boolean
+  automatisch?: boolean; sprache?: 'omu' | 'offen' // Termin belegt, Synchro nicht (Beerus 10.10.2026): omu = Quelle nennt nur OmU, offen = keine/offene Sprachangabe; Karte kennzeichnet, belegt keine Synchro
   /**
    * Letzter Tag, an dem die Reihe im TV-Programm gesichtet wurde (`pipeline/lib/tv-termine.ts`)
    * — oder, bei einem RTL+-Wochentermin, der Tag der jüngsten Folge (`rtlplusWochentermine`).
@@ -781,7 +781,7 @@ export interface ReleaseEvent {
   /** An diesem Tag kostenlos schaubar — nur für Termine von heute gesetzt (`shared/kostenlos.ts`). */
   kostenlos?: boolean
   name: string
-  estimated?: boolean; nachLuecke?: boolean // hinter einer offenen Lücke: kann noch nicht erschienen sein (`shared/luecken.ts`)
+  estimated?: boolean; sprache?: Release['sprache']; nachLuecke?: boolean // hinter einer offenen Lücke: kann noch nicht erschienen sein (`shared/luecken.ts`)
   /**
    * Gesetzt, wenn der Anbieter diesen Termin nicht eingehalten hat.
    *

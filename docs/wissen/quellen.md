@@ -3353,3 +3353,31 @@ Streaming-Terminen (Fool Night „offen", Gundam Hathaway „sagt sie nicht"); R
 erreicht: Crunchyroll-Seiten (clientseitig gerendert, WebFetch leer), aniSearch-Seiten (nie von Daniels IP). Wiedervorlage, sobald
 Crunchyroll/Netflix eine deutsche Tonspur zeigen (CR-Katalog-Lauf meldet es dann ohnehin).
 
+## Beerus Teil 2: Wochenstart statt „alle Folgen", Kennzeichnung bis in die Karte (10.10.2026)
+
+Nach #649 zeigte die Live-Seite noch „Alle Folgen im Angebot morgen" (der Bestandsbau lief erst danach). Die Kette dahinter:
+
+1. **Takt:** `artDerMeldung` wählt für Streaming immer `batch`; der Wochenzweig in `zeitplanAusVorschlag` griff nur bei
+   `v.woechentlich`, und das setzen nur Sammelartikel. Jede Einzelmeldung ohne Folgenzahl wurde „alle Folgen". Jetzt: ohne
+   Folgenzahl wöchentlich, außer die Meldung sagt „komplett"/„alle Folgen"/„binge"/„auf einmal" (`taktDerMeldung`), das Werk
+   stammt aus einem früheren Jahr (Katalogzugang) oder es ist eine ONA bei Netflix (Eigenproduktion). Gegenprobe Fool Night:
+   Netflix-ONA, laut whats-on-netflix/hoshika „full-series drop" am 26.11.2026 → bleibt komplett. Sammelartikel tragen
+   „nicht wöchentlich" ausdrücklich.
+2. **Beleg-Kreis:** `ohneBelegteSynchro` (Reihenliste, ✕ DE) zählte jeden sicheren Termin als Beleg — auch einen Termin,
+   der selbst nur aus einer OmU-Meldung stammte. Ebenso „Neu auf Deutsch" (erreichter Termin).
+3. **Anzeige:** Ein Termin ohne belegte Synchro stand auf der Karte wie jeder deutsche Termin.
+
+**Behebung:** `Release.sprache` (`omu` | `offen`), vom Event geerbt. `releasesAus` setzt `offen` ohne Sprachzusage (nicht bei
+Disc); kuratierte OmU-Termine tragen `sprache: omu` (Madoka Walpurgisnacht, Rascal, Black Clover S2 — dessen Datum ist der
+OmU-Start). Gekennzeichnete Termine belegen keine Synchro; die Karte (Woche, Monat) zeigt „OmU"/„Synchro offen", die News
+„zurückgezogen: nur OmU". Der Bau bricht ab bei einem automatischen Termin ohne Sprachzusage und ohne Kennzeichnung und bei
+„alle Folgen" aus einer Meldung mit Wochentakt (`lib/auto-release-pruefung.ts`).
+
+**Zählung (ausgelieferter Bestand 10.10.2026, 56 künftige Nicht-Disc-Termine):** 10 ohne Stream mit Synchro, Erstausgabe oder
+Sprecher; davon OmU laut eigener Notiz 2 (Rascal, Madoka) → `omu`; Auto-Termine ohne Sprachzusage 2 (Fool Night, Gundam
+Hathaway) → `offen`. Die übrigen (Tank Chair, Tokyo Revengers S3, Bleach-Film ADN, A New Dawn Kino, My Happy Marriage Special,
+Witch on the Holy Night, Trinity Seven) tragen eine Sprachzusage ihrer Quelle. Automatische batch-Termine: 21, davon 17
+Katalogzugänge mit Folgenzahl (richtig), 2 betroffen (Beerus, Fool Night — Fool Night bleibt nach Gegenprobe komplett).
+
+**Offen:** ICS-Feeds und Newsletter kennzeichnen `sprache` noch nicht.
+

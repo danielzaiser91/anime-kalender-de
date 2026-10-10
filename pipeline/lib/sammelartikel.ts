@@ -152,7 +152,8 @@ export function vorschlaegeAusSammelartikel(
       dates: [{ iso: e.datum, context: 'Sammelartikel' }],
       dub: 'zugesagt',
       ...(e.folgen ? { folgen: e.folgen } : {}),
-      ...(e.woechentlich ? { woechentlich: true } : {}),
+      /* Ausdrücklich auch `false`: Ein Eintrag ohne „Simulcast“-Zeile ist kein Wochenstart (`zeitplanAusVorschlag`). */
+      woechentlich: Boolean(e.woechentlich),
       ...(kanal ? { kanal } : {}),
     })
   }
