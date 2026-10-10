@@ -604,3 +604,39 @@
   edition: "Blu-ray"
   schedule: { firstEpisodeDate: "2027-01-15" }
   sources: [https://www.anime2you.de/news/1058349/]
+
+# ---------------------------------------------------------------- 18.12.2026 (Nachtrag 10.10.2026)
+# Anime2You 1058465: Heaven's Feel Gesamtausgabe, peppermint anime, „mit deutscher und japanischer Synchronisation“,
+# Blu-ray im Digipak, voraussichtlich 18.12.2026. Standard und Limited Edition (vier zusätzliche Artcards); jeder Film eigene Kennung.
+- slug: fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe
+  anilistId: 20791
+  titleDe: "Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flower)"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
+  note: "Voraussichtlicher Termin; deutsche und japanische Synchronisation laut Anime2You."
+  schedule: { firstEpisodeDate: "2026-12-18" }
+  sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
+
+- slug: fate-stay-night-heavens-feel-2-lost-butterfly-gesamtausgabe
+  anilistId: 21718
+  titleDe: "Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterfly)"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
+  note: "Voraussichtlicher Termin; deutsche und japanische Synchronisation laut Anime2You."
+  schedule: { firstEpisodeDate: "2026-12-18" }
+  sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
+
+- slug: fate-stay-night-heavens-feel-3-spring-song-gesamtausgabe
+  anilistId: 21719
+  titleDe: "Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song)"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
+  note: "Voraussichtlicher Termin; deutsche und japanische Synchronisation laut Anime2You."
+  schedule: { firstEpisodeDate: "2026-12-18" }
+  sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
