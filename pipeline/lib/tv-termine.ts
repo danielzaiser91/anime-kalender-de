@@ -182,7 +182,7 @@ function nummerFuer(nummern: Map<string, number> | undefined, folge: string): nu
 }
 
 /** Ein Staffelwechsel darf nie in einen Termin von Hand oder in eine Gruppe dieses Laufs führen: Zwei Gruppen beim selben Titel trügen denselben Slug (Pokémon Reisen, 05.10.2026). */
-function zielFrei(ziel: string, belegt: Set<string>, gruppen: Map<string, unknown>): boolean {
+function zielFrei(ziel: string, belegt: Map<string, string>, gruppen: Map<string, unknown>): boolean {
   return !belegt.has(ziel) && !gruppen.has(ziel)
 }
 
@@ -230,6 +230,17 @@ function zaehleOhneListe(liste: TvSendung[], observed: Record<number, string>, z
   return n
 }
 
+/** Je Titel und Sender der früheste Starttag eines Handtermins; ohne Starttag gilt er für alle Sichtungen (''). */
+function handStart(vorhanden: Release[]): Map<string, string> {
+  const je = new Map<string, string>()
+  for (const r of vorhanden.filter((x) => x.platform === 'tv')) {
+    const k = `${r.titleId}|${(r.sender ?? '').toLowerCase()}`
+    const ab = r.schedule?.firstEpisodeDate ?? ''
+    if (!je.has(k) || ab < je.get(k)!) je.set(k, ab)
+  }
+  return je
+}
+
 export function releasesAusTvProgramm(
   sendungen: TvSendung[],
   titles: Map<number, Title>,
@@ -237,13 +248,12 @@ export function releasesAusTvProgramm(
   wiki: WikiListen = {},
 ): Release[] {
   sendungen = sendungNeuZuordnen(sendungen, titles, wiki)
-  const belegt = new Set(
-    vorhanden.filter((r) => r.platform === 'tv').map((r) => `${r.titleId}|${(r.sender ?? '').toLowerCase()}`),
-  )
+  const belegt = handStart(vorhanden)
   const gruppen = new Map<string, TvSendung[]>()
   for (const s of sendungen) {
     const k = `${s.titleId}|${s.sender.toLowerCase()}`
-    if (belegt.has(k) || !titles.has(s.titleId)) continue
+    /* Der Handtermin ersetzt die Sichtungen erst ab seinem Start; davor bleiben sie stehen (One Piece, 10.10.2026). */
+    if (!titles.has(s.titleId) || berlinTag(s.start) >= (belegt.get(k) ?? '9999')) continue
     gruppen.set(k, [...(gruppen.get(k) ?? []), s])
   }
   const aus: Release[] = []
