@@ -9,11 +9,11 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-03@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261003
-DTEND;VALUE=DATE:20261004
+DTSTART:20261003T150000Z
+DTEND:20261003T153000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 1/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -163,11 +163,11 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-10@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261010
-DTEND;VALUE=DATE:20261011
+DTSTART:20261010T150000Z
+DTEND:20261010T153000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 2/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -298,12 +298,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-17@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261017
-DTEND;VALUE=DATE:20261018
+DTSTART:20261017T150000Z
+DTEND:20261017T153000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 3/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -405,12 +405,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-24@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261024
-DTEND;VALUE=DATE:20261025
+DTSTART:20261024T150000Z
+DTEND:20261024T153000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 4/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -523,12 +523,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-31@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261031
-DTEND;VALUE=DATE:20261101
+DTSTART:20261031T160000Z
+DTEND:20261031T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 5/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -641,12 +641,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-07@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261107
-DTEND;VALUE=DATE:20261108
+DTSTART:20261107T160000Z
+DTEND:20261107T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 6/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -697,12 +697,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-14@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261114
-DTEND;VALUE=DATE:20261115
+DTSTART:20261114T160000Z
+DTEND:20261114T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 7/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -813,12 +813,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-21@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261121
-DTEND;VALUE=DATE:20261122
+DTSTART:20261121T160000Z
+DTEND:20261121T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 8/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -868,12 +868,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-28@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261128
-DTEND;VALUE=DATE:20261129
+DTSTART:20261128T160000Z
+DTEND:20261128T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 9/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -1003,12 +1003,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-05@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261205
-DTEND;VALUE=DATE:20261206
+DTSTART:20261205T160000Z
+DTEND:20261205T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 10/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -1048,12 +1048,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-12@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261212
-DTEND;VALUE=DATE:20261213
+DTSTART:20261212T160000Z
+DTEND:20261212T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 11/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -1125,12 +1125,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-19@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261219
-DTEND;VALUE=DATE:20261220
+DTSTART:20261219T160000Z
+DTEND:20261219T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 12/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -1170,36 +1170,36 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-26@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261226
-DTEND;VALUE=DATE:20261227
+DTSTART:20261226T160000Z
+DTEND:20261226T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 13/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-02@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270102
-DTEND;VALUE=DATE:20270103
+DTSTART:20270102T160000Z
+DTEND:20270102T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 14/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-09@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270109
-DTEND;VALUE=DATE:20270110
+DTSTART:20270109T160000Z
+DTEND:20270109T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 15/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -1236,60 +1236,60 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-16@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270116
-DTEND;VALUE=DATE:20270117
+DTSTART:20270116T160000Z
+DTEND:20270116T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 16/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-23@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270123
-DTEND;VALUE=DATE:20270124
+DTSTART:20270123T160000Z
+DTEND:20270123T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 17/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-30@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270130
-DTEND;VALUE=DATE:20270131
+DTSTART:20270130T160000Z
+DTEND:20270130T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 18/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-02-06@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270206
-DTEND;VALUE=DATE:20270207
+DTSTART:20270206T160000Z
+DTEND:20270206T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 19/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-02-13@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270213
-DTEND;VALUE=DATE:20270214
+DTSTART:20270213T160000Z
+DTEND:20270213T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 20/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 END:VCALENDAR
