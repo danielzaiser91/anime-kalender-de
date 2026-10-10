@@ -62,6 +62,8 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
 
 /** Folgentitel je Titel für die TV-Termine: aniSearch als Grundstock, spätere Listen gewinnen. */
 function folgenListen(): WikiListen {
+  // Einmal lesen: Je Eintrag neu geparst kostete die ~10-MB-Datei über 10 Minuten (10.10.2026).
+  const anisearchFolgen = readJson<Record<string, { folgen?: { nr: number; de?: string; datum?: string }[] }>>('data/anisearch-folgen.json', {})
   return {
     /*
       **aniSearch-Folgentitel als Grundstock** (23.09.2026). Ohne sie hat ein Titel ohne
@@ -72,9 +74,7 @@ function folgenListen(): WikiListen {
     ...Object.fromEntries(
       Object.entries(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})).flatMap(([id, x]) => {
         const folgen = x.anisearchId
-          ? (readJson<Record<string, { folgen?: { nr: number; de?: string; datum?: string }[] }>>('data/anisearch-folgen.json', {})[
-              String(x.anisearchId)
-            ]?.folgen ?? [])
+          ? (anisearchFolgen[String(x.anisearchId)]?.folgen ?? [])
           : []
         const mit = folgen.filter((f) => f.de).map((f) => ({ nr: f.nr, dt: f.de!, ...(f.datum ? { ead: f.datum.slice(0, 10) } : {}) }))
         return mit.length ? [[id, { seite: 'aniSearch', url: `https://www.anisearch.de/anime/${x.anisearchId}/episodes`, folgen: mit }] as const] : []
