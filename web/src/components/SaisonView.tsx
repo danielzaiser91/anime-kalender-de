@@ -3,10 +3,10 @@ import { todayIso } from '@shared/time.ts'
 import { loadJson, type Dataset } from '../lib/data.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { saisonText, saisonVon, versetzt, zeilenDerSaison, type SaisonDatei, type SaisonZeile } from '../lib/saison.ts'
+import { SAISON_REITER, type SaisonReiter } from '../lib/router.ts'
 import { SaisonAusblick } from './SaisonAusblick.tsx'
 import { SaisonKarte } from './SaisonKarte.tsx'
 
-type Reiter = 'jetzt' | 'zuletzt' | 'ausblick'
 const REITER = { jetzt: 'saison.reiterJetzt', zuletzt: 'saison.reiterZuletzt', ausblick: 'saison.reiterAusblick' } as const
 const HINWEIS = { jetzt: 'saison.hinweisJetzt', zuletzt: 'saison.hinweisZuletzt' } as const
 
@@ -14,11 +14,16 @@ const HINWEIS = { jetzt: 'saison.hinweisJetzt', zuletzt: 'saison.hinweisZuletzt'
  * **Der Saison-Überblick** (Daniel, 07.10.2026, Anordnung 2 mit Reitern): aktuelle, letzte und nächste Anime-Saison in einer Ansicht — was davon auf Deutsch zu sehen ist,
  * ab wann, und wo. Gerechnet wird im Browser aus den Titeln mit Termin (`data.titles`) und der kleinen Datei `saison.json`. Schon Erschienenes steht getrennt von dem, was noch kommt.
  */
-export function SaisonView({ data, favorites, oeffne }: { data: Dataset; favorites: Set<number>; oeffne: (id: number) => void }) {
+export function SaisonView({ data, favorites, oeffne, reiter, setReiter }: {
+  data: Dataset
+  favorites: Set<number>
+  oeffne: (id: number) => void
+  reiter: SaisonReiter
+  setReiter: (r: SaisonReiter) => void
+}) {
   const { t } = useLang()
   const heute = saisonVon(todayIso())
   const saisons = { jetzt: heute, zuletzt: versetzt(heute, -1), ausblick: versetzt(heute, 1) }
-  const [reiter, setReiter] = useState<Reiter>('jetzt')
   const [datei, setDatei] = useState<SaisonDatei>()
   useEffect(() => {
     let aktiv = true
@@ -49,7 +54,7 @@ export function SaisonView({ data, favorites, oeffne }: { data: Dataset; favorit
     <section aria-labelledby="saison-titel" className="mx-auto max-w-6xl px-4 py-5">
       <h1 id="saison-titel" className="text-xl font-extrabold">{t('view.saison')}</h1>
       <div role="tablist" className="mt-3 flex flex-wrap gap-2">
-        {(['jetzt', 'zuletzt', 'ausblick'] as const).map((r) => (
+        {SAISON_REITER.map((r) => (
           <button
             key={r}
             type="button"
