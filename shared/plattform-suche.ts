@@ -42,6 +42,7 @@ const PLATFORM_SEARCH: Partial<Record<PlatformId, (q: string) => string>> = {
   disneyplus: (q) => `https://www.disneyplus.com/de-de/search?q=${encodeURIComponent(q)}`,
   crunchyroll: (q) => `https://www.crunchyroll.com/de/search?q=${encodeURIComponent(q)}`,
   primevideo: primeVideoSearchUrl,
+  paramountplus: (q) => `https://www.paramountplus.com/de/search/?q=${encodeURIComponent(q)}`,
   adn: (q) => `https://animationdigitalnetwork.com/de/search?q=${encodeURIComponent(q)}`,
   wow: (q) => `https://www.wowtv.de/suche?q=${encodeURIComponent(q)}`,
   joyn: (q) => `https://www.joyn.de/suche?search=${encodeURIComponent(q)}`,

@@ -23,6 +23,8 @@ const DATEI: Record<string, string> = {
   primevideo: 'primevideo',
   youtube: 'youtube',
   rtlplus: 'rtlplus',
+  paramountplus: 'paramountplus',
+  'paramount+': 'paramountplus',
   'apple tv': 'apple-tv',
   'google play': 'google-play',
   'rakuten tv': 'rakuten-tv',

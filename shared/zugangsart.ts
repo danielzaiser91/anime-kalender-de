@@ -48,6 +48,7 @@ const ABO = new Set([
   'prime video',
   'disneyplus',
   'disney+',
+  'paramountplus',
   'adn',
   'aniverse',
   'wow',

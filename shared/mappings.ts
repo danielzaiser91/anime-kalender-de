@@ -618,6 +618,7 @@ export const PLATFORM_PRIORITY: PlatformId[] = [
   'netflix',
   'disneyplus',
   'primevideo',
+  'paramountplus',
   'adn',
   'aniverse',
   'wow',
