@@ -465,7 +465,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                   )}
                   {!lang && ohneSchalter && <div className="mb-1 flex">{ohneSchalter}</div>}
                   {!angezeigt.length && (
-                    <span className="px-1 py-2 text-xs text-slate-500 dark:text-slate-400">{t('detail.reiheKeinTreffer')}</span>
+                    <span className="px-1 py-2 text-xs text-slate-500 dark:text-slate-400">{t(!suchText && zahlOhne > 0 ? 'detail.reiheNurOhne' : 'detail.reiheKeinTreffer')}</span>
                   )}
                   <div role="tablist" aria-label={t('detail.seriesParts')} className="flex flex-col gap-0.5">
                   {angezeigt.map((g, i) => (

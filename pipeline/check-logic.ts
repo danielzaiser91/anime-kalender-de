@@ -8478,6 +8478,8 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     const mitSynchro = { id: 178533 }
     pruefe('Reihen-Box: ein laufender oder angekündigter Teil ohne Synchro ist eingeklappt', istEingeklappt(ranma, 178533) && istEingeklappt(film, 178533))
     pruefe('Reihen-Box: ein Teil mit Synchro und der geöffnete Titel selbst bleiben sichtbar', !istEingeklappt(mitSynchro, 178533) && !istEingeklappt(ranma, 209872))
+    const geplant = { id: 206814, jpStart: '2099-10-11', jpStatus: 'NOT_YET_RELEASED', jpYear: 2099 }
+    pruefe('Reihen-Box: ein geplanter Teil (Original noch nicht erschienen) ist auch ohne Flag eingeklappt, der geöffnete bleibt sichtbar', istEingeklappt(geplant, 178533) && !istEingeklappt(geplant, 206814) && !istEingeklappt({ id: 1, jpStatus: 'FINISHED', jpYear: 2099 }, 178533))
   }
   pruefe('Folgenliste: bei „fertig" zählt raus (Ereignisse) nicht als Folgennummer (One Piece: 10)', erschieneneFuerFolgenliste({ art: 'fertig', raus: 10 }) === undefined && erschieneneFuerFolgenliste({ art: 'laeuft', raus: 5 }) === 5 && erschieneneFuerFolgenliste(undefined) === undefined)
   {
