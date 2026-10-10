@@ -18,6 +18,7 @@ import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
 import { findeAnisearchDubletten, zeilenMitKennungWeg, type DublettenUrteil } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
+import { ohneWerkDubletten } from './werk-doppelt-bau.ts'
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
@@ -398,7 +399,7 @@ export function schreibeOhneSynchro(
   /* Wer aus dem Hauptbestand verschoben wurde, muss hier ankommen, auch wenn der Katalog ihn nicht führt (ein Vorfilter verschiebt, er löscht nicht; „Xiao Mao Diao Yu", 17.08.2026). */
   const vorhanden = new Set(ohne.map((t) => t.id))
   const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id) && !dubletten.zeilenWeg.has(t.id))
-  const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, ...(kennungen.has(t.id) ? { anisearchId: kennungen.get(t.id) } : {}), dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
+  const alle = ohneWerkDubletten([...ohne, ...nachgetragen.map((t) => ({ ...t, ...(kennungen.has(t.id) ? { anisearchId: kennungen.get(t.id) } : {}), dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))], geschuetzt)
 
   writeJson(`${OUT}/ohne-synchro.json`, alle.map((t) => mitLaufzeit(mitAnkuendigung(t))))
   meldeOhneSynchro(alle, eintraege.length, nachgetragen.length, bekannt)

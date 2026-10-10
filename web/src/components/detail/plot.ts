@@ -46,3 +46,12 @@ export function plotVon({ synopsis, anilistId, ersatz, erschienen }: {
   })()
   return { plot }
 }
+
+/**
+ * Die aniSearch-Adresse mit Slug für den Link des Titels, nur aus **dessen eigener** Beschreibung. Eine aus der Reihe geliehene
+ * (`vonTeil`) trägt die Adresse des anderen Teils; sie bleibt Quellenangabe dieses Textes, nie der Link des Titels (Gachiakuta S2, 10.10.2026).
+ */
+export function eigenerAsZiel(plot: { vonTeil?: unknown; quelle: { url: string } } | undefined, asUrl: string | undefined): string | undefined {
+  const eigen = plot && !plot.vonTeil && plot.quelle.url.includes('anisearch.de/anime/')
+  return eigen ? plot.quelle.url : asUrl
+}

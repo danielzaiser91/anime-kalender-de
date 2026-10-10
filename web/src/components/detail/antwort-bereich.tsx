@@ -1,7 +1,8 @@
 import { AntwortKasten } from './antwort-kasten.tsx'
-import { FolgenBereich } from './folgen-bereich.tsx'
+import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
 import { PLATFORMS, type StreamLink, type Release, type Title, type DiscAusgabe } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
+import { streamNurOmu } from '@shared/ankuendigung.ts'
 import { Pille, farbeZuAnbieter, istToggo, ReleasePille, discPillen } from './pillen.tsx'
 import { DiscZeichen } from '../ui.tsx'
 import { AnbieterIcon, anbieterDatei } from '../../lib/anbieter-icon.tsx'
@@ -17,7 +18,6 @@ import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
 import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
 import { type sortiereNachZugang } from './wege-sortieren.ts'
-import { erschieneneFuerFolgenliste } from './antwort-regeln.ts'
 
 /** Eine Pille je Termin: Sender oder Anbieter, Datum, Folge. */
 function terminPillen(rs: Release[], title: Title, releases: Release[], today: string) {
@@ -82,7 +82,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
           today={today}
           wegeHinweis={wegeHinweis}
           notiz={kastenNotiz?.note}
-          folgen={<FolgenBereich titleId={title.id} erschienen={erschieneneFuerFolgenliste(antwort)} />}
+          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={
             /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
@@ -161,6 +161,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                     unten={
                       [
                         folgenAngabe,
+                        streamNurOmu(title, s) ? t('kal.omu') : '',
                         s.teilBereich
                           ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
                           : '',
@@ -180,6 +181,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                     titel={
                       [
                         ...dubZeilen(s),
+                        streamNurOmu(title, s) ? t('detail.pilleNurOmu') : '',
                         s.teilBereich
                           ? t('detail.teilBereichTitel', {
                               von: s.teilBereich.von,
