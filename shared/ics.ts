@@ -52,7 +52,19 @@ export interface IcsOptions {
   erinnerung?: boolean
 }
 
+/** Kennzeichnung eines Termins ohne belegte Synchro (10.10.2026, wie `Marken.tsx`); gilt für ICS und Newsletter. */
+export const SPRACHE_MARKE = { omu: 'OmU', offen: 'Synchro offen' } as const
+export const SPRACHE_HINWEIS = {
+  omu: 'OmU: Originalton mit deutschen Untertiteln, keine deutsche Synchro.',
+  offen: 'Synchro offen: Der Termin ist belegt, eine deutsche Synchro nicht.',
+} as const
+
 export function eventSummary(ev: ReleaseEvent): string {
+  const text = summaryOhneMarke(ev)
+  return ev.sprache ? `${text} (${SPRACHE_MARKE[ev.sprache]})` : text
+}
+
+function summaryOhneMarke(ev: ReleaseEvent): string {
   const type = RELEASE_TYPES[ev.releaseType]
   /*
     Wer den Kalender abonniert hat, sieht den verstrichenen Termin sonst als
@@ -73,6 +85,7 @@ export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): strin
     `Plattform: ${anbieterName(ev.platform, ev.sender)}`,
     `Release-Art: ${RELEASE_TYPES[ev.releaseType].name}`,
   ]
+  if (ev.sprache) lines.push(SPRACHE_HINWEIS[ev.sprache])
   if (!ev.time) lines.push('Uhrzeit noch nicht bestätigt.')
   if (ev.timeEstimated) lines.push('Uhrzeit voraussichtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.')
   if (ev.estimated)

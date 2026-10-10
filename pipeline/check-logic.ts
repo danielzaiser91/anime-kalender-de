@@ -5946,6 +5946,23 @@ pruefe(
   pruefe('… und build.ts setzt sie in keinem Feed', !/buildIcs\([^)]*erinnerung/.test(bau))
 }
 {
+  /* Kennzeichnung ohne belegte Synchro in ICS und Newsletter (10.10.2026); UID bleibt, Termine mit Synchro unverändert. */
+  const ev = { id: 'x', name: 'Test', date: '2026-10-01', time: '18:00', platform: 'netflix', releaseType: 'weekly', episode: 3, releaseSlug: 'x' } as unknown as ReleaseEvent
+  const roh = buildIcs([ev])
+  const omu = buildIcs([{ ...ev, sprache: 'omu' }])
+  const offen = buildIcs([{ ...ev, sprache: 'offen' }])
+  pruefe(
+    'ICS kennzeichnet OmU und „Synchro offen“ im Titel und in der Beschreibung, ohne die UID zu ändern',
+    omu.includes('SUMMARY:Test – Folge 3 (OmU)') && offen.includes('SUMMARY:Test – Folge 3 (Synchro offen)') &&
+      omu.includes('keine deutsche Synchro') && !roh.includes('OmU') && !roh.includes('Synchro offen') &&
+      roh.match(/UID:.*/)![0] === omu.match(/UID:.*/)![0],
+  )
+  pruefe(
+    'der Newsletter trägt dieselbe Marke',
+    badge({ ...ev, sprache: 'omu' } as ReleaseEvent).includes('>OmU<') && badge({ ...ev, sprache: 'offen' } as ReleaseEvent).includes('>Synchro offen<') && !badge(ev).includes('OmU'),
+  )
+}
+{
   /* RSS der Nachrichtenseite (18.09.2026): derselbe Satz wie auf der Seite, sauber maskiert. */
   const rss = newsRss(
     [{ am: '2026-09-17', titelId: 1, titel: 'A & B <C>', slug: 'a', meldungen: [{ art: 'kino', platform: 'kino', datum: '2026-09-29' }] }] as unknown as Parameters<typeof newsRss>[0],
