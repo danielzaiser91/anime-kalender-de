@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-10T15:05:43.245Z",
+ "erzeugtAm": "2026-10-10T15:55:27.657Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -35,9 +35,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 384,
+   "gemeldet": 383,
    "gesamt": 393,
-   "offen": 9,
+   "offen": 10,
    "ohneSeite": 0,
    "ziel": "https://www.netflix.com/title/80212481",
    "ziele": [
@@ -60,6 +60,10 @@
     {
      "url": "https://www.netflix.com/title/81153115",
      "titel": "Scott Pilgrim hebt ab"
+    },
+    {
+     "url": "https://www.netflix.com/title/81215624",
+     "titel": "Onmyoji"
     },
     {
      "url": "https://www.netflix.com/title/81218604",

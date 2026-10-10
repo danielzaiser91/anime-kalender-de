@@ -583,9 +583,10 @@ UID:auto-10021751-netflix@2026-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261126
 DTEND;VALUE=DATE:20261127
-SUMMARY:Fool Night
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/17705/
+SUMMARY:Fool Night (Synchro offen)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nSynchro offen: D
+ er Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nicht be
+ stätigt.\nDetails: https://anime-kalender.de/t/17705/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -699,5 +700,16 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dr-stone-science-future-part2@2027-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:Dr. STONE: Science Future – Teil 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16761/
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 END:VCALENDAR

@@ -21545,3 +21545,19 @@
   dub: true
   checkedAt: '2026-10-10'
   note: "Nicht auf der Netflix-Seite gemessen, sondern Meldung von Anime2You (Artikel 1056287, anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/): Netflix führt eine eigene deutsche Synchronfassung, die von der Disc-Fassung (AniMoon) abweicht. Meldung vom 01.10.2026, Starttermin nicht belegt, Abruf 10.10.2026. Löst den Netflix-Befund vom 22.08.2026 (ohne deutschen Ton) ab."
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-10 ---
+
+- anilistId: 196144
+  title: "Snowball Earth"
+  platform: netflix
+  url: https://www.netflix.com/title/82746480
+  dub: false
+  checkedAt: '2026-10-10'
+  note: "Folgen 1–13 ohne deutschen Ton — Tonspuren: ja|Japanisch [Original], es|Spanisch (Lateinamerika), en|Englisch, pt-BR|Portugiesisch (Brasilien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 8: Einkaufszentrum Mishima aktiviert"
+- anilistId: 212799
+  title: "Die sieben Ritter des Königreichs der Marronniers"
+  platform: primevideo
+  url: https://www.amazon.de/dp/B0HG69RT1Y
+  dub: true
+  checkedAt: '2026-10-10'
+  note: "Tonspuren: Deutsch, English, Español (España), Español (Latinoamérica), Français, Italiano, Polski, Português (Brasil), Türkçe, हिन्दी, ไทย, 日本語, 日本語 [音声による説明] — Amazon-Seite B0HG69RT1Y: alle 2 Folgen geprüft, Abos: Prime, FVOD — Staffel nicht im Bestand, Titel von der Seite gelesen, zugang=abo, gti=amzn1.dv.gti.82c84934-b1f4-4ef5-b753-c4358fc076e6"

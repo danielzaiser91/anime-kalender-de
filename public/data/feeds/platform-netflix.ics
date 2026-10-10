@@ -235,9 +235,10 @@ UID:auto-10021751-netflix@2026-11-26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261126
 DTEND;VALUE=DATE:20261127
-SUMMARY:Fool Night
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/17705/
+SUMMARY:Fool Night (Synchro offen)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nSynchro offen: D
+ er Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nicht be
+ stätigt.\nDetails: https://anime-kalender.de/t/17705/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
