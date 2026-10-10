@@ -21,6 +21,7 @@ import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -191,6 +192,10 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     console.log(`\nObere Leiste (320/360/393/440 px): ${leiste.length ? '' : 'ok'}`)
     for (const l of leiste) console.log(`  ✕ ${l}`)
     if (leiste.length) rot = true
+    const fenster = await pruefeFilterfenster(seite)
+    console.log(`\nFilterfenster (320/375/393/440 px, Woche und Datenbank): ${fenster.abweichungen.length ? '' : 'ok'}`)
+    for (const l of fenster.abweichungen) console.log(`  ✕ ${l}`)
+    if (fenster.abweichungen.length) rot = true
   }
   return rot
 }
