@@ -27,9 +27,8 @@ import {
   Button, Tooltip
 } from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
-import { jetztBerlin } from '../lib/toggo.ts'
-import { tvAngabe } from '../lib/tv-angabe.ts'
 import { useTvVorbei } from './detail/tv-vorbei.tsx'
+import { useTerminReleases } from './detail/termin-releases.ts'
 import { KEYWORD_PREVIEW } from './detail/hilfen.tsx'
 import { folgenAuskunft } from './detail/folgen-angabe.ts'
 import { lueckeOhneAnbieter } from './detail/folgen-ohne-anbieter.ts'
@@ -48,7 +47,7 @@ import { UnterDerAntwort } from './detail/unter-der-antwort.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
 import { SchlagworteAbschnitt } from './detail/Schlagworte.tsx'
-import { plotVon, aussagekraeftig } from './detail/plot.ts'
+import { plotVon, aussagekraeftig, eigenerAsZiel } from './detail/plot.ts'
 
 export function DetailPanel({
   data,
@@ -519,21 +518,11 @@ export function DetailPanel({
         .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0],
     [releases, today],
   )
+  const terminReleases = useTerminReleases(releases, title, kinoRelease?.slug, today)
+  /* Führt der Titel den Anbieter schon als Link, steht dort dessen Pille; der Termin allein erst vor der ersten Folge. */
   const streamReleases = useMemo(
-    () =>
-      releases.filter(
-        (r) =>
-          r.releaseType !== 'disc' &&
-          r.slug !== kinoRelease?.slug &&
-          !(title?.streams ?? []).some((s) => s.platform === r.platform) &&
-          /*
-            Ein Fernsehtermin, der vorbei ist, ist kein Weg zur Folge:
-            „niemand kann in die vergangenheit reisen und dort die folge gucken". Eine TV-Pille
-            steht deshalb nur, solange eine Sendung läuft oder eine kommt.
-          */
-          (r.platform !== 'tv' || !title || Boolean(tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16)))),
-      ),
-    [releases, title, kinoRelease, today],
+    () => terminReleases.filter((r) => !(title?.streams ?? []).some((s) => s.platform === r.platform)),
+    [terminReleases, title],
   )
 
   /*
@@ -881,7 +870,7 @@ export function DetailPanel({
   // nirgends eine deutsche Inhaltsangabe — dort wäre die Alternative eine
   // leere Fläche.
   const { plot } = plotVon({ synopsis, anilistId: title.al, ersatz, erschienen: (title.jpEnd ?? '9999') < today })
-  const asZiel = plot?.quelle.url.includes('anisearch.de/anime/') ? plot.quelle.url : synopsis?.asUrl
+  const asZiel = eigenerAsZiel(plot, synopsis?.asUrl)
   const keywords = allKeywords ? title.keywords : title.keywords.slice(0, KEYWORD_PREVIEW)
 
   return (
@@ -1071,6 +1060,7 @@ export function DetailPanel({
             antwort={antwort}
             sortiertNachZugang={sortiertNachZugang}
             streamReleases={streamReleases}
+            terminReleases={terminReleases}
             title={title}
             t={t}
             today={today}
