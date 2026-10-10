@@ -29,6 +29,11 @@ export async function ausSpeicher(env: Env, schluessel: string, bauen: () => Pro
   return new Response(text, { headers: kopf })
 }
 
+/** Die Marke ist nur ein Hinweis: scheitert sie (R2 erlaubt einen Schreibzugriff je Sekunde und Schlüssel), gilt die Frist. */
 export async function exporteVerwerfen(env: Env): Promise<void> {
-  await env.BELEGE?.put(MARKE, new Date().toISOString())
+  try {
+    await env.BELEGE?.put(MARKE, new Date().toISOString())
+  } catch (e) {
+    console.error(`export marke: ${(e as Error)?.name ?? 'Fehler'}`)
+  }
 }
