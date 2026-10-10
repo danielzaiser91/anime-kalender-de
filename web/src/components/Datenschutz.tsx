@@ -17,7 +17,7 @@ function BrowserAbschnitte() {
     <>
       <Abschnitt titel="Verantwortlicher">
         <p>
-          Daniel Zaiser,{' '}
+          Daniel Zaiser, c/o IP-Management #12369, Ludwig-Erhard-Str. 18, 20459 Hamburg,{' '}
           <a className="underline hover:text-sky-400" href={`mailto:${CONTACT_EMAIL}`}>
             {CONTACT_EMAIL}
           </a>
