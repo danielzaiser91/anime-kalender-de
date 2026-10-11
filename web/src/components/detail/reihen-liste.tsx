@@ -321,7 +321,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                             }
                             return m.jpYear ? String(m.jpYear) : m.deStart ? m.deStart.slice(0, 4) : ''
                           })(),
-                          m.episodes ? t('detail.folgenKurz', { n: m.episodes }) : '',
+                          m.episodes && m.episodes > 1 ? t('detail.folgenKurz', { n: m.episodes }) : '',
                         ]
                           .filter(Boolean)
                           .join(' · ')}

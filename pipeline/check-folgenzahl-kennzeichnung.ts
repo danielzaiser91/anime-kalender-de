@@ -24,6 +24,7 @@ function pruefe(name: string, ok: boolean, info = ''): void {
 const t = (key: string, params?: Record<string, string | number>): string => (params ? `${key}${JSON.stringify(params)}` : key)
 const HEUTE = '2026-10-11'
 const ZAHL = 'detail.folgenKurz'
+const SPANNE = 'detail.folgenBereich'
 
 function pille(title: Title, s: StreamLink, releases: Release[] = []): string {
   const fn = folgenAuskunft({ releases, title, t: t as never, releaseJePlattform: new Map(releases.map((r) => [r.platform, r])), today: HEUTE })
@@ -35,7 +36,7 @@ const ohneBereiche = { platform: 'netflix', url: 'https://www.netflix.com/title/
 const mitBereichen = { ...ohneBereiche, dubRanges: [{ from: 1, to: 12, dub: true }] } as StreamLink
 
 pruefe('Haken ohne Bereiche, Serie beendet: Titelzahl mit „≈“', pille(beendet, ohneBereiche) === `≈ ${ZAHL}{"n":12}`, pille(beendet, ohneBereiche))
-pruefe('Mit Bereichen am Weg: Zahl ohne „≈“', pille(beendet, mitBereichen) === `${ZAHL}{"n":12}`, pille(beendet, mitBereichen))
+pruefe('Mit Bereichen am Weg: Zahl ohne „≈“', pille(beendet, mitBereichen) === `${SPANNE}{"bereich":"1–12"}`, pille(beendet, mitBereichen))
 pruefe('Ohne Haken: keine Zahl', pille(beendet, { ...ohneBereiche, dub: undefined }) === '')
 
 /* Der Antwortkasten sagt dasselbe wie die Pille: abgeleitet → „≈ N“ statt „Alle N“, belegt → unverändert (Cowboy Bebop, 11.10.2026). */
@@ -55,6 +56,7 @@ pruefe('Kasten und Pille stimmen überein (belegt)', pille(beendet, mitBereichen
 
 function pruefeBestand(datei: string, releasesJeTitel: Map<number, Release[]>): number {
   let unmarkiert = 0
+  let erfunden = 0
   let markiert = 0
   const titel = JSON.parse(readFileSync(`public/data/${datei}`, 'utf8')) as Title[]
   for (const roh of titel) {
@@ -67,7 +69,15 @@ function pruefeBestand(datei: string, releasesJeTitel: Map<number, Release[]>): 
         markiert++
         continue
       }
-      if (!text.startsWith(ZAHL)) continue
+      /* Eine Spanne ab Folge 1 braucht einen Beleg ab Folge 1: Netflix hat bei Mushoku Tensei Cour 2 die Folgen 12–23 (11.10.2026). */
+      const ab1 = text.startsWith(`${SPANNE}{"bereich":"1–`) || text === `${SPANNE}{"bereich":"1"}`
+      const wochenplan = releases.some((r) => r.platform === zaehlPlattform(s, t0.streams ?? []) && r.releaseType === 'weekly')
+      const deutsch = (s.dubRanges ?? []).filter((r) => r.dub)
+      if (ab1 && deutsch.length && !wochenplan && !deutsch.some((r) => r.from <= 1)) {
+        erfunden++
+        if (erfunden <= 5) console.error(`  ${datei} ${roh.id} ${s.platform}: ${text}`)
+      }
+      if (!text.startsWith(ZAHL) && !text.startsWith(SPANNE)) continue
       const plattform = zaehlPlattform(s, t0.streams ?? [])
       const belegt = s.dubRanges?.some((r) => r.dub) || releases.some((r) => r.platform === plattform && r.releaseType === 'weekly')
       if (belegt) continue
@@ -76,12 +86,22 @@ function pruefeBestand(datei: string, releasesJeTitel: Map<number, Release[]>): 
     }
   }
   pruefe(`${datei}: Folgenzahl ohne Beleg und ohne „≈“ (${unmarkiert} Wege)`, unmarkiert === 0)
+  pruefe(`${datei}: keine Spanne ab Folge 1, wo die deutschen Bereiche später beginnen (${erfunden} Wege)`, erfunden === 0)
   return markiert
 }
 
 const releases = JSON.parse(readFileSync('public/data/releases.json', 'utf8')) as Release[]
 const jeTitel = new Map<number, Release[]>()
 for (const r of releases) jeTitel.set(r.titleId, [...(jeTitel.get(r.titleId) ?? []), r])
+/* Die vier echten Fälle aus dem Bestand: der deutsche Bereich beginnt nicht bei 1, die Pille zeigt ihn selbst. */
+const echteFaelle: [number, string][] = [[127720, '12–23'], [146638, '13–28'], [158871, '2–44'], [165159, '2–48']]
+const hauptbestand = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[]
+for (const [id, bereich] of echteFaelle) {
+  const roh = hauptbestand.find((x) => x.id === id)
+  const t0 = roh && titelMitTerminBereichen(roh, jeTitel.get(id) ?? [])
+  const netflix = t0?.streams?.find((x) => x.platform === 'netflix')
+  pruefe(`Bestand ${id}: Netflix zeigt Fg. ${bereich}`, Boolean(t0 && netflix) && pille(t0!, netflix!, jeTitel.get(id) ?? []) === `${SPANNE}{"bereich":"${bereich}"}`, t0 && netflix ? pille(t0, netflix, jeTitel.get(id) ?? []) : 'Titel fehlt')
+}
 const gekennzeichnet = ['titles.json', 'ohne-synchro.json', 'cartoons.json'].map((d) => pruefeBestand(d, jeTitel))
 pruefe('Bestand: mindestens ein Weg trägt „≈“ (sonst prüft diese Prüfung nichts)', gekennzeichnet[0]! > 0)
 

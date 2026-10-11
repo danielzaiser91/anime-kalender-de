@@ -4,7 +4,6 @@ import { useState, useEffect, type ReactNode } from 'react'
 import { type Meldung, type VermerkAusgeblieben } from '@shared/types.ts'
 import { loadMeldungen } from '../../lib/data.ts'
 import { naechsteRecherche } from '@shared/recherche-plan.ts'
-import { Tooltip } from '../ui.tsx'
 
 /**
  * Was Meldungen über einen Titel sagen, ohne einen Tag zu nennen.
@@ -294,42 +293,6 @@ export function VermerkAuskunft({
         <p key={i}>{z}</p>
       ))}
     </div>
-  )
-}
-
-/*
-  **Der DE-Beleg als Häkchen auf der Ecke** (Daniel, 19.09.2026, aus vier Entwürfen: „nur das
-  häkchen oben rechts … bei hover tooltip"). „DE ✓" kostete rund 35 px je Pille; unbelegte
-  Wege tragen gar kein Zeichen mehr — der Tooltip sagt, was das Häkchen heißt.
-*/
-export const DUB_HAKEN_KLASSE =
-  'grid size-4 place-items-center rounded-full bg-emerald-500 text-[9px] font-black leading-none text-white ring-2 ring-white dark:ring-[#0f1b2e]'
-
-/* „Deutsch laut JustWatch": Umriss statt Füllung — dieselbe Ecke, aber erkennbar kein Beleg (11.10.2026). */
-const DUB_JUSTWATCH_KLASSE =
-  'grid size-4 place-items-center rounded-full border border-emerald-500 bg-white text-[9px] font-black leading-none text-emerald-600 ring-2 ring-white dark:bg-[#0f1b2e] dark:text-emerald-400 dark:ring-[#0f1b2e]'
-
-export function DubEcke({ dub, justwatchStand }: { dub?: boolean; justwatchStand?: string }) {
-  const { t } = useLang()
-  if (dub !== true && justwatchStand) {
-    return (
-      <span data-dub-justwatch className="absolute -right-1 -top-1.5 z-10">
-        <Tooltip text={t('detail.dubJustwatch', { datum: formatDate(justwatchStand) })} seite="oben">
-          <span className={DUB_JUSTWATCH_KLASSE}>✓</span>
-        </Tooltip>
-      </span>
-    )
-  }
-  if (dub !== true) return null
-  return (
-    /* `data-dub-haken`: Die Legende unter den Pillen zeigt sich nur, wenn mindestens ein Haken dasteht. */
-    <span data-dub-haken className="absolute -right-1 -top-1.5 z-10">
-      <Tooltip text={t('detail.dubYes')} seite="oben">
-        <span className={DUB_HAKEN_KLASSE}>
-          ✓
-        </span>
-      </Tooltip>
-    </span>
   )
 }
 

@@ -1,6 +1,6 @@
 import { useMemo, type ReactElement } from 'react'
 import type { Release } from '@shared/types.ts'
-import { ReleasePille } from './pillen.tsx'
+import { TerminZeile } from './termin-zeile.tsx'
 import { jetztBerlin } from '../../lib/toggo.ts'
 import { tvZuletzt, type TvZuletzt } from '../../lib/tv-zuletzt.ts'
 
@@ -24,8 +24,8 @@ export function tvVorbeiPillen(liste: TvZuletzt[], titel: string, today: string,
   if (!liste.length) return []
   return [
     ...liste.map(({ release, text }) => (
-      <ReleasePille key={`${release.slug}|vorbei`} release={release} titel={titel} today={today} tvText={{ text, premiere: false }} />
+      <TerminZeile key={`${release.slug}|vorbei`} release={release} titel={titel} today={today} tvText={{ text, premiere: false }} />
     )),
-    <p key="tv-vorbei-satz" className="basis-full text-xs text-slate-500 dark:text-slate-400">{satz}</p>,
+    <p key="tv-vorbei-satz" className="py-1 text-xs text-slate-600 dark:text-slate-400">{satz}</p>,
   ]
 }

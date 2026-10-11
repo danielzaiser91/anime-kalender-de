@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { loadJson } from '../../lib/data.ts'
 import { Tooltip } from '../ui.tsx'
 import { DeFlaggeZeichen } from '../de-flagge.tsx'
-import { TREFFER_24_HOCH } from './tippziel.ts'
 
 /**
  * **Die Folgenliste im Antwortkasten** (Daniel, 04.10.2026): Ein Pfeil klappt sie auf, der Kasten wächst mit,
@@ -41,7 +40,8 @@ export function useFolgenZaehlung(titleId: number): [number, number] | undefined
   return z
 }
 
-export function FolgenBereich({ titleId, erschienen }: { titleId: number; erschienen?: number }) {
+/** `laufzeitImKopf`: Die Laufzeit steht schon im Kopf des Panels — dann nicht noch einmal (mit anderem Wert) im Kasten. */
+export function FolgenBereich({ titleId, erschienen, laufzeitImKopf }: { titleId: number; erschienen?: number; laufzeitImKopf?: boolean }) {
   const [gibtEs, setGibtEs] = useState(false)
   const [offen, setOffen] = useState(false)
   const [liste, setListe] = useState<Liste>()
@@ -73,10 +73,10 @@ export function FolgenBereich({ titleId, erschienen }: { titleId: number; erschi
   const deutsch = (nr: number) => liste?.de.some(([von, bis]) => nr >= von && nr <= bis) ?? false
   return (
     <div className="mt-2 border-t border-slate-300 pt-1.5 text-xs text-slate-700 dark:border-white/10 dark:text-slate-200">
-      <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className={`flex w-full cursor-pointer items-center gap-1.5 py-0.5 text-left font-semibold ${TREFFER_24_HOCH}`}>
+      <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className="flex min-h-11 w-full cursor-pointer items-center gap-1.5 text-left text-sm font-semibold">
         <span aria-hidden className={`inline-block transition-transform ${offen ? 'rotate-90' : ''}`}>▸</span>
         Folgen{folgen ? ` (${folgen.length})` : ''}
-        {liste?.min ? <span className="font-normal text-slate-500 dark:text-slate-400">· ~{liste.min} Min. je Folge</span> : null}
+        {liste?.min && !laufzeitImKopf ? <span className="font-normal text-slate-500 dark:text-slate-400">· ~{liste.min} Min. je Folge</span> : null}
       </button>
       {offen && (
         <div>
@@ -89,7 +89,7 @@ export function FolgenBereich({ titleId, erschienen }: { titleId: number; erschi
                   role="tab"
                   aria-selected={i === paket}
                   onClick={() => setPaket(i)}
-                  className={`cursor-pointer rounded px-1.5 py-0.5 tabular-nums ${i === paket ? 'bg-slate-300 font-bold dark:bg-white/20' : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'}`}
+                  className={`min-h-11 min-w-11 cursor-pointer rounded px-2 tabular-nums ${i === paket ? 'bg-slate-300 font-bold dark:bg-white/20' : 'bg-slate-200 text-slate-700 hover:bg-slate-300 dark:bg-white/5 dark:text-slate-300 dark:hover:bg-white/10'}`}
                 >
                   {i * PAKET + 1}–{Math.min((i + 1) * PAKET, folgen!.length)}
                 </button>
