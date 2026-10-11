@@ -12,16 +12,20 @@
  * **Grenzen.** Die Zuordnung Titel → TMDB-Kennung kommt aus `data/tmdb-titles.json` (geprüft im Bau der Folgentitel). Wo sie fehlt oder das
  * größte Plakat unter `MIN_BREITE` liegt, bekommt der Titel keinen Eintrag; die Liste dazu schreibt der Bau (Monitor).
  *
- * Aufruf: `npx tsx pipeline/fetch-tmdb-poster.ts [--limit N] [--alle]`
+ * Aufruf: `npx tsx pipeline/fetch-tmdb-poster.ts [--limit N] [--katalog N] [--alle]`
  */
 import { fetchJson, loadEnv, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 import { passtFilm, waehlePlakat, type TmdbBild } from './lib/tmdb-plakat.ts'
+import { GRUND_DATEI, plakatSuche, type GrundBestand } from './lib/tmdb-plakat-suche.ts'
+import { schreibeCoverListe } from './lib/cover-liste.ts'
 import { waehleStaffel, type TmdbStaffel } from './lib/tmdb-staffel.ts'
 
 const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || Infinity
 const ALLE = process.argv.includes('--alle')
+/** Titel ohne TMDB-Plakat (erst ohne jedes Cover, dann Hauptbestand und Katalog), die je Lauf gesucht werden: ein Block von rund 12 Minuten, der Rest kommt im nächsten Lauf. */
+const KATALOG = Number(process.argv[process.argv.indexOf('--katalog') + 1]) || 600
 
 /**
  * **Filme ohne TMDB-Zuordnung** (Daniel, 07.10.2026, „Rascal Does Not Dream of a Dear Friend": der Kinofilm stand nicht in `tmdb-titles.json`).
@@ -174,7 +178,9 @@ async function main(): Promise<void> {
   gefunden += await filmeSuchen(apiKey, zuordnung, bestand)
   gefunden += await staffelPlakate(apiKey, zuordnung, bestand, LIMIT)
   gefunden += await serienOhneCover(apiKey, bestand)
+  gefunden += await plakatSuche(apiKey, bestand, KATALOG, 12 * 60_000)
   writeJson('data/tmdb-poster.json', bestand)
+  schreibeCoverListe(bestand, readJson<GrundBestand>(GRUND_DATEI, {}))
   log(`${gefunden} von ${offen.length} Titeln mit Plakat, ${fehler} Fehler`)
   recordSource('tmdb-poster', gefunden)
 }

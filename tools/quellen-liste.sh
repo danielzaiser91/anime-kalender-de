@@ -47,6 +47,8 @@ QUELLEN=(
   # Stufe D (11.10.2026): Zählung der Sprecher je Quelle vorher/nachher (AniList, ANN, aniSearch); vom Bau geschrieben.
   data/sprecher-quellen.json
   data/tmdb-poster.json
+  data/tmdb-poster-grund.json
+  daniel-zum-abarbeiten/listen/cover-ohne-tmdb.md
   data/kitsu-folgen.json
   data/cover-klein.json
   data/wikidata-titel.json
