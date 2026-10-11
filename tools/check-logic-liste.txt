@@ -41,3 +41,4 @@ pipeline/check-werk-doppelt.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-herkunftsfilter.ts
 pipeline/check-verweise-gedaechtnis.ts
+pipeline/check-kanal-abgehakt.ts
