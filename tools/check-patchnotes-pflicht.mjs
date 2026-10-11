@@ -1,6 +1,6 @@
 /**
  * Pflicht in der PR-Prüfkette (Daniel, 10.10.2026): Ein PR, der die Seite sichtbar ändert (`web/src/`, `shared/`, `data/curated/`,
- * `data/dub-confirmed.yaml`; nicht Zweige `daten/`, `claude/`), bringt entweder einen neuen Eintrag in `data/patchnotes.yaml` mit oder trägt in der
+ * `data/dub-confirmed.yaml`; nicht Zweige `daten/`, `claude/`), legt entweder eine neue Datei in `data/patchnotes/` an oder trägt in der
  * PR-Beschreibung eine Zeile „Patch Notes: keine – <Grund>“. Sonst ist die Prüfkette rot.
  *
  *   node tools/check-patchnotes-pflicht.mjs
@@ -10,22 +10,24 @@
  * stammt aus dem Ereignis; wer sie nachträglich ändert, stößt die Prüfkette mit einem neuen Commit erneut an.
  */
 import { execFileSync } from 'node:child_process'
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import yaml from 'js-yaml'
 
-const YAML_PFAD = 'data/patchnotes.yaml'
+const ORDNER = 'data/patchnotes/'
+const EINTRAG = /^data\/patchnotes\/[^/]+\.yaml$/
 // `shared/` zählt ganz: die Web-Anzeige nutzt es, eine Einzelprüfung der Importe wäre brüchig; Daten-PRs befreit die Beschreibung.
 const SICHTBAR = /^(web\/src\/|shared\/|data\/curated\/|data\/dub-confirmed\.yaml$)/
 // Sammler- und Datenläufe (Zweige `daten/…`, `claude/…`) schreiben keine Patch Notes.
 const AUSGENOMMENE_ZWEIGE = /^(daten|claude)\//
 const KEINE_ZEILE = /^\s*Patch Notes:\s*keine\s*[–—-]\s*\S/im
 
-/** Texte der Einträge, die nachher in der Datei stehen und vorher nicht. */
-export function neueTexte(vorher, nachher) {
-  const texte = (roh) => (roh ? yaml.load(roh, { schema: yaml.JSON_SCHEMA }) : []).map((e) => e.text)
-  const alt = new Set(texte(vorher))
-  return texte(nachher).filter((t) => !alt.has(t))
+/** Eintrags-Dateien, die der PR neu anlegt, aus der Ausgabe von `git diff --name-status --no-renames` (Zeilen „A<Tab>Pfad“). */
+export function neueEintraege(nameStatus) {
+  return nameStatus
+    .split('\n')
+    .map((z) => z.split('\t'))
+    .filter(([status, pfad]) => status === 'A' && EINTRAG.test(pfad ?? ''))
+    .map(([, pfad]) => pfad)
 }
 
 /** Ergebnis der Regel für einen PR: `ok` und der Grund in einem Satz. */
@@ -33,13 +35,13 @@ export function bewerte({ dateien, neu, beschreibung, zweig = '' }) {
   if (AUSGENOMMENE_ZWEIGE.test(zweig)) return { ok: true, grund: `Zweig ${zweig} (Daten-/Sammlerlauf) ausgenommen` }
   const sichtbar = dateien.filter((f) => SICHTBAR.test(f))
   if (!sichtbar.length) return { ok: true, grund: 'keine sichtbare Änderung' }
-  if (neu.length) return { ok: true, grund: `neuer Eintrag in ${YAML_PFAD}: ${neu.join(' | ')}` }
+  if (neu.length) return { ok: true, grund: `neuer Eintrag: ${neu.join(' | ')}` }
   if (KEINE_ZEILE.test(beschreibung)) return { ok: true, grund: 'in der PR-Beschreibung ausgenommen' }
   return {
     ok: false,
     grund:
       `Sichtbare Änderung (${sichtbar.slice(0, 3).join(', ')}${sichtbar.length > 3 ? ', …' : ''}) ohne Patch-Notes-Eintrag.\n` +
-      `  Entweder eine Zeile in ${YAML_PFAD} ergänzen (Nutzen für Besucher, höchstens 8 Wörter)\n` +
+      `  Entweder eine neue Datei in ${ORDNER} anlegen (Nutzen für Besucher, höchstens 8 Wörter)\n` +
       '  oder in die PR-Beschreibung die Zeile „Patch Notes: keine – <Grund>“ schreiben und danach einen neuen Commit pushen.',
   }
 }
@@ -62,10 +64,9 @@ function gegenproben() {
     ['Zweig claude/ ausgenommen', { dateien: ['shared/x.ts'], neu: [], beschreibung: '', zweig: 'claude/sammler' }, true],
     ['Zweig feat/ nicht ausgenommen', { dateien: ['shared/x.ts'], neu: [], beschreibung: '', zweig: 'feat/daten/x' }, false],
   ]
-  const alt = '- {kategorie: bugfix, text: A}\n- {kategorie: bugfix, text: B}\n'
-  const neu = neueTexte(alt, '- {kategorie: bugfix, text: B}\n- {kategorie: bugfix, text: C}\n')
-  fall.push(['neueTexte: nur der hinzugekommene Text', null, neu.join() === 'C'])
-  fall.push(['neueTexte ohne Vorfassung: alle', null, neueTexte('', alt).length === 2])
+  const status = 'M\tdata/patchnotes/alt.yaml\nA\tdata/patchnotes/neu.yaml\nA\tdata/patchnotes/ordner/tief.yaml\nA\tdata/patchnotes/notiz.md\nA\tweb/src/x.ts\nD\tdata/patchnotes/weg.yaml\n'
+  fall.push(['neueEintraege: nur neu angelegte Dateien direkt im Ordner', null, neueEintraege(status).join() === 'data/patchnotes/neu.yaml'])
+  fall.push(['neueEintraege: leere Ausgabe ergibt nichts', null, neueEintraege('').length === 0])
   // Ohne Eingabe steht in der dritten Spalte schon das Ergebnis der Probe (Wahrheitswert).
   const ergebnis = (eingabe, erwartet) => (eingabe ? bewerte(eingabe).ok === erwartet : erwartet)
   const fehler = fall.filter(([, eingabe, erwartet]) => !ergebnis(eingabe, erwartet))
@@ -85,20 +86,14 @@ function hatCommit(sha) {
   }
 }
 
-/** Eingaben der Regel aus dem PR-Ereignis: geänderte Dateien gegen die Basis, alte und neue Fassung der Liste, Beschreibung. */
+/** Eingaben der Regel aus dem PR-Ereignis: geänderte und neu angelegte Dateien gegen die Basis, Beschreibung. */
 function ausEreignis() {
   const pr = JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8')).pull_request
   const basis = pr.base.sha
   if (!hatCommit(basis)) git('fetch', '--no-tags', '--depth=1', 'origin', basis)
-  const dateien = git('diff', '--name-only', basis, 'HEAD').split('\n').filter(Boolean)
-  let vorher = ''
-  try {
-    vorher = git('show', `${basis}:${YAML_PFAD}`)
-  } catch {
-    /* Datei neu im PR. */
-  }
-  const nachher = existsSync(YAML_PFAD) ? readFileSync(YAML_PFAD, 'utf8') : ''
-  return { dateien, neu: neueTexte(vorher, nachher), beschreibung: pr.body ?? '', zweig: pr.head.ref }
+  const nameStatus = git('diff', '--name-status', '--no-renames', basis, 'HEAD')
+  const dateien = nameStatus.split('\n').filter(Boolean).map((z) => z.split('\t')[1])
+  return { dateien, neu: neueEintraege(nameStatus), beschreibung: pr.body ?? '', zweig: pr.head.ref }
 }
 
 function main() {

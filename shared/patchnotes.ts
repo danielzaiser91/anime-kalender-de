@@ -1,7 +1,7 @@
 /**
- * Patch-Notes „Neu auf der Webseite": Form, Prüfung und Auslieferung. Die Quelle ist `data/patchnotes.yaml` (jeder PR mit
- * sichtbarer Wirkung trägt seine Zeile ein), ausgeliefert wird `patchnotes.json` — nur beim Klick auf den Knopf geladen.
- * Der Tag eines Eintrags ist der Tag des Commits, der ihn eingeführt hat (`pipeline/lib/patchnotes-datum.ts`); `datum` in der
+ * Patch-Notes „Neu auf der Webseite": Form, Prüfung und Auslieferung. Die Quelle ist der Ordner `data/patchnotes/` (jeder PR mit
+ * sichtbarer Wirkung legt seine Datei an), ausgeliefert wird `patchnotes.json` — nur beim Klick auf den Knopf geladen.
+ * Der Tag eines Eintrags ist der Tag des Commits, der seine Datei angelegt hat (`pipeline/lib/patchnotes-datum.ts`); `datum` in der
  * Datei ist nur ein Nachtrag für Einträge, die älter sind als dieses Verfahren.
  */
 export const PATCH_KATEGORIEN = ['feature', 'bugfix'] as const
@@ -39,14 +39,14 @@ function istTag(s: unknown): s is string {
   return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s
 }
 
-/** Liefert die Widersprüche der Rohliste aus der YAML-Datei (`datum` darf fehlen); leer heißt in Ordnung. */
-export function pruefePatchnotes(roh: unknown): string[] {
-  if (!Array.isArray(roh)) return ['patchnotes.yaml: oberste Ebene muss eine Liste sein']
+/** Liefert die Widersprüche der Rohliste aus den YAML-Dateien (`datum` darf fehlen); `namen`: Dateinamen für die Meldungen. Leer heißt in Ordnung. */
+export function pruefePatchnotes(roh: unknown, namen: string[] = []): string[] {
+  if (!Array.isArray(roh)) return ['Patch Notes: muss eine Liste von Einträgen sein']
   const fehler: string[] = []
   const gesehen = new Set<string>()
   const highlights = new Map<string, number>()
   roh.forEach((e: Record<string, unknown> | null, i) => {
-    const wo = `Eintrag ${i + 1}`
+    const wo = namen[i] ?? `Eintrag ${i + 1}`
     if (!e || typeof e !== 'object') return void fehler.push(`${wo}: kein Objekt`)
     for (const k of Object.keys(e)) if (!FELDER.has(k)) fehler.push(`${wo}: unbekanntes Feld „${k}“`)
     if (e.datum !== undefined && !istTag(e.datum)) fehler.push(`${wo}: datum „${String(e.datum)}“ ist kein gültiger Tag (JJJJ-MM-TT, in Anführungszeichen)`)
@@ -64,7 +64,7 @@ export function pruefePatchnotes(roh: unknown): string[] {
     if (e.symbol !== undefined && !PATCH_SYMBOLE.includes(e.symbol as PatchSymbol)) fehler.push(`${wo}: symbol „${String(e.symbol)}“ ungültig`)
     if (e.link !== undefined && (typeof e.link !== 'string' || !e.link.startsWith('#/'))) fehler.push(`${wo}: link muss eine Hash-Adresse („#/…“) sein`)
     if (e.highlight !== undefined && e.highlight !== true) fehler.push(`${wo}: highlight nur als true`)
-    if (gesehen.has(String(e.text))) fehler.push(`${wo}: doppelt („${String(e.text)}“, der Text ist der Schlüssel für den Tag)`)
+    if (gesehen.has(String(e.text))) fehler.push(`${wo}: doppelt („${String(e.text)}“)`)
     gesehen.add(String(e.text))
     if (e.highlight === true) highlights.set(String(e.datum), (highlights.get(String(e.datum)) ?? 0) + 1)
   })
