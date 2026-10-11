@@ -40,24 +40,26 @@ if (!lokal && !process.env.CLOUDFLARE_API_TOKEN) {
   process.exit(0)
 }
 
-let roh
-try {
-  roh = execSync(
-    `npx wrangler d1 insights anime-kalender --config wrangler.toml --sort-by reads --time-period ${zeitraum}`,
-    { cwd: 'worker', encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] },
-  )
-} catch (err) {
-  console.error('`wrangler d1 insights` ist fehlgeschlagen:', String(err.stdout ?? err.message).slice(0, 400))
-  process.exit(1)
+function leseInsights(sortierung) {
+  let roh
+  try {
+    roh = execSync(
+      `npx wrangler d1 insights anime-kalender --config wrangler.toml --sort-by ${sortierung} --time-period ${zeitraum}`,
+      { cwd: 'worker', encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] },
+    )
+  } catch (err) {
+    console.error('`wrangler d1 insights` ist fehlgeschlagen:', String(err.stdout ?? err.message).slice(0, 400))
+    process.exit(1)
+  }
+  try {
+    return JSON.parse(roh.slice(roh.indexOf('[')))
+  } catch (err) {
+    console.error('Antwort nicht lesbar:', roh.slice(0, 400))
+    process.exit(1)
+  }
 }
 
-let zeilen
-try {
-  zeilen = JSON.parse(roh.slice(roh.indexOf('[')))
-} catch (err) {
-  console.error('Antwort nicht lesbar:', roh.slice(0, 400))
-  process.exit(1)
-}
+const zeilen = leseInsights('reads')
 
 const summe = zeilen.reduce((a, q) => a + (q.totalRowsRead ?? 0), 0)
 const groesste = [...zeilen].sort((a, b) => (b.totalRowsRead ?? 0) - (a.totalRowsRead ?? 0))
