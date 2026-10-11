@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
-import { ausgeblendet, eintragsInfo, ladeBestand, ladeCartoons, nachRang } from './pruef-bestand.mjs'
+import { ausgeblendet, brauchtUrteil, eintragsInfo, ladeBestand, ladeCartoons, nachRang, wartet } from './pruef-bestand.mjs'
 /** Verweise, denen eine zweite Quelle widerspricht — siehe `verdacht.mjs`. */
 const verdaechtig = verdachtsfaelle(wurzel, 'disneyplus')
 const titel = [...ladeBestand(wurzel), ...ladeCartoons(wurzel)]
@@ -56,7 +56,7 @@ for (const t of titel) {
     if (s.platform !== 'disneyplus') continue
     const id = kennung(s.url)
     if (!id || ausgeblendet(t, 'disneyplus', s)) continue
-    jeAdresse.set(id, [...(jeAdresse.get(id) ?? []), { t, dub: s.dub, url: s.url }])
+    jeAdresse.set(id, [...(jeAdresse.get(id) ?? []), { t, dub: s.dub, url: s.url, wartet: wartet(wurzel, t, 'disneyplus', s) }])
   }
 }
 
@@ -80,7 +80,7 @@ for (const [id, eintraege] of nachRang(jeAdresse, 'disneyplus')) {
       name: e.t.titleDe ?? e.t.titleEn ?? e.t.titleRomaji ?? '',
       folgen: e.t.episodes ?? 0,
       film: e.t.format === 'MOVIE',
-      offen: e.dub === undefined || verdaechtig.has(e.t?.id ?? e.id),
+      offen: brauchtUrteil(e) || verdaechtig.has(e.t?.id ?? e.id),
     })),
   }
 }
