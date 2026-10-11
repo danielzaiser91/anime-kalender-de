@@ -4,6 +4,7 @@ import { nichtErlaubt } from './pruefung-ablehnung.ts'
 import { loeschePruefungen } from './pruefung-loeschen.ts'
 import { beantwortePruefungLesen } from './pruefung-lesen.ts'
 import { exporteVerwerfen } from './export-speicher.ts'
+import { ausEdgeCache } from './cache-kurz.ts'
 
 export async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
   const offen = {
@@ -73,23 +74,8 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
    * (`WHERE uebernommen = 0`), nicht die ganze Tabelle — das ist der
    * Unterschied zu `?zaehlen=1`.
    */
-  const ausCache = async (
-    bauen: () => Promise<Response>,
-    sekunden = 1800,
-  ): Promise<Response> => {
-    const schluessel = new Request(new URL(request.url).toString(), { method: 'GET' })
-    const cache = caches.default
-    const getroffen = await cache.match(schluessel)
-    if (getroffen) return getroffen
-    const frisch = await bauen()
-    /* Nur erfolgreiche Antworten werden gehalten — ein Fehler soll sich nicht festsetzen. */
-    if (frisch.status === 200) {
-      const zumHalten = new Response(frisch.clone().body, frisch)
-      zumHalten.headers.set('Cache-Control', `public, max-age=${sekunden}`)
-      ctx?.waitUntil(cache.put(schluessel, zumHalten))
-    }
-    return frisch
-  }
+  const ausCache = (bauen: () => Promise<Response>, sekunden = 1800): Promise<Response> =>
+    ausEdgeCache(request, ctx, sekunden, bauen)
 
   if (request.method === 'GET') {
     return await beantwortePruefungLesen({ request, env, antwort, ausCache })
