@@ -28,7 +28,8 @@ const zustandsBlock = (() => {
 })()
 /* Die Hilfen aus `prime-titelseite.js` laden laut Manifest vor `amazon.js` — hier vor dem Block. */
 const hilfen = readFileSync(__dirname + '/prime-titelseite.js', 'utf8')
-const block = hilfen + '\n' + zustandsBlock + '\n' + quelle.slice(von, bis)
+const gtiSprungAttrappe = 'var gtiSprungMerken = () => {}\n' // in amazon.js weit oben; die Gti-Prüfung unten ersetzt sie
+const block = hilfen + '\n' + gtiSprungAttrappe + zustandsBlock + '\n' + quelle.slice(von, bis)
 
 const fehler = []
 function pruefe(name, bedingung, gefunden) {
@@ -216,9 +217,44 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   pruefe('Start außerhalb eines Listentitels: erster Titel mit Titelseite, nicht die Suche', kennung(w.offen()[0]) === 'B07VP6VPVR', w.offen().map(kennung))
 }
 
+/* ---- Titel unter JustWatchs gti (11.10.2026) ---- */
+{
+  const GTI = 'amzn1.dv.gti.a42a7992-811d-4616-8b19-e160276b57ad'
+  const ZWEITE = 'B0AAAAAAA2'
+  const w = welt()
+  const k = w.kontext
+  k.liste = {
+    [GTI]: { titel: 'Antiks', url: `https://watch.amazon.de/detail?gti=${GTI}` },
+    SUCHE: { titel: 'Anonymous Noise', url: 'https://www.amazon.de/s?k=Anonymous+Noise&i=instant-video' },
+  }
+  k.listenId = 'irgendwas'
+  const gemerkt = []
+  k.gtiSprungMerken = (g) => gemerkt.push(g)
+  pruefe('gti-Titel zählen als Titel mit Titelseite, die Suche nicht', vm.runInContext('primeLaufStarten()', k) === true && w.lauf().titelGesamt === 1, w.lauf())
+  pruefe('der erste Frame geht über watch.amazon.de/detail?gti=…', w.offen().length === 1 && w.offen()[0].src === `https://watch.amazon.de/detail?gti=${GTI}`, w.offen().map((f) => f.src))
+  pruefe('… und merkt sich den Auftrag wie der Klick in der Prüfliste', gemerkt.join() === GTI, gemerkt)
+  w.ergebnis(w.offen()[0], { hier: 'B0REDIRECT1', staffeln: [{ kennung: 'B0REDIRECT1', nummer: 1 }, { kennung: ZWEITE, nummer: 2 }] })
+  pruefe('weitere Staffeln laufen über ihre ASIN, die Zielseite des ersten Frames nicht doppelt', w.offen().length === 1 && w.offen()[0].src === `https://www.amazon.de/gp/video/detail/${ZWEITE}`, w.offen().map((f) => f.src))
+  pruefe('der Auftrag wird nur für den ersten Frame gemerkt', gemerkt.length === 1, gemerkt)
+  w.ergebnis(w.offen()[0], {})
+  pruefe('danach endet der Lauf: die Suche wird nie geöffnet', w.lauf() === null && w.ende()?.grund === 'nichts mehr offen' && w.frames.length === 2, w.frames.map((f) => f.src))
+}
+
+{
+  /* Jeder Eintrag der echten Prüfliste hat eine Titelseite oder ist eine Suche — eine dritte Form fiele sonst lautlos heraus. */
+  const roh = readFileSync(__dirname + '/offene-amazon.js', 'utf8')
+  const huelle = {}
+  vm.runInNewContext(roh, huelle)
+  const eintraege = Object.values(huelle.AK_OFFENE_AMAZON ?? {})
+  const ohne = eintraege.filter((e) => !/\/detail(?:\/|\?gti=)/.test(e.url) && !/\/s\?k=/.test(e.url))
+  pruefe('Prüfliste: jeder Eintrag hat eine Titelseite oder eine Suchadresse', eintraege.length > 0 && ohne.length === 0, ohne.slice(0, 3))
+}
+
 /* ---- Verdrahtung ---- */
 {
   const manifest = JSON.parse(readFileSync(__dirname + '/manifest.json', 'utf8'))
+  const hilfen = manifest.content_scripts.find((c) => c.js.includes('amazon.js')).js
+  pruefe('Manifest: prime-titelseite.js lädt vor amazon.js', hilfen.indexOf('prime-titelseite.js') > 0 && hilfen.indexOf('prime-titelseite.js') < hilfen.indexOf('amazon.js'), hilfen)
   const amazon = manifest.content_scripts.filter((c) => c.js.includes('amazon.js') || c.js.includes('amazon-leser.js'))
   pruefe('Manifest: Leser und Melder laufen auch in Frames', amazon.length === 2 && amazon.every((c) => c.all_frames === true))
   const waechter = "window.top && window !== window.top && window.name !== 'ak-durchgang') return"

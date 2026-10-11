@@ -10977,7 +10977,7 @@ async function speicherSchreiben(werte) {
 
   function primeTitelBeginnen(lauf, schluessel) {
     lauf.titel = schluessel
-    lauf.plan = [kennungAus(liste[schluessel].url)].filter(Boolean)
+    lauf.plan = [akPrimeStartKennung(liste[schluessel].url, kennungAus)].filter(Boolean)
     lauf.planBekannt = false
     lauf.staffelNr = {}
     primeSpur(lauf, 'titel', { schluessel, titel: liste[schluessel]?.titel ?? null })
@@ -10986,7 +10986,7 @@ async function speicherSchreiben(werte) {
   function primeFrameOeffnen(lauf, kennung) {
     const el = document.createElement('iframe')
     el.name = PRIME_FRAME_NAME
-    el.src = `https://www.amazon.de/gp/video/detail/${kennung}`
+    el.src = akPrimeFrameAdresse(kennung, gtiSprungMerken)
     /* Kein Vorschauvideo mit Ton aus einem Frame, den niemand sieht. */
     el.allow = "autoplay 'none'"
     el.tabIndex = -1
