@@ -24,7 +24,7 @@ Lage: befund
 **Was läuft komplett falsch?** …
 ```
 
-Keine Überschriften, keine Adressen (`http…`), kein HTML, höchstens 5000 Zeichen insgesamt. Läufe nennst du mit ihrer Nummer aus dem Dossier-Link, Dateien in Backticks.
+Keine Überschriften, keine Adressen (`http…`, `www.…`), keine Markdown-Verweise, keine @-Erwähnungen, kein HTML, keine Befehle in Backticks (Dateinamen ohne Leerzeichen sind erlaubt), höchstens 5000 Zeichen insgesamt. Läufe nennst du mit ihrer Nummer aus dem Dossier-Link, Dateien in Backticks.
 
 ## Wie du urteilst
 
