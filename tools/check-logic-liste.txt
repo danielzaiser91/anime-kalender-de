@@ -18,6 +18,7 @@ pipeline/check-daten-kennung.ts
 pipeline/check-db-relevanz.ts
 pipeline/check-detektiv-funde.ts
 pipeline/check-disney-gesamtnummer.ts
+pipeline/check-dub-aus-terminen.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-herkunftsfilter.ts
