@@ -2707,5 +2707,255 @@
       "crunchyroll"
     ]
   },
-  "adn-1423-s1-20261008-131586": {}
+  "adn-1423-s1-20261008-131586": {},
+  "jujutsu-kaisen-hidden-inventory-premature-death-blu-ray": {
+    "tmdbId": 1338799
+  },
+  "fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe": {
+    "tmdbId": 283984,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/movie/283984-fate-stay-night-heaven-s-feel-presage-flower/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix"
+    ]
+  },
+  "fate-stay-night-heavens-feel-2-lost-butterfly-gesamtausgabe": {
+    "tmdbId": 390634,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/movie/390634-fate-stay-night-heaven-s-feel-lost-butterfly/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix"
+    ]
+  },
+  "fate-stay-night-heavens-feel-3-spring-song-gesamtausgabe": {
+    "tmdbId": 390635,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/movie/390635-fate-stay-night-heaven-s-feel-spring-song/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix"
+    ]
+  },
+  "dr-stone-science-future-part2": {},
+  "shield-hero-s4-vol2": {},
+  "apothecary-diaries-s2-vol2": {},
+  "demon-slayer-infinity-castle-1-netflix": {
+    "tmdbId": 1311031,
+    "fsk": 16,
+    "justwatchUrl": "https://www.themoviedb.org/movie/1311031/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Amazon Prime Video with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "primevideo",
+      "disneyplus",
+      "crunchyroll"
+    ]
+  },
+  "das-band-der-unterwelt-netflix": {
+    "tmdbId": 260463,
+    "justwatchUrl": "https://www.themoviedb.org/tv/260463/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "crunchyroll"
+    ]
+  },
+  "das-band-der-unterwelt-netflix-folge-1-11": {
+    "tmdbId": 260463,
+    "justwatchUrl": "https://www.themoviedb.org/tv/260463/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "crunchyroll"
+    ]
+  },
+  "avatar-die-sieben-haefen-paramountplus": {
+    "tmdbId": 284833,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/284833-avatar-seven-havens/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Paramount Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Paramount+ Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Paramount Plus Apple TV channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "primevideo"
+    ]
+  },
+  "yaiba-samurai-legend-prosieben-maxx": {
+    "tmdbId": 254017,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/254017-yaiba/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Akibapass",
+        "kind": "rent"
+      }
+    ],
+    "providers": [
+      "adn",
+      "primevideo"
+    ]
+  },
+  "one-piece-whole-cake-island-prosieben-maxx": {
+    "tmdbId": 37854,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/37854/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Netflix",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Disney Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Netflix Standard with Ads",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Animation Digital Network",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Anime Digital Network Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "netflix",
+      "disneyplus",
+      "crunchyroll",
+      "adn",
+      "primevideo"
+    ]
+  }
 }
