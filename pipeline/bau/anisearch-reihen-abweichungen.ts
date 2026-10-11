@@ -40,7 +40,7 @@ export function ladeBeziehungen(dir = ARCHIV_SEITEN): { kanten: Kante[]; namen: 
 }
 
 /** Titel ohne Referenz-Reihe: ein aniSearch-Titel (ab 10.000.000), dessen `franchiseId` kein zweiter Titel teilt — AniList kennt ihn nicht, seine „Reihe" wäre nur er selbst. */
-function ohneReferenzReihe(titel: TitelZeile[]): Set<number> {
+export function ohneReferenzReihe(titel: TitelZeile[]): Set<number> {
   const groesse = new Map<number, number>()
   for (const t of titel) groesse.set(t.franchiseId ?? t.id, (groesse.get(t.franchiseId ?? t.id) ?? 0) + 1)
   return new Set(titel.filter((t) => t.id >= ANISEARCH_ID_BASIS && groesse.get(t.franchiseId ?? t.id) === 1).map((t) => t.id))
@@ -92,7 +92,7 @@ export function schreibeReihenAbweichungen(): void {
     const alt = readJson<Partial<ReihenDatei>>(REIHEN_DATEI, {})
     if (JSON.stringify({ ...alt, stand: '' }) !== JSON.stringify({ ...neu, stand: '' })) writeJson(REIHEN_DATEI, neu, true)
     const g = neu.gesamt
-    log(`aniSearch-Reihen gegen franchiseId: ${g.titel} Titel mit Seite, ${g.gleich} gleich, ${g.fehlen} fehlen, ${g.zusaetzlich} zusätzlich, ${g.gemischt} gemischt (${neu.deckung.ohneSeite} Titel ohne Seite) — Liste: ${REIHEN_DATEI}`)
+    log(`aniSearch-Reihen gegen franchiseId: ${g.titel} Titel mit Seite, ${g.gleich} gleich, ${g.fehlen} fehlen, ${g.zusaetzlich} zusätzlich, ${g.gemischt} gemischt (${neu.deckung.ohneSeite} Titel ohne Seite, ${neu.deckung.ohneReferenz} ohne Referenz-Reihe) — Liste: ${REIHEN_DATEI}`)
   } catch (e) {
     warn(`aniSearch-Reihenliste übersprungen (Messfehler): ${(e as Error).message}`)
   }
