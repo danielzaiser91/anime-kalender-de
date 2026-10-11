@@ -39,6 +39,9 @@ export const TEXTE_KALENDER = {
   'kal.keinTermin': 'Kein Termin an diesem Tag.',
   'kal.nichtsGefiltert': 'Nichts für diese Filter.',
   'kal.imTv': 'Im Fernsehen',
+  'kal.zweitSatz': 'Neu auf {anbieter} · erschien zuerst auf Deutsch bei: {erster}',
+  'kal.zweitHinweis': 'Zuerst bei {erster}, seit {datum}. {anbieter} zieht nach.',
+  'kal.zweitHinweisKatalog': 'Zuerst bei {erster}, seit mindestens {datum} im Angebot. {anbieter} zieht nach.',
   'kal.tvWeitere': '+{n} weitere',
   'kal.keineAusstrahlung': 'Keine Ausstrahlung.',
   'kal.imTvZahl': '{n} im TV',
@@ -80,6 +83,7 @@ export const TEXTE_KALENDER = {
   'kal.tvAmTag': 'Im Fernsehen am {datum}',
 
   'filter.schnell': 'Schnell',
+  'filter.schnell.zweitanbieter': 'Zweitanbieter',
   'filter.mehr': 'mehr Filter ▾',
   'filter.weniger': 'weniger Filter ▴',
   'filter.anbieter': 'Anbieter',

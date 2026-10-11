@@ -88,6 +88,7 @@ function useEintraege(
   if (filters.kostenlosExcluded) liste.push({ label: `⊘ ${t('filter.schnell.kostenlos')}`, aus: true, weg: aus({ kostenlosExcluded: false }) })
   if (filters.confirmedExcluded) liste.push({ label: `⊘ ${t('filter.schnell.bestaetigt')}`, aus: true, weg: aus({ confirmedExcluded: false }) })
   if (filters.availableExcluded) liste.push({ label: `⊘ ${t('filter.schnell.verfuegbar')}`, aus: true, weg: aus({ availableExcluded: false }) })
+  if (filters.zweitanbieterExcluded) liste.push({ label: `⊘ ${t('filter.schnell.zweitanbieter')}`, aus: true, weg: aus({ zweitanbieterExcluded: false }) })
   if (tvAn === false) liste.push({ label: t('filter.ohneTv'), aus: true, weg: () => setTvAn?.(true) })
   return liste
 }

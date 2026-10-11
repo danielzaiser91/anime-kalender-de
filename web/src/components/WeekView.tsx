@@ -10,6 +10,7 @@ import { buendeleTermine } from '../lib/buendel.ts'
 import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
 import { PosterKarte, type KartenArt } from './kalender/PosterKarte.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
+import { ZweitanbieterZeilen } from './kalender/ZweitanbieterZeilen.tsx'
 import { anbieterUndFolge, zaehlung } from './kalender/Marken.tsx'
 
 /** Ohne Uhrzeit hinter alles mit — ziffernbasiert, damit jede Kollation es hinten einsortiert. */
@@ -21,6 +22,8 @@ export interface Tag {
   /** Disc-Termine — eigener Topf (Prototyp 30.09.2026). */
   disc: ReleaseEvent[]
   tv: ReleaseEvent[]
+  /** Streaming-Termine mit Zweitanbieter-Marke: zählen in `stream`, stehen aber als Zeile unter dem Raster. */
+  zweit: ReleaseEvent[]
   /** Für den Sprung zu heute: Streaming-Termine mit und ohne Uhrzeit. */
   timed: ReleaseEvent[]
   untimed: ReleaseEvent[]
@@ -41,13 +44,15 @@ export function tageDerWoche(events: ReleaseEvent[], monday: string): Tag[] {
     /* Disc-Termine sind eine eigene Sorte: weniger interessant, gehören nicht in den Stream-Zähler. */
     const disc = alle.filter((e) => e.releaseType === 'disc')
     const stream = alle.filter((e) => e.platform !== 'tv' && e.releaseType !== 'disc')
+    const imRaster = stream.filter((e) => !e.zweitanbieter)
     return {
       date,
       stream,
       disc,
       tv: alle.filter((e) => e.platform === 'tv'),
-      timed: stream.filter((e) => e.time),
-      untimed: stream.filter((e) => !e.time),
+      zweit: stream.filter((e) => e.zweitanbieter),
+      timed: imRaster.filter((e) => e.time),
+      untimed: imRaster.filter((e) => !e.time),
     }
   })
 }
@@ -110,6 +115,9 @@ function TagZeile({
   const vorbei = tag.date < today
   /* Ausgeschaltet bleiben Premieren sichtbar — dann steht der Kasten nur für sie da. */
   const zeigeTv = p.tvAn || tag.tv.length > 0
+  /* Steht nur Zweitanbieter da, bliebe vom Raster eine leere Fläche. */
+  const rasterLeer = tag.zweit.length > 0 && tag.zweit.length === tag.stream.length && tag.disc.length === 0
+  const vorbeiBis = heute ? now : vorbei ? '99:99' : undefined
   return (
     <section
       data-datum={tag.date}
@@ -122,11 +130,12 @@ function TagZeile({
       ].join(' ')}
     >
       <TagKopf tag={tag} heute={heute} tvAn={p.tvAn} />
-      <div className="flex min-w-0 flex-col gap-4">
-        <PosterRaster tag={tag} p={p} heute={heute} now={now} landingId={landingId} landingRef={landingRef} />
+      <div className={['flex min-w-0 flex-col gap-4', rasterLeer && zeigeTv ? 'lg:min-h-[250px]' : ''].join(' ')}>
+        {!rasterLeer && <PosterRaster tag={tag} p={p} heute={heute} now={now} landingId={landingId} landingRef={landingRef} />}
+        <ZweitanbieterZeilen termine={tag.zweit} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} onOpen={p.onOpen} />
         <DiscKasten termine={tag.disc} hidden={p.hidden} onOpen={p.onOpen} />
       </div>
-      {zeigeTv && <TvSpalte tag={tag} p={p} vorbeiBis={heute ? now : vorbei ? '99:99' : undefined} />}
+      {zeigeTv && <TvSpalte tag={tag} p={p} vorbeiBis={vorbeiBis} />}
     </section>
   )
 }
@@ -181,7 +190,7 @@ function PosterRaster({
   const gesehen = gesehenLesen()
   const art = (ev: ReleaseEvent): KartenArt | undefined =>
     istStaffelstart(ev, p.data) ? 'start' : istStaffelfinale(ev, p.data) ? 'finale' : undefined
-  const gruppen = buendeleTermine(tag.stream, (ev) => !!ev.verpasst || !!art(ev) || !!ev.premiere)
+  const gruppen = buendeleTermine(tag.stream.filter((e) => !e.zweitanbieter), (ev) => !!ev.verpasst || !!art(ev) || !!ev.premiere)
   return (
     <div
       className={[

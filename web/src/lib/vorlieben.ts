@@ -17,10 +17,22 @@ export interface Vorlieben {
   kostenlosExcluded: boolean
   confirmedExcluded: boolean
   availableExcluded: boolean
+  zweitanbieterExcluded: boolean
 }
 
 const SCHLUESSEL = 'vorlieben'
-const LEER: Vorlieben = { favoritesOnly: false, kostenlosOnly: false, confirmedOnly: false, availableOnly: false, discAus: false, favoritesExcluded: false, kostenlosExcluded: false, confirmedExcluded: false, availableExcluded: false }
+const LEER: Vorlieben = {
+  favoritesOnly: false,
+  kostenlosOnly: false,
+  confirmedOnly: false,
+  availableOnly: false,
+  discAus: false,
+  favoritesExcluded: false,
+  kostenlosExcluded: false,
+  confirmedExcluded: false,
+  availableExcluded: false,
+  zweitanbieterExcluded: false,
+}
 
 export function vorliebenLesen(): Vorlieben {
   try {
@@ -35,6 +47,7 @@ export function vorliebenLesen(): Vorlieben {
       kostenlosExcluded: roh.kostenlosExcluded === true,
       confirmedExcluded: roh.confirmedExcluded === true,
       availableExcluded: roh.availableExcluded === true,
+      zweitanbieterExcluded: roh.zweitanbieterExcluded === true,
     }
   } catch {
     /* Gesperrter Speicher oder kaputter Wert: dann gilt die Standardansicht. */
@@ -54,6 +67,7 @@ export function vorliebenAus(filters: FilterState): Vorlieben {
     kostenlosExcluded: filters.kostenlosExcluded,
     confirmedExcluded: filters.confirmedExcluded,
     availableExcluded: filters.availableExcluded,
+    zweitanbieterExcluded: filters.zweitanbieterExcluded,
   }
 }
 
