@@ -49,13 +49,18 @@ globalThis.AK_DISNEY_NETZ = (() => {
     }
     return { ok: false, fehler: letzter }
   }
+  return { inBahnen, sende }
+})()
 
-  /*
-    Adressen, zu denen die Ferne (`?gemeldet=<url>`, nicht zwischengespeichert) Meldungen kennt.
-    Die Liste `?zaehlen=1` ist bis zu 30 Minuten alt und kennt eine frische Meldung noch nicht
-    (Shield Hero: 08:47 gemeldet, um 09:05 weiter „offen"). Was einmal gemeldet ist, bleibt es;
-    „nichts" wird nach `frist` neu erfragt. Gleiche Adresse gleichzeitig: eine Anfrage.
-  */
+/*
+  Adressen, zu denen die Ferne (`?gemeldet=<url>`, nicht zwischengespeichert) Meldungen kennt.
+  Die Liste `?zaehlen=1` ist bis zu 30 Minuten alt und kennt eine frische Meldung noch nicht
+  (Shield Hero: 08:47 gemeldet, um 09:05 weiter „offen"). Was einmal gemeldet ist, bleibt es;
+  „nichts" wird nach `frist` neu erfragt. Gleiche Adresse gleichzeitig: eine Anfrage.
+*/
+
+Object.assign(globalThis.AK_DISNEY_NETZ, (() => {
+  const { inBahnen } = globalThis.AK_DISNEY_NETZ
   const bekannt = new Set()
   const keine = new Map()
   const laufend = new Map()
@@ -77,5 +82,5 @@ globalThis.AK_DISNEY_NETZ = (() => {
     return new Set(urls.filter((u) => bekannt.has(u)))
   }
 
-  return { inBahnen, sende, frischGemeldet }
-})()
+  return { frischGemeldet }
+})())
