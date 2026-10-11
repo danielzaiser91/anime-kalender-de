@@ -4,7 +4,7 @@
  * aniSearch schreibt den Familiennamen groß („Gerrit SCHMIDT-FOSS", „Erwin SMITH") und verliert dabei
  * ß und teils Akzente. Zuerst wird gegen eine Schreibweise gelöst, die der Bestand schon führt (AniList,
  * ANN: „Gerrit Schmidt-Foß"); nur ohne Treffer greift die Regel. Eine Regel allein trifft nur rund 92 %
- * der gleichen Paare (gemessen 10.10.2026, `berichte/anilist-stufe-d.md`).
+ * der gleichen Paare (gemessen 10.10.2026); beim Bau 11.10.2026 mussten nur 3.019 von 58.763 Namen nach Regel gebildet werden (`docs/wissen/quellen.md`).
  */
 
 const PARTIKEL = new Set(['von', 'van', 'der', 'den', 'de', 'di', 'da', 'du', 'la', 'le', 'zu', 'zur', 'vom', 'ten', 'ter', 'el', 'al'])

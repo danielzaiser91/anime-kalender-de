@@ -2,7 +2,7 @@ import { falte, ohneGrossschrift, sprecherAnzeige, sprecherSchluessel, type Schr
 
 /**
  * Sprecher eines Titels: aniSearch zuerst, AniList und ANN nur, wo aniSearch den Sprecher nicht führt
- * (Stufe D der AniList-Ablösung, `daniel-zum-abarbeiten/berichte/anilist-stufe-d.md`).
+ * (Stufe D der AniList-Ablösung, `docs/wissen/quellen.md`, Abschnitt „Sprecher aus aniSearch statt AniList").
  *
  * Eine Rolle aus AniList oder ANN fällt weg, wenn derselbe Sprecher (erstes + letztes Namenswort, gefaltet)
  * bei aniSearch im selben Titel steht — aniSearch führt die ganze Besetzung, AniList höchstens 25 Figuren.

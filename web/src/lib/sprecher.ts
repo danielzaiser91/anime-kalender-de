@@ -1,5 +1,5 @@
 import { createContext, useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react'
-import { sprecherGruppe, type SprecherGruppe, type SprecherIndex } from '@shared/sprecher.ts'
+import type { SprecherGruppe, SprecherIndex, SprecherTitel } from '@shared/sprecher.ts'
 import { loadJson } from './data.ts'
 import { baueAuswahl, type SprecherAuswahl } from './sprecher-auswahl.ts'
 import type { FilterState } from './filters.ts'
@@ -7,7 +7,8 @@ import type { FilterState } from './filters.ts'
 /**
  * Sprecher-Filter der Datenbank — Daten nachladen. Gebaut wird der Index in `pipeline/bau/sprecher-index.ts`:
  * `sprecher.json` (Namen, Titelzahl, Gruppe; gepackt ~20 KB) kommt erst, wenn jemand im Sprecher-Feld tippt;
- * `sprecher/<zwei Buchstaben>.json` (Titel je Name, bis 51 KB gepackt, Stand 11.10.2026) nur für Gruppen, deren Sprecher gewählt oder vorgeschlagen sind.
+ * `sprecher/<gruppe>.json` (Titel je Name, bis 51 KB gepackt, Stand 11.10.2026) nur für Gruppen, deren Sprecher gewählt oder vorgeschlagen sind.
+ * Welche Gruppe zu einem Namen gehört, steht im Index (dritter Wert je Eintrag), nicht in einer Regel hier — so bleibt jeder Datenstand lesbar.
  * Nichts davon steht in `titles.json`. Die Eingabe verlässt das Gerät nie: abgerufen werden feste Dateien.
  */
 
@@ -17,6 +18,11 @@ export const TitelNamenContext = createContext<((id: number) => string | undefin
 let indexPromise: Promise<SprecherIndex> | undefined
 const gruppenPromise = new Map<string, Promise<void>>()
 const GRUPPEN = new Map<string, SprecherGruppe>()
+/** Gruppe je Name, gefüllt mit dem Index; `indexDa` sagt, ob er schon geladen ist. */
+const GRUPPE_VON = new Map<string, string>()
+let indexDa = false
+/** Schlüssel im Fehlerzustand für den Index selbst (Gruppen heißen nie so). */
+const INDEX_FEHLER = '*'
 
 /** Ein Fehlschlag bleibt nicht im Zwischenspeicher, sonst wäre „erneut versuchen" wirkungslos. */
 function einmal<T>(laden: () => Promise<T>, vergessen: () => void): Promise<T> {
@@ -25,9 +31,15 @@ function einmal<T>(laden: () => Promise<T>, vergessen: () => void): Promise<T> {
   return p
 }
 
+function merkeGruppen(index: SprecherIndex): SprecherIndex {
+  for (const [name, , gruppe] of index.sprecher) GRUPPE_VON.set(name, gruppe)
+  indexDa = true
+  return index
+}
+
 export function ladeSprecherIndex(): Promise<SprecherIndex> {
   indexPromise ??= einmal(
-    () => loadJson<SprecherIndex>('sprecher.json'),
+    () => loadJson<SprecherIndex>('sprecher.json').then(merkeGruppen),
     () => (indexPromise = undefined),
   )
   return indexPromise
@@ -87,31 +99,60 @@ export function useSprecherIndex(): Laden & { index?: SprecherIndex; starten: ()
   return { index, starten, laedt: an && !index && !fehler, fehler, nochmal: () => setVersuch((v) => v + 1) }
 }
 
-/** Die angeforderten Gruppen; `gruppe(id)` ist erst nach dem Laden gefüllt, ein Abschluss löst ein neues Rendern aus. */
-export function useSprecherGruppen(ids: readonly string[]): Laden & { gruppe: (id: string) => SprecherGruppe | undefined; stand: number } {
-  const schluessel = [...new Set(ids)].sort().join('|')
+/** Holt für die Namen erst den Index (Name → Gruppe), dann die Gruppen. */
+function holeFuer(namen: readonly string[]): void {
+  if (!indexDa) {
+    ladeSprecherIndex().then(
+      () => {
+        holeFuer(namen)
+        melde()
+      },
+      () => {
+        FEHLER.add(INDEX_FEHLER)
+        melde()
+      },
+    )
+    return
+  }
+  gruppenDer(namen).forEach(holeGruppe)
+}
+
+function gruppenDer(namen: readonly string[]): string[] {
+  return [...new Set(namen.map((n) => GRUPPE_VON.get(n)).filter((g): g is string => g !== undefined))]
+}
+
+/** Die Titel eines Sprechers; `undefined`, solange Index oder Gruppe fehlen. Ein Name ohne Eintrag (veralteter Link) hat keine Titel. */
+function titelVon(name: string): SprecherTitel[] | undefined {
+  if (!indexDa) return undefined
+  const gruppe = GRUPPE_VON.get(name)
+  if (gruppe === undefined) return []
+  const inhalt = GRUPPEN.get(gruppe)
+  return inhalt ? (inhalt[name] ?? []) : undefined
+}
+
+/** Die Gruppen der angeforderten Namen; `titel(name)` ist erst nach dem Laden gefüllt, ein Abschluss löst ein neues Rendern aus. */
+export function useSprecherGruppen(namen: readonly string[]): Laden & { titel: (name: string) => SprecherTitel[] | undefined; stand: number } {
+  const schluessel = [...new Set(namen)].sort().join('\n')
   const jetzt = useSyncExternalStore(abonniere, () => stand)
   useEffect(() => {
-    if (schluessel) schluessel.split('|').forEach(holeGruppe)
+    if (schluessel) holeFuer(schluessel.split('\n'))
   }, [schluessel])
-  const noetig = schluessel ? schluessel.split('|') : []
+  const noetig = schluessel ? schluessel.split('\n') : []
+  const gruppen = indexDa ? gruppenDer(noetig) : []
+  const indexFehler = FEHLER.has(INDEX_FEHLER)
   const nochmal = () => {
-    noetig.forEach((g) => FEHLER.delete(g))
-    noetig.forEach(holeGruppe)
+    FEHLER.delete(INDEX_FEHLER)
+    gruppen.forEach((g) => FEHLER.delete(g))
+    if (noetig.length) holeFuer(noetig)
     melde()
   }
   return {
-    gruppe: (id) => GRUPPEN.get(id),
-    laedt: noetig.some((g) => !GRUPPEN.has(g) && !FEHLER.has(g)),
-    fehler: noetig.some((g) => FEHLER.has(g)),
+    titel: titelVon,
+    laedt: noetig.length > 0 && !indexFehler && (!indexDa || gruppen.some((g) => !GRUPPEN.has(g) && !FEHLER.has(g))),
+    fehler: indexFehler || gruppen.some((g) => FEHLER.has(g)),
     nochmal,
     stand: jetzt,
   }
-}
-
-/** Die Gruppen der gewählten Namen (mit und ohne). */
-export function gruppenDer(namen: readonly string[]): string[] {
-  return [...new Set(namen.map(sprecherGruppe))]
 }
 
 /**
@@ -121,10 +162,10 @@ export function gruppenDer(namen: readonly string[]): string[] {
 export function useSprecherAuswahl(f: FilterState): Laden & { auswahl?: SprecherAuswahl } {
   const mit = f.sprecher
   const ohne = f.excluded.sprecher
-  const { gruppe, laedt, fehler, nochmal, stand } = useSprecherGruppen(gruppenDer([...mit, ...ohne]))
+  const { titel, laedt, fehler, nochmal, stand } = useSprecherGruppen([...mit, ...ohne])
   const auswahl = useMemo(
-    () => baueAuswahl(mit, ohne, (n) => gruppe(sprecherGruppe(n))?.[n]?.map((t) => t.id) ?? (gruppe(sprecherGruppe(n)) ? [] : undefined)),
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- `stand` zeigt an, dass `gruppe` neue Daten hat
+    () => baueAuswahl(mit, ohne, (n) => titel(n)?.map((t) => t.id)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `stand` zeigt an, dass `titel` neue Daten hat
     [mit, ohne, stand],
   )
   return { auswahl, laedt, fehler, nochmal }

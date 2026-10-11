@@ -67,6 +67,7 @@ pruefe('Gruppe: nach einem Buchstaben ein Punkt gibt nur einen, ohne lateinische
 console.log('\nSprecher-Filter: Bau und Oberfläche')
 const quelle = readFileSync('web/src/components/SprecherFilter.tsx', 'utf8')
 pruefe('Index und Gruppen kommen aus eigenen Dateien, nicht aus titles.json', !/titles\.json/.test(readFileSync('web/src/lib/sprecher.ts', 'utf8').replace(/\/\*[\s\S]*?\*\//g, '')))
+pruefe('die Oberfläche liest die Gruppe aus dem Index, rechnet sie nicht selbst (jeder Datenstand bleibt lesbar)', !/sprecherGruppe/.test(readFileSync('web/src/lib/sprecher.ts', 'utf8') + quelle))
 pruefe('die Eingabe geht nie in eine Adresse (nur feste Dateien)', !/fetch\(|loadJson/.test(quelle))
 pruefe('der Aufklapper wählt nicht aus (eigener Knopf neben der Option)', /aria-expanded=\{p\.aufgeklappt\}/.test(quelle) && /onClick=\{p\.auf\}/.test(quelle) && /onClick=\{p\.waehlen\}/.test(quelle))
 
