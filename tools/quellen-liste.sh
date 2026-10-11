@@ -32,6 +32,9 @@ QUELLEN=(
   data/anisearch-dub-ids.json
   data/anisearch-eintraege.json
   data/anisearch-cover.json
+  # Eigene Kopien der aniSearch-Cover (11.10.2026): Manifest Kennung → Datei, Größe, Quelle, Stand und der Wortlaut der robots.txt beider Hosts; die Bilder liegen als Artefakt, nicht im Repo.
+  data/cover-eigen.json
+  data/anisearch-robots.txt
   data/anisearch-eintraege-ausgelassen.json
   data/anisearch-mal.json
   data/anisearch-offen.json
