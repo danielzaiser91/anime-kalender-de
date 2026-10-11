@@ -323,7 +323,7 @@ export function releaseMatches(
   if (x.statuses.includes(status)) return false
   if (x.genres.some((g) => genres.includes(g))) return false
   if (x.keywords.some((k) => keywords.includes(k))) return false
-  if (x.land.includes(herkunftOderUnbekannt(title))) return false
+  if (x.land.length && x.land.includes(herkunftOderUnbekannt(title))) return false
 
   if (f.platforms.length && !f.platforms.includes(release.platform)) return false
   if (f.releaseTypes.length && !f.releaseTypes.includes(release.releaseType)) return false
@@ -458,7 +458,7 @@ function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favo
   if (x.genres.some((g) => t.genres.includes(g))) return false
   if (x.keywords.some((k) => t.keywords.includes(k))) return false
   if (t.fsk !== undefined && x.fsk.includes(t.fsk)) return false
-  if (x.land.includes(herkunftVon(t))) return false
+  if (x.land.length && x.land.includes(herkunftVon(t))) return false
 
   /*
     **UND oder ODER — je Kategorie, wie eingestellt.**

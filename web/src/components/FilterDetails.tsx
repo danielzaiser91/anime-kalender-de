@@ -20,7 +20,7 @@ import { useContext, useState } from 'react'
 import { SprecherFilter } from './SprecherFilter.tsx'
 import { TitelNamenContext } from '../lib/sprecher.ts'
 import { HerkunftZaehlungContext } from '../lib/herkunft-zaehlung.ts'
-import { herkunftListe, herkunftName, HerkunftHinweis, HerkunftPille } from './filter/herkunft-gruppe.tsx'
+import { herkunftListe, herkunftName, HerkunftChip, InfoZeichen } from './filter/herkunft-gruppe.tsx'
 
 export const FSK_OPTIONS: Fsk[] = [0, 6, 12, 16, 18]
 
@@ -100,8 +100,11 @@ export function Group({
   inline,
   suche,
   klasse,
+  info,
 }: {
   label: string
+  /** Erklärung als ⓘ neben der Überschrift. */
+  info?: string
   /** Zusätzliche Klassen, z. B. Platz im Raster des Filterkastens. */
   klasse?: string
   children: ReactNode
@@ -115,6 +118,7 @@ export function Group({
     <div className={[inline ? 'flex flex-wrap items-center gap-2' : 'flex flex-col gap-1.5', klasse].filter(Boolean).join(' ')}>
       <span className="flex items-center text-[10px] font-semibold uppercase tracking-[0.14em] text-ak-leise">
         <BereichsLabel label={label} suche={suche} />
+        {info ? <InfoZeichen text={info} /> : null}
         {modus && modus.anzahl > 1 ? <ModusSchalter wert={modus.wert} setzen={modus.setzen} /> : null}
       </span>
       <div className="flex flex-wrap gap-1.5">{children}</div>
@@ -134,9 +138,11 @@ function Bereich({
   modus,
   inline,
   klasse,
+  info,
   children,
 }: {
   label: string
+  info?: string
   suche?: BereichsSuche
   texte: (string | undefined)[]
   modus?: { anzahl: number; wert: 'und' | 'oder'; setzen: (w: 'und' | 'oder') => void }
@@ -146,7 +152,7 @@ function Bereich({
 }) {
   if (suche && !suche.bereich(label, texte)) return null
   return (
-    <Group label={label} modus={modus} inline={inline} suche={suche} klasse={klasse}>
+    <Group label={label} modus={modus} inline={inline} suche={suche} klasse={klasse} info={info}>
       {children}
     </Group>
   )
@@ -486,13 +492,10 @@ function HerkunftBereich({ t, filters, chipState, pick, suche }: Pick<FilterMehr
   if (!zaehlung || !liste.length) return null
   const label = t('filter.herkunft')
   return (
-    <Bereich label={label} suche={suche} texte={liste.map((h) => herkunftName(t, h))}>
+    <Bereich label={label} info={t('filter.herkunft.info')} suche={suche} texte={liste.map((h) => herkunftName(t, h))}>
       {liste.filter((h) => zeigePille(suche, label, herkunftName(t, h))).map((h) => (
-        <Chip key={h} {...chipState('land', h)} onClick={() => pick('land', h)}>
-          <HerkunftPille t={t} land={h} anzahl={zaehlung.get(h)} />
-        </Chip>
+        <HerkunftChip key={h} t={t} land={h} anzahl={zaehlung.get(h)} zustand={chipState('land', h)} onClick={() => pick('land', h)} />
       ))}
-      {!suche && <HerkunftHinweis t={t} />}
     </Bereich>
   )
 }
