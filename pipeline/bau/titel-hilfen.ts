@@ -6,12 +6,10 @@ import {
   TAG_AS_GENRE,
   KEYWORD_BLOCKLIST,
   platformFromSite,
-  isUnusablePrimeLink,
-  primeVideoSearchUrl,
   germanizeUrl,
   PLATFORM_PRIORITY,
-  platformSearchUrl,
 } from '../../shared/mappings.ts'
+import { isUnusablePrimeLink, platformSearchUrl, primeVideoSearchUrl } from '../../shared/plattform-suche.ts'
 import { KEYWORD_MIN_RANK, KEYWORD_MAX } from './grundlagen.ts'
 import { entwirreWeiterleitung } from '../../shared/adresse-passt.ts'
 import { log, slugify } from '../lib/util.ts'

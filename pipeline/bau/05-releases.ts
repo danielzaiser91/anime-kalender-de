@@ -15,7 +15,7 @@ import {
   type CrunchyrollData,
 } from '../lib/crunchyroll.ts'
 import { todayIso } from '../../shared/time.ts'
-import { amazonSearchUrl } from '../../shared/mappings.ts'
+import { amazonSearchUrl } from '../../shared/plattform-suche.ts'
 import { type TmdbInfo } from '../lib/tmdb.ts'
 import { kuratierteZusaetze, type CuratedEntry } from '../lib/curated.ts'
 

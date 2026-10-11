@@ -58,8 +58,8 @@ function tvAusGespeichert(): boolean {
 
 /** Unten docken Handy-Navigation und im Kalender die Steuerleiste an — der Fuß bleibt darüber lesbar. */
 const FUSS_ABSTAND = {
-  kalender: 'pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-24',
-  sonst: 'pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0',
+  kalender: 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-24',
+  sonst: 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0',
 }
 
 export default function App() {
@@ -123,7 +123,7 @@ function AppKern() {
     loadOhneSynchro(data).then(setOhneSynchro)
   }, [data, zeigeOhneSynchro, ohneSynchro])
 
-  /* Cartoons haben keinen Termin; geladen werden sie nur für die Datenbank und für einen direkt geöffneten Cartoon (18.09.2026). */
+  /* Cartoons mit Termin stehen schon im Kern; die übrigen lädt die Seite nur für die Datenbank und für einen direkt geöffneten Cartoon (18.09.2026). */
   const brauchtCartoons = route.view === 'datenbank' || (route.title !== undefined && !!voll && !voll.titleById.has(route.title))
   useEffect(() => {
     if (!data || cartoons || !brauchtCartoons) return
@@ -148,7 +148,7 @@ function AppKern() {
     /* Eine Kennung steht nur einmal in der Liste: doppelte Schlüssel ließen Kacheln beim Filtern als Geister im Raster stehen (Beerus, Fool Night). */
     const bekannt = new Set(basis.map((t) => t.id))
     const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro.filter((t) => !bekannt.has(t.id))] : basis
-    const quelle = cartoons ? [...mitOhne, ...cartoons] : mitOhne
+    const quelle = cartoons ? [...mitOhne, ...cartoons.filter((t) => !bekannt.has(t.id))] : mitOhne
     return titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped, sprecher.auswahl)
   }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, route.filters, today, favorites, grouped, sprecher.auswahl], LEERE_ANSICHT)
   const kalenderBereit = useErstesErgebnis(!!data, eventsVeraltet)

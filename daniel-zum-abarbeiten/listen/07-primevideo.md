@@ -1,5 +1,12 @@
 # Prime Video: was noch zu prüfen ist
 
-Stand 2026-10-10 · **nichts offen**.
+Stand 2026-10-11 · **1 offene Verweise** in **1 Zeilen**.
 
-Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**.
+Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
+Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
+
+**Warum dieser Anbieter unsicher ist:** Prime Video nennt die Tonspuren erst auf der Produktseite, und die ist ohne Anmeldung unvollständig.
+
+| # | Datum | Reihe | Noch zu bestätigen |
+|---|---|---|---|
+| 1 | 2019-11-22 | Midnight Occult Civil Servants | [OVA](https://www.amazon.de/gp/video/detail/B0CK43962K) |

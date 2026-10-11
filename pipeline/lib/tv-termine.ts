@@ -96,6 +96,29 @@ function spaetereStaffel(
 }
 
 /**
+ * Ordnet jede Sendung ab gestern dem TV-Termin gleichen Titels und Senders zu. Gibt es mehrere
+ * (Sichtungen vor dem Start plus Handtermin, One Piece/MAXX 10.10.2026), bekommt ihn der mit dem
+ * spätesten Start bis zum Sendetag, sonst der früheste — nie beide, sonst liefe zweimal „läuft gerade".
+ */
+function sendungenJeTermin(
+  releases: Release[],
+  sendungen: (TvSendung & { kennung?: string })[],
+  gestern: string,
+): Map<Release, (TvSendung & { kennung?: string })[]> {
+  const start = (r: Release) => r.schedule?.firstEpisodeDate ?? ''
+  const jeTermin = new Map<Release, (TvSendung & { kennung?: string })[]>()
+  for (const s of sendungen) {
+    if (berlinTag(s.ende) < gestern) continue
+    const kandidaten = releases
+      .filter((r) => r.platform === 'tv' && r.titleId === s.titleId && (r.sender ?? '').toLowerCase() === s.sender.toLowerCase())
+      .sort((a, b) => start(a).localeCompare(start(b)))
+    const r = kandidaten.filter((k) => start(k) <= berlinTag(s.start)).at(-1) ?? kandidaten[0]
+    if (r) jeTermin.set(r, [...(jeTermin.get(r) ?? []), s])
+  }
+  return jeTermin
+}
+
+/**
  * Hängt jedem TV-Termin seine Sendungen ab gestern an — auch den von Hand gepflegten, denn die
  * Frage „läuft das gerade, bis wann?" beantwortet nur das Programm (22.09.2026).
  */
@@ -105,16 +128,7 @@ export function sendungenAnhaengen(
   gestern: string,
   wiki: WikiListen = {},
 ): void {
-  const jeTermin = new Map<string, (TvSendung & { kennung?: string })[]>()
-  for (const s of sendungen) {
-    if (berlinTag(s.ende) < gestern) continue
-    const k = `${s.titleId}|${s.sender.toLowerCase()}`
-    jeTermin.set(k, [...(jeTermin.get(k) ?? []), s])
-  }
-  for (const r of releases) {
-    if (r.platform !== 'tv') continue
-    const liste = jeTermin.get(`${r.titleId}|${(r.sender ?? '').toLowerCase()}`)
-    if (!liste?.length) continue
+  for (const [r, liste] of sendungenJeTermin(releases, sendungen, gestern)) {
     /*
       Die Folgennummer je Sendung über den Folgentitel — auch dort, wo nicht jede Sendung in der
       Liste steht und der Termin deshalb nur zählt (One Piece 22.09.2026: 12 von 14 gefunden).
@@ -182,7 +196,7 @@ function nummerFuer(nummern: Map<string, number> | undefined, folge: string): nu
 }
 
 /** Ein Staffelwechsel darf nie in einen Termin von Hand oder in eine Gruppe dieses Laufs führen: Zwei Gruppen beim selben Titel trügen denselben Slug (Pokémon Reisen, 05.10.2026). */
-function zielFrei(ziel: string, belegt: Set<string>, gruppen: Map<string, unknown>): boolean {
+function zielFrei(ziel: string, belegt: Map<string, string>, gruppen: Map<string, unknown>): boolean {
   return !belegt.has(ziel) && !gruppen.has(ziel)
 }
 
@@ -230,6 +244,17 @@ function zaehleOhneListe(liste: TvSendung[], observed: Record<number, string>, z
   return n
 }
 
+/** Je Titel und Sender der früheste Starttag eines Handtermins; ohne Starttag gilt er für alle Sichtungen (''). */
+function handStart(vorhanden: Release[]): Map<string, string> {
+  const je = new Map<string, string>()
+  for (const r of vorhanden.filter((x) => x.platform === 'tv')) {
+    const k = `${r.titleId}|${(r.sender ?? '').toLowerCase()}`
+    const ab = r.schedule?.firstEpisodeDate ?? ''
+    if (!je.has(k) || ab < je.get(k)!) je.set(k, ab)
+  }
+  return je
+}
+
 export function releasesAusTvProgramm(
   sendungen: TvSendung[],
   titles: Map<number, Title>,
@@ -237,13 +262,12 @@ export function releasesAusTvProgramm(
   wiki: WikiListen = {},
 ): Release[] {
   sendungen = sendungNeuZuordnen(sendungen, titles, wiki)
-  const belegt = new Set(
-    vorhanden.filter((r) => r.platform === 'tv').map((r) => `${r.titleId}|${(r.sender ?? '').toLowerCase()}`),
-  )
+  const belegt = handStart(vorhanden)
   const gruppen = new Map<string, TvSendung[]>()
   for (const s of sendungen) {
     const k = `${s.titleId}|${s.sender.toLowerCase()}`
-    if (belegt.has(k) || !titles.has(s.titleId)) continue
+    /* Der Handtermin ersetzt die Sichtungen erst ab seinem Start; davor bleiben sie stehen (One Piece, 10.10.2026). */
+    if (!titles.has(s.titleId) || berlinTag(s.start) >= (belegt.get(k) ?? '9999')) continue
     gruppen.set(k, [...(gruppen.get(k) ?? []), s])
   }
   const aus: Release[] = []

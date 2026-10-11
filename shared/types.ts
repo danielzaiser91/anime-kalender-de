@@ -7,6 +7,7 @@ export type PlatformId =
   | 'netflix'
   | 'primevideo'
   | 'disneyplus'
+  | 'paramountplus'
   | 'adn'
   | 'aniverse'
   | 'wow'
@@ -929,6 +930,8 @@ export const PLATFORMS: Record<PlatformId, { name: string; color: string; home: 
   netflix: { name: 'Netflix', color: '#e50914', home: 'https://www.netflix.com/de/' },
   primevideo: { name: 'Prime Video', color: '#00a8e1', home: 'https://www.primevideo.com/' },
   disneyplus: { name: 'Disney+', color: '#0063e5', home: 'https://www.disneyplus.com/de-de' },
+  /* Paramount-Blau laut Markenseite (simple-icons: 0064FF); mindestens 3,3:1 gegen alle Gründe beider Themen (10.10.2026). */
+  paramountplus: { name: 'Paramount+', color: '#0064ff', home: 'https://www.paramountplus.com/de/' },
   /* Blau seit dem neuen Auftritt — abgelesen am Logo (rgb 0,149,255), vorher das alte Pink #f92e6a (16.09.2026). */
   adn: { name: 'ADN', color: '#0095ff', home: 'https://animationdigitalnetwork.com/de' },
   aniverse: { name: 'Aniverse', color: '#7c3aed', home: 'https://www.aniverse.de/' },

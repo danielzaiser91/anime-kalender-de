@@ -16,7 +16,7 @@ export interface FeedItem {
   content: string
 }
 
-function decodeEntities(raw: string): string {
+export function decodeEntities(raw: string): string {
   return raw
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
     .replace(/&#8211;/g, '–')
