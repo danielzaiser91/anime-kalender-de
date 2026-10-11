@@ -37,7 +37,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
     `watchLinks` mit eigener Plattform und bleiben unberührt.
   */
   bruecheBeiWiderspruchAb(pruefeInvarianten(releases, events, titles))
-  bruecheBeiWiderspruchAb({ fehler: [...auslieferungsInvarianten(releases),...releasesAusNurOriginalton(releases, nurOriginaltonAdressen()), ...autoReleaseFehler(releases)], warnungen: [] })
+  bruecheBeiWiderspruchAb({ fehler: [...auslieferungsInvarianten(releases), ...releasesAusNurOriginalton(releases, nurOriginaltonAdressen()), ...autoReleaseFehler(releases)], warnungen: [] })
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
 
