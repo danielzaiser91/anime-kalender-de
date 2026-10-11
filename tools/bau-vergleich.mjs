@@ -14,12 +14,13 @@
  *
  * Aufruf:
  *   node tools/bau-vergleich.mjs [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
- * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert.
+ * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre).
  */
 import { execFileSync, spawnSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
+import { nurEinmalGleichzeitig } from './einzel-sperre.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const ABLAGE = join(tmpdir(), 'bau-vergleich')
@@ -103,11 +104,11 @@ function baue(sha, basisSha) {
     imBaum('commit', '-q', '--allow-empty', '-m', 'Bestand der Basis', '--no-verify')
     ersatzCache(join(baum, 'data/cache'), basisSha)
     console.log(`baue ${sha.slice(0, 12)} …`)
-    const lauf = spawnSync('npx', ['tsx', 'pipeline/build.ts'], {
+    // Ohne `npx`/Shell: ein Prozess weniger, und das Kind stirbt mit dem Elternprozess.
+    const lauf = spawnSync(process.execPath, ['--import', 'tsx', 'pipeline/build.ts'], {
       cwd: baum,
       encoding: 'utf8',
       maxBuffer: 1 << 28,
-      shell: process.platform === 'win32', // npx ist dort npx.cmd
     })
     rmSync(ziel, { recursive: true, force: true })
     mkdirSync(ziel, { recursive: true })
@@ -131,6 +132,7 @@ function baue(sha, basisSha) {
   }
 }
 
+nurEinmalGleichzeitig('bau-vergleich')
 const basis = git('rev-parse', process.argv[2] ?? 'origin/main')
 const kandidat = git('rev-parse', process.argv[3] ?? 'HEAD')
 const a = baue(basis, basis)

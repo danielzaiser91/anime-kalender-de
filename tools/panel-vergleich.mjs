@@ -10,9 +10,10 @@
  *
  * Aufruf:
  *   node tools/panel-vergleich.mjs [basis] [kandidat] [anzahl]   Vorgabe: origin/main HEAD 80
- * Exit 0 = gleich, 1 = verschieden (Unterschiede unter $TMPDIR/panel-vergleich/).
+ * Exit 0 = gleich, 1 = verschieden (Unterschiede unter $TMPDIR/panel-vergleich/), 3 = läuft schon (Sperre).
  */
 import { akVon } from './ak-von.mjs'
+import { nurEinmalGleichzeitig } from './einzel-sperre.mjs'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
@@ -120,6 +121,7 @@ async function rendere(dist, ids) {
   return ergebnis
 }
 
+nurEinmalGleichzeitig('panel-vergleich')
 const basis = git('rev-parse', process.argv[2] ?? 'origin/main')
 const kandidat = git('rev-parse', process.argv[3] ?? 'HEAD')
 const anzahl = Number(process.argv[4] ?? 80)
