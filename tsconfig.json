@@ -22,5 +22,5 @@
       "@shared/*": ["shared/*"]
     }
   },
-  "include": ["web/src", "pipeline", "shared", "vite.config.ts"]
+  "include": ["web/src", "web/buehne", "pipeline", "shared", "vite.config.ts", "vite.buehne.config.ts"]
 }

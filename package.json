@@ -125,6 +125,8 @@
     "data:imdb": "tsx pipeline/fetch-wikidata-imdb.ts",
     "data:wikipedia-folgen": "tsx pipeline/fetch-wikipedia-folgen.ts",
     "check:panel": "node tools/panel-bild.mjs",
+    "buehne:faelle": "node tools/buehne-faelle.mjs",
+    "buehne:bauen": "vite build --config vite.buehne.config.ts",
     "check:tooltip": "node tools/tooltip-pruefen.mjs",
     "check:datumsprung": "node tools/datum-sprung-bild.mjs",
     "check:trailer": "node tools/trailer-dialog-bild.mjs",
