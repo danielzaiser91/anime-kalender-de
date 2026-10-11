@@ -3,6 +3,7 @@
  * Läuft in `check:logic`; prüft die Regel an erfundenen Titeln, nicht am Bestand.
  */
 import type { Release, Title } from '../shared/types.ts'
+import type { DubCheck } from './lib/dub-confirmed.ts'
 import { ergaenzeWegeAusTerminen, istKeineTitelseite, termineOhneWeg, tonOhneBeleg } from './bau/11-7-wege-aus-terminen.ts'
 
 let fehler = 0
@@ -27,7 +28,7 @@ const termin = (titleId: number, platform: string, mehr: Partial<Release> = {}) 
 
 const DISNEY = 'https://www.disneyplus.com/de-de/browse/entity-be391742'
 const PRIME_SUCHE = 'https://www.amazon.de/s?k=TANK%20CHAIR&i=instant-video'
-const titles = new Map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => [id, titel(id)]))
+const titles = new Map([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map((id) => [id, titel(id)]))
 titles.get(3)!.streams = [{ platform: 'disneyplus', url: DISNEY, dub: true }]
 const releases = [
   termin(1, 'disneyplus', { platformUrl: DISNEY }),
@@ -40,10 +41,20 @@ const releases = [
   termin(8, 'primevideo', { platformUrl: PRIME_SUCHE, kanal: 'Crunchyroll' }),
   termin(9, 'adn', { sources: [] }),
   termin(10, 'disneyplus', { platformUrl: DISNEY }),
+  termin(11, 'primevideo', { platformUrl: PRIME_SUCHE }),
+  termin(12, 'primevideo', { platformUrl: PRIME_SUCHE }),
+  termin(13, 'disneyplus', { platformUrl: DISNEY }),
 ]
 const entfernt = [{ titleId: 10, plattform: 'disneyplus' }] as Parameters<typeof ergaenzeWegeAusTerminen>[0]['verweiseEntfernt']
 const tot = new Set<string>([])
-ergaenzeWegeAusTerminen({ titles, releases, toteAdressen: tot, verweiseEntfernt: entfernt })
+/* Handbelege wie in data/dub-confirmed.yaml: 11 Kamisama Hajimemashita (nicht verfügbar), 12 TANK CHAIR (Folge 1 deutsch), 13 ohne deutschen Ton. */
+const hand: Record<string, Partial<DubCheck>> = {
+  '11|primevideo': { available: false },
+  '12|primevideo': { dub: true, dubRanges: [{ from: 1, to: 1, dub: true }] },
+  '13|disneyplus': { dub: false },
+}
+const belegFuer = (id: number, plattform: string) => hand[`${id}|${plattform}`] as DubCheck | undefined
+ergaenzeWegeAusTerminen({ titles, releases, toteAdressen: tot, verweiseEntfernt: entfernt, belegFuer })
 const weg = (id: number) => titles.get(id)!.streams
 
 pruefe('Titelseite des Termins wird die Adresse', weg(1)[0]?.url === DISNEY && weg(1)[0]?.platform === 'disneyplus')
@@ -58,7 +69,11 @@ pruefe('Prime-Kanal wandert mit', weg(8)[0]?.kanal === 'Crunchyroll')
 pruefe('Termin ohne Quelle ergibt keinen Weg', weg(9).length === 0)
 pruefe('bewusst entfernter Verweis kommt nicht zurück', weg(10).length === 0)
 
-pruefe('danach fehlt keinem sicheren Termin der Weg', termineOhneWeg(titles, releases, new Set(['10|disneyplus'])).length === 0)
+pruefe('Handbeleg „nicht verfügbar“: kein Weg aus dem Termin (Kamisama Hajimemashita)', weg(11).length === 0)
+pruefe('Handbeleg „ohne deutschen Ton“: kein Weg aus dem Termin', weg(13).length === 0)
+pruefe('Handbeleg „deutsch“: Weg mit Urteil und Folgenbereich, ohne Herkunft Termin (TANK CHAIR)', weg(12).length === 1 && weg(12)[0]!.dub === true && weg(12)[0]!.dubRanges?.[0]?.to === 1 && weg(12)[0]!.herkunft === undefined)
+
+pruefe('danach fehlt keinem sicheren Termin der Weg', termineOhneWeg(titles, releases, new Set(['10|disneyplus', '11|primevideo', '13|disneyplus'])).length === 0)
 pruefe('ohne die Ergänzung würde die Zusicherung greifen', termineOhneWeg(new Map([[1, titel(1)]]), [releases[0]!], new Set()).length === 1)
 pruefe('kein Weg aus einem Termin trägt dub', tonOhneBeleg(titles).length === 0)
 pruefe('die Zusicherung findet ein erfundenes Tonurteil', tonOhneBeleg(new Map([[1, titel(1, [{ platform: 'netflix', url: '', herkunft: 'termin', dub: true }])]])).length === 1)
