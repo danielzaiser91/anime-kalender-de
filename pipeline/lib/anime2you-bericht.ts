@@ -32,7 +32,7 @@ export function zusammenfassung(e: LaufErgebnis, heute: string): string {
     `## Anime2You-Extraktion ${heute}`,
     '',
     `${e.neu.length} Vorschläge, ${e.verworfen.length} verworfen, ${e.ungelesen.length} Artikel ungelesen (morgen erneut), ${e.uebersprungen} ohne Deutschland-Bezug übersprungen.`,
-    'Vorschläge sind keine Termine: Jeder braucht einen Handeintrag mit der Quelle. Wochentag und Uhrzeit vor der Übernahme gegenlesen.',
+    'Vorschläge sind keine Termine: Jeder braucht einen Handeintrag mit der Quelle. Wochentag und Uhrzeit vor der Übernahme gegenlesen. Entwurf: npx tsx pipeline/anime2you-entwurf.ts',
   ]
   if (e.neu.length) teile.push('', ...kopf, ...e.neu.map(zeile))
   const ohneModell = e.neu.filter((v) => v.plattform === null && v.anbieter)

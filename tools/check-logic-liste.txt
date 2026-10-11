@@ -36,6 +36,7 @@ pipeline/check-beleg-anbieter.ts
 pipeline/check-anisearch-reihen.ts
 pipeline/check-anime2you-vorschlag.ts
 pipeline/check-anime2you-sammelartikel.ts
+pipeline/check-anime2you-entwurf.ts
 pipeline/check-werk-doppelt.ts
 pipeline/check-verweis-ziel.ts
 pipeline/check-herkunftsfilter.ts
