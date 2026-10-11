@@ -8,7 +8,7 @@ import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import { weekdayIndex, weekdayName } from '../../shared/time.ts'
 import { findDates } from './feed.ts'
 import { dubBefund } from './sprachbefund.ts'
-import { PLATTFORM_NAMEN, pruefeName, titelPasst } from './anime2you-abgleich.ts'
+import { PLATTFORM_NAMEN, pruefeName, titelPasst, zeichenfolge } from './anime2you-abgleich.ts'
 
 export const ARTEN = ['start', 'folgen', 'disc', 'kino', 'ankuendigung', 'sprachfassung', 'pause', 'abgang'] as const
 export const SPRACHEN = ['deutsch', 'omu', 'deutsch+omu', 'unklar'] as const
@@ -55,9 +55,6 @@ export function sauber(wert: unknown, max: number): string | null | undefined {
   const rein = wert.replace(/[|`<>\[\]\r\n\t]+/g, ' ').replace(/\s+/g, ' ').trim()
   return rein.length > max ? undefined : rein
 }
-
-/** Ohne Leerraum verglichen: Der Seitentext hat Lücken, wo Verweise standen („Folge 1122 , ehe“), das Modell schreibt sie glatt. */
-const norm = (s: string): string => s.replace(/[|`<>[\]]/g, '').replace(/[„“”"»«›‹'’‘]/g, "'").replace(/\s+/g, '').toLowerCase()
 
 /** Kurzbeschreibung einer Rohantwort für die Liste der Verworfenen (Titel, Art, Tag, soweit lesbar). */
 export function beschreibe(roh: unknown): string {
@@ -167,7 +164,7 @@ function pruefeNamen(v: Vorschlag, bezug: Artikelbezug): { grund?: string; warnu
 export function pruefeVorschlag(roh: unknown, bezug: Artikelbezug): { ok: GepruefterVorschlag } | { grund: string } {
   const v = leseVorschlag(roh)
   if (typeof v === 'string') return { grund: v }
-  if (!norm(bezug.text).includes(norm(v.zitat))) return { grund: 'Zitat steht nicht wörtlich im Artikel' }
+  if (!zeichenfolge(bezug.text).includes(zeichenfolge(v.zitat))) return { grund: 'Zitat steht nicht wörtlich im Artikel' }
   const grund = pruefeDatum(v, bezug) ?? pruefeUhrzeit(v) ?? pruefeSprache(v)
   if (grund) return { grund }
   if (v.plattform === 'tv' && !v.sender) return { grund: 'plattform tv ohne sender' }
