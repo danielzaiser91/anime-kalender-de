@@ -1,6 +1,6 @@
 {
   "_hinweis": "Regeln für die Prüfliste der Erweiterung (tools/pruef-bestand.mjs). erweitert=false: Liste wie bisher. erweitert=true: Cartoons, Wege ohne Folgenzahl und Rangordnung (laufende zuerst). vertrauen ordnet jeder Quelle der Angabe eine Stufe zu (ungeprueft | hoch); ausblenden nennt die Stufen, deren Wege nicht auf die Liste kommen. justwatch-regel = Prime-Weg mit „Deutsch laut JustWatch“ (Vertrauensregel, 99,4 % richtig bei n = 468, Messung 11.10.2026): hoch, solange die Regel hält; ein Fehler über der Grenze setzt sie zurück. justwatch = JustWatch-Hinweis bei Cartoons: ungeprueft, bis Daniels Stichprobe (50 + 50) vorliegt. cartoon-jw-stichprobe = Cartoon-Weg aus dieser Stichprobe (data/cartoon-jw-stichprobe.json, Auswahl tools/cartoon-jw-stichprobe.mjs, Auswertung tools/cartoon-jw-auswerten.mjs): ungeprueft, steht bei erweitert vor allen anderen Wegen auf der Liste. Vorgabe 11.10.2026: nichts ausblenden.",
-  "erweitert": false,
+  "erweitert": true,
   "vertrauen": {
     "justwatch": "ungeprueft",
     "justwatch-regel": "hoch",
