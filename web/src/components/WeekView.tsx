@@ -6,7 +6,7 @@ import { addDays, formatDate, nowHhMm, startOfWeek, todayIso, weekdayName } from
 import { useLang } from '../lib/i18n.tsx'
 import { useSprungZuHeute } from '../lib/woche-sprung.ts'
 import { useZielTag } from '../lib/ziel-tag.ts'
-import { buendeleTermine } from '../lib/buendel.ts'
+import { buendeleKacheln } from '../lib/buendel.ts'
 import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
 import { PosterKarte, type KartenArt } from './kalender/PosterKarte.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
@@ -190,7 +190,7 @@ function PosterRaster({
   const gesehen = gesehenLesen()
   const art = (ev: ReleaseEvent): KartenArt | undefined =>
     istStaffelstart(ev, p.data) ? 'start' : istStaffelfinale(ev, p.data) ? 'finale' : undefined
-  const gruppen = buendeleTermine(tag.stream.filter((e) => !e.zweitanbieter), (ev) => !!ev.verpasst || !!art(ev) || !!ev.premiere)
+  const gruppen = buendeleKacheln(tag.stream.filter((e) => !e.zweitanbieter), art, (ev) => !!ev.premiere)
   return (
     <div
       className={[

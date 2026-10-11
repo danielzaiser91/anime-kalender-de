@@ -30,6 +30,7 @@ pipeline/check-install-stellen.ts
 pipeline/check-invarianten.ts
 pipeline/check-jw-staffeln.ts
 pipeline/check-jw-vertrauen.ts
+pipeline/check-kachel-buendel.ts
 pipeline/check-kalender-filter.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-logic.ts
