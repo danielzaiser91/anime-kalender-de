@@ -52,10 +52,15 @@ const ANBIETER_NAME = { netflix: /netflix/i, primevideo: /prime|amazon/i, disney
 
 /**
  * Woher die Angabe zu diesem Weg stammt: JustWatch nennt den Anbieter mit deutschem Ton, TMDB führt ihn nur auf,
- * der Datensatz trägt ein Urteil. Ohne Urteil (`dub` fehlt) gibt es nichts, dem man trauen könnte: `keine`.
+ * der Datensatz trägt ein Urteil. Ohne Urteil (`dub` fehlt) gibt es nichts, dem man trauen könnte: `keine` — außer bei
+ * `dubQuelle: 'justwatch'` (Prime, Vertrauensregel `pipeline/lib/jw-vertrauen.ts`, 99,4 % richtig, Messung 11.10.2026):
+ * `justwatch-regel`. `weg` ist der Weg (`{ dub, dubQuelle }`), auch ein Listeneintrag mit diesen Feldern.
  */
-function quelleVon(t, plattform, dub) {
-  if (!t.cartoon) return dub === undefined ? 'keine' : 'datensatz'
+function quelleVon(t, plattform, weg) {
+  if (!t.cartoon) {
+    if (weg.dub !== undefined) return 'datensatz'
+    return weg.dubQuelle === 'justwatch' ? 'justwatch-regel' : 'keine'
+  }
   const genannt = (t.dubHinweis?.anbieter ?? []).some((n) => ANBIETER_NAME[plattform]?.test(n))
   return genannt ? 'justwatch' : 'tmdb'
 }
@@ -64,17 +69,17 @@ function quelleVon(t, plattform, dub) {
  * Quelle und Vertrauensstufe der Angabe, dazu die Warnung bei unscharfer Staffelzuordnung
  * (Daniel, 11.10.2026: „Avatar S?“ — unsere Staffel ≠ Staffeln des Anbieters).
  */
-function angabe(t, plattform, dub, r) {
-  const quelle = quelleVon(t, plattform, dub)
+function angabe(t, plattform, weg, r) {
+  const quelle = quelleVon(t, plattform, weg)
   return { quelle, vertrauen: quelle === 'keine' ? 'ungeprueft' : (r.vertrauen[quelle] ?? 'ungeprueft') }
 }
 
 /** Die Felder am Listeneintrag; ohne `erweitert` bleibt der Eintrag, wie er war. */
-export function eintragsInfo(t, plattform, dub, r = regeln()) {
+export function eintragsInfo(t, plattform, weg = {}, r = regeln()) {
   if (!r.erweitert) return {}
   const unscharf = t.cartoon && t.episodes > 1
   return {
-    ...angabe(t, plattform, dub, r),
+    ...angabe(t, plattform, weg, r),
     ...(unscharf
       ? {
           staffelUnscharf: true,
@@ -85,7 +90,7 @@ export function eintragsInfo(t, plattform, dub, r = regeln()) {
 }
 
 /** Soll dieser Weg wegen einer vertrauenswürdigen Quelle nicht auf die Liste? */
-export const ausgeblendet = (t, plattform, dub, r = regeln()) => r.erweitert && r.ausblenden.includes(angabe(t, plattform, dub, r).vertrauen)
+export const ausgeblendet = (t, plattform, weg = {}, r = regeln()) => r.erweitert && r.ausblenden.includes(angabe(t, plattform, weg, r).vertrauen)
 
 /**
  * Der Rang eines Titels: Hauptbestand vor Cartoons, darin laufende und aktuelle zuerst, dann neuere vor älteren.

@@ -22,12 +22,24 @@ assert.equal(info.staffelUnscharf, true)
 assert.match(info.hinweis, /61 Folgen/)
 assert.equal(eintragsInfo(avatar, 'disneyplus', undefined, an).quelle, 'tmdb', 'Disney+ nennt JustWatch hier nicht')
 assert.equal(eintragsInfo(film, 'netflix', undefined, an).quelle, 'keine', 'ohne Urteil nichts, dem man trauen könnte')
-assert.equal(eintragsInfo(film, 'netflix', true, an).quelle, 'datensatz')
+assert.equal(eintragsInfo(film, 'netflix', { dub: true }, an).quelle, 'datensatz')
 
 assert.equal(ausgeblendet(avatar, 'netflix', undefined, an), false, 'Vorgabe: nichts ausblenden')
 assert.equal(ausgeblendet(avatar, 'netflix', undefined, anUndWeg), true, 'vertrauenswürdige Quelle blendet aus')
 assert.equal(ausgeblendet(avatar, 'disneyplus', undefined, anUndWeg), false, 'andere Quelle bleibt')
 assert.equal(ausgeblendet(film, 'netflix', undefined, anUndWeg), false, 'ohne Urteil wird nie ausgeblendet')
+
+const jwWeg = { dubQuelle: 'justwatch', dubStand: '2026-10-11' }
+const anMitRegel = { ...an, vertrauen: { ...an.vertrauen, 'justwatch-regel': 'hoch' } }
+const regelWeg = eintragsInfo(film, 'primevideo', jwWeg, anMitRegel)
+assert.equal(regelWeg.quelle, 'justwatch-regel', 'Prime mit „Deutsch laut JustWatch“ trägt die eigene Quelle')
+assert.equal(regelWeg.vertrauen, 'hoch')
+assert.equal(eintragsInfo(film, 'primevideo', jwWeg, an).vertrauen, 'ungeprueft', 'ohne Eintrag in den Regeln: ungeprueft')
+assert.equal(eintragsInfo(film, 'primevideo', { dub: true, ...jwWeg }, anMitRegel).quelle, 'datensatz', 'ein Urteil geht vor')
+assert.equal(ausgeblendet(film, 'primevideo', jwWeg, anMitRegel), false, 'Vorgabe: auch diese Wege bleiben auf der Liste')
+assert.equal(ausgeblendet(film, 'primevideo', jwWeg, { ...anMitRegel, ausblenden: ['hoch'] }), true, 'später ausblendbar')
+assert.equal(ausgeblendet(film, 'primevideo', {}, { ...anMitRegel, ausblenden: ['hoch'] }), false, 'ohne Kennzeichnung bleibt der Weg')
+assert.equal(ausgeblendet(film, 'primevideo', jwWeg, { ...anMitRegel, erweitert: false, ausblenden: ['hoch'] }), false, 'aus: nichts ausgeblendet')
 
 assert.ok(rangVon(film)[0] < rangVon(avatar)[0], 'Hauptbestand vor Cartoons')
 const alt = { id: 1, jpEnd: '2001-01-01', jpYear: 2000 }

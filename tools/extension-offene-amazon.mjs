@@ -169,8 +169,8 @@ for (const t of [...titel, ...ladeCartoons(wurzel)]) {
     if (s.platform !== 'primevideo') continue
     const seite = primeSeite(s)
     const asin = seite && kennung(seite)
-    if (!asin || ausgeblendet(t, 'primevideo', s.dub)) continue
-    jeAsin.set(asin, [...(jeAsin.get(asin) ?? []), { t, dub: s.dub, url: seite }])
+    if (!asin || ausgeblendet(t, 'primevideo', s)) continue
+    jeAsin.set(asin, [...(jeAsin.get(asin) ?? []), { t, dub: s.dub, dubQuelle: s.dubQuelle, url: seite }])
   }
 }
 
@@ -299,7 +299,7 @@ for (const [asin, eintraege] of nachRang(jeAsin)) {
     ...(verdacht ? { erneut: verdachtHinweis(verdacht) } : {}),
     titel: listenName(sortiert[0].t),
     url: sortiert[0].url,
-    ...eintragsInfo(sortiert[0].t, 'primevideo', sortiert[0].dub),
+    ...eintragsInfo(sortiert[0].t, 'primevideo', sortiert[0]),
     eintraege: sortiert.map((e) => ({
       id: e.t.id,
       name: listenName(e.t),

@@ -55,7 +55,7 @@ for (const t of titel) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'disneyplus') continue
     const id = kennung(s.url)
-    if (!id || ausgeblendet(t, 'disneyplus', s.dub)) continue
+    if (!id || ausgeblendet(t, 'disneyplus', s)) continue
     jeAdresse.set(id, [...(jeAdresse.get(id) ?? []), { t, dub: s.dub, url: s.url }])
   }
 }
@@ -72,7 +72,7 @@ for (const [id, eintraege] of nachRang(jeAdresse)) {
     ...(verdacht?.seit ? { seit: verdacht.seit } : {}),
     titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
     url: sortiert[0].url,
-    ...eintragsInfo(sortiert[0].t, 'disneyplus', sortiert[0].dub),
+    ...eintragsInfo(sortiert[0].t, 'disneyplus', sortiert[0]),
     staffeln: sortiert.map((e, i) => ({
       nr: i + 1,
       /* Warum die Kennung mitreist: siehe `extension-offene-liste.mjs`. */
