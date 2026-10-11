@@ -146,7 +146,8 @@ function nfpPostAufzeichnen(antwort, anzahl, ms) {
   Promise.resolve(kopie.json())
     .then((j) => {
       const e = Array.isArray(j?.ergebnisse) ? j.ergebnisse : null
-      nfpAufzeichnen('worker-post', { ...daten, bestaetigt: e ? e.filter((x) => x?.ok).length : null })
+      const fehl = e ? [...new Set(e.filter((x) => !x?.ok).map((x) => x?.status ?? null))] : null
+      nfpAufzeichnen('worker-post', { ...daten, bestaetigt: e ? e.filter((x) => x?.ok).length : null, fehlstatus: fehl })
     })
     .catch(() => nfpAufzeichnen('worker-post', { ...daten, bestaetigt: null }))
 }

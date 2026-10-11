@@ -151,7 +151,7 @@ function malUrteil(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTitel>,
   if (treffer.length === 1) return { art: 'sicher', asId: treffer[0]!.asId, weil: `MAL ${k.mal}` }
   const ohneEinwand = treffer.filter((c) => !einwaende(k, c, titel.get(c.asId)!, eintraege[String(c.asId)], format(eintraege[String(c.asId)]?.ty)).length)
   if (ohneEinwand.length === 1) return { art: 'sicher', asId: ohneEinwand[0]!.asId, weil: `MAL ${k.mal}, Jahr und Format entscheiden` }
-  const teil = teilungsUrteil(k, treffer, eintraege)
+  const teil = teilungsUrteil(k, treffer, eintraege, format)
   if (teil) return teil
   return { art: 'unsicher', asId: treffer[0]!.asId, weil: `MAL ${k.mal} bei ${treffer.length} aniSearch-Einträgen`, weitere: treffer.slice(1, 4) }
 }
@@ -159,10 +159,18 @@ function malUrteil(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTitel>,
 /**
  * Teilung: aniSearch führt in mehreren Einträgen, was AniList als einen Titel hat (Hoozuki: 3 + 1 Folgen, Fanren Xiu Xian Zhuan: 8 + 9). Ergeben die Folgen der Einträge
  * mit derselben MAL-Kennung genau die AniList-Zahl, bekommt der früheste Teil die Kennung (ein Titel, eine Kennung); die übrigen bleiben eigene aniSearch-Zeilen.
+ * Zwei Werke unter einer MAL-Kennung (Staffel 12 + Film 1 = 13) sind keine Teilung: jeder Teil hat dieselbe Formatfamilie wie der AniList-Titel und erscheint
+ * nicht mehr als ein Jahr vor ihm.
  */
-function teilungsUrteil(k: KatalogTitel, treffer: Kandidat[], eintraege: Record<string, AsEintrag>): Urteil | undefined {
+function teilungsUrteil(k: KatalogTitel, treffer: Kandidat[], eintraege: Record<string, AsEintrag>, format: FormatVon): Urteil | undefined {
   const folgen = treffer.map((c) => eintraege[String(c.asId)]?.f ?? 0)
   if (!k.folgen || folgen.some((f) => !f) || folgen.reduce((a, b) => a + b, 0) !== k.folgen) return undefined
+  const passt = (e: AsEintrag | undefined): boolean => {
+    const art = format(e?.ty)
+    const familieGleich = !k.format || !art || FAMILIE[k.format] === FAMILIE[art]
+    return familieGleich && !(e?.y && k.jahr && e.y < k.jahr - 1)
+  }
+  if (!treffer.every((c) => passt(eintraege[String(c.asId)]))) return undefined
   const von = (c: Kandidat): string => eintraege[String(c.asId)]?.von ?? '9999'
   const erster = [...treffer].sort((a, b) => von(a).localeCompare(von(b)) || b.wert - a.wert || a.asId - b.asId)[0]!
   return { art: 'sicher', asId: erster.asId, weil: `MAL ${k.mal}: ${treffer.length} aniSearch-Teile ergeben ${k.folgen} Folgen (Teilung), erster Teil` }

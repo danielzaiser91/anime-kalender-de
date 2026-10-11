@@ -5,7 +5,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import type { Title } from '../shared/types.ts'
 import { FORMAT, ergaenzeAnisearchTitel } from './bau/anisearch-titel.ts'
-import { zeileZuTitel } from './fetch-anisearch-katalog-abgleich.ts'
+import { offeneTitel, zeileZuTitel } from './fetch-anisearch-katalog-abgleich.ts'
 import {
   type AsEintrag,
   type AsTitel,
@@ -109,6 +109,23 @@ const teilung = urteil(hoozuki, hoozukiListe, teile)
 pruefe('sicher: Teilung — 3 + 1 Folgen mit derselben MAL-Kennung ergeben 4, der erste Teil bekommt die Kennung', teilung.art === 'sicher' && teilung.asId === 10 && /Teilung/.test(teilung.weil), JSON.stringify(teilung))
 pruefe('unsicher: ergeben die Teile nicht die AniList-Zahl, bleibt es bei der MAL-Mehrdeutigkeit', urteil({ ...hoozuki, folgen: 5 }, hoozukiListe, teile).art === 'unsicher')
 
+const serie = katalog(7, 'Serie Beta', 2010, 'TV', { mal: 7, malAsIds: [20, 21], folgen: 13 })
+const serieListe = [titel(20, 2010, 'Serie Beta'), titel(21, 2011, 'Serie Beta Film')]
+const staffelUndFilm = urteil(serie, serieListe, { 20: { ty: 'TV-Serie', y: 2010, f: 12, mal: 7, von: '2010-04-01' }, 21: { ty: 'Film', y: 2011, f: 1, mal: 7, von: '2011-05-01' } })
+pruefe('unsicher: Staffel (12) + Film (1) unter einer MAL-Kennung sind zwei Werke, keine Teilung', staffelUndFilm.art === 'unsicher', JSON.stringify(staffelUndFilm))
+const vorher = urteil(serie, serieListe, { 20: { ty: 'TV-Serie', y: 2010, f: 12, mal: 7, von: '2010-04-01' }, 21: { ty: 'TV-Serie', y: 2005, f: 1, mal: 7, von: '2005-05-01' } })
+pruefe('unsicher: ein Teil, der Jahre vor dem AniList-Titel liegt, ist keine Teilung', vorher.art === 'unsicher', JSON.stringify(vorher))
+
+const fairy = katalog(8, 'FAIRY TAIL OVA', 2011, 'OVA', { mal: 9, malAsIds: [30, 31, 32, 33, 34], folgen: 5 })
+const fairyListe = [30, 31, 32, 33, 34].map((id) => titel(id, 2011, `Fairy Tail OVA ${id}`))
+const fairyTeile = Object.fromEntries([30, 31, 32, 33, 34].map((id, i) => [id, { ty: 'OVA', y: 2011 + Math.floor(i / 2), f: 1, mal: 9, von: `201${1 + Math.floor(i / 2)}-0${i + 1}-15` }]))
+const fairyUrteil = urteil(fairy, fairyListe, fairyTeile)
+pruefe('sicher: fünf Teile zu je einer Folge ergeben fünf, der früheste bekommt die Kennung', fairyUrteil.art === 'sicher' && fairyUrteil.asId === 30, JSON.stringify(fairyUrteil))
+
+const gebundenAl = new Set([20732, 1236])
+const offenTitel = offeneTitel([{ id: 20732 }, { id: 1236 }, { id: 5 }, { id: 5 }, { id: 6, anisearchId: 99 }, { id: 10_000_077 }], gebundenAl)
+pruefe('offeneTitel: Bindungen aus Abgleich und Handdatei, eigene Kennung und aniSearch-Zeilen fallen heraus, Doppelte nur einmal', offenTitel.length === 1 && offenTitel[0]!.id === 5, JSON.stringify(offenTitel))
+
 const anderesDatum = katalog(6, 'Shinsengumi', 2000, 'MOVIE', { folgen: 1, start: '2000-01-15', dauer: 86 })
 const widerlegt = urteil(anderesDatum, [titel(12, 1999, 'Shinsengumi')], { 12: { ty: 'Anderes', y: 1999, f: 1, min: 4, von: '1999-07-20' } })
 pruefe('widerlegt: anderer Starttag und andere Länge', widerlegt.art === 'widerlegt' && /Starttag/.test(widerlegt.weil), JSON.stringify(widerlegt))
@@ -132,8 +149,8 @@ if (existsSync('data/anisearch-ids-katalog.json')) {
   pruefe('Datei: nichts, was die Handdatei schon bindet', eintraege.every(([al]) => !hand.has(al)))
 }
 
-/* Eingehängt (11.10.2026): 66 sichere Treffer des Abgleichs und 30 von Hand gesichtete, dazu 13 geklärte Paare der Prüfliste (Merkmale Tag, Länge, Namensteil); der Bau liest sie wie die Handdatei. */
-const KATALOG_EINGEHAENGT = 109
+/* Eingehängt (11.10.2026): 66 sichere Treffer des Abgleichs und 30 von Hand gesichtete, dazu 13 geklärte Paare der Prüfliste (Merkmale Tag, Länge, Namensteil) und Fairy Tail OVA (Teilung); der Bau liest sie wie die Handdatei. */
+const KATALOG_EINGEHAENGT = 110
 const geprueft = JSON.parse(readFileSync('data/anisearch-katalog-kein-treffer.json', 'utf8')) as Record<string, number[]>
 const gebunden = JSON.parse(readFileSync('data/anisearch-ids-katalog.json', 'utf8')) as Record<string, number>
 const bruecke = Object.values(JSON.parse(readFileSync('data/anisearch.json', 'utf8')) as Record<string, { anisearchId?: number }>).map((e) => e.anisearchId)
