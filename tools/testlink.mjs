@@ -12,6 +12,7 @@
 import { chromium } from 'playwright'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
+import { anzeigeName } from '../shared/titles.ts'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const SEITE = 'https://anime-kalender.de'
@@ -37,7 +38,8 @@ function argumente(argv) {
 }
 
 const norm = (s) => s.toLowerCase().normalize('NFKD').replace(/[^\p{L}\p{N}]+/gu, '')
-const namen = (t) => [t.titleDe, t.titleEn, t.titleRomaji, t.titleNative].filter(Boolean)
+/* Der Anzeigename steht vorn: so nennt ihn das Panel (`shared/titles.ts`, mit „Season 2" → „Staffel 2"); die Rohnamen machen den Titel auch unter ihnen auffindbar. */
+const namen = (t) => [anzeigeName(t), t.titleDe, t.titleEn, t.titleRomaji, t.titleNative].filter(Boolean)
 
 /** Alle Titel aus `public/data/`, je AniList-Kennung einmal (die Quelle mit Vorrang gewinnt). */
 function alleTitel() {
@@ -94,7 +96,7 @@ async function pruefeLink(link, titel) {
     const panel = seite.locator('[data-panel="titel"]').first()
     await panel.waitFor({ state: 'attached', timeout: 25_000 }).catch(() => {})
     const name = await panel.getAttribute('aria-label').catch(() => null)
-    if (name) return namen(titel).includes(name) ? { name } : { grund: `das Panel zeigt einen anderen Titel: „${name}"` }
+    if (name) return name === anzeigeName(titel) ? { name } : { grund: `das Panel zeigt einen anderen Titel: „${name}"` }
     const aside = await seite.locator('aside').first().innerText().catch(() => '')
     return { grund: aside ? `Panel ohne Titel: „${aside.replace(/\s+/g, ' ').trim()}"` : 'kein Panel geöffnet' }
   } finally {

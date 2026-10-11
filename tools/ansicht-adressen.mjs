@@ -7,6 +7,7 @@
  */
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
+import { anzeigeName } from '../shared/titles.ts'
 
 const QUELLEN = ['titles-core.json', 'titles.json', 'cartoons.json', 'ohne-synchro.json']
 const JE_QUELLE = 3
@@ -27,17 +28,22 @@ async function panelName(seite, adresse) {
   return panel.getAttribute('aria-label').catch(() => null)
 }
 
-/** Die Namen, unter denen die Seite den Titel führen darf (`anzeigeName` wählt einen davon). */
-function namen(t) {
-  return [t.titleDe, t.titleEn, t.titleRomaji, t.titleNative].filter(Boolean)
+/**
+ * Ein Titel, dessen Panel-Name eingedeutscht wird („Season 2" → „Staffel 2", `eindeutschenStaffel`): Ein Vergleich mit dem Rohnamen
+ * würde ihn fälschlich rot melden. Der erste im Hauptbestand, dessen Anzeigename vom Rohnamen abweicht.
+ */
+function eindeutschungsfall(dist) {
+  const liste = JSON.parse(readFileSync(path.join(dist, 'data', 'titles.json'), 'utf8'))
+  const titel = liste.find((t) => anzeigeName(t) !== (t.titleDe ?? t.titleEn ?? t.titleRomaji))
+  return titel ? [{ datei: 'titles.json (eingedeutscht)', titel }] : []
 }
 
 /**
- * Wahr, wenn alles ok ist. Der Name im Panel muss einer des Titels sein — ein Panel für einen anderen Titel (alte Kennung, die ein
+ * Wahr, wenn alles ok ist. Der Name im Panel muss der Anzeigename des Titels sein (`shared/titles.ts`, wie ihn das Panel selbst bildet) — ein Panel für einen anderen Titel (alte Kennung, die ein
  * fremder Titel trägt) ist schlimmer als gar keins.
  */
 export async function pruefeAdressen(seite, dist, basis = 'http://ak.test') {
-  const faelle = QUELLEN.flatMap((q) => stichprobe(dist, q))
+  const faelle = [...QUELLEN.flatMap((q) => stichprobe(dist, q)), ...eindeutschungsfall(dist)]
   const abweichungen = []
   for (const [i, f] of faelle.entries()) {
     const ansichten = i % JE_QUELLE === 0 ? ['datenbank', 'woche'] : ['datenbank']
@@ -45,10 +51,10 @@ export async function pruefeAdressen(seite, dist, basis = 'http://ak.test') {
       const adresse = `${basis}/#/${ansicht}?t=${f.titel.id}`
       const name = await panelName(seite, adresse)
       if (!name) abweichungen.push(`${adresse} (${f.datei}): kein Panel`)
-      else if (!namen(f.titel).includes(name)) abweichungen.push(`${adresse} (${f.datei}): Panel zeigt „${name}", erwartet ${namen(f.titel)[0]}`)
+      else if (name !== anzeigeName(f.titel)) abweichungen.push(`${adresse} (${f.datei}): Panel zeigt „${name}", erwartet „${anzeigeName(f.titel)}"`)
     }
   }
-  console.log(`\nAdressen ?t=<ak> (${faelle.length} Titel aus ${QUELLEN.length} Dateien): ${abweichungen.length ? '' : 'ok'}`)
+  console.log(`\nAdressen ?t=<ak> (${faelle.length} Titel aus ${QUELLEN.length} Dateien, davon einer eingedeutscht): ${abweichungen.length ? '' : 'ok'}`)
   for (const a of abweichungen) console.log(`  ✕ ${a}`)
   return abweichungen.length > 0
 }
