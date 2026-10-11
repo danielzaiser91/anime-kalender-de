@@ -4,7 +4,7 @@ import { todayIso } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { type CrDubData } from '../lib/crunchyroll-dub.ts'
 import { setzeCrBereiche } from './09-7-cr-bereiche.ts'
-import { setzeCrTeilseiten } from './09-7-cr-teilseiten.ts'
+import { setzeTeilseiten } from './09-7-teilseiten.ts'
 import { rtlplusWochentermine, type RtlFolge } from '../lib/rtlplus-folgen.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { type DubCheck } from '../lib/dub-confirmed.ts'
@@ -169,7 +169,7 @@ export function schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, 
     Genau das braucht `expandEvents()` — siehe `schedule.belegtBis`.
   */
   setzeCrBereiche(titles, crDub)
-  setzeCrTeilseiten(titles, crDub)
+  setzeTeilseiten(titles, crDub)
 
   /*
     RTL+-Staffeln, die gerade wöchentlich wachsen (Beyblade X, 19.09.2026). Erst hier: Die

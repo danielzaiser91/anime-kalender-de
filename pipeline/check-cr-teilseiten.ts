@@ -7,7 +7,8 @@
 import { existsSync } from 'node:fs'
 import { readJson } from './lib/util.ts'
 import { bereicheImFenster, ordneSeiteZu, type CrPosition, type Fenster, type UnserTitel, type Urteil } from './lib/cr-teilseiten.ts'
-import { PRUEFLISTE, type TeilseitenPruefung } from './bau/09-7-cr-teilseiten.ts'
+import { PRUEFLISTE } from './bau/09-7-cr-teilseiten.ts'
+import type { TeilseitenPruefung } from './lib/teilseiten.ts'
 import type { Title } from '../shared/types.ts'
 
 let fehler = 0

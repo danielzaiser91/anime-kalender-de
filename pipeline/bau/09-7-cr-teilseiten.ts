@@ -1,8 +1,9 @@
 import { log, writeJson } from '../lib/util.ts'
-import type { StreamLink, Title } from '../../shared/types.ts'
+import type { Title } from '../../shared/types.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 import { ladeCrArchiv } from './folgentitel-cr.ts'
 import { folgenlisteVon } from '../lib/titel-bloecke.ts'
+import { geteilteAdressen, type TeilseitenPruefung } from '../lib/teilseiten.ts'
 import {
   bereicheImFenster,
   crPositionen,
@@ -18,31 +19,7 @@ import {
  */
 export const PRUEFLISTE = 'data/cr-teilseiten-pruefliste.json'
 
-export interface TeilseitenPruefung {
-  titleId: number
-  titel: string
-  url: string
-  grund: string
-}
-
 const ZAEHLT = new Set(['TV', 'TV_SHORT'])
-
-function jahrRang(t: Title): number {
-  return (t.jpYear ?? 0) * 100 + ({ WINTER: 1, SPRING: 2, SUMMER: 3, FALL: 4 }[t.jpSeason ?? ''] ?? 0)
-}
-
-/** Alle Titel je Crunchyroll-Adresse, die sie mit mindestens einem anderen teilen, in der Reihenfolge der Ausstrahlung. */
-function geteilteAdressen(titles: Map<number, Title>): Map<string, { title: Title; stream: StreamLink }[]> {
-  const je = new Map<string, { title: Title; stream: StreamLink }[]>()
-  for (const title of titles.values()) {
-    for (const stream of title.streams) {
-      if (stream.platform !== 'crunchyroll' || !stream.sharedWith) continue
-      je.set(stream.url, [...(je.get(stream.url) ?? []), { title, stream }])
-    }
-  }
-  for (const liste of je.values()) liste.sort((a, b) => jahrRang(a.title) - jahrRang(b.title) || a.title.id - b.title.id)
-  return je
-}
 
 function unserTitel(t: Title): UnserTitel {
   return { id: t.id, episodes: t.episodes ?? 0, zaehlt: ZAEHLT.has(t.format ?? ''), folgen: folgenlisteVon(t.id) }
@@ -52,7 +29,7 @@ export function setzeCrTeilseiten(titles: Map<number, Title>, crDub: CrDubData):
   const serien = new Map(crDub.serien.filter((s) => s.katalog === 'de').map((s) => [s.url, s]))
   const pruefen: TeilseitenPruefung[] = []
   const je = { titel: 0, zahl: 0 }
-  for (const [url, eintraege] of geteilteAdressen(titles)) {
+  for (const [url, eintraege] of geteilteAdressen(titles, 'crunchyroll')) {
     const offen = eintraege.filter((e) => e.stream.dub === true && !e.stream.dubRanges?.length)
     if (!offen.length) continue
     const archiv = ladeCrArchiv(serien.get(url)?.seriesId) as RohArchiv | undefined
