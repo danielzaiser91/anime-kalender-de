@@ -20,6 +20,7 @@ pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
+pipeline/check-cover-quelle.ts
 pipeline/check-cr-teilseiten.ts
 pipeline/check-daten-kennung.ts
 pipeline/check-db-relevanz.ts

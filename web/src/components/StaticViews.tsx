@@ -889,7 +889,7 @@ export function ImpressumView() {
       <div>
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Urheberrecht</h2>
         <p>
-          Titelbilder stammen von TMDB, wo es dort ein Plakat gibt, sonst von AniList; Titel und Beschreibungstexte von AniList und den jeweiligen
+          Titelbilder stammen von TMDB, wo es dort ein Plakat gibt, sonst von AniList oder aniSearch; Titel und Beschreibungstexte von AniList und den jeweiligen
           Rechteinhabern und werden hier lediglich eingebunden. Alle Marken- und Bildrechte liegen bei
           ihren Inhabern. Der Quellcode dieser Seite steht unter der MIT-Lizenz, die selbst gepflegten
           Termindaten unter CC BY 4.0.
@@ -932,7 +932,7 @@ export function ImpressumView() {
             beides seit Längerem, das Impressum nicht.
           */}
           <li>
-            Deutsche Titel, Inhaltsangaben und Bezugsquellen:{' '}
+            Deutsche Titel, Inhaltsangaben, Bezugsquellen, Cover:{' '}
             <a className="underline" href="https://www.anisearch.de">aniSearch</a>
           </li>
           <li>
