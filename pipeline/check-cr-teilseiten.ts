@@ -95,6 +95,12 @@ pruefe('Titel nennen die zweite Staffel, die Zahl die erste: Widerspruch', von(s
 const doppelt = ordneSeiteZu([unser(1, folgen(1, 12), 12), unser(2, folgen(1, 12), 12)], seite({ name: 'S1', titel: folgen(1, 12) }))
 pruefe('Zwei Titel mit denselben Folgen überlappen: beide offen', von(doppelt, 1).includes('überlappt') && von(doppelt, 2).includes('überlappt'), [von(doppelt, 1), von(doppelt, 2)])
 
+// Ein Fenster, das auch nur eine Folge über das Seitenende ragt, wird nicht zugeordnet (Seite hat 11, wir 12 Folgen)
+const zuLang = ordneSeiteZu([unser(1, folgen(1, 12), 12)], seite({ name: 'S1', titel: folgen(1, 11) }))
+pruefe('Fenster ragt 1 über das Seitenende: keine Zuordnung, Grund', von(zuLang, 1).startsWith('offen:Fenster') && von(zuLang, 1).includes('ragt über'), von(zuLang, 1))
+const passt = ordneSeiteZu([unser(1, folgen(1, 11), 11)], seite({ name: 'S1', titel: folgen(1, 11) }))
+pruefe('Fenster endet genau am Seitenende: zugeordnet', von(passt, 1) === 'titel:1-11', von(passt, 1))
+
 // 6. Bereiche in unserer Zählung, nur die deutschen Folgen
 const gemischt = seite({ name: 'S', titel: 6 })
 gemischt[1]!.deutsch = false

@@ -217,7 +217,7 @@ function pruefeFenster(titel: UnserTitel[], liste: CrPosition[], urteile: Map<nu
     if (!u || !('fenster' in u)) continue
     const p = u.fenster.positionen
     const text = stelleVon(u.fenster, liste)
-    if (p[p.length - 1]! >= liste.length + 3) urteile.set(t.id, { grund: `Fenster ${text} ragt über die ${liste.length} Folgen der Seite` })
+    if (p[p.length - 1]! >= liste.length) urteile.set(t.id, { grund: `Fenster ${text} ragt über die ${liste.length} Folgen der Seite` })
     else if (p.some((x) => (belegt.get(x) ?? 0) > 1)) urteile.set(t.id, { grund: `Fenster ${text} überlappt das eines anderen Titels` })
   }
   return urteile
