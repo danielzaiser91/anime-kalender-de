@@ -1,4 +1,4 @@
-export type Geraet = '375' | '512' | 'beide'
+export type Geraet = '375' | '512' | '1200' | 'beide'
 export type Thema = 'hell' | 'dunkel' | 'beide'
 export type Seitenteil = 'vorher' | 'nachher' | 'beide'
 
@@ -36,7 +36,7 @@ export function zustandAus(name: string, w: URLSearchParams): Zustand {
     mockup: name,
     variante: w.get('v') ?? STANDARD.variante,
     fall: w.get('fall') ?? STANDARD.fall,
-    geraet: wahl(w.get('geraet'), ['375', '512', 'beide'], STANDARD.geraet),
+    geraet: wahl(w.get('geraet'), ['375', '512', '1200', 'beide'], STANDARD.geraet),
     thema: wahl(w.get('thema'), ['hell', 'dunkel', 'beide'], STANDARD.thema),
     teil: wahl(w.get('teil'), ['vorher', 'nachher', 'beide'], STANDARD.teil),
   }

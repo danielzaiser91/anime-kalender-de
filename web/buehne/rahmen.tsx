@@ -2,6 +2,7 @@ import { createRoot } from 'react-dom/client'
 import { useEffect, useState } from 'react'
 import './rahmen.css'
 import type { FaelleDatei } from './faelle.ts'
+import { geraeteFuer } from './geraete.ts'
 import { Leiste } from './leiste.tsx'
 import { Raster } from './raster.tsx'
 import { ladeMockups } from './mockups-laden.ts'
@@ -32,7 +33,9 @@ function Uebersicht() {
 function mitVorgaben(z: Zustand, def: MockupDef): Zustand {
   const fall = def.faelle.includes(z.fall) ? z.fall : (def.faelle[0] ?? '')
   const variante = z.variante in def.varianten ? z.variante : (Object.keys(def.varianten)[0] ?? '')
-  return { ...z, fall, variante }
+  const erlaubt: string[] = [...geraeteFuer(def.ausschnitt), 'beide']
+  const geraet = erlaubt.includes(z.geraet) ? z.geraet : geraeteFuer(def.ausschnitt)[0]!
+  return { ...z, fall, variante, geraet }
 }
 
 function Rahmen({ faelle }: { faelle: FaelleDatei }) {
@@ -52,7 +55,7 @@ function Rahmen({ faelle }: { faelle: FaelleDatei }) {
     <>
       <Leiste def={def} zustand={zustand} faelle={namen} />
       {def.varianten[zustand.variante]?.notiz && <p className="notiz">{def.varianten[zustand.variante]!.notiz}</p>}
-      <Raster zustand={zustand} ersteVariante={ersteVariante} />
+      <Raster def={def} zustand={zustand} ersteVariante={ersteVariante} />
     </>
   )
 }

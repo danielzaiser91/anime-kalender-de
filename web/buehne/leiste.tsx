@@ -1,12 +1,13 @@
+import { GROESSE, geraeteFuer } from './geraete.ts'
 import type { MockupDef } from './register.ts'
 import { hashVon, type Geraet, type Seitenteil, type Thema, type Zustand } from './zustand.ts'
 
 function Gruppe<T extends string>({ name, werte, aktuell, setze }: { name: string; werte: [T, string][]; aktuell: T; setze: (wert: T) => void }) {
   return (
-    <div className="gruppe">
+    <div className="gruppe" data-gruppe={name}>
       <span>{name}</span>
       {werte.map(([wert, text]) => (
-        <button key={wert} type="button" aria-pressed={wert === aktuell} onClick={() => setze(wert)}>
+        <button key={wert} type="button" data-wert={wert} aria-pressed={wert === aktuell} onClick={() => setze(wert)}>
           {text}
         </button>
       ))}
@@ -14,7 +15,6 @@ function Gruppe<T extends string>({ name, werte, aktuell, setze }: { name: strin
   )
 }
 
-const GERAETE: [Geraet, string][] = [['375', 'Handy 375'], ['512', 'Desktop 512'], ['beide', 'beide']]
 const THEMEN: [Thema, string][] = [['hell', 'hell'], ['dunkel', 'dunkel'], ['beide', 'beide']]
 const TEILE: [Seitenteil, string][] = [['vorher', 'Vorher'], ['nachher', 'Nachher'], ['beide', 'beide']]
 
@@ -23,13 +23,14 @@ export function Leiste({ def, zustand, faelle }: { def: MockupDef; zustand: Zust
   const aendere = (teil: Partial<Zustand>) => {
     location.hash = hashVon({ ...zustand, ...teil })
   }
+  const geraete: [Geraet, string][] = [...geraeteFuer(def.ausschnitt).map((g): [Geraet, string] => [g, GROESSE[g].name]), ['beide', 'beide']]
   return (
     <header className="leiste">
       <a href="#" className="zurueck">Bühne</a>
       <h1>{def.titel}</h1>
       <Gruppe name="Variante" werte={Object.keys(def.varianten).map((v): [string, string] => [v, v])} aktuell={zustand.variante} setze={(variante) => aendere({ variante })} />
       <Gruppe name="Fall" werte={def.faelle.map((f): [string, string] => [f, faelle[f] ?? f])} aktuell={zustand.fall} setze={(fall) => aendere({ fall })} />
-      <Gruppe name="Gerät" werte={GERAETE} aktuell={zustand.geraet} setze={(geraet) => aendere({ geraet })} />
+      <Gruppe name="Gerät" werte={geraete} aktuell={zustand.geraet} setze={(geraet) => aendere({ geraet })} />
       <Gruppe name="Thema" werte={THEMEN} aktuell={zustand.thema} setze={(thema) => aendere({ thema })} />
       <Gruppe name="Ansicht" werte={TEILE} aktuell={zustand.teil} setze={(teil) => aendere({ teil })} />
     </header>

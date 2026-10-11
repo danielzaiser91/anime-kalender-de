@@ -1,6 +1,6 @@
+import { GROESSE, geraeteFuer } from './geraete.ts'
+import type { MockupDef } from './register.ts'
 import type { Zustand } from './zustand.ts'
-
-const GROESSE = { '375': { breite: 375, hoehe: 812, name: 'Handy 375' }, '512': { breite: 512, hoehe: 900, name: 'Desktop 512' } } as const
 
 /** Adresse einer Zelle: dieselbe Seite im Zellen-Modus (siehe `start.ts`) — eigener Rahmen, also echte Breite und echtes Thema. */
 function zellenAdresse(z: Zustand, thema: 'hell' | 'dunkel', variante: string): string {
@@ -9,8 +9,8 @@ function zellenAdresse(z: Zustand, thema: 'hell' | 'dunkel', variante: string): 
 }
 
 /** Das Raster: Gerät × Thema × (Vorher, Nachher) nebeneinander, jede Zelle ein Rahmen mit dem echten Panel. */
-export function Raster({ zustand, ersteVariante }: { zustand: Zustand; ersteVariante: string }) {
-  const geraete = zustand.geraet === 'beide' ? (['375', '512'] as const) : ([zustand.geraet] as const)
+export function Raster({ def, zustand, ersteVariante }: { def: MockupDef; zustand: Zustand; ersteVariante: string }) {
+  const geraete = zustand.geraet === 'beide' ? geraeteFuer(def.ausschnitt) : ([zustand.geraet] as const)
   const themen = zustand.thema === 'beide' ? (['hell', 'dunkel'] as const) : ([zustand.thema] as const)
   const teile = zustand.teil === 'beide' ? (['vorher', 'nachher'] as const) : ([zustand.teil] as const)
   const variante = zustand.variante || ersteVariante
