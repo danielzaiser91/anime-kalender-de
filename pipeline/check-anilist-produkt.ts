@@ -8,7 +8,7 @@
  * Aufruf: `npx tsx pipeline/check-anilist-produkt.ts` (Einheiten, `check:logic`) und `… --bestand` (gebauter Datensatz, `check:anilist-bestand`)
  */
 import { readJson } from './lib/util.ts'
-import { ladeBewertungen, parseKlarwert, parseSchlagworte } from './lib/anisearch-bewertung.ts'
+import { ladeBewertungen, parseKlarwert, parseSchlagworte, parseStimmen } from './lib/anisearch-bewertung.ts'
 import { BANNER_DATEI, bannerAdresse, waehleBanner, type TmdbBanner } from './lib/tmdb-banner.ts'
 import { SCHLAGWORT_LISTE, SCHLAGWORT_MAX } from '../shared/schlagworte.ts'
 import type { Title } from '../shared/types.ts'
@@ -26,6 +26,10 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 function einheiten(): void {
   pruefe('Klarwert wird gelesen', parseKlarwert('<td>Klarwert<b>4.00 = 80%</b></td>') === 80)
   pruefe('Klarwert 0 % heißt keine Bewertung', parseKlarwert('<td>Klarwert<b>0.00 = 0%</b></td>') === undefined)
+  const balken = (zahlen: number[]): string => zahlen.map((n) => `<li><a aria-label="${n} Mitglieder haben mit :star Sternen bewertet"></a></li>`).join('')
+  const bewertet = (zahlen: number[]): string => `<ul id="rating-stats">${balken(zahlen)}</ul><table id="ratingstats"></table><a aria-label="9 Mitglieder haben mit x">`
+  pruefe('Stimmen: Summe der fünf Balken, nichts außerhalb des Blocks', parseStimmen(bewertet([32, 39, 17, 2, 3])) === 93)
+  pruefe('Stimmen: ohne Block 0', parseStimmen('<td>Klarwert<b>4.00 = 80%</b></td>') === 0)
   const seite = (kennungen: string[]): string =>
     `<section id="genres-tags">${kennungen.map((k) => `<li><a href="anime/genre/tag/${k}" class="gt showpop">x</a></li>`).join('')}</section><section id="x"><a href="anime/genre/tag/school">`
   pruefe('Schlagworte: Liste durchlassen, Rest weglassen', parseSchlagworte(seite(['present', 'tragedy', 'school'])).join() === 'Gegenwart,Schule')
