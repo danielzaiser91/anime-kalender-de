@@ -221,7 +221,7 @@ export function schreibeSynopsenUndReichereAn({ allTitles, releases, kanalJeAdre
     }
   }
   if (kanalBenannt) log(`${kanalBenannt} Kanal-Wege mit Amazon-Adresse als „Amazon Prime (Kanal)" benannt`)
-  gerichtet += richteTerminAdressen(releases)
+  gerichtet += richteTerminAdressen(releases, allTitles)
   if (gerichtet) log(`${gerichtet} Prime-Verweise auf die Video-Adresse gerichtet`)
   return { trenneQuelle, synopses, annKennungen, trailer }
 }

@@ -8,6 +8,7 @@ import yaml from 'js-yaml'
 import type { Release, Title } from '../shared/types.ts'
 import { expandEvents, istErschienen } from '../shared/logic.ts'
 import { amazonAdresseRichten } from './lib/amazon-adresse.ts'
+import { adresseDesWegs, richteTerminAdressen } from './bau/13-1-termin-adressen.ts'
 import { releasesAus } from './lib/meldungen.ts'
 import { kanalDesEintrags, leseSammelartikel, vorschlaegeAusSammelartikel } from './lib/sammelartikel.ts'
 import { ergaenzeVerweiseVonHand } from './lib/verweise-von-hand.ts'
@@ -108,6 +109,27 @@ pruefe('/dp/ASIN?ref geht auf die Video-Adresse ohne Abfrage', amazonAdresseRich
 pruefe('Schon sauber bleibt unverändert', amazonAdresseRichten(asin) === asin && amazonAdresseRichten(gti) === gti)
 const watch = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3fa85b3-9fd1-4c50-89ce-13e8d5953f92'
 pruefe('watch.amazon.de: die Abfrage ist die Kennung und bleibt', amazonAdresseRichten(watch) === watch)
+
+/* Ein Termin ohne Adresse nimmt die des Weges desselben Titels — eindeutig, Titelseite, gleicher Kanal. */
+const B0 = 'https://www.amazon.de/gp/video/detail/B0HKFFGQ7F'
+const andere = 'https://www.amazon.de/gp/video/detail/B0ANDERE12'
+const wegVon = (extra: Record<string, unknown> = {}) => ({ platform: 'primevideo', url: B0, ...extra })
+const mitWegen = (...streams: unknown[]) => ({ id: 1, streams }) as unknown as Title
+const termin = (extra: Partial<Release> = {}): Release =>
+  ({ slug: 'a', titleId: 1, name: 'T', platform: 'primevideo', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-04' }, ...extra }) as unknown as Release
+pruefe('Ein Weg: seine Adresse', adresseDesWegs(termin(), mitWegen(wegVon())) === B0)
+pruefe('Zwei Wege desselben Anbieters: mehrdeutig, keine Übernahme', adresseDesWegs(termin(), mitWegen(wegVon(), wegVon({ url: andere }))) === undefined)
+pruefe('Weg eines anderen Anbieters zählt nicht', adresseDesWegs(termin(), mitWegen({ platform: 'netflix', url: 'https://www.netflix.com/title/1' })) === undefined)
+pruefe('Eine Suche ist keine Titelseite', adresseDesWegs(termin(), mitWegen(wegVon({ url: 'https://www.amazon.de/s?k=x&i=instant-video' }))) === undefined)
+pruefe('Weg ohne Adresse zählt nicht', adresseDesWegs(termin(), mitWegen(wegVon({ url: '' }))) === undefined)
+pruefe('Kanal gesetzt: nur der Weg mit gleichem Kanal', adresseDesWegs(termin({ kanal: 'Crunchyroll' }), mitWegen(wegVon({ kanal: 'crunchyroll' }))) === B0 && adresseDesWegs(termin({ kanal: 'Crunchyroll' }), mitWegen(wegVon({ kanal: 'Aniverse' }))) === undefined)
+pruefe('Kanal gesetzt, zwei Wege, einer passt: der passende', adresseDesWegs(termin({ kanal: 'Crunchyroll' }), mitWegen(wegVon({ kanal: 'Aniverse', url: andere }), wegVon({ kanal: 'Crunchyroll' }))) === B0)
+pruefe('Eigene Adresse bleibt', adresseDesWegs(termin({ platformUrl: 'https://x/' }), mitWegen(wegVon())) === undefined)
+pruefe('Disc und Fernsehen übernehmen nichts', adresseDesWegs(termin({ releaseType: 'disc' }), mitWegen(wegVon())) === undefined && adresseDesWegs(termin({ platform: 'tv' as never }), mitWegen({ platform: 'tv', url: 'https://x/' })) === undefined)
+pruefe('Titel unbekannt: nichts', adresseDesWegs(termin(), undefined) === undefined)
+const ausgang = [termin(), termin({ slug: 'b', titleId: 2, platformUrl: 'https://www.amazon.de/dp/B0ABCDEFGH?ref_=x' })]
+const gerichtet = richteTerminAdressen(ausgang, [mitWegen(wegVon())])
+pruefe('Bau: Übernahme und Richten in einem Lauf', ausgang[0]!.platformUrl === B0 && ausgang[1]!.platformUrl === 'https://www.amazon.de/gp/video/detail/B0ABCDEFGH' && gerichtet === 1, { ausgang, gerichtet })
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
