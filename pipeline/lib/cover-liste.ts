@@ -1,5 +1,6 @@
 import { readJson, writeText } from './util.ts'
 import type { GrundBestand, PlakatBestand } from './tmdb-plakat-suche.ts'
+import { COVER_EIGEN_BASIS } from './cover-quelle.ts'
 import type { Title } from '../../shared/types.ts'
 
 const DATEI = 'daniel-zum-abarbeiten/listen/cover-ohne-tmdb.md'
@@ -38,6 +39,7 @@ export function schreibeCoverListe(bestand: PlakatBestand, gruende: GrundBestand
   const ohneCover: Zeile[] = []
   const anilistCover: Zeile[] = []
   let ungesucht = 0
+  let mitAnisearch = 0
   let mitTmdb = 0
   for (const t of alle) {
     if (gesehen.has(t.id)) continue
@@ -45,13 +47,14 @@ export function schreibeCoverListe(bestand: PlakatBestand, gruende: GrundBestand
     const id = String(t.id)
     if (bestand[id]?.p) mitTmdb++
     else if (!t.coverImage) ohneCover.push(zeile(t, gruende[id]?.grund ?? (id in bestand ? 'kein Treffer (frühere Suche)' : 'noch nicht gesucht'), gruende[id]?.kandidaten))
+    else if (t.coverImage.startsWith(COVER_EIGEN_BASIS)) mitAnisearch++
     else if (id in gruende || id in bestand) anilistCover.push(zeile(t, gruende[id]?.grund ?? 'kein Treffer (frühere Suche)', gruende[id]?.kandidaten))
     else ungesucht++
   }
   const text = [
     '# Cover ohne TMDB-Plakat',
     '',
-    `Erzeugt von \`pipeline/fetch-tmdb-poster.ts\` (Stand der Suche; ${alle.length} Titel gesamt): ${mitTmdb} Titel haben ein TMDB-Plakat, ${anilistCover.length} behalten das AniList-Cover (TMDB ohne sicheren Treffer), ${ohneCover.length} haben gar kein Cover, ${ungesucht} AniList-Titel sind noch nicht bei TMDB gesucht.`,
+    `Erzeugt von \`pipeline/fetch-tmdb-poster.ts\` (Stand der Suche; ${alle.length} Titel gesamt): ${mitTmdb} Titel haben ein TMDB-Plakat, ${anilistCover.length} behalten das AniList-Cover (TMDB ohne sicheren Treffer), ${mitAnisearch} die eigene Kopie des aniSearch-Covers, ${ohneCover.length} haben gar kein Cover, ${ungesucht} AniList-Titel sind noch nicht bei TMDB gesucht.`,
     '',
     'Gründe: **kein Treffer** (TMDB kennt keinen Titel gleichen Namens), **unsicher** (Name gleich, aber Jahr oder Genre Animation nicht belegt; Kandidaten verlinkt), **mehrere Kandidaten** (zwei Werke gleich nah), **kein Plakat** (Treffer ohne Hochformat).',
     '',
