@@ -23,6 +23,7 @@ import { type Env } from './env.ts'
 import { verarbeiteStapel } from './pruefung-stapel.ts'
 import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
 import { istMeldung, mitTagesdeckel } from './tagesdeckel.ts'
+import { loescheOffene } from './pruefung-ersetzen.ts'
 import { pruefeUnveraendert, ladeOffeneHashes, type OffeneHashes } from './pruefung-unveraendert.ts'
 
 export async function speicherePruefung(kontext: Kontext) {
@@ -270,15 +271,7 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
   if (unveraendert) {
     return antwort({ ok: true, befund, unveraendert: true })
   }
-  await env.DB.prepare(
-    folgeNr === null
-      ? 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr IS NULL AND staffel IS ?2 AND seiten_kennung IS ?3'
-      : 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr = ?2 AND staffel IS ?3 AND seiten_kennung IS ?4',
-  )
-    .bind(
-      ...(folgeNr === null ? [url, staffelNr, seitenKennung] : [url, folgeNr, staffelNr, seitenKennung]),
-    )
-    .run()
+  await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
 
   await env.DB.prepare(
     /*

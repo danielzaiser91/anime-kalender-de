@@ -103,7 +103,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
      */
     if (new URL(request.url).searchParams.get('stand') === '1') return ausCache(async () => {
       return await berechnePruefstand({ env, antwort })
-    }, 60)
+    }, 300)
 
     /*
       **Die Rohfolgen für den Bau.**

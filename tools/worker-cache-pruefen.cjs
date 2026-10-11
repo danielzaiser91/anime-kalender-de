@@ -14,8 +14,8 @@
  * rechnete die teure Zählung **540-mal** neu, 4,35 Mio. gelesene Zeilen, **62 %** des Kontingents
  * (`wrangler d1 insights`). Dieselbe Lehre war am 24.09.2026 schon für `?stand=1` gezogen worden.
  *
- * Jetzt wird nichts mehr verworfen: Jede Antwort läuft nach ihrer eigenen Frist ab (eine Minute der
- * Stand, dreißig Minuten die Zählung). Wer selbst meldet, überbrückt das in der Erweiterung.
+ * Jetzt wird nichts mehr verworfen: Jede Antwort läuft nach ihrer eigenen Frist ab (fünf Minuten der
+ * Stand seit 11.10.2026, dreißig Minuten die Zählung). Wer selbst meldet, überbrückt das in der Erweiterung.
  *
  * Geprüft wird deshalb, dass **keine** Verwerfen-Liste mehr existiert und dass die gehaltenen
  * Endpunkte ihre Frist tragen.
@@ -59,13 +59,19 @@ pruefe(umhuellt.length >= 2, `${umhuellt.length} Endpunkte gehalten: ${umhuellt.
   (`wrangler d1 insights`). Dieselbe Lehre war am 24.09.2026 schon für `?stand=1` gezogen worden
   (1.834 Neuberechnungen, 9,2 Mio. Zeilen); sie fehlte nur beim teuren Endpunkt.
 
-  Jede Antwort läuft jetzt nach ihrer eigenen Frist ab (eine Minute der Stand, dreißig Minuten die
+  Jede Antwort läuft jetzt nach ihrer eigenen Frist ab (fünf Minuten der Stand, dreißig Minuten die
   Zählung). Wer gerade selbst gemeldet hat, überbrückt das in der Erweiterung
   (`frischGemeldetNetflix`) — für alle anderen ist ein halbstündlich alter Zähler harmlos.
 */
 pruefe(
   !/const wege = \[/.test(quelle),
   'keine Verwerfen-Liste mehr — sonst rechnet der Melde-Durchgang die teure Zählung je Meldung neu',
+)
+
+/* 11.10.2026: Der Stand hält fünf Minuten (vorher eine) — das Lesekontingent war an einem Massenlauftag aufgebraucht. */
+pruefe(
+  quelle.includes("get('stand') === '1') return ausCache(async () => {\n      return await berechnePruefstand({ env, antwort })\n    }, 300)"),
+  '?stand=1 hält 300 Sekunden',
 )
 
 /*

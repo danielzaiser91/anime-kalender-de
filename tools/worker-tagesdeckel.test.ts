@@ -11,6 +11,7 @@
 import { DatabaseSync } from 'node:sqlite'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
+import { handleLauf } from '../worker/src/lauf.ts'
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
 import { DECKEL_ZEILEN, utcTag, sekundenBisMitternachtUtc } from '../worker/src/tagesdeckel.ts'
 
@@ -37,16 +38,26 @@ function neueDatenbank() {
 
 type Anweisung = { run: () => Promise<unknown>; all: () => Promise<unknown>; first: () => Promise<unknown>; bind: (...w: unknown[]) => Anweisung }
 
+/* Jede ausgeführte Anweisung mit ihren Werten, damit der Test ihren Plan (EXPLAIN QUERY PLAN) prüfen kann. */
+const abfragen: { sql: string; werte: unknown[] }[] = []
+
 function d1(db: DatabaseSync, zaehler: { geschrieben: number }) {
   const anweisung = (sql: string, werte: unknown[] = []): Anweisung => ({
     bind: (...w) => anweisung(sql, w),
     run: async () => {
+      abfragen.push({ sql, werte })
       const r = db.prepare(sql).run(...(werte as never[]))
       zaehler.geschrieben += Number(r.changes)
       return { meta: { changes: Number(r.changes), rows_written: Number(r.changes) } }
     },
-    all: async () => ({ results: db.prepare(sql).all(...(werte as never[])), meta: { rows_written: 0 } }),
-    first: async () => db.prepare(sql).get(...(werte as never[])) ?? null,
+    all: async () => {
+      abfragen.push({ sql, werte })
+      return { results: db.prepare(sql).all(...(werte as never[])), meta: { rows_written: 0 } }
+    },
+    first: async () => {
+      abfragen.push({ sql, werte })
+      return db.prepare(sql).get(...(werte as never[])) ?? null
+    },
   })
   return {
     prepare: (sql: string) => anweisung(sql),
@@ -179,6 +190,87 @@ console.log('Unveränderte Meldung und Listenbau (Bleach-Fall, pruefung-stand.ts
   await handlePruefung(post(folge(1)), env)
   pruefe(z.geschrieben === nachErneuerung, 'die zweite gleiche Meldung schreibt 0 Zeilen')
   pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 1, 'weiter keine Dublette')
+}
+
+console.log('Lesezeilen: Pläne der Abfragen einer Meldung (EXPLAIN QUERY PLAN, 11.10.2026)')
+const planVon = (db: DatabaseSync, a: { sql: string; werte: unknown[] }) =>
+  (db.prepare(`EXPLAIN QUERY PLAN ${a.sql}`).all(...(a.werte as never[])) as { detail: string }[]).map((z) => z.detail).join(' ; ')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  abfragen.length = 0
+  const adresse = (n: number) => ({ ...folge(1), url: `https://www.disneyplus.com/de-de/browse/entity-${n}` })
+  await handlePruefung(post({ stapel: [adresse(1), adresse(2), adresse(3)] }), env)
+  const hashAbfrage = abfragen.find((a) => /FROM pruefung\b.*WHERE uebernommen = 0 AND url IN/s.test(a.sql))
+  const plan = hashAbfrage ? planVon(db, hashAbfrage) : ''
+  pruefe(hashAbfrage?.werte.length === 3, 'der Stapel mit drei Adressen lädt die offenen Zeilen mit einer Abfrage')
+  pruefe(plan.includes('pruefung_url_zeit') && !plan.includes('idx_pruefung_offen'), `die Hash-Abfrage nimmt bei drei Adressen den Adress-Index (${plan})`)
+}
+
+console.log('Lesezeilen: Ersetzen über die Zeilen-ID')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  abfragen.length = 0
+  await handlePruefung(post({ stapel: [folge(1), folge(2)] }), env)
+  pruefe(!abfragen.some((a) => /^DELETE FROM pruefung/.test(a.sql)), 'neue Folgen: kein DELETE (es gibt nichts zu ersetzen)')
+  db.exec('INSERT INTO pruefung (plattform, url, befund, folge_nr, staffel, gemeldet_am) SELECT plattform, url, befund, folge_nr, staffel, gemeldet_am FROM pruefung WHERE folge_nr = 1')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 1') === 2, 'Vorbereitung: Folge 1 steht doppelt (Dublette)')
+  abfragen.length = 0
+  await handlePruefung(post(folge(1, 'nein')), env)
+  const loeschen = abfragen.filter((a) => /^DELETE FROM pruefung/.test(a.sql))
+  pruefe(loeschen.length === 1 && /WHERE id IN \(\?,\?\)$/.test(loeschen[0]!.sql), `Änderung: ein DELETE über die IDs beider Dubletten (${loeschen[0]?.sql})`)
+  pruefe(!!loeschen[0] && planVon(db, loeschen[0]).includes('INTEGER PRIMARY KEY'), 'der Plan geht über den Primärschlüssel, liest keine Adresszeilen')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 1') === 1 && zahl(db, "SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 1 AND ton_de = 'nein'") === 1, 'Folge 1: nur noch die neue Zeile')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 2') === 1, 'Folge 2 derselben Adresse bleibt unberührt')
+  pruefe(!abfragen.some((a) => /DELETE FROM pruefung WHERE url/.test(a.sql)), 'kein DELETE mehr über die Adresse')
+}
+
+console.log('Lesezeilen: Gesamtzahl der Rohfolgen')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  await handlePruefung(post({ stapel: [folge(1), folge(2), folge(3)] }), env)
+  db.exec("UPDATE prime_folge SET vorhanden = 'nein' WHERE nummer = 3")
+  const hole = async (nach: number) => {
+    abfragen.length = 0
+    const r = await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&token=t&nach=${nach}`), env)
+    const inhalt = (await r.json()) as { folgen: unknown[]; gesamt: number; weiter: number | null }
+    return { inhalt, gezaehlt: abfragen.some((a) => /COUNT\(\*\)/.test(a.sql)) }
+  }
+  const erste = await hole(0)
+  pruefe(erste.inhalt.folgen.length === 2 && erste.inhalt.gesamt === 2 && erste.inhalt.weiter === null, 'erste Seite unter dem Limit: gesamt = Zeilen der Seite, gesperrte Folge zählt nicht')
+  pruefe(!erste.gezaehlt, '... und ohne COUNT(*)')
+  const spaeter = await hole(1)
+  pruefe(spaeter.inhalt.folgen.length === 1 && spaeter.inhalt.gesamt === 2 && spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): gesamt bleibt die ungekürzte Zahl, per COUNT(*)')
+}
+
+console.log('Lesezeilen: /lauf wird 30 Sekunden gehalten')
+{
+  const gehalten = new Map<string, Response>()
+  const global = globalThis as { caches?: unknown }
+  global.caches = {
+    default: {
+      match: async (k: Request) => gehalten.get(k.url)?.clone(),
+      put: async (k: Request, r: Response) => void gehalten.set(k.url, r),
+    },
+  }
+  const wartend: Promise<unknown>[] = []
+  const ctx = { waitUntil: (p: Promise<unknown>) => void wartend.push(p.catch(() => {})) } as never
+  const env = umgebung(neueDatenbank())
+  const hole = async (adresse: string) => {
+    abfragen.length = 0
+    const r = await handleLauf(new Request(`https://worker.test/lauf${adresse}`), env, ctx)
+    await Promise.all(wartend)
+    return { status: r.status, lesen: abfragen.filter((a) => /FROM lauf_status/.test(a.sql)).length }
+  }
+  const erste = await hole('')
+  const zweite = await hole('')
+  pruefe(erste.status === 200 && erste.lesen > 0, `erster Aufruf liest die Läufe (${erste.lesen} Abfragen)`)
+  pruefe(zweite.status === 200 && zweite.lesen === 0, 'zweiter Aufruf kommt aus dem Cache, 0 Abfragen auf lauf_status')
+  pruefe([...gehalten.values()][0]?.headers.get('Cache-Control') === 'public, max-age=30', 'die gehaltene Antwort trägt 30 Sekunden')
+  const verlauf = await hole('?verlauf=daten')
+  pruefe(verlauf.lesen > 0 && (await hole('?verlauf=daten')).lesen > 0, 'der Verlauf einer Lauf-Art (Detailseite) bleibt ungehalten')
 }
 
 if (fehler) {

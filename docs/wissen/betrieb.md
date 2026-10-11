@@ -1289,3 +1289,13 @@ Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --searc
 **Nicht umgesetzt (Leser verhindern es):** Eine Zeile je Titel und Anbieter mit JSON und Hash statt einer Zeile je Folge. Je Folge lesen heute `pipeline/fetch-pruefungen.ts` (Einleser, hakt über Zeilennummern ab), `fetch-urteile.ts` (`?alle=1`), `fetch-folgen-zuordnung.ts` und `fetch-rohfolgen.ts` (`prime_folge`, `rohfolgenUebernommen`), `lib/meldungen.ts`, die Worker-Leser `pruefung-lesen`, `-stand`, `-zaehlen`, `-loeschen`, `-rohfolgen`, die Erweiterung (`?gemeldet=`, Bereiche je Folge) und Werkzeuge (`briefkasten-wache`, `pruefung-zurueckstellen`, `daten-befund`). Abhaken, Löschen und „jüngste gewinnt" arbeiten je Folge. Die Umstellung ist ein eigener Umbau der Pipeline.
 
 **Migration und Deploy direkt nacheinander (Prüferbefund PR 839):** Nach Migration 047 bricht der **alte** Worker bei `?zaehlen=1`, weil seine Adressabfrage `INDEXED BY pruefung_gemeldet_url` erzwingt und dieser Index dann fehlt. Zwischen `047` und dem Worker-Deploy soll deshalb nichts liegen. Eine unveränderte Meldung erneuert `gemeldet_am` einmal je Listenbau (eine Zeile), wenn die Zeile vor `pruefstand.json` → `erzeugtAm` liegt — sonst blieben Wiedervorlage-Ziele für die Erweiterung ewig offen.
+
+## D1-Lesekontingent: fünf Hebel im Worker (11.10.2026)
+
+**Anlass:** Das Lesekontingent (5 Mio. Zeilen je UTC-Tag) war am 11.10.2026 gegen 18:00 UTC durch denselben Massenlauf erschöpft (Bericht `daniel-zum-abarbeiten/berichte/d1-leselimit-2026-10-11.md`). Die Zahlen unten sind aus den Aufrufen des Tages gerechnet, nicht nachgemessen.
+
+- **Hash-Abfrage** (`pruefung-unveraendert.ts`): `INDEXED BY pruefung_url_zeit`. Ohne nahm der Planer ab zwei Adressen `idx_pruefung_offen` und las alle offenen Zeilen je Aufruf (EXPLAIN QUERY PLAN lokal; Test in `tools/worker-tagesdeckel.test.ts` prüft den Plan bei drei Adressen).
+- **`?stand=1`**: Cache 300 statt 60 s (gerechnet bis 0,8 Mio. am Massenlauftag). Frisch Gemeldetes überbrückt die Erweiterung, bis der Stand es zeigt.
+- **DELETE vor INSERT** (`pruefung-ersetzen.ts`): über die IDs aus `ladeOffeneHashes` statt über `url` (gerechnet 0,29 Mio.); ohne offene Zeile entfällt der DELETE. Zwei gleiche Folgen im selben Stapel ergäben eine Dublette; die nächste Meldung räumt sie auf.
+- **Rohfolgen-Gesamtzahl**: bei `nach = 0` und Seite unter 5000 Zeilen aus der Seite, sonst `COUNT(*)` (gerechnet 0,26 Mio.).
+- **GET `/lauf`**: Übersicht 30 s im Edge-Cache (`cache-kurz.ts`, gerechnet 0,1 Mio. je Tag); der Verlauf einer Lauf-Art bleibt ungehalten. Ein Laufstatus zeigt sich damit bis zu 30 s später.
