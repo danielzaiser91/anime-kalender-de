@@ -18,7 +18,6 @@ import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
 import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
 import { type sortiereNachZugang } from './wege-sortieren.ts'
-import { bestandVon } from './prime-kanal.ts'
 
 /** Eine Pille je Termin: Sender oder Anbieter, Datum, Folge. */
 function terminPillen(rs: Release[], title: Title, releases: Release[], today: string) {
@@ -183,7 +182,6 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                       [
                         ...dubZeilen(s),
                         streamNurOmu(title, s) ? t('detail.pilleNurOmu') : '',
-                        bestandVon(s) && folgenAngabe ? t('detail.zahlVonCrunchyroll') : '',
                         s.teilBereich
                           ? t('detail.teilBereichTitel', {
                               von: s.teilBereich.von,
