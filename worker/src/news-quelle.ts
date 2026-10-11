@@ -9,6 +9,7 @@
 import type { NewsEintrag } from '../../shared/types.ts'
 import { anbieterName, type PlatformId } from '../../shared/types.ts'
 import type { Env } from './env.ts'
+import { fehlerLog } from './werte.ts'
 
 export async function loadNews(env: Env): Promise<NewsEintrag[]> {
   const url = new URL('data/news.json', env.SITE_URL).toString()
@@ -17,7 +18,7 @@ export async function loadNews(env: Env): Promise<NewsEintrag[]> {
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return (await res.json()) as NewsEintrag[]
   } catch (err) {
-    console.error('News nicht abrufbar', err)
+    fehlerLog('News nicht abrufbar', err)
     return []
   }
 }

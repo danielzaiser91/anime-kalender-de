@@ -1,5 +1,6 @@
 import { type Env } from './env.ts'
-import { speicherePruefung } from './pruefung-speichern.ts'
+import { speichereMitProtokoll } from './pruefung-protokoll.ts'
+import { nichtErlaubt } from './pruefung-ablehnung.ts'
 import { loeschePruefungen } from './pruefung-loeschen.ts'
 import { beantwortePruefungLesen } from './pruefung-lesen.ts'
 import { exporteVerwerfen } from './export-speicher.ts'
@@ -103,9 +104,9 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
   if (request.method !== 'POST') return antwort({ error: 'GET, POST oder DELETE erwartet' }, 405)
 
   const token = request.headers.get('X-Lauf-Token') ?? ''
-  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return nichtErlaubt(antwort)
 
-  const gespeichert = await speicherePruefung({ request, antwort, token, env, ctx })
+  const gespeichert = await speichereMitProtokoll({ request, antwort, token, env, ctx })
   await exporteVerwerfen(env)
   return gespeichert
 }

@@ -43,7 +43,7 @@ const PAUSE_MS = 5_500
 const TAG_MS = 24 * 3600 * 1000
 
 type Roh = Record<string, unknown>
-interface Ausgeliefert {
+export interface Ausgeliefert {
   id: number
   malId?: number
   anisearchId?: number
@@ -129,11 +129,18 @@ function ladeAnilistTitel(): { offen: Ausgeliefert[]; vergeben: Set<number> } {
   for (const z of Object.values(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) if (z.anisearchId) vergeben.add(z.anisearchId)
   for (const [, asId] of anisearchKatalogPaare()) vergeben.add(asId)
   for (const m of readFileSync('data/anisearch-ids-hand.yaml', 'utf8').matchAll(/^(\d+):\s*(\d+)/gm)) vergeben.add(Number(m[2]))
-  /* Schon gebundene Titel (Abgleich, Handdatei) bleiben draußen, auch wenn der Bestand ihre Kennung noch nicht trägt: ein Lauf darf sie nicht neu entscheiden. */
   const handAl = [...readFileSync('data/anisearch-ids-hand.yaml', 'utf8').matchAll(/^(\d+):/gm)].map((m) => Number(m[1]))
   const gebunden = new Set<number>([...anisearchKatalogPaare().map(([al]) => al), ...handAl])
+  return { offen: offeneTitel(alle, gebunden), vergeben }
+}
+
+/**
+ * Titel, die der Abgleich entscheiden darf: ohne eigene Kennung und ohne Bindung in `gebunden` (Abgleich, Handdatei) — auch wenn der Bestand die Kennung noch nicht trägt:
+ * ein Lauf darf gesichtete Paare nicht neu entscheiden. Eine Zeile je AniList-Kennung.
+ */
+export function offeneTitel(alle: Ausgeliefert[], gebunden: Set<number>): Ausgeliefert[] {
   const offen = alle.filter((t) => t.id < 10_000_000 && !t.anisearchId && !gebunden.has(t.id))
-  return { offen: [...new Map(offen.map((t) => [t.id, t])).values()], vergeben }
+  return [...new Map(offen.map((t) => [t.id, t])).values()]
 }
 
 /** Was der Abgleich aus einem kompakten Eintrag braucht. */
