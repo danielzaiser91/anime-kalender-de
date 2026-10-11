@@ -880,7 +880,7 @@ export interface FranchiseMember {
    */
   ohneSynchro?: boolean
   /**
-   * Cover (TMDB oder aniSearch, volle Adresse; seit 11.10.2026 nicht mehr von AniList).
+   * Cover **ohne** Adressvorsatz — `ANILIST_COVER_BASIS` kommt beim Laden dazu.
    *
    * Stand hier bis zum 13.08.2026 bewusst nicht drin: „Sie würden die Datei
    * verdoppeln, und für eine Auswahlliste braucht es sie nicht." Aus der

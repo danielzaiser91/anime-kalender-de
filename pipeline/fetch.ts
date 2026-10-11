@@ -10,6 +10,7 @@
  */
 import { mediaByMalIds, searchMedia, type AniListMedia, istQuellenAusfall } from './lib/anilist.ts'
 import { ausAnisearchDubs, ausAnisearchHand } from './lib/anisearch-synchro-ids.ts'
+import { holeAnisearchCover } from './lib/anisearch-cover.ts'
 import { loadCurated, loadSynchroVonHand } from './lib/curated.ts'
 import { lookupTmdb, type TmdbInfo } from './lib/tmdb.ts'
 import { loadEnv, fetchJson, log, readJson, warn, writeJson } from './lib/util.ts'
@@ -136,6 +137,7 @@ async function main(): Promise<void> {
     writeJson('data/cache/anilist-by-id.json', byAniId)
   }
 
+  if (!SKIP_ANILIST && !anilistAus) anilistAus = await holeAnisearchCover(cached, byAniId)
 
   // 4. TMDB — nur für kuratierte Titel, weil nur die im Kalender landen.
   const tmdbKey = process.env.TMDB_API_KEY

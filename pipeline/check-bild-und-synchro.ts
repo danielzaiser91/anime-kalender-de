@@ -9,7 +9,7 @@ import { mitKitsuTiteln } from './bau/folgentitel-kitsu.ts'
 import { ANISEARCH_ID_BASIS, FORMAT, anisearchNurKatalog } from './bau/anisearch-titel.ts'
 import { ohneBelegteSynchro } from './bau/synchro-belegt.ts'
 import { ausAnisearchDubs } from './lib/anisearch-synchro-ids.ts'
-import { coverNachRegel, seiteOhneCover, type CoverQuellen } from './lib/cover-quelle.ts'
+import { malOhneAnilistTitel } from './lib/anisearch-cover.ts'
 import { waehlePlakat } from './lib/tmdb-plakat.ts'
 import { waehleStaffel } from './lib/tmdb-staffel.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
@@ -167,25 +167,24 @@ pruefe('jede Kennung ist positiv und die Titelkennung liegt über allen AniList-
 pruefe('jeder Eintrag trägt ein bekanntes Deutsch-Kennzeichen', Object.values(eintraege).every((e) => 'dpc-'.includes(e.dub) && e.dub.length === 1))
 pruefe('nur Einträge ohne Deutsch bleiben im Katalog', [...anisearchNurKatalog()].every((id) => eintraege[String(id - ANISEARCH_ID_BASIS)]?.dub === '-') && anisearchNurKatalog().size === Object.values(eintraege).filter((e) => e.dub === '-').length)
 
-console.log('Cover nach Regel TMDB → aniSearch → keins')
-const coverProbe: CoverQuellen = { tmdb: { 1: { p: '/a.jpg' }, 2: null }, anisearchOhne: new Set([30]) }
-pruefe('das TMDB-Plakat geht vor aniSearch', coverNachRegel(1, 5, coverProbe) === 'https://image.tmdb.org/t/p/w500/a.jpg')
-pruefe(
-  'ohne Plakat gilt das aniSearch-Muster, die Kennung durch 1000 ist der Ordner',
-  coverNachRegel(2, 12345, coverProbe) === 'https://cdn.anisearch.de/images/anime/cover/12/12345_600.webp' && coverNachRegel(3, 7, coverProbe) === 'https://cdn.anisearch.de/images/anime/cover/0/7_600.webp',
-)
-pruefe('Seite ohne eigenes Cover oder Titel ohne Kennung: keins', coverNachRegel(2, 30, coverProbe) === undefined && coverNachRegel(2, undefined, coverProbe) === undefined)
-const bildUrl = (pfad: string): string => `<img src="https://cdn.anisearch.de/images/anime/cover/${pfad}">`
-pruefe(
-  'die Seite zeigt ein eigenes Cover, einen Altersschutz-Platzhalter oder keins',
-  !seiteOhneCover(bildUrl('12/12345_600.webp') + bildUrl('9/9251_400.webp'), 12345) &&
-    seiteOhneCover(bildUrl('ecchi.v1_600.webp') + bildUrl('9/9251_400.webp'), 12345) &&
-    seiteOhneCover(bildUrl('0_600.webp'), 77) &&
-    !seiteOhneCover('<html></html>', 5),
-)
-const ausgeliefert = [...(JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { coverImage?: string }[]), ...(JSON.parse(readFileSync('public/data/ohne-synchro.json', 'utf8')) as { coverImage?: string }[])]
-const fremdesCover = ausgeliefert.filter((t) => t.coverImage && !/^https:\/\/(image\.tmdb\.org|cdn\.anisearch\.de)\//.test(t.coverImage)).map((t) => t.coverImage)
-pruefe('jedes ausgelieferte Cover kommt von TMDB oder aniSearch, keines von AniList', fremdesCover.length === 0, fremdesCover.slice(0, 5))
+console.log('Cover für aniSearch-Titel (AniList über die MAL-Kennung)')
+const probeEintraege = { 1: { y: 2026, mal: 10, dub: '-' }, 2: { y: 2026, mal: 11, dub: '-' }, 3: { y: 2020, mal: 12, dub: '-' }, 4: { y: 2026, dub: '-' }, 5: { y: 2026, mal: 14, dub: '-' }, 6: { y: 2026, mal: 10, dub: '-' }, 7: { y: 1998, mal: 15, dub: 'd' } }
+const offeneMal = malOhneAnilistTitel(probeEintraege, new Set([11]), { 14: { id: 1, cover: 'x' } }, 2025)
+pruefe('abgefragt wird: Eintrag mit MAL-Kennung, ohne AniList-Titel, ohne Cover im Cache, jede Kennung einmal; ohne Deutsch nur jung, mit Deutsch jedes Alter', JSON.stringify(offeneMal) === '[10,15]', offeneMal)
+/* Ausnahme mit Ablauf: Beide Titel hatten am 08.10.2026 kein Cover, bis der Abruf es holt; danach gilt die Regel ohne Ausnahme. */
+const koernOhneCover = new Map([[10021566, 'Dragon Ball Super: Beerus'], [10021751, 'Fool Night'], [10021575, 'Cover erst nach dem nächsten Bau']])
+const ausnahmeGilt = new Date().toISOString().slice(0, 10) <= '2026-10-15'
+const kern = JSON.parse(readFileSync('public/data/titles-core.json', 'utf8')) as { id: number; coverImage?: string }[]
+const ohneCover = kern.filter((t) => !t.coverImage && !(ausnahmeGilt && koernOhneCover.has(t.id))).map((t) => t.id)
+pruefe('jeder Kern-Titel trägt ein Cover', ohneCover.length === 0, ohneCover)
+/* Alle ausgelieferten aniSearch-Titel: Steht die MAL-Kennung im Cover-Bestand, muss der Titel das Cover tragen (08.10.2026: der Bestand lag im Actions-Cache, der Bau sah ihn nicht). */
+const coverBestand = JSON.parse(readFileSync('data/anisearch-cover.json', 'utf8')) as Record<string, unknown>
+const alleTitel = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { anisearchId?: number; coverImage?: string; titleRomaji: string }[]
+const mitQuelleOhneCover = alleTitel
+  .filter((t) => t.anisearchId && !t.coverImage && coverBestand[String((eintraege as Record<string, { mal?: number }>)[String(t.anisearchId)]?.mal)])
+  .filter((t) => !(ausnahmeGilt && koernOhneCover.has(ANISEARCH_ID_BASIS + t.anisearchId!)))
+  .map((t) => t.titleRomaji)
+pruefe('kein ausgelieferter Titel mit Cover-Quelle (MAL-Kennung im Cover-Bestand) ohne Cover', mitQuelleOhneCover.length === 0, mitQuelleOhneCover)
 
 console.log('F-Sperre (Fanservice-Urteil von Hand, data/fanservice-urteil.yaml)')
 const gesperrt = new Set([...readFileSync('data/fanservice-urteil.yaml', 'utf8').matchAll(/^\s*-\s*id:\s*(\d+)/gm)].map((m) => Number(m[1])))

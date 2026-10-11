@@ -11,8 +11,8 @@ import { slugify } from '../lib/util.ts'
  * anderes gar nicht (westliche Serien, Filme, Web-Produktionen).
  *
  * Quelle ist `data/anisearch-eintraege.json` (Kennung → kompakter Eintrag aus `/v1/anime/<Kennung>`, ohne Hentai). Der Titel bekommt die
- * Kennung `ANISEARCH_ID_BASIS + aniSearch-Kennung`; AniList-Kennungen liegen weit darunter, die Cartoons nutzen negative. Sein Cover setzt `cover-regel.ts`
- (TMDB, sonst aniSearch); er trägt keine MAL-Kennung (sie gehört der Hauptfassung, sonst verwechselt der
+ * Kennung `ANISEARCH_ID_BASIS + aniSearch-Kennung`; AniList-Kennungen liegen weit darunter, die Cartoons nutzen negative. Er trägt **kein Cover**
+ * von aniSearch (die Bilder dort sind nicht zur Weitergabe freigegeben; ein TMDB-Plakat gilt, wo eines zu Name und Jahr passt) und keine MAL-Kennung (sie gehört der Hauptfassung, sonst verwechselt der
  * Bau beide). Wo aniSearch Deutsch nicht kennt (`-`), bleibt er hinter dem Toggle (`anisearchNurKatalog`).
  */
 export const ANISEARCH_ID_BASIS = 10_000_000
@@ -125,6 +125,8 @@ function erstausgabeUebernehmen(titles: Map<number, Title>): void {
 
 /** Legt die Titel an, die bei uns noch keine eigene aniSearch-Kennung tragen. Gibt zurück, wie viele es sind. */
 export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<number, string>, jpStartAnzeige: Map<number, string>): number {
+  /* Cover: die aniSearch-Bilder dürfen wir nicht weitergeben; wo TMDB ein Plakat zu Name und Jahr kennt (`fetch-tmdb-poster.ts`), steht es als Cover. */
+  const poster = readJson<Record<string, { p: string } | null>>('data/tmdb-poster.json', {})
   const vergeben = new Set<number>()
   /*
     Eine Zuordnung zu einem AniList-Titel sperrt den Eintrag nur, wenn dieser Titel im Hauptbestand steht oder der Eintrag kein Deutsch führt: Liegt der
@@ -151,6 +153,7 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
       /* Ein deutscher Name mit angehängter Staffel- oder Teilnummer bleibt weg (`check:logic`: kein Titel trägt die Nummer eines seiner Teile im Namen); es gilt der englische. */
       titleDe: e.de && !/[–—-]\s*(staffel|season|vol\.?|teil|part)\s*\d+\s*$/i.test(e.de) ? e.de : undefined,
       titleNative: e.n,
+      ...(poster[String(id)] ? { coverImage: `https://image.tmdb.org/t/p/w500${poster[String(id)]!.p}` } : {}),
       format: FORMAT[e.ty] ?? 'SPECIAL',
       episodes: e.f,
       jpYear: e.y,

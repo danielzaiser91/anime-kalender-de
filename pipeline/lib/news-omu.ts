@@ -12,6 +12,7 @@
  */
 import type { NewsMeldung, Release, Title } from '../../shared/types.ts'
 import { hostVon } from '../../shared/quelle.ts'
+import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { readJson, slugify } from './util.ts'
 import { ankuendigungenLaden, type Ankuendigung } from './ankuendigungen.ts'
 
@@ -54,5 +55,6 @@ export function omuTitelAusKatalog(out: string): Title[] {
       ...t,
       streams: t.streams ?? [],
       slug: t.slug ?? `${slugify(t.titleEn ?? t.titleRomaji ?? String(t.id))}-${t.id}`,
+      coverImage: t.coverImage && !t.coverImage.startsWith('http') ? ANILIST_COVER_BASIS + t.coverImage : t.coverImage,
     }))
 }

@@ -411,6 +411,7 @@ export function titleFromMedia(media: AniListMedia, confidence: DubConfidence): 
     jpEnd: isoDate(media.endDate) ?? isoDate(media.startDate), jpStartTag: media.startDate?.day ? isoDatumGenau(media.startDate) : undefined,
     genres: mapGenres(media),
     keywords: mapKeywords(media),
+    coverImage: media.coverImage?.extraLarge ?? media.coverImage?.large ?? undefined,
     bannerImage: media.bannerImage ?? undefined,
     synopsis: cleanSynopsis(media.description),
     /*
