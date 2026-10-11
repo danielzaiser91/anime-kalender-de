@@ -61,7 +61,7 @@ for (const t of titel) {
 }
 
 const offen = {}
-for (const [id, eintraege] of nachRang(jeAdresse)) {
+for (const [id, eintraege] of nachRang(jeAdresse, 'disneyplus')) {
   const sortiert = [...eintraege].sort(vergleiche)
   const verdacht = eintraege.map((e) => verdaechtig.get(e.t?.id ?? e.id)).find(Boolean)
   /* Beantwortete Seiten stehen mit lauter `offen: false` drin: Der Melder darf dort berichtigen,

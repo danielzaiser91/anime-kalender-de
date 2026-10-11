@@ -52,4 +52,7 @@ pipeline/check-werk-doppelt.ts
 pipeline/check-wochen-datei.ts
 pipeline/check-zaehlung.ts
 pipeline/check-zweitanbieter.ts
+tools/cartoon-jw-auswerten.test.mjs
+tools/cartoon-jw-stichprobe.test.mjs
 tools/check-patchnotes-pflicht.mjs
+tools/pruef-bestand.test.mjs

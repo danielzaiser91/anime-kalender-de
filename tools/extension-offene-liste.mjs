@@ -149,7 +149,7 @@ function zustandVon(e) {
 }
 
 const offen = {}
-for (const [id, eintraege] of nachRang(jeAdresse)) {
+for (const [id, eintraege] of nachRang(jeAdresse, 'netflix')) {
   /**
    * Gefragt wird nur nach dem, was auch angezeigt wird.
    *
