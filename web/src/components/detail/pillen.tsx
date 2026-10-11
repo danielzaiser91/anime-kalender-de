@@ -11,6 +11,7 @@ import { expandEvents, istErschienen } from '@shared/logic.ts'
 import { verweiseFuer } from './verweise.ts'
 import { einzelneAusgaben } from './disc-regeln.ts'
 import { TIPPFLAECHE_HOCH } from './tippziel.ts'
+import { pillenZiel } from './pillen-ziel.ts'
 
 /*
   **Pillen: neutrale Fläche, Markenstreifen links** (Daniel, 19.09.2026: „rot auf rot, orange auf
@@ -312,10 +313,10 @@ function kuerzeUmTitel(name: string, titel?: string): string {
   return rest
 }
 
-function PillenHuelle({ ziel, children }: { ziel?: string; children: ReactNode }) {
+function PillenHuelle({ ziel, hinweis, children }: { ziel?: string; hinweis?: string; children: ReactNode }) {
   const klasse = 'flex min-w-0 flex-col py-0.5 leading-tight'
   return ziel ? (
-    <a href={ziel} target="_blank" rel="noreferrer noopener" className={klasse}>
+    <a href={ziel} title={hinweis} target="_blank" rel="noreferrer noopener" className={klasse}>
       {children}
     </a>
   ) : (
@@ -468,7 +469,7 @@ export function ReleasePille({
         **Ohne Ziel kein Verweis** (Daniel, 17.09.2026, Kino-Pille): `href="#"` öffnete
         dieselbe Seite in einem neuen Tab. Dann trägt die Pille nur ihre Angaben und „Merken".
       */}
-      <PillenHuelle ziel={release.buyUrl ?? release.platformUrl}>
+      <PillenHuelle {...pillenZiel(release, titel, t)}>
         {/*
           Der Serienname steht drei Zeilen höher im Kopf des Panels — ihn in
           jeder Pille zu wiederholen macht sie breit und sagt nichts Neues.

@@ -13,6 +13,8 @@ interface VerweisVonHand {
   beleg?: string
   belegtAm?: string
   zugang?: Zugangsart
+  /** Prime-Zusatzkanal, über den der Titel läuft („Crunchyroll"); nur für `platform: primevideo`. */
+  kanal?: string
 }
 
 /**
@@ -43,10 +45,10 @@ export function ergaenzeVerweiseVonHand(titles: Map<number, Title>): Map<string,
       continue
     }
     if ((title.streams ?? []).some((s) => adressGleich(s.url, e.url!))) continue
-    title.streams = [
-      ...(title.streams ?? []),
-      { platform: e.platform as PlatformId, url: e.url, ...(e.zugang ? { zugang: e.zugang } : {}) } as StreamLink,
-    ]
+    const weg = { platform: e.platform as PlatformId, url: e.url } as StreamLink
+    if (e.zugang) weg.zugang = e.zugang
+    if (e.kanal) weg.kanal = e.kanal
+    title.streams = [...(title.streams ?? []), weg]
     ergaenzt++
   }
   if (ergaenzt) log(`${ergaenzt} Verweise aus data/verweise-von-hand.yaml ergänzt`)
