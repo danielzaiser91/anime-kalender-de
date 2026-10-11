@@ -158,10 +158,14 @@ function plaetzeInStaffel(eintraege: { id: number; staffel: number }[]): Map<num
 type StaffelEintrag = { id: number; staffel: number; teil?: number; eigenerName: boolean }
 type StaffelFeld = { id: number; name: string; jpYear?: number; jpStart?: string; staffelQuelle?: number }
 
+/** Sortierschlüssel der Ausstrahlung: Start, sonst Jahr; Jahr 0 (aniSearch: Jahr unbekannt) und fehlend heißen „noch offen" und stehen hinten. */
+export function ausstrahlungsZeit(m: { jpYear?: number; jpStart?: string }): string {
+  return m.jpStart ?? String(m.jpYear ?? 9999)
+}
+
 /** Ordnet jeden Eintrag einer Staffel zu (Regeln: siehe oben); `staffelBeschriftungen()` und `staffelStaende()` lesen daraus. */
 function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string): StaffelEintrag[] {
-  const zeit = (m: T) => m.jpStart ?? String(m.jpYear ?? 9999)
-  const sortiert = staffeln.slice().sort((a, b) => zeit(a).localeCompare(zeit(b)) || a.id - b.id)
+  const sortiert = staffeln.slice().sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id)
   const eintraege: StaffelEintrag[] = []
   let aktuell = 0
   for (const m of sortiert) {
