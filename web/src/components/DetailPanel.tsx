@@ -469,7 +469,7 @@ export function DetailPanel({
         <PanelBuehne
           reihenName={reihenName}
           teilName={teilName}
-          mehrereTeile={reihenTeile.length > 1}
+          reihenTeile={reihenTeile}
           buehnenBild={buehnenBild}
           grossBild={synopsis?.cg}
           title={title}

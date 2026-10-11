@@ -37,10 +37,10 @@ function metaVon(title: Title, eigenerTeil: FranchiseMember | undefined, t: Tran
  * **Der Kopf mit Rangfolge** (Daniel, 11.10.2026, Variante V2): ein flaches Bild (Wertung und Absprünge darauf), darunter der
  * Name als größte Zeile, dann Teil, Werkangaben und die Knöpfe. Ein Klick aufs Bild öffnet das Cover groß.
  */
-export function PanelBuehne({ reihenName, teilName, mehrereTeile, buehnenBild, grossBild, title, onToggleHidden, favorites, onToggleFavorite, onClose, t, folgenImKasten, eigenerTeil, kinoRelease, asZiel }: {
+export function PanelBuehne({ reihenName, teilName, reihenTeile, buehnenBild, grossBild, title, onToggleHidden, favorites, onToggleFavorite, onClose, t, folgenImKasten, eigenerTeil, kinoRelease, asZiel }: {
   reihenName: string
   teilName: string
-  mehrereTeile: boolean
+  reihenTeile: FranchiseMember[]
   buehnenBild: string | undefined
   grossBild?: [string, number, number]
   title: Title
@@ -54,7 +54,7 @@ export function PanelBuehne({ reihenName, teilName, mehrereTeile, buehnenBild, g
   kinoRelease: Release | undefined
   asZiel?: string
 }) {
-  const teil = mehrereTeile && teilName !== reihenName ? teilName : undefined
+  const teil = reihenTeile.length > 1 && teilName !== reihenName ? teilName : undefined
   const unter = unterzeileVon(title, teil, folgenImKasten, t)
   return (
     <>

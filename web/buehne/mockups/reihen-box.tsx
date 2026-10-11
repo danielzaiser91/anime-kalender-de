@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
 import { hauptstaffeln, staffelStaende } from '@shared/titles.ts'
-import { PanelKopf } from '../../src/components/detail/kopf.tsx'
+import { PanelBuehne } from '../../src/components/detail/buehne.tsx'
 import { mockup } from '../register.ts'
 import './reihen-box.css'
 
@@ -15,17 +15,17 @@ function springZurReihe(): void {
 }
 
 /** „Staffel 4 von 4 · 6 Teile ↓" — bei einer einzigen Staffel nur die Zahl der Teile. */
-function staffelZeile({ reihenTeile, reihenName, title }: ComponentProps<typeof PanelKopf>): string {
+function staffelZeile({ reihenTeile, reihenName, title }: ComponentProps<typeof PanelBuehne>): string {
   const stand = staffelStaende(hauptstaffeln(reihenTeile), reihenName).get(title.id)
   const teile = `${reihenTeile.length} Teile`
   return stand ? `Staffel ${stand.staffel} von ${stand.von} · ${teile}` : teile
 }
 
-/** Variante A: der echte Kopf, darunter die Staffelzeile mit Sprung zur Reihe. */
-function KopfMitStaffelzeile(eigenschaften: ComponentProps<typeof PanelKopf>) {
+/** Variante A: der echte Kopf (Bild, Name, Knöpfe), darunter die Staffelzeile mit Sprung zur Reihe. */
+function KopfMitStaffelzeile(eigenschaften: ComponentProps<typeof PanelBuehne>) {
   return (
     <>
-      <PanelKopf {...eigenschaften} />
+      <PanelBuehne {...eigenschaften} />
       {eigenschaften.reihenTeile.length > 1 && (
         <div className="relative px-4 pb-2">
           <button
@@ -48,7 +48,7 @@ mockup({
   faelle: ['tokyo-revengers', 'attack-on-titan', '86'],
   varianten: {
     A: {
-      ersatz: { PanelKopf: KopfMitStaffelzeile },
+      ersatz: { PanelBuehne: KopfMitStaffelzeile },
       notiz: 'Unter dem Titel steht „Staffel 4 von 4 · 6 Teile ↓“; Tippen scrollt zur Reihe und lässt sie kurz aufblitzen.',
     },
   },
