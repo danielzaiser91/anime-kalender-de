@@ -25,10 +25,6 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: PROBE-AKTEUR
-        if: github.ref != 'refs/heads/main'
-        run: gh workflow run wecker-wache.yml --repo "$GITHUB_REPOSITORY" --ref main
-
       - name: Überfällige Läufe nachholen
         id: nachholen
         run: |
