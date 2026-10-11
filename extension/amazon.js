@@ -6727,16 +6727,9 @@ async function speicherSchreiben(werte) {
     /* Ohne Nachrichtenweg (Sandkasten) bleibt es beim ersten Schnappschuss. */
   }
   window.addEventListener('message', (e) => {
-    /*
-      Die Antwort eines Durchgangs-Frames (siehe `primeFrameErgebnis()`). Hier und nicht in einem
-      eigenen Hörer: Die Amazon-Sandkästen der Tests führen genau einen `message`-Hörer, ein zweiter
-      verdrängte den Leser (amazon-kill-blue.test.cjs, 25.09.2026).
-    */
+    /* Die Antwort eines Durchgangs-Frames (siehe `primeHoerer()`); ein einziger Hörer, damit der Leser bleibt. */
     if (e?.data?.marke === 'ak-prime-frame') {
-      if (e.origin === location.origin && !IM_FRAME) {
-        const el = [...primeFrames.keys()].find((x) => x.contentWindow === e.source)
-        if (el) primeFrameErgebnis(el, e.data)
-      }
+      primeHoerer(e)
       return
     }
     /**
@@ -11044,6 +11037,12 @@ async function speicherSchreiben(werte) {
     primeLaufSchreiben(lauf)
     primeKoordinieren()
     uebersichtZeichnen()
+  }
+
+  function primeHoerer(e) {
+    if (e?.data?.marke !== 'ak-prime-frame' || e.origin !== location.origin || IM_FRAME) return
+    const el = [...primeFrames.keys()].find((x) => x.contentWindow === e.source)
+    if (el) primeFrameErgebnis(el, e.data)
   }
 
   function primeKoordinieren() {
