@@ -331,10 +331,20 @@ stand.push(
   }),
 )
 
-writeFileSync(
-  resolve(wurzel, 'public/data/pruefstand.json'),
-  JSON.stringify({ erzeugtAm: new Date().toISOString(), anbieter: stand }, null, 1) + '\n',
-)
+/** `erzeugtAm` nur erneuern, wenn sich die Anbieter ändern — sonst ändert jeder Lauf die Datei. */
+function schreibePruefstand(anbieter) {
+  const ziel = resolve(wurzel, 'public/data/pruefstand.json')
+  const text = (erzeugtAm) => JSON.stringify({ erzeugtAm, anbieter }, null, 1) + '\n'
+  let alt = ''
+  try {
+    alt = readFileSync(ziel, 'utf8')
+  } catch {
+    /* Erster Lauf: keine Datei. */
+  }
+  const altStand = alt ? JSON.parse(alt).erzeugtAm : null
+  writeFileSync(ziel, altStand && text(altStand) === alt ? alt : text(new Date().toISOString()))
+}
+schreibePruefstand(stand)
 for (const a of stand) {
   console.log(
     `${a.name}: ${a.gemeldet}/${a.gesamt} — ${a.offen} offen` +

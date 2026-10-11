@@ -1,0 +1,30 @@
+import { existsSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { readJson, ROOT, writeJson, writeText } from './util.ts'
+
+/**
+ * Setzt in `neu` den alten Zeitstempel ein, wenn `alt` sich sonst nicht unterscheidet.
+ * Ohne das ändert jeder Bau die Datei, obwohl der Inhalt gleich bleibt.
+ */
+export function mitAltemStand<T extends Record<string, unknown>>(alt: Record<string, unknown> | null, neu: T, feld: keyof T & string): T {
+  if (alt?.[feld] === undefined) return neu
+  const ohneStand = (o: Record<string, unknown>) => JSON.stringify({ ...o, [feld]: null })
+  return ohneStand(alt) === ohneStand(neu) ? { ...neu, [feld]: alt[feld] } : neu
+}
+
+/** Schreibt eine JSON-Datei; das Zeitstempelfeld wird nur erneuert, wenn sich der übrige Inhalt ändert. */
+export function writeJsonStand<T extends Record<string, unknown>>(pfad: string, neu: T, feld: keyof T & string, pretty = false): void {
+  writeJson(pfad, mitAltemStand(readJson<Record<string, unknown> | null>(pfad, null), neu, feld), pretty)
+}
+
+/** Die Zeile `_Stand 2026-10-11 …_` der erzeugten Markdown-Listen. */
+export const STAND_ZEILE = /^_Stand (\d{4}-\d\d-\d\d)/m
+
+/** Schreibt eine Textdatei mit Stand-Datum; unterscheidet sie sich von der alten nur im Datum (erste Gruppe von `standImText`), bleibt sie unberührt. */
+export function writeTextStand(pfad: string, neu: string, standImText: RegExp): void {
+  const voll = resolve(ROOT, pfad)
+  const alt = existsSync(voll) ? readFileSync(voll, 'utf8') : null
+  const altStand = alt?.match(standImText)?.[1]
+  const mitAltem = altStand ? neu.replace(standImText, (treffer, stand: string) => treffer.replace(stand, altStand)) : neu
+  writeText(pfad, mitAltem === alt ? mitAltem : neu)
+}

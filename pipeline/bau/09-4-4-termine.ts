@@ -1,4 +1,5 @@
-import { readJson, log, discSlug, writeJson } from '../lib/util.ts'
+import { readJson, log, discSlug } from '../lib/util.ts'
+import { writeJsonStand } from '../lib/stand-halten.ts'
 import { alleTermine, ausgelassen as termineAusgelassen, beobachtungenAusBlock } from '../lib/crunchyroll-termine.ts'
 import { beobachtungenZusammenfuehren } from '../lib/crunchyroll.ts'
 import { meldeAnClaude } from '../lib/meldung.ts'
@@ -193,11 +194,11 @@ export function legeCrVerweiseUndTermineAn({ titles, anisearch, belegt, crDub, v
       const jeGrund = new Map<string, number>()
       for (const a of termineAusgelassen) jeGrund.set(a.grund, (jeGrund.get(a.grund) ?? 0) + 1)
       const vorher = readJson<{ jeGrund?: Record<string, number> }>('data/termine-ausgelassen.json', {})
-      writeJson('data/termine-ausgelassen.json', {
+      writeJsonStand('data/termine-ausgelassen.json', {
         erzeugtAm: new Date().toISOString(),
         jeGrund: Object.fromEntries(jeGrund),
         faelle: termineAusgelassen.slice(0, 400),
-      })
+      }, 'erzeugtAm')
       /*
         **Ein Zuwachs geht in den Posteingang**: eine Datei, die niemand
         öffnet, ist keine Meldung. `~/.claude/hooks/posteingang.js` liest
