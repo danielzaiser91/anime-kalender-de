@@ -116,6 +116,14 @@ export function deutschAbgeschlossen(title: Title, releases: Release[], today: s
   return !releases.some((r) => r.releaseType === 'weekly' && r.platform !== 'disc' && r.platform !== 'tv' && releaseStatus(r, today) === 'airing')
 }
 
+/**
+ * **Die abgeleitete Folgenzahl einer Pille ohne Bereiche am Weg**: bei deutsch abgeschlossener Serie die
+ * Folgenzahl des Werks (AniList `episodes`). Kein Beleg für diesen Weg, nur die Annahme „alles liegt dort".
+ */
+export function abgeleiteteFolgen(title: Title, releases: Release[], today: string): number | undefined {
+  return deutschAbgeschlossen(title, releases, today) ? title.episodes : undefined
+}
+
 /** Der Tooltip an „Auf Deutsch seit …": woher das Datum stammt. */
 export function deSeitQuelleSchluessel(quelle: 'wikipedia' | 'disc' | undefined): 'antwort.deSeitWikipedia' | 'antwort.deSeitDisc' | 'antwort.deSeitQuelle' {
   return quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : quelle === 'disc' ? 'antwort.deSeitDisc' : 'antwort.deSeitQuelle'

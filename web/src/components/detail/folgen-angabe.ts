@@ -4,7 +4,7 @@ import { dubBild, bereicheGekuerzt, dubLuecken, dubGrenze, dubAbdeckung, bereich
 import { releaseStatus, expandEvents } from '@shared/logic.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
-import { deutschAbgeschlossen, zaehleErschienen } from './antwort-regeln.ts'
+import { abgeleiteteFolgen, zaehleErschienen } from './antwort-regeln.ts'
 import { zaehlPlattform } from './prime-kanal.ts'
 
 export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }: {
@@ -93,8 +93,8 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       Deutsch". Eine Zahl am Weg braucht einen Beleg an genau diesem Weg.
     */
     if (s && s.dub !== true) return ''
-    const abgeschlossen = deutschAbgeschlossen(title, releases, today)
-    return abgeschlossen && title.episodes ? t('detail.folgenKurz', { n: title.episodes }) : ''
+    const abgeleitet = abgeleiteteFolgen(title, releases, today)
+    return abgeleitet ? t('detail.folgenKurz', { n: abgeleitet }) : ''
   }
   return folgenAngabeFuer
 }
