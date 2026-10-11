@@ -97,6 +97,21 @@ pruefe('Katalog: zwei verbundene Alleinstehende bilden eine neue Reihe', kat.rei
 pruefe('Katalog: ein Crossover wandert nicht, eine Katalog-Reihe auch nicht', kat.reihe.get(15) === 15 && kat.reihe.get(21) === 21 && kat.reihe.get(22) === 21)
 pruefe('Katalog: Reihe und allein stehender Anker zählen nur, Reihe und Reihe stehen auf der Prüfliste', kat.bestandEinzeln === 1 && kat.ergebnis.pruefliste.length === 1 && kat.ergebnis.pruefliste[0]!.art === 'verschmilzt', JSON.stringify(kat.ergebnis.pruefliste))
 
+/* Katalog, Sammelarten und Trennung: 31 –Anderes→ 1 hängt nur über eine Sammelart und wandert nicht (Prüfliste „sammelart“), 32 –Sequel→ 1 wandert;
+ * eine Handtrennung der Reihen 21 und 1 leert den Fall 22 →2. Im Hauptbestand (ohne Sammelarten) wandert 31 weiter. */
+const namenS = new Map([[31, ['Final Fantasy']], [1, ['Final Fantasy VII']]])
+const katalogS = katalogK.concat(eK(31), eK(32))
+const reiheS = new Map(katalogS.map((e): [number, number] => [e.id, e.id === 22 ? 21 : e.id]))
+const kennungS = new Map(katalogS.map((e): [number, number] => [e.id, e.id]))
+const kantenS = [...kantenK, k(31, 1, 'Anderes'), k(32, 1, 'Sequel')]
+const katS = uebernimmKatalogReihen(katalogS, reiheS, ankerK, kennungS, kantenS, namenS)
+pruefe('Katalog: ein Titel nur mit einer Sammelart wandert nicht, einer mit Kernart schon', katS.reihe.get(31) === 31 && katS.reihe.get(32) === 1, JSON.stringify([...katS.reihe]))
+pruefe('Katalog: der Titel nur mit Sammelart steht als „sammelart“ mit seiner Zielreihe auf der Prüfliste', katS.ergebnis.pruefliste.some((p) => p.art === 'sammelart' && p.reihen[0]?.id === 1 && p.alleinstehende[0] === 'K31'), JSON.stringify(katS.ergebnis.pruefliste))
+const titelS = [1, 2, 31].map((id) => ({ id, name: `T${id}`, anisearchId: id }))
+pruefe('Übernahme: ohne Sammelarten (Hauptbestand) wandert der Titel mit „Anderes“ wie bisher', uebernimmReihen(titelS, [k(31, 1, 'Anderes')], namenS, (id) => (id === 2 ? 1 : id)).kanten.some((x) => x.ids.includes(31)))
+const katT = uebernimmKatalogReihen(katalogK, reiheK, ankerK, kennungK, kantenK, new Map(), [[21, 1]])
+pruefe('Katalog: eine Handtrennung zweier Reihen leert den Prüflisten-Fall', katT.ergebnis.pruefliste.length === 0, JSON.stringify(katT.ergebnis.pruefliste))
+
 /* Bestand: gemessen am 11.10.2026 mit 15.091 Titeln mit Seite, 77,1 % gleich (Hälfte A 75,9 %, Hälfte B 78,2 %); die Grenzen liegen rund 6 Punkte darunter und schlagen nur bei einem Bruch an.
  * Titel ohne Referenz-Reihe (aniSearch-Titel, die AniList nicht kennt: 2.409) zählen nicht mit — mit ihnen fiel der Wert nach dem Katalog-Lauf vom 10.10. auf 68,1 %, ohne dass ein Parser oder eine Seite kaputt war. */
 if (existsSync(REIHEN_DATEI)) {

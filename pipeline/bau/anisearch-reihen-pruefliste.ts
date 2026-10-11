@@ -102,7 +102,7 @@ export function anisearchKatalogReihen(reihe: Map<number, number>, eintraege: Ka
     const fest = [...haupt.map((t) => ({ t, reihe: bekannt.get(t.id)! })), ...verschoben.filter((t) => !imKatalog.has(t.id) && !weg.zeilenWeg.has(t.id) && !bekannt.has(t.id)).map((t) => ({ t, reihe: t.franchiseId ?? t.id }))]
     const anker = fest.map(({ t, reihe: r }) => ({ id: t.id, name: t.titleRomaji ?? t.titleEn ?? `#${t.id}`, anisearchId: t.anisearchId ?? kennung.get(t.id), reihe: r }))
     const { kanten, namen } = ladeBeziehungen()
-    const u = uebernimmKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), reihe, anker, kennung, kanten, namen)
+    const u = uebernimmKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), reihe, anker, kennung, kanten, namen, ladeTrennungen())
     schreibePruefliste('katalog', u.ergebnis.pruefliste, { angehaengt: u.ergebnis.angehaengt, neueReihen: u.ergebnis.neueReihen }, u.bestandEinzeln)
     log(`aniSearch-Reihen im Katalog: ${u.ergebnis.angehaengt} Alleinstehende an Reihen gehängt, ${u.ergebnis.neueReihen} neue Reihen, ${u.ergebnis.pruefliste.length} Fälle auf der Prüfliste, ${u.bestandEinzeln} Paare mit einem allein stehenden Hauptbestandstitel`)
     return u.reihe

@@ -1,6 +1,9 @@
 import type { KatalogEintrag } from '../lib/anilist.ts'
 import type { Kante, Namen } from './anisearch-reihen.ts'
-import { type Kandidat, type Uebernahme, uebernimmReihen } from './anisearch-reihen-uebernahme.ts'
+import { type Kandidat, type Trennung, type Uebernahme, uebernimmReihen } from './anisearch-reihen-uebernahme.ts'
+
+/** Beziehungsarten, die allein keine Reihe tragen (Prüfer 11.10.2026): ein Titel, der nur über sie hängt, wandert im Katalog nicht. */
+const SAMMELARTEN: ReadonlySet<string> = new Set(['Anderes', 'Charakter', 'Crossover'])
 
 /**
  * **Reihen aus aniSearch-Beziehungen auch für den AniList-Katalog** (Stufe C der AniList-Ablösung, Teil 3, 11.10.2026). Dieselbe Regel wie im Hauptbestand
@@ -16,8 +19,8 @@ export type KatalogUebernahme = {
   bestandEinzeln: number
 }
 
-/** `reihe`: Reihe je Katalogtitel aus `reihenFuerKatalog`; `katalog`: nur Titel, die wirklich ausgeliefert werden; `kennung`: aniSearch-Kennung je Katalogtitel. */
-export function uebernimmKatalogReihen(katalog: KatalogEintrag[], reihe: Map<number, number>, anker: Anker[], kennung: Map<number, number>, kanten: Kante[], namen: Namen): KatalogUebernahme {
+/** `reihe`: Reihe je Katalogtitel aus `reihenFuerKatalog`; `katalog`: nur Titel, die wirklich ausgeliefert werden; `kennung`: aniSearch-Kennung je Katalogtitel; `getrennt`: die Handtrennungen (`reihen-von-hand.yaml`). */
+export function uebernimmKatalogReihen(katalog: KatalogEintrag[], reihe: Map<number, number>, anker: Anker[], kennung: Map<number, number>, kanten: Kante[], namen: Namen, getrennt: Trennung[] = []): KatalogUebernahme {
   const ankerReihe = new Map(anker.map((a) => [a.id, a.reihe]))
   const frei = katalog.filter((e) => !ankerReihe.has(e.id))
   const titel: Kandidat[] = [
@@ -26,11 +29,11 @@ export function uebernimmKatalogReihen(katalog: KatalogEintrag[], reihe: Map<num
   ]
   const wurzel = (id: number): number => ankerReihe.get(id) ?? reihe.get(id) ?? id
   const crossover = new Set(frei.filter((e) => (e.eltern?.length ?? 0) >= 2).map((e) => e.id))
-  const ergebnis = uebernimmReihen(titel, kanten, namen, wurzel, crossover, undefined, [], new Set(ankerReihe.keys()))
+  const ergebnis = uebernimmReihen(titel, kanten, namen, wurzel, crossover, undefined, getrennt, new Set(ankerReihe.keys()), SAMMELARTEN)
   const neu = new Map(reihe)
   for (const k of ergebnis.kanten) for (const id of k.ids.slice(1)) neu.set(id, k.ids[0]!)
   const einzeln = (r: { id: number; titel: number }): boolean => r.titel === 1 && ankerReihe.has(r.id)
-  const bestandEinzeln = ergebnis.pruefliste.filter((p) => p.art !== 'mehrdeutig' && p.reihen.some(einzeln))
+  const bestandEinzeln = ergebnis.pruefliste.filter((p) => p.art !== 'mehrdeutig' && p.art !== 'sammelart' && p.reihen.some(einzeln))
   ergebnis.pruefliste = ergebnis.pruefliste.filter((p) => !bestandEinzeln.includes(p))
   return { reihe: neu, ergebnis, bestandEinzeln: bestandEinzeln.length }
 }
