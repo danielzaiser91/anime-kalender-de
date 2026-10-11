@@ -2,7 +2,7 @@ import { anisearchUmgezogenInBestand } from './anisearch-titel.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import { schreibeKern } from './cartoon-kern.ts'
 import { kinoFeld, mitAnkuendigung, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
-import { uebernommeneVerweise } from './verweise-gedaechtnis.ts'
+import { neuerStand, uebernommeneVerweise } from './verweise-gedaechtnis.ts'
 import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
@@ -185,14 +185,11 @@ export function baueAuslieferung({
   */
   if (verweiseEntfernt.length) {
     const grenze = addDays(todayIso(), -NEIN_GILT_TAGE)
-    const alt = readJson<{ verweise?: EntfernterVerweis[] }>('data/verweise-entfernt.json', {})
+    const alt = readJson<{ stand?: string; verweise?: EntfernterVerweis[] }>('data/verweise-entfernt.json', {})
     const uebernommen = uebernommeneVerweise(alt.verweise ?? [], verweiseEntfernt, allTitles, grenze)
     if (uebernommen.length) log(`${uebernommen.length} gesperrte Verweise aus dem Gedächtnis übernommen`)
-    writeJson(
-      'data/verweise-entfernt.json',
-      { stand: new Date().toISOString(), verweise: [...verweiseEntfernt, ...uebernommen] },
-      true,
-    )
+    const verweise = [...verweiseEntfernt, ...uebernommen]
+    writeJson('data/verweise-entfernt.json', { stand: neuerStand(alt, verweise), verweise }, true)
   }
   return { slim }
 }

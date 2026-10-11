@@ -4558,7 +4558,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'das Entfernt-Gedächtnis schreibt gesperrte Verweise mit',
-    bau.includes('verweise: [...verweiseEntfernt, ...uebernommen]'),
+    bau.includes('const verweise = [...verweiseEntfernt, ...uebernommen]'),
     'sonst ergänzt jeder zweite Bau die Verweise wieder, die der vorige als belegtes Nein entfernt hat (78 Adressen, 17.09.2026)',
   )
   pruefe(
