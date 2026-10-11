@@ -1228,7 +1228,7 @@ Das Ruleset `main-pruefweg` (Squash-PR mit einer Freigabe, kein Direkt-Push) lä
 
 - **Direkt-Push:** `bestand-bauen.yml` (Checkout mit App-Token, danach pusht `commit-data.sh` unverändert), `delta-wache.yml` (Rückfall auf `github.token`, die Prüfung läuft auch ohne Token).
 - **PR anlegen und selbst mergen:** `.github/actions/einreichen` (neue Eingaben `app-id`/`app-key`, Composite-Actions sehen keine Secrets; alle 16 Aufrufer reichen sie durch),
-  `claude-anime2you-extraktion.yml`, `claude-verpasst-recherche.yml`; `fund-nachliefern.yml` über die Action. Der Zweig-Push läuft weiter mit der Checkout-Anmeldung.
+  `claude-anime2you-extraktion.yml`, `claude-verpasst-recherche.yml`, `claude-wache-urteil.yml`; `fund-nachliefern.yml` über die Action. Der Zweig-Push läuft weiter mit der Checkout-Anmeldung.
 - **Konflikt-PRs:** `claude-daten-merge.yml` lässt Claude nur auflösen und pushen; ein Schritt danach mergt jeden jetzt `MERGEABLE`en `daten/`-PR mit dem App-Token.
 - **Schleifen:** Pushes mit App-Token lösen Workflows aus (`GITHUB_TOKEN` tat das nie). `bestand-bauen.yml` und `deploy.yml` überspringen `push`-Läufe des Akteurs
   `anime-kalender-daten[bot]` per Job-`if` (Verhalten wie vorher: Sammler-Merges bauen nichts, der Bau-Commit deployt über `workflow_run`). Der übersprungene Lauf bekommt eine
