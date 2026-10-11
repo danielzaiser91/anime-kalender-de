@@ -6334,10 +6334,19 @@ pruefe(
     Geprüft wird der Quelltext — einen Plan kann dieser Lauf nicht messen.
   */
   const wq = workerQuelltext()
-  pruefe('die Adressabfrage erzwingt den Zeitindex', wq.includes('INDEXED BY pruefung_gemeldet'))
+  /* Mit Wortgrenze: ein bloßer Teilstring träfe auch den gelöschten Index `pruefung_gemeldet_url`. */
+  pruefe('die Adressabfrage erzwingt den Zeitindex', /INDEXED BY pruefung_gemeldet(?![\w])/.test(wq))
   pruefe(
-    'und die Migration legt ihn an',
-    readFileSync('worker/migrations/037-pruefung-gemeldet.sql', 'utf8').includes('pruefung_gemeldet'),
+    'und die Migration legt ihn über gemeldet_am an',
+    /CREATE INDEX[^;]*\bpruefung_gemeldet ON pruefung \(gemeldet_am/.test(
+      readFileSync('worker/migrations/037-pruefung-gemeldet.sql', 'utf8'),
+    ),
+  )
+  pruefe(
+    'und 047 entfernt den alten Index pruefung_gemeldet_url',
+    /DROP INDEX IF EXISTS pruefung_gemeldet_url\b/.test(
+      readFileSync('worker/migrations/047-schreiblast-indizes.sql', 'utf8'),
+    ),
   )
   pruefe(
     'die Löschanfrage erzwingt den gti-Index',
