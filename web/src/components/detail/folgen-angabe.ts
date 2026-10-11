@@ -4,7 +4,7 @@ import { dubBild, bereicheGekuerzt, dubLuecken, dubGrenze, dubAbdeckung, bereich
 import { releaseStatus, expandEvents } from '@shared/logic.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
-import { abgeleiteteFolgen, zaehleErschienen } from './antwort-regeln.ts'
+import { abgeleiteteFolgen, ungefaehr, zaehleErschienen } from './antwort-regeln.ts'
 import { zaehlPlattform } from './prime-kanal.ts'
 
 export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }: {
@@ -94,7 +94,7 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
     */
     if (s && s.dub !== true) return ''
     const abgeleitet = abgeleiteteFolgen(title, releases, today)
-    return abgeleitet ? t('detail.folgenKurz', { n: abgeleitet }) : ''
+    return abgeleitet ? ungefaehr(t('detail.folgenKurz', { n: abgeleitet }), true) : ''
   }
   return folgenAngabeFuer
 }
