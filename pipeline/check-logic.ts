@@ -6341,12 +6341,12 @@ pruefe(
   )
   pruefe(
     'die Löschanfrage erzwingt den gti-Index',
-    readFileSync('worker/src/pruefung-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
+    readFileSync('worker/src/pruefung-rohfolgen-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
   )
   /* Dieselbe Ursache, die andere Anweisung: `seiten_kennung` las 3430 Zeilen je Aufruf (26 %). */
   pruefe(
     'und die Seiten-Löschung den Seiten-Index',
-    readFileSync('worker/src/pruefung-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
+    readFileSync('worker/src/pruefung-rohfolgen-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
       readFileSync('worker/migrations/042-prime-folge-seite-index.sql', 'utf8').includes('prime_folge_seite'),
   )
   /* Die Abfragen stehen in `lauf-sql.ts` — dort prüft dieser Lauf sie auf Klammer-Gleichgewicht
