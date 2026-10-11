@@ -5,6 +5,9 @@
 # Der Text ist der Schlüssel fürs Datum: Wer einen Text später umschreibt, setzt datum von Hand, sonst wandert der Eintrag auf den Tag des Umschreibens.
 # datum (in Anführungszeichen) gibt es nur als Nachtrag für Einträge, die älter sind als dieses Verfahren (bis 10.10.2026).
 # Keine Zeile nötig? Dann steht in der PR-Beschreibung „Patch Notes: keine – <Grund>“ (tools/check-patchnotes-pflicht.mjs).
+- kategorie: bugfix
+  text: Deutsche Netflix-Synchro bleibt bei fünf Serien sichtbar
+  untertitel: Onmyoji, Hell’s Paradise und Yakuza Goes Hausmann
 - kategorie: feature
   text: Detailseite zeigt das Herkunftsland mit Flagge
   untertitel: Bei Titeln aus Korea, China, Taiwan oder den USA

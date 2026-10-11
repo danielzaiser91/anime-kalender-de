@@ -23,7 +23,13 @@ const BEKANNT = [
   'dialog[open]',
 ]
 
+/** `tsx` (esbuild) setzt in benannte Funktionen einen Helfer `__name` ein, den es im Browser nicht gibt; ohne ihn wirft jedes `evaluate` unten (messbelege, 11.10.2026). */
+async function browserHelferSetzen(seite: Page): Promise<void> {
+  await seite.evaluate('window.__name = (f) => f')
+}
+
 export async function bannerEntfernen(seite: Page): Promise<number> {
+  await browserHelferSetzen(seite)
   return seite.evaluate((bekannt) => {
     let n = 0
     const weg = (e: Element) => {

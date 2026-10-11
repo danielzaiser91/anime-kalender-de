@@ -44,7 +44,8 @@
  *     Optionen **ohne** `addon` eine Plattform; Kanäle werden getrennt unter
  *     `addons` geführt (siehe `MotnBestand`).
  */
-import type { PlatformId, Title } from '../../shared/types.ts'
+import { releaseStatus } from '../../shared/logic.ts'
+import type { PlatformId, Release, Title } from '../../shared/types.ts'
 
 /** Eine Anbieter-Option, wie die API sie je Folge liefert. */
 export interface MotnOption {
@@ -534,6 +535,100 @@ export interface MotnBeleg {
   laeuftAusAm?: string
 }
 
+/** Was die Suche nach der Serie zu einer Reihe braucht: Wortindex, Katalog, Namensbewertung, Kennungs-Kandidaten. */
+interface ReihenSuche {
+  index: Map<string, MotnBestand[]>
+  shows: Record<string, MotnBestand>
+  vergleiche: MotnVergleich
+  zusatzKandidaten?: (title: Title) => string[]
+}
+
+/**
+ * Vorauswahl über geteilte Wörter.
+ *
+ * Ohne sie wäre jeder Titel gegen jede Serie des Katalogs zu prüfen. Der
+ * Index kostet einen Durchlauf und macht aus Hunderttausenden Vergleichen ein
+ * paar Dutzend je Titel.
+ */
+function wortIndex(shows: Record<string, MotnBestand>): Map<string, MotnBestand[]> {
+  const index = new Map<string, MotnBestand[]>()
+  for (const bestand of Object.values(shows)) {
+    for (const wort of woerter(`${bestand.titel} ${bestand.originalTitel ?? ''}`)) {
+      const liste = index.get(wort) ?? []
+      liste.push(bestand)
+      index.set(wort, liste)
+    }
+  }
+  return index
+}
+
+/** Die Serie der Quelle zu einer Reihe unserer Staffeln und der Folgenbereich, den jede Staffel davon abdeckt — oder nichts. */
+function findeShowZurReihe(
+  staffeln: Title[],
+  { index, shows, vergleiche, zusatzKandidaten }: ReihenSuche,
+): { bestand: MotnBestand; bereiche: MotnZuordnung[] } | undefined {
+  const vertreter = staffeln[0]
+  const name = suchName(vertreter)
+  if (!name) return undefined
+
+  const kandidaten = new Map<string, MotnBestand>()
+  for (const wort of woerter(name)) {
+    for (const b of index.get(wort) ?? []) kandidaten.set(b.imdbId, b)
+  }
+  // Über die Kennung geholte Serien kommen für jede Staffel der Reihe dazu,
+  // nicht nur für den Vertreter: Gefragt wurde je Titel, geantwortet wird je
+  // Reihe.
+  for (const staffel of staffeln) {
+    for (const imdbId of zusatzKandidaten?.(staffel) ?? []) {
+      const b = shows[imdbId]
+      if (b) kandidaten.set(b.imdbId, b)
+    }
+  }
+  if (!kandidaten.size) return undefined
+
+  const treffer = besterShow(name, vertreter.jpYear, [...kandidaten.values()], vergleiche)
+  if (!treffer) return undefined
+  const bestand = shows[treffer.kandidat.imdbId]
+  if (!bestand) return undefined
+
+  /**
+   * Ein Halbtreffer ist kein Treffer — er wird gar nicht erst geführt.
+   *
+   * Gemessen am 21.08.2026 an einem Bestand aus zwei Serien: Das Wort „magic"
+   * zog fünf fremde Reihen an („MASHLE", „The Saint's Magic Power is
+   * Omnipotent", „Anti-Magic Academy", „Magic Maker"), und weil alle fünf
+   * zwölf Folgen haben, ging bei jeder auch die Folgenrechnung auf.
+   * `passtZuSerie` ist eben ein Türsteher, kein Schiedsrichter — ein einziges
+   * geteiltes Wort genügt ihm.
+   *
+   * Die Übernahme hätte sie ohnehin abgelehnt. Aber sie stünden im Bericht
+   * und in der Kontrollmessung, und dort wären sie das Gegenteil von
+   * hilfreich: Sie würden gegen fremde Belege gemessen und die Quote nach
+   * Belieben verschieben.
+   */
+  if (!treffer.voll || !treffer.jahrPasst) return undefined
+
+  const bereiche = ordneFolgenZuStaffeln(bestand.folgen, staffeln)
+  // Ohne aufgehende Folgenrechnung gibt es keine Zuordnung — und damit auch
+  // keinen halben Beleg. Die Reihe bleibt vollständig in der Handarbeit.
+  if (!bereiche) return undefined
+  return { bestand, bereiche }
+}
+
+/**
+ * Die Reihe ohne Einzelfolgen, die keinen Weg tragen (Vorspann, Werbefilm, Sonderfolge).
+ *
+ * Die Reihen-Verbindung (aniSearch-Beziehungen, 11.10.2026) hängt solche Einzelfolgen an ein Franchise.
+ * Sie stehen dann vorn und werden Vertreter (falscher Name und falsches Jahr: „Onmyoji" 2023 hinter einem
+ * Werbefilm von 2019) oder sprengen die Folgenrechnung („Gokushufudou" 5 + 5 + 1 + 5 gegen 15). Das ist
+ * nur der zweite Versuch: Die volle Reihe wird zuerst gerechnet, und Name, Jahr und Folgenzahl müssen
+ * danach genauso aufgehen. Bleibt von der Reihe nichts übrig, bleibt sie, wie sie ist.
+ */
+function ohneBeifang(staffeln: Title[]): Title[] {
+  const rest = staffeln.filter((t) => (t.episodes ?? 0) > 1 || t.streams.length > 0)
+  return rest.length ? rest : staffeln
+}
+
 /**
  * Zuordnung über den ganzen Bestand — ohne einen einzigen Abruf.
  *
@@ -564,22 +659,7 @@ export function ordneShowsZu(
    */
   zusatzKandidaten?: (title: Title) => string[],
 ): MotnBeleg[] {
-  /**
-   * Vorauswahl über geteilte Wörter.
-   *
-   * Ohne sie wäre jeder Titel gegen jede Serie des Katalogs zu prüfen. Der
-   * Index kostet einen Durchlauf und macht aus Hunderttausenden Vergleichen ein
-   * paar Dutzend je Titel.
-   */
-  const index = new Map<string, MotnBestand[]>()
-  for (const bestand of Object.values(shows)) {
-    for (const wort of woerter(`${bestand.titel} ${bestand.originalTitel ?? ''}`)) {
-      const liste = index.get(wort) ?? []
-      liste.push(bestand)
-      index.set(wort, liste)
-    }
-  }
-
+  const such: ReihenSuche = { index: wortIndex(shows), shows, vergleiche, zusatzKandidaten }
   const belege: MotnBeleg[] = []
   const erledigt = new Set<number>()
   const gesehen = new Set<string>()
@@ -588,51 +668,9 @@ export function ordneShowsZu(
     if (erledigt.has(title.id)) continue
     const reihe = reihenVon(title)
     const staffeln = reihe.length ? reihe : [title]
-    const vertreter = staffeln[0]
-    const name = suchName(vertreter)
-    if (!name) continue
-
-    const kandidaten = new Map<string, MotnBestand>()
-    for (const wort of woerter(name)) {
-      for (const b of index.get(wort) ?? []) kandidaten.set(b.imdbId, b)
-    }
-    // Über die Kennung geholte Serien kommen für jede Staffel der Reihe dazu,
-    // nicht nur für den Vertreter: Gefragt wurde je Titel, geantwortet wird je
-    // Reihe.
-    for (const staffel of staffeln) {
-      for (const imdbId of zusatzKandidaten?.(staffel) ?? []) {
-        const b = shows[imdbId]
-        if (b) kandidaten.set(b.imdbId, b)
-      }
-    }
-    if (!kandidaten.size) continue
-
-    const treffer = besterShow(name, vertreter.jpYear, [...kandidaten.values()], vergleiche)
-    if (!treffer) continue
-    const bestand = shows[treffer.kandidat.imdbId]
-    if (!bestand) continue
-
-    /**
-     * Ein Halbtreffer ist kein Treffer — er wird gar nicht erst geführt.
-     *
-     * Gemessen am 21.08.2026 an einem Bestand aus zwei Serien: Das Wort „magic"
-     * zog fünf fremde Reihen an („MASHLE", „The Saint's Magic Power is
-     * Omnipotent", „Anti-Magic Academy", „Magic Maker"), und weil alle fünf
-     * zwölf Folgen haben, ging bei jeder auch die Folgenrechnung auf.
-     * `passtZuSerie` ist eben ein Türsteher, kein Schiedsrichter — ein einziges
-     * geteiltes Wort genügt ihm.
-     *
-     * Die Übernahme hätte sie ohnehin abgelehnt. Aber sie stünden im Bericht
-     * und in der Kontrollmessung, und dort wären sie das Gegenteil von
-     * hilfreich: Sie würden gegen fremde Belege gemessen und die Quote nach
-     * Belieben verschieben.
-     */
-    if (!treffer.voll || !treffer.jahrPasst) continue
-
-    const bereiche = ordneFolgenZuStaffeln(bestand.folgen, staffeln)
-    // Ohne aufgehende Folgenrechnung gibt es keine Zuordnung — und damit auch
-    // keinen halben Beleg. Die Reihe bleibt vollständig in der Handarbeit.
-    if (!bereiche) continue
+    const fund = findeShowZurReihe(staffeln, such) ?? findeShowZurReihe(ohneBeifang(staffeln), such)
+    if (!fund) continue
+    const { bestand, bereiche } = fund
 
     /**
      * Anbieter und Kanäle in einer Liste — der Kanal trägt seine Kennung mit.
@@ -674,6 +712,24 @@ export function ordneShowsZu(
     }
   }
   return belege
+}
+
+/** Schlüssel für `laufendJeAnbieter`. */
+export const laufendSchluessel = (titleId: number, platform: PlatformId): string => `${titleId}|${platform}`
+
+/**
+ * Wo läuft gerade eine Staffel — je Titel **und Anbieter**.
+ *
+ * Nur ein laufendes Release desselben Anbieters hält dessen Beleg zurück. Eine Fernsehausstrahlung hielt
+ * am 11.10.2026 den Netflix-Beleg von „Hell's Paradise" zurück (Termin im Programm von heute): Netflix zeigt
+ * die abgeschlossene Staffel, der Beleg hängt nicht am Fernsehen.
+ */
+export function laufendJeAnbieter(releases: Release[], heute: string): Set<string> {
+  const laeuft = new Set<string>()
+  for (const release of releases) {
+    if (releaseStatus(release, heute) === 'airing') laeuft.add(laufendSchluessel(release.titleId, release.platform))
+  }
+  return laeuft
 }
 
 /**
