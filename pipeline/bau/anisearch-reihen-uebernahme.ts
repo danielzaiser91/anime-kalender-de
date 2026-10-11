@@ -1,4 +1,5 @@
 import { type Kante, type Namen, type Regel, REGEL, zaehlt } from './anisearch-reihen.ts'
+import { sammelartFaelle } from './anisearch-reihen-sammelart.ts'
 
 /**
  * **Reihen aus aniSearch-Beziehungen übernehmen** (Stufe C der AniList-Ablösung, 11.10.2026). Die Messung (`anisearch-reihen-abweichungen.ts`) zeigt, wo aniSearch und die
@@ -9,8 +10,8 @@ import { type Kante, type Namen, type Regel, REGEL, zaehlt } from './anisearch-r
  */
 export type Kandidat = { id: number; name: string; anisearchId?: number }
 export type ReiheRef = { id: number; name: string; titel: number }
-/** `verschmilzt`: aniSearch verbindet zwei Reihen mit mehreren Titeln; `mehrdeutig`: Alleinstehende erreichen zwei oder mehr Reihen; `universum`: nur „Gemeinsames Universum“ verbindet sie (Marvel-, Disney-Sammelbecken: wandert nie). */
-export type Pruefzeile = { art: 'verschmilzt' | 'mehrdeutig' | 'universum'; reihen: ReiheRef[]; alleinstehende: string[]; beispiel: string }
+/** `verschmilzt`: aniSearch verbindet zwei Reihen mit mehreren Titeln; `mehrdeutig`: Alleinstehende erreichen zwei oder mehr Reihen; `universum`: nur „Gemeinsames Universum“ verbindet sie (Marvel-, Disney-Sammelbecken: wandert nie); `sammelart`: Titel, die nur über Sammelarten hängen (nur im Katalog, wandern nie). */
+export type Pruefzeile = { art: 'verschmilzt' | 'mehrdeutig' | 'universum' | 'sammelart'; reihen: ReiheRef[]; alleinstehende: string[]; beispiel: string }
 export type Uebernahme = {
   /** Kanten im Format von `reihen-von-hand.yaml` (`ids[0]` ist ein Titel der Zielreihe). */
   kanten: { ids: number[] }[]
@@ -38,6 +39,9 @@ export function ohneTrennungen(kanten: Kante[], titel: Kandidat[], wurzel: (id: 
     [...(reihenJeKennung.get(k.a) ?? [])].some((ra) => s.has(ra) && [...(reihenJeKennung.get(k.b) ?? [])].some((rb) => rb !== ra && s.has(rb)))
   return kanten.filter((k) => !sperren.some((s) => trennt(s, k)))
 }
+
+/** Die Regel ohne die genannten Arten. */
+const ohneArten = (regel: Regel, arten: ReadonlySet<string>): Regel => Object.fromEntries(Object.entries(regel).filter(([art]) => !arten.has(art)))
 
 function verbinde(n: Nachbarn, a: number, b: number, art: string): void {
   if (a === b) return
@@ -115,18 +119,23 @@ function universumFaelle(titel: Kandidat[], kanten: Kante[], namen: Namen, verbu
 
 /**
  * `titel`: alle Titel des Baus (mit Name und aniSearch-Kennung); `wurzel`: die Reihe je Titel zum Zeitpunkt der Übernahme (Union-Find des Baus);
- * `ausgenommen`: Titel, die nie umziehen (Crossover, die ihre Reihe aus dem ersten Elternteil erben); `getrennt`: Handentscheidungen, siehe `ohneTrennungen`.
+ * `ausgenommen`: Titel, die nie umziehen (Crossover, die ihre Reihe aus dem ersten Elternteil erben); `getrennt`: Handentscheidungen, siehe `ohneTrennungen`; `anker`: Titel, die nie umziehen,
+ * aber als Reihe zählen, auch wenn sie allein stehen (der schon ausgelieferte Hauptbestand, wenn der Katalog übernommen wird).
+ * `sammelarten`: Titel, deren Beziehungen nur aus diesen Arten bestehen, wandern nie und stehen als `sammelart` auf der Prüfliste (leer: wie bisher).
  */
-export function uebernimmReihen(titel: Kandidat[], alleKanten: Kante[], namen: Namen, wurzel: (id: number) => number, ausgenommen: Set<number> = new Set(), regel: Regel = WANDERREGEL, getrennt: Trennung[] = []): Uebernahme {
+export function uebernimmReihen(titel: Kandidat[], alleKanten: Kante[], namen: Namen, wurzel: (id: number) => number, ausgenommen: Set<number> = new Set(), regel: Regel = WANDERREGEL, getrennt: Trennung[] = [], anker: Set<number> = new Set(), sammelarten: ReadonlySet<string> = new Set()): Uebernahme {
   const kanten = ohneTrennungen(alleKanten, titel, wurzel, getrennt)
   const mitglieder = titel.filter((t) => !ausgenommen.has(t.id))
   const groesse = new Map<number, number>()
   for (const t of titel) groesse.set(wurzel(t.id), (groesse.get(wurzel(t.id)) ?? 0) + 1)
-  const gross = (id: number): boolean => (groesse.get(wurzel(id)) ?? 0) > 1
+  const gross = (id: number): boolean => anker.has(id) || (groesse.get(wurzel(id)) ?? 0) > 1
   const namensliste = new Map(titel.map((t) => [t.id, t.name]))
   const name = (id: number): string => namensliste.get(id) ?? `#${id}`
   const ref = (id: number): ReiheRef => ({ id, name: name(id), titel: groesse.get(id) ?? 1 })
-  const n = titelNachbarn(mitglieder, kanten, namen, regel)
+  const voll = titelNachbarn(mitglieder, kanten, namen, regel)
+  const kern = sammelarten.size ? titelNachbarn(mitglieder, kanten, namen, ohneArten(regel, sammelarten)) : voll
+  const sammel = sammelartFaelle(voll, kern, gross, wurzel, ref, name)
+  const n = sammel.titel.size ? titelNachbarn(mitglieder.filter((t) => !sammel.titel.has(t.id)), kanten, namen, regel) : voll
   const ergebnis: Uebernahme = { kanten: [], angehaengt: 0, neueReihen: 0, pruefliste: [] }
   for (const { gruppe, reihen } of alleinstehendeGruppen(n, gross, wurzel)) {
     if (reihen.size === 1) {
@@ -142,6 +151,6 @@ export function uebernimmReihen(titel: Kandidat[], alleKanten: Kante[], namen: N
   for (const p of verschmelzendePaare(n, gross, wurzel, name).values()) {
     ergebnis.pruefliste.push({ art: 'verschmilzt', reihen: p.reihen.map(ref), alleinstehende: [], beispiel: `${p.beispiel} (${p.kanten} Kante${p.kanten === 1 ? '' : 'n'})` })
   }
-  ergebnis.pruefliste.push(...universumFaelle(mitglieder, kanten, namen, ergebnis.kanten, wurzel, ref, name))
+  ergebnis.pruefliste.push(...universumFaelle(mitglieder, kanten, namen, ergebnis.kanten, wurzel, ref, name), ...sammel.faelle)
   return ergebnis
 }
