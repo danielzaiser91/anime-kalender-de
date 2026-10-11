@@ -6,15 +6,11 @@
 import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const wurzel = join(dirname(fileURLToPath(import.meta.url)), '..')
 const tsx = createRequire(join(wurzel, 'package.json')).resolve('tsx/cli')
-const mock = pathToFileUrl(join(wurzel, 'tools/kanal-abgehakt-mock.mjs'))
-
-function pathToFileUrl(pfad: string): string {
-  return `file:///${pfad.replace(/\\/g, '/')}`
-}
+const mock = pathToFileURL(join(wurzel, 'tools/kanal-abgehakt-mock.mjs')).href
 
 const lauf = spawnSync(
   process.execPath,
