@@ -4,7 +4,7 @@
  * Gemessen an 13 Titeln stimmten beide nur bei 7 überein (Jack: JustWatch falsch, PJ Masks: TMDB falsch) —
  * deshalb nie still eine von beiden glauben.
  */
-import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
+import type { CartoonStaffel, StaffelnQuelle } from '../../shared/cartoon-staffeln-typ.ts'
 import type { Staffel } from './jw-staffeln.ts'
 
 /** Wie weit die Summe der Staffeln von der Gesamtfolgenzahl abweichen darf (Vorgabe 11.10.2026). */
@@ -18,7 +18,7 @@ export interface TmdbStaffelRoh {
 
 export interface Staffelwahl {
   staffeln: CartoonStaffel[]
-  quelle: 'justwatch' | 'tmdb'
+  quelle: StaffelnQuelle
   /** Gründe für die Prüfliste; leer = nichts zu prüfen. */
   gruende: string[]
 }
@@ -63,12 +63,19 @@ function mitStart(jw: CartoonStaffel[], tmdb: CartoonStaffel[] | undefined): Car
   })
 }
 
-/** Die Staffeln eines Cartoons; `gesamt` ist die Gesamtfolgenzahl des Titels (TMDB), `undefined` ohne Staffelangabe. */
+/**
+ * Die Staffeln eines Cartoons; `gesamt` ist die Gesamtfolgenzahl des Titels (TMDB), `undefined` ohne Staffelangabe.
+ * `hand` (Handbeleg; Jack der Monsterschreck: JustWatch 10/10/10 falsch, Netflix 1/10/10) gewinnt gegen beide Quellen
+ * und braucht keine Prüfung mehr.
+ */
 export function waehleStaffeln(
   jw: CartoonStaffel[] | undefined,
   tmdb: CartoonStaffel[] | undefined,
   gesamt: number | undefined,
+  hand?: CartoonStaffel[],
 ): Staffelwahl | undefined {
+  const vonHand = hand?.length ? ordnen([...hand]) : undefined
+  if (vonHand) return { staffeln: vonHand, quelle: 'handbeleg', gruende: [] }
   const staffeln = jw ? mitStart(jw, tmdb) : tmdb
   if (!staffeln) return undefined
   const quelle = jw ? 'justwatch' : 'tmdb'
