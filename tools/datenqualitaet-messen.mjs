@@ -11,7 +11,7 @@
  *                 abgeschlossener Serie, joyn = Abruffenster, einzelwerk = Film/1 Folge (Zahl entfällt), keine
  *   nurSerie      kein Haken, aber „Deutsche Fassung laut JustWatch, für die Serie" (`title.dubHinweis`, nur Cartoons)
  *   haken ohne Zahl   Haken ohne Folgenzahl (Serienebene)
- *   teilt/teilBer Weg auf Anbieterseite, die mehrere unserer Staffeln bedient / davon mit bekanntem Teilbereich
+ *   teilt/teilOhneBer  Weg auf Anbieterseite, die mehrere unserer Staffeln bedient / davon deutsch (Haken) ohne Folgenbereich
  *   herkunft      WELCHE QUELLE die Sprachangabe trägt — im Datensatz nicht gespeichert, hier aus den Rohdateien
  *                 unter `data/` erschlossen (Näherung, Rangfolge siehe `herkunftVon`; Mehrfachspuren gezählt).
  *
@@ -150,7 +150,7 @@ const HOST_ERWARTET = { netflix: /netflix\.com$/, primevideo: /amazon\.|primevid
 const adressePasst = (s) => !HOST_ERWARTET[s.platform] || HOST_ERWARTET[s.platform].test(HOST_NAME(s.url))
 const tageZwischen = (a, b) => Math.round((Date.parse(b) - Date.parse(a)) / 864e5)
 const alterKlasse = (tag, heute) => { if (!tag) return 'ohne Datum'; const t = tageZwischen(tag, heute); return t <= 30 ? '<= 30 Tage' : t <= 60 ? '31-60 Tage' : '> 60 Tage' }
-const leer = () => ({ wegeRoh: 0, wege: 0, haken: 0, hakenOhneZahl: 0, belegt: 0, plan: 0, abgeleitet: 0, joyn: 0, einzelwerk: 0, keine: 0, nurSerie: 0, ohneUrteil: 0, teilt: 0, teilBer: 0, herkunft: {}, zweitbeleg: 0, handAlter: {}, adresseFremd: 0, ohneAdresse: 0 })
+const leer = () => ({ wegeRoh: 0, wege: 0, haken: 0, hakenOhneZahl: 0, belegt: 0, plan: 0, abgeleitet: 0, joyn: 0, einzelwerk: 0, keine: 0, nurSerie: 0, ohneUrteil: 0, teilt: 0, teilOhneBer: 0, herkunft: {}, zweitbeleg: 0, handAlter: {}, adresseFremd: 0, ohneAdresse: 0 })
 const plus = (o, k, n = 1) => { o[k] = (o[k] ?? 0) + n }
 
 function messeGruppe({ titel: liste, web, releasesJeTitel, q, mitMehrstaffel }) {
@@ -188,7 +188,7 @@ function zaehleWeg(z, { roh, t, s, fn, rel, web, q, beispiele }) {
   const hinweis = roh.dubHinweis?.anbieter?.some((a) => (jwName ? jwName.test(a) : false))
   if (!haken && hinweis) { z.nurSerie++; merke('nurSerie') }
   if (!s.url) { z.ohneAdresse++; merke('ohneAdresse') } else if (!adressePasst(s)) { z.adresseFremd++; merke('adresseFremd') }
-  if ((s.sharedWith ?? 0) > 1) { z.teilt++; merke('teiltSeite'); if (s.teilBereich) z.teilBer++ }
+  if ((s.sharedWith ?? 0) > 1) { z.teilt++; merke('teiltSeite'); if (haken && !s.dubRanges?.length) z.teilOhneBer++ }
   if (haken && q) {
     const spuren = spurenVon(roh, s, q, rel)
     plus(z.herkunft, spuren.length ? herkunftVon(spuren) : 'nicht rückführbar (Bau leitet ab)')
@@ -203,8 +203,8 @@ function zaehleWeg(z, { roh, t, s, fn, rel, web, q, beispiele }) {
 /* ---------- Ausgabe ---------- */
 const prozent = (n, g) => (g ? `${Math.round((100 * n) / g)} %` : '–')
 function tabelle(titel, zeilen) {
-  const spalten = ['Anbieter', 'Wege', 'roh', 'Haken', 'Fg.belegt', 'Fg.Plan', 'Fg.abgel.', 'Joyn', 'Einzelw.', 'ohneFg', 'Haken/ohneZahl', 'nurSerie', 'ohneUrteil', 'teilt', 'teilt+Teilber.']
-  const rows = zeilen.map(([name, z]) => [name, z.wege, z.wegeRoh, z.haken, z.belegt, z.plan, z.abgeleitet, z.joyn, z.einzelwerk, z.keine, z.hakenOhneZahl, z.nurSerie, z.ohneUrteil, z.teilt, z.teilBer])
+  const spalten = ['Anbieter', 'Wege', 'roh', 'Haken', 'Fg.belegt', 'Fg.Plan', 'Fg.abgel.', 'Joyn', 'Einzelw.', 'ohneFg', 'Haken/ohneZahl', 'nurSerie', 'ohneUrteil', 'teilt', 'teilt, de ohne Bereich']
+  const rows = zeilen.map(([name, z]) => [name, z.wege, z.wegeRoh, z.haken, z.belegt, z.plan, z.abgeleitet, z.joyn, z.einzelwerk, z.keine, z.hakenOhneZahl, z.nurSerie, z.ohneUrteil, z.teilt, z.teilOhneBer])
   const breite = spalten.map((s, i) => Math.max(s.length, ...rows.map((r) => String(r[i]).length)))
   const zeile = (r) => r.map((c, i) => (i ? String(c).padStart(breite[i]) : String(c).padEnd(breite[i]))).join('  ')
   console.log(`\n### ${titel}\n${zeile(spalten)}\n${breite.map((b) => '-'.repeat(b)).join('  ')}\n${rows.map(zeile).join('\n')}`)

@@ -356,6 +356,8 @@ QUELLEN=(
   data/suchadressen-offen.json
   # Cartoons, deren Staffelangaben sich widersprechen oder nicht zur Gesamtfolgenzahl passen (11.10.2026).
   data/cartoon-staffeln-pruefliste.json
+  # Geteilte Crunchyroll-Seiten, auf denen kein Folgenbereich sicher zuzuordnen ist, mit Grund (11.10.2026).
+  data/cr-teilseiten-pruefliste.json
   daniel-zum-abarbeiten/listen/12-verpasste-termine.md
   daniel-zum-abarbeiten/listen/13-tonspur-verdacht.md
   daniel-zum-abarbeiten/listen/07-crunchyroll.md
