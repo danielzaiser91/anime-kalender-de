@@ -13,6 +13,7 @@ export const STAFFELN_ABFRAGE = `
         ... on Show {
           seasons {
             content(country: $country, language: $language) { seasonNumber }
+            totalEpisodeCount
             offers(country: $country, platform: WEB) {
               monetizationType
               audioLanguages
@@ -24,6 +25,8 @@ export const STAFFELN_ABFRAGE = `
 
 export interface StaffelRoh {
   content?: { seasonNumber?: number | null } | null
+  /** Folgen der Staffel laut JustWatch (seit 11.10.2026, für `staffeln` der Cartoons). */
+  totalEpisodeCount?: number | null
   offers?:
     | {
         monetizationType: string
@@ -37,6 +40,8 @@ export interface StaffelRoh {
 export interface Staffel {
   /** Nummer bei JustWatch (nicht unbedingt unsere Staffelzählung). */
   nr: number
+  /** Folgen der Staffel laut JustWatch; fehlt, wenn JustWatch keine nennt. */
+  folgen?: number
   /** Nur Abo, Werbung und gratis; Kauf und Leihe sind für die Tonfrage ohne Belang und würden die Datei aufblähen. */
   angebote: { anbieter: string; art: string; audio: string[]; url?: string }[]
 }
@@ -57,6 +62,7 @@ export function staffelnVon(seasons: StaffelRoh[] | null | undefined): Staffel[]
       if (angebote.some((a) => a.anbieter === anbieter && a.art === o.monetizationType)) continue
       angebote.push({ anbieter, art: o.monetizationType, audio: o.audioLanguages ?? [], url: o.standardWebURL ?? undefined })
     }
-    return [{ nr, angebote }]
+    const folgen = s.totalEpisodeCount
+    return [{ nr, ...(folgen ? { folgen } : {}), angebote }]
   })
 }
