@@ -50,6 +50,7 @@ interface Ausgeliefert {
   titleNative?: string
   format?: string | null
   jpYear?: number | null
+  jpStart?: string
   episodes?: number | null
 }
 
@@ -114,6 +115,7 @@ function katalogTitel(t: Ausgeliefert, malZuAs: Map<number, number[]>): KatalogT
     format: t.format ?? null,
     jahr: t.jpYear ?? null,
     folgen: t.episodes ?? null,
+    start: t.jpStart,
   }
 }
 
@@ -132,8 +134,11 @@ function ladeAnilistTitel(): { offen: Ausgeliefert[]; vergeben: Set<number> } {
   return { offen: [...new Map(offen.map((t) => [t.id, t])).values()], vergeben }
 }
 
+/** Was der Abgleich aus einem kompakten Eintrag braucht. */
+const alsEintrag = (e: AsEintrag): AsEintrag => ({ ty: e.ty, y: e.y, f: e.f, mal: e.mal, von: e.von, bis: e.bis, min: e.min })
+
 function bekannteEintraege(): Record<string, AsEintrag> {
-  const aus = (roh: Record<string, AsEintrag>) => Object.fromEntries(Object.entries(roh).map(([id, e]) => [id, { ty: e.ty, y: e.y, f: e.f, mal: e.mal }]))
+  const aus = (roh: Record<string, AsEintrag>) => Object.fromEntries(Object.entries(roh).map(([id, e]) => [id, alsEintrag(e)]))
   return { ...aus(readJson('data/anisearch-eintraege.json', {})), ...aus(readJson(EINTRAEGE_ABRUF, {})) }
 }
 
@@ -147,7 +152,7 @@ async function holeEintraege(ids: number[], bekannt: Record<string, AsEintrag>, 
     for (const r of antwort?.results ?? []) {
       const kurz = kompakt(r as Parameters<typeof kompakt>[0])
       gespeichert[String(r.id)] = kurz
-      bekannt[String(r.id)] = { ty: kurz.ty as string, y: kurz.y as number | undefined, f: kurz.f as number | undefined, mal: kurz.mal as number | undefined }
+      bekannt[String(r.id)] = alsEintrag(kurz as AsEintrag)
     }
     writeJson(EINTRAEGE_ABRUF, gespeichert)
     await sleep(PAUSE_MS)

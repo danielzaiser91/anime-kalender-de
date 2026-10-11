@@ -7,6 +7,7 @@
  * Folgenzahl nicht widersprüchlich und genau ein solcher Kandidat. Alles Übrige mit Namensnähe geht mit Grund auf die Prüfliste.
  */
 import { bewerteTreffer } from './adn.ts'
+import { normalisiere } from './anisearch-namen.ts'
 
 /** Eine Zeile der Titelliste: Jahr und alle Schreibweisen (Haupttitel, Japanisch, Kanji, Sprachen, Synonyme). */
 export interface AsTitel {
@@ -21,6 +22,10 @@ export interface AsEintrag {
   y?: number
   f?: number
   mal?: number
+  /** Erster und letzter Erscheinungstag (`JJJJ-MM-TT`, bei unbekanntem Tag mit `00`) und Folgenlänge in Minuten. */
+  von?: string
+  bis?: string
+  min?: number
 }
 
 export interface KatalogTitel {
@@ -30,6 +35,10 @@ export interface KatalogTitel {
   format: string | null
   jahr: number | null
   folgen: number | null
+  /** Start- und Endtag (AniList, `JJJJ-MM-TT`; kürzer, wo AniList nur Monat oder Jahr kennt) und Folgenlänge in Minuten. */
+  start?: string
+  ende?: string
+  dauer?: number
   /** aniSearch-Einträge, die zu seiner MAL-Kennung gehören (Brücke oder Einzelabruf): Kandidaten auch ohne Namensnähe. */
   malAsIds?: number[]
 }
@@ -47,14 +56,7 @@ export type Urteil = { art: 'sicher'; asId: number; weil: string } | { art: 'uns
 export const MINDESTWERT = 3
 const KANDIDATEN_JE_TITEL = 40
 
-/** Kleinbuchstaben, ohne Akzente und Satzzeichen; Kanji und Kana bleiben, damit auch der japanische Titel vergleichbar ist. */
-export function normalisiere(s: string): string {
-  return s
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^\p{L}\p{N}]+/gu, '')
-}
+export { normalisiere }
 
 const woerter = (s: string): string[] => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').split(/[^a-z0-9]+/).filter((w) => w.length >= 4)
 
