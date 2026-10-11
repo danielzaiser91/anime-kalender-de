@@ -8796,7 +8796,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   const mit = new Map<number, Title>(dubletten.map(([al]) => [al, { id: al, streams: [] } as unknown as Title]))
   ergaenzeAnisearchTitel(mit, new Map(), new Map())
   pruefe('MAL-Dublette: steht der AniList-Titel im Bestand, entfällt die aniSearch-Zeile', dubletten.every(([, as]) => !mit.has(10_000_000 + as)))
-  pruefe('MAL-Dublette: Psyren (aniSearch: Dub geplant) übernimmt die deutsche Erstausgabe, Beerus und Fool Night (kein Deutsch) bekommen keine', mit.get(204011)!.deErstausgabe?.von === '2026-10-05' && !mit.get(206814)!.deErstausgabe && !mit.get(213457)!.deErstausgabe)
+  pruefe('MAL-Dublette: Psyren (aniSearch: Dub geplant, seit 11.10.2026 ohne deutsches Datum), Beerus und Fool Night (kein Deutsch) bekommen keine Erstausgabe', !mit.get(204011)!.deErstausgabe && !mit.get(206814)!.deErstausgabe && !mit.get(213457)!.deErstausgabe)
   const kette = anisearchUmgezogen(new Set([204011]), new Set(), undefined, undefined)
   pruefe('MAL-Dublette: die Handbindung zählt als Umzug (Verlust-Riegel des Baus)', kette.has(10_021_084))
   const handText = readFileSync('data/anisearch-ids-hand.yaml', 'utf8')
@@ -8804,8 +8804,8 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
     'MAL-Dublette: jede alte Slug-Kennung automatischer Termine (ALTE_AUTO_KENNUNG) ist die aniSearch-Kennung, die die Handdatei an den AniList-Titel bindet',
     Object.entries(ALTE_AUTO_KENNUNG).every(([al, alt]) => new RegExp(`^${al}:\\s*${alt - 10_000_000}\\b`, 'm').test(handText)),
   )
-  /* Hyouken II: die deutsche Erstausgabe der aniSearch-Zeile wandert unverändert zum AniList-Titel (Psyren ist oben geprüft). */
-  pruefe('MAL-Dublette: Hyouken II übernimmt die Erstausgabe der aufgegangenen Zeile unverändert', Boolean(ohne.get(10_021_575)?.deErstausgabe) && JSON.stringify(mit.get(212503)!.deErstausgabe) === JSON.stringify(ohne.get(10_021_575)!.deErstausgabe))
+  /* Hyouken II (aniSearch: Dub geplant): weder die aniSearch-Zeile noch der AniList-Titel trägt seit 11.10.2026 eine deutsche Erstausgabe aus dem Block (Psyren ist oben geprüft). */
+  pruefe('MAL-Dublette: Hyouken II übernimmt keine Erstausgabe aus dem Block mit Marke Geplant', !ohne.get(10_021_575)?.deErstausgabe && !mit.get(212503)!.deErstausgabe)
   /* Der Auto-Termin von Beerus und Fool Night behält seinen Slug; ein vorhandener Release derselben Plattform verdrängt ihn, statt einen zweiten Termin zu bilden. */
   const meldung = (titleId: number, name: string, plattform: string, kontext: string) =>
     ({ articleTitle: `Termin von »${name}«`, articleUrl: 'https://www.anime2you.de/news/1/', category: 'streaming', platforms: [plattform], titleId, dates: [{ iso: '2026-10-11', context: kontext }] }) as unknown as Parameters<typeof releasesAus>[0][number]

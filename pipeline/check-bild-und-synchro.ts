@@ -13,7 +13,7 @@ import { malOhneAnilistTitel } from './lib/anisearch-cover.ts'
 import { waehlePlakat } from './lib/tmdb-plakat.ts'
 import { waehleStaffel } from './lib/tmdb-staffel.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
-import { mitDubKennzeichen } from './lib/anisearch-termine.ts'
+import { mitDubKennzeichen, terminAusEintrag } from './lib/anisearch-termine.ts'
 import { erstausgabeAlsNeuigkeit } from '../web/src/components/detail/antwort-regeln.ts'
 import { stufeVon, type SaisonDatei, type SaisonKatalogTitel } from '../web/src/lib/saison.ts'
 import { ausblickGruppen } from '../web/src/lib/saison-ausblick.ts'
@@ -87,6 +87,10 @@ const idMit = (kz: string) => Number(Object.keys(dubs).find((k) => dubs[k] === k
 pruefe('Dub-Liste d: ohne Sprachblock entsteht trotzdem eine Synchro-Marke', mitDubKennzeichen(idMit('d'), undefined)?.synchro === true)
 pruefe('Dub-Liste c: Synchro und Teilmarke', mitDubKennzeichen(idMit('c'), undefined)?.teil === true)
 pruefe('Dub-Liste -: der Termin bleibt, wie er ist', mitDubKennzeichen(idMit('-'), undefined) === undefined)
+/* Dragon Hatchling: der deutsche Block wiederholt den Japan-Zeitraum, die Marke steht auf „Geplant“. */
+const blockGeplant = terminAusEintrag({ languages: [{ language: 'Deutsch', released: '10.01.2026 - 28.03.2026', publisher: ['Animation Digital Network (DE)'] }] })
+pruefe('Dub-Liste p (Geplant): Datum und Publisher des deutschen Blocks zählen nicht', mitDubKennzeichen(idMit('p'), blockGeplant) === undefined)
+pruefe('Dub-Liste -: derselbe Block liefert sein Datum', mitDubKennzeichen(idMit('-'), blockGeplant)?.start === '2026-01-10')
 const mitErst = (id: number, extra: Partial<Title> = {}) => titel({ id, deErstausgabe: { von: '2024-10-21', publisher: 'Crunchyroll' } as never, ...extra })
 pruefe('deutsche Ausgabe, aniSearch nennt kein Deutsch: keine Synchro', keineSynchroLautAnisearch(mitErst(idMit('-'))))
 pruefe('ein Stream mit belegter Synchro schlägt das', !keineSynchroLautAnisearch(mitErst(idMit('-'), { streams: [{ platform: 'netflix', dub: true } as never] })))
