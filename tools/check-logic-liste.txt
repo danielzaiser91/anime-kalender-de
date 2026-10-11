@@ -21,6 +21,7 @@ pipeline/check-cartoon-ton.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cr-teilseiten.ts
+pipeline/check-prime-teilseiten.ts
 pipeline/check-daten-kennung.ts
 pipeline/check-db-relevanz.ts
 pipeline/check-detektiv-funde.ts
