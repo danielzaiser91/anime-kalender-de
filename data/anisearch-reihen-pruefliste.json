@@ -1,0 +1,313 @@
+{
+  "stand": "2026-10-11",
+  "angehaengt": 289,
+  "neueReihen": 265,
+  "pruefliste": [
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 235,
+          "name": "Meitantei Conan",
+          "titel": 37
+        },
+        {
+          "id": 5578,
+          "name": "Aoyama Goushou Tanpenshuu",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Meitantei Conan —Alternative Umgebung→ Making of Meitantei Conan (2 Kanten)"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 177,
+          "name": "Tsubasa Chronicle",
+          "titel": 5
+        },
+        {
+          "id": 793,
+          "name": "xxxHOLiC: Manatsu no Yoru no Yume",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "xxxHOLiC: Manatsu no Yoru no Yume —Anderes→ Tsubasa Chronicle: Tori Kago no Kuni no Himegimi (1 Kante)"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 150,
+          "name": "BLOOD+",
+          "titel": 2
+        },
+        {
+          "id": 10490,
+          "name": "BLOOD-C",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "BLOOD THE LAST VAMPIRE —Anderes→ BLOOD-C (2 Kanten)"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 14407,
+          "name": "PERSONA 3 THE MOVIE: #1 Spring of Birth",
+          "titel": 4
+        },
+        {
+          "id": 21432,
+          "name": "#21432",
+          "titel": 5
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "PERSONA 3 THE MOVIE: #1 Spring of Birth —Gemeinsames Universum→ PERSONA5 the Animation"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 10001587,
+          "name": "Megazone 23",
+          "titel": 1
+        },
+        {
+          "id": 10012819,
+          "name": "Megazone 23 XI",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Megazone 23 —Gemeinsames Universum→ Megazone 23 XI"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 10001587,
+          "name": "Megazone 23",
+          "titel": 1
+        },
+        {
+          "id": 10012820,
+          "name": "Megazone 23 Sin",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Megazone 23 —Gemeinsames Universum→ Megazone 23 Sin"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 10013932,
+          "name": "Road to You: Hoshi Furu Oka no Yakusoku",
+          "titel": 1
+        },
+        {
+          "id": 10014654,
+          "name": "Road to You: Kioku ni Mau Konayuki",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Road to You: Hoshi Furu Oka no Yakusoku —Gemeinsames Universum→ Road to You: Kioku ni Mau Konayuki"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 10015398,
+          "name": "Benghuai 3: Tian Qiong Liuxing",
+          "titel": 1
+        },
+        {
+          "id": 10016161,
+          "name": "Benghuai 3: Zuiren Wange",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Benghuai 3: Tian Qiong Liuxing —Gemeinsames Universum→ Benghuai 3: Zuiren Wange"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 138060,
+          "name": "Star Wars: Visions",
+          "titel": 3
+        },
+        {
+          "id": 10021059,
+          "name": "Star Wars: Visions - Eodumui Meorireul Bel Su Itdamyeon",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Star Wars: Visions —Gemeinsames Universum→ Star Wars: Visions - Eodumui Meorireul Bel Su Itdamyeon"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 10020173,
+          "name": "Witcher: Neukdaeui Angmong",
+          "titel": 1
+        },
+        {
+          "id": 10020216,
+          "name": "Witcher: Sirenui Bada",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Witcher: Neukdaeui Angmong —Gemeinsames Universum→ Witcher: Sirenui Bada"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 3624,
+          "name": "Seimei no Kagaku: Micro Patrol",
+          "titel": 2
+        },
+        {
+          "id": 10004749,
+          "name": "Il était une fois... L’homme",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Seimei no Kagaku: Micro Patrol —Gemeinsames Universum→ Il était une fois... L’homme"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 10004749,
+          "name": "Il était une fois... L’homme",
+          "titel": 1
+        },
+        {
+          "id": 10005217,
+          "name": "Il était une fois… les Explorateurs",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Il était une fois... L’homme —Gemeinsames Universum→ Il était une fois… les Explorateurs"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 10004749,
+          "name": "Il était une fois... L’homme",
+          "titel": 1
+        },
+        {
+          "id": 10005293,
+          "name": "Il était une fois... les Découvreurs",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Il était une fois... L’homme —Gemeinsames Universum→ Il était une fois... les Découvreurs"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 10004749,
+          "name": "Il était une fois... L’homme",
+          "titel": 1
+        },
+        {
+          "id": 10004750,
+          "name": "Il était une fois… les Amériques",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Il était une fois... L’homme —Gemeinsames Universum→ Il était une fois… les Amériques"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 6875,
+          "name": "Iron Man",
+          "titel": 2
+        },
+        {
+          "id": 6919,
+          "name": "X-Men",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Iron Man —Gemeinsames Universum→ X-Men"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 6918,
+          "name": "Wolverine",
+          "titel": 1
+        },
+        {
+          "id": 6920,
+          "name": "Blade",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Wolverine —Gemeinsames Universum→ Blade"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 6918,
+          "name": "Wolverine",
+          "titel": 1
+        },
+        {
+          "id": 6919,
+          "name": "X-Men",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Wolverine —Gemeinsames Universum→ X-Men"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 10009194,
+          "name": "Peeping Life: Tezuka Pro, Tatsunoko Pro Wonderland",
+          "titel": 1
+        },
+        {
+          "id": 10009254,
+          "name": "Peeping Life: Tezuka Pro, Tatsunoko Pro Wonderland Bonus",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Peeping Life: Tezuka Pro, Tatsunoko Pro Wonderland —Gemeinsames Universum→ Peeping Life: Tezuka Pro, Tatsunoko Pro Wonderland Bonus"
+    }
+  ]
+}
