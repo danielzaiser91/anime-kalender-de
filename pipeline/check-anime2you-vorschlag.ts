@@ -2,6 +2,8 @@
  * Zusicherungen zur Anime2You-Extraktion (P2, 10.10.2026): Die Gegenprobe lässt nur Vorschläge durch, die der Artikeltext trägt.
  * Läuft hinter `check:logic`; die Sätze stammen aus den vier Fällen, die am 10.10.2026 im Kalender fehlten (YAIBA, One Piece, Avatar, Jujutsu-Disc).
  */
+import { readFileSync } from 'node:fs'
+import { PLATFORMS } from '../shared/types.ts'
 import { beschreibe, pruefeVorschlag, genannteTage, type Vorschlag } from './lib/anime2you-vorschlag.ts'
 import { artikelId, artikelText, neueKandidaten } from './lib/anime2you-artikel.ts'
 import { mitWiderspruechen, type GespeicherterVorschlag } from './lib/anime2you-bestand.ts'
@@ -48,7 +50,7 @@ pruefe('Zitat nicht im Artikel: verworfen', grund({ ...yaiba, zitat: `${YAIBA} U
 pruefe('Uhrzeit nicht im Zitat: verworfen', grund({ ...yaiba, uhrzeit: '18:30' })?.includes('Uhrzeit') === true)
 pruefe('Tag nicht im Zitat: verworfen', grund({ ...yaiba, datum: '2026-11-06' })?.includes('Tag') === true)
 pruefe('Tag im Zitat, aber falsches Jahr: verworfen', grund({ ...yaiba, datum: '2027-11-05' })?.includes('Tag') === true)
-pruefe('Plattform außerhalb des Datenmodells: verworfen', grund({ ...yaiba, plattform: 'paramountplus' })?.includes('Datenmodell') === true)
+pruefe('Plattform außerhalb des Datenmodells: verworfen', grund({ ...yaiba, plattform: 'appletvplus' })?.includes('Datenmodell') === true)
 pruefe('tv ohne Sender: verworfen', grund({ ...yaiba, sender: null })?.includes('sender') === true)
 pruefe('Adresse im Freitext: verworfen', grund({ ...yaiba, unsicher: 'siehe https://example.org' }) !== undefined)
 pruefe('Feld fehlt: verworfen', grund({ ...yaiba, art: 'sonstiges' }) !== undefined)
@@ -60,9 +62,14 @@ pruefe('Seitentext „1122 ,“, Zitat „1122,“: besteht (Leerraum zählt nic
 pruefe('Beschreibung eines Verworfenen nennt Titel, Art, Tag', beschreibe(folgen) === 'One Piece · folgen · 2026-10-14' && beschreibe(42) === 'unlesbar', beschreibe(folgen))
 
 console.log('\nAnime2You-Extraktion: Sprache')
-const avatar = { ...yaiba, titel: 'Avatar: Die sieben Häfen', plattform: null, anbieter: 'Paramount+', sender: null, datum: null, uhrzeit: null, wochentage: null, sprache: 'deutsch+omu', zitat: AVATAR } satisfies Vorschlag
+const avatar = { ...yaiba, titel: 'Avatar: Die sieben Häfen', plattform: 'paramountplus', anbieter: 'Paramount+', sender: null, datum: null, uhrzeit: null, wochentage: null, sprache: 'deutsch+omu', zitat: AVATAR } satisfies Vorschlag
 const a = pruefeVorschlag(avatar, bezug)
-pruefe('Avatar auf Paramount+: ohne Plattform, mit Anbieter, deutsch+omu', 'ok' in a && a.ok.plattform === null && a.ok.anbieter === 'Paramount+', a)
+pruefe('Avatar auf Paramount+: Plattform paramountplus, mit Anbieter, deutsch+omu', 'ok' in a && a.ok.plattform === 'paramountplus' && a.ok.anbieter === 'Paramount+', a)
+const anleitung = readFileSync(new URL('./anime2you-extraktion-anleitung.md', import.meta.url), 'utf8')
+const fehlend = Object.keys(PLATFORMS).filter((p) => p !== 'unbekannt' && !anleitung.includes(`\`${p}\``))
+pruefe('Anleitung nennt jede Plattform des Datenmodells', fehlend.length === 0, fehlend)
+const falsch = { ...avatar, plattform: 'netflix' }
+pruefe('Avatar mit Plattform Netflix: verworfen (Zitat nennt nur Paramount+)', 'grund' in pruefeVorschlag(falsch, bezug))
 const omu = { ...yaiba, ...ohneWeg, titel: 'One Piece Characters Log', datum: '2026-10-29', uhrzeit: null, wochentage: null, zitat: ONE_PIECE_OMU }
 const grundOp = (v: unknown): string | undefined => {
   const r = pruefeVorschlag(v, bezugOnePiece)

@@ -19,7 +19,7 @@ Felder eines Vorschlags (alle müssen vorhanden sein, Unbekanntes ist `null`):
 |---|---|
 | `titel` | Titel, wie der Artikel ihn schreibt, ohne Guillemets |
 | `art` | `start`, `folgen` (weitere Folgen/Blöcke), `disc`, `kino`, `ankuendigung` (ohne Tag), `sprachfassung`, `pause`, `abgang` |
-| `plattform` | genau eine von `crunchyroll`, `netflix`, `primevideo`, `disneyplus`, `adn`, `aniverse`, `wow`, `joyn`, `rtlplus`, `youtube`, `disc`, `kino`, `tv`; **`null`, wenn der Anbieter nicht dabei ist (z. B. Paramount+)** – erfinde keine Plattform |
+| `plattform` | genau eine von `crunchyroll`, `netflix`, `primevideo`, `disneyplus`, `paramountplus`, `adn`, `aniverse`, `wow`, `joyn`, `rtlplus`, `youtube`, `disc`, `kino`, `tv`; **`null`, wenn der Anbieter nicht dabei ist (z. B. Apple TV+)** – erfinde keine Plattform |
 | `anbieter` | der Anbieter wörtlich, wie der Artikel ihn nennt (z. B. `Paramount+`) |
 | `sender` | bei `tv` der Sender, wörtlich (z. B. `ProSieben MAXX`), sonst `null` |
 | `datum` | `JJJJ-MM-TT`, nur wenn der Artikel einen Tag nennt (auch ohne Jahr: das Jahr ergibt sich aus dem Veröffentlichungstag). Nur Monat, „Frühjahr“, „ab sofort“, „bald“: `null` |
