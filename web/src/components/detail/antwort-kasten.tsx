@@ -12,6 +12,7 @@ import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
 import { gruppeVon as gruppeVonPille, sichtbareStreamPillen } from './stream-pillen.ts'
 import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText } from './antwort-regeln.ts'
+import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
 
 /**
@@ -269,17 +270,9 @@ export function AntwortKasten({
   /*
     Dieselbe Angabe, aber kleingeschrieben: Sie steht jetzt mitten im Satz
     („erscheint in 2 Tagen, am …") statt am Satzanfang. Ein großes „Heute"
-    dort liest sich wie ein Fehler.
+    dort liest sich wie ein Fehler. Der Countdown steht bei jedem Abstand (`abstandImSatz`).
   */
-  const relativImSatz = (datum: string): string => {
-    const tage = Math.round(
-      (new Date(`${datum}T12:00:00Z`).getTime() - new Date(`${today}T12:00:00Z`).getTime()) / 86400000,
-    )
-    if (tage <= 0) return T('antwort.relHeute')
-    if (tage === 1) return T('antwort.relMorgen')
-    if (tage <= 6) return T('antwort.relInTagen', { count: tage })
-    return ''
-  }
+  const relativImSatz = (datum: string): string => abstandImSatz(today, datum, T)
   /** Was hervorgehoben wird, trägt die Akzentfarbe des Kastens. */
   const betont = (text: string): ReactNode => (
     <span className="text-sky-700 dark:text-sky-300">{text}</span>
