@@ -74,7 +74,7 @@ console.log(regeln().stichprobe.size + ' ' + vorn.join(','))
 `
 const lauf = (env) => spawnSync(process.execPath, ['--input-type=module', '-e', probe], { cwd: resolve(import.meta.dirname, '..'), env: { ...process.env, ...env }, encoding: 'utf8' })
 assert.equal(lauf({ PRUEFLISTE_ERWEITERT: '1' }).stdout.trim(), '100 stich,haupt,cartoon', 'an: 100 Wege, Stichprobe zuerst')
-assert.equal(lauf({ PRUEFLISTE_ERWEITERT: '' }).stdout.trim(), '0 haupt,cartoon,stich', 'aus: Stichprobe unsichtbar, Reihenfolge unverändert')
+assert.equal(lauf({ PRUEFLISTE_ERWEITERT: '0' }).stdout.trim(), '0 haupt,cartoon,stich', 'aus (PRUEFLISTE_ERWEITERT=0 schlägt die Datei): Stichprobe unsichtbar, Reihenfolge unverändert')
 
 assert.equal(typeof regeln().erweitert, 'boolean')
 console.log('pruef-bestand: ok')

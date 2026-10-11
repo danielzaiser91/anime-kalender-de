@@ -9,7 +9,7 @@
  *
  * Gesteuert über `data/pruefliste-regeln.json`: `erweitert` schaltet Cartoons, Folgenzahl-Lücken und
  * Rangordnung zu (Vorgabe: aus, bis Daniel freigibt); `vertrauen`/`ausblenden` blenden später Wege aus,
- * deren Angabe aus einer als vertrauenswürdig geprüften Quelle stammt. `PRUEFLISTE_ERWEITERT=1` schaltet
+ * deren Angabe aus einer als vertrauenswürdig geprüften Quelle stammt. `PRUEFLISTE_ERWEITERT=1` bzw. `=0` schaltet
  * für eine Messung zu, ohne die Datei zu ändern. Wege der Cartoon-Stichprobe (`cartoon-jw-stichprobe.mjs`) tragen die
  * Quelle `cartoon-jw-stichprobe` und stehen bei `erweitert` vor allen anderen.
  */
@@ -41,7 +41,7 @@ export function regeln(wurzel = WURZEL) {
   } catch {
     /* Ohne Regeldatei bleibt alles beim Alten. */
   }
-  const erweitert = process.env.PRUEFLISTE_ERWEITERT === '1' || datei.erweitert === true
+  const erweitert = process.env.PRUEFLISTE_ERWEITERT === '1' || (process.env.PRUEFLISTE_ERWEITERT !== '0' && datei.erweitert === true)
   const ergebnis = {
     erweitert,
     vertrauen: datei.vertrauen ?? {},
