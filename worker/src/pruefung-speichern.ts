@@ -22,6 +22,7 @@ import { zahlOderNull, jetztIso } from './werte.ts'
 import { type Env } from './env.ts'
 import { verarbeiteStapel } from './pruefung-stapel.ts'
 import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
+import { meldungsHash, istUnveraendert, ladeOffeneHashes, type OffeneHashes } from './pruefung-unveraendert.ts'
 
 export async function speicherePruefung(kontext: Kontext) {
   let daten: Record<string, unknown>
@@ -30,11 +31,12 @@ export async function speicherePruefung(kontext: Kontext) {
   } catch {
     return kontext.antwort({ error: 'Kein gültiges JSON' }, 400)
   }
-  return await speichereDaten(kontext, daten)
+  const urls = typeof daten.url === 'string' ? [daten.url.trim()] : []
+  return await speichereDaten({ ...kontext, offene: await ladeOffeneHashes(kontext.env, urls) }, daten)
 }
 
 /** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */
-export async function speichereDaten({ request, antwort, token, env, ctx }: Kontext, daten: Record<string, unknown>) {
+export async function speichereDaten({ request, antwort, token, env, ctx, offene }: Kontext, daten: Record<string, unknown>) {
 
   /*
     **Ein Stapel: mehrere Meldungen in einer Anfrage**.
@@ -258,6 +260,11 @@ export async function speichereDaten({ request, antwort, token, env, ctx }: Kont
    * tragen keine Kennung, und `NULL = NULL` liefert in SQLite nichts.
    */
   const seitenKennung = typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null
+  /* Dieselbe Meldung wie die offene Zeile: nichts zu schreiben (pruefung-unveraendert.ts). */
+  const hash = await meldungsHash(daten)
+  if (istUnveraendert(offene, { url, folgeNr, staffelNr, seitenKennung }, hash)) {
+    return antwort({ ok: true, befund, unveraendert: true })
+  }
   await env.DB.prepare(
     folgeNr === null
       ? 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr IS NULL AND staffel IS ?2 AND seiten_kennung IS ?3'
@@ -278,8 +285,8 @@ export async function speichereDaten({ request, antwort, token, env, ctx }: Kont
       auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
       02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
     */
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art, hash)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -341,6 +348,7 @@ export async function speichereDaten({ request, antwort, token, env, ctx }: Kont
       vorhanden,
       tonDe,
       art,
+      hash,
     )
     .run()
 
@@ -367,14 +375,18 @@ export type Kontext = {
   token: string
   env: Env
   ctx: ExecutionContext<unknown> | undefined
+  /** Hashes der offenen Zeilen der gemeldeten Adressen, einmal je Aufruf geladen. */
+  offene?: OffeneHashes
 }
 
 async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, stapel: unknown[]) {
+  const urls = stapel.map((m) => (m as { url?: unknown } | null)?.url).filter((u): u is string => typeof u === 'string')
+  const offene = await ladeOffeneHashes(env, urls.map((u) => u.trim()))
   const ergebnisse = await verarbeiteStapel(stapel, async (einzeln) => {
     if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) {
       return { ok: false, status: 400, grund: 'Meldung ist kein Objekt oder ein verschachtelter Stapel' }
     }
-    const r = await speichereDaten({ request, antwort, token, env, ctx: undefined }, einzeln as Record<string, unknown>)
+    const r = await speichereDaten({ request, antwort, token, env, ctx: undefined, offene }, einzeln as Record<string, unknown>)
     const inhalt = (await r.json().catch(() => ({}))) as { befund?: string; error?: string }
     return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status, grund: inhalt.error ?? 'ohne Grund' }
   })
