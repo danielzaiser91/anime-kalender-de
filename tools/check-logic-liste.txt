@@ -42,3 +42,4 @@ pipeline/check-verweis-ziel.ts
 pipeline/check-herkunftsfilter.ts
 pipeline/check-verweise-gedaechtnis.ts
 pipeline/check-kanal-abgehakt.ts
+pipeline/check-stand-halten.ts
