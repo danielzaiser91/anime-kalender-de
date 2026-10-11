@@ -1,4 +1,5 @@
-import { writeText, writeJson, readJson, log, warn } from '../lib/util.ts'
+import { writeJson, readJson, log, warn } from '../lib/util.ts'
+import { STAND_ZEILE, writeTextStand } from '../lib/stand-halten.ts'
 import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
 import { type CartoonEintrag, type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon, tonAnbieterNamen } from '../lib/cartoons.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
@@ -56,7 +57,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
   const ziel = 'daniel-zum-abarbeiten/listen/18-suchadressen.md'
   const stand = new Date().toISOString().slice(0, 10)
   if (!offen.length) {
-    writeText(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'))
+    writeTextStand(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'), STAND_ZEILE)
     /*
       **Auch „nichts offen" wird geschrieben.** Hier stand nur `return`, und
       `data/suchadressen-offen.json` behielt die letzten sechs Einträge — alle
@@ -96,7 +97,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
     for (const k of kandidaten) zeilen.push(`- aniSearch nennt: <${k}> — passt das?`)
     zeilen.push('- **Antwort:** ', '')
   }
-  writeText(ziel, zeilen.join('\n') + '\n')
+  writeTextStand(ziel, zeilen.join('\n') + '\n', STAND_ZEILE)
   /*
     **Dieselbe Liste noch einmal als Datei, die ein Werkzeug lesen kann.**
 

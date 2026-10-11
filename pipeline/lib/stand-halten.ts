@@ -17,6 +17,9 @@ export function writeJsonStand<T extends Record<string, unknown>>(pfad: string, 
   writeJson(pfad, mitAltemStand(readJson<Record<string, unknown> | null>(pfad, null), neu, feld), pretty)
 }
 
+/** Die Zeile `_Stand 2026-10-11 …_` der erzeugten Markdown-Listen. */
+export const STAND_ZEILE = /^_Stand (\d{4}-\d\d-\d\d)/m
+
 /** Schreibt eine Textdatei mit Stand-Datum; unterscheidet sie sich von der alten nur im Datum (erste Gruppe von `standImText`), bleibt sie unberührt. */
 export function writeTextStand(pfad: string, neu: string, standImText: RegExp): void {
   const voll = resolve(ROOT, pfad)
