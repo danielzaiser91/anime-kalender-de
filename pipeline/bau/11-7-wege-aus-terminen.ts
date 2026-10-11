@@ -18,11 +18,11 @@ const STREAMING = new Set<PlatformId>([
   'youtube',
 ])
 
-/** Führt die Adresse auf eine Suche statt auf eine Titelseite? (Eine Suche ist kein Weg, Daniel 10.09.2026.) */
-export function istSuchadresse(url: string): boolean {
+/** Führt die Adresse auf eine Suche oder die Startseite statt auf eine Titelseite? (Eine Suche ist kein Weg, Daniel 10.09.2026.) */
+export function istKeineTitelseite(url: string): boolean {
   try {
     const u = new URL(url)
-    const pfad = /\/(search|suche|results)(\/|$)|^\/s$/.test(u.pathname)
+    const pfad = /\/(search|suche|results)(\/|$)|^\/s$/.test(u.pathname) || u.pathname.replace(/\/+$/, '') === ''
     return pfad || ['k', 'q', 's', 'search', 'search_query'].some((p) => u.searchParams.has(p))
   } catch {
     return true
@@ -57,7 +57,7 @@ export function ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verwei
     const schluessel = `${r.titleId}|${r.platform}`
     if (!titel || !istSichererTermin(r) || entfernt.has(schluessel)) continue
     if (titel.streams?.some((s) => s.platform === r.platform)) continue
-    const belegt = r.platformUrl && !istSuchadresse(r.platformUrl) && !toteAdressen.has(r.platformUrl)
+    const belegt = r.platformUrl && !istKeineTitelseite(r.platformUrl) && !toteAdressen.has(r.platformUrl)
     const url = belegt ? r.platformUrl! : ''
     if (neu.get(schluessel)?.weg.url) continue
     const weg: StreamLink = { platform: r.platform, url, herkunft: 'termin', zugang: wegZugang(r.platform, url) }

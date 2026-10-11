@@ -3,7 +3,7 @@
  * Läuft in `check:logic`; prüft die Regel an erfundenen Titeln, nicht am Bestand.
  */
 import type { Release, Title } from '../shared/types.ts'
-import { ergaenzeWegeAusTerminen, istSuchadresse, termineOhneWeg, tonOhneBeleg } from './bau/11-7-wege-aus-terminen.ts'
+import { ergaenzeWegeAusTerminen, istKeineTitelseite, termineOhneWeg, tonOhneBeleg } from './bau/11-7-wege-aus-terminen.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, detail = ''): void {
@@ -63,8 +63,8 @@ pruefe('ohne die Ergänzung würde die Zusicherung greifen', termineOhneWeg(new 
 pruefe('kein Weg aus einem Termin trägt dub', tonOhneBeleg(titles).length === 0)
 pruefe('die Zusicherung findet ein erfundenes Tonurteil', tonOhneBeleg(new Map([[1, titel(1, [{ platform: 'netflix', url: '', herkunft: 'termin', dub: true }])]])).length === 1)
 
-pruefe('Suchadressen werden erkannt', [PRIME_SUCHE, 'https://www.netflix.com/search?q=x', 'https://www.joyn.de/suche?search=x', 'https://www.aniverse.de/?s=x'].every(istSuchadresse))
-pruefe('Titelseiten sind keine Suche', ![DISNEY, 'https://www.netflix.com/title/1', 'https://animationdigitalnetwork.com/de/video/1423-eighty-six'].some(istSuchadresse))
+pruefe('Suchen und Startseiten sind keine Titelseite', [PRIME_SUCHE, 'https://www.netflix.com/search?q=x', 'https://www.joyn.de/suche?search=x', 'https://www.aniverse.de/?s=x', 'https://netflix.com'].every(istKeineTitelseite))
+pruefe('Titelseiten sind keine Suche', ![DISNEY, 'https://www.netflix.com/title/1', 'https://animationdigitalnetwork.com/de/video/1423-eighty-six'].some(istKeineTitelseite))
 
 if (fehler) process.exit(1)
 console.log('check-wege-aus-terminen: ok')
