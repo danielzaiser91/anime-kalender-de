@@ -5,6 +5,7 @@
 import { readFileSync } from 'node:fs'
 import { EMPTY_FILTERS, activeFilterCount, filterTitles, toggleFilter, type FilterState } from '../web/src/lib/filters.ts'
 import { baueAuswahl, kurzeTitelzeile, passtSprecher, sprecherVorschlaege, type SprecherEintrag } from '../web/src/lib/sprecher-auswahl.ts'
+import { sprecherGruppe } from '../shared/sprecher.ts'
 import { buildHash, parseHash } from '../web/src/lib/router.ts'
 import { kalenderBasis } from '../web/src/lib/kalender-filter.ts'
 import type { Title } from '../shared/types.ts'
@@ -58,6 +59,10 @@ pruefe('Gewählte werden nicht noch einmal vorgeschlagen', v('mar', ['Marc Jacob
 pruefe('nur eingetragene Namen: Unbekanntes bringt nichts', v('xyz').length === 0)
 pruefe('Obergrenze meldet den Rest', sprecherVorschlaege(index, 'a', new Set(), 2).mehr === 1)
 pruefe('Titelzeile: drei, Rest als Zahl', kurzeTitelzeile(['A', 'B', 'C', 'D', 'E']) === 'A, B, C … + 2' && kurzeTitelzeile(['A', 'B']) === 'A, B')
+
+console.log('\nSprecher-Filter: Gruppen')
+pruefe('Gruppe: zwei Buchstaben, Umlaute und Großschreibung gefaltet', sprecherGruppe('Marie Schramm') === 'ma' && sprecherGruppe('Ömer Özdemir') === 'om')
+pruefe('Gruppe: nach einem Buchstaben ein Punkt gibt nur einen, ohne lateinischen Buchstaben `_`', sprecherGruppe('K. Dieter Klebsch') === 'k' && sprecherGruppe('日本') === '_')
 
 console.log('\nSprecher-Filter: Bau und Oberfläche')
 const quelle = readFileSync('web/src/components/SprecherFilter.tsx', 'utf8')

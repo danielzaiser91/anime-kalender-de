@@ -7,7 +7,7 @@ import type { FilterState } from './filters.ts'
 /**
  * Sprecher-Filter der Datenbank — Daten nachladen. Gebaut wird der Index in `pipeline/bau/sprecher-index.ts`:
  * `sprecher.json` (Namen, Titelzahl, Gruppe; gepackt ~20 KB) kommt erst, wenn jemand im Sprecher-Feld tippt;
- * `sprecher/<buchstabe>.json` (Titel je Name, 10–36 KB gepackt) nur für Gruppen, deren Sprecher gewählt oder vorgeschlagen sind.
+ * `sprecher/<zwei Buchstaben>.json` (Titel je Name, bis 51 KB gepackt, Stand 11.10.2026) nur für Gruppen, deren Sprecher gewählt oder vorgeschlagen sind.
  * Nichts davon steht in `titles.json`. Die Eingabe verlässt das Gerät nie: abgerufen werden feste Dateien.
  */
 
