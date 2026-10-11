@@ -4,11 +4,11 @@
  * Zwei Aufrufe, beide aus `claude-anime2you-extraktion.yml`:
  *
  * - `--auswahl --verzeichnis <ordner>`: holt die Gesamt-Feeds, wählt die noch nicht gelesenen Artikel mit Deutschland-Bezug, legt je Artikel
- *   `artikel/<id>.txt` und eine leere Antwortdatei `ergebnis/<id>.json` an und meldet `anzahl=<n>`. Bei null startet kein Claude.
+ *   `artikel/<id>.txt` an (`ergebnis/` bleibt leer, Claude legt `ergebnis/<id>.json` neu an) und meldet `anzahl=<n>`. Bei null startet kein Claude.
  * - `--uebernehmen --verzeichnis <ordner>`: prüft jede Antwort gegen den Artikeltext (`lib/anime2you-vorschlag.ts`), hängt die bestandenen
  *   Vorschläge an `data/proposals/anime2you-extraktion.json` und schreibt `zusammenfassung.md` für den Pull Request.
  *
- * Claude darf nur die Dateien in `ergebnis/` ändern. Die Quelle eines Vorschlags setzt dieses Skript aus der Artikelkennung – nie das Modell.
+ * Claude darf nur Dateien in `ergebnis/` schreiben. Die Quelle eines Vorschlags setzt dieses Skript aus der Artikelkennung – nie das Modell.
  */
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -56,9 +56,6 @@ async function feedArtikel(): Promise<ReturnType<typeof parseFeed>> {
   return alle
 }
 
-/** Die Antwortvorlage: Claude setzt `gelesen` auf true und füllt `vorschlaege`; ohne das Häkchen gilt der Artikel als ungelesen. */
-const VORLAGE = '{\n  "gelesen": false,\n  "vorschlaege": []\n}\n'
-
 async function auswahl(ordner: string): Promise<void> {
   const bestand = readJson<Bestand>(DATEI, { gelesen: {}, vorschlaege: [] })
   const feed = await feedArtikel()
@@ -81,7 +78,6 @@ async function auswahl(ordner: string): Promise<void> {
       continue
     }
     writeFileSync(resolve(ordner, 'artikel', `${k.id}.txt`), `${k.titel}\nVeröffentlicht: ${k.veroeffentlicht}\n\n${text}\n`, 'utf8')
-    writeFileSync(resolve(ordner, 'ergebnis', `${k.id}.json`), VORLAGE, 'utf8')
     aus.kandidaten.push(k)
   }
   writeFileSync(resolve(ordner, 'auswahl.json'), JSON.stringify(aus, null, 2), 'utf8')
