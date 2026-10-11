@@ -1177,7 +1177,7 @@ Am 06.10.2026 gegen 22:00 trug ich zehn Titel in `data/ohne-synchro-von-hand.yam
 
 ## Prüfkette: das Ende der Ausgabe lesen, nicht den Rest (07.10.2026)
 
-`(npm run check:vor-commit > datei; echo "ENDE exit $?" >> datei)` und danach **die Zeile `ENDE exit N`** lesen. Am 07.10.2026 wurde ein Stand gepusht, obwohl `check:vor-commit` mit `exit 1` endete (eine `check:logic`-Zusicherung hing noch an der alten Funktion `titelFuerAnsicht`); die Hintergrundmeldung „completed (exit code 0)" gilt dem Mantel, nicht dem Befehl darin. Ein lokaler `data:build` bricht am Titelschwund-Riegel ab (älterer Cache); wer die Bau-Phasen dahinter prüfen will, löscht vorher `public/data/titles.json` (kein „vorher", kein Riegel) und setzt danach mit `git reset --hard` zurück.
+`(npm run check:vor-commit > datei; echo "ENDE exit $?" >> datei)` und danach **die Zeile `ENDE exit N`** lesen. Am 07.10.2026 wurde ein Stand gepusht, obwohl `check:vor-commit` mit `exit 1` endete (eine `check:logic`-Zusicherung hing noch an der alten Funktion `titelFuerAnsicht`); die Hintergrundmeldung „completed (exit code 0)" gilt dem Mantel, nicht dem Befehl darin. Ein lokaler `data:build` bricht am Titelschwund-Riegel ab (älterer Cache; frischen holen: `node tools/cache-holen.mjs`, Abschnitt „Lokaler Bau“); wer die Bau-Phasen dahinter prüfen will, löscht vorher `public/data/titles.json` (kein „vorher", kein Riegel) und setzt danach mit `git reset --hard` zurück.
 
 **Seit 07.10.2026: `bash tools/pushen.sh`** — führt die Prüfkette aus und pusht nur, wenn sie grün ist (`&&`-Kette mit `set -e`). Zweimal am selben Tag ging ein Stand mit roter Prüfung hinaus, weil Prüfung und Push mit `;` verbunden waren. Nach einem lokalen Bau-Test außerdem `git clean -fdq public/data`, sonst meldet `check:logic` übrig gebliebene Folgendateien als Verstoß.
 
@@ -1189,6 +1189,45 @@ dazu `abschluss` (Abmeldung bei der Statusanzeige und Aufräumen roter Läufe, n
 **Cache:** GitHub Pages liefert `max-age=600`. Der Bau legt `version.json` (Commit-Kennung) ab, `web/src/lib/aktualisierung.ts` fragt sie **nur beim Laden der Seite** mit eindeutiger Adresse ab und lädt bei neuer Kennung einmal neu (Service-Worker-Cache `shell-*` wird verworfen; `sessionStorage` verhindert eine Schleife). Kein Neuladen mitten in der Benutzung (Daniel, 08.10.2026). Seit 11.10.2026 zählt auch die Rückkehr in einen Tab oder die App nach mindestens 10 Minuten im Hintergrund (`visibilitychange`) wie ein Laden — Handy-Tabs blieben sonst Stunden auf altem Stand; kein Banner.
 
 **Bevor eine Pipeline-Änderung gepusht wird, die den Bau verändert (07.10.2026):** Zweimal blockierte ein neuer Prüfpunkt oder ein neuer Titelschwung den Bestandsbau (`DATEN_WARNUNG: Bestand nicht übernommen`) — einmal ein Prüfpunkt auf dem gebauten Bestand, einmal die neuen aniSearch-Titel gegen `check:logic` („Teilnummer im Namen"). Beides hätte ein lokaler Bau gezeigt. Vorgehen: Änderung lokal committen, `rm public/data/titles.json` (ohne „vorher" kein Titelschwund-Riegel), `npm run data:build`, danach `npm run check:logic`, `npm run check:cr-zuordnung`, `npm run check:bestand`; zurück mit `git reset --hard HEAD && git clean -fdq public/data`. Erst dann `bash tools/pushen.sh`.
+
+## Lokaler Bau: aktueller `data/cache/` mit einem Befehl (11.10.2026)
+
+**Befund.** Der lokale `data/cache/` ist so alt wie der letzte Handgriff (am 11.10.2026: AniList-Katalog vom 03.09.2026, 38 Tage; es fehlte z. B. AniList 217712). Ein lokaler `pipeline/build.ts` bricht dann am Titelschwund-Riegel ab (55 verlorene Titel), und Bauer behalfen sich mit Schwellen-Hacks. Es gab kein Werkzeug: Der frische Stand liegt nur im Actions-Cache `anilist-cache-<run_id>` (rund 110 MB), und **den kann außerhalb eines Laufs niemand laden** (`gh cache` kann nur listen und löschen, die REST-Schnittstelle kennt keinen Download). In den 100 jüngsten Artefakten (gemessen am 11.10.2026) enthielt keines `data/cache/` — `fund-*` sind die Pull-Request-Dateien der Sammler.
+
+**Werkzeug:** `node tools/cache-holen.mjs` (im Arbeitsbaum, in dem gebaut wird) lädt das jüngste Artefakt `data-cache` per `gh`, legt es nach `data/cache/` dieses Arbeitsbaums und zeigt den Stand des Katalogs (`geholtAm`) vorher und nachher. Es weigert sich, wenn `data/cache` ein Junction/Symlink ist (sonst würde der Cache des Hauptordners überschrieben; Bau-Arbeit legt **keinen** Junction auf `data/cache`, `node_modules` genügt). Fehlt das Artefakt, sagt es das. Danach: `npx tsx pipeline/build.ts`, ohne Schwellen-Umweg; zurücksetzen mit `git reset --hard HEAD && git clean -fdq public/data`.
+
+**Voraussetzung (Entscheidung offen, Workflow-Änderung):** Ein Workflow muss den Cache als Artefakt ablegen. Entwurf `.github/workflows/cache-ablegen.yml` — eigene Datei, berührt keinen Sammler, nur lesen und hochladen; nicht gepusht, solange ein Sammler läuft (`gh run list --status in_progress`):
+
+```yaml
+name: Cache ablegen (für lokale Bauten)
+on:
+  schedule:
+    - cron: '40 7 * * *'   # nach dem Tageslauf um 06:17 UTC
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cache-ablegen
+jobs:
+  ablegen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/cache
+          key: anilist-cache-${{ github.run_id }}
+          restore-keys: anilist-cache-
+          fail-on-cache-miss: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: data-cache
+          path: data/cache
+          retention-days: 3
+          overwrite: true
+```
+
+Kosten: ein Artefakt um 110 MB (mit `overwrite` immer nur eines), ein Lauf am Tag. Der Cache enthält nur gesammelte Quelldaten, keine Zugangsdaten (Register: `data/cache-register.json`); das Artefakt ist nur mit Lesezugriff aufs Repo ladbar. Wer sofort einen frischeren Stand braucht: `gh workflow run cache-ablegen.yml --repo danielzaiser91/anime-kalender-de`, fertig abwarten, `tools/cache-holen.mjs`. Der Stand folgt dem **Schlüssel**, nicht dem Inhalt (Abschnitt „Der Actions-Cache … kennt keinen Besitzer"): Zeigt `geholtAm` etwas Altes, ist das der Befund, nicht das Werkzeug.
 
 ## Register der Zugänge und Wächter (08.10.2026)
 
