@@ -34,12 +34,12 @@ function releasesJeTitel(): Map<number, Release[]> {
 
 /** Die Pillen eines Titels, die Haken, aber keine Folgenzahl zeigen. */
 function luecken(title: Title, releases: Release[]): PillenLuecke[] {
+  if (title.format === 'MOVIE' || title.episodes === 1) return []
   const jeAnbieter = new Map<string, Release>()
   for (const r of releases) if (!jeAnbieter.has(r.platform)) jeAnbieter.set(r.platform, r)
   const angabe = folgenAuskunft({ releases, title, t: (k: string) => k, releaseJePlattform: jeAnbieter, today: heute })
   return (title.streams ?? [])
     .filter((s) => ANBIETER.includes(s.platform) && s.dub === true && !angabe(s))
-    .filter(() => title.format !== 'MOVIE' && title.episodes !== 1)
     .map((s) => ({ titleId: title.id, plattform: s.platform, url: s.url }))
 }
 
