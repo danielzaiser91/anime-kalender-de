@@ -115,14 +115,15 @@ function universumFaelle(titel: Kandidat[], kanten: Kante[], namen: Namen, verbu
 
 /**
  * `titel`: alle Titel des Baus (mit Name und aniSearch-Kennung); `wurzel`: die Reihe je Titel zum Zeitpunkt der Übernahme (Union-Find des Baus);
- * `ausgenommen`: Titel, die nie umziehen (Crossover, die ihre Reihe aus dem ersten Elternteil erben); `getrennt`: Handentscheidungen, siehe `ohneTrennungen`.
+ * `ausgenommen`: Titel, die nie umziehen (Crossover, die ihre Reihe aus dem ersten Elternteil erben); `getrennt`: Handentscheidungen, siehe `ohneTrennungen`; `anker`: Titel, die nie umziehen,
+ * aber als Reihe zählen, auch wenn sie allein stehen (der schon ausgelieferte Hauptbestand, wenn der Katalog übernommen wird).
  */
-export function uebernimmReihen(titel: Kandidat[], alleKanten: Kante[], namen: Namen, wurzel: (id: number) => number, ausgenommen: Set<number> = new Set(), regel: Regel = WANDERREGEL, getrennt: Trennung[] = []): Uebernahme {
+export function uebernimmReihen(titel: Kandidat[], alleKanten: Kante[], namen: Namen, wurzel: (id: number) => number, ausgenommen: Set<number> = new Set(), regel: Regel = WANDERREGEL, getrennt: Trennung[] = [], anker: Set<number> = new Set()): Uebernahme {
   const kanten = ohneTrennungen(alleKanten, titel, wurzel, getrennt)
   const mitglieder = titel.filter((t) => !ausgenommen.has(t.id))
   const groesse = new Map<number, number>()
   for (const t of titel) groesse.set(wurzel(t.id), (groesse.get(wurzel(t.id)) ?? 0) + 1)
-  const gross = (id: number): boolean => (groesse.get(wurzel(id)) ?? 0) > 1
+  const gross = (id: number): boolean => anker.has(id) || (groesse.get(wurzel(id)) ?? 0) > 1
   const namensliste = new Map(titel.map((t) => [t.id, t.name]))
   const name = (id: number): string => namensliste.get(id) ?? `#${id}`
   const ref = (id: number): ReiheRef => ({ id, name: name(id), titel: groesse.get(id) ?? 1 })

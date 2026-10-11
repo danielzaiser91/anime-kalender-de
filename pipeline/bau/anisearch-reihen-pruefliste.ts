@@ -7,6 +7,8 @@ import { ARCHIV_SEITEN, leseSeite } from '../lib/anisearch-relationen.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import type { Kante, Namen } from './anisearch-reihen.ts'
 import { type Pruefzeile, type Trennung, WANDERREGEL, uebernimmReihen } from './anisearch-reihen-uebernahme.ts'
+import { uebernimmKatalogReihen } from './anisearch-reihen-katalog.ts'
+import type { KatalogEintrag } from '../lib/anilist.ts'
 
 /**
  * **Reihen aus aniSearch übernehmen: Anbindung an den Bau** (Stufe C der AniList-Ablösung, 11.10.2026). `anisearchRelationenKanten` liefert die Verbindungen, die `03-reihen.ts` zu den
@@ -15,7 +17,12 @@ import { type Pruefzeile, type Trennung, WANDERREGEL, uebernimmReihen } from './
  */
 export const PRUEFLISTE_DATEI = 'data/anisearch-reihen-pruefliste.json'
 
-export type PruefDatei = { stand: string; angehaengt: number; neueReihen: number; pruefliste: Pruefzeile[] }
+/** `bestand`: der Hauptbestand (`03-reihen.ts`, Weg `data/reihen-von-hand.yaml`); `katalog`: der AniList-Katalog (`ohne-synchro.json`, `nebendateien.ts`). */
+export type Quelle = 'bestand' | 'katalog'
+type Zahlen = { angehaengt: number; neueReihen: number }
+/** `bestandEinzeln`: Paare aus einem allein stehenden Hauptbestandstitel und einer Katalog-Reihe, die aniSearch verbindet (geht nur über eine Änderung des Hauptbestands). */
+export type KatalogZahlen = Zahlen & { bestandEinzeln: number }
+export type PruefDatei = { stand: string; angehaengt: number; neueReihen: number; katalog?: KatalogZahlen; pruefliste: (Pruefzeile & { quelle?: Quelle })[] }
 
 let beziehungen: { kanten: Kante[]; namen: Namen; mitSeite: Set<number> } | undefined
 
@@ -48,9 +55,20 @@ export function ladeTrennungen(datei = `${ROOT}/data/reihen-von-hand.yaml`): Tre
   return eintraege.flatMap((e) => (e.getrennt ? [e.getrennt] : []))
 }
 
-/** Schreibt die Prüfliste nur bei Änderung, damit der Stand nicht täglich committet wird. */
-function schreibePruefliste(neu: PruefDatei): void {
+const schluessel = (z: Pruefzeile): string => `${z.art}|${z.reihen.map((r) => r.id).join(',')}`
+
+/**
+ * Schreibt den Teil der Prüfliste, der zu `teil` gehört; der andere Teil bleibt, wie er war (beide Stufen laufen im selben Bau, der Katalog später).
+ * Ein Fall des Katalogs, der schon aus dem Hauptbestand dasteht (gleiche Reihen), erscheint nicht doppelt. Geschrieben wird nur bei Änderung, damit der Stand nicht täglich committet wird.
+ */
+function schreibePruefliste(teil: Quelle, zeilen: Pruefzeile[], zahlen: Zahlen, bestandEinzeln = 0): void {
   const alt = readJson<Partial<PruefDatei>>(PRUEFLISTE_DATEI, {})
+  const rest = (alt.pruefliste ?? []).filter((z) => (z.quelle ?? 'bestand') !== teil)
+  const schon = new Set(rest.map(schluessel))
+  const eigene = zeilen.filter((z) => teil === 'bestand' || !schon.has(schluessel(z))).map((z) => ({ ...z, quelle: teil }))
+  const neu: PruefDatei = teil === 'bestand'
+    ? { stand: todayIso(), angehaengt: zahlen.angehaengt, neueReihen: zahlen.neueReihen, ...(alt.katalog ? { katalog: alt.katalog } : {}), pruefliste: [...eigene, ...rest] }
+    : { stand: todayIso(), angehaengt: alt.angehaengt ?? 0, neueReihen: alt.neueReihen ?? 0, katalog: { ...zahlen, bestandEinzeln }, pruefliste: [...rest, ...eigene] }
   if (JSON.stringify({ ...alt, stand: '' }) !== JSON.stringify({ ...neu, stand: '' })) writeJson(PRUEFLISTE_DATEI, neu, true)
 }
 
@@ -61,11 +79,35 @@ export function anisearchRelationenKanten(titles: Map<number, Title>, wurzel: (i
     const kandidaten = [...titles.values()].map((t) => ({ id: t.id, name: t.titleRomaji ?? t.titleEn ?? `#${t.id}`, anisearchId: kennung.get(t.id) }))
     const { kanten, namen } = ladeBeziehungen()
     const u = uebernimmReihen(kandidaten, kanten, namen, wurzel, ausgenommen, WANDERREGEL, ladeTrennungen())
-    schreibePruefliste({ stand: todayIso(), angehaengt: u.angehaengt, neueReihen: u.neueReihen, pruefliste: u.pruefliste })
+    schreibePruefliste('bestand', u.pruefliste, u)
     log(`aniSearch-Reihen: ${u.angehaengt} Alleinstehende an Reihen gehängt, ${u.neueReihen} neue Reihen, ${u.pruefliste.length} Fälle auf der Prüfliste (${PRUEFLISTE_DATEI})`)
     return u.kanten
   } catch (e) {
     warn(`aniSearch-Reihen übernehmen übersprungen (Fehler): ${(e as Error).message}`)
     return []
+  }
+}
+
+type Ausgeschieden = { katalogWeg: { has(id: number): boolean }; zeilenWeg: { has(id: number): boolean } }
+
+/**
+ * Reihen für `ohne-synchro.json` mit aniSearch-Beziehungen (Regel in `anisearch-reihen-katalog.ts`). `reihe`: Reihe je Katalogtitel aus `reihenFuerKatalog`; `bekannt`: Reihe je Hauptbestandstitel;
+ * `verschoben`: aus dem Hauptbestand verschobene Titel (die, die der Katalog nicht führt, gelten als fest); `kennung`: aniSearch-Kennung je Katalogtitel. Der Hauptbestand kommt aus der schon
+ * geschriebenen `titles.json` (wie bei `ohneWerkDubletten`). Ein Fehler stoppt den Bau nie: dann bleiben die Reihen aus AniList.
+ */
+export function anisearchKatalogReihen(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden): Map<number, number> {
+  try {
+    const imKatalog = new Set(eintraege.map((e) => e.id))
+    const haupt = readJson<Title[]>('public/data/titles.json', []).filter((t) => bekannt.has(t.id))
+    const fest = [...haupt.map((t) => ({ t, reihe: bekannt.get(t.id)! })), ...verschoben.filter((t) => !imKatalog.has(t.id) && !weg.zeilenWeg.has(t.id) && !bekannt.has(t.id)).map((t) => ({ t, reihe: t.franchiseId ?? t.id }))]
+    const anker = fest.map(({ t, reihe: r }) => ({ id: t.id, name: t.titleRomaji ?? t.titleEn ?? `#${t.id}`, anisearchId: t.anisearchId ?? kennung.get(t.id), reihe: r }))
+    const { kanten, namen } = ladeBeziehungen()
+    const u = uebernimmKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), reihe, anker, kennung, kanten, namen)
+    schreibePruefliste('katalog', u.ergebnis.pruefliste, { angehaengt: u.ergebnis.angehaengt, neueReihen: u.ergebnis.neueReihen }, u.bestandEinzeln)
+    log(`aniSearch-Reihen im Katalog: ${u.ergebnis.angehaengt} Alleinstehende an Reihen gehängt, ${u.ergebnis.neueReihen} neue Reihen, ${u.ergebnis.pruefliste.length} Fälle auf der Prüfliste, ${u.bestandEinzeln} Paare mit einem allein stehenden Hauptbestandstitel`)
+    return u.reihe
+  } catch (e) {
+    warn(`aniSearch-Reihen im Katalog übersprungen (Fehler): ${(e as Error).message}`)
+    return reihe
   }
 }

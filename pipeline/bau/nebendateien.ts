@@ -19,6 +19,7 @@ import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-tite
 import { findeAnisearchDubletten, zeilenMitKennungWeg, type DublettenUrteil } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import { ohneWerkDubletten } from './werk-doppelt-bau.ts'
+import { anisearchKatalogReihen } from './anisearch-reihen-pruefliste.ts'
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
@@ -252,8 +253,6 @@ export function schreibeOhneSynchro(
     return
   }
 
-  const reihe = reihenFuerKatalog(eintraege, bekannt)
-
   /**
    * Drei Pflichtfelder von `Title` fehlen hier absichtlich: `slug`, `keywords`
    * und `streams`. Sie wären für jeden dieser Titel leer beziehungsweise ohne
@@ -302,6 +301,7 @@ export function schreibeOhneSynchro(
   >('data/anisearch-titel.json', {})
   const kennungen = anisearchKennungen([...eintraege.map((e) => ({ id: e.id, mal: e.mal ?? undefined })), ...verschoben.map((t) => ({ id: t.id, mal: t.malId }))])
   const dubletten = anisearchDublettenAbziehen(bekannt, verschoben, geschuetzt, eintraege, kennungen)
+  const reihe = anisearchKatalogReihen(reihenFuerKatalog(eintraege, bekannt), eintraege, bekannt, verschoben, kennungen, dubletten)
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id) && !dubletten.katalogWeg.has(e.id))
     .map((e) => {
