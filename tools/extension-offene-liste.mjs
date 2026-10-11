@@ -59,7 +59,7 @@ for (const t of titel) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'netflix') continue
     const id = kennung(s.url)
-    if (!id || ausgeblendet(t, 'netflix', s.dub)) continue
+    if (!id || ausgeblendet(t, 'netflix', s)) continue
     jeAdresse.set(id, [...(jeAdresse.get(id) ?? []), { t, dub: s.dub }])
   }
 }
@@ -410,7 +410,7 @@ for (const [id, eintraege] of nachRang(jeAdresse)) {
   offen[id] = {
     titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
     asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
-    ...eintragsInfo(sortiert[0].t, 'netflix', sortiert[0].dub),
+    ...eintragsInfo(sortiert[0].t, 'netflix', sortiert[0]),
     staffeln: sortiert.map((e, i) => ({
       nr: i + 1,
       /*

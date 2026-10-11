@@ -22,7 +22,7 @@ assert.equal(info.staffelUnscharf, true)
 assert.match(info.hinweis, /61 Folgen/)
 assert.equal(eintragsInfo(avatar, 'disneyplus', undefined, an).quelle, 'tmdb', 'Disney+ nennt JustWatch hier nicht')
 assert.equal(eintragsInfo(film, 'netflix', undefined, an).quelle, 'keine', 'ohne Urteil nichts, dem man trauen könnte')
-assert.equal(eintragsInfo(film, 'netflix', true, an).quelle, 'datensatz')
+assert.equal(eintragsInfo(film, 'netflix', { dub: true }, an).quelle, 'datensatz')
 
 assert.equal(ausgeblendet(avatar, 'netflix', undefined, an), false, 'Vorgabe: nichts ausblenden')
 assert.equal(ausgeblendet(avatar, 'netflix', undefined, anUndWeg), true, 'vertrauenswürdige Quelle blendet aus')
