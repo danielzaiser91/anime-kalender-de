@@ -4,7 +4,7 @@ import type { SaisonZeile } from './saison.ts'
 const TAG_MS = 86_400_000
 const MONATE = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
 
-const tag =(d: string): string => `${d.slice(8, 10)}.${d.slice(5, 7)}.`
+const tag = (d: string): string => `${d.slice(8, 10)}.${d.slice(5, 7)}.`
 
 const ganzerTag = (d: string | undefined): d is string => d?.length === 10
 

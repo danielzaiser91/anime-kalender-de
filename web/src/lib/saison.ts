@@ -67,10 +67,13 @@ export interface SaisonZeile {
   geschaetzt?: boolean
 }
 
-/** Die Zeile eines Katalogtitels: mit belegtem deutschen Weg „Auf Deutsch“ (Datum der frühesten belegten Folge, wo bekannt), sonst „angekündigt“ oder „offen“. */
+/**
+ * Die Zeile eines Katalogtitels: „Auf Deutsch“ nur mit belegter deutscher Folge (`deVon`, Tag verstrichen); ein Weg mit Tonbeleg, aber ohne belegte Folge
+ * ist „Deutsch bestätigt“ unter „Kommt noch“ (wie im Kern), sonst „angekündigt“ oder „offen“.
+ */
 export function katalogZeile(k: SaisonKatalogTitel, heute: string): SaisonZeile {
   if (!k.deutsch) return { id: k.id, katalog: k, deutsch: false, stufe: k.angekuendigt ? 'angekuendigt' : 'offen', erschienen: false, jp: k.jpStart }
-  const erschienen = !k.deVon || k.deVon <= heute
+  const erschienen = k.deVon !== undefined && k.deVon <= heute
   return { id: k.id, katalog: k, deutsch: true, stufe: erschienen ? 'auf-deutsch' : 'bestaetigt', erschienen, jp: k.jpStart, de: k.deVon }
 }
 
