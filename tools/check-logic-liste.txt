@@ -11,6 +11,7 @@ pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-belegstaerke.ts
+pipeline/check-cartoon-news.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-ton.ts
 pipeline/check-cartoon-zwilling.ts
