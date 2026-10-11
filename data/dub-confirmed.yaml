@@ -9174,6 +9174,16 @@
       checked: [1]
   checkedAt: '2026-08-26'
   note: "Folge 1 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch — Durchlauf: Folge 1 — Tougen Anki"
+- anilistId: 207141
+  title: "Chainsmoker Cat"
+  platform: netflix
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 11
+      dub: true
+  checkedAt: '2026-10-11'
+  note: "Daniel, 11.10.2026: 11 von 12 Folgen bei Netflix mit deutscher Synchro, Folge 12 noch ohne. Folge 12 ist die reguläre letzte TV-Folge (12 Folgen, Japan 03.07.–25.09.2026, Crunchyroll News 24.09.2026: „12th and final episode“), keine OVA — deutsche Fassung vermutlich noch ausstehend."
 - anilistId: 154587
   title: "Frieren: Nach dem Ende der Reise"
   platform: netflix
