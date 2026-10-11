@@ -21,6 +21,19 @@ function laufe(skript, ...args) {
   }
 }
 
+/** Dieser Workflow läuft gerade selbst: beim ersten Lauf (und mitten im Lauf) hat er keinen Erfolg, das ist kein Ausfall und gehört nicht ins Dossier. */
+export function ohneEigenenLauf(text) {
+  return text.replace(/claude-wache-urteil\.yml[^;\n]*/g, 'claude-wache-urteil.yml: eigener Lauf, hier nicht bewertet (er schreibt dieses Urteil gerade)')
+}
+
+/** Briefkasten-Ausgabe mit Lesehilfe: Meldungen sind Zeilen, Adressen eindeutige Seiten; gleiche Zahlen deuten auf die ältere Zählung je Zeile. */
+export function briefkastenMitHilfe(aus) {
+  const z = /(\d+) Meldungen auf (\d+) Adressen/.exec(aus)
+  const hilfe = 'Lesehilfe: „Meldungen“ sind Zeilen im Briefkasten, „Adressen“ eindeutige Seiten. Viele Meldungen auf wenigen Adressen sind kein Rückstau; ungelistete Adressen sind der Befund.'
+  const alt = z && z[1] === z[2] && Number(z[1]) > 1 ? '\nHinweis: Meldungen und Adressen sind gleich viele – möglicherweise zählt die Wache noch je Zeile; die Adressenzahl dann nicht als Rückstau werten.' : ''
+  return `${hilfe}${alt}\n\n${aus}`
+}
+
 /** Läufe der letzten 48 Stunden je Workflow: Zählung nach Ausgang; je Workflow mit Fehlschlägen die drei jüngsten mit Zweig und Adresse. */
 function laeufe() {
   const roh = gh('run', 'list', '--repo', REPO, '--limit', '1000', '--json', 'workflowName,conclusion,status,createdAt,url,headBranch')
@@ -87,9 +100,9 @@ function frueher() {
 const QUELLEN = [
   ['01-laeufe.txt', laeufe],
   ['02-delta-24h.txt', () => laufe('tools/delta-pruefen.mjs', '--tage', '1', '--alles')],
-  ['03-briefkasten.txt', () => laufe('tools/briefkasten-wache.mjs')],
-  ['04-zugaenge.txt', () => laufe('tools/zugangs-waechter.mjs')],
-  ['05-wochenwache.txt', () => laufe('tools/wache-woechentlich.mjs', '--trocken')],
+  ['03-briefkasten.txt', () => briefkastenMitHilfe(laufe('tools/briefkasten-wache.mjs'))],
+  ['04-zugaenge.txt', () => ohneEigenenLauf(laufe('tools/zugangs-waechter.mjs'))],
+  ['05-wochenwache.txt', () => ohneEigenenLauf(laufe('tools/wache-woechentlich.mjs', '--trocken'))],
   ['06-quellen.txt', quellen],
   ['07-ausgelassen.txt', ausgelassen],
   ['08-offene-issues-und-prs.txt', offenes],

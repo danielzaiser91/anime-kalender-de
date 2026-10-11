@@ -1,5 +1,6 @@
 // Prüft, dass ein Urteil nur in der vereinbarten Form durchkommt und der Eintrag oben in der Auswertung landet.
 import assert from 'node:assert/strict'
+import { briefkastenMitHilfe, ohneEigenenLauf } from './wache-urteil-dossier.mjs'
 import { berlinZeit, pruefeUrteil, setzeEin } from './wache-urteil-eintrag.mjs'
 
 const FUELLTEXT = 'Beleg aus Dossier 01: 12 Läufe grün, nichts auffällig.'
@@ -24,6 +25,18 @@ fehler('', /erste Zeile/)
 fehler(urteil('befund').replace('\n\n**Was läuft komplett falsch?**', '\n**Was läuft komplett falsch?**'), /3 Absätze/)
 fehler(urteil('befund', { 2: '**Wo sind echte Risiken und Lücken?** Siehe https://example.org/x für mehr.' }), /Adresse/)
 fehler(urteil('befund', { 1: '**Wo ist Verbesserungspotenzial?** <b>fett</b> und genug Text hier.' }), /Markup/)
+fehler(urteil('befund', { 1: '**Wo ist Verbesserungspotenzial?** Siehe [die Liste](daniel-zum-abarbeiten/x.md) für den Rest.' }), /Verweis/)
+fehler(urteil('befund', { 1: '**Wo ist Verbesserungspotenzial?** Mehr dazu auf www.example.org im Netz.' }), /Adresse/)
+fehler(urteil('befund', { 2: '**Wo sind echte Risiken und Lücken?** @danielzaiser91 sollte das ansehen, sagt der Beleg.' }), /Erwähnung/)
+fehler(urteil('befund', { 2: '**Wo sind echte Risiken und Lücken?** Das sollte\n@danielzaiser91 ansehen, sagt der Beleg.' }), /Erwähnung/)
+// Gegenproben: echte Urteile mit Backticks, Befehlen, ungepaarten Backticks und @ in Code, Paketnamen oder Klammern gehen durch.
+const geht = (absatz) => assert.equal(pruefeUrteil(urteil('befund', { 0: `**Was läuft korrekt.** ${absatz}` })).ok, true, absatz)
+geht('`data/source-health.json` und `tools/briefkasten-wache.mjs` zeigen 12 Läufe grün (01).')
+geht('Eine Kennung wie name@host im Text ist keine Erwähnung, 12 Läufe grün (01).')
+geht('Dossier 05 trägt `FEHLER beim Sammeln` und der Befehl `gh run list` zeigt 12 Läufe grün.')
+geht('Der Schritt `@actions/checkout` und das Paket @actions/checkout laufen, 12 Läufe grün (01).')
+geht('Der Wecker (@Wecker) und der Lauf (01) sind grün, 12 Läufe ohne Fehler.')
+geht('Ein ungepaarter Backtick ` mitten im Satz ist harmlos, 12 Läufe grün (01).')
 fehler(urteil('befund', { 3: '**Was läuft komplett falsch?**' }), /Absatz 4 ist leer/)
 fehler(urteil('befund', { 0: `**Was läuft korrekt.** ${'x'.repeat(5000)}` }), /länger/)
 fehler(urteil('befund').replace('**Wo ist Verbesserungspotenzial?**', '**Anderes.**'), /Absatz 2 beginnt nicht/)
@@ -37,5 +50,17 @@ assert.ok(neu.indexOf('## 11.10.2026, 08:20 — Claude-Lauf, Befund') < neu.inde
 assert.ok(neu.startsWith('# Auswertung\n\nEinleitung.\n\n## 11.10.2026'), 'Kopf der Datei bleibt')
 assert.ok(neu.endsWith('## 02.10.2026, 15:05 — alt\n\nAlt.\n'), 'älterer Eintrag bleibt unverändert')
 assert.throws(() => setzeEin('# ohne Abschnitt\n', gut, new Date()), /Aufbau geändert/)
+
+// Dossier: der eigene Workflow wird nicht als Ausfall gewertet, der Rest der Zeile und andere Befunde bleiben.
+const eigen = ohneEigenenLauf('Wochenwache: a: Frist; claude-wache-urteil.yml: letzter erfolgreicher Lauf nie, erlaubt 36 h; deploy.yml: vor 50 h\nclaude-wache-urteil.yml         letzter Erfolg vor nie (erlaubt 36 h)\n')
+assert.ok(!eigen.includes('nie'), eigen)
+assert.ok(eigen.includes('deploy.yml: vor 50 h') && eigen.includes('a: Frist'))
+assert.equal((eigen.match(/eigener Lauf/g) ?? []).length, 2)
+
+// Briefkasten: Lesehilfe immer, Warnung nur bei gleichen Zahlen (Zählung je Zeile).
+assert.ok(briefkastenMitHilfe('Briefkasten: 189 Meldungen auf 36 Adressen (x 1)').includes('Lesehilfe'))
+assert.ok(!briefkastenMitHilfe('Briefkasten: 189 Meldungen auf 36 Adressen (x 1)').includes('Hinweis'))
+assert.ok(briefkastenMitHilfe('Briefkasten: 189 Meldungen auf 189 Adressen (x 1)').includes('Hinweis'))
+assert.ok(!briefkastenMitHilfe('Nichts im Briefkasten').includes('Hinweis'))
 
 console.log('wache-urteil: ok')
