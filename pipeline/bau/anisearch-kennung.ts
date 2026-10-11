@@ -1,12 +1,13 @@
 import { log, readJson, writeJson } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
+import { anisearchKatalogPaare } from '../lib/anisearch-katalog-ids.ts'
 import { anisearchHand } from './grundlagen.ts'
 import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 
 /**
  * **Welche aniSearch-Titelseite gehört zu welchem Titel** — die einzige Stelle, an der der Bau eine Kennung zuordnet (die Oberfläche zeigt nie eine Suche,
- * ohne Kennung gar keinen aniSearch-Weg; Daniel, 09.10.2026). Reihenfolge: Handdatei, Abruf-Ergebnis (`anisearch.json`, `anisearch-titel.json`), die Kennung
+ * ohne Kennung gar keinen aniSearch-Weg; Daniel, 09.10.2026). Reihenfolge: Handdatei, Katalogabgleich (`anisearch-ids-katalog.json`), Abruf-Ergebnis (`anisearch.json`, `anisearch-titel.json`), die Kennung
  * eines reinen aniSearch-Titels, zuletzt aniSearchs eigene MAL-Brücke (`anisearch-mal.json`, `fetch-anisearch-zuordnung.ts`). Nie ein Namensabgleich.
  */
 type Kennungen = Record<string, { anisearchId?: number }>
@@ -18,6 +19,7 @@ function festeKennungen(): Map<number, number> {
   for (const quelle of ['data/anisearch-titel.json', 'data/anisearch.json']) {
     for (const [id, e] of Object.entries(readJson<Kennungen>(quelle, {}))) if (e.anisearchId) m.set(Number(id), e.anisearchId)
   }
+  for (const [id, asId] of anisearchKatalogPaare()) m.set(id, asId)
   for (const [id, asId] of Object.entries(anisearchHand)) m.set(Number(id), asId)
   return (fest = m)
 }
