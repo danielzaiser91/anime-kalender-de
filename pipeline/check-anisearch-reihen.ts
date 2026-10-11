@@ -6,7 +6,8 @@ import { existsSync, readFileSync } from 'node:fs'
 import { parseRelationen, parseTitel } from './lib/anisearch-relationen.ts'
 import { ART_MAL, type Kante, REGEL, komponenten, malKanten, reihenWurzel, zaehlt } from './bau/anisearch-reihen.ts'
 import { type Einheit, vergleicheReihen } from './bau/anisearch-reihen-vergleich.ts'
-import { REIHEN_DATEI, type ReihenDatei } from './bau/anisearch-reihen-abweichungen.ts'
+import { REIHEN_DATEI, type ReihenDatei, ohneReferenzReihe } from './bau/anisearch-reihen-abweichungen.ts'
+import { ANISEARCH_ID_BASIS } from './bau/anisearch-titel.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -54,6 +55,10 @@ pruefe('Vergleich: Beispiel nennt den kleinsten Titel des Clusters', v.beispiele
 const verschmolzen = vergleicheReihen([e(2, 1), e(4, 1)], new Map([[2, 'a'], [4, 'b']]), (id) => id)
 pruefe('Vergleich: zwei Referenz-Reihen in einer aniSearch-Komponente = verschmilzt', verschmolzen.cluster.verschmilzt === 1 && verschmolzen.gesamt.zusaetzlich === 2)
 
+const basis = ANISEARCH_ID_BASIS
+const ohneRef = ohneReferenzReihe([{ id: 5 }, { id: basis + 1 }, { id: basis + 2, franchiseId: 7 }, { id: basis + 3, franchiseId: 7 }, { id: 9, franchiseId: 8 }])
+pruefe('Ohne Referenz: nur ein aniSearch-Titel (ab 10 Mio.), den kein zweiter Titel seiner franchiseId teilt', ohneRef.size === 1 && ohneRef.has(basis + 1), JSON.stringify([...ohneRef]))
+
 /* Bestand: gemessen am 11.10.2026 mit 15.091 Titeln mit Seite, 77,1 % gleich (Hälfte A 75,9 %, Hälfte B 78,2 %); die Grenzen liegen rund 6 Punkte darunter und schlagen nur bei einem Bruch an.
  * Titel ohne Referenz-Reihe (aniSearch-Titel, die AniList nicht kennt: 2.409) zählen nicht mit — mit ihnen fiel der Wert nach dem Katalog-Lauf vom 10.10. auf 68,1 %, ohne dass ein Parser oder eine Seite kaputt war. */
 if (existsSync(REIHEN_DATEI)) {
@@ -64,7 +69,9 @@ if (existsSync(REIHEN_DATEI)) {
   for (const [name, z] of [['gesamt', b.gesamt], ['Hälfte A', b.haelfteA], ['Hälfte B', b.haelfteB]] as const) {
     pruefe(`Bestand: ${name} — mindestens 70 % gleiche Reihen`, z.gleich >= 0.7 * z.titel, `${z.gleich} von ${z.titel}`)
   }
-  pruefe('Bestand: Hauptbestand — mindestens 65 % gleiche Reihen (gemessen 72,8 %)', b.hauptbestand.gleich >= 0.65 * b.hauptbestand.titel, `${b.hauptbestand.gleich} von ${b.hauptbestand.titel}`)
+  pruefe('Bestand: Hauptbestand — mindestens 65 % gleiche Reihen (gemessen 72,9 % am 11.10.2026)', b.hauptbestand.gleich >= 0.65 * b.hauptbestand.titel, `${b.hauptbestand.gleich} von ${b.hauptbestand.titel}`)
+  // 11.10.2026: 2.409 von 20.717 Titeln (11,6 %) ohne Referenz-Reihe; die Grenze liegt weit darüber und schlägt nur an, wenn die Zuordnung bricht.
+  pruefe('Bestand: höchstens 25 % der Titel ohne Referenz-Reihe', b.deckung.ohneReferenz <= 0.25 * b.deckung.titel, `${b.deckung.ohneReferenz} von ${b.deckung.titel}`)
   pruefe('Bestand: Cluster zählen zusammen mindestens die Reihen mit ≥ 2 Titeln', b.cluster.gleich + b.cluster.zerlegt + b.cluster.verschmilzt + b.cluster.gemischt >= 1500)
   for (const art of ['zerlegt', 'verschmilzt', 'gemischt'] as const) pruefe(`Bestand: höchstens 20 Beispiele „${art}"`, b.beispiele[art].length <= 20)
 }
