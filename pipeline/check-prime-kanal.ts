@@ -66,7 +66,13 @@ const ohneRanges = pillen(titel([cr(), kanal()]), rel)
 pruefe('Kanal ohne eigene Bereiche zählt die Crunchyroll-Folgen', ohneRanges.primevideo === 'detail.folgenKurz{"n":23}', ohneRanges)
 
 const weiter = pillen(titel([cr(), kanal({ dubRanges: [{ from: 1, to: 22, dub: true }] })]), [wochenplan(20, 24)])
-pruefe('Auch wenn Prime weiter ist: die Zahl des Anbieters', weiter.primevideo === weiter.crunchyroll && weiter.crunchyroll === 'detail.folgenKurz{"n":20}', weiter)
+pruefe('Ist Prime weiter, bleibt sein Beleg (Vereinigung)', weiter.primevideo === 'detail.folgenBereich{"bereich":"1–22"}' && weiter.crunchyroll === 'detail.folgenKurz{"n":20}', weiter)
+
+/* Lupin III Part 6: ein belegter Bestand wird nie kleiner — Kanal 1–25, Crunchyroll 1–24 ergibt 25 Folgen; ohne eigene Bereiche (so im Bestand) bleibt es bei 25. */
+const lupinEigen = pillen(titel([cr({ dubRanges: [{ from: 1, to: 24, dub: true }] }), kanal({ dubRanges: [{ from: 1, to: 25, dub: true }] })], 25), [])
+pruefe('Lupin: Kanal 1–25, Crunchyroll 1–24 gibt 25 Fg.', lupinEigen.primevideo === 'detail.folgenKurz{"n":25}', lupinEigen)
+const lupinOhne = titelMitTerminBereichen(titel([cr({ dubRanges: [{ from: 1, to: 24, dub: true }] }), kanal()], 25), [])!.streams!
+pruefe('Lupin: Kanal ohne eigene Bereiche erbt keine kleinere Zahl', lupinOhne[1]!.dubRanges === undefined, lupinOhne)
 
 const crBereiche = pillen(titel([cr({ dubRanges: [{ from: 1, to: 21, dub: true }] }), kanal({ dubRanges: bereich19 })]), [])
 pruefe('Ohne Wochenplan übernimmt der Kanal die belegten Bereiche von Crunchyroll', crBereiche.primevideo === crBereiche.crunchyroll, crBereiche)
@@ -89,7 +95,7 @@ const hensukiRanges = [
 ]
 const crRanges = [{ from: 1, to: 12, dub: true }]
 const hensuki = titelMitTerminBereichen(titel([cr({ dubRanges: crRanges }), kanal({ dubRanges: hensukiRanges })], 12), [])!.streams!
-pruefe('Hensuki: der Kanal erbt die Bereiche von Crunchyroll', JSON.stringify(hensuki[1]!.dubRanges) === JSON.stringify(crRanges), hensuki)
+pruefe('Hensuki: „ohne Ton“ am Kanal weicht den Bereichen von Crunchyroll', JSON.stringify(hensuki[1]!.dubRanges) === JSON.stringify(crRanges), hensuki)
 
 /* ADN: der Prime-Kanal „ADN“ führt den Bestand von animationdigitalnetwork.com. */
 const adnKanal = pillen(titel([adn(), kanal({ kanal: 'ADN', dubRanges: [{ from: 1, to: 5, dub: true }] })], 12), [wochenplan(9, 12, 'adn')])

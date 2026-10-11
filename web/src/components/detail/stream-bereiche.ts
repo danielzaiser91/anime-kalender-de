@@ -13,5 +13,5 @@ export function titelMitTerminBereichen(titel: Title | undefined, releases: Rele
   const mitTermin = releases.some((r) => r.releaseType === 'weekly')
     ? titel.streams.map((s) => ({ ...s, dubRanges: bereicheMitTermin(s.dubRanges, releases, s.platform) }))
     : titel.streams
-  return { ...titel, streams: streamsMitKanalBestand(mitTermin) }
+  return { ...titel, streams: streamsMitKanalBestand(mitTermin, releases) }
 }
