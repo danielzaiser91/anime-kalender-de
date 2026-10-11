@@ -23,7 +23,8 @@
  *
  * Die Zuordnung AniList → aniSearch kommt aus der anime-offline-database des
  * manami-Projekts (ODbL). Titelvergleiche wären hier fatal: „.hack//Quantum"
- * und „.hack//Sign" trennt kein Suchindex zuverlässig.
+ * und „.hack//Sign" trennt kein Suchindex zuverlässig. Die Richtung ist fest:
+ * Schlüssel in `data/anime-ids.json` = AniList-ID, Wert = aniSearch-ID (nie umgekehrt).
  *
  * Aufruf: npm run data:anisearch [-- --limit 250]
  */
