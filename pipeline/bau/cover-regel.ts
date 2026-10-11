@@ -5,7 +5,10 @@ import type { Title } from '../../shared/types.ts'
 
 let quellen: CoverQuellen | undefined
 /** Einmal je Bau geladen (das Archiv zu lesen dauert einige Sekunden); der Katalog (`nebendateien.ts`) nutzt dieselben Quellen. */
-export const coverQuellen = (): CoverQuellen => (quellen ??= ladeCoverQuellen())
+const coverQuellen = (): CoverQuellen => (quellen ??= ladeCoverQuellen())
+
+/** Das Cover eines Titels nach der Regel; für Katalogzeilen und die Kopien in `verschoben`, die vor `setzeCoverNachRegel` entstanden. */
+export const coverFuer = (titelId: number, anisearchId: number | undefined): string | undefined => coverNachRegel(titelId, anisearchId, coverQuellen())
 
 /**
  * **Jeder Titel bekommt sein Cover nach der Regel** TMDB → aniSearch → keins (`lib/cover-quelle.ts`), gleich woher das Cover vorher kam.
