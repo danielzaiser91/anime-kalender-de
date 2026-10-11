@@ -54,6 +54,7 @@ QUELLEN=(
   data/sprecher-quellen.json
   data/tmdb-poster.json
   data/tmdb-poster-grund.json
+  data/tmdb-banner.json
   daniel-zum-abarbeiten/listen/cover-ohne-tmdb.md
   data/kitsu-folgen.json
   data/cover-klein.json
