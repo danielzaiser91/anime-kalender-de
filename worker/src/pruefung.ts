@@ -69,7 +69,11 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
    * von davor: Am 05.09.2026 standen vier neue Prime-Auftraege im Bestand, und in
    * der App war die Leiste leer.
    *
-   * Eine Minute deckt genau den Takt ab, in dem die Anzeige ohnehin fragt. Sie
+   * **Seit 11.10.2026 fünf Minuten:** 572 Neuberechnungen am Tag des Massenlaufs lasen 1,04 Mio. Zeilen
+   * (Bericht `d1-leselimit-2026-10-11.md`). Wer gerade selbst meldet, überbrückt die Frist in der
+   * Erweiterung (`frischGemeldet`, hält bis der Stand die Meldung zeigt).
+   *
+   * Eine Minute deckte genau den Takt ab, in dem die Anzeige ohnehin fragt. Sie
    * ist billig: `?stand=1` liest nur die **offenen** Meldungen
    * (`WHERE uebernommen = 0`), nicht die ganze Tabelle — das ist der
    * Unterschied zu `?zaehlen=1`.
