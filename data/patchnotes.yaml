@@ -9,6 +9,9 @@
   text: Filter-Knöpfe überall in gleicher Schrift
   untertitel: Schnellfilter und Filterfenster wirken einheitlich
 - kategorie: bugfix
+  text: Reihen zeigen mehr zugehörige Staffeln, Filme und Specials
+  untertitel: Weniger lose Einzelkarten, mehr Teile je Reihe
+- kategorie: bugfix
   text: Neue Daten erscheinen beim Zurückkehren zur App
   untertitel: Nach längerer Pause lädt die Seite sich still neu
 - kategorie: feature

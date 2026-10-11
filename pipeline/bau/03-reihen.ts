@@ -21,6 +21,7 @@ import { loadWatchLinks } from '../lib/curated.ts'
 import { type AniListMedia } from '../lib/anilist.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { anisearchReihenKanten, anisearchNamensKanten } from './anisearch-titel.ts'
+import { anisearchRelationenKanten } from './anisearch-reihen-pruefliste.ts'
 
 /** Vereint die Titel jeder Kante mit dem ersten ihrer Liste (nur bekannte Titel); gibt die Zahl der Verbindungen zurück. */
 function verbindeKanten(kanten: Array<{ ids?: number[] }>, titles: Map<number, Title>, parent: Map<number, number>, union: (a: number, b: number) => void): number {
@@ -35,6 +36,15 @@ function verbindeKanten(kanten: Array<{ ids?: number[] }>, titles: Map<number, T
     }
   }
   return verbunden
+}
+
+/**
+ * aniSearch-Verbindungen nach der MAL-Brücke: erst die Beziehungen (Alleinstehende wandern zu ihrer Reihe, Verschmelzungen zweier Reihen nur als Prüfliste), dann der Namensvorspann
+ * für die, die danach noch allein stehen. Gibt die Zahl der Verbindungen zurück.
+ */
+function verbindeAnisearch(titles: Map<number, Title>, find: (id: number) => number, ausgenommen: Set<number>, parent: Map<number, number>, union: (a: number, b: number) => void): number {
+  const beziehungen = verbindeKanten(anisearchRelationenKanten(titles, find, ausgenommen), titles, parent, union)
+  return beziehungen + verbindeKanten(anisearchNamensKanten(titles, find), titles, parent, union)
 }
 
 export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anisearch }: {
@@ -199,8 +209,8 @@ export function fuehreReihenZusammen({ byAniId, byMal, titles, tmdbTitles, anise
       ? ((yaml.load(readFileSync(datei, 'utf8')) as Array<{ ids?: number[] }> | null) ?? [])
       : []
     const verbunden = verbindeKanten([...eintraege, ...anisearchReihenKanten(titles)], titles, parent, union)
-      + verbindeKanten(anisearchNamensKanten(titles, find), titles, parent, union)
-    if (verbunden) log(`${verbunden} Reihen-Verbindung(en) aus data/reihen-von-hand.yaml`)
+      + verbindeAnisearch(titles, find, new Set(echteCrossover.keys()), parent, union)
+    if (verbunden) log(`${verbunden} Reihen-Verbindung(en) aus Handdatei und aniSearch`)
   }
 
   for (const title of titles.values()) title.franchiseId = find(title.id)
