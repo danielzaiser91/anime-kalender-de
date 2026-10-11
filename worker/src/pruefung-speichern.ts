@@ -22,6 +22,7 @@ import { zahlOderNull, jetztIso } from './werte.ts'
 import { type Env } from './env.ts'
 import { verarbeiteStapel } from './pruefung-stapel.ts'
 import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
+import { istMeldung, mitTagesdeckel } from './tagesdeckel.ts'
 import { meldungsHash, istUnveraendert, ladeOffeneHashes, type OffeneHashes } from './pruefung-unveraendert.ts'
 
 export async function speicherePruefung(kontext: Kontext) {
@@ -31,8 +32,12 @@ export async function speicherePruefung(kontext: Kontext) {
   } catch {
     return kontext.antwort({ error: 'Kein gültiges JSON' }, 400)
   }
-  const urls = typeof daten.url === 'string' ? [daten.url.trim()] : []
-  return await speichereDaten({ ...kontext, offene: await ladeOffeneHashes(kontext.env, urls) }, daten)
+  /* Aufträge der Pipeline (abhaken, wieder öffnen) bleiben unter dem Tagesdeckel frei. */
+  if (!istMeldung(daten)) return await speichereDaten(kontext, daten)
+  return await mitTagesdeckel(kontext, async (k) => {
+    const urls = typeof daten.url === 'string' ? [daten.url.trim()] : []
+    return await speichereDaten({ ...k, offene: await ladeOffeneHashes(k.env, urls) }, daten)
+  })
 }
 
 /** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */
