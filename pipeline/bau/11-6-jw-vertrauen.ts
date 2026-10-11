@@ -2,6 +2,7 @@ import { readJson, log } from '../lib/util.ts'
 import { type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { dubKey, type DubCheck } from '../lib/dub-confirmed.ts'
+import { primeHakenOhneBeleg, primeTitelMitBeleg, type MeldungEintrag, type UrteilEintrag } from '../lib/haken-beleg.ts'
 import { justwatchDeutsch, titelJeJustwatchKennung, type JwBefund } from '../lib/jw-vertrauen.ts'
 
 /**
@@ -46,4 +47,16 @@ export function kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleCh
     }
   }
   if (gekennzeichnet) log(`${gekennzeichnet} Prime-Wege als „Deutsch laut JustWatch" gekennzeichnet`)
+  bestehePrimeHakenNurMitBeleg({ titles, alleChecks })
+}
+
+/** Zusicherung: kein Prime-Weg trägt ein volles Häkchen ohne Handbeleg, Messurteil oder Meldung — sonst bricht der Bau ab. */
+function bestehePrimeHakenNurMitBeleg({ titles, alleChecks }: { titles: Map<number, Title>; alleChecks: DubCheck[] }) {
+  const urteile = readJson<Record<string, UrteilEintrag>>('data/urteile.json', {})
+  const meldungen = readJson<Record<string, MeldungEintrag>>('data/prime-zugeordnet.json', {})
+  const fehler = primeHakenOhneBeleg(titles.values(), primeTitelMitBeleg(alleChecks, urteile, meldungen))
+  if (!fehler.length) return
+  for (const f of fehler) console.error('  ✖', f)
+  console.error(`\n${fehler.length} Prime-Wege mit vollem Häkchen ohne Beleg — nichts geschrieben.`)
+  process.exit(1)
 }

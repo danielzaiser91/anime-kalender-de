@@ -5,6 +5,7 @@
 import { existsSync } from 'node:fs'
 import { readJson } from './lib/util.ts'
 import { BEFUND_MAX_TAGE, justwatchDeutsch, titelJeJustwatchKennung, type JwBefund, type JwVertrauenEingabe } from './lib/jw-vertrauen.ts'
+import { primeHakenOhneBeleg, primeTitelMitBeleg } from './lib/haken-beleg.ts'
 import type { Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -63,6 +64,24 @@ pruefe('ohne Treffer gilt nicht', !gilt({ befund: befund([], { ohneTreffer: true
 pruefe('ohne Befund gilt nicht', !gilt({ befund: undefined }))
 const jeKennung = titelJeJustwatchKennung({ a: befund([]), b: befund([]), c: befund([], { jwId: 'ts2' }), d: befund([], { jwId: undefined }) })
 pruefe('Titel je JustWatch-Kennung zählt gleiche Kennungen', jeKennung.get('ts1') === 2 && jeKennung.get('ts2') === 1 && jeKennung.size === 2)
+
+// Volles Häkchen bei Prime nur mit Handbeleg, Messurteil oder Meldung (der Bau bricht sonst ab, `11-6-jw-vertrauen.ts`).
+const primeWeg = (id: number, dub?: boolean) => ({ id, titleRomaji: 'X', streams: [{ platform: 'primevideo', url: URL, dub }] }) as unknown as Title
+const belege = (id: number) =>
+  primeTitelMitBeleg(
+    [{ anilistId: id, platform: 'primevideo', dub: true, checkedAt: '2026-10-01' }],
+    { '2|primevideo|1': { urteil: 'deutsch' }, '9|primevideo|1': { urteil: 'kein deutsch' } },
+    { a: { titleId: 3, plattform: 'primevideo', folgen: [{ sprachen: ['Deutsch'] }] } },
+  )
+const ohneBeleg = (id: number, dub?: boolean) => primeHakenOhneBeleg([primeWeg(id, dub)], belege(1)).length
+pruefe('Haken mit Handbeleg gilt', ohneBeleg(1, true) === 0)
+pruefe('Haken mit Messurteil gilt', ohneBeleg(2, true) === 0)
+pruefe('Haken mit Meldung aus der angemeldeten Sitzung gilt', ohneBeleg(3, true) === 0)
+pruefe('Haken ohne jeden Beleg wird gemeldet', ohneBeleg(4, true) === 1)
+pruefe('Messurteil „kein deutsch" belegt kein Häkchen', ohneBeleg(9, true) === 1)
+pruefe('Weg ohne Urteil (auch mit Umriss) ist kein Fehler', ohneBeleg(4, undefined) === 0)
+const handNein = primeTitelMitBeleg([{ anilistId: 5, platform: 'primevideo', dub: false, checkedAt: '2026-10-01' }], {}, {})
+pruefe('Hand-Nein ist kein Beleg für ein Häkchen', primeHakenOhneBeleg([primeWeg(5, true)], handNein).length === 1)
 
 // Echter Bestand (nach einem Bau): nur Prime, nur offene Urteile, nur Adressen mit gti, nur der Hauptbestand.
 const OUT = 'public/data/titles.json'
