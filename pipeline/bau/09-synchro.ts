@@ -92,6 +92,7 @@ export function pruefeSynchroJePlattform({
     alleChecks,
     lautPruefungTot,
     checksJePlattform,
+    belegFuer: belege.belegFuer,
     motnBelege,
     kanalJeAdresse,
   }
