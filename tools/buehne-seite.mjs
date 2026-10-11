@@ -55,8 +55,8 @@ export async function starteBuehne() {
 /** Alle Mockups der Bühne (Namen aus der Übersicht) samt Varianten und Fällen (aus den Knöpfen der Leiste). */
 export async function listeMockups(seite) {
   await seite.goto(`${ADRESSE}#`, { waitUntil: 'load' })
-  await seite.locator('.uebersicht a').first().waitFor()
-  const namen = await seite.$$eval('.uebersicht a', (as) => as.map((a) => decodeURIComponent(a.getAttribute('href').slice(1))))
+  await seite.locator('.uebersicht a[data-mockup]').first().waitFor()
+  const namen = await seite.$$eval('.uebersicht a[data-mockup]', (as) => as.map((a) => a.dataset.mockup))
   const liste = []
   for (const name of namen) {
     await seite.goto('about:blank')
