@@ -436,7 +436,7 @@ const TEXTE = {
   'detail.titleEn': 'Englisch',
   'detail.titleNative': 'Original',
   'detail.scoreHint':
-    'So haben die Nutzer von AniList diesen Anime bewertet.',
+    'So haben die Nutzer von {quelle} diesen Titel bewertet.',
   'detail.editionCount': '{count} Ausgaben',
   'detail.preorderAt': 'Vorbestellen bei {shop}',
   'detail.buyAt': 'Kaufen bei {shop}',

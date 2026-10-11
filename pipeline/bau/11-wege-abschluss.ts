@@ -13,6 +13,7 @@ import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 import { entferneFremdeNachStaffeln, kennungAusAdresse } from './cr-serie-geteilt.ts'
 import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 import { setzeCoverNachRegel } from './cover-regel.ts'
+import { setzeProduktFelder } from './produkt-regel.ts'
 import { log } from '../lib/util.ts'
 
 export function schliesseWegeAb({
@@ -82,4 +83,5 @@ export function schliesseWegeAb({
 
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)
+  setzeProduktFelder(titles)
 }

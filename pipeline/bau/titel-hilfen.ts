@@ -4,13 +4,11 @@ import { type AdnBlock } from '../lib/adn.ts'
 import {
   TAG_AS_GENRE_MIN_RANK,
   TAG_AS_GENRE,
-  KEYWORD_BLOCKLIST,
   platformFromSite,
   germanizeUrl,
   PLATFORM_PRIORITY,
 } from '../../shared/mappings.ts'
 import { isUnusablePrimeLink, platformSearchUrl, primeVideoSearchUrl } from '../../shared/plattform-suche.ts'
-import { KEYWORD_MIN_RANK, KEYWORD_MAX } from './grundlagen.ts'
 import { entwirreWeiterleitung } from '../../shared/adresse-passt.ts'
 import { log, slugify } from '../lib/util.ts'
 import { addDays } from '../../shared/time.ts'
@@ -326,15 +324,6 @@ function mapGenres(media: AniListMedia): string[] {
   return [...new Set([...(media.genres ?? []), ...fromTags])]
 }
 
-function mapKeywords(media: AniListMedia): string[] {
-  return (media.tags ?? [])
-    .filter((t) => !t.isMediaSpoiler && !t.isAdult && t.rank >= KEYWORD_MIN_RANK)
-    .filter((t) => !KEYWORD_BLOCKLIST.has(t.name))
-    .sort((a, b) => b.rank - a.rank)
-    .slice(0, KEYWORD_MAX)
-    .map((t) => t.name)
-}
-
 export function isoDate(d: { year: number | null; month: number | null; day: number | null } | undefined) {
   if (!d?.year) return undefined
   const p = (n: number | null, fallback: string) => (n ? String(n).padStart(2, '0') : fallback)
@@ -410,7 +399,8 @@ export function titleFromMedia(media: AniListMedia, confidence: DubConfidence): 
     jpSeason: media.season ?? undefined,
     jpEnd: isoDate(media.endDate) ?? isoDate(media.startDate), jpStartTag: media.startDate?.day ? isoDatumGenau(media.startDate) : undefined,
     genres: mapGenres(media),
-    keywords: mapKeywords(media),
+    /* Schlagworte und Bewertung setzt `produkt-regel.ts` aus aniSearch; das AniList-Banner gilt nur noch als Übergang für TMDB-Lücken. */
+    keywords: [],
     coverImage: media.coverImage?.extraLarge ?? media.coverImage?.large ?? undefined,
     bannerImage: media.bannerImage ?? undefined,
     synopsis: cleanSynopsis(media.description),
@@ -426,7 +416,7 @@ export function titleFromMedia(media: AniListMedia, confidence: DubConfidence): 
         (media.studios?.nodes ?? []).filter((s) => s.isAnimationStudio !== false).map((s) => s.name),
       ),
     ].slice(0, 3),
-    score: media.averageScore ?? undefined, ...landAusAnilist(media.countryOfOrigin),
+    ...landAusAnilist(media.countryOfOrigin),
     dubConfidence: confidence,
     streams: mapStreams(media),
   }

@@ -488,13 +488,16 @@ export interface Title {
    */
   franchiseId?: number
   genres: string[]
+  /** Schlagworte aus der festen aniSearch-Liste (`shared/schlagworte.ts`), deutsch; Cartoons tragen TMDB-Schlagworte. */
   keywords: string[]
   coverImage?: string
+  /** TMDB-Hintergrundbild; Übergang: wo TMDB keins hat, noch das AniList-Banner (Lückenliste). */
   bannerImage?: string
   synopsis?: string
   studios?: string[]
+  /** Bewertung in Prozent (aniSearch-Klarwert). */
   score?: number
-  /** Woher `score` stammt; fehlt = AniList. Cartoons tragen die TMDB-Wertung. */
+  /** Woher `score` stammt; fehlt = aniSearch. Cartoons tragen die TMDB-Wertung. */
   scoreQuelle?: 'tmdb'
   fsk?: Fsk; fskQuelle?: 'justwatch' // fskQuelle gesetzt = Anbieter-Einstufung (JustWatch), keine FSK-Freigabe
   dubConfidence: DubConfidence; einzelquelle?: boolean // alte Stufe low (true) bzw. nicht low (false), nur wo sie von dubConfidence abweicht (09.10.2026)

@@ -900,10 +900,10 @@ export function ImpressumView() {
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Datenquellen</h2>
         <ul className="ml-4 list-disc space-y-0.5">
           <li>
-            Metadaten: <a className="underline" href="https://anilist.co">AniList</a>; Folgentitel und Folgenlängen, wo keine andere Quelle sie hat: <a className="underline" href="https://kitsu.app">Kitsu</a>
+            Metadaten: <a className="underline" href="https://anilist.co">AniList</a>; Bewertung und Schlagworte: <a className="underline" href="https://www.anisearch.de">aniSearch</a>; Folgentitel und Folgenlängen, wo keine andere Quelle sie hat: <a className="underline" href="https://kitsu.app">Kitsu</a>
           </li>
           <li>
-            FSK und Cover-Bilder: <a className="underline" href="https://www.themoviedb.org">TMDB</a> (ohne TMDB-Plakat: AniList) — diese Seite nutzt die
+            FSK, Cover- und Vorschaubilder: <a className="underline" href="https://www.themoviedb.org">TMDB</a> (ohne TMDB-Bild: AniList) — diese Seite nutzt die
             TMDB-API, ist aber weder von TMDB unterstützt noch zertifiziert <img src="/icons/tmdb.svg" alt="TMDB" width="137" height="18" loading="lazy" className="mt-1 block" /></li>
           <li>
             Wo ein Titel läuft und was er kostet:{' '}

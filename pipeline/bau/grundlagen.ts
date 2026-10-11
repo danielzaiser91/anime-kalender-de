@@ -115,10 +115,6 @@ export const mitAnkuendigung = <T extends { id: number }>(t: T): T =>
 /** Deutsche Sprechrollen, eine Datei je Titel — gefüllt von `data:voices`. */
 export const VOICES_DIR = `${OUT}/voices`
 
-export const KEYWORD_MIN_RANK = 55
-
-export const KEYWORD_MAX = 24
-
 export const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar'
 
 /**
