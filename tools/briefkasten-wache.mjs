@@ -94,43 +94,44 @@ if (!adressen.length) {
 } else {
 
 /*
-  **Eine Adresse fehlt nicht schon dann, wenn sie nicht in der Liste steht.**
-
-  Zwischen Meldung und Liste liegt ein Bau: Was Daniel vor zehn Minuten
-  gemeldet hat, kann noch nirgends stehen und ist trotzdem in Ordnung. Der
-  Befund gilt deshalb erst, wenn **mehr als ein Fünftel** der Adressen fehlt —
-  ein einzelner Nachzügler ist der Normalfall, ein Drittel ist es nicht.
-
-  Das ist dieselbe Überlegung wie bei jeder Zusicherung in diesem Projekt: Unter
-  welchen Umständen ist die Bedingung verletzt, **ohne** dass etwas kaputt ist?
-*/
-/*
-  **Und Nachzügler sind der Normalfall, keine Ausnahme.**
+  **Nachzügler sind der Normalfall — aber nur bis zum nächsten Datenlauf.**
 
   Zwischen Meldung und Liste liegt ein Bau. Wer abends zwanzig Titel meldet,
-  hat am nächsten Morgen zwanzig Adressen im Briefkasten, die noch nirgends
-  stehen — und nichts davon ist verloren. Ein Alarm dagegen wäre der Fehler,
-  vor dem `CLAUDE.md` warnt: eine Prüfung, die zuverlässig zu Unrecht rot wird,
-  ist schlimmer als keine, weil man aufhört hinzusehen.
+  hat am nächsten Morgen Adressen im Briefkasten, die noch nirgends stehen,
+  und nichts davon ist verloren. Eine Prüfung, die dagegen anschlägt, wird
+  zuverlässig zu Unrecht rot (`CLAUDE.md`).
 
-  Gemeldet wird deshalb erst, wenn **deutlich** mehr Adressen ungelistet sind,
-  als ein Abend Arbeit ausmacht. Dann ist nicht Daniel schneller als der Bau,
-  dann kommt nichts an. Seit 11.10.2026 führt die Liste auch, was der Datenlauf
-  wegen unklarer Staffel liegen lässt; bleibt das ungelistet, ist es ein Befund.
+  Ein Befund ist deshalb jede ungelistete Adresse, deren **älteste Meldung über
+  NACHZUEGLER_STUNDEN Stunden** alt ist: Seitdem lief mindestens ein Datenlauf,
+  und die Liste führt auch, was er wegen unklarer Staffel liegen lässt (seit
+  11.10.2026). Das Alter liest die Listenabfrage (`gemeldet_am`); sie darf
+  abgeschnitten sein, denn ein Fund genügt. So geht es ohne Zustand.
 */
-const schwelle = 60
-if (fehlend.length >= schwelle) {
+const NACHZUEGLER_STUNDEN = 24
+const listeAntwort = await fetch(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
+if (!listeAntwort.ok) {
+  console.error(`Meldungsliste antwortet mit HTTP ${listeAntwort.status} — Alter nicht prüfbar.`)
+  process.exit(1)
+}
+const aeltesteMeldung = new Map()
+for (const m of (await listeAntwort.json()).pruefungen ?? []) {
+  const bisher = aeltesteMeldung.get(m.url)
+  if (!bisher || m.gemeldet_am < bisher) aeltesteMeldung.set(m.url, m.gemeldet_am)
+}
+const grenze = new Date(Date.now() - NACHZUEGLER_STUNDEN * 36e5).toISOString()
+const liegengeblieben = fehlend.filter((u) => (aeltesteMeldung.get(u) ?? '') < grenze)
+if (liegengeblieben.length) {
   console.log('')
-  console.log(`⚠  ${fehlend.length} von ${adressen.length} Adressen sind weder zugeordnet noch gelistet:`)
-  for (const u of fehlend.slice(0, 10)) console.log(`   ${u}`)
-  if (fehlend.length > 10) console.log(`   … und ${fehlend.length - 10} weitere`)
+  console.log(`⚠  ${liegengeblieben.length} von ${adressen.length} Adressen sind weder zugeordnet noch gelistet:`)
+  for (const u of liegengeblieben.slice(0, 10)) console.log(`   ${u}`)
+  if (liegengeblieben.length > 10) console.log(`   … und ${liegengeblieben.length - 10} weitere`)
   console.log('')
   console.log('Das heißt: Meldungen kommen weder im Datensatz an noch stehen sie zum Abarbeiten bereit.')
   process.exitCode = 1
 } else {
   console.log(
     fehlend.length
-      ? `${fehlend.length} Adresse(n) noch nicht gelistet — Nachzügler, solange der Briefkasten unter ${schwelle} bleibt.`
+      ? `${fehlend.length} Adresse(n) noch nicht gelistet — Nachzügler, jünger als ${NACHZUEGLER_STUNDEN} Stunden.`
       : 'Alle Adressen sind gelistet.',
   )
 }

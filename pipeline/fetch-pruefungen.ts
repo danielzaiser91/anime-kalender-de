@@ -1308,9 +1308,9 @@ for (const gruppe of jeAdresse.values()) {
     uebernommen++
     geschrieben++
   }
-  /* Nichts geschrieben, nichts abgehakt: sonst läge die Meldung unbemerkt im Briefkasten (Kengan Ashura, 11.10.2026). */
+  /* Nichts geschrieben und nicht abgehakt (der Kanal-Zweig oben hakt selbst ab): sonst läge die Meldung unbemerkt im Briefkasten (Kengan Ashura, 11.10.2026). */
   if (geschrieben) for (const x of gruppe) erledigteIds.add(x.id)
-  else liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
+  else if (!erledigteIds.has(gruppe[0]!.id)) liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
 }
 
 if (zeilen.length && !TROCKEN) {
