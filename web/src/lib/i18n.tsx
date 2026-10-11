@@ -596,7 +596,6 @@ const TEXTE = {
   */
   'antwort.teilweiseZahl': '{raus} von {gesamt} Folgen auf Deutsch',
   'antwort.teilweiseNeben': 'Übrige Folgen: nicht auf Deutsch belegt',
-  'antwort.teilweiseOffen': 'Folge {n}: Termin noch offen',
   'kostenlos.ganz': 'Kostenlos',
   'kostenlos.teil': 'Teilweise kostenlos',
   'kostenlos.zahl': '{frei} von {von} Folgen',
@@ -604,8 +603,6 @@ const TEXTE = {
   'bereich.kauf': 'Kauf / Leihe',
   'bereich.tv': 'TV',
   'bereich.unbekannt': 'Weitere',
-  'bereich.offen': 'Weitere Anbieter',
-  'antwort.sprachOffen': 'Anbieter, Sprache offen',
   // Steht unter der Überschrift bei Titeln, zu denen wir keinen eigenen Termin
   // haben — 1.985 Stück. „Seit" statt „erschienen am": aniSearch nennt die
   // deutsche Erstveröffentlichung, oft eine DVD, und bei einem Simuldub sogar
@@ -721,10 +718,6 @@ const TEXTE = {
     'Alle kommenden Folgen als Kalenderdatei. Ein Doppelklick trägt sie in Outlook, Apple Kalender oder Thunderbird ein. Für Google Calendar gibt es den Knopf daneben.',
   'detail.share': 'Teilen',
   'detail.shareHint': 'Kopiert einen Link, der diesen Titel mit eigenem Vorschaubild zeigt',
-  'kopf.merken': 'Merken',
-  'kopf.gemerkt': 'Gemerkt',
-  'kopf.kopiert': 'Kopiert',
-  'kopf.ausblenden': 'Ausblenden',
   'detail.source': 'Quelle',
   'detail.whyNoTime': 'Warum steht hier keine Uhrzeit?',
   'filter.available': 'stream verfügbar',

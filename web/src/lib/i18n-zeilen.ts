@@ -1,4 +1,4 @@
-/** Texte der Anbieterzeilen und ihrer Legende (`components/detail/anbieter-zeile.tsx`); `TEXTE` in `i18n.tsx` nimmt sie über `i18n-kalender.ts` auf. */
+/** Texte der Anbieterzeilen, ihrer Legende und des Panel-Kopfs (`components/detail/anbieter-zeile.tsx`, `aktionen.tsx`); `TEXTE` in `i18n.tsx` nimmt sie über `i18n-kalender.ts` auf. */
 export const TEXTE_ZEILEN = {
   'detail.statusDeutsch': '✓ Deutsch',
   'detail.statusJustwatch': 'laut JustWatch',
@@ -7,4 +7,11 @@ export const TEXTE_ZEILEN = {
   'detail.legendeJustwatch': '„laut JustWatch“: deutsche Tonspur dort gelistet, von uns nicht je Folge geprüft.',
   'detail.legendeOffen': '„Sprache offen“: Deutsch ist bei diesem Anbieter nicht belegt.',
   'detail.legendeGeschaetzt': '„≈“: Zahl des Werks, beim Anbieter nicht einzeln belegt.',
+  'bereich.offen': 'Weitere Anbieter',
+  'antwort.sprachOffen': 'Anbieter, Sprache offen',
+  'antwort.teilweiseOffen': 'Folge {n}: Termin noch offen',
+  'kopf.merken': 'Merken',
+  'kopf.gemerkt': 'Gemerkt',
+  'kopf.kopiert': 'Kopiert',
+  'kopf.ausblenden': 'Ausblenden',
 } as const
