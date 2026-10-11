@@ -8,23 +8,40 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { readJson, ROOT } from './lib/util.ts'
-import { eingearbeiteteAdressen } from './lib/eingearbeitet.ts'
-import { artikelNummer, eintragEntwurf, tabelle, urteile } from './lib/anime2you-entwurf.ts'
+import yaml from 'js-yaml'
+import { artikelNummer, eintragEntwurf, tabelle, urteile, type Bestandseintrag } from './lib/anime2you-entwurf.ts'
 import type { Bestand } from './lib/anime2you-bestand.ts'
 
 const wert = (name: string, vorgabe: string): string => process.argv[process.argv.indexOf(name) + 1] ?? vorgabe
 const bestandsDatei = process.argv.includes('--bestand') ? wert('--bestand', '') : resolve(ROOT, 'data/proposals/anime2you-extraktion.json')
 const ausgabe = process.argv.includes('--ausgabe') ? wert('--ausgabe', '') : resolve(ROOT, 'data/proposals/anime2you-entwurf.yaml')
 
-function curatedSlugs(): string[] {
+interface Roh {
+  slug: string
+  search?: string
+  titleDe?: string
+  platform: string
+  sender?: string
+  schedule?: { firstEpisodeDate?: string }
+  sources?: string[]
+}
+
+function curatedEintraege(): Bestandseintrag[] {
   const ordner = resolve(ROOT, 'data/curated')
   const dateien = readdirSync(ordner).filter((f) => /\.ya?ml$/.test(f))
-  return dateien.flatMap((f) => [...readFileSync(resolve(ordner, f), 'utf8').matchAll(/^\s*-?\s*slug:\s*(\S+)/gm)].map((m) => m[1]!))
+  const roh = dateien.flatMap((f) => (yaml.load(readFileSync(resolve(ordner, f), 'utf8')) as Roh[] | null) ?? [])
+  return roh.map((e) => ({
+    slug: e.slug,
+    titel: [e.search, e.titleDe].filter((t): t is string => !!t),
+    platform: e.platform,
+    sender: e.sender,
+    datum: e.schedule?.firstEpisodeDate,
+    artikel: (e.sources ?? []).map(artikelNummer).filter((n): n is string => !!n),
+  }))
 }
 
 const bestand = readJson<Bestand>(bestandsDatei, { gelesen: {}, vorschlaege: [] })
-const artikel = new Set([...eingearbeiteteAdressen()].map(artikelNummer).filter((n): n is string => !!n))
-const liste = urteile(bestand.vorschlaege, artikel, curatedSlugs())
+const liste = urteile(bestand.vorschlaege, curatedEintraege())
 const neu = liste.filter((u) => u.status === 'neu')
 const kopf = [
   '# Entwurf aus data/proposals/anime2you-extraktion.json (npx tsx pipeline/anime2you-entwurf.ts).',

@@ -30,17 +30,59 @@ const URTEILE: [(v: GespeicherterVorschlag) => boolean, string][] = [
 /** Der Slug, unter dem ein Handeintrag zu diesem Vorschlag stünde (Titel, bei Fernsehen der Sender). */
 export const entwurfSlug = (v: GespeicherterVorschlag): string => slugify(`${v.titel} ${v.plattform === 'tv' ? (v.sender ?? '') : ''}`)
 
+/** Ein Eintrag aus `data/curated/`, soweit der Abgleich ihn braucht. */
+export interface Bestandseintrag {
+  slug: string
+  /** `search` und `titleDe`. */
+  titel: string[]
+  platform: string
+  sender?: string
+  /** `schedule.firstEpisodeDate`. */
+  datum?: string
+  /** Kennungen der Anime2You-Artikel in `sources`. */
+  artikel: string[]
+}
+
+const glatt = (s: string): string => s.toLowerCase().replace(/[^\p{L}\d]+/gu, '')
+
+/** Gleicher Weg (bei Fernsehen gleicher Sender) wie der Vorschlag. */
+const gleicherWeg = (v: GespeicherterVorschlag, e: Bestandseintrag): boolean =>
+  e.platform === v.plattform && (v.plattform !== 'tv' || glatt(e.sender ?? '') === glatt(v.sender ?? ''))
+const gleicherTitel = (v: GespeicherterVorschlag, e: Bestandseintrag): boolean => e.titel.some((t) => glatt(t) === glatt(v.titel))
+
 /**
- * Jeden Vorschlag einordnen. `artikel` sind die Kennungen der Artikel, die schon als Quelle in den Handdateien stehen, `slugs` die Slugs von `data/curated/`.
+ * Steht der Vorschlag schon im Bestand? Titelebene: gleicher Titel (`search`/`titleDe`), gleicher Weg und gleicher Starttag. Ein Artikel oder
+ * Slug allein genügt nicht: Sammelartikel nennen mehrere Titel, und „one-piece“ ist auch „one-piece-film-…“.
  */
-export function urteile(liste: GespeicherterVorschlag[], artikel: Set<string>, slugs: string[]): Urteil[] {
+export function bestandsTreffer(v: GespeicherterVorschlag, bestand: Bestandseintrag[]): Bestandseintrag | undefined {
+  return bestand.find((e) => gleicherWeg(v, e) && gleicherTitel(v, e) && e.datum === v.datum)
+}
+
+/** Ein Eintrag, der nicht als Treffer zählt, aber zum Gegenlesen gehört: derselbe Titel an anderem Tag, oder derselbe Artikel, Weg und Tag unter anderem Namen. */
+function verwandterEintrag(v: GespeicherterVorschlag, bestand: Bestandseintrag[]): string | undefined {
+  const andererTag = bestand.find((e) => gleicherWeg(v, e) && gleicherTitel(v, e))
+  if (andererTag) return `${andererTag.slug} besteht mit Tag ${andererTag.datum ?? '–'} – anderer Termin oder Korrektur?`
+  const andererName = bestand.find((e) => gleicherWeg(v, e) && e.datum === v.datum && e.artikel.includes(v.artikelId))
+  return andererName ? `${andererName.slug} hat denselben Artikel, Weg und Tag unter anderem Titel – vermutlich derselbe, gegenlesen` : undefined
+}
+
+
+/** „Ab sofort“ ist kein Erscheinungstag; es belegt nur, dass der Titel am Tag des Artikels schon im Angebot war. */
+const AB_SOFORT = /\bab sofort\b|\bseit heute\b/i
+
+function ohneTag(v: GespeicherterVorschlag, grund: string): string {
+  return !v.datum && AB_SOFORT.test(v.zitat) ? `${grund}; im Angebot spätestens seit ${v.veroeffentlicht}` : grund
+}
+
+/** Jeden Vorschlag einordnen; `bestand` sind die Einträge von `data/curated/`. */
+export function urteile(liste: GespeicherterVorschlag[], bestand: Bestandseintrag[]): Urteil[] {
   return liste.map((v) => {
     const unbelastbar = URTEILE.find(([trifft]) => trifft(v))
-    if (unbelastbar) return { v, status: 'nicht belastbar', grund: unbelastbar[1] }
-    if (artikel.has(v.artikelId)) return { v, status: 'schon drin', grund: `Artikel ${v.artikelId} ist schon Quelle` }
-    const slug = entwurfSlug(v)
-    const gleich = slugs.find((s) => s === slug || s.startsWith(`${slug}-`))
-    return gleich ? { v, status: 'schon drin', grund: `Slug ${gleich} besteht` } : { v, status: 'neu', grund: '' }
+    if (unbelastbar) return { v, status: 'nicht belastbar', grund: ohneTag(v, unbelastbar[1]) }
+    const treffer = bestandsTreffer(v, bestand)
+    if (treffer) return { v, status: 'schon drin', grund: `Eintrag ${treffer.slug}: Titel, Weg und Starttag gleich` }
+    const verwandt = verwandterEintrag(v, bestand)
+    return { v, status: 'neu', grund: verwandt ?? 'kein Eintrag mit Titel, Weg und Starttag' }
   })
 }
 
