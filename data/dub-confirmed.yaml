@@ -23121,3 +23121,48 @@
   available: false
   checkedAt: '2026-10-11'
   note: "Amazon-Seite B09KWVKG2Q: nur 0 von 1 Folgen geladen — Rest ungeprüft, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.237c16e0-202b-43b5-970a-088e68cee574 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-12 ---
+
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 24
+      to: 35
+      dub: true
+      checked: [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35]
+  checkedAt: '2026-10-11'
+  note: "Folgen 24–35 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 7: Drift Problem"
+- anilistId: -1433
+  title: "American Dad"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-5b4ab988-e3a7-4750-a11a-9aa3d65f8cfe
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 161
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–161 mit deutschem Ton — Tonspuren: cs, de, en, es-419, es-ES, fr-FR, hu, it, pl, pt-BR"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 102
+      to: 110
+      dub: true
+      checked: [102, 103, 104, 105, 106, 107, 108, 109, 110]
+  checkedAt: '2026-10-11'
+  note: "Folgen 102–110 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 9, dazwischen nicht geprüft — Folge 4: Dinner mit dem Zarglorp"
+- anilistId: -8620
+  title: "Do, Re & Mi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09KD5F1GG
+  available: false
+  checkedAt: '2026-10-11'
+  note: "Amazon-Seite B09KD5F1GG: nur 0 von 1 Folgen geladen — Rest ungeprüft, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.2e22c3e0-f391-4dd0-8b24-13e83fca8aee — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
