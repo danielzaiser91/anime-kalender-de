@@ -1952,7 +1952,7 @@ Seitdem legt `laufendeSynchro()` in `tools/verdacht.mjs` jeden jüngsten Beleg e
 **vorne deutsch und hinten nicht** ist, sieben Tage nach seinem `checkedAt`. Jede neue Meldung
 schiebt die Frist, eine komplette Synchro (letzter Bereich deutsch) beendet sie. Ausgenommen:
 japanisches Ende über ein Jahr her — dort ist eine halbe Synchro ein Endzustand. Test:
-`tools/verdacht-laufend.test.mjs` in `check:wiedervorlage`.
+`tools/verdacht-laufend.test.mjs` in `check:workflows` (über `tools/tests-alle.mjs`).
 
 **Disney+ kannte Wiedervorlagen gar nicht.** `disney.js` zählte jede Meldung aller Zeiten: Eine
 wieder vorgelegte Seite zeigte „✓ gemeldet", die Liste „alles gemeldet". Jetzt trägt der

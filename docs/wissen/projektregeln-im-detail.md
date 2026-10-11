@@ -445,7 +445,7 @@ in D1).
 
 **Wer einen Handbeleg auf eine andere Kennung umhängt, fährt `check:handbelege` vorher mit.** Das steht nicht in `check:vor-commit` (es braucht den gebauten Datensatz) und bricht den Bau ab, wenn die neue Kennung nicht im Bestand steht — am 16.09.2026 bei drei umgehängten Prime-Belegen (Lauf 35125372002). Entweder die Staffel kommt über `synchro-von-hand.yaml` in den Bestand, oder der Beleg trägt `nichtImBestand: true` mit dem Grund in der Notiz.
 
-**Neuer Check = neue Zeile in `tools/check-logic-liste.txt`** (nicht in `package.json`; `tools/check-logic-alle.mjs` führt die Liste der Reihe nach aus). Die Zeile mitten in die Liste setzen, nicht ans Ende: zwei Zweige, die dieselbe Stelle ergänzen, kollidieren trotzdem (10.10.2026 mit `git merge-file` gemessen).
+**Neuer Check = neue Zeile in `tools/check-logic-liste.txt`** (nicht in `package.json`; `tools/check-logic-alle.mjs` führt die Liste der Reihe nach aus). Die Liste ist alphabetisch sortiert (Pflicht, `check-logic-alle.mjs` prüft es; seit 11.10.2026): die Zeile an die passende Stelle setzen, nicht ans Ende, denn zwei Zweige, die dieselbe Stelle ergänzen, kollidieren (10.10.2026 mit `git merge-file` gemessen). **Neuer Test `tools/<name>.test.mjs` = nur die Datei anlegen:** `tools/tests-alle.mjs` (in `check:workflows`) führt jede `tools/*.test.mjs` aus, kein Eintrag in `package.json`.
 
 **Auch ein reiner Daten-Commit läuft durch `check:logic`.** Am 15.09.2026 gingen im Durchgang
 morgens mehrere Handbeleg-Commits ohne Prüfkette raus; zwei davon (FGO 1–22 bei 21 Folgen,
