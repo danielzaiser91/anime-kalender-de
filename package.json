@@ -128,6 +128,8 @@
     "check:panel": "node tools/panel-bild.mjs",
     "buehne:faelle": "node tools/buehne-faelle.mjs",
     "buehne:bauen": "vite build --config vite.buehne.config.ts",
+    "buehne:bilder": "npm run buehne:bauen && node tools/buehne-bilder.mjs",
+    "buehne:messen": "npm run buehne:bauen && node tools/buehne-messen.mjs",
     "check:tooltip": "node tools/tooltip-pruefen.mjs",
     "check:datumsprung": "node tools/datum-sprung-bild.mjs",
     "check:trailer": "node tools/trailer-dialog-bild.mjs",
