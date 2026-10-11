@@ -37,7 +37,10 @@
         "offene-netflix.js",
         "pruefstand-zeit.js",
         "protokoll.js",
+        "disney-netz.js",
         "netflix-gemeldet.js",
+        "netflix-durchgang-schutz.js",
+        "netflix-uebernahme.js",
         "melder.js",
         "netflix-protokoll.js"
       ],

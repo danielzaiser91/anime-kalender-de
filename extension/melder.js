@@ -1547,8 +1547,7 @@ function seiteGehtUnsAn() {
  * die Lage der letzten Seite, aber nicht, **warum** die Automatik jede übersprungen hat — das
  * stand nur in der Konsole, und die war beim Berichtschreiben längst weitergescrollt.
  *
- * Zwanzig Einträge reichen für einen Durchgang über zwanzig Titel; mehr hält die Automatik
- * ohnehin nicht durch (`SELBST_HOECHSTENS`).
+ * Die letzten sechzig Einträge reichen; ältere fallen hinten heraus.
  */
 const DURCHGANG_SPUR = []
 function spur(was, dazu) {
@@ -2205,7 +2204,7 @@ function fertig(id, eintrag) {
   */
   if (standZieleNetflix) {
     return (
-      !standZieleNetflix.has(`https://www.netflix.com/title/${id}`) || frischGemeldetNetflix.has(String(id))
+      !standZieleNetflix.has(`https://www.netflix.com/title/${id}`) || frischGemeldetNetflix.has(String(id)) || akNetflixWartet.has(String(id))
     )
   }
   if (istErledigt(id, 'tot')) return true
@@ -2294,6 +2293,7 @@ async function standHolen() {
       }
     }
     uebersichtZeigen()
+    void akNetflixUebernahme(standZieleNetflix, offeneTitel, WORKER).then(uebersichtZeigen)
   } catch {
     /* Ohne Netz bleibt die lokale Zählung stehen. */
   }
@@ -2381,9 +2381,9 @@ let selbstAn = false
  * **Ein Knopf, kein Schalter**. Der Schalter blieb an und startete danach auf
  * jedem Listentitel, den Daniel besuchte. Jetzt stößt „▶ alle durchgehen" **einen** Lauf an;
  * gemerkt wird nur, dass er läuft, weil jede Netflix-Seite das Skript neu startet. Er endet von
- * selbst: nichts mehr offen, Abbruch, Störung, Obergrenze — und spätestens nach zwei Stunden.
+ * selbst: nichts mehr offen, Abbruch, Störung, Schutz — und spätestens nach sechs Stunden (20 Titel: 12 Minuten, 11.10.2026).
  */
-const LAUF_HOECHSTENS_MS = 2 * 60 * 60 * 1000
+const LAUF_HOECHSTENS_MS = 6 * 60 * 60 * 1000
 /*
   **Der Lauf gehört dem Tab, der ihn gestartet hat** (21.09.2026). In 4.20.48–4.20.50 stand der
   Merker in `chrome.storage.local` — den teilen alle Tabs. Daniel sah in einem zweiten Tab
@@ -2439,7 +2439,7 @@ function durchgangEndeZeigen() {
       zeile.appendChild(el)
     }
     const namen = durchgangEnde.uebersprungen.map((r) => offeneTitel[r]?.titel ?? r)
-    const regulaer = durchgangEnde.grund === 'kein offener Auftrag mehr' || durchgangEnde.grund.endsWith('geschafft')
+    const regulaer = durchgangEnde.grund === 'kein offener Auftrag mehr'
     el.textContent =
       (regulaer ? 'Durchgang fertig' : `Durchgang abgebrochen · ${durchgangEnde.grund}`) +
       (namen.length ? ` · übersprungen: ${namen.join(', ')}` : '')
@@ -2467,6 +2467,7 @@ function laufStarten() {
   if (!hierAuftrag && !naechsterAuftrag()) return false
   selbstAn = true
   selbstGezaehlt = 0
+  selbstGrenze = Object.keys(offeneTitel).length
   selbstVersucht = null
   selbstUebersprungen.clear()
   selbstStaffelnGeprueft.clear()
@@ -2782,13 +2783,15 @@ function istAlleFolgenEintrag(text) {
 
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
 function selbstWeiter() {
-  if (selbstGezaehlt >= SELBST_HOECHSTENS) return laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
+  selbstGrenze ??= Object.keys(offeneTitel).length
+  const schutz = akDurchgangSchutz(selbstGezaehlt, selbstGrenze, LAUF_SCHLUESSEL, LAUF_HOECHSTENS_MS)
+  if (schutz) return laufBeenden(schutz)
   const naechster = naechsterAuftrag()
   if (!naechster) return laufBeenden('kein offener Auftrag mehr')
   selbstGezaehlt++
   console.log(
     `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
-      `(${selbstGezaehlt}/${SELBST_HOECHSTENS})`,
+      `(${selbstGezaehlt}/${selbstGrenze})`,
   )
   /* Wie ein Klick aus der Liste — damit die Zielseite den Auftrag erbt. */
   void speicherSchreiben({ zuletztGeoeffnet: { id: String(naechster), zeit: Date.now() } })
@@ -2796,13 +2799,9 @@ function selbstWeiter() {
   gehe(`/title/${naechster}`)
 }
 
-/**
- * **Wie viele Titel dieser Sitzung selbsttätig durchlaufen wurden:** 20 sind eine Stunde. Die
- * Grenze schützt gegen einen Lauf, der sich verrennt und Folgen ohne Ende in Daniels Konto öffnet
- * (Lehre vom 26.08.2026: der erste One-Piece-Lauf erzeugte 42 falsche Meldungen).
- */
+/** Wie viele Titel dieser Lauf angesprungen hat; `selbstGrenze` = bei Laufbeginn offene Titel (siehe `netflix-durchgang-schutz.js`). */
 let selbstGezaehlt = 0
-const SELBST_HOECHSTENS = 20
+let selbstGrenze = null
 
 /**
  * **Die nächste Adresse, die noch etwas zu holen hat.**
@@ -3879,6 +3878,7 @@ async function durchlaufStarten(grenze) {
   /* Der Takt hält sich ab jetzt heraus — siehe durchlaufLaeuftHier(). */
   durchlaufFlagSetzen(true)
   DURCHLAUF.abbruch = false
+  DURCHLAUF.abbruchGrund = null
   DURCHLAUF.stoerung = null
   DURCHLAUF.angenommen = null
   /*
@@ -4152,10 +4152,10 @@ async function durchlaufStarten(grenze) {
       (a, b) => a.folge.nummer - b.folge.nummer,
     )
     if (ersteFolge.deutsch === letzteFolge.deutsch) {
-      await randMelden(DURCHLAUF.randprobe, ersteFolge, letzteFolge.folge.nummer, [
+      akRandAusfall(DURCHLAUF, await randMelden(DURCHLAUF.randprobe, ersteFolge, letzteFolge.folge.nummer, [
         ersteFolge.folge.nummer,
         letzteFolge.folge.nummer,
-      ])
+      ]))
       /*
         **Die Annahme gehört an den Knopf, nicht nur in die Notiz.** Daniel am
         11.09.2026: „wenn es dazu führt das e2-e25 als dub true gekennzeichnet
@@ -4221,7 +4221,7 @@ async function durchlaufStarten(grenze) {
     schließen).
   */
   if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
-    laufBeenden(DURCHLAUF.abbruch ? (globalThis.AK_TAGESLIMIT?.grund('abgebrochen') ?? 'abgebrochen') : `Störung ${DURCHLAUF.stoerung}`)
+    laufBeenden(DURCHLAUF.abbruch ? (globalThis.AK_TAGESLIMIT?.grund(DURCHLAUF.abbruchGrund ?? 'abgebrochen') ?? DURCHLAUF.abbruchGrund ?? 'abgebrochen') : `Störung ${DURCHLAUF.stoerung}`)
   }
   if (DURCHLAUF.selbst && selbstAn && !DURCHLAUF.abbruch && !DURCHLAUF.stoerung) {
     /* Zwei Titel in einer Netflix-Staffel: der zweite kommt auf derselben Seite dran oder eine weitere Staffel (höchstens sechs Anläufe je Seite). */
@@ -4232,8 +4232,7 @@ async function durchlaufStarten(grenze) {
     if (selbstRundenHier < SELBST_RUNDEN_JE_TITEL) {
       selbstVersucht = null
       setTimeout(() => void vielleichtSelbstStarten(), 1500)
-    } else if (selbstGezaehlt >= SELBST_HOECHSTENS) laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
-    else selbstWeiter()
+    } else selbstWeiter()
   }
   if (DURCHLAUF.stoerung) {
     /*
