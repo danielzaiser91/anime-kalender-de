@@ -17,6 +17,8 @@ import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
+import { setzeStaffeln } from './cartoon-staffeln.ts'
+import type { Staffel } from '../lib/jw-staffeln.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
 import { findeAnisearchDubletten, zeilenMitKennungWeg, type DublettenUrteil } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
@@ -143,7 +145,7 @@ export function schreibeCartoons(): void {
     Tonspur-Angabe bleibt unbenutzt (CLAUDE.md, JustWatch gilt der Serie).
     Abonnement vor Kauf, wenn beide dasselbe Ziel haben.
   */
-  const jw = readJson<Record<string, { angebote?: (JwAngebotTon & { url?: string })[] }>>(
+  const jw = readJson<Record<string, { angebote?: (JwAngebotTon & { url?: string })[]; staffeln?: Staffel[] }>>(
     'data/justwatch-audio.json',
     {},
   )
@@ -187,6 +189,7 @@ export function schreibeCartoons(): void {
   }
   if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)
   setzeTonHinweise(titel, jw, belege)
+  setzeStaffeln(titel, roh, jw)
   ordneCartoonReihen(titel)
   writeJson(`${OUT}/cartoons.json`, titel)
   log(`${titel.length} westliche Animationsserien geschrieben`)

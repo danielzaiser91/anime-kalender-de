@@ -21,6 +21,7 @@
  */
 import { PLATFORMS, type PlatformId, type StreamLink, type Title } from '../../shared/types.ts'
 import { slugify } from './util.ts'
+import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 
 export interface CartoonEintrag {
   id: number
@@ -41,6 +42,7 @@ export interface CartoonEintrag {
   stimmen?: number
   banner?: string
   keywords?: string[]
+  staffeln?: CartoonStaffel[]
   stand?: number
   geholtAm: string
 }

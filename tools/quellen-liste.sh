@@ -351,6 +351,8 @@ QUELLEN=(
   # entfernt sie und legt die Frage hier ab (10.09.2026).
   daniel-zum-abarbeiten/listen/18-suchadressen.md
   data/suchadressen-offen.json
+  # Cartoons, deren Staffelangaben sich widersprechen oder nicht zur Gesamtfolgenzahl passen (11.10.2026).
+  data/cartoon-staffeln-pruefliste.json
   daniel-zum-abarbeiten/listen/12-verpasste-termine.md
   daniel-zum-abarbeiten/listen/13-tonspur-verdacht.md
   daniel-zum-abarbeiten/listen/07-crunchyroll.md

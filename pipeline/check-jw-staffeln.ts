@@ -34,6 +34,8 @@ pruefe('doppeltes Angebot (je Auflösung) steht einmal', s?.[0]?.angebote.length
 pruefe('Ton und Adresse bleiben erhalten', s?.[0]?.angebote[0]?.audio.join() === 'de' && s[0].angebote[0].url === 'https://example.test/Prime')
 const art = staffelnVon([staffel(1, [angebot('FLATRATE', 'Prime', ['de']), angebot('FREE', 'Prime', ['de'])])])
 pruefe('dasselbe Angebot in zwei Arten (Abo, gratis) bleibt zweimal', art?.[0]?.angebote.length === 2)
+const mitZahl = staffelnVon([{ ...staffel(1, []), totalEpisodeCount: 13 }, { ...staffel(2, []), totalEpisodeCount: 0 }, staffel(3, [])])
+pruefe('Folgenzahl der Staffel bleibt erhalten, fehlende oder 0 gibt kein Feld', mitZahl?.[0]?.folgen === 13 && mitZahl[1].folgen === undefined && mitZahl[2].folgen === undefined)
 
 const serie = { geprueftAm: '2026-09-01', jwId: 'ts1', jwPfad: '/de/Serie/x' }
 pruefe('Serie ohne Staffelangaben wird nachgeholt', staffelnFehlen(serie))
