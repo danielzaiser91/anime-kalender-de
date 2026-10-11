@@ -4,7 +4,6 @@ import { formatDate, weekdayName } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { type ReactNode, useState } from 'react'
 import { useFolgenZaehlung } from './folgen-bereich.tsx'
-import { kostenloseFolgen, kostenlosEtikett } from '@shared/kostenlos.ts'
 import { Countdown, sendetageText } from './hilfen.tsx'
 import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
@@ -14,7 +13,7 @@ import { gruppeVon as gruppeVonPille, sichtbareStreamPillen, type Gruppe } from 
 import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText } from './antwort-regeln.ts'
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
-import { teilweiseNeben } from './kasten-texte.ts'
+import { kostenlosKopfVon, teilweiseNeben } from './kasten-texte.ts'
 
 /**
  * „Auf Deutsch seit …" — die Nebenzeile aus `deErstausgabe`.
@@ -241,28 +240,7 @@ export function AntwortKasten({
     zwei Ordnungen, und beim zweiten sah es nach Fehler aus.
   */
   const mitBereichen = !aktivDisc && pillen.length > 0
-  const kostenlosKopf = (() => {
-    if (!mitBereichen || !pillen.some((p) => gruppeVon(p) === 'frei')) return undefined
-    const k = kostenloseFolgen(title)
-    const deutsch =
-      title.format === 'MOVIE' || title.episodes === 1
-        ? 1
-        : antwort.art === 'fertig'
-          ? antwort.gesamt
-          : antwort.art === 'teilweise' || antwort.art === 'laeuft'
-            ? antwort.raus
-            : undefined
-    const belegtMax = Math.max(
-      0,
-      ...(title.streams ?? []).map((s) =>
-        (s.dubRanges ?? []).filter((r) => r.dub).reduce((n, r) => n + r.to - r.from + 1, 0),
-      ),
-    )
-    const von = deutsch || belegtMax || undefined
-    return kostenlosEtikett(k, von) === 'teil'
-      ? `${T('kostenlos.teil')} · ${T('kostenlos.zahl', { frei: k!.frei!, von: von! })}`
-      : T('kostenlos.ganz')
-  })()
+  const kostenlosKopf = mitBereichen && pillen.some((p) => gruppeVon(p) === 'frei') ? kostenlosKopfVon({ title, antwort, T }) : undefined
 
   /** Relative Angabe zuerst — niemand rechnet gern nach, welcher Tag der 25. ist. */
   const relativ = (datum: string): string => {
