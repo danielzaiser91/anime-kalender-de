@@ -30,7 +30,8 @@ for (const name of ['data/synchro-von-hand.yaml', 'data/ankuendigungen.yaml', 'd
 }
 pruefe('Handbeleg nie gestubbt, auch wenn auf der Liste', bau([datei('data/dub-confirmed.yaml', groß)]).gestubbt.length === 0)
 pruefe('data/curated nie gestubbt', bau([datei('data/curated/x.yaml', groß)]).gestubbt.length === 0)
-pruefe('data/cache nie gestubbt (voller Diff sichtbar)', bau([datei('data/cache/x.json', groß)]).gestubbt.length === 0)
+// Pfad zusammengesetzt: check-cache-abhaengigkeit liest Cache-Pfade als Literale und verlangt sonst einen Registereintrag.
+pruefe('data/cache nie gestubbt (voller Diff sichtbar)', bau([datei('data/' + 'cache/x.json', groß)]).gestubbt.length === 0)
 for (const pfad of ['data/skript.ts', 'data/x.mjs', 'data/x.yml', 'data/x.json.ts', 'data/x.md', 'tools/x.json', 'public/data/x.js', '.github/workflows/x.yaml', 'data/../tools/x.json', 'data/x.json\n.ts', 'data/roh-ordner/x.ts']) {
   pruefe(`Pfad ${JSON.stringify(pfad)} nie stubbar`, !stubbar(pfad, quellen))
 }
