@@ -45,6 +45,8 @@ import { recordSource } from './lib/health.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
+import { STAFFELN_ABFRAGE, staffelnVon, type Staffel, type StaffelRoh } from './lib/jw-staffeln.ts'
+import { staffelnFehlen, vertrauensBefundAlt } from './lib/jw-wiedervorlage.ts'
 
 const ENDPUNKT = 'https://apis.justwatch.com/graphql'
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
@@ -72,6 +74,8 @@ interface Befund {
    * nicht danach gefragt; `null` = JustWatch nennt keine. Anbieter-Einstufung, keine FSK-Freigabe (08.10.2026).
    */
   altersangabe?: string | null
+  /** Ton und Adresse je Staffel (Serien, seit 11.10.2026) — nur gesammelt, `lib/jw-staffeln.ts`. */
+  staffeln?: Staffel[]
   angebote: Angebot[]
   /** Kein Treffer bei JustWatch — festgehalten, damit der Titel nicht täglich neu gesucht wird. */
   ohneTreffer?: boolean
@@ -100,7 +104,7 @@ query Suche($q: String!, $country: Country!, $language: Language!) {
           subtitleLanguages
           standardWebURL
           package { clearName }
-        }
+        }${STAFFELN_ABFRAGE}
       }
     }
   }
@@ -119,6 +123,7 @@ interface JwKnoten {
         package?: { clearName?: string } | null
       }[]
     | null
+  seasons?: StaffelRoh[] | null
 }
 
 /**
@@ -128,6 +133,12 @@ interface JwKnoten {
 function alterNachholen(t: Title, bestand: Record<string, Befund>): boolean {
   const e = bestand[String(t.id)]
   return t.fsk === undefined && Boolean(e?.jwId && !e.ohneTreffer && e.altersangabe === undefined)
+}
+
+/** Was vor der 28-Tage-Frist wieder an die Reihe kommt: Altersangabe, Staffelangaben, Befunde hinter „Deutsch laut JustWatch". */
+function vorgezogen(t: Title, bestand: Record<string, Befund>): boolean {
+  const e = bestand[String(t.id)]
+  return alterNachholen(t, bestand) || staffelnFehlen(e) || vertrauensBefundAlt(t, e, todayIso())
 }
 
 function angeboteVon(offers: JwKnoten['offers']): Angebot[] {
@@ -267,12 +278,12 @@ async function main(): Promise<void> {
         (bestand[String(t.id)]?.geprueftAm ?? '') < grenze ||
         kennungGewechselt(t) ||
         fehlschlagOhneKennung(t) ||
-        alterNachholen(t, bestand),
+        vorgezogen(t, bestand),
     )
     .sort(
       (a, b) =>
         Number(kennungGewechselt(b)) - Number(kennungGewechselt(a)) ||
-        Number(alterNachholen(b, bestand)) - Number(alterNachholen(a, bestand)) ||
+        Number(vorgezogen(b, bestand)) - Number(vorgezogen(a, bestand)) ||
         Number(dringend(b)) - Number(dringend(a)) ||
         (bestand[String(a.id)]?.geprueftAm ?? '').localeCompare(bestand[String(b.id)]?.geprueftAm ?? ''),
     )
@@ -350,6 +361,7 @@ async function main(): Promise<void> {
         tmdbId: erwartet,
         jwPfad: treffer.content.fullPath,
         altersangabe: treffer.content.ageCertification ?? null,
+        staffeln: staffelnVon(treffer.seasons),
         angebote,
       }
       getroffen++
