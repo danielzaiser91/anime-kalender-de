@@ -2,13 +2,15 @@
  * Zusicherungen für Bewertung, Schlagworte und Banner nach dem Wechsel von AniList (Daniel, 11.10.2026):
  *
  * - Bewertung: keine AniList-Bewertung mehr im Datensatz. Jeder Wert (außer TMDB bei Cartoons) ist der Klarwert der aniSearch-Seite des Titels.
+ * - Stimmen: keine Bewertung bei weniger als `MIN_STIMMEN_BEWERTUNG` Stimmen auf der aniSearch-Seite (`bau/produkt-regel.ts`).
  * - Schlagworte: keins außerhalb der festen Liste (`shared/schlagworte.ts`).
  * - Banner: nur das TMDB-Bild aus `data/tmdb-banner.json` oder, wo TMDB keins hat, das markierte Übergangs-Banner von AniList.
  *
  * Aufruf: `npx tsx pipeline/check-anilist-produkt.ts` (Einheiten, `check:logic`) und `… --bestand` (gebauter Datensatz, `check:anilist-bestand`)
  */
 import { readJson } from './lib/util.ts'
-import { ladeBewertungen, parseKlarwert, parseSchlagworte } from './lib/anisearch-bewertung.ts'
+import { ladeBewertungen, parseKlarwert, parseSchlagworte, parseStimmen } from './lib/anisearch-bewertung.ts'
+import { MIN_STIMMEN_BEWERTUNG } from './bau/produkt-regel.ts'
 import { BANNER_DATEI, bannerAdresse, waehleBanner, type TmdbBanner } from './lib/tmdb-banner.ts'
 import { SCHLAGWORT_LISTE, SCHLAGWORT_MAX } from '../shared/schlagworte.ts'
 import type { Title } from '../shared/types.ts'
@@ -26,6 +28,10 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 function einheiten(): void {
   pruefe('Klarwert wird gelesen', parseKlarwert('<td>Klarwert<b>4.00 = 80%</b></td>') === 80)
   pruefe('Klarwert 0 % heißt keine Bewertung', parseKlarwert('<td>Klarwert<b>0.00 = 0%</b></td>') === undefined)
+  const balken = (zahlen: number[]): string => zahlen.map((n) => `<li><a aria-label="${n} Mitglieder haben mit :star Sternen bewertet"></a></li>`).join('')
+  const bewertet = (zahlen: number[]): string => `<ul id="rating-stats">${balken(zahlen)}</ul><table id="ratingstats"></table><a aria-label="9 Mitglieder haben mit x">`
+  pruefe('Stimmen: Summe der fünf Balken, nichts außerhalb des Blocks', parseStimmen(bewertet([32, 39, 17, 2, 3])) === 93)
+  pruefe('Stimmen: ohne Block 0', parseStimmen('<td>Klarwert<b>4.00 = 80%</b></td>') === 0)
   const seite = (kennungen: string[]): string =>
     `<section id="genres-tags">${kennungen.map((k) => `<li><a href="anime/genre/tag/${k}" class="gt showpop">x</a></li>`).join('')}</section><section id="x"><a href="anime/genre/tag/school">`
   pruefe('Schlagworte: Liste durchlassen, Rest weglassen', parseSchlagworte(seite(['present', 'tragedy', 'school'])).join() === 'Gegenwart,Schule')
@@ -47,12 +53,13 @@ const host = (u: string): string => {
 function pruefeTitel(datei: string, titel: Title[], banner: TmdbBanner): void {
   const bewertungen = ladeBewertungen()
   const erlaubt = new Set(Object.values(SCHLAGWORT_LISTE))
-  const schlecht = { score: [] as number[], schlagwort: [] as string[], banner: [] as number[] }
+  const schlecht = { score: [] as number[], wenigStimmen: [] as string[], schlagwort: [] as string[], banner: [] as number[] }
   /* Cartoons (negative Kennung) tragen TMDB-Schlagworte und -Banner und laufen nicht durch die Regeln (`bau/produkt-regel.ts`). */
   for (const t of titel.filter((x) => x.id >= 0)) {
     if (t.score !== undefined && t.scoreQuelle !== 'tmdb') {
-      const klar = t.anisearchId === undefined ? undefined : bewertungen.get(t.anisearchId)?.klarwert
-      if (klar !== t.score) schlecht.score.push(t.id)
+      const seite = t.anisearchId === undefined ? undefined : bewertungen.get(t.anisearchId)
+      if (seite?.klarwert !== t.score) schlecht.score.push(t.id)
+      else if (seite.stimmen < MIN_STIMMEN_BEWERTUNG) schlecht.wenigStimmen.push(`${t.id}:${seite.stimmen}`)
     }
     for (const k of t.keywords ?? []) if (!erlaubt.has(k)) schlecht.schlagwort.push(`${t.id}:${k}`)
     if (!t.bannerImage) continue
@@ -61,6 +68,7 @@ function pruefeTitel(datei: string, titel: Title[], banner: TmdbBanner): void {
     if (!ok) schlecht.banner.push(t.id)
   }
   pruefe(`${datei}: jede Bewertung ist der aniSearch-Klarwert (keine von AniList)`, schlecht.score.length === 0, schlecht.score.slice(0, 5))
+  pruefe(`${datei}: keine Bewertung unter ${MIN_STIMMEN_BEWERTUNG} Stimmen (Titel:Stimmen)`, schlecht.wenigStimmen.length === 0, schlecht.wenigStimmen.slice(0, 5))
   pruefe(`${datei}: kein Schlagwort außerhalb der Liste`, schlecht.schlagwort.length === 0, schlecht.schlagwort.slice(0, 5))
   pruefe(`${datei}: Banner nur von TMDB oder als Übergang, wo TMDB keins hat`, schlecht.banner.length === 0, schlecht.banner.slice(0, 5))
 }
