@@ -276,9 +276,10 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   const zeilen = quelle.split('\n')
   const zeileWarten = zeilen.findIndex((z) => z.includes('id = await new Promise')) + 1
   const zeileHoerer = zeilen.findIndex((z) => z.includes("window.addEventListener('message', primeHoerer)")) + 1
-  const zeileTakt = zeilen.findIndex((z) => z.trim() === 'setTimeout(primeTakt, 500)') + 1
+  const zeileTakt = zeilen.findIndex((z) => z.trim() === 'if (!IM_FRAME) setTimeout(primeTakt, 500)') + 1
   pruefe('der Durchgangs-Hörer steht vor dem Warten auf die Kennung', zeileHoerer > 0 && zeileHoerer < zeileWarten, `${zeileHoerer} vor ${zeileWarten}`)
-  pruefe('der Takt startet vor dem Warten auf die Kennung — und nur einmal', zeileTakt > 0 && zeileTakt < zeileWarten && (quelle.match(/setTimeout\(primeTakt, 500\)/g) ?? []).length === 2, `${zeileTakt} vor ${zeileWarten}`)
+  /* Auf der Seite vor dem Warten; im Frame erst hinten, nach der Initialisierung — den Lauf prüft amazon-durchgang-takt.test.cjs. */
+  pruefe('der Takt startet auf der Seite vor dem Warten, im Frame erst am Ende des Skripts', zeileTakt > 0 && zeileTakt < zeileWarten && /\n {2}if \(IM_FRAME\) setTimeout\(primeTakt, 500\)\n\}\)\(\)/.test(quelle), `${zeileTakt} vor ${zeileWarten}`)
   pruefe('der Hauptlistener übergeht die Frame-Antwort', /if \(e\?\.data\?\.marke === 'ak-prime-frame'\) return/.test(quelle))
   pruefe('der Bericht nennt „noch nicht angelegt“ statt eines Fehlers, solange die Seite wartet', /before initialization\/\.test\(e\?\.message\)/.test(quelle))
 }

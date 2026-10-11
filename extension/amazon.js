@@ -6336,9 +6336,9 @@ async function speicherSchreiben(werte) {
    * Meldung geht dann mit der Adresse der Seite raus und ohne unsere Kennung;
    * zuordnen lässt sie sich später über den Titel.
    */
-  /* Der Durchgang läuft auf der Startseite, die nie eine Kennung hat: Hörer und Takt stehen vor dem Warten. */
+  /* Startseite: nie eine Kennung, also Hörer und Takt vor dem Warten. Im Frame erst am Ende (`frameSchritt()` braucht `knopf`, `gesehen`). */
   window.addEventListener('message', primeHoerer)
-  setTimeout(primeTakt, 500)
+  if (!IM_FRAME) setTimeout(primeTakt, 500)
 
   /**
    * Keine Titelseite? Dann wird gewartet, nicht ausgestiegen.
@@ -11169,4 +11169,5 @@ async function speicherSchreiben(werte) {
       setTimeout(primeTakt, 500)
     }
   }
+  if (IM_FRAME) setTimeout(primeTakt, 500)
 })()

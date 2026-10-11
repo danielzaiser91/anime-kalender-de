@@ -2267,7 +2267,8 @@ Daniel startete „▶ alle durchgehen“ auf `amazon.de/gp/video/storefront` (4
 
 - **Fix:** `primeHoerer()` (Antwort des Frames) und der Takt werden vor dem Warten angemeldet; der Hauptlistener übergeht die Frame-Antwort. Ein hängender Frame fliegt nach 90 s raus, die Spur nennt `seite · ok:false · Frame antwortet nicht`, der Titel steht unter „übersprungen“ und der Lauf geht weiter.
 - **Bericht:** die „Cannot access … before initialization“-Zeilen im Diagnosebericht waren kein eigener Fehler, sondern genau dieser Zustand; `bericht()` schreibt dafür jetzt „noch nicht angelegt: die Seite wartet auf eine Titel-Kennung“.
-- **Test:** `amazon-durchgang.test.cjs` — Reihenfolge im Quelltext (hören und takten vor dem Warten, Takt nur einmal beim Seitenstart), `primeHoerer()` im Sandkasten (fremder Ursprung und fremdes Fenster zählen nicht, eigener Frame führt den Plan weiter).
+- **Test:** `amazon-durchgang.test.cjs` — Reihenfolge im Quelltext (Hörer vor dem Warten, Takt auf der Seite vor dem Warten und im Frame am Skriptende), `primeHoerer()` im Sandkasten (fremder Ursprung und fremdes Fenster zählen nicht, eigener Frame führt den Plan weiter).
+- **Nachbesserung (Prüfer, 11.10.2026):** Der Takt vor dem Warten lief auch im Durchgangs-Frame, und `frameSchritt()` wirft dort (`frameZustand`, `knopf`, `gesehen` noch nicht angelegt, nach ~1,5 s „Takt wirft“). Jetzt `if (!IM_FRAME)` vorn, im Frame wie bisher am Skriptende. `amazon-durchgang-takt.test.cjs` lässt das ganze Skript im Sandkasten laufen (Startseite wartet: Takt läuft und liest den Lauf; Frame wartet: kein Wurf; Frame mit Kennung: Takt läuft) — gegen den Stand `e7108b803` rot.
 - **Nicht gemessen:** der Lauf selbst im Browser auf der Startseite.
 
 ## Offen ist erst, was erschienen und unbelegt ist (11.10.2026)
