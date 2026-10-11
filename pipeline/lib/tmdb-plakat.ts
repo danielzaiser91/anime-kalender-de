@@ -22,7 +22,7 @@ export function waehlePlakat(bilder: TmdbBild[]): TmdbBild | undefined {
   return undefined
 }
 
-const schlicht = (s: string): string => s.toLowerCase().normalize('NFKD').replace(/[^\p{L}\p{N}]+/gu, '')
+export const schlicht = (s: string): string => s.toLowerCase().normalize('NFKD').replace(/[^\p{L}\p{N}]+/gu, '')
 
 /**
  * Ist dieser TMDB-Film unser Titel? Der Name muss (nach Entfernen von Zeichen und Schreibweise) einem unserer Namen gleichen und das Jahr
