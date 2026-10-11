@@ -111,7 +111,8 @@
         "refresh-hourly.yml",
         "refresh-weekly.yml",
         "region-test.yml",
-        "tonspuren-monatlich.yml"
+        "tonspuren-monatlich.yml",
+        "wecker-wache.yml"
       ],
       "gueltig": {
         "text": "läuft nicht ab (eigenes Geheimnis, kein Anbieter-Token)",
