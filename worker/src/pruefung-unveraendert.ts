@@ -108,3 +108,14 @@ export async function istUnveraendert(env: Env, offene: OffeneHashes | undefined
   await haltFrisch(env, offene, treffer[0]!)
   return true
 }
+
+/** Hash der Meldung samt Antwort, ob die offene Zeile derselben Folge ihn schon trägt. */
+export async function pruefeUnveraendert(
+  env: Env,
+  offene: OffeneHashes | undefined,
+  daten: Record<string, unknown>,
+  folge: Folge,
+): Promise<{ hash: string; unveraendert: boolean }> {
+  const hash = await meldungsHash(daten)
+  return { hash, unveraendert: await istUnveraendert(env, offene, folge, hash) }
+}

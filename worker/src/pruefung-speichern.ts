@@ -23,7 +23,7 @@ import { type Env } from './env.ts'
 import { verarbeiteStapel } from './pruefung-stapel.ts'
 import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
 import { istMeldung, mitTagesdeckel } from './tagesdeckel.ts'
-import { meldungsHash, istUnveraendert, ladeOffeneHashes, type OffeneHashes } from './pruefung-unveraendert.ts'
+import { pruefeUnveraendert, ladeOffeneHashes, type OffeneHashes } from './pruefung-unveraendert.ts'
 
 export async function speicherePruefung(kontext: Kontext) {
   let daten: Record<string, unknown>
@@ -266,8 +266,8 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
    */
   const seitenKennung = typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null
   /* Dieselbe Meldung wie die offene Zeile: nichts zu schreiben (pruefung-unveraendert.ts). */
-  const hash = await meldungsHash(daten)
-  if (await istUnveraendert(env, offene, { url, folgeNr, staffelNr, seitenKennung }, hash)) {
+  const { hash, unveraendert } = await pruefeUnveraendert(env, offene, daten, { url, folgeNr, staffelNr, seitenKennung })
+  if (unveraendert) {
     return antwort({ ok: true, befund, unveraendert: true })
   }
   await env.DB.prepare(
