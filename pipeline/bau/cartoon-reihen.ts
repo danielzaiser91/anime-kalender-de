@@ -1,7 +1,7 @@
 import { resolve } from 'node:path'
 import { existsSync, readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
-import type { Title } from '../../shared/types.ts'
+import type { FranchiseMember, Title } from '../../shared/types.ts'
 import { ROOT, log, readJson, warn } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
 import { bildeReihen, pruefeReihen, type CartoonReihe, type HandReihe, type ReihenEintrag } from '../lib/cartoon-reihen.ts'
@@ -42,4 +42,36 @@ export function ordneCartoonReihen(titel: Title[]): void {
 /** Die Cartoons mit Reihe, wie `cartoons.json` sie ausliefert — für `franchises.json`. */
 export function cartoonsMitReihe(): Title[] {
   return readJson<Title[]>(`${OUT}/cartoons.json`, []).filter((t) => t.franchiseId !== undefined)
+}
+
+export const EIGENE_DATEI = 'data/cartoon-eigene-serien.yaml'
+
+interface EigeneSerien {
+  ids: number[]
+  grund: string
+  quelle: string
+}
+
+/** Die Cartoons, die zur Reihe gehören, aber eine eigene Serie sind; ohne Beleg-Adresse bricht der Bau ab. */
+export function ladeEigeneSerien(): EigeneSerien[] {
+  const datei = resolve(ROOT, EIGENE_DATEI)
+  const liste = existsSync(datei) ? ((yaml.load(readFileSync(datei, 'utf8')) as EigeneSerien[] | null) ?? []) : []
+  const ohneBeleg = liste.filter((e) => !e.ids?.length || !e.grund || !/^https:\/\//.test(e.quelle ?? ''))
+  if (ohneBeleg.length) throw new Error(`${EIGENE_DATEI}: Eintrag ohne ids, grund oder https-Quelle (${JSON.stringify(ohneBeleg[0])})`)
+  return liste
+}
+
+/** Setzt `eigenesWerk` an den Reihenmitgliedern, die eine eigene Serie sind — sie zählen nicht als Staffel (Korra, Die sieben Häfen). */
+export function markiereEigeneWerke(reihen: Record<number, FranchiseMember[]>, eintraege = ladeEigeneSerien()): Record<number, FranchiseMember[]> {
+  const eigene = new Set(eintraege.flatMap((e) => e.ids))
+  const gesehen = new Set<number>()
+  for (const mitglieder of Object.values(reihen)) {
+    for (const m of mitglieder) {
+      if (!eigene.has(m.id)) continue
+      m.eigenesWerk = true
+      gesehen.add(m.id)
+    }
+  }
+  for (const id of eigene) if (!gesehen.has(id)) warn(`${EIGENE_DATEI}: ${id} steht in keiner Reihe`)
+  return reihen
 }

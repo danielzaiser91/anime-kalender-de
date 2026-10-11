@@ -11,11 +11,13 @@ function reihenZeile(reihenTeile: FranchiseMember[], reihenName: string, titelId
   const hauptIds = new Set(haupt.map((m) => m.id))
   const von = [...stand.values()][0]?.von ?? haupt.length
   const filme = reihenTeile.filter((m) => m.format === 'MOVIE').length
-  const specials = reihenTeile.filter((m) => !hauptIds.has(m.id) && m.format !== 'MOVIE').length
+  const eigene = reihenTeile.filter((m) => m.eigenesWerk).length
+  const specials = reihenTeile.filter((m) => !hauptIds.has(m.id) && !m.eigenesWerk && m.format !== 'MOVIE').length
   const gewaehlt = stand.get(titelId)
   const zahl = (n: number, einzahl: Parameters<Translate>[0], mehrzahl: Parameters<Translate>[0]) => (n === 1 ? t(einzahl) : t(mehrzahl, { n }))
   return [
     gewaehlt ? t('detail.staffelVon', { n: gewaehlt.staffel, von: gewaehlt.von }) : von > 0 ? zahl(von, 'detail.eineStaffel', 'detail.staffelnZahl') : '',
+    eigene ? zahl(eigene, 'detail.eineEigeneSerie', 'detail.reiheEigeneSerien') : '',
     filme ? zahl(filme, 'detail.einFilm', 'detail.reiheFilme') : '',
     specials ? zahl(specials, 'detail.einSpecial', 'detail.reiheSpecials') : '',
   ]

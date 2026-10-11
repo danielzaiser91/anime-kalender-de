@@ -76,8 +76,9 @@ export function anzeigeName(title: Pick<Title, 'titleDe' | 'titleEn' | 'titleRom
  * Die Begründung (Kurzformate, chinesische ONA-Specials) steht an der
  * Reihenliste in `DetailPanel.tsx`.
  */
-export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; episodes?: number }>(teile: T[]): T[] {
-  return hauptstaffelnAllerTeile(teile)
+export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; eigenesWerk?: boolean; episodes?: number }>(teile: T[]): T[] {
+  /* Eine eigene Serie der Reihe (Korra neben „Der Herr der Elemente") ist keine Staffel. */
+  return hauptstaffelnAllerTeile(teile.filter((m) => !m.eigenesWerk))
 }
 
 function hauptstaffelnAllerTeile<T extends { format?: string; beiwerk?: boolean; episodes?: number }>(teile: T[]): T[] {
