@@ -756,12 +756,12 @@ export function DetailPanel({
     }
   }, [titleId, synopsis, reihenTeile, title])
 
-  /** Die AniList-Wertung als Pille — steht neben dem Staffelnamen. */
+  /** Die Wertung als Pille — steht neben dem Staffelnamen; Quelle aniSearch, bei Cartoons TMDB. */
   const bewertung =
     title?.score !== undefined ? (
-      <Tooltip text={t('detail.scoreHint')} seite="oben">
+      <Tooltip text={t('detail.scoreHint', { quelle: title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch' })} seite="oben">
         <span className="inline-flex shrink-0 cursor-help items-baseline gap-1 rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] dark:bg-white/10">
-          <span className="font-normal text-slate-500 dark:text-slate-400">{title.scoreQuelle === 'tmdb' ? 'TMDB' : 'AniList'}</span>
+          <span className="font-normal text-slate-500 dark:text-slate-400">{title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch'}</span>
           {/* Der Stern macht auf einen Blick klar, dass es eine Wertung ist und
               keine Folgenzahl. */}
           <span className="text-amber-400" aria-hidden="true">

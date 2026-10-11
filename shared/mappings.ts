@@ -589,17 +589,6 @@ export const KEYWORD_DE: Record<string, string> = {
   Foreign: 'Ausland',
 }
 
-/**
- * Tags, die im Frontend nichts verloren haben — entweder Meta-Information
- * über die Produktion oder Erwachsenen-Kategorien.
- */
-export const KEYWORD_BLOCKLIST = new Set([
-  'Nudity', 'Sex', 'Sexual Abuse', 'Boobs', 'Anal Sex', 'Oral Sex', 'Bondage',
-  'Rape', 'Incest', 'Lolicon', 'Shotacon', 'Tentacles', 'Prostitution',
-  'Public Sex', 'Threesome', 'Netorare', 'Ahegao', 'Femdom', 'Futanari',
-  'Male Harem', 'Fetish',
-])
-
 /** AniList-Linkziele → interne Plattform-ID (nur für Deutschland relevante). */
 export function platformFromSite(site: string): PlatformId | undefined {
   const s = site.toLowerCase()

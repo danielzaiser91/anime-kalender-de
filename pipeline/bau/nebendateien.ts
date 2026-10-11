@@ -383,7 +383,7 @@ export function schreibeOhneSynchro(
          * die Adresse unangetastet — der Browser erkennt das am `http`.
          */
         coverImage: coverFuer(e.id, e.cover?.startsWith(ANILIST_COVER_BASIS) ? e.cover.slice(ANILIST_COVER_BASIS.length) : (e.cover ?? undefined)),
-        ...bewertungNachRegel({ score: e.score ?? undefined }),
+        ...bewertungNachRegel({}, kennungen.get(e.id)),
         /**
          * Fehlt, wenn der Titel allein steht — dann greift in der Oberfläche
          * ohnehin der Rückfall auf die eigene Kennung, und die Zahl wäre
@@ -404,7 +404,7 @@ export function schreibeOhneSynchro(
 
   /* Wer aus dem Hauptbestand verschoben wurde, muss hier ankommen, auch wenn der Katalog ihn nicht führt (ein Vorfilter verschiebt, er löscht nicht; „Xiao Mao Diao Yu", 17.08.2026). */
   const vorhanden = new Set(ohne.map((t) => t.id))
-  const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id) && !dubletten.zeilenWeg.has(t.id)).map((t) => mitProduktFeldern({ ...t, coverImage: coverFuer(t.id, t.coverImage) }))
+  const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id) && !dubletten.zeilenWeg.has(t.id)).map((t) => mitProduktFeldern({ ...t, coverImage: coverFuer(t.id, t.coverImage) }, kennungen.get(t.id)))
   const alle = ohneWerkDubletten([...ohne, ...nachgetragen.map((t) => ({ ...t, ...(kennungen.has(t.id) ? { anisearchId: kennungen.get(t.id) } : {}), dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))], geschuetzt)
 
   writeJson(`${OUT}/ohne-synchro.json`, alle.map((t) => mitLaufzeit(mitAnkuendigung(t))))

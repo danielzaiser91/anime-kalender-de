@@ -1,30 +1,48 @@
-import { log } from '../lib/util.ts'
+import { log, readJson } from '../lib/util.ts'
+import { ladeBewertungen } from '../lib/anisearch-bewertung.ts'
+import { BANNER_DATEI, bannerAdresse, type TmdbBanner } from '../lib/tmdb-banner.ts'
 import type { Title } from '../../shared/types.ts'
+import { anisearchKennungen } from './anisearch-kennung.ts'
 
+/**
+ * **Woher Bewertung, Schlagworte und Banner kommen** (Daniel, 11.10.2026): Bewertung (Klarwert) und Schlagworte aus der aniSearch-Seite
+ * (`lib/anisearch-bewertung.ts`, Schlagworte nur aus der festen Liste), Banner von TMDB (`data/tmdb-banner.json`). Nichts davon kommt noch von AniList.
+ */
 type Bewertung = Pick<Title, 'score' | 'scoreQuelle'>
 
-/** Bewertung eines Titels nach der Regel. */
-export function bewertungNachRegel(bisher: Bewertung): Bewertung {
-  return bisher
+let tmdbBanner: TmdbBanner | undefined
+const banner = (): TmdbBanner => (tmdbBanner ??= readJson<TmdbBanner>(BANNER_DATEI, {}))
+
+/** Bewertung eines Titels: der aniSearch-Klarwert, sonst keine. Eine TMDB-Wertung (Cartoons) bleibt. */
+export function bewertungNachRegel(bisher: Bewertung, anisearchId: number | undefined): Bewertung {
+  if (bisher.scoreQuelle === 'tmdb') return bisher
+  const klarwert = anisearchId === undefined ? undefined : ladeBewertungen().get(anisearchId)?.klarwert
+  return klarwert ? { score: klarwert } : {}
 }
 
-/** Schlagworte eines Titels nach der Regel. */
-export function schlagworteNachRegel(bisher: string[]): string[] {
-  return bisher
+/** Schlagworte eines Titels: die erlaubten aniSearch-Tags seiner Seite. */
+export function schlagworteNachRegel(anisearchId: number | undefined): string[] {
+  return anisearchId === undefined ? [] : (ladeBewertungen().get(anisearchId)?.schlagworte ?? [])
 }
 
-/** Bannerbild eines Titels nach der Regel. */
-export function bannerNachRegel(bisher: string | undefined): string | undefined {
-  return bisher
+/**
+ * Bannerbild eines Titels: das TMDB-Hintergrundbild. ÜBERGANG: Wo TMDB keins hat (Lückenliste `daniel-zum-abarbeiten/listen/banner-luecken.md`),
+ * bleibt vorerst das AniList-Banner — diese Zeile entfällt, sobald für die Lücken ein Ersatz gefunden ist.
+ */
+export function bannerNachRegel(id: number, anilistBanner: string | undefined): string | undefined {
+  const tmdb = banner()[String(id)]?.p
+  return tmdb ? bannerAdresse(tmdb) : anilistBanner
 }
 
 /** Bewertung, Schlagworte und Banner nach der Regel; auch für die Kopien in `verschoben`, die vor `setzeProduktFelder` entstanden. */
-export function mitProduktFeldern<T extends Title>(t: T): T {
+export function mitProduktFeldern<T extends Title>(t: T, anisearchId: number | undefined): T {
+  const { score, scoreQuelle } = bewertungNachRegel(t, anisearchId)
   return {
     ...t,
-    ...bewertungNachRegel(t),
-    keywords: schlagworteNachRegel(t.keywords),
-    bannerImage: bannerNachRegel(t.bannerImage),
+    score,
+    scoreQuelle,
+    keywords: schlagworteNachRegel(anisearchId),
+    bannerImage: bannerNachRegel(t.id, t.bannerImage),
   }
 }
 
@@ -33,6 +51,13 @@ export function mitProduktFeldern<T extends Title>(t: T): T {
  * und Meldungen dasselbe sehen.
  */
 export function setzeProduktFelder(titles: Map<number, Title>): void {
-  for (const t of titles.values()) Object.assign(t, mitProduktFeldern(t))
-  log(`Bewertung, Schlagworte und Banner nach Regel gesetzt (${titles.size} Titel)`)
+  const kennungen = anisearchKennungen([...titles.values()].map((t) => ({ id: t.id, mal: t.malId })))
+  let ohneKennung = 0
+  for (const t of titles.values()) {
+    const asId = kennungen.get(t.id)
+    if (asId === undefined) ohneKennung++
+    Object.assign(t, mitProduktFeldern(t, asId))
+  }
+  const mitBewertung = [...titles.values()].filter((t) => t.score !== undefined).length
+  log(`Bewertung, Schlagworte und Banner nach Regel: ${mitBewertung} von ${titles.size} Titeln mit aniSearch-Bewertung, ${ohneKennung} ohne aniSearch-Kennung`)
 }
