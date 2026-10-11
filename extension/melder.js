@@ -124,7 +124,7 @@ const offeneTitel = globalThis.AK_OFFENE_TITEL ?? {}
  */
 let standZieleNetflix = null
 /** Reihen, die diese Sitzung selbst gemeldet hat — bis der Stand sie abbildet. */
-const frischGemeldetNetflix = new Set()
+const frischGemeldetNetflix = globalThis.akNetflixFrischSet?.() ?? new Set()
 
 /**
  * **Welches Werk meint diese Meldung — der Auftrag weiß es, die Adresse nicht.**
@@ -368,7 +368,7 @@ function meldungenMerken(reihe, paare) {
 
 /** Den Briefkasten zu einer Reihe fragen — der Dialog braucht alle, der Knopf eine. */
 async function meldungenLaden(reihe) {
-  if (!reihe) return
+  if (!reihe || globalThis.akMeldungenNeuLaden?.(reihe) === false) return
   try {
     const adresse = `https://www.netflix.com/title/${reihe}`
     const antwort = await fetch(`${WORKER}?gemeldet=${encodeURIComponent(adresse)}`, { cache: 'no-store' })
