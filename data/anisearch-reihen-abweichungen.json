@@ -2,46 +2,46 @@
   "stand": "2026-10-11",
   "deckung": {
     "titel": 20719,
-    "mitSeite": 15696,
+    "mitSeite": 15710,
     "ohneSeite": 9,
     "ohneAnisearchKennung": 3165,
-    "ohneReferenz": 1849,
+    "ohneReferenz": 1835,
     "seitenImArchiv": 17466,
     "kanten": 18564
   },
   "gesamt": {
-    "titel": 15696,
-    "gleich": 12001,
+    "titel": 15710,
+    "gleich": 12007,
     "fehlen": 1765,
-    "zusaetzlich": 993,
-    "gemischt": 937
+    "zusaetzlich": 998,
+    "gemischt": 940
   },
   "hauptbestand": {
-    "titel": 2860,
-    "gleich": 2099,
+    "titel": 2866,
+    "gleich": 2105,
     "fehlen": 332,
-    "zusaetzlich": 203,
-    "gemischt": 226
+    "zusaetzlich": 200,
+    "gemischt": 229
   },
   "haelfteA": {
-    "titel": 7224,
-    "gleich": 5455,
+    "titel": 7231,
+    "gleich": 5461,
     "fehlen": 819,
-    "zusaetzlich": 501,
+    "zusaetzlich": 502,
     "gemischt": 449
   },
   "haelfteB": {
-    "titel": 8472,
+    "titel": 8479,
     "gleich": 6546,
     "fehlen": 946,
-    "zusaetzlich": 492,
-    "gemischt": 488
+    "zusaetzlich": 496,
+    "gemischt": 491
   },
   "cluster": {
     "einzel": 5477,
-    "gleich": 2052,
+    "gleich": 2053,
     "zerlegt": 264,
-    "verschmilzt": 139,
+    "verschmilzt": 140,
     "gemischt": 55
   },
   "beispiele": {
@@ -334,7 +334,7 @@
         "id": 235,
         "name": "Meitantei Conan",
         "titel": 147,
-        "referenz": 6,
+        "referenz": 5,
         "anisearch": 5
       },
       {
