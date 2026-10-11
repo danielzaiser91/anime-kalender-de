@@ -35,12 +35,13 @@ globalThis.AK_DISNEY_NETZ = (() => {
   async function sende(url, init, { versuche = 3, pause = 1500, warte = schlaf, holen = (...a) => fetch(...a) } = {}) {
     let letzter = ''
     for (let n = 1; n <= versuche; n++) {
+      if (globalThis.AK_TAGESLIMIT?.aktiv()) return { ok: false, fehler: globalThis.AK_TAGESLIMIT.text() }
       try {
         const klein = typeof init.body === 'string' && init.body.length < 60000
         const antwort = await holen(url, klein ? { ...init, keepalive: true } : init)
         if (antwort.ok) return { ok: true, status: antwort.status }
         letzter = `HTTP ${antwort.status}`
-        if (antwort.status < 500 && antwort.status !== 429) break
+        if ((antwort.status < 500 && antwort.status !== 429) || globalThis.AK_TAGESLIMIT?.aktiv()) break
       } catch (fehler) {
         letzter = String(fehler)
       }

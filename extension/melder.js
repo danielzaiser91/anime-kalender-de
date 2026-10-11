@@ -4221,7 +4221,7 @@ async function durchlaufStarten(grenze) {
     schließen).
   */
   if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
-    laufBeenden(DURCHLAUF.abbruch ? (DURCHLAUF.abbruchGrund ?? 'abgebrochen') : `Störung ${DURCHLAUF.stoerung}`)
+    laufBeenden(DURCHLAUF.abbruch ? (globalThis.AK_TAGESLIMIT?.grund(DURCHLAUF.abbruchGrund ?? 'abgebrochen') ?? DURCHLAUF.abbruchGrund ?? 'abgebrochen') : `Störung ${DURCHLAUF.stoerung}`)
   }
   if (DURCHLAUF.selbst && selbstAn && !DURCHLAUF.abbruch && !DURCHLAUF.stoerung) {
     /* Zwei Titel in einer Netflix-Staffel: der zweite kommt auf derselben Seite dran oder eine weitere Staffel (höchstens sechs Anläufe je Seite). */
@@ -4369,7 +4369,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
           headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
           body: JSON.stringify({ stapel: teil.map((m) => m.daten) }),
         })
-        if (!antwort.ok) return
+        if (!antwort.ok) return void globalThis.AK_TAGESLIMIT?.fehlgeschlagen(DURCHLAUF)
         const { ergebnisse = [] } = await antwort.json()
         teil.forEach(({ f, staffelDerFolge }, i) => {
           if (!ergebnisse[i]?.ok) return
@@ -4509,7 +4509,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
         ],
       }),
     })
-    if (!antwort.ok) return false
+    if (!antwort.ok) return globalThis.AK_TAGESLIMIT?.fehlgeschlagen(DURCHLAUF) ?? false
     await merkeErledigt(gemeinteReihe(), staffelDerFolge, folge.nummer)
     return true
   } catch {

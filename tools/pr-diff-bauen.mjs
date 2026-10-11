@@ -28,6 +28,8 @@ const API_MAXIMUM = 3000
 // (`tools/quellen-liste.sh`, die eine Liste; Einträge sind Dateien oder Ordner). Handdateien unter data/ stehen nicht darin.
 const DATEI_ENDUNG = /\.(?:json|jsonl|yaml)$/
 const ERZEUGNIS = /^public\/data\/(?:[^/]+\/)*[^/]+\.(?:json|jsonl|yaml)$/
+// Eingefrorener Ausschnitt aus public/data (Erzeugnis von tools/buehne-faelle.mjs, keine Handdatei); genau dieser Pfad.
+const BUEHNE_FAELLE = 'web/buehne/faelle.json'
 // Auch auf der Liste nie gestubbt: Handbelege lesen, data/cache/ gehört nie in einen PR (der Verstoß soll sichtbar sein).
 // [\s\S] statt ., damit kein Zeichen entkommt.
 const NIE_STUB = /^(data\/dub-confirmed\.yaml|data\/curated\/[\s\S]*|data\/cache\/[\s\S]*)$/
@@ -48,7 +50,7 @@ const aufListe = (pfad, quellen) => quellen.some((q) => pfad === q || pfad.start
 /** Darf diese Datei gestubbt werden? Nur Positivliste; `..` und Steuerzeichen treffen nie. */
 export function stubbar(pfad, quellen) {
   if (typeof pfad !== 'string' || STEUERZEICHEN.test(pfad) || NIE_STUB.test(pfad) || pfad.split('/').includes('..')) return false
-  if (ERZEUGNIS.test(pfad)) return true
+  if (ERZEUGNIS.test(pfad) || pfad === BUEHNE_FAELLE) return true
   return pfad.startsWith('data/') && DATEI_ENDUNG.test(pfad) && aufListe(pfad, quellen)
 }
 
