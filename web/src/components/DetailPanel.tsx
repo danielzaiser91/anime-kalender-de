@@ -1,19 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { DiscAusgabe, Release, Title } from '@shared/types.ts'
-import { addDays, todayIso } from '@shared/time.ts'
+import { useMemo, useState } from 'react'
+import type { Release, Title } from '@shared/types.ts'
+import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember } from '@shared/types.ts'
 import { anzeigeName } from '@shared/titles.ts'
-import {
-  ladeTitelBestand,
-  loadDiscAusgaben,
-  loadSynopsis, type Synopsis
-} from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useTeilenAdresse } from './detail/teilen-adresse.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
-import { FORMAT_DE } from '@shared/mappings.ts'
-import { Tooltip } from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { useTvVorbei } from './detail/tv-vorbei.tsx'
 import { useTerminReleases } from './detail/termin-releases.ts'
@@ -23,7 +16,7 @@ import { titelMitTerminBereichen } from './detail/stream-bereiche.ts'
 import { lueckeOhneAnbieter } from './detail/folgen-ohne-anbieter.ts'
 import { dubZeilenVon } from './detail/dub-zeilen.ts'
 import { DiscEinzelListe } from './detail/pillen.tsx'
-import { jpAngabe, KinoBanner } from './detail/kino.tsx'
+import { KinoBanner } from './detail/kino.tsx'
 import { VoiceCast, AehnlicheTitel } from './detail/weitere.tsx'
 import { berechneAntwort } from './detail/antwort-berechnen.ts'
 import { EckdatenAbschnitt } from './detail/abschnitte.tsx'
@@ -42,6 +35,8 @@ import { reihenNameVon, teilNameVon } from './detail/reihen-namen.ts'
 import { kastenNotizVon, kaufausgabeZeileVon, wegeHinweisVon } from './detail/kasten-hinweise.ts'
 import { useErsatzHandlung } from './detail/ersatz-handlung.ts'
 import { PanelLeer, PanelVersteckt } from './detail/panel-huellen.tsx'
+import { useDiscAusgaben, useEscapeSchliesst, useSynopse, useTitelNachladen, useWechsleZu } from './detail/panel-laden.ts'
+import { unterzeileVon, useBuehnenBild, useKinoRelease, WertungPille } from './detail/panel-werte.tsx'
 
 export function DetailPanel({
   data,
@@ -82,55 +77,13 @@ export function DetailPanel({
    * rechnet dann bei jedem Render neu, statt sich das Ergebnis zu merken.
    */
   const releases = useMemo(() => data.releasesByTitle.get(titleId) ?? [], [data, titleId])
-  const [synopsis, setSynopsis] = useState<Synopsis | undefined>()
   const [allKeywords, setAllKeywords] = useState(false)
   /** Die ersten drei Genres reichen fuer die Frage "ist das meins?". */
   const [genresOffen, setGenresOffen] = useState(false)
   const [plotOffen, setPlotOffen] = useState(false)
-  const [discAusgaben, setDiscAusgaben] = useState<DiscAusgabe[]>([])
-  const [discOffen, setDiscOffen] = useState(false)
-
-  useEffect(() => {
-    let alive = true
-    setDiscAusgaben([])
-    setDiscOffen(false)
-    loadDiscAusgaben(titleId)
-      .then((a) => {
-        if (alive) setDiscAusgaben(a)
-      })
-      .catch(() => {})
-    return () => {
-      alive = false
-    }
-  }, [titleId])
-
-  useEffect(() => {
-    let alive = true
-    setSynopsis(undefined)
-    /* Cartoons (negative Kennung) tragen ihre Beschreibung im Titel — für sie gibt es keine Gruppendatei (16.09.2026). */
-    if (titleId < 0) {
-      setSynopsis(title?.synopsis ? { de: title.synopsis } : undefined)
-    } else {
-      loadSynopsis(titleId)
-        .then((s) => {
-          if (alive) setSynopsis(s)
-        })
-        .catch(() => {})
-    }
-    setAllKeywords(false)
-    setPlotOffen(false)
-    return () => {
-      alive = false
-    }
-  }, [titleId, title?.synopsis])
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
+  const { discAusgaben, discOffen, setDiscOffen } = useDiscAusgaben(titleId)
+  const synopsis = useSynopse(titleId, title, setAllKeywords, setPlotOffen)
+  useEscapeSchliesst(onClose)
 
   const reihe = useReihe(title)
 
@@ -146,34 +99,7 @@ export function DetailPanel({
     [reihenTeile, title],
   )
 
-  /**
-   * Das Banner des Titels — oder geliehen von einem Teil der Reihe, der eines hat.
-   *
-   * Ohne den Rückfall verschwindet der Kopf beim Umschalten auf ein Special und
-   * kommt beim Zurückschalten wieder; das Panel springt dabei um 112 Pixel.
-   */
-  /**
-   * Das Bild der Bühne — seit dem 24.08.2026 das **Cover**, nicht das Banner.
-   *
-   * Gemessen: Alle 2.762 Titel haben ein `coverImage`, aber nur 2.111 ein
-   * `bannerImage`. Bei 651 Titeln stand oben deshalb ein leerer Farbverlauf.
-   * Das Cover trägt außerdem das, was ein Zuschauer wiedererkennt — es ist das
-   * Bild, das auch auf einer Hülle stünde.
-   *
-   * Der frühere Rückfall „Banner von einem Reihenteil leihen" entfällt: Er war
-   * nötig, weil der Kopf beim Umschalten auf ein Special um 112 Pixel sprang.
-   * Mit dem Cover tritt der Fall nicht mehr ein.
-   */
-  const buehnenBild: string | undefined = useMemo(() => {
-    if (!title) return undefined
-    if (title.coverImage) return title.coverImage
-    // Sollte nie greifen — steht als Netz für einen künftigen Titel ohne Cover.
-    for (const m of reihenTeile) {
-      const t = data.titleById.get(m.id)
-      if (t?.coverImage) return t.coverImage
-    }
-    return undefined
-  }, [title, reihenTeile, data])
+  const buehnenBild = useBuehnenBild(title, reihenTeile, data)
 
   const reihenName = useMemo(() => reihenNameVon(title, reihe, data), [reihe, title, data])
 
@@ -204,12 +130,7 @@ export function DetailPanel({
       Zeile bleibt weg wie bisher.
   */
 
-  /**
-   * Beim Wechsel auf eine Staffel ohne Termin fehlen die Metadaten — die liegen
-   * in `titles.json`, das im Kalender nicht geladen ist. Erst holen, dann
-   * öffnen, sonst zeigt das Panel „keine Metadaten".
-   */
-  const [wechselt, setWechselt] = useState(false)
+  const { wechselt, wechsleZu } = useWechsleZu(data, titleId, onOpenTitle)
   /*
     **Lange Reihen brauchen Reiter, Suche und einen Aufklapper** (Daniel, 17.09.2026, Pokémon
     mit 112 Teilen: „sehr schwer dort für nutzer gesuchte titel der reihe zu finden").
@@ -220,27 +141,7 @@ export function DetailPanel({
   const [reiheSuche, setReiheSuche] = useState<{ reihe: number; text: string }>({ reihe: 0, text: '' })
   const [reiheOhneOffen, setReiheOhneOffen] = useState<number | null>(null)
 
-  /**
-   * **Ein Titel, den der Kern nicht kennt, wird nachgeladen.**
-   *
-   * `titles-core.json` führt nur, worauf ein Termin zeigt — ein Reihenteil ohne
-   * deutschen Termin steht dort nicht. Beim Einstieg über eine geteilte Adresse
-   * ist das der Unterschied zwischen dem Panel und einer Fehlermeldung.
-   *
-   * Genau einmal je Kennung: `versucht` merkt sich, wofür schon geladen wurde,
-   * damit ein wirklich unbekannter Titel nicht in eine Schleife läuft.
-   */
-  const [holt, setHolt] = useState(false)
-  const versucht = useRef<number | undefined>(undefined)
-  useEffect(() => {
-    if (data.titleById.has(titleId) || versucht.current === titleId) return
-    versucht.current = titleId
-    setHolt(true)
-    ladeTitelBestand(data, titleId)
-      .catch(() => {})
-      .finally(() => setHolt(false))
-  }, [data, titleId])
-
+  const holt = useTitelNachladen(data, titleId)
 
   /**
    * Streaming, aufgeteilt nach dem, was es kostet.
@@ -304,21 +205,7 @@ export function DetailPanel({
     for (const r of releases) if (!je.has(r.platform)) je.set(r.platform, r)
     return je
   }, [releases])
-  /*
-    **Der Kinostart steht im Banner, nicht als Pille** (17.09.2026). Gezeigt wird er,
-    solange er läuft (belegter letzter Spieltag) oder bevorsteht — und bis 60 Tage nach
-    dem Start, solange niemand ein Ende belegt hat.
-  */
-  const kinoRelease = useMemo(
-    () =>
-      releases
-        .filter((r) => r.platform === 'kino' && r.schedule?.firstEpisodeDate)
-        .filter((r) =>
-          r.cinemaUntil ? r.cinemaUntil >= today : r.schedule!.firstEpisodeDate! >= addDays(today, -60),
-        )
-        .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0],
-    [releases, today],
-  )
+  const kinoRelease = useKinoRelease(releases, today)
   const terminReleases = useTerminReleases(releases, title, kinoRelease?.slug, today)
   /* Führt der Titel den Anbieter schon als Link, steht dort dessen Pille; der Termin allein erst vor der ersten Folge. */
   const streamReleases = useMemo(
@@ -362,34 +249,6 @@ export function DetailPanel({
   /* Die Folgenangabe kommt aus `detail/folgen-angabe.ts` (Zerlegung, 29.09.2026) — einmal gebunden. */
   const folgenAngabeFuer = folgenAuskunft({ releases, title, t, releaseJePlattform, today })
 
-  const wechsleZu = (id: number) => {
-    if (id === titleId) return
-    if (data.titleById.has(id)) {
-      onOpenTitle(id)
-      return
-    }
-    setWechselt(true)
-    /*
-      **Beide Bestände holen, nicht nur den Hauptbestand.**
-
-      Seit die Reihenliste auch die Teile aus dem Katalog zeigt, kann der Klick
-      auf einen davon fallen: `loadAllTitles` lädt `titles.json`, und dort steht
-      ein Titel ohne belegte Synchro nicht. Das Panel meldete dann „Zu diesem
-      Eintrag liegen keine Metadaten vor" — und derselbe Klick funktionierte,
-      sobald der Toggle den Katalog geladen hatte.
-
-      Ein Eintrag, den die Liste zeigt, muss sich auch öffnen lassen. Beide
-      Ladewege sind gegen Mehrfachaufrufe gesichert und tun beim zweiten Mal
-      nichts, das Paar kostet also nur beim ersten Wechsel etwas.
-    */
-    ladeTitelBestand(data, id)
-      .catch(() => {})
-      .finally(() => {
-        setWechselt(false)
-        onOpenTitle(id)
-      })
-  }
-
   /**
    * Die Antwort auf die Frage, wegen der jemand dieses Panel öffnet.
    *
@@ -431,34 +290,13 @@ export function DetailPanel({
   const folgenImKasten =
     (antwort?.art === 'laeuft' && Boolean(antwort.gesamt)) || (antwort?.art === 'fertig' && (antwort.gesamt ?? 0) > 1) || antwort?.art === 'teilweise'
 
-  /** Die Werkangaben der Unterzeile — leer heißt: kein Kasten. */
-  const unterzeile = !title
-    ? []
-    : [
-        title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
-        title.episodes && title.episodes > 1 && !folgenImKasten
-          ? `${title.episodes} ${t('detail.episodes')}`
-          : undefined,
-        jpAngabe(eigenerTeil?.jpStart ?? (title.westlich ? title.jpStart : undefined), title.jpYear, title.land),
-        title.studios?.[0],
-      ].filter(Boolean)
+  const unterzeile = unterzeileVon(title, eigenerTeil, folgenImKasten, t('detail.episodes'))
 
   const ersatz = useErsatzHandlung({ titleId, title, synopsis, reihenTeile })
 
-  /** Die Wertung als Pille — steht neben dem Staffelnamen; Quelle aniSearch, bei Cartoons TMDB. */
   const bewertung =
     title?.score !== undefined ? (
-      <Tooltip text={t('detail.scoreHint', { quelle: title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch' })} seite="oben">
-        <span className="inline-flex shrink-0 cursor-help items-baseline gap-1 rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] dark:bg-white/10">
-          <span className="font-normal text-slate-500 dark:text-slate-400">{title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch'}</span>
-          {/* Der Stern macht auf einen Blick klar, dass es eine Wertung ist und
-              keine Folgenzahl. */}
-          <span className="text-amber-400" aria-hidden="true">
-            ★
-          </span>
-          <span className="font-semibold tabular-nums">{(title.score / 10).toFixed(1)}</span>
-        </span>
-      </Tooltip>
+      <WertungPille title={title} hinweis={t('detail.scoreHint', { quelle: title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch' })} />
     ) : null
 
   if (!title) return <PanelLeer holt={holt} t={t} onClose={onClose} />
