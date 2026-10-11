@@ -9,6 +9,9 @@
   text: Anime nach Herkunftsland filtern
   untertitel: Korea, China, Taiwan oder USA wählen oder ausblenden
   link: "#/datenbank"
+- kategorie: feature
+  text: Reihen auch für Titel ohne Synchro
+  untertitel: Staffeln und Specials stehen beieinander
 - kategorie: bugfix
   text: Filter-Knöpfe überall in gleicher Schrift
   untertitel: Schnellfilter und Filterfenster wirken einheitlich

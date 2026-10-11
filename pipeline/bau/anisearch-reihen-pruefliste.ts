@@ -13,7 +13,7 @@ import type { KatalogEintrag } from '../lib/anilist.ts'
 /**
  * **Reihen aus aniSearch übernehmen: Anbindung an den Bau** (Stufe C der AniList-Ablösung, 11.10.2026). `anisearchRelationenKanten` liefert die Verbindungen, die `03-reihen.ts` zu den
  * Reihen hinzunimmt (Regeln in `anisearch-reihen-uebernahme.ts`), und schreibt, was nicht automatisch geht, als Prüfliste `data/anisearch-reihen-pruefliste.json` — der Weg dafür ist
- * `data/reihen-von-hand.yaml` (`ids:` verbindet, `getrennt:` verbietet die aniSearch-Beziehung). Ein Fehler hier stoppt den Bau nie: dann bleiben die Reihen aus AniList, wie sie sind.
+ * `data/reihen-von-hand.yaml` (`ids:` verbindet, `getrennt:` verbietet die aniSearch-Beziehung). Ein Fehler hier stoppt den Bau nie: dann bleiben die Reihen aus AniList, wie sie sind. `anisearchKatalogReihen` tut dasselbe für den Katalog (Stufe C, Teil 3) und schreibt seinen Teil der Prüfliste (`quelle: katalog`).
  */
 export const PRUEFLISTE_DATEI = 'data/anisearch-reihen-pruefliste.json'
 
