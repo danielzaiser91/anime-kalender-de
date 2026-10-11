@@ -26,16 +26,35 @@ globalThis.akNetflixUebernahme = async (zieleUrls, offene, worker, netz = global
     const holen = async (url) => {
       const seit = seitVon(offene[idAus(url)])
       const antwort = await fetch(`${worker}?gemeldet=${encodeURIComponent(url)}`, { cache: 'no-store' })
-      if (!antwort.ok) return new Set()
+      if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
       const paare = (await antwort.json()).paare ?? []
       return new Set(paare.filter((p) => String(p.am ?? '') >= seit).map((p) => `${p.staffel}|${p.nummer}`))
     }
     const urls = [...zieleUrls].filter((url) => offene[idAus(url)] !== undefined)
-    const erledigt = await netz.frischGemeldet(urls, holen, { frist: 10 * 60 * 1000 })
+    const erledigt = await netz.frischGemeldet(urls, holen, { frist: 30 * 60 * 1000, seit: (u) => seitVon(offene[idAus(u)]) })
     globalThis.akNetflixWartet = new Set([...erledigt].map(idAus))
   } catch {
     /* Ohne Auskunft bleibt es bei der Rechnung des Stands: lieber einmal zu viel prüfen. */
     globalThis.akNetflixWartet = new Set()
   }
   return globalThis.akNetflixWartet
+}
+
+/*
+  Reihen, die diese Sitzung selbst gemeldet hat (`frischGemeldetNetflix` in melder.js), werden auch
+  abgelegt: Der Durchgang lädt je Titel eine neue Seite, und ohne Ablage fragte sie den Briefkasten
+  wieder für alle offenen Reihen (24.400 Abrufe bei 100 Titeln, 11.10.2026).
+*/
+globalThis.akNetflixFrischSet = () =>
+  globalThis.AK_DISNEY_NETZ?.gemerktesSet([], (id) => `https://www.netflix.com/title/${id}`)
+
+/*
+  Der Dialog fragte bei jedem Öffnen den Briefkasten für alle offenen Reihen (244 Abrufe). Innerhalb von
+  zwei Minuten genügt, was da ist; die eigene Meldung merkt `meldungenMerken` ohnehin sofort.
+*/
+const meldungenGeladenUm = new Map()
+globalThis.akMeldungenNeuLaden = (reihe, jetzt = Date.now(), frist = 120000) => {
+  if (jetzt - (meldungenGeladenUm.get(reihe) ?? -Infinity) < frist) return false
+  meldungenGeladenUm.set(reihe, jetzt)
+  return true
 }
