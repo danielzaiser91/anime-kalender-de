@@ -54,8 +54,10 @@ pruefe('chinesischer Titel: Originalname zuerst', suchNamen(titel({ land: 'CN', 
 pruefe('japanischer Titel: Englisch zuerst, ohne Doppelte', suchNamen(titel({ en: 'A', romaji: 'A', native: 'C' })).join() === 'A,C')
 
 console.log('\nTMDB-Katalog: Handurteile tragen die Pflichtmerkmale (Abgleich der Unsicheren, 11.10.2026)')
-const hand = (b: Partial<HandBeleg>, rest: Partial<Zuordnung> = {}): Record<string, Zuordnung> => ({ '1': { tmdbId: 1, art: 'tv', stufe: 'sicher', grund: 'von Hand bestätigt: x', von: 'hand', beleg: { genres: [16], jahr: [2020, 2020], name: 'original', ...b }, ...rest } })
+const hand = (b: Partial<HandBeleg>, rest: Partial<Zuordnung> = {}): Record<string, Zuordnung> => ({ '1': { tmdbId: 1, art: 'tv', stufe: 'sicher', grund: 'von Hand bestätigt: x', von: 'hand', beleg: { tmdb: 'tv/1', genres: [16], jahr: [2020, 2020], name: 'original', ...b }, ...rest } })
 pruefe('bestätigt mit Animation, Jahr gleich, Name: in Ordnung', pruefeHandEintraege(hand({})).length === 0)
+pruefe('Name leer oder unbekannt: Verstoß, „latein“ in Ordnung', pruefeHandEintraege(hand({ name: '' as HandBeleg['name'] })).length === 1 && pruefeHandEintraege(hand({ name: 'falsch' as HandBeleg['name'] })).length === 1 && pruefeHandEintraege(hand({ name: 'latein' })).length === 0)
+pruefe('Beleg einer anderen TMDB-Kennung: Verstoß', pruefeHandEintraege(hand({ tmdb: 'tv/2' })).length === 1 && pruefeHandEintraege(hand({ tmdb: 'movie/1' })).length === 1)
 pruefe('bestätigt ohne Animationsgenre und ohne Ausnahme: Verstoß', pruefeHandEintraege(hand({ genres: [18] })).length === 1)
 pruefe('Genre leer nur mit Ausnahme genre-leer', pruefeHandEintraege(hand({ genres: [] })).length === 1 && pruefeHandEintraege(hand({ genres: [], ausnahme: ['genre-leer'] })).length === 0)
 pruefe('Ausnahme genre-leer bei vorhandenen Genres: Verstoß', pruefeHandEintraege(hand({ genres: [18], ausnahme: ['genre-leer'] })).length === 1)

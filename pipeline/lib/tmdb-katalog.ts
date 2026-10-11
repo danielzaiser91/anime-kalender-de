@@ -43,6 +43,8 @@ export type Ausnahme = 'genre-leer' | 'genre-studio' | 'schlagwort' | 'jahr-fehl
 
 /** Merkmale des gewählten TMDB-Werks: Genre-Kennungen, Jahr (AniList, TMDB), Art des Namens (Originalschrift oder lateinisch). */
 export interface HandBeleg {
+  /** Kennung des Werks, dessen Merkmale hier stehen (`tv/123`); muss zum Eintrag passen. */
+  tmdb: string
   genres: number[]
   jahr: [number | null, number | null]
   name: 'original' | 'latein'
