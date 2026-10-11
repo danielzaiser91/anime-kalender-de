@@ -172,3 +172,5 @@ jobs:
         with:
           nachricht: 'chore(data): Lauf auf Abruf'
           fund: lauf
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          app-key: ${{ secrets.DATEN_APP_KEY }}

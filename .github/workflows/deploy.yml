@@ -43,7 +43,8 @@ permissions:
   actions: read
 
 concurrency:
-  group: pages
+  # Pushes der Daten-App überspringt der Job-`if`; der Lauf selbst bekäme sonst die Gruppe und bräche einen laufenden Deploy ab.
+  group: ${{ (github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') && format('app-push-{0}', github.run_id) || 'pages' }}
   cancel-in-progress: true
 
 jobs:
@@ -65,8 +66,9 @@ jobs:
     # Auslösern (push, workflow_dispatch) ist das Feld leer, deshalb die
     # Oder-Bedingung — sonst würde der Deploy von Hand nie mehr starten.
     if: >-
-      github.event_name != 'workflow_run' ||
-      github.event.workflow_run.conclusion == 'success'
+      (github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success') &&
+      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
     steps:
       # Sofort anmelden, noch vor allem anderen.
       #
@@ -173,8 +175,9 @@ jobs:
       LAUF_ZIEL: "Prüfkette grün, neuer Stand auf GitHub Pages"
       LAUF_SCHRITTE: '6'
     if: >-
-      github.event_name != 'workflow_run' ||
-      github.event.workflow_run.conclusion == 'success'
+      (github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success') &&
+      !(github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]')
     steps:
       - uses: actions/checkout@v4
 

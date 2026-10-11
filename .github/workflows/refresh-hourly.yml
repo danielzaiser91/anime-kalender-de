@@ -100,6 +100,8 @@ jobs:
         with:
           nachricht: 'chore(data): Sendezeiten gesammelt'
           fund: sendezeiten
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          app-key: ${{ secrets.DATEN_APP_KEY }}
 
       - name: Fehlschläge auswerten
         id: auswerten

@@ -402,7 +402,9 @@ const NUR_VON_HAND = {
     const pr = zeilen.some((z) => z.includes('quellen-pr.sh'))
     const cIndex = zeilen.findIndex((l) => l.trim() === 'concurrency:')
     const gZeile = cIndex < 0 ? undefined : zeilen.slice(cIndex + 1, cIndex + 4).find((l) => l.trim().startsWith('group:'))
-    const gruppe = gZeile ? gZeile.split(':')[1].trim() : undefined
+    const rohGruppe = gZeile ? gZeile.split(':')[1].trim() : undefined
+    // Der Bau weicht für Pushes der Daten-App auf eine eigene Gruppe aus (`… || 'bau' }}`), damit der übersprungene Lauf keinen wartenden Bau verdrängt.
+    const gruppe = rohGruppe?.endsWith("|| 'bau' }}") ? 'bau' : rohGruppe
     if (commit && datei !== 'bestand-bauen.yml') {
       console.error(`✗ ${datei} ruft commit-data.sh auf — nur der Bestandsbau schreibt auf main, alle anderen reichen per quellen-pr.sh ein.`)
       fehler++
