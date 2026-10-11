@@ -11,6 +11,7 @@
 import { DatabaseSync } from 'node:sqlite'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
+import { handleLauf } from '../worker/src/lauf.ts'
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
 import { DECKEL_ZEILEN, utcTag, sekundenBisMitternachtUtc } from '../worker/src/tagesdeckel.ts'
 
@@ -242,6 +243,34 @@ console.log('Lesezeilen: Gesamtzahl der Rohfolgen')
   pruefe(!erste.gezaehlt, '... und ohne COUNT(*)')
   const spaeter = await hole(1)
   pruefe(spaeter.inhalt.folgen.length === 1 && spaeter.inhalt.gesamt === 2 && spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): gesamt bleibt die ungekürzte Zahl, per COUNT(*)')
+}
+
+console.log('Lesezeilen: /lauf wird 30 Sekunden gehalten')
+{
+  const gehalten = new Map<string, Response>()
+  const global = globalThis as { caches?: unknown }
+  global.caches = {
+    default: {
+      match: async (k: Request) => gehalten.get(k.url)?.clone(),
+      put: async (k: Request, r: Response) => void gehalten.set(k.url, r),
+    },
+  }
+  const wartend: Promise<unknown>[] = []
+  const ctx = { waitUntil: (p: Promise<unknown>) => void wartend.push(p.catch(() => {})) } as never
+  const env = umgebung(neueDatenbank())
+  const hole = async (adresse: string) => {
+    abfragen.length = 0
+    const r = await handleLauf(new Request(`https://worker.test/lauf${adresse}`), env, ctx)
+    await Promise.all(wartend)
+    return { status: r.status, lesen: abfragen.filter((a) => /FROM lauf_status/.test(a.sql)).length }
+  }
+  const erste = await hole('')
+  const zweite = await hole('')
+  pruefe(erste.status === 200 && erste.lesen > 0, `erster Aufruf liest die Läufe (${erste.lesen} Abfragen)`)
+  pruefe(zweite.status === 200 && zweite.lesen === 0, 'zweiter Aufruf kommt aus dem Cache, 0 Abfragen auf lauf_status')
+  pruefe([...gehalten.values()][0]?.headers.get('Cache-Control') === 'public, max-age=30', 'die gehaltene Antwort trägt 30 Sekunden')
+  const verlauf = await hole('?verlauf=daten')
+  pruefe(verlauf.lesen > 0 && (await hole('?verlauf=daten')).lesen > 0, 'der Verlauf einer Lauf-Art (Detailseite) bleibt ungehalten')
 }
 
 if (fehler) {
