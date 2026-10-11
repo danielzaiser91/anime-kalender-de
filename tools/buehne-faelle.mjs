@@ -77,6 +77,8 @@ function schneide(fall, ak) {
     'franchises.json': { [wurzel]: ohneBilder(lies('franchises.json')[wurzel] ?? []) },
     'news.json': ohneBilder(lies('news.json').filter((n) => ids.has(n.titelId))),
     'synonyme.json': Object.fromEntries(Object.entries(lies('synonyme.json')).filter(([id]) => ids.has(Number(id)))),
+    // Die App fragt cartoons.json ab; der Katalog hat noch keinen Cartoon-Fall.
+    'cartoons.json': [],
   }
   const fertig = Object.fromEntries(Object.entries(roh).map(([name, daten]) => [name, uebersetzeDatei(name, daten, ak)]))
   return { ...fertig, ...folgenVerzeichnis(ids, ak), ...teildateien(ids, ak) }
