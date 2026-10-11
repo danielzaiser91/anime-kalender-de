@@ -20,11 +20,11 @@ const lauf = (events: ReleaseEvent[], releases: Release[] = []) => schreibeZweit
 
 console.log('\nZweitanbieter (Bau):')
 {
-  /* Das Band der Unterwelt: Crunchyroll 04.04.2026 Folge 15, Netflix ein halbes Jahr später. */
-  const cr = ev(1, 'crunchyroll', '2026-04-04', 15)
+  /* Das Band der Unterwelt: Crunchyroll Folge 15 am 08.08.2026, Netflix zwei Monate später. */
+  const cr = ev(1, 'crunchyroll', '2026-08-08', 15)
   const nf = ev(1, 'netflix', '2026-10-10', 15, { episodeCount: 24, episodeCountAssumed: true })
   lauf([cr, nf])
-  pruefe('Netflix Folge 15 trägt „erster: Crunchyroll, seit 04.04.2026“', nf.zweitanbieter?.erster === 'crunchyroll' && nf.zweitanbieter.seit === '2026-04-04', nf.zweitanbieter)
+  pruefe('Netflix Folge 15 trägt „erster: Crunchyroll, seit 08.08.2026“', nf.zweitanbieter?.erster === 'crunchyroll' && nf.zweitanbieter.seit === '2026-08-08', nf.zweitanbieter)
   pruefe('der Erste (Crunchyroll) trägt keine Marke', cr.zweitanbieter === undefined)
 }
 {
@@ -77,6 +77,16 @@ console.log('\nZweitanbieter (Bau):')
   const allein = ev(9, 'netflix', '2026-10-10', 1)
   lauf([allein])
   pruefe('ein einziger Anbieter: keine Marke', allein.zweitanbieter === undefined)
+}
+{
+  /* Ohne Folgennummer (Katalog, Batch) ist das Datum „Im Angebot seit“, nicht „erschienen am“: keine Marke; ein Film behält sie. */
+  const cr = ev(10, 'crunchyroll', '2026-01-01', 1)
+  const batch = ev(10, 'netflix', '2026-10-10', 1, { episode: undefined, releaseType: 'batch' })
+  const filmCr = ev(11, 'primevideo', '2026-01-01', 1, { episode: undefined, releaseType: 'movie' })
+  const film = ev(11, 'netflix', '2026-10-10', 1, { episode: undefined, releaseType: 'movie' })
+  lauf([cr, batch, filmCr, film])
+  pruefe('Termin ohne Folgennummer (Batch): keine Marke', batch.zweitanbieter === undefined, batch.zweitanbieter)
+  pruefe('Film ohne Folgennummer: Marke bleibt', film.zweitanbieter?.erster === 'primevideo', film.zweitanbieter)
 }
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)

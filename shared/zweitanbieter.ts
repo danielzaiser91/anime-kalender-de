@@ -2,7 +2,8 @@
  * **Zweitanbieter** (10.10.2026): Ein Streaming-Termin trägt die Marke, wenn dieselbe Folge desselben Titels
  * (AniList-ID, Film = Folge 1) bei einem anderen Streaming-Anbieter mindestens `ZWEITANBIETER_MIN_TAGE` früher
  * erschien. Kürzere Abstände sind Simulcast: beide sind Erste. TV, Disc und Kino liegen außerhalb der Regel,
- * ein Handbeleg „Premiere“ schlägt die Marke. Gerechnet wird im Bau, damit Seite, ICS und Newsletter dasselbe sagen.
+ * ein Handbeleg „Premiere“ schlägt die Marke. Ein Termin ohne Folgennummer (Katalog, Batch) trägt keine: „Im Angebot seit“
+ * ist nicht „erschienen am“ (11.10.2026). Gerechnet wird im Bau, damit Seite, ICS und Newsletter dasselbe sagen.
  */
 import type { PlatformId, Release, ReleaseEvent } from './types.ts'
 
@@ -45,6 +46,7 @@ export function schreibeZweitanbieter(events: ReleaseEvent[], releases: Release[
   let anzahl = 0
   for (const e of stream) {
     const f = fruehest.get(folgeKey(e))!
+    if (e.episode === undefined && e.releaseType !== 'movie') continue
     if (f.platform === e.platform || tage(f.date, e.date) < ZWEITANBIETER_MIN_TAGE) continue
     if (e.premiere) {
       kollisionen.push(`"${e.releaseSlug}" ${e.date}: Handbeleg „Premiere“, aber ${f.platform} brachte Folge ${e.episode ?? 1} schon am ${f.date}`)

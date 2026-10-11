@@ -7,7 +7,7 @@
 # Keine Zeile nötig? Dann steht in der PR-Beschreibung „Patch Notes: keine – <Grund>“ (tools/check-patchnotes-pflicht.mjs).
 - kategorie: feature
   text: Zeile zeigt, wo eine Folge zuerst lief
-  untertitel: Spätere Anbieter unter dem Raster, im Filter ausblendbar
+  untertitel: Zeile unter dem Tag, auf Wunsch ausblendbar
 - kategorie: feature
   text: Filterfenster am Handy breiter, Knöpfe leichter zu treffen
   untertitel: Gewählt grün, ausgeschlossen rot, überall gleich
