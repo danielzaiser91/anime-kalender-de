@@ -55,6 +55,9 @@ export function amazonTitelAdresse(kennung: string): string {
  * ASINs unter `/gp/video/detail/`: **fünfzehn von fünfzehn** mit voller
  * Titelseite, auch die acht, deren `/dp/`-Form lebt.
  *
+ * Zweite Stichprobe 11.10.2026 (15 zufällige ASINs, einzeln abgerufen): `/gp/video/detail/` 15 von 15 lebt,
+ * `/dp/` 3 von 15 mit 404 (B0FTTR1XB9, B0CK7HLF2F, B0CH88PCPB) — Daniels Einzeltest „`/dp/` geht" gilt nicht für alle.
+ *
  * **Abfrage und `ref` fallen weg** (11.10.2026): `?ref_=…`, `/ref=…`, `?linkId=…&language=…` tragen nichts zur
  * Seite, nur Tracking und Länge. Die Kennung im Pfad bleibt, wie sie ist.
  *
