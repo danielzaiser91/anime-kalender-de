@@ -3,7 +3,7 @@ name: Wache — Wecker
 # **Die zweite, unabhängige Linie hinter dem Cloudflare-Wecker.** Der Wecker (`worker/src/wecker.ts`) startet die Datenläufe zur vollen Stunde. Fällt er aus
 # (Token abgelaufen, Worker gestört, GitHub-API verweigert), käme sonst nichts mehr — und niemand merkte es, bis eine Quelle seit Tagen schweigt.
 # Diese Wache läuft über GitHubs eigenen Cron (der ist unpünktlich, aber unabhängig von Cloudflare) und startet jeden Lauf, dessen letzter Start länger
-# zurückliegt als erlaubt und der gerade nicht läuft. Jeder Nachhol-Start steht als Warnung im Protokoll — das ist das Zeichen, dass der Wecker prüfenswert ist.
+# zurückliegt als erlaubt und der gerade nicht läuft. Ein Nachhol-Start steht als Warnung im Protokoll und lässt den Lauf rot enden — das Zeichen, dass der Wecker prüfenswert ist.
 
 on:
   schedule:
@@ -26,6 +26,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Überfällige Läufe nachholen
+        id: nachholen
         run: |
           # Mit ":ohne-abbruch" zählt ein abgebrochener Lauf nicht als Start (der Monatslauf wurde am 02.10.2026 nach 4 s abgebrochen und nie wiederholt).
           # Workflow : erlaubtes Alter des letzten Starts in Stunden (etwas mehr als der Takt, damit eine kleine Verspätung keinen Doppelstart auslöst)
@@ -45,3 +46,24 @@ jobs:
             fi
           done
           echo "Nachgeholt: $nachgeholt" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "nachgeholt=$nachgeholt" >> "$GITHUB_OUTPUT"
+
+      # Ein Nachhol-Start heißt, der Wecker hat gefehlt: in der Laufstatus-App melden und rot enden, statt im Protokoll zu verschwinden.
+      # Gemeldet wird nur dann — sonst stünde alle 3 Stunden ein grüner Lauf in der Anzeige.
+      - uses: actions/checkout@v4
+        if: always() && steps.nachholen.outputs.nachgeholt != '0'
+        with:
+          sparse-checkout: tools/lauf-melden.sh
+
+      - name: Nachholen melden
+        if: always() && steps.nachholen.outputs.nachgeholt != '0'
+        continue-on-error: true
+        env:
+          LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
+          LAUF_ZWECK: "Holt Datenläufe nach, wenn der Cloudflare-Wecker sie nicht gestartet hat"
+          LAUF_ZIEL: "Kein Nachhol-Start nötig: der Wecker startet alle Läufe pünktlich"
+        run: 'bash tools/lauf-melden.sh fehler "Wecker fehlte, nachgeholt: ${{ steps.nachholen.outputs.nachgeholt }}"'
+
+      - name: Rot enden
+        if: steps.nachholen.outputs.nachgeholt != '0'
+        run: exit 1
