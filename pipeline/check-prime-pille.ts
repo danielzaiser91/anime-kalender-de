@@ -7,6 +7,7 @@ import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import type { Release, Title } from '../shared/types.ts'
 import { expandEvents, istErschienen } from '../shared/logic.ts'
+import { amazonAdresseRichten } from './lib/amazon-adresse.ts'
 import { releasesAus } from './lib/meldungen.ts'
 import { kanalDesEintrags, leseSammelartikel, vorschlaegeAusSammelartikel } from './lib/sammelartikel.ts'
 import { ergaenzeVerweiseVonHand } from './lib/verweise-von-hand.ts'
@@ -95,6 +96,18 @@ pruefe(
   weg?.platform === 'primevideo' && weg.url === 'https://www.amazon.de/gp/video/detail/B0HKFFGQ7F' && weg.kanal === 'Crunchyroll',
   weg,
 )
+
+/* Prime-Adressen: Abfrage und ref fallen weg, die Kennung im Pfad bleibt (Daniel, 11.10.2026). */
+const asin = 'https://www.amazon.de/gp/video/detail/B0HKFFGQ7F'
+const gti = 'https://www.amazon.de/gp/video/detail/amzn1.dv.gti.22ada97d-e844-4078-854b-7509744a5c1f'
+pruefe('ASIN mit ?ref_ verliert die Abfrage', amazonAdresseRichten(`${asin}?ref_=atv_dp`) === asin)
+pruefe('ASIN mit /ref= verliert den Pfadanhang', amazonAdresseRichten(`${asin}/ref=atv_dp_x?foo=1`) === asin)
+pruefe('GTI mit linkId und language verliert die Abfrage, der Pfad bleibt', amazonAdresseRichten(`${gti}?linkId=db86&language=de_DE`) === gti)
+pruefe('Fragment fällt weg', amazonAdresseRichten(`${asin}#x`) === asin)
+pruefe('/dp/ASIN?ref geht auf die Video-Adresse ohne Abfrage', amazonAdresseRichten('https://www.amazon.de/dp/B0HKFFGQ7F?ref_=x') === asin)
+pruefe('Schon sauber bleibt unverändert', amazonAdresseRichten(asin) === asin && amazonAdresseRichten(gti) === gti)
+const watch = 'https://watch.amazon.de/detail?gti=amzn1.dv.gti.a3fa85b3-9fd1-4c50-89ce-13e8d5953f92'
+pruefe('watch.amazon.de: die Abfrage ist die Kennung und bleibt', amazonAdresseRichten(watch) === watch)
 
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
