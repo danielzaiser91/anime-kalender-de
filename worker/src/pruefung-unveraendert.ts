@@ -80,8 +80,9 @@ export async function ladeOffeneHashes(env: Env, urls: string[]): Promise<Offene
   const offene: OffeneHashes = { zeilen, listenbauAm: () => (bau ??= holeListenbauAm(env)) }
   const einzigartig = [...new Set(urls)]
   if (!einzigartig.length) return offene
+  // INDEXED BY: ohne nimmt der Planer ab 2 Adressen idx_pruefung_offen und liest alle offenen Zeilen (EXPLAIN, 11.10.2026).
   const { results } = await env.DB.prepare(
-    `SELECT id, url, folge_nr, staffel, seiten_kennung, hash, gemeldet_am FROM pruefung
+    `SELECT id, url, folge_nr, staffel, seiten_kennung, hash, gemeldet_am FROM pruefung INDEXED BY pruefung_url_zeit
       WHERE uebernommen = 0 AND url IN (${einzigartig.map(() => '?').join(',')})`,
   )
     .bind(...einzigartig)

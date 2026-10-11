@@ -37,16 +37,26 @@ function neueDatenbank() {
 
 type Anweisung = { run: () => Promise<unknown>; all: () => Promise<unknown>; first: () => Promise<unknown>; bind: (...w: unknown[]) => Anweisung }
 
+/* Jede ausgeführte Anweisung mit ihren Werten, damit der Test ihren Plan (EXPLAIN QUERY PLAN) prüfen kann. */
+const abfragen: { sql: string; werte: unknown[] }[] = []
+
 function d1(db: DatabaseSync, zaehler: { geschrieben: number }) {
   const anweisung = (sql: string, werte: unknown[] = []): Anweisung => ({
     bind: (...w) => anweisung(sql, w),
     run: async () => {
+      abfragen.push({ sql, werte })
       const r = db.prepare(sql).run(...(werte as never[]))
       zaehler.geschrieben += Number(r.changes)
       return { meta: { changes: Number(r.changes), rows_written: Number(r.changes) } }
     },
-    all: async () => ({ results: db.prepare(sql).all(...(werte as never[])), meta: { rows_written: 0 } }),
-    first: async () => db.prepare(sql).get(...(werte as never[])) ?? null,
+    all: async () => {
+      abfragen.push({ sql, werte })
+      return { results: db.prepare(sql).all(...(werte as never[])), meta: { rows_written: 0 } }
+    },
+    first: async () => {
+      abfragen.push({ sql, werte })
+      return db.prepare(sql).get(...(werte as never[])) ?? null
+    },
   })
   return {
     prepare: (sql: string) => anweisung(sql),
@@ -179,6 +189,21 @@ console.log('Unveränderte Meldung und Listenbau (Bleach-Fall, pruefung-stand.ts
   await handlePruefung(post(folge(1)), env)
   pruefe(z.geschrieben === nachErneuerung, 'die zweite gleiche Meldung schreibt 0 Zeilen')
   pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 1, 'weiter keine Dublette')
+}
+
+console.log('Lesezeilen: Pläne der Abfragen einer Meldung (EXPLAIN QUERY PLAN, 11.10.2026)')
+const planVon = (db: DatabaseSync, a: { sql: string; werte: unknown[] }) =>
+  (db.prepare(`EXPLAIN QUERY PLAN ${a.sql}`).all(...(a.werte as never[])) as { detail: string }[]).map((z) => z.detail).join(' ; ')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  abfragen.length = 0
+  const adresse = (n: number) => ({ ...folge(1), url: `https://www.disneyplus.com/de-de/browse/entity-${n}` })
+  await handlePruefung(post({ stapel: [adresse(1), adresse(2), adresse(3)] }), env)
+  const hashAbfrage = abfragen.find((a) => /FROM pruefung\b.*WHERE uebernommen = 0 AND url IN/s.test(a.sql))
+  const plan = hashAbfrage ? planVon(db, hashAbfrage) : ''
+  pruefe(hashAbfrage?.werte.length === 3, 'der Stapel mit drei Adressen lädt die offenen Zeilen mit einer Abfrage')
+  pruefe(plan.includes('pruefung_url_zeit') && !plan.includes('idx_pruefung_offen'), `die Hash-Abfrage nimmt bei drei Adressen den Adress-Index (${plan})`)
 }
 
 if (fehler) {
