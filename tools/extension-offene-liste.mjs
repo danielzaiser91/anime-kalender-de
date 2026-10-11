@@ -26,10 +26,10 @@ import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+import { ausgeblendet, eintragsInfo, ladeBestand, ladeCartoons, nachRang } from './pruef-bestand.mjs'
 /** Verweise, denen eine zweite Quelle widerspricht — sie gehören auf die Liste. */
 const verdaechtig = verdachtsfaelle(wurzel, 'netflix')
-const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
-const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
+const titel = [...ladeBestand(wurzel), ...ladeCartoons(wurzel)]
 
 /**
  * Die Kennung aus einer Netflix-Adresse — `/title/70302573` → `70302573`.
@@ -59,7 +59,7 @@ for (const t of titel) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'netflix') continue
     const id = kennung(s.url)
-    if (!id) continue
+    if (!id || ausgeblendet(t, 'netflix', s.dub)) continue
     jeAdresse.set(id, [...(jeAdresse.get(id) ?? []), { t, dub: s.dub }])
   }
 }
@@ -149,7 +149,7 @@ function zustandVon(e) {
 }
 
 const offen = {}
-for (const [id, eintraege] of jeAdresse) {
+for (const [id, eintraege] of nachRang(jeAdresse)) {
   /**
    * Gefragt wird nur nach dem, was auch angezeigt wird.
    *
@@ -410,6 +410,7 @@ for (const [id, eintraege] of jeAdresse) {
   offen[id] = {
     titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
     asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
+    ...eintragsInfo(sortiert[0].t, 'netflix', sortiert[0].dub),
     staffeln: sortiert.map((e, i) => ({
       nr: i + 1,
       /*

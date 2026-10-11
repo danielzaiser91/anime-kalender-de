@@ -1,0 +1,10 @@
+{
+  "_hinweis": "Regeln für die Prüfliste der Erweiterung (tools/pruef-bestand.mjs). erweitert=false: Liste wie bisher. erweitert=true: Cartoons, Wege ohne Folgenzahl und Rangordnung (laufende zuerst). vertrauen ordnet jeder Quelle der Angabe eine Stufe zu (ungeprueft | hoch); ausblenden nennt die Stufen, deren Wege nicht auf die Liste kommen. Vorgabe 11.10.2026: nichts ausblenden, alle Quellen ungeprueft; die Stufen kommen aus der JustWatch-Quellenprüfung (Daniel).",
+  "erweitert": false,
+  "vertrauen": {
+    "justwatch": "ungeprueft",
+    "tmdb": "ungeprueft",
+    "datensatz": "ungeprueft"
+  },
+  "ausblenden": []
+}

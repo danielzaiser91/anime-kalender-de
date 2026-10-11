@@ -37,6 +37,8 @@ import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+import { ausgeblendet, eintragsInfo, ladeBestand, ladeCartoons, nachRang, regeln } from './pruef-bestand.mjs'
+import { nachschlagVon } from './prime-nachschlag.mjs'
 /**
  * **Ein Verdachtsfall ist geprüft und trotzdem offen.**
  *
@@ -70,8 +72,10 @@ const geprueftePrime = (() => {
   const kennungen = new Set()
   let id = null
   let istPrime = false
+  /* Negative Kennungen (Cartoons) zählen nur mit dem Schalter; ohne ihn bleibt die Liste, wie sie war. */
+  const kennungMuster = regeln(wurzel).erweitert ? /^- anilistId: (-?\d+)/ : /^- anilistId: (\d+)/
   for (const zeile of belege.split('\n')) {
-    const neu = /^- anilistId: (\d+)/.exec(zeile)
+    const neu = kennungMuster.exec(zeile)
     if (neu) {
       id = Number(neu[1])
       istPrime = false
@@ -95,26 +99,8 @@ const geprueftePrime = (() => {
   }
   return { ids, adressen, kennungen }
 })()
-const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
-/*
-  **Nachschlagen: MAL und IMDb je Auftrag** (Daniel, 19.09.2026, Entwurf B). Die MAL-Kennung
-  steht am Titel, die IMDb-Kennung kommt über Wikidata (`data/imdb-ids.json`). Der Kasten
-  zeigt daraus die Zeile „Nachschlagen: MAL IMDb“ — für Staffel- und Teilfragen wie Grisaia
-  Stargazer oder Fushigi Yugi OVA.
-*/
-const imdbIds = (() => {
-  try {
-    return JSON.parse(readFileSync(resolve(wurzel, 'data/imdb-ids.json'), 'utf8'))
-  } catch {
-    return {}
-  }
-})()
-function nachschlag(t) {
-  if (!t?.malId) return {}
-  const imdb = imdbIds[String(t.malId)]
-  return { malId: t.malId, ...(imdb ? { imdb } : {}) }
-}
-const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
+const nachschlag = nachschlagVon(wurzel)
+const titel = ladeBestand(wurzel)
 
 /**
  * Die Kennung aus einer Amazon-Adresse.
@@ -178,12 +164,12 @@ const primeSeite = (s) => {
 
 /** Alle unsere Einträge je Amazon-Kennung — auch die schon beantworteten. */
 const jeAsin = new Map()
-for (const t of titel) {
+for (const t of [...titel, ...ladeCartoons(wurzel)]) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'primevideo') continue
     const seite = primeSeite(s)
     const asin = seite && kennung(seite)
-    if (!asin) continue
+    if (!asin || ausgeblendet(t, 'primevideo', s.dub)) continue
     jeAsin.set(asin, [...(jeAsin.get(asin) ?? []), { t, dub: s.dub, url: seite }])
   }
 }
@@ -276,7 +262,7 @@ function listenName(t) {
 const JAHRESZEIT = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
 let schonGeprueft = 0
 const offen = {}
-for (const [asin, eintraege] of jeAsin) {
+for (const [asin, eintraege] of nachRang(jeAsin)) {
   /*
     **Ein Verdachtsfall ist beantwortet und trotzdem offen.**
 
@@ -313,6 +299,7 @@ for (const [asin, eintraege] of jeAsin) {
     ...(verdacht ? { erneut: verdachtHinweis(verdacht) } : {}),
     titel: listenName(sortiert[0].t),
     url: sortiert[0].url,
+    ...eintragsInfo(sortiert[0].t, 'primevideo', sortiert[0].dub),
     eintraege: sortiert.map((e) => ({
       id: e.t.id,
       name: listenName(e.t),
