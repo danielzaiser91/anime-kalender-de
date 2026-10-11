@@ -7,7 +7,7 @@
  * 1,1 MB) füllte sonst das Limit, der Prüfer sah den Code nicht und musste zwingend „aendern" urteilen.
  *
  * Gestubbt wird nur, was in STUB_PFAD steht und über GRENZE_STUB Byte Diff hat (oder dessen Diff GitHub nicht
- * liefert): Datendateien unter data/ (.json, .jsonl, .yaml) und public/data/. Handbelege (`data/dub-confirmed.yaml`,
+ * liefert): Datendateien unter data/ (.json, .jsonl, .yaml) und public/data/. Handbelege (`data/dub-confirmed.yaml`, `data/cache/`,
  * `data/curated/`) und jede Code-, Workflow- oder Doku-Datei bleiben immer vollständig.
  * Ist der Rest über GRENZE_GESAMT Byte, fehlt eine Datei ohne Diff oder die Liste ist leer, ist der Zustand `unvollstaendig`.
  */
@@ -20,12 +20,18 @@ export const GRENZE_GESAMT = 400000
 const API_MAXIMUM = 3000
 
 const STUB_PFAD = /^(data\/(?:[^/]+\/)*[^/]+\.(?:json|jsonl|yaml)|public\/data\/(?:[^/]+\/)*[^/]+\.(?:json|jsonl|yaml))$/
-const NIE_STUB = /^(data\/dub-confirmed\.yaml|data\/curated\/.*)$/
+// data/cache/ gehört nie in einen PR; der Prüfer soll den Verstoß im vollen Diff sehen. [\s\S] statt ., damit kein Zeichen entkommt.
+const NIE_STUB = /^(data\/dub-confirmed\.yaml|data\/curated\/[\s\S]*|data\/cache\/[\s\S]*)$/
+const STEUERZEICHEN = /[\x00-\x1f\x7f]/
 
-/** Darf diese Datei gestubbt werden? Anker und Ausschluss sind absichtlich eng; `..` und Zeilenumbrüche treffen nie. */
+/** Darf diese Datei gestubbt werden? Anker und Ausschluss sind absichtlich eng; `..` und Steuerzeichen treffen nie. */
 export function stubbar(pfad) {
-  return typeof pfad === 'string' && STUB_PFAD.test(pfad) && !NIE_STUB.test(pfad) && !pfad.split('/').includes('..')
+  if (typeof pfad !== 'string' || STEUERZEICHEN.test(pfad)) return false
+  return STUB_PFAD.test(pfad) && !NIE_STUB.test(pfad) && !pfad.split('/').includes('..')
 }
+
+/** Pfade sind Fremddaten: Steuerzeichen (Zeilenumbruch!) werden als \xNN ausgegeben, damit kein Pfad Zeilen in den Prüfer-Text einschleust. */
+const maskiere = (pfad) => pfad?.replace(/[\x00-\x1f\x7f]/g, (c) => '\\x' + c.charCodeAt(0).toString(16).padStart(2, '0'))
 
 function kopf(d) {
   const alt = d.previous_filename ?? d.filename
@@ -46,7 +52,7 @@ function abschnitt(d) {
   const hatPatch = typeof d.patch === 'string' && d.patch !== ''
   const bytes = hatPatch ? Buffer.byteLength(d.patch) : null
   const aenderungen = (d.additions ?? 0) + (d.deletions ?? 0)
-  if (stubbar(d.filename) && (bytes === null ? aenderungen > 0 : bytes > GRENZE_STUB)) {
+  if (!d.steuer && stubbar(d.filename) && (bytes === null ? aenderungen > 0 : bytes > GRENZE_STUB)) {
     return { text: `${kopf(d)}\n${stubZeile(d, bytes)}`, gestubbt: true, fehlt: false }
   }
   if (hatPatch) return { text: `${kopf(d)}\n--- a/${d.previous_filename ?? d.filename}\n+++ b/${d.filename}\n${d.patch}`, gestubbt: false, fehlt: false }
@@ -56,7 +62,8 @@ function abschnitt(d) {
 
 /** Eingabe: Dateiobjekte der API. Ausgabe: { diff, zustand, gestubbt[] }. */
 export function baueDiff(dateien) {
-  const teile = dateien.map(abschnitt)
+  const sicher = dateien.map((d) => ({ ...d, filename: maskiere(d.filename), previous_filename: maskiere(d.previous_filename), steuer: STEUERZEICHEN.test(d.filename) }))
+  const teile = sicher.map(abschnitt)
   let diff = teile.map((t) => t.text).join('\n') + '\n'
   let zustand = 'ok'
   if (dateien.length === 0 || dateien.length >= API_MAXIMUM || teile.some((t) => t.fehlt)) zustand = 'unvollstaendig'
@@ -64,7 +71,7 @@ export function baueDiff(dateien) {
     zustand = 'unvollstaendig'
     diff = Buffer.from(diff).subarray(0, GRENZE_GESAMT).toString()
   }
-  const gestubbt = dateien.filter((_, i) => teile[i].gestubbt).map((d) => d.filename)
+  const gestubbt = sicher.filter((_, i) => teile[i].gestubbt).map((d) => d.filename)
   return { diff, zustand, gestubbt }
 }
 

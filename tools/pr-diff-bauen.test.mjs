@@ -20,6 +20,11 @@ pruefe('public/data gestubbt', baueDiff([datei('public/data/titles.json', groß)
 for (const pfad of ['data/skript.ts', 'data/x.mjs', 'data/x.yml', 'data/x.json.ts', 'data/x.md', 'tools/x.json', 'public/data/x.js', '.github/workflows/x.yaml', 'data/../tools/x.json', 'data/x.json\n.ts']) {
   pruefe(`Pfad ${JSON.stringify(pfad)} nie stubbar`, !stubbar(pfad))
 }
+pruefe('data/cache nie gestubbt (voller Diff sichtbar)', baueDiff([datei('data/cache/x.json', groß)]).gestubbt.length === 0)
+const umbruch = baueDiff([datei('data/curated/a\nb.json', groß), datei('data/a\nb.json', groß), datei('data/a\rb.json', groß)])
+pruefe('Pfade mit Zeilenumbruch/CR nie gestubbt', umbruch.gestubbt.length === 0)
+pruefe('Pfad mit Zeilenumbruch nie unmaskiert im Diff', !umbruch.diff.includes('a\nb.json') && !umbruch.diff.includes('a\rb') && umbruch.diff.includes('data/curated/a\\x0ab.json'))
+pruefe('stubbar() lehnt Steuerzeichen ab', !stubbar('data/curated/a\nb.json') && !stubbar('data/a\u0001b.json'))
 const code = baueDiff([datei('pipeline/lib/gross.ts', groß)])
 pruefe('großer Code-Diff nie gestubbt (und unter 400000 Byte ok)', code.gestubbt.length === 0 && code.zustand === 'ok')
 const ueber = baueDiff([datei('pipeline/lib/a.ts', 'x'.repeat(250000)), datei('pipeline/lib/b.ts', 'y'.repeat(250000))])
