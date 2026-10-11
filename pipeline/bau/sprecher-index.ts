@@ -22,7 +22,7 @@ const GRUPPE_MAX_GZIP = 60_000
 
 interface VoiceDatei {
   titleId: number
-  roles?: { character: string; actor: string; von?: 'ann' }[]
+  roles?: { character: string; actor: string; von?: 'ann' | 'anisearch' }[]
 }
 
 export function schreibeSprecherIndex({ ausgeliefert }: { ausgeliefert: Set<number> }): void {

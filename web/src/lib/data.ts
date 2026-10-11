@@ -319,7 +319,7 @@ export interface VoiceRole {
    * die die Angaben zeigt. Ohne dieses Feld liesse sich nicht sagen, ob der
    * Link ueberhaupt faellig ist.
    */
-  von?: 'ann'
+  von?: 'ann' | 'anisearch'
 }
 
 /** Die Sprecherliste eines Titels samt Herkunft. */
