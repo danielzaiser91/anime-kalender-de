@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-11T16:02:03.093Z",
+ "erzeugtAm": "2026-10-11T16:32:19.644Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -763,9 +763,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 389,
+   "gemeldet": 376,
    "gesamt": 636,
-   "offen": 247,
+   "offen": 260,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -1961,8 +1961,7 @@
     },
     {
      "url": "https://www.netflix.com/title/70171942",
-     "titel": "Archer",
-     "hinweis": "Staffeln unklar: TMDB zählt 140 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+     "titel": "Archer"
     },
     {
      "url": "https://www.netflix.com/title/70155567",
