@@ -121,7 +121,7 @@ function erstausgabeUebernehmen(titles: Map<number, Title>): void {
   for (const [anilist, anisearchId] of Object.entries(anisearchHand)) {
     const t = titles.get(Number(anilist))
     const e = alle()[String(anisearchId)]
-    if (t && e && e.dub !== '-' && !t.deErstausgabe) t.deErstausgabe = erstausgabeAus(e)
+    if (t && e && e.dub !== '-' && e.dub !== 'p' && !t.deErstausgabe) t.deErstausgabe = erstausgabeAus(e)
   }
 }
 
@@ -165,7 +165,7 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
       studios: e.st ?? [],
       dubConfidence: SICHERHEIT[e.dub],
       streams: [],
-      ...(e.dub !== '-' ? { deErstausgabe: erstausgabeAus(e) } : {}),
+      ...(e.dub !== '-' && e.dub !== 'p' ? { deErstausgabe: erstausgabeAus(e) } : {}),
     } as Title)
     if (e.von) {
       jpStart.set(id, e.von)

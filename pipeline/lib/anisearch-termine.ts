@@ -81,6 +81,8 @@ export interface AnisearchTermin {
 export function mitDubKennzeichen(titelId: number, termin: AnisearchTermin | undefined): AnisearchTermin | undefined {
   dubKennzeichen ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {})
   const kennzeichen = dubKennzeichen[String(titelId)]
+  /* Geplant (`p`) gilt als noch nicht veröffentlicht, auch wo der Block Datum und „Abgeschlossen“ trägt (Daniel, 11.10.2026): kein deutsches Datum. */
+  if (kennzeichen === 'p') return undefined
   if (kennzeichen !== 'c' && kennzeichen !== 'd') return termin
   return { zitat: 'aniSearch-Dub-Liste', ...termin, synchro: true, ...(kennzeichen === 'c' ? { teil: true } : {}) }
 }

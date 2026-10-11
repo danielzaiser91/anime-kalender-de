@@ -32,6 +32,15 @@ export function deutschLautAnisearch(t: Title): boolean {
 }
 
 /**
+ * aniSearch führt Deutsch als „Geplant“ (`p`): Die deutsche Fassung gilt als noch nicht veröffentlicht, auch wo der Block Datum und „Abgeschlossen“ trägt
+ * (Daniel, 11.10.2026; Reincarnated as a Dragon Hatchling: der Block wiederholte den Japan-Zeitraum, ADN zeigte nur Untertitel).
+ */
+export function deutschGeplantLautAnisearch(titelId: number): boolean {
+  dubsAnisearch ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {})
+  return dubsAnisearch[String(titelId)] === 'p'
+}
+
+/**
  * **Eine deutsche Ausgabe ohne deutsche Vertonung ist keine Synchro** (Daniel, 06.10.2026, Handprüfung E: 10 von 10 Titeln, bei denen
  * aniSearch eine deutsche Ausgabe führt, hatten keine deutsche Tonspur; der Dub-Endpunkt hatte alle vorher richtig). Gemeint sind Titel
  * mit deutscher Erstausgabe (Kazé, peppermint, Crunchyroll …), deren Kennzeichen in `data/anisearch-dubs.json` „nicht genannt" lautet

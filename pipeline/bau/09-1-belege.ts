@@ -10,10 +10,16 @@ import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
+import { deutschGeplantLautAnisearch } from './ohne-beleg.ts'
 
-/** Ein geschätzter Termin, der noch aussteht, ist der Untertitel-Start — kein Beleg für eine Synchro. */
+/**
+ * Ein Termin, der noch aussteht, ist kein Beleg für eine Synchro von heute: geschätzt ist er der Untertitel-Start, und wo aniSearch Deutsch als „Geplant“ führt,
+ * ist er der Start der Synchro (Reincarnated as a Dragon Hatchling: ADN zeigt bis zum 22.10.2026 nur Untertitel).
+ */
 function terminBelegtNichts(release: Release, heute: string): boolean {
-  return release.titleId < 0 || (Boolean(release.schedule.estimated) && release.schedule.firstEpisodeDate > heute)
+  if (release.titleId < 0) return true
+  const kommt = release.schedule.firstEpisodeDate > heute
+  return kommt && (Boolean(release.schedule.estimated) || deutschGeplantLautAnisearch(release.titleId))
 }
 
 export function sammleBelege({
