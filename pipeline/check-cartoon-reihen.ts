@@ -7,7 +7,8 @@ import {
   bildeReihen, gemeinsamesWort, leseEntitaeten, pruefeReihen, qidAusExternalIds,
   type ReihenEintrag,
 } from './lib/cartoon-reihen.ts'
-import { cartoonReihen, REIHEN_DATEI } from './bau/cartoon-reihen.ts'
+import { cartoonReihen, ladeEigeneSerien, markiereEigeneWerke, REIHEN_DATEI } from './bau/cartoon-reihen.ts'
+import { hauptstaffeln } from '../shared/titles.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -83,6 +84,15 @@ if (cartoons.length && Object.keys(readJson<object>(REIHEN_DATEI, {})).length) {
   pruefe('Echter Bestand: mindestens 110 Cartoons mit Reihe', titel >= 110, `${titel}`)
   pruefe('Echter Bestand: Trilogie War for Cybertron steht zusammen', echte.some((r) => [-100617, -117682, -128255].every((i) => r.glieder.includes(i))))
 }
+
+// Eigene Serien einer Reihe (11.10.2026): Korra und Die sieben Häfen sind keine Staffeln von „Der Herr der Elemente".
+const avatar = markiereEigeneWerke(
+  { [-246]: [{ id: -246, name: 'A' }, { id: -33880, name: 'K' }, { id: -284833, name: 'H' }] },
+  [{ ids: [-33880, -284833], grund: 'g', quelle: 'https://x' }],
+)[-246]!
+pruefe('Eigene Serien tragen die Marke, die Hauptserie nicht', avatar.map((m) => Boolean(m.eigenesWerk)).join() === 'false,true,true')
+pruefe('Nur Marke-freie Teile zählen als Hauptstaffel', hauptstaffeln(avatar.map((m) => ({ ...m, format: 'TV' }))).map((m) => m.id).join() === '-246')
+pruefe('Die Handdatei der eigenen Serien ist vollständig belegt', ladeEigeneSerien().length >= 1)
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu Cartoon-Reihen verletzt`)

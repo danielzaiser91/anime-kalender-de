@@ -11,6 +11,8 @@ export const TEXTE_KALENDER = {
   ...TEXTE_SPRECHER,
   ...TEXTE_HERKUNFT,
   ...TEXTE_JUSTWATCH,
+  // Fortsetzung mit eigenem Titel in der Reihenliste, keine Staffel.
+  'detail.gruppeEigene': 'Eigene Serien',
   // Original noch nicht erschienen (Reihenliste, Datenbankkarte).
   'geplant.marke': 'Geplant',
   'geplant.hinweis': 'Das Original ist noch nicht erschienen',
@@ -64,6 +66,8 @@ export const TEXTE_KALENDER = {
   'detail.eineStaffel': '1 Staffel',
   'detail.einFilm': '1 Film',
   'detail.einSpecial': '1 Special',
+  'detail.eineEigeneSerie': '1 eigene Serie',
+  'detail.reiheEigeneSerien': '{n} eigene Serien',
   'detail.staffelnZahl': '{n} Staffeln',
   'detail.reiheFilme': '{n} Filme',
   'detail.reiheSpecials': '{n} Specials',

@@ -15,6 +15,8 @@ import yaml from 'js-yaml'
 import { ROOT } from './util.ts'
 import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import { warn } from './util.ts'
+import { loadCurated } from './curated.ts'
+import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
 
 export interface DubCheck {
   anilistId: number
@@ -148,7 +150,13 @@ export function adressKern(u: string | undefined): string {
   return awin ? `${ohne}?p=${awin[1]}` : ohne
 }
 
+/** Alle Synchro-Belege: die Handbelege und, wo keiner steht, die am kuratierten Termin (`dub-aus-terminen.ts`). */
 export function loadDubChecks(): DubCheck[] {
+  const hand = ladeHandbelege()
+  return [...hand, ...dubChecksAusTerminen(loadCurated(), hand)]
+}
+
+function ladeHandbelege(): DubCheck[] {
   if (!existsSync(DATEI)) return []
   const raw = yaml.load(readFileSync(DATEI, 'utf8'))
   if (!Array.isArray(raw)) return []

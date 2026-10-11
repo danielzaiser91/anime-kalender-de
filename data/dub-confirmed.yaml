@@ -21617,3 +21617,18 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   checkedAt: '2026-10-10'
   note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de|Deutsch, ja|Japanisch [Original], it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), en|Englisch, ar|Arabisch, hi|Hindi, pt-BR|Portugiesisch (Brasilien), es|Spanisch (Lateinamerika), ta|Tamil, te|Telugu, th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 10: Tenaga und Ashinaga"
+# --- Cartoon: Handbeleg Avatar: Die sieben Häfen, Daniel 11.10.2026 ---
+- anilistId: -284833
+  title: "Avatar: Die sieben Häfen"
+  platform: paramountplus
+  url: https://www.paramountplus.com/de/shows/avatar-seven-havens/
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Daniel, 11.10.2026: die ersten drei Folgen bei Paramount+ von Hand geprüft, deutsche Synchro vorhanden. Anime2You 1059426 (09.10.2026) wörtlich: „Die ersten drei Episoden von »Avatar: Die sieben Häfen« stehen ab sofort sowohl mit deutscher Synchronisation als auch in der englischen Originalfassung mit Untertiteln bei Paramount+ […] zur Verfügung.“ (https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/). Cartoon aus TMDB (negative Kennung)."
+- anilistId: -246
+  title: "Avatar - Der Herr der Elemente"
+  platform: netflix
+  url: https://www.netflix.com/title/70142405
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Daniel, 11.10.2026: deutsche Fassung bei Netflix von Hand geprüft. Netflix führt drei „Bücher“ (Buch 1: 20, Buch 2: 20, Buch 3: 21 Folgen, zusammen 61); TMDB führt ebenfalls drei Staffeln (20/20/21), unser Datensatz eine Serie mit 61 Folgen. ANGENOMMEN: Welche Folgen Daniel öffnete, ist nicht festgehalten; „dub: true“ heißt hier nur „deutscher Ton bei Netflix vorhanden“, nicht für alle 61 Folgen einzeln geprüft (keine Bereiche, kein `checked`). Cartoon aus TMDB (negative Kennung)."

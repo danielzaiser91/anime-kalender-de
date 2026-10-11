@@ -39,6 +39,11 @@ export interface CuratedEntry {
   schnitt?: { was: string[]; quellen: string[] }
   /** Warum der Eintrag so aussieht — für uns; erscheint nicht auf der Seite (siehe `Release.herkunft`). */
   herkunft?: string
+  /** Synchro-Beleg am Termin statt Handeintrag: `dub: true` samt Quelle, Wortlaut und Lesedatum (`lib/dub-aus-terminen.ts`). */
+  dub?: true
+  dubQuelle?: string
+  dubZitat?: string
+  dubGeprueftAm?: string
   /**
    * Zweitkandidaten für den Termin, jeweils mit Quelle.
    *

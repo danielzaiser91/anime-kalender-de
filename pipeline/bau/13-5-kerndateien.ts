@@ -2,6 +2,7 @@ import { writeJson, readJson, log } from '../lib/util.ts'
 import { pruefeInvarianten, zaehlworteStimmen } from '../lib/invarianten.ts'
 import { zaehleBelegte } from '../lib/belegstaerke.ts'
 import { OUT } from './grundlagen.ts'
+import { cartoonsAusReleases } from './cartoon-kern.ts'
 import { auslieferungsInvarianten } from './auslieferung-pruefen.ts'
 import { releasesAusNurOriginalton } from '../lib/pruefung.ts'
 import { autoReleaseWidersprueche } from '../lib/auto-release-pruefung.ts'
@@ -50,7 +51,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   {
     const newsHistorie = readJson<NewsHistorie>('data/news-historie.json', { zuerst: {} })
     const meldungen = entdoppeleUndMelde(messungenFuerFolgen(belegeFuerAlle(baueNews(
-      [...titles.values()],
+      [...titles.values(), ...cartoonsAusReleases(releases)],
       releases,
       readJson<{ id: number; seit: string }[]>(`${OUT}/neu-mit-synchro.json`, []),
       readJson<{ folgen?: { serieId: string; serie: string; nummer?: number; gesehenAm: string }[] }>(
