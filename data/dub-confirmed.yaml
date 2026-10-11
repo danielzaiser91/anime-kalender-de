@@ -22876,3 +22876,248 @@
   dub: true
   checkedAt: '2026-10-11'
   note: "Daniel, 11.10.2026: deutsche Fassung bei Netflix von Hand geprüft. Netflix führt drei „Bücher“ (Buch 1: 20, Buch 2: 20, Buch 3: 21 Folgen, zusammen 61); TMDB führt ebenfalls drei Staffeln (20/20/21), unser Datensatz eine Serie mit 61 Folgen. ANGENOMMEN: Welche Folgen Daniel öffnete, ist nicht festgehalten; „dub: true“ heißt hier nur „deutscher Ton bei Netflix vorhanden“, nicht für alle 61 Folgen einzeln geprüft (keine Bereiche, kein `checked`). Cartoon aus TMDB (negative Kennung)."
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-11 ---
+
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 37
+      to: 49
+      dub: true
+      checked: [37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+  checkedAt: '2026-10-11'
+  note: "Folgen 37–49 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 2: The Wind Cries Mary"
+- anilistId: -309792
+  title: "Agent P, Streng Geheim"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-efc092a6-54d4-4cfc-ab7b-f33a66999a38
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–8 mit deutschem Ton — Tonspuren: ar, ar-EG, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, it, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, tr"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 63
+      to: 75
+      dub: true
+      checked: [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75]
+  checkedAt: '2026-10-11'
+  note: "Folgen 63–75 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 8: The Kanes"
+- anilistId: -195439
+  title: "Ahoy Pirates!"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-daa19b2a-6232-4b2e-a703-784dd0d3e408
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 15
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–15 mit deutschem Ton — Tonspuren: de, el, en-GB, es-ES, fr-FR, it, nl, pl, pt-PT, tr"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 24
+      to: 36
+      dub: true
+      checked: [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
+  checkedAt: '2026-10-11'
+  note: "Folgen 24–36 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 7: Drift Problem"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 94
+      to: 101
+      dub: true
+      checked: [94, 95, 96, 97, 98, 99, 100, 101]
+  checkedAt: '2026-10-11'
+  note: "Folgen 94–101 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 4: A Warrior in Costume"
+- anilistId: -154820
+  title: "Alice in der Wunderland-Bäckerei"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-1d2914e7-7a77-47d4-a9eb-706e78f6ad92
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 25
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–25 mit deutschem Ton — Tonspuren: ar, de, el, en, es-419, es-ES, fr-FR, he, id, ja, ms, nl, pl, pt-BR, pt-PT, ro, th"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 135
+      to: 143
+      dub: true
+      checked: [135, 136, 137, 138, 139, 140, 141, 142, 143]
+  checkedAt: '2026-10-11'
+  note: "Folgen 135–143 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 9, dazwischen nicht geprüft — Folge 3: Plaqueentfernung"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 76
+      to: 85
+      dub: true
+      checked: [76, 77, 78, 79, 80, 81, 82, 83, 84, 85]
+  checkedAt: '2026-10-11'
+  note: "Folgen 76–85 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 8: Liquid Lunch"
+- anilistId: 235
+  title: "Detektiv Conan"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09JLN6S1R
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch — Amazon-Seite B09JLN6S1R: alle 24 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.8c5137b8-c4a7-4b56-9c6a-cc3e9233fd1f"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 127
+      to: 134
+      dub: true
+      checked: [127, 128, 129, 130, 131, 132, 133, 134]
+  checkedAt: '2026-10-11'
+  note: "Folgen 127–134 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 1: Die große Konferenz"
+- anilistId: 235
+  title: "Detektiv Conan"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09JLN6S1R
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FWXJHZNF: alle 24 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.8c5137b8-c4a7-4b56-9c6a-cc3e9233fd1f"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 111
+      to: 118
+      dub: true
+      checked: [111, 112, 113, 114, 115, 116, 117, 118]
+  checkedAt: '2026-10-11'
+  note: "Folgen 111–118 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, tr|Türkisch, it|Italienisch, fr|Französisch, es-ES|Spanisch (Spanien), pl|Polnisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 7: Beim Schlafen erwischt"
+- anilistId: 874
+  title: "Digimon Tamers"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CQ4VL364
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0CQ4VL364: alle 51 Folgen geprüft, Abos: Prime, aniversede, zugang=abo, gti=amzn1.dv.gti.a022ceac-ef91-4a9a-b265-7731f90e6e7a"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 11
+      to: 23
+      dub: true
+      checked: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+  checkedAt: '2026-10-11'
+  note: "Folgen 11–23 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 10: El Sequestro"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 10, dazwischen nicht geprüft — Folge 1: Pilot: Der Maulwurf"
+- anilistId: -1433
+  title: "American Dad"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-5b4ab988-e3a7-4750-a11a-9aa3d65f8cfe
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 121
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–121 mit deutschem Ton — Tonspuren: cs, de, en, es-419, es-ES, fr-FR, hu, it, pl, pt-BR"
+- anilistId: 874
+  title: "Digimon Tamers"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CQ4VL364
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0CKPCSHMC: alle 51 Folgen geprüft, Abos: Prime, aniversede, zugang=abo, gti=amzn1.dv.gti.a022ceac-ef91-4a9a-b265-7731f90e6e7a"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 119
+      to: 126
+      dub: true
+      checked: [119, 120, 121, 122, 123, 124, 125, 126]
+  checkedAt: '2026-10-11'
+  note: "Folgen 119–126 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 7: Colt-Express"
+- anilistId: -8620
+  title: "Do, Re & Mi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09C6NSHTZ
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Low, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Italiano, Nederlands, Português (Brasil), العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語 — Amazon-Seite B09C6NSHTZ: alle 6 Folgen geprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.abc864a5-0014-4dc1-811b-4f5758f1568e"
+- anilistId: -10283
+  title: "Archer"
+  platform: netflix
+  url: https://www.netflix.com/title/70171942
+  dub: true
+  dubRanges:
+    - from: 86
+      to: 93
+      dub: true
+      checked: [86, 87, 88, 89, 90, 91, 92, 93]
+  checkedAt: '2026-10-11'
+  note: "Folgen 86–93 mit deutschem Ton — Tonspuren: en|Englisch [Original], de|Deutsch, fr|Französisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 8, dazwischen nicht geprüft — Folge 1: No Good Deed"
+- anilistId: -8620
+  title: "Do, Re & Mi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09FRLPFK4
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch, English, English [Audio Description], English Dialogue Boost: Low, English Dialogue Boost: Medium, English Dialogue Boost: High, Español (España), Español (Latinoamérica), Français, Italiano, Nederlands, Português (Brasil), العربية, हिन्दी, 中文（中国）, 中文（台灣）, 日本語 — Amazon-Seite B09FRLPFK4: alle 1 Folge geprüft, Abos: Prime, FVOD, zugang=abo, gti=amzn1.dv.gti.4f48e770-a80d-4aac-8155-e8d5e14fd135"
+- anilistId: -8620
+  title: "Do, Re & Mi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09KFCBC3G
+  available: false
+  checkedAt: '2026-10-11'
+  note: "Amazon-Seite B09KFCBC3G: nur 0 von 5 Folgen geladen — Rest ungeprüft, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.f4bada48-db26-4277-9b2c-179f9ba205b9 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: -8620
+  title: "Do, Re & Mi"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B09KWVKG2Q
+  available: false
+  checkedAt: '2026-10-11'
+  note: "Amazon-Seite B09KWVKG2Q: nur 0 von 1 Folgen geladen — Rest ungeprüft, Abos: FVOD, zugang=abo, gti=amzn1.dv.gti.237c16e0-202b-43b5-970a-088e68cee574 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"

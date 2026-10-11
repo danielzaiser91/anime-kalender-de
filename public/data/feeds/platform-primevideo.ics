@@ -6,6 +6,18 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – primevideo
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-10-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261004T140000Z
+DTEND:20261004T143000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 1/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261004
@@ -13,18 +25,6 @@ DTEND;VALUE=DATE:20261005
 SUMMARY:Tank Chair – Folge 1/≈12
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17554/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-186541-primevideo@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261004
-DTEND;VALUE=DATE:20261005
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 1/1
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16547/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -46,6 +46,18 @@ DTEND:20261010T153000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 2/20
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-10-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261011T140000Z
+DTEND:20261011T143000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 2/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -92,6 +104,18 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261018T140000Z
+DTEND:20261018T143000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 3/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261018
@@ -135,6 +159,18 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261025T150000Z
+DTEND:20261025T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 4/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261025
@@ -155,6 +191,18 @@ SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 5/20
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261101T150000Z
+DTEND:20261101T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 5/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -181,6 +229,18 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261108T150000Z
+DTEND:20261108T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 6/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-11-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261108
@@ -201,6 +261,18 @@ SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 7/20
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261115T150000Z
+DTEND:20261115T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 7/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -227,6 +299,18 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261122T150000Z
+DTEND:20261122T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 8/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261122
@@ -247,6 +331,18 @@ SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 9/20
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261129T150000Z
+DTEND:20261129T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 9/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -273,6 +369,18 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261206T150000Z
+DTEND:20261206T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 10/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261206
@@ -296,6 +404,18 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261213T150000Z
+DTEND:20261213T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 11/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:tank-chair-primevideo@2026-12-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261213
@@ -316,6 +436,18 @@ SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 12/20
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261220T150000Z
+DTEND:20261220T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 12/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
