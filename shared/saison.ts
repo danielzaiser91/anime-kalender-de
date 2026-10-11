@@ -1,3 +1,5 @@
+import type { PlatformId, Release, Title } from './types.ts'
+
 /** Die vier Anime-Saisons Japans; `jpSeason` am Titel nutzt dieselben Namen wie AniList. */
 export type Saison = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL'
 export interface SaisonTag {
@@ -31,3 +33,21 @@ export function saisonZeitraum(s: SaisonTag): [string, string] {
 
 /** Fernseh- und Web-Serien — Filme, OVAs und Specials gehören nicht in den Saison-Überblick. */
 export const istSerie = (format: string | undefined): boolean => format === 'TV' || format === 'ONA'
+
+/** Der erste Termin je Titel und ob er geschätzt ist. */
+export function ersterTermin(releases: Release[] | undefined): { datum: string; geschaetzt: boolean } | undefined {
+  const liste = (releases ?? []).flatMap((r) => (r.schedule?.firstEpisodeDate ? [{ datum: r.schedule.firstEpisodeDate, geschaetzt: Boolean(r.schedule.estimated) }] : []))
+  return liste.sort((a, b) => a.datum.localeCompare(b.datum))[0]
+}
+
+export const hatDeutsch = (t: Pick<Title, 'streams' | 'deErstausgabe' | 'hasVoices'>): boolean => Boolean((t.streams ?? []).some((s) => s.dub === true) || t.deErstausgabe?.synchro || t.hasVoices)
+
+/**
+ * Wo die Synchro läuft — oder, wo sie nur angekündigt ist, der Anbieter der Ankündigung (nicht der des Untertitel-Starts allein).
+ * Ein sicherer Termin im Kalender nennt seinen Anbieter auch dort, wo der Titel noch keinen Weg trägt (Tokyo Revengers, Tank Chair; Daniel, 11.10.2026).
+ */
+export function anbieterVon(t: Pick<Title, 'streams' | 'ankuendigung'>, releases?: Release[]): PlatformId[] {
+  const angekuendigt = t.ankuendigung?.synchro === 'angekuendigt' ? [t.ankuendigung.platform] : []
+  const ausTermin = (releases ?? []).filter((r) => !r.schedule?.estimated).map((r) => r.platform)
+  return [...new Set([...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform), ...angekuendigt, ...ausTermin])]
+}
