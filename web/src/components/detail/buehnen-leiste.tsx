@@ -3,6 +3,7 @@ import { CoverMaximieren } from './cover-max.tsx'
 import { anzeigeName } from '@shared/titles.ts'
 import { HideEye, FavoriteStar } from '../ui.tsx'
 import { TIPPFLAECHE_KINDER } from './tippziel.ts'
+import { teilbarerSlug } from '@shared/teilen.ts'
 import { type Title } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 
@@ -35,7 +36,7 @@ export function BuehnenLeiste({ title, favorites, onToggleFavorite, onToggleHidd
       </button>
       <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
       <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
-      <ShareIcon slug={title.slug} name={anzeigeName(title)} />
+      {teilbarerSlug(title) && <ShareIcon slug={title.slug} name={anzeigeName(title)} />}
       <CoverMaximieren bild={buehnenBild} gross={grossBild} titel={anzeigeName(title)} />
     </div>
   )
