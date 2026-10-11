@@ -1,5 +1,6 @@
 // Prüft, dass ein Urteil nur in der vereinbarten Form durchkommt und der Eintrag oben in der Auswertung landet.
 import assert from 'node:assert/strict'
+import { briefkastenMitHilfe, ohneEigenenLauf } from './wache-urteil-dossier.mjs'
 import { berlinZeit, pruefeUrteil, setzeEin } from './wache-urteil-eintrag.mjs'
 
 const FUELLTEXT = 'Beleg aus Dossier 01: 12 Läufe grün, nichts auffällig.'
@@ -44,5 +45,17 @@ assert.ok(neu.indexOf('## 11.10.2026, 08:20 — Claude-Lauf, Befund') < neu.inde
 assert.ok(neu.startsWith('# Auswertung\n\nEinleitung.\n\n## 11.10.2026'), 'Kopf der Datei bleibt')
 assert.ok(neu.endsWith('## 02.10.2026, 15:05 — alt\n\nAlt.\n'), 'älterer Eintrag bleibt unverändert')
 assert.throws(() => setzeEin('# ohne Abschnitt\n', gut, new Date()), /Aufbau geändert/)
+
+// Dossier: der eigene Workflow wird nicht als Ausfall gewertet, der Rest der Zeile und andere Befunde bleiben.
+const eigen = ohneEigenenLauf('Wochenwache: a: Frist; claude-wache-urteil.yml: letzter erfolgreicher Lauf nie, erlaubt 36 h; deploy.yml: vor 50 h\nclaude-wache-urteil.yml         letzter Erfolg vor nie (erlaubt 36 h)\n')
+assert.ok(!eigen.includes('nie'), eigen)
+assert.ok(eigen.includes('deploy.yml: vor 50 h') && eigen.includes('a: Frist'))
+assert.equal((eigen.match(/eigener Lauf/g) ?? []).length, 2)
+
+// Briefkasten: Lesehilfe immer, Warnung nur bei gleichen Zahlen (Zählung je Zeile).
+assert.ok(briefkastenMitHilfe('Briefkasten: 189 Meldungen auf 36 Adressen (x 1)').includes('Lesehilfe'))
+assert.ok(!briefkastenMitHilfe('Briefkasten: 189 Meldungen auf 36 Adressen (x 1)').includes('Hinweis'))
+assert.ok(briefkastenMitHilfe('Briefkasten: 189 Meldungen auf 189 Adressen (x 1)').includes('Hinweis'))
+assert.ok(!briefkastenMitHilfe('Nichts im Briefkasten').includes('Hinweis'))
 
 console.log('wache-urteil: ok')
