@@ -54,7 +54,8 @@ pruefe('Vergleich: Beispiel nennt den kleinsten Titel des Clusters', v.beispiele
 const verschmolzen = vergleicheReihen([e(2, 1), e(4, 1)], new Map([[2, 'a'], [4, 'b']]), (id) => id)
 pruefe('Vergleich: zwei Referenz-Reihen in einer aniSearch-Komponente = verschmilzt', verschmolzen.cluster.verschmilzt === 1 && verschmolzen.gesamt.zusaetzlich === 2)
 
-/* Bestand: gemessen am 10.10.2026 mit 14.245 Titeln mit Seite, 78,0 % gleich (Hälfte A 76,1 % eingestellt, Hälfte B 79,0 % geprüft); die Grenzen liegen rund 6 Punkte darunter und schlagen nur bei einem Bruch an. */
+/* Bestand: gemessen am 11.10.2026 mit 15.091 Titeln mit Seite, 77,1 % gleich (Hälfte A 75,9 %, Hälfte B 78,2 %); die Grenzen liegen rund 6 Punkte darunter und schlagen nur bei einem Bruch an.
+ * Titel ohne Referenz-Reihe (aniSearch-Titel, die AniList nicht kennt: 2.409) zählen nicht mit — mit ihnen fiel der Wert nach dem Katalog-Lauf vom 10.10. auf 68,1 %, ohne dass ein Parser oder eine Seite kaputt war. */
 if (existsSync(REIHEN_DATEI)) {
   const b = JSON.parse(readFileSync(REIHEN_DATEI, 'utf8')) as ReihenDatei
   const summe = (z: ReihenDatei['gesamt']): number => z.gleich + z.fehlen + z.zusaetzlich + z.gemischt
