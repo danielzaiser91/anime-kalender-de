@@ -951,7 +951,7 @@ for (const gruppe of jeAdresse.values()) {
    * Ohne die Aufteilung des Anbieters bleibt es beim alten Weg: Bereiche über
    * die ganze Reihe, danach über die Folgenzahlen verteilt.
    */
-  const { jeStaffel, notizJeStaffel, ueberFolgentitel: ueberTitel } = verteileMeldungen(gruppe, anbieterStaffeln, staffeln)
+  const { jeStaffel, notizJeStaffel, ueberFolgentitel: ueberTitel } = verteileMeldungen(gruppe, anbieterStaffeln, staffeln, (grund) => liegenGeblieben(offenGeblieben, ohneZuordnung, p, `Folgentitel widersprechen sich — ${grund}`, ids, 'Meldung des Blocks prüfen'))
   ueberFolgentitel += ueberTitel
 
   /**
