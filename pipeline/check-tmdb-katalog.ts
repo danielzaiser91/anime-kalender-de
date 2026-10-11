@@ -25,6 +25,15 @@ pruefe('Silence (2016) ↔ Scorseses Film (Realfilm, englisch, 2016 gleiches Jah
 pruefe('Gathering (2010) ↔ US-Kurzfilm 2009 ohne Animation: nicht sicher', urteilKatalog(titel({ format: 'MOVIE', jahr: 2010, en: 'Gathering', native: '収集家の散歩' }), [treffer({ art: 'movie', id: 694767, name: 'Gathering', original: 'Gathering', datum: '2009-03-01', genres: [99], sprache: 'en' })]).stufe !== 'sicher')
 pruefe('Night Owl (2023) ↔ US-Horrorfilm: nicht sicher', urteilKatalog(titel({ format: 'MOVIE', jahr: 2023, en: 'Night Owl', native: '夜猫' }), [treffer({ art: 'movie', name: 'Night Owl', original: 'Night Owl', datum: '2023-06-01', genres: [27], sprache: 'en' })]).stufe !== 'sicher')
 
+console.log('\nTMDB-Katalog: lateinischer „Originalname“ (Romaji) ist kein Beweis (Prüferbefund 11.10.2026)')
+pruefe('Her (2014), native „Her“ ↔ Jonzes Realfilm 2013: nicht sicher', urteilKatalog(titel({ format: 'MOVIE', jahr: 2014, romaji: 'Her', native: 'Her' }), [treffer({ art: 'movie', id: 152601, name: 'Her', original: 'Her', datum: '2013-12-18', genres: [18, 878], sprache: 'en' })]).stufe !== 'sicher')
+const realfilme: [number, string, string | null, string][] = [[111023, 'NOISE', 'MOVIE', '2006'], [140354, 'mine', 'MOVIE', '2017'], [175057, 'MASTER', 'MOVIE', '2023'], [205287, 'Vision', 'MOVIE', '2023'], [148826, 'object', 'MOVIE', '2022'], [169483, 'Destiny', 'MOVIE', '2021'], [113639, 'FLOAT', 'MOVIE', '2015'], [136778, 'INHERIT', 'MOVIE', '2019'], [158644, 'espresso', 'ONA', '2020'], [157425, 'Protector', 'SPECIAL', '2022'], [214834, 'Path of Progress', 'ONA', '2025']]
+for (const [id, name, format, jahr] of realfilme) {
+  const r = urteilKatalog(titel({ id, format, jahr: Number(jahr), romaji: name, native: name }), [treffer({ art: 'movie', name, original: name, datum: `${jahr}-06-01`, genres: [18], sprache: 'en' })])
+  pruefe(`${name} (${jahr}), native gleich Romaji ↔ Realfilm gleichen Namens: nicht sicher`, r.stufe !== 'sicher', r)
+}
+pruefe('lateinisches native mit Animation und Sprache ja bleibt sicher', urteilKatalog(titel({ format: 'MOVIE', romaji: 'Her', native: 'Her' }), [treffer({ art: 'movie', name: 'Her', original: 'Her', genres: [16], sprache: 'ja' })]).stufe === 'sicher')
+
 console.log('\nTMDB-Katalog: unsicher und kein')
 pruefe('Name gleich, Jahr um zwei daneben: unsicher mit Grund', urteilKatalog(titel({ native: 'あ' }), [treffer({ original: 'あ', datum: '2023-01-01' })]).grund.startsWith('Jahr weicht ab'))
 pruefe('TMDB ohne Datum: unsicher', urteilKatalog(titel({ native: 'あ' }), [treffer({ original: 'あ', datum: undefined })]).grund === 'TMDB ohne Datum')

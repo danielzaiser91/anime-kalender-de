@@ -40,6 +40,9 @@ const ASIEN = new Set(['ja', 'zh', 'cn', 'ko'])
 /** Passt die TMDB-Art zum AniList-Format? ONA/OVA/SPECIAL gibt es bei TMDB als Film und als Serie. */
 const artOk = (format: string | null, art: string): boolean => (format === 'MOVIE' ? art === 'movie' : format === 'TV' || format === 'TV_SHORT' ? art === 'tv' : true)
 
+/** Ein „Originalname“ in lateinischen Buchstaben ist meist nur Romaji (Her, NOISE, mine) und beweist nichts; nur andere Schrift zählt als Originalname. */
+const hatNichtLatein = (name?: string): boolean => /[^\p{Script=Latin}\p{N}\p{P}\p{S}\p{Z}]/u.test(name ?? '')
+
 /** Namen in Suchreihenfolge: bei chinesischen und koreanischen Titeln zuerst der Originalname, sonst englisch, romaji, Original. */
 export function suchNamen(t: KatalogTitel): string[] {
   const nativeZuerst = t.land === 'CN' || t.land === 'KR'
@@ -68,12 +71,14 @@ function pruefeTreffer(t: KatalogTitel, r: KatalogTreffer, latein: Set<string>, 
 
 /**
  * Die Regel aus der Probe vom 11.10.2026 (100 Titel, an Hand geeicht): **sicher** heißt Jahr ±1 (beide Seiten bekannt), Art passt und entweder
- * der Originalname gleich oder ein lateinischer Name gleich mit Genre Animation und Originalsprache ja/zh/ko, dazu genau ein solches Werk.
+ * der Originalname (nicht-lateinische Schrift) gleich oder ein lateinischer Name (auch ein lateinisch geschriebener „Originalname“) gleich mit Genre Animation und Originalsprache ja/zh/ko, dazu genau ein solches Werk.
  * Name gleich, aber etwas davon nicht belegt (oder mehrere Werke) ist **unsicher**; kein Werk gleichen Namens ist **kein**.
  */
 export function urteilKatalog(t: KatalogTitel, ergebnisse: KatalogTreffer[]): Zuordnung {
-  const latein = new Set([t.en, t.romaji].filter((n): n is string => Boolean(n)).map(schlicht))
-  const native = schlicht(t.native ?? '')
+  const nativeNichtLatein = hatNichtLatein(t.native)
+  const lateinNamen = [t.en, t.romaji, nativeNichtLatein ? undefined : t.native]
+  const latein = new Set(lateinNamen.filter((n): n is string => Boolean(n)).map(schlicht))
+  const native = nativeNichtLatein ? schlicht(t.native ?? '') : ''
   const gesehen = new Set<string>()
   const pruefungen: Pruefung[] = []
   for (const r of ergebnisse) {
