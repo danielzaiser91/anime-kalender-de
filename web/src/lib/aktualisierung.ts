@@ -6,7 +6,7 @@ const PAUSE_MS = 10 * 60_000 // so lange verborgen, dann zählt die Rückkehr wi
 
 /**
  * **Neuer Code ist beim nächsten Laden da** (Daniel, 08.10.2026): Nach einem Deploy hält der Browser die alte Seite bis zu zehn Minuten (`max-age=600` bei GitHub Pages). Der Bau legt deshalb
- * `version.json` ab (Commit-Kennung); die Seite fragt sie **nur beim Laden** ab, mit eindeutiger Adresse und ohne Cache. Weicht die Kennung vom eigenen Stand ab, wird der Cache der Seite verworfen
+ * `version.json` ab (Commit-Kennung); die Seite fragt sie beim Laden und bei der Rückkehr nach langer Pause ab, mit eindeutiger Adresse und ohne Cache. Weicht die Kennung vom eigenen Stand ab, wird der Cache der Seite verworfen
  * und einmal neu geladen — noch bevor jemand etwas bedient. **Kein Neuladen mitten in der Benutzung:** Wer die Seite offen hat, behält sie, bis er navigiert oder selbst neu lädt. Eine Marke (Kennung + Zeit) in
  * `sessionStorage` verhindert eine Schleife, falls die neue Fassung nicht ankommt; nach 2 min gilt ein neuer Versuch.
  */
@@ -48,7 +48,7 @@ async function pruefe(): Promise<void> {
 
 /**
  * Handy-Tabs und die installierte App bleiben Stunden offen und werden nie „geladen". Kommt jemand nach einer langen Pause
- * zurück, gilt das wie ein Laden: einmal prüfen, bevor etwas bedient wird. Wer die Seite benutzt (sichtbar), wird nie unterbrochen.
+ * zurück, gilt das wie ein Laden: einmal prüfen. Das Neuladen kommt kurz nach der Rückkehr, die Seite ist dann schon sichtbar — wer in dieser Sekunde tippt, kann es noch erleben (bewusst nicht abgefangen: selten, und die Marke verhindert Schleifen).
  */
 function pruefeNachPause(): void {
   let verborgenSeit = 0
