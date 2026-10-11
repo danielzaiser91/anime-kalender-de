@@ -28,10 +28,10 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { bekannteFolgen } from './pruefstand-bekannt.mjs'
+import { ladeBestand, ladeCartoons, sortiereListe } from './pruef-bestand.mjs'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
-const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
+const titel = [...ladeBestand(wurzel), ...ladeCartoons(wurzel)]
 
 
 /** Die Prüfliste laden, wie die Erweiterung sie sieht. */
@@ -41,6 +41,16 @@ function listeLesen(datei, global) {
     return JSON.parse(text.replace(new RegExp(`^globalThis.${global} = `), ''))
   } catch {
     return {}
+  }
+}
+
+/** Ein Ziel der Prüfliste; die Warnung bei unklaren Staffeln reist mit (Statusanzeige, Erweiterung). */
+function zielVon(url, wert, staffeln) {
+  return {
+    url,
+    titel: wert?.titel ?? null,
+    ...(wert?.hinweis ? { hinweis: wert.hinweis } : {}),
+    ...(staffeln.length ? { staffeln } : {}),
   }
 }
 
@@ -157,7 +167,7 @@ const ANBIETER = [
 ]
 
 const stand = ANBIETER.map((a) => {
-  const liste = Object.entries(listeLesen(a.datei, a.global))
+  const liste = sortiereListe(Object.entries(listeLesen(a.datei, a.global)), titel)
   const offen = liste.reduce((n, [, wert]) => n + a.offene(wert), 0)
 
   /*
@@ -210,7 +220,7 @@ const stand = ANBIETER.map((a) => {
         wert?.laut === 'anbieter-gerechnet'
           ? [...new Set((wert.staffeln ?? []).filter((st) => st.offen && !st.film).map((st) => Number(st.nr)))].filter(Number.isFinite)
           : []
-      return { url: a.ziel(schluessel, wert), titel: wert?.titel ?? null, ...(staffeln.length ? { staffeln } : {}) }
+      return zielVon(a.ziel(schluessel, wert), wert, staffeln)
     })
     .filter((z) => z.url)
 
@@ -246,7 +256,7 @@ const stand = ANBIETER.map((a) => {
 
 /* Die höchste Folge laut Datensatz je Kennung (4.24.21) — die Erweiterung vergleicht sie mit der Plattform. */
 ANBIETER.forEach((a, i) => {
-  stand[i].bekannt = bekannteFolgen(titel, a.plattform, a.kennung)
+  stand[i].bekannt = bekannteFolgen(titel.filter((t) => !t.cartoon), a.plattform, a.kennung)
 })
 
 /**

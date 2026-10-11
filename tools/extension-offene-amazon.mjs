@@ -37,6 +37,7 @@ import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+import { ausgeblendet, eintragsInfo, ladeBestand, ladeCartoons, nachRang } from './pruef-bestand.mjs'
 import { nachschlagVon } from './prime-nachschlag.mjs'
 /**
  * **Ein Verdachtsfall ist geprüft und trotzdem offen.**
@@ -72,7 +73,7 @@ const geprueftePrime = (() => {
   let id = null
   let istPrime = false
   for (const zeile of belege.split('\n')) {
-    const neu = /^- anilistId: (\d+)/.exec(zeile)
+    const neu = /^- anilistId: (-?\d+)/.exec(zeile)
     if (neu) {
       id = Number(neu[1])
       istPrime = false
@@ -96,9 +97,8 @@ const geprueftePrime = (() => {
   }
   return { ids, adressen, kennungen }
 })()
-const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
 const nachschlag = nachschlagVon(wurzel)
-const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
+const titel = ladeBestand(wurzel)
 
 /**
  * Die Kennung aus einer Amazon-Adresse.
@@ -162,12 +162,12 @@ const primeSeite = (s) => {
 
 /** Alle unsere Einträge je Amazon-Kennung — auch die schon beantworteten. */
 const jeAsin = new Map()
-for (const t of titel) {
+for (const t of [...titel, ...ladeCartoons(wurzel)]) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'primevideo') continue
     const seite = primeSeite(s)
     const asin = seite && kennung(seite)
-    if (!asin) continue
+    if (!asin || ausgeblendet(t, 'primevideo', s.dub)) continue
     jeAsin.set(asin, [...(jeAsin.get(asin) ?? []), { t, dub: s.dub, url: seite }])
   }
 }
@@ -260,7 +260,7 @@ function listenName(t) {
 const JAHRESZEIT = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
 let schonGeprueft = 0
 const offen = {}
-for (const [asin, eintraege] of jeAsin) {
+for (const [asin, eintraege] of nachRang(jeAsin)) {
   /*
     **Ein Verdachtsfall ist beantwortet und trotzdem offen.**
 
@@ -297,6 +297,7 @@ for (const [asin, eintraege] of jeAsin) {
     ...(verdacht ? { erneut: verdachtHinweis(verdacht) } : {}),
     titel: listenName(sortiert[0].t),
     url: sortiert[0].url,
+    ...eintragsInfo(sortiert[0].t, 'primevideo', sortiert[0].dub),
     eintraege: sortiert.map((e) => ({
       id: e.t.id,
       name: listenName(e.t),

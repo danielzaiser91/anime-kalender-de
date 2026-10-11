@@ -316,6 +316,8 @@ QUELLEN=(
   extension/offene-netflix.js
   data/erneut-melden.yaml
   extension/offene-disney.js
+  # Pillen mit Haken und ohne Folgenzahl (11.10.2026), Eingabe der Prüflisten; entsteht im selben Schritt.
+  data/pillen-luecken.json
   # Die zweite Hälfte desselben Generatorschritts (21.09.2026). Die Prüflisten oben
   # standen hier, ihre ausgelieferte Prüfsumme nicht. Bewegte sich der Fernstand
   # während eines Baus, rettete der Reset nur die eine Hälfte, und der Deploy wurde

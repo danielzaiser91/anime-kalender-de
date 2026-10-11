@@ -2199,3 +2199,32 @@ Nicht 4.24.19, sondern 4.24.17: `html.ak-icon-da .ak-durchlauf { margin-bottom: 
 **Zustandsprotokoll.** `protokoll.js` (Ringpuffer, 200 Ereignisse, `chrome.storage.local`-Schlüssel `akZustandsprotokoll`, überlebt das Neuladen) und `netflix-protokoll.js` (umhüllt von außen `durchlaufKnopfZeigen`, `durchlaufStarten`, `durchlaufMelden`, `randMelden`, `durchlaufStandLaden`, `durchlaufStandVergessen`, `nfBericht`, `fetch` für Meldungen, dazu die `ak-folgenliste`-Nachrichten). `netflix-gemeldet.js` meldet Merker gelesen/gesetzt/gelöscht, das Urteil am Lauf-Ende (`lauf-urteil`: fertig, Abbruch, ungemeldete Folgen, Zahl der Staffeln), `abgleich` und jeden geänderten Befund von `zeigen`. „Bericht laden" enthält das Ganze als `zustandsprotokoll`. Ereignisse: `start`, `knopf` (Text, gezählte und gemeldete Folgen als Bereiche, erste/letzte Kennung, Knopf-/Kasten-Nummer), `kasten`, `liste`, `stand-laden`/`stand-geladen` (Worker-Nummern), `worker-post` (Stapelgröße, Status, bestätigt), `rand-start`/`rand-ende`, `melden`, `lauf-start`/`lauf-ende`. Keine personenbezogenen Daten. Test: `netflix-protokoll.test.cjs`.
 
 **Auswerten:** Im Bericht `worker-post` lesen: `bestaetigt` kleiner als `anzahl` oder ein `fehler` nennt die Ursache; danach `abgleich` und `merker-gesetzt`. Anleitung für Daniel: `daniel-zum-abarbeiten/listen/todo-netflix-melder-messen.md`.
+
+## Prüfliste für alle Pillen-Lücken, hinter einem Schalter (11.10.2026)
+
+Anlass (Daniel, 11.10.2026): Alle Anbieter-Pillen ohne Haken oder ohne belegte Folgenzahl sollen auf die Prüfliste.
+**Messung** (echte Pillen-Funktion `folgenAuskunft`, `pipeline/pillen-luecken.ts`; Netflix / Prime / Disney+):
+
+| Bestand | Wege mit Lücke | davon auf der Liste (heute) | mit Schalter `erweitert` |
+|---|---|---|---|
+| Hauptbestand | Netflix 10, Prime 4, Disney+ 0 | Netflix 8, Prime 1 | alle bis auf Golden Wind (Kanal-Titel, Prime zeigt dort ohne Abo keinen deutschen Ton) |
+| Cartoons (TMDB) | Netflix 254, Prime 120, Disney+ 183 | 0 | Netflix 238, Prime 108, Disney+ 168 |
+| ohne Adresse (nicht öffnbar) | Cartoons: Netflix 16, Prime 12, Disney+ 15 | | bleiben außen |
+
+Der Hauptbestand fehlt fast nur bei Haken-losen Wegen; die Masse sind die 557 Cartoon-Wege, deren Pillen weder Haken noch Folgenzahl tragen
+(`dub` fehlt, TMDB nennt nur den Anbieter). Hauptbestandswege mit Haken, aber ohne Folgenzahl (laufende Serien ohne Bereiche: Detektiv Conan,
+Shin-chan, Cyberpunk: Edgerunners 2, Fool Night) kommen als Verdachtsquelle `folgenzahlFehlt` (`tools/verdacht.mjs`) auf die Liste.
+
+- **Schalter:** `data/pruefliste-regeln.json`. `erweitert: false` (Vorgabe) lässt die Listen unverändert; `true` schaltet Cartoons, Folgenzahl-Lücken und
+  Rangordnung zu (`tools/pruef-bestand.mjs`, Zuordner `pipeline/lib/pruef-titel.ts`). Die Listen in `extension/offene-*.js` erzeugt der tägliche Bestandsbau;
+  der Schalter allein genügt, der Browser sieht sie nach Neuladen der Erweiterung. `PRUEFLISTE_ERWEITERT=1` schaltet nur für einen Lauf zu.
+- **Reihenfolge:** Hauptbestand vor Cartoons, darin laufende/aktuelle zuerst, dann neuere vor älteren; gilt für die Listen und für `ziele` in `pruefstand.json`
+  (die erweiterungsinterne Netflix-Liste sortiert selbst nach Titel).
+- **Quelle und Vertrauen:** Jeder Eintrag trägt `quelle` (`justwatch` = JustWatch nennt den Anbieter mit deutschem Ton, `tmdb` = TMDB führt ihn nur auf,
+  `datensatz` = Urteil im Bestand, `keine` = kein Urteil) und `vertrauen` (Vorgabe überall `ungeprueft`). Setzt die JustWatch-Quellenprüfung eine Quelle auf
+  `hoch` und steht `hoch` in `ausblenden`, kommen deren Wege nicht mehr auf die Liste — ohne Code. Wege ohne Urteil (`keine`) werden nie ausgeblendet.
+- **Staffel-Unschärfe:** Cartoon-Serien tragen `staffelUnscharf: true` und `hinweis` (TMDB zählt Gesamtfolgen; der Anbieter kann anders schneiden, z. B.
+  Avatar Buch 1–3). Die Erweiterung zeigt das Feld noch nicht (nur `pruefstand.json` `ziele[].hinweis`); der Zuordner ordnet nur zu, wenn die Folgenzahl
+  stimmt (`ordneNachStaffelliste`), eine unpassende Meldung bleibt unzugeordnet statt falsch belegt zu werden.
+- **Zuordner:** `titelId` negativ verwirft der Worker (`zahlOrNull`); der Zuordner findet den Cartoon dann über die Adresse. Kein Worker-Deploy nötig.
+- Bugfix nebenbei: `geprueftePrime` las `- anilistId: -…` (Cartoon-Handbelege) nicht und warf deren Adressen mit dem Vorgänger zusammen.

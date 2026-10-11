@@ -16,16 +16,16 @@
  *
  * Aufruf: node tools/extension-offene-disney.mjs
  */
-import { readFileSync, writeFileSync } from 'node:fs'
+import { writeFileSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+import { ausgeblendet, eintragsInfo, ladeBestand, ladeCartoons, nachRang } from './pruef-bestand.mjs'
 /** Verweise, denen eine zweite Quelle widerspricht — siehe `verdacht.mjs`. */
 const verdaechtig = verdachtsfaelle(wurzel, 'disneyplus')
-const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
-const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
+const titel = [...ladeBestand(wurzel), ...ladeCartoons(wurzel)]
 
 /**
  * Die Kennung einer Disney+-Adresse.
@@ -55,13 +55,13 @@ for (const t of titel) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'disneyplus') continue
     const id = kennung(s.url)
-    if (!id) continue
+    if (!id || ausgeblendet(t, 'disneyplus', s.dub)) continue
     jeAdresse.set(id, [...(jeAdresse.get(id) ?? []), { t, dub: s.dub, url: s.url }])
   }
 }
 
 const offen = {}
-for (const [id, eintraege] of jeAdresse) {
+for (const [id, eintraege] of nachRang(jeAdresse)) {
   const sortiert = [...eintraege].sort(vergleiche)
   const verdacht = eintraege.map((e) => verdaechtig.get(e.t?.id ?? e.id)).find(Boolean)
   /* Beantwortete Seiten stehen mit lauter `offen: false` drin: Der Melder darf dort berichtigen,
@@ -72,6 +72,7 @@ for (const [id, eintraege] of jeAdresse) {
     ...(verdacht?.seit ? { seit: verdacht.seit } : {}),
     titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
     url: sortiert[0].url,
+    ...eintragsInfo(sortiert[0].t, 'disneyplus', sortiert[0].dub),
     staffeln: sortiert.map((e, i) => ({
       nr: i + 1,
       /* Warum die Kennung mitreist: siehe `extension-offene-liste.mjs`. */

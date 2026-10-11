@@ -35,6 +35,7 @@ import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { folgentitelAusNotiz, folgeUeberTitel } from './lib/folgentitel-anker.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
+import { ladePruefTitel } from './lib/pruef-titel.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -172,7 +173,6 @@ if (!pruefungen.length) {
  * sich fünf AniList-Einträge eine Netflix-Adresse, und eine Prüfung belegt dann
  * alle fünf.
  */
-const titles = JSON.parse(readFileSync(resolve(ROOT, 'public/data/titles.json'), 'utf8'))
 const liste: Array<{
   id: number
   titleDe?: string
@@ -185,8 +185,7 @@ const liste: Array<{
   jpSeason?: string
   format?: string
   streams?: Array<{ platform: string; url: string; seite?: string }>
-}> =
-  Array.isArray(titles) ? titles : (titles.titles ?? Object.values(titles))
+}> = ladePruefTitel(ROOT)
 
 const nachUrl = new Map<string, number[]>()
 for (const t of liste) {
