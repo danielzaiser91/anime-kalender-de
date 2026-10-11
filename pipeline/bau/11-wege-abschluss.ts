@@ -80,7 +80,7 @@ export function schliesseWegeAb({
   fuehreAusgabenZusammen({ alleChecks, titles, tmdbMehrdeutig, anisearch, lautPruefungTot, checksJePlattform })
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
 
-  /* Zuletzt: Wer einen sicheren Termin bei einem Anbieter hat, aber noch keinen Weg dorthin, bekommt einen ohne Tonurteil. */
+  /* Zuletzt: Wer einen sicheren Termin bei einem Anbieter hat, aber noch keinen Weg dorthin, bekommt einen. Ohne Tonurteil, außer ein Handbeleg gilt: dann dessen Urteil, bei „nicht verfügbar“ kein Weg. */
   ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verweiseEntfernt, belegFuer })
 
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
