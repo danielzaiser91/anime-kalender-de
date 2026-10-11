@@ -7,13 +7,19 @@ import { Leiste } from './leiste.tsx'
 import { Raster } from './raster.tsx'
 import { ladeMockups } from './mockups-laden.ts'
 import { alleMockups, mockupMit, type MockupDef } from './register.ts'
-import { leseHash, zustandAus, type Zustand } from './zustand.ts'
+import { hashVon, leseHash, STANDARD, zustandAus, type Zustand } from './zustand.ts'
 
 function aktuellerHash(): string {
   return location.hash
 }
 
-function Uebersicht() {
+/** Link in ein Mockup mit gesetztem Fall und gesetzter Variante; Gerät und Thema zeigen beide, die Leiste stellt sie danach um. */
+function linkZu(def: MockupDef, wahl: Partial<Zustand>): string {
+  const erste = { variante: Object.keys(def.varianten)[0] ?? '', fall: def.faelle[0] ?? '' }
+  return hashVon({ ...STANDARD, ...erste, geraet: 'beide', ...wahl, mockup: def.name })
+}
+
+function Uebersicht({ namen }: { namen: Record<string, string> }) {
   return (
     <main className="uebersicht">
       <h1>Bühne</h1>
@@ -21,7 +27,17 @@ function Uebersicht() {
       <ul>
         {alleMockups().map((m) => (
           <li key={m.name}>
-            <a href={`#${m.name}`}>{m.titel}</a> <small>({m.ausschnitt})</small>
+            <a href={linkZu(m, {})} data-mockup={m.name}>{m.titel}</a> <small>({m.ausschnitt})</small>
+            <div className="links">
+              Variante:{' '}
+              {Object.keys(m.varianten).map((v) => (
+                <a key={v} href={linkZu(m, { variante: v })}>{v}</a>
+              ))}
+              {' · '}Fall:{' '}
+              {m.faelle.map((f) => (
+                <a key={f} href={linkZu(m, { fall: f })}>{namen[f] ?? f}</a>
+              ))}
+            </div>
           </li>
         ))}
       </ul>
@@ -47,10 +63,10 @@ function Rahmen({ faelle }: { faelle: FaelleDatei }) {
   }, [])
   const { name, werte } = leseHash(hash)
   const def = mockupMit(name)
-  if (!def) return <Uebersicht />
+  const namen = Object.fromEntries(Object.entries(faelle.faelle).map(([slug, f]) => [slug, f.name]))
+  if (!def) return <Uebersicht namen={namen} />
   const ersteVariante = Object.keys(def.varianten)[0] ?? ''
   const zustand = mitVorgaben(zustandAus(name, werte), def)
-  const namen = Object.fromEntries(Object.entries(faelle.faelle).map(([slug, f]) => [slug, f.name]))
   return (
     <>
       <Leiste def={def} zustand={zustand} faelle={namen} />
