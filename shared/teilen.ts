@@ -2,3 +2,11 @@
 export function teilenPfad(slug: string | number): string {
   return `t/${slug}/`
 }
+
+/**
+ * Der Slug, den der Teilen-Knopf nennt — oder nichts, wenn der Titel keine Teilen-Seite hat (statt eines toten Links).
+ * Seiten gibt es für den Hauptbestand und die Cartoons (`pipeline/build-share-pages.ts`), nicht für den Katalog ohne Synchro.
+ */
+export function teilbarerSlug(titel: { slug?: string; ohneSynchro?: boolean } | undefined): string | undefined {
+  return titel?.slug && !titel.ohneSynchro ? titel.slug : undefined
+}

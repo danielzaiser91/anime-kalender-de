@@ -6,6 +6,7 @@ import { PLATFORMS, type Release, type Title } from '../../shared/types.ts'
 import { GENRE_DE } from '../../shared/mappings.ts'
 import { teilenPfad } from '../../shared/teilen.ts'
 import { andereNamen, titelJsonLd } from './titel-namen.ts'
+import { OG_FASSUNG } from './og-fassung.ts'
 
 export const SITE = (process.env.SITE_URL ?? 'https://anime-kalender.de/').replace(
   /\/?$/,
@@ -24,10 +25,19 @@ function titelName(t: Title): string {
   return t.titleDe ?? t.titleEn ?? t.titleRomaji ?? t.slug
 }
 
-function titelBeschreibung(t: Title): string {
+/** Die erste Aussage der Beschreibung. Bei Cartoons ist die deutsche Fassung nicht belegt (`dubConfidence: low`): Dort steht nur, wo sie läuft. */
+function ersteAussage(t: Title): string {
+  if (t.westlich) {
+    const orte = [...new Set((t.streams ?? []).map((s) => PLATFORMS[s.platform].name))]
+    return orte.length ? `Zu sehen bei ${orte.join(', ')}.` : 'Westliche Animationsserie.'
+  }
   const wege = (t.streams ?? []).filter((s) => s.dub === true).map((s) => PLATFORMS[s.platform].name)
+  return wege.length ? `Auf Deutsch bei ${[...new Set(wege)].join(', ')}.` : 'Mit deutscher Synchronisation.'
+}
+
+function titelBeschreibung(t: Title): string {
   const teile = [
-    wege.length ? `Auf Deutsch bei ${[...new Set(wege)].join(', ')}.` : 'Mit deutscher Synchronisation.',
+    ersteAussage(t),
     t.episodes && t.format !== 'MOVIE' ? `${t.episodes} Folgen.` : null,
     t.genres?.length ? t.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ') + '.' : null,
   ]
@@ -55,10 +65,13 @@ export function namenZeile(t: Title | undefined, gezeigt: string): string {
 export function titelKopf(t: Title): string {
   const url = `${SITE}${teilenPfad(t.slug)}`
   const name = titelName(t)
-  const headline = `${name} — auf Deutsch`
+  const headline = `${name} — ${t.westlich ? 'Animationsserie' : 'auf Deutsch'}`
   const description = titelBeschreibung(t)
-  const bild = t.bannerImage ?? t.coverImage
-  const gross = Boolean(t.bannerImage)
+  /* Ohne eigenes Bild das Standardbild der Seite (1200×630): Eine Karte ohne Bild wäre leer. */
+  const eigenesBild = t.bannerImage ?? t.coverImage
+  const bild = eigenesBild ?? `${SITE}og/default.jpg?v=${OG_FASSUNG}`
+  const gross = Boolean(t.bannerImage) || !eigenesBild
+  const masse = eigenesBild ? '' : '    <meta property="og:image:width" content="1200" />\n    <meta property="og:image:height" content="630" />\n'
   return `    <title>${esc(headline)}</title>
     <meta name="description" content="${esc(description)}" />
     <meta property="og:type" content="article" />
@@ -67,14 +80,14 @@ export function titelKopf(t: Title): string {
     <meta property="og:url" content="${url}" />
     <meta property="og:title" content="${esc(headline)}" />
     <meta property="og:description" content="${esc(description)}" />
-${bild ? `    <meta property="og:image" content="${esc(bild)}" />
-    <meta property="og:image:alt" content="${esc(name)}" />
-` : ''}    <meta name="twitter:card" content="${gross ? 'summary_large_image' : 'summary'}" />
+    <meta property="og:image" content="${esc(bild)}" />
+${masse}    <meta property="og:image:alt" content="${esc(name)}" />
+    <meta name="twitter:card" content="${gross ? 'summary_large_image' : 'summary'}" />
     <meta name="twitter:title" content="${esc(headline)}" />
     <meta name="twitter:description" content="${esc(description)}" />
-${bild ? `    <meta name="twitter:image" content="${esc(bild)}" />
-` : ''}    <link rel="canonical" href="${url}" />
-${titelJsonLd(titelDaten(t, name, url, description, bild))}
+    <meta name="twitter:image" content="${esc(bild)}" />
+    <link rel="canonical" href="${url}" />
+${titelJsonLd(titelDaten(t, name, url, description, eigenesBild))}
     <script>
       if (!location.hash) location.hash = ${JSON.stringify(`#/woche?t=${t.id}`)};
     </script>`

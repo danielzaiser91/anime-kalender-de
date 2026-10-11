@@ -5,6 +5,7 @@ import type { Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { ueberschriftSagtStatus, type RelevanzArt } from '../lib/db-relevanz.ts'
 import { coverBild } from '../lib/cover.ts'
+import { teilbarerSlug } from '@shared/teilen.ts'
 import { FundstellenZeichen, TrefferName } from './Suchtreffer.tsx'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Tooltip } from './ui.tsx'
 
@@ -54,7 +55,7 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
    * Detail-Panels, wo sie hingehört.
    */
   const keinDub = members.every((m) => m.ohneSynchro)
-  const teilbar = main.slug && !main.ohneSynchro && main.id > 0 ? main.slug : undefined
+  const teilbar = teilbarerSlug(main)
 
   if (isHidden) {
     return (

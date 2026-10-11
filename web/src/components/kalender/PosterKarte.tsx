@@ -4,6 +4,7 @@ import { PLATFORMS } from '@shared/types.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { useShare } from '../../lib/share.ts'
+import { teilbarerSlug } from '@shared/teilen.ts'
 import { coverBild, KACHEL_DICHTE } from '../../lib/cover.ts'
 import { FavoriteStar, HideEye, ShareIcon, Tooltip } from '../ui.tsx'
 import { anbieterUndFolge, SpracheMarke, VerpasstMarke, ZeitMarke } from './Marken.tsx'
@@ -95,6 +96,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
   const { t } = useLang()
   const { share, copiedSlug } = useShare()
   const cover = p.title?.coverImage
+  const teilbar = teilbarerSlug(p.title)
   const farbe = PLATFORMS[p.event.platform]?.color ?? '#888'
   const bild = coverBild(cover, p.breit ? 320 : 160, p.breit ? '(min-width: 1024px) 320px, 92vw' : '(min-width: 1024px) 160px, 46vw', KACHEL_DICHTE)
   return (
@@ -136,7 +138,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
       )}
       <span className="absolute right-1.5 bottom-2.5 hidden items-center gap-1 sm:flex" onClick={(e) => e.stopPropagation()}>
         <span className={`${KNOPF_GRUND} ${ERST_BEIM_ZEIGEN}`}>
-          <ShareIcon onShare={() => void share(p.event.releaseSlug, p.event.name)} copied={copiedSlug === p.event.releaseSlug} size="sm" />
+          {teilbar && <ShareIcon onShare={() => void share(teilbar, p.event.name)} copied={copiedSlug === teilbar} size="sm" />}
           {p.onToggleHidden && <HideEye hidden={false} onToggle={p.onToggleHidden} size="sm" />}
         </span>
         {p.onToggleFavorite && (
