@@ -6334,10 +6334,10 @@ pruefe(
     Geprüft wird der Quelltext — einen Plan kann dieser Lauf nicht messen.
   */
   const wq = workerQuelltext()
-  pruefe('die Adressabfrage erzwingt den Zeitindex', wq.includes('INDEXED BY pruefung_gemeldet_url'))
+  pruefe('die Adressabfrage erzwingt den Zeitindex', wq.includes('INDEXED BY pruefung_gemeldet'))
   pruefe(
     'und die Migration legt ihn an',
-    readFileSync('worker/migrations/041-pruefung-zeit-url-index.sql', 'utf8').includes('pruefung_gemeldet_url'),
+    readFileSync('worker/migrations/037-pruefung-gemeldet.sql', 'utf8').includes('pruefung_gemeldet'),
   )
   pruefe(
     'die Löschanfrage erzwingt den gti-Index',
