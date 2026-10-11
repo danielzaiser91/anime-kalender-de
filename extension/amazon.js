@@ -11048,7 +11048,7 @@ async function speicherSchreiben(werte) {
 
   function primeKoordinieren() {
     const lauf = primeLaufLesen()
-    if (!lauf) {
+    if (!lauf || globalThis.AK_TAGESLIMIT?.aktiv()) {
       for (const el of primeFrames.keys()) el.remove()
       primeFrames.clear()
       return
