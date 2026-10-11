@@ -56,10 +56,14 @@ export function offeneKennungen(titel: { id: number; coverImage?: string }[], ma
   return [...new Set(ids)].filter((id) => !manifest[id]).sort((a, b) => Number(a) - Number(b))
 }
 
-/** Die Adresse aus dem `cover`-Objekt der API (groß vor mittel), nur vom Bild-Host; sonst nichts. */
+/**
+ * Die Adresse aus dem `cover`-Objekt der API (groß vor mittel). Gemessen im Probelauf 11.10.2026: `{available, medium, large, copyright, nsfw}`, die Adressen
+ * stehen auf `cdn.anisearch.com`; geholt wird vom Bild-Host `cdn.anisearch.de`, dessen robots.txt geprüft ist. Fremde Hosts zählen nicht.
+ */
 export function adresseAus(cover: unknown): string | undefined {
-  const kandidaten = typeof cover === 'string' ? [cover] : cover && typeof cover === 'object' ? ['large', 'medium'].map((k) => (cover as Record<string, unknown>)[k]) : []
-  return kandidaten.find((k): k is string => typeof k === 'string' && k.startsWith(BILD_HOST))
+  const kandidaten = cover && typeof cover === 'object' ? ['large', 'medium'].map((k) => (cover as Record<string, unknown>)[k]) : []
+  const adresse = kandidaten.find((k): k is string => typeof k === 'string' && /^https:\/\/cdn\.anisearch\.(de|com)\//.test(k))
+  return adresse?.replace('//cdn.anisearch.com/', '//cdn.anisearch.de/')
 }
 
 /** Die Adresse, die das Muster der Seiten vorgibt (2.601 von 2.705 archivierten Seiten bestätigt, 11.10.2026): `<Kennung/1000 abgerundet>/<Kennung>_300.webp`. */
@@ -69,11 +73,12 @@ export const adresseAusKennung = (id: string): string => `${BILD_HOST}images/ani
 const nsfwStufe = (cover: unknown): number => Number((cover as { nsfw?: number } | null | undefined)?.nsfw) || 0
 
 /**
- * Die Adresse für einen Titel: die der API, sonst aus der Kennung gebildet, sobald die API ein `cover`-Objekt führt (Probelauf 11.10.2026: das Objekt trug keine
- * Adresse im erwarteten Schlüssel). Ohne `cover` bleibt es bei „keine Adresse“: Dort ist das Bild nicht freigegeben oder fehlt (`cover/0_600`).
+ * Die Adresse für einen Titel: die der API, sonst aus der Kennung gebildet, wenn das `cover`-Objekt Bild und keine lesbare Adresse führt. Ohne `cover` oder mit
+ * `available: false` gibt es keine Adresse: Dort fehlt das Bild oder ist nicht freigegeben (`cover/0_600`, `ecchi`).
  */
 export function bildAdresse(id: string, cover: unknown): string | undefined {
-  return adresseAus(cover) ?? (cover && typeof cover === 'object' ? adresseAusKennung(id) : undefined)
+  if (!cover || typeof cover !== 'object' || (cover as { available?: boolean }).available === false) return undefined
+  return adresseAus(cover) ?? adresseAusKennung(id)
 }
 
 /** Kurze Beschreibung der Antwortform für das Log (Schlüssel, `cover` als JSON, gekürzt): macht eine falsche Annahme im nächsten Lauf sichtbar. */

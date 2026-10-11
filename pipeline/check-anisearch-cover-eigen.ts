@@ -70,6 +70,24 @@ console.log('\nCover eigen: Lauf mit gefälschter fetch-Antwort')
   pruefe('--limit begrenzt die Zahl der Titel', z.neu === 2 && spur.geschrieben.length === 2, z)
 }
 
+console.log('\nCover eigen: echte Antwortform (Probelauf 11.10.2026)')
+{
+  const echt = (id: number): unknown => ({ available: true, medium: `https://cdn.anisearch.com/images/anime/cover/0/${id}_400.webp`, large: `https://cdn.anisearch.com/images/anime/cover/0/${id}_600.webp`, copyright: null, nsfw: null })
+  const spur = neueSpur()
+  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 126: echt(126), 341: echt(341), 391: echt(391), 400: { available: false, medium: null, large: null, copyright: null, nsfw: null }, 401: { available: true, nsfw: 18 } }) : (spur.abgerufen.push(a), bildAntwort())), spur)
+  const m: Manifest = {}
+  const z = await holeCover(['126', '341', '391', '400', '401'], m, OPT, w)
+  pruefe('drei Bilder, abgerufen wird die _300-Fassung auf dem geprüften Host cdn.anisearch.de', z.neu === 3 && spur.abgerufen.join() === 'https://cdn.anisearch.de/images/anime/cover/0/126_300.webp,https://cdn.anisearch.de/images/anime/cover/0/341_300.webp,https://cdn.anisearch.de/images/anime/cover/0/391_300.webp', spur.abgerufen)
+  pruefe('available false: ohne Adresse, kein Rückfall; nsfw 18: ausgelassen', m['400']?.grund === 'ohne-adresse' && m['401']?.grund === 'nsfw', [m['400'], m['401']])
+  pruefe('nsfw null zählt als frei', m['126']?.datei === 'anisearch/126.webp')
+}
+{
+  const spur = neueSpur()
+  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 7: { available: true, nsfw: null }, 8: { available: true }, 9: { available: true } }) : (spur.abgerufen.push(a), bildAntwort())), spur)
+  await holeCover(['7', '8', '9'], {}, OPT, w)
+  pruefe('Rückfall: cover-Objekt ohne Adressen → Adresse aus der Kennung', spur.abgerufen[0] === 'https://cdn.anisearch.de/images/anime/cover/0/7_300.webp', spur.abgerufen)
+}
+
 console.log('\nCover eigen: Sperre und Fehler')
 {
   const spur = neueSpur()
