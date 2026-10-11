@@ -99,7 +99,9 @@ if (existsSync(OUT)) {
   const ueber = geteilt.filter(({ t, s }) => !t.episodes || s.dubRanges!.filter((r) => r.dub).some((r) => r.from < 1 || r.to < r.from || r.to > t.episodes!))
   pruefe('Bestand: Bereiche geteilter Prime-Wege liegen in 1 bis Folgenzahl', ueber.length === 0, ueber.map((x) => x.t.id).slice(0, 10).join())
   const liste = readJson<TeilseitenPruefung[]>(PRIME_PRUEFLISTE, [])
-  pruefe('Bestand: die Prüfliste nennt nur vorhandene Titel mit Grund', liste.every((p) => titel.has(p.titleId) && p.grund.length > 0))
+  // Auch Katalog-Titel ohne Weg stehen auf einer Prüfliste; sie liegen in franchises.json, nicht in titles.json.
+  const katalog = new Set(Object.values(readJson<Record<string, { id: number }[]>>('public/data/franchises.json', {})).flatMap((r) => r.map((g) => g.id)))
+  pruefe('Bestand: die Prüfliste nennt nur vorhandene Titel mit Grund', liste.every((p) => (titel.has(p.titleId) || katalog.has(p.titleId)) && p.grund.length > 0))
   pruefe('Bestand: kein Titel steht mit Bereich und auf der Prüfliste', liste.every((p) => !geteilt.some(({ t, s }) => t.id === p.titleId && s.url === p.url)))
 }
 

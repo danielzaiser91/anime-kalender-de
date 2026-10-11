@@ -117,7 +117,9 @@ if (existsSync(OUT)) {
   const ueber = crGeteilt.filter(({ t, s }) => !t.episodes || s.dubRanges!.some((r) => r.from < 1 || r.to < r.from || r.to > t.episodes!))
   pruefe('Bestand: Bereiche geteilter Crunchyroll-Seiten liegen in 1 bis Folgenzahl', ueber.length === 0, ueber.map((x) => x.t.id).slice(0, 10).join())
   const liste = readJson<TeilseitenPruefung[]>(PRUEFLISTE, [])
-  pruefe('Bestand: die Prüfliste nennt nur vorhandene Titel mit Grund', liste.every((p) => titel.has(p.titleId) && p.grund.length > 0))
+  // Die Prüfliste nennt auch Katalog-Titel ohne Weg; sie stehen in franchises.json, nicht in titles.json.
+  const katalog = new Set(Object.values(readJson<Record<string, { id: number }[]>>('public/data/franchises.json', {})).flatMap((r) => r.map((g) => g.id)))
+  pruefe('Bestand: die Prüfliste nennt nur vorhandene Titel mit Grund', liste.every((p) => (titel.has(p.titleId) || katalog.has(p.titleId)) && p.grund.length > 0))
   pruefe('Bestand: kein Titel steht mit Bereich und auf der Prüfliste', liste.every((p) => !crGeteilt.some(({ t, s }) => t.id === p.titleId && s.url === p.url)))
 }
 
