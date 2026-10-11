@@ -206,6 +206,25 @@ const planVon = (db: DatabaseSync, a: { sql: string; werte: unknown[] }) =>
   pruefe(plan.includes('pruefung_url_zeit') && !plan.includes('idx_pruefung_offen'), `die Hash-Abfrage nimmt bei drei Adressen den Adress-Index (${plan})`)
 }
 
+console.log('Lesezeilen: Ersetzen über die Zeilen-ID')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  abfragen.length = 0
+  await handlePruefung(post({ stapel: [folge(1), folge(2)] }), env)
+  pruefe(!abfragen.some((a) => /^DELETE FROM pruefung/.test(a.sql)), 'neue Folgen: kein DELETE (es gibt nichts zu ersetzen)')
+  db.exec('INSERT INTO pruefung (plattform, url, befund, folge_nr, staffel, gemeldet_am) SELECT plattform, url, befund, folge_nr, staffel, gemeldet_am FROM pruefung WHERE folge_nr = 1')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 1') === 2, 'Vorbereitung: Folge 1 steht doppelt (Dublette)')
+  abfragen.length = 0
+  await handlePruefung(post(folge(1, 'nein')), env)
+  const loeschen = abfragen.filter((a) => /^DELETE FROM pruefung/.test(a.sql))
+  pruefe(loeschen.length === 1 && /WHERE id IN \(\?,\?\)$/.test(loeschen[0]!.sql), `Änderung: ein DELETE über die IDs beider Dubletten (${loeschen[0]?.sql})`)
+  pruefe(!!loeschen[0] && planVon(db, loeschen[0]).includes('INTEGER PRIMARY KEY'), 'der Plan geht über den Primärschlüssel, liest keine Adresszeilen')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 1') === 1 && zahl(db, "SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 1 AND ton_de = 'nein'") === 1, 'Folge 1: nur noch die neue Zeile')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 2') === 1, 'Folge 2 derselben Adresse bleibt unberührt')
+  pruefe(!abfragen.some((a) => /DELETE FROM pruefung WHERE url/.test(a.sql)), 'kein DELETE mehr über die Adresse')
+}
+
 if (fehler) {
   console.log(`${fehler} Prüfung(en) fehlgeschlagen.`)
   process.exit(1)

@@ -94,6 +94,11 @@ export async function ladeOffeneHashes(env: Env, urls: string[]): Promise<Offene
   return offene
 }
 
+/** Die Zeilen-IDs der offenen Zeilen derselben Folge (mehrere sind Dubletten). */
+export function offeneIds(offene: OffeneHashes, f: Folge): number[] {
+  return (offene.zeilen.get(schluessel(f)) ?? []).map((z) => z.id)
+}
+
 /** Erneuert `gemeldet_am` nur, wenn die Zeile vor dem aktuellen Listenbau liegt. */
 async function haltFrisch(env: Env, offene: OffeneHashes, zeile: OffeneZeile): Promise<void> {
   const bau = await offene.listenbauAm()

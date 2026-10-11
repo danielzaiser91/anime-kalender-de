@@ -271,7 +271,7 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
   if (unveraendert) {
     return antwort({ ok: true, befund, unveraendert: true })
   }
-  await loescheOffene(env, { url, folgeNr, staffelNr, seitenKennung })
+  await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
 
   await env.DB.prepare(
     /*
