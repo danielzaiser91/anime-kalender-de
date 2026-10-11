@@ -9,8 +9,13 @@
  * (kostenloser Plan; 10 × 5 + 2 = 52). Beides ist hier ausgeschlossen: die Marke schreibt der
  * Aufrufer einmal, und mehr Meldungen als das Budget trägt, werden nicht angefasst, sondern als
  * nicht gespeichert zurückgemeldet — die Erweiterung schickt sie dann erneut.
+ *
+ * Jede abgelehnte Meldung trägt ihren `grund` (Klartext) im Ergebnis und steht im Protokoll
+ * (pruefung-ablehnung.ts) — seit dem 11.10.2026, als ein ganzer Stapel „bestätigt 0" meldete.
  */
-export type StapelErgebnis = { ok: true; befund: string | null } | { ok: false; status: number }
+import { ablehnungLoggen, ausnahmeAls, type Ablehnung } from './pruefung-ablehnung.ts'
+
+export type StapelErgebnis = { ok: true; befund: string | null } | { ok: false; status: number; grund: string }
 
 /** 50 Subrequests im kostenlosen Plan, abzüglich Marke in R2, Ereignis an das Durable Object und Puffer. */
 export const ANFRAGEN_BUDGET = 44
@@ -33,17 +38,24 @@ export async function verarbeiteStapel(
   const ergebnisse = await Promise.all(
     stapel.map(async (meldung): Promise<StapelErgebnis> => {
       verbraucht += anfragenJeMeldung(meldung)
-      if (verbraucht > ANFRAGEN_BUDGET) return { ok: false, status: 503 }
+      if (verbraucht > ANFRAGEN_BUDGET) {
+        return abgelehnt(meldung, { status: 503, grund: 'Subrequest-Budget des Stapels überschritten' })
+      }
       try {
-        return await einzeln(meldung)
+        const r = await einzeln(meldung)
+        return r.ok ? r : abgelehnt(meldung, r)
       } catch (e) {
-        /* Nur der Fehlertyp: Die Meldung selbst und Adressen gehören nicht ins Protokoll. */
-        console.error(`pruefung stapel: ${(e as Error)?.name ?? 'Fehler'}`)
-        return { ok: false, status: 500 }
+        return abgelehnt(meldung, ausnahmeAls(e))
       }
     }),
   )
   const fehlgeschlagen = ergebnisse.filter((r) => !r.ok).length
   if (fehlgeschlagen) console.error(`pruefung stapel: ${fehlgeschlagen} von ${stapel.length} nicht gespeichert`)
   return ergebnisse
+}
+
+/** Ergebnis einer abgelehnten Meldung: ins Protokoll schreiben, Grund an die Erweiterung zurückgeben. */
+function abgelehnt(meldung: unknown, ablehnung: Ablehnung): StapelErgebnis {
+  ablehnungLoggen('pruefung/stapel', ablehnung, meldung)
+  return { ok: false, status: ablehnung.status, grund: ablehnung.grund }
 }

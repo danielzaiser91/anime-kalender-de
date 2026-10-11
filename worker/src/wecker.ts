@@ -1,5 +1,6 @@
 import type { Env } from './env.ts'
 import { faelligeLaeufe, startErlaubt, type LaufStand } from '../../shared/weckplan.ts'
+import { fehlerLog } from './werte.ts'
 
 /**
  * **Der Wecker für die Datenläufe.** GitHubs eigener Cron-Plan feuert nicht pünktlich: gemessen am 05.10.2026 kam „Stündlich" alle ~4,6 Stunden, „Täglich"
@@ -43,5 +44,5 @@ async function starte(env: Env, workflow: string, jetzt: Date): Promise<void> {
 /** Jede volle Stunde aufgerufen (`scheduled`): startet alles, was jetzt fällig ist. Ein Ausfall eines Starts hält die anderen nicht auf. */
 export async function starteFaelligeLaeufe(env: Env, jetzt: Date = new Date()): Promise<void> {
   if (!env.GITHUB_WECKER_TOKEN) return
-  await Promise.all(faelligeLaeufe(jetzt).map((w) => starte(env, w, jetzt).catch((e) => console.error(`[wecker] ${w}:`, e))))
+  await Promise.all(faelligeLaeufe(jetzt).map((w) => starte(env, w, jetzt).catch((e) => fehlerLog(`[wecker] ${w}`, e))))
 }

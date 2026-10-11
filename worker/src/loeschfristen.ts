@@ -1,3 +1,4 @@
+import { fehlerLog } from './werte.ts'
 /** Nur das, was der Löschlauf von der Datenbank braucht — so lässt sich das Modul auch ohne Cloudflare-Typen (Root-`tsc`, `check:logic`) prüfen. */
 type Env = { DB: { prepare(sql: string): { bind(...werte: string[]): { run(): Promise<{ meta?: { changes?: number } }> } } } }
 
@@ -17,7 +18,7 @@ export async function loescheAbgelaufenes(env: Env, jetzt: Date): Promise<{ rate
   try {
     return await loesche(env, jetzt)
   } catch (e) {
-    console.error('[loeschen] fehlgeschlagen', e)
+    fehlerLog('[loeschen] fehlgeschlagen', e)
     return { rateLimit: 0, unbestaetigt: 0 }
   }
 }

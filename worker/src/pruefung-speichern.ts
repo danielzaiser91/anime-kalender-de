@@ -18,7 +18,7 @@
  * Das Verhalten bleibt dasselbe: Die Bedingungen gelten weiter, nur der Weg dorthin ist ein anderer.
  */
 import { ereignisSenden } from './ereignisse.ts'
-import { zahlOderNull, jetztIso } from './werte.ts'
+import { zahlOderNull, jetztIso, fehlerLog } from './werte.ts'
 import { type Env } from './env.ts'
 import { verarbeiteStapel } from './pruefung-stapel.ts'
 
@@ -406,7 +406,7 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: K
         )
       }
     } catch (e) {
-      console.error(`prime_folge aufraeumen: ${(e as Error).message}`)
+      fehlerLog('prime_folge aufraeumen', e)
     }
     const jetzt = jetztIso()
     /* Höchstens 500 je Meldung: Eine Staffel hat keine tausend Folgen, und eine
@@ -471,7 +471,7 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: K
     } catch (e) {
       /* Die Meldung selbst ist schon gespeichert — ein Fehler hier darf sie
          nicht mitreißen. Ohne Rohfolgen ist der Befund weniger wert, aber gültig. */
-      console.error(`prime_folge: ${(e as Error).message}`)
+      fehlerLog('prime_folge', e)
     }
   }
 
@@ -500,7 +500,9 @@ type Kontext = {
 
 async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, stapel: unknown[]) {
   const ergebnisse = await verarbeiteStapel(stapel, async (einzeln) => {
-    if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) return { ok: false, status: 400 }
+    if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) {
+      return { ok: false, status: 400, grund: 'Meldung ist kein Objekt oder ein verschachtelter Stapel' }
+    }
     const r = await speicherePruefung({
       request: new Request(request.url, {
         method: 'POST',
@@ -512,8 +514,8 @@ async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, s
       env,
       ctx: undefined,
     })
-    const inhalt = (await r.json().catch(() => ({}))) as { befund?: string }
-    return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status }
+    const inhalt = (await r.json().catch(() => ({}))) as { befund?: string; error?: string }
+    return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status, grund: inhalt.error ?? 'ohne Grund' }
   })
   const erste = stapel[0] as Record<string, unknown>
   ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(erste?.plattform ?? 'unbekannt') }))
