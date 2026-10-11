@@ -500,7 +500,9 @@ type Kontext = {
 
 async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, stapel: unknown[]) {
   const ergebnisse = await verarbeiteStapel(stapel, async (einzeln) => {
-    if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) return { ok: false, status: 400 }
+    if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) {
+      return { ok: false, status: 400, grund: 'Meldung ist kein Objekt oder ein verschachtelter Stapel' }
+    }
     const r = await speicherePruefung({
       request: new Request(request.url, {
         method: 'POST',
@@ -512,8 +514,8 @@ async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, s
       env,
       ctx: undefined,
     })
-    const inhalt = (await r.json().catch(() => ({}))) as { befund?: string }
-    return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status }
+    const inhalt = (await r.json().catch(() => ({}))) as { befund?: string; error?: string }
+    return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status, grund: inhalt.error ?? 'ohne Grund' }
   })
   const erste = stapel[0] as Record<string, unknown>
   ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(erste?.plattform ?? 'unbekannt') }))

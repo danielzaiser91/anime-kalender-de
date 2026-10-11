@@ -11,7 +11,8 @@
  * **bevor** es eng wird:
  *
  *   - Gesamtverbrauch über `GRENZE_GESAMT` (2,5 Mio. = die Hälfte des Kontingents), oder
- *   - eine einzelne Abfrage über `GRENZE_EINZELN` (1 Mio. = ein Fünftel)
+ *   - eine einzelne Abfrage über `GRENZE_EINZELN` (1 Mio. = ein Fünftel), oder
+ *   - geschriebene Zeilen über `GRENZE_GESCHRIEBEN` (50.000 = die Hälfte des Schreib-Kontingents)
  *
  * Dann endet der Lauf mit Exit 1 — in der Statusanzeige steht er rot mit dem Befund, und im
  * Protokoll stehen die fünf größten Leser mit ihren Zahlen.
@@ -25,6 +26,8 @@ import { execSync } from 'node:child_process'
 
 const GRENZE_GESAMT = 2_500_000
 const GRENZE_EINZELN = 1_000_000
+/* Die Hälfte des Schreib-Tageskontingents der freien Stufe (100.000 Zeilen); jede Meldung kostet rund 14. */
+const GRENZE_GESCHRIEBEN = 50_000
 
 const args = process.argv.slice(2)
 const zeitraum = args.includes('--zeitraum') ? (args[args.indexOf('--zeitraum') + 1] ?? '1d') : '1d'
@@ -40,11 +43,11 @@ if (!lokal && !process.env.CLOUDFLARE_API_TOKEN) {
   process.exit(0)
 }
 
-function leseInsights(sortierung) {
+function leseInsights(sortierung, limit = 5) {
   let roh
   try {
     roh = execSync(
-      `npx wrangler d1 insights anime-kalender --config wrangler.toml --sort-by ${sortierung} --time-period ${zeitraum}`,
+      `npx wrangler d1 insights anime-kalender --config wrangler.toml --sort-by ${sortierung} --limit ${limit} --time-period ${zeitraum}`,
       { cwd: 'worker', encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] },
     )
   } catch (err) {
@@ -76,7 +79,31 @@ for (const q of groesste.slice(0, 5)) {
   )
 }
 
+/*
+  **Geschriebene Zeilen (11.10.2026):** Ein Massenlauf schrieb am 11.10.2026 in 35 Minuten
+  140.000 Zeilen (Folgenmeldungen), und die Wache sah nur Gelesenes. Summiert werden die 30
+  größten Schreiber; die Summe ist eine untere Schranke, reicht aber, weil zwei Abfragen den Großteil tragen.
+*/
+const schreiber = leseInsights('writes', 30)
+const geschrieben = schreiber.reduce((a, q) => a + (q.totalRowsWritten ?? 0), 0)
+console.log('')
+console.log(`Geschriebene Zeilen der letzten ${zeitraum}: ${geschrieben.toLocaleString('de-DE')}`)
+console.log(`Schreib-Kontingent der freien Stufe: 100.000 am Tag — das sind ${((geschrieben / 100_000) * 100).toFixed(1)} %`)
+console.log('Die drei größten Schreiber:')
+for (const q of schreiber.slice(0, 3)) {
+  console.log(
+    `  ${String(q.totalRowsWritten ?? 0).padStart(10)}  ${String(q.numberOfTimesRun ?? 0).padStart(6)}×  ` +
+      `Ø ${String(q.avgRowsWritten ?? 0).padStart(6)}  ${kurz(q)}`,
+  )
+}
+
 const befunde = []
+if (geschrieben > GRENZE_GESCHRIEBEN) {
+  befunde.push(
+    `${geschrieben.toLocaleString('de-DE')} geschriebene Zeilen über der Grenze ` +
+      `${GRENZE_GESCHRIEBEN.toLocaleString('de-DE')} (halbes Schreib-Kontingent der freien Stufe)`,
+  )
+}
 if (summe > GRENZE_GESAMT) {
   befunde.push(
     `Gesamtverbrauch ${summe.toLocaleString('de-DE')} über der Grenze ${GRENZE_GESAMT.toLocaleString('de-DE')} ` +
