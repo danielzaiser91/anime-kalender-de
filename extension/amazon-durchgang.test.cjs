@@ -26,7 +26,9 @@ const zustandsBlock = (() => {
   const b = quelle.indexOf('  const primeFrames = new Map()')
   return a < 0 || b < 0 ? '' : quelle.slice(a, b + '  const primeFrames = new Map()'.length)
 })()
-const block = zustandsBlock + '\n' + quelle.slice(von, bis)
+/* Die Hilfen aus `prime-titelseite.js` laden laut Manifest vor `amazon.js` — hier vor dem Block. */
+const hilfen = readFileSync(__dirname + '/prime-titelseite.js', 'utf8')
+const block = hilfen + '\n' + zustandsBlock + '\n' + quelle.slice(von, bis)
 
 const fehler = []
 function pruefe(name, bedingung, gefunden) {

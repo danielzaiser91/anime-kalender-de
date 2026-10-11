@@ -61,6 +61,7 @@ export default [
         akZaehler: 'readonly',
         akDebugLeiste: 'readonly',
         akBerichtSchalter: 'readonly',
+        akPrimeHatTitelseite: 'readonly',
       },
     },
     rules: { 'no-undef': 'error' },

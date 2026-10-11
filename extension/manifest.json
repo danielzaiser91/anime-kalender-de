@@ -77,6 +77,7 @@
         "offene-amazon.js",
         "offene-amazon-stand.js",
         "offene-amazon-suche.js",
+        "prime-titelseite.js",
         "amazon.js"
       ],
       "css": [
