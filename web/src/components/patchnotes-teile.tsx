@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import type { Patchnote } from '@shared/patchnotes.ts'
 import { weekdayName } from '@shared/time.ts'
 import { PT } from '../lib/patchnotes-texte.ts'
+import { Tooltip } from './ui.tsx'
 
 /** Bausteine des Dialogs „Neu auf der Webseite“ (siehe `PatchnotesDialog.tsx`). */
 export type Filter = 'alles' | Patchnote['kategorie']
@@ -22,6 +23,16 @@ export const Schluessel = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round" strokeLinecap="round" aria-hidden="true">
     <path d="M14.7 6.3a4 4 0 0 0-5.4 5.1L3.5 17.2a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.1-5.4l-2.6 2.6-2.4-.6-.6-2.4z" />
   </svg>
+)
+/** Stift an der heutigen Überschrift: der Eintrag ist noch ein Entwurf. Kein Knopf: ein Knopf öffnet die Blase beim Tippen nicht (Tooltip wartet auf Tastaturfokus), die Hülle öffnet sie per Tippen, Zeigen und Tab. */
+const EntwurfHinweis = () => (
+  <Tooltip text={PT.heuteHinweis} seite="unten">
+    <span role="img" aria-label={PT.heuteHinweis} className="pn-entwurf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinejoin="round" strokeLinecap="round" aria-hidden="true">
+        <path d="M4 20l1-4L16.5 4.5a2 2 0 0 1 3 3L8 19l-4 1zM14 7l3 3" />
+      </svg>
+    </span>
+  </Tooltip>
 )
 const symbolVon = (n: Patchnote) => ((n.symbol ?? (n.kategorie === 'feature' ? 'stern' : 'schluessel')) === 'stern' ? <Stern /> : <Schluessel />)
 
@@ -102,6 +113,7 @@ export function PatchTagBlock({ tag, index, heute, gestern, schliessen }: { tag:
           · {weekdayName(tag.datum, true)}
           {relativ}
         </span>
+        {tag.datum === heute && <EntwurfHinweis />}
       </h3>
       {tag.hl.map((n) => (
         <div key={n.text} className="pn-hl">
