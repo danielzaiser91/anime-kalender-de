@@ -5,7 +5,7 @@
  */
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { teilbarerSlug, teilenPfad } from '../shared/teilen.ts'
+import { cartoonMitSynchroBeleg, teilbarerSlug, teilenPfad } from '../shared/teilen.ts'
 import type { Title } from '../shared/types.ts'
 import { ROOT } from './lib/util.ts'
 
@@ -40,6 +40,17 @@ function mangel(slug: string): string | undefined {
   return fehlend.length ? `${teilenPfad(slug)} ohne ${fehlend.join(', ')}` : undefined
 }
 
+/** Die Sitemap nennt Cartoon-Seiten genau dann, wenn ihre deutsche Synchro belegt ist (`dub: true`), nicht schon „laut JustWatch“. */
+function sitemapMaengel(): string[] {
+  const sitemap = readFileSync(resolve(DIST, 'sitemap.xml'), 'utf8')
+  const cartoons = lies<Title[]>('cartoons.json').filter((t) => t.slug)
+  const mangel = cartoons
+    .filter((t) => sitemap.includes(`/${teilenPfad(t.slug)}<`) !== cartoonMitSynchroBeleg(t))
+    .map((t) => `Sitemap und Synchro-Beleg widersprechen sich: ${teilenPfad(t.slug)}`)
+  console.log(`[teilseiten] Sitemap: ${cartoons.filter(cartoonMitSynchroBeleg).length} von ${cartoons.length} Cartoon-Seiten, ${mangel.length} Abweichungen`)
+  return mangel
+}
+
 function main(): void {
   const fehler: string[] = []
   for (const [art, titel] of quellen()) {
@@ -49,6 +60,7 @@ function main(): void {
     console.log(`[teilseiten] ${art}: ${teilbar.size} Titel, ${mitSlug.length} mit Knopf, ${schlecht.length} ohne gültige Seite`)
     fehler.push(...schlecht)
   }
+  fehler.push(...sitemapMaengel())
   if (fehler.length) {
     console.error(`[teilseiten] ${fehler.length} Fehler, die ersten:\n${fehler.slice(0, 15).join('\n')}`)
     process.exit(1)

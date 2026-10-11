@@ -19,7 +19,7 @@ import {
   loadSynopsis, type Synopsis
 } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
-import { syncSharePath } from '../lib/router.ts'
+import { useTeilenAdresse } from './detail/teilen-adresse.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import {
@@ -81,17 +81,7 @@ export function DetailPanel({
     () => titelMitTerminBereichen(titelRoh, data.releasesByTitle.get(titleId) ?? []),
     [titelRoh, data, titleId],
   )
-  /*
-    **Ein offener Titel bekommt seinen Teilen-Pfad `/t/<slug>/`** (19.09.2026). Bis dahin
-    schrieb nur ein offener Termin einen Pfad in die Adressleiste; wer bei einem Titel die
-    Adresse kopierte, teilte `/#/woche?t=…` und Discord zeigte die Startseiten-Vorschau
-    (Daniel, an Boruto). Hier und nicht in `App.tsx`: Nur das Panel hat den Titel sicher —
-    `titleById` wird beim Nachladen erweitert, ohne dass ein Effekt davon erfährt.
-  */
-  useEffect(() => {
-    /* Cartoons (negative Kennung) und Titel ohne Synchro haben keine Titel-Seite. */
-    if (title?.slug && title.id > 0 && !title.ohneSynchro) syncSharePath(title.slug)
-  }, [title?.slug, title?.id, title?.ohneSynchro])
+  useTeilenAdresse(title)
   /**
    * Der leere Rückfall braucht ein `useMemo`, sonst ist er bei jedem Durchlauf
    * ein neues Array — und jeder Hook, der `releases` als Abhängigkeit führt,

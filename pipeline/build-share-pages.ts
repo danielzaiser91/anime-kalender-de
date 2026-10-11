@@ -26,7 +26,7 @@ import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { andereNamen } from './lib/titel-namen.ts'
 import { SITE, esc, namenZeile, titelInhalt, titelKopf } from './lib/titel-seite.ts'
-import { teilenPfad } from '../shared/teilen.ts'
+import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
 import { ladeAkVon, umleitungen, type AkVon, type KennungsZeile } from './lib/ausgabe-kennung.ts'
 
@@ -442,7 +442,9 @@ function schreibeAlleTitelSeiten(akVon: AkVon, kennungsZeilen: KennungsZeile[], 
   const cartoonUmleitungen = cartoonSeiten.filter(({ t }) => rahmen.jeTitel.has(t.id)).map(({ t, adresse }): [number, string] => [t.id, adresse])
   schreibeUmleitungen([...umleitungen(kennungsZeilen), ...cartoonUmleitungen])
   log(`${titelListe.length} Titel-Seiten und ${cartoons.length} Cartoon-Seiten, Übersicht und Startseite geschrieben`)
-  writeSitemap(mitAk.map(({ t, adresse }) => ({ ...t, slug: adresse })))
+  /* Cartoon-Seiten nur mit belegter Synchro (`dub: true`) in die Sitemap; ohne Beleg bleibt die Seite erreichbar, wird aber nicht angeboten. */
+  const sitemapCartoons = cartoonSeiten.filter(({ t }) => cartoonMitSynchroBeleg(t))
+  writeSitemap([...mitAk, ...sitemapCartoons].map(({ t, adresse }) => ({ ...t, slug: adresse })))
 }
 
 /** Eine Seite je Titel: Hat er Termine, trägt sie den nächsten (sonst den letzten) samt der übrigen; sonst die schlichte Titelseite. */
