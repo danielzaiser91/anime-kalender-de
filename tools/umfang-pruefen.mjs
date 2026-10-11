@@ -14,7 +14,8 @@
  *
  * Aufruf:
  *   node tools/umfang-pruefen.mjs                 prüfen (Exit 1 bei Wachstum)
- *   node tools/umfang-pruefen.mjs --festschreiben gesunkene Werte übernehmen (erhöht nie)
+ *   node tools/umfang-pruefen.mjs --festschreiben gesunkene Werte übernehmen (erhöht nie); nur der Bestandsbau auf main
+ *                                                 (tools/commit-data.sh), nie ein PR — sonst kollidieren die PRs in der Datei
  *   node tools/umfang-pruefen.mjs --liste         die größten Funktionen und Dateien zeigen
  *   node tools/umfang-pruefen.mjs --ketten        Dateien mit Ketten (`a(); b()` in einer Zeile) samt Zeilennummern
  */
@@ -147,4 +148,4 @@ if (zuViel.length) {
   process.exit(1)
 }
 const gesunken = JSON.stringify(neu) !== JSON.stringify(erlaubt)
-console.log(`Umfang in Ordnung.${gesunken ? ' Überlänge gesunken — `node tools/umfang-pruefen.mjs --festschreiben` übernimmt das.' : ''}`)
+console.log(`Umfang in Ordnung.${gesunken ? ' Überlänge gesunken — der nächste Bestandsbau auf main übernimmt das; im PR nicht festschreiben.' : ''}`)
