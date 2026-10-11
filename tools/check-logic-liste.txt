@@ -21,7 +21,6 @@ pipeline/check-cartoon-ton.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cr-teilseiten.ts
-pipeline/check-prime-teilseiten.ts
 pipeline/check-daten-kennung.ts
 pipeline/check-db-relevanz.ts
 pipeline/check-detektiv-funde.ts
@@ -46,6 +45,7 @@ pipeline/check-paramount.ts
 pipeline/check-patchnotes.ts
 pipeline/check-premiere.ts
 pipeline/check-prime-kanal.ts
+pipeline/check-prime-teilseiten.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
