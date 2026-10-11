@@ -20,7 +20,7 @@ const ganzerTag = (tag: string | undefined): string | undefined => (tag && /^\d{
 export function deutscheAngabe(t: Title, releases: Release[] | undefined): DeutschAngabe {
   if (!hatDeutsch(t)) return {}
   const deVon = ersterTermin((releases ?? []).filter((r) => !r.schedule?.estimated))?.datum ?? ganzerTag(t.deErstausgabe?.von)
-  const anbieter = anbieterVon(t)
+  const anbieter = anbieterVon(t, releases)
   return {
     deutsch: true,
     ...(deVon ? { deVon } : {}),

@@ -42,8 +42,12 @@ export function ersterTermin(releases: Release[] | undefined): { datum: string; 
 
 export const hatDeutsch = (t: Pick<Title, 'streams' | 'deErstausgabe' | 'hasVoices'>): boolean => Boolean((t.streams ?? []).some((s) => s.dub === true) || t.deErstausgabe?.synchro || t.hasVoices)
 
-/** Wo die Synchro läuft — oder, wo sie nur angekündigt ist, der Anbieter der Ankündigung (nicht der des Untertitel-Starts allein). */
-export function anbieterVon(t: Pick<Title, 'streams' | 'ankuendigung'>): PlatformId[] {
+/**
+ * Wo die Synchro läuft — oder, wo sie nur angekündigt ist, der Anbieter der Ankündigung (nicht der des Untertitel-Starts allein).
+ * Ein sicherer Termin im Kalender nennt seinen Anbieter auch dort, wo der Titel noch keinen Weg trägt (Tokyo Revengers, Tank Chair; Daniel, 11.10.2026).
+ */
+export function anbieterVon(t: Pick<Title, 'streams' | 'ankuendigung'>, releases?: Release[]): PlatformId[] {
   const angekuendigt = t.ankuendigung?.synchro === 'angekuendigt' ? [t.ankuendigung.platform] : []
-  return [...new Set([...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform), ...angekuendigt])]
+  const ausTermin = (releases ?? []).filter((r) => !r.schedule?.estimated).map((r) => r.platform)
+  return [...new Set([...(t.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform), ...angekuendigt, ...ausTermin])]
 }

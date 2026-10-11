@@ -17,8 +17,8 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 }
 
 const titel = (t: Partial<Title>): Title => ({ id: 900002, jpYear: 2026, streams: [], ...t }) as Title
-const sicher = (datum: string): Release => ({ titleId: 900002, schedule: { firstEpisodeDate: datum } }) as Release
-const geschaetzt = (datum: string): Release => ({ titleId: 900002, schedule: { firstEpisodeDate: datum, estimated: true } }) as Release
+const sicher = (datum: string): Release => ({ titleId: 900002, platform: 'netflix', schedule: { firstEpisodeDate: datum } }) as Release
+const geschaetzt = (datum: string): Release => ({ titleId: 900002, platform: 'netflix', schedule: { firstEpisodeDate: datum, estimated: true } }) as Release
 const mitDub = titel({ streams: [{ platform: 'netflix', url: 'https://x', dub: true }] })
 const katalog = (extra: Partial<SaisonKatalogTitel>): SaisonKatalogTitel => ({ id: 900002, jpStart: '2026-07-03', ...extra })
 const T0 = '2026-10-11'

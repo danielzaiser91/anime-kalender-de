@@ -42,6 +42,7 @@ pipeline/check-premiere.ts
 pipeline/check-prime-kanal.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-saison-deutsch.ts
+pipeline/check-saison-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-stand-halten.ts
