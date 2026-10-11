@@ -31,14 +31,18 @@ export function ladeEingefrorene(): EingefrorenerEintrag[] {
   return readJson<Partial<EingefrorenerBestand>>(EINGEFROREN_DATEI, {}).eintraege ?? []
 }
 
+/** Cache-Einträge, bei den eingefrorenen Kennungen ersetzt durch die eingefrorenen; ohne Cache leer (kein Teilkatalog aus nur der Datei). */
+export function mischeKatalog(cache: KatalogEintrag[], eingefroren: KatalogEintrag[]): KatalogEintrag[] {
+  if (!cache.length) return []
+  const gesperrt = new Set(eingefroren.map((e) => e.id))
+  return [...cache.filter((e) => !gesperrt.has(e.id)), ...eingefroren].sort((a, b) => a.id - b.id)
+}
+
 /**
- * Der Katalog für den Bau: die Einträge aus dem Abruf-Cache, bei den eingefrorenen Kennungen ersetzt durch die Datei im Repo.
- * Ohne warmen Cache bleibt es leer — die Aufrufer behandeln das wie bisher (Frühausstieg, letzte Ausgabe bleibt stehen).
+ * Der Katalog für den Bau: der Abruf-Cache, bei den eingefrorenen Kennungen ersetzt durch die Datei im Repo.
+ * Ohne warmen Cache bleibt er leer — die Aufrufer behandeln das wie bisher (Frühausstieg, letzte Ausgabe bleibt stehen).
  */
 export function ladeKatalogEintraege(): KatalogEintrag[] {
   const cache = readJson<{ eintraege?: KatalogEintrag[] }>(KATALOG_CACHE, {}).eintraege ?? []
-  if (!cache.length) return []
-  const eingefroren = ladeEingefrorene()
-  const gesperrt = new Set(eingefroren.map((e) => e.id))
-  return [...cache.filter((e) => !gesperrt.has(e.id)), ...eingefroren].sort((a, b) => a.id - b.id)
+  return mischeKatalog(cache, ladeEingefrorene())
 }
