@@ -291,6 +291,12 @@ jobs:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
         run: bash tools/schritt.sh --zeit 25m "TMDB-Folgen" -- npm run data:tmdb-folgen -- --limit 300
 
+      # Titelliste je Cartoon mit Netflix-/Prime-Verweis; die Zuordnung der Meldungen läuft über die Folgentitel.
+      - name: Cartoon-Folgen holen
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: bash tools/schritt.sh --zeit 25m "Cartoon-Folgen" -- npm run data:cartoon-folgen -- --limit 150
+
       # Größtes Plakat je Titel (Vergrößerung im Panel); braucht die TMDB-Zuordnung aus dem Schritt davor.
       - name: TMDB-Plakate holen
         env:

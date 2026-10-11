@@ -112,6 +112,8 @@ QUELLEN=(
   data/kanal-widerspruch.json
   data/meldungs-auffaelligkeiten.json
   data/tmdb-folgen.json
+  # Titelliste je Cartoon aus TMDB, für die Zuordnung von Meldungen über den Folgentitel (11.10.2026).
+  data/cartoon-folgen.json
   data/anbieter-vorschlaege.json
   data/wiedervorlage.json
   data/qualitaet-verlauf.json
