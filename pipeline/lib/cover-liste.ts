@@ -14,10 +14,17 @@ function tmdbSpalte(t: Title, kandidaten: string[] | undefined): string {
   return [`[Suche](${tmdbSuche(t)})`, ...links].join(' ')
 }
 
-function zeile(t: Title, grund: string, kandidaten: string[] | undefined): string {
+type Zeile = { grund: string; text: string }
+
+function zeile(t: Title, grund: string, kandidaten: string[] | undefined): Zeile {
   const name = zelle(t.titleEn ?? t.titleRomaji ?? String(t.id))
-  return `| ${name} | ${t.jpYear ?? '–'} | ${t.format ?? '–'} | ${anilist(t)} | ${grund} | ${tmdbSpalte(t, kandidaten)} |`
+  return { grund, text: `| ${name} | ${t.jpYear || '–'} | ${t.format ?? '–'} | ${anilist(t)} | ${grund} | ${tmdbSpalte(t, kandidaten)} |` }
 }
+
+/** Zum Prüfen zuerst, wo von Hand etwas zu entscheiden ist (unsicher, mehrere Kandidaten, kein Plakat), zuletzt „kein Treffer“. */
+const RANG = ['unsicher', 'mehrere Kandidaten', 'kein Plakat']
+const rang = (z: Zeile): number => (RANG.includes(z.grund) ? RANG.indexOf(z.grund) : RANG.length)
+const sortiert = (zeilen: Zeile[]): string[] => [...zeilen].sort((a, b) => rang(a) - rang(b)).map((z) => z.text)
 
 const KOPF = '| Titel | Jahr | Format | AniList | Grund | TMDB |\n|---|---|---|---|---|---|'
 
@@ -28,8 +35,8 @@ const KOPF = '| Titel | Jahr | Format | AniList | Grund | TMDB |\n|---|---|---|-
 export function schreibeCoverListe(bestand: PlakatBestand, gruende: GrundBestand): void {
   const alle = [...readJson<Title[]>('public/data/titles.json', []), ...readJson<Title[]>('public/data/ohne-synchro.json', [])]
   const gesehen = new Set<number>()
-  const ohneCover: string[] = []
-  const anilistCover: string[] = []
+  const ohneCover: Zeile[] = []
+  const anilistCover: Zeile[] = []
   let ungesucht = 0
   let mitTmdb = 0
   for (const t of alle) {
@@ -51,12 +58,12 @@ export function schreibeCoverListe(bestand: PlakatBestand, gruende: GrundBestand
     `## Ohne jedes Cover (${ohneCover.length})`,
     '',
     KOPF,
-    ...ohneCover,
+    ...sortiert(ohneCover),
     '',
     `## AniList-Cover bleibt (${anilistCover.length})`,
     '',
     KOPF,
-    ...anilistCover,
+    ...sortiert(anilistCover),
     '',
   ].join('\n')
   writeText(DATEI, text)
