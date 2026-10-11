@@ -128,8 +128,12 @@ jobs:
             nicht abrufbar oder auf 400000 Byte gekürzt: Du hast nicht alles gesehen, nenne das im Protokoll und
             gib zwingend "aendern" aus, nie "ok".
             Eine Zeile "Datendatei <pfad>: … nicht gelesen" im Diff ist eine Stub-Zeile für eine große Datendatei
-            (Inhalt prüfen die CI-Checks) und kein "unvollstaendig". Prüfe aber, ob jede gestubbte Datei in der
-            Beschreibung genannt ist und ob ihr Pfad in tools/quellen-liste.sh eingetragen ist; sonst "aendern".
+            (Inhalt prüfen die CI-Checks) und kein "unvollstaendig". Gestubbt werden nur Erzeugnisse unter
+            public/data und Dateien, die in tools/quellen-liste.sh (main) stehen; Handdateien, Handbelege und
+            data/cache sind nie gestubbt. Eine neue Datendatei steht also nie als Stub da; ihr Eintrag in
+            quellen-liste.sh ist nur Pflicht, wenn der Diff selbst sie hinzufügt. Prüfe bei jedem Stub, dass die
+            Datei in der Beschreibung genannt ist; sonst "aendern". Eine Datei, deren Diff "nicht lieferbar"
+            ist, macht den Zustand ohnehin "unvollstaendig".
             Der Stand von main liegt in ${{ github.workspace }} (ohne die PR-Änderungen); lies dort CLAUDE.md und
             bei Bedarf die berührten Dateien zum Vergleich.
 
