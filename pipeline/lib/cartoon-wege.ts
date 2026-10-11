@@ -1,7 +1,7 @@
 /**
  * **Wege der Cartoons je Staffel** (11.10.2026, Teil 2 von 3): Ein Cartoon ist ein `Title`, sein Weg bei einem Anbieter deckt
- * heute alle Staffeln auf einmal. Sind die Staffeln belegt (`lib/cartoon-staffeln.ts`), wird der Weg auf sie verteilt:
- * ein Weg je Staffel, `teilBereich` und `dubRanges` in durchlaufender Zählung (Jack: Buch 1 = 1, Buch 2 = 2–11, Buch 3 = 12–21).
+ * heute alle Staffeln auf einmal. Sind die Staffeln belegt (`lib/cartoon-staffeln.ts`) und trägt mindestens eine Staffel
+ * ein Häkchen oder einen JustWatch-Hinweis, wird der Weg auf sie verteilt: ein Weg je Staffel, `teilBereich` und `dubRanges` in durchlaufender Zählung (Jack: Buch 1 = 1, Buch 2 = 2–11, Buch 3 = 12–21).
  *
  * Ein Häkchen je Staffel kommt nur aus einem Handbeleg mit Folgenbereichen. JustWatchs Ton je Staffel ist Fremdangabe (Regel
  * „Deutsch laut JustWatch“, `dubQuelle`) und schreibt nie `dub`.
@@ -54,6 +54,8 @@ function wegJeStaffel(weg: StreamLink, b: StaffelBereich, jwStand: string | unde
  * Der Weg, auf die Staffeln verteilt. Ein Weg, dessen Urteil keine Folgenbereiche kennt (Handbeleg „deutsch“ ohne Bereiche,
  * etwa Barbie: 12 von 110 Folgen), bleibt ganz: sonst bekäme jede Staffel ein Häkchen, das niemand belegt hat.
  * Eine Staffel, zu der der Beleg nichts sagt, bekommt keines.
+ * Verteilt wird nur, wenn mindestens eine Staffel etwas Eigenes trägt (Häkchen oder JustWatch-Hinweis); sonst sagte die Verteilung
+ * nur „der Anbieter hat die Serie“ in n Pillen (Entscheidung 11.10.2026: American Dad hätte 44 Pillen).
  */
 export function verteileWeg(
   weg: StreamLink,
@@ -61,5 +63,6 @@ export function verteileWeg(
   jwStand: (staffelNr: number) => string | undefined = () => undefined,
 ): StreamLink[] {
   if (!teilbar(weg) || bereiche.length < 2) return [weg]
-  return bereiche.map((b) => wegJeStaffel(weg, b, jwStand(b.nr)))
+  const je = bereiche.map((b) => wegJeStaffel(weg, b, jwStand(b.nr)))
+  return je.some((w) => w.dub === true || w.dubQuelle) ? je : [weg]
 }

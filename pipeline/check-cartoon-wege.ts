@@ -26,11 +26,13 @@ const teile = (ws: StreamLink[]) => ws.map((w) => `${w.teilBereich?.von}-${w.tei
 
 pruefe('Bereiche zählen durchlaufend', bereiche(13, 10).map((b) => `${b.von}-${b.bis}`).join() === '1-13,14-23')
 
-// Niko: Weg ohne Urteil wird verteilt, ohne dass ein Urteil entsteht.
+// Niko: Ohne Haken und ohne JustWatch-Hinweis trägt keine Staffel etwas Eigenes, der Weg bleibt ganz (sonst 44 Pillen bei American Dad).
 const niko = verteileWeg(ohneUrteil, bereiche(13, 10))
-pruefe('ohne Urteil: ein Weg je Staffel, lückenlos', teile(niko) === '1-13,14-23', teile(niko))
-pruefe('ohne Urteil: kein dub, keine Bereiche, keine JustWatch-Kennzeichnung', niko.every((w) => w.dub === undefined && !w.dubRanges && !w.dubQuelle))
-pruefe('Adresse bleibt an jedem Weg', niko.every((w) => w.url === ohneUrteil.url))
+pruefe('ohne Haken und Hinweis: Weg bleibt ganz', niko.length === 1 && !niko[0].teilBereich && niko[0] === ohneUrteil)
+const nikoHinweis = verteileWeg(ohneUrteil, bereiche(13, 10), () => '2026-10-11')
+pruefe('mit Hinweis: ein Weg je Staffel, lückenlos', teile(nikoHinweis) === '1-13,14-23', teile(nikoHinweis))
+pruefe('mit Hinweis: kein dub, keine Bereiche', nikoHinweis.every((w) => w.dub === undefined && !w.dubRanges))
+pruefe('Adresse bleibt an jedem Weg', nikoHinweis.every((w) => w.url === ohneUrteil.url))
 
 // Jack: Handbeleg mit Bereichen gibt jeder Staffel ihr Häkchen, in durchlaufender Zählung.
 const jack = verteileWeg({ platform: 'netflix', url: 'x', dub: true, dubRanges: [{ from: 1, to: 21, dub: true }] }, bereiche(1, 10, 10))
@@ -71,7 +73,7 @@ const titel = (id: number, quelle: 'justwatch' | 'tmdb'): Title =>
 const [vonJw, vonTmdb, geprueft] = [titel(-1, 'justwatch'), titel(-2, 'tmdb'), titel(-3, 'justwatch')]
 verteileWege([vonJw, vonTmdb, geprueft], { '-1': jwBefund, '-2': jwBefund, '-3': jwBefund }, new Set([-3]))
 pruefe('Bau: JustWatch-Staffeln tragen den Hinweis an der Staffel mit deutschem Ton', vonJw.streams[0].dubQuelle === 'justwatch' && !vonJw.streams[1].dubQuelle)
-pruefe('Bau: TMDB-Staffeln bekommen keinen Hinweis (Nummern können abweichen)', vonTmdb.streams.length === 2 && vonTmdb.streams.every((s) => !s.dubQuelle))
+pruefe('Bau: TMDB-Staffeln bekommen keinen Hinweis (Nummern können abweichen)', vonTmdb.streams.length === 1 && !vonTmdb.streams[0].dubQuelle)
 pruefe('Bau: Titel auf der Prüfliste behält den Weg ganz', geprueft.streams.length === 1)
 
 /** Echter Bestand (nach einem Bau): Teilbereiche, Häkchen und Prüfliste stimmen zusammen. */
@@ -87,6 +89,7 @@ function pruefeBestand(titelListe: Title[]): void {
       if (!ss.some((s) => s.teilBereich)) continue
       const ende = ss.reduce((bisher, s) => (s.teilBereich && s.teilBereich.von === bisher + 1 ? s.teilBereich.bis : -1), 0)
       pruefe('Bestand: Teilbereiche eines Wegs sind lückenlos und ergeben die Staffelsumme', ende === summe(t.staffeln ?? []), `${t.id} ${weg}`)
+      pruefe('Bestand: ein verteilter Weg trägt in mindestens einer Staffel Haken oder JustWatch-Hinweis', ss.some((s) => s.dub === true || s.dubQuelle), `${t.id} ${weg}`)
     }
   }
   const alleWege = titelListe.flatMap((t) => t.streams.map((s) => ({ t, s })))
