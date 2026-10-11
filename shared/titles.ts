@@ -160,7 +160,7 @@ type StaffelFeld = { id: number; name: string; jpYear?: number; jpStart?: string
 
 /** Sortierschlüssel der Ausstrahlung: Start, sonst Jahr; Jahr 0 (aniSearch: Jahr unbekannt) und fehlend heißen „noch offen" und stehen hinten. */
 export function ausstrahlungsZeit(m: { jpYear?: number; jpStart?: string }): string {
-  return m.jpStart ?? String(m.jpYear ?? 9999)
+  return m.jpStart ?? String(m.jpYear || 9999)
 }
 
 /** Ordnet jeden Eintrag einer Staffel zu (Regeln: siehe oben); `staffelBeschriftungen()` und `staffelStaende()` lesen daraus. */
