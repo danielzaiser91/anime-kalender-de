@@ -301,6 +301,70 @@
       "folge": "Kinoheld-Suche fällt auf DuckDuckGo zurück; einzelne Kinoadressen fehlen."
     },
     {
+      "id": "DATEN_APP_ID",
+      "ort": "github-secret",
+      "wofuer": "Kennung der GitHub-App anime-kalender-daten: Bestandsbau, Wachen und Sammler liefern damit am Ruleset main-pruefweg vorbei.",
+      "workflows": [
+        "adn-laufende.yml",
+        "anisearch-katalog.yml",
+        "bestand-bauen.yml",
+        "claude-anime2you-extraktion.yml",
+        "claude-daten-merge.yml",
+        "claude-wache-urteil.yml",
+        "claude-verpasst-recherche.yml",
+        "crunchyroll-nachholen.yml",
+        "daten-auf-abruf.yml",
+        "delta-wache.yml",
+        "fund-nachliefern.yml",
+        "refresh-data.yml",
+        "refresh-hourly.yml",
+        "refresh-weekly.yml",
+        "tonspuren-monatlich.yml"
+      ],
+      "gueltig": {
+        "text": "Läuft nicht ab; gilt, solange die App installiert ist",
+        "beleg": "daniel-zum-abarbeiten/berichte/pruefweg-pr-spezifikation.md (11.10.2026)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "keiner",
+        "text": "Ändert sich nur, wenn die App neu angelegt wird (github.com/settings/apps)"
+      },
+      "folge": "Bestandsbau und Wachen können nicht auf main pushen, Sammler-PRs bleiben offen."
+    },
+    {
+      "id": "DATEN_APP_KEY",
+      "ort": "github-secret",
+      "wofuer": "Privater Schlüssel der GitHub-App anime-kalender-daten (siehe DATEN_APP_ID).",
+      "workflows": [
+        "adn-laufende.yml",
+        "anisearch-katalog.yml",
+        "bestand-bauen.yml",
+        "claude-anime2you-extraktion.yml",
+        "claude-daten-merge.yml",
+        "claude-wache-urteil.yml",
+        "claude-verpasst-recherche.yml",
+        "crunchyroll-nachholen.yml",
+        "daten-auf-abruf.yml",
+        "delta-wache.yml",
+        "fund-nachliefern.yml",
+        "refresh-data.yml",
+        "refresh-hourly.yml",
+        "refresh-weekly.yml",
+        "tonspuren-monatlich.yml"
+      ],
+      "gueltig": {
+        "text": "Läuft nicht ab; gilt, bis er in den App-Einstellungen widerrufen wird",
+        "beleg": "daniel-zum-abarbeiten/berichte/pruefweg-pr-spezifikation.md (11.10.2026)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "In den App-Einstellungen neuen Schlüssel erzeugen, Secret im Repo ersetzen, alten widerrufen"
+      },
+      "folge": "Bestandsbau und Wachen können nicht auf main pushen, Sammler-PRs bleiben offen."
+    },
+    {
       "id": "DISCORD_WEBHOOK",
       "ort": "github-secret",
       "wofuer": "Meldung neuer Termine in den Discord-Kanal.",
@@ -365,7 +429,6 @@
         "claude-daten-merge.yml",
         "claude-anime2you-extraktion.yml",
         "claude-wache-urteil.yml",
-        "claude-verpasst-recherche.yml",
         "delta-wache.yml",
         "fund-nachliefern.yml",
         "pr-pruefer.yml",

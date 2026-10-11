@@ -117,7 +117,7 @@ jobs:
           # Die Action lehnt Bots als Auslöser ab, damit sie sich nicht selbst
           # in eine Schleife ruft — unsere Sammel-Läufe committen aber als
           # `github-actions[bot]`.
-          allowed_bots: 'github-actions[bot]'
+          allowed_bots: 'github-actions[bot],anime-kalender-daten[bot]'
           claude_args: |
             --max-turns 60
             --allowedTools "Bash,Read,Edit,Write,Grep,Glob"
@@ -153,8 +153,9 @@ jobs:
             3. `npm run data:validate && npm run check:logic` müssen grün sein.
                Sind sie es nicht, hast du beim Auflösen etwas kaputt gemacht —
                dann repariere es, bevor du weitermachst.
-            4. Push auf den Zweig, dann
-               `gh pr merge <nummer> --squash --delete-branch`.
+            4. Push auf den Zweig. **Gemergt wird nicht von dir:** Dein Token darf das
+               Ruleset auf `main` nicht umgehen. Der Schritt nach dir mergt jeden
+               Pull Request, der jetzt konfliktfrei ist.
 
             Verbindlich:
 
@@ -168,6 +169,36 @@ jobs:
             - Du baust den Datensatz **nicht** neu. Das macht „Bestand —
               zusammenführen und bauen" beim nächsten planmäßigen Lauf,
               spätestens eine Stunde später.
+
+      # Gemergt wird mit dem Token der App anime-kalender-daten: Nur sie umgeht das Ruleset `main-pruefweg` (11.10.2026). Was Claude offen ließ, ist weiter im Konflikt und bleibt stehen.
+      - name: App-Token holen
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          private-key: ${{ secrets.DATEN_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Aufgelöste Pull Requests mergen
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          NUMMERN: ${{ needs.pruefen.outputs.nummern }}
+        run: |
+          for nr in ${NUMMERN//,/ }; do
+            zustand=UNKNOWN
+            for _ in 1 2 3 4 5 6 7 8 9 10; do
+              zustand="$(gh pr view "$nr" --json mergeable -q .mergeable)"
+              [ "$zustand" != UNKNOWN ] && break
+              sleep 3
+            done
+            if [ "$zustand" != MERGEABLE ]; then
+              echo "::notice::Pull Request $nr bleibt offen ($zustand)."
+              continue
+            fi
+            titel="$(gh pr view "$nr" --json title -q .title)"
+            gh pr merge "$nr" --squash --delete-branch --subject "$titel" || echo "::warning::Pull Request $nr ließ sich nicht mergen."
+          done
 
       - name: Lauf abmelden
         continue-on-error: true

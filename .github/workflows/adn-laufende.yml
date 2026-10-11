@@ -73,6 +73,8 @@ jobs:
         with:
           nachricht: 'chore(data): ADN — laufende Serien aufgefrischt'
           fund: auffrischen
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          app-key: ${{ secrets.DATEN_APP_KEY }}
 
       - name: Fehlschläge auswerten
         id: auswerten

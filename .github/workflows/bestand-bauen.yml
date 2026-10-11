@@ -46,8 +46,9 @@ on:
     # spätestens eine Stunde später. Ein Konflikt ist der Ausnahmefall, und
     # eine Stunde Verzug ist dort verkraftbar.
   # Ein gemergter Handbeleg oder Pipeline-Umbau wartete bis zum nächsten Sammel-Lauf (10.10.2026: 25 Minuten bis zum Baustart).
-  # Jetzt baut jeder Push, der Bauquellen berührt. Pushes mit GITHUB_TOKEN (Sammler-Merges, dieser Lauf selbst, Wachen) lösen
-  # keinen Workflow aus — es entstehen keine Doppelläufe. Die Gruppe `bau` hält einen laufenden und einen wartenden Lauf.
+  # Jetzt baut jeder Push, der Bauquellen berührt. Pushes der App anime-kalender-daten (Sammler-Merges, dieser Lauf selbst, Wachen; seit
+  # 11.10.2026 statt GITHUB_TOKEN, das am Ruleset `main-pruefweg` scheitert) lösen anders als GITHUB_TOKEN Workflows aus — der Job-`if`
+  # überspringt sie, sonst baute der Bau seinen eigenen Commit erneut. Die Gruppe `bau` hält einen laufenden und einen wartenden Lauf.
   # Bewusst ohne `web/src/**` (die Pipeline importiert dort einzelne Module) und ohne `tools/daten-kennung.ts`: Änderungen dort lösen
   # keinen Bau aus und wirken beim nächsten Sammel-Lauf oder per `workflow_dispatch`. Das Lockfile ändert dagegen, was die Pipeline ausführt.
   push:
@@ -66,11 +67,14 @@ permissions:
 concurrency:
   # Nur ein Bau zugleich. Die Sammler haben seit dem 05.10.2026 eigene Gruppen (stunde, tag, woche, …): Sie reichen Pull Requests ein, und der Bau legt bei
   # bewegtem Fernstand nur seine eigenen Änderungen zurück (`tools/quellen-aufsetzen.sh`) — niemand überschreibt mehr, was ein anderer Lauf aktualisiert hat.
-  group: bau
+  #
+  # Pushes der Daten-App überspringt der Job-`if`; der Lauf selbst bekäme sonst die Gruppe und verdrängte einen wartenden Bau.
+  group: ${{ (github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') && format('app-push-{0}', github.run_id) || 'bau' }}
   cancel-in-progress: false
 
 jobs:
   bauen:
+    if: ${{ github.event_name != 'push' || github.actor != 'anime-kalender-daten[bot]' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
@@ -91,11 +95,21 @@ jobs:
             -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
             --data-binary @/tmp/anmeldung.json > /dev/null || true
 
+      # Der Push von `commit-data.sh` geht direkt auf `main`; das Ruleset lässt dafür nur die App durch (Bypass „always“).
+      - name: App-Token holen
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          private-key: ${{ secrets.DATEN_APP_KEY }}
+          permission-contents: write
+
       - uses: actions/checkout@v4
         with:
           # Der Sammler hat gerade gepusht — dieser Lauf braucht dessen Stand,
           # nicht den Commit, für den er ausgelöst wurde.
           ref: main
+          token: ${{ steps.app.outputs.token }}
 
       - name: Melder bereitlegen
         run: |

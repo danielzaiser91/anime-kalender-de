@@ -68,3 +68,5 @@ jobs:
         with:
           nachricht: 'chore(data): Fund nachgeliefert (Lauf ${{ inputs.lauf }})'
           fund: nachgeliefert
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          app-key: ${{ secrets.DATEN_APP_KEY }}

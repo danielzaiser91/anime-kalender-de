@@ -92,11 +92,22 @@ jobs:
 
       # **Die Anmeldung wird vorher neu gesetzt:** Der Claude-Schritt richtet für sich ein eigenes Token als Git-Anmeldung ein und widerruft es
       # am Ende (13.09.2026, `claude-verpasst-recherche.yml`). Ohne diese beiden Zeilen pusht hier niemand.
+      # Die App darf `main` am Ruleset vorbei mergen, `GITHUB_TOKEN` nicht (11.10.2026); fehlt das Token, wird der Lauf rot (kein Rückfall: ein angelegter, nie gemergter PR bliebe unbemerkt).
+      - name: App-Token holen
+        id: app
+        if: steps.auswahl.outputs.anzahl != '0'
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          private-key: ${{ secrets.DATEN_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
       - name: Ergebnis als Pull Request einreichen
         id: einreichen
         if: steps.auswahl.outputs.anzahl != '0'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app.outputs.token }}
           # Sicherung für den Fall, dass das Einreichen scheitert (siehe `.github/actions/einreichen`, `fund-nachliefern.yml`).
           FUND_DIR: ${{ runner.temp }}/fund
         run: |

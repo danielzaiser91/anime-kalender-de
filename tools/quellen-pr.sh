@@ -135,8 +135,8 @@ if [ "$PUSH_OK" != 1 ]; then
   exit 1
 fi
 
-# `gh pr create` braucht GH_TOKEN in der Umgebung; der Workflow reicht das
-# GITHUB_TOKEN durch.
+# `gh pr create` und `gh pr merge` brauchen GH_TOKEN in der Umgebung; die Workflows reichen das Token der App
+# anime-kalender-daten durch (Bypass im Ruleset `main-pruefweg`, 11.10.2026).
 PR="$(gh pr create --base main --head "$ZWEIG" \
   --title "$NACHRICHT" \
   --body "Automatisch eingereicht von **${GITHUB_WORKFLOW:-lokal}** (Lauf ${GITHUB_RUN_ID:-—}).
@@ -166,9 +166,8 @@ echo "Mergebarkeit: $ZUSTAND"
 
 if [ "$ZUSTAND" = "MERGEABLE" ]; then
   # `--squash`, damit auf `main` ein Commit je Lauf steht statt eines
-  # Merge-Commits mit Anhang. Kein `--admin`: `main` ist nicht geschützt
-  # (geprüft am 30.08.2026), und das GITHUB_TOKEN hätte die Rechte dafür ohnehin
-  # nicht — der Aufruf würde daran scheitern statt am Konflikt.
+  # Merge-Commits mit Anhang. Kein `--admin`: Die App umgeht das Ruleset
+  # `main-pruefweg` über ihren Bypass, ein Konflikt scheitert trotzdem.
   #
   # **Mehrere Versuche**: Mit parallelen Sammlern (seit 05.10.2026) bewegt sich `main` oft genau zwischen Mergebarkeits-Prüfung und Merge — GitHub antwortet dann
   # „Base branch was modified. Review and try the merge again." Ein Pull Request, der deshalb offen bliebe, wartete auf den Claude-Lauf (und dessen Kontingent).

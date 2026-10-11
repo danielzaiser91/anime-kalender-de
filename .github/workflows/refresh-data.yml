@@ -170,6 +170,8 @@ jobs:
         with:
           nachricht: 'chore(data): Tagesquellen gesammelt'
           fund: sammeln
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          app-key: ${{ secrets.DATEN_APP_KEY }}
 
       - name: Fehlschläge auswerten
         id: auswerten
@@ -218,6 +220,8 @@ jobs:
         with:
           nachricht: 'chore(data): aniSearch-Tagesquellen gesammelt'
           fund: anisearch
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          app-key: ${{ secrets.DATEN_APP_KEY }}
 
       - name: Fehlschläge auswerten
         id: auswerten
