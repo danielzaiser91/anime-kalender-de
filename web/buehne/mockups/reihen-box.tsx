@@ -45,7 +45,7 @@ mockup({
   name: 'reihen-box',
   titel: 'Reihen-Box – A: Staffelzeile mit Sprung',
   ausschnitt: 'detailpanel',
-  faelle: ['tokyo-revengers', 'attack-on-titan', '86'],
+  faelle: ['tokyo-revengers', 'attack-on-titan', 'one-piece', '86', 'hajime-no-ippo', 'cyberpunk-edgerunners', 'chihiro', 'golden-kamuy'],
   varianten: {
     A: {
       ersatz: { PanelKopf: KopfMitStaffelzeile },

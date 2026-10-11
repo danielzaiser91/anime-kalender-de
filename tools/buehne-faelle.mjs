@@ -22,11 +22,19 @@ const HEUTE = '2026-10-11T10:00:00Z'
 const PLATZHALTER = 'https://platzhalter.invalid/cover/'
 const PLATZHALTER_BILDER = 6
 
-/** AniList-Kennung des geöffneten Titels; die Reihe ergibt sich daraus (`franchiseId`). */
+/**
+ * AniList-Kennung des geöffneten Titels; die Reihe ergibt sich daraus (`franchiseId`). Die Reihen dürfen sich nicht
+ * überschneiden: `kachel` und `ganz` zeigen alle Fälle zusammen als Bestand (`faelle.ts`).
+ */
 const FAELLE = [
   { slug: 'tokyo-revengers', name: 'Tokyo Revengers (neue Staffel)', titel: 178083 },
   { slug: 'attack-on-titan', name: 'Attack on Titan (Staffeln, Filme, Specials)', titel: 110277 },
+  { slug: 'one-piece', name: 'One Piece (lang laufend)', titel: 21 },
   { slug: '86', name: '86 (fertig)', titel: 131586 },
+  { slug: 'hajime-no-ippo', name: 'Hajime no Ippo (ohne Synchro)', titel: 263 },
+  { slug: 'cyberpunk-edgerunners', name: 'Cyberpunk: Edgerunners 2 (Netflix-Eigenproduktion)', titel: 195539 },
+  { slug: 'chihiro', name: 'Chihiros Reise ins Zauberland (Film)', titel: 199 },
+  { slug: 'golden-kamuy', name: 'Golden Kamuy (angekündigt, ohne Datum)', titel: 210073 },
 ]
 
 const lies = (name) => JSON.parse(readFileSync(resolve(DATEN, name), 'utf8'))
@@ -42,13 +50,12 @@ function ohneBilder(daten) {
     ...(t.bannerImage && { bannerImage: platzhalter(id) }),
     ...(t.cover && { cover: platzhalter(id) }),
   })
-  return Array.isArray(daten) ? daten.map((t) => eintrag(t, t.id)) : daten
+  return Array.isArray(daten) ? daten.map((t) => eintrag(t, t.id ?? t.titelId)) : daten
 }
 
 function reiheVon(titelId) {
-  const titel = lies('titles.json')
-  const eigener = titel.find((t) => t.id === titelId)
-  if (!eigener) throw new Error(`Titel ${titelId} fehlt in titles.json`)
+  const eigener = [...lies('titles.json'), ...liesWennDa('ohne-synchro.json', [])].find((t) => t.id === titelId)
+  if (!eigener) throw new Error(`Titel ${titelId} fehlt in titles.json und ohne-synchro.json`)
   const wurzel = eigener.franchiseId ?? eigener.id
   const gehoert = (t) => (t.franchiseId ?? t.id) === wurzel
   return { wurzel, gehoert }
@@ -68,6 +75,8 @@ function schneide(fall, ak) {
     'events.json': lies('events.json').filter((e) => ids.has(e.titleId)),
     'meldungen.json': liesWennDa('meldungen.json', []).filter((m) => ids.has(m.titleId)),
     'franchises.json': { [wurzel]: ohneBilder(lies('franchises.json')[wurzel] ?? []) },
+    'news.json': ohneBilder(lies('news.json').filter((n) => ids.has(n.titelId))),
+    'synonyme.json': Object.fromEntries(Object.entries(lies('synonyme.json')).filter(([id]) => ids.has(Number(id)))),
   }
   const fertig = Object.fromEntries(Object.entries(roh).map(([name, daten]) => [name, uebersetzeDatei(name, daten, ak)]))
   return { ...fertig, ...folgenVerzeichnis(ids, ak), ...teildateien(ids, ak) }
@@ -108,12 +117,24 @@ function teildateien(ids, ak) {
   return { synopsen, disc, sprecher, folgen }
 }
 
+/** Zwei Fälle mit demselben Titel würden im Gesamtbestand doppelt stehen. */
+function pruefeKeineUeberschneidung(faelle) {
+  const gesehen = new Map()
+  for (const [slug, f] of Object.entries(faelle)) {
+    for (const t of [...f['titles.json'], ...f['ohne-synchro.json']]) {
+      if (gesehen.has(t.id) && gesehen.get(t.id) !== slug) throw new Error(`Titel ${t.id} steht in ${gesehen.get(t.id)} und ${slug}`)
+      gesehen.set(t.id, slug)
+    }
+  }
+}
+
 function main() {
   const { akVon } = ladeAkVon(resolve(WURZEL, 'data/kennungen.json'))
   const faelle = {}
   for (const fall of FAELLE) {
     faelle[fall.slug] = { name: fall.name, titleId: akVon(fall.titel), ...schneide(fall, akVon) }
   }
+  pruefeKeineUeberschneidung(faelle)
   const ausgabe = { heute: HEUTE, meta: lies('meta.json'), faelle }
   writeFileSync(ZIEL, `${JSON.stringify(ausgabe)}\n`)
   for (const [slug, f] of Object.entries(faelle)) console.log(`${slug}: ${f['titles.json'].length} Titel, ${f['releases.json'].length} Releases, ${f['events.json'].length} Termine`)
