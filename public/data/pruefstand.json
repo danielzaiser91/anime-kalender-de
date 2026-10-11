@@ -1,40 +1,76 @@
 {
- "erzeugtAm": "2026-10-11T13:55:55.280Z",
+ "erzeugtAm": "2026-10-11T13:59:32.172Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 749,
+   "gemeldet": 740,
    "gesamt": 754,
-   "offen": 5,
+   "offen": 14,
    "ohneSeite": 1,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video"
    ],
-   "ziel": "https://www.amazon.de/gp/video/detail/B0CQ4VL364",
+   "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d",
    "ziele": [
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d",
+     "titel": "Trigun"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c2f26fed-151e-48be-b492-70bd6178cc92",
+     "titel": "Gantz (Gantz: Second Stage)"
+    },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CQ4VL364",
      "titel": "Digimon Tamers"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832",
+     "titel": "Yu-Gi-Oh! Zexal II"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365",
+     "titel": "KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson (KONOSUBA -God's blessing on this wonderful world!- Legend of Crimson)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CK43962K",
      "titel": "Midnight Occult Civil Servants OVA"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7f4a4aae-cf85-49e4-a5bf-dc9041ab21a2",
+     "titel": "Jujutsu Kaisen"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.7568ff00-89b5-4f73-b051-bc7734714bbe",
+     "titel": "How a Realist Hero Rebuilt the Kingdom Teil 2 (How a Realist Hero Rebuilt the Kingdom Part 2)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9",
+     "titel": "Urusei Yatsura (Urusei Yatsura (2022) Seasons 1 & 2)"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GFPBT6FG",
      "titel": "Oshi no Ko: Mein Star (OSHI NO KO)"
+    },
+    {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a9c30e42-2911-46e9-a7a3-5aeb0d26f6ac",
+     "titel": "My Instant Death Ability Is So Overpowered, No One in This Other World Stands a Chance Against Me! (My Instant Death Ability is Overpowered)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
      "titel": "Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2)"
     },
     {
+     "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60",
+     "titel": "Suicide Squad Isekai"
+    },
+    {
      "url": "https://www.amazon.de/gp/video/detail/B0GDGLLYLS",
      "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4)"
     }
    ],
-   "naechster": "Digimon Tamers",
+   "naechster": "Trigun",
    "bekannt": {
     "B0DGGZSKRM": 13,
     "B0FKZM9J6V": 25,
@@ -281,18 +317,30 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 46,
+   "gemeldet": 43,
    "gesamt": 47,
-   "offen": 1,
+   "offen": 4,
    "ohneSeite": 0,
-   "ziel": "https://www.disneyplus.com/de-de/browse/entity-79a3e335-2acc-408e-a942-1b0bac47d952",
+   "ziel": "https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3",
    "ziele": [
+    {
+     "url": "https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3",
+     "titel": "Classroom of the Elite"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89",
+     "titel": "Dragon Ball Super: Broly"
+    },
+    {
+     "url": "https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855",
+     "titel": "Campfire Cooking in Another World with My Absurd Skill"
+    },
     {
      "url": "https://www.disneyplus.com/de-de/browse/entity-79a3e335-2acc-408e-a942-1b0bac47d952",
      "titel": "Though I Am an Inept Villainess"
     }
    ],
-   "naechster": "Though I Am an Inept Villainess",
+   "naechster": "Classroom of the Elite",
    "bekannt": {
     "bc2dae95-23e6-45dc-8177-066425b10fa0": 57,
     "6g48QKlgQdWK": 51,
