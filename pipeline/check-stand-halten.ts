@@ -29,13 +29,13 @@ try {
   pruefe('JSON: ohne alte Datei gilt der neue Stand', mitAltemStand(null, { stand: 'N', a: 1 }, 'stand').stand === 'N')
 
   const md = join(ordner, 'b.md')
-  const text = (n: number) => (stand: string) => `# Liste\n\n_Stand ${stand} · ${n} offen_\n`
+  const text = (n: number, stand: string) => `# Liste\n\n_Stand ${stand} · ${n} offen_\n`
   const standRegel = /^_Stand (\d{4}-\d\d-\d\d)/m
-  writeTextStand(md, text(3), '2026-10-11', standRegel)
+  writeTextStand(md, text(3, '2026-10-11'), standRegel)
   const ersterText = readFileSync(md, 'utf8')
-  writeTextStand(md, text(3), '2026-10-12', standRegel)
+  writeTextStand(md, text(3, '2026-10-12'), standRegel)
   pruefe('Text: gleicher Inhalt, anderer Tag → Datei bleibt byte-gleich', readFileSync(md, 'utf8') === ersterText)
-  writeTextStand(md, text(4), '2026-10-12', standRegel)
+  writeTextStand(md, text(4, '2026-10-12'), standRegel)
   pruefe('Text: anderer Inhalt → neues Datum', readFileSync(md, 'utf8').includes('_Stand 2026-10-12 · 4 offen_'))
 } finally {
   rmSync(ordner, { recursive: true, force: true })

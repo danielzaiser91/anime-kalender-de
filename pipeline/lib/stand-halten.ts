@@ -17,10 +17,11 @@ export function writeJsonStand<T extends Record<string, unknown>>(pfad: string, 
   writeJson(pfad, mitAltemStand(readJson<Record<string, unknown> | null>(pfad, null), neu, feld), pretty)
 }
 
-/** Schreibt eine Textdatei mit Stand-Datum; ist sie mit ihrem alten Stand schon gleich, bleibt der alte Stand stehen. */
-export function writeTextStand(pfad: string, bauText: (stand: string) => string, heute: string, standImText: RegExp): void {
+/** Schreibt eine Textdatei mit Stand-Datum; unterscheidet sie sich von der alten nur im Datum (erste Gruppe von `standImText`), bleibt sie unberührt. */
+export function writeTextStand(pfad: string, neu: string, standImText: RegExp): void {
   const voll = resolve(ROOT, pfad)
   const alt = existsSync(voll) ? readFileSync(voll, 'utf8') : null
   const altStand = alt?.match(standImText)?.[1]
-  writeText(pfad, alt !== null && altStand && bauText(altStand) === alt ? alt : bauText(heute))
+  const mitAltem = altStand ? neu.replace(standImText, (treffer, stand: string) => treffer.replace(stand, altStand)) : neu
+  writeText(pfad, mitAltem === alt ? mitAltem : neu)
 }
