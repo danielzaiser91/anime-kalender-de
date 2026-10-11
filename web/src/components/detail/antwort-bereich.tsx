@@ -6,7 +6,7 @@ import { streamNurOmu } from '@shared/ankuendigung.ts'
 import { farbeZuAnbieter, istToggo, discPillen } from './pillen.tsx'
 import { TerminZeile } from './termin-zeile.tsx'
 import { AnbieterZeile, DubStatus } from './anbieter-zeile.tsx'
-import { legendeDerZeilen, streamStatus, streamWegStatus } from './legende-zeilen.ts'
+import { alleOhneSprachbeleg, legendeDerZeilen, streamStatus, streamWegStatus, zeilenGruppen } from './legende-zeilen.ts'
 import { DiscZeichen } from '../ui.tsx'
 import { AnbieterIcon, anbieterDatei } from '../../lib/anbieter-icon.tsx'
 import { MerkenKnopf } from './merken.tsx'
@@ -67,17 +67,13 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
         <AntwortKasten
           pillenGruppen={
             new Map([
-              ...sortiertNachZugang.flatMap(({ art, plattformen, streamWege }) =>
-                [
-                  ...plattformen.map(pillenSchluessel),
-                  ...streamWege.map((g) => `sw-${g.shop}-${g.eintraege[0].url}`),
-                ].map((k) => [k, art === 'kostenlos' ? 'frei' : art] as const),
-              ),
+              ...zeilenGruppen(sortiertNachZugang, title),
               ...terminReleases.map((r) => [r.slug, r.platform === 'tv' ? 'tv' : 'abo'] as const),
               ...tvVorbeiGruppen(tvVorbei),
             ])
           }
           antwort={antwort}
+          ohneSprachbeleg={alleOhneSprachbeleg(sortiertNachZugang, title)}
           legende={legendeDerZeilen({ sortiert: sortiertNachZugang, title, folgenAngabeFuer, t })}
           terminPillen={terminPillen(terminReleases, title, releases, today)}
           title={title}

@@ -10,7 +10,7 @@ import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
-import { gruppeVon as gruppeVonPille, sichtbareStreamPillen } from './stream-pillen.ts'
+import { gruppeVon as gruppeVonPille, sichtbareStreamPillen, type Gruppe } from './stream-pillen.ts'
 import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText } from './antwort-regeln.ts'
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
@@ -113,15 +113,18 @@ export function AntwortKasten({
   terminPillen = [],
   discZuerst = false,
   legende,
+  ohneSprachbeleg,
 }: {
   /** Pillen mit Termin und Anbieter/Sender — sie stehen vor der ersten Folge statt der Streamwege. */
   terminPillen?: React.ReactNode[]
   /** Bereich je Pillen-Schlüssel (`key`) — nur gebraucht, wenn es einen kostenlosen Weg gibt. */
-  pillenGruppen?: Map<string, 'frei' | 'abo' | 'kauf' | 'tv' | 'unbekannt'>
+  pillenGruppen?: Map<string, Gruppe>
   /** Über einen Disc-Termin geöffnet — dann steht der Umschalter auf „Disc". */
   discZuerst?: boolean
   /** Erklärt die Zustände der Anbieterzeilen (Stream-Seite) — nur, was dort wirklich vorkommt. */
   legende?: string
+  /** Alle Stream-Zeilen ohne Sprachbeleg: Die Überschrift „Auf Deutsch …“ entfällt. */
+  ohneSprachbeleg?: boolean
   antwort: Antwort
   title: Title
   t: (k: never, v?: Record<string, string | number>) => string
@@ -702,6 +705,8 @@ export function AntwortKasten({
     gedaempft = ankuendigung?.synchro !== 'angekuendigt'
     zaehl = ''
   }
+  /* Keine Zeile mit Sprachbeleg: „Auf Deutsch …“ wäre eine Behauptung, die keine Zeile darunter trägt. */
+  if (ohneSprachbeleg && (antwort.art === 'fertig' || antwort.art === 'film')) haupt = T('antwort.sprachOffen')
 
   return (
     /*
@@ -910,7 +915,7 @@ export function AntwortKasten({
                     <div className="flex flex-col">{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
                   </div>
                 )}
-                {(['abo', 'kauf', 'tv', 'unbekannt', 'sonst'] as const).map((g) => {
+                {(['abo', 'kauf', 'tv', 'unbekannt', 'sonst', 'offen'] as const).map((g) => {
                   const teil = pillen.filter((p) => gruppeVon(p) === g)
                   if (!teil.length) return null
                   return (

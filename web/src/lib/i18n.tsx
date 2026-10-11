@@ -604,6 +604,8 @@ const TEXTE = {
   'bereich.kauf': 'Kauf / Leihe',
   'bereich.tv': 'TV',
   'bereich.unbekannt': 'Weitere',
+  'bereich.offen': 'Weitere Anbieter',
+  'antwort.sprachOffen': 'Anbieter, Sprache offen',
   // Steht unter der Überschrift bei Titeln, zu denen wir keinen eigenen Termin
   // haben — 1.985 Stück. „Seit" statt „erschienen am": aniSearch nennt die
   // deutsche Erstveröffentlichung, oft eine DVD, und bei einem Simuldub sogar

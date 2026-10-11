@@ -1,6 +1,6 @@
 import { type StreamLink, type Release, type Title } from '@shared/types.ts'
 import { joynAngabe } from '../../lib/joyn.ts'
-import { dubBild, bereicheGekuerzt, dubLuecken, dubGrenze, dubAbdeckung, bereicheKurz } from '@shared/dub-grenze.ts'
+import { dubBild, bereicheGekuerzt, dubLuecken, dubGrenze, bereicheKurz } from '@shared/dub-grenze.ts'
 import { releaseStatus, expandEvents } from '@shared/logic.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
@@ -8,8 +8,16 @@ import { abgeleiteteFolgen, ungefaehr, zaehleErschienen } from './antwort-regeln
 import { zaehlPlattform } from './prime-kanal.ts'
 import { erschieneneSpanne } from './folgen-spanne.ts'
 
-/** „1–12“, bei einer einzigen Folge „1“. */
-const vonEins = (n: number): string => (n === 1 ? '1' : `1–${n}`)
+/** Überlappende und aneinanderstoßende Bereiche zu einem: 1–5 und 6–12 sind „1–12“. */
+export function zusammengefasst(bereiche: { from: number; to: number }[]): { from: number; to: number }[] {
+  const raus: { from: number; to: number }[] = []
+  for (const b of [...bereiche].sort((x, y) => x.from - y.from)) {
+    const letzter = raus[raus.length - 1]
+    if (letzter && b.from <= letzter.to + 1) letzter.to = Math.max(letzter.to, b.to)
+    else raus.push({ from: b.from, to: b.to })
+  }
+  return raus
+}
 
 export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }: {
   releases: Release[]
@@ -70,7 +78,8 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
     const luecken = dubLuecken(s?.dubRanges)
     if (luecken) return t('detail.dubLuecken', { n: luecken })
     const grenze = dubGrenze(s?.dubRanges)
-    if (grenze) return t(grenze.schluessel, { n: grenze.n })
+    /* „Fg. 1–n“ nur, wenn der deutsche Ton wirklich bei Folge 1 beginnt; sonst nennt die Pille unten die echten Bereiche. */
+    if (grenze && (grenze.schluessel === 'detail.dubFrom' || Math.min(...deutsch.map((r) => r.from)) <= 1)) return t(grenze.schluessel, { n: grenze.n })
     const release = bestandsPlattform ? releaseJePlattform.get(bestandsPlattform) : undefined
     /*
       Ein RTL+-Wochentermin setzt mitten in der Serie ein (Beyblade X ab Folge 101); die
@@ -86,11 +95,8 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       const raus = zaehleErschienen(events)
       return spanne ? t('detail.folgenBereich', { bereich: spanne }) : raus ? t('detail.folgenKurz', { n: raus }) : ''
     }
-    /* Decken die Bereiche den Titel nicht ab, nennt die Pille sie selbst — „Fg. 1–75" statt
-       „75 Fg." (Dai-DVD-Box, 16.09.2026): Die Zahl allein sagt nicht, welche fehlen. */
-    if (deutsch.length && !dubAbdeckung(s?.dubRanges, title.episodes).vollstaendig)
-      return t('detail.folgenBereich', { bereich: bereicheKurz(deutsch) })
-    if (deutsch.length) return t('detail.folgenBereich', { bereich: vonEins(dubAbdeckung(s?.dubRanges, title.episodes).belegt) })
+    /* Liegen Bereiche vor, nennt die Pille immer sie selbst — nie eine Zählung ab 1: Netflix hat bei Mushoku Tensei Cour 2 die Folgen 12–23, nicht 1–12 (11.10.2026). */
+    if (deutsch.length) return t('detail.folgenBereich', { bereich: bereicheKurz(zusammengefasst(deutsch)) })
     /*
       **Ohne Sprachbeleg keine Titelzahl** (21.09.2026). Regel 4 war an 1.982 deutschen
       Verweisen gemessen — für einen Weg ohne Urteil schrieb sie trotzdem die Folgen des
