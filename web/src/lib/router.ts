@@ -12,6 +12,7 @@ import { FSK_COLORS, PLATFORMS, RELEASE_TYPES, STATUS_LABEL } from '@shared/type
 import { todayIso } from '@shared/time.ts'
 import { vorliebenLesen, vorliebenNachfuehren } from './vorlieben.ts'
 import { kalenderBasis } from './kalender-filter.ts'
+import { HERKUENFTE } from './herkunft.ts'
 
 /** Woche und Monat haben ihre Filter nicht in der Adresse (`kalender-filter.ts`). */
 const istKalender = (view: ViewId): boolean => view === 'woche' || view === 'monat'
@@ -92,6 +93,7 @@ const LIST_PARAM: Record<ListKey, string> = {
   genres: 'g',
   keywords: 'kw',
   sprecher: 'sp',
+  land: 'her',
 }
 
 /** Felder, deren Werte Zahlen sind — alle anderen bleiben Zeichenketten. */
@@ -103,6 +105,7 @@ const BEKANNTE_WERTE: Partial<Record<ListKey, Set<string>>> = {
   releaseTypes: new Set(Object.keys(RELEASE_TYPES)),
   statuses: new Set(Object.keys(STATUS_LABEL)),
   fsk: new Set(Object.keys(FSK_COLORS)),
+  land: new Set<string>(HERKUENFTE),
 }
 
 function splitList(value: string | null): string[] {

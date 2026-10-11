@@ -19,6 +19,8 @@ import { useLang } from '../lib/i18n.tsx'
 import { useContext, useState } from 'react'
 import { SprecherFilter } from './SprecherFilter.tsx'
 import { TitelNamenContext } from '../lib/sprecher.ts'
+import { HerkunftZaehlungContext } from '../lib/herkunft-zaehlung.ts'
+import { herkunftListe, herkunftName, HerkunftHinweis, HerkunftPille } from './filter/herkunft-gruppe.tsx'
 
 export const FSK_OPTIONS: Fsk[] = [0, 6, 12, 16, 18]
 
@@ -371,7 +373,7 @@ export function FilterDetails({
             ))}
           </Bereich>
           <Bereich
-            label={genreLabel} klasse="sm:col-start-2 sm:row-span-5"
+            label={genreLabel} klasse="sm:col-start-2 sm:row-span-6"
             suche={suche}
             texte={genres.map((g) => tGenre(g))}
             modus={modusVon2('genres', filters.genres.length)}
@@ -477,6 +479,24 @@ function SprecherBereich({
   )
 }
 
+/** Die Herkunft des Titels mit Zahl; ohne Zählung der Ansicht (`HerkunftZaehlungContext`) fehlt die Gruppe. */
+function HerkunftBereich({ t, filters, chipState, pick, suche }: Pick<FilterMehrProps, 't' | 'filters' | 'chipState' | 'pick' | 'suche'>) {
+  const zaehlung = useContext(HerkunftZaehlungContext)
+  const liste = zaehlung ? herkunftListe(zaehlung, filters) : []
+  if (!zaehlung || !liste.length) return null
+  const label = t('filter.herkunft')
+  return (
+    <Bereich label={label} suche={suche} texte={liste.map((h) => herkunftName(t, h))}>
+      {liste.filter((h) => zeigePille(suche, label, herkunftName(t, h))).map((h) => (
+        <Chip key={h} {...chipState('land', h)} onClick={() => pick('land', h)}>
+          <HerkunftPille t={t} land={h} anzahl={zaehlung.get(h)} />
+        </Chip>
+      ))}
+      {!suche && <HerkunftHinweis t={t} />}
+    </Bereich>
+  )
+}
+
 /** Release-Art, FSK und Jahr — stehen seit dem 01.10.2026 oben bei Anbietern und Genre. */
 function Grundgruppen({
   t,
@@ -497,6 +517,7 @@ function Grundgruppen({
   return (
     <>
       <SprecherBereich t={t} filters={filters} set={set} mode={mode} suche={suche} />
+      <HerkunftBereich t={t} filters={filters} chipState={chipState} pick={pick} suche={suche} />
       <Bereich label={artenLabel} suche={suche} texte={arten.map((a) => tRelease(a))} modus={modusVon2('releaseTypes', filters.releaseTypes.length)}>
         {arten.filter((a) => zeigePille(suche, artenLabel, tRelease(a))).map((type) => (
           <Chip key={type} color={RELEASE_TYPES[type].color} title={tRelease(type, 'hint')} {...chipState('releaseTypes', type)} onClick={() => pick('releaseTypes', type)}>

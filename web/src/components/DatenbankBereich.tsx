@@ -1,4 +1,7 @@
+import { useMemo } from 'react'
 import type { Title } from '@shared/types.ts'
+import { zaehleHerkunft } from '../lib/herkunft.ts'
+import { HerkunftZaehlungContext } from '../lib/herkunft-zaehlung.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FilterState } from '../lib/filters.ts'
 import type { Fundstelle } from '../lib/search.ts'
@@ -27,6 +30,8 @@ export interface DatenbankBereichProps {
   /** Die vollständige Titelliste ist da (sonst Spinner). */
   geladen: boolean
   titles: { liste: Title[]; fundstellen: Map<string, Fundstelle[]> }
+  /** Alle Titel der Ansicht vor dem Filter — daraus die Zahlen an der Herkunft. */
+  quelle: Title[]
   grouped: boolean
   onGroupedChange: (next: boolean) => void
   ohneSynchro: boolean
@@ -43,6 +48,7 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
   const { t } = useLang()
   const { data, route } = p
   const mobil = useMobil()
+  const herkunftZaehlung = useMemo(() => zaehleHerkunft(p.quelle), [p.quelle])
   const ansicht = (
     <>
       {p.geladen ? (
@@ -73,7 +79,7 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
     </>
   )
   return (
-    <>
+    <HerkunftZaehlungContext.Provider value={herkunftZaehlung}>
       {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
       <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
       {/* Am Rechner dockt das Filterfeld unten an; am Handy steht die Werkzeugleiste oben (`DbKopfbereich`). */}
@@ -85,6 +91,6 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
           {ansicht}
         </>
       )}
-    </>
+    </HerkunftZaehlungContext.Provider>
   )
 }

@@ -232,6 +232,7 @@ function AppKern() {
             setFilters={setFilters}
             geladen={!!allTitles}
             titles={titles}
+            quelle={quelle}
             grouped={grouped}
             onGroupedChange={setGrouped}
             ohneSynchro={zeigeOhneSynchro}
