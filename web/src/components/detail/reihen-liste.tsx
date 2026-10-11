@@ -8,6 +8,7 @@ import { istEingeklappt, zeileInListeSichtbar } from './reihen-regeln.ts'
 import { OhneSynchroSchalter, ReihenKopf } from './reihen-kopf.tsx'
 import { ZeilenName } from './zeilen-name.tsx'
 import { ReihenKarte } from './reihen-karte.tsx'
+import { reihenGruppen } from './reihen-gruppen.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 
@@ -143,24 +144,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
               */
               const nachStandUndJahr = (a: FranchiseMember, b: FranchiseMember) =>
                 Number(kuenftig(a)) - Number(kuenftig(b)) || nachJahr(a, b)
-              const gruppen: { titel: string; teile: FranchiseMember[] }[] = [
-                {
-                  titel: t('detail.gruppeStaffeln'),
-                  teile: reihenTeile.filter(istHauptstaffel).sort(nachStandUndJahr),
-                },
-                /* Filme vor Specials: Ein Film ist ein
-                   eigenständiges Werk der Reihe, ein Special ist Beiwerk. */
-                {
-                  titel: t('detail.gruppeFilme'),
-                  teile: reihenTeile.filter((m) => m.format === 'MOVIE').sort(nachStandUndJahr),
-                },
-                {
-                  titel: t('detail.gruppeSpecials'),
-                  teile: reihenTeile
-                    .filter((m) => !istHauptstaffel(m) && m.format !== 'MOVIE')
-                    .sort(nachStandUndJahr),
-                },
-              ].filter((g) => g.teile.length > 0)
+              const gruppen = reihenGruppen(reihenTeile, istHauptstaffel, nachStandUndJahr, t)
 
               /*
                 Gezählt wird nur, wo die Nummer etwas unterscheidet: One Piece (ein Eintrag) bleibt ohne „Staffel 1".
