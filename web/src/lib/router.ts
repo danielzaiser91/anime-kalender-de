@@ -185,6 +185,7 @@ export function parseHash(hash: string): AppRoute {
     availableOnly: vorlieben.availableOnly || (!kalender && params.get('wo') === '1') || !!alt?.verfuegbar,
     kostenlosOnly: vorlieben.kostenlosOnly || (!kalender && params.get('frei') === '1'),
     favoritesExcluded: vorlieben.favoritesExcluded, kostenlosExcluded: vorlieben.kostenlosExcluded, confirmedExcluded: vorlieben.confirmedExcluded, availableExcluded: vorlieben.availableExcluded,
+    zweitanbieterExcluded: vorlieben.zweitanbieterExcluded,
     minConfidence: kalender ? 'low' : ((params.get('conf') as DubConfidence) ?? 'low'),
   }
 

@@ -22,6 +22,7 @@ export function schnellListe(t: Translate, showConfidence: boolean, mitTv: boole
     { id: 'disc', text: t('filter.schnell.disc'), zeichen: <DiscZeichen className="size-3 opacity-80" /> },
     { id: 'bestaetigt', text: t('filter.schnell.bestaetigt'), zeichen: '✓' },
     ...(showConfidence ? [{ id: 'verfuegbar' as const, text: t('filter.schnell.verfuegbar'), zeichen: '▶' }] : []),
+    ...(mitTv ? [{ id: 'zweitanbieter' as const, text: t('filter.schnell.zweitanbieter'), zeichen: '↪' }] : []),
   ]
 }
 
@@ -78,7 +79,7 @@ export function SchnellChips({
   return (
     <>
       {schnellListe(t, showConfidence, !!setTvAn)
-        .filter((k) => zeige(k.text))
+        .filter((k) => zeige(k.text) && (k.id !== 'zweitanbieter' || ziel === 'nein'))
         .map((k) => {
           const z = schnellZustand(filters, k.id, tvAn)
           return (

@@ -7,7 +7,7 @@ import { CARTOON_KEYWORD, toggleFilter, type FilterState } from './filters.ts'
  * Die Zustände liegen dort, wo sie schon lagen — Favoriten, kostenlos, bestätigt und verfügbar in eigenen Feldern
  * (mit je einem Gegenstück `…Excluded`), Disc und Cartoon in den Listen des Filters, TV im Schalter der Ansicht.
  */
-export type SchnellId = 'favoriten' | 'kostenlos' | 'bestaetigt' | 'tv' | 'disc' | 'verfuegbar' | 'cartoon'
+export type SchnellId = 'favoriten' | 'kostenlos' | 'bestaetigt' | 'tv' | 'disc' | 'verfuegbar' | 'cartoon' | 'zweitanbieter'
 export type SchnellZiel = 'ja' | 'nein'
 
 const FELD = {
@@ -19,6 +19,7 @@ const FELD = {
 
 export function schnellZustand(f: FilterState, id: SchnellId, tvAn?: boolean): SchnellZiel | undefined {
   if (id === 'tv') return tvAn === false ? 'nein' : f.platforms.includes('tv') ? 'ja' : undefined
+  if (id === 'zweitanbieter') return f.zweitanbieterExcluded ? 'nein' : undefined
   if (id === 'disc') return f.releaseTypes.includes('disc') ? 'ja' : f.excluded.releaseTypes.includes('disc') ? 'nein' : undefined
   if (id === 'cartoon') return f.keywords.includes(CARTOON_KEYWORD) ? 'ja' : f.excluded.keywords.includes(CARTOON_KEYWORD) ? 'nein' : undefined
   const [nur, ohne] = FELD[id]
@@ -29,6 +30,8 @@ export function schnellZustand(f: FilterState, id: SchnellId, tvAn?: boolean): S
 export function schnellSetzen(f: FilterState, id: SchnellId, ziel: SchnellZiel, tvAn?: boolean): { filters: FilterState; tvAn?: boolean } {
   const jetzt = schnellZustand(f, id, tvAn)
   const modus = ziel === 'ja' ? 'include' : 'exclude'
+  /* Es gibt nur „ausblenden"; das Chip erscheint nur im Ausblend-Modus (`schnellfilter.tsx`). */
+  if (id === 'zweitanbieter') return { filters: { ...f, zweitanbieterExcluded: ziel === 'nein' && jetzt !== 'nein' } }
   if (id === 'disc') return { filters: toggleFilter(f, 'releaseTypes', 'disc', modus) }
   if (id === 'cartoon') return { filters: toggleFilter(f, 'keywords', CARTOON_KEYWORD, modus) }
   if (id === 'tv') {
