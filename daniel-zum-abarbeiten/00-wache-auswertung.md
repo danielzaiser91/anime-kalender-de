@@ -259,3 +259,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** #439 hätte nicht gereicht: Es zählt den Nachfolger nur, wenn er im Hauptbestand (`slim`) steht; die acht AniList-Titel (11421, 9978, 5091, 7956, 6262, 10282, 4439, 6771) stehen aber in `ohne-synchro.json`, also hinter dem Toggle. Offen bleibt die inhaltliche Frage aus dem Eintrag vom 07.10.: Titel mit Dub-Kennzeichen `c` standen als eigene aniSearch-Titel im Hauptbestand und liegen nach der Zuordnung dahinter. Kein Riegel meldet das.
 
 **Was läuft komplett falsch?** Nichts im Bau selbst. Die Annahme des Riegels („jede verschwundene Kennung ist ein Verlust") kennt keinen Kennungswechsel. Neu: `anisearchUmgezogen` (`pipeline/bau/anisearch-titel.ts`) rechnet eine Kennung als umgezogen, wenn ihr AniList-Nachfolger im Hauptbestand, in `verschoben` oder im AniList-Katalog ankommt; #411, #412, #439 sind damit überholt. Nicht lokal gemessen (kein Cache).
+
+
+## 11.10.2026 — Bestand-Bau rot (Lauf 38131754000), kein Wache-Befund
+
+**Was läuft korrekt.** Der Bau selbst und `check:logic` (35 von 35) waren in allen sechs Runden grün; `commit-data.sh` hat die Quellen nicht verworfen, sondern sauber nach jedem Fehlschlag zurückgenommen und neu angesetzt.
+
+**Wo ist Verbesserungspotenzial?** Die Push-Meldung ging nach `/dev/null`; der Text „jemand war schneller" ist eine Annahme. Jetzt wird die Git-Meldung ins Protokoll geschrieben (Issue #750).
+
+**Wo sind echte Risiken und Lücken?** `origin/main` stand in allen Runden unverändert auf 807fa586 — es war also kein Wettlauf. Der Lauf wurde vom Push ausgelöst, der `.github/workflows/wecker-wache.yml` ändert; Ablehnung wegen Workflow-Datei/Rechte ist der Verdacht, aber **nicht belegt**. Ob ein Bau-Lauf nach einem Workflow-Push dauerhaft nicht pushen kann, zeigt erst der nächste Lauf.
+
+**Was läuft komplett falsch?** `tools/commit-data.sh`, Zeile `if git push --quiet 2>/dev/null` — dort bricht der Lauf, und die Ursache bleibt unsichtbar.
