@@ -306,6 +306,7 @@ const NUR_VON_HAND = {
   'data:cr-einzelwerke': 'braucht ein anonymes Token mit deutscher Region — auf GitHubs US-Rechnern bricht es ab; läuft von Daniels Rechner (check-sources führt eine Frist von 21 Tagen)',
   'data:cr-filmbloecke': 'wie data:cr-einzelwerke',
   'data:cr-katalog': 'wie data:cr-einzelwerke',
+  'data:anisearch-katalog-abgleich': 'einmaliger Abgleich (11.10.2026); die Titelliste ist auf 1 Abruf je Stunde begrenzt, ein Lauf kommt mit dem Bau, der die Zuordnung liest',
 }
 
 {
