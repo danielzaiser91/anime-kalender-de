@@ -1,8 +1,5 @@
 import { type ReleaseEvent } from '@shared/types.ts'
 import { buildIcs } from '@shared/ics.ts'
-import { useLang } from '../../lib/i18n.tsx'
-import { useShare } from '../../lib/share.ts'
-import { Tooltip } from '../ui.tsx'
 import { useState, useEffect } from 'react'
 import { berlinToUtc } from '@shared/time.ts'
 
@@ -26,32 +23,6 @@ export function downloadIcs(events: ReleaseEvent[], filename: string): void {
   a.download = `${filename}.ics`
   a.click()
   URL.revokeObjectURL(url)
-}
-
-/**
- * Teilen — als Symbol im Kopf, nicht als Knopf neben dem Anbieter.
- *
- * Vorher stand er in der Knopfzeile direkt neben „Bei ADN ansehen", und dort
- * las er sich, als teile er den ADN-Link. Geteilt wird der Titel, also gehört er zu Auge und Stern —
- * den anderen beiden Handlungen, die dem Titel gelten.
- */
-export function ShareIcon({ slug, name }: { slug: string; name: string }) {
-  const { t } = useLang()
-  const { share, copiedSlug } = useShare()
-  const copied = copiedSlug === slug
-
-  return (
-    <Tooltip text={t('detail.shareHint')} seite="unten">
-      <button
-        type="button"
-        onClick={() => share(slug, name)}
-        aria-label={t('detail.share')}
-        className="cursor-pointer rounded p-1 text-lg leading-none text-slate-400 transition hover:bg-slate-500/10 hover:text-sky-400"
-      >
-        {copied ? '✓' : '🔗'}
-      </button>
-    </Tooltip>
-  )
 }
 
 const TAGE_KURZ = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']

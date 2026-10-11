@@ -718,11 +718,11 @@ const TEXTE = {
   'detail.downloadIcsHint':
     'Alle kommenden Folgen als Kalenderdatei. Ein Doppelklick trägt sie in Outlook, Apple Kalender oder Thunderbird ein. Für Google Calendar gibt es den Knopf daneben.',
   'detail.share': 'Teilen',
+  'detail.shareHint': 'Kopiert einen Link, der diesen Titel mit eigenem Vorschaubild zeigt',
   'kopf.merken': 'Merken',
   'kopf.gemerkt': 'Gemerkt',
   'kopf.kopiert': 'Kopiert',
   'kopf.ausblenden': 'Ausblenden',
-  'detail.shareHint': 'Kopiert einen Link, der diesen Titel mit eigenem Vorschaubild zeigt',
   'detail.source': 'Quelle',
   'detail.whyNoTime': 'Warum steht hier keine Uhrzeit?',
   'filter.available': 'stream verfügbar',
