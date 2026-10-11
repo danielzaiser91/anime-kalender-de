@@ -24,6 +24,7 @@ on:
       - 'Täglich — alle Quellen'
       - 'Wöchentlich — tiefer Durchlauf'
       - 'Claude — ausgebliebene Folgen recherchieren'
+      - 'Claude — Anime2You-Artikel auswerten'
     types: [completed]
   workflow_dispatch:
 
