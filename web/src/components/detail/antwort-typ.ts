@@ -32,7 +32,13 @@ export type Antwort =
       /** Was wir zum Ausfall wissen — am ausgebliebenen Termin, auch wenn ein Ersatztermin vorn steht. */
       vermerk?: VermerkAusgeblieben
     }
-  | { art: 'fertig'; raus?: number; gesamt?: number }
+  | {
+      art: 'fertig'
+      raus?: number
+      gesamt?: number
+      /** Die Zahl ist die Folgenzahl des Werks, nicht am Weg belegt — „≈“ im Kasten. */
+      gesamtAbgeleitet?: boolean
+    }
   /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
   | { art: 'teilweise'; raus?: number; gesamt: number; restBelegt: boolean }
   | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number; ohneWeg: boolean; imKino: boolean }

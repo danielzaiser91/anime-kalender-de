@@ -134,9 +134,25 @@ export function gesamtGeschaetzt(title: Title, releases: Release[], n: ReleaseEv
   return !title.episodes && Boolean(releases.find((r) => r.slug === n.releaseSlug)?.schedule.episodeCountAssumed)
 }
 
-/** Eine Zahl oder ein Datum, das auf einer geschätzten Folgenzahl beruht, trägt „≈". */
+/** Eine Zahl oder ein Datum, das auf einer geschätzten Folgenzahl beruht, trägt „≈“. */
 export function ungefaehr(wert: string | number, geschaetzt: boolean | undefined): string {
   return geschaetzt ? `≈ ${wert}` : String(wert)
+}
+
+/**
+ * **Die Zahl im „fertig"-Kasten hat denselben Beleg wie die Pille** (11.10.2026): deutsche Bereiche, die das Werk
+ * decken, oder der Wochenplan eines Anbieters. Sonst ist „Alle N" nur die Folgenzahl des Werks (Cowboy Bebop) und
+ * der Kasten sagt „≈ N" wie die Pille („≈ N Fg.").
+ */
+export function fertigAntwort(
+  raus: number | undefined,
+  gesamt: number | undefined,
+  belegteFolgen: number,
+  events: ReleaseEvent[],
+): { art: 'fertig'; raus?: number; gesamt?: number; gesamtAbgeleitet: boolean } {
+  const wochenplan = events.some((e) => e.releaseType === 'weekly' && e.platform !== 'tv' && e.platform !== 'disc')
+  const belegt = Boolean(gesamt && belegteFolgen >= gesamt) || wochenplan
+  return { art: 'fertig', raus, gesamt, gesamtAbgeleitet: !belegt }
 }
 
 /** Bis zu welcher Folge die Folgenliste „erschienen" kennt: Nur bei laufender Ausstrahlung ist `raus` eine Folgennummer; bei `fertig` ist es die Zahl der Ereignisse (One Piece: 10) und ließ ab Folge 11 alles ohne Flagge als „noch nicht erschienen" stehen. */
@@ -153,4 +169,13 @@ export function erstausgabeAlsNeuigkeit(title: Pick<Title, 'deErstausgabe'> & Pa
   /* Liegt das Angebot eines Anbieters mit deutscher Tonspur davor, ist die Ausgabe nicht die erste Gelegenheit (wie in `deSeitZeile`). */
   const angebot = title.angebotSeit
   return !(angebot?.date && angebot.date < von && (title.streams ?? []).some((x) => x.platform === angebot.platform && x.dub === true))
+}
+
+/** Die Überschrift des „fertig“-Kastens mit Zahl; abgeleitet ohne „Alle“, mit „≈“ (siehe `fertigAntwort`). */
+export function fertigZahlText(
+  gesamt: number,
+  abgeleitet: boolean | undefined,
+  T: (k: string, v?: Record<string, string | number>) => string,
+): string {
+  return abgeleitet ? T('antwort.fertigUngefaehr', { count: ungefaehr(gesamt, true) }) : T('antwort.fertigZahl', { count: gesamt })
 }

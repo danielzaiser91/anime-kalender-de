@@ -11,7 +11,7 @@ import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
 import { gruppeVon as gruppeVonPille, sichtbareStreamPillen } from './stream-pillen.ts'
-import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr } from './antwort-regeln.ts'
+import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText } from './antwort-regeln.ts'
 import { type Antwort } from './antwort-typ.ts'
 
 /**
@@ -486,7 +486,7 @@ export function AntwortKasten({
     */
     /* „Alle 1 Folgen" stand über OVAs mit einer Folge — dort sagt die Überschrift ohne Zahl dasselbe. */
     haupt = antwort.gesamt && antwort.gesamt > 1
-      ? T('antwort.fertigZahl', { count: antwort.gesamt })
+      ? fertigZahlText(antwort.gesamt, antwort.gesamtAbgeleitet, T)
       : folgenZahl && !antwort.gesamt && folgenZahl[1] > 1 ? T('antwort.teilweiseZahl', { raus: folgenZahl[1], gesamt: folgenZahl[0] }) : T('antwort.fertigTitel')
     /*
       **„Seit wann?" ist die einzige Frage, die hier noch offen war.**

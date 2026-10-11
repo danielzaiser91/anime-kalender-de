@@ -8,6 +8,8 @@
  */
 import { readFileSync } from 'node:fs'
 import type { Release, StreamLink, Title } from '../shared/types.ts'
+import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
+import { fertigZahlText } from '../web/src/components/detail/antwort-regeln.ts'
 import { folgenAuskunft } from '../web/src/components/detail/folgen-angabe.ts'
 import { zaehlPlattform } from '../web/src/components/detail/prime-kanal.ts'
 import { titelMitTerminBereichen } from '../web/src/components/detail/stream-bereiche.ts'
@@ -35,6 +37,21 @@ const mitBereichen = { ...ohneBereiche, dubRanges: [{ from: 1, to: 12, dub: true
 pruefe('Haken ohne Bereiche, Serie beendet: Titelzahl mit „≈“', pille(beendet, ohneBereiche) === `≈ ${ZAHL}{"n":12}`, pille(beendet, ohneBereiche))
 pruefe('Mit Bereichen am Weg: Zahl ohne „≈“', pille(beendet, mitBereichen) === `${ZAHL}{"n":12}`, pille(beendet, mitBereichen))
 pruefe('Ohne Haken: keine Zahl', pille(beendet, { ...ohneBereiche, dub: undefined }) === '')
+
+/* Der Antwortkasten sagt dasselbe wie die Pille: abgeleitet → „≈ N“ statt „Alle N“, belegt → unverändert (Cowboy Bebop, 11.10.2026). */
+function kastenFertig(title: Title, releases: Release[] = []) {
+  const a = berechneAntwort({ title, releases, today: HEUTE })
+  return a?.art === 'fertig' ? a : undefined
+}
+const bebop = (s: StreamLink): Title => ({ ...beendet, streams: [s] }) as Title
+const kastenAbgeleitet = kastenFertig(bebop(ohneBereiche))
+const kastenBelegt = kastenFertig(bebop(mitBereichen))
+pruefe('Kasten: Haken ohne Bereiche, Serie beendet: Zahl abgeleitet', kastenAbgeleitet?.gesamtAbgeleitet === true, JSON.stringify(kastenAbgeleitet))
+pruefe('Kasten: Bereiche decken das Werk: Zahl belegt', kastenBelegt?.gesamtAbgeleitet === false, JSON.stringify(kastenBelegt))
+pruefe('Kasten abgeleitet: Überschrift ohne „Alle“', fertigZahlText(12, true, t as never) === 'antwort.fertigUngefaehr{"count":"≈ 12"}')
+pruefe('Kasten belegt: „Alle N“ unverändert', fertigZahlText(12, false, t as never) === 'antwort.fertigZahl{"count":12}')
+pruefe('Kasten und Pille stimmen überein (abgeleitet)', pille(beendet, ohneBereiche).startsWith('≈') === (kastenAbgeleitet?.gesamtAbgeleitet === true))
+pruefe('Kasten und Pille stimmen überein (belegt)', pille(beendet, mitBereichen).startsWith('≈') === (kastenBelegt?.gesamtAbgeleitet === true))
 
 function pruefeBestand(datei: string, releasesJeTitel: Map<number, Release[]>): number {
   let unmarkiert = 0
