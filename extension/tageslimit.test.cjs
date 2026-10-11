@@ -45,6 +45,8 @@ async function erkennung() {
     const durchlauf = { abbruch: false }
     pruefe('fehlgeschlagen() gibt false zurück ...', k.AK_TAGESLIMIT.fehlgeschlagen(durchlauf) === false)
     pruefe('... und hält den Durchgang an', durchlauf.abbruch === true)
+    const planMit = ['b']
+    pruefe('Prime: am Limit geht die Staffel zurück an den Anfang des Plans (wird nachgeholt)', k.AK_TAGESLIMIT.zurueckstellen(planMit, 'a') === true && planMit.join() === 'a,b', planMit)
   }
   {
     const k = sandkasten(antwortAus(429, { tageslimit: true, retryAfter: 3600 }))
@@ -58,6 +60,8 @@ async function erkennung() {
     const durchlauf = { abbruch: false }
     k.AK_TAGESLIMIT.fehlgeschlagen(durchlauf)
     pruefe('ohne Limit bleibt der Durchgang unberührt', durchlauf.abbruch === false)
+    const planOhne = ['b']
+    pruefe('Prime: ohne Limit bleibt der Plan, die Staffel gilt als übersprungen', k.AK_TAGESLIMIT.zurueckstellen(planOhne, 'a') === false && planOhne.join() === 'b')
   }
   {
     const k = sandkasten(antwortAus(200, { tageslimit: true, retryAfter: 3600 }))

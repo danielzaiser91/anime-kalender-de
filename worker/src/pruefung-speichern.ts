@@ -267,7 +267,7 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
   const seitenKennung = typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null
   /* Dieselbe Meldung wie die offene Zeile: nichts zu schreiben (pruefung-unveraendert.ts). */
   const hash = await meldungsHash(daten)
-  if (istUnveraendert(offene, { url, folgeNr, staffelNr, seitenKennung }, hash)) {
+  if (await istUnveraendert(env, offene, { url, folgeNr, staffelNr, seitenKennung }, hash)) {
     return antwort({ ok: true, befund, unveraendert: true })
   }
   await env.DB.prepare(

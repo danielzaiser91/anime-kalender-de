@@ -61,6 +61,16 @@
     return false
   }
 
+  /**
+   * Prime: eine Staffel, deren Frame am Limit scheiterte, geht zurück an den Anfang des Plans und
+   * wird nach dem Limit nachgeholt, statt unter „übersprungen" zu landen. `true`, wenn zurückgestellt.
+   */
+  function zurueckstellen(plan, kennung) {
+    if (!aktiv()) return false
+    plan.unshift(kennung)
+    return true
+  }
+
   async function pruefen(ziel, antwort) {
     const adresse = typeof ziel === 'string' ? ziel : (ziel?.url ?? String(ziel))
     if (!adresse.startsWith(WORKER)) return
@@ -93,5 +103,5 @@
     /* Außerhalb der Erweiterung (Sandkasten-Test) gibt es keinen Speicher. */
   }
 
-  globalThis.AK_TAGESLIMIT = { aktiv, text, grund, merken, fehlgeschlagen }
+  globalThis.AK_TAGESLIMIT = { aktiv, text, grund, merken, fehlgeschlagen, zurueckstellen }
 })()

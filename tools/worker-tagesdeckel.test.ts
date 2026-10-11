@@ -11,6 +11,7 @@
 import { DatabaseSync } from 'node:sqlite'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
+import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
 import { DECKEL_ZEILEN, utcTag, sekundenBisMitternachtUtc } from '../worker/src/tagesdeckel.ts'
 
 let fehler = 0
@@ -58,8 +59,12 @@ function d1(db: DatabaseSync, zaehler: { geschrieben: number }) {
 }
 
 function umgebung(db: DatabaseSync, zaehler = { geschrieben: 0 }) {
-  return { LAUF_TOKEN: 't', DB: d1(db, zaehler) } as never
+  return { LAUF_TOKEN: 't', SITE_URL: 'https://attrappe.test/', DB: d1(db, zaehler) } as never
 }
+
+/* Der Listenbau (data/pruefstand.json), den der Worker per fetch liest; `stand` setzt jeder Fall selbst. */
+const stand = { erzeugtAm: '2020-01-02T00:00:00.000Z', anbieter: [] as unknown[] }
+globalThis.fetch = (async () => new Response(JSON.stringify(stand))) as typeof fetch
 
 const post = (body: unknown) =>
   new Request('https://worker.test/pruefung', {
@@ -148,6 +153,32 @@ console.log('Unveränderte Meldung')
   db.exec("UPDATE pruefung SET uebernommen = 1")
   await handlePruefung(post(folge(2)), env)
   pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE uebernommen = 0') === 1, 'nach dem Abhaken entsteht einmal eine neue offene Zeile')
+}
+
+console.log('Unveränderte Meldung und Listenbau (Bleach-Fall, pruefung-stand.ts)')
+{
+  const db = neueDatenbank()
+  const z = { geschrieben: 0 }
+  const env = umgebung(db, z)
+  const ZIEL = 'https://www.disneyplus.com/de-de/browse/entity-x'
+  await handlePruefung(post(folge(1)), env)
+  /* Die Meldung ist älter als der Listenbau; das Ziel ist eine Wiedervorlage und verlangt eine neuere. */
+  db.exec("UPDATE pruefung SET gemeldet_am = '2020-01-01T00:00:00Z'")
+  stand.anbieter = [{ name: 'Disney+', plattform: 'disneyplus', offen: 1, gesamt: 1, gemeldet: 0, ziele: [{ url: ZIEL, titel: 'Testtitel', seit: '2019-12-01' }] }]
+  const rechne = async () => {
+    const antwort = await berechnePruefstand({ env, antwort: (body) => Response.json(body) })
+    return ((await antwort.json()) as { anbieter: { ziele: { url: string }[] }[] }).anbieter[0]!.ziele.length
+  }
+  pruefe((await rechne()) === 1, 'vorher: das Ziel ist offen (die alte Meldung zählt nicht)')
+  const vorher = z.geschrieben
+  const r = await handlePruefung(post(folge(1)), env)
+  pruefe(((await r.json()) as { unveraendert?: boolean }).unveraendert === true, 'dieselbe Meldung wird als unverändert erkannt')
+  pruefe(z.geschrieben - vorher === 2, `... und erneuert nur gemeldet_am (Zeile + Tageszähler, gemessen ${z.geschrieben - vorher})`)
+  pruefe((await rechne()) === 0, 'danach zählt das Ziel als erledigt (kein ewiges Neumelden)')
+  const nachErneuerung = z.geschrieben
+  await handlePruefung(post(folge(1)), env)
+  pruefe(z.geschrieben === nachErneuerung, 'die zweite gleiche Meldung schreibt 0 Zeilen')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 1, 'weiter keine Dublette')
 }
 
 if (fehler) {
