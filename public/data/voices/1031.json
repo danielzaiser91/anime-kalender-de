@@ -1,17 +1,1 @@
-{
- "titleId": 1031,
- "updatedAt": "2026-08-15T18:27:10.907Z",
- "roles": [
-  {
-   "character": "Garuda",
-   "actor": "René Dawn-Claude",
-   "role": "MAIN"
-  },
-  {
-   "character": "Garda",
-   "actor": "René Dawn-Claude",
-   "von": "ann"
-  }
- ],
- "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=6447"
-}
+{"titleId":1031,"updatedAt":"2026-08-15T18:27:10.907Z","roles":[{"character":"Yonna","actor":"Marie Meinders","von":"anisearch"},{"character":"Garuda","actor":"René Dawn-Claude","von":"anisearch"},{"character":"Piggott","actor":"Dustin Aßmuteit","von":"anisearch"},{"character":"Stan","actor":"Marcel Pophal","von":"anisearch"}]}
