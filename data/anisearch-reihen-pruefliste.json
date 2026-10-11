@@ -1,11 +1,11 @@
 {
   "stand": "2026-10-11",
   "angehaengt": 283,
-  "neueReihen": 253,
+  "neueReihen": 251,
   "katalog": {
     "angehaengt": 207,
     "neueReihen": 24,
-    "bestandEinzeln": 371
+    "bestandEinzeln": 369
   },
   "pruefliste": [
     {
@@ -1146,24 +1146,6 @@
       "art": "verschmilzt",
       "reihen": [
         {
-          "id": 132511,
-          "name": "Annyeong Jaduya",
-          "titel": 5
-        },
-        {
-          "id": 10015577,
-          "name": "Annyeong Ja-Duya 2",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Annyeong Jaduya —Prequel→ Annyeong Ja-Duya 2 (1 Kante)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
           "id": 876,
           "name": "Street Fighter II V",
           "titel": 3
@@ -1176,24 +1158,6 @@
       ],
       "alleinstehende": [],
       "beispiel": "Street Fighter II V —Sequel→ Street Fighter ZERO: THE ANIMATION (1 Kante)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
-          "id": 115844,
-          "name": "Fanren Xiu Xian Zhuan",
-          "titel": 11
-        },
-        {
-          "id": 10014801,
-          "name": "Fanren Xiuxian Chuan: Feng Qi Tian Nan",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Fanren Xiu Xian Zhuan: Yanjiabao Pu Zhan —Sequel→ Fanren Xiuxian Chuan: Feng Qi Tian Nan Er (1 Kante)",
       "quelle": "katalog"
     },
     {

@@ -1,19 +1,19 @@
 {
   "stand": "2026-10-11",
   "deckung": {
-    "titel": 20636,
-    "mitSeite": 15879,
-    "ohneSeite": 22,
-    "ohneAnisearchKennung": 3069,
-    "ohneReferenz": 1666,
+    "titel": 20626,
+    "mitSeite": 15885,
+    "ohneSeite": 25,
+    "ohneAnisearchKennung": 3056,
+    "ohneReferenz": 1660,
     "seitenImArchiv": 17466,
     "kanten": 18564
   },
   "gesamt": {
-    "titel": 15879,
-    "gleich": 12414,
-    "fehlen": 2237,
-    "zusaetzlich": 695,
+    "titel": 15885,
+    "gleich": 12426,
+    "fehlen": 2240,
+    "zusaetzlich": 686,
     "gemischt": 533
   },
   "hauptbestand": {
@@ -24,24 +24,24 @@
     "gemischt": 101
   },
   "haelfteA": {
-    "titel": 7319,
-    "gleich": 5675,
-    "fehlen": 1091,
-    "zusaetzlich": 341,
+    "titel": 7324,
+    "gleich": 5681,
+    "fehlen": 1094,
+    "zusaetzlich": 337,
     "gemischt": 212
   },
   "haelfteB": {
-    "titel": 8560,
-    "gleich": 6739,
+    "titel": 8561,
+    "gleich": 6745,
     "fehlen": 1146,
-    "zusaetzlich": 354,
+    "zusaetzlich": 349,
     "gemischt": 321
   },
   "cluster": {
-    "einzel": 5391,
-    "gleich": 2233,
+    "einzel": 5394,
+    "gleich": 2235,
     "zerlegt": 290,
-    "verschmilzt": 71,
+    "verschmilzt": 69,
     "gemischt": 32
   },
   "beispiele": {
@@ -63,9 +63,9 @@
       {
         "id": 356,
         "name": "Fate/stay night",
-        "titel": 62,
+        "titel": 64,
         "referenz": 1,
-        "anisearch": 5
+        "anisearch": 6
       },
       {
         "id": 1694,
