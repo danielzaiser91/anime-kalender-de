@@ -77,6 +77,10 @@ export function anzeigeName(title: Pick<Title, 'titleDe' | 'titleEn' | 'titleRom
  * Reihenliste in `DetailPanel.tsx`.
  */
 export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; episodes?: number }>(teile: T[]): T[] {
+  return hauptstaffelnAllerTeile(teile)
+}
+
+function hauptstaffelnAllerTeile<T extends { format?: string; beiwerk?: boolean; episodes?: number }>(teile: T[]): T[] {
   const hatTv = teile.some((m) => m.format === 'TV')
   /*
     **Eine Streaming-Staffel ist eine Staffel.** „Stone Ocean" und „Steel Ball Run" liefen
