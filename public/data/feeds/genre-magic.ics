@@ -6,36 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Magic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-176496-tv-prosieben-maxx@2026-10-03#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T220500Z
-DTEND:20261002T223500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 4/7
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15790/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-176496-tv-prosieben-maxx@2026-10-03#5@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T223000Z
-DTEND:20261002T230000Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 5/7
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15790/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-10-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T093000Z
-DTEND:20261003T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/15570/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T143000Z
@@ -172,7 +142,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261011T143000Z
 DTEND:20261011T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -182,7 +153,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261011T154500Z
 DTEND:20261011T161500Z
 SUMMARY:Though I Am an Inept Villainess – Folge 11/11
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16711/
 CATEGORIES:Crunchyroll
 END:VEVENT

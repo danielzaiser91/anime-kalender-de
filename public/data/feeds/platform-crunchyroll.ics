@@ -6,37 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – crunchyroll
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-10-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T093000Z
-DTEND:20261003T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/15570/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00378078@2026-10-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T160000Z
-DTEND:20261003T163000Z
-SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 8/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16797/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-03@anime-kalen
- der-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T160000Z
-DTEND:20261003T163000Z
-SUMMARY:Das Band der Unterwelt – Folge 23/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16919/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-10-04#8@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261004T083000Z
@@ -82,7 +51,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261004T140000Z
 DTEND:20261004T143000Z
 SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 35/36
+ Love You Staffel 3 – Folge 35/35
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17148/
 CATEGORIES:Crunchyroll
@@ -206,20 +175,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261010T160000Z
 DTEND:20261010T163000Z
 SUMMARY:Das Band der Unterwelt – Folge 24/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
- etails: https://anime-kalender.de/t/16919/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GNVHKN933@2026-10-11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261011T140000Z
-DTEND:20261011T143000Z
-SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 36/36
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17148/
+ etails: https://anime-kalender.de/t/16919/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
@@ -229,7 +186,8 @@ DTSTART:20261011T140000Z
 DTEND:20261011T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
  hip! Staffel 1 – Folge 2/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -239,7 +197,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261011T143000Z
 DTEND:20261011T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 3/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -249,7 +208,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261011T154500Z
 DTEND:20261011T161500Z
 SUMMARY:Though I Am an Inept Villainess – Folge 11/11
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16711/
 CATEGORIES:Crunchyroll
 END:VEVENT

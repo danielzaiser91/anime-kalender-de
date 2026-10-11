@@ -1,48 +1,48 @@
 {
   "stand": "2026-10-11",
   "deckung": {
-    "titel": 20717,
-    "mitSeite": 15091,
-    "ohneSeite": 53,
-    "ohneAnisearchKennung": 3164,
-    "ohneReferenz": 2409,
-    "seitenImArchiv": 16756,
-    "kanten": 18209
+    "titel": 20719,
+    "mitSeite": 15134,
+    "ohneSeite": 9,
+    "ohneAnisearchKennung": 3165,
+    "ohneReferenz": 2411,
+    "seitenImArchiv": 17466,
+    "kanten": 18564
   },
   "gesamt": {
-    "titel": 15091,
-    "gleich": 11636,
-    "fehlen": 1751,
-    "zusaetzlich": 823,
-    "gemischt": 881
+    "titel": 15134,
+    "gleich": 11653,
+    "fehlen": 1766,
+    "zusaetzlich": 826,
+    "gemischt": 889
   },
   "hauptbestand": {
     "titel": 2829,
-    "gleich": 2062,
-    "fehlen": 327,
+    "gleich": 2060,
+    "fehlen": 329,
     "zusaetzlich": 214,
     "gemischt": 226
   },
   "haelfteA": {
-    "titel": 6979,
-    "gleich": 5295,
-    "fehlen": 811,
-    "zusaetzlich": 451,
-    "gemischt": 422
+    "titel": 6999,
+    "gleich": 5302,
+    "fehlen": 818,
+    "zusaetzlich": 453,
+    "gemischt": 426
   },
   "haelfteB": {
-    "titel": 8112,
-    "gleich": 6341,
-    "fehlen": 940,
-    "zusaetzlich": 372,
-    "gemischt": 459
+    "titel": 8135,
+    "gleich": 6351,
+    "fehlen": 948,
+    "zusaetzlich": 373,
+    "gemischt": 463
   },
   "cluster": {
-    "einzel": 5529,
-    "gleich": 1912,
-    "zerlegt": 265,
+    "einzel": 5519,
+    "gleich": 1918,
+    "zerlegt": 268,
     "verschmilzt": 123,
-    "gemischt": 49
+    "gemischt": 51
   },
   "beispiele": {
     "zerlegt": [
@@ -68,18 +68,18 @@
         "anisearch": 3
       },
       {
+        "id": 11757,
+        "name": "Sword Art Online",
+        "titel": 25,
+        "referenz": 1,
+        "anisearch": 3
+      },
+      {
         "id": 538,
         "name": "Shin Tenchi Muyou!",
         "titel": 24,
         "referenz": 1,
         "anisearch": 2
-      },
-      {
-        "id": 11757,
-        "name": "Sword Art Online",
-        "titel": 24,
-        "referenz": 1,
-        "anisearch": 3
       },
       {
         "id": 1575,
@@ -152,16 +152,16 @@
         "anisearch": 6
       },
       {
-        "id": 98514,
-        "name": "Uma Musume: Pretty Derby",
+        "id": 269,
+        "name": "BLEACH",
         "titel": 15,
         "referenz": 1,
         "anisearch": 2
       },
       {
-        "id": 269,
-        "name": "BLEACH",
-        "titel": 14,
+        "id": 98514,
+        "name": "Uma Musume: Pretty Derby",
+        "titel": 15,
         "referenz": 1,
         "anisearch": 2
       },
@@ -205,14 +205,14 @@
       {
         "id": 101922,
         "name": "Kimetsu no Yaiba",
-        "titel": 17,
+        "titel": 18,
         "referenz": 2,
         "anisearch": 1
       },
       {
         "id": 2222,
         "name": "Dr. Slump: Arale-chan",
-        "titel": 16,
+        "titel": 17,
         "referenz": 2,
         "anisearch": 1
       },
@@ -333,7 +333,7 @@
       {
         "id": 235,
         "name": "Meitantei Conan",
-        "titel": 143,
+        "titel": 145,
         "referenz": 6,
         "anisearch": 5
       },
@@ -389,7 +389,7 @@
       {
         "id": 966,
         "name": "Crayon Shin-chan",
-        "titel": 46,
+        "titel": 47,
         "referenz": 3,
         "anisearch": 3
       },
