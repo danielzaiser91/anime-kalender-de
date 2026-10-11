@@ -6,6 +6,7 @@
  * `pipeline/fixtures/cartoon-folgen-probe.json` (Auszug aus `data/cartoon-folgen.json` (TMDB) und `data/anisearch-folgen.json`,
  * Stand 11.10.2026); die Meldungen daraus mit anderer Schreibweise nachgebaut. Die Prüfung läuft ohne die große Datei.
  */
+import { readFileSync } from 'node:fs'
 import { readJson } from './lib/util.ts'
 import { ordneBlockZu, folgenZuTitel, unsereFolgen, type CartoonFolge, type UnsereFolge } from './lib/episodentitel-block.ts'
 import { blockUrteile, folgenlisteVon, nummerUeberBlock, probelisten, type BlockEingang } from './lib/titel-bloecke.ts'
@@ -102,6 +103,14 @@ function pruefeVerteilung(): void {
   pruefe('Titel aus zwei Blöcken in einer Staffel: nichts zugeordnet, Grund für die Prüfliste', folgenVon(streit).length === 0 && streit.zuPruefen.length === 1, streit.zuPruefen)
 }
 
+/** Die Liste der Erweiterung kennt Cartoons: Avatars Netflix-Adresse steht mit der Kennung -246 und 61 Folgen darin. */
+function pruefeErweiterungsliste(): void {
+  console.log('\nErweiterung: Cartoons stehen in der Liste der Netflix-Adressen')
+  const text = readFileSync('extension/offene-netflix.js', 'utf8').replace(/^globalThis\.AK_OFFENE_TITEL = /, '')
+  const avatar = (JSON.parse(text) as Record<string, { staffeln: Array<{ id?: number; folgen: number }> }>)['70142405']
+  pruefe('Avatar (Netflix 70142405): ein Eintrag -246 mit 61 Folgen, damit „S?" entfällt', avatar?.staffeln.length === 1 && avatar.staffeln[0]!.id === -246 && avatar.staffeln[0]!.folgen === 61, avatar)
+}
+
 console.log('Zuordnung über Episodentitel')
 
 console.log('\nSchreibweisen und Platzhalter')
@@ -143,6 +152,7 @@ pruefeBloecke('Niko (-72898): Prime 13 + 10', folgenlisteVon(-72898), [13, 10], 
 pruefeBloecke('Great Pretender (110349): Netflix 14 + 9, je Teil ab 1', folgenlisteVon(110349), [14, 9], false)
 pruefeBloecke('Carole & Tuesday (101281): Netflix 12 + 12, durchgezählt', folgenlisteVon(101281), [12, 12], true)
 pruefeVerteilung()
+pruefeErweiterungsliste()
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlles grün.')
 process.exit(fehler ? 1 : 0)

@@ -148,6 +148,11 @@ function zustandVon(e) {
   return { zustand: 'belegt', am: belegtAm.get(e.t.id) ?? null }
 }
 
+/** Unser Eintrag zum i-ten Block des Anbieters: der Reihe nach, bei nur einem Titel von uns immer dieser. */
+function eintragZuBlock(sortiert, i) {
+  return sortiert.length === 1 ? sortiert[0] : sortiert[i]
+}
+
 const offen = {}
 for (const [id, eintraege] of nachRang(jeAdresse, 'netflix')) {
   /**
@@ -217,6 +222,8 @@ for (const [id, eintraege] of nachRang(jeAdresse, 'netflix')) {
         // Die Nummer der ersten Folge — bei durchgezählten Reihen nicht 1.
         erste: s.erste ?? 1,
         film: eintraege.length === 1 && eintraege[0].t.format === 'MOVIE',
+        /* Ein Titel von uns, mehrere Blöcke beim Anbieter (Avatar: drei Bücher): alle gehören ihm, auch sein Urteil. */
+        ...(sortiert.length === 1 ? { id: sortiert[0].t.id } : {}),
         /**
          * Ob diese Staffel noch offen ist, weiß nur unser Datensatz.
          *
@@ -229,10 +236,8 @@ for (const [id, eintraege] of nachRang(jeAdresse, 'netflix')) {
          * Lücke, von der niemand weiß.
          */
         /* Ein Verdachtsfall ist offen, obwohl er ein Urteil hat — es ist womöglich überholt. */
-        offen: sortiert[i]
-          ? sortiert[i].dub === undefined || verdaechtig.has(sortiert[i].t.id)
-          : true,
-        ...(sortiert[i] ? zustandVon(sortiert[i]) : { zustand: 'melden' }),
+        offen: eintragZuBlock(sortiert, i) ? eintragZuBlock(sortiert, i).dub === undefined || verdaechtig.has(eintragZuBlock(sortiert, i).t.id) : true,
+        ...(eintragZuBlock(sortiert, i) ? zustandVon(eintragZuBlock(sortiert, i)) : { zustand: 'melden' }),
       })),
       laut: 'anbieter',
     }
