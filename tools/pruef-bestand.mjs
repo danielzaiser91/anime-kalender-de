@@ -8,7 +8,7 @@
  * Staffeln schneidet, wissen wir nicht, daher der Hinweis am Eintrag (`eintragsInfo`).
  *
  * Gesteuert über `data/pruefliste-regeln.json`: `erweitert` schaltet Cartoons, Folgenzahl-Lücken und
- * Rangordnung zu (Vorgabe: aus, bis Daniel freigibt); `vertrauen`/`ausblenden` blenden später Wege aus,
+ * Rangordnung zu (seit 11.10.2026 an); `vertrauen`/`ausblenden` blenden später Wege aus,
  * deren Angabe aus einer als vertrauenswürdig geprüften Quelle stammt. `PRUEFLISTE_ERWEITERT=1` bzw. `=0` schaltet
  * für eine Messung zu, ohne die Datei zu ändern. Wege der Cartoon-Stichprobe (`cartoon-jw-stichprobe.mjs`) tragen die
  * Quelle `cartoon-jw-stichprobe` und stehen bei `erweitert` vor allen anderen.
