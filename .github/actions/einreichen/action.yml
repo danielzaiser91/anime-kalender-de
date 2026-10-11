@@ -20,10 +20,9 @@ runs:
   using: composite
   steps:
     # Die App darf `main` am Ruleset `main-pruefweg` vorbei mergen, `GITHUB_TOKEN` nicht (11.10.2026). Das Aufsetzen und der Zweig-Push laufen weiter mit der Checkout-Anmeldung;
-    # nur Anlegen und Mergen des Pull Requests brauchen die App. Gelingt das Token nicht, bleibt es beim Rückfall: PR angelegt, Merge scheitert, der Fund bleibt gesichert.
+    # nur Anlegen und Mergen des Pull Requests brauchen die App. Gelingt das Token nicht, wird der Lauf rot (kein Rückfall auf github.token: ein nie gemergter PR bliebe unbemerkt); der Einreichen-Schritt läuft trotzdem, damit der Fund gesichert wird.
     - name: App-Token holen
       id: app
-      continue-on-error: true
       uses: actions/create-github-app-token@v3
       with:
         app-id: ${{ inputs.app-id }}
@@ -33,10 +32,11 @@ runs:
 
     - name: Quellen als Pull Request einreichen
       id: pr
+      if: ${{ !cancelled() }}
       continue-on-error: true
       shell: bash
       env:
-        GH_TOKEN: ${{ steps.app.outputs.token || github.token }}
+        GH_TOKEN: ${{ steps.app.outputs.token }}
         # Das Aufsetzen legt hier die geänderten Quelldateien ab, bevor es auf den Stand von main wechselt.
         FUND_DIR: ${{ runner.temp }}/fund
       run: bash tools/quellen-pr.sh "${{ inputs.nachricht }}"

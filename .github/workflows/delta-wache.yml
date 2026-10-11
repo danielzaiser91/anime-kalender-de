@@ -44,10 +44,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Die Wache pusht direkt auf `main`; das Ruleset `main-pruefweg` lässt dafür nur die App durch (11.10.2026). Fehlt das Token,
-      # läuft die Prüfung trotzdem — nur das Ablegen scheitert dann (Rückfall auf GITHUB_TOKEN).
+      # wird der Lauf rot (kein Rückfall auf GITHUB_TOKEN).
       - name: App-Token holen
         id: app
-        continue-on-error: true
         uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.DATEN_APP_ID }}
@@ -58,7 +57,7 @@ jobs:
         with:
           # Der Datenlauf hat gerade gepusht — diese Wache braucht dessen Stand.
           ref: main
-          token: ${{ steps.app.outputs.token || github.token }}
+          token: ${{ steps.app.outputs.token }}
 
       - uses: actions/setup-node@v4
         with:

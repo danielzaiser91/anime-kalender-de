@@ -142,11 +142,10 @@ jobs:
         if: steps.faellig.outputs.anzahl != '0'
         run: npx tsx pipeline/verpasst-faellig.ts --stempeln --aus "$RUNNER_TEMP/faellig.json"
 
-      # Die App darf `main` am Ruleset vorbei mergen, `GITHUB_TOKEN` nicht (11.10.2026); ohne App-Token bleibt der Rückfall: PR angelegt, Merge scheitert.
+      # Die App darf `main` am Ruleset vorbei mergen, `GITHUB_TOKEN` nicht (11.10.2026); fehlt das Token, wird der Lauf rot (kein Rückfall: ein angelegter, nie gemergter PR bliebe unbemerkt).
       - name: App-Token holen
         id: app
         if: steps.faellig.outputs.anzahl != '0'
-        continue-on-error: true
         uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.DATEN_APP_ID }}
@@ -157,7 +156,7 @@ jobs:
       - name: Ergebnis als Pull Request einreichen
         if: steps.faellig.outputs.anzahl != '0'
         env:
-          GH_TOKEN: ${{ steps.app.outputs.token || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app.outputs.token }}
           # Sicherung für den Fall, dass das Einreichen scheitert (siehe `.github/actions/einreichen`, `fund-nachliefern.yml`; 05.10.2026).
           FUND_DIR: ${{ runner.temp }}/fund
         # Block statt Einzeiler: „chore(data): …" läse YAML sonst als zweite Zuordnung.
