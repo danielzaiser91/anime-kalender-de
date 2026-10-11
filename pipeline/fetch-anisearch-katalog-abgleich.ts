@@ -125,7 +125,10 @@ function ladeAnilistTitel(): { offen: Ausgeliefert[]; vergeben: Set<number> } {
   for (const z of Object.values(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) if (z.anisearchId) vergeben.add(z.anisearchId)
   for (const [, asId] of anisearchKatalogPaare()) vergeben.add(asId)
   for (const m of readFileSync('data/anisearch-ids-hand.yaml', 'utf8').matchAll(/^(\d+):\s*(\d+)/gm)) vergeben.add(Number(m[2]))
-  const offen = alle.filter((t) => t.id < 10_000_000 && !t.anisearchId)
+  /* Schon gebundene Titel (Abgleich, Handdatei) bleiben draußen, auch wenn der Bestand ihre Kennung noch nicht trägt: ein Lauf darf sie nicht neu entscheiden. */
+  const handAl = [...readFileSync('data/anisearch-ids-hand.yaml', 'utf8').matchAll(/^(\d+):/gm)].map((m) => Number(m[1]))
+  const gebunden = new Set<number>([...anisearchKatalogPaare().map(([al]) => al), ...handAl])
+  const offen = alle.filter((t) => t.id < 10_000_000 && !t.anisearchId && !gebunden.has(t.id))
   return { offen: [...new Map(offen.map((t) => [t.id, t])).values()], vergeben }
 }
 
