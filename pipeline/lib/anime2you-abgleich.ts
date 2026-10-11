@@ -3,6 +3,7 @@
  * im Artikeltitel oder im Artikeltext stehen. Schreibvarianten („ProSieben MAXX“/„ProSiebenMaxx“, „Prime Video“/„Amazon“)
  * zählen als derselbe Name; ein anderer bekannter Name im Zitat widerlegt die Angabe.
  */
+import { PLATFORMS } from '../../shared/types.ts'
 
 interface Gruppe {
   namen: string[]
@@ -79,18 +80,11 @@ export function pruefeName(feld: string, name: string, zitat: string, artikel: s
 }
 
 /** Die Namen, die eine Plattform des Datenmodells im Artikel trägt; leer, wo es keinen Anbieternamen gibt (disc, kino, tv). */
-export const PLATTFORM_NAMEN: Record<string, string> = {
-  crunchyroll: 'crunchyroll',
-  netflix: 'netflix',
-  primevideo: 'prime video',
-  disneyplus: 'disney+',
-  adn: 'adn',
-  aniverse: 'aniverse',
-  wow: 'wow',
-  joyn: 'joyn',
-  rtlplus: 'rtl+',
-  youtube: 'youtube',
-}
+export const PLATTFORM_NAMEN: Record<string, string> = Object.fromEntries(
+  Object.entries(PLATFORMS)
+    .filter(([id]) => !['disc', 'kino', 'tv', 'unbekannt'].includes(id))
+    .map(([id, p]) => [id, p.name.toLowerCase()]),
+)
 
 const woerter = (s: string): string[] => s.toLowerCase().match(/[\p{L}\d]+/gu) ?? []
 

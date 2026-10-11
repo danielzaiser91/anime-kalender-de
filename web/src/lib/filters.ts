@@ -88,6 +88,8 @@ export interface FilterState extends FilterLists {
   kostenlosExcluded: boolean
   confirmedExcluded: boolean
   availableExcluded: boolean
+  /** Spätere Anbieter derselben Folge ausblenden (`zweitanbieter` am Termin, Bau); nur im Kalender. */
+  zweitanbieterExcluded: boolean
   /** Mindest-Vertrauensstufe der Dub-Angabe (nur Datenbank-Ansicht). */
   minConfidence: DubConfidence
   /**
@@ -160,6 +162,7 @@ export const EMPTY_FILTERS: FilterState = {
   kostenlosExcluded: false,
   confirmedExcluded: false,
   availableExcluded: false,
+  zweitanbieterExcluded: false,
   minConfidence: 'low',
   modus: {},
 }
@@ -236,6 +239,7 @@ export function activeFilterCount(f: FilterState): number {
     (f.kostenlosExcluded ? 1 : 0) +
     (f.confirmedExcluded ? 1 : 0) +
     (f.availableExcluded ? 1 : 0) +
+    (f.zweitanbieterExcluded ? 1 : 0) +
     (f.minConfidence !== 'low' ? 1 : 0)
   )
 }
@@ -363,7 +367,7 @@ export function* filterEventsGen(
   merkeFundstellen(gesucht, (r) => r.slug, fundstellen)
 
   const allowed = new Set(gesucht.map((t) => t.item.slug))
-  return data.events.filter((e) => allowed.has(e.releaseSlug))
+  return data.events.filter((e) => allowed.has(e.releaseSlug) && !(f.zweitanbieterExcluded && e.zweitanbieter))
 }
 
 /** Dasselbe in einem Zug. */

@@ -237,7 +237,8 @@ function SchnellSchalter({
   suche?: BereichsSuche
 }) {
   const label = t('filter.schnell')
-  const texte = ['favoriten', 'cartoon', 'kostenlos', 'tv', 'disc', 'bestaetigt', 'verfuegbar'].map((k) => t(`filter.schnell.${k}` as never))
+  const schluessel = ['favoriten', 'cartoon', 'kostenlos', 'tv', 'disc', 'bestaetigt', 'verfuegbar', 'zweitanbieter']
+  const texte = schluessel.map((k) => t(`filter.schnell.${k}` as never))
   /* Band über die volle Breite, kein Kasten: hebt die Schnellfilter ab (Mockup „Leiste neu“); Chips bleiben grün/rot. */
   return (
     <div className="border-y border-blue-600 bg-blue-600/[.08] px-3 py-3 dark:border-blue-400 dark:bg-blue-400/10">

@@ -5,7 +5,7 @@ import { releaseStatus, expandEvents } from '@shared/logic.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { deutschAbgeschlossen, zaehleErschienen } from './antwort-regeln.ts'
-import { bestandVon } from './prime-kanal.ts'
+import { zaehlPlattform } from './prime-kanal.ts'
 
 export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }: {
   releases: Release[]
@@ -25,8 +25,8 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       ein rollendes Fenster; bei Dragon Ball Super stand sonst „131 Fg.“, abrufbar waren 20.
     */
     if (s?.platform === 'joyn') return joynAngabe(s.fenster) ?? ''
-    /* Prime über den Crunchyroll-Kanal ohne eigene Bereiche zählt mit den Releases von Crunchyroll (Slime Staffel 4, 10.10.2026); `bestandVon` steht nur, wo am Weg Deutsch belegt ist. */
-    const bestandsPlattform = bestandVon(s) && !s?.dubRanges?.some((r) => r.dub) ? 'crunchyroll' : s?.platform
+    /* Ein Prime-Kanal-Weg ohne eigene Bereiche zählt wie der Anbieter, dessen Bestand er führt (Slime Staffel 4, 10.10.2026; `prime-kanal.ts`). */
+    const bestandsPlattform = s && zaehlPlattform(s, title?.streams ?? [])
     /*
       **Alle Releases des Anbieters zusammen** (21.09.2026, Steel Ball Run). Netflix führt Folge 1
       als eigenes Release (19.03.) und die Folgen 2–12 als Wochenserie ab 25.09.; AniList kennt nur
