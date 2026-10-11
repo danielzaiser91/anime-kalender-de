@@ -1,9 +1,10 @@
 /**
  * Zusicherungen zum Katalog-Abgleich AniList → aniSearch (11.10.2026): Urteilsregeln und die geschriebene Zuordnung `data/anisearch-ids-katalog.json`.
- * Läuft in `check:logic`; ohne die Datei entfällt der Teil „Datei".
+ * Dazu die Zahl der eingehängten Katalogtitel und, dass daneben keine eigene aniSearch-Zeile derselben Kennung bleibt. Läuft in `check:logic`.
  */
 import { existsSync, readFileSync } from 'node:fs'
-import { FORMAT } from './bau/anisearch-titel.ts'
+import type { Title } from '../shared/types.ts'
+import { FORMAT, ergaenzeAnisearchTitel } from './bau/anisearch-titel.ts'
 import { zeileZuTitel } from './fetch-anisearch-katalog-abgleich.ts'
 import {
   type AsEintrag,
@@ -96,6 +97,24 @@ if (existsSync('data/anisearch-ids-katalog.json')) {
   pruefe('Datei: nur AniList-Kennungen, keine eigene aniSearch-Zeile', eintraege.every(([al]) => Number(al) < 10_000_000))
   pruefe('Datei: nichts, was die Handdatei schon bindet', eintraege.every(([al]) => !hand.has(al)))
 }
+
+/* Eingehängt (11.10.2026): 66 sichere Treffer des Abgleichs und 30 von Hand gesichtete; der Bau liest sie wie die Handdatei. */
+const KATALOG_EINGEHAENGT = 96
+const geprueft = JSON.parse(readFileSync('data/anisearch-katalog-kein-treffer.json', 'utf8')) as Record<string, number[]>
+const gebunden = JSON.parse(readFileSync('data/anisearch-ids-katalog.json', 'utf8')) as Record<string, number>
+const bruecke = Object.values(JSON.parse(readFileSync('data/anisearch.json', 'utf8')) as Record<string, { anisearchId?: number }>).map((e) => e.anisearchId)
+const handKennungen = [...readFileSync('data/anisearch-ids-hand.yaml', 'utf8').matchAll(/^\d+:\s*(\d+)/gm)].map((m) => Number(m[1]))
+pruefe(`Katalog: mindestens ${KATALOG_EINGEHAENGT} Titel mit aniSearch-Kennung eingehängt`, Object.keys(gebunden).length >= KATALOG_EINGEHAENGT, String(Object.keys(gebunden).length))
+const schonVergeben = new Set([...handKennungen, ...bruecke])
+pruefe('Katalog: keine aniSearch-Kennung doppelt vergeben, auch nicht an Handdatei oder Brücke', new Set(Object.values(gebunden)).size === Object.keys(gebunden).length && Object.values(gebunden).every((as) => !schonVergeben.has(as)))
+pruefe('Katalog: ein gesichtetes „kein Treffer" ist nie zugleich gebunden', Object.entries(geprueft).every(([al, as]) => !as.includes(gebunden[al] ?? -1)))
+pruefe('Katalog: „kein Treffer" nennt nur AniList-Titel ohne Kennung und ganze aniSearch-Kennungen', Object.entries(geprueft).every(([al, as]) => !(al in gebunden) && Number(al) < 10_000_000 && as.length > 0 && as.every(Number.isInteger)))
+
+/* Keine Dublette: steht der AniList-Titel im Bestand, entfällt die aniSearch-Zeile mit derselben Kennung (Bau: `ergaenzeAnisearchTitel`). */
+const mitAnilist = new Map<number, Title>(Object.keys(gebunden).map((al) => [Number(al), { id: Number(al), streams: [] } as unknown as Title]))
+ergaenzeAnisearchTitel(mitAnilist, new Map(), new Map())
+const bleibt = Object.values(gebunden).filter((as) => mitAnilist.has(10_000_000 + as))
+pruefe('Katalog: keine Dublette — zu jeder eingehängten Kennung bleibt keine eigene aniSearch-Zeile neben dem AniList-Titel', bleibt.length === 0, bleibt.join(','))
 
 if (fehler) {
   console.error(`${fehler} Fehler`)

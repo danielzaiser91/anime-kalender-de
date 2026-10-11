@@ -16,6 +16,8 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
+export { brauchtUrteil, wartet } from './offen-erschienen.mjs'
+
 const WURZEL = resolve(import.meta.dirname, '..')
 const zwischen = new Map()
 

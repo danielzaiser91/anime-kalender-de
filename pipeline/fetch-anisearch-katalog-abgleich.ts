@@ -6,8 +6,10 @@
  * kommt der Einzelabruf (`/v1/anime/<Kennungen>`, zehn je Abruf, alle 5,5 s wie `fetch-anisearch-eintraege.ts`, Pause statt Abbruch bei 429) für Format,
  * Jahr, Folgen und MAL-Kennung; die Urteilsregeln stehen in `lib/anisearch-katalog-abgleich.ts`.
  *
- * Ergebnis: `data/anisearch-ids-katalog.json` (sicher: AniList-Kennung → aniSearch-Kennung, derselbe Aufbau wie `anisearch-ids-hand.yaml`; der Bau liest sie noch nicht)
- * und `data/anisearch-katalog-abgleich.json` (Zählung, Prüfliste mit Grund, Titel ohne Kandidat).
+ * Ergebnis: `data/anisearch-ids-katalog.json` (sicher: AniList-Kennung → aniSearch-Kennung; der Bau liest sie, ein Lauf **ergänzt** sie nur: einmal gebundene
+ * Titel fallen aus der Liste der offenen und die Datei trägt auch die von Hand gesichteten) und `data/anisearch-katalog-abgleich.json` (Zählung, Prüfliste mit
+ * Grund, Titel ohne Kandidat). Gesichtetes „kein Treffer" steht in `data/anisearch-katalog-kein-treffer.json` (AniList-Kennung → verworfene aniSearch-Kennungen)
+ * und kommt nicht wieder auf die Prüfliste.
  *
  * Aufruf: `npx tsx pipeline/fetch-anisearch-katalog-abgleich.ts [--test N]` (`--test`: N gleichmäßig gewählte Titel, schreibt nichts außer dem Cache)
  */
@@ -16,6 +18,7 @@ import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { anisearchKopf, anisearchToken } from './lib/anisearch-api.ts'
 import { kompakt } from './fetch-anisearch-eintraege.ts'
 import { FORMAT } from './bau/anisearch-titel.ts'
+import { anisearchKatalogPaare } from './lib/anisearch-katalog-ids.ts'
 import {
   type AsEintrag,
   type AsTitel,
@@ -32,6 +35,8 @@ import {
 const API = 'https://api.anisearch.com/v1/anime'
 const TITELLISTE = 'data/cache/anisearch-titelliste.json'
 const EINTRAEGE_ABRUF = 'data/cache/anisearch-abgleich-eintraege.json'
+const IDS_KATALOG = 'data/anisearch-ids-katalog.json'
+const KEIN_TREFFER = 'data/anisearch-katalog-kein-treffer.json'
 const PAUSE_MS = 5_500
 const TAG_MS = 24 * 3600 * 1000
 
@@ -118,6 +123,7 @@ function ladeAnilistTitel(): { offen: Ausgeliefert[]; vergeben: Set<number> } {
   /* Eigene aniSearch-Zeilen (Kennung ab 10.000.000) tragen ihre Kennung selbst und binden nichts: sie sind die Dubletten, die der Bau auflöst. */
   const vergeben = new Set<number>(alle.filter((t) => t.id < 10_000_000).map((t) => t.anisearchId).filter((i): i is number => Boolean(i)))
   for (const z of Object.values(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) if (z.anisearchId) vergeben.add(z.anisearchId)
+  for (const [, asId] of anisearchKatalogPaare()) vergeben.add(asId)
   for (const m of readFileSync('data/anisearch-ids-hand.yaml', 'utf8').matchAll(/^(\d+):\s*(\d+)/gm)) vergeben.add(Number(m[2]))
   const offen = alle.filter((t) => t.id < 10_000_000 && !t.anisearchId)
   return { offen: [...new Map(offen.map((t) => [t.id, t])).values()], vergeben }
@@ -195,7 +201,8 @@ async function main(): Promise<void> {
   const malZuAs = malZuAnisearch(eintraege)
   const offen = (test ? roh.filter((_, i) => i % schritt === 0).slice(0, test) : roh).map((t) => katalogTitel(t, malZuAs))
   log(`${titel.size} aniSearch-Titel, ${offen.length} AniList-Titel ohne Kennung, ${vergeben.size} Kennungen schon vergeben`)
-  const kand = new Map(offen.map((k) => [k.id, kandidaten(k, titel, index, vergeben)]))
+  const keinTreffer = readJson<Record<string, number[]>>(KEIN_TREFFER, {})
+  const kand = new Map(offen.map((k) => [k.id, kandidaten(k, titel, index, vergeben).filter((c) => !keinTreffer[String(k.id)]?.includes(c.asId))]))
   await holeEintraege(benoetigteEintraege(kand), eintraege, token)
   const urteil = new Map(offen.map((k) => [k.id, urteile(k, kand.get(k.id)!, titel, eintraege, formatVon)]))
   const doppelt = doppelteEntschaerfen(urteil)
@@ -205,8 +212,9 @@ async function main(): Promise<void> {
     for (const k of offen) console.log(k.id, k.namen[0], k.jahr, k.format, JSON.stringify(urteil.get(k.id)))
     return
   }
-  const sicher = Object.fromEntries([...urteil].filter(([, u]) => u.art === 'sicher').map(([id, u]) => [id, (u as { asId: number }).asId]).sort((a, b) => a[0] - b[0]))
-  writeJson('data/anisearch-ids-katalog.json', sicher, true)
+  const neu = [...urteil].filter(([, u]) => u.art === 'sicher').map(([id, u]) => [id, (u as { asId: number }).asId] as const)
+  const sicher = Object.fromEntries([...anisearchKatalogPaare(), ...neu].sort((a, b) => a[0] - b[0]))
+  writeJson(IDS_KATALOG, sicher, true)
   writeJson('data/anisearch-katalog-abgleich.json', ergebnis)
 }
 

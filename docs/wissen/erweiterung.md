@@ -2269,3 +2269,7 @@ Daniel startete „▶ alle durchgehen“ auf `amazon.de/gp/video/storefront` (4
 - **Bericht:** die „Cannot access … before initialization“-Zeilen im Diagnosebericht waren kein eigener Fehler, sondern genau dieser Zustand; `bericht()` schreibt dafür jetzt „noch nicht angelegt: die Seite wartet auf eine Titel-Kennung“.
 - **Test:** `amazon-durchgang.test.cjs` — Reihenfolge im Quelltext (hören und takten vor dem Warten, Takt nur einmal beim Seitenstart), `primeHoerer()` im Sandkasten (fremder Ursprung und fremdes Fenster zählen nicht, eigener Frame führt den Plan weiter).
 - **Nicht gemessen:** der Lauf selbst im Browser auf der Startseite.
+
+## Offen ist erst, was erschienen und unbelegt ist (11.10.2026)
+
+Die Listen (`tools/extension-offene-liste.mjs`, `-amazon.mjs`, `-disney.mjs`) fragten nur nach `dub === undefined`. „Tokyo Revengers: War of the Three Titans" lief seit dem 02.10. wöchentlich (2 von 13 erschienen, beide als Handbeleg auf Deutsch) und hielt den Zähler bis Ende Dezember auf „1 offen". Jetzt gilt (`tools/offen-erschienen.mjs`, Test `offen-erschienen.test.mjs`): ein Weg ohne Urteil ist offen, wenn mehr Folgen erschienen sind (Termine des Anbieters in `releases.json`, `istErschienen` aus `shared/logic.ts`, Europe/Berlin) als belegt (Bereiche am Weg plus Bereiche der Handbelege). Ohne Termine zum Anbieter bleibt es offen. Ein Handbeleg ohne Bereiche („nicht in deinem Gebiet", Spy × Family) belegt keine Folge. Messung am Stand nach #812: Disney+ 174 → 173 offen, Netflix und Prime unverändert.
