@@ -1,16 +1,17 @@
-import { existsSync, readdirSync } from 'node:fs'
-import { log, readJson, warn, writeJson } from '../lib/util.ts'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import yaml from 'js-yaml'
+import { ROOT, log, readJson, warn, writeJson } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { Title } from '../../shared/types.ts'
 import { ARCHIV_SEITEN, leseSeite } from '../lib/anisearch-relationen.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import type { Kante, Namen } from './anisearch-reihen.ts'
-import { type Pruefzeile, uebernimmReihen } from './anisearch-reihen-uebernahme.ts'
+import { type Pruefzeile, type Trennung, WANDERREGEL, uebernimmReihen } from './anisearch-reihen-uebernahme.ts'
 
 /**
  * **Reihen aus aniSearch übernehmen: Anbindung an den Bau** (Stufe C der AniList-Ablösung, 11.10.2026). `anisearchRelationenKanten` liefert die Verbindungen, die `03-reihen.ts` zu den
  * Reihen hinzunimmt (Regeln in `anisearch-reihen-uebernahme.ts`), und schreibt, was nicht automatisch geht, als Prüfliste `data/anisearch-reihen-pruefliste.json` — der Weg dafür ist
- * `data/reihen-von-hand.yaml`. Ein Fehler hier stoppt den Bau nie: dann bleiben die Reihen aus AniList, wie sie sind.
+ * `data/reihen-von-hand.yaml` (`ids:` verbindet, `getrennt:` verbietet die aniSearch-Beziehung). Ein Fehler hier stoppt den Bau nie: dann bleiben die Reihen aus AniList, wie sie sind.
  */
 export const PRUEFLISTE_DATEI = 'data/anisearch-reihen-pruefliste.json'
 
@@ -41,6 +42,12 @@ export function ladeBeziehungen(dir = ARCHIV_SEITEN): { kanten: Kante[]; namen: 
   return ergebnis
 }
 
+/** Die `getrennt:`-Einträge der Handdatei (Titel-Kennungen); fehlt die Datei, gibt es keine. */
+export function ladeTrennungen(datei = `${ROOT}/data/reihen-von-hand.yaml`): Trennung[] {
+  const eintraege = existsSync(datei) ? ((yaml.load(readFileSync(datei, 'utf8')) as Array<{ getrennt?: number[] }> | null) ?? []) : []
+  return eintraege.flatMap((e) => (e.getrennt ? [e.getrennt] : []))
+}
+
 /** Schreibt die Prüfliste nur bei Änderung, damit der Stand nicht täglich committet wird. */
 function schreibePruefliste(neu: PruefDatei): void {
   const alt = readJson<Partial<PruefDatei>>(PRUEFLISTE_DATEI, {})
@@ -53,7 +60,7 @@ export function anisearchRelationenKanten(titles: Map<number, Title>, wurzel: (i
     const kennung = anisearchKennungen([...titles.values()].map((t) => ({ id: t.id, mal: t.malId })))
     const kandidaten = [...titles.values()].map((t) => ({ id: t.id, name: t.titleRomaji ?? t.titleEn ?? `#${t.id}`, anisearchId: kennung.get(t.id) }))
     const { kanten, namen } = ladeBeziehungen()
-    const u = uebernimmReihen(kandidaten, kanten, namen, wurzel, ausgenommen)
+    const u = uebernimmReihen(kandidaten, kanten, namen, wurzel, ausgenommen, WANDERREGEL, ladeTrennungen())
     schreibePruefliste({ stand: todayIso(), angehaengt: u.angehaengt, neueReihen: u.neueReihen, pruefliste: u.pruefliste })
     log(`aniSearch-Reihen: ${u.angehaengt} Alleinstehende an Reihen gehängt, ${u.neueReihen} neue Reihen, ${u.pruefliste.length} Fälle auf der Prüfliste (${PRUEFLISTE_DATEI})`)
     return u.kanten
