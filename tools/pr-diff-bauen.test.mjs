@@ -1,6 +1,6 @@
 /** Tests für tools/pr-diff-bauen.mjs: Stub nur für große Dateien der Positivliste, alles andere vollständig. */
 import { readFileSync } from 'node:fs'
-import { baueDiff, ladeQuellen, stubbar, GRENZE_STUB } from './pr-diff-bauen.mjs'
+import { baueDiff, gitDiffRunner, ladeQuellen, stubbar, GRENZE_STUB } from './pr-diff-bauen.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -49,6 +49,34 @@ pruefe('ohne Patch bei Handdatei (nicht auf der Liste) → unvollstaendig, nicht
 pruefe('ohne Patch bei Sammler-Datei → Stub, ok', bau([datei('data/sammler.json', undefined)]).zustand === 'ok')
 pruefe('leere Liste → unvollstaendig', bau([]).zustand === 'unvollstaendig')
 pruefe('Umbenennung ohne Änderung → ok', bau([datei('a.md', undefined, { status: 'renamed', previous_filename: 'b.md', additions: 0, deletions: 0 })]).zustand === 'ok')
+
+// Git-Rückfall (11.10.2026): fehlt der API-Patch bei einer nicht stubbaren Datei, kommt der Diff aus Git-Objekten.
+const hand = datei('data/dub-confirmed.yaml', undefined, { additions: 1230, deletions: 0 })
+const gitDiff = 'diff --git a/data/dub-confirmed.yaml b/data/dub-confirmed.yaml\n--- a/data/dub-confirmed.yaml\n+++ b/data/dub-confirmed.yaml\n@@ -1 +1,2 @@\n+neu'
+const mitGit = baueDiff([hand], quellen, () => gitDiff)
+pruefe('ohne Patch, Git liefert → ok, Git-Diff im Text, nicht gestubbt', mitGit.zustand === 'ok' && mitGit.diff.includes('+neu') && mitGit.gestubbt.length === 0)
+pruefe('ohne Patch, Git leer (null) → unvollstaendig (fail closed)', baueDiff([hand], quellen, () => null).zustand === 'unvollstaendig')
+pruefe('Git wird bei vorhandenem Patch nicht gefragt', baueDiff([datei('pipeline/lib/a.ts', '+x')], quellen, () => { throw new Error('nicht fragen') }).zustand === 'ok')
+pruefe('Positivliste ohne Patch bleibt Stub, Git nicht gefragt', baueDiff([datei('data/sammler.json', undefined)], quellen, () => { throw new Error('nicht fragen') }).gestubbt.length === 1)
+pruefe('Pfad mit Steuerzeichen: Git nie gefragt, unvollstaendig', baueDiff([datei('data/a\nb.yaml', undefined)], quellen, () => { throw new Error('nicht fragen') }).zustand === 'unvollstaendig')
+
+const SHA_A = 'a'.repeat(40)
+const SHA_B = 'b'.repeat(40)
+const aufrufe = []
+const falsch = (befehl, args, opt) => (aufrufe.push({ befehl, args, opt }), { status: 0, stdout: 'diff --git a/x b/x\n+y\n' })
+const runner = gitDiffRunner(SHA_A, SHA_B, falsch)
+pruefe('Runner liefert stdout ohne letzten Umbruch', runner({ filename: 'data/dub-confirmed.yaml' }) === 'diff --git a/x b/x\n+y')
+const args = aufrufe[0].args
+pruefe('Runner: git, Pfad als eigenes Argument nach "--", keine Shell', aufrufe[0].befehl === 'git' && args.at(-2) === '--' && args.at(-1) === 'data/dub-confirmed.yaml' && !aufrufe[0].opt.shell)
+pruefe('Runner: Basis und Kopf davor, kein ext-diff/textconv', args.includes(SHA_A) && args.indexOf(SHA_B) === args.indexOf(SHA_A) + 1 && args.includes('--no-ext-diff') && args.includes('--no-textconv'))
+runner({ filename: 'neu.md', previous_filename: 'alt.md' })
+pruefe('Runner: Umbenennung übergibt beide Pfade', aufrufe[1].args.slice(-2).join(',') === 'alt.md,neu.md')
+runner({ filename: '--exec=x' })
+pruefe('Runner: Pfad mit Bindestrich bleibt hinter "--"', aufrufe[2].args.at(-2) === '--' && aufrufe[2].args.at(-1) === '--exec=x')
+pruefe('Runner: Exit ≠ 0 → null', gitDiffRunner(SHA_A, SHA_B, () => ({ status: 128, stdout: '' }))({ filename: 'x' }) === null)
+pruefe('Runner: leere Ausgabe → null', gitDiffRunner(SHA_A, SHA_B, () => ({ status: 0, stdout: '\n' }))({ filename: 'x' }) === null)
+pruefe('Runner: Fehler beim Start (kein stdout) → null', gitDiffRunner(SHA_A, SHA_B, () => ({ status: null, error: new Error('x') }))({ filename: 'x' }) === null)
+pruefe('Runner ohne/mit ungültiger SHA → nie ein Aufruf', gitDiffRunner(undefined, SHA_B, () => { throw new Error('x') })({ filename: 'x' }) === null && gitDiffRunner('--evil', SHA_B, () => { throw new Error('x') })({ filename: 'x' }) === null)
 
 if (fehler.length > 0) {
   console.error(`pr-diff-bauen.test: ${fehler.length} Fehler`)
