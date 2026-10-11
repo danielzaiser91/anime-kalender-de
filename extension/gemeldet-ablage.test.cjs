@@ -74,6 +74,8 @@ async function disneyDurchgang(titel, sekundenJeTitel, speicher) {
     k.wartetAufUebernahme = k.AK_DISNEY_NETZ.gemerktesSet()
     vm.runInNewContext(code + '\nthis.b = briefkastenHolen', k)
     await k.b() // Seitenaufbau
+    await k.gemeldeteHolen('https://x/t' + i) // Titelseite: vorab
+    await k.gemeldeteHolen('https://x/t' + i) // Titelseite: vor dem Prüfen
     uhr.t += sekundenJeTitel * 500
     gemeldet.add('https://x/t' + i)
     k.wartetAufUebernahme.add('https://x/t' + i) // nach der Meldung
@@ -115,9 +117,13 @@ async function netflixDurchgang(speicher) {
 
 async function pruefeDurchgaenge() {
   const mit = await disneyDurchgang(40, 25, speicherNeu())
-  pruefe('Disney+: 40 Titel mit Ablage = je Adresse einmal (+ die Wiedervorlage)', mit === 41, mit)
+  pruefe('Disney+: 40 Titel mit Ablage = einmal alle Adressen + Wiedervorlage + 2 je Titelseite', mit === 41 + 80, mit)
   const ohne = await disneyDurchgang(40, 25, undefined)
   pruefe('Disney+: ohne Ablage wäre es quadratisch (Gegenprobe)', ohne > 40 * 40, ohne)
+  const gross = await disneyDurchgang(172, 25, speicherNeu())
+  const grossOhne = await disneyDurchgang(172, 25, undefined)
+  console.log(`  Messung Disney+, 172 Titel, 25 s je Titel: ohne Ablage ${grossOhne} Abrufe, mit Ablage ${gross}`)
+  pruefe('Disney+: 172 Titel, Rundgänge sinken um mehr als 90 %', gross < grossOhne / 10, [gross, grossOhne])
   const nMit = await netflixDurchgang(speicherNeu())
   pruefe('Netflix: 50 Titel mit Ablage = je Adresse einmal', nMit === 50, nMit)
   const nOhne = await netflixDurchgang(undefined)
@@ -157,6 +163,62 @@ async function pruefeEigeneMeldung() {
   pruefe('eigene Meldung: nächste Seite kennt sie ohne Abruf', erledigt.has('https://x/neu') && gefragt === 0, [gefragt, [...erledigt]])
 }
 
+/* Nichtauskunft (500, 429, Netzfehler) ist kein „nichts": nichts wird abgelegt, die nächste Seite fragt wieder. */
+async function pruefeNichtauskunft() {
+  const speicher = speicherNeu()
+  const uhr = uhrNeu()
+  let fragen = 0
+  const kaputt = async () => (fragen++, Promise.reject(new Error('HTTP 429')))
+  const frage = (holen) => seite(speicher, uhr).AK_DISNEY_NETZ.frischGemeldet(['https://x/a'], holen)
+  await frage(kaputt)
+  await frage(kaputt)
+  pruefe('Fehler: nichts abgelegt, jede Seite fragt wieder', fragen === 2 && speicher.getItem('ak-gemeldet:https://x/a') === null, fragen)
+  const erledigt = await frage(async () => new Set(['1:1']))
+  pruefe('danach gilt die Auskunft', erledigt.has('https://x/a'))
+
+  /* Die Holer selbst werfen bei !ok, statt ein leeres Set zu liefern. */
+  const q = lies('disney.js')
+  const von = q.indexOf('async function gemeldeteHolen(')
+  const holen = q.slice(von, q.indexOf('\n  }\n', von) + 5)
+  const k = { WORKER: 'w', encodeURIComponent, Set, Number, fetch: async () => ({ ok: false, status: 500 }) }
+  vm.runInNewContext(holen + '\nthis.g = gemeldeteHolen', k)
+  const still = await k.g('u')
+  const wirft = await k.g('u', null, true).then(() => false, () => true)
+  pruefe('Disney+ gemeldeteHolen: ohne `wirf` leeres Set, mit `wirf` ein Fehler', still.size === 0 && wirft)
+
+  let netflixFragen = 0
+  const fetchKaputt = async () => (netflixFragen++, { ok: false, status: 1101 })
+  const ziele = new Set(['https://www.netflix.com/title/1'])
+  const offene = { 1: { staffeln: [{ offen: true }] } }
+  for (let i = 0; i < 2; i++) {
+    const g = seite(speicher, uhr, { fetch: fetchKaputt, encodeURIComponent })
+    new Function('globalThis', 'fetch', lies('netflix-uebernahme.js'))(g, fetchKaputt)
+    await g.akNetflixUebernahme(ziele, offene, 'w')
+  }
+  pruefe('Netflix: nach HTTP 1101 wird beim nächsten Mal wieder gefragt', netflixFragen === 2, netflixFragen)
+}
+
+/* `seit` (Wiedervorlage) gehört zum abgelegten Ergebnis. */
+async function pruefeSeit() {
+  const speicher = speicherNeu()
+  const uhr = uhrNeu()
+  let fragen = 0
+  const ja = async () => (fragen++, new Set(['1:1']))
+  const nein = async () => (fragen++, new Set())
+  const netz = () => seite(speicher, uhr).AK_DISNEY_NETZ
+  await netz().frischGemeldet(['https://x/a'], ja)
+  const mitSeit = await netz().frischGemeldet(['https://x/a'], ja, { seit: () => '2026-10-12' })
+  pruefe('„gemeldet" ohne seit beantwortet keine Wiedervorlage', fragen === 2 && mitSeit.has('https://x/a'), fragen)
+  const wieder = await netz().frischGemeldet(['https://x/a'], nein, { seit: () => '2026-10-12' })
+  pruefe('„gemeldet" ab seit gilt für dasselbe und ein früheres seit', fragen === 2 && wieder.has('https://x/a'), fragen)
+  await netz().frischGemeldet(['https://x/b'], nein, { seit: () => '2026-10-12' })
+  await netz().frischGemeldet(['https://x/b'], nein, { seit: () => '2026-10-01' })
+  pruefe('„nichts" ab seit gilt nicht für ein früheres seit', fragen === 4, fragen)
+  netz().gemerktesSet().add('https://x/b')
+  const danach = await netz().frischGemeldet(['https://x/b'], nein, { seit: () => '2023-01-01' })
+  pruefe('eigene Meldung überschreibt ein „nichts" und gilt für ein seit vor jetzt', fragen === 4 && danach.has('https://x/b'), [fragen, [...danach]])
+}
+
 /* Dialog: zweimal öffnen innerhalb von zwei Minuten fragt nicht zweimal. */
 function pruefeDialog() {
   const g = {}
@@ -171,6 +233,8 @@ async function main() {
   await pruefeDurchgaenge()
   await pruefeFristen()
   await pruefeEigeneMeldung()
+  await pruefeNichtauskunft()
+  await pruefeSeit()
   pruefeDialog()
   const fehler = faelle.filter((f) => !f).length
   console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen zu `?gemeldet=` halten.')

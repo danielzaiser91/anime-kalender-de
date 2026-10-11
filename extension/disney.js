@@ -440,14 +440,16 @@
     }
     /* Wiedervorlagen einzeln (nur `?gemeldet=` nennt das Datum jeder Meldung), aber gemerkt wie die offenen Adressen. */
     const seitVon = new Map(Object.values(liste).filter((e) => e.seit && e.url).map((e) => [e.url, e.seit]))
-    erneutBeantwortet = await globalThis.AK_DISNEY_NETZ.frischGemeldet([...seitVon.keys()], (u) =>
-      gemeldeteHolen(u, seitVon.get(u)),
+    erneutBeantwortet = await globalThis.AK_DISNEY_NETZ.frischGemeldet(
+      [...seitVon.keys()],
+      (u) => gemeldeteHolen(u, seitVon.get(u), true),
+      { seit: (u) => seitVon.get(u) },
     )
     /* Autoritativ je offener Adresse nachfragen (gebündelt, gemerkt); ohne Auskunft bleibt der Zustand. */
     const offene = offeneEintraege().filter((e) => !e.seit && !istErledigt(e)).map((e) => e.url)
     wartetAufUebernahme = await globalThis.AK_DISNEY_NETZ.frischGemeldet(
       [...new Set([...offene, ...wartetAufUebernahme])],
-      (u) => gemeldeteHolen(u),
+      (u) => gemeldeteHolen(u, null, true),
     )
   }
 
@@ -623,13 +625,11 @@
   // --- Was schon gemeldet ist ----------------------------------------------
 
   /** `seit`: nur Meldungen ab diesem Zeitpunkt zählen — Maßstab ist der Prüfstand (`pruefstand-zeit.js`). */
-  async function gemeldeteHolen(url, seit = null) {
+  async function gemeldeteHolen(url, seit = null, wirf = false) {
     if (typeof globalThis.akGemeldetSeit === 'function') seit = await globalThis.akGemeldetSeit(seit)
     try {
-      const antwort = await fetch(`${WORKER}?gemeldet=${encodeURIComponent(url)}`, {
-        cache: 'no-store',
-      })
-      if (!antwort.ok) return new Set()
+      const antwort = await fetch(`${WORKER}?gemeldet=${encodeURIComponent(url)}`, { cache: 'no-store' })
+      if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
       const daten = await antwort.json()
       /* Die Ferne antwortet mit Nummern und Staffeln; der Schlüssel braucht beides. */
       const paare = daten.paare ?? null
@@ -642,8 +642,9 @@
       }
       if (paare) return new Set(paare.map((p) => folgenSchluessel(p.staffel, p.nummer)))
       return new Set((daten.nummern ?? []).map((n) => folgenSchluessel(daten.staffel ?? 1, Number(n))))
-    } catch {
-      /* Ohne Auskunft lieber einmal zu viel prüfen als eine Lücke lassen. */
+    } catch (fehler) {
+      /* Ohne Auskunft lieber einmal zu viel prüfen als eine Lücke lassen; `wirf`: der Ablage keine Nichtauskunft als „nichts“ unterschieben. */
+      if (wirf) throw fehler
       return new Set()
     }
   }

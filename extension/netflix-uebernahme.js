@@ -26,12 +26,12 @@ globalThis.akNetflixUebernahme = async (zieleUrls, offene, worker, netz = global
     const holen = async (url) => {
       const seit = seitVon(offene[idAus(url)])
       const antwort = await fetch(`${worker}?gemeldet=${encodeURIComponent(url)}`, { cache: 'no-store' })
-      if (!antwort.ok) return new Set()
+      if (!antwort.ok) throw new Error(`HTTP ${antwort.status}`)
       const paare = (await antwort.json()).paare ?? []
       return new Set(paare.filter((p) => String(p.am ?? '') >= seit).map((p) => `${p.staffel}|${p.nummer}`))
     }
     const urls = [...zieleUrls].filter((url) => offene[idAus(url)] !== undefined)
-    const erledigt = await netz.frischGemeldet(urls, holen, { frist: 30 * 60 * 1000 })
+    const erledigt = await netz.frischGemeldet(urls, holen, { frist: 30 * 60 * 1000, seit: (u) => seitVon(offene[idAus(u)]) })
     globalThis.akNetflixWartet = new Set([...erledigt].map(idAus))
   } catch {
     /* Ohne Auskunft bleibt es bei der Rechnung des Stands: lieber einmal zu viel prüfen. */
