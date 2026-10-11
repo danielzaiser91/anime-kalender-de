@@ -75,7 +75,7 @@ export function Chip({
       aria-label={title}
       aria-pressed={active || excluded}
       className={[
-        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition',
+        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition',
         CLICKABLE,
         excluded
           ? // Rot und durchgestrichen: Ein bloß andersfarbiger Chip würde sich

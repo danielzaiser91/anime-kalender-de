@@ -89,7 +89,7 @@ export function SchnellChips({
               aria-pressed={z === 'ja' ? true : z === 'nein' ? 'mixed' : false}
               aria-label={`${k.text}: ${aktion}`}
               onClick={() => schnellAnwenden(filters, k.id, ziel, tvAn, onChange, setTvAn)}
-              className={`inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full border px-3 text-[13px] font-semibold whitespace-nowrap transition ${TIPPFLAECHE_HOCH} ${STIL[z ?? 'aus']}`}
+              className={`inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-full border px-3 text-[13px] font-bold whitespace-nowrap transition ${TIPPFLAECHE_HOCH} ${STIL[z ?? 'aus']}`}
             >
               <span aria-hidden="true" className="text-xs">{z === 'ja' ? '✓' : z === 'nein' ? '⊘' : k.zeichen}</span>
               {k.text}
