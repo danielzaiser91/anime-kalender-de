@@ -2763,8 +2763,8 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
   ein Nein entfernt den Verweis: „Fullmetal Alchemist" verlor dadurch seinen
   letzten Weg, obwohl derselbe Eintrag sagte, dass die Angabe kein Beleg ist.
 
-  Ein Ja bleibt erlaubt — „es gibt dort deutsche Folgen" stimmt auch bei zu
-  hoher Zahl. Geprüft wird nur die eine Richtung, die Daten löscht.
+  Das Ja aus einem Kanal lässt der Lader seit dem 11.10.2026 weg (lib/kanal-titel.ts, D-25) —
+  hier wird nur die Richtung geprüft, die Daten löscht.
 */
 {
   const yaml = readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')

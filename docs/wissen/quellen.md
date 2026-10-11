@@ -439,6 +439,18 @@ endlos wieder vor (Golden Kamuy). Fehler der Erweiterung sollen stattdessen auff
 Seite, Folgenzahl weicht grob ab) nach `data/meldungs-auffaelligkeiten.json` und macht den
 Bau gelb. Der Rest dieses Abschnitts beschreibt, warum das Nein weiter zwei Quellen braucht.
 
+**Zurückgenommen am 11.10.2026 für das Ja.** Daniel an Hell Mode: „Auf Deutsch, Prime Video ✓ Deutsch“ ist
+falsch, bei ADN gibt es den Titel nur mit Untertiteln. Der Handbeleg vom 30.08. trug `dub: true` **und**
+die eigene Warnung „Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg“ — der Widerspruch stand in
+790 Belegen (832 mit Warnung). Seitdem gilt: Ein Kanal-Titel belegt keine Synchro, weder Ja noch Nein.
+`loadDubChecks()` lässt `dub` und `dubRanges` solcher Zeilen weg (`lib/kanal-titel.ts`, außer mit
+`zweiteQuelle`); die Zeile bleibt als Adressbeleg stehen, die Pille zeigt „🇩🇪 ?“. Dasselbe gilt für das
+Urteil aus Stufe 3 (`bau/urteil-schliesst-luecken.ts`), das aus derselben Amazon-Angabe ein Ja machte.
+Die Datei bleibt unverändert (die Erweiterung hängt weiter an), die Invariante D-25 hält jeden anderen
+Weg zu. Ein Titel behält „Auf Deutsch“, wenn eine zweite Quelle es trägt (aniSearch, Crunchyroll, ADN,
+Netflix, eine Erstausgabe mit Synchro, eine andere Prime-Ausgabe). Liste der betroffenen Titel:
+`daniel-zum-abarbeiten/listen/kanal-titel-belege.md`.
+
 **Und der Beleg nimmt die Seite, auf der gemeldet wurde.** Eine Meldung trägt zwei Adressen:
 `url` ist der Eintrag der Prüfliste (bei einem Staffelwechsel die Seite von Staffel 1),
 `seiten_kennung` die Seite, die wirklich angesehen wurde — **für neue Meldungen**. Im
