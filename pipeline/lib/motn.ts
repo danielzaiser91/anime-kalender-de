@@ -616,6 +616,20 @@ function findeShowZurReihe(
 }
 
 /**
+ * Die Reihe ohne Einzelfolgen, die keinen Weg tragen (Vorspann, Werbefilm, Sonderfolge).
+ *
+ * Die Reihen-Verbindung (aniSearch-Beziehungen, 11.10.2026) hängt solche Einzelfolgen an ein Franchise.
+ * Sie stehen dann vorn und werden Vertreter (falscher Name und falsches Jahr: „Onmyoji" 2023 hinter einem
+ * Werbefilm von 2019) oder sprengen die Folgenrechnung („Gokushufudou" 5 + 5 + 1 + 5 gegen 15). Das ist
+ * nur der zweite Versuch: Die volle Reihe wird zuerst gerechnet, und Name, Jahr und Folgenzahl müssen
+ * danach genauso aufgehen. Bleibt von der Reihe nichts übrig, bleibt sie, wie sie ist.
+ */
+function ohneBeifang(staffeln: Title[]): Title[] {
+  const rest = staffeln.filter((t) => (t.episodes ?? 0) > 1 || t.streams.length > 0)
+  return rest.length ? rest : staffeln
+}
+
+/**
  * Zuordnung über den ganzen Bestand — ohne einen einzigen Abruf.
  *
  * `reihenVon` liefert je Titel die Staffeln seines Franchise in
@@ -653,7 +667,8 @@ export function ordneShowsZu(
   for (const title of titles) {
     if (erledigt.has(title.id)) continue
     const reihe = reihenVon(title)
-    const fund = findeShowZurReihe(reihe.length ? reihe : [title], such)
+    const staffeln = reihe.length ? reihe : [title]
+    const fund = findeShowZurReihe(staffeln, such) ?? findeShowZurReihe(ohneBeifang(staffeln), such)
     if (!fund) continue
     const { bestand, bereiche } = fund
 
