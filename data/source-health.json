@@ -10,8 +10,8 @@
     "lastCount": 102
   },
   "crunchyroll": {
-    "lastOk": "2026-10-11T11:23:31.625Z",
-    "lastRun": "2026-10-11T11:23:31.625Z",
+    "lastOk": "2026-10-11T13:02:14.876Z",
+    "lastRun": "2026-10-11T13:02:14.876Z",
     "lastCount": 14
   },
   "anisearch": {
@@ -145,8 +145,8 @@
     "lastCount": 26
   },
   "tv-programm": {
-    "lastOk": "2026-10-11T11:23:44.894Z",
-    "lastRun": "2026-10-11T11:23:44.894Z",
+    "lastOk": "2026-10-11T13:02:29.489Z",
+    "lastRun": "2026-10-11T13:02:29.489Z",
     "lastCount": 269
   },
   "tv-de": {
@@ -180,8 +180,8 @@
     "lastCount": 2
   },
   "crunchyroll-woche": {
-    "lastOk": "2026-10-11T11:23:37.479Z",
-    "lastRun": "2026-10-11T11:23:37.479Z",
+    "lastOk": "2026-10-11T13:02:20.978Z",
+    "lastRun": "2026-10-11T13:02:20.978Z",
     "lastCount": 65
   },
   "adn-news": {
@@ -190,10 +190,9 @@
     "lastCount": 75
   },
   "messbelege": {
-    "lastOk": "2026-10-10T16:02:36.543Z",
-    "lastRun": "2026-10-11T11:23:42.398Z",
-    "lastCount": 0,
-    "lastError": "page.evaluate: ReferenceError: __name is not defined\n    at eval (eval at evaluate (:311:30), <anonymous>:1:29)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+    "lastOk": "2026-10-11T13:02:28.346Z",
+    "lastRun": "2026-10-11T13:02:28.346Z",
+    "lastCount": 1
   },
   "beleg-lesungen": {
     "lastOk": "2026-10-08T04:09:22.553Z",
