@@ -1,0 +1,36 @@
+/** Tests für tools/pr-diff-bauen.mjs: Stub nur für große Datendateien aus der Liste, alles andere vollständig. */
+import { baueDiff, stubbar, GRENZE_STUB } from './pr-diff-bauen.mjs'
+
+const fehler = []
+const pruefe = (name, ok) => {
+  if (ok) return console.log(`  ✓ ${name}`)
+  fehler.push(name)
+  console.error(`  ✗ ${name}`)
+}
+const groß = '+' + 'x'.repeat(GRENZE_STUB + 10)
+const datei = (filename, patch, extra = {}) => ({ filename, status: 'modified', additions: 3, deletions: 1, patch, ...extra })
+
+const gross = baueDiff([datei('data/cartoon-folgen.json', groß), datei('pipeline/lib/x.ts', '@@ -1 +1 @@\n-a\n+b')])
+pruefe('große JSON → Stub, Code vollständig, ok', gross.zustand === 'ok' && gross.gestubbt.length === 1 && gross.diff.includes('+b') && !gross.diff.includes('xxxxx'))
+pruefe('Stub-Text nennt Pfad, Byte und Zeilen', gross.diff.includes(`Datendatei data/cartoon-folgen.json: ${GRENZE_STUB + 11} Byte Diff, +3/−1 Zeilen — nicht gelesen; Inhalt prüfen die CI-Checks (check:quellen, check:logic).`))
+pruefe('kleine JSON bleibt vollständig', !baueDiff([datei('data/a.json', '+klein')]).gestubbt.length)
+pruefe('Handbeleg nie gestubbt', baueDiff([datei('data/dub-confirmed.yaml', groß)]).gestubbt.length === 0)
+pruefe('data/curated nie gestubbt', baueDiff([datei('data/curated/x.yaml', groß)]).gestubbt.length === 0)
+pruefe('public/data gestubbt', baueDiff([datei('public/data/titles.json', groß)]).gestubbt.length === 1)
+for (const pfad of ['data/skript.ts', 'data/x.mjs', 'data/x.yml', 'data/x.json.ts', 'data/x.md', 'tools/x.json', 'public/data/x.js', '.github/workflows/x.yaml', 'data/../tools/x.json', 'data/x.json\n.ts']) {
+  pruefe(`Pfad ${JSON.stringify(pfad)} nie stubbar`, !stubbar(pfad))
+}
+const code = baueDiff([datei('pipeline/lib/gross.ts', groß)])
+pruefe('großer Code-Diff nie gestubbt (und unter 400000 Byte ok)', code.gestubbt.length === 0 && code.zustand === 'ok')
+const ueber = baueDiff([datei('pipeline/lib/a.ts', 'x'.repeat(250000)), datei('pipeline/lib/b.ts', 'y'.repeat(250000))])
+pruefe('Rest über 400000 Byte → unvollstaendig, gekürzt', ueber.zustand === 'unvollstaendig' && Buffer.byteLength(ueber.diff) <= 400000)
+pruefe('ohne Patch bei Code → unvollstaendig', baueDiff([datei('pipeline/lib/a.ts', undefined)]).zustand === 'unvollstaendig')
+pruefe('ohne Patch bei Datendatei → Stub, ok', baueDiff([datei('data/a.json', undefined)]).zustand === 'ok')
+pruefe('leere Liste → unvollstaendig', baueDiff([]).zustand === 'unvollstaendig')
+pruefe('Umbenennung ohne Änderung → ok', baueDiff([datei('a.md', undefined, { status: 'renamed', previous_filename: 'b.md', additions: 0, deletions: 0 })]).zustand === 'ok')
+
+if (fehler.length > 0) {
+  console.error(`pr-diff-bauen.test: ${fehler.length} Fehler`)
+  process.exit(1)
+}
+console.log('pr-diff-bauen.test: grün')

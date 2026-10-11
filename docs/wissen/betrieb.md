@@ -1209,6 +1209,7 @@ Jetzt: `pr-pruefung.yml` (Job `PR-Prüfkette` = `check:vor-commit` mit Chromium;
 (`pull_request_target`, läuft in der Fassung von `main`, kein Checkout des PR-Zweigs; Claude schreibt Protokoll und `urteil.json`, `GITHUB_TOKEN` kommentiert und gibt frei, nur
 wenn die SHA im Urteil dem Head entspricht). Beide überspringen `daten/`-Zweige, Fremd-Forks und Entwürfe. Die Laufzeit von `check:vor-commit` in der CI ist noch nicht gemessen.
 Ruleset, GitHub-App, Secrets und Auto-Merge sind Daniels Handgriffe (Spezifikation, Abschnitt 4); bis das Ruleset steht, erzwingen die Workflows nichts.
+Diff-Aufbau (11.10.2026): `tools/pr-diff-bauen.mjs` baut den Prüfer-Diff je Datei aus der API-Dateiliste (`gh pr diff` bricht über 20000 Zeilen ab, ein 400000-Byte-Limit auf dem Gesamttext ließ den Code hinter einer großen JSON verschwinden). Datendateien (`data/**/*.json|jsonl|yaml`, `public/data/**` gleicher Endungen) über 50000 Byte Diff werden zur Stub-Zeile; `data/dub-confirmed.yaml`, `data/curated/**`, Code, Workflows und Doku nie. Der Prüfer prüft bei Stubs, ob die Datei in der Beschreibung und in `tools/quellen-liste.sh` steht.
 
 ## Worker: ein Meldungsstapel wirft nie (10.10.2026)
 
