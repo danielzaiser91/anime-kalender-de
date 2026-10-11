@@ -9,7 +9,8 @@
 import { readJson } from './lib/util.ts'
 import { ordneBlockZu, folgenZuTitel, unsereFolgen, type CartoonFolge, type UnsereFolge } from './lib/episodentitel-block.ts'
 import { blockUrteile, folgenlisteVon, nummerUeberBlock, probelisten, type BlockEingang } from './lib/titel-bloecke.ts'
-import type { AnbieterStaffel } from './lib/folgenbereiche.ts'
+import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
+import { ordneMeldungZu, ordneNachStaffelliste, type AnbieterStaffel } from './lib/folgenbereiche.ts'
 
 let fehler = 0
 const pruefe = (name: string, ok: boolean, gefunden?: unknown) => {
@@ -25,7 +26,7 @@ const block = (liste: UnsereFolge[], von: number, bis: number) =>
   liste.filter((f) => f.nr >= von && f.nr <= bis).map((f, i) => ({ pos: i + 1, titel: variante(f.de) }))
 
 /** Meldungen eines Anbieter-Blocks, wie die Erweiterung sie schickt: Staffel, Nummer im Block, Titel in der Notiz. */
-function meldungen(liste: UnsereFolge[], seq: number, erste: number, von: number, bis: number, nurRand = false): BlockEingang[] {
+function meldungen(liste: UnsereFolge[], seq: number, erste: number, von: number, bis: number, nurRand = false): Array<BlockEingang & { plattform: string }> {
   return liste
     .filter((f) => f.nr >= von && f.nr <= bis && (!nurRand || f.nr === von || f.nr === bis))
     .map((f) => ({
@@ -33,6 +34,7 @@ function meldungen(liste: UnsereFolge[], seq: number, erste: number, von: number
       folge_nr: f.nr - von + erste,
       notiz: `Folge ${f.nr - von + erste}: ${variante(f.de)} — Netflix: Staffel ${seq}`,
       befund: 'dub',
+      plattform: 'netflix',
     }))
 }
 
@@ -61,6 +63,43 @@ function pruefeBloecke(name: string, liste: UnsereFolge[] | null, groessen: numb
     pruefe(`Block ${st.seq}: letzte Folge ist unsere Nr. ${davor + st.folgen}`, nr === davor + st.folgen, nr)
     davor += st.folgen
   }
+  const unser = [{ id: 1, titel: name, folgen: summe }]
+  const z = ordneNachStaffelliste(a, unser)
+  pruefe(
+    'ohne Titel: Versatz je Block aus den Summen davor',
+    z.paare.map((p) => p.versatz ?? 0).join() === groessen.map((_, i) => groessen.slice(0, i).reduce((n, x) => n + x, 0)).join(),
+    z.paare.map((p) => p.versatz),
+  )
+  const letzter = a[a.length - 1]!
+  const ohne = ordneMeldungZu({ folge: letzter.erste, staffel: letzter.seq }, unser, a)
+  pruefe('ohne Titel: erste Folge des letzten Blocks liegt hinter den früheren', ohne?.folgeInStaffel === summe - letzter.folgen + 1, ohne)
+}
+
+/** Die Verteilung der Meldungen auf unseren einen Titel, wie `fetch-pruefungen.ts` sie benutzt. */
+function pruefeVerteilung(): void {
+  console.log('\nAvatar: Meldungen von Netflix auf unsere 61 Folgen verteilen')
+  const liste = folgenlisteVon(-246)
+  if (!liste) return pruefe('Folgenliste liegt vor', false)
+  const a = anbieter([20, 20, 21], false)
+  const unser = [{ id: -246, titel: 'Avatar', folgen: 61 }]
+  const buecher = (nurRand: boolean) => [
+    ...meldungen(liste, 1, 1, 1, 20, nurRand),
+    ...meldungen(liste, 2, 1, 21, 40, nurRand),
+    ...meldungen(liste, 3, 1, 41, 61, nurRand),
+  ]
+  const folgenVon = (v: ReturnType<typeof verteileMeldungen>) => (v.jeStaffel.get(-246) ?? []).map((x) => x.folge).sort((x, y) => x - y)
+  const voll = verteileMeldungen(buecher(false), a, unser)
+  const alle = Array.from({ length: 61 }, (_, i) => i + 1).join()
+  pruefe('alle 61 Folgen kommen an ihre Stelle, jede über den Titel', folgenVon(voll).join() === alle && voll.ueberFolgentitel === 61, voll.ueberFolgentitel)
+  const rand = verteileMeldungen(buecher(true), a, unser)
+  pruefe('nur E1 + E20 je Buch: Folgen 1, 20, 21, 40, 41, 61', folgenVon(rand).join() === '1,20,21,40,41,61', folgenVon(rand))
+  const ohneTitel = buecher(true).map((m) => ({ ...m, notiz: 'Netflix' }))
+  const nurZahl = verteileMeldungen(ohneTitel, a, unser)
+  pruefe('ohne Titel entscheidet die Zahl mit Versatz: Buch 2 Folge 1 ist unsere 21', folgenVon(nurZahl).join() === '1,20,21,40,41,61' && nurZahl.ueberFolgentitel === 0, folgenVon(nurZahl))
+  const gegen = verteileMeldungen(meldungen(liste, 2, 1, 41, 60), a, unser)
+  pruefe('Titel gewinnt gegen die gemeldete Staffel: Buch-3-Titel unter „Buch 2" landen bei 41–60', folgenVon(gegen).join() === Array.from({ length: 20 }, (_, i) => i + 41).join(), folgenVon(gegen))
+  const streit = verteileMeldungen([...meldungen(liste, 2, 1, 21, 30), ...meldungen(liste, 2, 11, 41, 50)], a, unser)
+  pruefe('Titel aus zwei Blöcken in einer Staffel: nichts zugeordnet, Grund für die Prüfliste', folgenVon(streit).length === 0 && streit.zuPruefen.length === 1, streit.zuPruefen)
 }
 
 console.log('Zuordnung über Episodentitel')
@@ -103,6 +142,7 @@ pruefeBloecke('Avatar – Der Herr der Elemente (-246): Netflix Buch 1–3 = 20/
 pruefeBloecke('Niko (-72898): Prime 13 + 10', folgenlisteVon(-72898), [13, 10], false)
 pruefeBloecke('Great Pretender (110349): Netflix 14 + 9, je Teil ab 1', folgenlisteVon(110349), [14, 9], false)
 pruefeBloecke('Carole & Tuesday (101281): Netflix 12 + 12, durchgezählt', folgenlisteVon(101281), [12, 12], true)
+pruefeVerteilung()
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlles grün.')
 process.exit(fehler ? 1 : 0)
