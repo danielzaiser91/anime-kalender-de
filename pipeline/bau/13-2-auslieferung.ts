@@ -2,10 +2,10 @@ import { anisearchUmgezogenInBestand } from './anisearch-titel.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import { schreibeKern } from './cartoon-kern.ts'
 import { kinoFeld, mitAnkuendigung, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
+import { uebernommeneVerweise } from './verweise-gedaechtnis.ts'
 import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
-import { adressKern } from '../lib/dub-confirmed.ts'
 import { anisearchKanonisch, anisearchSeite } from '../lib/anisearch-seite.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
@@ -185,16 +185,8 @@ export function baueAuslieferung({
   */
   if (verweiseEntfernt.length) {
     const grenze = addDays(todayIso(), -NEIN_GILT_TAGE)
-    const schluessel = (e: { titleId?: number; plattform?: string; url?: string }) =>
-      `${e.titleId}|${e.plattform}|${adressKern(e.url)}`
-    const schonDa = new Set(verweiseEntfernt.map(schluessel))
-    const imBestand = new Set<string>()
-    for (const t of allTitles) for (const st of t.streams ?? []) imBestand.add(adressKern(st.url))
-    const uebernommen = (
-      readJson<{ verweise?: EntfernterVerweis[] }>('data/verweise-entfernt.json', {}).verweise ?? []
-    ).filter(
-      (e) => (e.entferntAm ?? '') >= grenze && !schonDa.has(schluessel(e)) && !imBestand.has(adressKern(e.url)),
-    )
+    const alt = readJson<{ verweise?: EntfernterVerweis[] }>('data/verweise-entfernt.json', {})
+    const uebernommen = uebernommeneVerweise(alt.verweise ?? [], verweiseEntfernt, allTitles, grenze)
     if (uebernommen.length) log(`${uebernommen.length} gesperrte Verweise aus dem Gedächtnis übernommen`)
     writeJson(
       'data/verweise-entfernt.json',

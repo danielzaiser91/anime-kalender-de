@@ -139,6 +139,9 @@ export const ADN_CALENDAR_URL = 'https://gw.api.animationdigitalnetwork.com/vide
 /** Wie lange ein belegtes Nein eine Ergänzung aus aniSearch sperrt. */
 export const NEIN_GILT_TAGE = 28
 
+/** Gründe, die nur dem Titel gelten, nicht der Adresse (Geschwister mit gleicher Adresse bleiben unberührt). */
+export const NUR_DIESER_TITEL = /^der Anbieter führt |^die Adresse zeigt auf die Reihe|^belegtes Nein/
+
 export interface EntfernterVerweis {
   titleId: number
   titel: string
