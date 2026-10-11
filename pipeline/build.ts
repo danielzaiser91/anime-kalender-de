@@ -18,7 +18,6 @@ import { pruefeSynchroJePlattform } from './bau/09-synchro.ts'
 import { rolleTermineAus } from './bau/10-termine.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { baueMeta } from './bau/12-meta.ts'
-import { setzeCoverNachRegel } from './bau/cover-regel.ts'
 import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
 import { entferneGesperrte } from './bau/sperre.ts'
@@ -83,7 +82,6 @@ function main(): void {
 
   // Alles, was Verweise ändert, muss vor `baueMeta` stehen — dort beginnt die Auslieferung.
   schliesseWegeAb({ ...synchro, titles, anisearch, releases, tmdbMehrdeutig, toteAdressen, verweiseEntfernt })
-  setzeCoverNachRegel(titles)
 
   const { allTitles, meta, platforms, genres, keywords } = baueMeta({
     titles,

@@ -11,6 +11,7 @@ import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 import { entferneFremdeNachStaffeln, kennungAusAdresse } from './cr-serie-geteilt.ts'
 import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
+import { setzeCoverNachRegel } from './cover-regel.ts'
 import { log } from '../lib/util.ts'
 
 export function schliesseWegeAb({
@@ -74,4 +75,7 @@ export function schliesseWegeAb({
 
   fuehreAusgabenZusammen({ alleChecks, titles, tmdbMehrdeutig, anisearch, lautPruefungTot, checksJePlattform })
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
+
+  // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
+  setzeCoverNachRegel(titles)
 }
