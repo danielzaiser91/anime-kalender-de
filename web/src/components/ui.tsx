@@ -6,6 +6,7 @@ import { useLang, type TranslationKey } from '../lib/i18n.tsx'
 import { plakettenStil } from '../lib/kontrast.ts'
 import { TIPPFLAECHE, TREFFER_24, TREFFER_24_MIN } from './detail/tippziel.ts'
 import { PILLE_JA, PILLE_NEIN } from './filter/pille-zustand.ts'
+import { fokusZeigtBlase, useEinzigeBlase } from './tooltip-einzeln.ts'
 
 /** Gemeinsamer Fokus- und Zeigerstil aller anklickbaren Elemente. */
 const CLICKABLE = 'cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400'
@@ -656,7 +657,7 @@ export function Tooltip({
       className={`relative inline-flex items-center ${className}`}
       onMouseEnter={() => !tipp.nachAntippen() && setOffen(true)}
       onMouseLeave={() => setOffen(false)}
-      onFocus={() => !tipp.nachAntippen() && setOffen(true)}
+      onFocus={(e) => !tipp.nachAntippen() && fokusZeigtBlase(e.target) && setOffen(true)}
       onBlur={() => setOffen(false)}
       /* Auf dem Handy gibt es kein Überfahren: Antippen zeigt die Blase drei Sekunden (19.09.2026). */
       onTouchStart={() => {
@@ -723,6 +724,7 @@ export function Tooltip({
  * sich, sobald irgendwo außerhalb getippt oder geklickt wird.
  */
 function useTippVerhalten(anker: RefObject<HTMLSpanElement | null>, offen: boolean, schliessen: () => void, kindBedienbar: boolean) {
+  useEinzigeBlase(offen, schliessen)
   const perTouch = useRef(false)
   useEffect(() => {
     if (!offen) return
