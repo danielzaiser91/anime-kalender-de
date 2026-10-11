@@ -50,6 +50,8 @@ function zielVon(url, wert, staffeln) {
     url,
     titel: wert?.titel ?? null,
     ...(wert?.hinweis ? { hinweis: wert.hinweis } : {}),
+    /* Wiedervorlage: erst eine Meldung nach `seit` erledigt sie — der Worker rechnet damit wie die Erweiterung. */
+    ...(wert?.seit ? { seit: wert.seit } : {}),
     ...(staffeln.length ? { staffeln } : {}),
   }
 }
