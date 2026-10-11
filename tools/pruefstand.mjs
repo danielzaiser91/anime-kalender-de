@@ -167,7 +167,7 @@ const ANBIETER = [
 ]
 
 const stand = ANBIETER.map((a) => {
-  const liste = sortiereListe(Object.entries(listeLesen(a.datei, a.global)), titel)
+  const liste = sortiereListe(Object.entries(listeLesen(a.datei, a.global)), titel, a.plattform)
   const offen = liste.reduce((n, [, wert]) => n + a.offene(wert), 0)
 
   /*

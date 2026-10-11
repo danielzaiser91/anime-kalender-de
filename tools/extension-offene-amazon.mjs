@@ -262,7 +262,7 @@ function listenName(t) {
 const JAHRESZEIT = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
 let schonGeprueft = 0
 const offen = {}
-for (const [asin, eintraege] of nachRang(jeAsin)) {
+for (const [asin, eintraege] of nachRang(jeAsin, 'primevideo')) {
   /*
     **Ein Verdachtsfall ist beantwortet und trotzdem offen.**
 

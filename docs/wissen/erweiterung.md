@@ -2232,3 +2232,22 @@ Shin-chan, Cyberpunk: Edgerunners 2, Fool Night) kommen als Verdachtsquelle `fol
   stimmt (`ordneNachStaffelliste`), eine unpassende Meldung bleibt unzugeordnet statt falsch belegt zu werden.
 - **Zuordner:** `titelId` negativ verwirft der Worker (`zahlOrNull`); der Zuordner findet den Cartoon dann über die Adresse. Kein Worker-Deploy nötig.
 - Bugfix nebenbei: `geprueftePrime` las `- anilistId: -…` (Cartoon-Handbelege) nicht und warf deren Adressen mit dem Vorgänger zusammen.
+
+## Stichprobe 50 + 50: Stimmt JustWatch bei Cartoons? (11.10.2026, Schalter bleibt aus)
+
+Für Anime gilt „Deutsch laut JustWatch“ (Prime, 99,4 % bei n = 468); für Cartoons fehlt die Messung, weil nur 4 von 901 einen Beleg tragen. Daniel prüft zwei
+Gruppen von Cartoon-Wegen (Titel × Anbieter) mit der Erweiterung, ohne vorher zu sehen, was JustWatch sagt:
+
+- **`jw-deutsch` (50):** JustWatch nennt für den Anbieter ein Flatrate-Angebot mit `de` unter `audio` — Disney+ 25, Prime 25 (Netflix fehlt: JustWatch nennt dort nie einen Ton).
+- **`jw-ohne-deutsch` (50):** kein Deutsch laut JustWatch (Ton ohne Deutsch, Ton leer oder kein Angebot) — Stand der Ziehung Netflix 31 (Ton leer: Schweigen, kein Nein),
+  Disney+ 10, Prime 9; mehr Wege dieser Art gibt es bei Disney+ und Prime nicht, der Rest füllt mit Netflix auf.
+- **Auswahl:** `tools/cartoon-jw-stichprobe.mjs`, Seed `cartoon-jw-stichprobe-2026-10-11`, je Weg `sha256(Seed|Kennung|Anbieter)`, die niedrigsten Schlüssel je Gruppe und
+  Anbieter (Quoten im Kopf der Datei); ausgeschlossen sind Wege mit Urteil, ohne Adresse oder ohne listenfähige Adresse, eine Adresse zählt einmal. Das Ergebnis liegt
+  eingefroren in `data/cartoon-jw-stichprobe.json` (Titel, Anbieter, Adresse, JustWatch-Aussage je Weg) — neu schreiben nur bewusst: `node tools/cartoon-jw-stichprobe.mjs --schreiben`.
+- **Auf der Liste:** Quelle `cartoon-jw-stichprobe` (Stufe `ungeprueft`) und Rang vor allem anderen — nur mit `erweitert`; ohne ihn sind die Listen unverändert
+  (Listen vor und nach dem Umbau gebaut, `extension/offene-*.js` ohne Diff). Die JustWatch-Aussage steht bewusst nicht im Listeneintrag. **Netflix:** die Liste ist ein Objekt mit
+  Zahlenschlüsseln, deren Reihenfolge JavaScript selbst festlegt — der Rang wirkt dort nicht; die Erweiterung müsste nach `quelle` sortieren (offen).
+- **Auswertung:** `node tools/cartoon-jw-auswerten.mjs --meldungen=<datei.json>` (oder `--holen` mit `LAUF_TOKEN`) rechnet je Anbieter und Gruppe n, richtig, Quote und
+  Wilson-Untergrenze; Schwelle der Anime-Regel: ≥ 98 % bei n ≥ 50 und Untergrenze ≥ 95 % je Anbieter. Mit 25 Wegen je Anbieter in `jw-deutsch` ist n ≥ 50 nur für Disney+ und Prime
+  zusammen erreichbar (0 Fehler bei n = 50: Untergrenze 92,9 %, für 95 % braucht es etwa 73 Wege ohne Fehler).
+- **Meldungen zu Cartoons** ordnet der Zuordner erst zu, wenn `erweitert` an ist (`pipeline/lib/pruef-titel.ts`); die Auswertung gleicht zusätzlich über die Adresskennung ab.

@@ -10,13 +10,27 @@
  * Gesteuert über `data/pruefliste-regeln.json`: `erweitert` schaltet Cartoons, Folgenzahl-Lücken und
  * Rangordnung zu (Vorgabe: aus, bis Daniel freigibt); `vertrauen`/`ausblenden` blenden später Wege aus,
  * deren Angabe aus einer als vertrauenswürdig geprüften Quelle stammt. `PRUEFLISTE_ERWEITERT=1` schaltet
- * für eine Messung zu, ohne die Datei zu ändern.
+ * für eine Messung zu, ohne die Datei zu ändern. Wege der Cartoon-Stichprobe (`cartoon-jw-stichprobe.mjs`) tragen die
+ * Quelle `cartoon-jw-stichprobe` und stehen bei `erweitert` vor allen anderen.
  */
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const zwischen = new Map()
+
+/** Die Wege der JustWatch-Stichprobe für Cartoons (`tools/cartoon-jw-stichprobe.mjs`) als Schlüssel `Kennung|Anbieter`. */
+function ladeStichprobe(wurzel) {
+  try {
+    const datei = JSON.parse(readFileSync(resolve(wurzel, 'data/cartoon-jw-stichprobe.json'), 'utf8'))
+    return new Set(datei.eintraege.map((e) => `${e.id}|${e.plattform}`))
+  } catch {
+    return new Set()
+  }
+}
+
+/** Gehört dieser Cartoon-Weg zur Stichprobe? Nur bei `erweitert` (sonst ist die Menge leer). */
+export const inStichprobe = (t, plattform, r = regeln()) => Boolean(t.cartoon && r.stichprobe?.has(`${t.id}|${plattform}`))
 
 /** Die Regeln; fehlt die Datei, gilt die Liste wie bisher. */
 export function regeln(wurzel = WURZEL) {
@@ -27,10 +41,12 @@ export function regeln(wurzel = WURZEL) {
   } catch {
     /* Ohne Regeldatei bleibt alles beim Alten. */
   }
+  const erweitert = process.env.PRUEFLISTE_ERWEITERT === '1' || datei.erweitert === true
   const ergebnis = {
-    erweitert: process.env.PRUEFLISTE_ERWEITERT === '1' || datei.erweitert === true,
+    erweitert,
     vertrauen: datei.vertrauen ?? {},
     ausblenden: datei.ausblenden ?? [],
+    stichprobe: erweitert ? ladeStichprobe(wurzel) : new Set(),
   }
   zwischen.set(wurzel, ergebnis)
   return ergebnis
@@ -70,7 +86,7 @@ function quelleVon(t, plattform, weg) {
  * (Daniel, 11.10.2026: „Avatar S?“ — unsere Staffel ≠ Staffeln des Anbieters).
  */
 function angabe(t, plattform, weg, r) {
-  const quelle = quelleVon(t, plattform, weg)
+  const quelle = inStichprobe(t, plattform, r) ? 'cartoon-jw-stichprobe' : quelleVon(t, plattform, weg)
   return { quelle, vertrauen: quelle === 'keine' ? 'ungeprueft' : (r.vertrauen[quelle] ?? 'ungeprueft') }
 }
 
@@ -95,8 +111,10 @@ export const ausgeblendet = (t, plattform, weg = {}, r = regeln()) => r.erweiter
 /**
  * Der Rang eines Titels: Hauptbestand vor Cartoons, darin laufende und aktuelle zuerst, dann neuere vor älteren.
  * Ohne bekanntes Ende gilt ein Hauptbestandstitel als laufend, ein Cartoon als aktuell ab dem Vorjahr.
+ * `vorn` (Weg der JustWatch-Stichprobe) steht vor allem anderen, damit Daniel die 100 zuerst abarbeitet.
  */
-export function rangVon(t, heute = new Date().toISOString().slice(0, 10)) {
+export function rangVon(t, heute = new Date().toISOString().slice(0, 10), vorn = false) {
+  if (vorn) return [-1, 0, -(t.jpYear ?? 0)]
   const jahr = Number(heute.slice(0, 4))
   const aktuell = t.jpEnd ? t.jpEnd >= heute : t.cartoon ? (t.jpYear ?? 0) >= jahr - 1 : true
   return [t.cartoon ? 1 : 0, aktuell ? 0 : 1, -(t.jpYear ?? 0)]
@@ -105,21 +123,22 @@ export function rangVon(t, heute = new Date().toISOString().slice(0, 10)) {
 const vergleicheRang = (a, b) => a[0] - b[0] || a[1] - b[1] || a[2] - b[2]
 
 /** Die Einträge einer Karte `Adresse → [{ t, … }]` in Rang-Reihenfolge (nur erweitert); gleicher Rang behält die Reihenfolge. */
-export function nachRang(karte) {
+export function nachRang(karte, plattform) {
   if (!regeln().erweitert) return [...karte]
-  const bester = (eintraege) => eintraege.map((e) => rangVon(e.t)).sort(vergleicheRang)[0]
+  const rang = (e) => rangVon(e.t, undefined, inStichprobe(e.t, plattform))
+  const bester = (eintraege) => eintraege.map(rang).sort(vergleicheRang)[0]
   return [...karte].sort((a, b) => vergleicheRang(bester(a[1]), bester(b[1])))
 }
 
 /** Die Einträge einer fertigen Liste (`[Schlüssel, Eintrag]`) in Rang-Reihenfolge; Netflix-Schlüssel sind Zahlen und behalten sonst ihre Zahlenfolge. */
-export function sortiereListe(liste, titel) {
+export function sortiereListe(liste, titel, plattform) {
   if (!regeln().erweitert) return liste
   const nachId = new Map(titel.map((t) => [t.id, t]))
   const rang = ([, wert]) =>
     (wert.staffeln ?? wert.eintraege ?? [])
       .map((x) => nachId.get(x.id))
       .filter(Boolean)
-      .map((t) => rangVon(t))
+      .map((t) => rangVon(t, undefined, inStichprobe(t, plattform)))
       .sort(vergleicheRang)[0] ?? [2, 0, 0]
   return [...liste].sort((a, b) => vergleicheRang(rang(a), rang(b)))
 }
