@@ -5,10 +5,12 @@
 /* Die Texte des Sprecher-Filters reisen mit: `i18n.tsx` ist über der Dateigrenze und wächst nicht mehr. */
 import { TEXTE_SPRECHER } from './i18n-sprecher.ts'
 import { TEXTE_HERKUNFT } from './i18n-herkunft.ts'
+import { TEXTE_JUSTWATCH } from './i18n-justwatch.ts'
 
 export const TEXTE_KALENDER = {
   ...TEXTE_SPRECHER,
   ...TEXTE_HERKUNFT,
+  ...TEXTE_JUSTWATCH,
   // Original noch nicht erschienen (Reihenliste, Datenbankkarte).
   'geplant.marke': 'Geplant',
   'geplant.hinweis': 'Das Original ist noch nicht erschienen',

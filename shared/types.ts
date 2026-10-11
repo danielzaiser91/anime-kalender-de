@@ -151,6 +151,13 @@ export interface StreamLink {
   seite?: string
   /** true — deutsche Synchro dort belegt; false — dort ausdrücklich nur Originalton mit Untertiteln; fehlt — nicht geprüft */
   dub?: boolean
+  /**
+   * Wenn `dub` fehlt, aber die Vertrauensregel greift: Deutsch laut JustWatch (`pipeline/lib/jw-vertrauen.ts`,
+   * 99,4 % richtig bei Prime-Filmen und einzeln geführten Serien, Messung 11.10.2026). Kein Beleg — `dub` bleibt offen.
+   */
+  dubQuelle?: 'justwatch'
+  /** Datum des JustWatch-Befunds hinter `dubQuelle` (JJJJ-MM-TT). */
+  dubStand?: string
   /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026). */
   herkunft?: 'tmdb'
   /**
@@ -589,32 +596,7 @@ export interface Quelle {
   grund?: string
 }
 
-/**
- * Eine Meldung, aus der sich **kein** genauer Termin herauslesen ließ.
- *
- * Der Anlass ist eine Messung, keine Vermutung (14.08.2026): Von 29 aktuellen
- * Anime2You-Meldungen enthielt **keine einzige** ein Datum auf den Tag genau,
- * 27 nannten nur einen Monat. Für die halbe Anbieterlandschaft — Netflix,
- * Disney+, Prime Video, WOW, Joyn, RTL+, Kino, Disc — ist Anime2You aber die
- * einzige Quelle.
- *
- * Solche Funde verschwinden bisher in `data/proposals/` und warten auf einen
- * Menschen. Stattdessen werden sie jetzt gezeigt: „Diese Quelle sagt etwas über
- * einen Termin, wir konnten ihn nicht sicher auslesen — hier steht es." Das ist
- * ehrlicher als Schweigen und nützlicher als ein leerer Kalender.
- */
-export interface Meldung {
-  titleId: number
-  quelle: Quelle
-  /** Überschrift der Meldung. */
-  titel: string
-  /** Der Textausschnitt mit der Terminangabe — zum Selbstnachlesen. */
-  zitat?: string
-  /** „2026-09", wenn nur ein Monat genannt wurde. */
-  monat?: string
-  /** Erscheinungstag der Meldung. */
-  datum: string
-}
+export type { Meldung } from './meldung-typ.ts'
 
 /** Eine konkrete deutsche Veröffentlichung — das, was im Kalender steht. */
 export interface Release {

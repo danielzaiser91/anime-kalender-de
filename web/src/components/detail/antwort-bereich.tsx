@@ -197,7 +197,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                     }
                     rechts={
                       <>
-                        <DubEcke dub={s.dub} />
+                        <DubEcke dub={s.dub} justwatchStand={s.dubQuelle === 'justwatch' ? s.dubStand : undefined} />
                         <MerkenKnopf
                           release={releaseJePlattform.get(s.platform)}
                           today={today}
