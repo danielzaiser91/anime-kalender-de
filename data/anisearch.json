@@ -784084,6 +784084,28 @@
     },
     "fetchedAt": "2026-10-09T09:40:17.317Z"
   },
+  "176084": {
+    "anisearchId": 16752,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Pporongpporong Ppororo 7",
+          "titleNative": "뽀롱뽀롱 뽀로로 7",
+          "status": "Abgeschlossen",
+          "released": "23.11.2020 - 16.02.2021"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "season": "Herbst 2020",
+      "synonyms": [
+        "뽀롱뽀롱 뽀로로 시즌 7"
+      ]
+    },
+    "fetchedAt": "2026-10-11T06:01:59.088Z"
+  },
   "176158": {
     "anisearchId": 19127,
     "descriptionDe": "Früher war Tama ein Mensch und noch dazu ein strahlender Ritter, der tapfer gegen die Mächte des Bösen gekämpft hat. Doch eines Tages wurde er von einem listigen Assassinen hinterrücks mit einem Dolch aufgespießt und starb einen tragischen Tod. Nur ist das nicht das Ende der Geschichte, denn Reinkarnation ist in seiner Welt nicht unmöglich. Zu seinem Erschrecken muss er allerdings feststellen, dass er leider nicht als Held der Menschen wiedergeboren wurde – sondern als furchterregender S-Rank Behemoth, der als Jungtier eher wie eine liebreizende Katze aussieht.\n\nNachdem die überaus hübsche und attraktive Elfendame Aria auf die verwahrloste Katze trifft und sie vor dem sicheren Tod bewahrt, schließt sie das kleine Wesen sofort in ihr Herz. So beschließt sie, dass es schön wäre ein Haustier zu haben – selbst wenn dieses ein wenig Magie beherrscht. Doch egal, ob der Rest der Welt ihn als weich und knuddelig ansieht, schlummert in ihm dennoch die Ehre eines edlen Kriegers und die Stärke eines unaufhaltsamen Monsters der Stufe S! Daher liegt es nun also an ihm, seine leichtsinnige D-Rang-Abenteurerin mit seinen Kräften zu beschützen und nebenbei nicht als Behemoth identifiziert und von den Menschen getötet zu werden. \n\nQuelle: www.anisearch.de/anime/19127",
@@ -839708,6 +839730,33 @@
     },
     "fetchedAt": "2026-10-09T10:35:57.512Z"
   },
+  "195885": {
+    "anisearchId": 21617,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Shixiong A Shixiong Nian Fan 2",
+          "titleNative": "Shi Xiong A Shi Xiong Nian Fan 2",
+          "status": "Laufend",
+          "released": "05.06.2025 - ?"
+        }
+      ],
+      "format": "Web",
+      "episodes": 78,
+      "season": "Sommer 2025",
+      "studios": [
+        "Hangzhou Xuanji Keji Xinxijishu Youxiangongsi"
+      ],
+      "adaptedFrom": "Web Novel",
+      "synonyms": [
+        "Big Brother 4",
+        "My Senior Brother Is Too Steady 4th Season"
+      ]
+    },
+    "fetchedAt": "2026-10-11T06:02:05.832Z"
+  },
   "195886": {
     "anisearchId": 21073,
     "streams": [],
@@ -869563,6 +869612,60 @@
     },
     "fetchedAt": "2026-10-10T18:24:43.634Z"
   },
+  "214949": {
+    "anisearchId": 14036,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Sinbi Apartment: Geumbit Dokkaebiwa Bimirui Donggul",
+          "titleNative": "신비아파트: 금빛 도깨비와 비밀의 동굴",
+          "status": "Abgeschlossen",
+          "released": "25.07.2018"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 68,
+      "season": "Sommer 2018",
+      "synonyms": [
+        "Mystery Apartment: The Secret of the Cave",
+        "The Haunted House: The Secret of the Cave"
+      ]
+    },
+    "fetchedAt": "2026-10-11T06:02:12.586Z"
+  },
+  "214968": {
+    "anisearchId": 21900,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Nezumi-kun no Chokki Dai 2 Ki",
+          "titleNative": "ねずみくんのチョッキ 第2期",
+          "status": "Laufend",
+          "released": "03.10.2026 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "websites": [
+        {
+          "name": "Poplar",
+          "url": "https://www.poplar.co.jp/pr/anime-nezumikun/"
+        }
+      ],
+      "broadcast": "Samstag 09:30 (JST)"
+    },
+    "fetchedAt": "2026-10-11T06:02:19.326Z"
+  },
   "214969": {
     "anisearchId": 21892,
     "streams": [],
@@ -870554,6 +870657,47 @@
     },
     "fetchedAt": "2026-10-10T18:26:54.319Z"
   },
+  "216860": {
+    "anisearchId": 21786,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "PuniRunes: Puni 4",
+          "titleNative": "ぷにるんず ぷに４",
+          "status": "Laufend",
+          "released": "04.10.2026 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "studios": [
+        "OLM Digital, Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/punirunes"
+        },
+        {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/punirunes_official/"
+        },
+        {
+          "name": "Tiktok",
+          "url": "https://www.tiktok.com/@punirunes_official"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-11T06:02:26.077Z"
+  },
   "216895": {
     "anisearchId": 21981,
     "streams": [],
@@ -870724,6 +870868,137 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:27:14.949Z"
+  },
+  "217011": {
+    "anisearchId": 21977,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Neko to Ryuu Dai 2 Ki",
+          "titleNative": "Neko to Ryū Dai 2 Ki",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        },
+        {
+          "language": "Englisch",
+          "title": "The Cat and the Dragon: Season 2",
+          "status": "Zukünftig",
+          "released": "2027 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "The Cat and the Dragon: Staffel 2",
+          "status": "Zukünftig",
+          "released": "2027 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "The Cat and the Dragon: Temporada 2",
+          "status": "Zukünftig",
+          "released": "2027 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "The Cat and the Dragon: Saison 2",
+          "status": "Zukünftig",
+          "released": "2027 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "The Cat and the Dragon: Stagione 2",
+          "status": "Zukünftig",
+          "released": "2027 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "staff": [
+        {
+          "name": "Amara",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/NekoRyuu_PR"
+        },
+        {
+          "name": "Nekoryuu Pr",
+          "url": "https://nekoryuu-pr.com/"
+        }
+      ],
+      "synonyms": [
+        "Die Katze und der Drache Staffel 2"
+      ]
+    },
+    "fetchedAt": "2026-10-11T06:02:32.813Z"
+  },
+  "217013": {
+    "anisearchId": 21973,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yomi no Tsugai: Dai 2 Ki",
+          "titleNative": "黄泉のツガイ 第2期",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/tsugai_official"
+        },
+        {
+          "name": "Tiktok",
+          "url": "https://www.tiktok.com/@tsugai_official"
+        },
+        {
+          "name": "Yominotsugai",
+          "url": "https://yominotsugai.com/"
+        }
+      ],
+      "synonyms": [
+        "Daemons of the Shadow Realm: Season 2",
+        "Das Band der Unterwelt: Staffel 2",
+        "Espíritus del inframundo: Temporada 2",
+        "Tsugai : Daemons of the Shadow Realm - Saison 2",
+        "Daemons of the Shadow Realm: Stagione 2"
+      ]
+    },
+    "fetchedAt": "2026-10-11T06:02:39.560Z"
   },
   "217026": {
     "anisearchId": 21567,
@@ -871004,6 +871279,55 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:27:35.883Z"
+  },
+  "217232": {
+    "anisearchId": 21983,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Katainaka no Ossan, Kensei ni Naru III",
+          "titleNative": "片田舎のおっさん、剣聖になるIII",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "staff": [
+        {
+          "name": "Shigeru SAGAZAKI"
+        },
+        {
+          "name": "Tetsuhiro NABESHIMA",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/ossan_kensei"
+        },
+        {
+          "name": "Ossan Kensei",
+          "url": "https://ossan-kensei.com/"
+        }
+      ],
+      "synonyms": [
+        "From Old Country Bumpkin to Master Swordsman III",
+        "Vom Landei zum Schwertheiligen III",
+        "De campesino cuarentón a espadachín legendario III",
+        "De vieux plouc à maître de l’épée III",
+        "Da campagnolo stagionato a gran maestro di spada III"
+      ]
+    },
+    "fetchedAt": "2026-10-11T06:02:46.300Z"
   },
   "217235": {
     "anisearchId": 8652,
@@ -871328,6 +871652,38 @@
     },
     "fetchedAt": "2026-10-10T18:28:37.739Z"
   },
+  "217427": {
+    "anisearchId": 21989,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Gekijouban Mairimashita! Iruma-kun",
+          "titleNative": "Gekijōban Mairimashita! Iruma-kun",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/nep_irumakun"
+        },
+        {
+          "name": "Nhk Character",
+          "url": "https://www.nhk-character.com/chara/iruma/"
+        }
+      ],
+      "synonyms": [
+        "Welcome to Demon School! Iruma-kun Movie"
+      ]
+    },
+    "fetchedAt": "2026-10-11T06:01:52.337Z"
+  },
   "217434": {
     "anisearchId": 21990,
     "streams": [],
@@ -871520,6 +871876,48 @@
       ]
     },
     "fetchedAt": "2026-10-10T17:22:48.325Z"
+  },
+  "217595": {
+    "anisearchId": 22003,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Thunder 3: Season 2",
+          "titleNative": "サンダー３: SEASON２",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "unend LLC"
+      ],
+      "staff": [
+        {
+          "name": "Hiroya OKU",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/thunder3_pyon"
+        },
+        {
+          "name": "Thunder3 Anime",
+          "url": "https://thunder3-anime.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-11T06:02:53.054Z"
   },
   "217714": {
     "anisearchId": 22018,
@@ -871716,6 +872114,56 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:29:32.708Z"
+  },
+  "218008": {
+    "anisearchId": 22022,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Chibi Godzilla no Gyakushuu (2026)",
+          "titleNative": "Chibi Godzilla no Gyakushū (2026)",
+          "status": "Laufend",
+          "released": "01.04.2026 - ?"
+        },
+        {
+          "language": "Englisch",
+          "title": "Chibi Godzilla Raids Again: Season 4",
+          "status": "Laufend",
+          "released": "26.06.2026 - ?",
+          "publisher": [
+            "TOHO Co., Ltd."
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 24,
+      "episodesEstimated": true,
+      "runtimeMinutes": 3,
+      "season": "Frühling 2026",
+      "studios": [
+        "Pie in the sky, Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/chibigodzi"
+        },
+        {
+          "name": "Chibigodzilla",
+          "url": "https://chibigodzilla.jp/"
+        }
+      ],
+      "synonyms": [
+        "Chibi Godzilla Raids Again (2026)"
+      ]
+    },
+    "fetchedAt": "2026-10-11T06:02:59.790Z"
   },
   "218011": {
     "anisearchId": 21805,

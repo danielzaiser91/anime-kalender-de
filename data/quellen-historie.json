@@ -5183,7 +5183,7 @@
       "url": "https://de.wikipedia.org/wiki/Dragon_Ball/Episodenliste",
       "name": "de.wikipedia.org",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2026-09-24"
     }
   ],
@@ -5829,11 +5829,18 @@
   ],
   "auto-189123-netflix": [
     {
+      "url": "https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-11",
+      "sagt": "2026-10-04",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-06",
       "sagt": "2026-10-04",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ],
   "summer-wars-ultimate-edition": [
@@ -6365,6 +6372,38 @@
       "url": "https://www.anime2you.de/news/1059541/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "avatar-die-sieben-haefen-paramountplus": [
+    {
+      "url": "https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1059483/avatar-kuruk-wave-of-chaos-angekuendigt/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-210482-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-186541-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1057488/crunchyroll-reborn-as-a-space-mercenary-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-11",
+      "sagt": "2026-10-04",
       "stand": "aktuell"
     }
   ]
