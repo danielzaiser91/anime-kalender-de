@@ -252,14 +252,15 @@ export function kinoDatum(jp: string): string {
 }
 
 export function jpAngabe(jpStart: string | undefined, jpYear: number | undefined, land = 'JP'): string | undefined {
-  /* „JP 2025" stand über The Mighty Nein, einer US-Serie — das Land kommt jetzt aus dem Titel. */
+  /* Nur „JP" steht als Vorsatz; jedes andere Land nennt die Zeile „Herkunft" unter „Zum Werk" (keine Angabe doppelt). */
+  const vor = land === 'JP' ? 'JP ' : ''
   if (jpStart) {
     const [jahr, monat, tag] = jpStart.split('-')
-    if (tag) return `${land} ${tag}.${monat}.${jahr}`
-    if (monat) return `${land} ${monat}.${jahr}`
-    return `${land} ${jahr}`
+    if (tag) return `${vor}${tag}.${monat}.${jahr}`
+    if (monat) return `${vor}${monat}.${jahr}`
+    return `${vor}${jahr}`
   }
-  return jpYear ? `${land} ${jpYear}` : undefined
+  return jpYear ? `${vor}${jpYear}` : undefined
 }
 
 /**
