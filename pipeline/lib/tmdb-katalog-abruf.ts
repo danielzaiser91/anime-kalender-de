@@ -1,5 +1,5 @@
 import { sleep, warn } from './util.ts'
-import { hatSicheren, suchNamen, urteilKatalog, type KatalogTitel, type KatalogTreffer, type Zuordnung } from './tmdb-katalog.ts'
+import { suchNamen, urteilKatalog, type KatalogTitel, type KatalogTreffer, type Zuordnung } from './tmdb-katalog.ts'
 
 const API = 'https://api.themoviedb.org/3'
 /** Abstand zwischen zwei Anfragen: höchstens 4 je Sekunde (Vorgabe 11.10.2026: ≤ 5; TMDB selbst nennt rund 40). */
@@ -50,12 +50,11 @@ export async function sucheMulti(apiKey: string, name: string): Promise<KatalogT
   throw new Error(`TMDB 429 ohne Ende bei "${name}"`)
 }
 
-/** Sucht alle Namen eines Titels (bei einem sicheren Treffer hören die weiteren auf) und urteilt über die gesammelten Ergebnisse. */
+/** Sucht alle Namen eines Titels und urteilt über die gesammelten Ergebnisse. */
 export async function ordneZu(apiKey: string, t: KatalogTitel): Promise<Zuordnung> {
   const alle: KatalogTreffer[] = []
   for (const name of suchNamen(t)) {
     alle.push(...(await sucheMulti(apiKey, name)))
-    if (hatSicheren(t, alle)) break
   }
   return urteilKatalog(t, alle)
 }

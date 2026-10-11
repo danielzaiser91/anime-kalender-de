@@ -32,6 +32,9 @@ for (const [id, name, format, jahr] of realfilme) {
   const r = urteilKatalog(titel({ id, format, jahr: Number(jahr), romaji: name, native: name }), [treffer({ art: 'movie', name, original: name, datum: `${jahr}-06-01`, genres: [18], sprache: 'en' })])
   pruefe(`${name} (${jahr}), native gleich Romaji ↔ Realfilm gleichen Namens: nicht sicher`, r.stufe !== 'sicher', r)
 }
+pruefe('Moyashimon CGI Anime (OVA 2010), native もやしもん ↔ Realdrama tv/44315 ohne Animation: nicht sicher', urteilKatalog(titel({ format: 'OVA', jahr: 2010, romaji: 'Moyashimon CGI Anime', native: 'もやしもん' }), [treffer({ art: 'tv', id: 44315, name: 'もやしもん', original: 'もやしもん', datum: '2010-10-01', genres: [35, 18], sprache: 'ja' })]).stufe !== 'sicher')
+pruefe('the persona (Film 2023), native 繭 ↔ taiwanisches Realdrama „Shelter“ ohne Animation: nicht sicher', urteilKatalog(titel({ format: 'MOVIE', jahr: 2023, en: 'the persona', romaji: 'Mayu', native: '繭' }), [treffer({ art: 'movie', id: 1128903, name: 'Shelter', original: '繭', datum: '2023-05-01', genres: [18], sprache: 'zh' })]).stufe !== 'sicher')
+pruefe('native in nicht-lateinischer Schrift mit Animation bleibt sicher', urteilKatalog(titel({ native: 'もやしもん' }), [treffer({ original: 'もやしもん', genres: [16], sprache: 'ja' })]).stufe === 'sicher')
 pruefe('lateinisches native mit Animation und Sprache ja bleibt sicher', urteilKatalog(titel({ format: 'MOVIE', romaji: 'Her', native: 'Her' }), [treffer({ art: 'movie', name: 'Her', original: 'Her', genres: [16], sprache: 'ja' })]).stufe === 'sicher')
 
 console.log('\nTMDB-Katalog: unsicher und kein')

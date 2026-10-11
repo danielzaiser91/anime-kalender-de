@@ -50,9 +50,6 @@ export function suchNamen(t: KatalogTitel): string[] {
   return [...new Set(reihe.filter((n): n is string => Boolean(n)))]
 }
 
-/** Findet die Suche schon einen sicheren Treffer, sind weitere Namen überflüssig. */
-export const hatSicheren = (t: KatalogTitel, ergebnisse: KatalogTreffer[]): boolean => urteilKatalog(t, ergebnisse).stufe === 'sicher'
-
 type Pruefung = { treffer: KatalogTreffer; nativeGleich: boolean; fest: boolean; grund: string }
 
 function pruefeTreffer(t: KatalogTitel, r: KatalogTreffer, latein: Set<string>, native: string): Pruefung | undefined {
@@ -63,7 +60,7 @@ function pruefeTreffer(t: KatalogTitel, r: KatalogTreffer, latein: Set<string>, 
   const abstand = jahr && t.jahr ? Math.abs(jahr - t.jahr) : null
   const animation = (r.genres ?? []).includes(ANIMATION)
   const asiatisch = ASIEN.has(r.sprache ?? '')
-  const fest = abstand !== null && abstand <= 1 && artOk(t.format, r.art) && (nativeGleich || (animation && asiatisch))
+  const fest = abstand !== null && abstand <= 1 && artOk(t.format, r.art) && animation && (nativeGleich || asiatisch)
   if (fest) return { treffer: r, nativeGleich, fest, grund: nativeGleich ? 'Originalname gleich, Jahr ±1, Art passt' : 'Name gleich, Animation, Originalsprache asiatisch, Jahr ±1, Art passt' }
   const grund = !r.datum ? 'TMDB ohne Datum' : abstand === null ? 'unser Jahr fehlt' : abstand > 1 ? `Jahr weicht ab (TMDB ${jahr}, bei uns ${t.jahr})` : !artOk(t.format, r.art) ? `Art passt nicht (TMDB ${r.art}, bei uns ${t.format})` : 'Name gleich, aber kein Animationswerk aus Asien'
   return { treffer: r, nativeGleich, fest, grund }
@@ -71,7 +68,7 @@ function pruefeTreffer(t: KatalogTitel, r: KatalogTreffer, latein: Set<string>, 
 
 /**
  * Die Regel aus der Probe vom 11.10.2026 (100 Titel, an Hand geeicht): **sicher** heißt Jahr ±1 (beide Seiten bekannt), Art passt und entweder
- * der Originalname (nicht-lateinische Schrift) gleich oder ein lateinischer Name (auch ein lateinisch geschriebener „Originalname“) gleich mit Genre Animation und Originalsprache ja/zh/ko, dazu genau ein solches Werk.
+ * Genre Animation und entweder der Originalname (nicht-lateinische Schrift) gleich oder ein lateinischer Name (auch ein lateinisch geschriebener „Originalname“) gleich mit Originalsprache ja/zh/ko, dazu genau ein solches Werk.
  * Name gleich, aber etwas davon nicht belegt (oder mehrere Werke) ist **unsicher**; kein Werk gleichen Namens ist **kein**.
  */
 export function urteilKatalog(t: KatalogTitel, ergebnisse: KatalogTreffer[]): Zuordnung {
