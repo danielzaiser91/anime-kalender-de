@@ -10911,7 +10911,7 @@ async function speicherSchreiben(werte) {
   /** Titel mit eigener Titelseite, die dieser Lauf noch nicht hatte — in der Reihenfolge des Dialogs. */
   function primeNaechsterTitel(lauf) {
     return Object.keys(liste)
-      .filter((a) => !fertig(a) && /\/detail\//.test(String(liste[a]?.url ?? '')) && !lauf.fertig.includes(a))
+      .filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a]) && !lauf.fertig.includes(a))
       .sort((a, b) => String(liste[a].titel).localeCompare(String(liste[b].titel), 'de'))[0]
   }
 
@@ -10928,11 +10928,11 @@ async function speicherSchreiben(werte) {
       fertig: [],
       uebersprungen: [],
       spur: [],
-      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && /\/detail\//.test(String(liste[a]?.url ?? ''))).length,
+      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a])).length,
       seiten: 0,
     }
     /* Steht die Seite auf einem offenen Titel der Liste, fängt der Lauf mit ihm an. */
-    const hier = liste[listenId] && !fertig(listenId) && /\/detail\//.test(String(liste[listenId]?.url ?? '')) ? listenId : null
+    const hier = liste[listenId] && !fertig(listenId) && akPrimeHatTitelseite(liste[listenId]) ? listenId : null
     if (!hier && !primeNaechsterTitel(lauf)) return false
     try {
       sessionStorage.removeItem(PRIME_LAUF_ENDE)
@@ -10977,7 +10977,7 @@ async function speicherSchreiben(werte) {
 
   function primeTitelBeginnen(lauf, schluessel) {
     lauf.titel = schluessel
-    lauf.plan = [kennungAus(liste[schluessel].url)].filter(Boolean)
+    lauf.plan = [akPrimeStartKennung(liste[schluessel].url, kennungAus)].filter(Boolean)
     lauf.planBekannt = false
     lauf.staffelNr = {}
     primeSpur(lauf, 'titel', { schluessel, titel: liste[schluessel]?.titel ?? null })
@@ -10986,7 +10986,7 @@ async function speicherSchreiben(werte) {
   function primeFrameOeffnen(lauf, kennung) {
     const el = document.createElement('iframe')
     el.name = PRIME_FRAME_NAME
-    el.src = `https://www.amazon.de/gp/video/detail/${kennung}`
+    el.src = akPrimeFrameAdresse(kennung, gtiSprungMerken)
     /* Kein Vorschauvideo mit Ton aus einem Frame, den niemand sieht. */
     el.allow = "autoplay 'none'"
     el.tabIndex = -1
