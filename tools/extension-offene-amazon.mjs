@@ -37,7 +37,7 @@ import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
-import { ausgeblendet, eintragsInfo, ladeBestand, ladeCartoons, nachRang } from './pruef-bestand.mjs'
+import { ausgeblendet, eintragsInfo, ladeBestand, ladeCartoons, nachRang, regeln } from './pruef-bestand.mjs'
 import { nachschlagVon } from './prime-nachschlag.mjs'
 /**
  * **Ein Verdachtsfall ist geprüft und trotzdem offen.**
@@ -72,8 +72,10 @@ const geprueftePrime = (() => {
   const kennungen = new Set()
   let id = null
   let istPrime = false
+  /* Negative Kennungen (Cartoons) zählen nur mit dem Schalter; ohne ihn bleibt die Liste, wie sie war. */
+  const kennungMuster = regeln(wurzel).erweitert ? /^- anilistId: (-?\d+)/ : /^- anilistId: (\d+)/
   for (const zeile of belege.split('\n')) {
-    const neu = /^- anilistId: (-?\d+)/.exec(zeile)
+    const neu = kennungMuster.exec(zeile)
     if (neu) {
       id = Number(neu[1])
       istPrime = false
