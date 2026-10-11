@@ -1,14 +1,17 @@
 import { useState } from 'react'
 import { DetailPanel } from '../../src/components/DetailPanel.tsx'
-import type { Dataset } from '../../src/lib/data.ts'
-import { ErsatzKontext, type Ersatz } from '../ersatz.tsx'
+import { ErsatzKontext } from '../ersatz.tsx'
+import { useDatensatz } from './datensatz.ts'
+import type { AusschnittEigenschaften } from './typ.ts'
 
 const LEER = new Set<number>()
 const nichts = () => {}
 
 /** Ausschnitt `detailpanel`: das echte Panel mit den Daten des Falls; Wechsel auf einen Teil der Reihe geht wie in der Seite. */
-export function Detailpanel({ data, titleId, ersatz }: { data: Dataset; titleId: number; ersatz: Partial<Ersatz> }) {
-  const [offen, setOffen] = useState(titleId)
+export function Detailpanel({ fall, ersatz }: AusschnittEigenschaften) {
+  const data = useDatensatz()
+  const [offen, setOffen] = useState(fall.titleId)
+  if (!data) return null
   return (
     <ErsatzKontext.Provider value={ersatz}>
       <DetailPanel

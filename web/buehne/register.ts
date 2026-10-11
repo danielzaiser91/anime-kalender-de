@@ -1,3 +1,4 @@
+import type { AusschnittName } from './ausschnitte/index.ts'
 import type { Ersatz } from './ersatz.tsx'
 
 export interface Variante {
@@ -9,7 +10,7 @@ export interface Variante {
 export interface MockupDef {
   name: string
   titel: string
-  ausschnitt: 'detailpanel'
+  ausschnitt: AusschnittName
   faelle: string[]
   varianten: Record<string, Variante>
 }
