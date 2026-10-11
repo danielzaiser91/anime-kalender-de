@@ -23,13 +23,18 @@ import { type Env } from './env.ts'
 import { verarbeiteStapel } from './pruefung-stapel.ts'
 import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
 
-export async function speicherePruefung({ request, antwort, token, env, ctx }: Kontext) {
+export async function speicherePruefung(kontext: Kontext) {
   let daten: Record<string, unknown>
   try {
-    daten = (await request.json()) as Record<string, unknown>
+    daten = (await kontext.request.json()) as Record<string, unknown>
   } catch {
-    return antwort({ error: 'Kein gültiges JSON' }, 400)
+    return kontext.antwort({ error: 'Kein gültiges JSON' }, 400)
   }
+  return await speichereDaten(kontext, daten)
+}
+
+/** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */
+export async function speichereDaten({ request, antwort, token, env, ctx }: Kontext, daten: Record<string, unknown>) {
 
   /*
     **Ein Stapel: mehrere Meldungen in einer Anfrage**.
@@ -356,7 +361,7 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: K
   return antwort({ ok: true, befund })
 }
 
-type Kontext = {
+export type Kontext = {
   request: Request<unknown, CfProperties<unknown>>
   antwort: (body: unknown, status?: number) => Response
   token: string
@@ -369,17 +374,7 @@ async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, s
     if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) {
       return { ok: false, status: 400, grund: 'Meldung ist kein Objekt oder ein verschachtelter Stapel' }
     }
-    const r = await speicherePruefung({
-      request: new Request(request.url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-        body: JSON.stringify(einzeln),
-      }),
-      antwort,
-      token,
-      env,
-      ctx: undefined,
-    })
+    const r = await speichereDaten({ request, antwort, token, env, ctx: undefined }, einzeln as Record<string, unknown>)
     const inhalt = (await r.json().catch(() => ({}))) as { befund?: string; error?: string }
     return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status, grund: inhalt.error ?? 'ohne Grund' }
   })
