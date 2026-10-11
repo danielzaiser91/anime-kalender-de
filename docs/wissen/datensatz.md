@@ -820,3 +820,7 @@ Anlass: „Avatar – Die sieben Häfen" (Cartoon -284833, Paramount+) hatte die
 - **Eigene Serien einer Reihe:** `data/cartoon-eigene-serien.yaml` (ids, grund, https-Quelle) setzt `FranchiseMember.eigenesWerk`; `hauptstaffeln()` zählt sie nicht, das Panel zeigt sie unter „Eigene Serien" (Korra und Die sieben Häfen neben „Der Herr der Elemente", Beleg Wikipedia).
 - **Zusicherungen:** `check-cartoon-news.ts` (Cartoon-Meldungen nur Termin-Arten, mit Quelle und Belegen), `check-neuigkeiten-panel.ts` (läuft: Start-Meldung bleibt; beendet, ohne Ende, unbekannter Slug: weg).
 - **Offen:** Netflix-Meldungen zu „Der Herr der Elemente" (Buch 1–3) lassen sich noch nicht zuordnen, Spezifikation: `daniel-zum-abarbeiten/berichte/zuordnung-ueber-episodentitel.md`.
+
+## Handbelege mit Folgenbereich im Wortlaut tragen `dubRanges` (11.10.2026)
+
+`fetch-pruefungen.ts` lässt `dubRanges` weg, wenn ein Bereich die ganze Staffel deckt (`ganz`). Die Folge: Belege wie Cowboy Bebop/Netflix („Folgen 1–26 mit deutschem Ton“) trugen die Zahl nur im Text, und die Pille stand mit „≈“. Am 11.10.2026 sind 286 solcher Belege in `data/dub-confirmed.yaml` nachgetragen (252 Wege wechseln von „≈“ zu belegt, gemessen mit dem Code aus PR 789). Nur bei eindeutigem Wortlaut („Folgen a–b mit deutschem Ton“, „alle N Folgen geprüft“) und wenn die Zahl zur AniList-Folgenzahl passt; ausgelassen sind Kanal-Titel (424), anderer Zuschnitt (193), Filme (43), Zuordnung nur nach Seitentitel (22), laufende Serien (7). Bei „ANGENOMMEN aus Randprobe“ steht `checked` nur mit den gemessenen Folgen.
