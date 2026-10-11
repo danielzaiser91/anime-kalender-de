@@ -2,6 +2,9 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Die Bühne (Mockups) ist kein Teil der Seite: ihre Wörter dürfen keine Klassen in die Seiten-CSS ziehen. Sie holt sich ihre eigenen in `web/buehne/zelle.css`. */
+@source not "../buehne";
+
 @theme {
   --font-sans: 'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Unbounded', 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;

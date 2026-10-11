@@ -48,6 +48,10 @@ function umgebung(r2: unknown) {
   }
   const statement = (sql: string) => ({
     bind: (...werte: unknown[]) => ({
+      all: async () => {
+        zaehle()
+        return { results: [] }
+      },
       run: async () => {
         zaehle()
         if (werte.some((w) => String(w).includes('kaputt'))) throw new Error('D1 defekt https://www.netflix.com/title/1')

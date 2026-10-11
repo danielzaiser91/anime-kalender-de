@@ -17,13 +17,13 @@
       "ketten": 42
     },
     "worker/src": {
-      "funktionen": 1137,
+      "funktionen": 908,
       "dateien": 830,
       "ketten": 3
     },
     "extension": {
       "funktionen": 7323,
-      "dateien": 16457,
+      "dateien": 16456,
       "ketten": 45
     },
     "tools": {
