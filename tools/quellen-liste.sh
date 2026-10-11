@@ -43,6 +43,9 @@ QUELLEN=(
   data/luecken-titel.json
   # Stufe B der AniList-Ablösung (10.10.2026): Bau-Messung AniList gegen aniSearch, Feld für Feld; wird nicht ausgeliefert.
   data/anisearch-abweichungen.json
+  # Abgleich Katalog gegen aniSearch-Titelliste (11.10.2026, `fetch-anisearch-katalog-abgleich.ts`): sichere Bindungen und Prüfliste; der Bau liest sie noch nicht.
+  data/anisearch-ids-katalog.json
+  data/anisearch-katalog-abgleich.json
   # Stufe C (10.10.2026): Bau-Messung der Reihen aus aniSearch-Beziehungen gegen die franchiseId; wird nicht ausgeliefert.
   data/anisearch-reihen-abweichungen.json
   # Stufe C, Übernahme (11.10.2026): Prüfliste der Reihen, die aniSearch verbindet, der Bau aber nicht von selbst zusammenlegt; vom Bau geschrieben.
