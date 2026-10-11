@@ -1116,7 +1116,7 @@ async function speicherSchreiben(werte) {
       try {
         return f()
       } catch (e) {
-        return `FEHLER: ${e?.message ?? e}`
+        return /before initialization/.test(e?.message) ? 'noch nicht angelegt: die Seite wartet auf eine Titel-Kennung' : `FEHLER: ${e?.message ?? e}`
       }
     }
     return {
@@ -6336,6 +6336,10 @@ async function speicherSchreiben(werte) {
    * Meldung geht dann mit der Adresse der Seite raus und ohne unsere Kennung;
    * zuordnen lässt sie sich später über den Titel.
    */
+  /* Startseite: nie eine Kennung, also Hörer und Takt vor dem Warten. Im Frame erst am Ende (`frameSchritt()` braucht `knopf`, `gesehen`). */
+  window.addEventListener('message', primeHoerer)
+  if (!IM_FRAME) setTimeout(primeTakt, 500)
+
   /**
    * Keine Titelseite? Dann wird gewartet, nicht ausgestiegen.
    *
@@ -6727,18 +6731,8 @@ async function speicherSchreiben(werte) {
     /* Ohne Nachrichtenweg (Sandkasten) bleibt es beim ersten Schnappschuss. */
   }
   window.addEventListener('message', (e) => {
-    /*
-      Die Antwort eines Durchgangs-Frames (siehe `primeFrameErgebnis()`). Hier und nicht in einem
-      eigenen Hörer: Die Amazon-Sandkästen der Tests führen genau einen `message`-Hörer, ein zweiter
-      verdrängte den Leser (amazon-kill-blue.test.cjs, 25.09.2026).
-    */
-    if (e?.data?.marke === 'ak-prime-frame') {
-      if (e.origin === location.origin && !IM_FRAME) {
-        const el = [...primeFrames.keys()].find((x) => x.contentWindow === e.source)
-        if (el) primeFrameErgebnis(el, e.data)
-      }
-      return
-    }
+    /* Die Antwort eines Durchgangs-Frames beantwortet `primeHoerer()`, schon vor dem Warten auf eine Kennung. */
+    if (e?.data?.marke === 'ak-prime-frame') return
     /**
      * **Eine späte Antwort des vorigen Titels gehört nicht in diesen Zählstand.**
      *
@@ -11046,6 +11040,12 @@ async function speicherSchreiben(werte) {
     uebersichtZeichnen()
   }
 
+  function primeHoerer(e) {
+    if (e?.data?.marke !== 'ak-prime-frame' || e.origin !== location.origin || IM_FRAME) return
+    const el = [...primeFrames.keys()].find((x) => x.contentWindow === e.source)
+    if (el) primeFrameErgebnis(el, e.data)
+  }
+
   function primeKoordinieren() {
     const lauf = primeLaufLesen()
     if (!lauf) {
@@ -11169,5 +11169,5 @@ async function speicherSchreiben(werte) {
       setTimeout(primeTakt, 500)
     }
   }
-  setTimeout(primeTakt, 500)
+  if (IM_FRAME) setTimeout(primeTakt, 500)
 })()
