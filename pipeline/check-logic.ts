@@ -6836,17 +6836,17 @@ pruefe(
 }
 {
   /* Cover in Anzeigegröße (18.09.2026): Wochenkarte 28 px lud 460-px-Bilder bis 660 KB. */
-  const gross = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1-a.png'
-  const alt = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b2-b.png'
+  const anisearch = 'https://cdn.anisearch.de/images/anime/cover/12/12345_600.webp'
   const tmdb = 'https://image.tmdb.org/t/p/w342/c.jpg'
   pruefe(
-    'eine Wochenkarte lädt AniLists kleinstes Cover, nie ein größeres als gespeichert',
-    coverBild(gross, 28).src?.includes('/cover/small/') === true &&
-      coverBild(alt, 300).src?.includes('/cover/medium/') === true &&
-      !coverBild(alt, 300).srcSet?.includes('/large/') &&
+    'eine Wochenkarte lädt das kleinste Cover, nie ein größeres als gespeichert',
+    coverBild(anisearch, 28).src?.endsWith('/12345_400.webp') === true &&
+      coverBild(anisearch, 300).src?.endsWith('/12345_600.webp') === true &&
+      coverBild(anisearch, 150, undefined, 1.5).src?.endsWith('/12345_400.webp') === true &&
+      coverBild('https://cdn.anisearch.de/images/anime/cover/12/12345_400.webp', 300).srcSet?.includes('600w') === false &&
       coverBild(tmdb, 28).src?.includes('/w92/') === true &&
       !coverBild(tmdb, 400).srcSet?.includes('w500'),
-    JSON.stringify([coverBild(gross, 28), coverBild(alt, 300), coverBild(tmdb, 28)]),
+    JSON.stringify([coverBild(anisearch, 28), coverBild(anisearch, 300), coverBild(tmdb, 28)]),
   )
 }
 {

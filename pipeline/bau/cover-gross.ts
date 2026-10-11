@@ -3,9 +3,9 @@ import type { Title } from '../../shared/types.ts'
 import type { SynopsisEintrag } from './13-1-anreichern.ts'
 
 /**
- * Mindestbreite eines Plakats, das das AniList-Cover in der Vergrößerung ersetzt: **anderthalbmal so breit** wie dessen 460 Pixel
+ * Mindestbreite eines Plakats, das das Cover in der Vergrößerung ersetzt: **anderthalbmal so breit** wie 460 Pixel
  * (Daniel, 07.10.2026: erst „doppelt", dann auf 690 gesenkt, weil 338 Titel nur Plakate von 500 bis 899 px haben und Kitsu höchstens 550 px liefert).
- * Was darunter liegt, bleibt beim AniList-Cover und steht in `data/cover-klein.json` — der Monitor.
+ * Was darunter liegt, bleibt beim Cover (TMDB 500 px oder aniSearch 600 px) und steht in `data/cover-klein.json` — der Monitor.
  */
 export const MIN_BREITE = 690
 
@@ -19,7 +19,7 @@ export const MIN_BREITE = 690
  */
 export function ergaenzeCoverGross(synopses: Record<number, SynopsisEintrag>, titel: Title[]): void {
   const poster = readJson<Record<string, { p: string; w: number; h: number } | null>>('data/tmdb-poster.json', {})
-  const klein: { id: number; name: string; anilist: number; tmdb: number | null; grund: string }[] = []
+  const klein: { id: number; name: string; cover: string; tmdb: number | null; grund: string }[] = []
   let groß = 0
   for (const t of titel) {
     const p = poster[String(t.id)]
@@ -31,7 +31,7 @@ export function ergaenzeCoverGross(synopses: Record<number, SynopsisEintrag>, ti
     klein.push({
       id: t.id,
       name: t.titleEn ?? t.titleRomaji ?? String(t.id),
-      anilist: t.coverImage?.includes('/medium/') ? 230 : 460,
+      cover: !t.coverImage ? 'keins' : t.coverImage.includes('tmdb.org') ? 'TMDB 500 px' : 'aniSearch 600 px',
       tmdb: p?.w ?? null,
       grund: p ? 'TMDB-Plakat zu klein' : t.id in poster ? 'kein Plakat bei TMDB' : 'keine TMDB-Zuordnung',
     })

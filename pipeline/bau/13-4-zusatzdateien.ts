@@ -10,7 +10,6 @@ import {
 } from '../../shared/types.ts'
 import { nachAusstrahlung, unterscheidenderZusatz } from '../../shared/titles.ts'
 import { staffelQuellenAusAnisearch } from './staffel-quelle.ts'
-import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
 import { type SlimTitel } from './13-2-auslieferung.ts'
@@ -273,10 +272,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
       staffelQuelle: staffelQuellen.get(t.id),
       /* Hängt er an einem anderen Teil **dieser** Reihe? Eine fremde Elternkante zählt nicht. */
       beiwerk: (elternVon.get(t.id) ?? []).some((e) => sortiert.some((x) => x.id === e)) || undefined,
-      // Nur der Dateiname; den Vorsatz hängt `loadFranchises` wieder an.
-      cover: t.coverImage?.startsWith(ANILIST_COVER_BASIS)
-        ? t.coverImage.slice(ANILIST_COVER_BASIS.length)
-        : t.coverImage,
+      cover: t.coverImage,
     }))
   }
   writeJson(`${OUT}/franchises.json`, reihen)

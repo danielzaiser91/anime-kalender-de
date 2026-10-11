@@ -42,7 +42,6 @@ export interface Bestand {
   anisearchDubIds: Record<string, string>
   /** Folgenlisten je aniSearch-Kennung (`data/anisearch-folgen.json`). */
   anisearchFolgen: Record<string, { folgen: Array<{ nr: number; datum?: string }> }>
-  anisearchCover: Record<string, { cover: string }>
   tmdbPoster: Record<string, { p: string }>
   justwatch: Record<string, { angebote?: JustwatchAngebot[] }>
   motnTonspur: MotnTonspur[]
@@ -121,7 +120,6 @@ export function ladeBestand(heute = new Date().toISOString().slice(0, 10)): Best
     anisearchDubs: lies('data/anisearch-dubs.json', {}),
     anisearchDubIds: lies('data/anisearch-dub-ids.json', {}),
     anisearchFolgen: lies('data/anisearch-folgen.json', {}),
-    anisearchCover: lies('data/anisearch-cover.json', {}),
     tmdbPoster: lies('data/tmdb-poster.json', {}),
     justwatch: lies('data/justwatch-audio.json', {}),
     motnTonspur: lies('data/motn-tonspur.json', []),

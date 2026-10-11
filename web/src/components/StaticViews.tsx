@@ -889,7 +889,7 @@ export function ImpressumView() {
       <div>
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Urheberrecht</h2>
         <p>
-          Titelbilder, Titel und Beschreibungstexte stammen von AniList und den jeweiligen
+          Titelbilder stammen von TMDB und aniSearch, Titel und Beschreibungstexte von AniList, aniSearch und den jeweiligen
           Rechteinhabern und werden hier lediglich eingebunden. Alle Marken- und Bildrechte liegen bei
           ihren Inhabern. Der Quellcode dieser Seite steht unter der MIT-Lizenz, die selbst gepflegten
           Termindaten unter CC BY 4.0.

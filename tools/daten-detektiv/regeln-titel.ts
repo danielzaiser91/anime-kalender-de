@@ -27,7 +27,7 @@ export function coverFehltTrotzQuelle(b: Bestand): Regel {
   const ohne = b.titles.filter((t) => !t.coverImage)
   const treffer: Treffer[] = []
   for (const t of ohne) {
-    const quelle = b.anisearchCover[String(t.id)]?.cover ? 'anisearch-cover.json' : b.tmdbPoster[String(t.id)]?.p ? 'tmdb-poster.json' : undefined
+    const quelle = b.tmdbPoster[String(t.id)]?.p ? 'tmdb-poster.json' : undefined
     if (quelle) treffer.push({ schluessel: String(t.id), text: `${titelName(t)}: kein Cover, ${quelle} kennt eines`, ort: `/t/${t.slug}/` })
   }
   const r = regel('D-05', 'Cover fehlt, Zweitquelle kennt eines', 'Karte ohne Bild, obwohl ein Bild da wäre', ohne.length, treffer)

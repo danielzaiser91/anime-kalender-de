@@ -42,14 +42,13 @@ function BrowserAbschnitte() {
 
       <Abschnitt titel="Bilder und Inhalte von Drittanbietern">
         <p>
-          Cover- und Bannerbilder werden direkt von den Servern von AniList (AniList, Delaware, USA;
-          ausgeliefert über Cloudflare) geladen. Dabei wird deine IP-Adresse dorthin übertragen — technisch unvermeidbar, wenn ein
-          Bild von einem fremden Server angezeigt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
-          Einige Cover und Plakate (vor allem bei Cartoons) kommen vom Bildserver von TMDB (The Movie
-          Database, TMDB Inc., USA; ausgeliefert über BunnyCDN) und werden in Listen und Kacheln geladen, auch ohne Vergrößerung. Fährst du im
+          Cover und Plakate werden direkt von den Bildservern von TMDB (The Movie
+          Database, TMDB Inc., USA; ausgeliefert über BunnyCDN) und von aniSearch (anisearch.de) geladen, in Listen und Kacheln auch ohne
+          Vergrößerung. Dabei wird deine IP-Adresse dorthin übertragen — technisch unvermeidbar, wenn ein
+          Bild von einem fremden Server angezeigt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Fährst du im
           Detail-Panel über das Cover oder tippst es an, baut dein Browser außerdem schon eine
-          Verbindung dorthin auf; öffnest du die Vergrößerung, lädt die Seite von dort ein größeres
-          Plakat. Jedes Mal wird deine IP-Adresse übertragen. Für die Übermittlung an AniList in die USA ist uns
+          Verbindung zu TMDB auf; öffnest du die Vergrößerung, lädt die Seite von dort ein größeres
+          Plakat. Für die Übermittlung an TMDB in die USA ist uns
           keine Garantie nach Art. 44 ff. DSGVO bekannt.
         </p>
         <p className="mt-2">

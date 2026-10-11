@@ -1,7 +1,6 @@
 import { PLATFORMS } from '@shared/types.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
-import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { ladeTitelBestand, type Dataset } from '../lib/data.ts'
 import { coverBild } from '../lib/cover.ts'
 import { useLang, type TranslationKey } from '../lib/i18n.tsx'
@@ -28,7 +27,7 @@ export const zeilenName = (z: SaisonZeile): string => (z.titel ? anzeigeName(z.t
 export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZeile; data: Dataset; favorit: boolean; oeffne: (id: number) => void; ausblick?: boolean }) {
   const { t } = useLang()
   const name = zeilenName(z)
-  const cover = z.titel?.coverImage ?? (z.katalog?.coverImage && !z.katalog.coverImage.startsWith('http') ? ANILIST_COVER_BASIS + z.katalog.coverImage : z.katalog?.coverImage)
+  const cover = z.titel?.coverImage ?? z.katalog?.coverImage
   /* Anbieter: wo die Synchro läuft — oder, wo sie nur angekündigt ist, der Anbieter der Ankündigung (nicht der des Untertitel-Starts allein). */
   const angekuendigt = z.titel?.ankuendigung?.synchro === 'angekuendigt' ? [z.titel.ankuendigung.platform] : []
   const anbieter = [...new Set([...(z.titel?.streams ?? []).filter((s) => s.dub === true).map((s) => s.platform), ...angekuendigt].map((p) => PLATFORMS[p]?.name ?? p))].slice(0, 3)

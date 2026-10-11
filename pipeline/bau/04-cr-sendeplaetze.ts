@@ -154,7 +154,6 @@ export function indiziereCrSendeplaetze({ titles }: {
           jpYear: e.jahr ?? undefined,
           episodes: e.folgen ?? undefined,
           genres: e.genres?.length ? [...e.genres] : [],
-          coverImage: e.cover ? `https://s4.anilist.co/file/anilistcdn/media/anime/cover/${e.cover}` : undefined,
           streams: [],
         }
         titles.set(e.id, neu)

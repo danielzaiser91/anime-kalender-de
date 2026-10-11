@@ -110,7 +110,7 @@ async function staffelPlakate(apiKey: string, zuordnung: Record<string, { tmdbId
  * wird nur ein Treffer, dessen Name und Jahr passen (`passtFilm` mit den Feldern der Serie). Filme erledigt `filmeSuchen`.
  */
 async function serienOhneCover(apiKey: string, bestand: Bestand): Promise<number> {
-  const offen = readJson<Title[]>('public/data/titles.json', []).filter((t) => t.id >= 10_000_000 && t.format !== 'MOVIE' && !t.coverImage && !(String(t.id) in bestand))
+  const offen = readJson<Title[]>('public/data/titles.json', []).filter((t) => t.id >= 10_000_000 && t.format !== 'MOVIE' && !(String(t.id) in bestand))
   let gefunden = 0
   for (const t of offen) {
     try {

@@ -8,7 +8,8 @@ import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
 import { mitLaufzeit } from '../lib/anisearch-felder.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { englischAusSynonymen } from '../lib/anisearch-titel.ts'
-import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
+import { coverNachRegel } from '../lib/cover-quelle.ts'
+import { coverQuellen } from './cover-regel.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
@@ -364,20 +365,8 @@ export function schreibeOhneSynchro(
         jpStart: e.start ?? undefined,
         jpStatus: e.status ?? undefined,
         genres: e.genres,
-        /**
-         * **Ohne** Adressvorsatz — der wird erst im Browser angehängt. Bei
-         * achtzehntausend Titeln spart das über ein Megabyte an Ladelast.
-         *
-         * Gekürzt wird hier und nicht beim Abrufen, obwohl es dort naheläge:
-         * Der Zwischenspeicher überdauert viele Läufe, und Einträge aus einem
-         * früheren Lauf tragen noch die volle Adresse. Beim Bauen greift die
-         * Kürzung dagegen auf jeden Eintrag, auch auf alte. Passt der Vorsatz
-         * nicht (AniList liefert gelegentlich einen anderen Hostnamen), bleibt
-         * die Adresse unangetastet — der Browser erkennt das am `http`.
-         */
-        coverImage: e.cover?.startsWith(ANILIST_COVER_BASIS)
-          ? e.cover.slice(ANILIST_COVER_BASIS.length)
-          : (e.cover ?? undefined),
+        /* TMDB, sonst aniSearch, sonst keins (`lib/cover-quelle.ts`); AniList liefert kein Cover mehr. */
+        coverImage: coverNachRegel(e.id, kennungen.get(e.id), coverQuellen()),
         score: e.score ?? undefined,
         /**
          * Fehlt, wenn der Titel allein steht — dann greift in der Oberfläche

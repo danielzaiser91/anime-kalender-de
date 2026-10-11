@@ -1,4 +1,3 @@
-import { ANILIST_COVER_BASIS } from '@shared/mappings.ts'
 import { SYNOPSIS_GROUPS, type DiscAusgabe } from '@shared/types.ts'
 import type { WochenDatei } from '@shared/wochen-datei.ts'
 import type { DataMeta, Franchises, Meldung, NewsEintrag, Release, ReleaseEvent, Title } from '@shared/types.ts'
@@ -144,14 +143,6 @@ export function loadOhneSynchro(data: Dataset): Promise<Title[]> {
     .then((roh) => {
       const titles = roh.map((t) => ({
         ...t,
-        // Der Adressvorsatz der Cover fehlt in der Datei — siehe
-        // ANILIST_COVER_BASIS. Hier ist die einzige Stelle, an der er wieder
-        // angehängt wird; danach sieht der Rest der App nur vollständige
-        // Adressen. Ein bereits vollständiger Wert bleibt unangetastet.
-        coverImage:
-          t.coverImage && !t.coverImage.startsWith('http')
-            ? ANILIST_COVER_BASIS + t.coverImage
-            : t.coverImage,
         /**
          * Drei Felder, die die Datei nicht mitschickt, weil sie für jeden
          * dieser Titel leer wären — 900 KB, die niemand übertragen muss. Der
@@ -212,16 +203,6 @@ let franchisesPromise: Promise<Franchises> | undefined
  */
 export function loadFranchises(): Promise<Franchises> {
   franchisesPromise ??= loadJson<Franchises>('franchises.json')
-    .then((reihen) => {
-      // Der Adressvorsatz der Cover fehlt in der Datei — hier kommt er zurück,
-      // an genau einer Stelle. Siehe ANILIST_COVER_BASIS.
-      for (const mitglieder of Object.values(reihen)) {
-        for (const m of mitglieder) {
-          if (m.cover && !m.cover.startsWith('http')) m.cover = ANILIST_COVER_BASIS + m.cover
-        }
-      }
-      return reihen
-    })
     .catch(() => ({}) as Franchises)
   return franchisesPromise
 }
@@ -235,12 +216,7 @@ let newsPromise: Promise<NewsEintrag[]> | undefined
  * Termine sehen, nicht die Chronik. 275 Meldungen sind rund 60 KB.
  */
 export function loadNews(): Promise<NewsEintrag[]> {
-  newsPromise ??= loadJson<NewsEintrag[]>('news.json')
-    .then((liste) => {
-      for (const m of liste) if (m.cover && !m.cover.startsWith('http')) m.cover = ANILIST_COVER_BASIS + m.cover
-      return liste
-    })
-    .catch(() => [])
+  newsPromise ??= loadJson<NewsEintrag[]>('news.json').catch(() => [])
   return newsPromise
 }
 
