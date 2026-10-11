@@ -57,6 +57,13 @@
       "bauBraucht": false,
       "fehlt": "Der Abgleich holt die Einzelabrufe neu (zehn je Abruf, 5,5 s Pause)"
     },
+    "anilist-abgleich-merkmale.json": {
+      "schreiber": "pipeline/fetch-anisearch-katalog-abgleich.ts (npm run data:anisearch-katalog-abgleich)",
+      "laeufe": ["von Hand (einmaliger Abgleich 11.10.2026; kein Workflow)"],
+      "intervall": "eine Woche (Länge und Endtag der unsicheren AniList-Titel)",
+      "bauBraucht": false,
+      "fehlt": "Der Abgleich holt sie neu (eine AniList-Abfrage je 50 Titel)"
+    },
     "covers": {
       "schreiber": "pipeline/build-og.ts (npm run data:og)",
       "laeufe": ["bestand-bauen.yml (lädt bei Bedarf nach)"],

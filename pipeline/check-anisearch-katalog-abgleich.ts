@@ -132,8 +132,8 @@ if (existsSync('data/anisearch-ids-katalog.json')) {
   pruefe('Datei: nichts, was die Handdatei schon bindet', eintraege.every(([al]) => !hand.has(al)))
 }
 
-/* Eingehängt (11.10.2026): 66 sichere Treffer des Abgleichs und 30 von Hand gesichtete; der Bau liest sie wie die Handdatei. */
-const KATALOG_EINGEHAENGT = 96
+/* Eingehängt (11.10.2026): 66 sichere Treffer des Abgleichs und 30 von Hand gesichtete, dazu 13 geklärte Paare der Prüfliste (Merkmale Tag, Länge, Namensteil); der Bau liest sie wie die Handdatei. */
+const KATALOG_EINGEHAENGT = 109
 const geprueft = JSON.parse(readFileSync('data/anisearch-katalog-kein-treffer.json', 'utf8')) as Record<string, number[]>
 const gebunden = JSON.parse(readFileSync('data/anisearch-ids-katalog.json', 'utf8')) as Record<string, number>
 const bruecke = Object.values(JSON.parse(readFileSync('data/anisearch.json', 'utf8')) as Record<string, { anisearchId?: number }>).map((e) => e.anisearchId)
