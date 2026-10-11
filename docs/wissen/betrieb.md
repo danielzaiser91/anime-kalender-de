@@ -1194,40 +1194,9 @@ dazu `abschluss` (Abmeldung bei der Statusanzeige und Aufräumen roter Läufe, n
 
 **Befund.** Der lokale `data/cache/` ist so alt wie der letzte Handgriff (am 11.10.2026: AniList-Katalog vom 03.09.2026, 38 Tage; es fehlte z. B. AniList 217712). Ein lokaler `pipeline/build.ts` bricht dann am Titelschwund-Riegel ab (55 verlorene Titel), und Bauer behalfen sich mit Schwellen-Hacks. Es gab kein Werkzeug: Der frische Stand liegt nur im Actions-Cache `anilist-cache-<run_id>` (rund 110 MB), und **den kann außerhalb eines Laufs niemand laden** (`gh cache` kann nur listen und löschen, die REST-Schnittstelle kennt keinen Download). In den 100 jüngsten Artefakten (gemessen am 11.10.2026) enthielt keines `data/cache/` — `fund-*` sind die Pull-Request-Dateien der Sammler.
 
-**Werkzeug:** `node tools/cache-holen.mjs` (im Arbeitsbaum, in dem gebaut wird) lädt das jüngste Artefakt `data-cache` per `gh`, legt es nach `data/cache/` dieses Arbeitsbaums und zeigt den Stand des Katalogs (`geholtAm`) vorher und nachher. Es weigert sich, wenn `data/cache` ein Junction/Symlink ist (sonst würde der Cache des Hauptordners überschrieben; Bau-Arbeit legt **keinen** Junction auf `data/cache`, `node_modules` genügt). Fehlt das Artefakt, sagt es das. Danach: `npx tsx pipeline/build.ts`, ohne Schwellen-Umweg; zurücksetzen mit `git reset --hard HEAD && git clean -fdq public/data`.
+**Werkzeug:** `node tools/cache-holen.mjs` (im Arbeitsbaum, in dem gebaut wird) lädt das jüngste Artefakt `data-cache` per `gh` nach `data/cache/` dieses Arbeitsbaums und zeigt den Stand des Katalogs (`geholtAm`) vorher und nachher. **Ist kein Artefakt jünger als 24 h da (`--max-alter <Stunden>`), stößt es `cache-ablegen.yml` selbst an und wartet auf das Ende** (`gh workflow run`, `gh run watch`), sonst lädt es direkt. Es weigert sich, wenn `data/cache` ein Junction/Symlink ist (sonst würde der Cache des Hauptordners überschrieben; Bau-Arbeit legt **keinen** Junction auf `data/cache`, `node_modules` genügt). Danach: `npx tsx pipeline/build.ts`, ohne Schwellen-Umweg; zurücksetzen mit `git reset --hard HEAD && git clean -fdq public/data`.
 
-**Voraussetzung (Entscheidung offen, Workflow-Änderung):** Ein Workflow muss den Cache als Artefakt ablegen. Entwurf `.github/workflows/cache-ablegen.yml` — eigene Datei, berührt keinen Sammler, nur lesen und hochladen; nicht gepusht, solange ein Sammler läuft (`gh run list --status in_progress`):
-
-```yaml
-name: Cache ablegen (für lokale Bauten)
-on:
-  schedule:
-    - cron: '40 7 * * *'   # nach dem Tageslauf um 06:17 UTC
-  workflow_dispatch:
-permissions:
-  contents: read
-concurrency:
-  group: cache-ablegen
-jobs:
-  ablegen:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/cache/restore@v4
-        with:
-          path: data/cache
-          key: anilist-cache-${{ github.run_id }}
-          restore-keys: anilist-cache-
-          fail-on-cache-miss: true
-      - uses: actions/upload-artifact@v4
-        with:
-          name: data-cache
-          path: data/cache
-          retention-days: 3
-          overwrite: true
-```
-
-Kosten: ein Artefakt um 110 MB (mit `overwrite` immer nur eines), ein Lauf am Tag. Der Cache enthält nur gesammelte Quelldaten, keine Zugangsdaten (Register: `data/cache-register.json`); das Artefakt ist nur mit Lesezugriff aufs Repo ladbar. Wer sofort einen frischeren Stand braucht: `gh workflow run cache-ablegen.yml --repo danielzaiser91/anime-kalender-de`, fertig abwarten, `tools/cache-holen.mjs`. Der Stand folgt dem **Schlüssel**, nicht dem Inhalt (Abschnitt „Der Actions-Cache … kennt keinen Besitzer"): Zeigt `geholtAm` etwas Altes, ist das der Befund, nicht das Werkzeug.
+**Der Workflow** `.github/workflows/cache-ablegen.yml` läuft nur auf Abruf (`workflow_dispatch`, kein Zeitplan — Zeitpläne kommen vom Cloudflare-Wecker, und ein tägliches Artefakt braucht niemand): `actions/cache/restore` mit `restore-keys: anilist-cache-` (nur lesen, nichts speichern), dann `upload-artifact` `data-cache` mit `overwrite: true` und `retention-days: 1`. Kosten: ein Artefakt um 110 MB, nur wenn jemand den Stand braucht. Der Cache enthält nur gesammelte Quelldaten, keine Zugangsdaten (Register: `data/cache-register.json`); das Artefakt ist nur mit Lesezugriff aufs Repo ladbar. Der Stand folgt dem **Schlüssel**, nicht dem Inhalt (Abschnitt „Der Actions-Cache … kennt keinen Besitzer"): Zeigt `geholtAm` etwas Altes, ist das der Befund, nicht das Werkzeug. Die Datei erst pushen, wenn kein Sammler läuft (`gh run list --status in_progress`); `gh workflow run` findet sie erst, wenn sie auf `main` liegt.
 
 ## Register der Zugänge und Wächter (08.10.2026)
 
