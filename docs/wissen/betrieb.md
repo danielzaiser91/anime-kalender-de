@@ -1236,3 +1236,10 @@ Das Ruleset `main-pruefweg` (Squash-PR mit einer Freigabe, kein Direkt-Push) lä
   `check:workflows` kennt diese Form der Gruppe `bau`. **Ob `github.actor` bei einem Squash-Merge der App wirklich `anime-kalender-daten[bot]` ist, ist erst am ersten echten Lauf belegt** (Test T4 in der Spezifikation).
 - **Lokal:** `tools/pushen.sh` und `tools/erneut-melden.mjs` pushen nicht mehr nach `main`, sondern reichen über `tools/pr-einreichen.sh` einen PR ein und schalten `gh pr merge --auto --squash` ein;
   `[schlank]` steht im Squash-Text (`--body`), den `deploy.yml` liest.
+
+## Bestandsbau: Doppelläufe bei Push und selbstschließende Rot-Issues (11.10.2026)
+
+- Messung 11.10.: 23 Bauläufe, zwei echte Doppelbauten im 5-s-Abstand (12:05:32/37, 12:36:12/17; zwei Merges, der erste Bau checkt `main` aus und hat beide Stände schon) und ein Bau nur wegen `shared/weckplan.ts` (PR 747). Bericht: `daniel-zum-abarbeiten/berichte/doppelbau-2026-10-11.md`.
+- Abhilfe: Der Push-Auslöser nimmt `shared/weckplan.ts` und Markdown unter `data/`, `pipeline/` aus. Job `vorab` überspringt einen Push-Bau, wenn nach dem Auslöser schon ein Bau-Commit auf `main` steht (`tools/bau-schon-gebaut.sh`; Fehler = bauen; `workflow_run` und `workflow_dispatch` bauen immer). Das ist sicher, weil `commit-data.sh` bei bewegtem Fernstand neu aufsetzt und neu baut: ein Bau-Commit hinter dem Auslöser enthält ihn. `concurrency` allein hilft nicht (der erste Lauf startet sofort; `cancel-in-progress` bräche einen Bau mitten im Push ab).
+- Rot-Issues („Bestandsbau rot: …“) öffnen Reparatur-Läufe und Agenten; ein grüner Bau schließt jetzt die davor entstandenen mit Lauf-Link (`tools/bau-issues-schliessen.sh`, Titelmuster dort).
+- Offen, nicht angefasst: die zwei Bau-Commits eines Doppelbaus wechselten sich ab (+31/−8, dann +8/−29 bei gleicher Eingabe) — der Bau ist an einer Stelle nicht idempotent; Ursache nicht untersucht.
