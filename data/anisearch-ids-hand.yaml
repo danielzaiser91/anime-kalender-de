@@ -44,6 +44,43 @@
 # Die aniSearch-Zeile 22017 stand ohne Cover und mit japanischem Namen neben dem AniList-Titel (Kennung 26256 → 217712).
 217712: 22017
 
+# Weitere Dubletten ohne MAL auf der AniList-Seite (11.10.2026, Einzelprüfung `daniel-zum-abarbeiten/listen/doppelzeilen-pruefung.md`):
+# gleicher Name, gleiches Format, Datum gleich oder auf einer Seite offen. Ausgelassen als verschiedene Werke: Ponkotsu Quest (Staffel 1 gegen 2), Girls und Panzer M4 Sherman, Blue Gale Xabungle Side L gegen R.
+# Girls und Panzer Movie: Fushou Akiyama Yukari no Sensha Kouza (Special, 27.05.2016, 2 Folgen)
+154146: 11307
+# Petit Anime Gekijou Quiz!! ID-0 (ONA, 09.04.2017, 12 Folgen)
+122173: 16210
+# Monogatari wo kimi e. #2 Fukakai 2 Q2 Ending Animation (ONA, 13.03.2021)
+133146: 20565
+# Ninja Kamui: Red Vendetta (Vorgänger Ninja Kamui, aniSearch 18566)
+194453: 20680
+# Kingdom (Zoku-hen) (Vorgänger Kingdom 6th Season, aniSearch 20459)
+204688: 21141
+# Zero Rise (MAL 63325)
+205966: 21162
+# Black Channel (MAL 63956)
+210918: 21487
+# Arafou Kenja no Isekai Seikatsu Nikki (MAL 63998, Januar 2027)
+211258: 21488
+# Re:bel Robotica (MAL 64462, 2027)
+213469: 21748
+# Aikatsu Stars!: Hoshiboshi no Progress (Film 2027, Vorgänger Aikatsu Stars! Movie, aniSearch 11150)
+213814: 21782
+# King of Prism -Tri-Star Act- (Film, Vorgänger aniSearch 20832)
+213660: 21794
+# Here U Are (MAL 64544)
+213845: 21840
+# 7-nin no Nemuri Hime (MAL 64569, 2027)
+213929: 21841
+# Toratsugumi: Tsugumi Project (MAL 64608)
+214055: 21855
+# Baki Gaiden: Retsu Kaiou wa Isekai Tensei Shitemo Ikkou ni Kamawan! (MAL 64893)
+216117: 21936
+# Mera×Death (MAL 65078, 05.01.2027)
+217433: 21994
+# Maid nara Touzen desu. (MAL 65094)
+217604: 22011
+
 # --- Aus der offiziellen Zuordnung von aniSearch (`GET /v1/anime/associated?source=myanimelist`, 06.10.2026) ---
 # Unsere MAL-Kennung → genau eine aniSearch-Kennung; Teilen sich zwei Titel eine Kennung, ist das aniSearchs eigene Zuordnung (Serie und Film auf einer Seite); die Kennung wirkt nur auf Links.
 # Gegenprobe der Zuordnung: bei 2.627 von 2.628 Titeln mit beiden Kennungen stimmt sie mit unserer überein.
