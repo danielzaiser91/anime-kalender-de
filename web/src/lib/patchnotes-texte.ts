@@ -12,6 +12,8 @@ export const PT = {
   bugfix: 'Bugfix',
   heute: 'heute',
   gestern: 'gestern',
+  /** Tooltip am Stift der heutigen Überschrift; der tägliche Überarbeitungslauf (Fable) sucht diese Konstante. */
+  heuteHinweis: 'Neue Einträge erscheinen sofort in grober Form; Formulierung und Reihenfolge werden am Ende jedes Tages überarbeitet.',
   highlight: 'HIGHLIGHT',
   ansehen: 'ansehen ›',
   laden: 'Lädt …',
