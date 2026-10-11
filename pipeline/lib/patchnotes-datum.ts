@@ -1,71 +1,57 @@
 import { execFileSync } from 'node:child_process'
-import yaml from 'js-yaml'
 import { toIsoDate } from '../../shared/time.ts'
 import { warn } from './util.ts'
 
-/** Eine Fassung der Patch-Notes-Datei in einem Commit: Berliner Tag des Commits und die Texte, die darin stehen. */
-export interface Fassung {
+/** Eine Datei, die ein Commit neu angelegt hat: Berliner Tag des Commits und Dateiname ohne Endung. */
+export interface Hinzufuegung {
   tag: string
-  texte: Set<string>
+  name: string
 }
 
-/**
- * Tag des Commits, der einen Text eingeführt hat: Von der neuesten Fassung rückwärts läuft die Strecke, in der der Text
- * durchgehend steht; ihr ältester Commit zählt. Fehlt der Text schon in der neuesten Fassung (noch nicht eingecheckt), fehlt er im Ergebnis.
- */
-export function einfuehrungstage(fassungen: Fassung[], gesucht: string[]): Map<string, string> {
+/** Tag des Commits, der eine Datei angelegt hat; bei gelöscht und neu angelegt zählt die neueste Hinzufügung. `hinzu`: neueste zuerst. */
+export function einfuehrungstage(hinzu: Hinzufuegung[], gesucht: string[]): Map<string, string> {
   const tage = new Map<string, string>()
-  const offen = new Set(gesucht)
-  for (const f of fassungen) {
-    if (!offen.size) break
-    for (const t of [...offen]) {
-      if (f.texte.has(t)) tage.set(t, f.tag)
-      else offen.delete(t)
-    }
+  for (const h of hinzu) if (!tage.has(h.name)) tage.set(h.name, h.tag)
+  return new Map(gesucht.filter((n) => tage.has(n)).map((n) => [n, tage.get(n)!]))
+}
+
+/** Liest die Ausgabe von `git log --format=@%ct --name-only`: Zeilen mit „@“ sind Commit-Zeiten, die übrigen Dateipfade. */
+export function hinzufuegungenAusLog(ausgabe: string): Hinzufuegung[] {
+  const hinzu: Hinzufuegung[] = []
+  let tag = ''
+  for (const zeile of ausgabe.split('\n').filter(Boolean)) {
+    if (zeile.startsWith('@')) tag = toIsoDate(new Date(Number(zeile.slice(1)) * 1000))
+    else hinzu.push({ tag, name: zeile.replace(/^.*\//, '').replace(/\.yaml$/, '') })
   }
-  return tage
+  return hinzu
 }
 
 const git = (...args: string[]): string => execFileSync('git', args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'pipe'] })
 
-/** Der Deploy-Checkout ist flach; ohne die Historie der Datei gäbe es für jeden Eintrag den Tag des Builds. */
+/** Der Deploy-Checkout ist flach; ohne die Historie der Dateien gäbe es für jeden Eintrag den Tag des Builds. */
 function vertiefeFlachenKlon(): void {
   if (git('rev-parse', '--is-shallow-repository').trim() !== 'true') return
   git('fetch', '--unshallow', '--filter=blob:none', '--quiet', 'origin')
 }
 
-/** Ein Datum darf nie einen Datenlauf abbrechen: scheitert git, bekommt jeder Text den heutigen Tag, mit Warnung. */
+/** Ein Datum darf nie einen Datenlauf abbrechen: scheitert git, bekommt jeder Eintrag den heutigen Tag, mit Warnung. */
 function allesHeute(gesucht: string[], heute: string, grund: unknown): Map<string, string> {
   warn(`Patch-Notes-Datum: git-Historie nicht lesbar, alle Einträge bekommen ${heute} (${(grund as Error).message})`)
-  return new Map(gesucht.map((t) => [t, heute]))
+  return new Map(gesucht.map((n) => [n, heute]))
 }
 
-/** Alle Fassungen der Datei, neueste zuerst; ein Commit ohne lesbare Fassung (gelöscht) zählt als leer. */
-function fassungenAusGit(pfad: string): Fassung[] {
-  const zeilen = git('log', '--format=%H %ct', '--', pfad).split('\n').filter(Boolean)
-  return zeilen.map((z) => {
-    const [hash, sekunden] = z.split(' ') as [string, string]
-    let texte = new Set<string>()
-    try {
-      const roh = yaml.load(git('show', `${hash}:${pfad}`), { schema: yaml.JSON_SCHEMA })
-      texte = new Set((roh as { text?: string }[]).map((e) => String(e.text)))
-    } catch {
-      /* Datei in diesem Commit gelöscht oder unlesbar: keine Texte. */
-    }
-    return { tag: toIsoDate(new Date(Number(sekunden) * 1000)), texte }
-  })
-}
-
-/** Einführungstag je Text aus der Git-Historie; was dort nicht steht (noch nicht eingecheckt), bekommt den heutigen Tag. */
-export function tageAusGit(pfad: string, gesucht: string[], heute: string): Map<string, string> {
+/** Einführungstag je Dateiname aus der Git-Historie des Ordners; was dort nicht steht (noch nicht eingecheckt), bekommt den heutigen Tag. */
+export function tageAusGit(ordner: string, gesucht: string[], heute: string): Map<string, string> {
   if (!gesucht.length) return new Map()
   let gefunden: Map<string, string>
   try {
     vertiefeFlachenKlon()
-    gefunden = einfuehrungstage(fassungenAusGit(pfad), gesucht)
+    // --no-renames: eine Umbenennung zählt als neue Datei (wer sie umbenennt, setzt `datum` von Hand).
+    const log = git('log', '--no-renames', '--diff-filter=A', '--name-only', '--format=@%ct', '--', ordner)
+    gefunden = einfuehrungstage(hinzufuegungenAusLog(log), gesucht)
   } catch (err) {
     return allesHeute(gesucht, heute, err)
   }
-  for (const t of gesucht) if (!gefunden.has(t)) gefunden.set(t, heute)
+  for (const n of gesucht) if (!gefunden.has(n)) gefunden.set(n, heute)
   return gefunden
 }

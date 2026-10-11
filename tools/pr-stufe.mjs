@@ -21,7 +21,7 @@
  * | Textdatei mit Tatsachenzahl in hinzugefügten Zeilen (Uhrzeit, Datum, Folgenzahl, ID ab 5 Ziffern) | 1 |
  * | mehrere CSS-Dateien, oder eine CSS über 30 Zeilen                           | 1       |
  * | Doku: *.md, docs, daniel-zum-abarbeiten, mockups                            | 0       |
- * | Text: data/patchnotes.yaml, web/src/**\/i18n*.ts(x)                         | 0       |
+ * | Text: data/patchnotes/*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
  * | eine einzelne *.css unter web/src oder extension, höchstens 30 Zeilen       | 0       |
  * | web/src-Code, dessen geänderte Zeilen alle Kommentare sind, höchstens 30    | 0       |
  *
@@ -42,7 +42,7 @@ const GRENZE_GROSS = 300
 // ändert die Stufe nie: der Workflow berechnet sie neu und liest den Kommentar nicht (fail-safe).
 const DOKU = /^([^/]+\.md|(docs|mockups|daniel-zum-abarbeiten)\/.+\.(md|png|svg|jpg|jpeg|webp|txt))$/
 const DOKU_ANDERE_ENDUNG = /^(docs|mockups|daniel-zum-abarbeiten)\//
-const TEXT = /^(data\/patchnotes\.yaml|web\/src\/(.*\/)?i18n[^/]*\.tsx?)$/
+const TEXT = /^(data\/patchnotes\/[^/]+\.yaml|web\/src\/(.*\/)?i18n[^/]*\.tsx?)$/
 const CSS = /^(web\/src|extension)\/.*\.css$/
 const WEB_CODE = /^web\/src\/.*\.tsx?$/
 const RECHTSTEXT = /(impressum|datenschutz|nutzungsbedingungen)/i

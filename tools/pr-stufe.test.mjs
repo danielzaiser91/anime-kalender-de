@@ -18,13 +18,13 @@ const fall = (name, dateien, erwartet) => {
 }
 
 fall('Textänderung i18n → 0', [d('web/src/i18n.ts', ['  knopf: "Speichern"'], ['  knopf: "Sichern"'])], 0)
-fall('Patchnotes-Text → 0', [d('data/patchnotes.yaml', ['  text: Neue Ansicht'])], 0)
+fall('Patchnotes-Text → 0', [d('data/patchnotes/neue-ansicht.yaml', ['  text: Neue Ansicht'])], 0)
 fall('Doku → 0', [d('docs/wissen/betrieb.md', zeilen(80))], 0)
 fall('CSS ≤ 30 Zeilen → 0', [d('web/src/styles.css', zeilen(20), zeilen(10))], 0)
 fall('CSS > 30 Zeilen → 1', [d('web/src/styles.css', zeilen(31))], 1)
 fall('zwei CSS-Dateien → 1', [d('web/src/styles.css'), d('web/src/tippziele.css')], 1)
 fall('nur Kommentare in web/src → 0', [d('web/src/App.tsx', ['// Warum: Entprellen'])], 0)
-fall('Text mit Uhrzeit → 1', [d('data/patchnotes.yaml', ['  text: Start um 08:00'])], 1)
+fall('Text mit Uhrzeit → 1', [d('data/patchnotes/neue-ansicht.yaml', ['  text: Start um 08:00'])], 1)
 fall('Text mit Folgenzahl → 1', [d('web/src/i18n.ts', ['  info: "12 Folgen"'])], 1)
 fall('neuer Handbeleg → 1', [d('data/dub-confirmed.yaml', zeilen(8))], 1)
 fall('UI-Logik → 1', [d('web/src/components/Liste.tsx', zeilen(40))], 1)
