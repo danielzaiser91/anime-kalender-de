@@ -40,8 +40,10 @@ export function sprecherName(name: string): string {
   return name.replace(/\s+/g, ' ').trim()
 }
 
-/** Die Gruppe (Datei) eines Namens: sein erster lateinischer Buchstabe, sonst `_`. */
+/**
+ * Die Gruppe (Datei) eines Namens: seine ersten zwei lateinischen Buchstaben (nur einer, wenn danach keiner folgt), sonst `_`.
+ * Zwei, weil „m" mit der aniSearch-Besetzung 72 KB gepackt wöge (Grenze 60 KB); die größte Zweiergruppe „ma" wiegt 51 KB (11.10.2026).
+ */
 export function sprecherGruppe(name: string): string {
-  const erster = sprecherNormal(name)[0] ?? ''
-  return /[a-z]/.test(erster) ? erster : '_'
+  return /^[a-z][a-z]?/.exec(sprecherNormal(name))?.[0] ?? '_'
 }

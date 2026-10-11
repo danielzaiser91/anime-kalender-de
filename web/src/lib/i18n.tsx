@@ -486,7 +486,7 @@ const TEXTE = {
   'detail.voicesNone': 'Keine Angaben gefunden.',
   // Anime News Network kommt nur dazu, wenn von dort auch Rollen stammen — der
   // Link daneben ist deren Nutzungsauflage, nicht bloß eine Höflichkeit.
-  'detail.voicesSource': 'Angaben von AniList',
+  'detail.voicesSource': 'Angaben von',
   'detail.aehnlich': 'Ähnliche Titel',
   'detail.aehnlichLaedt': 'Wird geladen …',
   'detail.aehnlichKeine': 'Keine ähnlichen Titel gefunden.',

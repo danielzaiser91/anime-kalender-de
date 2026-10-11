@@ -24,6 +24,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { gzipSync, gunzipSync } from 'node:zlib'
 import { annUrl, deutscheRollen, rollenZusammenfuehren, type AnnRolle } from './lib/ann.ts'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
+import { ohneAnisearchAbgedeckte } from './bau/sprecher-zusammen.ts'
 import { recordSource } from './lib/health.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -60,7 +61,7 @@ interface VoiceRole {
   actor: string
   role?: string
   /** Woher die Rolle stammt. Fehlt = AniList, so wie vor dem 15.08.2026. */
-  von?: 'ann'
+  von?: 'ann' | 'anisearch'
 }
 
 interface VoiceFile {
@@ -195,7 +196,7 @@ async function main(): Promise<void> {
     const vorherZahl = vorher.roles.length
     const zusammen = rollenZusammenfuehren<VoiceRole>(
       vorher.roles,
-      rollen.map((r: AnnRolle) => ({ ...r, von: 'ann' as const })),
+      ohneAnisearchAbgedeckte(vorher.roles, rollen).map((r: AnnRolle) => ({ ...r, von: 'ann' as const })),
     )
     if (zusammen.length === vorherZahl) continue
 

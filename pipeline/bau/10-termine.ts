@@ -8,8 +8,7 @@ import { schreibePremiereMitMeldung } from '../lib/premiere.ts'
 import { premiereBelegtTv } from '../../shared/premiere.ts'
 import { todayIso } from '../../shared/time.ts'
 import { kostenloseFolgen } from '../../shared/kostenlos.ts'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
-import { VOICES_DIR } from './grundlagen.ts'
+import { sprecherRollen } from './sprecher-anisearch.ts'
 import { widerlegeDeutscheTermine } from './widerlegung-woche.ts'
 import { anisearchNurKatalog } from './anisearch-titel.ts'
 import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } from './ohne-beleg.ts'
@@ -153,23 +152,10 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
    */
   // Welche Titel haben deutsche Sprechrollen? Nur der Merker wandert in den
   // Datensatz — die Rollen selbst holt die Oberfläche beim Aufklappen aus
-  // `public/data/voices/<id>.json`. Das Verzeichnis füllt `data:voices`, das
-  // vor diesem Lauf gelaufen sein muss; fehlt es, bleibt der Merker aus und
-  // die Oberfläche zeigt den Bereich schlicht nicht an.
-  const mitStimmen = new Set<number>()
-  if (existsSync(VOICES_DIR)) {
-    for (const datei of readdirSync(VOICES_DIR)) {
-      if (!datei.endsWith('.json')) continue
-      try {
-        const inhalt = JSON.parse(readFileSync(`${VOICES_DIR}/${datei}`, 'utf8')) as {
-          roles?: unknown[]
-        }
-        if (inhalt.roles?.length) mitStimmen.add(Number(datei.replace('.json', '')))
-      } catch {
-        // Kaputte Datei überspringen — der nächste Sprecher-Lauf schreibt sie neu.
-      }
-    }
-  }
+  // `public/data/voices/<id>.json`. Das Verzeichnis füllen `data:voices` und
+  // `data:ann:voices`; `sprecherRollen` legt die aniSearch-Besetzung darüber.
+  // Fehlt das Verzeichnis, bleibt der Merker aus und die Oberfläche zeigt den Bereich schlicht nicht an.
+  const mitStimmen = sprecherRollen({ titles })
 
   const mitRelease = new Set(releases.map((r) => r.titleId))
   const heuteIso = todayIso()

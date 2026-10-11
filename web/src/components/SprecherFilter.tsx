@@ -1,8 +1,7 @@
 import { useContext, useEffect, useId, useMemo, useRef, useState, type FocusEvent, type KeyboardEvent } from 'react'
-import { sprecherGruppe } from '@shared/sprecher.ts'
 import { toggleFilter, type FilterState } from '../lib/filters.ts'
 import { useLang, type Translate } from '../lib/i18n.tsx'
-import { gruppenDer, TitelNamenContext, useSprecherAuswahl, useSprecherGruppen, useSprecherIndex } from '../lib/sprecher.ts'
+import { TitelNamenContext, useSprecherAuswahl, useSprecherGruppen, useSprecherIndex } from '../lib/sprecher.ts'
 import { kurzeTitelzeile, sprecherVorschlaege, type SprecherEintrag } from '../lib/sprecher-auswahl.ts'
 import { PILLE_JA, PILLE_NEIN } from './filter/pille-zustand.ts'
 
@@ -146,7 +145,7 @@ function useVorschlaege(eingabe: string, fokus: boolean, gewaehlt: readonly stri
   )
   const treffer = vorschlag?.treffer ?? []
   /* Gruppen nur holen, solange die Vorschläge zu sehen sind. */
-  const gruppen = useSprecherGruppen(fokus ? gruppenDer(treffer.map((e) => e[0])) : [])
+  const gruppen = useSprecherGruppen(fokus ? treffer.map((e) => e[0]) : [])
   return { anfrage, index, vorschlag, treffer, gruppen }
 }
 
@@ -162,7 +161,8 @@ function Vorschlagsliste({ t, id, v, aktiv, zuKurz, waehlen }: { t: Translate; i
     liste.current?.scrollIntoView({ block: 'nearest' })
   }, [treffer.length, hatVorschlag])
   const titelVon = (name: string): string[] | undefined =>
-    gruppen.gruppe(sprecherGruppe(name))?.[name]
+    gruppen
+      .titel(name)
       ?.map((x) => titelName?.(x.id))
       .filter((n): n is string => !!n)
       .sort((a, b) => a.localeCompare(b, 'de'))
