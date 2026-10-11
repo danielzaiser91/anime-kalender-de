@@ -12,6 +12,8 @@
  * **Grenzen.** Die Zuordnung Titel → TMDB-Kennung kommt aus `data/tmdb-titles.json` (geprüft im Bau der Folgentitel). Wo sie fehlt oder das
  * größte Plakat unter `MIN_BREITE` liegt, bekommt der Titel keinen Eintrag; die Liste dazu schreibt der Bau (Monitor).
  *
+ * Im selben Lauf holt `holeBanner` das Hintergrundbild je Titel (`lib/tmdb-banner-abruf.ts`, `data/tmdb-banner.json`).
+ *
  * Aufruf: `npx tsx pipeline/fetch-tmdb-poster.ts [--limit N] [--katalog N] [--alle]`
  */
 import { fetchJson, loadEnv, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
@@ -21,6 +23,7 @@ import { passtFilm, waehlePlakat, type TmdbBild } from './lib/tmdb-plakat.ts'
 import { GRUND_DATEI, plakatSuche, type GrundBestand } from './lib/tmdb-plakat-suche.ts'
 import { schreibeCoverListe } from './lib/cover-liste.ts'
 import { waehleStaffel, type TmdbStaffel } from './lib/tmdb-staffel.ts'
+import { holeBanner } from './lib/tmdb-banner-abruf.ts'
 
 const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || Infinity
 const ALLE = process.argv.includes('--alle')
@@ -181,6 +184,7 @@ async function main(): Promise<void> {
   gefunden += await plakatSuche(apiKey, bestand, KATALOG, 12 * 60_000)
   writeJson('data/tmdb-poster.json', bestand)
   schreibeCoverListe(bestand, readJson<GrundBestand>(GRUND_DATEI, {}))
+  await holeBanner(apiKey, LIMIT, ALLE)
   log(`${gefunden} von ${offen.length} Titeln mit Plakat, ${fehler} Fehler`)
   recordSource('tmdb-poster', gefunden)
 }

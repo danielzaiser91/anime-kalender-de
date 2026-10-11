@@ -1,36 +1,24 @@
-/**
- * Das Hintergrundbild je Titel — von TMDB (Daniel, 11.10.2026: Banner von TMDB statt AniList).
- *
- * Die Zuordnung Titel → TMDB-Kennung kommt aus `data/tmdb-titles.json`. Aus `/images` zählt nur ein Querformat ab 1.280 px
- * (`lib/tmdb-banner.ts`). Wo es keins gibt, steht `null`; der Titel kommt auf die Lückenliste (`lib/banner-luecken.ts`).
- *
- * Aufruf: `npx tsx pipeline/fetch-tmdb-banner.ts [--limit N] [--alle]`
- */
-import { fetchJson, loadEnv, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
-import { recordSource } from './lib/health.ts'
-import type { TmdbBild } from './lib/tmdb-plakat.ts'
-import { BANNER_DATEI, waehleBanner, type TmdbBanner } from './lib/tmdb-banner.ts'
-import { schreibeBannerLuecken } from './lib/banner-luecken.ts'
-
-const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || Infinity
-const ALLE = process.argv.includes('--alle')
+import { fetchJson, log, readJson, sleep, warn, writeJson } from './util.ts'
+import { recordSource } from './health.ts'
+import type { TmdbBild } from './tmdb-plakat.ts'
+import { BANNER_DATEI, waehleBanner, type TmdbBanner } from './tmdb-banner.ts'
+import { schreibeBannerLuecken } from './banner-luecken.ts'
 
 type Zuordnung = Record<string, { tmdbId?: number; kind?: string }>
 
-async function main(): Promise<void> {
-  loadEnv()
-  const apiKey = process.env.TMDB_API_KEY
-  if (!apiKey) {
-    warn('TMDB_API_KEY fehlt — ohne Schlüssel liefert TMDB keine Hintergrundbilder.')
-    recordSource('tmdb-banner', 0, 'kein Schlüssel')
-    return
-  }
+/**
+ * **Das Hintergrundbild je Titel — von TMDB** (Daniel, 11.10.2026: Banner von TMDB statt AniList). Läuft im Plakat-Lauf (`fetch-tmdb-poster.ts`).
+ *
+ * Die Zuordnung Titel → TMDB-Kennung kommt aus `data/tmdb-titles.json`. Aus `/images` zählt nur ein Querformat ab 1.280 px (`tmdb-banner.ts`).
+ * Wo es keins gibt, steht `null`; der Titel kommt auf die Lückenliste (`banner-luecken.ts`). Abgefragt werden nur Titel ohne Eintrag, mit `alle` alle.
+ */
+export async function holeBanner(apiKey: string, limit: number, alle: boolean): Promise<void> {
   const zuordnung = readJson<Zuordnung>('data/tmdb-titles.json', {})
   const bestand = readJson<TmdbBanner>(BANNER_DATEI, {})
   const offen = Object.entries(zuordnung)
     .filter(([, z]) => z.tmdbId && (z.kind === 'tv' || z.kind === 'movie'))
-    .filter(([id]) => ALLE || !(id in bestand))
-    .slice(0, LIMIT)
+    .filter(([id]) => alle || !(id in bestand))
+    .slice(0, limit)
   log(`TMDB-Banner: ${offen.length} Titel abzufragen (${Object.keys(bestand).length} schon bekannt)`)
   let gefunden = 0
   let fehler = 0
@@ -55,7 +43,6 @@ async function main(): Promise<void> {
   writeJson(BANNER_DATEI, bestand)
   schreibeBannerLuecken(bestand, zuordnung)
   log(`${gefunden} von ${offen.length} Titeln mit Hintergrundbild, ${fehler} Fehler`)
-  recordSource('tmdb-banner', gefunden)
+  /* Nichts abzufragen (alle Titel haben einen Eintrag) ist kein Ausfall. */
+  recordSource('tmdb-banner', gefunden, fehler ? `${fehler} Fehler` : undefined, undefined, fehler === 0)
 }
-
-await main()

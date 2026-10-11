@@ -43,7 +43,7 @@ export function schreibeBannerLuecken(bestand: TmdbBanner, zuordnung: Zuordnung)
       '# Titel ohne TMDB-Hintergrundbild',
       '',
       `${luecken.length} von ${titel.length} Titeln des Hauptbestands haben kein TMDB-Hintergrundbild; bei ${mitAniList} steht vorübergehend noch das AniList-Banner, bei ${luecken.length - mitAniList} keins.`,
-      'Erzeugt von `pipeline/fetch-tmdb-banner.ts`. Ersatz wird von Hand gesucht; ist er da, fällt der AniList-Übergang weg. „Bild der Reihe“ ist nur ein Vorschlag.',
+      'Erzeugt von `pipeline/lib/tmdb-banner-abruf.ts` (im Plakat-Lauf). Ersatz wird von Hand gesucht; ist er da, fällt der AniList-Übergang weg. „Bild der Reihe“ ist nur ein Vorschlag.',
       '',
       '| Titel | ak | Jahr | Grund | Übergang | Ersatz-Vorschlag |',
       '|---|---|---|---|---|---|',
