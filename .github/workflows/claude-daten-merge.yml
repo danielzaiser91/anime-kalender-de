@@ -58,12 +58,13 @@ jobs:
           # `mergeable` steht direkt nach dem Anlegen auf UNKNOWN. Hier ist das
           # kein Problem: Dieser Lauf startet erst, wenn der Sammler fertig ist,
           # und der hat die Berechnung bereits abgewartet.
-          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable \
-            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.mergeable != "MERGEABLE")]' > /tmp/offen.json
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable,author,isCrossRepository \
+            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.author.login == "app/anime-kalender-daten" and .isCrossRepository == false) | select(.mergeable != "MERGEABLE")]' > /tmp/offen.json
           ANZAHL="$(jq 'length' /tmp/offen.json)"
           NUMMERN="$(jq -r '[.[].number] | join(", ")' /tmp/offen.json)"
           # Mergebar und trotzdem offen: der Merge des Sammlers ist gescheitert (Bypass, Rennen um main) — der Job `nachholen` holt ihn nach.
-          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable             --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.mergeable == "MERGEABLE") | .number] | join(" ")' > /tmp/mergebar.txt
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable \
+            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.mergeable == "MERGEABLE") | .number] | join(" ")' > /tmp/mergebar.txt
           echo "mergebar=$(cat /tmp/mergebar.txt)" >> "$GITHUB_OUTPUT"
           echo "offen=$ANZAHL" >> "$GITHUB_OUTPUT"
           echo "nummern=$NUMMERN" >> "$GITHUB_OUTPUT"

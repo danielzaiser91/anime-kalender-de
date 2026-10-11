@@ -6,6 +6,29 @@
 # Ein Pull Request, der sich nicht mergen lässt, macht den Lauf rot (Ausgang 1) — still offen bleiben darf er nicht.
 set -uo pipefail
 
+# Die App mergt am Ruleset vorbei, also nur, was sie selbst eingereicht hat: eigener Autor, kein Fork, nur Pfade der Quellenliste.
+# Sonst könnte jeder mit einem Zweig `daten/...` beliebige Dateien nach main bringen (Prüfer-Urteil PR 767).
+APP_AUTOR="${APP_AUTOR:-app/anime-kalender-daten}"
+# shellcheck source=tools/quellen-liste.sh
+source "$(dirname "$0")/quellen-liste.sh"
+
+# Gibt den Grund aus und endet mit 1, wenn der Pull Request nicht von der App kommt, aus einem Fork stammt oder fremde Dateien ändert.
+fremd_grund() {
+  local nr="$1" autor fork datei q erlaubt
+  autor="$(gh pr view "$nr" --json author -q .author.login)"
+  fork="$(gh pr view "$nr" --json isCrossRepository -q .isCrossRepository)"
+  [ "$autor" = "$APP_AUTOR" ] || { echo "Autor ist $autor, nicht $APP_AUTOR"; return 1; }
+  [ "$fork" = false ] || { echo "stammt aus einem Fork"; return 1; }
+  while IFS= read -r datei; do
+    erlaubt=0
+    for q in "${QUELLEN[@]}"; do
+      if [ "$datei" = "$q" ] || [[ "$datei" == "$q"/* ]]; then erlaubt=1; break; fi
+    done
+    [ "$erlaubt" = 1 ] || { echo "ändert $datei (nicht in tools/quellen-liste.sh)"; return 1; }
+  done < <(gh pr view "$nr" --json files -q '.files[].path')
+  return 0
+}
+
 fehler=0
 for nr in "$@"; do
   zustand=UNKNOWN
@@ -16,6 +39,11 @@ for nr in "$@"; do
   done
   if [ "$zustand" != MERGEABLE ]; then
     echo "::notice::Pull Request $nr bleibt offen ($zustand)."
+    continue
+  fi
+  if ! grund="$(fremd_grund "$nr")"; then
+    echo "::error::Pull Request $nr wird nicht gemergt: $grund."
+    fehler=1
     continue
   fi
   titel="$(gh pr view "$nr" --json title -q .title)"
