@@ -66,6 +66,10 @@ pruefe('Ohne Uhrzeit und ohne Tage im Zitat: weder time noch wochentage', !('tim
 const disc = yaml.load(eintragEntwurf({ ...yaiba, titel: 'Beispielfilm', plattform: 'disc', sender: null, art: 'disc', uhrzeit: null })) as { titleDe: string; releaseType: string; publisher?: string }[]
 pruefe('Disc: titleDe, releaseType disc, kein erfundener Verlag', disc[0]!.titleDe === 'Beispielfilm' && disc[0]!.releaseType === 'disc' && !('publisher' in disc[0]!), disc[0])
 pruefe('Slug ohne Sender bei Streaming', entwurfSlug({ ...yaiba, plattform: 'netflix', sender: null }) === 'yaiba-samurai-legend')
+const verwandt = urteile([yaiba], [drin({ titel: ['Anderer Name'], artikel: ['1059480'] })])[0]!
+const mitHinweis = eintragEntwurf(verwandt.v, verwandt.hinweis)
+pruefe('Vermutlich derselbe Eintrag: Entwurf beginnt mit „# Achtung:“, nennt den Eintrag und bleibt gültiges YAML', mitHinweis.startsWith('# Achtung:') && mitHinweis.includes('yaiba-samurai-legend-prosieben-maxx') && Array.isArray(yaml.load(mitHinweis)), mitHinweis)
+pruefe('Ohne verwandten Eintrag: kein „Achtung“', !eintragEntwurf(yaiba).includes('Achtung') && urteile([yaiba], [])[0]!.hinweis === undefined)
 pruefe('Tabelle: Kopf plus eine Zeile je Vorschlag, Zitat wörtlich', tabelle(urteile([yaiba], [])).split('\n').length === 3 && tabelle(urteile([yaiba], [])).includes(yaiba.zitat))
 
 if (fehler) {

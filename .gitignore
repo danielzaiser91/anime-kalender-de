@@ -38,3 +38,6 @@ extension.pem
 .serena/
 
 data/bestand.sqlite
+
+# Erzeugter Entwurf (npx tsx pipeline/anime2you-entwurf.ts), wird bei jedem Lauf neu geschrieben
+data/proposals/anime2you-entwurf.yaml

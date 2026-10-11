@@ -48,7 +48,7 @@ const kopf = [
   '# Kein Bestandteil des Baus. Nach der Durchsicht gehören die Einträge von Hand in die passende Datei unter data/curated/.',
   '# Vor dem Übernehmen: anilistId klären, Zitat und Tag am Artikel gegenlesen.',
 ]
-const eintraege = neu.length ? neu.map((u) => eintragEntwurf(u.v)) : ['# Keine neuen belastbaren Vorschläge.']
+const eintraege = neu.length ? neu.map((u) => eintragEntwurf(u.v, u.hinweis)) : ['# Keine neuen belastbaren Vorschläge.']
 writeFileSync(ausgabe, [...kopf, '', ...eintraege.flatMap((e) => [e, ''])].join('\n'), 'utf8')
 console.log(tabelle(liste))
 console.log(`\n${liste.length} Vorschläge: ${neu.length} neu, ${liste.filter((u) => u.status === 'schon drin').length} schon drin, ${liste.filter((u) => u.status === 'nicht belastbar').length} nicht belastbar.`)

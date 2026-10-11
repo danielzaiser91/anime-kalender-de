@@ -11,6 +11,8 @@ export interface Urteil {
   v: GespeicherterVorschlag
   status: 'neu' | 'schon drin' | 'nicht belastbar'
   grund: string
+  /** Gesetzt, wo ein Bestandseintrag verwandt ist: Der Entwurf trägt ihn als „Achtung“-Kommentar. */
+  hinweis?: string
 }
 
 const TERMIN_ARTEN = ['start', 'folgen', 'disc', 'kino']
@@ -82,7 +84,7 @@ export function urteile(liste: GespeicherterVorschlag[], bestand: Bestandseintra
     const treffer = bestandsTreffer(v, bestand)
     if (treffer) return { v, status: 'schon drin', grund: `Eintrag ${treffer.slug}: Titel, Weg und Starttag gleich` }
     const verwandt = verwandterEintrag(v, bestand)
-    return { v, status: 'neu', grund: verwandt ?? 'kein Eintrag mit Titel, Weg und Starttag' }
+    return { v, status: 'neu', grund: verwandt ?? 'kein Eintrag mit Titel, Weg und Starttag', hinweis: verwandt }
   })
 }
 
@@ -95,10 +97,11 @@ function folgenBereich(folgen: string | null): { ab: number; anzahl: number } | 
 }
 
 /** Der Entwurf eines Eintrags im Format von `data/curated/_SCHEMA.md`; Unbekanntes steht als Kommentar, nie als erfundener Wert. */
-export function eintragEntwurf(v: GespeicherterVorschlag): string {
+export function eintragEntwurf(v: GespeicherterVorschlag, hinweis?: string): string {
   const q = (s: string): string => JSON.stringify(s)
   const disc = v.plattform === 'disc'
   const zeilen = [
+    ...(hinweis ? [`# Achtung: ${hinweis}`] : []),
     `# Anime2You ${v.artikelId} (${v.veroeffentlicht}): ${q(v.zitat)}`,
     ...v.warnungen.map((w) => `# Warnung: ${w}`),
     `- slug: ${entwurfSlug(v)}`,
