@@ -9,7 +9,7 @@ import { QuellenKnopf } from '../beleg-dialog.tsx'
 import { Klapptext } from '../klapptext.tsx'
 import { NachtragText } from '../news-nachtrag.tsx'
 import { todayIso } from '@shared/time.ts'
-import { meldungenImPanel, type Zeile } from './neuigkeiten-regeln.ts'
+import { laeuftFuerSlug, meldungenImPanel, type Zeile } from './neuigkeiten-regeln.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { GlockeZeichen, PanelKarte } from './panel-karte.tsx'
 import { ErstausgabeZeile } from './erstausgabe-zeile.tsx'
@@ -45,7 +45,10 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
       aktiv = false
     }
   }, [])
-  const zeilen = useMemo(() => meldungenImPanel(liste ?? [], titelId, todayIso()), [liste, titelId])
+  const zeilen = useMemo(
+    () => meldungenImPanel(liste ?? [], titelId, todayIso(), laeuftFuerSlug(data.releaseBySlug, todayIso())),
+    [liste, titelId, data],
+  )
   const titel = data.titleById.get(titelId)
   const erst = titel && erstausgabeAlsNeuigkeit(titel) ? titel : undefined
   if (!zeilen.length && !erst) return null

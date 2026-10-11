@@ -30,6 +30,7 @@ pipeline/check-kalender-filter.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-logic.ts
 pipeline/check-motn-reihe.ts
+pipeline/check-neuigkeiten-panel.ts
 pipeline/check-paramount.ts
 pipeline/check-patchnotes.ts
 pipeline/check-premiere.ts
