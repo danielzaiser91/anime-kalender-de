@@ -45,20 +45,17 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Kein Pipe, der den Exit von gh maskiert: erst vollständig in eine Datei, dann kürzen.
-          # gh bricht bei mehr als 20000 Diff-Zeilen ab; leer oder gekürzt heißt: nie "ok".
+          # Diff je Datei aus der Dateiliste der API (tools/pr-diff-bauen.mjs, Skript aus main): große Datendateien
+          # werden durch eine Stub-Zeile ersetzt, Code, Workflows und Doku bleiben vollständig. Kein Pipe, der den
+          # Exit von gh maskiert: erst in eine Datei. Fehlt die Liste oder ist sie leer, ist der Zustand unvollstaendig.
           T="$RUNNER_TEMP/pruefer"; mkdir -p "$T"
-          zustand=ok
-          if ! gh pr diff "$PR" --repo "$GITHUB_REPOSITORY" > "$T/pr-voll.diff"; then
-            zustand=unvollstaendig
-            : > "$T/pr-voll.diff"
-          elif [ ! -s "$T/pr-voll.diff" ]; then
-            zustand=unvollstaendig
-          elif [ "$(wc -c < "$T/pr-voll.diff")" -gt 400000 ]; then
-            zustand=unvollstaendig
+          zustand=unvollstaendig
+          : > "$T/pr.diff"
+          if gh api --method GET --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" -f per_page=100 -q '.[]' > "$T/dateien.ndjson"; then
+            zustand=$(node tools/pr-diff-bauen.mjs "$T/dateien.ndjson" "$T/pr.diff") || zustand=unvollstaendig
           fi
-          head -c 400000 "$T/pr-voll.diff" > "$T/pr.diff"
-          rm -f "$T/pr-voll.diff"
+          [ "$zustand" = ok ] || zustand=unvollstaendig
+          rm -f "$T/dateien.ndjson"
           gh pr view "$PR" --repo "$GITHUB_REPOSITORY" --json title,body,headRefName \
             -q '"Titel: " + .title + "\nZweig: " + .headRefName + "\n\n" + .body' > "$T/pr-beschreibung.txt"
           echo "diff-zustand=$zustand" >> "$GITHUB_OUTPUT"
@@ -130,6 +127,13 @@ jobs:
             Diff-Zustand: ${{ steps.diff.outputs.diff-zustand }}. Lautet er "unvollstaendig", ist der Diff leer,
             nicht abrufbar oder auf 400000 Byte gekürzt: Du hast nicht alles gesehen, nenne das im Protokoll und
             gib zwingend "aendern" aus, nie "ok".
+            Eine Zeile "Datendatei <pfad>: … nicht gelesen" im Diff ist eine Stub-Zeile für eine große Datendatei
+            (Inhalt prüfen die CI-Checks) und kein "unvollstaendig". Gestubbt werden nur Erzeugnisse unter
+            public/data und Dateien, die in tools/quellen-liste.sh (main) stehen; Handdateien, Handbelege und
+            data/cache sind nie gestubbt. Eine neue Datendatei steht also nie als Stub da; ihr Eintrag in
+            quellen-liste.sh ist nur Pflicht, wenn der Diff selbst sie hinzufügt. Prüfe bei jedem Stub, dass die
+            Datei in der Beschreibung genannt ist; sonst "aendern". Eine Datei, deren Diff "nicht lieferbar"
+            ist, macht den Zustand ohnehin "unvollstaendig".
             Der Stand von main liegt in ${{ github.workspace }} (ohne die PR-Änderungen); lies dort CLAUDE.md und
             bei Bedarf die berührten Dateien zum Vergleich.
 
