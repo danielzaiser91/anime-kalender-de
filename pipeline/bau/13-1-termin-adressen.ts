@@ -1,0 +1,41 @@
+import { type Release, type Title } from '../../shared/types.ts'
+import { amazonAdresseRichten } from '../lib/amazon-adresse.ts'
+import { log } from '../lib/util.ts'
+import { istKeineTitelseite } from './11-7-wege-aus-terminen.ts'
+
+/**
+ * **Hat ein Termin keine eigene Adresse, nimmt seine Pille die des Weges desselben Titels** (11.10.2026, Reborn as a Space Mercenary:
+ * Prime-Weg von Hand belegt, die Termin-Pille blieb ohne Ziel). Derselbe Anbieter, bei gesetztem Kanal derselbe Kanal, eine
+ * Titelseite statt einer Suche. Mehrdeutig (mehrere solche Wege, etwa zwei Staffeln auf zwei Prime-Seiten) → keine Übernahme,
+ * das Panel führt dann zur Suche. Disc, Kino und Fernsehen haben eigene Ziele.
+ */
+export function adresseDesWegs(r: Release, titel: Title | undefined): string | undefined {
+  if (!titel || r.platformUrl || r.buyUrl || r.releaseType === 'disc' || ['disc', 'tv', 'kino'].includes(r.platform)) return undefined
+  const wege = (titel.streams ?? []).filter(
+    (s) => s.platform === r.platform && s.url && !istKeineTitelseite(s.url) && (!r.kanal || s.kanal?.toLowerCase() === r.kanal.toLowerCase()),
+  )
+  return wege.length === 1 ? wege[0]!.url : undefined
+}
+
+/**
+ * Prime-Termine auf die Video-Adresse richten (`amazonAdresseRichten`) und Terminen ohne Adresse die ihres Weges geben.
+ * Gibt zurück, wie viele Adressen gerichtet wurden; die übernommenen stehen im Protokoll.
+ */
+export function richteTerminAdressen(releases: Release[], titles: Title[]): number {
+  const titelNachId = new Map(titles.map((t) => [t.id, t]))
+  let gerichtet = 0
+  let uebernommen = 0
+  for (const r of releases) {
+    const vomWeg = adresseDesWegs(r, titelNachId.get(r.titleId))
+    if (vomWeg) {
+      r.platformUrl = vomWeg
+      uebernommen++
+    }
+    if (r.platform !== 'primevideo' || !r.platformUrl) continue
+    const neu = amazonAdresseRichten(r.platformUrl)
+    if (neu !== r.platformUrl) gerichtet++
+    r.platformUrl = neu
+  }
+  if (uebernommen) log(`${uebernommen} Termine ohne Adresse haben die des Weges desselben Titels übernommen`)
+  return gerichtet
+}

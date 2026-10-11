@@ -55,6 +55,12 @@ export function amazonTitelAdresse(kennung: string): string {
  * ASINs unter `/gp/video/detail/`: **fünfzehn von fünfzehn** mit voller
  * Titelseite, auch die acht, deren `/dp/`-Form lebt.
  *
+ * Zweite Stichprobe 11.10.2026 (15 zufällige ASINs, einzeln abgerufen): `/gp/video/detail/` 15 von 15 lebt,
+ * `/dp/` 3 von 15 mit 404 (B0FTTR1XB9, B0CK7HLF2F, B0CH88PCPB) — Daniels Einzeltest „`/dp/` geht" gilt nicht für alle.
+ *
+ * **Abfrage und `ref` fallen weg** (11.10.2026): `?ref_=…`, `/ref=…`, `?linkId=…&language=…` tragen nichts zur
+ * Seite, nur Tracking und Länge. Die Kennung im Pfad bleibt, wie sie ist.
+ *
  * Der Befund in `link-check.json` verdeckte das, weil die Prüfung bei einem 404
  * still auf die Video-Adresse ausweicht und den Erfolg unter der alten Adresse
  * bucht. Im Kalender stand damit ein grüner Verweis, der Besucher auf eine
@@ -64,7 +70,9 @@ export function amazonTitelAdresse(kennung: string): string {
  * `/dp/`; ihre Verweise laufen nicht durch diese Funktion.
  */
 export function amazonAdresseRichten(url: string): string {
-  return url.replace(/^(https?:\/\/(?:www\.)?amazon\.de)\/dp\/([A-Z0-9]{10,32})(?=[/?#]|$)/i, '$1/gp/video/detail/$2')
+  return url
+    .replace(/^(https?:\/\/(?:www\.)?amazon\.de)\/dp\/([A-Z0-9]{10,32})(?=[/?#]|$)/i, '$1/gp/video/detail/$2')
+    .replace(/^(https?:\/\/(?:www\.)?amazon\.de\/gp\/video\/detail\/[^/?#]+)[/?#].*$/i, '$1')
 }
 
 /**

@@ -467,7 +467,32 @@ export function releasesAus(
       quellen: [quelle],
     })
   }
-  return out
+  return out.map((r) => mitPlanDesKanalAnbieters(r, vorhanden))
+}
+
+/**
+ * **Ein Crunchyroll-Kanal auf Prime führt den Wochenplan von Crunchyroll** (Daniel, 11.10.2026, „Reborn as a Space Mercenary":
+ * Prime „1 Fg.", Crunchyroll „2 Fg."). Die Meldung nennt weder Folgenzahl noch Uhrzeit, und ein Wochentermin ohne Folgenzahl
+ * erzeugt nur eine Folge (`expandEvents`). Beides kommt deshalb vom Crunchyroll-Termin desselben Titels mit gleichem Starttag;
+ * der Starttag bleibt der der Meldung. Gleiche Regel wie im Panel für Wege (`web/…/prime-kanal.ts`).
+ */
+function mitPlanDesKanalAnbieters(r: Release, vorhanden: Release[]): Release {
+  if (r.platform !== 'primevideo' || r.kanal?.toLowerCase() !== 'crunchyroll' || r.releaseType !== 'weekly' || r.schedule.episodeCount) return r
+  const cr = vorhanden.find(
+    (x) => x.titleId === r.titleId && x.platform === 'crunchyroll' && x.releaseType === 'weekly' && x.schedule.episodeCount && x.schedule.firstEpisodeDate === r.schedule.firstEpisodeDate,
+  )
+  if (!cr) return r
+  const { time, episodeCount, episodeCountAssumed, episodeCountSource } = cr.schedule
+  return {
+    ...r,
+    schedule: {
+      ...r.schedule,
+      ...(time ? { time } : {}),
+      episodeCount,
+      ...(episodeCountAssumed ? { episodeCountAssumed } : {}),
+      ...(episodeCountSource ? { episodeCountSource } : {}),
+    },
+  }
 }
 
 /** Ein Tag, der nur der Meldetag ist („Ab sofort bei Netflix“), steht als abgeleitet (`schedule.estimated`), nicht als bestätigt. */
