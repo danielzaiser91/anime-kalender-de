@@ -17,7 +17,7 @@ const WURZEL = resolve(import.meta.dirname, '..')
 const DATEN = resolve(WURZEL, 'public/data')
 const ZIEL = resolve(WURZEL, 'web/buehne/faelle.json')
 
-/** Fester Zeitpunkt der Bühne (UTC) — Freitag nach dem Start von Tokyo Revengers: Staffel 4. */
+/** Fester Zeitpunkt der Bühne (UTC) — Sonntag, 11.10.2026: Tokyo Revengers Staffel 4 läuft, Folge 3 kommt am 16.10. */
 const HEUTE = '2026-10-11T10:00:00Z'
 const PLATZHALTER = 'https://platzhalter.invalid/cover/'
 const PLATZHALTER_BILDER = 6
@@ -33,10 +33,10 @@ const lies = (name) => JSON.parse(readFileSync(resolve(DATEN, name), 'utf8'))
 const liesWennDa = (name, rueckfall) => (existsSync(resolve(DATEN, name)) ? lies(name) : rueckfall)
 const gruppe = (id) => id % 32
 
-/** Bilder werden zu einem von sechs Platzhaltern (Dateien in `web/buehne/public/cover/`), stabil je Kennung. */
+/** Bilder werden zu einem von sechs Platzhaltern (Dateien in `web/buehne/public/cover/`), stabil je Kennung; der Trailer entfällt (die Einbettung wäre ein fremder Abruf). */
 function ohneBilder(daten) {
   const platzhalter = (id) => `${PLATZHALTER}${Math.abs(id) % PLATZHALTER_BILDER}.svg`
-  const eintrag = (t, id) => ({
+  const eintrag = ({ trailer: _trailer, ...t }, id) => ({
     ...t,
     ...(t.coverImage && { coverImage: platzhalter(id) }),
     ...(t.bannerImage && { bannerImage: platzhalter(id) }),
@@ -84,6 +84,11 @@ function folgenVerzeichnis(ids, ak) {
   }
 }
 
+/** Das Großplakat `cg` (TMDB) fällt weg: Es würde beim Überfahren des Covers eine fremde Adresse laden. */
+function ohneGrossbild({ cg: _cg, ...rest }) {
+  return rest
+}
+
 /** Handlung, Disc, Sprecher und Folgenlisten nach `ak` — die Bühne setzt daraus `synopses/<n>.json` usw. wieder zusammen. */
 function teildateien(ids, ak) {
   const synopsen = {}
@@ -92,7 +97,7 @@ function teildateien(ids, ak) {
   const folgen = {}
   for (const id of ids) {
     const s = liesWennDa(`synopses/${gruppe(id)}.json`, {})[id]
-    if (s) synopsen[ak(id)] = s
+    if (s) synopsen[ak(id)] = ohneGrossbild(s)
     const d = liesWennDa(`disc/${gruppe(id)}.json`, {})[id]
     if (d) disc[ak(id)] = d
     const v = liesWennDa(`voices/${id}.json`, undefined)

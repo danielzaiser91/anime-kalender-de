@@ -17,7 +17,16 @@ export const STANDARD: Omit<Zustand, 'mockup'> = { variante: '', fall: '', gerae
 /** Teilt `#name?a=1` in Namen und Werte. */
 export function leseHash(hash: string): { name: string; werte: URLSearchParams } {
   const [name = '', abfrage = ''] = hash.replace(/^#/, '').split('?')
-  return { name: decodeURIComponent(name), werte: new URLSearchParams(abfrage) }
+  return { name: dekodiert(name), werte: new URLSearchParams(abfrage) }
+}
+
+/** Ein kaputtes `%` im Link soll die Bühne nicht abstürzen lassen. */
+function dekodiert(text: string): string {
+  try {
+    return decodeURIComponent(text)
+  } catch {
+    return text
+  }
 }
 
 const wahl = <T extends string>(wert: string | null, erlaubt: readonly T[], sonst: T): T => (erlaubt.includes(wert as T) ? (wert as T) : sonst)

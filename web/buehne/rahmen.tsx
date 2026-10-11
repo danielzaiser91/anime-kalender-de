@@ -5,7 +5,7 @@ import type { FaelleDatei } from './faelle.ts'
 import { Leiste } from './leiste.tsx'
 import { Raster } from './raster.tsx'
 import { ladeMockups } from './mockups-laden.ts'
-import { alleMockups, mockupMit } from './register.ts'
+import { alleMockups, mockupMit, type MockupDef } from './register.ts'
 import { leseHash, zustandAus, type Zustand } from './zustand.ts'
 
 function aktuellerHash(): string {
@@ -28,9 +28,11 @@ function Uebersicht() {
   )
 }
 
-/** Fehlende Teile des Zustands mit den Vorgaben des Mockups auffüllen (erste Variante, erster Fall). */
-function mitVorgaben(z: Zustand, ersterFall: string, ersteVariante: string): Zustand {
-  return { ...z, fall: z.fall || ersterFall, variante: z.variante || ersteVariante }
+/** Fehlende oder unbekannte Fälle und Varianten werden zu den ersten des Mockups. */
+function mitVorgaben(z: Zustand, def: MockupDef): Zustand {
+  const fall = def.faelle.includes(z.fall) ? z.fall : (def.faelle[0] ?? '')
+  const variante = z.variante in def.varianten ? z.variante : (Object.keys(def.varianten)[0] ?? '')
+  return { ...z, fall, variante }
 }
 
 function Rahmen({ faelle }: { faelle: FaelleDatei }) {
@@ -44,7 +46,7 @@ function Rahmen({ faelle }: { faelle: FaelleDatei }) {
   const def = mockupMit(name)
   if (!def) return <Uebersicht />
   const ersteVariante = Object.keys(def.varianten)[0] ?? ''
-  const zustand = mitVorgaben(zustandAus(name, werte), def.faelle[0] ?? '', ersteVariante)
+  const zustand = mitVorgaben(zustandAus(name, werte), def)
   const namen = Object.fromEntries(Object.entries(faelle.faelle).map(([slug, f]) => [slug, f.name]))
   return (
     <>

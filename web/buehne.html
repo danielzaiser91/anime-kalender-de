@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark light" />
     <meta name="robots" content="noindex" />
+    <!-- Kein Netz: Der Browser selbst verweigert jede Adresse außerhalb der Bühne. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self'; frame-src 'self'; base-uri 'self'" />
     <title>Bühne</title>
   </head>
   <body>
