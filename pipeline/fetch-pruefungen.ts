@@ -34,7 +34,7 @@ import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirm
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { folgentitelAusNotiz, folgeUeberTitel } from './lib/folgentitel-anker.ts'
-import { schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
+import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -772,6 +772,7 @@ for (const gruppe of jeAdresse.values()) {
         const nr = staffelNummern(reihe1).get(ids[0]!)
         if (nr != null && nr !== 1) {
           offenGeblieben.push(`${p.url} — Staffel 1 der Seite ${seite} gehört nicht zum Auftragstitel ${ids[0]} (Staffel ${nr}), Meldung bleibt liegen`)
+          ohneZuordnung.push(liegenGeblieben(p, `Staffel 1 der Seite ${seite} gehört nicht zum Auftragstitel`, ids, `Seite ${seite} als Verweis an ihren Staffel-Titel eintragen`))
           continue
         }
       }
@@ -797,6 +798,7 @@ for (const gruppe of jeAdresse.values()) {
       const zielFolgen = ziel.map((id) => liste.find((x) => x.id === id)?.episodes ?? 0).reduce((a, b) => a + b, 0)
       if (ziel.length && gemeldetZahl && zielFolgen && (gemeldetZahl > zielFolgen * 1.5 || gemeldetZahl < zielFolgen / 1.5)) {
         offenGeblieben.push(`${p.url} — Staffel ${staffelNr}: ${gemeldetZahl} Folgen gemeldet, Zielstaffel ${ziel.join(', ')} hat ${zielFolgen}, Meldung bleibt liegen`)
+        ohneZuordnung.push(liegenGeblieben(p, `Staffel ${staffelNr}: ${gemeldetZahl} Folgen gemeldet, Zielstaffel hat ${zielFolgen}`, ids, `Staffel ${staffelNr} prüfen: Folgenzahl passt nicht`))
         continue
       }
       if (ziel.length && !schonRichtig) {
@@ -838,6 +840,7 @@ for (const gruppe of jeAdresse.values()) {
           log(`Staffel ${staffelNr} von ${p.url}: über Netflix' Staffelaufteilung verteilt`)
         } else {
           offenGeblieben.push(`${p.url} — Staffel ${staffelNr} in der Reihe nicht zu bestimmen, Meldung bleibt liegen`)
+          ohneZuordnung.push(liegenGeblieben(p, `Staffel ${staffelNr} in der Reihe nicht zu bestimmen`, ids, `Seite ${kennung || p.url} als Verweis an den Titel von Staffel ${staffelNr} eintragen`))
           continue
         }
       }

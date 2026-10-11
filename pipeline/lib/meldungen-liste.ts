@@ -14,6 +14,23 @@ export interface OhneZuordnung {
   plattform: string
   befund: string
   vorschlag: number[]
+  /** Gesetzt, wo die Standardzeilen nicht passen (Titel bekannt, Staffel nicht). */
+  zuTun?: string
+}
+
+/**
+ * Eine Meldung, deren Titel bekannt ist, deren Staffel der Lauf aber nicht festlegen
+ * kann. Sie bleibt im Briefkasten; die Liste macht das sichtbar (11.10.2026: 28 Adressen
+ * lagen so seit Wochen, nur im Lauf-Log).
+ */
+export function liegenGeblieben(
+  p: { url: string; plattform: string; befund: string; serientitel: string | null; titel: string | null },
+  grund: string,
+  ids: number[],
+  zuTun: string,
+): OhneZuordnung {
+  const name = p.serientitel ?? p.titel ?? ''
+  return { url: p.url, name: name ? `${name} — ${grund}` : grund, plattform: p.plattform, befund: p.befund, vorschlag: ids, zuTun }
 }
 
 interface ListenTitel {
@@ -40,13 +57,15 @@ const KOPF = (heute: string): string[] => [
   '## Was hier zu tun ist',
   '',
   'Die Erweiterung hat einen Befund gemeldet, aber unser Datensatz kennt die Adresse',
-  'nicht. Drei Fälle, drei Handgriffe:',
+  'nicht. Vier Fälle, vier Handgriffe:',
   '',
   '- **„nichts"** — erledigt sich von selbst, nur der Vollständigkeit halber aufgeführt.',
   '- **„Vorschlag bestätigen"** — stimmt der vorgeschlagene Titel? Dann sag Bescheid,',
   '  ich trage die Adresse als Verweis ein und übernehme den Befund.',
   '- **„Titel von Hand suchen"** — die Seite hat keinen Serientitel gemeldet. Öffne die',
   '  Adresse und sag mir, welcher Anime das ist; den Rest mache ich.',
+  '- **„Staffel …"** — der Titel steht fest, die Staffel der Seite nicht. Die Meldung bleibt',
+  '  im Briefkasten, bis die Seite als Verweis am Titel der richtigen Staffel steht.',
   '',
   '| Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |',
   '|---|---|---|---|---|---|',
@@ -85,13 +104,14 @@ function zeile(o: OhneZuordnung, liste: ListenTitel[]): string {
    * gewinnt nichts dazu — „Titel von Hand suchen" wäre Arbeit, die keine ist.
    */
   const zuTun =
-    o.befund === 'weg'
+    o.zuTun ??
+    (o.befund === 'weg'
       ? 'nichts — diese Adresse steht bei uns nirgends'
       : !o.vorschlag.length
         ? 'Titel von Hand suchen'
         : erledigt
           ? 'nichts — wir führen dort keinen Verweis'
-          : 'Vorschlag bestätigen, dann Adresse eintragen'
+          : 'Vorschlag bestätigen, dann Adresse eintragen')
   return `| ${o.plattform} | ${o.url} | ${o.name || '—'} | ${o.befund} | ${namen.join('<br>') || '—'} | ${zuTun} |`
 }
 
