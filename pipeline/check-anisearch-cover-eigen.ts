@@ -3,7 +3,7 @@
  * Aufruf: `npm run check:logic`.
  */
 import sharp from 'sharp'
-import { adresseAus, holeCover, istPlatzhalter, offeneKennungen, quelle300, type Abhaengigkeiten, type Manifest } from './lib/anisearch-cover-eigen.ts'
+import { adresseAus, adresseAusKennung, bildAdresse, formVon, holeCover, istPlatzhalter, offeneKennungen, quelle300, type Abhaengigkeiten, type Manifest } from './lib/anisearch-cover-eigen.ts'
 import { coverFrei, pfadErlaubt, robotsAlterMs } from './lib/anisearch-robots.ts'
 import { holeRobots } from './fetch-anisearch-robots.ts'
 
@@ -45,13 +45,16 @@ const titel = [{ id: 10_000_005 }, { id: 10_000_003, coverImage: 'b/x.jpg' }, { 
 pruefe('nur aniSearch-Titel ohne Cover, aufsteigend, ohne Manifest-Einträge', offeneKennungen(titel, { 7: { stand: 'x', grund: 'nsfw' } }).join() === '2,5')
 pruefe('Adresse aus dem cover-Objekt: groß vor mittel', adresseAus({ medium: url(5, 300), large: url(5) }) === url(5))
 pruefe('Adresse von fremdem Host zählt nicht', adresseAus({ large: 'https://example.org/a_600.webp' }) === undefined)
+pruefe('Rückfall: cover-Objekt ohne bekannte Adresse → aus der Kennung gebildet', bildAdresse('12345', { nsfw: 0 }) === adresseAusKennung('12345') && adresseAusKennung('12345') === url(12345, 300))
+pruefe('Ohne cover-Feld keine Adresse', bildAdresse('12345', undefined) === undefined && bildAdresse('12345', null) === undefined)
+pruefe('Form fürs Log nennt Schlüssel und cover, gekürzt', formVon({ id: 1, cover: { nsfw: 0 } }) === 'Schlüssel [id, cover], cover = {"nsfw":0}' && formVon({ id: 1 }).endsWith('cover = fehlt'))
 pruefe('Quelle wird _300', quelle300(url(12345)) === url(12345, 300))
 pruefe('Platzhalter ecchi und 0_600 erkannt, echtes Cover nicht', istPlatzhalter(`${CDN}/ecchi.v1_600.webp`) && istPlatzhalter(`${CDN}/0_600.webp`) && !istPlatzhalter(url(10)))
 
 console.log('\nCover eigen: Lauf mit gefälschter fetch-Antwort')
 {
   const spur = neueSpur()
-  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 1: { large: url(1) }, 2: { large: `${CDN}/ecchi.v1_600.webp` }, 3: { nsfw: 18, large: url(3) }, 4: {}, 5: { large: url(5) }, 6: { large: url(6) } }) : (spur.abgerufen.push(a), bildAntwort())), spur)
+  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 1: { large: url(1) }, 2: { large: `${CDN}/ecchi.v1_600.webp` }, 3: { nsfw: 18, large: url(3) }, 4: null, 5: { large: url(5) }, 6: { large: url(6) } }) : (spur.abgerufen.push(a), bildAntwort())), spur)
   const m: Manifest = {}
   const z = await holeCover(['1', '2', '3', '4', '5', '6'], m, OPT, w)
   pruefe('zwei Bilder geladen und geschrieben, Pfad relativ zur Bild-Domain', z.neu === 3 && spur.geschrieben.join() === 'anisearch/1.webp,anisearch/5.webp,anisearch/6.webp', spur.geschrieben)
@@ -86,7 +89,7 @@ console.log('\nCover eigen: Sperre und Fehler')
 }
 {
   const spur = neueSpur()
-  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 1: {}, 2: {}, 3: {} }) : bildAntwort()), spur)
+  const w = weltMit((a) => (a.includes('api.anisearch.com') ? apiAntwort({ 1: null, 2: null, 3: null }) : bildAntwort()), spur)
   const m: Manifest = {}
   const z = await holeCover(['1', '2', '3'], m, OPT, w)
   pruefe('Ganzer Block ohne Bildadresse: Lauf endet, nichts vermerkt', Boolean(z.abgebrochen) && Object.keys(m).length === 0, z)

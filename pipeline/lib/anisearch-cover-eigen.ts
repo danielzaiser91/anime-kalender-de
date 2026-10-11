@@ -1,6 +1,6 @@
 import { nachFehlern } from './anisearch-sperre.ts'
 import { anisearchKopf } from './anisearch-api.ts'
-import { warn } from './util.ts'
+import { log, warn } from './util.ts'
 
 /**
  * **Eigene Kopien der aniSearch-Cover** (11.10.2026, Daniel: herunterladen und selbst ausliefern ist erlaubt, nie hotlinken; R2 als Ziel).
@@ -62,6 +62,23 @@ export function adresseAus(cover: unknown): string | undefined {
   return kandidaten.find((k): k is string => typeof k === 'string' && k.startsWith(BILD_HOST))
 }
 
+/** Die Adresse, die das Muster der Seiten vorgibt (2.601 von 2.705 archivierten Seiten bestätigt, 11.10.2026): `<Kennung/1000 abgerundet>/<Kennung>_300.webp`. */
+export const adresseAusKennung = (id: string): string => `${BILD_HOST}images/anime/cover/${Math.floor(Number(id) / 1000)}/${id}_300.webp`
+
+/** Die Stufe des Kennzeichens am Cover (18 = Hentai, kleinere Werte = Ecchi o. Ä.); fehlt es, 0. */
+const nsfwStufe = (cover: unknown): number => Number((cover as { nsfw?: number } | null | undefined)?.nsfw) || 0
+
+/**
+ * Die Adresse für einen Titel: die der API, sonst aus der Kennung gebildet, sobald die API ein `cover`-Objekt führt (Probelauf 11.10.2026: das Objekt trug keine
+ * Adresse im erwarteten Schlüssel). Ohne `cover` bleibt es bei „keine Adresse“: Dort ist das Bild nicht freigegeben oder fehlt (`cover/0_600`).
+ */
+export function bildAdresse(id: string, cover: unknown): string | undefined {
+  return adresseAus(cover) ?? (cover && typeof cover === 'object' ? adresseAusKennung(id) : undefined)
+}
+
+/** Kurze Beschreibung der Antwortform für das Log (Schlüssel, `cover` als JSON, gekürzt): macht eine falsche Annahme im nächsten Lauf sichtbar. */
+export const formVon = (info: Record<string, unknown>): string => `Schlüssel [${Object.keys(info).join(', ')}], cover = ${(JSON.stringify(info.cover) ?? 'fehlt').slice(0, 300)}`
+
 /** `ecchi.v1_600.webp` (aniSearch verbirgt das Bild) und `cover/0_600.webp` (kein Cover) sind keine Titelbilder. */
 export const istPlatzhalter = (url: string): boolean => /\/cover\/(ecchi[^/]*|0_\d+\.\w+)$/.test(url)
 
@@ -81,11 +98,13 @@ async function ladeBild(url: string, dep: Abhaengigkeiten): Promise<Bild> {
   }
 }
 
-async function holeInfos(ids: string[], opt: Optionen, dep: Abhaengigkeiten): Promise<Map<string, { cover?: unknown }> | undefined> {
+type Info = Record<string, unknown> & { id: number; cover?: unknown }
+
+async function holeInfos(ids: string[], opt: Optionen, dep: Abhaengigkeiten): Promise<Map<string, Info> | undefined> {
   try {
     const antwort = await dep.abruf(`https://api.anisearch.com/v1/anime/${ids.join(',')}?lang=de`, { headers: anisearchKopf(opt.token) })
     if (!antwort.ok) return void warn(`aniSearch-API: HTTP ${antwort.status}`)
-    const roh = ((await antwort.json()) as { results?: { id: number; cover?: unknown }[] }).results ?? []
+    const roh = ((await antwort.json()) as { results?: Info[] }).results ?? []
     return new Map(roh.map((r) => [String(r.id), r]))
   } catch (fehler) {
     return void warn(`aniSearch-API: ${(fehler as Error).message}`)
@@ -140,10 +159,9 @@ async function einBild(id: string, url: string, manifest: Manifest, s: Sperre, o
 }
 
 /** Ein Titel aus der API-Antwort: Auslassungen sofort vermerken, sonst das Bild holen. */
-async function einTitel(id: string, info: { cover?: unknown }, manifest: Manifest, s: Sperre, opt: Optionen, z: Zaehler, dep: Abhaengigkeiten): Promise<boolean> {
-  const nsfw = (info.cover as { nsfw?: number } | null | undefined)?.nsfw === 18
-  const adresse = adresseAus(info.cover)
-  const grund: Grund | undefined = nsfw ? 'nsfw' : !adresse ? 'ohne-adresse' : istPlatzhalter(adresse) ? 'platzhalter' : undefined
+async function einTitel(id: string, info: Info, manifest: Manifest, s: Sperre, opt: Optionen, z: Zaehler, dep: Abhaengigkeiten): Promise<boolean> {
+  const adresse = bildAdresse(id, info.cover)
+  const grund: Grund | undefined = nsfwStufe(info.cover) > 0 ? 'nsfw' : !adresse ? 'ohne-adresse' : istPlatzhalter(adresse) ? 'platzhalter' : undefined
   if (grund) {
     manifest[id] = { grund, ...(adresse ? { quelle: adresse } : {}), stand: stand(dep) }
     z.ohneBild++
@@ -170,8 +188,9 @@ export async function holeCover(offen: string[], manifest: Manifest, opt: Option
       if ((await reagiere(s, opt, dep)) === 'ende') break
       continue
     }
-    if (infos.size >= 3 && ![...infos.values()].some((i) => adresseAus(i.cover) || (i.cover as { nsfw?: number } | undefined)?.nsfw === 18)) {
-      z.abgebrochen = 'API liefert keine Bildadresse im cover-Objekt (Form prüfen)'
+    if (k === 0) for (const i of [...infos.values()].slice(0, 3)) log(`aniSearch-API, Form der Antwort für ${i.id}: ${formVon(i)}`)
+    if (infos.size >= 3 && ![...infos.values()].some((i) => bildAdresse(String(i.id), i.cover) || nsfwStufe(i.cover) > 0)) {
+      z.abgebrochen = `API führt kein cover-Objekt (Form prüfen): ${formVon([...infos.values()][0]!)}`
       break
     }
     let weiter = true
