@@ -49,6 +49,7 @@ jobs:
     outputs:
       offen: ${{ steps.suche.outputs.offen }}
       nummern: ${{ steps.suche.outputs.nummern }}
+      mergebar: ${{ steps.suche.outputs.mergebar }}
     steps:
       - id: suche
         env:
@@ -57,13 +58,43 @@ jobs:
           # `mergeable` steht direkt nach dem Anlegen auf UNKNOWN. Hier ist das
           # kein Problem: Dieser Lauf startet erst, wenn der Sammler fertig ist,
           # und der hat die Berechnung bereits abgewartet.
-          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable \
-            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.mergeable != "MERGEABLE")]' > /tmp/offen.json
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable,author,isCrossRepository \
+            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.author.login == "app/anime-kalender-daten" and .isCrossRepository == false) | select(.mergeable != "MERGEABLE")]' > /tmp/offen.json
           ANZAHL="$(jq 'length' /tmp/offen.json)"
           NUMMERN="$(jq -r '[.[].number] | join(", ")' /tmp/offen.json)"
+          # Mergebar und trotzdem offen: der Merge des Sammlers ist gescheitert (Bypass, Rennen um main) — der Job `nachholen` holt ihn nach.
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable \
+            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.mergeable == "MERGEABLE") | .number] | join(" ")' > /tmp/mergebar.txt
+          echo "mergebar=$(cat /tmp/mergebar.txt)" >> "$GITHUB_OUTPUT"
           echo "offen=$ANZAHL" >> "$GITHUB_OUTPUT"
           echo "nummern=$NUMMERN" >> "$GITHUB_OUTPUT"
           echo "Offene Daten-Zweige mit Konflikt: $ANZAHL ($NUMMERN)"
+
+  # Konfliktfreie Daten-Pull-Requests, die offen geblieben sind (Merge des Sammlers gescheitert): mit dem Token der App nachholen, rot wenn auch das scheitert.
+  nachholen:
+    needs: pruefen
+    if: needs.pruefen.outputs.mergebar != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: App-Token holen
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          private-key: ${{ secrets.DATEN_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Mergebare Daten-Pull-Requests mergen
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          NUMMERN: ${{ needs.pruefen.outputs.mergebar }}
+        run: bash tools/daten-pr-mergen.sh $NUMMERN
 
   zusammenfuehren:
     needs: pruefen
@@ -184,21 +215,7 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app.outputs.token }}
           NUMMERN: ${{ needs.pruefen.outputs.nummern }}
-        run: |
-          for nr in ${NUMMERN//,/ }; do
-            zustand=UNKNOWN
-            for _ in 1 2 3 4 5 6 7 8 9 10; do
-              zustand="$(gh pr view "$nr" --json mergeable -q .mergeable)"
-              [ "$zustand" != UNKNOWN ] && break
-              sleep 3
-            done
-            if [ "$zustand" != MERGEABLE ]; then
-              echo "::notice::Pull Request $nr bleibt offen ($zustand)."
-              continue
-            fi
-            titel="$(gh pr view "$nr" --json title -q .title)"
-            gh pr merge "$nr" --squash --delete-branch --subject "$titel" || echo "::warning::Pull Request $nr ließ sich nicht mergen."
-          done
+        run: bash tools/daten-pr-mergen.sh ${NUMMERN//,/ }
 
       - name: Lauf abmelden
         continue-on-error: true
