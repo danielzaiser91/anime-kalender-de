@@ -72,6 +72,9 @@ pruefe('Übernahme: zwei Reihen mit mehreren Titeln werden nie verbunden, sie st
 pruefe('Übernahme: ein Alleinstehender zwischen zwei Reihen wandert nirgends hin (mehrdeutig)', !u.kanten.some((x) => x.ids.includes(8)) && u.pruefliste.filter((p) => p.art === 'mehrdeutig').length === 1)
 pruefe('Übernahme: Art ohne Regel (Originalwerk) bindet nichts', !u.kanten.some((x) => x.ids.includes(9)))
 pruefe('Übernahme: ausgenommene Titel (Crossover) wandern nicht', !uebernimmReihen(titelU, kantenU, new Map(), reiheU, new Set([5])).kanten.some((x) => x.ids.includes(5)))
+const universum = [{ id: 1, name: 'Marvel Iron Man', anisearchId: 1 }, { id: 2, name: 'Marvel Iron Man 2', anisearchId: 2 }, { id: 3, name: 'Marvel Blade', anisearchId: 3 }]
+const uni = uebernimmReihen(universum, [k(3, 1, 'Gemeinsames Universum')], new Map([[1, ['Marvel Iron Man']], [3, ['Marvel Blade']]]), (id) => (id === 2 ? 1 : id))
+pruefe('Übernahme: „Gemeinsames Universum“ lässt nichts wandern, der Fall steht als „universum“ auf der Prüfliste', uni.kanten.length === 0 && uni.pruefliste.length === 1 && uni.pruefliste[0]!.art === 'universum', JSON.stringify(uni))
 
 /* Bestand: gemessen am 11.10.2026 mit 15.091 Titeln mit Seite, 77,1 % gleich (Hälfte A 75,9 %, Hälfte B 78,2 %); die Grenzen liegen rund 6 Punkte darunter und schlagen nur bei einem Bruch an.
  * Titel ohne Referenz-Reihe (aniSearch-Titel, die AniList nicht kennt: 2.409) zählen nicht mit — mit ihnen fiel der Wert nach dem Katalog-Lauf vom 10.10. auf 68,1 %, ohne dass ein Parser oder eine Seite kaputt war. */

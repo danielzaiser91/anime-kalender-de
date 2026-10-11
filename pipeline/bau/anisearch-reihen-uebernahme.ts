@@ -9,8 +9,8 @@ import { type Kante, type Namen, type Regel, REGEL, zaehlt } from './anisearch-r
  */
 export type Kandidat = { id: number; name: string; anisearchId?: number }
 export type ReiheRef = { id: number; name: string; titel: number }
-/** `verschmilzt`: aniSearch verbindet zwei Reihen mit mehreren Titeln; `mehrdeutig`: Alleinstehende erreichen zwei oder mehr Reihen. */
-export type Pruefzeile = { art: 'verschmilzt' | 'mehrdeutig'; reihen: ReiheRef[]; alleinstehende: string[]; beispiel: string }
+/** `verschmilzt`: aniSearch verbindet zwei Reihen mit mehreren Titeln; `mehrdeutig`: Alleinstehende erreichen zwei oder mehr Reihen; `universum`: nur „Gemeinsames Universum“ verbindet sie (Marvel-, Disney-Sammelbecken: wandert nie). */
+export type Pruefzeile = { art: 'verschmilzt' | 'mehrdeutig' | 'universum'; reihen: ReiheRef[]; alleinstehende: string[]; beispiel: string }
 export type Uebernahme = {
   /** Kanten im Format von `reihen-von-hand.yaml` (`ids[0]` ist ein Titel der Zielreihe). */
   kanten: { ids: number[] }[]
@@ -20,6 +20,10 @@ export type Uebernahme = {
 }
 
 type Nachbarn = Map<number, Map<number, string>>
+
+const UNIVERSUM = 'Gemeinsames Universum'
+/** Die Regel der Messung, nur ohne „Gemeinsames Universum“: 7 von 11 Treffern lagen falsch (Blade/X-Men/Iron Man in einer Reihe, 11.10.2026, Prüfer). */
+export const WANDERREGEL: Regel = { ...REGEL, [UNIVERSUM]: 'nie' }
 
 function verbinde(n: Nachbarn, a: number, b: number, art: string): void {
   if (a === b) return
@@ -78,11 +82,28 @@ function verschmelzendePaare(n: Nachbarn, gross: (id: number) => boolean, wurzel
   return paare
 }
 
+/** „Gemeinsames Universum“ verbindet nichts, zeigt aber, was zusammenpassen könnte: je Paar von Reihen, die nach der Übernahme verschieden bleiben, eine Zeile. */
+function universumFaelle(titel: Kandidat[], kanten: Kante[], namen: Namen, verbunden: { ids: number[] }[], wurzel: (id: number) => number, ref: (id: number) => ReiheRef, name: (id: number) => string): Pruefzeile[] {
+  const ziel = new Map(verbunden.flatMap((k) => k.ids.map((id): [number, number] => [id, k.ids[0]!])))
+  const reiheVon = (id: number): number => ziel.get(id) ?? wurzel(id)
+  const n = titelNachbarn(titel, kanten.filter((k) => k.art === UNIVERSUM), namen, { [UNIVERSUM]: REGEL[UNIVERSUM]! })
+  const paare = new Map<string, Pruefzeile>()
+  for (const [a, ns] of n) {
+    for (const b of ns.keys()) {
+      const [ra, rb] = [reiheVon(a), reiheVon(b)]
+      if (a > b || ra === rb) continue
+      const schluessel = `${Math.min(ra, rb)}|${Math.max(ra, rb)}`
+      if (!paare.has(schluessel)) paare.set(schluessel, { art: 'universum', reihen: [Math.min(ra, rb), Math.max(ra, rb)].map(ref), alleinstehende: [], beispiel: `${name(a)} —${UNIVERSUM}→ ${name(b)}` })
+    }
+  }
+  return [...paare.values()]
+}
+
 /**
  * `titel`: alle Titel des Baus (mit Name und aniSearch-Kennung); `wurzel`: die Reihe je Titel zum Zeitpunkt der Übernahme (Union-Find des Baus);
  * `ausgenommen`: Titel, die nie umziehen (Crossover, die ihre Reihe aus dem ersten Elternteil erben).
  */
-export function uebernimmReihen(titel: Kandidat[], kanten: Kante[], namen: Namen, wurzel: (id: number) => number, ausgenommen: Set<number> = new Set(), regel: Regel = REGEL): Uebernahme {
+export function uebernimmReihen(titel: Kandidat[], kanten: Kante[], namen: Namen, wurzel: (id: number) => number, ausgenommen: Set<number> = new Set(), regel: Regel = WANDERREGEL): Uebernahme {
   const mitglieder = titel.filter((t) => !ausgenommen.has(t.id))
   const groesse = new Map<number, number>()
   for (const t of titel) groesse.set(wurzel(t.id), (groesse.get(wurzel(t.id)) ?? 0) + 1)
@@ -106,5 +127,6 @@ export function uebernimmReihen(titel: Kandidat[], kanten: Kante[], namen: Namen
   for (const p of verschmelzendePaare(n, gross, wurzel, name).values()) {
     ergebnis.pruefliste.push({ art: 'verschmilzt', reihen: p.reihen.map(ref), alleinstehende: [], beispiel: `${p.beispiel} (${p.kanten} Kante${p.kanten === 1 ? '' : 'n'})` })
   }
+  ergebnis.pruefliste.push(...universumFaelle(mitglieder, kanten, namen, ergebnis.kanten, wurzel, ref, name))
   return ergebnis
 }
