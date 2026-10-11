@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import type { PlatformId, ReleaseEvent } from '@shared/types.ts'
-import type { ReactNode } from 'react'
 import type { Dataset } from '../../lib/data.ts'
 import { EMPTY_FILTERS, isFilterActive, type FilterState } from '../../lib/filters.ts'
 import { useLang } from '../../lib/i18n.tsx'
@@ -114,39 +113,6 @@ export function Schalter({
           {hinweis && <span className="text-xs text-ak-leise">{hinweis}</span>}
         </span>
       )}
-    </button>
-  )
-}
-
-export function Pille({
-  an,
-  aus,
-  onClick,
-  children,
-  farbe,
-}: {
-  an: boolean
-  aus?: boolean
-  onClick: () => void
-  children: ReactNode
-  farbe?: string
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={an || aus}
-      onClick={onClick}
-      className={[
-        'inline-flex h-11 cursor-pointer items-center gap-2 rounded-full border px-3.5 text-[13px] font-bold transition sm:h-9',
-        aus
-          ? 'border-rose-400/70 bg-rose-500/10 text-rose-600 line-through dark:text-rose-300'
-          : an
-            ? 'border-transparent bg-emerald-500 text-emerald-950'
-            : 'border-ak-rand bg-ak-flaeche-2 text-ak-text hover:border-ak-leise',
-      ].join(' ')}
-    >
-      {farbe && <span className="size-2 rounded-full" style={{ background: farbe }} aria-hidden="true" />}
-      {children}
     </button>
   )
 }
