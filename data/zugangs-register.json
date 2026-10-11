@@ -39,6 +39,11 @@
       "name": "Claude — Anime2You-Artikel auswerten",
       "claude": true
     },
+    "claude-wache-urteil.yml": {
+      "fristStunden": 48,
+      "name": "Claude — Wache durchsehen",
+      "claude": true
+    },
     "claude-verpasst-recherche.yml": {
       "fristStunden": 48,
       "name": "Claude — ausgebliebene Folgen recherchieren",
@@ -75,6 +80,7 @@
         "claude-daten-merge.yml",
         "claude-reparatur.yml",
         "claude-anime2you-extraktion.yml",
+        "claude-wache-urteil.yml",
         "claude-verpasst-recherche.yml",
         "pr-pruefer.yml"
       ],
@@ -101,6 +107,7 @@
         "claude-daten-merge.yml",
         "claude-reparatur.yml",
         "claude-anime2you-extraktion.yml",
+        "claude-wache-urteil.yml",
         "claude-verpasst-recherche.yml",
         "crunchyroll-nachholen.yml",
         "d1-verbrauch.yml",
@@ -357,6 +364,7 @@
       "workflows": [
         "claude-daten-merge.yml",
         "claude-anime2you-extraktion.yml",
+        "claude-wache-urteil.yml",
         "claude-verpasst-recherche.yml",
         "delta-wache.yml",
         "fund-nachliefern.yml",
