@@ -1276,6 +1276,13 @@ Zweiter Einstieg in dieselbe Vite-App (Konzept: `daniel-zum-abarbeiten/listen/mo
 - **Warten:** `networkidle` hing bei mehreren Rahmen einer Seite; die Zelle gilt als bereit, wenn Schriften da sind und 600 ms lang weder DOM noch Scrollstand sich ändern.
 - **Befund bei der ersten Messung:** Die Staffelzeile von Reihen-Box A ist 26 px hoch (Ziel 44); `buehne:messen` bleibt für `reihen-box` rot, bis das Mockup nachgezogen ist. Das Panel selbst hat nach V2 (#841) nur noch 1–3 zu kleine Ziele je Fall.
 
+### Bühne, Schritt 4: Navigator und Skill (11.10.2026)
+
+- **Navigator** liegt im Repo `ticket-board` (`navigator/`; `mockups/index.html` hier ist nur die hochgeladene, unversionierte Kopie): Palette (Design-Menü) entfernt, Bühnen-Links mit Zustand (`buehne/buehne.html#reihen-box?v=A&fall=86&geraet=375&thema=dunkel`) und Knopf „Bühne“ — ticket-board PR 15. Ein Bühnen-Mockup steht wie jedes andere als Epic im Board; Alte Mockups bleiben im Verlauf (`archiv/`).
+- **Übersicht der Bühne** (`buehne.html#`) führt je Mockup Links je Variante und je Fall (Gerät und Thema „beide“); `tools/buehne-seite.mjs` liest die Mockup-Namen aus `data-mockup`, nicht mehr aus der Adresse.
+- **Skill `mockups`** (`tools/claude-global/skills/mockups/SKILL.md`, wird mit `node tools/claude-global/einrichten.mjs` nach `~/.claude` übernommen): Ablauf Ausschnitt → Fälle → Ersatz → Bilder → Messung → Hochladen → Board-Eintrag, dazu die Auftragsvorlage für Fable-Entwürfe.
+- **Offen:** `check:panel` (`tools/panel-bild.mjs`, 244 Zeilen) und `check:ansichten` (`tools/ansicht-bild.mjs`, 299 Zeilen) laufen noch gegen `dist/` mit beliebigen Titeln, nicht über die Bühne. Umstellen hieße: Zellen der Bühne statt eigener Seite, Titel nur aus den acht Fällen — Schätzung 0,5 bis 1 Tag, Nutzen gering, solange die Prüfung beliebige Titel braucht.
+
 ## Worker: abgelehnte Meldungen stehen im Protokoll (11.10.2026)
 
 `worker/wrangler.toml` schaltet Workers Logs ein (`[observability]`; Free 200.000 Ereignisse am Tag und 3 Tage Aufbewahrung, Paid 20 Mio. im Monat inklusive und 7 Tage; Stand 11.10.2026). Die Aufruf-Logs sind aus (`invocation_logs = false`): sie enthielten die volle Adresse samt Query (Token, Push-Endpunkt). Alle `console.*` im Worker laufen durch `fehlerLog()`/`kurzeMeldung()` in `worker/src/werte.ts` (Adressen, Mailadressen und lange Kennungen ersetzt, 120 Zeichen); die Datenschutzerklärung nennt das Fehlerprotokoll. Jede abgelehnte Meldung schreibt eine JSON-Zeile `meldung_abgelehnt` mit Route, Status, Grund, Plattform und Kennung (letzter Pfadabschnitt der Adresse, z. B. Netflix-Titelnummer) — nie Token, Adresse, Titel oder Notiz (`worker/src/pruefung-ablehnung.ts`). Im Stapel-Ergebnis trägt jeder abgelehnte Eintrag `grund`.
