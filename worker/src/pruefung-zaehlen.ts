@@ -3,7 +3,7 @@ import { type Env } from './env.ts'
 /**
  * **Eine Spalte der Meldungen, seit dem letzten Datenlauf** — sonst über alles.
  *
- * Mit Zeitgrenze wird für die Adressen `pruefung_gemeldet_url` erzwungen; die Begründung steht im
+ * Mit Zeitgrenze wird für die Adressen `pruefung_gemeldet` erzwungen (seit Migration 047 statt `pruefung_gemeldet_url`); die Begründung steht im
  * Kopf der Datei („Die Zeitgrenze allein genügte nicht"). Ohne Grenze bleibt es beim Durchlauf in
  * der Reihenfolge der Spalte — dort spart SQLite die Sortierung für `DISTINCT`.
  */
@@ -15,7 +15,7 @@ function seitStandAbfrage(
   if (!seitStand) {
     return env.DB.prepare(`SELECT DISTINCT ${spalte} FROM pruefung WHERE ${spalte} IS NOT NULL AND ${spalte} != ''`)
   }
-  const erzwingen = spalte === 'url' ? ' INDEXED BY pruefung_gemeldet_url' : ''
+  const erzwingen = spalte === 'url' ? ' INDEXED BY pruefung_gemeldet' : ''
   return env.DB.prepare(
     `SELECT DISTINCT ${spalte} FROM pruefung${erzwingen}
       WHERE ${spalte} IS NOT NULL AND ${spalte} != '' AND gemeldet_am > ?1`,
@@ -50,7 +50,7 @@ function seitStandAbfrage(
  * `pruefung_url_zeit` beginnt mit `url`; nach `gemeldet_am` kann SQLite darin nicht springen, und
  * weil der Index beide Spalten trägt, war er „covering" — der Optimierer nahm ihn lieber als einen
  * Sprung mit Sortierung. Gemessen: **8049 Zeilen je Aufruf, 4,35 Mio. an einem Tag, 62 % des
- * Kontingents.** Deshalb erzwingt die Abfrage jetzt `pruefung_gemeldet_url` (Migration 041) —
+ * Kontingents.** Deshalb erzwingt die Abfrage einen Zeitindex (Migration 041 `pruefung_gemeldet_url`, seit 047 `pruefung_gemeldet`, der es als Präfix enthält) —
  * damit steht `SEARCH … (gemeldet_am>?)` im Plan, verifiziert mit `EXPLAIN QUERY PLAN`. Die beiden
  * anderen Spalten liefen schon über `pruefung_gemeldet` und suchen dort korrekt.
  */

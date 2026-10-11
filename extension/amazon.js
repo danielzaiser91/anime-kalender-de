@@ -11031,7 +11031,7 @@ async function speicherSchreiben(werte) {
       lauf.planBekannt = true
       primeSpur(lauf, 'plan', { staffeln: staffeln.map((s) => `${s.nummer}:${s.kennung}`) })
     }
-    if (!daten.ok) {
+    if (!daten.ok && !globalThis.AK_TAGESLIMIT?.zurueckstellen(lauf.plan, f.kennung)) {
       const nr = lauf.staffelNr[f.kennung]
       lauf.uebersprungen.push(`${liste[lauf.titel]?.titel ?? '?'} · ${nr ? `Staffel ${nr}` : f.kennung}`)
     }
@@ -11048,7 +11048,7 @@ async function speicherSchreiben(werte) {
 
   function primeKoordinieren() {
     const lauf = primeLaufLesen()
-    if (!lauf) {
+    if (!lauf || globalThis.AK_TAGESLIMIT?.aktiv()) {
       for (const el of primeFrames.keys()) el.remove()
       primeFrames.clear()
       return
