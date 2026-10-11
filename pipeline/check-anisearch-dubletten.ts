@@ -68,6 +68,12 @@ console.log('\naniSearch-Zeile und AniList-Katalogtitel (ein Werk, eine Zeile):'
   const imHaupt = findeAnisearchDubletten([], [zeile(1339)], [], alice)
   zeilenMitKennungWeg([], new Map([[5330, 1339]]), alice, imHaupt, [zeile(1339)], new Set([5330]))
   pruefe('Kennung gebunden, Zeile im Hauptbestand: der Katalogtitel entfällt', imHaupt.katalogWeg.get(5330) === zeile(1339) && imHaupt.zeilenWeg.size === 0)
+  /* Ascendance of a Bookworm S5 (11.10.2026): AniList ohne MAL, Name anders geschrieben — nur die Handbindung (217712 → 22017) findet das Paar. */
+  const bookworm = { '22017': { mal: 65103, ty: 'TV-Serie', y: 0, f: 12, dub: '-' } }
+  const bookwormUrteil = findeAnisearchDubletten([zeile(22017)], [], [{ id: 217712, format: 'TV' }], bookworm)
+  pruefe('ohne MAL auf AniList-Seite: die Regel allein lässt die Zeile stehen', bookwormUrteil.zeilenWeg.size === 0)
+  zeilenMitKennungWeg([zeile(22017)], new Map([[217712, 22017]]), bookworm, bookwormUrteil)
+  pruefe('ohne MAL auf AniList-Seite, Handbindung: die Zeile entfällt zugunsten des Katalogtitels', bookwormUrteil.zeilenWeg.get(zeile(22017)) === 217712)
   pruefe('Jahr daneben (mehr als eins) oder andere Folgenzahl: kein gleiches Werk',
     !gleichesWerk({ mal: 5, ty: 'TV-Serie', y: 2000, f: 12, dub: '-' }, { id: 1, mal: 5, format: 'TV', jahr: 2003, folgen: 12 }) &&
       !gleichesWerk({ mal: 5, ty: 'TV-Serie', y: 2000, f: 12, dub: '-' }, { id: 1, mal: 5, format: 'TV', jahr: 2000, folgen: 24 }))
