@@ -1,5 +1,7 @@
 import type { Title } from '../../shared/types.ts'
 import { readJson, log } from '../lib/util.ts'
+import { adressKern, loadDubChecks } from '../lib/dub-confirmed.ts'
+import { kanalAdressenOhneBeleg } from '../lib/kanal-titel.ts'
 
 /**
  * **Stufe 4, Schritt 1: das Urteil schließt Lücken**.
@@ -23,11 +25,14 @@ export function urteilSchliesstLuecken(titles: Map<number, Title>): void {
     const [id, plattform] = schluessel.split('|')
     if (id && plattform) jaJeWeg.add(`${id}|${plattform}`)
   }
+  /* Auch das Urteil beruht auf Amazons Sprachangabe; auf einem Kanal-Titel ist sie kein Beleg (`lib/kanal-titel.ts`). */
+  const kanal = kanalAdressenOhneBeleg(loadDubChecks())
   let ausUrteil = 0
   for (const title of titles.values()) {
     for (const stream of title.streams ?? []) {
       if (stream.dub !== undefined) continue
       if (!jaJeWeg.has(`${title.id}|${stream.platform}`)) continue
+      if (stream.platform === 'primevideo' && kanal.has(adressKern(stream.url))) continue
       stream.dub = true
       ausUrteil++
     }

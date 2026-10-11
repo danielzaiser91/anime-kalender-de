@@ -19,6 +19,7 @@ import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 import { warn } from './util.ts'
 import { loadCurated } from './curated.ts'
 import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
+import { ohneKanalSprache } from './kanal-titel.ts'
 
 export interface DubCheck {
   anilistId: number
@@ -114,11 +115,16 @@ export interface DubCheck {
    * bei „7th Time Loop" nennt JustWatch `audio: ja, pt` und führt Deutsch nur
    * unter den Untertiteln. Dann trägt das Nein.
    *
+   * Dasselbe gilt für das Ja: Ohne dieses Feld lässt `ohneKanalSprache()` (kanal-titel.ts) `dub: true` und
+   * `dubRanges` eines Kanal-Titels beim Lesen weg (11.10.2026).
+   *
    * Wer dieses Feld setzt, sagt: **Ich habe eine zweite Quelle angesehen, und
    * hier steht, welche.** Freitext, aber nicht leer — die Zusicherung prüft nur
    * das Dasein, den Wert liest ein Mensch.
    */
   zweiteQuelle?: string
+  /** Vom Lader gesetzt, nie in der Datei: Amazons Sprachangabe dieses Kanal-Titels wurde weggelassen (`kanal-titel.ts`). */
+  kanalOhneBeleg?: boolean
 }
 
 const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')
@@ -169,7 +175,7 @@ function ladeHandbelege(): DubCheck[] {
   const raw = yaml.load(readFileSync(DATEI, 'utf8'))
   if (!Array.isArray(raw)) return []
   const out: DubCheck[] = []
-  for (const eintrag of raw as DubCheck[]) {
+  for (const eintrag of (raw as DubCheck[]).map(ohneKanalSprache)) {
     /**
      * **Eine Lücke aus einer Kanal-Meldung ist ein Nein aus einem Kanal — und das
      * belegt nichts** (17.09.2026).
