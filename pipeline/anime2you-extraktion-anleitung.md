@@ -38,6 +38,7 @@ Felder eines Vorschlags (alle müssen vorhanden sein, Unbekanntes ist `null`):
 - Mehrere Aussagen im selben Artikel zu unterschiedlichen Tagen oder Blöcken sind getrennte Vorschläge (z. B. Neustart am 5.11. und Fortsetzung „Frühjahr 2027“ als `ankuendigung`).
 - Ein Tag gehört nur zu dem Anbieter, dem der Satz ihn zuschreibt. „Im Anschluss“, „danach“, „später“ bei einem zweiten Anbieter (z. B. Joyn nach der TV-Ausstrahlung) ist kein Tag: `datum` bleibt `null`.
 - Das Zitat gibst du so, wie es im Artikeltext steht; Leerzeichen vor einem Satzzeichen darfst du glätten. Zwei Sätze nur, wenn der erste allein Tag oder Uhrzeit nicht trägt.
+- **Titelblöcke in Sammelartikeln** (Zeile `»Titel«`, darunter `Episoden:`, `Sprache:`, `Simulcast:` oder `Start:`, `Stream:`): Das Zitat beginnt mit der Titelzeile und endet mit der letzten Zeile, die Tag, Uhrzeit oder Sprache trägt (höchstens 500 Zeichen, keine zweite Titelzeile darin). Die Liste der Titel am Anfang des Artikels ist kein Block.
 - Wochentag und Uhrzeit gibst du so an, wie der Artikel sie nennt. Das Skript rechnet den Wochentag des Datums selbst nach und warnt bei Abweichung.
 - Keine Adressen, kein Markdown, keine eigenen Bewertungen in den Feldern.
 - Ein Prüfschritt danach verwirft jeden Vorschlag, dessen Zitat nicht wörtlich im Artikel steht oder dessen Tag, Uhrzeit oder Sprache das Zitat nicht trägt.

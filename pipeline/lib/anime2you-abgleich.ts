@@ -46,7 +46,7 @@ const GRUPPEN: Gruppe[] = [
 ]
 
 const squash = (s: string): string => s.toLowerCase().replace(/[^\p{L}\d+]/gu, '')
-const maskiert = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+export const maskiert = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 /** Zwischen den Buchstaben sind Leerzeichen, Bindestrich und Punkt erlaubt: „ProSiebenMaxx“ = „ProSieben MAXX“. */
 const muster = (name: string, g?: Gruppe): RegExp => {
   const buchstaben = [...squash(name)].map(maskiert).join('[\\s.-]*')
