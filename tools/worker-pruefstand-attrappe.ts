@@ -12,19 +12,9 @@ export type Anbieter = { name: string; plattform: string; offen: number; gesamt:
 
 const nurAdresse = (z: Zeile) => ({ plattform: z.plattform, url: z.url, staffel: z.staffel ?? null })
 
-/** Bildet die vier Abfragen aus `pruefung-stand.ts` nach — nach dem Anfang der SQL-Zeichenkette erkannt. */
+/** Bildet die Abfragen aus `pruefung-stand.ts` nach — nach dem Anfang der SQL-Zeichenkette erkannt. */
 function ergebnisFuer(zeilen: Zeile[], sql: string, arg: unknown[]) {
   const mitUrl = zeilen.filter((z) => z.url)
-  if (sql.includes('json_each')) {
-    const gesucht = new Set(JSON.parse(String(arg[0])) as string[])
-    const letzte = new Map<string, { plattform: string; url: string; am: string }>()
-    for (const z of mitUrl.filter((x) => gesucht.has(x.url))) {
-      const schluessel = `${z.plattform} ${z.url}`
-      const alt = letzte.get(schluessel)
-      if (!alt || alt.am < z.gemeldet_am) letzte.set(schluessel, { plattform: z.plattform, url: z.url, am: z.gemeldet_am })
-    }
-    return [...letzte.values()]
-  }
   if (sql.includes('uebernommen = 0')) return zeilen.filter((z) => !z.uebernommen).map(nurAdresse)
   if (sql.includes('gemeldet_am > ?1')) return mitUrl.filter((z) => z.gemeldet_am > String(arg[0])).map(nurAdresse)
   return mitUrl.map(nurAdresse)

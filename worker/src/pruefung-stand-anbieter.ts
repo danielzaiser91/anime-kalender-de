@@ -12,6 +12,8 @@ export type Gemeldet = {
   seitPruefstand: Map<string, Set<string>>
   /** Je Adresse die Staffeln, zu denen seit dem Prüfstand gemeldet wurde (22.09.2026). */
   staffeln: Map<string, Set<number>>
+  /** Je Adresse die Staffeln der Meldungen, die auf die Übernahme warten. */
+  wartendeStaffeln: Map<string, Set<number>>
 }
 
 export function rechneAnbieter(roh: unknown, gemeldet: Gemeldet) {
@@ -23,17 +25,19 @@ export function rechneAnbieter(roh: unknown, gemeldet: Gemeldet) {
     gemeldet: number
     ohneSeite?: number
     suchAdressen?: string[]
-    ziele?: { url: string; titel: string; staffeln?: number[] }[]
+    ziele?: { url: string; titel: string; staffeln?: number[]; seit?: string }[]
   }
   const unterwegs = gemeldet.unterwegs.get(a.plattform) ?? new Set<string>()
-  /*
-    Ein Ziel, unter dem **seit dem Prüfstand** gemeldet wurde, ist
-    erledigt — auch wenn der Datensatz es noch nicht weiß und der
-    Briefkasten es schon abgegeben hat. Ältere Meldungen zählen nicht:
-    Der Bau kennt sie, und wenn er die Adresse trotzdem führt, steht dort
-    noch etwas aus (siehe oben).
-  */
   const schonGemeldet = gemeldet.seitPruefstand.get(a.plattform) ?? new Set<string>()
+  /*
+    **Dieselbe Regel wie `istErledigt()` in `extension/disney.js`** (11.10.2026). Erledigt ist eine
+    Adresse, unter der seit dem Prüfstand gemeldet wurde, oder die im Briefkasten auf die Übernahme
+    wartet — der Bau kennt diese Meldung noch nicht. Eine Wiedervorlage (`seit`) braucht dagegen eine
+    Meldung seit dem Prüfstand (die Erweiterung rechnet mit `pruefstandAm`, `akGemeldetSeit`); eine
+    ältere Meldung hat sie ja gerade erst wieder aufgemacht („7 statt 9").
+  */
+  const adresseErledigt = (url: string, seit?: string) =>
+    schonGemeldet.has(url) || (!seit && unterwegs.has(url))
   /*
     **Nennt das Ziel seine offenen Staffeln, ist es erst erledigt, wenn jede gemeldet ist**
     (22.09.2026). Sonst verschwand Dr. STONE nach der Meldung von Staffel 1 bis zur nächsten
@@ -41,11 +45,22 @@ export function rechneAnbieter(roh: unknown, gemeldet: Gemeldet) {
     bei der Adresse.
   */
   const offeneZiele = (a.ziele ?? []).filter((z) => {
-    if (!schonGemeldet.has(z.url)) return true
+    if (!adresseErledigt(z.url, z.seit)) return true
     if (!z.staffeln?.length) return false
-    const dieStaffeln = gemeldet.staffeln.get(z.url)
-    return !z.staffeln.every((nr) => dieStaffeln?.has(nr))
+    const gemeldeteStaffeln = [
+      ...(gemeldet.staffeln.get(z.url) ?? []),
+      ...(gemeldet.wartendeStaffeln.get(z.url) ?? []),
+    ]
+    return !z.staffeln.every((nr) => gemeldeteStaffeln.includes(nr))
   })
+  /* Die Adressen dieses Anbieters, die als erledigt zählen — nur solche, die auch in der Zahl `offen` stecken. */
+  const erledigteAdressen = new Set<string>()
+  for (const z of a.ziele ?? []) {
+    if (adresseErledigt(z.url, z.seit)) erledigteAdressen.add(z.url)
+  }
+  for (const u of a.suchAdressen ?? []) {
+    if (adresseErledigt(u)) erledigteAdressen.add(u)
+  }
   /**
    * **Eine Suchadresse ist auch ein Ziel.**
    *
@@ -64,7 +79,7 @@ export function rechneAnbieter(roh: unknown, gemeldet: Gemeldet) {
    * einer Suche muss der Treffer erst herausgesucht werden.
    */
   const offeneSuchen = (a.suchAdressen ?? [])
-    .filter((u) => !schonGemeldet.has(u))
+    .filter((u) => !adresseErledigt(u))
     .map((u) => ({ url: u, titel: '' }))
   const alleZiele = [...offeneZiele, ...offeneSuchen]
   return {
@@ -79,7 +94,7 @@ export function rechneAnbieter(roh: unknown, gemeldet: Gemeldet) {
      * die übernommenen Meldungen aus dem Briefkasten verschwinden, bevor
      * der nächste Datenbau sie einarbeitet (30.08.2026).
      */
-    offen: Math.max(0, a.offen - schonGemeldet.size),
+    offen: Math.max(0, a.offen - erledigteAdressen.size),
     /** Adressen, die noch niemand gemeldet hat. */
     titel: offeneZiele.length,
     /** Was davon schon unterwegs ist. */
@@ -108,7 +123,7 @@ export function rechneAnbieter(roh: unknown, gemeldet: Gemeldet) {
       Beide sind behoben — `suchAdressen` trägt die Liste, `suchOffen()` ebenso.
     */
     ohneSeite: a.suchAdressen
-      ? a.suchAdressen.filter((u) => !schonGemeldet.has(u)).length
+      ? a.suchAdressen.filter((u) => !adresseErledigt(u)).length
       : (a.ohneSeite ?? 0),
     ziel: alleZiele[0]?.url ?? null,
     /*

@@ -108,18 +108,23 @@ pruefe(
   'ohne Zeitstempel gilt weiterhin die alte, strengere Rechnung',
 )
 /*
-  29.09.2026: Nur eine Meldung **nach dem Listenbau** erledigt ein Ziel. Die offenen
-  Briefkasten-Meldungen zählen nicht mehr mit — sie zogen Wiedervorlagen über ihren alten Beleg
-  ab („7 statt 9"), und wurde eine gemeldet, zeigte die Erweiterung 0, die App aber 9. Daniel:
-  „single source of truth, keine unterschiedlichen Zahlen mehr."
+  29.09.2026: Eine Wiedervorlage erledigt nur eine Meldung **nach dem Listenbau**. Offene
+  Briefkasten-Meldungen zogen sie über ihren alten Beleg ab („7 statt 9"), und wurde eine gemeldet,
+  zeigte die Erweiterung 0, die App aber 9. Daniel: „single source of truth, keine
+  unterschiedlichen Zahlen mehr." Gewöhnliche Ziele zählen seit 11.10.2026 mit Briefkasten-Meldung
+  als erledigt, wie in der Erweiterung (`wartetAufUebernahme`).
 */
 pruefe(
   quelle.includes('for (const r of jemals ?? [])'),
   'abgezogen wird nur, was nach dem Prüfstand gemeldet wurde',
 )
+pruefe(
+  quelle.includes('schonGemeldet.has(url) || (!seit && unterwegs.has(url))'),
+  'eine Meldung im Briefkasten erledigt ein Ziel, aber keine Wiedervorlage',
+)
 /* 22.09.2026: Ein Ziel mit offenen Staffeln ist erst erledigt, wenn jede gemeldet ist. */
 pruefe(
-  quelle.includes('return !z.staffeln.every((nr) => dieStaffeln?.has(nr))'),
+  quelle.includes('return !z.staffeln.every((nr) => gemeldeteStaffeln.includes(nr))'),
   'ein Ziel mit Staffelangabe verschwindet erst, wenn jede seiner Staffeln gemeldet ist',
 )
 

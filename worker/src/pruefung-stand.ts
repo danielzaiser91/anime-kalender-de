@@ -12,6 +12,7 @@
  */
 import { type Env } from './env.ts'
 import { rechneAnbieter, type Gemeldet } from './pruefung-stand-anbieter.ts'
+import { holeWartende } from './pruefung-stand-briefkasten.ts'
 
 /** `bekannt` (höchste Folge laut Datensatz je Kennung, 4.24.21) kommt unverändert aus `pruefstand.json`. */
 function bekanntDazu<T extends { plattform: string }>(anbieter: T[], roh: unknown[] = []) {
@@ -25,16 +26,7 @@ export async function berechnePruefstand({ env, antwort }: {
   env: Env
   antwort: (body: unknown, status?: number) => Response
 }) {
-      const { results } = await env.DB.prepare(
-        `SELECT plattform, url, staffel FROM pruefung WHERE uebernommen = 0`,
-      ).all<{ plattform: string; url: string; staffel: number | null }>()
-      const gemeldeteAdressen = new Map<string, Set<string>>()
-      for (const r of results ?? []) {
-        if (!r.url) continue
-        const dazu = gemeldeteAdressen.get(r.plattform) ?? new Set<string>()
-        dazu.add(r.url)
-        gemeldeteAdressen.set(r.plattform, dazu)
-      }
+      const wartend = await holeWartende(env)
       /**
        * **Übernommen ist nicht erledigt — jedenfalls nicht für den Prüfstand.**
        *
@@ -88,8 +80,9 @@ export async function berechnePruefstand({ env, antwort }: {
       /*
         **Nur was nach dem Listenbau gemeldet wurde, erledigt ein Ziel** (29.09.2026). Der Prüfstand
         entsteht nach `data:build`; alles davor hat der Bau verarbeitet. Was danach kommt, ist die
-        Brücke bis zum nächsten Lauf. Die offenen Briefkasten-Meldungen zählen **nicht** mehr mit —
-        sie zogen Wiedervorlagen über ihren alten Beleg ab („7 statt 9", Daniel).
+        Brücke bis zum nächsten Lauf. Offene Briefkasten-Meldungen zählen für gewöhnliche Ziele mit,
+        nicht für Wiedervorlagen (11.10.2026, `pruefung-stand-anbieter.ts`) — sie zogen Wiedervorlagen
+        über ihren alten Beleg ab („7 statt 9", Daniel).
       */
       for (const r of jemals ?? []) {
         const dazu = jeGemeldet.get(r.plattform) ?? new Set<string>()
@@ -103,7 +96,8 @@ export async function berechnePruefstand({ env, antwort }: {
       }
 
       const gemeldet: Gemeldet = {
-        unterwegs: gemeldeteAdressen,
+        unterwegs: wartend.adressen,
+        wartendeStaffeln: wartend.staffeln,
         seitPruefstand: jeGemeldet,
         staffeln: staffelnGemeldet,
       }
