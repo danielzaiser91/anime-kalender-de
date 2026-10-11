@@ -29,7 +29,7 @@ export function SaisonKarte({ z, data, favorit, oeffne, ausblick }: { z: SaisonZ
   const { t } = useLang()
   const name = zeilenName(z)
   const cover = z.titel?.coverImage ?? (z.katalog?.coverImage && !z.katalog.coverImage.startsWith('http') ? ANILIST_COVER_BASIS + z.katalog.coverImage : z.katalog?.coverImage)
-  const anbieter = (z.titel ? anbieterVon(z.titel) : []).map((p) => PLATFORMS[p]?.name ?? p).slice(0, 3)
+  const anbieter = (z.titel ? anbieterVon(z.titel) : (z.katalog?.anbieter ?? [])).map((p) => PLATFORMS[p]?.name ?? p).slice(0, 3)
   const jp = ausblick ? jpDatum(z) : z.jp && tag(z.jp)
   const rand = favorit ? 'border-amber-400/70 shadow-[0_0_0_1px_rgba(251,191,36,.3)]' : z.erschienen ? 'border-ak-rand hover:border-ak-leise' : 'border-dashed border-ak-rand hover:border-ak-leise'
   /* Ein Titel außerhalb des Kerns liegt in titles.json, ein Katalogtitel hinter dem Schalter: Erst beim Klick wird geholt, was das Panel zum Finden braucht. */

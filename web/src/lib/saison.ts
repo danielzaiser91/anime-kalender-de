@@ -1,4 +1,4 @@
-import type { Release, Title } from '@shared/types.ts'
+import type { PlatformId, Release, Title } from '@shared/types.ts'
 import { ersterTermin, hatDeutsch, istSerie, saisonZeitraum, type SaisonTag } from '@shared/saison.ts'
 import { todayIso } from '@shared/time.ts'
 
@@ -19,6 +19,12 @@ export interface SaisonKatalogTitel {
   /** Die Saison laut AniList: gilt vor dem Starttag (ein Start Ende September kann zur Herbst-Saison zählen). */
   jpSeason?: string
   jpYear?: number
+  /** Ein belegter deutscher Weg (Tonspur-Beleg oder Erstausgabe mit Synchro); fehlt, wo wir keinen kennen. */
+  deutsch?: boolean
+  /** Früheste belegte deutsche Folge (`JJJJ-MM-TT`), wo bekannt. */
+  deVon?: string
+  /** Anbieter der deutschen Fassung. */
+  anbieter?: PlatformId[]
 }
 export interface SaisonDatei {
   /** Titel-Kennung → japanischer Starttag (Hauptbestand, Serien im Fenster Vorjahr bis Ausblick). */
@@ -61,6 +67,13 @@ export interface SaisonZeile {
   geschaetzt?: boolean
 }
 
+/** Die Zeile eines Katalogtitels: mit belegtem deutschen Weg „Auf Deutsch“ (Datum der frühesten belegten Folge, wo bekannt), sonst „angekündigt“ oder „offen“. */
+export function katalogZeile(k: SaisonKatalogTitel, heute: string): SaisonZeile {
+  if (!k.deutsch) return { id: k.id, katalog: k, deutsch: false, stufe: k.angekuendigt ? 'angekuendigt' : 'offen', erschienen: false, jp: k.jpStart }
+  const erschienen = !k.deVon || k.deVon <= heute
+  return { id: k.id, katalog: k, deutsch: true, stufe: erschienen ? 'auf-deutsch' : 'bestaetigt', erschienen, jp: k.jpStart, de: k.deVon }
+}
+
 /**
  * **Die Fernseh- und Web-Serien einer Saison** (Daniel, 07.10.2026: Saison-Überblick). Titel mit japanischem Start in dieser Saison, Deutsch zuerst, dann nach
  * erstem deutschen Termin. Der Ausblick (`ausblick`) nimmt zusätzlich die Katalogtitel mit angekündigtem Japan-Start aus `saison.json` auf. **Ein deutscher Termin allein macht keinen Titel zur
@@ -84,7 +97,7 @@ export function zeilenDerSaison(
   }
   {
     const bekannt = new Set(zeilen.map((z) => z.id))
-    for (const k of datei?.katalog ?? []) if (!bekannt.has(k.id) && (k.jpSeason ? k.jpYear === s.jahr && k.jpSeason === s.saison : k.jpStart && k.jpStart >= von && k.jpStart <= bis)) zeilen.push({ id: k.id, katalog: k, deutsch: false, stufe: k.angekuendigt ? 'angekuendigt' : 'offen', erschienen: false, jp: k.jpStart })
+    for (const k of datei?.katalog ?? []) if (!bekannt.has(k.id) && (k.jpSeason ? k.jpYear === s.jahr && k.jpSeason === s.saison : k.jpStart && k.jpStart >= von && k.jpStart <= bis)) zeilen.push(katalogZeile(k, heute))
   }
   return zeilen.sort((a, b) => Number(b.erschienen) - Number(a.erschienen) || Number(b.deutsch) - Number(a.deutsch) || (a.de ?? a.jp ?? '9').localeCompare(b.de ?? b.jp ?? '9') || a.id - b.id)
 }
