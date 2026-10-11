@@ -1,11 +1,10 @@
-import { existsSync, readdirSync } from 'node:fs'
 import { log, readJson, warn, writeJson } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
-import { ARCHIV_SEITEN, leseSeite } from '../lib/anisearch-relationen.ts'
 import { OUT } from './grundlagen.ts'
 import { schreibeDatensatz } from './13-schreiben.ts'
 import { ANISEARCH_ID_BASIS, alle } from './anisearch-titel.ts'
 import { type Kante, type Namen, type Regel, REGEL, malKanten, reihenWurzel } from './anisearch-reihen.ts'
+import { ladeBeziehungen } from './anisearch-reihen-pruefliste.ts'
 import { type Einheit, type ReihenBericht, vergleicheReihen } from './anisearch-reihen-vergleich.ts'
 
 /**
@@ -18,26 +17,6 @@ export const REIHEN_DATEI = 'data/anisearch-reihen-abweichungen.json'
 type TitelZeile = { haupt?: boolean; id: number; titleRomaji?: string; titleEn?: string; anisearchId?: number; malId?: number; franchiseId?: number }
 export type Deckung = { titel: number; mitSeite: number; ohneSeite: number; ohneAnisearchKennung: number; ohneReferenz: number; seitenImArchiv: number; kanten: number }
 export type ReihenDatei = { stand: string; deckung: Deckung } & ReihenBericht
-
-/** Kanten (nur Anime) und Namen aller Archivseiten; `mitSeite` sind die Kennungen, deren Seite da ist. */
-export function ladeBeziehungen(dir = ARCHIV_SEITEN): { kanten: Kante[]; namen: Namen; mitSeite: Set<number> } {
-  const [kanten, namen, mitSeite]: [Kante[], Namen, Set<number>] = [[], new Map(), new Set()]
-  const merke = (id: number, name: string): void => {
-    if (name && !(namen.get(id) ?? []).includes(name)) namen.set(id, [...(namen.get(id) ?? []), name])
-  }
-  for (const datei of existsSync(dir) ? readdirSync(dir) : []) {
-    const id = Number(datei.replace('.html.gz', ''))
-    const seite = Number.isInteger(id) ? leseSeite(id, dir) : undefined
-    if (!seite) continue
-    mitSeite.add(id)
-    seite.titel.forEach((t) => merke(id, t))
-    for (const r of seite.relationen.filter((x) => x.medium === 'anime')) {
-      merke(r.id, r.name)
-      kanten.push({ a: id, b: r.id, art: r.art })
-    }
-  }
-  return { kanten, namen, mitSeite }
-}
 
 /** Titel ohne Referenz-Reihe: ein aniSearch-Titel (ab 10.000.000), dessen `franchiseId` kein zweiter Titel teilt — AniList kennt ihn nicht, seine „Reihe" wäre nur er selbst. */
 export function ohneReferenzReihe(titel: TitelZeile[]): Set<number> {

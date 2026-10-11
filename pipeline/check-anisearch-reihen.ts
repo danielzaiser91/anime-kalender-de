@@ -8,6 +8,7 @@ import { ART_MAL, type Kante, REGEL, komponenten, malKanten, reihenWurzel, zaehl
 import { type Einheit, vergleicheReihen } from './bau/anisearch-reihen-vergleich.ts'
 import { REIHEN_DATEI, type ReihenDatei, ohneReferenzReihe } from './bau/anisearch-reihen-abweichungen.ts'
 import { ANISEARCH_ID_BASIS } from './bau/anisearch-titel.ts'
+import { uebernimmReihen } from './bau/anisearch-reihen-uebernahme.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -58,6 +59,19 @@ pruefe('Vergleich: zwei Referenz-Reihen in einer aniSearch-Komponente = verschmi
 const basis = ANISEARCH_ID_BASIS
 const ohneRef = ohneReferenzReihe([{ id: 5 }, { id: basis + 1 }, { id: basis + 2, franchiseId: 7 }, { id: basis + 3, franchiseId: 7 }, { id: 9, franchiseId: 8 }])
 pruefe('Ohne Referenz: nur ein aniSearch-Titel (ab 10 Mio.), den kein zweiter Titel seiner franchiseId teilt', ohneRef.size === 1 && ohneRef.has(basis + 1), JSON.stringify([...ohneRef]))
+
+/* Übernahme: Reihen A={1,2}, B={3,4}, Alleinstehende 5–9; aniSearch-Kennung = Titelnummer.
+ * 5 –Sequel→ 1 (hängt an A); 6 –Sequel→ 7 (neue Reihe); 2 –Sequel→ 3 (zwei Reihen: Prüfliste, keine Kante); 8 –Sequel→ 1 und 8 –Sequel→ 3 (mehrdeutig); 9 –Originalwerk→ 1 (zählt nicht). */
+const titelU = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((id) => ({ id, name: `T${id}`, anisearchId: id }))
+const reiheU = (id: number): number => ({ 2: 1, 4: 3 })[id as 2 | 4] ?? id
+const kantenU = [k(5, 1, 'Sequel'), k(6, 7, 'Sequel'), k(2, 3, 'Sequel'), k(8, 1, 'Sequel'), k(8, 3, 'Sequel'), k(9, 1, 'Originalwerk')]
+const u = uebernimmReihen(titelU, kantenU, new Map(), reiheU)
+pruefe('Übernahme: ein Alleinstehender hängt an die Reihe, die er berührt', u.kanten.some((x) => x.ids[0] === 1 && x.ids.includes(5)) && u.angehaengt === 1, JSON.stringify(u.kanten))
+pruefe('Übernahme: zwei verbundene Alleinstehende bilden eine neue Reihe', u.kanten.some((x) => x.ids.length === 2 && x.ids.includes(6) && x.ids.includes(7)) && u.neueReihen === 1)
+pruefe('Übernahme: zwei Reihen mit mehreren Titeln werden nie verbunden, sie stehen auf der Prüfliste', !u.kanten.some((x) => x.ids.includes(2) || x.ids.includes(3)) && u.pruefliste.filter((p) => p.art === 'verschmilzt').length === 1)
+pruefe('Übernahme: ein Alleinstehender zwischen zwei Reihen wandert nirgends hin (mehrdeutig)', !u.kanten.some((x) => x.ids.includes(8)) && u.pruefliste.filter((p) => p.art === 'mehrdeutig').length === 1)
+pruefe('Übernahme: Art ohne Regel (Originalwerk) bindet nichts', !u.kanten.some((x) => x.ids.includes(9)))
+pruefe('Übernahme: ausgenommene Titel (Crossover) wandern nicht', !uebernimmReihen(titelU, kantenU, new Map(), reiheU, new Set([5])).kanten.some((x) => x.ids.includes(5)))
 
 /* Bestand: gemessen am 11.10.2026 mit 15.091 Titeln mit Seite, 77,1 % gleich (Hälfte A 75,9 %, Hälfte B 78,2 %); die Grenzen liegen rund 6 Punkte darunter und schlagen nur bei einem Bruch an.
  * Titel ohne Referenz-Reihe (aniSearch-Titel, die AniList nicht kennt: 2.409) zählen nicht mit — mit ihnen fiel der Wert nach dem Katalog-Lauf vom 10.10. auf 68,1 %, ohne dass ein Parser oder eine Seite kaputt war. */

@@ -42,6 +42,8 @@ QUELLEN=(
   data/anisearch-abweichungen.json
   # Stufe C (10.10.2026): Bau-Messung der Reihen aus aniSearch-Beziehungen gegen die franchiseId; wird nicht ausgeliefert.
   data/anisearch-reihen-abweichungen.json
+  # Stufe C, Übernahme (11.10.2026): Prüfliste der Reihen, die aniSearch verbindet, der Bau aber nicht von selbst zusammenlegt; vom Bau geschrieben.
+  data/anisearch-reihen-pruefliste.json
   data/tmdb-poster.json
   data/kitsu-folgen.json
   data/cover-klein.json
