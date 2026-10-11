@@ -225,6 +225,25 @@ console.log('Lesezeilen: Ersetzen über die Zeilen-ID')
   pruefe(!abfragen.some((a) => /DELETE FROM pruefung WHERE url/.test(a.sql)), 'kein DELETE mehr über die Adresse')
 }
 
+console.log('Lesezeilen: Gesamtzahl der Rohfolgen')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  await handlePruefung(post({ stapel: [folge(1), folge(2), folge(3)] }), env)
+  db.exec("UPDATE prime_folge SET vorhanden = 'nein' WHERE nummer = 3")
+  const hole = async (nach: number) => {
+    abfragen.length = 0
+    const r = await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&token=t&nach=${nach}`), env)
+    const inhalt = (await r.json()) as { folgen: unknown[]; gesamt: number; weiter: number | null }
+    return { inhalt, gezaehlt: abfragen.some((a) => /COUNT\(\*\)/.test(a.sql)) }
+  }
+  const erste = await hole(0)
+  pruefe(erste.inhalt.folgen.length === 2 && erste.inhalt.gesamt === 2 && erste.inhalt.weiter === null, 'erste Seite unter dem Limit: gesamt = Zeilen der Seite, gesperrte Folge zählt nicht')
+  pruefe(!erste.gezaehlt, '... und ohne COUNT(*)')
+  const spaeter = await hole(1)
+  pruefe(spaeter.inhalt.folgen.length === 1 && spaeter.inhalt.gesamt === 2 && spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): gesamt bleibt die ungekürzte Zahl, per COUNT(*)')
+}
+
 if (fehler) {
   console.log(`${fehler} Prüfung(en) fehlgeschlagen.`)
   process.exit(1)
