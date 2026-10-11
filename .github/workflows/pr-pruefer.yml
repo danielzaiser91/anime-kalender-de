@@ -34,6 +34,7 @@ jobs:
     env:
       PR: ${{ github.event.pull_request.number }}
       HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
     steps:
       # Bei pull_request_target holt der Checkout den Stand von main (vertrauenswürdig).
       - uses: actions/checkout@v4
@@ -49,10 +50,21 @@ jobs:
           # werden durch eine Stub-Zeile ersetzt, Code, Workflows und Doku bleiben vollständig. Kein Pipe, der den
           # Exit von gh maskiert: erst in eine Datei. Fehlt die Liste oder ist sie leer, ist der Zustand unvollstaendig.
           T="$RUNNER_TEMP/pruefer"; mkdir -p "$T"
+          # Rückfall für Dateien ohne API-Patch (sehr große Änderung, z. B. data/dub-confirmed.yaml): nur Git-OBJEKTE holen
+          # (Merge-Basis und Kopf, je Tiefe 1), kein Checkout, nichts aus dem PR ausführen. `git diff` liest sie nur;
+          # das Skript bleibt das aus main. Schlägt ein Schritt fehl, bleiben basis/kopf leer und es gibt keinen Rückfall.
+          basis=""; kopf=""
+          mb=$(gh api --method GET "repos/$GITHUB_REPOSITORY/compare/$BASE_SHA...$HEAD_SHA" -f per_page=1 -q .merge_base_commit.sha) || mb=""
+          if [[ "$mb" =~ ^[0-9a-f]{40}$ ]] && [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=http.extraheader
+            export GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+            if git fetch --no-tags --depth=1 origin "$mb" "$HEAD_SHA"; then basis="$mb"; kopf="$HEAD_SHA"; fi
+            unset GIT_CONFIG_COUNT GIT_CONFIG_KEY_0 GIT_CONFIG_VALUE_0
+          fi
           zustand=unvollstaendig
           : > "$T/pr.diff"
           if gh api --method GET --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" -f per_page=100 -q '.[]' > "$T/dateien.ndjson"; then
-            zustand=$(node tools/pr-diff-bauen.mjs "$T/dateien.ndjson" "$T/pr.diff") || zustand=unvollstaendig
+            zustand=$(node tools/pr-diff-bauen.mjs "$T/dateien.ndjson" "$T/pr.diff" "$basis" "$kopf") || zustand=unvollstaendig
           fi
           [ "$zustand" = ok ] || zustand=unvollstaendig
           rm -f "$T/dateien.ndjson"
