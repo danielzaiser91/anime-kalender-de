@@ -22,6 +22,7 @@ import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
+import { pruefeAdressen } from './ansicht-adressen.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -187,6 +188,7 @@ async function pruefeObereLeiste(seite) {
 async function meldeZusatzpruefungen(seite, ansichten, handy) {
   /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
   let rot = ansichten.includes('datenbank') && !handy ? await meldeCartoonFilter(seite) : false
+  if (ansichten.includes('datenbank') && !handy && (await pruefeAdressen(seite, DIST))) rot = true
   if (handy && ['woche', 'monat', 'datenbank'].every((a) => ansichten.includes(a))) {
     const leiste = await pruefeObereLeiste(seite)
     console.log(`\nObere Leiste (320/360/393/440 px): ${leiste.length ? '' : 'ok'}`)
