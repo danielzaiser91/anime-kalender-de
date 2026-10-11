@@ -79,10 +79,10 @@ function FehlerprotokollAbschnitt() {
     <Abschnitt titel="Fehlerprotokoll">
       <p>
         Unser Dienst schreibt bei Fehlern kurze Protokollzeilen (Cloudflare Workers Logs), allein zur
-        Fehlersuche und für einen sicheren Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Sie enthalten keine
-        E-Mail-Adressen, Push-Adressen oder Zugangsschlüssel. Die Zeilen werden bei Cloudflare höchstens
-        7 Tage aufbewahrt. Deine IP-Adresse fällt dabei nur technisch bei Cloudflare an und wird von uns
-        nicht ins Protokoll geschrieben.
+        Fehlersuche und für einen sicheren Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Unser eigener Code
+        schreibt dabei keine E-Mail-Adressen, Adressen von Browser-Benachrichtigungen oder
+        Zugangsschlüssel in diese Zeilen. Darüber hinaus kann Cloudflare technische Anfragedaten wie die
+        IP-Adresse verarbeiten. Die Protokollzeilen werden bei Cloudflare höchstens 7 Tage aufbewahrt.
       </p>
     </Abschnitt>
   )
