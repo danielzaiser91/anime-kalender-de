@@ -54,6 +54,9 @@ QUELLEN=(
   data/sprecher-quellen.json
   data/tmdb-poster.json
   data/tmdb-poster-grund.json
+  # TMDB-Zuordnung der Nur-AniList-Titel (11.10.2026), noch nicht im Bau; die Prüfliste der unsicheren Treffer liegt daneben.
+  data/tmdb-katalog-zuordnung.json
+  daniel-zum-abarbeiten/listen/tmdb-katalog-unsicher.md
   data/tmdb-banner.json
   daniel-zum-abarbeiten/listen/cover-ohne-tmdb.md
   data/kitsu-folgen.json

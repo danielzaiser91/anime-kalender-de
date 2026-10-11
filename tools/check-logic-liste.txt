@@ -53,6 +53,7 @@ pipeline/check-saison-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-stand-halten.ts
+pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-suche.ts
 pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts
