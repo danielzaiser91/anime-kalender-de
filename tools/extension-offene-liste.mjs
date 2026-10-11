@@ -24,9 +24,11 @@ import yaml from 'js-yaml'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+import { blockStand } from './extension-block.mjs'
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
 import { ausgeblendet, eintragsInfo, ladeBestand, ladeCartoons, nachRang } from './pruef-bestand.mjs'
+
+const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 /** Verweise, denen eine zweite Quelle widerspricht — sie gehören auf die Liste. */
 const verdaechtig = verdachtsfaelle(wurzel, 'netflix')
 const titel = [...ladeBestand(wurzel), ...ladeCartoons(wurzel)]
@@ -228,11 +230,7 @@ for (const [id, eintraege] of nachRang(jeAdresse, 'netflix')) {
          * gilt die Staffel als offen: Lieber einmal zu viel gefragt als eine
          * Lücke, von der niemand weiß.
          */
-        /* Ein Verdachtsfall ist offen, obwohl er ein Urteil hat — es ist womöglich überholt. */
-        offen: sortiert[i]
-          ? sortiert[i].dub === undefined || verdaechtig.has(sortiert[i].t.id)
-          : true,
-        ...(sortiert[i] ? zustandVon(sortiert[i]) : { zustand: 'melden' }),
+        ...blockStand(sortiert, i, verdaechtig, zustandVon),
       })),
       laut: 'anbieter',
     }
