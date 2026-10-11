@@ -84,6 +84,6 @@ export async function sendMail(env: MailEnv, mail: Mail): Promise<void> {
     }
 
     default:
-      console.log(`[mail:console] an ${mail.to} — ${mail.subject}\n${mail.text}`)
+      console.log('[mail:console] Mail nicht versendet (Anbieter console)')
   }
 }

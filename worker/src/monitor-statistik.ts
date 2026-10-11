@@ -1,3 +1,4 @@
+import { fehlerLog } from './werte.ts'
 /** Messwerte der letzten Tage aus `site_history`, für die Wochenmail des Wächters. */
 
 export interface Messwerte {
@@ -27,7 +28,7 @@ export async function ladeMesswerte(db: LesendeDb, nowIso: string, tage = 7): Pr
       (results ?? []).filter((r) => r.avg !== null).map((r) => [r.url, { avg: r.avg as number, max: r.max, laeufe: r.laeufe }]),
     )
   } catch (err) {
-    console.error('Messwerte nicht geladen:', err)
+    fehlerLog('Messwerte nicht geladen', err)
     return new Map()
   }
 }
