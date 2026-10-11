@@ -5,6 +5,17 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 11.10.2026, 12:51 — Claude-Lauf, Befund
+
+**Was läuft korrekt.** Der Bestand ist frisch: `meta.generatedAt` vor 0,1 h, `bestand-bauen.yml` zuletzt erfolgreich vor 0,2 h, aktuell 2928 Titel und 2140 Urteile (02, 04, 05). Der Deploy ist trotz 15 Fehlläufen in 48 h gerade grün, letzter Erfolg vor 0,1 h (01, 05). Zugänge/Token halten bis auf den Wache-Workflow selbst ihre Frist ein (04).
+
+**Wo ist Verbesserungspotenzial?** Der Briefkasten liegt mit 189 Meldungen weit über der Nachzügler-Schwelle von 60, 160 Adressen sind noch nicht gelistet (03) — zum Vergleich: im letzten festgehaltenen Stand der Wache-Datei (25.09., Dossier 11) waren es 37. `cr-einzelwerke` und `cr-filmbloecke` zeigen seit 17,9 Tagen keinen Erfolg mit Treffern mehr (06) — unklar, ob die Quelle versiegt ist oder ausfällt. Die Terminableitung verwirft weiter leicht mehr (223 „Blöcke und Titel verschieden viele", 46 „Folgenzahl geht nicht auf", 07) — wie am 02.10. schon beobachtet (10), kein Sprung.
+
+**Wo sind echte Risiken und Lücken?** Dreimal in 24 h gingen Netflix-Synchro-Belege verloren (10.10. 15:55 Uhr, 22:04 Uhr, 11.10. 10:20 Uhr; netto Urteile -2 über den Zeitraum trotz zwei „begründet entfernt" bei der letzten, 02) — ein Muster, kein Einzelfall. Quelle `messbelege` liefert 0 Treffer mit konkretem Fehler „ReferenceError: __name is not defined" (06), das ist kein leerer Befund, sondern ein Code-Fehler. Issue #750 meldet den Bestandsbau vom 11.10. rot, sechs Pushes bei unbewegtem Fernstand abgelehnt (08) — passend zu den 5 Fehlläufen von „Bestand — zusammenführen und bauen" auf main in den letzten 48 h (01). Die Wache-Datei (11) zeigt weiterhin den Stand vom 25.09., obwohl „Wache — Delta und Briefkasten" laut 01 zwei Erfolge in 48 h hatte — nicht prüfbar, ob der Schreibschritt tot ist oder eine andere Automatik die Zahlen in 02/03 liefert. Daniel: Issue #750 und den `messbelege`-Fehler ansehen.
+
+**Was läuft komplett falsch?** Laut Zugriffsprüfung hat `claude-wache-urteil.yml` innerhalb der erlaubten 36 h keinen Erfolg vorzuweisen, „letzter Erfolg vor nie" (04, 05). Passend dazu fehlt in den bisherigen Urteilen (10) seit dem 02.10. jeder neue Eintrag — eine stille Lücke von 9 Tagen, in der die oben genannten Netflix-Verluste und der Briefkasten-Rückstau unbeurteilt blieben. Bauer: klären, warum `claude-wache-urteil.yml` nicht grün durchläuft, bevor die nächste Lücke entsteht.
+
+
 ## 02.10.2026, 15:05 — durchgesehen, eine stumme Quelle gefunden
 
 **Was läuft korrekt.** 0 rote Läufe in der Statusanzeige (`laeufe-aufraeumen.mjs --trocken`),
