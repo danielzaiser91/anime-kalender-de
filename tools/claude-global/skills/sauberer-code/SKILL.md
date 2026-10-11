@@ -16,6 +16,8 @@ description: Prüfliste für Struktur und Umfang beim Schreiben oder Ändern von
 - Keine versteckten Abhängigkeiten über geteilte `let`/globale Variablen. Wo die Reihenfolge von
   Schritten zählt, steht sie in den Aufrufen, nicht im Kommentar.
 - Zwei fast gleiche Funktionen sind ein Fehler, keine Variante — die vorhandene erweitern.
+- Ein Merkmal aus mehreren Flags/Quellen gehört in genau einen Helfer, den alle Stellen nutzen,
+  nicht in verstreute Einzelprüfungen (11.10.2026: „ohne belegte Synchro“ = `os` ODER `ohneSynchro`).
 - Kommentare nur für das Warum, 1–3 Zeilen; Anlass, Fehlerverlauf und Diskussion in Commit oder
   Doku, im Code höchstens ein Verweis. Eine Zahl im Kommentar trägt ihr Datum. Keine Kommentare,
   die nur wiederholen, was der Code sagt.
