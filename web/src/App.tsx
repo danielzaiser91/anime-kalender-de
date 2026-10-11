@@ -7,7 +7,7 @@ import { useStartdaten } from './lib/start-daten.ts'
 import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, type FilterState } from './lib/filters.ts'
 import { useKalenderFilter } from './lib/kalender-filter.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
-import { istOhneBelegteSynchro } from './lib/titel-sortierung.ts'
+import { titelQuelle } from './lib/titel-quelle.ts'
 import type { Fundstelle } from './lib/search.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
@@ -142,15 +142,12 @@ function AppKern() {
     [data, eventListe],
   )
   const sprecher = useSprecherAuswahl(route.filters)
-  const { wert: titles, laeuft: titelRechnet } = useZeitscheibe(() => {
-    if (!data) return leeresErgebnis(LEERE_ANSICHT)
-    const basis = (allTitles ?? data.titles).filter((t) => zeigeOhneSynchro || !istOhneBelegteSynchro(t))
-    /* Eine Kennung steht nur einmal in der Liste: doppelte Schlüssel ließen Kacheln beim Filtern als Geister im Raster stehen (Beerus, Fool Night). */
-    const bekannt = new Set(basis.map((t) => t.id))
-    const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro.filter((t) => !bekannt.has(t.id))] : basis
-    const quelle = cartoons ? [...mitOhne, ...cartoons.filter((t) => !bekannt.has(t.id))] : mitOhne
-    return titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped, sprecher.auswahl)
-  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, route.filters, today, favorites, grouped, sprecher.auswahl], LEERE_ANSICHT)
+  const quelle = useMemo(() => titelQuelle(data?.titles ?? [], allTitles, ohneSynchro, zeigeOhneSynchro, cartoons), [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons])
+  const { wert: titles, laeuft: titelRechnet } = useZeitscheibe(
+    () => (data ? titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped, sprecher.auswahl) : leeresErgebnis(LEERE_ANSICHT)),
+    [data, quelle, route.filters, today, favorites, grouped, sprecher.auswahl],
+    LEERE_ANSICHT,
+  )
   const kalenderBereit = useErstesErgebnis(!!data, eventsVeraltet)
 
   const openTitleId = route.title || undefined
