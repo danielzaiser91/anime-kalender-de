@@ -13,11 +13,14 @@ type Bewertung = Pick<Title, 'score' | 'scoreQuelle'>
 let tmdbBanner: TmdbBanner | undefined
 const banner = (): TmdbBanner => (tmdbBanner ??= readJson<TmdbBanner>(BANNER_DATEI, {}))
 
-/** Bewertung eines Titels: der aniSearch-Klarwert, sonst keine. Eine TMDB-Wertung (Cartoons) bleibt. */
+/** Unter dieser Stimmenzahl zeigt der Titel keine Bewertung: ein Durchschnitt aus 1–4 Stimmen ist kein Beleg (Dirigent, 11.10.2026). */
+export const MIN_STIMMEN_BEWERTUNG = 5
+
+/** Bewertung eines Titels: der aniSearch-Klarwert ab `MIN_STIMMEN_BEWERTUNG` Stimmen, sonst keine. Eine TMDB-Wertung (Cartoons) bleibt. */
 export function bewertungNachRegel(bisher: Bewertung, anisearchId: number | undefined): Bewertung {
   if (bisher.scoreQuelle === 'tmdb') return bisher
-  const klarwert = anisearchId === undefined ? undefined : ladeBewertungen().get(anisearchId)?.klarwert
-  return klarwert ? { score: klarwert } : {}
+  const seite = anisearchId === undefined ? undefined : ladeBewertungen().get(anisearchId)
+  return seite?.klarwert && seite.stimmen >= MIN_STIMMEN_BEWERTUNG ? { score: seite.klarwert } : {}
 }
 
 /** Schlagworte eines Titels: die erlaubten aniSearch-Tags seiner Seite. */

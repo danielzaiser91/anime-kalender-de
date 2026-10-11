@@ -7,14 +7,25 @@ import { SCHLAGWORT_LISTE, SCHLAGWORT_MAX } from '../../shared/schlagworte.ts'
  * **Bewertung und Schlagworte aus einer archivierten aniSearch-Seite** (`data/anisearch-raw/<Kennung>.html.gz`, Daniel 11.10.2026: aniSearch statt AniList).
  *
  * Bewertung ist der „Klarwert“ in Prozent (`Klarwert<b>4.00 = 80%</b>`, der Fünf-Sterne-Mittelwert auf 100 umgerechnet); 0 % heißt keine Stimme.
+ * Stimmen sind die Mitglieder der fünf Sterne-Balken (`aria-label="N Mitglieder haben mit …"`) im Block `rating-stats`.
  * Schlagworte sind die Tags (`href="anime/genre/tag/<kennung>"`) in der Reihenfolge der Seite, gefiltert durch die feste Liste (`shared/schlagworte.ts`).
  */
-export type SeitenBewertung = { klarwert?: number; schlagworte: string[] }
+export type SeitenBewertung = { klarwert?: number; stimmen: number; schlagworte: string[] }
 
 /** Klarwert in Prozent oder `undefined` (kein Wert, 0 %). */
 export function parseKlarwert(html: string): number | undefined {
   const prozent = Number(/Klarwert<b>[\d.]+ = (\d+)%/.exec(html)?.[1])
   return prozent > 0 ? prozent : undefined
+}
+
+/** Zahl der Stimmen hinter dem Klarwert: Summe der fünf Sterne-Balken, 0 wenn die Seite keine zeigt. */
+export function parseStimmen(html: string): number {
+  const von = html.indexOf('id="rating-stats"')
+  const bis = html.indexOf('id="ratingstats"', von)
+  if (von < 0 || bis < 0) return 0
+  let summe = 0
+  for (const m of html.slice(von, bis).matchAll(/aria-label="(\d+) Mitglieder haben mit/g)) summe += Number(m[1])
+  return summe
 }
 
 /** Deutsche Anzeigenamen der erlaubten Tags dieser Seite, höchstens `SCHLAGWORT_MAX`. */
@@ -40,7 +51,7 @@ export function ladeBewertungen(dir = ARCHIV_SEITEN): Map<number, SeitenBewertun
     const id = Number(datei.replace('.html.gz', ''))
     if (!Number.isInteger(id)) continue
     const html = gunzipSync(readFileSync(`${dir}/${datei}`)).toString('utf8')
-    karte.set(id, { klarwert: parseKlarwert(html), schlagworte: parseSchlagworte(html) })
+    karte.set(id, { klarwert: parseKlarwert(html), stimmen: parseStimmen(html), schlagworte: parseSchlagworte(html) })
   }
   if (dir === ARCHIV_SEITEN) alle = karte
   return karte
