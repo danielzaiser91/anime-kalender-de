@@ -204,6 +204,12 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     fi
   }
 
+  # Gesunkene Umfangsgrenzen übernimmt nur dieser Lauf auf main, nie ein PR: Sonst ändert fast jeder PR dieselbe Zeile
+  # in tools/umfang-grenzen.json und macht die übrigen offenen PRs DIRTY (11.10.2026). Scheitert es, bleibt alles beim Alten.
+  if node tools/umfang-pruefen.mjs --festschreiben > /dev/null 2>&1; then
+    hinzu tools/umfang-grenzen.json
+  fi
+
   if [ "${AUFBAU_KAPUTT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ]; then
     hinzu "${QUELLEN[@]}"
   else
