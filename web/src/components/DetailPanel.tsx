@@ -12,8 +12,6 @@ import {
 import { useLang } from '../lib/i18n.tsx'
 import { useTeilenAdresse } from './detail/teilen-adresse.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
-import { FORMAT_DE } from '@shared/mappings.ts'
-import { Tooltip } from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { useTvVorbei } from './detail/tv-vorbei.tsx'
 import { useTerminReleases } from './detail/termin-releases.ts'
@@ -23,7 +21,7 @@ import { titelMitTerminBereichen } from './detail/stream-bereiche.ts'
 import { lueckeOhneAnbieter } from './detail/folgen-ohne-anbieter.ts'
 import { dubZeilenVon } from './detail/dub-zeilen.ts'
 import { DiscEinzelListe } from './detail/pillen.tsx'
-import { jpAngabe, KinoBanner } from './detail/kino.tsx'
+import { KinoBanner } from './detail/kino.tsx'
 import { VoiceCast, AehnlicheTitel } from './detail/weitere.tsx'
 import { berechneAntwort } from './detail/antwort-berechnen.ts'
 import { EckdatenAbschnitt } from './detail/abschnitte.tsx'
@@ -31,7 +29,6 @@ import { HandlungAbschnitt } from './detail/abschnitte.tsx'
 import { TermineAbschnitt } from './detail/abschnitte.tsx'
 import { ReihenListe } from './detail/reihen-liste.tsx'
 import { AntwortBereich } from './detail/antwort-bereich.tsx'
-import { PanelKopf } from './detail/kopf.tsx'
 import { UnterDerAntwort } from './detail/unter-der-antwort.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
@@ -431,35 +428,7 @@ export function DetailPanel({
   const folgenImKasten =
     (antwort?.art === 'laeuft' && Boolean(antwort.gesamt)) || (antwort?.art === 'fertig' && (antwort.gesamt ?? 0) > 1) || antwort?.art === 'teilweise'
 
-  /** Die Werkangaben der Unterzeile — leer heißt: kein Kasten. */
-  const unterzeile = !title
-    ? []
-    : [
-        title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
-        title.episodes && title.episodes > 1 && !folgenImKasten
-          ? `${title.episodes} ${t('detail.episodes')}`
-          : undefined,
-        jpAngabe(eigenerTeil?.jpStart ?? (title.westlich ? title.jpStart : undefined), title.jpYear, title.land),
-        title.studios?.[0],
-      ].filter(Boolean)
-
   const ersatz = useErsatzHandlung({ titleId, title, synopsis, reihenTeile })
-
-  /** Die Wertung als Pille — steht neben dem Staffelnamen; Quelle aniSearch, bei Cartoons TMDB. */
-  const bewertung =
-    title?.score !== undefined ? (
-      <Tooltip text={t('detail.scoreHint', { quelle: title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch' })} seite="oben">
-        <span className="inline-flex shrink-0 cursor-help items-baseline gap-1 rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] dark:bg-white/10">
-          <span className="font-normal text-slate-500 dark:text-slate-400">{title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch'}</span>
-          {/* Der Stern macht auf einen Blick klar, dass es eine Wertung ist und
-              keine Folgenzahl. */}
-          <span className="text-amber-400" aria-hidden="true">
-            ★
-          </span>
-          <span className="font-semibold tabular-nums">{(title.score / 10).toFixed(1)}</span>
-        </span>
-      </Tooltip>
-    ) : null
 
   if (!title) return <PanelLeer holt={holt} t={t} onClose={onClose} />
   if (hidden.has(title.id)) return <PanelVersteckt title={title} t={t} onClose={onClose} onToggleHidden={onToggleHidden} />
@@ -496,149 +465,21 @@ export function DetailPanel({
         data-panel="titel"
         aria-label={anzeigeName(title)}
       >
-        {/*
-          Ohne Banner braucht das ✕ trotzdem seinen eigenen Streifen.
-
-          Der Knopf liegt absolut in diesem Kasten. Fehlt das Bild, fällt der
-          Kasten auf Höhe null zusammen, und das ✕ landet auf dem Inhalt
-          darunter — genau auf dem Favoritenstern, der oben rechts in der
-          Titelzeile sitzt (Daniel, 13.08.2026, mit Bild). Aufgefallen ist es
-          bei den Titeln ohne deutsche Synchro, weil die grundsätzlich kein
-          Banner haben; betroffen war aber jeder Titel ohne Bannerbild.
-
-          **`shrink-0` ist der eigentliche Fix, nicht `h-9`.** Der erste Versuch
-          setzte nur die Höhe — und die blieb wirkungslos: Das Panel ist eine
-          Flex-Spalte mit Rollbereich, und darin schrumpft ein Element ohne
-          `shrink-0` auf null zurück, ganz gleich welche Höhe daransteht.
-          Gemessen wurde genau das: Klasse `relative h-9` gesetzt, Höhe 0.
-          Merksatz: In einer scrollenden Flex-Spalte ist eine Höhe
-          ohne `shrink-0` ein Vorschlag, keine Angabe.
-        */}
-        {/*
-          Das Banner bleibt beim Wechsel des Reihenteils stehen.
-
-          Vorher hing es allein an `title.bannerImage` — und weil längst nicht
-          jeder Teil einer Reihe eines hat, verschwand es beim Umschalten und
-          kam beim Zurückschalten wieder. Der Kopf sprang dabei um 112 Pixel.
-          Jetzt gilt: eigenes Banner, sonst das des
-          ersten Teils der Reihe, der eines hat. Ein Banner ist Schmuck für die
-          Reihe, kein Beleg für den einzelnen Titel — es darf geliehen werden.
-        */}
-        {/*
-          Die Bühne: das Cover liegt **hinter** dem Kopfbereich, nicht daneben.
-
-          Umgebaut am 24.08.2026 nach mehreren Mockup-Durchgängen mit Daniel.
-          Der Gewinn: Das Artwork ist rund fünfmal so groß wie das frühere
-          Karussell-Bildchen und kostet trotzdem keine Zeile — die Höhe des
-          Bereichs bestimmt allein der Inhalt darüber.
-
-          **Das Banner entfällt dabei.** Zwei großflächige Bilder übereinander
-          sind zu viel, und das Banner fehlt bei 651 von 2.762 Titeln; deren
-          Kopf war bisher ein leerer Farbverlauf. Das Cover gibt es dagegen bei
-          **allen** 2.762. Der frühere Rückfall „Banner von einem Reihenteil
-          leihen" wird damit gegenstandslos — sein Anlass (der Kopf sprang beim
-          Umschalten um 112 Pixel) ist es auch, weil die Bühne immer ein Bild
-          hat.
-
-          **Feste Höhe, nicht `inset-0`.** Mit `inset-0` wüchse das Bild mit,
-          sobald ein Bereich darunter aufklappt — der Klick sähe aus, als hätte
-          er das Bild verändert (Daniel, 24.08.2026, am Mockup bemerkt).
-        */}
-        {/*
-          **Der Titel steht über dem Cover, nicht darauf.**
-
-          Bis zum 03.09.2026 abends lag er als halbdeckende Fläche mitten im
-          Bild, und das Bild lag zu drei Vierteln unter einem Verlauf. Daniel:
-          „titel ganz nach oben schieben, volle breite (100% vom panel), cover
-          startet erst danach (wird nicht mehr durch titel verdeckt) … die
-          oberen ~60% des covers sollten fast komplett sichtbar sein, da
-          befindet sich meistens der fokus des covers."
-
-          Daraus die neue Ordnung, von oben nach unten:
-
-          1. **Titelzeile** — volle Panel-Breite, deckender Panel-Grund, kein
-             Bild darunter. Sie braucht keinen Verlauf mehr, um lesbar zu sein.
-          2. **Cover** — beginnt erst darunter und bleibt in seinen oberen zwei
-             Dritteln unangetastet.
-          3. **Unterzeile und Bedienelemente** liegen über dem Bild, jede auf
-             ihrer eigenen halbdeckenden Fläche. Die Bedienelemente stehen
-             **senkrecht** an der rechten Kante: waagerecht nahmen sie die volle
-             Breite des Bildoberteils ein, genau dort, wo der Blick hinfällt.
-        */}
+        {/* Kopf (Bild, Name, Knöpfe) steht in `detail/buehne.tsx`; der Kasten beginnt darunter. */}
         <PanelBuehne
           reihenName={reihenName}
-          buehnenBild={buehnenBild} grossBild={synopsis?.cg}
+          teilName={teilName}
+          mehrereTeile={reihenTeile.length > 1}
+          buehnenBild={buehnenBild}
+          grossBild={synopsis?.cg}
           title={title}
           onToggleHidden={onToggleHidden}
           favorites={favorites}
           onToggleFavorite={onToggleFavorite}
           onClose={onClose}
           t={t}
-          unterzeile={unterzeile}
           folgenImKasten={folgenImKasten}
           eigenerTeil={eigenerTeil}
-        />
-
-        {/*
-          Das Karussell der Reihenteile — es ersetzt Cover **und** Auswahlliste.
-
-          Vorher stand links ein einzelnes Cover, rechts daneben alle Angaben,
-          und weiter unten eine Auswahlliste mit der Überschrift „Staffel, Film
-          oder Special". Drei Bausteine für eine Sache. Jetzt zeigt das
-          Karussell alle Teile als Vorschaukarten, der gewählte ist darin
-          hervorgehoben, und die Angaben stehen darunter über die volle Breite.
-          Die Überschrift entfällt: Ein Karussell aus
-          Covern erklärt sich selbst.
-
-          Auch bei einem Einzeltitel bleibt es stehen — dann als eine Karte.
-          Sonst verschwände beim Umschalten auf einen Titel ohne Geschwister
-          das Cover, und der Kopf sähe plötzlich anders aus.
-        */}
-        {/*
-          Alles nach der Bühne steht `relative`, und daran hängt mehr, als es
-          aussieht.
-
-          Das Bühnenbild ist 340 px hoch, sein Container nur so hoch wie Titel
-          und Unterzeile — gemessen 284 px. Die letzten 56 px des Bildes ragen
-          also über den Container hinaus, und das ist Absicht: Die ersten
-          Inhalte sollen darauf stehen.
-
-          Nur gewinnt beim Malen sonst das Bild. Der Container ist positioniert
-          und erzeugt über `isolation: isolate` einen eigenen Stapel; ein
-          nachfolgendes Geschwister **ohne** `position` wird davon überdeckt,
-          ganz gleich, welchen z-index das Bild innerhalb des Stapels trägt. Der
-          Antwortkasten stand dadurch angeschnitten da — obere Kante weg, der
-          Rest sichtbar (Daniel, 24.08.2026, mit Bild).
-
-          `relative` allein genügt: Es holt das Geschwister in dieselbe
-          Malschicht wie den Container, ohne einen z-index zu vergeben und ohne
-          am Layout etwas zu ändern.
-        */}
-        {/*
-          Die Wertung nennt ihre Quelle — sonst sieht es aus, als wäre es
-          unsere. „★ 8.4" ohne Herkunft las sich, als hätten wir diesen Anime
-          selbst bewertet; wir bewerten nichts, die Zahl ist
-          der Nutzerdurchschnitt von AniList.
-
-          Der Name steht ausgeschrieben statt als Logo: AniList liefert keine
-          Bildmarke zur freien Verwendung, und eine nachgebaute wäre schlechter
-          als ein Wort.
-        */}
-        {/*
-          **Der Block rückt sechs Zeilen ins Cover hinein.**
-
-          Daniel am 03.09.2026: „#3-staffel 1 container: margin-top -6em." Das
-          Cover ist seit derselben Runde 410 px hoch — ohne diesen Versatz läge
-          der erste Inhalt erst darunter, und der Weg zur Antwort wäre länger
-          geworden statt kürzer. So bleibt das Bild groß **und** der Kasten im
-          Blick; der Verlauf trägt den Text, wo er auf dem Bild steht.
-        */}
-        <PanelKopf
-          bewertung={bewertung}
-          reihenTeile={reihenTeile}
-          teilName={teilName}
-          reihenName={reihenName}
-          title={title}
           kinoRelease={kinoRelease}
           asZiel={asZiel}
         />

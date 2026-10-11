@@ -9,7 +9,6 @@
  * stand „Stream" tot neben „Disc"). Bei nur einer Seite bleibt deren Name als Etikett stehen —
  * sonst wäre eine einzelne Kaufpille nicht als Disc zu erkennen —, aber ohne Schalter dahinter.
  */
-import { TREFFER_24_HOCH } from './tippziel.ts'
 export function Umschalter({ aktivDisc, streamLeer, discLeer, onWahl, T }: {
   aktivDisc: boolean
   streamLeer: boolean
@@ -20,7 +19,7 @@ export function Umschalter({ aktivDisc, streamLeer, discLeer, onWahl, T }: {
   if (streamLeer && discLeer) return null
   return (
     <div
-      className="ml-auto mb-[5px] inline-flex shrink-0 self-start rounded-full border border-slate-300/60 bg-white/70 p-0.5 text-[11px] dark:border-white/15 dark:bg-black/25"
+      className="ml-auto inline-flex shrink-0 self-start rounded-full border border-slate-300/60 bg-white/70 p-0.5 text-sm dark:border-white/15 dark:bg-black/25"
       role="tablist"
       aria-label={T('where.umschalter')}
     >
@@ -37,10 +36,10 @@ export function Umschalter({ aktivDisc, streamLeer, discLeer, onWahl, T }: {
             aria-selected={aktivDisc === o.an}
             onClick={() => onWahl(o.an)}
             className={[
-              `rounded-full px-2.5 py-0.5 transition ${TREFFER_24_HOCH}`,
+              'min-h-11 rounded-full px-4 transition',
               aktivDisc === o.an
                 ? 'bg-slate-900 font-medium text-white dark:bg-white/90 dark:text-slate-900'
-                : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
+                : 'text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100',
             ].join(' ')}
           >
             {o.text}

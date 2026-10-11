@@ -6,6 +6,10 @@ import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { abgeleiteteFolgen, ungefaehr, zaehleErschienen } from './antwort-regeln.ts'
 import { zaehlPlattform } from './prime-kanal.ts'
+import { erschieneneSpanne } from './folgen-spanne.ts'
+
+/** „1–12“, bei einer einzigen Folge „1“. */
+const vonEins = (n: number): string => (n === 1 ? '1' : `1–${n}`)
 
 export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }: {
   releases: Release[]
@@ -77,14 +81,16 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
     /* Wochenserie, oder mehrere Releases mit einer Wochenserie: gezählt wird, was bei diesem Anbieter schon da ist (Abwurf Folge 1–11 plus Wochentakt ab 12 ergibt 15). */
     const wochenlauf = release?.releaseType === 'weekly' && releaseStatus(release, today) === 'airing'
     if (wochenlauf || (anbieterReleases.length > 1 && anbieterReleases.some((r) => r.releaseType === 'weekly'))) {
-      const raus = zaehleErschienen(anbieterReleases.flatMap((r) => expandEvents(r)))
-      return raus ? t('detail.folgenKurz', { n: raus }) : ''
+      const events = anbieterReleases.flatMap((r) => expandEvents(r))
+      const spanne = erschieneneSpanne(events)
+      const raus = zaehleErschienen(events)
+      return spanne ? t('detail.folgenBereich', { bereich: spanne }) : raus ? t('detail.folgenKurz', { n: raus }) : ''
     }
     /* Decken die Bereiche den Titel nicht ab, nennt die Pille sie selbst — „Fg. 1–75" statt
        „75 Fg." (Dai-DVD-Box, 16.09.2026): Die Zahl allein sagt nicht, welche fehlen. */
     if (deutsch.length && !dubAbdeckung(s?.dubRanges, title.episodes).vollstaendig)
       return t('detail.folgenBereich', { bereich: bereicheKurz(deutsch) })
-    if (deutsch.length) return t('detail.folgenKurz', { n: dubAbdeckung(s?.dubRanges, title.episodes).belegt })
+    if (deutsch.length) return t('detail.folgenBereich', { bereich: vonEins(dubAbdeckung(s?.dubRanges, title.episodes).belegt) })
     /*
       **Ohne Sprachbeleg keine Titelzahl** (21.09.2026). Regel 4 war an 1.982 deutschen
       Verweisen gemessen — für einen Weg ohne Urteil schrieb sie trotzdem die Folgen des
