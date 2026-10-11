@@ -1,20 +1,20 @@
 {
   "stand": "2026-10-11",
   "deckung": {
-    "titel": 20719,
-    "mitSeite": 15826,
-    "ohneSeite": 9,
-    "ohneAnisearchKennung": 3165,
-    "ohneReferenz": 1719,
+    "titel": 20636,
+    "mitSeite": 15879,
+    "ohneSeite": 22,
+    "ohneAnisearchKennung": 3069,
+    "ohneReferenz": 1666,
     "seitenImArchiv": 17466,
     "kanten": 18564
   },
   "gesamt": {
-    "titel": 15826,
-    "gleich": 12377,
-    "fehlen": 2197,
-    "zusaetzlich": 709,
-    "gemischt": 543
+    "titel": 15879,
+    "gleich": 12414,
+    "fehlen": 2237,
+    "zusaetzlich": 695,
+    "gemischt": 533
   },
   "hauptbestand": {
     "titel": 2868,
@@ -24,25 +24,25 @@
     "gemischt": 101
   },
   "haelfteA": {
-    "titel": 7295,
-    "gleich": 5662,
-    "fehlen": 1064,
-    "zusaetzlich": 349,
-    "gemischt": 220
+    "titel": 7319,
+    "gleich": 5675,
+    "fehlen": 1091,
+    "zusaetzlich": 341,
+    "gemischt": 212
   },
   "haelfteB": {
-    "titel": 8531,
-    "gleich": 6715,
-    "fehlen": 1133,
-    "zusaetzlich": 360,
-    "gemischt": 323
+    "titel": 8560,
+    "gleich": 6739,
+    "fehlen": 1146,
+    "zusaetzlich": 354,
+    "gemischt": 321
   },
   "cluster": {
-    "einzel": 5367,
-    "gleich": 2229,
-    "zerlegt": 285,
-    "verschmilzt": 74,
-    "gemischt": 34
+    "einzel": 5391,
+    "gleich": 2233,
+    "zerlegt": 290,
+    "verschmilzt": 71,
+    "gemischt": 32
   },
   "beispiele": {
     "zerlegt": [
@@ -110,6 +110,13 @@
         "anisearch": 2
       },
       {
+        "id": 10257,
+        "name": "Pretty Rhythm: Aurora Dream",
+        "titel": 26,
+        "referenz": 1,
+        "anisearch": 4
+      },
+      {
         "id": 11757,
         "name": "Sword Art Online",
         "titel": 25,
@@ -129,13 +136,6 @@
         "titel": 24,
         "referenz": 1,
         "anisearch": 3
-      },
-      {
-        "id": 10257,
-        "name": "Pretty Rhythm: Aurora Dream",
-        "titel": 24,
-        "referenz": 1,
-        "anisearch": 4
       },
       {
         "id": 9883,
@@ -266,16 +266,16 @@
         "anisearch": 1
       },
       {
-        "id": 177,
-        "name": "Tsubasa Chronicle",
-        "titel": 11,
-        "referenz": 3,
-        "anisearch": 1
-      },
-      {
         "id": 350,
         "name": "Ojamajo Doremi",
         "titel": 11,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
+        "id": 177,
+        "name": "Tsubasa Chronicle",
+        "titel": 10,
         "referenz": 2,
         "anisearch": 1
       },
@@ -301,6 +301,13 @@
         "anisearch": 1
       },
       {
+        "id": 19023,
+        "name": "Wake Up, Girls!",
+        "titel": 9,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
         "id": 317,
         "name": "Final Fantasy VII: Advent Children",
         "titel": 8,
@@ -320,13 +327,6 @@
         "titel": 8,
         "referenz": 2,
         "anisearch": 1
-      },
-      {
-        "id": 19023,
-        "name": "Wake Up, Girls!",
-        "titel": 8,
-        "referenz": 2,
-        "anisearch": 1
       }
     ],
     "gemischt": [
@@ -340,7 +340,7 @@
       {
         "id": 80,
         "name": "Kidou Senshi Gundam",
-        "titel": 132,
+        "titel": 133,
         "referenz": 3,
         "anisearch": 23
       },
@@ -396,7 +396,7 @@
       {
         "id": 87435,
         "name": "BanG Dream!",
-        "titel": 23,
+        "titel": 24,
         "referenz": 2,
         "anisearch": 3
       },
@@ -436,13 +436,6 @@
         "anisearch": 3
       },
       {
-        "id": 101348,
-        "name": "VINLAND SAGA",
-        "titel": 14,
-        "referenz": 3,
-        "anisearch": 3
-      },
-      {
         "id": 1678,
         "name": "Cyborg 009: THE CYBORG SOLDIER",
         "titel": 12,
@@ -464,8 +457,15 @@
         "anisearch": 2
       },
       {
-        "id": 2467,
-        "name": "3 Choume no Tama: Uchi no Tama Shirimasenka? 2",
+        "id": 10763,
+        "name": "Robot Taekwon V",
+        "titel": 8,
+        "referenz": 2,
+        "anisearch": 2
+      },
+      {
+        "id": 102004,
+        "name": "Onmyouji: Heian Monogatari",
         "titel": 8,
         "referenz": 2,
         "anisearch": 3
