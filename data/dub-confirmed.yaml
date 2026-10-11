@@ -22762,6 +22762,17 @@
   platform: netflix
   url: https://www.netflix.com/title/80219119
   dub: true
+  dubRanges:
+    - from: 1
+      to: 21
+      dub: true
+  staffeln:
+    - nr: 1
+      folgen: 1
+    - nr: 2
+      folgen: 10
+    - nr: 3
+      folgen: 10
   checkedAt: '2026-10-10'
   note: "Daniel, 10.10.2026: Netflix führt drei „Bücher“ (Buch 1: 1 Folge, Buch 2: 10, Buch 3: 10 — zusammen 21 Folgen), alle auf Deutsch. Cartoon aus TMDB (negative Kennung); JustWatch nennt für Netflix keine Tonspur."
 - anilistId: -61838

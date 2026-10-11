@@ -5,6 +5,9 @@ export interface CartoonStaffel {
   start?: string
 }
 
+/** `handbeleg`: die Staffeln stehen im Handbeleg (`staffeln` in `data/dub-confirmed.yaml`) und gewinnen gegen beide Quellen. */
+export type StaffelnQuelle = 'justwatch' | 'tmdb' | 'handbeleg'
+
 /*
   Die Staffelfelder von `Title` (nur Cartoons, 11.10.2026) stehen hier statt in `types.ts`, das über der Dateigrenze
   liegt. `staffeln`: `nr` aufsteigend, ohne Specials (Staffel 0). `staffelnQuelle` sagt, woher sie stammen; bei `tmdb`
@@ -13,6 +16,6 @@ export interface CartoonStaffel {
 declare module './types.ts' {
   interface Title {
     staffeln?: CartoonStaffel[]
-    staffelnQuelle?: 'justwatch' | 'tmdb'
+    staffelnQuelle?: StaffelnQuelle
   }
 }

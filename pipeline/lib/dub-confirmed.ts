@@ -14,6 +14,7 @@ import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { ROOT } from './util.ts'
 import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
+import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 import { warn } from './util.ts'
 import { loadCurated } from './curated.ts'
 import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
@@ -68,6 +69,12 @@ export interface DubCheck {
    * 91 Folgen für eine Staffel, die 39 hat.
    */
   teilBereich?: { von: number; bis: number }
+  /**
+   * Nur Cartoons (negative Kennung): die Staffeln der Serie beim Anbieter, wie Daniel sie gezählt hat (Jack der
+   * Monsterschreck: Buch 1 = 1 Folge, Buch 2 = 10, Buch 3 = 10). Gewinnt gegen JustWatch und TMDB
+   * (`lib/cartoon-staffeln.ts`); `dubRanges` zählen dann durchlaufend über alle Staffeln.
+   */
+  staffeln?: CartoonStaffel[]
   /**
    * Der Titel steht **bewusst** nicht in unserem Bestand.
    *

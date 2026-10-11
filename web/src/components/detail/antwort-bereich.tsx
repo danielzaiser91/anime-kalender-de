@@ -17,7 +17,7 @@ import type { Translate } from '../../lib/i18n.tsx'
 import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
 import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
-import { type sortiereNachZugang } from './wege-sortieren.ts'
+import { pillenSchluessel, type sortiereNachZugang } from './wege-sortieren.ts'
 
 /** Eine Pille je Termin: Sender oder Anbieter, Datum, Folge. */
 function terminPillen(rs: Release[], title: Title, releases: Release[], today: string) {
@@ -67,7 +67,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
             new Map([
               ...sortiertNachZugang.flatMap(({ art, plattformen, streamWege }) =>
                 [
-                  ...plattformen.map((x) => `${x.platform}|${x.url}`),
+                  ...plattformen.map(pillenSchluessel),
                   ...streamWege.map((g) => `sw-${g.shop}-${g.eintraege[0].url}`),
                 ].map((k) => [k, art === 'kostenlos' ? 'frei' : art] as const),
               ),
@@ -153,7 +153,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                       als verwaister Knoten stehen — Lupin III. Part 6 zeigte die Kanal-Pille
                       unter „Disc".
                     */
-                    key={`${s.platform}|${s.url}`}
+                    key={pillenSchluessel(s)}
                     name={s.kanal ? `${PLATFORMS[s.platform].name} (${s.kanal})` : PLATFORMS[s.platform].name}
                     farbe={PLATFORMS[s.platform].color}
                     icon={<AnbieterIcon was={s.platform} />}

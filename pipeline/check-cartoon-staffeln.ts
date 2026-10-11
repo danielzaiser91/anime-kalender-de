@@ -44,6 +44,13 @@ const jack = waehleStaffeln(jw(10, 10, 10), tmdb(1, 10, 10), 21)
 pruefe('Widerspruch: JustWatch gewinnt, Grund steht da', jack?.quelle === 'justwatch' && jack.staffeln[0].folgen === 10 && jack.gruende.some((g) => g.startsWith('Quellen widersprechen sich')), JSON.stringify(jack))
 pruefe('Widerspruch: Starttag nur bei gleicher Nummer und Folgenzahl', jack?.staffeln[0].start === undefined && jack?.staffeln[1].start === '2020-02-01')
 
+// Handbeleg gewinnt gegen beide Quellen (Jack: JustWatch 10/10/10 falsch, TMDB und Netflix 1/10/10) und braucht keine Prüfung.
+const handJack = [{ nr: 3, folgen: 10 }, { nr: 1, folgen: 1 }, { nr: 2, folgen: 10 }]
+const jackHand = waehleStaffeln(jw(10, 10, 10), tmdb(1, 10, 11), 21, handJack)
+pruefe('Handbeleg: gewinnt gegen JustWatch und TMDB, nach Nummer geordnet', jackHand?.quelle === 'handbeleg' && jackHand.staffeln.map((s) => s.folgen).join() === '1,10,10', JSON.stringify(jackHand))
+pruefe('Handbeleg: kein Widerspruch, nichts zu prüfen', jackHand?.gruende.length === 0)
+pruefe('Handbeleg: gilt auch ohne jede andere Quelle', waehleStaffeln(undefined, undefined, undefined, handJack)?.quelle === 'handbeleg')
+
 const pj = waehleStaffeln(jw(40, 15, 20, 30, 20, 15, 15), tmdb(43), 43)
 pruefe('Summe weit neben der Gesamtfolgenzahl: Grund', pj?.gruende.some((g) => g.includes('Gesamtfolgenzahl 43')) === true, JSON.stringify(pj))
 pruefe('Summe um genau 3 daneben: kein Grund', waehleStaffeln(undefined, tmdb(13, 10), 26)?.gruende.length === 0)
@@ -58,8 +65,9 @@ if (existsSync(OUT)) {
   const wohlgeformt = (t: Title) =>
     t.staffeln!.every((s, i, alle) => Number.isInteger(s.nr) && s.nr >= 1 && Number.isInteger(s.folgen) && s.folgen >= 1 && (i === 0 || alle[i - 1].nr < s.nr))
   pruefe('Bestand: Staffeln aufsteigend, ab Nummer 1, mit ganzzahliger Folgenzahl', mit.every(wohlgeformt))
-  pruefe('Bestand: jede Staffelangabe nennt ihre Quelle', mit.every((t) => t.staffelnQuelle === 'justwatch' || t.staffelnQuelle === 'tmdb'))
-  const abweichend = mit.filter((t) => t.episodes && Math.abs(summe(t.staffeln!) - t.episodes) > SUMMEN_TOLERANZ && !liste.has(t.id))
+  pruefe('Bestand: jede Staffelangabe nennt ihre Quelle', mit.every((t) => t.staffelnQuelle === 'justwatch' || t.staffelnQuelle === 'tmdb' || t.staffelnQuelle === 'handbeleg'))
+  // Ein Handbeleg ist selbst die Prüfung.
+  const abweichend = mit.filter((t) => t.staffelnQuelle !== 'handbeleg' && t.episodes &&Math.abs(summe(t.staffeln!) - t.episodes) > SUMMEN_TOLERANZ && !liste.has(t.id))
   pruefe('Bestand: Staffelsumme passt zur Gesamtfolgenzahl (±3) oder der Titel steht auf der Prüfliste', abweichend.length === 0, abweichend.map((t) => t.id).slice(0, 10).join())
 }
 
