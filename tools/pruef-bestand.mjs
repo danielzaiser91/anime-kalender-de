@@ -52,11 +52,15 @@ const ANBIETER_NAME = { netflix: /netflix/i, primevideo: /prime|amazon/i, disney
 
 /**
  * Woher die Angabe zu diesem Weg stammt: JustWatch nennt den Anbieter mit deutschem Ton, TMDB führt ihn nur auf,
- * der Datensatz trägt ein Urteil. Ohne Urteil (`dub` fehlt) gibt es nichts, dem man trauen könnte: `keine`.
- * `weg` ist der Weg (`{ dub }`), auch ein Listeneintrag mit diesem Feld.
+ * der Datensatz trägt ein Urteil. Ohne Urteil (`dub` fehlt) gibt es nichts, dem man trauen könnte: `keine` — außer bei
+ * `dubQuelle: 'justwatch'` (Prime, Vertrauensregel `pipeline/lib/jw-vertrauen.ts`, 99,4 % richtig, Messung 11.10.2026):
+ * `justwatch-regel`. `weg` ist der Weg (`{ dub, dubQuelle }`), auch ein Listeneintrag mit diesen Feldern.
  */
 function quelleVon(t, plattform, weg) {
-  if (!t.cartoon) return weg.dub === undefined ? 'keine' : 'datensatz'
+  if (!t.cartoon) {
+    if (weg.dub !== undefined) return 'datensatz'
+    return weg.dubQuelle === 'justwatch' ? 'justwatch-regel' : 'keine'
+  }
   const genannt = (t.dubHinweis?.anbieter ?? []).some((n) => ANBIETER_NAME[plattform]?.test(n))
   return genannt ? 'justwatch' : 'tmdb'
 }

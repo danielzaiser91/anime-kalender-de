@@ -170,7 +170,7 @@ for (const t of [...titel, ...ladeCartoons(wurzel)]) {
     const seite = primeSeite(s)
     const asin = seite && kennung(seite)
     if (!asin || ausgeblendet(t, 'primevideo', s)) continue
-    jeAsin.set(asin, [...(jeAsin.get(asin) ?? []), { t, dub: s.dub, url: seite }])
+    jeAsin.set(asin, [...(jeAsin.get(asin) ?? []), { t, dub: s.dub, dubQuelle: s.dubQuelle, url: seite }])
   }
 }
 
