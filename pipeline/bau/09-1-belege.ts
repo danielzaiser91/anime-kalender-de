@@ -11,6 +11,11 @@ import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 
+/** Ein geschätzter Termin, der noch aussteht, ist der Untertitel-Start — kein Beleg für eine Synchro. */
+function terminBelegtNichts(release: Release, heute: string): boolean {
+  return release.titleId < 0 || (Boolean(release.schedule.estimated) && release.schedule.firstEpisodeDate > heute)
+}
+
 export function sammleBelege({
   releases,
   titles,
@@ -33,8 +38,7 @@ export function sammleBelege({
   // Ein Stream-Link sagt nichts über die Sprache — belegt ist nur, was nachgewiesen wurde.
   const dubByTitle = new Map<number, Set<PlatformId>>()
   for (const release of releases) {
-    // Ein geschätzter Termin, der noch aussteht, ist der Untertitel-Start — kein Beleg für eine Synchro.
-    if (release.titleId < 0 || (release.schedule.estimated && release.schedule.firstEpisodeDate > todayIso())) continue
+    if (terminBelegtNichts(release, todayIso())) continue
     const set = dubByTitle.get(release.titleId) ?? new Set<PlatformId>()
     set.add(release.platform)
     dubByTitle.set(release.titleId, set)
