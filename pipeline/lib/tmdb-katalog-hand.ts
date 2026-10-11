@@ -12,7 +12,8 @@ function pruefeBestaetigt(id: string, e: Zuordnung): string[] {
   if (!b) return [`${id}: bestätigt ohne Beleg`]
   const aus = b.ausnahme ?? []
   const fehler: string[] = []
-  if (!b.name) fehler.push(`${id}: Name nicht belegt`)
+  if (b.name !== 'original' && b.name !== 'latein') fehler.push(`${id}: Name nicht belegt (${b.name})`)
+  if (b.tmdb !== `${e.art}/${e.tmdbId}`) fehler.push(`${id}: Beleg gehört zu ${b.tmdb}, Eintrag zeigt auf ${e.art}/${e.tmdbId}`)
   if (!b.genres.includes(ANIMATION) && !aus.some((a) => GENRE_AUSNAHMEN.includes(a))) fehler.push(`${id}: Genre ${b.genres.join(',') || 'leer'} ohne Animation und ohne Ausnahme`)
   if (aus.includes('genre-leer') && b.genres.length) fehler.push(`${id}: Ausnahme genre-leer, aber Genres ${b.genres.join(',')}`)
   const [al, tm] = b.jahr
