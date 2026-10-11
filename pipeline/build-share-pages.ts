@@ -25,6 +25,7 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { andereNamen, titelJsonLd } from './lib/titel-namen.ts'
+import { teilenPfad } from '../shared/teilen.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
 import { ladeAkVon, umleitungen, type AkVon } from './lib/ausgabe-kennung.ts'
 
@@ -323,7 +324,7 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
 function head(release: Release, title: Title | undefined, today: string, ak: number): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
-  const url = `${SITE}t/${ak}/`
+  const url = `${SITE}${teilenPfad(ak)}`
   const image = `${SITE}og/${release.slug}.jpg?v=${OG_FASSUNG}`
   const headline = `${release.name} — ${RELEASE_TYPES[release.releaseType].short} bei ${anbieterName(release.platform, release.sender)}`
   const description = describe(release, title, today)
@@ -423,22 +424,36 @@ function main(): void {
   const alleTitel = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titelListe = (Array.isArray(alleTitel) ? alleTitel : alleTitel.titles).filter((t) => t.slug)
   const mitAk = titelListe.map((t) => ({ t, ak: akVon(t.id) }))
-  /* Eine Seite je Titel: Hat er Termine, trägt sie den nächsten (sonst den letzten) samt der übrigen; sonst die schlichte Titelseite. */
-  for (const { t, ak } of mitAk) {
-    const dir = resolve(DIST, 't', String(ak))
-    mkdirSync(dir, { recursive: true })
-    const eigene = jeTitel.get(t.id) ?? []
-    const haupt = naechsterTermin(eigene, today)
-    const kopf = haupt ? head(haupt, t, today, ak) : titelKopf({ ...t, id: ak, slug: String(ak) })
-    const inhalt = haupt
-      ? body(haupt, t, synopses[String(t.id)]?.de, today, eigene.filter((g) => g.slug !== haupt.slug), ak)
-      : titelInhalt({ ...t, id: ak, slug: String(ak) }, synopses[String(t.id)]?.de, eigene)
-    writeFileSync(resolve(dir, 'index.html'), (before + kopf + after).replace(ROOT_TAG, `<div id="root">${inhalt}</div>`), 'utf8')
-  }
+  schreibeTitelSeiten(mitAk, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel })
 
   schreibeUmleitungen(umleitungen(kennungsZeilen))
   log(`${titelListe.length} Titel-Seiten, Übersicht und Startseite geschrieben`)
   writeSitemap(mitAk.map(({ t, ak }) => ({ ...t, slug: String(ak) })))
+}
+
+/** Was jede Titel-Seite gemeinsam hat: die Vorlage um die Marker, der Tag des Baus, Texte und Termine je Titel. */
+interface SeitenRahmen {
+  before: string
+  after: string
+  rootTag: string
+  today: string
+  synopses: Record<string, { de?: string; en?: string }>
+  jeTitel: Map<number, Release[]>
+}
+
+/** Eine Seite je Titel: Hat er Termine, trägt sie den nächsten (sonst den letzten) samt der übrigen; sonst die schlichte Titelseite. */
+function schreibeTitelSeiten(mitAk: { t: Title; ak: number }[], r: SeitenRahmen): void {
+  for (const { t, ak } of mitAk) {
+    const dir = resolve(DIST, teilenPfad(ak))
+    mkdirSync(dir, { recursive: true })
+    const eigene = r.jeTitel.get(t.id) ?? []
+    const haupt = naechsterTermin(eigene, r.today)
+    const kopf = haupt ? head(haupt, t, r.today, ak) : titelKopf({ ...t, id: ak, slug: String(ak) })
+    const inhalt = haupt
+      ? body(haupt, t, r.synopses[String(t.id)]?.de, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak)
+      : titelInhalt({ ...t, id: ak, slug: String(ak) }, r.synopses[String(t.id)]?.de, eigene)
+    writeFileSync(resolve(dir, 'index.html'), (r.before + kopf + r.after).replace(r.rootTag, `<div id="root">${inhalt}</div>`), 'utf8')
+  }
 }
 
 /*
@@ -456,8 +471,8 @@ function main(): void {
  */
 function schreibeUmleitungen(paare: [number, number][]): void {
   for (const [alt, neu] of paare) {
-    const ziel = `${SITE}t/${neu}/`
-    const dir = resolve(DIST, 't', String(alt))
+    const ziel = `${SITE}${teilenPfad(neu)}`
+    const dir = resolve(DIST, teilenPfad(alt))
     mkdirSync(dir, { recursive: true })
     writeFileSync(
       resolve(dir, 'index.html'),
@@ -506,7 +521,7 @@ function namenZeile(t: Title | undefined, gezeigt: string): string {
 }
 
 function titelKopf(t: Title): string {
-  const url = `${SITE}t/${t.slug}/`
+  const url = `${SITE}${teilenPfad(t.slug)}`
   const name = titelName(t)
   const headline = `${name} — auf Deutsch`
   const description = titelBeschreibung(t)
@@ -568,7 +583,7 @@ function terminZeile(release: Release, titel: Title | undefined, ak: number): st
   const datum = release.schedule.firstEpisodeDate.split('-').reverse().join('.')
   const anbieter = esc(anbieterName(release.platform, release.sender))
   return (
-    `      <li><a href="${SITE}t/${ak}/" style="color:#7dd3fc;">${name}</a>` +
+    `      <li><a href="${SITE}${teilenPfad(ak)}" style="color:#7dd3fc;">${name}</a>` +
     ` — ${datum}, ${anbieter}</li>\n`
   )
 }
@@ -627,7 +642,7 @@ function schreibeUebersicht(
     itemListElement: naechsteZwanzig.map((r, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      url: `${SITE}t/${akVon(r.titleId)}/`,
+      url: `${SITE}${teilenPfad(akVon(r.titleId))}`,
       name: titleById.get(r.titleId)?.titleDe ?? r.name,
     })),
   }
@@ -750,7 +765,7 @@ function writeSitemap(titel: Title[] = []): void {
     // Der Einstieg zu allen Teilen-Seiten — er muss selbst gefunden werden.
     { loc: `${SITE}termine/`, priority: '0.9', changefreq: 'daily', lastmod: today },
     // Titelseiten ohne lastmod: Ein belegbares Änderungsdatum je Seite gibt es nicht, „heute" wäre geraten.
-    ...titel.map((t) => ({ loc: `${SITE}t/${t.slug}/`, priority: '0.6', changefreq: 'weekly', lastmod: undefined as string | undefined })),
+    ...titel.map((t) => ({ loc: `${SITE}${teilenPfad(t.slug)}`, priority: '0.6', changefreq: 'weekly', lastmod: undefined as string | undefined })),
   ]
 
   const xml =
