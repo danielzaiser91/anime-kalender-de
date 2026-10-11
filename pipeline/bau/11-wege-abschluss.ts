@@ -5,6 +5,7 @@ import { type AnisearchEintrag } from './01-quellen.ts'
 import { fuehreAusgabenZusammen } from './11-4-ausgaben.ts'
 import { bereinigeWege } from './11-3-bereinigung.ts'
 import { streicheMagentaPartner } from './11-5-magenta-partner.ts'
+import { kennzeichneDeutschLautJustwatch } from './11-6-jw-vertrauen.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
 import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
@@ -72,4 +73,5 @@ export function schliesseWegeAb({
   if (fremd) log(`${fremd} Crunchyroll-Wege nach dem Abschluss entfernt: sie gehören keiner Staffel der Serie`)
 
   fuehreAusgabenZusammen({ alleChecks, titles, tmdbMehrdeutig, anisearch, lautPruefungTot, checksJePlattform })
+  kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
 }

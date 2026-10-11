@@ -151,6 +151,13 @@ export interface StreamLink {
   seite?: string
   /** true — deutsche Synchro dort belegt; false — dort ausdrücklich nur Originalton mit Untertiteln; fehlt — nicht geprüft */
   dub?: boolean
+  /**
+   * Wenn `dub` fehlt, aber die Vertrauensregel greift: Deutsch laut JustWatch (`pipeline/lib/jw-vertrauen.ts`,
+   * 99,4 % richtig bei Prime-Filmen und einzeln geführten Serien, Messung 11.10.2026). Kein Beleg — `dub` bleibt offen.
+   */
+  dubQuelle?: 'justwatch'
+  /** Datum des JustWatch-Befunds hinter `dubQuelle` (JJJJ-MM-TT). */
+  dubStand?: string
   /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026). */
   herkunft?: 'tmdb'
   /**
