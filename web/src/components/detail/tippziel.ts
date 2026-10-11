@@ -9,6 +9,10 @@ export const TIPPFLAECHE =
 export const TIPPFLAECHE_HOCH =
   'relative after:absolute after:inset-x-0 after:top-1/2 after:h-11 after:-translate-y-1/2'
 
+/** Dasselbe für alle Knöpfe in einem Container (die Knöpfe selbst gehören anderen Bausteinen). */
+export const TIPPFLAECHE_KINDER =
+  '[&_button]:relative [&_button]:after:absolute [&_button]:after:left-1/2 [&_button]:after:top-1/2 [&_button]:after:size-11 [&_button]:after:-translate-x-1/2 [&_button]:after:-translate-y-1/2'
+
 /**
  * Standard (WCAG 2.2 SC 2.5.8): Trefferfläche mindestens 24 × 24 px, optisch unverändert — unsichtbares `::after`, braucht `relative`.
  * `TREFFER_24` für kleine runde Knöpfe (20 px), `TREFFER_24_HOCH` nur senkrecht für niedrige Textziele (16 px hoch).

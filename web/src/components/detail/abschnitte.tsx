@@ -22,9 +22,9 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
       {(title.genres.length > 0 || zeigtHerkunft(title)) && (
         <Aufklappbar titel={t('detail.werkangaben')}>
           {zeigtHerkunft(title) && <HerkunftZeile title={title} t={t} />}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
               {(genresOffen ? title.genres : title.genres.slice(0, 3)).map((g) => (
-                <Chip gross key={g} onClick={() => onFilterBy('genre', g)}>
+                <Chip key={g} onClick={() => onFilterBy('genre', g)}>
                   {tGenre(g)}
                 </Chip>
               ))}
@@ -32,7 +32,7 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
                 <button
                   type="button"
                   onClick={() => setGenresOffen(true)}
-                  className="min-h-11 min-w-11 cursor-pointer rounded-full border border-slate-300 px-3 text-sm text-slate-600 transition hover:border-slate-400 dark:border-white/15 dark:text-slate-300"
+                  className="cursor-pointer rounded-full border border-slate-200 px-2 py-0.5 text-[11px] text-slate-500 transition hover:border-slate-400 dark:border-white/10 dark:text-slate-400"
                 >
                   +{title.genres.length - 3}
                 </button>
@@ -64,7 +64,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             findet, hat die Handlung schon dem falschen Titel zugeschrieben.
           */}
           {plot.vonTeil && (
-            <p className="mb-1 text-xs text-amber-800 dark:text-amber-300">
+            <p className="mb-1 text-[11px] text-amber-600 dark:text-amber-400/90">
               {t(plot.erschienen ? 'detail.plotVonTeilFrueher' : 'detail.plotVonTeil', { teil: plot.vonTeil.name })}
             </p>
           )}
@@ -91,16 +91,16 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
                 type="button"
                 onClick={() => setPlotOffen((v) => !v)}
                 aria-expanded={plotOffen}
-                className="min-h-11 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-4 text-sm font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
+                className="cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1 text-xs font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
               >
                 {t(plotOffen ? 'detail.plotLess' : 'detail.plotMore')}
               </button>
             ) : (
               <span />
             )}
-            <span className="text-xs text-slate-600 dark:text-slate-400">
+            <span className="text-[11px] text-slate-400">
               {t('detail.plotQuelle')}{' '}
-              <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="-my-3 inline-flex min-h-11 items-center underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text">
+              <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text">
                 {quelleLabel(plot.quelle.name)} ↗
               </a>
             </span>
