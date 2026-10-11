@@ -4,6 +4,7 @@
  * `daniel-zum-abarbeiten/listen/tmdb-katalog-unsicher.md`. Regel: `lib/tmdb-katalog.ts`. Noch nicht im Bau.
  *
  * Wiederaufnahme: Was in der Zuordnung steht, wird nicht noch einmal gesucht; alle 100 Titel wird gesichert. Höchstens 4 Anfragen je Sekunde.
+ * Die Handurteile (`von: 'hand'`) stehen in derselben Datei und bleiben bei jeder Wiederaufnahme; die Datei nie löschen.
  * Aufruf: `npm run data:tmdb-katalog [-- --limit N]` (Schlüssel `TMDB_API_KEY` aus `.env`).
  */
 import { loadEnv, log, readJson, warn, writeText } from './lib/util.ts'

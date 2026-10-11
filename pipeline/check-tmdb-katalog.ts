@@ -2,7 +2,9 @@
  * Zusicherungen zur TMDB-Zuordnung der Nur-AniList-Titel (`lib/tmdb-katalog.ts`): die Regel der Probe vom 11.10.2026, darunter die drei Fehltreffer
  * der einfachen Namen-und-Jahr-Regel (Silence, Gathering, Night Owl). Aufruf: `npm run check:logic`.
  */
-import { suchNamen, urteilKatalog, type KatalogTitel, type KatalogTreffer } from './lib/tmdb-katalog.ts'
+import { suchNamen, urteilKatalog, type HandBeleg, type KatalogTitel, type KatalogTreffer, type Zuordnung } from './lib/tmdb-katalog.ts'
+import { pruefeHandEintraege } from './lib/tmdb-katalog-hand.ts'
+import { readJson } from './lib/util.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -50,6 +52,21 @@ pruefe('unser Jahr fehlt: nie sicher', urteilKatalog(titel({ jahr: null, native:
 console.log('\nTMDB-Katalog: Suchreihenfolge')
 pruefe('chinesischer Titel: Originalname zuerst', suchNamen(titel({ land: 'CN', en: 'A', romaji: 'B', native: 'C' }))[0] === 'C')
 pruefe('japanischer Titel: Englisch zuerst, ohne Doppelte', suchNamen(titel({ en: 'A', romaji: 'A', native: 'C' })).join() === 'A,C')
+
+console.log('\nTMDB-Katalog: Handurteile tragen die Pflichtmerkmale (Abgleich der Unsicheren, 11.10.2026)')
+const hand = (b: Partial<HandBeleg>, rest: Partial<Zuordnung> = {}): Record<string, Zuordnung> => ({ '1': { tmdbId: 1, art: 'tv', stufe: 'sicher', grund: 'von Hand bestätigt: x', von: 'hand', beleg: { genres: [16], jahr: [2020, 2020], name: 'original', ...b }, ...rest } })
+pruefe('bestätigt mit Animation, Jahr gleich, Name: in Ordnung', pruefeHandEintraege(hand({})).length === 0)
+pruefe('bestätigt ohne Animationsgenre und ohne Ausnahme: Verstoß', pruefeHandEintraege(hand({ genres: [18] })).length === 1)
+pruefe('Genre leer nur mit Ausnahme genre-leer', pruefeHandEintraege(hand({ genres: [] })).length === 1 && pruefeHandEintraege(hand({ genres: [], ausnahme: ['genre-leer'] })).length === 0)
+pruefe('Ausnahme genre-leer bei vorhandenen Genres: Verstoß', pruefeHandEintraege(hand({ genres: [18], ausnahme: ['genre-leer'] })).length === 1)
+pruefe('Jahr um zwei daneben nur mit Ausnahme', pruefeHandEintraege(hand({ jahr: [2020, 2022] })).length === 1 && pruefeHandEintraege(hand({ jahr: [2020, 2022], ausnahme: ['jahr-kurzfilm'] })).length === 0)
+pruefe('Jahr fehlt nur mit Ausnahme jahr-fehlt', pruefeHandEintraege(hand({ jahr: [null, 2020] })).length === 1 && pruefeHandEintraege(hand({ jahr: [null, 2020], ausnahme: ['jahr-fehlt'] })).length === 0)
+pruefe('bestätigt ohne Beleg: Verstoß', pruefeHandEintraege(hand({}, { beleg: undefined })).length === 1)
+pruefe('verworfen mit Kennung: Verstoß', pruefeHandEintraege(hand({}, { stufe: 'kein', grund: 'von Hand verworfen: x' })).length === 1)
+pruefe('Kennung an zwei Titel bestätigt: Verstoß', pruefeHandEintraege({ ...hand({}), '2': hand({})['1']! }).length === 2)
+const daten = readJson<Record<string, Zuordnung>>('data/tmdb-katalog-zuordnung.json', {})
+const verstoesse = pruefeHandEintraege(daten)
+pruefe(`alle ${Object.values(daten).filter((e) => e.von === 'hand').length} Handurteile in der Zuordnung halten die Pflichtmerkmale`, verstoesse.length === 0, verstoesse.slice(0, 5))
 
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)

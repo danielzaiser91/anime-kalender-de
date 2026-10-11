@@ -32,6 +32,21 @@ export interface Zuordnung {
   grund: string
   /** Weitere Kandidaten als `tv/<Kennung>` oder `movie/<Kennung>` (nur bei unsicher). */
   kandidaten?: string[]
+  /** `hand`: von Hand abgeglichen (11.10.2026); `stufe` und `grund` sind dann das Urteil, `fetch-tmdb-katalog.ts` sucht den Titel nicht neu. */
+  von?: 'hand'
+  /** Belege eines von Hand bestätigten Eintrags; `lib/tmdb-katalog-hand.ts` prüft sie. */
+  beleg?: HandBeleg
+}
+
+/** Ausnahmen von der Regel, die ein Handurteil nennen muss: Genre (leer, Studio, Schlagwort), Jahr (fehlt, Folgen+Laufzeit, Kurzfilm, Studio), Land, Folgenzahl (TMDB unvollständig). */
+export type Ausnahme = 'genre-leer' | 'genre-studio' | 'schlagwort' | 'jahr-fehlt' | 'jahr-folgen-lauf' | 'jahr-kurzfilm' | 'jahr-studio' | 'land-abweichend' | 'folgen-luecke'
+
+/** Merkmale des gewählten TMDB-Werks: Genre-Kennungen, Jahr (AniList, TMDB), Art des Namens (Originalschrift oder lateinisch). */
+export interface HandBeleg {
+  genres: number[]
+  jahr: [number | null, number | null]
+  name: 'original' | 'latein'
+  ausnahme?: Ausnahme[]
 }
 
 const ANIMATION = 16
