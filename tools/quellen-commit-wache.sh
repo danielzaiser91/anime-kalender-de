@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Pre-commit-Wache: keine Datei aus QUELLEN committen, während ein Datenlauf läuft.
+# Pre-commit-Wache: keine Datei aus QUELLEN auf main committen, während der Bestandsbau läuft.
 #
 # Ein laufender Lauf committet am Ende den Stand von seinem Start und überschreibt
 # dabei, was zwischendurch lokal committet wurde (CLAUDE.md, „Ein laufender Datenlauf
@@ -36,12 +36,16 @@ done < <(git diff --cached --name-only)
 
 [ ${#betroffen[@]} -eq 0 ] && exit 0
 
-# Läufe, die selbst auf main committen (Bestandsbau, Datenlauf auf Abruf, Crunchyroll-Rückstand). Deploy, Aussehen, die Claude-Läufe und die Wachen schreiben
-# keine Quellen; die Sammler (Stündlich, Täglich, Wöchentlich, ADN, aniSearch-Katalog) reichen per Pull Request ein, dort meldet GitHub den Konflikt (05.10.2026).
+# Nur auf main: Ein Commit auf einem Zweig erreicht den Bestand erst über einen Pull Request, und den Konflikt meldet GitHub.
+# Die Wache hielt am 10.10.2026 einen Branch-Commit 42 Minuten an (Datenlauf auf Abruf).
+[ "$(git rev-parse --abbrev-ref HEAD)" = "main" ] || exit 0
+
+# Es gibt nur noch einen Lauf, der direkt auf main committet: den Bestandsbau (`commit-data.sh`). Alle Sammler, der Datenlauf auf Abruf,
+# der Crunchyroll-Rückstand und „Fund nachliefern“ reichen per Pull Request ein (05.10.2026), die PR-Läufe schreiben nichts.
 laufend=$(gh run list --repo danielzaiser91/anime-kalender-de --limit 30 \
   --json status,workflowName,databaseId \
   --jq '.[] | select(.status=="in_progress" or .status=="queued")
-        | select(.workflowName | test("^(Deploy|Aussehen|Claude|Wöchentlich|Täglich|Stündlich|ADN — laufende|aniSearch-Katalog|Wache)") | not)
+        | select(.workflowName | test("^Bestand"))
         | "\(.databaseId)  \(.workflowName)"' 2>/dev/null)
 if [ $? -ne 0 ]; then
   echo "quellen-commit-wache: Laufstand nicht abrufbar — Commit ohne Prüfung durchgelassen" >&2

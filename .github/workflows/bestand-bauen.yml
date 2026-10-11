@@ -45,6 +45,19 @@ on:
     # Also: Was Claude zusammengeführt hat, baut der nächste planmäßige Lauf —
     # spätestens eine Stunde später. Ein Konflikt ist der Ausnahmefall, und
     # eine Stunde Verzug ist dort verkraftbar.
+  # Ein gemergter Handbeleg oder Pipeline-Umbau wartete bis zum nächsten Sammel-Lauf (10.10.2026: 25 Minuten bis zum Baustart).
+  # Jetzt baut jeder Push, der Bauquellen berührt. Pushes mit GITHUB_TOKEN (Sammler-Merges, dieser Lauf selbst, Wachen) lösen
+  # keinen Workflow aus — es entstehen keine Doppelläufe. Die Gruppe `bau` hält einen laufenden und einen wartenden Lauf.
+  # Bewusst ohne `web/src/**` (die Pipeline importiert dort einzelne Module) und ohne `tools/daten-kennung.ts`: Änderungen dort lösen
+  # keinen Bau aus und wirken beim nächsten Sammel-Lauf oder per `workflow_dispatch`. Das Lockfile ändert dagegen, was die Pipeline ausführt.
+  push:
+    branches: [main]
+    paths:
+      - 'data/**'
+      - '!data/cache/**'
+      - 'pipeline/**'
+      - 'shared/**'
+      - 'package-lock.json'
   workflow_dispatch:
 
 permissions:

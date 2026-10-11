@@ -622,10 +622,12 @@ Workflows behauptet also etwas, das die Plattform nicht einhalten kann.
 - **Sendezeiten sind bis zu acht Stunden alt.** Wer prüft, ob ein Termin
   eingehalten wurde, misst gegen einen Stand, der einen halben Tag zurückliegen
   kann — nicht gegen „vor einer Stunde".
-- **Eine Codeänderung erreicht die Daten mit demselben Verzug.** Der Bau
-  (`bestand-bauen.yml`) hängt an den drei Sammel-Läufen; wer heute etwas an der
-  Pipeline ändert und die Wirkung sehen will, stößt ihn selbst an:
-  `gh workflow run bestand-bauen.yml`.
+- **Eine Codeänderung erreicht die Daten ohne Verzug (seit 11.10.2026).** Der Bau
+  (`bestand-bauen.yml`) hängt an den Sammel-Läufen und startet zusätzlich bei jedem
+  Push auf `main`, der `data/**` (ohne `data/cache/`), `pipeline/**` oder `shared/**`
+  berührt (am 10.10. vergingen 25 Minuten zwischen Merge und Baustart). Einen Hand-Anstoß
+  braucht es nicht mehr; kurz vor dem Stundenlauf erzeugte er nur einen zweiten Vollbau.
+  Sammler-Merges (`GITHUB_TOKEN`) lösen keinen Push-Lauf aus.
 - **„Stündlich" in einer Notiz oder einem Footer ist eine falsche Angabe.**
   Richtig ist „mehrmals täglich, im Mittel alle viereinhalb Stunden".
 
@@ -1184,7 +1186,7 @@ Am 06.10.2026 gegen 22:00 trug ich zehn Titel in `data/ohne-synchro-von-hand.yam
 dazu `abschluss` (Abmeldung bei der Statusanzeige und Aufräumen roter Läufe, nach allen anderen). Schlank heißt: Die Prüfungen laufen weiter und färben den Lauf rot, wenn etwas nicht stimmt — sie halten den Deploy aber nicht auf.
 `bash tools/pushen.sh --schlank` gilt nur für Änderungen an `web/`, `docs/`, `status.md`, `vite.config.ts` und den Auslieferungsdateien in `public/` (sonst bricht es ab), prüft lokal Typen und Umfang und hängt `[schlank]` an die Commit-Nachricht. Es ist für kleine Änderungen, die ich lokal vollständig nachgeprüft habe; alles andere geht den harten Weg.
 **Gemessen nach dem Umbau (08.10.2026):** hart 92 s vom Push bis live (Bau 62 s, Prüfungen 65 s daneben, Deploy 19 s); schlank 58 s (Bau ohne Prüfkette 38 s, Deploy 12 s), dazu lokal 13 s statt 1,5 Minuten. Zusammen: Push bis live bei einer kleinen Oberflächenänderung rund 70 s statt rund 200 s. Der Bau-Job ist jetzt der längste Pfad (Checkout 11 s, `npm ci` 13 s, Bauen 25 s).
-**Cache:** GitHub Pages liefert `max-age=600`. Der Bau legt `version.json` (Commit-Kennung) ab, `web/src/lib/aktualisierung.ts` fragt sie **nur beim Laden der Seite** mit eindeutiger Adresse ab und lädt bei neuer Kennung einmal neu (Service-Worker-Cache `shell-*` wird verworfen; `sessionStorage` verhindert eine Schleife). Kein Neuladen mitten in der Benutzung (Daniel, 08.10.2026).
+**Cache:** GitHub Pages liefert `max-age=600`. Der Bau legt `version.json` (Commit-Kennung) ab, `web/src/lib/aktualisierung.ts` fragt sie **nur beim Laden der Seite** mit eindeutiger Adresse ab und lädt bei neuer Kennung einmal neu (Service-Worker-Cache `shell-*` wird verworfen; `sessionStorage` verhindert eine Schleife). Kein Neuladen mitten in der Benutzung (Daniel, 08.10.2026). Seit 11.10.2026 zählt auch die Rückkehr in einen Tab oder die App nach mindestens 10 Minuten im Hintergrund (`visibilitychange`) wie ein Laden — Handy-Tabs blieben sonst Stunden auf altem Stand; kein Banner.
 
 **Bevor eine Pipeline-Änderung gepusht wird, die den Bau verändert (07.10.2026):** Zweimal blockierte ein neuer Prüfpunkt oder ein neuer Titelschwung den Bestandsbau (`DATEN_WARNUNG: Bestand nicht übernommen`) — einmal ein Prüfpunkt auf dem gebauten Bestand, einmal die neuen aniSearch-Titel gegen `check:logic` („Teilnummer im Namen"). Beides hätte ein lokaler Bau gezeigt. Vorgehen: Änderung lokal committen, `rm public/data/titles.json` (ohne „vorher" kein Titelschwund-Riegel), `npm run data:build`, danach `npm run check:logic`, `npm run check:cr-zuordnung`, `npm run check:bestand`; zurück mit `git reset --hard HEAD && git clean -fdq public/data`. Erst dann `bash tools/pushen.sh`.
 
