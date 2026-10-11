@@ -97,6 +97,7 @@
     "check:bestand": "npm run check:handbelege && npm run check:cr-zuordnung && npm run check:quellen && npm run check:adn-gedaechtnis && npm run check:zugangsart && npm run check:tote-adressen",
     "check:tote-adressen": "tsx pipeline/check-tote-adressen.ts",
     "data:tmdb-folgen": "tsx pipeline/fetch-tmdb-folgen.ts",
+    "data:cartoon-folgen": "tsx pipeline/fetch-cartoon-folgen.ts",
     "data:tmdb-poster": "tsx pipeline/fetch-tmdb-poster.ts",
     "data:kitsu-folgen": "tsx pipeline/fetch-kitsu-folgen.ts",
     "data:anisearch-dubs": "tsx pipeline/fetch-anisearch-dubs.ts",

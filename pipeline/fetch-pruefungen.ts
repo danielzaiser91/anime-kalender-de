@@ -27,13 +27,12 @@ import {
   type AnbieterStaffel,
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
-import { ordneMeldungZuPlattform } from './lib/disney-gesamtnummer.ts'
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
-import { folgentitelAusNotiz, folgeUeberTitel } from './lib/folgentitel-anker.ts'
+import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
 import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
 import { ladePruefTitel } from './lib/pruef-titel.ts'
 
@@ -952,35 +951,8 @@ for (const gruppe of jeAdresse.values()) {
    * Ohne die Aufteilung des Anbieters bleibt es beim alten Weg: Bereiche über
    * die ganze Reihe, danach über die Folgenzahlen verteilt.
    */
-  const jeStaffel = new Map<number, Array<{ folge: number; dub: boolean }>>()
-  /*
-    **Die Notiz gehört der Meldung ihres Titels** (22.09.2026). Zwei Randproben unter einer
-    Adresse (Haikyu!! TO THE TOP E1–13 und E14–25) bekamen beide die Notiz der letzten Meldung —
-    „gemessen: Folge 14 und 25" stand auch am Titel, dessen Ränder 1 und 13 waren.
-  */
-  const notizJeStaffel = new Map<number, string>()
-  if (anbieterStaffeln && staffeln.length) {
-    for (const m of gruppe) {
-      if (m.befund === 'weg' || m.folge_nr == null || m.folge_nr < 1) continue
-      /*
-        **Zuerst der Folgentitel, dann die Zahl** (18.09.2026, `lib/folgentitel-anker.ts`).
-        Er nennt Titel und Folgennummer direkt; die Rechnung über Staffel und Zählung
-        bleibt der Weg für Meldungen ohne Treffer.
-      */
-      const anker =
-        m.plattform === 'netflix' ? folgeUeberTitel(folgentitelAusNotiz(m.notiz), staffeln.map((x) => x.id)) : null
-      const ankerStaffel = anker ? staffeln.find((x) => x.id === anker.id) : undefined
-      const treffer = ankerStaffel
-        ? { staffel: ankerStaffel, folgeInStaffel: anker!.nr }
-        : ordneMeldungZuPlattform(m.plattform, { folge: m.folge_nr, staffel: m.staffel }, staffeln, anbieterStaffeln)
-      if (!treffer) continue
-      if (ankerStaffel) ueberFolgentitel++
-      const bisher = jeStaffel.get(treffer.staffel.id) ?? []
-      bisher.push({ folge: treffer.folgeInStaffel, dub: m.befund === 'dub' })
-      jeStaffel.set(treffer.staffel.id, bisher)
-      if (m.notiz) notizJeStaffel.set(treffer.staffel.id, m.notiz)
-    }
-  }
+  const { jeStaffel, notizJeStaffel, ueberFolgentitel: ueberTitel } = verteileMeldungen(gruppe, anbieterStaffeln, staffeln)
+  ueberFolgentitel += ueberTitel
 
   /**
    * Unsere Einträge, für die der Anbieter gar keine Staffel führt.
