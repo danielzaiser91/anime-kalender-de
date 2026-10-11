@@ -7,11 +7,11 @@ const KOEPFE = ['**Was läuft korrekt.**', '**Wo ist Verbesserungspotenzial?**',
 const MIN_ABSATZ = 40
 const MAX_GESAMT = 5000
 
-/** Verboten: Adressen jeder Schreibweise, Verweise, @-Erwähnungen, Befehle (Backticks mit Leerzeichen; Dateinamen ohne Leerzeichen bleiben erlaubt), Markup, Überschriften. */
-const VERBOTEN = /https?:|www\.|\]\(|(^|[^\w])@\w|<[a-z!/]|^#{1,6} /m
+/** Verboten: Adressen jeder Schreibweise, Verweise, Markup, Überschriften (Erwähnungen siehe `hatErwaehnung`). */
+const VERBOTEN = /https?:|www\.|\]\(|<[a-z!/]|^#{1,6} /m
 
-/** Ein Backtick-Abschnitt mit Leerzeichen ist ein Befehl, kein Dateiname. */
-const hatBefehl = (text) => [...text.matchAll(/`([^`\n]*)`/g)].some((m) => /\s/.test(m[1]))
+/** Echte @-Erwähnung: `@` nach Leerzeichen oder Zeilenanfang vor einem GitHub-Namen; Code in Backticks und `@scope/paket` zählen nicht. */
+const hatErwaehnung = (text) => /(^|\s)@[A-Za-z0-9][\w-]*(?![\w/-])/m.test(text.replace(/`[^`\n]*`/g, ''))
 
 /** Ergebnis `{ ok: true, lage, absaetze }` oder `{ ok: false, fehler }`. Das Dossier ist fremde Eingabe, deshalb darf das Urteil nichts Aktives oder Verlinkendes enthalten. */
 export function pruefeUrteil(text) {
@@ -19,7 +19,7 @@ export function pruefeUrteil(text) {
   if (!kopf) return { ok: false, fehler: 'erste Zeile ist nicht „Lage: ruhig“ oder „Lage: befund“' }
   const rest = text.slice(kopf[0].length).trim()
   if (rest.length > MAX_GESAMT) return { ok: false, fehler: `länger als ${MAX_GESAMT} Zeichen` }
-  if (VERBOTEN.test(rest) || hatBefehl(rest)) return { ok: false, fehler: 'enthält Adresse, Verweis, Erwähnung, Befehl, Markup oder Überschrift' }
+  if (VERBOTEN.test(rest) || hatErwaehnung(rest)) return { ok: false, fehler: 'enthält Adresse, Verweis, Erwähnung, Markup oder Überschrift' }
   const absaetze = rest.split(/\n{2,}/).map((a) => a.trim())
   if (absaetze.length !== KOEPFE.length) return { ok: false, fehler: `${absaetze.length} Absätze statt ${KOEPFE.length}` }
   for (const [i, kopfzeile] of KOEPFE.entries()) {
