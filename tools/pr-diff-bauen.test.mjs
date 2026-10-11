@@ -25,6 +25,8 @@ pruefe('kleine Sammler-JSON bleibt vollständig', !bau([datei('data/sammler.json
 pruefe('Datei in Ordner der Liste gestubbt', bau([datei('data/roh-ordner/a/b.json', groß)]).gestubbt.length === 1)
 pruefe('Ordnername als Präfix ohne Schrägstrich trifft nicht', bau([datei('data/roh-ordner-x.json', groß)]).gestubbt.length === 0)
 pruefe('public/data gestubbt', bau([datei('public/data/titles.json', groß)]).gestubbt.length === 1)
+pruefe('Bühnen-Fälle (Erzeugnis) gestubbt', bau([datei('web/buehne/faelle.json', groß)]).gestubbt.length === 1)
+pruefe('andere Datei unter web/buehne bleibt vollständig', bau([datei('web/buehne/andere.json', groß)]).gestubbt.length === 0)
 for (const name of ['data/synchro-von-hand.yaml', 'data/ankuendigungen.yaml', 'data/dubletten-grenze.json', 'data/neu-nicht-auf-liste.json']) {
   pruefe(`${name} (nicht auf der Liste) bleibt vollständig`, bau([datei(name, groß)]).gestubbt.length === 0)
 }
