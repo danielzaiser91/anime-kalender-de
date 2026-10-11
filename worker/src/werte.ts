@@ -72,3 +72,23 @@ export function berlinParts(date: Date): { hour: number; iso: string } {
   const get = (t: string) => parts.find((p) => p.type === t)!.value
   return { hour: Number(get('hour')) % 24, iso: `${get('year')}-${get('month')}-${get('day')}` }
 }
+
+/**
+ * **Logzeilen ohne personenbezogene Daten** (11.10.2026). Workers Logs erfassen jedes `console.*`;
+ * Fehlertexte von Mail-Anbietern, Push-Diensten und D1 können Adressen, Push-Endpunkte oder
+ * Token enthalten. Darum geht keine Ausnahme und kein Mailtext mehr unbearbeitet ins Protokoll.
+ */
+
+/** Adressen, Mailadressen und lange Kennungen (Token, Endpunkt-Teile) ersetzen und kürzen. */
+export function kurzeMeldung(e: unknown): string {
+  return String((e as Error)?.message ?? e ?? '')
+    .replace(/https?:\/\/\S+/g, '[adresse]')
+    .replace(/[^\s@<>"',;]+@[^\s@<>"',;]+/g, '[mail]')
+    .replace(/[A-Za-z0-9_-]{32,}/g, '[kennung]')
+    .slice(0, 120)
+}
+
+/** Eine Fehlerzeile: Text, Fehlerklasse und bereinigte Meldung statt des rohen Fehlerobjekts. */
+export function fehlerLog(text: string, e?: unknown): void {
+  console.error(`${text}: ${(e as Error)?.name ?? 'Fehler'} ${kurzeMeldung(e)}`.trim())
+}

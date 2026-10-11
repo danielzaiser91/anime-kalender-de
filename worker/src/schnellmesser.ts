@@ -6,6 +6,7 @@
  * Der stündliche Cron stellt nur sicher, dass der Alarm gesetzt ist (`sichereSchnellmessung`).
  */
 import { runSchnellmessung, type SchnellEnv } from './schnellmessung.ts'
+import { fehlerLog } from './werte.ts'
 
 const TAKT_MS = 5 * 60_000
 
@@ -25,7 +26,7 @@ export class Schnellmesser implements DurableObject {
     try {
       console.log(`[schnell] ${await runSchnellmessung(this.env, new Date())}`)
     } catch (err) {
-      console.error('[schnell] fehlgeschlagen', err)
+      fehlerLog('[schnell] fehlgeschlagen', err)
     }
     await this.state.storage.setAlarm(Date.now() + TAKT_MS)
   }

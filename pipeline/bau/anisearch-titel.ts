@@ -3,6 +3,7 @@ import { todayIso } from '../../shared/time.ts'
 import { ohneSynchroVonHand } from './ohne-beleg.ts'
 import type { DubConfidence, Title } from '../../shared/types.ts'
 import { anisearchHand } from './grundlagen.ts'
+import { anisearchKatalogPaare } from '../lib/anisearch-katalog-ids.ts'
 import { slugify } from '../lib/util.ts'
 
 /**
@@ -59,9 +60,10 @@ export function anisearchNurKatalog(): Set<number> {
 }
 
 type Zuordnung = Record<string, { anisearchId?: number }>
-/** Die Zuordnung AniList → aniSearch: Abruf-Ergebnis (`data/anisearch.json`), darüber die Handdatei (`data/anisearch-ids-hand.yaml`). */
+/** Die Zuordnung AniList → aniSearch: Abruf-Ergebnis (`data/anisearch.json`), der Katalogabgleich (`data/anisearch-ids-katalog.json`), darüber die Handdatei (`data/anisearch-ids-hand.yaml`). */
 const zuordnungen = (): Zuordnung => ({
   ...readJson<Zuordnung>('data/anisearch.json', {}),
+  ...Object.fromEntries(anisearchKatalogPaare().map(([anilist, anisearchId]) => [anilist, { anisearchId }])),
   ...Object.fromEntries(Object.entries(anisearchHand).map(([anilist, anisearchId]) => [anilist, { anisearchId }])),
 })
 const mitDeutsch = (dub?: string): boolean => dub === 'd' || dub === 'p' || dub === 'c'

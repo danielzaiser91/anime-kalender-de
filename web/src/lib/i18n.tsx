@@ -530,8 +530,7 @@ const TEXTE = {
   'antwort.finaleFolgeNr': 'Finale Folge (Folge {n})',
   'antwort.finaleFolge': 'Finale Folge',
   'antwort.erscheintRelativ': 'erscheint {rel}, am {tag} den {datum}.',
-  // Ab einer Woche Abstand rechnet niemand mehr in Tagen — dann trägt das
-  // Datum allein.
+  // Ohne relative Angabe (Kino, Angebot) trägt das Datum allein.
   'antwort.erscheintDatum': 'erscheint am {tag} den {datum}.',
   // Die Uhrzeit hängt hinten an, wo eine bekannt ist — „voraussichtlich", weil
   // der einzelne Termin aus dem gemessenen Rhythmus fortgeschrieben ist.
@@ -565,6 +564,12 @@ const TEXTE = {
   'antwort.relHeute': 'heute',
   'antwort.relMorgen': 'morgen',
   'antwort.relInTagen': 'in {count} Tagen',
+  'antwort.relInEinerWoche': 'in einer Woche',
+  'antwort.relInWochen': 'in {count} Wochen',
+  'antwort.relInEinemMonat': 'in einem Monat',
+  'antwort.relInMonaten': 'in {count} Monaten',
+  'antwort.relInEinemJahr': 'in einem Jahr',
+  'antwort.relInJahren': 'in {count} Jahren',
   // Ohne Wochentag: der Rhythmus sagt nur noch die Frequenz, der Tag steht in
   // der Überschrift.
   'antwort.rhythmusWoechentlichKurz': 'Wöchentlich',

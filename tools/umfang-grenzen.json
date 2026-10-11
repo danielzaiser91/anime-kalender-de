@@ -12,8 +12,8 @@
       "ketten": 37
     },
     "web/src": {
-      "funktionen": 5050,
-      "dateien": 891,
+      "funktionen": 5042,
+      "dateien": 889,
       "ketten": 42
     },
     "worker/src": {
@@ -22,7 +22,7 @@
       "ketten": 3
     },
     "extension": {
-      "funktionen": 7333,
+      "funktionen": 7323,
       "dateien": 16457,
       "ketten": 45
     },
