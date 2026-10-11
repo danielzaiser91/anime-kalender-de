@@ -11,6 +11,7 @@ import { MerkenKnopf } from './merken.tsx'
 import { AnbieterZeile } from './anbieter-zeile.tsx'
 import { erschieneneSpanne } from './folgen-spanne.ts'
 import { PROSIEBEN_MAXX_ROT, TOGGO_ORANGE } from './pillen.tsx'
+import { pillenZiel } from './pillen-ziel.ts'
 
 type TvText = ReturnType<typeof tvAngabe>
 
@@ -241,6 +242,8 @@ export function TerminZeile({ release, titel, today, tvText }: {
 }) {
   const { t } = useLang()
   const tv = release.platform === 'tv'
+  /* Eine Prime-Zeile ohne Adresse führt zur Suche; der Hinweis sagt es (#842). */
+  const ziel = pillenZiel(release, titel, t)
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
   const text = [zweite, fortschrittVon(release, t), terminTeil(release, tvText, today, t)].filter(Boolean).join(' · ')
   const unten = (
@@ -257,7 +260,8 @@ export function TerminZeile({ release, titel, today, tvText }: {
     <AnbieterZeile
       name={terminName(release, titel, t, zeigtPremiere(release, tvText?.premiere))}
       farbe={farbeVon(release)}
-      url={release.buyUrl ?? release.platformUrl}
+      url={ziel.ziel}
+      titel={ziel.hinweis}
       icon={release.releaseType !== 'disc' ? <AnbieterIcon was={tv ? (release.sender ?? '') : release.platform} groesse={18} /> : undefined}
       unten={unten}
       aktion={

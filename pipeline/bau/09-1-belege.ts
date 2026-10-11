@@ -1,12 +1,10 @@
 import { type PlatformId, type StreamLink, type Release, type Title } from '../../shared/types.ts'
 import { crunchyrollSeriesId, type CrunchyrollEntry } from '../lib/crunchyroll.ts'
-import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
-import { ROOT, warn, log, readJson } from '../lib/util.ts'
-import yaml from 'js-yaml'
+import { log, readJson } from '../lib/util.ts'
 import { type Zugangsart } from '../../shared/zugangsart.ts'
 import { adressKern, adressGleich, loadDubChecks, type DubCheck, dubKey } from '../lib/dub-confirmed.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
+import { ergaenzeVerweiseVonHand } from '../lib/verweise-von-hand.ts'
 import { kanalAusNotiz } from '../lib/amazon-adresse.ts'
 import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/cr-katalog-adresse.ts'
 import { type TmdbTitelEintrag } from './01-quellen.ts'
@@ -80,33 +78,8 @@ export function sammleBelege({
    * Ein Verweis, der schon dasteht, wird nicht verdoppelt: Verglichen wird über
    * denselben Adresskern wie überall.
    */
-  let vonHand = 0
   /** Adresskern → `belegtAm` der von Hand bestätigten Wege (für `handSticht`, 22.09.2026). */
-  const vonHandBelegtAm = new Map<string, string>()
-  {
-    const roh = existsSync(resolve(ROOT, 'data/verweise-von-hand.yaml'))
-      ? yaml.load(readFileSync(resolve(ROOT, 'data/verweise-von-hand.yaml'), 'utf8'))
-      : []
-    const eintraege = Array.isArray(roh)
-      ? (roh as Array<{ anilistId?: number; platform?: string; url?: string; beleg?: string; belegtAm?: string; zugang?: Zugangsart }>)
-      : []
-    for (const e of eintraege) {
-      if (!e.anilistId || !e.platform || !e.url) continue
-      if (e.belegtAm) vonHandBelegtAm.set(adressKern(e.url), String(e.belegtAm))
-      const title = titles.get(e.anilistId)
-      if (!title) {
-        warn(`verweise-von-hand: Titel ${e.anilistId} steht nicht im Bestand`)
-        continue
-      }
-      if ((title.streams ?? []).some((s) => adressGleich(s.url, e.url!))) continue
-      title.streams = [
-        ...(title.streams ?? []),
-        { platform: e.platform as PlatformId, url: e.url, ...(e.zugang ? { zugang: e.zugang } : {}) } as StreamLink,
-      ]
-      vonHand++
-    }
-  }
-  if (vonHand) log(`${vonHand} Verweise aus data/verweise-von-hand.yaml ergänzt`)
+  const vonHandBelegtAm = ergaenzeVerweiseVonHand(titles)
 
   /**
    * **Joyn-Angebote von JustWatch werden Joyn-Verweise** (22.09.2026).

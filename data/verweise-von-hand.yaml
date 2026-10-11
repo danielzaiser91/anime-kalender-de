@@ -26,6 +26,7 @@
 #   platform   Pflicht — crunchyroll | netflix | primevideo | youtube | adn |
 #              aniverse | wow | joyn | rtlplus | disneyplus
 #   url        Pflicht — die Adresse, wie sie im Browser steht.
+#   kanal      Optional — Prime-Zusatzkanal ("Crunchyroll", "Aniverse"), wenn der Titel nur über ihn läuft.
 #   belegtAm   Pflicht — Datum, ISO, in Anführungszeichen.
 #   beleg      Pflicht — womit die Zuordnung gemessen wurde.
 
@@ -318,3 +319,13 @@
   belegtAm: '2026-10-02'
   zugang: kostenlos
   beleg: 'oEmbed: Playlist „Monsuno Staffel 1 | Deutsch/German“, Kanal „Monsuno Deutsch“ (@monsunodeutsch); erstes Video „Monsuno S1 E01 Clash | Deutsch/German“, passend zur ersten Nickelodeon-Sendung „Clash“ vom 02.06.2012 (fernsehserien.de). Daniel: alle 26 Folgen, ab Folge 1, 360p. Ob der Kanal offiziell ist, ist offen.'
+
+# Reborn as a Space Mercenary (186541): Prime führt den Titel über den Crunchyroll-Kanal. Daniel fand die Seite am
+# 11.10.2026 selbst bei Amazon; die Erweiterung hatte nie einen Auftrag, weil der Titel nur einen Prime-Termin (kein Weg) hatte.
+- anilistId: 186541
+  title: 'Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship!'
+  platform: primevideo
+  kanal: Crunchyroll
+  url: https://www.amazon.de/gp/video/detail/B0HKFFGQ7F
+  belegtAm: '2026-10-11'
+  beleg: 'Daniel hat die Seite am 11.10.2026 bei Amazon gefunden (Kennung B0HKFFGQ7F). Anime2You (Artikel 1057488, 11.10.2026): „Stream: Prime Video, Crunchyroll", Sprache Deutsch und Japanisch (UT) — Prime ist hier der Crunchyroll-Kanal. Das Sprachurteil steht aus: Die Erweiterung prüft die Seite.'

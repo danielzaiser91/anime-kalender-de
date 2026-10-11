@@ -64,6 +64,7 @@ export const TEXTE_SEITEN = {
   'news.art.nachgetragen': 'Rückwirkend eingetragen',
   'detail.merkenGoogleSerie': 'Google Kalender · jede Woche',
   'detail.folgenFortschritt': '{raus} Fg.',
+  'detail.primeSuchen': 'Öffnet die Suche bei Prime Video – eine Direktadresse fehlt noch',
   'news.neuNachJahren': 'Nach {jahre} Jahren endlich auf Deutsch: jetzt mit Synchro bei {anbieter}!',
   'news.neuNachJahrenStream': 'Nach {jahre} Jahren endlich im Stream auf Deutsch bei {anbieter}! (Auf Disc gibt es die Synchro seit {disc})',
   'news.angekNachJahren': 'Nach {jahre} Jahren endlich auf Deutsch: ab {datum} mit Synchro bei {anbieter}!',
