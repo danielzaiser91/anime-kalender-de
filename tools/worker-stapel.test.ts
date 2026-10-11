@@ -11,6 +11,7 @@
  */
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { verarbeiteStapel, ANFRAGEN_BUDGET } from '../worker/src/pruefung-stapel.ts'
+import { kurzeMeldung, fehlerLog } from '../worker/src/werte.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -173,8 +174,8 @@ const nummern = (n: number, ab = 1) => Array.from({ length: n }, (_, i) => meldu
     body: JSON.stringify({ plattform: 'netflix', url: 'https://www.netflix.com/title/80057171?kaputt', befund: 'dub' }),
   })
   const r500 = await handlePruefung(wirft, u.env, u.ctx)
-  const i500 = (await r500.json()) as { grund?: string }
-  pruefe(r500.status === 500 && i500.grund === 'ausnahme Error' && r500.headers.get('Access-Control-Allow-Origin') === '*', 'Ausnahme bei Einzelmeldung: 500 mit Grund und CORS statt Cloudflare-Fehlerseite')
+  const i500 = (await r500.json()) as { grund?: string; error?: string }
+  pruefe(r500.status === 500 && i500.grund === 'ausnahme Error' && i500.error === i500.grund && r500.headers.get('Access-Control-Allow-Origin') === '*', 'Ausnahme bei Einzelmeldung: 500 mit Grund und CORS statt Cloudflare-Fehlerseite')
   const falschesToken =new Request('https://worker.test/pruefung', { method: 'POST', headers: { 'X-Lauf-Token': 'x' }, body: '{}' })
   protokoll.length = 0
   const r403 = await handlePruefung(falschesToken, u.env, u.ctx)
@@ -191,6 +192,15 @@ const nummern = (n: number, ab = 1) => Array.from({ length: n }, (_, i) => meldu
   const erg = await verarbeiteStapel(stapel, async (m) => (aufgerufen.push(m), { ok: true, befund: null }))
   const erlaubt = Math.floor(ANFRAGEN_BUDGET / 4)
   pruefe(aufgerufen.length === erlaubt && erg.slice(erlaubt).every((e) => !e.ok), `Über dem Budget: nur ${erlaubt} von 12 angefasst, der Rest nicht bestätigt`)
+}
+
+{
+  const roh = new Error('Brevo 400: Adresse max.mustermann@example.com ungültig, endpoint https://fcm.googleapis.com/fcm/send/abc, Token ' + 'A'.repeat(40))
+  const sauber = kurzeMeldung(roh)
+  pruefe(!/@|https?:|AAAA/.test(sauber), `Logtext ohne Mailadresse, Adresse und Token (${sauber})`)
+  protokoll.length = 0
+  fehlerLog('Versand fehlgeschlagen', roh)
+  pruefe(protokoll.length === 1 && protokoll[0].startsWith('Versand fehlgeschlagen: Error') && !protokoll[0].includes('mustermann'), 'fehlerLog schreibt Fehlerklasse statt Fehlerobjekt')
 }
 
 process.exit(fehler ? 1 : 0)

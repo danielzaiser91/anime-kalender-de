@@ -73,6 +73,21 @@ function BrowserAbschnitte() {
   )
 }
 
+/** Das Fehlerprotokoll des Dienstes (Cloudflare Workers Logs; Frist laut Cloudflare-Doku, gelesen 11.10.2026). */
+function FehlerprotokollAbschnitt() {
+  return (
+    <Abschnitt titel="Fehlerprotokoll">
+      <p>
+        Unser Dienst schreibt bei Fehlern kurze Protokollzeilen (Cloudflare Workers Logs), allein zur
+        Fehlersuche und für einen sicheren Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Sie enthalten keine
+        E-Mail-Adressen, Push-Adressen oder Zugangsschlüssel. Die Zeilen werden bei Cloudflare höchstens
+        7 Tage aufbewahrt. Deine IP-Adresse fällt dabei nur technisch bei Cloudflare an und wird von uns
+        nicht ins Protokoll geschrieben.
+      </p>
+    </Abschnitt>
+  )
+}
+
 /** Was an unseren Dienst geht: Newsletter, Favoriten-Abgleich, Push. */
 function DienstAbschnitte() {
   return (
@@ -125,6 +140,7 @@ function DienstAbschnitte() {
         </p>
       </Abschnitt>
 
+      <FehlerprotokollAbschnitt />
       <Abschnitt titel="Speicherdauer">
         <p>
           Newsletter-Daten werden gespeichert, bis du dich abmeldest. Push-Daten bleiben, bis du die Benachrichtigungen ausschaltest

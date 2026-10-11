@@ -18,7 +18,7 @@
  * Das Verhalten bleibt dasselbe: Die Bedingungen gelten weiter, nur der Weg dorthin ist ein anderer.
  */
 import { ereignisSenden } from './ereignisse.ts'
-import { zahlOderNull, jetztIso } from './werte.ts'
+import { zahlOderNull, jetztIso, fehlerLog } from './werte.ts'
 import { type Env } from './env.ts'
 import { verarbeiteStapel } from './pruefung-stapel.ts'
 
@@ -406,7 +406,7 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: K
         )
       }
     } catch (e) {
-      console.error(`prime_folge aufraeumen: ${(e as Error).message}`)
+      fehlerLog('prime_folge aufraeumen', e)
     }
     const jetzt = jetztIso()
     /* Höchstens 500 je Meldung: Eine Staffel hat keine tausend Folgen, und eine
@@ -471,7 +471,7 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: K
     } catch (e) {
       /* Die Meldung selbst ist schon gespeichert — ein Fehler hier darf sie
          nicht mitreißen. Ohne Rohfolgen ist der Befund weniger wert, aber gültig. */
-      console.error(`prime_folge: ${(e as Error).message}`)
+      fehlerLog('prime_folge', e)
     }
   }
 

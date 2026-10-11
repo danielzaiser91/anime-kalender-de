@@ -9,6 +9,8 @@
  * Netflix-Titelnummer) benennen einen Titel, keine Person. Nie ins Protokoll: Token, Adresse samt
  * Suchteil, Titel, Notiz, Browserkennung, IP.
  */
+import { kurzeMeldung } from './werte.ts'
+
 export type Ablehnung = { status: number; grund: string; fehler?: string }
 
 /** Letzter Pfadabschnitt der Adresse ohne Suchteil: bei Netflix die Titelnummer, bei Prime die ASIN. */
@@ -18,13 +20,6 @@ export function kennungAus(url: unknown): string | null {
   const letzter = pfad.split('/').filter(Boolean).pop() ?? ''
   const kennung = /^[\w-]{1,40}$/.test(letzter) && !letzter.includes('.') ? letzter : ''
   return kennung || null
-}
-
-/** Meldungstexte von Adressen befreien und kürzen, bevor sie ins Protokoll gehen. */
-function kurzeMeldung(e: unknown): string {
-  return String((e as Error)?.message ?? '')
-    .replace(/https?:\/\/\S+/g, '[adresse]')
-    .slice(0, 120)
 }
 
 /** Grund einer Ausnahme: der Fehlername für die Erweiterung, die gekürzte Meldung nur fürs Protokoll. */

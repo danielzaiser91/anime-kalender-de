@@ -12,7 +12,7 @@
  *
  *   - Gesamtverbrauch über `GRENZE_GESAMT` (2,5 Mio. = die Hälfte des Kontingents), oder
  *   - eine einzelne Abfrage über `GRENZE_EINZELN` (1 Mio. = ein Fünftel), oder
- *   - geschriebene Zeilen über `GRENZE_GESCHRIEBEN` (50.000 = die Hälfte des Schreib-Kontingents)
+ *   - geschriebene Zeilen über `GRENZE_GESCHRIEBEN` (80.000 von 100.000; ab 50.000 nur eine Warnzeile)
  *
  * Dann endet der Lauf mit Exit 1 — in der Statusanzeige steht er rot mit dem Befund, und im
  * Protokoll stehen die fünf größten Leser mit ihren Zahlen.
@@ -26,8 +26,13 @@ import { execSync } from 'node:child_process'
 
 const GRENZE_GESAMT = 2_500_000
 const GRENZE_EINZELN = 1_000_000
-/* Die Hälfte des Schreib-Tageskontingents der freien Stufe (100.000 Zeilen); jede Meldung kostet rund 14. */
-const GRENZE_GESCHRIEBEN = 50_000
+/*
+  Schreib-Tageskontingent der freien Stufe: 100.000 Zeilen; jede Meldung kostet rund 14. Seit 11.10.2026:
+  ab 50.000 nur eine Warnzeile (Exit 0), rot erst ab 80.000 — der Plan ist unbestätigt, und am
+  11.10.2026 lief der Worker trotz 154.738 Zeilen am Tag weiter.
+*/
+const WARNUNG_GESCHRIEBEN = 50_000
+const GRENZE_GESCHRIEBEN = 80_000
 
 const args = process.argv.slice(2)
 const zeitraum = args.includes('--zeitraum') ? (args[args.indexOf('--zeitraum') + 1] ?? '1d') : '1d'
@@ -101,7 +106,12 @@ const befunde = []
 if (geschrieben > GRENZE_GESCHRIEBEN) {
   befunde.push(
     `${geschrieben.toLocaleString('de-DE')} geschriebene Zeilen über der Grenze ` +
-      `${GRENZE_GESCHRIEBEN.toLocaleString('de-DE')} (halbes Schreib-Kontingent der freien Stufe)`,
+      `${GRENZE_GESCHRIEBEN.toLocaleString('de-DE')} (Schreib-Kontingent der freien Stufe: 100.000)`,
+  )
+} else if (geschrieben > WARNUNG_GESCHRIEBEN) {
+  console.log(
+    `::warning::D1-Verbrauch: ${geschrieben.toLocaleString('de-DE')} geschriebene Zeilen, ` +
+      `Warnschwelle ${WARNUNG_GESCHRIEBEN.toLocaleString('de-DE')} (rot ab ${GRENZE_GESCHRIEBEN.toLocaleString('de-DE')})`,
   )
 }
 if (summe > GRENZE_GESAMT) {

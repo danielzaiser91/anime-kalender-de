@@ -20,7 +20,7 @@ export async function speichereMitProtokoll(kontext: Kontext): Promise<Response>
   } catch (e) {
     const abgelehnt = ausnahmeAls(e)
     ablehnungLoggen(ROUTE, abgelehnt, await kopie.json().catch(() => null))
-    return kontext.antwort({ ok: false, grund: abgelehnt.grund }, 500)
+    return kontext.antwort({ ok: false, grund: abgelehnt.grund, error: abgelehnt.grund }, 500)
   }
   if (antwort.status >= 400) {
     const inhalt = (await antwort.clone().json().catch(() => ({}))) as { error?: string }
