@@ -97,3 +97,10 @@ im Worker, `anilist-ak.json` aus `ausgabe-kennung.ts`. `check:logic` wird an dem
 (`AppRoute.disc`). `build-share-pages.ts` schreibt je Titel eine Seite: Hat er Termine, ist es die bisherige Termin-Seite des nächsten (sonst letzten) Termins samt Strukturdaten, sonst die schlichte Titelseite;
 die Sitemap kennt nur noch `/t/` (2.790 Adressen statt 3.521), Übersicht und Startseite verlinken die Titelseiten. Mail-Link, Kalenderdatei (`Details:`) und Teilen-Knopf nutzen `/t/<ak>/`.
 **Ungültige Adressen** (`/r/…`, `/t/<alter Name>/`) landen über `public/404.html` auf der Startseite. Die Vorschaubilder `og/<Termin>.jpg` hängen weiter an den Termin-Adressnamen und werden noch gebaut (`og:image` der Titelseite).
+
+## Testlinks und Adressprüfung (11.10.2026)
+
+Befund: `#/datenbank?t=20464` (AniList-Kennung von Haikyu!!) zeigte „keine Metadaten", `?t=107961` und `?t=195600` ebenso. Kein Seitenfehler: Die Seite kennt nur `ak` (Haikyu!! = 7031, Hensuki 10379, Das Band der Unterwelt 16919); `public/data/` trägt die AniList-Kennung, wer von dort einen Link baut, trifft einen unbekannten oder — bei Kennungen unter 26.351 — einen **anderen** Titel (Gegenprobe gegen live: `?t=4312` öffnete „Peng You Town" statt Fist of the North Star: Legend of Toki). Alle `?t=<ak>`-Links öffnen live das Panel (gemessen 11.10.2026: Haikyu!!, Hensuki, Das Band der Unterwelt in Woche und Datenbank, `/t/7031/`).
+- **`tools/testlink.mjs <Titel> [--ansicht …] [--datum …]`** baut den Link mit `ak` und gibt ihn nur aus, wenn das Panel den Titel zeigt.
+- **`check:ansichten`** öffnet je 3 gleichmäßig gewählte Titel aus Kern, Hauptbestand, Cartoons und Katalog ohne Synchro (`tools/ansicht-adressen.mjs`) und verlangt ein Panel mit einem Namen des Titels.
+- **Alte Adressen mit AniList-Kennung** (vor dem 05.10.2026 geteilte `#/…?t=<AniList>`) sind nicht eindeutig umzuschreiben (Wertebereiche überlappen) und bleiben unberührt.
