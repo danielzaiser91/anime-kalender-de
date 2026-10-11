@@ -1,15 +1,36 @@
 /**
  * **Die Marke „Deutsch“ bei aniSearch je Titel — ein Leser für alle Stellen des Baus.**
  *
- * `d` vertont, `p` geplant, `c` abgebrochen, `-` nicht genannt. Die Marke kommt aus der Dub-Liste der aniSearch-Schnittstelle
- * (`fetch-anisearch-dubs.ts`); wer sie liest, geht durch `deutschMarke`, nicht an die Datei.
+ * `d` vertont, `p` geplant, `c` abgebrochen, `-` nicht genannt. Alle drei Dateien stammen aus derselben Antwort der aniSearch-Schnittstelle
+ * (`/v1/anime/dubs`, `fetch-anisearch-dubs.ts`; die Einträge laut `?lang=de`, `fetch-anisearch-eintraege.ts`, tragen dieselbe Marke: 8.274 von 8.274
+ * gleich, 11.10.2026). Sie unterscheiden sich nur in der Abdeckung:
+ *
+ * - `data/anisearch-dub-ids.json`: aniSearch-Kennung → Marke, **alle** Einträge mit Deutsch. Das ist die Wahrheit.
+ * - `data/anisearch-dubs.json`: Titel-Kennung → Marke, der Auszug für die Titel, die zum Abrufzeitpunkt eine aniSearch-Kennung hatten. Er kennt als
+ *   einziger das `-`, veraltet aber, sobald die Brücke nach dem Abruf wächst (gleicher Abruf, gleiche Liste, also kann der Titel nur gefehlt haben): Psyren,
+ *   Hyouken II, Vermilion Mask und Firefly Wedding (alle `p`) und fünf Titel mit `d` fehlten am 11.10.2026.
+ *
+ * Wer die Marke eines Titels braucht, geht durch `deutschMarke`: Der Auszug gilt, und wo er den Titel nicht kennt, die Liste über die Brücke.
  */
 import { readJson } from './util.ts'
+import { anisearchBruecke } from './anisearch-katalog-ids.ts'
 
 let dubs: Record<string, string> | undefined
+let dubIds: Record<string, string> | undefined
 
-/** Titel-Kennung → Marke (`data/anisearch-dubs.json`). */
-export const dubsNachTitel = (): Record<string, string> => (dubs ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {}))
+/** aniSearch-Kennung → Marke; nur Einträge mit Deutsch (`data/anisearch-dub-ids.json`). */
+export const dubIdsNachAnisearch = (): Record<string, string> => (dubIds ??= readJson<Record<string, string>>('data/anisearch-dub-ids.json', {}))
+
+/** Titel-Kennung → Marke: der Auszug, ergänzt um die Titel, deren Kennung die Brücke kennt und die Liste mit Deutsch führt. */
+export function dubsNachTitel(): Record<string, string> {
+  if (dubs) return dubs
+  const ergaenzt: Record<string, string> = {}
+  for (const [titel, anisearch] of anisearchBruecke()) {
+    const marke = dubIdsNachAnisearch()[anisearch]
+    if (marke) ergaenzt[titel] = marke
+  }
+  return (dubs = { ...ergaenzt, ...readJson<Record<string, string>>('data/anisearch-dubs.json', {}) })
+}
 
 /** Die Marke eines Titels; `undefined`, wo aniSearch zu ihm nichts liefert. */
 export const deutschMarke = (titelId: number): string | undefined => dubsNachTitel()[String(titelId)]

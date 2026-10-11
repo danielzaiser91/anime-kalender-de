@@ -14,6 +14,8 @@ import { waehlePlakat } from './lib/tmdb-plakat.ts'
 import { waehleStaffel } from './lib/tmdb-staffel.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { mitDubKennzeichen, terminAusEintrag } from './lib/anisearch-termine.ts'
+import { dubIdsNachAnisearch, deutschMarke } from './lib/anisearch-marke.ts'
+import { anisearchBruecke } from './lib/anisearch-katalog-ids.ts'
 import { erstausgabeAlsNeuigkeit } from '../web/src/components/detail/antwort-regeln.ts'
 import { stufeVon, type SaisonDatei, type SaisonKatalogTitel } from '../web/src/lib/saison.ts'
 import { ausblickGruppen } from '../web/src/lib/saison-ausblick.ts'
@@ -91,6 +93,17 @@ pruefe('Dub-Liste -: der Termin bleibt, wie er ist', mitDubKennzeichen(idMit('-'
 const blockGeplant = terminAusEintrag({ languages: [{ language: 'Deutsch', released: '10.01.2026 - 28.03.2026', publisher: ['Animation Digital Network (DE)'] }] })
 pruefe('Dub-Liste p (Geplant): Datum und Publisher des deutschen Blocks zählen nicht', mitDubKennzeichen(idMit('p'), blockGeplant) === undefined)
 pruefe('Dub-Liste -: derselbe Block liefert sein Datum', mitDubKennzeichen(idMit('-'), blockGeplant)?.start === '2026-01-10')
+/* Eine Marke, drei Dateien (`lib/anisearch-marke.ts`): Eintragsdatei, Dub-Liste je aniSearch-Kennung und Auszug je Titel dürfen nicht auseinanderlaufen. */
+const dubIds = dubIdsNachAnisearch()
+const eintraegeDatei = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { dub: string }>
+const markeAbweichend = Object.entries(eintraegeDatei).filter(([id, e]) => (dubIds[id] ?? '-') !== e.dub).map(([id]) => id)
+pruefe('Eintragsdatei und Dub-Liste führen für jede aniSearch-Kennung dieselbe Marke', markeAbweichend.length === 0, markeAbweichend.slice(0, 10))
+const bruecke = anisearchBruecke()
+const auszugAbweichend = Object.entries(dubs).filter(([titel, k]) => bruecke.has(titel) && (dubIds[bruecke.get(titel)!] ?? '-') !== k).map(([titel]) => titel)
+pruefe('Der Auszug je Titel stimmt über die Brücke mit der Dub-Liste überein', auszugAbweichend.length === 0, auszugAbweichend.slice(0, 10))
+const ohneMarke = [...bruecke].filter(([titel, anisearch]) => dubIds[anisearch] && deutschMarke(Number(titel)) !== dubIds[anisearch]).map(([titel]) => titel)
+pruefe('Jeder Titel der Brücke, dessen aniSearch-Eintrag Deutsch führt, trägt die Marke (auch wo der Auszug älter ist)', ohneMarke.length === 0, ohneMarke.slice(0, 10))
+pruefe('Psyren und Hyouken II (per Hand gebunden) tragen die Marke Geplant', deutschMarke(204011) === 'p' && deutschMarke(212503) === 'p')
 const mitErst = (id: number, extra: Partial<Title> = {}) => titel({ id, deErstausgabe: { von: '2024-10-21', publisher: 'Crunchyroll' } as never, ...extra })
 pruefe('deutsche Ausgabe, aniSearch nennt kein Deutsch: keine Synchro', keineSynchroLautAnisearch(mitErst(idMit('-'))))
 pruefe('ein Stream mit belegter Synchro schlägt das', !keineSynchroLautAnisearch(mitErst(idMit('-'), { streams: [{ platform: 'netflix', dub: true } as never] })))
@@ -99,7 +112,7 @@ pruefe('Deutsch vertont: bleibt', !keineSynchroLautAnisearch(mitErst(idMit('d'))
 pruefe('Deutsch abgebrochen (Teilsynchro): bleibt', !keineSynchroLautAnisearch(mitErst(idMit('c'))))
 pruefe('Deutsch geplant: bleibt', !keineSynchroLautAnisearch(mitErst(idMit('p'))))
 const neu = ausAnisearchDubs([])
-pruefe('Titel mit vertontem, geplantem oder abgebrochenem Deutsch kommen in den Bestand', neu.length > 0 && neu.every((id) => 'dpc'.includes(dubs[String(id)] ?? '-')))
+pruefe('Titel mit vertontem, geplantem oder abgebrochenem Deutsch kommen in den Bestand', neu.length > 0 && neu.every((id) => 'dpc'.includes(deutschMarke(id) ?? '-')))
 pruefe('was schon im Bestand steht, wird nicht noch einmal geholt', !ausAnisearchDubs(neu.map((id) => ({ id }))).length)
 
 console.log('Suche in Schritten')

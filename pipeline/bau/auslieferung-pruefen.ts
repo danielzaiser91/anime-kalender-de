@@ -8,7 +8,7 @@ import { ROOT } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { Release, Title } from '../../shared/types.ts'
 import { geplantNichtDeutschHeute, ladeGeplantQuelle } from '../lib/invarianten-geplant.ts'
-import { dubsNachTitel } from '../lib/anisearch-marke.ts'
+import { dubIdsNachAnisearch, dubsNachTitel } from '../lib/anisearch-marke.ts'
 import { OUT } from './grundlagen.ts'
 import { ohneSynchroVonHand } from './ohne-beleg.ts'
 import { alle as anisearchEintraege } from './anisearch-titel.ts'
@@ -37,7 +37,7 @@ export function auslieferungsInvarianten(releases: Release[]): string[] {
   return [
     ...synchroNichtHinterToggle(auslieferung, {
       dubsAnilist: dubsNachTitel(),
-      dubIds: readJson<Record<string, string>>('data/anisearch-dub-ids.json', {}),
+      dubIds: dubIdsNachAnisearch(),
       handbelegteIds,
       handKeine: ohneSynchroVonHand(),
       heute: todayIso(),
