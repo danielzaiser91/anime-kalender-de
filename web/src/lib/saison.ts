@@ -1,8 +1,8 @@
 import type { Release, Title } from '@shared/types.ts'
-import { istSerie, saisonZeitraum, type SaisonTag } from '@shared/saison.ts'
+import { ersterTermin, hatDeutsch, istSerie, saisonZeitraum, type SaisonTag } from '@shared/saison.ts'
 import { todayIso } from '@shared/time.ts'
 
-export { saisonText, saisonVon, versetzt } from '@shared/saison.ts'
+export { anbieterVon, ersterTermin, hatDeutsch, saisonText, saisonVon, versetzt } from '@shared/saison.ts'
 
 /** Die Titel, die `saison.json` für den Ausblick mitbringt: Katalogtitel hinter dem Schalter mit angekündigtem Japan-Start. */
 export interface SaisonKatalogTitel {
@@ -25,14 +25,6 @@ export interface SaisonDatei {
   jp: Record<string, string>
   katalog: SaisonKatalogTitel[]
 }
-
-/** Der erste Termin je Titel und ob er geschätzt ist. */
-export function ersterTermin(releases: Release[] | undefined): { datum: string; geschaetzt: boolean } | undefined {
-  const liste = (releases ?? []).flatMap((r) => (r.schedule?.firstEpisodeDate ? [{ datum: r.schedule.firstEpisodeDate, geschaetzt: Boolean(r.schedule.estimated) }] : []))
-  return liste.sort((a, b) => a.datum.localeCompare(b.datum))[0]
-}
-
-export const hatDeutsch = (t: Title): boolean => Boolean((t.streams ?? []).some((s) => s.dub === true) || t.deErstausgabe?.synchro || t.hasVoices)
 
 /** Wie weit wir die deutsche Fassung kennen — vom sichersten zum offensten Zustand. */
 export type Stufe = 'auf-deutsch' | 'bestaetigt' | 'angekuendigt' | 'termin' | 'ungeklaert' | 'offen'
