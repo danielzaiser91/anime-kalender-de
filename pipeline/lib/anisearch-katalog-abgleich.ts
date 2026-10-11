@@ -7,6 +7,7 @@
  * Folgenzahl nicht widersprüchlich und genau ein solcher Kandidat. Alles Übrige mit Namensnähe geht mit Grund auf die Prüfliste.
  */
 import { bewerteTreffer } from './adn.ts'
+import { belegGrund, widerlegtGrund } from './anisearch-katalog-merkmale.ts'
 import { normalisiere } from './anisearch-namen.ts'
 
 /** Eine Zeile der Titelliste: Jahr und alle Schreibweisen (Haupttitel, Japanisch, Kanji, Sprachen, Synonyme). */
@@ -50,7 +51,12 @@ export interface Kandidat {
   ueberMal?: boolean
 }
 
-export type Urteil = { art: 'sicher'; asId: number; weil: string } | { art: 'unsicher'; asId: number; weil: string; weitere: Kandidat[] } | { art: 'keiner' }
+/** `widerlegt`: Es gibt Kandidaten, aber Tag, Länge oder MAL-Kennung zeigen bei allen ein anderes Werk — kein Treffer, keine Prüfung nötig. */
+export type Urteil =
+  | { art: 'sicher'; asId: number; weil: string }
+  | { art: 'unsicher'; asId: number; weil: string; weitere: Kandidat[] }
+  | { art: 'widerlegt'; weil: string }
+  | { art: 'keiner' }
 
 /** Unterhalb dieses Werts von `bewerteTreffer` (geteilte Wörter doppelt, fremde und fehlende einfach dagegen) gilt ein Kandidat nicht als Namensnähe. */
 export const MINDESTWERT = 3
@@ -145,11 +151,36 @@ function malUrteil(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTitel>,
   if (treffer.length === 1) return { art: 'sicher', asId: treffer[0]!.asId, weil: `MAL ${k.mal}` }
   const ohneEinwand = treffer.filter((c) => !einwaende(k, c, titel.get(c.asId)!, eintraege[String(c.asId)], format(eintraege[String(c.asId)]?.ty)).length)
   if (ohneEinwand.length === 1) return { art: 'sicher', asId: ohneEinwand[0]!.asId, weil: `MAL ${k.mal}, Jahr und Format entscheiden` }
+  const teil = teilungsUrteil(k, treffer, eintraege)
+  if (teil) return teil
   return { art: 'unsicher', asId: treffer[0]!.asId, weil: `MAL ${k.mal} bei ${treffer.length} aniSearch-Einträgen`, weitere: treffer.slice(1, 4) }
 }
 
-/** Urteil für einen Katalogtitel. `format(ty)` bildet aniSearchs Typ auf das AniList-Format ab. */
-export function urteile(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTitel>, eintraege: Record<string, AsEintrag>, format: FormatVon): Urteil {
+/**
+ * Teilung: aniSearch führt in mehreren Einträgen, was AniList als einen Titel hat (Hoozuki: 3 + 1 Folgen, Fanren Xiu Xian Zhuan: 8 + 9). Ergeben die Folgen der Einträge
+ * mit derselben MAL-Kennung genau die AniList-Zahl, bekommt der früheste Teil die Kennung (ein Titel, eine Kennung); die übrigen bleiben eigene aniSearch-Zeilen.
+ */
+function teilungsUrteil(k: KatalogTitel, treffer: Kandidat[], eintraege: Record<string, AsEintrag>): Urteil | undefined {
+  const folgen = treffer.map((c) => eintraege[String(c.asId)]?.f ?? 0)
+  if (!k.folgen || folgen.some((f) => !f) || folgen.reduce((a, b) => a + b, 0) !== k.folgen) return undefined
+  const von = (c: Kandidat): string => eintraege[String(c.asId)]?.von ?? '9999'
+  const erster = [...treffer].sort((a, b) => von(a).localeCompare(von(b)) || b.wert - a.wert || a.asId - b.asId)[0]!
+  return { art: 'sicher', asId: erster.asId, weil: `MAL ${k.mal}: ${treffer.length} aniSearch-Teile ergeben ${k.folgen} Folgen (Teilung), erster Teil` }
+}
+
+/** Genau ein Kandidat, den Tag, Länge und Name allein belegen (`belegGrund`): sicher, auch bei abweichendem Format, Jahr oder Folgenzahl. */
+function belegUrteil(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTitel>, eintraege: Record<string, AsEintrag>, format: FormatVon, heuteJahr: number): Urteil | undefined {
+  const belegt = cs
+    .map((c) => {
+      const e = eintraege[String(c.asId)]
+      return { c, grund: belegGrund({ k, c, t: titel.get(c.asId)!, e, formatOk: formatVertraeglich(k.format, format(e?.ty)), heuteJahr }) }
+    })
+    .filter((b) => b.grund)
+  return belegt.length === 1 ? { art: 'sicher', asId: belegt[0]!.c.asId, weil: belegt[0]!.grund! } : undefined
+}
+
+/** Urteil für einen Katalogtitel. `format(ty)` bildet aniSearchs Typ auf das AniList-Format ab; `heuteJahr`: Jahre darüber hinaus (plus zwei) sind Platzhalter. */
+export function urteile(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTitel>, eintraege: Record<string, AsEintrag>, format: FormatVon, heuteJahr = new Date().getFullYear()): Urteil {
   if (!cs.length) return { art: 'keiner' }
   const ueberMal = malUrteil(k, cs, titel, eintraege, format)
   if (ueberMal) return ueberMal
@@ -160,6 +191,10 @@ export function urteile(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTi
   geprueft.sort((a, b) => a.grund.length - b.grund.length)
   const sauber = geprueft.filter((g) => !g.grund.length)
   if (sauber.length === 1) return { art: 'sicher', asId: sauber[0]!.c.asId, weil: 'Name, Jahr, Format gleich' }
+  const beleg = belegUrteil(k, cs, titel, eintraege, format, heuteJahr)
+  if (beleg) return beleg
+  const gruende = cs.map((c) => widerlegtGrund(k, eintraege[String(c.asId)]))
+  if (!sauber.length && gruende.every(Boolean)) return { art: 'widerlegt', weil: gruende[0]! }
   const erster = sauber[0] ?? geprueft[0]!
   const weil = sauber.length > 1 ? `${sauber.length} gleichwertige Kandidaten` : erster.grund.join('; ')
   return { art: 'unsicher', asId: erster.c.asId, weil, weitere: cs.filter((c) => c.asId !== erster.c.asId).slice(0, 3) }

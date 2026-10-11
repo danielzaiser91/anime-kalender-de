@@ -19,6 +19,7 @@ import { anisearchKopf, anisearchToken } from './lib/anisearch-api.ts'
 import { kompakt } from './fetch-anisearch-eintraege.ts'
 import { FORMAT } from './bau/anisearch-titel.ts'
 import { anisearchKatalogPaare } from './lib/anisearch-katalog-ids.ts'
+import { holeAnilistMerkmale } from './lib/anilist-merkmale.ts'
 import {
   type AsEintrag,
   type AsTitel,
@@ -37,6 +38,7 @@ const TITELLISTE = 'data/cache/anisearch-titelliste.json'
 const EINTRAEGE_ABRUF = 'data/cache/anisearch-abgleich-eintraege.json'
 const IDS_KATALOG = 'data/anisearch-ids-katalog.json'
 const KEIN_TREFFER = 'data/anisearch-katalog-kein-treffer.json'
+const MERKMALE_ZWISCHEN = 'data/cache/anilist-abgleich-merkmale.json'
 const PAUSE_MS = 5_500
 const TAG_MS = 24 * 3600 * 1000
 
@@ -170,6 +172,17 @@ function benoetigteEintraege(kand: Map<number, Kandidat[]>): number[] {
   return [...ids]
 }
 
+/** Für die unsicheren Titel holt AniList Folgenlänge und Endtag (der Bestand trägt sie nicht); danach entscheiden Tag, Länge und Namensteil mit. */
+async function zweiterDurchgang(offen: KatalogTitel[], urteil: Map<number, Urteil>, kand: Map<number, Kandidat[]>, titel: Map<number, AsTitel>, eintraege: Record<string, AsEintrag>): Promise<void> {
+  const unsicher = offen.filter((k) => urteil.get(k.id)!.art === 'unsicher')
+  const merkmale = await holeAnilistMerkmale(unsicher.map((k) => k.id), MERKMALE_ZWISCHEN)
+  for (const k of unsicher) {
+    k.dauer = merkmale.get(k.id)?.dauer
+    k.ende = merkmale.get(k.id)?.ende
+    urteil.set(k.id, urteile(k, kand.get(k.id)!, titel, eintraege, formatVon))
+  }
+}
+
 function ergebnisDatei(offen: KatalogTitel[], urteil: Map<number, Urteil>, titel: Map<number, AsTitel>, eintraege: Record<string, AsEintrag>, nTitelliste: number, vergebenAn: Map<number, number>) {
   const nach = (art: Urteil['art']) => offen.filter((k) => urteil.get(k.id)!.art === art)
   const zeile = (k: KatalogTitel) => ({ id: k.id, name: k.namen[0] ?? k.namen[1], jahr: k.jahr, format: k.format })
@@ -181,8 +194,9 @@ function ergebnisDatei(offen: KatalogTitel[], urteil: Map<number, Urteil>, titel
   return {
     stand: new Date().toISOString().slice(0, 10),
     titelliste: nTitelliste,
-    zaehlung: { sicher: nach('sicher').length, unsicher: unsicher.length, keiner: nach('keiner').length },
+    zaehlung: { sicher: nach('sicher').length, unsicher: unsicher.length, widerlegt: nach('widerlegt').length, keiner: nach('keiner').length },
     unsicher,
+    widerlegt: nach('widerlegt').map((k) => ({ ...zeile(k), weil: (urteil.get(k.id) as Extract<Urteil, { art: 'widerlegt' }>).weil })),
     keiner: nach('keiner').map((k) => ({ ...zeile(k), ...(vergebenAn.has(k.id) ? { vergebenAn: vergebenAn.get(k.id) } : {}) })),
   }
 }
@@ -213,9 +227,10 @@ async function main(): Promise<void> {
   const kand = new Map(offen.map((k) => [k.id, kandidaten(k, titel, index, vergeben).filter((c) => !keinTreffer[String(k.id)]?.includes(c.asId))]))
   await holeEintraege(benoetigteEintraege(kand), eintraege, token)
   const urteil = new Map(offen.map((k) => [k.id, urteile(k, kand.get(k.id)!, titel, eintraege, formatVon)]))
+  await zweiterDurchgang(offen, urteil, kand, titel, eintraege)
   const doppelt = doppelteEntschaerfen(urteil)
   const ergebnis = ergebnisDatei(offen, urteil, titel, eintraege, titel.size, nahVergeben(offen, urteil, titel, index))
-  log(`sicher ${ergebnis.zaehlung.sicher}, unsicher ${ergebnis.zaehlung.unsicher}, keiner ${ergebnis.zaehlung.keiner} (davon ${doppelt} wegen doppelter Kennung entschärft)`)
+  log(`sicher ${ergebnis.zaehlung.sicher}, unsicher ${ergebnis.zaehlung.unsicher}, widerlegt ${ergebnis.zaehlung.widerlegt}, keiner ${ergebnis.zaehlung.keiner} (davon ${doppelt} wegen doppelter Kennung entschärft)`)
   if (test) {
     for (const k of offen) console.log(k.id, k.namen[0], k.jahr, k.format, JSON.stringify(urteil.get(k.id)))
     return
