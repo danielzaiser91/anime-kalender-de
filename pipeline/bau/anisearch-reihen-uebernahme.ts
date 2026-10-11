@@ -25,6 +25,20 @@ const UNIVERSUM = 'Gemeinsames Universum'
 /** Die Regel der Messung, nur ohne „Gemeinsames Universum“: 7 von 11 Treffern lagen falsch (Blade/X-Men/Iron Man in einer Reihe, 11.10.2026, Prüfer). */
 export const WANDERREGEL: Regel = { ...REGEL, [UNIVERSUM]: 'nie' }
 
+/** Von Hand getrennt (`getrennt:` in `reihen-von-hand.yaml`): Titel-Kennungen, deren **Reihen** aniSearch-Beziehungen nie miteinander verbinden. */
+export type Trennung = number[]
+
+/** Die Kanten ohne die, die zwei verschiedene Reihen derselben Trennung verbinden — so entsteht weder eine Wanderung noch ein Prüflisten-Fall. */
+export function ohneTrennungen(kanten: Kante[], titel: Kandidat[], wurzel: (id: number) => number, getrennt: Trennung[]): Kante[] {
+  if (!getrennt.length) return kanten
+  const reihenJeKennung = new Map<number, Set<number>>()
+  for (const t of titel) if (t.anisearchId) reihenJeKennung.set(t.anisearchId, (reihenJeKennung.get(t.anisearchId) ?? new Set()).add(wurzel(t.id)))
+  const sperren = getrennt.map((g) => new Set(g.map(wurzel)))
+  const trennt = (s: Set<number>, k: Kante): boolean =>
+    [...(reihenJeKennung.get(k.a) ?? [])].some((ra) => s.has(ra) && [...(reihenJeKennung.get(k.b) ?? [])].some((rb) => rb !== ra && s.has(rb)))
+  return kanten.filter((k) => !sperren.some((s) => trennt(s, k)))
+}
+
 function verbinde(n: Nachbarn, a: number, b: number, art: string): void {
   if (a === b) return
   for (const [x, y] of [[a, b], [b, a]] as const) n.set(x, (n.get(x) ?? new Map()).set(y, art))
@@ -101,9 +115,10 @@ function universumFaelle(titel: Kandidat[], kanten: Kante[], namen: Namen, verbu
 
 /**
  * `titel`: alle Titel des Baus (mit Name und aniSearch-Kennung); `wurzel`: die Reihe je Titel zum Zeitpunkt der Übernahme (Union-Find des Baus);
- * `ausgenommen`: Titel, die nie umziehen (Crossover, die ihre Reihe aus dem ersten Elternteil erben).
+ * `ausgenommen`: Titel, die nie umziehen (Crossover, die ihre Reihe aus dem ersten Elternteil erben); `getrennt`: Handentscheidungen, siehe `ohneTrennungen`.
  */
-export function uebernimmReihen(titel: Kandidat[], kanten: Kante[], namen: Namen, wurzel: (id: number) => number, ausgenommen: Set<number> = new Set(), regel: Regel = WANDERREGEL): Uebernahme {
+export function uebernimmReihen(titel: Kandidat[], alleKanten: Kante[], namen: Namen, wurzel: (id: number) => number, ausgenommen: Set<number> = new Set(), regel: Regel = WANDERREGEL, getrennt: Trennung[] = []): Uebernahme {
+  const kanten = ohneTrennungen(alleKanten, titel, wurzel, getrennt)
   const mitglieder = titel.filter((t) => !ausgenommen.has(t.id))
   const groesse = new Map<number, number>()
   for (const t of titel) groesse.set(wurzel(t.id), (groesse.get(wurzel(t.id)) ?? 0) + 1)

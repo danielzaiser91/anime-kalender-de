@@ -72,6 +72,10 @@ pruefe('Übernahme: zwei Reihen mit mehreren Titeln werden nie verbunden, sie st
 pruefe('Übernahme: ein Alleinstehender zwischen zwei Reihen wandert nirgends hin (mehrdeutig)', !u.kanten.some((x) => x.ids.includes(8)) && u.pruefliste.filter((p) => p.art === 'mehrdeutig').length === 1)
 pruefe('Übernahme: Art ohne Regel (Originalwerk) bindet nichts', !u.kanten.some((x) => x.ids.includes(9)))
 pruefe('Übernahme: ausgenommene Titel (Crossover) wandern nicht', !uebernimmReihen(titelU, kantenU, new Map(), reiheU, new Set([5])).kanten.some((x) => x.ids.includes(5)))
+const getrenntU = uebernimmReihen(titelU, kantenU, new Map(), reiheU, new Set(), undefined, [[5, 1], [2, 3]])
+pruefe('Übernahme: eine Handtrennung hält den Alleinstehenden aus der Reihe', !getrenntU.kanten.some((x) => x.ids.includes(5)))
+pruefe('Übernahme: eine Handtrennung zweier Reihen leert ihren Prüflisten-Fall (ein Titel je Reihe genügt)', getrenntU.pruefliste.filter((p) => p.art === 'verschmilzt').length === 0)
+pruefe('Übernahme: eine Handtrennung berührt andere Kanten nicht', getrenntU.kanten.some((x) => x.ids.includes(6) && x.ids.includes(7)))
 const universum = [{ id: 1, name: 'Marvel Iron Man', anisearchId: 1 }, { id: 2, name: 'Marvel Iron Man 2', anisearchId: 2 }, { id: 3, name: 'Marvel Blade', anisearchId: 3 }]
 const uni = uebernimmReihen(universum, [k(3, 1, 'Gemeinsames Universum')], new Map([[1, ['Marvel Iron Man']], [3, ['Marvel Blade']]]), (id) => (id === 2 ? 1 : id))
 pruefe('Übernahme: „Gemeinsames Universum“ lässt nichts wandern, der Fall steht als „universum“ auf der Prüfliste', uni.kanten.length === 0 && uni.pruefliste.length === 1 && uni.pruefliste[0]!.art === 'universum', JSON.stringify(uni))
