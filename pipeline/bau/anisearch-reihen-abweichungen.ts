@@ -10,7 +10,7 @@ import { type Einheit, type ReihenBericht, vergleicheReihen } from './anisearch-
 /**
  * **Abweichungsliste Reihen: aniSearch gegen `franchiseId`** (`data/anisearch-reihen-abweichungen.json`, Stufe C der AniList-Ablösung, 10.10.2026). Zähler je Urteil
  * (gesamt und je Hälfte) und je Cluster-Art, dazu höchstens 20 Beispiele je Abweichungsart. Nichts davon wird ausgeliefert: die Seite zeigt weiter die Reihen aus
- * AniLists Beziehungen; die Datei ist Messgrundlage für den Umzug. Gelesen wird, was der Bau soeben nach `public/data/` geschrieben hat (Hauptbestand und Katalog, jeweils mit `franchiseId`).
+ * AniLists Beziehungen (seit 11.10.2026 ergänzt um die Übernahme Alleinstehender aus aniSearch, `anisearch-reihen-uebernahme.ts` — der Vergleich misst gegen den Stand danach); die Datei ist Messgrundlage für den Umzug. Gelesen wird, was der Bau soeben nach `public/data/` geschrieben hat (Hauptbestand und Katalog, jeweils mit `franchiseId`).
  */
 export const REIHEN_DATEI = 'data/anisearch-reihen-abweichungen.json'
 
