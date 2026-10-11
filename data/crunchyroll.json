@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-11T14:02:11.202Z",
+  "scrapedAt": "2026-10-11T15:02:08.548Z",
   "window": {
     "from": "2026-09-28",
     "to": "2026-10-18"
@@ -1814,7 +1814,8 @@
       "weekday": 6,
       "dates": [
         "2026-09-27",
-        "2026-10-04"
+        "2026-10-04",
+        "2026-10-11"
       ],
       "rawTitle": "Overgeared Staffel 1 (Deutsch)",
       "seriesId": "GT00384004",
@@ -1827,6 +1828,10 @@
         {
           "date": "2026-10-04",
           "episode": 2
+        },
+        {
+          "date": "2026-10-11",
+          "episode": 3
         }
       ],
       "earliest": {
@@ -2081,6 +2086,16 @@
       "date": "2026-10-11",
       "time": "16:00",
       "episode": 2,
+      "german": true
+    },
+    {
+      "key": "overgeared s1",
+      "rawTitle": "Overgeared Staffel 1 (Deutsch)",
+      "seriesId": "GT00384004",
+      "seriesUrl": "https://www.crunchyroll.com/de/series/GT00384004/overgeared",
+      "date": "2026-10-11",
+      "time": "16:30",
+      "episode": 3,
       "german": true
     }
   ]
