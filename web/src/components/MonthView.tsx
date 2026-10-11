@@ -7,7 +7,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
 import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
 import { tageDerWoche, type Tag } from './WeekView.tsx'
-import { buendeleTermine } from '../lib/buendel.ts'
+import { buendeleKacheln } from '../lib/buendel.ts'
 import { Schwebe } from './kalender/Schwebe.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { FernsehZeichen } from './kalender/Zeichen.tsx'
@@ -76,7 +76,7 @@ export function MonthView(p: MonatProps) {
 
 function MonatsZelle({ tag, p: alle, heute, vorbei, t }: { tag: Tag; p: MonatProps; heute: boolean; vorbei: boolean; t: ReturnType<typeof useLang>['t'] }) {
   /* Vier Folgen desselben Titels am selben Tag sind ein Bündel — wie in der Woche (Polar Opposites S2, 04.10.2026). */
-  const gruppen = buendeleTermine(tag.stream.filter((e) => !alle.hidden.has(e.titleId)), (ev) => !!ev.verpasst || !!art(ev, alle.data))
+  const gruppen = buendeleKacheln(tag.stream.filter((e) => !alle.hidden.has(e.titleId)), (ev) => art(ev, alle.data))
   const stream = gruppen.map((g) => g[0]!)
   const p = { ...alle, folgenBis: new Map(gruppen.filter((g) => g.length > 1 && g.at(-1)!.episode).map((g) => [g[0]!.id, g.at(-1)!.episode!])) }
   /* Ist das Fernsehen ausgeschaltet, stehen hier nur noch Premieren (App, 19.09.2026). */
