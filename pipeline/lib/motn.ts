@@ -44,7 +44,8 @@
  *     Optionen **ohne** `addon` eine Plattform; Kanäle werden getrennt unter
  *     `addons` geführt (siehe `MotnBestand`).
  */
-import type { PlatformId, Title } from '../../shared/types.ts'
+import { releaseStatus } from '../../shared/logic.ts'
+import type { PlatformId, Release, Title } from '../../shared/types.ts'
 
 /** Eine Anbieter-Option, wie die API sie je Folge liefert. */
 export interface MotnOption {
@@ -696,6 +697,24 @@ export function ordneShowsZu(
     }
   }
   return belege
+}
+
+/** Schlüssel für `laufendJeAnbieter`. */
+export const laufendSchluessel = (titleId: number, platform: PlatformId): string => `${titleId}|${platform}`
+
+/**
+ * Wo läuft gerade eine Staffel — je Titel **und Anbieter**.
+ *
+ * Nur ein laufendes Release desselben Anbieters hält dessen Beleg zurück. Eine Fernsehausstrahlung hielt
+ * am 11.10.2026 den Netflix-Beleg von „Hell's Paradise" zurück (Termin im Programm von heute): Netflix zeigt
+ * die abgeschlossene Staffel, der Beleg hängt nicht am Fernsehen.
+ */
+export function laufendJeAnbieter(releases: Release[], heute: string): Set<string> {
+  const laeuft = new Set<string>()
+  for (const release of releases) {
+    if (releaseStatus(release, heute) === 'airing') laeuft.add(laufendSchluessel(release.titleId, release.platform))
+  }
+  return laeuft
 }
 
 /**
