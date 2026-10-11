@@ -34,6 +34,7 @@ import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirm
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { folgentitelAusNotiz, folgeUeberTitel } from './lib/folgentitel-anker.ts'
+import { schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -425,13 +426,7 @@ const anbieterStruktur: Record<string, unknown> = existsSync(resolve(ROOT, 'data
   ? JSON.parse(readFileSync(resolve(ROOT, 'data/anbieter-staffeln.json'), 'utf8'))
   : {}
 
-const ohneZuordnung: Array<{
-  url: string
-  name: string
-  plattform: string
-  befund: string
-  vorschlag: number[]
-}> = []
+const ohneZuordnung: OhneZuordnung[] = []
 /** Kennungen der Meldungen, die wirklich eingetragen wurden. */
 const erledigteIds = new Set<number>()
 
@@ -1349,98 +1344,7 @@ if (zeilen.length && !TROCKEN) {
   if (neueZeilen.some((z) => z.startsWith('- '))) writeFileSync(p, entdoppleBelege(neu, warn))
 }
 
-/**
- * Was keine Zuordnung fand, wird sichtbar abgelegt statt vergessen.
- *
- * Bis zum 22.08.2026 fielen solche Meldungen lautlos aus dem Lauf und blieben
- * für immer im Briefkasten liegen — die Arbeit war getan und ging verloren.
- * Die Datei ist Arbeitsvorrat, kein Datensatz: Jede Zeile braucht ein
- * menschliches Ja, bevor die Adresse in `data/` landet.
- */
-/**
- * Ist nichts mehr offen, verschwindet die Datei.
- *
- * Sie blieb sonst mit dem letzten Stand liegen und behauptete Arbeit, die es
- * nicht mehr gibt — am 23.08.2026 standen dort drei Zeilen, deren Meldungen
- * längst abgehakt waren.
- */
-if (!ohneZuordnung.length && !TROCKEN && existsSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'))) {
-  rmSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'))
-  log('daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md entfernt — nichts mehr offen')
-}
-if (ohneZuordnung.length && !TROCKEN) {
-  const kopf = [
-    '# Meldungen ohne Zuordnung',
-    '',
-    'Der Browser hat diese Seiten gemeldet, unser Datensatz kennt die Adresse aber',
-    'nicht. Anbieter führen denselben Titel oft unter mehreren Kennungen — Jujutsu',
-    'Kaisen meldete sich als `title/80237957`, bei uns steht `title/81278456`.',
-    '',
-    'Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:',
-    '„Beyblade Burst Surge" und „Beyblade Burst Rise" trennt ein Wort. Stimmt er,',
-    'gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er',
-    'nicht, gehört die Zeile gestrichen.',
-    '',
-    `Stand: ${heute}`,
-    '',
-    '## Was hier zu tun ist',
-    '',
-    'Die Erweiterung hat einen Befund gemeldet, aber unser Datensatz kennt die Adresse',
-    'nicht. Drei Fälle, drei Handgriffe:',
-    '',
-    '- **„nichts"** — erledigt sich von selbst, nur der Vollständigkeit halber aufgeführt.',
-    '- **„Vorschlag bestätigen"** — stimmt der vorgeschlagene Titel? Dann sag Bescheid,',
-    '  ich trage die Adresse als Verweis ein und übernehme den Befund.',
-    '- **„Titel von Hand suchen"** — die Seite hat keinen Serientitel gemeldet. Öffne die',
-    '  Adresse und sag mir, welcher Anime das ist; den Rest mache ich.',
-    '',
-    '| Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |',
-    '|---|---|---|---|---|---|',
-  ]
-  const tabelle = ohneZuordnung.map((o) => {
-    /**
-     * Kein `#` vor der Kennung.
-     *
-     * Markdown-Ansichten deuten `#154965` als Verweis auf ein GitHub-Ticket und
-     * führen ins Leere. Verlinkt wird stattdessen die Titelseite bei AniList — dort
-     * steht, worum es geht.
-     */
-    const namen = o.vorschlag.map((id) => {
-      const t = liste.find((x) => x.id === id)
-      const name = t?.titleDe ?? t?.titleEn ?? String(id)
-      return `[${name}](https://anilist.co/anime/${id})`
-    })
-    // Ein „weg" an einem Titel, der diesen Anbieter ohnehin nicht führt, ist
-    // schon abgebildet — dann bleibt nichts zu tun, und das gehört dazu.
-    // Sonst liest jemand die Zeile, öffnet den Verweis und stellt fest, dass
-    // die Arbeit längst getan ist.
-    const erledigt =
-      o.befund === 'weg' &&
-      o.vorschlag.length > 0 &&
-      o.vorschlag.every((id) => {
-        const t = liste.find((x) => x.id === id)
-        return !t?.streams?.some((st) => st.platform === o.plattform)
-      })
-    /**
-     * Ein „weg" zu einer Adresse, die wir nicht führen, ist gegenstandslos.
-     *
-     * Das gilt **ohne** Titelvergleich: Wenn kein Verweis auf diese Adresse
-     * zeigt, kann auch keiner entfernt werden. Wer den Titel dahinter kennt,
-     * gewinnt nichts dazu — „Titel von Hand suchen" wäre Arbeit, die keine ist.
-     */
-    const zuTun =
-      o.befund === 'weg'
-        ? 'nichts — diese Adresse steht bei uns nirgends'
-        : !o.vorschlag.length
-          ? 'Titel von Hand suchen'
-          : erledigt
-            ? 'nichts — wir führen dort keinen Verweis'
-            : 'Vorschlag bestätigen, dann Adresse eintragen'
-    return `| ${o.plattform} | ${o.url} | ${o.name || '—'} | ${o.befund} | ${namen.join('<br>') || '—'} | ${zuTun} |`
-  })
-  writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'), [...kopf, ...tabelle, ''].join('\n'))
-  log(`${ohneZuordnung.length} Meldung(en) ohne Zuordnung in daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md`)
-}
+if (!TROCKEN) schreibeMeldungenListe(ohneZuordnung, liste, heute)
 
 if (Object.keys(anbieterStruktur).length && !TROCKEN) {
   writeFileSync(
