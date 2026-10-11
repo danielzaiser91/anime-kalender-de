@@ -15,6 +15,7 @@ pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-belegstaerke.ts
+pipeline/check-bild-und-synchro.ts
 pipeline/check-cartoon-news.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
@@ -52,6 +53,7 @@ pipeline/check-prime-teilseiten.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
+pipeline/check-sammelartikel.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-stand-halten.ts
