@@ -158,8 +158,8 @@ export interface StreamLink {
   dubQuelle?: 'justwatch'
   /** Datum des JustWatch-Befunds hinter `dubQuelle` (JJJJ-MM-TT). */
   dubStand?: string
-  /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026). */
-  herkunft?: 'tmdb'
+  /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026); `termin` = nur der Anbieter eines sicheren Kalendertermins, ohne Tonurteil (11.10.2026). */
+  herkunft?: 'tmdb' | 'termin'
   /**
    * Wo in dieser Staffel der deutsche Ton liegt — wenn er nicht überall liegt.
    *

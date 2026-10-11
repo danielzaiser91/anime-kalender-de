@@ -7,6 +7,7 @@ import { bereinigeWege } from './11-3-bereinigung.ts'
 import { streicheMagentaPartner } from './11-5-magenta-partner.ts'
 import { kennzeichneDeutschLautJustwatch } from './11-6-jw-vertrauen.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
+import { ergaenzeWegeAusTerminen } from './11-7-wege-aus-terminen.ts'
 import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 import { entferneFremdeNachStaffeln, kennungAusAdresse } from './cr-serie-geteilt.ts'
@@ -75,6 +76,9 @@ export function schliesseWegeAb({
 
   fuehreAusgabenZusammen({ alleChecks, titles, tmdbMehrdeutig, anisearch, lautPruefungTot, checksJePlattform })
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
+
+  /* Zuletzt: Wer einen sicheren Termin bei einem Anbieter hat, aber noch keinen Weg dorthin, bekommt einen ohne Tonurteil. */
+  ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verweiseEntfernt })
 
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)
