@@ -534,6 +534,86 @@ export interface MotnBeleg {
   laeuftAusAm?: string
 }
 
+/** Was die Suche nach der Serie zu einer Reihe braucht: Wortindex, Katalog, Namensbewertung, Kennungs-Kandidaten. */
+interface ReihenSuche {
+  index: Map<string, MotnBestand[]>
+  shows: Record<string, MotnBestand>
+  vergleiche: MotnVergleich
+  zusatzKandidaten?: (title: Title) => string[]
+}
+
+/**
+ * Vorauswahl über geteilte Wörter.
+ *
+ * Ohne sie wäre jeder Titel gegen jede Serie des Katalogs zu prüfen. Der
+ * Index kostet einen Durchlauf und macht aus Hunderttausenden Vergleichen ein
+ * paar Dutzend je Titel.
+ */
+function wortIndex(shows: Record<string, MotnBestand>): Map<string, MotnBestand[]> {
+  const index = new Map<string, MotnBestand[]>()
+  for (const bestand of Object.values(shows)) {
+    for (const wort of woerter(`${bestand.titel} ${bestand.originalTitel ?? ''}`)) {
+      const liste = index.get(wort) ?? []
+      liste.push(bestand)
+      index.set(wort, liste)
+    }
+  }
+  return index
+}
+
+/** Die Serie der Quelle zu einer Reihe unserer Staffeln und der Folgenbereich, den jede Staffel davon abdeckt — oder nichts. */
+function findeShowZurReihe(
+  staffeln: Title[],
+  { index, shows, vergleiche, zusatzKandidaten }: ReihenSuche,
+): { bestand: MotnBestand; bereiche: MotnZuordnung[] } | undefined {
+  const vertreter = staffeln[0]
+  const name = suchName(vertreter)
+  if (!name) return undefined
+
+  const kandidaten = new Map<string, MotnBestand>()
+  for (const wort of woerter(name)) {
+    for (const b of index.get(wort) ?? []) kandidaten.set(b.imdbId, b)
+  }
+  // Über die Kennung geholte Serien kommen für jede Staffel der Reihe dazu,
+  // nicht nur für den Vertreter: Gefragt wurde je Titel, geantwortet wird je
+  // Reihe.
+  for (const staffel of staffeln) {
+    for (const imdbId of zusatzKandidaten?.(staffel) ?? []) {
+      const b = shows[imdbId]
+      if (b) kandidaten.set(b.imdbId, b)
+    }
+  }
+  if (!kandidaten.size) return undefined
+
+  const treffer = besterShow(name, vertreter.jpYear, [...kandidaten.values()], vergleiche)
+  if (!treffer) return undefined
+  const bestand = shows[treffer.kandidat.imdbId]
+  if (!bestand) return undefined
+
+  /**
+   * Ein Halbtreffer ist kein Treffer — er wird gar nicht erst geführt.
+   *
+   * Gemessen am 21.08.2026 an einem Bestand aus zwei Serien: Das Wort „magic"
+   * zog fünf fremde Reihen an („MASHLE", „The Saint's Magic Power is
+   * Omnipotent", „Anti-Magic Academy", „Magic Maker"), und weil alle fünf
+   * zwölf Folgen haben, ging bei jeder auch die Folgenrechnung auf.
+   * `passtZuSerie` ist eben ein Türsteher, kein Schiedsrichter — ein einziges
+   * geteiltes Wort genügt ihm.
+   *
+   * Die Übernahme hätte sie ohnehin abgelehnt. Aber sie stünden im Bericht
+   * und in der Kontrollmessung, und dort wären sie das Gegenteil von
+   * hilfreich: Sie würden gegen fremde Belege gemessen und die Quote nach
+   * Belieben verschieben.
+   */
+  if (!treffer.voll || !treffer.jahrPasst) return undefined
+
+  const bereiche = ordneFolgenZuStaffeln(bestand.folgen, staffeln)
+  // Ohne aufgehende Folgenrechnung gibt es keine Zuordnung — und damit auch
+  // keinen halben Beleg. Die Reihe bleibt vollständig in der Handarbeit.
+  if (!bereiche) return undefined
+  return { bestand, bereiche }
+}
+
 /**
  * Zuordnung über den ganzen Bestand — ohne einen einzigen Abruf.
  *
@@ -564,22 +644,7 @@ export function ordneShowsZu(
    */
   zusatzKandidaten?: (title: Title) => string[],
 ): MotnBeleg[] {
-  /**
-   * Vorauswahl über geteilte Wörter.
-   *
-   * Ohne sie wäre jeder Titel gegen jede Serie des Katalogs zu prüfen. Der
-   * Index kostet einen Durchlauf und macht aus Hunderttausenden Vergleichen ein
-   * paar Dutzend je Titel.
-   */
-  const index = new Map<string, MotnBestand[]>()
-  for (const bestand of Object.values(shows)) {
-    for (const wort of woerter(`${bestand.titel} ${bestand.originalTitel ?? ''}`)) {
-      const liste = index.get(wort) ?? []
-      liste.push(bestand)
-      index.set(wort, liste)
-    }
-  }
-
+  const such: ReihenSuche = { index: wortIndex(shows), shows, vergleiche, zusatzKandidaten }
   const belege: MotnBeleg[] = []
   const erledigt = new Set<number>()
   const gesehen = new Set<string>()
@@ -587,52 +652,9 @@ export function ordneShowsZu(
   for (const title of titles) {
     if (erledigt.has(title.id)) continue
     const reihe = reihenVon(title)
-    const staffeln = reihe.length ? reihe : [title]
-    const vertreter = staffeln[0]
-    const name = suchName(vertreter)
-    if (!name) continue
-
-    const kandidaten = new Map<string, MotnBestand>()
-    for (const wort of woerter(name)) {
-      for (const b of index.get(wort) ?? []) kandidaten.set(b.imdbId, b)
-    }
-    // Über die Kennung geholte Serien kommen für jede Staffel der Reihe dazu,
-    // nicht nur für den Vertreter: Gefragt wurde je Titel, geantwortet wird je
-    // Reihe.
-    for (const staffel of staffeln) {
-      for (const imdbId of zusatzKandidaten?.(staffel) ?? []) {
-        const b = shows[imdbId]
-        if (b) kandidaten.set(b.imdbId, b)
-      }
-    }
-    if (!kandidaten.size) continue
-
-    const treffer = besterShow(name, vertreter.jpYear, [...kandidaten.values()], vergleiche)
-    if (!treffer) continue
-    const bestand = shows[treffer.kandidat.imdbId]
-    if (!bestand) continue
-
-    /**
-     * Ein Halbtreffer ist kein Treffer — er wird gar nicht erst geführt.
-     *
-     * Gemessen am 21.08.2026 an einem Bestand aus zwei Serien: Das Wort „magic"
-     * zog fünf fremde Reihen an („MASHLE", „The Saint's Magic Power is
-     * Omnipotent", „Anti-Magic Academy", „Magic Maker"), und weil alle fünf
-     * zwölf Folgen haben, ging bei jeder auch die Folgenrechnung auf.
-     * `passtZuSerie` ist eben ein Türsteher, kein Schiedsrichter — ein einziges
-     * geteiltes Wort genügt ihm.
-     *
-     * Die Übernahme hätte sie ohnehin abgelehnt. Aber sie stünden im Bericht
-     * und in der Kontrollmessung, und dort wären sie das Gegenteil von
-     * hilfreich: Sie würden gegen fremde Belege gemessen und die Quote nach
-     * Belieben verschieben.
-     */
-    if (!treffer.voll || !treffer.jahrPasst) continue
-
-    const bereiche = ordneFolgenZuStaffeln(bestand.folgen, staffeln)
-    // Ohne aufgehende Folgenrechnung gibt es keine Zuordnung — und damit auch
-    // keinen halben Beleg. Die Reihe bleibt vollständig in der Handarbeit.
-    if (!bereiche) continue
+    const fund = findeShowZurReihe(reihe.length ? reihe : [title], such)
+    if (!fund) continue
+    const { bestand, bereiche } = fund
 
     /**
      * Anbieter und Kanäle in einer Liste — der Kanal trägt seine Kennung mit.
