@@ -1,7 +1,7 @@
 /**
  * Zusicherungen zur TMDB-Suche für Titel ohne Cover (`lib/tmdb-suche.ts`): nur ein sicherer Treffer gilt, sonst kein Cover. Aufruf: `npm run check:logic`.
  */
-import { besterTreffer, type TmdbTreffer } from './lib/tmdb-suche.ts'
+import { besterTreffer, urteilTreffer, type TmdbTreffer } from './lib/tmdb-suche.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -23,6 +23,11 @@ pruefe('anderer Name: kein Treffer', besterTreffer(['Take Me Home'], 2018, [tv(5
 console.log('\nTMDB-Suche: bester statt erster')
 pruefe('der Treffer mit dem genaueren Jahr gewinnt, auch wenn er hinten steht', besterTreffer(['Luck'], 2022, [tv(6, 'Luck', 2021), tv(7, 'Luck', 2022)])?.id === 7)
 pruefe('zwei verschiedene Werke gleich nah: unsicher, kein Treffer', besterTreffer(['Luck'], 2022, [tv(6, 'Luck', 2021), tv(7, 'Luck', 2023)]) === undefined)
+
+console.log('\nTMDB-Suche: Grund ohne Treffer')
+pruefe('anderer Name: kein Treffer', urteilTreffer(['Luck'], 2022, [tv(8, 'Fortune', 2022)]).grund === 'kein Treffer')
+pruefe('Name gleich, Jahr daneben: unsicher mit Kandidat', urteilTreffer(['Luck'], 2022, [tv(9, 'Luck', 2010)]).grund === 'unsicher' && urteilTreffer(['Luck'], 2022, [tv(9, 'Luck', 2010)]).kandidaten[0]?.id === 9)
+pruefe('zwei gleich nahe Werke: mehrere Kandidaten', urteilTreffer(['Luck'], 2022, [tv(6, 'Luck', 2021), tv(7, 'Luck', 2023)]).grund === 'mehrere Kandidaten')
 
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
