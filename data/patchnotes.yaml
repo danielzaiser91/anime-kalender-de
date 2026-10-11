@@ -6,6 +6,9 @@
 # datum (in Anführungszeichen) gibt es nur als Nachtrag für Einträge, die älter sind als dieses Verfahren (bis 10.10.2026).
 # Keine Zeile nötig? Dann steht in der PR-Beschreibung „Patch Notes: keine – <Grund>“ (tools/check-patchnotes-pflicht.mjs).
 - kategorie: bugfix
+  text: Filter-Knöpfe überall in gleicher Schrift
+  untertitel: Schnellfilter und Filterfenster wirken einheitlich
+- kategorie: bugfix
   text: Neue Daten erscheinen beim Zurückkehren zur App
   untertitel: Nach längerer Pause lädt die Seite sich still neu
 - kategorie: feature
