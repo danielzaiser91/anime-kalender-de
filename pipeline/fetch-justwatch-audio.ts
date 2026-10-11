@@ -130,6 +130,19 @@ function alterNachholen(t: Title, bestand: Record<string, Befund>): boolean {
   return t.fsk === undefined && Boolean(e?.jwId && !e.ohneTreffer && e.altersangabe === undefined)
 }
 
+function angeboteVon(offers: JwKnoten['offers']): Angebot[] {
+  return (offers ?? [])
+    .map((o) => ({
+      anbieter: o.package?.clearName ?? '?',
+      art: o.monetizationType,
+      audio: o.audioLanguages ?? [],
+      untertitel: o.subtitleLanguages ?? [],
+      url: o.standardWebURL ?? undefined,
+    }))
+    /* Dasselbe Angebot kommt regelmäßig doppelt — je Auflösung eine Zeile. */
+    .filter((a, i, alle) => alle.findIndex((b) => b.anbieter === a.anbieter && b.art === a.art) === i)
+}
+
 /** Eine Sperre wartet `fetchJson` mit Backoff ab; erst danach kommt sie hier als Fehler an. */
 async function suche(begriff: string): Promise<JwKnoten[]> {
   const j = await fetchJson<{
@@ -327,16 +340,7 @@ async function main(): Promise<void> {
         }
         continue
       }
-      const angebote: Angebot[] = (treffer.offers ?? [])
-        .map((o) => ({
-          anbieter: o.package?.clearName ?? '?',
-          art: o.monetizationType,
-          audio: o.audioLanguages ?? [],
-          untertitel: o.subtitleLanguages ?? [],
-          url: o.standardWebURL ?? undefined,
-        }))
-        /* Dasselbe Angebot kommt regelmäßig doppelt — je Auflösung eine Zeile. */
-        .filter((a, i, alle) => alle.findIndex((b) => b.anbieter === a.anbieter && b.art === a.art) === i)
+      const angebote = angeboteVon(treffer.offers)
       if (!angebote.length) leer++
       bestand[String(t.id)] = {
         geprueftAm: todayIso(),
