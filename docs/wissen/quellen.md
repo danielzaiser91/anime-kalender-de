@@ -3454,3 +3454,12 @@ Anlass: Feeds und Wortmarken-Filter übersehen, was nur im Fließtext steht (am 
 ## aniSearch-Reihen: Katalog-Lauf vom 10.10.2026 senkte den Wert, Seiten waren in Ordnung (11.10.2026)
 
 Der Katalog-Lauf (PR 712) brachte 2.522 neue Archivseiten (alle mit Informations- und Relationenblock, keine Sperrseite, keine Überschreibung). Die Prüfung `check-anisearch-reihen.ts` fiel von 78,0 % auf 68,1 % gleich, weil jetzt 2.035 aniSearch-Titel (Id ≥ 10.000.000) mitzählten, deren `franchiseId` nur sie selbst ist (AniList kennt sie nicht): jede aniSearch-Reihe aus mehreren davon galt als „zusätzlich" (643 statt 0). Titel mit Id < 10 Mio.: 77,4 % vorher wie nachher. Seit 11.10.2026 zählen Titel ohne Referenz-Reihe nicht mit (`deckung.ohneReferenz`, 2.409); Wert 77,1 % bei 15.091 Titeln. Ob die aniSearch-Reihen für diese Titel taugen, zeigt dieser Vergleich nicht — dafür braucht es eine eigene Messung.
+
+## Prime-Kanal übernimmt die Folgenzahl des Anbieters (11.10.2026)
+
+Daniel (11.10.2026): „Die echte Webseite führt den Prime-Kanal.“ Ein Prime-Video-Kanal-Weg (`platform: primevideo`, `kanal` gesetzt) zeigt deshalb dieselbe Folgenzahl wie der Weg des Anbieters, dessen Kanal er ist — ohne Hinweis an der Zahl (Tooltip „Zahl von Crunchyroll übernommen“ und Laufzeit-Marker `bestandVon` sind weg).
+
+- **Tabelle Kanal → Anbieter an einer Stelle:** `KANAL_ANBIETER` in `web/src/components/detail/prime-kanal.ts` (Crunchyroll → crunchyroll.com, ADN → animationdigitalnetwork.com). Aniverse und RTL+ stehen nicht drin: Im Bestand (11.10.2026) hat keiner der 137 Aniverse- und 3 RTL+-Kanal-Wege einen eigenen Anbieter-Weg, aus dem eine Zahl käme. Neuer Kanal erst mit eigenem Weg des Anbieters und Domain-Beleg.
+- **Regel:** Der Kanal-Weg erbt die deutschen Bereiche des Anbieter-Wegs (`streamsMitKanalBestand`), die Pille zählt mit dessen Releases (`folgenAuskunft`). Auch gegen einen älteren Prime-Handbeleg (Hensuki, One Punch Man 2: Daniels Entscheidung); ein Präfix-Test entfällt. **Bedingung:** Kanal-Weg selbst `dub === true` und Anbieter-Weg `dub === true`. Golden Wind: Crunchyroll `dub: false` oder Kanal-Weg `dub` undefined erben nichts.
+- **Test:** `pipeline/check-prime-kanal.ts` (Slime, Hensuki, ADN, Golden Wind, fremder Kanal).
+- **A/B über 274 Kanal-Wege (11.10.2026):** 9 Pillen ändern sich, alle Crunchyroll-Kanal; die ADN-Wege (10) bleiben gleich. Auffällig: Lupin III Part 6 fällt von „25 Fg.“ auf „Fg. 1–24“, weil Crunchyroll nur 1–24 belegt.
