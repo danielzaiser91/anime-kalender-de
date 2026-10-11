@@ -16,6 +16,7 @@ import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.t
 import { kostenloseFolgen } from '@shared/kostenlos.ts'
 import { synonymeFuer } from './data.ts'
 import { passtSprecher, type SprecherAuswahl } from './sprecher-auswahl.ts'
+import { herkunftVon, type Herkunft } from './herkunft.ts'
 
 /**
  * Die Listen, die es sowohl als Einschluss als auch als Ausschluss gibt.
@@ -41,6 +42,8 @@ export interface FilterLists {
    * eingeschlossene Sprecher mit ODER, ausgeschlossene mit UND (`SprecherAuswahl`); deshalb kein `ModusFeld`.
    */
   sprecher: string[]
+  /** Herkunft des Titels (`lib/herkunft.ts`); einwertig wie FSK, deshalb ohne `ModusFeld`. */
+  land: Herkunft[]
 }
 
 export type ListKey = keyof FilterLists
@@ -55,6 +58,7 @@ export const LIST_KEYS: ListKey[] = [
   'genres',
   'keywords',
   'sprecher',
+  'land',
 ]
 
 export interface FilterState extends FilterLists {
@@ -140,6 +144,7 @@ const emptyLists = (): FilterLists => ({
   genres: [],
   keywords: [],
   sprecher: [],
+  land: [],
 })
 
 /**
@@ -296,6 +301,8 @@ function merkeFundstellen<T>(
   for (const t of treffer) if (t.fundstellen.length) ziel.set(schluessel(t.item), t.fundstellen)
 }
 
+const herkunftOderUnbekannt = (title: Title | undefined): Herkunft => (title ? herkunftVon(title) : 'XX')
+
 /** Prüft einen einzelnen Release gegen die Filter. */
 export function releaseMatches(
   release: Release,
@@ -316,6 +323,7 @@ export function releaseMatches(
   if (x.statuses.includes(status)) return false
   if (x.genres.some((g) => genres.includes(g))) return false
   if (x.keywords.some((k) => keywords.includes(k))) return false
+  if (x.land.length && x.land.includes(herkunftOderUnbekannt(title))) return false
 
   if (f.platforms.length && !f.platforms.includes(release.platform)) return false
   if (f.releaseTypes.length && !f.releaseTypes.includes(release.releaseType)) return false
@@ -330,6 +338,7 @@ export function releaseMatches(
     if (!f.fsk.includes(release.fsk)) return false
   }
   if (f.statuses.length && !f.statuses.includes(status)) return false
+  if (f.land.length && !f.land.includes(herkunftOderUnbekannt(title))) return false
 
   if (f.genres.length && !f.genres.every((g) => genres.includes(g))) return false
   if (f.keywords.length && !f.keywords.every((k) => keywords.includes(k))) return false
@@ -449,6 +458,7 @@ function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favo
   if (x.genres.some((g) => t.genres.includes(g))) return false
   if (x.keywords.some((k) => t.keywords.includes(k))) return false
   if (t.fsk !== undefined && x.fsk.includes(t.fsk)) return false
+  if (x.land.length && x.land.includes(herkunftVon(t))) return false
 
   /*
     **UND oder ODER — je Kategorie, wie eingestellt.**
@@ -466,6 +476,7 @@ function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favo
   if (!passt(f.keywords, 'keywords', (k) => t.keywords.includes(k))) return false
   /* FSK ist einwertig — „ab 12 UND ab 16" gibt es nicht, deshalb ohne Modus. */
   if (f.fsk.length && (t.fsk === undefined || !f.fsk.includes(t.fsk))) return false
+  if (f.land.length && !f.land.includes(herkunftVon(t))) return false
 
   const releases = data.releasesByTitle.get(t.id) ?? []
   const platformsOf = new Set([...releases.map((r) => r.platform), ...t.streams.map((s) => s.platform)])

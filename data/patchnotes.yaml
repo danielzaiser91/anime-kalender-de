@@ -5,6 +5,10 @@
 # Der Text ist der Schlüssel fürs Datum: Wer einen Text später umschreibt, setzt datum von Hand, sonst wandert der Eintrag auf den Tag des Umschreibens.
 # datum (in Anführungszeichen) gibt es nur als Nachtrag für Einträge, die älter sind als dieses Verfahren (bis 10.10.2026).
 # Keine Zeile nötig? Dann steht in der PR-Beschreibung „Patch Notes: keine – <Grund>“ (tools/check-patchnotes-pflicht.mjs).
+- kategorie: feature
+  text: Anime nach Herkunftsland filtern
+  untertitel: Korea, China, Taiwan oder USA wählen oder ausblenden
+  link: "#/datenbank"
 - kategorie: bugfix
   text: Filter-Knöpfe überall in gleicher Schrift
   untertitel: Schnellfilter und Filterfenster wirken einheitlich

@@ -4,6 +4,8 @@ import { useLang } from '../../lib/i18n.tsx'
 import { STATUS_LABEL_KEY } from '../FilterDetails.tsx'
 import { KreuzZeichen } from './Zeichen.tsx'
 import { PILLE_JA, PILLE_NEIN } from '../filter/pille-zustand.ts'
+import { herkunftName } from '../filter/herkunft-gruppe.tsx'
+import type { Herkunft } from '../../lib/herkunft.ts'
 
 interface Eintrag {
   label: string
@@ -70,6 +72,7 @@ function useEintraege(
     if (key === 'releaseTypes') return tRelease(wert as ReleaseType)
     if (key === 'statuses') return t(STATUS_LABEL_KEY[wert as ReleaseStatus])
     if (key === 'fsk') return t('filter.fskFrom', { n: wert })
+    if (key === 'land') return `${t('filter.herkunft')}: ${herkunftName(t, wert as Herkunft)}`
     return String(wert)
   }
   const aus = (patch: Partial<FilterState>) => () => onChange({ ...filters, ...patch })
