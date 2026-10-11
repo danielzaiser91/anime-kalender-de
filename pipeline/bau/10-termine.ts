@@ -1,6 +1,7 @@
 import { type ReleaseEvent, type Title, type Release } from '../../shared/types.ts'
 import { expandEvents } from '../../shared/logic.ts'
 import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-signale.ts'
+import { schreibeZweitanbieter } from '../../shared/zweitanbieter.ts'
 import { readJson, log, warn } from '../lib/util.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
 import { schreibePremiereMitMeldung } from '../lib/premiere.ts'
@@ -54,6 +55,14 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
   }
   log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${ohneAussage} ohne Aussage (kein Beleg), ${finale} Staffelfinale`)
   schreibePremiereMitMeldung(events, releases, titles)
+  schreibeZweitanbieterMitMeldung(events, releases)
+}
+
+/** Die Marke „Zweitanbieter“ nach den Handbelegen schreiben; ein widersprechender Premiere-Beleg ist eine Warnung. */
+function schreibeZweitanbieterMitMeldung(events: ReleaseEvent[], releases: Release[]): void {
+  const { anzahl, kollisionen } = schreibeZweitanbieter(events, releases)
+  for (const k of kollisionen) warn(k)
+  log(`Zweitanbieter: ${anzahl} Termine`)
 }
 
 export function rolleTermineAus({ releases, titles, jpStart }: {

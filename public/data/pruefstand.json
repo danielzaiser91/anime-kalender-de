@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-10T21:04:41.559Z",
+ "erzeugtAm": "2026-10-11T09:05:10.642Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 749,
-   "gesamt": 753,
-   "offen": 4,
+   "gesamt": 754,
+   "offen": 5,
    "ohneSeite": 1,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video"
@@ -16,6 +16,10 @@
     {
      "url": "https://www.amazon.de/gp/video/detail/B0CQ4VL364",
      "titel": "Digimon Tamers"
+    },
+    {
+     "url": "https://www.amazon.de/gp/video/detail/B0CK43962K",
+     "titel": "Midnight Occult Civil Servants OVA"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0GFPBT6FG",
@@ -96,12 +100,12 @@
      "titel": "Devil May Cry"
     },
     {
-     "url": "https://www.netflix.com/title/81712068",
-     "titel": "Die Tagebücher der Apothekerin"
+     "url": "https://www.netflix.com/title/81574246",
+     "titel": "Hell’s Paradise"
     },
     {
-     "url": "https://www.netflix.com/title/82116553",
-     "titel": "Steel Ball Run: Jojo’s Bizarre Adventure"
+     "url": "https://www.netflix.com/title/81712068",
+     "titel": "Die Tagebücher der Apothekerin"
     }
    ],
    "naechster": "YooHoo: Retter in der Not",

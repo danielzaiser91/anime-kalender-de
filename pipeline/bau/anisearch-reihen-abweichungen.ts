@@ -16,7 +16,7 @@ import { type Einheit, type ReihenBericht, vergleicheReihen } from './anisearch-
 export const REIHEN_DATEI = 'data/anisearch-reihen-abweichungen.json'
 
 type TitelZeile = { haupt?: boolean; id: number; titleRomaji?: string; titleEn?: string; anisearchId?: number; malId?: number; franchiseId?: number }
-export type Deckung = { titel: number; mitSeite: number; ohneSeite: number; ohneAnisearchKennung: number; seitenImArchiv: number; kanten: number }
+export type Deckung = { titel: number; mitSeite: number; ohneSeite: number; ohneAnisearchKennung: number; ohneReferenz: number; seitenImArchiv: number; kanten: number }
 export type ReihenDatei = { stand: string; deckung: Deckung } & ReihenBericht
 
 /** Kanten (nur Anime) und Namen aller Archivseiten; `mitSeite` sind die Kennungen, deren Seite da ist. */
@@ -39,6 +39,13 @@ export function ladeBeziehungen(dir = ARCHIV_SEITEN): { kanten: Kante[]; namen: 
   return { kanten, namen, mitSeite }
 }
 
+/** Titel ohne Referenz-Reihe: ein aniSearch-Titel (ab 10.000.000), dessen `franchiseId` kein zweiter Titel teilt — AniList kennt ihn nicht, seine „Reihe" wäre nur er selbst. */
+function ohneReferenzReihe(titel: TitelZeile[]): Set<number> {
+  const groesse = new Map<number, number>()
+  for (const t of titel) groesse.set(t.franchiseId ?? t.id, (groesse.get(t.franchiseId ?? t.id) ?? 0) + 1)
+  return new Set(titel.filter((t) => t.id >= ANISEARCH_ID_BASIS && groesse.get(t.franchiseId ?? t.id) === 1).map((t) => t.id))
+}
+
 /** Titel des Hauptbestands und des Katalogs mit ihrer aniSearch-Kennung; aniSearch-Titel (ab 10.000.000) tragen sie in der eigenen Kennung. */
 function ladeTitelZeilen(): TitelZeile[] {
   const zeilen = new Map<number, TitelZeile>()
@@ -57,11 +64,12 @@ export function ladeMessdaten(): Messdaten {
   // Die MAL-Kennung eines aniSearch-Titels steht in der Eintragsdatei, nicht im Titel (gleiche Kennung = gleiche Reihe, wie `anisearchReihenKanten`).
   const eintraege = alle()
   const mal = (t: TitelZeile): number | undefined => t.malId ?? (t.anisearchId ? eintraege[String(t.anisearchId)]?.mal : undefined)
+  const keineReferenz = ohneReferenzReihe(titel)
   const einheiten: Einheit[] = titel
-    .filter((t) => t.anisearchId && mitSeite.has(t.anisearchId))
+    .filter((t) => t.anisearchId && mitSeite.has(t.anisearchId) && !keineReferenz.has(t.id))
     .map((t) => ({ id: t.id, name: t.titleRomaji ?? t.titleEn ?? `#${t.id}`, anisearchId: t.anisearchId!, haupt: t.haupt }))
   const ohneKennung = titel.filter((t) => !t.anisearchId).length
-  const deckung = { titel: titel.length, mitSeite: einheiten.length, ohneSeite: titel.length - einheiten.length - ohneKennung, ohneAnisearchKennung: ohneKennung, seitenImArchiv: mitSeite.size, kanten: kanten.length }
+  const deckung = { titel: titel.length, mitSeite: einheiten.length, ohneSeite: titel.length - einheiten.length - ohneKennung - keineReferenz.size, ohneAnisearchKennung: ohneKennung, ohneReferenz: keineReferenz.size, seitenImArchiv: mitSeite.size, kanten: kanten.length }
   return {
     einheiten,
     referenz: new Map(titel.map((t) => [t.id, String(t.franchiseId ?? t.id)])),
