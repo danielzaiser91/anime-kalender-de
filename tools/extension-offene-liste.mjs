@@ -24,10 +24,11 @@ import yaml from 'js-yaml'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { blockStand } from './extension-block.mjs'
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
 import { ausgeblendet, eintragsInfo, ladeBestand, ladeCartoons, nachRang } from './pruef-bestand.mjs'
+
+const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 /** Verweise, denen eine zweite Quelle widerspricht — sie gehören auf die Liste. */
 const verdaechtig = verdachtsfaelle(wurzel, 'netflix')
 const titel = [...ladeBestand(wurzel), ...ladeCartoons(wurzel)]
