@@ -97,16 +97,28 @@ function ablaufBefunde() {
   return { aus, ohne }
 }
 
+/** Der Wecker startet mit dem PAT (Nutzer); die Wache mit GITHUB_TOKEN (`github-actions[bot]`) und darf den Wecker nicht vortäuschen. */
+export const vomWecker = (lauf) => lauf.event === 'workflow_dispatch' && !String(lauf.actor?.login).endsWith('[bot]')
+
 function weckerBefund() {
-  const l = letzteLaeufe('refresh-hourly.yml', 10).find((x) => x.event === 'workflow_dispatch')
-  if (!l) return { rot: true, text: 'GITHUB_WECKER_TOKEN: unter den letzten 10 stündlichen Läufen keiner per workflow_dispatch (Wecker oder Wecker-Wache)' }
-  const h = stunden(l.createdAt)
-  return { rot: h > 5, text: `GITHUB_WECKER_TOKEN: letzter Start per workflow_dispatch vor ${Math.round(h)} h` }
+  const laeufe = gh('api', 'repos/' + REPO + '/actions/workflows/refresh-hourly.yml/runs?per_page=20&event=workflow_dispatch').workflow_runs
+  const l = laeufe.find(vomWecker)
+  if (!l) return { rot: true, text: 'GITHUB_WECKER_TOKEN: unter den letzten 20 Starts des Stundenlaufs keiner vom Cloudflare-Wecker (nur Wecker-Wache oder gar keiner)' }
+  const h = stunden(l.created_at)
+  return { rot: h > 5, text: `GITHUB_WECKER_TOKEN: letzter Start durch den Wecker vor ${Math.round(h)} h` }
+}
+
+/** Workflows, die der Wecker startet, die `wecker-wache.yml` aber nicht nachholen würde (leer = stimmig). */
+export function wachePlanBefunde(weckplanText, wacheText) {
+  const plan = [...weckplanText.matchAll(/workflow: '([^']+)'/g)].map((m) => m[1])
+  const wache = new Set([...wacheText.matchAll(/([A-Za-z0-9-]+\.yml):\d+/g)].map((m) => m[1]))
+  return plan.filter((w) => !wache.has(w)).map((w) => `Wecker-Plan startet ${w}, die Wecker-Wache holt es nicht nach (PLAN in wecker-wache.yml)`)
 }
 
 function main() {
   if (process.argv.includes('--register-pruefen')) {
     const b = registerBefunde()
+    b.push(...wachePlanBefunde(readFileSync(new URL('shared/weckplan.ts', WURZEL), 'utf8'), readFileSync(new URL('.github/workflows/wecker-wache.yml', WURZEL), 'utf8')))
     if (b.length) {
       console.error(b.map((x) => `✗ ${x}`).join('\n'))
       process.exit(1)

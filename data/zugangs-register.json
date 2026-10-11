@@ -389,7 +389,7 @@
         "art": "handgriff",
         "text": "Neuen PAT erzeugen, im Ordner worker/ wrangler secret put GITHUB_WECKER_TOKEN --config wrangler.toml"
       },
-      "folge": "Der Cloudflare-Wecker startet nichts mehr; wecker-wache.yml holt Überfälliges über GitHubs unpünktlichen Cron nach (Warnung „Wecker überfällig“).",
+      "folge": "Der Cloudflare-Wecker startet nichts mehr; wecker-wache.yml holt Überfälliges über GitHubs unpünktlichen Cron nach (der Wache-Lauf wird dann rot, Warnung „Wecker überfällig“).",
       "wecker": true
     },
     {

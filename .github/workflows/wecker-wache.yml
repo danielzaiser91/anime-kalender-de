@@ -3,7 +3,7 @@ name: Wache — Wecker
 # **Die zweite, unabhängige Linie hinter dem Cloudflare-Wecker.** Der Wecker (`worker/src/wecker.ts`) startet die Datenläufe zur vollen Stunde. Fällt er aus
 # (Token abgelaufen, Worker gestört, GitHub-API verweigert), käme sonst nichts mehr — und niemand merkte es, bis eine Quelle seit Tagen schweigt.
 # Diese Wache läuft über GitHubs eigenen Cron (der ist unpünktlich, aber unabhängig von Cloudflare) und startet jeden Lauf, dessen letzter Start länger
-# zurückliegt als erlaubt und der gerade nicht läuft. Jeder Nachhol-Start steht als Warnung im Protokoll — das ist das Zeichen, dass der Wecker prüfenswert ist.
+# zurückliegt als erlaubt und der gerade nicht läuft. Ein Nachhol-Start steht als Warnung im Protokoll und lässt den Lauf rot enden — das Zeichen, dass der Wecker prüfenswert ist.
 
 on:
   schedule:
@@ -45,3 +45,5 @@ jobs:
             fi
           done
           echo "Nachgeholt: $nachgeholt" | tee -a "$GITHUB_STEP_SUMMARY"
+          # Rot statt grün: ein Nachhol-Start heißt, der Wecker hat gefehlt — das soll in der Laufstatus-App auffallen, nicht im Protokoll verschwinden.
+          if [ "$nachgeholt" -gt 0 ]; then exit 1; fi

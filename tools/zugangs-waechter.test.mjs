@@ -1,6 +1,6 @@
 // Zusicherungen für tools/zugangs-waechter.mjs: Kontingent-Erkennung und Register gegen die Workflows.
 import assert from 'node:assert/strict'
-import { kontingentFunde, registerBefunde } from './zugangs-waechter.mjs'
+import { kontingentFunde, registerBefunde, vomWecker, wachePlanBefunde } from './zugangs-waechter.mjs'
 
 const schritt = (name, conclusion, von, bis) => ({ name, conclusion, started_at: von, completed_at: bis })
 
@@ -17,5 +17,14 @@ const reg = { laeufe: {}, zugaenge: [{ id: 'A', ort: 'github-secret', wofuer: 'x
 assert.deepEqual(registerBefunde(reg, { A: new Set(['a.yml']) }, ['a.yml']), [])
 assert.equal(registerBefunde(reg, { A: new Set(['a.yml']), B: new Set(['a.yml']) }, ['a.yml']).length, 1)
 assert.equal(registerBefunde(reg, { A: new Set(['a.yml', 'b.yml']) }, ['a.yml', 'b.yml']).length, 1)
+
+// Wecker (PAT, Nutzer) zählt, Wecker-Wache (github-actions[bot]) und Zeitplan-Starts nicht.
+assert.equal(vomWecker({ event: 'workflow_dispatch', actor: { login: 'danielzaiser91' } }), true)
+assert.equal(vomWecker({ event: 'workflow_dispatch', actor: { login: 'github-actions[bot]' } }), false)
+assert.equal(vomWecker({ event: 'schedule', actor: { login: 'danielzaiser91' } }), false)
+
+// Wache muss jeden Workflow des Weckplans kennen.
+assert.deepEqual(wachePlanBefunde("{ workflow: 'a.yml' }, { workflow: 'b-c.yml' }", 'PLAN="a.yml:3 b-c.yml:30:ohne-abbruch"'), [])
+assert.equal(wachePlanBefunde("{ workflow: 'a.yml' }, { workflow: 'neu.yml' }", 'PLAN="a.yml:3"').length, 1)
 
 console.log('zugangs-waechter: Zusicherungen ok')
