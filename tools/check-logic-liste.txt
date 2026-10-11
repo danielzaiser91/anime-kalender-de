@@ -19,6 +19,7 @@ pipeline/check-db-relevanz.ts
 pipeline/check-detektiv-funde.ts
 pipeline/check-disney-gesamtnummer.ts
 pipeline/check-erscheint-erst.ts
+pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-herkunftsfilter.ts
 pipeline/check-herkunftsland.ts
 pipeline/check-install-stellen.ts

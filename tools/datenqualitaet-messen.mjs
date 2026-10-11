@@ -7,7 +7,7 @@
  *   wege          sichtbare Pillen (gleiche Pillen zusammengelegt wie `wege-sortieren.ts`); roh = Einträge in `streams`
  *   haken         grüner Haken: `stream.dub === true` (`DubEcke` in `vermerk.tsx`, `antwort-bereich.tsx`)
  *   folgen*       Folgenangabe der Pille, mit der echten Web-Funktion `folgenAuskunft` gerechnet (kein Nachbau):
- *                 belegt = aus Bereichen am Weg, plan = Wochenplan der Releases, abgeleitet = Titelzahl bei
+ *                 belegt = aus Bereichen am Weg, plan = Wochenplan der Releases, abgeleitet = Titelzahl mit „≈“ bei
  *                 abgeschlossener Serie, joyn = Abruffenster, einzelwerk = Film/1 Folge (Zahl entfällt), keine
  *   nurSerie      kein Haken, aber „Deutsche Fassung laut JustWatch, für die Serie" (`title.dubHinweis`, nur Cartoons)
  *   haken ohne Zahl   Haken ohne Folgenzahl (Serienebene)
@@ -66,10 +66,8 @@ function folgenKlasse({ titel, s, fn, releases, heute }) {
   if (s.platform === 'joyn') return 'joyn'
   if (text.startsWith('detail.neuAm')) return 'plan'
   if (hatBereiche) return 'belegt'
-  if (text.startsWith('detail.folgenKurz')) {
-    const wochen = releases.some((r) => r.platform === s.platform && r.releaseType === 'weekly')
-    return wochen ? 'plan' : 'abgeleitet'
-  }
+  if (text.startsWith('≈')) return 'abgeleitet'
+  if (text.startsWith('detail.folgenKurz')) return 'plan'
   return 'belegt'
 }
 
