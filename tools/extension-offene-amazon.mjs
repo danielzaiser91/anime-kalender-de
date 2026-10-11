@@ -37,6 +37,7 @@ import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+import { nachschlagVon } from './prime-nachschlag.mjs'
 /**
  * **Ein Verdachtsfall ist geprüft und trotzdem offen.**
  *
@@ -96,24 +97,7 @@ const geprueftePrime = (() => {
   return { ids, adressen, kennungen }
 })()
 const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
-/*
-  **Nachschlagen: MAL und IMDb je Auftrag** (Daniel, 19.09.2026, Entwurf B). Die MAL-Kennung
-  steht am Titel, die IMDb-Kennung kommt über Wikidata (`data/imdb-ids.json`). Der Kasten
-  zeigt daraus die Zeile „Nachschlagen: MAL IMDb“ — für Staffel- und Teilfragen wie Grisaia
-  Stargazer oder Fushigi Yugi OVA.
-*/
-const imdbIds = (() => {
-  try {
-    return JSON.parse(readFileSync(resolve(wurzel, 'data/imdb-ids.json'), 'utf8'))
-  } catch {
-    return {}
-  }
-})()
-function nachschlag(t) {
-  if (!t?.malId) return {}
-  const imdb = imdbIds[String(t.malId)]
-  return { malId: t.malId, ...(imdb ? { imdb } : {}) }
-}
+const nachschlag = nachschlagVon(wurzel)
 const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
 
 /**
