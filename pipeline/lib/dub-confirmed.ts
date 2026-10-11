@@ -149,6 +149,10 @@ export function adressKern(u: string | undefined): string {
 }
 
 export function loadDubChecks(): DubCheck[] {
+  return ladeHandbelege()
+}
+
+function ladeHandbelege(): DubCheck[] {
   if (!existsSync(DATEI)) return []
   const raw = yaml.load(readFileSync(DATEI, 'utf8'))
   if (!Array.isArray(raw)) return []
