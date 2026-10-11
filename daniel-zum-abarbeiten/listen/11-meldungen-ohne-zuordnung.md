@@ -27,6 +27,7 @@ nicht. Vier Fälle, vier Handgriffe:
 | Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |
 |---|---|---|---|---|---|
 | primevideo | https://www.amazon.de/gp/video/detail/B0CHBX8CM2 | Fairy Tail | dub | [Fairy Tail](https://anilist.co/anime/6702)<br>[Fairy Tail](https://anilist.co/anime/20626) | Vorschlag bestätigen, dann Adresse eintragen |
+| netflix | https://www.netflix.com/title/80992228 | KENGAN ASHURA — keine Folge der Meldung fällt in die Zielstaffeln | dub | [Kengan Ashura: Staffel 2](https://anilist.co/anime/146638)<br>[Kengan Ashura: Staffel 2](https://anilist.co/anime/169692) | Staffelaufteilung der Seite prüfen |
 | primevideo | https://www.amazon.de/gp/video/detail/B07VP6VPVR | Naruto — Staffel 2 in der Reihe nicht zu bestimmen | dub | [Naruto](https://anilist.co/anime/20) | Seite B0F3SHHVC2 als Verweis an den Titel von Staffel 2 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B07VP6VPVR | Naruto — Staffel 3 in der Reihe nicht zu bestimmen | dub | [Naruto](https://anilist.co/anime/20) | Seite B0DX7JQY9R als Verweis an den Titel von Staffel 3 eintragen |
 | primevideo | https://www.amazon.de/gp/video/detail/B07VP6VPVR | Naruto — Staffel 4 in der Reihe nicht zu bestimmen | dub | [Naruto](https://anilist.co/anime/20) | Seite B0FBJWV6MJ als Verweis an den Titel von Staffel 4 eintragen |

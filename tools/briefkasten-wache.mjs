@@ -62,7 +62,8 @@ const stand = await antwort.json()
 */
 const jeAnbieter = stand.imBriefkasten && typeof stand.imBriefkasten === 'object' ? stand.imBriefkasten : {}
 const offen = Object.values(jeAnbieter).reduce((n, x) => n + Number(x || 0), 0)
-const adressen = Array.isArray(stand.adressen) ? stand.adressen : []
+/* `adressen` führt eine Adresse je Meldung (189 Meldungen auf 36 Adressen, gemessen 11.10.2026) — gezählt wird je Adresse. */
+const adressen = [...new Set(Array.isArray(stand.adressen) ? stand.adressen : [])]
 
 /*
   **Eine fehlende Liste ist kein Befund.**
@@ -112,12 +113,13 @@ if (!adressen.length) {
   vor dem `CLAUDE.md` warnt: eine Prüfung, die zuverlässig zu Unrecht rot wird,
   ist schlimmer als keine, weil man aufhört hinzusehen.
 
-  Gemeldet wird deshalb erst, wenn der Briefkasten **deutlich** über dem liegt,
-  was ein Abend Arbeit ausmacht — und keine einzige Adresse gelistet ist. Dann
-  ist nicht Daniel schneller als der Bau, dann kommt nichts an.
+  Gemeldet wird deshalb erst, wenn **deutlich** mehr Adressen ungelistet sind,
+  als ein Abend Arbeit ausmacht. Dann ist nicht Daniel schneller als der Bau,
+  dann kommt nichts an. Seit 11.10.2026 führt die Liste auch, was der Datenlauf
+  wegen unklarer Staffel liegen lässt; bleibt das ungelistet, ist es ein Befund.
 */
 const schwelle = 60
-if (adressen.length >= schwelle && gelistet.size === 0) {
+if (fehlend.length >= schwelle) {
   console.log('')
   console.log(`⚠  ${fehlend.length} von ${adressen.length} Adressen sind weder zugeordnet noch gelistet:`)
   for (const u of fehlend.slice(0, 10)) console.log(`   ${u}`)

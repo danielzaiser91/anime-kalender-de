@@ -771,8 +771,7 @@ for (const gruppe of jeAdresse.values()) {
       ) {
         const nr = staffelNummern(reihe1).get(ids[0]!)
         if (nr != null && nr !== 1) {
-          offenGeblieben.push(`${p.url} — Staffel 1 der Seite ${seite} gehört nicht zum Auftragstitel ${ids[0]} (Staffel ${nr}), Meldung bleibt liegen`)
-          ohneZuordnung.push(liegenGeblieben(p, `Staffel 1 der Seite ${seite} gehört nicht zum Auftragstitel`, ids, `Seite ${seite} als Verweis an ihren Staffel-Titel eintragen`))
+          liegenGeblieben(offenGeblieben, ohneZuordnung, p, `Staffel 1 der Seite ${seite} gehört nicht zum Auftragstitel`, ids, `Seite ${seite} als Verweis an ihren Staffel-Titel eintragen`)
           continue
         }
       }
@@ -797,8 +796,7 @@ for (const gruppe of jeAdresse.values()) {
       const gemeldetZahl = Math.max(0, ...gruppe.map((x) => (typeof x.folgen === 'number' ? x.folgen : 0)))
       const zielFolgen = ziel.map((id) => liste.find((x) => x.id === id)?.episodes ?? 0).reduce((a, b) => a + b, 0)
       if (ziel.length && gemeldetZahl && zielFolgen && (gemeldetZahl > zielFolgen * 1.5 || gemeldetZahl < zielFolgen / 1.5)) {
-        offenGeblieben.push(`${p.url} — Staffel ${staffelNr}: ${gemeldetZahl} Folgen gemeldet, Zielstaffel ${ziel.join(', ')} hat ${zielFolgen}, Meldung bleibt liegen`)
-        ohneZuordnung.push(liegenGeblieben(p, `Staffel ${staffelNr}: ${gemeldetZahl} Folgen gemeldet, Zielstaffel hat ${zielFolgen}`, ids, `Staffel ${staffelNr} prüfen: Folgenzahl passt nicht`))
+        liegenGeblieben(offenGeblieben, ohneZuordnung, p, `Staffel ${staffelNr}: ${gemeldetZahl} Folgen gemeldet, Zielstaffel hat ${zielFolgen}`, ids, `Staffel ${staffelNr} prüfen: Folgenzahl passt nicht`)
         continue
       }
       if (ziel.length && !schonRichtig) {
@@ -839,8 +837,7 @@ for (const gruppe of jeAdresse.values()) {
         } else if (bekannt.some((st) => st.seq === staffelNr)) {
           log(`Staffel ${staffelNr} von ${p.url}: über Netflix' Staffelaufteilung verteilt`)
         } else {
-          offenGeblieben.push(`${p.url} — Staffel ${staffelNr} in der Reihe nicht zu bestimmen, Meldung bleibt liegen`)
-          ohneZuordnung.push(liegenGeblieben(p, `Staffel ${staffelNr} in der Reihe nicht zu bestimmen`, ids, `Seite ${kennung || p.url} als Verweis an den Titel von Staffel ${staffelNr} eintragen`))
+          liegenGeblieben(offenGeblieben, ohneZuordnung, p, `Staffel ${staffelNr} in der Reihe nicht zu bestimmen`, ids, `Seite ${kennung || p.url} als Verweis an den Titel von Staffel ${staffelNr} eintragen`)
           continue
         }
       }
@@ -1311,7 +1308,9 @@ for (const gruppe of jeAdresse.values()) {
     uebernommen++
     geschrieben++
   }
+  /* Nichts geschrieben, nichts abgehakt: sonst läge die Meldung unbemerkt im Briefkasten (Kengan Ashura, 11.10.2026). */
   if (geschrieben) for (const x of gruppe) erledigteIds.add(x.id)
+  else liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
 }
 
 if (zeilen.length && !TROCKEN) {

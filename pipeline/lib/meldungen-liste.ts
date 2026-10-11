@@ -18,19 +18,37 @@ export interface OhneZuordnung {
   zuTun?: string
 }
 
+interface Meldung {
+  url: string
+  plattform: string
+  befund: string
+  serientitel: string | null
+  titel: string | null
+}
+
 /**
  * Eine Meldung, deren Titel bekannt ist, deren Staffel der Lauf aber nicht festlegen
  * kann. Sie bleibt im Briefkasten; die Liste macht das sichtbar (11.10.2026: 28 Adressen
- * lagen so seit Wochen, nur im Lauf-Log).
+ * lagen so seit Wochen, nur im Lauf-Log). Trägt sie in die Warnungen und in die Liste ein.
  */
 export function liegenGeblieben(
-  p: { url: string; plattform: string; befund: string; serientitel: string | null; titel: string | null },
+  warnungen: string[],
+  liste: OhneZuordnung[],
+  p: Meldung,
   grund: string,
   ids: number[],
   zuTun: string,
-): OhneZuordnung {
+): void {
   const name = p.serientitel ?? p.titel ?? ''
-  return { url: p.url, name: name ? `${name} — ${grund}` : grund, plattform: p.plattform, befund: p.befund, vorschlag: ids, zuTun }
+  warnungen.push(`${p.url} — ${grund}, Meldung bleibt liegen`)
+  liste.push({
+    url: p.url,
+    name: name ? `${name} — ${grund}` : grund,
+    plattform: p.plattform,
+    befund: p.befund,
+    vorschlag: ids,
+    zuTun,
+  })
 }
 
 interface ListenTitel {
