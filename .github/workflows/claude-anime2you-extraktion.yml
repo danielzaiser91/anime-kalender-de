@@ -117,6 +117,7 @@ jobs:
           path: |
             ${{ runner.temp }}/fund
             ${{ runner.temp }}/a2y
+            ${{ runner.temp }}/claude-execution-output.json
           retention-days: 14
           if-no-files-found: ignore
 
