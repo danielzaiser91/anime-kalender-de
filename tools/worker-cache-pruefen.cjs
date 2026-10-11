@@ -119,7 +119,7 @@ pruefe(
 )
 /* 22.09.2026: Ein Ziel mit offenen Staffeln ist erst erledigt, wenn jede gemeldet ist. */
 pruefe(
-  quelle.includes('return !z.staffeln.every((nr) => gemeldet?.has(nr))'),
+  quelle.includes('return !z.staffeln.every((nr) => dieStaffeln?.has(nr))'),
   'ein Ziel mit Staffelangabe verschwindet erst, wenn jede seiner Staffeln gemeldet ist',
 )
 
