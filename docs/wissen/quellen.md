@@ -465,6 +465,15 @@ der 209 Titel mit verlorenem Häkchen `de` am Kanal-Angebot (Hell Mode: nur `ja`
 gti am Weg, die „Deutsch laut JustWatch“ (`lib/jw-vertrauen.ts`) verlangt — das Kennzeichen kommt, sobald
 die Erweiterung die gti liest.
 
+**Ein Nein zu einer anderen Adresse gilt für den Kanal-Weg nicht** (12.10.2026, Prüfer: Goblin Slayer II, JoJo
+Diamond is Unbreakable). Nach `ohneKanalSprache()` hat die Kanal-Zeile kein `dub` mehr und zählt als Adressbeleg;
+`belegFuer()` fiel bei einem Weg auf `liste[0]` zurück und nahm das Nein einer fremden Adresse. Jetzt hält die
+Kanal-Zeile ihre Adresse (`kanalAdressenOhneBeleg()` in `09-1-belege.ts`), der Weg bleibt mit „🇩🇪 ?“ stehen.
+Invariante D-26 (`kanalWegEntfernt()`) meldet jeden Kanal-Weg ohne eigene Aussage in `verweise-entfernt.json`.
+Bau-Vergleich mit Katalog-Ersatz (Basis c97234b40, Kandidat cafd78846): `verweise-entfernt.json` 855 → 855 ohne
+neuen Eintrag, kein Titel verliert einen Prime-Weg (sechs gewinnen einen), `ohne-synchro.json` nimmt Hell Mode,
+Freezing OVA und Freezing Vibration OVAs auf (17615 → 17618).
+
 **Und der Beleg nimmt die Seite, auf der gemeldet wurde.** Eine Meldung trägt zwei Adressen:
 `url` ist der Eintrag der Prüfliste (bei einem Staffelwechsel die Seite von Staffel 1),
 `seiten_kennung` die Seite, die wirklich angesehen wurde — **für neue Meldungen**. Im
