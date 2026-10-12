@@ -90,7 +90,7 @@ const blockGeplant = terminAusEintrag({ languages: [{ language: 'Deutsch', relea
 pruefe('Dub-Liste p (Geplant): Datum und Publisher des deutschen Blocks zählen nicht', mitDubKennzeichen(idMit('p'), blockGeplant) === undefined)
 pruefe('Dub-Liste -: derselbe Block liefert sein Datum', mitDubKennzeichen(idMit('-'), blockGeplant)?.start === '2026-01-10')
 /* Abgebrochener Dub (c) bei Titeln nur aus der Eintragsdatei: deutsche Fassung ja, aber nur ein Teil der Folgen — nicht „keine Synchro“ (Kickers, Nori, Eichhörnchen und Igel). */
-const eintragC = { dub: 'c', dvon: '1995-03-01', pub: ['Kazé'] } as const
+const eintragC: Parameters<typeof erstausgabeAus>[0] = { dub: 'c', dvon: '1995-03-01', pub: ['Kazé'] }
 pruefe('Erstausgabe aus Dub c: Synchro und Teilmarke', erstausgabeAus(eintragC).synchro === true && erstausgabeAus(eintragC).teil === true)
 pruefe('Erstausgabe aus Dub d: Synchro ohne Teilmarke', erstausgabeAus({ ...eintragC, dub: 'd' }).synchro === true && !('teil' in erstausgabeAus({ ...eintragC, dub: 'd' })))
 pruefe('Erstausgabe aus Dub c behält Datum und Verlag', erstausgabeAus(eintragC).von === '1995-03-01' && erstausgabeAus(eintragC).publisher === 'Kazé')
