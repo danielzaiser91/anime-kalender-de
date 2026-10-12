@@ -6,7 +6,7 @@
  *
  * Ausgabe: JSON { stufe, begruendung[], dateien }.
  *
- * Stufe 0 Kleinigkeit: kein Prüfer-Agent; nur PR-Prüfkette (grün = Merge) plus Livemessung.
+ * Stufe 0 Kleinigkeit: kein eigener Prüfer-Agent; PR-Prüfkette plus schlanker CI-Prüfer (nur Diff, seit 12.10.2026), dann Merge und Livemessung.
  * Stufe 1 normal:      ein schlanker Prüfer liest den Diff und das CI-Ergebnis, baut nicht nach.
  * Stufe 2 hoch:        voller Prüfer mit Gegenproben und eigener Messung.
  *
