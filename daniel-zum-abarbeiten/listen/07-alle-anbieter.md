@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **35 offene Verweise** in **31 Zeilen**.
+Stand 2026-10-12 · **34 offene Verweise** in **30 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,7 +33,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Prime Video](07-primevideo.md) | 14 |
+| [Prime Video](07-primevideo.md) | 13 |
 | [Disney+](07-disneyplus.md) | 9 |
 | [Netflix](07-netflix.md) | 8 |
 | [ADN](07-adn.md) | 4 |
@@ -68,11 +68,10 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 24 | 2022-04-03 | How a Realist Hero Rebuilt the Kingdom | [Teil 2](https://watch.amazon.de/detail?gti=amzn1.dv.gti.7568ff00-89b5-4f73-b051-bc7734714bbe) |
 | 25 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
 | 26 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
-| 27 | 2019-11-22 | Midnight Occult Civil Servants | [OVA](https://www.amazon.de/gp/video/detail/B0CK43962K) |
-| 28 | 2019-08-30 | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365) |
-| 29 | 2019-03-15 | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
-| 30 | 2014-03-23 | Yu-Gi-Oh! Serie Zero | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
-| 31 | 1998-09-30 | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
+| 27 | 2019-08-30 | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365) |
+| 28 | 2019-03-15 | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
+| 29 | 2014-03-23 | Yu-Gi-Oh! Serie Zero | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
+| 30 | 1998-09-30 | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 

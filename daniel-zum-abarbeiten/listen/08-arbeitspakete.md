@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **35 offene Verweise** in **31 Zeilen**,
+Stand 2026-10-12 · **34 offene Verweise** in **30 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -56,7 +56,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 19 | Prime Video | My Instant Death Ability Is So Overpowered, No One in This Other World Stands a Chance Against Me! | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a9c30e42-2911-46e9-a7a3-5aeb0d26f6ac) |
 | 20 | Prime Video | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
 
-## Paket 2 — Zeilen 21 bis 31
+## Paket 2 — Zeilen 21 bis 30
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -65,9 +65,8 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 23 | Netflix | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
 | 24 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
 | 25 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 26 | Prime Video | Midnight Occult Civil Servants | [OVA](https://www.amazon.de/gp/video/detail/B0CK43962K) |
-| 27 | ADN | Bleach | [The Movie - Memories of Nobody]() |
-| 28 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 29 | Disney+ | Jujutsu Kaisen: Shimetsu Kaiyuu - Kouhen | [Jujutsu Kaisen 0]() |
-| 30 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
-| 31 | Prime Video | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365) |
+| 26 | ADN | Bleach | [The Movie - Memories of Nobody]() |
+| 27 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
+| 28 | Disney+ | Jujutsu Kaisen: Shimetsu Kaiyuu - Kouhen | [Jujutsu Kaisen 0]() |
+| 29 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
+| 30 | Prime Video | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365) |
