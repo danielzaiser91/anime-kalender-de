@@ -10,7 +10,7 @@ import type { Title } from '../../shared/types.ts'
 
 const STREAM_PLATTFORMEN = new Set(['crunchyroll', 'netflix', 'primevideo', 'disneyplus', 'adn', 'aniverse', 'wow', 'joyn', 'rtlplus', 'youtube'])
 
-/** D-03: Ein Weg im Bestand, den die Link-Prüfung als tot (404) kennt — oder nie geprüft hat. */
+/** DD-03: Ein Weg im Bestand, den die Link-Prüfung als tot (404) kennt — oder nie geprüft hat. */
 export function toteWege(b: Bestand): Regel {
   const treffer: Treffer[] = []
   let geprueft = 0, ungeprueft = 0
@@ -20,12 +20,12 @@ export function toteWege(b: Bestand): Regel {
     geprueft++
     if (l.status === 404) treffer.push({ schluessel: `${t.id}|${s.url}`, text: `${titelName(t)}: ${s.platform}-Weg 404 seit ${l.geprueftAm}`, ort: s.url })
   }
-  const r = regel('D-03', 'Weg laut Link-Prüfung tot (404)', 'Besucher klickt auf eine Seite, die es nicht gibt', geprueft, treffer)
+  const r = regel('DD-03', 'Weg laut Link-Prüfung tot (404)', 'Besucher klickt auf eine Seite, die es nicht gibt', geprueft, treffer)
   r.name += ` — ${ungeprueft} Wege nie geprüft`
   return r
 }
 
-/** D-06: Hinter dem Toggle („keine deutsche Synchro"), obwohl eine Quelle eine Synchro führt. */
+/** DD-06: Hinter dem Toggle („keine deutsche Synchro"), obwohl eine Quelle eine Synchro führt. */
 export function toggleTrotzSynchroQuelle(b: Bestand): Regel {
   const crDeutsch = new Set(b.crDub.filter((s) => s.staffeln?.some((st) => st.deutscheFassung)).map((s) => s.seriesId))
   /* Die harte Regel (`lib/invarianten-auslieferung.ts`) plus zwei schwächere Quellen. JustWatch führt unter der Serie auch ihre Specials (FMA 4-koma teilte sich die Kennung mit Brotherhood), dort zählt es nicht. */
@@ -38,10 +38,10 @@ export function toggleTrotzSynchroQuelle(b: Bestand): Regel {
   }
   const treffer: Treffer[] = synchroHinterToggle(b, { dubsAnilist: b.anisearchDubs, dubIds: b.anisearchDubIds, handbelegteIds: b.handbelegteIds, handKeine: b.handKeine, heute: b.heute, weitere })
     .map(({ titel: o, quellen }) => ({ schluessel: String(o.id), text: `${titelName(o)}: ${quellen.join('; ')}${o.ankuendigung ? ' (Ankündigung vorhanden)' : ''}`, ort: `/t/${o.slug ?? o.id}/` }))
-  return regel('D-06', 'Hinter dem Toggle, aber Quelle führt Synchro', 'Ein Titel mit deutscher Fassung fehlt im Hauptbestand', b.ohneSynchro.length, treffer)
+  return regel('DD-06', 'Hinter dem Toggle, aber Quelle führt Synchro', 'Ein Titel mit deutscher Fassung fehlt im Hauptbestand', b.ohneSynchro.length, treffer)
 }
 
-/** D-11: Release sagt „Premiere" in Jahr X, aniSearch kennt die deutsche Erstausgabe Jahre früher (SAO-Fehlerklasse). */
+/** DD-11: Release sagt „Premiere" in Jahr X, aniSearch kennt die deutsche Erstausgabe Jahre früher (SAO-Fehlerklasse). */
 export function premiereGegenErstausgabe(b: Bestand): Regel {
   const titel = new Map(b.titles.map((t) => [t.id, t]))
   const treffer: Treffer[] = []
@@ -55,10 +55,10 @@ export function premiereGegenErstausgabe(b: Bestand): Regel {
     if (jahrRelease - jahrErst >= 2 && !r.herkunft && !r.note)
       treffer.push({ schluessel: r.slug, text: `${r.name} (${r.platform}): Termin ${r.schedule.firstEpisodeDate} als Premiere, aniSearch nennt deutsche Erstausgabe ${von}${t.deErstausgabe?.publisher ? ` (${t.deErstausgabe.publisher})` : ''}`, ort: `/r/${r.slug}/` })
   }
-  return regel('D-11', '„Premiere" Jahre nach der aniSearch-Erstausgabe', '„Start der deutschen Fassung" für eine Fassung, die es seit Jahren gibt', geprueft, treffer)
+  return regel('DD-11', '„Premiere" Jahre nach der aniSearch-Erstausgabe', '„Start der deutschen Fassung" für eine Fassung, die es seit Jahren gibt', geprueft, treffer)
 }
 
-/** D-12: Weg mit `dub: true`, aber eine gemessene Zweitquelle sagt „kein Deutsch" für die ganze Staffel. */
+/** DD-12: Weg mit `dub: true`, aber eine gemessene Zweitquelle sagt „kein Deutsch" für die ganze Staffel. */
 export function dubGegenZweitquelle(b: Bestand): Regel {
   const treffer: Treffer[] = []
   const motn = new Map(b.motnTonspur.map((m) => [`${m.titleId}|${m.platform}`, m]))
@@ -81,12 +81,12 @@ export function dubGegenZweitquelle(b: Bestand): Regel {
     const quelle = m && !m.deutsch ? `MotN-Tonspur sagt kein Deutsch (Folgen ${m.von}–${m.bis}, Stand ${m.stand})` : `CR-Katalog meldet keine deutsche Fassung (${serie!.staffeln!.map((x) => `${x.name}: ${x.deutsch}/${x.folgen}`).join('; ')})`
     treffer.push({ schluessel: k, text: `${titelName(t)}: ${s.platform}-Weg „deutsch", ${quelle}`, ort: s.url })
   }
-  const r = regel('D-12', 'Weg „deutsch", Zweitquelle sagt „kein Deutsch"', '„DE ✓" an einem Weg ohne deutschen Ton', geprueft, treffer)
+  const r = regel('DD-12', 'Weg „deutsch", Zweitquelle sagt „kein Deutsch"', '„DE ✓" an einem Weg ohne deutschen Ton', geprueft, treffer)
   r.name += ` (${hoeherBelegt} weitere durch Handbeleg/Urteil entschieden)`
   return r
 }
 
-/** D-16: Erschienene Disc ohne Kaufweg oder mit einer Suchseite als Kaufweg (B-09). */
+/** DD-16: Erschienene Disc ohne Kaufweg oder mit einer Suchseite als Kaufweg (B-09). */
 export function discKaufweg(b: Bestand): Regel {
   const treffer: Treffer[] = []
   const discs = b.releases.filter((r) => r.releaseType === 'disc')
@@ -94,10 +94,10 @@ export function discKaufweg(b: Bestand): Regel {
     if (!r.buyUrl) treffer.push({ schluessel: r.slug, text: `${r.name}: kein Kaufweg`, ort: `/r/${r.slug}/` })
     else if (/amazon\.[a-z.]+\/s\?/.test(r.buyUrl)) treffer.push({ schluessel: r.slug, text: `${r.name}: Kaufweg ist eine Amazon-Suche`, ort: r.buyUrl })
   }
-  return regel('D-16', 'Disc ohne Produktseite als Kaufweg', '„Kaufen" führt ins Leere oder auf eine Suche', discs.length, treffer)
+  return regel('DD-16', 'Disc ohne Produktseite als Kaufweg', '„Kaufen" führt ins Leere oder auf eine Suche', discs.length, treffer)
 }
 
-/** D-17: News-Meldungen, deren Release oder Titel es im Bestand nicht mehr gibt. */
+/** DD-17: News-Meldungen, deren Release oder Titel es im Bestand nicht mehr gibt. */
 export function newsVerweise(b: Bestand): Regel {
   const slugs = new Set(b.releases.map((r) => r.slug))
   const ids = new Set([...b.titles, ...b.cartoons].map((t) => t.id))
@@ -109,10 +109,10 @@ export function newsVerweise(b: Bestand): Regel {
     if (m.release && !slugs.has(m.release) && !m.ersetzt && !m.zurueckgezogen) treffer.push({ schluessel: `${n.titel}|${m.release}`, text: `„${n.titel}" (${m.art}, ${m.datum ?? '?'}): Release ${m.release} gibt es nicht mehr` })
     else if (n.titleId != null && !ids.has(n.titleId)) treffer.push({ schluessel: `${n.titel}|${n.titleId}`, text: `„${n.titel}" (${m.art}): Titel ${n.titleId} gibt es nicht` })
   }
-  return regel('D-17', 'News-Meldung zeigt auf verschwundenes Release', 'Meldung verliert ihren Beleg-Link (fällt auf die Anbieterseite zurück), Termin-Verlauf reißt ab', geprueft, treffer)
+  return regel('DD-17', 'News-Meldung zeigt auf verschwundenes Release', 'Meldung verliert ihren Beleg-Link (fällt auf die Anbieterseite zurück), Termin-Verlauf reißt ab', geprueft, treffer)
 }
 
-/** D-19: Termin bei Anbieter P (vergangen), aber der Titel hat keinen Weg zu P — wo soll man es ansehen? */
+/** DD-19: Termin bei Anbieter P (vergangen), aber der Titel hat keinen Weg zu P — wo soll man es ansehen? */
 export function terminOhneWeg(b: Bestand): Regel {
   const titel = new Map(b.titles.map((t) => [t.id, t]))
   const treffer: Treffer[] = []
@@ -125,7 +125,7 @@ export function terminOhneWeg(b: Bestand): Regel {
     const entfernt = t.entfernteStreams?.find((s) => s.platform === r.platform)
     treffer.push({ schluessel: r.slug, text: `${r.name}: Termin ${r.schedule.firstEpisodeDate} bei ${r.platform}, Titel hat dort keinen Weg${entfernt ? ` (entfernt am ${entfernt.entferntAm})` : ''}`, ort: `/r/${r.slug}/` })
   }
-  return regel('D-19', 'Termin bei einem Anbieter ohne Weg dorthin', 'Panel nennt den Anbieter, aber keinen Link', geprueft, treffer)
+  return regel('DD-19', 'Termin bei einem Anbieter ohne Weg dorthin', 'Panel nennt den Anbieter, aber keinen Link', geprueft, treffer)
 }
 
 export const regelnQuellen = (b: Bestand): Regel[] => [

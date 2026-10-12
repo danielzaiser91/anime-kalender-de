@@ -18,7 +18,7 @@ function eventsJeRelease(events: ReleaseEvent[]): Map<string, ReleaseEvent[]> {
   return m
 }
 
-/** D-01: Eine spätere Folge liegt vor einer früheren (B-05, Lycoris Recoil). */
+/** DD-01: Eine spätere Folge liegt vor einer früheren (B-05, Lycoris Recoil). */
 export function datumMonoton(b: Bestand): Regel {
   const treffer: Treffer[] = []
   const je = eventsJeRelease(b.events)
@@ -34,10 +34,10 @@ export function datumMonoton(b: Bestand): Regel {
       }
     }
   }
-  return regel('D-01', 'Datum steigt nicht mit der Folgennummer', 'Kalender zeigt eine spätere Folge vor einer früheren', je.size, treffer)
+  return regel('DD-01', 'Datum steigt nicht mit der Folgennummer', 'Kalender zeigt eine spätere Folge vor einer früheren', je.size, treffer)
 }
 
-/** D-04: Ein fortgeschriebener Termin ist verstrichen, der Anbieter-Kalender wird gelesen, aber die Folge wurde nie gesehen. */
+/** DD-04: Ein fortgeschriebener Termin ist verstrichen, der Anbieter-Kalender wird gelesen, aber die Folge wurde nie gesehen. */
 export function vergangenOhneBeobachtung(b: Bestand): Regel {
   const treffer: Treffer[] = []
   const je = eventsJeRelease(b.events)
@@ -50,10 +50,10 @@ export function vergangenOhneBeobachtung(b: Bestand): Regel {
     geprueft++
     if (offen.length) treffer.push({ schluessel: r.slug, text: `${r.name}: ${offen.length} vergangene Termine ohne Beobachtung (Folge ${offen.map((e) => e.episode).join(', ')}), obwohl Folge ${Object.keys(obs).sort((x, y) => Number(x) - Number(y)).at(-1)} am ${letzteBeobachtung} gesehen wurde`, ort: `/r/${r.slug}/` })
   }
-  return regel('D-04', 'Vergangener Termin ohne gesehene Folge', 'Panel zählt eine Folge als erschienen, die kein Abruf je gesehen hat', geprueft, treffer)
+  return regel('DD-04', 'Vergangener Termin ohne gesehene Folge', 'Panel zählt eine Folge als erschienen, die kein Abruf je gesehen hat', geprueft, treffer)
 }
 
-/** D-09: Beobachtete Folgen ohne Wochentakt — Abstand weder 0 noch 7 Tage, ohne Sendetage. */
+/** DD-09: Beobachtete Folgen ohne Wochentakt — Abstand weder 0 noch 7 Tage, ohne Sendetage. */
 export function wochentaktAbweichung(b: Bestand): Regel {
   const treffer: Treffer[] = []
   let geprueft = 0
@@ -71,10 +71,10 @@ export function wochentaktAbweichung(b: Bestand): Regel {
     }
     if (abweichungen.length) treffer.push({ schluessel: r.slug, text: `${r.name}: ${abweichungen.slice(0, 4).join(', ')}${abweichungen.length > 4 ? ` (+${abweichungen.length - 4})` : ''}`, ort: `/r/${r.slug}/` })
   }
-  return regel('D-09', 'Wochentakt-Abweichung zwischen beobachteten Folgen', 'Fortschreibung ab dem letzten Stützpunkt kann einen falschen Wochentag treffen', geprueft, treffer)
+  return regel('DD-09', 'Wochentakt-Abweichung zwischen beobachteten Folgen', 'Fortschreibung ab dem letzten Stützpunkt kann einen falschen Wochentag treffen', geprueft, treffer)
 }
 
-/** D-10: „Läuft", aber seit über 60 Tagen keine Beobachtung — der Sendeplan lebt nur noch in der Rechnung. */
+/** DD-10: „Läuft", aber seit über 60 Tagen keine Beobachtung — der Sendeplan lebt nur noch in der Rechnung. */
 export function laeuftOhneLebenszeichen(b: Bestand): Regel {
   const treffer: Treffer[] = []
   const grenze = addDays(b.heute, -TAGE_OHNE_LEBENSZEICHEN)
@@ -88,10 +88,10 @@ export function laeuftOhneLebenszeichen(b: Bestand): Regel {
     if (!letztes && r.schedule.firstEpisodeDate >= grenze) continue
     treffer.push({ schluessel: r.slug, text: `${r.name} (${r.platform}): Status „läuft", letzte Beobachtung ${letztes ?? 'nie'}, Start ${r.schedule.firstEpisodeDate}, ${r.schedule.episodeCount ?? '?'} Folgen${r.schedule.estimated ? ', geschätzt' : ''}`, ort: `/r/${r.slug}/` })
   }
-  return regel('D-10', '„Läuft" ohne Lebenszeichen seit 60 Tagen', 'Kalender kündigt Woche für Woche Folgen an, die niemand belegt', geprueft, treffer)
+  return regel('DD-10', '„Läuft" ohne Lebenszeichen seit 60 Tagen', 'Kalender kündigt Woche für Woche Folgen an, die niemand belegt', geprueft, treffer)
 }
 
-/** D-13: Ein Film mit mehreren Folgen oder ein Einzelwerk mit Folgenzahl > 1. */
+/** DD-13: Ein Film mit mehreren Folgen oder ein Einzelwerk mit Folgenzahl > 1. */
 export function filmMitFolgen(b: Bestand): Regel {
   const treffer: Treffer[] = []
   const titel = new Map(b.titles.map((t) => [t.id, t]))
@@ -103,10 +103,10 @@ export function filmMitFolgen(b: Bestand): Regel {
     if (r.releaseType === 'movie' || t?.format === 'MOVIE')
       treffer.push({ schluessel: r.slug, text: `${r.name} (${r.sender ?? r.platform}, ${r.slug}): ${n} Folgen, aber ${r.releaseType === 'movie' ? 'Release-Typ Film' : `Titel ist ${t?.format} mit ${t?.episodes} Folge(n)`}${r.herkunft ? ` — ${r.herkunft.slice(0, 80)}` : ''}`, ort: `/r/${r.slug}/` })
   }
-  return regel('D-13', 'Film oder Einzelwerk mit mehreren Folgen', 'Panel zählt „x von n Folgen" für einen Film', b.releases.length, treffer)
+  return regel('DD-13', 'Film oder Einzelwerk mit mehreren Folgen', 'Panel zählt „x von n Folgen" für einen Film', b.releases.length, treffer)
 }
 
-/** D-14: Deutsche Veröffentlichung vor der japanischen Erstausstrahlung. */
+/** DD-14: Deutsche Veröffentlichung vor der japanischen Erstausstrahlung. */
 export function deutschVorJapan(b: Bestand): Regel {
   const treffer: Treffer[] = []
   const titel = new Map(b.titles.map((t) => [t.id, t]))
@@ -117,10 +117,10 @@ export function deutschVorJapan(b: Bestand): Regel {
     geprueft++
     if (r.year < t.jpYear) treffer.push({ schluessel: r.slug, text: `${r.name}: deutsch ${r.schedule.firstEpisodeDate}, Japan erst ${t.jpYear} (${titelName(t)})`, ort: `/r/${r.slug}/` })
   }
-  return regel('D-14', 'Deutscher Termin vor der japanischen Erstausstrahlung', 'Das Datum oder die Titelzuordnung ist falsch', geprueft, treffer)
+  return regel('DD-14', 'Deutscher Termin vor der japanischen Erstausstrahlung', 'Das Datum oder die Titelzuordnung ist falsch', geprueft, treffer)
 }
 
-/** D-20: Angekündigter Termin, dessen einzige Quelle älter als 90 Tage ist, ohne „aktuell"-Stand. */
+/** DD-20: Angekündigter Termin, dessen einzige Quelle älter als 90 Tage ist, ohne „aktuell"-Stand. */
 export function ankuendigungOhneFrischeQuelle(b: Bestand): Regel {
   const treffer: Treffer[] = []
   const grenze = addDays(b.heute, -90)
@@ -133,23 +133,23 @@ export function ankuendigungOhneFrischeQuelle(b: Bestand): Regel {
     if ((r.quellen ?? []).some((q) => q.stand === 'aktuell' && q.gesehenAm >= grenze)) continue
     treffer.push({ schluessel: r.slug, text: `${r.name} (${r.platform}): Termin ${r.schedule.firstEpisodeDate}, jüngste Quelle ${juengste ?? 'ohne Datum'} (${r.sources.length} Quelle(n))`, ort: `/r/${r.slug}/` })
   }
-  return regel('D-20', 'Künftiger Termin ohne Quelle der letzten 90 Tage', 'Eine verschobene Ankündigung bleibt als Termin stehen', geprueft, treffer)
+  return regel('DD-20', 'Künftiger Termin ohne Quelle der letzten 90 Tage', 'Eine verschobene Ankündigung bleibt als Termin stehen', geprueft, treffer)
 }
 
-/** D-21: Event-Kennungen doppelt — zwei Kalendereinträge verschmelzen im ICS-Abo. */
+/** DD-21: Event-Kennungen doppelt — zwei Kalendereinträge verschmelzen im ICS-Abo. */
 export function eventIdsEindeutig(b: Bestand): Regel {
   const zahl = new Map<string, number>()
   for (const e of b.events) zahl.set(e.id, (zahl.get(e.id) ?? 0) + 1)
   const treffer = [...zahl].filter(([, n]) => n > 1).map(([id, n]) => ({ schluessel: id, text: `${id} ${n}×` }))
-  return regel('D-21', 'Event-Kennung doppelt', 'Im Kalender-Abo verschmelzen zwei Termine zu einem', b.events.length, treffer)
+  return regel('DD-21', 'Event-Kennung doppelt', 'Im Kalender-Abo verschmelzen zwei Termine zu einem', b.events.length, treffer)
 }
 
-/** D-23: Termin in der Zukunft, aber der Titel ist hinter dem Toggle oder fehlt — oder der Release ist widerlegt und hat trotzdem Termine. */
+/** DD-23: Termin in der Zukunft, aber der Titel ist hinter dem Toggle oder fehlt — oder der Release ist widerlegt und hat trotzdem Termine. */
 export function termineWiderlegter(b: Bestand): Regel {
   const je = eventsJeRelease(b.events)
   const treffer: Treffer[] = []
   for (const r of b.releases) if (r.widerlegt && je.get(r.slug)?.length) treffer.push({ schluessel: r.slug, text: `${r.name}: widerlegt am ${r.widerlegt.am}, trotzdem ${je.get(r.slug)!.length} Termine`, ort: `/r/${r.slug}/` })
-  return regel('D-23', 'Widerlegter Termin mit Kalendereinträgen', 'Ein widerlegter Termin steht im Kalender', b.releases.length, treffer)
+  return regel('DD-23', 'Widerlegter Termin mit Kalendereinträgen', 'Ein widerlegter Termin steht im Kalender', b.releases.length, treffer)
 }
 
 export const regelnTermine = (b: Bestand): Regel[] => [

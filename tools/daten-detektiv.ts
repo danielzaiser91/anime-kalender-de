@@ -6,7 +6,7 @@
  *   npx tsx tools/daten-detektiv.ts                      Bericht nach daniel-zum-abarbeiten/
  *   npx tsx tools/daten-detektiv.ts --aus <ordner>       anderer Zielordner
  *   npx tsx tools/daten-detektiv.ts --heute 2026-10-08   Stichtag festlegen (Vergleichbarkeit)
- *   npx tsx tools/daten-detektiv.ts --nur D-01,D-11      nur diese Regeln, Treffer vollständig auf stdout
+ *   npx tsx tools/daten-detektiv.ts --nur DD-01,DD-11      nur diese Regeln, Treffer vollständig auf stdout
  *   npx tsx tools/daten-detektiv.ts --wache              neue Schlüssel der weichen Regeln als JSON-Zeile (Wochenwache)
  *   npx tsx tools/daten-detektiv.ts --bekannt-schreiben [--neue-aufnehmen]   data/detektiv-bekannt.json neu schreiben
  *
