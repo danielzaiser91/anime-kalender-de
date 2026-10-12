@@ -113,9 +113,9 @@ const feed = [
   { link: 'https://www.anime2you.de/news/2/b/', title: 'b', publishedAt: '2026-10-09' },
   { link: 'https://www.anime2you.de/news/3/c/', title: 'c', publishedAt: '2026-10-10' },
 ]
-const neu = neueKandidaten(feed, new Set(['1']), new Set(['https://www.anime2you.de/news/3/c']), 10)
-pruefe('Gelesene und eingearbeitete Artikel fallen heraus', neu.length === 1 && neu[0]!.id === '2', neu)
-pruefe('Die Grenze zählt, neueste zuerst', neueKandidaten(feed, new Set(), new Set(), 2).map((k) => k.id).join() === '3,2')
+const neu = neueKandidaten(feed, new Set(['1', '3']), 10)
+pruefe('Gelesene Artikel fallen heraus', neu.length === 1 && neu[0]!.id === '2', neu)
+pruefe('Die Grenze zählt, neueste zuerst', neueKandidaten(feed, new Set(), 2).map((k) => k.id).join() === '3,2')
 const gespeichert = (artikelId: string, uhrzeit: string): GespeicherterVorschlag => ({
   ...yaiba,
   uhrzeit,
