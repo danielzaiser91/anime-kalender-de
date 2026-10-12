@@ -22,7 +22,7 @@ const ARTIKEL = [
   /^https:\/\/news\.animationdigitalnetwork\.com\/de\/\d{4}\//,
   /* Seiten ohne Artikeldatum, deren Domains von Hand geprüft sind (`data/beleg-domains.json`): Hersteller- und Pressebereiche. aniSearch-Katalogseiten (`/anime/…`) und Crunchyroll-Serienseiten bleiben draußen: Dort verdecken Sony-Banner und Nutzungsbedingungen die Seite, die Aufnahme war schwarz (05.10.2026). */
   /^https:\/\/tokyo-revengers-anime\.com\//,
-  /* Seit 05.10.2026 von Hand geprüft (Bilder angesehen, kein Banner): Joyn-Serien/-Filme, Disney+-Titelseiten, What's on Netflix, Wikipedia, Kinoheld. Netflix-Titelseiten bleiben draußen: Der Ausschnitt beginnt in der Besetzungsliste, Titel und Datum stehen im Titelbild. */
+  /* Seit 05.10.2026 von Hand geprüft (Bilder angesehen, kein Banner): Joyn-Serien/-Filme, Disney+-Titelseiten, What's on Netflix, Wikipedia. Kinoheld kam am 12.10.2026 dazu; dort lag eine Marke auf leerer Fläche, sie wird jetzt im Bild geprüft (`belegAusschnitt`). Netflix-Titelseiten bleiben draußen: Der Ausschnitt beginnt in der Besetzungsliste, Titel und Datum stehen im Titelbild. */
   /^https:\/\/www\.joyn\.de\/(?:serien|filme)\/[a-z0-9-]+\/?$/,
   /^https:\/\/www\.disneyplus\.com\/(?:[a-z]{2}-[a-z]{2}\/)?browse\/entity-/,
   /^https:\/\/www\.whats-on-netflix\.com\/news\//,
