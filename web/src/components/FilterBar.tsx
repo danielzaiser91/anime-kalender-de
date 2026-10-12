@@ -62,10 +62,10 @@ export function FilterBar({
   const count = activeFilterCount(filters)
 
   return (
-    <div className={pille && open ? 'flex min-h-0 flex-col rounded-2xl border border-ak-rand bg-ak-flaeche md:w-[min(720px,calc(100vw-2rem))]' : 'flex min-h-0 flex-col rounded-2xl border border-ak-rand bg-ak-flaeche shadow-[0_12px_32px_rgba(0,0,0,.18)]'}>
+    <div className={pille && open ? 'flex min-h-0 flex-col overflow-hidden rounded-2xl border border-ak-rand bg-ak-flaeche md:w-[min(720px,calc(100vw-2rem))]' : 'flex min-h-0 flex-col overflow-hidden rounded-2xl border border-ak-rand bg-ak-flaeche shadow-[0_12px_32px_rgba(0,0,0,.18)]'}>
       {/* Die Leiste bleibt an ihrer Stelle, der Inhalt klappt darüber auf (Daniel, 04.10.2026). */}
       {open && (
-        <div className="min-h-0 flex-1 animate-fade-in overflow-y-auto overscroll-contain border-b border-ak-linie">
+        <div className="flex min-h-0 flex-1 flex-col animate-fade-in border-b border-ak-linie">
           <FilterDetailsFeld
             meta={meta}
             filters={filters}

@@ -24,6 +24,7 @@ import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
+import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 
@@ -219,6 +220,12 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
   /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
   let rot = ansichten.includes('datenbank') && !handy ? await meldeCartoonFilter(seite) : false
   if (ansichten.includes('datenbank') && !handy && (await pruefeAdressen(seite, DIST))) rot = true
+  if (!handy && ['woche', 'datenbank'].every((a) => ansichten.includes(a))) {
+    const rechner = await pruefeFilterfensterRechner(chromium, antworteAusDist)
+    console.log(`\nFilterfenster am Rechner (1280 px, Woche und Datenbank): ${rechner.abweichungen.length ? '' : 'ok'}`)
+    for (const l of rechner.abweichungen) console.log(`  ✕ ${l}`)
+    if (rechner.abweichungen.length) rot = true
+  }
   if (handy && ['woche', 'monat', 'datenbank'].every((a) => ansichten.includes(a))) {
     const leiste = await pruefeWerkzeugleiste(seite)
     console.log(`\nWerkzeugleiste unten (320/360/393/440 px): ${leiste.length ? '' : 'ok'}`)

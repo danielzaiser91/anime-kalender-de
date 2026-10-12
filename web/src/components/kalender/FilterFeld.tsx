@@ -57,10 +57,10 @@ export function FilterFeld(p: FilterFeldProps) {
     <section
       id="ak-filterfeld"
       aria-label={t('filter.button')}
-      className="animate-fade-in border-ak-rand bg-ak-flaeche md:rounded-3xl md:border"
+      className="flex min-h-0 flex-1 flex-col animate-fade-in border-ak-rand bg-ak-flaeche md:overflow-hidden md:rounded-3xl md:border"
     >
       {/* **Die gewählten Filter stehen im Filterfeld** — dieselbe Stelle wie im Datenbank-Reiter
-          (`FilterBar`), unter dem klebenden Klick-Modus (`zwischen`). */}
+          (`FilterBar`), unter dem festen Klick-Modus (`zwischen`). */}
       <HerkunftZaehlungContext.Provider value={herkunftZaehlung}>
         <FilterDetailsFeld
           meta={p.data.meta}
@@ -125,7 +125,7 @@ export function Schalter({
 function FilterFuss(p: FilterFeldProps) {
   const { t } = useLang()
   return (
-    <div className="sticky bottom-0 flex flex-wrap items-center gap-3 border-t border-ak-linie bg-ak-flaeche px-5 pb-4 pt-3 md:rounded-b-3xl">
+    <div className="flex shrink-0 flex-wrap items-center gap-3 border-t border-ak-linie bg-ak-flaeche px-4 py-3">
       <span className="text-sm text-ak-leise">
         <b className="font-extrabold text-ak-text">{p.treffer}</b> {t('filter.treffer', { gesamt: p.zeitraum.length, zeitraum: p.zeitraumWort })}
       </span>
