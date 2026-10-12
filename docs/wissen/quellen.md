@@ -3665,11 +3665,11 @@ Der Prüfer fand: `anisearch-dubs.json` zählt 36 Titel mit `p`, `anisearch-eint
 
 **Quelle.** `https://www.themoviedb.org/api-terms-of-use` (identisch mit `/documentation/api/terms-of-use`). Die Seite selbst liegt hinter einer Cloudflare-Abfrage (Abruf per `fetch` am 12.10.2026: 403, „Just a moment…"); gelesen ist die Archivfassung von web.archive.org vom **17.09.2026**, die Seite trägt „This Agreement was last updated on: October 20, 2023." Wortlaut aus Abschnitt 1.C „Restrictions" („In addition, You must not:"):
 
-> Cache, for longer than 6 months, any information obtained through or from TMDB or the TMDB APIs.
+> Cache, for longer than 6 months, any information obtained through or from TMDB …
 >
 > Make derivatives of the TMDB APIs or TMDB Content.
 
-Dazu für uns wichtig: 1.C „Sell, lease, or sublicense the TMDB APIs, access to the TMDB APIs, or TMDB Content, or derive revenues from the use or provision of TMDB, the TMDB APIs, or TMDB Content, whether for direct commercial or monetary gain or otherwise, except as expressly permitted in a written agreement" und „Use the TMDB APIs or TMDB Content in connection with, including for training, a machine learning (ML) or artificial intelligence (AI) based Application."; Abschnitt 3 verlangt das Logo und den Satz „This [website, program, service, application, product] uses TMDB and the TMDB APIs but is not endorsed, certified, or otherwise approved by TMDB."
+Dazu für uns wichtig (sinngemäß, 1.C): kein Verkauf, keine Unterlizenz und keine Einnahmen aus TMDB-Inhalten ohne schriftlichen Vertrag; keine Nutzung in einer ML/KI-Anwendung, auch nicht zum Training. Abschnitt 3 verlangt das TMDB-Logo und einen Hinweissatz, dass die Seite TMDB nutzt, aber nicht von TMDB unterstützt oder zertifiziert ist.
 
 **Was wir von TMDB speichern, und wie alt es werden darf (Bestand 12.10.2026).**
 
