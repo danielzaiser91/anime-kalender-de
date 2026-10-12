@@ -262,10 +262,20 @@ export function staffelStaende<T extends StaffelFeld>(staffeln: T[], reihenName:
 
 const JAHRESZEIT: Record<string, number> = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
 
+/** Das Jahr als Sortierwert: ein unbekanntes Jahr steht hinten. */
+export function jahrZumSortieren(jpYear: number | undefined): number {
+  return jpYear ?? 9999
+}
+
+/** Reihenfolge nach Jahr, bei Gleichstand nach Kennung. */
+export function nachJahrUndId(a: { jpYear?: number; id: number }, b: { jpYear?: number; id: number }): number {
+  return jahrZumSortieren(a.jpYear) - jahrZumSortieren(b.jpYear) || a.id - b.id
+}
+
 /** Reihenfolge innerhalb einer Reihe: nach japanischer Ausstrahlung. */
 export function nachAusstrahlung<T extends Pick<Title, 'jpYear' | 'jpSeason' | 'id'>>(a: T, b: T): number {
   return (
-    (a.jpYear ?? 9999) - (b.jpYear ?? 9999) ||
+    jahrZumSortieren(a.jpYear) - jahrZumSortieren(b.jpYear) ||
     (JAHRESZEIT[a.jpSeason ?? ''] ?? 9) - (JAHRESZEIT[b.jpSeason ?? ''] ?? 9) ||
     a.id - b.id
   )

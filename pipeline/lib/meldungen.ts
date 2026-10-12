@@ -27,6 +27,7 @@
  */
 import type { Meldung, Quelle, Release, ReleaseType, Title } from '../../shared/types.ts'
 import { quelleAnzeigeName } from '../../shared/quelle.ts'
+import { nachJahrUndId } from '../../shared/titles.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
 import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
@@ -136,7 +137,7 @@ export function findeTitel(artikelTitel: string, titel: Title[]): Treffer | unde
     const kandidaten = alle.filter(([n]) => n.startsWith(k)).map(([, t]) => t)
     if (kandidaten.length) {
       return {
-        titel: kandidaten.sort((a, b) => (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id)[0],
+        titel: kandidaten.sort(nachJahrUndId)[0],
         genau: false,
       }
     }
@@ -230,7 +231,7 @@ function reihenTeil(basis: Title, alle: Title[], text: string): Title | undefine
      * Special, weil das 2023 zwischen S1 und S2 erschien.
      */
     .filter((t) => (teil.art === 'film' ? t.format === 'MOVIE' : t.format === 'TV'))
-    .sort((a, b) => (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id)
+    .sort(nachJahrUndId)
 
   // „Erste Staffel" bei einer Reihe, die wir gar nicht als Reihe kennen, ist
   // trotzdem eindeutig — sie meint den Titel selbst.

@@ -1,5 +1,5 @@
 import { type FranchiseMember, type Title } from '@shared/types.ts'
-import { hauptstaffeln, staffelBeschriftungen, staffelStaende, eindeutschenStaffel } from '@shared/titles.ts'
+import { hauptstaffeln, nachJahrUndId, staffelBeschriftungen, staffelStaende, eindeutschenStaffel } from '@shared/titles.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
@@ -87,8 +87,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 1999, und sie selbst hieß in der Liste „Staffel 4" (Daniel,
                 03.09.2026, mit Bild).
               */
-              const nachJahr = (a: FranchiseMember, b: FranchiseMember) =>
-                (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id
+              const nachJahr = nachJahrUndId
 
               /*
                 **Was eine Hauptstaffel ist, entscheidet die Reihe selbst.**
