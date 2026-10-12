@@ -12,6 +12,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
+import { vereinigeBereiche } from './dub-bereiche.ts'
 import { ROOT } from './util.ts'
 import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
@@ -286,10 +287,18 @@ function ladeHandbelege(): DubCheck[] {
 function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
   // Ohne Datum verliert: Ein undatierter Eintrag verdrängt keinen datierten.
   const [alt, neu] = (a.checkedAt ?? '') <= (b.checkedAt ?? '') ? [a, b] : [b, a]
-  return {
+  const verschmolzen = {
     ...alt,
     ...Object.fromEntries(Object.entries(neu).filter(([, v]) => v !== undefined && v !== null)),
   } as DubCheck
+  /*
+    Cartoons werden je Staffel gemeldet (Archer: 16 Meldungen zu einer Adresse), die Bereiche ergänzen sich also.
+    Bei Anime ist die jüngste Meldung vollständig und ersetzt die ältere.
+  */
+  if (a.anilistId < 0 && alt.dubRanges?.length && neu.dubRanges?.length) {
+    verschmolzen.dubRanges = vereinigeBereiche(alt.dubRanges, neu.dubRanges)
+  }
+  return verschmolzen
 }
 
 export function dubKey(anilistId: number, platform: string): string {
