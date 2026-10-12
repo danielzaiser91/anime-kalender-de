@@ -270,3 +270,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** #439 hätte nicht gereicht: Es zählt den Nachfolger nur, wenn er im Hauptbestand (`slim`) steht; die acht AniList-Titel (11421, 9978, 5091, 7956, 6262, 10282, 4439, 6771) stehen aber in `ohne-synchro.json`, also hinter dem Toggle. Offen bleibt die inhaltliche Frage aus dem Eintrag vom 07.10.: Titel mit Dub-Kennzeichen `c` standen als eigene aniSearch-Titel im Hauptbestand und liegen nach der Zuordnung dahinter. Kein Riegel meldet das.
 
 **Was läuft komplett falsch?** Nichts im Bau selbst. Die Annahme des Riegels („jede verschwundene Kennung ist ein Verlust") kennt keinen Kennungswechsel. Neu: `anisearchUmgezogen` (`pipeline/bau/anisearch-titel.ts`) rechnet eine Kennung als umgezogen, wenn ihr AniList-Nachfolger im Hauptbestand, in `verschoben` oder im AniList-Katalog ankommt; #411, #412, #439 sind damit überholt. Nicht lokal gemessen (kein Cache).
+
+
+## 12.10.2026 — Bestand-Bau rot (Lauf 38209333535), kein Wache-Befund
+
+**Was läuft korrekt.** Die Zusicherung „Titel nur bei aniSearch tragen keinen erratenen Weg“ (`pipeline/check-crunchyroll-zuordnung.ts:1050`) hat gegriffen: „Bestand nicht übernommen“, `public/data` auf `main` blieb unverändert, die Quellen wurden trotzdem gepusht (Issue #890).
+
+**Wo ist Verbesserungspotenzial?** Die Meldung nannte nur Titelnamen, nicht den Weg, der die Zusicherung verletzt; ohne `data/cache` (Actions-Cache) ließ sich die Quelle nicht eingrenzen. Sie nennt jetzt Kennung, Anbieter, Adresse und Tonurteil.
+
+**Wo sind echte Risiken und Lücken?** Welche Phase den Weg anhängt, ist **nicht gemessen**. Der Logvergleich mit dem grünen Lauf 38202190766 zeigt 3 zusätzliche Wege aus sicheren Terminen (26 → 29) und 1 JustWatch-Bezugsweg mehr; die vier Titel (10010005, 10013612, 10014281, 10019697) hatten dort `streams: []`. Jede Phase nach `11-wege-abschluss.ts:74` kann es sein. Wer die Zusicherung lockert, bevor das feststeht, verliert den Schutz vor Wegen, die der Name erraten hat.
+
+**Was läuft komplett falsch?** Nichts Belegtes. Offen: Der Weg ist entweder belegt (dann braucht er eine `herkunft`) oder erraten (dann muss er weg). Der nächste Bestandslauf nennt die Quelle in der Meldung.
