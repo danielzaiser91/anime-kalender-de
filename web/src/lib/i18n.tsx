@@ -346,7 +346,7 @@ const TEXTE = {
   // **Auf eine Zeile gekürzt**. In der Pille steht
   // nur noch, was fehlt: das Kreuz, die Sprache, die Folgen. Der volle Satz
   // steht im Tooltip daneben.
-  'detail.dubLuecken': 'ohne Deutsch: Fg. {n}',
+  'detail.dubLuecken': '✕ DE {n}',
   'detail.staffelNummer': 'Staffel {n}',
   'detail.dubLueckenTitel': 'Nicht alle Folgen auf Deutsch',
   // Bewusst „kann abweichen", nicht „weicht ab": Belegt ist nur, dass mehrere
@@ -363,19 +363,19 @@ const TEXTE = {
   // dort genauso.
   // Dieselbe Kurzform: ein Häkchen für das, was auf Deutsch da ist, dahinter der
   // Bereich. Ausgeschrieben stand es in einer Pille, die dafür zu schmal ist.
-  'detail.dubUntil': 'Fg. 1–{n}',
-  'detail.dubFrom': 'Fg. ab {n}',
+  'detail.dubUntil': '✓ DE 1–{n}',
+  'detail.dubFrom': '✓ DE ab {n}',
   // Wo nur die erste Folge dort liegt — auf einem Verlagskanal bei YouTube der
   // Normalfall. „1–1" wäre richtig gerechnet und trotzdem verwirrend.
-  'detail.dubNurEine': 'nur Fg. 1',
+  'detail.dubNurEine': '✓ DE nur Fg. 1',
   'detail.dubUntilTitel': 'Deutscher Ton bis Folge {n}',
   // **Das Label sagt, was es auf Deutsch gibt**. Vorher nannte es die Lücke — „✕ DE 5–7" —, also das, was
   // fehlt. Wer vor der Pille steht, will aber wissen, was er bekommt, und bei mehr als
   // einem Wechsel wird die Lücken-Form ohnehin unübersichtlich.
-  'detail.dubDe': 'Fg. {bereiche}',
+  'detail.dubDe': '✓ DE {bereiche}',
   // Ab drei Bereichen bliebe die Pille nicht mehr schmal. Die Zahl sagt, dass da noch
   // etwas kommt; die vollständige Aufzählung steht im Hinweis daneben.
-  'detail.dubDeMehr': 'Fg. {bereiche} +{n} Bereiche',
+  'detail.dubDeMehr': '✓ DE {bereiche} +{n} Bereiche',
   // Der Hinweis, zeilenweise.
   'detail.dubKopfVon': '{n} von {m} Folgen auf Deutsch',
   'detail.dubKopf': '{n} Folgen auf Deutsch',
@@ -393,6 +393,7 @@ const TEXTE = {
   'detail.gruppeSpecials': 'Specials & OVAs',
   'detail.gruppeFilme': 'Filme',
   'detail.reiheSuche': 'In der Reihe suchen',
+  'detail.reiheOhneSchalter': '{n} ohne Synchro ausblenden',
   // Am Abzeichen in der Reihenliste — das Zeichen selbst ist 🇩🇪 ✕, der Satz
   // steht im Hinweis. „Bisher" fehlt bewusst: Wir wissen nicht, ob eine kommt.
   'detail.reiheOhneSynchro': 'Keine deutsche Synchro',
@@ -540,23 +541,6 @@ const TEXTE = {
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
   'antwort.verschobenVon': 'verschoben vom {datum}',
   'antwort.ausgebliebenMehrere': 'Folgen {von} bis {bis} sind nicht erschienen',
-  // Die Auskunft unter einer ausgebliebenen Folge. {anbieter} wird im Panel zum Verweis.
-  'antwort.vermerkPruefen': 'Wir sehen mehrmals täglich bei {anbieter} nach und tragen die Folge ein, sobald sie da ist.',
-  'antwort.vermerkZuletzt': 'Zuletzt nachgesehen: {wann}.',
-  'antwort.vermerkNews': '{quelle} am {datum}:',
-  'antwort.vermerkNewsLeer': 'Anime2You meldet bisher keine Verschiebung.',
-  'antwort.vermerkQuelle': 'Quelle',
-  'antwort.vermerkRechercheLeer': 'Auch in weiteren News und auf Social Media haben wir bis zum {datum} nichts dazu gefunden.',
-  // „Offen kommunizieren": je Stufe, wann zuletzt und wann als Nächstes.
-  // Die Folge hat einen neuen Termin, ist aber weiterhin überfällig (Daniel,
-  // 20.09.2026): „entsprechend muss eine ausfallnotiz im detail panel stehen".
-  'antwort.vermerkUeberfaellig': 'Folge {n} war für den {datum} angekündigt und ist bis heute nicht erschienen.',
-  'antwort.vermerkAnnahme': 'Der Termin oben ist unsere Annahme — ändert sich etwas, tragen wir ihn nach.',
-  'antwort.vermerkNaechsterBlick': 'Der nächste Blick folgt in wenigen Stunden.',
-  'antwort.vermerkNewsLeerStand': 'Anime2You meldet bisher keine Verschiebung (Stand: {wann}, nächster Abgleich morgen früh).',
-  'antwort.vermerkRechercheZuletzt': 'Zuletzt gesucht: {wann}. Nächste Suche {naechste}.',
-  'antwort.vermerkRechercheStart': 'Die Suche in News und Social Media beginnt {naechste}.',
-  'antwort.vermerkRechercheEnde': 'Nach zwei Monaten suchen wir nicht mehr aktiv; beim Anbieter sehen wir weiter nach.',
   'antwort.naechsteVoraussichtlich': 'voraussichtlich {tag} ab {zeit} Uhr',
   'antwort.amDatum': 'am {datum}',
   'antwort.relGestern': 'gestern',
@@ -595,7 +579,7 @@ const TEXTE = {
     und sagt die Wahrheit.
   */
   'antwort.teilweiseZahl': '{raus} von {gesamt} Folgen auf Deutsch',
-  'antwort.teilweiseNeben': 'Übrige Folgen: nicht auf Deutsch belegt',
+  'antwort.teilweiseNeben': 'Für die übrigen fehlt uns eine Angabe',
   'kostenlos.ganz': 'Kostenlos',
   'kostenlos.teil': 'Teilweise kostenlos',
   'kostenlos.zahl': '{frei} von {von} Folgen',
@@ -697,8 +681,8 @@ const TEXTE = {
   'antwort.faktPublisher': 'Label',
   'antwort.faktEdition': 'Ausgabe',
   'antwort.faktStudio': 'Studio',
-  'antwort.fsk': 'FSK {n}',
-  'antwort.fskAnbieter': 'FSK {n} laut Anbieter',  'detail.lastEpisode': 'Letzte Folge',
+  'antwort.fskAb': 'ab {n}',
+  'antwort.fskAnbieter': 'ab {n} laut Anbieter',  'detail.lastEpisode': 'Letzte Folge',
   'detail.allDates': 'Alle Termine',
   'detail.showAllDates': 'alle {count} Termine anzeigen',
   'detail.showFewer': 'weniger anzeigen',

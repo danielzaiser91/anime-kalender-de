@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **40 offene Verweise** in **33 Zeilen**,
+Stand 2026-10-12 · **36 offene Verweise** in **29 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -56,7 +56,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 19 | Prime Video | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
 | 20 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
 
-## Paket 2 — Zeilen 21 bis 33
+## Paket 2 — Zeilen 21 bis 29
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
@@ -67,9 +67,5 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 25 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
 | 26 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
 | 27 | Disney+ | Jujutsu Kaisen: Shimetsu Kaiyuu - Kouhen | [Jujutsu Kaisen 0]() |
-| 28 | Prime Video | Gegege no Kitarou (1968) | [The Birth of Kitaro: Das Geheimnis von GeGeGe](https://www.amazon.de/gp/video/detail/0U2F1VC6MV5CHFW4ZP7GSM1RX0) |
-| 29 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
-| 30 | Prime Video | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365) |
-| 31 | Prime Video | Meine Wiedergeburt als Schleim in einer anderen Welt | [Veldoras Tagebuch](https://www.amazon.de/gp/video/detail/0NQS7G31GTH6F9V4ISN8ZX3RPH) |
-| 32 | Prime Video | Sword Art Online | [Alternative: Gun Gale Online - Refrain](https://www.amazon.de/gp/video/detail/0TOAWCF8RCIRQR29X9KKJWT4N7) |
-| 33 | Netflix | Fate/Stay Night: Unlimited Blade Works - Prolog | [Hauptserie](https://www.netflix.com/title/80040330) |
+| 28 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
+| 29 | Prime Video | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365) |

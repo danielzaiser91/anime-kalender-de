@@ -5,6 +5,7 @@ import { hostVon } from '@shared/quelle.ts'
 import { BELEG_TYP_LABEL, belegTyp } from '@shared/beleg-anbieter.ts'
 import { datumKurz } from '../lib/news-text.ts'
 import { quellenLabel } from './news-belege.tsx'
+import { TREFFER_24_HOCH } from './detail/tippziel.ts'
 
 /** **Das Beleg-Bild** an einer Quelle; öffentlich lesbar (Daniel, 04.10.2026). Der archivierte Text (HTML) bleibt privat (Daniel, 05.10.2026). */
 const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
@@ -25,7 +26,7 @@ export function QuellenKnopf({ belege, betreff }: { belege: NewsBeleg[]; betreff
         type="button"
         onClick={() => setOffen(true)}
         title={belege.map(quellenLabel).join(' · ')}
-        className="-my-2.5 ml-auto inline-flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center px-1 text-xs text-slate-600 underline underline-offset-2 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+        className={`ml-auto shrink-0 cursor-pointer rounded border border-current px-1.5 text-[11px] font-bold leading-4 text-ak-akzent-text hover:bg-ak-akzent-text/10 ${TREFFER_24_HOCH}`}
       >
         {archiv ? '▣ ' : ''}
         {text}
