@@ -25,3 +25,9 @@ export function entferneGesperrte(...listen: { titleId: number }[][]): void {
   const gesperrt = fanservicesperre()
   for (const liste of listen) for (let i = liste.length - 1; i >= 0; i--) if (gesperrt.has(liste[i]!.titleId)) liste.splice(i, 1)
 }
+
+/** Titel ohne die gesperrten — für Listen, die aus dem Bestand neu abgeleitet werden (z. B. „Neu auf Deutsch“). */
+export const ohneGesperrte = <T extends { id: number }>(titles: T[]): T[] => {
+  const gesperrt = fanservicesperre()
+  return titles.filter((t) => !gesperrt.has(t.id))
+}

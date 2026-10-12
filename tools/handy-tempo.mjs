@@ -10,103 +10,21 @@
  *
  * Aufruf: `node tools/handy-tempo.mjs [--dist <Ordner>] [--n 5] [--drossel 4]` (Vorgabe: Live-Seite). Mit `--dist` liefert Playwright
  * die Dateien dieses Build-Ordners unter der Live-Adresse aus (kein Server); alles andere, etwa Cover, kommt weiter von dort.
+ * Mit Zeitgrenzen und Ladezeit: `tools/ladezeiten-messen.mjs`.
  */
 import { chromium, devices } from 'playwright'
-import { existsSync, readFileSync } from 'node:fs'
-import path from 'node:path'
+import { BASIS, messhaken, ergebnis, aktionen, median, ausDistLiefern } from './tempo-kern.mjs'
 
-const TYPEN = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' }
 const arg = (name, vorgabe) => process.argv[process.argv.indexOf(`--${name}`) + 1] ?? vorgabe
 const hat = (name) => process.argv.includes(`--${name}`)
-const BASIS = 'https://anime-kalender.de/'
 const DIST = hat('dist') ? arg('dist') : undefined
 const WIEDERHOLUNGEN = Number(hat('n') ? arg('n') : 5)
 const DROSSEL = Number(hat('drossel') ? arg('drossel') : 4)
-const RUHE_MS = 500
-
-/** Läuft in der Seite: sammelt Eingabe-Zeitpunkt, DOM-Änderungen, lange Tasks und Event-Timing-Einträge. */
-function messhaken() {
-  const m = { start: 0, letzte: 0, lange: [], reaktion: 0 }
-  window.__tempo = m
-  const merke = () => (m.letzte = performance.now())
-  new MutationObserver(merke).observe(document, { childList: true, subtree: true, attributes: true, characterData: true })
-  new PerformanceObserver((l) =>
-    l.getEntries().forEach((e) => {
-      m.lange.push(Math.round(e.duration))
-      m.letzte = Math.max(m.letzte, e.startTime + e.duration)
-    }),
-  ).observe({ type: 'longtask', buffered: false })
-  new PerformanceObserver((l) =>
-    l.getEntries().forEach((e) => {
-      if (e.startTime >= m.start - 1) m.reaktion = Math.max(m.reaktion, Math.round(e.duration))
-    }),
-  ).observe({ type: 'event', durationThreshold: 16, buffered: false })
-  addEventListener('pointerdown', (e) => {
-    m.start = e.timeStamp
-    m.letzte = e.timeStamp
-    m.lange = []
-    m.reaktion = 0
-  }, true)
-  addEventListener('keydown', (e) => {
-    m.start = e.timeStamp
-    m.letzte = e.timeStamp
-    m.lange = []
-    m.reaktion = 0
-  }, true)
-}
-
-/** Wartet, bis 500 ms lang nichts mehr passiert, und liefert die Messwerte der Aktion. */
-async function ergebnis(seite) {
-  await seite.waitForFunction((ruhe) => performance.now() - window.__tempo.letzte > ruhe, RUHE_MS, { timeout: 30000, polling: 100 })
-  return seite.evaluate(() => {
-    const m = window.__tempo
-    return {
-      reaktion: m.reaktion,
-      stabil: Math.round(m.letzte - m.start),
-      lange: m.lange.length,
-      langeSumme: m.lange.reduce((a, x) => a + x, 0),
-      langeMax: Math.max(0, ...m.lange),
-      knoten: document.getElementsByTagName('*').length,
-    }
-  })
-}
-
-/** Die Aktionen in einer Reihenfolge, in der jede den Zustand für die nächste herstellt. */
-function aktionen(seite) {
-  const leiste = seite.locator('[role=toolbar]')
-  const tippe = (ort) => ort.tap()
-  return [
-    ['Woche → Monat', () => tippe(leiste.getByRole('button', { name: 'Monat', exact: true }))],
-    ['Monat → Woche', () => tippe(leiste.getByRole('button', { name: 'Woche', exact: true }))],
-    ['Woche vor', () => tippe(leiste.getByRole('button', { name: 'Nächster Zeitraum' }))],
-    ['Woche zurück', () => tippe(leiste.getByRole('button', { name: 'Voriger Zeitraum' }))],
-    ['Filter auf', () => tippe(leiste.locator('button[aria-controls=ak-filter]'))],
-    ['Filter zu', () => tippe(leiste.locator('button[aria-controls=ak-filter]'))],
-    ['Panel auf', async () => {
-      const karte = seite.locator('.ak-oeffnen').first().locator('..')
-      await karte.evaluate((el) => el.scrollIntoView({ block: 'center' }))
-      await tippe(karte)
-    }],
-    ['Panel zu', () => tippe(seite.getByRole('button', { name: 'Schließen', exact: true }).first())],
-  ]
-}
-
-const median = (zahlen) => [...zahlen].sort((a, b) => a - b)[Math.floor(zahlen.length / 2)]
-
-/** Liefert Dateien aus dem Build-Ordner unter der Live-Adresse aus; Unbekanntes (Cover) geht weiter ins Netz. */
-async function ausDistLiefern(ctx) {
-  await ctx.route(`${BASIS}**`, async (route) => {
-    const pfad = new URL(route.request().url()).pathname
-    const datei = path.join(DIST, pfad === '/' ? 'index.html' : pfad)
-    if (!existsSync(datei) || !path.extname(datei)) return route.continue()
-    return route.fulfill({ status: 200, contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream', body: readFileSync(datei) })
-  })
-}
 
 async function main() {
   const browser = await chromium.launch()
   const ctx = await browser.newContext({ ...devices['Pixel 7'], serviceWorkers: 'block' })
-  if (DIST) await ausDistLiefern(ctx)
+  if (DIST) await ausDistLiefern(ctx, DIST)
   const seite = await ctx.newPage()
   await seite.addInitScript(messhaken)
   const cdp = await ctx.newCDPSession(seite)
