@@ -4,6 +4,7 @@ import { PLATFORMS } from '@shared/types.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { useShare } from '../../lib/share.ts'
+import { useAbSm } from '../../lib/use-breit.ts'
 import { teilbarerSlug } from '@shared/teilen.ts'
 import { coverBild, KACHEL_DICHTE } from '../../lib/cover.ts'
 import { FavoriteStar, HideEye, ShareIcon, Tooltip } from '../ui.tsx'
@@ -95,6 +96,7 @@ export function PosterKarte(p: PosterKarteProps) {
 function PosterCover(p: PosterKarteProps & { breit: boolean }) {
   const { t } = useLang()
   const { share, copiedSlug } = useShare()
+  const desktop = useAbSm()
   const cover = p.title?.coverImage
   const teilbar = teilbarerSlug(p.title)
   const farbe = PLATFORMS[p.event.platform]?.color ?? '#888'
@@ -136,17 +138,19 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
           ★
         </span>
       )}
-      <span className="absolute right-1.5 bottom-2.5 hidden items-center gap-1 sm:flex" onClick={(e) => e.stopPropagation()}>
-        <span className={`${KNOPF_GRUND} ${ERST_BEIM_ZEIGEN}`}>
-          {teilbar && <ShareIcon onShare={() => void share(teilbar, p.event.name)} copied={copiedSlug === teilbar} size="sm" />}
-          {p.onToggleHidden && <HideEye hidden={false} onToggle={p.onToggleHidden} size="sm" />}
-        </span>
-        {p.onToggleFavorite && (
-          <span className={`${KNOPF_GRUND} ${p.favorite ? '' : ERST_BEIM_ZEIGEN}`}>
-            <FavoriteStar active={p.favorite} onToggle={p.onToggleFavorite} size="sm" />
+      {desktop && (
+        <span className="absolute right-1.5 bottom-2.5 flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+          <span className={`${KNOPF_GRUND} ${ERST_BEIM_ZEIGEN}`}>
+            {teilbar && <ShareIcon onShare={() => void share(teilbar, p.event.name)} copied={copiedSlug === teilbar} size="sm" />}
+            {p.onToggleHidden && <HideEye hidden={false} onToggle={p.onToggleHidden} size="sm" />}
           </span>
-        )}
-      </span>
+          {p.onToggleFavorite && (
+            <span className={`${KNOPF_GRUND} ${p.favorite ? '' : ERST_BEIM_ZEIGEN}`}>
+              <FavoriteStar active={p.favorite} onToggle={p.onToggleFavorite} size="sm" />
+            </span>
+          )}
+        </span>
+      )}
     </div>
     {/*
       **Die Anbieterleiste liegt über dem Rand, nicht darunter** (Daniel, 04.10.2026): Der Ring von Staffelstart und -finale sitzt außerhalb der Kachel; die Leiste
