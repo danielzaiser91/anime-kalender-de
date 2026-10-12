@@ -270,3 +270,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** #439 hätte nicht gereicht: Es zählt den Nachfolger nur, wenn er im Hauptbestand (`slim`) steht; die acht AniList-Titel (11421, 9978, 5091, 7956, 6262, 10282, 4439, 6771) stehen aber in `ohne-synchro.json`, also hinter dem Toggle. Offen bleibt die inhaltliche Frage aus dem Eintrag vom 07.10.: Titel mit Dub-Kennzeichen `c` standen als eigene aniSearch-Titel im Hauptbestand und liegen nach der Zuordnung dahinter. Kein Riegel meldet das.
 
 **Was läuft komplett falsch?** Nichts im Bau selbst. Die Annahme des Riegels („jede verschwundene Kennung ist ein Verlust") kennt keinen Kennungswechsel. Neu: `anisearchUmgezogen` (`pipeline/bau/anisearch-titel.ts`) rechnet eine Kennung als umgezogen, wenn ihr AniList-Nachfolger im Hauptbestand, in `verschoben` oder im AniList-Katalog ankommt; #411, #412, #439 sind damit überholt. Nicht lokal gemessen (kein Cache).
+
+
+## 12.10.2026 — Bestand-Bau rot (Lauf 38203328049), kein Wache-Befund
+
+**Was läuft korrekt.** `check:handbelege` hat gegriffen: Der Bau lieferte keinen Bestand aus, in dem drei Handprüfungen (Archer/Netflix, American Dad und -82653/Disney+) fehlen; `public/data` auf `main` blieb unverändert. Lokal mit dem Stand der Quellen nachgebaut (`schreibeCartoons`): derselbe Fehler, reproduzierbar.
+
+**Wo ist Verbesserungspotenzial?** Der Lauf pusht die Quellen auch bei roter Zusicherung (gewollt), die Meldung nennt aber nur die Kennung, nicht die Ursache; die Kennungen -10283 und -1433 sind Cartoons, der Titel zeigt `(?)`.
+
+**Wo sind echte Risiken und Lücken?** Die Prüfung vergleicht nur den ersten Weg mit passender Adresse. Seit die Wege auf Staffeln verteilt werden (11.10.), kann ein richtiger Datensatz dort durchfallen, und ein falscher bliebe unbemerkt, solange irgendein Weg stimmt. Ob alle belegten Staffeln ihr Häkchen tragen, prüft niemand.
+
+**Was läuft komplett falsch?** `verschmelze` in `pipeline/lib/dub-confirmed.ts` ersetzt `dubRanges` durch die jüngste Meldung. Archer: 16 Staffel-Meldungen, übrig blieb 112–118, Staffel 1–10 ohne Häkchen. Behoben: bei negativen Kennungen werden die Bereiche vereinigt (`lib/dub-bereiche.ts`); Issue #878.
