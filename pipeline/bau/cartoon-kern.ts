@@ -10,6 +10,9 @@ export function cartoonsMitTermin(cartoons: Title[], titelIds: Set<number>): Tit
   return cartoons.filter((t) => titelIds.has(t.id))
 }
 
+/** Meldungsarten, die ein Cartoon haben darf: nur Termine mit Quelle, keine Anime-Meldung (`check-cartoon-news.ts`; eine neue Termin-Art gehört hierher). */
+export const CARTOON_NEWS_ARTEN: ReadonlySet<string> = new Set(['angekuendigt', 'nachgetragen', 'disc', 'kino', 'rhythmus'])
+
 /** Die Cartoons, zu denen ein Termin vorliegt — ihre Quellen gehören in die Neuigkeiten des Titels (Avatar: Die sieben Häfen, 11.10.2026). */
 export function cartoonsAusReleases(releases: { titleId: number }[]): Title[] {
   return cartoonsMitTermin(readJson<Title[]>(`${OUT}/cartoons.json`, []), new Set(releases.map((r) => r.titleId)))
