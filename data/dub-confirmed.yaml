@@ -23394,3 +23394,77 @@
       dub: true
   checkedAt: '2026-10-11'
   note: "Folgen 1–3 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: Deutsch, 日本語 — Amazon-Seite B0B7D5DRV2: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.30d69164-5a13-4547-80b7-4d7df334762a"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-12 ---
+
+- anilistId: 150672
+  title: "Oshi no Ko: Mein Star"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
+  dub: true
+  dubRanges:
+    - from: 4
+      to: 11
+      dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 4–11 mit deutschem Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: 日本語 — Amazon-Seite B0B7D5DRV2: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.30d69164-5a13-4547-80b7-4d7df334762a"
+- anilistId: 182587
+  title: "Oshi no Ko: Mein Star"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GFPBT6FG
+  dub: false
+  dubRanges:
+    - from: 1
+      to: 1
+      dub: false
+  checkedAt: '2026-10-11'
+  note: "Folge 1 ohne deutschen Ton — Anbieter zählt durch, hier auf die Staffel umgerechnet — Tonspuren: 日本語 — Amazon-Seite B0B7D5DRV2: alle 12 Folgen geprüft, Abos: Prime, aniversede, crunchyrollde, zugang=abo_und_kauf, gti=amzn1.dv.gti.30d69164-5a13-4547-80b7-4d7df334762a"
+- anilistId: -59427
+  title: "Avengers - Gemeinsam unbesiegbar!"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-07eb26b1-fdd6-4147-a149-f0d69a1fc4e2
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 127
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–127 mit deutschem Ton — Tonspuren: ar, cmn-TW, da, de, el, en, es-419, es-ES, fr-FR, he, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: 966
+  title: "Shin-chan"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0DNNFT23G
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0DNNFT23G: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.93268e69-bf19-43c5-9f5b-320fa7e2b24a"
+- anilistId: -68665
+  title: "Baymax – Robowabohu in Serie"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-00d5fca8-cb17-477d-aad8-a8e3e9763122
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 6
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: cmn-TW, da, de, el, en, es-419, es-ES, fr-FR, he, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+- anilistId: -114466
+  title: "Baymax!"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-bbbb983c-20a5-4b8f-bcb6-653613b80f19
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–6 mit deutschem Ton — Tonspuren: ar, ar-EG, cmn, cmn-TW, cs, da, de, el, en, es-419, es-ES, fi, fr-CA, fr-FR, he, hu, id, it, ja, ko, ms, nl, nl-BE, no, pl, pt-BR, pt-PT, ro, sk, sv, th, tr, yue"
+- anilistId: -80587
+  title: "Big City Greens"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-9c643e72-0ba4-47d2-8090-d5423f8a7967
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 50
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–50 mit deutschem Ton — Tonspuren: ar, cmn-TW, cs, da, de, el, en, es-419, es-ES, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
