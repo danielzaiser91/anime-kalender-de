@@ -20,3 +20,24 @@ export function findeKonflikte(belege: DubCheck[]): Konflikt[] {
   }
   return faelle
 }
+
+/** Ein Verweis, dessen Bereiche aus mehreren Meldungen vereint wurden: Ergebnis als Text, z. B. „1–3 ja, 4–24 nein“. */
+export type Vereint = { schluessel: string; titel?: string; plattform: string; ergebnis: string }
+
+/** Belege in Dateireihenfolge verschmelzen wie `loadDubChecks` und jeden Verweis nennen, dessen Bereiche aus mehreren Meldungen stammen. */
+export function findeVereinte(belege: DubCheck[]): Vereint[] {
+  const stand = new Map<string, DubCheck>()
+  const vereint = new Map<string, Vereint>()
+  for (const b of belege) {
+    if (!b?.anilistId || !b.platform || !b.checkedAt) continue
+    const schluessel = `${dubKey(b.anilistId, b.platform)}|${adressKern(b.url)}`
+    const alt = stand.get(schluessel)
+    const neu = alt ? verschmelze(alt, b) : b
+    stand.set(schluessel, neu)
+    if (alt?.dubRanges?.length && b.dubRanges?.length) {
+      const ergebnis = (neu.dubRanges ?? []).map((r) => `${r.from}–${r.to} ${r.dub ? 'ja' : 'nein'}`).join(', ')
+      vereint.set(schluessel, { schluessel, titel: b.title, plattform: b.platform, ergebnis })
+    }
+  }
+  return [...vereint.values()]
+}

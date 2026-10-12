@@ -4,12 +4,19 @@
  */
 export type DubBereich = { from: number; to: number; dub: boolean; checked?: number[] }
 
-/** `neu` überlagert `alt`: Wo beide eine Folge nennen, gilt das spätere Urteil samt seiner Meldung (`checked`). */
-export function vereinigeBereiche(alt: DubBereich[] | undefined, neu: DubBereich[]): DubBereich[] {
+/**
+ * `neu` überlagert `alt`: Wo beide eine Folge nennen, gilt das spätere Urteil samt seiner Meldung (`checked`).
+ * `gleichAlt` (Meldungen vom selben Tag): Nennen beide dasselbe Urteil, bleibt das Häkchen beider.
+ */
+export function vereinigeBereiche(alt: DubBereich[] | undefined, neu: DubBereich[], gleichAlt = false): DubBereich[] {
   const jeFolge = new Map<number, { dub: boolean; gemeldet: boolean }>()
   for (const r of [...(alt ?? []), ...neu]) {
     const gemeldet = new Set(r.checked ?? [])
-    for (let n = r.from; n <= r.to; n++) jeFolge.set(n, { dub: r.dub, gemeldet: gemeldet.has(n) })
+    for (let n = r.from; n <= r.to; n++) {
+      const davor = jeFolge.get(n)
+      const behalten = gleichAlt && davor?.dub === r.dub && davor.gemeldet
+      jeFolge.set(n, { dub: r.dub, gemeldet: behalten || gemeldet.has(n) })
+    }
   }
   const folgen = [...jeFolge.keys()].sort((a, b) => a - b)
   const aus: DubBereich[] = []
@@ -34,6 +41,7 @@ export function vereinigeGleichzeitige(a: DubBereich[], b: DubBereich[]): DubBer
   return vereinigeBereiche(
     alle.filter((r) => r.dub),
     alle.filter((r) => !r.dub),
+    true,
   )
 }
 
