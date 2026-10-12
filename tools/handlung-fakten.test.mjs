@@ -193,6 +193,37 @@ await fall('robots.txt: ein gesperrter Pfad wird nie abgerufen', async () => {
   assert.equal(aufrufe, 1)
 })
 
+await fall('robots.txt: ein HTTP-Sprung auf einen gesperrten Pfad oder fremden Host wird nicht abgerufen', async () => {
+  const regeln = { 'en.wikipedia.org': leseRegeln(WIKI_ROBOTS), 'de.wikipedia.org': [] }
+  const sprung = (ziel) => antwort(301, '', { location: ziel })
+  const seiten = {
+    Api: sprung('https://en.wikipedia.org/w/api.php?action=query&titles=X'),
+    Spezial: sprung('/wiki/Special:Search?search=X'),
+    Fremd: sprung('https://example.org/wiki/X?action=raw'),
+    Kette: sprung('/wiki/Kette2?action=raw'),
+    Kette2: sprung('/wiki/Kette3?action=raw'),
+    Gut: sprung('/wiki/Ziel?action=raw'),
+    Ziel: antwort(200, 'Der Inhalt'),
+  }
+  const urls = []
+  const fetchFn = async (url, opts) => {
+    urls.push(url)
+    assert.equal(opts.redirect, 'manual')
+    return seiten[new URL(url).pathname.split('/').pop()]
+  }
+  const hole = erstelleHoler({ fetchFn, warteFn: async () => {}, pauseMs: 0, regeln, ordner: TEST_ORDNER + '/sprung' })
+  for (const name of ['Api', 'Spezial', 'Fremd']) {
+    const vorher = urls.length
+    assert.equal((await hole('en', name)).status, 'gesperrt', name)
+    assert.equal(urls.length, vorher + 1, `${name}: nur die Ausgangsadresse wurde abgerufen`)
+  }
+  assert.equal((await hole('en', 'Kette')).status, 'gesperrt')
+  assert.equal(urls.filter((u) => u.includes('Kette3')).length, 0)
+  const gut = await hole('en', 'Gut')
+  assert.equal(gut.status, 'ok')
+  assert.equal(gut.text, 'Der Inhalt')
+})
+
 await fall('User-Agent: Projekt-URL mit Impressum, keine Mailadresse', () => {
   assert.ok(UA.includes('https://anime-kalender.de/#/impressum'))
   assert.ok(!UA.includes('@'))

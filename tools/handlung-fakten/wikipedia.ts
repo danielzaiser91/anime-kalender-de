@@ -1,6 +1,7 @@
 /**
  * Wikipedia-Rohtext holen: nur `/wiki/<Seite>?action=raw` (robots.txt erlaubt das; `/w/` und `/api/` sind gesperrt), höchstens ein Abruf je Sekunde,
  * Antworten im Cache (auch 404), Fehler führen zu Pause und Wiederholung, nie zum Abbruch des Laufs.
+ * HTTP-Weiterleitungen werden nicht automatisch verfolgt: ein einziger Sprung auf dieselbe Wikipedia, nur wenn robots.txt den Zielpfad erlaubt.
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { CACHE, UA } from './typen.ts'
@@ -55,15 +56,33 @@ export function erstelleHoler(opt: HolerOptionen = {}): Holer {
   const index: Index = existsSync(indexPfad) ? JSON.parse(readFileSync(indexPfad, 'utf8')) : {}
   let letzter = 0
 
+  async function takt() {
+    const warten = letzter + pause - Date.now()
+    if (warten > 0) await warte(warten)
+    letzter = Date.now()
+  }
+
+  /** Ein HTTP-Sprung (3xx) wird nur auf derselben Wikipedia und nur zu einem laut robots.txt erlaubten Pfad verfolgt, sonst nicht abgerufen. */
+  async function abrufMitSprung(sprache: Sprache, url: string): Promise<Response | 'gesperrt'> {
+    const res = await fetchFn(url, { headers: { 'User-Agent': UA }, redirect: 'manual' })
+    if (res.status < 300 || res.status >= 400) return res
+    const host = `${sprache}.wikipedia.org`
+    const ziel = new URL(res.headers.get('location') ?? '', url)
+    if (ziel.protocol !== 'https:' || ziel.host !== host) return 'gesperrt'
+    if (opt.regeln && !istErlaubt(opt.regeln[host], ziel.pathname + ziel.search)) return 'gesperrt'
+    await takt()
+    const zweite = await fetchFn(ziel.href, { headers: { 'User-Agent': UA }, redirect: 'manual' })
+    return zweite.status >= 300 && zweite.status < 400 ? 'gesperrt' : zweite
+  }
+
   async function einmal(sprache: Sprache, seite: string): Promise<{ status: 'ok' | '404' | 'fehler' | 'gesperrt'; text?: string }> {
     const pfad = `${new URL(wikiUrl(sprache, seite)).pathname}?action=raw`
     if (opt.regeln && !istErlaubt(opt.regeln[`${sprache}.wikipedia.org`], pfad)) return { status: 'gesperrt' }
     for (let versuch = 0; versuch <= backoff.length; versuch++) {
-      const warten = letzter + pause - Date.now()
-      if (warten > 0) await warte(warten)
-      letzter = Date.now()
+      await takt()
       try {
-        const res = await fetchFn(`${wikiUrl(sprache, seite)}?action=raw`, { headers: { 'User-Agent': UA }, redirect: 'follow' })
+        const res = await abrufMitSprung(sprache, `${wikiUrl(sprache, seite)}?action=raw`)
+        if (res === 'gesperrt') return { status: 'gesperrt' }
         if (res.status === 404) return { status: '404' }
         if (res.ok) return { status: 'ok', text: await res.text() }
         console.log(`  Wikipedia ${res.status} bei ${sprache}:${seite}`)
