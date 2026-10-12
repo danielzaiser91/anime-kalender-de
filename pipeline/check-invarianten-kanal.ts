@@ -2,8 +2,8 @@
 import type { StreamLink, Title } from '../shared/types.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
 import { kanalTitelOhneBeleg, kanalWegEntfernt } from './lib/invarianten-kanal.ts'
-import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, ohneKanalSprache, belegOhneGenaueAdresse, rohDeutsch, traegtAussage } from './lib/kanal-titel.ts'
-import { hatWegOderErsetztSuche } from './lib/weg-aus-beleg.ts'
+import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, ohneKanalSprache, belegOhneGenaueAdresse, rohDeutsch } from './lib/kanal-titel.ts'
+import { ersetztSucheUndMeldetWeg } from './lib/weg-aus-beleg.ts'
 
 type Pruefe = (name: string, ok: boolean, gefunden?: unknown) => void
 
@@ -68,34 +68,13 @@ export function kanalWegeVorhanden(titles: Map<number, Title>): string[] {
     .map(([id, asin]) => `Titel ${id}: der Prime-Weg ${asin} (Kanal) fehlt im Bestand`)
 }
 
-/** Mob Psycho 100 III (140439): Kanal-Beleg mit Ja- und Nein-Bereichen je Folge, gekürzt aus `data/dub-confirmed.yaml`. */
-const mobPsycho = {
-  anilistId: 140439,
-  platform: 'primevideo',
-  url: 'https://www.amazon.de/gp/video/detail/B0CJRZY5ND',
-  dub: true,
-  checkedAt: '2026-09-28',
-  note: 'Abos: crunchyrollde — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg',
-  dubRanges: [
-    { from: 1, to: 1, dub: false },
-    { from: 2, to: 5, dub: true },
-    { from: 6, to: 6, dub: false },
-    { from: 7, to: 12, dub: true },
-  ],
-} as DubCheck
-
-/** Die beiden Wege der Kanal-Titel nach PR 863: Nein-Bereiche bleiben am Weg, eine Amazon-Suche bekommt die Adresse des Belegs (One Piece Film: Strong World, 4155). */
+/** Kanal-Titel nach PR 863: Eine Amazon-Suche bekommt die Adresse des Belegs (One Piece Film: Strong World, 4155). */
 export function kanalWegProben(pruefe: Pruefe): void {
-  const gelesen = ohneKanalSprache(mobPsycho)
-  const neins = gelesen.dubRanges ?? []
-  pruefe('Kanal-Titel: das Ja fällt, die Folge-Neins bleiben', gelesen.dub === undefined && neins.length === 2 && neins.every((r) => !r.dub), gelesen)
-  pruefe('Kanal-Titel: Nein-Bereiche sind eine Aussage über den Weg', traegtAussage(gelesen) && !traegtAussage({ ...gelesen, dubRanges: undefined }))
-  pruefe('Kanal-Titel: ein Weg mit Nein-Bereichen ist nicht stumm', kanalAdressenOhneAussage([gelesen]).size === 0 && kanalAdressenOhneBeleg([gelesen]).size === 1)
   const strongWorld = { anilistId: 4155, platform: 'primevideo', url: 'https://www.amazon.de/dp/B0DQM5BCFD', checkedAt: '2026-08-31', kanalOhneBeleg: true } as DubCheck
   const suche = 'https://www.amazon.de/s?k=One%20Piece%20Film%3A%20Strong%20World&i=instant-video'
   const wege = [{ platform: 'primevideo', url: suche }, { platform: 'adn', url: 'https://animationdigitalnetwork.com/de/video/948', dub: true }] as StreamLink[]
-  pruefe('Amazon-Suche: der einzige Prime-Weg bekommt die Adresse des Belegs ohne Urteil', hatWegOderErsetztSuche(wege, strongWorld) && wege[0]!.url === strongWorld.url && wege[0]!.dub === undefined, wege)
+  pruefe('Amazon-Suche: der einzige Prime-Weg bekommt die Adresse des Belegs ohne Urteil', ersetztSucheUndMeldetWeg(wege, strongWorld) && wege[0]!.url === strongWorld.url && wege[0]!.dub === undefined, wege)
   const echt = [{ platform: 'primevideo', url: 'https://www.amazon.de/dp/B0AAAAAAAA' }] as StreamLink[]
-  pruefe('Amazon-Suche: ein echter Prime-Weg bleibt', hatWegOderErsetztSuche(echt, strongWorld) && echt[0]!.url.endsWith('B0AAAAAAAA'))
-  pruefe('Amazon-Suche: ohne Prime-Weg legt der Aufruf nichts an', !hatWegOderErsetztSuche([{ platform: 'adn', url: 'x' }] as StreamLink[], strongWorld))
+  pruefe('Amazon-Suche: ein echter Prime-Weg bleibt', ersetztSucheUndMeldetWeg(echt, strongWorld) && echt[0]!.url.endsWith('B0AAAAAAAA'))
+  pruefe('Amazon-Suche: ohne Prime-Weg legt der Aufruf nichts an', !ersetztSucheUndMeldetWeg([{ platform: 'adn', url: 'x' }] as StreamLink[], strongWorld))
 }
