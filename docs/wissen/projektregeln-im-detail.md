@@ -277,7 +277,10 @@ Neue Abbruchstelle für ein Ergebnis-Urteil: über diese Funktion, nicht mit eig
 die Ausgabe die Felder mit Anzahl und Beispiel (`tools/vergleich-unterschied.mjs`, etwa `streams[].dubQuelle` = Herkunft „Deutsch laut
 JustWatch" am Weg). Nicht abgedeckt: Verlust-Riegel (`13-2`), Eingabe-Prüfungen (`01-quellen`, `nebendateien`, Patchnotes). Für `web/src` tut dasselbe
 `tools/panel-vergleich.mjs`: beide Stände bauen, das Detail-Panel für 80 feste Titel bei stehender
-Uhr rendern, HTML vergleichen. Verschoben wird mit `tools/modul-umzug.mjs` (Namen, Abschnitte,
+Uhr rendern, HTML vergleichen. Für Reihen-Änderungen (`franchises.json`) vergleicht
+`tools/reihen-vergleich.mjs [basis] [kandidat] [--json]` alle Reihen in Sekunden, ohne Bau: Reihenname, Anzahl, Reihenfolge der
+Glieder, Beschriftung und Staffelstand je Glied, berechnet mit dem `shared/titles.ts` des jeweiligen Commits (zeigt so auch
+Regeländerungen bei gleichen Daten); Exit 0 gleich, 1 verschieden (12.10.2026). Verschoben wird mit `tools/modul-umzug.mjs` (Namen, Abschnitte,
 JSX-Blöcke), das Parameter und Importe aus dem Typprüfer ableitet — von Hand verschobener Code
 verliert zu leicht eine Neuzuweisung oder eine Reihenfolge. Einige Zusicherungen in `check:logic`
 lesen Quelltext und prüfen die Reihenfolge von Marken; sie lesen deshalb alle Module in
