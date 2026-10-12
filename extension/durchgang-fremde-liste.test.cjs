@@ -226,7 +226,13 @@ function schluss() {
   pruefe('ohne passenden Eintrag: false und das Menü wieder zu', fehlt.ok === false && fehlt.geklickt.filter((x) => x === 'knopf').length === 2, fehlt)
   /* Staffelname und Netflix-Staffelzahl gehen mit (24.09.2026). */
   const melden = schneide('durchlaufMelden') + schneide('randMelden')
-  pruefe('beide Melder hängen den Staffelnamen an die Notiz', (melden.match(/` — Netflix: \$\{DURCHLAUF\.staffelLabel\}`/g) ?? []).length === 2)
+  const notizHelfer = readFileSync(resolve(__dirname, 'netflix-randvoll.js'), 'utf8')
+  pruefe(
+    'beide Melder hängen den Staffelnamen an die Notiz',
+    (melden.match(/` — Netflix: \$\{DURCHLAUF\.staffelLabel\}`/g) ?? []).length === 1 &&
+      melden.includes('akNetflixRandNotiz(folgen, bisNummer, f, DURCHLAUF.staffelLabel)') &&
+      notizHelfer.includes('` — Netflix: ${staffelLabel}`'),
+  )
   pruefe('die Einzelmeldung schreibt „Folge N: Titel", die Form, die der Anker liest', /`Durchlauf: Folge \$\{folge\.nummer\}\$\{folge\.titel \? `: \$\{folge\.titel\}`/.test(melden))
   /*
     Meine ganz besondere Hochzeit (24.09.2026): Staffel und titelId nur, was sicher ist —
