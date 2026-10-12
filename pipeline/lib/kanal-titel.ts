@@ -33,6 +33,17 @@ export function kanalAdressenOhneBeleg(checks: DubCheck[]): Set<string> {
   return new Set(checks.filter((c) => c.kanalOhneBeleg && c.dub !== true && c.url).map((c) => kanalSchluessel(c.anilistId, c.url)))
 }
 
+/**
+ * Die Titel, deren Prime-Belege allesamt Kanal-Belege sind: mindestens einer trägt die Kanal-Warnung, und kein Prime-Beleg sagt Deutsch aus
+ * eigener Kraft (Handbeleg ohne Kanal-Warnung, `zweiteQuelle`, Termin). Dort trägt keine Prime-Adresse des Titels ein Ja aus Amazons Sprachangabe
+ * (Daniel, 12.10.2026) — die Adresse des Kanal-Belegs allein reicht nicht, Amazon führt denselben Titel unter mehreren Kennungen.
+ */
+export function kanalTitelNurKanal(checks: DubCheck[]): Set<number> {
+  const prime = checks.filter((c) => c.platform === 'primevideo')
+  const eigenesJa = new Set(prime.filter((c) => !c.kanalOhneBeleg && (c.dub === true || c.dubRanges?.some((r) => r.dub))).map((c) => c.anilistId))
+  return new Set(prime.filter((c) => c.kanalOhneBeleg && !eigenesJa.has(c.anilistId)).map((c) => c.anilistId))
+}
+
 /** Wie `kanalAdressenOhneBeleg`, aber nur Seiten ohne jede eigene Aussage zu genau dieser Adresse (weder Ja noch Nein noch „nicht verfügbar“). */
 export function kanalAdressenOhneAussage(checks: DubCheck[]): Set<string> {
   const stumm = checks.filter((c) => c.kanalOhneBeleg && c.dub === undefined && c.available === undefined && c.url)

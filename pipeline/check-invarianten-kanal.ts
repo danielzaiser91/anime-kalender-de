@@ -1,8 +1,9 @@
 /** Gegenproben zu D-25 (`lib/invarianten-kanal.ts`): Hell Mode, ein Kanal-Titel, dessen Prime-Seite Amazons Sprachangabe trägt. */
 import type { StreamLink, Title } from '../shared/types.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
+import { kanalGesperrt } from './bau/urteil-schliesst-luecken.ts'
 import { kanalTitelOhneBeleg, kanalWegEntfernt } from './lib/invarianten-kanal.ts'
-import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, ohneKanalSprache, belegOhneGenaueAdresse, rohDeutsch } from './lib/kanal-titel.ts'
+import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, kanalTitelNurKanal, ohneKanalSprache, belegOhneGenaueAdresse, rohDeutsch } from './lib/kanal-titel.ts'
 import { ersetztSucheUndMeldetWeg } from './lib/weg-aus-beleg.ts'
 
 type Pruefe = (name: string, ok: boolean, gefunden?: unknown) => void
@@ -77,4 +78,31 @@ export function kanalWegProben(pruefe: Pruefe): void {
   const echt = [{ platform: 'primevideo', url: 'https://www.amazon.de/dp/B0AAAAAAAA' }] as StreamLink[]
   pruefe('Amazon-Suche: ein echter Prime-Weg bleibt', ersetztSucheUndMeldetWeg(echt, strongWorld) && echt[0]!.url.endsWith('B0AAAAAAAA'))
   pruefe('Amazon-Suche: ohne Prime-Weg legt der Aufruf nichts an', !ersetztSucheUndMeldetWeg([{ platform: 'adn', url: 'x' }] as StreamLink[], strongWorld))
+}
+
+/** D-25 je Titel (12.10.2026): Ein Titel, dessen Prime-Belege alle Kanal-Belege sind, trägt auf keiner Prime-Adresse ein Ja aus Amazons Sprachangabe. */
+export function kanalJeTitelProben(pruefe: Pruefe): void {
+  const beleg = { anilistId: 185262, platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/B0FTW7GP47', dub: true, checkedAt: '2026-08-30', note: 'ACHTUNG: Kanal-Titel' } as DubCheck
+  const kanalBeleg = ohneKanalSprache(beleg)
+  const nurKanal = (checks: DubCheck[]) => kanalTitelNurKanal(checks)
+  pruefe('D-25 je Titel: nur Kanal-Belege auf Prime machen den Titel zum Kanal-Titel', nurKanal([kanalBeleg]).has(185262))
+  pruefe('D-25 je Titel: ein Handbeleg ohne Kanal-Warnung mit Ja hebt das auf', !nurKanal([kanalBeleg, { ...beleg, url: 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA', note: 'Abos: Prime' }]).has(185262))
+  pruefe('D-25 je Titel: eine zweite Quelle am Kanal-Beleg hebt das auf', !nurKanal([ohneKanalSprache({ ...beleg, zweiteQuelle: 'JustWatch: audio de' })]).has(185262))
+  pruefe('D-25 je Titel: ein Nein ohne Kanal-Warnung ist kein eigenes Ja', nurKanal([kanalBeleg, { ...beleg, url: 'x', dub: false, note: '' }]).has(185262))
+  pruefe('D-25 je Titel: ein Beleg auf einer anderen Plattform zählt nicht', nurKanal([kanalBeleg, { ...beleg, platform: 'netflix', note: '' }]).has(185262))
+  const kanal = kanalAdressenOhneBeleg([kanalBeleg])
+  const prime = (url: string) => ({ platform: 'primevideo', url, dub: true }) as StreamLink
+  const stream = (s: StreamLink) => [{ id: 185262, titleRomaji: 'Hell Mode', streams: [s] } as unknown as Title]
+  const fremd = 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA'
+  const keine = () => false
+  const sperre = (s: StreamLink, menge: Set<number>) => kanalGesperrt({ id: 185262 } as Title, s, kanal, menge)
+  pruefe('Stufe 4: fremde Prime-Adresse eines Kanal-Titels bekommt kein Ja aus dem Urteil', sperre(prime(fremd), new Set([185262])))
+  pruefe('Stufe 4: ohne Kanal-Titel bleibt die fremde Adresse offen', !sperre(prime(fremd), new Set()))
+  pruefe('Stufe 4: die Kanal-Adresse bleibt auch bei Beleg an anderer Adresse gesperrt', sperre(prime(beleg.url!), new Set()))
+  pruefe('Stufe 4: andere Plattform bleibt unberührt', !sperre({ platform: 'netflix', url: 'x' } as StreamLink, new Set([185262])))
+  pruefe('D-25 je Titel: Ja auf fremder Prime-Adresse wird gemeldet', kanalTitelOhneBeleg(stream(prime(fremd)), kanal, keine, new Set([185262])).length === 1)
+  pruefe('D-25 je Titel: ohne Kanal-Titel geht die fremde Adresse durch', kanalTitelOhneBeleg(stream(prime(fremd)), kanal, keine).length === 0)
+  pruefe('D-25 je Titel: Termin oder aniSearch heben es auf', kanalTitelOhneBeleg(stream(prime(fremd)), kanal, () => true, new Set([185262])).length === 0)
+  const mitCr = [{ id: 185262, titleRomaji: 'Hell Mode', streams: [prime(fremd), { platform: 'crunchyroll', url: 'y', dub: true }] } as unknown as Title]
+  pruefe('D-25 je Titel: ein Ja bei Crunchyroll trägt das Prime-Häkchen nicht', kanalTitelOhneBeleg(mitCr, kanal, keine, new Set([185262])).length === 1)
 }

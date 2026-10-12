@@ -3,7 +3,7 @@ import type { Release, Title } from '../../shared/types.ts'
 import { adressGleich, adressKern, loadDubChecks, type DubCheck } from '../lib/dub-confirmed.ts'
 import { bestandVorher } from '../lib/bestand-vorher.ts'
 import { kanalTitelOhneBeleg, kanalWegEntfernt, kanalWegVerloren } from '../lib/invarianten-kanal.ts'
-import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg } from '../lib/kanal-titel.ts'
+import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, kanalTitelNurKanal } from '../lib/kanal-titel.ts'
 import { juengsteJeKern, type LinkBefund } from '../lib/link-befund.ts'
 import { readJson } from '../lib/util.ts'
 import { terminBelegtNichts } from './09-1-belege.ts'
@@ -34,7 +34,7 @@ export function kanalFehler(titles: Iterable<Title>, releases: Release[]): strin
   const checks = loadDubChecks()
   const entfernt = readJson<{ verweise?: Entfernt[] }>('data/verweise-entfernt.json', {}).verweise ?? []
   return [
-    ...kanalTitelOhneBeleg(alle, kanalAdressenOhneBeleg(checks), (t) => mitTermin.has(t.id) || deutschLautAnisearch(t)),
+    ...kanalTitelOhneBeleg(alle, kanalAdressenOhneBeleg(checks), (t) => mitTermin.has(t.id) || deutschLautAnisearch(t), kanalTitelNurKanal(checks)),
     ...kanalWegEntfernt(entfernt, kanalAdressenOhneAussage(checks)),
     ...kanalWegVerloren(bestandVorher(), alle, kanalAdressenOhneBeleg(checks), primeWegBegruendet(entfernt, checks)),
   ]

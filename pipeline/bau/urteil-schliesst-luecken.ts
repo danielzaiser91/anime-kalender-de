@@ -1,7 +1,7 @@
 import type { StreamLink, Title } from '../../shared/types.ts'
 import { readJson, log } from '../lib/util.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
-import { kanalAdressenOhneBeleg, kanalSchluessel } from '../lib/kanal-titel.ts'
+import { kanalAdressenOhneBeleg, kanalSchluessel, kanalTitelNurKanal } from '../lib/kanal-titel.ts'
 
 /**
  * **Stufe 4, Schritt 1: das Urteil schließt Lücken**.
@@ -20,13 +20,15 @@ import { kanalAdressenOhneBeleg, kanalSchluessel } from '../lib/kanal-titel.ts'
 export function urteilSchliesstLuecken(titles: Map<number, Title>): void {
   const jaJeWeg = jaJeTitelUndPlattform()
   /* Auch das Urteil beruht auf Amazons Sprachangabe; auf einem Kanal-Titel ist sie kein Beleg (`lib/kanal-titel.ts`). */
-  const kanal = kanalAdressenOhneBeleg(loadDubChecks())
+  const checks = loadDubChecks()
+  const kanal = kanalAdressenOhneBeleg(checks)
+  const nurKanal = kanalTitelNurKanal(checks)
   let ausUrteil = 0
   for (const title of titles.values()) {
     for (const stream of title.streams ?? []) {
       if (stream.dub !== undefined) continue
       if (!jaJeWeg.has(`${title.id}|${stream.platform}`)) continue
-      if (kanalGesperrt(title, stream, kanal)) continue
+      if (kanalGesperrt(title, stream, kanal, nurKanal)) continue
       stream.dub = true
       ausUrteil++
     }
@@ -46,7 +48,11 @@ function jaJeTitelUndPlattform(): Set<string> {
   return ja
 }
 
-/** Steht der Weg auf der Adresse eines Kanal-Belegs? Dort trägt Amazons Sprachangabe kein Ja. */
-function kanalGesperrt(title: Title, stream: StreamLink, kanal: ReadonlySet<string>): boolean {
-  return stream.platform === 'primevideo' && kanal.has(kanalSchluessel(title.id, stream.url))
+/**
+ * Trägt Amazons Sprachangabe auf diesem Prime-Weg kein Ja? Auf der Adresse eines Kanal-Belegs nie; bei einem Titel, der auf Prime nur Kanal-Belege
+ * hat (`nurKanal`), auf keiner seiner Prime-Adressen. Andere Plattformen bleiben unberührt, ein Nein setzt der Schritt nie.
+ */
+export function kanalGesperrt(title: Title, stream: StreamLink, kanal: ReadonlySet<string>, nurKanal: ReadonlySet<number>): boolean {
+  if (stream.platform !== 'primevideo') return false
+  return nurKanal.has(title.id) || kanal.has(kanalSchluessel(title.id, stream.url))
 }
