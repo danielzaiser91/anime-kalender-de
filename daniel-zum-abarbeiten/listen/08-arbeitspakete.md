@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **37 offene Verweise** in **33 Zeilen**,
+Stand 2026-10-12 · **35 offene Verweise** in **31 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -42,34 +42,32 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 5 | Netflix | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
 | 6 | Prime Video | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
 | 7 | Disney+ | Spy × Family | [Teil 2]() · [Staffel 2]() |
-| 8 | Joyn | Dororo | [Hauptserie]() |
-| 9 | Disney+ | Gachiakuta | [Hauptserie]() |
-| 10 | Prime Video | Samurai Girls | [Hauptserie]() · [2: Samurai Bride]() |
-| 11 | ADN | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
-| 12 | ADN | 86: Eighty Six | [Hauptserie](https://animationdigitalnetwork.com/de/video/1423-eighty-six) · [Teil 2](https://animationdigitalnetwork.com/de/video/1423-eighty-six) |
-| 13 | Prime Video | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
-| 14 | Joyn | Hell’s Paradise | [Hauptserie]() |
-| 15 | Prime Video | Danganronpa | [Hauptserie]() |
-| 16 | Prime Video | Gantz | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c2f26fed-151e-48be-b492-70bd6178cc92) |
-| 17 | Prime Video | How a Realist Hero Rebuilt the Kingdom | [Teil 2](https://watch.amazon.de/detail?gti=amzn1.dv.gti.7568ff00-89b5-4f73-b051-bc7734714bbe) |
-| 18 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 19 | Disney+ | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
-| 20 | Disney+ | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
+| 8 | Disney+ | Gachiakuta | [Hauptserie]() |
+| 9 | Prime Video | Samurai Girls | [Hauptserie]() · [2: Samurai Bride]() |
+| 10 | ADN | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
+| 11 | ADN | 86: Eighty Six | [Hauptserie](https://animationdigitalnetwork.com/de/video/1423-eighty-six) · [Teil 2](https://animationdigitalnetwork.com/de/video/1423-eighty-six) |
+| 12 | Prime Video | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
+| 13 | Prime Video | Danganronpa | [Hauptserie]() |
+| 14 | Prime Video | Gantz | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c2f26fed-151e-48be-b492-70bd6178cc92) |
+| 15 | Prime Video | How a Realist Hero Rebuilt the Kingdom | [Teil 2](https://watch.amazon.de/detail?gti=amzn1.dv.gti.7568ff00-89b5-4f73-b051-bc7734714bbe) |
+| 16 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
+| 17 | Disney+ | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
+| 18 | Disney+ | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
+| 19 | Prime Video | My Instant Death Ability Is So Overpowered, No One in This Other World Stands a Chance Against Me! | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a9c30e42-2911-46e9-a7a3-5aeb0d26f6ac) |
+| 20 | Prime Video | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
 
-## Paket 2 — Zeilen 21 bis 33
+## Paket 2 — Zeilen 21 bis 31
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 21 | Prime Video | My Instant Death Ability Is So Overpowered, No One in This Other World Stands a Chance Against Me! | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a9c30e42-2911-46e9-a7a3-5aeb0d26f6ac) |
-| 22 | Prime Video | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
-| 23 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
-| 24 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 25 | Netflix | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
-| 26 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 27 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 28 | Prime Video | Midnight Occult Civil Servants | [OVA](https://www.amazon.de/gp/video/detail/B0CK43962K) |
-| 29 | ADN | Bleach | [The Movie - Memories of Nobody]() |
-| 30 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 31 | Disney+ | Jujutsu Kaisen: Shimetsu Kaiyuu - Kouhen | [Jujutsu Kaisen 0]() |
-| 32 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
-| 33 | Prime Video | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365) |
+| 21 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 22 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 23 | Netflix | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
+| 24 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
+| 25 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
+| 26 | Prime Video | Midnight Occult Civil Servants | [OVA](https://www.amazon.de/gp/video/detail/B0CK43962K) |
+| 27 | ADN | Bleach | [The Movie - Memories of Nobody]() |
+| 28 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
+| 29 | Disney+ | Jujutsu Kaisen: Shimetsu Kaiyuu - Kouhen | [Jujutsu Kaisen 0]() |
+| 30 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
+| 31 | Prime Video | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365) |
