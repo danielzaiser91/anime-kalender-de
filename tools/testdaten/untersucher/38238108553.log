@@ -1,0 +1,15 @@
+bauen	Änderungen committen	2026-10-12T10:45:35.9787305Z   ✓ jeder Kern-Titel trägt ein Cover
+bauen	Änderungen committen	2026-10-12T10:45:35.9787917Z   ✓ kein ausgelieferter Titel mit Cover-Quelle (MAL-Kennung im Cover-Bestand) ohne Cover
+bauen	Änderungen committen	2026-10-12T10:45:35.9788606Z F-Sperre (Fanservice-Urteil von Hand, data/fanservice-urteil.yaml)
+bauen	Änderungen committen	2026-10-12T10:45:35.9789381Z   ✓ kein gesperrter Titel in releases.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht)
+bauen	Änderungen committen	2026-10-12T10:45:35.9790238Z   ✓ kein gesperrter Titel in events.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht)
+bauen	Änderungen committen	2026-10-12T10:45:35.9791065Z   ✓ kein gesperrter Titel in news.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht)
+bauen	Änderungen committen	2026-10-12T10:45:35.9792165Z   ✖ kein gesperrter Titel in neu-mit-synchro.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht) — gefunden: [10013220]
+bauen	Änderungen committen	2026-10-12T10:45:35.9793147Z   ✓ kein gesperrter Titel in titles-core.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht)
+bauen	Änderungen committen	2026-10-12T10:45:35.9793805Z Saison-Ausblick: nichts fällt weg
+bauen	Änderungen committen	2026-10-12T10:45:35.9794309Z   ✓ jede Serie der Quellmenge steht in genau einer Gruppe
+bauen	Änderungen committen	2026-10-12T10:45:35.9794797Z 1 Zusicherung(en) im Bestand verletzt.
+bauen	Änderungen committen	2026-10-12T10:45:35.9808548Z ##[error]Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon.
+bauen	Änderungen committen	2026-10-12T10:45:40.9600371Z Gepusht (Versuch 1).
+bauen	Änderungen committen	2026-10-12T10:45:40.9606099Z ##[error]Process completed with exit code 1.
+

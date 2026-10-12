@@ -1,0 +1,14 @@
+bauen	Änderungen committen	2026-10-12T07:04:57.4715966Z   ✓ zwei mögliche zweite Teile sind mehrdeutig
+bauen	Änderungen committen	2026-10-12T07:04:57.4716376Z   ✓ ein kurzer Blockname belegt nichts
+bauen	Änderungen committen	2026-10-12T07:04:57.4716802Z   ✓ der US-Katalog belegt nichts
+bauen	Änderungen committen	2026-10-12T07:04:57.4717270Z   ✓ tote Serie: der Verweis fällt auch bei anderer Schreibweise
+bauen	Änderungen committen	2026-10-12T07:04:57.4717753Z   ✓ tote Serie: der Abgang wird vermerkt
+bauen	Änderungen committen	2026-10-12T07:04:57.4718151Z   ✓ Gegenprobe: eine andere Kennung lässt den Verweis stehen
+bauen	Änderungen committen	2026-10-12T07:04:57.4719044Z   ✗ Titel nur bei aniSearch tragen keinen erratenen Weg — gefunden: ["Fate/Stay Night: Unlimited Blade Works - Prologue","Sword Art Online Alternative: Gun Gale Online - Refrain","That Time I Got Reincarnated as a Slime: Veldora’s Journal",10019697]
+bauen	Änderungen committen	2026-10-12T07:04:57.4720068Z   ✓ im Bestand hängt kein Titel an einer Crunchyroll-Serie, die ihm nicht gehört
+bauen	Änderungen committen	2026-10-12T07:04:57.4720291Z 
+bauen	Änderungen committen	2026-10-12T07:04:57.4720395Z 1 Zusicherung(en) verletzt.
+bauen	Änderungen committen	2026-10-12T07:04:57.4732235Z ##[error]Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon.
+bauen	Änderungen committen	2026-10-12T07:05:02.5528956Z Gepusht (Versuch 1).
+bauen	Änderungen committen	2026-10-12T07:05:02.5533806Z ##[error]Process completed with exit code 1.
+

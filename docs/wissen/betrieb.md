@@ -1410,3 +1410,29 @@ Die 6 Zeilen sind die Meldung selbst in `pruefung` (siehe unten) und der Tagesz�
 Der Lauf holt Chromium aus dem Cache (`actions/cache`, Schlüssel aus `package-lock.json`; Systembibliotheken immer neu), baut `dist/` aus dem Stand von `main` und ruft `npm run check:ladezeiten -- --bauen --nur-messen --ausgabe ergebnis/ladezeiten.json` auf. Gemessen wird also der gebaute Stand ohne Netz, nicht die Live-Seite. `--ausgabe` schreibt JSON (Median, min, max, alle Einzelwerte, Grenze je Messgröße; `tools/ladezeiten-ausgabe.mjs`) und hängt eine Tabelle an `$GITHUB_STEP_SUMMARY`. Artefakt `ladezeiten`, 30 Tage. Es werden keine Repo-Dateien geschrieben, daher kein Eintrag in `tools/quellen-liste.sh`. Geschätzte Laufzeit 5–8 Minuten je Lauf (Annahme, erster Lauf misst es: Abhängigkeiten ~1 Min., Chromium-Systembibliotheken ~0,5 Min., `build:schlank` 1–3 Min., Messung 40 s lokal und auf dem Runner länger); `timeout-minutes: 20`.
 
 **Eichen:** nach etwa sieben Läufen (`gh run download <Lauf> -n ladezeiten`, oder `gh run list --workflow ladezeiten.yml`) je Messgröße Median und Streuung der Tagesmediane bilden. Dann `MEDIAN_HEUTE` und `MESSTAG` in `tools/ladezeiten-grenzen.mjs` auf die Runner-Werte setzen (Grenze = Median × 1,5, die Streuung zwischen Tagen prüfen: liegt der größte Tageswert über der Grenze, Faktor begründen statt stillschweigend anheben), `--nur-messen` im Workflow entfernen (Rot meldet dann `laeufe-aufraeumen.mjs`) und diesen Abschnitt nachführen.
+
+## Untersucher: eine Ursache, ein Issue, ein Pull Request (12.10.2026)
+
+Am 11./12.10.2026 legten 15 rote Bestandsbauten 15 Issues und viele PRs an, obwohl es nur 7
+Ursachen waren (fünfmal „Titel nur bei aniSearch tragen keinen erratenen Weg", dreimal
+„gesperrter Titel in neu-mit-synchro.json", je zweimal Prüfliste und Handbelege). Jeder Lauf
+startete einen Untersucher, der vom Vorgänger nichts wusste.
+
+**Jetzt** läuft in `claude-reparatur.yml` vor dem Untersucher `tools/untersucher-vorab.mjs`:
+
+- **Schlüssel** = erste Zusicherungszeile `✖`/`✗` des Protokolls, sonst `FEHLER:`, sonst der
+  `⚠`-Kopf vor „Der gebaute Bestand verletzt eine Zusicherung", sonst die erste besondere
+  `##[error]`-Zeile; ohne Fundliste („— gefunden: …") und mit allen Zahlen als `N`. Das ist die
+  Prüfung, nicht der betroffene Titel (`tools/untersucher-logik.mjs`). Ohne Ursachenzeile
+  (z. B. Wache) bleibt alles wie bisher.
+- **Marker** `<!-- untersucher-schluessel: … -->` im Issue-Text. Der Schritt legt das Issue
+  selbst an (Titel „Bestandsbau rot: …", wird vom grünen Bau geschlossen) und sagt dem Untersucher
+  die Nummer; der Untersucher ergänzt per Kommentar und schreibt „Behebt #N" in den PR.
+- Gibt es ein offenes Issue mit dem Schlüssel: Kommentar mit Lauf-Link (und am offenen PR, der
+  `#N` oder einen Lauf des Issues nennt). Gibt es einen offenen PR, startet der Untersucher gar
+  nicht; sonst startet er mit dem Hinweis auf das Issue.
+- Grenze: dieselbe Zusicherung kann zwei Ursachen haben (am 12.10. „erratener Weg": erst
+  Nachrunde, dann `dub: true`). Die zweite landet im selben Issue; der Untersucher läuft wieder,
+  solange kein PR offen ist, und schreibt die neue Ursache als Kommentar.
+- Belegt an den 15 Läufen: `tools/untersucher-schluessel.test.mjs` (Protokollauszüge unter
+  `tools/testdaten/untersucher/`) — 7 Schlüssel, keine zwei Ursachen zusammengeworfen.

@@ -1,0 +1,31 @@
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2567128Z [pipeline] ⚠  Auffällig: Meldung 9205: Titel 355 ist Staffel 1, die Seite 0NQ6I1WXBDFEZHZBCNOTC626F9 Staffel 2
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2567619Z [pipeline] ⚠  Auffällig: Meldung 9207: Titel 355 ist Staffel 1, die Seite B0FFGWVYVK Staffel 2
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2568209Z [pipeline] ⚠  52 Meldung(en) bleiben im Briefkasten, bis sie zugeordnet sind.
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2813695Z ##[group]Run if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2814039Z ^[[36;1mif git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi^[[0m
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2814320Z ^[[36;1mif npm run check:logic > /tmp/logic.txt 2>&1; then exit 0; fi^[[0m
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2814540Z ^[[36;1mgrep '✖' /tmp/logic.txt || true^[[0m
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2814722Z ^[[36;1mgit checkout -- data/dub-confirmed.yaml^[[0m
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2814958Z ^[[36;1mgit checkout -- data/anbieter-staffeln.json 2>/dev/null || true^[[0m
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2815193Z ^[[36;1mrm -f data/cache/pruefungen-abhaken.json^[[0m
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2815448Z ^[[36;1mgrund="$(grep -m 3 '✖' /tmp/logic.txt | tr -d '\"' | tr -s '[:space:]' ' ')"^[[0m
+bauen	UNKNOWN STEP	2026-10-11T10:23:37.2815833Z ^[[36;1mecho "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"^[[0m
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-11T10:24:40.2839903Z [pipeline]   2928 Titel, davon 1616 mit Verweis
+bauen	UNKNOWN STEP	2026-10-11T10:24:40.2840388Z [pipeline]   1595 mit belegter Synchro (-3), 2166 Verweise
+bauen	UNKNOWN STEP	2026-10-11T10:24:40.2840837Z [pipeline]   offen: 1312 ohne Verweis, 21 ohne Sprachurteil (+3)
+bauen	UNKNOWN STEP	2026-10-11T10:24:40.2841567Z [pipeline]   Lücken: 83 ohne deutschen Namen, 13 Serien ohne Folgenzahl
+bauen	UNKNOWN STEP	2026-10-11T10:24:40.2842069Z [pipeline] ⚠  verwaisteTermine: 13 — das darf nicht vorkommen
+bauen	UNKNOWN STEP	2026-10-11T10:24:40.2842465Z [pipeline]   421 künftige Termine (-11)
+bauen	UNKNOWN STEP	2026-10-11T10:24:40.3022534Z ##[error]Process completed with exit code 1.
+bauen	UNKNOWN STEP	2026-10-11T10:24:40.3082288Z ##[group]Run npm run data:og
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-11T10:26:35.5493460Z check:logic: 35 von 35 Prüfungen grün.
+bauen	UNKNOWN STEP	2026-10-11T10:26:37.6353927Z Push abgelehnt, jemand war schneller. Nächster Versuch.
+bauen	UNKNOWN STEP	2026-10-11T10:27:04.9540711Z [check:logic 35/35] pipeline/check-verweis-ziel.ts
+bauen	UNKNOWN STEP	2026-10-11T10:27:04.9540984Z check-verweis-ziel: ok
+bauen	UNKNOWN STEP	2026-10-11T10:27:04.9541447Z check:logic: 35 von 35 Prüfungen grün.
+bauen	UNKNOWN STEP	2026-10-11T10:27:07.1263428Z Push abgelehnt, jemand war schneller. Nächster Versuch.
+bauen	UNKNOWN STEP	2026-10-11T10:27:24.1332623Z ##[error]Nach 6 Versuchen nicht gepusht. Die geholten Daten sind im Lauf-Verzeichnis, nicht im Repo.
+bauen	UNKNOWN STEP	2026-10-11T10:27:24.1333949Z ##[error]Process completed with exit code 1.
+bauen	UNKNOWN STEP	2026-10-11T10:27:24.1362367Z ##[group]Run bash tools/discord-melden.sh "Bestand zusammenführen und bauen" "failure"
