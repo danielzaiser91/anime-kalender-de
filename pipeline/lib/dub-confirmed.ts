@@ -284,7 +284,7 @@ function ladeHandbelege(): DubCheck[] {
  * `check-handbelege` schlug nicht an, weil es alle Zeilen eines Verweises
  * zusammen betrachtet und die Frage „welche gewinnt" gar nicht stellt.
  */
-function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
+export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
   // Ohne Datum verliert: Ein undatierter Eintrag verdrängt keinen datierten.
   const [alt, neu] = (a.checkedAt ?? '') <= (b.checkedAt ?? '') ? [a, b] : [b, a]
   const verschmolzen = {

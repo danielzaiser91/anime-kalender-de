@@ -18,3 +18,8 @@ export function vereinigeBereiche(alt: DubBereich[] | undefined, neu: DubBereich
   }
   return aus
 }
+
+/** Teilwege mit Häkchen zuerst: Ein Ja gilt dem Teilweg, der es trägt (Cartoon-Wege je Staffel, `check:handbelege`). */
+export function nimmJa<T extends { dub?: boolean }>(streams: T[]): T[] {
+  return [...streams].sort((a, b) => Number(b.dub === true) - Number(a.dub === true))
+}
