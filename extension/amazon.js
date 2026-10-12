@@ -6604,6 +6604,9 @@ async function speicherSchreiben(werte) {
     seite: null,
   })
   let gesehen = leererStand()
+  /* Deutsch steht in den Folgen, nie in einem Sammelwert (Hell Mode, 30.08.2026). */
+  const hatDeutsch = (namen) => (namen ?? []).some((s) => /deutsch|german/i.test(s))
+  const deutschInFolgen = () => [...gesehen.jeFolge.values()].some(hatDeutsch)
 
   /**
    * Was der Mitleser aus den Nachlade-Antworten fischt, kommt hier an.
@@ -7602,12 +7605,6 @@ async function speicherSchreiben(werte) {
    * Ohne Folgendaten bleibt das Set: Ein Film hat keine Folgenliste, und dort
    * ist der Hydration-Block die einzige Quelle.
    */
-    const deutschInFolgen = () => {
-      for (const namen of gesehen.jeFolge.values()) {
-        if ((namen ?? []).some((s) => /deutsch|german/i.test(s))) return true
-      }
-      return false
-    }
     const deutsch = gesehen.jeFolge.size
       ? deutschInFolgen()
       : [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
@@ -10237,7 +10234,6 @@ async function speicherSchreiben(werte) {
     const meldeTeile = () => {
       const karte = gesehen.jeFolge
       if (!karte || karte.size < 2) return [null]
-      const hatDeutsch = (namen) => (namen ?? []).some((s) => /deutsch|german/i.test(s))
       /*
         **Eine Folge ohne Tonspurangabe wird nicht gemeldet — sie hat nichts gesagt.**
 
