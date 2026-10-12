@@ -288,6 +288,381 @@ function mehrKnopf(Button: any, $: EngineInterface, id: string, s: Schnitt<unkno
   )
 }
 
+// Groß: fett mit Akzent und ◆; normal: Standard; klein: gedimmt mit ·.
+const symbol = (g: string, normal: string) => (g === 'gross' ? '◆' : g === 'klein' ? '·' : normal)
+const farbe = (g: string) => (g === 'gross' ? AKZENT : undefined)
+
+type PaneDaten = {
+  l: Liste
+  bis: string | null
+  still: Ruhe
+  auf: number | null
+  ausgeklappt: string[]
+  jetztMs: number
+  regelListe: ReturnType<typeof sortiereRegeln>
+  liveListe: LiveEintrag[]
+  pipeListe: PipelineEintrag[]
+  von: ReturnType<typeof teile>
+  agenten: Agent[]
+}
+
+// Liest alle Atome des Panes; faellig und minute nur, damit der Render bei ihnen neu läuft.
+async function lesePaneDaten($: EngineInterface): Promise<PaneDaten> {
+  const l = await read($, liste)
+  const bis = await read($, autonomBis)
+  const still = await read($, ruhe)
+  const auf = await read($, offen)
+  await read($, faellig)
+  await read($, minute)
+  const ausgeklappt = await read($, aufgeklappt)
+  const jetztMs = Date.now()
+  const regelListe = sortiereRegeln(await read($, regeln), jetztMs)
+  const liveListe = await read($, live)
+  const pipeListe = await read($, pipeline)
+  const von = teile(await read($, vonDir), new Date())
+  return { l, bis, still, auf, ausgeklappt, jetztMs, regelListe, liveListe, pipeListe, von, agenten: agentenListe }
+}
+
+// Grundbausteine des Panes: Breite, Kürzen, Kürzungsschnitte, Titel, Punkt, Aufklapp-Zeilen.
+function baueAnsicht($: EngineInterface, e: any, d: PaneDaten) {
+  // Titelbreite: Pane minus Rand (2) minus Präfix „  x “ (Emoji zählen doppelt: 5).
+  const breite = Math.max(16, (e.props.bodyColumns || 38) - 2 - 5)
+  // Titel brechen um (Folgezeile unter dem Text); gekürzt wird erst jenseits von MAX_ZEILEN Zeilen, Wortumbruch kostet Reserve.
+  // Desktop setzt Proportionalschrift: dort passen gut 1,6 Zeichen je Spalte (Screenshot 11.10.2026, zweite Zeile blieb halb leer).
+  const zeichenJeSpalte = e.surface === 'terminal' ? 1 : 1.6
+  const gesamt = (b: number) => Math.floor(b * zeichenJeSpalte) * MAX_ZEILEN - 4
+  const kt = (text: string) => kuerze(text, gesamt(breite))
+  const { Box, Button, Link, Text } = $.ui.resolve(e)
+  const schnitt = <T,>(liste: T[], id: string, max?: number) => schneide(liste, id, d.ausgeklappt, max)
+  const mehr = (id: string, s: ReturnType<typeof schnitt>, nomen?: string) => mehrKnopf(Button, $, id, s, nomen)
+  const titel = (z: Eintrag) => (
+    <Text wrap="wrap" bold={z.groesse === 'gross'} color={farbe(z.groesse)} dimColor={z.groesse === 'klein'}>
+      {kt(z.titel)}
+    </Text>
+  )
+  // Jetzt: Farbe der Dringlichkeit statt Dimmen (auch bei [klein]); [groß] bleibt fett.
+  const jetztTitel = (z: DanielEintrag) => (
+    <Text wrap="wrap" bold={z.groesse === 'gross'} color={DRINGLICH_FARBE[z.dringlichkeit ?? 'heute']}>
+      {kt(z.titel)}
+    </Text>
+  )
+  // Der Punkt vor dem Titel klappt auf; der Titel selbst bricht um (ein Button-Label tut das nicht).
+  const punkt = (key: string, zeichen: string, nr: number) => (
+    <Button key={key} plain label={`  ${zeichen} `} onPress={() => update($, offen, o => (o === nr ? null : nr))} />
+  )
+  const stumm = (zeichen: string, farbe: string | undefined) => <Text color={farbe}>  {zeichen} </Text>
+  const rest = (text: string, k = 0) => (
+    <Text key={k} dimColor wrap="wrap">
+      {'    '}
+      {text}
+    </Text>
+  )
+  return { Box, Button, Link, Text, breite, gesamt, kt, schnitt, mehr, titel, jetztTitel, punkt, stumm, rest }
+}
+
+// Link-Zeile, Kopierknopf und aufgeklappte Details eines Eintrags.
+function baueVerweise($: EngineInterface, a: ReturnType<typeof baueAnsicht>) {
+  const { Box, Button, Link, Text, breite, gesamt, rest } = a
+  // Link-Zeile als Buttons mit String-Label (Markdown zeigte in der CLI 2.1.283 den Rohtext, Link nimmt kein file:).
+  // Der Explorer öffnet https im Standardbrowser, Dateien im zugehörigen Programm, Ordner im Explorer.
+  const oeffne = async (href: string) => {
+    const pfad = loeseZiel(href)?.pfad
+    if (!pfad) return
+    try {
+      await $.process.run(['explorer.exe', pfad])
+    } catch {
+      $.ui.toast('Öffnen fehlgeschlagen: ' + pfad)
+    }
+  }
+  // https: das Link-Element der Oberfläche (OSC 8), hier mit Themenfarbe und Unterstreichung; file: kann Link nicht,
+  // dort bleibt ein schlichter Button (Button hat keine Farbe).
+  const verweise = (z: Eintrag, key: string) =>
+    z.links.length ? (
+      <Box key={key} flexDirection="row" flexWrap="wrap">
+        <Text>{'    '}</Text>
+        {z.links.flatMap((v, k) => [
+          // Trenner außerhalb der Unterstreichung, sonst laufen zwei Links optisch ineinander (Daniel, 10.10.2026).
+          k > 0 ? <Text key={`${key}-t${k}`} dimColor>{' · '}</Text> : null,
+          v.href.startsWith('https:') ? (
+            <Text key={`${key}-${k}`} color={LINK_FARBE} underline>
+              {'↗ '}
+              <Link href={v.href} label={v.label} />
+            </Text>
+          ) : (
+            <Button key={`${key}-${k}`} plain dimColor label={`↗ ${v.label}`} onPress={() => void oeffne(v.href)} />
+          ),
+        ])}
+      </Box>
+    ) : null
+  // Markieren im Pane gelingt nicht verlässlich (Desktop: Knöpfe sind user-select:none); aufgeklappt gibt es das Kopieren per Knopf.
+  const kopiere = async (text: string, surface: RenderSurface) => {
+    const r = await $.ui.copy({ text, surface })
+    $.ui.toast(r.isCopied ? 'Kopiert' : 'Kopieren fehlgeschlagen')
+  }
+  const kopierKnopf = (key: string, text: string) => (
+    <Button key={key} plain dimColor label="    Text kopieren" onPress={(press: { surface: RenderSurface }) => void kopiere(text, press.surface)} />
+  )
+  const details = (z: Eintrag, key: string) => [
+    ...[z.titel.length > gesamt(breite) ? z.titel : '', z.rest].filter(Boolean).map((text, k) => rest(text, k)),
+    kopierKnopf(`kopie:${key}`, kopierText(z)),
+  ]
+  return { verweise, details }
+}
+
+type Ansicht = ReturnType<typeof baueAnsicht> & ReturnType<typeof baueVerweise>
+
+function paneAutonom(a: Ansicht, d: PaneDaten) {
+  const { Text } = a
+  return (
+    <Text dimColor={!d.bis} color={d.bis ? 'success' : undefined}>
+      {d.bis ? `● Autonomer Modus bis ${uhrzeit(d.bis)}` : '○ Autonomer Modus aus'}
+    </Text>
+  )
+}
+
+function paneRuhe(a: Ansicht, d: PaneDaten) {
+  const { Text } = a
+  if (!d.still) return null
+  return <Text color="warning">{d.still === 'sanft' ? '🔇 Ruhemodus sanft: Laufende enden, dann höchstens 1 Agent' : '🔇 Ruhemodus hart: höchstens 1 Agent'}</Text>
+}
+
+function paneLive(a: Ansicht, d: PaneDaten) {
+  const { Box, Text, titel, punkt, verweise, details, mehr, schnitt } = a
+  if (!d.liveListe.length) return null
+  const liveS = schnitt(d.liveListe, 'live')
+  return (
+    <Box flexDirection="column">
+      <Text bold color="success">
+        Neu und jetzt live testbar:
+      </Text>
+      {liveS.sichtbar.map((z, i) => (
+        <Box flexDirection="column" key={`live-${i}`}>
+          {zeile(Box, `live-z-${i}`, punkt(`live:${i}`, '✦', 400 + i), titel(z))}
+          {verweise(z, 'v-live-' + i)}
+          {d.auf === 400 + i ? details(z, `live:${i}`) : null}
+        </Box>
+      ))}
+      {mehr('live', liveS)}
+    </Box>
+  )
+}
+
+function paneJetzt(a: Ansicht, d: PaneDaten) {
+  const { Box, Text, jetztTitel, punkt, verweise, details, mehr, schnitt } = a
+  const jetztS = schnitt(sortiereJetzt(d.von.jetzt), 'jetzt')
+  return (
+    <Box flexDirection="column">
+      <Text bold>
+        Jetzt <Text color="warning">{d.von.jetzt.length}</Text>
+      </Text>
+      {d.von.jetzt.length === 0 ? <Text dimColor>  nichts</Text> : null}
+      {jetztS.sichtbar.map((z, i) => (
+        <Box flexDirection="column" key={`von-${i}`}>
+          {zeile(Box, `von-z-${i}`, punkt(`von:${i}`, z.faellig ? '⏰' : DRINGLICH_ICON[z.dringlichkeit ?? 'heute'], 100 + i), jetztTitel(z))}
+          {verweise(z, 'v-von-' + i)}
+          {d.auf === 100 + i ? details(z, `von:${i}`) : null}
+        </Box>
+      ))}
+      {mehr('jetzt', jetztS)}
+    </Box>
+  )
+}
+
+function paneSpaeter(a: Ansicht, d: PaneDaten) {
+  const { Box, Text, kt, punkt, verweise, details, mehr, schnitt } = a
+  if (!d.von.spaeter.length) return null
+  const spaetS = schnitt(d.von.spaeter, 'spaeter')
+  return (
+    <Box flexDirection="column">
+      <Text bold dimColor>
+        Später {d.von.spaeter.length}
+      </Text>
+      {spaetS.sichtbar.map((z: DanielEintrag, i) => (
+        <Box flexDirection="column" key={`spaet-${i}`}>
+          {zeile(Box, `spaet-z-${i}`, punkt(`spaet:${i}`, ICON[z.icon ?? ''] ?? '○', 200 + i), <Text dimColor wrap="wrap">{kt(z.titel)}</Text>)}
+          {verweise(z, 'v-spaet-' + i)}
+          {d.auf === 200 + i ? details(z, `spaet:${i}`) : null}
+        </Box>
+      ))}
+      {mehr('spaeter', spaetS)}
+    </Box>
+  )
+}
+
+function paneAgenten($: EngineInterface, a: Ansicht, d: PaneDaten) {
+  const { Box, Button, Text, breite, gesamt, stumm, mehr, schnitt } = a
+  if (!d.agenten.length) return null
+  const agentS = schnitt(d.agenten, 'agenten')
+  return (
+    <Box flexDirection="column">
+      <Button key="agenten" plain onPress={() => void schalteSavvyPane($)}>
+        <Text bold>
+          {agentenText(d.agenten.filter(x => !istPruefer(x)).length, d.agenten.filter(istPruefer).length).replace('Agents', 'Agenten')}
+        </Text>
+      </Button>
+      {agentS.sichtbar.map((x, i) =>
+        zeile(
+          Box,
+          `agent-${i}`,
+          stumm('●', AKZENT),
+          <Text wrap="wrap">
+            {kuerze(x.description, gesamt(breite) - (x.stepTotal ? 6 : 0))}
+            {x.stepTotal ? <Text dimColor>  {x.stepDone ?? 0}/{x.stepTotal}</Text> : null}
+          </Text>,
+        ),
+      )}
+      {mehr('agenten', agentS)}
+    </Box>
+  )
+}
+
+function paneInArbeit(a: Ansicht, d: PaneDaten) {
+  const { Box, Text, titel, punkt, verweise, details, mehr, schnitt } = a
+  const arbeit = sortiere(d.l.inArbeit)
+  const arbeitS = schnitt(arbeit.filter(z => z.groesse !== 'klein'), 'arbeit')
+  const kleinS = schnitt(arbeit.filter(z => z.groesse === 'klein'), 'klein', 0)
+  // Die Nummer ist die Stelle in der sortierten Liste, damit sie beim Kürzen und Aufklappen stehen bleibt.
+  const arbeitZeile = (z: Eintrag) => {
+    const i = arbeit.indexOf(z)
+    return (
+      <Box flexDirection="column" key={`now-${i}`}>
+        {zeile(Box, `now-z-${i}`, punkt(`now:${i}`, symbol(z.groesse, '●'), i), titel(z))}
+        {verweise(z, 'v-now-' + i)}
+        {d.auf === i ? details(z, `now:${i}`) : null}
+      </Box>
+    )
+  }
+  return (
+    <Box flexDirection="column">
+      <Text bold>
+        In Arbeit{' '}
+        <Text color={AKZENT}>{d.l.inArbeit.length}</Text>
+      </Text>
+      {d.l.inArbeit.length === 0 ? <Text dimColor>  nichts</Text> : null}
+      {arbeitS.sichtbar.map(arbeitZeile)}
+      {mehr('arbeit', arbeitS)}
+      {kleinS.sichtbar.map(arbeitZeile)}
+      {mehr('klein', kleinS, 'Kleinigkeiten')}
+    </Box>
+  )
+}
+
+function paneNaechstes(a: Ansicht, d: PaneDaten) {
+  const { Box, Text, kt, stumm, verweise, mehr, schnitt } = a
+  const later = schnitt(sortiere(d.l.todo), 'todo')
+  return (
+    <Box flexDirection="column">
+      <Text bold dimColor>
+        Als Nächstes {d.l.todo.length}
+      </Text>
+      {d.l.todo.length === 0 ? <Text dimColor>  nichts</Text> : null}
+      {later.sichtbar.map((z, i) => (
+        <Box flexDirection="column" key={`later-${i}`}>
+          {zeile(Box, `later-z-${i}`, stumm(symbol(z.groesse, '○'), farbe(z.groesse)), <Text dimColor={z.groesse !== 'gross'} bold={z.groesse === 'gross'} wrap="wrap">{kt(z.titel)}</Text>)}
+          {verweise(z, 'v-later-' + i)}
+        </Box>
+      ))}
+      {mehr('todo', later)}
+    </Box>
+  )
+}
+
+function panePipeline(a: Ansicht, d: PaneDaten) {
+  const { Box, Text, kt, punkt, verweise, details, mehr, schnitt } = a
+  if (!d.pipeListe.length) return null
+  const pipeS = schnitt(d.pipeListe, 'pipe')
+  return (
+    <Box flexDirection="column">
+      <Text bold dimColor>
+        In Pipeline {d.pipeListe.length}
+      </Text>
+      {pipeS.sichtbar.map((z, i) => (
+        <Box flexDirection="column" key={`pipe-${i}`}>
+          {zeile(
+            Box,
+            `pipe-z-${i}`,
+            punkt(`pipe:${i}`, '⇢', 500 + i),
+            <Text wrap="wrap">
+              <Text bold color={ORT_FARBE[z.ort]}>
+                {z.ort}{' '}
+              </Text>
+              {kt(z.titel)}
+            </Text>,
+          )}
+          {verweise(z, 'v-pipe-' + i)}
+          {d.auf === 500 + i ? details(z, `pipe:${i}`) : null}
+        </Box>
+      ))}
+      {mehr('pipe', pipeS)}
+    </Box>
+  )
+}
+
+function paneRegeln($: EngineInterface, a: Ansicht, d: PaneDaten) {
+  const { Box, Button, Text, breite, gesamt, rest, mehr, schnitt } = a
+  if (!d.regelListe.length) return null
+  const regelSchnitt = schnitt(d.regelListe, 'regeln')
+  return (
+    <Box flexDirection="column">
+      <Text bold dimColor>
+        Regelmäßig {d.regelListe.length}
+      </Text>
+      {regelSchnitt.sichtbar.map(({ r, ms, datei }, i) => {
+        const min = ms === null ? null : abstandMin(ms, d.jetztMs)
+        const chip = ms === null ? '—' : inKurz(ms, d.jetztMs)
+        const dringend = min !== null && min <= DRINGEND_MIN
+        const nr = 300 + datei
+        const klein = kuerze(r.titel, gesamt(breite - CHIP + 1))
+        return (
+          <Box flexDirection="column" key={`regel-${datei}`}>
+            <Box flexDirection="row">
+              <Text bold={dringend} color={dringend ? 'warning' : undefined} dimColor={min === null || min > BALD_MIN}>
+                {chip.padStart(CHIP)}
+              </Text>
+              <Button key={`regel:${datei}`} plain label={d.auf === nr ? ' ▾ ' : ' ▸ '} onPress={() => update($, offen, o => (o === nr ? null : nr))} />
+              <Box flexGrow={1} flexShrink={1}>
+                <Text dimColor={i > 0} wrap="wrap">
+                  {klein}
+                </Text>
+              </Box>
+            </Box>
+            {d.auf === nr
+              ? [r.titel.length > gesamt(breite - CHIP + 1) ? r.titel : '', detailZeile(r, ms, d.jetztMs), r.rest]
+                  .filter(Boolean)
+                  .map((text, k) => rest(text, k))
+              : null}
+          </Box>
+        )
+      })}
+      {mehr('regeln', regelSchnitt)}
+      <Text dimColor>  Cron UTC · Wecker feuert zur Stunde ±min</Text>
+    </Box>
+  )
+}
+
+// Pane: Statuszeile, dann Abschnitte mit je einer umbrechenden Zeile pro Eintrag.
+async function zeichnePane($: EngineInterface, e: any) {
+  protokoll($, 'pane', `render ${e.surface} spalten=${e.props.bodyColumns}`)
+  const d = await lesePaneDaten($)
+  const ansicht = baueAnsicht($, e, d)
+  const a: Ansicht = { ...ansicht, ...baueVerweise($, ansicht) }
+  const { Box } = a
+  return (
+    <Box flexDirection="column" gap={1} paddingX={1}>
+      {paneAutonom(a, d)}
+      {paneRuhe(a, d)}
+      {paneLive(a, d)}
+      {paneJetzt(a, d)}
+      {paneSpaeter(a, d)}
+      {paneAgenten($, a, d)}
+      {paneInArbeit(a, d)}
+      {paneNaechstes(a, d)}
+      {panePipeline(a, d)}
+      {paneRegeln($, a, d)}
+    </Box>
+  )
+}
+
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await aktualisiere($)
@@ -318,289 +693,5 @@ export const register: Register = on => {
     return next(e)
   })
 
-  // Pane: Statuszeile, dann Abschnitte mit je einer umbrechenden Zeile pro Eintrag.
-  on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
-    protokoll($, 'pane', `render ${e.surface} spalten=${e.props.bodyColumns}`)
-    const l = await read($, liste)
-    const bis = await read($, autonomBis)
-    const still = await read($, ruhe)
-    const auf = await read($, offen)
-    await read($, faellig)
-    await read($, minute)
-    const ausgeklappt = await read($, aufgeklappt)
-    const jetztMs = Date.now()
-    const regelListe = sortiereRegeln(await read($, regeln), jetztMs)
-    const regelSchnitt = schneide(regelListe, 'regeln', ausgeklappt)
-    // Titelbreite: Pane minus Rand (2) minus Präfix „  x “ (Emoji zählen doppelt: 5).
-    const breite = Math.max(16, (e.props.bodyColumns || 38) - 2 - 5)
-    // Titel brechen um (Folgezeile unter dem Text); gekürzt wird erst jenseits von MAX_ZEILEN Zeilen, Wortumbruch kostet Reserve.
-    // Desktop setzt Proportionalschrift: dort passen gut 1,6 Zeichen je Spalte (Screenshot 11.10.2026, zweite Zeile blieb halb leer).
-    const zeichenJeSpalte = e.surface === 'terminal' ? 1 : 1.6
-    const gesamt = (b: number) => Math.floor(b * zeichenJeSpalte) * MAX_ZEILEN - 4
-    const kt = (text: string) => kuerze(text, gesamt(breite))
-    const liveListe = await read($, live)
-    const pipeListe = await read($, pipeline)
-    const von = teile(await read($, vonDir), new Date())
-    const agenten = agentenListe
-    const { Box, Button, Link, Text } = $.ui.resolve(e)
-    const schnitt = <T,>(liste: T[], id: string, max?: number) => schneide(liste, id, ausgeklappt, max)
-    const mehr = (id: string, s: ReturnType<typeof schnitt>, nomen?: string) => mehrKnopf(Button, $, id, s, nomen)
-    const later = schnitt(sortiere(l.todo), 'todo')
-    const jetztS = schnitt(sortiereJetzt(von.jetzt), 'jetzt')
-    const spaetS = schnitt(von.spaeter, 'spaeter')
-    const liveS = schnitt(liveListe, 'live')
-    const agentS = schnitt(agenten, 'agenten')
-    const pipeS = schnitt(pipeListe, 'pipe')
-    const arbeit = sortiere(l.inArbeit)
-    const arbeitS = schnitt(arbeit.filter(z => z.groesse !== 'klein'), 'arbeit')
-    const kleinS = schnitt(arbeit.filter(z => z.groesse === 'klein'), 'klein', 0)
-    // Groß: fett mit Akzent und ◆; normal: Standard; klein: gedimmt mit ·.
-    const symbol = (g: string, normal: string) => (g === 'gross' ? '◆' : g === 'klein' ? '·' : normal)
-    const farbe = (g: string) => (g === 'gross' ? AKZENT : undefined)
-    const titel = (z: Eintrag) => (
-      <Text wrap="wrap" bold={z.groesse === 'gross'} color={farbe(z.groesse)} dimColor={z.groesse === 'klein'}>
-        {kt(z.titel)}
-      </Text>
-    )
-
-    // Jetzt: Farbe der Dringlichkeit statt Dimmen (auch bei [klein]); [groß] bleibt fett.
-    const jetztTitel = (z: DanielEintrag) => (
-      <Text wrap="wrap" bold={z.groesse === 'gross'} color={DRINGLICH_FARBE[z.dringlichkeit ?? 'heute']}>
-        {kt(z.titel)}
-      </Text>
-    )
-
-    // Der Punkt vor dem Titel klappt auf; der Titel selbst bricht um (ein Button-Label tut das nicht).
-    const punkt = (key: string, zeichen: string, nr: number) => (
-      <Button key={key} plain label={`  ${zeichen} `} onPress={() => update($, offen, o => (o === nr ? null : nr))} />
-    )
-    const stumm = (zeichen: string, farbe: string | undefined) => <Text color={farbe}>  {zeichen} </Text>
-    // Link-Zeile als Buttons mit String-Label (Markdown zeigte in der CLI 2.1.283 den Rohtext, Link nimmt kein file:).
-    // Der Explorer öffnet https im Standardbrowser, Dateien im zugehörigen Programm, Ordner im Explorer.
-    const oeffne = async (href: string) => {
-      const pfad = loeseZiel(href)?.pfad
-      if (!pfad) return
-      try {
-        await $.process.run(['explorer.exe', pfad])
-      } catch {
-        $.ui.toast('Öffnen fehlgeschlagen: ' + pfad)
-      }
-    }
-    // https: das Link-Element der Oberfläche (OSC 8), hier mit Themenfarbe und Unterstreichung; file: kann Link nicht,
-    // dort bleibt ein schlichter Button (Button hat keine Farbe).
-    const verweise = (z: Eintrag, key: string) =>
-      z.links.length ? (
-        <Box key={key} flexDirection="row" flexWrap="wrap">
-          <Text>{'    '}</Text>
-          {z.links.flatMap((v, k) => [
-            // Trenner außerhalb der Unterstreichung, sonst laufen zwei Links optisch ineinander (Daniel, 10.10.2026).
-            k > 0 ? <Text key={`${key}-t${k}`} dimColor>{' · '}</Text> : null,
-            v.href.startsWith('https:') ? (
-              <Text key={`${key}-${k}`} color={LINK_FARBE} underline>
-                {'↗ '}
-                <Link href={v.href} label={v.label} />
-              </Text>
-            ) : (
-              <Button key={`${key}-${k}`} plain dimColor label={`↗ ${v.label}`} onPress={() => void oeffne(v.href)} />
-            ),
-          ])}
-        </Box>
-      ) : null
-    // Markieren im Pane gelingt nicht verlässlich (Desktop: Knöpfe sind user-select:none); aufgeklappt gibt es das Kopieren per Knopf.
-    const kopiere = async (text: string, surface: RenderSurface) => {
-      const r = await $.ui.copy({ text, surface })
-      $.ui.toast(r.isCopied ? 'Kopiert' : 'Kopieren fehlgeschlagen')
-    }
-    const kopierKnopf = (key: string, text: string) => (
-      <Button key={key} plain dimColor label="    Text kopieren" onPress={press => void kopiere(text, press.surface)} />
-    )
-    const details = (z: Eintrag, key: string) => [
-      ...[z.titel.length > gesamt(breite) ? z.titel : '', z.rest].filter(Boolean).map((text, k) => rest(text, k)),
-      kopierKnopf(`kopie:${key}`, kopierText(z)),
-    ]
-    const rest = (text: string, k = 0) => (
-      <Text key={k} dimColor wrap="wrap">
-        {'    '}
-        {text}
-      </Text>
-    )
-    // Die Nummer ist die Stelle in der sortierten Liste, damit sie beim Kürzen und Aufklappen stehen bleibt.
-    const arbeitZeile = (z: Eintrag) => {
-      const i = arbeit.indexOf(z)
-      return (
-        <Box flexDirection="column" key={`now-${i}`}>
-          {zeile(Box, `now-z-${i}`, punkt(`now:${i}`, symbol(z.groesse, '●'), i), titel(z))}
-          {verweise(z, 'v-now-' + i)}
-          {auf === i ? details(z, `now:${i}`) : null}
-        </Box>
-      )
-    }
-
-    return (
-      <Box flexDirection="column" gap={1} paddingX={1}>
-        <Text dimColor={!bis} color={bis ? 'success' : undefined}>
-          {bis ? `● Autonomer Modus bis ${uhrzeit(bis)}` : '○ Autonomer Modus aus'}
-        </Text>
-        {still ? <Text color="warning">{still === 'sanft' ? '🔇 Ruhemodus sanft: Laufende enden, dann höchstens 1 Agent' : '🔇 Ruhemodus hart: höchstens 1 Agent'}</Text> : null}
-
-        {liveListe.length ? (
-          <Box flexDirection="column">
-            <Text bold color="success">
-              Neu und jetzt live testbar:
-            </Text>
-            {liveS.sichtbar.map((z, i) => (
-              <Box flexDirection="column" key={`live-${i}`}>
-                {zeile(Box, `live-z-${i}`, punkt(`live:${i}`, '✦', 400 + i), titel(z))}
-                {verweise(z, 'v-live-' + i)}
-                {auf === 400 + i ? details(z, `live:${i}`) : null}
-              </Box>
-            ))}
-            {mehr('live', liveS)}
-          </Box>
-        ) : null}
-
-        <Box flexDirection="column">
-          <Text bold>
-            Jetzt <Text color="warning">{von.jetzt.length}</Text>
-          </Text>
-          {von.jetzt.length === 0 ? <Text dimColor>  nichts</Text> : null}
-          {jetztS.sichtbar.map((z, i) => (
-            <Box flexDirection="column" key={`von-${i}`}>
-              {zeile(Box, `von-z-${i}`, punkt(`von:${i}`, z.faellig ? '⏰' : DRINGLICH_ICON[z.dringlichkeit ?? 'heute'], 100 + i), jetztTitel(z))}
-              {verweise(z, 'v-von-' + i)}
-              {auf === 100 + i ? details(z, `von:${i}`) : null}
-            </Box>
-          ))}
-          {mehr('jetzt', jetztS)}
-        </Box>
-
-        {von.spaeter.length ? (
-          <Box flexDirection="column">
-            <Text bold dimColor>
-              Später {von.spaeter.length}
-            </Text>
-            {spaetS.sichtbar.map((z: DanielEintrag, i) => (
-              <Box flexDirection="column" key={`spaet-${i}`}>
-                {zeile(Box, `spaet-z-${i}`, punkt(`spaet:${i}`, ICON[z.icon ?? ''] ?? '○', 200 + i), <Text dimColor wrap="wrap">{kt(z.titel)}</Text>)}
-                {verweise(z, 'v-spaet-' + i)}
-                {auf === 200 + i ? details(z, `spaet:${i}`) : null}
-              </Box>
-            ))}
-            {mehr('spaeter', spaetS)}
-          </Box>
-        ) : null}
-
-        {agenten.length ? (
-          <Box flexDirection="column">
-            <Button key="agenten" plain onPress={() => void schalteSavvyPane($)}>
-              <Text bold>
-                {agentenText(agenten.filter(a => !istPruefer(a)).length, agenten.filter(istPruefer).length).replace('Agents', 'Agenten')}
-              </Text>
-            </Button>
-            {agentS.sichtbar.map((a, i) =>
-              zeile(
-                Box,
-                `agent-${i}`,
-                stumm('●', AKZENT),
-                <Text wrap="wrap">
-                  {kuerze(a.description, gesamt(breite) - (a.stepTotal ? 6 : 0))}
-                  {a.stepTotal ? <Text dimColor>  {a.stepDone ?? 0}/{a.stepTotal}</Text> : null}
-                </Text>,
-              ),
-            )}
-            {mehr('agenten', agentS)}
-          </Box>
-        ) : null}
-
-        <Box flexDirection="column">
-          <Text bold>
-            In Arbeit{' '}
-            <Text color={AKZENT}>{l.inArbeit.length}</Text>
-          </Text>
-          {l.inArbeit.length === 0 ? <Text dimColor>  nichts</Text> : null}
-          {arbeitS.sichtbar.map(arbeitZeile)}
-          {mehr('arbeit', arbeitS)}
-          {kleinS.sichtbar.map(arbeitZeile)}
-          {mehr('klein', kleinS, 'Kleinigkeiten')}
-        </Box>
-
-        <Box flexDirection="column">
-          <Text bold dimColor>
-            Als Nächstes {l.todo.length}
-          </Text>
-          {l.todo.length === 0 ? <Text dimColor>  nichts</Text> : null}
-          {later.sichtbar.map((z, i) => (
-            <Box flexDirection="column" key={`later-${i}`}>
-              {zeile(Box, `later-z-${i}`, stumm(symbol(z.groesse, '○'), farbe(z.groesse)), <Text dimColor={z.groesse !== 'gross'} bold={z.groesse === 'gross'} wrap="wrap">{kt(z.titel)}</Text>)}
-              {verweise(z, 'v-later-' + i)}
-            </Box>
-          ))}
-          {mehr('todo', later)}
-        </Box>
-
-        {pipeListe.length ? (
-          <Box flexDirection="column">
-            <Text bold dimColor>
-              In Pipeline {pipeListe.length}
-            </Text>
-            {pipeS.sichtbar.map((z, i) => (
-              <Box flexDirection="column" key={`pipe-${i}`}>
-                {zeile(
-                  Box,
-                  `pipe-z-${i}`,
-                  punkt(`pipe:${i}`, '⇢', 500 + i),
-                  <Text wrap="wrap">
-                    <Text bold color={ORT_FARBE[z.ort]}>
-                      {z.ort}{' '}
-                    </Text>
-                    {kt(z.titel)}
-                  </Text>,
-                )}
-                {verweise(z, 'v-pipe-' + i)}
-                {auf === 500 + i ? details(z, `pipe:${i}`) : null}
-              </Box>
-            ))}
-            {mehr('pipe', pipeS)}
-          </Box>
-        ) : null}
-
-        {regelListe.length ? (
-          <Box flexDirection="column">
-            <Text bold dimColor>
-              Regelmäßig {regelListe.length}
-            </Text>
-            {regelSchnitt.sichtbar.map(({ r, ms, datei }, i) => {
-              const min = ms === null ? null : abstandMin(ms, jetztMs)
-              const chip = ms === null ? '—' : inKurz(ms, jetztMs)
-              const dringend = min !== null && min <= DRINGEND_MIN
-              const nr = 300 + datei
-              const klein = kuerze(r.titel, gesamt(breite - CHIP + 1))
-              return (
-                <Box flexDirection="column" key={`regel-${datei}`}>
-                  <Box flexDirection="row">
-                    <Text bold={dringend} color={dringend ? 'warning' : undefined} dimColor={min === null || min > BALD_MIN}>
-                      {chip.padStart(CHIP)}
-                    </Text>
-                    <Button key={`regel:${datei}`} plain label={auf === nr ? ' ▾ ' : ' ▸ '} onPress={() => update($, offen, o => (o === nr ? null : nr))} />
-                    <Box flexGrow={1} flexShrink={1}>
-                      <Text dimColor={i > 0} wrap="wrap">
-                        {klein}
-                      </Text>
-                    </Box>
-                  </Box>
-                  {auf === nr
-                    ? [r.titel.length > gesamt(breite - CHIP + 1) ? r.titel : '', detailZeile(r, ms, jetztMs), r.rest]
-                        .filter(Boolean)
-                        .map((text, k) => rest(text, k))
-                    : null}
-                </Box>
-              )
-            })}
-            {mehr('regeln', regelSchnitt)}
-            <Text dimColor>  Cron UTC · Wecker feuert zur Stunde ±min</Text>
-          </Box>
-        ) : null}
-      </Box>
-    )
-  })
+  on('ui.render', { component: 'Pane', requestId: PANE }, ($, e) => zeichnePane($, e))
 }
