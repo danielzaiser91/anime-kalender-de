@@ -747,3 +747,13 @@ function useTippVerhalten(anker: RefObject<HTMLSpanElement | null>, offen: boole
     },
   }
 }
+
+/** Dezenter Lade-Kringel mit Beschriftung; die Farbe kommt von `className` (Standard: leiser Text), `motion-reduce` hält ihn an. */
+export function Ladeanzeige({ label, className = 'h-64 text-ak-leise' }: { label: string; className?: string }) {
+  return (
+    <div role="status" className={`flex flex-col items-center justify-center gap-3 text-sm ${className}`}>
+      <span className="size-6 animate-spin rounded-full border-2 border-current border-t-transparent motion-reduce:animate-none" />
+      {label}
+    </div>
+  )
+}
