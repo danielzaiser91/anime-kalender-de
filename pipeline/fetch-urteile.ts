@@ -9,9 +9,10 @@
  * ein Urteil, wie viele sind unbekannt, und wie steht es gegen den heutigen Datensatz
  * (`tools/poc-urteil/urteil-folge.ts`).
  *
- * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts
+ * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts   (höchstens alle 6 Stunden, `--voll` erzwingt: `lib/abruf-stempel.ts`)
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
+import { abrufMitStempel } from './lib/abruf-stempel.ts'
 import { adressIndex, artDerMeldung, artDerRohfolge, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
@@ -228,4 +229,4 @@ async function main() {
   )
   logOhneTitel()
 }
-if (process.argv[1]?.endsWith('fetch-urteile.ts')) await main()
+if (process.argv[1]?.endsWith('fetch-urteile.ts')) await abrufMitStempel('urteile', ZIEL, main)

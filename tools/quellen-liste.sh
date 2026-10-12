@@ -129,6 +129,8 @@ QUELLEN=(
   data/prime-zugeordnet.json
   data/folgen-zuordnung.json
   data/urteile.json
+  # Wann die beiden Dateien davor zuletzt vom Worker geholt wurden (12.10.2026, pipeline/lib/abruf-stempel.ts).
+  data/abruf-stempel.json
   data/amazon-gti-belegt.json
   data/justwatch-handpruefung.json
   daniel-zum-abarbeiten/listen/20-justwatch-handpruefung.md
