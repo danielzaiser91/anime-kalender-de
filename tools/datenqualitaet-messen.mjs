@@ -5,7 +5,7 @@
  * je Titelart (Anime Hauptbestand = titles.json, Anime Katalog ohne Synchro = ohne-synchro.json,
  * Cartoon/TMDB = cartoons.json) und je Anbieter:
  *   wege          sichtbare Pillen (gleiche Pillen zusammengelegt wie `wege-sortieren.ts`); roh = Einträge in `streams`
- *   haken         grüner Haken: `stream.dub === true` (`DubStatus` in `anbieter-zeile.tsx`, `antwort-bereich.tsx`)
+ *   haken         grüner Haken: `stream.dub === true` (`DubEcke` in `vermerk.tsx`, `antwort-bereich.tsx`)
  *   folgen*       Folgenangabe der Pille, mit der echten Web-Funktion `folgenAuskunft` gerechnet (kein Nachbau):
  *                 belegt = aus Bereichen am Weg, plan = Wochenplan der Releases, abgeleitet = Titelzahl mit „≈“ bei
  *                 abgeschlossener Serie, joyn = Abruffenster, einzelwerk = Film/1 Folge (Zahl entfällt), keine
@@ -67,7 +67,7 @@ function folgenKlasse({ titel, s, fn, releases, heute }) {
   if (text.startsWith('detail.neuAm')) return 'plan'
   if (hatBereiche) return 'belegt'
   if (text.startsWith('≈')) return 'abgeleitet'
-  if (text.startsWith('detail.folgenKurz') || text.startsWith('detail.folgenBereich')) return 'plan'
+  if (text.startsWith('detail.folgenKurz')) return 'plan'
   return 'belegt'
 }
 
