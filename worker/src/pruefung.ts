@@ -77,9 +77,14 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
    * ist billig: `?stand=1` liest nur die **offenen** Meldungen
    * (`WHERE uebernommen = 0`), nicht die ganze Tabelle — das ist der
    * Unterschied zu `?zaehlen=1`.
+   *
+   * **Seit 12.10.2026 liegen die wartenden Meldungen getrennt 30 Minuten im Cache** (`wartendSchluessel`):
+   * Die Erweiterung fragt den Stand alle 5 Minuten und traf dessen Cache kaum. `?gemeldet=<Adresse>`
+   * hält 30 Minuten je Adresse; geschrieben wird nur zu einer Adresse, also wird auch nur diese
+   * verworfen (`pruefung-gemeldet-cache.ts`) — das ist keine Sammelantwort wie damals.
    */
-  const ausCache = (bauen: () => Promise<Response>, sekunden = 1800): Promise<Response> =>
-    ausEdgeCache(request, ctx, sekunden, bauen)
+  const ausCache = (bauen: () => Promise<Response>, sekunden = 1800, schluessel?: string): Promise<Response> =>
+    ausEdgeCache(request, ctx, sekunden, bauen, schluessel)
 
   if (request.method === 'GET') {
     return await beantwortePruefungLesen({ request, env, antwort, ausCache })

@@ -24,6 +24,7 @@ import { verarbeiteStapel } from './pruefung-stapel.ts'
 import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
 import { istMeldung, mitTagesdeckel } from './tagesdeckel.ts'
 import { loescheOffene } from './pruefung-ersetzen.ts'
+import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
 import { pruefeUnveraendert, ladeOffeneHashes, type OffeneHashes } from './pruefung-unveraendert.ts'
 
 export async function speicherePruefung(kontext: Kontext) {
@@ -35,10 +36,15 @@ export async function speicherePruefung(kontext: Kontext) {
   }
   /* Aufträge der Pipeline (abhaken, wieder öffnen) bleiben unter dem Tagesdeckel frei. */
   if (!istMeldung(daten)) return await speichereDaten(kontext, daten)
-  return await mitTagesdeckel(kontext, async (k) => {
-    const urls = typeof daten.url === 'string' ? [daten.url.trim()] : []
-    return await speichereDaten({ ...k, offene: await ladeOffeneHashes(k.env, urls) }, daten)
-  })
+  try {
+    return await mitTagesdeckel(kontext, async (k) => {
+      const urls = typeof daten.url === 'string' ? [daten.url.trim()] : []
+      return await speichereDaten({ ...k, offene: await ladeOffeneHashes(k.env, urls) }, daten)
+    })
+  } finally {
+    /* Ihre Antwort auf `?gemeldet=` hat sich geändert; auch nach einer Ausnahme, es kann teilweise geschrieben sein. */
+    await verwirfGemeldet(kontext.request.url, adressenDerMeldung(daten))
+  }
 }
 
 /** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */

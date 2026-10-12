@@ -4,12 +4,15 @@ import { zaehleOffenePruefungen } from './pruefung-zaehlen.ts'
 import { liefereRohfolgen } from './pruefung-rohfolgen.ts'
 import { berechnePruefstand } from './pruefung-stand.ts'
 import { leseGemeldet } from './pruefung-gemeldet.ts'
+import { GEMELDET_SEKUNDEN, gemeldetSchluessel } from './pruefung-gemeldet-cache.ts'
+import { wartendSchluessel } from './pruefung-stand-briefkasten.ts'
+import { type AusCache } from './cache-kurz.ts'
 
 export async function beantwortePruefungLesen({ request, env, antwort, ausCache }: {
   request: Request<unknown, CfProperties<unknown>>
   env: Env
   antwort: (body: unknown, status?: number) => Response
-  ausCache: (bauen: () => Promise<Response>, sekunden?: number) => Promise<Response>
+  ausCache: AusCache
 }) {
     /**
      * **Nur zählen — das geht ohne Token.**
@@ -45,7 +48,11 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
      */
     const fuer = new URL(request.url).searchParams.get('gemeldet')
     if (fuer) {
-      return antwort(await leseGemeldet(env, fuer))
+      return ausCache(
+        async () => antwort(await leseGemeldet(env, fuer)),
+        GEMELDET_SEKUNDEN,
+        gemeldetSchluessel(request.url, fuer),
+      )
     }
 
     /**
@@ -65,7 +72,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
      * Zahl der Adressen, damit eine Liste ihre eigene Länge belegen kann.
      */
     if (new URL(request.url).searchParams.get('stand') === '1') return ausCache(async () => {
-      return await berechnePruefstand({ env, antwort })
+      return await berechnePruefstand({ env, antwort, zwischen: { ausCache, schluessel: wartendSchluessel(request.url) } })
     }, 300)
 
     /*

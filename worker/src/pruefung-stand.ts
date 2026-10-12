@@ -22,11 +22,15 @@ function bekanntDazu<T extends { plattform: string }>(anbieter: T[], roh: unknow
   return anbieter.map((a) => (bekannt.get(a.plattform) ? { ...a, bekannt: bekannt.get(a.plattform) } : a))
 }
 
-export async function berechnePruefstand({ env, antwort }: {
+type StandKontext = {
   env: Env
   antwort: (body: unknown, status?: number) => Response
-}) {
-      const wartend = await holeWartende(env)
+  /** Cache der Edge und Schlüssel für die wartenden Meldungen; ohne beides (Tests) wird direkt gelesen. */
+  zwischen?: Parameters<typeof holeWartende>[1]
+}
+
+export async function berechnePruefstand({ env, antwort, zwischen }: StandKontext) {
+      const wartend = await holeWartende(env, zwischen)
       /**
        * **Übernommen ist nicht erledigt — jedenfalls nicht für den Prüfstand.**
        *
