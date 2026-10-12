@@ -23,6 +23,7 @@
   const SERVER_FEHLER_REIHE = 3
   const SERVER_PAUSE_SEKUNDEN = 30 * 60
   /* Prime macht nach der Pause von allein weiter; Netflix und Disney+ enden und brauchen einen neuen Start. */
+  /* `manifest.json` spielt diese Datei nur auf netflix.com, www.amazon.de und disneyplus.com ein; kommt primevideo.com dazu, muss der Hostname hier mit. */
   const PRIME = globalThis.location?.hostname === 'www.amazon.de'
   let bis = 0
   let art = null
