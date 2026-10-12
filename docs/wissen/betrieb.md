@@ -1379,3 +1379,29 @@ Die 6 Zeilen sind `pruefung` (Löschen + Einfügen samt Indexen) und der Tagesz�
 **Warum nicht in `check:vor-commit` und nicht in den Pflichtjob von `pr-pruefung.yml`:** Der Pflichtjob hat kein Chromium (siehe Kopf von `aussehen-pruefen.yml`), und eine Zeitgrenze auf einem geteilten Runner ist ohne Eichung nicht stabil. Vorschlag (Workflow-Dateien hier bewusst nicht angefasst):
 1. Im Job `aussehen` von `pr-pruefung.yml` (nur bei `web/src`-Änderungen, nicht verpflichtend) hinter `check:ansichten` ein Schritt `npm run check:ladezeiten` mit `continue-on-error: true`, bis die Läufe auf dem Runner geeicht sind.
 2. Neuer Workflow `ladezeiten.yml` (täglich, `workflow_dispatch` + Cron, Muster `d1-verbrauch.yml`): checkout, Node 22, `npm ci`, `npx playwright install --with-deps chromium`, `npm run build:schlank`, `npm run check:ladezeiten`. Die ersten Tage mit `--nur-messen` laufen lassen, die Runner-Mediane in `ladezeiten-grenzen.mjs` übernehmen (Datum dazu), dann scharf; rot wird bemerkt über `laeufe-aufraeumen.mjs`.
+
+## Untersucher: eine Ursache, ein Issue, ein Pull Request (12.10.2026)
+
+Am 11./12.10.2026 legten 15 rote Bestandsbauten 15 Issues und viele PRs an, obwohl es nur 7
+Ursachen waren (fünfmal „Titel nur bei aniSearch tragen keinen erratenen Weg", dreimal
+„gesperrter Titel in neu-mit-synchro.json", je zweimal Prüfliste und Handbelege). Jeder Lauf
+startete einen Untersucher, der vom Vorgänger nichts wusste.
+
+**Jetzt** läuft in `claude-reparatur.yml` vor dem Untersucher `tools/untersucher-vorab.mjs`:
+
+- **Schlüssel** = erste Zusicherungszeile `✖`/`✗` des Protokolls, sonst `FEHLER:`, sonst der
+  `⚠`-Kopf vor „Der gebaute Bestand verletzt eine Zusicherung", sonst die erste besondere
+  `##[error]`-Zeile; ohne Fundliste („— gefunden: …") und mit allen Zahlen als `N`. Das ist die
+  Prüfung, nicht der betroffene Titel (`tools/untersucher-logik.mjs`). Ohne Ursachenzeile
+  (z. B. Wache) bleibt alles wie bisher.
+- **Marker** `<!-- untersucher-schluessel: … -->` im Issue-Text. Der Schritt legt das Issue
+  selbst an (Titel „Bestandsbau rot: …", wird vom grünen Bau geschlossen) und sagt dem Untersucher
+  die Nummer; der Untersucher ergänzt per Kommentar und schreibt „Behebt #N" in den PR.
+- Gibt es ein offenes Issue mit dem Schlüssel: Kommentar mit Lauf-Link (und am offenen PR, der
+  `#N` oder einen Lauf des Issues nennt). Gibt es einen offenen PR, startet der Untersucher gar
+  nicht; sonst startet er mit dem Hinweis auf das Issue.
+- Grenze: dieselbe Zusicherung kann zwei Ursachen haben (am 12.10. „erratener Weg": erst
+  Nachrunde, dann `dub: true`). Die zweite landet im selben Issue; der Untersucher läuft wieder,
+  solange kein PR offen ist, und schreibt die neue Ursache als Kommentar.
+- Belegt an den 15 Läufen: `tools/untersucher-schluessel.test.mjs` (Protokollauszüge unter
+  `tools/testdaten/untersucher/`) — 7 Schlüssel, keine zwei Ursachen zusammengeworfen.

@@ -1,0 +1,13 @@
+bauen	Änderungen committen	2026-10-12T09:24:45.2672094Z   ✓ Kennung fehlt im Manifest: kein Cover
+bauen	Änderungen committen	2026-10-12T09:24:45.2672680Z   ✓ AniList-Kennung nimmt keine aniSearch-Kopie (126 ist keine Titelkennung)
+bauen	Änderungen committen	2026-10-12T09:24:45.2673534Z   ✓ Plakat ohne Treffer (null) fällt auf die eigene Kopie zurück
+bauen	Änderungen committen	2026-10-12T09:24:45.2674081Z   ✓ Die Basis ist die eigene Domain, nie aniSearch
+bauen	Änderungen committen	2026-10-12T09:24:45.2674555Z check-cover-quelle: alle Zusicherungen halten
+bauen	Änderungen committen	2026-10-12T09:24:45.2675043Z [check:logic 25/78] pipeline/check-cr-teilseiten.ts
+bauen	Änderungen committen	2026-10-12T09:24:45.2675693Z FEHLER: Bestand: die Prüfliste nennt nur vorhandene Titel mit Grund 10021915
+bauen	Änderungen committen	2026-10-12T09:24:45.2676326Z 1 Zusicherung(en) zu den geteilten Crunchyroll-Seiten verletzt
+bauen	Änderungen committen	2026-10-12T09:24:45.2677022Z check:logic: pipeline/check-cr-teilseiten.ts ist rot (nach 24 grünen von 78).
+bauen	Änderungen committen	2026-10-12T09:24:45.2688567Z ##[error]Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon.
+bauen	Änderungen committen	2026-10-12T09:24:51.6162049Z Gepusht (Versuch 1).
+bauen	Änderungen committen	2026-10-12T09:24:51.6169152Z ##[error]Process completed with exit code 1.
+

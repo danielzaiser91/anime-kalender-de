@@ -1,0 +1,64 @@
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2141683Z [pipeline] ⚠  Auffällig: Meldung 9207: Titel 355 ist Staffel 1, die Seite B0FFGWVYVK Staffel 2
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2143324Z [pipeline] ⚠  66 Meldung(en) bleiben im Briefkasten, bis sie zugeordnet sind.
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2144755Z [pipeline] 4 Meldungen werden nach dem Commit abgehakt
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2365809Z ##[group]Run if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2366546Z ^[[36;1mif git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi^[[0m
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2367147Z ^[[36;1mif npm run check:logic > /tmp/logic.txt 2>&1; then exit 0; fi^[[0m
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2367648Z ^[[36;1mgrep '✖' /tmp/logic.txt || true^[[0m
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2368093Z ^[[36;1mgit checkout -- data/dub-confirmed.yaml^[[0m
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2368629Z ^[[36;1mgit checkout -- data/anbieter-staffeln.json 2>/dev/null || true^[[0m
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2369169Z ^[[36;1mrm -f data/cache/pruefungen-abhaken.json^[[0m
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2369761Z ^[[36;1mgrund="$(grep -m 3 '✖' /tmp/logic.txt | tr -d '\"' | tr -s '[:space:]' ' ')"^[[0m
+bauen	UNKNOWN STEP	2026-10-12T10:06:15.2370582Z ^[[36;1mecho "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"^[[0m
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T10:09:18.9875127Z [pipeline]   2922 Titel (-4), davon 1617 mit Verweis (-7)
+bauen	UNKNOWN STEP	2026-10-12T10:09:18.9876246Z [pipeline]   1490 mit belegter Synchro (-108), 2172 Verweise (-21)
+bauen	UNKNOWN STEP	2026-10-12T10:09:18.9877422Z [pipeline]   offen: 1305 ohne Verweis (+3), 127 ohne Sprachurteil (+101)
+bauen	UNKNOWN STEP	2026-10-12T10:09:18.9878968Z [pipeline]   Lücken: 83 ohne deutschen Namen, 12 Serien ohne Folgenzahl
+bauen	UNKNOWN STEP	2026-10-12T10:09:18.9880268Z [pipeline] ⚠  verwaisteTermine: 13 — das darf nicht vorkommen
+bauen	UNKNOWN STEP	2026-10-12T10:09:18.9881045Z [pipeline]   431 künftige Termine (-2)
+bauen	UNKNOWN STEP	2026-10-12T10:09:19.0078853Z ##[error]Process completed with exit code 1.
+bauen	UNKNOWN STEP	2026-10-12T10:09:19.0118294Z ##[group]Run npm run data:og
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4140206Z   ✓ jeder Kern-Titel trägt ein Cover
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4140872Z   ✓ kein ausgelieferter Titel mit Cover-Quelle (MAL-Kennung im Cover-Bestand) ohne Cover
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4141626Z F-Sperre (Fanservice-Urteil von Hand, data/fanservice-urteil.yaml)
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4142455Z   ✓ kein gesperrter Titel in releases.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht)
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4143354Z   ✓ kein gesperrter Titel in events.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht)
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4144441Z   ✓ kein gesperrter Titel in news.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht)
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4145941Z   ✖ kein gesperrter Titel in neu-mit-synchro.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht) — gefunden: [10013220]
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4147285Z   ✓ kein gesperrter Titel in titles-core.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht)
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4148820Z Saison-Ausblick: nichts fällt weg
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4149472Z   ✓ jede Serie der Quellmenge steht in genau einer Gruppe
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4150229Z 1 Zusicherung(en) im Bestand verletzt.
+bauen	UNKNOWN STEP	2026-10-12T10:10:27.4163062Z ##[error]Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon.
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7221751Z Gepusht (Versuch 1).
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7229135Z ##[error]Process completed with exit code 1.
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7274966Z ##[group]Run npm run data:check
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7337031Z env:
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7337511Z   LAUF_ZWECK: Führt die gesammelten Quellen zum ausgelieferten Datensatz zusammen
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7338191Z   LAUF_ZIEL: Datensatz gebaut, Zusicherungen gehalten, Erzeugnisse committet
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7338770Z   LAUF_SCHRITTE: 5
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7339136Z   MELDER: /home/runner/work/_temp/lauf-melden.sh
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7339563Z   BAU_BEGINN: 2026-10-12T10:05:57Z
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7340402Z   DATEN_WARNUNG: Bestand nicht übernommen:  ✖ kein gesperrter Titel in neu-mit-synchro.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht) — gefunden: [10013220] 
+bauen	UNKNOWN STEP	2026-10-12T10:10:34.7341359Z   LAUF_TOKEN: ***
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.0759507Z env:
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.0760547Z   LAUF_ZWECK: Führt die gesammelten Quellen zum ausgelieferten Datensatz zusammen
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.0762115Z   LAUF_ZIEL: Datensatz gebaut, Zusicherungen gehalten, Erzeugnisse committet
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.0763183Z   LAUF_SCHRITTE: 5
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.0763794Z   MELDER: /home/runner/work/_temp/lauf-melden.sh
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.0764776Z   BAU_BEGINN: 2026-10-12T10:05:57Z
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.0766241Z   DATEN_WARNUNG: Bestand nicht übernommen:  ✖ kein gesperrter Titel in neu-mit-synchro.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht) — gefunden: [10013220] 
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.0768885Z   DISCORD_WEBHOOK: ***
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.4133749Z env:
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.4134532Z   LAUF_ZWECK: Führt die gesammelten Quellen zum ausgelieferten Datensatz zusammen
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.4135248Z   LAUF_ZIEL: Datensatz gebaut, Zusicherungen gehalten, Erzeugnisse committet
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.4135771Z   LAUF_SCHRITTE: 5
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.4136352Z   MELDER: /home/runner/work/_temp/lauf-melden.sh
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.4136789Z   BAU_BEGINN: 2026-10-12T10:05:57Z
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.4137631Z   DATEN_WARNUNG: Bestand nicht übernommen:  ✖ kein gesperrter Titel in neu-mit-synchro.json (die F-Sperre greift im Bau nicht, wenn einer auftaucht) — gefunden: [10013220] 
+bauen	UNKNOWN STEP	2026-10-12T10:10:35.4138580Z   LAUF_TOKEN: ***
