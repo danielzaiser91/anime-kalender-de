@@ -7,7 +7,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Kante, Namen } from './bau/anisearch-reihen.ts'
 import { ladeHand } from './bau/anisearch-reihen-rein-bau.ts'
-import { type ReinHand, type ReinTitel, rangDerArt, reihenAusAnisearch, reineReihen } from './bau/anisearch-reihen-rein.ts'
+import { type ReinHand, type ReinTitel, rangDerArt, bestandReihenAusAnisearch, katalogReihenAusAnisearch, reineReihen } from './bau/anisearch-reihen-rein.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -28,11 +28,11 @@ const reineOhne = (ids: ReinTitel[], kanten: Kante[], namen: Namen = new Map(), 
 
 const vorher = process.env.REIHEN_QUELLE
 delete process.env.REIHEN_QUELLE
-pruefe('Schalter: ohne REIHEN_QUELLE gilt der heutige Weg', !reihenAusAnisearch())
+pruefe('Schalter: ohne REIHEN_QUELLE gilt der heutige Weg', !bestandReihenAusAnisearch() && !katalogReihenAusAnisearch())
 process.env.REIHEN_QUELLE = 'anilist'
-pruefe('Schalter: nur der Wert „anisearch" schaltet um', !reihenAusAnisearch())
+pruefe('Schalter: nur der Wert „anisearch" schaltet um', !bestandReihenAusAnisearch() && !katalogReihenAusAnisearch())
 process.env.REIHEN_QUELLE = 'anisearch'
-pruefe('Schalter: REIHEN_QUELLE=anisearch schaltet um', reihenAusAnisearch())
+pruefe('Schalter: REIHEN_QUELLE=anisearch schaltet um', bestandReihenAusAnisearch() && katalogReihenAusAnisearch())
 if (vorher === undefined) delete process.env.REIHEN_QUELLE
 else process.env.REIHEN_QUELLE = vorher
 

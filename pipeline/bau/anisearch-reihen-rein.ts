@@ -10,7 +10,10 @@ import { WANDERREGEL } from './anisearch-reihen-uebernahme.ts'
  * sie sind Knoten mit `ANONYM + aniSearch-Kennung` und zählen für die Größe einer Reihe mit, nie für ihre Kennung.
  */
 const ANONYM = 2_000_000_000
-export const reihenAusAnisearch = (): boolean => process.env.REIHEN_QUELLE === 'anisearch'
+const schalterAn = (): boolean => process.env.REIHEN_QUELLE === 'anisearch'
+/** Hauptbestand (`franchiseId`) und Katalog (`reihe`) haben je einen Schalter, damit sie getrennt umgelegt werden können. */
+export const bestandReihenAusAnisearch = schalterAn
+export const katalogReihenAusAnisearch = schalterAn
 
 /** `mal`: MAL-Kennung des Titels selbst (AniList); `malAnisearch`: die im aniSearch-Eintrag, nur ein Ersatz, wenn `mal` fehlt (siehe `malVerbindungen`). */
 export type ReinTitel = { id: number; name: string; anisearchId?: number; mal?: number; malAnisearch?: number }
