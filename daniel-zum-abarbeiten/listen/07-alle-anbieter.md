@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **40 offene Verweise** in **33 Zeilen**.
+Stand 2026-10-12 · **36 offene Verweise** in **29 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,9 +33,9 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
-| [Prime Video](07-primevideo.md) | 15 |
+| [Prime Video](07-primevideo.md) | 12 |
 | [Disney+](07-disneyplus.md) | 9 |
-| [Netflix](07-netflix.md) | 9 |
+| [Netflix](07-netflix.md) | 8 |
 | [ADN](07-adn.md) | 7 |
 
 ## Zu prüfen
@@ -59,22 +59,18 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 15 | 2026-06-05 | Gantz | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.c2f26fed-151e-48be-b492-70bd6178cc92) |
 | 16 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
 | 17 | 2025-01-24 | My Instant Death Ability Is So Overpowered, No One in This Other World Stands a Chance Against Me! | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.a9c30e42-2911-46e9-a7a3-5aeb0d26f6ac) |
-| 18 | 2024-10-04 | Gegege no Kitarou (1968) | [The Birth of Kitaro: Das Geheimnis von GeGeGe](https://www.amazon.de/gp/video/detail/0U2F1VC6MV5CHFW4ZP7GSM1RX0) |
-| 19 | 2024-08-15 | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
-| 20 | 2023-11-17 | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
-| 21 | 2023-08-10 | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
-| 22 | 2023-07-07 | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
-| 23 | 2023-03-23 | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
-| 24 | 2022-10-21 | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 25 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 26 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
-| 27 | 2019-08-30 | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365) |
-| 28 | 2019-03-26 | Meine Wiedergeburt als Schleim in einer anderen Welt | [Veldoras Tagebuch](https://www.amazon.de/gp/video/detail/0NQS7G31GTH6F9V4ISN8ZX3RPH) |
-| 29 | 2019-03-15 | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
-| 30 | 2018-05-13 | Sword Art Online | [Alternative: Gun Gale Online - Refrain](https://www.amazon.de/gp/video/detail/0TOAWCF8RCIRQR29X9KKJWT4N7) |
-| 31 | 2014-10-05 | Fate/Stay Night: Unlimited Blade Works - Prolog | [Hauptserie](https://www.netflix.com/title/80040330) |
-| 32 | 2014-03-23 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
-| 33 | 1998-09-30 | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
+| 18 | 2024-08-15 | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
+| 19 | 2023-11-17 | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
+| 20 | 2023-08-10 | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 21 | 2023-07-07 | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
+| 22 | 2023-03-23 | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
+| 23 | 2022-10-21 | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
+| 24 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
+| 25 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
+| 26 | 2019-08-30 | Konosuba: God’s Blessing on This Wonderful World! | [KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson](https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365) |
+| 27 | 2019-03-15 | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
+| 28 | 2014-03-23 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
+| 29 | 1998-09-30 | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
