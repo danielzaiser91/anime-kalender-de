@@ -361,3 +361,61 @@
     - https://www.anime2you.de/news/1059483/avatar-kuruk-wave-of-chaos-angekuendigt/
     - https://www.anime2you.de/news/1048545/avatar-die-sieben-haefen-deutscher-trailer/
     - https://www.anime2you.de/news/1034331/avatar-seven-havens-termin/
+
+# Nachtrag 12.10.2026 aus der Anime2You-Extraktion (Vorschläge → Handeinträge).
+# Anime2You 1059642 (10.10.2026, 20:04): „vier weitere Handlungsabschnitte von »Demon Slayer« in sein Angebot aufgenommen", ab sofort,
+# je Titel „Sprache: Deutsch, Japanisch (UT)", „Stream: Prime Video". Der Tag ist der Meldetag: im Angebot spätestens seit 10.10.
+# Die Episodenzahlen 11/8/7/11 stammen aus 1059642 selbst („Episoden: n (komplett)“), nicht aus dem Bestand.
+# Ton: `sprache: offen` — „Sprache: Deutsch" nennt die Synchro nicht ausdrücklich; Handbeleg `dub: true` und `dubZitat` scheiden aus.
+- slug: demon-slayer-entertainment-district-arc-primevideo
+  anilistId: 142329
+  platform: primevideo
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-10-10", episodeCount: 11 }
+  sprache: offen
+  sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
+
+- slug: demon-slayer-hashira-training-arc-primevideo
+  anilistId: 166240
+  platform: primevideo
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-10-10", episodeCount: 8 }
+  sprache: offen
+  sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
+
+- slug: demon-slayer-mugen-train-arc-primevideo
+  anilistId: 129874
+  platform: primevideo
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-10-10", episodeCount: 7 }
+  sprache: offen
+  sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
+
+- slug: demon-slayer-swordsmith-village-arc-primevideo
+  anilistId: 145139
+  platform: primevideo
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-10-10", episodeCount: 11 }
+  sprache: offen
+  sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
+
+# Anime2You 1058843 (10.10.) und 1060009 (11.10.): „bei Netflix geht es erst am 18. Oktober 2026 los. Neue Folgen erscheinen wöchentlich." Crunchyroll
+# und ADN zeigen seit 11.10. nur Untertitel. „Japanisch (UT)“ für Netflix steht nicht in den Beerus-Artikeln, sondern im Sammelartikel 1052708
+# „Netflix: Anime neu im Oktober 2026“ (23.09.; dort Beerus-Zeile, Parser: deutsch=false); eine deutsche Fassung sagt keine Quelle zu.
+# Nach „nichts behaupten, was nicht belegt ist“ gilt deshalb `omu` (die Quelle nennt nur OmU), nicht `offen`.
+# Uhrzeit und Folgenzahl: nicht genannt; der Bau (`bau/05-releases.ts`) nimmt dann AniList-/aniSearch-Zahl, sonst 12 mit `episodeCountAssumed`.
+- slug: dragon-ball-super-beerus-netflix
+  anilistId: 206814
+  platform: netflix
+  releaseType: weekly
+  schedule: { firstEpisodeDate: "2026-10-18" }
+  sprache: omu
+  note: "Netflix startet am 18.10.2026, neue Folgen wöchentlich, laut Anime2You 1052708 mit „Sprache: Japanisch (UT)“. Eine deutsche Synchro nennt keine Quelle."
+  sources:
+    - https://www.anime2you.de/news/1060009/dragon-ball-super-beerus-simulcast-gestartet/
+    - https://www.anime2you.de/news/1058843/dragon-ball-super-beerus-bricht-netflix-rekord/
+    - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
