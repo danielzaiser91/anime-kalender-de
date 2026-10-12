@@ -5,6 +5,7 @@
  * Läuft in `check:logic`; der Bestandsteil steht in `check-cr-teilseiten-bestand.ts`.
  */
 import { bereicheImFenster, ordneSeiteZu, type CrPosition, type Fenster, type UnserTitel, type Urteil } from './lib/cr-teilseiten.ts'
+import { nurAusgelieferte } from './bau/pruefliste-bereinigen.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info: unknown = ''): void {
@@ -103,6 +104,11 @@ gemischt[1]!.deutsch = false
 gemischt[4]!.deutsch = false
 const b = bereicheImFenster({ positionen: [0, 1, 2, 3, 4, 5], quelle: 'zahl' }, gemischt).map((x) => `${x.from}-${x.to}`).join()
 pruefe('Lücken in der deutschen Fassung bleiben Lücken', b === '1-1,3-4,6-6', b)
+
+// 7. Eine Zeile, die der Dublettenabgleich entfernt hat, bleibt nicht auf der Prüfliste (JJK Kouhen, 12.10.2026)
+const eintrag = (titleId: number) => ({ titleId, titel: 'x', url: 'u', grund: 'g' })
+const bereinigt = nurAusgelieferte([eintrag(1), eintrag(10021915)], new Set([1])).map((p) => p.titleId).join()
+pruefe('Prüfliste: ein entfallener Titel wird gestrichen, ein vorhandener bleibt', bereinigt === '1', bereinigt)
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den geteilten Crunchyroll-Seiten verletzt`)

@@ -1215,8 +1215,8 @@ for (const gruppe of jeAdresse.values()) {
       entfernt den Verweis. „Fullmetal Alchemist" verlor so seinen letzten Weg,
       obwohl die Notiz desselben Eintrags sagt, dass die Angabe kein Beleg ist.
 
-      Ein Ja bleibt zulässig: „Es gibt dort deutsche Folgen" stimmt auch dann,
-      wenn es weniger sind als angegeben. Ein Nein wäre eine Aussage über die
+      Ein Ja aus dem Kanal belegt seit dem 11.10.2026 ebenfalls nichts: der Lader
+      lässt es weg (lib/kanal-titel.ts). Ein Nein wäre eine Aussage über die
       ganze Staffel, gestützt auf eine Quelle, die über die Folge nichts sagt —
       dieselbe Asymmetrie wie bei jedem Ausschnitt.
 

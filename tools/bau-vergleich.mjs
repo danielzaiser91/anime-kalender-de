@@ -15,6 +15,12 @@
  * durchläuft, zeigt ein zweiter Lauf `HEAD HEAD` (Exit 2, wenn er scheitert); einen Unterschied
  * zur Basis zeigt er nicht.
  *
+ * Der Bau läuft mit `BAU_VERGLEICH=1`: Widersprüche im Ergebnis (`pipeline/lib/bau-widerspruch.ts`)
+ * brechen ihn dann nicht ab, sondern stehen als Warnung im Protokoll, das mitverglichen wird. Der
+ * Ersatz-Cache ist nicht der echte, und eine Invariante, die dort reißt, hätte sonst jede Basis
+ * verhindert (12.10.2026: Bookworm-Dublette, Prime-Häkchen ohne Beleg). Bei verschiedenen JSON-Dateien
+ * nennt die Ausgabe die betroffenen Felder (`vergleich-unterschied.mjs`), z. B. `streams[].dubQuelle`.
+ *
  * Aufruf:
  *   node tools/bau-vergleich.mjs [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
  * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre).
@@ -24,10 +30,13 @@ import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symli
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { nurEinmalGleichzeitig } from './einzel-sperre.mjs'
+import { beschreibeUnterschied } from './vergleich-unterschied.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const ABLAGE = join(tmpdir(), 'bau-vergleich')
 const git = (...args) => execFileSync('git', ['-C', WURZEL, ...args], { encoding: 'utf8', maxBuffer: 1 << 28 }).trim()
+
+const TEXTDATEI = /\.(json|ics|xml|html|txt|md)$/
 
 // Laufzeiten und Zeitstempel sind in jedem Lauf anders — sie gehören nicht zum Ergebnis.
 const glatt = (s) =>
@@ -110,6 +119,7 @@ function baue(sha, basisSha) {
     // Ohne `npx`/Shell: ein Prozess weniger, und das Kind stirbt mit dem Elternprozess.
     const lauf = spawnSync(process.execPath, ['--import', 'tsx', 'pipeline/build.ts'], {
       cwd: baum,
+      env: { ...process.env, BAU_VERGLEICH: '1' },
       encoding: 'utf8',
       maxBuffer: 1 << 28,
     })
@@ -125,7 +135,7 @@ function baue(sha, basisSha) {
       const nach = join(ziel, pfad)
       mkdirSync(dirname(nach), { recursive: true })
       if (!existsSync(von)) writeFileSync(nach, '<gelöscht>\n')
-      else if (/\.(json|ics|xml|html|txt|md)$/.test(pfad)) writeFileSync(nach, glatt(readFileSync(von, 'utf8')))
+      else if (TEXTDATEI.test(pfad)) writeFileSync(nach, glatt(readFileSync(von, 'utf8')))
       else cpSync(von, nach)
     }
     writeFileSync(join(ziel, '_protokoll.txt'), `exit ${lauf.status}\n${glatt(lauf.stdout)}\n--- stderr\n${glatt(lauf.stderr)}`)
@@ -133,6 +143,12 @@ function baue(sha, basisSha) {
   } finally {
     entferneBaum(baum)
   }
+}
+
+/** Im Vergleichsmodus bricht ein Widerspruch den Bau nicht ab, sondern steht im Protokoll — hier wird die Zahl genannt. */
+function meldeWiderspruchWarnungen(seite, ordner) {
+  const n = readFileSync(join(ordner, '_protokoll.txt'), 'utf8').split('\n').filter((z) => z.includes('Widerspruch (Vergleichsmodus)')).length
+  if (n) console.log(`${seite}: ${n} Widerspruch-Meldungen des Baus als Warnung durchgelassen (Vergleichsmodus) — Einzelheiten im Protokoll ${ordner}`)
 }
 
 nurEinmalGleichzeitig('bau-vergleich')
@@ -144,6 +160,8 @@ if (!readFileSync(join(a, '_protokoll.txt'), 'utf8').startsWith('exit 0')) {
   process.exit(2)
 }
 const b = baue(kandidat, basis)
+meldeWiderspruchWarnungen('Basis', a)
+meldeWiderspruchWarnungen('Kandidat', b)
 /** Alle Dateien unter `ordner`, relativ und mit `/` — ohne `diff`, das es unter Windows nicht gibt. */
 function dateienUnter(ordner) {
   return readdirSync(ordner, { recursive: true, withFileTypes: true })
@@ -160,6 +178,11 @@ if (!verschieden.length) {
   console.log(`gleich: ${kandidat.slice(0, 12)} schreibt dasselbe wie ${basis.slice(0, 12)}`)
   process.exit(0)
 }
-console.log(verschieden.join('\n'))
+for (const f of verschieden) {
+  console.log(f)
+  if (!TEXTDATEI.test(f)) continue
+  const lies = (ordner) => (existsSync(join(ordner, f)) ? readFileSync(join(ordner, f), 'utf8') : '')
+  for (const zeile of beschreibeUnterschied(f, lies(a), lies(b))) console.log(zeile)
+}
 console.log(`VERSCHIEDEN (${verschieden.length} Dateien) — Einzelheiten: ${a} gegen ${b}`)
 process.exit(1)

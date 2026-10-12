@@ -2,37 +2,37 @@
   "stand": "2026-10-12",
   "titelVerloren": 0,
   "titelNeu": 0,
-  "geteilt": 12,
+  "geteilt": 108,
   "rollenErsetzt": 0,
-  "rollenBehalten": 1749,
+  "rollenBehalten": 1865,
   "vorher": {
     "anilist": {
-      "titel": 776,
-      "rollen": 2649
+      "titel": 703,
+      "rollen": 1732
     },
     "ann": {
-      "titel": 588,
-      "rollen": 1304
+      "titel": 560,
+      "rollen": 1055
     },
     "anisearch": {
-      "titel": 2052,
-      "rollen": 57766
+      "titel": 2429,
+      "rollen": 64537
     },
-    "titelGesamt": 2269
+    "titelGesamt": 2518
   },
   "nachher": {
     "anilist": {
-      "titel": 776,
-      "rollen": 2649
+      "titel": 703,
+      "rollen": 1732
     },
     "ann": {
-      "titel": 588,
-      "rollen": 1304
+      "titel": 560,
+      "rollen": 1055
     },
     "anisearch": {
-      "titel": 2052,
-      "rollen": 57766
+      "titel": 2429,
+      "rollen": 64537
     },
-    "titelGesamt": 2269
+    "titelGesamt": 2518
   }
 }

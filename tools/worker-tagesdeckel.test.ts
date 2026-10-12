@@ -345,6 +345,89 @@ console.log('Lesezeilen: ?gemeldet= je Adresse und die wartenden Meldungen aus d
   pruefe(trotzFehler.status === 200 && gespeichert, 'scheitert das Verwerfen, bleibt die Meldung gespeichert und beantwortet')
 }
 
+console.log('Rohfolgen: nur Geändertes wird geschrieben (12.10.2026, Migration 050)')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  const SEITE = 'https://www.amazon.de/dp/B0TEST'
+  const prime = (n: number, notiz: string, ton = 'ja') => ({
+    plattform: 'primevideo',
+    url: SEITE,
+    vorhanden: 'ja',
+    ton_de: 'ja',
+    art: 'gemessen',
+    titel: 'Testserie',
+    folgen: n,
+    notiz,
+    seiten_kennung: 's1',
+    rohfolgen: Array.from({ length: n }, (_, i) => ({
+      gti: `g${i + 1}`,
+      nummer: i + 1,
+      titel: `Folge ${i + 1}`,
+      vorhanden: 'ja',
+      ton_de: i === 2 ? ton : 'ja',
+    })),
+  })
+  const ids = () => (db.prepare('SELECT id FROM prime_folge ORDER BY id').all() as { id: number }[]).map((r) => r.id).join()
+  const schreibend = () => abfragen.filter((a) => /^(INSERT INTO|DELETE FROM) prime_folge/.test(a.sql))
+  const sende = async (body: unknown) => {
+    abfragen.length = 0
+    await handlePruefung(post(body), env)
+    return schreibend()
+  }
+  const erst = await sende(prime(10, 'a'))
+  const idsErst = ids()
+  pruefe(erst.length === 10 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge WHERE hash IS NOT NULL') === 10, 'erste Meldung: 10 Einfügungen, jede Zeile trägt einen Hash')
+  const gleich = await sende(prime(10, 'b'))
+  pruefe(gleich.length === 0 && ids() === idsErst, 'andere Notiz, gleiche Folgen: 0 Schreibzugriffe auf prime_folge, alle Zeilen bleiben (vorher 10 Löschungen + 10 Einfügungen)')
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE uebernommen = 0') === 1, '... die Meldung selbst wurde ersetzt')
+  const geaendert = await sende(prime(10, 'b', 'nein'))
+  pruefe(geaendert.length === 2 && geaendert.filter((a) => /^INSERT/.test(a.sql)).length === 1, `eine geänderte Folge: genau ein DELETE und ein INSERT (${geaendert.length} Anweisungen)`)
+  const nach = ids().split(',')
+  pruefe(nach.length === 10 && idsErst.split(',').filter((i) => nach.includes(i)).length === 9, '... die übrigen neun Zeilen behalten ihre ID')
+  pruefe(zahl(db, "SELECT COUNT(*) AS n FROM prime_folge WHERE ton_de = 'nein'") === 1, '... die neue Fassung steht in der Tabelle')
+  const weniger = await sende(prime(9, 'b', 'nein'))
+  pruefe(weniger.length === 1 && /^DELETE/.test(weniger[0]!.sql) && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 9, 'eine Folge fällt weg: nur ein DELETE, kein INSERT')
+  const mehr = await sende(prime(10, 'c', 'nein'))
+  pruefe(mehr.length === 1 && /^INSERT/.test(mehr[0]!.sql) && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 10, 'eine Folge kommt dazu: nur ein INSERT, kein DELETE')
+  db.exec('UPDATE prime_folge SET hash = NULL')
+  const altbestand = await sende(prime(10, 'd', 'nein'))
+  pruefe(altbestand.length === 11 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 10, 'Zeilen ohne Hash (vor Migration 050) werden einmal ersetzt (1 Löschstapel + 10 Einfügungen)')
+  pruefe((await sende(prime(10, 'e', 'nein'))).length === 0, '... danach greift der Hash')
+  db.exec('INSERT INTO prime_folge (url, nummer, plattform, seiten_kennung, gemeldet_am, hash, gti) SELECT url, nummer, plattform, seiten_kennung, gemeldet_am, hash, gti FROM prime_folge WHERE nummer = 1')
+  await sende(prime(10, 'f', 'nein'))
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge WHERE nummer = 1') === 1, 'eine Dublette derselben Folge wird entfernt, die Folge bleibt einmal')
+  db.exec('UPDATE prime_folge SET uebernommen = 1')
+  const nachAbhaken = await sende(prime(10, 'g', 'nein'))
+  pruefe(nachAbhaken.length === 10 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0') === 10, 'abgehakte Zeilen bleiben Geschichte: einmal neue offene Zeilen, danach greift der Hash')
+}
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  const netflix = (nr: number, ton = 'ja') => ({
+    plattform: 'netflix',
+    url: 'https://www.netflix.com/title/1',
+    vorhanden: 'ja',
+    ton_de: ton,
+    art: 'gemessen',
+    titel: 'NF',
+    folge_nr: nr,
+    staffel: 1,
+    rohfolgen: [{ gti: `n${nr}`, nummer: nr, vorhanden: 'ja', ton_de: ton }],
+  })
+  await handlePruefung(post({ stapel: [netflix(1), netflix(2)] }), env)
+  const vorher = (db.prepare("SELECT id FROM prime_folge WHERE gti = 'n2'").get() as { id: number }).id
+  abfragen.length = 0
+  await handlePruefung(post(netflix(1, 'nein')), env)
+  const lade = abfragen.find((a) => /^SELECT id, hash FROM prime_folge/.test(a.sql))
+  pruefe(zahl(db, "SELECT COUNT(*) AS n FROM prime_folge WHERE gti = 'n2' AND id = " + vorher) === 1, 'Netflix: eine Meldung ersetzt nur ihre eigene Kennung, Folge 2 bleibt unberührt')
+  pruefe(!!lade && planVon(db, lade).includes('prime_folge_gti'), `die Ladeabfrage je Kennung nimmt den gti-Index (${lade ? planVon(db, lade) : 'keine Abfrage'})`)
+  abfragen.length = 0
+  await handlePruefung(post({ plattform: 'primevideo', url: 'https://www.amazon.de/dp/B0X', vorhanden: 'ja', ton_de: 'ja', art: 'gemessen', seiten_kennung: 's1', rohfolgen: [{ gti: 'a', nummer: 1 }] }), env)
+  const ladeSeite = abfragen.find((a) => /^SELECT id, hash FROM prime_folge/.test(a.sql))
+  pruefe(!!ladeSeite && planVon(db, ladeSeite).includes('prime_folge_seite'), `die Ladeabfrage je Prime-Seite nimmt den Seiten-Index (${ladeSeite ? planVon(db, ladeSeite) : 'keine Abfrage'})`)
+}
+
 if (fehler) {
   console.log(`${fehler} Prüfung(en) fehlgeschlagen.`)
   process.exit(1)

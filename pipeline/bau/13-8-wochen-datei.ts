@@ -3,6 +3,7 @@ import { baueWochenDatei, pruefeWochenDatei } from '../../shared/wochen-datei.ts
 import { todayIso } from '../../shared/time.ts'
 import { log, readJson, writeJson } from '../lib/util.ts'
 import { OUT } from './grundlagen.ts'
+import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 
 /**
  * **`woche.json` — der Start der Wochenansicht.** Wird aus den fertig geschriebenen Kerndateien geschnitten (nach dem Titelrang, dem letzten Schreiber
@@ -14,11 +15,7 @@ export function schreibeWochenDatei(): void {
   const events = readJson<ReleaseEvent[]>(`${OUT}/events.json`, [])
   const woche = baueWochenDatei(todayIso(), titles, releases, events)
   const fehler = pruefeWochenDatei(woche, titles, releases, events)
-  if (fehler.length) {
-    for (const f of fehler) console.error('  ✖', f)
-    console.error(`\n${fehler.length} Widerspruch/Widersprüche in woche.json — Bau abgebrochen.`)
-    process.exit(1)
-  }
+  brichAbBeiWiderspruch(fehler, 'Widerspruch/Widersprüche in woche.json — Bau abgebrochen.')
   writeJson(`${OUT}/woche.json`, woche)
   log(`woche.json ${woche.von}–${woche.bis}: ${woche.events.length} Termine, ${woche.releases.length} Releases, ${woche.titles.length} Titel`)
 }

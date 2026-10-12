@@ -2676,8 +2676,8 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
   ein Nein entfernt den Verweis: „Fullmetal Alchemist" verlor dadurch seinen
   letzten Weg, obwohl derselbe Eintrag sagte, dass die Angabe kein Beleg ist.
 
-  Ein Ja bleibt erlaubt — „es gibt dort deutsche Folgen" stimmt auch bei zu
-  hoher Zahl. Geprüft wird nur die eine Richtung, die Daten löscht.
+  Das Ja aus einem Kanal lässt der Lader seit dem 11.10.2026 weg (lib/kanal-titel.ts, D-25) —
+  hier wird nur die Richtung geprüft, die Daten löscht.
 */
 {
   const yaml = readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')
@@ -3702,7 +3702,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe(
     'der Bau legt den Verweis beim gemeldeten Anbieter an',
     /const plattform = eintrag\.plattform as PlatformId/.test(bau) &&
-      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: true \}\)/.test(bau),
+      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: belegt \|\| undefined \}\)/.test(bau),
     'die Plattform ist wieder fest verdrahtet',
   )
   pruefe(
@@ -6221,13 +6221,13 @@ pruefe(
     ),
   )
   pruefe(
-    'die Löschanfrage erzwingt den gti-Index',
-    readFileSync('worker/src/pruefung-rohfolgen-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
+    'die Ladeabfrage erzwingt den gti-Index',
+    readFileSync('worker/src/rohfolgen-abgleich.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
   )
   /* Dieselbe Ursache, die andere Anweisung: `seiten_kennung` las 3430 Zeilen je Aufruf (26 %). */
   pruefe(
-    'und die Seiten-Löschung den Seiten-Index',
-    readFileSync('worker/src/pruefung-rohfolgen-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
+    'und die Seiten-Ladeabfrage den Seiten-Index',
+    readFileSync('worker/src/rohfolgen-abgleich.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
       readFileSync('worker/migrations/042-prime-folge-seite-index.sql', 'utf8').includes('prime_folge_seite'),
   )
   /* Die Abfragen stehen in `lauf-sql.ts` — dort prüft dieser Lauf sie auf Klammer-Gleichgewicht

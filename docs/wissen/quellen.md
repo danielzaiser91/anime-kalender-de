@@ -439,6 +439,41 @@ endlos wieder vor (Golden Kamuy). Fehler der Erweiterung sollen stattdessen auff
 Seite, Folgenzahl weicht grob ab) nach `data/meldungs-auffaelligkeiten.json` und macht den
 Bau gelb. Der Rest dieses Abschnitts beschreibt, warum das Nein weiter zwei Quellen braucht.
 
+**Zurückgenommen am 11.10.2026 für das Ja.** Daniel an Hell Mode: „Auf Deutsch, Prime Video ✓ Deutsch“ ist
+falsch, bei ADN gibt es den Titel nur mit Untertiteln. Der Handbeleg vom 30.08. trug `dub: true` **und**
+die eigene Warnung „Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg“ — der Widerspruch stand in
+790 Belegen (832 mit Warnung). Seitdem gilt: Ein Kanal-Titel belegt keine Synchro, weder Ja noch Nein.
+`loadDubChecks()` lässt `dub` und `dubRanges` solcher Zeilen weg (`lib/kanal-titel.ts`, außer mit
+`zweiteQuelle`); die Zeile bleibt als Adressbeleg stehen, die Pille zeigt „🇩🇪 ?“. Dasselbe gilt für das
+Urteil aus Stufe 3 (`bau/urteil-schliesst-luecken.ts`), das aus derselben Amazon-Angabe ein Ja machte.
+Die Datei bleibt unverändert (die Erweiterung hängt weiter an), die Invariante D-25 hält jeden anderen
+Weg zu. Ein Titel behält „Auf Deutsch“, wenn eine zweite Quelle es trägt (aniSearch, Crunchyroll, ADN,
+Netflix, eine Erstausgabe mit Synchro, eine andere Prime-Ausgabe). Liste der betroffenen Titel:
+`daniel-zum-abarbeiten/listen/kanal-titel-belege.md`.
+
+**Drei Wege führten zum selben Ja, alle sind zu** (Bau-Vergleich 12.10.2026): der Handbeleg (`lib/kanal-titel.ts`),
+das Urteil aus Stufe 3 und die gemeldeten Folgen (`prime-zugeordnet.json`, `rohBelegtDeutsch()` in
+`09-3-prime.ts`: der Verweis wird weiter angelegt, nur das Häkchen entfällt). Der Schlüssel ist
+„Titel|Adresse", weil eine Seite mehreren Titeln gehören kann (Stardust Crusaders und Battle in Egypt).
+D-25 meldet nur, wo der Titel sonst nichts Deutsches trägt: Termin bei Prime, aniSearch „deutsch",
+Erstausgabe, Sprecher oder ein anderer Weg mit Häkchen schlagen an (Pokémon, Attack on Titan). Gemessen
+(Ersatz-Cache, Basis 6005eb2af): Prime-Häkchen 775 → 554, davon auf Kanal-Wegen 275 → 12; drei Titel
+verlassen die Hauptliste (Hell Mode, Freezing OVA, Freezing Vibration OVAs — aniSearch führt Deutsch dort
+als „geplant“ bzw. „nicht genannt“, der Kanal war die einzige Stütze); 110 Titel verlieren jedes Häkchen,
+tragen „Auf Deutsch“ aber weiter über aniSearch, Erstausgabe, Sprecher oder Termin. JustWatch nennt bei 154
+der 209 Titel mit verlorenem Häkchen `de` am Kanal-Angebot (Hell Mode: nur `ja`); dafür fehlt meist die
+gti am Weg, die „Deutsch laut JustWatch“ (`lib/jw-vertrauen.ts`) verlangt — das Kennzeichen kommt, sobald
+die Erweiterung die gti liest.
+
+**Ein Nein zu einer anderen Adresse gilt für den Kanal-Weg nicht** (12.10.2026, Prüfer: Goblin Slayer II, JoJo
+Diamond is Unbreakable). Nach `ohneKanalSprache()` hat die Kanal-Zeile kein `dub` mehr und zählt als Adressbeleg;
+`belegFuer()` fiel bei einem Weg auf `liste[0]` zurück und nahm das Nein einer fremden Adresse. Jetzt hält die
+Kanal-Zeile ihre Adresse (`kanalAdressenOhneBeleg()` in `09-1-belege.ts`), der Weg bleibt mit „🇩🇪 ?“ stehen.
+Invariante D-26 (`kanalWegEntfernt()`) meldet jeden Kanal-Weg ohne eigene Aussage in `verweise-entfernt.json`.
+Bau-Vergleich mit Katalog-Ersatz (Basis c97234b40, Kandidat cafd78846): `verweise-entfernt.json` 855 → 855 ohne
+neuen Eintrag, kein Titel verliert einen Prime-Weg (sechs gewinnen einen), `ohne-synchro.json` nimmt Hell Mode,
+Freezing OVA und Freezing Vibration OVAs auf (17615 → 17618).
+
 **Und der Beleg nimmt die Seite, auf der gemeldet wurde.** Eine Meldung trägt zwei Adressen:
 `url` ist der Eintrag der Prüfliste (bei einem Staffelwechsel die Seite von Staffel 1),
 `seiten_kennung` die Seite, die wirklich angesehen wurde — **für neue Meldungen**. Im

@@ -120,6 +120,15 @@ export interface DubBild {
 }
 
 /**
+ * **Zählt der Anbieter durchgehend über mehrere Cours?** Dann reicht ein Bereich über die Folgenzahl
+ * des Titels hinaus (Netflix: „Mushoku Tensei Cour 2" = Folgen 12–23 bei 12 Folgen). Welche Folgen des
+ * Titels fehlen, lässt sich daraus nicht ablesen — gemeldet würde „Nicht im Angebot: 1–11" (12.10.2026).
+ */
+export function zaehltDurchgehend(ranges: DubBereich[] | undefined, gesamt: number | undefined): boolean {
+  return Boolean(gesamt) && Boolean(ranges?.some((r) => r.to > gesamt!))
+}
+
+/**
  * **Was es auf Deutsch gibt — und was sonst noch bekannt ist.**
  *
  * Die Bereiche kennen drei Zustände, nicht zwei: deutsch (`dub: true`), ohne deutschen Ton
@@ -142,7 +151,7 @@ export function dubBild(ranges: DubBereich[] | undefined, gesamt: number | undef
   const ohneTon = ranges.filter((r) => !r.dub).sort((a, b) => a.from - b.from)
   const deutscheFolgen = deutsch.reduce((n, r) => n + Math.max(0, r.to - r.from + 1), 0)
   const nichtImAngebot: { from: number; to: number }[] = []
-  if (gesamt) {
+  if (gesamt && !zaehltDurchgehend(ranges, gesamt)) {
     const erfasst = new Set<number>()
     for (const r of ranges) for (let n = r.from; n <= Math.min(r.to, gesamt); n++) erfasst.add(n)
     for (let n = 1; n <= gesamt; n++) {
@@ -193,7 +202,7 @@ export function folgenOhneAnbieter(
   wege: (DubBereich[] | undefined)[],
   gesamt: number | undefined,
 ): string | null {
-  if (!gesamt || !wege.length || wege.some((w) => !w?.length)) return null
+  if (!gesamt || !wege.length || wege.some((w) => !w?.length || zaehltDurchgehend(w, gesamt))) return null
   const da = new Set<number>()
   for (const w of wege) for (const r of w!) if (r.dub) for (let n = r.from; n <= Math.min(r.to, gesamt); n++) da.add(n)
   if (!da.size) return null

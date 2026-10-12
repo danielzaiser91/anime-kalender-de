@@ -3,6 +3,7 @@ import { zugangsart } from '../../shared/zugangsart.ts'
 import { log } from '../lib/util.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { type DubCheck } from '../lib/dub-confirmed.ts'
+import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 
 /** Der Handbeleg-Leser des Baus (`09-1-belege.ts`). */
 type BelegFuer = (titleId: number, plattform: PlatformId, url?: string, anzahlWege?: number) => DubCheck | undefined
@@ -108,10 +109,10 @@ export function tonOhneBeleg(titles: Map<number, Title>): number[] {
 
 /** Zusicherung: bricht den Bau ab, statt einen Datensatz mit Lücke oder erfundenem Ton zu schreiben. */
 function bestehe(ohneWeg: string[], mitTon: number[]) {
-  if (!ohneWeg.length && !mitTon.length) return
-  if (ohneWeg.length) console.error(`  ✖ sicherer Termin ohne Weg zum Anbieter: ${ohneWeg.slice(0, 10).join(', ')}`)
-  if (mitTon.length) console.error(`  ✖ Weg aus einem Termin mit Tonurteil: ${mitTon.slice(0, 10).join(', ')}`)
-  process.exit(1)
+  brichAbBeiWiderspruch([
+    ...(ohneWeg.length ? [`sicherer Termin ohne Weg zum Anbieter: ${ohneWeg.slice(0, 10).join(', ')}`] : []),
+    ...(mitTon.length ? [`Weg aus einem Termin mit Tonurteil: ${mitTon.slice(0, 10).join(', ')}`] : []),
+  ])
 }
 
 /** Prime führt Abo und Kauf nebeneinander; was ein Termin kostet, sagt er nicht. */

@@ -1345,3 +1345,27 @@ Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --searc
 ## Bestandsbau rot am 12.10.2026: TMDB hängt aniSearch-Specials an die Hauptserie
 
 Der TMDB-Tiefendurchlauf (12.10., 05:30) ordnete drei nur bei aniSearch geführten Titeln (UBW Prologue, GGO Refrain, Veldora’s Journal) die Hauptserie zu; `ergaenzeWegeAusTmdbUndMotn` (`pipeline/bau/13-3-1-tmdb-wege.ts`) gab ihnen danach deren Anbieter, `check:cr-zuordnung` („Titel nur bei aniSearch tragen keinen erratenen Weg“) fiel zu Recht. Fix: aniSearch-Titel (`id >= ANISEARCH_ID_BASIS`) bekommen dort keinen Anbieter; die Zusicherung bleibt streng. Folgeschaden, solange der Bau rot ist: die eingecheckten Erzeugnisse veralten gegenüber neueren Rohdaten, und `check:cartoon-ton` wird auf main rot (nach einem Neubau grün). Lokal zu prüfen mit `rm public/data/titles.json`, `npm run data:build`, danach die Zusicherungen (Abschnitt „Lokaler Bau“).
+
+## D1-Schreibkontingent: unveränderte Rohfolgen werden nicht neu geschrieben (12.10.2026)
+
+**Anlass:** Ein Erweiterungs-Durchgang (Prime, Netflix, Disney+ in drei Fenstern) schrieb am 11./12.10.2026 166.236 Zeilen (`d1-verbrauch.mjs --lokal --zeitraum 1d`, 12.10. 11:55). Größter Schreiber: `INSERT INTO prime_folge` mit 11.106 Aufrufen à Ø 8 Zeilen = 88.848 Zeilen (Tabelle + `sqlite_sequence` + sechs Indexe, vor Migration 047). `speichereRohfolgen` löschte bei jeder Meldung, deren Rumpf sich irgendwie unterschied (der `pruefung`-Hash fängt nur die ganz gleiche), die offenen Rohfolgen der Seite bzw. je `gti` und schrieb alle neu.
+
+**Was jetzt gilt (Migration 050, `rohfolgen-abgleich.ts`):** `prime_folge.hash` = SHA-256 über die 17 Spaltenwerte einer Rohfolge (ohne `gemeldet_am`, `roh` mit sortierten Schlüsseln). Der Worker lädt die offenen Zeilen (`SELECT id, hash`, mit `INDEXED BY prime_folge_seite` bzw. `_gti`, dieselbe Lesemenge wie der frühere DELETE), vergleicht als Menge und schreibt nur: gleicher Hash = stehen lassen; geänderte oder fehlende Zeile = `DELETE … WHERE id IN (…)`; neue = `INSERT`. Zeilen ohne Hash (Altbestand) werden einmal ersetzt. Abgehakte (`uebernommen = 1`) Zeilen bleiben unberührt, danach entsteht einmal eine neue offene Zeile.
+
+**Gemessen (lokal, workerd/miniflare, `meta.rows_written` aus `schreib_tag`, Prime-Seite mit 90 Rohfolgen, vorher = Stand `82c82ef5e`):**
+
+| Meldung | vorher | nachher |
+|---|---|---|
+| erste Meldung | 455 | 455 |
+| gleiche Meldung erneut (Hash der Meldung) | 0 | 0 |
+| andere Notiz, gleiche Folgen | 546 | 6 |
+| eine Folge geändert | 546 | 12 |
+| Netflix, eine Folge erste / gleich / Ton geändert | 10 / 0 / 12 | 10 / 0 / 12 |
+
+Die 6 Zeilen sind `pruefung` (Löschen + Einfügen samt Indexen) und der Tageszähler; Netflix/Disney+ melden je Folge, dort ändert sich nichts, solange die ganze Meldung gleich ist (Hash aus Migration 048 greift) oder sich auch die Rohfolge ändert.
+
+**Indexe von `prime_folge` (EXPLAIN QUERY PLAN aller Abfragen, auch mit 20.000 Zeilen und `ANALYZE`): keiner überflüssig.** Nach 047 bleiben `prime_folge_gti` (Ladeabfrage Netflix/Disney+, `INDEXED BY`), `prime_folge_seite` (Ladeabfrage Prime, `INDEXED BY`) und `prime_folge_offen` (`?rohfolgen=1` und `COUNT(*)` über `uebernommen = 0`; ohne ihn Vollscan der Tabelle bei jedem Bestandsbau). `?probe=` und `alle=1` laufen über den Primärschlüssel. Nicht entfernt.
+
+**`gemeldet_am` einer stehengebliebenen Zeile bleibt alt.** Gelesen wird es nur für „jüngste gewinnt" unter Dubletten (`fetch-rohfolgen.ts`) und als Anzeige `gesehen` in der Zuordnung (`folgen-je-folge.ts`, keine Entscheidung hängt daran). Die Wiedervorlage rechnet über `pruefung.gemeldet_am` (siehe oben), das weiter erneuert wird.
+
+**Reihenfolge nach dem Merge:** erst Migration, dann Deploy. `npx wrangler d1 execute anime-kalender --remote --file=migrations/050-prime-folge-hash.sql` (im Ordner `worker/`), danach `npx wrangler deploy`. Der **alte** Worker bricht nach der Migration nicht (er nennt die Spalten im INSERT ausdrücklich, `hash` bleibt NULL; der neue ersetzt diese Zeilen einmal). Der **neue** Worker vor der Migration verliert die Rohfolgen (SELECT/INSERT scheitern an der fehlenden Spalte, nur im Log) — also nicht umgekehrt.

@@ -31,6 +31,7 @@ pipeline/check-detektiv-funde.ts
 pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
+pipeline/check-dub-durchgehende-zaehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
