@@ -307,6 +307,68 @@ html:not(.dark) .ak-punkt {
 }
 
 /*
+  Kino-Saal (12.10.2026, Daniels Wahl E): Kino-Termine stehen auf einer dunklen Bühne mit Vorhängen links und rechts, Querbehang
+  oben und Lichtkegel — alles CSS, kein Bild. Die Bühne ist so hoch wie die schmalen Nachbarn (`ak-breit-cover`); das Cover
+  liegt als Fenster darin. Die Farben sind fest (Stoffrot auf dunklem Grund), in beiden Themen gleich.
+*/
+.ak-saal {
+  background: #07080b;
+}
+.ak-saal-vorhang {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 11%;
+  z-index: 2;
+  background: repeating-linear-gradient(90deg, #240509 0, #6e1a2d 5px, #8c2238 8px, #4e0f1d 13px, #240509 16px);
+}
+.ak-saal-vorhang-l {
+  left: 0;
+  box-shadow: 3px 0 8px rgb(0 0 0 / 0.6);
+}
+.ak-saal-vorhang-r {
+  right: 0;
+  box-shadow: -3px 0 8px rgb(0 0 0 / 0.6);
+}
+.ak-saal-behang {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 14%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: linear-gradient(180deg, #7d1d31, #5e1829 70%, #4a1120);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.55);
+  color: #facc15;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.ak-saal-behang::after {
+  content: '';
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 8px;
+  background: radial-gradient(circle at 50% 0, #4a1120 7px, #0000 7.5px) 0 0 / 16px 8px repeat-x;
+}
+.ak-saal-licht {
+  --glanz: 0.3;
+  position: absolute;
+  inset: 21% 11% 11%;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 0%, rgb(255 244 214 / var(--glanz)), rgb(255 244 214 / 0) 75%),
+    linear-gradient(0deg, rgb(0 0 0 / 0.3), transparent 30%);
+}
+html:not(.dark) .ak-saal-licht {
+  --glanz: 0.42;
+}
+
+/*
   **Die älteren Ansichten sprechen dieselbe Farbsprache wie der Kalender** (26.09.2026). Datenbank,
   Detail-Panel, News und die festen Seiten färben über Tailwinds `slate` und `sky` — rund tausend
   Stellen. Statt jede umzuschreiben, sind die beiden Paletten hier umbelegt: `slate` wird das warme

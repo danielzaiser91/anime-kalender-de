@@ -383,6 +383,10 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
 - **Tailwind v4 erzeugt `pt-[calc((100%-0.75rem)*0.75)]` nicht — lautlos, ohne Warnung** (gemessen
   26.09.2026 im gebauten CSS). Verschachtelte `calc` stehen deshalb als eigene Klasse in `styles.css`
   (`.ak-breit-cover`); nach jeder arbiträren Klasse im gebauten CSS nachsehen, ob sie angekommen ist.
+- **Kino-Karte „Kinosaal“** (12.10.2026, Daniels Wahl E im Mockup T-124): ein Kino-Termin ohne Staffelring und ohne zweiten
+  Anbieter (`istKinoSaal`, `kalender/KinoBuehne.tsx`) nimmt zwei Spalten, so hoch wie die Nachbarn (`ak-breit-cover`); das Cover
+  ist ein Fenster (78 % × 68 %) zwischen Vorhängen und Querbehang mit „Kino“, alles CSS (`.ak-saal-*` in `styles.css`, kein Bild,
+  keine Animation). Die Unterzeile entfällt. Mehrere Kino-Termine am Tag sind je eine eigene Reihe; ein Staffelfinale trägt nie Vorhänge.
 - **Vergangenes** dimmt nur Bilder (`.ak-vorbei`), Text wechselt auf `--ak-leise` — `opacity` am
   ganzen Tag drückte jeden Text unter 4,5:1 (axe, 26.09.2026).
 - **Schwebekarten** (`Schwebe.tsx`) stehen nie über der Kopfleiste oder dem Auslöser und rollen
