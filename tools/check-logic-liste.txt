@@ -47,6 +47,7 @@ pipeline/check-kachel-anbieter.ts
 pipeline/check-kachel-buendel.ts
 pipeline/check-kalender-filter.ts
 pipeline/check-kanal-abgehakt.ts
+pipeline/check-kanal-verlust.ts
 pipeline/check-logic.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-neuigkeiten-panel.ts

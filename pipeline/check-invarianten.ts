@@ -142,7 +142,7 @@ if (process.argv.includes('--bestand')) {
     ...kanalFehler(titles.values(), releases),
     ...kanalWegeVorhanden(titles),
   ]
-  console.log(`Auslieferung (DD-06, DD-15, D-24, D-25, D-26): ${a.length} Fehler`)
+  console.log(`Auslieferung (DD-06, DD-15, D-24, D-25, D-26, D-27): ${a.length} Fehler`)
   for (const t of a.slice(0, 10)) console.log('  ', t)
   verletzt += a.length
 }
