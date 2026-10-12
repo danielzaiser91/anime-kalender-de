@@ -7,7 +7,7 @@ falschen Ort; sie kommt beim nächsten Lauf zurück.
 | # | Aufgabe | Umfang | Zeit je Stück | wozu |
 |---|---|---|---|---|
 | 1 | Prime Video — Suchseiten | 31 Suchen | ~20 s je Titel | Titel ohne bekannte Produktseite |
-| 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 120 Adressen, 192 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
+| 2 | [Prime Video — Titelseiten](listen/07-primevideo.md) | 117 Adressen, 248 Verweise | ~15 s je Titel | die Erweiterung liest die Tonspuren selbst |
 | 3 | [Netflix](listen/06-netflix-rest.md) | 244 Titel, 11 Verweise | ~1 min je Titel | die einzige Quelle für Netflix-Tonspuren |
 | 4 | [Suchadressen — welcher Titel steckt dahinter?](listen/18-suchadressen.md) | 3 Adressen | ~30 s je Titel | Verweise, die ins Leere zeigten, statt zum Titel |
 | 5 | [Crunchyroll](listen/07-crunchyroll.md) | 12 Verweise | ~15 s je Titel | Specials und Filme, die in keinem Block stehen |
