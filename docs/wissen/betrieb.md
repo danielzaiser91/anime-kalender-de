@@ -1172,7 +1172,11 @@ Anmeldung; eine Sicherung bräuchte dort eine eigene Reihenfolge). Für aniSearc
 Am 06.10.2026 gegen 22:00 trug ich zehn Titel in `data/ohne-synchro-von-hand.yaml` ein. Zwei davon (Fairy Tail Final Season, Grisaia) hatten Handprüfungen in `dub-confirmed.yaml`. Nach dem Verschieben hinter den Toggle fand `check:handbelege` sie nicht mehr in `titles.json` („zeigen auf keinen Titel im Bestand“) und lehnte den Bestand ab: „Erzeugnisse und neue Meldungen werden nicht übernommen“. Die Läufe blieben grün, veröffentlicht wurde bis zum Morgen nichts (live `generatedAt` 06.10. 21:14 UTC, gemessen 07.10. 08:10).
 
 - Ein Titel in `ohne-synchro.json` gilt jetzt als bekannt (verschoben, nicht gelöscht).
-- Woran man es erkennt: `DATEN_WARNUNG: Bestand nicht übernommen` im Bestandslauf, und `public/data/titles.json` ändert sich über Stunden nicht, obwohl `chore(data): Bestand neu gebaut` committet wird.
+- Woran man es erkennt (Stand 12.10.2026): Der Bestandsbau endet **rot**, bei verletzter Zusicherung (`::error::Der gebaute Bestand verletzt eine Zusicherung`, seit PR 866 vom 11.10., dazu `DATEN_WARNUNG: Bestand nicht übernommen`) wie bei gescheitertem `data:build` (`::error::Der Neuaufbau ist gescheitert`).
+  In beiden Fällen sind die Quellen vorher committet (teuer erkauft, unabhängig vom Bau), die Erzeugnisse nicht; `deploy.yml` startet nur bei success und bleibt aus. Bis 12.10.2026 endete der Aufbau-Ausfall mit Exit 0 (grün, nichts ausgeliefert).
+  `tools/commit-data-test.sh` (läuft in `check:workflows`) hält beide Ausgänge mit einem Attrappe-`npm` fest; `NUR_QUELLEN=1` (Abruf-Lauf) baut absichtlich nicht und bleibt grün.
+  Altes Merkmal aus der Grün-Zeit: `public/data/titles.json` ändert sich über Stunden nicht, obwohl `chore(data): Bestand neu gebaut` committet wird.
+- Bewusst grün bleiben (geprüft 12.10.2026): `data:extension-liste` scheitert (`::warning::`, Prüflisten zählen gegen den älteren Bestand), ein Pfad aus `QUELLEN` fehlt (`::warning::`, übersprungen), `umfang-pruefen.mjs --festschreiben` scheitert (still, Grenzen bleiben).
 - Vor jeder Änderung an `ohne-synchro-von-hand.yaml`: `npm run check:handbelege` nach einem lokalen Bau, und den nächsten Bestandslauf bis zum Deploy beobachten.
 
 ## Prüfkette: das Ende der Ausgabe lesen, nicht den Rest (07.10.2026)
