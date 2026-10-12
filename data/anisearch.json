@@ -42068,6 +42068,81 @@
     },
     "fetchedAt": "2026-10-06T08:05:09.861Z"
   },
+  "567": {
+    "anisearchId": 1022,
+    "descriptionDe": "Roger Smith ist ein Einwohner von Paradigm City – einer Stadt ohne Vergangenheit. Vor vierzig Jahren verloren die Einwohner der Stadt jegliche Erinnerungen. Das Einzige, das sie an die Zeit »vor der Auslöschung« erinnert, sind riesige Roboter genannt Megadeus und selbst geschaffene Monster. Roger hat es sich in dieser Stadt zur Aufgabe gemacht, für die Sicherheit der Bewohner zu sorgen und sie vor Kriminellen und anderen Gefahren zu schützen. Sein wichtiger Freund und Helfer: der Riesenroboter Big O. Zu ihnen gesellen sich auch Roberts Butler Norman Burg und Dorothy R. Wayneright, eine Androidendame. Werden sie es zusammen schaffen, die Probleme von Paradigm City zu lösen? Und was passiert, wenn immer mehr Erinnerungen zurückkommen …? \n\nQuelle: www.anisearch.de/anime/1022",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "The Big O",
+          "titleNative": "The ビッグオー",
+          "status": "Abgeschlossen",
+          "released": "13.10.1999 - 19.01.2000"
+        },
+        {
+          "language": "Englisch",
+          "title": "The Big O",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "02.04.2001 - 18.04.2001",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Sentai",
+            "Beez Entertainment",
+            "Discotek Media"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "The Big O",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.2001 - ?",
+          "publisher": [
+            "Dybex S.A."
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 25,
+      "season": "Herbst 1999",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hajime YATATE",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kazuyoshi KATAYAMA",
+          "role": "Direction"
+        },
+        {
+          "name": "Keiichi SATOU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Toshihiko SAHASHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "B Ch",
+          "url": "https://www.b-ch.com/contents/big_o/"
+        }
+      ],
+      "synonyms": [
+        "Big O Roger"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:01:40.955Z"
+  },
   "568": {
     "anisearchId": 57,
     "descriptionDe": "Wir schreiben das Jahr 2040. Das große Beben, das Tokio vor einiger Zeit schwer traf, scheint fast schon wieder vergessen. Dank dafür gebührt den menschenähnlichen Robotern, genannt »Boomer«. Doch stattdessen treten die meisten Menschen ihnen feindselig gegenüber. Dass ab und an einer dieser Boomer außer Kontrolle gerät, will man genauso wenig zugegeben, wie die Existenz eines Helden, der sich um solche Eskalationen auf eigene Faust zu kümmern scheint … \n\nQuelle: www.anisearch.de/anime/57",
@@ -79791,6 +79866,89 @@
     },
     "fetchedAt": "2026-09-29T11:16:24.686Z"
   },
+  "1236": {
+    "anisearchId": 84,
+    "descriptionDe": "In »Sci-Bots« kämpfen vier Weltkraumkrieger für den Frieden im Universum. Die drei Cyborgs Jan Kugo, Sir Djorgo, Don Haka und die wunderschöne Mondprinzessin Aurora reisen in ihrem Raumschiff mit dem Namen »Königin des Kosmos« durch das Weltall, um für Gerechtigkeit und Ordnung einzustehen. Die alte Königin der Galaxie verliert langsam ihre Macht und der große Zentralplanet liegt im Sterben, was eine immense Gefahr für jedes Lebewesen darstellt, denn mit ihm wird auch das gesamte bekannte Universum untergehen. Kann Prinzessin Aurora rechtzeitig ihren Platz einnehmen und alle retten?Anmerkung:\nDie westlichen Veröffentlichungen des Animes wurden teils auf 26 Folgen zusammengeschnitten und die Handlung stark verändert. Das Ziel ist in diesen nicht, das Zentrum der Galaxie zu erreichen, um die Königin zu ersetzen, sondern gegen Mutanten zu kämpfen, die auch die Einwohner von Auroras Planeten getötet haben. Hierfür wurden die verschiedenen angetroffenen Monster als Mutanten bezeichnet.\n\nIn Deutschland wurden Teile der Serie Ende 1980 auf insgesamt 13 VHS-Kassetten veröffentlicht.",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "SF Saiyuuki Starzinger",
+          "titleNative": "SF Saiyūki Starzinger",
+          "status": "Abgeschlossen",
+          "released": "02.04.1978 - 24.06.1979"
+        },
+        {
+          "language": "Englisch",
+          "title": "Force Five: Spaceketeers",
+          "status": "Abgebrochen",
+          "released": "1979 - ?",
+          "publisher": [
+            "Shout! Factory, LLC"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Sci-Bots",
+          "status": "Abgebrochen",
+          "released": "?",
+          "publisher": [
+            "MCP Magnetics Audio - Video Vertriebs GmbH"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Starzinger",
+          "status": "Abgebrochen",
+          "released": "1984 - ?",
+          "publisher": [
+            "Jacques Canestrier Video"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Starzinger",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 64,
+      "runtimeMinutes": 23,
+      "season": "Frühling 1978",
+      "studios": [
+        "Toei Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Leiji MATSUMOTO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masami SUDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Shunsuke KIKUCHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Toei Animation",
+          "url": "https://www.toei-anim.co.jp/lineup/tv/starginger/"
+        }
+      ],
+      "synonyms": [
+        "Science Fiction Saiyuki Starzinger",
+        "Starzinger"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:01:47.866Z"
+  },
   "1237": {
     "anisearchId": 3823,
     "descriptionDe": "»One Piece: Oounabara ni Hirake! Dekkai Dekkai Chichi no Yume!« beginnt auf Zaps Schiff, wo die beiden Crewmitglieder Bonnie und Max das Leben als Piraten leid sind. Daher planen sie, zu flüchten. Doch etwas Wichtiges fehlt ihnen, um den Plan auch in die Tat umzusetzen: Geld. Sie bekommen mit, dass sich drei Kinder auf dem Schiff befinden, die gefangen wurden. Amanda, das älteste der drei Kinder, macht ihren Kidnappern ein Angebot: Ihr Vater war ein ausgezeichneter Schatzsucher und kennt daher den Aufenthaltsort eines riesigen Schatzes. Bonnie und Max, die diesen Schatz als ihren Weg zur Freiheit sehen, akzeptieren das Angebot; und gemeinsam flüchten die fünf auf eine Insel, wo sie auf Ruffy und seine Strohhutbande treffen. Allerdings wurden die Flüchtigen von Piraten verfolgt und Amanda wird zusammen mit Ruffy zum Kapitän der Bayan Piratenbande gebracht, da er selbst sehr an dem Schatz interessiert ist. Nun müssen Ruffy und seine Crew gegen die Bayan-Piraten kämpfen und nach dem Schatz suchen, den Amandas Vater einst für seine Kinder versteckte … \n\nQuelle: www.anisearch.de/anime/3823",
@@ -109977,6 +110135,49 @@
     },
     "fetchedAt": "2026-10-06T09:16:15.955Z"
   },
+  "1802": {
+    "anisearchId": 1296,
+    "descriptionDe": "In einer fernen Zukunft dient die WWWA als intergalaktische Polizeieinheit. Unter ihren Spezialagentinnen arbeiten auch Kei und Yuri, die sich selbst stolz »Lovely Angels« nennen. Doch der Rest der Galaxie kennt sie eher unter dem wenig schmeichelhaften Spitznamen »Dirty Pair«, denn ihre Missionen enden regelmäßig in gigantischen Zerstörungen – was sie jedoch nicht davon abhält, ihre Einsätze als Erfolge zu verbuchen, selbst wenn dafür halbe Planeten in Schutt und Asche gelegt werden müssen.\n\nKei ist die impulsivere der beiden, mit einer blond-roten Kurzhaarfrisur, rauem Umgangston und stets bereit, zur Waffe zu greifen. Yuri bildet den ruhigeren Gegenpol, wirkt auf den ersten Blick sensibler, trägt jedoch ein Laserschwert und steht Kei in Cleverness und Durchsetzungsvermögen in nichts nach. Gemeinsam sorgen sie nicht nur bei Kriminellen, sondern auch bei ihrem ständig genervten Vorgesetzten für Chaos, der jedes Mal aufs Neue mit den gigantischen Schadensberichten zu kämpfen hat. \n\nQuelle: www.anisearch.de/anime/1296",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Dirty Pair Flash",
+          "titleNative": "ダーティペアFlash",
+          "status": "Abgeschlossen",
+          "released": "21.01.1994 - 25.04.1996"
+        },
+        {
+          "language": "Englisch",
+          "title": "Dirty Pair Flash",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "28.04.1998 - 08.12.1998",
+          "publisher": [
+            "ADV Films (USA)",
+            "ADV Films (UK)",
+            "Nozomi Entertainment"
+          ]
+        }
+      ],
+      "format": "OVA",
+      "episodes": 16,
+      "runtimeMinutes": 27,
+      "season": "Winter 1993/94",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Sunrise Inc",
+          "url": "https://www.sunrise-inc.co.jp/dirtypair/FLASH/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:01:54.780Z"
+  },
   "1803": {
     "anisearchId": 2744,
     "descriptionDe": "»Dirty Pair: With Love From the Lovely Angels« erzählt zwei weitere Geschichten über das ungemein effektive, aber auch chaotische und mitunter gefährliche Duo Kei und Yuri.\n\nEpisode 1: »Eek! The Boy in the Manor Is a Terminator«\nWährend Yuri im Kontext Liebesleben eine nicht gerade förderliche Verabredung durchleben muss, tut sich ihre Kollegin Kei mit dem ehemaligen Trouble Consultant Calico zusammen, um den Fälscher Jobs Garou dingfest zu machen. In dessen Villa bekommen sie es jedoch mit einem ziemlich speziellen Roboter als Gegner zu tun.\n\nEpisode 2: »R-Really!? For Beautiful Women, ›Canon‹ Is the Keyword to Escape«\nDas Waffenforschungslabor der WWWA, das mitten in einem inaktiven Vulkan liegt, wurde überfallen, dabei wurde auch Keis und Yuris Vorgesetzter entführt. Der Vorsitz der WWWA hält jegliche Form der Gegenmaßnahmen (inkl. Rettung) für zu schwierig, daher gibt es nur eine Lösung: Einleitung der Selbstzerstörungssequenz im Labor. Eine Lösung, die für die zwei Agentinnen natürlich keine ist. Prompt ziehen sie los, um ihren Boss zu retten, allerdings mit wortwörtlich explosiven Konsequenzen …Anmerkung:\nEs handelt sich bei dieser OVA um die letzten beiden produzierten Folgen der TV-Serie, die nach dem Einstellen der Serie nur auf Video erschienen sind.",
@@ -116736,6 +116937,75 @@
       ]
     },
     "fetchedAt": "2026-10-06T09:26:03.841Z"
+  },
+  "1935": {
+    "anisearchId": 1587,
+    "descriptionDe": "In »Megazone 23: Teil 1« hat Rennfahrer Shougo Yahagi einige Schwierigkeiten am Hals. Das Militär ist hinter ihm her, die Regierung kann und will ihm nicht helfen und sein neues Motorrad ist so begehrt, dass es ihm schon bald das Leben kosten könnte! Aber das ist nur der Anfang seiner Probleme: Die Welt, in der Shougo und seine Freunde ihr ganzes Leben verbracht haben, ist nicht die, die sie zu sein scheint, und nun ist ihre einzige Hoffnung eine künstliche Intelligenz. Diese scheint nämlich die Wahrheit über das Schicksal der Menschheit Bescheid zu wissen. \n\nQuelle: www.anisearch.de/anime/1587",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Megazone 23",
+          "titleNative": "メガゾーン23",
+          "status": "Abgeschlossen",
+          "released": "09.03.1985"
+        },
+        {
+          "language": "Englisch",
+          "title": "Megazone 23 Part 1",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "25.07.1986 - 1995",
+          "publisher": [
+            "ADV Films (USA)",
+            "Manga Entertainment Ltd.",
+            "Streamline Pictures",
+            "Harmony Gold USA, Inc.",
+            "AnimEigo, Inc."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Megazone 23: Teil 1",
+          "status": "Abgeschlossen",
+          "released": "20.11.2024",
+          "publisher": [
+            "AnimEigo, Inc."
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Megazone 23",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "04.06.2011",
+          "publisher": [
+            "Yamato Video S.r.l."
+          ]
+        }
+      ],
+      "format": "OVA",
+      "episodes": 1,
+      "runtimeMinutes": 81,
+      "season": "Frühling 1985",
+      "studios": [
+        "Artland Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Jvcmusic",
+          "url": "https://www.jvcmusic.co.jp/m-serve/megazone/index.html"
+        }
+      ],
+      "synonyms": [
+        "Mega Zone 23 Part 1",
+        "Robotech: The Movie",
+        "Robotech: The Untold Story"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:02:01.699Z"
   },
   "1936": {
     "anisearchId": 824,
@@ -123935,6 +124205,34 @@
       ]
     },
     "fetchedAt": "2026-10-06T09:38:13.963Z"
+  },
+  "2088": {
+    "anisearchId": 2122,
+    "descriptionDe": "Nora Scholar ist eine unternehmungslustige junge Frau, die sich im Holiday Inn auf der Raumstation Frontier einquartiert, wo sie auf den berühmten Wissenschaftler und Marsforscher Dr. Zachariasen trifft, als erste leichte Unregelmäßigkeiten im Gravitationssystem auftreten. Bald jedoch stellt sich heraus, dass hinter den Vorfällen ein gewisser Professor Dohati steckt, der eine KI entwickelt hat, die allmählich außer Kontrolle gerät und die die ganze Welt ins Verderben zu stürzen droht. Nora und der Doktor versuchen, dem Phänomen auf den Grund zu gehen. Da finden sie den verzweifelten Professor unter den Opfern vor, und gemeinsam machen sie sich auf den Weg, um in den Kontrollraum der KI zu gelangen, die alle, die ihr in die Quere kommen könnten, ausgesperrt hat. Nora jedoch scheint einen besonderen Draht zu ihr zu haben, und es sieht so aus, als würden nicht nur Menschen aus Fleisch und Blut auf ihren Charme ansprechen.\n\nIn der zweiten OVA ist Nora zur Kopfgeldjägerin avanciert und macht auf dem Planeten Dazzle mit ihren übernatürlichen Kräften den Feinden von Recht und Ordnung das Leben schwer. Diesmal ist es der ebenfalls mit übernatürlichen Kräften versehene Fuuchino, der als Gestaltwandler zusammen mit seinem Bruder für Unfrieden sorgt und gegen den nun Nora antritt, um ihn in seine Schranken zu weisen. \n\nQuelle: www.anisearch.de/anime/2122",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Nora",
+          "titleNative": "ノーラ",
+          "status": "Abgeschlossen",
+          "released": "21.01.1985 - 21.11.1985"
+        }
+      ],
+      "format": "OVA",
+      "episodes": 2,
+      "runtimeMinutes": 50,
+      "season": "Winter 1984/85",
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Web Archive (Hi Cara)",
+          "url": "https://web.archive.org/web/20070606065137/https://www.hi-cara.com/nora/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:02:08.607Z"
   },
   "2089": {
     "anisearchId": 616,
@@ -169372,6 +169670,48 @@
       ]
     },
     "fetchedAt": "2026-10-06T10:39:50.422Z"
+  },
+  "3270": {
+    "anisearchId": 3013,
+    "descriptionDe": "Nach dem Gewinn der IG-2-Liga steigt Team Satomi in die IG-1-Liga auf – ein schwieriges Pflaster, wie sich herausstellen wird; nur wenn sie als Einheit zusammenarbeiten, haben die jungen Piloten Takeshi, Liz, Amy, und River überhaupt eine Chance. Aber zwischen ihnen führt eins zum anderen und zu allem Überfluss sind ihre Gegner ihnen auch in individueller Fähigkeit, Strategie und finanziellen Möglichkeiten meilenweit überlegen. Das Einzige, was sicher ist: Das wird keine einfache Saison für Team Satomi … \n\nQuelle: www.anisearch.de/anime/3013",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "IGPX: Immortal Grand Prix",
+          "status": "Abgeschlossen",
+          "released": "06.10.2005 - 02.07.2006"
+        },
+        {
+          "language": "Englisch",
+          "title": "IGPX: Immortal Grand Prix",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.11.2005 - 26.08.2006",
+          "publisher": [
+            "Bandai Entertainment, Inc.",
+            "Discotek Media",
+            "Beez Entertainment"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 24,
+      "season": "Herbst 2005",
+      "studios": [
+        "Production I.G., Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Igpx",
+          "url": "https://www.igpx.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:02:15.535Z"
   },
   "3271": {
     "anisearchId": 3231,
@@ -234534,6 +234874,37 @@
     },
     "fetchedAt": "2026-10-07T07:18:50.697Z"
   },
+  "6604": {
+    "anisearchId": 5449,
+    "descriptionDe": "Der Anime dreht sich um eine Dame, die sich völlig dem hochprozentigen Sake und ihren vielen Katzen verschrieben hat. \n\nQuelle: www.anisearch.de/anime/5449",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kuruneko",
+          "titleNative": "くるねこ",
+          "status": "Abgeschlossen",
+          "released": "05.07.2009 - 02.07.2011"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 100,
+      "runtimeMinutes": 3,
+      "season": "Sommer 2009",
+      "studios": [
+        "DAX Production Inc."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Kuruneko Fc Yahoo",
+          "url": "https://kuruneko.fc.yahoo.co.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:02:22.439Z"
+  },
   "6607": {
     "anisearchId": 6261,
     "descriptionDe": "Nichtsahnend wartet eine junge Schülerin vor einem »Louis Vuitton«-Laden, als sie plötzlich einen kleinen Panda sieht. Dieser verschlingt das Mädchen und bringt sie damit ins kunterbunte Panda-Reich. Weiter geht die Reise zurück in die Vergangenheit und es kommt zum Treffen mit dem jungen Louis Vuitton … \n\nQuelle: www.anisearch.de/anime/6261",
@@ -237349,6 +237720,37 @@
     },
     "fetchedAt": "2026-10-07T07:23:37.607Z"
   },
+  "6759": {
+    "anisearchId": 4666,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Cynical Hysterie Hour",
+          "titleNative": "シニカル・ヒステリー・アワー",
+          "status": "Abgeschlossen",
+          "released": "24.12.1988 - 24.06.1989"
+        }
+      ],
+      "format": "Film",
+      "episodes": 4,
+      "runtimeMinutes": 8,
+      "season": "Winter 1988/89",
+      "staff": [
+        {
+          "name": "Kiriko KUBO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kiriko KUBO",
+          "role": "Direction"
+        }
+      ],
+      "adaptedFrom": "Manga"
+    },
+    "fetchedAt": "2026-10-12T06:02:29.343Z"
+  },
   "6769": {
     "anisearchId": 5699,
     "descriptionDe": "Ein großartiges Festival hat begonnen! Chinesische Drachen, Einheimische und Reisende tanzen über die Berge und unter den Bäumen. Vom Morgen angefangen bis tief in die Nächte haben alle Beteiligten ihren Spaß. \n\nQuelle: www.anisearch.de/anime/5699",
@@ -237462,6 +237864,74 @@
       ]
     },
     "fetchedAt": "2026-10-07T07:23:51.237Z"
+  },
+  "6772": {
+    "anisearchId": 5475,
+    "descriptionDe": "Rygart Arrow ist der Einzige auf der Welt, der nicht über die Fähigkeit verfügt, Quartz zu aktivieren. Jene Energiequelle sorgt dafür, dass alle Maschinen angetrieben werden. Er verfügt jedoch über illustre Beziehungen, darunter der König und die Königin seines Landes Krisna, die ehemalige Schulfreunde von ihm sind. Ebenso Zess, die Person, die die Armee des benachbarten Königreichs bei ihrem Angriff auf Krisna anführt.\n\nÜber die Gründe, wie es so weit kommen konnte, bleibt Rygart keine Zeit nachzudenken, denn eine Armee in gigantischen, mechanischen Kampfanzügen rückt an. Er fühlt sich dabei überflüssig, bis er auf einen mächtigen, antiken Mecha stößt, den bisher noch niemand in Betrieb nehmen konnte. Durch seine natürliche Affinität für dessen Steuerung ist Rygart nun auf dem besten Weg, die Schlüsselfigur des Konfliktes zu werden … \n\nQuelle: www.anisearch.de/anime/5475",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Break Blade",
+          "titleNative": "ブレイク ブレイド",
+          "status": "Abgeschlossen",
+          "released": "29.05.2010 - 26.03.2011"
+        },
+        {
+          "language": "Englisch",
+          "title": "Broken Blade",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "21.02.2012",
+          "publisher": [
+            "MVM Entertainment Ltd.",
+            "Sentai",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Broken Blade (Films)",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.07.2013",
+          "publisher": [
+            "Black Box Éditions"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 6,
+      "runtimeMinutes": 51,
+      "season": "Frühling 2010",
+      "studios": [
+        "Production I.G., Inc.",
+        "XEBEC, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Yuunosuke YOSHINAGA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Nobuyoshi HABARA",
+          "role": "Direction"
+        },
+        {
+          "name": "Yoshihisa HIRANO",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Breakblade",
+          "url": "https://breakblade.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:02:36.266Z"
   },
   "6773": {
     "anisearchId": 7185,
@@ -239318,6 +239788,40 @@
       ]
     },
     "fetchedAt": "2026-10-01T11:13:46.170Z"
+  },
+  "6864": {
+    "anisearchId": 5573,
+    "descriptionDe": "Mit xxxHOLIC Rou begeben wir uns auf zum aktuellen Teil von xxxHOLIC. Ganz im Stil der bisherigen xxxHolic-Reihe ist auch diesmal ein mysteriöser Fall zu lösen. Doch die Zeit ist vorangeschritten und diesmal muss Watanuki die Verantwortung alleine tragen. Wie gewohnt wird er von Doumeki unterstützt. Was für dünkelsüße Ein- und Ausblicke hält diese Geschichte wohl für uns bereit? \n\nQuelle: www.anisearch.de/anime/5573",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "xxxHOLiC Rou",
+          "titleNative": "xxxHOLiC Rō",
+          "status": "Abgeschlossen",
+          "released": "23.04.2010"
+        }
+      ],
+      "format": "OVA",
+      "episodes": 1,
+      "runtimeMinutes": 41,
+      "season": "Frühling 2010",
+      "studios": [
+        "Production I.G., Inc."
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Kc Kodansha",
+          "url": "https://kc.kodansha.co.jp/tsubaholi/"
+        }
+      ],
+      "synonyms": [
+        "xxxHOLiC OVA 2"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:02:43.171Z"
   },
   "6867": {
     "anisearchId": 5491,
@@ -242484,6 +242988,81 @@
       ]
     },
     "fetchedAt": "2026-10-01T11:15:16.469Z"
+  },
+  "7014": {
+    "anisearchId": 6228,
+    "descriptionDe": "Indien vor 2.500 Jahren. Die Geschichte erzählt, wie der junge Prinz und zukünftige König des Landes Siddharta, der schon früh Zweifel am streng hierarchischen Kastensystem hegte, sich entscheidet, Mönch zu werden.\n\nWarum lebt der Mensch und warum leidet er? Auf der Suche nach der Antwort hierauf begibt er sich auf eine Reise und lässt dafür Reichtum, Ehre und sogar Frau und Kind hinter sich … \n\nQuelle: www.anisearch.de/anime/6228",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Tezuka Osamu no Buddha",
+          "titleNative": "手塚治虫のブッダ",
+          "status": "Abgeschlossen",
+          "released": "28.05.2011 - 08.02.2014"
+        },
+        {
+          "language": "Spanisch",
+          "title": "Osamu Tezuka Buda",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "2012 - ?",
+          "publisher": [
+            "Mediatres Estudio S.L."
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Bouddha",
+          "status": "Abgebrochen",
+          "released": "29.01.2014",
+          "publisher": [
+            "Kazé France"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 2,
+      "runtimeMinutes": 111,
+      "season": "Frühling 2011",
+      "studios": [
+        "Toei Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Osamu TEZUKA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kouzou MORISHITA",
+          "role": "Direction"
+        },
+        {
+          "name": "Hideaki MANIWA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Michiru OOSHIMA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Tezukaosamu",
+          "url": "https://tezukaosamu.net/jp/anime/138.html"
+        },
+        {
+          "name": "Web Archive (Warnerbros)",
+          "url": "https://web.archive.org/web/20151229055358/https://wwws.warnerbros.co.jp/buddha/"
+        }
+      ],
+      "synonyms": [
+        "Osamu Tezuka’s Buddha"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:02:50.080Z"
   },
   "7016": {
     "anisearchId": 8443,
@@ -249905,6 +250484,31 @@
       ]
     },
     "fetchedAt": "2026-10-07T07:52:30.879Z"
+  },
+  "7643": {
+    "anisearchId": 21954,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Doumo-kun",
+          "titleNative": "Dōmo-kun",
+          "status": "Abgeschlossen",
+          "released": "22.12.1998 - 2015"
+        }
+      ],
+      "format": "TV-Spezial",
+      "episodes": 43,
+      "season": "Winter 1998/99",
+      "websites": [
+        {
+          "name": "NHK",
+          "url": "https://www.nhk.or.jp/domo/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:02:56.988Z"
   },
   "7645": {
     "anisearchId": 5852,
@@ -281766,6 +282370,60 @@
     },
     "fetchedAt": "2026-10-07T09:01:35.972Z"
   },
+  "9982": {
+    "anisearchId": 6666,
+    "descriptionDe": "Völlig überrascht muss Lucy feststellen, dass Fairy Tail sein eigenes Frauenwohnheim hat, Fairy Hill, während sie in ihrer teuren Stadtwohnung lebt. Gerade erst angekommen wird sie auch noch von der Hausdame in einen aufreizendes Katzenkostüm gesteckt und soll nun so angezogen auf Schatzsuche gehen. Auf ihrem Weg durch das Wohnheim trifft sie auch auf dessen Bewohnerinnen und erhält Einblick in deren individuelle Raumgestaltung.\n\nWährend die Frauen von Fairy Tail am angrenzenden Strand baden, haben sich die Männer dazu entschieden, den Pool der neu erbauten Gilde einzuweihen. Für Natsu muss es ein Thermalbad sein, Gray hingegen bevorzugt lieber ein Eisbad. Natürlich endet die Diskussion wieder in einer riesigen Schlägerei, bei der so mancher die Hosen fallen lässt. \n\nQuelle: www.anisearch.de/anime/6666",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Fairy Tail: Youkoso Fairy Hills!!",
+          "titleNative": "Fairy Tail: Yōkoso Fairy Hills!!",
+          "status": "Abgeschlossen",
+          "released": "15.04.2011"
+        }
+      ],
+      "format": "OVA",
+      "episodes": 1,
+      "runtimeMinutes": 30,
+      "season": "Frühling 2011",
+      "studios": [
+        "A-1 Pictures Inc.",
+        "Satelight Inc."
+      ],
+      "staff": [
+        {
+          "name": "Hiro MASHIMA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Shinji ISHIHIRA",
+          "role": "Direction"
+        },
+        {
+          "name": "Midori YAMAMOTO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Yasuharu TAKANASHI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Kc Kodansha",
+          "url": "https://kc.kodansha.co.jp/fairytail/index.html"
+        }
+      ],
+      "synonyms": [
+        "Fairy Tail OVA 1",
+        "Fairy Tail: Welcome to Fairy Hills!"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:03:03.899Z"
+  },
   "9988": {
     "anisearchId": 7722,
     "descriptionDe": "»Otome wa Boku ni Koishiteru: Futari no Elder The Animation« handelt vom Oberschüler Chihaya Mikado, der ein ziemliches Problem hat: Sein Äußeres ist ungemein feminin. Nachdem er an seiner Schule immer öfter Opfer von Belästigung und Mobbing war und irgendwann gar nicht mehr zum Unterricht erschienen ist, unternimmt seine Mutter, Taeko, einen drastischen Schritt: Sie veranlasst, dass ihr Sohn an ihre alte Oberschule versetzt wird. Der Haken daran: An dieser Schule, der Seio-Mädchen-Akademie, haben schon dem Namen nach männliche Schüler nichts verloren. Doch Taekos alte Kontakte und Chihayas weibliches Äußeres machen die Aufnahme erstaunlich unkompliziert.\n\nNachdem er als Nachnamen Kisakinomiya angenommen hat, muss er seine Hoffnung auf ein ruhiges Leben allerdings schnell aufgeben: Das hübsche Gesicht, die silbernen Haare und auch die guten Noten erregen schnell die Aufmerksamkeit seiner Mitschülerinnen. Zum Glück nimmt ihn seine Klassenkameradin Kaoruko Nanahara unter ihre Fittiche und sorgt dafür, dass Chihaya sich recht schnell einlebt, und so freunden die beiden sich sehr bald an. Doch wie lange kann Chihaya sein Geheimnis – speziell vor Kaoruko – bewahren? \n\nQuelle: www.anisearch.de/anime/7722",
@@ -287325,6 +287983,81 @@
     },
     "fetchedAt": "2026-10-07T09:12:19.781Z"
   },
+  "10294": {
+    "anisearchId": 6727,
+    "descriptionDe": "Inmitten der übrigen Menschheit gibt es schon seit Urzeiten eine kleine Gruppe von Menschen, die als Attraktoren bekannt sind und über seltsame Kräfte verfügen. Doch im Tokio der Zukunft gestaltet sich ihr Leben nicht gerade einfach, denn aufgrund ihrer Fähigkeiten werden sie von der Geheimorganisation Kestos gejagt, die der Ansicht ist, dass alle Attraktoren wegen ihrem vermeintlich negativen Einfluss auf die soziale Ordnung eingefangen und zur Strecke gebracht werden sollten.\n\nDen einzigen Hoffnungsschimmer für viele von ihnen stellt Quon dar. Denn dass viele erwachte Attraktoren noch am Leben sind, verdanken sie allein seiner Aufopferung. Seine schwächeren Kameraden hält er an einem geheimnisvollen Ort namens Fantasium Garden versteckt, wo sie in Frieden leben können, während er mit seiner Fähigkeit zur Verwandlung in den monströsen Insania den Widerstand gegen die Cyborg-Streitkräfte von Kestos aufrechterhält.\n\nAm liebsten würde er alle Attraktoren retten, aber dass Kestos über Technologien verfügt, die ihnen den Standort der Attraktoren mit aktivierten Fähigkeiten anzeigen, macht die Sache nicht gerade einfach. Ob ihre Art in dieser modernen und abweisenden Welt wohl wirklich noch zu retten ist? \n\nQuelle: www.anisearch.de/anime/6727",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Towa no Quon",
+          "titleNative": "トワノクオン",
+          "status": "Abgeschlossen",
+          "released": "18.06.2011 - 26.11.2011"
+        },
+        {
+          "language": "Englisch",
+          "title": "Towanoquon",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "13.10.2011 - 22.12.2011",
+          "publisher": [
+            "Sentai",
+            "Madman Entertainment",
+            "Manga Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Towanoquon",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "10.07.2022 - 14.08.2022",
+          "publisher": [
+            "ANIME REMOW LATAM S. de R.L. de C.V."
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 6,
+      "runtimeMinutes": 45,
+      "season": "Sommer 2011",
+      "studios": [
+        "BONES Inc."
+      ],
+      "staff": [
+        {
+          "name": "BONES Inc.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Umanosuke IIDA",
+          "role": "Direction"
+        },
+        {
+          "name": "Toshihiro KAWAMOTO",
+          "role": "Character Design"
+        },
+        {
+          "name": "Kenji KAWAI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Towanoquon",
+          "url": "https://www.towanoquon.com/"
+        }
+      ],
+      "synonyms": [
+        "Eternal Quon",
+        "The Ephemeral Petal"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:03:10.831Z"
+  },
   "10297": {
     "anisearchId": 7184,
     "descriptionDe": "Anmerkung:\nDiese Bonusfolge war erstmals auf dem siebten Volume der japanischen Blu-ray- und DVD-Fassung des TV-Anime »Shin Koi-hime Musou: Otome Tairan« enthalten.",
@@ -290885,6 +291618,62 @@
     },
     "fetchedAt": "2026-10-07T09:18:11.865Z"
   },
+  "10497": {
+    "anisearchId": 7876,
+    "descriptionDe": "Island enthüllt das Ergebnis seines Gen-Testes, es gibt eine große Halloween-Feier und China hat Angst um sein Opium. Wie immer bei Hetalia werden die einzelnen Länder ordentlich aufs Korn genommen. \n\nQuelle: www.anisearch.de/anime/7876",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hetalia World Series Extra Episodes",
+          "status": "Abgeschlossen",
+          "released": "25.03.2011 - 16.09.2011"
+        },
+        {
+          "language": "Englisch",
+          "title": "Hetalia World Series (OVA 1 - 3)",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?",
+          "publisher": [
+            "Viewster AG",
+            "FUNimation"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Hetalia World Series (Episoden 49 - 51)",
+          "status": "Abgeschlossen",
+          "released": "2015",
+          "publisher": [
+            "Viewster AG"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Hetalia World Series (Épisodes 49 - 51)",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Viewster AG"
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 3,
+      "runtimeMinutes": 5,
+      "season": "Frühling 2011",
+      "studios": [
+        "Studio DEEN Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Hetalia World Series Specials"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:03:17.744Z"
+  },
   "10500": {
     "anisearchId": 6883,
     "descriptionDe": "Während des Spielens stößt Toichi auf ein Objekt, das er noch nie zuvor gesehen hat – eine Öl-Lampe. An seine Jugend erinnert, erzählt ihm sein Opa eine Geschichte, die schon 50 Jahre zurückliegt: Der junge Minosuke lebt auf sich allein gestellt in einer ländlichen Gegend. Sein Alltag besteht darin, verschiedene Tätigkeiten für die Dorfbewohner auszuführen. Als ihn ein Auftrag in eine größere Stadt führt, sieht er zum ersten Mal in seinem Leben eine von Öl-Lampen erhellte Stadt. Fasziniert von ihren warmen Lichtern, beginnt er ein Leben als Lampenverkäufer. Nach erfolgreichen Jahren muss er sich jedoch der Einführung der Elektrizität gegenüberstellen …Anmerkung:\nDieser Anime ist ein Teil des Young Animator Project.",
@@ -292606,6 +293395,53 @@
       ]
     },
     "fetchedAt": "2026-09-28T13:10:16.207Z"
+  },
+  "10592": {
+    "anisearchId": 6963,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Scryed Alteration",
+          "titleNative": "スクライドオルタレイション",
+          "status": "Abgeschlossen",
+          "released": "19.11.2011 - 10.03.2012"
+        }
+      ],
+      "format": "Film",
+      "episodes": 2,
+      "runtimeMinutes": 96,
+      "season": "Herbst 2011",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "staff": [
+        {
+          "name": "Gorou TANIGUCHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Hisashi HIRAI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Koutarou NAKAGAWA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "S Cry Ed",
+          "url": "https://www.s-cry-ed.net/"
+        }
+      ],
+      "synonyms": [
+        "s.CRY.ed Alteration"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:03:24.658Z"
   },
   "10595": {
     "anisearchId": 7120,
@@ -306404,6 +307240,37 @@
     },
     "fetchedAt": "2026-10-07T09:46:58.456Z"
   },
+  "11883": {
+    "anisearchId": 7411,
+    "descriptionDe": "Verschiedene Knetfiguren stehen sich im Kampf gegenüber. \n\nQuelle: www.anisearch.de/anime/7411",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Battle of Clay",
+          "titleNative": "ねんどのたたかい",
+          "status": "Abgeschlossen",
+          "released": "21.01.2004 - 28.01.2004"
+        }
+      ],
+      "format": "Web",
+      "episodes": 2,
+      "runtimeMinutes": 1,
+      "season": "Winter 2003/04",
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Eonet",
+          "url": "https://www.eonet.ne.jp/~y-nagao/battle.htm"
+        }
+      ],
+      "synonyms": [
+        "Nendo no Tatakai"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:03:31.566Z"
+  },
   "11887": {
     "anisearchId": 7383,
     "descriptionDe": "Eigentlich sind die fünf Schüler Taichi, Iori, Himeko, Aoki und Yui dem Kulturclub beigetreten, um ihre Ruhe zu haben und ohne viel Arbeit durch die Yamahoshi Hochschule zu kommen. Doch die beschaulichen Nachmittage sind vorbei, als Herzsame erscheint, eine unbekannte Lebensform, die sich für die menschlichen Emotionen interessiert. Als Testobjekte hat er sich den Kulturclub ausgesucht und um die Sache voran zu treiben, lässt er die Mitglieder willkürlich die Körper tauschen. Die fünf Freunde sind nun dazu gezwungen, sich mit ihren Problemen und Traumata auseinander zu setzen, die sie bis jetzt versucht haben, geheim zu halten. \n\nQuelle: www.anisearch.de/anime/7383",
@@ -316333,6 +317200,40 @@
       ]
     },
     "fetchedAt": "2026-10-07T10:06:05.380Z"
+  },
+  "13159": {
+    "anisearchId": 7656,
+    "descriptionDe": "Chiyoko Kurotori, Grundschülerin in der fünften Klasse, hat ein ungewöhnliches Hobby, denn ihr Interesse gilt dem Okkulten und sie beschäftigt sich unter anderem mit schwarzer Magie, Flüchen und Horoskopen. Als sie eines Tages zusammen mit ihren Freunden Liebeshoroskope voraussagen will, weswegen sie den Beistand von »Cupid«, im Deutschen als Amor bekannt, zu beschwören versucht, passiert ihr jedoch ein Ungeschick, denn da ihre Nase verstopft ist, wird aus dem freundlichen Cupid ganz schnell Gyubid – eine schwarze Hexe! Nur Chiyoka kann sie sehen und einmal beschworen, kann sie nicht in die Geisterwelt zurück, bevor sie Chiyoko nicht zu einer vollwertigen Hexe ausgebildet hat, weswegen sie nun ohne Umschweife mit den Lektionen beginnt, ohne dass ihre neue Schülerin dafür ihr Einverständnis gegeben hätte. Die zu Streichen neigende schwarze Hexe bringt das Leben des Mädchens dabei ordentlich durcheinander. \n\nQuelle: www.anisearch.de/anime/7656",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kuromajo-san ga Tooru!!",
+          "titleNative": "Kuromajo-san ga Tōru!!",
+          "status": "Abgeschlossen",
+          "released": "04.04.2012 - 20.02.2013"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 32,
+      "runtimeMinutes": 7,
+      "season": "Frühling 2012",
+      "studios": [
+        "Shin-ei Animation Co., Ltd."
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Shin Ei Animation",
+          "url": "https://www.shin-ei-animation.jp/kuromajyo/"
+        }
+      ],
+      "synonyms": [
+        "Kuromajo-san ga Touru!!"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:03:38.482Z"
   },
   "13161": {
     "anisearchId": 7697,
@@ -328236,6 +329137,39 @@
       ]
     },
     "fetchedAt": "2026-10-07T10:25:38.977Z"
+  },
+  "14997": {
+    "anisearchId": 8110,
+    "descriptionDe": "Die Geschichte des kurzen Animes beginnt damit, dass einem kleinen, blinden Mädchen die Handtasche gestohlen wird und ihr Blindenhund dem Dieb hinterherrennt. Sie versucht ihm zu folgen und gelangt so zum Loch eines Holzzaunes. Durch dieses klettert sie hindurch und fantasiert von den verschiedensten Sachen, sodass sie beispielsweise auch ein Magical Girl ist. Doch wird sie es schaffen, ihren Hund sowie ihre Handtasche wiederzufinden? \n\nQuelle: www.anisearch.de/anime/8110",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Taiwan",
+          "title": "Qiao Qiao",
+          "titleNative": "敲敲",
+          "status": "Abgeschlossen",
+          "released": "01.08.2010"
+        },
+        {
+          "language": "Englisch",
+          "title": "Out of Sight",
+          "released": "?"
+        }
+      ],
+      "format": "Web",
+      "episodes": 1,
+      "runtimeMinutes": 5,
+      "season": "Sommer 2010",
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Web Archive (Evaty Main)",
+          "url": "https://web.archive.org/web/20120325164446/https://evaty.main.jp/oos/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:03:45.388Z"
   },
   "15005": {
     "anisearchId": 7929,
@@ -344674,6 +345608,61 @@
       ]
     },
     "fetchedAt": "2026-10-07T10:58:02.502Z"
+  },
+  "17221": {
+    "anisearchId": 2236,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hana no Asuka-gumi!",
+          "titleNative": "花のあすか組！",
+          "status": "Abgeschlossen",
+          "released": "12.06.1987 - 23.03.1990"
+        }
+      ],
+      "format": "OVA",
+      "episodes": 2,
+      "runtimeMinutes": 50,
+      "season": "Sommer 1987",
+      "studios": [
+        "Toei Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Satosumi TAKAGUCHI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Atsutoshi UMEZAWA",
+          "role": "Direction"
+        },
+        {
+          "name": "Hideyuki MOTOHASHI"
+        },
+        {
+          "name": "Satosumi TAKAGUCHI"
+        },
+        {
+          "name": "Yuri HANDA"
+        },
+        {
+          "name": "Kenji KAWAI"
+        },
+        {
+          "name": "Kimio NOMURA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "New Story of Kabuki Town: Asuka’s Flower Collection",
+        "Shin Kabukicho Story Hana no Asuka Gumi!",
+        "The Asukas of Flowers"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:03:52.311Z"
   },
   "17233": {
     "anisearchId": 20420,
@@ -372928,6 +373917,54 @@
     },
     "fetchedAt": "2026-10-08T06:43:05.857Z"
   },
+  "20511": {
+    "anisearchId": 9268,
+    "descriptionDe": "Die 16-jährige Oberschülerin Mei Ayazuki findet sich eines Tages durch Magie in der Meiji-Ära plötzlich Ende des 19. Jahrhunderts in Japan wiederfindet. Sie landet in der »Rokumeikan Hall« – einem Ort, wo Feste und Bälle von hohen Regierungsbeamten stattfanden. Für Außenstehende ist das Betreten dieses Gebäudes strengstens verboten. Mei, die orientierungslos an diesem Ort herumirrt, wird von Gorou Fujita gefunden. Als sie gerade im Begriff ist verhaftet zu werden, taucht einer der hohen Beamten auf, Ougai Mori. Dieser behauptet, dass Mei seine Verlobte sei. Daraufhin wird die 16-Jährige erst einmal zum Mori-Anwesen gebracht. Ihr wird gesagt, sie könne auf diesem Anwesen bleiben, egal ob es nur ein oder sogar zehn Jahre sind.\n\nDies ist der Beginn einer romantischen Liebesbeziehung in der prunkvollen und majestätischen Meiji-Ära … \n\nQuelle: www.anisearch.de/anime/9268",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Gekijouban Meiji Tokyo Renka",
+          "titleNative": "Gekijōban Meiji Tokyo Renka",
+          "status": "Abgeschlossen",
+          "released": "18.07.2015 - 06.05.2016"
+        }
+      ],
+      "format": "Film",
+      "episodes": 2,
+      "runtimeMinutes": 60,
+      "season": "Sommer 2015",
+      "studios": [
+        "Studio DEEN Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "MAGES. Inc.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hiroshi WATANABE",
+          "role": "Direction"
+        },
+        {
+          "name": "Akio HIRAKAWA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Visual Novel",
+      "websites": [
+        {
+          "name": "Meikoi Cinema",
+          "url": "https://meikoi-cinema.com/"
+        }
+      ],
+      "synonyms": [
+        "Meikoi"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:03:59.213Z"
+  },
   "20512": {
     "anisearchId": 9236,
     "descriptionDe": "Der Talentagentur Green Leaves Entertainment gehen die Talente aus, nachdem nun auch der letzte Kunde das Unternehmen verlassen hat. Die besten Tage, in denen man zahlreiche Magier, Wahrsager und sonstige Künstler anziehen konnte, liegen da schon lange zurück. Als letzter Ausweg vor dem absehbaren Bankrott plant der Präsident des Unternehmens, Junko Tange, unter der Leitung von Kouhei Matsuda eine Idolgruppe ins Leben zu rufen.\n\nDoch die Aufgabe gestaltet sich für den aufstrebenden Talentscout nicht gerade einfach, denn die meisten talentierten Personen haben schon ein Unternehmen hinter sich. Daher ist er auch bereit, Personen aus der dritten Reihe aufzusammeln – egal, ob sie erst 13 Jahre alt sind, gerade als Sängerin gefeuert oder in einem Maid-Café aufgegabelt wurden. Und so entsteht unter seiner Führung bald eine mehr als ungewöhnliche Gruppe von jungen Idolen. \n\nQuelle: www.anisearch.de/anime/9236",
@@ -388717,6 +389754,53 @@
     },
     "fetchedAt": "2026-10-08T06:57:48.699Z"
   },
+  "20732": {
+    "anisearchId": 10009,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hoozuki no Reitetsu OAD",
+          "titleNative": "Hōzuki no Reitetsu OAD",
+          "status": "Abgeschlossen",
+          "released": "06.12.2014"
+        }
+      ],
+      "format": "OVA",
+      "episodes": 3,
+      "runtimeMinutes": 27,
+      "season": "Winter 2014/15",
+      "studios": [
+        "WIT STUDIO, Inc."
+      ],
+      "staff": [
+        {
+          "name": "Natsumi EGUCHI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hiro KABURAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Hirotaka KATOU",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Gentei Kodansha",
+          "url": "https://gentei.kodansha.co.jp/hozuki/"
+        }
+      ],
+      "synonyms": [
+        "Cool-headed Hoozuki OAD"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:04:06.125Z"
+  },
   "20733": {
     "anisearchId": 9705,
     "descriptionDe": "»Haiyore! Nyaruko-san W: W ni Sayounara / Kono Onsen ni Koi no Konton o« zeigt die längst überfällige Onsen-Episode! Für Nyaruko ist der Fall natürlich klar: Das ist die Gelegenheit, Mahiro ein weiteres Mal zu verführen – und das mit allen Mitteln, die eine Onsen zu bieten hat. Und mit allerhand weiterer bedenklicher Hilfsmittel … \n\nQuelle: www.anisearch.de/anime/9705",
@@ -390708,6 +391792,94 @@
       ]
     },
     "fetchedAt": "2026-10-01T21:45:45.031Z"
+  },
+  "20768": {
+    "anisearchId": 9819,
+    "descriptionDe": "Der erste Teil, Kako-hen (Die Vergangenheit), erzählt die Ereignisse der TV-Serie aus der Sicht von der letzten Blutbändigerin, Mirai Kuriyama. Der zweite Teil, Mirai-hen (Die Zukunft), knüpft ein Jahr nach der Handlung an und beinhaltet eine völlig neue Geschichte. \n\nQuelle: www.anisearch.de/anime/9819",
+    "streams": [
+      {
+        "provider": "animation-digital-network-(de)",
+        "url": "https://animationdigitalnetwork.com/de/video/1275-beyond-the-boundary-ill-be-here/28558-film"
+      },
+      {
+        "provider": "animation-digital-network-(de)",
+        "url": "https://animationdigitalnetwork.com/de/video/1275-beyond-the-boundary-ill-be-here/28559-film"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Gekijouban Kyoukai no Kanata: I’ll Be Here",
+          "titleNative": "Gekijōban Kyōkai no Kanata: I'll Be Here",
+          "status": "Abgeschlossen",
+          "released": "14.03.2015 - 25.04.2015"
+        },
+        {
+          "language": "Englisch",
+          "title": "Beyond the Boundary: I’ll Be Here",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "22.08.2017",
+          "publisher": [
+            "Sentai",
+            "Manga Entertainment Ltd."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Beyond the Boundary: I’ll Be Here",
+          "status": "Abgeschlossen",
+          "released": "25.03.2025",
+          "publisher": [
+            "Animation Digital Network (DE)"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Beyond the Boundary : I’ll Be Here",
+          "status": "Abgeschlossen",
+          "released": "25.03.2025",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 2,
+      "runtimeMinutes": 86,
+      "season": "Frühling 2015",
+      "studios": [
+        "Kyoto Animation Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Nagomu TORII",
+          "role": "Original Work"
+        },
+        {
+          "name": "Taichi ISHIDATE",
+          "role": "Direction"
+        },
+        {
+          "name": "Miku KADOWAKI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Anime Kyokai",
+          "url": "https://anime-kyokai.com/"
+        }
+      ],
+      "synonyms": [
+        "Beyond the Boundary Movie",
+        "Beyond the Boundary: I’ll Be Here: The Future",
+        "Beyond the Boundary: I’ll Be Here: The Past"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:04:13.247Z"
   },
   "20769": {
     "anisearchId": 9759,
@@ -393224,6 +394396,55 @@
     },
     "fetchedAt": "2026-10-08T07:01:23.181Z"
   },
+  "20805": {
+    "anisearchId": 9865,
+    "descriptionDe": "Das dritte Jahr der Oberschule geht dem Ende zu und damit auch die Schulzeit für Fuu und die anderen Mitglieder des Fotoclubs. Dessen Existenz ist keineswegs bedroht, hat er mit den zwei Schülerinnen Takumi und Suzune gerade erst zwei neue Mitglieder bekommen. Für die Mädchen des dritten Jahrgangs heißt es jetzt jedoch, sich über die eigene Zukunft Gedanken zu machen und sich dabei auch mit dem Thema Abschied auseinanderzusetzen.\n\nFür Fuu ist die Berufswahl eigentlich geklärt: Nach all den Erfahrungen mit ihrer Leidenschaft will sie eine Tätigkeit ausüben, bei der sie reisen und fotografieren kann. Als ihr Vorbild Riho jedoch verkündet, aus beruflichen Gründen nach Tokio zu gehen, beginnt Fu schon bald zu fragen, was sie eigentlich wirklich will …\n\nWährend Norie unsicher ist, ob sie wirklich als Konditorin taugt, weiß Kaoru noch nicht so recht, was sie einmal machen will. Als Maon jedoch ihre Hochzeitspläne verkündet, bringt das Kaoru auf eine Idee. Maon wollte eigentlich einfach das Gasthaus ihrer Familie übernehmen, doch ein paar Vorfälle bringen sie dazu, ihre eigene Zukunft mehr zu hinterfragen. \n\nQuelle: www.anisearch.de/anime/9865",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Tamayura: Sotsugyou Shashin",
+          "titleNative": "Tamayura: Sotsugyō Shashin",
+          "status": "Abgeschlossen",
+          "released": "04.04.2015 - 02.04.2016"
+        }
+      ],
+      "format": "Film",
+      "episodes": 4,
+      "runtimeMinutes": 52,
+      "season": "Frühling 2015",
+      "studios": [
+        "Yumeta Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Jun’ichi SATOU",
+          "role": "Original Work"
+        },
+        {
+          "name": "Jun’ichi SATOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Haruko IIZUKA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Nobuyuki NAKAJIMA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Tamayura",
+          "url": "https://tamayura.info/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:04:20.164Z"
+  },
   "20806": {
     "anisearchId": 9752,
     "descriptionDe": "Durch die Entwicklung der Mana-Technologie, die es den Menschen erlaubt magiegleiche Kräfte einzusetzen, gehören Dinge wie Kriege, Hunger und Umweltverschmutzung der Vergangenheit an. Mana ist für die Gesellschaft so zentral geworden, dass all jene, welche diese Technologie nicht einsetzen können, nicht als gleichwertige Menschen angesehen werden. Stattdessen werden sie komplett verstoßen und sogar für gefährlich gehalten. Als eine derartige „Norma“ wird auch Angelise, die Prinzessin des Misurugi-Imperiums, enttarnt, die davon bis zu diesem Zeitpunkt jedoch selbst nichts wusste. Man nimmt sie gefangen und verbannt sie auf eine abgelegene Insel. Dort wird sie gezwungen mit anderen Norma-Mädchen mittels humanoider Kampfroboter, „Barameiru“ genannt, gegen riesige Drachen zu kämpfen, die, aus einer anderen Dimension kommend, die Erde überfallen. Mit ihrem alten Leben in Trümmern, muss Angelize nun in ihrer neuen, gefährlichen Umgebung bestehen. \n\nQuelle: www.anisearch.de/anime/9752",
@@ -394696,6 +395917,36 @@
       ]
     },
     "fetchedAt": "2026-10-08T07:02:41.791Z"
+  },
+  "20826": {
+    "anisearchId": 9884,
+    "descriptionDe": "Anmerkung:\nDieser Titel setzt die zweite Staffel des TV-Animes fort. Die zweite Episode dieses Titels erhielt eine eigenständige Disc-Veröffentlichung, alle übrigen Episoden lagen limitierten Ausgaben des Mangas bei. Nach der Veröffentlichung des Kinofilms, der an die Handlung dieses Titels anknüpft, wurden die Serie wiederum in mehreren Episoden fortgesetzt – erneut als Beilagen limitierter Manga-Ausgaben.",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Seitokai Yakuindomo * OVA",
+          "titleNative": "生徒会役員共＊ OVA",
+          "status": "Abgeschlossen",
+          "released": "16.05.2014 - 16.12.2016"
+        }
+      ],
+      "format": "OVA",
+      "episodes": 6,
+      "runtimeMinutes": 25,
+      "season": "Frühling 2014",
+      "studios": [
+        "GoHands"
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "S.Y.D. * OVA",
+        "S.Y.D. 2 OVA",
+        "Seitokai Yakuindomo * Episodes 14-19"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:04:27.070Z"
   },
   "20827": {
     "anisearchId": 9796,
@@ -404674,6 +405925,59 @@
       ]
     },
     "fetchedAt": "2026-10-06T06:25:20.916Z"
+  },
+  "20989": {
+    "anisearchId": 10091,
+    "descriptionDe": "Die Wake Up Girls geben nicht auf! Aber reicht das, um auch in der Metropole Tokio zu bestehen? \n\nQuelle: www.anisearch.de/anime/10091",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Wake Up, Girls! Zoku Gekijouban",
+          "titleNative": "Wake Up, Girls! Zoku Gekijōban",
+          "status": "Abgeschlossen",
+          "released": "25.09.2015 - 11.12.2015"
+        }
+      ],
+      "format": "Film",
+      "episodes": 2,
+      "runtimeMinutes": 55,
+      "season": "Herbst 2015",
+      "studios": [
+        "Millepensee Co., Ltd.",
+        "Ordet Co.,Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Green Leaves",
+          "role": "Original Work"
+        },
+        {
+          "name": "Yutaka YAMAMOTO",
+          "role": "Direction"
+        },
+        {
+          "name": "Sunao CHIKAOKA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Monaca"
+        },
+        {
+          "name": "Satoru KOUSAKI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Wakeupgirls2",
+          "url": "https://wakeupgirls2.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:04:33.977Z"
   },
   "20991": {
     "anisearchId": 10088,
@@ -444091,6 +445395,45 @@
     },
     "fetchedAt": "2026-10-01T22:08:36.541Z"
   },
+  "21727": {
+    "anisearchId": 11255,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Aware! Meisaku-kun",
+          "titleNative": "あはれ！ 名作くん",
+          "status": "Abgeschlossen",
+          "released": "08.04.2016 - 17.02.2017"
+        },
+        {
+          "language": "Englisch",
+          "title": "Aware! Meisakukun",
+          "status": "Abgeschlossen",
+          "released": "12.11.2020 - 15.01.2021"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 39,
+      "runtimeMinutes": 5,
+      "season": "Frühling 2016",
+      "studios": [
+        "Pie in the sky, Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Meisakukun",
+          "url": "https://meisakukun.com/"
+        }
+      ],
+      "synonyms": [
+        "Ahare! Meisaku-kun"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:04:40.884Z"
+  },
   "21728": {
     "anisearchId": 11329,
     "descriptionDe": "Diese kleine Web-Serie beschreibt die Vorgeschichte zum Spiel »Final Fantasy XV« und gibt Einblicke in die Anfänge der tiefen Freundschaft zwischen Prinz Noctis und seinen Freunden, die ihn auf seiner gesamten Reise tatkräftig unterstützen. \n\nQuelle: www.anisearch.de/anime/11329",
@@ -446670,6 +448013,105 @@
       ]
     },
     "fetchedAt": "2026-10-06T06:33:27.886Z"
+  },
+  "21770": {
+    "anisearchId": 11421,
+    "descriptionDe": "Der 15-jährige Waise Tetsunosuke lebt mit seinem Bruder Tatsunosuke im feudalen Japan der Bakumatsu-Zeit. Zu dieser Zeit sorgen Shinsengumi im Namen des Shogunats in Kyoto für Recht und Ordnung. Tetsunosuke möchte sich den Shinsengumi anschließen, um Rache für den Mord an seinen Eltern zu üben. Nachdem er endlich den Shinsengumi beigetreten ist, muss er jedoch feststellen, dass die Ausübung von emotionslos vorgetragener Gerechtigkeit nicht gerade wie für ihn gemacht ist. Unterstützt von seinem Bruder, macht Tetsunosuke sich auf und beschreitet einen Pfad, der mit weit mehr Blut und Schmerz gefüllt ist, als er sich anfangs hätte vorstellen können …Anmerkung:\n»Peace Maker Kurogane: Belief & Friend« ist eine Neuumsetzung des Mangas »Peace Maker Kurogane«. Bereits 2002 wurde eine 24-teilige TV-Serie unter dem Namen »Peace Maker Kurogane« veröffentlicht.",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/peace-maker-kurogane/peace-maker-kurogane-peace-maker-kurogane-belief-friend-782761?ssid=354154"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Peace Maker Kurogane (2018)",
+          "titleNative": "PEACE MAKER 鐵 (2018)",
+          "status": "Abgeschlossen",
+          "released": "02.06.2018 - 17.11.2018"
+        },
+        {
+          "language": "Englisch",
+          "title": "Peace Maker Kurogane: Belief & Friend",
+          "status": "Abgeschlossen",
+          "released": "27.03.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Peace Maker Kurogane: Belief & Friend",
+          "status": "Abgeschlossen",
+          "released": "06.06.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Peace Maker Kurogane: Belief & Friend",
+          "status": "Abgeschlossen",
+          "released": "27.03.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Peace Maker Kurogane: Belief & Friend",
+          "status": "Abgeschlossen",
+          "released": "27.03.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Peace Maker Kurogane: Belief & Friend",
+          "status": "Abgeschlossen",
+          "released": "27.03.2019",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 2,
+      "runtimeMinutes": 57,
+      "season": "Sommer 2018",
+      "studios": [
+        "WHITE FOX Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Nanae CHRONO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hiroshi TAKEUCHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Sayaka KOISO",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Peacemakerk",
+          "url": "https://www.peacemakerk.jp/"
+        }
+      ],
+      "synonyms": [
+        "PEACE MAKER 鐵 (新作)",
+        "Peace Maker Kurogane (Shinsaku)"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:04:47.786Z"
   },
   "21771": {
     "anisearchId": 11352,
@@ -453938,6 +455380,87 @@
     },
     "fetchedAt": "2026-10-01T22:12:25.432Z"
   },
+  "21895": {
+    "anisearchId": 11733,
+    "descriptionDe": "Der Anime Sengokuchojyugiga zeigt die Geschichte Japans aus einer völlig neuen Perspektive. Das Werk ist in dem sumi-e-Stil gezeichnet, einer japanischen Technik für die Malerei mit Tinte. Protagonisten stellen die berühmtesten Kriegsherren der Sengoku-Ära dar, mit dem kleinen Unterschied, dass es sich bei ihnen um Tiere handelt. In drei Minuten pro Folge werden sowohl historische Ereignisse nachgestellt als auch Alltagssituationen gezeigt. \n\nQuelle: www.anisearch.de/anime/11733",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Sengoku Choujuu Giga",
+          "titleNative": "Sengoku Chōjū Giga",
+          "status": "Abgeschlossen",
+          "released": "09.10.2016 - 09.04.2017"
+        },
+        {
+          "language": "Englisch",
+          "title": "Sengokuchojyugiga",
+          "status": "Abgeschlossen",
+          "released": "08.10.2016 - 08.04.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Sengokuchojyugiga",
+          "status": "Abgeschlossen",
+          "released": "08.10.2016 - 08.04.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Sengokuchojyugiga",
+          "status": "Abgeschlossen",
+          "released": "08.10.2016 - 08.04.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Sengoku Chôjû Giga",
+          "status": "Abgeschlossen",
+          "released": "08.10.2016 - 08.04.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Sengokuchojyugiga",
+          "status": "Abgeschlossen",
+          "released": "08.10.2016 - 08.04.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "runtimeMinutes": 3,
+      "season": "Herbst 2016",
+      "studios": [
+        "ILCA, Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Kbc",
+          "url": "https://www.kbc.co.jp/scg/"
+        }
+      ],
+      "synonyms": [
+        "Sengoku Choujuu Giga: Kou",
+        "Sengoku Choujuu Giga: Otsu",
+        "Sengokuchojugiga"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:04:54.697Z"
+  },
   "21896": {
     "anisearchId": 11683,
     "streams": [
@@ -455517,6 +457040,108 @@
       ]
     },
     "fetchedAt": "2026-10-08T08:01:49.582Z"
+  },
+  "87505": {
+    "anisearchId": 11665,
+    "descriptionDe": "Auf dem Kontinent Yggdra, auf dem Menschen, Oger, Riesen, Feen und viele andere mystische Wesen zusammenleben, herrschte seit jeher ein wackeliger Frieden. Trotz immer wieder auftretender kleinerer Konflikte zwischen den verschiedenen Parteien und ihren jeweiligen Königen, fristeten die Bewohner Yggdras unter dem Schutz und der Führung des Heiligen Königs ein friedvolles Leben ‒ doch all dies sollte sich schlagartig ändern, als die mysteriöse Schwarze Armee unter Führung des Schwarzen Königs ins Land einfiel. Um seine Heimat und die Hauptstadt zu verteidigen, zog der Heilige König mit seinen Truppen in die Schlacht … und verlor diese. Mit dem Tod des Heiligen Königs fiel die Hauptstadt in die Hände der Schwarzen Armee und Yggdra drohte, im Chaos zu versinken.\n\nYuri, Phoena und ihre Gefährten stellen in einem verzweifelten letzten Versuch, ihre Heimat zu retten, eine Armee aus Freiwilligen aus allen Völkern auf die Beine, um die Hauptstadt vom Schwarzen König zu befreien. In einer direkten Konfrontation mit ihm muss Yuri sich jedoch seine Schwäche eingestehen und mit ansehen, wie seine Gefährtin, die kleine Fee Pirika, vermeintlich getötet und das Chain Chronicle ‒ ein mystisches Buch, auf dem das Schicksal Yggdras ruht ‒ in zwei Hälften zerrissen wird …\n\nEine Hälfte des Chain Chronicle befindet sich in den Händen des Schwarzen Königs und Yggdra verfällt langsam dem schleichenden Fluch, den dieser mit seiner Armee auf den Kontinent brachte. Die Überlebenden leiden, die Ernten verrotten noch auf den Feldern und die Armeen sind besiegt und zerstreut. Nun ist es an Yuri, nicht nur sein eigenes Selbstvertrauen wiederzufinden, sondern auch das Vertrauen seiner Gefährten in ihn als Anführer wiederherzustellen, um sich ein weiteres und entscheidendes Mal dem Schwarzen König zu stellen!Anmerkung:\nDie zwölfteilige TV-Serie »Chain Chronicle: The Light of Haecceitas« und der dreiteilige Anime-Film »Chain Chronicle: The Light of Haecceitas« sind nicht nur namentlich, sondern auch inhaltlich zu 100 % identisch. Die beiden Titel unterscheiden sich nur in ihrer Strukturierung: Während der Film drei Teile umfasst, wurde die TV-Serie in zwölf Teile aufgeteilt und mit je einem Opening und Ending versehen. Crunchyroll hat den dreiteiligen Anime-Film in seinem Streaming-Angebot in jeweils vier Episoden pro Filmteil aufgeteilt und bietet damit sowohl für den Film als auch für die TV-Serie jeweils zwölf Episoden an.",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "http://www.crunchyroll.com/chain-chronicle-the-light-of-haecceitas-/episode-1-the-light-of-haecceitas-726405?ssid=231905"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Chain Chronicle (2016)",
+          "titleNative": "チェインクロニクル （2016）",
+          "status": "Abgeschlossen",
+          "released": "03.12.2016 - 11.02.2017"
+        },
+        {
+          "language": "Englisch",
+          "title": "Chain Chronicle: The Light of Haecceitas (Movie)",
+          "status": "Abgeschlossen",
+          "released": "16.12.2016 - 24.02.2017",
+          "publisher": [
+            "Crunchyroll",
+            "FUNimation",
+            "Madman Entertainment"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Chain Chronicle: The Light of Haecceitas (Movie)",
+          "status": "Abgeschlossen",
+          "released": "16.12.2016 - 24.02.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Chain Chronicle: The Light of Haecceitas (Film)",
+          "status": "Abgeschlossen",
+          "released": "16.12.2016 - 24.02.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Chain Chronicle (Films)",
+          "status": "Abgeschlossen",
+          "released": "16.12.2016 - 24.02.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Chain Chronicle: The Light of Haecceitas (Film)",
+          "status": "Abgeschlossen",
+          "released": "16.12.2016 - 24.02.2017",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 3,
+      "runtimeMinutes": 90,
+      "season": "Winter 2016/17",
+      "studios": [
+        "Graphinica, Inc.",
+        "Telecom Animation Film"
+      ],
+      "staff": [
+        {
+          "name": "SEGA Group Corporation",
+          "role": "Original Work"
+        },
+        {
+          "name": "Masashi KUDOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Masashi KUDOU",
+          "role": "Character Design"
+        },
+        {
+          "name": "Masato KOUDA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Videospiel",
+      "websites": [
+        {
+          "name": "Chronicle Anime Sega Net",
+          "url": "https://chronicle-anime.sega-net.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:05:01.621Z"
   },
   "87516": {
     "anisearchId": 11743,
@@ -461164,6 +462789,54 @@
     },
     "fetchedAt": "2026-10-08T08:07:10.713Z"
   },
+  "97858": {
+    "anisearchId": 11966,
+    "descriptionDe": "Im Jahr 298 der göttlichen Ära hat die Grundschülerin Sumi Washio eine wichtige Pflicht zu erfüllen: Zusammen mit der sorglosen Sonoko Nogi und der lebhaften Gin Minowa wurde sie dazu auserwählt die Welt zu beschützen. Monsterähnliche Kreaturen namens Vertex sind gekommen, um die Menschheit zu vernichten, und nur die drei Mädchen sind dazu in der Lage, diese abzuwehren. Vom göttlichen Baum Shinju mit besonderen Kräften ausgestattet werden sie zu Heldinnen und können so gegen die Kreaturen im Kampf bestehen. Auf das Helden-Trio wartet nun eine anstrengende und schwierige Aufgabe.Anmerkung:\nDie 3 Filme wurden ab Oktober 2017 als 6 TV-Episoden im japanischen Fernsehen wiederholt.",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yuuki Yuuna wa Yuusha de Aru: Washio Sumi no Shou",
+          "titleNative": "Yūki Yūna wa Yūsha de Aru: Washio Sumi no Shō",
+          "status": "Abgeschlossen",
+          "released": "18.03.2017 - 08.07.2017"
+        }
+      ],
+      "format": "Film",
+      "episodes": 3,
+      "runtimeMinutes": 48,
+      "season": "Frühling 2017",
+      "studios": [
+        "Studio Gokumi"
+      ],
+      "staff": [
+        {
+          "name": "Project 2H",
+          "role": "Original Work"
+        },
+        {
+          "name": "Daiki FUKUOKA",
+          "role": "Direction"
+        },
+        {
+          "name": "Keiichi OKABE"
+        },
+        {
+          "name": "Monaca",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Yuyuyu",
+          "url": "https://yuyuyu.tv/washio/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:05:08.538Z"
+  },
   "97861": {
     "anisearchId": 9580,
     "streams": [
@@ -466547,6 +468220,105 @@
       ]
     },
     "fetchedAt": "2026-10-08T08:12:02.819Z"
+  },
+  "98056": {
+    "anisearchId": 12179,
+    "descriptionDe": "Seit den letzten Ereignissen sind viele Jahre vergangen, dennoch ist die Menschheit weiterhin im Krieg mit den Festum. Auch das »Mir« Altair ist immer noch auf dem Weg in Richtung Erde.\n\nIn dieser schwierigen Zeit werden Soushi und einige Kinder entführt. Sofort wird eine Rettungsmission gestartet, doch sie können nicht verhindern, dass eine Rakete mit Soushi startet. Bei ihm ist auch Maris, ein Esperanto – Menschen, die mit den »Mir« kommunizieren können –, der von der neuen Insel Wadatsumi stammt, nachdem die alte Insel Tatsumiya im Meer versunken ist.\nWie sich schnell herausstellt, hat ein gefährlicher Junge die Fäden in der Hand, der während der Flucht der Gruppe von General Narain immer wieder als Geist Prometheus aufgetaucht ist und seltsame Fragen gestellt hat. Er nennt sich nun Marespero, was so viel wie »Verzweiflung« bedeutet und was er der Menschheit als letztes Vermächtnis hinterlassen will. Doch wozu braucht er dafür Soushi? Und warum hat Maris »Alvis« und die Fafner-Piloten hintergangen? \n\nQuelle: www.anisearch.de/anime/12179",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/G9VHN9QJ4/fafner-the-beyond"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Soukyuu no Fafner: Dead Aggressor - The Beyond",
+          "titleNative": "Sōkyū no Fafner: Dead Aggressor - The Beyond",
+          "status": "Abgeschlossen",
+          "released": "17.05.2019 - 05.11.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "Fafner: The Beyond",
+          "status": "Abgeschlossen",
+          "released": "25.03.2025",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Fafner: The Beyond",
+          "status": "Abgeschlossen",
+          "released": "25.03.2025",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Fafner in the Azure: The Beyond",
+          "status": "Abgeschlossen",
+          "released": "25.03.2025",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Fafner : The Beyond",
+          "status": "Abgeschlossen",
+          "released": "25.03.2025",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Fafner: The Beyond",
+          "status": "Abgeschlossen",
+          "released": "25.03.2025",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 12,
+      "runtimeMinutes": 28,
+      "season": "Frühling 2019",
+      "studios": [
+        "IGzwei"
+      ],
+      "staff": [
+        {
+          "name": "XEBEC, Inc.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takashi NOTO",
+          "role": "Direction"
+        },
+        {
+          "name": "Hisashi HIRAI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Tsuneyoshi SAITOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Fafner Beyond",
+          "url": "https://fafner-beyond.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:05:15.452Z"
   },
   "98059": {
     "anisearchId": 12054,
@@ -472459,6 +474231,97 @@
       ]
     },
     "fetchedAt": "2026-10-08T08:19:09.564Z"
+  },
+  "98469": {
+    "anisearchId": 12312,
+    "descriptionDe": "Zehn Jahre vor »Eureka Seven« ereignete sich das große Unglück, das auch als »The First Summer of Love« bekannt ist. Der berühmte Forscher Adroc Thurston, der vom Militär als Held gefeiert wird, kommt bei diesem missglückten Experiment ums Leben. Sein Sohn Renton hat damit keine Eltern mehr, denn seine Mutter ist früh gestorben und seine Schwester noch dazu spurlos verschwunden. Unterkommen muss er von nun an bei seinem Großvater Axel Thurston, der eine Werkstatt in Bellforest betreibt, wo Renton bald darauf die Militärschule besucht.\n\n»Eureka Seven: Hi-Evolution« zeigt so Rentons Vorgeschichte und auch einige andere Teile der Handlung im ganz neuen Licht. \n\nQuelle: www.anisearch.de/anime/12312",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Koukyoushihen: Eureka Seven - Hi-Evolution",
+          "titleNative": "Kōkyōshihen: Eureka Seven - Hi-Evolution",
+          "status": "Abgeschlossen",
+          "released": "16.09.2017 - 26.11.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "Eureka Seven: Hi-Evolution",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "05.02.2018 - 17.05.2022",
+          "publisher": [
+            "FUNimation",
+            "Madman Entertainment",
+            "Anime Limited (UK)",
+            "Odex Private Limited",
+            "Wakanim Nordic"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Eureka Seven: Hi-Evolution",
+          "status": "Abgeschlossen",
+          "released": "02.02.2023",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Eureka Seven: Hi-Evolution",
+          "status": "Abgeschlossen",
+          "released": "30.10.2019 - 22.11.2023",
+          "publisher": [
+            "Anime Limited (France)"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Eureka Seven: Hi-Evolution",
+          "status": "Laufend",
+          "dubbed": true,
+          "released": "29.01.2018 - ?",
+          "publisher": [
+            "Dynit SRL"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 3,
+      "runtimeMinutes": 101,
+      "season": "Herbst 2017",
+      "studios": [
+        "BONES Inc."
+      ],
+      "staff": [
+        {
+          "name": "BONES Inc.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hisatoshi SHIMIZU",
+          "role": "Direction"
+        },
+        {
+          "name": "Ken’ichi YOSHIDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Naoki SATOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Eurekaseven",
+          "url": "https://eurekaseven.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:05:22.383Z"
   },
   "98472": {
     "anisearchId": 12453,
@@ -504556,6 +506419,109 @@
     },
     "fetchedAt": "2026-10-08T08:53:33.270Z"
   },
+  "101097": {
+    "anisearchId": 13281,
+    "descriptionDe": "Noch nie war es so einfach, ein eigener Produzent zu werden, wie heute. Mit dem „Pri☆Chan System“, das häufig von berühmten Leuten und Firmen genutzt wird, ist es jedem erlaubt, seinen eigenen Kanal zu starten und verschiedene Inhalte zu senden. Wie viele andere Mädchen, entscheiden sich auch die zwei Mittelschülerinnen Mirai Momoyama und Emo Moegi dafür, Pri☆Chan-Idols zu werden, indem sie ihren eigenen Kanal starten und so selbst entscheiden, welche Inhalte sie bringen. Werden die zwei aufstrebenden Idols Erfolg mit ihrem Plan haben? \n\nQuelle: www.anisearch.de/anime/13281",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/kiratto-prichan"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kiratto Pri-chan",
+          "titleNative": "キラッとプリ☆チャン",
+          "status": "Abgeschlossen",
+          "released": "08.04.2018 - 30.05.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "Kiratto Pri-chan",
+          "status": "Abgebrochen",
+          "released": "29.12.2020 - 09.02.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Kiratto Pri-chan",
+          "status": "Abgebrochen",
+          "released": "30.12.2020 - 10.02.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Kiratto Pri-chan",
+          "status": "Abgebrochen",
+          "released": "29.12.2020 - 09.02.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Kiratto Pri-chan",
+          "status": "Abgebrochen",
+          "released": "30.12.2020 - 10.02.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Kiratto Pri-chan",
+          "status": "Abgebrochen",
+          "released": "05.07.2021",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 153,
+      "runtimeMinutes": 24,
+      "season": "Frühling 2018",
+      "studios": [
+        "DongWoo A&E Co., Ltd.",
+        "Tatsunoko Production Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "syn Sophia, Inc."
+        },
+        {
+          "name": "Takara Tomy A.R.T.S",
+          "role": "Original Work"
+        },
+        {
+          "name": "Ikehata HIROSHI",
+          "role": "Direction"
+        },
+        {
+          "name": "Hajime MITSUDA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Tatsuya KATOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Videospiel",
+      "websites": [
+        {
+          "name": "TV Tokyo",
+          "url": "https://www.tv-tokyo.co.jp/anime/prichan/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:05:29.297Z"
+  },
   "101098": {
     "anisearchId": 12895,
     "streams": [],
@@ -534122,6 +536088,26 @@
     },
     "fetchedAt": "2026-10-08T09:50:04.602Z"
   },
+  "103706": {
+    "anisearchId": 16018,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Dragon Egg",
+          "titleNative": "드래곤에그",
+          "status": "Abgeschlossen",
+          "released": "06.11.2017 - 27.11.2017"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 7,
+      "runtimeMinutes": 23,
+      "season": "Herbst 2017"
+    },
+    "fetchedAt": "2026-10-12T06:05:36.207Z"
+  },
   "103708": {
     "anisearchId": 9988,
     "streams": [],
@@ -549348,6 +551334,45 @@
     },
     "fetchedAt": "2026-10-03T10:15:18.548Z"
   },
+  "105596": {
+    "anisearchId": 14588,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Gekijouban Gundam G no Reconguista",
+          "titleNative": "Gekijōban Gundam G no Reconguista",
+          "status": "Abgeschlossen",
+          "released": "29.11.2019 - 05.08.2022"
+        },
+        {
+          "language": "Englisch",
+          "title": "Gundam Reconguista in G (Movies)",
+          "status": "Abgeschlossen",
+          "released": "28.01.2020 - 24.03.2023",
+          "publisher": [
+            "SUNRISE Inc."
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 5,
+      "runtimeMinutes": 99,
+      "season": "Herbst 2019",
+      "studios": [
+        "SUNRISE Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "G Reco",
+          "url": "https://www.g-reco.net/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:05:43.120Z"
+  },
   "105616": {
     "anisearchId": 10686,
     "descriptionDe": "Es geht um kurze Geschichten rund um Ash und Hoopa, das den Donut als dessen Grundnahrungsmittel ausgemacht hat und runde Dinge liebt. Damit versucht es, Ash in den Wahnsinn zu treiben.Anmerkung:\nAlle sechs Episoden wurden ab dem 23. April 2015 wöchentlich jeden Donnerstag im japanischen Fernsehen ausgestrahlt. Später wurden sie, zusammen mit der Bonusepisode »Odemashi Ko Majin Hoopa«, ab dem 19. Juni 2015 auf einer exklusiven DVD herausgebracht. Nur diejenigen, die ein Kinoticket zum 18. »Pokémon«-Film vorbestellt hatten, haben diese exklusive DVD erhalten.",
@@ -556097,6 +558122,38 @@
       ]
     },
     "fetchedAt": "2026-10-08T10:31:16.517Z"
+  },
+  "107295": {
+    "anisearchId": 3660,
+    "descriptionDe": "Watto Waapu ist ein Land in dem die Vergangenheit und die Zukunft miteinander verknüpft sind. Die junge Wappi-chan stößt oft auf Situationen in denen sie Ausdrücke benutzt, die mit der japanischen Kultur verwurzelt sind. Dann geht sie durch ihre Träume in die Vergangenheit um richtiges Japanisch zu lernen. \n\nQuelle: www.anisearch.de/anime/3660",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Wa Wa Wa Wappi-chan",
+          "titleNative": "和・和・和 ワッピちゃん",
+          "status": "Abgeschlossen",
+          "released": "03.07.2006 - 08.08.2006"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 13,
+      "runtimeMinutes": 7,
+      "season": "Sommer 2006",
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Web Archive (Wowow)",
+          "url": "https://web.archive.org/web/20070202025843/https://www.wowow.co.jp:80/anime/wappi/"
+        },
+        {
+          "name": "Wowow",
+          "url": "https://www.wowow.co.jp/detail/064254"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:05:50.038Z"
   },
   "107298": {
     "anisearchId": 15599,
@@ -580353,6 +582410,27 @@
     },
     "fetchedAt": "2026-10-08T11:02:23.312Z"
   },
+  "111433": {
+    "anisearchId": 13298,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hentatsu",
+          "titleNative": "へんたつ",
+          "status": "Abgeschlossen",
+          "released": "31.01.2018 - 31.07.2018"
+        }
+      ],
+      "format": "Web",
+      "episodes": 7,
+      "runtimeMinutes": 2,
+      "season": "Winter 2017/18",
+      "adaptedFrom": "Originalwerk"
+    },
+    "fetchedAt": "2026-10-12T06:05:56.953Z"
+  },
   "111500": {
     "anisearchId": 14641,
     "descriptionDe": "Über zehn Jahre ist es nun her, dass durch den Großen Dämonenkrieg die Blumendivisionen der Kaiserlichen, der Pariser und der New Yorker Kampfrevue zerstört wurden. Nun wird der seither herrschende Frieden durch eine bevorstehende Dämoneninvasion bedroht und die Blumendivision der Kaiserlichen Kampftruppe von Tokio wird erneut ins Leben gerufen, diesmal unter der Leitung von Kapitän Seijuurou Kamiyama. Mit an Board sind die Schwertkämpferin Sakura Amamiya, Schreinmädchen und Schauspielerin Hatsuho Shinonome, die griechische Schauspielerin Anastasia Palma, das Wunderkind des Mochizuki-Ninjaclans Azami Mochizuki und die luxemburgischen Adlige Clarissa Snowflake. Zudem tritt Clara als Auszubildende dem Trupp bei – jedoch ist sie keine normale Auszubildende, sondern die einzige Überlebende der vormaligen Moskauer Kampfrevue. Nun muss das Team nicht nur die Welt vor den Dämonen, sondern auch Clara vor dem neuen Moskauer Kapitän Valery Kaminski beschützen …Anmerkung:\nDer Anime basiert auf der Videospielreihe »Shin Sakura Taisen« von Sega.",
@@ -585264,6 +587342,33 @@
       ]
     },
     "fetchedAt": "2026-10-08T11:08:04.712Z"
+  },
+  "112522": {
+    "anisearchId": 14757,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Line Novel",
+          "titleNative": "LINEノベル",
+          "status": "Abgeschlossen",
+          "released": "16.04.2019"
+        }
+      ],
+      "format": "CM",
+      "episodes": 1,
+      "runtimeMinutes": 2,
+      "season": "Frühling 2019",
+      "studios": [
+        "CloverWorks Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "Line Novel PV"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:06:03.870Z"
   },
   "112534": {
     "anisearchId": 14730,
@@ -602093,6 +604198,41 @@
     },
     "fetchedAt": "2026-10-09T06:03:09.289Z"
   },
+  "115844": {
+    "anisearchId": 14801,
+    "descriptionDe": "Han Li stammt aus ärmlichen Verhältnissen und nach einem Angriff der Wolf Gang wird er von seinen Eltern, in der Hoffnung auf ein besseres Leben, zur Sekte Qi Xuan geschickt. Leider fällt er bei der Aufnahmeprüfung ganz knapp durch … Sein Mut und seine Intelligenz jedoch fallen Doktor Mo Juren, dem Arzt der Sekte, auf und so werden Han Li und sein Freund Zhang Tie Schüler des Arztes.\n\nLi Feiyu, ein Freund der beiden, besteht die Aufnahmeprüfung der Sekte ein Jahr später und so beginnt die Geschichte der drei ungleichen Freunde und Han Lis Weg zur Unsterblichkeit. Doch leider sind die Tage des friedlichen Zusammenseins der drei Freunde schon bald gezählt … \n\nQuelle: www.anisearch.de/anime/14801",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Fanren Xiuxian Chuan: Feng Qi Tian Nan",
+          "titleNative": "Fan Ren Xiu Xian Chuan: Feng Qi Tian Nan",
+          "status": "Abgeschlossen",
+          "released": "25.07.2020 - 22.08.2020"
+        },
+        {
+          "language": "Englisch",
+          "title": "A Mortal’s Journey",
+          "status": "Abgeschlossen",
+          "released": "01.10.2020 - 07.10.2020",
+          "publisher": [
+            "bilibili"
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 8,
+      "runtimeMinutes": 18,
+      "season": "Sommer 2020",
+      "adaptedFrom": "Web Novel",
+      "synonyms": [
+        "A Record of a Mortal’s Journey to Immortality",
+        "An Immortal’s Journey to Immortality"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:06:10.796Z"
+  },
   "115845": {
     "anisearchId": 14577,
     "streams": [],
@@ -602565,6 +604705,65 @@
       ]
     },
     "fetchedAt": "2026-10-09T06:04:23.190Z"
+  },
+  "115914": {
+    "anisearchId": 12815,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Full Metal Panic! (Director’s Cut)",
+          "titleNative": "フルメタル・パニック！ （ディレクターズカット）",
+          "status": "Abgeschlossen",
+          "released": "25.11.2017 - 20.01.2018"
+        },
+        {
+          "language": "Englisch",
+          "title": "Full Metal Panic! Movies",
+          "status": "Abgeschlossen",
+          "released": "08.01.2021",
+          "publisher": [
+            "bilibili"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 3,
+      "runtimeMinutes": 106,
+      "season": "Herbst 2017",
+      "studios": [
+        "Gonzo K.K."
+      ],
+      "staff": [
+        {
+          "name": "Douji SHIKI"
+        },
+        {
+          "name": "Shouji GATOU",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kouichi CHIGIRA",
+          "role": "Direction"
+        },
+        {
+          "name": "Osamu HORIUCHI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Fullmeta Iv",
+          "url": "https://fullmeta-iv.com/movie/"
+        }
+      ],
+      "synonyms": [
+        "Gekijou Fullmetal Panic!"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:01:20.219Z"
   },
   "115925": {
     "anisearchId": 11712,
@@ -610706,6 +612905,100 @@
       ]
     },
     "fetchedAt": "2026-09-29T11:04:28.448Z"
+  },
+  "117763": {
+    "anisearchId": 15213,
+    "descriptionDe": "Dies ist die Geschichte der Band Roselia und wie ihre Mitglieder darum kämpfen, auf der großen »FUTURE WORLD FES«-Bühne zu stehen. Um diesen Traum zu verwirklichen, beschließt Yukina Minato, eine Band zu gründen. Die fünf Mädchen, die sich daraufhin zusammenfinden, sind alle sehr unterschiedlich, doch ihr Wunsch, berühmt zu werden, schweißt sie zusammen. Auf dem langen Weg an die Spitze versuchen sie, niemals das Versprechen zu brechen, das sie sich ganz am Anfang gegeben haben … \n\nQuelle: www.anisearch.de/anime/15213",
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/bang-dream-movies/bang-dream-episode-of-roselia-ipromise-bang-dream-episode-of-roselia-ipromise-857082"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Gekijouban Bang Dream! Episode of Roselia",
+          "titleNative": "Gekijōban Bang Dream! Episode of Roselia",
+          "status": "Abgeschlossen",
+          "released": "23.04.2021 - 25.06.2021"
+        },
+        {
+          "language": "Englisch",
+          "title": "Bang Dream! Episode of Roselia",
+          "status": "Abgeschlossen",
+          "released": "05.08.2022",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Bang Dream! Episode of Roselia",
+          "status": "Abgeschlossen",
+          "released": "05.08.2022 - 16.08.2022",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Bang Dream! Episode of Roselia",
+          "status": "Abgeschlossen",
+          "released": "05.08.2022",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Bang Dream! Episode of Roselia",
+          "status": "Abgeschlossen",
+          "released": "05.08.2022",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Bang Dream! Episode of Roselia",
+          "status": "Abgeschlossen",
+          "released": "05.08.2022",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "Film",
+      "episodes": 2,
+      "runtimeMinutes": 74,
+      "season": "Frühling 2021",
+      "studios": [
+        "SANZIGEN Inc."
+      ],
+      "staff": [
+        {
+          "name": "Bushiroad inc.",
+          "role": "Original Work"
+        },
+        {
+          "name": "Atsushi MIMURA",
+          "role": "Direction"
+        },
+        {
+          "name": "Junpei FUJITA",
+          "role": "Music"
+        }
+      ],
+      "websites": [
+        {
+          "name": "Roselia Movie Bang Dream",
+          "url": "https://roselia-movie.bang-dream.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:06:17.722Z"
   },
   "117765": {
     "anisearchId": 15214,
@@ -620531,6 +622824,42 @@
     },
     "fetchedAt": "2026-10-09T06:37:59.622Z"
   },
+  "121235": {
+    "anisearchId": 11260,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Tianxin Gege",
+          "titleNative": "Tian Xin Ge Ge",
+          "status": "Abgeschlossen",
+          "released": "04.10.2011 - 24.11.2011"
+        },
+        {
+          "language": "Englisch",
+          "title": "Ori Princess",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 52,
+      "runtimeMinutes": 22,
+      "season": "Herbst 2011",
+      "studios": [
+        "Puzzle Animation Studio Limited"
+      ],
+      "websites": [
+        {
+          "name": "Oriprincess",
+          "url": "https://www.oriprincess.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:06:24.635Z"
+  },
   "121237": {
     "anisearchId": 17835,
     "streams": [],
@@ -622705,6 +625034,36 @@
     },
     "fetchedAt": "2026-10-09T06:44:09.289Z"
   },
+  "121961": {
+    "anisearchId": 10850,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ponkotsu Quest: Maou to Haken no Mamono-tachi",
+          "titleNative": "Ponkotsu Quest: Maō to Haken no Mamono-tachi",
+          "status": "Abgeschlossen",
+          "released": "22.08.2013 - 01.09.2015"
+        }
+      ],
+      "format": "Web",
+      "episodes": 24,
+      "runtimeMinutes": 4,
+      "season": "Sommer 2013",
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Vap",
+          "url": "https://www.vap.co.jp/ponque/"
+        }
+      ],
+      "synonyms": [
+        "PonQue"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:06:31.559Z"
+  },
   "121962": {
     "anisearchId": 15428,
     "descriptionDe": "Der Oberschüler Yu-yu Kondo hat es nicht leicht, schließlich ist er ungeheuer schüchtern und stottert zuweilen sogar. Das eigentliche Problem ist aber, dass er einfach nicht »Nein« sagen kann, was ihn zur idealen Zielscheibe seiner Schwestern macht, die ihm nur allzu gern übel mitspielen. Als er es eines Tages nicht mehr aushält, nimmt er Reißaus – und begegnet Megumi Okura, die ihn sogleich in den Vergnügungspark Dreamland Wonder Hill einlädt.\n\nMegumi gehört zum Team Blackout, das sich in »Cardfight Vanguard!!« mit anderen Gegner duelliert. Dessen Anführer Danji Momoyama ist seit 20 Kämpfen ungeschlagen, doch nun steht ihm ein Duell gegen den mysteriösen Tohya Ebata bevor; der Verlauf dieses Kampfes erweckt auch in Yu-yu den Wunsch, in das Kartenspiel einzutauchen. Schon bald wird er Mitglied des Teams, aber ziemlich bald auch ins kalte Wasser geworfen. Kann sich der frisch gebackene Spieler bei seinen anstehenden Duellen gegen mitunter klar erfahrenere Gegner bewähren? \n\nQuelle: www.anisearch.de/anime/15428",
@@ -623372,6 +625731,45 @@
       ]
     },
     "fetchedAt": "2026-10-09T06:45:16.507Z"
+  },
+  "122173": {
+    "anisearchId": 16210,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Petit Anime Gekijou Quiz!! ID-0",
+          "titleNative": "Petit Anime Gekijō Quiz!! ID-0",
+          "status": "Abgeschlossen",
+          "released": "09.04.2017 - 25.06.2017"
+        }
+      ],
+      "format": "Web",
+      "episodes": 12,
+      "runtimeMinutes": 1,
+      "season": "Frühling 2017",
+      "studios": [
+        "Studio Puyukai"
+      ],
+      "staff": [
+        {
+          "name": "Minoru ASHINA",
+          "role": "Direction"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Puyukai",
+          "url": "https://puyukai.com/archives/270"
+        }
+      ],
+      "synonyms": [
+        "Petit Theater ID-0 Quiz"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:06:38.471Z"
   },
   "122183": {
     "anisearchId": 9189,
@@ -645995,6 +648393,25 @@
     },
     "fetchedAt": "2026-10-09T07:15:04.533Z"
   },
+  "129228": {
+    "anisearchId": 18048,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Fengzi Wuyu Yinhe Pian",
+          "titleNative": "Feng Zi Wu Yu Yin He Pian",
+          "status": "Abgeschlossen",
+          "released": "04.05.2021 - 15.06.2021"
+        }
+      ],
+      "format": "Web",
+      "episodes": 8,
+      "season": "Frühling 2021"
+    },
+    "fetchedAt": "2026-10-12T06:06:45.411Z"
+  },
   "129229": {
     "anisearchId": 18797,
     "streams": [
@@ -657722,6 +660139,41 @@
     },
     "fetchedAt": "2026-10-09T07:33:22.828Z"
   },
+  "132347": {
+    "anisearchId": 12855,
+    "streams": [
+      {
+        "provider": "youtube",
+        "url": "https://www.youtube.com/watch?v=AdQ4gtD9NgM&list=PLEt8Q-eNP9YAgS-gC9mH7dQXa3FM3V09b&index=2&t=0s"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Maeumui Sori",
+          "titleNative": "마음의 소리",
+          "status": "Abgeschlossen",
+          "released": "19.07.2016 - 27.12.2016"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 78,
+      "runtimeMinutes": 7,
+      "season": "Sommer 2016",
+      "adaptedFrom": "Manhwa",
+      "websites": [
+        {
+          "name": "Web Archive (AnimaxTV)",
+          "url": "https://web.archive.org/web/20161115132423/https://www.animaxtv.co.kr/programs/maeumyi-sori"
+        }
+      ],
+      "synonyms": [
+        "The Sound of Heart"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:06:52.320Z"
+  },
   "132350": {
     "anisearchId": 13050,
     "streams": [],
@@ -658515,6 +660967,30 @@
       ]
     },
     "fetchedAt": "2026-10-09T07:33:56.537Z"
+  },
+  "132512": {
+    "anisearchId": 15577,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Annyeong Ja-Duya 2",
+          "titleNative": "안녕 자두야 2",
+          "status": "Abgeschlossen",
+          "released": "19.09.2012 - 06.02.2013"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 30,
+      "season": "Herbst 2012",
+      "adaptedFrom": "Manhwa",
+      "synonyms": [
+        "Hello Jadoo Season 2",
+        "안녕 자두야 시즌2"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:06:59.243Z"
   },
   "132523": {
     "anisearchId": 11700,
@@ -659930,6 +662406,38 @@
       ]
     },
     "fetchedAt": "2026-10-09T07:35:51.162Z"
+  },
+  "133146": {
+    "anisearchId": 20565,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Monogatari o Kimi e. #2: Fukakai Ni Q2 Ending Animation",
+          "titleNative": "物語を君へ。#2 -不可解弐Q2 エンディングアニメーション-",
+          "status": "Abgeschlossen",
+          "released": "13.03.2021"
+        }
+      ],
+      "format": "Web",
+      "episodes": 1,
+      "runtimeMinutes": 2,
+      "season": "Frühling 2021",
+      "studios": [
+        "Flat Studio"
+      ],
+      "websites": [
+        {
+          "name": "Flatstudio",
+          "url": "https://flatstudio.jp/works/239"
+        }
+      ],
+      "synonyms": [
+        "Monogatari wo Kimi e. #2: Fukakai Ni Q2 Ending Animation"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:07:06.331Z"
   },
   "133175": {
     "anisearchId": 16224,
@@ -662145,6 +664653,86 @@
       ]
     },
     "fetchedAt": "2026-10-06T07:12:26.567Z"
+  },
+  "134283": {
+    "anisearchId": 18770,
+    "streams": [
+      {
+        "provider": "crunchyroll",
+        "url": "https://www.crunchyroll.com/series/GQWH0M1Q9/swallowed-star"
+      },
+      {
+        "provider": "wetv",
+        "url": "https://wetv.vip/en/album/0qgqd4kcd9ajxrs"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Tunshi Xingkong: Zhuangzhi Lingyun",
+          "titleNative": "Tun Shi Xing Kong: Zhuang Zhi Ling Yun",
+          "status": "Abgeschlossen",
+          "released": "29.12.2021 - 26.04.2023"
+        },
+        {
+          "language": "Englisch",
+          "title": "Swallowed Star: Season 2",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Tencent Holdings Ltd.",
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Swallowed Star: Staffel 2",
+          "status": "Laufend",
+          "released": "09.09.2025 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Swallowed Star: Temporada 2",
+          "status": "Abgeschlossen",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Swallowed Star : Saison 2",
+          "status": "Laufend",
+          "released": "09.09.2025 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Swallowed Star: Stagione 2",
+          "status": "Laufend",
+          "released": "09.09.2025 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 59,
+      "season": "Winter 2021/22",
+      "adaptedFrom": "Novel",
+      "synonyms": [
+        "Tunshi Xingkong: Di-er Ji",
+        "吞噬星空 第二季",
+        "Swallowed Star 2nd Season"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:07:13.250Z"
   },
   "134413": {
     "anisearchId": 17633,
@@ -686519,6 +689107,47 @@
     },
     "fetchedAt": "2026-10-09T08:10:19.862Z"
   },
+  "141864": {
+    "anisearchId": 21648,
+    "streams": [
+      {
+        "provider": "youtube",
+        "url": "https://www.youtube.com/playlist?list=PLBakWosU0sfiAaORQrSMmPCIbwdiDztFU"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Wuxian ShjJie",
+          "titleNative": "Wu Xian Shi Jie",
+          "status": "Abgeschlossen",
+          "released": "25.11.2022 - 17.03.2023"
+        },
+        {
+          "language": "Englisch",
+          "title": "The Infinitors",
+          "status": "Abgeschlossen",
+          "released": "12.2022 - 03.2023",
+          "publisher": [
+            "bilibili"
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 16,
+      "runtimeMinutes": 19,
+      "season": "Winter 2021/22",
+      "adaptedFrom": "Novel",
+      "websites": [
+        {
+          "name": "Bilibili",
+          "url": "https://www.bilibili.com/bangumi/media/md28235358/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:07:20.167Z"
+  },
   "141865": {
     "anisearchId": 18372,
     "descriptionDe": "Eigentlich will der Otaku Chen Jun nichts anderes, als den ganzen Tag lang seinem Hobby nachzugehen. Stattdessen bekommt er einen ungewöhnlichen und zeitfressenden Job aufgebrummt: Er wird der Herrscher eines riesigen Königreichs, das sich über mehrere Universen erstreckt! Während seine Jugendliebe Xu Qianqian fest an ihn glaubt, trauen ihm weder die Kaiserin noch die zuständigen Behörden allzu viel zu. Wird es ihm gelingen, nicht nur diese Welt, sondern auch alle anderen Parallelwelten zu retten? \n\nQuelle: www.anisearch.de/anime/18372",
@@ -701385,6 +704014,36 @@
     },
     "fetchedAt": "2026-10-09T08:28:24.928Z"
   },
+  "145985": {
+    "anisearchId": 21604,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Osomatsu-san Short Film Series Dai 2 Ki",
+          "titleNative": "おそ松さん ショートフィルムシリーズ 第2期",
+          "status": "Abgeschlossen",
+          "released": "26.01.2018 - 27.07.2018"
+        }
+      ],
+      "format": "Bonus",
+      "episodes": 4,
+      "season": "Winter 2017/18",
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Osomatsusan",
+          "url": "https://osomatsusan.com/2nd"
+        }
+      ],
+      "synonyms": [
+        "Osomatsu-san Short Film Series 2nd Season",
+        "Mr. Osomatsu Short Film Series 2nd Season"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:07:27.074Z"
+  },
   "145994": {
     "anisearchId": 20579,
     "streams": [],
@@ -710165,6 +712824,37 @@
     },
     "fetchedAt": "2026-10-09T08:37:51.916Z"
   },
+  "149098": {
+    "anisearchId": 17557,
+    "streams": [
+      {
+        "provider": "twitter-x",
+        "url": "https://twitter.com/reimeiki_pr/status/1512007273962369044"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mahou Tsukai Reimeiki × Machikado Mazoku 2-choume Collabo Mini Anime: Hen’na Zou A no Yukusaki",
+          "titleNative": "Mahō Tsukai Reimeiki × Machikado Mazoku Collabo Mini Anime: 2-chōme: Hen’na Zō A no Yukusaki",
+          "status": "Abgeschlossen",
+          "released": "07.04.2022"
+        }
+      ],
+      "format": "Web",
+      "episodes": 1,
+      "runtimeMinutes": 2,
+      "season": "Frühling 2022",
+      "studios": [
+        "AQUA ARIS INC."
+      ],
+      "synonyms": [
+        "Mahou Tsukai Reimeiki x Machikado Mazoku 2-choume Collabo Mini Anime: Hen’na Zou A no Yukusaki"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:07:33.983Z"
+  },
   "149099": {
     "anisearchId": 17526,
     "streams": [],
@@ -714904,6 +717594,53 @@
       ]
     },
     "fetchedAt": "2026-10-09T08:42:15.338Z"
+  },
+  "151765": {
+    "anisearchId": 11777,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "San-choume no Tama: Uchi no Tama Shirimasen ka?",
+          "titleNative": "San-chōme no Tama: Uchi no Tama Shirimasen ka?",
+          "status": "Abgeschlossen",
+          "released": "14.08.1993 - 28.08.1993"
+        },
+        {
+          "language": "Englisch",
+          "title": "Tama and Friends: Kitty Love / A Present For Momo",
+          "status": "Abgebrochen",
+          "released": "15.09.2001",
+          "publisher": [
+            "4Licensing Corporation"
+          ]
+        }
+      ],
+      "format": "TV-Spezial",
+      "episodes": 3,
+      "runtimeMinutes": 25,
+      "season": "Sommer 1993",
+      "studios": [
+        "Group Tac Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Tsuneo MAEDA",
+          "role": "Direction"
+        },
+        {
+          "name": "島田良一",
+          "role": "Character Design"
+        },
+        {
+          "name": "Norihiro TSURU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Videospiel"
+    },
+    "fetchedAt": "2026-10-12T06:07:40.894Z"
   },
   "151779": {
     "anisearchId": 20174,
@@ -721013,6 +723750,31 @@
       "adaptedFrom": "Webtoon"
     },
     "fetchedAt": "2026-10-09T08:48:20.336Z"
+  },
+  "154146": {
+    "anisearchId": 11307,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Girls und Panzer Gekijouban: Fushou - Akiyama Yukari no Sensha Kouza",
+          "titleNative": "Girls und Panzer Gekijōban: Fushō - Akiyama Yukari no Sensha Kouza",
+          "status": "Abgeschlossen",
+          "released": "27.05.2016"
+        }
+      ],
+      "format": "Bonus",
+      "episodes": 2,
+      "runtimeMinutes": 16,
+      "season": "Frühling 2016",
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "Girls und Panzer der Film: Akiyama Yukari no Sensha Course",
+        "Girls und Panzer der Film: Akiyama Yukari's Tank Corner"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:07:47.811Z"
   },
   "154147": {
     "anisearchId": 9732,
@@ -733336,6 +736098,33 @@
       ]
     },
     "fetchedAt": "2026-10-09T08:59:21.098Z"
+  },
+  "157304": {
+    "anisearchId": 16904,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Banjjakbanjjak Catch! Teenieping",
+          "titleNative": "반짝반짝 캐치! 티니핑",
+          "status": "Abgeschlossen",
+          "released": "22.09.2021 - 16.03.2022"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 26,
+      "season": "Herbst 2021",
+      "studios": [
+        "SAMG Entertainment Co., Ltd."
+      ],
+      "synonyms": [
+        "Catch! Teenieping 2",
+        "Catch! Teenieping Season 2",
+        "Sparkling Catch! Teenieping"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:07:54.726Z"
   },
   "157330": {
     "anisearchId": 19046,
@@ -750645,6 +753434,94 @@
     },
     "fetchedAt": "2026-10-09T09:11:29.294Z"
   },
+  "163794": {
+    "anisearchId": 22041,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "The Boxer",
+          "titleNative": "ザ・ボクサー",
+          "status": "Zukünftig",
+          "released": "?"
+        },
+        {
+          "language": "Englisch",
+          "title": "The Boxer",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "The Boxer",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "The Boxer",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "The Boxer",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "The Boxer",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "Studio Jemi"
+      ],
+      "staff": [
+        {
+          "name": "Ji-Hun JEONG",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takehiro KUBOTA",
+          "role": "Direction"
+        },
+        {
+          "name": "Masahiro SUWA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Webtoon",
+      "synonyms": [
+        "더 복서"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:08:01.660Z"
+  },
   "163828": {
     "anisearchId": 12195,
     "streams": [
@@ -763009,6 +765886,56 @@
       ]
     },
     "fetchedAt": "2026-10-09T09:21:16.930Z"
+  },
+  "168628": {
+    "anisearchId": 20629,
+    "streams": [
+      {
+        "provider": "adn-de",
+        "url": "https://animationdigitalnetwork.com/de/video/1302-red-fox"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Bulkeun Yeou",
+          "titleNative": "붉은 여우",
+          "status": "Abgeschlossen",
+          "released": "18.05.2025 - 02.06.2025"
+        },
+        {
+          "language": "Deutsch",
+          "title": "Red Fox",
+          "status": "Abgeschlossen",
+          "released": "10.02.2026",
+          "publisher": [
+            "Animation Digital Network (DE)"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Red Fox",
+          "status": "Abgeschlossen",
+          "released": "17.05.2025 - 01.06.2025",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 10,
+      "runtimeMinutes": 15,
+      "season": "Frühling 2025",
+      "adaptedFrom": "Manhwa",
+      "websites": [
+        {
+          "name": "Laftel",
+          "url": "https://laftel.net/item/42815"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:08:08.581Z"
   },
   "168630": {
     "anisearchId": 19540,
@@ -788638,6 +791565,60 @@
     },
     "fetchedAt": "2026-10-09T09:45:27.047Z"
   },
+  "177228": {
+    "anisearchId": 14593,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ponkotsu Quest: Maou to Haken no Mamono-tachi (2018)",
+          "titleNative": "Ponkotsu Quest: Maō to Haken no Mamono-tachi (2018)",
+          "status": "Abgeschlossen",
+          "released": "11.04.2018 - 13.03.2019"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 4,
+      "season": "Frühling 2018",
+      "studios": [
+        "Pie in the sky, Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "Ponkotsu Quest: Season 5"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:08:15.485Z"
+  },
+  "177229": {
+    "anisearchId": 14614,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ponkotsu Quest: Maou to Haken no Mamono-tachi (2019)",
+          "titleNative": "Ponkotsu Quest: Maō to Haken no Mamono-tachi (2019)",
+          "status": "Abgeschlossen",
+          "released": "09.10.2019 - 09.09.2020"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "runtimeMinutes": 4,
+      "season": "Herbst 2019",
+      "studios": [
+        "Pie in the sky, Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "Ponkotsu Quest: Season 6"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:08:22.410Z"
+  },
   "177230": {
     "anisearchId": 20525,
     "streams": [],
@@ -793576,6 +796557,35 @@
       ]
     },
     "fetchedAt": "2026-10-09T09:48:42.492Z"
+  },
+  "178308": {
+    "anisearchId": 4103,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kenken Goku Fuufu Teikin",
+          "titleNative": "Kenken Goku Fūfu Teikin",
+          "status": "Abgeschlossen",
+          "released": "1965"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 6,
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Tadanoriyokoo",
+          "url": "https://www.tadanoriyokoo.com/shop/g2/yb008.htm"
+        }
+      ],
+      "synonyms": [
+        "Kachi Kachi Yama"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:08:29.316Z"
   },
   "178312": {
     "anisearchId": 19374,
@@ -808291,6 +811301,33 @@
     },
     "fetchedAt": "2026-10-09T10:03:39.243Z"
   },
+  "182554": {
+    "anisearchId": 21480,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Beni Bara Shiro Bara",
+          "titleNative": "紅ばら・白ばら",
+          "status": "Abgeschlossen",
+          "released": "?"
+        }
+      ],
+      "format": "OVA",
+      "episodes": 1,
+      "runtimeMinutes": 35,
+      "studios": [
+        "Wako Pro"
+      ],
+      "adaptedFrom": "Märchen",
+      "synonyms": [
+        "Grimm Douwa Anime Series",
+        "グリム童話アニメシリーズ"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:08:36.238Z"
+  },
   "182555": {
     "anisearchId": 19562,
     "streams": [],
@@ -814082,6 +817119,43 @@
     },
     "fetchedAt": "2026-10-06T07:52:12.548Z"
   },
+  "184751": {
+    "anisearchId": 21476,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Benghuai: Taiping Lin Xin Sui",
+          "titleNative": "Beng Huai: Tai Ping Lin Xin Sui",
+          "status": "Abgeschlossen",
+          "released": "08.02.2024"
+        },
+        {
+          "language": "Englisch",
+          "title": "Honkai: Star Rail - Harmony Greets the New Year",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "07.02.2024"
+        },
+        {
+          "language": "Deutsch",
+          "title": "Honkai: Star Rail - Harmonie grüßt das neue Jahr",
+          "status": "Abgeschlossen",
+          "released": "08.02.2024"
+        }
+      ],
+      "format": "Web",
+      "episodes": 1,
+      "runtimeMinutes": 4,
+      "season": "Winter 2023/24",
+      "adaptedFrom": "Videospiel",
+      "synonyms": [
+        "崩壊：スターレイル 太平迎新歳"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:08:43.151Z"
+  },
   "184756": {
     "anisearchId": 20832,
     "streams": [],
@@ -819455,6 +822529,45 @@
     },
     "fetchedAt": "2026-10-06T07:53:20.093Z"
   },
+  "185858": {
+    "anisearchId": 21602,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Xian Di Gui Lai",
+          "titleNative": "仙帝归来",
+          "status": "Abgeschlossen",
+          "released": "27.10.2025 - 26.01.2026"
+        },
+        {
+          "language": "Englisch",
+          "title": "Back as Immortal Lord",
+          "status": "Abgeschlossen",
+          "released": "27.10.2025 - 25.01.2026",
+          "publisher": [
+            "bilibili"
+          ]
+        }
+      ],
+      "format": "Web",
+      "episodes": 16,
+      "runtimeMinutes": 20,
+      "season": "Herbst 2025",
+      "adaptedFrom": "Web Novel",
+      "websites": [
+        {
+          "name": "Bilibili",
+          "url": "https://www.bilibili.com/bangumi/media/md21083621"
+        }
+      ],
+      "synonyms": [
+        "Return of the Divine Emperor"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:08:50.070Z"
+  },
   "185870": {
     "anisearchId": 21534,
     "streams": [],
@@ -821002,6 +824115,30 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:16:15.508Z"
+  },
+  "186083": {
+    "anisearchId": 19887,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Midori to Utaeba",
+          "titleNative": "翠と唄えば",
+          "status": "Abgeschlossen",
+          "released": "05.12.2024"
+        }
+      ],
+      "format": "CM",
+      "episodes": 1,
+      "runtimeMinutes": 1,
+      "season": "Winter 2024/25",
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "翠・新 CM"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:08:56.981Z"
   },
   "186148": {
     "anisearchId": 20083,
@@ -829472,6 +832609,36 @@
     },
     "fetchedAt": "2026-10-09T10:26:17.717Z"
   },
+  "188810": {
+    "anisearchId": 12568,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Power Battle Watchcar: Wachigamyeonui Yeokseup",
+          "titleNative": "파워배틀 와치카 와치가면의 역습",
+          "status": "Abgeschlossen",
+          "released": "01.06.2017"
+        },
+        {
+          "language": "Englisch",
+          "title": "Power Battle Watch Car: Return of the Watch Mask",
+          "status": "Abgeschlossen",
+          "dubbed": true,
+          "released": "?"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 74,
+      "season": "Sommer 2017",
+      "synonyms": [
+        "Power Battle Watch Car: The Counterattack of Watch Mask"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:09:03.903Z"
+  },
   "188811": {
     "anisearchId": 17816,
     "streams": [],
@@ -829776,6 +832943,52 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:27:04.863Z"
+  },
+  "188823": {
+    "anisearchId": 14916,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Geukjangpan Miniteukgongdae: Gongnyongwang Deeno",
+          "titleNative": "극장판 미니특공대: 공룡왕 디노",
+          "status": "Abgeschlossen",
+          "released": "06.02.2020"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 73,
+      "season": "Winter 2019/20",
+      "synonyms": [
+        "Miniforce: Deeno the King of Dinosaurs"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:09:10.805Z"
+  },
+  "188824": {
+    "anisearchId": 15534,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Geukjangpan Miniteukgongdae: Hamburger Goemurui Seupgyeok",
+          "titleNative": "극장판 미니특공대-햄버거괴물의 습격",
+          "status": "Abgeschlossen",
+          "released": "30.09.2020"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 86,
+      "season": "Herbst 2020",
+      "synonyms": [
+        "Miniforce: Hamburger Monster’s Attack"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:09:17.726Z"
   },
   "188825": {
     "anisearchId": 20362,
@@ -836699,6 +839912,37 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:34:29.815Z"
+  },
+  "194453": {
+    "anisearchId": 20680,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ninja Kamui: Red Vendetta",
+          "status": "Zukünftig",
+          "released": "?"
+        },
+        {
+          "language": "Englisch",
+          "title": "Ninja Kamui: Red Vendetta",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "The Cartoon Network, Inc"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Originalwerk"
+    },
+    "fetchedAt": "2026-10-12T06:01:27.124Z"
   },
   "194706": {
     "anisearchId": 21153,
@@ -846862,6 +850106,37 @@
     },
     "fetchedAt": "2026-10-10T18:06:57.095Z"
   },
+  "199375": {
+    "anisearchId": 21576,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Boo",
+          "status": "Zukünftig",
+          "released": "2029"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "studios": [
+        "Kiryukan"
+      ],
+      "websites": [
+        {
+          "name": "Kiryukan Hariko",
+          "url": "https://kiryukan.hariko.com/buutop.htm"
+        }
+      ],
+      "synonyms": [
+        "Chika Meikyuu Ura Gahou: Boo",
+        "地下迷宮裏画報 BOO",
+        "Underground Labyrinth Secret Picture Book: Boo"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:09:24.636Z"
+  },
   "199404": {
     "anisearchId": 20930,
     "streams": [],
@@ -848585,6 +851860,94 @@
       "broadcast": "Dienstag 23:00 (JST)"
     },
     "fetchedAt": "2026-10-09T10:44:02.726Z"
+  },
+  "200372": {
+    "anisearchId": 17283,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ootsuchi Kai Monogatari",
+          "titleNative": "Ōtsuchi Kai Monogatari",
+          "status": "Abgeschlossen",
+          "released": "21.03.2022 - 20.06.2022"
+        }
+      ],
+      "format": "Web",
+      "episodes": 2,
+      "runtimeMinutes": 7,
+      "season": "Frühling 2022",
+      "staff": [
+        {
+          "name": "Seima KONDOU",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Otsuchi Anime",
+          "url": "https://www.otsuchi-anime.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:09:31.547Z"
+  },
+  "200377": {
+    "anisearchId": 10485,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Xuccess Heaven",
+          "titleNative": "ザクセスヘブン",
+          "status": "Abgeschlossen",
+          "released": "19.08.2015 - 25.03.2016"
+        }
+      ],
+      "format": "Web",
+      "episodes": 24,
+      "runtimeMinutes": 6,
+      "season": "Sommer 2015",
+      "studios": [
+        "Juumonji"
+      ],
+      "staff": [
+        {
+          "name": "Naotake FURUSATO",
+          "role": "Original Work"
+        },
+        {
+          "name": "Hirokazu HISAYUKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Akira MATSUI"
+        },
+        {
+          "name": "Hirokazu HISAYUKI"
+        },
+        {
+          "name": "Youhei SASAKI"
+        },
+        {
+          "name": "no_my"
+        },
+        {
+          "name": "Yasuhisa INOUE",
+          "role": "Music"
+        }
+      ],
+      "websites": [
+        {
+          "name": "Xuccess Heaven",
+          "url": "https://xuccess-heaven.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:09:38.450Z"
   },
   "200379": {
     "anisearchId": 16410,
@@ -854122,6 +857485,73 @@
     },
     "fetchedAt": "2026-10-09T10:48:38.712Z"
   },
+  "204537": {
+    "anisearchId": 21684,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Shoujo Kakumeikeikaku",
+          "titleNative": "Shōjo Kakumeikeikaku",
+          "status": "Laufend",
+          "released": "09.10.2024 - ?"
+        },
+        {
+          "language": "Englisch",
+          "title": "Girls Revolution Project",
+          "status": "Laufend",
+          "released": "09.10.2024 - ?"
+        }
+      ],
+      "format": "Web",
+      "episodes": 13,
+      "runtimeMinutes": 4,
+      "studios": [
+        "Manaa Animation"
+      ],
+      "websites": [
+        {
+          "name": "Girlsrevolutionproject",
+          "url": "https://girlsrevolutionproject.jp/animation/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:09:45.372Z"
+  },
+  "204544": {
+    "anisearchId": 18125,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Heart Cocktail: Colorful",
+          "titleNative": "ハートカクテル カラフル",
+          "status": "Abgeschlossen",
+          "released": "28.03.2023 - 15.12.2023"
+        }
+      ],
+      "issues": [
+        "Laufzeit: nicht bestätigt"
+      ],
+      "format": "TV-Serie",
+      "episodes": 15,
+      "runtimeMinutes": 5,
+      "season": "Frühling 2023",
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Web",
+          "url": "https://www.web.nhk/tv/pl/series-tep-PYL2917V5V"
+        }
+      ],
+      "synonyms": [
+        "Heart Cocktail Ballad"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:09:52.272Z"
+  },
   "204561": {
     "anisearchId": 21139,
     "streams": [],
@@ -854732,6 +858162,43 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:49:32.730Z"
+  },
+  "204688": {
+    "anisearchId": 21141,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kingdom: Zoku-hen",
+          "titleNative": "キングダム 続編",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/kingdom_animePR"
+        },
+        {
+          "name": "Kingdom Anime",
+          "url": "https://kingdom-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "Kingdom: Season 7",
+        "Kingdom: Staffel 7"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:09:59.363Z"
   },
   "204698": {
     "anisearchId": 21140,
@@ -855403,6 +858870,29 @@
     },
     "fetchedAt": "2026-10-09T10:50:13.124Z"
   },
+  "205608": {
+    "anisearchId": 9933,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Narara Superboard",
+          "titleNative": "날아라 슈퍼보드",
+          "status": "Abgeschlossen",
+          "released": "21.08.1990 - 11.01.2002"
+        }
+      ],
+      "format": "TV-Serie",
+      "episodes": 54,
+      "season": "Sommer 1990",
+      "adaptedFrom": "Manhwa",
+      "synonyms": [
+        "Flying Superboard"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:10:06.273Z"
+  },
   "205772": {
     "anisearchId": 21208,
     "streams": [
@@ -855696,6 +859186,61 @@
     },
     "fetchedAt": "2026-10-09T10:50:19.861Z"
   },
+  "205966": {
+    "anisearchId": 21162,
+    "descriptionDe": "»Zero Rise« erzählt von einer Gruppe junger Basketballer, die ihren Platz im Profisport verloren haben. Ob durch eigene Fehler oder die harten Umstände in einer Gesellschaft, in der die Schere zwischen Arm und Reich immer weiter auseinandergeht – für sie scheint der Traum vom Erfolg vorbei zu sein.\n\nIhre letzte Hoffnung ist die Untergrund-Liga »Zero Rise«. Fernab der großen Arenen müssen sie sich hier auf der Straße beweisen. In diesem harten Umfeld zählt nicht nur technisches Können, sondern auch der Charakter: In einer Welt, in der fast jeder nur an sich selbst denkt, versuchen sie, ihre Integrität zu bewahren.\n\nFür sie ist es die letzte Chance auf einen Neustart. Am Ende zählt nur eins: Finden sie gemeinsam einen Ausweg oder zerbrechen sie an dem Druck einer Gesellschaft, die sie längst abgeschrieben hat? \n\nQuelle: www.anisearch.de/anime/21162",
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Zero Rise",
+          "titleNative": "ゼロライズ",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "NICHICALINE"
+      ],
+      "staff": [
+        {
+          "name": "Bushiroad inc.",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/ZERORISE_PJ"
+        },
+        {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/zerorise_pj/"
+        },
+        {
+          "name": "Tiktok",
+          "url": "https://www.tiktok.com/@zerorise_pj"
+        },
+        {
+          "name": "Zerorise Pj",
+          "url": "https://zerorise-pj.com/"
+        },
+        {
+          "name": "Zerorise Pj",
+          "url": "https://zerorise-pj.com/en/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:10:13.188Z"
+  },
   "206048": {
     "anisearchId": 5271,
     "streams": [],
@@ -855721,6 +859266,29 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:50:26.592Z"
+  },
+  "206066": {
+    "anisearchId": 20830,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Liao Zhai: Lanruo Si",
+          "titleNative": "Liao Zhai: Lan Ruo Si",
+          "status": "Abgeschlossen",
+          "released": "12.07.2025"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "season": "Sommer 2025",
+      "studios": [
+        "Light Chaser Animation Studios"
+      ],
+      "adaptedFrom": "Kurzgeschichte"
+    },
+    "fetchedAt": "2026-10-12T06:10:20.091Z"
   },
   "206145": {
     "anisearchId": 21491,
@@ -855895,6 +859463,32 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:50:53.516Z"
+  },
+  "206244": {
+    "anisearchId": 22000,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Luo Xiao Hei Zhanji: Xueqian Pian",
+          "titleNative": "Luo Xiao Hei Zhan Ji: Xue Qian Pian",
+          "status": "Zukünftig",
+          "released": "30.10.2026 - 04.12.2026"
+        }
+      ],
+      "format": "Web",
+      "episodes": 6,
+      "season": "Herbst 2026",
+      "studios": [
+        "Beijing HMCH Anime Co., Ltd."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "The Legend of Luoxiaohei: Preschool Arc"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:10:27.003Z"
   },
   "206249": {
     "anisearchId": 21168,
@@ -856074,6 +859668,31 @@
       ]
     },
     "fetchedAt": "2026-10-09T10:51:13.703Z"
+  },
+  "206279": {
+    "anisearchId": 12019,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Sun Wukong Qi Yu Xiao Ding Ding",
+          "titleNative": "孫悟空奇遇小丁丁",
+          "status": "Abgeschlossen",
+          "released": "1980"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 26,
+      "studios": [
+        "Shanghai Animation Film Studio"
+      ],
+      "synonyms": [
+        "丁丁战猴王"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:10:33.914Z"
   },
   "206282": {
     "anisearchId": 21811,
@@ -857130,6 +860749,32 @@
     },
     "fetchedAt": "2026-10-09T10:53:01.632Z"
   },
+  "206855": {
+    "anisearchId": 15840,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Sinbi Apartment: Geukjangpan Haneuldokkaebi Dae Jörmungandr",
+          "titleNative": "신비아파트: 극장판 하늘도깨비 대 요르문간드",
+          "status": "Abgeschlossen",
+          "released": "19.12.2019"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 97,
+      "season": "Winter 2019/20",
+      "synonyms": [
+        "Mystery Apartment: Sky Goblin",
+        "The Great Jörmungandr",
+        "The Haunted House: Sky Goblin",
+        "The Great Jörmungandr"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:10:40.820Z"
+  },
   "206856": {
     "anisearchId": 21211,
     "streams": [],
@@ -858052,6 +861697,45 @@
     },
     "fetchedAt": "2026-10-10T18:11:04.788Z"
   },
+  "207222": {
+    "anisearchId": 21523,
+    "streams": [
+      {
+        "provider": "twitter-x",
+        "url": "https://x.com/aqurahome_/status/1968034653677273419"
+      }
+    ],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Aqura Home Akyurin Anime CM",
+          "titleNative": "アキュラホーム あきゅりん アニメ CM",
+          "status": "Abgeschlossen",
+          "released": "17.09.2025"
+        }
+      ],
+      "format": "CM",
+      "episodes": 1,
+      "runtimeMinutes": 1,
+      "season": "Herbst 2025",
+      "studios": [
+        "WIT STUDIO, Inc."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "websites": [
+        {
+          "name": "Aqura",
+          "url": "https://www.aqura.co.jp/adgallery/cm30s_2025_aqurin/"
+        },
+        {
+          "name": "Aqura",
+          "url": "https://www.aqura.co.jp/news/detail/726/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:10:47.726Z"
+  },
   "207251": {
     "anisearchId": 21222,
     "streams": [],
@@ -858538,6 +862222,33 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:11:32.288Z"
+  },
+  "207486": {
+    "anisearchId": 20020,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Ginga Tetsudou 999: Glass no Clair (2000)",
+          "titleNative": "Ginga Tetsudō 999: Glass no Clair (2000)",
+          "status": "Abgeschlossen",
+          "released": "24.02.2000"
+        }
+      ],
+      "format": "Anderes",
+      "episodes": 1,
+      "runtimeMinutes": 15,
+      "season": "Winter 1999/00",
+      "studios": [
+        "Toei Animation Co., Ltd."
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Galaxy Express 999: Crystal Glass Claire (2000)"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:10:54.646Z"
   },
   "207534": {
     "anisearchId": 21382,
@@ -859278,6 +862989,33 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:12:13.473Z"
+  },
+  "208204": {
+    "anisearchId": 21289,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mahou Tsukai Rosé no Sado Life",
+          "titleNative": "Mahō Tsukai Rosé no Sado Life",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "Mahou Tsukai Roze no Sado Life",
+        "The Sado Life of Rosé the Witch"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:11:01.550Z"
   },
   "208213": {
     "anisearchId": 21835,
@@ -860030,6 +863768,33 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:13:01.431Z"
+  },
+  "209116": {
+    "anisearchId": 21309,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "J⇔M",
+          "titleNative": "ジェイエム",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "JM",
+        "The Story About an Assassin Called J and a Lonely Girl Megumi"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:11:08.469Z"
   },
   "209132": {
     "anisearchId": 21307,
@@ -862074,6 +865839,37 @@
     },
     "fetchedAt": "2026-10-10T18:14:37.776Z"
   },
+  "209984": {
+    "anisearchId": 21912,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Fate/Strange Fake: 2nd Season",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "Fate Strange Fake",
+          "url": "https://fate-strange-fake.com/"
+        }
+      ],
+      "synonyms": [
+        "Fate/Strange Fake: Staffel 2"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:11:15.369Z"
+  },
   "210031": {
     "anisearchId": 21357,
     "descriptionDe": "Sechs Monate, nachdem die lebhafte Miyu Suzuki und der eher ruhige Yusuke Tani entgegen aller Unterschiede zusammengekommen sind, genießen die beiden Oberschüler ihr gemeinsames Leben in vollen Zügen. Obwohl die beiden aus völlig verschiedenen sozialen Zirkeln stammen, überwinden sie typische Unsicherheiten durch ehrliche Gespräche auf Augenhöhe. Als sich das Schuljahr dem Ende neigt, plant das junge Paar, die anstehenden Weihnachtsfeiertage sowie das Neujahrsfest zusammen zu verbringen und unvergessliche Erinnerungen zu schaffen.\n\nGleichzeitig gerät auch der erweiterte Freundeskreis in den Strudel der eigenen Gefühle. Der stark zum Grübeln neigende Shuuji Taira verarbeitet noch immer schlechte Erfahrungen aus seiner Mittelschulzeit, zeigt sich jedoch zunehmend verunsichert über die plötzliche Zuneigung seiner Mitschülerin Shino Azuma. Unterdessen sucht der für gewöhnlich aufgedrehte Kentarou Yamada verzweifelt nach dem passenden Augenblick, um der schüchternen Natsumi Nishi seine Liebe zu gestehen, während die gesamte Truppe gemeinsam den Winterferien entgegensteuert. \n\nQuelle: www.anisearch.de/anime/21357",
@@ -862753,6 +866549,35 @@
     },
     "fetchedAt": "2026-10-10T18:15:05.258Z"
   },
+  "210918": {
+    "anisearchId": 21487,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Black Channel",
+          "titleNative": "ブラックチャンネル",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/black_orechan"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:11:22.281Z"
+  },
   "210932": {
     "anisearchId": 21380,
     "streams": [],
@@ -862906,6 +866731,29 @@
     },
     "fetchedAt": "2026-10-10T18:15:18.999Z"
   },
+  "211189": {
+    "anisearchId": 22004,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Xiao Zhu Pei Qi: Wanmei Jiaqi",
+          "titleNative": "Xiao Zhu Pei Qi: Wan Mei Jia Qi",
+          "status": "Abgeschlossen",
+          "released": "01.10.2026"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 88,
+      "season": "Herbst 2026",
+      "synonyms": [
+        "Peppa Pig: Perfect Holiday"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:11:29.198Z"
+  },
   "211220": {
     "anisearchId": 21878,
     "streams": [],
@@ -862961,6 +866809,123 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:15:32.711Z"
+  },
+  "211258": {
+    "anisearchId": 21488,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Arafoo Kenja no Isekai Seikatsu Nikki",
+          "titleNative": "アラフォー賢者の異世界生活日記",
+          "status": "Zukünftig",
+          "released": "01.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Winter 2026/27",
+      "studios": [
+        "Yanchester Inc."
+      ],
+      "staff": [
+        {
+          "name": "Yasukiyo KOTOBUKI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takayuki INAGAKI",
+          "role": "Direction"
+        },
+        {
+          "name": "Mariko FUJITA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/arafokenja"
+        },
+        {
+          "name": "Arafo Kenja",
+          "url": "https://arafo-kenja.com/"
+        }
+      ],
+      "synonyms": [
+        "The Diary of a Middle-Aged Sage’s Carefree Life in Another World"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:11:36.098Z"
+  },
+  "211271": {
+    "anisearchId": 21174,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Odekake Kozame: Kurashiki City Collabo Movie",
+          "titleNative": "『おでかけ子ザメ』倉敷市コラボムービー",
+          "status": "Abgeschlossen",
+          "released": "16.10.2025"
+        }
+      ],
+      "format": "Web",
+      "episodes": 1,
+      "runtimeMinutes": 2,
+      "season": "Herbst 2025",
+      "studios": [
+        "ENGI Co.Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Penguin Box",
+          "role": "Original Work"
+        },
+        {
+          "name": "Chihiro KUMANO",
+          "role": "Direction"
+        },
+        {
+          "name": "Ayumi TAKEUCHI",
+          "role": "Character Design"
+        },
+        {
+          "name": "Yoshiaki FUJISAWA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/kozame_info"
+        },
+        {
+          "name": "Kurashiki Tabi",
+          "url": "https://www.kurashiki-tabi.jp/feature/%E4%BA%BA%E6%B0%97%E3%82%A2%E3%83%8B%E3%83%A1%E3%80%8C%E3%81%8A%E3%81%A7%E3%81%8B%E3%81%91%E5%AD%90%E3%82%B6%E3%83%A1%E3%80%8D%E3%81%A8%E5%80%89%E6%95%B7%E5%B8%82%E3%81%A8%E3%81%AE%E3%82%B3%E3%83%A9/"
+        },
+        {
+          "name": "Odekake Kozame",
+          "url": "https://odekake-kozame.com"
+        }
+      ],
+      "synonyms": [
+        "Odekake Kozame × Kurashiki City",
+        "Odekake Kozame x Kurashiki City",
+        "Odekake Kozame: Kurashiki City Collaboration Movie",
+        "『おでかけ子ザメ』×倉敷市コラボのコラボレーション",
+        "『おでかけ子ザメ』x倉敷市コラボのコラボレーション"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:11:43.009Z"
   },
   "211304": {
     "anisearchId": 21563,
@@ -864385,6 +868350,60 @@
     },
     "fetchedAt": "2026-10-10T18:17:02.206Z"
   },
+  "212667": {
+    "anisearchId": 21584,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hitozukiai ga Nigate na Miboujin no Yukionna-san to Noroi no Yubiwa",
+          "titleNative": "Hitozukiai ga Nigate na Mibōjin no Yukionna-san to Noroi no Yubiwa",
+          "status": "Laufend",
+          "released": "11.09.2026 - ?"
+        },
+        {
+          "language": "Englisch",
+          "title": "The Lonely Snow Widow and the Cursed Ring",
+          "status": "Laufend",
+          "dubbed": true,
+          "released": "11.09.2026 - ?",
+          "publisher": [
+            "WWWave of America Corp."
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "studios": [
+        "studio HOUKIBOSHI"
+      ],
+      "staff": [
+        {
+          "name": "Puusakipuuna",
+          "role": "Original Work"
+        },
+        {
+          "name": "Kazuomi KOGA",
+          "role": "Direction"
+        },
+        {
+          "name": "Mina Kyawa Akapi v",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "synonyms": [
+        "The Shy Snow Woman and the Cursed Ring"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:11:49.916Z"
+  },
   "212799": {
     "anisearchId": 21585,
     "streams": [],
@@ -865513,6 +869532,35 @@
     },
     "fetchedAt": "2026-10-09T10:58:24.899Z"
   },
+  "213343": {
+    "anisearchId": 21822,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "MAPPA 15th Anniversary Movie: Seikatsu",
+          "titleNative": "MAPPA 15th Anniversary Movie 生活",
+          "status": "Abgeschlossen",
+          "released": "19.06.2026"
+        }
+      ],
+      "format": "Musikvideo",
+      "episodes": 1,
+      "runtimeMinutes": 2,
+      "season": "Sommer 2026",
+      "studios": [
+        "MAPPA Co., Ltd."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "PEOPLE 1 - Seikatsu",
+        "PEOPLE 1 - 生活",
+        "MAPPA 15th Anniversary Movie"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:11:56.826Z"
+  },
   "213353": {
     "anisearchId": 20971,
     "streams": [
@@ -866403,6 +870451,57 @@
     },
     "fetchedAt": "2026-10-10T18:18:31.391Z"
   },
+  "213469": {
+    "anisearchId": 21748,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Re:bel Robotica",
+          "titleNative": "レベルロボチカ",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "SILVER LINK."
+      ],
+      "staff": [
+        {
+          "name": "Arch Inc."
+        },
+        {
+          "name": "Mika PIKAZO"
+        },
+        {
+          "name": "Ryou YOSHIGAMI"
+        },
+        {
+          "name": "Kazuyuki YAMAYOSHI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Andere",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/robotica_anime"
+        },
+        {
+          "name": "Rebelrobotica Anime",
+          "url": "https://rebelrobotica-anime.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:12:03.743Z"
+  },
   "213477": {
     "anisearchId": 21745,
     "streams": [],
@@ -866936,6 +871035,49 @@
     },
     "fetchedAt": "2026-10-10T17:22:00.195Z"
   },
+  "213627": {
+    "anisearchId": 21755,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Hokuto no Ken: Fist of the North Star - Dai 2 Cour",
+          "titleNative": "北斗の拳 -FIST OF THE NORTH STAR- 第2クール",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "staff": [
+        {
+          "name": "Buronson",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/hokutonokeninfo"
+        },
+        {
+          "name": "Hokuto Anime",
+          "url": "https://hokuto-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "Fist of the North Star: Hokuto No Ken - Cour 2",
+        "Fist of the North Star: Hokuto No Ken 2"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:12:10.652Z"
+  },
   "213628": {
     "anisearchId": 21756,
     "streams": [],
@@ -867290,6 +871432,32 @@
       "broadcast": "Sonntag 17:30 (JST)"
     },
     "fetchedAt": "2026-10-10T18:19:26.653Z"
+  },
+  "213660": {
+    "anisearchId": 21794,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "King of Prism: Tri-Star Act",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "studios": [
+        "Tatsunoko Production Co., Ltd."
+      ],
+      "websites": [
+        {
+          "name": "Kinpri",
+          "url": "https://kinpri.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:12:17.562Z"
   },
   "213663": {
     "anisearchId": 21381,
@@ -868094,6 +872262,24 @@
     },
     "fetchedAt": "2026-10-10T16:54:09.426Z"
   },
+  "213814": {
+    "anisearchId": 21782,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Aikatsu Stars! Hoshiboshi no Progress",
+          "titleNative": "アイカツスターズ！ ～星々のProgress～",
+          "status": "Zukünftig",
+          "released": "2027"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1
+    },
+    "fetchedAt": "2026-10-12T06:12:24.472Z"
+  },
   "213815": {
     "anisearchId": 21833,
     "streams": [],
@@ -868143,6 +872329,109 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:20:42.217Z"
+  },
+  "213845": {
+    "anisearchId": 21840,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Here U Are",
+          "status": "Zukünftig",
+          "released": "?"
+        },
+        {
+          "language": "Englisch",
+          "title": "Here U Are",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Here U Are",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Here U Are",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Here U Are",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Here U Are",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "Rouseact Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "D. Jun",
+          "role": "Original Work"
+        },
+        {
+          "name": "Tomoe MAKINO",
+          "role": "Direction"
+        },
+        {
+          "name": "Asami HAYAKAWA",
+          "role": "Character Design"
+        },
+        {
+          "name": "Shin’ya KIYOZUKA",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Webtoon",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/hua_anime_pr"
+        },
+        {
+          "name": "Hua Anime",
+          "url": "https://hua-anime.com/"
+        }
+      ],
+      "synonyms": [
+        "Te encontré",
+        "Yuanlai Ni Zai Zheli",
+        "Here You Are"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:12:31.380Z"
   },
   "213846": {
     "anisearchId": 21844,
@@ -868611,6 +872900,55 @@
     },
     "fetchedAt": "2026-10-10T18:21:37.194Z"
   },
+  "213929": {
+    "anisearchId": 21841,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "7-nin no Nemuri-hime",
+          "titleNative": "７人の眠り姫",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "Studio Gokumi"
+      ],
+      "staff": [
+        {
+          "name": "Fiok LEE",
+          "role": "Original Work"
+        },
+        {
+          "name": "Mankyuu",
+          "role": "Direction"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/seven_sleeping"
+        },
+        {
+          "name": "7 Sleepingbeauties",
+          "url": "https://7-sleepingbeauties.com/"
+        }
+      ],
+      "synonyms": [
+        "Seven Sleeping Beauties"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:12:38.278Z"
+  },
   "213952": {
     "anisearchId": 21842,
     "streams": [],
@@ -868654,6 +872992,33 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:21:44.310Z"
+  },
+  "213958": {
+    "anisearchId": 21854,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Sarangui Hachyuping: Goraeboseogui Jeonseol",
+          "titleNative": "사랑의 하츄핑: 고래보석의 전설",
+          "status": "Abgeschlossen",
+          "released": "05.08.2026"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 105,
+      "season": "Sommer 2026",
+      "studios": [
+        "SAMG Entertainment Co., Ltd."
+      ],
+      "adaptedFrom": "Originalwerk",
+      "synonyms": [
+        "Heartspring: The Legend of the Whale Jewel"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:12:45.181Z"
   },
   "213961": {
     "anisearchId": 21764,
@@ -868789,6 +873154,42 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:22:04.915Z"
+  },
+  "214055": {
+    "anisearchId": 21855,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Toratsugumi: Tsugumi Project",
+          "titleNative": "虎鶫 -TSUGUMI PROJECT-",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/toratsugumi_PJ"
+        },
+        {
+          "name": "Toratsugumi",
+          "url": "https://toratsugumi.jp/"
+        }
+      ],
+      "synonyms": [
+        "Tsugumi Project"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:12:52.269Z"
   },
   "214068": {
     "anisearchId": 21315,
@@ -869293,6 +873694,29 @@
     },
     "fetchedAt": "2026-10-10T18:23:34.536Z"
   },
+  "214509": {
+    "anisearchId": 20230,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Mr. Robot",
+          "titleNative": "미스터 로봇",
+          "status": "Abgeschlossen",
+          "released": "04.04.2025"
+        }
+      ],
+      "issues": [
+        "Laufzeit: nicht bestätigt"
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 90,
+      "season": "Frühling 2025"
+    },
+    "fetchedAt": "2026-10-12T06:12:59.173Z"
+  },
   "214511": {
     "anisearchId": 12335,
     "streams": [],
@@ -869387,6 +873811,43 @@
     },
     "fetchedAt": "2026-10-10T18:23:55.202Z"
   },
+  "214593": {
+    "anisearchId": 21899,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Yuusanchi! from Yuu-hachi",
+          "titleNative": "Yūsanchi! from Yū-hachi",
+          "status": "Laufend",
+          "released": "05.10.2026 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "studios": [
+        "Fanworks Inc."
+      ],
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/yusanchi_anime"
+        },
+        {
+          "name": "Yusanchi Anime",
+          "url": "https://yusanchi-anime.jp/"
+        }
+      ],
+      "broadcast": "Montag 15:30 (JST), Freitag 15:30 (JST)"
+    },
+    "fetchedAt": "2026-10-12T06:13:06.081Z"
+  },
   "214650": {
     "anisearchId": 21882,
     "streams": [],
@@ -869422,6 +873883,36 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:24:02.079Z"
+  },
+  "214702": {
+    "anisearchId": 21906,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Fate/Grand Order: Cosmos in the Lostbelt",
+          "titleNative": "フェイト／グランドオーダー コスモスインザロストベルト",
+          "status": "Abgeschlossen",
+          "released": "02.08.2026"
+        }
+      ],
+      "format": "Web",
+      "episodes": 1,
+      "runtimeMinutes": 7,
+      "season": "Sommer 2026",
+      "adaptedFrom": "Videospiel",
+      "websites": [
+        {
+          "name": "Fate Go",
+          "url": "https://www.fate-go.jp/world/cil/"
+        }
+      ],
+      "synonyms": [
+        "Fate/Grand Order: 11th Anniversary Movie"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:13:12.983Z"
   },
   "214703": {
     "anisearchId": 21895,
@@ -869590,6 +874081,32 @@
     },
     "fetchedAt": "2026-10-10T18:24:36.754Z"
   },
+  "214865": {
+    "anisearchId": 21944,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "FBKingdom Story",
+          "status": "Abgeschlossen",
+          "released": "30.06.2026"
+        }
+      ],
+      "format": "CM",
+      "episodes": 1,
+      "runtimeMinutes": 2,
+      "season": "Sommer 2026",
+      "studios": [
+        "A-1 Pictures Inc."
+      ],
+      "synonyms": [
+        "FBKINGDOM STORY アニメーショントレーラー",
+        "FBKingdom Story Animation Trailer"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:13:19.897Z"
+  },
   "214874": {
     "anisearchId": 21542,
     "streams": [],
@@ -869611,6 +874128,33 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:24:43.634Z"
+  },
+  "214947": {
+    "anisearchId": 18159,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Südkorea",
+          "title": "Sinbi Apartment: Geukjangpan Chawondokkaebiwa 7 Gaeui Segye",
+          "titleNative": "신비아파트 극장판 차원도깨비와 7개의 세계",
+          "status": "Abgeschlossen",
+          "released": "14.12.2022"
+        }
+      ],
+      "format": "Film",
+      "episodes": 1,
+      "runtimeMinutes": 103,
+      "season": "Winter 2022/23",
+      "studios": [
+        "Red Dog Culture House Co., Ltd",
+        "Studio EEK Co.,Ltd"
+      ],
+      "synonyms": [
+        "The Haunted House: The Dimensional Goblin and the Seven Worlds"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:13:26.800Z"
   },
   "214949": {
     "anisearchId": 14036,
@@ -870081,6 +874625,38 @@
     },
     "fetchedAt": "2026-10-10T18:25:24.893Z"
   },
+  "216117": {
+    "anisearchId": 21936,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Baki Gaiden: Retsu Kaiou wa Isekai Tensei Shitemo Ikkou ni Kamawan!",
+          "titleNative": "Baki Gaiden: Retsu Kaiō wa Isekai Tensei Shitemo Ikkō ni Kamawan!",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/baki_anime"
+        }
+      ],
+      "synonyms": [
+        "Baki Side Story: Kaioh Retsu Doesn’t Mind At All If He Gets Reincarnated in Another World"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:01:34.039Z"
+  },
   "216167": {
     "anisearchId": 21927,
     "streams": [],
@@ -870402,6 +874978,33 @@
     },
     "fetchedAt": "2026-10-10T18:26:13.023Z"
   },
+  "216558": {
+    "anisearchId": 22030,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Odekake Hololive",
+          "titleNative": "おでかけホロライブ",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/odeholo"
+        },
+        {
+          "name": "Odeholo",
+          "url": "https://odeholo.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:13:33.702Z"
+  },
   "216560": {
     "anisearchId": 21955,
     "streams": [],
@@ -870594,6 +875197,100 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:26:40.569Z"
+  },
+  "216644": {
+    "anisearchId": 22040,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Eat-Man: The Over Order",
+          "status": "Zukünftig",
+          "released": "?"
+        },
+        {
+          "language": "Englisch",
+          "title": "Eat-Man: The Over Order",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "Eat-Man: The Over Order",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "Eat-Man: The Over Order",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "Eat-Man: The Over Order",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "Eat-Man: The Over Order",
+          "status": "Zukünftig",
+          "released": "?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "Studio Cab"
+      ],
+      "staff": [
+        {
+          "name": "Akihito YOSHITOMI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Shunji OOGA",
+          "role": "Direction"
+        },
+        {
+          "name": "Satoshi HIRAYAMA",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/EATMAN_anime"
+        },
+        {
+          "name": "Eatman Anime",
+          "url": "https://eatman-anime.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:13:40.603Z"
   },
   "216645": {
     "anisearchId": 21920,
@@ -871684,6 +876381,48 @@
     },
     "fetchedAt": "2026-10-11T06:01:52.337Z"
   },
+  "217433": {
+    "anisearchId": 21994,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Mera×Death: Shinigami to Boku no Ijou na Koi",
+          "titleNative": "Mera×Death: Shinigami to Boku no Ijō na Koi",
+          "status": "Zukünftig",
+          "released": "05.01.2027 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Winter 2026/27",
+      "studios": [
+        "Qzil.la Inc."
+      ],
+      "adaptedFrom": "Videospiel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/monst_animation"
+        },
+        {
+          "name": "Anime Monster Strike",
+          "url": "https://anime.monster-strike.com/meradeath/"
+        }
+      ],
+      "synonyms": [
+        "Mera×Death: The Unusual Love Between Me and the Grim Reaper",
+        "MeraxDeath: The Unusual Love Between Me and the Grim Reaper",
+        "MeraxDeath: Shinigami to Boku no Ijou na Koi"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:13:47.512Z"
+  },
   "217434": {
     "anisearchId": 21990,
     "streams": [],
@@ -871919,6 +876658,73 @@
     },
     "fetchedAt": "2026-10-11T06:02:53.054Z"
   },
+  "217604": {
+    "anisearchId": 22011,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Maid nara Touzen desu.",
+          "titleNative": "Maid nara Tōzen desu.",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "staff": [
+        {
+          "name": "Yasuaki MIKAMI",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "synonyms": [
+        "Maid Nara Touzen Desu. Nureginu o Kiserareta Bannou Maid-san wa Tabi ni Deru Koto ni Shimashita",
+        "Maid Nara Touzen Desu. Nureginu wo Kiserareta Bannou Maid-san wa Tabi ni Deru Koto ni Shimashita",
+        "Looks Like a Job for a Maid!",
+        "“This Is a Common Maid Skill.”",
+        "Looks like a Job for a Maid! The Tales of a Dismissed Supermaid",
+        "“This Is a Common Maid Skill.” The Supermaid Has Got Time to Go on a Journey by Being Falsely Accused."
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:13:54.433Z"
+  },
+  "217712": {
+    "anisearchId": 22017,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Honzuki no Gekokujou: Shisho ni Naru Tame ni wa Shudan o Erande Iraremasen - Kizoku in no Jinshou Toshoiin",
+          "titleNative": "Honzuki no Gekokujō: Shisho ni Naru Tame ni wa Shudan o Erande Iraremasen - Kizoku in no Jinshō Toshoīn",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "WIT STUDIO, Inc."
+      ],
+      "adaptedFrom": "Light Novel",
+      "synonyms": [
+        "Ascendance of a Bookworm Season 5",
+        "Honzuki no Gekokujou: Shisho ni Naru Tame ni wa Shudan wo Erande Iraremasen - Kizoku in no Jinshou Toshoiin"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:14:01.339Z"
+  },
   "217714": {
     "anisearchId": 22018,
     "streams": [],
@@ -872074,6 +876880,74 @@
     },
     "fetchedAt": "2026-10-10T18:29:25.839Z"
   },
+  "217785": {
+    "anisearchId": 22031,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Manshuu Ahen Squad",
+          "titleNative": "Manshū Ahen Squad",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/manshu_ym"
+        },
+        {
+          "name": "Manshu Squad",
+          "url": "https://manshu-squad.com/"
+        }
+      ],
+      "synonyms": [
+        "Manchuria Opium Squad"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:14:08.241Z"
+  },
+  "217787": {
+    "anisearchId": 21902,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Pop Pap Polters",
+          "titleNative": "ポップパップポルターズ",
+          "status": "Laufend",
+          "released": "04.10.2026 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/ppp_anime_PR"
+        },
+        {
+          "name": "Instagram",
+          "url": "https://www.instagram.com/ppp_anime_pr"
+        },
+        {
+          "name": "Ppp Anime",
+          "url": "https://ppp-anime.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:14:15.159Z"
+  },
   "217841": {
     "anisearchId": 22023,
     "streams": [],
@@ -872202,5 +877076,90 @@
       ]
     },
     "fetchedAt": "2026-10-10T18:29:39.574Z"
+  },
+  "218040": {
+    "anisearchId": 22038,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Monster no Niku o Kutteitara Oui ni Tsuita Ken",
+          "titleNative": "Monster no Niku o Kutteitara Ōi ni Tsuita Ken",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "WHITE FOX Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Daken",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/mon_niku_PR"
+        },
+        {
+          "name": "Mon Niku",
+          "url": "https://mon-niku.com/"
+        }
+      ],
+      "synonyms": [
+        "How I Became King by Eating Monsters",
+        "Monster no Niku wo Kutteitara Oui ni Tsuita Ken"
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:14:22.074Z"
+  },
+  "218099": {
+    "anisearchId": 22037,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Dr.Stone: Terraforming",
+          "titleNative": "Dr.STONE TERRAFORMING",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "staff": [
+        {
+          "name": "Riichirou INAGAKI",
+          "role": "Original Work"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/STONE_anime_off"
+        },
+        {
+          "name": "Dr Stone",
+          "url": "https://dr-stone.jp/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-12T06:14:28.981Z"
   }
 }

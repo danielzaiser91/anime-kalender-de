@@ -10,6 +10,17 @@ import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
+import { deutschGeplantLautAnisearch } from './ohne-beleg.ts'
+
+/**
+ * Ein Termin, der noch aussteht, ist kein Beleg für eine Synchro von heute: geschätzt ist er der Untertitel-Start, und wo aniSearch Deutsch als „Geplant“ führt,
+ * ist er der Start der Synchro (Reincarnated as a Dragon Hatchling: ADN zeigt bis zum 22.10.2026 nur Untertitel).
+ */
+function terminBelegtNichts(release: Release, heute: string): boolean {
+  if (release.titleId < 0) return true
+  const kommt = release.schedule.firstEpisodeDate > heute
+  return kommt && (Boolean(release.schedule.estimated) || deutschGeplantLautAnisearch(release.titleId))
+}
 
 export function sammleBelege({
   releases,
@@ -33,8 +44,7 @@ export function sammleBelege({
   // Ein Stream-Link sagt nichts über die Sprache — belegt ist nur, was nachgewiesen wurde.
   const dubByTitle = new Map<number, Set<PlatformId>>()
   for (const release of releases) {
-    // Ein geschätzter Termin, der noch aussteht, ist der Untertitel-Start — kein Beleg für eine Synchro.
-    if (release.titleId < 0 || (release.schedule.estimated && release.schedule.firstEpisodeDate > todayIso())) continue
+    if (terminBelegtNichts(release, todayIso())) continue
     const set = dubByTitle.get(release.titleId) ?? new Set<PlatformId>()
     set.add(release.platform)
     dubByTitle.set(release.titleId, set)

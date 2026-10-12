@@ -1,47 +1,47 @@
 {
-  "stand": "2026-10-11",
+  "stand": "2026-10-12",
   "deckung": {
-    "titel": 20625,
-    "mitSeite": 15885,
-    "ohneSeite": 25,
-    "ohneAnisearchKennung": 3055,
-    "ohneReferenz": 1660,
-    "seitenImArchiv": 17466,
-    "kanten": 18564
+    "titel": 20624,
+    "mitSeite": 15907,
+    "ohneSeite": 9,
+    "ohneAnisearchKennung": 3049,
+    "ohneReferenz": 1659,
+    "seitenImArchiv": 17487,
+    "kanten": 18577
   },
   "gesamt": {
-    "titel": 15885,
-    "gleich": 12426,
-    "fehlen": 2240,
-    "zusaetzlich": 686,
-    "gemischt": 533
+    "titel": 15907,
+    "gleich": 12424,
+    "fehlen": 2242,
+    "zusaetzlich": 707,
+    "gemischt": 534
   },
   "hauptbestand": {
-    "titel": 2868,
-    "gleich": 2160,
+    "titel": 2866,
+    "gleich": 2157,
     "fehlen": 460,
-    "zusaetzlich": 147,
+    "zusaetzlich": 148,
     "gemischt": 101
   },
   "haelfteA": {
-    "titel": 7324,
-    "gleich": 5681,
-    "fehlen": 1094,
-    "zusaetzlich": 337,
-    "gemischt": 212
+    "titel": 7333,
+    "gleich": 5669,
+    "fehlen": 1095,
+    "zusaetzlich": 356,
+    "gemischt": 213
   },
   "haelfteB": {
-    "titel": 8561,
-    "gleich": 6745,
-    "fehlen": 1146,
-    "zusaetzlich": 349,
+    "titel": 8574,
+    "gleich": 6755,
+    "fehlen": 1147,
+    "zusaetzlich": 351,
     "gemischt": 321
   },
   "cluster": {
-    "einzel": 5394,
+    "einzel": 5404,
     "gleich": 2235,
     "zerlegt": 290,
-    "verschmilzt": 69,
+    "verschmilzt": 70,
     "gemischt": 32
   },
   "beispiele": {
@@ -140,7 +140,7 @@
       {
         "id": 9883,
         "name": "Osomatsu-kun (1988)",
-        "titel": 22,
+        "titel": 23,
         "referenz": 1,
         "anisearch": 2
       },
@@ -205,7 +205,7 @@
       {
         "id": 967,
         "name": "Hokuto no Ken",
-        "titel": 21,
+        "titel": 22,
         "referenz": 3,
         "anisearch": 1
       },
@@ -214,6 +214,13 @@
         "name": "Xiong Chumo",
         "titel": 20,
         "referenz": 5,
+        "anisearch": 1
+      },
+      {
+        "id": 2222,
+        "name": "Dr. Slump: Arale-chan",
+        "titel": 19,
+        "referenz": 2,
         "anisearch": 1
       },
       {
@@ -320,13 +327,6 @@
         "titel": 8,
         "referenz": 3,
         "anisearch": 1
-      },
-      {
-        "id": 1341,
-        "name": "Violence Jack: Harem Bomber",
-        "titel": 8,
-        "referenz": 2,
-        "anisearch": 1
       }
     ],
     "gemischt": [
@@ -375,7 +375,7 @@
       {
         "id": 1000,
         "name": "Uchuu Kaizoku Captain Harlock",
-        "titel": 35,
+        "titel": 36,
         "referenz": 2,
         "anisearch": 5
       },

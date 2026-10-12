@@ -162,9 +162,16 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
   const bild = WORKER ? beleg.bild : undefined
   const { url, fehler } = useBelegBild(bild)
   const [einpassen, setEinpassen] = useState(false)
-  const [markiert, setMarkiert] = useState(false)
+  /* Mit Markierung öffnet das Bild gleich an der Fundstelle (Daniel, 11.10.2026); der Schalter nimmt die Marke zurück. */
+  const [markiert, setMarkiert] = useState(Boolean(beleg.markierung))
+  const startScroll = useRef(Boolean(beleg.markierung))
   const marke = useRef<HTMLDivElement>(null)
   const [x, y, b, h] = beleg.markierung ?? []
+  const bildGeladen = () => {
+    if (!startScroll.current) return
+    startScroll.current = false
+    marke.current?.scrollIntoView({ block: 'center' })
+  }
   const zurFundstelle = () => {
     if (markiert) {
       setMarkiert(false)
@@ -200,7 +207,7 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
           <p className="p-4 text-sm text-rose-300">{fehler}</p>
         ) : url ? (
           <div className={einpassen ? 'relative h-full max-w-full' : 'relative mx-auto w-full max-w-[1800px]'} onClick={(e) => e.stopPropagation()}>
-            <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} />
+            <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} onLoad={bildGeladen} />
             {markiert && x !== undefined && (
               <div
                 ref={marke}

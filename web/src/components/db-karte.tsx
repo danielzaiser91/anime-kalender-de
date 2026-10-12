@@ -5,6 +5,7 @@ import type { Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { ueberschriftSagtStatus, type RelevanzArt } from '../lib/db-relevanz.ts'
 import { coverBild } from '../lib/cover.ts'
+import { istOhneBelegteSynchro } from '../lib/titel-sortierung.ts'
 import { teilbarerSlug } from '@shared/teilen.ts'
 import { FundstellenZeichen, TrefferName } from './Suchtreffer.tsx'
 import { FavoriteStar, FskBadge, HideEye, PlatformBadge, ShareIcon, StatusBadge, Tooltip } from './ui.tsx'
@@ -48,13 +49,13 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
    * Der Stern bleibt trotzdem da — er ist der einzige Grund, warum
    * diese Titel überhaupt angezeigt werden.
    *
-   * **`every`, nicht `main.ohneSynchro`:** Eine Reihe kann die Grenze
+   * **`every`, nicht nur `main`:** Eine Reihe kann die Grenze
    * überschreiten — Serie mit Synchro, ein Special ohne. Solange
    * irgendein Teil eine deutsche Fassung hat, ist die Kachel ein
    * normaler Eintrag; die Lücke steht dann in der Staffelliste des
    * Detail-Panels, wo sie hingehört.
    */
-  const keinDub = members.every((m) => m.ohneSynchro)
+  const keinDub = members.every(istOhneBelegteSynchro)
   const teilbar = teilbarerSlug(main)
 
   if (isHidden) {

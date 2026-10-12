@@ -9,7 +9,7 @@ Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:
 gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er
 nicht, gehört die Zeile gestrichen.
 
-Stand: 2026-10-11
+Stand: 2026-10-12
 
 ## Was hier zu tun ist
 
@@ -78,3 +78,18 @@ nicht. Vier Fälle, vier Handgriffe:
 | primevideo | https://www.amazon.de/dp/0QWW8SUXC8A16D6DS1QR5AV2VQ | Trinity Seven: The Movie - Eternity Library and Alchemic Girl | dub | — | Titel von Hand suchen |
 | netflix | https://www.netflix.com/title/70155567 | Shaun das Schaf — Staffel 5 in der Reihe nicht zu bestimmen | kein_dub | [Shaun das Schaf](https://anilist.co/anime/-3902) | Seite https://www.netflix.com/title/70155567 als Verweis an den Titel von Staffel 5 eintragen |
 | netflix | https://www.netflix.com/title/70155567 | Shaun das Schaf — Staffel 4 in der Reihe nicht zu bestimmen | kein_dub | [Shaun das Schaf](https://anilist.co/anime/-3902) | Seite https://www.netflix.com/title/70155567 als Verweis an den Titel von Staffel 4 eintragen |
+| primevideo | https://www.amazon.de/gp/video/detail/B0GDGLLYLS | Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4) — Staffel 4: 1 Folgen gemeldet, Zielstaffel hat 24 | kein_dub | [Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4](https://anilist.co/anime/182205) | Staffel 4 prüfen: Folgenzahl passt nicht |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 2 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 2 eintragen |
+| primevideo | https://www.amazon.de/gp/video/detail/B0GDGLLYLS | Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4 (That Time I Got Reincarnated as a Slime Season 4) — Staffel 1 der Seite B0CHH3X5QB gehört nicht zum Auftragstitel | dub | [Meine Wiedergeburt als Schleim in einer anderen Welt: Staffel 4](https://anilist.co/anime/182205) | Seite B0CHH3X5QB als Verweis an ihren Staffel-Titel eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 5 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 5 eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 3 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 3 eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 8 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 8 eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 10 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 10 eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 11 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 11 eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 6 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 6 eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 14 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 14 eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 13 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 13 eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 7 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 7 eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 9 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 9 eintragen |
+| netflix | https://www.netflix.com/title/70171947 | Staffel 12 in der Reihe nicht zu bestimmen | dub | [Mission Scooby-Doo](https://anilist.co/anime/-18123) | Seite https://www.netflix.com/title/70171947 als Verweis an den Titel von Staffel 12 eintragen |
+| primevideo | https://www.amazon.de/gp/video/detail/B0H7YCRTJN | Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2 (Trapped in a Dating Sim: The World of Otome Games is Tough for Mobs Season 2) — Staffel 2: 1 Folgen gemeldet, Zielstaffel hat 12 | kein_dub | [Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs Staffel 2](https://anilist.co/anime/159309) | Staffel 2 prüfen: Folgenzahl passt nicht |

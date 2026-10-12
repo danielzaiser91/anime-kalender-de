@@ -10,6 +10,7 @@ import {
   terminKennungenEindeutig, verweiseAufgeloest, widerlegteOhneTermine, zaehlworteStimmen,
 } from './lib/invarianten.ts'
 import { reihenVerweiseAufgeloest, synchroNichtHinterToggle, type SynchroQuellen } from './lib/invarianten-auslieferung.ts'
+import { geplantNichtDeutschHeute, ladeGeplantQuelle } from './lib/invarianten-geplant.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -97,6 +98,18 @@ console.log('\nHarte Regeln des Daten-Detektivs:')
   pruefe('D-15: Glied ohne Titel wird gemeldet', reihenVerweiseAufgeloest(ausl({ '9': [{ id: 1, name: 'a' }, { id: 77, name: 'b' }] })).length === 1)
   pruefe('D-15: mehrgliedrige Reihe ohne Eintrag wird gemeldet', reihenVerweiseAufgeloest(ausl({})).length === 2)
   pruefe('D-15: vollständige Reihe geht durch', reihenVerweiseAufgeloest(ausl({ '9': [{ id: 1, name: 'a' }, { id: 2, name: 'b' }] })).length === 0)
+
+  // D-24: Dragon Hatchling — aniSearch „Geplant“, ADN-Termin erst am 22.10., trotzdem „Auf Deutsch seit 10.01.“ und dub:true
+  const hatchling = (extra: Record<string, unknown> = {}) => new Map([[187941, titelMit({ id: 187941, titleRomaji: 'Dragon Hatchling', streams: [{ platform: 'adn', url: 'x', dub: true }], ...extra })]])
+  const adnTermin = [{ ...release('a', 187941, 'adn', 'batch'), schedule: { firstEpisodeDate: '2026-10-22' } } as Release]
+  const q = { geplant: new Set([187941]), handbelegt: new Set<number>() }
+  const lauf = (t: Map<number, Title>, r = adnTermin, quelle = q) => geplantNichtDeutschHeute(r, t, quelle, '2026-10-11')
+  pruefe('D-24: dub:true bei künftigem Start und Marke „Geplant“ wird gemeldet', lauf(hatchling()).length === 1, lauf(hatchling()))
+  pruefe('D-24: „Auf Deutsch seit“ aus dem aniSearch-Block bei „Geplant“ wird gemeldet', lauf(hatchling({ streams: [], deErstausgabe: { von: '2026-01-10', publisher: 'ADN' } })).length === 1)
+  pruefe('D-24: ein Handbeleg schlägt die Marke', lauf(hatchling(), adnTermin, { ...q, handbelegt: new Set([187941]) }).length === 0)
+  pruefe('D-24: ein begonnener Termin belegt die Synchro', lauf(hatchling(), [{ ...adnTermin[0]!, schedule: { firstEpisodeDate: '2026-10-01' } } as Release]).length === 0)
+  pruefe('D-24: ohne Marke „Geplant“ keine Meldung', lauf(hatchling(), adnTermin, { ...q, geplant: new Set<number>() }).length === 0)
+  pruefe('D-24: Erstausgabe mit Handbeleg (synchro) oder benannter Quelle geht durch', lauf(hatchling({ streams: [], deErstausgabe: { von: '2026-01-10', synchro: true } })).length === 0)
 }
 
 if (process.argv.includes('--bestand')) {
@@ -118,8 +131,9 @@ if (process.argv.includes('--bestand')) {
   const a = [
     ...synchroNichtHinterToggle(auslieferung, { dubsAnilist: lies('data/anisearch-dubs.json'), dubIds: lies('data/anisearch-dub-ids.json'), handbelegteIds: handbelegt, handKeine, heute: new Date().toISOString().slice(0, 10) }),
     ...reihenVerweiseAufgeloest(auslieferung),
+    ...geplantNichtDeutschHeute(releases, titles, ladeGeplantQuelle()),
   ]
-  console.log(`Auslieferung (D-06, D-15): ${a.length} Fehler`)
+  console.log(`Auslieferung (D-06, D-15, D-24): ${a.length} Fehler`)
   for (const t of a.slice(0, 10)) console.log('  ', t)
   verletzt += a.length
 }
