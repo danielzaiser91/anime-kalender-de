@@ -93,4 +93,4 @@ eintraege:
   - { anilistId: 206949, titel: "Nia Liston: The Merciless Maiden", platform: adn, omuAb: "2026-10-06", synchro: offen, stand: "2026-09-28", quellen: [adn-lineup] }
 
 # --- 11.10.2026: aniSearch führt Deutsch als „Geplant“ (kein „Auf Deutsch“ von heute); ADN zeigt seit dem Start nur Untertitel, die Synchro startet laut ADN-News (01.08.) und Anime2You-Lineup (Termin 22.10.) ---
-  - { anilistId: 187941, titel: "Reincarnated as a Dragon Hatchling", platform: adn, omuAb: "2026-01-10", synchro: angekuendigt, stand: "2026-09-28", quellen: [adn-lineup, "https://news.animationdigitalnetwork.com/de/2026/08/01/reincarnated-as-a-dragon-hatchling-kommt-mit-deutscher-synchro-zu-adn/"] }
+  - { anilistId: 187941, titel: "Reincarnated as a Dragon Hatchling", platform: adn, omuAb: "2026-01-10", synchro: angekuendigt, stand: "2026-10-03", quellen: [adn-lineup, "https://news.animationdigitalnetwork.com/de/2026/08/01/reincarnated-as-a-dragon-hatchling-kommt-mit-deutscher-synchro-zu-adn/"] }
