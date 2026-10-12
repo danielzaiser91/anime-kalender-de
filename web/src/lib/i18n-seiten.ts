@@ -8,6 +8,8 @@ export const TEXTE_SEITEN = {
     800-Zeilen-Grenze, und diese Datei ist genau dafür da. Dazu die Quellenangabe — Daniel,
     28.09.2026: „inkl Link zur Quelle"; „Heute"/„Gestern" beschriften die Tagesgruppen.
   */
+  'detail.plotEigen': 'Zusammengefasst nach',
+  'detail.plotReihe': 'Zur Reihe – gilt für alle Teile.',
   'detail.plotVonTeilFrueher': 'Zu diesem Teil gibt es keine eigene Handlung — hier steht die von „{teil}".',
   'antwort.teilweiseOhneZahl': 'Teilweise auf Deutsch — die Synchro wurde abgebrochen',
   'detail.erstausgabeArt': 'Erstausgabe',

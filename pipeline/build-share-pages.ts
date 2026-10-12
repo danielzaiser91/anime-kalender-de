@@ -28,6 +28,7 @@ import { andereNamen } from './lib/titel-namen.ts'
 import { SITE, esc, namenZeile, titelInhalt, titelKopf } from './lib/titel-seite.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
+import { seitenText, type SynopsenFuerSeiten } from './lib/handlung-eigen.ts'
 import { ladeAkVon, umleitungen, type AkVon, type KennungsZeile } from './lib/ausgabe-kennung.ts'
 
 const DIST = resolve(ROOT, 'dist')
@@ -363,9 +364,9 @@ function main(): void {
   // Die Synopsen liegen seit dem 10.08.2026 in Gruppen statt in einer Datei.
   // Hier werden alle gebraucht — die Seiten entstehen einmal im Build, nicht im
   // Browser, für ihn zählt die Aufteilung nicht.
-  const synopses: Record<string, { de?: string; en?: string }> = {}
+  const synopses: SynopsenFuerSeiten = {}
   for (let gruppe = 0; gruppe < SYNOPSIS_GROUPS; gruppe++) {
-    Object.assign(synopses, readJson<Record<string, { de?: string; en?: string }>>(`public/data/synopses/${gruppe}.json`, {}))
+    Object.assign(synopses, readJson<SynopsenFuerSeiten>(`public/data/synopses/${gruppe}.json`, {}))
   }
   const today = todayIso()
   /* Die Adresse eines Titels ist `/t/<ak>/` — unsere Kennung, ohne Namen (Stufe 1 der eigenen Kennungen). */
@@ -424,7 +425,7 @@ interface SeitenRahmen {
   after: string
   rootTag: string
   today: string
-  synopses: Record<string, { de?: string; en?: string }>
+  synopses: SynopsenFuerSeiten
   jeTitel: Map<number, Release[]>
 }
 
@@ -455,7 +456,7 @@ function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[],
     const eigene = r.jeTitel.get(t.id) ?? []
     const haupt = naechsterTermin(eigene, r.today)
     /* Cartoons tragen ihre Beschreibung am Titel, nicht in `synopses/`. */
-    const synopsis = r.synopses[String(t.id)]?.de ?? (t.westlich ? t.synopsis : undefined)
+    const synopsis = seitenText(r.synopses[String(t.id)]) ?? (t.westlich ? t.synopsis : undefined)
     const kopf = haupt ? head(haupt, t, r.today, ak, adresse) : titelKopf({ ...t, id: ak, slug: adresse })
     const inhalt = haupt
       ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak)

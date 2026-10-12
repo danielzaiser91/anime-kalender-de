@@ -7,6 +7,7 @@ import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 import { Chip } from '../ui.tsx'
 import { HerkunftZeile, zeigtHerkunft } from './herkunft-zeile.tsx'
+import { EigeneQuellenZeile, ReiheHinweis } from './handlung-quelle.tsx'
 import { type plotVon } from './plot.ts'
 
 export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, setGenresOffen }: {
@@ -68,6 +69,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
               {t(plot.erschienen ? 'detail.plotVonTeilFrueher' : 'detail.plotVonTeil', { teil: plot.vonTeil.name })}
             </p>
           )}
+          {plot.eigen?.reihe && !plot.vonTeil && <ReiheHinweis t={t} />}
           {/*
             Zuerst zwei Sätze, den Rest auf Wunsch.
 
@@ -98,12 +100,16 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             ) : (
               <span />
             )}
-            <span className="text-[11px] text-slate-400">
-              {t('detail.plotQuelle')}{' '}
-              <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text">
-                {quelleLabel(plot.quelle.name)} ↗
-              </a>
-            </span>
+            {plot.eigen ? (
+              <EigeneQuellenZeile eigen={plot.eigen} t={t} />
+            ) : (
+              <span className="text-[11px] text-slate-400">
+                {t('detail.plotQuelle')}{' '}
+                <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text">
+                  {quelleLabel(plot.quelle.name)} ↗
+                </a>
+              </span>
+            )}
           </div>
         </PanelKarte>
       )}
