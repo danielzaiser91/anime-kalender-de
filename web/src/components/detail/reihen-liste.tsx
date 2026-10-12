@@ -4,7 +4,7 @@ import { coverBild } from '../../lib/cover.ts'
 import { FORMAT_DE } from '@shared/mappings.ts'
 import { Fragment } from 'react'
 import { SynchroMarke } from './reihen-marke.tsx'
-import { istEingeklappt, zeileInListeSichtbar } from './reihen-regeln.ts'
+import { istEingeklappt, kurzName, zeileInListeSichtbar } from './reihen-regeln.ts'
 import { OhneSynchroSchalter, ReihenKopf } from './reihen-kopf.tsx'
 import { ZeilenName } from './zeilen-name.tsx'
 import { ReihenKarte } from './reihen-karte.tsx'
@@ -185,8 +185,8 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                 const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
                 if (istHauptstaffel(m) && staffelTeil && rest === voll && rest !== staffelTeil[1]) rest = staffelTeil[1]!
                 /* Und die erste Staffel heißt „Staffel 1", ein Teil „Staffel 1 - Teil 2". */
-                const kurz = (istHauptstaffel(m) && staffelLabel.get(m.id)) || rest || voll
-                const beschriftung = <ZeilenName nr={nummern.get(m.id)} rest={rest} kurz={kurz} />
+                const kurz = (istHauptstaffel(m) && staffelLabel.get(m.id)) || kurzName(rest, voll)
+                const beschriftung = <ZeilenName nr={nummern.get(m.id)} rest={rest} voll={voll} kurz={kurz} />
                 return (
                   <button
                     key={m.id}
