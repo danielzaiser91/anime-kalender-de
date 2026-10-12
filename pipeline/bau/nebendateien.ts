@@ -13,6 +13,7 @@ import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { coverFuer } from './cover-regel.ts'
 import { bewertungNachRegel, mitProduktFeldern } from './produkt-regel.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
+import { ohneGesperrte } from './sperre.ts'
 import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
@@ -644,7 +645,7 @@ export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): voi
     ein Neuzugang **des Bestands**, und darüber gibt es nichts zu melden.
   */
   const belegteSynchro = (t: Title) => belegteDeutscheSynchro(t, ersterTermin, heute)
-  const neu = titles
+  const neu = ohneGesperrte(titles)
     .filter((t) => {
       const seit = historie.seit[t.id]
       // Der Ausgangsstand ist kein Neuzugang, egal wie jung sein Datum ist.

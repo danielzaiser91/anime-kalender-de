@@ -236,14 +236,15 @@ for versuch in $(seq 1 "$VERSUCHE"); do
 
   git -c user.name="$BOT_NAME" -c user.email="$BOT_MAIL" commit -m "$NACHRICHT" --quiet
 
-  if git push --quiet 2>/dev/null; then
+  # Die Meldung bleibt sichtbar: Am 11.10.2026 scheiterten sechs Pushes bei unbewegtem Fernstand, und ohne Text war nicht zu sagen, ob es ein Wettlauf oder eine Ablehnung (Rechte, Schutzregel) war.
+  if git push --quiet 2>/tmp/push-fehler.txt; then
     echo "Gepusht (Versuch $versuch)."
     # Die Quellen sind gesichert — jetzt darf der Lauf scheitern.
     [ "$LAUF_ROT" = 1 ] && exit 1
     exit 0
   fi
 
-  echo "Push abgelehnt, jemand war schneller. Nächster Versuch."
+  echo "Push abgelehnt (Versuch $versuch): $(tr '\n' ' ' < /tmp/push-fehler.txt | cut -c1-400)"
   # Den eigenen Commit zurücknehmen, die Dateien behalten — die nächste Runde
   # setzt ohnehin auf dem neuen Fernstand neu auf.
   git reset --soft HEAD~1

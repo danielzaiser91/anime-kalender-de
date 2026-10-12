@@ -37,7 +37,7 @@ export function FilterBarDock(props: FilterBarProps) {
   return (
     <div
       className={[
-        'fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 mx-auto flex max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col md:bottom-[calc(1rem+env(safe-area-inset-bottom))] max-w-[1180px]',
+        'fixed inset-x-2 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-30 mx-auto flex max-h-[calc(100dvh-5.5rem-env(safe-area-inset-bottom)-77px)] flex-col max-w-[1180px]',
         pille && 'right-2 left-auto mx-0 w-max max-w-[calc(100vw-1rem)] md:right-4 md:max-w-[calc(100vw-2rem)]',
       ]
         .filter(Boolean)
