@@ -74,7 +74,10 @@ export const NEWS_FARBE: Record<NewsArt, string> = {
  * wieder. Sie ist zugleich die Rangfolge: Was hier vorn steht, formuliert die
  * Satzzeile der Übersicht.
  */
-const ARTEN: NewsArt[] = ['neu', 'angekuendigt', 'nachgetragen', 'verspaetet', 'nachgereicht', 'kino', 'disc', 'folgen']
+const ARTEN = ['neu', 'angekuendigt', 'nachgetragen', 'verspaetet', 'nachgereicht', 'rhythmus', 'kino', 'disc', 'folgen'] as const satisfies readonly NewsArt[]
+/* Fehlt eine `NewsArt` in `ARTEN`, ist diese Zuweisung ein Typfehler (sonst ohne Chip und mit Rang -1). */
+const _artenVollstaendig: Exclude<NewsArt, (typeof ARTEN)[number]> extends never ? true : never = true
+void _artenVollstaendig
 
 
 /*

@@ -4,6 +4,7 @@
  */
 import { rhythmusFehler, rhythmusMeldung } from './lib/news-rhythmus.ts'
 import { loadCurated } from './lib/curated.ts'
+import { pflegeTerminverlauf } from './lib/news-verlauf.ts'
 import { newsSatz } from '../web/src/lib/news-text.ts'
 import { newsSatz as mailSatz } from '../worker/src/mail-abschnitte.ts'
 import type { Release } from '../shared/types.ts'
@@ -51,6 +52,11 @@ try {
   wirft = true
 }
 pruefe('falscher Handbeleg bricht den Bau ab', wirft)
+
+/* Wird der Rhythmus überholt, trägt die Verlaufsfassung ihre Spanne weiter (nicht „wöchentlich 0 neue Folgen“). */
+const historie = { termine: { 'x-paramountplus': [{ datum: '2026-10-30', art: 'rhythmus', titelId: -1, name: 'X', wurzel: -1, platform: 'paramountplus', quelle: QUELLE, proWoche: [3, 4], am: '2026-10-10' }] } }
+const verlauf = pflegeTerminverlauf({ datiert: [], nachId: new Map(), historie: historie as never, vorherige: [], name: () => 'X', wurzel: () => -1, grenze: '2026-01-01', heute: '2026-11-05', nurOriginalton: new Set() })
+pruefe('überholte Rhythmus-Meldung behält proWoche', verlauf.length === 1 && newsSatz(verlauf[0]!) === 'Bis 30.10.2026 wöchentlich 3–4 neue Folgen bei Paramount+', verlauf.map((v) => newsSatz(v)))
 
 const echt = loadCurated().filter((e) => e.rhythmus)
 pruefe('der echte Eintrag (Avatar: Die sieben Häfen) besteht die Prüfung', echt.length > 0 && echt.every((e) => rhythmusFehler(e as unknown as Release).length === 0), echt.map((e) => rhythmusFehler(e as unknown as Release)))
