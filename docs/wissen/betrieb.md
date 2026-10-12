@@ -1322,7 +1322,7 @@ Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --searc
 - **Hash-Abfrage** (`pruefung-unveraendert.ts`): `INDEXED BY pruefung_url_zeit`. Ohne nahm der Planer ab zwei Adressen `idx_pruefung_offen` und las alle offenen Zeilen je Aufruf (EXPLAIN QUERY PLAN lokal; Test in `tools/worker-tagesdeckel.test.ts` prüft den Plan bei drei Adressen).
 - **`?stand=1`**: Cache 300 statt 60 s (gerechnet bis 0,8 Mio. am Massenlauftag). Frisch Gemeldetes überbrückt die Erweiterung, bis der Stand es zeigt.
 - **DELETE vor INSERT** (`pruefung-ersetzen.ts`): über die IDs aus `ladeOffeneHashes` statt über `url` (gerechnet 0,29 Mio.); ohne offene Zeile entfällt der DELETE. Zwei gleiche Folgen im selben Stapel ergäben eine Dublette; die nächste Meldung räumt sie auf.
-- **Rohfolgen-Gesamtzahl**: bei `nach = 0` und Seite unter 5000 Zeilen aus der Seite, sonst `COUNT(*)` (gerechnet 0,26 Mio.).
+- **Rohfolgen-Gesamtzahl**: bei `nach = 0` und Seite unter 5000 Zeilen aus der Seite, sonst `COUNT(*)` (gerechnet 0,26 Mio.). **Überholt am 12.10.2026:** `gesamt` und `COUNT(*)` entfallen (Abschnitt „Rohfolgen-Seiten und Serienamen“).
 - **GET `/lauf`**: Übersicht 30 s im Edge-Cache (`cache-kurz.ts`, gerechnet 0,1 Mio. je Tag); der Verlauf einer Lauf-Art bleibt ungehalten. Ein Laufstatus zeigt sich damit bis zu 30 s später.
 
 ## D1-Lesekontingent: zwei Abfragen mit 3,2 Mio. Zeilen am Tag (12.10.2026)
@@ -1341,6 +1341,40 @@ Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --searc
 **Rechnung (vorher → nachher):** Wartende: 543 × 2.979 = 1,62 Mio. → höchstens 48 × 2.979 = 0,14 Mio. je Rechenzentrum (−91 %; bei zwei Rechenzentren 0,29 Mio. = −82 %). `?gemeldet=`: 1,60 Mio. → Aufrufe, die nach 30 min ablaufen oder nach einer Meldung zu ihrer Adresse neu lesen; Obergrenze nicht berechenbar (hängt an der Zahl verschiedener Adressen je Fenster), Ziel unter 0,32 Mio. (−80 %). **Nachmessen am Tag nach dem Deploy:** `wrangler d1 insights DB --config wrangler.toml --time-period 1d --sort-type sum --sort-by reads --limit 5 --json`.
 
 **Nicht gemacht:** Zusammenfassungstabelle der wartenden Meldungen (jede Meldung kostete eine Schreibzeile mehr, Schreiben war am 11.10. bei 165 %); Cache in R2 (global statt je Rechenzentrum, aber Schreibaufruf je Änderung). Offen für die Erweiterung (Release nötig): `meldungenLaden` je offener Reihe beim Dialog-Öffnen bündeln — der Worker-Cache fängt es ab, aber der Browser schickt weiter 100+ Anfragen.
+
+## D1-Lesekontingent: Rohfolgen-Seiten und Serienamen (12.10.2026, Abend)
+
+**Anlass:** Das Leselimit (5 Mio. Zeilen je UTC-Tag) riss am 12.10.2026 erneut. `wrangler d1 insights DB --config wrangler.toml --time-period 1d --sort-type sum --sort-by reads` (12.10., 12:20 UTC, kostet kein Kontingent) nannte fünf Posten. `?gemeldet=` behandelt ein anderer PR.
+
+| Posten (Aufrufe × Zeilen = Tag) | Aufrufer, Takt | Hebel | Erwartung je Tag |
+|---|---|---|---|
+| `SELECT plattform, url, staffel FROM pruefung WHERE uebernommen = 0`, 435 × 3.920 = 1,71 Mio. | `holeWartende` in `?stand=1`; zwei offene Tabs der Erweiterung × alle 5 min | **schon behoben** durch #912 (30 min Edge-Cache, Worker-Deploy 08:46 UTC); das 24-h-Fenster enthält noch 20 h davor (543 Aufrufe/Tag vorher = 22,6/h, davor-Anteil ≈ 461) | ≤ 48 × 3.920 = 0,19 Mio. je Rechenzentrum, −1,5 Mio. |
+| `prime_folge`-Seite mit korrelierter Unterabfrage, 56 × 26.101 = 1,46 Mio. | `fetch-rohfolgen.ts` im Bestandsbau (`?rohfolgen=1&nach=`), ~19 Läufe × 3 Seiten | Serienname einmal je Adresse (`pruefung-serientitel.ts`, `json_each`) **und** Migration 051 (Teilindex `prime_folge_offen (id) WHERE uebernommen = 0`) | 0,29 Mio., **−1,17 Mio.** |
+| `SELECT COUNT(*) FROM prime_folge WHERE uebernommen = 0 …`, 106 × 13.081 = 1,39 Mio. | dieselben Seiten (jede volle oder Folgeseite zählte neu) | `gesamt` und `COUNT(*)` entfallen; der Bau setzt über `weiter` fort (`fetch-rohfolgen.ts` las `gesamt` nur für Log und Seitengrenze) | 0, **−1,39 Mio.** |
+| `SELECT url, MAX(titel) … GROUP BY url`, 22 × 17.533 = 0,39 Mio. | `fetch-folgen-zuordnung.ts` (`namen=1`), ein Abruf je Bestandsbau; jede Meldung verwarf den Auszug | R2-Frist für `namen` 6 h statt 10 min (`FRIST_NAMEN_MS`) | ≤ 4 × 17.533 = 0,07 Mio., **−0,32 Mio.** |
+| `SELECT plattform, url, folge_nr, staffel FROM pruefung WHERE uebernommen = 0`, 17 × 3.451 = 0,06 Mio. | `?zaehlen=1&nummern=1` (`disney.js`), schon 30 min im Edge-Cache | **nichts gebaut**: eine Zusammenlegung mit den wartenden Meldungen spart höchstens 0,06 Mio. und fasst `pruefung-zaehlen.ts` an | 0,06 Mio. bleibt |
+
+**Summe dieses PR: rund −2,9 Mio. gelesene Zeilen am Tag** (4,87 Mio. am 12.10.), dazu −1,5 Mio. aus dem schon deployten #912.
+
+**Warum die Seite so viel las (EXPLAIN QUERY PLAN):** Mit `prime_folge_offen (uebernommen, gemeldet_am)` lautete der Plan `SEARCH f USING INDEX prime_folge_offen (uebernommen=?)` plus `USE TEMP B-TREE FOR ORDER BY`: SQLite holte bei **jeder** Seite alle ~13.000 offenen Zeilen und sortierte sie nach `id`. Der Teilindex auf `id` liefert die offenen Zeilen schon geordnet (`SEARCH f USING INDEX prime_folge_offen (id>?)`), die Seite liest nur ihre 5.000. Die Unterabfrage je Rohfolge (`pruefung_url_zeit`, bis zu 5.000 Nachschläge je Seite) wird zu einer Abfrage über die Adressen der Seite (`WITH u(url) AS (SELECT value FROM json_each(?1))`, eine Prime-Seite trägt ~90 Folgen unter einer Adresse). Das Ergebnis ist Zeile für Zeile gleich (Vergleich lokal: alle 13.750 Folgen samt `serientitel` deckungsgleich, nur `gesamt` fehlt).
+
+**Gemessen (lokal, workerd/miniflare, `tools/worker-lesezeilen-messen.ts`, `meta.rows_read`; Bestand wie am 12.10.: `pruefung` 17.800 Zeilen, `prime_folge` 55.000 mit 13.750 offenen auf 700 Adressen; ein Bau-Durchgang = 3 Seiten):**
+
+| Stand | Seite 1 | Seite 2 | Seite 3 | Durchgang |
+|---|---|---|---|---|
+| vorher (`origin/main` `8c1112ddc`) | 47.915 | 42.927 | 36.246 | 127.088 |
+| ohne COUNT und Unterabfrage | 28.094 | 23.094 | 17.946 | 69.134 |
+| mit Teilindex (Migration 051) | 5.593 | 5.593 | 4.195 | **15.381** |
+
+`namen=1` liest unverändert 17.800 je Rechnung; gespart wird die Häufigkeit. Produktiv liegt die Seitenabfrage im Mittel bei 26.101 je Aufruf (die lokale Rechnung zählt den `COUNT(*)` je Seite mit und kommt auf 42.000); die Ersparnis oben rechnet deshalb mit dem lokalen Endwert je Seite (≈ 5.100 im Mittel, 15.381 je Durchgang), nicht mit den lokalen Absolutwerten vorher. Das Verhältnis ist eine Schätzung, belegt erst das Nachmessen unten.
+
+**Schreibzeilen (lokal, `meta.rows_written`, 100 Rohfolgen):** Einfügen 401 vorher wie nachher; Abhaken (`UPDATE … SET uebernommen = 1`) 200 → 100, weil ein Teilindex den Eintrag beim Abhaken nur noch entfernt, statt `(uebernommen, gemeldet_am)` neu zu schreiben: bei 62 Abhak-Aufrufen × 100 Ids am Tag rund −6.200 Zeilen. Einmalig kostet das Ersetzen des Index bis zu ~2 × 13.000 Zeilen (Löschen + Anlegen), also nach 00:00 UTC ausführen, wenn der Tagesdeckel (50.000) frisch ist. Kein zweiter Index: der alte `prime_folge_offen` hatte keinen anderen Leser (`COUNT(*)` entfällt, alle übrigen Abfragen laufen über Primärschlüssel, `prime_folge_seite`, `prime_folge_gti`).
+
+**Reihenfolge nach dem Merge:** erst Migration (`cd worker && npx wrangler d1 execute anime-kalender --remote --file=migrations/051-prime-folge-offen-id.sql`, nach 00:00 UTC), dann `npx wrangler deploy`. Beide Reihenfolgen brechen nichts: der **neue** Worker vor der Migration arbeitet mit dem alten Index (wie bisher, nur ohne Ersparnis), der **alte** Worker nach der Migration findet den Teilindex für seine Abfrage ebenso. Die Pipeline (`fetch-rohfolgen.ts`) braucht die Antwort ohne `gesamt` und kommt auch mit dem alten Worker zurecht.
+
+**Folge für den Betrieb:** Eine neue Adresse bekommt ihren Namen in `folgen-zuordnung.json` bis zu 6 h später (`namen=1`); die offenen Rohfolgen tragen den Serienamen weiter selbst (`serientitel`), `fetch-rohfolgen.ts` merkt nichts. **Nachmessen am Tag nach dem Deploy:** `wrangler d1 insights DB --config wrangler.toml --time-period 1d --sort-type sum --sort-by reads --limit 8 --json`; erwartet: `COUNT(*) … prime_folge` verschwunden, die Seitenabfrage unter 8.000 je Aufruf, `namen` ≤ 4 Aufrufe.
+
+**Nicht in diesem PR (Funde):** `?rohfolgen=1&alle=1` (149 × 4.522 = 0,67 Mio.) und `?alle=1` der Meldungen (75 × 4.162 = 0,31 Mio.) lesen je Bestandsbau alle Seiten neu, weil jede Meldung den R2-Auszug verwirft; eine längere Frist oder ein Auszug nach `gemeldet_am` wären der nächste Hebel (zusammen bis −0,7 Mio.). Die Statuszeile `SELECT workflow, zustand, … FROM lauf_status` (32.988 × 4 = 0,14 Mio.) ist klein.
 
 ## Bestandsbau rot am 12.10.2026: TMDB hängt aniSearch-Specials an die Hauptserie
 
@@ -1364,7 +1398,7 @@ Der TMDB-Tiefendurchlauf (12.10., 05:30) ordnete drei nur bei aniSearch geführt
 
 Die 6 Zeilen sind `pruefung` (Löschen + Einfügen samt Indexen) und der Tageszähler; Netflix/Disney+ melden je Folge, dort ändert sich nichts, solange die ganze Meldung gleich ist (Hash aus Migration 048 greift) oder sich auch die Rohfolge ändert.
 
-**Indexe von `prime_folge` (EXPLAIN QUERY PLAN aller Abfragen, auch mit 20.000 Zeilen und `ANALYZE`): keiner überflüssig.** Nach 047 bleiben `prime_folge_gti` (Ladeabfrage Netflix/Disney+, `INDEXED BY`), `prime_folge_seite` (Ladeabfrage Prime, `INDEXED BY`) und `prime_folge_offen` (`?rohfolgen=1` und `COUNT(*)` über `uebernommen = 0`; ohne ihn Vollscan der Tabelle bei jedem Bestandsbau). `?probe=` und `alle=1` laufen über den Primärschlüssel. Nicht entfernt.
+**Indexe von `prime_folge` (EXPLAIN QUERY PLAN aller Abfragen, auch mit 20.000 Zeilen und `ANALYZE`): keiner überflüssig.** Nach 047 bleiben `prime_folge_gti` (Ladeabfrage Netflix/Disney+, `INDEXED BY`), `prime_folge_seite` (Ladeabfrage Prime, `INDEXED BY`) und `prime_folge_offen` (`?rohfolgen=1`; seit Migration 051 ein Teilindex auf `id`, vorher `(uebernommen, gemeldet_am)` samt `COUNT(*)`). `?probe=` und `alle=1` laufen über den Primärschlüssel. Nicht entfernt.
 
 **`gemeldet_am` einer stehengebliebenen Zeile bleibt alt.** Gelesen wird es nur für „jüngste gewinnt" unter Dubletten (`fetch-rohfolgen.ts`) und als Anzeige `gesehen` in der Zuordnung (`folgen-je-folge.ts`, keine Entscheidung hängt daran). Die Wiedervorlage rechnet über `pruefung.gemeldet_am` (siehe oben), das weiter erneuert wird.
 
