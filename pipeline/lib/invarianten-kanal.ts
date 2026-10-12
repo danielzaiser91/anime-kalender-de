@@ -20,21 +20,22 @@ function hatAndereQuelle(t: Title, kanal: ReadonlySet<string>, anderweitig: (t: 
  * `kanal`: die Schlüssel aus `kanalAdressenOhneBeleg()`; `anderweitig`: Termin bei Prime oder aniSearch „deutsch“.
  * Meldet jeden Prime-Verweis mit `dub: true` auf einer Kanal-Adresse, wenn der Titel sonst nichts Deutsches trägt.
  *
- * `nurKanal` (12.10.2026, Schlüssel aus `kanalTitelNurKanal()`): Titel, deren Prime-Belege alle Kanal-Belege sind. Dort gilt D-25 je Titel, nicht je
- * Adresse — jeder Prime-Verweis mit Häkchen wird gemeldet, auch auf einer Adresse ohne Beleg (Amazon führt denselben Titel unter mehreren Kennungen).
- * Ein Ja auf einer anderen Plattform, eine Erstausgabe oder Sprecher heben das nicht auf: Sie belegen Prime nicht.
+ * `jeTitel` (12.10.2026): `nurKanal` sind die Titel aus `kanalTitelNurKanal()`, deren Prime-Belege alle Kanal-Belege sind. Dort gilt D-25 je Titel, nicht
+ * je Adresse — jeder Prime-Verweis mit Häkchen wird gemeldet, auch auf einer Adresse ohne Beleg (Amazon führt denselben Titel unter mehreren Kennungen).
+ * Nur `primeBelegt` hebt das auf (Termin bei Prime, gemeldete Folgen ohne Kanal-Seite). aniSearch „deutsch“, ein Ja auf einer anderen Plattform, eine
+ * Erstausgabe oder Sprecher belegen Prime nicht (gemessen: aniSearch führt alle 121 Titel mit Prime-Häkchen als deutsch).
  */
 export function kanalTitelOhneBeleg(
   titles: Iterable<Title>,
   kanal: ReadonlySet<string>,
   anderweitig: (t: Title) => boolean,
-  nurKanal: ReadonlySet<number> = new Set(),
+  jeTitel?: { nurKanal: ReadonlySet<number>; primeBelegt: (t: Title) => boolean },
 ): string[] {
   const fehler: string[] = []
   for (const t of titles) {
-    const jeTitel = nurKanal.has(t.id)
-    const verweise = (t.streams ?? []).filter((s) => s.platform === 'primevideo' && s.dub === true && (jeTitel || kanal.has(kanalSchluessel(t.id, s.url))))
-    if (!verweise.length || (jeTitel ? anderweitig(t) : hatAndereQuelle(t, kanal, anderweitig))) continue
+    const nurKanal = Boolean(jeTitel?.nurKanal.has(t.id))
+    const verweise = (t.streams ?? []).filter((s) => s.platform === 'primevideo' && s.dub === true && (nurKanal || kanal.has(kanalSchluessel(t.id, s.url))))
+    if (!verweise.length || (nurKanal ? jeTitel!.primeBelegt(t) : hatAndereQuelle(t, kanal, anderweitig))) continue
     for (const s of verweise) {
       fehler.push(`Titel ${t.id} (${t.titleRomaji}): Prime-Verweis ${s.url} trägt „✓ Deutsch“, aber der Beleg ist ein Kanal-Titel (Amazons Sprachangabe, keine zweite Quelle)`)
     }

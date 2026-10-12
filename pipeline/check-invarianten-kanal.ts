@@ -96,14 +96,16 @@ export function kanalJeTitelProben(pruefe: Pruefe): void {
   const stream = (s: StreamLink) => [{ id: 185262, titleRomaji: 'Hell Mode', streams: [s] } as unknown as Title]
   const fremd = 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA'
   const keine = () => false
+  const ohneBelegDurch = (primeBelegt: (t: Title) => boolean) => ({ nurKanal: new Set([185262]), primeBelegt })
   const sperre = (s: StreamLink, menge: Set<number>) => kanalGesperrt({ id: 185262 } as Title, s, kanal, menge)
   pruefe('Stufe 4: fremde Prime-Adresse eines Kanal-Titels bekommt kein Ja aus dem Urteil', sperre(prime(fremd), new Set([185262])))
   pruefe('Stufe 4: ohne Kanal-Titel bleibt die fremde Adresse offen', !sperre(prime(fremd), new Set()))
   pruefe('Stufe 4: die Kanal-Adresse bleibt auch bei Beleg an anderer Adresse gesperrt', sperre(prime(beleg.url!), new Set()))
   pruefe('Stufe 4: andere Plattform bleibt unberührt', !sperre({ platform: 'netflix', url: 'x' } as StreamLink, new Set([185262])))
-  pruefe('D-25 je Titel: Ja auf fremder Prime-Adresse wird gemeldet', kanalTitelOhneBeleg(stream(prime(fremd)), kanal, keine, new Set([185262])).length === 1)
+  pruefe('D-25 je Titel: Ja auf fremder Prime-Adresse wird gemeldet', kanalTitelOhneBeleg(stream(prime(fremd)), kanal, keine, ohneBelegDurch(keine)).length === 1)
   pruefe('D-25 je Titel: ohne Kanal-Titel geht die fremde Adresse durch', kanalTitelOhneBeleg(stream(prime(fremd)), kanal, keine).length === 0)
-  pruefe('D-25 je Titel: Termin oder aniSearch heben es auf', kanalTitelOhneBeleg(stream(prime(fremd)), kanal, () => true, new Set([185262])).length === 0)
+  pruefe('D-25 je Titel: Termin oder freie Meldung heben es auf', kanalTitelOhneBeleg(stream(prime(fremd)), kanal, keine, ohneBelegDurch(() => true)).length === 0)
+  pruefe('D-25 je Titel: aniSearch allein hebt es nicht auf', kanalTitelOhneBeleg(stream(prime(fremd)), kanal, () => true, ohneBelegDurch(keine)).length === 1)
   const mitCr = [{ id: 185262, titleRomaji: 'Hell Mode', streams: [prime(fremd), { platform: 'crunchyroll', url: 'y', dub: true }] } as unknown as Title]
-  pruefe('D-25 je Titel: ein Ja bei Crunchyroll trägt das Prime-Häkchen nicht', kanalTitelOhneBeleg(mitCr, kanal, keine, new Set([185262])).length === 1)
+  pruefe('D-25 je Titel: ein Ja bei Crunchyroll trägt das Prime-Häkchen nicht', kanalTitelOhneBeleg(mitCr, kanal, keine, ohneBelegDurch(keine)).length === 1)
 }

@@ -3728,5 +3728,7 @@ Schritt 6 der AniList-Ablösung, **nur Messung, nicht umgeschaltet**. `pipeline/
 zweiten Kennung führte (aniSearch-Adresse, andere ASIN). Jetzt setzt Stufe 4 (`kanalGesperrt()` in `bau/urteil-schliesst-luecken.ts`) auf **keiner**
 Prime-Adresse eines Titels ein Ja, dessen Prime-Belege alle Kanal-Belege sind (`kanalTitelNurKanal()` in `lib/kanal-titel.ts`: mindestens ein
 Kanal-Beleg, kein Prime-Beleg mit eigenem Ja — Handbeleg ohne Kanal-Warnung, `zweiteQuelle`, Termin). Andere Plattformen bleiben, ein Nein wird
-nicht gesetzt (der Weg zeigt „🇩🇪 ?“). D-25 prüft für solche Titel jede Prime-Adresse; ein Ja bei Crunchyroll, Erstausgabe oder Sprecher hebt das
-Prime-Häkchen nicht auf. Liste der gefallenen Ja: `daniel-zum-abarbeiten/berichte/kanal-ja-je-titel-liste.md`.
+nicht gesetzt (der Weg zeigt „🇩🇪 ?“). D-25 prüft für solche Titel jede Prime-Adresse; ein Ja bei Crunchyroll, aniSearch „deutsch“ (gemessen: alle 121 Titel
+mit Prime-Häkchen führt aniSearch als deutsch), Erstausgabe oder Sprecher hebt das Prime-Häkchen nicht auf; nur ein Termin bei Prime oder eine
+gemeldete Folgenliste von einer Seite ohne Kanal-Warnung tut es (17 Titel behalten so ihr Ja, Stand Bau-Vergleich 12.10.2026: der Weg über
+`prime-zugeordnet.json`, `rohDeutsch()` in `09-3-prime.ts`, gilt je Seite und wurde nicht angefasst). Liste der gefallenen Ja: `daniel-zum-abarbeiten/berichte/kanal-ja-je-titel-liste.md`.
