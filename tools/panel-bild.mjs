@@ -24,6 +24,7 @@ import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { distPruefen } from './dist-frisch.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -74,11 +75,7 @@ async function pruefeNichtVorgescrollt(panel, id) {
 }
 
 async function main() {
-  if (!existsSync(path.join(DIST, 'index.html'))) {
-    console.error('dist/ fehlt — erst `npm run build`.')
-    process.exitCode = 1
-    return
-  }
+  if (!distPruefen(WURZEL)) return
   const ids = process.argv.slice(2).length ? process.argv.slice(2) : STANDARD
 
   const browser = await chromium.launch()

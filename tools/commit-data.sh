@@ -165,7 +165,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       # `BAU_LAUF`-Behandlung darunter erreichte (21.09.2026, Lauf
       # 35566086288, ausgelöst von `check:handbelege`). `|| true` fängt außerdem
       # den Fall ab, in dem keines der drei Zeichen vorkommt.
-      grund="$(grep -m 3 -E '✖|✗|⚠' /tmp/bestand-pruefung.txt | tr -d '\"' | tr -s '[:space:]' ' ')" || true
+      grund="$(grep -m 3 -E '✖|✗|⚠|FEHLER:' /tmp/bestand-pruefung.txt | tr -d '\"' | tr -s '[:space:]' ' ')" || true
       echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
       if [ "${BAU_LAUF:-0}" = 1 ]; then
         git checkout -- data/dub-confirmed.yaml 2>/dev/null || true
