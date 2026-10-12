@@ -88,7 +88,11 @@ export function kanalOhneAussage(
   )
 }
 
-/** Adresskerne, auf denen ein Kanal-Ja steht, das der Lader weggelassen hat: Eine neue Messung dort wird geschrieben, auch ein Nein. */
+/**
+ * Adresskerne, auf denen ein Kanal-Ja steht, das der Lader weggelassen hat: Eine neue Messung dort wird geschrieben, auch ein Nein.
+ * Eine jüngere Nein-Messung hat das Ja abgelöst (`verschmelze()` behält `kanalOhneBeleg` des älteren Eintrags): Die Adresse zählt dann
+ * nicht mehr, sonst schriebe jede weitere Nein-Meldung einen neuen Block ohne neue Aussage (12.10.2026).
+ */
 export function kanalJaAdressKerne(checks: DubCheck[]): Set<string> {
-  return new Set(checks.filter((c) => c.kanalOhneBeleg && c.url).map((c) => adressKern(c.url)))
+  return new Set(checks.filter((c) => c.kanalOhneBeleg && c.url && c.kanalMessung !== 'nein').map((c) => adressKern(c.url)))
 }
