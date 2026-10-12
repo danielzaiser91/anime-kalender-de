@@ -1,34 +1,47 @@
 /**
- * Hinweise von `bau-vergleich.mjs` zu den Handdateien unter `data/` (ohne `data/cache/`, das liegt
- * nicht im Repo): Was der Kandidat dort selbst ändert, und was ihm gegenüber der Basis fehlt, weil
- * sein Zweig hinter ihr liegt.
+ * Handdateien unter `data/` (ohne `data/cache/`, das liegt nicht im Repo) für `bau-vergleich.mjs`:
+ * Der Kandidat baut auf dem Stand der Basis plus seinen eigenen Änderungen seit der Merge-Basis.
+ * Das ganze `data/` des Kandidaten zu nehmen, hieße bei einem Kandidaten hinter der Basis, die
+ * Sammler-Rohdaten von `main` als Unterschied zu melden.
  */
 
-/** Dateien unter `data/`, die `git diff <bereich>` nennt (`von...bis` = nur Änderungen von `bis`). */
-function geaendert(git, ...bereich) {
-  return git('diff', '--name-only', ...bereich, '--', 'data').split('\n').filter(Boolean)
+/** Änderungen des Kandidaten seit der Merge-Basis unter `data/`: `[{ status: 'A'|'M'|'D', pfad }]`. */
+function eigeneAenderungen(git, basis, kandidat) {
+  return git('-c', 'core.quotepath=off', 'diff', '--name-status', '--no-renames', `${basis}...${kandidat}`, '--', 'data')
+    .split('\n')
+    .filter(Boolean)
+    .map((zeile) => {
+      const [status, pfad] = zeile.split('\t')
+      return { status, pfad }
+    })
+}
+
+/** Ruft `lauf` mit den Pfaden in Blöcken auf (Befehlszeilenlänge unter Windows). */
+function inBloecken(pfade, lauf) {
+  for (let i = 0; i < pfade.length; i += 200) lauf(pfade.slice(i, i + 200))
+}
+
+/**
+ * Bringt den Baum von `sha` auf `public/data` und `data/` der Basis und übernimmt davon abweichend nur die
+ * eigenen Änderungen des Kandidaten (neu/geändert aus `sha`, gelöschte entfernt). Gibt die Änderungen zurück.
+ */
+export function setzeDatenstand(git, imBaum, basisSha, sha) {
+  imBaum('rm', '-rfq', '--ignore-unmatch', 'data')
+  imBaum('checkout', basisSha, '--', 'public/data', 'data')
+  const eigene = sha === basisSha ? [] : eigeneAenderungen(git, basisSha, sha)
+  const geloescht = eigene.filter((e) => e.status === 'D').map((e) => e.pfad)
+  const uebernommen = eigene.filter((e) => e.status !== 'D').map((e) => e.pfad)
+  inBloecken(uebernommen, (p) => imBaum('checkout', sha, '--', ...p))
+  inBloecken(geloescht, (p) => imBaum('rm', '-fq', '--ignore-unmatch', '--', ...p))
+  return eigene
 }
 
 /** Kürzt eine Dateiliste für die Ausgabe. */
 const nenne = (dateien) => dateien.slice(0, 5).join(', ') + (dateien.length > 5 ? `, … (+${dateien.length - 5})` : '')
 
-/**
- * Warnung, die immer gilt: Liegt der Kandidat hinter der Basis, baut er mit älteren Handdateien
- * als die Basis, und der Vergleich zeigt dann Änderungen von `main` als Unterschied.
- */
-export function zurueckliegtHinweis(git, basis, kandidat) {
-  const eigene = new Set(geaendert(git, `${basis}...${kandidat}`))
-  const fremde = geaendert(git, basis, kandidat).filter((d) => !eigene.has(d))
-  if (!fremde.length) return []
-  return [`Hinweis: Der Kandidat liegt hinter der Basis — ${fremde.length} Dateien unter data/ stammen von der Basis, nicht vom Kandidaten (${nenne(fremde)}). Rebasen oder die Basis auf den gemeinsamen Vorfahren setzen.`]
-}
-
 /** Hinweis für die Ausgabe „gleich“: Der Kandidat ändert Handdateien, ohne dass der Bau etwas anderes schreibt. */
-export function gleichTrotzDatenHinweis(git, basis, kandidat, eigeneDaten) {
-  const eigene = geaendert(git, `${basis}...${kandidat}`)
+export function gleichTrotzDatenHinweis(git, basis, kandidat) {
+  const eigene = eigeneAenderungen(git, basis, kandidat).map((e) => e.pfad)
   if (!eigene.length) return []
-  const wirkung = eigeneDaten
-    ? 'der Kandidat hat sie mitgebaut, der Bau schreibt trotzdem dasselbe'
-    : 'sie wurden NICHT mitgebaut (--basisdaten), das „gleich“ sagt nichts über sie'
-  return [`Hinweis: data/ unterscheidet sich zwischen Basis und Kandidat in ${eigene.length} Dateien (${nenne(eigene)}); ${wirkung}.`]
+  return [`Hinweis: Der Kandidat ändert ${eigene.length} Dateien unter data/ (${nenne(eigene)}); mitgebaut, der Bau schreibt trotzdem dasselbe.`]
 }

@@ -5,18 +5,19 @@
  *
  * Gebaut wird je Commit in einem eigenen Git-Worktree — das Arbeitsverzeichnis bleibt
  * unangetastet, man kann währenddessen weiterarbeiten. Das Ergebnis eines Commits wird unter
- * `$TMPDIR/bau-vergleich/` aufgehoben; die Basis baut deshalb nur beim ersten Mal (≈ 5 min).
+ * `$TMPDIR/bau-vergleich/` aufgehoben; die Basis baut deshalb nur beim ersten Mal (≈ 5 min). Läuft
+ * schon ein Vergleich, wartet der Aufruf bis zu 10 min auf dessen Sperre, bevor er mit Exit 3 aufgibt.
  *
  * `data/cache/` liegt nicht im Repo. Statt des echten Caches wird ein Ersatz aus
  * `public/data/titles.json` und `franchises.json` des Basis-Commits nachgebildet. Der ist nicht
  * echt, aber für beide Seiten derselbe — und mehr braucht ein Gleichheitsbeweis nicht. Beide
- * Seiten starten von `public/data/` der Basis; `data/` (Handdateien, ohne `data/cache/`) bringt
- * jede Seite selbst mit, so dass Änderungen des Kandidaten an `data/*.yaml`, `*.json` mitgebaut
- * und verglichen werden (seit 12.10.2026; vorher bauten beide mit `data/` der Basis, und ein PR
- * auf Handdateien meldete „gleich“). Grund für die Option `--basisdaten` (altes Verhalten): Liegt
- * der Kandidat hinter der Basis, zeigt der Vergleich sonst Änderungen von `main` als Unterschied;
- * die Ausgabe warnt davor. Meldet der Vergleich „gleich“, obwohl `data/` sich unterscheidet, steht
- * ein Hinweis dabei.
+ * Seiten starten von `public/data/` und `data/` der Basis; der Kandidat bekommt zusätzlich seine
+ * eigenen Änderungen an `data/` seit der Merge-Basis (`git diff basis...kandidat`, `data/cache/`
+ * ausgenommen), so dass ein PR auf Handdateien (`data/*.yaml`, `*.json`) mitgebaut und verglichen
+ * wird (seit 12.10.2026; vorher bauten beide mit `data/` der Basis und meldeten „gleich“). Nur die
+ * eigenen Änderungen, nicht das ganze `data/` des Kandidaten: Hinter der Basis liegend, brächte er
+ * sonst die Sammler-Rohdaten von `main` als Unterschied mit. Meldet der Vergleich „gleich“, obwohl
+ * der Kandidat `data/` ändert, steht ein Hinweis dabei.
  *
  * Der Bau läuft mit `BAU_VERGLEICH=1`: Widersprüche im Ergebnis (`pipeline/lib/bau-widerspruch.ts`)
  * brechen ihn dann nicht ab, sondern stehen als Warnung im Protokoll, das mitverglichen wird. Der
@@ -25,7 +26,7 @@
  * nennt die Ausgabe die betroffenen Felder (`vergleich-unterschied.mjs`), z. B. `streams[].dubQuelle`.
  *
  * Aufruf:
- *   node tools/bau-vergleich.mjs [--basisdaten] [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
+ *   node tools/bau-vergleich.mjs [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
  * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre;
  * wartet vorher bis zu 10 min auf den laufenden Vergleich).
  */
@@ -33,7 +34,7 @@ import { execFileSync, spawnSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
-import { gleichTrotzDatenHinweis, zurueckliegtHinweis } from './bau-vergleich-daten.mjs'
+import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
 import { wartAufSperre } from './einzel-sperre.mjs'
 import { beschreibeUnterschied } from './vergleich-unterschied.mjs'
 
@@ -107,12 +108,11 @@ function entferneBaum(baum) {
 }
 
 /**
- * Baut den Code von `sha` auf `public/data` von `basisSha`; liefert das Verzeichnis mit allem Geschriebenen.
- * `data/` bringt `sha` selbst mit, außer mit `basisDaten` (dann das der Basis). Für die Basis selbst ist beides gleich.
+ * Baut den Code von `sha` auf dem Bestand von `basisSha` (`public/data`, `data/`) plus den eigenen Änderungen von
+ * `sha` an `data/`; liefert das Verzeichnis mit allem Geschriebenen.
  */
-function baue(sha, basisSha, basisDaten) {
-  const eigeneDaten = !basisDaten && sha !== basisSha
-  const ziel = join(ABLAGE, `${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}${eigeneDaten ? '-daten' : ''}`)
+function baue(sha, basisSha) {
+  const ziel = join(ABLAGE, `${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}${sha === basisSha ? '' : '-delta'}`)
   if (existsSync(join(ziel, '_protokoll.txt'))) return ziel
   const baum = join(ABLAGE, `baum-${sha.slice(0, 12)}`)
   entferneBaum(baum)
@@ -121,7 +121,7 @@ function baue(sha, basisSha, basisDaten) {
   try {
     // `junction`: unter Windows ohne Administratorrechte möglich, anderswo ignoriert.
     symlinkSync(join(WURZEL, 'node_modules'), join(baum, 'node_modules'), 'junction')
-    imBaum('checkout', basisSha, '--', 'public/data', ...(eigeneDaten ? [] : ['data']))
+    setzeDatenstand(git, imBaum, basisSha, sha)
     imBaum('commit', '-q', '--allow-empty', '-m', 'Bestand der Basis', '--no-verify')
     ersatzCache(join(baum, 'data/cache'), basisSha)
     console.log(`baue ${sha.slice(0, 12)} …`)
@@ -161,18 +161,15 @@ function meldeWiderspruchWarnungen(seite, ordner) {
 }
 
 await wartAufSperre('bau-vergleich', 10 * 60_000)
-const argumente = process.argv.slice(2)
-const basisDaten = argumente.includes('--basisdaten')
-const [basisName, kandidatName] = argumente.filter((x) => !x.startsWith('--'))
+const [basisName, kandidatName] = process.argv.slice(2)
 const basis = git('rev-parse', basisName ?? 'origin/main')
 const kandidat = git('rev-parse', kandidatName ?? 'HEAD')
-const a = baue(basis, basis, basisDaten)
+const a = baue(basis, basis)
 if (!readFileSync(join(a, '_protokoll.txt'), 'utf8').startsWith('exit 0')) {
   console.error(`Der Bau der Basis ${basis.slice(0, 12)} scheitert selbst — siehe ${a}/_protokoll.txt`)
   process.exit(2)
 }
-const b = baue(kandidat, basis, basisDaten)
-if (!basisDaten) for (const zeile of zurueckliegtHinweis(git, basis, kandidat)) console.log(zeile)
+const b = baue(kandidat, basis)
 meldeWiderspruchWarnungen('Basis', a)
 meldeWiderspruchWarnungen('Kandidat', b)
 /** Alle Dateien unter `ordner`, relativ und mit `/` — ohne `diff`, das es unter Windows nicht gibt. */
@@ -189,7 +186,7 @@ const verschieden = liste.filter((f) => {
 })
 if (!verschieden.length) {
   console.log(`gleich: ${kandidat.slice(0, 12)} schreibt dasselbe wie ${basis.slice(0, 12)}`)
-  for (const zeile of gleichTrotzDatenHinweis(git, basis, kandidat, !basisDaten)) console.log(zeile)
+  for (const zeile of gleichTrotzDatenHinweis(git, basis, kandidat)) console.log(zeile)
   process.exit(0)
 }
 for (const f of verschieden) {
