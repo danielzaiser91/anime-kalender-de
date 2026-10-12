@@ -144,6 +144,20 @@ function zaehlendeKanten(titel: ReinTitel[], kanten: Kante[], namen: Namen): Kan
     .sort((p, q) => rangDerArt(p.art) - rangDerArt(q.art) || p.a - q.a || p.b - q.b || p.art.localeCompare(q.art))
 }
 
+/** Verbindet die Kanten in der gegebenen Reihenfolge; gesperrte (Brücken) kommen zurück, Handtrennungen bleiben unbemerkt. */
+function verbindeKanten(b: Bildner, hand: ReinHand, kanten: Kante[], jeKennung: Map<number, number[]>): Sperre[] {
+  const sperren: Sperre[] = []
+  for (const k of kanten) {
+    for (const [x, y] of paare(k, jeKennung)) {
+      if (b.find(x) === b.find(y)) continue
+      const grund = sperrgrund(b, hand, x, y, rangDerArt(k.art))
+      if (!grund) b.vereine(x, y)
+      else if (grund !== 'getrennt') sperren.push({ x, y, art: k.art })
+    }
+  }
+  return sperren
+}
+
 /**
  * `titel`: alle Titel, die in Reihen gehören; `kanten`/`namen`: aniSearch-Beziehungen aus dem Archiv; `hand`: `reihen-von-hand.yaml`;
  * `fest`: Titel, deren Reihe schon ausgeliefert ist (Hauptbestand beim Katalog; Kennung = ihre Reihe) — zwei feste Reihen verschmelzen nie.
@@ -164,15 +178,7 @@ export function reineReihen(titel: ReinTitel[], kanten: Kante[], namen: Namen, h
   }
   for (const g of hand.verbinden) g.filter((id) => vorhanden.has(id)).forEach((id, _i, l) => b.vereine(l[0]!, id))
   for (const l of jeKennung.values()) l.slice(1).forEach((id) => b.vereine(l[0]!, id))
-  const sperren: Sperre[] = []
-  for (const k of zaehlendeKanten(titel, kanten, namen)) {
-    for (const [x, y] of paare(k, jeKennung)) {
-      if (b.find(x) === b.find(y)) continue
-      const grund = sperrgrund(b, hand, x, y, rangDerArt(k.art))
-      if (!grund) b.vereine(x, y)
-      else if (grund !== 'getrennt') sperren.push({ x, y, art: k.art })
-    }
-  }
+  const sperren = verbindeKanten(b, hand, zaehlendeKanten(titel, kanten, namen), jeKennung)
   const reihe = new Map(ids.map((id): [number, number] => [id, b.feste.get(b.find(id)) ?? b.find(id)]))
   const pruefliste = [...sperrenZuZeilen(sperren, b, name), ...universumZeilen(kanten, jeKennung, b, name)]
   const jeReihe = new Map<number, number>()
