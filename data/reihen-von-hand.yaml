@@ -100,6 +100,7 @@
 # Riding Bean/Gunsmith Cats, Megalo Box/Ashita no Joe, Grendizer/Mazinger Z, Nisekoimonogatari …) und Fälle ohne Beleg; sie stehen im PR.
 # `reinIds:` verbindet wie `ids:`, gilt aber nur im reinen Weg: `03-reihen.ts` liest den Schlüssel nicht, denn dort stehen die Teile schon in einer Reihe
 # (geprüft gegen public/data: alle ids eines Eintrags tragen dieselbe franchiseId). So bleibt die Ausgabe des Standardwegs unverändert.
+# `pipeline/check-reinids-grund.ts` (check:logic) rechnet nach: wo der Grund „AniList-Beziehung" sagt, liegen alle Teile in einer `rel`-Komponente des Katalogs; Teile ohne Eintrag oder ohne Beziehung stehen unter „(außer …)".
 
 # --- aniSearch kennt keine Beziehung (Klasse A) ---
 - reinIds: [1685, 175473, 9282, 176634]
@@ -113,7 +114,7 @@
 - reinIds: [5098, 7779]
   grund: 'Andersen Monogatari: Andersen Monogatari – aniSearch: keine Beziehung; AniList-Beziehung im Katalog'
 - reinIds: [3205, 5167]
-  grund: 'Cream Lemon: Lemon Angel: Cream Lemon: New Generation – aniSearch: keine Beziehung; gleicher Namensanfang'
+  grund: 'Cream Lemon: Lemon Angel: Cream Lemon: New Generation – aniSearch: nur indirekt, Lemon Angel führt „Anderes“ zur Seite „Cream Lemon“ (Vorgänger von New Generation); gleicher Namensanfang'
 - reinIds: [6855, 102159]
   grund: 'Danao Tiangong: Xi You Ji: Dasheng Guilai – aniSearch: keine Beziehung; AniList-Beziehung im Katalog'
 - reinIds: [20789, 154174, 154197]
@@ -143,7 +144,7 @@
 - reinIds: [20705, 100644]
   grund: 'sin: Nanatsu no Taizai: Nanatsu no Bitoku – aniSearch: ?; AniList-Beziehung im Katalog'
 - reinIds: [101571, 10020211]
-  grund: 'Aggressive Retsuko: Aggressive Retsuko – aniSearch: ?; AniList-Beziehung im Katalog'
+  grund: 'Aggressive Retsuko: Aggressive Retsuko – aniSearch: ?; AniList-Beziehung im Katalog (außer Hot Minute: Aggretsuko: kein AniList-Eintrag)'
 - reinIds: [102663, 112023]
   grund: 'Luo Xiaohei Zhan Ji: Luo Xiaohei Zhan Ji (Movie) – aniSearch: ?; AniList-Beziehung im Katalog'
 - reinIds: [113813, 154385]
@@ -155,9 +156,9 @@
 - reinIds: [97616, 156092]
   grund: 'Tu Bian Yingxiong BABA: Tu Bian Yingxiong X – aniSearch: ?; AniList-Beziehung im Katalog'
 - reinIds: [161645, 10022024]
-  grund: 'Kusuriya no Hitorigoto: Maomao no Hitorigoto – aniSearch: ?; AniList-Beziehung im Katalog'
+  grund: 'Kusuriya no Hitorigoto: Maomao no Hitorigoto – aniSearch: ?; AniList-Beziehung im Katalog (außer Maomao no Hitorigoto Dai 3 Ki: kein AniList-Eintrag)'
 - reinIds: [3008, 21755, 3915, 4154, 4578, 5344, 5475, 6889, 8011, 8553, 187215]
-  grund: 'Time Bokan Series: Yatterman: Time Bokan 24, Time Bokan – aniSearch: ?, Charakter, Gemeinsames Universum; AniList-Beziehung im Katalog'
+  grund: 'Time Bokan Series: Yatterman: Time Bokan 24, Time Bokan – aniSearch: ?, Charakter, Gemeinsames Universum; AniList-Beziehung im Katalog (außer Time Bokan Oudou Fukko: ohne Beziehung im Katalog, dort gleicher Namensanfang)'
 
 # --- aniSearch führt nur Sammelart (Klasse C) ---
 - reinIds: [20, 155348]
@@ -177,7 +178,7 @@
 - reinIds: [269, 100719]
   grund: 'BLEACH: BLEACH Colorful!: Gotei Juusan Yat… – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [97888, 287, 551, 10015206, 216117]
-  grund: 'Baki: Grappler Baki (TV), Baki Gaiden: Retsu Kaiou wa Isekai… – aniSearch: Anderes, Crossover; AniList-Beziehung im Katalog'
+  grund: 'Baki: Grappler Baki (TV), Baki Gaiden: Retsu Kaiou wa Isekai… – aniSearch: Anderes (Baki ↔ Grappler Baki: Saidai Tournament-hen), Baki Gaiden ohne Beziehung; AniList-Beziehung im Katalog (außer Grappler Baki: Saidai Tournament Hen - Kaigou: kein AniList-Eintrag)'
 - reinIds: [481, 6951]
   grund: 'Yu☆Gi☆Oh! Duel Monsters: Yu☆Gi☆Oh!: Chou Yuugou! Toki wo Ko… – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [523, 2488]
@@ -193,9 +194,9 @@
 - reinIds: [1095, 2733]
   grund: 'Kidou Keisatsu Patlabor: The Movie: MiniPato – aniSearch: Anderes; AniList-Beziehung im Katalog'
 - reinIds: [2997, 10018542, 1371, 106571, 158699, 158700]
-  grund: 'Hi no Tori: Houou-hen: Hi no Tori: Eden no Sora, Hi no Tori – aniSearch: Charakter; AniList-Beziehung im Katalog'
+  grund: 'Hi no Tori: Houou-hen: Hi no Tori: Eden no Sora, Hi no Tori – aniSearch: Charakter, Hi no Tori: Eden no Hana ohne Link zur Reihe; AniList-Beziehung im Katalog (außer Hi no Tori: Eden no Hana: kein AniList-Eintrag, dort gleicher Namensanfang)'
 - reinIds: [1575, 109002, 17277]
-  grund: 'Code Geass: Hangyaku no Lelouch: Code Geass: Boukoku no Akito 2 - H…, Code Geass: Soubou no Oz Picture D… – aniSearch: Charakter; AniList-Beziehung im Katalog'
+  grund: 'Code Geass: Hangyaku no Lelouch: Code Geass: Boukoku no Akito 2 - H…, Code Geass: Soubou no Oz Picture D… – aniSearch: Charakter (Soubou no Oz Picture Drama), Boukoku no Akito 2 ohne Beziehung; AniList-Beziehung im Katalog'
 - reinIds: [1816, 2263]
   grund: 'Sonic X: Sonic★the★Hedgehog – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [1887, 17637]
@@ -217,13 +218,13 @@
 - reinIds: [4224, 6127]
   grund: 'Toradora!: Toradora!: SOS! – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [6213, 4654, 8937, 11743, 10010574, 5955, 104463]
-  grund: 'Toaru Kagaku no Railgun: Toaru Majutsu no Index, Toaru Majutsu no Index Specials – aniSearch: Gemeinsames Universum, Anderes, Charakter; AniList-Beziehung im Katalog'
+  grund: 'Toaru Kagaku no Railgun: Toaru Majutsu no Index, Toaru Majutsu no Index Specials – aniSearch: Gemeinsames Universum, Anderes, Charakter; AniList-Beziehung im Katalog (außer Toaru Majutsu no Index 10-shuunen Kinen PV: kein AniList-Eintrag)'
 - reinIds: [9941, 102628]
   grund: 'TIGER & BUNNY: Tiger & Bunny: Too many cooks spoi… – aniSearch: Anderes; AniList-Beziehung im Katalog'
 - reinIds: [10490, 14077]
   grund: 'BLOOD-C: Blood-C: None-None Gekijou – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [11757, 21155, 100183, 167141, 10013612, 10019820, 104437, 156631]
-  grund: 'Sword Art Online: Sword Art Offline II, Sword Art Online Alternative: Gun … – aniSearch: Charakter, Gemeinsames Universum; AniList-Beziehung im Katalog'
+  grund: 'Sword Art Online: Sword Art Offline II, Sword Art Online Alternative: Gun … – aniSearch: Charakter, Gemeinsames Universum, Fatal Bullet -The Third Episode- und Integral Domain ohne Beziehung; AniList-Beziehung im Katalog (außer Sword Art Online Alternative: Gun Gale Online - Refrain, Sword Art Online Alternative: Gun Gale Online - Gala: kein AniList-Eintrag)'
 - reinIds: [11759, 13859]
   grund: 'Accel World: Accel World: Acchel World. – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [14741, 20777, 110292]
@@ -239,7 +240,7 @@
 - reinIds: [20521, 21446]
   grund: 'Hamatora THE ANIMATION: Mini Hama – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [20458, 10010857]
-  grund: 'Mahouka Koukou no Rettousei: Mahouka Koukou no Rettousei: Yoku … – aniSearch: Anderes; AniList-Beziehung im Katalog'
+  grund: 'Mahouka Koukou no Rettousei: Mahouka Koukou no Rettousei: Yoku … – aniSearch: Anderes; AniList-Beziehung im Katalog (außer Mahouka Koukou no Rettousei: Yoku Wakaru Mahouka - Dai 7 Kai: kein AniList-Eintrag)'
 - reinIds: [20553, 21295]
   grund: 'Kantai Collection: KanColle: KanColle Movie – aniSearch: Anderes; AniList-Beziehung im Katalog'
 - reinIds: [20754, 106606]
@@ -247,21 +248,21 @@
 - reinIds: [20755, 97985]
   grund: 'Ansatsu Kyoushitsu: Koro-sensei Q! (ONA) – aniSearch: Anderes; AniList-Beziehung im Katalog'
 - reinIds: [20966, 20359]
-  grund: 'Yamada-kun to 7-nin no Majo: Yamada-kun to 7-nin no Majo (ONA) – aniSearch: Anderes; AniList-Beziehung im Katalog'
+  grund: 'Yamada-kun to 7-nin no Majo: Yamada-kun to 7-nin no Majo (ONA) – aniSearch: kein direkter Link, beide führen „Anderes“ zur Seite „Yamada-kun to 7-nin no Majo: Mou Hitotsu no Suzaku“; AniList-Beziehung im Katalog'
 - reinIds: [20981, 116195]
   grund: 'Bakemono no Ko: GREEN DA KA RA x Bakemono no Ko – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [21355, 21780, 21891]
   grund: 'Re:Zero kara Hajimeru Isekai Seika…: Re:Zero kara Hajimeru Kyuukei Jika…, Re:Petit kara Hajimeru Isekai Seik… – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [21498, 3430]
-  grund: 'BLAME!: Blame! Prologue – aniSearch: Anderes; AniList-Beziehung im Katalog'
+  grund: 'BLAME!: Blame! Prologue – aniSearch: kein direkter Link, beide führen „Anderes“ zur Seite „Blame!“; AniList-Beziehung im Katalog'
 - reinIds: [102062, 102713]
   grund: 'Xiao Men Shen: Xiao Yeyou – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [21688, 10012893]
-  grund: 'Mahoutsukai no Yome: Hoshi Matsu H…: Mahoyome – aniSearch: Anderes; AniList-Beziehung im Katalog'
+  grund: 'Mahoutsukai no Yome: Hoshi Matsu H…: Mahoyome – aniSearch: Anderes; AniList-Beziehung im Katalog (außer Maho Yome: Aisatsu: kein AniList-Eintrag)'
 - reinIds: [21709, 102167]
   grund: 'Yuuri!!! on ICE: Yuri Plisetsky GPF in Barcelona EX… – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [2402, 4298]
-  grund: 'Ashita no Joe: Joe vs. Joe – aniSearch: Anderes, Gemeinsames Universum; AniList-Beziehung im Katalog'
+  grund: 'Ashita no Joe: Joe vs. Joe – aniSearch: Joe vs. Joe hat keine Beziehung zu einem Anime; AniList-Beziehung im Katalog'
 - reinIds: [100749, 145850]
   grund: 'Mirai no Mirai: GREEN DA KA RA × Mirai no Mirai – aniSearch: Anderes; AniList-Beziehung im Katalog'
 - reinIds: [104252, 124138]
@@ -271,13 +272,13 @@
 - reinIds: [107961, 121043]
   grund: 'Kawaikereba Hentai demo Suki ni Na…: Hensuki▽ – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [9204, 111015, 21097]
-  grund: 'Omae Umasou da na: Annyeong, Tyrano: Yeong-wonhi, Ham…, Anata wo Zutto Aishiteru – aniSearch: Anderes; AniList-Beziehung im Katalog'
+  grund: 'Omae Umasou da na: Annyeong, Tyrano: Yeong-wonhi, Ham…, Anata wo Zutto Aishiteru – aniSearch: Anderes (Anata wo Zutto Aishiteru), Annyeong, Tyrano ohne Beziehung; AniList-Beziehung im Katalog'
 - reinIds: [125447, 110245]
   grund: 'Thermae Romae Novae: REACH x Thermae Romae: Pietrada no… – aniSearch: Anderes; AniList-Beziehung im Katalog'
 - reinIds: [147885, 162716]
   grund: 'Cool Doji Danshi: Puchi Cool Doji Danshi no Hito Koma – aniSearch: Anderes; AniList-Beziehung im Katalog'
 - reinIds: [1064, 18365]
-  grund: 'Mazinkaiser: Mazinger ZIP! – aniSearch: Charakter, Crossover; AniList-Beziehung im Katalog'
+  grund: 'Mazinkaiser: Mazinger ZIP! – aniSearch: Charakter; AniList-Beziehung im Katalog'
 
 # --- aniSearch führt nur „Gemeinsames Universum“ (Klasse D) ---
 - reinIds: [355, 1066]
@@ -291,7 +292,7 @@
 - reinIds: [1469, 15937]
   grund: 'Monster Farm: Enbanseki no Himitsu: Monster Farm 5: Circus Caravan OVA… – aniSearch: Gemeinsames Universum; AniList-Beziehung im Katalog'
 - reinIds: [1572, 2264, 18533]
-  grund: 'Jungle Taitei: Jungle Taitei Movie (1997), Jungle Taitei Leo: Hon-o-ji – aniSearch: Gemeinsames Universum; AniList-Beziehung im Katalog'
+  grund: 'Jungle Taitei: Jungle Taitei Movie (1997), Jungle Taitei Leo: Hon-o-ji – aniSearch: Gemeinsames Universum (Jungle Taitei Movie (1997)), Jungle Taitei Leo: Hon-o-ji ohne Beziehung; AniList-Beziehung im Katalog'
 - reinIds: [5680, 7017, 9203]
   grund: 'K-ON!: K-ON!: Ura-On!, K-ON!!: Ura-On!! – aniSearch: Gemeinsames Universum; AniList-Beziehung im Katalog'
 - reinIds: [20812, 20938]
@@ -309,4 +310,4 @@
 - reinIds: [1520, 1521]
   grund: 'Black Jack (OVA 1993): Black Jack Movie (1996) – aniSearch: keine Beziehung; heute in derselben Reihe (AniList-Beziehung)'
 - reinIds: [1357, 169228]
-  grund: 'Hokuto no Ken (OVA/Filme): Hokuto no Ken (TV 2026) – aniSearch: nur „?“ zur alten Serie, beide Seiten mehrere Titel; heute in derselben Reihe'
+  grund: 'Hokuto no Ken (OVA/Filme): Hokuto no Ken (TV 2026) – aniSearch: nur „?“ zur alten Serie, beide Seiten mehrere Titel; AniList-Beziehung im Katalog: Shin Hokuto no Ken (1357) hängt nur an Hokuto no Ken 2 (1356), dieses an Hokuto no Ken (967), an dem auch die Serie 2026 (169228) hängt'
