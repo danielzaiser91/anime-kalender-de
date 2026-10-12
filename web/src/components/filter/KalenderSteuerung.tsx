@@ -2,7 +2,7 @@ import type { ViewId } from '../../lib/router.ts'
 import { addDays, addMonths, todayIso } from '@shared/time.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { useHeuteLage } from '../../lib/heute-im-bild.ts'
-import { HEUTE_TEXT } from '../kalender/KalenderKopf.tsx'
+import { GETOENT, HEUTE_PFEIL, HEUTE_TEXT } from '../kalender/KalenderKopf.tsx'
 import { LinksZeichen, RechtsZeichen } from '../kalender/Zeichen.tsx'
 import { Tooltip } from '../ui.tsx'
 
@@ -23,14 +23,15 @@ export function AnsichtKnopf({ view, onWoche, onMonat }: { view: ViewId; onWoche
 }
 
 /**
- * ‹ heute › in einer Pille. Liegt heute außerhalb des Sichtbaren, ist die Mitte orange; die Richtung steht
- * im Tooltip und im `aria-label`. In der Woche scrollt die Mitte zum heutigen Tag, im Monat ist sie dann gesperrt.
+ * ‹ heute › in einer Pille. Liegt heute außerhalb des Sichtbaren, ist die Mitte getönt und zeigt einen Pfeil;
+ * die Richtung steht außerdem im Tooltip und im `aria-label`. In der Woche scrollt die Mitte zum heutigen Tag, im Monat ist sie dann gesperrt.
  */
 export function HeuteChip({ view, date, onDate }: { view: ViewId; date: string; onDate: (d: string) => void }) {
   const { t } = useLang()
   const monat = view === 'monat'
   const lage = useHeuteLage(monat, date)
   const hier = lage === 'hier'
+  const [vor, nach] = HEUTE_PFEIL[lage] ?? ['', '']
   const text = hier && !monat ? t('nav.todayScroll') : t(HEUTE_TEXT[lage])
   const schritt = (dir: number) => onDate(monat ? addMonths(date, dir) : addDays(date, dir * 7))
   const kreis = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-ak-flaeche-2 text-ak-text'
@@ -50,11 +51,13 @@ export function HeuteChip({ view, date, onDate }: { view: ViewId; date: string; 
           aria-label={`${t('nav.today')}: ${text}`}
           aria-current={hier ? 'date' : undefined}
           className={[
-            'h-11 w-14 shrink-0 cursor-pointer rounded-full text-sm font-bold transition disabled:cursor-default disabled:opacity-40',
-            hier ? 'text-ak-text' : 'bg-ak-akzent text-ak-auf-akzent',
+            'flex h-11 w-16 max-[339px]:w-14 max-[339px]:text-[13px] shrink-0 cursor-pointer items-center justify-center gap-0.5 rounded-full border text-sm font-bold transition disabled:cursor-default disabled:opacity-40',
+            hier ? 'border-transparent text-ak-text' : GETOENT,
           ].join(' ')}
         >
+          {vor && <span aria-hidden className="text-base leading-none">{vor}</span>}
           {t('nav.today')}
+          {nach && <span aria-hidden className="text-base leading-none">{nach}</span>}
         </button>
       </Tooltip>
       <button type="button" onClick={() => schritt(1)} aria-label={t('kal.naechster')} className={kreis}>

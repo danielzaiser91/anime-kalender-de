@@ -1,6 +1,7 @@
 import { forwardRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { useLang } from '../../lib/i18n.tsx'
+import { filterFarbe } from '../kalender/KalenderKopf.tsx'
 import { FilterZeichen } from '../kalender/Zeichen.tsx'
 
 /**
@@ -35,7 +36,7 @@ export const FilterRund = forwardRef<HTMLButtonElement, { offen: boolean; anzahl
       aria-label={anzahl ? `${t('filter.button')} (${anzahl})` : t('filter.button')}
       className={[
         'relative flex h-11 shrink-0 cursor-pointer items-center justify-center gap-1.5 rounded-full border pr-3.5 pl-3 text-sm font-bold transition',
-        offen || anzahl ? 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent' : 'border-ak-rand bg-ak-flaeche text-ak-text',
+        filterFarbe(offen, anzahl),
       ].join(' ')}
     >
       <FilterZeichen />
