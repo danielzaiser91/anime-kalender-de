@@ -273,6 +273,78 @@ console.log('Lesezeilen: /lauf wird 30 Sekunden gehalten')
   pruefe(verlauf.lesen > 0 && (await hole('?verlauf=daten')).lesen > 0, 'der Verlauf einer Lauf-Art (Detailseite) bleibt ungehalten')
 }
 
+console.log('Lesezeilen: ?gemeldet= je Adresse und die wartenden Meldungen aus dem Cache (12.10.2026)')
+{
+  const gehalten = new Map<string, Response>()
+  const global = globalThis as { caches?: unknown }
+  global.caches = {
+    default: {
+      match: async (k: Request) => gehalten.get(k.url)?.clone(),
+      put: async (k: Request, r: Response) => void gehalten.set(k.url, r),
+      delete: async (k: Request) => gehalten.delete(k.url),
+    },
+  }
+  const wartend: Promise<unknown>[] = []
+  const ctx = { waitUntil: (p: Promise<unknown>) => void wartend.push(p.catch(() => {})) } as never
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  const A = 'https://www.disneyplus.com/de-de/browse/entity-a'
+  const B = 'https://www.disneyplus.com/de-de/browse/entity-b'
+  const von = (url: string, nr: number) => ({ ...folge(nr), url })
+  await handlePruefung(post({ stapel: [von(A, 1), von(B, 1)] }), env, ctx)
+  const hole = async (adresse: string) => {
+    abfragen.length = 0
+    const r = await handlePruefung(new Request(`https://worker.test/pruefung?${adresse}`), env, ctx)
+    await Promise.all(wartend)
+    return {
+      status: r.status,
+      inhalt: (await r.json()) as { paare?: { nummer: number }[]; anbieter?: unknown[] },
+      lesen: abfragen.filter((a) => /MAX\(gemeldet_am\)|WHERE uebernommen = 0$/.test(a.sql)).length,
+    }
+  }
+  const nummern = (r: { inhalt: { paare?: { nummer: number }[] } }) => (r.inhalt.paare ?? []).map((p) => p.nummer).join(',')
+  const a1 = await hole(`gemeldet=${encodeURIComponent(A)}`)
+  const a2 = await hole(`gemeldet=${A}`)
+  pruefe(a1.lesen === 1 && nummern(a1) === '1', `erster Aufruf liest die Adresse einmal (${a1.lesen}), Folge 1`)
+  pruefe(a2.lesen === 0 && nummern(a2) === '1', 'zweiter Aufruf, anders kodiert, kommt aus dem Cache: 0 Zeilenabfragen')
+  pruefe([...gehalten.values()][0]?.headers.get('Cache-Control') === 'public, max-age=1800', 'die Antwort hält 1800 Sekunden')
+  await hole(`gemeldet=${encodeURIComponent(B)}`)
+  await handlePruefung(post(von(A, 2)), env, ctx)
+  const a3 = await hole(`gemeldet=${encodeURIComponent(A)}`)
+  pruefe(a3.lesen === 1 && nummern(a3) === '1,2', 'nach einer Meldung zu A liest A neu und zeigt die neue Folge (ohne Verzögerung)')
+  pruefe((await hole(`gemeldet=${encodeURIComponent(B)}`)).lesen === 0, '... B bleibt im Cache (verworfen wird nur die Adresse, zu der geschrieben wurde)')
+  await handlePruefung(post({ stapel: [von(B, 2)] }), env, ctx)
+  pruefe((await hole(`gemeldet=${encodeURIComponent(B)}`)).lesen === 1, 'ein Stapel verwirft die Adressen seiner Meldungen')
+  const loeschen = (rumpf: unknown) =>
+    handlePruefung(new Request('https://worker.test/pruefung', { method: 'DELETE', headers: { 'X-Lauf-Token': 't' }, body: JSON.stringify(rumpf) }), env, ctx)
+  await loeschen({ url: A, nummern: [2] })
+  const a4 = await hole(`gemeldet=${encodeURIComponent(A)}`)
+  pruefe(a4.lesen === 1 && nummern(a4) === '1', 'Löschen einer Folge verwirft die Adresse')
+  const id = (db.prepare('SELECT id FROM pruefung WHERE url = ? AND folge_nr = 1').get(A) as { id: number }).id
+  await loeschen({ ids: [id] })
+  const a5 = await hole(`gemeldet=${encodeURIComponent(A)}`)
+  pruefe(a5.lesen === 1 && nummern(a5) === '', 'Löschen über die Zeilen-ID verwirft die Adresse')
+
+  stand.anbieter = []
+  const s1 = await hole('stand=1')
+  const standEintrag = () => [...gehalten.keys()].find((k) => k.includes('stand=1'))!
+  gehalten.delete(standEintrag())
+  const s2 = await hole('stand=1')
+  pruefe(s1.lesen === 1 && s2.lesen === 0, `die wartenden Meldungen kommen auch bei neu gerechnetem Stand aus dem Cache (${s1.lesen}, ${s2.lesen} Abfragen)`)
+  const wartendeEintrag = [...gehalten.keys()].find((k) => k.endsWith('?wartend=1'))
+  pruefe(!!wartendeEintrag, 'sie liegen unter eigener Adresse neben dem Stand')
+  await handlePruefung(post(von(A, 9)), env, ctx)
+  gehalten.delete(standEintrag())
+  pruefe((await hole('stand=1')).lesen === 0, 'eine Meldung verwirft die wartenden nicht (nur Ablauf; Meldungen seit dem Listenbau zieht der Stand frisch ab)')
+  const kaputt = global.caches as { default: { delete: () => Promise<boolean> } }
+  kaputt.default.delete = async () => {
+    throw new Error('Cache kaputt')
+  }
+  const trotzFehler = await handlePruefung(post(von(A, 10)), env, ctx)
+  const gespeichert = zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 10') === 1
+  pruefe(trotzFehler.status === 200 && gespeichert, 'scheitert das Verwerfen, bleibt die Meldung gespeichert und beantwortet')
+}
+
 if (fehler) {
   console.log(`${fehler} Prüfung(en) fehlgeschlagen.`)
   process.exit(1)
