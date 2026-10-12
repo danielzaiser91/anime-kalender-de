@@ -192,6 +192,58 @@ console.log('Unveränderte Meldung und Listenbau (Bleach-Fall, pruefung-stand.ts
   pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 1, 'weiter keine Dublette')
 }
 
+console.log('Übernommene Rohfolgen werden nicht neu geschrieben (12.10.2026)')
+{
+  const SEITE = 'https://www.amazon.de/dp/B0TESTSEITE'
+  const prime = (sprachen: string[][], notiz = 'Durchgang') => ({
+    plattform: 'primevideo',
+    url: SEITE,
+    seiten_kennung: 'B0TESTSEITE',
+    vorhanden: 'ja',
+    ton_de: 'ja',
+    art: 'gemessen',
+    titel: 'Testserie',
+    notiz,
+    rohfolgen: sprachen.map((s, i) => ({ asin: `B0F${i}`, gti: `gti-${i}`, nummer: i + 1, titel: `Folge ${i + 1}`, sprachen: s, vorhanden: 'ja', ton_de: 'ja' })),
+  })
+  const DE = ['de', 'ja']
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  const n = (bedingung = '1') => zahl(db, `SELECT COUNT(*) AS n FROM prime_folge WHERE ${bedingung}`)
+  const abhaken = () => db.exec('UPDATE prime_folge SET uebernommen = 1; UPDATE pruefung SET uebernommen = 1')
+
+  await handlePruefung(post(prime([DE, DE, DE])), env)
+  pruefe(n() === 3 && n('uebernommen = 0') === 3, 'Ausgang: drei offene Rohfolgen')
+  abhaken()
+  /* Andere Notiz: der Hash der Meldung greift nicht, die Rohfolgen bleiben dieselben. */
+  await handlePruefung(post(prime([DE, DE, DE], 'anderer Durchgang')), env)
+  pruefe(n() === 3 && n('uebernommen = 0') === 0, 'übernommen + gleicher Hash: keine neue Zeile (0 Schreibzeilen in prime_folge)')
+
+  await handlePruefung(post(prime([DE, ['ja'], DE], 'zweiter Durchgang')), env)
+  pruefe(n() === 4 && n('uebernommen = 0') === 1 && n("uebernommen = 0 AND nummer = 2") === 1, 'übernommen + anderer Hash: genau die geänderte Folge kommt als neue offene Zeile')
+
+  abhaken()
+  await handlePruefung(post(prime([DE, DE, DE], 'dritter Durchgang')), env)
+  pruefe(n('uebernommen = 0') === 1 && n('uebernommen = 0 AND nummer = 2') === 1, 'Rückkehr zum alten Stand (A, B, A): A kommt wieder als jüngste Zeile an')
+
+  db.exec('UPDATE prime_folge SET uebernommen = 1, hash = NULL')
+  await handlePruefung(post(prime([DE, DE, DE], 'vierter Durchgang')), env)
+  pruefe(n('uebernommen = 0') === 3, 'Altbestand ohne Hash: einmal neu geschrieben')
+  abhaken()
+  await handlePruefung(post(prime([DE, DE, DE], 'fünfter Durchgang')), env)
+  pruefe(n('uebernommen = 0') === 0, '... danach 0 neue Zeilen')
+
+  const netflix = (ton: string, notiz: string) => ({ ...folge(1, ton), plattform: 'netflix', url: 'https://www.netflix.com/title/80000001', notiz })
+  await handlePruefung(post(netflix('ja', 'a')), env)
+  abhaken()
+  const vorher = n("plattform = 'netflix'")
+  await handlePruefung(post(netflix('ja', 'b')), env)
+  pruefe(n("plattform = 'netflix'") === vorher, 'Netflix/Disney+ (je gti): übernommen + gleicher Hash schreibt nichts')
+  await handlePruefung(post(netflix('nein', 'c')), env)
+  pruefe(n("plattform = 'netflix'") === vorher + 1, '... geänderter Ton kommt als neue Zeile')
+
+}
+
 console.log('Lesezeilen: Pläne der Abfragen einer Meldung (EXPLAIN QUERY PLAN, 11.10.2026)')
 const planVon = (db: DatabaseSync, a: { sql: string; werte: unknown[] }) =>
   (db.prepare(`EXPLAIN QUERY PLAN ${a.sql}`).all(...(a.werte as never[])) as { detail: string }[]).map((z) => z.detail).join(' ; ')
@@ -399,7 +451,7 @@ console.log('Rohfolgen: nur Geändertes wird geschrieben (12.10.2026, Migration 
   pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge WHERE nummer = 1') === 1, 'eine Dublette derselben Folge wird entfernt, die Folge bleibt einmal')
   db.exec('UPDATE prime_folge SET uebernommen = 1')
   const nachAbhaken = await sende(prime(10, 'g', 'nein'))
-  pruefe(nachAbhaken.length === 10 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0') === 10, 'abgehakte Zeilen bleiben Geschichte: einmal neue offene Zeilen, danach greift der Hash')
+  pruefe(nachAbhaken.length === 0 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0') === 0, 'abgehakte Zeilen mit gleichem Hash werden nicht neu geschrieben (vorher 10 Einfügungen je Durchgang)')
 }
 {
   const db = neueDatenbank()
@@ -419,13 +471,13 @@ console.log('Rohfolgen: nur Geändertes wird geschrieben (12.10.2026, Migration 
   const vorher = (db.prepare("SELECT id FROM prime_folge WHERE gti = 'n2'").get() as { id: number }).id
   abfragen.length = 0
   await handlePruefung(post(netflix(1, 'nein')), env)
-  const lade = abfragen.find((a) => /^SELECT id, hash FROM prime_folge/.test(a.sql))
+  const lade = abfragen.find((a) => /^SELECT id, hash, .* FROM prime_folge/.test(a.sql))
   pruefe(zahl(db, "SELECT COUNT(*) AS n FROM prime_folge WHERE gti = 'n2' AND id = " + vorher) === 1, 'Netflix: eine Meldung ersetzt nur ihre eigene Kennung, Folge 2 bleibt unberührt')
-  pruefe(!!lade && planVon(db, lade).includes('prime_folge_gti'), `die Ladeabfrage je Kennung nimmt den gti-Index (${lade ? planVon(db, lade) : 'keine Abfrage'})`)
+  pruefe(!!lade && planVon(db, lade).includes('prime_folge_gti') && !/SCAN prime_folge/.test(planVon(db, lade)), `die Ladeabfrage je Kennung (offen und übernommen) nimmt den gti-Index, kein SCAN (${lade ? planVon(db, lade) : 'keine Abfrage'})`)
   abfragen.length = 0
   await handlePruefung(post({ plattform: 'primevideo', url: 'https://www.amazon.de/dp/B0X', vorhanden: 'ja', ton_de: 'ja', art: 'gemessen', seiten_kennung: 's1', rohfolgen: [{ gti: 'a', nummer: 1 }] }), env)
-  const ladeSeite = abfragen.find((a) => /^SELECT id, hash FROM prime_folge/.test(a.sql))
-  pruefe(!!ladeSeite && planVon(db, ladeSeite).includes('prime_folge_seite'), `die Ladeabfrage je Prime-Seite nimmt den Seiten-Index (${ladeSeite ? planVon(db, ladeSeite) : 'keine Abfrage'})`)
+  const ladeSeite = abfragen.find((a) => /^SELECT id, hash, .* FROM prime_folge/.test(a.sql))
+  pruefe(!!ladeSeite && planVon(db, ladeSeite).includes('prime_folge_seite') && !/SCAN prime_folge/.test(planVon(db, ladeSeite)), `die Ladeabfrage je Prime-Seite (offen und übernommen) nimmt den Seiten-Index, kein SCAN (${ladeSeite ? planVon(db, ladeSeite) : 'keine Abfrage'})`)
 }
 
 if (fehler) {
