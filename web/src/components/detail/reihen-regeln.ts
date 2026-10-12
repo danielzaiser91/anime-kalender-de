@@ -19,6 +19,26 @@ export function staffelKurz(n: Pick<StaffelNummer, 'staffel' | 'teil'>): string 
 }
 
 /**
+ * Ein Rest aus Zahl oder Satzzeichen („0", „2.0", „!") sagt allein nichts: Aus „Jujutsu Kaisen 0" wurde in der Liste „0" (12.10.2026).
+ * Klammern bleiben, „(2016)" unterscheidet zwei Fassungen.
+ */
+export function istNichtssagend(rest: string): boolean {
+  return rest !== '' && !/[\p{L}()]/u.test(rest)
+}
+
+/** Der Name eines Teils ohne Reihenname; ist der Rest nichtssagend oder leer, steht der volle Name da. */
+export function kurzName(rest: string, voll: string): string {
+  return rest && !istNichtssagend(rest) ? rest : voll
+}
+
+/** Der Zusatz hinter „Staffel N ·": der Rest, bei nichtssagendem Rest der volle Name — außer der Rest ist nur die Staffelnummer selbst. */
+export function zeilenZusatz(nr: Pick<StaffelNummer, 'staffel' | 'eigenerName'>, rest: string, voll: string): string {
+  if (!nr.eigenerName || !rest) return ''
+  if (!istNichtssagend(rest)) return rest
+  return rest === String(nr.staffel) ? '' : voll
+}
+
+/**
  * Rückt die gewählte Zeile in die Mitte ihrer Liste, falls sie außerhalb liegt — und scrollt nur die Liste.
  * `scrollIntoView` scrollte das ganze Panel, es öffnete vorgescrollt (Handy 393 px, 09.10.2026).
  */
