@@ -40,6 +40,9 @@ export function anbieterUndFolge(event: ReleaseEvent, t: Translate, bis?: number
   return `${anbieter} · ${gesamt ? t('kal.folgeVon', { n: event.episode, von: von! }) : t('kal.folge', { n: event.episode })}`
 }
 
+/** „Folge 15/≈24" ohne den Anbieter davor. */
+export const nurFolge = (event: ReleaseEvent, t: Translate): string => anbieterUndFolge(event, t).slice(PLATFORMS[event.platform].name.length + 3)
+
 /**
  * **Ein nicht eingehaltener Termin bleibt stehen und sagt, was los ist** — dass wir nachgesehen
  * haben, wie viele Folgen der Anbieter zeigt und wann wir wieder nachsehen.

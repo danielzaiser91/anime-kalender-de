@@ -8,6 +8,8 @@ import { teilbarerSlug } from '@shared/teilen.ts'
 import { coverBild, KACHEL_DICHTE } from '../../lib/cover.ts'
 import { FavoriteStar, HideEye, ShareIcon, Tooltip } from '../ui.tsx'
 import { anbieterUndFolge, SpracheMarke, VerpasstMarke, ZeitMarke } from './Marken.tsx'
+import { AnbieterAngaben } from './AnbieterAngaben.tsx'
+import { anbieterVerlauf, zeitGemeinsam, type AnbieterKachel } from '../../lib/anbieter-kachel.ts'
 import { PremiereMarke } from './PremiereMarke.tsx'
 import { FundstellenZeichen, TrefferName } from '../Suchtreffer.tsx'
 
@@ -22,6 +24,8 @@ export interface PosterKarteProps {
   art?: KartenArt
   /** Weitere Folgen desselben Titels am selben Tag (`buendeleTermine`). */
   weitere?: number
+  /** Derselbe Titel bei mehreren Anbietern am selben Tag (`vereineAnbieter`): geteilte Farbleiste, Angaben je Anbieter. */
+  anbieter?: AnbieterKachel
   favorite: boolean
   hidden: boolean
   /** Schon vorbei (heute vor der aktuellen Uhrzeit) — tritt zurück. */
@@ -81,8 +85,14 @@ export function PosterKarte(p: PosterKarteProps) {
         <FundstellenZeichen text={p.event.name} schluessel={p.event.releaseSlug} />
       </span>
       <span className="-mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-ak-leise">
-        <span>{anbieterUndFolge(p.event, t)}</span>
-        {!!p.weitere && <span className="font-semibold text-ak-text">{t('kal.buendelStream', { n: p.weitere })}</span>}
+        {p.anbieter ? (
+          <AnbieterAngaben kachel={p.anbieter} t={t} />
+        ) : (
+          <>
+            <span>{anbieterUndFolge(p.event, t)}</span>
+            {!!p.weitere && <span className="font-semibold text-ak-text">{t('kal.buendelStream', { n: p.weitere })}</span>}
+          </>
+        )}
         {!!p.neu && (
           <span className="rounded bg-ak-akzent/15 px-1 font-semibold text-ak-akzent-text">{t('fav.neuSeit', { n: p.neu })}</span>
         )}
@@ -97,7 +107,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
   const { share, copiedSlug } = useShare()
   const cover = p.title?.coverImage
   const teilbar = teilbarerSlug(p.title)
-  const farbe = PLATFORMS[p.event.platform]?.color ?? '#888'
+  const farbe = anbieterVerlauf((p.anbieter ?? [[p.event]]).map((b) => PLATFORMS[b[0]!.platform]?.color ?? '#888'))
   const bild = coverBild(cover, p.breit ? 320 : 160, p.breit ? '(min-width: 1024px) 320px, 92vw' : '(min-width: 1024px) 160px, 46vw', KACHEL_DICHTE)
   return (
     <div className="relative">
@@ -122,7 +132,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
         </span>
       )}
       <span className="absolute top-2 left-2 flex flex-wrap items-center gap-1.5">
-        <ZeitMarke event={p.event} t={t} />
+        {(!p.anbieter || zeitGemeinsam(p.anbieter)) && <ZeitMarke event={p.event} t={t} />}
         {p.art && <ArtFahne art={p.art} />}
         {p.event.premiere && <PremiereMarke platform={p.event.platform} vorher={p.event.premiereVorher} className="px-2 py-0.5" />}
       </span>
