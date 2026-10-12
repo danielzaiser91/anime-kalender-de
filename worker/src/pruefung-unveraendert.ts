@@ -35,7 +35,7 @@ export type Folge = { url: string; folgeNr: number | null; staffelNr: number | n
 const schluessel = (f: Folge) => JSON.stringify([f.url, f.folgeNr, f.staffelNr, f.seitenKennung])
 
 /** JSON mit sortierten Schlüsseln, damit dieselbe Meldung immer denselben Text ergibt. */
-function normalisiert(wert: unknown): unknown {
+export function normalisiert(wert: unknown): unknown {
   if (Array.isArray(wert)) return wert.map(normalisiert)
   if (wert && typeof wert === 'object') {
     const geordnet: Record<string, unknown> = {}
@@ -45,7 +45,7 @@ function normalisiert(wert: unknown): unknown {
   return wert
 }
 
-export async function meldungsHash(daten: Record<string, unknown>): Promise<string> {
+export async function meldungsHash(daten: unknown): Promise<string> {
   const bytes = new TextEncoder().encode(JSON.stringify(normalisiert(daten)))
   const digest = await crypto.subtle.digest('SHA-256', bytes)
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('')
