@@ -270,3 +270,14 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** #439 hätte nicht gereicht: Es zählt den Nachfolger nur, wenn er im Hauptbestand (`slim`) steht; die acht AniList-Titel (11421, 9978, 5091, 7956, 6262, 10282, 4439, 6771) stehen aber in `ohne-synchro.json`, also hinter dem Toggle. Offen bleibt die inhaltliche Frage aus dem Eintrag vom 07.10.: Titel mit Dub-Kennzeichen `c` standen als eigene aniSearch-Titel im Hauptbestand und liegen nach der Zuordnung dahinter. Kein Riegel meldet das.
 
 **Was läuft komplett falsch?** Nichts im Bau selbst. Die Annahme des Riegels („jede verschwundene Kennung ist ein Verlust") kennt keinen Kennungswechsel. Neu: `anisearchUmgezogen` (`pipeline/bau/anisearch-titel.ts`) rechnet eine Kennung als umgezogen, wenn ihr AniList-Nachfolger im Hauptbestand, in `verschoben` oder im AniList-Katalog ankommt; #411, #412, #439 sind damit überholt. Nicht lokal gemessen (kein Cache).
+
+
+## 12.10.2026 — Bestand-Bau rot (Lauf 38220943321), kein Wache-Befund
+
+**Was läuft korrekt.** Die Zusicherung „Titel nur bei aniSearch tragen keinen erratenen Weg“ (`pipeline/check-crunchyroll-zuordnung.ts:1050`) hat gegriffen und den Bestand nicht übernommen; `public/data` auf `main` blieb unverändert. Der Lauf lief mit identischen Quellen zweimal (08:04, 08:05) und scheiterte beide Male gleich.
+
+**Wo ist Verbesserungspotenzial?** Dieselbe Ursache hat seit 05:45 vier Issues (#890, #893, #898, #900) und mehrere PRs (#891, #894, #899, #901, #906) erzeugt; nur #906 trifft laut seiner Messung die Ursache. Ein Lauf, der ein offenes Issue mit gleichem Wortlaut findet, sollte dort kommentieren statt ein neues anzulegen.
+
+**Wo sind echte Risiken und Lücken?** Lokal ist kein Bau möglich (`data/cache/` fehlt); ich konnte die Ursache nicht selbst nachmessen. Die Angabe in #900/#906 (TMDB-Hauptserie am Special über `13-3-listen`) habe ich nicht gegengeprüft. Solange #906 offen ist, bleibt jeder Bau rot und `public/data` steht auf dem Stand vor 05:45.
+
+**Was läuft komplett falsch?** Nichts im Prüfer. Die Bruchstelle ist `pipeline/bau/13-3-listen.ts` (Block „Titel ganz ohne Weg bekommen einen“), der aniSearch-Titeln (Kennung ≥ 10.000.000) den Weg der TMDB-Hauptserie ohne `herkunft` anhängt – so #906.
