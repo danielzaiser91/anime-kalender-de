@@ -7,14 +7,14 @@
  * dorthin zu. Eine zweite Quelle steht als `zweiteQuelle` im Handbeleg. Gegenprobe: `pipeline/check-invarianten.ts`.
  */
 import type { Title } from '../../shared/types.ts'
-import { adressKern } from './dub-confirmed.ts'
+import { kanalSchluessel } from './kanal-titel.ts'
 
-/** `kanal`: die Adresskerne aus `kanalAdressenOhneBeleg()`. Meldet jeden Prime-Verweis mit `dub: true` auf einer davon. */
+/** `kanal`: die Schlüssel aus `kanalAdressenOhneBeleg()`. Meldet jeden Prime-Verweis mit `dub: true` auf einer davon. */
 export function kanalTitelOhneBeleg(titles: Iterable<Title>, kanal: ReadonlySet<string>): string[] {
   const fehler: string[] = []
   for (const t of titles) {
     for (const s of t.streams ?? []) {
-      if (s.platform !== 'primevideo' || s.dub !== true || !kanal.has(adressKern(s.url))) continue
+      if (s.platform !== 'primevideo' || s.dub !== true || !kanal.has(kanalSchluessel(t.id, s.url))) continue
       fehler.push(`Titel ${t.id} (${t.titleRomaji}): Prime-Verweis ${s.url} trägt „✓ Deutsch“, aber der Beleg ist ein Kanal-Titel (Amazons Sprachangabe, keine zweite Quelle)`)
     }
   }

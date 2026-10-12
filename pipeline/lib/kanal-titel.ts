@@ -25,7 +25,19 @@ export function ohneKanalSprache(c: DubCheck): DubCheck {
   return { ...rest, kanalOhneBeleg: true }
 }
 
-/** Die Amazon-Adressen (Kern), deren deutsche Tonspur nur Amazons Angabe auf einem Kanal-Titel ist. */
+/** Schlüssel „Titel|Adresskern": eine Seite kann mehreren Titeln gehören, betroffen ist nur der Titel mit dem Kanal-Beleg. */
+export const kanalSchluessel = (titelId: number, url: string | undefined): string => `${titelId}|${adressKern(url)}`
+
+/** Die Schlüssel (Titel und Amazon-Adresse), deren deutsche Tonspur nur Amazons Angabe auf einem Kanal-Titel ist. */
 export function kanalAdressenOhneBeleg(checks: DubCheck[]): Set<string> {
-  return new Set(checks.filter((c) => c.kanalOhneBeleg && c.dub !== true && c.url).map((c) => adressKern(c.url)))
+  return new Set(checks.filter((c) => c.kanalOhneBeleg && c.dub !== true && c.url).map((c) => kanalSchluessel(c.anilistId, c.url)))
+}
+
+/**
+ * Belegt eine gemeldete Folgenliste (`prime-zugeordnet.json`) Deutsch? Auf einer Kanal-Seite (`seite`, sonst null) nicht: Amazon führt
+ * dort je Folge die Sprachen des Kanals, die Rohmeldung ist dieselbe Angabe wie der Handbeleg.
+ */
+export function rohBelegtDeutsch(folgen: { sprachen: string[] }[], titelId: number, seite: string | null, alleChecks: DubCheck[]): boolean {
+  if (!folgen.some((f) => f.sprachen.includes('Deutsch'))) return false
+  return !(seite && kanalAdressenOhneBeleg(alleChecks).has(kanalSchluessel(titelId, seite)))
 }

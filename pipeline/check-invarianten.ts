@@ -14,7 +14,7 @@ import { geplantNichtDeutschHeute, ladeGeplantQuelle } from './lib/invarianten-g
 import { dubIdsNachAnisearch, dubsNachTitel } from './lib/anisearch-marke.ts'
 import { loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
 import { kanalTitelOhneBeleg } from './lib/invarianten-kanal.ts'
-import { kanalAdressenOhneBeleg, ohneKanalSprache } from './lib/kanal-titel.ts'
+import { kanalAdressenOhneBeleg, ohneKanalSprache, rohBelegtDeutsch } from './lib/kanal-titel.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -127,7 +127,12 @@ console.log('\nHarte Regeln des Daten-Detektivs:')
   pruefe('D-25: ohne Kanal-Warnung bleibt das Ja', ohneKanalSprache({ ...hellBeleg, note: 'Abos: Prime' }).dub === true)
   pruefe('D-25: Prime-Verweis ✓ Deutsch auf einer Kanal-Adresse wird gemeldet', kanalTitelOhneBeleg(hell(true), hellKanal).length === 1)
   pruefe('D-25: Verweis ohne Urteil geht durch', kanalTitelOhneBeleg(hell(undefined), hellKanal).length === 0)
-  pruefe('D-25: fremde Adresse geht durch', kanalTitelOhneBeleg(hell(true), new Set(['amazon:b0xxxxxxxx'])).length === 0)
+  pruefe('D-25: fremde Adresse geht durch', kanalTitelOhneBeleg(hell(true), new Set(['185262|amazon:b0xxxxxxxx'])).length === 0)
+  pruefe('D-25: dieselbe Seite bei einem anderen Titel geht durch', kanalTitelOhneBeleg(hell(true), new Set(['999|amazon:b0ftw7gp47'])).length === 0)
+  const deutschFolgen = [{ sprachen: ['Deutsch', 'Japanisch'] }]
+  pruefe('D-25: gemeldete Folgen auf einer Kanal-Seite belegen kein Deutsch', !rohBelegtDeutsch(deutschFolgen, 185262, hellUrl, [ohneKanalSprache(hellBeleg)]))
+  pruefe('D-25: gemeldete Folgen auf einer anderen Seite belegen Deutsch', rohBelegtDeutsch(deutschFolgen, 185262, 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA', [ohneKanalSprache(hellBeleg)]))
+  pruefe('D-25: gemeldete Folgen ohne Deutsch belegen nichts', !rohBelegtDeutsch([{ sprachen: ['Japanisch'] }], 185262, null, []))
 }
 
 if (process.argv.includes('--bestand')) {

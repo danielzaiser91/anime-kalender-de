@@ -1,7 +1,7 @@
 import type { Title } from '../../shared/types.ts'
 import { readJson, log } from '../lib/util.ts'
-import { adressKern, loadDubChecks } from '../lib/dub-confirmed.ts'
-import { kanalAdressenOhneBeleg } from '../lib/kanal-titel.ts'
+import { loadDubChecks } from '../lib/dub-confirmed.ts'
+import { kanalAdressenOhneBeleg, kanalSchluessel } from '../lib/kanal-titel.ts'
 
 /**
  * **Stufe 4, Schritt 1: das Urteil schließt Lücken**.
@@ -32,7 +32,7 @@ export function urteilSchliesstLuecken(titles: Map<number, Title>): void {
     for (const stream of title.streams ?? []) {
       if (stream.dub !== undefined) continue
       if (!jaJeWeg.has(`${title.id}|${stream.platform}`)) continue
-      if (stream.platform === 'primevideo' && kanal.has(adressKern(stream.url))) continue
+      if (stream.platform === 'primevideo' && kanal.has(kanalSchluessel(title.id, stream.url))) continue
       stream.dub = true
       ausUrteil++
     }
