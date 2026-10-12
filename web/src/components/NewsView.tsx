@@ -65,6 +65,7 @@ export const NEWS_FARBE: Record<NewsArt, string> = {
   disc: GELB,
   verspaetet: GRAU,
   nachgetragen: GRAU,
+  rhythmus: ORANGE,
 }
 
 /**

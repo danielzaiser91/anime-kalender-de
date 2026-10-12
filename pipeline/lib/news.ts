@@ -33,6 +33,7 @@ import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
+import { rhythmusMeldung } from './news-rhythmus.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
@@ -159,6 +160,7 @@ function terminMeldungen(
       })
     }
     for (const m of verspaetungsMeldungen(r)) raus.push({ ...m, titel: t })
+    for (const m of rhythmusMeldung(r)) raus.push({ ...m, titel: t })
   }
   return raus
 }
@@ -263,6 +265,7 @@ const rang: Record<NewsArt, number> = {
   verspaetet: 2,
   nachgereicht: 2,
   nachgetragen: 1,
+  rhythmus: 2,
   kino: 3,
   disc: 4,
   folgen: 5,

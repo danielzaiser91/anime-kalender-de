@@ -2,6 +2,7 @@ import { PLATFORMS, type NewsMeldung, type PlatformId } from '@shared/types.ts'
 import { translate as t } from './i18n.tsx'
 import { weekdayName } from '@shared/time.ts'
 import { omuDatumText, omuStartText } from '@shared/ankuendigung.ts'
+import { folgenProWoche } from '@shared/folgenrhythmus.ts'
 
 /**
  * **Der Satz zu einer Meldung — für die Nachrichtenseite und den RSS-Feed.**
@@ -65,6 +66,8 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
       if (m.platform === 'tv' && m.datum) return t('news.angekuendigtTv', { sender: m.anbieter ? ` bei ${m.anbieter}` : '', tag: weekdayName(m.datum), datum }) + lautQuelle(m, am)
       if (m.jahre && anbieter) return t(m.discSeitText ? 'news.angekNachJahrenStream' : 'news.angekNachJahren', { jahre: m.jahre, datum, anbieter, disc: m.discSeitText ?? '' }) + lautQuelle(m, am)
       return t('news.angekuendigt', { datum, anbieter }) + lautQuelle(m, am)
+    case 'rhythmus':
+      return t('news.angekRhythmus', { datum, anbieter, zahl: folgenProWoche(m.proWoche ?? [0, 0]) })
     case 'disc':
       return t(m.ausgabe ? 'news.discAusgabe' : 'news.disc', { datum, ausgabe: m.ausgabe ?? '' }) + lautQuelle(m, am)
     case 'kino':
@@ -103,6 +106,8 @@ export function newsKurz(m: NewsMeldung): string {
         : t('news.kurz.folge', { von: m.von ?? '', anbieter })
     case 'angekuendigt':
       return t(m.omu ? 'news.kurz.omu' : 'news.kurz.angekuendigt', { datum, anbieter })
+    case 'rhythmus':
+      return t('news.kurz.angekRhythmus', { zahl: folgenProWoche(m.proWoche ?? [0, 0]), datum, anbieter })
     case 'disc':
       return t(m.ausgabe ? 'news.kurz.discAusgabe' : 'news.kurz.disc', { datum, ausgabe: m.ausgabe ?? '' })
     case 'kino':

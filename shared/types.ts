@@ -1,6 +1,7 @@
 import type { Zugangsart } from './zugangsart.ts'
 import type { PremiereVorher, ReleasePremiere } from './premiere.ts'
 import type { FolgenFenster } from './folgen-fenster.ts'
+import type { ReleaseRhythmus } from './folgenrhythmus.ts'
 /** Gemeinsame Typen für Pipeline, Web-App und Newsletter-Worker. */
 
 export type PlatformId =
@@ -724,6 +725,8 @@ export interface Release {
   ersteDeutsch?: Record<number, string>
   /** Handbeleg „Premiere“/„Premiere*“, nie abgeleitet (Daniel, 10.10.2026) — Regeln in `shared/premiere.ts`. */
   premiere?: ReleasePremiere
+  /** Handbeleg „x Folgen pro Woche bis …“ mit eigener Quelle — eigene Meldung, siehe `shared/folgenrhythmus.ts`. */
+  rhythmus?: ReleaseRhythmus
 }
 
 export interface ReleaseEvent {

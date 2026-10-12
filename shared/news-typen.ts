@@ -5,7 +5,7 @@
  * von dort — die Aufrufer importieren unverändert aus `shared/types.ts`.
  */
 import type { PlatformId } from './types.ts'
-export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet' | 'nachgereicht' | 'nachgetragen'
+export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet' | 'nachgereicht' | 'nachgetragen' | 'rhythmus'
 
 /**
  * Eine einzelne Auskunft — neue Folgen, ein Termin, eine verpasste Ankündigung.
@@ -54,6 +54,8 @@ export interface NewsMeldung {
   jahre?: number; discSeitText?: string
   /** Bei `angekuendigt`: Start nur mit Untertiteln (OmU) — ob eine deutsche Synchro angekündigt ist (Daniel, 06.10.2026: beide Auskünfte sind interessant). */
   omu?: 'synchro-angekuendigt' | 'synchro-offen'
+  /** Bei `rhythmus`: Folgen pro Woche bis `datum` laut Quelle (von, bis) — Satz „Bis … wöchentlich 3–4 neue Folgen“, kein Start. */
+  proWoche?: [number, number]
   /** Bei `disc`: welche Ausgabe („Vol. 1/2", „Gesamtausgabe", „Box 9") — ohne sie sagt der Satz bei jedem Volume dasselbe. */
   ausgabe?: string
   /** Der Termin, um den es geht (angekündigt, Disc, Kino, verpasst). */
