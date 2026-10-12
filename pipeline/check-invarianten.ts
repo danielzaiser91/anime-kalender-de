@@ -42,8 +42,10 @@ console.log('\nInvarianten am Ergebnis:')
   const v = verweiseAufgeloest([release('x', 999)], [termin('geist', 1, '2026-09-01')], titel)
   pruefe('Release ohne Titel wird gemeldet', v.fehler.some((e) => e.includes('Titel 999')), v.fehler)
   pruefe('Termin ohne Release wird gemeldet', v.fehler.some((e) => e.includes('ohne Release')), v.fehler)
-  const w = verweiseAufgeloest([release('cr-GR3K50PZR', -1), release('cartoon', -5)], [], titel)
-  pruefe('titleId -1 ist Warnung, Cartoon-ID ist kein Fehler', w.fehler.length === 0 && w.warnungen.length === 1, w)
+  const w = verweiseAufgeloest([release('adn-197', -1), release('cartoon', -5)], [], titel)
+  pruefe('titleId -1 ist ein Fehler, Cartoon-ID nicht', w.fehler.length === 1 && w.fehler[0].includes('adn-197'), w)
+  const t = verweiseAufgeloest([release('a')], [{ ...termin('a', 1, '2026-09-01'), titleId: -1 }, { ...termin('a', 2, '2026-09-08'), titleId: 999 }, { ...termin('a', 3, '2026-09-15'), titleId: -5 }], titel)
+  pruefe('Termin mit titleId -1 oder unbekanntem Titel wird gemeldet, Cartoon-Termin nicht', t.fehler.length === 1 && t.fehler[0].startsWith('2 Termin(e) ohne vorhandenen Titel'), t)
   pruefe('sauberer Bestand geht durch', pruefeInvarianten([release('a')], [termin('a', 1, '2026-09-01')], titel).fehler.length === 0)
 
   // B-07/B-08: Fußzeile nannte 610 Releases, die Datei hatte 722
