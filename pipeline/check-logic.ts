@@ -4355,7 +4355,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   */
   pruefe(
     'nur Einträge mit einer Aussage zählen als Beleg — Adressbelege nicht',
-    bau.includes('if (!traegtAussage(c)) continue'),
+    bau.includes("if (typeof c.dub !== 'boolean' && typeof c.available !== 'boolean') continue"),
     'ein Adressbeleg trägt url und keine Aussage; available gehört dazu, sonst fallen 262 „nicht verfügbar" weg',
   )
   /*
