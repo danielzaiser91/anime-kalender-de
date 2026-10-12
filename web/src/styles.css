@@ -8,6 +8,17 @@
 @theme {
   --font-sans: 'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Unbounded', 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+  /* Die fünf Schriftstufen des Detail-Panels (Größe / Zeile); `tools/panel-messen.mjs` lässt keine sechste zu. */
+  --text-t1: 24px;
+  --text-t1--line-height: 28px;
+  --text-t2: 18px;
+  --text-t2--line-height: 24px;
+  --text-t3: 15px;
+  --text-t3--line-height: 20px;
+  --text-t4: 13px;
+  --text-t4--line-height: 18px;
+  --text-t5: 11px;
+  --text-t5--line-height: 16px;
 }
 
 /*

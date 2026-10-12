@@ -49,18 +49,18 @@ export function Meldungen({ titleId }: { titleId: number }) {
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}
-        className="cursor-pointer text-xs text-sky-700 dark:text-sky-300 hover:underline"
+        className="-my-3 inline-flex min-h-11 cursor-pointer items-center text-t4 text-sky-700 hover:underline dark:text-sky-300"
       >
         {offen ? t('detail.newsHide') : t('detail.newsShow', { count: liste.length })}
       </button>
       {!offen ? null : (
       <>
-      <p className="mb-2 mt-2 text-xs text-slate-500 dark:text-slate-400">{t('detail.newsHint')}</p>
+      <p className="mb-2 mt-2 text-t4 text-slate-500 dark:text-slate-400">{t('detail.newsHint')}</p>
       <ul className="space-y-2">
         {liste.map((m) => (
           <li
             key={m.quelle.url}
-            className="rounded border-l-2 border-sky-500/50 bg-slate-500/5 py-1.5 pl-2 pr-2 text-xs"
+            className="rounded border-l-2 border-sky-500/50 bg-slate-500/5 py-1.5 pl-2 pr-2 text-t4"
           >
             <a
               href={m.quelle.url}
@@ -71,11 +71,11 @@ export function Meldungen({ titleId }: { titleId: number }) {
               {m.titel}
             </a>
             {m.zitat && (
-              <p className="mt-1 italic leading-relaxed text-slate-500 dark:text-slate-400">
+              <p className="mt-1 italic text-slate-500 dark:text-slate-400">
                 „… {m.zitat} …"
               </p>
             )}
-            <p className="mt-1 text-[11px] text-slate-400">
+            <p className="mt-1 text-t5 text-slate-400">
               {m.quelle.name} · {formatDate(m.datum)}
             </p>
           </li>
@@ -288,7 +288,7 @@ export function VermerkAuskunft({
   if (ueberfaellig) zeilen.push(T('antwort.vermerkAnnahme'))
   if (!zeilen.length) return null
   return (
-    <div className="mt-2 space-y-0.5 border-t border-slate-200/70 pt-1.5 text-[11px] leading-snug text-slate-600 dark:border-white/10 dark:text-slate-300">
+    <div className="mt-2 space-y-0.5 border-t border-slate-200/70 pt-1.5 text-t5 text-slate-600 dark:border-white/10 dark:text-slate-300">
       {zeilen.map((z, i) => (
         <p key={i}>{z}</p>
       ))}

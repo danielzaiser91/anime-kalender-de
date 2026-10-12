@@ -1,7 +1,7 @@
 import type { StreamLink, Title } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { istToggo } from './pillen.tsx'
-import { legendeFuer, statusArt, type DubStatusArt } from './anbieter-zeile.tsx'
+import { legendeFuer, statusArt, type DubStatusArt } from './pille.tsx'
 import { pillenSchluessel } from './wege-sortieren.ts'
 import type { Gruppe } from './stream-pillen.ts'
 import type { sortiereNachZugang } from './wege-sortieren.ts'

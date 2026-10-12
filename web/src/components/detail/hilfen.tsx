@@ -53,7 +53,7 @@ export function Countdown({ date, time }: { date: string; time: string }) {
   const std = Math.floor(rest / 3600_000)
   const min = Math.floor((rest % 3600_000) / 60_000)
   return (
-    <span className="ml-1 whitespace-nowrap rounded bg-sky-500/10 px-1.5 text-xs font-medium tabular-nums text-sky-700 dark:text-sky-300">
+    <span className="ml-1 whitespace-nowrap rounded bg-sky-500/10 px-1.5 text-t4 font-semibold tabular-nums text-sky-700 dark:text-sky-300">
       {std ? `noch ${std} Std. ${min} Min.` : `noch ${Math.max(1, min)} Min.`}
     </span>
   )

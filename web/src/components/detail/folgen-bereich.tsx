@@ -72,8 +72,8 @@ export function FolgenBereich({ titleId, erschienen, laufzeitImKopf }: { titleId
   const ohneTitel = folgen !== undefined && folgen.length > 0 && folgen.every(([, titel]) => !titel)
   const deutsch = (nr: number) => liste?.de.some(([von, bis]) => nr >= von && nr <= bis) ?? false
   return (
-    <div className="mt-2 border-t border-slate-300 pt-1.5 text-xs text-slate-700 dark:border-white/10 dark:text-slate-200">
-      <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className="flex min-h-11 w-full cursor-pointer items-center gap-1.5 text-left text-sm font-semibold">
+    <div className="mt-2 border-t border-slate-300 pt-1.5 text-t4 text-slate-700 dark:border-white/10 dark:text-slate-200">
+      <button type="button" onClick={() => setOffen((o) => !o)} aria-expanded={offen} className="flex min-h-11 w-full cursor-pointer items-center gap-1.5 text-left text-t3 font-semibold">
         <span aria-hidden className={`inline-block transition-transform ${offen ? 'rotate-90' : ''}`}>▸</span>
         Folgen{folgen ? ` (${folgen.length})` : ''}
         {liste?.min && !laufzeitImKopf ? <span className="font-normal text-slate-500 dark:text-slate-400">· ~{liste.min} Min. je Folge</span> : null}
@@ -137,7 +137,7 @@ function NochNichtErschienen() {
 /** Die Lücke in der Flaggenreihe: ✕ mit dem Hinweistext, wo belegt ist, dass es keine Synchro gibt; sonst ein „?". */
 function FolgeOhneFlagge({ hinweis, gibtDeutsche }: { hinweis?: string; gibtDeutsche: boolean }) {
   if (!hinweis && !gibtDeutsche) return null
-  const marke = 'inline-flex size-3.5 shrink-0 items-center justify-center rounded-full border text-[9px] font-bold leading-none'
+  const marke = 'inline-flex size-3.5 shrink-0 items-center justify-center rounded-full border text-t5 font-bold'
   return (
     <Tooltip text={hinweis ?? 'Für diese Folge ist keine deutsche Synchro belegt.'} eigenerFokus>
       <span

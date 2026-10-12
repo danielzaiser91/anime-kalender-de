@@ -254,10 +254,10 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                       <SynchroMarke t={t} m={m} ohneDe={ohneDe} />
                       <span
                         className={[
-                          'line-clamp-2 min-w-0 text-sm leading-tight',
+                          'line-clamp-2 min-w-0 text-t3',
                           ohneDe ? 'opacity-75' : '',
                           gewaehlt
-                            ? 'font-medium text-sky-700 dark:text-sky-300'
+                            ? 'font-semibold text-sky-700 dark:text-sky-300'
                             : 'text-slate-700 dark:text-slate-200',
                         ].join(' ')}
                       >
@@ -265,7 +265,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                       </span>
                       {/* Rechts, damit der Titel den ganzen übrigen Platz bekommt —
                           „2026 · 12 Fg." ist immer kurz, ein Titel selten. */}
-                      <span className="ml-auto shrink-0 text-[11px] text-slate-500 dark:text-slate-400">
+                      <span className="ml-auto shrink-0 text-t5 text-slate-500 dark:text-slate-400">
                         {[
                           m.format && m.format !== 'TV' ? (FORMAT_DE[m.format] ?? m.format) : '',
                           /*
@@ -327,7 +327,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                       </span>
                     </span>
                     {gemerkt && (
-                      <span className="shrink-0 text-sm text-amber-400" aria-label={t('card.unfavourite')}>
+                      <span className="shrink-0 text-t3 text-amber-400" aria-label={t('card.unfavourite')}>
                         ★
                       </span>
                     )}
@@ -397,7 +397,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                   )}
                   {!lang && ohneSchalter && <div className="mb-1 flex">{ohneSchalter}</div>}
                   {!angezeigt.length && (
-                    <span className="px-1 py-2 text-xs text-slate-500 dark:text-slate-400">{t(!suchText && zahlOhne > 0 ? 'detail.reiheNurOhne' : 'detail.reiheKeinTreffer')}</span>
+                    <span className="px-1 py-2 text-t4 text-slate-500 dark:text-slate-400">{t(!suchText && zahlOhne > 0 ? 'detail.reiheNurOhne' : 'detail.reiheKeinTreffer')}</span>
                   )}
                   <div role="tablist" aria-label={t('detail.seriesParts')} className="flex flex-col gap-0.5">
                   {angezeigt.map((g, i) => (
@@ -413,7 +413,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
                         ].join(' ')}
                       >
                         {i > 0 && <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />}
-                        <span className="text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500">
+                        <span className="text-t5 uppercase tracking-[.08em] text-slate-400 dark:text-slate-500">
                           {g.titel}
                         </span>
                         <span className="h-px flex-1 bg-slate-200 dark:bg-white/10" />
@@ -426,7 +426,7 @@ export function ReihenListe({ reihenTeile, t, reihenName, title, favorites, wech
               )
             })()}
           </div>
-          {wechselt && <span className="text-[11px] text-slate-400">{t('detail.seasonLoading')}</span>}
+          {wechselt && <span className="text-t5 text-slate-400">{t('detail.seasonLoading')}</span>}
         </ReihenKarte>
       )}
     </>

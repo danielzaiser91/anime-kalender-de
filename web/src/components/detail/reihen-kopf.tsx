@@ -4,7 +4,7 @@ import type { Translate } from '../../lib/i18n.tsx'
 /** Schalter „N ohne Synchro" — kurz, damit die Kopfzeile einzeilig bleibt; der volle Satz steht im Tooltip. */
 export function OhneSynchroSchalter({ t, zahl, ohneOffen, onChange }: { t: Translate; zahl: number; ohneOffen: boolean; onChange: () => void }) {
   return (
-    <label className="ml-auto inline-flex min-h-11 shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap text-xs text-slate-600 dark:text-slate-300"
+    <label className="ml-auto inline-flex min-h-11 shrink-0 cursor-pointer items-center gap-1.5 whitespace-nowrap text-t4 text-slate-600 dark:text-slate-300"
     >
       <input type="checkbox" className="sr-only" checked={ohneOffen} onChange={onChange} />
       <span
@@ -43,7 +43,7 @@ export function ReihenKopf({ t, suche, onSuche, schalter, reiterZeile, reiter, a
           onChange={(e) => onSuche(e.target.value)}
           placeholder={t('detail.reiheSuche')}
           aria-label={t('detail.reiheSuche')}
-          className="h-11 min-w-0 flex-1 rounded-lg border border-slate-300 bg-transparent px-3 text-sm outline-none focus:border-sky-400 dark:border-white/10"
+          className="h-11 min-w-0 flex-1 rounded-lg border border-slate-300 bg-transparent px-3 text-t3 outline-none focus:border-sky-400 dark:border-white/10"
         />
         {schalter}
       </div>
@@ -59,9 +59,9 @@ export function ReihenKopf({ t, suche, onSuche, schalter, reiterZeile, reiter, a
                   aria-selected={g.titel === aktiv}
                   onClick={() => onReiter(g.titel)}
                   className={[
-                    'min-h-11 cursor-pointer rounded-full px-3 text-xs transition',
+                    'min-h-11 cursor-pointer rounded-full px-3 text-t4 transition',
                     g.titel === aktiv
-                      ? 'bg-sky-500/20 font-medium text-sky-700 dark:text-sky-200'
+                      ? 'bg-sky-500/20 font-semibold text-sky-700 dark:text-sky-200'
                       : 'text-slate-600 hover:bg-slate-200/70 dark:text-slate-300 dark:hover:bg-white/10',
                   ].join(' ')}
                 >

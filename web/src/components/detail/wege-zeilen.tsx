@@ -4,7 +4,7 @@ import { streamNurOmu } from '@shared/ankuendigung.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import { farbeZuAnbieter, istToggo, discPillen } from './pillen.tsx'
 import { TerminZeile } from './termin-zeile.tsx'
-import { AnbieterZeile, DubStatus } from './anbieter-zeile.tsx'
+import { Pille, DubStatus } from './pille.tsx'
 import { streamStatus, streamWegStatus } from './legende-zeilen.ts'
 import { DiscZeichen } from '../ui.tsx'
 import { AnbieterIcon, anbieterDatei } from '../../lib/anbieter-icon.tsx'
@@ -70,7 +70,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                 /* Regeln an `folgenAngabeFuer()` — Film, Bereiche, laufend, abgeschlossen. */
                 const folgenAngabe = folgenAngabeFuer(s)
                 return (
-                  <AnbieterZeile
+                  <Pille
                     /*
                       Anbieter **und** Adresse (21.09.2026): Mit `key={s.platform}` trugen zwei
                       Prime-Pillen denselben Schlüssel, und beim Umschalten auf „Disc" blieb eine
@@ -156,7 +156,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
               */
               .concat(
                 (title.ausgabenOhneDe ?? []).map((a) => (
-                  <AnbieterZeile
+                  <Pille
                     key={`ausgabe-${a.url}`}
                     name={PLATFORMS[a.platform]?.name ?? a.platform}
                     farbe={PLATFORMS[a.platform]?.color}
@@ -176,7 +176,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
               .concat(
                 sortiertNachZugang.flatMap(({ streamWege }) =>
                   streamWege.map((g) => (
-                    <AnbieterZeile
+                    <Pille
                       key={`sw-${g.shop}-${g.eintraege[0].url}`}
                       name={g.shop}
                       url={g.eintraege[0].url}
@@ -282,7 +282,7 @@ export function discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFu
                 shops
                   .filter((g) => !(g.shop === 'aniSearch' && discAusgaben.length))
                   .map((g) => (
-                  <AnbieterZeile
+                  <Pille
                     key={g.shop + g.eintraege[0].url}
                     name={g.shop}
                     url={g.eintraege[0].url}

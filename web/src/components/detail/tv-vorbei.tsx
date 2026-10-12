@@ -26,6 +26,6 @@ export function tvVorbeiPillen(liste: TvZuletzt[], titel: string, today: string,
     ...liste.map(({ release, text }) => (
       <TerminZeile key={`${release.slug}|vorbei`} release={release} titel={titel} today={today} tvText={{ text, premiere: false }} />
     )),
-    <p key="tv-vorbei-satz" className="py-1 text-xs text-slate-600 dark:text-slate-400">{satz}</p>,
+    <p key="tv-vorbei-satz" className="py-1 text-t4 text-slate-600 dark:text-slate-400">{satz}</p>,
   ]
 }

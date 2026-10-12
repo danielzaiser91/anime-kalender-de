@@ -64,7 +64,7 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
         {erst && (alle || zeilen.length < SICHTBAR) && <ErstausgabeZeile title={erst} />}
       </ul>
       {zeilen.length > SICHTBAR && (
-        <button type="button" onClick={() => setAlle(!alle)} aria-expanded={alle} className="mt-2 min-h-11 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-4 text-sm font-bold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text">
+        <button type="button" onClick={() => setAlle(!alle)} aria-expanded={alle} className="mt-2 min-h-11 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-4 text-t3 font-bold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text">
           {alle ? t('filter.showLess') : t('detail.neuigkeitenAlle', { n: zeilen.length })}
         </button>
       )}
@@ -84,15 +84,15 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
       <span aria-hidden className={`absolute -left-[17px] top-1.5 size-[9px] rounded-full ring-2 ring-ak-flaeche ${PUNKT[z.m.art]}`} />
       {/* Kopfzeile: Datum, Art und Quellen — der Text darunter hat die volle Breite. */}
       <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
-        <span className="shrink-0 rounded-md bg-ak-flaeche-2 px-1.5 py-0.5 text-[11px] font-semibold tabular-nums text-ak-text">{datum}</span>
-        <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${NEWS_FARBE[z.m.art]}`}>{artLabel(z.m)}</span>
+        <span className="shrink-0 rounded-md bg-ak-flaeche-2 px-1.5 py-0.5 text-t5 font-semibold tabular-nums text-ak-text">{datum}</span>
+        <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-t5 font-semibold ${NEWS_FARBE[z.m.art]}`}>{artLabel(z.m)}</span>
         {/* Eine geschätzte Meldung zeigt keine Quelle — die Seite dahinter nennt den Termin nicht. */}
         {!z.m.geschaetzt && <QuellenKnopf belege={belege} betreff={newsSatz(z.m)} />}
       </span>
-      <span className={`text-[13px] font-medium leading-snug ${abgeloest ? 'text-ak-leise line-through' : 'text-ak-text'}`}>{newsSatz(z.m, z.am)}</span>
+      <span className={`text-t4 font-semibold ${abgeloest ? 'text-ak-leise line-through' : 'text-ak-text'}`}>{newsSatz(z.m, z.am)}</span>
       {/* **Lange Vermerke nur aufgeklappt**: Der erste Satz steht da, der
           Rest hinter „mehr" — dieselbe Regel wie im Antwortkasten. */}
-      {z.m.hinweis && (z.m.abschnitte?.length ? <div className="text-xs leading-snug text-ak-text/75"><NachtragText kurz={z.m.hinweis} abschnitte={z.m.abschnitte} /></div> : <Klapptext text={z.m.hinweis} className="text-xs leading-snug text-ak-text/75" />)}
+      {z.m.hinweis && (z.m.abschnitte?.length ? <div className="text-t4 text-ak-text/75"><NachtragText kurz={z.m.hinweis} abschnitte={z.m.abschnitte} /></div> : <Klapptext text={z.m.hinweis} className="text-t4 text-ak-text/75" />)}
       {abgeloest && <AbgeloestHinweis m={z.m} />}
     </li>
   )

@@ -1,10 +1,9 @@
-import { type Title, type DiscAusgabe, PLATFORMS, type WatchLink } from '@shared/types.ts'
+import { type DiscAusgabe, PLATFORMS, type WatchLink } from '@shared/types.ts'
 import { type ReactNode } from 'react'
 import { Tooltip, DiscZeichen } from '../ui.tsx'
 import { formatDate } from '@shared/time.ts'
 import { translate } from '../../lib/i18n.tsx'
-import { AnbieterZeile } from './anbieter-zeile.tsx'
-import { verweiseFuer } from './verweise.ts'
+import { Pille } from './pille.tsx'
 import { einzelneAusgaben } from './disc-regeln.ts'
 
 /*
@@ -29,33 +28,6 @@ import { einzelneAusgaben } from './disc-regeln.ts'
  * Detail-Modul mit.
  */
 
-/**
- * **Der aniSearch-Absprung ist immer ein Direktlink auf die Titelseite** (`anime/<Kennung>`). Ohne Kennung steht kein aniSearch-Eintrag da — nie eine
- * Suche, nie ein „?" (Daniel, 09.10.2026). Eine geratene Kennung führte auf ein fremdes Werk (dieselbe Falle wie bei den erfundenen Amazon-Adressen
- * vom 23.08.2026); die Titel ohne Kennung stehen in `data/anisearch-offen.json` und werden über aniSearchs MAL-Brücke nachgeordnet.
- */
-export function AniSearchVerweis({ title, ziel }: { title: Title; ziel?: string }) {
-  return (
-    <span className="ml-auto flex shrink-0 items-center gap-1">
-      {verweiseFuer(title, ziel).map((v) => (
-        <Tooltip key={v.name} text={v.hinweis} eigenerFokus className="shrink-0">
-          <a
-            href={v.ziel}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex min-h-11 shrink-0 items-center gap-1 rounded-full bg-black/65 px-3 text-xs font-medium text-white backdrop-blur-[3px] transition hover:bg-black/80"
-          >
-            {v.name}
-            {/* Der Pfeil sagt „führt hinaus" — ohne ihn liest sich das Wort als Quellenangabe. */}
-            <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-              <path d="M4 2h6v6M10 2 2.5 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        </Tooltip>
-      ))}
-    </span>
-  )
-}
 
 const DISC_FORMAT: Record<DiscAusgabe[1], string> = { b: 'Blu-ray', d: 'DVD', u: '4K UHD' }
 
@@ -82,7 +54,7 @@ export function discPillen(
     const wahl = kopf[0] ?? eigene.find((a) => a[2] === 'e')
     if (!wahl) continue
     pillen.push(
-      <AnbieterZeile
+      <Pille
         key={`disc-${f}`}
         name={DISC_FORMAT[f]}
         url={`https://www.anisearch.de/article/${wahl[4]}`}
@@ -101,14 +73,14 @@ export function discPillen(
         type="button"
         onClick={umschalten}
         aria-expanded={offen}
-        className="flex min-h-12 w-full items-center gap-2.5 border-t border-slate-200/70 py-1.5 text-left first:border-t-0 transition hover:bg-slate-500/5 dark:border-white/10"
+        className="inline-flex min-h-[52px] cursor-pointer items-center gap-2.5 rounded-full bg-white py-1.5 pl-3.5 pr-4 text-left text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12)] transition hover:brightness-95 dark:bg-[#162238] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)] dark:hover:brightness-125"
       >
-        <span className="flex min-w-9 shrink-0 justify-center">
+        <span className="flex shrink-0 items-center">
           <DiscZeichen />
         </span>
-        <span className="flex flex-col leading-tight">
-          <span className="text-[15px] font-medium">{t('where.discEinzeln')}</span>
-          <span className="text-xs text-slate-600 dark:text-slate-400">
+        <span className="flex flex-col">
+          <span className="text-t3 font-semibold">{t('where.discEinzeln')}</span>
+          <span className="text-t4 text-ak-leise">
             {einzeln.length === 1 ? t('where.discAnzahlEine') : t('where.discAnzahl', { n: einzeln.length })} {offen ? '▴' : '▾'}
           </span>
         </span>
@@ -129,10 +101,10 @@ export function DiscEinzelListe({ ausgaben }: { ausgaben: DiscAusgabe[] }) {
     }))
     .filter((g) => g.liste.length)
   return (
-    <div className="mt-2 space-y-1.5 rounded-xl border border-slate-200 px-3 py-2 text-xs dark:border-white/10">
+    <div className="mt-2 space-y-1.5 rounded-xl border border-slate-200 px-3 py-2 text-t4 dark:border-white/10">
       {gruppen.map((g) => (
         <div key={g.f} className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="w-14 shrink-0 font-medium text-slate-700 dark:text-slate-200">{DISC_FORMAT[g.f]}</span>
+          <span className="w-14 shrink-0 font-semibold text-slate-700 dark:text-slate-200">{DISC_FORMAT[g.f]}</span>
           {g.liste.map((a) => {
             const link = (
               <a

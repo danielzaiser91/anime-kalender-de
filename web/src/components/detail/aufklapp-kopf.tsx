@@ -7,7 +7,7 @@ export function AufklappKopf({ offen, onClick, children }: { offen: boolean; onC
       type="button"
       onClick={onClick}
       aria-expanded={offen}
-      className="flex min-h-11 w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100"
+      className="flex min-h-11 w-full cursor-pointer items-center gap-1.5 text-left text-t5 font-bold uppercase tracking-[.08em] text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100"
     >
       <span aria-hidden className={`transition-transform ${offen ? 'rotate-90' : ''}`}>
         ›

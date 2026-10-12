@@ -122,7 +122,7 @@ export function Quellenuebersicht({ title, releases, asZiel }: { title: Title; r
       <button
         type="button"
         onClick={() => setOffen((v) => !v)}
-        className="flex min-h-11 w-full cursor-pointer items-center justify-between text-xs text-slate-600 transition hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100"
+        className="flex min-h-11 w-full cursor-pointer items-center justify-between text-t4 text-slate-600 transition hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100"
       >
         <span>{t('quellen.heading', { count: zeilen.length })}</span>
         <span aria-hidden>{offen ? '▴' : '▾'}</span>
@@ -130,11 +130,11 @@ export function Quellenuebersicht({ title, releases, asZiel }: { title: Title; r
 
       {offen && (
         <div className="mt-2 overflow-x-auto">
-          <table className="w-full text-[11px]">
+          <table className="w-full text-t5">
             <thead>
               <tr className="text-left text-slate-400">
-                <th className="pb-1 font-medium">{t('quellen.colSource')}</th>
-                <th className="pb-1 font-medium">{t('quellen.colFeeds')}</th>
+                <th className="pb-1 font-semibold">{t('quellen.colSource')}</th>
+                <th className="pb-1 font-semibold">{t('quellen.colFeeds')}</th>
               </tr>
             </thead>
             <tbody className="align-top">
@@ -162,7 +162,7 @@ export function Quellenuebersicht({ title, releases, asZiel }: { title: Title; r
               ))}
             </tbody>
           </table>
-          <p className="mt-1.5 text-[10px] text-slate-400">{t('quellen.note')}</p>
+          <p className="mt-1.5 text-t5 text-slate-400">{t('quellen.note')}</p>
         </div>
       )}
     </div>

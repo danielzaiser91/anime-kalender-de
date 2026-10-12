@@ -80,19 +80,19 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
           kaufausgabe={kaufausgabeZeile}
           hinweis={
             folgenLuecke ? (
-              <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+              <p className="mt-1 text-t4 text-slate-500 dark:text-slate-400">
                 {t(/^\d+$/.test(folgenLuecke) ? 'detail.folgeOhneAnbieter' : 'detail.folgenOhneAnbieter', { bereich: folgenLuecke })}
               </p>
             ) : /* Beim Kinofilm sagt der Kino-Hinweis darunter dasselbe. */
             title.ohneSynchro && antwort?.art !== 'kino' ? (
               <>
-                <p className="mt-2 text-xs leading-relaxed text-amber-600 dark:text-amber-400">
+                <p className="mt-2 text-t4 text-amber-600 dark:text-amber-400">
                   {verbindung.verbunden
                     ? t('detail.noDubWatchConnected', { mail: verbindung.mail ?? '' })
                     : t('detail.noDubWatchOpen')}
                 </p>
                 {favorites.has(title.id) && (
-                  <p className="mt-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+                  <p className="mt-1 text-t4 font-semibold text-amber-600 dark:text-amber-400">
                     {t('detail.noDubWatched')}
                   </p>
                 )}

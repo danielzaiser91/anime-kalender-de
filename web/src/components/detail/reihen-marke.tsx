@@ -6,7 +6,7 @@ import type { Translate } from '../../lib/i18n.tsx'
 /** Zeichen vor dem Namen in der Reihenliste: „🇩🇪 ✕" für einen Teil ohne belegte deutsche Synchro. */
 export function OhneSynchroMarke({ t }: { t: Translate }) {
   return (
-    <span className="shrink-0 rounded border border-rose-400/50 bg-rose-500/15 px-1.5 py-px text-[9px] font-extrabold leading-tight tracking-wider text-rose-600 dark:text-rose-400">
+    <span className="shrink-0 rounded border border-rose-400/50 bg-rose-500/15 px-1.5 py-px text-t5 font-bold text-rose-600 dark:text-rose-400">
       <Tooltip text={t('detail.reiheOhneSynchro')} eigenerFokus>
         🇩🇪 ✕
       </Tooltip>
@@ -17,7 +17,7 @@ export function OhneSynchroMarke({ t }: { t: Translate }) {
 /** Zeichen für einen Teil, dessen Original noch nicht erschienen ist — dort ist fehlende Synchro kein Befund. */
 export function GeplantMarke({ t }: { t: Translate }) {
   return (
-    <span className="shrink-0 rounded border border-violet-400/50 bg-violet-500/15 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-violet-700 dark:text-violet-300">
+    <span className="shrink-0 rounded border border-violet-400/50 bg-violet-500/15 px-1.5 py-px text-t5 font-bold uppercase tracking-[.08em] text-violet-700 dark:text-violet-300">
       <Tooltip text={t('geplant.hinweis')} eigenerFokus>
         {t('geplant.marke')}
       </Tooltip>

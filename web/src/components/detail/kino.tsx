@@ -101,7 +101,7 @@ export function TrailerKino({
           type="button"
           onClick={() => setOffen(true)}
           className={[
-            'group inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border py-1 pl-2 pr-4 text-sm font-semibold transition',
+            'group inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border py-1 pl-2 pr-4 text-t3 font-semibold transition',
             deutsch
               ? 'border-rose-400/40 bg-rose-500/10 text-rose-700 hover:border-rose-400/70 hover:bg-rose-500/20 dark:text-rose-300'
               : 'border-slate-300 bg-slate-500/5 text-slate-600 hover:border-slate-400 hover:bg-slate-500/10 dark:border-white/15 dark:text-slate-300',
@@ -110,7 +110,7 @@ export function TrailerKino({
           <span
             aria-hidden="true"
             className={[
-              'grid h-5 w-5 place-items-center rounded-full text-[9px] text-white transition group-hover:scale-110',
+              'grid h-5 w-5 place-items-center rounded-full text-t5 text-white transition group-hover:scale-110',
               deutsch ? 'bg-rose-600' : 'bg-slate-500',
             ].join(' ')}
           >
@@ -149,7 +149,7 @@ export function TrailerKino({
             className="flex h-[95vh] w-[95vw] flex-col overflow-hidden rounded-2xl border border-white/15 bg-slate-950 shadow-2xl"
           >
             <div className="flex shrink-0 items-center gap-3 border-b border-white/10 px-4 py-2.5">
-              <h2 className="min-w-0 flex-1 truncate text-sm font-semibold text-white">
+              <h2 className="min-w-0 flex-1 truncate text-t3 font-semibold text-white">
                 {t('trailer.ueberschrift', { titel })}
                 {/*
                   Der Hinweis steht **im** Dialog, nicht nur als Tooltip an der
@@ -168,7 +168,7 @@ export function TrailerKino({
                   href={`https://www.youtube.com/watch?v=${trailer.video}`}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-xs font-medium text-slate-200 transition hover:border-white/40 hover:bg-white/10 hover:text-white"
+                  className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-t4 font-semibold text-slate-200 transition hover:border-white/40 hover:bg-white/10 hover:text-white"
                 >
                   {t('trailer.beiYoutube')} ↗
                 </a>
@@ -177,7 +177,7 @@ export function TrailerKino({
                 type="button"
                 onClick={() => setOffen(false)}
                 aria-label={t('trailer.schliessen')}
-                className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-lg text-slate-300 transition hover:bg-white/10 hover:text-white"
+                className="grid h-8 w-8 shrink-0 place-items-center rounded-full text-t2 text-slate-300 transition hover:bg-white/10 hover:text-white"
               >
                 ✕
               </button>
@@ -193,12 +193,12 @@ export function TrailerKino({
             ) : (
               <div className="grid min-h-0 flex-1 place-items-center bg-black p-6 text-center">
                 <div className="flex max-w-md flex-col items-center gap-4">
-                  <p className="text-sm leading-relaxed text-slate-300">{t('trailer.keinerGefunden')}</p>
+                  <p className="text-t3 text-slate-300">{t('trailer.keinerGefunden')}</p>
                   <a
                     href={suche}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="rounded-full bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-500"
+                    className="rounded-full bg-rose-600 px-4 py-2 text-t3 font-semibold text-white transition hover:bg-rose-500"
                   >
                     {t('trailer.suchen')} ↗
                   </a>
@@ -320,21 +320,21 @@ export function KinoBanner({
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm font-semibold text-amber-900 dark:text-amber-200">{kopf}</span>
+            <span className="text-t3 font-semibold text-amber-900 dark:text-amber-200">{kopf}</span>
             {wieder && (
-              <span className="rounded-full bg-amber-400/25 px-2 py-px text-[10px] font-semibold uppercase tracking-wide text-amber-900 dark:text-amber-200">
+              <span className="rounded-full bg-amber-400/25 px-2 py-px text-t5 font-semibold uppercase tracking-[.08em] text-amber-900 dark:text-amber-200">
                 {t('kino.wieder')}
               </span>
             )}
           </div>
-          {unten && <span className="block truncate text-xs text-amber-800/80 dark:text-amber-200/70">{unten}</span>}
+          {unten && <span className="block truncate text-t4 text-amber-800/80 dark:text-amber-200/70">{unten}</span>}
         </div>
         {kinoheld && (
           <a
             href={kinoheld}
             target="_blank"
             rel="noreferrer noopener"
-            className="shrink-0 rounded-full border border-amber-400/50 px-3 py-1 text-xs font-semibold text-amber-900 transition hover:bg-amber-400/15 dark:text-amber-200"
+            className="shrink-0 rounded-full border border-amber-400/50 px-3 py-1 text-t4 font-semibold text-amber-900 transition hover:bg-amber-400/15 dark:text-amber-200"
           >
             {t('kino.tickets')} ↗
           </a>
@@ -343,7 +343,7 @@ export function KinoBanner({
       </div>
       {/* Die Notiz des Kinostarts gehört hierher, nicht in den Kasten darunter — sonst steht sie neben einer Auskunft, die von etwas anderem handelt. */}
       {release.note && (
-        <p className="mt-2 pl-3 text-xs leading-relaxed text-amber-900/80 dark:text-amber-100/70">{release.note}</p>
+        <p className="mt-2 pl-3 text-t4 text-amber-900/80 dark:text-amber-100/70">{release.note}</p>
       )}
     </div>
   )

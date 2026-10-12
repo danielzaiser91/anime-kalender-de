@@ -463,7 +463,7 @@ export function DetailPanel({
           genau die Platzverschwendung, die verschwinden sollte. Auf schmalen
           Schirmen greift weiterhin `w-full`, dort ändert sich nichts.
         */
-        className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col overflow-y-auto pointer-fine:overscroll-contain border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
+        className="animate-slide-in text-t3 fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col overflow-y-auto pointer-fine:overscroll-contain border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
         role="dialog"
         data-panel="titel"
         aria-label={anzeigeName(title)}
@@ -486,7 +486,7 @@ export function DetailPanel({
           kinoRelease={kinoRelease}
           asZiel={asZiel}
         />
-        <div className="relative flex flex-col gap-4 px-4 pb-8">
+        <div className="relative flex flex-col gap-3 px-4 pb-8">
           {/*
             Die Antwortzeile — der erste Block nach der Bühne.
 

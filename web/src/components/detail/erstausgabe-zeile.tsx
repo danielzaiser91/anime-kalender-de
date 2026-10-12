@@ -16,11 +16,11 @@ export function ErstausgabeZeile({ title }: { title: Title }) {
     <li className="relative flex flex-col gap-1">
       <span aria-hidden className="absolute -left-[17px] top-1.5 size-[9px] rounded-full bg-emerald-500 ring-2 ring-ak-flaeche" />
       <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
-        <span className="shrink-0 rounded-md bg-ak-flaeche-2 px-1.5 py-0.5 text-[11px] font-semibold tabular-nums text-ak-text">{datumKurz(e.von!)}</span>
-        <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${NEWS_FARBE.neu}`}>{t('detail.erstausgabeArt')}</span>
+        <span className="shrink-0 rounded-md bg-ak-flaeche-2 px-1.5 py-0.5 text-t5 font-semibold tabular-nums text-ak-text">{datumKurz(e.von!)}</span>
+        <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-t5 font-semibold ${NEWS_FARBE.neu}`}>{t('detail.erstausgabeArt')}</span>
         {belege.length > 0 && <QuellenKnopf belege={belege} betreff={t('detail.erstausgabeSatz')} />}
       </span>
-      <span className="text-[13px] font-medium leading-snug text-ak-text">
+      <span className="text-t4 font-semibold text-ak-text">
         {t('detail.erstausgabeSatz')}
         {e.publisher ? ` · ${e.publisher}` : ''}
       </span>
