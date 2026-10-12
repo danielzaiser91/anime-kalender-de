@@ -132,6 +132,12 @@ function frischUndHeuteNochNicht(e: BelegGedaechtnis[string], heute: string): bo
   return Boolean(erste) && e.zuletzt < heute && Date.parse(heute) - Date.parse(erste!) <= FRISCH_TAGE * 86_400_000
 }
 
+/** Ohne jedes Bild (entzogen) sieht der Leser nichts — das geht vor einer Aufnahme in neuerer Fassung. */
+function dringlichkeit(e: BelegGedaechtnis[string] | undefined): number {
+  const bildLos = Boolean(e?.lesungen.length) && !e!.lesungen.some((l) => l.bild)
+  return 2 * Number(bildLos) + Number(bildOhnePruefung(e))
+}
+
 /**
  * Welche Artikel diesmal gelesen werden: nie gelesene zuerst, dann die am längsten nicht
  * gelesenen, aber keiner öfter als alle `abstandTage` Tage.
@@ -141,7 +147,7 @@ export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heu
   return [...new Set(urls)]
     .filter(istArtikel)
     .filter((u) => !gedaechtnis[u] || sofort.has(u) || gedaechtnis[u]!.zuletzt <= grenze || frischUndHeuteNochNicht(gedaechtnis[u]!, heute) || bildOhnePruefung(gedaechtnis[u]!))
-    .sort((a, b) => Number(bildOhnePruefung(gedaechtnis[b])) - Number(bildOhnePruefung(gedaechtnis[a])) || (gedaechtnis[a]?.zuletzt ?? '').localeCompare(gedaechtnis[b]?.zuletzt ?? ''))
+    .sort((a, b) => dringlichkeit(gedaechtnis[b]) - dringlichkeit(gedaechtnis[a]) || (gedaechtnis[a]?.zuletzt ?? '').localeCompare(gedaechtnis[b]?.zuletzt ?? ''))
     .slice(0, limit)
 }
 

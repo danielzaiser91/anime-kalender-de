@@ -4,12 +4,20 @@
  * Aufruf: npx tsx pipeline/check-beleg-wand.ts   (Exit 1 bei Verstoß)
  */
 import { chromium } from 'playwright'
-import { belegAusschnitt } from './lib/beleg-bild.ts'
+import { belegAusschnitt, istEinfarbig } from './lib/beleg-bild.ts'
+import { warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
 
 const ARTIKEL = `<header style="height:60px;background:#eee">Kopf</header><article><h1>Netflix: Alle Anime-Neuzugänge im August</h1>${'<p>Der Streaming-Dienst baut sein Anime-Programm aus, mit mehreren Serien und Filmen. </p>'.repeat(12)}</article>`
 const WAND = 'Wir verwenden Cookies. Mit Ihrer Einwilligung und contentpass: Kostenlos mit Werbung weiterlesen oder abonnieren, damit wir Ihre Daten verarbeiten dürfen.'
-const faelle: { name: string; html: string; erwartet: 'bild' | 'wand' }[] = [
+/** Absätze mit viel Leerraum drumherum: sitzt die Marke daneben, liegt sie auf leerer Fläche und die Aufnahme gilt als leer. */
+const ZIEL = '<p>Zielwort steht in diesem Absatz mit genug Text für die Suche.</p>'
+const LUFT = '<div style="height:300px"></div>'
+const MIT_LEISTE = `<header style="position:sticky;top:0;height:64px;background:#eee">Kopf</header><article><h1>Überschrift des Artikels</h1>${LUFT}${ZIEL}${LUFT}<p>Ein weiterer Absatz mit ausreichend Text zum Lesen.</p></article>`
+const KRITIK_EINGEKLAPPT = `<article><h1>Überschrift des Artikels</h1><p>Ein Absatz mit ausreichend Text zum Lesen im Kopf.</p><div style="max-height:100px;overflow:hidden"><p>Kurzer Anfang der Kritik.</p><p style="margin-top:700px">Zielwort steht in der eingeklappten Kritik.</p></div></article>`
+const faelle: { name: string; html: string; erwartet: 'bild' | 'wand'; suchen?: string[]; mitMarke?: boolean }[] = [
   { name: 'sauberer Artikel', html: ARTIKEL, erwartet: 'bild' },
+  { name: 'klebende Leiste: Marke sitzt auf dem Absatz, nicht daneben', html: MIT_LEISTE, erwartet: 'bild', suchen: ['Zielwort'], mitMarke: true },
+  { name: 'Titel nur in eingeklappter Kritik: keine Marke auf leerer Fläche', html: KRITIK_EINGEKLAPPT, erwartet: 'bild', suchen: ['Zielwort'] },
   { name: 'festes Banner unten', html: `${ARTIKEL}<div id="x" style="position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#fff">${WAND}</div>`, erwartet: 'bild' },
   { name: 'Wand mit Abdunklung (absolut, Ebene 100)', html: `${ARTIKEL}<div id="x" style="position:absolute;top:0;left:0;width:100%;height:2000px;z-index:100;background:rgba(0,0,0,.6)"><div style="margin:300px auto;width:400px;background:#fff">${WAND}</div></div>`, erwartet: 'bild' },
   { name: 'Dialog mit Rolle', html: `${ARTIKEL}<div id="x" role="dialog" style="position:relative;margin-top:-500px;background:#fff;height:400px">${WAND}</div>`, erwartet: 'bild' },
@@ -28,14 +36,27 @@ let fehler = 0
 for (const f of faelle) {
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
   await seite.setContent(`<!doctype html><html><body style="margin:0;${f.name.startsWith('einfarbig') ? 'background:#000' : ''}">${f.html}</body></html>`)
-  const b = await belegAusschnitt(seite, [])
+  const b = await belegAusschnitt(seite, f.suchen ?? [])
   const bild = typeof b === 'object'
   const uebrig = await seite.evaluate(() => Boolean(document.querySelector('#x')))
-  const ok = f.erwartet === 'bild' ? bild && !uebrig : !bild
+  /* Die Marke muss auf Text liegen, nicht auf leerer Fläche daneben. */
+  const marke = typeof b === 'object' ? b.markierung : undefined
+  const markeOk = typeof b !== 'object' || !marke || !(await istEinfarbig(seite, b.bild.toString('base64'), marke))
+  const markeDa = !f.mitMarke || Boolean(marke)
+  const ok = f.erwartet === 'bild' ? bild && !uebrig && markeOk && markeDa : !bild
   console.log(ok ? '✓' : '✗', f.name, bild ? 'Bild' : String(b), uebrig ? '(Sperre noch im Dokument)' : '')
   if (!ok) fehler++
   await seite.close()
 }
 await browser.close()
+/* Warteschlange: ein entzogenes Bild (Leser sieht nichts) kommt vor dem Altbestand, auch wenn es jünger ist. */
+const GEDAECHTNIS = {
+  'https://www.kinoheld.de/film/alt': { zuletzt: '2026-10-05', lesungen: [{ am: '2026-10-05', hash: 'a', bild: 'a.webp', qs: 'ok' }] },
+  'https://www.kinoheld.de/film/entzogen': { zuletzt: '2026-10-07', lesungen: [{ am: '2026-10-07', hash: 'b', qs: 'wand' }] },
+} as unknown as BelegGedaechtnis
+const reihenfolge = warteschlange(Object.keys(GEDAECHTNIS), GEDAECHTNIS, '2026-10-12', 7, 5)
+const schlangeOk = reihenfolge[0] === 'https://www.kinoheld.de/film/entzogen' && reihenfolge.length === 2
+console.log(schlangeOk ? '✓' : '✗', 'Warteschlange: Artikel ohne Bild zuerst', reihenfolge.join(' '))
+if (!schlangeOk) fehler++
 console.log(fehler ? `${fehler} Verstöße` : 'alle Fälle in Ordnung')
 process.exit(fehler ? 1 : 0)
