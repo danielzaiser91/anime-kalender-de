@@ -79,10 +79,10 @@ jobs:
         run: npm run check:install
 
       - name: Alle Ansichten — Desktop
-        run: npm run check:ansichten
+        run: npm run ansichten:bilder
 
       - name: Alle Ansichten — Handy
-        run: npm run check:ansichten -- --handy
+        run: npm run ansichten:bilder -- --handy
 
       - name: Schalter „TV-Termine ausblenden“
         run: npm run check:tv-schalter

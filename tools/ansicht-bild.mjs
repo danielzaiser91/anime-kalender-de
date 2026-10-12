@@ -10,16 +10,18 @@
  * **Ohne Server**, wie das Panel-Werkzeug: `page.route()` beantwortet jede
  * Anfrage aus `dist/`, gerendert wird also genau das, was ausgeliefert wird.
  *
- * Aufruf: node tools/ansicht-bild.mjs [<ansicht> …]   (Vorgabe: alle)
+ * Aufruf: node tools/ansicht-bild.mjs [--handy] [--docs] [<ansicht> …]   (Vorgabe: alle)
  *         npm run check:ansichten
  *
- * Ergebnis: `docs/ansicht-<name>-<hell|dunkel>.png`, dazu je Ansicht die Zahl
+ * Ergebnis: `ansicht-<name>-<hell|dunkel>.png` im Temp-Ordner; nur mit `--docs` (`npm run ansichten:bilder`) nach `docs/`.
+ * Dort sind sie getrackt — ein gewöhnlicher Prüflauf soll keinen Diff erzeugen. Dazu je Ansicht die Zahl
  * der Konsolenfehler und ein Hinweis, wenn die Seite waagerecht scrollt — das
  * ist der Mangel, den man auf einem Bild am leichtesten übersieht.
  */
 import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
-import { existsSync } from 'node:fs'
+import { existsSync, mkdirSync } from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
@@ -27,6 +29,16 @@ import { distPruefen } from './dist-frisch.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
+
+/** Zielordner der Bilder: `docs/` nur mit `--docs`, sonst Temp (die getrackten Bilder sollen keinen Diff erzeugen). */
+function bilderOrdner() {
+  const ordner = process.argv.includes('--docs') ? path.join(WURZEL, 'docs') : path.join(os.tmpdir(), 'ak-ansichten')
+  mkdirSync(ordner, { recursive: true })
+  console.log(`Bilder: ${ordner}`)
+  return ordner
+}
+
+const BILDER = bilderOrdner()
 /*
   Alle Routen aus `shared`/`router.ts` — auch die, die nicht in der
   Navigation stehen. Gerade dort fällt ein Fehler sonst niemandem auf: Wer
@@ -287,7 +299,7 @@ async function main() {
       /* Der Datenabruf läuft nach dem ersten Bild — sonst fotografiert man den Ladezustand. */
       await seite.waitForTimeout(2500)
       await seite.screenshot({
-        path: path.join(WURZEL, 'docs', `ansicht-${name}-${HANDY ? 'handy-' : ''}${thema}.png`),
+        path: path.join(BILDER, `ansicht-${name}-${HANDY ? 'handy-' : ''}${thema}.png`),
         fullPage: false,
       })
       if (thema === 'dunkel') {
