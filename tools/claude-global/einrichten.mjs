@@ -6,6 +6,10 @@
  * - `rules/*.md` wird nach `~/.claude/rules/` kopiert (dort lädt Claude Code jede Datei bei
  *   Sitzungsstart; `~/.claude/CLAUDE.md` bleibt unberührt, es verweist nur).
  * - `skills/*` wird nach `~/.claude/skills/` kopiert.
+ * - `mods/arbeitsliste/` (Quelltext der Claude-Code-Mod, die `daniel-zum-abarbeiten/stand.md` anzeigt)
+ *   wird rekursiv nach `~/.claude/mods/arbeitsliste/` kopiert. Hier wird sie gepflegt; prüfen mit
+ *   `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 claude plugin test` im Mod-Ordner. Nicht im Repo und am
+ *   Ziel unberührt bleiben `messung.log` (Laufzeit) und `.claude-plugin/types/` (erzeugt Claude Code).
  * Eine abweichende Fassung am Ziel wird vorher als `.bak` gesichert.
  *
  * Aufruf:
@@ -34,9 +38,18 @@ function kopiere(relativ) {
   return `gesetzt ${nach}`
 }
 
+/** Alle Dateien unter `relativ` im Repo, als Pfade relativ zu `claude-global`. */
+function dateienUnter(relativ) {
+  return readdirSync(join(QUELLE, relativ), { withFileTypes: true }).flatMap((eintrag) => {
+    const pfad = join(relativ, eintrag.name)
+    return eintrag.isDirectory() ? dateienUnter(pfad) : [pfad]
+  })
+}
+
 const zeilen = [
   ...readdirSync(join(QUELLE, 'rules')).map((datei) => kopiere(join('rules', datei))),
   ...readdirSync(join(QUELLE, 'skills')).map((name) => kopiere(join('skills', name, 'SKILL.md'))),
+  ...dateienUnter(join('mods', 'arbeitsliste')).map(kopiere),
 ]
 console.log(zeilen.join('\n'))
 if (NUR_PRUEFEN && zeilen.some((z) => z.startsWith('FEHLT'))) process.exit(1)
