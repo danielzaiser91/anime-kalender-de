@@ -24,6 +24,7 @@
  */
 import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSerie, type CrDubData, beurteileJeBlock, beurteileTeilblock } from './lib/crunchyroll-dub.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
+import { ergaenzeWegeAusTmdbUndMotn } from './bau/13-3-1-tmdb-wege.ts'
 import { crStaffeln, entferneFremdeNachStaffeln, kennungAusAdresse } from './bau/cr-serie-geteilt.ts'
 import { termineAusSerie } from './lib/crunchyroll-termine.ts'
 import { readJson, ROOT } from './lib/util.ts'
@@ -1037,6 +1038,21 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
     verweiseEntfernt: fremdAbgaenge as never,
   })
   pruefe('Gegenprobe: eine andere Kennung lässt den Verweis stehen', fremd.streams.length === 1, fremd.streams)
+}
+
+/* TMDB-Anbieter für Titel ohne Weg (12.10.2026): nur bei aniSearch geführte Titel bekommen keinen, ein AniList-Titel mit denselben Angaben schon. */
+{
+  const zuTmdb = { tmdbId: 1, kind: 'tv', providers: ['netflix'] }
+  const slim = [{ id: 10_010_005 }, { id: 99_999 }].map((t) => ({ ...t, streams: [] as Title['streams'] }))
+  ergaenzeWegeAusTmdbUndMotn({
+    slim: slim as never,
+    tmdbTitles: {},
+    tmdbZuTitel: { '10010005': zuTmdb, '99999': zuTmdb },
+    motnTmdb: { 'tv/1': { imdbId: 'tt1' } } as never,
+    motnLinks: { tt1: { netflix: 'https://www.netflix.com/title/80040330' } },
+  })
+  pruefe('Gegenprobe: ein nur bei aniSearch geführter Titel bekommt keinen TMDB-Anbieter', slim[0]!.streams.length === 0, slim[0]!.streams)
+  pruefe('Gegenprobe: ein AniList-Titel bekommt den TMDB-Anbieter', slim[1]!.streams.length === 1, slim[1]!.streams)
 }
 
 /* Gegenprobe auf dem gebauten Bestand (07.10.2026, Black Butler): Kein Titel hängt an einer Crunchyroll-Serie, deren Staffeln alle anderen Titeln gehören. */

@@ -1,13 +1,13 @@
 {
- "erzeugtAm": "2026-10-12T05:48:00.667Z",
+ "erzeugtAm": "2026-10-12T08:38:29.833Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
    "gemeldet": 509,
-   "gesamt": 758,
-   "offen": 249,
-   "ohneSeite": 30,
+   "gesamt": 755,
+   "offen": 246,
+   "ohneSeite": 34,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -35,10 +35,14 @@
     "https://www.amazon.de/s?k=Super%20Wings%3A%20Maximum%20Speed&i=instant-video",
     "https://www.amazon.de/s?k=Bernard%20B%C3%A4r%3A%20Mission%20Mars&i=instant-video",
     "https://www.amazon.de/s?k=Der%20Herr%20der%20Ringe%3A%20Die%20Schlacht%20der%20Rohirrim&i=instant-video",
+    "https://www.amazon.de/s?k=The%20Birth%20of%20Kitaro%3A%20Das%20Geheimnis%20von%20GeGeGe&i=instant-video",
     "https://www.amazon.de/s?k=Bernard%20B%C3%A4r%3A%20Eine%20tierische%20Verschw%C3%B6rung&i=instant-video",
     "https://www.amazon.de/s?k=Der%20K%C3%B6nig%20der%20K%C3%B6nige&i=instant-video",
     "https://www.amazon.de/s?k=Dragonkeeper&i=instant-video",
-    "https://www.amazon.de/s?k=Manga%20Love%20Story%3A%20Step%20Up%20Love%20Story&i=instant-video"
+    "https://www.amazon.de/s?k=Manga%20Love%20Story%3A%20Step%20Up%20Love%20Story&i=instant-video",
+    "https://www.amazon.de/s?k=Fate%2FStay%20Night%3A%20Unlimited%20Blade%20Works%20-%20Prolog&i=instant-video",
+    "https://www.amazon.de/s?k=Sword%20Art%20Online%20Alternative%3A%20Gun%20Gale%20Online%20-%20Refrain&i=instant-video",
+    "https://www.amazon.de/s?k=Meine%20Wiedergeburt%20als%20Schleim%20in%20einer%20anderen%20Welt%3A%20Veldoras%20Tagebuch&i=instant-video"
    ],
    "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8",
    "ziele": [
@@ -227,10 +231,6 @@
      "titel": "Suicide Squad Isekai"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/0U2F1VC6MV5CHFW4ZP7GSM1RX0",
-     "titel": "The Birth of Kitaro: Das Geheimnis von GeGeGe (Kitarou Tanjou: Gegege no Nazo Shinsei-ban)"
-    },
-    {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9",
      "titel": "Urusei Yatsura (Urusei Yatsura (2022) Seasons 1 & 2)"
     },
@@ -241,14 +241,6 @@
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.b573d76b-c7b2-4882-982f-9aedae5e6365",
      "titel": "KonoSuba: God’s Blessing on This Wonderful World! The Movie - Legend of Crimson (KONOSUBA -God's blessing on this wonderful world!- Legend of Crimson)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/0NQS7G31GTH6F9V4ISN8ZX3RPH",
-     "titel": "Meine Wiedergeburt als Schleim in einer anderen Welt: Veldoras Tagebuch (That Time I Got Reincarnated as a Slime: Veldora’s Journal)"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/0TOAWCF8RCIRQR29X9KKJWT4N7",
-     "titel": "Sword Art Online Alternative: Gun Gale Online - Refrain"
     },
     {
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832",
@@ -788,9 +780,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 392,
-   "gesamt": 643,
-   "offen": 251,
+   "gemeldet": 417,
+   "gesamt": 670,
+   "offen": 253,
    "ohneSeite": 18,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -979,10 +971,6 @@
     {
      "url": "https://www.netflix.com/title/81218604",
      "titel": "Banana Fish"
-    },
-    {
-     "url": "https://www.netflix.com/title/80040330",
-     "titel": "Fate/Stay Night: Unlimited Blade Works"
     },
     {
      "url": "https://www.netflix.com/title/81184735",
@@ -1964,22 +1952,9 @@
      "hinweis": "Staffeln unklar: TMDB zählt 454 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/70252973",
-     "titel": "LEGO Ninjago: Meister des Spinjitzu",
-     "hinweis": "Staffeln unklar: TMDB zählt 210 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/70243420",
-     "titel": "Die fantastische Welt von Gumball"
-    },
-    {
      "url": "https://www.netflix.com/title/70171947",
      "titel": "Mission Scooby-Doo",
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/70234440",
-     "titel": "My Little Pony - Freundschaft ist Magie"
     },
     {
      "url": "https://www.netflix.com/title/80082160",
@@ -2000,6 +1975,18 @@
      "url": "https://www.netflix.com/title/80025494",
      "titel": "Peppa Wutz",
      "hinweis": "Staffeln unklar: TMDB zählt 492 Folgen insgesamt, der Anbieter kann sie anders schneiden"
+    },
+    {
+     "url": "https://www.netflix.com/title/70234440",
+     "titel": "My Little Pony - Freundschaft ist Magie"
+    },
+    {
+     "url": "https://www.netflix.com/title/70243420",
+     "titel": "Die fantastische Welt von Gumball"
+    },
+    {
+     "url": "https://www.netflix.com/title/70252973",
+     "titel": "LEGO Ninjago: Meister des Spinjitzu"
     },
     {
      "url": "https://www.netflix.com/title/81506915",
@@ -2068,9 +2055,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 62,
+   "gemeldet": 65,
    "gesamt": 347,
-   "offen": 285,
+   "offen": 282,
    "ohneSeite": 22,
    "ziel": "https://www.disneyplus.com/browse/entity-33df4bde-d2eb-49f6-9f89-3ccbe65a55a3",
    "ziele": [
@@ -2629,11 +2616,6 @@
      "url": "https://www.disneyplus.com/browse/entity-543babf6-5831-4b6b-bc0b-9854ae1a4811",
      "titel": "Marvel Rising: Neue Helden",
      "hinweis": "Staffeln unklar: TMDB zählt 12 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-e878689c-487f-4041-bd45-cc4551f0a2e5",
-     "titel": "Bluey",
-     "hinweis": "Staffeln unklar: TMDB zählt 154 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-9c643e72-0ba4-47d2-8090-d5423f8a7967",

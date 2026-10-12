@@ -507,7 +507,7 @@ genannt wird und nicht als Baufehler erscheint.
 `data/cache/anilist-anisearch-mal.json`. `data/cache/` liegt nicht im Repo, nur Datenläufe befüllen ihn, und diese
 Datei schreibt nur der Wochenlauf (letzter 05.10., nächster ~12.10.). Der Bau fand sie leer, die Cover fehlten live;
 die PR-Prüfungen waren lokal mit gefülltem Cache grün. Behoben mit PR 470 (`data/anisearch-cover.json`, Zusicherung in
-`check-bild-und-synchro.ts`).
+`check-bild-bestand.ts`, läuft in `check:bestand`).
 
 **Regel.** Eine Handkorrektur oder Vorbelegung gehört nach `data/…` im Repo. Fertig heißt erst: nach Bau und Deploy
 auf der Live-Seite gemessen (Datei oder Seite, erwarteter Wert) — grüne PR-Prüfungen belegen es nicht, weil sie mit
