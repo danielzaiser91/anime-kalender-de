@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **37 offene Verweise** in **28 Zeilen**.
+Stand 2026-10-12 · **41 offene Verweise** in **28 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,9 +33,9 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
+| [Prime Video](07-primevideo.md) | 13 |
 | [Netflix](07-netflix.md) | 12 |
 | [Disney+](07-disneyplus.md) | 9 |
-| [Prime Video](07-primevideo.md) | 9 |
 | [ADN](07-adn.md) | 7 |
 
 ## Zu prüfen
@@ -43,12 +43,12 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-10-12 | Bleach | [The Movie - Memories of Nobody]() · [The Movie - The Diamond Dust Rebellion]() · [The Movie - Fade to Black]() · [The Movie - Hell Verse]() |
-| 2 | 2026-10-09 | Gachiakuta | [Hauptserie]() |
-| 3 | 2026-10-08 | 86: Eighty Six | [Hauptserie](https://animationdigitalnetwork.com/de/video/1423-eighty-six) · [Teil 2](https://animationdigitalnetwork.com/de/video/1423-eighty-six) |
-| 4 | 2026-10-06 | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
-| 5 | 2026-10-04 | Spy × Family | [Teil 2]() · [Staffel 2]() |
-| 6 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 7 | 2026-10-01 | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() |
+| 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() · [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc]() · [Hashira Training Arc]() |
+| 3 | 2026-10-09 | Gachiakuta | [Hauptserie]() |
+| 4 | 2026-10-08 | 86: Eighty Six | [Hauptserie](https://animationdigitalnetwork.com/de/video/1423-eighty-six) · [Teil 2](https://animationdigitalnetwork.com/de/video/1423-eighty-six) |
+| 5 | 2026-10-06 | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
+| 6 | 2026-10-04 | Spy × Family | [Teil 2]() · [Staffel 2]() |
+| 7 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
 | 8 | 2026-09-28 | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
 | 9 | 2026-09-28 | Jujutsu Kaisen | [0]() |
 | 10 | 2026-09-17 | Danganronpa | [Hauptserie]() |

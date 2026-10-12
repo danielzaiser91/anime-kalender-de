@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **37 offene Verweise** in **28 Zeilen**,
+Stand 2026-10-12 · **41 offene Verweise** in **28 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -37,9 +37,9 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 |---|---|---|---|
 | 1 | Disney+ | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
 | 2 | Prime Video | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
-| 3 | Netflix | Bastard!! Der Gott der Zerstörung | [Hauptserie](https://www.netflix.com/title/81281582) · [Staffel 2](https://www.netflix.com/title/81281582) |
-| 4 | Netflix | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
-| 5 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() |
+| 3 | Prime Video | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() · [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc]() · [Hashira Training Arc]() |
+| 4 | Netflix | Bastard!! Der Gott der Zerstörung | [Hauptserie](https://www.netflix.com/title/81281582) · [Staffel 2](https://www.netflix.com/title/81281582) |
+| 5 | Netflix | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
 | 6 | Netflix | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
 | 7 | Prime Video | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
 | 8 | Disney+ | Spy × Family | [Teil 2]() · [Staffel 2]() |

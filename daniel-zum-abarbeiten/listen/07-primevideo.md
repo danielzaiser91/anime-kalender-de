@@ -1,6 +1,6 @@
 # Prime Video: was noch zu prüfen ist
 
-Stand 2026-10-12 · **9 offene Verweise** in **8 Zeilen**.
+Stand 2026-10-12 · **13 offene Verweise** in **8 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
@@ -9,8 +9,8 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 2 | 2026-10-01 | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() |
+| 1 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() · [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc]() · [Hashira Training Arc]() |
+| 2 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
 | 3 | 2026-09-17 | Danganronpa | [Hauptserie]() |
 | 4 | 2026-09-17 | Samurai Girls | [Hauptserie]() · [2: Samurai Bride]() |
 | 5 | 2024-08-15 | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
