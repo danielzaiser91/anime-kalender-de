@@ -390,6 +390,11 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
 - **Wiederholungen** eines Tages bündelt weiter `buendeleTermine()`: im TV-Kasten „+2 bis 18:50“
   (Klick nennt die Zeiten), bei Streaming „+N Folgen“; nie über Sender hinweg, ausgebliebene Termine
   und Premieren nie eingeklappt. Zusicherung: `check:logic`, „Bündel: …“.
+- **Ein Titel bei mehreren Streaming-Anbietern am selben Tag** ist eine Kachel (`vereineAnbieter()`, 12.10.2026, Daniel:
+  Reborn as a Space Mercenary, Crunchyroll + Prime Video): Farbleiste geteilt, Angaben je Anbieter
+  (`AnbieterAngaben.tsx`; was gleich ist, steht einmal), in Woche und Monat. Ausgebliebenes, Premieren und Termine mit
+  Sprachhinweis bleiben eigene Kacheln. Zusicherung: `pipeline/check-kachel-anbieter.ts`. Der Tageskopf („7 Termine“)
+  zählt weiter Termine je Anbieter.
 - **Farben und Schriften:** Variablen `--ak-*` je Thema in `styles.css`, in Tailwind `bg-ak-grund`,
   `text-ak-leise` usw.; Unbounded und Manrope selbst gehostet (`@fontsource`), nicht über Google
   Fonts — ein Abruf dort übermittelt die IP-Adresse.

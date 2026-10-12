@@ -8,6 +8,8 @@ import { coverBild } from '../lib/cover.ts'
 import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
 import { tageDerWoche, type Tag } from './WeekView.tsx'
 import { buendeleKacheln } from '../lib/buendel.ts'
+import { anbieterVerlauf, vereineAnbieter, zeitGemeinsam, type AnbieterKachel } from '../lib/anbieter-kachel.ts'
+import { AnbieterAngaben } from './kalender/AnbieterAngaben.tsx'
 import { Schwebe } from './kalender/Schwebe.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { FernsehZeichen } from './kalender/Zeichen.tsx'
@@ -25,6 +27,8 @@ export interface MonatProps {
   onPickDay: (date: string) => void
   /** Je gebündeltem Termin die letzte Folge des Bündels (`buendeleTermine`) — nur innerhalb einer Zelle gesetzt. */
   folgenBis?: Map<string, number>
+  /** Je Termin, der in seiner Zelle mehrere Anbieter vertritt, alle Bündel (`vereineAnbieter`) — nur innerhalb einer Zelle gesetzt. */
+  mehrere?: Map<string, AnbieterKachel>
 }
 
 /** Wie viele Cover eine Zelle zeigt; ab einem mehr steht an der letzten Stelle „+N". */
@@ -77,8 +81,11 @@ export function MonthView(p: MonatProps) {
 function MonatsZelle({ tag, p: alle, heute, vorbei, t }: { tag: Tag; p: MonatProps; heute: boolean; vorbei: boolean; t: ReturnType<typeof useLang>['t'] }) {
   /* Vier Folgen desselben Titels am selben Tag sind ein Bündel — wie in der Woche (Polar Opposites S2, 04.10.2026). */
   const gruppen = buendeleKacheln(tag.stream.filter((e) => !alle.hidden.has(e.titleId)), (ev) => art(ev, alle.data))
-  const stream = gruppen.map((g) => g[0]!)
-  const p = { ...alle, folgenBis: new Map(gruppen.filter((g) => g.length > 1 && g.at(-1)!.episode).map((g) => [g[0]!.id, g.at(-1)!.episode!])) }
+  /* Derselbe Titel bei zwei Anbietern am selben Tag ist ein Cover mit geteilter Leiste (Reborn as a Space Mercenary, 11.10.2026). */
+  const kacheln = vereineAnbieter(gruppen, (ev) => !!ev.verpasst || !!ev.premiere || !!ev.sprache)
+  const stream = kacheln.map((k) => k[0]![0]!)
+  const mehrere = new Map(kacheln.filter((k) => k.length > 1).map((k) => [k[0]![0]!.id, k]))
+  const p = { ...alle, mehrere, folgenBis: new Map(gruppen.filter((g) => g.length > 1 && g.at(-1)!.episode).map((g) => [g[0]!.id, g.at(-1)!.episode!])) }
   /* Ist das Fernsehen ausgeschaltet, stehen hier nur noch Premieren (App, 19.09.2026). */
   const tv = tag.tv
   const rahmen = [
@@ -143,11 +150,11 @@ function ZelleHandy({ tag, stream, tv, p, heute, t }: ZellProps) {
     <button
       type="button"
       onClick={stream.length + tv.length ? undefined : () => p.onPickDay(tag.date)}
-      aria-label={stream.length + tv.length ? punkteLabel(stream, tv.length, datum, p.data, t) : t('kal.tagOeffnen', { datum })}
+      aria-label={stream.length + tv.length ? punkteLabel(stream, tv.length, datum, p, t) : t('kal.tagOeffnen', { datum })}
       className="flex size-full min-h-[74px] cursor-pointer flex-col items-start gap-1 p-1.5 text-left"
     >
       <TagesZahl tag={tag} heute={heute} />
-      <PunkteReihe stream={stream} data={p.data} />
+      <PunkteReihe stream={stream} p={p} />
       {tv.length > 0 && (
         <span className="mt-auto flex items-center gap-0.5 text-[11px] font-bold text-ak-tv">
           <FernsehZeichen groesse={11} />
@@ -165,13 +172,19 @@ function ZelleHandy({ tag, stream, tv, p, heute, t }: ZellProps) {
 }
 
 /** Am Handy ein Punkt je Streaming-Termin in der Anbieterfarbe statt 22 px großer Cover (kein Bild geladen); die Titel nennt der Knopf per aria-label und die Tagesliste. */
-function PunkteReihe({ stream, data }: { stream: ReleaseEvent[]; data: Dataset }) {
+function PunkteReihe({ stream, p }: { stream: ReleaseEvent[]; p: MonatProps }) {
   const zeigen = stream.length > PUNKTE_MAX ? stream.slice(0, PUNKTE_MAX - 1) : stream
   const mehr = stream.length - zeigen.length
   return (
     <span className="flex flex-wrap content-start gap-[3px]" aria-hidden="true">
       {zeigen.map((ev) => (
-        <span key={ev.id} data-monatspunkt data-art={art(ev, data)} className="ak-punkt block size-2.5 rounded-full" style={{ '--punkt': PLATFORMS[ev.platform]?.color } as CSSProperties} />
+        <span
+          key={ev.id}
+          data-monatspunkt
+          data-art={artKachel(ev, p)}
+          className="ak-punkt block size-2.5 rounded-full"
+          style={{ '--punkt': PLATFORMS[ev.platform]?.color, background: farbleiste(ev, p) } as CSSProperties}
+        />
       ))}
       {mehr > 0 && <span className="text-[10px] leading-[10px] font-extrabold text-ak-text">+{mehr}</span>}
     </span>
@@ -179,10 +192,11 @@ function PunkteReihe({ stream, data }: { stream: ReleaseEvent[]; data: Dataset }
 }
 
 /** Farbe und Ring tragen nie allein: Der Knopf nennt Titel, Anbieter und Staffelstart/-finale der ersten Termine. */
-function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, data: Dataset, t: ReturnType<typeof useLang>['t']): string {
+function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, p: MonatProps, t: ReturnType<typeof useLang>['t']): string {
   const titel = stream.slice(0, LABEL_TITEL).map((ev) => {
-    const a = art(ev, data)
-    const anbieter = ev.platform === 'tv' ? (ev.sender ?? PLATFORMS.tv.name) : PLATFORMS[ev.platform].name
+    const a = artKachel(ev, p)
+    const koepfe = (p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => b[0]!)
+    const anbieter = koepfe.map((k) => (k.platform === 'tv' ? (k.sender ?? PLATFORMS.tv.name) : PLATFORMS[k.platform].name)).join(' + ')
     return `${ev.name} (${a ? `${anbieter}, ${t(a === 'start' ? 'kal.start' : 'kal.finale')}` : anbieter})`
   })
   const rest = stream.length - titel.length
@@ -202,24 +216,34 @@ function art(ev: ReleaseEvent, data: Dataset): 'start' | 'finale' | undefined {
   return istStaffelstart(ev, data) ? 'start' : istStaffelfinale(ev, data) ? 'finale' : undefined
 }
 
+/** Die Art der Kachel: die erste, die einer ihrer Anbieter trägt. */
+function artKachel(ev: ReleaseEvent, p: MonatProps): 'start' | 'finale' | undefined {
+  return (p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => art(b[0]!, p.data)).find(Boolean)
+}
+
+/** Die Leiste bzw. der Punkt in Anbieterfarbe, bei mehreren Anbietern geteilt. */
+function farbleiste(ev: ReleaseEvent, p: MonatProps): string {
+  return anbieterVerlauf((p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => PLATFORMS[b[0]!.platform]?.color ?? '#888'))
+}
+
 /** Ein Cover ohne Text: Zeigen nennt die Einzelheiten, ein Klick öffnet das Panel. */
 function CoverKnopf({ ev, p }: { ev: ReleaseEvent; p: MonatProps }) {
   const { t } = useLang()
   const cover = p.data.titleById.get(ev.titleId)?.coverImage
-  const a = art(ev, p.data)
+  const a = artKachel(ev, p)
   return (
     <Schwebe art="zeigen" breite={300} inhalt={<TerminZeile ev={ev} p={p} gross />}>
       <button
         type="button"
         onClick={() => p.onOpen(ev.releaseSlug, ev.date)}
-        aria-label={`${ev.name} — ${anbieterUndFolge(ev, t)}`}
+        aria-label={`${ev.name} — ${(p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => anbieterUndFolge(b[0]!, t)).join('; ')}`}
         className={[
           'relative block h-8 w-[22px] shrink-0 cursor-pointer overflow-hidden rounded-[5px] bg-ak-flaeche-2 transition hover:scale-105 sm:h-14 sm:w-[38px] sm:rounded-md',
           a === 'start' ? 'ring-2 ring-ak-akzent' : a === 'finale' ? 'ring-2 ring-ak-finale' : '',
         ].join(' ')}
       >
         {cover && <img {...coverBild(cover, 38)} alt="" loading="lazy" className="size-full object-cover" />}
-        <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: PLATFORMS[ev.platform]?.color }} />
+        <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: farbleiste(ev, p) }} />
       </button>
     </Schwebe>
   )
@@ -285,7 +309,8 @@ function TvInhalt({ tag, p }: { tag: Tag; p: MonatProps }) {
 function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?: boolean }) {
   const { t } = useLang()
   const cover = p.data.titleById.get(ev.titleId)?.coverImage
-  const a = art(ev, p.data)
+  const a = artKachel(ev, p)
+  const kachel = p.mehrere?.get(ev.id)
   return (
     <button
       type="button"
@@ -295,11 +320,12 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
     >
       <span className={`relative block overflow-hidden rounded-md bg-ak-flaeche-2 ${gross ? 'h-24 w-16' : 'h-14 w-10'}`}>
         {cover && <img {...coverBild(cover, gross ? 64 : 40)} alt="" loading="lazy" className="size-full object-cover" />}
-        <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: PLATFORMS[ev.platform]?.color }} />
+        <span className="absolute inset-x-0 bottom-0 h-[3px]" style={{ background: farbleiste(ev, p) }} />
       </span>
       <span className="flex min-w-0 flex-col items-start gap-1">
         <span className="flex flex-wrap items-center gap-1.5">
-          <ZeitMarke event={ev} t={t} /><SpracheMarke event={ev} t={t} />
+          {(!kachel || zeitGemeinsam(kachel)) && <ZeitMarke event={ev} t={t} />}
+          <SpracheMarke event={ev} t={t} />
           {a && (
             <span className={`rounded-full px-1.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14] ${a === 'start' ? 'bg-ak-akzent' : 'bg-ak-finale'}`}>
               {t(a === 'start' ? 'kal.start' : 'kal.finale')}
@@ -308,7 +334,9 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
           {ev.premiere && <PremiereMarke platform={ev.platform} vorher={ev.premiereVorher} className="px-1.5" />}
         </span>
         <span className="line-clamp-2 text-[13px] font-bold leading-snug text-ak-text">{ev.name}</span>
-        <span className="text-xs text-ak-leise">{anbieterUndFolge(ev, t, p.folgenBis?.get(ev.id))}</span>
+        <span className="text-xs text-ak-leise">
+          {kachel ? <AnbieterAngaben kachel={kachel} t={t} /> : anbieterUndFolge(ev, t, p.folgenBis?.get(ev.id))}
+        </span>
       </span>
     </button>
   )
