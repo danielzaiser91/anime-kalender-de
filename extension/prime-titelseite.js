@@ -11,7 +11,7 @@ globalThis.akPrimeHatTitelseite = (eintrag) => /\/detail(?:\/|\?gti=)/.test(Stri
 /* Der Vermerk der Prime-Liste, wie der letzte Durchgang endete. */
 globalThis.akPrimeEndeText = (ende) =>
   (ende.grund === 'nichts mehr offen' ? 'Durchgang fertig' : `Durchgang beendet · ${ende.grund}`) +
-  (ende.uebersprungen?.length ? ` · übersprungen: ${ende.uebersprungen.join(', ')}` : '') +
+  (ende.uebersprungen?.length ? ` · offen (Fehler beim Melden): ${ende.uebersprungen.join(', ')}` : '') +
   (ende.suchen ? ` · ${ende.suchen} Suchaufträge von Hand` : '')
 
 /* Startkennung eines Titels: die gti aus JustWatchs Adresse, sonst die Kennung der Titelseite. */
