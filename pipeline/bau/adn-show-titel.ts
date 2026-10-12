@@ -11,11 +11,11 @@ import { normalizeTitle } from '../lib/crunchyroll.ts'
 import type { AdnShow } from '../lib/adn.ts'
 import type { Title } from '../../shared/types.ts'
 
-/** Name ohne Akzente, ohne „Gekijōban"/„Eiga" vorn und ohne „Movie (N)" hinten. */
+/** Name ohne Akzente, ohne „Gekijōban"/„Eiga" vorn und ohne „Movie"/„Movie 1" hinten (höhere Nummern bleiben: "One Piece Movie 2" ist nicht Film 1). */
 export function filmSchluessel(name: string): string {
   return normalizeTitle(name.normalize('NFD').replace(/\p{M}/gu, ''))
     .replace(/^(gekijou?ban|eiga)\s+/, '')
-    .replace(/\s+(the\s+)?movie(\s+\d+)?$/, '')
+    .replace(/\s+(the\s+)?movie(\s+1)?$/, '')
 }
 
 /** Der einzige Film, dessen Name zu einem der Namen der Show passt; bei zwei Treffern keiner. */

@@ -5,6 +5,7 @@
  */
 import { filmSchluessel, filmZurShow } from './bau/adn-show-titel.ts'
 import { entferneOhneTitel } from './bau/ohne-titel.ts'
+import { readFileSync } from 'node:fs'
 import type { Title } from '../shared/types.ts'
 
 let verletzt = 0
@@ -27,6 +28,26 @@ pruefe('Serie (EPS) wird nie einem Film zugeordnet', filmZurShow({ ...show, epis
 pruefe('Serie als Format TV wird nicht gewählt', filmZurShow(show, [film(1, 'BLEACH: MEMORIES OF NOBODY MOVIE', 'TV')]) === undefined)
 pruefe('zwei Filme mit demselben Schlüssel: keiner', filmZurShow(show, [bleach1, film(2, 'Bleach Memories of Nobody')]) === undefined)
 pruefe('anderer Film bleibt unberührt', filmZurShow(show, [bleach2]) === undefined)
+
+console.log('\nHöhere Filmnummern treffen nie den ersten Film (Prüfer-Befund PR 910):')
+{
+  const einFilm = (name: string, ...andere: Title[]) => filmZurShow({ title: name, episodes: folgen('MOV') }, [film(459, 'One Piece: The Movie'), film(7472, 'Gintama: The Movie'), ...andere])
+  pruefe('One Piece Movie 2 und Movie 3 bleiben ohne Treffer', einFilm('One Piece Movie 2') === undefined && einFilm('One Piece - Movie 3') === undefined)
+  pruefe('Gintama Movie 2 bleibt ohne Treffer', einFilm('Gintama Movie 2') === undefined)
+  pruefe('One Piece Movie 1 trifft den ersten Film', einFilm('One Piece - Movie 1')?.id === 459)
+  pruefe('Movie 2 trifft den Film, der so heißt', einFilm('One Piece Movie 2', film(5, 'One Piece Movie 2'))?.id === 5)
+  /* Kollisionsliste über alle Filme in public/data: „<Name> Movie N" (N ab 2) darf nie genau diesen Film treffen. */
+  const alle = JSON.parse(readFileSync(new URL('../public/data/titles.json', import.meta.url), 'utf8')) as Title[]
+  const filme = alle.filter((t) => t.format === 'MOVIE')
+  const kollisionen: string[] = []
+  for (const t of filme) {
+    for (const name of [t.titleRomaji, t.titleEn]) {
+      if (!name) continue
+      for (const n of [2, 3, 4, 5]) if (filmZurShow({ title: `${name} Movie ${n}`, episodes: folgen('MOV') }, filme)?.id === t.id) kollisionen.push(`${name} Movie ${n} → ${t.id}`)
+    }
+  }
+  pruefe(`${filme.length} Filme: kein „Movie N" (N ≥ 2) landet beim Film ohne Nummer`, kollisionen.length === 0, kollisionen.slice(0, 5))
+}
 
 console.log('\nKein Release/Termin ohne Titel im Kalender:')
 {
