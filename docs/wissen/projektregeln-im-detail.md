@@ -295,6 +295,15 @@ Aufrufreihenfolge (`bauQuelltext()`, `panelQuelltext()`, `workerQuelltext()`).
 bei der Übernahme der eigenen `data/`-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen). Vorher endete der Konflikt als
 unbehandelte Ausnahme mit Exit 1 und sah aus wie ein Unterschied im Ergebnis. Die Codes stehen in `tools/bau-vergleich-urteil.mjs`.
 
+**Abstand und Sperre bei `bau-vergleich.mjs` (12.10.2026).** Ist die Basis kein Vorfahre des Kandidaten (Zweig hinter `origin/main` oder
+auseinandergelaufen), steht vor dem Lauf und am Ende eine WARNUNG mit Zahl der fehlenden Commits und der Merge-Basis
+(`tools/bau-vergleich-abstand.mjs`), bei „verschieden“ dazu, wie viele der Dateien die Basis seit der Merge-Basis selbst geändert hat.
+Anlass: Prüfer verglichen gegen das wandernde `origin/main` und sahen 32 fremde Dateien (`public/data/synopses/*`). Regel bleibt:
+zwei feste Hashes, bei einem Zweig hinter main gegen die Merge-Basis (`git merge-base`) oder erst rebasen. Die Sperre
+(`tools/einzel-sperre.mjs`, auch `panel-vergleich`) nannte schon PID und Startzeit, aber nicht, was läuft; jetzt steht in der Absage und
+in der Wartemeldung (sofort, dann jede Minute) PID, Startzeit, „vor N min“ sowie bei `bau-vergleich` beide Hashes und der Ort des
+Halters (Vorgabe für andere Werkzeuge: Skript, Argumente, Arbeitsverzeichnis). Wer wartet, wartet bis zu 10 min und gibt dann mit Exit 3 auf.
+
 **Stand nach dem ersten Umbau (26.09.2026):** `build.ts` 9.286 → 109 Zeilen, `main()` 7.809 → 90;
 die Phasen liegen in `pipeline/bau/` (größte Funktion 619 Zeilen). `DetailPanel.tsx` 6.237 →
 1.478, Teile in `web/src/components/detail/`. `handlePruefung` 1.244 → rund 70 (die Hälfte davon

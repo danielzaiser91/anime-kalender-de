@@ -31,12 +31,17 @@
  * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre;
  * wartet vorher bis zu 10 min auf den laufenden Vergleich), 4 = Konflikt bei der Übernahme der eigenen
  * data/-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen).
+ *
+ * Ist die Basis kein Vorfahre des Kandidaten (hinter `origin/main`, auseinandergelaufen), steht vor dem Lauf und am Ende eine
+ * WARNUNG (`bau-vergleich-abstand.mjs`) samt Zahl der Dateien, die die Basis selbst geändert hat. Basis und Kandidat als feste
+ * Hashes angeben, nicht gegen das wandernde `origin/main`. Die Sperre nennt wartenden Läufen PID, Hashes, Ort und Alter des Halters.
  */
 import { execFileSync, spawnSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { abstandsWarnung, fremdeUnterschiede, messeAbstand, vonBasisGeaendert } from './bau-vergleich-abstand.mjs'
 import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
 import { wartAufSperre } from './einzel-sperre.mjs'
 import { beschreibeUnterschied } from './vergleich-unterschied.mjs'
@@ -175,10 +180,13 @@ function meldeWiderspruchWarnungen(seite, ordner) {
   if (n) console.log(`${seite}: ${n} Widerspruch-Meldungen des Baus als Warnung durchgelassen (Vergleichsmodus) — Einzelheiten im Protokoll ${ordner}`)
 }
 
-await wartAufSperre('bau-vergleich', 10 * 60_000)
 const [basisName, kandidatName] = process.argv.slice(2)
 const basis = git('rev-parse', basisName ?? 'origin/main')
 const kandidat = git('rev-parse', kandidatName ?? 'HEAD')
+const abstand = messeAbstand(git, basis, kandidat)
+const warnung = abstandsWarnung(abstand, basis, kandidat)
+for (const zeile of warnung) console.log(zeile)
+await wartAufSperre('bau-vergleich', 10 * 60_000, undefined, `bau-vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} in ${WURZEL}`)
 const a = baue(basis, basis)
 if (!readFileSync(join(a, '_protokoll.txt'), 'utf8').startsWith('exit 0')) {
   console.error(`Der Bau der Basis ${basis.slice(0, 12)} scheitert selbst — siehe ${a}/_protokoll.txt`)
@@ -202,6 +210,7 @@ const verschieden = liste.filter((f) => {
 if (!verschieden.length) {
   console.log(`gleich: ${kandidat.slice(0, 12)} schreibt dasselbe wie ${basis.slice(0, 12)}`)
   for (const zeile of gleichTrotzDatenHinweis(git, basis, kandidat)) console.log(zeile)
+  for (const zeile of warnung) console.log(zeile)
   process.exit(EXIT.GLEICH)
 }
 for (const f of verschieden) {
@@ -209,6 +218,10 @@ for (const f of verschieden) {
   if (!TEXTDATEI.test(f)) continue
   const lies = (ordner) => (existsSync(join(ordner, f)) ? readFileSync(join(ordner, f), 'utf8') : '')
   for (const zeile of beschreibeUnterschied(f, lies(a), lies(b))) console.log(zeile)
+}
+if (warnung.length) {
+  console.log(fremdeUnterschiede(verschieden, vonBasisGeaendert(git, abstand, basis)) ?? 'Keine der verschiedenen Dateien hat die Basis seit der Merge-Basis geändert.')
+  for (const zeile of warnung) console.log(zeile)
 }
 console.log(`VERSCHIEDEN (${verschieden.length} Dateien) — Einzelheiten: ${a} gegen ${b}`)
 process.exit(EXIT.VERSCHIEDEN)
