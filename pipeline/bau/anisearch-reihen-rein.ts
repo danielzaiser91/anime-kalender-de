@@ -1,3 +1,4 @@
+import { otherZaehlt } from '../../shared/mappings.ts'
 import { type Kante, type Namen, malKanten, zaehlt } from './anisearch-reihen.ts'
 import type { Pruefzeile, ReiheRef } from './anisearch-reihen-uebernahme.ts'
 import { WANDERREGEL } from './anisearch-reihen-uebernahme.ts'
@@ -11,7 +12,8 @@ import { WANDERREGEL } from './anisearch-reihen-uebernahme.ts'
 const ANONYM = 2_000_000_000
 export const reihenAusAnisearch = (): boolean => process.env.REIHEN_QUELLE === 'anisearch'
 
-export type ReinTitel = { id: number; name: string; anisearchId?: number; mal?: number }
+/** `mal`: MAL-Kennung des Titels selbst (AniList); `malAnisearch`: die im aniSearch-Eintrag, nur ein Ersatz, wenn `mal` fehlt (siehe `malVerbindungen`). */
+export type ReinTitel = { id: number; name: string; anisearchId?: number; mal?: number; malAnisearch?: number }
 /** `verbinden`: `ids:` der Handdatei (gelten immer); `trennen`: `getrennt:` (keine Verbindung zwischen den Reihen dieser Titel, gleich welcher Art). */
 export type ReinHand = { verbinden: number[][]; trennen: number[][] }
 export type ReinErgebnis = {
@@ -132,16 +134,43 @@ function universumZeilen(kanten: Kante[], jeKennung: Map<number, number[]>, b: B
  * Verteilung am 12.10.2026: 6.767 Kennungen mit einem, 62 mit zwei, höchstens acht echte Teile einer Reihe, dann der Ausreißer mit 27). Mehr als `MAL_GRUPPE_MAX` aniSearch-Kennungen je MAL-Kennung verbinden nicht.
  */
 const MAL_GRUPPE_MAX = 8
-function malVerbindungen(titel: ReinTitel[]): Kante[] {
-  const kanten = malKanten(titel.map((t) => ({ anisearchId: t.anisearchId, mal: t.mal })))
-  const groesse = new Map<number, number>()
-  for (const k of kanten) groesse.set(k.a, (groesse.get(k.a) ?? 1) + 1)
-  return kanten.filter((k) => groesse.get(k.a)! <= MAL_GRUPPE_MAX)
+/**
+ * aniSearch trägt bei frisch angelegten Einträgen manchmal die MAL-Kennung des Nachbareintrags (12.10.2026: 21603 Dr. Slump hat die von 21602 Xian Di Guilai, 21619 die von 21617, 21605 die von 21604, 21648
+ * die von 21647; von 78 Gruppen mit mehreren Einträgen enthalten 14 Paare ohne Namensanfang und ohne Kante). Eine MAL-Kennung, die nur aus aniSearchs Eintrag stammt (`malAnisearch`), verbindet deshalb nur,
+ * wenn aniSearch die beiden Einträge auch sonst zusammenbringt: gemeinsamer Namensanfang (`MAL_NAME_MIN`) oder eine Beziehung irgendeiner Art. Die eigene MAL-Kennung des Titels (`mal`, von AniList) gilt wie bisher.
+ */
+const MAL_NAME_MIN = 5
+const effektiveMal = (t: ReinTitel): number | undefined => t.mal ?? t.malAnisearch
+
+/** Gilt ein Paar aniSearch-Kennungen als zusammengehörig: gemeinsamer Namensanfang oder direkte Beziehung? */
+function belegtJeKennung(titel: ReinTitel[], kanten: Kante[], namen: Namen): (a: number, b: number) => boolean {
+  const nachbarn = new Map<number, Set<number>>()
+  for (const k of kanten) {
+    nachbarn.set(k.a, (nachbarn.get(k.a) ?? new Set()).add(k.b))
+    nachbarn.set(k.b, (nachbarn.get(k.b) ?? new Set()).add(k.a))
+  }
+  const eigene = new Map<number, string[]>()
+  for (const t of titel) if (t.anisearchId) eigene.set(t.anisearchId, [...(eigene.get(t.anisearchId) ?? []), t.name])
+  const namenVon = (id: number): string[] => [...(namen.get(id) ?? []), ...(eigene.get(id) ?? [])]
+  return (a, b) => nachbarn.get(a)?.has(b) === true || otherZaehlt(namenVon(a), namenVon(b), MAL_NAME_MIN)
+}
+
+function malVerbindungen(titel: ReinTitel[], kanten: Kante[], namen: Namen): Kante[] {
+  const jeMal = new Map<number, ReinTitel[]>()
+  for (const t of titel) if (t.anisearchId && effektiveMal(t)) jeMal.set(effektiveMal(t)!, [...(jeMal.get(effektiveMal(t)!) ?? []), t])
+  const belegt = belegtJeKennung(titel, kanten, namen)
+  const behalten = new Set<ReinTitel>()
+  for (const gruppe of jeMal.values()) {
+    if (new Set(gruppe.map((t) => t.anisearchId)).size > MAL_GRUPPE_MAX) continue
+    const mitBeleg = (t: ReinTitel): boolean => t.mal !== undefined || gruppe.some((u) => u.anisearchId !== t.anisearchId && belegt(t.anisearchId!, u.anisearchId!))
+    gruppe.filter(mitBeleg).forEach((t) => behalten.add(t))
+  }
+  return malKanten(titel.filter((t) => behalten.has(t)).map((t) => ({ anisearchId: t.anisearchId, mal: effektiveMal(t) })))
 }
 
 /** Die Kanten, die unter der Regel zählen, in der Reihenfolge Kern, „?“, Sammelart (innerhalb davon nach Kennung, damit das Ergebnis nicht von der Leseordnung abhängt). */
 function zaehlendeKanten(titel: ReinTitel[], kanten: Kante[], namen: Namen): Kante[] {
-  return [...kanten, ...malVerbindungen(titel)]
+  return [...kanten, ...malVerbindungen(titel, kanten, namen)]
     .filter((k) => zaehlt(k, WANDERREGEL, namen))
     .sort((p, q) => rangDerArt(p.art) - rangDerArt(q.art) || p.a - q.a || p.b - q.b || p.art.localeCompare(q.art))
 }
