@@ -120,12 +120,15 @@ export function folgenzahlGegenAnisearch(b: Bestand): Regel {
   return regel('DD-22', 'Folgenzahl: AniList gegen aniSearch-Folgenliste', '„x von n Folgen" rechnet mit der falschen Gesamtzahl', geprueft, treffer)
 }
 
-/** DD-24: Im Hauptbestand, aber ohne jeden Beleg einer deutschen Synchro (B-01). */
+/** aniSearchs Dub-Kennzeichen des Titels: AniList-Kennung zuerst, sonst über seine aniSearch-Kennung (reine aniSearch-Titel). */
+const anisearchMarke = (b: Bestand, t: Title): string | undefined => b.anisearchDubs[String(t.id)] ?? b.anisearchDubIds[String(t.anisearchId ?? '')]
+
+/** DD-24: Im Hauptbestand, aber ohne jeden Beleg einer deutschen Synchro (B-01). Vertont (`d`) oder abgebrochen (`c`) bei aniSearch ist ein Beleg, wie im Bau (`deutschLautAnisearch`, 12.10.2026). */
 export function ohneJedenBeleg(b: Bestand): Regel {
   const mitRelease = new Set(b.releases.map((r) => r.titleId))
   const treffer = b.titles
-    .filter((t) => !t.streams.some((s) => s.dub === true) && !mitRelease.has(t.id) && !t.deErstausgabe && !t.watchLinks?.length && !t.ankuendigung && !t.westlich)
-    .map((t) => ({ schluessel: String(t.id), text: `${titelName(t)}: dubConfidence ${t.dubConfidence}, kein Stream, Termin, Weg, aniSearch-Ausgabe${b.anisearchDubs[String(t.id)] === 'd' ? ' — aniSearch-Dub-Liste führt ihn' : ''}`, ort: `/t/${t.slug}/` }))
+    .filter((t) => !t.streams.some((s) => s.dub === true) && !mitRelease.has(t.id) && !t.deErstausgabe && !t.watchLinks?.length && !t.ankuendigung && !t.westlich && !['d', 'c'].includes(anisearchMarke(b, t) ?? ''))
+    .map((t) => ({ schluessel: String(t.id), text: `${titelName(t)}: dubConfidence ${t.dubConfidence}, kein Stream, Termin, Weg, aniSearch-Ausgabe${anisearchMarke(b, t) === 'p' ? ' — aniSearch führt Deutsch nur als geplant' : ''}`, ort: `/t/${t.slug}/` }))
   return regel('DD-24', 'Im Bestand ohne jeden Beleg', 'Zählt als „belegte deutsche Synchro", ohne dass irgendetwas sie belegt', b.titles.length, treffer)
 }
 

@@ -8,7 +8,8 @@
  * privaten R2-Ablage des Workers ab (`/beleg`). Das Gedächtnis steht in `data/beleg-lesungen.json`.
  *
  * Eine Störung ist kein Befund: Liefert eine Seite keinen Artikeltext, wird nichts gemerkt. Nach
- * drei Störungen in Folge endet der Lauf — eine Sperre wird abgewartet, nicht durchgefragt.
+ * drei Störungen in Folge bei einem Anbieter ruht dieser bis zum nächsten Lauf — eine Sperre wird
+ * abgewartet, nicht durchgefragt; die übrigen Anbieter werden weiter gelesen (`lib/beleg-stoerung.ts`).
  *
  * Aufruf: npx tsx pipeline/belege-lesen.ts [--limit 25] [--abstand 7] [--adresse <url>]
  */
@@ -22,6 +23,7 @@ import {
   adressenAusNews, adressenMitOffenemTermin, bildOhnePruefung, ohneMarkenJeTitel, crunchyrollDatum, entzieheBild, kopfzeilenDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
+import { neueStoerungen, seiteninfo } from './lib/beleg-stoerung.ts'
 import { BILD_FASSUNG, belegAusschnitt } from './lib/beleg-bild.ts'
 import { schreibeOhneFundstelle } from './lib/beleg-ohne-fundstelle.ts'
 import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse } from './lib/beleg-suche.ts'
@@ -101,18 +103,18 @@ async function main(): Promise<void> {
   const browser = await chromium.launch()
   let gelesen = 0
   let neu = 0
-  let stoerungen = 0
+  const stoerungen = neueStoerungen(STOERUNGEN_BIS_ABBRUCH)
   try {
     const ansicht = { locale: 'de-DE', viewport: { width: 1280, height: 900 } }
     const cr = await browser.newPage({ ...ansicht, userAgent: UA_CRUNCHYROLL })
     const andere = await browser.newPage(ansicht)
     for (const s of [cr, andere]) await s.addInitScript('window.__name = (f) => f')
     for (const url of schlange) {
+      if (stoerungen.ruht(url)) continue
       try {
         const seite = url.includes('crunchyroll.com') ? cr : andere
         const g = await lies(seite, url)
-        if (g.text.length < MINDESTTEXT) throw new Error(`kein Artikeltext (${g.text.length} Zeichen)`)
-        stoerungen = 0
+        if (g.text.length < MINDESTTEXT) throw new Error(`kein Artikeltext (${g.text.length} Zeichen, ${await seiteninfo(seite)})`)
         const hash = textHash(g.text)
         const mitDatum = traegtArtikeldatum(url)
         const lesung: Lesung = {
@@ -150,7 +152,7 @@ async function main(): Promise<void> {
             entzieheBild(gedaechtnis, url)
             throw new Error('Zustimmungswand bleibt im Bild — kein Beleg')
           }
-          if (beleg === 'leer') throw new Error('Aufnahme einfarbig — kein Beleg')
+          if (beleg === 'leer') throw new Error(`Aufnahme einfarbig — kein Beleg (${await seiteninfo(seite)})`)
           if (beleg) {
             ziel.qs = 'ok'; ziel.bildfassung = BILD_FASSUNG
             if (beleg.markierung) ziel.markierung = lesung.markierung = beleg.markierung
@@ -162,12 +164,10 @@ async function main(): Promise<void> {
         if (gedaechtnis[url]) gedaechtnis[url]!.lesungen = gedaechtnis[url]!.lesungen.filter((l) => l.qs === 'ok')
         if (merkeLesung(gedaechtnis, url, lesung)) neu++
         gelesen++
+        stoerungen.erfolg(url)
       } catch (e) {
         warn(`Beleg nicht gelesen: ${url} — ${(e as Error).message}`)
-        if (++stoerungen >= STOERUNGEN_BIS_ABBRUCH) {
-          warn(`${STOERUNGEN_BIS_ABBRUCH} Störungen in Folge — der Lauf endet hier, das Erreichte wird geschrieben.`)
-          break
-        }
+        stoerungen.fehl(url)
       }
     }
   } finally {
