@@ -11,7 +11,7 @@ const SAMMELARTEN: ReadonlySet<string> = new Set(['Anderes', 'Charakter', 'Cross
  * verschoben wurde, ist schon ausgeliefert und dient nur als Ziel (Anker): Er zieht nie um, auch wenn er allein steht. Reine Funktion; Lesen und Schreiben der Prüfliste
  * in `anisearch-reihen-pruefliste.ts`.
  */
-export type Anker = { id: number; name: string; anisearchId?: number; reihe: number }
+export type Anker = { id: number; name: string; anisearchId?: number; reihe: number; mal?: number }
 export type KatalogUebernahme = {
   reihe: Map<number, number>
   ergebnis: Uebernahme
