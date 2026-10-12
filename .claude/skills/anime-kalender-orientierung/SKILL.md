@@ -13,6 +13,9 @@ description: Einstieg in dieses Repo (anime-kalender-de) für Agenten — wo was
    - neue Regel im Bau → Phase in `pipeline/bau/`, Helfer in `pipeline/lib/`; Prüfung des Ergebnisses in `pipeline/lib/pruefung.ts`
    - Anzeige → `web/src/components/…` (Zuordnung in `karte.md` §5); Texte `web/src/lib/i18n*.ts`
    - Status/Erschienen/Nächste Folge → ausschließlich `shared/logic.ts`
+   - Tests (Stand 12.10.2026): Pipeline-Logik → `pipeline/check-<thema>.ts`, eingetragen in `tools/check-logic-liste.txt`; Prüfungen gegen
+     `public/data` stattdessen in `check:bestand` (Soll seit PR 906/911, rund 19 alte in `check:logic` lesen es noch). Kein `*.test.ts` außer
+     `tools/worker-*.test.ts`; Werkzeuge `tools/*.test.mjs`, Erweiterung `extension/*.test.cjs`
 3. **Datenrichtigkeit unabhängig messen** (vor „funktioniert" und nach jedem Bau): `node tools/daten-befund.mjs` — liest nur, endet immer mit Exit 0, jede ✗-Zeile
    ist ein Befund (doppelte Slugs/Folgen, Datumsreihenfolge, Release ohne Titel, Meta-Zahlen, Titel ohne Beleg, Disc-Suchadressen, Ladelast).
    Die Bauprüfung allein genügt nicht (`docs/wissen/befund-2026-10-02.md`, B-07).
