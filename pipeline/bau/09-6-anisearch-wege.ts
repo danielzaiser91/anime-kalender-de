@@ -8,6 +8,7 @@ import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { providerName } from '../../shared/mappings.ts'
 import { kapitelImBlock, beurteile, type CrDubData } from '../lib/crunchyroll-dub.ts'
 import { beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
+import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 import { type AnisearchEintrag } from './01-quellen.ts'
 import type { AdnArchiv } from '../lib/adn-sprachen.ts'
 
@@ -257,6 +258,8 @@ export function ergaenzeAnisearchWege({
     let wegeErgaenzt = 0
     const jeAnbieter: Record<string, number> = {}
     for (const title of titles.values()) {
+      /* Titel nur bei aniSearch tragen keinen Verweis ohne Herkunft (Zusicherung in check-crunchyroll-zuordnung); ihre Wege kommen als Bezugswege in 11-3. */
+      if (title.id >= ANISEARCH_ID_BASIS) continue
       const quellen = anisearch[title.id]?.streams ?? []
       if (!quellen.length) continue
       const bekannt = new Set(
