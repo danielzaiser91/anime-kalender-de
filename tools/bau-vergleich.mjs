@@ -7,6 +7,7 @@
  * unangetastet, man kann währenddessen weiterarbeiten. Das Ergebnis eines Commits wird unter
  * `$TMPDIR/bau-vergleich/` aufgehoben; die Basis baut deshalb nur beim ersten Mal (≈ 5 min). Läuft
  * schon ein Vergleich, wartet der Aufruf bis zu 10 min auf dessen Sperre, bevor er mit Exit 3 aufgibt.
+ * Ein gesperrter, aber auf der Platte fehlender `baum-*`-Worktree (Rest eines hart beendeten Laufs) wird nach der Sperre entfernt (`bau-vergleich-reste.mjs`).
  *
  * `data/cache/` liegt nicht im Repo. Statt des echten Caches wird ein Ersatz aus
  * `public/data/titles.json` und `franchises.json` des Basis-Commits nachgebildet. Der ist nicht
@@ -41,6 +42,7 @@ import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symli
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { raeumeVerwaisteBaeume } from './bau-vergleich-reste.mjs'
 import { abstandsWarnung, fremdeUnterschiede, messeAbstand, vonBasisGeaendert } from './bau-vergleich-abstand.mjs'
 import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
 import { wartAufSperre } from './einzel-sperre.mjs'
@@ -112,7 +114,7 @@ function ersatzCache(ort, basisSha) {
  */
 function entferneBaum(baum) {
   rmSync(baum, { recursive: true, force: true })
-  git('worktree', 'prune')
+  raeumeVerwaisteBaeume(git, ABLAGE)
 }
 
 /**
@@ -187,6 +189,7 @@ const abstand = messeAbstand(git, basis, kandidat)
 const warnung = abstandsWarnung(abstand, basis, kandidat)
 for (const zeile of warnung) console.log(zeile)
 await wartAufSperre('bau-vergleich', 10 * 60_000, undefined, `bau-vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} in ${WURZEL}`)
+raeumeVerwaisteBaeume(git, ABLAGE)
 const a = baue(basis, basis)
 if (!readFileSync(join(a, '_protokoll.txt'), 'utf8').startsWith('exit 0')) {
   console.error(`Der Bau der Basis ${basis.slice(0, 12)} scheitert selbst — siehe ${a}/_protokoll.txt`)

@@ -303,6 +303,7 @@ zwei feste Hashes, bei einem Zweig hinter main gegen die Merge-Basis (`git merge
 (`tools/einzel-sperre.mjs`, auch `panel-vergleich`) nannte schon PID und Startzeit, aber nicht, was läuft; jetzt steht in der Absage und
 in der Wartemeldung (sofort, dann jede Minute) PID, Startzeit, „vor N min“ sowie bei `bau-vergleich` beide Hashes und der Ort des
 Halters (Vorgabe für andere Werkzeuge: Skript, Argumente, Arbeitsverzeichnis). Wer wartet, wartet bis zu 10 min und gibt dann mit Exit 3 auf.
+Eine Sperre mit totem Halter (PID lebt nicht) übernimmt der nächste Lauf mit Meldung. Seit 12.10.2026 räumt `bau-vergleich` nach der Sperre auch gesperrte `baum-*`-Worktrees, deren Ordner fehlt, selbst ab (`git worktree prune` lässt gesperrte stehen; Rest eines hart beendeten `worktree add`, Sperre „initializing“) — `tools/bau-vergleich-reste.mjs`, nur in der eigenen Ablage.
 
 **Stand nach dem ersten Umbau (26.09.2026):** `build.ts` 9.286 → 109 Zeilen, `main()` 7.809 → 90;
 die Phasen liegen in `pipeline/bau/` (größte Funktion 619 Zeilen). `DetailPanel.tsx` 6.237 →
