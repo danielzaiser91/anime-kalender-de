@@ -45,6 +45,11 @@ pruefe('Gleiche aniSearch-Kennung ist dieselbe Reihe; MAL-Kennung ohne aniSearch
 const gleichMal = reineOhne([{ id: 3, name: 'C', anisearchId: 3, mal: 5 }, { id: 4, name: 'D', anisearchId: 4, mal: 5 }], [])
 pruefe('Gleiche MAL-Kennung zweier aniSearch-Titel verbindet', reihe(gleichMal, 4) === 3)
 
+const ueberSeite = reineOhne(titel(1, 3), [k(1, 50, 'Sequel'), k(50, 3, 'Sequel')])
+pruefe('Eine aniSearch-Seite ohne eigenen Titel verbindet trotzdem (1 → 50 → 3)', reihe(ueberSeite, 3) === 1)
+const seiteZaehlt = reineOhne(titel(1, 3), [k(1, 50, 'Sequel'), k(3, 51, 'Sequel'), k(1, 3, 'Anderes')], new Map([[1, ['Final Fantasy']], [3, ['Final Fantasy 3']]]))
+pruefe('Eine Seite ohne Titel zählt für die Größe der Reihe: 1 + Seite und 3 + Seite sind zwei Reihen, „Anderes" verbindet sie nicht', reihe(seiteZaehlt, 3) === 3 && faelle(seiteZaehlt, 'verschmilzt') === 1)
+
 /* „?": Reihen {1,2} und {3,4} stehen durch Sequel fest; 5 hängt nur über „?" an 1; 2 –?→ 3 wäre eine Brücke (Gintama). */
 const fragezeichen = reineOhne(titel(1, 2, 3, 4, 5), [k(1, 2, 'Sequel'), k(3, 4, 'Sequel'), k(5, 1, '?'), k(2, 3, '?')])
 pruefe('„?" hängt einen Alleinstehenden an eine Reihe', reihe(fragezeichen, 5) === 1)
@@ -52,12 +57,13 @@ pruefe('„?" verbindet nie zwei Reihen mit mehreren Titeln; der Fall steht als 
 const kernVorFrage = reineOhne(titel(1, 2, 3), [k(1, 3, '?'), k(2, 3, 'Sequel'), k(1, 2, 'Sequel')])
 pruefe('Kernarten gehen vor „?" (gleiches Ergebnis, auch wenn „?" zuerst genannt ist)', reihe(kernVorFrage, 3) === 1 && faelle(kernVorFrage, 'verschmilzt') === 0)
 
-/* Sammelarten: Namensbedingung erfüllt (Final Fantasy …), trotzdem wandert kein Alleinstehender. */
+/* Sammelarten: ein Alleinstehender wandert bei erfüllter Namensbedingung (ohne AniList gibt es keine andere Quelle), zwei Reihen verbinden sie nie. */
 const anderes = reineOhne(titel(1, 2, 5), [k(1, 2, 'Sequel'), k(5, 1, 'Anderes')], gleichNamen)
-pruefe('Sammelart: ein Alleinstehender, der nur über „Anderes" hängt, wandert nicht (Final Fantasy VII)', reihe(anderes, 5) === 5 && faelle(anderes, 'sammelart') === 1)
-pruefe('Sammelart: der Fall nennt Reihe und Alleinstehenden', anderes.pruefliste[0]?.alleinstehende[0] === 'T5' && anderes.pruefliste[0]?.reihen[0]?.id === 1)
-const zweiAlleinstehende = reineOhne(titel(5, 6), [k(5, 6, 'Charakter')], gleichNamen)
-pruefe('Sammelart: zwei Alleinstehende, nur über „Charakter" verbunden, bilden keine Reihe', reihe(zweiAlleinstehende, 6) === 6 && faelle(zweiAlleinstehende, 'sammelart') === 1)
+pruefe('Sammelart: ein Alleinstehender, der nur über „Anderes" hängt, kommt in die Reihe (Namensanfang gleich)', reihe(anderes, 5) === 1 && anderes.pruefliste.length === 0)
+const zweiAlleinstehende = reineOhne(titel(5, 6), [k(5, 6, 'Charakter')], new Map([[5, ['Final Fantasy VII: Advent Children']], [6, ['Final Fantasy VII: Last Order']]]))
+pruefe('Sammelart: zwei Alleinstehende, nur über „Charakter" verbunden, bilden eine Reihe, wenn der Namensanfang lang genug ist (12 Zeichen)', reihe(zweiAlleinstehende, 6) === 5)
+const zuKurz = reineOhne(titel(5, 6), [k(5, 6, 'Charakter')], new Map([[5, ['Gundam']], [6, ['Gundam Wing']]]))
+pruefe('Sammelart: „Charakter" mit kurzem gemeinsamem Namensanfang zählt nicht (Gundam / Gundam Wing)', reihe(zuKurz, 6) === 6)
 const bruecke = reineOhne(titel(1, 2, 3, 4), [k(1, 2, 'Sequel'), k(3, 4, 'Sequel'), k(2, 3, 'Crossover')], gleichNamen)
 pruefe('Sammelart: verbindet nie zwei Reihen mit mehreren Titeln', reihe(bruecke, 3) === 3 && faelle(bruecke, 'verschmilzt') === 1)
 const ohneName = reineOhne(titel(1, 2, 3, 4), [k(1, 2, 'Sequel'), k(3, 4, 'Sequel'), k(2, 3, 'Anderes')], new Map([[2, ['Gundam']], [3, ['Tamako Market']]]))
@@ -82,7 +88,7 @@ pruefe('Fest: ein Katalogtitel kommt in die feste Reihe, deren Kennung bleibt (a
 pruefe('Fest: zwei feste Reihen verschmelzen nie, der Fall steht auf der Prüfliste', reihe(katalog, 20) === 20 && faelle(katalog, 'verschmilzt') === 1)
 pruefe('Fest: Katalogtitel ohne feste Reihe bilden eine neue (kleinste Kennung)', reihe(katalog, 31) === 30)
 const festEinzel = reineOhne(titel(20, 12), [k(12, 20, 'Anderes')], gleichNamen, ohneHand, new Map([[20, 20]]))
-pruefe('Fest: ein fester Einzeltitel ist Ziel einer Kernart, aber nicht einer Sammelart', reihe(festEinzel, 12) === 12 && faelle(festEinzel, 'sammelart') === 1)
+pruefe('Fest: ein Katalogtitel hängt über eine Sammelart an einen festen Einzeltitel', reihe(festEinzel, 12) === 20)
 const festKern = reineOhne(titel(20, 12), [k(12, 20, 'Sequel')], gleichNamen, ohneHand, new Map([[20, 20]]))
 pruefe('Fest: ein Katalogtitel mit Kernart kommt zum festen Einzeltitel', reihe(festKern, 12) === 20)
 

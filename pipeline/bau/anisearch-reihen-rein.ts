@@ -24,12 +24,14 @@ export type ReinErgebnis = {
 }
 
 /**
- * **Die Regel für „?“ und die Sammelarten** (Prüfer 11.10.2026: „?“ lag bei 4 von 15 Katalogtreffern falsch, ein Alleinstehender mit „Anderes“ als einziger Kante landete in Final Fantasy VII;
- * die „?“-Kante Gintama-Brücke verband zwei große Reihen). Gemessen in `daniel-zum-abarbeiten/berichte/reihen-anisearch-schalter-2026-10-12.md`.
- *  1. Kernarten (und gleiche MAL-Kennung, gleiche Kennung) verbinden immer; zuerst.
- *  2. „?“ zählt wie eine Kernart, aber danach und nie als Brücke: verbände sie zwei Reihen mit mehreren Titeln (oder zwei feste), bleibt sie auf der Prüfliste.
- *  3. Sammelarten (Anderes, Charakter, Crossover; Bedingung Namensanfang wie in `REGEL`) zuletzt, nie als Brücke und nie für einen Alleinstehenden, der nur über sie hängt: sie ergänzen nur
- *     Reihen, die schon feststehen. „Gemeinsames Universum“ verbindet nie und steht als Fall auf der Prüfliste.
+ * **Die Regel für „?“ und die Sammelarten.** Ohne AniList ist aniSearch die einzige Quelle, also darf ein Alleinstehender über sie wandern (die Hybridregel sperrte ihn im Katalog, weil dort AniList
+ * die Reihe schon trug); gesperrt bleibt, was zwei Reihen verbände (Prüfer 11.10.2026: „?“-Brücke Gintama, Crossover Lupin/Conan). Stichprobe 12.10.2026: von 45 Alleinstehenden, die nur über
+ * Anderes/Charakter/Crossover an einer Reihe hängen, sind nach Namen 43 plausibel (Sonderfolgen, Digests, Piloten zum selben Titel); Gegenbeispiel Final Fantasy → FF VII.
+ *  1. Kernarten, gleiche MAL-Kennung und gleiche aniSearch-Kennung verbinden immer, zuerst.
+ *  2. „?“ zählt danach wie eine Kernart.
+ *  3. Sammelarten (Anderes, Charakter, Crossover; Bedingung Namensanfang wie in `REGEL`) zuletzt.
+ *  Eine Kante der Ränge 2 und 3 verbindet **nie zwei Reihen mit mehreren Titeln** (oder zwei feste Reihen): der Fall steht als `verschmilzt` auf der Prüfliste, der Weg ist `ids:` in
+ *  `reihen-von-hand.yaml`. „Gemeinsames Universum“ verbindet nie und steht als Fall `universum` auf der Prüfliste.
  */
 const SAMMELARTEN: ReadonlySet<string> = new Set(['Anderes', 'Charakter', 'Crossover', 'Gemeinsames Universum'])
 const UNSICHER = '?'
@@ -38,7 +40,7 @@ const UNIVERSUM = 'Gemeinsames Universum'
 /** 0 Kern, 1 „?“, 2 Sammelart. */
 export const rangDerArt = (art: string): 0 | 1 | 2 => (art === UNSICHER ? 1 : SAMMELARTEN.has(art) ? 2 : 0)
 
-type Sperre = { x: number; y: number; art: string; grund: 'bruecke' | 'sammelart' }
+type Sperre = { x: number; y: number; art: string }
 
 /** Union-Find über Knoten (kleinste Kennung gewinnt, Titel vor Seiten ohne Titel) mit Größe und fester Reihe je Wurzel; Knoten entstehen beim ersten Zugriff. */
 function bildner(fest: Map<number, number>) {
@@ -88,27 +90,23 @@ const getrennt = (b: Bildner, trennen: number[][], x: number, y: number): boolea
 }
 
 /** Prüft eine Kante gegen die Regel; gibt den Sperrgrund zurück oder `undefined`, wenn verbunden werden darf. */
-function sperrgrund(b: Bildner, hand: ReinHand, x: number, y: number, rang: 0 | 1 | 2): 'getrennt' | 'bruecke' | 'sammelart' | undefined {
+function sperrgrund(b: Bildner, hand: ReinHand, x: number, y: number, rang: 0 | 1 | 2): 'getrennt' | 'bruecke' | undefined {
   const [rx, ry] = [b.find(x), b.find(y)]
   if (b.feste.has(rx) && b.feste.has(ry) && b.feste.get(rx) !== b.feste.get(ry)) return 'bruecke'
   if (getrennt(b, hand.trennen, x, y)) return 'getrennt'
-  if (rang === 0) return undefined
-  if (b.gross(rx) && b.gross(ry)) return 'bruecke'
-  return rang === 2 && (!b.gross(rx) || !b.gross(ry)) ? 'sammelart' : undefined
+  return rang !== 0 && b.gross(rx) && b.gross(ry) ? 'bruecke' : undefined
 }
 
-/** Sperren am Ende zu Prüfzeilen: nur solche, die am Schluss noch zwei Reihen trennen; je Reihenpaar (und Alleinstehende) eine Zeile. */
+/** Sperren am Ende zu Prüfzeilen: nur solche, die am Schluss noch zwei Reihen trennen; je Reihenpaar eine Zeile. */
 function sperrenZuZeilen(sperren: Sperre[], b: Bildner, name: (id: number) => string): Pruefzeile[] {
   const ref = (r: number): ReiheRef => ({ id: r, name: name(r), titel: b.groesse.get(r)! })
   const zeilen = new Map<string, Pruefzeile>()
   for (const s of sperren) {
     const [rx, ry] = [b.find(s.x), b.find(s.y)]
     if (rx === ry || rx >= ANONYM || ry >= ANONYM) continue
-    const alleinstehend = [rx, ry].filter((r) => !b.gross(r))
-    const reihen = [rx, ry].filter((r) => b.gross(r)).sort((p, q) => p - q)
-    const art = s.grund === 'sammelart' ? 'sammelart' : 'verschmilzt'
-    const schluessel = `${art}|${reihen.join(',')}|${alleinstehend.join(',')}`
-    if (!zeilen.has(schluessel)) zeilen.set(schluessel, { art, reihen: reihen.map(ref), alleinstehende: alleinstehend.map(name), beispiel: `${name(s.x)} —${s.art}→ ${name(s.y)}` })
+    const reihen = [rx, ry].sort((p, q) => p - q)
+    const schluessel = reihen.join(',')
+    if (!zeilen.has(schluessel)) zeilen.set(schluessel, { art: 'verschmilzt', reihen: reihen.map(ref), alleinstehende: [], beispiel: `${name(s.x)} —${s.art}→ ${name(s.y)}` })
   }
   return [...zeilen.values()]
 }
@@ -161,7 +159,7 @@ export function reineReihen(titel: ReinTitel[], kanten: Kante[], namen: Namen, h
       if (b.find(x) === b.find(y)) continue
       const grund = sperrgrund(b, hand, x, y, rangDerArt(k.art))
       if (!grund) b.vereine(x, y)
-      else if (grund !== 'getrennt') sperren.push({ x, y, art: k.art, grund })
+      else if (grund !== 'getrennt') sperren.push({ x, y, art: k.art })
     }
   }
   const reihe = new Map(ids.map((id): [number, number] => [id, b.feste.get(b.find(id)) ?? b.find(id)]))
