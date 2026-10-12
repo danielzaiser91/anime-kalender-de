@@ -12,22 +12,14 @@ import { SuchfundstellenContext } from '../lib/such-kontext.ts'
 import { DatabaseView } from './DatabaseView.tsx'
 import { FilterBarDock } from './FilterBar.tsx'
 import { SprecherLeiste } from './SprecherLeiste.tsx'
-
-function Spinner({ label }: { label: string }) {
-  return (
-    <div className="flex h-64 flex-col items-center justify-center gap-3 text-sm text-ak-leise">
-      <span className="size-6 animate-spin rounded-full border-2 border-ak-leise border-t-transparent" />
-      {label}
-    </div>
-  )
-}
+import { Ladeanzeige } from './ui.tsx'
 
 export interface DatenbankBereichProps {
   data: Dataset
   route: AppRoute
   navigate: (next: Partial<AppRoute>) => void
   setFilters: (filters: FilterState) => void
-  /** Die vollständige Titelliste ist da (sonst Spinner). */
+  /** Die vollständige Titelliste ist da (sonst Ladeanzeige). */
   geladen: boolean
   titles: { liste: Title[]; fundstellen: Map<string, Fundstelle[]> }
   /** Alle Titel der Ansicht vor dem Filter — daraus die Zahlen an der Herkunft. */
@@ -74,7 +66,7 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
           />
         </SuchfundstellenContext.Provider>
       ) : (
-        <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
+        <Ladeanzeige label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
       )}
     </>
   )
