@@ -12,6 +12,8 @@ import {
 import { reihenVerweiseAufgeloest, synchroNichtHinterToggle, type SynchroQuellen } from './lib/invarianten-auslieferung.ts'
 import { geplantNichtDeutschHeute, ladeGeplantQuelle } from './lib/invarianten-geplant.ts'
 import { dubIdsNachAnisearch, dubsNachTitel } from './lib/anisearch-marke.ts'
+import { kanalProben, kanalWegeVorhanden } from './check-invarianten-kanal.ts'
+import { kanalFehler } from './bau/kanal-fehler.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -113,6 +115,8 @@ console.log('\nHarte Regeln des Daten-Detektivs:')
   pruefe('D-24: ein begonnener Termin belegt die Synchro', lauf(hatchling(), [{ ...adnTermin[0]!, schedule: { firstEpisodeDate: '2026-10-01' } } as Release]).length === 0)
   pruefe('D-24: ohne Marke „Geplant“ keine Meldung', lauf(hatchling(), adnTermin, { ...q, geplant: new Set<number>() }).length === 0)
   pruefe('D-24: Erstausgabe mit Handbeleg (synchro) oder benannter Quelle geht durch', lauf(hatchling({ streams: [], deErstausgabe: { von: '2026-01-10', synchro: true } })).length === 0)
+
+  kanalProben(pruefe)
 }
 
 if (process.argv.includes('--bestand')) {
@@ -134,8 +138,10 @@ if (process.argv.includes('--bestand')) {
     ...synchroNichtHinterToggle(auslieferung, { dubsAnilist: dubsNachTitel(), dubIds: dubIdsNachAnisearch(), handbelegteIds: handbelegt, handKeine, heute: new Date().toISOString().slice(0, 10) }),
     ...reihenVerweiseAufgeloest(auslieferung),
     ...geplantNichtDeutschHeute(releases, titles, ladeGeplantQuelle()),
+    ...kanalFehler(titles.values(), releases),
+    ...kanalWegeVorhanden(titles),
   ]
-  console.log(`Auslieferung (D-06, D-15, D-24): ${a.length} Fehler`)
+  console.log(`Auslieferung (D-06, D-15, D-24, D-25, D-26): ${a.length} Fehler`)
   for (const t of a.slice(0, 10)) console.log('  ', t)
   verletzt += a.length
 }
