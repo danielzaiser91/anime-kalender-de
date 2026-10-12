@@ -105,10 +105,7 @@ export function PosterKarte(p: PosterKarteProps) {
 
 function PosterCover(p: PosterKarteProps & { breit: boolean }) {
   const { t } = useLang()
-  const { share, copiedSlug } = useShare()
-  const desktop = useAbSm()
   const cover = p.title?.coverImage
-  const teilbar = teilbarerSlug(p.title)
   const farbe = anbieterVerlauf((p.anbieter ?? [[p.event]]).map((b) => PLATFORMS[b[0]!.platform]?.color ?? '#888'))
   const bild = coverBild(cover, p.breit ? 320 : 160, p.breit ? '(min-width: 1024px) 320px, 92vw' : '(min-width: 1024px) 160px, 46vw', KACHEL_DICHTE)
   return (
@@ -138,6 +135,28 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
         {p.art && <ArtFahne art={p.art} />}
         {p.event.premiere && <PremiereMarke platform={p.event.platform} vorher={p.event.premiereVorher} className="px-2 py-0.5" />}
       </span>
+      <CoverAktionen {...p} />
+    </div>
+    {/*
+      **Die Anbieterleiste liegt über dem Rand, nicht darunter** (Daniel, 04.10.2026): Der Ring von Staffelstart und -finale sitzt außerhalb der Kachel; die Leiste
+      reicht bei einer Kachel mit Ring deshalb zwei Pixel darüber hinaus und deckt ihn unten ab, links, oben und rechts bleibt er stehen.
+    */}
+    <span
+      className={['pointer-events-none absolute rounded-b-xl', p.breit ? '-inset-x-0.5 -bottom-0.5 h-1.5' : 'inset-x-0 bottom-0 h-1'].join(' ')}
+      style={{ background: farbe }}
+    />
+    </div>
+  )
+}
+
+/** Stern, Teilen und Ausblenden auf dem Cover (Handy: nur der gesetzte Stern). */
+function CoverAktionen(p: PosterKarteProps) {
+  const { t } = useLang()
+  const { share, copiedSlug } = useShare()
+  const desktop = useAbSm()
+  const teilbar = teilbarerSlug(p.title)
+  return (
+    <>
       {/*
         Teilen und Ausblenden erst beim Zeigen; der Stern bleibt, sobald er gesetzt ist. Unten rechts,
         damit sie Uhrzeit und Fähnchen nicht verdecken. Auf dem Handy wären sie 20-px-Ziele — dort
@@ -161,16 +180,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
           )}
         </span>
       )}
-    </div>
-    {/*
-      **Die Anbieterleiste liegt über dem Rand, nicht darunter** (Daniel, 04.10.2026): Der Ring von Staffelstart und -finale sitzt außerhalb der Kachel; die Leiste
-      reicht bei einer Kachel mit Ring deshalb zwei Pixel darüber hinaus und deckt ihn unten ab, links, oben und rechts bleibt er stehen.
-    */}
-    <span
-      className={['pointer-events-none absolute rounded-b-xl', p.breit ? '-inset-x-0.5 -bottom-0.5 h-1.5' : 'inset-x-0 bottom-0 h-1'].join(' ')}
-      style={{ background: farbe }}
-    />
-    </div>
+    </>
   )
 }
 
