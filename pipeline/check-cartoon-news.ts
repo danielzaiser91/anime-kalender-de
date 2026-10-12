@@ -16,7 +16,8 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown) {
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const TERMIN_ARTEN = new Set(['angekuendigt', 'nachgetragen', 'disc', 'kino'])
+/* `rhythmus` ist kein Messergebnis, sondern der Handbeleg einer Quelle (`news-rhythmus.ts`, Avatar: Die sieben Häfen, #959). */
+const TERMIN_ARTEN = new Set(['angekuendigt', 'nachgetragen', 'disc', 'kino', 'rhythmus'])
 const releases = readJson<Release[]>('public/data/releases.json', [])
 const cartoons = cartoonsAusReleases(releases)
 const ids = new Set(cartoons.map((c) => c.id))
@@ -35,7 +36,7 @@ pruefe('Cartoons erzeugen Meldungen (sonst bliebe der Pfad unbelegt)', cartoons.
 pruefe('jede Cartoon-Meldung hat eine Quelle (Link)', vonCartoons.every((x) => istLink(x.m.quelle)), vonCartoons.filter((x) => !istLink(x.m.quelle)).map((x) => x.m.art))
 pruefe('jede Cartoon-Meldung hat Belege mit Adresse', vonCartoons.every((x) => (x.m.belege ?? []).length > 0 && (x.m.belege ?? []).every((b) => istLink(b.url))))
 pruefe(
-  'nur Termin-Arten: kein „neu mit Synchro", keine Folgen- oder Messmeldung',
+  'nur Termin-Arten und belegter Rhythmus: kein „neu mit Synchro", keine Folgen- oder Messmeldung',
   vonCartoons.every((x) => TERMIN_ARTEN.has(x.m.art)),
   [...new Set(vonCartoons.map((x) => x.m.art))],
 )

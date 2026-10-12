@@ -292,3 +292,13 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** `origin/main` stand in allen Runden unverändert auf 807fa586 — es war also kein Wettlauf. Der Lauf wurde vom Push ausgelöst, der `.github/workflows/wecker-wache.yml` ändert; Ablehnung wegen Workflow-Datei/Rechte ist der Verdacht, aber **nicht belegt**. Ob ein Bau-Lauf nach einem Workflow-Push dauerhaft nicht pushen kann, zeigt erst der nächste Lauf.
 
 **Was läuft komplett falsch?** `tools/commit-data.sh`, Zeile `if git push --quiet 2>/dev/null` — dort bricht der Lauf, und die Ursache bleibt unsichtbar.
+
+## 12.10.2026 — Bestand-Bau rot (Lauf 38251008599, Issue #969), kein Wache-Befund
+
+**Was läuft korrekt.** `check:bestand` hat gegriffen: Die Erzeugnisse wurden nicht committet, nur die Quellen; die anderen vier geprüften Bestandsprüfungen waren grün.
+
+**Wo ist Verbesserungspotenzial?** Die Meldeart `rhythmus` kam mit #959 neu hinzu, ohne dass die Cartoon-Zusicherung mitgezogen wurde; ein Test der neuen Art gegen alle Bestandsprüfungen vor dem Merge hätte es früher gezeigt.
+
+**Wo sind echte Risiken und Lücken?** `check:bestand` bricht beim ersten roten Prüfer ab; 16 weitere Prüfungen blieben ungeprüft (`npm run check:bestand-liste -- --alle` zeigt sie).
+
+**Was läuft komplett falsch?** `pipeline/check-cartoon-news.ts`, Zusicherung „nur Termin-Arten" — gefunden: ["rhythmus","angekuendigt"]. Die Rhythmus-Meldung ist ein belegter Handbeleg (Quelle + Belege), keine Anime-Messung; die Liste erlaubter Arten wurde um sie erweitert, die Quellenzusicherungen blieben.
