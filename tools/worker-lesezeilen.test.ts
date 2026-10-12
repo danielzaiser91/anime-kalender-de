@@ -112,6 +112,25 @@ console.log('Rohfolgen: Serienamen sechs Stunden im Speicher, offene Seiten zehn
   pruefe((await rechnungen('namen=1', /GROUP BY url/)) === 1, 'nach sechs Stunden: Serienamen neu gerechnet')
 }
 
+console.log('Rohfolgen (alle=1): angenommene Folgen einer Netflix-Randprobe sind erkennbar')
+{
+  const mitRoh = (plattform: string, nr: number, roh: string) =>
+    db.prepare(`INSERT INTO prime_folge (url, nummer, plattform, roh, gemeldet_am, uebernommen) VALUES ('https://www.netflix.com/title/1', ?, ?, ?, '2026-10-12T00:00:00Z', 1)`).run(nr, plattform, roh)
+  mitRoh('netflix', 1, '{"angenommen":false}')
+  mitRoh('netflix', 2, '{"angenommen":true}')
+  mitRoh('netflix', 3, '{"liste":{}}')
+  mitRoh('primevideo', 4, '{"angenommen":true}')
+  mitRoh('netflix', 5, '{"liste":{"a":"abgeschnitt')
+  await exporteVerwerfen(env)
+  const alle = (await hole('alle=1&nach=0')).folgen as unknown as { plattform: string; nummer: number; angenommen: number | null }[]
+  const von = (plattform: string, nr: number) => alle.find((f) => f.plattform === plattform && f.nummer === nr)?.angenommen
+  pruefe(von('netflix', 2) === 1, 'Netflix mit roh.angenommen = true: angenommen = 1')
+  pruefe(von('netflix', 1) === 0 && von('netflix', 3) === null, 'Netflix gemessen oder ohne das Feld: 0 bzw. null, nie 1')
+  pruefe(alle.length >= 5 && von('netflix', 5) === null, 'gekürztes (ungültiges) roh: null statt Fehler der ganzen Seite')
+  pruefe(von('primevideo', 4) === null, 'andere Anbieter: null, das Feld wird dort nicht gelesen')
+  pruefe(alle.every((f) => !('roh' in f)), '`roh` selbst kommt weiter nicht heraus (Menge)')
+}
+
 if (fehler) {
   console.log(`${fehler} Prüfung(en) fehlgeschlagen.`)
   process.exit(1)

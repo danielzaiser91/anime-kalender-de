@@ -49,8 +49,10 @@ globalThis.akNetflixVollMelden = async (D) => {
  * Die Notiz einer Randprobe-Meldung. `bisNummer == null` heißt: Der volle Lauf hat alle Folgen gemessen.
  * Dort darf „ANGENOMMEN" nicht stehen — Worker und `fetch-urteile.ts` machen daraus sonst eine Annahme.
  */
-globalThis.akNetflixRandNotiz = (folgen, bisNummer, f, staffelLabel) => {
+globalThis.akNetflixRandNotiz = (folgen, bisNummer, f, staffelLabel, gemessen = false) => {
   const wo = (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : '') + (staffelLabel ? ` — Netflix: ${staffelLabel}` : '')
   if (bisNummer == null) return `Gemessen im vollen Lauf${wo}`
-  return `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, dazwischen nicht geprüft${wo}`
+  const rand = `gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, dazwischen nicht geprüft${wo}`
+  /* Die zwei Randfolgen sind gemessen: ohne das Wort ANGENOMMEN, das Leser der Notiz zur Annahme machen. */
+  return gemessen ? `Gemessen in der Randprobe — ${rand}` : `ANGENOMMEN aus Randprobe — ${rand}`
 }

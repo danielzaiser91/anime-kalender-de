@@ -457,6 +457,50 @@ async function randvollFaelle() {
   pruefe('Stopp von Hand löscht den Merker', d.run('DURCHLAUF.vollLauf') === null, d.run('DURCHLAUF.vollLauf'))
 }
 
+/**
+ * **Randprobe über 15 Folgen (4.30.2): die zwei Randfolgen gehen als gemessen raus, nur die dazwischen als Annahme.**
+ *
+ * Bis 4.30.1 trug jede Folge die Notiz „ANGENOMMEN aus Randprobe"; `fetch-urteile.ts` machte daraus auch für
+ * E1 und E15 eine Annahme. Jetzt sagt das die `art` der Meldung (und der Rohfolge), die Notiz der Randfolgen
+ * trägt das Wort nicht. Und die Stapel (10 + 5) gehen nacheinander raus: bei einer 429 kommt der zweite nicht mehr an.
+ */
+async function annahmeFaelle() {
+  const s = await seite()
+  s.posts = []
+  const echt = s.env.fetch
+  s.env.fetch = async (url, opt) => {
+    if (opt?.method === 'POST') s.posts.push(JSON.parse(opt.body))
+    return echt(url, opt)
+  }
+  await s.run('durchlaufStarten()')
+  await s.warte()
+  const meldungen = s.posts.flatMap((b) => b.stapel ?? [b])
+  const je = (nr) => meldungen.find((d) => d.folge_nr === nr)
+  const randfolgen = [1, 15].map(je)
+  const dazwischen = meldungen.filter((d) => d.folge_nr > 1 && d.folge_nr < 15)
+  pruefe('Randprobe: 15 Meldungen in zwei Stapeln (10 + 5)', meldungen.length === 15 && s.posts.map((b) => b.stapel.length).join() === '10,5', s.posts.map((b) => b.stapel?.length))
+  pruefe('… E1 und E15 gehen als gemessen raus', randfolgen.every((d) => d.art === 'gemessen'), randfolgen.map((d) => d?.art))
+  pruefe('… ihre Notiz trägt nicht das Wort ANGENOMMEN, nennt aber die Randprobe', randfolgen.every((d) => !/ANGENOMMEN/.test(d.notiz) && /^Gemessen in der Randprobe — gemessen: Folge 1 und 15/.test(d.notiz)), randfolgen.map((d) => d?.notiz))
+  pruefe('… ihre Rohfolge ist nicht angenommen', randfolgen.every((d) => d.rohfolgen[0].art === 'gemessen' && d.rohfolgen[0].roh.angenommen === false), randfolgen.map((d) => d.rohfolgen[0].roh))
+  pruefe('… E2–E14 gehen als angenommen raus (Meldung, Notiz, Rohfolge)', dazwischen.length === 13 && dazwischen.every((d) => d.art === 'angenommen' && /^ANGENOMMEN aus Randprobe/.test(d.notiz) && d.rohfolgen[0].art === 'angenommen' && d.rohfolgen[0].roh.angenommen === true), dazwischen.map((d) => d.art))
+
+  /* Bei einer 429 des ersten Stapels kommt der zweite nicht mehr an den Worker. */
+  const c = await seite()
+  c.posts = []
+  const echtC = c.env.fetch
+  c.env.fetch = async (url, opt) => {
+    if (opt?.method !== 'POST') return echtC(url, opt)
+    c.posts.push(JSON.parse(opt.body))
+    const inhalt = { tageslimit: true, retryAfter: 3600 }
+    return { ok: false, status: 429, clone: () => ({ json: async () => inhalt }), json: async () => inhalt }
+  }
+  vm.runInContext(readFileSync(__dirname + '/tageslimit.js', 'utf8'), c.env.__kontext, { filename: 'tageslimit.js' })
+  await c.run('durchlaufStarten()')
+  await c.warte()
+  pruefe('Randprobe über 15 Folgen, 429 beim ersten Stapel: nur ein POST', c.posts.length === 1 && c.posts[0].stapel.length === 10, c.posts.map((b) => b.stapel?.length))
+  pruefe('… das Limit ist erkannt, nichts als gemeldet vermerkt', c.run('AK_TAGESLIMIT.aktiv()') === true && c.run('DURCHLAUF.gemeldet.size') === 0)
+}
+
 void (async () => {
   console.log('Netflix: Abschluss „✓ gemeldet“ und „Neue Folgen“\n')
   await abschlussFaelle()
@@ -464,6 +508,7 @@ void (async () => {
   await stapelFaelle()
   await fehlerFaelle()
   await randvollFaelle()
+  await annahmeFaelle()
   console.log('')
   if (faelle.includes(false)) {
     console.error('Zusicherungen gerissen.')
