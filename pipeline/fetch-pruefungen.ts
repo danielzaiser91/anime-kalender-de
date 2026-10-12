@@ -30,6 +30,7 @@ import {
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
@@ -1123,13 +1124,7 @@ for (const gruppe of jeAdresse.values()) {
       haben"). Ausgelassen wird nur noch das Nein aus einem Kanal — sonst legt
       die Prüfliste dieselbe Seite endlos wieder vor.
     */
-    const ohneAussage =
-      !weg &&
-      !gruppe.some((x) => x.befund === 'dub') &&
-      !echteAmazonAdresse(p) &&
-      nachUrl.has(schluesselAdresse(p.url)) &&
-      !eigene.length &&
-      gruppe.some((x) => /Kanal-Titel/.test(x.notiz ?? ''))
+    const ohneAussage = kanalOhneAussage(weg, gruppe, echteAmazonAdresse(p), nachUrl.has(schluesselAdresse(p.url)), eigene.length)
     if (ohneAussage) {
       ausgelassenKanal++
       /*
