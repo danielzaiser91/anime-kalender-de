@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react'
 
-/** Tailwinds `sm`: ab hier zeigen Kachel und Monatszelle ihre Desktop-Teile. */
-const AB_SM = '(min-width: 640px)'
+/** Tailwinds `sm` (40rem, nicht 640px — sonst weichen JS und CSS bei größerer Browserschrift ab): ab hier Desktop-Teile. */
+const AB_SM = '(min-width: 40rem)'
 
 function abfrage(): MediaQueryList {
   return window.matchMedia(AB_SM)
