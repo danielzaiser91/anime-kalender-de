@@ -4,17 +4,21 @@
  */
 export type DubBereich = { from: number; to: number; dub: boolean; checked?: number[] }
 
-/** `neu` überlagert `alt`: Wo beide eine Folge nennen, gilt das spätere Urteil. */
+/** `neu` überlagert `alt`: Wo beide eine Folge nennen, gilt das spätere Urteil samt seiner Meldung (`checked`). */
 export function vereinigeBereiche(alt: DubBereich[] | undefined, neu: DubBereich[]): DubBereich[] {
-  const jeFolge = new Map<number, boolean>()
-  for (const r of [...(alt ?? []), ...neu]) for (let n = r.from; n <= r.to; n++) jeFolge.set(n, r.dub)
+  const jeFolge = new Map<number, { dub: boolean; gemeldet: boolean }>()
+  for (const r of [...(alt ?? []), ...neu]) {
+    const gemeldet = new Set(r.checked ?? [])
+    for (let n = r.from; n <= r.to; n++) jeFolge.set(n, { dub: r.dub, gemeldet: gemeldet.has(n) })
+  }
   const folgen = [...jeFolge.keys()].sort((a, b) => a - b)
   const aus: DubBereich[] = []
   for (const n of folgen) {
-    const dub = jeFolge.get(n)!
-    const letzte = aus[aus.length - 1]
+    const { dub, gemeldet } = jeFolge.get(n)!
+    let letzte = aus[aus.length - 1]
     if (letzte && letzte.dub === dub && letzte.to === n - 1) letzte.to = n
-    else aus.push({ from: n, to: n, dub })
+    else aus.push((letzte = { from: n, to: n, dub }))
+    if (gemeldet) (letzte.checked ??= []).push(n)
   }
   return aus
 }

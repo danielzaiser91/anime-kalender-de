@@ -295,7 +295,7 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
     Cartoons werden je Staffel gemeldet (Archer: 16 Meldungen zu einer Adresse), die Bereiche ergänzen sich also.
     Bei Anime ist die jüngste Meldung vollständig und ersetzt die ältere.
   */
-  if (a.anilistId < 0 && alt.dubRanges?.length && neu.dubRanges?.length) {
+  if (a.anilistId < 0 && a.anilistId === b.anilistId && alt.dubRanges?.length && neu.dubRanges?.length) {
     verschmolzen.dubRanges = vereinigeBereiche(alt.dubRanges, neu.dubRanges)
   }
   return verschmolzen
