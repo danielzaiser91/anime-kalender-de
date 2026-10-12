@@ -145,7 +145,7 @@ function markierungenJeTitel(stellen: (readonly [number, Stelle | undefined])[],
 }
 
 /** Kinoheld nennt den Erscheinungstag unter „Veröffentlichung“ — der Titel steht nur im Kopf und in der (eingeklappten) Kritik, also wird dort gesucht. */
-function stuetzbegriffe(url: string, suchen: string[]): string[] {
+export function stuetzbegriffe(url: string, suchen: string[]): string[] {
   return /\/\/(?:www\.)?kinoheld\.de\//.test(url) ? ['Veröffentlichung', ...suchen] : suchen
 }
 
