@@ -4,6 +4,7 @@ import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-
 import { schreibeZweitanbieter } from '../../shared/zweitanbieter.ts'
 import { log, warn } from '../lib/util.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
+import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { schreibePremiereMitMeldung } from '../lib/premiere.ts'
 import { premiereBelegtTv } from '../../shared/premiere.ts'
 import { todayIso } from '../../shared/time.ts'
@@ -91,11 +92,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
    */
   const pruefung = pruefeErgebnis(releases, events, titles, todayIso())
   for (const w of pruefung.warnungen) warn(w)
-  if (pruefung.fehler.length) {
-    for (const f of pruefung.fehler) console.error('  ✖', f)
-    console.error(`\n${pruefung.fehler.length} Widersprüche im erzeugten Datensatz — nichts geschrieben.`)
-    process.exit(1)
-  }
+  brichAbBeiWiderspruch(pruefung.fehler, 'Widersprüche im erzeugten Datensatz — nichts geschrieben.')
 
   /**
    * Titel, deren japanische Ausstrahlung noch gar nicht begonnen hat, gehören

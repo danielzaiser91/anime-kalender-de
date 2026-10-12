@@ -4,6 +4,7 @@ import { todayIso } from '../../shared/time.ts'
 import { dubKey, type DubCheck } from '../lib/dub-confirmed.ts'
 import { primeHakenOhneBeleg, primeTitelMitBeleg, type MeldungEintrag, type UrteilEintrag } from '../lib/haken-beleg.ts'
 import { justwatchDeutsch, titelJeJustwatchKennung, type JwBefund } from '../lib/jw-vertrauen.ts'
+import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 
 /**
  * **Prime-Wege ohne Urteil bekommen „Deutsch laut JustWatch", wo die Vertrauensregel greift.**
@@ -55,8 +56,5 @@ function bestehePrimeHakenNurMitBeleg({ titles, alleChecks }: { titles: Map<numb
   const urteile = readJson<Record<string, UrteilEintrag>>('data/urteile.json', {})
   const meldungen = readJson<Record<string, MeldungEintrag>>('data/prime-zugeordnet.json', {})
   const fehler = primeHakenOhneBeleg(titles.values(), primeTitelMitBeleg(alleChecks, urteile, meldungen))
-  if (!fehler.length) return
-  for (const f of fehler) console.error('  ✖', f)
-  console.error(`\n${fehler.length} Prime-Wege mit vollem Häkchen ohne Beleg — nichts geschrieben.`)
-  process.exit(1)
+  brichAbBeiWiderspruch(fehler, 'Prime-Wege mit vollem Häkchen ohne Beleg — nichts geschrieben.')
 }
