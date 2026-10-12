@@ -451,6 +451,20 @@ Weg zu. Ein Titel behält „Auf Deutsch“, wenn eine zweite Quelle es trägt (
 Netflix, eine Erstausgabe mit Synchro, eine andere Prime-Ausgabe). Liste der betroffenen Titel:
 `daniel-zum-abarbeiten/listen/kanal-titel-belege.md`.
 
+**Drei Wege führten zum selben Ja, alle sind zu** (Bau-Vergleich 12.10.2026): der Handbeleg (`lib/kanal-titel.ts`),
+das Urteil aus Stufe 3 und die gemeldeten Folgen (`prime-zugeordnet.json`, `rohBelegtDeutsch()` in
+`09-3-prime.ts`: der Verweis wird weiter angelegt, nur das Häkchen entfällt). Der Schlüssel ist
+„Titel|Adresse", weil eine Seite mehreren Titeln gehören kann (Stardust Crusaders und Battle in Egypt).
+D-25 meldet nur, wo der Titel sonst nichts Deutsches trägt: Termin bei Prime, aniSearch „deutsch",
+Erstausgabe, Sprecher oder ein anderer Weg mit Häkchen schlagen an (Pokémon, Attack on Titan). Gemessen
+(Ersatz-Cache, Basis 6005eb2af): Prime-Häkchen 775 → 554, davon auf Kanal-Wegen 275 → 12; drei Titel
+verlassen die Hauptliste (Hell Mode, Freezing OVA, Freezing Vibration OVAs — aniSearch führt Deutsch dort
+als „geplant“ bzw. „nicht genannt“, der Kanal war die einzige Stütze); 110 Titel verlieren jedes Häkchen,
+tragen „Auf Deutsch“ aber weiter über aniSearch, Erstausgabe, Sprecher oder Termin. JustWatch nennt bei 154
+der 209 Titel mit verlorenem Häkchen `de` am Kanal-Angebot (Hell Mode: nur `ja`); dafür fehlt meist die
+gti am Weg, die „Deutsch laut JustWatch“ (`lib/jw-vertrauen.ts`) verlangt — das Kennzeichen kommt, sobald
+die Erweiterung die gti liest.
+
 **Und der Beleg nimmt die Seite, auf der gemeldet wurde.** Eine Meldung trägt zwei Adressen:
 `url` ist der Eintrag der Prüfliste (bei einem Staffelwechsel die Seite von Staffel 1),
 `seiten_kennung` die Seite, die wirklich angesehen wurde — **für neue Meldungen**. Im
