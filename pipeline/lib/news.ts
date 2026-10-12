@@ -33,6 +33,7 @@ import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
+import { rhythmusMeldung } from './news-rhythmus.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
@@ -159,6 +160,7 @@ function terminMeldungen(
       })
     }
     for (const m of verspaetungsMeldungen(r)) raus.push({ ...m, titel: t })
+    for (const m of rhythmusMeldung(r)) raus.push({ ...m, titel: t })
   }
   return raus
 }
@@ -254,6 +256,19 @@ export function nurAngekuendigt(releases: Release[], titleId: number, plattform:
 /** Teil und Kennung einer Meldung. „Titel / Titel“ sagt nichts (26 Meldungen am 06.10.2026): ohne eigenen Teilnamen bleibt es bei der Kennung. */
 function teilFelder(teilname: string, kopf: string, teilId: number): { teil?: string; teilId: number } {
   return teilname.toLowerCase() === kopf.toLowerCase() ? { teilId } : { teil: teilname, teilId }
+}
+
+/** Rangfolge der Arten: was am Tag eines Eintrags zuerst genannt wird. */
+const rang: Record<NewsArt, number> = {
+  neu: 0,
+  angekuendigt: 1,
+  verspaetet: 2,
+  nachgereicht: 2,
+  nachgetragen: 1,
+  rhythmus: 2,
+  kino: 3,
+  disc: 4,
+  folgen: 5,
 }
 
 /**
@@ -397,14 +412,6 @@ export function baueNews(
     if (v < addDays(heute, -400)) delete historie.zuerst[k]
   }
 
-  const rang: Record<NewsArt, number> = {
-    neu: 0,
-    angekuendigt: 1,
-    verspaetet: 2, nachgereicht: 2, nachgetragen: 1,
-    kino: 3,
-    disc: 4,
-    folgen: 5,
-  }
   /*
     **Dieselbe Schreibweise wie überall sonst.** Ohne die Eindeutschung stand im
     Chip „Staffel 3 - Cour 1" neben einem „Staffel 3 - Teil 2" aus derselben

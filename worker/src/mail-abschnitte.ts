@@ -10,6 +10,7 @@
  */
 import { SPRACHE_HINWEIS, SPRACHE_MARKE } from '../../shared/ics.ts'
 import { omuStartText } from '../../shared/ankuendigung.ts'
+import { folgenProWoche } from '../../shared/folgenrhythmus.ts'
 import type { NewsEintrag, NewsMeldung, ReleaseEvent } from '../../shared/types.ts'
 import { PLATFORMS, anbieterName } from '../../shared/types.ts'
 import { abzeichen } from './mail-sorten.ts'
@@ -122,6 +123,8 @@ export function newsSatz(m: NewsMeldung): string {
       if (m.platform === 'tv' && m.datum) return `Im TV${m.anbieter ? ` bei ${m.anbieter}` : ''} am ${['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'][new Date(`${m.datum}T12:00:00Z`).getUTCDay()]}, den ${datum}`
       if (m.jahre && anbieter) return m.discSeitText ? `Nach ${m.jahre} Jahren endlich im Stream auf Deutsch: ab ${datum} bei ${anbieter}! (Auf Disc gibt es die Synchro seit ${m.discSeitText})` : `Nach ${m.jahre} Jahren endlich auf Deutsch: ab ${datum} mit Synchro bei ${anbieter}!`
       return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''}`
+    case 'rhythmus':
+      return `Bis ${datum} wöchentlich ${folgenProWoche(m.proWoche ?? [0, 0])} neue Folgen${anbieter ? ` bei ${anbieter}` : ''}`
     case 'disc':
       return m.ausgabe ? `${m.ausgabe} erscheint am ${datum} auf Disc` : `Erscheint am ${datum} auf Disc`
     case 'kino':

@@ -1,5 +1,7 @@
 import type { Zugangsart } from './zugangsart.ts'
 import type { PremiereVorher, ReleasePremiere } from './premiere.ts'
+import type { FolgenFenster } from './folgen-fenster.ts'
+import type { ReleaseRhythmus } from './folgenrhythmus.ts'
 /** Gemeinsame Typen für Pipeline, Web-App und Newsletter-Worker. */
 
 export type PlatformId =
@@ -300,12 +302,7 @@ export interface WatchLink {
   toggo?: Array<{ staffel: number; von: number; bis: number; ab: string; ende: string }>
 }
 
-/** Ein Abruffenster je Folge (Joyn, 22.09.2026): ab/ende in Berliner Ortszeit „YYYY-MM-DDTHH:MM". */
-export interface FolgenFenster {
-  nr: number
-  ab: string
-  ende: string
-}
+export type { FolgenFenster }
 
 export interface Title {
   id: number; al?: number // `id`: in der Ausgabe unsere Kennung `ak`, in der Pipeline AniList; `al`: AniList, nur für den Quellenverweis
@@ -728,6 +725,8 @@ export interface Release {
   ersteDeutsch?: Record<number, string>
   /** Handbeleg „Premiere“/„Premiere*“, nie abgeleitet (Daniel, 10.10.2026) — Regeln in `shared/premiere.ts`. */
   premiere?: ReleasePremiere
+  /** Handbeleg „x Folgen pro Woche bis …“ mit eigener Quelle — eigene Meldung, siehe `shared/folgenrhythmus.ts`. */
+  rhythmus?: ReleaseRhythmus
 }
 
 export interface ReleaseEvent {
