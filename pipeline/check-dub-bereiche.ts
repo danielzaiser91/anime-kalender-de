@@ -1,7 +1,7 @@
 /**
  * Zusicherungen zum Vereinen der Folgenbereiche (`lib/dub-bereiche.ts`) bei Cartoon-Handbelegen und zu `verschmelze`
  * (`lib/dub-confirmed.ts`): Bereiche mehrerer Staffel-Meldungen bleiben erhalten, das Häkchen (`checked`) wandert mit,
- * Anime ersetzt weiter wortgleich. Läuft in `check:logic`.
+ * Anime vereint ebenso (Teilmeldungen aus der Erweiterung). Läuft in `check:logic`.
  */
 import { nimmJa, vereinigeBereiche, type DubBereich } from './lib/dub-bereiche.ts'
 import { verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
@@ -43,7 +43,7 @@ pruefe('ohne Alt: Bereich unverändert', gleich(nurNeu, [bereich(37, 49, true, f
 const teil = vereinigeBereiche([bereich(1, 5, true, [1, 5])], [bereich(6, 10, true)])
 pruefe('gefolgerte Folgen tragen kein Häkchen', gleich(teil, [bereich(1, 10, true, [1, 5])]), zeig(teil))
 
-// verschmelze: Cartoon (negative Kennung) vereint die Bereiche, Anime ersetzt sie wie bisher.
+// verschmelze: Cartoon (negative Kennung) und Anime vereinen die Bereiche; ein Nein gilt nur für die Folgen, die es nennt.
 const eintrag = (id: number, am: string, r: DubBereich[]): DubCheck =>
   ({ anilistId: id, platform: 'netflix', url: 'https://www.netflix.com/title/1', checkedAt: am, dub: true, dubRanges: r }) as DubCheck
 const cartoon = verschmelze(eintrag(-1, '2026-10-11', [bereich(1, 13, true, folgen(1, 13))]), eintrag(-1, '2026-10-12', [bereich(14, 26, true, folgen(14, 26))]))
@@ -51,7 +51,15 @@ pruefe('Cartoon: Bereiche beider Staffeln', gleich(cartoon.dubRanges, [bereich(1
 const cartoonUmgekehrt = verschmelze(eintrag(-1, '2026-10-12', [bereich(14, 26, true, folgen(14, 26))]), eintrag(-1, '2026-10-11', [bereich(1, 13, true, folgen(1, 13))]))
 pruefe('Cartoon: Reihenfolge der Zeilen egal', gleich(cartoonUmgekehrt.dubRanges, cartoon.dubRanges))
 const anime = verschmelze(eintrag(5, '2026-10-11', [bereich(1, 155, true)]), eintrag(5, '2026-10-12', [bereich(1, 171, true, [1, 171])]))
-pruefe('Anime: jüngste Meldung ersetzt wortgleich', gleich(anime.dubRanges, [bereich(1, 171, true, [1, 171])]), zeig(anime.dubRanges ?? []))
+pruefe('Anime: Obermenge der jüngeren Meldung bleibt gleich', gleich(anime.dubRanges, [bereich(1, 171, true, [1, 171])]), zeig(anime.dubRanges ?? []))
+const animeTeil = verschmelze(eintrag(7, '2026-10-11', [bereich(1, 12, true, folgen(1, 12))]), eintrag(7, '2026-10-12', [bereich(13, 13, true, [13])]))
+pruefe('Anime: Teilmeldung ergänzt die ältere', gleich(animeTeil.dubRanges, [bereich(1, 13, true, folgen(1, 13))]), zeig(animeTeil.dubRanges ?? []))
+const animeTeilUmgekehrt = verschmelze(eintrag(7, '2026-10-12', [bereich(13, 13, true, [13])]), eintrag(7, '2026-10-11', [bereich(1, 12, true, folgen(1, 12))]))
+pruefe('Anime: Reihenfolge der Zeilen egal', gleich(animeTeilUmgekehrt.dubRanges, animeTeil.dubRanges))
+const animeNein = verschmelze(eintrag(7, '2026-10-11', [bereich(1, 12, true, folgen(1, 12))]), eintrag(7, '2026-10-12', [bereich(12, 12, false, [12])]))
+pruefe('Anime: neueres Nein streicht nur seine Folge', gleich(animeNein.dubRanges, [bereich(1, 11, true, folgen(1, 11)), bereich(12, 12, false, [12])]), zeig(animeNein.dubRanges ?? []))
+const animeUeberholt = verschmelze(eintrag(7, '2026-10-11', [bereich(1, 2, true, [1, 2]), bereich(3, 12, false, [3, 12])]), eintrag(7, '2026-10-12', [bereich(1, 4, true, folgen(1, 4))]))
+pruefe('Anime: älteres Nein wird vom neueren Ja überholt, der Rest bleibt Nein', gleich(animeUeberholt.dubRanges, [bereich(1, 4, true, folgen(1, 4)), bereich(5, 12, false, [12])]), zeig(animeUeberholt.dubRanges ?? []))
 const ohneKennung = verschmelze(eintrag(undefined as unknown as number, '2026-10-11', [bereich(1, 5, true)]), eintrag(undefined as unknown as number, '2026-10-12', [bereich(6, 9, true)]))
 pruefe('ohne Kennung: kein Vereinen', gleich(ohneKennung.dubRanges, [bereich(6, 9, true)]), zeig(ohneKennung.dubRanges ?? []))
 const verschiedeneKennung = verschmelze(eintrag(-1, '2026-10-11', [bereich(1, 5, true)]), eintrag(-2, '2026-10-12', [bereich(6, 9, true)]))
