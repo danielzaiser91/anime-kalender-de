@@ -1,6 +1,6 @@
 # YouTube: was die Prüfung gefunden hat
 
-Stand: 2026-10-05 · geprüft über YouTubes oEmbed-Schnittstelle
+Stand: 2026-10-12 · geprüft über YouTubes oEmbed-Schnittstelle
 (Titel und Kanal je Video, ohne Schlüssel und ohne Kontingent).
 
 Eingetragen wurde nur, wo der **Videotitel die Sprache benennt**. Was hier steht,
@@ -68,11 +68,11 @@ oder die Data API mit Schlüssel, die auch die Tonspuren nennt.
 | Pokémon-Generationen | ポケモンジェネレーションズ | ポケモン公式YouTubeチャンネル | [öffnen](https://www.youtube.com/playlist?list=PLBE2D9BnJJUr3eL0gJwgbWbXqPaOFZI5p) |
 | Ookami Heart | ORESAMA - オオカミハート(F.O.ver.)［OFFICIAL MUSIC VIDEO］ | VAP OFFICIAL MUSIC CHANNEL | [öffnen](https://www.youtube.com/watch?v=PwAgOqNvFGA) |
 | Sylvanian Families | 【アニメ】シルバニアファミリー　ミニストーリー　シーズン１ | シルバニア ファミリー 公式チャンネル | [öffnen](https://www.youtube.com/playlist?list=PL5xoHmK9recj3tU54fpsrmAgehCzZpx4v) |
-| GREEN DA KA RA x Mirai no Mirai | サントリー CM　GREEN DA・KA・RA『未来のみんな』篇 15秒 | スタジオ地図 / STUDIO CHIZU | [öffnen](https://www.youtube.com/watch?v=7hEXNRUFnRw) |
+| GREEN DA KA RA × Mirai no Mirai | サントリー CM　GREEN DA・KA・RA『未来のみんな』篇 15秒 | スタジオ地図 / STUDIO CHIZU | [öffnen](https://www.youtube.com/watch?v=7hEXNRUFnRw) |
 | Sylvanian Families: Mini-Episodes - Ivy | Mini Episodes Season 2 -Ivy- | Sylvanian Families Official | [öffnen](https://www.youtube.com/playlist?list=PLTYXZZKHiowqVVc80wtIBlUNCcRy2SKPV) |
 | White Snake: Die Legende der weißen Schlange | White Snake | YouTube Movies | [öffnen](https://www.youtube.com/watch?v=kWAGQchekwg) |
 | Sylvanian Families: Mini-Episoden - Klee | Mini Episode Season 3 -Clover- | Sylvanian Families Official | [öffnen](https://www.youtube.com/playlist?list=PLTYXZZKHiowqllFesHWXbJI3MVvxQU0Cz) |
-| DIGIMON ADVENTURE 20th memorial story | DIGIMON ADVENTURE: LAST EVOLUTION KIZUNA | 東映アニメーション公式YouTubeチャンネル | [öffnen](https://www.youtube.com/playlist?list=PLGLzhXoyF5rLqhNCbHawkJRuBnShf66bk) |
+| #115107 | DIGIMON ADVENTURE: LAST EVOLUTION KIZUNA | 東映アニメーション公式YouTubeチャンネル | [öffnen](https://www.youtube.com/playlist?list=PLGLzhXoyF5rLqhNCbHawkJRuBnShf66bk) |
 | Pokétoon: The Pokémon Cartoon Animation | POKÉTOON | ポケモン公式YouTubeチャンネル | [öffnen](https://www.youtube.com/playlist?list=PLBE2D9BnJJUoFiRz8ZjF2KToAirHYn1Ru) |
 | Abenteuer auf dem Eis | 上海美术电影制片厂《冰上遇险》 | 咪咕动漫 MIGU Animation | [öffnen](https://www.youtube.com/watch?v=5j9mrGlQWBs) |
 | Fire Force Staffel 2 Miniepisoden | Fire Force S2 - MiniEP | peppermint anime | [öffnen](https://www.youtube.com/playlist?list=PLY_DM8ieCRPqNeMV1z2EJZDSgLWySL_Cx) |

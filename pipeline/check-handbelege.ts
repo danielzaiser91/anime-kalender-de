@@ -53,6 +53,15 @@ import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import type { Title } from '../shared/types.ts'
 
+/*
+  Seit dem 11.10.2026 verteilt `bau/cartoon-wege.ts` einen Cartoon-Weg auf Staffeln (ein Weg je Staffel, gleiche Adresse).
+  Ein Ja gilt dann dem Teilweg, der das Häkchen trägt; die anderen Staffeln sagen mit Recht nichts (Archer, American Dad).
+  Fehlt das Häkchen auf allen Teilwegen der Adresse, bleibt es ein Fehler.
+*/
+function nimmJa<T extends { dub?: boolean }>(streams: T[]): T[] {
+  return [...streams].sort((a, b) => Number(b.dub === true) - Number(a.dub === true))
+}
+
 const roh = readJson<Title[] | Record<string, Title>>(resolve(ROOT, 'public/data/titles.json'), [])
 /* Cartoons (negative Kennungen) tragen seit dem 16.09.2026 ebenfalls Handbelege. */
 const titel = [
@@ -167,7 +176,7 @@ for (const [k, gruppe] of jeVerweis) {
     .map((b) => b.url)
     .filter((u): u is string => Boolean(u))
   const jaStream = jaAdressen.length
-    ? ((t.streams ?? []).find(
+    ? (nimmJa(t.streams ?? []).find(
         (s) =>
           s.platform === platform &&
           jaAdressen.some(

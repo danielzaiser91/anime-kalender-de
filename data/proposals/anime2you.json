@@ -1,15 +1,113 @@
 {
-  "scrapedAt": "2026-10-11T04:11:32.778Z",
+  "scrapedAt": "2026-10-12T05:03:13.354Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 37,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
     "kino: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
-    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 43,
-    "schon in einem Rubrik-Feed gelesen": 37,
-    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 10,
+    "Gesamt-Feed ohne Deutschland-Bezug (Japan, Figuren, Trailer)": 42,
+    "schon in einem Rubrik-Feed gelesen": 38,
+    "allgemein: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 12,
     "Sprachhinweis älter als 45 Tage": 4
   },
   "proposals": [
+    {
+      "articleTitle": "TV-Guide: Anime im deutschen Fernsehen in KW 42/2026",
+      "articleUrl": "https://www.anime2you.de/news/1060030/anime-tv-programm-42-2026/",
+      "publishedAt": "2026-10-12",
+      "category": "allgemein",
+      "platforms": [],
+      "dates": [
+        {
+          "iso": "2026-10-18",
+          "context": "amit ihr keine Sendung verpasst! Premieren und Highlights Vom 12. bis 18. Oktober 2026 gibt es wieder zahlreiche Anime-Premieren und -Highli"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Disney+ nimmt zwei Anime-Neuzugänge ins Programm",
+      "articleUrl": "https://www.anime2you.de/news/1060002/disney-plus-mission-yozakura-family-und-mehr/",
+      "publishedAt": "2026-10-11",
+      "category": "streaming",
+      "platforms": [
+        "disneyplus"
+      ],
+      "dates": [],
+      "dub": "nein",
+      "zeiten": [
+        {
+          "tag": "Sonntag",
+          "zeit": "10:30",
+          "satz": ": Yozakura Family« – Staffel 2, Part 2 »Naruto Shippuden« – Staffel 4 »Mission: Yozakura Family« – Staffel 2, Part 2 Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Sonntag um 10:30 Uhr Stream: Disney+ Handlung: Seit dem trag"
+        }
+      ],
+      "alreadyCurated": false,
+      "sammel": [
+        {
+          "titel": "Mission: Yozakura Family",
+          "zusatz": "Staffel 2, Part 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Disney+"
+          ]
+        },
+        {
+          "titel": "Naruto Shippuden",
+          "zusatz": "Staffel 3",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Disney+"
+          ],
+          "folgen": 54
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
+    },
+    {
+      "articleTitle": "»Dragon Ball Super: Beerus« im Simulcast gestartet",
+      "articleUrl": "https://www.anime2you.de/news/1060009/dragon-ball-super-beerus-simulcast-gestartet/",
+      "publishedAt": "2026-10-11",
+      "category": "streaming",
+      "platforms": [
+        "crunchyroll",
+        "adn"
+      ],
+      "dates": [],
+      "dub": "nein",
+      "zeiten": [
+        {
+          "tag": "Sonntag",
+          "zeit": "18:00",
+          "satz": "ammen. Simulcast am Sonntag Die erste Folge von »Dragon Ball Super: Beerus« kann ab sofort bei Crunchyroll und ADN im Originalton mit deutschen Untertiteln gestreamt werden. Jeden Sonntag um 18:00 Uhr folgt eine weitere Episode. Bei Netflix"
+        }
+      ],
+      "alreadyCurated": false
+    },
+    {
+      "articleTitle": "Erste »Kaiju No. 8«-Staffel erscheint im limitierten Steelbook + Design",
+      "articleUrl": "https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/",
+      "publishedAt": "2026-10-11",
+      "category": "disc",
+      "platforms": [
+        "crunchyroll",
+        "disc"
+      ],
+      "dates": [
+        {
+          "iso": "2026-12-04",
+          "context": "rsten Staffel auf zwei Discs beinhaltet, erscheint voraussichtlich am 4. Dezember […] Der Beitrag Erste »Kaiju No. 8«-Staffel erscheint im"
+        },
+        {
+          "month": "2026-12",
+          "context": "dition auf Blu-ray veröffentlichen wird. Wir fassen zusammen. Release im Dezember 2026 Die Steelbook-Komplettbox, die alle zwölf Episoden de"
+        }
+      ],
+      "dub": "unklar",
+      "alreadyCurated": false
+    },
     {
       "articleTitle": "Fünf Anime-Neuzugänge ab sofort auf Prime Video verfügbar",
       "articleUrl": "https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/",
@@ -857,48 +955,6 @@
       ],
       "dates": [],
       "dub": "nein",
-      "zeiten": [
-        {
-          "tag": "Samstag",
-          "zeit": "17:00",
-          "satz": "Become the Strongest!« »Magical Explorer« »Romelia War Chronicle« »Vertex Force« »#I’m Looking for a Zombie« Episoden: 1 von 12 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 17:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "15:00",
-          "satz": ". In der verwüsteten Stadt beginnt für die Gruppe ein gefährlicher Kampf ums Überleben. »A Tale of the Secret Saint« Episoden: 2 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "17:00",
-          "satz": "Kräften kehren auch alte Feinde zurück – weshalb Fia ihre wahre Stärke verbergen muss. »Black Clover Second Season« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 17:00 Uhr Hinweis: Deutsche Synchronisation angek"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "03:00",
-          "satz": "ige Gegner und Asta muss alles geben, um seine Freunde zu retten und sein Versprechen an Yuno einzuhalten. »Keroro☆« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 03:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "20:00",
-          "satz": "Hinata leben. »Magic Repo Man: Dumped by My Party, I’ll Cash In With a Cute Support Fairy to Become the Strongest!« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 20:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "18:30",
-          "satz": "beschließt gemeinsam mit einer gerissenen Fee, sich seine verliehene Magie zurückzuholen. »Magical Explorer« Episoden: 2 von 13 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 18:30 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "15:00",
-          "satz": "ein Schicksal ändern, den Helden übertreffen und den Heldinnen zu ihrem Happy End verhelfen. »Romelia War Chronicle« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 15:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        },
-        {
-          "tag": "Samstag",
-          "zeit": "18:00",
-          "satz": "t der Neuanfang, drohen bereits neue Konflikte – und Romelias wahre Geschichte nimmt erst ihren Lauf. »Vertex Force« Episoden: 1 verfügbar Sprache: Japanisch (UT) Simulcast: Jeden Samstag um 18:00 Uhr Stream: Prime Video , Crunchyroll Handl"
-        }
-      ],
       "alreadyCurated": false,
       "sammel": [
         {
@@ -1050,8 +1106,66 @@
       "dates": [],
       "dub": "nein",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-08"
+      "sammel": [
+        {
+          "titel": "Detektiv Conan: The Counterfeit Crime Case of Ultra 30",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-02",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Die Tagebücher der Apothekerin",
+          "zusatz": "Staffel 3",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-02",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "FX Fighter Kurumi-chan",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-01",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "The Prince of Tennis II U-17 WORLD CUP: Final Member Selection Match",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-01",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Tougen Anki",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-10-02",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "23 Blu-ray-Termine von AniMoon, Crunchyroll und peppermint verschoben",
@@ -1214,10 +1328,6 @@
       ],
       "dates": [
         {
-          "iso": "2026-10-11",
-          "context": "Streaming-Diensten zu sehen sein. Wir fassen die Details zusammen. Ab 11. Oktober 2026 »Dragon Ball Super: Beerus« startet am 11. Oktober 20"
-        },
-        {
           "iso": "2026-10-18",
           "context": "hyroll und ADN im Originalton mit Untertiteln. Bei Netflix geht es am 18. Oktober 2026 […] Der Beitrag Netflix, Crunchyroll und ADN zeigen"
         }
@@ -1334,7 +1444,7 @@
           "folgen": 13
         }
       ],
-      "sammelGelesen": "2026-10-08"
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Drei Anime-Serien verlassen bald den Prime-Video-Katalog",
@@ -1407,8 +1517,49 @@
       "dates": [],
       "dub": "ja",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
+      "sammel": [
+        {
+          "titel": "Death Note",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 37
+        },
+        {
+          "titel": "Kuroko’s Basketball",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 75
+        },
+        {
+          "titel": "My Love Story with Yamada-kun at Lv999",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Netflix"
+          ],
+          "folgen": 13,
+          "datum": "2026-10-01",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "The Ramparts of Ice",
+          "zusatz": "Staffel 2",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Netflix"
+          ],
+          "datum": "2026-10-01",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Netflix startet große Werbeoffensive in 15 weiteren Ländern",
@@ -1439,8 +1590,60 @@
       "dates": [],
       "dub": "unklar",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-10"
+      "sammel": [
+        {
+          "titel": "Even the Student Council Has Its Holes!",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [],
+          "datum": "2026-10-03"
+        },
+        {
+          "titel": "My Girlfriend’s Friend",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [],
+          "datum": "2026-10-04"
+        },
+        {
+          "titel": "Now That I Can Control Reality With a Mouse Cursor, I’m Gonna Click Away On The Girls!?",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [],
+          "datum": "2026-10-04"
+        },
+        {
+          "titel": "Reincarnated as a Sword",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "aniverse"
+          ],
+          "datum": "2026-09-30"
+        },
+        {
+          "titel": "Tougen Anki",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "aniverse"
+          ],
+          "datum": "2026-10-02"
+        },
+        {
+          "titel": "With Vengeance, Sincerely, Your Broken Saintess",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "aniverse"
+          ],
+          "datum": "2026-10-01"
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Neue Mehrwertsteuer-Aktion bei MediaMarkt und SATURN",
@@ -1525,8 +1728,65 @@
       "dates": [],
       "dub": "unklar",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
+      "sammel": [
+        {
+          "titel": "A Certain Dark Item",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "datum": "2026-10-09"
+        },
+        {
+          "titel": "Dandivine",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "datum": "2026-10-07"
+        },
+        {
+          "titel": "From Far Away",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "datum": "2026-10-04"
+        },
+        {
+          "titel": "Full Clearing Another World under a Goddess with Zero Believers",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "datum": "2026-10-11"
+        },
+        {
+          "titel": "Horror Collector",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "datum": "2026-10-10"
+        },
+        {
+          "titel": "Magic Repo Man: Dumped by My Party, I’ll Cash In With a Cute Support Fairy to Become the Strongest!",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "datum": "2026-10-03"
+        },
+        {
+          "titel": "Super Psychic Policeman Chojo",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "datum": "2026-10-06"
+        },
+        {
+          "titel": "The Cold Sato-san is Only Sweet to Me",
+          "deutsch": false,
+          "woechentlich": false,
+          "stream": [],
+          "datum": "2026-10-06"
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Action-Anime »Rooster Fighter« bald auf Netflix verfügbar",
@@ -1588,7 +1848,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-09"
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
@@ -1857,8 +2117,28 @@
       "dates": [],
       "dub": "nein",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
+      "sammel": [
+        {
+          "titel": "Magical Girl Raising Project Restart",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "AKIBA PASS TV"
+          ],
+          "datum": "2026-10-05"
+        },
+        {
+          "titel": "Reincarnated as a Sword",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "AKIBA PASS TV"
+          ],
+          "datum": "2026-09-30"
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -1871,8 +2151,44 @@
       "dates": [],
       "dub": "unklar",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-10"
+      "sammel": [
+        {
+          "titel": "A Wild Last Boss Appeared!",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-09-26",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World",
+          "zusatz": "Staffel 3",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-09-27",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Overgeared",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Crunchyroll",
+            "Prime Video"
+          ],
+          "datum": "2026-09-27",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Zwei neue Anime-Filme ab sofort auf RTL+ verfügbar",
@@ -2208,7 +2524,7 @@
           "edition": ""
         }
       ],
-      "discGelesen": "2026-10-11"
+      "discGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Design der limitierten Steelbook-Edition von »My Dress-Up Darling«",
@@ -2272,8 +2588,33 @@
       "dates": [],
       "dub": "unklar",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
+      "sammel": [
+        {
+          "titel": "Beyblade X",
+          "zusatz": "Staffel 3",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video",
+            "RTL+"
+          ],
+          "datum": "2026-09-25",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Dragon Ball DAIMA",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video",
+            "RTL+"
+          ],
+          "folgen": 20,
+          "datum": "2026-09-25",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm",
@@ -2347,8 +2688,35 @@
       "dates": [],
       "dub": "unklar",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
+      "sammel": [
+        {
+          "titel": "Ghost Cat Anzu",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Miss Hokusai",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Yu-Gi-Oh!",
+          "zusatz": "Staffel 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ],
+          "folgen": 49
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Netflix: Alle Anime-Neuzugänge im Oktober 2026",
@@ -2483,7 +2851,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-09"
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Netflix enthüllt neuen Teaser zu »Cyberpunk: Edgerunners II«",
