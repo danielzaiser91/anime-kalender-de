@@ -64,6 +64,7 @@ export default [
         akPrimeHatTitelseite: 'readonly',
         akPrimeStartKennung: 'readonly',
         akPrimeFrameAdresse: 'readonly',
+        akPrimeEndeText: 'readonly',
         akDurchgangSchutz: 'readonly',
         akNetflixUebernahme: 'readonly',
         akNetflixWartet: 'readonly',

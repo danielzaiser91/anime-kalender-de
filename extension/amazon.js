@@ -5780,7 +5780,7 @@ async function speicherSchreiben(werte) {
       */
       const gesamt = Math.max(lauf.titelGesamt ?? 0, lauf.fertig.length + (lauf.titel ? 1 : 0))
       const nr = Math.min(lauf.fertig.length + 1, gesamt)
-      setz(uebersichtKnopf, 'textContent', `⏹ Titel ${nr}/${gesamt} · ${lauf.seiten ?? 0} Seiten gemeldet`)
+      setz(uebersichtKnopf, 'textContent', `${globalThis.AK_TAGESLIMIT?.vorspann() ?? '⏹'} Titel ${nr}/${gesamt} · ${lauf.seiten ?? 0} Seiten gemeldet`)
       setz(uebersichtKnopf, 'title', 'Liste öffnen — dort lässt sich der Durchgang beenden')
       void standPruefen()
       if (dialog) dialogFuellen()
@@ -5864,7 +5864,7 @@ async function speicherSchreiben(werte) {
       Die Anzeige führt beide Sorten in einer Liste; dann muss die Signatur auch
       beide messen. `suchOffen()` ist billig — eine Filterung über ein Set.
     */
-    const teile = [offeneZahl(), suchOffen().length, listenId]
+    const teile = [offeneZahl(), suchOffen().length, listenId, globalThis.AK_TAGESLIMIT?.text()]
     for (const asinEintrag of Object.keys(liste)) {
       teile.push(asinEintrag + ':' + (fortschritt(asinEintrag) || '') + ':' + (fertig(asinEintrag) ? '1' : '0'))
     }
@@ -5914,6 +5914,7 @@ async function speicherSchreiben(werte) {
     const kopf = document.createElement('div')
     kopf.className = 'ak-kopf'
     kasten.appendChild(kopf)
+    globalThis.AK_TAGESLIMIT?.hinweisAnhaengen(kasten)
 
     const titelzeile = document.createElement('strong')
     const offen = offeneZahl()
@@ -5999,10 +6000,7 @@ async function speicherSchreiben(werte) {
     if (ende) {
       const zeile = document.createElement('div')
       zeile.className = 'ak-hinweis ak-durchgang-ende'
-      zeile.textContent =
-        (ende.grund === 'nichts mehr offen' ? 'Durchgang fertig' : `Durchgang beendet · ${ende.grund}`) +
-        (ende.uebersprungen?.length ? ` · übersprungen: ${ende.uebersprungen.join(', ')}` : '') +
-        (ende.suchen ? ` · ${ende.suchen} Suchaufträge von Hand` : '')
+      zeile.textContent = akPrimeEndeText(ende)
       kasten.appendChild(zeile)
     }
 
