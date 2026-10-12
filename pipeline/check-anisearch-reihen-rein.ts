@@ -76,6 +76,19 @@ pruefe('Eine MAL-Kennung, die neun aniSearch-Titel tragen, ist eine Sammelseite 
 const achtMal = reineOhne(Array.from({ length: 8 }, (_, i) => ({ id: i + 1, name: `T${i + 1}`, anisearchId: i + 1, mal: 77 })), [])
 pruefe('Eine MAL-Kennung mit acht aniSearch-Titeln (echte Reihe, Kimagure Orange Road) verbindet', achtMal.reihen === 1 && reihe(achtMal, 8) === 1)
 
+/* Kern-Brücke über einen Alleinstehenden: 9 ist Nebengeschichte von 1 und 3 (Reihen {1,2} und {3,4}), 10 hängt nur an 9; 5 ist Nebengeschichte von 1 allein. */
+const crossover = [k(1, 2, 'Sequel'), k(3, 4, 'Sequel'), k(9, 1, 'Hauptgeschichte'), k(1, 9, 'Nebengeschichte'), k(9, 3, 'Hauptgeschichte'), k(3, 9, 'Nebengeschichte'), k(10, 9, 'Hauptgeschichte'), k(5, 1, 'Hauptgeschichte')]
+const kernBruecke = reineOhne(titel(1, 2, 3, 4, 5, 9, 10), crossover)
+pruefe('Kern-Brücke: ein Titel mit Haupthandlungen in zwei Reihen verbindet sie nicht', reihe(kernBruecke, 3) === 3 && reihe(kernBruecke, 4) === 3 && reihe(kernBruecke, 2) === 1)
+pruefe('Kern-Brücke: er hängt an der Reihe mit der kleinsten Kennung, sein Anhängsel kommt mit', reihe(kernBruecke, 9) === 1 && reihe(kernBruecke, 10) === 1 && reihe(kernBruecke, 5) === 1)
+pruefe('Kern-Brücke: der Fall steht als „mehrdeutig“ mit beiden Reihen und dem Titel auf der Prüfliste', faelle(kernBruecke, 'mehrdeutig') === 1 && kernBruecke.pruefliste[0]!.reihen.length === 2 && kernBruecke.pruefliste[0]!.alleinstehende[0] === 'T9' && faelle(kernBruecke, 'verschmilzt') === 0)
+const umgekehrtBruecke = reineOhne(titel(10, 9, 5, 4, 3, 2, 1), [...crossover].reverse())
+pruefe('Kern-Brücke: unabhängig von der Reihenfolge der Eingabe', JSON.stringify([...kernBruecke.reihe].sort()) === JSON.stringify([...umgekehrtBruecke.reihe].sort()))
+const nurEinHaupt = reineOhne(titel(1, 2, 3, 9), [k(1, 2, 'Sequel'), k(9, 1, 'Hauptgeschichte'), k(9, 3, 'Hauptgeschichte')])
+pruefe('Kern-Brücke: Haupthandlungen in einer Reihe und einem Einzeltitel verbinden weiter (kein Fall)', reihe(nurEinHaupt, 3) === 1 && reihe(nurEinHaupt, 9) === 1 && nurEinHaupt.pruefliste.length === 0)
+const kette = reineOhne(titel(1, 2, 3, 4, 5), [k(1, 2, 'Sequel'), k(2, 3, 'Sequel'), k(3, 4, 'Sequel'), k(4, 5, 'Sequel')])
+pruefe('Kern-Brücke: eine Fortsetzungskette bleibt eine Reihe (nur Haupthandlungen sperren)', kette.reihen === 1 && kette.inReihen === 5)
+
 /* Handdatei. */
 const hand = reineOhne(titel(1, 2, 3, 4), [k(1, 2, 'Sequel')], new Map(), { verbinden: [[3, 4, 99]], trennen: [] })
 pruefe('Handdatei `ids:` verbindet (unbekannte Kennungen darin werden übergangen)', reihe(hand, 4) === 3 && hand.reihen === 2)
