@@ -129,7 +129,7 @@ function universumZeilen(kanten: Kante[], jeKennung: Map<number, number[]>, b: B
 
 /**
  * Gleiche MAL-Kennung verbindet — außer bei einer Sammelseite: MAL führt manchmal ganze Reihen unverwandter Titel unter einer Kennung (28149: 27 Kurzfilme, darunter Ryuu no Haisha und Carnage;
- * Verteilung am 12.10.2026: 6.767 Kennungen mit einem, 62 mit zwei, höchstens acht echte Teile einer Reihe, dann der Ausreißer mit 27). Mehr als `MAL_GRUPPE_MAX` Titel verbinden nicht.
+ * Verteilung am 12.10.2026: 6.767 Kennungen mit einem, 62 mit zwei, höchstens acht echte Teile einer Reihe, dann der Ausreißer mit 27). Mehr als `MAL_GRUPPE_MAX` aniSearch-Kennungen je MAL-Kennung verbinden nicht.
  */
 const MAL_GRUPPE_MAX = 8
 function malVerbindungen(titel: ReinTitel[]): Kante[] {
