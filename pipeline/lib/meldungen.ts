@@ -50,6 +50,8 @@ export interface Vorschlag {
   alreadyCurated?: boolean
   /** Aus einem Sammelartikel (`lib/sammelartikel.ts`): alle Folgen an einem Tag … */
   folgen?: number
+  /** … oder nur die Folgen 1 bis N auf Deutsch, im Angebot spätestens am Tag der Meldung (`SammelEintrag.erste`). */
+  ersteFolgen?: number
   /** … oder ein wöchentlicher Simulcast. */
   woechentlich?: boolean
   /** Der Prime-Zusatzkanal, den der Artikel nennt (z. B. Aniverse). */
@@ -513,12 +515,19 @@ function zeitplanGeschaetzt(plan: Pick<Release, 'releaseType' | 'schedule' | 'da
  * Netflix-Eigenproduktion ohne Fernsehausstrahlung ist (ONA bei Netflix: „Fool Night“ kommt am 26.11.2026 komplett).
  */
 export function zeitplanAusVorschlag(
-  v: Pick<Vorschlag, 'folgen' | 'woechentlich'> & Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>,
+  v: Pick<Vorschlag, 'folgen' | 'woechentlich'> & Partial<Pick<Vorschlag, 'articleTitle' | 'dates' | 'ersteFolgen'>>,
   art: ReleaseType,
   tag: string,
   treffer: Pick<Title, 'episodes' | 'jpYear'> & Partial<Pick<Title, 'format'>>,
   platform?: string,
 ): Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'> {
+  /* Nur die ersten N Folgen: „im Angebot seit“ dem Meldetag, kein Wochentakt, keine Uhrzeit; die übrigen Folgen sind offen, nicht „alle“. */
+  if (art === 'batch' && v.ersteFolgen)
+    return {
+      releaseType: 'batch',
+      dateMeaning: 'available-from',
+      schedule: { firstEpisodeDate: tag, episodeCount: v.ersteFolgen },
+    }
   if (art === 'batch' && !v.folgen && (v.woechentlich ?? wochenstartOhneAngabe(v, tag, treffer, platform)))
     return {
       releaseType: 'weekly',
