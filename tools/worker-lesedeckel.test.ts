@@ -131,8 +131,34 @@ pruefe(DECKEL_LESEN > 0 && DECKEL_LESEN < 5_000_000, `DECKEL_LESEN liegt unter d
 }
 {
   const db = neueDatenbank()
+  const env = umgebung(db)
+  await handlePruefung(post(folge(1)), env)
+  const vorher = tag(db)!
+  const r = await handlePruefung(post(folge(1)), env)
+  const nachher = tag(db)!
+  pruefe(((await r.json()) as { unveraendert?: boolean }).unveraendert === true, 'Ausgang: die Wiederholung ist unverändert')
+  pruefe(nachher.zeilen - vorher.zeilen === 1, `eine unveränderte Meldung bucht ihre eigene Schreibzeile in den Zähler (+${nachher.zeilen - vorher.zeilen})`)
+}
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  await handlePruefung(post(folge(1)), env)
+  db.prepare('UPDATE schreib_tag SET zeilen = ?').run(DECKEL_ZEILEN - 3)
+  const status: number[] = []
+  for (let i = 0; i < 6; i++) status.push((await handlePruefung(post(folge(1)), env)).status)
+  pruefe(status.includes(429), `eine Schleife unveränderter Meldungen erreicht den Schreib-Deckel (${status.join(' ')})`)
+}
+{
+  const db = neueDatenbank()
   db.exec('ALTER TABLE schreib_tag DROP COLUMN gelesen')
-  pruefe((await handlePruefung(post(folge(1)), umgebung(db))).status === 200, 'ein Fehler beim Zählen sperrt nicht (Spalte fehlt)')
+  const meldungen: string[] = []
+  console.error = (...a: unknown[]) => void meldungen.push(a.join(' '))
+  const env = umgebung(db)
+  const status = [(await handlePruefung(post(folge(1)), env)).status, (await handlePruefung(post(folge(2)), env)).status]
+  console.error = () => {}
+  pruefe(status.join() === '200,200', 'ein Fehler beim Zählen sperrt nicht (Spalte fehlt)')
+  const aus = meldungen.filter((m) => m.includes('TAGESDECKEL AUS'))
+  pruefe(aus.length === 1 && aus[0]!.includes('Migration 052'), `fehlende Migration 052: genau eine hörbare Zeile je Isolate (${aus.length})`)
 }
 
 console.log('Echtes D1-Tageslimit wird zur 429 des Deckels')

@@ -112,6 +112,18 @@ export function zaehlendeDb(db: D1Database): { db: D1Database; zeilen: () => Zei
   return { db: verpackt as unknown as D1Database, zeilen: () => ({ ...summe }), limit: () => limit }
 }
 
+let zaehlerAusGemeldet = false
+
+/**
+ * Der Zähler ist kaputt (meist: Migration 052 fehlt): beide Deckel sind dann still abgeschaltet.
+ * Einmal je Isolate eine Zeile mit eindeutigem Text ins Protokoll (`wrangler tail`, Workers Logs); gesperrt wird nichts.
+ */
+function zaehlerAus(wo: string, e: unknown): void {
+  if (zaehlerAusGemeldet) return
+  zaehlerAusGemeldet = true
+  fehlerLog(`TAGESDECKEL AUS (${wo}): Zähler schreib_tag nicht nutzbar, Lese- und Schreib-Deckel greifen nicht — Migration 052 eingespielt?`, e)
+}
+
 /** Bisher am Tag geschriebene und gelesene Zeilen; bei einem Lesefehler 0 (offen lassen, nicht sperren). */
 async function heutigerStand(env: Env, tag: string): Promise<Zeilen> {
   try {
@@ -120,12 +132,17 @@ async function heutigerStand(env: Env, tag: string): Promise<Zeilen> {
       .first<{ zeilen: number; gelesen: number }>()
     return { geschrieben: zeile?.zeilen ?? 0, gelesen: zeile?.gelesen ?? 0 }
   } catch (e) {
-    fehlerLog('tagesdeckel lesen', e)
+    zaehlerAus('lesen', e)
     return { geschrieben: 0, gelesen: 0 }
   }
 }
 
-/** Eine Zeile je Anfrage: geschriebene und gelesene Zeilen in denselben Tageszähler. */
+/**
+ * Eine Zeile je Anfrage: geschriebene und gelesene Zeilen in denselben Tageszähler. Das Buchen schreibt
+ * selbst eine Zeile (der Upsert läuft auf der unverpackten Datenbank) und wird deshalb mitgezählt:
+ * Eine Schleife unveränderter Meldungen, die sonst nichts schreibt, erreicht so den Schreib-Deckel,
+ * statt bis zum Lese-Deckel ungezählt Zeilen zu verbrauchen.
+ */
 async function verbuchen(env: Env, tag: string, { geschrieben, gelesen }: Zeilen): Promise<void> {
   if (geschrieben <= 0 && gelesen <= 0) return
   try {
@@ -133,11 +150,11 @@ async function verbuchen(env: Env, tag: string, { geschrieben, gelesen }: Zeilen
       env.DB.prepare(
         `INSERT INTO schreib_tag (tag, zeilen, gelesen) VALUES (?1, ?2, ?3)
          ON CONFLICT(tag) DO UPDATE SET zeilen = zeilen + ?2, gelesen = gelesen + ?3`,
-      ).bind(tag, geschrieben, gelesen),
+      ).bind(tag, geschrieben + 1, gelesen),
       env.DB.prepare('DELETE FROM schreib_tag WHERE tag < ?1').bind(tag),
     ])
   } catch (e) {
-    fehlerLog('tagesdeckel schreiben', e)
+    zaehlerAus('buchen', e)
   }
 }
 
