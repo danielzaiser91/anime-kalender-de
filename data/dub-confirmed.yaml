@@ -23553,3 +23553,101 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   checkedAt: '2026-10-11'
   note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, pt-BR, tr"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-12 ---
+
+- anilistId: -82653
+  title: "Bless the Harts"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-3fc1237b-ce84-4b4c-ab4d-efc8e79dc20d
+  dub: true
+  dubRanges:
+    - from: 11
+      to: 34
+      dub: true
+      checked: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34]
+  checkedAt: '2026-10-11'
+  note: "Folgen 11–34 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, pt-BR, tr"
+- anilistId: -33765
+  title: "My Little Pony - Freundschaft ist Magie"
+  platform: netflix
+  url: https://www.netflix.com/title/70234440
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, hi|Hindi, id|Indonesisch, it|Italienisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 2: Ein Auftrag von Prinzessin Celestia – Teil 2"
+- anilistId: -82728
+  title: "Bluey"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-e878689c-487f-4041-bd45-cc4551f0a2e5
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 9
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–9 mit deutschem Ton — Tonspuren: ar, cs, da, de, el, en, es-419, es-ES, fi, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, th, tr"
+- anilistId: -33765
+  title: "My Little Pony - Freundschaft ist Magie"
+  platform: netflix
+  url: https://www.netflix.com/title/70234440
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], ru|Russisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, hi|Hindi, id|Indonesisch, ko|Koreanisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 9: Das Familienfest der Apples — Netflix: Staffel 3"
+- anilistId: -33765
+  title: "My Little Pony - Freundschaft ist Magie"
+  platform: netflix
+  url: https://www.netflix.com/title/70234440
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], ru|Russisch, nl|Niederländisch, it|Italienisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, hi|Hindi, id|Indonesisch, ko|Koreanisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 2: Prinzessin Twilight Sparkle – Teil 2"
+- anilistId: -33765
+  title: "My Little Pony - Freundschaft ist Magie"
+  platform: netflix
+  url: https://www.netflix.com/title/70234440
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, ar|Arabisch, da|Dänisch, fi|Finnisch, el|Griechisch, hi|Hindi, id|Indonesisch, it|Italienisch, ko|Koreanisch, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, sv|Schwedisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), th|Thailändisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 22: Fluttershy und die Fliegerei"
+- anilistId: -32726
+  title: "Bob's Burgers"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-fdeb1018-4472-442f-ba94-fb087cdea069
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 21
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–21 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, hu, it, pl, pt-BR, tr"
+- anilistId: -37606
+  title: "Die fantastische Welt von Gumball"
+  platform: netflix
+  url: https://www.netflix.com/title/70243420
+  dub: true
+  dubRanges:
+    - from: 5
+      to: 16
+      dub: true
+      checked: [5, 6, 7, 8, 11, 14, 15, 16]
+  checkedAt: '2026-10-11'
+  note: "Folgen 5–16 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 20, dazwischen nicht geprüft — Folge 11: Das Pony/Der Sturm — Netflix: Staffel 2"

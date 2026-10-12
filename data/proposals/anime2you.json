@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-10-12T04:12:24.690Z",
+  "scrapedAt": "2026-10-12T05:03:13.354Z",
   "verworfen": {
     "streaming: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 37,
     "disc: kein künftiger Tag, keine Pause, keine Sendezeit, keine Sprachaussage": 9,
@@ -1848,7 +1848,7 @@
           "folgen": 12
         }
       ],
-      "sammelGelesen": "2026-10-09"
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "ADN kündigt 25 Simulcasts und Katalogtitel für Oktober 2026 an",
@@ -2117,8 +2117,28 @@
       "dates": [],
       "dub": "nein",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
+      "sammel": [
+        {
+          "titel": "Magical Girl Raising Project Restart",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "AKIBA PASS TV"
+          ],
+          "datum": "2026-10-05"
+        },
+        {
+          "titel": "Reincarnated as a Sword",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "AKIBA PASS TV"
+          ],
+          "datum": "2026-09-30"
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Crunchyroll ergänzt drei Anime-Neuzugänge + Synchro",
@@ -2131,8 +2151,44 @@
       "dates": [],
       "dub": "unklar",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-10"
+      "sammel": [
+        {
+          "titel": "A Wild Last Boss Appeared!",
+          "zusatz": "Staffel 2",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-09-26",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World",
+          "zusatz": "Staffel 3",
+          "deutsch": false,
+          "woechentlich": true,
+          "stream": [
+            "Prime Video",
+            "Crunchyroll"
+          ],
+          "datum": "2026-09-27",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Overgeared",
+          "deutsch": true,
+          "woechentlich": true,
+          "stream": [
+            "Crunchyroll",
+            "Prime Video"
+          ],
+          "datum": "2026-09-27",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Zwei neue Anime-Filme ab sofort auf RTL+ verfügbar",
@@ -2532,8 +2588,33 @@
       "dates": [],
       "dub": "unklar",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
+      "sammel": [
+        {
+          "titel": "Beyblade X",
+          "zusatz": "Staffel 3",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video",
+            "RTL+"
+          ],
+          "datum": "2026-09-25",
+          "datumGeschaetzt": true
+        },
+        {
+          "titel": "Dragon Ball DAIMA",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video",
+            "RTL+"
+          ],
+          "folgen": 20,
+          "datum": "2026-09-25",
+          "datumGeschaetzt": true
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "In diesen Kinos läuft der »Rascal Does Not Dream«-Finalfilm",
@@ -2607,8 +2688,35 @@
       "dates": [],
       "dub": "unklar",
       "alreadyCurated": false,
-      "sammel": [],
-      "sammelGelesen": "2026-10-09"
+      "sammel": [
+        {
+          "titel": "Ghost Cat Anzu",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Miss Hokusai",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ]
+        },
+        {
+          "titel": "Yu-Gi-Oh!",
+          "zusatz": "Staffel 1",
+          "deutsch": true,
+          "woechentlich": false,
+          "stream": [
+            "Prime Video"
+          ],
+          "folgen": 49
+        }
+      ],
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Netflix: Alle Anime-Neuzugänge im Oktober 2026",
@@ -2743,7 +2851,7 @@
           ]
         }
       ],
-      "sammelGelesen": "2026-10-09"
+      "sammelGelesen": "2026-10-12"
     },
     {
       "articleTitle": "Netflix enthüllt neuen Teaser zu »Cyberpunk: Edgerunners II«",
