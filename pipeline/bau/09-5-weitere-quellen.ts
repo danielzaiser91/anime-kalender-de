@@ -17,7 +17,7 @@ import { staffelnDesFranchise, passtZuSerie, bewerteTreffer, volltreffer, type A
 import { adnAdresseSchaerfen, adnFolgenAdresse, ladeAdnArchiv, beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
 import { type Release, type Title } from '../../shared/types.ts'
 import { anisearchFelderAnwenden } from '../lib/anisearch-felder.ts'
-import { ladeErstausgabeVonHand } from '../lib/erstausgabe-von-hand.ts'
+import { handErstausgabe, ladeErstausgabeVonHand } from '../lib/erstausgabe-von-hand.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 
 export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerweiseErgaenzt, verweiseEntfernt }: {
@@ -176,7 +176,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
     for (const e of ladeErstausgabeVonHand()) {
       const title = e.anilistId ? titles.get(e.anilistId) : undefined
       if (!title || !e.von || !e.sources?.length) continue
-      title.deErstausgabe = { von: e.von, ...(e.publisher ? { publisher: e.publisher } : {}), synchro: true }
+      title.deErstausgabe = handErstausgabe(e, title)
     }
   }
 

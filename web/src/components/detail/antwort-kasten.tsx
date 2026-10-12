@@ -11,7 +11,7 @@ import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
 import { gruppeVon as gruppeVonPille, sichtbareStreamPillen } from './stream-pillen.ts'
-import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText } from './antwort-regeln.ts'
+import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText, teilweiseNeben } from './antwort-regeln.ts'
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
 
@@ -460,7 +460,7 @@ export function AntwortKasten({
       wurde zu „Alle 12 Folgen auf Deutsch", obwohl vier belegt waren.
     */
     haupt = antwort.raus === undefined ? T('antwort.teilweiseOhneZahl') : T('antwort.teilweiseZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
-    neben = antwort.restBelegt ? '' : T('antwort.teilweiseNeben')
+    neben = teilweiseNeben(antwort, T)
     anteil = antwort.raus === undefined ? undefined : Math.round((antwort.raus / antwort.gesamt) * 100)
     zaehl = ''
   } else if (antwort.art === 'fertig') {

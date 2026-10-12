@@ -20,6 +20,7 @@ import { baueAuslieferung } from './13-2-auslieferung.ts'
 import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
 import { mitBelegstaerke } from '../lib/belegstaerke.ts'
 import { ergaenzeEigeneHandlungen } from './handlung-eigen-einbinden.ts'
+import { ergaenzeDeutscheFolgenzahl } from './deutsche-folgenzahl-einbinden.ts'
 
 export function schreibeDatensatz({
   allTitles,
@@ -69,6 +70,7 @@ export function schreibeDatensatz({
   })
 
   ergaenzeEigeneHandlungen(synopses, slim)
+  ergaenzeDeutscheFolgenzahl(synopses, new Map([...titles.values()].map((t) => [t.id, t.episodes])))
   ergaenzeErstausgabeAngebot({ titles: titles.values(), releases })
   schreibeListen({ slim, tmdbTitles, releases, titles })
 
