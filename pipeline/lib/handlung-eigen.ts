@@ -2,6 +2,8 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { ROOT } from './util.ts'
+import { esc } from './titel-seite.ts'
+import { LIZENZ_SEITEN } from '../../shared/lizenzen.ts'
 
 /**
  * **Eigene deutsche Handlungstexte** (`data/handlung-eigen.yaml`, Daniel 12.10.2026, Option C): aus den Fakten mehrerer Quellen selbst geschrieben, nie abgeschrieben.
@@ -45,6 +47,7 @@ export function eigeneHandlungFehler(eintraege: EigeneHandlung[]): string[] {
     const quellen = e.quellen ?? []
     if (!quellen.length) fehler.push(`${at}: keine Quelle angegeben`)
     if (quellen.some((q) => !q.name || !/^https:\/\//.test(q.url ?? ''))) fehler.push(`${at}: jede Quelle braucht name und https-Adresse`)
+    if (new Set(quellen.map((q) => q.name)).size < quellen.length) fehler.push(`${at}: zwei Quellen mit gleichem Namen — nur eine je Name`)
     if (quellen.some((q) => /wikipedia\.org/.test(q.url ?? '')) && e.lizenz !== LIZENZ_WIKIPEDIA) fehler.push(`${at}: Wikipedia-Quelle verlangt die Lizenz ${LIZENZ_WIKIPEDIA}`)
   }
   return fehler
@@ -69,16 +72,15 @@ export function eigeneTexteAktiv(
   return { aktiv, ungenutzt }
 }
 
-/** Der Satz für Seiten ohne Link-Leiste (Teilen-Seiten): woraus der Text entstand und unter welcher Lizenz er steht. */
-export function eigeneQuellenSatz(e: { quellen: EigeneQuelle[]; lizenz: string }): string {
-  return `Zusammengefasst nach ${e.quellen.map((q) => q.name).join(', ')} (${e.lizenz}).`
-}
-
 /** Synopsen, wie die Teilen-Seiten sie lesen (`public/data/synopses/`). */
 export type SynopsenFuerSeiten = Record<string, { de?: string; en?: string; eigen?: { quellen: EigeneQuelle[]; lizenz: string } }>
 
-/** Der deutsche Text einer Teilen-Seite; bei einem eigenen Text mit dem Quellensatz dahinter. */
-export function seitenText(s: SynopsenFuerSeiten[string] | undefined): string | undefined {
-  if (!s?.de) return undefined
-  return s.eigen ? `${s.de} ${eigeneQuellenSatz(s.eigen)}` : s.de
+/** Zeile unter dem Text einer Teilen-Seite (kein Panel, keine Link-Leiste): Quellen und Lizenz eines eigenen Textes mit Links; sonst leer. */
+export function seitenQuelle(s: SynopsenFuerSeiten[string] | undefined): string {
+  const e = s?.eigen
+  if (!e) return ''
+  const link = (url: string, name: string) => `<a href="${esc(url)}" rel="nofollow" style="color:#7dd3fc;">${esc(name)}</a>`
+  const lizenzUrl = LIZENZ_SEITEN[e.lizenz]
+  const lizenz = lizenzUrl ? link(lizenzUrl, e.lizenz) : esc(e.lizenz)
+  return `<p style="margin:-1rem 0 1.5rem;font-size:.85rem;color:#9aa5bd;">Zusammengefasst nach ${e.quellen.map((q) => link(q.url, q.name)).join(', ')} (${lizenz}).</p>`
 }

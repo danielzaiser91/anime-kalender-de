@@ -3,7 +3,7 @@
  * einen deutschen Text liefert (Vorrang bleibt bei den Quellen); ein überholter oder verwaister Eintrag wird gemeldet (Bau-Warnung). Läuft in `check:logic`.
  * Die echte Datei wird auf Struktur geprüft; gegen den gebauten Bestand hält sie `check-handlung-eigen-bestand.ts` (check:bestand).
  */
-import { eigeneHandlungFehler, eigeneTexteAktiv, ladeEigeneHandlungen, seitenText, type EigeneHandlung } from './lib/handlung-eigen.ts'
+import { eigeneHandlungFehler, eigeneTexteAktiv, ladeEigeneHandlungen, seitenQuelle, type EigeneHandlung } from './lib/handlung-eigen.ts'
 import { ergaenzeEigeneHandlungen } from './bau/handlung-eigen-einbinden.ts'
 import { type SynopsisEintrag } from './bau/13-1-anreichern.ts'
 
@@ -27,6 +27,7 @@ pruefe('Struktur: ein vollständiger Eintrag ist in Ordnung', eigeneHandlungFehl
 pruefe('Struktur: Eintrag ohne Quelle ist ein Fehler', eigeneHandlungFehler([{ ...gut, quellen: [] }]).some((f) => f.includes('keine Quelle')))
 pruefe('Struktur: Quelle ohne https-Adresse ist ein Fehler', eigeneHandlungFehler([{ ...gut, quellen: [{ name: 'x', url: 'http://a.de' }] }]).length === 1)
 pruefe('Struktur: Text, Umfang und Lizenz sind Pflicht', eigeneHandlungFehler([{ ...gut, text: ' ', umfang: 'staffel' as never, lizenz: '', quellen: [{ name: 'x', url: 'https://a.de' }] }]).length === 3)
+pruefe('Struktur: zwei Quellen gleichen Namens sind ein Fehler', eigeneHandlungFehler([{ ...gut, quellen: [...gut.quellen, { name: gut.quellen[0]!.name, url: 'https://en.wikipedia.org/wiki/Zweite' }] }]).some((f) => f.includes('Name')))
 pruefe('Struktur: doppelte Kennung ist ein Fehler', eigeneHandlungFehler([gut, gut]).some((f) => f.includes('doppelt')))
 pruefe('Struktur: Wikipedia-Quelle verlangt CC BY-SA 4.0', eigeneHandlungFehler([{ ...gut, lizenz: 'frei' }]).some((f) => f.includes('Wikipedia')))
 
@@ -45,7 +46,7 @@ ergaenzeEigeneHandlungen(synopsen, echte.map((e) => ({ id: e.id })))
 pruefe('Bau: Titel mit Quelltext behält ihn', synopsen[titel.id]!.de === 'Text aus einer Quelle' && !synopsen[titel.id]!.eigen)
 pruefe('Bau: Reihentext trägt Text, Quellen, Lizenz und Reihenkennzeichen', synopsen[reihe.id]!.de === reihe.text && synopsen[reihe.id]!.eigen?.reihe === true && synopsen[reihe.id]!.eigen?.quellen.length === reihe.quellen.length && synopsen[reihe.id]!.eigen?.lizenz === reihe.lizenz)
 pruefe('Bau: die englische Fassung bleibt neben dem eigenen Text', synopsen[reihe.id]!.en === 'English only')
-pruefe('Teilen-Seite: eigener Text nennt Quellen und Lizenz', seitenText(synopsen[reihe.id])?.endsWith(`(${reihe.lizenz}).`) === true)
+pruefe('Teilen-Seite: Quellen und Lizenz stehen mit Links da, ein Text aus einer Quelle bekommt keine Zeile', seitenQuelle(synopsen[reihe.id]).includes('href="https://creativecommons.org/') && seitenQuelle(synopsen[reihe.id]).includes(reihe.quellen[0]!.url) && seitenQuelle({ de: 'x' }) === '')
 
 pruefe('Datei: data/handlung-eigen.yaml ist gültig', eigeneHandlungFehler(echte).length === 0, eigeneHandlungFehler(echte).join('; '))
 

@@ -25,10 +25,10 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { andereNamen } from './lib/titel-namen.ts'
-import { SITE, esc, namenZeile, titelInhalt, titelKopf } from './lib/titel-seite.ts'
+import { SITE, esc, namenZeile, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
-import { seitenText, type SynopsenFuerSeiten } from './lib/handlung-eigen.ts'
+import { seitenQuelle, type SynopsenFuerSeiten } from './lib/handlung-eigen.ts'
 import { ladeAkVon, umleitungen, type AkVon, type KennungsZeile } from './lib/ausgabe-kennung.ts'
 
 const DIST = resolve(ROOT, 'dist')
@@ -76,7 +76,7 @@ function describe(release: Release, title: Title | undefined, today: string): st
 function body(
   release: Release,
   title: Title | undefined,
-  synopsis: string | undefined,
+  synopsis: SynopsenText | undefined,
   today: string,
   geschwister: Release[],
   ak: number,
@@ -219,7 +219,7 @@ function body(
   return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(release.name)}</h1>
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>${namenZeile(title, release.name)}
-      ${synopsis ? `<p style="margin:0 0 1.5rem;">${esc(synopsis)}</p>` : ''}
+      ${synopsenAbsatz(synopsis)}
       ${release.note ? `<p style="margin:0 0 1.5rem;color:#9aa5bd;">${esc(release.note)}</p>` : ''}
       <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Alle Termine mit deutscher Synchronisation</h2>
       <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">
@@ -456,7 +456,8 @@ function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[],
     const eigene = r.jeTitel.get(t.id) ?? []
     const haupt = naechsterTermin(eigene, r.today)
     /* Cartoons tragen ihre Beschreibung am Titel, nicht in `synopses/`. */
-    const synopsis = seitenText(r.synopses[String(t.id)]) ?? (t.westlich ? t.synopsis : undefined)
+    const text = r.synopses[String(t.id)]?.de ?? (t.westlich ? t.synopsis : undefined)
+    const synopsis = text ? { text, quelle: seitenQuelle(r.synopses[String(t.id)]) } : undefined
     const kopf = haupt ? head(haupt, t, r.today, ak, adresse) : titelKopf({ ...t, id: ak, slug: adresse })
     const inhalt = haupt
       ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak)

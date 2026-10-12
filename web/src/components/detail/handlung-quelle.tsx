@@ -1,8 +1,6 @@
 import type { Translate } from '../../lib/i18n.tsx'
 import { type Synopsis } from '../../lib/data.ts'
-
-/** Lizenztexte, die eine Seite zum Nachlesen haben; unbekannte stehen ohne Link. */
-const LIZENZ_SEITEN: Record<string, string> = { 'CC BY-SA 4.0': 'https://creativecommons.org/licenses/by-sa/4.0/deed.de' }
+import { LIZENZ_SEITEN } from '@shared/lizenzen.ts'
 
 const linkKlasse = 'underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text'
 

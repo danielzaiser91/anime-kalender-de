@@ -42,11 +42,11 @@
     - name: aniSearch
       url: https://www.anisearch.de/anime/14638
 
-- id: 10003453 # Wundersame Geschichten (1988, TV, 41 Folgen)
+- id: 10003453 # Wundersame Geschichten (1988, TV; Folgenzahl: Wikipedia 26, aniSearch 41 — im Text nicht genannt)
   umfang: titel
   lizenz: CC BY-SA 4.0
   text: >-
-    Japanische Anime-Serie ab 1988 mit 41 Folgen, in der jede Folge ein bekanntes Märchen oder eine bekannte Geschichte erzählt. Figuren und Schauplätze wechseln deshalb von Folge zu Folge. Außerhalb Japans brachte Saban die Serie heraus, in Deutschland lief sie erstmals an Heiligabend 1993 auf VOX.
+    Japanische Anime-Serie ab 1988, in der jede Folge ein bekanntes Märchen oder eine bekannte Geschichte erzählt. Figuren und Schauplätze wechseln deshalb von Folge zu Folge. Außerhalb Japans brachte Saban die Serie heraus, in Deutschland lief sie erstmals an Heiligabend 1993 auf VOX.
   quellen:
     - name: Wikipedia (DE)
       url: https://de.wikipedia.org/wiki/Wundersame_Geschichten
@@ -79,12 +79,10 @@
   umfang: reihe
   lizenz: CC BY-SA 4.0
   text: >-
-    Fünfte und letzte Staffel von „Bakugan: Battle Planet“ mit 13 Folgen, bei Netflix ab März 2023. Die Reihe handelt von den Kindern Dan, Shun, Wynton und Lia und ihrem Hund Lightning. Sie veröffentlichen Videos im Netz, stoßen auf die Bakugan, kämpfende Wesen mit Roboterteilen, und freunden sich mit ihnen an.
+    Fünfte und letzte Staffel von „Bakugan: Battle Planet“ mit 13 Folgen, bei Netflix ab März 2023. Im Mittelpunkt stehen die Kinder Dan, Shun, Wynton und Lia und ihr Hund Lightning. Sie veröffentlichen Videos im Netz, stoßen auf die Bakugan, kämpfende Wesen mit Roboterteilen, und freunden sich mit ihnen an.
   quellen:
     - name: Wikipedia (EN)
       url: https://en.wikipedia.org/wiki/Bakugan:_Battle_Planet
-    - name: Wikipedia (EN)
-      url: https://en.wikipedia.org/wiki/Bakugan:_Legends
     - name: aniSearch
       url: https://www.anisearch.de/anime/18340
 
@@ -103,7 +101,7 @@
   umfang: titel
   lizenz: CC BY-SA 4.0
   text: >-
-    Der 29. Kinofilm der Reihe „Detektiv Conan“, in Japan seit April 2026 (109 Minuten). Im Mittelpunkt steht die Polizistin Chihaya Hagiwara aus der Präfektur Kanagawa, die Schwester von Kenji Hagiwara. Es geht um einen Fall rund um automatisierte Fahrzeuge und große Datenmengen, dazu sind Conan, Ran und Kogoro Mori mit dabei.
+    Der 29. Kinofilm der Reihe „Detektiv Conan“, in Japan seit April 2026 (109 Minuten). Im Mittelpunkt steht die Polizistin Chihaya Hagiwara aus der Präfektur Kanagawa, die Schwester von Kenji Hagiwara. Mit dabei sind Conan, Ran und Kogoro Mori.
   quellen:
     - name: Wikipedia (EN)
       url: https://en.wikipedia.org/wiki/Detective_Conan:_Fallen_Angel_of_the_Highway
