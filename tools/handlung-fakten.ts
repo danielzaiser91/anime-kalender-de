@@ -1,5 +1,5 @@
 /**
- * Faktensammler für eigene deutsche Handlungstexte: je Lückentitel Wikidata-Brücke (MAL P4086, aniSearch P12477) und geratene Wikipedia-Seitennamen,
+ * Faktensammler für eigene deutsche Handlungstexte: je Lückentitel geratene Wikipedia-Seitennamen (keine Wikidata-Brücke: deren robots.txt sperrt die Suche nach einer Kennung),
  * dazu die Fakten der aniSearch-Archivseite (lokal, nie Netz). Ausgabe: je Titel eine Faktenkarte in `data/cache/handlung-fakten/karten/` (nicht getrackt).
  * Wikipedia nur per `/wiki/<Seite>?action=raw`, ein Abruf je Sekunde; Fehler bedeuten Pause, nie Abbruch. Ein zweiter Lauf holt nur Fehlendes nach (alles liegt im Cache).
  *
@@ -19,8 +19,8 @@ import { findeLuecken } from './handlung-fakten/luecken.ts'
 import { sammleWikipedia } from './handlung-fakten/seiten.ts'
 import { CACHE } from './handlung-fakten/typen.ts'
 import type { Luecke } from './handlung-fakten/typen.ts'
-import { ladeBruecke, schluesselVon } from './handlung-fakten/wikidata.ts'
-import { erstelleHoler, pruefeRobots } from './handlung-fakten/wikipedia.ts'
+import { pruefeRobots } from './handlung-fakten/robots.ts'
+import { erstelleHoler } from './handlung-fakten/wikipedia.ts'
 
 function argument(name: string): string | undefined {
   const i = process.argv.indexOf(name)
@@ -49,13 +49,12 @@ function zusammenfassung(karten: Karte[]): Record<string, number> {
 async function main(): Promise<void> {
   const luecken = auswahl(findeLuecken())
   console.log(`${new Date().toISOString()} ${luecken.length} Titel`)
-  await pruefeRobots()
-  const bruecke = await ladeBruecke(schluesselVon(luecken))
-  const hole = erstelleHoler()
+  const regeln = await pruefeRobots()
+  const hole = erstelleHoler({ regeln })
   const karten: Karte[] = []
   for (const [i, l] of luecken.entries()) {
     const as = l.anisearchSeite ? ladeFakten(l.anisearchSeite) : undefined
-    const { funde, fehler } = await sammleWikipedia(l, bruecke, hole)
+    const { funde, fehler } = await sammleWikipedia(l, hole)
     const karte = baueKarte(l, funde, fehler, as)
     schreibeKarte(karte, quelltexteVon(l, funde, as))
     karten.push(karte)

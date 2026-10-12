@@ -53,5 +53,6 @@ function texte(): [number, string][] {
 const ergebnisse = texte().map(([id, text]) => messe(id, text))
 const durchgefallen = ergebnisse.filter((ok) => !ok).length
 console.log(`${ergebnisse.length - durchgefallen} von ${ergebnisse.length} bestanden`)
-console.log('ENDE 0')
-if (durchgefallen > 0 && process.argv.includes('--streng')) process.exit(1)
+const exitCode = durchgefallen > 0 && process.argv.includes('--streng') ? 1 : 0
+console.log(`ENDE ${exitCode}`)
+process.exit(exitCode)

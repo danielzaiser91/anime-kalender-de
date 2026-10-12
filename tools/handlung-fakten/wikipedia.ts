@@ -4,12 +4,14 @@
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { CACHE, UA } from './typen.ts'
+import { istErlaubt } from './robots.ts'
+import type { Regeln } from './robots.ts'
 import { istWeiterleitung } from './wikitext.ts'
 
 export type Sprache = 'de' | 'en'
 
 export interface Abruf {
-  status: 'ok' | '404' | 'fehler'
+  status: 'ok' | '404' | 'fehler' | 'gesperrt'
   text?: string
   /** Seitenname nach Weiterleitungen. */
   seite: string
@@ -28,6 +30,8 @@ export interface HolerOptionen {
   /** Wartezeiten vor Wiederholung nach 429/5xx/Netzfehler; danach gilt die Seite als „fehler“ und der Lauf geht weiter. */
   backoffSek?: number[]
   ordner?: string
+  /** robots.txt-Regeln je Host (`pruefeRobots`); ein gesperrter Pfad wird nie abgerufen. */
+  regeln?: Regeln
 }
 
 const PAUSE_MS = 1100
@@ -40,17 +44,6 @@ const dateiname = (sprache: Sprache, seite: string) => `${sprache}-${seite.repla
 
 export const wikiUrl = (sprache: Sprache, seite: string) => `https://${sprache}.wikipedia.org/wiki/${encodeURIComponent(seite.replace(/ /g, '_'))}`
 
-/** Liest `robots.txt` beider Wikipedias und bricht ab, wenn `/wiki/<Seite>?action=raw` für alle Bots gesperrt wäre. */
-export async function pruefeRobots(fetchFn: typeof fetch = fetch): Promise<void> {
-  for (const sprache of ['de', 'en'] as const) {
-    const text = await (await fetchFn(`https://${sprache}.wikipedia.org/robots.txt`, { headers: { 'User-Agent': UA } })).text()
-    const alle = text.split(/\n(?=User-agent:)/i).find((b) => /^User-agent:\s*\*/i.test(b)) ?? ''
-    const verboten = [...alle.matchAll(/^Disallow:\s*(\S+)/gim)].map((m) => m[1]!)
-    const pfad = '/wiki/Beispiel?action=raw'
-    if (verboten.some((v) => pfad.startsWith(v))) throw new Error(`robots.txt von ${sprache}.wikipedia.org sperrt ${pfad}`)
-  }
-}
-
 export function erstelleHoler(opt: HolerOptionen = {}): Holer {
   const fetchFn = opt.fetchFn ?? fetch
   const warte = opt.warteFn ?? ((ms: number) => new Promise<void>((r) => setTimeout(r, ms)))
@@ -62,7 +55,9 @@ export function erstelleHoler(opt: HolerOptionen = {}): Holer {
   const index: Index = existsSync(indexPfad) ? JSON.parse(readFileSync(indexPfad, 'utf8')) : {}
   let letzter = 0
 
-  async function einmal(sprache: Sprache, seite: string): Promise<{ status: 'ok' | '404' | 'fehler'; text?: string }> {
+  async function einmal(sprache: Sprache, seite: string): Promise<{ status: 'ok' | '404' | 'fehler' | 'gesperrt'; text?: string }> {
+    const pfad = `${new URL(wikiUrl(sprache, seite)).pathname}?action=raw`
+    if (opt.regeln && !istErlaubt(opt.regeln[`${sprache}.wikipedia.org`], pfad)) return { status: 'gesperrt' }
     for (let versuch = 0; versuch <= backoff.length; versuch++) {
       const warten = letzter + pause - Date.now()
       if (warten > 0) await warte(warten)
@@ -85,14 +80,14 @@ export function erstelleHoler(opt: HolerOptionen = {}): Holer {
   async function hole(sprache: Sprache, seite: string, tiefe = 0, von?: string): Promise<Abruf> {
     const schluessel = `${sprache}:${seite}`
     const bekannt = index[schluessel]
-    let status: 'ok' | '404' | 'fehler' = bekannt ? (bekannt.status === 404 ? '404' : 'ok') : 'fehler'
+    let status: 'ok' | '404' | 'fehler' | 'gesperrt' = bekannt ? (bekannt.status === 404 ? '404' : 'ok') : 'fehler'
     let text: string | undefined
     if (bekannt?.status === 200) text = readFileSync(`${ordner}/${bekannt.datei}`, 'utf8')
     else if (!bekannt) {
       const neu = await einmal(sprache, seite)
       status = neu.status
       text = neu.text
-      if (status !== 'fehler') {
+      if (status === 'ok' || status === '404') {
         index[schluessel] = status === 'ok' ? { status: 200, datei: dateiname(sprache, seite) } : { status: 404 }
         if (text !== undefined) writeFileSync(`${ordner}/${dateiname(sprache, seite)}`, text)
         writeFileSync(indexPfad, JSON.stringify(index))

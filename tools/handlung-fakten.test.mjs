@@ -9,7 +9,8 @@ import { ohneMarke, seitenKandidaten } from './handlung-fakten/kandidaten.ts'
 import { istBestanden, laengsteFolge, vergleiche, woerter } from './handlung-fakten/naehe.ts'
 import { sammleWikipedia } from './handlung-fakten/seiten.ts'
 import { enthaeltWertung, folgenWiderspruch, istWertung, unbelegteZahlen } from './handlung-fakten/zahlen.ts'
-import { auswerten } from './handlung-fakten/wikidata.ts'
+import { istErlaubt, leseRegeln } from './handlung-fakten/robots.ts'
+import { UA } from './handlung-fakten/typen.ts'
 import { erstelleHoler } from './handlung-fakten/wikipedia.ts'
 import { abschnitt, einleitung, infobox, istAnimationsSeite, istBegriffsklaerung, istWeiterleitung, sauber, saetze } from './handlung-fakten/wikitext.ts'
 
@@ -82,10 +83,11 @@ await fall('Seitennamen: Marken fallen ab, Reihe statt Titel, keine Doppelten', 
 })
 
 await fall('Einordnung: zwei Sätze und zwei Quellen sind die Schwelle', () => {
-  assert.equal(ordneEin({ titelSaetze: 3, reiheSaetze: 0, quellen: 2 }).einordnung, 'titel')
-  assert.equal(ordneEin({ titelSaetze: 1, reiheSaetze: 4, quellen: 2 }).einordnung, 'reihe')
-  assert.equal(ordneEin({ titelSaetze: 3, reiheSaetze: 0, quellen: 1 }).einordnung, 'zu dünn')
-  assert.equal(ordneEin({ titelSaetze: 1, reiheSaetze: 0, quellen: 3 }).einordnung, 'zu dünn')
+  assert.equal(ordneEin({ titelSaetze: 3, titelPlot: 3, reiheSaetze: 0, quellen: 2 }).einordnung, 'titel')
+  assert.equal(ordneEin({ titelSaetze: 1, titelPlot: 1, reiheSaetze: 4, quellen: 2 }).einordnung, 'reihe')
+  assert.equal(ordneEin({ titelSaetze: 3, titelPlot: 1, reiheSaetze: 0, quellen: 1 }).einordnung, 'zu dünn')
+  assert.equal(ordneEin({ titelSaetze: 3, titelPlot: 3, reiheSaetze: 0, quellen: 1 }).einordnung, 'titel')
+  assert.equal(ordneEin({ titelSaetze: 1, titelPlot: 1, reiheSaetze: 0, quellen: 3 }).einordnung, 'zu dünn')
 })
 
 function antwort(status, text = '', kopf = {}) {
@@ -156,14 +158,48 @@ await fall('Abruf: 404 und Treffer liegen im Cache, Weiterleitung wird verfolgt'
   assert.equal(url[0], 'https://en.wikipedia.org/wiki/Persona_5%3A_The_Animation?action=raw')
 })
 
-await fall('Wikidata: jede angefragte Kennung bekommt einen Eintrag, Seitenname wird entschlüsselt', () => {
-  const b = auswerten('mal', ['1', '2'], { results: { bindings: [{ k: { value: '1' }, en: { value: 'https://en.wikipedia.org/wiki/Persona_5%3A_The_Animation' } }] } })
-  assert.deepEqual(b, { 'mal:1': { en: 'Persona 5: The Animation' }, 'mal:2': {} })
+const WIKI_ROBOTS = [
+  'User-agent: BadBot',
+  'Disallow: /',
+  '',
+  'User-agent: *',
+  'Allow: /w/load.php?',
+  'Disallow: /w/',
+  'Disallow: /api/',
+  'Disallow: /wiki/Special:',
+  'Disallow: /*action=edit$',
+].join('\n')
+
+await fall('robots.txt: Block „*“, längste Regel gilt, Platzhalter, Wikidata-Fall (/sparql gesperrt)', () => {
+  const r = leseRegeln(WIKI_ROBOTS)
+  assert.equal(istErlaubt(r, '/wiki/Made_in_Abyss?action=raw'), true)
+  assert.equal(istErlaubt(r, '/w/api.php?action=query'), false)
+  assert.equal(istErlaubt(r, '/w/load.php?x=1'), true)
+  assert.equal(istErlaubt(r, '/api/rest_v1/page'), false)
+  assert.equal(istErlaubt(r, '/wiki/Special:Search'), false)
+  assert.equal(istErlaubt(r, '/wiki/Seite?action=edit'), false)
+  assert.equal(istErlaubt(r, '/wiki/Seite?action=editx'), true)
+  assert.equal(istErlaubt(leseRegeln('User-agent: *\nDisallow: /sparql'), '/sparql?query=SELECT'), false)
+})
+
+await fall('robots.txt: ein gesperrter Pfad wird nie abgerufen', async () => {
+  let aufrufe = 0
+  const fetchFn = async () => (aufrufe++, antwort(200, 'x'))
+  const regeln = { 'en.wikipedia.org': leseRegeln('User-agent: *\nDisallow: /wiki/Gesperrt'), 'de.wikipedia.org': [] }
+  const hole = erstelleHoler({ fetchFn, warteFn: async () => {}, pauseMs: 0, regeln, ordner: TEST_ORDNER + '/robots' })
+  assert.equal((await hole('en', 'Gesperrt')).status, 'gesperrt')
+  assert.equal(aufrufe, 0)
+  assert.equal((await hole('en', 'Frei')).status, 'ok')
+  assert.equal(aufrufe, 1)
+})
+
+await fall('User-Agent: Projekt-URL mit Impressum, keine Mailadresse', () => {
+  assert.ok(UA.includes('https://anime-kalender.de/#/impressum'))
+  assert.ok(!UA.includes('@'))
 })
 
 const LUECKE = {
   id: 7,
-  malId: 100,
   geteilt: false,
   titleEn: 'Beispiel Serie: Film',
   titleDe: undefined,
@@ -185,31 +221,26 @@ function holerAus(seiten, aufrufe = []) {
   }
 }
 
-await fall('Seitensuche: Brücke zuerst (Ebene titel), geratener Name mit Jahr, Begriffsklärung mit Zusatz', async () => {
-  const bruecke = { 'mal:100': { en: 'Beispiel Serie: Film' } }
-  const a = await sammleWikipedia(LUECKE, bruecke, holerAus({ 'en:Beispiel Serie: Film': ANIME }))
-  assert.equal(a.funde[0].ebene, 'titel')
-  assert.equal(a.funde[0].geraten, false)
-  const b = await sammleWikipedia(LUECKE, {}, holerAus({ 'en:Beispiel Serie: Film': ANIME }))
-  assert.equal(b.funde[0].geraten, true)
+await fall('Seitensuche: geratener Name mit Jahr (Ebene titel), ohne Jahr Reihe, Begriffsklärung mit Zusatz', async () => {
+  const b = await sammleWikipedia(LUECKE, holerAus({ 'en:Beispiel Serie: Film': ANIME }))
   assert.equal(b.funde[0].ebene, 'titel')
-  const ohneJahr = await sammleWikipedia(LUECKE, {}, holerAus({ 'en:Beispiel Serie: Film': ANIME.replace('2019', '2001') }))
+  const ohneJahr = await sammleWikipedia(LUECKE, holerAus({ 'en:Beispiel Serie: Film': ANIME.replace('2019', '2001') }))
   assert.equal(ohneJahr.funde[0].ebene, 'reihe')
-  const c = await sammleWikipedia({ ...LUECKE, titleEn: 'Beispiel' }, {}, holerAus({ 'en:Beispiel': '{{disambiguation}}', 'en:Beispiel (anime)': ANIME }))
+  const c = await sammleWikipedia({ ...LUECKE, titleEn: 'Beispiel' }, holerAus({ 'en:Beispiel': '{{disambiguation}}', 'en:Beispiel (anime)': ANIME }))
   assert.equal(c.funde[0].seite, 'Beispiel (anime)')
 })
 
 await fall('Seitensuche: fehlende Seite probiert keinen Zusatz, abgelehnte Seiten bleiben ohne Fund', async () => {
   const aufrufe = []
-  const r = await sammleWikipedia({ ...LUECKE, titleEn: 'Nichts', reiheNamen: [] }, {}, holerAus({}, aufrufe))
+  const r = await sammleWikipedia({ ...LUECKE, titleEn: 'Nichts', reiheNamen: [] }, holerAus({}, aufrufe))
   assert.equal(r.funde.length, 0)
   assert.ok(!aufrufe.some((a) => a.includes('(')), aufrufe.join(' | '))
-  const album = await sammleWikipedia({ ...LUECKE, titleEn: 'Silver', reiheNamen: [] }, {}, holerAus({ 'en:Silver': "'''Silver''' is a jazz album." }))
+  const album = await sammleWikipedia({ ...LUECKE, titleEn: 'Silver', reiheNamen: [] }, holerAus({ 'en:Silver': "'''Silver''' is a jazz album." }))
   assert.equal(album.funde.length, 0)
 })
 
 await fall('Karte: Schreiber-Karte enthält keinen Quellsatz, die Quellsatz-Datei schon', () => {
-  const fund = { sprache: 'en', seite: 'Beispiel Serie: Film', datei: 'x', text: ANIME, ebene: 'titel', geraten: false }
+  const fund = { sprache: 'en', seite: 'Beispiel Serie: Film', datei: 'x', text: ANIME, ebene: 'titel' }
   const as = { id: 5, titel: 'x', info: { Typ: 'Film' }, hauptgenres: ['Fantasy'], nebengenres: [], tags: [], figuren: ['Riko'], beziehungen: [], beschreibungen: [] }
   const k = baueKarte(LUECKE, [fund], [], as)
   assert.equal(k.einordnung, 'titel')
@@ -239,7 +270,7 @@ await fall('Wertung: Rezension und Zitat bleiben aus den Quellsätzen, Titel in 
 
 await fall('Karte: Wertungssatz der Einleitung kommt nicht in die Quellsätze, Folgenwiderspruch steht in der Karte, Reihenhinweis ohne „Die Reihe handelt von“ als Anfang', () => {
   const text = "'''Beispiel''' is a 2019 Japanese anime film.\n\nSie spielt in einer Stadt am Meer, in der zwei Freunde leben. Critics praised the film for its animation and music. Am Ende fahren beide nach Hause zurück."
-  const fund = { sprache: 'en', seite: 'Beispiel Serie: Film', datei: 'x', text: text + '\n| episodes = 24', ebene: 'reihe', geraten: false }
+  const fund = { sprache: 'en', seite: 'Beispiel Serie: Film', datei: 'x', text: text + '\n| episodes = 24', ebene: 'reihe' }
   const as = { id: 5, titel: 'x', info: { Typ: 'TV-Serie, 12 (~ 24 min)' }, hauptgenres: ['Fantasy'], nebengenres: [], tags: [], figuren: [], beziehungen: [], beschreibungen: [] }
   const k = baueKarte({ ...LUECKE, episodes: 13 }, [fund], [], as)
   const q = k.quellsaetze[0]

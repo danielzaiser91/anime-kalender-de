@@ -42,7 +42,7 @@ function geschwisterVon(t: Title, mitglieder: Mitglied[], titel: Map<number, Tit
     .map((m) => {
       const s = syn.get(m.id)
       const deText = s?.deSource?.name === 'anisearch.de' && s.de && s.de.length > MIN_LAENGE ? s.de : undefined
-      return { id: m.id, name: m.name, malId: titel.get(m.id)!.malId, anisearchSeite: kennungen.get(m.id), deText }
+      return { id: m.id, name: m.name, anisearchSeite: kennungen.get(m.id), deText }
     })
     .slice(0, 12)
 }
@@ -65,7 +65,6 @@ export function findeLuecken(): Luecke[] {
       const seite = kennungen.get(t.id)
       return {
         id: t.id,
-        malId: t.malId,
         anisearchSeite: seite,
         geteilt: seite !== undefined && (jeSeite.get(seite) ?? 0) > 1,
         titleDe: t.titleDe,

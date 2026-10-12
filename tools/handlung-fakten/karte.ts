@@ -27,10 +27,10 @@ const MAX_GESCHWISTER = 2
 const MIN_SAETZE = 2
 const MIN_QUELLEN = 2
 
-/** Eine Aussage über die Handlung steht erst mit zwei Sätzen aus mindestens zwei Quellen; sonst fehlt der Stoff für einen eigenen Text. */
+/** Eine Aussage über die Handlung steht erst mit zwei Sätzen aus mindestens zwei Quellen; eine einzige Quelle reicht, wenn sie mindestens zwei Plot-Sätze zum Titel selbst enthält (Dirigent, 12.10.2026). */
 export function ordneEin(z: Zaehlung): { einordnung: Einordnung; grund: string } {
-  if (z.quellen < MIN_QUELLEN) return { einordnung: 'zu dünn', grund: `nur ${z.quellen} Quelle mit Inhalt (${z.titelSaetze} Sätze über den Titel, ${z.reiheSaetze} über die Reihe)` }
-  if (z.titelSaetze >= MIN_SAETZE) return { einordnung: 'titel', grund: `${z.titelSaetze} Sätze über den Titel selbst aus ${z.quellen} Quellen` }
+  if (z.quellen < MIN_QUELLEN && z.titelPlot < MIN_SAETZE) return { einordnung: 'zu dünn', grund: `nur ${z.quellen} Quelle mit Inhalt (${z.titelSaetze} Sätze über den Titel, ${z.reiheSaetze} über die Reihe)` }
+  if (z.titelSaetze >= MIN_SAETZE) return { einordnung: 'titel', grund: `${z.titelSaetze} Sätze über den Titel selbst (davon ${z.titelPlot} Plot) aus ${z.quellen} Quelle(n)` }
   if (z.titelSaetze + z.reiheSaetze >= MIN_SAETZE) return { einordnung: 'reihe', grund: `${z.titelSaetze + z.reiheSaetze} Sätze, davon ${z.titelSaetze} über den Titel; der Rest gilt der Reihe` }
   return { einordnung: 'zu dünn', grund: `nur ${z.titelSaetze + z.reiheSaetze} Satz über Handlung oder Reihe` }
 }
@@ -66,7 +66,6 @@ function quellenVon(l: Luecke, funde: Fund[], as?: AnisearchFakten): Quelle[] {
     name: `Wikipedia ${f.sprache.toUpperCase()} „${f.seite}“`,
     url: wikiUrl(f.sprache, f.seite),
     lizenz: 'CC BY-SA 4.0, Autoren: Versionsgeschichte des Artikels',
-    geraten: f.geraten,
     hinweis: f.hinweis,
     sprache: f.sprache,
     seite: f.seite,
@@ -82,9 +81,10 @@ function quellenVon(l: Luecke, funde: Fund[], as?: AnisearchFakten): Quelle[] {
 
 function zaehle(qs: Quellsaetze[], quellen: Quelle[], as?: AnisearchFakten): Zaehlung {
   const summe = (e: string) => qs.filter((q) => q.ebene === e).reduce((n, q) => n + q.saetze.length, 0)
+  const plot = qs.filter((q) => q.ebene === 'titel' && !q.aus.startsWith('Einleitung')).reduce((n, q) => n + q.saetze.length, 0)
   const hatStruktur = !!as && (as.hauptgenres.length + as.nebengenres.length + as.tags.length + as.figuren.length > 0 || as.beschreibungen.length > 0)
   const mitInhalt = quellen.filter((q) => (q.art === 'anisearch' ? hatStruktur : true)).length
-  return { titelSaetze: summe('titel'), reiheSaetze: summe('reihe'), quellen: mitInhalt }
+  return { titelSaetze: summe('titel'), titelPlot: plot, reiheSaetze: summe('reihe'), quellen: mitInhalt }
 }
 
 function formatFelder(l: Luecke, funde: Fund[], as?: AnisearchFakten): string[] {
@@ -137,9 +137,9 @@ export function baueKarte(l: Luecke, funde: Fund[], fehler: string[], as?: Anise
   }
 }
 
-/** Quellenzeile wie in den PoC-Mustern: Link, Lizenz; Wikipedia-Seiten, die nur geraten sind, tragen den Vermerk. */
+/** Quellenzeile wie in den PoC-Mustern: Link und Lizenz. */
 export function quellenzeile(k: Karte): string {
-  return k.quellen.map((q) => `[${q.name}](${q.url}) (${q.lizenz}${q.geraten ? '; Seite geraten' : ''})`).join(' · ')
+  return k.quellen.map((q) => `[${q.name}](${q.url}) (${q.lizenz})`).join(' · ')
 }
 
 /** Die Karte für den Schreiber: Stichpunkte ohne Quellsätze. Die Prämisse füllt der Stichpunkt-Schritt aus `quellsaetzeMarkdown`. */
@@ -162,7 +162,8 @@ export function kartenMarkdown(k: Karte): string {
     '## Genre-Ton',
     liste(k.felder.genreTon),
     '## Quellen',
-    liste(k.quellen.map((q) => `${q.ebene}: [${q.name}](${q.url}) – ${q.lizenz}${q.geraten ? '; Seite geraten' : ''}${q.hinweis ? `; ${q.hinweis}` : ''}`)),
+    '(Wikipedia-Seiten sind aus dem Namen geraten und auf Animation und Jahr geprüft; „reihe“ = Seite gilt der Reihe oder ist weitergeleitet.)',
+    liste(k.quellen.map((q) => `${q.ebene}: [${q.name}](${q.url}) – ${q.lizenz}${q.hinweis ? `; ${q.hinweis}` : ''}`)),
   ]
     .filter((z) => z !== '')
     .join('\n')
