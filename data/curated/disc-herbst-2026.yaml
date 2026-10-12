@@ -602,6 +602,8 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
+  # Produktseite statt Suche (Wochenwache 12.10.2026): der Artikel verlinkt unter „Film auf Blu-ray“ diese Amazon-Ausgabe.
+  buyUrl: https://www.amazon.de/dp/B0HMCFML35
   schedule: { firstEpisodeDate: "2027-01-15" }
   sources: [https://www.anime2you.de/news/1058349/]
 
@@ -676,3 +678,18 @@
   note: "Sprache der Disc im Artikel nicht genannt."
   schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/]
+
+# ---------------------------------------------------------------- 04.12.2026 (Wochenwache 12.10.2026)
+# Anime2You 1058332: Staffel 1 als Steelbook-Komplettbox (12 Folgen auf zwei Discs), voraussichtlich 4. Dezember 2026, Crunchyroll. Vorher stand nur der
+# automatische Eintrag ohne Kaufweg; der Artikel verlinkt die Amazon-Ausgabe. Der Slug bleibt, die Meldung zeigt darauf.
+- slug: auto-153288-disc
+  anilistId: 153288
+  titleDe: "Kaiju No. 8"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Steelbook-Komplettbox, Blu-ray"
+  buyUrl: https://www.amazon.de/dp/B0HMCHK26Q
+  note: "Voraussichtlicher Termin; Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2026-12-04" }
+  sources: [https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/]
