@@ -1322,7 +1322,7 @@ Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --searc
 
 **Anlass:** Das Lesekontingent (5 Mio. Zeilen je UTC-Tag) war am 11.10.2026 gegen 18:00 UTC durch denselben Massenlauf erschöpft (Bericht `daniel-zum-abarbeiten/berichte/d1-leselimit-2026-10-11.md`). Die Zahlen unten sind aus den Aufrufen des Tages gerechnet, nicht nachgemessen.
 
-- **Hash-Abfrage** (`pruefung-unveraendert.ts`): `INDEXED BY pruefung_url_zeit`. Ohne nahm der Planer ab zwei Adressen `idx_pruefung_offen` und las alle offenen Zeilen je Aufruf (EXPLAIN QUERY PLAN lokal; Test in `tools/worker-tagesdeckel.test.ts` prüft den Plan bei drei Adressen).
+- **Hash-Abfrage** (`pruefung-unveraendert.ts`): `INDEXED BY pruefung_url_zeit`. Ohne nahm der Planer ab zwei Adressen `idx_pruefung_offen` und las alle offenen Zeilen je Aufruf (EXPLAIN QUERY PLAN lokal; Test in `tools/worker-tagesdeckel.test.ts` prüft den Plan bei drei Adressen). **Überholt am 12.10.2026:** Die Abfrage sucht seit Migration 053 je Folge über `pruefung_folge` (Abschnitt "Eine Meldung liest nur ihre Folge").
 - **`?stand=1`**: Cache 300 statt 60 s (gerechnet bis 0,8 Mio. am Massenlauftag). Frisch Gemeldetes überbrückt die Erweiterung, bis der Stand es zeigt.
 - **DELETE vor INSERT** (`pruefung-ersetzen.ts`): über die IDs aus `ladeOffeneHashes` statt über `url` (gerechnet 0,29 Mio.); ohne offene Zeile entfällt der DELETE. Zwei gleiche Folgen im selben Stapel ergäben eine Dublette; die nächste Meldung räumt sie auf.
 - **Rohfolgen-Gesamtzahl**: bei `nach = 0` und Seite unter 5000 Zeilen aus der Seite, sonst `COUNT(*)` (gerechnet 0,26 Mio.). **Überholt am 12.10.2026:** `gesamt` und `COUNT(*)` entfallen (Abschnitt „Rohfolgen-Seiten und Serienamen“).
@@ -1434,7 +1434,7 @@ Die 6 Zeilen sind die Meldung selbst in `pruefung` (siehe unten) und der Tagesz�
 
 ## D1-Schreibkontingent: wiederholte Meldungen erneuern höchstens die vorhandene Zeile (12.10.2026)
 
-**Was jetzt gilt (`pruefung-unveraendert.ts`):** Die Ladeabfrage holt die offenen **und** die übernommenen Zeilen der Adresse (`uebernommen = 0` war ein Filter hinter `pruefung_url_zeit`, die Lesemenge bleibt gleich). Gibt es keine offene Zeile derselben Folge (Adresse, Folge, Staffel, Seitenkennung) und trägt die **jüngste übernommene** denselben Hash, wird nichts eingefügt. Sonst unverändert: offene Zeile mit gleichem Hash (`haltFrisch`), geänderter Inhalt = neue offene Zeile, Rückkehr zu früherem Stand (A, B, A) = A kommt als neue Zeile (die jüngste gewinnt in `fetch-pruefungen.ts`/`fetch-urteile.ts`), Altbestand ohne Hash einmal neu geschrieben (Hash seit Migration 048, keine neue Migration).
+**Was jetzt gilt (`pruefung-unveraendert.ts`):** Die Ladeabfrage holt die offenen **und** die übernommenen Zeilen der gemeldeten Folge (seit 12.10.2026 je Folge statt je Adresse, Abschnitt "Eine Meldung liest nur ihre Folge"). Gibt es keine offene Zeile derselben Folge (Adresse, Folge, Staffel, Seitenkennung) und trägt die **jüngste übernommene** denselben Hash, wird nichts eingefügt. Sonst unverändert: offene Zeile mit gleichem Hash (`haltFrisch`), geänderter Inhalt = neue offene Zeile, Rückkehr zu früherem Stand (A, B, A) = A kommt als neue Zeile (die jüngste gewinnt in `fetch-pruefungen.ts`/`fetch-urteile.ts`), Altbestand ohne Hash einmal neu geschrieben (Hash seit Migration 048, keine neue Migration).
 
 **Wann `gemeldet_am` der übernommenen Zeile trotzdem erneuert wird** (jeweils ein UPDATE über den Primärschlüssel):
 - Berlin- oder UTC-Datum der Zeile ≠ heute: `checkedAt` (Berlin-Datum, `fetch-pruefungen.ts`) und `tag` der Urteile (UTC-Datum, `fetch-urteile.ts`) würden sonst einfrieren. Die Zeile wird dabei wieder geöffnet (`uebernommen = 0`), denn der Bau holt nur offene Zeilen; er übernimmt sie wie bisher die neue Zeile und hakt sie wieder ab. Die Urteile lesen `?alle=1` (alle Zeilen, jüngster Tag je Folge gewinnt) und sehen das neue Datum.
@@ -1542,3 +1542,29 @@ startete einen Untersucher, der vom Vorgänger nichts wusste.
 
 Anlass: Der Kinoheld-Beleg zu „A New Dawn" (Aufnahme 07.10.2026) zeigte im Dialog nur eine dunkle Fläche mit roter Marke. **Ursachen (an der Live-Seite gemessen):** (1) Die eingeklappte Filmkritik (`max-h-[100px] overflow-hidden`) nennt den Titel in Absätzen weit unterhalb der Seite; `stuetzstelle` nahm den kürzesten Treffer, die Marke lag unter der Fußzeile auf leerem Grund. (2) Die klebende Kopfleiste (64 px) wurde erst nach dem Messen der Fundstelle entfernt, der Inhalt rutschte hoch, die Marke saß daneben. (3) Das Veröffentlichungsdatum steht bei Kinoheld unter „Veröffentlichung", nicht beim Titel.
 **Seitdem** (`beleg-bild.ts`, `beleg-stelle.ts`): `leistenEntfernen` vor dem Messen; `verdecktesMarkieren` setzt `data-beleg-verdeckt` auf abgeschnittene Absätze (weder Stützstelle noch Ausschnittsende); Kinoheld sucht zuerst „Veröffentlichung" (`stuetzbegriffe`); `istEinfarbig` prüft zusätzlich den Bereich unter der Marke — liegt sie auf leerer Fläche, gibt es kein Bild (`leer`). `warteschlange` stellt Artikel ganz ohne Bild vor den Altbestand. `npm run check:beleg-wand` deckt die drei Bauarten ab. **Bestand:** 5 Kinoheld-Belege mit Marke gemessen, nur `a-new-dawn` lag auf leerer Fläche (Bild entzogen, wird im Tageslauf neu aufgenommen); die übrigen markieren die Kopfzeile und zeigen das Datum, wenn die Seite es nennt.
+
+## Eine Meldung liest nur ihre Folge: n² Lesezeilen bei Disney+ beseitigt (12.10.2026, Migration 053)
+
+**Befund:** `ladeOffeneHashes` (`worker/src/pruefung-unveraendert.ts`) holte je Meldung alle Zeilen ihrer Adresse (`pruefung_url_zeit`). Gebraucht werden je Meldung nur die Zeilen derselben Folge (Adresse, Folge, Staffel, Seitenkennung): die offenen für „gleicher Hash?" und die Dubletten-IDs zum Löschen, die jüngste übernommene für das Überspringen nach dem Abhaken. Disney+ meldet eine Folge je Anfrage (kein Stapel), also las ein Durchgang über n Folgen rund n² Zeilen (Tabellenzeile + Indexzeile je Treffer).
+
+**Weg (a) im Worker, gebaut:** Neuer Index `pruefung_folge (url, folge_nr, staffel, seiten_kennung)` (Migration 053); die Ladeabfrage sucht darin nur die gemeldeten Schlüssel. Die Schlüssel reisen als JSON in einem Parameter (`json_each`, `CROSS JOIN … INDEXED BY pruefung_folge`, `IS` wegen NULL): eine Abfrage je Aufruf, auch für einen Stapel zu 10 — das Limit von 50 Abfragen je Aufruf bleibt unberührt. `folgeVon()` ist die eine Ableitung des Schlüssels für Laden, Vergleichen und Ersetzen.
+**Weg (b) in der Erweiterung, verworfen:** offene Hashes je Durchgang holen und mitschicken braucht einen Erweiterungs-Release, einen neuen Lesepfad im Worker (die Hashes liefe über ein weiteres GET, das selbst Zeilen liest) und vertraut dem Client eine Entscheidung an, die der Worker selbst treffen kann. (a) beseitigt das n² allein und ohne Release.
+
+**Gemessen** (lokal, workerd, `tools/worker-folge-lesen-messen.ts`, Bestand `pruefung` 17.800 Zeilen; `meta.rows_read` über alle Anweisungen einer Meldung, Summe je Durchgang einzeln gemeldeter Folgen):
+
+| Durchgang | vorher | nachher |
+|---|---|---|
+| Wiederholung unverändert, 24 Folgen | 624 | 96 |
+| Wiederholung unverändert, 100 Folgen | 10.200 | 400 |
+| Wiederholung unverändert, 200 Folgen | 40.400 | 800 |
+| Wiederholung mit geänderter Sprache, 200 Folgen | 42.000 | 2.400 |
+| erster Durchgang, 200 Folgen | 21.099 | 1.200 |
+| Netflix, Stapel zu 10, Wiederholung, 70 Folgen | 497 | 216 |
+
+Eine unveränderte Disney+-Folge kostet jetzt 4 Lesezeilen, unabhängig von der Seitengröße (vorher 2n). Die Gegenprobe (dieselben 52 Anfragen gegen den alten und den neuen Stand: Einzel, Stapel, Dubletten, NULL-Schlüssel, Seitenkennungen, Abhaken, A-B-A, Altbestand ohne Hash) liefert gleiche Antworten und gleiche gespeicherte Zeilen. Der Test in `tools/worker-tagesdeckel.test.ts` prüft den Plan (`SEARCH p USING INDEX pruefung_folge (url=? AND folge_nr=? AND staffel=? AND seiten_kennung=?)`) und dass die Abfrage bei einer Seite mit 200 Folgen genau die Zeile der Folge liefert.
+
+**Kosten:** ein weiterer Indexeintrag je eingefügter und je gelöschter `pruefung`-Zeile; unveränderte Meldungen schreiben weiter 0. Einmalig kostet das Anlegen rund 18.000 geschriebene Zeilen (Stand 12.10.2026). `pruefung_url_zeit` bleibt (Serientitel, Zähler, Löschen lesen darüber).
+
+**Reihenfolge nach dem Merge (nicht ausgeführt):** erst Migration 053 remote (`cd worker && npx wrangler d1 execute anime-kalender --remote --file=migrations/053-pruefung-folge-index.sql`, nach 00:00 UTC bzw. wenn das Konto wieder frei ist), dann `npx wrangler deploy`. Der neue Worker vor der Migration scheitert an `INDEXED BY pruefung_folge`; der alte Worker läuft nach der Migration unverändert weiter. Keine Erweiterungsänderung.
+
+**Offen (nicht Teil dieses Umbaus):** Der Rest (4 Lesezeilen je unveränderter, rund 12 je geänderter Folge) wurde nicht weiter zerlegt.

@@ -35,16 +35,6 @@ export type OffeneHashes = {
 
 export type Folge = { url: string; folgeNr: number | null; staffelNr: number | null; seitenKennung: string | null }
 
-/** Die Folge einer Meldung — die eine Ableitung für Vergleichen und Ersetzen (`speichereDaten`). */
-export function folgeVon(daten: Record<string, unknown>): Folge {
-  return {
-    url: String(daten.url ?? '').trim(),
-    folgeNr: zahlOderNull(daten.folge_nr),
-    staffelNr: zahlOderNull(daten.staffel),
-    seitenKennung: typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null,
-  }
-}
-
 const schluessel = (f: Folge) => JSON.stringify([f.url, f.folgeNr, f.staffelNr, f.seitenKennung])
 
 /** JSON mit sortierten Schlüsseln, damit dieselbe Meldung immer denselben Text ergibt. */
@@ -87,23 +77,37 @@ type Zeile = {
   uebernommen: number
 }
 
+/** Die Folge einer Meldung — die eine Ableitung für Laden, Vergleichen und Ersetzen (`speichereDaten`). */
+export function folgeVon(daten: Record<string, unknown>): Folge {
+  return {
+    url: String(daten.url ?? '').trim(),
+    folgeNr: zahlOderNull(daten.folge_nr),
+    staffelNr: zahlOderNull(daten.staffel),
+    seitenKennung: typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null,
+  }
+}
+
 /**
- * Die Zeilen der Adressen, gelesen über `pruefung_url_zeit`: offene und übernommene. Der Index liefert
- * alle Zeilen der Adresse, `uebernommen = 0` war ein Filter dahinter — die Lesemenge bleibt gleich.
+ * Die Zeilen genau der gemeldeten Folgen, gelesen über `pruefung_folge`: offene und übernommene.
+ * Seit 12.10.2026 je Folge statt je Adresse: eine Seite mit n Folgen las bei jeder Meldung alle ihre
+ * Zeilen, ein Durchgang kostete rund n² Lesezeilen (Migration 053, `docs/wissen/betrieb.md`).
+ * Die Schlüssel reisen als JSON in einem Parameter: eine Abfrage, egal wie viele Folgen (Stapelgrenze).
  */
-export async function ladeOffeneHashes(env: Env, urls: string[]): Promise<OffeneHashes> {
+export async function ladeOffeneHashes(env: Env, folgen: Folge[]): Promise<OffeneHashes> {
   const zeilen: OffeneHashes['zeilen'] = new Map()
   const uebernommene: OffeneHashes['uebernommene'] = new Map()
   let bau: Promise<string | null> | undefined
   const offene: OffeneHashes = { zeilen, uebernommene, listenbauAm: () => (bau ??= holeListenbauAm(env)) }
-  const einzigartig = [...new Set(urls)]
+  const einzigartig = [...new Map(folgen.map((f) => [schluessel(f), f])).values()]
   if (!einzigartig.length) return offene
-  // INDEXED BY: ohne nimmt der Planer ab 2 Adressen idx_pruefung_offen und liest alle offenen Zeilen (EXPLAIN, 11.10.2026).
+  // INDEXED BY: sonst wählt der Planer den Adress-Index und liest alle Zeilen der Adresse (EXPLAIN, 12.10.2026).
   const { results } = await env.DB.prepare(
-    `SELECT id, url, folge_nr, staffel, seiten_kennung, hash, gemeldet_am, uebernommen FROM pruefung INDEXED BY pruefung_url_zeit
-      WHERE url IN (${einzigartig.map(() => '?').join(',')})`,
+    `SELECT p.id, p.url, p.folge_nr, p.staffel, p.seiten_kennung, p.hash, p.gemeldet_am, p.uebernommen
+       FROM json_each(?1) k CROSS JOIN pruefung p INDEXED BY pruefung_folge
+      WHERE p.url = json_extract(k.value, '$[0]') AND p.folge_nr IS json_extract(k.value, '$[1]')
+        AND p.staffel IS json_extract(k.value, '$[2]') AND p.seiten_kennung IS json_extract(k.value, '$[3]')`,
   )
-    .bind(...einzigartig)
+    .bind(JSON.stringify(einzigartig.map((f) => [f.url, f.folgeNr, f.staffelNr, f.seitenKennung])))
     .all<Zeile>()
   for (const r of results ?? []) {
     const k = schluessel({ url: r.url, folgeNr: r.folge_nr, staffelNr: r.staffel, seitenKennung: r.seiten_kennung })

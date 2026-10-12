@@ -39,8 +39,8 @@ export async function speicherePruefung(kontext: Kontext) {
   if (!istMeldung(daten)) return await speichereDaten(kontext, daten)
   try {
     return await mitTagesdeckel(kontext, async (k) => {
-      const urls = typeof daten.url === 'string' ? [daten.url.trim()] : []
-      return await speichereDaten({ ...k, offene: await ladeOffeneHashes(k.env, urls) }, daten)
+      const folgen = typeof daten.url === 'string' ? [folgeVon(daten)] : []
+      return await speichereDaten({ ...k, offene: await ladeOffeneHashes(k.env, folgen) }, daten)
     })
   } finally {
     /* Ihre Antwort auf `?gemeldet=` hat sich geändert; auch nach einer Ausnahme, es kann teilweise geschrieben sein. */
@@ -383,8 +383,8 @@ export type Kontext = {
 }
 
 async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, stapel: unknown[]) {
-  const urls = stapel.map((m) => (m as { url?: unknown } | null)?.url).filter((u): u is string => typeof u === 'string')
-  const offene = await ladeOffeneHashes(env, urls.map((u) => u.trim()))
+  const mitUrl = stapel.filter((m): m is Record<string, unknown> => typeof (m as { url?: unknown } | null)?.url === 'string')
+  const offene = await ladeOffeneHashes(env, mitUrl.map(folgeVon))
   const ergebnisse = await verarbeiteStapel(stapel, async (einzeln) => {
     if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) {
       return { ok: false, status: 400, grund: 'Meldung ist kein Objekt oder ein verschachtelter Stapel' }
