@@ -50,7 +50,7 @@ Verwendung), ergänzt Importe auf beiden Seiten und räumt sie auf. Zu wissen:
 ```bash
 npx tsc --noEmit -p tsconfig.json && npm run check:logic
 git commit …                                      # die Vergleiche arbeiten auf Commits
-node tools/bau-vergleich.mjs origin/main HEAD     # pipeline/: Ausgabe byte-gleich
+node tools/bau-vergleich.mjs origin/main HEAD     # pipeline/: Ausgabe byte-gleich; feste Hashes, Exit 4 = Konflikt, WARNUNG = Zweig hinter main
 node tools/panel-vergleich.mjs origin/main HEAD   # web/src: Panel-HTML von 80 Titeln gleich
 npm run check:worker                              # worker/
 node tools/umfang-pruefen.mjs --festschreiben     # gesunkene Überlänge übernehmen

@@ -8,7 +8,8 @@ import { execFileSync } from 'node:child_process'
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { DatenKonflikt, gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
 
 const wurzel = mkdtempSync(path.join(tmpdir(), 'bau-vergleich-daten-'))
 const repo = path.join(wurzel, 'repo')
@@ -84,6 +85,19 @@ try {
   const kollision = commit({ 'data/dub-confirmed.yaml': ALT.replace('g: 1', 'g: KANDIDAT') }, 'kollision')
   const baum2 = baumVon(kollision, 'baum-konflikt')
   assert.throws(() => setzeDatenstand(git, (...a) => roh(baum2, ...a), basis, kollision), /Konflikt/, 'gleiche Stelle von beiden Seiten')
+  const konflikt = (() => {
+    try {
+      setzeDatenstand(git, (...a) => roh(baum2, ...a), basis, kollision)
+    } catch (fehler) {
+      return fehler
+    }
+  })()
+  assert.ok(konflikt instanceof DatenKonflikt, 'der Konflikt ist ein DatenKonflikt, kein beliebiger Fehler')
+  assert.equal(exitFuerFehler(konflikt), EXIT.KONFLIKT, 'Konflikt bekommt einen eigenen Exit-Code')
+  assert.equal(new Set(Object.values(EXIT)).size, Object.keys(EXIT).length, 'Exit-Codes sind verschieden (Konflikt ≠ verschieden)')
+  assert.notEqual(EXIT.KONFLIKT, EXIT.VERSCHIEDEN)
+  assert.equal(exitFuerFehler(new Error('anderer Fehler')), null, 'andere Fehler werden weitergeworfen')
+  assert.match(readFileSync(path.join(import.meta.dirname, 'bau-vergleich.mjs'), 'utf8'), /exitFuerFehler\(/, 'bau-vergleich.mjs übersetzt den Konflikt')
 
   console.log('bau-vergleich-daten: ok')
 } finally {
