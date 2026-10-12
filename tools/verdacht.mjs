@@ -41,9 +41,12 @@ function vonHandErbetene(wurzel, plattform, raus) {
       const zu = belege.filter((b) => b.anilistId === w.anilistId && b.platform === plattform)
       const neuer = zu.some((b) => String(b.checkedAt ?? '') >= w.seit)
       if (neuer) continue
-      /* Ein Kanal-Titel ist über Prime nicht zu klären — 139 der 367 Einträge, sonst eine Schleife (30.09.2026). */
-      if (zu.length && zu.every((b) => /Kanal-Titel|kein Beleg/i.test(String(b.note ?? '')))) continue
-      raus.set(w.anilistId, { wiedervorlage: w.grund, seit: w.seit })
+      /*
+        Ein Kanal-Titel ist über Prime nicht zu klären — 139 der 367 Einträge, sonst eine Schleife (30.09.2026).
+        Ausnahme `kanal: true` (Nachmessung 12.10.2026): Die Meldung schreibt jetzt `kanalMessung`, auch als Nein, und beendet die Wiedervorlage.
+      */
+      if (!w.kanal && zu.length && zu.every((b) => /Kanal-Titel|kein Beleg/i.test(String(b.note ?? '')))) continue
+      raus.set(w.anilistId, { wiedervorlage: w.grund, seit: w.seit, ...(w.vorrang ? { vorrang: w.vorrang } : {}) })
     }
   } catch {
     /* Ohne Datei keine Wiedervorlage. */
@@ -248,6 +251,11 @@ export function laufendeSynchro(belege, titel, plattform, heute) {
     raus.set(b.anilistId, { laufendeSynchro: { bis, am: String(b.checkedAt) }, seit: faellig })
   }
   return raus
+}
+
+/** Die Felder eines Listeneintrags der Prime-Liste: der Satz im Kasten und, wo gesetzt, der Vorrang im Durchgang (1 = zuerst). */
+export function verdachtsFelder(v) {
+  return { erneut: verdachtHinweis(v), ...(v.vorrang ? { vorrang: v.vorrang } : {}) }
 }
 
 /** Der Satz, der im Kasten der Erweiterung steht. */

@@ -62,6 +62,7 @@ export default [
         akDebugLeiste: 'readonly',
         akBerichtSchalter: 'readonly',
         akPrimeHatTitelseite: 'readonly',
+        akPrimeVergleich: 'readonly',
         akPrimeStartKennung: 'readonly',
         akPrimeFrameAdresse: 'readonly',
         akPrimeEndeText: 'readonly',

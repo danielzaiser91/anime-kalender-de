@@ -87,3 +87,8 @@ export function kanalOhneAussage(
     gruppe.some((x) => /Kanal-Titel/.test(x.notiz ?? ''))
   )
 }
+
+/** Adresskerne, auf denen ein Kanal-Ja steht, das der Lader weggelassen hat: Eine neue Messung dort wird geschrieben, auch ein Nein. */
+export function kanalJaAdressKerne(checks: DubCheck[]): Set<string> {
+  return new Set(checks.filter((c) => c.kanalOhneBeleg && c.url).map((c) => adressKern(c.url)))
+}

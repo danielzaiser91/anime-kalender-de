@@ -125,6 +125,12 @@ export interface DubCheck {
   zweiteQuelle?: string
   /** Vom Lader gesetzt, nie in der Datei: Amazons Sprachangabe dieses Kanal-Titels wurde weggelassen (`kanal-titel.ts`). */
   kanalOhneBeleg?: boolean
+  /**
+   * Was eine Kanal-Meldung der Erweiterung ab 12.10.2026 gelesen hat: `ja` = in mindestens einer Folge Deutsch, `nein` = in keiner.
+   * Steht in der Datei, zählt aber nicht als Urteil (die Kanal-Regel bleibt). Die jüngere Messung derselben Adresse ersetzt die ältere
+   * (`verschmelze()`); wer die Regel lockert, liest das Urteil aus diesem Feld und nicht aus einem alten `dub: true` darunter.
+   */
+  kanalMessung?: 'ja' | 'nein'
 }
 
 const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')

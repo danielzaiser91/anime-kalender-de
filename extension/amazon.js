@@ -10894,7 +10894,7 @@ async function speicherSchreiben(werte) {
   function primeNaechsterTitel(lauf) {
     return Object.keys(liste)
       .filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a]) && !lauf.fertig.includes(a))
-      .sort((a, b) => String(liste[a].titel).localeCompare(String(liste[b].titel), 'de'))[0]
+      .sort(akPrimeVergleich(liste))[0]
   }
 
   // --- Die Steuerung: sichtbare Seite --------------------------------------------
