@@ -16,6 +16,7 @@ import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
+import { fanservicesperre } from './sperre.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
 import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
@@ -644,8 +645,11 @@ export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): voi
     ein Neuzugang **des Bestands**, und darüber gibt es nichts zu melden.
   */
   const belegteSynchro = (t: Title) => belegteDeutscheSynchro(t, ersterTermin, heute)
+  // F-Sperre: ein gesperrter Titel wird nirgends gemeldet (auch nicht als „Neu auf Deutsch").
+  const gesperrt = fanservicesperre()
   const neu = titles
     .filter((t) => {
+      if (gesperrt.has(t.id)) return false
       const seit = historie.seit[t.id]
       // Der Ausgangsstand ist kein Neuzugang, egal wie jung sein Datum ist.
       return seit >= grenze && seit !== historie.angelegtAm && belegteSynchro(t)
