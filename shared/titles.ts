@@ -200,11 +200,13 @@ function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string
           !reihenKern.includes(vorStaffel) &&
           vorStaffel.length <= 10 &&
           vorStaffel.slice(0, 3) === reihenKern.slice(0, 3)
-    const mitStaffel = eigenerVorsatz ? null : /(?:^|\s)Staffel\s+(\d+)(?:\s*-\s*Teil\s+(\d+))?\s*$/i.exec(rest)
+    /* „Staffel 2 - Teil 2" und die Klammer-Form „Staffel 2 (Teil 2)" (Hanako) meinen dasselbe. */
+    const mitStaffel = eigenerVorsatz ? null : /(?:^|\s)Staffel\s+(\d+)(?:\s*-\s*Teil\s+(\d+)|\s*\(Teil\s+(\d+)\))?\s*$/i.exec(rest)
     const nurTeil = /^Teil\s+(\d+)$/i.exec(rest)
     if (mitStaffel) {
       aktuell = Number(mitStaffel[1])
-      eintraege.push({ id: m.id, staffel: aktuell, teil: mitStaffel[2] ? Number(mitStaffel[2]) : undefined, eigenerName: false })
+      const teil = mitStaffel[2] ?? mitStaffel[3]
+      eintraege.push({ id: m.id, staffel: aktuell, teil: teil ? Number(teil) : undefined, eigenerName: false })
     } else if (nurTeil) {
       const teil = Number(nurTeil[1])
       if (teil === 1 || aktuell === 0) aktuell += 1

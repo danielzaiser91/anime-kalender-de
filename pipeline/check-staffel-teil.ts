@@ -39,6 +39,17 @@ console.log('\nTeil nur bei mehreren Teilen derselben Staffel:')
   pruefe('Staffel ohne Teile bleibt ohne Teil', be.get(1) === 'Staffel 1', [...be])
 }
 
+{
+  const hanako = [
+    { id: 1, name: 'Toilet-Bound Hanako-kun', jpStart: '2020-01-09' },
+    { id: 2, name: 'Mein Schulgeist Hanako: Staffel 2', jpStart: '2023-07-09' },
+    { id: 3, name: 'Mein Schulgeist Hanako: Staffel 2 (Teil 2)', jpStart: '2024-01-07' },
+  ]
+  const be = staffelBeschriftungen(hanako, 'Toilet-Bound Hanako-kun')
+  pruefe('Hanako: „Staffel 2 (Teil 2)" ist Teil 2 von Staffel 2, nicht Staffel 3', be.get(2) === 'Staffel 2 - Teil 1' && be.get(3) === 'Staffel 2 - Teil 2', [...be])
+  pruefe('Hanako: Staffel 1 bleibt ohne Teil', be.get(1) === 'Staffel 1', [...be])
+}
+
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
