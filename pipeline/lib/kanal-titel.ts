@@ -40,7 +40,8 @@ export function kanalAdressenOhneBeleg(checks: DubCheck[]): Set<string> {
  */
 export function kanalTitelNurKanal(checks: DubCheck[]): Set<number> {
   const prime = checks.filter((c) => c.platform === 'primevideo')
-  const eigenesJa = new Set(prime.filter((c) => !c.kanalOhneBeleg && (c.dub === true || c.dubRanges?.some((r) => r.dub))).map((c) => c.anilistId))
+  /* Zwei Meldungen derselben Adresse, eine mit und eine ohne Kanal-Warnung, verschmelzen zu einem Beleg mit beidem (JoJo Stardust Crusaders): Das Ja der zweiten bleibt. */
+  const eigenesJa = new Set(prime.filter((c) => c.dub === true || c.dubRanges?.some((r) => r.dub)).map((c) => c.anilistId))
   return new Set(prime.filter((c) => c.kanalOhneBeleg && !eigenesJa.has(c.anilistId)).map((c) => c.anilistId))
 }
 

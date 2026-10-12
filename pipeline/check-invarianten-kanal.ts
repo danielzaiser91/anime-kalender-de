@@ -88,6 +88,7 @@ export function kanalJeTitelProben(pruefe: Pruefe): void {
   pruefe('D-25 je Titel: nur Kanal-Belege auf Prime machen den Titel zum Kanal-Titel', nurKanal([kanalBeleg]).has(185262))
   pruefe('D-25 je Titel: ein Handbeleg ohne Kanal-Warnung mit Ja hebt das auf', !nurKanal([kanalBeleg, { ...beleg, url: 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA', note: 'Abos: Prime' }]).has(185262))
   pruefe('D-25 je Titel: eine zweite Quelle am Kanal-Beleg hebt das auf', !nurKanal([ohneKanalSprache({ ...beleg, zweiteQuelle: 'JustWatch: audio de' })]).has(185262))
+  pruefe('D-25 je Titel: verschmolzener Beleg mit Kanal-Warnung und Ja behält das Ja (JoJo Stardust Crusaders)', !nurKanal([{ ...kanalBeleg, dub: true }]).has(185262))
   pruefe('D-25 je Titel: ein Nein ohne Kanal-Warnung ist kein eigenes Ja', nurKanal([kanalBeleg, { ...beleg, url: 'x', dub: false, note: '' }]).has(185262))
   pruefe('D-25 je Titel: ein Beleg auf einer anderen Plattform zählt nicht', nurKanal([kanalBeleg, { ...beleg, platform: 'netflix', note: '' }]).has(185262))
   const kanal = kanalAdressenOhneBeleg([kanalBeleg])
