@@ -5,8 +5,10 @@ import { WANDERREGEL } from './anisearch-reihen-uebernahme.ts'
 /**
  * **Reihen rein aus aniSearch-Beziehungen** (Stufe C, Schritt 6 der AniList-Ablösung, 12.10.2026). Hinter dem Umgebungsschalter `REIHEN_QUELLE=anisearch`; ohne ihn bleibt die Basis
  * AniList (`03-reihen.ts`, `reihenFuerKatalog`) und aniSearch hängt nur Alleinstehende an. Reine Funktionen; Lesen, Schreiben und Anbindung in `anisearch-reihen-rein-bau.ts`.
- * Rechnet in Titel-Kennungen; Titel mit gleicher aniSearch-Kennung oder gleicher MAL-Kennung sind dieselbe Einheit.
+ * Rechnet in Titel-Kennungen; Titel mit gleicher aniSearch-Kennung oder gleicher MAL-Kennung sind dieselbe Einheit. Auch Seiten, zu denen es keinen Titel gibt, verbinden (wie bei AniList jeder Nachbar):
+ * sie sind Knoten mit `ANONYM + aniSearch-Kennung` und zählen für die Größe einer Reihe mit, nie für ihre Kennung.
  */
+const ANONYM = 2_000_000_000
 export const reihenAusAnisearch = (): boolean => process.env.REIHEN_QUELLE === 'anisearch'
 
 export type ReinTitel = { id: number; name: string; anisearchId?: number; mal?: number }
@@ -38,12 +40,16 @@ export const rangDerArt = (art: string): 0 | 1 | 2 => (art === UNSICHER ? 1 : SA
 
 type Sperre = { x: number; y: number; art: string; grund: 'bruecke' | 'sammelart' }
 
-/** Union-Find über Titel-Kennungen (kleinste gewinnt) mit Größe und fester Reihe je Wurzel. */
-function bildner(ids: number[], fest: Map<number, number>) {
-  const eltern = new Map(ids.map((id) => [id, id]))
-  const groesse = new Map(ids.map((id) => [id, 1]))
-  const feste = new Map(ids.filter((id) => fest.has(id)).map((id) => [id, fest.get(id)!]))
+/** Union-Find über Knoten (kleinste Kennung gewinnt, Titel vor Seiten ohne Titel) mit Größe und fester Reihe je Wurzel; Knoten entstehen beim ersten Zugriff. */
+function bildner(fest: Map<number, number>) {
+  const eltern = new Map<number, number>()
+  const groesse = new Map<number, number>()
+  const feste = new Map(fest)
   const find = (id: number): number => {
+    if (!eltern.has(id)) {
+      eltern.set(id, id)
+      groesse.set(id, 1)
+    }
     let r = id
     while (eltern.get(r) !== r) r = eltern.get(r)!
     return r
@@ -69,8 +75,11 @@ function einheiten(titel: ReinTitel[]): Map<number, number[]> {
   return jeKennung
 }
 
-/** Titel-Paare einer Kante (jede Kennung kann mehrere Titel tragen). */
-const paare = (k: Kante, jeKennung: Map<number, number[]>): [number, number][] => (jeKennung.get(k.a) ?? []).flatMap((x) => (jeKennung.get(k.b) ?? []).map((y): [number, number] => [x, y]))
+/** Knoten einer aniSearch-Kennung: ihre Titel, sonst die Seite selbst. */
+const knoten = (kennung: number, jeKennung: Map<number, number[]>): number[] => jeKennung.get(kennung) ?? [ANONYM + kennung]
+
+/** Knoten-Paare einer Kante (jede Kennung kann mehrere Titel tragen). */
+const paare = (k: Kante, jeKennung: Map<number, number[]>): [number, number][] => knoten(k.a, jeKennung).flatMap((x) => knoten(k.b, jeKennung).map((y): [number, number] => [x, y]))
 
 /** Verbietet eine Handtrennung die Verbindung der Reihen von `x` und `y`? */
 const getrennt = (b: Bildner, trennen: number[][], x: number, y: number): boolean => {
@@ -94,7 +103,7 @@ function sperrenZuZeilen(sperren: Sperre[], b: Bildner, name: (id: number) => st
   const zeilen = new Map<string, Pruefzeile>()
   for (const s of sperren) {
     const [rx, ry] = [b.find(s.x), b.find(s.y)]
-    if (rx === ry) continue
+    if (rx === ry || rx >= ANONYM || ry >= ANONYM) continue
     const alleinstehend = [rx, ry].filter((r) => !b.gross(r))
     const reihen = [rx, ry].filter((r) => b.gross(r)).sort((p, q) => p - q)
     const art = s.grund === 'sammelart' ? 'sammelart' : 'verschmilzt'
@@ -110,7 +119,7 @@ function universumZeilen(kanten: Kante[], jeKennung: Map<number, number[]>, b: B
   for (const k of kanten.filter((x) => x.art === UNIVERSUM)) {
     for (const [x, y] of paare(k, jeKennung)) {
       const [rx, ry] = [b.find(x), b.find(y)].sort((p, q) => p - q)
-      if (rx === ry || zeilen.has(`${rx}|${ry}`)) continue
+      if (rx === ry || rx! >= ANONYM || ry! >= ANONYM || zeilen.has(`${rx}|${ry}`)) continue
       const ref = (r: number): ReiheRef => ({ id: r, name: name(r), titel: b.groesse.get(r)! })
       zeilen.set(`${rx}|${ry}`, { art: 'universum', reihen: [ref(rx!), ref(ry!)], alleinstehende: [], beispiel: `${name(x)} —${UNIVERSUM}→ ${name(y)}` })
     }
@@ -132,11 +141,11 @@ function zaehlendeKanten(titel: ReinTitel[], kanten: Kante[], namen: Namen): Kan
  */
 export function reineReihen(titel: ReinTitel[], kanten: Kante[], namen: Namen, hand: ReinHand, fest: Map<number, number> = new Map()): ReinErgebnis {
   const ids = titel.map((t) => t.id)
-  const b = bildner(ids, fest)
+  const b = bildner(fest)
   const vorhanden = new Set(ids)
   const jeKennung = einheiten(titel)
   const nameJeId = new Map(titel.map((t) => [t.id, t.name]))
-  const name = (id: number): string => nameJeId.get(id) ?? `#${id}`
+  const name = (id: number): string => nameJeId.get(id) ?? namen.get(id - ANONYM)?.[0] ?? `#${id}`
   // Feste Titel derselben Reihe sind schon eins.
   const ersterJeReihe = new Map<number, number>()
   for (const [id, reihe] of fest) {
@@ -157,7 +166,9 @@ export function reineReihen(titel: ReinTitel[], kanten: Kante[], namen: Namen, h
   }
   const reihe = new Map(ids.map((id): [number, number] => [id, b.feste.get(b.find(id)) ?? b.find(id)]))
   const pruefliste = [...sperrenZuZeilen(sperren, b, name), ...universumZeilen(kanten, jeKennung, b, name)]
-  const groessen = ids.filter((id) => b.find(id) === id && b.groesse.get(id)! > 1)
-  return { reihe, pruefliste, inReihen: groessen.reduce((s, r) => s + b.groesse.get(r)!, 0), reihen: groessen.length }
+  const jeReihe = new Map<number, number>()
+  for (const r of reihe.values()) jeReihe.set(r, (jeReihe.get(r) ?? 0) + 1)
+  const mehrere = [...jeReihe.values()].filter((n) => n > 1)
+  return { reihe, pruefliste, inReihen: mehrere.reduce((s, n) => s + n, 0), reihen: mehrere.length }
 }
 
