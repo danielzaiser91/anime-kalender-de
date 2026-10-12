@@ -17,7 +17,8 @@ export interface Stoerungen {
 
 export function neueStoerungen(bisRuhe: number): Stoerungen {
   const serie = new Map<string, number>()
-  const anbieter = (url: string) => new URL(url).hostname
+  /* Eine ungültige Adresse ist ihr eigener Anbieter: Sie scheitert für sich und beendet den Lauf nicht. */
+  const anbieter = (url: string) => (URL.canParse(url) ? new URL(url).hostname : url)
   return {
     ruht: (url) => (serie.get(anbieter(url)) ?? 0) >= bisRuhe,
     fehl(url) {
@@ -26,6 +27,20 @@ export function neueStoerungen(bisRuhe: number): Stoerungen {
       if (n === bisRuhe) warn(`${bisRuhe} Störungen in Folge bei ${anbieter(url)} — der Anbieter ruht bis zum nächsten Lauf, die übrigen werden weiter gelesen.`)
     },
     erfolg: (url) => void serie.set(anbieter(url), 0),
+  }
+}
+
+/**
+ * Die Adressen dieses Laufs in Schlangenreihenfolge: Ruhende Anbieter werden übersprungen und verbrauchen keinen der `limit` Plätze, gesunde Adressen
+ * dahinter rücken nach. Geprüft wird erst beim Abruf der nächsten Adresse, also nach dem Ergebnis der vorigen.
+ */
+export function* ohneRuhende(schlange: string[], limit: number, stoerungen: Stoerungen): Generator<string> {
+  let versuche = 0
+  for (const url of schlange) {
+    if (versuche >= limit) return
+    if (stoerungen.ruht(url)) continue
+    versuche++
+    yield url
   }
 }
 

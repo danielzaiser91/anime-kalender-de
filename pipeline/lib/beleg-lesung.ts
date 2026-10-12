@@ -10,6 +10,7 @@ import { createHash } from 'node:crypto'
 import type { NewsBeleg, NewsEintrag, Quelle, Release } from '../../shared/types.ts'
 import { hostVon } from '../../shared/quelle.ts'
 import { releaseStatus } from '../../shared/logic.ts'
+import { inPause, type Fehlschlaege } from './beleg-fehlschlag.ts'
 
 /** Fassung der Aufnahme: steigt sie, werden alle Bilder einmal neu aufgenommen (2 seit 07.10.2026: doppelte Auflösung). */
 export const BILD_FASSUNG = 2
@@ -140,14 +141,14 @@ function dringlichkeit(e: BelegGedaechtnis[string] | undefined): number {
 
 /**
  * Welche Artikel diesmal gelesen werden: nie gelesene zuerst, dann die am längsten nicht
- * gelesenen, aber keiner öfter als alle `abstandTage` Tage.
+ * gelesenen, aber keiner öfter als alle `abstandTage` Tage. Adressen in der Pause nach einem Fehlschlag (`fehlschlaege`) stehen hinter allen anderen.
  */
-export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heute: string, abstandTage: number, limit: number, sofort: Set<string> = new Set()): string[] {
+export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heute: string, abstandTage: number, limit: number, sofort: Set<string> = new Set(), fehlschlaege: Fehlschlaege = {}): string[] {
   const grenze = new Date(Date.parse(heute) - abstandTage * 86_400_000).toISOString().slice(0, 10)
   return [...new Set(urls)]
     .filter(istArtikel)
     .filter((u) => !gedaechtnis[u] || sofort.has(u) || gedaechtnis[u]!.zuletzt <= grenze || frischUndHeuteNochNicht(gedaechtnis[u]!, heute) || bildOhnePruefung(gedaechtnis[u]!))
-    .sort((a, b) => dringlichkeit(gedaechtnis[b]) - dringlichkeit(gedaechtnis[a]) || (gedaechtnis[a]?.zuletzt ?? '').localeCompare(gedaechtnis[b]?.zuletzt ?? ''))
+    .sort((a, b) => Number(inPause(fehlschlaege[a], heute)) - Number(inPause(fehlschlaege[b], heute)) || dringlichkeit(gedaechtnis[b]) - dringlichkeit(gedaechtnis[a]) || (gedaechtnis[a]?.zuletzt ?? '').localeCompare(gedaechtnis[b]?.zuletzt ?? ''))
     .slice(0, limit)
 }
 

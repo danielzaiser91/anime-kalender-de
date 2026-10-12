@@ -207,6 +207,8 @@ QUELLEN=(
   # Lesungen der Artikel-Belege (Hash, Veröffentlicht/Aktualisiert, Schlüssel der privaten Bilder)
   # — schreibt pipeline/belege-lesen.ts im täglichen Lauf.
   data/beleg-lesungen.json
+  # Wann eine Beleg-Adresse zuletzt nicht gelesen werden konnte (Pause in der Schlange) — schreibt ebenfalls pipeline/belege-lesen.ts.
+  data/beleg-fehlschlaege.json
   # Gesichtete Anime-Sendungen im TV-Programm von RTL+ — die Seite zeigt nur
   # den laufenden Tag, das Gedächtnis entsteht erst hier (16.09.2026).
   data/tv-programm.json
