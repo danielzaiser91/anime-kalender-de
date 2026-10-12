@@ -605,7 +605,7 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 - Verschoben wird mit `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`. Bei reinen Kommentar-Umbauten `node tools/nur-kommentare.mjs` (Code ohne Kommentare gleich).
 - Wegwerfskripte gehören ins Scratchpad, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
 - Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).
-- Die Claude-Code-Mod `arbeitsliste` (zeigt `daniel-zum-abarbeiten/stand.md`) wird seit 12.10.2026 in `tools/claude-global/mods/arbeitsliste/` gepflegt; `einrichten.mjs` kopiert sie nach `~/.claude/mods/arbeitsliste/` (Test: `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 claude plugin test` im Mod-Ordner). Nicht im Repo: `messung.log`, `.claude-plugin/types/`. `check:umfang` misst diesen Ordner nicht (440 Zeilen Überlänge in `register.tsx`, Zerlegen offen).
+- Die Claude-Code-Mod `arbeitsliste` (zeigt `daniel-zum-abarbeiten/stand.md`) wird seit 12.10.2026 in `tools/claude-global/mods/arbeitsliste/` gepflegt; `einrichten.mjs` kopiert sie nach `~/.claude/mods/arbeitsliste/` (Test: `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 claude plugin test` im Mod-Ordner). Nicht im Repo: `messung.log`, `.claude-plugin/types/`.
 
 ### Wissen nach Thema (Verweisliste)
 

@@ -32,9 +32,6 @@ const GRENZEN = resolve(WURZEL, 'tools/umfang-grenzen.json')
 const BEREICHE = ['pipeline', 'shared', 'web/src', 'worker/src', 'extension', 'tools']
 // Prüfsätze wachsen mit jedem Fehlerfall — bei ihnen zählt nur die Funktionslänge, nicht die Datei.
 const PRUEFSATZ = /(^pipeline\/check-|\.test\.|-pruefen)/
-// Quelltext der Claude-Code-Mod (läuft nicht in diesem Produkt, nur hier versioniert; Ausgangsstand 12.10.2026:
-// 440 Zeilen Überlänge in `register`). Eigener Bestand, nicht Teil der Produktgrenzen.
-const FREMDER_QUELLTEXT = 'tools/claude-global/mods/'
 
 function dateien() {
   // Auch neue, noch nicht hinzugefügte Dateien — sonst misst `--festschreiben` vor dem `git add` zu wenig.
@@ -42,11 +39,7 @@ function dateien() {
     encoding: 'utf8',
   })
   return [...new Set(liste.split('\n'))].filter(
-    (p) =>
-      /\.(ts|tsx|js|mjs|cjs|mts)$/.test(p) &&
-      !p.endsWith('.d.ts') &&
-      !p.startsWith(FREMDER_QUELLTEXT) &&
-      existsSync(resolve(WURZEL, p)),
+    (p) => /\.(ts|tsx|js|mjs|cjs|mts)$/.test(p) && !p.endsWith('.d.ts') && existsSync(resolve(WURZEL, p)),
   )
 }
 
