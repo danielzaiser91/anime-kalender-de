@@ -2125,8 +2125,8 @@
   "primevideo:B0FWY7TFPQ": {
     "grund": "offen",
     "kandidaten": [
-      163024,
-      100745
+      100745,
+      163024
     ],
     "gesehen": "2026-09-15T08:55:24Z"
   },
@@ -2139,8 +2139,8 @@
   "primevideo:B0FV8BK2VP": {
     "grund": "offen",
     "kandidaten": [
-      163024,
-      100745
+      100745,
+      163024
     ],
     "gesehen": "2026-09-15T08:55:24Z"
   },
@@ -2249,8 +2249,8 @@
   "primevideo:B0GXK7R11P": {
     "grund": "offen",
     "kandidaten": [
-      163024,
-      100745
+      100745,
+      163024
     ],
     "gesehen": "2026-09-15T08:55:24Z"
   },
@@ -4162,8 +4162,8 @@
   "primevideo:B0CH754DJD": {
     "grund": "offen",
     "kandidaten": [
-      20923,
-      21518
+      21518,
+      20923
     ],
     "gesehen": "2026-09-27T22:43:52Z"
   },
@@ -4224,8 +4224,8 @@
   "primevideo:B0CGZWKBNL": {
     "grund": "offen",
     "kandidaten": [
-      20923,
-      21518
+      21518,
+      20923
     ],
     "gesehen": "2026-09-27T22:43:52Z"
   },
@@ -7219,8 +7219,8 @@
   "primevideo:B0CKZK9DPB": {
     "grund": "offen",
     "kandidaten": [
-      2167,
-      144932
+      144932,
+      2167
     ],
     "gesehen": "2026-08-30T09:40:27Z"
   },
@@ -16283,8 +16283,8 @@
     "grund": "offen",
     "kandidaten": [
       20605,
-      102351,
-      100240
+      100240,
+      102351
     ],
     "gesehen": "2026-08-31T07:44:19Z"
   },
@@ -16406,8 +16406,8 @@
     "grund": "offen",
     "kandidaten": [
       20605,
-      102351,
-      100240
+      100240,
+      102351
     ],
     "gesehen": "2026-08-31T07:44:19Z"
   },
@@ -69321,12 +69321,8 @@
     "gesehen": "2026-09-27T22:43:53Z"
   },
   "primevideo:B0CGPKMYYP": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CH22FM45": {
@@ -69348,30 +69344,18 @@
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CG8SNVYN": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CHJK6C92": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CGPKL4B8": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CHPLRXJ5": {
@@ -69381,12 +69365,8 @@
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CGRCSFB4": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CGZX68MX": {
@@ -69396,93 +69376,53 @@
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CH89QFSR": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CH3TRKDR": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CHMGCJC3": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CGVSXC5J": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CHF9L9K1": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CGX8VMGV": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0CGNPTRSH": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0C54HDN2T": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:09Z"
   },
   "primevideo:B0D542CRWB": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0D5RNFT1C": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0DJNZYMR3": {
@@ -69492,39 +69432,23 @@
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0DBJTLN34": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0D5KPBVFG": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0DJLZ88JR": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0D7CC4XW8": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0DJC8XWZ5": {
@@ -69540,12 +69464,8 @@
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0DJK56BLJ": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0DJH9JKWW": {
@@ -69555,66 +69475,38 @@
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0DFH2DQX6": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0CZSJN1P8": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0DJV11PLM": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0D76CHP6C": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0DK2KXVC3": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0D7S8G8SH": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0DJ1WW8MK": {
-    "grund": "offen",
-    "kandidaten": [
-      9367,
-      10172,
-      20578
-    ],
+    "titel": 9367,
+    "grund": "einziger-kandidat",
     "gesehen": "2026-09-27T22:44:17Z"
   },
   "primevideo:B0G5P54YG4": {
