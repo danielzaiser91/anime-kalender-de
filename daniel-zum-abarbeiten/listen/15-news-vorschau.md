@@ -42,22 +42,22 @@ Dazu 52 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersic
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 4 |
-| adn-catalog | 6.5 Tage her | 108 |
+| adn-catalog | 6.6 Tage her | 108 |
 | adn-news | 0.1 Tage her | 75 |
 | anilist-voices | 6.6 Tage her | 0 |
 | anime-offline-database | 6.6 Tage her | 8876 |
 | anime2you | 0.0 Tage her | 100 |
-| anisearch | 0.9 Tage her | 713 |
+| anisearch | 0.0 Tage her | 14699 |
 | anisearch-cover-eigen | 0.5 Tage her | 1874 |
 | anisearch-dubs | 4.6 Tage her | 8117 |
 | anisearch-eintraege | 3.6 Tage her | 0 |
 | anisearch-folgen | 6.6 Tage her | 440 |
-| anisearch-zuordnung | 1.0 Tage her | 18449 |
+| anisearch-zuordnung | 0.0 Tage her | 18457 |
 | ann-voices | 6.6 Tage her | 8876 |
 | beleg-lesungen | 4.0 Tage her | 0 |
-| cartoon-reihen | 1.0 Tage her | 0 |
-| cartoons | 1.0 Tage her | 0 |
-| cinestar | 6.6 Tage her | 1 |
+| cartoon-reihen | 0.0 Tage her | 0 |
+| cartoons | 0.0 Tage her | 910 |
+| cinestar | 0.0 Tage her | 1 |
 | cr-einzelwerke | 18.7 Tage her | 0 |
 | cr-filmbloecke | 18.7 Tage her | 0 |
 | crunchyroll | 0.0 Tage her | 19 |
@@ -67,7 +67,7 @@ Dazu 52 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersic
 | crunchyroll-woche | 0.0 Tage her | 65 |
 | fsk | 6.6 Tage her | 3 |
 | justwatch-audio | 6.6 Tage her | 29 |
-| kinoheld | 6.6 Tage her | 0 |
+| kinoheld | 0.0 Tage her | 1 |
 | link-check | 6.6 Tage her | 287 |
 | messbelege | 0.0 Tage her | 0 |
 | motn | 3.7 Tage her | 1943 |
@@ -76,14 +76,14 @@ Dazu 52 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersic
 | rtlplus-folgen | 6.6 Tage her | 2 |
 | tmdb-folgen | 5.7 Tage her | 867 |
 | tmdb-kino | 6.6 Tage her | 3 |
-| tmdb-poster | 0.6 Tage her | 262 |
+| tmdb-poster | 0.7 Tage her | 262 |
 | tmdb-titles | 5.7 Tage her | 300 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 1.0 Tage her | 0 |
+| trailer | 0.0 Tage her | 0 |
 | tv-de | 0.2 Tage her | 59 |
 | tv-programm | 0.0 Tage her | 269 |
 | vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 6.6 Tage her | 4766 |
-| wikidata-titel | 6.6 Tage her | 26 |
+| wikidata-imdb | 0.0 Tage her | 4788 |
+| wikidata-titel | 0.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 6.6 Tage her | 1 |
+| youtube-check | 0.0 Tage her | 1 |
