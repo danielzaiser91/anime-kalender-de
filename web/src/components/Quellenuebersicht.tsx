@@ -122,7 +122,7 @@ export function Quellenuebersicht({ title, releases, asZiel }: { title: Title; r
       <button
         type="button"
         onClick={() => setOffen((v) => !v)}
-        className="flex w-full cursor-pointer items-center justify-between text-[11px] text-slate-500 transition hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+        className="flex min-h-11 w-full cursor-pointer items-center justify-between text-xs text-slate-600 transition hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100"
       >
         <span>{t('quellen.heading', { count: zeilen.length })}</span>
         <span aria-hidden>{offen ? '▴' : '▾'}</span>

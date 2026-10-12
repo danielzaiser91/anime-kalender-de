@@ -2,36 +2,15 @@ import { AntwortKasten } from './antwort-kasten.tsx'
 import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
 import { PLATFORMS, type StreamLink, type Release, type Title, type DiscAusgabe } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
-import { streamNurOmu } from '@shared/ankuendigung.ts'
-import { Pille, farbeZuAnbieter, ReleasePille, discPillen } from './pillen.tsx'
-import { StreamWegPille } from './stream-weg-pille.tsx'
-import { DiscZeichen } from '../ui.tsx'
-import { AnbieterIcon, anbieterDatei } from '../../lib/anbieter-icon.tsx'
-import { DubEcke } from './vermerk.tsx'
-import { MerkenKnopf } from './merken.tsx'
-import { jetztBerlin } from '../../lib/toggo.ts'
-import { anzeigeName } from '@shared/titles.ts'
-import { tvAngabe } from '../../lib/tv-angabe.ts'
+import { alleOhneSprachbeleg, legendeDerZeilen, zeilenGruppen } from './legende-zeilen.ts'
 import type { TvZuletzt } from '../../lib/tv-zuletzt.ts'
-import { tvVorbeiGruppen, tvVorbeiPillen } from './tv-vorbei.tsx'
+import { tvVorbeiGruppen } from './tv-vorbei.tsx'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
 import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
-import { pillenSchluessel, type sortiereNachZugang } from './wege-sortieren.ts'
-
-/** Eine Pille je Termin: Sender oder Anbieter, Datum, Folge. */
-function terminPillen(rs: Release[], title: Title, releases: Release[], today: string) {
-  return rs.map((r) => (
-    <ReleasePille
-      key={r.slug}
-      release={r}
-      titel={anzeigeName(title)}
-      today={today}
-      tvText={tvAngabe(r, title, releases, today, jetztBerlin().slice(11, 16))}
-    />
-  ))
-}
+import { terminPillen, streamZeilen, discZeilen } from './wege-zeilen.tsx'
+import type { sortiereNachZugang } from './wege-sortieren.ts'
 
 export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
   antwort: ReturnType<typeof berechneAntwort>
@@ -66,24 +45,21 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
         <AntwortKasten
           pillenGruppen={
             new Map([
-              ...sortiertNachZugang.flatMap(({ art, plattformen, streamWege }) =>
-                [
-                  ...plattformen.map(pillenSchluessel),
-                  ...streamWege.map((g) => `sw-${g.shop}-${g.eintraege[0].url}`),
-                ].map((k) => [k, art === 'kostenlos' ? 'frei' : art] as const),
-              ),
+              ...zeilenGruppen(sortiertNachZugang, title),
               ...terminReleases.map((r) => [r.slug, r.platform === 'tv' ? 'tv' : 'abo'] as const),
               ...tvVorbeiGruppen(tvVorbei),
             ])
           }
           antwort={antwort}
+          ohneSprachbeleg={alleOhneSprachbeleg(sortiertNachZugang, title)}
+          legende={legendeDerZeilen({ sortiert: sortiertNachZugang, title, folgenAngabeFuer, t })}
           terminPillen={terminPillen(terminReleases, title, releases, today)}
           title={title}
           t={t}
           today={today}
           wegeHinweis={wegeHinweis}
           notiz={kastenNotiz?.note}
-          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} />}
+          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} laufzeitImKopf={Boolean(title.runtimeMin)} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={
             /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
@@ -123,190 +99,8 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
               </>
             ) : undefined
           }
-            /*
-              **Stream ist, wo man es ansehen kann.** Die Zugangsart
-              (kostenlos, Abo, Kauf) stand bis zum 03.09.2026 als eigene
-              Zwischenüberschrift darüber; sie steht jetzt an der Pille
-              selbst, wo sie hingehört — drei Überschriften über je einer
-              Pille waren mehr Gliederung als Inhalt.
-            */
-            stream={sortiertNachZugang.flatMap(({ plattformen }) =>
-              plattformen.map((s) => {
-                /*
-                  **Was da ist, nicht was fehlt.**
-
-                  Der Verlag hat von „Date a Live" genau Folge 1 auf YouTube.
-                  `dubLuecken` machte daraus „✕ DE 2–12" —
-                  richtig, aber von hinten gedacht: Wer die Pille sieht, will
-                  wissen, was er bekommt, nicht was ihm fehlt.
-
-                  Der Fall ist eng gefasst — **ein** deutscher Bereich, und
-                  der ist Folge 1. Alles Übrige bleibt bei der Lücken-Form,
-                  die dort die kürzere Auskunft ist.
-                */
-                /* Regeln an `folgenAngabeFuer()` — Film, Bereiche, laufend, abgeschlossen. */
-                const folgenAngabe = folgenAngabeFuer(s)
-                return (
-                  <Pille
-                    /*
-                      Anbieter **und** Adresse (21.09.2026): Mit `key={s.platform}` trugen zwei
-                      Prime-Pillen denselben Schlüssel, und beim Umschalten auf „Disc" blieb eine
-                      als verwaister Knoten stehen — Lupin III. Part 6 zeigte die Kanal-Pille
-                      unter „Disc".
-                    */
-                    key={pillenSchluessel(s)}
-                    name={s.kanal ? `${PLATFORMS[s.platform].name} (${s.kanal})` : PLATFORMS[s.platform].name}
-                    farbe={PLATFORMS[s.platform].color}
-                    icon={<AnbieterIcon was={s.platform} />}
-                    url={s.url}
-                    unten={
-                      [
-                        folgenAngabe,
-                        streamNurOmu(title, s) ? t('kal.omu') : '',
-                        s.teilBereich
-                          ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
-                          : '',
-                      ]
-                        .filter(Boolean)
-                        .join(' · ') || undefined
-                    }
-                    /*
-                      **Was in der Pille kürzt, steht hier ausgeschrieben.**
-
-                      Die Unterzeile trägt seit dem 03.09.2026 nur noch
-                      „✕ DE 2–33" statt „Ohne deutschen Ton: Folge 2–33" — sie
-                      wurde sonst ausgepunktet, und eine halbe Auskunft ist
-                      schlechter als eine kurze. Der Tooltip nennt beides:
-                      was fehlt, und wozu die Adresse sonst noch führt.
-                    */
-                    titel={
-                      [
-                        ...dubZeilen(s),
-                        streamNurOmu(title, s) ? t('detail.pilleNurOmu') : '',
-                        s.teilBereich
-                          ? t('detail.teilBereichTitel', {
-                              von: s.teilBereich.von,
-                              bis: s.teilBereich.bis,
-                            })
-                          : '',
-                        (s.sharedWith ?? 0) > 1
-                          ? t('detail.sharedUrlNote', { count: s.sharedWith! })
-                          : '',
-                      ]
-                        .filter(Boolean)
-                        .join('\n') || undefined
-                    }
-                    rechts={
-                      <>
-                        <DubEcke dub={s.dub} justwatchStand={s.dubQuelle === 'justwatch' ? s.dubStand : undefined} />
-                        <MerkenKnopf
-                          release={releaseJePlattform.get(s.platform)}
-                          today={today}
-                          farbe={PLATFORMS[s.platform].color}
-                        />
-                      </>
-                    }
-                  />
-                )
-              }),
-            )
-              /*
-                **Ein Abgang ist eine Auskunft, kein Loch — und er gehört zu
-                den anderen Wegen.**
-
-                Bis zum 01.09.2026 fiel ein Verweis stillschweigend heraus,
-                sobald er ins Leere führte. Daniel damals: „auch bei titeln
-                die aus dem katalog eines anbieters fliegen entsprechend
-                anzeigen … sie sind schließlich nicht mehr klickbar."
-
-                Er stand danach als eigene Zeile über den Pillen — zwei
-                Zeilen für eine Auskunft, die in eine Pille passt (Daniel,
-                03.09.2026: „nicht mehr abrufbar auf netflix -> umstylen zu
-                grauer netflix-pill und in box schieben"). Das Datum steht
-                jetzt im Tooltip; sichtbar bleibt, was zählt: dieser Weg ist
-                zu.
-              */
-              /*
-                **Zwei Ausgaben derselben Staffel — die ohne Deutsch steht
-                daneben, durchgestrichen.**
-
-                Daniel am 14.09.2026 an Digimon: Prime führt die Serie „In
-                Prime enthalten" mit deutscher Synchro und über den
-                Crunchyroll-Kanal nur mit Untertiteln. Wer bei Prime sucht,
-                findet beide; die Pille sagt, welche es nicht ist, statt sie
-                zu verschweigen („sodass nutzer sich selbst ein bild machen
-                können"). Welche Ausgaben es gibt, entscheidet der Bau
-                (`ausgabenOhneDe`).
-              */
-              .concat(
-                (title.ausgabenOhneDe ?? []).map((a) => (
-                  <Pille
-                    key={`ausgabe-${a.url}`}
-                    name={PLATFORMS[a.platform]?.name ?? a.platform}
-                    farbe={PLATFORMS[a.platform]?.color}
-                    url={a.url}
-                    durchgestrichen
-                    unten={[
-                      a.kanal ? t('detail.ausgabeKanal', { kanal: a.kanal }) : t('detail.ausgabeAndere'),
-                      t(a.untertitelDe ? 'detail.ausgabeNurUt' : 'detail.ausgabeOhneDe'),
-                    ].join(' · ')}
-                    titel={t('detail.ausgabeTitel', { anbieter: PLATFORMS[a.platform]?.name ?? a.platform })}
-                  />
-                )),
-              )
-              /* Ein Abo, das über einen Dritten läuft — „Crunchyroll über
-                 Prime Video". Es steht bei den Streams, weil man es ansieht
-                 und nicht kauft. */
-              .concat(
-                sortiertNachZugang.flatMap(({ streamWege }) =>
-                  streamWege.map((g) => (
-                    <StreamWegPille key={`sw-${g.shop}-${g.eintraege[0].url}`} g={g} title={title} t={t} folgenAngabeFuer={folgenAngabeFuer} />
-                  )),
-                ),
-              )
-              .concat(
-                terminPillen(streamReleases, title, releases, today),
-              ).concat(tvVorbeiPillen(tvVorbei, anzeigeName(title), today, t('detail.tvNurVorbei')))}
-            /*
-              **Disc ist, was man kauft** — Händler und Vorbestellungen.
-              Vier Ausgaben desselben Verlags sind **eine** Auskunft, keine
-              vier: eine Pille je Shop, die Zahl der
-              Ausgaben in der zweiten Zeile.
-            */
-            disc={[
-              /* Die aniSearch-Ausgaben ersetzen die eine aniSearch-Pille, sobald sie geladen sind. */
-              ...discPillen(discAusgaben, discOffen, () => setDiscOffen((o) => !o), t as unknown as (k: string, v?: Record<string, string | number>) => string),
-              ...sortiertNachZugang.flatMap(({ shops }) =>
-                shops
-                  .filter((g) => !(g.shop === 'aniSearch' && discAusgaben.length))
-                  .map((g) => (
-                  <Pille
-                    key={g.shop + g.eintraege[0].url}
-                    name={g.shop}
-                    url={g.eintraege[0].url}
-                    unten={
-                      g.eintraege.length > 1
-                        ? t('where.angebote', { count: g.eintraege.length })
-                        : g.eintraege[0].dubRanges?.length
-                          ? folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges }) || undefined
-                          : undefined
-                    }
-                    rechts={g.eintraege[0].dubRanges?.some((r) => r.dub) ? <DubEcke dub /> : undefined}
-                    /*
-                      Auch hier trägt der Weg die Farbe seines Anbieters —
-                      derselbe Grund wie bei den Stream-Wegen darüber. Für
-                      aniSearch kommt die Silberscheibe dazu: Sie ersetzt
-                      das Wort „Disc", das bis zum 07.09.2026 im Namen stand.
-                    */
-                    farbe={farbeZuAnbieter(g.shop)}
-                    icon={anbieterDatei(g.shop) ? <AnbieterIcon was={g.shop} /> : <DiscZeichen />}
-                  />
-                )),
-              ),
-              ...discReleases.map((r) => (
-                <ReleasePille key={r.slug} release={r} titel={anzeigeName(title)} today={today} />
-              )),
-            ]}
+          stream={streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, dubZeilen, releaseJePlattform, streamReleases, releases, tvVorbei })}
+          disc={discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, discAusgaben, discOffen, setDiscOffen, discReleases })}
           discZuerst={discZuerst}
           key={discZuerst ? 'disc' : 'stream'}
         />

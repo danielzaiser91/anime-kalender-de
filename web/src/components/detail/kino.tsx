@@ -101,7 +101,7 @@ export function TrailerKino({
           type="button"
           onClick={() => setOffen(true)}
           className={[
-            'group inline-flex shrink-0 items-center gap-1.5 rounded-full border py-1 pl-1 pr-3 text-xs font-semibold transition',
+            'group inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border py-1 pl-2 pr-4 text-sm font-semibold transition',
             deutsch
               ? 'border-rose-400/40 bg-rose-500/10 text-rose-700 hover:border-rose-400/70 hover:bg-rose-500/20 dark:text-rose-300'
               : 'border-slate-300 bg-slate-500/5 text-slate-600 hover:border-slate-400 hover:bg-slate-500/10 dark:border-white/15 dark:text-slate-300',

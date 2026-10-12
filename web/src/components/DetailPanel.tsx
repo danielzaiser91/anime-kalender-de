@@ -1,10 +1,16 @@
-import { useMemo, useState } from 'react'
-import type { Release, Title } from '@shared/types.ts'
-import { todayIso } from '@shared/time.ts'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import type { DiscAusgabe, Release, Title } from '@shared/types.ts'
+import { addDays, todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
 import type { FranchiseMember } from '@shared/types.ts'
 import { anzeigeName } from '@shared/titles.ts'
+import {
+  ladeTitelBestand,
+  loadDiscAusgaben,
+  loadSynopsis, type Synopsis
+} from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
 import { useTeilenAdresse } from './detail/teilen-adresse.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
@@ -24,7 +30,6 @@ import { HandlungAbschnitt } from './detail/abschnitte.tsx'
 import { TermineAbschnitt } from './detail/abschnitte.tsx'
 import { ReihenListe } from './detail/reihen-liste.tsx'
 import { AntwortBereich } from './detail/antwort-bereich.tsx'
-import { PanelKopf } from './detail/kopf.tsx'
 import { UnterDerAntwort } from './detail/unter-der-antwort.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
@@ -35,8 +40,6 @@ import { reihenNameVon, teilNameVon } from './detail/reihen-namen.ts'
 import { kastenNotizVon, kaufausgabeZeileVon, wegeHinweisVon } from './detail/kasten-hinweise.ts'
 import { useErsatzHandlung } from './detail/ersatz-handlung.ts'
 import { PanelLeer, PanelVersteckt } from './detail/panel-huellen.tsx'
-import { useDiscAusgaben, usePanelFenster, useSynopse, useTitelNachladen, useWechsleZu } from './detail/panel-laden.ts'
-import { unterzeileVon, useBuehnenBild, useKinoRelease, WertungPille } from './detail/panel-werte.tsx'
 
 export function DetailPanel({
   data,
@@ -77,13 +80,57 @@ export function DetailPanel({
    * rechnet dann bei jedem Render neu, statt sich das Ergebnis zu merken.
    */
   const releases = useMemo(() => data.releasesByTitle.get(titleId) ?? [], [data, titleId])
+  const [synopsis, setSynopsis] = useState<Synopsis | undefined>()
   const [allKeywords, setAllKeywords] = useState(false)
   /** Die ersten drei Genres reichen fuer die Frage "ist das meins?". */
   const [genresOffen, setGenresOffen] = useState(false)
   const [plotOffen, setPlotOffen] = useState(false)
-  const { discAusgaben, discOffen, setDiscOffen } = useDiscAusgaben(titleId)
-  const synopsis = useSynopse(titleId, title, setAllKeywords, setPlotOffen)
-  usePanelFenster(onClose)
+  const [discAusgaben, setDiscAusgaben] = useState<DiscAusgabe[]>([])
+  const [discOffen, setDiscOffen] = useState(false)
+
+  useEffect(() => {
+    let alive = true
+    setDiscAusgaben([])
+    setDiscOffen(false)
+    loadDiscAusgaben(titleId)
+      .then((a) => {
+        if (alive) setDiscAusgaben(a)
+      })
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
+  }, [titleId])
+
+  useEffect(() => {
+    let alive = true
+    setSynopsis(undefined)
+    /* Cartoons (negative Kennung) tragen ihre Beschreibung im Titel — für sie gibt es keine Gruppendatei (16.09.2026). */
+    if (titleId < 0) {
+      setSynopsis(title?.synopsis ? { de: title.synopsis } : undefined)
+    } else {
+      loadSynopsis(titleId)
+        .then((s) => {
+          if (alive) setSynopsis(s)
+        })
+        .catch(() => {})
+    }
+    setAllKeywords(false)
+    setPlotOffen(false)
+    return () => {
+      alive = false
+    }
+  }, [titleId, title?.synopsis])
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
+  /* Das Panel liegt über der Seite: sie bleibt dahinter stehen (Daniel, 11.10.2026). */
+  useSeiteGesperrt(true)
 
   const reihe = useReihe(title)
 
@@ -99,7 +146,34 @@ export function DetailPanel({
     [reihenTeile, title],
   )
 
-  const buehnenBild = useBuehnenBild(title, reihenTeile, data)
+  /**
+   * Das Banner des Titels — oder geliehen von einem Teil der Reihe, der eines hat.
+   *
+   * Ohne den Rückfall verschwindet der Kopf beim Umschalten auf ein Special und
+   * kommt beim Zurückschalten wieder; das Panel springt dabei um 112 Pixel.
+   */
+  /**
+   * Das Bild der Bühne — seit dem 24.08.2026 das **Cover**, nicht das Banner.
+   *
+   * Gemessen: Alle 2.762 Titel haben ein `coverImage`, aber nur 2.111 ein
+   * `bannerImage`. Bei 651 Titeln stand oben deshalb ein leerer Farbverlauf.
+   * Das Cover trägt außerdem das, was ein Zuschauer wiedererkennt — es ist das
+   * Bild, das auch auf einer Hülle stünde.
+   *
+   * Der frühere Rückfall „Banner von einem Reihenteil leihen" entfällt: Er war
+   * nötig, weil der Kopf beim Umschalten auf ein Special um 112 Pixel sprang.
+   * Mit dem Cover tritt der Fall nicht mehr ein.
+   */
+  const buehnenBild: string | undefined = useMemo(() => {
+    if (!title) return undefined
+    if (title.coverImage) return title.coverImage
+    // Sollte nie greifen — steht als Netz für einen künftigen Titel ohne Cover.
+    for (const m of reihenTeile) {
+      const t = data.titleById.get(m.id)
+      if (t?.coverImage) return t.coverImage
+    }
+    return undefined
+  }, [title, reihenTeile, data])
 
   const reihenName = useMemo(() => reihenNameVon(title, reihe, data), [reihe, title, data])
 
@@ -130,7 +204,12 @@ export function DetailPanel({
       Zeile bleibt weg wie bisher.
   */
 
-  const { wechselt, wechsleZu } = useWechsleZu(data, titleId, onOpenTitle)
+  /**
+   * Beim Wechsel auf eine Staffel ohne Termin fehlen die Metadaten — die liegen
+   * in `titles.json`, das im Kalender nicht geladen ist. Erst holen, dann
+   * öffnen, sonst zeigt das Panel „keine Metadaten".
+   */
+  const [wechselt, setWechselt] = useState(false)
   /*
     **Lange Reihen brauchen Reiter, Suche und einen Aufklapper** (Daniel, 17.09.2026, Pokémon
     mit 112 Teilen: „sehr schwer dort für nutzer gesuchte titel der reihe zu finden").
@@ -141,7 +220,27 @@ export function DetailPanel({
   const [reiheSuche, setReiheSuche] = useState<{ reihe: number; text: string }>({ reihe: 0, text: '' })
   const [reiheOhneOffen, setReiheOhneOffen] = useState<number | null>(null)
 
-  const holt = useTitelNachladen(data, titleId)
+  /**
+   * **Ein Titel, den der Kern nicht kennt, wird nachgeladen.**
+   *
+   * `titles-core.json` führt nur, worauf ein Termin zeigt — ein Reihenteil ohne
+   * deutschen Termin steht dort nicht. Beim Einstieg über eine geteilte Adresse
+   * ist das der Unterschied zwischen dem Panel und einer Fehlermeldung.
+   *
+   * Genau einmal je Kennung: `versucht` merkt sich, wofür schon geladen wurde,
+   * damit ein wirklich unbekannter Titel nicht in eine Schleife läuft.
+   */
+  const [holt, setHolt] = useState(false)
+  const versucht = useRef<number | undefined>(undefined)
+  useEffect(() => {
+    if (data.titleById.has(titleId) || versucht.current === titleId) return
+    versucht.current = titleId
+    setHolt(true)
+    ladeTitelBestand(data, titleId)
+      .catch(() => {})
+      .finally(() => setHolt(false))
+  }, [data, titleId])
+
 
   /**
    * Streaming, aufgeteilt nach dem, was es kostet.
@@ -205,7 +304,21 @@ export function DetailPanel({
     for (const r of releases) if (!je.has(r.platform)) je.set(r.platform, r)
     return je
   }, [releases])
-  const kinoRelease = useKinoRelease(releases, today)
+  /*
+    **Der Kinostart steht im Banner, nicht als Pille** (17.09.2026). Gezeigt wird er,
+    solange er läuft (belegter letzter Spieltag) oder bevorsteht — und bis 60 Tage nach
+    dem Start, solange niemand ein Ende belegt hat.
+  */
+  const kinoRelease = useMemo(
+    () =>
+      releases
+        .filter((r) => r.platform === 'kino' && r.schedule?.firstEpisodeDate)
+        .filter((r) =>
+          r.cinemaUntil ? r.cinemaUntil >= today : r.schedule!.firstEpisodeDate! >= addDays(today, -60),
+        )
+        .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0],
+    [releases, today],
+  )
   const terminReleases = useTerminReleases(releases, title, kinoRelease?.slug, today)
   /* Führt der Titel den Anbieter schon als Link, steht dort dessen Pille; der Termin allein erst vor der ersten Folge. */
   const streamReleases = useMemo(
@@ -249,6 +362,34 @@ export function DetailPanel({
   /* Die Folgenangabe kommt aus `detail/folgen-angabe.ts` (Zerlegung, 29.09.2026) — einmal gebunden. */
   const folgenAngabeFuer = folgenAuskunft({ releases, title, t, releaseJePlattform, today })
 
+  const wechsleZu = (id: number) => {
+    if (id === titleId) return
+    if (data.titleById.has(id)) {
+      onOpenTitle(id)
+      return
+    }
+    setWechselt(true)
+    /*
+      **Beide Bestände holen, nicht nur den Hauptbestand.**
+
+      Seit die Reihenliste auch die Teile aus dem Katalog zeigt, kann der Klick
+      auf einen davon fallen: `loadAllTitles` lädt `titles.json`, und dort steht
+      ein Titel ohne belegte Synchro nicht. Das Panel meldete dann „Zu diesem
+      Eintrag liegen keine Metadaten vor" — und derselbe Klick funktionierte,
+      sobald der Toggle den Katalog geladen hatte.
+
+      Ein Eintrag, den die Liste zeigt, muss sich auch öffnen lassen. Beide
+      Ladewege sind gegen Mehrfachaufrufe gesichert und tun beim zweiten Mal
+      nichts, das Paar kostet also nur beim ersten Wechsel etwas.
+    */
+    ladeTitelBestand(data, id)
+      .catch(() => {})
+      .finally(() => {
+        setWechselt(false)
+        onOpenTitle(id)
+      })
+  }
+
   /**
    * Die Antwort auf die Frage, wegen der jemand dieses Panel öffnet.
    *
@@ -290,14 +431,7 @@ export function DetailPanel({
   const folgenImKasten =
     (antwort?.art === 'laeuft' && Boolean(antwort.gesamt)) || (antwort?.art === 'fertig' && (antwort.gesamt ?? 0) > 1) || antwort?.art === 'teilweise'
 
-  const unterzeile = unterzeileVon(title, eigenerTeil, folgenImKasten, t('detail.episodes'))
-
   const ersatz = useErsatzHandlung({ titleId, title, synopsis, reihenTeile })
-
-  const bewertung =
-    title?.score !== undefined ? (
-      <WertungPille title={title} hinweis={t('detail.scoreHint', { quelle: title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch' })} />
-    ) : null
 
   if (!title) return <PanelLeer holt={holt} t={t} onClose={onClose} />
   if (hidden.has(title.id)) return <PanelVersteckt title={title} t={t} onClose={onClose} onToggleHidden={onToggleHidden} />
@@ -334,149 +468,21 @@ export function DetailPanel({
         data-panel="titel"
         aria-label={anzeigeName(title)}
       >
-        {/*
-          Ohne Banner braucht das ✕ trotzdem seinen eigenen Streifen.
-
-          Der Knopf liegt absolut in diesem Kasten. Fehlt das Bild, fällt der
-          Kasten auf Höhe null zusammen, und das ✕ landet auf dem Inhalt
-          darunter — genau auf dem Favoritenstern, der oben rechts in der
-          Titelzeile sitzt (Daniel, 13.08.2026, mit Bild). Aufgefallen ist es
-          bei den Titeln ohne deutsche Synchro, weil die grundsätzlich kein
-          Banner haben; betroffen war aber jeder Titel ohne Bannerbild.
-
-          **`shrink-0` ist der eigentliche Fix, nicht `h-9`.** Der erste Versuch
-          setzte nur die Höhe — und die blieb wirkungslos: Das Panel ist eine
-          Flex-Spalte mit Rollbereich, und darin schrumpft ein Element ohne
-          `shrink-0` auf null zurück, ganz gleich welche Höhe daransteht.
-          Gemessen wurde genau das: Klasse `relative h-9` gesetzt, Höhe 0.
-          Merksatz: In einer scrollenden Flex-Spalte ist eine Höhe
-          ohne `shrink-0` ein Vorschlag, keine Angabe.
-        */}
-        {/*
-          Das Banner bleibt beim Wechsel des Reihenteils stehen.
-
-          Vorher hing es allein an `title.bannerImage` — und weil längst nicht
-          jeder Teil einer Reihe eines hat, verschwand es beim Umschalten und
-          kam beim Zurückschalten wieder. Der Kopf sprang dabei um 112 Pixel.
-          Jetzt gilt: eigenes Banner, sonst das des
-          ersten Teils der Reihe, der eines hat. Ein Banner ist Schmuck für die
-          Reihe, kein Beleg für den einzelnen Titel — es darf geliehen werden.
-        */}
-        {/*
-          Die Bühne: das Cover liegt **hinter** dem Kopfbereich, nicht daneben.
-
-          Umgebaut am 24.08.2026 nach mehreren Mockup-Durchgängen mit Daniel.
-          Der Gewinn: Das Artwork ist rund fünfmal so groß wie das frühere
-          Karussell-Bildchen und kostet trotzdem keine Zeile — die Höhe des
-          Bereichs bestimmt allein der Inhalt darüber.
-
-          **Das Banner entfällt dabei.** Zwei großflächige Bilder übereinander
-          sind zu viel, und das Banner fehlt bei 651 von 2.762 Titeln; deren
-          Kopf war bisher ein leerer Farbverlauf. Das Cover gibt es dagegen bei
-          **allen** 2.762. Der frühere Rückfall „Banner von einem Reihenteil
-          leihen" wird damit gegenstandslos — sein Anlass (der Kopf sprang beim
-          Umschalten um 112 Pixel) ist es auch, weil die Bühne immer ein Bild
-          hat.
-
-          **Feste Höhe, nicht `inset-0`.** Mit `inset-0` wüchse das Bild mit,
-          sobald ein Bereich darunter aufklappt — der Klick sähe aus, als hätte
-          er das Bild verändert (Daniel, 24.08.2026, am Mockup bemerkt).
-        */}
-        {/*
-          **Der Titel steht über dem Cover, nicht darauf.**
-
-          Bis zum 03.09.2026 abends lag er als halbdeckende Fläche mitten im
-          Bild, und das Bild lag zu drei Vierteln unter einem Verlauf. Daniel:
-          „titel ganz nach oben schieben, volle breite (100% vom panel), cover
-          startet erst danach (wird nicht mehr durch titel verdeckt) … die
-          oberen ~60% des covers sollten fast komplett sichtbar sein, da
-          befindet sich meistens der fokus des covers."
-
-          Daraus die neue Ordnung, von oben nach unten:
-
-          1. **Titelzeile** — volle Panel-Breite, deckender Panel-Grund, kein
-             Bild darunter. Sie braucht keinen Verlauf mehr, um lesbar zu sein.
-          2. **Cover** — beginnt erst darunter und bleibt in seinen oberen zwei
-             Dritteln unangetastet.
-          3. **Unterzeile und Bedienelemente** liegen über dem Bild, jede auf
-             ihrer eigenen halbdeckenden Fläche. Die Bedienelemente stehen
-             **senkrecht** an der rechten Kante: waagerecht nahmen sie die volle
-             Breite des Bildoberteils ein, genau dort, wo der Blick hinfällt.
-        */}
+        {/* Kopf (Bild, Name, Knöpfe) steht in `detail/buehne.tsx`; der Kasten beginnt darunter. */}
         <PanelBuehne
           reihenName={reihenName}
-          buehnenBild={buehnenBild} grossBild={synopsis?.cg}
+          teilName={teilName}
+          reihenTeile={reihenTeile}
+          buehnenBild={buehnenBild}
+          grossBild={synopsis?.cg}
           title={title}
           onToggleHidden={onToggleHidden}
           favorites={favorites}
           onToggleFavorite={onToggleFavorite}
           onClose={onClose}
           t={t}
-          unterzeile={unterzeile}
           folgenImKasten={folgenImKasten}
           eigenerTeil={eigenerTeil}
-        />
-
-        {/*
-          Das Karussell der Reihenteile — es ersetzt Cover **und** Auswahlliste.
-
-          Vorher stand links ein einzelnes Cover, rechts daneben alle Angaben,
-          und weiter unten eine Auswahlliste mit der Überschrift „Staffel, Film
-          oder Special". Drei Bausteine für eine Sache. Jetzt zeigt das
-          Karussell alle Teile als Vorschaukarten, der gewählte ist darin
-          hervorgehoben, und die Angaben stehen darunter über die volle Breite.
-          Die Überschrift entfällt: Ein Karussell aus
-          Covern erklärt sich selbst.
-
-          Auch bei einem Einzeltitel bleibt es stehen — dann als eine Karte.
-          Sonst verschwände beim Umschalten auf einen Titel ohne Geschwister
-          das Cover, und der Kopf sähe plötzlich anders aus.
-        */}
-        {/*
-          Alles nach der Bühne steht `relative`, und daran hängt mehr, als es
-          aussieht.
-
-          Das Bühnenbild ist 340 px hoch, sein Container nur so hoch wie Titel
-          und Unterzeile — gemessen 284 px. Die letzten 56 px des Bildes ragen
-          also über den Container hinaus, und das ist Absicht: Die ersten
-          Inhalte sollen darauf stehen.
-
-          Nur gewinnt beim Malen sonst das Bild. Der Container ist positioniert
-          und erzeugt über `isolation: isolate` einen eigenen Stapel; ein
-          nachfolgendes Geschwister **ohne** `position` wird davon überdeckt,
-          ganz gleich, welchen z-index das Bild innerhalb des Stapels trägt. Der
-          Antwortkasten stand dadurch angeschnitten da — obere Kante weg, der
-          Rest sichtbar (Daniel, 24.08.2026, mit Bild).
-
-          `relative` allein genügt: Es holt das Geschwister in dieselbe
-          Malschicht wie den Container, ohne einen z-index zu vergeben und ohne
-          am Layout etwas zu ändern.
-        */}
-        {/*
-          Die Wertung nennt ihre Quelle — sonst sieht es aus, als wäre es
-          unsere. „★ 8.4" ohne Herkunft las sich, als hätten wir diesen Anime
-          selbst bewertet; wir bewerten nichts, die Zahl ist
-          der Nutzerdurchschnitt von AniList.
-
-          Der Name steht ausgeschrieben statt als Logo: AniList liefert keine
-          Bildmarke zur freien Verwendung, und eine nachgebaute wäre schlechter
-          als ein Wort.
-        */}
-        {/*
-          **Der Block rückt sechs Zeilen ins Cover hinein.**
-
-          Daniel am 03.09.2026: „#3-staffel 1 container: margin-top -6em." Das
-          Cover ist seit derselben Runde 410 px hoch — ohne diesen Versatz läge
-          der erste Inhalt erst darunter, und der Weg zur Antwort wäre länger
-          geworden statt kürzer. So bleibt das Bild groß **und** der Kasten im
-          Blick; der Verlauf trägt den Text, wo er auf dem Bild steht.
-        */}
-        <PanelKopf
-          bewertung={bewertung}
-          reihenTeile={reihenTeile}
-          teilName={teilName}
-          reihenName={reihenName}
-          title={title}
           kinoRelease={kinoRelease}
           asZiel={asZiel}
         />

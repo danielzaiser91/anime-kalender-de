@@ -4,7 +4,6 @@ import { formatDate, weekdayName } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { type ReactNode, useState } from 'react'
 import { useFolgenZaehlung } from './folgen-bereich.tsx'
-import { kostenloseFolgen, kostenlosEtikett } from '@shared/kostenlos.ts'
 import { Countdown, sendetageText } from './hilfen.tsx'
 import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
@@ -14,6 +13,7 @@ import { gruppeVon as gruppeVonPille, sichtbareStreamPillen } from './stream-pil
 import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText, teilweiseNeben } from './antwort-regeln.ts'
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
+import { kostenlosKopfVon, teilweiseNeben } from './kasten-texte.ts'
 
 /**
  * „Auf Deutsch seit …" — die Nebenzeile aus `deErstausgabe`.
@@ -111,13 +111,19 @@ export function AntwortKasten({
   pillenGruppen = new Map(),
   terminPillen = [],
   discZuerst = false,
+  legende,
+  ohneSprachbeleg,
 }: {
   /** Pillen mit Termin und Anbieter/Sender — sie stehen vor der ersten Folge statt der Streamwege. */
   terminPillen?: React.ReactNode[]
   /** Bereich je Pillen-Schlüssel (`key`) — nur gebraucht, wenn es einen kostenlosen Weg gibt. */
-  pillenGruppen?: Map<string, 'frei' | 'abo' | 'kauf' | 'tv' | 'unbekannt'>
+  pillenGruppen?: Map<string, Gruppe>
   /** Über einen Disc-Termin geöffnet — dann steht der Umschalter auf „Disc". */
   discZuerst?: boolean
+  /** Erklärt die Zustände der Anbieterzeilen (Stream-Seite) — nur, was dort wirklich vorkommt. */
+  legende?: string
+  /** Alle Stream-Zeilen ohne Sprachbeleg: Die Überschrift „Auf Deutsch …“ entfällt. */
+  ohneSprachbeleg?: boolean
   antwort: Antwort
   title: Title
   t: (k: never, v?: Record<string, string | number>) => string
@@ -234,28 +240,7 @@ export function AntwortKasten({
     zwei Ordnungen, und beim zweiten sah es nach Fehler aus.
   */
   const mitBereichen = !aktivDisc && pillen.length > 0
-  const kostenlosKopf = (() => {
-    if (!mitBereichen || !pillen.some((p) => gruppeVon(p) === 'frei')) return undefined
-    const k = kostenloseFolgen(title)
-    const deutsch =
-      title.format === 'MOVIE' || title.episodes === 1
-        ? 1
-        : antwort.art === 'fertig'
-          ? antwort.gesamt
-          : antwort.art === 'teilweise' || antwort.art === 'laeuft'
-            ? antwort.raus
-            : undefined
-    const belegtMax = Math.max(
-      0,
-      ...(title.streams ?? []).map((s) =>
-        (s.dubRanges ?? []).filter((r) => r.dub).reduce((n, r) => n + r.to - r.from + 1, 0),
-      ),
-    )
-    const von = deutsch || belegtMax || undefined
-    return kostenlosEtikett(k, von) === 'teil'
-      ? `${T('kostenlos.teil')} · ${T('kostenlos.zahl', { frei: k!.frei!, von: von! })}`
-      : T('kostenlos.ganz')
-  })()
+  const kostenlosKopf = mitBereichen && pillen.some((p) => gruppeVon(p) === 'frei') ? kostenlosKopfVon({ title, antwort, T }) : undefined
 
   /** Relative Angabe zuerst — niemand rechnet gern nach, welcher Tag der 25. ist. */
   const relativ = (datum: string): string => {
@@ -698,6 +683,8 @@ export function AntwortKasten({
     gedaempft = ankuendigung?.synchro !== 'angekuendigt'
     zaehl = ''
   }
+  /* Keine Zeile mit Sprachbeleg: „Auf Deutsch …“ wäre eine Behauptung, die keine Zeile darunter trägt. */
+  if (ohneSprachbeleg && (antwort.art === 'fertig' || antwort.art === 'film')) haupt = T('antwort.sprachOffen')
 
   return (
     /*
@@ -846,9 +833,9 @@ export function AntwortKasten({
           T={T}
         />
       )}
-      {/* Die Erklärung zum Termin, in Warnfarbe: Sie schränkt ihn ein. */}
+      {/* Die Erklärung zum Termin, leise: Sie erklärt, sie warnt nicht (Signalfarben nur für Signale). */}
       {folgen}{notiz && (
-        <p className="mt-1.5 text-[11px] leading-snug text-amber-600 dark:text-amber-400/90">
+        <p className="mt-1.5 text-xs leading-snug text-slate-600 dark:text-slate-300">
           <MitFachwoertern text={notiz} />
         </p>
       )}
@@ -896,25 +883,25 @@ export function AntwortKasten({
             verdeckte Pille sieht aus wie ein Fehler. Die Mindesthöhe verhindert Sprünge im Regelfall (`check:panel` misst sie).
           */}
           {/* `items-stretch`: Eine Pille ohne zweite Zeile wird so hoch wie ihre Nachbarn (Daniel, 19.09.2026, TOGGO neben RTL+). */}
-          <div className="flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5 gap-y-2.5 pb-1 pt-1">
+          <div className="flex min-h-[2.1rem] flex-col pb-1 pt-1">
             {mitBereichen ? (
               <div className="flex w-full flex-col gap-2.5">
 {/* Der grüne Block nur, wo es wirklich etwas umsonst gibt — sonst wäre er eine leere Behauptung. */}
                 {pillen.some((p) => gruppeVon(p) === 'frei') && (
                   <div className="flex flex-col gap-1.5 rounded-lg bg-emerald-500/[0.07] p-2 ring-1 ring-inset ring-emerald-600/25 dark:ring-emerald-400/30">
-                    <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">{kostenlosKopf}</span>
-                    <div className="flex flex-wrap items-stretch gap-x-1.5 gap-y-2.5">{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
+                    <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">{kostenlosKopf}</span>
+                    <div className="flex flex-col">{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
                   </div>
                 )}
-                {(['abo', 'kauf', 'tv', 'unbekannt', 'sonst'] as const).map((g) => {
+                {(['abo', 'kauf', 'tv', 'unbekannt', 'sonst', 'offen'] as const).map((g) => {
                   const teil = pillen.filter((p) => gruppeVon(p) === g)
                   if (!teil.length) return null
                   return (
                     <div key={g} className="flex flex-col gap-1.5 px-2">
                       {g !== 'sonst' && (
-                        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">{T(`bereich.${g}`)}</span>
+                        <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">{T(`bereich.${g}`)}</span>
                       )}
-                      <div className="flex flex-wrap items-stretch gap-x-1.5 gap-y-2.5">{teil}</div>
+                      <div className="flex flex-col">{teil}</div>
                     </div>
                   )
                 })}
@@ -923,6 +910,7 @@ export function AntwortKasten({
               pillen
             )}
           </div>
+          {legende && !aktivDisc && <p className="mt-1.5 text-xs text-slate-600 dark:text-slate-400">{legende}</p>}
         </div>
       )}
     </section>
