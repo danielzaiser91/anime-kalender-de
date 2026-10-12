@@ -4,6 +4,7 @@ import { PLATFORMS } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
 import { addDays, diffDays, formatDate, startOfMonth, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { useAbSm } from '../lib/use-breit.ts'
 import { coverBild } from '../lib/cover.ts'
 import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
 import { tageDerWoche, type Tag } from './WeekView.tsx'
@@ -79,6 +80,8 @@ export function MonthView(p: MonatProps) {
 }
 
 function MonatsZelle({ tag, p: alle, heute, vorbei, t }: { tag: Tag; p: MonatProps; heute: boolean; vorbei: boolean; t: ReturnType<typeof useLang>['t'] }) {
+  /* Nur die Zelle, die der Bildschirm zeigt: am Handy entfällt die Cover-Zelle samt Schwebekarten. */
+  const breit = useAbSm()
   /* Vier Folgen desselben Titels am selben Tag sind ein Bündel — wie in der Woche (Polar Opposites S2, 04.10.2026). */
   const gruppen = buendeleKacheln(tag.stream.filter((e) => !alle.hidden.has(e.titleId)), (ev) => art(ev, alle.data))
   /* Derselbe Titel bei zwei Anbietern am selben Tag ist ein Cover mit geteilter Leiste (Reborn as a Space Mercenary, 11.10.2026). */
@@ -95,8 +98,11 @@ function MonatsZelle({ tag, p: alle, heute, vorbei, t }: { tag: Tag; p: MonatPro
   ].join(' ')
   return (
     <div className={rahmen}>
-      <ZelleGross tag={tag} stream={stream} tv={tv} p={p} heute={heute} t={t} />
-      <ZelleHandy tag={tag} stream={stream} tv={tv} p={p} heute={heute} t={t} />
+      {breit ? (
+        <ZelleGross tag={tag} stream={stream} tv={tv} p={p} heute={heute} t={t} />
+      ) : (
+        <ZelleHandy tag={tag} stream={stream} tv={tv} p={p} heute={heute} t={t} />
+      )}
     </div>
   )
 }

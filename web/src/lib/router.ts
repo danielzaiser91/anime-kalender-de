@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { DubConfidence } from '@shared/types.ts'
 import {
   EMPTY_FILTERS,
@@ -308,8 +308,17 @@ function panelUnterlegen(route: AppRoute): void {
   history.pushState({ panel: true, tief: true }, '', url)
 }
 
+/**
+ * Gleiche Filter behalten ihre Identität: `navigate` und `parseHash` bauen sie bei jedem Schritt neu, und jede Rechnung, die an
+ * `route.filters` hängt (Termine, Titelliste), liefe sonst beim Blättern, Umschalten und Panel-Öffnen von vorn (12.10.2026).
+ */
+function mitStabilenFiltern(alt: AppRoute, neu: AppRoute): AppRoute {
+  return JSON.stringify(alt.filters) === JSON.stringify(neu.filters) ? { ...neu, filters: alt.filters } : neu
+}
+
 export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next: Partial<AppRoute>) => void] {
-  const [route, setRoute] = useState<AppRoute>(() => mitPfad(parseHash(window.location.hash), window.location.pathname))
+  const [route, setzeRoute] = useState<AppRoute>(() => mitPfad(parseHash(window.location.hash), window.location.pathname))
+  const setRoute = useCallback((neu: AppRoute) => setzeRoute((alt) => mitStabilenFiltern(alt, neu)), [])
 
   useEffect(() => {
     const onChange = () => {
@@ -331,7 +340,7 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next:
       window.removeEventListener('hashchange', onChange)
       window.removeEventListener('popstate', onChange)
     }
-  }, [])
+  }, [setRoute])
 
   useEffect(() => {
     if (!route.title) syncSharePath()
