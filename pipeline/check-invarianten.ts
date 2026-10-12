@@ -12,7 +12,7 @@ import {
 import { reihenVerweiseAufgeloest, synchroNichtHinterToggle, type SynchroQuellen } from './lib/invarianten-auslieferung.ts'
 import { geplantNichtDeutschHeute, ladeGeplantQuelle } from './lib/invarianten-geplant.ts'
 import { dubIdsNachAnisearch, dubsNachTitel } from './lib/anisearch-marke.ts'
-import { kanalProben, kanalWegeVorhanden } from './check-invarianten-kanal.ts'
+import { kanalProben, kanalWegProben, kanalWegeVorhanden } from './check-invarianten-kanal.ts'
 import { kanalFehler } from './bau/kanal-fehler.ts'
 
 let verletzt = 0
@@ -117,6 +117,7 @@ console.log('\nHarte Regeln des Daten-Detektivs:')
   pruefe('D-24: Erstausgabe mit Handbeleg (synchro) oder benannter Quelle geht durch', lauf(hatchling({ streams: [], deErstausgabe: { von: '2026-01-10', synchro: true } })).length === 0)
 
   kanalProben(pruefe)
+  kanalWegProben(pruefe)
 }
 
 if (process.argv.includes('--bestand')) {

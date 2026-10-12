@@ -443,8 +443,8 @@ Bau gelb. Der Rest dieses Abschnitts beschreibt, warum das Nein weiter zwei Quel
 falsch, bei ADN gibt es den Titel nur mit Untertiteln. Der Handbeleg vom 30.08. trug `dub: true` **und**
 die eigene Warnung „Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg“ — der Widerspruch stand in
 790 Belegen (832 mit Warnung). Seitdem gilt: Ein Kanal-Titel belegt keine Synchro, weder Ja noch Nein.
-`loadDubChecks()` lässt `dub` und `dubRanges` solcher Zeilen weg (`lib/kanal-titel.ts`, außer mit
-`zweiteQuelle`); die Zeile bleibt als Adressbeleg stehen, die Pille zeigt „🇩🇪 ?“. Dasselbe gilt für das
+`loadDubChecks()` lässt `dub` und die Ja-Bereiche solcher Zeilen weg, die Nein-Bereiche je Folge bleiben (`lib/kanal-titel.ts`,
+außer mit `zweiteQuelle`); die Zeile bleibt als Adressbeleg stehen, die Pille zeigt „🇩🇪 ?“. Dasselbe gilt für das
 Urteil aus Stufe 3 (`bau/urteil-schliesst-luecken.ts`), das aus derselben Amazon-Angabe ein Ja machte.
 Die Datei bleibt unverändert (die Erweiterung hängt weiter an), die Invariante D-25 hält jeden anderen
 Weg zu. Ein Titel behält „Auf Deutsch“, wenn eine zweite Quelle es trägt (aniSearch, Crunchyroll, ADN,
@@ -473,6 +473,17 @@ Invariante D-26 (`kanalWegEntfernt()`) meldet jeden Kanal-Weg ohne eigene Aussag
 Bau-Vergleich mit Katalog-Ersatz (Basis c97234b40, Kandidat cafd78846): `verweise-entfernt.json` 855 → 855 ohne
 neuen Eintrag, kein Titel verliert einen Prime-Weg (sechs gewinnen einen), `ohne-synchro.json` nimmt Hell Mode,
 Freezing OVA und Freezing Vibration OVAs auf (17615 → 17618).
+
+**Der Prime-Weg ging ohne Protokoll verloren, wenn er eine Amazon-Suche war** (12.10.2026, 16 Titel: One Piece Film: Strong World,
+Akame ga Kill, Mob Psycho 100 III u. a.). AniList verlinkt bei Prime meist einen fremden Marktplatz; daraus macht der Bau die Suche
+(`mapStreams`). Bis PR 863 setzte `belegFuer()` die Adresse des Handbelegs an ihre Stelle (Rückfall bei einem Weg), aber nur für
+Belege mit Aussage; die Kanal-Zeile ist seitdem ein Adressbeleg und erreicht ihn nicht mehr. Die Suche blieb, 11-3 („was am Ende
+noch auf eine Suche zeigt, fliegt“) warf sie heraus, ohne Eintrag in `verweise-entfernt.json`. Titel ohne AniList-Link waren
+nicht betroffen: Dort legt der Ergänzungsblock in 09-2 den Weg aus der Adresse des Belegs an. Jetzt ersetzt derselbe Block die
+einzige Suche (`hatWegOderErsetztSuche()`, `lib/weg-aus-beleg.ts`); die Nein-Bereiche eines Kanal-Titels bleiben am Weg
+(`ohneKanalSprache()`, `traegtAussage()`), und die Kanal-Zeile ist nie die Korrektur für eine andere Adresse. Nachweis: Der Bau mit
+Ersatz-Cache, der AniLists Amazon-Link nachbildet (Daten vom 12.10.2026 09:31 Uhr, `82c82ef5e`), verlor 73 Prime-Wege, darunter
+alle 16; mit der Änderung kommen alle 16 zurück.
 
 **Und der Beleg nimmt die Seite, auf der gemeldet wurde.** Eine Meldung trägt zwei Adressen:
 `url` ist der Eintrag der Prüfliste (bei einem Staffelwechsel die Seite von Staffel 1),
