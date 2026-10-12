@@ -2,7 +2,8 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import type { Title } from '../../shared/types.ts'
-import { readJson, ROOT } from '../lib/util.ts'
+import { ROOT } from '../lib/util.ts'
+import { deutschMarke } from '../lib/anisearch-marke.ts'
 
 /**
  * **Ein ausgestrahlter Titel, für den kein einziger Beleg einer deutschen Fassung vorliegt, gehört hinter „Anime ohne deutsche Synchro"**
@@ -19,16 +20,21 @@ export function ausgestrahltOhneBeleg(t: Title): boolean {
   return (t.jpYear ?? 0) >= 2023
 }
 
-let dubsAnisearch: Record<string, string> | undefined
-
 /**
  * aniSearchs Dub-Liste führt Deutsch als vertont (`d`) oder abgebrochen (`c`, Teilsynchro): Das ist ein Beleg, wie ihn `keineSynchroLautAnisearch` für das Gegenteil gelten lässt.
  * Geplant (`p`) ist eine Ankündigung, kein Beleg. Ohne diesen Beleg wanderte Scott Pilgrim hebt ab (170206) hinter den Toggle (Lauf 37832745133).
  */
 export function deutschLautAnisearch(t: Title): boolean {
-  dubsAnisearch ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {})
-  const k = dubsAnisearch[String(t.id)]
+  const k = deutschMarke(t.id)
   return k === 'd' || k === 'c'
+}
+
+/**
+ * aniSearch führt Deutsch als „Geplant“ (`p`): Die deutsche Fassung gilt als noch nicht veröffentlicht, auch wo der Block Datum und „Abgeschlossen“ trägt
+ * (Daniel, 11.10.2026; Reincarnated as a Dragon Hatchling: der Block wiederholte den Japan-Zeitraum, ADN zeigte nur Untertitel).
+ */
+export function deutschGeplantLautAnisearch(titelId: number): boolean {
+  return deutschMarke(titelId) === 'p'
 }
 
 /**
@@ -40,8 +46,7 @@ export function deutschLautAnisearch(t: Title): boolean {
  * schlägt das, die Aufrufer schließen Releases und deutsche Sprecher davor aus. Ohne Datei gilt die Regel nie.
  */
 export function keineSynchroLautAnisearch(t: Title): boolean {
-  dubsAnisearch ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {})
-  return dubsAnisearch[String(t.id)] === '-' && !t.streams.some((s) => s.dub === true)
+  return deutschMarke(t.id) === '-' && !t.streams.some((s) => s.dub === true)
 }
 
 type HandUrteil = { anilistId?: number; sources?: string[]; keinAnime?: boolean }

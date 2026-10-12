@@ -1,11 +1,11 @@
 {
-  "stand": "2026-10-11",
-  "angehaengt": 287,
-  "neueReihen": 265,
+  "stand": "2026-10-12",
+  "angehaengt": 282,
+  "neueReihen": 250,
   "katalog": {
-    "angehaengt": 204,
+    "angehaengt": 207,
     "neueReihen": 24,
-    "bestandEinzeln": 387
+    "bestandEinzeln": 369
   },
   "pruefliste": [
     {
@@ -462,24 +462,6 @@
       "art": "verschmilzt",
       "reihen": [
         {
-          "id": 101348,
-          "name": "VINLAND SAGA",
-          "titel": 13
-        },
-        {
-          "id": 10010850,
-          "name": "Ponkotsu Quest: Maou to Haken no Mamono-tachi",
-          "titel": 3
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Ponkotsu Quest: Maou to Haken no Mamono-tachi Season 3 —Prequel→ Ponkotsu Quest: Maou to Haken no Mamono-tachi (1 Kante)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
           "id": 966,
           "name": "Crayon Shin-chan",
           "titel": 44
@@ -546,6 +528,24 @@
       ],
       "alleinstehende": [],
       "beispiel": "Kidou Senshi Gundam NT —Prequel→ Kidou Senshi Gundam: Senkou no Hathaway (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 21727,
+          "name": "Aware! Meisaku-kun",
+          "titel": 4
+        },
+        {
+          "id": 10015455,
+          "name": "Aware! Meisaku-kun (2017)",
+          "titel": 5
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Aware! Meisaku-kun —Prequel→ Aware! Meisaku-kun (2017) (1 Kante)",
       "quelle": "katalog"
     },
     {
@@ -696,24 +696,6 @@
       "art": "verschmilzt",
       "reihen": [
         {
-          "id": 6772,
-          "name": "Break Blade 1: Kakusei no Toki",
-          "titel": 8
-        },
-        {
-          "id": 10005475,
-          "name": "Break Blade",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Break Blade —Nebengeschichte→ Break Blade: Virgins War (3 Kanten)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
           "id": 109870,
           "name": "Turning Mecard",
           "titel": 4
@@ -726,24 +708,6 @@
       ],
       "alleinstehende": [],
       "beispiel": "Turning Mecard W —?→ Ppasya Mecard (1 Kante)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
-          "id": 101348,
-          "name": "VINLAND SAGA",
-          "titel": 13
-        },
-        {
-          "id": 10014593,
-          "name": "Ponkotsu Quest: Maou to Haken no Mamono-tachi (2018)",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Ponkotsu Quest: Maou to Haken no Mamono-tachi Season 4 —Prequel→ Ponkotsu Quest: Maou to Haken no Mamono-tachi (2018) (2 Kanten)",
       "quelle": "katalog"
     },
     {
@@ -1038,24 +1002,6 @@
       "art": "verschmilzt",
       "reihen": [
         {
-          "id": 130226,
-          "name": "Sinbi Apateu: Ghost Ball-ui Bimil",
-          "titel": 12
-        },
-        {
-          "id": 10014203,
-          "name": "Sinbi Apartment: Ghost Ball X-ui Tansaeng du Beonjjae Iyagi",
-          "titel": 3
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Sinbi Apateu: Geumbit Dokkaebiwa Bimirui Donggul —Prequel→ Sinbi Apartment: Ghost Ball X-ui Tansaeng du Beonjjae Iyagi (1 Kante)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
           "id": 110464,
           "name": "Nezha: Zhi Mo Tong Jiang Shi",
           "titel": 2
@@ -1182,24 +1128,6 @@
       "art": "verschmilzt",
       "reihen": [
         {
-          "id": 111433,
-          "name": "Hentatsu",
-          "titel": 2
-        },
-        {
-          "id": 10013298,
-          "name": "Hentatsu",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Hentatsu (TV Short) —Sequel→ Hentatsu (2019) (1 Kante)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
           "id": 2804,
           "name": "Hana no Mahou Tsukai Mary Bell",
           "titel": 2
@@ -1218,24 +1146,6 @@
       "art": "verschmilzt",
       "reihen": [
         {
-          "id": 132511,
-          "name": "Annyeong Jaduya",
-          "titel": 5
-        },
-        {
-          "id": 10015577,
-          "name": "Annyeong Ja-Duya 2",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Annyeong Jaduya —Prequel→ Annyeong Ja-Duya 2 (1 Kante)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
           "id": 876,
           "name": "Street Fighter II V",
           "titel": 3
@@ -1248,24 +1158,6 @@
       ],
       "alleinstehende": [],
       "beispiel": "Street Fighter II V —Sequel→ Street Fighter ZERO: THE ANIMATION (1 Kante)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
-          "id": 115844,
-          "name": "Fanren Xiu Xian Zhuan",
-          "titel": 11
-        },
-        {
-          "id": 10014801,
-          "name": "Fanren Xiuxian Chuan: Feng Qi Tian Nan",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Fanren Xiu Xian Zhuan: Yanjiabao Pu Zhan —Sequel→ Fanren Xiuxian Chuan: Feng Qi Tian Nan Er (1 Kante)",
       "quelle": "katalog"
     },
     {
@@ -1416,24 +1308,6 @@
       "art": "verschmilzt",
       "reihen": [
         {
-          "id": 177,
-          "name": "Tsubasa Chronicle",
-          "titel": 8
-        },
-        {
-          "id": 10005573,
-          "name": "xxxHOLiC Rou",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "xxxHOLiC Shunmuki —Prequel→ xxxHOLiC Rou (1 Kante)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
           "id": 121069,
           "name": "Dennou Senshi Dokan-kun",
           "titel": 6
@@ -1482,24 +1356,6 @@
       ],
       "alleinstehende": [],
       "beispiel": "Persona 4 the Animation —Sequel→ PERSONA 3 THE MOVIE: #1 Spring of Birth (4 Kanten)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
-          "id": 1236,
-          "name": "SF Saiyuuki Starzinger",
-          "titel": 2
-        },
-        {
-          "id": 10000084,
-          "name": "SF Saiyuuki Starzinger",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "SF Saiyuuki Starzinger (Movie) —?→ SF Saiyuuki Starzinger (1 Kante)",
       "quelle": "katalog"
     },
     {
@@ -1662,6 +1518,24 @@
       ],
       "alleinstehende": [],
       "beispiel": "Dragon Quest: Abel Yuusha Densetsu —Gemeinsames Universum→ Dragon Quest X: Boukenshatachi no Kiseki - Namae no Omoi",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 1935,
+          "name": "Megazone 23",
+          "titel": 3
+        },
+        {
+          "id": 10012819,
+          "name": "Megazone 23 XI",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Megazone 23 —Gemeinsames Universum→ Megazone 23 XI",
       "quelle": "katalog"
     },
     {

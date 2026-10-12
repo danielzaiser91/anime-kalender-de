@@ -87,7 +87,20 @@ for (const datei of readdirSync(DIR).filter((f) => f.endsWith('.yml') || f.endsW
  */
 const pipelineDir = resolve(process.cwd(), 'pipeline')
 const geschrieben = new Set()
-const HANDGEPFLEGT = new Set(['data/synchro-von-hand.yaml', 'data/erstausgabe-von-hand.yaml', 'data/folgen-hinweise.yaml', 'data/anisearch-ids-hand.yaml', 'data/adn-adressen.yaml', 'data/rtlplus-adressen.yaml', 'data/verweise-von-hand.yaml', 'data/reihen-von-hand.yaml', 'data/blocker-von-hand.yaml', 'data/tmdb-von-hand.yaml', 'data/adn-staffelzuordnung.yaml'])
+const HANDGEPFLEGT = new Set([
+  'data/synchro-von-hand.yaml',
+  'data/erstausgabe-von-hand.yaml',
+  'data/folgen-hinweise.yaml',
+  'data/anisearch-ids-hand.yaml',
+  'data/anisearch-katalog-kein-treffer.json',
+  'data/adn-adressen.yaml',
+  'data/rtlplus-adressen.yaml',
+  'data/verweise-von-hand.yaml',
+  'data/reihen-von-hand.yaml',
+  'data/blocker-von-hand.yaml',
+  'data/tmdb-von-hand.yaml',
+  'data/adn-staffelzuordnung.yaml',
+])
 for (const datei of readdirSync(pipelineDir, { recursive: true })) {
   if (typeof datei !== 'string' || !/\.(ts|mjs|js)$/.test(datei)) continue
   const quelltext = readFileSync(resolve(pipelineDir, datei), 'utf8')
@@ -306,6 +319,7 @@ const NUR_VON_HAND = {
   'data:cr-einzelwerke': 'braucht ein anonymes Token mit deutscher Region — auf GitHubs US-Rechnern bricht es ab; läuft von Daniels Rechner (check-sources führt eine Frist von 21 Tagen)',
   'data:cr-filmbloecke': 'wie data:cr-einzelwerke',
   'data:cr-katalog': 'wie data:cr-einzelwerke',
+  'data:tmdb-katalog': 'einmalige Zuordnung der Nur-AniList-Titel (11.10.2026), ein Lauf dauert rund 40 Minuten; ein Workflow kommt mit dem Bauschritt, der sie liest',
   'data:anisearch-katalog-abgleich': 'einmaliger Abgleich (11.10.2026); die Titelliste ist auf 1 Abruf je Stunde begrenzt, ein Lauf kommt mit dem Bau, der die Zuordnung liest',
 }
 

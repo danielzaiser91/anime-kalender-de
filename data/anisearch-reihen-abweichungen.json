@@ -1,48 +1,48 @@
 {
-  "stand": "2026-10-11",
+  "stand": "2026-10-12",
   "deckung": {
-    "titel": 20719,
-    "mitSeite": 15826,
+    "titel": 20624,
+    "mitSeite": 15907,
     "ohneSeite": 9,
-    "ohneAnisearchKennung": 3165,
-    "ohneReferenz": 1719,
-    "seitenImArchiv": 17466,
-    "kanten": 18564
+    "ohneAnisearchKennung": 3049,
+    "ohneReferenz": 1659,
+    "seitenImArchiv": 17487,
+    "kanten": 18577
   },
   "gesamt": {
-    "titel": 15826,
-    "gleich": 12377,
-    "fehlen": 2197,
-    "zusaetzlich": 709,
-    "gemischt": 543
+    "titel": 15907,
+    "gleich": 12424,
+    "fehlen": 2242,
+    "zusaetzlich": 707,
+    "gemischt": 534
   },
   "hauptbestand": {
-    "titel": 2868,
-    "gleich": 2160,
+    "titel": 2862,
+    "gleich": 2153,
     "fehlen": 460,
-    "zusaetzlich": 147,
+    "zusaetzlich": 148,
     "gemischt": 101
   },
   "haelfteA": {
-    "titel": 7295,
-    "gleich": 5662,
-    "fehlen": 1064,
-    "zusaetzlich": 349,
-    "gemischt": 220
+    "titel": 7333,
+    "gleich": 5669,
+    "fehlen": 1095,
+    "zusaetzlich": 356,
+    "gemischt": 213
   },
   "haelfteB": {
-    "titel": 8531,
-    "gleich": 6715,
-    "fehlen": 1133,
-    "zusaetzlich": 360,
-    "gemischt": 323
+    "titel": 8574,
+    "gleich": 6755,
+    "fehlen": 1147,
+    "zusaetzlich": 351,
+    "gemischt": 321
   },
   "cluster": {
-    "einzel": 5367,
-    "gleich": 2229,
-    "zerlegt": 285,
-    "verschmilzt": 74,
-    "gemischt": 34
+    "einzel": 5404,
+    "gleich": 2235,
+    "zerlegt": 290,
+    "verschmilzt": 70,
+    "gemischt": 32
   },
   "beispiele": {
     "zerlegt": [
@@ -63,9 +63,9 @@
       {
         "id": 356,
         "name": "Fate/stay night",
-        "titel": 62,
+        "titel": 64,
         "referenz": 1,
-        "anisearch": 5
+        "anisearch": 6
       },
       {
         "id": 1694,
@@ -110,6 +110,13 @@
         "anisearch": 2
       },
       {
+        "id": 10257,
+        "name": "Pretty Rhythm: Aurora Dream",
+        "titel": 26,
+        "referenz": 1,
+        "anisearch": 4
+      },
+      {
         "id": 11757,
         "name": "Sword Art Online",
         "titel": 25,
@@ -131,16 +138,9 @@
         "anisearch": 3
       },
       {
-        "id": 10257,
-        "name": "Pretty Rhythm: Aurora Dream",
-        "titel": 24,
-        "referenz": 1,
-        "anisearch": 4
-      },
-      {
         "id": 9883,
         "name": "Osomatsu-kun (1988)",
-        "titel": 22,
+        "titel": 23,
         "referenz": 1,
         "anisearch": 2
       },
@@ -205,7 +205,7 @@
       {
         "id": 967,
         "name": "Hokuto no Ken",
-        "titel": 21,
+        "titel": 22,
         "referenz": 3,
         "anisearch": 1
       },
@@ -214,6 +214,13 @@
         "name": "Xiong Chumo",
         "titel": 20,
         "referenz": 5,
+        "anisearch": 1
+      },
+      {
+        "id": 2222,
+        "name": "Dr. Slump: Arale-chan",
+        "titel": 19,
+        "referenz": 2,
         "anisearch": 1
       },
       {
@@ -266,16 +273,16 @@
         "anisearch": 1
       },
       {
-        "id": 177,
-        "name": "Tsubasa Chronicle",
-        "titel": 11,
-        "referenz": 3,
-        "anisearch": 1
-      },
-      {
         "id": 350,
         "name": "Ojamajo Doremi",
         "titel": 11,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
+        "id": 177,
+        "name": "Tsubasa Chronicle",
+        "titel": 10,
         "referenz": 2,
         "anisearch": 1
       },
@@ -301,6 +308,13 @@
         "anisearch": 1
       },
       {
+        "id": 19023,
+        "name": "Wake Up, Girls!",
+        "titel": 9,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
         "id": 317,
         "name": "Final Fantasy VII: Advent Children",
         "titel": 8,
@@ -312,20 +326,6 @@
         "name": "Kimagure Orange☆Road",
         "titel": 8,
         "referenz": 3,
-        "anisearch": 1
-      },
-      {
-        "id": 1341,
-        "name": "Violence Jack: Harem Bomber",
-        "titel": 8,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 19023,
-        "name": "Wake Up, Girls!",
-        "titel": 8,
-        "referenz": 2,
         "anisearch": 1
       }
     ],
@@ -340,7 +340,7 @@
       {
         "id": 80,
         "name": "Kidou Senshi Gundam",
-        "titel": 132,
+        "titel": 133,
         "referenz": 3,
         "anisearch": 23
       },
@@ -375,7 +375,7 @@
       {
         "id": 1000,
         "name": "Uchuu Kaizoku Captain Harlock",
-        "titel": 35,
+        "titel": 36,
         "referenz": 2,
         "anisearch": 5
       },
@@ -396,7 +396,7 @@
       {
         "id": 87435,
         "name": "BanG Dream!",
-        "titel": 23,
+        "titel": 24,
         "referenz": 2,
         "anisearch": 3
       },
@@ -436,13 +436,6 @@
         "anisearch": 3
       },
       {
-        "id": 101348,
-        "name": "VINLAND SAGA",
-        "titel": 14,
-        "referenz": 3,
-        "anisearch": 3
-      },
-      {
         "id": 1678,
         "name": "Cyborg 009: THE CYBORG SOLDIER",
         "titel": 12,
@@ -464,8 +457,15 @@
         "anisearch": 2
       },
       {
-        "id": 2467,
-        "name": "3 Choume no Tama: Uchi no Tama Shirimasenka? 2",
+        "id": 10763,
+        "name": "Robot Taekwon V",
+        "titel": 8,
+        "referenz": 2,
+        "anisearch": 2
+      },
+      {
+        "id": 102004,
+        "name": "Onmyouji: Heian Monogatari",
         "titel": 8,
         "referenz": 2,
         "anisearch": 3

@@ -99,6 +99,21 @@ export function diffDays(a: string, b: string): number {
   return Math.round((p(b) - p(a)) / 86400000)
 }
 
+export type AbstandEinheit = 'heute' | 'morgen' | 'tage' | 'wochen' | 'monate' | 'jahre'
+
+/**
+ * Abstand in Tagen als grobe Angabe, abgerundet: Tage, ab 7 Tagen Wochen, ab 4,5 Wochen Monate,
+ * ab 365 Tagen Jahre (Daniel, 11.10.2026). Vergangenes zählt als „heute".
+ */
+export function abstandGrob(tage: number): { einheit: AbstandEinheit; anzahl: number } {
+  if (tage <= 0) return { einheit: 'heute', anzahl: 0 }
+  if (tage === 1) return { einheit: 'morgen', anzahl: 1 }
+  if (tage < 7) return { einheit: 'tage', anzahl: tage }
+  if (tage < 31.5) return { einheit: 'wochen', anzahl: Math.floor(tage / 7) }
+  if (tage < 365) return { einheit: 'monate', anzahl: Math.max(1, Math.floor(tage / 30.44)) }
+  return { einheit: 'jahre', anzahl: Math.floor(tage / 365) }
+}
+
 /** 0 = Montag … 6 = Sonntag. */
 export function weekdayIndex(iso: string): number {
   const [y, m, d] = iso.split('-').map(Number)

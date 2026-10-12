@@ -205,6 +205,16 @@ export function sammelVerwurf(e: SammelEintrag, anbieterDesArtikels?: string): S
   return sammelAnbieter(e, anbieterDesArtikels).length ? undefined : 'kein Anbieter'
 }
 
+/**
+ * **Nennt ein Eintrag Prime Video und Crunchyroll nebeneinander, ist Prime der Crunchyroll-Kanal** (Daniel, 11.10.2026,
+ * „Reborn as a Space Mercenary": Amazon führt ihn als Kanal-Titel). Crunchyrolls Mitteilung „Stream: Prime Video,
+ * Crunchyroll" meint den Kanal; ohne die Kennung hieß und zählte die Pille wie ein Prime-eigener Titel.
+ */
+export function kanalDesEintrags(e: Pick<SammelEintrag, 'stream'>): string | undefined {
+  const anbieter = e.stream.map((s) => s.toLowerCase())
+  return anbieter.includes('prime video') && anbieter.includes('crunchyroll') ? 'Crunchyroll' : undefined
+}
+
 const sammelAnbieter = (e: SammelEintrag, anbieterDesArtikels?: string): string[] =>
   [...new Set([...e.stream.map((s) => ANBIETER[s.toLowerCase()]), anbieterDesArtikels].filter((p): p is string => Boolean(p)))]
 
@@ -231,6 +241,7 @@ export function vorschlaegeAusSammelartikel(
   const raus: Vorschlag[] = []
   for (const e of eintraege) {
     if (sammelVerwurf(e, anbieterDesArtikels)) continue
+    const kanalDesVorschlags = kanal ?? kanalDesEintrags(e)
     raus.push({
       articleTitle: `»${e.titel}«${e.zusatz ? ` – ${e.zusatz}` : ''}`,
       articleUrl: artikel.url,
@@ -242,7 +253,7 @@ export function vorschlaegeAusSammelartikel(
       ...(e.folgen ? { folgen: e.folgen } : {}),
       /* Ausdrücklich auch `false`: Ein Eintrag ohne „Simulcast“-Zeile ist kein Wochenstart (`zeitplanAusVorschlag`). */
       woechentlich: Boolean(e.woechentlich),
-      ...(kanal ? { kanal } : {}),
+      ...(kanalDesVorschlags ? { kanal: kanalDesVorschlags } : {}),
     })
   }
   return raus

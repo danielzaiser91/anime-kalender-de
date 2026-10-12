@@ -1,12 +1,12 @@
-import { staffelBeschriftungen } from '../../shared/titles.ts'
+import { ausstrahlungsZeit, istWerbeEintrag, staffelBeschriftungen } from '../../shared/titles.ts'
 
 export type Reiheneintrag = { id: number; name: string; format?: string; beiwerk?: boolean; jpYear?: number; jpStart?: string }
 
 /** Staffelnummer je Hauptstaffel einer Reihe — nur wenn die Reihe mehr als eine hat. */
 export function staffelNummern(reihe: Reiheneintrag[]): Map<number, number> {
   const haupt = reihe
-    .filter((m) => (m.format === 'TV' || m.format === 'ONA') && !m.beiwerk)
-    .sort((a, b) => (a.jpStart ?? String(a.jpYear ?? 9999)).localeCompare(b.jpStart ?? String(b.jpYear ?? 9999)) || a.id - b.id)
+    .filter((m) => (m.format === 'TV' || m.format === 'ONA') && !m.beiwerk && !istWerbeEintrag(m))
+    .sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id)
   const aus = new Map<number, number>()
   if (haupt.length < 2) return aus
   const kopf = haupt[0]!.name

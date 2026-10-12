@@ -17,6 +17,7 @@ import type { Fsk, PlatformId, Title } from '../shared/types.ts'
 import { loadEnv, fetchJson, log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { readOffers, type TmdbOffer } from './lib/tmdb.ts'
 import { recordSource } from './lib/health.ts'
+import { findeGeteilteHauptserien, streicheZuordnungen } from './lib/tmdb-hauptserie.ts'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 
@@ -279,6 +280,22 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
   return out
 }
 
+/*
+  **Ein Special erbt die Hauptserie nicht** (12.10.2026): Specials, OVAs und ONAs, deren Treffer eine TV-Serie unseres Bestands
+  ist und weder im Namen noch in der Folgenzahl passt, verlieren die Kennung samt Handlung und Anbietern. Von Hand gesetzte bleiben.
+*/
+function speichereOhneGeteilteHauptserien(cache: Record<string, TmdbTitle>, titles: Title[], vonHand: Set<number>): void {
+  const geteilt = findeGeteilteHauptserien({
+    titles,
+    cache,
+    tmdbFolgen: readJson('data/tmdb-folgen.json', {}),
+    vonHand,
+  })
+  streicheZuordnungen(cache, geteilt, new Date().toISOString())
+  if (geteilt.length) log(`${geteilt.length} Special(s)/OVA(s)/ONA(s) ohne Hauptserien-Kennung: ${geteilt.join(', ')}`)
+  writeJson(CACHE_PATH, cache)
+}
+
 async function main(): Promise<void> {
   loadEnv()
   const apiKey = process.env.TMDB_API_KEY
@@ -373,7 +390,7 @@ async function main(): Promise<void> {
     }
   }
 
-  writeJson(CACHE_PATH, cache)
+  speichereOhneGeteilteHauptserien(cache, titles, handIds)
   recordSource('tmdb-titles', done)
   const total = Object.values(cache).filter((c) => c.overviewDe).length
   log(`Fertig: ${done} abgefragt, ${total} Titel mit deutscher Handlung im Bestand`)

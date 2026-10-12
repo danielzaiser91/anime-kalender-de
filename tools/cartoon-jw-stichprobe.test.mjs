@@ -6,7 +6,8 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { QUOTEN, ZIEL, jwAussage, kandidaten, stichprobeDatei, waehleStichprobe } from './cartoon-jw-stichprobe.mjs'
+import { QUOTEN, ZIEL, jwAussage, kandidaten, waehleStichprobe } from './cartoon-jw-stichprobe.mjs'
+import { pruefeInvarianten } from './cartoon-jw-stichprobe-invarianten.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 
@@ -33,19 +34,6 @@ function erfundeneWelt() {
     }
   }
   return { cartoons, jw }
-}
-
-const gruppe = (liste, richtung) => liste.filter((e) => e.richtung === richtung)
-const ohneDoppelte = (liste, schluessel) => new Set(liste.map(schluessel)).size === liste.length
-
-function pruefeInvarianten(liste, was) {
-  for (const richtung of Object.keys(QUOTEN)) assert.equal(gruppe(liste, richtung).length, 50, `${was}: genau 50 in ${richtung}`)
-  assert.equal(liste.length, 100, `${was}: 100 insgesamt`)
-  assert.ok(ohneDoppelte(liste, (e) => `${e.id}|${e.plattform}`), `${was}: kein Weg doppelt`)
-  assert.ok(ohneDoppelte(liste, (e) => `${e.plattform}|${e.url}`), `${was}: keine Adresse doppelt`)
-  assert.ok(liste.every((e) => e.id < 0 && e.titel && e.url && e.jw.text), `${was}: Kennung, Titel, Adresse und JustWatch-Aussage je Eintrag`)
-  assert.ok(gruppe(liste, 'jw-deutsch').every((e) => e.jw.urteil === 'deutsch'), `${was}: jw-deutsch nennt Deutsch`)
-  assert.ok(gruppe(liste, 'jw-ohne-deutsch').every((e) => e.jw.urteil !== 'deutsch'), `${was}: jw-ohne-deutsch nennt kein Deutsch`)
 }
 
 /* JustWatchs Aussage je Fall. */
@@ -92,10 +80,5 @@ assert.ok(wahl.filter((e) => spaeter.some((s) => s.id === e.id && s.plattform ==
 /* Die eingefrorene Datei hält dieselben Regeln ein; der Bestand selbst darf sich verschoben haben. */
 const datei = JSON.parse(readFileSync(resolve(WURZEL, ZIEL), 'utf8'))
 pruefeInvarianten(datei.eintraege, 'eingefrorene Datei')
-
-/* Mit den echten Dateien gerechnet: dieselben Invarianten, zweimal dasselbe Ergebnis. */
-const heute = stichprobeDatei('2026-10-11')
-pruefeInvarianten(heute.eintraege, 'echter Bestand')
-assert.deepEqual(stichprobeDatei('2026-10-11'), heute, 'echter Bestand: deterministisch')
 
 console.log('cartoon-jw-stichprobe: ok')

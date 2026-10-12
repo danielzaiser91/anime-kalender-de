@@ -43,7 +43,7 @@ QUELLEN=(
   data/luecken-titel.json
   # Stufe B der AniList-Ablösung (10.10.2026): Bau-Messung AniList gegen aniSearch, Feld für Feld; wird nicht ausgeliefert.
   data/anisearch-abweichungen.json
-  # Abgleich Katalog gegen aniSearch-Titelliste (11.10.2026, `fetch-anisearch-katalog-abgleich.ts`): sichere Bindungen und Prüfliste; der Bau liest sie noch nicht.
+  # Abgleich Katalog gegen aniSearch-Titelliste (11.10.2026, `fetch-anisearch-katalog-abgleich.ts`): Bindungen (der Bau liest sie, ein Lauf ergänzt sie nur) und Prüfliste.
   data/anisearch-ids-katalog.json
   data/anisearch-katalog-abgleich.json
   # Stufe C (10.10.2026): Bau-Messung der Reihen aus aniSearch-Beziehungen gegen die franchiseId; wird nicht ausgeliefert.
@@ -54,6 +54,9 @@ QUELLEN=(
   data/sprecher-quellen.json
   data/tmdb-poster.json
   data/tmdb-poster-grund.json
+  # TMDB-Zuordnung der Nur-AniList-Titel (11.10.2026), noch nicht im Bau; die Prüfliste der unsicheren Treffer liegt daneben.
+  data/tmdb-katalog-zuordnung.json
+  daniel-zum-abarbeiten/listen/tmdb-katalog-unsicher.md
   data/tmdb-banner.json
   daniel-zum-abarbeiten/listen/cover-ohne-tmdb.md
   data/kitsu-folgen.json

@@ -37,7 +37,7 @@ import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
-import { ausgeblendet, eintragsInfo, ladeBestand, ladeCartoons, nachRang, regeln } from './pruef-bestand.mjs'
+import { ausgeblendet, brauchtUrteil, eintragsInfo, ladeBestand, ladeCartoons, nachRang, regeln, wartet } from './pruef-bestand.mjs'
 import { nachschlagVon } from './prime-nachschlag.mjs'
 /**
  * **Ein Verdachtsfall ist geprüft und trotzdem offen.**
@@ -170,7 +170,7 @@ for (const t of [...titel, ...ladeCartoons(wurzel)]) {
     const seite = primeSeite(s)
     const asin = seite && kennung(seite)
     if (!asin || ausgeblendet(t, 'primevideo', s)) continue
-    jeAsin.set(asin, [...(jeAsin.get(asin) ?? []), { t, dub: s.dub, dubQuelle: s.dubQuelle, url: seite }])
+    jeAsin.set(asin, [...(jeAsin.get(asin) ?? []), { t, dub: s.dub, dubQuelle: s.dubQuelle, url: seite, wartet: wartet(wurzel, t, 'primevideo', s) }])
   }
 }
 
@@ -272,7 +272,7 @@ for (const [asin, eintraege] of nachRang(jeAsin, 'primevideo')) {
   */
   const verdacht = eintraege.map((e) => verdaechtig.get(e.t?.id ?? e.id)).find(Boolean)
   // Ist unter dieser Adresse schon alles beantwortet, gibt es nichts zu tun.
-  if (!verdacht && eintraege.every((e) => e.dub !== undefined)) continue
+  if (!verdacht && !eintraege.some(brauchtUrteil)) continue
   /* Geprüft ist geprüft — auch wenn kein Urteil daraus wurde (Kanal-Titel). */
   /*
     **Geprüft ist die Adresse, nicht der Titel** (18.09.2026). „Your Name." wurde am
@@ -304,7 +304,7 @@ for (const [asin, eintraege] of nachRang(jeAsin, 'primevideo')) {
       id: e.t.id,
       name: listenName(e.t),
       folgen: e.t.episodes ?? null,
-      offen: e.dub === undefined || Boolean(verdaechtig.get(e.t.id)),
+      offen: brauchtUrteil(e) || Boolean(verdaechtig.get(e.t.id)),
       /* Für den Gegencheck: aniSearch führt zu jedem Titel die Sprachfassungen. */
       ...(e.t.anisearchId ? { asId: e.t.anisearchId } : {}),
       ...nachschlag(e.t),

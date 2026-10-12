@@ -59,8 +59,9 @@ function doppelteSlugs(releases: Release[]): Befund[] {
  * b. Ein Release, dessen `titleId` auf keinen Titel zeigt (Crunchyroll Anime
  * Awards 2021, `cr-GR3K50PZR` mit `titleId -1`).
  *
- * Solche Karten stehen im Kalender, das Panel weiß aber nichts über sie. Der
- * Bau überspringt `titleId < 0` bisher ausdrücklich — hier fallen sie auf.
+ * Solche Karten stehen im Kalender, das Panel weiß aber nichts über sie. Seit dem
+ * 12.10.2026 nimmt der Bau `titleId -1` heraus (`bau/ohne-titel.ts`) und
+ * `invarianten.ts` bricht sonst ab; diese Messung zählt auch die Cartoon-IDs.
  */
 function releasesOhneTitel(releases: Release[], titelIds: Set<number>): Befund[] {
   const befunde: Befund[] = []

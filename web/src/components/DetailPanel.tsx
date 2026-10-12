@@ -1,30 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { DiscAusgabe, Release, Title } from '@shared/types.ts'
-import { addDays, formatDate, todayIso } from '@shared/time.ts'
+import { useMemo, useState } from 'react'
+import type { Release, Title } from '@shared/types.ts'
+import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import type { FranchiseMember, Franchises } from '@shared/types.ts'
-import {
-  anzeigeName,
-  eindeutschenStaffel,
-  hauptstaffeln,
-  staffelBeschriftungen,
-  reihenAnfang,
-  istStaffel,
-  ohneStaffelEins,
-  reihenVertreter,
-} from '@shared/titles.ts'
-import {
-  ladeTitelBestand, loadFranchises,
-  loadDiscAusgaben,
-  loadSynopsis, type Synopsis
-} from '../lib/data.ts'
+import type { FranchiseMember } from '@shared/types.ts'
+import { anzeigeName } from '@shared/titles.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useTeilenAdresse } from './detail/teilen-adresse.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
-import { FORMAT_DE } from '@shared/mappings.ts'
-import {
-  Button, Tooltip
-} from './ui.tsx'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
 import { useTvVorbei } from './detail/tv-vorbei.tsx'
 import { useTerminReleases } from './detail/termin-releases.ts'
@@ -34,7 +16,7 @@ import { titelMitTerminBereichen } from './detail/stream-bereiche.ts'
 import { lueckeOhneAnbieter } from './detail/folgen-ohne-anbieter.ts'
 import { dubZeilenVon } from './detail/dub-zeilen.ts'
 import { DiscEinzelListe } from './detail/pillen.tsx'
-import { jpAngabe, KinoBanner } from './detail/kino.tsx'
+import { KinoBanner } from './detail/kino.tsx'
 import { VoiceCast, AehnlicheTitel } from './detail/weitere.tsx'
 import { berechneAntwort } from './detail/antwort-berechnen.ts'
 import { EckdatenAbschnitt } from './detail/abschnitte.tsx'
@@ -47,7 +29,14 @@ import { UnterDerAntwort } from './detail/unter-der-antwort.tsx'
 import { PanelBuehne } from './detail/buehne.tsx'
 import { sortiereNachZugang } from './detail/wege-sortieren.ts'
 import { SchlagworteAbschnitt } from './detail/Schlagworte.tsx'
-import { plotVon, aussagekraeftig, eigenerAsZiel } from './detail/plot.ts'
+import { plotVon, eigenerAsZiel } from './detail/plot.ts'
+import { reihenTeileVon, useReihe } from './detail/reihen-daten.ts'
+import { reihenNameVon, teilNameVon } from './detail/reihen-namen.ts'
+import { kastenNotizVon, kaufausgabeZeileVon, wegeHinweisVon } from './detail/kasten-hinweise.ts'
+import { useErsatzHandlung } from './detail/ersatz-handlung.ts'
+import { PanelLeer, PanelVersteckt } from './detail/panel-huellen.tsx'
+import { useDiscAusgaben, useEscapeSchliesst, useSynopse, useTitelNachladen, useWechsleZu } from './detail/panel-laden.ts'
+import { unterzeileVon, useBuehnenBild, useKinoRelease, WertungPille } from './detail/panel-werte.tsx'
 
 export function DetailPanel({
   data,
@@ -88,146 +77,17 @@ export function DetailPanel({
    * rechnet dann bei jedem Render neu, statt sich das Ergebnis zu merken.
    */
   const releases = useMemo(() => data.releasesByTitle.get(titleId) ?? [], [data, titleId])
-  const [synopsis, setSynopsis] = useState<Synopsis | undefined>()
   const [allKeywords, setAllKeywords] = useState(false)
   /** Die ersten drei Genres reichen fuer die Frage "ist das meins?". */
   const [genresOffen, setGenresOffen] = useState(false)
   const [plotOffen, setPlotOffen] = useState(false)
-  const [discAusgaben, setDiscAusgaben] = useState<DiscAusgabe[]>([])
-  const [discOffen, setDiscOffen] = useState(false)
+  const { discAusgaben, discOffen, setDiscOffen } = useDiscAusgaben(titleId)
+  const synopsis = useSynopse(titleId, title, setAllKeywords, setPlotOffen)
+  useEscapeSchliesst(onClose)
 
-  useEffect(() => {
-    let alive = true
-    setDiscAusgaben([])
-    setDiscOffen(false)
-    loadDiscAusgaben(titleId)
-      .then((a) => {
-        if (alive) setDiscAusgaben(a)
-      })
-      .catch(() => {})
-    return () => {
-      alive = false
-    }
-  }, [titleId])
+  const reihe = useReihe(title)
 
-  useEffect(() => {
-    let alive = true
-    setSynopsis(undefined)
-    /* Cartoons (negative Kennung) tragen ihre Beschreibung im Titel — für sie gibt es keine Gruppendatei (16.09.2026). */
-    if (titleId < 0) {
-      setSynopsis(title?.synopsis ? { de: title.synopsis } : undefined)
-    } else {
-      loadSynopsis(titleId)
-        .then((s) => {
-          if (alive) setSynopsis(s)
-        })
-        .catch(() => {})
-    }
-    setAllKeywords(false)
-    setPlotOffen(false)
-    return () => {
-      alive = false
-    }
-  }, [titleId, title?.synopsis])
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [onClose])
-
-  /**
-   * Die ganze Reihe — Staffeln, Filme und Specials.
-   *
-   * Kommt aus `franchises.json`, nicht aus `data.titles`. Dort stehen im
-   * Kalender nur die 133 Titel **mit Termin**; „That Time I Got Reincarnated as
-   * a Slime" zeigte deshalb allein Staffel 4 als verwandten Eintrag, „I've Been
-   * Killing Slimes" gar nichts, obwohl es eine zweite Staffel gibt (gemeldet
-   * von Daniel, 12.08.2026).
-   */
-  const [franchises, setFranchises] = useState<Franchises>({})
-  useEffect(() => {
-    let alive = true
-    loadFranchises().then((f) => {
-      if (alive) setFranchises(f)
-    })
-    return () => {
-      alive = false
-    }
-  }, [])
-
-  const reihe: FranchiseMember[] = useMemo(() => {
-    if (!title) return []
-    return franchises[title.franchiseId ?? title.id] ?? []
-  }, [franchises, title])
-
-  /**
-   * Alle Kennungen der Reihe — aus zwei Quellen zusammengeführt.
-   *
-   * `franchises.json` deckt nur den gepflegten Bestand ab. Titel **ohne**
-   * deutsche Synchro stehen dort nicht, gehören aber zur selben Reihe: „Link
-   * Click" hat sieben Teile und keinen einzigen mit Synchro. Der zweite Weg
-   * geht deshalb über das, was die Anwendung ohnehin geladen hat — wer im
-   * Detail-Panel steht, hat die passende Liste vorher geöffnet.
-   */
-  /**
-   * Alle Teile der Reihe als Karten — aus **beiden** Beständen.
-   *
-   * `franchises.json` deckt nur den gepflegten Bestand ab. Titel ohne deutsche
-   * Synchro stehen dort nicht, gehören aber zur selben Reihe: „Link Click" hat
-   * sieben Teile und keinen einzigen mit Synchro — der Umschalter fehlte dort
-   * deshalb ganz, obwohl die Kachel korrekt gebündelt war.
-   *
-   * Die zweite Quelle ist das, was die Anwendung ohnehin geladen hat. Wer im
-   * Detail-Panel steht, hat die passende Liste vorher geöffnet; im Kalender
-   * fehlen die Cover mancher Teile, dafür trägt `franchises.json` sie bei.
-   */
-  const reihenTeile: FranchiseMember[] = useMemo(() => {
-    if (!title) return []
-    const wurzel = title.franchiseId ?? title.id
-    const teile = new Map<number, FranchiseMember>()
-    for (const m of reihe) teile.set(m.id, m)
-    for (const t of data.titleById.values()) {
-      if ((t.franchiseId ?? t.id) !== wurzel) continue
-      const bisher = teile.get(t.id)
-      /*
-        **Was `franchises.json` sagt, gewinnt — und zwar vollständig.**
-
-        Feld für Feld aufzuzählen hieß: Jedes Feld, das später dazukommt,
-        fehlt hier. Bei „Lord of Mysteries" fielen so `beiwerk`, `jpStart`
-        und `jpStatus` heraus, sobald `titles.json` nachgeladen war — die
-        Specials standen zwei Sekunden lang richtig unter „Specials" und
-        danach unter „Hauptserie".
-
-        Der Titel liefert deshalb nur noch die Vorgabe; der Eintrag der
-        Reihe liegt darüber. Fehlende Felder stehen in der Datei gar nicht
-        erst, überschreiben also nichts.
-      */
-      teile.set(t.id, {
-        id: t.id,
-        name: t.titleDe ?? t.titleEn ?? t.titleRomaji ?? `#${t.id}`,
-        format: t.format,
-        jpYear: t.jpYear,
-        episodes: t.episodes,
-        cover: t.coverImage,
-        ...bisher,
-      })
-    }
-    if (!teile.has(title.id)) {
-      teile.set(title.id, {
-        id: title.id,
-        name: anzeigeName(title),
-        format: title.format,
-        jpYear: title.jpYear,
-        episodes: title.episodes,
-        cover: title.coverImage,
-      })
-    }
-    // Nach Ausstrahlung: erst das Jahr, dann die Kennung als stabiler Zweitschlüssel.
-    return [...teile.values()].sort((a, b) => (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id)
-  }, [title, reihe, data])
+  const reihenTeile: FranchiseMember[] = useMemo(() => reihenTeileVon(title, reihe, data), [title, reihe, data])
 
   /**
    * Der eigene Eintrag in der Reihe — er trägt Felder, die `titles.json` nicht
@@ -239,124 +99,11 @@ export function DetailPanel({
     [reihenTeile, title],
   )
 
-  /**
-   * Das Banner des Titels — oder geliehen von einem Teil der Reihe, der eines hat.
-   *
-   * Ohne den Rückfall verschwindet der Kopf beim Umschalten auf ein Special und
-   * kommt beim Zurückschalten wieder; das Panel springt dabei um 112 Pixel.
-   */
-  /**
-   * Das Bild der Bühne — seit dem 24.08.2026 das **Cover**, nicht das Banner.
-   *
-   * Gemessen: Alle 2.762 Titel haben ein `coverImage`, aber nur 2.111 ein
-   * `bannerImage`. Bei 651 Titeln stand oben deshalb ein leerer Farbverlauf.
-   * Das Cover trägt außerdem das, was ein Zuschauer wiedererkennt — es ist das
-   * Bild, das auch auf einer Hülle stünde.
-   *
-   * Der frühere Rückfall „Banner von einem Reihenteil leihen" entfällt: Er war
-   * nötig, weil der Kopf beim Umschalten auf ein Special um 112 Pixel sprang.
-   * Mit dem Cover tritt der Fall nicht mehr ein.
-   */
-  const buehnenBild: string | undefined = useMemo(() => {
-    if (!title) return undefined
-    if (title.coverImage) return title.coverImage
-    // Sollte nie greifen — steht als Netz für einen künftigen Titel ohne Cover.
-    for (const m of reihenTeile) {
-      const t = data.titleById.get(m.id)
-      if (t?.coverImage) return t.coverImage
-    }
-    return undefined
-  }, [title, reihenTeile, data])
+  const buehnenBild = useBuehnenBild(title, reihenTeile, data)
 
-  /**
-   * Wie die Reihe heißt — nicht, wie die gerade gewählte Staffel heißt.
-   *
-   * Im Kopf stand vorher „That Time I Got Reincarnated as a Slime Season 4",
-   * während vier Zeilen darunter „… Staffel 4" stand: dasselbe zweimal, einmal
-   * auf Englisch. Der Kopf nennt jetzt die Reihe, die Staffel steht im
-   * Umschalter darunter.
-   */
-  const reihenName = useMemo(() => {
-    if (!title) return ''
-    if (reihe.length < 2) return anzeigeName(title)
-    const vertreter = reihenVertreter(reihe.map((m) => ({ ...m, id: m.id })))
-    const kopf = ohneStaffelEins(vertreter.name)
-    const kopfIstDeutsch = data.titleById.get(vertreter.id)?.titleDe === vertreter.name
-    /* Der erste Teil nennt oft sich selbst, nicht die Reihe — siehe `reihenAnfang()`. */
-    return reihenAnfang(kopf, reihe.map((m) => m.name), kopfIstDeutsch)
-  }, [reihe, title, data])
+  const reihenName = useMemo(() => reihenNameVon(title, reihe, data), [reihe, title, data])
 
-  /**
-   * Was diesen Teil von der Reihe unterscheidet — „Staffel 3", „Der Film".
-   *
-   * Steht unter dem Karussell an der Stelle, an der vorher noch einmal der
-   * Reihenname stand. Der Grund: Welcher Teil gerade offen ist, war allein am
-   * blauen Rahmen einer von acht Vorschaukarten zu erkennen, und das ging unter.
-   * Der Unterschied ist die wichtigste Auskunft im Kopf,
-   * also steht er im Klartext und am größten.
-   *
-   * Ermittelt wird er durch Abzug: Was am Namen des Teils über den Reihennamen
-   * hinausgeht, ist das Unterscheidende. Bleibt nichts übrig — der Teil heißt
-   * genau wie die Reihe, typisch für die erste Staffel —, treten Format und
-   * Jahr an seine Stelle, denn „2023" unterscheidet immer noch.
-   *
-   * **Nur innerhalb einer Reihe.** Bei einem Titel, der allein steht, gibt es
-   * nichts zu unterscheiden, und der Rückfall auf das Jahr wird zur Absurdität:
-   * Über „Banana Fish" stand am 15.08.2026 in großer, fetter Schrift „2018".
-   * Deshalb prüft die Ausgabestelle zusätzlich, ob die Reihe überhaupt mehr als
-   * einen Teil hat.
-   */
-  const teilName = useMemo(() => {
-    if (!title) return ''
-    const voll = eindeutschenStaffel(anzeigeName(title))
-    let rest = voll.toLowerCase().startsWith(reihenName.toLowerCase())
-      ? voll.slice(reihenName.length).replace(/^[\s:–—-]+/, '').trim()
-      : voll
-    /*
-      **Trägt der Name einen fremden Reihennamen, zählt nur die Staffelangabe.**
-
-      Über „Staffel 3 Teil 2" stand im Kopf „Kusuriya no Hitorigoto Staffel 3
-      Teil 2", in der Liste darunter korrekt „Staffel 3 Teil 2" — bei Teil 1
-      stimmten beide. Der Grund ist der Abzug oben: Für
-      Teil 2 kennen wir keinen deutschen Namen, der Titel beginnt deshalb nicht
-      mit unserem Reihennamen, und der Abzug greift nicht.
-
-      Die Liste zieht dieselbe Regel seit dem 03.09.2026 — der Kopf nicht, und
-      damit stand derselbe Teil an zwei Stellen verschieden da. Welche Reihe
-      gemeint ist, sagt die Zeile darüber; einen deutschen Namen erfindet auch
-      diese Regel nicht.
-
-      **Nur bei einer Staffel.** Beim Beiwerk ist der fremde Reihenname gerade
-      das Unterscheidende — „Maomao no Hitorigoto Staffel 2" ist nicht die
-      zweite Staffel der Hauptserie.
-    */
-    const staffelTeil = /(?:^|\s)(Staffel\s+\d+(?:\s*[-–—]?\s*Teil\s+\d+)?)\s*$/i.exec(rest)
-    /* Nur ein fremder Name (rest === voll) wird gekürzt — „Pokémon: Schwarz & Weiß Staffel 2" behält „Schwarz & Weiß" (17.09.2026). */
-    if (istStaffel(title.format) && staffelTeil && rest === voll && rest !== staffelTeil[1] && staffelBeschriftungen(hauptstaffeln(reihenTeile), reihenName).has(title.id)) rest = staffelTeil[1]!
-    /**
-     * Bleibt nichts übrig, heißt der Teil wie die Reihe — dann steht auch der
-     * volle Name hier, und die Ausgabestelle unterdrückt die Zeile als
-     * Wiederholung.
-     *
-     * Vorher trat hier Format und Jahr an die Stelle des Namens, und über
-     * „Fairy Tail" stand in großer Schrift „2009" (Daniel, 15.08.2026 — schon
-     * das zweite Mal, nachdem bei Banana Fish „2018" dort stand). Eine nackte
-     * Jahreszahl als Überschrift beantwortet keine Frage; welcher Teil gewählt
-     * ist, zeigt das Karussell.
-     */
-    /*
-      **Staffel und Teil kommen aus derselben Zählung wie in der Liste.**
-
-      Über Mushoku Tensei Staffel 3 stand „Staffel 5": Gezählt wurde die
-      Position unter allen Fernsehstaffeln, und AniList führt die beiden
-      zweiten Hälften („Cour 2") als eigene Einträge.
-      `staffelBeschriftungen()` ordnet einen Teil seiner Staffel zu.
-    */
-    const beschriftung = staffelBeschriftungen(hauptstaffeln(reihenTeile), reihenName).get(title.id)
-    if (beschriftung) return beschriftung
-    if (rest) return rest
-    return voll
-  }, [title, reihenName, reihenTeile])
+  const teilName = useMemo(() => teilNameVon(title, reihenName, reihenTeile), [title, reihenName, reihenTeile])
 
   /*
     Vorher stand hier eine Zählung nach Position, mit dieser Begründung — sie
@@ -383,12 +130,7 @@ export function DetailPanel({
       Zeile bleibt weg wie bisher.
   */
 
-  /**
-   * Beim Wechsel auf eine Staffel ohne Termin fehlen die Metadaten — die liegen
-   * in `titles.json`, das im Kalender nicht geladen ist. Erst holen, dann
-   * öffnen, sonst zeigt das Panel „keine Metadaten".
-   */
-  const [wechselt, setWechselt] = useState(false)
+  const { wechselt, wechsleZu } = useWechsleZu(data, titleId, onOpenTitle)
   /*
     **Lange Reihen brauchen Reiter, Suche und einen Aufklapper** (Daniel, 17.09.2026, Pokémon
     mit 112 Teilen: „sehr schwer dort für nutzer gesuchte titel der reihe zu finden").
@@ -399,27 +141,7 @@ export function DetailPanel({
   const [reiheSuche, setReiheSuche] = useState<{ reihe: number; text: string }>({ reihe: 0, text: '' })
   const [reiheOhneOffen, setReiheOhneOffen] = useState<number | null>(null)
 
-  /**
-   * **Ein Titel, den der Kern nicht kennt, wird nachgeladen.**
-   *
-   * `titles-core.json` führt nur, worauf ein Termin zeigt — ein Reihenteil ohne
-   * deutschen Termin steht dort nicht. Beim Einstieg über eine geteilte Adresse
-   * ist das der Unterschied zwischen dem Panel und einer Fehlermeldung.
-   *
-   * Genau einmal je Kennung: `versucht` merkt sich, wofür schon geladen wurde,
-   * damit ein wirklich unbekannter Titel nicht in eine Schleife läuft.
-   */
-  const [holt, setHolt] = useState(false)
-  const versucht = useRef<number | undefined>(undefined)
-  useEffect(() => {
-    if (data.titleById.has(titleId) || versucht.current === titleId) return
-    versucht.current = titleId
-    setHolt(true)
-    ladeTitelBestand(data, titleId)
-      .catch(() => {})
-      .finally(() => setHolt(false))
-  }, [data, titleId])
-
+  const holt = useTitelNachladen(data, titleId)
 
   /**
    * Streaming, aufgeteilt nach dem, was es kostet.
@@ -483,21 +205,7 @@ export function DetailPanel({
     for (const r of releases) if (!je.has(r.platform)) je.set(r.platform, r)
     return je
   }, [releases])
-  /*
-    **Der Kinostart steht im Banner, nicht als Pille** (17.09.2026). Gezeigt wird er,
-    solange er läuft (belegter letzter Spieltag) oder bevorsteht — und bis 60 Tage nach
-    dem Start, solange niemand ein Ende belegt hat.
-  */
-  const kinoRelease = useMemo(
-    () =>
-      releases
-        .filter((r) => r.platform === 'kino' && r.schedule?.firstEpisodeDate)
-        .filter((r) =>
-          r.cinemaUntil ? r.cinemaUntil >= today : r.schedule!.firstEpisodeDate! >= addDays(today, -60),
-        )
-        .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0],
-    [releases, today],
-  )
+  const kinoRelease = useKinoRelease(releases, today)
   const terminReleases = useTerminReleases(releases, title, kinoRelease?.slug, today)
   /* Führt der Titel den Anbieter schon als Link, steht dort dessen Pille; der Termin allein erst vor der ersten Folge. */
   const streamReleases = useMemo(
@@ -541,34 +249,6 @@ export function DetailPanel({
   /* Die Folgenangabe kommt aus `detail/folgen-angabe.ts` (Zerlegung, 29.09.2026) — einmal gebunden. */
   const folgenAngabeFuer = folgenAuskunft({ releases, title, t, releaseJePlattform, today })
 
-  const wechsleZu = (id: number) => {
-    if (id === titleId) return
-    if (data.titleById.has(id)) {
-      onOpenTitle(id)
-      return
-    }
-    setWechselt(true)
-    /*
-      **Beide Bestände holen, nicht nur den Hauptbestand.**
-
-      Seit die Reihenliste auch die Teile aus dem Katalog zeigt, kann der Klick
-      auf einen davon fallen: `loadAllTitles` lädt `titles.json`, und dort steht
-      ein Titel ohne belegte Synchro nicht. Das Panel meldete dann „Zu diesem
-      Eintrag liegen keine Metadaten vor" — und derselbe Klick funktionierte,
-      sobald der Toggle den Katalog geladen hatte.
-
-      Ein Eintrag, den die Liste zeigt, muss sich auch öffnen lassen. Beide
-      Ladewege sind gegen Mehrfachaufrufe gesichert und tun beim zweiten Mal
-      nichts, das Paar kostet also nur beim ersten Wechsel etwas.
-    */
-    ladeTitelBestand(data, id)
-      .catch(() => {})
-      .finally(() => {
-        setWechselt(false)
-        onOpenTitle(id)
-      })
-  }
-
   /**
    * Die Antwort auf die Frage, wegen der jemand dieses Panel öffnet.
    *
@@ -593,88 +273,13 @@ export function DetailPanel({
     // `today` steht in der Abhängigkeitsliste, weil `titleStatus` es benutzt.
   }, [title, releases, today])
 
-  /*
-    **Der Disc-Termin, den der Kopf nicht mehr trägt.**
+  const kaufausgabeZeile = useMemo(() => kaufausgabeZeileVon({ title, releases, today, antwort, t }), [title, releases, today, antwort, t])
 
-    Nur wenn die Antwort oben aus den Streams kommt (also kein Disc-Zustand
-    ist) und es wirklich eine künftige Kaufausgabe gibt. Sonst stünde die Zeile
-    neben einer Überschrift, die dasselbe Datum schon nennt.
-  */
-  const kaufausgabeZeile = useMemo(() => {
-    if (!title || antwort?.art === 'disc') return undefined
-    const naechste = releases
-      .filter((r) => r.releaseType === 'disc' && (r.schedule?.firstEpisodeDate ?? '') > today)
-      .sort((a, b) => (a.schedule?.firstEpisodeDate ?? '').localeCompare(b.schedule?.firstEpisodeDate ?? ''))[0]
-    if (!naechste?.schedule?.firstEpisodeDate) return undefined
-    const label = naechste.publisher ?? naechste.edition
-    const datum = formatDate(naechste.schedule.firstEpisodeDate)
-    return label
-      ? t('antwort.kaufausgabeAm', { datum, label })
-      : t('antwort.kaufausgabeAmOhne', { datum })
-  }, [title, releases, today, antwort, t])
-
-  /*
-    **Kein Weg bekannt — der Satz steht im Kasten.** Kein Satz, wenn es Wege gibt, bei einem Titel ohne
-    deutsche Fassung (steht schon oben) oder während eines Kinolaufs (entschieden am belegten letzten
-    Spieltag). Ein angekündigter Kinofilm bekommt statt dessen, was der Stern bringt.
-  */
-  const wegeHinweis =
-    title && antwort?.art === 'kino'
-      ? /*
-          Steht der deutsche Kinostart schon fest (dann ohne Synchro, sonst wäre
-          es ein Release), wartet der Stern auf die deutsche Fassung.
-        */
-        antwort.deTermin
-        ? favorites.has(title.id)
-          ? t('antwort.kinoGemerktFassung')
-          : verbindung.verbunden
-            ? t('antwort.kinoMerkenFassungMail', { mail: verbindung.mail ?? '' })
-            : t('antwort.kinoMerkenFassung')
-        : favorites.has(title.id)
-          ? t('antwort.kinoGemerkt')
-          : verbindung.verbunden
-            ? t('antwort.kinoMerkenMail', { mail: verbindung.mail ?? '' })
-            : t('antwort.kinoMerken')
-      : title &&
-    title.streams.length === 0 &&
-    (title.watchLinks?.length ?? 0) === 0 &&
-    (title.hasVoices || antwort?.art !== 'ohne') &&
-    /* Ein Film ohne Synchro sagt „Kein deutscher Anbieter führt ihn bisher" schon im Kasten (Stichprobe 17.09.2026). */
-    !(antwort?.art === 'film' && !antwort.hatSynchro && !title.hasVoices) &&
-    !releases.some(
-      (r) =>
-        r.platform === 'kino' &&
-        (r.cinemaUntil
-          ? r.cinemaUntil >= today
-          : (r.schedule?.firstEpisodeDate ?? '') >= today),
-    )
-      ? t(title.hasVoices ? 'detail.whereDubbedButGone' : 'detail.whereUnknown')
-      : undefined
+  const wegeHinweis = wegeHinweisVon({ title, antwort, favorites, verbindung, releases, today, t })
 
   const tvVorbei = useTvVorbei(wegeHinweis, streamReleases, releases, today)
 
-  /*
-    **Welche Notiz gilt?** Die des Releases, dessen Termin oben steht.
-
-    Bei mehreren Releases je Titel ist das der nächste künftige, sonst der
-    zuletzt erschienene — dieselbe Wahl, die der Kasten für sein Datum trifft.
-  */
-  const kastenNotiz = useMemo(() => {
-    const mitNotiz = releases.filter(
-      (r) =>
-        r.note &&
-        /* Die Notiz des Kinostarts steht im Banner darüber. */
-        !(r.platform === 'kino' && (r.cinemaUntil ? r.cinemaUntil >= today : (r.schedule?.firstEpisodeDate ?? '') >= addDays(today, -60))),
-    )
-    if (!mitNotiz.length) return undefined
-    const kuenftig = mitNotiz
-      .filter((r) => (r.schedule?.firstEpisodeDate ?? '') >= today)
-      .sort((a, b) => (a.schedule?.firstEpisodeDate ?? '').localeCompare(b.schedule?.firstEpisodeDate ?? ''))
-    const vergangen = mitNotiz
-      .filter((r) => (r.schedule?.firstEpisodeDate ?? '') < today)
-      .sort((a, b) => (b.schedule?.firstEpisodeDate ?? '').localeCompare(a.schedule?.firstEpisodeDate ?? ''))
-    return kuenftig[0] ?? vergangen[0]
-  }, [releases, today])
+  const kastenNotiz = useMemo(() => kastenNotizVon(releases, today), [releases, today])
 
   /* Welche Folgen bei keinem bekannten Anbieter liegen — Begründung in `lueckeOhneAnbieter`. */
   const folgenLuecke = useMemo(
@@ -685,159 +290,17 @@ export function DetailPanel({
   const folgenImKasten =
     (antwort?.art === 'laeuft' && Boolean(antwort.gesamt)) || (antwort?.art === 'fertig' && (antwort.gesamt ?? 0) > 1) || antwort?.art === 'teilweise'
 
-  /** Die Werkangaben der Unterzeile — leer heißt: kein Kasten. */
-  const unterzeile = !title
-    ? []
-    : [
-        title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
-        title.episodes && title.episodes > 1 && !folgenImKasten
-          ? `${title.episodes} ${t('detail.episodes')}`
-          : undefined,
-        jpAngabe(eigenerTeil?.jpStart ?? (title.westlich ? title.jpStart : undefined), title.jpYear, title.land),
-        title.studios?.[0],
-      ].filter(Boolean)
+  const unterzeile = unterzeileVon(title, eigenerTeil, folgenImKasten, t('detail.episodes'))
 
-  /*
-    **Eine Staffel, die noch nicht läuft, hat keine Handlung — die Reihe schon.**
+  const ersatz = useErsatzHandlung({ titleId, title, synopsis, reihenTeile })
 
-    aniSearch und AniList führen künftige Staffeln ohne Inhaltsangabe, und das
-    ist richtig so: Niemand kann erzählen, was noch nicht gesendet wurde. Auf
-    der Seite blieb dafür eine leere Fläche — bei einem Titel, den gerade
-    deshalb jemand aufschlägt, weil er ihn noch nicht kennt.
-
-    Also zeigen wir die Handlung des letzten Teils, den es wirklich gibt. Daniel
-    am 04.09.2026: „für zukünftige staffeln können wir hinweistext ‚noch nicht
-    erschienen, handlung der vorherigen staffel:' … oder ‚der zuletzt
-    erschienenen staffel'".
-
-    **Gesucht wird rückwärts, nicht der direkte Vorgänger** — auch das seine
-    Beobachtung: „wenn man cour 2 anklickt, wäre letzte ja cour 1 und dort steht
-    auch keine handlung". Bei einer Staffel, die in zwei Cours zerfällt, ist der
-    Vorgänger genauso leer wie sie selbst. Die Schleife geht deshalb so weit
-    zurück, bis ein Teil eine Handlung trägt, und der Hinweis nennt ihn beim
-    Namen — sonst liest jemand die Handlung von Staffel 1 und hält sie für die
-    von Staffel 3.
-  */
-  const [ersatz, setErsatz] = useState<{ plot: Synopsis; von: FranchiseMember } | undefined>()
-  useEffect(() => {
-    let alive = true
-    setErsatz(undefined)
-    if (synopsis?.de || synopsis?.en) return
-    /*
-      **Eine Staffel schlägt einen Film — auch einen neueren.**
-
-      Bei „Black Clover" Staffel 2 stand als Ersatz die Handlung von „Sword of
-      the Wizard King" (2023), weil der Film jünger ist als Staffel 1 (2017).
-      Daniel hatte aber „die handlung der zuletzt erschienenen **staffel**"
-      verlangt, und das ist auch die brauchbarere Auskunft: Ein Film erzählt
-      eine abgeschlossene Nebengeschichte, die Serie den Strang, den eine
-      Fortsetzung aufnimmt.
-    */
-    const vorher = reihenTeile
-      .filter((m) => m.id !== titleId && (m.jpYear ?? 9999) <= (title?.jpYear ?? 9999))
-      .sort(
-        (a, b) =>
-          Number(istStaffel(b.format)) - Number(istStaffel(a.format)) ||
-          (b.jpYear ?? 0) - (a.jpYear ?? 0) ||
-          b.id - a.id,
-      )
-    ;(async () => {
-      for (const m of vorher) {
-        const s = await loadSynopsis(m.id).catch(() => undefined)
-        if (!alive) return
-        if (aussagekraeftig(s)) {
-          setErsatz({ plot: s, von: m })
-          return
-        }
-      }
-    })()
-    return () => {
-      alive = false
-    }
-  }, [titleId, synopsis, reihenTeile, title])
-
-  /** Die Wertung als Pille — steht neben dem Staffelnamen; Quelle aniSearch, bei Cartoons TMDB. */
   const bewertung =
     title?.score !== undefined ? (
-      <Tooltip text={t('detail.scoreHint', { quelle: title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch' })} seite="oben">
-        <span className="inline-flex shrink-0 cursor-help items-baseline gap-1 rounded bg-slate-200/70 px-1.5 py-0.5 text-[11px] dark:bg-white/10">
-          <span className="font-normal text-slate-500 dark:text-slate-400">{title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch'}</span>
-          {/* Der Stern macht auf einen Blick klar, dass es eine Wertung ist und
-              keine Folgenzahl. */}
-          <span className="text-amber-400" aria-hidden="true">
-            ★
-          </span>
-          <span className="font-semibold tabular-nums">{(title.score / 10).toFixed(1)}</span>
-        </span>
-      </Tooltip>
+      <WertungPille title={title} hinweis={t('detail.scoreHint', { quelle: title.scoreQuelle === 'tmdb' ? 'TMDB' : 'aniSearch' })} />
     ) : null
 
-  if (!title) {
-    /*
-      **`overscroll-contain` nur mit Maus: Am Ende des Panels hört das Scrollen auf.**
-
-      Sonst reicht der Browser das Rad an den Kalender dahinter weiter. Auf
-      Touch-Geräten würde dieselbe Klasse das Neuladen per Herunterwischen
-      verhindern — dort deckt das Panel die Seite ohnehin ganz ab. Dieselbe Klasse
-      trägt die zweite Panel-Hülle. Die inneren Rollbereiche (Pillenreihe,
-      Reihenliste) tragen sie nicht: Am Ende der Liste soll das Panel
-      weiterscrollen, nur die Seite dahinter nicht.
-    */
-    return (
-      <aside className="fixed inset-y-0 right-0 z-40 w-full max-w-lg overflow-y-auto pointer-fine:overscroll-contain border-l border-slate-200 bg-white p-4 dark:border-white/10 dark:bg-[#0d1220]">
-        {/*
-          **Nachladen statt aufgeben — die Adresse muss teilbar sein.**
-
-          Der Erstaufruf lädt nur `titles-core.json`: die Titel, auf die ein
-          Termin zeigt. Wer die Adresse eines Teils **ohne** Termin öffnet oder
-          neu lädt — `#/woche?t=161802`, „Der Traum von Coleus" —, traf damit auf
-          „Zu diesem Eintrag liegen keine Metadaten vor" (Daniel, 04.09.2026:
-          „die url … ist nicht teilbar. fix das").
-
-          Beim Wechsel **innerhalb** des Panels wurde schon nachgeladen; nur beim
-          Einstieg von außen fehlte derselbe Griff. Der Ladehinweis steht so
-          lange, bis beide Bestände da sind — danach entscheidet erst, ob es den
-          Titel wirklich nicht gibt.
-        */}
-        <p className="mb-3 text-sm text-slate-500">
-          {holt ? t('detail.seasonLoading') : t('detail.noMeta')}
-        </p>
-        <Button onClick={onClose} size="sm">
-          {t('detail.close')}
-        </Button>
-      </aside>
-    )
-  }
-
-  // Ausgeblendet: Auch das Detail bleibt zu. Über die Kacheln kommt man ohnehin
-  // nicht mehr hierher, aber ein geteilter Link oder ein Lesezeichen schon —
-  // und dann soll nicht doch alles zu sehen sein, was jemand weggeklickt hat.
-  if (hidden.has(title.id)) {
-    return (
-      <>
-        <div className="fixed inset-0 z-30 cursor-pointer bg-black/40 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
-        <div
-          className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col justify-center gap-4 border-l border-slate-200 bg-white p-6 text-center shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
-          role="dialog"
-          data-panel="titel"
-          aria-label={anzeigeName(title)}
-        >
-          <p className="text-base font-medium italic text-slate-400 dark:text-slate-500">
-            {anzeigeName(title)}
-          </p>
-          <p className="text-sm text-slate-500 dark:text-slate-400">{t('detail.hiddenNote')}</p>
-          <div className="flex justify-center gap-2">
-            <Button onClick={() => onToggleHidden(title.id)} size="sm">
-              {t('card.unhide')}
-            </Button>
-            <Button onClick={onClose} size="sm">
-              {t('detail.close')}
-            </Button>
-          </div>
-        </div>
-      </>
-    )
-  }
+  if (!title) return <PanelLeer holt={holt} t={t} onClose={onClose} />
+  if (hidden.has(title.id)) return <PanelVersteckt title={title} t={t} onClose={onClose} onToggleHidden={onToggleHidden} />
 
 
   // Handlung auf Deutsch; fehlt sie, lieber den englischen Text mit Hinweis

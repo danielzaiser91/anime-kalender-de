@@ -2,14 +2,10 @@
  * Zusicherungen zu den geteilten Crunchyroll-Seiten (`lib/cr-teilseiten.ts`, `bau/09-7-cr-teilseiten.ts`): Fenster je Titel über
  * Folgentitel (auch mit eingeschobener Zusammenfassung) oder über die Folgenzahl, nur bei Eindeutigkeit; sonst ein Grund für die
  * Prüfliste. Die Seiten sind den echten nachgebaut (Re:ZERO 25 = 13 + 12, Attack on Titan Staffel 3 mit durchgezählten Nummern).
- * Läuft in `check:logic`.
+ * Läuft in `check:logic`; der Bestandsteil steht in `check-cr-teilseiten-bestand.ts`.
  */
-import { existsSync } from 'node:fs'
-import { readJson } from './lib/util.ts'
 import { bereicheImFenster, ordneSeiteZu, type CrPosition, type Fenster, type UnserTitel, type Urteil } from './lib/cr-teilseiten.ts'
-import { PRUEFLISTE } from './bau/09-7-cr-teilseiten.ts'
-import type { TeilseitenPruefung } from './lib/teilseiten.ts'
-import type { Title } from '../shared/types.ts'
+import { nurAusgelieferte } from './bau/pruefliste-bereinigen.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info: unknown = ''): void {
@@ -109,20 +105,10 @@ gemischt[4]!.deutsch = false
 const b = bereicheImFenster({ positionen: [0, 1, 2, 3, 4, 5], quelle: 'zahl' }, gemischt).map((x) => `${x.from}-${x.to}`).join()
 pruefe('Lücken in der deutschen Fassung bleiben Lücken', b === '1-1,3-4,6-6', b)
 
-// Echter Bestand (nach einem Bau): Bereiche liegen in unserer Zählung, die Prüfliste nennt nur vorhandene Titel.
-const OUT = 'public/data/titles.json'
-if (existsSync(OUT)) {
-  const titel = new Map(readJson<Title[]>(OUT, []).map((t) => [t.id, t]))
-  const crGeteilt = [...titel.values()].flatMap((t) => t.streams.filter((s) => s.platform === 'crunchyroll' && s.sharedWith && s.dubRanges?.length).map((s) => ({ t, s })))
-  const ueber = crGeteilt.filter(({ t, s }) => !t.episodes || s.dubRanges!.some((r) => r.from < 1 || r.to < r.from || r.to > t.episodes!))
-  pruefe('Bestand: Bereiche geteilter Crunchyroll-Seiten liegen in 1 bis Folgenzahl', ueber.length === 0, ueber.map((x) => x.t.id).slice(0, 10).join())
-  const liste = readJson<TeilseitenPruefung[]>(PRUEFLISTE, [])
-  // Titel, die ein späterer Bauschritt in den Katalog verschiebt (Specials, Zusammenfassungen), sind ebenfalls vorhanden.
-  const katalog = new Set(readJson<Title[]>('public/data/ohne-synchro.json', []).map((t) => t.id))
-  const fremd = liste.filter((p) => !(titel.has(p.titleId) || katalog.has(p.titleId)) || !p.grund.length)
-  pruefe('Bestand: die Prüfliste nennt nur vorhandene Titel mit Grund', fremd.length === 0, fremd.map((p) => p.titleId).slice(0, 10).join())
-  pruefe('Bestand: kein Titel steht mit Bereich und auf der Prüfliste', liste.every((p) => !crGeteilt.some(({ t, s }) => t.id === p.titleId && s.url === p.url)))
-}
+// 7. Eine Zeile, die der Dublettenabgleich entfernt hat, bleibt nicht auf der Prüfliste (JJK Kouhen, 12.10.2026)
+const eintrag = (titleId: number) => ({ titleId, titel: 'x', url: 'u', grund: 'g' })
+const bereinigt = nurAusgelieferte([eintrag(1), eintrag(10021915)], new Set([1])).map((p) => p.titleId).join()
+pruefe('Prüfliste: ein entfallener Titel wird gestrichen, ein vorhandener bleibt', bereinigt === '1', bereinigt)
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den geteilten Crunchyroll-Seiten verletzt`)

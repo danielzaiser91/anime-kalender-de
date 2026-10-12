@@ -1,8 +1,7 @@
 /**
  * Zusicherung zur Kachelzahl (Daniel, 11.10.2026): Ein Titel + Weg + Tag ergibt höchstens eine Kachel, wenn dort ein
- * Staffelstart liegt — die Start-Kachel trägt die weiteren Folgen des Tages als „+N Folgen". Aufruf: `npm run check:logic`.
+ * Staffelstart liegt — die Start-Kachel trägt die weiteren Folgen des Tages als „+N Folgen". Aufruf: `npm run check:logic`; der Bestandsteil steht in `check-kachel-buendel-bestand.ts`.
  */
-import { readFileSync } from 'node:fs'
 import type { Release, ReleaseEvent } from '../shared/types.ts'
 import { buendeleKacheln } from '../web/src/lib/buendel.ts'
 import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
@@ -45,33 +44,7 @@ function einheitenpruefung(): void {
   pruefe('ohne Staffelstart bündelt wie bisher', ohneStart.length === 1 && ohneStart[0]!.length === 2, ohneStart)
 }
 
-function bestandspruefung(): void {
-  console.log('\nEchter Bestand: je Titel + Weg + Tag mit Staffelstart höchstens eine Kachel:')
-  const lies = <T>(pfad: string): T => JSON.parse(readFileSync(new URL(`../public/data/${pfad}`, import.meta.url), 'utf8')) as T
-  const daten: Daten = { releaseBySlug: new Map(lies<Release[]>('releases.json').map((r) => [r.slug, r])) }
-  const nachTag = new Map<string, ReleaseEvent[]>()
-  for (const e of lies<ReleaseEvent[]>('events.json')) {
-    if (e.platform === 'tv' || e.releaseType === 'disc' || e.zweitanbieter) continue
-    nachTag.set(e.date, [...(nachTag.get(e.date) ?? []), e])
-  }
-  const schluessel = (e: ReleaseEvent) => `${e.titleId}|${e.platform}|${e.sender ?? ''}`
-  const doppelt: string[] = []
-  let mitZusatz = 0
-  for (const [tag, stream] of nachTag) {
-    const gruppen = kacheln(stream, daten)
-    for (const g of gruppen) {
-      if (!istStaffelstart(g[0]!, daten)) continue
-      if (g.length > 1) mitZusatz++
-      const uebrige = gruppen.filter((h) => h !== g && schluessel(h[0]!) === schluessel(g[0]!))
-      if (uebrige.some((h) => !h[0]!.verpasst && !h[0]!.premiere)) doppelt.push(`${tag} ${g[0]!.name}`)
-    }
-  }
-  pruefe('keine zweite Kachel neben einem Staffelstart', doppelt.length === 0, doppelt.slice(0, 10))
-  console.log(`  Info: ${mitZusatz} Staffelstart-Kacheln tragen Zusatzfolgen (Stand ${new Date().toISOString().slice(0, 10)}).`)
-}
-
 einheitenpruefung()
-bestandspruefung()
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)

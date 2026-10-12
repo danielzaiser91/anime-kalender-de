@@ -11,6 +11,7 @@ import { schreibeWochenDatei } from './13-8-wochen-datei.ts'
 import { schreibePatchnotes } from './13-9-patchnotes.ts'
 import { ergaenzeErstausgabeAngebot } from './13-7-erstausgabe-angebot.ts'
 import { schreibeZusatzdateien } from './13-4-zusatzdateien.ts'
+import { bereinigePruefliste, ausgelieferteKennungen } from './pruefliste-bereinigen.ts'
 import { schreibeLueckenTitel } from './luecken-titel.ts'
 import { ordneCartoonsZuAnime } from './cartoon-zu-anime.ts'
 import { schreibeSprecherIndex } from './sprecher-index.ts'
@@ -70,6 +71,7 @@ export function schreibeDatensatz({
   schreibeListen({ slim, tmdbTitles, releases, titles })
 
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })
+  bereinigePruefliste(ausgelieferteKennungen(slim))
   schreibeLueckenTitel(slim, synopses)
   ordneCartoonsZuAnime()
   schreibeSprecherIndex({ ausgeliefert: new Set(slim.map((t) => t.id)) })

@@ -1,0 +1,4 @@
+@import '../src/styles.css';
+
+/* Klassen der Mockups: die Seiten-CSS nimmt web/buehne aus (@source not), hier kommen die Mockups wieder dazu. */
+@source "./mockups";

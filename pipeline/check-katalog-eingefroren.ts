@@ -1,11 +1,10 @@
 /**
  * Zusicherungen zu den eingefrorenen AniList-Stammdaten (`data/stammdaten/anilist-eingefroren.json`, 11.10.2026):
- * die Datei ist heil, und der Bau lässt keinen ihrer Titel stillschweigend fallen. Läuft in `check:logic`.
+ * die Datei ist heil und die Mischung ersetzt nur die eingefrorenen Kennungen. Läuft in `check:logic`; die Prüfung am gebauten Bestand steht in `check-katalog-eingefroren-bestand.ts` (`check:bestand`).
  */
 import { existsSync } from 'node:fs'
 import { type KatalogEintrag } from './lib/anilist.ts'
 import { EINGEFROREN_DATEI, ladeEingefrorene, mischeKatalog } from './lib/katalog-eingefroren.ts'
-import { readJson } from './lib/util.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -32,13 +31,6 @@ const ohneName = eingefroren.filter((e) => !e.t.some(Boolean))
 pruefe('Datei: jeder Eintrag hat mindestens einen Namen', ohneName.length === 0, ohneName.slice(0, 3).map((e) => e.id))
 const vollerCover = eingefroren.filter((e) => e.cover?.startsWith('http'))
 pruefe('Datei: Cover ohne Adressvorsatz wie im Katalog', vollerCover.length === 0, vollerCover.slice(0, 3).map((e) => e.id))
-
-/* Der Bau darf keinen eingefrorenen Titel verlieren: jeder steht in der Ausgabe (ohne Synchro oder Hauptbestand); 1 % Spiel für Zusammenführungen. */
-const ausgabe = new Set<number>([...readJson<{ id: number }[]>('public/data/ohne-synchro.json', []), ...readJson<{ id: number }[]>('public/data/titles.json', [])].map((t) => t.id))
-if (ausgabe.size && eingefroren.length) {
-  const fehlen = eingefroren.filter((e) => !ausgabe.has(e.id)).map((e) => e.id)
-  pruefe('Ausgabe: höchstens 1 % der eingefrorenen Titel fehlen in ohne-synchro.json und titles.json', fehlen.length <= eingefroren.length * 0.01, { anzahl: fehlen.length, beispiele: fehlen.slice(0, 5) })
-}
 
 if (verletzt) {
   console.error(`check-katalog-eingefroren: ${verletzt} Zusicherung(en) verletzt`)

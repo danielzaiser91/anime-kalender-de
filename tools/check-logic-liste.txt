@@ -1,6 +1,8 @@
 # Prüfungen von npm run check:logic, nacheinander, erster Fehler bricht ab.
 # Alphabetisch sortiert (check-logic-alle.mjs verlangt es): ein neuer Check kommt an die passende Stelle, nicht ans Ende.
 # Zwei Zweige, die verschiedene Checks ergänzen, ändern dann verschiedene Stellen und kollidieren nicht. Die Reihenfolge ist sonst egal.
+pipeline/check-abstand.ts
+pipeline/check-adn-film.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-entwurf.ts
 pipeline/check-anime2you-sammelartikel.ts
@@ -14,7 +16,8 @@ pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-belegstaerke.ts
-pipeline/check-cartoon-news.ts
+pipeline/check-bild-und-synchro.ts
+pipeline/check-bookworm-dublette.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
@@ -27,6 +30,8 @@ pipeline/check-db-relevanz.ts
 pipeline/check-detektiv-funde.ts
 pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-aus-terminen.ts
+pipeline/check-dub-bereiche.ts
+pipeline/check-dub-durchgehende-zaehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
@@ -36,6 +41,7 @@ pipeline/check-install-stellen.ts
 pipeline/check-invarianten.ts
 pipeline/check-jw-staffeln.ts
 pipeline/check-jw-vertrauen.ts
+pipeline/check-kachel-anbieter.ts
 pipeline/check-kachel-buendel.ts
 pipeline/check-kalender-filter.ts
 pipeline/check-kanal-abgehakt.ts
@@ -47,13 +53,19 @@ pipeline/check-paramount.ts
 pipeline/check-patchnotes.ts
 pipeline/check-premiere.ts
 pipeline/check-prime-kanal.ts
+pipeline/check-prime-pille.ts
 pipeline/check-prime-teilseiten.ts
 pipeline/check-reihen-namen.ts
 pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
+pipeline/check-sammelartikel.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
+pipeline/check-staffel-jahr0.ts
+pipeline/check-staffel-teil.ts
 pipeline/check-stand-halten.ts
+pipeline/check-tmdb-hauptserie.ts
+pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-suche.ts
 pipeline/check-tv-schaetzung.ts
 pipeline/check-tv-sichtungen-vor-start.ts

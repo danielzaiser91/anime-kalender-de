@@ -4,6 +4,8 @@
  * (`extension-offene-liste.mjs` läuft beim Laden durch).
  */
 
+import { brauchtUrteil } from './offen-erschienen.mjs'
+
 /** Unser Eintrag zum i-ten Block des Anbieters: der Reihe nach, bei nur einem Titel von uns immer dieser. */
 export function eintragZuBlock(sortiert, i) {
   return sortiert.length === 1 ? sortiert[0] : sortiert[i]
@@ -17,7 +19,7 @@ export function blockStand(sortiert, i, verdaechtig, zustandVon) {
   const eintrag = eintragZuBlock(sortiert, i)
   return {
     ...(sortiert.length === 1 ? { id: eintrag.t.id } : {}),
-    offen: eintrag ? eintrag.dub === undefined || verdaechtig.has(eintrag.t.id) : true,
+    offen: eintrag ? brauchtUrteil(eintrag) || verdaechtig.has(eintrag.t.id) : true,
     ...(eintrag ? zustandVon(eintrag) : { zustand: 'melden' }),
   }
 }

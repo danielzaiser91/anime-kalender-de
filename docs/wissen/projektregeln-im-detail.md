@@ -269,7 +269,13 @@ Zeilen; Anlass und Verlauf gehören in den Commit oder hierher.
 
 **Umbauen, ohne etwas zu ändern.** `tools/bau-vergleich.mjs` baut Basis und Kandidat je in einem
 eigenen Worktree mit einem nachgebildeten Cache und vergleicht alles, was der Bau schreibt. Ein
-reiner Umbau ist erst fertig, wenn das „gleich" meldet. Für `web/src` tut dasselbe
+reiner Umbau ist erst fertig, wenn das „gleich" meldet. Beide Seiten starten vom Bestand der Basis (`data/`, `public/data/`): Datenänderungen des Kandidaten sieht der Vergleich nicht, ob der Bau darauf durchläuft nur ein zweiter Lauf `HEAD HEAD` (11.10.2026). Der Bau läuft dabei mit
+`BAU_VERGLEICH=1`: Widersprüche im Ergebnis (`brichAbBeiWiderspruch`, `pipeline/lib/bau-widerspruch.ts`; Phasen 10, 11-6, 11-7, 13-5, 13-8)
+brechen ihn nicht ab, sondern stehen als „Widerspruch (Vergleichsmodus)" im mitverglichenen Protokoll — der Ersatz-Cache ist nicht
+der echte, und eine Invariante, die dort reißt, verhinderte sonst jede Basis (12.10.2026: Bookworm-Dublette, Prime-Häkchen ohne Beleg).
+Neue Abbruchstelle für ein Ergebnis-Urteil: über diese Funktion, nicht mit eigenem `process.exit`. Bei verschiedenen JSON-Dateien nennt
+die Ausgabe die Felder mit Anzahl und Beispiel (`tools/vergleich-unterschied.mjs`, etwa `streams[].dubQuelle` = Herkunft „Deutsch laut
+JustWatch" am Weg). Nicht abgedeckt: Verlust-Riegel (`13-2`), Eingabe-Prüfungen (`01-quellen`, `nebendateien`, Patchnotes). Für `web/src` tut dasselbe
 `tools/panel-vergleich.mjs`: beide Stände bauen, das Detail-Panel für 80 feste Titel bei stehender
 Uhr rendern, HTML vergleichen. Verschoben wird mit `tools/modul-umzug.mjs` (Namen, Abschnitte,
 JSX-Blöcke), das Parameter und Importe aus dem Typprüfer ableitet — von Hand verschobener Code
@@ -417,7 +423,7 @@ das sonst verfällt.
 ## Prüfung nach Risiko: Stufen 0, 1, 2 (Daniel, 10.10.2026)
 
 Anlass: „keine Prüfer-Agenten bei Kleinigkeiten“. `node tools/pr-stufe.mjs <PR>` (Tabelle und Tests: `tools/pr-stufe.mjs`, `tools/pr-stufe.test.mjs`) stuft mechanisch aus Pfaden und Zeilenzahl des Diffs ein, im Zweifel Stufe 2.
-Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar und lässt bei Stufe 0 den Claude-Lauf aus.
+Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar und lässt bei Stufe 0 den Claude-Lauf aus.
 
 ## Vor dem Commit
 
@@ -444,6 +450,8 @@ in D1).
 **Wer in `build.ts` ändert, was entfernt oder wie ein Feld gebildet wird, sucht zuerst die Zusicherungen, die das festhalten** — am 22.09.2026 hängte ein Nachlauf „– Teil N“ an 20 deutsche Namen, und `check:logic` („kein Titel trägt die Nummer eines seiner Teile“, Yu-Gi-Oh 24.08.) ließ den Bestandslauf nichts übernehmen (Lauf 35752376247). Die Regel war nicht falsch, sie war enger gemeint; verfeinert statt umgangen. `check:cr-zuordnung` läuft erst im Bau (`commit-data.sh`) und hielt „keine tote Crunchyroll-Adresse im Datensatz" fest; der Fix vom 17.09.2026, der US-„nicht verfügbar" nicht mehr als tot wertet, machte den Bau deshalb rot (Lauf 35225087674). Prüfgriff: `grep -rn "<Grund oder Feldname>" pipeline/check-*.ts tools/*-pruefen*` vor dem Push.
 
 **Wer einen Handbeleg auf eine andere Kennung umhängt, fährt `check:handbelege` vorher mit.** Das steht nicht in `check:vor-commit` (es braucht den gebauten Datensatz) und bricht den Bau ab, wenn die neue Kennung nicht im Bestand steht — am 16.09.2026 bei drei umgehängten Prime-Belegen (Lauf 35125372002). Entweder die Staffel kommt über `synchro-von-hand.yaml` in den Bestand, oder der Beleg trägt `nichtImBestand: true` mit dem Grund in der Notiz.
+
+**Eine Prüfung, die `public/data` liest, gehört nicht nach `check:logic`, sondern in `tools/check-bestand-liste.txt` (`check:bestand`, läuft im Bestandsbau über `tools/commit-data.sh`) — `check:logic` lehnt sie ab (12.10.2026).** Anlass: Der Bestand liegt hinter neueren Rohdaten zurück; am 12.10. hingen fünf freigegebene PRs 1–2 h fest, weil `check-anisearch-katalog-abgleich` (aniSearch-Brücke vom Sammellauf) in der PR-Prüfkette rot war, ohne dass ein PR etwas dafür konnte. Der Wächter sitzt in `tools/check-logic-alle.mjs` (`tools/bestand-sperre.cjs` verbietet jeder Prüfung und ihren Unterprozessen den Lesezugriff auf `public/data`; Gegenprobe `tools/check-logic-ohne-bestand.test.mjs`). Altlasten stehen mit Frist in `tools/check-logic-bestand-ausnahmen.json` und müssen gestrichen werden, sobald sie nicht mehr lesen; `hoechstens` sinkt nur. Gemischte Prüfdatei: den Bestandsteil als `pipeline/check-<name>-bestand.ts` abtrennen (Muster: `check-kachel-anbieter-bestand.ts`). Stand 12.10.2026: 18 Bestandsteile und 2 ganze Prüfungen umgezogen (20 in `check-bestand-liste.txt`), zwei Ausnahmen (Handbeleg-Tor in `check-logic.ts`, `check-kanal-abgehakt.ts`). Prüfungen, die vom Sammellauf erneuerte Rohdaten unter `data/` lesen (z. B. `anisearch-eintraege.json`, `kennungen.json`), sind noch nicht ausgelagert (Folgeposten).
 
 **Neuer Check = neue Zeile in `tools/check-logic-liste.txt`** (nicht in `package.json`; `tools/check-logic-alle.mjs` führt die Liste der Reihe nach aus). Die Liste ist alphabetisch sortiert (Pflicht, `check-logic-alle.mjs` prüft es; seit 11.10.2026): die Zeile an die passende Stelle setzen, nicht ans Ende, denn zwei Zweige, die dieselbe Stelle ergänzen, kollidieren (10.10.2026 mit `git merge-file` gemessen). **Neuer Test `tools/<name>.test.mjs` = nur die Datei anlegen:** `tools/tests-alle.mjs` (in `check:workflows`) führt jede `tools/*.test.mjs` aus, kein Eintrag in `package.json`.
 
@@ -507,7 +515,7 @@ genannt wird und nicht als Baufehler erscheint.
 `data/cache/anilist-anisearch-mal.json`. `data/cache/` liegt nicht im Repo, nur Datenläufe befüllen ihn, und diese
 Datei schreibt nur der Wochenlauf (letzter 05.10., nächster ~12.10.). Der Bau fand sie leer, die Cover fehlten live;
 die PR-Prüfungen waren lokal mit gefülltem Cache grün. Behoben mit PR 470 (`data/anisearch-cover.json`, Zusicherung in
-`check-bild-und-synchro.ts`).
+`check-bild-bestand.ts`, läuft in `check:bestand`).
 
 **Regel.** Eine Handkorrektur oder Vorbelegung gehört nach `data/…` im Repo. Fertig heißt erst: nach Bau und Deploy
 auf der Live-Seite gemessen (Datei oder Seite, erwarteter Wert) — grüne PR-Prüfungen belegen es nicht, weil sie mit

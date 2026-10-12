@@ -1,5 +1,7 @@
 node_modules/
 dist/
+buehne-dist/
+buehne-bilder/
 .env
 .env.local
 *.local

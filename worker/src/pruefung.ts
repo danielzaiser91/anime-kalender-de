@@ -1,8 +1,10 @@
 import { type Env } from './env.ts'
-import { speicherePruefung } from './pruefung-speichern.ts'
+import { speichereMitProtokoll } from './pruefung-protokoll.ts'
+import { nichtErlaubt } from './pruefung-ablehnung.ts'
 import { loeschePruefungen } from './pruefung-loeschen.ts'
 import { beantwortePruefungLesen } from './pruefung-lesen.ts'
 import { exporteVerwerfen } from './export-speicher.ts'
+import { ausCacheFuer } from './cache-kurz.ts'
 
 export async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
   const offen = {
@@ -67,28 +69,16 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
    * von davor: Am 05.09.2026 standen vier neue Prime-Auftraege im Bestand, und in
    * der App war die Leiste leer.
    *
-   * Eine Minute deckt genau den Takt ab, in dem die Anzeige ohnehin fragt. Sie
+   * **Seit 11.10.2026 fünf Minuten:** 572 Neuberechnungen am Tag des Massenlaufs lasen 1,04 Mio. Zeilen
+   * (Bericht `d1-leselimit-2026-10-11.md`). Wer gerade selbst meldet, überbrückt die Frist in der
+   * Erweiterung (`frischGemeldet`, hält bis der Stand die Meldung zeigt).
+   *
+   * Eine Minute deckte genau den Takt ab, in dem die Anzeige ohnehin fragt. Sie
    * ist billig: `?stand=1` liest nur die **offenen** Meldungen
    * (`WHERE uebernommen = 0`), nicht die ganze Tabelle — das ist der
    * Unterschied zu `?zaehlen=1`.
    */
-  const ausCache = async (
-    bauen: () => Promise<Response>,
-    sekunden = 1800,
-  ): Promise<Response> => {
-    const schluessel = new Request(new URL(request.url).toString(), { method: 'GET' })
-    const cache = caches.default
-    const getroffen = await cache.match(schluessel)
-    if (getroffen) return getroffen
-    const frisch = await bauen()
-    /* Nur erfolgreiche Antworten werden gehalten — ein Fehler soll sich nicht festsetzen. */
-    if (frisch.status === 200) {
-      const zumHalten = new Response(frisch.clone().body, frisch)
-      zumHalten.headers.set('Cache-Control', `public, max-age=${sekunden}`)
-      ctx?.waitUntil(cache.put(schluessel, zumHalten))
-    }
-    return frisch
-  }
+  const ausCache = ausCacheFuer(request, ctx)
 
   if (request.method === 'GET') {
     return await beantwortePruefungLesen({ request, env, antwort, ausCache })
@@ -103,9 +93,9 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
   if (request.method !== 'POST') return antwort({ error: 'GET, POST oder DELETE erwartet' }, 405)
 
   const token = request.headers.get('X-Lauf-Token') ?? ''
-  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return antwort({ error: 'Nicht erlaubt' }, 403)
+  if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return nichtErlaubt(antwort)
 
-  const gespeichert = await speicherePruefung({ request, antwort, token, env, ctx })
+  const gespeichert = await speichereMitProtokoll({ request, antwort, token, env, ctx })
   await exporteVerwerfen(env)
   return gespeichert
 }

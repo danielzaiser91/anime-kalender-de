@@ -7,6 +7,8 @@
  * Folgenzahl nicht widersprüchlich und genau ein solcher Kandidat. Alles Übrige mit Namensnähe geht mit Grund auf die Prüfliste.
  */
 import { bewerteTreffer } from './adn.ts'
+import { belegGrund, widerlegtGrund } from './anisearch-katalog-merkmale.ts'
+import { normalisiere } from './anisearch-namen.ts'
 
 /** Eine Zeile der Titelliste: Jahr und alle Schreibweisen (Haupttitel, Japanisch, Kanji, Sprachen, Synonyme). */
 export interface AsTitel {
@@ -21,6 +23,10 @@ export interface AsEintrag {
   y?: number
   f?: number
   mal?: number
+  /** Erster und letzter Erscheinungstag (`JJJJ-MM-TT`, bei unbekanntem Tag mit `00`) und Folgenlänge in Minuten. */
+  von?: string
+  bis?: string
+  min?: number
 }
 
 export interface KatalogTitel {
@@ -30,6 +36,10 @@ export interface KatalogTitel {
   format: string | null
   jahr: number | null
   folgen: number | null
+  /** Start- und Endtag (AniList, `JJJJ-MM-TT`; kürzer, wo AniList nur Monat oder Jahr kennt) und Folgenlänge in Minuten. */
+  start?: string
+  ende?: string
+  dauer?: number
   /** aniSearch-Einträge, die zu seiner MAL-Kennung gehören (Brücke oder Einzelabruf): Kandidaten auch ohne Namensnähe. */
   malAsIds?: number[]
 }
@@ -41,20 +51,18 @@ export interface Kandidat {
   ueberMal?: boolean
 }
 
-export type Urteil = { art: 'sicher'; asId: number; weil: string } | { art: 'unsicher'; asId: number; weil: string; weitere: Kandidat[] } | { art: 'keiner' }
+/** `widerlegt`: Es gibt Kandidaten, aber Tag, Länge oder MAL-Kennung zeigen bei allen ein anderes Werk — kein Treffer, keine Prüfung nötig. */
+export type Urteil =
+  | { art: 'sicher'; asId: number; weil: string }
+  | { art: 'unsicher'; asId: number; weil: string; weitere: Kandidat[] }
+  | { art: 'widerlegt'; weil: string }
+  | { art: 'keiner' }
 
 /** Unterhalb dieses Werts von `bewerteTreffer` (geteilte Wörter doppelt, fremde und fehlende einfach dagegen) gilt ein Kandidat nicht als Namensnähe. */
 export const MINDESTWERT = 3
 const KANDIDATEN_JE_TITEL = 40
 
-/** Kleinbuchstaben, ohne Akzente und Satzzeichen; Kanji und Kana bleiben, damit auch der japanische Titel vergleichbar ist. */
-export function normalisiere(s: string): string {
-  return s
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^\p{L}\p{N}]+/gu, '')
-}
+export { normalisiere }
 
 const woerter = (s: string): string[] => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').split(/[^a-z0-9]+/).filter((w) => w.length >= 4)
 
@@ -143,11 +151,44 @@ function malUrteil(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTitel>,
   if (treffer.length === 1) return { art: 'sicher', asId: treffer[0]!.asId, weil: `MAL ${k.mal}` }
   const ohneEinwand = treffer.filter((c) => !einwaende(k, c, titel.get(c.asId)!, eintraege[String(c.asId)], format(eintraege[String(c.asId)]?.ty)).length)
   if (ohneEinwand.length === 1) return { art: 'sicher', asId: ohneEinwand[0]!.asId, weil: `MAL ${k.mal}, Jahr und Format entscheiden` }
+  const teil = teilungsUrteil(k, treffer, eintraege, format)
+  if (teil) return teil
   return { art: 'unsicher', asId: treffer[0]!.asId, weil: `MAL ${k.mal} bei ${treffer.length} aniSearch-Einträgen`, weitere: treffer.slice(1, 4) }
 }
 
-/** Urteil für einen Katalogtitel. `format(ty)` bildet aniSearchs Typ auf das AniList-Format ab. */
-export function urteile(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTitel>, eintraege: Record<string, AsEintrag>, format: FormatVon): Urteil {
+/**
+ * Teilung: aniSearch führt in mehreren Einträgen, was AniList als einen Titel hat (Hoozuki: 3 + 1 Folgen, Fanren Xiu Xian Zhuan: 8 + 9). Ergeben die Folgen der Einträge
+ * mit derselben MAL-Kennung genau die AniList-Zahl, bekommt der früheste Teil die Kennung (ein Titel, eine Kennung); die übrigen bleiben eigene aniSearch-Zeilen.
+ * Zwei Werke unter einer MAL-Kennung (Staffel 12 + Film 1 = 13) sind keine Teilung: jeder Teil hat dieselbe Formatfamilie wie der AniList-Titel und erscheint
+ * nicht mehr als ein Jahr vor ihm.
+ */
+function teilungsUrteil(k: KatalogTitel, treffer: Kandidat[], eintraege: Record<string, AsEintrag>, format: FormatVon): Urteil | undefined {
+  const folgen = treffer.map((c) => eintraege[String(c.asId)]?.f ?? 0)
+  if (!k.folgen || folgen.some((f) => !f) || folgen.reduce((a, b) => a + b, 0) !== k.folgen) return undefined
+  const passt = (e: AsEintrag | undefined): boolean => {
+    const art = format(e?.ty)
+    const familieGleich = !k.format || !art || FAMILIE[k.format] === FAMILIE[art]
+    return familieGleich && !(e?.y && k.jahr && e.y < k.jahr - 1)
+  }
+  if (!treffer.every((c) => passt(eintraege[String(c.asId)]))) return undefined
+  const von = (c: Kandidat): string => eintraege[String(c.asId)]?.von ?? '9999'
+  const erster = [...treffer].sort((a, b) => von(a).localeCompare(von(b)) || b.wert - a.wert || a.asId - b.asId)[0]!
+  return { art: 'sicher', asId: erster.asId, weil: `MAL ${k.mal}: ${treffer.length} aniSearch-Teile ergeben ${k.folgen} Folgen (Teilung), erster Teil` }
+}
+
+/** Genau ein Kandidat, den Tag, Länge und Name allein belegen (`belegGrund`): sicher, auch bei abweichendem Format, Jahr oder Folgenzahl. */
+function belegUrteil(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTitel>, eintraege: Record<string, AsEintrag>, format: FormatVon, heuteJahr: number): Urteil | undefined {
+  const belegt = cs
+    .map((c) => {
+      const e = eintraege[String(c.asId)]
+      return { c, grund: belegGrund({ k, c, t: titel.get(c.asId)!, e, formatOk: formatVertraeglich(k.format, format(e?.ty)), heuteJahr }) }
+    })
+    .filter((b) => b.grund)
+  return belegt.length === 1 ? { art: 'sicher', asId: belegt[0]!.c.asId, weil: belegt[0]!.grund! } : undefined
+}
+
+/** Urteil für einen Katalogtitel. `format(ty)` bildet aniSearchs Typ auf das AniList-Format ab; `heuteJahr`: Jahre darüber hinaus (plus zwei) sind Platzhalter. */
+export function urteile(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTitel>, eintraege: Record<string, AsEintrag>, format: FormatVon, heuteJahr = new Date().getFullYear()): Urteil {
   if (!cs.length) return { art: 'keiner' }
   const ueberMal = malUrteil(k, cs, titel, eintraege, format)
   if (ueberMal) return ueberMal
@@ -158,6 +199,10 @@ export function urteile(k: KatalogTitel, cs: Kandidat[], titel: Map<number, AsTi
   geprueft.sort((a, b) => a.grund.length - b.grund.length)
   const sauber = geprueft.filter((g) => !g.grund.length)
   if (sauber.length === 1) return { art: 'sicher', asId: sauber[0]!.c.asId, weil: 'Name, Jahr, Format gleich' }
+  const beleg = belegUrteil(k, cs, titel, eintraege, format, heuteJahr)
+  if (beleg) return beleg
+  const gruende = cs.map((c) => widerlegtGrund(k, eintraege[String(c.asId)]))
+  if (!sauber.length && gruende.every(Boolean)) return { art: 'widerlegt', weil: gruende[0]! }
   const erster = sauber[0] ?? geprueft[0]!
   const weil = sauber.length > 1 ? `${sauber.length} gleichwertige Kandidaten` : erster.grund.join('; ')
   return { art: 'unsicher', asId: erster.c.asId, weil, weitere: cs.filter((c) => c.asId !== erster.c.asId).slice(0, 3) }
@@ -177,4 +222,10 @@ export function doppelteEntschaerfen(urteile_: Map<number, Urteil>): number {
     }
   }
   return n
+}
+
+/** aniSearch-Kennungen, die schon einem anderen Titel gehören: Handdatei, oder Brücke unter einer anderen AniList-Kennung (dieselbe Bindung in der Brücke ist die Übernahme, keine Doppelvergabe). */
+export function anderweitigVergeben(gebunden: Record<string, number>, bruecke: Record<string, { anisearchId?: number }>, hand: number[]): Set<number | undefined> {
+  const fremd = Object.entries(bruecke).filter(([al, e]) => gebunden[al] !== e.anisearchId)
+  return new Set([...hand, ...fremd.map(([, e]) => e.anisearchId)])
 }

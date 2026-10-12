@@ -2,10 +2,8 @@
  * Zusicherung: Dasselbe Werk steht nicht als AniList-Katalogtitel **und** als aniSearch-Zeile in der Ausgabe (Daniel, 09.10.2026: „Laid-Off
  * Cheat-Granting Mage" zweimal; 2.400 Zeilen betroffen). Regel und Grenzen: `bau/anisearch-dubletten.ts`.
  *
- * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-anisearch-dubletten.ts`
+ * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-anisearch-dubletten.ts`; der Bestandsteil steht in `check-anisearch-dubletten-bestand.ts`
  */
-import { readFileSync } from 'node:fs'
-import { todayIso } from '../shared/time.ts'
 import { anisearchZeilenDoppelt, findeAnisearchDubletten, gleichesWerk, zeilenMitKennungWeg, type KatalogKandidat } from './bau/anisearch-dubletten.ts'
 import { undatierteKennungen } from './lib/katalog-plan.ts'
 
@@ -15,11 +13,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
   verletzt++
   console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
-const lies = <T>(pfad: string): T => JSON.parse(readFileSync(pfad, 'utf8')) as T
 const BASIS = 10_000_000
-
-/** Bis dahin darf der ausgelieferte Datensatz noch den Stand vor dem Fix tragen (der nächste Datenlauf baut ihn neu); danach wird die Prüfung rot. */
-const UEBERGANG_BIS = '2026-10-16'
 
 console.log('\naniSearch-Zeile und AniList-Katalogtitel (ein Werk, eine Zeile):')
 {
@@ -68,6 +62,12 @@ console.log('\naniSearch-Zeile und AniList-Katalogtitel (ein Werk, eine Zeile):'
   const imHaupt = findeAnisearchDubletten([], [zeile(1339)], [], alice)
   zeilenMitKennungWeg([], new Map([[5330, 1339]]), alice, imHaupt, [zeile(1339)], new Set([5330]))
   pruefe('Kennung gebunden, Zeile im Hauptbestand: der Katalogtitel entfällt', imHaupt.katalogWeg.get(5330) === zeile(1339) && imHaupt.zeilenWeg.size === 0)
+  /* Ascendance of a Bookworm S5 (11.10.2026): AniList ohne MAL, Name anders geschrieben — nur die Handbindung (217712 → 22017) findet das Paar. */
+  const bookworm = { '22017': { mal: 65103, ty: 'TV-Serie', y: 0, f: 12, dub: '-' } }
+  const bookwormUrteil = findeAnisearchDubletten([zeile(22017)], [], [{ id: 217712, format: 'TV' }], bookworm)
+  pruefe('ohne MAL auf AniList-Seite: die Regel allein lässt die Zeile stehen', bookwormUrteil.zeilenWeg.size === 0)
+  zeilenMitKennungWeg([zeile(22017)], new Map([[217712, 22017]]), bookworm, bookwormUrteil)
+  pruefe('ohne MAL auf AniList-Seite, Handbindung: die Zeile entfällt zugunsten des Katalogtitels', bookwormUrteil.zeilenWeg.get(zeile(22017)) === 217712)
   pruefe('Jahr daneben (mehr als eins) oder andere Folgenzahl: kein gleiches Werk',
     !gleichesWerk({ mal: 5, ty: 'TV-Serie', y: 2000, f: 12, dub: '-' }, { id: 1, mal: 5, format: 'TV', jahr: 2003, folgen: 12 }) &&
       !gleichesWerk({ mal: 5, ty: 'TV-Serie', y: 2000, f: 12, dub: '-' }, { id: 1, mal: 5, format: 'TV', jahr: 2000, folgen: 24 }))
@@ -94,27 +94,6 @@ console.log('\nKatalog: Einträge ohne Startdatum werden nach Kennung aufgefrisc
   const liste = [{ id: 163794, start: null }, { id: 5, start: '2026-10-07' }, { id: 9, start: undefined }, { id: 7, start: '2026' }]
   pruefe('„The Boxer" (angekündigt ohne Datum, alte Kennung) ist dabei, datierte Einträge nicht', undatierteKennungen(liste).join() === '9,163794')
   pruefe('höchstens `grenze` Kennungen je Lauf', undatierteKennungen(liste, 1).length === 1)
-}
-
-console.log('\nAusgelieferter Datensatz:')
-{
-  type Zeile = { id: number; malId?: number; format?: string; jpYear?: number; episodes?: number; ohneSynchro?: boolean; dubConfidence?: string }
-  const eintraege = lies<Record<string, { mal?: number; ty: string; y?: number; f?: number; dub: string }>>('data/anisearch-eintraege.json')
-  const titel = lies<Zeile[]>('public/data/titles.json')
-  const ohne = lies<Zeile[]>('public/data/ohne-synchro.json')
-  const katalog: KatalogKandidat[] = ohne.filter((t) => t.id < BASIS).map((t) => ({ id: t.id, mal: t.malId, format: t.format, jahr: t.jpYear, folgen: t.episodes }))
-  const hinter = ohne.filter((t) => t.id >= BASIS).map((t) => t.id)
-  const haupt = titel.filter((t) => t.id >= BASIS).map((t) => t.id)
-  const u = findeAnisearchDubletten(hinter, haupt, katalog, eintraege)
-  const doppelt = [...u.zeilenWeg, ...u.katalogWeg].map(([a, b]) => `${a} ↔ ${b}`)
-  const bis = todayIso() <= UEBERGANG_BIS
-  pruefe(
-    `kein Werk steht als aniSearch-Zeile und als AniList-Katalogtitel zugleich (Übergang bis ${UEBERGANG_BIS}: ${doppelt.length} Paare)`,
-    doppelt.length === 0 || bis,
-    doppelt.slice(0, 5),
-  )
-  const ausgeliefert = anisearchZeilenDoppelt([...titel, ...ohne], eintraege)
-  pruefe(`Ausgabe-Invariante auf dem Bestand (Übergang bis ${UEBERGANG_BIS}: ${ausgeliefert.length} Paare; der Bau selbst bricht ohne Übergang ab)`, ausgeliefert.length === 0 || bis, ausgeliefert.slice(0, 3))
 }
 
 if (verletzt) {
