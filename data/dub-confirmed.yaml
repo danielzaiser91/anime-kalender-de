@@ -23651,3 +23651,17 @@
       checked: [5, 6, 7, 8, 11, 14, 15, 16]
   checkedAt: '2026-10-11'
   note: "Folgen 5–16 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original] — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 20, dazwischen nicht geprüft — Folge 11: Das Pony/Der Sturm — Netflix: Staffel 2"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-12 ---
+
+- anilistId: -38693
+  title: "LEGO Ninjago: Meister des Spinjitzu"
+  platform: netflix
+  url: https://www.netflix.com/title/70252973
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, el|Griechisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 6: Die verlorene Stadt"
