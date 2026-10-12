@@ -2155,6 +2155,23 @@ Wiedervorlage 28 Tage auf, obwohl es einen anderen Film meinte.
 erzeugt, und wer hängt noch an ihr?* Ein falscher Link ist selten ein Einzelfall — er ist
 das sichtbare Ende einer Zuordnung.
 
+### Ein Special erbt die TMDB-Hauptserie nicht — auch nicht im Sammler (12.10.2026)
+
+Der TMDB-Durchlauf vom 12.10. (05:30) ordnete drei aniSearch-Specials (Fate/Stay Night UBW Prologue, SAO Alternative GGO Refrain,
+Slime: Veldora’s Journal; Titel-ID ≥ 10.000.000) den Hauptserien tv/61415, 78204 und 82684 zu; im Bau trugen sie deren Anbieterwege,
+und der Bestandsbau wurde rot. Die Bau-Sperre `sperreSerienTreffer` (`lib/treffer-erben.ts`) kennt nur AniList/MAL-Titel (`medien`), nicht
+die aniSearch-only-Titel — und `fetch-tmdb-titles.ts` suchte jedes Nicht-MOVIE-Format unter `search/tv` und nahm den besten Namenstreffer.
+
+- **Regel im Sammler** (`lib/tmdb-hauptserie.ts`, am Ende von `fetch-tmdb-titles.ts`): SPECIAL/OVA/ONA/MUSIC, deren TMDB-Serie auch ein
+  TV/TV_SHORT-Titel unseres Bestands trägt, verlieren die Kennung samt Handlung, FSK und Anbietern (Eintrag wird `miss`, Wiedervorlage
+  nach 7 Tagen) — außer Name (`nameDe` = englischer/Romaji-Name) oder Folgenzahl (`tmdb-folgen.json`) passen oder `tmdb-von-hand.yaml`
+  führt den Titel. Dieselbe Prüfung wie im Bau (`darfTrefferErben`), nur eben vor dem Speichern und für alle Titel.
+- **Movie:** unverändert, `search/movie` kann keine Serienkennung liefern.
+- **Bestand 12.10.2026:** 45 Titel gestrichen (22 OVA, 22 SPECIAL, 1 ONA), 42 AniList-Titel, die der Bau ohnehin sperrte, und die drei aniSearch-only.
+- **Nicht angefasst:** `tmdb-poster.json`, `tmdb-banner.json`, `tmdb-folgen.json`, `justwatch-audio.json` führen für diese Titel weiter Einträge
+  aus der alten Kennung (Plakat 42, Banner 45, Folgen 8, JustWatch 42); neue Abrufe kommen nicht mehr dazu.
+- **Offen:** Die Bau-Sperre für Titel ohne Eintrag in `medien` (aniSearch-only) ist weiter nur durch PR 906 (`13-3-1-tmdb-wege.ts`) für die Wege gedeckt.
+
 ### Eine Überschrift ist keine Sprachangabe — der aniSearch-Titelabruf taugt nur für den Katalog
 
 Am 01.09.2026 lag der Schluss nahe: 139 Titel **mit** belegter deutscher Synchro

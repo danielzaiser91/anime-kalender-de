@@ -59,6 +59,7 @@ pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-staffel-jahr0.ts
 pipeline/check-stand-halten.ts
+pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
 pipeline/check-tmdb-suche.ts
 pipeline/check-tv-schaetzung.ts
