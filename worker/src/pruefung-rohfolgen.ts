@@ -79,17 +79,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         ).all()
         return { namen: results ?? [] }
       }, FRIST_NAMEN_MS)
-      if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, async () => {
-        const { results } = await env.DB.prepare(
-          `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
-                  seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen
-             FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT 5000`,
-        )
-          .bind(Number.isFinite(nach) ? nach : 0)
-          .all()
-        const zeilen = (results ?? []) as { id: number }[]
-        return { folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null }
-      })
+      if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, () => alleRohfolgen(env, nach))
       return ausSpeicher(env, `offen-${Number.isFinite(nach) ? nach : 0}`, async () => {
       const { results } = await env.DB.prepare(
         /*
@@ -127,4 +117,17 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null,
       }
       })
+}
+
+/** `&alle=1`: eine Seite jeder Beobachtung ohne `roh`, fortsetzbar über `nach` (Begründung am Aufruf). */
+async function alleRohfolgen(env: Env, nach: number) {
+  const { results } = await env.DB.prepare(
+    `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
+            seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen
+       FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT 5000`,
+  )
+    .bind(Number.isFinite(nach) ? nach : 0)
+    .all()
+  const zeilen = (results ?? []) as { id: number }[]
+  return { folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null }
 }
