@@ -164,6 +164,18 @@ console.log('Abhaken: nur der Auszug der offenen Zeilen wird ungültig')
   await post(folge(5))
   minuten(11)
   pruefe((await zaehle('alle=1&nach=0', /FROM prime_folge WHERE id >/)) === 1, 'nach einer geänderten Meldung und Ablauf der Frist wird alle-* neu gerechnet')
+
+  /* Marke bei M, Auszug bei M+12 s, zweite Änderung bei M+30 s (Marke übersprungen): spätestens nach der Frist neu. */
+  minuten(11)
+  await post(folge(6))
+  uhr += 12_000
+  pruefe((await zaehle('alle=1&nach=0', /FROM prime_folge WHERE id >/)) === 1, 'Auszug 12 s nach der Marke neu gerechnet')
+  uhr += 18_000
+  const vorMarke = marken()
+  await post(folge(7))
+  pruefe(marken() === vorMarke, `die zweite Änderung 30 s nach der Marke setzt keine (${marken()})`)
+  minuten(11)
+  pruefe((await zaehle('alle=1&nach=0', /FROM prime_folge WHERE id >/)) === 1, 'Auszug kurz nach der Marke gebaut: nach Ablauf der Frist neu gerechnet, die übersprungene Änderung fehlt nicht dauerhaft')
 }
 
 if (fehler) {

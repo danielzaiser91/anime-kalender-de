@@ -15,7 +15,8 @@ import { type Env } from './env.ts'
  * **Die Marke setzt nur, was Zeilen geändert hat** (12.10.2026): Abhaken berührt nur `uebernommen`, und das
  * enthält allein der Auszug `offen-*` (Marke `export/_ungueltig-offen`); `alle-*`, `pruefung-alle-*` und `namen`
  * lesen die Spalte nicht. Jede Marke wird höchstens einmal in `MARKE_ABSTAND_MS` geschrieben (Merker je
- * Isolate); eine übersprungene Änderung erreicht den Bau mit der nächsten Marke.
+ * Isolate). Ein Auszug gilt deshalb erst als frisch, wenn er mehr als `MARKE_ABSTAND_MS` nach der Marke
+ * gebaut wurde; sonst kann eine übersprungene Änderung fehlen, und es gilt die Frist.
  */
 const VORSATZ = 'export/'
 const MARKE = VORSATZ + '_ungueltig'
@@ -38,7 +39,7 @@ export async function ausSpeicher(
   if (treffer) {
     const marke = await juengsteMarke(env, schluessel)
     const alt = treffer.uploaded.getTime()
-    if (marke <= alt || Date.now() - alt < fristMs) return new Response(await treffer.text(), { headers: kopf })
+    if (marke + MARKE_ABSTAND_MS <= alt || Date.now() - alt < fristMs) return new Response(await treffer.text(), { headers: kopf })
   }
   const text = JSON.stringify(await bauen())
   await env.BELEGE?.put(VORSATZ + schluessel, text)
