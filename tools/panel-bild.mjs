@@ -26,6 +26,7 @@ import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
 import { distPruefen } from './dist-frisch.mjs'
+import { pruefeSperreUndSchliesse } from './panel-sperre.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -210,7 +211,7 @@ async function main() {
     }
   }
 
-  await browser.close()
+  await pruefeSperreUndSchliesse(browser, seite, ids, akVon)
 
   /* Die Mindesthöhe aus `antwort-kasten.tsx` — 11rem (176 px); „fertig" ohne Nebenzeile darf kleiner sein (Daniel, 07.10.2026), gemessen 172 px. */
   const MINDEST = 160
