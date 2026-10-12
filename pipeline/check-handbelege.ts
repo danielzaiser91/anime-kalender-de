@@ -46,12 +46,13 @@
  *
  * Aufruf: npm run check:handbelege
  */
-import { loadDubChecks, adressKern } from './lib/dub-confirmed.ts'
+import { loadDubChecks, adressKern, type DubCheck } from './lib/dub-confirmed.ts'
 import { readJson, log, warn, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { nimmJa } from './lib/dub-bereiche.ts'
+import { findeSchrumpf } from './lib/dub-schrumpf.ts'
 import type { Title } from '../shared/types.ts'
 
 /*
@@ -330,4 +331,19 @@ if (verwaisteBelege) {
   }
   const mehrfach = [...jeSchluessel.values()].filter((g) => g.length > 1).length
   log(`✓ ${mehrfach} Verweis(e) mit mehreren Belegen — überall gilt der jüngste.`)
+}
+
+/*
+  Anime: die jüngste Meldung ersetzt die ältere (`verschmelze`). Nennt sie weniger deutsche Folgen als eine frühere,
+  fehlt der Rest im Datensatz. Nur ein Hinweis: ob die Meldung eine Teilstaffel oder ein neuer Stand ist, sagt die Datei nicht.
+*/
+{
+  const schrumpf = findeSchrumpf(rohBelege as DubCheck[])
+  if (!schrumpf.length) log('✓ Kein Anime-Verweis verliert deutsche Folgen durch eine jüngere Meldung.')
+  else {
+    warn(`Hinweis: ${schrumpf.length} Anime-Verweis(e) verlieren deutsche Folgen durch eine jüngere Meldung:`)
+    for (const s of schrumpf.slice(0, 8)) {
+      warn(`   ${s.schluessel}: ${s.verloren.length} Folge(n), z. B. ${s.verloren.slice(0, 5).join(', ')}`)
+    }
+  }
 }

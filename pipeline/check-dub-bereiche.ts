@@ -5,6 +5,7 @@
  */
 import { nimmJa, vereinigeBereiche, type DubBereich } from './lib/dub-bereiche.ts'
 import { verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
+import { findeSchrumpf } from './lib/dub-schrumpf.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -55,6 +56,26 @@ const ohneKennung = verschmelze(eintrag(undefined as unknown as number, '2026-10
 pruefe('ohne Kennung: kein Vereinen', gleich(ohneKennung.dubRanges, [bereich(6, 9, true)]), zeig(ohneKennung.dubRanges ?? []))
 const verschiedeneKennung = verschmelze(eintrag(-1, '2026-10-11', [bereich(1, 5, true)]), eintrag(-2, '2026-10-12', [bereich(6, 9, true)]))
 pruefe('verschiedene Kennungen: kein Vereinen', gleich(verschiedeneKennung.dubRanges, [bereich(6, 9, true)]), zeig(verschiedeneKennung.dubRanges ?? []))
+
+// Schrumpf: Anime verliert deutsche Folgen, wenn die jüngste Meldung weniger nennt als eine frühere.
+const schrumpfPruefe = (name: string, belege: DubCheck[], erwartet: number[] | null): void => {
+  const faelle = findeSchrumpf(belege)
+  const ist = faelle.length ? faelle[0]!.verloren : null
+  pruefe(name, gleich(ist, erwartet), JSON.stringify(faelle))
+}
+const mit = (id: number, am: string, r: DubBereich[], url = 'https://www.netflix.com/title/1'): DubCheck => ({
+  ...eintrag(id, am, r),
+  url,
+})
+const frueh = '2026-10-01'
+const spaet = '2026-10-02'
+schrumpfPruefe('Schrumpf: kürzerer Bereich verliert den Rest', [mit(5, frueh, [bereich(1, 155)]), mit(5, spaet, [bereich(1, 100)])], folgen(101, 155))
+schrumpfPruefe('Schrumpf: Teilstaffel-Meldung verdrängt die erste', [mit(5, frueh, [bereich(1, 12)]), mit(5, spaet, [bereich(13, 13)])], folgen(1, 12))
+schrumpfPruefe('Schrumpf: Ja wird Nein', [mit(5, frueh, [bereich(1, 10)]), mit(5, spaet, [bereich(1, 10, false)])], folgen(1, 10))
+schrumpfPruefe('kein Schrumpf: Bereich wächst', [mit(5, frueh, [bereich(1, 155)]), mit(5, spaet, [bereich(1, 171)])], null)
+schrumpfPruefe('kein Schrumpf: gleicher Bereich', [mit(5, frueh, [bereich(1, 9)]), mit(5, spaet, [bereich(1, 9)])], null)
+schrumpfPruefe('kein Schrumpf: andere Adresse ist ein eigener Verweis', [mit(5, frueh, [bereich(1, 12)]), mit(5, spaet, [bereich(13, 13)], 'https://www.netflix.com/title/2')], null)
+schrumpfPruefe('kein Schrumpf: Cartoon vereint die Staffeln', [mit(-1, frueh, [bereich(1, 12)]), mit(-1, spaet, [bereich(13, 13)])], null)
 
 // nimmJa: Teilweg mit Häkchen zuerst, Reihenfolge der übrigen stabil, Eingabe unverändert.
 const wege = [{ id: 'a', dub: undefined }, { id: 'b', dub: true }, { id: 'c', dub: false }, { id: 'd', dub: true }]
