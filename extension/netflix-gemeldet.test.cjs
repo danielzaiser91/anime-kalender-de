@@ -42,6 +42,8 @@ function macheElement(tag) {
     },
     appendChild(k) { this.kinder.push(k); return k },
     append(...k) { this.kinder.push(...k) },
+    insertBefore(k) { this.kinder.unshift(k); return k },
+    after() {},
     /*
       `contains` ist der Griff, mit dem `uebersichtZeigen()` seit dem 06.09.2026
       fragt, ob sein Knopf noch im Dokument hängt. Fehlt er hier, wirft der
@@ -210,7 +212,7 @@ function ladeSeite(pfad, liste, suchteil, speicher) {
   const { umgebung, body, takte } = baueUmgebung(pfad, suchteil, speicher)
   const kontext = vm.createContext(umgebung)
   umgebung.__kontext = kontext
-  for (const datei of ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'melder.js']) {
+  for (const datei of ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'melder.js']) {
     vm.runInContext(readFileSync(__dirname + '/' + datei, 'utf8'), kontext, { filename: datei })
   }
   return { umgebung, body, takte }
@@ -362,12 +364,93 @@ async function fehlerFaelle() {
 
 }
 
+/**
+ * **Uneinheitliche Randprobe (4.30.0, 12.10.2026, Netflix 80174608): Folge 1 deutsch, Folge 9 an nicht.**
+ *
+ * Im Sammeldurchgang („▶ alle durchgehen") wartet niemand auf das Grenzfeld. Der nächste Anlauf desselben
+ * Titels misst deshalb alle 15 Folgen einzeln; von Hand gestartet bleibt es beim Hinweis. Die Player-Seite
+ * wird nachgestellt: `gehe('/watch/<id>')` setzt die Tonspuren der Folge.
+ */
+function gemischtStellen(s) {
+  s.posts = []
+  const echt = s.env.fetch
+  s.env.fetch = async (url, opt) => {
+    if (opt?.method === 'POST') s.posts.push(JSON.parse(opt.body))
+    return echt(url, opt)
+  }
+  s.env.history = {
+    pushState(_a, _b, pfad) {
+      const id = /\/watch\/(\d+)/.exec(String(pfad))?.[1]
+      if (!id) return
+      const deutsch = Number(id) - 82719208 < 9
+      const spuren = deutsch ? [{ code: 'de', name: 'Deutsch' }, { code: 'ja', name: 'Japanisch' }] : [{ code: 'ja', name: 'Japanisch' }]
+      s.run(`stand.spuren = ${JSON.stringify(spuren)}`)
+    },
+  }
+}
+
+/** Sammeldurchgang so weit nachgestellt, dass `selbstStartenSchritt()` diese Seite aufnimmt. */
+function sammelnStellen(s) {
+  s.run(`selbstAn = true; selbstGesammelt.add('${REIHE}'); DURCHLAUF.listeFuer = '${REIHE}'`)
+  s.run(`offeneTitel['${REIHE}'] = { titel: 'Test', staffeln: [{ seq: 1, offen: true }] }`)
+}
+
+/** Alle Meldungen des Laufs als Einzel- oder Stapelmeldung: Folgennummer → `true`, wenn Deutsch dabei war. */
+const gemeldeteSprachen = (s) =>
+  new Map(
+    s.posts
+      .flatMap((b) => b.stapel ?? [b])
+      .map((d) => [Number(d.folge_nr ?? d.rohfolgen?.[0]?.nummer), (d.sprachen ?? []).some((x) => x.startsWith('de|'))]),
+  )
+
+async function randvollFaelle() {
+  /* 10. Sammeldurchgang: gemischte Randprobe → kein Warten auf das Feld, der nächste Anlauf misst alle 15. */
+  const a = await seite()
+  gemischtStellen(a)
+  sammelnStellen(a)
+  await a.run('selbstStartenSchritt()')
+  await a.warte()
+  const gemeldet = gemeldeteSprachen(a)
+  pruefe('Sammeldurchgang: alle 15 Folgen liegen im Briefkasten', a.briefkasten.length === 15, a.briefkasten.length)
+  pruefe('… jede einzeln gemeldet (15 Meldungen, kein Stapel)', a.posts.length === 15 && a.posts.every((b) => !b.stapel), a.posts.length)
+  pruefe('… Folge 1–8 mit Deutsch, Folge 9–15 ohne', [...gemeldet].every(([nr, de]) => de === nr <= 8) && gemeldet.size === 15, [...gemeldet])
+  pruefe('… kein Grenzfeld offen', a.run('DURCHLAUF.randOffen') === null, a.run('DURCHLAUF.randOffen'))
+  pruefe('… der Merker ist verbraucht', a.run('DURCHLAUF.vollLauf') === null, a.run('DURCHLAUF.vollLauf'))
+
+  /* 11. Von Hand gestartet: es bleibt beim Hinweis, nichts wird gemeldet, nichts läuft von allein weiter. */
+  const b = await seite()
+  gemischtStellen(b)
+  await b.run('durchlaufStarten()')
+  await b.warte()
+  pruefe('Einzeltitel: nichts gemeldet', b.briefkasten.length === 0 && b.posts.length === 0, b.posts.length)
+  pruefe('… das Grenzfeld wartet auf Daniel (`randOffen`)', Boolean(b.run('DURCHLAUF.randOffen')), b.run('DURCHLAUF.randOffen'))
+  pruefe('… kein Merker für einen vollen Lauf', !b.run('DURCHLAUF.vollLauf'), b.run('DURCHLAUF.vollLauf'))
+
+  /* 12. Das Tageslimit hält den vollen Lauf an: nach dem ersten Fehlschlag geht keine weitere Meldung raus. */
+  const c = await seite()
+  gemischtStellen(c)
+  sammelnStellen(c)
+  const echtC = c.env.fetch
+  c.env.fetch = async (url, opt) => {
+    if (opt?.method === 'POST') {
+      c.posts.push(JSON.parse(opt.body))
+      c.run('DURCHLAUF.abbruch = true') /* wie `AK_TAGESLIMIT.fehlgeschlagen` bei gültiger Pause */
+      return { ok: false, json: async () => ({ tageslimit: true }) }
+    }
+    return echtC(url, opt)
+  }
+  await c.run('selbstStartenSchritt()')
+  await c.warte()
+  pruefe('Tageslimit im vollen Lauf: höchstens eine Meldung, dann Schluss', c.posts.length === 1, c.posts.length)
+}
+
 void (async () => {
   console.log('Netflix: Abschluss „✓ gemeldet“ und „Neue Folgen“\n')
   await abschlussFaelle()
   await neueFolgenFaelle()
   await stapelFaelle()
   await fehlerFaelle()
+  await randvollFaelle()
   console.log('')
   if (faelle.includes(false)) {
     console.error('Zusicherungen gerissen.')

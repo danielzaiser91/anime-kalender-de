@@ -2921,9 +2921,9 @@ async function selbstStartenSchritt() {
     await durchlaufStarten(RAND)
     DURCHLAUF.selbst = false
     zaehler.fertig += DURCHLAUF.fertig ?? 0
-    zaehler.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - randPruefungen(gruppe))
+    zaehler.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - randPruefungen(gruppe)) + (DURCHLAUF.vollLauf ? randPruefungen(gruppe) : 0)
     /* **Nach einem Lauf ist die Staffel durch** (30.09.2026). Sie galt nur als geprüft, wenn der Lauf NICHTS gemeldet hatte — eine meldende Staffel lief deshalb ein zweites Mal (doppelte Wiedergabe, Zähler „18/14"). Bleibt der Titel offen, greift der zweite Anlauf über `selbstVersuche`. */
-    selbstStaffelnGeprueft.add(schluessel)
+    if (!DURCHLAUF.vollLauf) selbstStaffelnGeprueft.add(schluessel)
     /* Fand der Durchlauf nichts zu tun, kam er nie bis zum Weitergehen — dann hier weiter. */
     if (!DURCHLAUF.gesamt && selbstAn) {
       selbstStaffelnGeprueft.add(schluessel)
@@ -3858,14 +3858,16 @@ async function durchlaufStarten(grenze) {
    * Leiste nach der Grenze.
    */
   const ausAuftrag = erzwungen ? null : durchlaufAuftrag()
+  const vollLauf = DURCHLAUF.vollLauf === String(reihe)
+  DURCHLAUF.vollLauf = null
   /* Deckt der Auftrag genau einen Titel, ist die Stichprobe über dessen Folgen gezogen — nicht über alle offenen. */
   const basis = DURCHLAUF.stichprobe ?? alleOffen
   const offen = ausAuftrag
     ? ausAuftrag
-    : basis.length > 1
+    : basis.length > 1 && !vollLauf
       ? [basis[0], basis[basis.length - 1]]
       : basis
-  DURCHLAUF.randprobe = !ausAuftrag && basis.length > 1 ? basis : null
+  DURCHLAUF.randprobe = !ausAuftrag && !vollLauf && basis.length > 1 ? basis : null
   if (!offen.length) return
 
   /*
@@ -4173,17 +4175,8 @@ async function durchlaufStarten(grenze) {
       }
       DURCHLAUF.randOffen = null
     } else {
-      /* Uneinheitlich — hier entscheidet ein Mensch, nicht eine Annahme. */
-      DURCHLAUF.randOffen = {
-        folgen: DURCHLAUF.randprobe,
-        erste: ersteFolge,
-        letzte: letzteFolge,
-      }
-      console.warn(
-        `[Anime-Kalender] Folge ${ersteFolge.folge.nummer} ist ${ersteFolge.deutsch ? "deutsch" : "nicht deutsch"}, ` +
-          `Folge ${letzteFolge.folge.nummer} ${letzteFolge.deutsch ? "deutsch" : "nicht"} — nichts gemeldet. ` +
-          'Grenze im Feld unten eintragen oder den vollen Lauf starten.',
-      )
+      /* Uneinheitlich — von Hand entscheidet ein Mensch, im Sammeldurchgang misst der nächste Anlauf alle Folgen. */
+      akNetflixRandUneinheitlich(DURCHLAUF, reihe, DURCHLAUF.selbst && selbstAn, ersteFolge, letzteFolge)
     }
   }
   DURCHLAUF.randprobe = null

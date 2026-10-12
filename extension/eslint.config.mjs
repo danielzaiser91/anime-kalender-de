@@ -68,6 +68,7 @@ export default [
         akDurchgangSchutz: 'readonly',
         akNetflixUebernahme: 'readonly',
         akNetflixWartet: 'readonly',
+        akNetflixRandUneinheitlich: 'readonly',
         akRandAusfall: 'readonly',
       },
     },
