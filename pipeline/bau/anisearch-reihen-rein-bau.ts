@@ -8,10 +8,10 @@ import { fuehreReihenZusammen } from './03-reihen.ts'
 import { alle } from './anisearch-titel.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import { type Ausgeschieden, anisearchKatalogReihen, katalogAnker, ladeBeziehungen } from './anisearch-reihen-pruefliste.ts'
-import { type ReinErgebnis, type ReinHand, type ReinTitel, reihenAusAnisearch, reineReihen } from './anisearch-reihen-rein.ts'
+import { type ReinErgebnis, type ReinHand, type ReinTitel, bestandReihenAusAnisearch, katalogReihenAusAnisearch, reineReihen } from './anisearch-reihen-rein.ts'
 
 /**
- * **Anbindung von `REIHEN_QUELLE=anisearch` an den Bau** (Schritt 6 der AniList-Ablösung, 12.10.2026). Ohne den Schalter rufen beide Eintrittspunkte nur den heutigen Weg.
+ * **Anbindung von `REIHEN_QUELLE=anisearch` an den Bau** (Schritt 6 der AniList-Ablösung, 12.10.2026). Der Hauptbestand läuft rein, der Katalog nur mit `REIHEN_QUELLE=anisearch`; wo der Weg aus ist, rufen die Eintrittspunkte den AniList-Weg.
  * Mit ihm kommen `franchiseId` des Hauptbestands und die Reihen des Katalogs allein aus aniSearch (Regeln in `anisearch-reihen-rein.ts`); `data/reihen-von-hand.yaml` gilt weiter.
  * Die Prüfliste dieses Wegs steht in einer eigenen Datei, damit der Standardweg seine nicht verliert.
  */
@@ -54,7 +54,7 @@ type ReihenArgs = Parameters<typeof fuehreReihenZusammen>[0]
  * Ein Fehler stoppt den Bau nie: dann bleibt es bei den Reihen ohne AniList-Kanten, und die Warnung nennt den Grund.
  */
 export function fuehreReihenZusammenQuelle(args: ReihenArgs): ReturnType<typeof fuehreReihenZusammen> {
-  if (!reihenAusAnisearch()) return fuehreReihenZusammen(args)
+  if (!bestandReihenAusAnisearch()) return fuehreReihenZusammen(args)
   const ergebnis = fuehreReihenZusammen({ ...args, byAniId: {}, byMal: {} })
   try {
     reinBestandReihen(args.titles)
@@ -80,7 +80,7 @@ function reinKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, num
 
 /** `anisearchKatalogReihen` mit dem Schalter; gleiche Parameter, damit `nebendateien.ts` nur den Namen wechselt. */
 export function anisearchKatalogReihenQuelle(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden): Map<number, number> {
-  if (!reihenAusAnisearch()) return anisearchKatalogReihen(reihe, eintraege, bekannt, verschoben, kennung, weg)
+  if (!katalogReihenAusAnisearch()) return anisearchKatalogReihen(reihe, eintraege, bekannt, verschoben, kennung, weg)
   try {
     const anker = katalogAnker(eintraege, bekannt, verschoben, kennung, weg)
     return reinKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), kennung, anker)

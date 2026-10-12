@@ -4,13 +4,16 @@ import type { Pruefzeile, ReiheRef } from './anisearch-reihen-uebernahme.ts'
 import { WANDERREGEL } from './anisearch-reihen-uebernahme.ts'
 
 /**
- * **Reihen rein aus aniSearch-Beziehungen** (Stufe C, Schritt 6 der AniList-Ablösung, 12.10.2026). Hinter dem Umgebungsschalter `REIHEN_QUELLE=anisearch`; ohne ihn bleibt die Basis
+ * **Reihen rein aus aniSearch-Beziehungen** (Stufe C, Schritt 6 der AniList-Ablösung, 12.10.2026). Seit 12.10.2026 der Weg des Hauptbestands (Rückweg `REIHEN_QUELLE=anilist`), beim Katalog erst mit `REIHEN_QUELLE=anisearch`; sonst bleibt die Basis
  * AniList (`03-reihen.ts`, `reihenFuerKatalog`) und aniSearch hängt nur Alleinstehende an. Reine Funktionen; Lesen, Schreiben und Anbindung in `anisearch-reihen-rein-bau.ts`.
  * Rechnet in Titel-Kennungen; Titel mit gleicher aniSearch-Kennung sind dieselbe Einheit; eine gleiche MAL-Kennung wirkt nur als Kante der Art `ART_MAL` (Regel „immer“), und nur bis `MAL_GRUPPE_MAX` aniSearch-Kennungen je MAL-Kennung (Sammelseiten nicht). Auch Seiten, zu denen es keinen Titel gibt, verbinden (wie bei AniList jeder Nachbar):
  * sie sind Knoten mit `ANONYM + aniSearch-Kennung` und zählen für die Größe einer Reihe mit, nie für ihre Kennung.
  */
 const ANONYM = 2_000_000_000
-export const reihenAusAnisearch = (): boolean => process.env.REIHEN_QUELLE === 'anisearch'
+/** Hauptbestand (`franchiseId`): rein aus aniSearch seit 12.10.2026; `REIHEN_QUELLE=anilist` ist der Rückweg (AniList-Relationen als Basis). */
+export const bestandReihenAusAnisearch = (): boolean => process.env.REIHEN_QUELLE !== 'anilist'
+/** Katalog (`reihe`): bleibt beim AniList-Weg, bis die 3.049 Titel ohne aniSearch-Kennung zugeordnet sind (Schritt 0 des Berichts `reihen-abstand-2026-10-12.md`); `REIHEN_QUELLE=anisearch` legt ihn mit um. */
+export const katalogReihenAusAnisearch = (): boolean => process.env.REIHEN_QUELLE === 'anisearch'
 
 /** `mal`: MAL-Kennung des Titels selbst (AniList); `malAnisearch`: die im aniSearch-Eintrag, nur ein Ersatz, wenn `mal` fehlt (siehe `malVerbindungen`). */
 export type ReinTitel = { id: number; name: string; anisearchId?: number; mal?: number; malAnisearch?: number }
