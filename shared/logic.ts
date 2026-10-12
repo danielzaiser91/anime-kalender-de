@@ -280,9 +280,11 @@ function terminGeschaetzt(
   lastAnchor: { episode: number } | undefined,
   first: number,
 ): boolean | undefined {
+  /* `belegtBis` nennt keinen Tag: Mit nur einer beobachteten Folge sind die Tage davor zurückgerechnet (12.10.2026). */
+  const taktVerankert = Object.keys(s.observed ?? {}).length >= 2
   const belegt =
     s.observed?.[episode] ||
-    (s.belegtBis && episode <= s.belegtBis.folge && date <= s.belegtBis.am) ||
+    (s.belegtBis && taktVerankert && episode <= s.belegtBis.folge && date <= s.belegtBis.am) ||
     /* Zwischen zwei Stützpunkten eines Sendeplans ist der Tag belegt, nicht geschätzt. */
     (s.wochentage?.length && lastAnchor && episode < lastAnchor.episode && !s.estimated)
   if (belegt) return undefined
