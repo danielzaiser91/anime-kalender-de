@@ -365,13 +365,14 @@
 # Nachtrag 12.10.2026 aus der Anime2You-Extraktion (Vorschläge → Handeinträge).
 # Anime2You 1059642 (10.10.2026, 20:04): „vier weitere Handlungsabschnitte von »Demon Slayer« in sein Angebot aufgenommen", ab sofort,
 # je Titel „Sprache: Deutsch, Japanisch (UT)", „Stream: Prime Video". Der Tag ist der Meldetag: im Angebot spätestens seit 10.10.
-# Den Ton belegt der Handbeleg in dub-confirmed.yaml; `dubZitat` am Termin scheidet aus, „Sprache: Deutsch" nennt die Synchro nicht ausdrücklich.
+# Ton: `sprache: offen` — „Sprache: Deutsch" nennt die Synchro nicht ausdrücklich; Handbeleg `dub: true` und `dubZitat` scheiden aus.
 - slug: demon-slayer-entertainment-district-arc-primevideo
   anilistId: 142329
   platform: primevideo
   releaseType: batch
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-10", episodeCount: 11 }
+  sprache: offen
   sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
 
 - slug: demon-slayer-hashira-training-arc-primevideo
@@ -380,6 +381,7 @@
   releaseType: batch
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-10", episodeCount: 8 }
+  sprache: offen
   sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
 
 - slug: demon-slayer-mugen-train-arc-primevideo
@@ -388,6 +390,7 @@
   releaseType: batch
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-10", episodeCount: 7 }
+  sprache: offen
   sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
 
 - slug: demon-slayer-swordsmith-village-arc-primevideo
@@ -396,6 +399,7 @@
   releaseType: batch
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-10-10", episodeCount: 11 }
+  sprache: offen
   sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
 
 # Anime2You 1058843 (10.10.) und 1060009 (11.10.): „bei Netflix geht es erst am 18. Oktober 2026 los. Neue Folgen erscheinen wöchentlich." Crunchyroll
