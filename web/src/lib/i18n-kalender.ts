@@ -5,13 +5,13 @@
 /* Die Texte des Sprecher-Filters reisen mit: `i18n.tsx` ist über der Dateigrenze und wächst nicht mehr. */
 import { TEXTE_SPRECHER } from './i18n-sprecher.ts'
 import { TEXTE_HERKUNFT } from './i18n-herkunft.ts'
-import { TEXTE_ZEILEN } from './i18n-zeilen.ts'
+import { TEXTE_JUSTWATCH } from './i18n-justwatch.ts'
 import { TEXTE_ANTWORT } from './i18n-antwort.ts'
 
 export const TEXTE_KALENDER = {
   ...TEXTE_SPRECHER,
   ...TEXTE_HERKUNFT,
-  ...TEXTE_ZEILEN,
+  ...TEXTE_JUSTWATCH,
   // Fortsetzung mit eigenem Titel in der Reihenliste, keine Staffel.
   'detail.gruppeEigene': 'Eigene Serien',
   ...TEXTE_ANTWORT,
@@ -19,7 +19,7 @@ export const TEXTE_KALENDER = {
   'geplant.marke': 'Geplant',
   'geplant.hinweis': 'Das Original ist noch nicht erschienen',
   // Kurzfassung am Schalter der Reihenliste (einzeilige Kopfzeile); der volle Satz steht in `detail.reiheOhneSchalter` als Tooltip.
-  'detail.reiheOhneSchalterKurz': 'Teile ohne Synchro zeigen ({n})',
+  'detail.reiheOhneSchalterKurz': '{n} ohne Synchro',
   'detail.reiheNurOhne': 'Alle übrigen Teile sind ohne Synchro oder geplant — der Schalter blendet sie ein.',
   'kopf.startseite': 'Anime-Kalender DE — zur aktuellen Woche',
   'kopf.suche': 'Anime suchen',

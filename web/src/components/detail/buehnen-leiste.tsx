@@ -1,0 +1,43 @@
+import { ShareIcon } from './hilfen.tsx'
+import { CoverMaximieren } from './cover-max.tsx'
+import { anzeigeName } from '@shared/titles.ts'
+import { HideEye, FavoriteStar } from '../ui.tsx'
+import { TIPPFLAECHE_KINDER } from './tippziel.ts'
+import { teilbarerSlug } from '@shared/teilen.ts'
+import { type Title } from '@shared/types.ts'
+import type { Translate } from '../../lib/i18n.tsx'
+
+/**
+ * Die Knopfleiste an der rechten Kante der Bühne: Schließen, Merken, Ausblenden, Teilen.
+ * Jedes Symbol behält seinen dunklen Grund (auf hellem Cover wäre ein blankes Symbol unlesbar); gerundet ist nur die Kante zum Bild.
+ */
+export function BuehnenLeiste({ title, favorites, onToggleFavorite, onToggleHidden, onClose, t, buehnenBild, grossBild }: {
+  title: Title
+  favorites: Set<number>
+  onToggleFavorite: (id: number) => void
+  onToggleHidden: (id: number) => void
+  onClose: () => void
+  t: Translate
+  buehnenBild: string | undefined
+  grossBild?: [string, number, number]
+}) {
+  /* Tipp-Ziele 44 px: unsichtbare Flächen über den Knöpfen, der Abstand ist so groß, dass sie sich nicht überdecken. */
+  return (
+    <div
+      className={`absolute right-0 top-0 z-10 flex flex-col items-center rounded-bl-lg bg-slate-900/85 px-1.5 py-2 backdrop-blur-[3px] gap-4 ${TIPPFLAECHE_KINDER}`}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label={t('detail.close')}
+        className={`cursor-pointer px-1 text-sm text-white transition hover:opacity-70 py-1.5`}
+      >
+        ✕
+      </button>
+      <FavoriteStar active={favorites.has(title.id)} onToggle={() => onToggleFavorite(title.id)} />
+      <HideEye hidden={false} onToggle={() => onToggleHidden(title.id)} />
+      {teilbarerSlug(title) && <ShareIcon slug={title.slug} name={anzeigeName(title)} />}
+      <CoverMaximieren bild={buehnenBild} gross={grossBild} titel={anzeigeName(title)} />
+    </div>
+  )
+}

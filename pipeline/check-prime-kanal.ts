@@ -59,18 +59,18 @@ const bereich19 = [{ from: 1, to: 19, dub: true }]
 const bis19 = 'detail.folgenBereich{"bereich":"1–19"}'
 
 const slime = pillen(titel([cr(), kanal({ dubRanges: bereich19 })]), rel)
-pruefe('Slime: Crunchyroll zeigt 23 Folgen', slime.crunchyroll === 'detail.folgenBereich{"bereich":"1–23"}', slime)
+pruefe('Slime: Crunchyroll zeigt 23 Folgen', slime.crunchyroll === 'detail.folgenKurz{"n":23}', slime)
 pruefe('Slime: Prime-Kanal zeigt dieselben 23 statt 1–19', slime.primevideo === slime.crunchyroll, slime)
 
 const ohneRanges = pillen(titel([cr(), kanal()]), rel)
-pruefe('Kanal ohne eigene Bereiche zählt die Crunchyroll-Folgen', ohneRanges.primevideo === 'detail.folgenBereich{"bereich":"1–23"}', ohneRanges)
+pruefe('Kanal ohne eigene Bereiche zählt die Crunchyroll-Folgen', ohneRanges.primevideo === 'detail.folgenKurz{"n":23}', ohneRanges)
 
 const weiter = pillen(titel([cr(), kanal({ dubRanges: [{ from: 1, to: 22, dub: true }] })]), [wochenplan(20, 24)])
-pruefe('Ist Prime weiter, bleibt sein Beleg (Vereinigung)', weiter.primevideo === 'detail.folgenBereich{"bereich":"1–22"}' && weiter.crunchyroll === 'detail.folgenBereich{"bereich":"1–20"}', weiter)
+pruefe('Ist Prime weiter, bleibt sein Beleg (Vereinigung)', weiter.primevideo === 'detail.folgenBereich{"bereich":"1–22"}' && weiter.crunchyroll === 'detail.folgenKurz{"n":20}', weiter)
 
 /* Lupin III Part 6: ein belegter Bestand wird nie kleiner — Kanal 1–25, Crunchyroll 1–24 ergibt 25 Folgen; ohne eigene Bereiche (so im Bestand) bleibt es bei 25. */
 const lupinEigen = pillen(titel([cr({ dubRanges: [{ from: 1, to: 24, dub: true }] }), kanal({ dubRanges: [{ from: 1, to: 25, dub: true }] })], 25), [])
-pruefe('Lupin: Kanal 1–25, Crunchyroll 1–24 gibt 25 Fg.', lupinEigen.primevideo === 'detail.folgenBereich{"bereich":"1–25"}', lupinEigen)
+pruefe('Lupin: Kanal 1–25, Crunchyroll 1–24 gibt 25 Fg.', lupinEigen.primevideo === 'detail.folgenKurz{"n":25}', lupinEigen)
 const lupinOhne = titelMitTerminBereichen(titel([cr({ dubRanges: [{ from: 1, to: 24, dub: true }] }), kanal()], 25), [])!.streams!
 pruefe('Lupin: Kanal ohne eigene Bereiche erbt keine kleinere Zahl', lupinOhne[1]!.dubRanges === undefined, lupinOhne)
 
@@ -99,7 +99,7 @@ pruefe('Hensuki: „ohne Ton“ am Kanal weicht den Bereichen von Crunchyroll', 
 
 /* ADN: der Prime-Kanal „ADN“ führt den Bestand von animationdigitalnetwork.com. */
 const adnKanal = pillen(titel([adn(), kanal({ kanal: 'ADN', dubRanges: [{ from: 1, to: 5, dub: true }] })], 12), [wochenplan(9, 12, 'adn')])
-pruefe('ADN: der Kanal zeigt die Zahl von ADN', adnKanal.primevideo === adnKanal.adn && adnKanal.adn === 'detail.folgenBereich{"bereich":"1–9"}', adnKanal)
+pruefe('ADN: der Kanal zeigt die Zahl von ADN', adnKanal.primevideo === adnKanal.adn && adnKanal.adn === 'detail.folgenKurz{"n":9}', adnKanal)
 const adnFremd = pillen(titel([cr(), kanal({ kanal: 'ADN', dubRanges: bereich19 })]), rel)
 pruefe('ADN-Kanal ohne ADN-Weg erbt nichts von Crunchyroll', adnFremd.primevideo === bis19, adnFremd)
 
