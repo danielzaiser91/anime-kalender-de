@@ -34,10 +34,10 @@ export function kanalAdressenOhneBeleg(checks: DubCheck[]): Set<string> {
 }
 
 /**
- * Belegt eine gemeldete Folgenliste (`prime-zugeordnet.json`) Deutsch? Auf einer Kanal-Seite (`seite`, sonst null) nicht: Amazon führt
- * dort je Folge die Sprachen des Kanals, die Rohmeldung ist dieselbe Angabe wie der Handbeleg.
+ * Belegt eine gemeldete Folgenliste (`prime-zugeordnet.json`, `deutsch`: eine Folge nennt Deutsch) das Deutsch? Auf einer Kanal-Seite
+ * (`seite`, sonst null) nicht: Amazon führt dort je Folge die Sprachen des Kanals, die Rohmeldung ist dieselbe Angabe wie der Handbeleg.
+ * Der Verweis selbst bleibt (Adresse, Kanal), nur das Häkchen entfällt.
  */
-export function rohBelegtDeutsch(folgen: { sprachen: string[] }[], titelId: number, seite: string | null, alleChecks: DubCheck[]): boolean {
-  if (!folgen.some((f) => f.sprachen.includes('Deutsch'))) return false
-  return !(seite && kanalAdressenOhneBeleg(alleChecks).has(kanalSchluessel(titelId, seite)))
+export function rohBelegtDeutsch(deutsch: boolean, titelId: number, seite: string | null, alleChecks: DubCheck[]): boolean {
+  return deutsch && !(seite && kanalAdressenOhneBeleg(alleChecks).has(kanalSchluessel(titelId, seite)))
 }

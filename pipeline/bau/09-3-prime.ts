@@ -181,8 +181,9 @@ export function uebernehmePrimeUndCrVorschlaege({
         fremdeAdresse++
         continue
       }
-      const deutsch = rohBelegtDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? seite : null, alleChecks)
+      const deutsch = eintrag.folgen.some((f) => f.sprachen.includes('Deutsch'))
       if (!deutsch) continue
+      const belegt = rohBelegtDeutsch(deutsch, eintrag.titleId, plattform === 'primevideo' ? seite : null, alleChecks) || undefined
 
       /**
        * **Zwei Ausgaben desselben Titels sind zwei Wege, keine Dublette.**
@@ -214,7 +215,7 @@ export function uebernehmePrimeUndCrVorschlaege({
           ? title.streams.find((x) => x.platform === 'primevideo' && /amazon\.[a-z.]+\/s\?/i.test(x.url))
           : undefined)
       if (da) {
-        if (da.dub !== true) {
+        if (belegt && da.dub !== true) {
           da.dub = true
           ausRoh++
         }
@@ -258,7 +259,7 @@ export function uebernehmePrimeUndCrVorschlaege({
           bei den Handbelegen eine Runde später.
         */
         if (lautPruefungTot(seite)) continue
-        title.streams.push({ platform: plattform, url: seite, dub: true })
+        title.streams.push({ platform: plattform, url: seite, dub: belegt })
         ausRoh++
       }
     }
