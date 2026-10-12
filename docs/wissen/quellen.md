@@ -499,6 +499,7 @@ Sammel-Set `gesehen.sprachen` ohne Folgennummer; Amazon zeigte auch am 30.08. nu
   einer bekannten Adresse ohne Folgenbefund wurde ausgelassen (`kanalOhneAussage()`), das alte Ja blieb unter der Sperre liegen. Seit jetzt schreibt `fetch-pruefungen.ts`
   auf einer Adresse mit altem Kanal-Ja auch das Nein, und jede Kanal-Meldung trägt `kanalMessung: ja|nein`. Das Feld zählt nicht als Urteil (kein `dub: false`, das
   `check:logic` für Kanal-Titel verbietet); wer die Regel später lockert, liest es statt des alten `dub: true`. Die Messung beendet auch die Wiedervorlage.
+  Ein Nein löst das Ja ab (12.10.2026): `kanalJaAdressKerne()` zählt eine Adresse mit `kanalMessung: nein` nicht mehr, weitere Nein-Meldungen darauf schreiben keinen Block mehr, ein neues Ja schon (`check:logic`: `check-kanal-messung.ts`, Lauf über `tools/kanal-messung-mock.mjs`).
 - **Auswertung:** `node tools/kanal-nachmessung-vergleich.mjs [--liste]` (Kern `tools/kanal-nachmessung.mjs`): je Adresse alt Ja, neu Ja/Nein/fehlt, Gegenprobe; die Zahl der
   Abweichungen (alt Ja, neu Nein) trägt Daniels Entscheidung. Messung frühestens am 13.10.2026 nach 02:00 (Leselimit).
 
