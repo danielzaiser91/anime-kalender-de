@@ -4174,16 +4174,7 @@ async function durchlaufStarten(grenze) {
       DURCHLAUF.randOffen = null
     } else {
       /* Uneinheitlich — hier entscheidet ein Mensch, nicht eine Annahme. */
-      DURCHLAUF.randOffen = {
-        folgen: DURCHLAUF.randprobe,
-        erste: ersteFolge,
-        letzte: letzteFolge,
-      }
-      console.warn(
-        `[Anime-Kalender] Folge ${ersteFolge.folge.nummer} ist ${ersteFolge.deutsch ? "deutsch" : "nicht deutsch"}, ` +
-          `Folge ${letzteFolge.folge.nummer} ${letzteFolge.deutsch ? "deutsch" : "nicht"} — nichts gemeldet. ` +
-          'Grenze im Feld unten eintragen oder den vollen Lauf starten.',
-      )
+      akNetflixRandUneinheitlich(DURCHLAUF, ersteFolge, letzteFolge)
     }
   }
   DURCHLAUF.randprobe = null
