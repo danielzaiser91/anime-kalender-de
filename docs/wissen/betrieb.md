@@ -86,6 +86,12 @@ Grund — keine Fehlermail. Rot bleibt für Code, also meist für meinen Push. A
 Nachtmeldungen am Reihenkopf machten drei Deploys rot, weil sie ungeprüft als
 Quelle committet wurden. **Eine gelbe Karte wird behandelt wie eine rote.**
 
+**Prüfwerkzeuge (12.10.2026):** `npm run check:logic` bricht beim ersten roten Ergebnis ab;
+`npm run check:logic -- --alle` lässt alle laufen und listet am Ende jede rote Prüfung (Exit 1).
+`check:panel` und `check:ansichten` melden mit dem Befehl `npm run build`, wenn `dist/` fehlt oder
+älter als `web/src` ist (baut nie selbst). `commit-data.sh` nimmt für `DATEN_WARNUNG` auch Zeilen
+mit `FEHLER:` auf (Test in `commit-data-test.sh`).
+
 **Der Alarm über stumme Quellen wandert mit.** Ein Sammler, der eine Quelle nicht
 erreicht, ist kein Fehler — dass sie seit Tagen schweigt, schon. `data:check`
 steht deshalb im Bau-Lauf, an der Stelle, die es beurteilen kann.

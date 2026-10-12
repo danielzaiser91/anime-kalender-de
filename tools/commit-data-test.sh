@@ -38,6 +38,7 @@ case "$2" in
     ;;
   check:bestand)
     [ "${FAKE_BESTAND:-ok}" = fail ] && { echo "✗ Handbeleg ohne Titel"; exit 1; }
+    [ "${FAKE_BESTAND:-ok}" = fehler ] && { echo "FEHLER: Cover fehlt bei Titel 7"; exit 1; }
     ;;
 esac
 exit 0
@@ -95,6 +96,12 @@ szenario bestand FAKE_BESTAND=fail
 pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
 pruefe "Quelle gepusht" ja "$(quelle_gepusht)"
 pruefe "kein Erzeugnis gepusht" nein "$(im_fernstand public/data/titles.json)"
+
+echo "Prüfung meldet nur mit FEHLER: (Bau-Lauf): DATEN_WARNUNG nennt den Grund"
+mkdir -p "$ARBEIT/warnung"
+szenario warnung FAKE_BESTAND=fehler BAU_LAUF=1 GITHUB_ENV="$ARBEIT/warnung/env.txt"
+pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
+pruefe "Warnung enthält den Grund" ja "$(grep -q '^DATEN_WARNUNG=.*FEHLER: Cover fehlt bei Titel 7' "$ARBEIT/warnung/env.txt" && echo ja || echo nein)"
 
 echo "NUR_QUELLEN=1 (Abruf-Lauf, kein Bau): grün, nur Quellen"
 szenario abruf NUR_QUELLEN=1 FAKE_BAU=fail

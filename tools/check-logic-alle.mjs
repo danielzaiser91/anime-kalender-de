@@ -1,7 +1,8 @@
 /**
  * `npm run check:logic`: führt die Prüfungen aus tools/check-logic-liste.txt nacheinander mit tsx aus.
  * Eine Datei je Zeile (Pfad ab Repo-Wurzel), `#` beginnt einen Kommentar. Der erste Fehler bricht ab
- * und gibt dessen Exit-Code zurück. Eigene Datei statt einer Kette in package.json, damit zwei PRs,
+ * und gibt dessen Exit-Code zurück. Mit `--alle` laufen alle durch, am Ende steht die Liste der roten
+ * (Exit 1). Eigene Datei statt einer Kette in package.json, damit zwei PRs,
  * die je einen Check ergänzen, nicht in derselben Zeile kollidieren; die Liste ist sortiert, damit sie auch
  * nicht an derselben Stelle (Listenende) einfügen.
  */
@@ -31,12 +32,23 @@ if (unsortiert) {
   process.exit(1)
 }
 
+const alle = process.argv.includes('--alle')
+const rote = []
+
 for (const [i, datei] of dateien.entries()) {
   console.log(`[check:logic ${i + 1}/${dateien.length}] ${datei}`)
   const lauf = spawnSync(process.execPath, [tsx, datei], { cwd: wurzel, stdio: 'inherit' })
-  if (lauf.status !== 0) {
+  if (lauf.status === 0) continue
+  rote.push(datei)
+  if (!alle) {
     console.error(`check:logic: ${datei} ist rot (nach ${i} grünen von ${dateien.length}).`)
+    console.error('Weitere Fehler dahinter bleiben verdeckt. Alle roten Prüfungen auf einmal: `npm run check:logic -- --alle`.')
     process.exit(lauf.status ?? 1)
   }
+}
+if (rote.length > 0) {
+  console.error(`check:logic: ${rote.length} von ${dateien.length} Prüfungen rot:`)
+  for (const datei of rote) console.error(`  - ${datei}`)
+  process.exit(1)
 }
 console.log(`check:logic: ${dateien.length} von ${dateien.length} Prüfungen grün.`)
