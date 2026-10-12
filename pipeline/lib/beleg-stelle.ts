@@ -11,6 +11,25 @@ export interface Stelle {
 }
 
 /**
+ * Kennzeichnet Absätze, die ein Container mit festem Rand abschneidet (eingeklappte Kritik) oder die hinter dem Seitenende liegen, mit `data-beleg-verdeckt`:
+ * Im Bild stünden sie auf leerer Fläche, also sind sie weder Stützstelle noch Grund, den Ausschnitt zu verlängern (Kinoheld, 12.10.2026).
+ */
+export async function verdecktesMarkieren(seite: Page): Promise<void> {
+  await seite.evaluate(() => {
+    for (const e of document.querySelectorAll('p, li, tr, h2, h3')) {
+      const r = e.getBoundingClientRect()
+      let weg = !r.width || !r.height || r.top + window.scrollY >= document.documentElement.scrollHeight
+      for (let a = e.parentElement; a && a !== document.body && !weg; a = a.parentElement) {
+        if (!/hidden|clip/.test(getComputedStyle(a).overflowY)) continue
+        const ar = a.getBoundingClientRect()
+        weg = r.top >= ar.bottom - 1 || r.bottom <= ar.top + 1
+      }
+      if (weg) e.setAttribute('data-beleg-verdeckt', '')
+    }
+  })
+}
+
+/**
  * **Die Stelle, die die Behauptung wirklich stützt** (Daniel, 05.10.2026: „Beleg und Behauptung müssen zusammenpassen"): der kleinste Absatz, Listenpunkt oder
  * die Tabellenzeile, die den Titel nennt **und** einen der Termine (`8. August 2026`, `04.12.`). Gibt es keinen mit beidem, der erste, der den Titel nennt.
  * Ohne diese Suche zeigte das Bild nur die ersten Absätze — ein Datum weiter unten im Artikel stand nicht darauf.
@@ -26,6 +45,7 @@ export async function stuetzstelle(seite: Page, suchen: string[], tage: string[]
       const norm = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
       const wurzel = document.querySelector('article') ?? document.querySelector('main') ?? document.body
       const kandidaten = [...wurzel.querySelectorAll('p, li, tr, h2, h3')]
+        .filter((e) => !e.hasAttribute('data-beleg-verdeckt'))
         .map((e) => ({ e: e as HTMLElement, text: norm((e as HTMLElement).innerText), roh: (e as HTMLElement).innerText.toLowerCase() }))
         .filter((k) => k.text.length > 12)
         .sort((a, b) => a.text.length - b.text.length)
