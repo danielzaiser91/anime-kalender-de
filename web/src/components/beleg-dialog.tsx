@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import type { NewsBeleg } from '@shared/types.ts'
 import { hostVon } from '@shared/quelle.ts'
@@ -6,6 +6,7 @@ import { BELEG_TYP_LABEL, belegTyp } from '@shared/beleg-anbieter.ts'
 import { datumKurz } from '../lib/news-text.ts'
 import { quellenLabel } from './news-belege.tsx'
 import { TREFFER_24_HOCH } from './detail/tippziel.ts'
+import { Ladeanzeige } from './ui.tsx'
 
 /** **Das Beleg-Bild** an einer Quelle; öffentlich lesbar (Daniel, 04.10.2026). Der archivierte Text (HTML) bleibt privat (Daniel, 05.10.2026). */
 const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
@@ -148,7 +149,7 @@ function useBelegBild(bild: string | undefined): { url?: string; fehler?: string
         blobUrl = URL.createObjectURL(await r.blob())
         if (aktiv) setUrl(blobUrl)
       })
-      .catch((e: Error) => aktiv && setFehler(e.message))
+      .catch((e: Error) => aktiv && setFehler(e instanceof TypeError ? 'Beleg nicht erreichbar' : e.message))
     return () => {
       aktiv = false
       if (blobUrl) URL.revokeObjectURL(blobUrl)
@@ -167,7 +168,7 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
   const startScroll = useRef(Boolean(beleg.markierung))
   const marke = useRef<HTMLDivElement>(null)
   const [x, y, b, h] = beleg.markierung ?? []
-  const bildGeladen = () => {
+  const bildBereit = () => {
     if (!startScroll.current) return
     startScroll.current = false
     marke.current?.scrollIntoView({ block: 'center' })
@@ -205,9 +206,8 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
           beleg.messung ? <Messung m={beleg.messung} /> : null
         ) : fehler ? (
           <p className="p-4 text-sm text-rose-300">{fehler}</p>
-        ) : url ? (
-          <div className={einpassen ? 'relative h-full max-w-full' : 'relative mx-auto w-full max-w-[1800px]'} onClick={(e) => e.stopPropagation()}>
-            <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} onLoad={bildGeladen} />
+        ) : (
+          <BelegBild url={url} alt={`Beleg: ${beleg.name}`} einpassen={einpassen} bereit={bildBereit}>
             {markiert && x !== undefined && (
               <div
                 ref={marke}
@@ -216,12 +216,39 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
                 style={{ left: `${x * 100}%`, top: `${(y ?? 0) * 100}%`, width: `${(b ?? 0) * 100}%`, height: `${(h ?? 0) * 100}%` }}
               />
             )}
-          </div>
-        ) : (
-          <p className="p-4 text-sm text-slate-400">Lädt …</p>
+          </BelegBild>
         )}
       </div>
     </>
+  )
+}
+
+/**
+ * Das Bild samt Ladeanzeige: Bis es geladen und gezeichnet ist, hält die Hülle Platz (nichts springt) und zeigt den Kringel;
+ * `bereit` läuft erst, wenn das Bild steht — vorher liegt die Marke noch an der falschen Stelle (Daniel, 12.10.2026, Handy).
+ */
+function BelegBild({ url, alt, einpassen, bereit, children }: { url?: string; alt: string; einpassen: boolean; bereit: () => void; children: ReactNode }) {
+  const [stand, setStand] = useState<'laedt' | 'fertig' | 'kaputt'>('laedt')
+  useLayoutEffect(() => {
+    if (stand === 'fertig') bereit()
+  }, [stand]) // eslint-disable-line react-hooks/exhaustive-deps -- `bereit` liest nur Refs
+  if (stand === 'kaputt') return <p className="p-4 text-sm text-rose-300">Bild konnte nicht angezeigt werden</p>
+  const fertig = stand === 'fertig'
+  const hoehe = fertig ? '' : 'min-h-[60svh]'
+  return (
+    <div className={`relative ${hoehe} ${einpassen ? 'h-full max-w-full' : 'mx-auto w-full max-w-[1800px]'}`} onClick={(e) => e.stopPropagation()}>
+      {!fertig && <Ladeanzeige label="Beleg wird geladen …" className="absolute inset-0 text-slate-300" />}
+      {url && (
+        <img
+          src={url}
+          alt={alt}
+          className={`${einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} ${fertig ? '' : 'opacity-0'}`}
+          onLoad={() => setStand('fertig')}
+          onError={() => setStand('kaputt')}
+        />
+      )}
+      {fertig && children}
+    </div>
   )
 }
 
