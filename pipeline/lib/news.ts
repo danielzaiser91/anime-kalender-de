@@ -256,6 +256,18 @@ function teilFelder(teilname: string, kopf: string, teilId: number): { teil?: st
   return teilname.toLowerCase() === kopf.toLowerCase() ? { teilId } : { teil: teilname, teilId }
 }
 
+/** Rangfolge der Arten: was am Tag eines Eintrags zuerst genannt wird. */
+const rang: Record<NewsArt, number> = {
+  neu: 0,
+  angekuendigt: 1,
+  verspaetet: 2,
+  nachgereicht: 2,
+  nachgetragen: 1,
+  kino: 3,
+  disc: 4,
+  folgen: 5,
+}
+
 /**
  * Baut die Meldungen. `historie` wird dabei **ergänzt** — der Aufrufer schreibt
  * sie zurück, damit das Datum einer Meldung beim nächsten Bau dasselbe bleibt.
@@ -397,14 +409,6 @@ export function baueNews(
     if (v < addDays(heute, -400)) delete historie.zuerst[k]
   }
 
-  const rang: Record<NewsArt, number> = {
-    neu: 0,
-    angekuendigt: 1,
-    verspaetet: 2, nachgereicht: 2, nachgetragen: 1,
-    kino: 3,
-    disc: 4,
-    folgen: 5,
-  }
   /*
     **Dieselbe Schreibweise wie überall sonst.** Ohne die Eindeutschung stand im
     Chip „Staffel 3 - Cour 1" neben einem „Staffel 3 - Teil 2" aus derselben

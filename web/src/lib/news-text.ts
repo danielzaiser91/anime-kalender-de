@@ -88,6 +88,32 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
   }
 }
 
+/** Die Kurzform für die Übersichtszeile — Stichworte, kein Satz. */
+export function newsKurz(m: NewsMeldung): string {
+  const anbieter = anbieterDerMeldung(m)
+  const datum = m.datum ? datumKurz(m.datum) : ''
+  switch (m.art) {
+    case 'neu':
+      if (m.weiterer) return t('news.kurz.auchBei', { anbieter })
+      return anbieter ? t('news.kurz.neu', { anbieter }) : t('news.art.neu')
+    case 'folgen':
+    case 'nachgereicht':
+      return m.bis !== undefined && m.bis !== m.von
+        ? t('news.kurz.folgen', { von: m.von ?? '', bis: m.bis, anbieter })
+        : t('news.kurz.folge', { von: m.von ?? '', anbieter })
+    case 'angekuendigt':
+      return t(m.omu ? 'news.kurz.omu' : 'news.kurz.angekuendigt', { datum, anbieter })
+    case 'disc':
+      return t(m.ausgabe ? 'news.kurz.discAusgabe' : 'news.kurz.disc', { datum, ausgabe: m.ausgabe ?? '' })
+    case 'kino':
+      return t('news.kurz.kino', { datum })
+    case 'verspaetet':
+      return t('news.kurz.verspaetet', { von: m.von ?? '', datum })
+    case 'nachgetragen':
+      return t('news.kurz.nachgetragen', { von: m.von ?? 1, datum, anbieter })
+  }
+}
+
 /** „16.09., 23.09. und 30.09." */
 function aufzaehlen(teile: string[]): string {
   return teile.length > 1 ? `${teile.slice(0, -1).join(', ')} und ${teile.at(-1)}` : (teile[0] ?? '')

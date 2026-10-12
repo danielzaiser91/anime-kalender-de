@@ -4,7 +4,7 @@ import { type NewsArt, type NewsEintrag, type NewsMeldung } from '@shared/types.
 import { feedUrl, loadNews, type Dataset } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { coverBild } from '../lib/cover.ts'
-import { anbieterDerMeldung, artLabel, datumKurz, newsSatz } from '../lib/news-text.ts'
+import { artLabel, datumKurz, newsKurz, newsSatz } from '../lib/news-text.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { todayIso, addDays } from '@shared/time.ts'
 import { AbgeloestHinweis } from './news-abgeloest.tsx'
@@ -253,34 +253,6 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
     return [...jeTag.entries()].sort((a, b) => b[0].localeCompare(a[0]))
   }, [sichtbar, filter])
 
-  const anbieterName = anbieterDerMeldung
-
-  /** Die Kurzform für die Übersichtszeile — Stichworte, kein Satz. */
-  const kurz = (m: NewsMeldung): string => {
-    const anbieter = anbieterName(m)
-    const datum = m.datum ? datumKurz(m.datum) : ''
-    switch (m.art) {
-      case 'neu':
-        if (m.weiterer) return t('news.kurz.auchBei', { anbieter })
-        return anbieter ? t('news.kurz.neu', { anbieter }) : t('news.art.neu')
-      case 'folgen':
-      case 'nachgereicht':
-        return m.bis !== undefined && m.bis !== m.von
-          ? t('news.kurz.folgen', { von: m.von ?? '', bis: m.bis, anbieter })
-          : t('news.kurz.folge', { von: m.von ?? '', anbieter })
-      case 'angekuendigt':
-        return t(m.omu ? 'news.kurz.omu' : 'news.kurz.angekuendigt', { datum, anbieter })
-      case 'disc':
-        return t(m.ausgabe ? 'news.kurz.discAusgabe' : 'news.kurz.disc', { datum, ausgabe: m.ausgabe ?? '' })
-      case 'kino':
-        return t('news.kurz.kino', { datum })
-      case 'verspaetet':
-        return t('news.kurz.verspaetet', { von: m.von ?? '', datum })
-      case 'nachgetragen':
-        return t('news.kurz.nachgetragen', { von: m.von ?? 1, datum, anbieter })
-    }
-  }
-
   const tagName = (iso: string): string =>
     iso === todayIso() ? `${datumKurz(iso)} · ${t('news.heute')}` : iso === addDays(todayIso(), -1) ? `${datumKurz(iso)} · ${t('news.gestern')}` : datumKurz(iso)
 
@@ -422,7 +394,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                         </span>
                       ) : (
                         <span className="truncate text-xs text-slate-500 dark:text-slate-400">
-                          {kurz(erste)}
+                          {newsKurz(erste)}
                           {e.meldungen.length > 1 && (
                             <span> · {t('news.weitere', { n: e.meldungen.length - 1 })}</span>
                           )}
@@ -438,7 +410,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
                         ))}
                         {erste.teil && erste.teil !== e.titel && (
                           <span className="min-w-0 truncate text-xs text-slate-500 dark:text-slate-400">
-                            {kurz(erste)}
+                            {newsKurz(erste)}
                             {e.meldungen.length > 1 && (
                               <span> · {t('news.weitere', { n: e.meldungen.length - 1 })}</span>
                             )}
