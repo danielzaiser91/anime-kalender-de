@@ -117,29 +117,6 @@ function hauptstaffelnAllerTeile<T extends { format?: string; beiwerk?: boolean;
 }
 
 /**
- * **Welche Staffel und welcher Teil ein Eintrag ist — gezählt, nicht an der Position abgelesen.**
- *
- * Daniel am 13.09.2026 an Mushoku Tensei: Im Kopf stand „Staffel 5" über der
- * dritten Staffel, der erste Listeneintrag hieß wie die Reihe. AniList führt die
- * zweite Hälfte einer geteilten Staffel als eigenen Eintrag („Cour 2"), gezählt
- * wurde nach Position — aus drei Staffeln wurden fünf („teil 2 … ist eig teil
- * von der 1. staffel … unter staffel 1 gebündelt").
- *
- * Die Regeln, der Reihe nach über die Ausstrahlung:
- *
- * - Nennt der Name eine Staffel („Staffel 2", „Staffel 2 - Teil 2"), gilt sie.
- * - Nennt er **nur** einen Teil ab 2, gehört er zur Staffel davor.
- * - Nennt er nichts, ist er die nächste Staffel. Trägt er einen eigenen Namen
- *   („Log: Fish-Man Island Saga"), behält er ihn und bekommt keine Beschriftung.
- *
- * Nummern gibt es nur, wo sie etwas unterscheiden: bei **mindestens zwei**
- * Staffeln ohne eigenen Namen — sonst hieße One Piece wieder „Staffel 1". Hat
- * eine Staffel Teile, heißen alle ihre Einträge „Staffel N - Teil M".
- *
- * Zurück kommt nur, was eine Beschriftung bekommt; alles andere zeigt weiter
- * seinen Namen.
- */
-/**
  * **Der Platz jedes Eintrags innerhalb seiner Staffel** (1-basiert, in Reihenfolge) — von hier
  * kommt der „Teil N" (02.10.2026). Ein fremder Name zählt anders (AniList Cours, MAL Teile);
  * unsere Liste zählt ihre eigenen Glieder.
@@ -163,6 +140,29 @@ export function ausstrahlungsZeit(m: { jpYear?: number; jpStart?: string }): str
   return m.jpStart ?? String(m.jpYear || 9999)
 }
 
+/**
+ * **Welche Staffel und welcher Teil ein Eintrag ist — gezählt, nicht an der Position abgelesen.**
+ *
+ * Daniel am 13.09.2026 an Mushoku Tensei: Im Kopf stand „Staffel 5" über der
+ * dritten Staffel, der erste Listeneintrag hieß wie die Reihe. AniList führt die
+ * zweite Hälfte einer geteilten Staffel als eigenen Eintrag („Cour 2"), gezählt
+ * wurde nach Position — aus drei Staffeln wurden fünf („teil 2 … ist eig teil
+ * von der 1. staffel … unter staffel 1 gebündelt").
+ *
+ * Die Regeln, der Reihe nach über die Ausstrahlung:
+ *
+ * - Nennt der Name eine Staffel („Staffel 2", „Staffel 2 - Teil 2"), gilt sie.
+ * - Nennt er **nur** einen Teil ab 2, gehört er zur Staffel davor.
+ * - Nennt er nichts, ist er die nächste Staffel. Trägt er einen eigenen Namen
+ *   („Log: Fish-Man Island Saga"), behält er ihn und bekommt keine Beschriftung.
+ *
+ * Nummern gibt es nur, wo sie etwas unterscheiden: bei **mindestens zwei**
+ * Staffeln ohne eigenen Namen — sonst hieße One Piece wieder „Staffel 1". Hat
+ * eine Staffel Teile, heißen alle ihre Einträge „Staffel N - Teil M".
+ *
+ * Zurück kommt nur, was eine Beschriftung bekommt; alles andere zeigt weiter
+ * seinen Namen.
+ */
 /** Ordnet jeden Eintrag einer Staffel zu (Regeln: siehe oben); `staffelBeschriftungen()` und `staffelStaende()` lesen daraus. */
 function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string): StaffelEintrag[] {
   const sortiert = staffeln.slice().sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id)
