@@ -10,6 +10,10 @@ import {
   terminKennungenEindeutig, verweiseAufgeloest, widerlegteOhneTermine, zaehlworteStimmen,
 } from './lib/invarianten.ts'
 import { reihenVerweiseAufgeloest, synchroNichtHinterToggle, type SynchroQuellen } from './lib/invarianten-auslieferung.ts'
+import { geplantNichtDeutschHeute, ladeGeplantQuelle } from './lib/invarianten-geplant.ts'
+import { dubIdsNachAnisearch, dubsNachTitel } from './lib/anisearch-marke.ts'
+import { kanalProben, kanalWegeVorhanden } from './check-invarianten-kanal.ts'
+import { kanalFehler } from './bau/kanal-fehler.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -41,8 +45,10 @@ console.log('\nInvarianten am Ergebnis:')
   const v = verweiseAufgeloest([release('x', 999)], [termin('geist', 1, '2026-09-01')], titel)
   pruefe('Release ohne Titel wird gemeldet', v.fehler.some((e) => e.includes('Titel 999')), v.fehler)
   pruefe('Termin ohne Release wird gemeldet', v.fehler.some((e) => e.includes('ohne Release')), v.fehler)
-  const w = verweiseAufgeloest([release('cr-GR3K50PZR', -1), release('cartoon', -5)], [], titel)
-  pruefe('titleId -1 ist Warnung, Cartoon-ID ist kein Fehler', w.fehler.length === 0 && w.warnungen.length === 1, w)
+  const w = verweiseAufgeloest([release('adn-197', -1), release('cartoon', -5)], [], titel)
+  pruefe('titleId -1 ist ein Fehler, Cartoon-ID nicht', w.fehler.length === 1 && w.fehler[0].includes('adn-197'), w)
+  const t = verweiseAufgeloest([release('a')], [{ ...termin('a', 1, '2026-09-01'), titleId: -1 }, { ...termin('a', 2, '2026-09-08'), titleId: 999 }, { ...termin('a', 3, '2026-09-15'), titleId: -5 }], titel)
+  pruefe('Termin mit titleId -1 oder unbekanntem Titel wird gemeldet, Cartoon-Termin nicht', t.fehler.length === 1 && t.fehler[0].startsWith('2 Termin(e) ohne vorhandenen Titel'), t)
   pruefe('sauberer Bestand geht durch', pruefeInvarianten([release('a')], [termin('a', 1, '2026-09-01')], titel).fehler.length === 0)
 
   // B-07/B-08: Fußzeile nannte 610 Releases, die Datei hatte 722
@@ -97,6 +103,20 @@ console.log('\nHarte Regeln des Daten-Detektivs:')
   pruefe('D-15: Glied ohne Titel wird gemeldet', reihenVerweiseAufgeloest(ausl({ '9': [{ id: 1, name: 'a' }, { id: 77, name: 'b' }] })).length === 1)
   pruefe('D-15: mehrgliedrige Reihe ohne Eintrag wird gemeldet', reihenVerweiseAufgeloest(ausl({})).length === 2)
   pruefe('D-15: vollständige Reihe geht durch', reihenVerweiseAufgeloest(ausl({ '9': [{ id: 1, name: 'a' }, { id: 2, name: 'b' }] })).length === 0)
+
+  // D-24: Dragon Hatchling — aniSearch „Geplant“, ADN-Termin erst am 22.10., trotzdem „Auf Deutsch seit 10.01.“ und dub:true
+  const hatchling = (extra: Record<string, unknown> = {}) => new Map([[187941, titelMit({ id: 187941, titleRomaji: 'Dragon Hatchling', streams: [{ platform: 'adn', url: 'x', dub: true }], ...extra })]])
+  const adnTermin = [{ ...release('a', 187941, 'adn', 'batch'), schedule: { firstEpisodeDate: '2026-10-22' } } as Release]
+  const q = { geplant: new Set([187941]), handbelegt: new Set<number>() }
+  const lauf = (t: Map<number, Title>, r = adnTermin, quelle = q) => geplantNichtDeutschHeute(r, t, quelle, '2026-10-11')
+  pruefe('D-24: dub:true bei künftigem Start und Marke „Geplant“ wird gemeldet', lauf(hatchling()).length === 1, lauf(hatchling()))
+  pruefe('D-24: „Auf Deutsch seit“ aus dem aniSearch-Block bei „Geplant“ wird gemeldet', lauf(hatchling({ streams: [], deErstausgabe: { von: '2026-01-10', publisher: 'ADN' } })).length === 1)
+  pruefe('D-24: ein Handbeleg schlägt die Marke', lauf(hatchling(), adnTermin, { ...q, handbelegt: new Set([187941]) }).length === 0)
+  pruefe('D-24: ein begonnener Termin belegt die Synchro', lauf(hatchling(), [{ ...adnTermin[0]!, schedule: { firstEpisodeDate: '2026-10-01' } } as Release]).length === 0)
+  pruefe('D-24: ohne Marke „Geplant“ keine Meldung', lauf(hatchling(), adnTermin, { ...q, geplant: new Set<number>() }).length === 0)
+  pruefe('D-24: Erstausgabe mit Handbeleg (synchro) oder benannter Quelle geht durch', lauf(hatchling({ streams: [], deErstausgabe: { von: '2026-01-10', synchro: true } })).length === 0)
+
+  kanalProben(pruefe)
 }
 
 if (process.argv.includes('--bestand')) {
@@ -111,15 +131,17 @@ if (process.argv.includes('--bestand')) {
   const z = zaehlworteStimmen(meta, { titles: titles.size, releases: releases.length, events: events.length })
   console.log(`Zählworte: ${z.length} Abweichung(en)`, z)
   verletzt += r.fehler.length
-  const lies = <T>(pfad: string): T => JSON.parse(readFileSync(new URL(`../${pfad}`, import.meta.url), 'utf8')) as T
   const handbelegt = new Set((yaml.load(readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')) as { anilistId: number; dub?: boolean; nichtImBestand?: boolean }[]).filter((c) => c.dub === true && !c.nichtImBestand).map((c) => c.anilistId))
   const handKeine = new Set((yaml.load(readFileSync(new URL('../data/ohne-synchro-von-hand.yaml', import.meta.url), 'utf8')) as { anilistId?: number; sources?: string[] }[]).filter((e) => e.anilistId && e.sources?.length).map((e) => e.anilistId!))
   const auslieferung = { titles: [...titles.values()], ohneSynchro: d<Title[]>('ohne-synchro.json'), cartoons: d<Title[]>('cartoons.json'), franchises: d<Record<string, { id: number; name: string }[]>>('franchises.json') }
   const a = [
-    ...synchroNichtHinterToggle(auslieferung, { dubsAnilist: lies('data/anisearch-dubs.json'), dubIds: lies('data/anisearch-dub-ids.json'), handbelegteIds: handbelegt, handKeine, heute: new Date().toISOString().slice(0, 10) }),
+    ...synchroNichtHinterToggle(auslieferung, { dubsAnilist: dubsNachTitel(), dubIds: dubIdsNachAnisearch(), handbelegteIds: handbelegt, handKeine, heute: new Date().toISOString().slice(0, 10) }),
     ...reihenVerweiseAufgeloest(auslieferung),
+    ...geplantNichtDeutschHeute(releases, titles, ladeGeplantQuelle()),
+    ...kanalFehler(titles.values(), releases),
+    ...kanalWegeVorhanden(titles),
   ]
-  console.log(`Auslieferung (D-06, D-15): ${a.length} Fehler`)
+  console.log(`Auslieferung (D-06, D-15, D-24, D-25, D-26): ${a.length} Fehler`)
   for (const t of a.slice(0, 10)) console.log('  ', t)
   verletzt += a.length
 }

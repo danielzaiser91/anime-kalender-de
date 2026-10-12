@@ -41,6 +41,7 @@ on:
         type: choice
         options:
           - data:tmdb-folgen
+          - data:cartoon-folgen
           - data:tmdb
           - data:tmdb-poster
           - data:kitsu-folgen
@@ -57,6 +58,8 @@ on:
           - data:anisearch-sprecher
           # Slugs der aniSearch-Titelseiten für kanonische Quellenlinks (ein Abruf, eigenes Limit: 1 je Stunde mit Token, 24 h ohne).
           - data:anisearch-slugs
+          # Eigene Kopien der aniSearch-Cover (11.10.2026): erst robots.txt beider Hosts, dann Bilder als WebP 300 px ins Artefakt cover-ausgabe + Manifest data/cover-eigen.json.
+          - data:anisearch-cover
           - data:cr-dub
           # Neuzugänge bei Crunchyroll. Auf Abruf, wenn der Lauf ein Feld
           # mehr mitschreibt — die bekannten Funde bekommen es dann nachgetragen.
@@ -141,6 +144,12 @@ jobs:
           CR_WEICHE_TOKEN: ${{ secrets.CR_WEICHE_TOKEN }}
         run: node tools/cr-zugang-holen.mjs --github-env
 
+      # Vor dem Cover-Lauf: robots.txt von www.anisearch.de und cdn.anisearch.de wörtlich nach data/anisearch-robots.txt. Sperrt sie den Cover-Pfad, wird der Lauf rot
+      # und lädt nichts; die Datei geht trotzdem in den Pull Request (der Schritt „Quellen als Pull Request einreichen“ läuft immer).
+      - name: aniSearch-Cover — robots.txt prüfen
+        if: ${{ inputs.lauf == 'data:anisearch-cover' }}
+        run: npm run data:anisearch-robots
+
       - name: Lauf ausführen
         env:
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
@@ -160,11 +169,21 @@ jobs:
               # `--katalog` haengt die Titel hinter dem Toggle hinten an — 11.607
               # mit aniSearch-Kennung, von denen noch keiner geholt wurde.
               npm run "$LAUF" -- --limit "$GRENZE" ${{ inputs.katalog && '--katalog' || '' }} ;;
-            data:tmdb-folgen|data:tmdb-poster|data:kitsu-folgen|data:anisearch-eintraege|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:anisearch-artikel|data:anisearch-sprecher|data:cr-dub|data:justwatch|data:youtube:kauf)
+            data:tmdb-folgen|data:cartoon-folgen|data:tmdb-poster|data:kitsu-folgen|data:anisearch-eintraege|data:tmdb|data:anisearch-folgen|data:anisearch-titel|data:anisearch-artikel|data:anisearch-sprecher|data:anisearch-cover|data:cr-dub|data:justwatch|data:youtube:kauf)
               npm run "$LAUF" -- --limit "$GRENZE" ;;
             *)
               npm run "$LAUF" ;;
           esac
+
+      # Die Bilder gehören nicht ins Repo: Das Artefakt holt Daniel ab und lädt es nach R2 (cover-ausgabe/anisearch/<Kennung>.webp = Pfad aus data/cover-eigen.json).
+      - name: aniSearch-Cover — Bilder als Artefakt ablegen
+        if: ${{ always() && inputs.lauf == 'data:anisearch-cover' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cover-ausgabe-${{ github.run_id }}
+          path: cover-ausgabe
+          retention-days: 14
+          if-no-files-found: ignore
 
       - name: Quellen als Pull Request einreichen
         if: always()
@@ -172,3 +191,5 @@ jobs:
         with:
           nachricht: 'chore(data): Lauf auf Abruf'
           fund: lauf
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          app-key: ${{ secrets.DATEN_APP_KEY }}

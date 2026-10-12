@@ -8,7 +8,8 @@ import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import { weekdayIndex, weekdayName } from '../../shared/time.ts'
 import { findDates } from './feed.ts'
 import { dubBefund } from './sprachbefund.ts'
-import { PLATTFORM_NAMEN, pruefeName, titelPasst } from './anime2you-abgleich.ts'
+import { maskiert, PLATTFORM_NAMEN, pruefeName, titelPasst, zeichenfolge } from './anime2you-abgleich.ts'
+import { titelzeilePasst, titelzeilenUeber } from './anime2you-blockkopf.ts'
 
 export const ARTEN = ['start', 'folgen', 'disc', 'kino', 'ankuendigung', 'sprachfassung', 'pause', 'abgang'] as const
 export const SPRACHEN = ['deutsch', 'omu', 'deutsch+omu', 'unklar'] as const
@@ -47,6 +48,8 @@ export interface Artikelbezug {
 
 const TAG_STAEMME = ['montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag', 'sonntag']
 const DEUTSCHE_FASSUNG = /deutsch|synchron|verton|\bdub\b/i
+/** Deutsch als angebotene Sprache neben Japanisch (UT) – `dubBefund` liest den Untertitel-Teil sonst als „nein“. */
+const DEUTSCH_ANGEBOT = /sprache:\s*deutsch|deutsche[rn]?\s+(?:und\s+japanische[rn]?\s+)?sprachausgabe/i
 
 /** Freitext aus dem Modell: Länge begrenzt, ohne Adresse, Markdown- und Zeilenzeichen — er landet in einer Tabelle im Pull Request. */
 export function sauber(wert: unknown, max: number): string | null | undefined {
@@ -55,9 +58,6 @@ export function sauber(wert: unknown, max: number): string | null | undefined {
   const rein = wert.replace(/[|`<>\[\]\r\n\t]+/g, ' ').replace(/\s+/g, ' ').trim()
   return rein.length > max ? undefined : rein
 }
-
-/** Ohne Leerraum verglichen: Der Seitentext hat Lücken, wo Verweise standen („Folge 1122 , ehe“), das Modell schreibt sie glatt. */
-const norm = (s: string): string => s.replace(/[|`<>[\]]/g, '').replace(/[„“”"»«›‹'’‘]/g, "'").replace(/\s+/g, '').toLowerCase()
 
 /** Kurzbeschreibung einer Rohantwort für die Liste der Verworfenen (Titel, Art, Tag, soweit lesbar). */
 export function beschreibe(roh: unknown): string {
@@ -109,7 +109,8 @@ function pruefeSprache(v: Vorschlag): string | undefined {
   if (!v.sprache.startsWith('deutsch')) return undefined
   if (!DEUTSCHE_FASSUNG.test(v.zitat)) return 'sprache deutsch, aber das Zitat nennt keine deutsche Fassung'
   const befund = dubBefund(v.zitat)
-  return befund === 'nein' || befund === 'offen' ? `sprache deutsch, aber das Zitat sagt „${befund}“` : undefined
+  const nein = befund === 'nein' && !DEUTSCH_ANGEBOT.test(v.zitat)
+  return nein || befund === 'offen' ? `sprache deutsch, aber das Zitat sagt „${befund}“` : undefined
 }
 
 /** Die Felder in Form und Länge – liefert den Vorschlag oder den Grund, warum die Antwort kein Vorschlag ist. */
@@ -146,17 +147,23 @@ export function leseVorschlag(roh: unknown): Vorschlag | string {
 
 /** Titel, Sender, Anbieter und Plattform gegen Zitat und Artikel: der Grund der Verwerfung oder die Warnungen. */
 function pruefeNamen(v: Vorschlag, bezug: Artikelbezug): { grund?: string; warnungen: string[] } {
-  if (!titelPasst(v.titel, v.zitat, bezug.titel)) return { grund: 'Titel steht weder im Zitat noch im Artikeltitel', warnungen: [] }
+  const warnungen: string[] = []
+  if (!titelPasst(v.titel, v.zitat, bezug.titel)) {
+    const passt = titelzeilenUeber(bezug.text, v.zitat).some((z) => titelzeilePasst(v.titel, z))
+    if (!passt) return { grund: 'Titel steht weder im Zitat noch im Artikeltitel noch in der Titelzeile über dem Zitat', warnungen }
+    warnungen.push('Titel steht nur in der Titelzeile des Blocks über dem Zitat – gegenlesen')
+  }
+  // Ein Titel wie „The Sky Crawlers“ trägt selbst einen Anbieternamen („Sky“); er zählt nicht als Anbieter im Zitat.
+  const zitat = v.zitat.replaceAll(new RegExp(maskiert(v.titel), 'gi'), ' ')
   const plattformName = v.plattform ? PLATTFORM_NAMEN[v.plattform] : undefined
   const namen: [string, string | null | undefined][] = [
     ['sender', v.sender],
     ['anbieter', v.anbieter],
     ['plattform', plattformName],
   ]
-  const warnungen: string[] = []
   for (const [feld, name] of namen) {
     if (!name) continue
-    const r = pruefeName(feld, name, v.zitat, bezug.text)
+    const r = pruefeName(feld, name, zitat, bezug.text)
     if (r.grund) return { grund: r.grund, warnungen }
     if (r.warnung) warnungen.push(r.warnung)
   }
@@ -167,7 +174,7 @@ function pruefeNamen(v: Vorschlag, bezug: Artikelbezug): { grund?: string; warnu
 export function pruefeVorschlag(roh: unknown, bezug: Artikelbezug): { ok: GepruefterVorschlag } | { grund: string } {
   const v = leseVorschlag(roh)
   if (typeof v === 'string') return { grund: v }
-  if (!norm(bezug.text).includes(norm(v.zitat))) return { grund: 'Zitat steht nicht wörtlich im Artikel' }
+  if (!zeichenfolge(bezug.text).includes(zeichenfolge(v.zitat))) return { grund: 'Zitat steht nicht wörtlich im Artikel' }
   const grund = pruefeDatum(v, bezug) ?? pruefeUhrzeit(v) ?? pruefeSprache(v)
   if (grund) return { grund }
   if (v.plattform === 'tv' && !v.sender) return { grund: 'plattform tv ohne sender' }

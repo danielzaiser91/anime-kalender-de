@@ -20,7 +20,7 @@ import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { baueMeta } from './bau/12-meta.ts'
 import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
-import { entferneGesperrte } from './bau/sperre.ts'
+import { entferneVomKalender } from './bau/sperre.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
 
 function main(): void {
@@ -78,7 +78,7 @@ function main(): void {
     adnVerweiseErgaenzt,
   })
 
-  const { events, mitStimmen, verschoben } = rolleTermineAus({ releases, titles, jpStart }); entferneGesperrte(releases, events)
+  const { events, mitStimmen, verschoben } = rolleTermineAus({ releases, titles, jpStart }); entferneVomKalender(releases, events)
 
   // Alles, was Verweise ändert, muss vor `baueMeta` stehen — dort beginnt die Auslieferung.
   schliesseWegeAb({ ...synchro, titles, anisearch, releases, tmdbMehrdeutig, toteAdressen, verweiseEntfernt })

@@ -2,6 +2,7 @@ import { readJson, log } from '../lib/util.ts'
 import { type WatchLink, type FolgenFenster, type Title, type Release } from '../../shared/types.ts'
 import { amazonAdresseRichten } from '../lib/amazon-adresse.ts'
 import { adressKern } from '../lib/dub-confirmed.ts'
+import { richteTerminAdressen } from './13-1-termin-adressen.ts'
 import { providerName } from '../../shared/mappings.ts'
 
 /** Handlung je Titel, mit belegter Herkunft der deutschen Fassung. */
@@ -220,12 +221,7 @@ export function schreibeSynopsenUndReichereAn({ allTitles, releases, kanalJeAdre
     }
   }
   if (kanalBenannt) log(`${kanalBenannt} Kanal-Wege mit Amazon-Adresse als „Amazon Prime (Kanal)" benannt`)
-  for (const r of releases) {
-    if (r.platform !== 'primevideo' || !r.platformUrl) continue
-    const neu = amazonAdresseRichten(r.platformUrl)
-    if (neu !== r.platformUrl) gerichtet++
-    r.platformUrl = neu
-  }
+  gerichtet += richteTerminAdressen(releases, allTitles)
   if (gerichtet) log(`${gerichtet} Prime-Verweise auf die Video-Adresse gerichtet`)
   return { trenneQuelle, synopses, annKennungen, trailer }
 }

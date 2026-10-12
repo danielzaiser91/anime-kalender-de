@@ -115,10 +115,6 @@ export const mitAnkuendigung = <T extends { id: number }>(t: T): T =>
 /** Deutsche Sprechrollen, eine Datei je Titel — gefüllt von `data:voices`. */
 export const VOICES_DIR = `${OUT}/voices`
 
-export const KEYWORD_MIN_RANK = 55
-
-export const KEYWORD_MAX = 24
-
 export const CR_CALENDAR_URL = 'https://www.crunchyroll.com/de/simulcastcalendar'
 
 /**
@@ -138,6 +134,9 @@ export const ADN_CALENDAR_URL = 'https://gw.api.animationdigitalnetwork.com/vide
 
 /** Wie lange ein belegtes Nein eine Ergänzung aus aniSearch sperrt. */
 export const NEIN_GILT_TAGE = 28
+
+/** Gründe, die nur dem Titel gelten, nicht der Adresse (Geschwister mit gleicher Adresse bleiben unberührt). */
+export const NUR_DIESER_TITEL = /^der Anbieter führt |^die Adresse zeigt auf die Reihe|^belegtes Nein/
 
 export interface EntfernterVerweis {
   titleId: number

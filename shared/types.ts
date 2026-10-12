@@ -151,8 +151,15 @@ export interface StreamLink {
   seite?: string
   /** true — deutsche Synchro dort belegt; false — dort ausdrücklich nur Originalton mit Untertiteln; fehlt — nicht geprüft */
   dub?: boolean
-  /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026). */
-  herkunft?: 'tmdb'
+  /**
+   * Wenn `dub` fehlt, aber die Vertrauensregel greift: Deutsch laut JustWatch (`pipeline/lib/jw-vertrauen.ts`,
+   * 99,4 % richtig bei Prime-Filmen und einzeln geführten Serien, Messung 11.10.2026). Kein Beleg — `dub` bleibt offen.
+   */
+  dubQuelle?: 'justwatch'
+  /** Datum des JustWatch-Befunds hinter `dubQuelle` (JJJJ-MM-TT). */
+  dubStand?: string
+  /** Woher der Weg stammt, wenn nicht aus unseren Anime-Quellen: `tmdb` = nur der Anbieter laut TMDB (Deutschland), ohne Sprachangabe (Cartoon-Umzug, 09.10.2026); `termin` = nur der Anbieter eines sicheren Kalendertermins, ohne Tonurteil (11.10.2026). */
+  herkunft?: 'tmdb' | 'termin'
   /**
    * Wo in dieser Staffel der deutsche Ton liegt — wenn er nicht überall liegt.
    *
@@ -481,13 +488,16 @@ export interface Title {
    */
   franchiseId?: number
   genres: string[]
+  /** Schlagworte aus der festen aniSearch-Liste (`shared/schlagworte.ts`), deutsch; Cartoons tragen TMDB-Schlagworte. */
   keywords: string[]
   coverImage?: string
+  /** TMDB-Hintergrundbild; Übergang: wo TMDB keins hat, noch das AniList-Banner (Lückenliste). */
   bannerImage?: string
   synopsis?: string
   studios?: string[]
+  /** Bewertung in Prozent (aniSearch-Klarwert). */
   score?: number
-  /** Woher `score` stammt; fehlt = AniList. Cartoons tragen die TMDB-Wertung. */
+  /** Woher `score` stammt; fehlt = aniSearch. Cartoons tragen die TMDB-Wertung. */
   scoreQuelle?: 'tmdb'
   fsk?: Fsk; fskQuelle?: 'justwatch' // fskQuelle gesetzt = Anbieter-Einstufung (JustWatch), keine FSK-Freigabe
   dubConfidence: DubConfidence; einzelquelle?: boolean // alte Stufe low (true) bzw. nicht low (false), nur wo sie von dubConfidence abweicht (09.10.2026)
@@ -589,32 +599,7 @@ export interface Quelle {
   grund?: string
 }
 
-/**
- * Eine Meldung, aus der sich **kein** genauer Termin herauslesen ließ.
- *
- * Der Anlass ist eine Messung, keine Vermutung (14.08.2026): Von 29 aktuellen
- * Anime2You-Meldungen enthielt **keine einzige** ein Datum auf den Tag genau,
- * 27 nannten nur einen Monat. Für die halbe Anbieterlandschaft — Netflix,
- * Disney+, Prime Video, WOW, Joyn, RTL+, Kino, Disc — ist Anime2You aber die
- * einzige Quelle.
- *
- * Solche Funde verschwinden bisher in `data/proposals/` und warten auf einen
- * Menschen. Stattdessen werden sie jetzt gezeigt: „Diese Quelle sagt etwas über
- * einen Termin, wir konnten ihn nicht sicher auslesen — hier steht es." Das ist
- * ehrlicher als Schweigen und nützlicher als ein leerer Kalender.
- */
-export interface Meldung {
-  titleId: number
-  quelle: Quelle
-  /** Überschrift der Meldung. */
-  titel: string
-  /** Der Textausschnitt mit der Terminangabe — zum Selbstnachlesen. */
-  zitat?: string
-  /** „2026-09", wenn nur ein Monat genannt wurde. */
-  monat?: string
-  /** Erscheinungstag der Meldung. */
-  datum: string
-}
+export type { Meldung } from './meldung-typ.ts'
 
 /** Eine konkrete deutsche Veröffentlichung — das, was im Kalender steht. */
 export interface Release {
@@ -851,77 +836,7 @@ export const SYNOPSIS_GROUPS = 32
  */
 export type DiscAusgabe = [kurz: string, format: 'b' | 'd' | 'u', art: 'g' | 't' | 'e', datum: string, artikel: number]
 
-/**
- * Ein Eintrag einer Reihe, wie ihn `franchises.json` führt.
- *
- * Bewusst knapp: Die Datei beantwortet nur „welche Staffeln, Filme und
- * Specials gehören zusammen und in welcher Reihenfolge". Cover, Genres und
- * Beschreibungen stehen bereits in `titles.json` — sie hier zu wiederholen
- * würde die Datei verdoppeln, ohne eine Frage zu beantworten.
- */
-export interface FranchiseMember {
-  id: number; al?: number // `al`: AniList-Kennung für den Quellenverweis
-  name: string
-  format?: string
-  jpYear?: number
-  /**
-   * Startdatum laut AniList, so genau wie es dort steht (`2026`, `2026-06`,
-   * `2026-06-19`).
-   *
-   * Ein Katalogtitel hat sonst gar keine Zeitangabe: Bei „Lord of Mysteries"
-   * stand im Panel dreimal nur das Format.
-   */
-  jpStart?: string
-  /** `NOT_YET_RELEASED` heißt: Der Termin steht noch aus. */
-  jpStatus?: string
-  /**
-   * **Der früheste deutsche Termin dieses Teils — das Datum, das hier zählt.**
-   *
-   * Die Auswahlbox zeigte bis zum 12.09.2026 `jpStart`, also die japanische
-   * Ausstrahlung. Daniel: „jp release dates sind fast komplett irrelevant …
-   * sie sind eine nette zusatz info, dürfen aber nie prominent präsentiert
-   * werden, uns interessieren de release dates, daher hier in dieser box
-   * niemals jp release dates anzeigen, nur de dates wenn bekannt, falls
-   * unbekannt, lieber kein datum dort."
-   *
-   * Kein Datum ist also die richtige Antwort, wo wir keins haben — und
-   * `jpStart` bleibt im Datensatz, weil die Reihe danach **sortiert** wird.
-   */
-  deStart?: string
-  episodes?: number
-  /**
-   * Steht dieser Teil nur im Katalog hinter dem Toggle?
-   *
-   * Die Reihe eines geöffneten Titels ist vollständig, unabhängig davon, was
-   * der Toggle gerade zeigt. Dass ein Teil noch keine deutsche Fassung hat, gehört trotzdem
-   * sichtbar — die Liste stellt ihn gestrichelt dar.
-   */
-  ohneSynchro?: boolean
-  /**
-   * Cover **ohne** Adressvorsatz — `ANILIST_COVER_BASIS` kommt beim Laden dazu.
-   *
-   * Stand hier bis zum 13.08.2026 bewusst nicht drin: „Sie würden die Datei
-   * verdoppeln, und für eine Auswahlliste braucht es sie nicht." Aus der
-   * Auswahlliste ist ein Karussell aus Vorschaukarten geworden, und eine Karte
-   * ohne Bild ist keine. Die Begründung von damals gilt also nicht mehr — der
-   * Preis dafür steht in der Zeile, in der `franchises.json` geschrieben wird.
-   */
-  cover?: string
-  /**
-   * **Hängt dieser Teil an einem anderen der Reihe?**
-   *
-   * AniList kennt die Beziehung `PARENT`: Specials und Beiwerk nennen die Serie,
-   * zu der sie gehören; das Format tut es nicht. Bei chinesischen Produktionen
-   * ist **alles** eine ONA, und ohne dieses Feld standen bei „Lord of Mysteries"
-   * die Specials unter „Hauptserie".
-   */
-  beiwerk?: boolean
-  /** Belegte deutsche Staffelnummer (aniSearch); steuert `staffelBeschriftungen()`, nicht den Titel. */
-  staffelQuelle?: number
-}
-
-/** franchiseId → alle Einträge der Reihe, in Ausstrahlungsreihenfolge. */
-export type Franchises = Record<number, FranchiseMember[]>
+export type { FranchiseMember, Franchises } from './franchise-typ.ts'
 
 export type { DataMeta } from './meta-typ.ts'
 

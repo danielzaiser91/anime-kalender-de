@@ -46,7 +46,7 @@ const GRUPPEN: Gruppe[] = [
 ]
 
 const squash = (s: string): string => s.toLowerCase().replace(/[^\p{L}\d+]/gu, '')
-const maskiert = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+export const maskiert = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 /** Zwischen den Buchstaben sind Leerzeichen, Bindestrich und Punkt erlaubt: „ProSiebenMaxx“ = „ProSieben MAXX“. */
 const muster = (name: string, g?: Gruppe): RegExp => {
   const buchstaben = [...squash(name)].map(maskiert).join('[\\s.-]*')
@@ -86,7 +86,10 @@ export const PLATTFORM_NAMEN: Record<string, string> = Object.fromEntries(
     .map(([id, p]) => [id, p.name.toLowerCase()]),
 )
 
-const woerter = (s: string): string[] => s.toLowerCase().match(/[\p{L}\d]+/gu) ?? []
+export const woerter = (s: string): string[] => s.toLowerCase().match(/[\p{L}\d]+/gu) ?? []
+
+/** Ohne Leerraum verglichen: Der Seitentext hat Lücken, wo Verweise standen („Folge 1122 , ehe“), das Modell schreibt sie glatt. */
+export const zeichenfolge = (s: string): string => s.replace(/[|`<>[\]]/g, '').replace(/[„“”"»«›‹'’‘]/g, "'").replace(/\s+/g, '').toLowerCase()
 
 /**
  * Titel gegen Artikeltitel und Zitat. Tolerant für Untertitel: Es genügt der Teil vor „:“ oder „–“, und jedes seiner Wörter

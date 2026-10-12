@@ -436,7 +436,7 @@ const TEXTE = {
   'detail.titleEn': 'Englisch',
   'detail.titleNative': 'Original',
   'detail.scoreHint':
-    'So haben die Nutzer von AniList diesen Anime bewertet.',
+    'So haben die Nutzer von {quelle} diesen Titel bewertet.',
   'detail.editionCount': '{count} Ausgaben',
   'detail.preorderAt': 'Vorbestellen bei {shop}',
   'detail.buyAt': 'Kaufen bei {shop}',
@@ -486,7 +486,7 @@ const TEXTE = {
   'detail.voicesNone': 'Keine Angaben gefunden.',
   // Anime News Network kommt nur dazu, wenn von dort auch Rollen stammen — der
   // Link daneben ist deren Nutzungsauflage, nicht bloß eine Höflichkeit.
-  'detail.voicesSource': 'Angaben von AniList',
+  'detail.voicesSource': 'Angaben von',
   'detail.aehnlich': 'Ähnliche Titel',
   'detail.aehnlichLaedt': 'Wird geladen …',
   'detail.aehnlichKeine': 'Keine ähnlichen Titel gefunden.',
@@ -530,8 +530,7 @@ const TEXTE = {
   'antwort.finaleFolgeNr': 'Finale Folge (Folge {n})',
   'antwort.finaleFolge': 'Finale Folge',
   'antwort.erscheintRelativ': 'erscheint {rel}, am {tag} den {datum}.',
-  // Ab einer Woche Abstand rechnet niemand mehr in Tagen — dann trägt das
-  // Datum allein.
+  // Ohne relative Angabe (Kino, Angebot) trägt das Datum allein.
   'antwort.erscheintDatum': 'erscheint am {tag} den {datum}.',
   // Die Uhrzeit hängt hinten an, wo eine bekannt ist — „voraussichtlich", weil
   // der einzelne Termin aus dem gemessenen Rhythmus fortgeschrieben ist.
@@ -542,29 +541,18 @@ const TEXTE = {
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
   'antwort.verschobenVon': 'verschoben vom {datum}',
   'antwort.ausgebliebenMehrere': 'Folgen {von} bis {bis} sind nicht erschienen',
-  // Die Auskunft unter einer ausgebliebenen Folge. {anbieter} wird im Panel zum Verweis.
-  'antwort.vermerkPruefen': 'Wir sehen mehrmals täglich bei {anbieter} nach und tragen die Folge ein, sobald sie da ist.',
-  'antwort.vermerkZuletzt': 'Zuletzt nachgesehen: {wann}.',
-  'antwort.vermerkNews': '{quelle} am {datum}:',
-  'antwort.vermerkNewsLeer': 'Anime2You meldet bisher keine Verschiebung.',
-  'antwort.vermerkQuelle': 'Quelle',
-  'antwort.vermerkRechercheLeer': 'Auch in weiteren News und auf Social Media haben wir bis zum {datum} nichts dazu gefunden.',
-  // „Offen kommunizieren": je Stufe, wann zuletzt und wann als Nächstes.
-  // Die Folge hat einen neuen Termin, ist aber weiterhin überfällig (Daniel,
-  // 20.09.2026): „entsprechend muss eine ausfallnotiz im detail panel stehen".
-  'antwort.vermerkUeberfaellig': 'Folge {n} war für den {datum} angekündigt und ist bis heute nicht erschienen.',
-  'antwort.vermerkAnnahme': 'Der Termin oben ist unsere Annahme — ändert sich etwas, tragen wir ihn nach.',
-  'antwort.vermerkNaechsterBlick': 'Der nächste Blick folgt in wenigen Stunden.',
-  'antwort.vermerkNewsLeerStand': 'Anime2You meldet bisher keine Verschiebung (Stand: {wann}, nächster Abgleich morgen früh).',
-  'antwort.vermerkRechercheZuletzt': 'Zuletzt gesucht: {wann}. Nächste Suche {naechste}.',
-  'antwort.vermerkRechercheStart': 'Die Suche in News und Social Media beginnt {naechste}.',
-  'antwort.vermerkRechercheEnde': 'Nach zwei Monaten suchen wir nicht mehr aktiv; beim Anbieter sehen wir weiter nach.',
   'antwort.naechsteVoraussichtlich': 'voraussichtlich {tag} ab {zeit} Uhr',
   'antwort.amDatum': 'am {datum}',
   'antwort.relGestern': 'gestern',
   'antwort.relHeute': 'heute',
   'antwort.relMorgen': 'morgen',
   'antwort.relInTagen': 'in {count} Tagen',
+  'antwort.relInEinerWoche': 'in einer Woche',
+  'antwort.relInWochen': 'in {count} Wochen',
+  'antwort.relInEinemMonat': 'in einem Monat',
+  'antwort.relInMonaten': 'in {count} Monaten',
+  'antwort.relInEinemJahr': 'in einem Jahr',
+  'antwort.relInJahren': 'in {count} Jahren',
   // Ohne Wochentag: der Rhythmus sagt nur noch die Frequenz, der Tag steht in
   // der Überschrift.
   'antwort.rhythmusWoechentlichKurz': 'Wöchentlich',

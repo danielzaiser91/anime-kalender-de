@@ -7,6 +7,7 @@ import { type FranchiseMember } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 import { Chip } from '../ui.tsx'
+import { HerkunftZeile, zeigtHerkunft } from './herkunft-zeile.tsx'
 
 export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, setGenresOffen }: {
   title: Title
@@ -18,8 +19,9 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
 }) {
   return (
     <>
-      {title.genres.length > 0 && (
+      {(title.genres.length > 0 || zeigtHerkunft(title)) && (
         <Aufklappbar titel={t('detail.werkangaben')}>
+          {zeigtHerkunft(title) && <HerkunftZeile title={title} t={t} />}
           <div className="flex flex-wrap gap-1.5">
               {(genresOffen ? title.genres : title.genres.slice(0, 3)).map((g) => (
                 <Chip key={g} onClick={() => onFilterBy('genre', g)}>

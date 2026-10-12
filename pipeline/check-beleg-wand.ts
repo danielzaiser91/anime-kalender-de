@@ -27,8 +27,6 @@ const browser = await chromium.launch()
 let fehler = 0
 for (const f of faelle) {
   const seite = await browser.newPage({ viewport: { width: 1280, height: 900 } })
-  await seite.addInitScript('window.__name = (f) => f')
-  await seite.evaluate('window.__name = (f) => f')
   await seite.setContent(`<!doctype html><html><body style="margin:0;${f.name.startsWith('einfarbig') ? 'background:#000' : ''}">${f.html}</body></html>`)
   const b = await belegAusschnitt(seite, [])
   const bild = typeof b === 'object'

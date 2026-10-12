@@ -98,6 +98,8 @@ const FRISTEN: Record<string, number> = {
   'tmdb-kino': 9,
   /* Wochenlauf plus zwei Tage Luft — ein ausgefallener Lauf ist noch kein Alarm. */
   'tmdb-folgen': 9,
+  /* Wochenlauf wie die TMDB-Folgen der Anime. */
+  'cartoon-folgen': 9,
   /* Stündlich, aber nur wenn gemeldet wurde — eine Woche ohne Meldung ist normal. */
   rohfolgen: 30,
   /*

@@ -27,6 +27,7 @@ const FRISTEN_STUNDEN = {
   'adn-laufende.yml': 24,
   'claude-verpasst-recherche.yml': 36,
   'claude-anime2you-extraktion.yml': 36,
+  'claude-wache-urteil.yml': 36,
   'anisearch-katalog.yml': 48,
   'refresh-weekly.yml': 216,
   // Wie `motn` in check-sources.ts: ein Kontingentzyklus plus zwei Tage.

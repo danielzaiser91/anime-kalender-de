@@ -16,3 +16,61 @@
 # nur dieselbe Manga-Vorlage (31600) wie neun Titel der Reihe (abgefragt 05.10.2026).
 - ids: [1520, 10055]
   grund: 'Black Jack: Capital Transfer To Heian ist Teil der Black-Jack-Reihe; AniList verbindet ihn mit keinem Anime'
+
+# --- Prüfliste der aniSearch-Reihen (11.10.2026) ----------------------------------------------------
+# `ids:` verbindet Titel zu einer Reihe, `getrennt:` verbietet aniSearch-Beziehungen zwischen diesen
+# Titeln (Wanderung wie Prüflisten-Fall). Belege: Beziehungen der Archivseiten data/anisearch-raw,
+# Titel in public/data/titles.json und data/anisearch-eintraege.json.
+
+# aniSearch führt die Kurzgeschichten (Tanpenshuu) als „Hauptgeschichte" von Detektiv Conan, das Making-of
+# als „Alternative Umgebung" von Detektiv Conan und „Anderes" der Kurzgeschichten 2; alle tragen Conan-Figuren.
+- ids: [235, 5578]
+  grund: 'Aoyama Goushou Tanpenshuu 1+2 und Making of Conan gehören zu Detektiv Conan (aniSearch: Hauptgeschichte bzw. Alternative Umgebung)'
+
+# Zwei CLAMP-Serien mit je eigener Handlung; aniSearch nennt die Filme nur „Anderes“ zueinander, xxxHOLiC nennt Tsubasa nur „Charakter“.
+- getrennt: [177, 793]
+  grund: 'Tsubasa Chronicle und xxxHOLiC sind eigene Reihen; aniSearch verbindet sie nur über „Anderes“ und „Charakter“'
+
+# Blood-C und Blood+ sind jeweils eine eigene Neuerzählung von Blood: The Last Vampire; aniSearch nennt
+# Blood-C nur „Anderes" zu beiden (Last Vampire gehört mit Blood+ als „Alternative Umgebung" zusammen).
+- getrennt: [150, 10490]
+  grund: 'BLOOD+ und BLOOD-C erzählen die Vorlage je eigenständig neu (aniSearch: nur „Anderes")'
+
+# Jedes Persona-Spiel hat Besetzung und Handlung für sich; Persona 5 ist bei aniSearch nur „Gemeinsames Universum".
+- getrennt: [14407, 99693]
+  grund: 'Persona 3 (Filme) und Persona 5 (Serie, Specials) sind getrennte Handlungen im selben Universum'
+
+# Teil 1 (OVA 1985) und die Kurz-OVAs XI und Sin tragen denselben Markennamen; aniSearch kennt zwischen ihnen nur „Gemeinsames Universum“.
+- ids: [10001587, 10012819, 10012820]
+  grund: 'Megazone 23 (Teil 1), XI und Sin tragen denselben Markennamen; aniSearch verbindet sie als Universum'
+
+- ids: [10013932, 10014654]
+  grund: 'Road to You: zwei Kurzfilme derselben Reihe (Sunrise, 2018/2019), bei MAL sogar unter einer Kennung'
+
+- ids: [10015398, 10016161]
+  grund: 'Honkai Impact 3rd (Benghuai 3): Meteoric Salvation und Lament of the Fallen sind Kurzfilme derselben Spielreihe'
+
+- ids: [138060, 10021059]
+  grund: 'Star Wars: Visions - Journey to the Dark Head ist ein Teil der Visions-Anthologie (aniSearch: Universum, gleicher Reihenname)'
+
+- ids: [10020173, 10020216]
+  grund: 'The Witcher: Nightmare of the Wolf und Sirens of the Deep sind die zwei Netflix-Animationsfilme derselben Marke (Studio Mir)'
+
+# Albert Barillés Reihe „Es war einmal …": deutsche Titel aller sechs Teile tragen den Reihentitel;
+# Micro Patrol (Das Leben) und Ginga Patrol PJ (Der Weltraum) sind die japanischen Fassungen.
+- ids: [10004749, 10005217, 10005293, 10004750, 3624, 11307]
+  grund: 'Es war einmal … (Mensch, Entdeckung unserer Welt, Entdecker und Erfinder, Amerika, Leben, Weltraum) ist eine Reihe'
+
+# Marvel Anime 2010/11: vier Serien mit je eigener Handlung (12 Folgen), bei aniSearch nur „Gemeinsames Universum".
+- getrennt: [6875, 6919, 6918, 6920]
+  grund: 'Iron Man, X-Men, Wolverine und Blade sind eigene Serien; das Marvel-Universum ist kein Reihenbeleg'
+
+# Der Bonus (4 Folgen, Juni 2013) gehört zum Peeping-Life-Special (Juni 2013) gleichen Titels.
+- ids: [10009194, 10009254]
+  grund: 'Peeping Life: Tezuka Pro, Tatsunoko Pro Wonderland und sein Bonus sind ein Werk'
+
+# 748 hängte Final Fantasy: Unlimited (TV 2001) und Die Mächte in Dir (Film 2001) an Advent Children, weil aniSearch
+# alle drei „Anderes" nennt und der Name mit „Final Fantasy" beginnt. Es sind eigene Handlungen (Advent Children
+# setzt das Spiel FF VII fort, Last Order/Denzel sind seine Vorgänger).
+- getrennt: [317, 1157, 1361]
+  grund: 'FF VII: Advent Children, Final Fantasy: Unlimited und Final Fantasy: Die Mächte in Dir sind drei getrennte Werke'

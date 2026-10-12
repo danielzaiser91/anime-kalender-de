@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { teilenPfad } from '@shared/teilen.ts'
 
 /**
  * Adresse unter `/t/<ak>/` statt der Hash-Adresse aus der Browserleiste.
@@ -6,7 +7,7 @@ import { useCallback, useState } from 'react'
  * Vorschaubild — alles hinter dem `#` erreicht weder Server noch Crawler.
  */
 export function shareUrl(slug: string): string {
-  return new URL(`${import.meta.env.BASE_URL}t/${slug}/`, window.location.origin).toString()
+  return new URL(`${import.meta.env.BASE_URL}${teilenPfad(slug)}`, window.location.origin).toString()
 }
 
 export function useShare(): {

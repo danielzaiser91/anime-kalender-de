@@ -20,6 +20,8 @@
  * unterscheidet — und an dem der Schalter in den Einstellungen hängt.
  */
 import { PLATFORMS, type PlatformId, type StreamLink, type Title } from '../../shared/types.ts'
+import { slugify } from './util.ts'
+import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 
 export interface CartoonEintrag {
   id: number
@@ -40,6 +42,7 @@ export interface CartoonEintrag {
   stimmen?: number
   banner?: string
   keywords?: string[]
+  staffeln?: CartoonStaffel[]
   stand?: number
   geholtAm: string
 }
@@ -85,13 +88,9 @@ export function plattformVon(name: string): PlatformId | undefined {
   return ANBIETER.find(([n]) => name.startsWith(n))?.[1]
 }
 
-/** Ein Kürzel als Adresse — Leerzeichen und Satzzeichen fliegen raus. */
+/** Ein Kürzel als Adresse — Umlaute werden umgeschrieben („Häfen“ → „haefen“), Leerzeichen und Satzzeichen fliegen raus. */
 function slugVon(name: string, id: number): string {
-  const kern = name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '')
-    .slice(0, 60)
+  const kern = slugify(name).slice(0, 60).replace(/-$/, '')
   return kern ? `${kern}-${Math.abs(id)}` : String(Math.abs(id))
 }
 

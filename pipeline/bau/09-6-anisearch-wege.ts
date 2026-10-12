@@ -2,7 +2,7 @@ import { type PlatformId, type Title } from '../../shared/types.ts'
 import { gehoertAnderem, crKatalog, kennungAusAdresse } from './cr-serie-geteilt.ts'
 import { dubKey, type DubCheck } from '../lib/dub-confirmed.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
-import { NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
+import { NEIN_GILT_TAGE, NUR_DIESER_TITEL, type EntfernterVerweis } from './grundlagen.ts'
 import { readJson, log } from '../lib/util.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { providerName } from '../../shared/mappings.ts'
@@ -170,7 +170,6 @@ export function ergaenzeAnisearchWege({
       entfernt. Gemessen: außer diesen Filmen kein weiterer Titel betroffen
       (nach dem YouTube-Fix in `adressKern()`).
     */
-    const NUR_DIESER_TITEL = /^der Anbieter führt |^die Adresse zeigt auf die Reihe|^belegtes Nein/
     const merkeSchluessel = (e: { titleId?: number; url?: string; grund?: string }) =>
       NUR_DIESER_TITEL.test(e.grund ?? '') ? `${e.titleId}|${adressKern(e.url ?? '')}` : adressKern(e.url ?? '')
     const frueherEntferntRoh = new Set([

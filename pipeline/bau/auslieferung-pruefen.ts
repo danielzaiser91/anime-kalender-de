@@ -6,7 +6,10 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ROOT } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
-import type { Title } from '../../shared/types.ts'
+import type { Release, Title } from '../../shared/types.ts'
+import { geplantNichtDeutschHeute, ladeGeplantQuelle } from '../lib/invarianten-geplant.ts'
+import { dubIdsNachAnisearch, dubsNachTitel } from '../lib/anisearch-marke.ts'
+import { kanalFehler } from './kanal-fehler.ts'
 import { OUT } from './grundlagen.ts'
 import { ohneSynchroVonHand } from './ohne-beleg.ts'
 import { alle as anisearchEintraege } from './anisearch-titel.ts'
@@ -22,7 +25,7 @@ function auslieferungstexte(): { datei: string; text: string }[] {
 }
 
 /** D-06 und D-15 an den geschriebenen Dateien (`lib/invarianten-auslieferung.ts`): Fehlermeldungen, leer heißt in Ordnung. */
-export function auslieferungsInvarianten(): string[] {
+export function auslieferungsInvarianten(releases: Release[]): string[] {
   const lies = <T>(datei: string, leer: T): T => readJson<T>(`${OUT}/${datei}`, leer)
   const auslieferung = {
     titles: lies<Title[]>('titles.json', []),
@@ -34,8 +37,8 @@ export function auslieferungsInvarianten(): string[] {
   const handbelegteIds = new Set(loadDubChecks().filter((c) => c.dub === true && !c.nichtImBestand).map((c) => c.anilistId))
   return [
     ...synchroNichtHinterToggle(auslieferung, {
-      dubsAnilist: readJson<Record<string, string>>('data/anisearch-dubs.json', {}),
-      dubIds: readJson<Record<string, string>>('data/anisearch-dub-ids.json', {}),
+      dubsAnilist: dubsNachTitel(),
+      dubIds: dubIdsNachAnisearch(),
       handbelegteIds,
       handKeine: ohneSynchroVonHand(),
       heute: todayIso(),
@@ -43,6 +46,8 @@ export function auslieferungsInvarianten(): string[] {
     ...anisearchZeilenDoppelt([...auslieferung.titles, ...auslieferung.ohneSynchro], anisearchEintraege()),
     ...werkDoppelt(auslieferung.titles, auslieferung.ohneSynchro, anisearchEintraege()),
     ...reihenVerweiseAufgeloest(auslieferung),
+    ...geplantNichtDeutschHeute(releases, new Map(auslieferung.titles.map((t) => [t.id, t])), ladeGeplantQuelle()),
+    ...kanalFehler([...auslieferung.titles, ...auslieferung.ohneSynchro], releases),
     ...keinAnisearchSuchlink(auslieferungstexte()),
     ...hochOhneBeleg(auslieferung.titles, ladeBelegsignale([])).map((id) => `Titel ${id}: Belegstärke high ohne starke oder zwei mittlere Quellen`),
   ]

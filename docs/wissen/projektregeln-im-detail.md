@@ -269,7 +269,13 @@ Zeilen; Anlass und Verlauf gehören in den Commit oder hierher.
 
 **Umbauen, ohne etwas zu ändern.** `tools/bau-vergleich.mjs` baut Basis und Kandidat je in einem
 eigenen Worktree mit einem nachgebildeten Cache und vergleicht alles, was der Bau schreibt. Ein
-reiner Umbau ist erst fertig, wenn das „gleich" meldet. Für `web/src` tut dasselbe
+reiner Umbau ist erst fertig, wenn das „gleich" meldet. Beide Seiten starten vom Bestand der Basis (`data/`, `public/data/`): Datenänderungen des Kandidaten sieht der Vergleich nicht, ob der Bau darauf durchläuft nur ein zweiter Lauf `HEAD HEAD` (11.10.2026). Der Bau läuft dabei mit
+`BAU_VERGLEICH=1`: Widersprüche im Ergebnis (`brichAbBeiWiderspruch`, `pipeline/lib/bau-widerspruch.ts`; Phasen 10, 11-6, 11-7, 13-5, 13-8)
+brechen ihn nicht ab, sondern stehen als „Widerspruch (Vergleichsmodus)" im mitverglichenen Protokoll — der Ersatz-Cache ist nicht
+der echte, und eine Invariante, die dort reißt, verhinderte sonst jede Basis (12.10.2026: Bookworm-Dublette, Prime-Häkchen ohne Beleg).
+Neue Abbruchstelle für ein Ergebnis-Urteil: über diese Funktion, nicht mit eigenem `process.exit`. Bei verschiedenen JSON-Dateien nennt
+die Ausgabe die Felder mit Anzahl und Beispiel (`tools/vergleich-unterschied.mjs`, etwa `streams[].dubQuelle` = Herkunft „Deutsch laut
+JustWatch" am Weg). Nicht abgedeckt: Verlust-Riegel (`13-2`), Eingabe-Prüfungen (`01-quellen`, `nebendateien`, Patchnotes). Für `web/src` tut dasselbe
 `tools/panel-vergleich.mjs`: beide Stände bauen, das Detail-Panel für 80 feste Titel bei stehender
 Uhr rendern, HTML vergleichen. Verschoben wird mit `tools/modul-umzug.mjs` (Namen, Abschnitte,
 JSX-Blöcke), das Parameter und Importe aus dem Typprüfer ableitet — von Hand verschobener Code
@@ -417,7 +423,7 @@ das sonst verfällt.
 ## Prüfung nach Risiko: Stufen 0, 1, 2 (Daniel, 10.10.2026)
 
 Anlass: „keine Prüfer-Agenten bei Kleinigkeiten“. `node tools/pr-stufe.mjs <PR>` (Tabelle und Tests: `tools/pr-stufe.mjs`, `tools/pr-stufe.test.mjs`) stuft mechanisch aus Pfaden und Zeilenzahl des Diffs ein, im Zweifel Stufe 2.
-Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar und lässt bei Stufe 0 den Claude-Lauf aus.
+Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar und lässt bei Stufe 0 den Claude-Lauf aus.
 
 ## Vor dem Commit
 
@@ -445,7 +451,7 @@ in D1).
 
 **Wer einen Handbeleg auf eine andere Kennung umhängt, fährt `check:handbelege` vorher mit.** Das steht nicht in `check:vor-commit` (es braucht den gebauten Datensatz) und bricht den Bau ab, wenn die neue Kennung nicht im Bestand steht — am 16.09.2026 bei drei umgehängten Prime-Belegen (Lauf 35125372002). Entweder die Staffel kommt über `synchro-von-hand.yaml` in den Bestand, oder der Beleg trägt `nichtImBestand: true` mit dem Grund in der Notiz.
 
-**Neuer Check = neue Zeile in `tools/check-logic-liste.txt`** (nicht in `package.json`; `tools/check-logic-alle.mjs` führt die Liste der Reihe nach aus). Die Zeile mitten in die Liste setzen, nicht ans Ende: zwei Zweige, die dieselbe Stelle ergänzen, kollidieren trotzdem (10.10.2026 mit `git merge-file` gemessen).
+**Neuer Check = neue Zeile in `tools/check-logic-liste.txt`** (nicht in `package.json`; `tools/check-logic-alle.mjs` führt die Liste der Reihe nach aus). Die Liste ist alphabetisch sortiert (Pflicht, `check-logic-alle.mjs` prüft es; seit 11.10.2026): die Zeile an die passende Stelle setzen, nicht ans Ende, denn zwei Zweige, die dieselbe Stelle ergänzen, kollidieren (10.10.2026 mit `git merge-file` gemessen). **Neuer Test `tools/<name>.test.mjs` = nur die Datei anlegen:** `tools/tests-alle.mjs` (in `check:workflows`) führt jede `tools/*.test.mjs` aus, kein Eintrag in `package.json`.
 
 **Auch ein reiner Daten-Commit läuft durch `check:logic`.** Am 15.09.2026 gingen im Durchgang
 morgens mehrere Handbeleg-Commits ohne Prüfkette raus; zwei davon (FGO 1–22 bei 21 Folgen,
@@ -507,7 +513,7 @@ genannt wird und nicht als Baufehler erscheint.
 `data/cache/anilist-anisearch-mal.json`. `data/cache/` liegt nicht im Repo, nur Datenläufe befüllen ihn, und diese
 Datei schreibt nur der Wochenlauf (letzter 05.10., nächster ~12.10.). Der Bau fand sie leer, die Cover fehlten live;
 die PR-Prüfungen waren lokal mit gefülltem Cache grün. Behoben mit PR 470 (`data/anisearch-cover.json`, Zusicherung in
-`check-bild-und-synchro.ts`).
+`check-bild-bestand.ts`, läuft in `check:bestand`).
 
 **Regel.** Eine Handkorrektur oder Vorbelegung gehört nach `data/…` im Repo. Fertig heißt erst: nach Bau und Deploy
 auf der Live-Seite gemessen (Datei oder Seite, erwarteter Wert) — grüne PR-Prüfungen belegen es nicht, weil sie mit
@@ -572,7 +578,7 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 
 ### Codegestalt (Ergänzungen)
 
-- `check:umfang` (steckt in `build`) misst die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`, angehoben wird nie. `--liste` zeigt die größten Stellen. Zusätzlich zählt er „Ketten" (`tools/umfang-ketten.mjs`, Ausgangswert 10.10.2026 je Bereich in `umfang-grenzen.json`): Anweisungen, Typ-Felder und Objekt-Einträge, die in der Zeile ihres Vorgängers beginnen (`a(); b()`, `x?: A; y?: B`, mehrere `...`-Spreads in einer Zeile) — sonst ließe sich die 80/800-Zählung durch Anhängen an bestehende Zeilen umgehen; ein Eintrag je Zeile, `--ketten` zeigt die Fundstellen, Listen ganz in einer Zeile (`{ a, b }`) bleiben erlaubt.
+- `check:umfang` (steckt in `build`) misst die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`, angehoben wird nie. **Festgeschrieben wird nur im Bestandsbau auf main (`tools/commit-data.sh`, seit 11.10.2026), nie in einem PR:** Fast jeder PR senkte dieselbe Zeile in `umfang-grenzen.json` um 1 und machte die übrigen offenen PRs DIRTY (28 Commits an der Datei in 3 Tagen). Der PR-Check bleibt gleich streng (Wachstum gegen die Datei ist rot); nur das Nachziehen der gesunkenen Zahl verschiebt sich bis zum nächsten Bestandsbau, bis dahin steht die gewonnene Überlänge anderen PRs zur Verfügung. `--liste` zeigt die größten Stellen. Zusätzlich zählt er „Ketten" (`tools/umfang-ketten.mjs`, Ausgangswert 10.10.2026 je Bereich in `umfang-grenzen.json`): Anweisungen, Typ-Felder und Objekt-Einträge, die in der Zeile ihres Vorgängers beginnen (`a(); b()`, `x?: A; y?: B`, mehrere `...`-Spreads in einer Zeile) — sonst ließe sich die 80/800-Zählung durch Anhängen an bestehende Zeilen umgehen; ein Eintrag je Zeile, `--ketten` zeigt die Fundstellen, Listen ganz in einer Zeile (`{ a, b }`) bleiben erlaubt.
 - Verschoben wird mit `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`. Bei reinen Kommentar-Umbauten `node tools/nur-kommentare.mjs` (Code ohne Kommentare gleich).
 - Wegwerfskripte gehören ins Scratchpad, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
 - Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).

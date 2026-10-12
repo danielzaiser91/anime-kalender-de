@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { loadCurated } from './lib/curated.ts'
+import { dubFeldFehler } from './lib/dub-aus-terminen.ts'
 import { ROOT } from './lib/util.ts'
 import { log } from './lib/util.ts'
 import { PLATFORMS, RELEASE_TYPES } from '../shared/types.ts'
@@ -32,6 +33,8 @@ function main(): void {
     if (e.schnitt && (!e.schnitt.was?.length || !e.schnitt.quellen?.length || e.schnitt.quellen.some((q) => !/^https:\/\//.test(q))))
       errors.push(`${at}: schnitt braucht was und quellen (https-Adressen)`)
     if (e.fsk !== undefined && !FSK.includes(e.fsk)) errors.push(`${at}: ungültige FSK "${e.fsk}"`)
+    const dubFehler = dubFeldFehler(e)
+    if (dubFehler) errors.push(`${at}: ${dubFehler}`)
     if (e.sprache !== undefined && e.sprache !== 'omu' && e.sprache !== 'offen') errors.push(`${at}: sprache ist omu oder offen, nicht "${e.sprache}"`)
 
     const s = e.schedule

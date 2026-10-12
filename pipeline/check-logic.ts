@@ -2763,8 +2763,8 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
   ein Nein entfernt den Verweis: „Fullmetal Alchemist" verlor dadurch seinen
   letzten Weg, obwohl derselbe Eintrag sagte, dass die Angabe kein Beleg ist.
 
-  Ein Ja bleibt erlaubt — „es gibt dort deutsche Folgen" stimmt auch bei zu
-  hoher Zahl. Geprüft wird nur die eine Richtung, die Daten löscht.
+  Das Ja aus einem Kanal lässt der Lader seit dem 11.10.2026 weg (lib/kanal-titel.ts, D-25) —
+  hier wird nur die Richtung geprüft, die Daten löscht.
 */
 {
   const yaml = readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')
@@ -3789,7 +3789,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe(
     'der Bau legt den Verweis beim gemeldeten Anbieter an',
     /const plattform = eintrag\.plattform as PlatformId/.test(bau) &&
-      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: true \}\)/.test(bau),
+      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: belegt \|\| undefined \}\)/.test(bau),
     'die Plattform ist wieder fest verdrahtet',
   )
   pruefe(
@@ -4558,7 +4558,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   )
   pruefe(
     'das Entfernt-Gedächtnis schreibt gesperrte Verweise mit',
-    bau.includes('verweise: [...verweiseEntfernt, ...uebernommen]'),
+    bau.includes('const verweise = [...verweiseEntfernt, ...uebernommen]'),
     'sonst ergänzt jeder zweite Bau die Verweise wieder, die der vorige als belegtes Nein entfernt hat (78 Adressen, 17.09.2026)',
   )
   pruefe(
@@ -5937,7 +5937,7 @@ pruefe(
     '… Platzhalter und mehrdeutige Folgentitel entscheiden nichts',
     anker('Folge 7: Folge 7') === null && anker('Folge 9: Doppelt') === null && anker('keine Folge') === null,
   )
-  const quelltext = readFileSync('pipeline/fetch-pruefungen.ts', 'utf8')
+  const quelltext = readFileSync('pipeline/lib/meldungen-verteilen.ts', 'utf8')
   pruefe(
     '… und der Import fragt ihn vor der Zählung',
     quelltext.indexOf('folgeUeberTitel(') > 0 && quelltext.indexOf('folgeUeberTitel(') < quelltext.indexOf('ordneMeldungZuPlattform('),
@@ -6334,19 +6334,28 @@ pruefe(
     Geprüft wird der Quelltext — einen Plan kann dieser Lauf nicht messen.
   */
   const wq = workerQuelltext()
-  pruefe('die Adressabfrage erzwingt den Zeitindex', wq.includes('INDEXED BY pruefung_gemeldet_url'))
+  /* Mit Wortgrenze: ein bloßer Teilstring träfe auch den gelöschten Index `pruefung_gemeldet_url`. */
+  pruefe('die Adressabfrage erzwingt den Zeitindex', /INDEXED BY pruefung_gemeldet(?![\w])/.test(wq))
   pruefe(
-    'und die Migration legt ihn an',
-    readFileSync('worker/migrations/041-pruefung-zeit-url-index.sql', 'utf8').includes('pruefung_gemeldet_url'),
+    'und die Migration legt ihn über gemeldet_am an',
+    /CREATE INDEX[^;]*\bpruefung_gemeldet ON pruefung \(gemeldet_am/.test(
+      readFileSync('worker/migrations/037-pruefung-gemeldet.sql', 'utf8'),
+    ),
   )
   pruefe(
-    'die Löschanfrage erzwingt den gti-Index',
-    readFileSync('worker/src/pruefung-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
+    'und 047 entfernt den alten Index pruefung_gemeldet_url',
+    /DROP INDEX IF EXISTS pruefung_gemeldet_url\b/.test(
+      readFileSync('worker/migrations/047-schreiblast-indizes.sql', 'utf8'),
+    ),
+  )
+  pruefe(
+    'die Ladeabfrage erzwingt den gti-Index',
+    readFileSync('worker/src/rohfolgen-abgleich.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
   )
   /* Dieselbe Ursache, die andere Anweisung: `seiten_kennung` las 3430 Zeilen je Aufruf (26 %). */
   pruefe(
-    'und die Seiten-Löschung den Seiten-Index',
-    readFileSync('worker/src/pruefung-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
+    'und die Seiten-Ladeabfrage den Seiten-Index',
+    readFileSync('worker/src/rohfolgen-abgleich.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
       readFileSync('worker/migrations/042-prime-folge-seite-index.sql', 'utf8').includes('prime_folge_seite'),
   )
   /* Die Abfragen stehen in `lauf-sql.ts` — dort prüft dieser Lauf sie auf Klammer-Gleichgewicht
@@ -8787,7 +8796,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   const mit = new Map<number, Title>(dubletten.map(([al]) => [al, { id: al, streams: [] } as unknown as Title]))
   ergaenzeAnisearchTitel(mit, new Map(), new Map())
   pruefe('MAL-Dublette: steht der AniList-Titel im Bestand, entfällt die aniSearch-Zeile', dubletten.every(([, as]) => !mit.has(10_000_000 + as)))
-  pruefe('MAL-Dublette: Psyren (aniSearch: Dub geplant) übernimmt die deutsche Erstausgabe, Beerus und Fool Night (kein Deutsch) bekommen keine', mit.get(204011)!.deErstausgabe?.von === '2026-10-05' && !mit.get(206814)!.deErstausgabe && !mit.get(213457)!.deErstausgabe)
+  pruefe('MAL-Dublette: Psyren (aniSearch: Dub geplant, seit 11.10.2026 ohne deutsches Datum), Beerus und Fool Night (kein Deutsch) bekommen keine Erstausgabe', !mit.get(204011)!.deErstausgabe && !mit.get(206814)!.deErstausgabe && !mit.get(213457)!.deErstausgabe)
   const kette = anisearchUmgezogen(new Set([204011]), new Set(), undefined, undefined)
   pruefe('MAL-Dublette: die Handbindung zählt als Umzug (Verlust-Riegel des Baus)', kette.has(10_021_084))
   const handText = readFileSync('data/anisearch-ids-hand.yaml', 'utf8')
@@ -8795,8 +8804,8 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
     'MAL-Dublette: jede alte Slug-Kennung automatischer Termine (ALTE_AUTO_KENNUNG) ist die aniSearch-Kennung, die die Handdatei an den AniList-Titel bindet',
     Object.entries(ALTE_AUTO_KENNUNG).every(([al, alt]) => new RegExp(`^${al}:\\s*${alt - 10_000_000}\\b`, 'm').test(handText)),
   )
-  /* Hyouken II: die deutsche Erstausgabe der aniSearch-Zeile wandert unverändert zum AniList-Titel (Psyren ist oben geprüft). */
-  pruefe('MAL-Dublette: Hyouken II übernimmt die Erstausgabe der aufgegangenen Zeile unverändert', Boolean(ohne.get(10_021_575)?.deErstausgabe) && JSON.stringify(mit.get(212503)!.deErstausgabe) === JSON.stringify(ohne.get(10_021_575)!.deErstausgabe))
+  /* Hyouken II (aniSearch: Dub geplant): weder die aniSearch-Zeile noch der AniList-Titel trägt seit 11.10.2026 eine deutsche Erstausgabe aus dem Block (Psyren ist oben geprüft). */
+  pruefe('MAL-Dublette: Hyouken II übernimmt keine Erstausgabe aus dem Block mit Marke Geplant', !ohne.get(10_021_575)?.deErstausgabe && !mit.get(212503)!.deErstausgabe)
   /* Der Auto-Termin von Beerus und Fool Night behält seinen Slug; ein vorhandener Release derselben Plattform verdrängt ihn, statt einen zweiten Termin zu bilden. */
   const meldung = (titleId: number, name: string, plattform: string, kontext: string) =>
     ({ articleTitle: `Termin von »${name}«`, articleUrl: 'https://www.anime2you.de/news/1/', category: 'streaming', platforms: [plattform], titleId, dates: [{ iso: '2026-10-11', context: kontext }] }) as unknown as Parameters<typeof releasesAus>[0][number]

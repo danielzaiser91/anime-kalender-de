@@ -91,12 +91,19 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # Meldung sähe nach einem Fehler aus, obwohl alles richtig läuft. Mit
     # NUR_QUELLEN=1 wird gar nicht erst gebaut; den Bau macht der nächste
     # planmäßige Lauf, der den Cache ohnehin aufbaut.
+    #
+    # Der Lauf endet danach trotzdem rot (AUFBAU_GESCHEITERT, seit 12.10.2026): Bei gescheitertem Aufbau ging das Skript mit
+    # Exit 0 hinaus, und `deploy.yml` (startet nur bei success) lieferte nichts aus, ohne dass es jemand sah.
+    # NUR_QUELLEN ist kein Fehler und bleibt grün.
+    AUFBAU_KAPUTT=0
+    AUFBAU_GESCHEITERT=0
     if [ "${NUR_QUELLEN:-0}" = 1 ]; then
       echo "NUR_QUELLEN=1 — kein Neuaufbau, nur die geholten Quellen."
       AUFBAU_KAPUTT=1
     elif ! npm run data:build; then
-      echo "::warning::Der Neuaufbau ist gescheitert. Die Quellen werden trotzdem committet — sie sind der teure Teil, die Erzeugnisse baut der nächste Lauf neu."
+      echo "::error::Der Neuaufbau ist gescheitert. Die Quellen werden trotzdem committet — sie sind der teure Teil —, die Erzeugnisse nicht; der Lauf endet rot."
       AUFBAU_KAPUTT=1
+      AUFBAU_GESCHEITERT=1
     fi
     NEU_GEBAUT=1
 
@@ -115,7 +122,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     fi
   fi
   # Seit dem 17.09.2026 außerhalb des Neuaufbau-Zweigs: nach einem Neuaufbau und
-  # im Bau-Lauf (WARNUNG_STATT_ROT) immer — vorher lief sie dort nur, wenn sich
+  # im Bau-Lauf (BAU_LAUF) immer — vorher lief sie dort nur, wenn sich
   # der Fernstand bewegt hatte.
 
   # Was der Bestand behauptet, wird hier geprüft — nicht erst beim Deploy.
@@ -139,12 +146,13 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   # Die Quellen bleiben davon unberührt und werden committet. Sie sind der
   # teure Teil (fremde APIs, Ratenlimits), und an ihnen liegt es nicht.
   BESTAND_KAPUTT=0
-  if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && { [ "${NEU_GEBAUT:-0}" = 1 ] || [ "${WARNUNG_STATT_ROT:-0}" = 1 ]; }; then
-    # Seit dem 17.09.2026 auch check:logic, und im Bau-Lauf gelb statt rot
-    # (WARNUNG_STATT_ROT=1): Die neuen Meldungen werden zurückgenommen und
-    # bleiben im Briefkasten, die Statusanzeige zeigt den Grund. Bis dahin
-    # gingen Belege, die eine Zusicherung verletzen, als Quelle ins Repo und
-    # machten danach jeden Deploy rot.
+  if [ "${AUFBAU_KAPUTT:-0}" != 1 ] && { [ "${NEU_GEBAUT:-0}" = 1 ] || [ "${BAU_LAUF:-0}" = 1 ]; }; then
+    # Seit dem 17.09.2026 auch check:logic, und im Bau-Lauf (BAU_LAUF=1) werden
+    # die neuen Meldungen zurückgenommen: Sie bleiben im Briefkasten, die
+    # Statusanzeige zeigt den Grund. Bis dahin gingen Belege, die eine
+    # Zusicherung verletzen, als Quelle ins Repo und machten danach jeden
+    # Deploy rot. Der Lauf endet rot, auch im Bau-Lauf (seit 11.10.2026:
+    # von 15:14 bis 21:08 UTC lieferte er grün keine Erzeugnisse aus, sechs Stunden unbemerkt).
     if ! npm run check:bestand > /tmp/bestand-pruefung.txt 2>&1 || ! npm run check:logic >> /tmp/bestand-pruefung.txt 2>&1; then
       cat /tmp/bestand-pruefung.txt
       # Die sechs Prüfungen in `check:bestand` melden über `warn()` (Zeichen
@@ -154,17 +162,15 @@ for versuch in $(seq 1 "$VERSUCHE"); do
       # dann mit Exit-Code 1, und unter `set -euo pipefail` reißt das diese
       # einfache Zuweisung mit: kein `if`/`&&`/`||`-Kontext, den `set -e`
       # ausnimmt. Das Skript brach dadurch ab, bevor es die
-      # `WARNUNG_STATT_ROT`-Behandlung darunter erreichte (21.09.2026, Lauf
+      # `BAU_LAUF`-Behandlung darunter erreichte (21.09.2026, Lauf
       # 35566086288, ausgelöst von `check:handbelege`). `|| true` fängt außerdem
       # den Fall ab, in dem keines der drei Zeichen vorkommt.
-      grund="$(grep -m 3 -E '✖|✗|⚠' /tmp/bestand-pruefung.txt | tr -d '\"' | tr -s '[:space:]' ' ')" || true
-      if [ "${WARNUNG_STATT_ROT:-0}" = 1 ]; then
-        echo "::warning::Der gebaute Bestand verletzt eine Zusicherung. Erzeugnisse und neue Meldungen werden nicht übernommen."
+      grund="$(grep -m 3 -E '✖|✗|⚠|FEHLER:' /tmp/bestand-pruefung.txt | tr -d '\"' | tr -s '[:space:]' ' ')" || true
+      echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
+      if [ "${BAU_LAUF:-0}" = 1 ]; then
         git checkout -- data/dub-confirmed.yaml 2>/dev/null || true
         rm -f data/cache/pruefungen-abhaken.json
         echo "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Bestand nicht übernommen: $grund" >> "${GITHUB_ENV:-/dev/null}"
-      else
-        echo "::error::Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon."
       fi
       BESTAND_KAPUTT=1
     else
@@ -204,6 +210,18 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     fi
   }
 
+  # Gesunkene Umfangsgrenzen übernimmt nur dieser Lauf auf main, nie ein PR: Sonst ändert fast jeder PR dieselbe Zeile
+  # in tools/umfang-grenzen.json und macht die übrigen offenen PRs DIRTY (11.10.2026). Scheitert es, bleibt alles beim Alten.
+  if node tools/umfang-pruefen.mjs --festschreiben > /dev/null 2>&1; then
+    hinzu tools/umfang-grenzen.json
+  fi
+
+  # Rot endet der Lauf, sobald Aufbau oder Bestand scheitern — nach dem Sichern der Quellen.
+  LAUF_ROT=0
+  if [ "${AUFBAU_GESCHEITERT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ]; then
+    LAUF_ROT=1
+  fi
+
   if [ "${AUFBAU_KAPUTT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ]; then
     hinzu "${QUELLEN[@]}"
   else
@@ -212,6 +230,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
 
   if git diff --staged --quiet; then
     echo "Keine Änderung — nichts zu committen."
+    [ "$LAUF_ROT" = 1 ] && exit 1
     exit 0
   fi
 
@@ -221,7 +240,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   if git push --quiet 2>/tmp/push-fehler.txt; then
     echo "Gepusht (Versuch $versuch)."
     # Die Quellen sind gesichert — jetzt darf der Lauf scheitern.
-    [ "${BESTAND_KAPUTT:-0}" = 1 ] && [ "${WARNUNG_STATT_ROT:-0}" != 1 ] && exit 1
+    [ "$LAUF_ROT" = 1 ] && exit 1
     exit 0
   fi
 

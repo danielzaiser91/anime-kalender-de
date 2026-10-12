@@ -13,6 +13,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { anisearchKatalogPaare } from './lib/anisearch-katalog-ids.ts'
 
 const GEHEIM = 'C:/code/ai/ai helper files/my_secrets.md'
 
@@ -40,6 +41,7 @@ async function main(): Promise<void> {
   const alle = (await antwort.json()) as Record<string, string>
   const unsere = new Set<string>()
   for (const e of Object.values(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) if (e.anisearchId) unsere.add(String(e.anisearchId))
+  for (const [, asId] of anisearchKatalogPaare()) unsere.add(String(asId))
   for (const m of readFileSync('data/anisearch-ids-hand.yaml', 'utf8').matchAll(/^\d+:\s*(\d+)/gm)) unsere.add(m[1]!)
   const aus: Record<string, string> = {}
   for (const id of [...unsere].sort((a, b) => Number(a) - Number(b))) if (alle[id]) aus[id] = alle[id]

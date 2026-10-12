@@ -3,6 +3,8 @@ import type { PlatformId, ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../../lib/data.ts'
 import { EMPTY_FILTERS, isFilterActive, type FilterState } from '../../lib/filters.ts'
 import { useLang } from '../../lib/i18n.tsx'
+import { zaehleHerkunft } from '../../lib/herkunft.ts'
+import { HerkunftZaehlungContext } from '../../lib/herkunft-zaehlung.ts'
 import { FilterDetailsFeld } from '../FilterDetails.tsx'
 import { AktiveFilter } from './AktiveFilter.tsx'
 
@@ -40,6 +42,7 @@ export function FilterFeld(p: FilterFeldProps) {
     }
     return { proPlattform, proGenre }
   }, [p.zeitraum, p.data])
+  const herkunftZaehlung = useMemo(() => zaehleHerkunft(p.zeitraum.map((ev) => p.data.titleById.get(ev.titleId))), [p.zeitraum, p.data])
   const genreListe = useMemo(() => {
     const gewaehlt = [...p.filters.genres, ...p.filters.excluded.genres]
     return [...zaehlungen.proGenre.entries()]
@@ -58,25 +61,27 @@ export function FilterFeld(p: FilterFeldProps) {
     >
       {/* **Die gewählten Filter stehen im Filterfeld** — dieselbe Stelle wie im Datenbank-Reiter
           (`FilterBar`), unter dem klebenden Klick-Modus (`zwischen`). */}
-      <FilterDetailsFeld
-        meta={p.data.meta}
-        filters={p.filters}
-        onChange={p.onChange}
-        showConfidence
-        favoriteCount={p.favoriteCount}
-        tvAn={p.tvAn}
-        setTvAn={p.setTvAn}
-        platformZaehlung={zaehlungen.proPlattform}
-        genreListe={genreListe}
-        genreZaehlung={zaehlungen.proGenre}
-        zwischen={
-          etwasGewaehlt && (
-            <div className="border-b border-ak-linie px-3 py-2.5">
-              <AktiveFilter filters={p.filters} onChange={p.onChange} tvAn={p.tvAn} setTvAn={p.setTvAn} />
-            </div>
-          )
-        }
-      />
+      <HerkunftZaehlungContext.Provider value={herkunftZaehlung}>
+        <FilterDetailsFeld
+          meta={p.data.meta}
+          filters={p.filters}
+          onChange={p.onChange}
+          showConfidence
+          favoriteCount={p.favoriteCount}
+          tvAn={p.tvAn}
+          setTvAn={p.setTvAn}
+          platformZaehlung={zaehlungen.proPlattform}
+          genreListe={genreListe}
+          genreZaehlung={zaehlungen.proGenre}
+          zwischen={
+            etwasGewaehlt && (
+              <div className="border-b border-ak-linie px-3 py-2.5">
+                <AktiveFilter filters={p.filters} onChange={p.onChange} tvAn={p.tvAn} setTvAn={p.setTvAn} />
+              </div>
+            )
+          }
+        />
+      </HerkunftZaehlungContext.Provider>
       <FilterFuss {...p} />
     </section>
   )

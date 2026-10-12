@@ -4,9 +4,17 @@
  */
 /* Die Texte des Sprecher-Filters reisen mit: `i18n.tsx` ist über der Dateigrenze und wächst nicht mehr. */
 import { TEXTE_SPRECHER } from './i18n-sprecher.ts'
+import { TEXTE_HERKUNFT } from './i18n-herkunft.ts'
+import { TEXTE_JUSTWATCH } from './i18n-justwatch.ts'
+import { TEXTE_ANTWORT } from './i18n-antwort.ts'
 
 export const TEXTE_KALENDER = {
   ...TEXTE_SPRECHER,
+  ...TEXTE_HERKUNFT,
+  ...TEXTE_JUSTWATCH,
+  // Fortsetzung mit eigenem Titel in der Reihenliste, keine Staffel.
+  'detail.gruppeEigene': 'Eigene Serien',
+  ...TEXTE_ANTWORT,
   // Original noch nicht erschienen (Reihenliste, Datenbankkarte).
   'geplant.marke': 'Geplant',
   'geplant.hinweis': 'Das Original ist noch nicht erschienen',
@@ -60,6 +68,8 @@ export const TEXTE_KALENDER = {
   'detail.eineStaffel': '1 Staffel',
   'detail.einFilm': '1 Film',
   'detail.einSpecial': '1 Special',
+  'detail.eineEigeneSerie': '1 eigene Serie',
+  'detail.reiheEigeneSerien': '{n} eigene Serien',
   'detail.staffelnZahl': '{n} Staffeln',
   'detail.reiheFilme': '{n} Filme',
   'detail.reiheSpecials': '{n} Specials',

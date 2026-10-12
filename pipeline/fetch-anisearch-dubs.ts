@@ -11,8 +11,9 @@
  * Aufruf: `npx tsx pipeline/fetch-anisearch-dubs.ts`
  */
 import { existsSync, readFileSync } from 'node:fs'
-import { log, readJson, warn, writeJson } from './lib/util.ts'
+import { log, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { anisearchBruecke } from './lib/anisearch-katalog-ids.ts'
 
 const GEHEIM = 'C:/code/ai/ai helper files/my_secrets.md'
 
@@ -48,9 +49,7 @@ async function main(): Promise<void> {
   }
   const alle = (await antwort.json()) as Record<string, Sprachen>
   /* Unsere Titel-Kennung → aniSearch-Kennung; die Handdatei gilt vor der Brücke. */
-  const unsere = new Map<string, string>()
-  for (const [id, e] of Object.entries(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) if (e.anisearchId) unsere.set(id, String(e.anisearchId))
-  for (const m of readFileSync('data/anisearch-ids-hand.yaml', 'utf8').matchAll(/^(\d+):\s*(\d+)/gm)) unsere.set(m[1]!, m[2]!)
+  const unsere = anisearchBruecke()
   const aus: Record<string, string> = {}
   for (const [id, asId] of [...unsere].sort((a, b) => Number(a[0]) - Number(b[0]))) if (alle[asId]) aus[id] = deutschKennzeichen(alle[asId])
   /* Ein Abruf, der fast nichts liefert, ist kein Befund: der Bau würde sonst Titel ohne Eintrag als „nicht genannt" lesen. */

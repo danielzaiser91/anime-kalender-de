@@ -889,7 +889,7 @@ export function ImpressumView() {
       <div>
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Urheberrecht</h2>
         <p>
-          Titelbilder, Titel und Beschreibungstexte stammen von AniList und den jeweiligen
+          Titelbilder stammen von TMDB, wo es dort ein Plakat gibt, sonst von AniList oder aniSearch; Titel und Beschreibungstexte von AniList und den jeweiligen
           Rechteinhabern und werden hier lediglich eingebunden. Alle Marken- und Bildrechte liegen bei
           ihren Inhabern. Der Quellcode dieser Seite steht unter der MIT-Lizenz, die selbst gepflegten
           Termindaten unter CC BY 4.0.
@@ -900,10 +900,10 @@ export function ImpressumView() {
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">Datenquellen</h2>
         <ul className="ml-4 list-disc space-y-0.5">
           <li>
-            Metadaten: <a className="underline" href="https://anilist.co">AniList</a>; Folgentitel und Folgenlängen, wo keine andere Quelle sie hat: <a className="underline" href="https://kitsu.app">Kitsu</a>
+            Metadaten: <a className="underline" href="https://anilist.co">AniList</a>; Bewertung und Schlagworte: <a className="underline" href="https://www.anisearch.de">aniSearch</a>; Folgentitel und Folgenlängen, wo keine andere Quelle sie hat: <a className="underline" href="https://kitsu.app">Kitsu</a>
           </li>
           <li>
-            FSK und große Cover-Bilder: <a className="underline" href="https://www.themoviedb.org">TMDB</a> — diese Seite nutzt die
+            FSK, Cover- und Vorschaubilder: <a className="underline" href="https://www.themoviedb.org">TMDB</a> (ohne TMDB-Bild: AniList) — diese Seite nutzt die
             TMDB-API, ist aber weder von TMDB unterstützt noch zertifiziert <img src="/icons/tmdb.svg" alt="TMDB" width="137" height="18" loading="lazy" className="mt-1 block" /></li>
           <li>
             Wo ein Titel läuft und was er kostet:{' '}
@@ -932,7 +932,7 @@ export function ImpressumView() {
             beides seit Längerem, das Impressum nicht.
           */}
           <li>
-            Deutsche Titel, Inhaltsangaben und Bezugsquellen:{' '}
+            Deutsche Titel, Inhaltsangaben, Bezugsquellen, Cover:{' '}
             <a className="underline" href="https://www.anisearch.de">aniSearch</a>
           </li>
           <li>

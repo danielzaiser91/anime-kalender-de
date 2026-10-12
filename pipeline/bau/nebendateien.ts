@@ -1,4 +1,5 @@
-import { writeText, writeJson, readJson, log, warn } from '../lib/util.ts'
+import { writeJson, readJson, log, warn } from '../lib/util.ts'
+import { STAND_ZEILE, writeTextStand } from '../lib/stand-halten.ts'
 import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
 import { type CartoonEintrag, type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon, tonAnbieterNamen } from '../lib/cartoons.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
@@ -8,6 +9,8 @@ import { mitLaufzeit } from '../lib/anisearch-felder.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { englischAusSynonymen } from '../lib/anisearch-titel.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
+import { coverFuer } from './cover-regel.ts'
+import { bewertungNachRegel, mitProduktFeldern } from './produkt-regel.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
@@ -15,10 +18,14 @@ import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
 import { ordneCartoonReihen } from './cartoon-reihen.ts'
+import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
+import { verteileWege } from './cartoon-wege.ts'
+import type { Staffel } from '../lib/jw-staffeln.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
 import { findeAnisearchDubletten, zeilenMitKennungWeg, type DublettenUrteil } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import { ohneWerkDubletten } from './werk-doppelt-bau.ts'
+import { anisearchKatalogReihen } from './anisearch-reihen-pruefliste.ts'
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
@@ -55,7 +62,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
   const ziel = 'daniel-zum-abarbeiten/listen/18-suchadressen.md'
   const stand = new Date().toISOString().slice(0, 10)
   if (!offen.length) {
-    writeText(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'))
+    writeTextStand(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'), STAND_ZEILE)
     /*
       **Auch „nichts offen" wird geschrieben.** Hier stand nur `return`, und
       `data/suchadressen-offen.json` behielt die letzten sechs Einträge — alle
@@ -95,7 +102,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
     for (const k of kandidaten) zeilen.push(`- aniSearch nennt: <${k}> — passt das?`)
     zeilen.push('- **Antwort:** ', '')
   }
-  writeText(ziel, zeilen.join('\n') + '\n')
+  writeTextStand(ziel, zeilen.join('\n') + '\n', STAND_ZEILE)
   /*
     **Dieselbe Liste noch einmal als Datei, die ein Werkzeug lesen kann.**
 
@@ -140,7 +147,7 @@ export function schreibeCartoons(): void {
     Tonspur-Angabe bleibt unbenutzt (CLAUDE.md, JustWatch gilt der Serie).
     Abonnement vor Kauf, wenn beide dasselbe Ziel haben.
   */
-  const jw = readJson<Record<string, { angebote?: (JwAngebotTon & { url?: string })[] }>>(
+  const jw = readJson<Record<string, { angebote?: (JwAngebotTon & { url?: string })[]; staffeln?: Staffel[]; geprueftAm?: string }>>(
     'data/justwatch-audio.json',
     {},
   )
@@ -184,6 +191,8 @@ export function schreibeCartoons(): void {
   }
   if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)
   setzeTonHinweise(titel, jw, belege)
+  const ungeprueft = setzeStaffeln(titel, roh, jw, staffelnAusBelegen(belege))
+  verteileWege(titel, jw, ungeprueft)
   ordneCartoonReihen(titel)
   writeJson(`${OUT}/cartoons.json`, titel)
   log(`${titel.length} westliche Animationsserien geschrieben`)
@@ -252,8 +261,6 @@ export function schreibeOhneSynchro(
     return
   }
 
-  const reihe = reihenFuerKatalog(eintraege, bekannt)
-
   /**
    * Drei Pflichtfelder von `Title` fehlen hier absichtlich: `slug`, `keywords`
    * und `streams`. Sie wären für jeden dieser Titel leer beziehungsweise ohne
@@ -302,6 +309,7 @@ export function schreibeOhneSynchro(
   >('data/anisearch-titel.json', {})
   const kennungen = anisearchKennungen([...eintraege.map((e) => ({ id: e.id, mal: e.mal ?? undefined })), ...verschoben.map((t) => ({ id: t.id, mal: t.malId }))])
   const dubletten = anisearchDublettenAbziehen(bekannt, verschoben, geschuetzt, eintraege, kennungen)
+  const reihe = anisearchKatalogReihen(reihenFuerKatalog(eintraege, bekannt), eintraege, bekannt, verschoben, kennungen, dubletten)
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id) && !dubletten.katalogWeg.has(e.id))
     .map((e) => {
@@ -374,10 +382,8 @@ export function schreibeOhneSynchro(
          * nicht (AniList liefert gelegentlich einen anderen Hostnamen), bleibt
          * die Adresse unangetastet — der Browser erkennt das am `http`.
          */
-        coverImage: e.cover?.startsWith(ANILIST_COVER_BASIS)
-          ? e.cover.slice(ANILIST_COVER_BASIS.length)
-          : (e.cover ?? undefined),
-        score: e.score ?? undefined,
+        coverImage: coverFuer(e.id, e.cover?.startsWith(ANILIST_COVER_BASIS) ? e.cover.slice(ANILIST_COVER_BASIS.length) : (e.cover ?? undefined)),
+        ...bewertungNachRegel({}, kennungen.get(e.id)),
         /**
          * Fehlt, wenn der Titel allein steht — dann greift in der Oberfläche
          * ohnehin der Rückfall auf die eigene Kennung, und die Zahl wäre
@@ -398,7 +404,7 @@ export function schreibeOhneSynchro(
 
   /* Wer aus dem Hauptbestand verschoben wurde, muss hier ankommen, auch wenn der Katalog ihn nicht führt (ein Vorfilter verschiebt, er löscht nicht; „Xiao Mao Diao Yu", 17.08.2026). */
   const vorhanden = new Set(ohne.map((t) => t.id))
-  const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id) && !dubletten.zeilenWeg.has(t.id))
+  const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id) && !dubletten.zeilenWeg.has(t.id)).map((t) => mitProduktFeldern({ ...t, coverImage: coverFuer(t.id, t.coverImage) }, kennungen.get(t.id)))
   const alle = ohneWerkDubletten([...ohne, ...nachgetragen.map((t) => ({ ...t, ...(kennungen.has(t.id) ? { anisearchId: kennungen.get(t.id) } : {}), dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))], geschuetzt)
 
   writeJson(`${OUT}/ohne-synchro.json`, alle.map((t) => mitLaufzeit(mitAnkuendigung(t))))

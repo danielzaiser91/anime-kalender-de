@@ -9,6 +9,8 @@ import { type Einheit, vergleicheReihen } from './bau/anisearch-reihen-vergleich
 import { REIHEN_DATEI, type ReihenDatei, ohneReferenzReihe } from './bau/anisearch-reihen-abweichungen.ts'
 import { ANISEARCH_ID_BASIS } from './bau/anisearch-titel.ts'
 import { uebernimmReihen } from './bau/anisearch-reihen-uebernahme.ts'
+import { uebernimmKatalogReihen } from './bau/anisearch-reihen-katalog.ts'
+import type { KatalogEintrag } from './lib/anilist.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -72,9 +74,43 @@ pruefe('Übernahme: zwei Reihen mit mehreren Titeln werden nie verbunden, sie st
 pruefe('Übernahme: ein Alleinstehender zwischen zwei Reihen wandert nirgends hin (mehrdeutig)', !u.kanten.some((x) => x.ids.includes(8)) && u.pruefliste.filter((p) => p.art === 'mehrdeutig').length === 1)
 pruefe('Übernahme: Art ohne Regel (Originalwerk) bindet nichts', !u.kanten.some((x) => x.ids.includes(9)))
 pruefe('Übernahme: ausgenommene Titel (Crossover) wandern nicht', !uebernimmReihen(titelU, kantenU, new Map(), reiheU, new Set([5])).kanten.some((x) => x.ids.includes(5)))
+const getrenntU = uebernimmReihen(titelU, kantenU, new Map(), reiheU, new Set(), undefined, [[5, 1], [2, 3]])
+pruefe('Übernahme: eine Handtrennung hält den Alleinstehenden aus der Reihe', !getrenntU.kanten.some((x) => x.ids.includes(5)))
+pruefe('Übernahme: eine Handtrennung zweier Reihen leert ihren Prüflisten-Fall (ein Titel je Reihe genügt)', getrenntU.pruefliste.filter((p) => p.art === 'verschmilzt').length === 0)
+pruefe('Übernahme: eine Handtrennung berührt andere Kanten nicht', getrenntU.kanten.some((x) => x.ids.includes(6) && x.ids.includes(7)))
 const universum = [{ id: 1, name: 'Marvel Iron Man', anisearchId: 1 }, { id: 2, name: 'Marvel Iron Man 2', anisearchId: 2 }, { id: 3, name: 'Marvel Blade', anisearchId: 3 }]
 const uni = uebernimmReihen(universum, [k(3, 1, 'Gemeinsames Universum')], new Map([[1, ['Marvel Iron Man']], [3, ['Marvel Blade']]]), (id) => (id === 2 ? 1 : id))
 pruefe('Übernahme: „Gemeinsames Universum“ lässt nichts wandern, der Fall steht als „universum“ auf der Prüfliste', uni.kanten.length === 0 && uni.pruefliste.length === 1 && uni.pruefliste[0]!.art === 'universum', JSON.stringify(uni))
+
+/* Katalog: Anker 1+2 (Reihe 1) und 3 (allein, Reihe 3); Katalogtitel 11–15 allein, 21+22 eine Reihe, 15 ein Crossover.
+ * 11 →1 hängt an Reihe 1; 12 →3 hängt an den allein stehenden Anker; 13 →14 bilden eine neue Reihe; 15 →1 wandert nie (Crossover);
+ * 21 →3 (Katalog-Reihe und allein stehender Anker) geht nur über den Hauptbestand und steht nicht auf der Prüfliste; 22 →2 verbindet zwei Reihen: Prüfliste. */
+const eK = (id: number, eltern: number[] = []): KatalogEintrag => ({ id, t: [`K${id}`, null, null], eltern, format: null, jahr: null, folgen: null }) as KatalogEintrag
+const ankerK = [{ id: 1, name: 'A1', anisearchId: 1, reihe: 1 }, { id: 2, name: 'A2', anisearchId: 2, reihe: 1 }, { id: 3, name: 'A3', anisearchId: 3, reihe: 3 }]
+const katalogK = [11, 12, 13, 14, 21, 22].map((id) => eK(id)).concat(eK(15, [1, 3]))
+const reiheK = new Map(katalogK.map((e): [number, number] => [e.id, e.id === 22 ? 21 : e.id]))
+const kennungK = new Map([...katalogK.map((e): [number, number] => [e.id, e.id])])
+const kantenK = [k(11, 1, 'Sequel'), k(12, 3, 'Sequel'), k(13, 14, 'Sequel'), k(15, 1, 'Sequel'), k(21, 3, 'Sequel'), k(22, 2, 'Sequel')]
+const kat = uebernimmKatalogReihen(katalogK, reiheK, ankerK, kennungK, kantenK, new Map())
+pruefe('Katalog: ein Alleinstehender hängt an die Reihe des Hauptbestands und an einen allein stehenden Anker', kat.reihe.get(11) === 1 && kat.reihe.get(12) === 3, JSON.stringify([...kat.reihe]))
+pruefe('Katalog: zwei verbundene Alleinstehende bilden eine neue Reihe', kat.reihe.get(14) === 13 && kat.reihe.get(13) === 13 && kat.ergebnis.neueReihen === 1)
+pruefe('Katalog: ein Crossover wandert nicht, eine Katalog-Reihe auch nicht', kat.reihe.get(15) === 15 && kat.reihe.get(21) === 21 && kat.reihe.get(22) === 21)
+pruefe('Katalog: Reihe und allein stehender Anker zählen nur, Reihe und Reihe stehen auf der Prüfliste', kat.bestandEinzeln === 1 && kat.ergebnis.pruefliste.length === 1 && kat.ergebnis.pruefliste[0]!.art === 'verschmilzt', JSON.stringify(kat.ergebnis.pruefliste))
+
+/* Katalog, Sammelarten und Trennung: 31 –Anderes→ 1 hängt nur über eine Sammelart und wandert nicht (Prüfliste „sammelart“), 32 –Sequel→ 1 wandert;
+ * eine Handtrennung der Reihen 21 und 1 leert den Fall 22 →2. Im Hauptbestand (ohne Sammelarten) wandert 31 weiter. */
+const namenS = new Map([[31, ['Final Fantasy']], [1, ['Final Fantasy VII']]])
+const katalogS = katalogK.concat(eK(31), eK(32))
+const reiheS = new Map(katalogS.map((e): [number, number] => [e.id, e.id === 22 ? 21 : e.id]))
+const kennungS = new Map(katalogS.map((e): [number, number] => [e.id, e.id]))
+const kantenS = [...kantenK, k(31, 1, 'Anderes'), k(32, 1, 'Sequel')]
+const katS = uebernimmKatalogReihen(katalogS, reiheS, ankerK, kennungS, kantenS, namenS)
+pruefe('Katalog: ein Titel nur mit einer Sammelart wandert nicht, einer mit Kernart schon', katS.reihe.get(31) === 31 && katS.reihe.get(32) === 1, JSON.stringify([...katS.reihe]))
+pruefe('Katalog: der Titel nur mit Sammelart steht als „sammelart“ mit seiner Zielreihe auf der Prüfliste', katS.ergebnis.pruefliste.some((p) => p.art === 'sammelart' && p.reihen[0]?.id === 1 && p.alleinstehende[0] === 'K31'), JSON.stringify(katS.ergebnis.pruefliste))
+const titelS = [1, 2, 31].map((id) => ({ id, name: `T${id}`, anisearchId: id }))
+pruefe('Übernahme: ohne Sammelarten (Hauptbestand) wandert der Titel mit „Anderes“ wie bisher', uebernimmReihen(titelS, [k(31, 1, 'Anderes')], namenS, (id) => (id === 2 ? 1 : id)).kanten.some((x) => x.ids.includes(31)))
+const katT = uebernimmKatalogReihen(katalogK, reiheK, ankerK, kennungK, kantenK, new Map(), [[21, 1]])
+pruefe('Katalog: eine Handtrennung zweier Reihen leert den Prüflisten-Fall', katT.ergebnis.pruefliste.length === 0, JSON.stringify(katT.ergebnis.pruefliste))
 
 /* Bestand: gemessen am 11.10.2026 mit 15.091 Titeln mit Seite, 77,1 % gleich (Hälfte A 75,9 %, Hälfte B 78,2 %); die Grenzen liegen rund 6 Punkte darunter und schlagen nur bei einem Bruch an.
  * Titel ohne Referenz-Reihe (aniSearch-Titel, die AniList nicht kennt: 2.409) zählen nicht mit — mit ihnen fiel der Wert nach dem Katalog-Lauf vom 10.10. auf 68,1 %, ohne dass ein Parser oder eine Seite kaputt war. */

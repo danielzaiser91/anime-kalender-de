@@ -1,5 +1,6 @@
 import type { Title } from '@shared/types.ts'
 import { useLang, type Translate } from '../lib/i18n.tsx'
+import { istOhneBelegteSynchro } from '../lib/titel-sortierung.ts'
 import { Toggle } from './ui.tsx'
 import { DeFlaggeZeichen } from './de-flagge.tsx'
 import { PILLE_JA } from './filter/pille-zustand.ts'
@@ -39,7 +40,7 @@ export function DbSchalter({ ohneSynchro, onOhneSynchroChange, laedt, grouped, o
 /** Kacheln, in denen mindestens ein Glied belegte deutsche Synchro hat — dieselbe Regel, nach der die Kachel ihr Band „keine deutsche Synchro" zeigt. */
 export function zaehleMitSynchro(liste: { members: Title[] }[]): number {
   let n = 0
-  for (const k of liste) if (k.members.some((m) => !m.ohneSynchro)) n++
+  for (const k of liste) if (k.members.some((m) => !istOhneBelegteSynchro(m))) n++
   return n
 }
 

@@ -25,6 +25,7 @@ on:
       - 'Wöchentlich — tiefer Durchlauf'
       - 'Claude — ausgebliebene Folgen recherchieren'
       - 'Claude — Anime2You-Artikel auswerten'
+      - 'Claude — Wache durchsehen'
     types: [completed]
   workflow_dispatch:
 
@@ -48,6 +49,7 @@ jobs:
     outputs:
       offen: ${{ steps.suche.outputs.offen }}
       nummern: ${{ steps.suche.outputs.nummern }}
+      mergebar: ${{ steps.suche.outputs.mergebar }}
     steps:
       - id: suche
         env:
@@ -56,13 +58,43 @@ jobs:
           # `mergeable` steht direkt nach dem Anlegen auf UNKNOWN. Hier ist das
           # kein Problem: Dieser Lauf startet erst, wenn der Sammler fertig ist,
           # und der hat die Berechnung bereits abgewartet.
-          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable \
-            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.mergeable != "MERGEABLE")]' > /tmp/offen.json
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable,author,isCrossRepository \
+            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.author.login == "app/anime-kalender-daten" and .isCrossRepository == false) | select(.mergeable != "MERGEABLE")]' > /tmp/offen.json
           ANZAHL="$(jq 'length' /tmp/offen.json)"
           NUMMERN="$(jq -r '[.[].number] | join(", ")' /tmp/offen.json)"
+          # Mergebar und trotzdem offen: der Merge des Sammlers ist gescheitert (Bypass, Rennen um main) — der Job `nachholen` holt ihn nach.
+          gh pr list --repo "$GITHUB_REPOSITORY" --state open --json number,headRefName,mergeable \
+            --jq '[.[] | select(.headRefName | startswith("daten/")) | select(.mergeable == "MERGEABLE") | .number] | join(" ")' > /tmp/mergebar.txt
+          echo "mergebar=$(cat /tmp/mergebar.txt)" >> "$GITHUB_OUTPUT"
           echo "offen=$ANZAHL" >> "$GITHUB_OUTPUT"
           echo "nummern=$NUMMERN" >> "$GITHUB_OUTPUT"
           echo "Offene Daten-Zweige mit Konflikt: $ANZAHL ($NUMMERN)"
+
+  # Konfliktfreie Daten-Pull-Requests, die offen geblieben sind (Merge des Sammlers gescheitert): mit dem Token der App nachholen, rot wenn auch das scheitert.
+  nachholen:
+    needs: pruefen
+    if: needs.pruefen.outputs.mergebar != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: App-Token holen
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          private-key: ${{ secrets.DATEN_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Mergebare Daten-Pull-Requests mergen
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          NUMMERN: ${{ needs.pruefen.outputs.mergebar }}
+        run: bash tools/daten-pr-mergen.sh $NUMMERN
 
   zusammenfuehren:
     needs: pruefen
@@ -116,7 +148,7 @@ jobs:
           # Die Action lehnt Bots als Auslöser ab, damit sie sich nicht selbst
           # in eine Schleife ruft — unsere Sammel-Läufe committen aber als
           # `github-actions[bot]`.
-          allowed_bots: 'github-actions[bot]'
+          allowed_bots: 'github-actions[bot],anime-kalender-daten[bot]'
           claude_args: |
             --max-turns 60
             --allowedTools "Bash,Read,Edit,Write,Grep,Glob"
@@ -152,8 +184,9 @@ jobs:
             3. `npm run data:validate && npm run check:logic` müssen grün sein.
                Sind sie es nicht, hast du beim Auflösen etwas kaputt gemacht —
                dann repariere es, bevor du weitermachst.
-            4. Push auf den Zweig, dann
-               `gh pr merge <nummer> --squash --delete-branch`.
+            4. Push auf den Zweig. **Gemergt wird nicht von dir:** Dein Token darf das
+               Ruleset auf `main` nicht umgehen. Der Schritt nach dir mergt jeden
+               Pull Request, der jetzt konfliktfrei ist.
 
             Verbindlich:
 
@@ -167,6 +200,22 @@ jobs:
             - Du baust den Datensatz **nicht** neu. Das macht „Bestand —
               zusammenführen und bauen" beim nächsten planmäßigen Lauf,
               spätestens eine Stunde später.
+
+      # Gemergt wird mit dem Token der App anime-kalender-daten: Nur sie umgeht das Ruleset `main-pruefweg` (11.10.2026). Was Claude offen ließ, ist weiter im Konflikt und bleibt stehen.
+      - name: App-Token holen
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          private-key: ${{ secrets.DATEN_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Aufgelöste Pull Requests mergen
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          NUMMERN: ${{ needs.pruefen.outputs.nummern }}
+        run: bash tools/daten-pr-mergen.sh ${NUMMERN//,/ }
 
       - name: Lauf abmelden
         continue-on-error: true

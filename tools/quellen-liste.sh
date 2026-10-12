@@ -32,6 +32,9 @@ QUELLEN=(
   data/anisearch-dub-ids.json
   data/anisearch-eintraege.json
   data/anisearch-cover.json
+  # Eigene Kopien der aniSearch-Cover (11.10.2026): Manifest Kennung → Datei, Größe, Quelle, Stand und der Wortlaut der robots.txt beider Hosts; die Bilder liegen als Artefakt, nicht im Repo.
+  data/cover-eigen.json
+  data/anisearch-robots.txt
   data/anisearch-eintraege-ausgelassen.json
   data/anisearch-mal.json
   data/anisearch-offen.json
@@ -40,11 +43,22 @@ QUELLEN=(
   data/luecken-titel.json
   # Stufe B der AniList-Ablösung (10.10.2026): Bau-Messung AniList gegen aniSearch, Feld für Feld; wird nicht ausgeliefert.
   data/anisearch-abweichungen.json
+  # Abgleich Katalog gegen aniSearch-Titelliste (11.10.2026, `fetch-anisearch-katalog-abgleich.ts`): Bindungen (der Bau liest sie, ein Lauf ergänzt sie nur) und Prüfliste.
+  data/anisearch-ids-katalog.json
+  data/anisearch-katalog-abgleich.json
   # Stufe C (10.10.2026): Bau-Messung der Reihen aus aniSearch-Beziehungen gegen die franchiseId; wird nicht ausgeliefert.
   data/anisearch-reihen-abweichungen.json
   # Stufe C, Übernahme (11.10.2026): Prüfliste der Reihen, die aniSearch verbindet, der Bau aber nicht von selbst zusammenlegt; vom Bau geschrieben.
   data/anisearch-reihen-pruefliste.json
+  # Stufe D (11.10.2026): Zählung der Sprecher je Quelle vorher/nachher (AniList, ANN, aniSearch); vom Bau geschrieben.
+  data/sprecher-quellen.json
   data/tmdb-poster.json
+  data/tmdb-poster-grund.json
+  # TMDB-Zuordnung der Nur-AniList-Titel (11.10.2026), noch nicht im Bau; die Prüfliste der unsicheren Treffer liegt daneben.
+  data/tmdb-katalog-zuordnung.json
+  daniel-zum-abarbeiten/listen/tmdb-katalog-unsicher.md
+  data/tmdb-banner.json
+  daniel-zum-abarbeiten/listen/cover-ohne-tmdb.md
   data/kitsu-folgen.json
   data/cover-klein.json
   data/wikidata-titel.json
@@ -105,6 +119,8 @@ QUELLEN=(
   data/kanal-widerspruch.json
   data/meldungs-auffaelligkeiten.json
   data/tmdb-folgen.json
+  # Titelliste je Cartoon aus TMDB, für die Zuordnung von Meldungen über den Folgentitel (11.10.2026).
+  data/cartoon-folgen.json
   data/anbieter-vorschlaege.json
   data/wiedervorlage.json
   data/qualitaet-verlauf.json
@@ -312,6 +328,8 @@ QUELLEN=(
   extension/offene-netflix.js
   data/erneut-melden.yaml
   extension/offene-disney.js
+  # Pillen mit Haken und ohne Folgenzahl (11.10.2026), Eingabe der Prüflisten; entsteht im selben Schritt.
+  data/pillen-luecken.json
   # Die zweite Hälfte desselben Generatorschritts (21.09.2026). Die Prüflisten oben
   # standen hier, ihre ausgelieferte Prüfsumme nicht. Bewegte sich der Fernstand
   # während eines Baus, rettete der Reset nur die eine Hälfte, und der Deploy wurde
@@ -340,6 +358,12 @@ QUELLEN=(
   # entfernt sie und legt die Frage hier ab (10.09.2026).
   daniel-zum-abarbeiten/listen/18-suchadressen.md
   data/suchadressen-offen.json
+  # Cartoons, deren Staffelangaben sich widersprechen oder nicht zur Gesamtfolgenzahl passen (11.10.2026).
+  data/cartoon-staffeln-pruefliste.json
+  # Geteilte Crunchyroll-Seiten, auf denen kein Folgenbereich sicher zuzuordnen ist, mit Grund (11.10.2026).
+  data/cr-teilseiten-pruefliste.json
+  # Geteilte Prime-Seiten ohne eindeutigen Folgenbereich (Kanal-Titel, fehlende oder mehrdeutige Meldung), mit Grund (11.10.2026).
+  data/prime-teilseiten-pruefliste.json
   daniel-zum-abarbeiten/listen/12-verpasste-termine.md
   daniel-zum-abarbeiten/listen/13-tonspur-verdacht.md
   daniel-zum-abarbeiten/listen/07-crunchyroll.md

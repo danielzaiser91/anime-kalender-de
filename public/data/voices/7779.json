@@ -1,17 +1,1 @@
-{
- "titleId": 7779,
- "updatedAt": "2026-08-15T18:13:20.972Z",
- "roles": [
-  {
-   "character": "Bingo",
-   "actor": "Bernd Simon",
-   "von": "ann"
-  },
-  {
-   "character": "Pixi",
-   "actor": "Inez Günther",
-   "von": "ann"
-  }
- ],
- "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=434"
-}
+{"titleId":7779,"updatedAt":"2026-08-15T18:13:20.972Z","roles":[{"character":"Zukko","actor":"Bernd Simon","von":"anisearch"},{"character":"Candy","actor":"Inez Günther","von":"anisearch"}]}

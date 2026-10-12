@@ -4,7 +4,7 @@ import { formatDate } from '@shared/time.ts'
 import type { Dataset } from '../../lib/data.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { useLang, type Translate } from '../../lib/i18n.tsx'
-import { anbieterUndFolge } from './Marken.tsx'
+import { nurFolge } from './Marken.tsx'
 
 type ZweitTermin = ReleaseEvent & { zweitanbieter: Zweitanbieter }
 
@@ -14,9 +14,6 @@ function hinweis(ev: ZweitTermin, t: Translate): string {
   const werte = { erster: PLATFORMS[z.erster].name, datum: formatDate(z.seit), anbieter: PLATFORMS[ev.platform].name }
   return t(z.mindestens ? 'kal.zweitHinweisKatalog' : 'kal.zweitHinweis', werte)
 }
-
-/** „Folge 15/≈24" ohne den Anbieter davor — der steht im Satz darunter. */
-const nurFolge = (ev: ReleaseEvent, t: Translate): string => anbieterUndFolge(ev, t).slice(PLATFORMS[ev.platform].name.length + 3)
 
 /**
  * **Zweitanbieter als schmale Zeile unter dem Raster** (Daniels Wahl B, 11.10.2026): Dieselbe Folge lief bei einem anderen

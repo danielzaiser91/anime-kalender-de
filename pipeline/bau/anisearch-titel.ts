@@ -3,6 +3,7 @@ import { todayIso } from '../../shared/time.ts'
 import { ohneSynchroVonHand } from './ohne-beleg.ts'
 import type { DubConfidence, Title } from '../../shared/types.ts'
 import { anisearchHand } from './grundlagen.ts'
+import { anisearchKatalogPaare } from '../lib/anisearch-katalog-ids.ts'
 import { slugify } from '../lib/util.ts'
 
 /**
@@ -59,9 +60,10 @@ export function anisearchNurKatalog(): Set<number> {
 }
 
 type Zuordnung = Record<string, { anisearchId?: number }>
-/** Die Zuordnung AniList → aniSearch: Abruf-Ergebnis (`data/anisearch.json`), darüber die Handdatei (`data/anisearch-ids-hand.yaml`). */
+/** Die Zuordnung AniList → aniSearch: Abruf-Ergebnis (`data/anisearch.json`), der Katalogabgleich (`data/anisearch-ids-katalog.json`), darüber die Handdatei (`data/anisearch-ids-hand.yaml`). */
 const zuordnungen = (): Zuordnung => ({
   ...readJson<Zuordnung>('data/anisearch.json', {}),
+  ...Object.fromEntries(anisearchKatalogPaare().map(([anilist, anisearchId]) => [anilist, { anisearchId }])),
   ...Object.fromEntries(Object.entries(anisearchHand).map(([anilist, anisearchId]) => [anilist, { anisearchId }])),
 })
 const mitDeutsch = (dub?: string): boolean => dub === 'd' || dub === 'p' || dub === 'c'
@@ -119,7 +121,7 @@ function erstausgabeUebernehmen(titles: Map<number, Title>): void {
   for (const [anilist, anisearchId] of Object.entries(anisearchHand)) {
     const t = titles.get(Number(anilist))
     const e = alle()[String(anisearchId)]
-    if (t && e && e.dub !== '-' && !t.deErstausgabe) t.deErstausgabe = erstausgabeAus(e)
+    if (t && e && e.dub !== '-' && e.dub !== 'p' && !t.deErstausgabe) t.deErstausgabe = erstausgabeAus(e)
   }
 }
 
@@ -163,7 +165,7 @@ export function ergaenzeAnisearchTitel(titles: Map<number, Title>, jpStart: Map<
       studios: e.st ?? [],
       dubConfidence: SICHERHEIT[e.dub],
       streams: [],
-      ...(e.dub !== '-' ? { deErstausgabe: erstausgabeAus(e) } : {}),
+      ...(e.dub !== '-' && e.dub !== 'p' ? { deErstausgabe: erstausgabeAus(e) } : {}),
     } as Title)
     if (e.von) {
       jpStart.set(id, e.von)

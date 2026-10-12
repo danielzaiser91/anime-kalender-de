@@ -47,7 +47,7 @@ export function folgentitelKern(s: string | null | undefined): string {
 }
 
 /** Platzhalter wie „Folge 7" oder „Episode 12" tragen nichts. */
-function traegt(kern: string): boolean {
+export function traegt(kern: string): boolean {
   return kern.length >= 4 && !/^(folge|episode|ep)\d+$/.test(kern)
 }
 

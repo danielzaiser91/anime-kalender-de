@@ -57,6 +57,15 @@ function alter(pfad: string): number {
   }
 }
 
+/** Stufe D: Hat aniSearch die Besetzung eines Titels, fragt AniList nicht mehr nach (der Bau führt AniList dort nur als Lückenfüller). */
+function hatAnisearchRollen(pfad: string): boolean {
+  try {
+    return (JSON.parse(readFileSync(pfad, 'utf8')) as { roles?: { von?: string }[] }).roles?.some((r) => r.von === 'anisearch') ?? false
+  } catch {
+    return false
+  }
+}
+
 async function main(): Promise<void> {
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const releases = readJson<Release[]>('public/data/releases.json', [])
@@ -72,7 +81,7 @@ async function main(): Promise<void> {
     .filter((t) => {
       if (FORCE) return true
       const pfad = `${OUT}/${t.id}.json`
-      return !existsSync(pfad) || alter(pfad) > MAX_AGE_TAGE
+      return !existsSync(pfad) || (alter(pfad) > MAX_AGE_TAGE && !hatAnisearchRollen(pfad))
     })
     .sort((a, b) => Number(mitTermin.has(b.id)) - Number(mitTermin.has(a.id)))
     .slice(0, LIMIT)

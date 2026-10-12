@@ -1,0 +1,417 @@
+### www.anisearch.de (HTTP 200) Stand 2026-10-11T14:14:31.548Z
+Sitemap: https://www.anisearch.de/sitemap.xml
+
+User-agent: *
+Disallow: /r/
+Disallow: /rr/
+Disallow: /redirect/
+Disallow: /usercp/
+Disallow: /images/usbndeo/
+
+# https://metrics-tools.de/robot.html
+#User agent: MTRobot
+#Disallow: /
+
+# https://openai.com/searchbot
+User-agent: OAI-SearchBot
+Disallow: /
+
+# https://platform.openai.com/docs/gptbot
+#User-agent: GPTBot
+#Disallow: /
+
+# https://support.anthropic.com/en/articles/8896518
+#User-agent: ClaudeBot
+#Disallow: /
+
+# https://commoncrawl.org/ccbot
+User-agent: CCBot
+Disallow: /
+
+#User-agent: anthropic-ai
+#Disallow: /
+
+# https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers
+#User-agent: Google-Extended
+#Disallow: /
+
+# https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/
+User-agent: meta-webindexer
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+# https://imagesift.com/about
+User-agent: ImagesiftBot
+Disallow: /
+
+# https://developer.amazon.com/de/support/amazonbot
+#User-agent: Amazonbot
+#Disallow: /
+
+# https://moz.com/help/moz-procedures/crawlers/dotbot
+User-agent: dotbot
+Disallow: /
+
+# https://moz.com/help/moz-procedures/crawlers/rogerbot
+User-agent: rogerbot
+Disallow: /
+
+# https://ahrefs.com/de/robot 54.36.149.41
+User-agent: AhrefsBot
+Disallow: /
+
+# https://www.mediatoolkit.com/robot
+User-agent: Mediatoolkitbot
+Disallow: /
+
+# http://aspiegel.com/petalbot
+User-agent: PetalBot
+Disallow: /
+
+# http://ltx71.com
+User-agent: ltx71
+Disallow: /
+
+# https://www.semrush.com/bot/
+User-agent: SemrushBot
+Disallow: /
+
+# https://www.mojeek.com/bot.html
+#User-agent: MojeekBot
+#Disallow: /
+
+#
+#
+# robots.txt from http://www.wikipedia.org/robots.txt
+#
+#
+
+# http://mj12bot.com/
+User-agent: MJ12bot
+Disallow: /
+
+# Wikipedia work bots:
+User-agent: IsraBot
+Disallow: /
+
+User-agent: Orthogaffe
+Disallow: /
+
+# Crawlers that are kind enough to obey, but which we'd rather not have
+# unless they're feeding search engines.
+User-agent: UbiCrawler
+Disallow: /
+
+User-agent: DOC
+Disallow: /
+
+User-agent: Zao
+Disallow: /
+
+# Some bots are known to be trouble, particularly those designed to copy
+# entire sites. Please obey robots.txt.
+User-agent: sitecheck.internetseer.com
+Disallow: /
+
+User-agent: Zealbot
+Disallow: /
+
+User-agent: MSIECrawler
+Disallow: /
+
+User-agent: SiteSnagger
+Disallow: /
+
+User-agent: WebStripper
+Disallow: /
+
+User-agent: WebCopier
+Disallow: /
+
+User-agent: Fetch
+Disallow: /
+
+User-agent: Offline Explorer
+Disallow: /
+
+User-agent: Teleport
+Disallow: /
+
+User-agent: TeleportPro
+Disallow: /
+
+User-agent: WebZIP
+Disallow: /
+
+User-agent: linko
+Disallow: /
+
+User-agent: HTTrack
+Disallow: /
+
+User-agent: Microsoft.URL.Control
+Disallow: /
+
+User-agent: Xenu
+Disallow: /
+
+User-agent: larbin
+Disallow: /
+
+User-agent: libwww
+Disallow: /
+
+User-agent: ZyBORG
+Disallow: /
+
+User-agent: Download Ninja
+Disallow: /
+
+# Misbehaving: requests much too fast:
+User-agent: fast
+Disallow: /
+
+# Sorry, wget in its recursive mode is a frequent problem.
+# Please read the man page and use it properly; there is a
+# --wait option you can use to set the delay between hits,
+# for instance.
+User-agent: wget
+Disallow: /
+
+# The 'grub' distributed client has been *very* poorly behaved.
+User-agent: grub-client
+Disallow: /
+
+# Doesn't follow robots.txt anyway, but...
+User-agent: k2spider
+Disallow: /
+
+# Hits many times per second, not acceptable
+# http://www.nameprotect.com/botinfo.html
+User-agent: NPBot
+Disallow: /
+
+# A capture bot, downloads gazillions of pages with no public benefit
+# http://www.webreaper.net/
+User-agent: WebReaper
+Disallow: /
+
+# Wayback Machine: defaults and whether to index user-pages
+# FIXME: Complete the removal of this block, per T7582.
+# User-agent: archive.org_bot
+# Allow: /
+
+# exclude archive.org: http://archive.org/about/exclude.php
+User-agent: ia_archiver
+Disallow: /
+
+### cdn.anisearch.de (HTTP 200) Stand 2026-10-11T14:14:31.548Z
+Sitemap: https://www.anisearch.de/sitemap.xml
+
+User-agent: *
+Disallow: /r/
+Disallow: /rr/
+Disallow: /redirect/
+Disallow: /usercp/
+Disallow: /images/usbndeo/
+
+# https://metrics-tools.de/robot.html
+#User agent: MTRobot
+#Disallow: /
+
+# https://openai.com/searchbot
+User-agent: OAI-SearchBot
+Disallow: /
+
+# https://platform.openai.com/docs/gptbot
+#User-agent: GPTBot
+#Disallow: /
+
+# https://support.anthropic.com/en/articles/8896518
+#User-agent: ClaudeBot
+#Disallow: /
+
+# https://commoncrawl.org/ccbot
+User-agent: CCBot
+Disallow: /
+
+#User-agent: anthropic-ai
+#Disallow: /
+
+# https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers
+#User-agent: Google-Extended
+#Disallow: /
+
+# https://developers.facebook.com/docs/sharing/webmasters/web-crawlers/
+User-agent: meta-webindexer
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+# https://imagesift.com/about
+User-agent: ImagesiftBot
+Disallow: /
+
+# https://developer.amazon.com/de/support/amazonbot
+#User-agent: Amazonbot
+#Disallow: /
+
+# https://moz.com/help/moz-procedures/crawlers/dotbot
+User-agent: dotbot
+Disallow: /
+
+# https://moz.com/help/moz-procedures/crawlers/rogerbot
+User-agent: rogerbot
+Disallow: /
+
+# https://ahrefs.com/de/robot 54.36.149.41
+User-agent: AhrefsBot
+Disallow: /
+
+# https://www.mediatoolkit.com/robot
+User-agent: Mediatoolkitbot
+Disallow: /
+
+# http://aspiegel.com/petalbot
+User-agent: PetalBot
+Disallow: /
+
+# http://ltx71.com
+User-agent: ltx71
+Disallow: /
+
+# https://www.semrush.com/bot/
+User-agent: SemrushBot
+Disallow: /
+
+# https://www.mojeek.com/bot.html
+#User-agent: MojeekBot
+#Disallow: /
+
+#
+#
+# robots.txt from http://www.wikipedia.org/robots.txt
+#
+#
+
+# http://mj12bot.com/
+User-agent: MJ12bot
+Disallow: /
+
+# Wikipedia work bots:
+User-agent: IsraBot
+Disallow: /
+
+User-agent: Orthogaffe
+Disallow: /
+
+# Crawlers that are kind enough to obey, but which we'd rather not have
+# unless they're feeding search engines.
+User-agent: UbiCrawler
+Disallow: /
+
+User-agent: DOC
+Disallow: /
+
+User-agent: Zao
+Disallow: /
+
+# Some bots are known to be trouble, particularly those designed to copy
+# entire sites. Please obey robots.txt.
+User-agent: sitecheck.internetseer.com
+Disallow: /
+
+User-agent: Zealbot
+Disallow: /
+
+User-agent: MSIECrawler
+Disallow: /
+
+User-agent: SiteSnagger
+Disallow: /
+
+User-agent: WebStripper
+Disallow: /
+
+User-agent: WebCopier
+Disallow: /
+
+User-agent: Fetch
+Disallow: /
+
+User-agent: Offline Explorer
+Disallow: /
+
+User-agent: Teleport
+Disallow: /
+
+User-agent: TeleportPro
+Disallow: /
+
+User-agent: WebZIP
+Disallow: /
+
+User-agent: linko
+Disallow: /
+
+User-agent: HTTrack
+Disallow: /
+
+User-agent: Microsoft.URL.Control
+Disallow: /
+
+User-agent: Xenu
+Disallow: /
+
+User-agent: larbin
+Disallow: /
+
+User-agent: libwww
+Disallow: /
+
+User-agent: ZyBORG
+Disallow: /
+
+User-agent: Download Ninja
+Disallow: /
+
+# Misbehaving: requests much too fast:
+User-agent: fast
+Disallow: /
+
+# Sorry, wget in its recursive mode is a frequent problem.
+# Please read the man page and use it properly; there is a
+# --wait option you can use to set the delay between hits,
+# for instance.
+User-agent: wget
+Disallow: /
+
+# The 'grub' distributed client has been *very* poorly behaved.
+User-agent: grub-client
+Disallow: /
+
+# Doesn't follow robots.txt anyway, but...
+User-agent: k2spider
+Disallow: /
+
+# Hits many times per second, not acceptable
+# http://www.nameprotect.com/botinfo.html
+User-agent: NPBot
+Disallow: /
+
+# A capture bot, downloads gazillions of pages with no public benefit
+# http://www.webreaper.net/
+User-agent: WebReaper
+Disallow: /
+
+# Wayback Machine: defaults and whether to index user-pages
+# FIXME: Complete the removal of this block, per T7582.
+# User-agent: archive.org_bot
+# Allow: /
+
+# exclude archive.org: http://archive.org/about/exclude.php
+User-agent: ia_archiver
+Disallow: /

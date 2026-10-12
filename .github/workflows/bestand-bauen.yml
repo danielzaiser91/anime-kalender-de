@@ -46,8 +46,9 @@ on:
     # spätestens eine Stunde später. Ein Konflikt ist der Ausnahmefall, und
     # eine Stunde Verzug ist dort verkraftbar.
   # Ein gemergter Handbeleg oder Pipeline-Umbau wartete bis zum nächsten Sammel-Lauf (10.10.2026: 25 Minuten bis zum Baustart).
-  # Jetzt baut jeder Push, der Bauquellen berührt. Pushes mit GITHUB_TOKEN (Sammler-Merges, dieser Lauf selbst, Wachen) lösen
-  # keinen Workflow aus — es entstehen keine Doppelläufe. Die Gruppe `bau` hält einen laufenden und einen wartenden Lauf.
+  # Jetzt baut jeder Push, der Bauquellen berührt. Pushes der App anime-kalender-daten (Sammler-Merges, dieser Lauf selbst, Wachen; seit
+  # 11.10.2026 statt GITHUB_TOKEN, das am Ruleset `main-pruefweg` scheitert) lösen anders als GITHUB_TOKEN Workflows aus — der Job-`if`
+  # überspringt sie, sonst baute der Bau seinen eigenen Commit erneut. Die Gruppe `bau` hält einen laufenden und einen wartenden Lauf.
   # Bewusst ohne `web/src/**` (die Pipeline importiert dort einzelne Module) und ohne `tools/daten-kennung.ts`: Änderungen dort lösen
   # keinen Bau aus und wirken beim nächsten Sammel-Lauf oder per `workflow_dispatch`. Das Lockfile ändert dagegen, was die Pipeline ausführt.
   push:
@@ -58,19 +59,51 @@ on:
       - 'pipeline/**'
       - 'shared/**'
       - 'package-lock.json'
+      # Keine Bauquellen: Weckplan-Zeiten (die Pipeline importiert sie nicht; ein Push darauf baute am 11.10.2026 umsonst) und Texte.
+      - '!shared/weckplan.ts'
+      - '!data/*.md'
+      - '!pipeline/**/*.md'
   workflow_dispatch:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   # Nur ein Bau zugleich. Die Sammler haben seit dem 05.10.2026 eigene Gruppen (stunde, tag, woche, …): Sie reichen Pull Requests ein, und der Bau legt bei
   # bewegtem Fernstand nur seine eigenen Änderungen zurück (`tools/quellen-aufsetzen.sh`) — niemand überschreibt mehr, was ein anderer Lauf aktualisiert hat.
-  group: bau
+  #
+  # Pushes der Daten-App überspringt der Job-`if`; der Lauf selbst bekäme sonst die Gruppe und verdrängte einen wartenden Bau.
+  group: ${{ (github.event_name == 'push' && github.actor == 'anime-kalender-daten[bot]') && format('app-push-{0}', github.run_id) || 'bau' }}
   cancel-in-progress: false
 
 jobs:
+  # Zwei Merges im Abstand von Sekunden lösen zwei Push-Läufe aus; der erste baut `main` schon mit beiden (11.10.2026: 12:05:32/37 und
+  # 12:36:12/17). Der zweite überspringt den Bau, wenn nach seinem Auslöser schon ein Bau-Commit auf main steht.
+  vorab:
+    if: ${{ github.event_name != 'push' || github.actor != 'anime-kalender-daten[bot]' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      noetig: ${{ steps.pruefen.outputs.noetig }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tools/bau-schon-gebaut.sh
+          sparse-checkout-cone-mode: false
+      - id: pruefen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          noetig=true
+          if [ "${{ github.event_name }}" = push ] && [ "$(bash tools/bau-schon-gebaut.sh "${{ github.sha }}")" = ja ]; then
+            noetig=false
+          fi
+          echo "noetig=$noetig" >> "$GITHUB_OUTPUT"
+
   bauen:
+    needs: vorab
+    if: ${{ needs.vorab.outputs.noetig == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
@@ -91,16 +124,27 @@ jobs:
             -H "Content-Type: application/json" -H "X-Lauf-Token: $LAUF_TOKEN" \
             --data-binary @/tmp/anmeldung.json > /dev/null || true
 
+      # Der Push von `commit-data.sh` geht direkt auf `main`; das Ruleset lässt dafür nur die App durch (Bypass „always“).
+      - name: App-Token holen
+        id: app
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          private-key: ${{ secrets.DATEN_APP_KEY }}
+          permission-contents: write
+
       - uses: actions/checkout@v4
         with:
           # Der Sammler hat gerade gepusht — dieser Lauf braucht dessen Stand,
           # nicht den Commit, für den er ausgelöst wurde.
           ref: main
+          token: ${{ steps.app.outputs.token }}
 
       - name: Melder bereitlegen
         run: |
           cp tools/lauf-melden.sh "$RUNNER_TEMP/lauf-melden.sh"
           echo "MELDER=$RUNNER_TEMP/lauf-melden.sh" >> "$GITHUB_ENV"
+          echo "BAU_BEGINN=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
 
       - name: Lauf anmelden
         continue-on-error: true
@@ -250,10 +294,12 @@ jobs:
         run: bash "$MELDER" schritt "Vorschaubilder"
 
       # Hier sitzt die Zusicherung über den gebauten Bestand (`check:bestand` in
-      # commit-data.sh). Sie darf rot werden — das ist der Sinn dieses Laufs.
+      # commit-data.sh). Sie macht den Lauf rot, nachdem die Quellen committet sind — das ist der Sinn dieses Laufs
+      # (11.10.2026: Als sie ihn nur gelb färbte, blieben die Erzeugnisse sechs Stunden unausgeliefert). `BAU_LAUF` nimmt
+      # zusätzlich die neuen Meldungen zurück; sie bleiben im Briefkasten.
       - name: Änderungen committen
         env:
-          WARNUNG_STATT_ROT: '1'
+          BAU_LAUF: '1'
         run: |
           bash tools/commit-data.sh "chore(data): Bestand neu gebaut"
 
@@ -267,9 +313,17 @@ jobs:
       # den Sammler: Ein Sammler, der eine Quelle nicht erreicht, macht weiter
       # — dass sie seit Tagen schweigt, ist eine Aussage über den Bestand.
       - name: Quellen auf Schweigen prüfen
+        if: ${{ !cancelled() }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:check
+
+      # Ein grüner Bau schließt die "Bestandsbau rot"-Issues, die vor ihm entstanden (bis 11.10.2026 sammelten sie sich).
+      - name: Behobene Rot-Issues schließen
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash tools/bau-issues-schliessen.sh "$GITHUB_RUN_ID" "$BAU_BEGINN"
 
       - name: Ergebnis nach Discord melden
         if: failure()
@@ -286,6 +340,8 @@ jobs:
           z="${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
           if [ "$z" = ok ] && [ -n "${DATEN_WARNUNG:-}" ]; then
             bash "$MELDER" warnung "$DATEN_WARNUNG"
+          elif [ "$z" = fehler ] && [ -n "${DATEN_WARNUNG:-}" ]; then
+            bash "$MELDER" fehler "$DATEN_WARNUNG"
           else
             bash "$MELDER" "$z"
           fi

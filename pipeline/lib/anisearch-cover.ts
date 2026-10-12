@@ -14,12 +14,12 @@ type Treffer = { id: number; cover: string }
 
 /**
  * MAL-Kennungen von aniSearch-Einträgen, zu denen AniList noch nichts im Bestand hat und der Cache kein Cover kennt. Einträge mit deutscher Fassung (d/p/c)
- * werden ohne Jahresgrenze gefragt, denn sie alle sind Titel im Hauptbestand (08.10.2026: 93 ältere ohne Cover); die übrigen nur ab `ab`, weil über 8.000
+ * werden ohne Jahresgrenze gefragt, denn sie alle sind Titel im Hauptbestand (08.10.2026: 93 ältere ohne Cover); die übrigen nur ab `ab` oder ohne Jahr (angekündigt, 11.10.2026: „Jujutsu Kaisen: Shimetsu Kaiyuu - Kouhen" im Kern ohne Cover), weil über 8.000
  * nur im Katalog stehen.
  */
 export function malOhneAnilistTitel(eintraege: Record<string, Eintrag>, bekannteMal: Set<number>, cache: Record<string, Treffer>, ab: number): number[] {
   const mal = Object.values(eintraege)
-    .filter((e): e is Eintrag & { mal: number } => Boolean(e.mal) && (e.dub !== '-' || (e.y ?? 0) >= ab) &&!bekannteMal.has(e.mal!) && !cache[String(e.mal)])
+    .filter((e): e is Eintrag & { mal: number } => Boolean(e.mal) && (e.dub !== '-' || !e.y || e.y >= ab) && !bekannteMal.has(e.mal!) && !cache[String(e.mal)])
     .map((e) => e.mal)
   return [...new Set(mal)]
 }

@@ -38,14 +38,15 @@ try {
   writeFileSync(join(ursprung, 'hooks/pre-receive'), '#!/bin/sh\nif [ -f "$GIT_DIR/ablehnen" ]; then rm "$GIT_DIR/ablehnen"; echo "abgelehnt (Attrappe)" >&2; exit 1; fi\nexit 0\n')
   chmodSync(join(ursprung, 'hooks/pre-receive'), 0o755)
 
-  // Attrappe für gh: legt nichts an, antwortet MERGEABLE, merge gelingt.
+  // Attrappe für gh: legt nichts an, antwortet MERGEABLE, merge gelingt nur mit --admin (Bypass der App im Ruleset).
   writeFileSync(
     join(bin, 'gh'),
     `#!/bin/sh
 case "$1 $2" in
   "pr create") echo "https://github.com/x/y/pull/99" ;;
   "pr view") echo "MERGEABLE" ;;
-  "pr merge") if [ ! -f "$(dirname "$0")/schon-einmal" ]; then : > "$(dirname "$0")/schon-einmal"; echo "GraphQL: Base branch was modified." >&2; exit 1; fi; exit 0 ;;
+  "pr merge") case "$*" in *--admin*) ;; *) echo "To use administrator privileges to immediately merge the pull request, add the --admin flag." >&2; exit 1 ;; esac
+    if [ ! -f "$(dirname "$0")/schon-einmal" ]; then : > "$(dirname "$0")/schon-einmal"; echo "GraphQL: Base branch was modified." >&2; exit 1; fi; exit 0 ;;
 esac
 `,
   )

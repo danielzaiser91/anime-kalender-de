@@ -45,7 +45,7 @@ function BrowserAbschnitte() {
           Cover- und Bannerbilder werden direkt von den Servern von AniList (AniList, Delaware, USA;
           ausgeliefert über Cloudflare) geladen. Dabei wird deine IP-Adresse dorthin übertragen — technisch unvermeidbar, wenn ein
           Bild von einem fremden Server angezeigt wird. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.
-          Einige Cover und Plakate (vor allem bei Cartoons) kommen vom Bildserver von TMDB (The Movie
+          Wo TMDB ein Plakat führt, kommt das Cover stattdessen vom Bildserver von TMDB (The Movie
           Database, TMDB Inc., USA; ausgeliefert über BunnyCDN) und werden in Listen und Kacheln geladen, auch ohne Vergrößerung. Fährst du im
           Detail-Panel über das Cover oder tippst es an, baut dein Browser außerdem schon eine
           Verbindung dorthin auf; öffnest du die Vergrößerung, lädt die Seite von dort ein größeres
@@ -70,6 +70,21 @@ function BrowserAbschnitte() {
         </p>
       </Abschnitt>
     </>
+  )
+}
+
+/** Das Fehlerprotokoll des Dienstes (Cloudflare Workers Logs; Frist laut Cloudflare-Doku, gelesen 11.10.2026). */
+function FehlerprotokollAbschnitt() {
+  return (
+    <Abschnitt titel="Fehlerprotokoll">
+      <p>
+        Unser Dienst schreibt bei Fehlern kurze Protokollzeilen (Cloudflare Workers Logs), allein zur
+        Fehlersuche und für einen sicheren Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Unser eigener Code
+        schreibt dabei keine E-Mail-Adressen, Adressen von Browser-Benachrichtigungen oder
+        Zugangsschlüssel in diese Zeilen. Darüber hinaus kann Cloudflare technische Anfragedaten wie die
+        IP-Adresse verarbeiten. Die Protokollzeilen werden bei Cloudflare höchstens 7 Tage aufbewahrt.
+      </p>
+    </Abschnitt>
   )
 }
 
@@ -125,6 +140,7 @@ function DienstAbschnitte() {
         </p>
       </Abschnitt>
 
+      <FehlerprotokollAbschnitt />
       <Abschnitt titel="Speicherdauer">
         <p>
           Newsletter-Daten werden gespeichert, bis du dich abmeldest. Push-Daten bleiben, bis du die Benachrichtigungen ausschaltest

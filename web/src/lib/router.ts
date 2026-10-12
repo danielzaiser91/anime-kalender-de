@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { DubConfidence } from '@shared/types.ts'
 import {
   EMPTY_FILTERS,
@@ -12,6 +12,7 @@ import { FSK_COLORS, PLATFORMS, RELEASE_TYPES, STATUS_LABEL } from '@shared/type
 import { todayIso } from '@shared/time.ts'
 import { vorliebenLesen, vorliebenNachfuehren } from './vorlieben.ts'
 import { kalenderBasis } from './kalender-filter.ts'
+import { HERKUENFTE } from './herkunft.ts'
 
 /** Woche und Monat haben ihre Filter nicht in der Adresse (`kalender-filter.ts`). */
 const istKalender = (view: ViewId): boolean => view === 'woche' || view === 'monat'
@@ -92,6 +93,7 @@ const LIST_PARAM: Record<ListKey, string> = {
   genres: 'g',
   keywords: 'kw',
   sprecher: 'sp',
+  land: 'her',
 }
 
 /** Felder, deren Werte Zahlen sind — alle anderen bleiben Zeichenketten. */
@@ -103,6 +105,7 @@ const BEKANNTE_WERTE: Partial<Record<ListKey, Set<string>>> = {
   releaseTypes: new Set(Object.keys(RELEASE_TYPES)),
   statuses: new Set(Object.keys(STATUS_LABEL)),
   fsk: new Set(Object.keys(FSK_COLORS)),
+  land: new Set<string>(HERKUENFTE),
 }
 
 function splitList(value: string | null): string[] {
@@ -305,8 +308,17 @@ function panelUnterlegen(route: AppRoute): void {
   history.pushState({ panel: true, tief: true }, '', url)
 }
 
+/**
+ * Gleiche Filter behalten ihre Identität: `navigate` und `parseHash` bauen sie bei jedem Schritt neu, und jede Rechnung, die an
+ * `route.filters` hängt (Termine, Titelliste), liefe sonst beim Blättern, Umschalten und Panel-Öffnen von vorn (12.10.2026).
+ */
+function mitStabilenFiltern(alt: AppRoute, neu: AppRoute): AppRoute {
+  return JSON.stringify(alt.filters) === JSON.stringify(neu.filters) ? { ...neu, filters: alt.filters } : neu
+}
+
 export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next: Partial<AppRoute>) => void] {
-  const [route, setRoute] = useState<AppRoute>(() => mitPfad(parseHash(window.location.hash), window.location.pathname))
+  const [route, setzeRoute] = useState<AppRoute>(() => mitPfad(parseHash(window.location.hash), window.location.pathname))
+  const setRoute = useCallback((neu: AppRoute) => setzeRoute((alt) => mitStabilenFiltern(alt, neu)), [])
 
   useEffect(() => {
     const onChange = () => {
@@ -328,7 +340,7 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next:
       window.removeEventListener('hashchange', onChange)
       window.removeEventListener('popstate', onChange)
     }
-  }, [])
+  }, [setRoute])
 
   useEffect(() => {
     if (!route.title) syncSharePath()

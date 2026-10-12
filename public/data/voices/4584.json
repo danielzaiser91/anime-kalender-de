@@ -1,17 +1,1 @@
-{
- "titleId": 4584,
- "updatedAt": "2026-08-15T18:32:12.805Z",
- "roles": [
-  {
-   "character": "Gina",
-   "actor": "Daniela Reidies",
-   "role": "SUPPORTING"
-  },
-  {
-   "character": "Topo Gigio",
-   "actor": "Hans Hohlbein",
-   "von": "ann"
-  }
- ],
- "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=1441"
-}
+{"titleId":4584,"updatedAt":"2026-08-15T18:32:12.805Z","roles":[{"character":"Toppo Jijo","actor":"Hans Hohlbein","von":"anisearch"},{"character":"Gina","actor":"Daniela Reidies","von":"anisearch"}]}

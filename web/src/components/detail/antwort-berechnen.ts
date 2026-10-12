@@ -3,7 +3,7 @@ import { expandEvents, istErschienen, istAusgeblieben, titleStatus } from '@shar
 import { dubAbdeckung } from '@shared/dub-grenze.ts'
 import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
-import { zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, gesamtGeschaetzt } from './antwort-regeln.ts'
+import { zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, gesamtGeschaetzt, fertigAntwort } from './antwort-regeln.ts'
 import { filmTermine } from './film-termine.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
 
@@ -238,7 +238,7 @@ export function berechneAntwort({ title, releases, today }: {
     const n = kuenftig[0]!
     /* Ein abgeschlossenes, vollständig deutsches Werk bleibt „fertig" (`antwort-regeln.ts`). */
     if (istBelegtAbgeschlossen(hatSynchro, vollstaendig, abgeschlossenFuerKasten, alleEvents)) {
-      return { art: 'fertig' as const, raus: raus || gesamt, gesamt }
+      return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents)
     }
     /*
       **Fällt der Kopf auf die Disc zurück, wird er zur Disc-Auskunft.**
@@ -371,7 +371,7 @@ export function berechneAntwort({ title, releases, today }: {
     return { art: 'teilweise' as const, raus: teilOhneZahl ? undefined : belegteFolgen, gesamt, restBelegt }
   }
   if (hatSynchro || titleStatus(releases, today, title) === 'erschienen') {
-    return { art: 'fertig' as const, raus: raus || gesamt, gesamt }
+    return fertigAntwort(raus || gesamt, gesamt, vereint.size, alleEvents)
   }
   return { art: 'ohne' as const, gesamt }
 }

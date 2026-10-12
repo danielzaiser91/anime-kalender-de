@@ -16,13 +16,13 @@ import { OUT, VOICES_DIR } from './grundlagen.ts'
  * Nur ausgelieferte Titel: Rollen zu Titeln, die nicht in `titles.json` stehen, werden gezählt und
  * gemeldet, nicht still verworfen.
  */
-/* Gemessen 08.10.2026: Index 20 KB, größte Gruppe („m") 36 KB gepackt — die Grenzen lassen Luft, melden aber ein Verdoppeln. */
+/* Gemessen 08.10.2026: Index 20 KB, größte Gruppe („m", damals ein Buchstabe) 36 KB gepackt — die Grenzen melden ein Verdoppeln. Seit 11.10.2026 zwei Buchstaben je Gruppe (Besetzung aus aniSearch verdoppelte die Paare). */
 const INDEX_MAX_GZIP = 40_000
 const GRUPPE_MAX_GZIP = 60_000
 
 interface VoiceDatei {
   titleId: number
-  roles?: { character: string; actor: string; von?: 'ann' }[]
+  roles?: { character: string; actor: string; von?: 'ann' | 'anisearch' }[]
 }
 
 export function schreibeSprecherIndex({ ausgeliefert }: { ausgeliefert: Set<number> }): void {

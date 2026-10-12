@@ -7,7 +7,7 @@ import { useStartdaten } from './lib/start-daten.ts'
 import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, type FilterState } from './lib/filters.ts'
 import { useKalenderFilter } from './lib/kalender-filter.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
-import { istOhneBelegteSynchro } from './lib/titel-sortierung.ts'
+import { titelQuelle } from './lib/titel-quelle.ts'
 import type { Fundstelle } from './lib/search.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
@@ -18,7 +18,6 @@ import { useDbSchalter } from './lib/db-schalter.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header } from './components/Header.tsx'
-import { WerkzeugSlotProvider } from './components/filter/werkzeug-slot.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
 import { SeitenAnsicht } from './components/SeitenAnsicht.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
@@ -56,21 +55,19 @@ function tvAusGespeichert(): boolean {
   }
 }
 
-/** Unten docken Handy-Navigation und im Kalender die Steuerleiste an — der Fuß bleibt darüber lesbar. */
+/** Unten docken am Handy die Werkzeugleiste (Kalender, Datenbank) und am Rechner im Kalender die Steuerleiste an — der Fuß bleibt darüber lesbar. */
 const FUSS_ABSTAND = {
   kalender: 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-24',
-  sonst: 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0',
+  datenbank: 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0',
+  sonst: '',
+}
+
+function fussAbstand(view: ViewId): string {
+  if (view === 'woche' || view === 'monat') return FUSS_ABSTAND.kalender
+  return view === 'datenbank' ? FUSS_ABSTAND.datenbank : FUSS_ABSTAND.sonst
 }
 
 export default function App() {
-  return (
-    <WerkzeugSlotProvider>
-      <AppKern />
-    </WerkzeugSlotProvider>
-  )
-}
-
-function AppKern() {
   const { t } = useLang()
   const [allTitles, setAllTitles] = useState<Title[]>()
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
@@ -142,15 +139,12 @@ function AppKern() {
     [data, eventListe],
   )
   const sprecher = useSprecherAuswahl(route.filters)
-  const { wert: titles, laeuft: titelRechnet } = useZeitscheibe(() => {
-    if (!data) return leeresErgebnis(LEERE_ANSICHT)
-    const basis = (allTitles ?? data.titles).filter((t) => zeigeOhneSynchro || !istOhneBelegteSynchro(t))
-    /* Eine Kennung steht nur einmal in der Liste: doppelte Schlüssel ließen Kacheln beim Filtern als Geister im Raster stehen (Beerus, Fool Night). */
-    const bekannt = new Set(basis.map((t) => t.id))
-    const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro.filter((t) => !bekannt.has(t.id))] : basis
-    const quelle = cartoons ? [...mitOhne, ...cartoons.filter((t) => !bekannt.has(t.id))] : mitOhne
-    return titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped, sprecher.auswahl)
-  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, route.filters, today, favorites, grouped, sprecher.auswahl], LEERE_ANSICHT)
+  const quelle = useMemo(() => titelQuelle(data?.titles ?? [], allTitles, ohneSynchro, zeigeOhneSynchro, cartoons), [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons])
+  const { wert: titles, laeuft: titelRechnet } = useZeitscheibe(
+    () => (data ? titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped, sprecher.auswahl) : leeresErgebnis(LEERE_ANSICHT)),
+    [data, quelle, route.filters, today, favorites, grouped, sprecher.auswahl],
+    LEERE_ANSICHT,
+  )
   const kalenderBereit = useErstesErgebnis(!!data, eventsVeraltet)
 
   const openTitleId = route.title || undefined
@@ -202,7 +196,7 @@ function AppKern() {
   const kalender = route.view === 'woche' || route.view === 'monat'
 
   return (
-    <div className={`flex min-h-full flex-col ${kalender ? FUSS_ABSTAND.kalender : FUSS_ABSTAND.sonst}`}>
+    <div className={`flex min-h-full flex-col ${fussAbstand(route.view)}`}>
       {kopf}
       <EinstellungenDialog
         offen={einstellungenOffen}
@@ -235,6 +229,7 @@ function AppKern() {
             setFilters={setFilters}
             geladen={!!allTitles}
             titles={titles}
+            quelle={quelle}
             grouped={grouped}
             onGroupedChange={setGrouped}
             ohneSynchro={zeigeOhneSynchro}

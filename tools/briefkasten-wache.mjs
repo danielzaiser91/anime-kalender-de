@@ -30,6 +30,7 @@
  * Rückgabe 1 bei einem Befund, sonst 0 — der Workflow wird dann rot.
  */
 import { readFileSync, existsSync } from 'node:fs'
+import { liegengeblieben as liegengebliebeneAdressen } from './briefkasten-wache-logik.mjs'
 
 const TOKEN = process.env.LAUF_TOKEN
 if (!TOKEN) {
@@ -62,7 +63,8 @@ const stand = await antwort.json()
 */
 const jeAnbieter = stand.imBriefkasten && typeof stand.imBriefkasten === 'object' ? stand.imBriefkasten : {}
 const offen = Object.values(jeAnbieter).reduce((n, x) => n + Number(x || 0), 0)
-const adressen = Array.isArray(stand.adressen) ? stand.adressen : []
+/* `adressen` führt eine Adresse je Meldung (189 Meldungen auf 36 Adressen, gemessen 11.10.2026) — gezählt wird je Adresse. */
+const adressen = [...new Set(Array.isArray(stand.adressen) ? stand.adressen : [])]
 
 /*
   **Eine fehlende Liste ist kein Befund.**
@@ -93,42 +95,42 @@ if (!adressen.length) {
 } else {
 
 /*
-  **Eine Adresse fehlt nicht schon dann, wenn sie nicht in der Liste steht.**
-
-  Zwischen Meldung und Liste liegt ein Bau: Was Daniel vor zehn Minuten
-  gemeldet hat, kann noch nirgends stehen und ist trotzdem in Ordnung. Der
-  Befund gilt deshalb erst, wenn **mehr als ein Fünftel** der Adressen fehlt —
-  ein einzelner Nachzügler ist der Normalfall, ein Drittel ist es nicht.
-
-  Das ist dieselbe Überlegung wie bei jeder Zusicherung in diesem Projekt: Unter
-  welchen Umständen ist die Bedingung verletzt, **ohne** dass etwas kaputt ist?
-*/
-/*
-  **Und Nachzügler sind der Normalfall, keine Ausnahme.**
+  **Nachzügler sind der Normalfall — aber nur bis zum nächsten Datenlauf.**
 
   Zwischen Meldung und Liste liegt ein Bau. Wer abends zwanzig Titel meldet,
-  hat am nächsten Morgen zwanzig Adressen im Briefkasten, die noch nirgends
-  stehen — und nichts davon ist verloren. Ein Alarm dagegen wäre der Fehler,
-  vor dem `CLAUDE.md` warnt: eine Prüfung, die zuverlässig zu Unrecht rot wird,
-  ist schlimmer als keine, weil man aufhört hinzusehen.
+  hat am nächsten Morgen Adressen im Briefkasten, die noch nirgends stehen,
+  und nichts davon ist verloren. Eine Prüfung, die dagegen anschlägt, wird
+  zuverlässig zu Unrecht rot (`CLAUDE.md`).
 
-  Gemeldet wird deshalb erst, wenn der Briefkasten **deutlich** über dem liegt,
-  was ein Abend Arbeit ausmacht — und keine einzige Adresse gelistet ist. Dann
-  ist nicht Daniel schneller als der Bau, dann kommt nichts an.
+  Ein Befund ist deshalb jede ungelistete Adresse, deren **älteste Meldung über
+  NACHZUEGLER_STUNDEN Stunden** alt ist: Seitdem lief mindestens ein Datenlauf,
+  und die Liste führt auch, was er wegen unklarer Staffel liegen lässt (seit
+  11.10.2026). Das Alter liest die Listenabfrage (`gemeldet_am`). Sie trägt
+  `LIMIT 500`: eine Adresse, die in ihrer Antwort fehlt, hat kein bekanntes Alter
+  und zählt nicht als alt — ein Alarm aus Unwissen wäre falsch, und ein
+  abgeschnittener Rest verbirgt höchstens weitere Funde, nie einen erfundenen.
+  So geht es ohne Zustand.
 */
-const schwelle = 60
-if (adressen.length >= schwelle && gelistet.size === 0) {
+const NACHZUEGLER_STUNDEN = 24
+const listeAntwort = await fetch(`${WORKER}/pruefung?token=${encodeURIComponent(TOKEN)}`)
+if (!listeAntwort.ok) {
+  console.error(`Meldungsliste antwortet mit HTTP ${listeAntwort.status} — Alter nicht prüfbar.`)
+  process.exit(1)
+}
+const meldungen = (await listeAntwort.json()).pruefungen ?? []
+const liegengeblieben = liegengebliebeneAdressen(fehlend, meldungen, Date.now(), NACHZUEGLER_STUNDEN)
+if (liegengeblieben.length) {
   console.log('')
-  console.log(`⚠  ${fehlend.length} von ${adressen.length} Adressen sind weder zugeordnet noch gelistet:`)
-  for (const u of fehlend.slice(0, 10)) console.log(`   ${u}`)
-  if (fehlend.length > 10) console.log(`   … und ${fehlend.length - 10} weitere`)
+  console.log(`⚠  ${liegengeblieben.length} von ${adressen.length} Adressen sind weder zugeordnet noch gelistet:`)
+  for (const u of liegengeblieben.slice(0, 10)) console.log(`   ${u}`)
+  if (liegengeblieben.length > 10) console.log(`   … und ${liegengeblieben.length - 10} weitere`)
   console.log('')
   console.log('Das heißt: Meldungen kommen weder im Datensatz an noch stehen sie zum Abarbeiten bereit.')
   process.exitCode = 1
 } else {
   console.log(
     fehlend.length
-      ? `${fehlend.length} Adresse(n) noch nicht gelistet — Nachzügler, solange der Briefkasten unter ${schwelle} bleibt.`
+      ? `${fehlend.length} Adresse(n) noch nicht gelistet — Nachzügler, jünger als ${NACHZUEGLER_STUNDEN} Stunden.`
       : 'Alle Adressen sind gelistet.',
   )
 }

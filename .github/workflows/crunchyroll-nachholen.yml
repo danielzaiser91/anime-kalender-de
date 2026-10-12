@@ -147,6 +147,8 @@ jobs:
         with:
           nachricht: 'chore(data): Crunchyroll-Rückstand nachgeholt'
           fund: nachholen
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          app-key: ${{ secrets.DATEN_APP_KEY }}
 
       # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
       - name: Lauf abmelden

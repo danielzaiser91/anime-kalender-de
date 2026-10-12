@@ -20,8 +20,9 @@
  * | Rechtstext (Impressum, Datenschutz, Nutzungsbedingungen)                    | mind. 1 |
  * | Textdatei mit Tatsachenzahl in hinzugefügten Zeilen (Uhrzeit, Datum, Folgenzahl, ID ab 5 Ziffern) | 1 |
  * | mehrere CSS-Dateien, oder eine CSS über 30 Zeilen                           | 1       |
+ * | Skill-Text: .claude/skills/**\/*.md (andere Dateien dort bleiben 2)           | 1       |
  * | Doku: *.md, docs, daniel-zum-abarbeiten, mockups                            | 0       |
- * | Text: data/patchnotes.yaml, web/src/**\/i18n*.ts(x)                         | 0       |
+ * | Text: data/patchnotes/*.yaml, web/src/**\/i18n*.ts(x)                       | 0       |
  * | eine einzelne *.css unter web/src oder extension, höchstens 30 Zeilen       | 0       |
  * | web/src-Code, dessen geänderte Zeilen alle Kommentare sind, höchstens 30    | 0       |
  *
@@ -42,7 +43,9 @@ const GRENZE_GROSS = 300
 // ändert die Stufe nie: der Workflow berechnet sie neu und liest den Kommentar nicht (fail-safe).
 const DOKU = /^([^/]+\.md|(docs|mockups|daniel-zum-abarbeiten)\/.+\.(md|png|svg|jpg|jpeg|webp|txt))$/
 const DOKU_ANDERE_ENDUNG = /^(docs|mockups|daniel-zum-abarbeiten)\//
-const TEXT = /^(data\/patchnotes\.yaml|web\/src\/(.*\/)?i18n[^/]*\.tsx?)$/
+// Skill-Texte steuern Agenten, ändern aber keinen Code: Stufe 1 (Prüfer liest den Diff), nie 0. Andere Dateien unter .claude/skills (Skripte) bleiben Stufe 2.
+const SKILL_TEXT = /^\.claude\/skills\/.+\.md$/
+const TEXT = /^(data\/patchnotes\/[^/]+\.yaml|web\/src\/(.*\/)?i18n[^/]*\.tsx?)$/
 const CSS = /^(web\/src|extension)\/.*\.css$/
 const WEB_CODE = /^web\/src\/.*\.tsx?$/
 const RECHTSTEXT = /(impressum|datenschutz|nutzungsbedingungen)/i
@@ -124,6 +127,7 @@ function stufeOhneModus(d, n) {
   }
   if (CSS.test(d.pfad)) return n <= GRENZE_CSS ? [0, `gescopte CSS (${n} Zeilen)`] : [1, `CSS über ${GRENZE_CSS} Zeilen (${n})`]
   if (WEB_CODE.test(d.pfad) && !d.binaer && n <= GRENZE_KOMMENTAR && nurKommentare(d.hinzu) && nurKommentare(d.weg)) return [0, 'nur Kommentare']
+  if (SKILL_TEXT.test(d.pfad)) return [1, 'Skill-Text']
   if (DOKU_ANDERE_ENDUNG.test(d.pfad)) return [1, 'Datei in docs/mockups mit anderer Endung']
   if (STUFE_1.test(d.pfad)) return [1, 'UI-Logik, Handbeleg oder Datenwert']
   return [2, 'Pfad ohne Herabstufungsregel (Pipeline, Logik, Workflow, Worker, Schema oder unbekannt)']
