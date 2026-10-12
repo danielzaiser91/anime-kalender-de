@@ -93,7 +93,14 @@ ${titelJsonLd(titelDaten(t, name, url, description, eigenesBild))}
     </script>`
 }
 
-export function titelInhalt(t: Title, synopsis: string | undefined, eigene: Release[]): string {
+/** Der Absatz mit der Handlung, darunter (nur bei eigenen Texten) die fertige Quellenzeile. */
+export type SynopsenText = { text: string; quelle: string }
+
+export function synopsenAbsatz(synopsis: SynopsenText | undefined): string {
+  return synopsis ? `<p style="margin:0 0 1.5rem;">${esc(synopsis.text)}</p>${synopsis.quelle}` : ''
+}
+
+export function titelInhalt(t: Title, synopsis: SynopsenText | undefined, eigene: Release[]): string {
   const name = titelName(t)
   const wege = (t.streams ?? []).filter((s) => s.dub === true)
   const liste = (zeilen: string[]) => `<ul style="margin:0 0 1.5rem;padding-left:1.2rem;">\n        ${zeilen.join('\n        ')}\n      </ul>`
@@ -101,7 +108,7 @@ export function titelInhalt(t: Title, synopsis: string | undefined, eigene: Rele
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(name)}</h1>
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(titelBeschreibung(t))}</p>
       ${namenZeile(t, name)}
-      ${synopsis ? `<p style="margin:0 0 1.5rem;">${esc(synopsis)}</p>` : ''}
+      ${synopsenAbsatz(synopsis)}
       ${
         wege.length
           ? `<h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Wo ${esc(name)} auf Deutsch läuft</h2>\n      ` +

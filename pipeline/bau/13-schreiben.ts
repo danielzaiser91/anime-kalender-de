@@ -19,6 +19,7 @@ import { schreibeListen } from './13-3-listen.ts'
 import { baueAuslieferung } from './13-2-auslieferung.ts'
 import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
 import { mitBelegstaerke } from '../lib/belegstaerke.ts'
+import { ergaenzeEigeneHandlungen } from './handlung-eigen-einbinden.ts'
 
 export function schreibeDatensatz({
   allTitles,
@@ -67,6 +68,7 @@ export function schreibeDatensatz({
     verweiseEntfernt,
   })
 
+  ergaenzeEigeneHandlungen(synopses, slim)
   ergaenzeErstausgabeAngebot({ titles: titles.values(), releases })
   schreibeListen({ slim, tmdbTitles, releases, titles })
 
