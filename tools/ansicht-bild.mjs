@@ -24,6 +24,7 @@ import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { bilderOrdner } from './bilder-ordner.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
+import { pruefeFilterfensterRechner } from './ansicht-filterfenster-rechner.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 
@@ -219,6 +220,12 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
   /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
   let rot = ansichten.includes('datenbank') && !handy ? await meldeCartoonFilter(seite) : false
   if (ansichten.includes('datenbank') && !handy && (await pruefeAdressen(seite, DIST))) rot = true
+  if (!handy && ['woche', 'datenbank'].every((a) => ansichten.includes(a))) {
+    const rechner = await pruefeFilterfensterRechner(chromium, antworteAusDist)
+    console.log(`\nFilterfenster am Rechner (1280 px, Woche und Datenbank): ${rechner.abweichungen.length ? '' : 'ok'}`)
+    for (const l of rechner.abweichungen) console.log(`  ✕ ${l}`)
+    if (rechner.abweichungen.length) rot = true
+  }
   if (handy && ['woche', 'monat', 'datenbank'].every((a) => ansichten.includes(a))) {
     const leiste = await pruefeWerkzeugleiste(seite)
     console.log(`\nWerkzeugleiste unten (320/360/393/440 px): ${leiste.length ? '' : 'ok'}`)
@@ -230,6 +237,32 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
     if (fenster.abweichungen.length) rot = true
   }
   return rot
+}
+
+/** Beantwortet jede Anfrage aus `dist/`; auch das Rechner-Filterfenster (eigener Browser) nutzt sie. */
+async function antworteAusDist(route) {
+  const url = new URL(route.request().url())
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return route.continue()
+  /*
+    **Fremde Bilder werden beantwortet, nicht abgewiesen.**
+
+    Die Cover liegen bei AniList. Ein `route.abort()` sparte den Abruf, warf
+    aber je Bild einen Konsolenfehler — sechzig Stück in der Datenbank-Ansicht,
+    und die Fehlerzählung dieses Werkzeugs war damit wertlos. Ein
+    Einpunkt-PNG kostet nichts und hält die Konsole sauber für die Fehler, um
+    die es geht.
+  */
+  if (url.hostname !== 'ak.test') {
+    return route.fulfill({ status: 200, contentType: 'image/png', body: EIN_PUNKT })
+  }
+  const rel = url.pathname === '/' ? '/index.html' : url.pathname
+  const datei = path.join(DIST, rel)
+  if (!datei.startsWith(DIST) || !existsSync(datei)) return route.fulfill({ status: 404, body: '' })
+  return route.fulfill({
+    status: 200,
+    contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream',
+    body: await readFile(datei),
+  })
 }
 
 async function main() {
@@ -254,30 +287,7 @@ async function main() {
   })
   seite.on('pageerror', (e) => fehler.push(String(e).slice(0, 160)))
 
-  await seite.route('**/*', async (route) => {
-    const url = new URL(route.request().url())
-    if (url.protocol !== 'http:' && url.protocol !== 'https:') return route.continue()
-    /*
-      **Fremde Bilder werden beantwortet, nicht abgewiesen.**
-
-      Die Cover liegen bei AniList. Ein `route.abort()` sparte den Abruf, warf
-      aber je Bild einen Konsolenfehler — sechzig Stück in der Datenbank-Ansicht,
-      und die Fehlerzählung dieses Werkzeugs war damit wertlos. Ein
-      Einpunkt-PNG kostet nichts und hält die Konsole sauber für die Fehler, um
-      die es geht.
-    */
-    if (url.hostname !== 'ak.test') {
-      return route.fulfill({ status: 200, contentType: 'image/png', body: EIN_PUNKT })
-    }
-    const rel = url.pathname === '/' ? '/index.html' : url.pathname
-    const datei = path.join(DIST, rel)
-    if (!datei.startsWith(DIST) || !existsSync(datei)) return route.fulfill({ status: 404, body: '' })
-    return route.fulfill({
-      status: 200,
-      contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream',
-      body: await readFile(datei),
-    })
-  })
+  await seite.route('**/*', antworteAusDist)
 
   const befunde = []
   for (const name of ansichten) {
