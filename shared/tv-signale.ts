@@ -154,10 +154,13 @@ function woechentlich(e: ReleaseEvent, data: MitReleases): Release | undefined {
  * Nur bei wöchentlichen Releases: Ein Katalogtitel mit `available-from` ist „im Angebot seit",
  * nicht „erschienen am", und eine Fernsehausstrahlung beantwortet `istPremiere()`. Gezählt wird
  * nach der Nummer, nicht nach der Position — ein geteilter Start beginnt bei `firstEpisodeNumber`.
+ * Ein Release mit nur einer Folge über Folge 1 ist ein Nachtrag, kein Start (Snowball Earth, Disney+ Folge 13, 12.10.2026).
  */
 export function istStaffelstart(e: ReleaseEvent, data: MitReleases): boolean {
   const release = woechentlich(e, data)
-  return !!release && e.episode === (release.schedule?.firstEpisodeNumber ?? 1)
+  const erste = release?.schedule?.firstEpisodeNumber ?? 1
+  const nachtrag = erste > 1 && release?.schedule?.episodeCount === 1
+  return !!release && e.episode === erste && !nachtrag
 }
 
 /**
