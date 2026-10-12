@@ -1,48 +1,48 @@
 {
   "stand": "2026-10-12",
   "deckung": {
-    "titel": 20659,
-    "mitSeite": 15893,
-    "ohneSeite": 50,
-    "ohneAnisearchKennung": 3064,
-    "ohneReferenz": 1652,
-    "seitenImArchiv": 17466,
-    "kanten": 18564
+    "titel": 20624,
+    "mitSeite": 15907,
+    "ohneSeite": 9,
+    "ohneAnisearchKennung": 3049,
+    "ohneReferenz": 1659,
+    "seitenImArchiv": 17487,
+    "kanten": 18577
   },
   "gesamt": {
-    "titel": 15893,
-    "gleich": 12422,
-    "fehlen": 2314,
-    "zusaetzlich": 656,
-    "gemischt": 501
+    "titel": 15907,
+    "gleich": 12424,
+    "fehlen": 2242,
+    "zusaetzlich": 707,
+    "gemischt": 534
   },
   "hauptbestand": {
     "titel": 2866,
-    "gleich": 2141,
-    "fehlen": 479,
-    "zusaetzlich": 146,
-    "gemischt": 100
+    "gleich": 2157,
+    "fehlen": 460,
+    "zusaetzlich": 148,
+    "gemischt": 101
   },
   "haelfteA": {
-    "titel": 7322,
-    "gleich": 5661,
-    "fehlen": 1123,
-    "zusaetzlich": 328,
-    "gemischt": 210
+    "titel": 7333,
+    "gleich": 5669,
+    "fehlen": 1095,
+    "zusaetzlich": 356,
+    "gemischt": 213
   },
   "haelfteB": {
-    "titel": 8571,
-    "gleich": 6761,
-    "fehlen": 1191,
-    "zusaetzlich": 328,
-    "gemischt": 291
+    "titel": 8574,
+    "gleich": 6755,
+    "fehlen": 1147,
+    "zusaetzlich": 351,
+    "gemischt": 321
   },
   "cluster": {
-    "einzel": 5393,
-    "gleich": 2238,
-    "zerlegt": 294,
-    "verschmilzt": 64,
-    "gemischt": 31
+    "einzel": 5404,
+    "gleich": 2235,
+    "zerlegt": 290,
+    "verschmilzt": 70,
+    "gemischt": 32
   },
   "beispiele": {
     "zerlegt": [
@@ -66,13 +66,6 @@
         "titel": 64,
         "referenz": 1,
         "anisearch": 6
-      },
-      {
-        "id": 603,
-        "name": "Futari wa Precure",
-        "titel": 64,
-        "referenz": 1,
-        "anisearch": 20
       },
       {
         "id": 1694,
@@ -147,7 +140,7 @@
       {
         "id": 9883,
         "name": "Osomatsu-kun (1988)",
-        "titel": 22,
+        "titel": 23,
         "referenz": 1,
         "anisearch": 2
       },
@@ -168,7 +161,7 @@
       {
         "id": 5081,
         "name": "Bakemonogatari",
-        "titel": 20,
+        "titel": 19,
         "referenz": 1,
         "anisearch": 2
       },
@@ -185,6 +178,13 @@
         "titel": 18,
         "referenz": 1,
         "anisearch": 5
+      },
+      {
+        "id": 1707,
+        "name": "Kinnikuman Nisei",
+        "titel": 18,
+        "referenz": 1,
+        "anisearch": 2
       }
     ],
     "verschmilzt": [
@@ -192,7 +192,7 @@
         "id": 918,
         "name": "Gintama",
         "titel": 30,
-        "referenz": 3,
+        "referenz": 2,
         "anisearch": 1
       },
       {
@@ -205,7 +205,7 @@
       {
         "id": 967,
         "name": "Hokuto no Ken",
-        "titel": 21,
+        "titel": 22,
         "referenz": 3,
         "anisearch": 1
       },
@@ -214,6 +214,13 @@
         "name": "Xiong Chumo",
         "titel": 20,
         "referenz": 5,
+        "anisearch": 1
+      },
+      {
+        "id": 2222,
+        "name": "Dr. Slump: Arale-chan",
+        "titel": 19,
+        "referenz": 2,
         "anisearch": 1
       },
       {
@@ -240,6 +247,13 @@
       {
         "id": 924,
         "name": "Transformers Masterforce",
+        "titel": 14,
+        "referenz": 2,
+        "anisearch": 1
+      },
+      {
+        "id": 4719,
+        "name": "Queen's Blade: Rurou no Senshi",
         "titel": 14,
         "referenz": 2,
         "anisearch": 1
@@ -313,20 +327,6 @@
         "titel": 8,
         "referenz": 3,
         "anisearch": 1
-      },
-      {
-        "id": 1341,
-        "name": "Violence Jack: Harem Bomber",
-        "titel": 8,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 87539,
-        "name": "Ryuu no Haisha",
-        "titel": 8,
-        "referenz": 3,
-        "anisearch": 1
       }
     ],
     "gemischt": [
@@ -359,6 +359,13 @@
         "anisearch": 3
       },
       {
+        "id": 603,
+        "name": "Futari wa Precure",
+        "titel": 64,
+        "referenz": 2,
+        "anisearch": 20
+      },
+      {
         "id": 966,
         "name": "Crayon Shin-chan",
         "titel": 47,
@@ -368,7 +375,7 @@
       {
         "id": 1000,
         "name": "Uchuu Kaizoku Captain Harlock",
-        "titel": 35,
+        "titel": 36,
         "referenz": 2,
         "anisearch": 5
       },
@@ -382,7 +389,7 @@
       {
         "id": 194,
         "name": "Macross Zero",
-        "titel": 25,
+        "titel": 24,
         "referenz": 2,
         "anisearch": 2
       },
@@ -461,13 +468,6 @@
         "name": "Onmyouji: Heian Monogatari",
         "titel": 8,
         "referenz": 2,
-        "anisearch": 3
-      },
-      {
-        "id": 110287,
-        "name": "Valkyrie no Shokutaku",
-        "titel": 8,
-        "referenz": 3,
         "anisearch": 3
       }
     ]

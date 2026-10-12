@@ -3,9 +3,9 @@
   "angehaengt": 282,
   "neueReihen": 250,
   "katalog": {
-    "angehaengt": 209,
-    "neueReihen": 22,
-    "bestandEinzeln": 366
+    "angehaengt": 207,
+    "neueReihen": 24,
+    "bestandEinzeln": 369
   },
   "pruefliste": [
     {
@@ -252,26 +252,6 @@
       "art": "mehrdeutig",
       "reihen": [
         {
-          "id": 918,
-          "name": "Gintama",
-          "titel": 25
-        },
-        {
-          "id": 143455,
-          "name": "Jongtama PONG☆",
-          "titel": 4
-        }
-      ],
-      "alleinstehende": [
-        "Jongtama × Gintama Collab Kettei Promotion Anime"
-      ],
-      "beispiel": "",
-      "quelle": "katalog"
-    },
-    {
-      "art": "mehrdeutig",
-      "reihen": [
-        {
           "id": 10015135,
           "name": "Robocar Poli: Season 2",
           "titel": 4
@@ -332,6 +312,24 @@
       ],
       "alleinstehende": [],
       "beispiel": "McDull: Xiang Dang Dang —Prequel→ Mak Dau Dang Dang Ban wo Xin (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 603,
+          "name": "Futari wa Precure",
+          "titel": 61
+        },
+        {
+          "id": 99642,
+          "name": "Precure Dream Stars!",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Futari wa Precure —Nebengeschichte→ HUGtto! Precure ♡ Futari wa Precure All Stars Memories (3 Kanten)",
       "quelle": "katalog"
     },
     {
@@ -404,6 +402,24 @@
       ],
       "alleinstehende": [],
       "beispiel": "Seisenshi Dunbine —?→ Aura Battler Dunbine Side L (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 918,
+          "name": "Gintama",
+          "titel": 25
+        },
+        {
+          "id": 139044,
+          "name": "Jongtama PV",
+          "titel": 7
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Gintama —?→ Jongtama × Gintama Collab Kettei Promotion Anime (1 Kante)",
       "quelle": "katalog"
     },
     {
@@ -962,6 +978,24 @@
       ],
       "alleinstehende": [],
       "beispiel": "Onmyouji: Heian Monogatari —?→ Yinyang Shi: Buzhi Huo (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 104159,
+          "name": "Azur Lane",
+          "titel": 5
+        },
+        {
+          "id": 124082,
+          "name": "Azur Lane Anime PVs",
+          "titel": 7
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Azur Lane —?→ Azur Lane: 8 Shuunen Kinen Anime PV (3 Kanten)",
       "quelle": "katalog"
     },
     {
@@ -1912,12 +1946,42 @@
     },
     {
       "art": "sammelart",
+      "reihen": [
+        {
+          "id": 3080,
+          "name": "Anime Tenchou",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [
+        "Anime Tenchou Movie"
+      ],
+      "beispiel": "Anime Tenchou Movie —Charakter→ Anime Tenchou",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
       "reihen": [],
       "alleinstehende": [
         "HAYABUSA: BACK TO THE EARTH - Kikan",
         "Hayabusa: Back to the Earth"
       ],
       "beispiel": "HAYABUSA: BACK TO THE EARTH - Kikan —Anderes→ Hayabusa: Back to the Earth",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 4719,
+          "name": "Queen's Blade: Rurou no Senshi",
+          "titel": 13
+        }
+      ],
+      "alleinstehende": [
+        "Queen's Blade Rebellion VS Hagure Yuusha no Estetica"
+      ],
+      "beispiel": "Queen's Blade Rebellion VS Hagure Yuusha no Estetica —Charakter→ Queen's Blade: Rebellion",
       "quelle": "katalog"
     },
     {
@@ -2023,6 +2087,36 @@
         "Magic-kyun! Renaissance"
       ],
       "beispiel": "Magic-kyun! Renaissance —Anderes→ Magic-Kyun! Special Story: Tokubetsu na Hi",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 21360,
+          "name": "Gyakuten Saiban: Sono \"Shinjitsu\", Igi Ari!",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [
+        "Gyakuten Saiban 6 Prologue"
+      ],
+      "beispiel": "Gyakuten Saiban 6 Prologue —Anderes→ Gyakuten Saiban: Sono \"Shinjitsu\", Igi Ari!",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 20457,
+          "name": "Black Bullet",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Black Bullet: Tenchuu＊Girls"
+      ],
+      "beispiel": "Black Bullet: Tenchuu＊Girls —Charakter→ Black Bullet",
       "quelle": "katalog"
     },
     {
