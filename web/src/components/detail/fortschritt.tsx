@@ -14,7 +14,7 @@ export function Fortschritt({ data, titelId }: { data: Dataset; titelId: number 
   if (!neueste) return null
   const neu = neuSeitGesehen(bis, neueste)
   return (
-    <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-ak-rand bg-ak-flaeche px-4 py-3 text-sm text-ak-text">
+    <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-ak-rand bg-ak-flaeche px-4 py-3 text-t3 text-ak-text">
       <label className="flex items-center gap-2" title={t('fav.gesehenHinweis', { n: neueste })}>
         <span className="font-semibold">{t('fav.gesehenBis')}</span>
         <input
@@ -29,7 +29,7 @@ export function Fortschritt({ data, titelId }: { data: Dataset; titelId: number 
         <span className="text-ak-leise">/ {neueste}</span>
       </label>
       {neu > 0 && (
-        <span className="rounded-full bg-ak-akzent/15 px-2 py-0.5 text-xs font-bold text-ak-akzent-text">{t('fav.neuSeit', { n: neu })}</span>
+        <span className="rounded-full bg-ak-akzent/15 px-2 py-0.5 text-t4 font-bold text-ak-akzent-text">{t('fav.neuSeit', { n: neu })}</span>
       )}
     </div>
   )

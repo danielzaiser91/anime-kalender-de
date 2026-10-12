@@ -1,5 +1,4 @@
 import { useState, type ReactNode } from 'react'
-import { TREFFER_24_HOCH } from './tippziel.ts'
 
 /** Die leise Überschrift mit „›": der zweite Überschriften-Stil neben der Karte (Daniel, 09.10.2026: zwei Stile statt drei). */
 export function AufklappKopf({ offen, onClick, children }: { offen: boolean; onClick: () => void; children: ReactNode }) {
@@ -8,7 +7,7 @@ export function AufklappKopf({ offen, onClick, children }: { offen: boolean; onC
       type="button"
       onClick={onClick}
       aria-expanded={offen}
-      className={`flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 ${TREFFER_24_HOCH}`}
+      className="flex min-h-11 w-full cursor-pointer items-center gap-1.5 text-left text-t5 font-bold uppercase tracking-[.08em] text-slate-600 hover:text-slate-800 dark:text-slate-300 dark:hover:text-slate-100"
     >
       <span aria-hidden className={`transition-transform ${offen ? 'rotate-90' : ''}`}>
         ›

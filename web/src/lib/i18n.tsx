@@ -346,7 +346,7 @@ const TEXTE = {
   // **Auf eine Zeile gekürzt**. In der Pille steht
   // nur noch, was fehlt: das Kreuz, die Sprache, die Folgen. Der volle Satz
   // steht im Tooltip daneben.
-  'detail.dubLuecken': '✕ DE {n}',
+  'detail.dubLuecken': 'ohne Deutsch: Fg. {n}',
   'detail.staffelNummer': 'Staffel {n}',
   'detail.dubLueckenTitel': 'Nicht alle Folgen auf Deutsch',
   // Bewusst „kann abweichen", nicht „weicht ab": Belegt ist nur, dass mehrere
@@ -363,19 +363,19 @@ const TEXTE = {
   // dort genauso.
   // Dieselbe Kurzform: ein Häkchen für das, was auf Deutsch da ist, dahinter der
   // Bereich. Ausgeschrieben stand es in einer Pille, die dafür zu schmal ist.
-  'detail.dubUntil': '✓ DE 1–{n}',
-  'detail.dubFrom': '✓ DE ab {n}',
+  'detail.dubUntil': 'Fg. 1–{n}',
+  'detail.dubFrom': 'Fg. ab {n}',
   // Wo nur die erste Folge dort liegt — auf einem Verlagskanal bei YouTube der
   // Normalfall. „1–1" wäre richtig gerechnet und trotzdem verwirrend.
-  'detail.dubNurEine': '✓ DE nur Fg. 1',
+  'detail.dubNurEine': 'nur Fg. 1',
   'detail.dubUntilTitel': 'Deutscher Ton bis Folge {n}',
   // **Das Label sagt, was es auf Deutsch gibt**. Vorher nannte es die Lücke — „✕ DE 5–7" —, also das, was
   // fehlt. Wer vor der Pille steht, will aber wissen, was er bekommt, und bei mehr als
   // einem Wechsel wird die Lücken-Form ohnehin unübersichtlich.
-  'detail.dubDe': '✓ DE {bereiche}',
+  'detail.dubDe': 'Fg. {bereiche}',
   // Ab drei Bereichen bliebe die Pille nicht mehr schmal. Die Zahl sagt, dass da noch
   // etwas kommt; die vollständige Aufzählung steht im Hinweis daneben.
-  'detail.dubDeMehr': '✓ DE {bereiche} +{n} Bereiche',
+  'detail.dubDeMehr': 'Fg. {bereiche} +{n} Bereiche',
   // Der Hinweis, zeilenweise.
   'detail.dubKopfVon': '{n} von {m} Folgen auf Deutsch',
   'detail.dubKopf': '{n} Folgen auf Deutsch',
@@ -393,7 +393,6 @@ const TEXTE = {
   'detail.gruppeSpecials': 'Specials & OVAs',
   'detail.gruppeFilme': 'Filme',
   'detail.reiheSuche': 'In der Reihe suchen',
-  'detail.reiheOhneSchalter': '{n} ohne Synchro ausblenden',
   // Am Abzeichen in der Reihenliste — das Zeichen selbst ist 🇩🇪 ✕, der Satz
   // steht im Hinweis. „Bisher" fehlt bewusst: Wir wissen nicht, ob eine kommt.
   'detail.reiheOhneSynchro': 'Keine deutsche Synchro',
@@ -579,7 +578,7 @@ const TEXTE = {
     und sagt die Wahrheit.
   */
   'antwort.teilweiseZahl': '{raus} von {gesamt} Folgen auf Deutsch',
-  'antwort.teilweiseNeben': 'Für die übrigen fehlt uns eine Angabe',
+  'antwort.teilweiseNeben': 'Übrige Folgen: nicht auf Deutsch belegt',
   'kostenlos.ganz': 'Kostenlos',
   'kostenlos.teil': 'Teilweise kostenlos',
   'kostenlos.zahl': '{frei} von {von} Folgen',
@@ -681,8 +680,8 @@ const TEXTE = {
   'antwort.faktPublisher': 'Label',
   'antwort.faktEdition': 'Ausgabe',
   'antwort.faktStudio': 'Studio',
-  'antwort.fskAb': 'ab {n}',
-  'antwort.fskAnbieter': 'ab {n} laut Anbieter',  'detail.lastEpisode': 'Letzte Folge',
+  'antwort.fsk': 'FSK {n}',
+  'antwort.fskAnbieter': 'FSK {n} laut Anbieter',  'detail.lastEpisode': 'Letzte Folge',
   'detail.allDates': 'Alle Termine',
   'detail.showAllDates': 'alle {count} Termine anzeigen',
   'detail.showFewer': 'weniger anzeigen',
