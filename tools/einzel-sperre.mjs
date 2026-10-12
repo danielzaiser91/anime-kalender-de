@@ -6,20 +6,40 @@
  * und hielte währenddessen selbst einen Prozess. `bau-vergleich` wartet dagegen bis zu 10 min
  * (`wartAufSperre`), weil dort parallele Bauer sich sonst gegenseitig abweisen.
  *
- * Eine Sperre, deren PID nicht mehr lebt, wird übernommen (mit Meldung). Die Absage nennt, wer die Sperre hält
+ * Eine Sperre, deren PID nicht mehr lebt oder inzwischen einem anderen Programm gehört (`exe`), wird übernommen (mit Meldung). Die Absage nennt, wer die Sperre hält
  * (PID, was läuft, von wo) und seit wann (Uhrzeit und „vor N min“): Prüfer warteten am 12.10.2026 10–15 min, ohne zu wissen, worauf.
  */
+import { execFileSync } from 'node:child_process'
 import { readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
 
-const lebt = (pid) => {
+/** Programmname des Prozesses `pid` (klein, ohne Pfad), null wenn nicht ermittelbar. Windows: `tasklist` (ohne PowerShell), sonst `ps`. */
+function prozessName(pid) {
+  try {
+    if (process.platform === 'win32') {
+      const aus = execFileSync('tasklist', ['/FI', `PID eq ${pid}`, '/FO', 'CSV', '/NH'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+      return /^"([^"]+)"/.exec(aus)?.[1].toLowerCase() ?? null
+    }
+    const comm = execFileSync('ps', ['-p', String(pid), '-o', 'comm='], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] })
+    return basename(comm.trim()).toLowerCase() || null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Lebt der Halter noch? Windows vergibt PIDs wieder: Läuft unter der PID ein Prozess mit anderem Programmnamen als dem in der
+ * Sperre vermerkten (`exe`), ist sie verwaist. Ohne `exe` (ältere Sperre) oder ohne ermittelbaren Namen zählt allein die PID.
+ */
+export function lebt(pid, exe, nameVon = prozessName) {
   try {
     process.kill(pid, 0)
-    return true
   } catch (e) {
     return e.code === 'EPERM' // lebt, gehört aber einem anderen Benutzer
   }
+  const name = exe ? nameVon(pid) : null
+  return !name || name === exe
 }
 
 function lies(datei) {
@@ -38,7 +58,8 @@ const vorMin = (seit) => Math.max(0, Math.round((Date.now() - Date.parse(seit)) 
 /** Legt die Sperre `<name>` an; `wer` beschreibt den Lauf für Wartende. Liefert null bei Erfolg, sonst den Grund (Text) für die Absage. */
 export function nimmSperre(name, wer = standardWer()) {
   const datei = join(tmpdir(), `${name}.sperre`)
-  const eigene = JSON.stringify({ pid: process.pid, seit: new Date().toISOString(), wer })
+  const exe = basename(process.execPath).toLowerCase()
+  const eigene = JSON.stringify({ pid: process.pid, exe, seit: new Date().toISOString(), wer })
   for (let versuch = 0; versuch < 2; versuch++) {
     try {
       writeFileSync(datei, eigene, { flag: 'wx' })
@@ -51,7 +72,7 @@ export function nimmSperre(name, wer = standardWer()) {
       if (e.code !== 'EEXIST') throw e
     }
     const alt = lies(datei)
-    if (alt && lebt(alt.pid)) {
+    if (alt && lebt(alt.pid, alt.exe)) {
       const was = alt.wer ? `, ${alt.wer}` : ''
       return `${name} läuft schon (PID ${alt.pid}, seit ${alt.seit}, vor ${vorMin(alt.seit)} min${was}) — warten oder die Sperre ${datei} nur löschen, wenn der Prozess nicht echt läuft.`
     }

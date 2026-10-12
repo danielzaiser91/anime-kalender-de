@@ -3,10 +3,10 @@
 // Halter hart beendet wird (Sperre bleibt liegen, Übernahme mit Meldung).
 import assert from 'node:assert/strict'
 import { spawn, spawnSync } from 'node:child_process'
-import { rmSync, writeFileSync } from 'node:fs'
+import { readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
-import { nimmSperre, nurEinmalGleichzeitig, wartAufSperre } from './einzel-sperre.mjs'
+import { basename, join } from 'node:path'
+import { lebt, nimmSperre, nurEinmalGleichzeitig, wartAufSperre } from './einzel-sperre.mjs'
 
 const [modus, name, wer] = process.argv.slice(2)
 
@@ -65,6 +65,22 @@ if (modus === 'halte') {
     assert.match(nimmSperre(altName), /vor 12 min, x\)/, 'Alter der Sperre in Minuten')
   } finally {
     rmSync(altDatei, { force: true })
+  }
+
+  // Wiederverwendete PID: lebt, gehört aber einem anderen Programm → verwaist. Fehlendes Feld `exe` = alte Prüfung (nur PID).
+  const meinName = basename(process.execPath).toLowerCase()
+  assert.equal(lebt(process.pid, meinName), true, 'echter Name des eigenen Prozesses stimmt')
+  assert.equal(lebt(process.pid, 'explorer.exe'), false, 'echter Namensabgleich: PID gehört einem anderen Programm')
+  assert.equal(lebt(process.pid), true, 'ältere Sperre ohne exe: nur PID zählt')
+  assert.equal(lebt(process.pid, 'x.exe', () => null), true, 'Name nicht ermittelbar: im Zweifel lebt der Halter')
+  const fremdName = `${eigener}-fremd`
+  const fremdDatei = join(tmpdir(), `${fremdName}.sperre`)
+  writeFileSync(fremdDatei, JSON.stringify({ pid: process.pid, exe: 'explorer.exe', seit: new Date().toISOString(), wer: 'x' }))
+  try {
+    assert.equal(nimmSperre(fremdName), null, 'Sperre mit fremdem Programm unter lebender PID wird übernommen')
+    assert.equal(JSON.parse(readFileSync(fremdDatei, 'utf8')).exe, meinName, 'neue Sperre vermerkt das eigene Programm')
+  } finally {
+    rmSync(fremdDatei, { force: true })
   }
 
   const vierter = aufruf('versuche')

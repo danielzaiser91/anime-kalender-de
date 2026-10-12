@@ -1,5 +1,5 @@
 /**
- * Räumt Reste abgebrochener `bau-vergleich`-Läufe auf: `git worktree prune` entfernt gesperrte Einträge nicht,
+ * Räumt Reste abgebrochener `bau-vergleich`- und `panel-vergleich`-Läufe auf: `git worktree prune` entfernt gesperrte Einträge nicht,
  * und ein hart beendeter `git worktree add` hinterlässt genau so einen (Sperre „initializing“, Ordner fehlt).
  * Der nächste `worktree add` auf denselben Hash scheitert dann. Angefasst werden nur gesperrte `baum-*`-Einträge
  * unter der eigenen Ablage, deren Ordner fehlt — ein lebender Lauf hat seinen Ordner.
@@ -23,7 +23,7 @@ export function verwaisteBaeume(porcelain, ablage, existiert = existsSync) {
 export function raeumeVerwaisteBaeume(git, ablage, existiert = existsSync) {
   const verwaist = verwaisteBaeume(git('worktree', 'list', '--porcelain'), ablage, existiert)
   for (const pfad of verwaist) {
-    console.log(`bau-vergleich: gesperrten, auf der Platte fehlenden Worktree ${pfad} entfernt (Rest eines abgebrochenen Laufs).`)
+    console.log(`Vergleichswerkzeug: gesperrten, auf der Platte fehlenden Worktree ${pfad} entfernt (Rest eines abgebrochenen Laufs).`)
     git('worktree', 'unlock', pfad)
   }
   git('worktree', 'prune')
