@@ -270,3 +270,13 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** #439 hätte nicht gereicht: Es zählt den Nachfolger nur, wenn er im Hauptbestand (`slim`) steht; die acht AniList-Titel (11421, 9978, 5091, 7956, 6262, 10282, 4439, 6771) stehen aber in `ohne-synchro.json`, also hinter dem Toggle. Offen bleibt die inhaltliche Frage aus dem Eintrag vom 07.10.: Titel mit Dub-Kennzeichen `c` standen als eigene aniSearch-Titel im Hauptbestand und liegen nach der Zuordnung dahinter. Kein Riegel meldet das.
 
 **Was läuft komplett falsch?** Nichts im Bau selbst. Die Annahme des Riegels („jede verschwundene Kennung ist ein Verlust") kennt keinen Kennungswechsel. Neu: `anisearchUmgezogen` (`pipeline/bau/anisearch-titel.ts`) rechnet eine Kennung als umgezogen, wenn ihr AniList-Nachfolger im Hauptbestand, in `verschoben` oder im AniList-Katalog ankommt; #411, #412, #439 sind damit überholt. Nicht lokal gemessen (kein Cache).
+
+## 12.10.2026 — Bestand-Bau rot (Lauf 38210673513), kein Wache-Befund
+
+**Was läuft korrekt.** Die Zusicherung „Titel nur bei aniSearch tragen keinen erratenen Weg“ (`pipeline/check-crunchyroll-zuordnung.ts:1050`) hat gegriffen, die Erzeugnisse wurden nicht committet, `public/data` blieb unverändert. Seit #866 endet der Lauf rot statt grün.
+
+**Wo ist Verbesserungspotenzial?** Der Lauf pushte die Quellen trotz verletzter Zusicherung („Gepusht (Versuch 1)“) – gewollt, aber der Befund steht nur im Protokoll. #864 hat `check:vor-commit` bestanden, weil die Gegenprobe den gebauten Bestand braucht, den es lokal ohne Cache nicht gibt.
+
+**Wo sind echte Risiken und Lücken?** Ein Umbau an der Herkunft von Wegen (#864) wird von keiner Prüfung im PR gegen die Gegenproben des gebauten Bestands gemessen; sie fallen erst im Lauf auf. Auch diese Reparatur ist lokal nicht gemessen.
+
+**Was läuft komplett falsch?** `pipeline/bau/11-7-wege-aus-terminen.ts` `tonAusBeleg`: Handbeleg „deutsch“ → Weg ohne Herkunft (richtig, sonst bräche `tonOhneBeleg`); die Gegenprobe zählt Wege ohne Herkunft als erraten (Fate/Stay Night UBW Prologue, GGO Refrain, Slime Veldora’s Journal, 10019697). Fix: PR zu Issue #893, `dub: true` gilt als belegt.
