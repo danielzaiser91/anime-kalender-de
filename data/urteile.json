@@ -67220,12 +67220,18 @@
   "150672|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
+  },
+  "150672|primevideo|12": {
+    "urteil": "unbekannt",
+    "art": "gemessen",
+    "tag": "2026-10-11",
+    "grund": "kanal-ohne-abo"
   },
   "159309|primevideo|9": {
     "urteil": "deutsch",

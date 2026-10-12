@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-12T03:06:57.108Z",
+ "erzeugtAm": "2026-10-12T04:06:16.290Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -751,9 +751,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 391,
+   "gemeldet": 392,
    "gesamt": 636,
-   "offen": 245,
+   "offen": 244,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -906,11 +906,6 @@
      "url": "https://www.netflix.com/title/80060413",
      "titel": "Heidi",
      "hinweis": "Staffeln unklar: TMDB zählt 91 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.netflix.com/title/70180088",
-     "titel": "Garfield",
-     "hinweis": "Staffeln unklar: TMDB zählt 203 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.netflix.com/title/81744227",
@@ -2024,9 +2019,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 55,
+   "gemeldet": 57,
    "gesamt": 213,
-   "offen": 158,
+   "offen": 156,
    "ohneSeite": 22,
    "ziel": "https://www.disneyplus.com/browse/entity-33df4bde-d2eb-49f6-9f89-3ccbe65a55a3",
    "ziele": [
@@ -2532,11 +2527,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 156 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.disneyplus.com/browse/entity-3fc1237b-ce84-4b4c-ab4d-efc8e79dc20d",
-     "titel": "Bless the Harts",
-     "hinweis": "Staffeln unklar: TMDB zählt 34 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.disneyplus.com/browse/entity-9549e903-ab83-4bd2-a2e4-86ade89a7a20",
      "titel": "Die Legende der Drei Caballeros",
      "hinweis": "Staffeln unklar: TMDB zählt 13 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -2680,11 +2670,6 @@
      "url": "https://www.disneyplus.com/browse/entity-d772d3ad-b8d8-4f85-a6a7-ede8452db70b",
      "titel": "Star gegen die Mächte des Bösen",
      "hinweis": "Staffeln unklar: TMDB zählt 140 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-038234f8-c7e7-4195-84cf-67401129cf2d",
-     "titel": "Bing",
-     "hinweis": "Staffeln unklar: TMDB zählt 105 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-2ea0b596-0c9a-4fa6-b13c-bdb2357994f8",

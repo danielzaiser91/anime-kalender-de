@@ -23468,3 +23468,88 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
   checkedAt: '2026-10-11'
   note: "Folgen 1–50 mit deutschem Ton — Tonspuren: ar, cmn-TW, cs, da, de, el, en, es-419, es-ES, fr-FR, he, hu, id, it, ja, ko, ms, nl, no, pl, pt-BR, pt-PT, ro, sv, th, tr, yue"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-12 ---
+
+- anilistId: -80587
+  title: "Big City Greens"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-9c643e72-0ba4-47d2-8090-d5423f8a7967
+  dub: true
+  dubRanges:
+    - from: 51
+      to: 110
+      dub: true
+      checked: [51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110]
+  checkedAt: '2026-10-11'
+  note: "Folgen 51–110 mit deutschem Ton — Tonspuren: ar, ar-EG, cs, da, de, el, en, es-419, es-ES, fr-FR, he, hu, id, it, ja, ms, nl, no, pl, pt-BR, pt-PT, ro, sk, sv, th, tr"
+- anilistId: 966
+  title: "Shin-chan"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FXJQMBH1
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FXJQMBH1: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.71300ded-f062-40c8-bd32-dad50cbf6aae"
+- anilistId: 966
+  title: "Shin-chan"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0FB3LSYKD
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0FB3LSYKD: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.9feefde6-55b1-4739-b447-a259aff1cdc9"
+- anilistId: 966
+  title: "Shin-chan"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0F8955QD5
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0F8955QD5: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.840e8d0e-7f73-43cf-b5f6-a6a8da394029"
+- anilistId: 966
+  title: "Shin-chan"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GPC82NNK
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0GPC82NNK: alle 13 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.1447b46c-d3b0-4599-92a1-4749504e0db7"
+- anilistId: 966
+  title: "Shin-chan"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0H8ZJSCCH
+  dub: true
+  checkedAt: '2026-10-11'
+  note: "Tonspuren: Deutsch — Amazon-Seite B0H8ZJSCCH: alle 12 Folgen geprüft, Abos: keine Angabe, zugang=kauf, gti=amzn1.dv.gti.66d3d9c9-15f0-4dce-8ba9-3491e5a4c942"
+- anilistId: -69501
+  title: "Bing"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-038234f8-c7e7-4195-84cf-67401129cf2d
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: da, de, en, es-ES, fi, fr-FR, it, nl, no, pl, sv"
+- anilistId: -18352
+  title: "Garfield"
+  platform: netflix
+  url: https://www.netflix.com/title/70180088
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 26
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–26 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], ru|Russisch, nl|Niederländisch, it|Italienisch, es-ES|Spanisch (Spanien), da|Dänisch, el|Griechisch, ja|Japanisch, ko|Koreanisch, zh|Mandarin, nb|Norwegisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), sv|Schwedisch, es|Spanisch (Lateinamerika), hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 26, dazwischen nicht geprüft — Folge 12: Landpartie / Lasagne für den Champion"
+- anilistId: -82653
+  title: "Bless the Harts"
+  platform: disneyplus
+  url: https://www.disneyplus.com/browse/entity-3fc1237b-ce84-4b4c-ab4d-efc8e79dc20d
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 10
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  checkedAt: '2026-10-11'
+  note: "Folgen 1–10 mit deutschem Ton — Tonspuren: de, en, es-419, es-ES, fr-FR, it, pt-BR, tr"
