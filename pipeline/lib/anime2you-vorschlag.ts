@@ -10,13 +10,15 @@ import { findDates } from './feed.ts'
 import { dubBefund } from './sprachbefund.ts'
 import { maskiert, PLATTFORM_NAMEN, pruefeName, titelPasst, zeichenfolge } from './anime2you-abgleich.ts'
 import { titelzeilePasst, titelzeilenUeber } from './anime2you-blockkopf.ts'
+import { leseRhythmus, pruefeRhythmus, type Rhythmus } from './anime2you-rhythmus.ts'
 
-export const ARTEN = ['start', 'folgen', 'disc', 'kino', 'ankuendigung', 'sprachfassung', 'pause', 'abgang'] as const
+export const ARTEN = ['start', 'folgen', 'disc', 'kino', 'ankuendigung', 'sprachfassung', 'pause', 'abgang', 'rhythmus'] as const
 export const SPRACHEN = ['deutsch', 'omu', 'deutsch+omu', 'unklar'] as const
 /** Plattformen des Datenmodells (`PLATFORMS`); was dort fehlt (z. B. Apple TV+), steht als `null` und in `anbieter`. */
 const PLATTFORMEN = Object.keys(PLATFORMS).filter((p) => p !== 'unbekannt') as PlatformId[]
 
-export interface Vorschlag {
+/** `proWoche` und `bis` gibt es nur bei der Art `rhythmus`. */
+export interface Vorschlag extends Partial<Rhythmus> {
   titel: string
   art: (typeof ARTEN)[number]
   plattform: PlatformId | null
@@ -129,7 +131,10 @@ export function leseVorschlag(roh: unknown): Vorschlag | string {
   if (kaputt) return `${kaputt} zu lang oder mit Adresse`
   if (r.datum !== null && typeof r.datum !== 'string') return 'datum weder Text noch null'
   if (r.uhrzeit !== null && typeof r.uhrzeit !== 'string') return 'uhrzeit weder Text noch null'
+  const rhythmus = r.art === 'rhythmus' ? leseRhythmus(r) : {}
+  if (typeof rhythmus === 'string') return rhythmus
   return {
+    ...rhythmus,
     titel,
     zitat,
     art: r.art as Vorschlag['art'],
@@ -175,7 +180,7 @@ export function pruefeVorschlag(roh: unknown, bezug: Artikelbezug): { ok: Geprue
   const v = leseVorschlag(roh)
   if (typeof v === 'string') return { grund: v }
   if (!zeichenfolge(bezug.text).includes(zeichenfolge(v.zitat))) return { grund: 'Zitat steht nicht wörtlich im Artikel' }
-  const grund = pruefeDatum(v, bezug) ?? pruefeUhrzeit(v) ?? pruefeSprache(v)
+  const grund = pruefeDatum(v, bezug) ?? pruefeUhrzeit(v) ?? pruefeSprache(v) ?? (v.art === 'rhythmus' ? pruefeRhythmus(v as Rhythmus, v.zitat, bezug.veroeffentlicht) : undefined)
   if (grund) return { grund }
   if (v.plattform === 'tv' && !v.sender) return { grund: 'plattform tv ohne sender' }
   const namen = pruefeNamen(v, bezug)

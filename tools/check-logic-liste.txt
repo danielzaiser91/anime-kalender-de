@@ -5,6 +5,7 @@ pipeline/check-abstand.ts
 pipeline/check-adn-film.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-entwurf.ts
+pipeline/check-anime2you-rhythmus.ts
 pipeline/check-anime2you-sammelartikel.ts
 pipeline/check-anime2you-vorschlag.ts
 pipeline/check-anisearch-archiv.ts
