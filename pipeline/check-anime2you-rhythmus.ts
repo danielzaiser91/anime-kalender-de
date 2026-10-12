@@ -6,7 +6,7 @@
 import { readFileSync } from 'node:fs'
 import { ARTEN, pruefeVorschlag, type Vorschlag } from './lib/anime2you-vorschlag.ts'
 import { neueKandidaten } from './lib/anime2you-artikel.ts'
-import { eingearbeiteteAdressen } from './lib/eingearbeitet.ts'
+import { adressenIn } from './lib/eingearbeitet.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -16,11 +16,14 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
 }
 
 const ARTIKEL = 'https://www.anime2you.de/news/1059483/avatar-kuruk-wave-of-chaos-angekuendigt/'
-const DORT =
-  'Dort sind seit gestern bereits die ersten drei Episoden der bislang neuesten »Avatar«-Serie »Avatar: Die sieben Häfen« (Original: »Avatar: Seven Havens«) abrufbar.'
-const TAKT = 'Bis zum 30. Oktober 2026 folgen wöchentlich jeweils drei bis vier weitere Episoden der 13-teiligen ersten Staffel.'
-const text = `Paramount+\n\n »Avatar« legt nach: Neue Prequel-Serie und verdoppelte Staffelzahl\n\n 10. Oktober 2026 um 00:42 Uhr\n\n ${DORT} ${TAKT} Wann die zweite Staffel startet, ist derzeit noch offen.\n`
-const bezug = { text, titel: '»Avatar« legt nach: Neue Prequel-Serie und verdoppelte Staffelzahl', veroeffentlicht: '2026-10-10' }
+/** Wörtlich aus dem Artikel, gekürzt (14 Wörter); der Rest des Satzes steht nur im Artikeltext. */
+const TAKT = 'Bis zum 30. Oktober 2026 folgen wöchentlich jeweils drei bis vier weitere Episoden'
+const REST = 'der 13-teiligen ersten Staffel.'
+const KOPF = 'Paramount+\n\n »Avatar« legt nach: Neue Prequel-Serie und verdoppelte Staffelzahl\n\n 10. Oktober 2026 um 00:42 Uhr\n\n'
+const titel = '»Avatar« legt nach: Neue Prequel-Serie und verdoppelte Staffelzahl'
+const bezug = { text: `${KOPF} ${TAKT} ${REST}\n`, titel, veroeffentlicht: '2026-10-10' }
+/** Derselbe Artikel mit einem zusätzlichen Satz im Text (die Fälle unten sind erfunden, damit das Zitat darin vorkommt). */
+const mitSatz = (satz: string) => ({ ...bezug, text: `${bezug.text} ${satz}` })
 
 const avatar: Vorschlag = {
   titel: 'Avatar: Die sieben Häfen',
@@ -35,7 +38,7 @@ const avatar: Vorschlag = {
   folgen: null,
   proWoche: [3, 4],
   bis: '2026-10-30',
-  zitat: `${DORT} ${TAKT}`,
+  zitat: TAKT,
   unsicher: null,
 }
 const grund = (v: unknown, b = bezug): string | undefined => {
@@ -51,7 +54,9 @@ pruefe('Art steht in der Liste der Arten, die Anleitung nennt jede', ARTEN.inclu
 const anleitung = readFileSync(new URL('./anime2you-extraktion-anleitung.md', import.meta.url), 'utf8')
 pruefe('Anleitung nennt jede Art, `proWoche` und `bis`', ARTEN.every((a) => anleitung.includes(`\`${a}\``)) && anleitung.includes('`proWoche`') && anleitung.includes('`bis`'))
 const ziffern = 'Bis zum 30. Oktober 2026 folgen wöchentlich 3–4 weitere Episoden.'
-pruefe('Zahlen als Ziffern („3–4“) gelten wie Zahlwörter', 'ok' in pruefeVorschlag({ ...avatar, zitat: ziffern }, { ...bezug, text: `${text} ${ziffern}` }))
+pruefe('Zahlen als Ziffern („3–4“) gelten wie Zahlwörter', 'ok' in pruefeVorschlag({ ...avatar, zitat: ziffern }, mitSatz(ziffern)))
+const nebensatz = 'Die ersten drei Episoden sind da, danach folgen bis zum 30. Oktober 2026 wöchentlich zwei weitere.'
+pruefe('Zahl im Nebensatz mit dem Takt-Wort zählt (2), die davor (3) nicht', 'ok' in pruefeVorschlag({ ...avatar, proWoche: [2, 2], zitat: nebensatz }, mitSatz(nebensatz)) && grund({ ...avatar, proWoche: [3, 3], zitat: nebensatz }, mitSatz(nebensatz))?.includes('Takt-Wort') === true)
 
 console.log('\nAnime2You-Extraktion: Rhythmus, was verworfen wird')
 pruefe('Spanne weicht vom Zitat ab (2–3): verworfen', grund({ ...avatar, proWoche: [2, 3] })?.includes('Folgen je Woche') === true, grund({ ...avatar, proWoche: [2, 3] }))
@@ -59,14 +64,25 @@ pruefe('feste Zahl statt Spanne (3): verworfen', grund({ ...avatar, proWoche: [3
 pruefe('Enddatum nicht im Zitat: verworfen', grund({ ...avatar, bis: '2026-10-23' })?.includes('Enddatum') === true)
 pruefe('ohne Enddatum: verworfen', grund({ ...avatar, bis: undefined }) !== undefined)
 pruefe('Spanne verkehrt oder keine ganze Zahl: verworfen', grund({ ...avatar, proWoche: [4, 3] }) !== undefined && grund({ ...avatar, proWoche: [3.5, 4] }) !== undefined)
-const ohneTakt = `${DORT} Bis zum 30. Oktober 2026 erscheinen drei bis vier weitere Episoden der 13-teiligen ersten Staffel.`
-pruefe('Zitat ohne wöchentlichen Takt: verworfen', grund({ ...avatar, zitat: ohneTakt }, { ...bezug, text: `${text} ${ohneTakt}` })?.includes('Takt') === true)
+const ohneTakt = 'Bis zum 30. Oktober 2026 erscheinen drei bis vier weitere Episoden der 13-teiligen ersten Staffel.'
+pruefe('Zitat ohne wöchentlichen Takt: verworfen', grund({ ...avatar, zitat: ohneTakt }, mitSatz(ohneTakt))?.includes('Takt') === true)
 pruefe('Taktsatz allein genügt, weil der Artikeltitel »Avatar« nennt (Untertitel egal)', 'ok' in pruefeVorschlag({ ...avatar, zitat: TAKT }, bezug))
 pruefe('anderer Titel im selben Artikel: verworfen', grund({ ...avatar, titel: 'Naruto' }) !== undefined)
 
+console.log('\nAnime2You-Extraktion: Rhythmus, nur Zahlen aus dem Satz mit dem Takt-Wort')
+const teilig = 'wöchentlich jeweils drei bis vier weitere Episoden der 13-teiligen ersten Staffel'
+pruefe('„13-teiligen“ ist keine Folgenzahl (13)', grund({ ...avatar, proWoche: [13, 13], zitat: teilig }, bezug)?.includes('Takt-Wort') === true, grund({ ...avatar, proWoche: [13, 13], zitat: teilig }, bezug))
+const nachbar = 'Seit gestern sind die ersten drei Episoden abrufbar. Bis zum 30. Oktober 2026 folgen wöchentlich weitere Episoden.'
+pruefe('Zahl im Satz davor („ersten drei Episoden.“) zählt nicht', grund({ ...avatar, proWoche: [3, 3], zitat: nachbar }, mitSatz(nachbar))?.includes('Takt-Wort') === true)
+const datum = 'Ab dem 10. Oktober 2026 erscheinen wöchentlich weitere Episoden.'
+pruefe('Tag („10. Oktober“) ist keine Folgenzahl (10)', grund({ ...avatar, proWoche: [10, 10], bis: '2026-10-10', zitat: datum }, mitSatz(datum))?.includes('Takt-Wort') === true)
+const figuren = 'Es gibt drei bis vier Hauptfiguren. Bis zum 30. Oktober 2026 folgen wöchentlich weitere Episoden.'
+pruefe('Spanne im Nachbarsatz („drei bis vier Hauptfiguren“) zählt nicht', grund({ ...avatar, zitat: figuren }, mitSatz(figuren))?.includes('Takt-Wort') === true)
+
 console.log('\nAnime2You-Extraktion: Auswahl liest von Hand eingearbeitete Artikel')
-const feed = [{ link: ARTIKEL, title: bezug.titel, publishedAt: '2026-10-10' }]
-pruefe('Vorbedingung: die Adresse steht in den sources eines Handeintrags', eingearbeiteteAdressen().has(ARTIKEL.replace(/\/$/, '')))
+const feed = [{ link: ARTIKEL, title: titel, publishedAt: '2026-10-10' }]
+const handeintrag = `  sources:\n    - https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/\n    - ${ARTIKEL}\n`
+pruefe('Attrappe: die Adresse steht in den sources eines Handeintrags', adressenIn(handeintrag).includes(ARTIKEL.replace(/\/$/, '')))
 pruefe('Artikel in sources, ohne Extraktion: Kandidat', neueKandidaten(feed, new Set(), 10).map((k) => k.id).join() === '1059483')
 pruefe('Artikel in sources, schon extrahiert: kein Kandidat', neueKandidaten(feed, new Set(['1059483']), 10).length === 0)
 

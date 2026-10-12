@@ -25,16 +25,25 @@ export function leseRhythmus(r: Record<string, unknown>): Rhythmus | string {
   if (typeof r.bis !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(r.bis)) return 'rhythmus: bis muss ein Tag (JJJJ-MM-TT) sein'
   return { proWoche: [p[0], p[1]], bis: r.bis }
 }
+/** Zahlen, die keine Folgen je Woche sind: Tage („30. Oktober 2026“, „30.10.“) und „13-teilig“. */
+const KEINE_FOLGENZAHL = /\d{1,2}\.\s*(?:Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)(?:\s+\d{4})?|\d{1,2}\.\d{1,2}\.(?:\d{2,4})?|\d+-teilig\w*/gi
 
-/** Gegenprobe am Zitat: wöchentlicher Takt, Spanne und Enddatum stehen darin, das Ende liegt nicht vor dem Artikel. */
+/** Der Teil des Zitats, in dem das Takt-Wort steht: der Nebensatz, wenn er eine Zahl nennt, sonst der ganze Satz. */
+function taktSatz(zitat: string): string | undefined {
+  const rein = zitat.replace(KEINE_FOLGENZAHL, ' ')
+  const satz = rein.split(/(?<=[.!?])\s+/).find((s) => WOECHENTLICH.test(s))
+  if (!satz) return undefined
+  const teil = satz.split(/[,;:]/).find((s) => WOECHENTLICH.test(s))
+  return teil && teil.match(SPANNE) ? teil : satz
+}
+
+/** Gegenprobe am Zitat: wöchentlicher Takt, Spanne im selben Satz und Enddatum stehen darin, das Ende liegt nicht vor dem Artikel. */
 export function pruefeRhythmus(x: Rhythmus, zitat: string, veroeffentlicht: string): string | undefined {
-  const takt = WOECHENTLICH.exec(zitat)
-  if (!takt) return 'rhythmus, aber das Zitat nennt keinen wöchentlichen Takt'
-  /* Nur die Zahl beim Takt zählt: „die ersten drei Episoden“ im Satz davor ist keine Folgenzahl je Woche. */
-  const nah = zitat.slice(Math.max(0, takt.index - 60), takt.index + takt[0].length + 60)
+  const satz = taktSatz(zitat)
+  if (!satz) return 'rhythmus, aber das Zitat nennt keinen wöchentlichen Takt'
   const [von, bis] = x.proWoche
-  const steht = [...nah.matchAll(SPANNE)].some((m) => zahl(m[1]!) === von && zahl(m[2] ?? m[1]!) === bis)
-  if (!steht) return `rhythmus: ${von}–${bis} Folgen je Woche stehen nicht im Zitat`
+  const steht = [...satz.matchAll(SPANNE)].some((m) => zahl(m[1]!) === von && zahl(m[2] ?? m[1]!) === bis)
+  if (!steht) return `rhythmus: ${von}–${bis} Folgen je Woche stehen nicht im Satz mit dem Takt-Wort`
   if (!findDates(zitat, veroeffentlicht, true).some((d) => d.iso === x.bis)) return `Enddatum ${x.bis} steht nicht im Zitat`
   return x.bis < veroeffentlicht ? 'Enddatum liegt vor dem Artikeldatum' : undefined
 }
