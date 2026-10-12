@@ -2203,8 +2203,11 @@ die aniSearch-only-Titel — und `fetch-tmdb-titles.ts` suchte jedes Nicht-MOVIE
   führt den Titel. Dieselbe Prüfung wie im Bau (`darfTrefferErben`), nur eben vor dem Speichern und für alle Titel.
 - **Movie:** unverändert, `search/movie` kann keine Serienkennung liefern.
 - **Bestand 12.10.2026:** 45 Titel gestrichen (22 OVA, 22 SPECIAL, 1 ONA), 42 AniList-Titel, die der Bau ohnehin sperrte, und die drei aniSearch-only.
-- **Nicht angefasst:** `tmdb-poster.json`, `tmdb-banner.json`, `tmdb-folgen.json`, `justwatch-audio.json` führen für diese Titel weiter Einträge
-  aus der alten Kennung (Plakat 42, Banner 45, Folgen 8, JustWatch 42); neue Abrufe kommen nicht mehr dazu.
+- **Reste entfernt (12.10.2026, Folge-PR):** `tmdb-poster.json` (42), `tmdb-banner.json` (45), `tmdb-folgen.json` (8), `justwatch-audio.json` (42)
+  führten für diese Titel Kopien der Hauptserie (Bilder byte-gleich mit dem TV-Titel, JustWatch-Befund derselben `jwId`). Gestrichen; die Titel
+  fallen auf das AniList-Cover und -Banner zurück, wo AniList keins hat (18 Titel, dazu die drei aniSearch-only) auf die Banner-Lückenliste. Poster-`null`
+  (die drei aniSearch-Titel) bleibt. `check-tmdb-hauptserie.ts` hält fest: Banner und Folgenliste nur mit der Kennung aus `tmdb-titles.json`.
+  Neue Abrufe kommen nicht mehr dazu (jeder Sammler geht von einer Kennung in `tmdb-titles.json` aus).
 - **Offen:** Die Bau-Sperre für Titel ohne Eintrag in `medien` (aniSearch-only) ist weiter nur durch PR 906 (`13-3-1-tmdb-wege.ts`) für die Wege gedeckt.
 
 ### Eine Überschrift ist keine Sprachangabe — der aniSearch-Titelabruf taugt nur für den Katalog
