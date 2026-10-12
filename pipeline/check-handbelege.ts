@@ -52,6 +52,7 @@ import { resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { nimmJa } from './lib/dub-bereiche.ts'
+import { findeKonflikte } from './lib/dub-konflikt.ts'
 import { findeSchrumpf } from './lib/dub-schrumpf.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -333,9 +334,21 @@ if (verwaisteBelege) {
   log(`✓ ${mehrfach} Verweis(e) mit mehreren Belegen — überall gilt der jüngste.`)
 }
 
+/* Zwei Meldungen vom selben Tag, die für dieselbe Folge Ja und Nein sagen: `verschmelze` lässt das Nein gelten. Nur ein Hinweis. */
+{
+  const konflikte = findeKonflikte(rohBelege as DubCheck[])
+  if (!konflikte.length) log('✓ Keine zwei Meldungen vom selben Tag widersprechen sich.')
+  else {
+    warn(`Hinweis: ${konflikte.length} Verweis(e) mit widersprüchlichen Meldungen vom selben Tag (es gilt das Nein):`)
+    for (const k of konflikte.slice(0, 8)) {
+      warn(`   ${k.schluessel}: Folge(n) ${k.folgen.slice(0, 5).join(', ')}${k.folgen.length > 5 ? ` … (${k.folgen.length})` : ''}`)
+    }
+  }
+}
+
 /*
-  Anime: die jüngste Meldung ersetzt die ältere (`verschmelze`). Nennt sie weniger deutsche Folgen als eine frühere,
-  fehlt der Rest im Datensatz. Nur ein Hinweis: ob die Meldung eine Teilstaffel oder ein neuer Stand ist, sagt die Datei nicht.
+  Anime: eine jüngere Meldung gilt für die Folgen, die sie nennt (`verschmelze`). Ein Schrumpf bleibt also nur,
+  wo sie ein Nein zu bisher deutschen Folgen sagt. Nur ein Hinweis: ob das eine Korrektur ist, sagt die Datei nicht.
 */
 {
   const schrumpf = findeSchrumpf(rohBelege as DubCheck[])

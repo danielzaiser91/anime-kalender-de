@@ -12,7 +12,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
-import { vereinigeBereiche } from './dub-bereiche.ts'
+import { vereinigeBereiche, vereinigeGleichzeitige } from './dub-bereiche.ts'
 import { ROOT } from './util.ts'
 import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
@@ -302,7 +302,8 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
     ein Urteil der jüngeren Meldung gilt nur für die Folgen, die sie nennt.
   */
   if (Number.isFinite(a.anilistId) && a.anilistId === b.anilistId && alt.dubRanges?.length && neu.dubRanges?.length) {
-    verschmolzen.dubRanges = vereinigeBereiche(alt.dubRanges, neu.dubRanges)
+    const gleichAlt = (a.checkedAt ?? '') === (b.checkedAt ?? '')
+    verschmolzen.dubRanges = (gleichAlt ? vereinigeGleichzeitige : vereinigeBereiche)(alt.dubRanges, neu.dubRanges)
   }
   return verschmolzen
 }
