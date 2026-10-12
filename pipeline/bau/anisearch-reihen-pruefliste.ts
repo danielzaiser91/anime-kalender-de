@@ -7,7 +7,7 @@ import { ARCHIV_SEITEN, leseSeite } from '../lib/anisearch-relationen.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import type { Kante, Namen } from './anisearch-reihen.ts'
 import { type Pruefzeile, type Trennung, WANDERREGEL, uebernimmReihen } from './anisearch-reihen-uebernahme.ts'
-import { uebernimmKatalogReihen } from './anisearch-reihen-katalog.ts'
+import { type Anker, uebernimmKatalogReihen } from './anisearch-reihen-katalog.ts'
 import type { KatalogEintrag } from '../lib/anilist.ts'
 
 /**
@@ -88,7 +88,15 @@ export function anisearchRelationenKanten(titles: Map<number, Title>, wurzel: (i
   }
 }
 
-type Ausgeschieden = { katalogWeg: { has(id: number): boolean }; zeilenWeg: { has(id: number): boolean } }
+export type Ausgeschieden = { katalogWeg: { has(id: number): boolean }; zeilenWeg: { has(id: number): boolean } }
+
+/** Die Titel, die beim Katalog nie umziehen und als Ziel dienen: der ausgelieferte Hauptbestand (aus `titles.json`) und die aus ihm verschobenen Titel, die der Katalog nicht führt. */
+export function katalogAnker(eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden): Anker[] {
+  const imKatalog = new Set(eintraege.map((e) => e.id))
+  const haupt = readJson<Title[]>('public/data/titles.json', []).filter((t) => bekannt.has(t.id))
+  const fest = [...haupt.map((t) => ({ t, reihe: bekannt.get(t.id)! })), ...verschoben.filter((t) => !imKatalog.has(t.id) && !weg.zeilenWeg.has(t.id) && !bekannt.has(t.id)).map((t) => ({ t, reihe: t.franchiseId ?? t.id }))]
+  return fest.map(({ t, reihe: r }) => ({ id: t.id, name: t.titleRomaji ?? t.titleEn ?? `#${t.id}`, anisearchId: t.anisearchId ?? kennung.get(t.id), reihe: r }))
+}
 
 /**
  * Reihen für `ohne-synchro.json` mit aniSearch-Beziehungen (Regel in `anisearch-reihen-katalog.ts`). `reihe`: Reihe je Katalogtitel aus `reihenFuerKatalog`; `bekannt`: Reihe je Hauptbestandstitel;
@@ -97,10 +105,7 @@ type Ausgeschieden = { katalogWeg: { has(id: number): boolean }; zeilenWeg: { ha
  */
 export function anisearchKatalogReihen(reihe: Map<number, number>, eintraege: KatalogEintrag[], bekannt: Map<number, number>, verschoben: Title[], kennung: Map<number, number>, weg: Ausgeschieden): Map<number, number> {
   try {
-    const imKatalog = new Set(eintraege.map((e) => e.id))
-    const haupt = readJson<Title[]>('public/data/titles.json', []).filter((t) => bekannt.has(t.id))
-    const fest = [...haupt.map((t) => ({ t, reihe: bekannt.get(t.id)! })), ...verschoben.filter((t) => !imKatalog.has(t.id) && !weg.zeilenWeg.has(t.id) && !bekannt.has(t.id)).map((t) => ({ t, reihe: t.franchiseId ?? t.id }))]
-    const anker = fest.map(({ t, reihe: r }) => ({ id: t.id, name: t.titleRomaji ?? t.titleEn ?? `#${t.id}`, anisearchId: t.anisearchId ?? kennung.get(t.id), reihe: r }))
+    const anker = katalogAnker(eintraege, bekannt, verschoben, kennung, weg)
     const { kanten, namen } = ladeBeziehungen()
     const u = uebernimmKatalogReihen(eintraege.filter((e) => !weg.katalogWeg.has(e.id)), reihe, anker, kennung, kanten, namen, ladeTrennungen())
     schreibePruefliste('katalog', u.ergebnis.pruefliste, { angehaengt: u.ergebnis.angehaengt, neueReihen: u.ergebnis.neueReihen }, u.bestandEinzeln)
