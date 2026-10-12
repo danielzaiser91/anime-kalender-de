@@ -14,6 +14,7 @@ pipeline/check-anisearch-archiv.ts
 pipeline/check-anisearch-cover-eigen.ts
 pipeline/check-anisearch-dubletten.ts
 pipeline/check-anisearch-katalog-abgleich.ts
+pipeline/check-anisearch-kennung-mehrfach.ts
 pipeline/check-anisearch-reihen-rein.ts
 pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-spalte.ts
