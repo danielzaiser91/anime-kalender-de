@@ -77,6 +77,13 @@
       "intervall": "je Bauzyklus",
       "bauBraucht": false,
       "fehlt": "Wird bei Bedarf neu erzeugt"
+    },
+    "handlung-fakten": {
+      "schreiber": "tools/handlung-fakten.ts (npx tsx tools/handlung-fakten.ts)",
+      "laeufe": ["keiner: nur von Hand, wenn eigene Handlungstexte entstehen (Wikipedia-Seiten, Faktenkarten, Quelltexte; nie im Repo)"],
+      "intervall": "bei Bedarf, von Hand",
+      "bauBraucht": false,
+      "fehlt": "Wird beim nächsten Lauf neu geholt; der Bau liest den Ordner nicht"
     }
   }
 }
