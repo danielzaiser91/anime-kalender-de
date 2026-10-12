@@ -54,7 +54,7 @@ export function deFolgenFehler(eintraege: ErstausgabeVonHand[]): string[] {
 }
 
 /** Gilt die deutsche Folgenzahl für diesen Titel? Nur wenn sie unter der Folgenzahl des Werks liegt. */
-export const deFolgenGilt = (f: DeFolgenHand | undefined, episodes: number | undefined): f is DeFolgenHand =>
+export const deFolgenGilt = (f: DeFolgenHand | undefined, episodes: number | undefined): boolean =>
   Boolean(f && episodes && f.n < episodes)
 
 /** `deErstausgabe` aus einem Handeintrag; `teil`, wenn die deutsche Fassung kürzer ist als das Werk (der Panel-Kasten sagt dann nicht „alle“). */
