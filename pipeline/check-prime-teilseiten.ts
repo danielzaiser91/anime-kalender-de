@@ -2,14 +2,9 @@
  * Zusicherungen zu den geteilten Prime-Seiten (`lib/prime-teilseiten.ts`, `bau/09-7-prime-teilseiten.ts`): ein Folgenbereich nur aus
  * einer eindeutigen Meldung (eine Meldung des Titels zur Seite, Nummern in 1 bis Folgenzahl, keine doppelt, Gruppe nicht zwei Titeln
  * zugeordnet, kein Kanal-Titel), sonst ein Grund für die Prüfliste. Die Seiten sind den echten nachgebaut (Food Wars 24 + 13 in zwei
- * Gruppen, Hyouka mit Lücken). Läuft in `check:logic`.
+ * Gruppen, Hyouka mit Lücken). Läuft in `check:logic`; der Bestandsteil steht in `check-prime-teilseiten-bestand.ts`.
  */
-import { existsSync } from 'node:fs'
-import { readJson } from './lib/util.ts'
 import { ordnePrimeSeiteZu, type PrimeMeldung, type PrimeUrteil } from './lib/prime-teilseiten.ts'
-import { PRIME_PRUEFLISTE } from './bau/09-7-prime-teilseiten.ts'
-import type { TeilseitenPruefung } from './lib/teilseiten.ts'
-import type { Title } from '../shared/types.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info: unknown = ''): void {
@@ -90,20 +85,6 @@ const andere = [[URL_SEITE, meldung(1, 'A1', deutsch(reihe(1, 12)), { seite: 'B0
 pruefe('gemeldet auf anderer Seite: hier offen, Grund nennt die andere', bereich(urteil(andere, 1, 12)).includes('anderen Seite (B0ANDERE01)'), bereich(urteil(andere, 1, 12)))
 const hierher = [['https://www.amazon.de/gp/video/detail/B0ABLAGE01', meldung(1, 'A1', deutsch(reihe(1, 12)), { seite: 'B0SEITE001' })]] as [string, PrimeMeldung][]
 pruefe('gemeldete Seite gleich unserer: gilt, auch wenn die Ablage-Adresse eine andere ist', bereich(urteil(hierher, 1, 12)) === '1-12', bereich(urteil(hierher, 1, 12)))
-
-// Echter Bestand (nach einem Bau): Bereiche geteilter Prime-Wege liegen in unserer Zählung, die Prüfliste ist stimmig.
-const OUT = 'public/data/titles.json'
-if (existsSync(OUT)) {
-  const titel = new Map(readJson<Title[]>(OUT, []).map((t) => [t.id, t]))
-  const geteilt = [...titel.values()].flatMap((t) => t.streams.filter((s) => s.platform === 'primevideo' && s.sharedWith && s.dubRanges?.length).map((s) => ({ t, s })))
-  const ueber = geteilt.filter(({ t, s }) => !t.episodes || s.dubRanges!.filter((r) => r.dub).some((r) => r.from < 1 || r.to < r.from || r.to > t.episodes!))
-  pruefe('Bestand: Bereiche geteilter Prime-Wege liegen in 1 bis Folgenzahl', ueber.length === 0, ueber.map((x) => x.t.id).slice(0, 10).join())
-  const liste = readJson<TeilseitenPruefung[]>(PRIME_PRUEFLISTE, [])
-  // Auch Katalog-Titel ohne Weg stehen auf einer Prüfliste; sie liegen in franchises.json, nicht in titles.json.
-  const katalog = new Set(Object.values(readJson<Record<string, { id: number }[]>>('public/data/franchises.json', {})).flatMap((r) => r.map((g) => g.id)))
-  pruefe('Bestand: die Prüfliste nennt nur vorhandene Titel mit Grund', liste.every((p) => (titel.has(p.titleId) || katalog.has(p.titleId)) && p.grund.length > 0))
-  pruefe('Bestand: kein Titel steht mit Bereich und auf der Prüfliste', liste.every((p) => !geteilt.some(({ t, s }) => t.id === p.titleId && s.url === p.url)))
-}
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den geteilten Prime-Seiten verletzt`)

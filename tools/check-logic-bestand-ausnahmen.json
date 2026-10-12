@@ -1,0 +1,20 @@
+{
+  "_hinweis": "Altlasten des Wächters in tools/check-logic-alle.mjs: Prüfungen in check:logic, die public/data noch lesen dürfen. Nur die genannten Pfade, nur bis zur Frist, nur solange sie wirklich gelesen werden. `hoechstens` wird nur gesenkt, nie von Hand erhöht (Stand 12.10.2026: 2).",
+  "hoechstens": 2,
+  "ausnahmen": [
+    {
+      "datei": "pipeline/check-kanal-abgehakt.ts",
+      "erlaubt": ["public/data/cartoons.json", "public/data/franchises.json", "public/data/titles.json"],
+      "grund": "Der Unterprozess pipeline/belege-lesen.ts --trocken liest den Bestand mit; das Ergebnis hängt nur an der erfundenen Meldung. Lösung: den Lauf gegen eine Attrappe des Bestands fahren.",
+      "seit": "2026-10-12",
+      "bis": "2026-11-30"
+    },
+    {
+      "datei": "pipeline/check-logic.ts",
+      "erlaubt": ["public/data/franchises.json", "public/data/titles.json"],
+      "grund": "Die zwei Handbeleg-Zusicherungen (höchstens 8 Folgen über der Folgenzahl, höchstens 1 Prime-Beleg am Reihenkopf) sind das Vorab-Tor des Schritts „Neue Handbelege prüfen“ in bestand-bauen.yml, der nur check:logic ruft. Lösung: den Schritt auch check:bestand-liste rufen lassen, dann die zwei nach check-logic-bestand.ts verschieben.",
+      "seit": "2026-10-12",
+      "bis": "2026-11-30"
+    }
+  ]
+}

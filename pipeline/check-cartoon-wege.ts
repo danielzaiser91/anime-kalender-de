@@ -1,15 +1,10 @@
 /**
  * Zusicherungen zu den Wegen je Staffel bei Cartoons (`lib/cartoon-wege.ts`, `bau/cartoon-wege.ts`): die Teilbereiche eines
  * Anbieters ergeben genau die Staffelsumme, ein Häkchen gibt es nur aus einem Handbeleg mit Folgenbereichen, JustWatchs Ton
- * je Staffel bleibt Hinweis. Läuft in `check:logic`.
+ * je Staffel bleibt Hinweis. Läuft in `check:logic`; der Bestandsteil steht in `check-cartoon-wege-bestand.ts`.
  */
-import { existsSync } from 'node:fs'
-import { readJson } from './lib/util.ts'
-import { loadDubChecks } from './lib/dub-confirmed.ts'
 import { staffelBereiche, verteileWeg } from './lib/cartoon-wege.ts'
-import { summe } from './lib/cartoon-staffeln.ts'
 import { verteileWege } from './bau/cartoon-wege.ts'
-import { PRUEFLISTE, type StaffelPruefung } from './bau/cartoon-staffeln.ts'
 import type { StreamLink, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -75,34 +70,6 @@ verteileWege([vonJw, vonTmdb, geprueft], { '-1': jwBefund, '-2': jwBefund, '-3':
 pruefe('Bau: JustWatch-Staffeln tragen den Hinweis an der Staffel mit deutschem Ton', vonJw.streams[0].dubQuelle === 'justwatch' && !vonJw.streams[1].dubQuelle)
 pruefe('Bau: TMDB-Staffeln bekommen keinen Hinweis (Nummern können abweichen)', vonTmdb.streams.length === 1 && !vonTmdb.streams[0].dubQuelle)
 pruefe('Bau: Titel auf der Prüfliste behält den Weg ganz', geprueft.streams.length === 1)
-
-/** Echter Bestand (nach einem Bau): Teilbereiche, Häkchen und Prüfliste stimmen zusammen. */
-function pruefeBestand(titelListe: Title[]): void {
-  const liste = new Set(readJson<StaffelPruefung[]>(PRUEFLISTE, []).map((p) => p.titleId))
-  const belegt = new Set(loadDubChecks().filter((c) => c.anilistId < 0 && c.dub === true).map((c) => `${c.anilistId}|${c.platform}`))
-  const verteilt = titelListe.filter((t) => t.streams.some((s) => s.teilBereich))
-  pruefe('Bestand: Titel auf der Prüfliste behalten ihren ganzen Weg', verteilt.every((t) => !liste.has(t.id)))
-  for (const t of verteilt) {
-    const jeWeg = new Map<string, StreamLink[]>()
-    for (const s of t.streams) jeWeg.set(`${s.platform}|${s.url}`, [...(jeWeg.get(`${s.platform}|${s.url}`) ?? []), s])
-    for (const [weg, ss] of jeWeg) {
-      if (!ss.some((s) => s.teilBereich)) continue
-      const ende = ss.reduce((bisher, s) => (s.teilBereich && s.teilBereich.von === bisher + 1 ? s.teilBereich.bis : -1), 0)
-      pruefe('Bestand: Teilbereiche eines Wegs sind lückenlos und ergeben die Staffelsumme', ende === summe(t.staffeln ?? []), `${t.id} ${weg}`)
-      pruefe('Bestand: ein verteilter Weg trägt in mindestens einer Staffel Haken oder JustWatch-Hinweis', ss.some((s) => s.dub === true || s.dubQuelle), `${t.id} ${weg}`)
-    }
-  }
-  const alleWege = titelListe.flatMap((t) => t.streams.map((s) => ({ t, s })))
-  const ohneBeleg = alleWege.filter(({ t, s }) => s.dub === true && !belegt.has(`${t.id}|${s.platform}`))
-  pruefe('Bestand: kein Cartoon-Häkchen ohne Handbeleg', ohneBeleg.length === 0, ohneBeleg.map(({ t }) => t.id).slice(0, 5).join())
-  const teilHaken = alleWege.filter(({ s }) => s.teilBereich && s.dub === true)
-  pruefe('Bestand: Häkchen je Staffel nennt Folgenbereiche, die in der Staffel liegen', teilHaken.every(({ s }) => s.dubRanges?.length && s.dubRanges.every((r) => r.from >= s.teilBereich!.von && r.to <= s.teilBereich!.bis)))
-  const hinweise = alleWege.filter(({ s }) => s.dubQuelle)
-  pruefe('Bestand: JustWatch-Hinweis je Staffel nie mit Urteil, nur bei JustWatch-Staffeln, mit Datum', hinweise.every(({ t, s }) => s.dub === undefined && t.staffelnQuelle === 'justwatch' && /^\d{4}-\d\d-\d\d$/.test(s.dubStand ?? '')))
-}
-
-const OUT = 'public/data/cartoons.json'
-if (existsSync(OUT)) pruefeBestand(readJson<Title[]>(OUT, []))
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den Cartoon-Wegen verletzt`)

@@ -18,7 +18,6 @@ pipeline/check-beleg-anbieter.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bild-und-synchro.ts
 pipeline/check-bookworm-dublette.ts
-pipeline/check-cartoon-news.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
 pipeline/check-cartoon-ton.ts
@@ -74,7 +73,6 @@ pipeline/check-verweise-gedaechtnis.ts
 pipeline/check-wege-aus-terminen.ts
 pipeline/check-werk-doppelt.ts
 pipeline/check-wochen-datei.ts
-pipeline/check-zaehlung-synchro.ts
 pipeline/check-zaehlung.ts
 pipeline/check-zweitanbieter.ts
 tools/cartoon-jw-auswerten.test.mjs

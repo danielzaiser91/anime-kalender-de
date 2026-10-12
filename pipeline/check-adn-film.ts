@@ -1,11 +1,10 @@
 /**
  * Gegenprobe zu "Bleach: Memories of Nobody" (12.10.2026): ADN-Filme finden ihren AniList-Film trotz anderer
  * Schreibweise (`bau/adn-show-titel.ts`), und kein Release/Termin ohne Titel bleibt im Kalender (`bau/ohne-titel.ts`).
- * Die Namen sind die echten aus `data/adn.json` (Kalender 11.10.2026) und `public/data/titles.json`.
+ * Die Namen sind die echten aus `data/adn.json` (Kalender 11.10.2026). Die Kollisionsliste über `public/data/titles.json` steht in `check-adn-film-bestand.ts` (`check:bestand`).
  */
 import { filmSchluessel, filmZurShow } from './bau/adn-show-titel.ts'
 import { entferneOhneTitel } from './bau/ohne-titel.ts'
-import { readFileSync } from 'node:fs'
 import type { Title } from '../shared/types.ts'
 
 let verletzt = 0
@@ -36,17 +35,6 @@ console.log('\nHöhere Filmnummern treffen nie den ersten Film (Prüfer-Befund P
   pruefe('Gintama Movie 2 bleibt ohne Treffer', einFilm('Gintama Movie 2') === undefined)
   pruefe('One Piece Movie 1 trifft den ersten Film', einFilm('One Piece - Movie 1')?.id === 459)
   pruefe('Movie 2 trifft den Film, der so heißt', einFilm('One Piece Movie 2', film(5, 'One Piece Movie 2'))?.id === 5)
-  /* Kollisionsliste über alle Filme in public/data: „<Name> Movie N" (N ab 2) darf nie genau diesen Film treffen. */
-  const alle = JSON.parse(readFileSync(new URL('../public/data/titles.json', import.meta.url), 'utf8')) as Title[]
-  const filme = alle.filter((t) => t.format === 'MOVIE')
-  const kollisionen: string[] = []
-  for (const t of filme) {
-    for (const name of [t.titleRomaji, t.titleEn]) {
-      if (!name) continue
-      for (const n of [2, 3, 4, 5]) if (filmZurShow({ title: `${name} Movie ${n}`, episodes: folgen('MOV') }, filme)?.id === t.id) kollisionen.push(`${name} Movie ${n} → ${t.id}`)
-    }
-  }
-  pruefe(`${filme.length} Filme: kein „Movie N" (N ≥ 2) landet beim Film ohne Nummer`, kollisionen.length === 0, kollisionen.slice(0, 5))
 }
 
 console.log('\nKein Release/Termin ohne Titel im Kalender:')

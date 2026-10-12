@@ -1,12 +1,10 @@
 /**
  * Zusicherungen zu `woche.json` (Start der Wochenansicht): Jeder Eintrag steht identisch in den vollen Dateien, nichts, was die
- * Wochenansicht liest, fehlt, und die Übersetzung in eigene Kennungen (`ak`) erhält beides. Aufruf: `npm run check:logic`.
+ * Wochenansicht liest, fehlt, und die Übersetzung in eigene Kennungen (`ak`) erhält beides. Aufruf: `npm run check:logic`; der Bestandsteil steht in `check-wochen-datei-bestand.ts`.
  */
-import { existsSync, readFileSync } from 'node:fs'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { baueWochenDatei, pruefeWochenDatei, wocheDeckt, type WochenDatei } from '../shared/wochen-datei.ts'
 import { cartoonsMitTermin } from './bau/cartoon-kern.ts'
-import { ladeAkVon, uebersetzeDatei } from './lib/ausgabe-kennung.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -62,24 +60,6 @@ console.log('\nWochen-Datei:')
   pruefe('Anker und heute in der Woche: reicht',wocheDeckt(w, '2026-10-07', '2026-10-08'))
   pruefe('Anker in der Nachbarwoche: reicht nicht', !wocheDeckt(w, '2026-10-12', '2026-10-08') && !wocheDeckt(w, '2026-10-04', '2026-10-08'))
   pruefe('heute hinter der Woche (alter Stand): reicht nicht', !wocheDeckt(w, '2026-10-08', '2026-10-12'))
-}
-
-{
-  /* Am echten Bestand: roh, und nach der Übersetzung in eigene Kennungen, wie sie ausgeliefert wird. */
-  const lies = <T>(name: string): T => JSON.parse(readFileSync(`public/data/${name}`, 'utf8')) as T
-  if (!existsSync('public/data/woche.json')) pruefe('public/data/woche.json ist da (npm run data:build)', false)
-  else {
-    const woche = lies<WochenDatei>('woche.json')
-    const [t, r, e] = [lies<Title[]>('titles-core.json'), lies<Release[]>('releases.json'), lies<ReleaseEvent[]>('events.json')]
-    const roh = pruefeWochenDatei(woche, t, r, e)
-    pruefe('Bestand: Jeder Eintrag von woche.json steht identisch in den vollen Dateien', roh.length === 0, roh)
-    pruefe('Bestand: die Woche hat Termine', woche.events.length > 0)
-    const { akVon } = ladeAkVon('data/kennungen.json')
-    const uebersetzt = (name: string, daten: unknown) => uebersetzeDatei(name, daten, akVon)
-    const w2 = uebersetzt('woche.json', woche) as WochenDatei
-    const nach = pruefeWochenDatei(w2, uebersetzt('titles-core.json', t) as Title[], uebersetzt('releases.json', r) as Release[], uebersetzt('events.json', e) as ReleaseEvent[])
-    pruefe('Bestand: auch nach der Übersetzung in eigene Kennungen', nach.length === 0, nach)
-  }
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) zur Wochen-Datei verletzt.` : '\nWochen-Datei: alle Zusicherungen halten.')
