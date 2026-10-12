@@ -17,7 +17,8 @@
  * wird (seit 12.10.2026; vorher bauten beide mit `data/` der Basis und meldeten „gleich“). Nur die
  * eigenen Änderungen, nicht das ganze `data/` des Kandidaten: Hinter der Basis liegend, brächte er
  * sonst die Sammler-Rohdaten von `main` als Unterschied mit. Meldet der Vergleich „gleich“, obwohl
- * der Kandidat `data/` ändert, steht ein Hinweis dabei.
+ * der Kandidat `data/` ändert, steht ein Hinweis dabei. Dateien, die auch die Basis geändert hat, werden
+ * zusammengeführt (`bau-vergleich-daten.mjs`), ein Konflikt bricht ab.
  *
  * Der Bau läuft mit `BAU_VERGLEICH=1`: Widersprüche im Ergebnis (`pipeline/lib/bau-widerspruch.ts`)
  * brechen ihn dann nicht ab, sondern stehen als Warnung im Protokoll, das mitverglichen wird. Der

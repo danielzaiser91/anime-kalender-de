@@ -2,12 +2,18 @@
  * Handdateien unter `data/` (ohne `data/cache/`, das liegt nicht im Repo) für `bau-vergleich.mjs`:
  * Der Kandidat baut auf dem Stand der Basis plus seinen eigenen Änderungen seit der Merge-Basis.
  * Das ganze `data/` des Kandidaten zu nehmen, hieße bei einem Kandidaten hinter der Basis, die
- * Sammler-Rohdaten von `main` als Unterschied zu melden.
+ * Sammler-Rohdaten von `main` als Unterschied zu melden. Eine Datei, die Basis und Kandidat beide
+ * geändert haben, wird daher zusammengeführt (Diff Merge-Basis..Kandidat auf die Basis angewandt).
  */
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+
+const DATEN = ['data', ':(exclude)data/cache']
 
 /** Änderungen des Kandidaten seit der Merge-Basis unter `data/`: `[{ status: 'A'|'M'|'D', pfad }]`. */
 function eigeneAenderungen(git, basis, kandidat) {
-  return git('-c', 'core.quotepath=off', 'diff', '--name-status', '--no-renames', `${basis}...${kandidat}`, '--', 'data')
+  return git('-c', 'core.quotepath=off', 'diff', '--name-status', '--no-renames', `${basis}...${kandidat}`, '--', ...DATEN)
     .split('\n')
     .filter(Boolean)
     .map((zeile) => {
@@ -16,23 +22,38 @@ function eigeneAenderungen(git, basis, kandidat) {
     })
 }
 
-/** Ruft `lauf` mit den Pfaden in Blöcken auf (Befehlszeilenlänge unter Windows). */
-function inBloecken(pfade, lauf) {
-  for (let i = 0; i < pfade.length; i += 200) lauf(pfade.slice(i, i + 200))
+/**
+ * Wendet die eigenen Änderungen des Kandidaten (Merge-Basis..Kandidat) auf den Baum an, der den Stand der Basis hat.
+ * Bei einem Konflikt bricht es ab: keine Seite wird still genommen.
+ */
+function wendeEigeneAn(git, imBaum, basisSha, sha) {
+  const ordner = mkdtempSync(join(tmpdir(), 'bau-vergleich-diff-'))
+  try {
+    const diff = join(ordner, 'eigene.diff')
+    git('diff', '--binary', '--no-renames', '--output', diff, `${basisSha}...${sha}`, '--', ...DATEN)
+    try {
+      imBaum('apply', '--3way', '--whitespace=nowarn', diff)
+    } catch (fehler) {
+      const meldung = `${fehler.stderr ?? ''}${fehler.stdout ?? ''}`.trim() || fehler.message
+      throw new Error(
+        `Konflikt: Die data/-Änderungen von ${sha.slice(0, 12)} lassen sich nicht auf den Stand von ${basisSha.slice(0, 12)} ` +
+          `anwenden (Basis und Kandidat haben dieselbe Stelle geändert). Kandidat auf die Basis rebasen.\n${meldung}`,
+      )
+    }
+  } finally {
+    rmSync(ordner, { recursive: true, force: true })
+  }
 }
 
 /**
- * Bringt den Baum von `sha` auf `public/data` und `data/` der Basis und übernimmt davon abweichend nur die
- * eigenen Änderungen des Kandidaten (neu/geändert aus `sha`, gelöschte entfernt). Gibt die Änderungen zurück.
+ * Bringt den Baum von `sha` auf `public/data` und `data/` der Basis und legt die eigenen Änderungen des Kandidaten
+ * (neu/geändert/gelöscht, mit der Basis zusammengeführt) darauf. Gibt die Änderungen zurück.
  */
 export function setzeDatenstand(git, imBaum, basisSha, sha) {
   imBaum('rm', '-rfq', '--ignore-unmatch', 'data')
   imBaum('checkout', basisSha, '--', 'public/data', 'data')
   const eigene = sha === basisSha ? [] : eigeneAenderungen(git, basisSha, sha)
-  const geloescht = eigene.filter((e) => e.status === 'D').map((e) => e.pfad)
-  const uebernommen = eigene.filter((e) => e.status !== 'D').map((e) => e.pfad)
-  inBloecken(uebernommen, (p) => imBaum('checkout', sha, '--', ...p))
-  inBloecken(geloescht, (p) => imBaum('rm', '-fq', '--ignore-unmatch', '--', ...p))
+  if (eigene.length) wendeEigeneAn(git, imBaum, basisSha, sha)
   return eigene
 }
 
