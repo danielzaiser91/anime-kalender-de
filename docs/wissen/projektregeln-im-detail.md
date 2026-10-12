@@ -211,6 +211,14 @@ gewartet** — im Hintergrund, bis er fertig ist.
 `QUELLEN` enthält, solange ein Lauf außer Deploy, Aussehen und Claude läuft.
 **Seit dem 11.10.2026 nur noch für Commits auf `main` und nur, solange der Bestandsbau läuft** (der einzige Lauf, der direkt auf `main` schreibt; Branch-Commits und PR-Läufe sperren nichts mehr — am 10.10. hielt die Wache einen Branch-Commit 42 Minuten an).
 
+**Pre-commit prüft gestagte Patch Notes (12.10.2026).** Derselbe Hook (`bash tools/quellen-commit-wache.sh --einrichten`, schreibt jetzt
+über `git rev-parse --git-path`, geht also auch aus einem Worktree) ruft `tools/patchnotes-gestagt-pruefen.mjs`: bei gestagten
+`data/patchnotes/*.yaml` gültiges YAML und das Schema aus `shared/patchnotes.ts` (dieselbe Prüfung wie `pipeline/check-patchnotes.ts`,
+gelesen wird der Index). Anlass: ein Doppelpunkt im Untertitel fiel erst in `check:vor-commit` auf. Ohne gestagte Patch Notes endet
+das Werkzeug nach einem `git diff` (≈ 0,1 s), mit ihnen ≈ 0,2 s (gemessen 12.10.2026); Test `tools/patchnotes-gestagt.test.mjs`.
+Zweige ohne das Werkzeug überspringen es, der Hook liegt für alle Worktrees im gemeinsamen `.git/hooks/`. Nach dem Merge einmal
+`bash tools/quellen-commit-wache.sh --einrichten` im Hauptordner ausführen, sonst bleibt der alte Hook ohne die Prüfung.
+
 **Vierter Fall, 21.09.2026 — ausgelöst von einem Commit, der gar keine Quelle anfasste.** Während
 `bestand-bauen` lief, ging eine Doku-Änderung auf `main`. Der Fernstand hatte sich bewegt, der Lauf
 nahm den Rettungsweg und spielte die Erweiterungslisten zurück (in `QUELLEN`), ihre ausgelieferte
