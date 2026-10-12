@@ -27,6 +27,12 @@ function pruefe(name: string, ok: boolean, info = ''): void {
   }
 }
 
+/** aniSearch-Kennungen, die schon einem anderen Titel gehören: Handdatei, oder Brücke unter einer anderen AniList-Kennung (dieselbe Bindung in der Brücke ist die Übernahme, keine Doppelvergabe). */
+function anderweitigVergeben(gebunden: Record<string, number>, bruecke: Record<string, { anisearchId?: number }>, hand: number[]): Set<number | undefined> {
+  const fremd = Object.entries(bruecke).filter(([al, e]) => gebunden[al] !== e.anisearchId)
+  return new Set([...hand, ...fremd.map(([, e]) => e.anisearchId)])
+}
+
 const titel = (id: number, jahr: number, ...namen: string[]): AsTitel => ({ id, jahr, namen })
 const katalog = (id: number, name: string, jahr: number | null, format: string | null, extra: Partial<KatalogTitel> = {}): KatalogTitel => ({
   id,
@@ -133,6 +139,11 @@ pruefe('widerlegt: anderer Starttag und andere Länge', widerlegt.art === 'wider
 pruefe('keiner: kein Kandidat', urteil(katalog(7, 'Völlig unbekanntes Werk', 2010, 'TV'), fma, {}).art === 'keiner')
 pruefe('keiner: einziger Kandidat ist schon vergeben', urteil(katalog(8, 'Fullmetal Alchemist', 2003, 'TV'), [fma[0]!], { 10: { ty: 'TV-Serie', y: 2003 } }, new Set([10])).art === 'keiner')
 
+const bindung = { 7: 700 }
+pruefe('anderweitigVergeben: dieselbe Bindung in der Brücke zählt nicht', !anderweitigVergeben(bindung, { 7: { anisearchId: 700 } }, []).has(700))
+pruefe('anderweitigVergeben: dieselbe aniSearch-Kennung unter anderer AniList-Kennung zählt', anderweitigVergeben(bindung, { 7: { anisearchId: 700 }, 8: { anisearchId: 700 } }, []).has(700))
+pruefe('anderweitigVergeben: die Handdatei zählt', anderweitigVergeben(bindung, {}, [700]).has(700))
+
 const doppelt = new Map<number, Urteil>([
   [1, { art: 'sicher', asId: 5, weil: 'x' }],
   [2, { art: 'sicher', asId: 5, weil: 'x' }],
@@ -153,11 +164,11 @@ if (existsSync('data/anisearch-ids-katalog.json')) {
 const KATALOG_EINGEHAENGT = 110
 const geprueft = JSON.parse(readFileSync('data/anisearch-katalog-kein-treffer.json', 'utf8')) as Record<string, number[]>
 const gebunden = JSON.parse(readFileSync('data/anisearch-ids-katalog.json', 'utf8')) as Record<string, number>
-const bruecke = Object.values(JSON.parse(readFileSync('data/anisearch.json', 'utf8')) as Record<string, { anisearchId?: number }>).map((e) => e.anisearchId)
+const bruecke = JSON.parse(readFileSync('data/anisearch.json', 'utf8')) as Record<string, { anisearchId?: number }>
 const handKennungen = [...readFileSync('data/anisearch-ids-hand.yaml', 'utf8').matchAll(/^\d+:\s*(\d+)/gm)].map((m) => Number(m[1]))
 pruefe(`Katalog: mindestens ${KATALOG_EINGEHAENGT} Titel mit aniSearch-Kennung eingehängt`, Object.keys(gebunden).length >= KATALOG_EINGEHAENGT, String(Object.keys(gebunden).length))
-const schonVergeben = new Set([...handKennungen, ...bruecke])
-pruefe('Katalog: keine aniSearch-Kennung doppelt vergeben, auch nicht an Handdatei oder Brücke', new Set(Object.values(gebunden)).size === Object.keys(gebunden).length && Object.values(gebunden).every((as) => !schonVergeben.has(as)))
+const schonVergeben = anderweitigVergeben(gebunden, bruecke, handKennungen)
+pruefe('Katalog: keine aniSearch-Kennung doppelt vergeben, auch nicht an Handdatei oder einen anderen Titel der Brücke', new Set(Object.values(gebunden)).size === Object.keys(gebunden).length && Object.values(gebunden).every((as) => !schonVergeben.has(as)))
 pruefe('Katalog: ein gesichtetes „kein Treffer" ist nie zugleich gebunden', Object.entries(geprueft).every(([al, as]) => !as.includes(gebunden[al] ?? -1)))
 pruefe('Katalog: „kein Treffer" nennt nur AniList-Titel ohne Kennung und ganze aniSearch-Kennungen', Object.entries(geprueft).every(([al, as]) => !(al in gebunden) && Number(al) < 10_000_000 && as.length > 0 && as.every(Number.isInteger)))
 
