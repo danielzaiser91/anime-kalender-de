@@ -6,7 +6,7 @@
 # Crunchyrolls Releaseplan bis September und die Vorbestell-Übersicht für Oktober
 # bis Dezember. Beide nennen Datum, Label und Edition ausdrücklich.
 #
-# Alle Termine sind angekündigte Verkaufsstarts, also kein `estimated`. Uhrzeiten gibt
+# Ein angekündigter Verkaufsstart ist kein `estimated`; nennt die Quelle ihn ausdrücklich „voraussichtlich“, steht `estimated: true`. Uhrzeiten gibt
 # es bei Disc-Releases naturgemäß nicht. Ohne `buyUrl` erzeugt der Build einen
 # Amazon.de-Suchlink.
 
@@ -618,7 +618,7 @@
   publisher: "peppermint anime"
   edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
   note: "Voraussichtlicher Termin; deutsche und japanische Synchronisation laut Anime2You."
-  schedule: { firstEpisodeDate: "2026-12-18" }
+  schedule: { firstEpisodeDate: "2026-12-18", estimated: true }
   sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
 
 - slug: fate-stay-night-heavens-feel-2-lost-butterfly-gesamtausgabe
@@ -629,7 +629,7 @@
   publisher: "peppermint anime"
   edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
   note: "Voraussichtlicher Termin; deutsche und japanische Synchronisation laut Anime2You."
-  schedule: { firstEpisodeDate: "2026-12-18" }
+  schedule: { firstEpisodeDate: "2026-12-18", estimated: true }
   sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
 
 - slug: fate-stay-night-heavens-feel-3-spring-song-gesamtausgabe
@@ -640,7 +640,7 @@
   publisher: "peppermint anime"
   edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
   note: "Voraussichtlicher Termin; deutsche und japanische Synchronisation laut Anime2You."
-  schedule: { firstEpisodeDate: "2026-12-18" }
+  schedule: { firstEpisodeDate: "2026-12-18", estimated: true }
   sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
 
 # ---------------------------------------------------------------- AKIBA PASS SHOP, Nachtrag 10.10.2026 (Anime2You 1058438 und 1056789)
@@ -696,9 +696,8 @@
 
 # ---------------------------------------------------------------- Nachtrag 12.10.2026 (Anime2You-Extraktion)
 # Anime2You 1058332 (11.10.2026): Staffel 1 als limitierte Steelbook-Komplettbox (12 Episoden, zwei Discs) voraussichtlich 04.12.2026;
-# Staffel 2 (elf Episoden) als Komplettbox voraussichtlich 05.03.2027. Die frühere Meldung 1044367 (05.09.2026) nannte für Staffel 2 noch den 04.12.2026
+# Staffel 2 (elf Episoden) als Komplettbox am 05.03.2027 (ohne „voraussichtlich“). Die frühere Meldung 1044367 (05.09.2026) nannte für Staffel 2 noch den 04.12.2026
 # und „deutsche Sprachfassung sowie Originalton mit Untertiteln"; die jüngere Meldung gilt für den Termin, nennt aber zur Sprache nichts (auch nicht zu Staffel 1).
-# Beide Termine stehen als `estimated`, weil Anime2You sie als „voraussichtlich" führt.
 - slug: kaiju-no8-s1-steelbook-komplettbox
   anilistId: 153288
   titleDe: "Kaiju No. 8 – Staffel 1 – Komplettbox"
@@ -717,8 +716,8 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Komplettbox, Blu-ray"
-  note: "Voraussichtlich 05.03.2027 (Anime2You, 11.10.2026); im September war noch der 04.12.2026 genannt. Sprache: Stand der älteren Meldung vom 05.09.2026 (dort „deutsche Sprachfassung sowie Originalton mit Untertiteln“); die neuere Meldung vom 11.10.2026 nennt die Sprache nicht."
-  schedule: { firstEpisodeDate: "2027-03-05", estimated: true }
+  note: "Termin 05.03.2027 (Anime2You, 11.10.2026); im September war noch der 04.12.2026 genannt. Sprache: Stand der älteren Meldung vom 05.09.2026 (dort „deutsche Sprachfassung sowie Originalton mit Untertiteln“); die neuere Meldung vom 11.10.2026 nennt die Sprache nicht."
+  schedule: { firstEpisodeDate: "2027-03-05" }
   sources:
     - https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/
     - https://www.anime2you.de/news/1044367/kaiju-no-8-staffel-2-disc-release/
