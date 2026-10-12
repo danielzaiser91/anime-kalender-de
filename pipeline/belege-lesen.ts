@@ -26,7 +26,7 @@ import { ablegen } from './lib/beleg-ablage.ts'
 import { neueStoerungen, seiteninfo } from './lib/beleg-stoerung.ts'
 import { BILD_FASSUNG, belegAusschnitt } from './lib/beleg-bild.ts'
 import { schreibeOhneFundstelle } from './lib/beleg-ohne-fundstelle.ts'
-import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse } from './lib/beleg-suche.ts'
+import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse, type Gruppe } from './lib/beleg-suche.ts'
 
 const DATEI = 'data/beleg-lesungen.json'
 /** Crunchyroll lässt nur einen Desktop-UA durch (wie `scrape-crunchyroll-woche.ts`); ADN liefert damit eine leere Seite. */
@@ -86,6 +86,70 @@ async function lies(seite: Page, url: string): Promise<Gelesen> {
   }, waehler)
 }
 
+/** Alles, was die Lesung einer Adresse aus dem Lauf braucht. */
+interface Lesekontext {
+  gedaechtnis: BelegGedaechtnis
+  heute: string
+  suchbegriffe: Map<string, string[]>
+  gruppen: Map<string, Gruppe[]>
+  tage: Map<string, string[]>
+}
+
+/** Liest eine Adresse, legt Bild und Text ab und merkt die Lesung; wirft bei jeder Störung. Gibt zurück, ob ein neuer Stand entstand. */
+async function leseUndMerke(seite: Page, url: string, k: Lesekontext): Promise<boolean> {
+  const { gedaechtnis, heute, suchbegriffe, gruppen, tage } = k
+  const g = await lies(seite, url)
+  if (g.text.length < MINDESTTEXT) throw new Error(`kein Artikeltext (${g.text.length} Zeichen, ${await seiteninfo(seite)})`)
+  const hash = textHash(g.text)
+  const mitDatum = traegtArtikeldatum(url)
+  const lesung: Lesung = {
+    am: heute,
+    hash,
+    hf: 2,
+    veroeffentlicht: mitDatum ? (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)) : undefined,
+    aktualisiert: mitDatum ? (isoTag(g.aktualisiert) ?? crunchyrollDatum(g.aktualisiert)) : undefined,
+    /* Eine Produktseite nennt den Erscheinungstag der Ausgabe — eine andere Aussage als ein Veröffentlichungsdatum. */
+    ausgabe: mitDatum ? undefined : (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)),
+  }
+  /* Eine als Wand entzogene Lesung zeigt nur die Wand — sie zählt weder als Vergleich noch bleibt sie neben der neuen stehen. */
+  /* Das Datum in der Kopfzeile muss zu den Seitendaten passen — sonst stimmt eines von beiden nicht. */
+  const kopf = mitDatum ? kopfzeilenDatum(g.text) : undefined
+  if (kopf && lesung.veroeffentlicht && kopf !== lesung.veroeffentlicht && kopf !== lesung.aktualisiert) {
+    lesung.datumsabweichung = kopf
+    warn(`Beleg ${url}: Kopfzeile nennt ${kopf}, Seitendaten ${lesung.veroeffentlicht} — untersuchen`)
+  }
+  /* Nur eine Lesung mit Wand-Prüfung (`qs: ok`) taugt zum Vergleich: Altbestand wurde mit anderem Text gehasht, eine Wand zeigt nur die Wand. Beide werden ersetzt, nicht ergänzt. */
+  const letzte = gedaechtnis[url]?.lesungen.filter((l) => l.qs === 'ok').at(-1)
+  /* Ein neuer Text bei gleichen Daten darf nicht vorkommen: Er heißt, dass Unwesentliches den Hash ändert (Daniel, 03.10.2026). */
+  if (letzte && letzte.hf === 2 && letzte.hash !== hash && letzte.veroeffentlicht === lesung.veroeffentlicht && letzte.aktualisiert === lesung.aktualisiert && letzte.ausgabe === lesung.ausgabe) {
+    lesung.aenderungOhneDatum = true
+    warn(`Beleg ${url}: Text geändert, Daten gleich — untersuchen (tools/belege-pruefen.mjs)`)
+  }
+  /* Derselbe Text hat dasselbe Bild — eine Lesung mit neuem Datum verweist darauf, statt es neu zu erzeugen. */
+  if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html, markierung: letzte.markierung, markierungen: letzte.markierungen, bildfassung: letzte.bildfassung })
+  /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
+  const ziel = letzte?.hash === hash ? letzte : lesung
+  /* Auch ein Bild ohne Fundstelle wird neu gemacht (04.10.2026): Ältere Belege bekommen so ihre Markierung. */
+  if (!ziel.bild || !ziel.qs || (ziel.bildfassung ?? 1) < BILD_FASSUNG || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0) || ((gruppen.get(url)?.length ?? 0) > 1 && !ziel.markierungen)) {
+    const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
+    const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [], tage.get(url) ?? [], gruppen.get(url) ?? [])
+    if (beleg === 'wand') {
+      entzieheBild(gedaechtnis, url)
+      throw new Error('Zustimmungswand bleibt im Bild — kein Beleg')
+    }
+    if (beleg === 'leer') throw new Error(`Aufnahme einfarbig — kein Beleg (${await seiteninfo(seite)})`)
+    if (beleg) {
+      ziel.qs = 'ok'; ziel.bildfassung = BILD_FASSUNG
+      if (beleg.markierung) ziel.markierung = lesung.markierung = beleg.markierung
+      if (beleg.markierungen) ziel.markierungen = lesung.markierungen = beleg.markierungen
+      ziel.bild = await ablegen(`${basis}.webp`, beleg.bild, 'image/webp')
+      ziel.text = await ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')
+    }
+  }
+  if (gedaechtnis[url]) gedaechtnis[url]!.lesungen = gedaechtnis[url]!.lesungen.filter((l) => l.qs === 'ok')
+  return merkeLesung(gedaechtnis, url, lesung)
+}
+
 async function main(): Promise<void> {
   const heute = todayIso()
   const gedaechtnis = readJson<BelegGedaechtnis>(DATEI, {})
@@ -100,6 +164,7 @@ async function main(): Promise<void> {
   const schlange = warteschlange([...adressen, ...sofort], gedaechtnis, heute, zahl('--abstand', 7), zahl('--limit', 60), sofort)
   log(`Belege: ${schlange.length} Artikel fällig`)
   const tage = tageJeAdresse(readJson<Release[]>('public/data/releases.json', []))
+  const kontext = { gedaechtnis, heute, suchbegriffe, gruppen, tage }
   const browser = await chromium.launch()
   let gelesen = 0
   let neu = 0
@@ -113,56 +178,7 @@ async function main(): Promise<void> {
       if (stoerungen.ruht(url)) continue
       try {
         const seite = url.includes('crunchyroll.com') ? cr : andere
-        const g = await lies(seite, url)
-        if (g.text.length < MINDESTTEXT) throw new Error(`kein Artikeltext (${g.text.length} Zeichen, ${await seiteninfo(seite)})`)
-        const hash = textHash(g.text)
-        const mitDatum = traegtArtikeldatum(url)
-        const lesung: Lesung = {
-          am: heute,
-          hash,
-          hf: 2,
-          veroeffentlicht: mitDatum ? (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)) : undefined,
-          aktualisiert: mitDatum ? (isoTag(g.aktualisiert) ?? crunchyrollDatum(g.aktualisiert)) : undefined,
-          /* Eine Produktseite nennt den Erscheinungstag der Ausgabe — eine andere Aussage als ein Veröffentlichungsdatum. */
-          ausgabe: mitDatum ? undefined : (isoTag(g.veroeffentlicht) ?? crunchyrollDatum(g.veroeffentlicht)),
-        }
-        /* Eine als Wand entzogene Lesung zeigt nur die Wand — sie zählt weder als Vergleich noch bleibt sie neben der neuen stehen. */
-        /* Das Datum in der Kopfzeile muss zu den Seitendaten passen — sonst stimmt eines von beiden nicht. */
-        const kopf = mitDatum ? kopfzeilenDatum(g.text) : undefined
-        if (kopf && lesung.veroeffentlicht && kopf !== lesung.veroeffentlicht && kopf !== lesung.aktualisiert) {
-          lesung.datumsabweichung = kopf
-          warn(`Beleg ${url}: Kopfzeile nennt ${kopf}, Seitendaten ${lesung.veroeffentlicht} — untersuchen`)
-        }
-        /* Nur eine Lesung mit Wand-Prüfung (`qs: ok`) taugt zum Vergleich: Altbestand wurde mit anderem Text gehasht, eine Wand zeigt nur die Wand. Beide werden ersetzt, nicht ergänzt. */
-        const letzte = gedaechtnis[url]?.lesungen.filter((l) => l.qs === 'ok').at(-1)
-        /* Ein neuer Text bei gleichen Daten darf nicht vorkommen: Er heißt, dass Unwesentliches den Hash ändert (Daniel, 03.10.2026). */
-        if (letzte && letzte.hf === 2 && letzte.hash !== hash && letzte.veroeffentlicht === lesung.veroeffentlicht && letzte.aktualisiert === lesung.aktualisiert && letzte.ausgabe === lesung.ausgabe) {
-          lesung.aenderungOhneDatum = true
-          warn(`Beleg ${url}: Text geändert, Daten gleich — untersuchen (tools/belege-pruefen.mjs)`)
-        }
-        /* Derselbe Text hat dasselbe Bild — eine Lesung mit neuem Datum verweist darauf, statt es neu zu erzeugen. */
-        if (letzte?.hash === hash) Object.assign(lesung, { bild: letzte.bild, text: letzte.text, html: letzte.html, markierung: letzte.markierung, markierungen: letzte.markierungen, bildfassung: letzte.bildfassung })
-        /* Ein neuer Stand bekommt sein Bild; fehlt es einem alten (Ablage war nicht erreichbar), wird es nachgeholt. */
-        const ziel = letzte?.hash === hash ? letzte : lesung
-        /* Auch ein Bild ohne Fundstelle wird neu gemacht (04.10.2026): Ältere Belege bekommen so ihre Markierung. */
-        if (!ziel.bild || !ziel.qs || (ziel.bildfassung ?? 1) < BILD_FASSUNG || (!ziel.markierung && (suchbegriffe.get(url)?.length ?? 0) > 0) || ((gruppen.get(url)?.length ?? 0) > 1 && !ziel.markierungen)) {
-          const basis = `${new URL(url).hostname}/${textHash(url)}/${ziel.am}-${hash}`
-          const beleg = await belegAusschnitt(seite, suchbegriffe.get(url) ?? [], tage.get(url) ?? [], gruppen.get(url) ?? [])
-          if (beleg === 'wand') {
-            entzieheBild(gedaechtnis, url)
-            throw new Error('Zustimmungswand bleibt im Bild — kein Beleg')
-          }
-          if (beleg === 'leer') throw new Error(`Aufnahme einfarbig — kein Beleg (${await seiteninfo(seite)})`)
-          if (beleg) {
-            ziel.qs = 'ok'; ziel.bildfassung = BILD_FASSUNG
-            if (beleg.markierung) ziel.markierung = lesung.markierung = beleg.markierung
-            if (beleg.markierungen) ziel.markierungen = lesung.markierungen = beleg.markierungen
-            ziel.bild = await ablegen(`${basis}.webp`, beleg.bild, 'image/webp')
-            ziel.text = await ablegen(`${basis}.txt.gz`, beleg.text, 'application/gzip')
-          }
-        }
-        if (gedaechtnis[url]) gedaechtnis[url]!.lesungen = gedaechtnis[url]!.lesungen.filter((l) => l.qs === 'ok')
-        if (merkeLesung(gedaechtnis, url, lesung)) neu++
+        if (await leseUndMerke(seite, url, kontext)) neu++
         gelesen++
         stoerungen.erfolg(url)
       } catch (e) {
