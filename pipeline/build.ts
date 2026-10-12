@@ -8,7 +8,7 @@
  */
 import { ladeQuellen } from './bau/01-quellen.ts'
 import { baueTitelGemessen } from './bau/anisearch-abweichungen.ts'
-import { fuehreReihenZusammen } from './bau/03-reihen.ts'
+import { fuehreReihenZusammenQuelle as fuehreReihenZusammen } from './bau/anisearch-reihen-rein-bau.ts'
 import { indiziereCrSendeplaetze } from './bau/04-cr-sendeplaetze.ts'
 import { baueReleases } from './bau/05-releases.ts'
 import { ergaenzeCrSimuldubs } from './bau/06-cr-simuldubs.ts'

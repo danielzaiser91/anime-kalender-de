@@ -50,6 +50,7 @@ QUELLEN=(
   data/anisearch-reihen-abweichungen.json
   # Stufe C, Übernahme (11.10.2026): Prüfliste der Reihen, die aniSearch verbindet, der Bau aber nicht von selbst zusammenlegt; vom Bau geschrieben.
   data/anisearch-reihen-pruefliste.json
+  data/anisearch-reihen-rein-pruefliste.json
   # Stufe D (11.10.2026): Zählung der Sprecher je Quelle vorher/nachher (AniList, ANN, aniSearch); vom Bau geschrieben.
   data/sprecher-quellen.json
   data/tmdb-poster.json
