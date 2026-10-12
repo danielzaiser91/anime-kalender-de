@@ -1,5 +1,8 @@
 import { type Env } from './env.ts'
 
+/** Wie lange die Zählung im Cache der Edge hält: zwei Stunden (12.10.2026, vorher 30 Minuten; Begründung im Kopf von `holeWartende`). */
+export const ZAEHLEN_SEKUNDEN = 7200
+
 /**
  * **Eine Spalte der Meldungen, seit dem letzten Datenlauf** — sonst über alles.
  *

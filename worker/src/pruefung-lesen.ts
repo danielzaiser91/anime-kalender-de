@@ -1,6 +1,6 @@
 import { type Env } from './env.ts'
 import { ausSpeicher } from './export-speicher.ts'
-import { zaehleOffenePruefungen } from './pruefung-zaehlen.ts'
+import { zaehleOffenePruefungen, ZAEHLEN_SEKUNDEN } from './pruefung-zaehlen.ts'
 import { liefereRohfolgen } from './pruefung-rohfolgen.ts'
 import { berechnePruefstand } from './pruefung-stand.ts'
 import { leseGemeldet } from './pruefung-gemeldet.ts'
@@ -92,7 +92,7 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
 
     if (new URL(request.url).searchParams.get('zaehlen') === '1') return ausCache(async () => {
       return await zaehleOffenePruefungen({ request, env, antwort })
-    })
+    }, ZAEHLEN_SEKUNDEN)
 
     // Die Pipeline holt sich, was noch nicht übernommen wurde.
     const sucheP = new URL(request.url).searchParams

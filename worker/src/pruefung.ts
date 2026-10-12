@@ -1,9 +1,8 @@
 import { type Env } from './env.ts'
 import { speichereMitProtokoll } from './pruefung-protokoll.ts'
 import { nichtErlaubt } from './pruefung-ablehnung.ts'
-import { loeschePruefungen } from './pruefung-loeschen.ts'
+import { loeschePruefungenMitMarke } from './pruefung-loeschen.ts'
 import { beantwortePruefungLesen } from './pruefung-lesen.ts'
-import { exporteVerwerfen } from './export-speicher.ts'
 import { ausCacheFuer } from './cache-kurz.ts'
 
 export async function handlePruefung(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
@@ -85,9 +84,7 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
   }
 
   if (request.method === 'DELETE') {
-    const geloescht = await loeschePruefungen({ request, env, antwort })
-    await exporteVerwerfen(env)
-    return geloescht
+    return await loeschePruefungenMitMarke({ request, env, antwort })
   }
 
   if (request.method !== 'POST') return antwort({ error: 'GET, POST oder DELETE erwartet' }, 405)
@@ -95,7 +92,5 @@ export async function handlePruefung(request: Request, env: Env, ctx?: Execution
   const token = request.headers.get('X-Lauf-Token') ?? ''
   if (!env.LAUF_TOKEN || token !== env.LAUF_TOKEN) return nichtErlaubt(antwort)
 
-  const gespeichert = await speichereMitProtokoll({ request, antwort, token, env, ctx })
-  await exporteVerwerfen(env)
-  return gespeichert
+  return await speichereMitProtokoll({ request, antwort, token, env, ctx })
 }
