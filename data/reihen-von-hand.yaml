@@ -74,3 +74,19 @@
 # setzt das Spiel FF VII fort, Last Order/Denzel sind seine Vorgänger).
 - getrennt: [317, 1157, 1361]
   grund: 'FF VII: Advent Children, Final Fantasy: Unlimited und Final Fantasy: Die Mächte in Dir sind drei getrennte Werke'
+
+# --- Lücken in aniSearchs Relationen (12.10.2026, Messbericht reihen-anisearch-schalter, Fälle 6–8) -------------
+# Teile, die aniSearch nicht an die Hauptreihe bindet, bei AniList aber in derselben Reihe stehen (Referenz: public/data auf main).
+# Die Einträge ändern den Standardweg nicht: `03-reihen.ts` und der Katalog kennen die Titel schon als eine Reihe.
+
+# Macross: aniSearch führt den Film „Ai Oboete Imasu ka“ nur als „Sequel“ von Macross II und „Anderes“ zu Flash Back 2012; Frontier-/Delta-Kurzstücke hängen nur untereinander.
+- ids: [1088, 1089, 1262, 4454, 4939, 5164, 5165, 10361, 97952, 122675, 122678]
+  grund: 'Macross: Film Ai Oboete Imasu ka (mit Macross II) und die Kurzstücke gehören zur Macross-Reihe; aniSearch bindet sie nicht an'
+
+# Detektiv Conan: OVA-Gruppen „Nazo no Suisei Kaijuu o Oe!“ und „Joumon Taiken Yatte Miyou!“ hängen bei aniSearch nur untereinander über „Anderes“; Recap, Kid-Special, Neujahrs-Special und die McDonald’s-Aktion tragen Conan im Titel.
+- ids: [235, 7305, 9785, 139179, 177046, 10009964, 10013368, 10013369, 10013370, 10013657, 10013663]
+  grund: 'Detektiv-Conan-Specials und OVAs gehören zur Conan-Reihe; aniSearch bindet sie nicht an'
+
+# Pocket Monsters: Kurzfilme, Specials, ONAs und Spiele-Trailer der Marke stehen bei aniSearch ohne Verbindung zur Hauptreihe (Einzeltitel und sechs Kleingruppen).
+- ids: [527, 4792, 4793, 5256, 6877, 8438, 20956, 126294, 106499, 97635, 119964, 138699, 158871, 162147, 167418, 168092, 175035, 186559, 1525, 4794, 4795, 6275, 6385, 7550, 11009, 11019, 21304, 110639, 112152, 113932, 125308, 155767, 163619, 169404, 169824, 171346, 176495, 177495, 182386, 185648, 185970, 201262, 208398, 215761, 216167, 10015308]
+  grund: 'Pocket-Monsters-Specials, Kurz-ONAs und Trailer gehören zur Pokémon-Reihe; aniSearch bindet sie nicht an'
