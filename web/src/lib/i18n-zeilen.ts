@@ -1,4 +1,4 @@
-/** Texte der Anbieterzeilen, ihrer Legende und des Panel-Kopfs (`components/detail/anbieter-zeile.tsx`, `aktionen.tsx`); `TEXTE` in `i18n.tsx` nimmt sie über `i18n-kalender.ts` auf. */
+/** Texte der Anbieterzeilen, ihrer Legende und des Panel-Kopfs (`components/detail/pille.tsx`, `aktionen.tsx`); `TEXTE` in `i18n.tsx` nimmt sie über `i18n-kalender.ts` auf. */
 export const TEXTE_ZEILEN = {
   'detail.statusDeutsch': '✓ Deutsch',
   'detail.statusJustwatch': 'laut JustWatch',
