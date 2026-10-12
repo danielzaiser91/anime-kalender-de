@@ -399,14 +399,16 @@
   sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
 
 # Anime2You 1058843 (10.10.) und 1060009 (11.10.): „bei Netflix geht es erst am 18. Oktober 2026 los. Neue Folgen erscheinen wöchentlich." Crunchyroll
-# und ADN zeigen seit 11.10. nur Untertitel; ob Netflix deutsch vertont, nennt keiner der Artikel (Sprache offen). Uhrzeit und Folgenzahl: nicht genannt.
+# und ADN zeigen seit 11.10. nur Untertitel. Für Netflix nennt Anime2You 1052708 (23.09.): „Sprache: Japanisch (UT)“, eine deutsche Fassung sagt keine Quelle zu;
+# nach „nichts behaupten, was nicht belegt ist“ gilt deshalb `omu` (die Quelle nennt nur OmU), nicht `offen`. Uhrzeit und Folgenzahl: nicht genannt.
 - slug: dragon-ball-super-beerus-netflix
   anilistId: 206814
   platform: netflix
   releaseType: weekly
   schedule: { firstEpisodeDate: "2026-10-18" }
-  sprache: offen
-  note: "Netflix startet am 18.10.2026, neue Folgen wöchentlich. Ob mit deutscher Synchro oder nur mit Untertiteln, nennt keine Quelle."
+  sprache: omu
+  note: "Netflix startet am 18.10.2026, neue Folgen wöchentlich, laut Anime2You 1052708 mit „Sprache: Japanisch (UT)“. Eine deutsche Synchro nennt keine Quelle."
   sources:
     - https://www.anime2you.de/news/1060009/dragon-ball-super-beerus-simulcast-gestartet/
     - https://www.anime2you.de/news/1058843/dragon-ball-super-beerus-bricht-netflix-rekord/
+    - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
