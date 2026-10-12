@@ -5,8 +5,9 @@
 -- (lokal in workerd gemessen, Wiederholungsdurchgang: 624 bei 24 Folgen, 10.200 bei 100, 40.400 bei 200). Der Schlüssel einer
 -- Folge ist (Adresse, Folge, Staffel, Seitenkennung) — genau die Bedingung, mit der der Worker offene
 -- Zeilen derselben Folge sucht und ersetzt. Die Abfrage steht in `worker/src/pruefung-unveraendert.ts`
--- und nennt den Index mit `INDEXED BY`: **die Migration muss vor dem Worker laufen**, sonst scheitert
--- jede Meldung.
+-- ohne Index-Hinweis: der Planer wählt `pruefung_folge` von selbst (Test in `tools/worker-tagesdeckel.test.ts`).
+-- **Die Migration sollte vor dem Worker laufen, ist aber nicht zwingend:** ohne sie liest die Abfrage
+-- wieder über `pruefung_url_zeit` alle Zeilen der Adresse, verliert aber keine Meldung.
 --
 -- Schreiblast: ein weiterer Eintrag je eingefügter und je gelöschter Zeile; unveränderte Meldungen
 -- schreiben weiter nichts. Einmalig kostet das Anlegen rund 18.000 geschriebene Zeilen (Stand

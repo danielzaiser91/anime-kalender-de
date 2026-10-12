@@ -109,10 +109,9 @@ export async function ladeOffeneHashes(env: Env, folgen: Folge[]): Promise<Offen
   const offene: OffeneHashes = { zeilen, uebernommene, listenbauAm: () => (bau ??= holeListenbauAm(env)) }
   const einzigartig = [...new Map(folgen.map((f) => [schluessel(f), f])).values()]
   if (!einzigartig.length) return offene
-  // INDEXED BY: sonst wählt der Planer den Adress-Index und liest alle Zeilen der Adresse (EXPLAIN, 12.10.2026).
   const { results } = await env.DB.prepare(
     `SELECT p.id, p.url, p.folge_nr, p.staffel, p.seiten_kennung, p.hash, p.gemeldet_am, p.uebernommen
-       FROM json_each(?1) k CROSS JOIN pruefung p INDEXED BY pruefung_folge
+       FROM json_each(?1) k CROSS JOIN pruefung p
       WHERE p.url = json_extract(k.value, '$[0]') AND p.folge_nr IS json_extract(k.value, '$[1]')
         AND p.staffel IS json_extract(k.value, '$[2]') AND p.seiten_kennung IS json_extract(k.value, '$[3]')`,
   )

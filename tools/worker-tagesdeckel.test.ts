@@ -245,7 +245,7 @@ console.log('Übernommene Rohfolgen werden nicht neu geschrieben (12.10.2026)')
 }
 
 /* Die Ladeabfrage einer Meldung (`ladeOffeneHashes`) und ihre Indexsuche über den Schlüssel der Folge. */
-const LADEN = /CROSS JOIN pruefung p INDEXED BY pruefung_folge/
+const LADEN = /CROSS JOIN pruefung p/
 const FOLGEN_SUCHE = 'SEARCH p USING INDEX pruefung_folge (url=? AND folge_nr=? AND staffel=? AND seiten_kennung=?)'
 const planVon = (db: DatabaseSync, a: { sql: string; werte: unknown[] }) =>
   (db.prepare(`EXPLAIN QUERY PLAN ${a.sql}`).all(...(a.werte as never[])) as { detail: string }[]).map((z) => z.detail).join(' ; ')
@@ -303,6 +303,30 @@ console.log('Wiederholte Meldung nach dem Abhaken schreibt keine neue pruefung-Z
   await handlePruefung(post(folge(1)), env)
   const aktualisieren = abfragen.find((a) => /^UPDATE pruefung SET gemeldet_am/.test(a.sql))
   pruefe(!!aktualisieren && planVon(db, aktualisieren).includes('INTEGER PRIMARY KEY'), 'das UPDATE geht über den Primärschlüssel')
+}
+
+console.log('Planer wählt pruefung_folge ohne Hinweis, auch bei Bestand und Statistik (12.10.2026)')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db, { geschrieben: 0 })
+  abfragen.length = 0
+  await handlePruefung(post(folge(1)), env)
+  const laden = abfragen.find((a) => LADEN.test(a.sql))!
+  pruefe(!/INDEXED BY/i.test(laden.sql), 'die Ladeabfrage trägt keinen Index-Hinweis (vor Migration 053 läuft sie langsamer, scheitert aber nicht)')
+  // Bestand wie am 12.10.2026: 17.800 Zeilen, 89 Adressen zu je 200 Folgen.
+  db.exec('BEGIN')
+  const einfuegen = db.prepare(
+    `INSERT INTO pruefung (plattform, url, befund, gemeldet_am, uebernommen, folge_nr, staffel) VALUES ('disneyplus', ?1, 'dub', '2026-10-12T10:00:00Z', ?2, ?3, 1)`,
+  )
+  for (let a = 0; a < 89; a++) for (let n = 1; n <= 200; n++) einfuegen.run(`https://www.disneyplus.com/de-de/browse/entity-${a}`, n % 3 ? 0 : 1, n)
+  db.exec('COMMIT')
+  const wahl = (stand: string) => {
+    const plan = planVon(db, laden)
+    pruefe(plan.includes(FOLGEN_SUCHE) && !/SCAN p\b/.test(plan) && !plan.includes('pruefung_url_zeit'), `${stand}: ${plan}`)
+  }
+  wahl('Bestand ohne Statistik')
+  db.exec('ANALYZE')
+  wahl('Bestand mit Statistik (ANALYZE)')
 }
 
 console.log('Wiederholte Meldung: Tagesgrenze UTC/Berlin (D) und Zeile vor dem Listenbau (W), 12.10.2026')
