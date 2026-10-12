@@ -117,29 +117,6 @@ function hauptstaffelnAllerTeile<T extends { format?: string; beiwerk?: boolean;
 }
 
 /**
- * **Welche Staffel und welcher Teil ein Eintrag ist — gezählt, nicht an der Position abgelesen.**
- *
- * Daniel am 13.09.2026 an Mushoku Tensei: Im Kopf stand „Staffel 5" über der
- * dritten Staffel, der erste Listeneintrag hieß wie die Reihe. AniList führt die
- * zweite Hälfte einer geteilten Staffel als eigenen Eintrag („Cour 2"), gezählt
- * wurde nach Position — aus drei Staffeln wurden fünf („teil 2 … ist eig teil
- * von der 1. staffel … unter staffel 1 gebündelt").
- *
- * Die Regeln, der Reihe nach über die Ausstrahlung:
- *
- * - Nennt der Name eine Staffel („Staffel 2", „Staffel 2 - Teil 2"), gilt sie.
- * - Nennt er **nur** einen Teil ab 2, gehört er zur Staffel davor.
- * - Nennt er nichts, ist er die nächste Staffel. Trägt er einen eigenen Namen
- *   („Log: Fish-Man Island Saga"), behält er ihn und bekommt keine Beschriftung.
- *
- * Nummern gibt es nur, wo sie etwas unterscheiden: bei **mindestens zwei**
- * Staffeln ohne eigenen Namen — sonst hieße One Piece wieder „Staffel 1". Hat
- * eine Staffel Teile, heißen alle ihre Einträge „Staffel N - Teil M".
- *
- * Zurück kommt nur, was eine Beschriftung bekommt; alles andere zeigt weiter
- * seinen Namen.
- */
-/**
  * **Der Platz jedes Eintrags innerhalb seiner Staffel** (1-basiert, in Reihenfolge) — von hier
  * kommt der „Teil N" (02.10.2026). Ein fremder Name zählt anders (AniList Cours, MAL Teile);
  * unsere Liste zählt ihre eigenen Glieder.
@@ -163,6 +140,29 @@ export function ausstrahlungsZeit(m: { jpYear?: number; jpStart?: string }): str
   return m.jpStart ?? String(jahrZumSortieren(m.jpYear))
 }
 
+/**
+ * **Welche Staffel und welcher Teil ein Eintrag ist — gezählt, nicht an der Position abgelesen.**
+ *
+ * Daniel am 13.09.2026 an Mushoku Tensei: Im Kopf stand „Staffel 5" über der
+ * dritten Staffel, der erste Listeneintrag hieß wie die Reihe. AniList führt die
+ * zweite Hälfte einer geteilten Staffel als eigenen Eintrag („Cour 2"), gezählt
+ * wurde nach Position — aus drei Staffeln wurden fünf („teil 2 … ist eig teil
+ * von der 1. staffel … unter staffel 1 gebündelt").
+ *
+ * Die Regeln, der Reihe nach über die Ausstrahlung:
+ *
+ * - Nennt der Name eine Staffel („Staffel 2", „Staffel 2 - Teil 2"), gilt sie.
+ * - Nennt er **nur** einen Teil ab 2, gehört er zur Staffel davor.
+ * - Nennt er nichts, ist er die nächste Staffel. Trägt er einen eigenen Namen
+ *   („Log: Fish-Man Island Saga"), behält er ihn und bekommt keine Beschriftung.
+ *
+ * Nummern gibt es nur, wo sie etwas unterscheiden: bei **mindestens zwei**
+ * Staffeln ohne eigenen Namen — sonst hieße One Piece wieder „Staffel 1". Hat
+ * eine Staffel Teile, heißen alle ihre Einträge „Staffel N - Teil M".
+ *
+ * Zurück kommt nur, was eine Beschriftung bekommt; alles andere zeigt weiter
+ * seinen Namen.
+ */
 /** Ordnet jeden Eintrag einer Staffel zu (Regeln: siehe oben); `staffelBeschriftungen()` und `staffelStaende()` lesen daraus. */
 function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string): StaffelEintrag[] {
   const sortiert = staffeln.slice().sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id)
@@ -200,18 +200,22 @@ function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string
           !reihenKern.includes(vorStaffel) &&
           vorStaffel.length <= 10 &&
           vorStaffel.slice(0, 3) === reihenKern.slice(0, 3)
-    const mitStaffel = eigenerVorsatz ? null : /(?:^|\s)Staffel\s+(\d+)(?:\s*-\s*Teil\s+(\d+))?\s*$/i.exec(rest)
+    /* „Staffel 2 - Teil 2" und die Klammer-Form „Staffel 2 (Teil 2)" (Hanako) meinen dasselbe. */
+    const mitStaffel = eigenerVorsatz ? null : /(?:^|\s)Staffel\s+(\d+)(?:\s*-\s*Teil\s+(\d+)|\s*\(Teil\s+(\d+)\))?\s*$/i.exec(rest)
     const nurTeil = /^Teil\s+(\d+)$/i.exec(rest)
     if (mitStaffel) {
       aktuell = Number(mitStaffel[1])
-      eintraege.push({ id: m.id, staffel: aktuell, teil: mitStaffel[2] ? Number(mitStaffel[2]) : undefined, eigenerName: false })
+      const teil = mitStaffel[2] ?? mitStaffel[3]
+      eintraege.push({ id: m.id, staffel: aktuell, teil: teil ? Number(teil) : undefined, eigenerName: false })
     } else if (nurTeil) {
       const teil = Number(nurTeil[1])
       if (teil === 1 || aktuell === 0) aktuell += 1
       eintraege.push({ id: m.id, staffel: aktuell, teil, eigenerName: false })
     } else {
       aktuell += 1
-      eintraege.push({ id: m.id, staffel: aktuell, eigenerName: rest !== '' })
+      /* „Reihe (Teil 2)" ist die deutsche Marke der nächsten Staffel, kein eigener Name: Staffel 2 statt „Staffel 2 · (Teil 2)" (Bookworm, Daniel 11.10.2026). Nur im Originalnamen: „(Cour 2)" wird erst durch das Eindeutschen zu „(Teil 2)", ist aber die Hälfte einer Staffel (Spy × Family). */
+      const staffelMarke = /^\(Teil\s+\d+\)$/i.test(rest) && /\(Teil\s+\d+\)\s*$/i.test(m.name)
+      eintraege.push({ id: m.id, staffel: aktuell, eigenerName: rest !== '' && !staffelMarke })
     }
   }
   return eintraege
