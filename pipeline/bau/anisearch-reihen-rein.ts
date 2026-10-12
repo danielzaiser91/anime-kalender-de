@@ -72,7 +72,7 @@ function bildner(fest: Map<number, number>) {
 }
 type Bildner = ReturnType<typeof bildner>
 
-/** Titel je aniSearch-Kennung; zusätzlich je MAL-Kennung (gleiche MAL-Kennung = gleiche Einheit). */
+/** Titel je aniSearch-Kennung (gleiche Kennung = dieselbe Einheit); die MAL-Kennung bildet keine Einheit, sie wirkt über `malVerbindungen` als Kante. */
 function einheiten(titel: ReinTitel[]): Map<number, number[]> {
   const jeKennung = new Map<number, number[]>()
   for (const t of titel) if (t.anisearchId) jeKennung.set(t.anisearchId, [...(jeKennung.get(t.anisearchId) ?? []), t.id])
