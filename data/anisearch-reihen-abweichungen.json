@@ -1,48 +1,48 @@
 {
   "stand": "2026-10-12",
   "deckung": {
-    "titel": 20625,
-    "mitSeite": 15885,
-    "ohneSeite": 30,
-    "ohneAnisearchKennung": 3050,
-    "ohneReferenz": 1660,
+    "titel": 20659,
+    "mitSeite": 15893,
+    "ohneSeite": 50,
+    "ohneAnisearchKennung": 3064,
+    "ohneReferenz": 1652,
     "seitenImArchiv": 17466,
     "kanten": 18564
   },
   "gesamt": {
-    "titel": 15885,
-    "gleich": 12426,
-    "fehlen": 2240,
-    "zusaetzlich": 686,
-    "gemischt": 533
+    "titel": 15893,
+    "gleich": 12422,
+    "fehlen": 2314,
+    "zusaetzlich": 656,
+    "gemischt": 501
   },
   "hauptbestand": {
-    "titel": 2867,
-    "gleich": 2159,
-    "fehlen": 460,
-    "zusaetzlich": 147,
-    "gemischt": 101
+    "titel": 2866,
+    "gleich": 2141,
+    "fehlen": 479,
+    "zusaetzlich": 146,
+    "gemischt": 100
   },
   "haelfteA": {
-    "titel": 7324,
-    "gleich": 5681,
-    "fehlen": 1094,
-    "zusaetzlich": 337,
-    "gemischt": 212
+    "titel": 7322,
+    "gleich": 5661,
+    "fehlen": 1123,
+    "zusaetzlich": 328,
+    "gemischt": 210
   },
   "haelfteB": {
-    "titel": 8561,
-    "gleich": 6745,
-    "fehlen": 1146,
-    "zusaetzlich": 349,
-    "gemischt": 321
+    "titel": 8571,
+    "gleich": 6761,
+    "fehlen": 1191,
+    "zusaetzlich": 328,
+    "gemischt": 291
   },
   "cluster": {
-    "einzel": 5394,
-    "gleich": 2235,
-    "zerlegt": 290,
-    "verschmilzt": 69,
-    "gemischt": 32
+    "einzel": 5393,
+    "gleich": 2238,
+    "zerlegt": 294,
+    "verschmilzt": 64,
+    "gemischt": 31
   },
   "beispiele": {
     "zerlegt": [
@@ -66,6 +66,13 @@
         "titel": 64,
         "referenz": 1,
         "anisearch": 6
+      },
+      {
+        "id": 603,
+        "name": "Futari wa Precure",
+        "titel": 64,
+        "referenz": 1,
+        "anisearch": 20
       },
       {
         "id": 1694,
@@ -161,7 +168,7 @@
       {
         "id": 5081,
         "name": "Bakemonogatari",
-        "titel": 19,
+        "titel": 20,
         "referenz": 1,
         "anisearch": 2
       },
@@ -178,13 +185,6 @@
         "titel": 18,
         "referenz": 1,
         "anisearch": 5
-      },
-      {
-        "id": 1707,
-        "name": "Kinnikuman Nisei",
-        "titel": 18,
-        "referenz": 1,
-        "anisearch": 2
       }
     ],
     "verschmilzt": [
@@ -192,7 +192,7 @@
         "id": 918,
         "name": "Gintama",
         "titel": 30,
-        "referenz": 2,
+        "referenz": 3,
         "anisearch": 1
       },
       {
@@ -240,13 +240,6 @@
       {
         "id": 924,
         "name": "Transformers Masterforce",
-        "titel": 14,
-        "referenz": 2,
-        "anisearch": 1
-      },
-      {
-        "id": 4719,
-        "name": "Queen's Blade: Rurou no Senshi",
         "titel": 14,
         "referenz": 2,
         "anisearch": 1
@@ -327,6 +320,13 @@
         "titel": 8,
         "referenz": 2,
         "anisearch": 1
+      },
+      {
+        "id": 87539,
+        "name": "Ryuu no Haisha",
+        "titel": 8,
+        "referenz": 3,
+        "anisearch": 1
       }
     ],
     "gemischt": [
@@ -359,13 +359,6 @@
         "anisearch": 3
       },
       {
-        "id": 603,
-        "name": "Futari wa Precure",
-        "titel": 64,
-        "referenz": 2,
-        "anisearch": 20
-      },
-      {
         "id": 966,
         "name": "Crayon Shin-chan",
         "titel": 47,
@@ -389,7 +382,7 @@
       {
         "id": 194,
         "name": "Macross Zero",
-        "titel": 24,
+        "titel": 25,
         "referenz": 2,
         "anisearch": 2
       },
@@ -468,6 +461,13 @@
         "name": "Onmyouji: Heian Monogatari",
         "titel": 8,
         "referenz": 2,
+        "anisearch": 3
+      },
+      {
+        "id": 110287,
+        "name": "Valkyrie no Shokutaku",
+        "titel": 8,
+        "referenz": 3,
         "anisearch": 3
       }
     ]

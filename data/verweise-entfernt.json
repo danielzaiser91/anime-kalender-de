@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-12T03:06:35.887Z",
+  "stand": "2026-10-12T05:47:39.071Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4666,6 +4666,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 1000,
+      "titel": "Die Abenteuer des fantastischen Weltraumpiraten Captain Harlock",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/captain-harlock",
+      "seriesId": "GYGGPD73Y",
+      "grund": "deutscher Katalog führt unter dieser Kennung keine einzige Staffel",
+      "geprueftAm": "2026-10-12",
+      "entferntAm": "2026-10-12",
+      "letzterWeg": true
+    },
+    {
       "titleId": 1362,
       "titel": "Street Fighter II: The Animated Movie",
       "plattform": "crunchyroll",
@@ -5271,17 +5282,6 @@
       "letzterWeg": false
     },
     {
-      "titleId": 4970,
-      "titel": "Afro Samurai: Resurrection",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/afro-samurai",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-12",
-      "letzterWeg": true
-    },
-    {
       "titleId": 5081,
       "titel": "Bakemonogatari",
       "plattform": "adn",
@@ -5693,6 +5693,17 @@
       "titel": "Saekano: How to Raise a Boring Girlfriend",
       "plattform": "primevideo",
       "url": "https://www.amazon.de/dp/B0CGYJ482P",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-12",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 20919,
+      "titel": "Project Itoh: Genocidal Organ",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/genocidal-organ/genocidal-organ-unbekannt-807915?ssid=394444",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
@@ -8115,6 +8126,17 @@
       "url": "https://www.netflix.com/title/81788312",
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-12",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 4970,
+      "titel": "Afro Samurai: Resurrection",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/afro-samurai",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
       "entferntAm": "2026-10-12",
       "letzterWeg": true
