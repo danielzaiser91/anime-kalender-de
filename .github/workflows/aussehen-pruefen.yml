@@ -1,12 +1,12 @@
 # **Was man sehen muss, wird angesehen — automatisch.**
 #
-# Vier Werkzeuge messen das Aussehen, und alle vier liefen bisher nur, wenn
+# Mehrere Werkzeuge messen das Aussehen, und sie liefen bisher nur, wenn
 # jemand daran dachte:
 #
 #   check:panel      die Höhe des Antwort-Kastens je Titel — sie muss gleich
 #                    bleiben (Daniels Vorgabe vom 03.09.2026: „height Änderung
 #                    der Box durch feste Höhe verhindern")
-#   check:ansichten  alle elf Routen, beide Themen, Desktop und Handy —
+#   check:ansichten  alle zehn Routen, beide Themen, Desktop und Handy —
 #                    Konsolenfehler und waagerechte Überbreite
 #   check:install    das Install-Angebot an genau einer Stelle (Kopf, Glocken-Menü) oder keiner,
 #                    je Browser-Lage und Breite 320–439 px
@@ -23,7 +23,7 @@
 # über den Rand hinaus — gefunden, weil Daniel ein Bild schickte. `check:panel`
 # hätte es gemessen; es lief nur nicht.
 #
-# **Warum ein eigener Workflow und nicht die Prüfkette:** Alle vier brauchen
+# **Warum ein eigener Workflow und nicht die Prüfkette:** Alle brauchen
 # Chromium. Im Deploy-Job gibt es keins, und ihn dorthin zu hängen hat am
 # selben Tag drei Deploys rot gemacht.
 name: Aussehen prüfen
@@ -67,7 +67,7 @@ jobs:
         run: npm run build
 
       - name: Antwort-Kasten — nichts ragt hinaus
-        run: npm run check:panel
+        run: npm run panel:bilder
 
       - name: Der Trailer-Dialog
         run: npm run check:trailer
@@ -79,10 +79,10 @@ jobs:
         run: npm run check:install
 
       - name: Alle Ansichten — Desktop
-        run: npm run check:ansichten
+        run: npm run ansichten:bilder
 
       - name: Alle Ansichten — Handy
-        run: npm run check:ansichten -- --handy
+        run: npm run ansichten:bilder -- --handy
 
       - name: Schalter „TV-Termine ausblenden“
         run: npm run check:tv-schalter
