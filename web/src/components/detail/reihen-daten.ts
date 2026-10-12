@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { FranchiseMember, Franchises, Title } from '@shared/types.ts'
-import { anzeigeName } from '@shared/titles.ts'
+import { anzeigeName, nachJahrUndId } from '@shared/titles.ts'
 import { loadFranchises, type Dataset } from '../../lib/data.ts'
 
 /**
@@ -93,5 +93,5 @@ export function reihenTeileVon(title: Title | undefined, reihe: FranchiseMember[
     })
   }
   // Nach Ausstrahlung: erst das Jahr, dann die Kennung als stabiler Zweitschlüssel.
-  return [...teile.values()].sort((a, b) => (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id)
+  return [...teile.values()].sort(nachJahrUndId)
 }

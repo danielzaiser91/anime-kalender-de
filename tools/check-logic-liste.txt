@@ -17,6 +17,7 @@ pipeline/check-anisearch-sprecher.ts
 pipeline/check-beleg-anbieter.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bild-und-synchro.ts
+pipeline/check-bookworm-dublette.ts
 pipeline/check-cartoon-news.ts
 pipeline/check-cartoon-reihen.ts
 pipeline/check-cartoon-staffeln.ts
@@ -60,6 +61,7 @@ pipeline/check-sammelartikel.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-staffel-jahr0.ts
+pipeline/check-staffel-teil.ts
 pipeline/check-stand-halten.ts
 pipeline/check-tmdb-hauptserie.ts
 pipeline/check-tmdb-katalog.ts
