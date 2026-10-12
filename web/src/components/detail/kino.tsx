@@ -315,7 +315,7 @@ export function KinoBanner({
         className="pointer-events-none absolute inset-y-0 left-0 w-2 bg-[repeating-linear-gradient(180deg,theme(colors.amber.400)_0_6px,transparent_6px_12px)] opacity-70"
       />
       <div className="flex items-center gap-3 pl-3">
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-amber-400/20 text-xl" aria-hidden>
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-amber-400/20 text-t2" aria-hidden>
           🎬
         </span>
         <div className="min-w-0 flex-1">
@@ -334,7 +334,7 @@ export function KinoBanner({
             href={kinoheld}
             target="_blank"
             rel="noreferrer noopener"
-            className="shrink-0 rounded-full border border-amber-400/50 px-3 py-1 text-t4 font-semibold text-amber-900 transition hover:bg-amber-400/15 dark:text-amber-200"
+            className="inline-flex min-h-11 shrink-0 items-center rounded-full border border-amber-400/50 px-3 text-t4 font-semibold text-amber-900 transition hover:bg-amber-400/15 dark:text-amber-200"
           >
             {t('kino.tickets')} ↗
           </a>

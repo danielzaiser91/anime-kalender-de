@@ -35,7 +35,7 @@ export function ReihenKopf({ t, suche, onSuche, schalter, reiterZeile, reiter, a
   onReiter: (titel: string) => void
 }) {
   return (
-    <div className="sticky -top-2 z-10 -mx-2 -mt-2 mb-1 flex flex-col gap-1.5 bg-white/95 px-2 pb-1.5 pt-2 backdrop-blur dark:bg-slate-900/95">
+    <div className="sticky -top-2 z-10 -mx-2 -mt-2 mb-1 flex flex-col gap-1.5 bg-white/95 px-2 pb-1.5 pt-2 dark:bg-slate-900/95">
       <div className="flex h-11 items-center gap-2">
         <input
           type="search"
