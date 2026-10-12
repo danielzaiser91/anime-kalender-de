@@ -1,3 +1,4 @@
+/* global randMelden:readonly */
 /*
   **Uneinheitliche Randprobe: im Sammeldurchgang misst die Erweiterung alle Folgen** (4.30.0, 12.10.2026) —
   eigene Datei, weil `melder.js` über der Zeilengrenze liegt (check:umfang). Lädt laut Manifest vor `melder.js`.
@@ -6,8 +7,12 @@
   `randOffen`, warnte und wartete auf eine Grenze im Feld; der Titel blieb ohne Meldung. Im Sammeldurchgang
   wartet niemand davor. Also bekommt der nächste Anlauf desselben Titels `vollLauf` und misst jede Folge
   (`durchlaufStarten` liest den Merker einmal und macht dann keine Randprobe). Gemeldet wird, was gemessen
-  ist: eine Folge ohne Deutsch geht als „kein Deutsch" raus, nichts wird angenommen. Die Last bleibt in den
-  Händen von `durchlaufMelden`: Tageslimit und 5xx-Pause (`tageslimit.js`) setzen `abbruch`, der Lauf endet.
+  ist: eine Folge ohne Deutsch geht als „kein Deutsch" raus, nichts wird angenommen.
+
+  **Gesendet wird gesammelt** (4.30.1): Ein Einzel-POST je Folge ließ den Worker bei jeder Meldung alle Zeilen
+  der Adresse lesen (`ladeOffeneHashes`) — das Lesen wuchs quadratisch, und D1-Lesen ist der Engpass. Jetzt
+  gehen die Ergebnisse nach (Deutsch, Tonspuren) gruppiert über `randMelden` raus, zehn je Stapel. Tageslimit
+  und 5xx-Pause (`tageslimit.js`) setzen über `randMelden` `abbruch`; die weiteren Gruppen entfallen dann.
 
   Von Hand gestartet (kein Sammeldurchgang) bleibt es beim Hinweis und dem Grenzfeld.
 */
@@ -20,5 +25,32 @@ globalThis.akNetflixRandUneinheitlich = (D, reihe, sammeln, erste, letzte) => {
     return
   }
   D.randOffen = { folgen: D.randprobe, erste, letzte }
-  console.warn(`[Anime-Kalender] ${urteil(erste)}, ${urteil(letzte)} — nichts gemeldet. Grenze im Feld unten eintragen oder den vollen Lauf starten.`)
+  console.warn(`[Anime-Kalender] ${urteil(erste)}, ${urteil(letzte)} — nichts gemeldet. Grenze im Feld unten eintragen.`)
+}
+
+/**
+ * Der volle Lauf meldet, was er gemessen hat: je (Deutsch, Tonspuren) eine Gruppe, je Gruppe Stapel zu zehn
+ * (`randMelden`). Nach einem Abbruch (Limit, Worker bestätigt nichts) folgt keine weitere Gruppe.
+ */
+globalThis.akNetflixVollMelden = async (D) => {
+  const gruppen = new Map()
+  for (const r of D.randErgebnis ?? []) {
+    const schluessel = `${r.deutsch}|${r.echte.map((x) => x.code).sort().join(',')}`
+    gruppen.set(schluessel, [...(gruppen.get(schluessel) ?? []), r])
+  }
+  for (const gruppe of gruppen.values()) {
+    const folgen = gruppe.map((r) => r.folge).sort((a, b) => a.nummer - b.nummer)
+    akRandAusfall(D, await randMelden(folgen, gruppe[0], null, folgen.map((f) => f.nummer)))
+    if (D.abbruch) break
+  }
+}
+
+/**
+ * Die Notiz einer Randprobe-Meldung. `bisNummer == null` heißt: Der volle Lauf hat alle Folgen gemessen.
+ * Dort darf „ANGENOMMEN" nicht stehen — Worker und `fetch-urteile.ts` machen daraus sonst eine Annahme.
+ */
+globalThis.akNetflixRandNotiz = (folgen, bisNummer, f, staffelLabel) => {
+  const wo = (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : '') + (staffelLabel ? ` — Netflix: ${staffelLabel}` : '')
+  if (bisNummer == null) return `Gemessen im vollen Lauf${wo}`
+  return `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, dazwischen nicht geprüft${wo}`
 }

@@ -2402,6 +2402,7 @@ if (selbstAn) setTimeout(() => void vielleichtSelbstStarten(), 0)
 function laufBeenden(grund) {
   if (!selbstAn) return
   selbstAn = false
+  DURCHLAUF.vollLauf = null
   DURCHLAUF.mehrfach = null
   /* Sonst stand der letzte Zählerstand („⏹ 6/6 — abbrechen") weiter am Knopf. */
   durchlaufKnopfZeigen()
@@ -3857,16 +3858,16 @@ async function durchlaufStarten() {
    * Leiste nach der Grenze.
    */
   const ausAuftrag = erzwungen ? null : durchlaufAuftrag()
-  const vollLauf = DURCHLAUF.vollLauf === String(reihe)
+  DURCHLAUF.voll = DURCHLAUF.vollLauf === String(reihe) && Boolean(DURCHLAUF.selbst)
   DURCHLAUF.vollLauf = null
   /* Deckt der Auftrag genau einen Titel, ist die Stichprobe über dessen Folgen gezogen — nicht über alle offenen. */
   const basis = DURCHLAUF.stichprobe ?? alleOffen
   const offen = ausAuftrag
     ? ausAuftrag
-    : basis.length > 1 && !vollLauf
+    : basis.length > 1 && !DURCHLAUF.voll
       ? [basis[0], basis[basis.length - 1]]
       : basis
-  DURCHLAUF.randprobe = !ausAuftrag && !vollLauf && basis.length > 1 ? basis : null
+  DURCHLAUF.randprobe = !ausAuftrag && basis.length > 1 ? basis : null
   if (!offen.length) return
 
   /*
@@ -4137,7 +4138,8 @@ async function durchlaufStarten() {
     geht nichts raus: Die Grenze liegt dann irgendwo dazwischen, und wo, weiß
     nur, wer nachsieht.
   */
-  if (DURCHLAUF.randprobe && DURCHLAUF.randErgebnis?.length === 2) {
+  if (DURCHLAUF.voll) await akNetflixVollMelden(DURCHLAUF)
+  if (DURCHLAUF.randprobe && !DURCHLAUF.voll && DURCHLAUF.randErgebnis?.length === 2) {
     /*
       **Nach Folgennummer ordnen, nicht nach Prüfreihenfolge.**
 
@@ -4328,10 +4330,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
             zwei Folgen gemessen und der Rest angenommen wurde. Sonst sieht
             eine Annahme später aus wie eine Messung.
           */
-          `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, ` +
-          `dazwischen nicht geprüft` +
-          (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : ``) +
-          (DURCHLAUF.staffelLabel ? ` — Netflix: ${DURCHLAUF.staffelLabel}` : ''),
+          akNetflixRandNotiz(folgen, bisNummer, f, DURCHLAUF.staffelLabel),
         /* Auch eine abgeleitete Folge bringt ihren Titel und ihre Felder mit — für die Zuordnung. */
         rohfolgen: [
           {

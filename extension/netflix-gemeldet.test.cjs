@@ -412,7 +412,10 @@ async function randvollFaelle() {
   await a.warte()
   const gemeldet = gemeldeteSprachen(a)
   pruefe('Sammeldurchgang: alle 15 Folgen liegen im Briefkasten', a.briefkasten.length === 15, a.briefkasten.length)
-  pruefe('… jede einzeln gemeldet (15 Meldungen, kein Stapel)', a.posts.length === 15 && a.posts.every((b) => !b.stapel), a.posts.length)
+  const groessen = a.posts.map((b) => b.stapel?.length ?? 0)
+  pruefe('… in zwei Stapel-POSTs gesendet (8 mit Deutsch, 7 ohne), nicht 15 einzeln', groessen.length === 2 && groessen.includes(8) && groessen.includes(7), groessen)
+  const notizen = a.posts.flatMap((b) => b.stapel ?? []).map((d) => d.notiz)
+  pruefe('… alle als gemessen, keine Annahme in der Notiz', notizen.length === 15 && notizen.every((n) => /^Gemessen im vollen Lauf/.test(n) && !/ANGENOMMEN/.test(n)), notizen.slice(0, 2))
   pruefe('… Folge 1–8 mit Deutsch, Folge 9–15 ohne', [...gemeldet].every(([nr, de]) => de === nr <= 8) && gemeldet.size === 15, [...gemeldet])
   pruefe('… kein Grenzfeld offen', a.run('DURCHLAUF.randOffen') === null, a.run('DURCHLAUF.randOffen'))
   pruefe('… der Merker ist verbraucht', a.run('DURCHLAUF.vollLauf') === null, a.run('DURCHLAUF.vollLauf'))
@@ -426,22 +429,32 @@ async function randvollFaelle() {
   pruefe('… das Grenzfeld wartet auf Daniel (`randOffen`)', Boolean(b.run('DURCHLAUF.randOffen')), b.run('DURCHLAUF.randOffen'))
   pruefe('… kein Merker für einen vollen Lauf', !b.run('DURCHLAUF.vollLauf'), b.run('DURCHLAUF.vollLauf'))
 
-  /* 12. Das Tageslimit hält den vollen Lauf an: nach dem ersten Fehlschlag geht keine weitere Meldung raus. */
+  /* 12. Der echte Limit-Pfad: `tageslimit.js` liest die 429 des Workers, `AK_TAGESLIMIT.fehlgeschlagen` setzt `abbruch`. */
   const c = await seite()
   gemischtStellen(c)
   sammelnStellen(c)
   const echtC = c.env.fetch
   c.env.fetch = async (url, opt) => {
-    if (opt?.method === 'POST') {
-      c.posts.push(JSON.parse(opt.body))
-      c.run('DURCHLAUF.abbruch = true') /* wie `AK_TAGESLIMIT.fehlgeschlagen` bei gültiger Pause */
-      return { ok: false, json: async () => ({ tageslimit: true }) }
-    }
-    return echtC(url, opt)
+    if (opt?.method !== 'POST') return echtC(url, opt)
+    c.posts.push(JSON.parse(opt.body))
+    const inhalt = { tageslimit: true, retryAfter: 3600 }
+    return { ok: false, status: 429, clone: () => ({ json: async () => inhalt }), json: async () => inhalt }
   }
+  vm.runInContext(readFileSync(__dirname + '/tageslimit.js', 'utf8'), c.env.__kontext, { filename: 'tageslimit.js' })
   await c.run('selbstStartenSchritt()')
   await c.warte()
-  pruefe('Tageslimit im vollen Lauf: höchstens eine Meldung, dann Schluss', c.posts.length === 1, c.posts.length)
+  pruefe('Tageslimit (429 des Workers): nur der erste Stapel geht raus, die zweite Gruppe entfällt', c.posts.length === 1, c.posts.length)
+  pruefe('… das Limit ist erkannt (`AK_TAGESLIMIT.aktiv`)', c.run('AK_TAGESLIMIT.aktiv()') === true)
+  pruefe('… nichts im Briefkasten, nichts als gemeldet vermerkt', c.briefkasten.length === 0 && c.run('DURCHLAUF.gemeldet.size') === 0, c.briefkasten.length)
+
+  /* 13. Stoppt Daniel zwischen Lauf 1 und Lauf 2, bleibt kein Merker für einen vollen Lauf stehen. */
+  const d = await seite()
+  gemischtStellen(d)
+  d.run('selbstAn = true; DURCHLAUF.selbst = true; DURCHLAUF.erzwungen = true')
+  await d.run('durchlaufStarten()')
+  pruefe('(Vorbereitung) nach Lauf 1 wartet der Merker auf Lauf 2', d.run('DURCHLAUF.vollLauf') === REIHE, d.run('DURCHLAUF.vollLauf'))
+  d.run("laufBeenden('von Hand')")
+  pruefe('Stopp von Hand löscht den Merker', d.run('DURCHLAUF.vollLauf') === null, d.run('DURCHLAUF.vollLauf'))
 }
 
 void (async () => {
