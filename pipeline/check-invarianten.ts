@@ -12,10 +12,6 @@ import {
 import { reihenVerweiseAufgeloest, synchroNichtHinterToggle, type SynchroQuellen } from './lib/invarianten-auslieferung.ts'
 import { geplantNichtDeutschHeute, ladeGeplantQuelle } from './lib/invarianten-geplant.ts'
 import { dubIdsNachAnisearch, dubsNachTitel } from './lib/anisearch-marke.ts'
-import { loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
-import { kanalTitelOhneBeleg } from './lib/invarianten-kanal.ts'
-import { kanalAdressenOhneBeleg, ohneKanalSprache, rohBelegtDeutsch } from './lib/kanal-titel.ts'
-import { kanalProben } from './check-invarianten-kanal.ts'
 import { kanalProben, kanalWegeVorhanden } from './check-invarianten-kanal.ts'
 import { kanalFehler } from './bau/kanal-fehler.ts'
 
