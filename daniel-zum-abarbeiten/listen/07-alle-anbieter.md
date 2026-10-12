@@ -50,7 +50,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 6 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
 | 7 | 2026-10-01 | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() |
 | 8 | 2026-09-28 | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 9 | 2026-09-28 | Jujutsu Kaisen PV | [Jujutsu Kaisen 0]() |
+| 9 | 2026-09-28 | Jujutsu Kaisen | [0]() |
 | 10 | 2026-09-17 | Danganronpa | [Hauptserie]() |
 | 11 | 2026-09-17 | Samurai Girls | [Hauptserie]() · [2: Samurai Bride]() |
 | 12 | 2026-09-06 | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
