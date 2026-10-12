@@ -1,6 +1,6 @@
 /**
  * Zusicherungen zur Belegstärke (`dubConfidence`, 09.10.2026): kein high ohne starke oder zwei mittlere Quellen, schwache Quellen heben nie über low.
- * Läuft hinter `check:logic`; prüft die Regel an Beispielen und den ausgelieferten Datensatz gegen eine Neuberechnung.
+ * Läuft hinter `check:logic`; prüft die Regel an Beispielen; die Treffer-Datei gegen den Datensatz steht in `check-belegstaerke-bestand.ts`.
  */
 import type { Title } from '../shared/types.ts'
 import { titleStatus } from '../shared/logic.ts'
@@ -50,23 +50,6 @@ console.log('\nBelegstärke: Synchron-Forum-Liste (mittel, hebt nie über high)'
   const gefiltert = forumTitel([check(a, false), check(b, false), check(b, true)])
   pruefe('Handprüfung nur dub:false schließt den Titel aus', !gefiltert.has(a))
   pruefe('dub:false neben dub:true lässt ihn zu', gefiltert.has(b) && gefiltert.has(c))
-}
-
-console.log('\nBelegstärke: Treffer-Datei gegen den Datensatz')
-{
-  const liste = yaml.load(readFileSync(resolve(ROOT, 'data/synchron-forum-treffer.yaml'), 'utf8')) as { anilistId: number; liste: string }[]
-  const dateien = ['titles.json', 'ohne-synchro.json'].map((n) => JSON.parse(readFileSync(resolve(ROOT, 'public/data', n), 'utf8')) as Title[])
-  const jahr = new Map(dateien.flat().map((t) => [t.id, t.jpYear]))
-  /* 2331: Odysseus 31 — deutsche Fassung 1988, AniList-Titel 1981 (von Hand zugeordnet). */
-  const AUSNAHMEN = new Set([2331])
-  const fehlend = liste.filter((e) => !jahr.has(e.anilistId)).map((e) => e.anilistId)
-  const weit = liste.filter((e) => {
-    const j = jahr.get(e.anilistId)
-    return j && !AUSNAHMEN.has(e.anilistId) && Math.abs(j - Number(e.liste.slice(-4))) > 2
-  }).map((e) => e.liste)
-  pruefe('jede Kennung der Treffer-Datei steht im Datensatz', fehlend.length === 0, fehlend)
-  pruefe('Listenjahr liegt höchstens 2 Jahre neben dem AniList-Jahr', weit.length === 0, weit)
-  pruefe('keine Kennung doppelt', new Set(liste.map((e) => e.anilistId)).size === liste.length)
 }
 
 console.log('\nBelegstärke: „erschienen“ folgt weiter der alten Stufe')
