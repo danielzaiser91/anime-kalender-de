@@ -125,10 +125,21 @@ function universumZeilen(kanten: Kante[], jeKennung: Map<number, number[]>, b: B
   return [...zeilen.values()]
 }
 
+/**
+ * Gleiche MAL-Kennung verbindet — außer bei einer Sammelseite: MAL führt manchmal ganze Reihen unverwandter Titel unter einer Kennung (28149: 27 Kurzfilme, darunter Ryuu no Haisha und Carnage;
+ * Verteilung am 12.10.2026: 6.767 Kennungen mit einem, 62 mit zwei, höchstens acht echte Teile einer Reihe, dann der Ausreißer mit 27). Mehr als `MAL_GRUPPE_MAX` Titel verbinden nicht.
+ */
+const MAL_GRUPPE_MAX = 8
+function malVerbindungen(titel: ReinTitel[]): Kante[] {
+  const kanten = malKanten(titel.map((t) => ({ anisearchId: t.anisearchId, mal: t.mal })))
+  const groesse = new Map<number, number>()
+  for (const k of kanten) groesse.set(k.a, (groesse.get(k.a) ?? 1) + 1)
+  return kanten.filter((k) => groesse.get(k.a)! <= MAL_GRUPPE_MAX)
+}
+
 /** Die Kanten, die unter der Regel zählen, in der Reihenfolge Kern, „?“, Sammelart (innerhalb davon nach Kennung, damit das Ergebnis nicht von der Leseordnung abhängt). */
 function zaehlendeKanten(titel: ReinTitel[], kanten: Kante[], namen: Namen): Kante[] {
-  const mal = malKanten(titel.map((t) => ({ anisearchId: t.anisearchId, mal: t.mal })))
-  return [...kanten, ...mal]
+  return [...kanten, ...malVerbindungen(titel)]
     .filter((k) => zaehlt(k, WANDERREGEL, namen))
     .sort((p, q) => rangDerArt(p.art) - rangDerArt(q.art) || p.a - q.a || p.b - q.b || p.art.localeCompare(q.art))
 }

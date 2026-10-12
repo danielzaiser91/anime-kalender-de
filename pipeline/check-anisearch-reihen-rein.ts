@@ -71,6 +71,11 @@ pruefe('Sammelart ohne gemeinsamen Namensanfang zählt gar nicht (keine Prüfzei
 const universum = reineOhne(titel(1, 2, 3, 4), [k(1, 2, 'Sequel'), k(3, 4, 'Sequel'), k(2, 3, 'Gemeinsames Universum')], gleichNamen)
 pruefe('„Gemeinsames Universum" verbindet nie und steht als Fall „universum" auf der Prüfliste', reihe(universum, 3) === 3 && faelle(universum, 'universum') === 1)
 
+const sammelMal = reineOhne(Array.from({ length: 9 }, (_, i) => ({ id: i + 1, name: `T${i + 1}`, anisearchId: i + 1, mal: 77 })), [])
+pruefe('Eine MAL-Kennung, die neun aniSearch-Titel tragen, ist eine Sammelseite und verbindet nicht', sammelMal.reihen === 0)
+const achtMal = reineOhne(Array.from({ length: 8 }, (_, i) => ({ id: i + 1, name: `T${i + 1}`, anisearchId: i + 1, mal: 77 })), [])
+pruefe('Eine MAL-Kennung mit acht aniSearch-Titeln (echte Reihe, Kimagure Orange Road) verbindet', achtMal.reihen === 1 && reihe(achtMal, 8) === 1)
+
 /* Handdatei. */
 const hand = reineOhne(titel(1, 2, 3, 4), [k(1, 2, 'Sequel')], new Map(), { verbinden: [[3, 4, 99]], trennen: [] })
 pruefe('Handdatei `ids:` verbindet (unbekannte Kennungen darin werden übergangen)', reihe(hand, 4) === 3 && hand.reihen === 2)
