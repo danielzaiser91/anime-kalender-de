@@ -1045,8 +1045,8 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   const liste = Array.isArray(roh) ? roh : (roh.titles ?? [])
   const titel = new Map(liste.map((t) => [t.id, { ...t, streams: [...t.streams] }]))
   const weg = entferneFremdeNachStaffeln(titel, kennungAusAdresse(), crStaffeln())
-  /* Ein Anbieter aus TMDB (`herkunft: 'tmdb'`, vom Cartoon-Zwilling übernommen, ohne Sprachangabe) oder aus einem sicheren Termin (`'termin'`) ist belegt, nicht erraten. */
-  const erraten = (t: Title) => (t.streams ?? []).filter((s) => s.herkunft !== 'tmdb' && s.herkunft !== 'termin').length
+  /* Ein Anbieter aus TMDB (`herkunft: 'tmdb'`, vom Cartoon-Zwilling übernommen, ohne Sprachangabe) oder aus einem sicheren Termin (`'termin'`) ist belegt, nicht erraten; ebenso ein Weg mit Handbeleg „deutsch" (`dub: true`, seit #864 ohne Herkunft). */
+  const erraten = (t: Title) => (t.streams ?? []).filter((s) => s.herkunft !== 'tmdb' && s.herkunft !== 'termin' && s.dub !== true).length
   pruefe('Titel nur bei aniSearch tragen keinen erratenen Weg', liste.every((t) => t.id < 10_000_000 || !erraten(t)), liste.filter((t) => t.id >= 10_000_000 && erraten(t)).map((t) => t.titleEn ?? t.id).slice(0, 5))
   pruefe('im Bestand hängt kein Titel an einer Crunchyroll-Serie, die ihm nicht gehört', weg === 0, [...titel.values()].filter((t, i) => t.streams.length !== liste[i]!.streams.length).map((t) => t.titleEn ?? t.id).slice(0, 8))
 }
