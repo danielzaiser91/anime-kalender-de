@@ -9,7 +9,6 @@ export const TEXTE_ZEILEN = {
   'detail.legendeGeschaetzt': '„≈“: Zahl des Werks, beim Anbieter nicht einzeln belegt.',
   'bereich.offen': 'Weitere Anbieter',
   'antwort.sprachOffen': 'Anbieter, Sprache offen',
-  'antwort.teilweiseOffen': 'Folge {n}: Termin noch offen',
   'kopf.merken': 'Merken',
   'kopf.gemerkt': 'Gemerkt',
   'kopf.kopiert': 'Kopiert',
