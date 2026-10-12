@@ -11,34 +11,34 @@
   },
   "gesamt": {
     "titel": 16084,
-    "gleich": 12398,
-    "fehlen": 1963,
-    "zusaetzlich": 940,
-    "gemischt": 783
+    "gleich": 12397,
+    "fehlen": 1991,
+    "zusaetzlich": 937,
+    "gemischt": 759
   },
   "hauptbestand": {
     "titel": 2871,
-    "gleich": 2174,
-    "fehlen": 381,
-    "zusaetzlich": 188,
-    "gemischt": 128
+    "gleich": 2173,
+    "fehlen": 403,
+    "zusaetzlich": 185,
+    "gemischt": 110
   },
   "haelfteA": {
-    "titel": 7365,
+    "titel": 7364,
     "gleich": 5631,
     "fehlen": 892,
-    "zusaetzlich": 489,
+    "zusaetzlich": 488,
     "gemischt": 353
   },
   "haelfteB": {
-    "titel": 8719,
-    "gleich": 6767,
-    "fehlen": 1071,
-    "zusaetzlich": 451,
-    "gemischt": 430
+    "titel": 8720,
+    "gleich": 6766,
+    "fehlen": 1099,
+    "zusaetzlich": 449,
+    "gemischt": 406
   },
   "cluster": {
-    "einzel": 5398,
+    "einzel": 5397,
     "gleich": 2228,
     "zerlegt": 266,
     "verschmilzt": 97,
@@ -213,7 +213,7 @@
         "id": 967,
         "name": "Hokuto no Ken",
         "titel": 22,
-        "referenz": 3,
+        "referenz": 2,
         "anisearch": 1
       },
       {
@@ -411,7 +411,7 @@
         "id": 43,
         "name": "GHOST IN THE SHELL: Koukaku Kidoutai",
         "titel": 30,
-        "referenz": 4,
+        "referenz": 3,
         "anisearch": 2
       },
       {

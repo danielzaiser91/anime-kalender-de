@@ -5,7 +5,7 @@
   "katalog": {
     "angehaengt": 216,
     "neueReihen": 24,
-    "bestandEinzeln": 215
+    "bestandEinzeln": 214
   },
   "pruefliste": [
     {
@@ -74,7 +74,7 @@
         {
           "id": 43,
           "name": "GHOST IN THE SHELL: Koukaku Kidoutai",
-          "titel": 29
+          "titel": 32
         },
         {
           "id": 98607,
@@ -1228,7 +1228,7 @@
         {
           "id": 1357,
           "name": "Shin Hokuto no Ken",
-          "titel": 19
+          "titel": 20
         },
         {
           "id": 198720,
@@ -1706,24 +1706,6 @@
       ],
       "alleinstehende": [],
       "beispiel": "Kidou Senshi SD Gundam —Anderes→ Kidou Senshi SD Gundam no Gyakushuu: Arashi o Yobu Gakuensai (2 Kanten)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
-          "id": 43,
-          "name": "GHOST IN THE SHELL: Koukaku Kidoutai",
-          "titel": 29
-        },
-        {
-          "id": 1335,
-          "name": "Koukaku Kidoutai: STAND ALONE COMPLEX - Section 9 Science File \"Tachikoma na Hibi\"",
-          "titel": 3
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Koukaku Kidoutai: STAND ALONE COMPLEX —Charakter→ Koukaku Kidoutai: STAND ALONE COMPLEX - Section 9 Science File \"Tachikoma na Hibi\" (4 Kanten)",
       "quelle": "katalog"
     },
     {
