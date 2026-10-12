@@ -158,7 +158,7 @@
 - reinIds: [161645, 10022024]
   grund: 'Kusuriya no Hitorigoto: Maomao no Hitorigoto – aniSearch: ?; AniList-Beziehung im Katalog (außer Maomao no Hitorigoto Dai 3 Ki: kein AniList-Eintrag)'
 - reinIds: [3008, 21755, 3915, 4154, 4578, 5344, 5475, 6889, 8011, 8553, 187215]
-  grund: 'Time Bokan Series: Yatterman: Time Bokan 24, Time Bokan – aniSearch: ?, Charakter, Gemeinsames Universum; AniList-Beziehung im Katalog (außer Time Bokan Oudou Fukko: ohne Beziehung im Katalog, dort gleicher Namensanfang)'
+  grund: 'Time Bokan Series: Yatterman: Time Bokan 24, Time Bokan – aniSearch: ?, Charakter, Gemeinsames Universum; AniList-Beziehung im Katalog'
 
 # --- aniSearch führt nur Sammelart (Klasse C) ---
 - reinIds: [20, 155348]
