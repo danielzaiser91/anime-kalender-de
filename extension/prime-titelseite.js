@@ -8,6 +8,13 @@
 */
 globalThis.akPrimeHatTitelseite = (eintrag) => /\/detail(?:\/|\?gti=)/.test(String(eintrag?.url ?? ''))
 
+/*
+  Reihenfolge des Durchgangs: Einträge mit `vorrang` (1 vor 2) zuerst, danach nach Titel. Die Liste setzt es für die Kanal-Nachmessung
+  (`data/erneut-melden.yaml`, 12.10.2026), damit die Titel mit zweifelhaftem Kanal-Ja vor den übrigen drankommen.
+*/
+globalThis.akPrimeVergleich = (liste) => (a, b) =>
+  (liste[a].vorrang ?? 9) - (liste[b].vorrang ?? 9) || String(liste[a].titel).localeCompare(String(liste[b].titel), 'de')
+
 /* Der Vermerk der Prime-Liste, wie der letzte Durchgang endete. */
 globalThis.akPrimeEndeText = (ende) =>
   (ende.grund === 'nichts mehr offen' ? 'Durchgang fertig' : `Durchgang beendet · ${ende.grund}`) +

@@ -28,6 +28,32 @@ import yaml from 'js-yaml'
 import { regeln } from './pruef-bestand.mjs'
 
 /**
+ * **Vierte Quelle: von Hand erbetene Wiedervorlage** (`data/erneut-melden.yaml`, 21.09.2026).
+ * Ein Eintrag gilt, bis eine Meldung nach seinem `seit` angekommen ist — dann trägt der neue
+ * Beleg die Antwort, und der Titel fällt von selbst heraus. Trägt `raus` ein.
+ */
+function vonHandErbetene(wurzel, plattform, raus) {
+  try {
+    const liste = yaml.load(readFileSync(resolve(wurzel, 'data/erneut-melden.yaml'), 'utf8')) ?? []
+    const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
+    for (const w of liste) {
+      if (w.platform !== plattform || raus.has(w.anilistId)) continue
+      const zu = belege.filter((b) => b.anilistId === w.anilistId && b.platform === plattform)
+      const neuer = zu.some((b) => String(b.checkedAt ?? '') >= w.seit)
+      if (neuer) continue
+      /*
+        Ein Kanal-Titel ist über Prime nicht zu klären — 139 der 367 Einträge, sonst eine Schleife (30.09.2026).
+        Ausnahme `kanal: true` (Nachmessung 12.10.2026): Die Meldung schreibt jetzt `kanalMessung`, auch als Nein, und beendet die Wiedervorlage.
+      */
+      if (!w.kanal && zu.length && zu.every((b) => /Kanal-Titel|kein Beleg/i.test(String(b.note ?? '')))) continue
+      raus.set(w.anilistId, { wiedervorlage: w.grund, seit: w.seit, ...(w.vorrang ? { vorrang: w.vorrang } : {}) })
+    }
+  } catch {
+    /* Ohne Datei keine Wiedervorlage. */
+  }
+}
+
+/**
  * Offene Verdachtsfälle je Anbieter, als Menge von AniList-Kennungen.
  *
  * @param {string} wurzel Repo-Wurzel
@@ -111,26 +137,7 @@ function verdachtsfaelleBisher(wurzel, plattform) {
   } catch {
     /* Ohne Titel oder Belege gibt es nichts zu vergleichen. */
   }
-  /**
-   * **Vierte Quelle: von Hand erbetene Wiedervorlage** (`data/erneut-melden.yaml`, 21.09.2026).
-   * Ein Eintrag gilt, bis eine Meldung nach seinem `seit` angekommen ist — dann trägt der neue
-   * Beleg die Antwort, und der Titel fällt von selbst heraus.
-   */
-  try {
-    const liste = yaml.load(readFileSync(resolve(wurzel, 'data/erneut-melden.yaml'), 'utf8')) ?? []
-    const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
-    for (const w of liste) {
-      if (w.platform !== plattform || raus.has(w.anilistId)) continue
-      const zu = belege.filter((b) => b.anilistId === w.anilistId && b.platform === plattform)
-      const neuer = zu.some((b) => String(b.checkedAt ?? '') >= w.seit)
-      if (neuer) continue
-      /* Ein Kanal-Titel ist über Prime nicht zu klären — 139 der 367 Einträge, sonst eine Schleife (30.09.2026). */
-      if (zu.length && zu.every((b) => /Kanal-Titel|kein Beleg/i.test(String(b.note ?? '')))) continue
-      raus.set(w.anilistId, { wiedervorlage: w.grund, seit: w.seit })
-    }
-  } catch {
-    /* Ohne Datei keine Wiedervorlage. */
-  }
+  vonHandErbetene(wurzel, plattform, raus)
   try {
     const titel = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
     const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
@@ -244,6 +251,11 @@ export function laufendeSynchro(belege, titel, plattform, heute) {
     raus.set(b.anilistId, { laufendeSynchro: { bis, am: String(b.checkedAt) }, seit: faellig })
   }
   return raus
+}
+
+/** Die Felder eines Listeneintrags der Prime-Liste: der Satz im Kasten und, wo gesetzt, der Vorrang im Durchgang (1 = zuerst). */
+export function verdachtsFelder(v) {
+  return { erneut: verdachtHinweis(v), ...(v.vorrang ? { vorrang: v.vorrang } : {}) }
 }
 
 /** Der Satz, der im Kasten der Erweiterung steht. */

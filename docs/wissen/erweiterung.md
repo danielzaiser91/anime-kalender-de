@@ -2340,3 +2340,9 @@ Jetzt kommen Sprachen und `ton_de` einer Meldung ausschließlich aus `gesehen.je
 ## Disney+-Meldung je Folge liest im Worker nur ihre Folge (12.10.2026, ohne Erweiterungs-Release)
 
 Die Erweiterung meldet Disney+ weiter eine Folge je Anfrage und schickt nichts Neues mit. Der Worker suchte dafür bei jeder Meldung alle Zeilen der Adresse (ein Durchgang über n Folgen las rund n² Zeilen, 40.400 bei 200); seit Migration 053 liest er über den Schlüssel (Adresse, Folge, Staffel, Seitenkennung) nur die Zeilen dieser Folge (800 bei 200). Der Weg, offene Hashes in der Erweiterung zu holen und mitzuschicken, wurde verworfen. Die Migration vor dem Worker-Deploy ist empfohlen, nicht zwingend: ohne sie läuft der Worker wie vorher (alle Zeilen der Adresse), ohne Meldungen zu verlieren. Messung, Gegenprobe und Deploy-Reihenfolge: `docs/wissen/betrieb.md`, Abschnitt „Eine Meldung liest nur ihre Folge“.
+
+## Prime-Durchgang: Einträge mit `vorrang` zuerst (4.30.4, 12.10.2026)
+
+Der Durchgang nahm die offenen Titel nach Titelname (`primeNaechsterTitel`). Für die Kanal-Nachmessung (`quellen.md`, Nachtrag 12.10.2026) trägt ein Listeneintrag jetzt `vorrang`
+(1 vor 2, ohne Feld zuletzt); `tools/verdacht.mjs` reicht es aus `data/erneut-melden.yaml` durch (`verdachtsFelder()`), `akPrimeVergleich()` in `prime-titelseite.js` sortiert.
+Test: `prime-vorrang.test.cjs`. Ohne `vorrang` bleibt die Folge alphabetisch, wie vorher.

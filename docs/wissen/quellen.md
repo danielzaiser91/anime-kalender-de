@@ -484,6 +484,24 @@ einzige Suche (`ersetztSucheUndMeldetWeg()`, `lib/weg-aus-beleg.ts`); der Weg bl
 Ersatz-Cache, der AniLists Amazon-Link nachbildet (Daten vom 12.10.2026 09:31 Uhr, `82c82ef5e`), verlor 73 Prime-Wege, darunter
 alle 16; mit der Änderung kommen alle 16 zurück.
 
+**Nachtrag 12.10.2026 (Abend): Das Kanal-Ja wird nachgemessen, die Regel bleibt.** Daniel: „Erst messen, dann entscheiden.“ Herkunft von Hell Mode
+(`daniel-zum-abarbeiten/berichte/hell-mode-herkunft-2026-10-12.md`): Der Melder bis 4.20.10 (15.09.2026, `141e692d8`) füllte über eine Rückfallebene ein
+Sammel-Set `gesehen.sprachen` ohne Folgennummer; Amazon zeigte auch am 30.08. nur 日本語. Altes Seiten-HTML war es nicht.
+
+- **Betroffene** (Stand `dub-confirmed.yaml` 12.10.): 796 Belegzeilen mit Kanal-Warnung und Ja ohne `zweiteQuelle` = 524 Adressen = **355 Titel**. Davon aus der Zeit vor
+  4.20.10 (`checkedAt` bis 14.09., die Datei nennt keine Version): 339 Zeilen = 180 Adressen = 161 Titel. Die 105 Titel aus der Liste von PR 991 liegen alle darunter.
+- **Gegenprobe** ohne neue Messung (`data/prime-zugeordnet.json`, je Folge, Meldungen ab 28.09.): 176 Adressen mit Deutsch, **3 nie Deutsch** (Hell Mode 185262,
+  There’s No Freaking Way I’ll Be Your Lover 184591, Akame ga Kill 20613), 345 ohne Meldung. 65 der 105 aus PR 991 sind nicht bestätigt, 40 schon.
+- **Prüfliste:** Es gab schon eine Wiedervorlage, `data/erneut-melden.yaml` (`tools/erneut-melden.mjs`). Sie nahm Kanal-Titel aus (30.09.2026: ihr Nein erzeugt keinen Beleg,
+  die Liste liefe endlos). Jetzt gilt `kanal: true`: **195 Titel** stehen mit `seit: 2026-10-13`, Vorrang 1 (145: Beleg von vor 4.20.10 oder Gegenprobe widerspricht) und
+  2 (50). Weitere 9 Titel ohne Gegenprobe (darunter Hell Mode) haben keinen Prime-Weg im Bestand und lassen sich nicht öffnen. Der Prime-Durchgang sortierte alphabetisch; `akPrimeVergleich()` (`extension/prime-titelseite.js`, 4.30.4) stellt Einträge mit `vorrang` davor.
+- **Löst eine neue Messung den alten Beleg ab?** Ein Ja ja: Es kommt als jüngerer Block derselben Adresse, `verschmelze()` nimmt den neueren. Ein Nein nein: Die Meldung
+  einer bekannten Adresse ohne Folgenbefund wurde ausgelassen (`kanalOhneAussage()`), das alte Ja blieb unter der Sperre liegen. Seit jetzt schreibt `fetch-pruefungen.ts`
+  auf einer Adresse mit altem Kanal-Ja auch das Nein, und jede Kanal-Meldung trägt `kanalMessung: ja|nein`. Das Feld zählt nicht als Urteil (kein `dub: false`, das
+  `check:logic` für Kanal-Titel verbietet); wer die Regel später lockert, liest es statt des alten `dub: true`. Die Messung beendet auch die Wiedervorlage.
+- **Auswertung:** `node tools/kanal-nachmessung-vergleich.mjs [--liste]` (Kern `tools/kanal-nachmessung.mjs`): je Adresse alt Ja, neu Ja/Nein/fehlt, Gegenprobe; die Zahl der
+  Abweichungen (alt Ja, neu Nein) trägt Daniels Entscheidung. Messung frühestens am 13.10.2026 nach 02:00 (Leselimit).
+
 **Und der Beleg nimmt die Seite, auf der gemeldet wurde.** Eine Meldung trägt zwei Adressen:
 `url` ist der Eintrag der Prüfliste (bei einem Staffelwechsel die Seite von Staffel 1),
 `seiten_kennung` die Seite, die wirklich angesehen wurde — **für neue Meldungen**. Im
