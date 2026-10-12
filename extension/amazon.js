@@ -5999,10 +5999,7 @@ async function speicherSchreiben(werte) {
     if (ende) {
       const zeile = document.createElement('div')
       zeile.className = 'ak-hinweis ak-durchgang-ende'
-      zeile.textContent =
-        (ende.grund === 'nichts mehr offen' ? 'Durchgang fertig' : `Durchgang beendet · ${ende.grund}`) +
-        (ende.uebersprungen?.length ? ` · übersprungen: ${ende.uebersprungen.join(', ')}` : '') +
-        (ende.suchen ? ` · ${ende.suchen} Suchaufträge von Hand` : '')
+      zeile.textContent = akPrimeEndeText(ende)
       kasten.appendChild(zeile)
     }
 
