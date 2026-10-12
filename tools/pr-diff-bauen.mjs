@@ -7,7 +7,8 @@
  * 1,1 MB) füllte sonst das Limit, der Prüfer sah den Code nicht und musste zwingend „aendern" urteilen.
  *
  * Gestubbt wird nur, was die Positivliste trifft (siehe `stubbar`) und über GRENZE_STUB Byte Diff hat (oder dessen Diff
- * GitHub nicht liefert): .json/.jsonl/.yaml unter public/data/ und die Dateien aus `tools/quellen-liste.sh` (Datenläufe).
+ * GitHub nicht liefert): .json/.jsonl/.yaml unter public/data/ und data/stammdaten/ (12.10.2026: maschinell erzeugte
+ * Schnappschüsse mit eigenen Prüfungen) sowie die Dateien aus `tools/quellen-liste.sh` (Datenläufe).
  * Alles andere unter data/ (Handdateien, Ankündigungen, Grenzen), Handbelege (`data/dub-confirmed.yaml`, `data/curated/`),
  * `data/cache/` und jede Code-, Workflow- oder Doku-Datei bleibt immer vollständig.
  * Fehlt der API-Diff einer nicht stubbaren Datei (die API liefert bei sehr großen Änderungen kein `patch`, z. B. `data/dub-confirmed.yaml`
@@ -28,6 +29,8 @@ const API_MAXIMUM = 3000
 // (`tools/quellen-liste.sh`, die eine Liste; Einträge sind Dateien oder Ordner). Handdateien unter data/ stehen nicht darin.
 const DATEI_ENDUNG = /\.(?:json|jsonl|yaml)$/
 const ERZEUGNIS = /^public\/data\/(?:[^/]+\/)*[^/]+\.(?:json|jsonl|yaml)$/
+// Stammdaten-Schnappschüsse (z. B. anilist-eingefroren.json) sind maschinell erzeugt und haben eigene check-Skripte.
+const STAMMDATEN = /^data\/stammdaten\/(?:[^/]+\/)*[^/]+\.(?:json|jsonl|yaml)$/
 // Eingefrorener Ausschnitt aus public/data (Erzeugnis von tools/buehne-faelle.mjs, keine Handdatei); genau dieser Pfad.
 const BUEHNE_FAELLE = 'web/buehne/faelle.json'
 // Auch auf der Liste nie gestubbt: Handbelege lesen, data/cache/ gehört nie in einen PR (der Verstoß soll sichtbar sein).
@@ -50,7 +53,7 @@ const aufListe = (pfad, quellen) => quellen.some((q) => pfad === q || pfad.start
 /** Darf diese Datei gestubbt werden? Nur Positivliste; `..` und Steuerzeichen treffen nie. */
 export function stubbar(pfad, quellen) {
   if (typeof pfad !== 'string' || STEUERZEICHEN.test(pfad) || NIE_STUB.test(pfad) || pfad.split('/').includes('..')) return false
-  if (ERZEUGNIS.test(pfad) || pfad === BUEHNE_FAELLE) return true
+  if (ERZEUGNIS.test(pfad) || STAMMDATEN.test(pfad) || pfad === BUEHNE_FAELLE) return true
   return pfad.startsWith('data/') && DATEI_ENDUNG.test(pfad) && aufListe(pfad, quellen)
 }
 
