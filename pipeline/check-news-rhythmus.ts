@@ -2,7 +2,9 @@
  * Zusicherungen zur Rhythmus-Meldung (`lib/news-rhythmus.ts`, Handbeleg `Release.rhythmus`; Avatar: Die sieben Häfen, 12.10.2026):
  * eigene Meldung an dem Tag der Quelle, mit genau deren Beleg; falsche Handbelege brechen ab; der echte Eintrag besteht die Prüfung.
  */
-import { rhythmusFehler, rhythmusMeldung } from './lib/news-rhythmus.ts'
+import { CARTOON_NEWS_ARTEN } from './bau/cartoon-kern.ts'
+import { istLink } from '../shared/quelle.ts'
+import { rhythmusFehler,rhythmusMeldung } from './lib/news-rhythmus.ts'
 import { loadCurated } from './lib/curated.ts'
 import { pflegeTerminverlauf } from './lib/news-verlauf.ts'
 import { newsSatz } from '../web/src/lib/news-text.ts'
@@ -38,7 +40,11 @@ pruefe('Satz in der Mail', mailSatz(m) === 'Bis 30.10.2026 wöchentlich 3–4 ne
 pruefe('feste Zahl ohne Spanne', newsSatz({ ...m, proWoche: [3, 3] }) === 'Bis 30.10.2026 wöchentlich 3 neue Folgen bei Paramount+')
 pruefe('ohne Handbeleg keine Meldung', rhythmusMeldung(release({ rhythmus: undefined })).length === 0)
 
-const mitFehler = (aus: Partial<Release>) => rhythmusFehler(release(aus)).length > 0
+/* Ein Cartoon (negative Kennung) mit Rhythmus-Handbeleg besteht `check-cartoon-news`: Art erlaubt, Quelle und Beleg mit Adresse, Release genannt (Anlass: Bestandsbau-Abbruch, #975). */
+pruefe('Cartoon-Prüfung: Art der Rhythmus-Meldung ist für Cartoons erlaubt', CARTOON_NEWS_ARTEN.has(m.art), m.art)
+pruefe('Cartoon-Prüfung: Quelle und Beleg sind Links, das Release ist genannt', istLink(m.quelle) && (m.belege ?? []).every((b) => istLink(b.url)) && m.release === 'x-paramountplus')
+
+const mitFehler =(aus: Partial<Release>) => rhythmusFehler(release(aus)).length > 0
 const x = release().rhythmus!
 pruefe('Quelle nicht in sources: Fehler', mitFehler({ rhythmus: { ...x, quelle: 'https://www.anime2you.de/news/9/z/' } }))
 pruefe('Ende vor dem Start: Fehler', mitFehler({ rhythmus: { ...x, bis: '2026-10-01' } }))
