@@ -41,7 +41,7 @@
  * einem Verlagsnamen eine Plattform zu raten hieße, eine Pille zu bauen, die
  * ins Leere führt. Der Name steht deshalb so da, wie er dasteht.
  */
-import { readJson } from './util.ts'
+import { deutschMarke } from './anisearch-marke.ts'
 /** Was aniSearch je Sprache über eine Veröffentlichung sagt. */
 interface Sprachblock {
   language?: string
@@ -79,14 +79,12 @@ export interface AnisearchTermin {
  * sie zur Teilsynchro — Ranma ½ (1989), zweite Staffel, im Sprachblock nur „Abgebrochen" und ohne `dubbed`.
  */
 export function mitDubKennzeichen(titelId: number, termin: AnisearchTermin | undefined): AnisearchTermin | undefined {
-  dubKennzeichen ??= readJson<Record<string, string>>('data/anisearch-dubs.json', {})
-  const kennzeichen = dubKennzeichen[String(titelId)]
+  const kennzeichen = deutschMarke(titelId)
   /* Geplant (`p`) gilt als noch nicht veröffentlicht, auch wo der Block Datum und „Abgeschlossen“ trägt (Daniel, 11.10.2026): kein deutsches Datum. */
   if (kennzeichen === 'p') return undefined
   if (kennzeichen !== 'c' && kennzeichen !== 'd') return termin
   return { zitat: 'aniSearch-Dub-Liste', ...termin, synchro: true, ...(kennzeichen === 'c' ? { teil: true } : {}) }
 }
-let dubKennzeichen: Record<string, string> | undefined
 
 /**
  * Deutsches Datum in ISO-Form.

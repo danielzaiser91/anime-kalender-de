@@ -11,6 +11,7 @@ import {
 } from './lib/invarianten.ts'
 import { reihenVerweiseAufgeloest, synchroNichtHinterToggle, type SynchroQuellen } from './lib/invarianten-auslieferung.ts'
 import { geplantNichtDeutschHeute, ladeGeplantQuelle } from './lib/invarianten-geplant.ts'
+import { dubIdsNachAnisearch, dubsNachTitel } from './lib/anisearch-marke.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -126,12 +127,11 @@ if (process.argv.includes('--bestand')) {
   const z = zaehlworteStimmen(meta, { titles: titles.size, releases: releases.length, events: events.length })
   console.log(`Zählworte: ${z.length} Abweichung(en)`, z)
   verletzt += r.fehler.length
-  const lies = <T>(pfad: string): T => JSON.parse(readFileSync(new URL(`../${pfad}`, import.meta.url), 'utf8')) as T
   const handbelegt = new Set((yaml.load(readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')) as { anilistId: number; dub?: boolean; nichtImBestand?: boolean }[]).filter((c) => c.dub === true && !c.nichtImBestand).map((c) => c.anilistId))
   const handKeine = new Set((yaml.load(readFileSync(new URL('../data/ohne-synchro-von-hand.yaml', import.meta.url), 'utf8')) as { anilistId?: number; sources?: string[] }[]).filter((e) => e.anilistId && e.sources?.length).map((e) => e.anilistId!))
   const auslieferung = { titles: [...titles.values()], ohneSynchro: d<Title[]>('ohne-synchro.json'), cartoons: d<Title[]>('cartoons.json'), franchises: d<Record<string, { id: number; name: string }[]>>('franchises.json') }
   const a = [
-    ...synchroNichtHinterToggle(auslieferung, { dubsAnilist: lies('data/anisearch-dubs.json'), dubIds: lies('data/anisearch-dub-ids.json'), handbelegteIds: handbelegt, handKeine, heute: new Date().toISOString().slice(0, 10) }),
+    ...synchroNichtHinterToggle(auslieferung, { dubsAnilist: dubsNachTitel(), dubIds: dubIdsNachAnisearch(), handbelegteIds: handbelegt, handKeine, heute: new Date().toISOString().slice(0, 10) }),
     ...reihenVerweiseAufgeloest(auslieferung),
     ...geplantNichtDeutschHeute(releases, titles, ladeGeplantQuelle()),
   ]
