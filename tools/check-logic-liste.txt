@@ -2,6 +2,7 @@
 # Alphabetisch sortiert (check-logic-alle.mjs verlangt es): ein neuer Check kommt an die passende Stelle, nicht ans Ende.
 # Zwei Zweige, die verschiedene Checks ergänzen, ändern dann verschiedene Stellen und kollidieren nicht. Die Reihenfolge ist sonst egal.
 pipeline/check-abstand.ts
+pipeline/check-adn-film.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-entwurf.ts
 pipeline/check-anime2you-sammelartikel.ts

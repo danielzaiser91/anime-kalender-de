@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { ROOT } from '../lib/util.ts'
+import { entferneOhneTitel } from './ohne-titel.ts'
 
 /**
  * **F-Sperre** (`data/fanservice-urteil.yaml`, Daniel, 08.10.2026): Titel, die nur Fanservice zeigen. Sie bleiben im Bestand (Datenbank-Suche, Reihen-Liste), tragen aber die Marke
@@ -12,6 +13,12 @@ export function fanservicesperre(): Set<number> {
 }
 
 export const mitSperre = <T extends { id: number }>(t: T, gesperrt: Set<number>): T => (gesperrt.has(t.id) ? { ...t, sperre: 'fanservice' as const } : t)
+
+/** Alles, was im Kalender nicht erscheinen darf: gesperrte Titel und Einträge ohne Titel. */
+export function entferneVomKalender(...listen: { titleId: number; name: string; platform: string }[][]): void {
+  entferneGesperrte(...listen)
+  entferneOhneTitel(...listen)
+}
 
 /** Entfernt die Einträge gesperrter Titel aus den Listen selbst (alle späteren Phasen — Kalender, Meldungen, Abo-Feeds — sehen sie dann nicht mehr). */
 export function entferneGesperrte(...listen: { titleId: number }[][]): void {

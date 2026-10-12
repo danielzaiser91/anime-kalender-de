@@ -112,8 +112,8 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
     // Aus dem Katalogdurchlauf nur, was sich einem Anime zuordnen lässt: Der
     // Katalog führt den französischen Bestand, und ohne Zuordnung bliebe der
     // französische Name stehen, dazu ohne Cover, Genres und Beschreibung.
-    // Beim Kalender-Weg ist der Name belegt, dort bleibt der Eintrag auch ohne
-    // Treffer.
+    // Beim Kalender-Weg ist der Name belegt; ohne Treffer nimmt ihn
+    // `entferneVomKalender` später wieder heraus und meldet ihn.
     if (!serienTitel && show.fromCatalog) continue
 
     /**
