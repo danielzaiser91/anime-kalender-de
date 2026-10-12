@@ -35,7 +35,7 @@ import { reihenNameVon, teilNameVon } from './detail/reihen-namen.ts'
 import { kastenNotizVon, kaufausgabeZeileVon, wegeHinweisVon } from './detail/kasten-hinweise.ts'
 import { useErsatzHandlung } from './detail/ersatz-handlung.ts'
 import { PanelLeer, PanelVersteckt } from './detail/panel-huellen.tsx'
-import { useDiscAusgaben, useEscapeSchliesst, useSynopse, useTitelNachladen, useWechsleZu } from './detail/panel-laden.ts'
+import { useDiscAusgaben, usePanelFenster, useSynopse, useTitelNachladen, useWechsleZu } from './detail/panel-laden.ts'
 import { unterzeileVon, useBuehnenBild, useKinoRelease, WertungPille } from './detail/panel-werte.tsx'
 
 export function DetailPanel({
@@ -83,7 +83,7 @@ export function DetailPanel({
   const [plotOffen, setPlotOffen] = useState(false)
   const { discAusgaben, discOffen, setDiscOffen } = useDiscAusgaben(titleId)
   const synopsis = useSynopse(titleId, title, setAllKeywords, setPlotOffen)
-  useEscapeSchliesst(onClose)
+  usePanelFenster(onClose)
 
   const reihe = useReihe(title)
 
