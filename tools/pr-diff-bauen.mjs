@@ -85,12 +85,15 @@ export function gitDiffRunner(basis, kopf, lauf = spawnSync) {
   }
 }
 
+/** Stubbar nur, wenn auch der alte Pfad einer Umbenennung stubbar ist; sonst bliebe die Änderung einer lesbaren Datei ungelesen. */
+const stubbareDatei = (d, quellen) => stubbar(d.filename, quellen) && (!d.previous_filename || stubbar(d.previous_filename, quellen))
+
 /** Ein Abschnitt je Datei. `fehlt` heißt: Diff nötig, aber nicht vorhanden. */
 function abschnitt(d, quellen, gitDiff) {
   const hatPatch = typeof d.patch === 'string' && d.patch !== ''
   const bytes = hatPatch ? Buffer.byteLength(d.patch) : null
   const aenderungen = (d.additions ?? 0) + (d.deletions ?? 0)
-  if (!d.steuer && stubbar(d.filename, quellen) && (bytes === null ? aenderungen > 0 : bytes > GRENZE_STUB)) {
+  if (!d.steuer && stubbareDatei(d, quellen) && (bytes === null ? aenderungen > 0 : bytes > GRENZE_STUB)) {
     return { text: `${kopf(d)}\n${stubZeile(d, bytes)}`, gestubbt: true, fehlt: false }
   }
   if (hatPatch) return { text: `${kopf(d)}\n--- a/${d.previous_filename ?? d.filename}\n+++ b/${d.filename}\n${d.patch}`, gestubbt: false, fehlt: false }
