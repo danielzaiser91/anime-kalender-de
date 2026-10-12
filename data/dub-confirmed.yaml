@@ -23704,3 +23704,31 @@
   dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0HKV56GC6: alle 24 Folgen geprüft, Abos: Prime, prosiebenfun, prosiebende, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.a9b9b409-94c3-44be-8ab9-9c14e56229e2"
+# ---------------------------------------------------------------------------
+# Prüfung vom 12.10.2026 (Daniel im Chat, Snowball Earth Staffel 1: alle 13 Folgen deutsch)
+# Überholt das „keine deutsche Synchro" vom 26.09. (Crunchyroll) und die Messung vom 08.10. (Disney+, Folgen 1–10).
+# ---------------------------------------------------------------------------
+- anilistId: 196144
+  title: "Snowball Earth"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-12'
+  note: "Daniel: alle 13 Folgen mit deutscher Synchro, Folge 13 heute (12.10.2026) erschienen"
+- anilistId: 196144
+  title: "SNOWBALL EARTH"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GT00371869/snowball-earth
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-12'
+  note: "Daniel: alle 13 Folgen mit deutscher Synchro; Crunchyroll-Kalender führt Folge 13 heute (12.10.2026) als „Deutsch“"
