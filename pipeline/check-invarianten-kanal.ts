@@ -2,7 +2,7 @@
 import type { Title } from '../shared/types.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
 import { kanalTitelOhneBeleg, kanalWegEntfernt } from './lib/invarianten-kanal.ts'
-import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, ohneKanalSprache, rohBelegtDeutsch } from './lib/kanal-titel.ts'
+import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, ohneKanalSprache, belegOhneGenaueAdresse, rohDeutsch } from './lib/kanal-titel.ts'
 
 type Pruefe = (name: string, ok: boolean, gefunden?: unknown) => void
 
@@ -22,11 +22,16 @@ export function kanalProben(pruefe: Pruefe): void {
   pruefe('D-25: dieselbe Seite bei einem anderen Titel geht durch', kanalTitelOhneBeleg(hell(true), new Set(['999|amazon:b0ftw7gp47']), keine).length === 0)
   pruefe('D-25: eine andere Quelle des Titels (Termin, aniSearch) geht durch', kanalTitelOhneBeleg(hell(true), hellKanal, () => true).length === 0)
   pruefe('D-25: eine deutsche Erstausgabe geht durch', kanalTitelOhneBeleg(hell(true, { deErstausgabe: { von: '2026-01-10' } }), hellKanal, keine).length === 0)
-  const deutsch = true
+  const deutsch = [{ sprachen: ['Deutsch', 'Japanisch'] }]
   const lader = [ohneKanalSprache(hellBeleg)]
-  pruefe('D-25: gemeldete Folgen auf einer Kanal-Seite belegen kein Deutsch', !rohBelegtDeutsch(deutsch, 185262, hellUrl, lader))
-  pruefe('D-25: gemeldete Folgen auf einer anderen Seite belegen Deutsch', rohBelegtDeutsch(deutsch, 185262, 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA', lader))
-  pruefe('D-25: gemeldete Folgen ohne Deutsch belegen nichts', !rohBelegtDeutsch(false, 185262, null, []))
+  pruefe('D-25: gemeldete Folgen auf einer Kanal-Seite belegen kein Deutsch', rohDeutsch(deutsch, 185262, hellUrl, lader) === false)
+  pruefe('D-25: gemeldete Folgen auf einer anderen Seite belegen Deutsch', rohDeutsch(deutsch, 185262, 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA', lader) === true)
+  pruefe('D-25: gemeldete Folgen ohne Deutsch belegen nichts', rohDeutsch([{ sprachen: ['Japanisch'] }], 185262, null, []) === undefined)
+  const andere = 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA'
+  const fremdesNein = { anilistId: 185262, platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/B0CFL5Y7XN', dub: false, checkedAt: '2026-09-01' } as DubCheck
+  pruefe('belegFuer: ein Nein zu einer anderen Adresse gilt für die Kanal-Zeile nicht', belegOhneGenaueAdresse([fremdesNein], 1, lader, 185262, hellUrl) === undefined)
+  pruefe('belegFuer: ohne Kanal-Zeile bleibt der Rückfall bei einem Weg', belegOhneGenaueAdresse([fremdesNein], 1, lader, 185262, andere) === fremdesNein)
+  pruefe('belegFuer: ab zwei Wegen gibt der Rückfall nichts', belegOhneGenaueAdresse([fremdesNein], 2, lader, 185262, andere) === undefined)
   const stumm = kanalAdressenOhneAussage([ohneKanalSprache(hellBeleg)])
   const entfernt = (url: string, plattform = 'primevideo') => [{ titleId: 185262, plattform, url, grund: 'belegtes Nein' }]
   pruefe('D-26: Kanal-Weg ohne eigene Aussage in verweise-entfernt wird gemeldet', kanalWegEntfernt(entfernt(hellUrl), stumm).length === 1)

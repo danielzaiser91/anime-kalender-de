@@ -39,11 +39,30 @@ export function kanalAdressenOhneAussage(checks: DubCheck[]): Set<string> {
   return new Set(stumm.map((c) => kanalSchluessel(c.anilistId, c.url)))
 }
 
+const kanalMengen = new WeakMap<DubCheck[], Set<string>>()
+
+/** `kanalAdressenOhneBeleg()` einmal je Belegliste: Der Bau fragt es je Weg und je Rohmeldung. */
+function kanalMenge(checks: DubCheck[]): Set<string> {
+  if (!kanalMengen.has(checks)) kanalMengen.set(checks, kanalAdressenOhneBeleg(checks))
+  return kanalMengen.get(checks)!
+}
+
 /**
- * Belegt eine gemeldete Folgenliste (`prime-zugeordnet.json`,`deutsch`: eine Folge nennt Deutsch) das Deutsch? Auf einer Kanal-Seite
- * (`seite`, sonst null) nicht: Amazon führt dort je Folge die Sprachen des Kanals, die Rohmeldung ist dieselbe Angabe wie der Handbeleg.
+ * Rückfall von `belegFuer()` (09-1-belege.ts), wenn kein Beleg die Adresse nennt: bei einem einzigen Weg der jüngste Beleg als Korrektur,
+ * ab zwei Wegen keiner. Eine Kanal-Zeile ohne Aussage hält ihre Adresse: Das Nein einer fremden Adresse gilt für sie nicht
+ * (Goblin Slayer II, JoJo Diamond is Unbreakable, 12.10.2026).
+ */
+export function belegOhneGenaueAdresse(liste: DubCheck[], anzahlWege: number, alleChecks: DubCheck[], titelId: number, url: string | undefined): DubCheck | undefined {
+  if (url && kanalMenge(alleChecks).has(kanalSchluessel(titelId, url))) return undefined
+  return anzahlWege > 1 ? undefined : liste[0]
+}
+
+/**
+ * Belegt eine gemeldete Folgenliste (`prime-zugeordnet.json`) Deutsch? `undefined`: keine Folge nennt Deutsch. `false`: Deutsch steht da, aber auf
+ * einer Kanal-Seite (`seite`, sonst null) — Amazon führt dort je Folge die Sprachen des Kanals, die Rohmeldung ist dieselbe Angabe wie der Handbeleg.
  * Der Verweis selbst bleibt (Adresse, Kanal), nur das Häkchen entfällt.
  */
-export function rohBelegtDeutsch(deutsch: boolean, titelId: number, seite: string | null, alleChecks: DubCheck[]): boolean {
-  return deutsch && !(seite && kanalAdressenOhneBeleg(alleChecks).has(kanalSchluessel(titelId, seite)))
+export function rohDeutsch(folgen: { sprachen: string[] }[], titelId: number, seite: string | null, alleChecks: DubCheck[]): boolean | undefined {
+  if (!folgen.some((f) => f.sprachen.includes('Deutsch'))) return undefined
+  return !(seite && kanalMenge(alleChecks).has(kanalSchluessel(titelId, seite)))
 }
