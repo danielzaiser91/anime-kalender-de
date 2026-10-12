@@ -95,6 +95,26 @@ await seite.evaluate(
   [box, KNOPF],
 )
 
+/*
+  Seit 4.24.17 (09.10.2026) ist der Kasten standardmäßig eingeklappt (`html.ak-zu`, unsichtbar).
+  Erst den eingeklappten Zustand messen (Icon da, Kasten weg), dann per Icon-Klick ausklappen —
+  alles Weitere wird wie bisher im ausgeklappten Zustand geprüft.
+*/
+await seite.locator('.ak-icon').waitFor({ state: 'visible' })
+/* `visibility` blendet mit 0,2 s Übergang aus — auf den Endzustand warten. */
+await seite.waitForFunction(
+  () => getComputedStyle(document.querySelector('.ak-netflix-kasten')).visibility === 'hidden',
+  null,
+  { timeout: 3000 },
+).catch(() => {})
+const zu = await seite.evaluate(() => {
+  const k = document.querySelector('.ak-netflix-kasten')
+  const i = document.querySelector('.ak-icon')
+  return { kasten: getComputedStyle(k).visibility, icon: getComputedStyle(i).display, auf: i.ariaExpanded }
+})
+await seite.locator('.ak-icon').click()
+await seite.locator('.ak-netflix-kasten').waitFor({ state: 'visible' })
+
 /* Gemessen wird, was ein Bild nicht zeigt: Zeilenlage und die Trennlinie. */
 const mass = await seite.evaluate(() => {
   const kasten = document.querySelector('.ak-netflix-kasten')
@@ -147,6 +167,7 @@ const pruefe = (was, ok, zusatz) => {
 }
 
 console.log('Der Netflix-Kasten:\n')
+pruefe('eingeklappt: Icon sichtbar, Kasten unsichtbar', zu.kasten === 'hidden' && zu.icon !== 'none' && zu.auf === 'false', JSON.stringify(zu))
 pruefe('fünf Zeilen in der erwarteten Reihenfolge', mass.zeilen.length === 5, mass.zeilen.join(' | '))
 pruefe('die Debug-Zeile trägt eine Trennlinie', mass.trennlinie !== '0px', mass.trennlinie)
 pruefe('sie steht unter dem Fuß', mass.debugOben >= mass.fussUnten, `${mass.debugOben} vs ${mass.fussUnten}`)

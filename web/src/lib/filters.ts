@@ -16,6 +16,7 @@ import { anzeigeName, nachAusstrahlung, reihenVertreter } from '@shared/titles.t
 import { kostenloseFolgen } from '@shared/kostenlos.ts'
 import { synonymeFuer } from './data.ts'
 import { passtSprecher, type SprecherAuswahl } from './sprecher-auswahl.ts'
+import { herkunftVon, type Herkunft } from './herkunft.ts'
 
 /**
  * Die Listen, die es sowohl als Einschluss als auch als Ausschluss gibt.
@@ -41,6 +42,8 @@ export interface FilterLists {
    * eingeschlossene Sprecher mit ODER, ausgeschlossene mit UND (`SprecherAuswahl`); deshalb kein `ModusFeld`.
    */
   sprecher: string[]
+  /** Herkunft des Titels (`lib/herkunft.ts`); einwertig wie FSK, deshalb ohne `ModusFeld`. */
+  land: Herkunft[]
 }
 
 export type ListKey = keyof FilterLists
@@ -55,6 +58,7 @@ export const LIST_KEYS: ListKey[] = [
   'genres',
   'keywords',
   'sprecher',
+  'land',
 ]
 
 export interface FilterState extends FilterLists {
@@ -88,6 +92,8 @@ export interface FilterState extends FilterLists {
   kostenlosExcluded: boolean
   confirmedExcluded: boolean
   availableExcluded: boolean
+  /** Spätere Anbieter derselben Folge ausblenden (`zweitanbieter` am Termin, Bau); nur im Kalender. */
+  zweitanbieterExcluded: boolean
   /** Mindest-Vertrauensstufe der Dub-Angabe (nur Datenbank-Ansicht). */
   minConfidence: DubConfidence
   /**
@@ -138,6 +144,7 @@ const emptyLists = (): FilterLists => ({
   genres: [],
   keywords: [],
   sprecher: [],
+  land: [],
 })
 
 /**
@@ -160,6 +167,7 @@ export const EMPTY_FILTERS: FilterState = {
   kostenlosExcluded: false,
   confirmedExcluded: false,
   availableExcluded: false,
+  zweitanbieterExcluded: false,
   minConfidence: 'low',
   modus: {},
 }
@@ -236,6 +244,7 @@ export function activeFilterCount(f: FilterState): number {
     (f.kostenlosExcluded ? 1 : 0) +
     (f.confirmedExcluded ? 1 : 0) +
     (f.availableExcluded ? 1 : 0) +
+    (f.zweitanbieterExcluded ? 1 : 0) +
     (f.minConfidence !== 'low' ? 1 : 0)
   )
 }
@@ -292,6 +301,8 @@ function merkeFundstellen<T>(
   for (const t of treffer) if (t.fundstellen.length) ziel.set(schluessel(t.item), t.fundstellen)
 }
 
+const herkunftOderUnbekannt = (title: Title | undefined): Herkunft => (title ? herkunftVon(title) : 'XX')
+
 /** Prüft einen einzelnen Release gegen die Filter. */
 export function releaseMatches(
   release: Release,
@@ -312,6 +323,7 @@ export function releaseMatches(
   if (x.statuses.includes(status)) return false
   if (x.genres.some((g) => genres.includes(g))) return false
   if (x.keywords.some((k) => keywords.includes(k))) return false
+  if (x.land.length && x.land.includes(herkunftOderUnbekannt(title))) return false
 
   if (f.platforms.length && !f.platforms.includes(release.platform)) return false
   if (f.releaseTypes.length && !f.releaseTypes.includes(release.releaseType)) return false
@@ -326,6 +338,7 @@ export function releaseMatches(
     if (!f.fsk.includes(release.fsk)) return false
   }
   if (f.statuses.length && !f.statuses.includes(status)) return false
+  if (f.land.length && !f.land.includes(herkunftOderUnbekannt(title))) return false
 
   if (f.genres.length && !f.genres.every((g) => genres.includes(g))) return false
   if (f.keywords.length && !f.keywords.every((k) => keywords.includes(k))) return false
@@ -363,7 +376,7 @@ export function* filterEventsGen(
   merkeFundstellen(gesucht, (r) => r.slug, fundstellen)
 
   const allowed = new Set(gesucht.map((t) => t.item.slug))
-  return data.events.filter((e) => allowed.has(e.releaseSlug))
+  return data.events.filter((e) => allowed.has(e.releaseSlug) && !(f.zweitanbieterExcluded && e.zweitanbieter))
 }
 
 /** Dasselbe in einem Zug. */
@@ -445,6 +458,7 @@ function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favo
   if (x.genres.some((g) => t.genres.includes(g))) return false
   if (x.keywords.some((k) => t.keywords.includes(k))) return false
   if (t.fsk !== undefined && x.fsk.includes(t.fsk)) return false
+  if (x.land.length && x.land.includes(herkunftVon(t))) return false
 
   /*
     **UND oder ODER — je Kategorie, wie eingestellt.**
@@ -462,6 +476,7 @@ function passtTitel(t: Title, data: Dataset, f: FilterState, today: string, favo
   if (!passt(f.keywords, 'keywords', (k) => t.keywords.includes(k))) return false
   /* FSK ist einwertig — „ab 12 UND ab 16" gibt es nicht, deshalb ohne Modus. */
   if (f.fsk.length && (t.fsk === undefined || !f.fsk.includes(t.fsk))) return false
+  if (f.land.length && !f.land.includes(herkunftVon(t))) return false
 
   const releases = data.releasesByTitle.get(t.id) ?? []
   const platformsOf = new Set([...releases.map((r) => r.platform), ...t.streams.map((s) => s.platform)])
@@ -571,15 +586,5 @@ export function toggleValue<T>(list: T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value]
 }
 
-/** Das Schlagwort, unter dem jeder westliche Cartoon läuft — Pille im Filter und Schalter „Cartoons ausblenden" teilen es. */
+/** Das Schlagwort, unter dem jeder westliche Cartoon läuft — Filter und Schnellfilter teilen es. */
 export const CARTOON_KEYWORD = 'Cartoon'
-
-export function cartoonsAusgeschlossen(f: FilterState): boolean {
-  return f.excluded.keywords.includes(CARTOON_KEYWORD)
-}
-
-export function mitCartoonsAus(f: FilterState, aus: boolean): FilterState {
-  const rest = f.excluded.keywords.filter((k) => k !== CARTOON_KEYWORD)
-  /* Ein Wert steht nie in beiden Listen (`toggleFilter`): sonst zeigt der Filter „Cartoon" doppelt, als gewählt und als ausgeschlossen. */
-  return { ...f, keywords: aus ? f.keywords.filter((k) => k !== CARTOON_KEYWORD) : f.keywords, excluded: { ...f.excluded, keywords: aus ? [...rest, CARTOON_KEYWORD] : rest } }
-}

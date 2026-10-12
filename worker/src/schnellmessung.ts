@@ -7,6 +7,7 @@
  */
 import { sendMail, type Mail, type MailEnv } from './mail.ts'
 import { LANGSAM_MS, SCHLECHT_IN_FOLGE, alarmEntscheidung } from '../../shared/schnellmessung-regeln.ts'
+import { fehlerLog } from './werte.ts'
 
 export interface Probe {
   name: string
@@ -106,7 +107,7 @@ async function alarmPruefen(env: SchnellEnv, probe: Probe, nowIso: string): Prom
       html: `<p><b>${probe.url}</b></p><p>Seit drei Messungen in Folge (je 5 Minuten Abstand) zu langsam oder nicht erreichbar.</p><p>Letzter Grund: ${grund}</p>`,
       fromName: 'Anime-Kalender Wächter',
     }
-    await sendMail(env, mail).catch((e) => console.error('[schnell] Mail fehlgeschlagen', e))
+    await sendMail(env, mail).catch((e) => fehlerLog('[schnell] Mail fehlgeschlagen', e))
   }
   return `${probe.name}: ALARM (${grund})`
 }

@@ -2,6 +2,11 @@ import { type Zugangsart } from '@shared/zugangsart.ts'
 import { gruppiereKaufwege } from './pillen.tsx'
 import { type Title } from '@shared/types.ts'
 
+/** Schlüssel einer Weg-Pille: Anbieter, Adresse und, wo ein Weg je Staffel geführt wird (Cartoons), sein Ausschnitt. */
+export function pillenSchluessel(s: { platform: string; url: string; teilBereich?: { von: number } }): string {
+  return `${s.platform}|${s.url}${s.teilBereich ? `|${s.teilBereich.von}` : ''}`
+}
+
 export function sortiereNachZugang({ title }: {
   title: Title | undefined
 }) {
@@ -20,7 +25,7 @@ export function sortiereNachZugang({ title }: {
       .filter((s) => (s.zugang ?? 'abo') === art)
       .filter((s, i, alle) => {
         const sig = (x: typeof s) =>
-          `${x.platform}|${x.zugang ?? ''}|${x.dub}|${JSON.stringify((x.dubRanges ?? []).filter((r) => r.dub).map((r) => [r.from, r.to]))}`
+          `${x.platform}|${x.zugang ?? ''}|${x.dub}|${JSON.stringify((x.dubRanges ?? []).filter((r) => r.dub).map((r) => [r.from, r.to]))}|${JSON.stringify(x.teilBereich ?? null)}`
         return alle.findIndex((x) => sig(x) === sig(s)) === i
       }),
     /*

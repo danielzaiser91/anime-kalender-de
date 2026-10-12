@@ -305,8 +305,21 @@ export function VermerkAuskunft({
 export const DUB_HAKEN_KLASSE =
   'grid size-4 place-items-center rounded-full bg-emerald-500 text-[9px] font-black leading-none text-white ring-2 ring-white dark:ring-[#0f1b2e]'
 
-export function DubEcke({ dub }: { dub?: boolean }) {
+/* „Deutsch laut JustWatch": Umriss statt Füllung — dieselbe Ecke, aber erkennbar kein Beleg (11.10.2026). */
+const DUB_JUSTWATCH_KLASSE =
+  'grid size-4 place-items-center rounded-full border border-emerald-500 bg-white text-[9px] font-black leading-none text-emerald-600 ring-2 ring-white dark:bg-[#0f1b2e] dark:text-emerald-400 dark:ring-[#0f1b2e]'
+
+export function DubEcke({ dub, justwatchStand }: { dub?: boolean; justwatchStand?: string }) {
   const { t } = useLang()
+  if (dub !== true && justwatchStand) {
+    return (
+      <span data-dub-justwatch className="absolute -right-1 -top-1.5 z-10">
+        <Tooltip text={t('detail.dubJustwatch', { datum: formatDate(justwatchStand) })} seite="oben">
+          <span className={DUB_JUSTWATCH_KLASSE}>✓</span>
+        </Tooltip>
+      </span>
+    )
+  }
   if (dub !== true) return null
   return (
     /* `data-dub-haken`: Die Legende unter den Pillen zeigt sich nur, wenn mindestens ein Haken dasteht. */

@@ -9,6 +9,7 @@ import { type Env } from './env.ts'
 import { jetztIso, zahlOderNull } from './werte.ts'
 import { SQL_AUFRAEUMEN, SQL_EINE_ART, SQL_LAEUFE_LAUFEND, SQL_VERLAUF, LAUF_ARTEN } from './lauf-sql.ts'
 import { ereignisSenden } from './ereignisse.ts'
+import { ausEdgeCache } from './cache-kurz.ts'
 import { crZugangAuffrischen } from './cr-zugang.ts'
 
 /**
@@ -66,7 +67,8 @@ export async function handleLauf(request: Request, env: Env, ctx?: ExecutionCont
       const n = Math.min(50, Math.max(1, Number(adresse.searchParams.get('n')) || 20))
       return antwort({ jetzt: jetztIso(), laeufe: await laufVerlauf(env, art, n) })
     }
-    return antwort(await laufUebersicht(env, request, ctx))
+    /* 30 Sekunden gehalten: die Anzeige fragt im ~40-s-Takt und las so 226.000 Zeilen am Tag (11.10.2026). */
+    return await ausEdgeCache(request, ctx, 30, async () => antwort(await laufUebersicht(env, request, ctx)))
   }
 
   if (request.method !== 'POST') return antwort({ error: 'GET oder POST erwartet' }, 405)

@@ -1,4 +1,5 @@
-import { SectionTitle, Chip } from '../ui.tsx'
+import { Chip } from '../ui.tsx'
+import { Aufklappbar } from './aufklapp-kopf.tsx'
 import { KEYWORD_PREVIEW } from './hilfen.tsx'
 import { type Title } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
@@ -16,8 +17,7 @@ export function SchlagworteAbschnitt({ title, t, keywords, onFilterBy, tKeyword,
   return (
     <>
       {title.keywords.length > 0 && (
-        <div>
-          <SectionTitle>{t('detail.keywords')}</SectionTitle>
+        <Aufklappbar titel={t('detail.keywords')}>
           <div className="flex flex-wrap gap-1.5">
             {keywords.map((k) => (
               <Chip key={k} onClick={() => onFilterBy('keyword', k)}>
@@ -32,7 +32,7 @@ export function SchlagworteAbschnitt({ title, t, keywords, onFilterBy, tKeyword,
               </Chip>
             )}
           </div>
-        </div>
+        </Aufklappbar>
       )}
     </>
   )

@@ -66,9 +66,13 @@ export const LAUF_ARTEN = [
   'Claude — Auftrag abarbeiten',
   'Claude — roten Datenlauf untersuchen',
   'Claude — ausgebliebene Folgen recherchieren',
+  'Claude — Anime2You-Artikel auswerten',
+  'Claude — Wache durchsehen',
   'Aussehen prüfen',
   'Crunchyroll — Regionstest mit fremdem Token',
   'Crunchyroll — Weiche aus der Cloud messen',
+  'PR-Prüfkette',
+  'PR-Prüfer',
 ]
 
 /** Alle Abfragen dieses Moduls — für den Prüflauf. */

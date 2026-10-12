@@ -1,15 +1,17 @@
-import { lazy, Suspense, useRef, useState } from 'react'
+import { useRef, useState, type ComponentType } from 'react'
 import { PT } from '../lib/patchnotes-texte.ts'
 import { ladePatchnotes, leseGesehen, merkeGesehen } from '../lib/patchnotes.ts'
 
-const PatchnotesDialog = lazy(() => import('./PatchnotesDialog.tsx'))
+type DialogProps = { laden: ReturnType<typeof ladePatchnotes>; beiZu: () => void }
 
 /**
  * Knopf „Neu auf der Webseite“ im News-Bereich. Dialog-Code und Liste (`patchnotes.json`) werden erst beim Klick geladen;
  * den Ungelesen-Punkt liefert `meta.patchnotesStand`, das ohnehin im Start steht.
+ * Der Chunk wird von Hand geladen statt per `lazy`: Ein Ladefehler (alter Cache, neuer Hash) würde dort ohne Fehlergrenze die ganze Seite abräumen.
  */
 export function PatchnotesKnopf({ stand }: { stand?: string }) {
-  const [offen, setOffen] = useState(false)
+  const [Dialog, setDialog] = useState<ComponentType<DialogProps>>()
+  const [fehler, setFehler] = useState(false)
   const [gesehen, setGesehen] = useState(leseGesehen)
   const laden = useRef<ReturnType<typeof ladePatchnotes>>(undefined)
   const knopf = useRef<HTMLButtonElement>(null)
@@ -18,12 +20,17 @@ export function PatchnotesKnopf({ stand }: { stand?: string }) {
 
   const oeffne = () => {
     laden.current = ladePatchnotes()
-    setOffen(true)
+    setFehler(false)
+    // Nach vite:preloadError (preventDefault) löst import() mit undefined auf — auch das ist ein Ladefehler.
+    import('./PatchnotesDialog.tsx')
+      .then((m) => m.default)
+      .then((D) => setDialog(() => D))
+      .catch(() => setFehler(true))
     merkeGesehen(stand)
     setGesehen(stand)
   }
   const beiZu = () => {
-    setOffen(false)
+    setDialog(undefined)
     knopf.current?.focus()
   }
 
@@ -44,11 +51,12 @@ export function PatchnotesKnopf({ stand }: { stand?: string }) {
           </>
         )}
       </button>
-      {offen && laden.current && (
-        <Suspense fallback={null}>
-          <PatchnotesDialog laden={laden.current} beiZu={beiZu} />
-        </Suspense>
+      {fehler && (
+        <span role="alert" className="ml-2 text-xs text-ak-leise">
+          {PT.fehler}
+        </span>
       )}
+      {Dialog && laden.current && <Dialog laden={laden.current} beiZu={beiZu} />}
     </>
   )
 }

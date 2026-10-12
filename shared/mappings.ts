@@ -589,17 +589,6 @@ export const KEYWORD_DE: Record<string, string> = {
   Foreign: 'Ausland',
 }
 
-/**
- * Tags, die im Frontend nichts verloren haben — entweder Meta-Information
- * über die Produktion oder Erwachsenen-Kategorien.
- */
-export const KEYWORD_BLOCKLIST = new Set([
-  'Nudity', 'Sex', 'Sexual Abuse', 'Boobs', 'Anal Sex', 'Oral Sex', 'Bondage',
-  'Rape', 'Incest', 'Lolicon', 'Shotacon', 'Tentacles', 'Prostitution',
-  'Public Sex', 'Threesome', 'Netorare', 'Ahegao', 'Femdom', 'Futanari',
-  'Male Harem', 'Fetish',
-])
-
 /** AniList-Linkziele → interne Plattform-ID (nur für Deutschland relevante). */
 export function platformFromSite(site: string): PlatformId | undefined {
   const s = site.toLowerCase()
@@ -618,6 +607,7 @@ export const PLATFORM_PRIORITY: PlatformId[] = [
   'netflix',
   'disneyplus',
   'primevideo',
+  'paramountplus',
   'adn',
   'aniverse',
   'wow',
@@ -680,66 +670,6 @@ export function germanizeUrl(platform: PlatformId, url: string): string {
   }
   if (platform === 'netflix') return netflixNeutral(url)
   return url
-}
-
-/** Amazon-Suchlink als Fallback für Kauf-Releases. */
-export function amazonSearchUrl(query: string): string {
-  return `https://www.amazon.de/s?k=${encodeURIComponent(`${query} Anime Blu-ray`)}`
-}
-
-/**
- * Prime-Video-Links laufen bei uns grundsätzlich über **amazon.de**.
- *
- * Zwei Gründe. Erstens: Die ASIN ist **nicht** marktübergreifend gleich —
- * `amazon.com/dp/B0H1QXXRG1` auf `amazon.de` umzuschreiben führt zuverlässig
- * auf eine Fehlerseite (am 08.08.2026 genau so passiert). AniList verlinkt fast
- * immer die US-Storefront, ihre Kennungen sind hier also wertlos.
- * Zweitens: `amazon.de` ist die vertrautere Adresse als `primevideo.com` und
- * führt zur selben Inhalteseite.
- *
- * Ein brauchbarer Deeplink kann deshalb nur aus der Kuratierung kommen; alles
- * andere wird zur Suche.
- */
-export function isUnusablePrimeLink(url: string): boolean {
-  return !/^https:\/\/(www\.)?amazon\.de\//.test(url)
-}
-
-/** Suche auf amazon.de statt eines Deeplinks, der ins Leere führt. */
-export function primeVideoSearchUrl(query: string): string {
-  return `https://www.amazon.de/s?k=${encodeURIComponent(query)}&i=instant-video`
-}
-
-/**
- * Suchadressen der Streamingdienste — der Rettungsanker, wenn AniList keinen
- * Deeplink kennt.
- *
- * Gerade bei Katalogtiteln ist das die Regel: AniList pflegt Anbieter-Links
- * vor allem für neue Simulcasts, ein 2000er-Jahrgang wie „Yu-Gi-Oh!" hat dort
- * keinen. Ohne Fallback stünde die Plattform als toter Text da, obwohl der
- * Titel dort nachweislich läuft. Eine Suche mit dem richtigen Begriff führt in
- * zwei Klicks ans Ziel — und sie kann nicht veralten.
- */
-const PLATFORM_SEARCH: Partial<Record<PlatformId, (q: string) => string>> = {
-  netflix: (q) => `https://www.netflix.com/search?q=${encodeURIComponent(q)}`,
-  disneyplus: (q) => `https://www.disneyplus.com/de-de/search?q=${encodeURIComponent(q)}`,
-  crunchyroll: (q) => `https://www.crunchyroll.com/de/search?q=${encodeURIComponent(q)}`,
-  primevideo: primeVideoSearchUrl,
-  adn: (q) => `https://animationdigitalnetwork.com/de/search?q=${encodeURIComponent(q)}`,
-  wow: (q) => `https://www.wowtv.de/suche?q=${encodeURIComponent(q)}`,
-  joyn: (q) => `https://www.joyn.de/suche?search=${encodeURIComponent(q)}`,
-  rtlplus: (q) => `https://plus.rtl.de/suche?q=${encodeURIComponent(q)}`,
-  youtube: (q) => `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`,
-  aniverse: (q) => `https://www.aniverse.de/?s=${encodeURIComponent(q)}`,
-  disc: amazonSearchUrl,
-}
-
-/**
- * Notfall-Adresse für eine Plattform. `undefined` für `kino` — ein Kinostart
- * hat keine eine Adresse, an die man schicken könnte, und eine erfundene wäre
- * schlechter als gar keine.
- */
-export function platformSearchUrl(platform: PlatformId, query: string): string | undefined {
-  return PLATFORM_SEARCH[platform]?.(query)
 }
 
 /**
@@ -993,41 +923,4 @@ export function stripAffiliate(url: string): string {
   } catch {
     return url
   }
-}
-
-/**
- * Warum bei dieser Plattform keine Uhrzeit steht.
- *
- * **Wo keine Uhrzeit steht, steht seit dem 01.09.2026 gar nichts** — vorher
- * stand dort „Zeit offen", und das warf beim Leser die Frage auf, was denn
- * offen sei. Daniel: „führt zu unnötiger verwirrung … und dann zweifeln
- * [Nutzer] das die daten überhaupt stimmen, und vertrauen zu uns verlieren."
- *
- * Die Erklärung gehört trotzdem irgendwohin — nur nicht in die Zeile, in der
- * eine Uhrzeit stünde. Sie steht hier, je Anbieter, und erscheint im
- * Detail-Panel: Meist gibt es die Angabe schlicht nicht, und das lässt sich
- * sagen, ohne nach einem Versäumnis auszusehen.
- *
- * Nur Netflix macht dazu eine belastbare Aussage, und die steht in ihrer
- * eigenen Hilfe. Für Disney+ und Prime Video gibt es keine — hier steht
- * deshalb genau das und keine Faustregel aus dem Internet. Eine plausible
- * Uhrzeit als `time` einzutragen wäre der bequemere Weg und genau die Art
- * Falschangabe, die dieses Projekt vermeiden will.
- */
-export const PLATFORM_TIME_NOTE: Partial<
-  Record<PlatformId, { de: string; source?: string }>
-> = {
-  netflix: {
-    de: 'Netflix nennt je Titel keine Uhrzeit. Eigenproduktionen erscheinen weltweit um 00:00 Uhr Pacific Time — in Berlin also am frühen Vormittag. Lizenzierte Titel schaltet Netflix um Mitternacht Ortszeit frei.',
-    source: 'https://help.netflix.com/en/node/118959',
-  },
-  disneyplus: {
-    de: 'Disney+ veröffentlicht für Deutschland keine feste Uhrzeit.',
-  },
-  primevideo: {
-    de: 'Prime Video macht zur Uhrzeit keine Angabe.',
-  },
-  aniverse: {
-    de: 'aniverse nennt keine Uhrzeit.',
-  },
 }

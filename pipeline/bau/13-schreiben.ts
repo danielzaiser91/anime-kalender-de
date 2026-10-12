@@ -11,11 +11,14 @@ import { schreibeWochenDatei } from './13-8-wochen-datei.ts'
 import { schreibePatchnotes } from './13-9-patchnotes.ts'
 import { ergaenzeErstausgabeAngebot } from './13-7-erstausgabe-angebot.ts'
 import { schreibeZusatzdateien } from './13-4-zusatzdateien.ts'
+import { bereinigePruefliste, ausgelieferteKennungen } from './pruefliste-bereinigen.ts'
+import { schreibeLueckenTitel } from './luecken-titel.ts'
 import { ordneCartoonsZuAnime } from './cartoon-zu-anime.ts'
 import { schreibeSprecherIndex } from './sprecher-index.ts'
 import { schreibeListen } from './13-3-listen.ts'
 import { baueAuslieferung } from './13-2-auslieferung.ts'
 import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
+import { mitBelegstaerke } from '../lib/belegstaerke.ts'
 
 export function schreibeDatensatz({
   allTitles,
@@ -51,7 +54,7 @@ export function schreibeDatensatz({
   })
 
   const { slim } = baueAuslieferung({
-    allTitles,
+    allTitles: mitBelegstaerke(allTitles, releases),
     anisearch,
     tmdbTitles,
     trenneQuelle,
@@ -68,6 +71,8 @@ export function schreibeDatensatz({
   schreibeListen({ slim, tmdbTitles, releases, titles })
 
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })
+  bereinigePruefliste(ausgelieferteKennungen(slim))
+  schreibeLueckenTitel(slim, synopses)
   ordneCartoonsZuAnime()
   schreibeSprecherIndex({ ausgeliefert: new Set(slim.map((t) => t.id)) })
 

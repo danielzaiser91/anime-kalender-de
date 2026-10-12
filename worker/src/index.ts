@@ -36,12 +36,12 @@ import { Ereignisse, ereignisSenden } from './ereignisse.ts'
 import { leererPush, pushVersand } from './push.ts'
 import { istErschienen } from '../../shared/logic.ts'
 import { type Env } from './env.ts'
-import { ISO_JETZT, berlinParts, jetztIso, zahlOderNull } from './werte.ts'
+import { ISO_JETZT, berlinParts, fehlerLog, jetztIso, zahlOderNull } from './werte.ts'
 import { handlePruefung } from './pruefung.ts'
 import { loadNews, newsFuerAbonnent, weitereAusNews } from './news-quelle.ts'
 import { handleLauf } from './lauf.ts'
 import { handleCrZugang } from './cr-zugang.ts'
-import { handleBeleg } from './beleg.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
+import { handleBeleg } from './beleg.ts'; import { loescheAbgelaufenes } from './loeschfristen.ts'; import { starteFaelligeLaeufe } from './wecker.ts'
 
 export { Ereignisse }
 export { Schnellmesser } from './schnellmesser.ts'
@@ -177,7 +177,7 @@ async function handleSubscribe(request: Request, env: Env): Promise<Response> {
   try {
     await sendMail(env, { to: email, ...mail })
   } catch (err) {
-    console.error('Versand der Bestätigungsmail fehlgeschlagen', err)
+    fehlerLog('Versand der Bestätigungsmail fehlgeschlagen', err)
     return json(env, { error: 'Die Bestätigungsmail konnte nicht verschickt werden.' }, 502)
   }
 
@@ -338,7 +338,7 @@ async function handleRestore(request: Request, env: Env): Promise<Response> {
   } catch (err) {
     // Auch ein Fehlschlag beim Versand ändert die Antwort nicht — sonst
     // verriete die Fehlermeldung, dass es die Adresse gibt.
-    console.error('Wiederherstellungsmail fehlgeschlagen', err)
+    fehlerLog('Wiederherstellungsmail fehlgeschlagen', err)
   }
   return immerGleich
 }
@@ -796,7 +796,7 @@ async function loadReihen(env: Env): Promise<Reihen> {
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return (await res.json()) as Reihen
   } catch (err) {
-    console.error('Reihen-Zuordnung nicht abrufbar', err)
+    fehlerLog('Reihen-Zuordnung nicht abrufbar', err)
     return {}
   }
 }
@@ -827,7 +827,7 @@ async function loadWeitereAnbieter(env: Env): Promise<{ id: number; name: string
         })),
     )
   } catch (err) {
-    console.error('News nicht abrufbar', err)
+    fehlerLog('News nicht abrufbar', err)
     return []
   }
 }
@@ -839,7 +839,7 @@ async function loadNeuMitSynchro(env: Env): Promise<NeuMitSynchro[]> {
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return (await res.json()) as NeuMitSynchro[]
   } catch (err) {
-    console.error('Neuzugänge mit Synchro nicht abrufbar', err)
+    fehlerLog('Neuzugänge mit Synchro nicht abrufbar', err)
     return []
   }
 }
@@ -857,7 +857,7 @@ async function loadReleaseLinks(env: Env): Promise<Map<string, ReleaseLink>> {
   } catch (err) {
     // Ohne Deeplinks bleibt die Mail brauchbar — sie verlinkt dann nur den
     // Kalender. Das ist ein besserer Ausgang als gar kein Versand.
-    console.error('Anbieter-Links nicht abrufbar', err)
+    fehlerLog('Anbieter-Links nicht abrufbar', err)
     return new Map()
   }
 }
@@ -1013,7 +1013,7 @@ export async function runDigest(env: Env, now: Date, force?: 'daily' | 'weekly')
           .bind(now.toISOString(), sub.id)
           .run()
       } catch (err) {
-        console.error(`Versand an ${sub.email} fehlgeschlagen`, err)
+        fehlerLog('Versand an einen Abonnenten fehlgeschlagen', err)
       }
     }
 
@@ -1595,12 +1595,12 @@ export default {
 
   async scheduled(_event: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     const now = new Date()
-    ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => console.error('[schnell]', e)))
-    ctx.waitUntil(starteFaelligeLaeufe(env).catch((e) => console.error('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
+    ctx.waitUntil(sichereSchnellmessung(env.SCHNELLMESSER).catch((e) => fehlerLog('[schnell]', e))); ctx.waitUntil(loescheAbgelaufenes(env, now)) // Löschfristen der Datenschutzerklärung
+    ctx.waitUntil(starteFaelligeLaeufe(env).catch((e) => fehlerLog('[wecker]', e))) // Newsletter und Überwachung laufen getrennt, fällt eines aus, laufen die anderen weiter
     ctx.waitUntil(
       runDigest(env, now)
         .then((msg) => console.log(`[digest] ${msg}`))
-        .catch((err) => console.error('[digest] fehlgeschlagen', err)),
+        .catch((err) => fehlerLog('[digest] fehlgeschlagen', err)),
     )
     // Welches Land bekommt ein Cron-Lauf? Entscheidet, ob sich die Erneuerung des Crunchyroll-Zugangs ohne Daniels Rechner automatisieren lässt.
     ctx.waitUntil(
@@ -1612,18 +1612,18 @@ export default {
             .bind('messung:cron-land', String(m.land ?? '?'), 0, JSON.stringify(m), '[]', jetztIso())
             .run(),
         )
-        .catch((err) => console.error('[land] fehlgeschlagen', err)),
+        .catch((err) => fehlerLog('[land] fehlgeschlagen', err)),
     )
     ctx.waitUntil(
       Promise.all([loadEvents(env), loadNews(env)])
         .then(([ev, news]) => pushVersand(env, now, ev, (e, zeit) => istErschienen(e, zeit), weitereAusNews(news)))
         .then((msg) => console.log(`[push] ${msg}`))
-        .catch((err) => console.error('[push] fehlgeschlagen', err)),
+        .catch((err) => fehlerLog('[push] fehlgeschlagen', err)),
     )
     ctx.waitUntil(
       runMonitor(env, now)
         .then((msg) => console.log(`[monitor] ${msg}`))
-        .catch((err) => console.error('[monitor] fehlgeschlagen', err)),
+        .catch((err) => fehlerLog('[monitor] fehlgeschlagen', err)),
     )
   },
 }

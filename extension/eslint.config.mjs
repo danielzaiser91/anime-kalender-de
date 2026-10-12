@@ -58,8 +58,16 @@ export default [
           im Browser teilen sich beide denselben Scope.
         */
         akBox: 'readonly',
+        akZaehler: 'readonly',
         akDebugLeiste: 'readonly',
         akBerichtSchalter: 'readonly',
+        akPrimeHatTitelseite: 'readonly',
+        akPrimeStartKennung: 'readonly',
+        akPrimeFrameAdresse: 'readonly',
+        akDurchgangSchutz: 'readonly',
+        akNetflixUebernahme: 'readonly',
+        akNetflixWartet: 'readonly',
+        akRandAusfall: 'readonly',
       },
     },
     rules: { 'no-undef': 'error' },

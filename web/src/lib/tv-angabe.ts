@@ -10,6 +10,7 @@
 import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
 import { expandEvents } from '@shared/logic.ts'
 import { istPremiere } from '@shared/tv-signale.ts'
+import { premiereBelegtTv } from '@shared/premiere.ts'
 
 export { istPremiere }
 
@@ -66,11 +67,11 @@ export function tvAngabe(
   const laufEvent = laufend && termine.find((x) => `${x.date}T${x.time ?? ''}` === laufend.start)
   /* Premiere gilt der Folge, von der die Pille zuerst spricht — der laufenden, sonst der nächsten. */
   const bezug = laufEvent || e
-  const premiere = Boolean(
-    bezug?.episode &&
-      !bezug.sichtung &&
-      istPremiere(bezug.episode, bezug.date, title, releases, release.ersteDeutsch, bezug.time),
-  )
+  const aussage =
+    bezug?.episode && !bezug.sichtung
+      ? istPremiere(bezug.episode, bezug.date, title, releases, release.ersteDeutsch, bezug.time, premiereBelegtTv(release))
+      : undefined
+  const premiere = aussage === true
   let text = ''
   /*
     **Tag und Uhrzeit werden farbig hervorgehoben** (Daniel, 22.09.2026, ProSieben-MAXX-Pille).
@@ -90,7 +91,7 @@ export function tvAngabe(
     const teile = [
       nr ? `Fg. ${nr}` : undefined,
       zeit,
-      e.episode && !e.sichtung && !premiere && !laufend ? 'Wiederholung' : undefined,
+      aussage === false && !laufend ? 'Wiederholung' : undefined,
       /* Ohne laufende Sendung trägt die Zeile den Folgentitel der nächsten. */
       !laufend && kommend ? sendungZu(e)?.folge : undefined,
     ]
@@ -124,6 +125,7 @@ export function tvPremiere(
 ): boolean {
   if (e.platform !== 'tv' || !e.episode || e.sichtung) return false
   const titel = data.titleById.get(e.titleId)
+  const release = data.releaseBySlug.get(e.releaseSlug)
   return Boolean(
     titel &&
       istPremiere(
@@ -131,8 +133,9 @@ export function tvPremiere(
         e.date,
         titel,
         data.releasesByTitle.get(e.titleId) ?? [],
-        data.releaseBySlug.get(e.releaseSlug)?.ersteDeutsch,
+        release?.ersteDeutsch,
         e.time,
+        premiereBelegtTv(release),
       ),
   )
 }

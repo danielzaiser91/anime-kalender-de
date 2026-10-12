@@ -1,5 +1,6 @@
 /** Schreibt die Ergebnisse eines Wächter-Laufs in die Datenbank. */
 import type { CheckResult } from './monitor.ts'
+import { fehlerLog } from './werte.ts'
 
 const VERLAUF_TAGE = 60
 
@@ -19,7 +20,7 @@ export async function schreibeVerlauf(db: D1Database, results: CheckResult[], no
       db.prepare('DELETE FROM site_history WHERE checked_at < ?1').bind(grenze),
     ])
   } catch (err) {
-    console.error('Messverlauf nicht gespeichert:', err)
+    fehlerLog('Messverlauf nicht gespeichert', err)
   }
 }
 

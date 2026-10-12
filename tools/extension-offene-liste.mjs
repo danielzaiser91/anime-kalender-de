@@ -24,12 +24,14 @@ import yaml from 'js-yaml'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+import { blockStand } from './extension-block.mjs'
 import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+import { ausgeblendet, brauchtUrteil, eintragsInfo, ladeBestand, ladeCartoons, nachRang, wartet } from './pruef-bestand.mjs'
+
+const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 /** Verweise, denen eine zweite Quelle widerspricht — sie gehören auf die Liste. */
 const verdaechtig = verdachtsfaelle(wurzel, 'netflix')
-const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
-const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
+const titel = [...ladeBestand(wurzel), ...ladeCartoons(wurzel)]
 
 /**
  * Die Kennung aus einer Netflix-Adresse — `/title/70302573` → `70302573`.
@@ -59,8 +61,8 @@ for (const t of titel) {
   for (const s of t.streams ?? []) {
     if (s.platform !== 'netflix') continue
     const id = kennung(s.url)
-    if (!id) continue
-    jeAdresse.set(id, [...(jeAdresse.get(id) ?? []), { t, dub: s.dub }])
+    if (!id || ausgeblendet(t, 'netflix', s)) continue
+    jeAdresse.set(id, [...(jeAdresse.get(id) ?? []), { t, dub: s.dub, wartet: wartet(wurzel, t, 'netflix', s) }])
   }
 }
 
@@ -149,7 +151,7 @@ function zustandVon(e) {
 }
 
 const offen = {}
-for (const [id, eintraege] of jeAdresse) {
+for (const [id, eintraege] of nachRang(jeAdresse, 'netflix')) {
   /**
    * Gefragt wird nur nach dem, was auch angezeigt wird.
    *
@@ -187,7 +189,7 @@ for (const [id, eintraege] of jeAdresse) {
     „Haikyu!! Lev ist hier!", nicht „Film 2". Der Vorfilter darf sie deshalb
     nicht mehr aussortieren.
   */
-  if (!eintraege.some((e) => e.dub === undefined) && !verdacht) continue
+  if (!eintraege.some(brauchtUrteil) && !verdacht) continue
   /**
    * OVAs und Specials fallen weg, wo Serienstaffeln dieselbe Adresse haben.
    *
@@ -228,11 +230,7 @@ for (const [id, eintraege] of jeAdresse) {
          * gilt die Staffel als offen: Lieber einmal zu viel gefragt als eine
          * Lücke, von der niemand weiß.
          */
-        /* Ein Verdachtsfall ist offen, obwohl er ein Urteil hat — es ist womöglich überholt. */
-        offen: sortiert[i]
-          ? sortiert[i].dub === undefined || verdaechtig.has(sortiert[i].t.id)
-          : true,
-        ...(sortiert[i] ? zustandVon(sortiert[i]) : { zustand: 'melden' }),
+        ...blockStand(sortiert, i, verdaechtig, zustandVon),
       })),
       laut: 'anbieter',
     }
@@ -368,7 +366,7 @@ for (const [id, eintraege] of jeAdresse) {
             erste,
             film: e.t.format === 'MOVIE',
             id: e.t.id,
-            offen: e.dub === undefined || verdaechtig.has(e.t.id),
+            offen: brauchtUrteil(e) || verdaechtig.has(e.t.id),
             ...zustandVon(e),
           })
         }
@@ -381,7 +379,7 @@ for (const [id, eintraege] of jeAdresse) {
     const gepaart = new Set(sortiert.slice(0, gemeldet.length).map((e) => e.t.id))
     const ueberzaehlig = reihenfolge
       .filter((e) => !gepaart.has(e.t.id))
-      .filter((e) => e.dub === undefined || verdaechtig.has(e.t.id))
+      .filter((e) => brauchtUrteil(e) || verdaechtig.has(e.t.id))
     for (const [j, e] of ueberzaehlig.entries()) {
       offen[id].staffeln.push({
         nr: gemeldet.length + j + 1,
@@ -410,6 +408,7 @@ for (const [id, eintraege] of jeAdresse) {
   offen[id] = {
     titel: sortiert[0].t.titleDe ?? sortiert[0].t.titleEn ?? sortiert[0].t.titleRomaji ?? '',
     asId: anisearchKennung[String(sortiert[0].t.id)] ?? null,
+    ...eintragsInfo(sortiert[0].t, 'netflix', sortiert[0]),
     staffeln: sortiert.map((e, i) => ({
       nr: i + 1,
       /*
@@ -446,7 +445,7 @@ for (const [id, eintraege] of jeAdresse) {
       // läuft und trägt `folgen: 0`, ist aber eine Serie (22.08.2026).
       film: e.t.format === 'MOVIE' || (e.t.format !== 'TV' && e.t.episodes === 1),
       // Was hier schon beantwortet ist, muss niemand mehr anklicken.
-      offen: e.dub === undefined || verdaechtig.has(e.t.id),
+      offen: brauchtUrteil(e) || verdaechtig.has(e.t.id),
       ...zustandVon(e),
     })),
   }

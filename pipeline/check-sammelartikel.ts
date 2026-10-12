@@ -131,9 +131,18 @@ assert.equal(ordneZu({ ...katalogtitel, titel: 'Gibt es nicht', datum: '2026-10-
 
 // --- Vorschlagslauf (`lib/sammelartikel-lauf.ts`) ---------------------------------------------------
 const lesung = (titel: string, extra: Record<string, unknown> = {}) => ({
-  ...simulcast, titel, art: 'start' as const, plattformen: ['netflix'], datum: '2026-10-03', deutsch: 'ja' as const, konfidenz: 0.95, gruende: [], zitat: `»${titel}«`,
+  ...simulcast,
+  titel,
+  art: 'start' as const,
+  plattformen: ['netflix'],
+  datum: '2026-10-03',
+  deutsch: 'ja' as const,
+  konfidenz: 0.95,
+  gruende: [],
+  zitat: `»${titel}«`,
   quelle: { url: 'https://www.anime2you.de/news/9/x/', veroeffentlicht: '2026-10-01', leser: 'anime2you-sammel' as const },
-  bestand: { status: 'neu' as const }, ...extra,
+  bestand: { status: 'neu' as const },
+  ...extra,
 })
 const erst = fuehreZusammen([], [lesung('A'), lesung('B', { offen: { grund: 'kein Titel', kandidaten: [] } })], '2026-10-08')
 assert.deepEqual([erst.neu.length, erst.liste.filter((v) => v.offenOderUnklar).length], [2, 1], 'neu: zwei, davon eine offen')

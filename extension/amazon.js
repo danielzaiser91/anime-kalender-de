@@ -1116,7 +1116,7 @@ async function speicherSchreiben(werte) {
       try {
         return f()
       } catch (e) {
-        return `FEHLER: ${e?.message ?? e}`
+        return /before initialization/.test(e?.message) ? 'noch nicht angelegt: die Seite wartet auf eine Titel-Kennung' : `FEHLER: ${e?.message ?? e}`
       }
     }
     return {
@@ -5767,7 +5767,7 @@ async function speicherSchreiben(werte) {
     const offen = offeneZahl()
     const suchen = suchOffen().length
     const gesamt = offen + suchen
-    uebersichtKnopf.classList.toggle('ak-fertig', !gesamt)
+    akZaehler(uebersichtKnopf, gesamt, !!primeLaufLesen())
     const lauf = primeLaufLesen()
     if (lauf) {
       /*
@@ -6336,6 +6336,10 @@ async function speicherSchreiben(werte) {
    * Meldung geht dann mit der Adresse der Seite raus und ohne unsere Kennung;
    * zuordnen lässt sie sich später über den Titel.
    */
+  /* Startseite: nie eine Kennung, also Hörer und Takt vor dem Warten. Im Frame erst am Ende (`frameSchritt()` braucht `knopf`, `gesehen`). */
+  window.addEventListener('message', primeHoerer)
+  if (!IM_FRAME) setTimeout(primeTakt, 500)
+
   /**
    * Keine Titelseite? Dann wird gewartet, nicht ausgestiegen.
    *
@@ -6727,18 +6731,8 @@ async function speicherSchreiben(werte) {
     /* Ohne Nachrichtenweg (Sandkasten) bleibt es beim ersten Schnappschuss. */
   }
   window.addEventListener('message', (e) => {
-    /*
-      Die Antwort eines Durchgangs-Frames (siehe `primeFrameErgebnis()`). Hier und nicht in einem
-      eigenen Hörer: Die Amazon-Sandkästen der Tests führen genau einen `message`-Hörer, ein zweiter
-      verdrängte den Leser (amazon-kill-blue.test.cjs, 25.09.2026).
-    */
-    if (e?.data?.marke === 'ak-prime-frame') {
-      if (e.origin === location.origin && !IM_FRAME) {
-        const el = [...primeFrames.keys()].find((x) => x.contentWindow === e.source)
-        if (el) primeFrameErgebnis(el, e.data)
-      }
-      return
-    }
+    /* Die Antwort eines Durchgangs-Frames beantwortet `primeHoerer()`, schon vor dem Warten auf eine Kennung. */
+    if (e?.data?.marke === 'ak-prime-frame') return
     /**
      * **Eine späte Antwort des vorigen Titels gehört nicht in diesen Zählstand.**
      *
@@ -10911,7 +10905,7 @@ async function speicherSchreiben(werte) {
   /** Titel mit eigener Titelseite, die dieser Lauf noch nicht hatte — in der Reihenfolge des Dialogs. */
   function primeNaechsterTitel(lauf) {
     return Object.keys(liste)
-      .filter((a) => !fertig(a) && /\/detail\//.test(String(liste[a]?.url ?? '')) && !lauf.fertig.includes(a))
+      .filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a]) && !lauf.fertig.includes(a))
       .sort((a, b) => String(liste[a].titel).localeCompare(String(liste[b].titel), 'de'))[0]
   }
 
@@ -10928,11 +10922,11 @@ async function speicherSchreiben(werte) {
       fertig: [],
       uebersprungen: [],
       spur: [],
-      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && /\/detail\//.test(String(liste[a]?.url ?? ''))).length,
+      titelGesamt: Object.keys(liste).filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a])).length,
       seiten: 0,
     }
     /* Steht die Seite auf einem offenen Titel der Liste, fängt der Lauf mit ihm an. */
-    const hier = liste[listenId] && !fertig(listenId) && /\/detail\//.test(String(liste[listenId]?.url ?? '')) ? listenId : null
+    const hier = liste[listenId] && !fertig(listenId) && akPrimeHatTitelseite(liste[listenId]) ? listenId : null
     if (!hier && !primeNaechsterTitel(lauf)) return false
     try {
       sessionStorage.removeItem(PRIME_LAUF_ENDE)
@@ -10977,7 +10971,7 @@ async function speicherSchreiben(werte) {
 
   function primeTitelBeginnen(lauf, schluessel) {
     lauf.titel = schluessel
-    lauf.plan = [kennungAus(liste[schluessel].url)].filter(Boolean)
+    lauf.plan = [akPrimeStartKennung(liste[schluessel].url, kennungAus)].filter(Boolean)
     lauf.planBekannt = false
     lauf.staffelNr = {}
     primeSpur(lauf, 'titel', { schluessel, titel: liste[schluessel]?.titel ?? null })
@@ -10986,7 +10980,7 @@ async function speicherSchreiben(werte) {
   function primeFrameOeffnen(lauf, kennung) {
     const el = document.createElement('iframe')
     el.name = PRIME_FRAME_NAME
-    el.src = `https://www.amazon.de/gp/video/detail/${kennung}`
+    el.src = akPrimeFrameAdresse(kennung, gtiSprungMerken)
     /* Kein Vorschauvideo mit Ton aus einem Frame, den niemand sieht. */
     el.allow = "autoplay 'none'"
     el.tabIndex = -1
@@ -11037,7 +11031,7 @@ async function speicherSchreiben(werte) {
       lauf.planBekannt = true
       primeSpur(lauf, 'plan', { staffeln: staffeln.map((s) => `${s.nummer}:${s.kennung}`) })
     }
-    if (!daten.ok) {
+    if (!daten.ok && !globalThis.AK_TAGESLIMIT?.zurueckstellen(lauf.plan, f.kennung)) {
       const nr = lauf.staffelNr[f.kennung]
       lauf.uebersprungen.push(`${liste[lauf.titel]?.titel ?? '?'} · ${nr ? `Staffel ${nr}` : f.kennung}`)
     }
@@ -11046,9 +11040,15 @@ async function speicherSchreiben(werte) {
     uebersichtZeichnen()
   }
 
+  function primeHoerer(e) {
+    if (e?.data?.marke !== 'ak-prime-frame' || e.origin !== location.origin || IM_FRAME) return
+    const el = [...primeFrames.keys()].find((x) => x.contentWindow === e.source)
+    if (el) primeFrameErgebnis(el, e.data)
+  }
+
   function primeKoordinieren() {
     const lauf = primeLaufLesen()
-    if (!lauf) {
+    if (!lauf || globalThis.AK_TAGESLIMIT?.aktiv()) {
       for (const el of primeFrames.keys()) el.remove()
       primeFrames.clear()
       return
@@ -11169,5 +11169,5 @@ async function speicherSchreiben(werte) {
       setTimeout(primeTakt, 500)
     }
   }
-  setTimeout(primeTakt, 500)
+  if (IM_FRAME) setTimeout(primeTakt, 500)
 })()

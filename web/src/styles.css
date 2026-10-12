@@ -2,6 +2,9 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Die Bühne (Mockups) ist kein Teil der Seite: ihre Wörter dürfen keine Klassen in die Seiten-CSS ziehen. Sie holt sich ihre eigenen in `web/buehne/zelle.css`. */
+@source not "../buehne";
+
 @theme {
   --font-sans: 'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Unbounded', 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
@@ -192,6 +195,16 @@ html:not(.dark) {
   animation: slide-in 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Die Kopfleiste rollt am Handy beim Abwärtsscrollen ein (`use-einrollen.ts`); die Regel für weniger Bewegung unten greift mit. */
+@media (max-width: 767px) {
+  header[data-kopf-weg='1'] {
+    transform: translateY(-100%);
+  }
+  header {
+    transition: transform 160ms ease-out;
+  }
+}
+
 /*
   Wer weniger Bewegung will, bekommt keine: Animationen enden sofort im Endzustand, Übergänge
   springen. Eine Regel für alles statt `motion-reduce:` an jeder Stelle — Vergessenes gibt es so nicht.
@@ -249,13 +262,35 @@ html.dark select option {
   Farbflächen; Text wechselt auf die leise Farbe, die in beiden Themen den Kontrast hält.
 */
 .ak-vorbei img,
+.ak-vorbei .ak-punkt,
 .ak-vorbei .ak-dimmen {
   opacity: 0.5;
   transition: opacity 0.15s;
 }
 .ak-vorbei:hover img,
+.ak-vorbei:hover .ak-punkt,
 .ak-vorbei:hover .ak-dimmen {
   opacity: 1;
+}
+
+/*
+  Monatspunkt am Handy (10.10.2026): Anbieterfarbe aus `--punkt`. Im hellen Thema erreichen Crunchyroll, Prime, WOW, ADN
+  und Kino gegen Weiß keine 3:1; der Rand aus 60 % Anbieterfarbe und 40 % Schwarz liegt bei allen Anbietern über 4,4:1.
+  Staffelstart/-finale: Ring mit 1 px Abstand (statt des früheren Rings ums Cover); der Außenrand hält die Nachbarn frei.
+*/
+.ak-punkt {
+  background: var(--punkt);
+}
+html:not(.dark) .ak-punkt {
+  border: 1px solid color-mix(in srgb, var(--punkt) 60%, black);
+}
+.ak-punkt[data-art] {
+  margin: 2px;
+  outline: 2px solid var(--ak-akzent);
+  outline-offset: 1px;
+}
+.ak-punkt[data-art='finale'] {
+  outline-color: var(--ak-finale-text);
 }
 .ak-vorbei .ak-titel {
   color: var(--ak-leise);

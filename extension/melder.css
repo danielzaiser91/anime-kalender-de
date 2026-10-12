@@ -1216,6 +1216,11 @@
   /* Den Abstand macht der `gap` der Spalte — ein eigener margin doppelt ihn. */
   margin: 0;
   box-shadow: none;
+  /* Prime-Knopfregeln (min-height, content-box, text-align:left) ließen ihn überstehen und hoch werden. */
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  text-align: center;
 }
 
 /*
@@ -1701,98 +1706,6 @@
 }
 
 /*
-  **Die Anzeige im Player.**
-
-  Seit dem 22.08.2026 räumt die Erweiterung im Player alles ab — der Gedanke war
-  richtig, eine Bedienleiste über einem laufenden Video stört. Der Schluss war zu
-  weit: Gemeldet wird genau dort, und das Ergebnis ging ins Leere (Daniel,
-  10.09.2026: „nix ist weiter passiert. wurde es gemeldet ohne das ich etwas
-  visuell sehe?").
-
-  Deshalb klein und oben links, wo Netflix nur den Zurück-Pfeil hat. `pointer-events:
-  none` — sie soll gesehen werden, nicht bedient, und nie einen Klick abfangen,
-  der dem Player gilt.
-*/
-.ak-player-anzeige {
-  position: fixed;
-  top: 14px;
-  left: 88px;
-  z-index: 2147483000;
-  max-width: 42ch;
-  padding: 7px 12px;
-  border-radius: 999px;
-  font: 500 13px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif;
-  color: #e6edf3;
-  background: rgba(13, 17, 23, 0.86);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14), 0 4px 14px rgba(0, 0, 0, 0.4);
-  pointer-events: none;
-  animation: akPlayerEin 0.18s ease-out;
-}
-
-/*
-  **Der Melde-Knopf im Player — er hatte gar keinen Stil.**
-
-  Gebaut am 10.09.2026 (`playerAnzeige`, Parameter `knopfText`), und die beiden
-  Regeln dazu fehlten von Anfang an: `.ak-player-knopf` und
-  `.ak-player-bedienbar` standen in keiner Zeile dieser Datei. Zwei Folgen,
-  beide bei Daniel angekommen (12.09.2026, mit Bild):
-
-  - **Unbeschriftet.** Ohne eigene Farben erbt der Knopf `color: #e6edf3` vom
-    Kasten und behält Chromes weißen Grund — weiße Schrift auf Weiß. Im Bild
-    ein leeres Rechteck.
-  - **Nicht klickbar.** Die Anzeige trägt `pointer-events: none`, damit sie dem
-    Player nicht die Klicks wegnimmt. `.ak-player-bedienbar` sollte das für den
-    Knopf aufheben — die Klasse wird im JS gesetzt und hatte hier keine Regel.
-    Der Knopf war also Zierde.
-
-  **Die Lehre steht seit dem 02.09.2026 in CLAUDE.md** („Beim Styling der
-  Erweiterung wird hingesehen, nicht gerechnet") und hat hier nicht getragen,
-  weil dieser Zustand nie abgebildet wurde: `check:netflix-kasten` zeichnet die
-  **Titelseite**. Ein Element, das nur im Player erscheint, sieht niemand.
-*/
-.ak-player-anzeige.ak-player-bedienbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  pointer-events: auto;
-}
-
-/* Der Text nimmt den Platz, der neben dem Knopf bleibt — ohne ihn zu drängen. */
-.ak-player-text {
-  min-width: 0;
-}
-
-.ak-player-knopf {
-  flex: none;
-  padding: 4px 12px;
-  border: 1px solid rgba(110, 231, 160, 0.55);
-  border-radius: 999px;
-  background: rgba(110, 231, 160, 0.14);
-  color: #6ee7a0;
-  font: 600 12px/1.3 system-ui, -apple-system, "Segoe UI", sans-serif;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: background .15s ease, border-color .15s ease;
-}
-
-.ak-player-knopf:hover {
-  border-color: #6ee7a0;
-  background: rgba(110, 231, 160, 0.24);
-}
-.ak-player-anzeige[data-art='gut'] {
-  color: #7ee787;
-  box-shadow: inset 0 0 0 1px rgba(126, 231, 135, 0.45), 0 4px 14px rgba(0, 0, 0, 0.4);
-}
-.ak-player-anzeige[data-art='fehler'] {
-  color: #ff7b72;
-  box-shadow: inset 0 0 0 1px rgba(255, 123, 114, 0.5), 0 4px 14px rgba(0, 0, 0, 0.4);
-}
-@keyframes akPlayerEin {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: none; }
-}
-
-/*
   **Der Netflix-Kasten liegt, wo bei Prime der seine liegt** — unten rechts.
   Das Aussehen kommt von `.ak-box`; hier steht nur, was Netflix eigen ist.
 
@@ -1871,4 +1784,86 @@
 /* Wiedergabeseite: Kasten weg, solange kein Durchgang läuft (Marke setzt box.js). */
 html.ak-im-player:not(.ak-durchgang) .ak-box {
   display: none !important;
+}
+
+/*
+  **Einklappbarer Kasten** (box.js, 09.10.2026). Das Icon sitzt unten rechts; ist es da, rückt
+  alles Schwebende der Erweiterung eine Icon-Höhe nach oben (Rand statt `bottom`, damit die
+  Lage je Seite bleibt). Eingeklappt blendet die Transition aus; `visibility` hält Tastatur und
+  Screenreader draußen. Ein Durchgang hält den Kasten offen (Notausgang).
+*/
+.ak-icon {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2147483647;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+  font: 700 14px/1 system-ui, sans-serif;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 40%);
+  cursor: pointer;
+  /* Seitenregeln für `button` (Prime: min-height, margin, text-align:left, content-box) dürfen
+     weder das Zeichen aus der Mitte schieben noch die Maße ändern (10.10.2026). */
+  display: grid !important;
+  place-items: center;
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  text-align: center !important;
+}
+.ak-icon[hidden] { display: none !important; }
+.ak-icon-zeichen { display: block; font-size: 20px; line-height: 1; }
+.ak-icon:hover { border-color: #fff; }
+.ak-icon:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; }
+.ak-icon-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: #e5484d;
+  color: #fff;
+  font: 700 11px/20px system-ui, sans-serif;
+  text-align: center;
+  pointer-events: none;
+  display: block;
+  margin: 0;
+}
+.ak-icon-badge[hidden] { display: none; }
+.ak-icon-badge-leer { background: #2b6a3d; opacity: 0.85; }
+
+html.ak-icon-da .ak-box,
+html.ak-icon-da .ak-amazon-knopf,
+html.ak-icon-da .ak-durchlauf,
+html.ak-icon-da .ak-uebersicht.ak-amazon-uebersicht:not(.ak-uebersicht-innen) {
+  margin-bottom: 52px;
+  transform-origin: bottom right;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+/* Im Kasten liegt nichts über dem Icon: der Freiraum von 52px ließ eine Lücke in der Melde-Zeile (Netflix, 10.10.2026). */
+html .ak-box .ak-durchlauf { margin-bottom: 0; }
+html.ak-icon-da.ak-zu .ak-box,
+html.ak-icon-da.ak-zu .ak-amazon-knopf,
+html.ak-icon-da.ak-zu .ak-durchlauf,
+html.ak-icon-da.ak-zu .ak-uebersicht.ak-amazon-uebersicht:not(.ak-uebersicht-innen) {
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  visibility: hidden;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.ak-icon-da .ak-box,
+  html.ak-icon-da .ak-amazon-knopf,
+  html.ak-icon-da .ak-durchlauf,
+  html.ak-icon-da .ak-uebersicht.ak-amazon-uebersicht:not(.ak-uebersicht-innen) {
+    transition: none;
+  }
 }

@@ -25,6 +25,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
+import { regeln } from './pruef-bestand.mjs'
 
 /**
  * Offene Verdachtsfälle je Anbieter, als Menge von AniList-Kennungen.
@@ -33,7 +34,7 @@ import yaml from 'js-yaml'
  * @param {string} plattform `netflix`, `primevideo`, `disneyplus`
  * @returns {Map<number, {von: number, bis: number, seit: string}>}
  */
-export function verdachtsfaelle(wurzel, plattform) {
+function verdachtsfaelleBisher(wurzel, plattform) {
   const raus = new Map()
   try {
     const roh = JSON.parse(readFileSync(resolve(wurzel, 'data/tonspur-verdacht.json'), 'utf8'))
@@ -253,6 +254,7 @@ export function verdachtHinweis(v) {
     ist — mit Kanal-Abo nachsehen.
   */
   if (v.wiedervorlage) return `Wiedervorlage: ${v.wiedervorlage} — bitte erneut melden`
+  if (v.folgenzahlFehlt) return 'Folgenzahl fehlt: bitte alle Folgen melden, damit die Pille „N Fg.“ zeigt'
   if (v.laufendeSynchro) {
     return `Synchro läuft noch: am ${v.laufendeSynchro.am} deutsch bis Folge ${v.laufendeSynchro.bis} — bitte erneut melden`
   }
@@ -273,4 +275,24 @@ export function verdachtHinweis(v) {
     `Wiedervorlage: Eine zweite Quelle nannte hier seit ${v.vorherSeit} deutschen Ton ` +
     `und tut es seit ${v.seit} nicht mehr — bitte gegenprüfen`
   )
+}
+
+/**
+ * Offene Verdachtsfälle je Anbieter (Titelkennung → Fall): die bisherigen Quellen plus, wo die Regeln
+ * `erweitert` schalten, die Pillen mit Haken und ohne Folgenzahl (`pipeline/pillen-luecken.ts`).
+ *
+ * @param {string} wurzel Repo-Wurzel
+ * @param {string} plattform `netflix`, `primevideo`, `disneyplus`
+ */
+export function verdachtsfaelle(wurzel, plattform) {
+  const raus = verdachtsfaelleBisher(wurzel, plattform)
+  if (!regeln(wurzel).erweitert) return raus
+  try {
+    for (const l of JSON.parse(readFileSync(resolve(wurzel, 'data/pillen-luecken.json'), 'utf8'))) {
+      if (l.plattform === plattform && !raus.has(l.titleId)) raus.set(l.titleId, { folgenzahlFehlt: true })
+    }
+  } catch {
+    /* Ohne die Messdatei gibt es keine Folgenzahl-Lücken. */
+  }
+  return raus
 }

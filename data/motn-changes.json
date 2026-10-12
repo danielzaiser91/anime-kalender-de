@@ -2,7 +2,7 @@
   "verbrauch": {
     "2026-08": 55,
     "2026-09": 68,
-    "2026-10": 30
+    "2026-10": 48
   },
   "gesehen": {
     "26341901:netflix": {
@@ -238,7 +238,7 @@
       "imdbId": "tt37263214",
       "tmdbId": "tv/261571",
       "dienst": "prime",
-      "am": "2026-08-18",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "new:25370055:prime": {
@@ -618,7 +618,7 @@
       "imdbId": "tt31711083",
       "tmdbId": "tv/249701",
       "dienst": "prime",
-      "am": "2026-08-07",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "new:3376:prime": {
@@ -1038,7 +1038,7 @@
       "imdbId": "tt6111130",
       "tmdbId": "tv/71790",
       "dienst": "prime",
-      "am": "2026-08-18",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "removed:25864375:prime": {
@@ -1058,7 +1058,7 @@
       "imdbId": "tt9813792",
       "tmdbId": "tv/124364",
       "dienst": "prime",
-      "am": "2026-10-07",
+      "am": "2026-10-10",
       "deutsch": true
     },
     "removed:39338:prime": {
@@ -1348,7 +1348,7 @@
       "imdbId": "tt31589662",
       "tmdbId": "tv/243875",
       "dienst": "prime",
-      "am": "2026-10-06",
+      "am": "2026-10-10",
       "deutsch": true
     },
     "removed:4303794:prime": {
@@ -1478,7 +1478,7 @@
       "imdbId": "tt1595859",
       "tmdbId": "tv/32692",
       "dienst": "prime",
-      "am": "2026-10-07",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "removed:1193:prime": {
@@ -1988,7 +1988,7 @@
       "imdbId": "tt22042140",
       "tmdbId": "tv/219276",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "removed:20805:prime": {
@@ -2008,7 +2008,7 @@
       "imdbId": "tt2699110",
       "tmdbId": "tv/61463",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "removed:1694:prime": {
@@ -2018,7 +2018,7 @@
       "imdbId": "tt6473344",
       "tmdbId": "tv/71789",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "removed:692:prime": {
@@ -2099,7 +2099,7 @@
       "tmdbId": "tv/63225",
       "dienst": "prime",
       "am": "2026-10-07",
-      "deutsch": false
+      "deutsch": true
     },
     "removed:14387:prime": {
       "art": "removed",
@@ -2138,7 +2138,7 @@
       "imdbId": "tt6483832",
       "tmdbId": "tv/74016",
       "dienst": "prime",
-      "am": "2026-09-27",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "removed:17195:prime": {
@@ -2248,7 +2248,7 @@
       "imdbId": "tt3288518",
       "tmdbId": "tv/62117",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "removed:8784:prime": {
@@ -2328,7 +2328,7 @@
       "imdbId": "tt38618238",
       "tmdbId": "tv/298031",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "new:60479:prime": {
@@ -2458,7 +2458,7 @@
       "imdbId": "tt6563112",
       "tmdbId": "tv/70566",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "removed:32160:prime": {
@@ -2788,7 +2788,7 @@
       "imdbId": "tt2477230",
       "tmdbId": "tv/60804",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "removed:555:prime": {
@@ -2858,7 +2858,7 @@
       "imdbId": "tt2191671",
       "tmdbId": "tv/1415",
       "dienst": "prime",
-      "am": "2026-09-01",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "new:4639:disney": {
@@ -2908,7 +2908,7 @@
       "imdbId": "tt37810816",
       "tmdbId": "tv/297207",
       "dienst": "prime",
-      "am": "2026-09-04",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "new:10270758:prime": {
@@ -3098,7 +3098,7 @@
       "imdbId": "tt0165581",
       "tmdbId": "tv/4238",
       "dienst": "prime",
-      "am": "2026-10-06",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "removed:187:prime": {
@@ -3108,7 +3108,7 @@
       "imdbId": "tt1586680",
       "tmdbId": "tv/34307",
       "dienst": "prime",
-      "am": "2026-09-04",
+      "am": "2026-10-10",
       "deutsch": true
     },
     "removed:2916:prime": {
@@ -3178,7 +3178,7 @@
       "imdbId": "tt14060708",
       "tmdbId": "tv/112738",
       "dienst": "prime",
-      "am": "2026-09-25",
+      "am": "2026-10-10",
       "deutsch": true
     },
     "removed:26343276:prime": {
@@ -3308,7 +3308,7 @@
       "imdbId": "tt1567432",
       "tmdbId": "tv/34524",
       "dienst": "prime",
-      "am": "2026-10-08",
+      "am": "2026-10-10",
       "deutsch": true
     },
     "removed:8593:prime": {
@@ -3388,7 +3388,7 @@
       "imdbId": "tt19883272",
       "tmdbId": "tv/279739",
       "dienst": "prime",
-      "am": "2026-09-07",
+      "am": "2026-10-12",
       "deutsch": false
     },
     "removed:2852:prime": {
@@ -3418,7 +3418,7 @@
       "imdbId": "tt7927936",
       "tmdbId": "tv/76369",
       "dienst": "prime",
-      "am": "2026-09-07",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "removed:51663:prime": {
@@ -3448,7 +3448,7 @@
       "imdbId": "tt13659418",
       "tmdbId": "tv/114925",
       "dienst": "prime",
-      "am": "2026-09-07",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "removed:2700465:prime": {
@@ -3458,7 +3458,7 @@
       "imdbId": "tt27047709",
       "tmdbId": "tv/221880",
       "dienst": "prime",
-      "am": "2026-09-07",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "removed:6994:prime": {
@@ -3488,7 +3488,7 @@
       "imdbId": "tt3514324",
       "tmdbId": "tv/60797",
       "dienst": "prime",
-      "am": "2026-10-06",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "removed:1668:prime": {
@@ -3548,7 +3548,7 @@
       "imdbId": "tt5051400",
       "tmdbId": "tv/99065",
       "dienst": "prime",
-      "am": "2026-09-07",
+      "am": "2026-10-12",
       "deutsch": false
     },
     "removed:33700:prime": {
@@ -3588,7 +3588,7 @@
       "imdbId": "tt30426197",
       "tmdbId": "tv/241063",
       "dienst": "prime",
-      "am": "2026-09-07",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "removed:52040:prime": {
@@ -6228,7 +6228,7 @@
       "imdbId": "tt2751638",
       "tmdbId": "tv/52017",
       "dienst": "prime",
-      "am": "2026-10-06",
+      "am": "2026-10-11",
       "deutsch": true
     },
     "removed:71843:prime": {
@@ -6388,7 +6388,7 @@
       "imdbId": "tt1839578",
       "tmdbId": "tv/1411",
       "dienst": "prime",
-      "am": "2026-10-06",
+      "am": "2026-10-10",
       "deutsch": true
     },
     "removed:30101:prime": {
@@ -6408,7 +6408,7 @@
       "imdbId": "tt3663490",
       "tmdbId": "tv/61599",
       "dienst": "prime",
-      "am": "2026-10-06",
+      "am": "2026-10-11",
       "deutsch": false
     },
     "removed:4347:prime": {
@@ -6709,7 +6709,7 @@
       "tmdbId": "tv/285322",
       "dienst": "netflix",
       "am": "2026-10-08",
-      "deutsch": false
+      "deutsch": true
     },
     "removed:77269:prime": {
       "art": "removed",
@@ -6778,7 +6778,7 @@
       "imdbId": "tt2632424",
       "tmdbId": "tv/46896",
       "dienst": "prime",
-      "am": "2026-10-08",
+      "am": "2026-10-10",
       "deutsch": true
     },
     "removed:131:prime": {
@@ -6810,7 +6810,897 @@
       "dienst": "prime",
       "am": "2026-10-09",
       "deutsch": true
+    },
+    "new:14627:prime": {
+      "art": "new",
+      "titel": "Total Recall 2070",
+      "originalTitel": "Total Recall 2070",
+      "imdbId": "tt0159920",
+      "tmdbId": "tv/4541",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:24862419:netflix": {
+      "art": "new",
+      "titel": "Rooster Fighter",
+      "originalTitel": "Rooster Fighter",
+      "imdbId": "tt33086804",
+      "tmdbId": "tv/259819",
+      "dienst": "netflix",
+      "am": "2026-10-09",
+      "deutsch": true
+    },
+    "new:23034926:netflix": {
+      "art": "new",
+      "titel": "Playing Gracie Darling",
+      "originalTitel": "Playing Gracie Darling",
+      "imdbId": "tt33384059",
+      "tmdbId": "tv/271823",
+      "dienst": "netflix",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:18102259:netflix": {
+      "art": "new",
+      "titel": "My Hero Academia: Vigilantes",
+      "originalTitel": "ヴィジランテ -僕のヒーローアカデミア ILLEGALS-",
+      "imdbId": "tt35636246",
+      "tmdbId": "tv/280110",
+      "dienst": "netflix",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:24811751:netflix": {
+      "art": "new",
+      "titel": "SNOWBALL EARTH",
+      "originalTitel": "スノウボールアース",
+      "imdbId": "tt39229727",
+      "tmdbId": "tv/296232",
+      "dienst": "netflix",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:27068509:netflix": {
+      "art": "new",
+      "titel": "Sam and Colby: Paranormal Investigators",
+      "originalTitel": "Sam and Colby: Paranormal Investigators",
+      "imdbId": "tt20737440",
+      "tmdbId": "tv/337188",
+      "dienst": "netflix",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "new:9306743:prime": {
+      "art": "new",
+      "titel": "The Great War",
+      "originalTitel": "The Great War",
+      "imdbId": "tt28759350",
+      "tmdbId": "tv/255709",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "new:5056902:prime": {
+      "art": "new",
+      "titel": "The Continental: From the World of John Wick",
+      "originalTitel": "The Continental: From the World of John Wick",
+      "imdbId": "tt6486762",
+      "tmdbId": "tv/72710",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:26635551:netflix": {
+      "art": "new",
+      "titel": "100 Days of Deception",
+      "originalTitel": "100일의 거짓말",
+      "imdbId": "tt39201866",
+      "tmdbId": "tv/293607",
+      "dienst": "netflix",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "new:27065758:disney": {
+      "art": "new",
+      "titel": "Deadly Tag",
+      "originalTitel": "술래게임",
+      "imdbId": "tt47742728",
+      "tmdbId": "tv/330932",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "new:324:disney": {
+      "art": "new",
+      "titel": "NCIS",
+      "originalTitel": "NCIS",
+      "imdbId": "tt0364845",
+      "tmdbId": "tv/4614",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:24734176:disney": {
+      "art": "new",
+      "titel": "Take the Money and Run",
+      "originalTitel": "Take the Money and Run",
+      "imdbId": "tt27598305",
+      "tmdbId": "tv/293590",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:27065696:disney": {
+      "art": "new",
+      "titel": "Yacht Deals Monaco",
+      "originalTitel": "Yacht Deals Monaco",
+      "imdbId": "tt41159656",
+      "tmdbId": "tv/336246",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:26635407:disney": {
+      "art": "new",
+      "titel": "Africa Earth's Wild Home",
+      "originalTitel": "Africa Earth's Wild Home",
+      "imdbId": "tt45584297",
+      "tmdbId": "tv/334888",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:26892978:disney": {
+      "art": "new",
+      "titel": "Setting the Tempo",
+      "originalTitel": "Setting the Tempo",
+      "imdbId": "tt43586435",
+      "tmdbId": "tv/335322",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "new:25370518:disney": {
+      "art": "new",
+      "titel": "The Drop: A Snowfall Saga",
+      "originalTitel": "The Drop: A Snowfall Saga",
+      "imdbId": "tt36210894",
+      "tmdbId": "tv/304842",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:26119924:disney": {
+      "art": "new",
+      "titel": "Somebody Knows Something",
+      "originalTitel": "Somebody Knows Something",
+      "imdbId": "tt43739197",
+      "tmdbId": "tv/330654",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "new:20620346:disney": {
+      "art": "new",
+      "titel": "Gachiakuta",
+      "originalTitel": "ガチアクタ",
+      "imdbId": "tt32612521",
+      "tmdbId": "tv/256721",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:1875:disney": {
+      "art": "new",
+      "titel": "SPY x FAMILY",
+      "originalTitel": "SPY×FAMILY",
+      "imdbId": "tt13706018",
+      "tmdbId": "tv/120089",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:26598698:disney": {
+      "art": "new",
+      "titel": "Merry Berry Love",
+      "originalTitel": "メリーベリーラブ",
+      "imdbId": "tt38937897",
+      "tmdbId": "tv/305551",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:11719:disney": {
+      "art": "new",
+      "titel": "Top Dog",
+      "originalTitel": "Top Dog",
+      "imdbId": "tt11542694",
+      "tmdbId": "tv/36229",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:27067229:disney": {
+      "art": "new",
+      "titel": "Jeff & His Super Hero Friends",
+      "originalTitel": "Jeff & His Super Hero Friends",
+      "imdbId": "tt45381042",
+      "tmdbId": "tv/336977",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "new:11279184:disney": {
+      "art": "new",
+      "titel": "Return to Paradise",
+      "originalTitel": "Return to Paradise",
+      "imdbId": "tt32059608",
+      "tmdbId": "tv/244978",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:26343285:disney": {
+      "art": "new",
+      "titel": "Coven Academy",
+      "originalTitel": "Coven Academy",
+      "imdbId": "tt36064406",
+      "tmdbId": "tv/298505",
+      "dienst": "disney",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:1252:prime": {
+      "art": "new",
+      "titel": "Chicago P.D.",
+      "originalTitel": "Chicago P.D.",
+      "imdbId": "tt2805096",
+      "tmdbId": "tv/58841",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "removed:19870063:prime": {
+      "art": "removed",
+      "titel": "Beyond the Sash",
+      "originalTitel": "Beyond the Sash",
+      "imdbId": "tt9386834",
+      "tmdbId": "tv/261845",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:541:prime": {
+      "art": "removed",
+      "titel": "SpongeBob SquarePants",
+      "originalTitel": "SpongeBob SquarePants",
+      "imdbId": "tt0206512",
+      "tmdbId": "tv/387",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "removed:451:prime": {
+      "art": "removed",
+      "titel": "Broadchurch",
+      "originalTitel": "Broadchurch",
+      "imdbId": "tt2249364",
+      "tmdbId": "tv/1427",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "removed:22016792:prime": {
+      "art": "removed",
+      "titel": "La haine blanche",
+      "originalTitel": "La haine blanche",
+      "imdbId": "tt37537251",
+      "tmdbId": "tv/295603",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "removed:113:prime": {
+      "art": "removed",
+      "titel": "Fargo",
+      "originalTitel": "Fargo",
+      "imdbId": "tt2802850",
+      "tmdbId": "tv/60622",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "removed:347:prime": {
+      "art": "removed",
+      "titel": "Taboo",
+      "originalTitel": "Taboo",
+      "imdbId": "tt3647998",
+      "tmdbId": "tv/65708",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "removed:353:prime": {
+      "art": "removed",
+      "titel": "Luther",
+      "originalTitel": "Luther",
+      "imdbId": "tt1474684",
+      "tmdbId": "tv/1426",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": false
+    },
+    "removed:308:prime": {
+      "art": "removed",
+      "titel": "How to Get Away with Murder",
+      "originalTitel": "How to Get Away with Murder",
+      "imdbId": "tt3205802",
+      "tmdbId": "tv/61056",
+      "dienst": "prime",
+      "am": "2026-10-10",
+      "deutsch": true
+    },
+    "new:11830:prime": {
+      "art": "new",
+      "titel": "Master Eder and his Pumuckl",
+      "originalTitel": "Meister Eder und sein Pumuckl",
+      "imdbId": "tt0082732",
+      "tmdbId": "tv/30688",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:25039:prime": {
+      "art": "new",
+      "titel": "The Bedfellow",
+      "originalTitel": "Der Beischläfer",
+      "imdbId": "tt11162280",
+      "tmdbId": "tv/102704",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:58222:prime": {
+      "art": "new",
+      "titel": "The Bug Diaries",
+      "originalTitel": "The Bug Diaries",
+      "imdbId": "tt6435118",
+      "tmdbId": "tv/99342",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:5118:prime": {
+      "art": "new",
+      "titel": "Kung Fu Panda: Legends of Awesomeness",
+      "originalTitel": "Kung Fu Panda: Legends of Awesomeness",
+      "imdbId": "tt1545214",
+      "tmdbId": "tv/39898",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:19868769:prime": {
+      "art": "new",
+      "titel": "Edmond and Lucy",
+      "originalTitel": "Edmond et Lucy",
+      "imdbId": "tt17060886",
+      "tmdbId": "tv/218079",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:71025:prime": {
+      "art": "new",
+      "titel": "LOU !",
+      "originalTitel": "LOU !",
+      "imdbId": "tt5105934",
+      "tmdbId": "tv/120145",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:5769007:prime": {
+      "art": "new",
+      "titel": "Home Sweet Rome!",
+      "originalTitel": "Home Sweet Rome!",
+      "imdbId": "tt20215742",
+      "tmdbId": "tv/236316",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:27066386:prime": {
+      "art": "new",
+      "titel": "TANK CHAIR",
+      "originalTitel": "TANK CHAIR-戦車椅子-",
+      "imdbId": "tt43691394",
+      "tmdbId": "tv/320377",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:14170397:prime": {
+      "art": "new",
+      "titel": "Amazon Wish List Games",
+      "originalTitel": "Amazon Wish List Games",
+      "imdbId": "tt32368590",
+      "tmdbId": "tv/273319",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:2437612:prime": {
+      "art": "new",
+      "titel": "Mrs. Davis",
+      "originalTitel": "Mrs. Davis",
+      "imdbId": "tt14759574",
+      "tmdbId": "tv/197548",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:23920604:prime": {
+      "art": "new",
+      "titel": "Drunter & Drüber - Chaos auf dem Friedhof",
+      "originalTitel": "Drunter & Drüber - Chaos auf dem Friedhof",
+      "imdbId": "tt32482419",
+      "tmdbId": "tv/287877",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:17926:prime": {
+      "art": "new",
+      "titel": "Demon Lord, Retry!",
+      "originalTitel": "魔王様、リトライ!",
+      "imdbId": "tt10443362",
+      "tmdbId": "tv/88044",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:58893:prime": {
+      "art": "new",
+      "titel": "Monogamish",
+      "originalTitel": "Seitentriebe",
+      "imdbId": "tt8541270",
+      "tmdbId": "tv/78545",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:24593279:prime": {
+      "art": "new",
+      "titel": "The Decagon House Murders",
+      "originalTitel": "十角館の殺人",
+      "imdbId": "tt31898580",
+      "tmdbId": "tv/242331",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:21476730:prime": {
+      "art": "new",
+      "titel": "Secret Makeover",
+      "originalTitel": "マル秘の密子さん",
+      "imdbId": "tt32908148",
+      "tmdbId": "tv/255852",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:10268776:prime": {
+      "art": "new",
+      "titel": "Sky Castle",
+      "originalTitel": "スカイキャッスル",
+      "imdbId": "tt33038101",
+      "tmdbId": "tv/257511",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:24975085:prime": {
+      "art": "new",
+      "titel": "Themis's Uncertain Court",
+      "originalTitel": "テミスの不確かな法廷",
+      "imdbId": "tt39457320",
+      "tmdbId": "tv/305002",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:26893088:prime": {
+      "art": "new",
+      "titel": "Midnight Taxi",
+      "originalTitel": "ミッドナイトタクシー",
+      "imdbId": "tt43588726",
+      "tmdbId": "tv/315702",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:2956807:prime": {
+      "art": "new",
+      "titel": "Bad Girl: Glass Ceiling Crushers",
+      "originalTitel": "悪女 (わる) ～働くのがカッコ悪いなんて誰が言った?～",
+      "imdbId": "tt20247288",
+      "tmdbId": "tv/194816",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:24604708:prime": {
+      "art": "new",
+      "titel": "Happiness Comes from Eating, Sleeping and Waiting",
+      "originalTitel": "しあわせは食べて寝て待て",
+      "imdbId": "tt36981677",
+      "tmdbId": "tv/286627",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:5059526:prime": {
+      "art": "new",
+      "titel": "Linlang",
+      "originalTitel": "Linlang",
+      "imdbId": "tt26250170",
+      "tmdbId": "tv/212884",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:7547079:prime": {
+      "art": "new",
+      "titel": "Beasts Like Us",
+      "originalTitel": "Beasts Like Us",
+      "imdbId": "tt30442584",
+      "tmdbId": "tv/244024",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:19843284:prime": {
+      "art": "new",
+      "titel": "Generation Wembley",
+      "originalTitel": "FC Bayern - Generation Wembley",
+      "imdbId": "tt29562230",
+      "tmdbId": "tv/234327",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "new:23354635:prime": {
+      "art": "new",
+      "titel": "The Journey to Killing You",
+      "originalTitel": "あなたを殺す旅",
+      "imdbId": "tt38493347",
+      "tmdbId": "tv/298931",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:65486:prime": {
+      "art": "new",
+      "titel": "Businessmen vs. Aliens",
+      "originalTitel": "宇宙の仕事",
+      "imdbId": "tt5989844",
+      "tmdbId": "tv/88276",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "new:27067096:netflix": {
+      "art": "new",
+      "titel": "Take Charge of My Heart",
+      "originalTitel": "나를 충전해줘",
+      "imdbId": "tt37737331",
+      "tmdbId": "tv/289423",
+      "dienst": "netflix",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "removed:57013:prime": {
+      "art": "removed",
+      "titel": "Oliver Maass",
+      "originalTitel": "Oliver Maass",
+      "imdbId": "tt0122358",
+      "tmdbId": "tv/40944",
+      "dienst": "prime",
+      "am": "2026-10-12",
+      "deutsch": true
+    },
+    "removed:19911765:prime": {
+      "art": "removed",
+      "titel": "Mysterien Mitteleuropas",
+      "originalTitel": "Mysterien Mitteleuropas",
+      "imdbId": "tt12230762",
+      "tmdbId": "tv/222482",
+      "dienst": "prime",
+      "am": "2026-10-12",
+      "deutsch": false
+    },
+    "removed:36549:prime": {
+      "art": "removed",
+      "titel": "Kråkguldet",
+      "originalTitel": "Kråkguldet",
+      "imdbId": "tt0320049",
+      "tmdbId": "tv/17590",
+      "dienst": "prime",
+      "am": "2026-10-12",
+      "deutsch": false
+    },
+    "removed:23536:prime": {
+      "art": "removed",
+      "titel": "The Great Escape II: The Untold Story",
+      "originalTitel": "The Great Escape II: The Untold Story",
+      "imdbId": "tt0095252",
+      "tmdbId": "tv/48542",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:10264413:prime": {
+      "art": "removed",
+      "titel": "Dan Da Dan",
+      "originalTitel": "ダンダダン",
+      "imdbId": "tt30217403",
+      "tmdbId": "tv/240411",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "removed:22143:prime": {
+      "art": "removed",
+      "titel": "Dragons: The Nine Realms",
+      "originalTitel": "Dragons: The Nine Realms",
+      "imdbId": "tt15758116",
+      "tmdbId": "tv/136322",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:8815:prime": {
+      "art": "removed",
+      "titel": "We Children from Bahnhof Zoo",
+      "originalTitel": "Wir Kinder vom Bahnhof Zoo",
+      "imdbId": "tt13138972",
+      "tmdbId": "tv/115771",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:8902:prime": {
+      "art": "removed",
+      "titel": "The Croods: Family Tree",
+      "originalTitel": "The Croods: Family Tree",
+      "imdbId": "tt15341442",
+      "tmdbId": "tv/132559",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:7272:prime": {
+      "art": "removed",
+      "titel": "Türkisch für Anfänger",
+      "originalTitel": "Türkisch für Anfänger",
+      "imdbId": "tt0469009",
+      "tmdbId": "tv/5475",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "removed:12513:prime": {
+      "art": "removed",
+      "titel": "Half Pants Full Pants",
+      "originalTitel": "Half Pants Full Pants",
+      "imdbId": "tt20916800",
+      "tmdbId": "tv/216260",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:2765:prime": {
+      "art": "removed",
+      "titel": "Rasbhari",
+      "originalTitel": "Rasbhari",
+      "imdbId": "tt9096108",
+      "tmdbId": "tv/105218",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:5060276:prime": {
+      "art": "removed",
+      "titel": "Kumari Srimathi",
+      "originalTitel": "కుమారి శ్రీమతి",
+      "imdbId": "tt29225030",
+      "tmdbId": "tv/235819",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:3720549:prime": {
+      "art": "removed",
+      "titel": "Hostel Days",
+      "originalTitel": "Hostel Days",
+      "imdbId": "tt28306899",
+      "tmdbId": "tv/230505",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:4118:prime": {
+      "art": "removed",
+      "titel": "ImMATURE",
+      "originalTitel": "ImMATURE",
+      "imdbId": "tt8254348",
+      "tmdbId": "tv/87030",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:75962:prime": {
+      "art": "removed",
+      "titel": "Whispers from a Crime Scene",
+      "originalTitel": "ヒガンバナ～警視庁捜査七課～",
+      "imdbId": "tt5074480",
+      "tmdbId": "tv/65769",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:27104:prime": {
+      "art": "removed",
+      "titel": "Ice Pilots NWT",
+      "originalTitel": "Ice Pilots NWT",
+      "imdbId": "tt1542981",
+      "tmdbId": "tv/33057",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:69534:prime": {
+      "art": "removed",
+      "titel": "Layton Mystery Detective Agency: Kat's Mystery‑Solving Files",
+      "originalTitel": "レイトン ミステリー探偵社 ～カトリーのナゾトキファイル～",
+      "imdbId": "tt9532342",
+      "tmdbId": "tv/78479",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:5267:prime": {
+      "art": "removed",
+      "titel": "This Country",
+      "originalTitel": "This Country",
+      "imdbId": "tt6583806",
+      "tmdbId": "tv/70596",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:6633:prime": {
+      "art": "removed",
+      "titel": "Berlin Alexanderplatz",
+      "originalTitel": "Berlin Alexanderplatz",
+      "imdbId": "tt0080196",
+      "tmdbId": "tv/43189",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:1506:prime": {
+      "art": "removed",
+      "titel": "The Chosen",
+      "originalTitel": "The Chosen",
+      "imdbId": "tt5622316",
+      "tmdbId": "tv/85077",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": true
+    },
+    "removed:37078:prime": {
+      "art": "removed",
+      "titel": "Wildest Islands",
+      "originalTitel": "Wildest Islands",
+      "imdbId": "tt2825476",
+      "tmdbId": "tv/60773",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:51466:prime": {
+      "art": "removed",
+      "titel": "Explosiv - Das Magazin",
+      "originalTitel": "Explosiv - Das Magazin",
+      "imdbId": "tt0429346",
+      "tmdbId": "tv/30256",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:22316518:prime": {
+      "art": "removed",
+      "titel": "TikTok: Under the Influence",
+      "originalTitel": "TikTok, un réseau sous influence",
+      "imdbId": "tt36578696",
+      "tmdbId": "tv/288237",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:15794890:prime": {
+      "art": "removed",
+      "titel": "Oligarchs, Putin's gang",
+      "originalTitel": "Oligarques, le gang de Poutine",
+      "imdbId": "tt35693709",
+      "tmdbId": "tv/284387",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:24977901:prime": {
+      "art": "removed",
+      "titel": "Nintendo 64 Quest",
+      "originalTitel": "Nintendo 64 Quest",
+      "imdbId": "tt33995453",
+      "tmdbId": "tv/318180",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:14397371:prime": {
+      "art": "removed",
+      "titel": "German Cocaine Cowboy",
+      "originalTitel": "German Cocaine Cowboy",
+      "imdbId": "tt33396908",
+      "tmdbId": "tv/277585",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:805415:prime": {
+      "art": "removed",
+      "titel": "Poker Face",
+      "originalTitel": "Poker Face",
+      "imdbId": "tt14269590",
+      "tmdbId": "tv/120998",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:19891998:prime": {
+      "art": "removed",
+      "titel": "Matchbox Adventures",
+      "originalTitel": "Matchbox Adventures",
+      "imdbId": "tt27724572",
+      "tmdbId": "tv/227950",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:19863917:prime": {
+      "art": "removed",
+      "titel": "Barbie Life in the City",
+      "originalTitel": "Barbie Life in the City",
+      "imdbId": "tt23839344",
+      "tmdbId": "tv/225515",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
+    },
+    "removed:19896866:prime": {
+      "art": "removed",
+      "titel": "Hot Wheels City",
+      "originalTitel": "Hot Wheels City",
+      "imdbId": "tt8083424",
+      "tmdbId": "tv/220602",
+      "dienst": "prime",
+      "am": "2026-10-11",
+      "deutsch": false
     }
   },
-  "fetchedAt": "2026-10-09T12:00:21.361Z"
+  "fetchedAt": "2026-10-12T04:09:25.102Z"
 }

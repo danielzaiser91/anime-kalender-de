@@ -174,11 +174,10 @@ export function loadOhneSynchro(data: Dataset): Promise<Title[]> {
 let cartoonsPromise: Promise<Title[]> | undefined
 
 /**
- * **Westliche Animationsserien — immer geladen, ausblendbar über Einstellungen.**
+ * **Westliche Animationsserien — immer geladen, ausblendbar über den Schnellfilter „Cartoon".**
  *
- * Daniel am 12.09.2026: alle 906, „immer sichtbar, aber bau eine einstellung
- * seite … dort als erste option einfügen, ‚westliche anime (Cartoons)
- * ausblenden' — standardmäßig aus".
+ * Daniel am 12.09.2026: alle 906 aufnehmen, immer sichtbar; seit 09.10.2026 schaltet sie nur noch der
+ * Schnellfilter (nicht mehr ein Schalter in den Einstellungen).
  *
  * Sie stehen in einer eigenen Datei (372 KB), nicht in `titles.json`: Wer nur
  * den Kalender aufruft, soll sie nicht mitladen. Geholt wird beim ersten
@@ -320,7 +319,7 @@ export interface VoiceRole {
    * die die Angaben zeigt. Ohne dieses Feld liesse sich nicht sagen, ob der
    * Link ueberhaupt faellig ist.
    */
-  von?: 'ann'
+  von?: 'ann' | 'anisearch'
 }
 
 /** Die Sprecherliste eines Titels samt Herkunft. */

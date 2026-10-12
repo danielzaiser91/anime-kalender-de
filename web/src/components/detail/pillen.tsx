@@ -3,13 +3,15 @@ import { type ReactNode } from 'react'
 import { Tooltip, DiscZeichen } from '../ui.tsx'
 import { formatDate } from '@shared/time.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
-import { useLang, translate } from '../../lib/i18n.tsx'
+import { PremiereFaehnchen, zeigtPremiere } from './premiere-faehnchen.tsx'
+import { useLang, translate, type Translate } from '../../lib/i18n.tsx'
 import { AnbieterIcon } from '../../lib/anbieter-icon.tsx'
 import { MerkenKnopf } from './merken.tsx'
 import { expandEvents, istErschienen } from '@shared/logic.ts'
 import { verweiseFuer } from './verweise.ts'
 import { einzelneAusgaben } from './disc-regeln.ts'
 import { TIPPFLAECHE_HOCH } from './tippziel.ts'
+import { pillenZiel } from './pillen-ziel.ts'
 
 /*
   **Pillen: neutrale Fläche, Markenstreifen links** (Daniel, 19.09.2026: „rot auf rot, orange auf
@@ -311,10 +313,10 @@ function kuerzeUmTitel(name: string, titel?: string): string {
   return rest
 }
 
-function PillenHuelle({ ziel, children }: { ziel?: string; children: ReactNode }) {
+function PillenHuelle({ ziel, hinweis, children }: { ziel?: string; hinweis?: string; children: ReactNode }) {
   const klasse = 'flex min-w-0 flex-col py-0.5 leading-tight'
   return ziel ? (
-    <a href={ziel} target="_blank" rel="noreferrer noopener" className={klasse}>
+    <a href={ziel} title={hinweis} target="_blank" rel="noreferrer noopener" className={klasse}>
       {children}
     </a>
   ) : (
@@ -356,34 +358,23 @@ function hatShop(release: Release): boolean {
   return Boolean(release.buyUrl || (release.platformUrl && !/anisearch\./i.test(release.platformUrl)))
 }
 
-export function ReleasePille({
-  release,
-  titel,
-  today,
-  tvText,
-}: {
-  release: Release
-  titel?: string
-  today: string
-  /** Bei TV: „Fg. 16 · heute 21:15" und ob es eine Premiere ist (`lib/tv-angabe.ts`). */
-  tvText?: ReturnType<typeof tvAngabe>
-}) {
-  const { t } = useLang()
-  /*
-    **Die Pille sagt, was ein Klick tut — nicht, wie die Ausgabe heißt.**
+type TvText = NonNullable<ReturnType<typeof tvAngabe>>
 
-    Hier stand der gekürzte Releasename: „Staffel 1", darunter „Crunchyroll ·
-    Limited Steelbook Edition, Blu-ray · ab 04.09.2026". Der Titel steht drei
-    Zeilen höher im Kopf, die Edition sagt nichts über das Ziel des Links —
-    und was der Klick tut, stand nirgends. Daniel am 04.09.2026: „in der pill
-    sollte stehen ,[blu-ray] kaufen bei amazon'".
+/*
+  **Die Pille sagt, was ein Klick tut — nicht, wie die Ausgabe heißt.**
 
-    Also: das Medium als Marke, dahinter die Handlung mit dem Händler. Die
-    Edition rückt in die zweite Zeile, wo sie hingehört — sie unterscheidet
-    Ausgaben, sie benennt keine.
-  */
-  const medium = mediumAus(release.edition)
-  const kurzerName =
+  Hier stand der gekürzte Releasename: „Staffel 1", darunter „Crunchyroll ·
+  Limited Steelbook Edition, Blu-ray · ab 04.09.2026". Der Titel steht drei
+  Zeilen höher im Kopf, die Edition sagt nichts über das Ziel des Links —
+  und was der Klick tut, stand nirgends. Daniel am 04.09.2026: „in der pill
+  sollte stehen ,[blu-ray] kaufen bei amazon'".
+
+  Also: das Medium als Marke, dahinter die Handlung mit dem Händler. Die
+  Edition rückt in die zweite Zeile, wo sie hingehört — sie unterscheidet
+  Ausgaben, sie benennt keine.
+*/
+function kurzerNameVon(release: Release, titel: string | undefined, t: Translate): string {
+  return (
     release.releaseType === 'disc'
       ? /*
           **Ohne Adresse kein Händler**. `haendlerAus`
@@ -397,6 +388,94 @@ export function ReleasePille({
       : /* Ein Stream-Termin nennt den Anbieter wie jede Stream-Pille — nicht den Serientitel, der
            im Kopf steht („Undefeated Bahamut Chronicle" statt „ADN", Daniel, 16.09.2026). */
         (((a) => (a && release.kanal ? `${a} (${release.kanal})` : a))(anbieterName(release.platform, release.sender)) ?? kuerzeUmTitel(release.name, titel))
+  )
+}
+
+/**
+ * **Wie weit eine laufende Wochenserie ist** (Daniel, 04.10.2026; 06.10.2026: „folge ist wichtiger" als „seit"): die Zahl der
+ * erschienenen Folgen, ohne Gesamtzahl — bei zwei Anbietern mit versetztem Start unterscheidet sie sie, das gleiche „seit" nicht.
+ * Das Startdatum folgt dahinter („1 Fg. · seit 04.10.2026").
+ */
+function fortschrittVon(release: Release, t: Translate): string {
+  if (release.releaseType !== 'weekly' || release.platform === 'tv') return ''
+  const raus = expandEvents(release).filter((e) => istErschienen(e)).length
+  return raus > 0 ? t('detail.folgenFortschritt', { raus }) : ''
+}
+
+/* Ein TOGGO-Sender trägt TOGGOs Orange, nicht das allgemeine TV-Grün. */
+function farbeVon(release: Release): string | undefined {
+  return /^TOGGO/i.test(release.sender ?? '')
+    ? TOGGO_ORANGE
+    : /^ProSieben MAXX$/i.test(release.sender ?? '')
+      ? /* Die Farbe, die Joyn selbst für ProSieben MAXX führt (`accentColor`, 22.09.2026). */
+        PROSIEBEN_MAXX_ROT
+      : PLATFORMS[release.platform]?.color
+}
+
+/**
+ * **Fernsehen erkennt man am Fernseher**: eckige Pille, dazu ein Fernseher
+ * als Blase oben links (unten links war „schlecht") — neutral grau, nie in der Senderfarbe
+ * („keine dynamische anbieter farbe"). So hebt sich die Pille von den Streaming-Anbietern ab,
+ * ohne Breite zu kosten.
+ */
+function TvBlase({ programm, t }: { programm?: string; t: Translate }) {
+  return (
+    <span className="absolute -left-1.5 -top-1.5 z-10">
+      {programm ? (
+        /* Führt zur laufenden, sonst zur nächsten Sendung im tv.de-Programm. */
+        <Tooltip text={t('tv.imProgramm')} seite="oben">
+          <a
+            href={programm}
+            target="_blank"
+            rel="noopener"
+            aria-label={t('tv.imProgramm')}
+            className="grid size-[22px] place-items-center rounded-full bg-white text-slate-500 ring-1 ring-slate-300 transition hover:text-sky-600 hover:ring-sky-400 dark:bg-[#162238] dark:text-slate-300 dark:ring-slate-500 dark:hover:text-sky-300"
+          >
+            <TvZeichen />
+          </a>
+        </Tooltip>
+      ) : (
+        <span
+          aria-hidden
+          className="grid size-[22px] place-items-center rounded-full bg-white text-slate-500 ring-1 ring-slate-300 dark:bg-[#162238] dark:text-slate-300 dark:ring-slate-500"
+        >
+          <TvZeichen />
+        </span>
+      )}
+    </span>
+  )
+}
+
+/**
+ * **Was gerade läuft, mit Folge und Fortschritt** (Daniel, 22.09.2026, Variante C2 aus
+ * drei Entwürfen): Folgentitel auf höchstens zwei Zeilen, reicht das nicht, „…" und der
+ * volle Titel im Tooltip. Der Balken zeigt die verstrichene Sendezeit laut Programm.
+ */
+function TvLaeuft({ laeuft, t }: { laeuft: NonNullable<TvText['laeuft']>; t: Translate }) {
+  return (
+    <>
+      <LangMitTooltip text={[t('tv.laeuft'), laeuft.text].filter(Boolean).join(' · ')}>
+        <span className="line-clamp-2 max-w-72 text-[11px] text-slate-500 dark:text-slate-400">
+          <span className="font-semibold text-emerald-600 dark:text-emerald-400">{t('tv.laeuft')}</span>
+          {laeuft.text ? ` · ${laeuft.text}` : ''}
+        </span>
+      </LangMitTooltip>
+      <span aria-hidden className="my-0.5 block h-[3px] w-full max-w-72 overflow-hidden rounded bg-slate-200 dark:bg-white/10">
+        <span className="block h-full rounded bg-emerald-500" style={{ width: `${Math.round(laeuft.anteil * 100)}%` }} />
+      </span>
+    </>
+  )
+}
+
+/** Die Datumszeile der Pille: zweite Zeile, Fortschritt und Termin; bei TV Tag und Uhrzeit farbig. */
+function PillenDatumZeile({ release, tvText, zweite, fortschritt, today, t }: {
+  release: Release
+  tvText?: TvText
+  zweite: string
+  fortschritt: string
+  today: string
+  t: Translate
+}) {
   /*
     **Der Kalendereintrag gilt dem nächsten Termin, nicht dem ersten.**
 
@@ -406,80 +485,89 @@ export function ReleasePille({
     Vergangenes ist kein Angebot, sondern ein Fehlgriff.
   */
   const datum = release.schedule?.firstEpisodeDate
-  /*
-    **Wie weit eine laufende Wochenserie ist** (Daniel, 04.10.2026; 06.10.2026: „folge ist wichtiger" als „seit"): die Zahl der
-    erschienenen Folgen, ohne Gesamtzahl — bei zwei Anbietern mit versetztem Start unterscheidet sie sie, das gleiche „seit" nicht.
-    Das Startdatum folgt dahinter („1 Fg. · seit 04.10.2026").
-  */
-  const fortschritt = ((): string => {
-    if (release.releaseType !== 'weekly' || release.platform === 'tv') return ''
-    const raus = expandEvents(release).filter((e) => istErschienen(e)).length
-    return raus > 0 ? t('detail.folgenFortschritt', { raus }) : ''
-  })()
-  /* Ein TOGGO-Sender trägt TOGGOs Orange, nicht das allgemeine TV-Grün. */
-  const farbe = /^TOGGO/i.test(release.sender ?? '')
-    ? TOGGO_ORANGE
-    : /^ProSieben MAXX$/i.test(release.sender ?? '')
-      ? /* Die Farbe, die Joyn selbst für ProSieben MAXX führt (`accentColor`, 22.09.2026). */
-        PROSIEBEN_MAXX_ROT
-      : PLATFORMS[release.platform]?.color
+  return (
+    <LangMitTooltip text={tvText?.text ?? ''}>
+      <span className={`${tvText ? 'line-clamp-2 max-w-72' : 'truncate'} text-[11px] text-slate-500 dark:text-slate-400`}>
+        {/*
+          **„ab" oder „seit" — ein nacktes Datum sagt beides.**
+
+          „04.09.2026" allein lässt offen, ob die Ausgabe kommt oder schon da
+          ist; genau diese Frage führt jemanden auf die Seite. Zwei Zeichen
+          beantworten sie.
+        */}
+        {[
+          zweite,
+          fortschritt,
+          /*
+            Bei einer TV-Sichtung ist das Datum unsere erste Sichtung, kein Start. Genannt wird
+            der nächste Sendetag, sonst die letzte Sichtung — „im TV am 23.09." über einer
+            Reihe, die am 21.09. beginnt, las sich wie der erste Termin (19.09.2026).
+          */
+          tvText
+            ? tvText.text
+            : release.tvLetzteSichtung && release.platform !== 'tv'
+            ? /* RTL+-Wochentermin: die jüngste Folge, nicht „im TV". */
+              t('detail.neuAm', { d: formatDate(release.tvLetzteSichtung) })
+            : release.tvLetzteSichtung
+            ? t('detail.tvGesehen', {
+                d: formatDate(
+                  Object.values(release.schedule?.observed ?? {})
+                    .filter((d) => d >= today)
+                    .sort()[0] ?? release.tvLetzteSichtung,
+                ),
+              })
+            : datum && t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) }),
+        ]
+          .filter(Boolean)
+          .join(' · ')
+          /* Tag und Uhrzeit farbig, der Rest bleibt grau. Ohne TV-Angabe
+             trennt der Platzhalter nichts, und der Text bleibt ein Stück. */
+          .split(tvText?.zeit || KEIN_TRENNER)
+          .flatMap((teil, i) => [
+            i ? (
+              <span key={`z${i}`} className="font-medium text-sky-700 dark:text-sky-300">
+                {tvText?.zeit}
+              </span>
+            ) : null,
+            teil,
+          ])}
+      </span>
+    </LangMitTooltip>
+  )
+}
+
+export function ReleasePille({
+  release,
+  titel,
+  today,
+  tvText,
+}: {
+  release: Release
+  titel?: string
+  today: string
+  /** Bei TV: „Fg. 16 · heute 21:15" und ob es eine Premiere ist (`lib/tv-angabe.ts`). */
+  tvText?: ReturnType<typeof tvAngabe>
+}) {
+  const { t } = useLang()
+  const medium = mediumAus(release.edition)
+  const kurzerName = kurzerNameVon(release, titel, t)
+  const fortschritt = fortschrittVon(release, t)
+  const farbe = farbeVon(release)
   const tv = release.platform === 'tv'
+  const premiere = zeigtPremiere(release, tvText?.premiere)
   const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
   return (
     <span
-      className={`relative inline-flex max-w-full items-center ${tv ? 'blase-links rounded-md pl-5' : 'rounded-full pl-3'} ${farbe ? 'blase-rechts' : ''} py-1 pr-4 ${tvText?.premiere ? 'mt-2 pt-3' : ''} ${farbe ? PILLE_MARKE : ''}`}
+      className={`relative inline-flex max-w-full items-center ${tv ? 'blase-links rounded-md pl-5' : 'rounded-full pl-3'} ${farbe ? 'blase-rechts' : ''} py-1 pr-4 ${premiere ? 'mt-2 pt-3' : ''} ${farbe ? PILLE_MARKE : ''}`}
       style={marke(farbe)}
     >
-      {tv && (
-        /*
-          **Fernsehen erkennt man am Fernseher**: eckige Pille, dazu ein Fernseher
-          als Blase oben links (unten links war „schlecht") — neutral grau, nie in der Senderfarbe
-          („keine dynamische anbieter farbe"). So hebt sich die Pille von den Streaming-Anbietern ab,
-          ohne Breite zu kosten.
-        */
-        <span className="absolute -left-1.5 -top-1.5 z-10">
-          {tvText?.programm ? (
-            /* Führt zur laufenden, sonst zur nächsten Sendung im tv.de-Programm. */
-            <Tooltip text={t('tv.imProgramm')} seite="oben">
-              <a
-                href={tvText.programm}
-                target="_blank"
-                rel="noopener"
-                aria-label={t('tv.imProgramm')}
-                className="grid size-[22px] place-items-center rounded-full bg-white text-slate-500 ring-1 ring-slate-300 transition hover:text-sky-600 hover:ring-sky-400 dark:bg-[#162238] dark:text-slate-300 dark:ring-slate-500 dark:hover:text-sky-300"
-              >
-                <TvZeichen />
-              </a>
-            </Tooltip>
-          ) : (
-            <span
-              aria-hidden
-              className="grid size-[22px] place-items-center rounded-full bg-white text-slate-500 ring-1 ring-slate-300 dark:bg-[#162238] dark:text-slate-300 dark:ring-slate-500"
-            >
-              <TvZeichen />
-            </span>
-          )}
-        </span>
-      )}
-      {tvText?.premiere && (
-        /*
-          **Premiere als Fähnchen auf der Kante**:
-          Es steht links neben dem Namen, rechts der Blase — aber mit seiner Unterkante auf der
-          Oberkante der Pille, sonst ragt es in die Namenszeile.
-        */
-        <span className={`absolute -top-[11px] ${tv ? 'left-[22px]' : 'left-[10px]'} z-10`}>
-          <Tooltip text={t('tv.premiereHinweis')} seite="oben">
-            <span className="block rounded-md bg-orange-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(249,115,22,.6)]">
-              ✦ Premiere
-            </span>
-          </Tooltip>
-        </span>
-      )}
+      {tv && <TvBlase programm={tvText?.programm} t={t} />}
+      {premiere && <PremiereFaehnchen release={release} />}
       {/*
         **Ohne Ziel kein Verweis** (Daniel, 17.09.2026, Kino-Pille): `href="#"` öffnete
         dieselbe Seite in einem neuen Tab. Dann trägt die Pille nur ihre Angaben und „Merken".
       */}
-      <PillenHuelle ziel={release.buyUrl ?? release.platformUrl}>
+      <PillenHuelle {...pillenZiel(release, titel, t)}>
         {/*
           Der Serienname steht drei Zeilen höher im Kopf des Panels — ihn in
           jeder Pille zu wiederholen macht sie breit und sagt nichts Neues.
@@ -500,71 +588,8 @@ export function ReleasePille({
           )}
           <span className="truncate">{kurzerName}</span>
         </span>
-        {tvText?.laeuft && (
-          /*
-            **Was gerade läuft, mit Folge und Fortschritt** (Daniel, 22.09.2026, Variante C2 aus
-            drei Entwürfen): Folgentitel auf höchstens zwei Zeilen, reicht das nicht, „…" und der
-            volle Titel im Tooltip. Der Balken zeigt die verstrichene Sendezeit laut Programm.
-          */
-          <>
-            <LangMitTooltip text={[t('tv.laeuft'), tvText.laeuft.text].filter(Boolean).join(' · ')}>
-              <span className="line-clamp-2 max-w-72 text-[11px] text-slate-500 dark:text-slate-400">
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">{t('tv.laeuft')}</span>
-                {tvText.laeuft.text ? ` · ${tvText.laeuft.text}` : ''}
-              </span>
-            </LangMitTooltip>
-            <span aria-hidden className="my-0.5 block h-[3px] w-full max-w-72 overflow-hidden rounded bg-slate-200 dark:bg-white/10">
-              <span className="block h-full rounded bg-emerald-500" style={{ width: `${Math.round(tvText.laeuft.anteil * 100)}%` }} />
-            </span>
-          </>
-        )}
-        <LangMitTooltip text={tvText?.text ?? ''}>
-        <span className={`${tvText ? 'line-clamp-2 max-w-72' : 'truncate'} text-[11px] text-slate-500 dark:text-slate-400`}>
-          {/*
-            **„ab" oder „seit" — ein nacktes Datum sagt beides.**
-
-            „04.09.2026" allein lässt offen, ob die Ausgabe kommt oder schon da
-            ist; genau diese Frage führt jemanden auf die Seite. Zwei Zeichen
-            beantworten sie.
-          */}
-          {[
-            zweite,
-            fortschritt,
-            /*
-              Bei einer TV-Sichtung ist das Datum unsere erste Sichtung, kein Start. Genannt wird
-              der nächste Sendetag, sonst die letzte Sichtung — „im TV am 23.09." über einer
-              Reihe, die am 21.09. beginnt, las sich wie der erste Termin (19.09.2026).
-            */
-            tvText
-              ? tvText.text
-              : release.tvLetzteSichtung && release.platform !== 'tv'
-              ? /* RTL+-Wochentermin: die jüngste Folge, nicht „im TV". */
-                t('detail.neuAm', { d: formatDate(release.tvLetzteSichtung) })
-              : release.tvLetzteSichtung
-              ? t('detail.tvGesehen', {
-                  d: formatDate(
-                    Object.values(release.schedule?.observed ?? {})
-                      .filter((d) => d >= today)
-                      .sort()[0] ?? release.tvLetzteSichtung,
-                  ),
-                })
-              : datum && t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) }),
-          ]
-            .filter(Boolean)
-            .join(' · ')
-            /* Tag und Uhrzeit farbig, der Rest bleibt grau. Ohne TV-Angabe
-               trennt der Platzhalter nichts, und der Text bleibt ein Stück. */
-            .split(tvText?.zeit || KEIN_TRENNER)
-            .flatMap((teil, i) => [
-              i ? (
-                <span key={`z${i}`} className="font-medium text-sky-700 dark:text-sky-300">
-                  {tvText?.zeit}
-                </span>
-              ) : null,
-              teil,
-            ])}
-        </span>
-        </LangMitTooltip>
+        {tvText?.laeuft && <TvLaeuft laeuft={tvText.laeuft} t={t} />}
+        <PillenDatumZeile release={release} tvText={tvText} zweite={zweite} fortschritt={fortschritt} today={today} t={t} />
       </PillenHuelle>
       <MerkenKnopf release={release} today={today} farbe={farbe} />
     </span>

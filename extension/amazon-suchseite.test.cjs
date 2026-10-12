@@ -130,7 +130,7 @@ function lauf(pfad, suche, { auftrag = null, liste = {}, suchStand = {}, briefka
         },
       },
     },
-    window: { addEventListener() {}, location: { pathname: pfad, search: suche } },
+    window: { addEventListener() {}, location: { pathname: pfad, search: suche } }, MutationObserver: class { observe() {} }, requestAnimationFrame: () => 0,
     /*
       Der Briefkasten antwortet, was der Aufrufer vorgibt — sonst lässt sich der
       Zustand „Erwartung bestätigt" nicht nachstellen. Sie liegt seit dem

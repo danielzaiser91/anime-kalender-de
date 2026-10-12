@@ -126,7 +126,8 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
    *    (CLAUDE.md: „Eine Zahl am Weg braucht einen Beleg an genau diesem Weg").
    * 3. Nur Anbieter, die wir als Plattform führen, und höchstens **zwei** je Titel.
    *
-   * Der Weg trägt `dub: true` — die Tonspur ist die Auskunft, wegen der er überhaupt dazukommt.
+   * Der Weg trägt **kein** `dub` (11.10.2026): JustWatch ist kein Beleg. Bei Prime setzt `11-6-jw-vertrauen.ts`
+   * danach den Umriss „Deutsch laut JustWatch", wo die Vertrauensregel greift.
    */
   {
     const jw = readJson<
@@ -176,7 +177,6 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
           {
             platform: plattform,
             url: stripAffiliate(a.url),
-            dub: true,
             ...(a.art === 'ADS' ? { zugang: 'kostenlos' as const } : { zugang: 'abo' as const }),
           } as StreamLink,
         ]
@@ -185,7 +185,7 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
         ergaenzt++
       }
     }
-    if (ergaenzt) log(`${ergaenzt} Abo-Weg(e) aus JustWatch ergänzt (deutsche Tonspur belegt)`)
+    if (ergaenzt) log(`${ergaenzt} Abo-Weg(e) aus JustWatch ergänzt (deutsche Tonspur laut JustWatch, ohne eigenes Urteil)`)
   }
 
   /*

@@ -24,6 +24,7 @@
  */
 import { beurteile, beurteileNachFolgennummern, beurteileBlockketten, type CrSerie, type CrDubData, beurteileJeBlock, beurteileTeilblock } from './lib/crunchyroll-dub.ts'
 import { ordneCrSerienZu } from './bau/09-4-1-serien.ts'
+import { ergaenzeWegeAusTmdbUndMotn } from './bau/13-3-1-tmdb-wege.ts'
 import { crStaffeln, entferneFremdeNachStaffeln, kennungAusAdresse } from './bau/cr-serie-geteilt.ts'
 import { termineAusSerie } from './lib/crunchyroll-termine.ts'
 import { readJson, ROOT } from './lib/util.ts'
@@ -1039,13 +1040,30 @@ const von = (start: number, n: number) => Array.from({ length: n }, (_, i) => st
   pruefe('Gegenprobe: eine andere Kennung lässt den Verweis stehen', fremd.streams.length === 1, fremd.streams)
 }
 
+/* TMDB-Anbieter für Titel ohne Weg (12.10.2026): nur bei aniSearch geführte Titel bekommen keinen, ein AniList-Titel mit denselben Angaben schon. */
+{
+  const zuTmdb = { tmdbId: 1, kind: 'tv', providers: ['netflix'] }
+  const slim = [{ id: 10_010_005 }, { id: 99_999 }].map((t) => ({ ...t, streams: [] as Title['streams'] }))
+  ergaenzeWegeAusTmdbUndMotn({
+    slim: slim as never,
+    tmdbTitles: {},
+    tmdbZuTitel: { '10010005': zuTmdb, '99999': zuTmdb },
+    motnTmdb: { 'tv/1': { imdbId: 'tt1' } } as never,
+    motnLinks: { tt1: { netflix: 'https://www.netflix.com/title/80040330' } },
+  })
+  pruefe('Gegenprobe: ein nur bei aniSearch geführter Titel bekommt keinen TMDB-Anbieter', slim[0]!.streams.length === 0, slim[0]!.streams)
+  pruefe('Gegenprobe: ein AniList-Titel bekommt den TMDB-Anbieter', slim[1]!.streams.length === 1, slim[1]!.streams)
+}
+
 /* Gegenprobe auf dem gebauten Bestand (07.10.2026, Black Butler): Kein Titel hängt an einer Crunchyroll-Serie, deren Staffeln alle anderen Titeln gehören. */
 {
   const roh = readJson<Title[] | { titles?: Title[] }>('public/data/titles.json', [])
   const liste = Array.isArray(roh) ? roh : (roh.titles ?? [])
   const titel = new Map(liste.map((t) => [t.id, { ...t, streams: [...t.streams] }]))
   const weg = entferneFremdeNachStaffeln(titel, kennungAusAdresse(), crStaffeln())
-  pruefe('Titel nur bei aniSearch tragen keinen erratenen Weg', liste.every((t) => t.id < 10_000_000 || !(t.streams ?? []).length), liste.filter((t) => t.id >= 10_000_000 && (t.streams ?? []).length).map((t) => t.titleEn ?? t.id).slice(0, 5))
+  /* Ein Anbieter aus TMDB (`herkunft: 'tmdb'`, vom Cartoon-Zwilling übernommen, ohne Sprachangabe) oder aus einem sicheren Termin (`'termin'`) ist belegt, nicht erraten. */
+  const erraten = (t: Title) => (t.streams ?? []).filter((s) => s.herkunft !== 'tmdb' && s.herkunft !== 'termin').length
+  pruefe('Titel nur bei aniSearch tragen keinen erratenen Weg', liste.every((t) => t.id < 10_000_000 || !erraten(t)), liste.filter((t) => t.id >= 10_000_000 && erraten(t)).map((t) => t.titleEn ?? t.id).slice(0, 5))
   pruefe('im Bestand hängt kein Titel an einer Crunchyroll-Serie, die ihm nicht gehört', weg === 0, [...titel.values()].filter((t, i) => t.streams.length !== liste[i]!.streams.length).map((t) => t.titleEn ?? t.id).slice(0, 8))
 }
 

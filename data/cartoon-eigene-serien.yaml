@@ -1,0 +1,11 @@
+# Cartoons, die zu einer Reihe gehören, aber eine eigene Serie sind — keine Staffel der Reihe.
+#
+# Das Panel nummeriert alle Fernsehserien einer Reihe als „Staffel 1, 2, 3". Bei TMDB-Serien stimmt das nur,
+# wo jeder Eintrag wirklich ein Teil derselben Serie ist (War for Cybertron: drei Kapitel). Ein Nachfolger mit
+# eigenem Titel steht stattdessen unter „Eigene Serien" (`FranchiseMember.eigenesWerk`).
+#
+# Jeder Eintrag: ids (negative Cartoon-Kennungen), grund und quelle (https-Adresse, die es belegt).
+
+- ids: [-33880, -284833]
+  grund: 'The Legend of Korra (2012) ist die Fortsetzung von Avatar: The Last Airbender (2005), Avatar: Seven Havens (2026) die Fortsetzung von Korra — jeweils eigene Serie mit eigenem Titel'
+  quelle: https://en.wikipedia.org/wiki/Avatar:_Seven_Havens

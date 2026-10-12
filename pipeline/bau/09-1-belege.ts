@@ -1,17 +1,27 @@
 import { type PlatformId, type StreamLink, type Release, type Title } from '../../shared/types.ts'
 import { crunchyrollSeriesId, type CrunchyrollEntry } from '../lib/crunchyroll.ts'
-import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
-import { ROOT, warn, log, readJson } from '../lib/util.ts'
-import yaml from 'js-yaml'
+import { log, readJson } from '../lib/util.ts'
 import { type Zugangsart } from '../../shared/zugangsart.ts'
 import { adressKern, adressGleich, loadDubChecks, type DubCheck, dubKey } from '../lib/dub-confirmed.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
+import { ergaenzeVerweiseVonHand } from '../lib/verweise-von-hand.ts'
 import { kanalAusNotiz } from '../lib/amazon-adresse.ts'
+import { belegOhneGenaueAdresse } from '../lib/kanal-titel.ts'
 import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/cr-katalog-adresse.ts'
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
+import { deutschGeplantLautAnisearch } from './ohne-beleg.ts'
+
+/**
+ * Ein Termin, der noch aussteht, ist kein Beleg für eine Synchro von heute: geschätzt ist er der Untertitel-Start, und wo aniSearch Deutsch als „Geplant“ führt,
+ * ist er der Start der Synchro (Reincarnated as a Dragon Hatchling: ADN zeigt bis zum 22.10.2026 nur Untertitel).
+ */
+export function terminBelegtNichts(release: Release, heute: string): boolean {
+  if (release.titleId < 0) return true
+  const kommt = release.schedule.firstEpisodeDate > heute
+  return kommt && (Boolean(release.schedule.estimated) || deutschGeplantLautAnisearch(release.titleId))
+}
 
 export function sammleBelege({
   releases,
@@ -35,8 +45,7 @@ export function sammleBelege({
   // Ein Stream-Link sagt nichts über die Sprache — belegt ist nur, was nachgewiesen wurde.
   const dubByTitle = new Map<number, Set<PlatformId>>()
   for (const release of releases) {
-    // Ein geschätzter Termin, der noch aussteht, ist der Untertitel-Start — kein Beleg für eine Synchro.
-    if (release.titleId < 0 || (release.schedule.estimated && release.schedule.firstEpisodeDate > todayIso())) continue
+    if (terminBelegtNichts(release, todayIso())) continue
     const set = dubByTitle.get(release.titleId) ?? new Set<PlatformId>()
     set.add(release.platform)
     dubByTitle.set(release.titleId, set)
@@ -80,33 +89,8 @@ export function sammleBelege({
    * Ein Verweis, der schon dasteht, wird nicht verdoppelt: Verglichen wird über
    * denselben Adresskern wie überall.
    */
-  let vonHand = 0
   /** Adresskern → `belegtAm` der von Hand bestätigten Wege (für `handSticht`, 22.09.2026). */
-  const vonHandBelegtAm = new Map<string, string>()
-  {
-    const roh = existsSync(resolve(ROOT, 'data/verweise-von-hand.yaml'))
-      ? yaml.load(readFileSync(resolve(ROOT, 'data/verweise-von-hand.yaml'), 'utf8'))
-      : []
-    const eintraege = Array.isArray(roh)
-      ? (roh as Array<{ anilistId?: number; platform?: string; url?: string; beleg?: string; belegtAm?: string; zugang?: Zugangsart }>)
-      : []
-    for (const e of eintraege) {
-      if (!e.anilistId || !e.platform || !e.url) continue
-      if (e.belegtAm) vonHandBelegtAm.set(adressKern(e.url), String(e.belegtAm))
-      const title = titles.get(e.anilistId)
-      if (!title) {
-        warn(`verweise-von-hand: Titel ${e.anilistId} steht nicht im Bestand`)
-        continue
-      }
-      if ((title.streams ?? []).some((s) => adressGleich(s.url, e.url!))) continue
-      title.streams = [
-        ...(title.streams ?? []),
-        { platform: e.platform as PlatformId, url: e.url, ...(e.zugang ? { zugang: e.zugang } : {}) } as StreamLink,
-      ]
-      vonHand++
-    }
-  }
-  if (vonHand) log(`${vonHand} Verweise aus data/verweise-von-hand.yaml ergänzt`)
+  const vonHandBelegtAm = ergaenzeVerweiseVonHand(titles)
 
   /**
    * **Joyn-Angebote von JustWatch werden Joyn-Verweise** (22.09.2026).
@@ -366,7 +350,7 @@ export function sammleBelege({
       zwei Ausgaben, und ein Beleg für die eine sagt nichts über die andere. Das
       ist der Date-a-Live-Fall vom 07.09.2026.
     */
-    return anzahlWege > 1 ? undefined : liste[0]
+    return belegOhneGenaueAdresse(liste, anzahlWege, alleChecks, titleId, url)
   }
   /* Rückwärtsverträglich für die Stellen, die keine Adresse zur Hand haben. */
   /**

@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
+import { installStellen, KOPF_KNOPF_AB_PX, type MenueInstall } from './install-stellen.ts'
 
 /**
  * Alles rund um „App installieren".
@@ -60,43 +61,76 @@ export interface InstallState {
   install: () => Promise<boolean>
 }
 
+/*
+  Ein Zustand für alle: Kopf-Knopf, Glocken-Menü und Dialog lesen denselben Stand. Mit je eigenem
+  State bot das Menü nach einem abgelehnten Angebot weiter „installieren“ an, während der Kopf es
+  schon zurückgezogen hatte. Die Ereignisse werden beim Laden des Moduls abonniert, damit
+  `beforeinstallprompt` vor dem ersten Rendern nicht verpasst wird.
+*/
+let angebot: InstallPromptEvent | undefined
+let stand = { installed: isStandalone(), hatAngebot: false }
+const hoerer = new Set<() => void>()
+function setzeStand(installed: boolean, neuesAngebot: InstallPromptEvent | undefined): void {
+  angebot = neuesAngebot
+  stand = { installed, hatAngebot: neuesAngebot !== undefined }
+  hoerer.forEach((h) => h())
+}
+window.addEventListener('beforeinstallprompt', (event) => {
+  // Verhindert den eigenen Hinweis des Browsers; wir fragen selbst.
+  event.preventDefault()
+  setzeStand(stand.installed, event as InstallPromptEvent)
+})
+window.addEventListener('appinstalled', () => setzeStand(true, undefined))
+
+async function installieren(): Promise<boolean> {
+  const verbraucht = angebot
+  if (!verbraucht) return false
+  await verbraucht.prompt()
+  const { outcome } = await verbraucht.userChoice
+  // Das Ereignis ist verbraucht — ein zweiter Aufruf würde nichts tun.
+  setzeStand(stand.installed, undefined)
+  return outcome === 'accepted'
+}
+
 export function useInstall(): InstallState {
-  const [prompt, setPrompt] = useState<InstallPromptEvent>()
-  const [installed, setInstalled] = useState(isStandalone)
-
-  useEffect(() => {
-    const onPrompt = (event: Event) => {
-      // Verhindert den eigenen Hinweis des Browsers; wir fragen selbst.
-      event.preventDefault()
-      setPrompt(event as InstallPromptEvent)
-    }
-    const onInstalled = () => {
-      setInstalled(true)
-      setPrompt(undefined)
-    }
-    window.addEventListener('beforeinstallprompt', onPrompt)
-    window.addEventListener('appinstalled', onInstalled)
-    return () => {
-      window.removeEventListener('beforeinstallprompt', onPrompt)
-      window.removeEventListener('appinstalled', onInstalled)
-    }
-  }, [])
-
-  const install = async () => {
-    if (!prompt) return false
-    await prompt.prompt()
-    const { outcome } = await prompt.userChoice
-    // Das Ereignis ist verbraucht — ein zweiter Aufruf würde nichts tun.
-    setPrompt(undefined)
-    return outcome === 'accepted'
-  }
-
+  const { installed, hatAngebot } = useSyncExternalStore(
+    (melden) => {
+      hoerer.add(melden)
+      return () => void hoerer.delete(melden)
+    },
+    () => stand,
+  )
   return {
-    canPrompt: !installed && prompt !== undefined,
-    needsManual: !installed && prompt === undefined && isIos(),
+    canPrompt: !installed && hatAngebot,
+    needsManual: !installed && !hatAngebot && isIos(),
     installed,
-    install,
+    install: installieren,
   }
+}
+
+/** Breit genug für den Kopf-Knopf? Gleiche Schwelle wie `min-[390px]` in `InstallButton`. */
+function useBreit(): boolean {
+  const abfrage = `(min-width: ${KOPF_KNOPF_AB_PX}px)`
+  return useSyncExternalStore(
+    (melden) => {
+      const m = window.matchMedia(abfrage)
+      m.addEventListener('change', melden)
+      return () => m.removeEventListener('change', melden)
+    },
+    () => window.matchMedia(abfrage).matches,
+  )
+}
+
+/** Was das Glocken-Menü zum Installieren zeigt — `null`, wenn der Kopf-Knopf es übernimmt oder nichts anzubieten ist. */
+export function useMenueInstall(state: InstallState): MenueInstall {
+  const breit = useBreit()
+  return installStellen({
+    handheld: isHandheld(),
+    installed: state.installed,
+    canPrompt: state.canPrompt,
+    ios: isIos(),
+    breit,
+  }).menue
 }
 
 /** Wurde die Frage schon einmal beantwortet? Dann nicht wieder stellen. */

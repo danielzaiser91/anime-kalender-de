@@ -135,8 +135,8 @@ if [ "$PUSH_OK" != 1 ]; then
   exit 1
 fi
 
-# `gh pr create` braucht GH_TOKEN in der Umgebung; der Workflow reicht das
-# GITHUB_TOKEN durch.
+# `gh pr create` und `gh pr merge` brauchen GH_TOKEN in der Umgebung; die Workflows reichen das Token der App
+# anime-kalender-daten durch (Bypass im Ruleset `main-pruefweg`, 11.10.2026).
 PR="$(gh pr create --base main --head "$ZWEIG" \
   --title "$NACHRICHT" \
   --body "Automatisch eingereicht von **${GITHUB_WORKFLOW:-lokal}** (Lauf ${GITHUB_RUN_ID:-—}).
@@ -166,14 +166,15 @@ echo "Mergebarkeit: $ZUSTAND"
 
 if [ "$ZUSTAND" = "MERGEABLE" ]; then
   # `--squash`, damit auf `main` ein Commit je Lauf steht statt eines
-  # Merge-Commits mit Anhang. Kein `--admin`: `main` ist nicht geschützt
-  # (geprüft am 30.08.2026), und das GITHUB_TOKEN hätte die Rechte dafür ohnehin
-  # nicht — der Aufruf würde daran scheitern statt am Konflikt.
+  # Merge-Commits mit Anhang. `--admin` ist hier der Bypass der App im Ruleset
+  # `main-pruefweg`: Ohne das Flag weigert sich `gh` schon vor dem Aufruf, sobald
+  # der Pull Request auf eine Freigabe wartet (Lauf 38135294637, 11.10.2026).
+  # Ein Konflikt scheitert trotzdem.
   #
   # **Mehrere Versuche**: Mit parallelen Sammlern (seit 05.10.2026) bewegt sich `main` oft genau zwischen Mergebarkeits-Prüfung und Merge — GitHub antwortet dann
   # „Base branch was modified. Review and try the merge again." Ein Pull Request, der deshalb offen bliebe, wartete auf den Claude-Lauf (und dessen Kontingent).
   for merge_versuch in 1 2 3 4 5 6; do
-    if gh pr merge "$ZWEIG" --squash --delete-branch --subject "$NACHRICHT" 2>&1; then
+    if gh pr merge "$ZWEIG" --squash --admin --delete-branch --subject "$NACHRICHT" 2>&1; then
       melde "gemerged=true"
       exit 0
     fi
@@ -187,7 +188,12 @@ if [ "$ZUSTAND" = "MERGEABLE" ]; then
     done
     [ "$ZUSTAND" = "MERGEABLE" ] || break
   done
-  echo "::warning::Der Merge ist trotz MERGEABLE fehlgeschlagen."
+  if [ "$ZUSTAND" = "MERGEABLE" ]; then
+    # Rot statt Warnung: Ein mergebarer Daten-Pull-Request, der offen bleibt, würde sonst still liegen (claude-daten-merge holt ihn nach).
+    echo "::error::Pull Request $NUMMER ist mergebar, der Merge scheiterte sechsmal (Ruleset/Bypass der App prüfen)."
+    melde "gemerged=false"
+    exit 1
+  fi
 fi
 
 # Kein Abbruch: Der Fund ist gesichert, er steht auf dem Zweig. Genau dafür ist

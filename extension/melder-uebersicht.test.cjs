@@ -93,7 +93,7 @@ function macheElement(tag) {
  * das ist der Zweck: Ein Skript, das im Sandkasten nicht durchläuft, läuft auch
  * im Browser nicht durch.
  */
-function baueUmgebung(pfad) {
+function baueUmgebung(pfad, suche = '') {
   const body = macheElement('body')
   /** Alles, was das Skript per setInterval anmeldet — der Test löst es selbst aus. */
   const takte = []
@@ -143,7 +143,7 @@ function baueUmgebung(pfad) {
   }
   const umgebung = {
     document: doc,
-    location: { pathname: pfad, search: '', href: 'https://www.netflix.com' + pfad, hostname: 'www.netflix.com' },
+    location: { pathname: pfad, search: suche, href: 'https://www.netflix.com' + pfad + suche, hostname: 'www.netflix.com' },
     navigator: { userAgent: 'test' },
     chrome,
     console,
@@ -206,8 +206,8 @@ function baueUmgebung(pfad) {
  * @param liste Ersetzt die ausgelieferte Auftragsliste. Wird gebraucht, um den
  *   leeren Fall zu prüfen, ohne dass die Zusicherung am Datenstand hängt.
  */
-function lade(pfad, liste) {
-  const { umgebung, body, takte } = baueUmgebung(pfad)
+function lade(pfad, liste, suchteil = '') {
+  const { umgebung, body, takte } = baueUmgebung(pfad, suchteil)
   const kontext = vm.createContext(umgebung)
   /* `box.js` lädt im Browser vor `melder.js` — hier genauso, sonst fehlt akBox(). */
   vm.runInContext(readFileSync(__dirname + '/box.js', 'utf8'), kontext)
@@ -364,6 +364,39 @@ pruefe('melder.js läuft auf einer Titelseite durch', !titelseite.fehler, titels
   await new Promise((r) => setImmediate(r))
   await new Promise((r) => setImmediate(r))
   pruefe('im Player erscheint kein Knopf', !suche(player.body, 'ak-uebersicht'), 'Knopf im Player gefunden')
+
+  /**
+   * **Auch mit Auftrag zeigt der Player nichts** (Daniel, 09.10.2026: der Kasten „Folge 4: deutsche
+   * Tonspur gefunden · Als deutsch melden" oben links soll weg). `?ak=1` ist der Auftrag, mit dem
+   * der Durchlauf in den Player springt — vor 4.24.18 baute der Takt dann `.ak-player-anzeige`.
+   * Die Erkennung läuft unabhängig davon: Der Durchlauf liest die Tonspuren und meldet über
+   * `durchlaufMelden()`; geprüft wird, dass die Meldung mit der deutschen Spur den Worker erreicht.
+   */
+  {
+    const auftrag = lade('/watch/81186102', KULISSE, '?ak=1')
+    pruefe('Player mit Auftrag: melder.js läuft durch', !auftrag.fehler, auftrag.fehler?.message)
+    const gesendet = []
+    auftrag.umgebung.fetch = async (url, opt) => {
+      gesendet.push({ url, body: opt?.body ? JSON.parse(opt.body) : null })
+      return { ok: true, json: async () => ({}), text: async () => '' }
+    }
+    for (let i = 0; i < 3; i++) {
+      for (const takt of auftrag.takte) {
+        try { takt() } catch { /* ein stolpernder Takt hält den Test nicht auf */ }
+      }
+      await new Promise((r) => setImmediate(r))
+    }
+    const anzeige = (el) => String(el.className ?? '').includes('ak-player') || (el.kinder ?? []).some(anzeige)
+    pruefe('Player mit Auftrag: keine Anzeige, kein Knopf', !anzeige(auftrag.body), auftrag.body.kinder.map((k) => k.className))
+
+    const ok = await vm.runInContext(
+      `durchlaufMelden({ videoId: 81186103, nummer: 4, titel: 'Test' }, [{ code: 'de', name: 'Deutsch' }], true)`,
+      vm.createContext(auftrag.umgebung),
+    ).then(() => true, (e) => e.message)
+    const meldung = gesendet.find((g) => g.body?.plattform === 'netflix')
+    pruefe('Player mit Auftrag: der Durchlauf erzeugt die Meldung weiter', ok === true && Boolean(meldung), ok)
+    pruefe('… mit der deutschen Tonspur', meldung?.body?.sprachen?.includes('de|Deutsch'), meldung?.body?.sprachen)
+  }
 
   /**
    * **Der Knopf zählt Titel — dasselbe wie die Kopfzeile der Liste.**

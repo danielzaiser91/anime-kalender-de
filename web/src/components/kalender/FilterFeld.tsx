@@ -1,9 +1,10 @@
 import { useMemo } from 'react'
 import type { PlatformId, ReleaseEvent } from '@shared/types.ts'
-import type { ReactNode } from 'react'
 import type { Dataset } from '../../lib/data.ts'
 import { EMPTY_FILTERS, isFilterActive, type FilterState } from '../../lib/filters.ts'
 import { useLang } from '../../lib/i18n.tsx'
+import { zaehleHerkunft } from '../../lib/herkunft.ts'
+import { HerkunftZaehlungContext } from '../../lib/herkunft-zaehlung.ts'
 import { FilterDetailsFeld } from '../FilterDetails.tsx'
 import { AktiveFilter } from './AktiveFilter.tsx'
 
@@ -41,6 +42,7 @@ export function FilterFeld(p: FilterFeldProps) {
     }
     return { proPlattform, proGenre }
   }, [p.zeitraum, p.data])
+  const herkunftZaehlung = useMemo(() => zaehleHerkunft(p.zeitraum.map((ev) => p.data.titleById.get(ev.titleId))), [p.zeitraum, p.data])
   const genreListe = useMemo(() => {
     const gewaehlt = [...p.filters.genres, ...p.filters.excluded.genres]
     return [...zaehlungen.proGenre.entries()]
@@ -55,28 +57,31 @@ export function FilterFeld(p: FilterFeldProps) {
     <section
       id="ak-filterfeld"
       aria-label={t('filter.button')}
-      className="animate-fade-in rounded-3xl border border-ak-rand bg-ak-flaeche"
+      className="animate-fade-in border-ak-rand bg-ak-flaeche md:rounded-3xl md:border"
     >
       {/* **Die gewählten Filter stehen im Filterfeld** — dieselbe Stelle wie im Datenbank-Reiter
-          (`FilterBar`). Vorher standen sie als eigene Zeile über der Woche und waren im offenen
-          Menü nicht zu sehen. */}
-      {etwasGewaehlt && (
-        <div className="border-b border-ak-linie px-3 py-2.5">
-          <AktiveFilter filters={p.filters} onChange={p.onChange} tvAn={p.tvAn} setTvAn={p.setTvAn} />
-        </div>
-      )}
-      <FilterDetailsFeld
-        meta={p.data.meta}
-        filters={p.filters}
-        onChange={p.onChange}
-        showConfidence
-        favoriteCount={p.favoriteCount}
-        tvAn={p.tvAn}
-        setTvAn={p.setTvAn}
-        platformZaehlung={zaehlungen.proPlattform}
-        genreListe={genreListe}
-        genreZaehlung={zaehlungen.proGenre}
-      />
+          (`FilterBar`), unter dem klebenden Klick-Modus (`zwischen`). */}
+      <HerkunftZaehlungContext.Provider value={herkunftZaehlung}>
+        <FilterDetailsFeld
+          meta={p.data.meta}
+          filters={p.filters}
+          onChange={p.onChange}
+          showConfidence
+          favoriteCount={p.favoriteCount}
+          tvAn={p.tvAn}
+          setTvAn={p.setTvAn}
+          platformZaehlung={zaehlungen.proPlattform}
+          genreListe={genreListe}
+          genreZaehlung={zaehlungen.proGenre}
+          zwischen={
+            etwasGewaehlt && (
+              <div className="border-b border-ak-linie px-3 py-2.5">
+                <AktiveFilter filters={p.filters} onChange={p.onChange} tvAn={p.tvAn} setTvAn={p.setTvAn} />
+              </div>
+            )
+          }
+        />
+      </HerkunftZaehlungContext.Provider>
       <FilterFuss {...p} />
     </section>
   )
@@ -117,43 +122,10 @@ export function Schalter({
   )
 }
 
-export function Pille({
-  an,
-  aus,
-  onClick,
-  children,
-  farbe,
-}: {
-  an: boolean
-  aus?: boolean
-  onClick: () => void
-  children: ReactNode
-  farbe?: string
-}) {
-  return (
-    <button
-      type="button"
-      aria-pressed={an || aus}
-      onClick={onClick}
-      className={[
-        'inline-flex h-11 cursor-pointer items-center gap-2 rounded-full border px-3.5 text-[13px] font-bold transition sm:h-9',
-        aus
-          ? 'border-rose-400/70 bg-rose-500/10 text-rose-600 line-through dark:text-rose-300'
-          : an
-            ? 'border-transparent bg-emerald-500 text-emerald-950'
-            : 'border-ak-rand bg-ak-flaeche-2 text-ak-text hover:border-ak-leise',
-      ].join(' ')}
-    >
-      {farbe && <span className="size-2 rounded-full" style={{ background: farbe }} aria-hidden="true" />}
-      {children}
-    </button>
-  )
-}
-
 function FilterFuss(p: FilterFeldProps) {
   const { t } = useLang()
   return (
-    <div className="flex flex-wrap items-center gap-3 border-t border-ak-linie px-5 pb-4 pt-3">
+    <div className="sticky bottom-0 flex flex-wrap items-center gap-3 border-t border-ak-linie bg-ak-flaeche px-5 pb-4 pt-3 md:rounded-b-3xl">
       <span className="text-sm text-ak-leise">
         <b className="font-extrabold text-ak-text">{p.treffer}</b> {t('filter.treffer', { gesamt: p.zeitraum.length, zeitraum: p.zeitraumWort })}
       </span>

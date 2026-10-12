@@ -143,7 +143,7 @@ const ERSCHIENEN_MINDESTABSTAND_TAGE = 365
 export function titleStatus(
   releases: Release[],
   today = todayIso(),
-  title?: Pick<Title, 'jpEnd' | 'jpYear' | 'dubConfidence' | 'streams'>,
+  title?: Pick<Title, 'jpEnd' | 'jpYear' | 'dubConfidence' | 'einzelquelle' | 'streams'>,
 ): ReleaseStatus {
   if (releases.length > 0) {
     const all = releases.map((r) => releaseStatus(r, today))
@@ -177,10 +177,23 @@ export function titleStatus(
   const ended = title?.jpEnd ?? (title?.jpYear ? `${title.jpYear}-12-31` : undefined)
   // Ohne einen belegten Verweis reicht eine einzige Quelle für den Satz „die
   // deutsche Fassung ist erschienen" nicht.
-  if (ended && title?.dubConfidence !== 'low' && ended < addDays(today, -ERSCHIENEN_MINDESTABSTAND_TAGE)) {
+  if (ended && !(title?.einzelquelle ?? title?.dubConfidence === 'low') && ended < addDays(today, -ERSCHIENEN_MINDESTABSTAND_TAGE)) {
     return 'erschienen'
   }
   return 'unbekannt'
+}
+
+/**
+ * Liegt der Start des Originals noch in der Zukunft? Dann ist eine fehlende deutsche Synchro kein Befund
+ * (Daniel, 10.10.2026: Reihenliste „Yaiba"). Ein volles Datum entscheidet; sonst der AniList-Status, zuletzt Monat oder Jahr
+ * (nur strikt später als heute). Im Zweifel `false` — lieber kein Label als ein falsches „Geplant".
+ */
+export function erscheintErst(t: Pick<Title, 'jpStart' | 'jpStatus' | 'jpYear'>, today = todayIso()): boolean {
+  if (t.jpStatus === 'FINISHED' || t.jpStatus === 'RELEASING') return false
+  const jp = t.jpStart ?? (t.jpYear ? String(t.jpYear) : '')
+  if (jp.length >= 10) return jp > today
+  if (t.jpStatus === 'NOT_YET_RELEASED') return true
+  return jp !== '' && jp > today.slice(0, jp.length)
 }
 
 /** Erzeugt aus der Termin-Regel eines Releases die einzelnen Kalender-Einträge. */
@@ -253,6 +266,30 @@ export function anzeigeFolge(e: Pick<ReleaseEvent, 'episode' | 'sichtung'>): boo
   return Boolean(e.episode) && !e.sichtung
 }
 
+/**
+ * Ob ein Termin des Plans geschätzt ist. Gesehen ist gesehen; fortgeschrieben bleibt eine Annahme,
+ * auch wenn der Start selbst belegt ist.
+ *
+ * Ein Sendeplan mit Sendetagen ohne jede Beobachtung belegt nur den Start (10.10.2026): Alles danach
+ * rechnet Wochentage fort und kennt weder Feiertags- noch Sendepausen.
+ */
+function terminGeschaetzt(
+  s: Release['schedule'],
+  episode: number,
+  date: string,
+  lastAnchor: { episode: number } | undefined,
+  first: number,
+): boolean | undefined {
+  const belegt =
+    s.observed?.[episode] ||
+    (s.belegtBis && episode <= s.belegtBis.folge && date <= s.belegtBis.am) ||
+    /* Zwischen zwei Stützpunkten eines Sendeplans ist der Tag belegt, nicht geschätzt. */
+    (s.wochentage?.length && lastAnchor && episode < lastAnchor.episode && !s.estimated)
+  if (belegt) return undefined
+  const nurStartBelegt = Boolean(s.wochentage?.length) && !lastAnchor
+  return lastAnchor || (nurStartBelegt && episode > first) ? true : s.estimated
+}
+
 function termineAusPlan(release: Release): ReleaseEvent[] {
   const s = release.schedule
   if (!s?.firstEpisodeDate || release.widerlegt) return []
@@ -263,7 +300,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
     time: s.time,
     releaseType: release.releaseType,
     platform: release.platform,
-    ...(release.sender ? { sender: release.sender } : {}),
+    ...(release.sender ? { sender: release.sender } : {}), ...(release.sprache ? { sprache: release.sprache } : {}),
     ...(release.tvLetzteSichtung && !release.folgenBelegt ? { sichtung: true } : {}), ...(s.episodeCountAssumed ? { episodeCountAssumed: true } : {}),
     name: release.name,
     estimated: s.estimated,
@@ -440,17 +477,7 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
       date,
       episode,
       episodeCount: last,
-      // Gesehen ist gesehen; fortgeschrieben bleibt eine Annahme, auch wenn
-      // der Start selbst belegt ist.
-      estimated:
-        s.observed?.[episode] ||
-        (s.belegtBis && episode <= s.belegtBis.folge && date <= s.belegtBis.am) ||
-        /* Zwischen zwei Stützpunkten eines Sendeplans ist der Tag belegt, nicht geschätzt. */
-        (s.wochentage?.length && lastAnchor && episode < lastAnchor.episode && !s.estimated)
-          ? undefined
-          : lastAnchor
-            ? true
-            : s.estimated,
+      estimated: terminGeschaetzt(s, episode, date, lastAnchor, first),
       /*
         **Nur der Tag, an dem wirklich nichts kam, trägt den Vermerk.**
 

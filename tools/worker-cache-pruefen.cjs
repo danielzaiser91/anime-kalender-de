@@ -14,8 +14,8 @@
  * rechnete die teure Zählung **540-mal** neu, 4,35 Mio. gelesene Zeilen, **62 %** des Kontingents
  * (`wrangler d1 insights`). Dieselbe Lehre war am 24.09.2026 schon für `?stand=1` gezogen worden.
  *
- * Jetzt wird nichts mehr verworfen: Jede Antwort läuft nach ihrer eigenen Frist ab (eine Minute der
- * Stand, dreißig Minuten die Zählung). Wer selbst meldet, überbrückt das in der Erweiterung.
+ * Jetzt wird nichts mehr verworfen: Jede Antwort läuft nach ihrer eigenen Frist ab (fünf Minuten der
+ * Stand seit 11.10.2026, dreißig Minuten die Zählung). Wer selbst meldet, überbrückt das in der Erweiterung.
  *
  * Geprüft wird deshalb, dass **keine** Verwerfen-Liste mehr existiert und dass die gehaltenen
  * Endpunkte ihre Frist tragen.
@@ -59,13 +59,36 @@ pruefe(umhuellt.length >= 2, `${umhuellt.length} Endpunkte gehalten: ${umhuellt.
   (`wrangler d1 insights`). Dieselbe Lehre war am 24.09.2026 schon für `?stand=1` gezogen worden
   (1.834 Neuberechnungen, 9,2 Mio. Zeilen); sie fehlte nur beim teuren Endpunkt.
 
-  Jede Antwort läuft jetzt nach ihrer eigenen Frist ab (eine Minute der Stand, dreißig Minuten die
+  Jede Antwort läuft jetzt nach ihrer eigenen Frist ab (fünf Minuten der Stand, dreißig Minuten die
   Zählung). Wer gerade selbst gemeldet hat, überbrückt das in der Erweiterung
   (`frischGemeldetNetflix`) — für alle anderen ist ein halbstündlich alter Zähler harmlos.
 */
 pruefe(
   !/const wege = \[/.test(quelle),
   'keine Verwerfen-Liste mehr — sonst rechnet der Melde-Durchgang die teure Zählung je Meldung neu',
+)
+
+/* 11.10.2026: Der Stand hält fünf Minuten (vorher eine) — das Lesekontingent war an einem Massenlauftag aufgebraucht. */
+pruefe(
+  quelle.includes("get('stand') === '1') return ausCache(async () => {\n      return await berechnePruefstand({ env, antwort, zwischen: { ausCache, schluessel: wartendSchluessel(request.url) } })\n    }, 300)"),
+  '?stand=1 hält 300 Sekunden',
+)
+
+/*
+  12.10.2026: Zwei Abfragen lasen 3,2 Mio. Zeilen am Tag (`wrangler d1 insights`). Die wartenden
+  Meldungen halten eine halbe Stunde neben dem Stand (die Erweiterung fragt im Fünf-Minuten-Takt und
+  traf den Stand-Cache kaum). `?gemeldet=<Adresse>` hält eine halbe Stunde je Adresse; verworfen wird
+  nur die Adresse, zu der geschrieben oder gelöscht wurde, nie eine Sammelantwort.
+*/
+pruefe(quelle.includes('export const WARTEND_SEKUNDEN = 1800'), 'die wartenden Meldungen halten 1800 Sekunden')
+pruefe(
+  quelle.includes('async () => antwort(await leseGemeldet(env, fuer)),\n        GEMELDET_SEKUNDEN,'),
+  '?gemeldet=<Adresse> hält GEMELDET_SEKUNDEN je Adresse',
+)
+pruefe(quelle.includes('export const GEMELDET_SEKUNDEN = 1800'), '... und das sind 1800 Sekunden')
+pruefe(
+  (quelle.match(/await verwirfGemeldet\(/g) ?? []).length === 4,
+  'Meldung und Löschen (drei Wege) verwerfen die Adresse, zu der sie schreiben',
 )
 
 /*
@@ -108,18 +131,23 @@ pruefe(
   'ohne Zeitstempel gilt weiterhin die alte, strengere Rechnung',
 )
 /*
-  29.09.2026: Nur eine Meldung **nach dem Listenbau** erledigt ein Ziel. Die offenen
-  Briefkasten-Meldungen zählen nicht mehr mit — sie zogen Wiedervorlagen über ihren alten Beleg
-  ab („7 statt 9"), und wurde eine gemeldet, zeigte die Erweiterung 0, die App aber 9. Daniel:
-  „single source of truth, keine unterschiedlichen Zahlen mehr."
+  29.09.2026: Eine Wiedervorlage erledigt nur eine Meldung **nach dem Listenbau**. Offene
+  Briefkasten-Meldungen zogen sie über ihren alten Beleg ab („7 statt 9"), und wurde eine gemeldet,
+  zeigte die Erweiterung 0, die App aber 9. Daniel: „single source of truth, keine
+  unterschiedlichen Zahlen mehr." Gewöhnliche Ziele zählen seit 11.10.2026 mit Briefkasten-Meldung
+  als erledigt, wie in der Erweiterung (`wartetAufUebernahme`).
 */
 pruefe(
   quelle.includes('for (const r of jemals ?? [])'),
   'abgezogen wird nur, was nach dem Prüfstand gemeldet wurde',
 )
+pruefe(
+  quelle.includes('schonGemeldet.has(url) || (!seit && unterwegs.has(url))'),
+  'eine Meldung im Briefkasten erledigt ein Ziel, aber keine Wiedervorlage',
+)
 /* 22.09.2026: Ein Ziel mit offenen Staffeln ist erst erledigt, wenn jede gemeldet ist. */
 pruefe(
-  quelle.includes('return !z.staffeln.every((nr) => gemeldet?.has(nr))'),
+  quelle.includes('return !z.staffeln.every((nr) => gemeldeteStaffeln.includes(nr))'),
   'ein Ziel mit Staffelangabe verschwindet erst, wenn jede seiner Staffeln gemeldet ist',
 )
 

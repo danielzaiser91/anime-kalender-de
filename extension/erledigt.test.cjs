@@ -364,7 +364,37 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
     'eine Stoerung haelt an, statt weiterzumachen',
     /!DURCHLAUF\.abbruch && !DURCHLAUF\.stoerung/.test(block),
   )
-  pruefe('es gibt eine Obergrenze je Sitzung', /selbstGezaehlt >= SELBST_HOECHSTENS/.test(block))
+  /* 11.10.2026: keine feste Titelzahl mehr (245 offen, nach 20 war „fertig") — Schutz und Zeitgrenze statt dessen. */
+  pruefe('der Schutz wird vor jedem Sprung gefragt', weiter.includes('akDurchgangSchutz(selbstGezaehlt, selbstGrenze, LAUF_SCHLUESSEL, LAUF_HOECHSTENS_MS)'))
+  pruefe('bestätigt der Worker nichts, endet der Durchgang mit diesem Grund', quelle.includes('akRandAusfall(DURCHLAUF, await randMelden(') && quelle.includes("DURCHLAUF.abbruchGrund ?? 'abgebrochen'"))
+  pruefe('es gibt keine feste Titelzahl mehr', !/SELBST_HOECHSTENS|Titel geschafft/.test(quelle))
+  pruefe('ein Schutz-Abbruch gilt nicht als „Fertig“', !quelle.includes("endsWith('geschafft')"))
+  {
+    const schutz = readFileSync(__dirname + '/netflix-durchgang-schutz.js', 'utf8')
+    const zeit = { gespeichert: null }
+    const ausgefuehrt = new Function('sessionStorage', 'globalThis', schutz + '\nreturn globalThis.akDurchgangSchutz')
+    const f = ausgefuehrt({ getItem: () => zeit.gespeichert }, {})
+    const stunde = 3600000
+    zeit.gespeichert = String(Date.now() - 5 * stunde)
+    pruefe('245 von 245 Titeln: der Lauf geht weiter', f(244, 245, 'k', 6 * stunde) === null)
+    pruefe('nach fünf von sechs Stunden: weiter', f(100, 245, 'k', 6 * stunde) === null)
+    pruefe('ein Sprung mehr als offene Titel: Schutz greift', (f(246, 245, 'k', 6 * stunde) ?? '').includes('mehr Sprünge als offene Titel (245)'))
+    zeit.gespeichert = String(Date.now() - 7 * stunde)
+    pruefe('nach der Zeitgrenze: Grund nennt die Zeit', /Zeitgrenze 6 Stunden/.test(f(5, 245, 'k', 6 * stunde) ?? ''))
+    const lauf = { selbst: true }
+    const ausfall = new Function('sessionStorage', 'globalThis', schutz + ';return globalThis.akRandAusfall')({ getItem: () => null }, {})
+    ausfall(lauf, 0)
+    pruefe('keine Meldung bestätigt: Abbruch mit Grund', lauf.abbruch === true && lauf.abbruchGrund === 'Worker bestätigt keine Meldung')
+    const ok = { selbst: true }
+    ausfall(ok, 13)
+    pruefe('Meldungen bestätigt: kein Abbruch', !ok.abbruch)
+    const hand = { selbst: false }
+    ausfall(hand, 0)
+    pruefe('ein Lauf von Hand wird nicht abgebrochen', !hand.abbruch)
+    const ohneSpeicher = new Function('sessionStorage', 'globalThis', schutz + '\nreturn globalThis.akDurchgangSchutz')
+    const g = ohneSpeicher({ getItem: () => { throw new Error('gesperrt') } }, {})
+    pruefe('ohne Speicher keine Zeitgrenze, kein Absturz', g(5, 245, 'k', 6 * stunde) === null)
+  }
   pruefe(
     'die Zielseite erbt den Auftrag, wie bei einem Klick',
     /zuletztGeoeffnet: \{ id: String\(naechster\)/.test(weiter),

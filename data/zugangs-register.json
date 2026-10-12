@@ -34,6 +34,16 @@
       "fristStunden": 48,
       "name": "Wache — Datenbankverbrauch"
     },
+    "claude-anime2you-extraktion.yml": {
+      "fristStunden": 48,
+      "name": "Claude — Anime2You-Artikel auswerten",
+      "claude": true
+    },
+    "claude-wache-urteil.yml": {
+      "fristStunden": 48,
+      "name": "Claude — Wache durchsehen",
+      "claude": true
+    },
     "claude-verpasst-recherche.yml": {
       "fristStunden": 48,
       "name": "Claude — ausgebliebene Folgen recherchieren",
@@ -53,6 +63,11 @@
       "fristStunden": null,
       "name": "Claude — Auftrag abarbeiten (von Hand)",
       "claude": true
+    },
+    "pr-pruefer.yml": {
+      "fristStunden": null,
+      "name": "Claude — Pull Request prüfen (startet je PR)",
+      "claude": true
     }
   },
   "zugaenge": [
@@ -64,7 +79,10 @@
         "claude-auftrag.yml",
         "claude-daten-merge.yml",
         "claude-reparatur.yml",
-        "claude-verpasst-recherche.yml"
+        "claude-anime2you-extraktion.yml",
+        "claude-wache-urteil.yml",
+        "claude-verpasst-recherche.yml",
+        "pr-pruefer.yml"
       ],
       "gueltig": {
         "text": "Laufzeit des Tokens im Repo nicht belegt; das Kontingent des Abos begrenzt die Nutzung",
@@ -88,6 +106,8 @@
         "claude-auftrag.yml",
         "claude-daten-merge.yml",
         "claude-reparatur.yml",
+        "claude-anime2you-extraktion.yml",
+        "claude-wache-urteil.yml",
         "claude-verpasst-recherche.yml",
         "crunchyroll-nachholen.yml",
         "d1-verbrauch.yml",
@@ -98,7 +118,8 @@
         "refresh-hourly.yml",
         "refresh-weekly.yml",
         "region-test.yml",
-        "tonspuren-monatlich.yml"
+        "tonspuren-monatlich.yml",
+        "wecker-wache.yml"
       ],
       "gueltig": {
         "text": "läuft nicht ab (eigenes Geheimnis, kein Anbieter-Token)",
@@ -280,6 +301,70 @@
       "folge": "Kinoheld-Suche fällt auf DuckDuckGo zurück; einzelne Kinoadressen fehlen."
     },
     {
+      "id": "DATEN_APP_ID",
+      "ort": "github-secret",
+      "wofuer": "Kennung der GitHub-App anime-kalender-daten: Bestandsbau, Wachen und Sammler liefern damit am Ruleset main-pruefweg vorbei.",
+      "workflows": [
+        "adn-laufende.yml",
+        "anisearch-katalog.yml",
+        "bestand-bauen.yml",
+        "claude-anime2you-extraktion.yml",
+        "claude-daten-merge.yml",
+        "claude-wache-urteil.yml",
+        "claude-verpasst-recherche.yml",
+        "crunchyroll-nachholen.yml",
+        "daten-auf-abruf.yml",
+        "delta-wache.yml",
+        "fund-nachliefern.yml",
+        "refresh-data.yml",
+        "refresh-hourly.yml",
+        "refresh-weekly.yml",
+        "tonspuren-monatlich.yml"
+      ],
+      "gueltig": {
+        "text": "Läuft nicht ab; gilt, solange die App installiert ist",
+        "beleg": "daniel-zum-abarbeiten/berichte/pruefweg-pr-spezifikation.md (11.10.2026)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "keiner",
+        "text": "Ändert sich nur, wenn die App neu angelegt wird (github.com/settings/apps)"
+      },
+      "folge": "Bestandsbau und Wachen können nicht auf main pushen, Sammler-PRs bleiben offen."
+    },
+    {
+      "id": "DATEN_APP_KEY",
+      "ort": "github-secret",
+      "wofuer": "Privater Schlüssel der GitHub-App anime-kalender-daten (siehe DATEN_APP_ID).",
+      "workflows": [
+        "adn-laufende.yml",
+        "anisearch-katalog.yml",
+        "bestand-bauen.yml",
+        "claude-anime2you-extraktion.yml",
+        "claude-daten-merge.yml",
+        "claude-wache-urteil.yml",
+        "claude-verpasst-recherche.yml",
+        "crunchyroll-nachholen.yml",
+        "daten-auf-abruf.yml",
+        "delta-wache.yml",
+        "fund-nachliefern.yml",
+        "refresh-data.yml",
+        "refresh-hourly.yml",
+        "refresh-weekly.yml",
+        "tonspuren-monatlich.yml"
+      ],
+      "gueltig": {
+        "text": "Läuft nicht ab; gilt, bis er in den App-Einstellungen widerrufen wird",
+        "beleg": "daniel-zum-abarbeiten/berichte/pruefweg-pr-spezifikation.md (11.10.2026)",
+        "gueltigBis": null
+      },
+      "erneuerung": {
+        "art": "handgriff",
+        "text": "In den App-Einstellungen neuen Schlüssel erzeugen, Secret im Repo ersetzen, alten widerrufen"
+      },
+      "folge": "Bestandsbau und Wachen können nicht auf main pushen, Sammler-PRs bleiben offen."
+    },
+    {
       "id": "DISCORD_WEBHOOK",
       "ort": "github-secret",
       "wofuer": "Meldung neuer Termine in den Discord-Kanal.",
@@ -342,9 +427,11 @@
       "wofuer": "Von GitHub je Lauf ausgestelltes Token (Pull Requests, Läufe auslösen).",
       "workflows": [
         "claude-daten-merge.yml",
-        "claude-verpasst-recherche.yml",
+        "claude-anime2you-extraktion.yml",
+        "claude-wache-urteil.yml",
         "delta-wache.yml",
         "fund-nachliefern.yml",
+        "pr-pruefer.yml",
         "wecker-wache.yml"
       ],
       "gueltig": {
@@ -374,7 +461,7 @@
         "art": "handgriff",
         "text": "Neuen PAT erzeugen, im Ordner worker/ wrangler secret put GITHUB_WECKER_TOKEN --config wrangler.toml"
       },
-      "folge": "Der Cloudflare-Wecker startet nichts mehr; wecker-wache.yml holt Überfälliges über GitHubs unpünktlichen Cron nach (Warnung „Wecker überfällig“).",
+      "folge": "Der Cloudflare-Wecker startet nichts mehr; wecker-wache.yml holt Überfälliges über GitHubs unpünktlichen Cron nach (der Wache-Lauf wird dann rot, Warnung „Wecker überfällig“).",
       "wecker": true
     },
     {

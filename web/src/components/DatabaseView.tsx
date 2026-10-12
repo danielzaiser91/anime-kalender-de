@@ -1,13 +1,14 @@
 import { useMemo, useState } from 'react'
-import { sortiereNachTitel } from '../lib/titel-sortierung.ts'
 
 import type { Title } from '@shared/types.ts'
 import { nachAusstrahlung, reihenVertreter } from '@shared/titles.ts'
 import { todayIso } from '@shared/time.ts'
 import type { Dataset } from '../lib/data.ts'
-import { DbSchalter } from './db-kopfzeile.tsx'
-import { DbKarte } from './db-karte.tsx'
-import { DbLeer, DbZaehlzeile, MehrKnopf } from './db-bedienung.tsx'
+import { DbKopfbereich } from './filter/DbWerkzeug.tsx'
+import { zaehleMitSynchro } from './db-kopfzeile.tsx'
+import { DbLeer, DbRaster, MehrKnopf } from './db-bedienung.tsx'
+import type { FilterState } from '../lib/filters.ts'
+import { ordneListe } from '../lib/db-liste.ts'
 import { useShare } from '../lib/share.ts'
 import type { DbSort } from '../lib/router.ts'
 
@@ -44,7 +45,7 @@ export function DatabaseView({
   data,
   titles,
   grouped,
-  onGroupedChange, cartoonsAus, onCartoonsAusChange,
+  onGroupedChange,
   ohneSynchro,
   onOhneSynchroChange,
   ohneSynchroLaedt,
@@ -56,11 +57,13 @@ export function DatabaseView({
   suche,
   gewaehlt,
   onSortChange,
+  filters,
+  onFiltersChange,
 }: {
   data: Dataset
   titles: Title[]
   grouped: boolean
-  onGroupedChange: (next: boolean) => void; cartoonsAus: boolean; onCartoonsAusChange: (next: boolean) => void
+  onGroupedChange: (next: boolean) => void
   /** Titel ohne belegte deutsche Synchro mitzeigen. */
   ohneSynchro: boolean
   onOhneSynchroChange: (next: boolean) => void
@@ -76,54 +79,49 @@ export function DatabaseView({
   /** Sortierung aus der Adresse (`?sort=`); ohne Wahl gilt die Vorgabe unten. */
   gewaehlt?: DbSort
   onSortChange: (next: DbSort) => void
+  /** Die Filter für die Werkzeugleiste am Handy. */
+  filters: FilterState
+  onFiltersChange: (next: FilterState) => void
 }) {
   const { share, copiedSlug } = useShare()
   const today = todayIso()
   const [visible, setVisible] = useState(PAGE_SIZE)
-  /* Beim Suchen gilt die Treffergüte, bis jemand selbst sortiert; `?sort=relevanz` ohne Suche hätte keine Option im Menü — dann gilt die Vorgabe. */
-  const relevanzMoeglich = !!suche.trim()
-  const sort = (gewaehlt === 'relevanz' && !relevanzMoeglich ? undefined : gewaehlt) ?? (relevanzMoeglich ? 'relevanz' : 'titel')
+  /* Vorgabe ist „Relevanz": mit Suche die Treffergüte, ohne Suche die Gruppen „Läuft jetzt" / „Demnächst" / „Schon erschienen". */
+  const sort = gewaehlt ?? 'relevanz'
 
-  const groups = useMemo(() => {
-    const base: TitleGroup[] = grouped
-      ? groupByFranchise(titles)
-      : titles.map((tt) => ({ main: tt, members: [tt] }))
-
-    if (sort === 'relevanz') return base
-    if (sort === 'titel') sortiereNachTitel(base)
-    else if (sort === 'jahr') base.sort((a, b) => (b.main.jpYear ?? 0) - (a.main.jpYear ?? 0))
-    else base.sort((a, b) => (b.main.score ?? 0) - (a.main.score ?? 0))
-    return base
-  }, [titles, grouped, sort])
+  const { liste, zahlen } = useMemo(() => {
+    const base: TitleGroup[] = grouped ? groupByFranchise(titles) : titles.map((tt) => ({ main: tt, members: [tt] }))
+    return ordneListe(base, sort, suche, data.releasesByTitle, today)
+  }, [titles, grouped, sort, suche, data.releasesByTitle, today])
+  const mitSynchro = useMemo(() => zaehleMitSynchro(liste), [liste])
 
   return (
     <div className="flex flex-col gap-4">
-      <DbSchalter ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt} grouped={grouped} onGroupedChange={onGroupedChange} cartoonsAus={cartoonsAus} onCartoonsAusChange={onCartoonsAusChange} />
+      <DbKopfbereich
+        meta={data.meta} filters={filters} onFiltersChange={onFiltersChange} favoriteCount={favorites.size}
+        ergebnisse={liste.length} mitSynchro={mitSynchro} suche={suche}
+        sort={sort} onSortChange={onSortChange}
+        ohneSynchro={ohneSynchro} onOhneSynchroChange={onOhneSynchroChange} laedt={ohneSynchroLaedt}
+        grouped={grouped} onGroupedChange={onGroupedChange}
+      />
 
-      <DbZaehlzeile titles={titles} ergebnisse={grouped ? groups.length : titles.length} gebuendelt={grouped} suche={suche} sort={sort} onSortChange={onSortChange} relevanz={relevanzMoeglich} />
+      <DbRaster
+        liste={liste.slice(0, visible)}
+        zahlen={zahlen}
+        data={data}
+        today={today}
+        grouped={grouped}
+        favorites={favorites}
+        hidden={hidden}
+        onToggleFavorite={onToggleFavorite}
+        onToggleHidden={onToggleHidden}
+        onOpenTitle={onOpenTitle}
+        share={share}
+        copiedSlug={copiedSlug}
+      />
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6">
-        {groups.slice(0, visible).map(({ main, members }) => (
-          <DbKarte
-            key={main.id}
-            main={main}
-            members={members}
-            data={data}
-            today={today}
-            grouped={grouped}
-            favorites={favorites}
-            hidden={hidden}
-            onToggleFavorite={onToggleFavorite}
-            onToggleHidden={onToggleHidden}
-            onOpenTitle={onOpenTitle}
-            share={share}
-            copiedSlug={copiedSlug}
-          />
-        ))}
-      </div>
-
-      {groups.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
-      {visible < groups.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={groups.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
+      {liste.length === 0 && !ohneSynchroLaedt && <DbLeer ohneSynchro={ohneSynchro} onOhneSynchro={() => onOhneSynchroChange(true)} />}
+      {visible < liste.length && <MehrKnopf schritt={PAGE_SIZE * 2} rest={liste.length - visible} onClick={() => setVisible((v) => v + PAGE_SIZE * 2)} />}
     </div>
   )
 }

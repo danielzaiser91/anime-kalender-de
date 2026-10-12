@@ -76,7 +76,12 @@ export function anzeigeName(title: Pick<Title, 'titleDe' | 'titleEn' | 'titleRom
  * Die Begründung (Kurzformate, chinesische ONA-Specials) steht an der
  * Reihenliste in `DetailPanel.tsx`.
  */
-export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; episodes?: number }>(teile: T[]): T[] {
+export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; eigenesWerk?: boolean; episodes?: number; name?: string }>(teile: T[]): T[] {
+  /* Eine eigene Serie der Reihe (Korra neben „Der Herr der Elemente") ist keine Staffel. */
+  return hauptstaffelnAllerTeile(teile.filter((m) => !m.eigenesWerk))
+}
+
+function hauptstaffelnAllerTeile<T extends { format?: string; beiwerk?: boolean; episodes?: number; name?: string }>(teile: T[]): T[] {
   const hatTv = teile.some((m) => m.format === 'TV')
   /*
     **Eine Streaming-Staffel ist eine Staffel.** „Stone Ocean" und „Steel Ball Run" liefen
@@ -85,7 +90,7 @@ export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; ep
     ein ONA mit mindestens zehn Folgen, das kein Beiwerk ist — gemessen 62 Fälle, darunter
     Dorohedoro Staffel 2, Rent-a-Girlfriend Staffel 4 und 5, Beastars, Baki.
   */
-  if (!hatTv) return teile.filter((m) => istStaffel(m.format) && !m.beiwerk)
+  if (!hatTv) return teile.filter((m) => istStaffel(m.format) && !m.beiwerk && !istWerbeEintrag(m))
   const langeOna = teile.filter((m) => m.format === 'ONA' && !m.beiwerk && (m.episodes ?? 0) >= 10)
   /*
     Und ein kurzes ONA, das wie eine dieser Staffeln anfängt: „Steel Ball Run" führt AniList
@@ -112,6 +117,30 @@ export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; ep
 }
 
 /**
+ * **Der Platz jedes Eintrags innerhalb seiner Staffel** (1-basiert, in Reihenfolge) — von hier
+ * kommt der „Teil N" (02.10.2026). Ein fremder Name zählt anders (AniList Cours, MAL Teile);
+ * unsere Liste zählt ihre eigenen Glieder.
+ */
+function plaetzeInStaffel(eintraege: { id: number; staffel: number }[]): Map<number, number> {
+  const platz = new Map<number, number>()
+  const gezaehlt = new Map<number, number>()
+  for (const e of eintraege) {
+    const n = (gezaehlt.get(e.staffel) ?? 0) + 1
+    gezaehlt.set(e.staffel, n)
+    platz.set(e.id, n)
+  }
+  return platz
+}
+
+type StaffelEintrag = { id: number; staffel: number; teil?: number; eigenerName: boolean }
+type StaffelFeld = { id: number; name: string; jpYear?: number; jpStart?: string; staffelQuelle?: number }
+
+/** Sortierschlüssel der Ausstrahlung: Start, sonst Jahr (`jahrZumSortieren`). */
+export function ausstrahlungsZeit(m: { jpYear?: number; jpStart?: string }): string {
+  return m.jpStart ?? String(jahrZumSortieren(m.jpYear))
+}
+
+/**
  * **Welche Staffel und welcher Teil ein Eintrag ist — gezählt, nicht an der Position abgelesen.**
  *
  * Daniel am 13.09.2026 an Mushoku Tensei: Im Kopf stand „Staffel 5" über der
@@ -134,29 +163,10 @@ export function hauptstaffeln<T extends { format?: string; beiwerk?: boolean; ep
  * Zurück kommt nur, was eine Beschriftung bekommt; alles andere zeigt weiter
  * seinen Namen.
  */
-/**
- * **Der Platz jedes Eintrags innerhalb seiner Staffel** (1-basiert, in Reihenfolge) — von hier
- * kommt der „Teil N" (02.10.2026). Ein fremder Name zählt anders (AniList Cours, MAL Teile);
- * unsere Liste zählt ihre eigenen Glieder.
- */
-function plaetzeInStaffel(eintraege: { id: number; staffel: number }[]): Map<number, number> {
-  const platz = new Map<number, number>()
-  const gezaehlt = new Map<number, number>()
-  for (const e of eintraege) {
-    const n = (gezaehlt.get(e.staffel) ?? 0) + 1
-    gezaehlt.set(e.staffel, n)
-    platz.set(e.id, n)
-  }
-  return platz
-}
-
-export function staffelBeschriftungen<T extends { id: number; name: string; jpYear?: number; jpStart?: string; staffelQuelle?: number }>(
-  staffeln: T[],
-  reihenName: string,
-): Map<number, string> {
-  const zeit = (m: T) => m.jpStart ?? String(m.jpYear ?? 9999)
-  const sortiert = staffeln.slice().sort((a, b) => zeit(a).localeCompare(zeit(b)) || a.id - b.id)
-  const eintraege: { id: number; staffel: number; teil?: number; eigenerName: boolean }[] = []
+/** Ordnet jeden Eintrag einer Staffel zu (Regeln: siehe oben); `staffelBeschriftungen()` und `staffelStaende()` lesen daraus. */
+function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string): StaffelEintrag[] {
+  const sortiert = staffeln.slice().sort((a, b) => ausstrahlungsZeit(a).localeCompare(ausstrahlungsZeit(b)) || a.id - b.id)
+  const eintraege: StaffelEintrag[] = []
   let aktuell = 0
   for (const m of sortiert) {
     /* Nennt die belegte deutsche Quelle eine Staffel, gilt sie (86: Eighty Six, 01.10.2026). */
@@ -190,20 +200,29 @@ export function staffelBeschriftungen<T extends { id: number; name: string; jpYe
           !reihenKern.includes(vorStaffel) &&
           vorStaffel.length <= 10 &&
           vorStaffel.slice(0, 3) === reihenKern.slice(0, 3)
-    const mitStaffel = eigenerVorsatz ? null : /(?:^|\s)Staffel\s+(\d+)(?:\s*-\s*Teil\s+(\d+))?\s*$/i.exec(rest)
+    /* „Staffel 2 - Teil 2" und die Klammer-Form „Staffel 2 (Teil 2)" (Hanako) meinen dasselbe. */
+    const mitStaffel = eigenerVorsatz ? null : /(?:^|\s)Staffel\s+(\d+)(?:\s*-\s*Teil\s+(\d+)|\s*\(Teil\s+(\d+)\))?\s*$/i.exec(rest)
     const nurTeil = /^Teil\s+(\d+)$/i.exec(rest)
     if (mitStaffel) {
       aktuell = Number(mitStaffel[1])
-      eintraege.push({ id: m.id, staffel: aktuell, teil: mitStaffel[2] ? Number(mitStaffel[2]) : undefined, eigenerName: false })
+      const teil = mitStaffel[2] ?? mitStaffel[3]
+      eintraege.push({ id: m.id, staffel: aktuell, teil: teil ? Number(teil) : undefined, eigenerName: false })
     } else if (nurTeil) {
       const teil = Number(nurTeil[1])
       if (teil === 1 || aktuell === 0) aktuell += 1
       eintraege.push({ id: m.id, staffel: aktuell, teil, eigenerName: false })
     } else {
       aktuell += 1
-      eintraege.push({ id: m.id, staffel: aktuell, eigenerName: rest !== '' })
+      /* „Reihe (Teil 2)" ist die deutsche Marke der nächsten Staffel, kein eigener Name: Staffel 2 statt „Staffel 2 · (Teil 2)" (Bookworm, Daniel 11.10.2026). Nur im Originalnamen: „(Cour 2)" wird erst durch das Eindeutschen zu „(Teil 2)", ist aber die Hälfte einer Staffel (Spy × Family). */
+      const staffelMarke = /^\(Teil\s+\d+\)$/i.test(rest) && /\(Teil\s+\d+\)\s*$/i.test(m.name)
+      eintraege.push({ id: m.id, staffel: aktuell, eigenerName: rest !== '' && !staffelMarke })
     }
   }
+  return eintraege
+}
+
+export function staffelBeschriftungen<T extends StaffelFeld>(staffeln: T[], reihenName: string): Map<number, string> {
+  const eintraege = zaehleStaffeln(staffeln, reihenName)
   const ohneNamen = new Set(eintraege.filter((e) => !e.eigenerName).map((e) => e.staffel))
   const mitTeilen = new Set(eintraege.filter((e) => (e.teil ?? 1) >= 2).map((e) => e.staffel))
   /*
@@ -227,12 +246,40 @@ export function staffelBeschriftungen<T extends { id: number; name: string; jpYe
   return beschriftung
 }
 
+export type StaffelNummer = { staffel: number; teil?: number; von: number; eigenerName: boolean }
+
+/**
+ * **Die Staffelnummer jedes Eintrags, auch bei eigenem Namen** (09.10.2026: „Staffel 4 von 4" für „War of the
+ * Three Titans"). `staffelBeschriftungen()` nummeriert nur Teile ohne Namen; hier zählt dieselbe Rechnung alle.
+ * Leer bei einer einzigen Staffel — dort unterscheidet die Nummer nichts (One Piece).
+ */
+export function staffelStaende<T extends StaffelFeld>(staffeln: T[], reihenName: string): Map<number, StaffelNummer> {
+  const eintraege = zaehleStaffeln(staffeln, reihenName)
+  const von = Math.max(0, ...eintraege.map((e) => e.staffel))
+  if (von < 2) return new Map()
+  const mitTeilen = new Set(eintraege.filter((e) => (e.teil ?? 1) >= 2).map((e) => e.staffel))
+  const platz = plaetzeInStaffel(eintraege)
+  return new Map(
+    eintraege.map((e) => [e.id, { staffel: e.staffel, teil: mitTeilen.has(e.staffel) ? (platz.get(e.id) ?? 1) : undefined, von, eigenerName: e.eigenerName }]),
+  )
+}
+
 const JAHRESZEIT: Record<string, number> = { WINTER: 0, SPRING: 1, SUMMER: 2, FALL: 3 }
+
+/** Das Jahr als Sortierwert: Jahr 0 (aniSearch: Jahr unbekannt) und fehlend heißen „noch offen" und stehen hinten. */
+export function jahrZumSortieren(jpYear: number | undefined): number {
+  return jpYear || 9999
+}
+
+/** Reihenfolge nach Jahr, bei Gleichstand nach Kennung. */
+export function nachJahrUndId(a: { jpYear?: number; id: number }, b: { jpYear?: number; id: number }): number {
+  return jahrZumSortieren(a.jpYear) - jahrZumSortieren(b.jpYear) || a.id - b.id
+}
 
 /** Reihenfolge innerhalb einer Reihe: nach japanischer Ausstrahlung. */
 export function nachAusstrahlung<T extends Pick<Title, 'jpYear' | 'jpSeason' | 'id'>>(a: T, b: T): number {
   return (
-    (a.jpYear ?? 9999) - (b.jpYear ?? 9999) ||
+    jahrZumSortieren(a.jpYear) - jahrZumSortieren(b.jpYear) ||
     (JAHRESZEIT[a.jpSeason ?? ''] ?? 9) - (JAHRESZEIT[b.jpSeason ?? ''] ?? 9) ||
     a.id - b.id
   )
@@ -295,6 +342,21 @@ export function istStaffel(format: string | undefined): boolean {
   return format === 'TV' || format === 'TV_SHORT' || format === 'ONA'
 }
 
+/* AniList führt Werbung als eigene ONA/Special („Jujutsu Kaisen PV", „Violet Evergarden CM"). */
+const WERBE_KUERZEL = /\b(?:PV|CM)\b/
+const WERBE_WORT = /\b(?:trailer|teaser|promo|promotion|commercial)\b|opening movie/i
+
+type Namensfelder = { name?: string; titleDe?: string; titleEn?: string; titleRomaji?: string }
+
+/**
+ * Ist der Eintrag Werbung (PV, Trailer, CM, Opening Movie) und keine Staffel?
+ * Die Kürzel nur groß: „5 cm" (Maßangabe) ist keine Werbung.
+ * Gemessen 12.10.2026: 30 solcher Namen in 899 Reihen, alle echte Werbung, kein Fehltreffer.
+ */
+export function istWerbeEintrag(m: Namensfelder): boolean {
+  return [m.name, m.titleDe, m.titleEn, m.titleRomaji].some((s) => s !== undefined && (WERBE_KUERZEL.test(s) || WERBE_WORT.test(s)))
+}
+
 /**
  * Wer eine Reihe auf einer einzigen Kachel vertritt.
  *
@@ -307,13 +369,14 @@ export function istStaffel(format: string | undefined): boolean {
  *
  * Wer eine Reihe sucht, meint ihren Anfang. Vertreter ist deshalb die **erste
  * reguläre Staffel**; gibt es keine (eine Reihe aus lauter Filmen), der
- * früheste Eintrag überhaupt.
+ * früheste Eintrag überhaupt. Werbung (PV, CM, Trailer) ist keins von beidem, solange
+ * es etwas anderes gibt: „Jujutsu Kaisen PV" (ONA 2018) vertrat die Serie von 2020.
  */
-export function reihenVertreter<T extends Pick<Title, 'jpYear' | 'jpSeason' | 'id' | 'format'>>(
+export function reihenVertreter<T extends Pick<Title, 'jpYear' | 'jpSeason' | 'id' | 'format'> & Namensfelder>(
   mitglieder: T[],
 ): T {
   const sortiert = mitglieder.slice().sort(nachAusstrahlung)
-  return sortiert.find((m) => istStaffel(m.format)) ?? sortiert[0]
+  return sortiert.find((m) => istStaffel(m.format) && !istWerbeEintrag(m)) ?? sortiert.find((m) => !istWerbeEintrag(m)) ?? sortiert[0]
 }
 
 /**

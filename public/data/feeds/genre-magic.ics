@@ -6,87 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Magic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T150000Z
-DTEND:20261002T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 22/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16234/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-176496-tv-prosieben-maxx@2026-10-03#4@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T220500Z
-DTEND:20261002T223500Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 4/7
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15790/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-176496-tv-prosieben-maxx@2026-10-03#5@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T223000Z
-DTEND:20261002T230000Z
-SUMMARY:Solo Leveling: Arise from the Shadow – Folge 5/7
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/15790/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-G6793XKZY@2026-10-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T093000Z
-DTEND:20261003T100000Z
-SUMMARY:Ascendance of a Bookworm Staffel 4 – Folge 21/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/15570/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384004@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T143000Z
-DTEND:20261004T150000Z
-SUMMARY:Overgeared Staffel 1 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-04#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T150000Z
-DTEND:20261004T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 11/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16011/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-04#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T150000Z
-DTEND:20261004T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 12/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16011/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:though-i-am-an-inept-villainess@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T154500Z
-DTEND:20261004T161500Z
-SUMMARY:Though I Am an Inept Villainess – Folge 10/11
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16711/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T133000Z
@@ -291,6 +210,16 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nUhrzeit noch nicht b
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T144500Z
+DTEND:20261016T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GYZJ43JMR@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T150000Z
@@ -373,6 +302,16 @@ SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16011/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T144500Z
+DTEND:20261019T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-21@anime-kalender-de
@@ -601,9 +540,11 @@ UID:madoka-walpurgisnacht-rising-kino@2026-11-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261124
 DTEND;VALUE=DATE:20261125
-SUMMARY:Puella Magi Madoka Magica the Movie – Walpurgisnacht: Rising
-DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nUhrzeit noch nicht bestäti
- gt.\nDetails: https://anime-kalender.de/t/12975/
+SUMMARY:Puella Magi Madoka Magica the Movie – Walpurgisnacht: Rising (OmU
+ )
+DESCRIPTION:Plattform: Kino\nRelease-Art: Film\nOmU: Originalton mit deutsc
+ hen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht bestätigt.\
+ nDetails: https://anime-kalender.de/t/12975/
 CATEGORIES:Kino
 END:VEVENT
 BEGIN:VEVENT
@@ -750,6 +691,42 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe@2026-12-18@
+ anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flowe
+ r) (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/7340/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:fate-stay-night-heavens-feel-2-lost-butterfly-gesamtausgabe@2026-12-18@
+ anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterf
+ ly) (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8064/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:fate-stay-night-heavens-feel-3-spring-song-gesamtausgabe@2026-12-18@ani
+ me-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song
+ ) (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8065/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:sailor-moon-sailor-stars-2027-01-15@2027-01-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20270115
@@ -757,6 +734,17 @@ DTEND;VALUE=DATE:20270116
 SUMMARY:Sailor Moon Sailor Stars (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/873/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:shield-hero-s4-vol2@2027-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:The Rising of the Shield Hero – Staffel 4 – Vol. 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15657/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

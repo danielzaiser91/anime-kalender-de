@@ -12043,6 +12043,26 @@
     "art": "gemessen",
     "tag": "2026-09-27"
   },
+  "104243|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "104243|primevideo|2": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "104243|primevideo|3": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "104243|primevideo|4": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
   "168374|primevideo|1": {
     "urteil": "unbekannt",
     "art": "gemessen",
@@ -12158,6 +12178,12 @@
     "grund": "kanal-ohne-abo"
   },
   "174188|primevideo|8": {
+    "urteil": "unbekannt",
+    "art": "gemessen",
+    "tag": "2026-09-05",
+    "grund": "kanal-ohne-abo"
+  },
+  "174188|primevideo|11": {
     "urteil": "unbekannt",
     "art": "gemessen",
     "tag": "2026-09-05",
@@ -13134,54 +13160,52 @@
   "159309|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "159309|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "159309|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "159309|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "159309|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "159309|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "159309|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "159309|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "159309|primevideo|10": {
-    "urteil": "unbekannt",
+    "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29",
-    "grund": "kanal-ohne-abo"
+    "tag": "2026-10-11"
   },
   "159309|primevideo|11": {
-    "urteil": "unbekannt",
+    "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29",
-    "grund": "kanal-ohne-abo"
+    "tag": "2026-10-11"
   },
   "136430|primevideo|1": {
     "urteil": "deutsch",
@@ -14041,6 +14065,61 @@
     "tag": "2026-09-19"
   },
   "171025|primevideo|12": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|2": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|3": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|4": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|5": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|6": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|8": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|9": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|10": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-19"
+  },
+  "185692|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-09-19"
@@ -30914,442 +30993,483 @@
   "182205|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|10": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|12": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|13": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|14": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|15": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "182205|primevideo|16": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
+  },
+  "182205|primevideo|17": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "182205|primevideo|18": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "182205|primevideo|19": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "182205|primevideo|20": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "182205|primevideo|21": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "182205|primevideo|22": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "182205|primevideo|23": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "182205|primevideo|24": {
+    "urteil": "unbekannt",
+    "art": "gemessen",
+    "tag": "2026-10-11",
+    "grund": "kanal-ohne-abo"
   },
   "108511|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|10": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "108511|primevideo|12": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|10": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "116742|primevideo|12": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|10": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|12": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|13": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|14": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|15": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|16": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|17": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|18": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|19": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|20": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|21": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|22": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|23": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "156822|primevideo|24": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|10": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|12": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|13": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|14": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|15": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|16": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|17": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|18": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|19": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|20": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|21": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|22": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|23": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "101280|primevideo|24": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "142074|primevideo|1": {
     "urteil": "deutsch",
@@ -45362,287 +45482,37 @@
   "966|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|12": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|7": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|41": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|42": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|43": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|44": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|45": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|46": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|47": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|48": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|49": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|50": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|51": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|52": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|78": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|58": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|59": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|54": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|55": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|56": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|57": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|60": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|62": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|65": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|66": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|67": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|70": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|72": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|73": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|74": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|75": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|76": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|77": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|35": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|36": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|39": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|27": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|28": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|29": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|30": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|31": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|32": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|33": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|13": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|14": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|16": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|21": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|23": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|20": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|24": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
-  },
-  "966|primevideo|25": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "20812|primevideo|1": {
     "urteil": "deutsch",
@@ -48109,6 +47979,56 @@
     "art": "gemessen",
     "tag": "2026-09-28"
   },
+  "194829|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
+  },
+  "194829|primevideo|2": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
+  },
+  "194829|primevideo|3": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
+  },
+  "194829|primevideo|5": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
+  },
+  "194829|primevideo|6": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
+  },
+  "194829|primevideo|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
+  },
+  "194829|primevideo|8": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
+  },
+  "194829|primevideo|9": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
+  },
+  "194829|primevideo|10": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
+  },
+  "194829|primevideo|11": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
+  },
   "101337|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
@@ -50122,172 +50042,107 @@
   "182587|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "182587|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "182587|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "182587|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "182587|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "182587|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "182587|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "182587|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "182587|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "182587|primevideo|10": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "182587|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|1": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|2": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|3": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|4": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|5": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|6": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|7": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|8": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|9": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|10": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|11": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|12": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "166531|primevideo|13": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|10": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|11": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "159309|primevideo|12": {
     "urteil": "unbekannt",
     "art": "gemessen",
-    "tag": "2026-09-29",
+    "tag": "2026-10-11",
     "grund": "kanal-ohne-abo"
   },
   "129874|netflix|7": {
@@ -50458,57 +50313,57 @@
   "188139|disneyplus|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "188139|disneyplus|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "188139|disneyplus|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "188139|disneyplus|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "188139|disneyplus|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "188139|disneyplus|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "188139|disneyplus|10": {
-    "urteil": "kein deutsch",
+    "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "188139|disneyplus|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "188139|disneyplus|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "188139|disneyplus|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "188139|disneyplus|11": {
-    "urteil": "kein deutsch",
+    "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-10-02"
+    "tag": "2026-10-11"
   },
   "184237|netflix|11": {
     "urteil": "deutsch",
@@ -50994,6 +50849,736 @@
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-10-08"
+  },
+  "196144|netflix|11": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|13": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|12": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|4": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|10": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|9": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|7": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|5": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|3": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|8": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|2": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "196144|netflix|1": {
+    "urteil": "kein deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "874|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|2": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|3": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|4": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|5": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|6": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|8": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|9": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|10": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|11": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|13": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|15": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|16": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|17": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|18": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|19": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|20": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|21": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|23": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|24": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|25": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|26": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|27": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|28": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|29": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|30": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|31": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|32": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|33": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|34": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|35": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|36": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|37": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|38": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|39": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|40": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|41": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|42": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|43": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|44": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|46": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|47": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|48": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|49": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|50": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|51": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|2": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|3": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|4": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|5": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|6": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|8": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|9": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|10": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|11": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|12": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "166531|primevideo|13": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|65": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|66": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|67": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|70": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|72": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|73": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|74": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|75": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|76": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|77": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|52": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|78": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|58": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|59": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|54": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|55": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|56": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|57": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|60": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|62": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|41": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|42": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|43": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|44": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|45": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|46": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|47": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|48": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|49": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|50": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|51": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|35": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|36": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|39": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|27": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|28": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|29": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|30": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|31": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|32": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|33": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|13": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|14": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|16": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|21": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|23": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|20": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|24": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "966|primevideo|25": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|3": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|2": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|4": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|5": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|6": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|8": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|9": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|10": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|11": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "156067|disneyplus|12": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|2": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|5": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|8": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|9": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|10": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|11": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|12": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|19": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|41": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|34": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
   },
   "112153|netflix|0": {
     "urteil": "nicht verfügbar",
@@ -51810,6 +52395,11 @@
     "art": "gemessen",
     "tag": "2026-08-22"
   },
+  "105595|netflix|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-08-22"
+  },
   "103887|netflix|1": {
     "urteil": "deutsch",
     "art": "gemessen",
@@ -52150,6 +52740,16 @@
     "art": "gemessen",
     "tag": "2026-08-22"
   },
+  "10019323|netflix|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-08-22"
+  },
+  "10019323|netflix|12": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-08-22"
+  },
   "21087|netflix|0": {
     "urteil": "nicht verfügbar",
     "art": "gemessen",
@@ -52445,6 +53045,26 @@
     "art": "gemessen",
     "tag": "2026-08-23"
   },
+  "874|primevideo|12": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|14": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|22": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "874|primevideo|45": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
   "123899|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
@@ -52471,6 +53091,11 @@
     "tag": "2026-08-24"
   },
   "111015|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-08-24"
+  },
+  "20786|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-08-24"
@@ -52906,11 +53531,6 @@
     "tag": "2026-08-24"
   },
   "9963|primevideo|1": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-08-24"
-  },
-  "98222|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-08-24"
@@ -53565,11 +54185,6 @@
     "art": "gemessen",
     "tag": "2026-08-24"
   },
-  "20540|primevideo|1": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-08-24"
-  },
   "199|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
@@ -53790,16 +54405,6 @@
     "art": "gemessen",
     "tag": "2026-08-25"
   },
-  "102977|primevideo|6": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
-  "110355|primevideo|7": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-29"
-  },
   "20908|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
@@ -53966,9 +54571,9 @@
     "tag": "2026-08-26"
   },
   "195600|netflix|1": {
-    "urteil": "kein deutsch",
-    "art": "gemessen",
-    "tag": "2026-08-26"
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
   },
   "19|netflix|1": {
     "urteil": "deutsch",
@@ -55088,42 +55693,42 @@
   "195600|disneyplus|2": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-08-26"
+    "tag": "2026-10-10"
   },
   "195600|disneyplus|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-08-26"
+    "tag": "2026-10-10"
   },
   "195600|disneyplus|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-08-26"
+    "tag": "2026-10-10"
   },
   "195600|disneyplus|1": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-08-26"
+    "tag": "2026-10-10"
   },
   "195600|disneyplus|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-08-26"
+    "tag": "2026-10-10"
   },
   "195600|disneyplus|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-08-26"
+    "tag": "2026-10-10"
   },
   "195600|disneyplus|7": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-08-26"
+    "tag": "2026-10-10"
   },
   "195600|disneyplus|8": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-08-26"
+    "tag": "2026-10-10"
   },
   "140291|disneyplus|1": {
     "urteil": "deutsch",
@@ -57800,12 +58405,6 @@
     "tag": "2026-08-30",
     "grund": "kanal-ohne-abo"
   },
-  "185262|primevideo|7": {
-    "urteil": "unbekannt",
-    "art": "gemessen",
-    "tag": "2026-09-29",
-    "grund": "kanal-ohne-abo"
-  },
   "21400|primevideo|1": {
     "urteil": "nicht verfügbar",
     "art": "gemessen",
@@ -58172,6 +58771,11 @@
     "tag": "2026-08-31"
   },
   "1815|primevideo|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-08-31"
+  },
+  "10019697|primevideo|1": {
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-08-31"
@@ -60816,15 +61420,15 @@
     "tag": "2026-09-16",
     "grund": "kanal-ohne-abo"
   },
-  "178680|primevideo|9": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-09-16"
-  },
   "111729|primevideo|0": {
     "urteil": "nicht verfügbar",
     "art": "gemessen",
     "tag": "2026-09-16"
+  },
+  "102977|primevideo|6": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
   },
   "109261|netflix|1": {
     "urteil": "deutsch",
@@ -65553,7 +66157,22 @@
     "art": "gemessen",
     "tag": "2026-09-27"
   },
-  "154587|primevideo|3": {
+  "9367|primevideo|5": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "9367|primevideo|6": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "9367|primevideo|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "9367|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-09-27"
@@ -65579,6 +66198,11 @@
     "tag": "2026-09-27"
   },
   "20849|primevideo|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-27"
+  },
+  "110355|primevideo|7": {
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-09-27"
@@ -65652,6 +66276,12 @@
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-09-27"
+  },
+  "185262|primevideo|7": {
+    "urteil": "unbekannt",
+    "art": "gemessen",
+    "tag": "2026-09-29",
+    "grund": "kanal-ohne-abo"
   },
   "2826|primevideo|31": {
     "urteil": "deutsch",
@@ -66281,107 +66911,107 @@
   "966|primevideo|3": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|4": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|6": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|10": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|15": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|17": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|18": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|19": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|22": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|26": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|34": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|37": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|38": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|40": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|53": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|61": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|63": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|64": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|68": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|69": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "966|primevideo|71": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-28"
+    "tag": "2026-10-11"
   },
   "1816|primevideo|12": {
     "urteil": "deutsch",
@@ -66543,6 +67173,11 @@
     "art": "gemessen",
     "tag": "2026-09-28",
     "grund": "kanal-ohne-abo"
+  },
+  "194829|primevideo|4": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-09-28"
   },
   "2836|primevideo|7": {
     "urteil": "deutsch",
@@ -66777,17 +67412,23 @@
   "150672|primevideo|5": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "150672|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
+  },
+  "150672|primevideo|12": {
+    "urteil": "unbekannt",
+    "art": "gemessen",
+    "tag": "2026-10-11",
+    "grund": "kanal-ohne-abo"
   },
   "159309|primevideo|9": {
     "urteil": "deutsch",
     "art": "gemessen",
-    "tag": "2026-09-29"
+    "tag": "2026-10-11"
   },
   "199|netflix|1": {
     "urteil": "deutsch",
@@ -66868,48 +67509,6 @@
     "urteil": "deutsch",
     "art": "angenommen",
     "tag": "2026-09-29"
-  },
-  "182205|primevideo|17": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-10-02"
-  },
-  "182205|primevideo|18": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-10-02"
-  },
-  "182205|primevideo|19": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-10-02"
-  },
-  "182205|primevideo|20": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-10-02"
-  },
-  "182205|primevideo|21": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-10-02"
-  },
-  "182205|primevideo|22": {
-    "urteil": "deutsch",
-    "art": "gemessen",
-    "tag": "2026-10-02"
-  },
-  "182205|primevideo|23": {
-    "urteil": "unbekannt",
-    "art": "gemessen",
-    "tag": "2026-10-02",
-    "grund": "kanal-ohne-abo"
-  },
-  "182205|primevideo|24": {
-    "urteil": "unbekannt",
-    "art": "gemessen",
-    "tag": "2026-10-02",
-    "grund": "kanal-ohne-abo"
   },
   "21064|primevideo|1": {
     "urteil": "deutsch",
@@ -67000,5 +67599,320 @@
     "urteil": "deutsch",
     "art": "gemessen",
     "tag": "2026-10-08"
+  },
+  "196144|netflix|6": {
+    "urteil": "kein deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|15": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|12": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|11": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|13": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|14": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|6": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|9": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|10": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|3": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|2": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|4": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|7": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|5": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|netflix|8": {
+    "urteil": "deutsch",
+    "art": "angenommen",
+    "tag": "2026-10-10"
+  },
+  "195600|disneyplus|9": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "195600|disneyplus|10": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "195600|disneyplus|11": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "195600|disneyplus|12": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "195600|disneyplus|13": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "195600|disneyplus|14": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "195600|disneyplus|15": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-10"
+  },
+  "98659|disneyplus|3": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|4": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "98659|disneyplus|6": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "101302|disneyplus|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|2": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|1": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|3": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|4": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|5": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|6": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|7": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|8": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|9": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|10": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|11": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|12": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|13": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|14": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|15": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|16": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|17": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|18": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|20": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|21": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|22": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|23": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|24": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|25": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|26": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|27": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|28": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|29": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|30": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|31": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|32": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|33": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|35": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|36": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|37": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|38": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
+  },
+  "2225|disneyplus|39": {
+    "urteil": "deutsch",
+    "art": "gemessen",
+    "tag": "2026-10-11"
   }
 }

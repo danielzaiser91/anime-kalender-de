@@ -1,0 +1,2198 @@
+{
+  "stand": "2026-10-12",
+  "angehaengt": 282,
+  "neueReihen": 250,
+  "katalog": {
+    "angehaengt": 207,
+    "neueReihen": 24,
+    "bestandEinzeln": 369
+  },
+  "pruefliste": [
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 10007294,
+          "name": "Gekijouban Geisters Inochi no Shou",
+          "titel": 1
+        },
+        {
+          "id": 10007445,
+          "name": "Gekijouban Geisters Hikari no Shou",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Geisters: Fractions of the Earth"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 10018652,
+          "name": "Kyoro-chan no Jishin Youjin Hi no Youjin",
+          "titel": 1
+        },
+        {
+          "id": 10019814,
+          "name": "Kyoro-chan no Koutsuu Anzen",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Kyoro-chan"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 2766,
+          "name": "Super Doll★Licca-chan",
+          "titel": 5
+        },
+        {
+          "id": 10006623,
+          "name": "Licca-chan to Mahou no Kuni",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Licca the movie: Licca-chan to Yamaneko Hoshi no Tabi"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 16556,
+          "name": "Hong Gil-Dong",
+          "titel": 2
+        },
+        {
+          "id": 10014540,
+          "name": "Doraon Yeongung Hong Gil Dong",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Space Soldier Hong Gildong"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 10004507,
+          "name": "Ookami Shounen Ken: Arabia no Kaijin - Ma no Iwa no Kettou",
+          "titel": 1
+        },
+        {
+          "id": 10007142,
+          "name": "Ookami Shounen Ken (1963)",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Ookami Shounen Ken"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 10008506,
+          "name": "Boku wa Ousama",
+          "titel": 1
+        },
+        {
+          "id": 10009720,
+          "name": "Boku wa Ou-sama (2013) Specials",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Boku wa Ou-sama"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 10013328,
+          "name": "Beatless Intermission",
+          "titel": 1
+        },
+        {
+          "id": 10013691,
+          "name": "Beatless: Final Stage",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "BEATLESS"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 12145,
+          "name": "Bbaekkom",
+          "titel": 2
+        },
+        {
+          "id": 10019532,
+          "name": "Bei Ken Xiong: Huoxing Renwu",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [
+        "Da Wei Bei Ken Zhi Daomei Tegong Xiong"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 43,
+          "name": "GHOST IN THE SHELL: Koukaku Kidoutai",
+          "titel": 32
+        },
+        {
+          "id": 98607,
+          "name": "Animegataris",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [
+        "Anime-gatari"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 10015605,
+          "name": "Kaijuu Step Wandabada 2nd Season",
+          "titel": 1
+        },
+        {
+          "id": 10016512,
+          "name": "Kaijuu Step SDGs Daisakusen",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Kaijuu Step Wandabada"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 10016564,
+          "name": "Kenda Master Ken",
+          "titel": 1
+        },
+        {
+          "id": 10017416,
+          "name": "Kenda Master Ken Shin Gekijouban: Warai",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Kenda Master Ken"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 10021224,
+          "name": "Shinkansen Henkei Robo Shinkalion: Change the World - Tokubetsu-hen: Present the World",
+          "titel": 1
+        },
+        {
+          "id": 10021225,
+          "name": "Shinkansen Henkei Robo Shinkalion: Change the World - Tokubetsu-hen: Ushinawareta Kioku",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Shinkalion: Change the World"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "mehrdeutig",
+      "reihen": [
+        {
+          "id": 10015135,
+          "name": "Robocar Poli: Season 2",
+          "titel": 4
+        },
+        {
+          "id": 10021518,
+          "name": "Amberwa Hamkkehaneun Saenghwaranjeon Iyagi",
+          "titel": 1
+        },
+        {
+          "id": 10021519,
+          "name": "Poliwa Hamkkehaneun Gyotonganjeon Iyagi",
+          "titel": 1
+        },
+        {
+          "id": 10021520,
+          "name": "Robocar Poli: Samak Gujodae Iyagi",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Robocar Poli"
+      ],
+      "beispiel": "",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 122536,
+          "name": "Rick and Morty vs. Genocider",
+          "titel": 4
+        },
+        {
+          "id": 10019445,
+          "name": "Rick and Morty: The Anime",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Rick and Morty: The Anime —gleiche Kennung→ Rick and Morty: The Anime (5 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 9817,
+          "name": "McDull: Gushi",
+          "titel": 4
+        },
+        {
+          "id": 10010011,
+          "name": "Mak Dau wo He wo Mama",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "McDull: Xiang Dang Dang —Prequel→ Mak Dau Dang Dang Ban wo Xin (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 603,
+          "name": "Futari wa Precure",
+          "titel": 61
+        },
+        {
+          "id": 99642,
+          "name": "Precure Dream Stars!",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Futari wa Precure —Nebengeschichte→ HUGtto! Precure ♡ Futari wa Precure All Stars Memories (3 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1412,
+          "name": "Lupin III",
+          "titel": 57
+        },
+        {
+          "id": 100957,
+          "name": "Lupin III: PART 5",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Lupin III: PART 5 —Prequel→ Lupin Sansei: Part 6 - Jidai (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1412,
+          "name": "Lupin III",
+          "titel": 57
+        },
+        {
+          "id": 2043,
+          "name": "Cat's♥Eye",
+          "titel": 4
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Lupin III: Part III —Crossover→ Lupin III VS Cat's Eye (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 235,
+          "name": "Meitantei Conan",
+          "titel": 87
+        },
+        {
+          "id": 1412,
+          "name": "Lupin III",
+          "titel": 57
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Lupin III: Part III —Crossover→ Lupin III vs. Meitantei Conan: THE MOVIE (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 574,
+          "name": "Rean no Tsubasa",
+          "titel": 4
+        },
+        {
+          "id": 10019266,
+          "name": "Aura Battler Dunbine Side L",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Seisenshi Dunbine —?→ Aura Battler Dunbine Side L (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 918,
+          "name": "Gintama",
+          "titel": 25
+        },
+        {
+          "id": 139044,
+          "name": "Jongtama PV",
+          "titel": 7
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Gintama —?→ Jongtama × Gintama Collab Kettei Promotion Anime (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 20753,
+          "name": "GARO: Honoo no Kokuin",
+          "titel": 3
+        },
+        {
+          "id": 21277,
+          "name": "GARO: Guren no Tsuki",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "GARO: Honoo no Kokuin —Alternative Umgebung→ GARO: Guren no Tsuki (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 6525,
+          "name": "Peeping Life",
+          "titel": 15
+        },
+        {
+          "id": 10009194,
+          "name": "Peeping Life: Tezuka Pro, Tatsunoko Pro Wonderland",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Peeping Life —Anderes→ Peeping Life: Tezuka Pro, Tatsunoko Pro Wonderland (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 966,
+          "name": "Crayon Shin-chan",
+          "titel": 44
+        },
+        {
+          "id": 139037,
+          "name": "Crayon Shin-chan Gaiden: Kazokuzure Ookami",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Crayon Shin-chan —Alternative Umgebung→ Crayon Shin-chan Gaiden: Kazokuzure Ookami (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 21662,
+          "name": "Gin no Guardian",
+          "titel": 2
+        },
+        {
+          "id": 10012800,
+          "name": "Yin Zhi Shou Mu Ren",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Gin no Guardian —Alternative Version→ Yin Zhi Shou Mu Ren (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 10588,
+          "name": "Persona 4 the Animation",
+          "titel": 7
+        },
+        {
+          "id": 21432,
+          "name": "PERSONA 5 the Animation: THE DAY BREAKERS",
+          "titel": 6
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Persona 4 the Golden Animation —Anderes→ PERSONA 5 the Animation: THE DAY BREAKERS (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 80,
+          "name": "Kidou Senshi Gundam",
+          "titel": 137
+        },
+        {
+          "id": 101554,
+          "name": "Kidou Senshi Gundam NT",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Kidou Senshi Gundam NT —Prequel→ Kidou Senshi Gundam: Senkou no Hathaway (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 21727,
+          "name": "Aware! Meisaku-kun",
+          "titel": 4
+        },
+        {
+          "id": 10015455,
+          "name": "Aware! Meisaku-kun (2017)",
+          "titel": 5
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Aware! Meisaku-kun —Prequel→ Aware! Meisaku-kun (2017) (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1578,
+          "name": "Koi Suru Tenshi Angelique: Kokoro no Mezameru Toki",
+          "titel": 9
+        },
+        {
+          "id": 3615,
+          "name": "Neo Angelique Abyss",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Angelique —Alternative Version→ Neo Angelique Abyss (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 19023,
+          "name": "Wake Up, Girls!",
+          "titel": 8
+        },
+        {
+          "id": 10012789,
+          "name": "Wake Up, Girl Zoo! Miyagi PR de Go!",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Wake Up, Girls! no Miyagi PR Yarasete Kudasai! —Alternative Version→ Wake Up, Girl Zoo! Miyagi PR de Go! (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 21448,
+          "name": "Isobe Isobee Monogatari: Ukiyo wa Tsurai yo",
+          "titel": 3
+        },
+        {
+          "id": 10021126,
+          "name": "Isobe Isobee Monogatari: Ukiyo wa Tsurai yo (2017)",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Isobe Isobee Monogatari: Ukiyo wa Tsurai yo —Prequel→ Isobe Isobee Monogatari: Ukiyo wa Tsurai yo (2017) (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 102365,
+          "name": "Bbororo Geugjangpan Super Sseolmae Daemoheom",
+          "titel": 14
+        },
+        {
+          "id": 10017301,
+          "name": "Pporongpporong Ppororo New 1",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Bborongbborong Bbororo —Remake→ Pporongpporong Ppororo New 1 (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 20950,
+          "name": "Tsukiuta. THE ANIMATION",
+          "titel": 4
+        },
+        {
+          "id": 97904,
+          "name": "TSUKIPRO THE ANIMATION",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Tsukiuta. THE ANIMATION —Hauptgeschichte→ VAZZROCK THE ANIMATION (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 2649,
+          "name": "Doraemon: Obaachan no Omoide",
+          "titel": 61
+        },
+        {
+          "id": 3727,
+          "name": "Doraemon: Nobita no Kyouryuu",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Doraemon (1979) —Hauptgeschichte→ STAND BY ME Doraemon (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 3444,
+          "name": "The☆Ultraman",
+          "titel": 3
+        },
+        {
+          "id": 169779,
+          "name": "Ultraman M78 Gekijou: LOVE & PEACE",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "The☆Ultraman —Alternative Version→ Ultraman Company (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 129,
+          "name": "Gensou Maden Saiyuuki",
+          "titel": 11
+        },
+        {
+          "id": 87498,
+          "name": "Saiyuuki RELOAD BLAST",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Saiyuuki RELOAD BLAST —Sequel→ Saiyuuki RELOAD: ZEROIN (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 109870,
+          "name": "Turning Mecard",
+          "titel": 4
+        },
+        {
+          "id": 10015306,
+          "name": "Ppasya Mecard",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Turning Mecard W —?→ Ppasya Mecard (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 10533,
+          "name": "Fujilog",
+          "titel": 2
+        },
+        {
+          "id": 10012368,
+          "name": "Saitama-ken Zaijuu, Fujiyama Osamu, 33-sai, Mushoku (NEET). Fujilog Nyuumon-hen",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Fujilog —Alternative Version→ Saitama-ken Zaijuu, Fujiyama Osamu, 33-sai, Mushoku (NEET). Fujilog Nyuumon-hen (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1000,
+          "name": "Uchuu Kaizoku Captain Harlock",
+          "titel": 37
+        },
+        {
+          "id": 1553,
+          "name": "Queen Emeraldas",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Queen Emeraldas —?→ The Zero Century: Emeraldas (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 109870,
+          "name": "Turning Mecard",
+          "titel": 4
+        },
+        {
+          "id": 10015410,
+          "name": "Yogoe Mecard",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Turning Mecard —?→ Yogoe Mecard (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 148972,
+          "name": "Xiong Chumo",
+          "titel": 9
+        },
+        {
+          "id": 10015219,
+          "name": "Xiongxiong Leyuan",
+          "titel": 4
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Xiong Chumo —?→ Xiongxiong Leyuan (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 148972,
+          "name": "Xiong Chumo",
+          "titel": 9
+        },
+        {
+          "id": 10012541,
+          "name": "Xiong Chumo: Qihuan Kongjian",
+          "titel": 4
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Xiong Chumo —?→ Xiong Chumo: Xiong Zin Guilai (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 148972,
+          "name": "Xiong Chumo",
+          "titel": 9
+        },
+        {
+          "id": 10018812,
+          "name": "Zhao Lim De Tanxian Riji",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Xiong Chumo —?→ Zhao Lim De Tanxian Riji (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 148972,
+          "name": "Xiong Chumo",
+          "titel": 9
+        },
+        {
+          "id": 10015204,
+          "name": "Xiong Chumo: Tanxian Riji",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Xiong Chumo: Xiari Lianlian Kan —Prequel→ Xiong Chumo: Tanxian Riji (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 98077,
+          "name": "Tomica Hyper Rescue Drive Head Kidou Kyuukyuu Keisatsu",
+          "titel": 4
+        },
+        {
+          "id": 100620,
+          "name": "Shinkansen Henkei Robo Shinkalion THE ANIMATION",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Shinkansen Henkei Robo Shinkalion THE ANIMATION —?→ Tomica Hyper Rescue Drive Head Kidou Kyuukyuu Keisatsu Movie (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 102462,
+          "name": "Dou Po Cangqiong Specials",
+          "titel": 12
+        },
+        {
+          "id": 111125,
+          "name": "Da Zhuzai",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Dou Po Cangqiong —Alternative Umgebung→ Da Zhuzai (2023) (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 102462,
+          "name": "Dou Po Cangqiong Specials",
+          "titel": 12
+        },
+        {
+          "id": 10016131,
+          "name": "Dou Po Cangqiong: Q Ban Xiao Juchang",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Dou Po Cangqiong —Charakter→ Dou Po Cangqiong: Q Ban Xiao Juchang (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1199,
+          "name": "Nintama Rantarou",
+          "titel": 6
+        },
+        {
+          "id": 10015571,
+          "name": "Nintama Rantarou no Uchuu Daibouken with Cosmic Front Next (2016)",
+          "titel": 4
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Nintama Rantarou no Uchuu Daibouken with Cosmic Front☆NEXT —Prequel→ Nintama Rantarou no Uchuu Daibouken with Cosmic Front Next (2016) (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 101922,
+          "name": "Kimetsu no Yaiba",
+          "titel": 18
+        },
+        {
+          "id": 129627,
+          "name": "Chuukou Ikkan!! Kimetsu Gakuen Monogatari: Valentine-hen",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Kimetsu no Yaiba —?→ Chuukou Ikkan!! Kimetsu Gakuen Monogatari: Valentine-hen (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 103959,
+          "name": "Zhuzhu Xia: Guangming Shouweizhe",
+          "titel": 25
+        },
+        {
+          "id": 10017609,
+          "name": "Zhu Zhu Xia Da Dianying Haiyang Riji",
+          "titel": 8
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Zhuzhu Xia: Chao Xing Meng Chong —Prequel→ Zhu Zhu Xia: Chao Xing Meng Chong 2 (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 967,
+          "name": "Hokuto no Ken",
+          "titel": 19
+        },
+        {
+          "id": 198720,
+          "name": "Hokuto no Ken: Kenou-gun Zako-tachi no Banka",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Hokuto no Ken —Nebengeschichte→ Hokuto no Ken: Kenou-gun Zako-tachi no Banka (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 102004,
+          "name": "Onmyouji: Heian Monogatari",
+          "titel": 7
+        },
+        {
+          "id": 154999,
+          "name": "Onmyouji",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Onmyouji: Heian Monogatari —?→ Yinyang Shi: Buzhi Huo (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 104159,
+          "name": "Azur Lane",
+          "titel": 5
+        },
+        {
+          "id": 124082,
+          "name": "Azur Lane Anime PVs",
+          "titel": 7
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Azur Lane —?→ Azur Lane: 8 Shuunen Kinen Anime PV (3 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 110464,
+          "name": "Nezha: Zhi Mo Tong Jiang Shi",
+          "titel": 2
+        },
+        {
+          "id": 126289,
+          "name": "Shenhai",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Nezha: Zhi Mo Tong Jiang Shi —Prequel→ Jiang Ziya (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 8783,
+          "name": "Nezha Nao Hai",
+          "titel": 3
+        },
+        {
+          "id": 110464,
+          "name": "Nezha: Zhi Mo Tong Jiang Shi",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Nezha Nao Hai —Alternative Version→ Nezha: Zhi Mo Tong Jiang Shi (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1678,
+          "name": "Cyborg 009: THE CYBORG SOLDIER",
+          "titel": 9
+        },
+        {
+          "id": 6872,
+          "name": "Cyborg 009 (Movie)",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Cyborg 009 (Movie) —Anderes→ Cyborg 009 (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 350,
+          "name": "Ojamajo Doremi",
+          "titel": 10
+        },
+        {
+          "id": 108630,
+          "name": "Majo Minarai wo Sagashite",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Ojamajo Doremi —?→ Majo Minarai wo Sagashite (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 12145,
+          "name": "Bbaekkom",
+          "titel": 2
+        },
+        {
+          "id": 10014289,
+          "name": "Backkom 2",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Bbaekkom —Prequel→ Backkom 2 (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 12145,
+          "name": "Bbaekkom",
+          "titel": 2
+        },
+        {
+          "id": 10019532,
+          "name": "Bei Ken Xiong: Huoxing Renwu",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Bbaekkom —?→ Bei Ken Xiong: Huoxing Renwu (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1822,
+          "name": "The Hakkenden",
+          "titel": 2
+        },
+        {
+          "id": 15613,
+          "name": "Hakkenden: Touhou Hakken Ibun",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "The Hakkenden —Anderes→ Hakkenden: Touhou Hakken Ibun (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 2804,
+          "name": "Hana no Mahou Tsukai Mary Bell",
+          "titel": 2
+        },
+        {
+          "id": 213099,
+          "name": "Mary Bell no Koutsuu Anzen",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Hana no Mahou Tsukai Mary Bell —?→ Mary Bell no Koutsuu Anzen (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 876,
+          "name": "Street Fighter II V",
+          "titel": 3
+        },
+        {
+          "id": 950,
+          "name": "Street Fighter ZERO: Generations",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Street Fighter II V —Sequel→ Street Fighter ZERO: THE ANIMATION (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1087,
+          "name": "Kimagure Orange☆Road",
+          "titel": 5
+        },
+        {
+          "id": 10001641,
+          "name": "Kimagure Orange Road: Hurricane! Henshin Shoujo Akane",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Kimagure Orange☆Road —Nebengeschichte→ Kimagure Orange Road: Hurricane! Henshin Shoujo Akane (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1087,
+          "name": "Kimagure Orange☆Road",
+          "titel": 5
+        },
+        {
+          "id": 10000391,
+          "name": "Kimagure Orange Road: Koi no Stage = Heart on Fire! Star Tanjou!",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Kimagure Orange☆Road —Hauptgeschichte→ Kimagure Orange Road: Koi no Stage = Heart on Fire! Haru wa Idol! (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 119080,
+          "name": "Arknights Anime PVs",
+          "titel": 8
+        },
+        {
+          "id": 169932,
+          "name": "Xiaoke de Huatu Xie Hua",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Arknights: Reimei Zensou —?→ Xiaoke de Huatu Xie Hua (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 140842,
+          "name": "Chiikawa",
+          "titel": 2
+        },
+        {
+          "id": 10020736,
+          "name": "Chiikawa (2025)",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Chiikawa —Prequel→ Chiikawa (2025) (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 967,
+          "name": "Hokuto no Ken",
+          "titel": 19
+        },
+        {
+          "id": 1356,
+          "name": "Hokuto no Ken 2",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Hokuto no Ken 2 —Prequel→ Shin Hokuto no Ken (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 80,
+          "name": "Kidou Senshi Gundam",
+          "titel": 137
+        },
+        {
+          "id": 10002149,
+          "name": "Kidou Senshi SD Gundam no Gyakushuu: Arashi o Yobu Gakuensai",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Kidou Senshi SD Gundam —Anderes→ Kidou Senshi SD Gundam no Gyakushuu: Arashi o Yobu Gakuensai (2 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1731,
+          "name": "Tales of Symphonia THE ANIMATION: Sylvarant-hen",
+          "titel": 7
+        },
+        {
+          "id": 4884,
+          "name": "Tales of the Abyss",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Tales of Symphonia THE ANIMATION: Sylvarant-hen —Anderes→ Tales of the Abyss (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 1341,
+          "name": "Violence Jack: Harem Bomber",
+          "titel": 2
+        },
+        {
+          "id": 1629,
+          "name": "Devilman Lady",
+          "titel": 6
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Violence Jack: Harem Bomber —Sequel→ Devilman (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 121069,
+          "name": "Dennou Senshi Dokan-kun",
+          "titel": 6
+        },
+        {
+          "id": 10005798,
+          "name": "Fight Tension School",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Dennou Senshi Dokan-kun —Prequel→ Fight Tension School (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 201272,
+          "name": "Hangyodon no 007/2: Doctor Sunday Arawaru no Maki",
+          "titel": 2
+        },
+        {
+          "id": 10006503,
+          "name": "Hangyodon no Parallel Daisakusen: Mirai Sekai wa Oosawagi",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Hangyodon no Parallel Daisakusen —?→ Hangyodon no Parallel Daisakusen: Mirai Sekai wa Oosawagi (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 10588,
+          "name": "Persona 4 the Animation",
+          "titel": 7
+        },
+        {
+          "id": 14407,
+          "name": "PERSONA 3 THE MOVIE: #1 Spring of Birth",
+          "titel": 4
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Persona 4 the Animation —Sequel→ PERSONA 3 THE MOVIE: #1 Spring of Birth (4 Kanten)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 966,
+          "name": "Crayon Shin-chan",
+          "titel": 44
+        },
+        {
+          "id": 3923,
+          "name": "Kamen Rider Den-O: Imagin Anime",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Kamen Rider Den-O: Imagin Anime —?→ Crayon Shin-chan: Manatsu no Yoru ni Ora Sanjou! Arashi o Yobu Den-Ou vs. Shin-Ou 60-pun Special! (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
+          "id": 11809,
+          "name": "gdgd Fairies",
+          "titel": 5
+        },
+        {
+          "id": 20885,
+          "name": "Konna Watashitachi ga Nariyuki de Heroine ni Natta Kekka www",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Konna Watashitachi ga Nariyuki de Heroine ni Natta Kekka www Movie —?→ gdgd Fairies tte Iu Eiga wa Dou kana...? (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 122536,
+          "name": "Rick and Morty vs. Genocider",
+          "titel": 4
+        },
+        {
+          "id": 10019445,
+          "name": "Rick and Morty: The Anime",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Rick and Morty: The Anime —Gemeinsames Universum→ Rick and Morty: The Anime",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 5826,
+          "name": "Oira no Yakyuu",
+          "titel": 1
+        },
+        {
+          "id": 104186,
+          "name": "Oira no Ski",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Oira no Yakyuu —Gemeinsames Universum→ Oira no Ski",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 10588,
+          "name": "Persona 4 the Animation",
+          "titel": 7
+        },
+        {
+          "id": 21432,
+          "name": "PERSONA 5 the Animation: THE DAY BREAKERS",
+          "titel": 6
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Persona 4 the Golden Animation —Gemeinsames Universum→ PERSONA5 the Animation",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 3366,
+          "name": "PERSONA -trinity soul-",
+          "titel": 1
+        },
+        {
+          "id": 21432,
+          "name": "PERSONA 5 the Animation: THE DAY BREAKERS",
+          "titel": 6
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "PERSONA -trinity soul- —Gemeinsames Universum→ PERSONA5 the Animation",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 3366,
+          "name": "PERSONA -trinity soul-",
+          "titel": 1
+        },
+        {
+          "id": 14407,
+          "name": "PERSONA 3 THE MOVIE: #1 Spring of Birth",
+          "titel": 4
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "PERSONA -trinity soul- —Gemeinsames Universum→ PERSONA 3 THE MOVIE: #1 Spring of Birth",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 3366,
+          "name": "PERSONA -trinity soul-",
+          "titel": 1
+        },
+        {
+          "id": 10588,
+          "name": "Persona 4 the Animation",
+          "titel": 7
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "PERSONA -trinity soul- —Gemeinsames Universum→ Persona 4 the Animation",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 2229,
+          "name": "Dragon Quest: Dai no Daibouken",
+          "titel": 8
+        },
+        {
+          "id": 10012713,
+          "name": "Dragon Quest X: Boukenshatachi no Kiseki - Namae no Omoi",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Dragon Quest: Abel Yuusha Densetsu —Gemeinsames Universum→ Dragon Quest X: Boukenshatachi no Kiseki - Namae no Omoi",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 1935,
+          "name": "Megazone 23",
+          "titel": 3
+        },
+        {
+          "id": 10012819,
+          "name": "Megazone 23 XI",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Megazone 23 —Gemeinsames Universum→ Megazone 23 XI",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 495,
+          "name": "Bakuretsu Hunters",
+          "titel": 2
+        },
+        {
+          "id": 1228,
+          "name": "Chivas 1-2-3",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Bakuretsu Hunters —Gemeinsames Universum→ Chivas 1-2-3",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 206,
+          "name": "Lodoss-tou Senki: Eiyuu Kishi Den",
+          "titel": 4
+        },
+        {
+          "id": 515,
+          "name": "Hajimari no Boukensha-tachi: Legend of Crystania",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Lodoss-tou Senki —Gemeinsames Universum→ Hajimari no Boukensha-tachi: Legend of Crystania",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 712,
+          "name": "Zoids Genesis",
+          "titel": 4
+        },
+        {
+          "id": 101228,
+          "name": "Zoids Wild",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Zoids —Gemeinsames Universum→ Zoids Wild",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 129688,
+          "name": "Benghuai 3: Bronya",
+          "titel": 4
+        },
+        {
+          "id": 10015398,
+          "name": "Benghuai 3: Tian Qiong Liuxing",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Benghuai 3: Bronya —Gemeinsames Universum→ Benghuai 3: Tian Qiong Liuxing",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 3444,
+          "name": "The☆Ultraman",
+          "titel": 3
+        },
+        {
+          "id": 169779,
+          "name": "Ultraman M78 Gekijou: LOVE & PEACE",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "The☆Ultraman —Gemeinsames Universum→ Ultraman M78 Gekijou: LOVE & PEACE",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 391,
+          "name": "Tales of Phantasia: THE ANIMATION",
+          "titel": 1
+        },
+        {
+          "id": 1731,
+          "name": "Tales of Symphonia THE ANIMATION: Sylvarant-hen",
+          "titel": 7
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Tales of Phantasia: THE ANIMATION —Gemeinsames Universum→ Tales of Symphonia THE ANIMATION: Sylvarant-hen",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 2031,
+          "name": "Shining Tears X Wind",
+          "titel": 1
+        },
+        {
+          "id": 12367,
+          "name": "Shining Hearts: Shiawase no Pan",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Shining Tears X Wind —Gemeinsames Universum→ Shining Hearts: Shiawase no Pan",
+      "quelle": "katalog"
+    },
+    {
+      "art": "universum",
+      "reihen": [
+        {
+          "id": 3446,
+          "name": "Biohazard: Degeneration",
+          "titel": 6
+        },
+        {
+          "id": 5624,
+          "name": "Biohazard 4D-Executer",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Biohazard: Degeneration —Gemeinsames Universum→ Biohazard 4D-Executer",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 4884,
+          "name": "Tales of the Abyss",
+          "titel": 3
+        },
+        {
+          "id": 6046,
+          "name": "Tales of Vesperia: The First Strike",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Tales of Phantasia: THE ANIMATION",
+        "Tales of Eternia THE ANIMATION"
+      ],
+      "beispiel": "Tales of Phantasia: THE ANIMATION —Anderes→ Tales of the Abyss",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 317,
+          "name": "Final Fantasy VII: Advent Children",
+          "titel": 5
+        },
+        {
+          "id": 1157,
+          "name": "Final Fantasy: Unlimited",
+          "titel": 1
+        },
+        {
+          "id": 1361,
+          "name": "Final Fantasy",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Final Fantasy",
+        "Final Fantasy XIV: CHOOSE YOUR LIFE"
+      ],
+      "beispiel": "Final Fantasy —Anderes→ Final Fantasy: Unlimited",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10000426,
+          "name": "Canvas: Sepia-iro no Motif",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Canvas 2: Niji-iro no Sketch"
+      ],
+      "beispiel": "Canvas 2: Niji-iro no Sketch —Anderes→ Canvas: Sepia-iro no Motif",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10008005,
+          "name": "Ichigeki Sacchuu!! Hoihoi-san: Legacy",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Ichigeki Sacchuu!! Hoihoi-san"
+      ],
+      "beispiel": "Ichigeki Sacchuu!! Hoihoi-san —Anderes→ Ichigeki Sacchuu!! Hoihoi-san: Legacy",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10002551,
+          "name": "Galerians: Rion - Director’s Cut-ban",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Galerians: Rion"
+      ],
+      "beispiel": "Galerians: Rion —Anderes→ Galerians: Rion - Director’s Cut-ban",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 620,
+          "name": "Takahashi Rumiko Gekijou: Ningyo no Mori",
+          "titel": 5
+        }
+      ],
+      "alleinstehende": [
+        "Warau Hyouteki"
+      ],
+      "beispiel": "Warau Hyouteki —Anderes→ Ningyo no Mori",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 2649,
+          "name": "Doraemon: Obaachan no Omoide",
+          "titel": 61
+        }
+      ],
+      "alleinstehende": [
+        "Doraemon: Boku no Umareta Hi"
+      ],
+      "beispiel": "Doraemon: Boku no Umareta Hi —Anderes→ Doraemon: Nobita to Robot Oukoku",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 2649,
+          "name": "Doraemon: Obaachan no Omoide",
+          "titel": 61
+        }
+      ],
+      "alleinstehende": [
+        "Doraemon: Ganbare! Gian!!"
+      ],
+      "beispiel": "Doraemon: Ganbare! Gian!! —Anderes→ Doraemon: Nobita to Tsubasa no Yuusha-tachi",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 2082,
+          "name": "Marriage: Kekkon",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [
+        "Sotsugyou M: Ore-tachi no Carnival"
+      ],
+      "beispiel": "Sotsugyou M: Ore-tachi no Carnival —Anderes→ Sotsugyou: Graduation",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [],
+      "alleinstehende": [
+        "Kabatotto",
+        "Kaiketsu Tamagon"
+      ],
+      "beispiel": "Kabatotto —Anderes→ Kaiketsu Tamagon",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [],
+      "alleinstehende": [
+        "Yonimo Osoroshii Grimm Douwa",
+        "Yonimo Osoroshii Nihon Mukashibanashi"
+      ],
+      "beispiel": "Yonimo Osoroshii Grimm Douwa —Anderes→ Yonimo Osoroshii Nihon Mukashibanashi",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [],
+      "alleinstehende": [
+        "Osaru no Sankichi: Totsugeki Tai no Kan",
+        "Osaru no Sankichi: Boukuusen"
+      ],
+      "beispiel": "Osaru no Sankichi: Totsugeki Tai no Kan —Charakter→ Osaru no Sankichi: Boukuusen",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 194,
+          "name": "Macross Zero",
+          "titel": 29
+        }
+      ],
+      "alleinstehende": [
+        "Choujikuu Kidan Southern Cross"
+      ],
+      "beispiel": "Choujikuu Kidan Southern Cross —Anderes→ Choujikuu Yousai Macross",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [],
+      "alleinstehende": [
+        "Tezuka Osamu no Don Dracula",
+        "Tezuka Osamu ga Kieta?! 20 Seiki Saigo no Kaijiken"
+      ],
+      "beispiel": "Tezuka Osamu no Don Dracula —Charakter→ Tezuka Osamu ga Kieta?! 20 Seiki Saigo no Kaijiken",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10009272,
+          "name": "Fabre Konchuu-ki",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Fabre Sensei wa Meitantei"
+      ],
+      "beispiel": "Fabre Sensei wa Meitantei —Anderes→ Fabre Konchuu-ki",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [],
+      "alleinstehende": [
+        "Hinomaru Hatanosuke: Inazuma-gumi Tobatsu no Maki",
+        "Hinomaru Hatanosuke: Bakemonoyashiki no Maki"
+      ],
+      "beispiel": "Hinomaru Hatanosuke: Inazuma-gumi Tobatsu no Maki —Anderes→ Hinomaru Hatanosuke: Bakemonoyashiki no Maki",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 925,
+          "name": "Transformers: The☆Headmasters",
+          "titel": 13
+        }
+      ],
+      "alleinstehende": [
+        "Robot Masters"
+      ],
+      "beispiel": "Robot Masters —Charakter→ Transformers: The☆Headmasters",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 1678,
+          "name": "Cyborg 009: THE CYBORG SOLDIER",
+          "titel": 9
+        }
+      ],
+      "alleinstehende": [
+        "Cyborg 009: The Reopening"
+      ],
+      "beispiel": "Cyborg 009: The Reopening —Anderes→ Cyborg 009: THE CYBORG SOLDIER",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 3080,
+          "name": "Anime Tenchou",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [
+        "Anime Tenchou Movie"
+      ],
+      "beispiel": "Anime Tenchou Movie —Charakter→ Anime Tenchou",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [],
+      "alleinstehende": [
+        "HAYABUSA: BACK TO THE EARTH - Kikan",
+        "Hayabusa: Back to the Earth"
+      ],
+      "beispiel": "HAYABUSA: BACK TO THE EARTH - Kikan —Anderes→ Hayabusa: Back to the Earth",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 4719,
+          "name": "Queen's Blade: Rurou no Senshi",
+          "titel": 13
+        }
+      ],
+      "alleinstehende": [
+        "Queen's Blade Rebellion VS Hagure Yuusha no Estetica"
+      ],
+      "beispiel": "Queen's Blade Rebellion VS Hagure Yuusha no Estetica —Charakter→ Queen's Blade: Rebellion",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10002314,
+          "name": "Kero Kero Keroppi no Robin Hood",
+          "titel": 1
+        },
+        {
+          "id": 10006404,
+          "name": "Kero Kero Keroppi wa Su no Ue Town Kikiippatsu",
+          "titel": 2
+        },
+        {
+          "id": 10006414,
+          "name": "Kero Kero Keroppi no Aladdin to Mahou no Lamp",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Kero Kero Keroppi no Daibouken: Fushigi na Mame no Ki",
+        "Kero Kero Keroppi no Christmas Eve no Okurimono",
+        "Kero Kero Keroppi no Boku-tachi no Takaramono",
+        "Kero Kero Keroppi no Daibouken: Pink no Kinoko",
+        "Kero Kero Keroppi no Mitsubachi Daisoudou",
+        "Kero Kero Keroppi no Tomodachi wa Mahou Tsukai",
+        "Kero Kero Keroppi no Sanjuushi",
+        "Kero Kero Keroppi no Bikkuri! Obakeyashiki",
+        "Kero Kero Keroppi no Ganbare! Keroppiis",
+        "Kero Kero Keroppi no Kero Kero House no Himitsu",
+        "Kero Kero Keroppi no Kyouryuu ga Deta",
+        "Kero Kero Keroppi no Sora wo Tobetara",
+        "Kero Kero Keroppi no Sora Tobu Yume no Fune",
+        "Kero Kero Keroppi no Tomodachi ni Narou yo",
+        "Kero Kero Keroppi no Tomodachitte Ii na",
+        "Kero Kero Keroppi no Yowamushi-ouji no Daibouken"
+      ],
+      "beispiel": "Kero Kero Keroppi no Daibouken: Fushigi na Mame no Ki —Charakter→ Kero Kero Keroppi no Robin Hood",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10007759,
+          "name": "Hi no Youjin",
+          "titel": 3
+        }
+      ],
+      "alleinstehende": [
+        "SHORT PEACE"
+      ],
+      "beispiel": "SHORT PEACE —Anderes→ Hi no Youjin",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 21609,
+          "name": "12-sai.: Chiccha na Mune no Tokimeki",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [
+        "12-sai."
+      ],
+      "beispiel": "12-sai. —Anderes→ 12-sai.: Chiccha na Mune no Tokimeki",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10009685,
+          "name": "Gunslinger Stratos",
+          "titel": 1
+        },
+        {
+          "id": 10010517,
+          "name": "Gunslinger Stratos The Animation: Bunki - Futatsu no Mirai",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Gunslinger Stratos: THE ANIMATION"
+      ],
+      "beispiel": "Gunslinger Stratos: THE ANIMATION —Anderes→ Gunslinger Stratos The Animation: Bunki - Futatsu no Mirai",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10011862,
+          "name": "Magic-Kyun! Special Story: Tokubetsu na Hi",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Magic-kyun! Renaissance"
+      ],
+      "beispiel": "Magic-kyun! Renaissance —Anderes→ Magic-Kyun! Special Story: Tokubetsu na Hi",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 21360,
+          "name": "Gyakuten Saiban: Sono \"Shinjitsu\", Igi Ari!",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [
+        "Gyakuten Saiban 6 Prologue"
+      ],
+      "beispiel": "Gyakuten Saiban 6 Prologue —Anderes→ Gyakuten Saiban: Sono \"Shinjitsu\", Igi Ari!",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 20457,
+          "name": "Black Bullet",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Black Bullet: Tenchuu＊Girls"
+      ],
+      "beispiel": "Black Bullet: Tenchuu＊Girls —Charakter→ Black Bullet",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 11633,
+          "name": "Blood Lad",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [
+        "Blood Lad: Kanketsu Kinen"
+      ],
+      "beispiel": "Blood Lad: Kanketsu Kinen —Anderes→ Blood Lad",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10012411,
+          "name": "PiKA PiKA (2007)",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "PiKA PiKA"
+      ],
+      "beispiel": "PiKA PiKA —Anderes→ PiKA PiKA (2007)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10013199,
+          "name": "Tales of the Rays Opening Eizou",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "Tales of the Rays: Everlasting Destiny"
+      ],
+      "beispiel": "Tales of the Rays: Everlasting Destiny —Anderes→ Tales of the Rays Opening Eizou",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 10018970,
+          "name": "Scarlet Nexus Opening Animation",
+          "titel": 1
+        }
+      ],
+      "alleinstehende": [
+        "SCARLET NEXUS"
+      ],
+      "beispiel": "SCARLET NEXUS —Anderes→ Scarlet Nexus Opening Animation",
+      "quelle": "katalog"
+    },
+    {
+      "art": "sammelart",
+      "reihen": [
+        {
+          "id": 87435,
+          "name": "BanG Dream!",
+          "titel": 27
+        }
+      ],
+      "alleinstehende": [
+        "BanG Dream! Yume∞Mita"
+      ],
+      "beispiel": "BanG Dream! Yume∞Mita —Anderes→ BanG Dream!",
+      "quelle": "katalog"
+    }
+  ]
+}

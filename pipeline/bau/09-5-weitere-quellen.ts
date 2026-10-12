@@ -3,9 +3,16 @@ import { eigenerTerminVerdraengt, mitDubKennzeichen, terminAusEintrag, verlagAls
 import yaml from 'js-yaml'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
-import { type MotnDaten, LEER as MOTN_LEER, ordneShowsZu, tmdbZuordnung, uebernehmbar } from '../lib/motn.ts'
+import {
+  type MotnDaten,
+  LEER as MOTN_LEER,
+  laufendJeAnbieter,
+  laufendSchluessel,
+  ordneShowsZu,
+  tmdbZuordnung,
+  uebernehmbar,
+} from '../lib/motn.ts'
 import { todayIso } from '../../shared/time.ts'
-import { releaseStatus } from '../../shared/logic.ts'
 import { staffelnDesFranchise, passtZuSerie, bewerteTreffer, volltreffer, type AdnData } from '../lib/adn.ts'
 import { adnAdresseSchaerfen, adnFolgenAdresse, ladeAdnArchiv, beurteileAdnVerweis } from '../lib/adn-sprachen.ts'
 import { type Release, type Title } from '../../shared/types.ts'
@@ -207,15 +214,12 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
   let motnBelege = 0
   if (Object.keys(motn.shows ?? {}).length) {
     /**
-     * Läuft zu diesem Titel gerade etwas?
+     * Läuft zu diesem Titel bei diesem Anbieter gerade etwas?
      *
      * Der Status wird nie gespeichert, sondern immer gegen heute gerechnet
      * (`shared/logic.ts`) — also auch hier, statt aus einem Feld gelesen.
      */
-    const laeuft = new Set<number>()
-    for (const release of releases) {
-      if (releaseStatus(release, heuteMotn) === 'airing') laeuft.add(release.titleId)
-    }
+    const laeuft = laufendJeAnbieter(releases, heuteMotn)
 
     const alle = [...titles.values()]
     const belege = ordneShowsZu(
@@ -228,8 +232,9 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
 
     let ausgelassenLaufend = 0
     for (const beleg of belege) {
-      if (beleg.deutsch && beleg.eindeutig && laeuft.has(beleg.titleId)) ausgelassenLaufend++
-      if (!uebernehmbar(beleg, laeuft.has(beleg.titleId), heuteMotn)) continue
+      const laeuftBei = laeuft.has(laufendSchluessel(beleg.titleId, beleg.platform))
+      if (beleg.deutsch && beleg.eindeutig && laeuftBei) ausgelassenLaufend++
+      if (!uebernehmbar(beleg, laeuftBei, heuteMotn)) continue
       const stream = titles.get(beleg.titleId)?.streams.find((s) => s.platform === beleg.platform)
       if (!stream || stream.dub !== undefined) continue
       stream.dub = true

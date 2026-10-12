@@ -55,8 +55,8 @@ const TEXTE = {
   'news.folgen': 'Folgen {von}–{bis} auf Deutsch bei {anbieter}',
   'news.angekuendigt': 'Start am {datum} bei {anbieter}',
   'news.angekuendigtTv': 'Im TV{sender} am {tag}, den {datum}',
-  'news.omuAngekuendigt': 'Start am {datum} bei {anbieter} mit Untertiteln, deutsche Synchro angekündigt',
-  'news.omuOffen': 'Start am {datum} bei {anbieter} mit Untertiteln, keine deutsche Synchro angekündigt',
+  'news.omuAngekuendigt': 'Start {wann} bei {anbieter} mit Untertiteln, deutsche Synchro angekündigt',
+  'news.omuOffen': 'Start {wann} bei {anbieter} mit Untertiteln, keine deutsche Synchro angekündigt',
   'news.kurz.omu': 'OmU ab {datum} · {anbieter}',
   'news.disc': 'Erscheint am {datum} auf Disc',
   'news.discAusgabe': '{ausgabe} erscheint am {datum} auf Disc',
@@ -71,7 +71,7 @@ const TEXTE = {
   */
   'news.ersetzt': 'ersetzt durch {datum}',
   'news.ersetztTitel': 'Diese Meldung wurde von einer neueren Angabe abgelöst — nachsehen',
-  'news.zurueckgezogen': 'zurückgezogen',
+  'news.zurueckgezogen': 'zurückgezogen', 'news.zurueckgezogenOmu': 'zurückgezogen: nur OmU',
   'news.zurueckgezogenTitel': 'Die Ankündigung wurde durch eine Prüfung widerlegt',
   // Kurzform für die Übersichtszeile: Stichworte statt Satz — der Vollsatz steht aufgeklappt darunter.
   'news.alle': 'Alles',
@@ -177,15 +177,14 @@ const TEXTE = {
   'filter.status': 'Status',
   'filter.fsk': 'FSK',
   'filter.year': 'Jahr',
-  'filter.confidence': 'Sicherheit der Angaben',
+  'filter.confidence': 'Belegstärke',
   'filter.genre': 'Genre',
   'filter.keywords': 'Keywords ({count} verfügbar)',
   'filter.confirmedOnly': 'nur bestätigte Termine',
   'filter.confirmedOnlyHint': 'Blendet geschätzte Termine aus — es bleiben nur die vom Anbieter bestätigten',
   'filter.favourites': 'nur Favoriten',
   'filter.fskFrom': 'ab {n}',
-  'filter.sources': '≥{n} Quellen',
-  'filter.source': '1 Quelle',
+  'filter.beleg': 'alle|≥ mittel|≥ stark|mehrfach stark',
   'filter.showMore': 'alle anzeigen ({count})',
   'filter.showLess': 'weniger anzeigen',
 
@@ -205,6 +204,7 @@ const TEXTE = {
   'pwa.pitch': 'Öffnet sich wie eine App, im Vollbild, und läuft auch ohne Verbindung.',
   'pwa.install': 'App installieren',
   'pwa.stayInBrowser': 'Im Browser weiter',
+  'pwa.manualHint': 'Im Browser-Menü ⋮ „App installieren“ oder „Zum Startbildschirm“.',
   'pwa.iosHint': 'In Safari: auf Teilen tippen, dann „Zum Home-Bildschirm".',
   'card.hide': 'Titel ausblenden',
   'card.unhide': 'Titel wieder anzeigen',
@@ -225,8 +225,6 @@ const TEXTE = {
     'Fasst alle Staffeln, Filme und Specials einer Reihe zu einer Kachel zusammen. Gezeigt wird die erste Staffel, die übrigen stehen in ihrer Detailansicht.',
   // Titel ohne belegte deutsche Synchro — der Schalter, seine Begründung und
   // die Kennzeichnung an der Kachel. Eingeführt 13.08.2026.
-  'db.cartoonsAus': 'Cartoons ausblenden',
-  'db.cartoonsAusHinweis': 'Blendet die westlichen Serien aus. Dasselbe wie das Schlagwort „Cartoon" unter „Ausschließen" im Filter.',
   'db.withoutDub': 'Anime ohne deutsche Synchro',
   'db.withoutDubHint':
     'Holt zusätzlich alle Anime, zu denen wir keine deutsche Synchro kennen. Der Schalter beginnt bei jedem Aufruf wieder aus.',
@@ -251,13 +249,6 @@ const TEXTE = {
   // Titel ohne belegte deutsche Synchro im Detail-Panel. „Termin unbekannt"
   // wäre hier falsch: Unbekannt ist nicht der Termin, sondern ob es je eine
   // deutsche Fassung gibt.
-  // Reihen-Stern: die ganze Reihe auf einmal merken (13.08.2026).
-  'detail.seriesStarDo': 'Alle {count} Teile dieser Reihe merken',
-  'detail.seriesStarAllDone': 'Alle {count} Teile dieser Reihe sind gemerkt',
-  'detail.seriesStarHelp':
-    // Kein Markdown: Der Hinweis wird als reiner Text ausgegeben, Sternchen
-    // stünden dort wörtlich da — ausgerechnet neben einem Stern-Symbol.
-    'Merkt alle {count} Teile dieser Reihe auf einmal — auch Filme, Specials und Ableger ohne deutsche Synchro.',
 
   'detail.noDubTitle': 'Keine deutsche Synchro bekannt',
   'detail.noDubBody': 'Zu diesem Anime ist bisher keine deutsche Fassung bekannt.',
@@ -325,6 +316,7 @@ const TEXTE = {
   // eine Dub-Vorschau. Ohne die Angabe sieht sie aus wie ein Weg zur Serie.
   'detail.nurFolge': 'nur Folge {n}',
   'detail.whereUnknown': 'Kein Anbieter bekannt.',
+  'detail.tvNurVorbei': 'Lief zuletzt im Fernsehen — kein Termin in der Zukunft bekannt.',
   // **Wo deutsche Sprechrollen belegt sind, ist „kein Anbieter" die halbe
   // Auskunft.** 277 Titel sind am 29.08.2026 in genau diesem Fall: Es gab eine
   // deutsche Fassung — Anime News Network führt die Sprecher —, und wir kennen
@@ -394,7 +386,6 @@ const TEXTE = {
   'detail.dubNichtImAngebot': 'Nicht im Angebot: {bereiche}',
   'detail.dubFromTitel': 'Deutscher Ton ab Folge {n}',
   'detail.genres': 'Genres',
-  'detail.seriesPartsCount': '{count} Teile in dieser Reihe',
   // Die vier Gruppen der Reihenliste. „Hauptserie" statt „Staffeln", weil eine
   // Reihe aus einem einzigen Teil bestehen kann und „Staffeln" dann falsch
   // klingt; „Specials & OVAs" nennt beides, weil der Unterschied hier keiner ist.
@@ -414,7 +405,6 @@ const TEXTE = {
   'detail.folgeOhneAnbieter': 'Für Folge {bereich} kennen wir keinen deutschen Anbieter.',
   'detail.werkangaben': 'Zum Werk',
   'detail.faktFsk': 'Altersfreigabe',
-  'detail.studio': 'Studio',
   'detail.keywords': 'Keywords',
   'detail.plot': 'Handlung',
   'detail.plotMore': 'mehr anzeigen',
@@ -446,7 +436,7 @@ const TEXTE = {
   'detail.titleEn': 'Englisch',
   'detail.titleNative': 'Original',
   'detail.scoreHint':
-    'So haben die Nutzer von AniList diesen Anime bewertet.',
+    'So haben die Nutzer von {quelle} diesen Titel bewertet.',
   'detail.editionCount': '{count} Ausgaben',
   'detail.preorderAt': 'Vorbestellen bei {shop}',
   'detail.buyAt': 'Kaufen bei {shop}',
@@ -496,7 +486,7 @@ const TEXTE = {
   'detail.voicesNone': 'Keine Angaben gefunden.',
   // Anime News Network kommt nur dazu, wenn von dort auch Rollen stammen — der
   // Link daneben ist deren Nutzungsauflage, nicht bloß eine Höflichkeit.
-  'detail.voicesSource': 'Angaben von AniList',
+  'detail.voicesSource': 'Angaben von',
   'detail.aehnlich': 'Ähnliche Titel',
   'detail.aehnlichLaedt': 'Wird geladen …',
   'detail.aehnlichKeine': 'Keine ähnlichen Titel gefunden.',
@@ -533,15 +523,14 @@ const TEXTE = {
     „Erste Folge … · Wöchentlich · letzte Folge". Für `available-from` ist weder
     das eine noch das andere wahr — es kommt der ganze Block.
   */
-  'antwort.alleFolgen': 'Alle {count} Folgen',
+  'antwort.alleFolgen': 'Alle {count} Folgen', 'antwort.alleFolgenOhneZahl': 'Alle Folgen',
   'antwort.angebotRelativ': 'im Angebot {rel}, am {tag} den {datum}.',
   'antwort.angebotDatum': 'im Angebot ab {tag} den {datum}.',
   // Nur noch diese eine steht aus.
   'antwort.finaleFolgeNr': 'Finale Folge (Folge {n})',
   'antwort.finaleFolge': 'Finale Folge',
   'antwort.erscheintRelativ': 'erscheint {rel}, am {tag} den {datum}.',
-  // Ab einer Woche Abstand rechnet niemand mehr in Tagen — dann trägt das
-  // Datum allein.
+  // Ohne relative Angabe (Kino, Angebot) trägt das Datum allein.
   'antwort.erscheintDatum': 'erscheint am {tag} den {datum}.',
   // Die Uhrzeit hängt hinten an, wo eine bekannt ist — „voraussichtlich", weil
   // der einzelne Termin aus dem gemessenen Rhythmus fortgeschrieben ist.
@@ -552,29 +541,18 @@ const TEXTE = {
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
   'antwort.verschobenVon': 'verschoben vom {datum}',
   'antwort.ausgebliebenMehrere': 'Folgen {von} bis {bis} sind nicht erschienen',
-  // Die Auskunft unter einer ausgebliebenen Folge. {anbieter} wird im Panel zum Verweis.
-  'antwort.vermerkPruefen': 'Wir sehen mehrmals täglich bei {anbieter} nach und tragen die Folge ein, sobald sie da ist.',
-  'antwort.vermerkZuletzt': 'Zuletzt nachgesehen: {wann}.',
-  'antwort.vermerkNews': '{quelle} am {datum}:',
-  'antwort.vermerkNewsLeer': 'Anime2You meldet bisher keine Verschiebung.',
-  'antwort.vermerkQuelle': 'Quelle',
-  'antwort.vermerkRechercheLeer': 'Auch in weiteren News und auf Social Media haben wir bis zum {datum} nichts dazu gefunden.',
-  // „Offen kommunizieren": je Stufe, wann zuletzt und wann als Nächstes.
-  // Die Folge hat einen neuen Termin, ist aber weiterhin überfällig (Daniel,
-  // 20.09.2026): „entsprechend muss eine ausfallnotiz im detail panel stehen".
-  'antwort.vermerkUeberfaellig': 'Folge {n} war für den {datum} angekündigt und ist bis heute nicht erschienen.',
-  'antwort.vermerkAnnahme': 'Der Termin oben ist unsere Annahme — ändert sich etwas, tragen wir ihn nach.',
-  'antwort.vermerkNaechsterBlick': 'Der nächste Blick folgt in wenigen Stunden.',
-  'antwort.vermerkNewsLeerStand': 'Anime2You meldet bisher keine Verschiebung (Stand: {wann}, nächster Abgleich morgen früh).',
-  'antwort.vermerkRechercheZuletzt': 'Zuletzt gesucht: {wann}. Nächste Suche {naechste}.',
-  'antwort.vermerkRechercheStart': 'Die Suche in News und Social Media beginnt {naechste}.',
-  'antwort.vermerkRechercheEnde': 'Nach zwei Monaten suchen wir nicht mehr aktiv; beim Anbieter sehen wir weiter nach.',
   'antwort.naechsteVoraussichtlich': 'voraussichtlich {tag} ab {zeit} Uhr',
   'antwort.amDatum': 'am {datum}',
   'antwort.relGestern': 'gestern',
   'antwort.relHeute': 'heute',
   'antwort.relMorgen': 'morgen',
   'antwort.relInTagen': 'in {count} Tagen',
+  'antwort.relInEinerWoche': 'in einer Woche',
+  'antwort.relInWochen': 'in {count} Wochen',
+  'antwort.relInEinemMonat': 'in einem Monat',
+  'antwort.relInMonaten': 'in {count} Monaten',
+  'antwort.relInEinemJahr': 'in einem Jahr',
+  'antwort.relInJahren': 'in {count} Jahren',
   // Ohne Wochentag: der Rhythmus sagt nur noch die Frequenz, der Tag steht in
   // der Überschrift.
   'antwort.rhythmusWoechentlichKurz': 'Wöchentlich',
@@ -672,6 +650,9 @@ const TEXTE = {
   'antwort.ankuendigungQuelle': 'Laut {anbieter}, Stand {datum}',
   'antwort.westlichVerfuegbar': 'In Deutschland verfügbar',
   'antwort.westlichUngeprueft': 'Deutsche Fassung nicht geprüft',
+  // JustWatch gilt der Serie, nicht der Folge (Entscheidung 07.09.2026).
+  'antwort.westlichJw': 'Deutsche Fassung laut JustWatch',
+  'antwort.westlichJwNeben': 'Für die Serie, nicht je Folge: {anbieter}',
   'antwort.faktErschienen': 'erschienen',
   'antwort.faktFsk': 'Altersfreigabe',
   // Die drei Angaben, die es zu einer Kaufausgabe wirklich gibt — an der
@@ -682,9 +663,6 @@ const TEXTE = {
   /* Kurzwort für die Handy-Tab-Leiste (Zelle ~64 px); der volle Name bleibt aria-label. */
   'nav.einstellungenKurz': 'Optionen',
   'einstellungen.schliessen': 'Einstellungen schließen',
-  'einstellungen.cartoonsAus': 'Westliche Anime (Cartoons) ausblenden',
-  'einstellungen.cartoonsAusHinweis':
-    'Serien wie Avatar oder Arcane entstehen nicht in Japan und gelten den Anime-Datenbanken deshalb nicht als Anime. Wir führen sie trotzdem — hier kannst du sie wegschalten.',
   'db.westlich': 'Cartoon',
   'db.westlichHinweis': 'Westliche Animation — kein Anime im Sinne der Datenbanken, aber auf Deutsch zu sehen.',
   'trailer.ansehen': 'Trailer anschauen',
@@ -776,7 +754,6 @@ const TEXTE = {
   'quellen.feedFsk': 'Altersfreigabe',
   'quellen.note': 'Termine sind je Eintrag belegt und verlinkt. Bei den übrigen Angaben steht, welche Quelle sie im Regelfall liefert — sie werden nicht einzeln nachgewiesen.',
   'detail.malMeaning': 'Die Kennung dieses Anime bei MyAnimeList.',
-  'detail.dubProof': 'Synchro belegt über MyDubList ({sources})',
 
   ...TEXTE_SEITEN,
   ...TEXTE_KALENDER,

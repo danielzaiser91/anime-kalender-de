@@ -2,7 +2,7 @@
  * **Zwei Regeln für den Antwort-Kasten** — ausgelagert, weil `berechneAntwort`
  * die Längengrenze reißt (`tools/umfang-pruefen.mjs`).
  */
-import { istErschienen, releaseStatus } from '@shared/logic.ts'
+import { anzeigeFolge, istErschienen, releaseStatus } from '@shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
 
@@ -15,9 +15,36 @@ import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
  * ändert die Summe nichts.
  */
 export function zaehleErschienen(events: ReleaseEvent[]): number {
-  let n = 0
-  for (const e of events) if (istErschienen(e)) n += e.episode != null ? 1 : (e.episodeCount ?? 1)
-  return n
+  const nummern = new Set<number>()
+  let ohneNummer = 0
+  for (const e of events) {
+    if (!istErschienen(e)) continue
+    if (e.episode != null) nummern.add(e.episode)
+    else ohneNummer += e.episodeCount ?? 1
+  }
+  return nummern.size + ohneNummer
+}
+
+/**
+ * **Ein Anbieter zählt für sich, der Kasten nimmt den weitesten.** Dieselbe Folge liegt bei
+ * Crunchyroll und Netflix: Beide zu addieren schrieb „27 von 24 Folgen erschienen" (Das Band der
+ * Unterwelt, 10.10.2026). Mehrere Releases eines Anbieters (Folge 1 als Abwurf, 2–12 im Wochentakt)
+ * addieren sich weiter.
+ */
+export function zaehleErschienenJeAnbieter(events: ReleaseEvent[]): number {
+  const jeAnbieter = new Map<string, ReleaseEvent[]>()
+  for (const e of events) jeAnbieter.set(e.platform, [...(jeAnbieter.get(e.platform) ?? []), e])
+  return Math.max(0, ...[...jeAnbieter.values()].map(zaehleErschienen))
+}
+
+/**
+ * **„Nächste Folge" ist eine, die noch nirgends erschienen ist.** Hat Crunchyroll Folge 15 schon
+ * gebracht, ist Netflix' Termin für Folge 15 keine neue Folge (Das Band der Unterwelt: „Folge 15
+ * erscheint heute"). TV-Sichtungen tragen unsere Zählung, keine belegte Nummer — sie entscheiden nichts.
+ */
+export function ohneSchonErschienene(offen: ReleaseEvent[], alle: ReleaseEvent[]): ReleaseEvent[] {
+  const da = new Set(alle.filter((e) => anzeigeFolge(e) && istErschienen(e)).map((e) => e.episode))
+  return offen.filter((e) => !anzeigeFolge(e) || !da.has(e.episode))
 }
 
 /**
@@ -89,6 +116,14 @@ export function deutschAbgeschlossen(title: Title, releases: Release[], today: s
   return !releases.some((r) => r.releaseType === 'weekly' && r.platform !== 'disc' && r.platform !== 'tv' && releaseStatus(r, today) === 'airing')
 }
 
+/**
+ * **Die abgeleitete Folgenzahl einer Pille ohne Bereiche am Weg**: bei deutsch abgeschlossener Serie die
+ * Folgenzahl des Werks (AniList `episodes`). Kein Beleg für diesen Weg, nur die Annahme „alles liegt dort".
+ */
+export function abgeleiteteFolgen(title: Title, releases: Release[], today: string): number | undefined {
+  return deutschAbgeschlossen(title, releases, today) ? title.episodes : undefined
+}
+
 /** Der Tooltip an „Auf Deutsch seit …": woher das Datum stammt. */
 export function deSeitQuelleSchluessel(quelle: 'wikipedia' | 'disc' | undefined): 'antwort.deSeitWikipedia' | 'antwort.deSeitDisc' | 'antwort.deSeitQuelle' {
   return quelle === 'wikipedia' ? 'antwort.deSeitWikipedia' : quelle === 'disc' ? 'antwort.deSeitDisc' : 'antwort.deSeitQuelle'
@@ -99,9 +134,25 @@ export function gesamtGeschaetzt(title: Title, releases: Release[], n: ReleaseEv
   return !title.episodes && Boolean(releases.find((r) => r.slug === n.releaseSlug)?.schedule.episodeCountAssumed)
 }
 
-/** Eine Zahl oder ein Datum, das auf einer geschätzten Folgenzahl beruht, trägt „≈". */
+/** Eine Zahl oder ein Datum, das auf einer geschätzten Folgenzahl beruht, trägt „≈“. */
 export function ungefaehr(wert: string | number, geschaetzt: boolean | undefined): string {
   return geschaetzt ? `≈ ${wert}` : String(wert)
+}
+
+/**
+ * **Die Zahl im „fertig"-Kasten hat denselben Beleg wie die Pille** (11.10.2026): deutsche Bereiche, die das Werk
+ * decken, oder der Wochenplan eines Anbieters. Sonst ist „Alle N" nur die Folgenzahl des Werks (Cowboy Bebop) und
+ * der Kasten sagt „≈ N" wie die Pille („≈ N Fg.").
+ */
+export function fertigAntwort(
+  raus: number | undefined,
+  gesamt: number | undefined,
+  belegteFolgen: number,
+  events: ReleaseEvent[],
+): { art: 'fertig'; raus?: number; gesamt?: number; gesamtAbgeleitet: boolean } {
+  const wochenplan = events.some((e) => e.releaseType === 'weekly' && e.platform !== 'tv' && e.platform !== 'disc')
+  const belegt = Boolean(gesamt && belegteFolgen >= gesamt) || wochenplan
+  return { art: 'fertig', raus, gesamt, gesamtAbgeleitet: !belegt }
 }
 
 /** Bis zu welcher Folge die Folgenliste „erschienen" kennt: Nur bei laufender Ausstrahlung ist `raus` eine Folgennummer; bei `fertig` ist es die Zahl der Ereignisse (One Piece: 10) und ließ ab Folge 11 alles ohne Flagge als „noch nicht erschienen" stehen. */
@@ -118,4 +169,13 @@ export function erstausgabeAlsNeuigkeit(title: Pick<Title, 'deErstausgabe'> & Pa
   /* Liegt das Angebot eines Anbieters mit deutscher Tonspur davor, ist die Ausgabe nicht die erste Gelegenheit (wie in `deSeitZeile`). */
   const angebot = title.angebotSeit
   return !(angebot?.date && angebot.date < von && (title.streams ?? []).some((x) => x.platform === angebot.platform && x.dub === true))
+}
+
+/** Die Überschrift des „fertig“-Kastens mit Zahl; abgeleitet ohne „Alle“, mit „≈“ (siehe `fertigAntwort`). */
+export function fertigZahlText(
+  gesamt: number,
+  abgeleitet: boolean | undefined,
+  T: (k: string, v?: Record<string, string | number>) => string,
+): string {
+  return abgeleitet ? T('antwort.fertigUngefaehr', { count: ungefaehr(gesamt, true) }) : T('antwort.fertigZahl', { count: gesamt })
 }

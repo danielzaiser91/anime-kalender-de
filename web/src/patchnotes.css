@@ -58,7 +58,7 @@ html:not(.dark) {
 @keyframes pn-schleier-zu { to { opacity: 0; } }
 
 /* Kopf: Balken 3 px über die volle Höhe, ragt 4 px über die Oberkante (Lesezeichen) */
-.pn-kopf { position: relative; display: flex; align-items: stretch; flex: none; min-height: 96px; padding: 12px 24px; border-bottom: 1px solid var(--ak-linie); border-radius: 15px 15px 0 0; }
+.pn-kopf { position: relative; display: flex; align-items: stretch; flex: none; min-height: 64px; padding: 8px 24px; border-bottom: 1px solid var(--ak-linie); border-radius: 15px 15px 0 0; }
 .pn-balken { position: absolute; left: -1px; top: -4px; bottom: 0; width: 3px; border-radius: 0 0 2px 2px; background: var(--ak-akzent); }
 .pn-kopf-in { display: flex; flex: 1; align-items: flex-end; gap: 16px; min-width: 0; padding-right: 44px; }
 .pn-kicker { font: 700 11px/14px var(--font-sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ak-akzent-text); }
@@ -86,6 +86,9 @@ html:not(.dark) {
 .pn-tag-kopf { display: flex; align-items: center; gap: 8px; height: 40px; margin: 0; font: 800 13px/16px var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ak-text); }
 .pn-tag-kopf::before { content: ''; flex: none; width: 8px; height: 8px; background: var(--ak-akzent); }
 .pn-tag-kopf .zu-tag { font-weight: 500; color: var(--ak-leise); }
+.pn-entwurf { display: inline-grid; flex: none; place-items: center; width: 24px; height: 24px; border-radius: 50%; color: var(--ak-leise); cursor: help; }
+.pn-entwurf:hover { color: var(--ak-text); }
+.pn-entwurf svg { width: 16px; height: 16px; }
 .pn-hl { position: relative; display: flex; align-items: center; gap: 12px; min-height: 64px; margin-bottom: 8px; padding: 12px 16px; border: 1px solid var(--pn-highlight-rand); border-radius: 10px; background: var(--pn-highlight-grund); }
 .pn-kreis { display: grid; flex: none; place-items: center; width: 36px; height: 36px; border-radius: 50%; }
 .pn-kreis svg { width: 24px; height: 24px; }
@@ -106,7 +109,6 @@ html:not(.dark) {
 .pn-zeile .h { flex: none; margin-left: 12px; font: 500 12px/16px var(--font-sans); color: var(--ak-leise); }
 .pn-link { color: var(--ak-akzent-text); font-weight: 700; white-space: nowrap; text-decoration: underline; text-underline-offset: 2px; }
 .pn-leer { padding: 32px 0; color: var(--ak-leise); }
-.pn-fuss { flex: none; padding: 12px 24px; border-top: 1px solid var(--ak-linie); border-radius: 0 0 15px 15px; font: 500 11px/14px var(--font-sans); color: var(--ak-leise); }
 
 .pn-x:focus-visible, .pn-pille:focus-visible, .pn-link:focus-visible { outline: 2px solid var(--ak-akzent-text); outline-offset: 2px; }
 
@@ -132,7 +134,6 @@ html:not(.dark) {
   .pn-x { top: 0; }
   .pn-filter { padding: 0 16px; }
   .pn-liste { padding: 0 16px 12px; }
-  .pn-fuss { padding: 12px 16px; }
   .pn-zeile .h { display: none; }
   .pn-hl { padding: 12px; }
 }

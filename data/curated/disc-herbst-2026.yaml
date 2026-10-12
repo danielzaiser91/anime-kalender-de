@@ -592,3 +592,87 @@
   edition: "Vol. 2: Exklusiv, Blu-ray"
   schedule: { firstEpisodeDate: "2026-10-30" }
   sources: [https://www.anime2you.de/news/1052887/disc-neuheiten-oktober-2026/]
+
+# ---------------------------------------------------------------- nachgetragen am 10.10.2026
+# Anime2You 1058349: „mit deutscher Synchronisation sowie in der Originalfassung mit Untertiteln", Standard-Blu-ray, Crunchyroll.
+- slug: jujutsu-kaisen-hidden-inventory-premature-death-blu-ray
+  anilistId: 192809
+  titleDe: "Jujutsu Kaisen: Hidden Inventory / Premature Death – The Movie"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  schedule: { firstEpisodeDate: "2027-01-15" }
+  sources: [https://www.anime2you.de/news/1058349/]
+
+# ---------------------------------------------------------------- 18.12.2026 (Nachtrag 10.10.2026)
+# Anime2You 1058465: Heaven's Feel Gesamtausgabe, peppermint anime, „mit deutscher und japanischer Synchronisation“,
+# Blu-ray im Digipak, voraussichtlich 18.12.2026. Standard und Limited Edition (vier zusätzliche Artcards); jeder Film eigene Kennung.
+- slug: fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe
+  anilistId: 20791
+  titleDe: "Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flower)"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
+  note: "Voraussichtlicher Termin; deutsche und japanische Synchronisation laut Anime2You."
+  schedule: { firstEpisodeDate: "2026-12-18" }
+  sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
+
+- slug: fate-stay-night-heavens-feel-2-lost-butterfly-gesamtausgabe
+  anilistId: 21718
+  titleDe: "Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterfly)"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
+  note: "Voraussichtlicher Termin; deutsche und japanische Synchronisation laut Anime2You."
+  schedule: { firstEpisodeDate: "2026-12-18" }
+  sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
+
+- slug: fate-stay-night-heavens-feel-3-spring-song-gesamtausgabe
+  anilistId: 21719
+  titleDe: "Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song)"
+  platform: disc
+  releaseType: disc
+  publisher: "peppermint anime"
+  edition: "Trilogie, Blu-ray im Digipak, Standard und Limited Edition"
+  note: "Voraussichtlicher Termin; deutsche und japanische Synchronisation laut Anime2You."
+  schedule: { firstEpisodeDate: "2026-12-18" }
+  sources: [https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/]
+
+# ---------------------------------------------------------------- AKIBA PASS SHOP, Nachtrag 10.10.2026 (Anime2You 1058438 und 1056789)
+# Die Artikel nennen nur „15.01.“ ohne Jahr; 2027 ist aus dem Artikeldatum (02./08.10.2026) abgeleitet, daher `estimated: true`.
+# Sprachangaben stehen in keinem der beiden Artikel.
+- slug: dr-stone-science-future-part2
+  anilistId: 189117
+  titleDe: "Dr. STONE: Science Future – Part 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Komplettbox, Blu-ray"
+  note: "Anime2You nennt „Staffel 4 – Part 2“; Zuordnung zu AniList „Part 2“ wie bei Part 1. Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: shield-hero-s4-vol2
+  anilistId: 173780
+  titleDe: "The Rising of the Shield Hero – Staffel 4 – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/]
+
+- slug: apothecary-diaries-s2-vol2
+  anilistId: 176301
+  titleDe: "Die Tagebücher der Apothekerin – Staffel 2 – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "DVD & Blu-ray"
+  note: "Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
+  sources: [https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/]

@@ -27,13 +27,14 @@ import {
   type AnbieterStaffel,
   type Staffeleintrag,
 } from './lib/folgenbereiche.ts'
-import { ordneMeldungZuPlattform } from './lib/disney-gesamtnummer.ts'
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
 import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
-import { folgentitelAusNotiz, folgeUeberTitel } from './lib/folgentitel-anker.ts'
+import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
+import { liegenGeblieben, schreibeMeldungenListe, type OhneZuordnung } from './lib/meldungen-liste.ts'
+import { ladePruefTitel } from './lib/pruef-titel.ts'
 
 const WORKER = process.env.LAUF_WORKER ?? 'https://newsletter.animekalender.workers.dev'
 const TOKEN = process.env.LAUF_TOKEN
@@ -171,7 +172,6 @@ if (!pruefungen.length) {
  * sich fünf AniList-Einträge eine Netflix-Adresse, und eine Prüfung belegt dann
  * alle fünf.
  */
-const titles = JSON.parse(readFileSync(resolve(ROOT, 'public/data/titles.json'), 'utf8'))
 const liste: Array<{
   id: number
   titleDe?: string
@@ -184,8 +184,7 @@ const liste: Array<{
   jpSeason?: string
   format?: string
   streams?: Array<{ platform: string; url: string; seite?: string }>
-}> =
-  Array.isArray(titles) ? titles : (titles.titles ?? Object.values(titles))
+}> = ladePruefTitel(ROOT)
 
 const nachUrl = new Map<string, number[]>()
 for (const t of liste) {
@@ -425,13 +424,7 @@ const anbieterStruktur: Record<string, unknown> = existsSync(resolve(ROOT, 'data
   ? JSON.parse(readFileSync(resolve(ROOT, 'data/anbieter-staffeln.json'), 'utf8'))
   : {}
 
-const ohneZuordnung: Array<{
-  url: string
-  name: string
-  plattform: string
-  befund: string
-  vorschlag: number[]
-}> = []
+const ohneZuordnung: OhneZuordnung[] = []
 /** Kennungen der Meldungen, die wirklich eingetragen wurden. */
 const erledigteIds = new Set<number>()
 
@@ -776,7 +769,7 @@ for (const gruppe of jeAdresse.values()) {
       ) {
         const nr = staffelNummern(reihe1).get(ids[0]!)
         if (nr != null && nr !== 1) {
-          offenGeblieben.push(`${p.url} — Staffel 1 der Seite ${seite} gehört nicht zum Auftragstitel ${ids[0]} (Staffel ${nr}), Meldung bleibt liegen`)
+          liegenGeblieben(offenGeblieben, ohneZuordnung, p, `Staffel 1 der Seite ${seite} gehört nicht zum Auftragstitel`, ids, `Seite ${seite} als Verweis an ihren Staffel-Titel eintragen`)
           continue
         }
       }
@@ -801,7 +794,7 @@ for (const gruppe of jeAdresse.values()) {
       const gemeldetZahl = Math.max(0, ...gruppe.map((x) => (typeof x.folgen === 'number' ? x.folgen : 0)))
       const zielFolgen = ziel.map((id) => liste.find((x) => x.id === id)?.episodes ?? 0).reduce((a, b) => a + b, 0)
       if (ziel.length && gemeldetZahl && zielFolgen && (gemeldetZahl > zielFolgen * 1.5 || gemeldetZahl < zielFolgen / 1.5)) {
-        offenGeblieben.push(`${p.url} — Staffel ${staffelNr}: ${gemeldetZahl} Folgen gemeldet, Zielstaffel ${ziel.join(', ')} hat ${zielFolgen}, Meldung bleibt liegen`)
+        liegenGeblieben(offenGeblieben, ohneZuordnung, p, `Staffel ${staffelNr}: ${gemeldetZahl} Folgen gemeldet, Zielstaffel hat ${zielFolgen}`, ids, `Staffel ${staffelNr} prüfen: Folgenzahl passt nicht`)
         continue
       }
       if (ziel.length && !schonRichtig) {
@@ -842,7 +835,7 @@ for (const gruppe of jeAdresse.values()) {
         } else if (bekannt.some((st) => st.seq === staffelNr)) {
           log(`Staffel ${staffelNr} von ${p.url}: über Netflix' Staffelaufteilung verteilt`)
         } else {
-          offenGeblieben.push(`${p.url} — Staffel ${staffelNr} in der Reihe nicht zu bestimmen, Meldung bleibt liegen`)
+          liegenGeblieben(offenGeblieben, ohneZuordnung, p, `Staffel ${staffelNr} in der Reihe nicht zu bestimmen`, ids, `Seite ${kennung || p.url} als Verweis an den Titel von Staffel ${staffelNr} eintragen`)
           continue
         }
       }
@@ -958,35 +951,8 @@ for (const gruppe of jeAdresse.values()) {
    * Ohne die Aufteilung des Anbieters bleibt es beim alten Weg: Bereiche über
    * die ganze Reihe, danach über die Folgenzahlen verteilt.
    */
-  const jeStaffel = new Map<number, Array<{ folge: number; dub: boolean }>>()
-  /*
-    **Die Notiz gehört der Meldung ihres Titels** (22.09.2026). Zwei Randproben unter einer
-    Adresse (Haikyu!! TO THE TOP E1–13 und E14–25) bekamen beide die Notiz der letzten Meldung —
-    „gemessen: Folge 14 und 25" stand auch am Titel, dessen Ränder 1 und 13 waren.
-  */
-  const notizJeStaffel = new Map<number, string>()
-  if (anbieterStaffeln && staffeln.length) {
-    for (const m of gruppe) {
-      if (m.befund === 'weg' || m.folge_nr == null || m.folge_nr < 1) continue
-      /*
-        **Zuerst der Folgentitel, dann die Zahl** (18.09.2026, `lib/folgentitel-anker.ts`).
-        Er nennt Titel und Folgennummer direkt; die Rechnung über Staffel und Zählung
-        bleibt der Weg für Meldungen ohne Treffer.
-      */
-      const anker =
-        m.plattform === 'netflix' ? folgeUeberTitel(folgentitelAusNotiz(m.notiz), staffeln.map((x) => x.id)) : null
-      const ankerStaffel = anker ? staffeln.find((x) => x.id === anker.id) : undefined
-      const treffer = ankerStaffel
-        ? { staffel: ankerStaffel, folgeInStaffel: anker!.nr }
-        : ordneMeldungZuPlattform(m.plattform, { folge: m.folge_nr, staffel: m.staffel }, staffeln, anbieterStaffeln)
-      if (!treffer) continue
-      if (ankerStaffel) ueberFolgentitel++
-      const bisher = jeStaffel.get(treffer.staffel.id) ?? []
-      bisher.push({ folge: treffer.folgeInStaffel, dub: m.befund === 'dub' })
-      jeStaffel.set(treffer.staffel.id, bisher)
-      if (m.notiz) notizJeStaffel.set(treffer.staffel.id, m.notiz)
-    }
-  }
+  const { jeStaffel, notizJeStaffel, ueberFolgentitel: ueberTitel } = verteileMeldungen(gruppe, anbieterStaffeln, staffeln, (grund) => liegenGeblieben(offenGeblieben, ohneZuordnung, p, `Folgentitel widersprechen sich — ${grund}`, ids, 'Meldung des Blocks prüfen'))
+  ueberFolgentitel += ueberTitel
 
   /**
    * Unsere Einträge, für die der Anbieter gar keine Staffel führt.
@@ -1249,8 +1215,8 @@ for (const gruppe of jeAdresse.values()) {
       entfernt den Verweis. „Fullmetal Alchemist" verlor so seinen letzten Weg,
       obwohl die Notiz desselben Eintrags sagt, dass die Angabe kein Beleg ist.
 
-      Ein Ja bleibt zulässig: „Es gibt dort deutsche Folgen" stimmt auch dann,
-      wenn es weniger sind als angegeben. Ein Nein wäre eine Aussage über die
+      Ein Ja aus dem Kanal belegt seit dem 11.10.2026 ebenfalls nichts: der Lader
+      lässt es weg (lib/kanal-titel.ts). Ein Nein wäre eine Aussage über die
       ganze Staffel, gestützt auf eine Quelle, die über die Folge nichts sagt —
       dieselbe Asymmetrie wie bei jedem Ausschnitt.
 
@@ -1313,7 +1279,9 @@ for (const gruppe of jeAdresse.values()) {
     uebernommen++
     geschrieben++
   }
+  /* Nichts geschrieben und nicht abgehakt (der Kanal-Zweig oben hakt selbst ab): sonst läge die Meldung unbemerkt im Briefkasten (Kengan Ashura, 11.10.2026). */
   if (geschrieben) for (const x of gruppe) erledigteIds.add(x.id)
+  else if (!erledigteIds.has(gruppe[0]!.id)) liegenGeblieben(offenGeblieben, ohneZuordnung, p, 'keine Folge der Meldung fällt in die Zielstaffeln', ids, 'Staffelaufteilung der Seite prüfen')
 }
 
 if (zeilen.length && !TROCKEN) {
@@ -1349,98 +1317,7 @@ if (zeilen.length && !TROCKEN) {
   if (neueZeilen.some((z) => z.startsWith('- '))) writeFileSync(p, entdoppleBelege(neu, warn))
 }
 
-/**
- * Was keine Zuordnung fand, wird sichtbar abgelegt statt vergessen.
- *
- * Bis zum 22.08.2026 fielen solche Meldungen lautlos aus dem Lauf und blieben
- * für immer im Briefkasten liegen — die Arbeit war getan und ging verloren.
- * Die Datei ist Arbeitsvorrat, kein Datensatz: Jede Zeile braucht ein
- * menschliches Ja, bevor die Adresse in `data/` landet.
- */
-/**
- * Ist nichts mehr offen, verschwindet die Datei.
- *
- * Sie blieb sonst mit dem letzten Stand liegen und behauptete Arbeit, die es
- * nicht mehr gibt — am 23.08.2026 standen dort drei Zeilen, deren Meldungen
- * längst abgehakt waren.
- */
-if (!ohneZuordnung.length && !TROCKEN && existsSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'))) {
-  rmSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'))
-  log('daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md entfernt — nichts mehr offen')
-}
-if (ohneZuordnung.length && !TROCKEN) {
-  const kopf = [
-    '# Meldungen ohne Zuordnung',
-    '',
-    'Der Browser hat diese Seiten gemeldet, unser Datensatz kennt die Adresse aber',
-    'nicht. Anbieter führen denselben Titel oft unter mehreren Kennungen — Jujutsu',
-    'Kaisen meldete sich als `title/80237957`, bei uns steht `title/81278456`.',
-    '',
-    'Der Vorschlag stammt aus einem Namensvergleich und ist **kein Beleg**:',
-    '„Beyblade Burst Surge" und „Beyblade Burst Rise" trennt ein Wort. Stimmt er,',
-    'gehört die gemeldete Adresse als zusätzlicher Verweis an den Titel; stimmt er',
-    'nicht, gehört die Zeile gestrichen.',
-    '',
-    `Stand: ${heute}`,
-    '',
-    '## Was hier zu tun ist',
-    '',
-    'Die Erweiterung hat einen Befund gemeldet, aber unser Datensatz kennt die Adresse',
-    'nicht. Drei Fälle, drei Handgriffe:',
-    '',
-    '- **„nichts"** — erledigt sich von selbst, nur der Vollständigkeit halber aufgeführt.',
-    '- **„Vorschlag bestätigen"** — stimmt der vorgeschlagene Titel? Dann sag Bescheid,',
-    '  ich trage die Adresse als Verweis ein und übernehme den Befund.',
-    '- **„Titel von Hand suchen"** — die Seite hat keinen Serientitel gemeldet. Öffne die',
-    '  Adresse und sag mir, welcher Anime das ist; den Rest mache ich.',
-    '',
-    '| Anbieter | Gemeldete Adresse | Name laut Seite | Befund | Vorschlag | Zu tun |',
-    '|---|---|---|---|---|---|',
-  ]
-  const tabelle = ohneZuordnung.map((o) => {
-    /**
-     * Kein `#` vor der Kennung.
-     *
-     * Markdown-Ansichten deuten `#154965` als Verweis auf ein GitHub-Ticket und
-     * führen ins Leere. Verlinkt wird stattdessen die Titelseite bei AniList — dort
-     * steht, worum es geht.
-     */
-    const namen = o.vorschlag.map((id) => {
-      const t = liste.find((x) => x.id === id)
-      const name = t?.titleDe ?? t?.titleEn ?? String(id)
-      return `[${name}](https://anilist.co/anime/${id})`
-    })
-    // Ein „weg" an einem Titel, der diesen Anbieter ohnehin nicht führt, ist
-    // schon abgebildet — dann bleibt nichts zu tun, und das gehört dazu.
-    // Sonst liest jemand die Zeile, öffnet den Verweis und stellt fest, dass
-    // die Arbeit längst getan ist.
-    const erledigt =
-      o.befund === 'weg' &&
-      o.vorschlag.length > 0 &&
-      o.vorschlag.every((id) => {
-        const t = liste.find((x) => x.id === id)
-        return !t?.streams?.some((st) => st.platform === o.plattform)
-      })
-    /**
-     * Ein „weg" zu einer Adresse, die wir nicht führen, ist gegenstandslos.
-     *
-     * Das gilt **ohne** Titelvergleich: Wenn kein Verweis auf diese Adresse
-     * zeigt, kann auch keiner entfernt werden. Wer den Titel dahinter kennt,
-     * gewinnt nichts dazu — „Titel von Hand suchen" wäre Arbeit, die keine ist.
-     */
-    const zuTun =
-      o.befund === 'weg'
-        ? 'nichts — diese Adresse steht bei uns nirgends'
-        : !o.vorschlag.length
-          ? 'Titel von Hand suchen'
-          : erledigt
-            ? 'nichts — wir führen dort keinen Verweis'
-            : 'Vorschlag bestätigen, dann Adresse eintragen'
-    return `| ${o.plattform} | ${o.url} | ${o.name || '—'} | ${o.befund} | ${namen.join('<br>') || '—'} | ${zuTun} |`
-  })
-  writeFileSync(resolve(ROOT, 'daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md'), [...kopf, ...tabelle, ''].join('\n'))
-  log(`${ohneZuordnung.length} Meldung(en) ohne Zuordnung in daniel-zum-abarbeiten/listen/11-meldungen-ohne-zuordnung.md`)
-}
+if (!TROCKEN) schreibeMeldungenListe(ohneZuordnung, liste, heute)
 
 if (Object.keys(anbieterStruktur).length && !TROCKEN) {
   writeFileSync(

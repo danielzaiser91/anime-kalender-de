@@ -1,17 +1,1 @@
-{
- "titleId": 5256,
- "updatedAt": "2026-08-15T18:32:30.595Z",
- "roles": [
-  {
-   "character": "Hikozaru",
-   "actor": "Hannes Maurer",
-   "role": "MAIN"
-  },
-  {
-   "character": "Panflam",
-   "actor": "Hannes Maurer",
-   "von": "ann"
-  }
- ],
- "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=9126"
-}
+{"titleId":5256,"updatedAt":"2026-08-15T18:32:30.595Z","roles":[{"character":"Hikozaru","actor":"Hannes Maurer","von":"anisearch"},{"character":"Perappu","actor":"Sven Plate","von":"anisearch"}]}

@@ -5,6 +5,7 @@
 import { readFileSync } from 'node:fs'
 import { EMPTY_FILTERS, activeFilterCount, filterTitles, toggleFilter, type FilterState } from '../web/src/lib/filters.ts'
 import { baueAuswahl, kurzeTitelzeile, passtSprecher, sprecherVorschlaege, type SprecherEintrag } from '../web/src/lib/sprecher-auswahl.ts'
+import { sprecherGruppe } from '../shared/sprecher.ts'
 import { buildHash, parseHash } from '../web/src/lib/router.ts'
 import { kalenderBasis } from '../web/src/lib/kalender-filter.ts'
 import type { Title } from '../shared/types.ts'
@@ -59,9 +60,14 @@ pruefe('nur eingetragene Namen: Unbekanntes bringt nichts', v('xyz').length === 
 pruefe('Obergrenze meldet den Rest', sprecherVorschlaege(index, 'a', new Set(), 2).mehr === 1)
 pruefe('Titelzeile: drei, Rest als Zahl', kurzeTitelzeile(['A', 'B', 'C', 'D', 'E']) === 'A, B, C … + 2' && kurzeTitelzeile(['A', 'B']) === 'A, B')
 
+console.log('\nSprecher-Filter: Gruppen')
+pruefe('Gruppe: zwei Buchstaben, Umlaute und Großschreibung gefaltet', sprecherGruppe('Marie Schramm') === 'ma' && sprecherGruppe('Ömer Özdemir') === 'om')
+pruefe('Gruppe: nach einem Buchstaben ein Punkt gibt nur einen, ohne lateinischen Buchstaben `_`', sprecherGruppe('K. Dieter Klebsch') === 'k' && sprecherGruppe('日本') === '_')
+
 console.log('\nSprecher-Filter: Bau und Oberfläche')
 const quelle = readFileSync('web/src/components/SprecherFilter.tsx', 'utf8')
 pruefe('Index und Gruppen kommen aus eigenen Dateien, nicht aus titles.json', !/titles\.json/.test(readFileSync('web/src/lib/sprecher.ts', 'utf8').replace(/\/\*[\s\S]*?\*\//g, '')))
+pruefe('die Oberfläche liest die Gruppe aus dem Index, rechnet sie nicht selbst (jeder Datenstand bleibt lesbar)', !/sprecherGruppe/.test(readFileSync('web/src/lib/sprecher.ts', 'utf8') + quelle))
 pruefe('die Eingabe geht nie in eine Adresse (nur feste Dateien)', !/fetch\(|loadJson/.test(quelle))
 pruefe('der Aufklapper wählt nicht aus (eigener Knopf neben der Option)', /aria-expanded=\{p\.aufgeklappt\}/.test(quelle) && /onClick=\{p\.auf\}/.test(quelle) && /onClick=\{p\.waehlen\}/.test(quelle))
 

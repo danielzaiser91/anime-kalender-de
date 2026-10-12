@@ -16,32 +16,48 @@
  * `prime_folge_seite` aus 042) und leisten eine Punktabfrage (gemessen: eine reine gti-Suche liest
  * 0 Zeilen). Mit `INDEXED BY` steht im Plan `SEARCH … (gti=?)` bzw. `(seiten_kennung=?)`.
  * Das Verhalten bleibt dasselbe: Die Bedingungen gelten weiter, nur der Weg dorthin ist ein anderer.
+ * Seit 12.10.2026 stehen diese Bedingungen als SELECT (mit Hash) in `rohfolgen-abgleich.ts`.
  */
 import { ereignisSenden } from './ereignisse.ts'
 import { zahlOderNull, jetztIso } from './werte.ts'
 import { type Env } from './env.ts'
-import { handlePruefung } from './pruefung.ts'
+import { verarbeiteStapel } from './pruefung-stapel.ts'
+import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
+import { istMeldung, mitTagesdeckel } from './tagesdeckel.ts'
+import { loescheOffene } from './pruefung-ersetzen.ts'
+import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
+import { pruefeUnveraendert, ladeOffeneHashes, type OffeneHashes } from './pruefung-unveraendert.ts'
 
-export async function speicherePruefung({ request, antwort, token, env, ctx }: {
-  request: Request<unknown, CfProperties<unknown>>
-  antwort: (body: unknown, status?: number) => Response
-  token: string
-  env: Env
-  ctx: ExecutionContext<unknown> | undefined
-}) {
+export async function speicherePruefung(kontext: Kontext) {
   let daten: Record<string, unknown>
   try {
-    daten = (await request.json()) as Record<string, unknown>
+    daten = (await kontext.request.json()) as Record<string, unknown>
   } catch {
-    return antwort({ error: 'Kein gültiges JSON' }, 400)
+    return kontext.antwort({ error: 'Kein gültiges JSON' }, 400)
   }
+  /* Aufträge der Pipeline (abhaken, wieder öffnen) bleiben unter dem Tagesdeckel frei. */
+  if (!istMeldung(daten)) return await speichereDaten(kontext, daten)
+  try {
+    return await mitTagesdeckel(kontext, async (k) => {
+      const urls = typeof daten.url === 'string' ? [daten.url.trim()] : []
+      return await speichereDaten({ ...k, offene: await ladeOffeneHashes(k.env, urls) }, daten)
+    })
+  } finally {
+    /* Ihre Antwort auf `?gemeldet=` hat sich geändert; auch nach einer Ausnahme, es kann teilweise geschrieben sein. */
+    await verwirfGemeldet(kontext.request.url, adressenDerMeldung(daten))
+  }
+}
+
+/** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */
+export async function speichereDaten({ request, antwort, token, env, ctx, offene }: Kontext, daten: Record<string, unknown>) {
 
   /*
     **Ein Stapel: mehrere Meldungen in einer Anfrage**.
     Die Randprobe einer Netflix-Staffel schickte je Folge eine Anfrage — 25 Folgen, 25 Rundreisen.
 
-    Jedes Element läuft durch genau denselben Weg wie eine Einzelmeldung (derselbe Handler,
-    gleichzeitig), damit es keine zweite Fassung der Annahme gibt. Ein Ereignis für alle.
+    Jedes Element läuft durch genau denselben Weg wie eine Einzelmeldung (dieselbe Funktion,
+    gleichzeitig), damit es keine zweite Fassung der Annahme gibt. Ein Ereignis für alle, und die
+    Cache-Marke schreibt `handlePruefung` einmal am Ende — nicht je Meldung (siehe pruefung-stapel.ts).
 
     **Höchstens 10 je Stapel — eine Größengrenze, kein gemessenes Limit.** Die Doku nennt 50
     D1-Abfragen je Aufruf im kostenlosen Plan, jede `batch`-Anweisung einzeln gezählt
@@ -55,24 +71,7 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
     if (!stapel.length || stapel.length > PRUEFUNG_STAPEL_HOECHSTENS) {
       return antwort({ error: `stapel braucht 1 bis ${PRUEFUNG_STAPEL_HOECHSTENS} Meldungen` }, 400)
     }
-    const ergebnisse = await Promise.all(
-      stapel.map(async (einzeln) => {
-        if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) return { ok: false, status: 400 }
-        const r = await handlePruefung(
-          new Request(request.url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-            body: JSON.stringify(einzeln),
-          }),
-          env,
-        )
-        const inhalt = (await r.json().catch(() => ({}))) as { befund?: string }
-        return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status }
-      }),
-    )
-    const erste = stapel[0] as Record<string, unknown>
-    ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(erste?.plattform ?? 'unbekannt') }))
-    return antwort({ ok: true, ergebnisse })
+    return await speichereStapel({ request, antwort, token, env, ctx }, stapel)
   }
 
   /**
@@ -274,15 +273,12 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
    * tragen keine Kennung, und `NULL = NULL` liefert in SQLite nichts.
    */
   const seitenKennung = typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null
-  await env.DB.prepare(
-    folgeNr === null
-      ? 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr IS NULL AND staffel IS ?2 AND seiten_kennung IS ?3'
-      : 'DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 AND folge_nr = ?2 AND staffel IS ?3 AND seiten_kennung IS ?4',
-  )
-    .bind(
-      ...(folgeNr === null ? [url, staffelNr, seitenKennung] : [url, folgeNr, staffelNr, seitenKennung]),
-    )
-    .run()
+  /* Dieselbe Meldung wie die offene Zeile: nichts zu schreiben (pruefung-unveraendert.ts). */
+  const { hash, unveraendert } = await pruefeUnveraendert(env, offene, daten, { url, folgeNr, staffelNr, seitenKennung })
+  if (unveraendert) {
+    return antwort({ ok: true, befund, unveraendert: true })
+  }
+  await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
 
   await env.DB.prepare(
     /*
@@ -294,8 +290,8 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
       auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
       02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
     */
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art, hash)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -357,145 +353,11 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
       vorhanden,
       tonDe,
       art,
+      hash,
     )
     .run()
 
-  /*
-    **Die Folgen selbst, roh und ohne Deutung.**
-
-    Bis 3.76 meldete die Erweiterung ein Urteil und warf die Grundlage weg — die
-    Folgentitel, Erstausstrahlungsdaten und Laufzeiten, die sie längst gelesen
-    hatte. Jede spätere Frage war damit unbeantwortbar, und genau deshalb musste
-    sie im Browser entscheiden, was sich dort nicht entscheiden lässt.
-
-    `daten.rohfolgen` ist der neue Weg. Er kommt **neben** dem alten Format an,
-    nicht statt seiner: Eine Erweiterung, die ihn noch nicht schickt, meldet
-    weiter wie bisher.
-
-    Gespeichert wird ohne Prüfung auf Sinn. Ob eine Nummer stimmt, entscheidet
-    der Bau gegen TMDB — hier zählt nur, dass nichts verlorengeht.
-  */
-  const rohfolgen = Array.isArray(daten.rohfolgen) ? daten.rohfolgen : []
-  if (rohfolgen.length) {
-    /*
-      **Eine neue Meldung ersetzt die alte — sie kommt nicht dazu.**
-
-      Gemessen am 28.08.2026: 5.219 Zeilen in der Tabelle, davon **3.569 allein
-      unter „Captain Tsubasa (2018)" — einer Seite mit 91 Folgen. Jede erneute
-      Meldung derselben Adresse hing ihre Folgen an, und Daniel hat an dem Titel
-      an einem Abend oft gemeldet.
-
-      Die Tabelle daneben macht es seit jeher richtig: `pruefung` loescht die
-      noch nicht uebernommenen Zeilen derselben Adresse, bevor sie schreibt. Hier
-      fehlte das — ein reines INSERT, und niemandem faellt es auf, weil die
-      Zuordnung im Bau die Dubletten stillschweigend mitverarbeitet.
-
-      Uebernommene Zeilen bleiben unberuehrt: Sie sind Geschichte, kein Bestand.
-    */
-    try {
-      /*
-        **Je Adresse UND Plattform**, seit dem 01.09.2026. Vorher trug die
-        Tabelle nur Prime-Zeilen; jetzt melden auch Netflix und Disney+ hierher,
-        und ein Aufräumen ohne Plattform löschte die Zeilen des Nachbarn.
-      */
-      /*
-        **Netflix und Disney+ melden je Folge — dort ersetzt eine Meldung nur
-        ihre eigene Folge.** Prime schickt alle Folgen einer Seite auf einmal,
-        und dafür ist das Aufräumen je Adresse gebaut. Ein Netflix-Durchlauf
-        schickt je Folge eine Meldung, und so blieb von 26 Rohfolgen nur die
-        letzte stehen (gefunden am 11.09.2026 beim Einbau der Spalte `roh`).
-      */
-      const plattform = String(daten.plattform ?? 'primevideo')
-      const kennungen = rohfolgen.map((f: Record<string, unknown>) => (f.gti ? String(f.gti) : null)).filter(Boolean)
-      if (plattform === 'primevideo' || !kennungen.length) {
-        /* Je Seite, nicht nur je Adresse (Migration 030, 17.09.2026); mit erzwungenem Index —
-           Begründung und Messung im Kopf dieser Datei. */
-        await env.DB.prepare(
-          'DELETE FROM prime_folge INDEXED BY prime_folge_seite WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND seiten_kennung IS ?3',
-        )
-          .bind(url, plattform, seitenKennung)
-          .run()
-      } else {
-        /* Mit erzwungenem Index: ohne ihn las diese Abfrage im Mittel 3430 Zeilen (26 % des
-           Kontingents, 28.09.2026) — der Planer nahm `prime_folge_plattform` statt `_gti`.
-           Messung und Begründung stehen im Kopf dieser Datei. */
-        await env.DB.batch(
-          kennungen.map((k) =>
-            env.DB.prepare(
-              'DELETE FROM prime_folge INDEXED BY prime_folge_gti WHERE url = ?1 AND plattform = ?2 AND uebernommen = 0 AND gti = ?3',
-            ).bind(url, plattform, k),
-          ),
-        )
-      }
-    } catch (e) {
-      console.error(`prime_folge aufraeumen: ${(e as Error).message}`)
-    }
-    const jetzt = jetztIso()
-    /* Höchstens 500 je Meldung: Eine Staffel hat keine tausend Folgen, und eine
-       kaputte Erweiterung soll die Tabelle nicht fluten. */
-    const stapel = rohfolgen.slice(0, 500).map((f: Record<string, unknown>) =>
-      env.DB.prepare(
-        `INSERT INTO prime_folge (url, asin, gti, nummer, titel, erschienen, dauer_sek,
-                                  sprachen, untertitel, staffel_text, staffel_nr, gemeldet_am,
-                                  titel_id, plattform, roh, seiten_kennung, vorhanden, ton_de)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18)`,
-      ).bind(
-        url,
-        f.asin ? String(f.asin).slice(0, 40) : null,
-        f.gti ? String(f.gti).slice(0, 60) : null,
-        zahlOderNull(f.nummer),
-        f.titel ? String(f.titel).slice(0, 300) : null,
-        f.erschienen ? String(f.erschienen).slice(0, 30) : null,
-        /*
-          **Netflix schickt die Laufzeit nur in `roh`.** Gemessen am 14.09.2026
-          an fünf Netflix-Rohfolgen: `roh.liste.runtimeSec` und
-          `displayRuntimeSec` (je 1428 bei „Law & Order: Axel"), `dauerSek` fehlt.
-          Ein Erscheinungsdatum liefert die Folgenliste nicht — das einzige
-          Datum ist `bookmark.watchedDate`, und das ist Daniels Wiedergabe.
-        */
-        zahlOderNull(
-          f.dauerSek ??
-            (f.roh as { liste?: Record<string, unknown> } | undefined)?.liste?.runtimeSec ??
-            (f.roh as { liste?: Record<string, unknown> } | undefined)?.liste?.displayRuntimeSec,
-        ),
-        f.sprachen ? JSON.stringify(f.sprachen).slice(0, 1000) : null,
-        f.untertitel ? JSON.stringify(f.untertitel).slice(0, 1000) : null,
-        f.staffelText ? String(f.staffelText).slice(0, 120) : null,
-        zahlOderNull(f.staffelNr),
-        jetzt,
-        /*
-          **Die Titel-Kennung macht aus einer Suche eine Angabe.**
-
-          Gemessen am 28.08.2026: 1 von 67 Adressen liess sich zuordnen,
-          66-mal „kein Titel zu dieser Adresse". Die Suche lief ueber
-          `titles.streams.url` — und ein Titel ohne Verweis hat dort nichts
-          stehen. Die Erweiterung kennt die Kennung aus ihrem Auftrag; sie
-          mitzuschicken kostet ein Feld.
-        */
-        zahlOderNull(daten.titelId),
-        /*
-          **Wer die Folge gemeldet hat.** Ohne dieses Feld gehörte die Tabelle
-          Prime allein; seit dem 01.09.2026 melden Netflix und Disney+ ebenfalls
-          hierher — sammeln und zuordnen sind getrennt, und der Zuordner
-          entscheidet über die Anker, nicht über die Anbieter-Staffelnummer.
-        */
-        String(daten.plattform ?? 'primevideo').slice(0, 20),
-        /* Alles Kleine, was die Seite über die Folge sagt — Migration 029. */
-        f.roh ? JSON.stringify(f.roh).slice(0, 8000) : null,
-        seitenKennung ? seitenKennung.slice(0, 40) : null,
-        /* Stufe 1 je Folge — Migration 035. Nur die bekannten Werte, sonst leer. */
-        ['ja', 'nein'].includes(String(f.vorhanden)) ? String(f.vorhanden) : null,
-        ['ja', 'nein', 'unbekannt'].includes(String(f.ton_de)) ? String(f.ton_de) : null,
-      ),
-    )
-    try {
-      await env.DB.batch(stapel)
-    } catch (e) {
-      /* Die Meldung selbst ist schon gespeichert — ein Fehler hier darf sie
-         nicht mitreißen. Ohne Rohfolgen ist der Befund weniger wert, aber gültig. */
-      console.error(`prime_folge: ${(e as Error).message}`)
-    }
-  }
+  await speichereRohfolgen(env, daten, url, seitenKennung)
 
   /*
     Bis zum 24.09.2026 zählte hier jede Meldung alle offenen Meldungen nach (`COUNT(*) … WHERE
@@ -510,6 +372,32 @@ export async function speicherePruefung({ request, antwort, token, env, ctx }: {
   */
   ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(daten.plattform ?? 'unbekannt') }))
   return antwort({ ok: true, befund })
+}
+
+export type Kontext = {
+  request: Request<unknown, CfProperties<unknown>>
+  antwort: (body: unknown, status?: number) => Response
+  token: string
+  env: Env
+  ctx: ExecutionContext<unknown> | undefined
+  /** Hashes der offenen Zeilen der gemeldeten Adressen, einmal je Aufruf geladen. */
+  offene?: OffeneHashes
+}
+
+async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, stapel: unknown[]) {
+  const urls = stapel.map((m) => (m as { url?: unknown } | null)?.url).filter((u): u is string => typeof u === 'string')
+  const offene = await ladeOffeneHashes(env, urls.map((u) => u.trim()))
+  const ergebnisse = await verarbeiteStapel(stapel, async (einzeln) => {
+    if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) {
+      return { ok: false, status: 400, grund: 'Meldung ist kein Objekt oder ein verschachtelter Stapel' }
+    }
+    const r = await speichereDaten({ request, antwort, token, env, ctx: undefined, offene }, einzeln as Record<string, unknown>)
+    const inhalt = (await r.json().catch(() => ({}))) as { befund?: string; error?: string }
+    return r.ok ? { ok: true, befund: inhalt.befund ?? null } : { ok: false, status: r.status, grund: inhalt.error ?? 'ohne Grund' }
+  })
+  const erste = stapel[0] as Record<string, unknown>
+  ctx?.waitUntil(ereignisSenden(env, 'pruefung', { plattform: String(erste?.plattform ?? 'unbekannt') }))
+  return antwort({ ok: true, ergebnisse })
 }
 
 /**

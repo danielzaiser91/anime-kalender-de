@@ -173,6 +173,27 @@ export interface AnbieterStaffel {
 }
 
 /**
+ * **Ein Titel von uns, mehrere Blöcke beim Anbieter, Summe gleich: die Blöcke folgen aufeinander.**
+ *
+ * Netflix teilt „Avatar – Der Herr der Elemente" in drei Bücher zu 20, 20 und 21 Folgen; wir führen eine Serie mit 61.
+ * Folge 1 von Buch 2 ist unsere Folge 21, nicht 1 (Daniel, 11.10.2026). Der Versatz ist die Summe der Blöcke davor.
+ * Weicht die Summe um mehr als drei Folgen ab (Specials, Fassungen), bleibt es beim Zählen je Block ohne Versatz.
+ */
+function paareEinesTitels(
+  sortiert: AnbieterStaffel[],
+  unser: Staffeleintrag,
+): Array<{ anbieter: AnbieterStaffel; unser: Staffeleintrag; versatz?: number }> {
+  const summe = sortiert.reduce((n, a) => n + a.folgen, 0)
+  const mitVersatz = sortiert.length > 1 && Math.abs(summe - unser.folgen) <= 3
+  let davor = 0
+  return sortiert.map((anbieter) => {
+    const versatz = davor
+    davor += anbieter.folgen
+    return mitVersatz ? { anbieter, unser, versatz } : { anbieter, unser }
+  })
+}
+
+/**
  * Die Staffelliste des Anbieters auf unsere Einträge legen.
  *
  * **Das schlägt jede Rechnung.** Bis zum 22.08.2026 rechnete `ordneFolgeZu` die
@@ -205,6 +226,8 @@ export function ordneNachStaffelliste(
      * wenn der Anbieter mehrere Staffeln führt.
      */
     teile?: Staffeleintrag[]
+    /** Wie viele Folgen unseres einen Titels vor diesem Block des Anbieters liegen (Buch 2 von Avatar: 20). */
+    versatz?: number
   }>
   /** Unsere Einträge, für die der Anbieter gar keine Staffel führt. */
   ohneEntsprechung: Staffeleintrag[]
@@ -325,12 +348,7 @@ export function ordneNachStaffelliste(
   }
 
 
-  if (unsere.length === 1) {
-    return {
-      paare: sortiert.map((a) => ({ anbieter: a, unser: unsere[0]! })),
-      ohneEntsprechung: [],
-    }
-  }
+  if (unsere.length === 1) return { paare: paareEinesTitels(sortiert, unsere[0]!), ohneEntsprechung: [] }
 
   if (sortiert.length > unsere.length) {
     return {
@@ -489,7 +507,7 @@ export function ordneMeldungZu(
     // zählt Netflix in Staffel 7 fünfundzwanzig Folgen, AniList einundzwanzig —
     // Daniels Folge 170 ist dort die 25. und läge außerhalb unserer Zählung.
     if (inStaffel < 1 || inStaffel > paar.anbieter.folgen) return null
-    return { staffel: paar.unser, folgeInStaffel: inStaffel }
+    return { staffel: paar.unser, folgeInStaffel: inStaffel + (paar.versatz ?? 0) }
   }
   const ergebnis = ordneFolgeZu(meldung.folge, unsere)
   return ergebnis ? { staffel: ergebnis.staffel, folgeInStaffel: ergebnis.folgeInStaffel } : null

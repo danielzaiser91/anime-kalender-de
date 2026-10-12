@@ -17,6 +17,7 @@ import { type SlimTitel } from './13-2-auslieferung.ts'
 import { ergaenzeCoverGross } from './cover-gross.ts'
 import { ohneBelegteSynchro } from './synchro-belegt.ts'
 import { schreibeSaisonDatei } from './saison-datei.ts'
+import { cartoonsMitReihe, markiereEigeneWerke } from './cartoon-reihen.ts'
 import { schreibeAnisearchOffen } from './anisearch-kennung.ts'
 
 export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige }: {
@@ -71,7 +72,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     deutscheReihe,
     new Set(releases.map((r) => r.titleId)),
   )
-  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()]); ergaenzeCoverGross(synopses, slim); schreibeSaisonDatei(titles); schreibeAnisearchOffen(slim)
+  schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()]); ergaenzeCoverGross(synopses, slim); schreibeSaisonDatei(titles, releases); schreibeAnisearchOffen(slim)
   // Synopsen in Gruppen statt in einer Datei.
   //
   // Vorher lag alles in `synopses.json`: 3,8 MB, die beim ersten Öffnen eines
@@ -178,11 +179,9 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
   const ausKatalog = readJson<Title[]>(`${OUT}/ohne-synchro.json`, [])
   /* Die belegte deutsche Staffelangabe (aniSearch) steuert die Beschriftung, nicht den Titel. */
   const staffelQuellen = staffelQuellenAusAnisearch()
-  const imBestand = new Set(slim.map((t) => t.id))
-  const fuerReihen = [
-    ...slim,
-    ...ausKatalog.filter((t) => !imBestand.has(t.id)).map((t) => ({ ...t, ohneSynchro: true })),
-  ]
+  const cartoons = cartoonsMitReihe()
+  const imBestand = new Set([...slim, ...cartoons].map((t) => t.id))
+  const fuerReihen = [...slim, ...cartoons, ...ausKatalog.filter((t) => !imBestand.has(t.id)).map((t) => ({ ...t, ohneSynchro: true }))]
 
   /**
    * **Was an einem anderen Teil der Reihe hängt, ist Beiwerk.**
@@ -280,7 +279,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
         : t.coverImage,
     }))
   }
-  writeJson(`${OUT}/franchises.json`, reihen)
+  writeJson(`${OUT}/franchises.json`, markiereEigeneWerke(reihen))
   log(`${Object.keys(reihen).length} Reihen mit mehr als einem Eintrag geschrieben`)
 
   schreibeMeldungen(slim)

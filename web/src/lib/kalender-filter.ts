@@ -21,6 +21,7 @@ export function kalenderBasis(f: FilterState): FilterState {
     kostenlosExcluded: f.kostenlosExcluded,
     confirmedExcluded: f.confirmedExcluded,
     availableExcluded: f.availableExcluded,
+    zweitanbieterExcluded: f.zweitanbieterExcluded,
     excluded: { ...emptyLists(), releaseTypes: f.excluded.releaseTypes.filter((a) => a === 'disc') },
   }
 }

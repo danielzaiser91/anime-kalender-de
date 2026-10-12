@@ -2,7 +2,7 @@ import { MitFachwoertern } from '../fachwort.tsx'
 import { type ReleaseEvent, type Title, type Release, PLATFORMS } from '@shared/types.ts'
 import { formatDate, weekdayName } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
-import { type ReactNode, useState, type ReactElement } from 'react'
+import { type ReactNode, useState } from 'react'
 import { useFolgenZaehlung } from './folgen-bereich.tsx'
 import { kostenloseFolgen, kostenlosEtikett } from '@shared/kostenlos.ts'
 import { Countdown, sendetageText } from './hilfen.tsx'
@@ -10,7 +10,9 @@ import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
-import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr } from './antwort-regeln.ts'
+import { gruppeVon as gruppeVonPille, sichtbareStreamPillen } from './stream-pillen.ts'
+import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText } from './antwort-regeln.ts'
+import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
 
 /**
@@ -107,8 +109,11 @@ export function AntwortKasten({
   kaufausgabe,
   hinweis,
   pillenGruppen = new Map(),
+  terminPillen = [],
   discZuerst = false,
 }: {
+  /** Pillen mit Termin und Anbieter/Sender — sie stehen vor der ersten Folge statt der Streamwege. */
+  terminPillen?: React.ReactNode[]
   /** Bereich je Pillen-Schlüssel (`key`) — nur gebraucht, wenn es einen kostenlosen Weg gibt. */
   pillenGruppen?: Map<string, 'frei' | 'abo' | 'kauf' | 'tv' | 'unbekannt'>
   /** Über einen Disc-Termin geöffnet — dann steht der Umschalter auf „Disc". */
@@ -203,16 +208,13 @@ export function AntwortKasten({
     sagt „dort läuft es auf Deutsch" — dort läuft aber noch gar nichts, und der
     Klick führt auf eine Seite ohne eine einzige Folge.
 
-    **Kaufwege bleiben**, denn eine Vorbestellung ist genau für diesen Zustand
-    da: Man kann sie tätigen, bevor etwas erschienen ist.
+    **Kaufwege und Termin-Pillen bleiben:** Vorbestellung und Ankündigung sagen, wo es kommt.
   */
   const nochNichts = (antwort.art === 'laeuft' && antwort.raus === 0) || antwort.art === 'widerlegt'
-  const streamPillen = nochNichts ? [] : stream
+  const gruppeVon = (p: ReactNode) => gruppeVonPille(pillenGruppen, p)
+  const streamPillen = sichtbareStreamPillen(stream, antwort.art === 'widerlegt' ? [] : terminPillen, nochNichts)
   const beides = streamPillen.length > 0 && disc.length > 0
-  /*
-    **Der Umschalter steht immer da, sobald es Pillen gibt** (`Umschalter`); die leere Seite ist
-    gesperrt. Stand er nur bei beidem, war eine einzelne Kaufpille nicht als Disc zu erkennen.
-  */
+  /* Der Umschalter zeigt nur Seiten mit Pillen; eine einzelne bleibt als Etikett (Kaufpille = „Disc"). */
   const aktivDisc = beides ? zeigeDisc : streamPillen.length === 0
   const pillen = aktivDisc ? disc : streamPillen
   const T = t as unknown as (k: string, v?: Record<string, string | number>) => string
@@ -225,7 +227,6 @@ export function AntwortKasten({
     `shared/kostenlos.ts`, verglichen mit den deutschen Folgen (laufend: den erschienenen; ohne
     Gesamtzahl: den meisten belegten eines Anbieters — Beyblade X: Disney+ 100, TOGGO 117).
   */
-  const gruppeVon = (p: ReactNode) => pillenGruppen.get(String((p as ReactElement)?.key ?? '')) ?? 'sonst'
   /*
     **Die Bereiche stehen immer**. Bis dahin gliederte
     das Panel nur, wenn es einen kostenlosen Weg gab — bei Gachiakuta stand „Kostenlos / Abo / TV",
@@ -269,17 +270,9 @@ export function AntwortKasten({
   /*
     Dieselbe Angabe, aber kleingeschrieben: Sie steht jetzt mitten im Satz
     („erscheint in 2 Tagen, am …") statt am Satzanfang. Ein großes „Heute"
-    dort liest sich wie ein Fehler.
+    dort liest sich wie ein Fehler. Der Countdown steht bei jedem Abstand (`abstandImSatz`).
   */
-  const relativImSatz = (datum: string): string => {
-    const tage = Math.round(
-      (new Date(`${datum}T12:00:00Z`).getTime() - new Date(`${today}T12:00:00Z`).getTime()) / 86400000,
-    )
-    if (tage <= 0) return T('antwort.relHeute')
-    if (tage === 1) return T('antwort.relMorgen')
-    if (tage <= 6) return T('antwort.relInTagen', { count: tage })
-    return ''
-  }
+  const relativImSatz = (datum: string): string => abstandImSatz(today, datum, T)
   /** Was hervorgehoben wird, trägt die Akzentfarbe des Kastens. */
   const betont = (text: string): ReactNode => (
     <span className="text-sky-700 dark:text-sky-300">{text}</span>
@@ -338,7 +331,7 @@ export function AntwortKasten({
           ? 'finale'
           : 'naechste'
     const kopf = antwort.komplett
-      ? T('antwort.alleFolgen', { count: antwort.gesamt ?? e.episodeCount ?? 0 })
+      ? (antwort.gesamt ?? e.episodeCount) ? T('antwort.alleFolgen', { count: (antwort.gesamt ?? e.episodeCount)! }) : T('antwort.alleFolgenOhneZahl') /* ohne Folgenzahl keine erfundene „0“ (Beerus, 10.10.2026) */
       : e.episode && !antwort.sichtung
         ? T(`antwort.${wasKommt}FolgeNr`, { n: e.episode })
         : T(`antwort.${wasKommt}Folge`)
@@ -486,7 +479,7 @@ export function AntwortKasten({
     */
     /* „Alle 1 Folgen" stand über OVAs mit einer Folge — dort sagt die Überschrift ohne Zahl dasselbe. */
     haupt = antwort.gesamt && antwort.gesamt > 1
-      ? T('antwort.fertigZahl', { count: antwort.gesamt })
+      ? fertigZahlText(antwort.gesamt, antwort.gesamtAbgeleitet, T)
       : folgenZahl && !antwort.gesamt && folgenZahl[1] > 1 ? T('antwort.teilweiseZahl', { raus: folgenZahl[1], gesamt: folgenZahl[0] }) : T('antwort.fertigTitel')
     /*
       **„Seit wann?" ist die einzige Frage, die hier noch offen war.**
@@ -676,7 +669,7 @@ export function AntwortKasten({
     */
     const ankuendigung = title.westlich ? undefined : title.ankuendigung
     haupt = title.westlich
-      ? T(title.streams.length ? 'antwort.westlichVerfuegbar' : 'antwort.westlichUngeprueft')
+      ? T(title.dubHinweis ? 'antwort.westlichJw' : title.streams.length ? 'antwort.westlichVerfuegbar' : 'antwort.westlichUngeprueft')
       : ankuendigung?.synchro === 'angekuendigt'
         ? T('antwort.synchroAngekuendigt')
         : T('antwort.ohneTitel')
@@ -693,7 +686,9 @@ export function AntwortKasten({
       Der Kasten sagt weiter, was **wir** belegen können — und darunter, was die
       Fremdquelle sagt. Beides zusammen ist die ehrliche Auskunft.
     */
-    neben = ankuendigung ? ankuendigungZeile(ankuendigung, T) : deSeitZeile(title, T, true)
+    neben = title.dubHinweis
+      ? T('antwort.westlichJwNeben', { anbieter: title.dubHinweis.anbieter.join(', ') })
+      : ankuendigung ? ankuendigungZeile(ankuendigung, T) : deSeitZeile(title, T, true)
     nebenTitel = ankuendigung
       ? T('antwort.ankuendigungQuelle', { anbieter: PLATFORMS[ankuendigung.platform]?.name ?? ankuendigung.platform, datum: formatDate(ankuendigung.stand) })
       : title.deErstausgabe

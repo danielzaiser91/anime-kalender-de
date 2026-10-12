@@ -6,10 +6,12 @@ import { addDays, formatDate, nowHhMm, startOfWeek, todayIso, weekdayName } from
 import { useLang } from '../lib/i18n.tsx'
 import { useSprungZuHeute } from '../lib/woche-sprung.ts'
 import { useZielTag } from '../lib/ziel-tag.ts'
-import { buendeleTermine } from '../lib/buendel.ts'
+import { buendeleKacheln } from '../lib/buendel.ts'
+import { eigenstaendigBeiAnbietern, vereineAnbieter } from '../lib/anbieter-kachel.ts'
 import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
 import { PosterKarte, type KartenArt } from './kalender/PosterKarte.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
+import { ZweitanbieterZeilen } from './kalender/ZweitanbieterZeilen.tsx'
 import { anbieterUndFolge, zaehlung } from './kalender/Marken.tsx'
 
 /** Ohne Uhrzeit hinter alles mit — ziffernbasiert, damit jede Kollation es hinten einsortiert. */
@@ -21,6 +23,8 @@ export interface Tag {
   /** Disc-Termine — eigener Topf (Prototyp 30.09.2026). */
   disc: ReleaseEvent[]
   tv: ReleaseEvent[]
+  /** Streaming-Termine mit Zweitanbieter-Marke: zählen in `stream`, stehen aber als Zeile unter dem Raster. */
+  zweit: ReleaseEvent[]
   /** Für den Sprung zu heute: Streaming-Termine mit und ohne Uhrzeit. */
   timed: ReleaseEvent[]
   untimed: ReleaseEvent[]
@@ -41,13 +45,15 @@ export function tageDerWoche(events: ReleaseEvent[], monday: string): Tag[] {
     /* Disc-Termine sind eine eigene Sorte: weniger interessant, gehören nicht in den Stream-Zähler. */
     const disc = alle.filter((e) => e.releaseType === 'disc')
     const stream = alle.filter((e) => e.platform !== 'tv' && e.releaseType !== 'disc')
+    const imRaster = stream.filter((e) => !e.zweitanbieter)
     return {
       date,
       stream,
       disc,
       tv: alle.filter((e) => e.platform === 'tv'),
-      timed: stream.filter((e) => e.time),
-      untimed: stream.filter((e) => !e.time),
+      zweit: stream.filter((e) => e.zweitanbieter),
+      timed: imRaster.filter((e) => e.time),
+      untimed: imRaster.filter((e) => !e.time),
     }
   })
 }
@@ -110,6 +116,9 @@ function TagZeile({
   const vorbei = tag.date < today
   /* Ausgeschaltet bleiben Premieren sichtbar — dann steht der Kasten nur für sie da. */
   const zeigeTv = p.tvAn || tag.tv.length > 0
+  /* Steht nur Zweitanbieter da, bliebe vom Raster eine leere Fläche. */
+  const rasterLeer = tag.zweit.length > 0 && tag.zweit.length === tag.stream.length && tag.disc.length === 0
+  const vorbeiBis = heute ? now : vorbei ? '99:99' : undefined
   return (
     <section
       data-datum={tag.date}
@@ -122,11 +131,12 @@ function TagZeile({
       ].join(' ')}
     >
       <TagKopf tag={tag} heute={heute} tvAn={p.tvAn} />
-      <div className="flex min-w-0 flex-col gap-4">
-        <PosterRaster tag={tag} p={p} heute={heute} now={now} landingId={landingId} landingRef={landingRef} />
+      <div className={['flex min-w-0 flex-col gap-4', rasterLeer && zeigeTv ? 'lg:min-h-[250px]' : ''].join(' ')}>
+        {!rasterLeer && <PosterRaster tag={tag} p={p} heute={heute} now={now} landingId={landingId} landingRef={landingRef} />}
+        <ZweitanbieterZeilen termine={tag.zweit} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} onOpen={p.onOpen} />
         <DiscKasten termine={tag.disc} hidden={p.hidden} onOpen={p.onOpen} />
       </div>
-      {zeigeTv && <TvSpalte tag={tag} p={p} vorbeiBis={heute ? now : vorbei ? '99:99' : undefined} />}
+      {zeigeTv && <TvSpalte tag={tag} p={p} vorbeiBis={vorbeiBis} />}
     </section>
   )
 }
@@ -181,7 +191,8 @@ function PosterRaster({
   const gesehen = gesehenLesen()
   const art = (ev: ReleaseEvent): KartenArt | undefined =>
     istStaffelstart(ev, p.data) ? 'start' : istStaffelfinale(ev, p.data) ? 'finale' : undefined
-  const gruppen = buendeleTermine(tag.stream, (ev) => !!ev.verpasst || !!art(ev))
+  const gruppen = buendeleKacheln(tag.stream.filter((e) => !e.zweitanbieter), art, (ev) => !!ev.premiere)
+  const kacheln = vereineAnbieter(gruppen, eigenstaendigBeiAnbietern)
   return (
     <div
       className={[
@@ -192,20 +203,22 @@ function PosterRaster({
       {tag.stream.length === 0 && tag.disc.length === 0 && (p.gefiltert || !tag.tv.length) && (
         <p className="col-span-full pt-1 text-sm text-ak-sehr-leise">{t(p.gefiltert ? 'kal.nichtsGefiltert' : 'kal.keinTermin')}</p>
       )}
-      {gruppen.map(([ev, ...weitere]) => {
+      {kacheln.map((kachel) => {
+        const [ev, ...weitere] = kachel[0]!
         const bis = p.favorites.has(ev.titleId) ? gesehen[ev.titleId] : undefined
         return (
           <PosterKarte
             key={ev.id}
             event={ev}
             title={p.data.titleById.get(ev.titleId)}
-            art={art(ev)}
+            art={kachel.map((b) => art(b[0]!)).find(Boolean)}
             weitere={weitere.length}
+            anbieter={kachel.length > 1 ? kachel : undefined}
             favorite={p.favorites.has(ev.titleId)}
             hidden={p.hidden.has(ev.titleId)}
-            vorbei={heute && !!ev.time && ev.time < now}
+            vorbei={heute && kachel.every((b) => !!b[0]!.time && b[0]!.time < now)}
             neu={neuAnKarte(p, bis, ev.titleId, weitere.at(-1)?.episode ?? ev.episode)}
-            anker={[ev, ...weitere].some((e) => e.id === landingId) ? (landingRef as React.Ref<HTMLElement>) : undefined}
+            anker={kachel.flat().some((e) => e.id === landingId) ? (landingRef as React.Ref<HTMLElement>) : undefined}
             onToggleFavorite={ev.titleId > 0 ? () => p.onToggleFavorite(ev.titleId) : undefined}
             onToggleHidden={ev.titleId > 0 ? () => p.onToggleHidden(ev.titleId) : undefined}
             onOpen={() => p.onOpen(ev.releaseSlug, ev.date)}

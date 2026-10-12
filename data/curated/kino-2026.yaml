@@ -80,6 +80,7 @@
   releaseType: movie
   publisher: "Crunchyroll"
   note: "Kinostart im Originalton mit deutschen Untertiteln; eine deutsche Synchronfassung ist nicht bestätigt."
+  sprache: omu
   schedule: { firstEpisodeDate: "2026-11-24" }
   sources: [https://www.anime2you.de/news/1036604/madoka-magica-walpurgisnacht-rising-kinostart/, https://www.anime2you.de/news/1053546/madoka-magica-film-deutscher-kinostart/]
 
@@ -103,6 +104,7 @@
   releaseType: movie
   publisher: "peppermint anime"
   note: "Kinostart im Originalton mit deutschen Untertiteln; eine deutsche Synchronfassung ist nicht geplant."
+  sprache: omu
   schedule: { firstEpisodeDate: "2026-10-27" }
   sources:
     - https://www.anime2you.de/news/1053560/rascal-does-not-dream-of-a-dear-friend-kinoliste/

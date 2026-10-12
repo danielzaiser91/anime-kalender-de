@@ -21,6 +21,9 @@ import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
+import { pruefeAdressen } from './ansicht-adressen.mjs'
+import { distPruefen } from './dist-frisch.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -66,12 +69,168 @@ const TYPEN = {
   '.webmanifest': 'application/manifest+json',
 }
 
-async function main() {
-  if (!existsSync(path.join(DIST, 'index.html'))) {
-    console.error('dist/ fehlt — erst `npm run build`.')
-    process.exitCode = 1
-    return
+/**
+ * Zustand, in dem Beerus und Fool Night unter „Cartoon" standen (09.10.2026): Schalter „Anime ohne deutsche Synchro" an, danach
+ * der Schnellfilter „Cartoon". Doppelte Kennungen in der Liste ließen Kacheln als Geister im Raster stehen. Jede Kachel im Raster
+ * muss ein Cartoon sein, und das Raster darf keine fremden Knoten tragen.
+ */
+async function pruefeCartoonFilter(seite) {
+  await seite.goto('http://ak.test/#/datenbank', { waitUntil: 'networkidle' })
+  await seite.getByText('Anime ohne deutsche Synchro').first().click()
+  await seite.waitForTimeout(6000)
+  await seite.getByRole('button', { name: /^Filter/ }).first().click()
+  await seite.locator('[aria-label*="Cartoon"]').first().click()
+  await seite.waitForTimeout(6000)
+  const r = await seite.evaluate(() => {
+    const raster = [...document.querySelectorAll('div.grid')].find((g) => g.children.length > 20)
+    if (!raster) return 'kein Raster gefunden'
+    const fiber = raster[Object.keys(raster).find((k) => k.startsWith('__reactFiber'))]
+    const react = fiber.memoizedProps.children.length
+    const karten = [...raster.children].filter((c) => c.classList.contains('group'))
+    const fremd = karten.filter((k) => !/CARTOON/.test(k.innerText)).map((k) => k.innerText.split('\n')[3] ?? '?')
+    return { fremd, geister: karten.length - react }
+  })
+  if (typeof r === 'string') return r
+  if (r.fremd.length) return `✕ Kacheln ohne Cartoon im Raster: ${r.fremd.join(', ')}`
+  if (r.geister > 0) return `✕ ${r.geister} Kachel(n) im Raster, die React nicht kennt`
+  return 'ok'
+}
+
+/** Druckt den Befund von `pruefeCartoonFilter`; wahr, wenn er rot ist. */
+async function meldeCartoonFilter(seite) {
+  const befund = await pruefeCartoonFilter(seite)
+  console.log(`\nDatenbank, „Anime ohne deutsche Synchro" an + Cartoon-Filter: ${befund}`)
+  return befund !== 'ok'
+}
+
+/** Abstände der unteren Werkzeugleiste (Portal am body; nur Kalender und Datenbank) zu Fensterrand unten, links, rechts. */
+function untereLeisteMasse(seite) {
+  return seite.evaluate(() => {
+    const leiste = document.querySelector('body > [role=toolbar]')
+    const r = leiste?.getBoundingClientRect()
+    if (!r) return null
+    const s = getComputedStyle(leiste)
+    return {
+      unten: Math.round(innerHeight - r.bottom),
+      links: Math.round(r.left),
+      rechts: Math.round(innerWidth - r.right),
+      padUnten: parseFloat(s.paddingBottom),
+      padRechts: parseFloat(s.paddingRight),
+    }
+  })
+}
+
+/** Die Handy-Navigation steht oben in der Kopfleiste (nicht fest am unteren Rand). Liefert `true`, wenn ja, sonst den Befund. */
+function navigationOben(seite) {
+  return seite.evaluate(() => {
+    const navs = [...document.querySelectorAll('header nav')].filter((n) => n.getBoundingClientRect().height > 0)
+    const r = navs[0]?.getBoundingClientRect()
+    if (!r) return 'keine sichtbare Navigation in der Kopfleiste'
+    if (getComputedStyle(navs[0]).position === 'fixed' || r.bottom > innerHeight / 3) return `Navigation nicht oben (Unterkante ${Math.round(r.bottom)} px)`
+    return true
+  })
+}
+
+/** Die Handy-Messungen einer Ansicht: untere Leiste, Navigation oben, Monatspunkte. Am Rechner leer. */
+async function handyMessung(seite, handy, name) {
+  if (!handy) return { nav: null, navOben: true, punkte: null }
+  return {
+    nav: await untereLeisteMasse(seite),
+    navOben: await navigationOben(seite),
+    punkte: name === 'monat' ? await pruefeMonatPunkte(seite) : null,
   }
+}
+
+/** Navigation oben, Werkzeugleiste unten bündig: kein Abstand unten, links, rechts. Meldet jede Abweichung; wahr, wenn alles stimmt. */
+function handyLeistenOk({ name, nav: m, navOben }) {
+  if (navOben !== true) {
+    console.log(`  ✕ ${name}: ${navOben}`)
+    return false
+  }
+  if (!m || (m.unten === 0 && m.links === 0 && m.rechts === 0 && m.padUnten >= 6 && m.padRechts >= 6)) return true
+  console.log(`  ✕ ${name}: untere Leiste nicht bündig oder ohne Innenabstand (Rand unten ${m.unten}, links ${m.links}, rechts ${m.rechts} px; Padding unten ${m.padUnten}, rechts ${m.padRechts} px, mind. 6)`)
+  return false
+}
+
+/**
+ * Monatszelle am Handy (09.10.2026): Punkte in Anbieterfarbe statt Cover. Kein sichtbares Bild im Raster, jeder Punkt
+ * mindestens 8 px, das Tippziel der Zelle mindestens 40 px hoch und breit, und der Knopf nennt Titel (aria-label).
+ */
+function pruefeMonatPunkte(seite) {
+  return seite.evaluate(() => {
+    const knoepfe = [...document.querySelectorAll('main button')].filter((b) => b.offsetParent && b.querySelector('[data-monatspunkt]'))
+    const bilder = [...document.querySelectorAll('main img')].filter((i) => i.offsetParent).length
+    const kleinPunkt = [...document.querySelectorAll('[data-monatspunkt]')].filter((p) => p.getBoundingClientRect().width < 8).length
+    const kleinZiel = knoepfe.filter((b) => { const r = b.getBoundingClientRect(); return r.width < 40 || r.height < 40 }).length
+    const ohneTitel = knoepfe.filter((b) => !/: .{3,}/.test(b.getAttribute('aria-label') ?? '')).length
+    return { zellen: knoepfe.length, bilder, kleinPunkt, kleinZiel, ohneTitel }
+  })
+}
+
+/** Druckt Befunde von `pruefeMonatPunkte`; wahr, wenn rot. */
+function monatPunkteRot(m) {
+  const fehler = []
+  if (m.zellen === 0) fehler.push('keine Zelle mit Punkten gefunden')
+  if (m.bilder) fehler.push(`${m.bilder} sichtbare Bilder im Monat`)
+  if (m.kleinPunkt) fehler.push(`${m.kleinPunkt} Punkte unter 8 px`)
+  if (m.kleinZiel) fehler.push(`${m.kleinZiel} Tageszellen unter 40 px Tippziel`)
+  if (m.ohneTitel) fehler.push(`${m.ohneTitel} Zellen ohne Titel im aria-label`)
+  for (const f of fehler) console.log(`  ✕ Monat am Handy: ${f}`)
+  return fehler.length > 0
+}
+
+/**
+ * Die untere Handy-Werkzeugleiste (Kalender Woche/Monat, Datenbank) passt bei 320 bis 440 px ohne Wischen: nichts ragt über den
+ * Rand, die Leiste selbst scrollt nicht, und jedes Tippziel ist mindestens 40 × 40 px. Gibt die Abweichungen zurück.
+ */
+async function pruefeWerkzeugleiste(seite) {
+  const abweichungen = []
+  for (const breite of [320, 360, 393, 440]) {
+    await seite.setViewportSize({ width: breite, height: 800 })
+    for (const name of ['woche', 'monat', 'datenbank']) {
+      await seite.goto('about:blank')
+      await seite.goto(`http://ak.test/#/${name}`, { waitUntil: 'networkidle' })
+      await seite.locator('[role=toolbar]').first().waitFor({ state: 'visible', timeout: 20_000 })
+      await seite.waitForTimeout(1500)
+      const m = await seite.evaluate(() => {
+        const leiste = document.querySelector('[role=toolbar]')
+        const rects = [...leiste.querySelectorAll('button, select')].map((e) => {
+          const r = e.getBoundingClientRect()
+          return { name: e.getAttribute('aria-label') ?? e.textContent?.trim() ?? '?', links: r.left, rechts: r.right, b: r.width, h: r.height }
+        })
+        return { rollt: leiste.scrollWidth - leiste.clientWidth, fenster: innerWidth, rects }
+      })
+      const wo = `${name} ${breite} px`
+      if (m.rollt > 0) abweichungen.push(`${wo}: Leiste scrollt (${m.rollt} px zu breit)`)
+      for (const r of m.rects) {
+        if (r.links < 0 || r.rechts > m.fenster - 8) abweichungen.push(`${wo}: „${r.name}" ragt in den Randabstand (${Math.round(r.links)}–${Math.round(r.rechts)} von ${m.fenster})`)
+        if (r.b < 44 || r.h < 44) abweichungen.push(`${wo}: „${r.name}" ist nur ${Math.round(r.b)} × ${Math.round(r.h)} px groß (mind. 44 × 44)`)
+      }
+    }
+  }
+  return abweichungen
+}
+
+/** Die Zusatzprüfungen nach den Bildern; wahr, wenn eine rot ist. */
+async function meldeZusatzpruefungen(seite, ansichten, handy) {
+  /* Der Cartoon-Filter wird am Rechner geprüft; am Handy liegt der Schalter im geschlossenen Filterfenster. */
+  let rot = ansichten.includes('datenbank') && !handy ? await meldeCartoonFilter(seite) : false
+  if (ansichten.includes('datenbank') && !handy && (await pruefeAdressen(seite, DIST))) rot = true
+  if (handy && ['woche', 'monat', 'datenbank'].every((a) => ansichten.includes(a))) {
+    const leiste = await pruefeWerkzeugleiste(seite)
+    console.log(`\nWerkzeugleiste unten (320/360/393/440 px): ${leiste.length ? '' : 'ok'}`)
+    for (const l of leiste) console.log(`  ✕ ${l}`)
+    if (leiste.length) rot = true
+    const fenster = await pruefeFilterfenster(seite)
+    console.log(`\nFilterfenster (320/375/393/440 px, Woche und Datenbank): ${fenster.abweichungen.length ? '' : 'ok'}`)
+    for (const l of fenster.abweichungen) console.log(`  ✕ ${l}`)
+    if (fenster.abweichungen.length) rot = true
+  }
+  return rot
+}
+
+async function main() {
+  if (!distPruefen(WURZEL)) return
   const gewaehlt = process.argv.slice(2).filter((a) => !a.startsWith('--'))
   const ansichten = gewaehlt.length ? gewaehlt : ALLE
 
@@ -141,20 +300,20 @@ async function main() {
           doc: document.documentElement.scrollWidth,
           fenster: window.innerWidth,
         }))
-        befunde.push({ name, fehler: [...fehler], ueberbreite: breite.doc - breite.fenster })
+        befunde.push({ name, fehler: [...fehler], ueberbreite: breite.doc - breite.fenster, ...(await handyMessung(seite, HANDY, name)) })
       }
     }
   }
 
+  let rot = await meldeZusatzpruefungen(seite, ansichten, HANDY)
   await browser.close()
 
-  let rot = false
   console.log('\nAnsicht        Überbreite  Konsolenfehler')
   for (const b of befunde) {
     const ueber = b.ueberbreite > 1 ? `${b.ueberbreite} px` : '—'
     console.log(`  ${b.name.padEnd(12)} ${ueber.padEnd(11)} ${b.fehler.length || '—'}`)
     for (const f of b.fehler.slice(0, 3)) console.log(`      ${f}`)
-    if (b.ueberbreite > 1 || b.fehler.length) rot = true
+    if (b.ueberbreite > 1 || b.fehler.length || !handyLeistenOk(b) || (b.punkte && monatPunkteRot(b.punkte))) rot = true
   }
   console.log(rot ? '\n  ✕ etwas stimmt nicht — siehe oben' : '\n  ok  keine Überbreite, keine Fehler')
   if (rot) process.exitCode = 1

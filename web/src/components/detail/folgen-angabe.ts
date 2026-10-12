@@ -1,10 +1,11 @@
 import { type StreamLink, type Release, type Title } from '@shared/types.ts'
 import { joynAngabe } from '../../lib/joyn.ts'
 import { dubBild, bereicheGekuerzt, dubLuecken, dubGrenze, dubAbdeckung, bereicheKurz } from '@shared/dub-grenze.ts'
-import { releaseStatus, expandEvents, istErschienen } from '@shared/logic.ts'
+import { releaseStatus, expandEvents } from '@shared/logic.ts'
 import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
-import { deutschAbgeschlossen } from './antwort-regeln.ts'
+import { abgeleiteteFolgen, ungefaehr, zaehleErschienen } from './antwort-regeln.ts'
+import { zaehlPlattform } from './prime-kanal.ts'
 
 export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }: {
   releases: Release[]
@@ -16,7 +17,7 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
 
   const folgenAngabeFuer = (
     s:
-      | { platform?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges']; dub?: boolean; fenster?: StreamLink['fenster'] }
+      | { platform?: string; kanal?: string; url?: string; nurFolge?: number; dubRanges?: StreamLink['dubRanges']; dub?: boolean; fenster?: StreamLink['fenster'] }
       | undefined,
   ): string => {
     /*
@@ -24,12 +25,14 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       ein rollendes Fenster; bei Dragon Ball Super stand sonst „131 Fg.“, abrufbar waren 20.
     */
     if (s?.platform === 'joyn') return joynAngabe(s.fenster) ?? ''
+    /* Ein Prime-Kanal-Weg ohne eigene Bereiche zählt wie der Anbieter, dessen Bestand er führt (Slime Staffel 4, 10.10.2026; `prime-kanal.ts`). */
+    const bestandsPlattform = s && zaehlPlattform(s, title?.streams ?? [])
     /*
       **Alle Releases des Anbieters zusammen** (21.09.2026, Steel Ball Run). Netflix führt Folge 1
       als eigenes Release (19.03.) und die Folgen 2–12 als Wochenserie ab 25.09.; AniList kennt nur
       die erste. Die Pille zählte ein Release und hielt das Werk für einfolgig — sie blieb leer.
     */
-    const anbieterReleases = s?.platform ? releases.filter((r) => r.platform === s.platform) : []
+    const anbieterReleases = bestandsPlattform ? releases.filter((r) => r.platform === bestandsPlattform) : []
     const folgenLautReleases = Math.max(
       0,
       ...anbieterReleases.map((r) => (r.schedule?.firstEpisodeNumber ?? 1) - 1 + (r.schedule?.episodeCount ?? 1)),
@@ -64,20 +67,17 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
     if (luecken) return t('detail.dubLuecken', { n: luecken })
     const grenze = dubGrenze(s?.dubRanges)
     if (grenze) return t(grenze.schluessel, { n: grenze.n })
-    const release = s?.platform ? releaseJePlattform.get(s.platform) : undefined
+    const release = bestandsPlattform ? releaseJePlattform.get(bestandsPlattform) : undefined
     /*
       Ein RTL+-Wochentermin setzt mitten in der Serie ein (Beyblade X ab Folge 101); die
       erschienenen zu zählen ergäbe „16 Fg." bei 115 Folgen auf RTL+ (19.09.2026).
     */
     if (release?.tvLetzteSichtung && release.platform !== 'tv' && releaseStatus(release, today) === 'airing')
       return t('detail.neuAm', { d: formatDate(release.tvLetzteSichtung) })
-    if (release?.releaseType === 'weekly' && releaseStatus(release, today) === 'airing') {
-      const raus = expandEvents(release).filter((e) => istErschienen(e)).length
-      return raus ? t('detail.folgenKurz', { n: raus }) : ''
-    }
-    /* Mehrere Releases, eines davon als Wochenserie: gezählt wird, was bei diesem Anbieter schon da ist. */
-    if (anbieterReleases.length > 1 && anbieterReleases.some((r) => r.releaseType === 'weekly')) {
-      const raus = anbieterReleases.flatMap((r) => expandEvents(r)).filter((e) => istErschienen(e)).length
+    /* Wochenserie, oder mehrere Releases mit einer Wochenserie: gezählt wird, was bei diesem Anbieter schon da ist (Abwurf Folge 1–11 plus Wochentakt ab 12 ergibt 15). */
+    const wochenlauf = release?.releaseType === 'weekly' && releaseStatus(release, today) === 'airing'
+    if (wochenlauf || (anbieterReleases.length > 1 && anbieterReleases.some((r) => r.releaseType === 'weekly'))) {
+      const raus = zaehleErschienen(anbieterReleases.flatMap((r) => expandEvents(r)))
       return raus ? t('detail.folgenKurz', { n: raus }) : ''
     }
     /* Decken die Bereiche den Titel nicht ab, nennt die Pille sie selbst — „Fg. 1–75" statt
@@ -93,8 +93,8 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       Deutsch". Eine Zahl am Weg braucht einen Beleg an genau diesem Weg.
     */
     if (s && s.dub !== true) return ''
-    const abgeschlossen = deutschAbgeschlossen(title, releases, today)
-    return abgeschlossen && title.episodes ? t('detail.folgenKurz', { n: title.episodes }) : ''
+    const abgeleitet = abgeleiteteFolgen(title, releases, today)
+    return abgeleitet ? ungefaehr(t('detail.folgenKurz', { n: abgeleitet }), true) : ''
   }
   return folgenAngabeFuer
 }

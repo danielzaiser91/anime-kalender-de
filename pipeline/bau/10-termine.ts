@@ -1,15 +1,19 @@
 import { type ReleaseEvent, type Title, type Release } from '../../shared/types.ts'
 import { expandEvents } from '../../shared/logic.ts'
 import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-signale.ts'
-import { readJson, log, warn } from '../lib/util.ts'
+import { schreibeZweitanbieter } from '../../shared/zweitanbieter.ts'
+import { log, warn } from '../lib/util.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
+import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
+import { schreibePremiereMitMeldung } from '../lib/premiere.ts'
+import { premiereBelegtTv } from '../../shared/premiere.ts'
 import { todayIso } from '../../shared/time.ts'
 import { kostenloseFolgen } from '../../shared/kostenlos.ts'
-import { existsSync, readdirSync, readFileSync } from 'node:fs'
-import { VOICES_DIR } from './grundlagen.ts'
+import { sprecherRollen } from './sprecher-anisearch.ts'
 import { widerlegeDeutscheTermine } from './widerlegung-woche.ts'
 import { anisearchNurKatalog } from './anisearch-titel.ts'
 import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } from './ohne-beleg.ts'
+import { urteilSchliesstLuecken } from './urteil-schliesst-luecken.ts'
 
 /**
  * **Die zwei Auskünfte an den Termin schreiben** (28.09.2026, `shared/tv-signale.ts`).
@@ -25,17 +29,24 @@ import { ausgestrahltOhneBeleg, keineSynchroLautAnisearch, ohneSynchroVonHand } 
  */
 export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], titles: Map<number, Title>): void {
   const releaseBySlug = new Map(releases.map((r) => [r.slug, r]))
+  /* Wie die Oberfläche: Die Auskunft sieht nur die Releases des eigenen Titels. */
+  const releasesJeTitel = new Map<number, Release[]>()
+  for (const r of releases) releasesJeTitel.set(r.titleId, [...(releasesJeTitel.get(r.titleId) ?? []), r])
   let premier = 0
   let wiederholungen = 0
+  let ohneAussage = 0
   let finale = 0
   for (const ev of events) {
     const release = releaseBySlug.get(ev.releaseSlug)
     const title = titles.get(ev.titleId)
     if (release && title && ev.platform === 'tv' && ev.episode && !ev.sichtung) {
-      const istEs = istPremiere(ev.episode, ev.date, title, releases, release.ersteDeutsch, ev.time)
-      ev.tvPremiere = istEs
-      if (istEs) premier++
-      else wiederholungen++
+      const istEs = istPremiere(ev.episode, ev.date, title, releasesJeTitel.get(ev.titleId) ?? [], release.ersteDeutsch, ev.time, premiereBelegtTv(release))
+      if (istEs === undefined) ohneAussage++
+      else {
+        ev.tvPremiere = istEs
+        if (istEs) premier++
+        else wiederholungen++
+      }
     }
     if (istStaffelfinale(ev, { releaseBySlug })) {
       ev.staffelfinale = true
@@ -43,7 +54,16 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
     }
     if (istStaffelstart(ev, { releaseBySlug })) ev.staffelstart = true
   }
-  log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${finale} Staffelfinale`)
+  log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${ohneAussage} ohne Aussage (kein Beleg), ${finale} Staffelfinale`)
+  schreibePremiereMitMeldung(events, releases, titles)
+  schreibeZweitanbieterMitMeldung(events, releases)
+}
+
+/** Die Marke „Zweitanbieter“ nach den Handbelegen schreiben; ein widersprechender Premiere-Beleg ist eine Warnung. */
+function schreibeZweitanbieterMitMeldung(events: ReleaseEvent[], releases: Release[]): void {
+  const { anzahl, kollisionen } = schreibeZweitanbieter(events, releases)
+  for (const k of kollisionen) warn(k)
+  log(`Zweitanbieter: ${anzahl} Termine`)
 }
 
 export function rolleTermineAus({ releases, titles, jpStart }: {
@@ -57,39 +77,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
     .flatMap(expandEvents)
     .sort((a, b) => (a.date === b.date ? (a.time ?? '99') .localeCompare(b.time ?? '99') : a.date.localeCompare(b.date)))
 
-  /**
-   * **Stufe 4, Schritt 1: das Urteil schließt Lücken**.
-   *
-   * `data/urteile.json` entsteht in Stufe 3 aus allen Beobachtungen je Folge und Anbieter
-   * (`lib/urteil-je-folge.ts`): die jüngste gewinnt, am selben Tag schlägt gemessen die
-   * abgeleitete, ein Kanal-Nein bleibt `unbekannt`.
-   *
-   * Dieser Schritt ersetzt **keine** der 26 Stellen, an denen der Bau heute `dub` setzt — er
-   * steht dahinter und füllt nur, was niemand gesetzt hat (gemessen am 23.09.2026: 177 von 222
-   * decken sich, null widersprechen, einer offen). Jede neue Meldung kommt so ohne neue Setzstelle an.
-   *
-   * Ein Urteil „kein deutsch" setzt hier nichts: Ein Nein entfernt Wege, und das gehört zu
-   * Schritt 2, wenn die Gegenproben dafür stehen.
-   */
-  {
-    const urteile = readJson<Record<string, { urteil?: string }>>('data/urteile.json', {})
-    const jaJeWeg = new Set<string>()
-    for (const [schluessel, u] of Object.entries(urteile)) {
-      if (u?.urteil !== 'deutsch') continue
-      const [id, plattform] = schluessel.split('|')
-      if (id && plattform) jaJeWeg.add(`${id}|${plattform}`)
-    }
-    let ausUrteil = 0
-    for (const title of titles.values()) {
-      for (const stream of title.streams ?? []) {
-        if (stream.dub !== undefined) continue
-        if (!jaJeWeg.has(`${title.id}|${stream.platform}`)) continue
-        stream.dub = true
-        ausUrteil++
-      }
-    }
-    if (ausUrteil) log(`${ausUrteil} Weg(e) über das Urteil aus Stufe 3 belegt`)
-  }
+  urteilSchliesstLuecken(titles)
   /**
    * Gegenprobe, bevor irgendetwas geschrieben wird.
    *
@@ -104,11 +92,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
    */
   const pruefung = pruefeErgebnis(releases, events, titles, todayIso())
   for (const w of pruefung.warnungen) warn(w)
-  if (pruefung.fehler.length) {
-    for (const f of pruefung.fehler) console.error('  ✖', f)
-    console.error(`\n${pruefung.fehler.length} Widersprüche im erzeugten Datensatz — nichts geschrieben.`)
-    process.exit(1)
-  }
+  brichAbBeiWiderspruch(pruefung.fehler, 'Widersprüche im erzeugten Datensatz — nichts geschrieben.')
 
   /**
    * Titel, deren japanische Ausstrahlung noch gar nicht begonnen hat, gehören
@@ -134,23 +118,10 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
    */
   // Welche Titel haben deutsche Sprechrollen? Nur der Merker wandert in den
   // Datensatz — die Rollen selbst holt die Oberfläche beim Aufklappen aus
-  // `public/data/voices/<id>.json`. Das Verzeichnis füllt `data:voices`, das
-  // vor diesem Lauf gelaufen sein muss; fehlt es, bleibt der Merker aus und
-  // die Oberfläche zeigt den Bereich schlicht nicht an.
-  const mitStimmen = new Set<number>()
-  if (existsSync(VOICES_DIR)) {
-    for (const datei of readdirSync(VOICES_DIR)) {
-      if (!datei.endsWith('.json')) continue
-      try {
-        const inhalt = JSON.parse(readFileSync(`${VOICES_DIR}/${datei}`, 'utf8')) as {
-          roles?: unknown[]
-        }
-        if (inhalt.roles?.length) mitStimmen.add(Number(datei.replace('.json', '')))
-      } catch {
-        // Kaputte Datei überspringen — der nächste Sprecher-Lauf schreibt sie neu.
-      }
-    }
-  }
+  // `public/data/voices/<id>.json`. Das Verzeichnis füllen `data:voices` und
+  // `data:ann:voices`; `sprecherRollen` legt die aniSearch-Besetzung darüber.
+  // Fehlt das Verzeichnis, bleibt der Merker aus und die Oberfläche zeigt den Bereich schlicht nicht an.
+  const mitStimmen = sprecherRollen({ titles })
 
   const mitRelease = new Set(releases.map((r) => r.titleId))
   const heuteIso = todayIso()

@@ -4,9 +4,14 @@ import { PLATFORMS } from '@shared/types.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { useLang } from '../../lib/i18n.tsx'
 import { useShare } from '../../lib/share.ts'
+import { useAbSm } from '../../lib/use-breit.ts'
+import { teilbarerSlug } from '@shared/teilen.ts'
 import { coverBild, KACHEL_DICHTE } from '../../lib/cover.ts'
 import { FavoriteStar, HideEye, ShareIcon, Tooltip } from '../ui.tsx'
-import { anbieterUndFolge, VerpasstMarke, ZeitMarke } from './Marken.tsx'
+import { anbieterUndFolge, SpracheMarke, VerpasstMarke, ZeitMarke } from './Marken.tsx'
+import { AnbieterAngaben } from './AnbieterAngaben.tsx'
+import { anbieterVerlauf, zeitGemeinsam, type AnbieterKachel } from '../../lib/anbieter-kachel.ts'
+import { PremiereMarke } from './PremiereMarke.tsx'
 import { FundstellenZeichen, TrefferName } from '../Suchtreffer.tsx'
 
 export type KartenArt = 'start' | 'finale'
@@ -20,6 +25,8 @@ export interface PosterKarteProps {
   art?: KartenArt
   /** Weitere Folgen desselben Titels am selben Tag (`buendeleTermine`). */
   weitere?: number
+  /** Derselbe Titel bei mehreren Anbietern am selben Tag (`vereineAnbieter`): geteilte Farbleiste, Angaben je Anbieter. */
+  anbieter?: AnbieterKachel
   favorite: boolean
   hidden: boolean
   /** Schon vorbei (heute vor der aktuellen Uhrzeit) — tritt zurück. */
@@ -79,12 +86,18 @@ export function PosterKarte(p: PosterKarteProps) {
         <FundstellenZeichen text={p.event.name} schluessel={p.event.releaseSlug} />
       </span>
       <span className="-mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-ak-leise">
-        <span>{anbieterUndFolge(p.event, t)}</span>
-        {!!p.weitere && <span className="font-semibold text-ak-text">{t('kal.buendelStream', { n: p.weitere })}</span>}
+        {p.anbieter ? (
+          <AnbieterAngaben kachel={p.anbieter} t={t} />
+        ) : (
+          <>
+            <span>{anbieterUndFolge(p.event, t)}</span>
+            {!!p.weitere && <span className="font-semibold text-ak-text">{t('kal.buendelStream', { n: p.weitere })}</span>}
+          </>
+        )}
         {!!p.neu && (
           <span className="rounded bg-ak-akzent/15 px-1 font-semibold text-ak-akzent-text">{t('fav.neuSeit', { n: p.neu })}</span>
         )}
-        <VerpasstMarke event={p.event} t={t} />
+        <VerpasstMarke event={p.event} t={t} /><SpracheMarke event={p.event} t={t} />
       </span>
     </article>
   )
@@ -93,8 +106,10 @@ export function PosterKarte(p: PosterKarteProps) {
 function PosterCover(p: PosterKarteProps & { breit: boolean }) {
   const { t } = useLang()
   const { share, copiedSlug } = useShare()
+  const desktop = useAbSm()
   const cover = p.title?.coverImage
-  const farbe = PLATFORMS[p.event.platform]?.color ?? '#888'
+  const teilbar = teilbarerSlug(p.title)
+  const farbe = anbieterVerlauf((p.anbieter ?? [[p.event]]).map((b) => PLATFORMS[b[0]!.platform]?.color ?? '#888'))
   const bild = coverBild(cover, p.breit ? 320 : 160, p.breit ? '(min-width: 1024px) 320px, 92vw' : '(min-width: 1024px) 160px, 46vw', KACHEL_DICHTE)
   return (
     <div className="relative">
@@ -119,8 +134,9 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
         </span>
       )}
       <span className="absolute top-2 left-2 flex flex-wrap items-center gap-1.5">
-        <ZeitMarke event={p.event} t={t} />
+        {(!p.anbieter || zeitGemeinsam(p.anbieter)) && <ZeitMarke event={p.event} t={t} />}
         {p.art && <ArtFahne art={p.art} />}
+        {p.event.premiere && <PremiereMarke platform={p.event.platform} vorher={p.event.premiereVorher} className="px-2 py-0.5" />}
       </span>
       {/*
         Teilen und Ausblenden erst beim Zeigen; der Stern bleibt, sobald er gesetzt ist. Unten rechts,
@@ -132,17 +148,19 @@ function PosterCover(p: PosterKarteProps & { breit: boolean }) {
           ★
         </span>
       )}
-      <span className="absolute right-1.5 bottom-2.5 hidden items-center gap-1 sm:flex" onClick={(e) => e.stopPropagation()}>
-        <span className={`${KNOPF_GRUND} ${ERST_BEIM_ZEIGEN}`}>
-          <ShareIcon onShare={() => void share(p.event.releaseSlug, p.event.name)} copied={copiedSlug === p.event.releaseSlug} size="sm" />
-          {p.onToggleHidden && <HideEye hidden={false} onToggle={p.onToggleHidden} size="sm" />}
-        </span>
-        {p.onToggleFavorite && (
-          <span className={`${KNOPF_GRUND} ${p.favorite ? '' : ERST_BEIM_ZEIGEN}`}>
-            <FavoriteStar active={p.favorite} onToggle={p.onToggleFavorite} size="sm" />
+      {desktop && (
+        <span className="absolute right-1.5 bottom-2.5 flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+          <span className={`${KNOPF_GRUND} ${ERST_BEIM_ZEIGEN}`}>
+            {teilbar && <ShareIcon onShare={() => void share(teilbar, p.event.name)} copied={copiedSlug === teilbar} size="sm" />}
+            {p.onToggleHidden && <HideEye hidden={false} onToggle={p.onToggleHidden} size="sm" />}
           </span>
-        )}
-      </span>
+          {p.onToggleFavorite && (
+            <span className={`${KNOPF_GRUND} ${p.favorite ? '' : ERST_BEIM_ZEIGEN}`}>
+              <FavoriteStar active={p.favorite} onToggle={p.onToggleFavorite} size="sm" />
+            </span>
+          )}
+        </span>
+      )}
     </div>
     {/*
       **Die Anbieterleiste liegt über dem Rand, nicht darunter** (Daniel, 04.10.2026): Der Ring von Staffelstart und -finale sitzt außerhalb der Kachel; die Leiste

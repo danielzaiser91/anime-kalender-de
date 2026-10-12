@@ -328,7 +328,7 @@ export function NewsView({ data, oeffne }: { data: Dataset; oeffne: (titelId: nu
 
       {/* Filterleiste: nur Arten, die wirklich vorkommen (ein leerer Filter ist eine Sackgasse). py-2.5 fängt die 44-px-Trefferfläche (.ak-tz::after) ein, sonst scrollt die Leiste senkrecht; auf dem Handy eine rollbare Reihe statt vier Zeilen Chips. */}
       {meldungen && meldungen.length > 0 && (
-        <div className="-mx-3 -mt-2.5 mb-0.5 flex gap-1 overflow-x-auto px-3 py-2.5 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+        <div className="-mx-3 -mt-2.5 mb-0.5 flex gap-1 overflow-x-auto px-3 py-2.5 max-sm:pr-8 max-sm:[mask-image:linear-gradient(to_right,#000_calc(100%-32px),transparent)] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
           <button
             type="button"
             onClick={() => setFilter(null)}

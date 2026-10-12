@@ -1,11 +1,12 @@
 import { type Title } from '@shared/types.ts'
+import { AufklappKopf } from './aufklapp-kopf.tsx'
 import { useLang } from '../../lib/i18n.tsx'
 import { useState, Fragment, useEffect, useRef, useMemo } from 'react'
 import { eindeutschenStaffel, anzeigeName } from '@shared/titles.ts'
 import { type Voices, loadVoices, type Dataset, loadCartoons, loadAllTitles } from '../../lib/data.ts'
 import { aehnlicheTitel } from '../../lib/aehnlich.ts'
 import { coverBild } from '../../lib/cover.ts'
-import { TIPPFLAECHE_HOCH, TREFFER_24_HOCH } from './tippziel.ts'
+import { TIPPFLAECHE_HOCH } from './tippziel.ts'
 
 /**
  * Alle weiteren Schreibweisen eines Titels — eingeklappt, an einer Stelle.
@@ -59,6 +60,31 @@ export function WeitereTitel({ title }: { title: Title }) {
 }
 
 /**
+ * Quellenzeile der Sprecherliste: nennt, woher die gezeigten Rollen stammen (aniSearch, AniList), bei ANN samt Link.
+ *
+ * Bei ANN ist sie eine Auflage, keine Geste: Anime News Network verlangt für die Nutzung der Encyclopedia-Daten
+ * eine Quellenangabe **und** einen Link zum jeweiligen Eintrag auf jeder Seite, die die Angaben zeigt. Der Link steht
+ * deshalb hier und nicht auf der Quellenseite: Er gehört dorthin, wo die Daten stehen.
+ */
+function VoiceQuellen({ stimmen }: { stimmen: Voices }) {
+  const { t } = useLang()
+  const namen = [stimmen.roles.some((r) => r.von === 'anisearch') && 'aniSearch', stimmen.roles.some((r) => !r.von) && 'AniList'].filter(Boolean)
+  return (
+    <p className="mt-2 text-[11px] text-slate-400">
+      {t('detail.voicesSource')} {namen.join(', ')}
+      {stimmen.annUrl && (
+        <>
+          {namen.length ? ', ' : ''}
+          <a href={stimmen.annUrl} target="_blank" rel="noreferrer noopener" className="underline hover:text-sky-400">
+            Anime News Network
+          </a>
+        </>
+      )}
+    </p>
+  )
+}
+
+/**
  * Deutsche Sprechrollen — zugeklappt, und erst der Klick holt die Daten.
  *
  * Bewusst nicht im Hauptdatensatz: Über alle Titel wären das mehr als 50.000
@@ -94,17 +120,9 @@ export function VoiceCast({ titleId }: { titleId: number }) {
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className={`flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 ${TREFFER_24_HOCH}`}
-      >
-        <span aria-hidden className={`transition-transform ${open ? 'rotate-90' : ''}`}>
-          ›
-        </span>
+      <AufklappKopf offen={open} onClick={() => setOpen((v) => !v)}>
         {t('detail.voices')}
-      </button>
+      </AufklappKopf>
 
       {open && (
         <div className="mt-2">
@@ -126,31 +144,7 @@ export function VoiceCast({ titleId }: { titleId: number }) {
                   </Fragment>
                 ))}
               </dl>
-              {/*
-                Quellennennung, und bei ANN ist sie eine Auflage, keine Geste.
-
-                Anime News Network verlangt fuer die Nutzung der
-                Encyclopedia-Daten ausdruecklich eine Quellenangabe **und** einen
-                Link zum jeweiligen Eintrag auf jeder Seite, die die Angaben
-                zeigt. Der Link steht deshalb hier und nicht auf der
-                Quellenseite: Er gehoert dorthin, wo die Daten stehen.
-              */}
-              <p className="mt-2 text-[11px] text-slate-400">
-                {t('detail.voicesSource')}
-                {stimmen.annUrl && (
-                  <>
-                    {', '}
-                    <a
-                      href={stimmen.annUrl}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="underline hover:text-sky-400"
-                    >
-                      Anime News Network
-                    </a>
-                  </>
-                )}
-              </p>
+              <VoiceQuellen stimmen={stimmen} />
             </>
           )}
         </div>
@@ -210,17 +204,9 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
 
   return (
     <div ref={bereich}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className={`flex w-full cursor-pointer items-center gap-1.5 text-left text-xs font-semibold uppercase tracking-wide text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 ${TREFFER_24_HOCH}`}
-      >
-        <span aria-hidden className={`transition-transform ${open ? 'rotate-90' : ''}`}>
-          ›
-        </span>
+      <AufklappKopf offen={open} onClick={() => setOpen((v) => !v)}>
         {t('detail.aehnlich')}
-      </button>
+      </AufklappKopf>
 
       {open && (
         <div className="mt-2">

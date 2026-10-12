@@ -105,8 +105,8 @@ Newsletter) — eine Zeile, kein neues Schema.
   bei deinen Anbietern" (Neustarts auf gewählten Plattformen) — das wäre Empfehlung, nicht Community, bleibt
   aber bewusst draußen, bis die Grundansicht sich bewährt.
 - **Favoriten je Staffel.** `favorites` trägt Staffel-Kennungen; „Meine Woche" zeigt die neue Staffel nicht,
-  wenn nur die alte gemerkt ist. `ReihenStern` (alle Staffeln merken) existiert; der Reihen-Hinweis
-  (`franchiseHinweis`) im Newsletter auch. Offen: Vorschlag „Staffel 2 von X startet — merken?".
+  wenn nur die alte gemerkt ist. Der Reihen-Hinweis
+  (`franchiseHinweis`) im Newsletter existiert; der Sammel-Stern „ganze Reihe merken“ wurde am 10.10.2026 entfernt. Offen: Vorschlag „Staffel 2 von X startet — merken?".
 - **Plattform ≠ Zugang.** „Prime Video" umfasst Kanäle (Aniverse-Kanal, `release.kanal`); wer Prime hat, hat
   nicht Aniverse. Der Prototyp wählt nach `platform`, der Kanal steht im Panel. Fürs Erste Hinweis, später
   Chip je Kanal.

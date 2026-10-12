@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { NewsBeleg } from '@shared/types.ts'
 import { hostVon } from '@shared/quelle.ts'
+import { BELEG_TYP_LABEL, belegTyp } from '@shared/beleg-anbieter.ts'
 import { datumKurz } from '../lib/news-text.ts'
 import { quellenLabel } from './news-belege.tsx'
 import { TREFFER_24_HOCH } from './detail/tippziel.ts'
@@ -54,11 +55,21 @@ function pruefzeile(b: NewsBeleg, mitBild: boolean): string {
   return teile.length ? ` ${(teile.join(' · ') as string).replace(/^./, (c) => c.toUpperCase())}.` : ''
 }
 
-/** Zwei Quellen desselben Anbieters bekommen eine Nummer: „anime2you.de 1", „anime2you.de 2". */
+/** Der Tag ohne Jahr, solange er im laufenden Jahr liegt: „09.10." statt „09.10.2026". */
+function kurzTag(iso: string): string {
+  const k = datumKurz(iso)
+  return iso.startsWith(String(new Date().getFullYear())) ? k.slice(0, 6) : k
+}
+
+/**
+ * Derselbe Anbieter erscheint je Aussage nur einmal je Typ (Bau: `entdoppeleBelege`); teilen sich zwei Reiter den Namen,
+ * unterscheidet der Typ mit Tag: „anime2you.de · Artikel 09.10.", „anime2you.de · Feed".
+ */
 function tabName(b: NewsBeleg, alle: NewsBeleg[]): string {
   const name = quellenLabel(b)
-  const gleich = alle.filter((x) => quellenLabel(x) === name)
-  return gleich.length > 1 ? `${name} ${gleich.indexOf(b) + 1}` : name
+  if (alle.filter((x) => quellenLabel(x) === name).length < 2) return name
+  const wann = b.veroeffentlichtAm ?? b.gemessenAm ?? b.ausgabeAm
+  return `${name} · ${BELEG_TYP_LABEL[belegTyp(b.url)]}${wann ? ` ${kurzTag(wann)}` : ''}`
 }
 
 const BTN = 'cursor-pointer rounded border border-slate-600 px-2.5 py-1 text-xs hover:bg-white/10'
@@ -151,9 +162,16 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
   const bild = WORKER ? beleg.bild : undefined
   const { url, fehler } = useBelegBild(bild)
   const [einpassen, setEinpassen] = useState(false)
-  const [markiert, setMarkiert] = useState(false)
+  /* Mit Markierung öffnet das Bild gleich an der Fundstelle (Daniel, 11.10.2026); der Schalter nimmt die Marke zurück. */
+  const [markiert, setMarkiert] = useState(Boolean(beleg.markierung))
+  const startScroll = useRef(Boolean(beleg.markierung))
   const marke = useRef<HTMLDivElement>(null)
   const [x, y, b, h] = beleg.markierung ?? []
+  const bildGeladen = () => {
+    if (!startScroll.current) return
+    startScroll.current = false
+    marke.current?.scrollIntoView({ block: 'center' })
+  }
   const zurFundstelle = () => {
     if (markiert) {
       setMarkiert(false)
@@ -189,7 +207,7 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
           <p className="p-4 text-sm text-rose-300">{fehler}</p>
         ) : url ? (
           <div className={einpassen ? 'relative h-full max-w-full' : 'relative mx-auto w-full max-w-[1800px]'} onClick={(e) => e.stopPropagation()}>
-            <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} />
+            <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} onLoad={bildGeladen} />
             {markiert && x !== undefined && (
               <div
                 ref={marke}

@@ -1,0 +1,1117 @@
+{
+ "seed": "cartoon-jw-stichprobe-2026-10-11",
+ "erzeugt": "2026-10-11",
+ "quoten": {
+  "jw-deutsch": {
+   "disneyplus": 25,
+   "primevideo": 25
+  },
+  "jw-ohne-deutsch": {
+   "netflix": 20,
+   "disneyplus": 15,
+   "primevideo": 15
+  }
+ },
+ "eintraege": [
+  {
+   "id": -64752,
+   "titel": "The Lion Guard",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-b7833196-8dab-411e-8728-46759d8402ba",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -95543,
+   "titel": "The Rocketeer",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-165f8793-f613-4190-986f-f30be72dad8d",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -21781,
+   "titel": "The Super Hero Squad Show",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-446f4941-466c-428e-931c-9a385165bfd4",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -131364,
+   "titel": "Ready for Preschool",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-61294e8c-61e7-41f9-b49e-d4b1c752e2f3",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -156613,
+   "titel": "The Unstoppable Yellow Yeti",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-bbbd5c2a-5f24-44d3-a613-af1a72ff777d",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -15632,
+   "titel": "The Cleveland Show",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-f1bf2db1-d201-4c1f-8b4b-3e8cc79a85f6",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -103822,
+   "titel": "Zenimation",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-53dbe23f-0e40-427c-b2c7-317a873129a8",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -129902,
+   "titel": "Disney Presents Goofy in How to Stay at Home",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-5fe5c1fa-bc72-4591-8951-cba8d675d819",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -72705,
+   "titel": "Marvel's Spider-Man",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-133d6369-075f-44ab-ae24-d4781a291d3b",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -46698,
+   "titel": "Randy Cunningham: 9th Grade Ninja",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-b7115365-988a-4ffc-b4d3-8f4d9f4ea616",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -195625,
+   "titel": "The Post Train",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-4dc5b155-0bcb-4cd0-b684-af923fb33dc7",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -96715,
+   "titel": "Chip 'n' Dale: Park Life",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-f754e606-43e6-49f0-a2c2-2ff9a6327586",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -229023,
+   "titel": "Me & Winnie the Pooh",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-4884ae4a-ff21-457d-b6c7-519029c5045e",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -67175,
+   "titel": "Elena of Avalor",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-5d2b13bf-d8de-4877-9b8d-2f73419757d0",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -92685,
+   "titel": "The Owl House",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-4249e544-b4cd-4f3d-bb68-31967428ce13",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -204136,
+   "titel": "Zombies: The Re-Animated Series",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-17e55fcb-32d1-40dc-9e8e-f99b55d19d0d",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -62328,
+   "titel": "Goldie & Bear",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-27cceaed-30a3-4922-8a7e-36393f00658a",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -202998,
+   "titel": "Star Wars: Young Jedi Adventures",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-faa35b37-3287-4a7c-9d42-a3a5f9ad9185",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -301715,
+   "titel": "Armorsaurs",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-4e1eb434-6040-4aa5-a41f-dc2fd781423e",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -196460,
+   "titel": "Snail Trail",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-1c6e9212-221e-42aa-b4e6-c4b12530bbd4",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -134297,
+   "titel": "Olaf Presents",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-1cfa92ea-a94b-4701-a6ab-e14504c5887d",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -543,
+   "titel": "The Proud Family",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-74040e1a-4dfa-4f6a-b45d-2a0f0c055ae4",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -59427,
+   "titel": "Marvel's Avengers",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-07eb26b1-fdd6-4147-a149-f0d69a1fc4e2",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -273266,
+   "titel": "Mickey's Spooky Stories",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-33df4bde-d2eb-49f6-9f89-3ccbe65a55a3",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -220595,
+   "titel": "Kiya & the Kimoja Heroes",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-bca5e174-6bcb-45bf-aa77-dc69438640c8",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -256795,
+   "titel": "Hot Wheels: Monster Trucks",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ddb99a49-8691-4e16-8838-0a6c5e8c24ac",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -219004,
+   "titel": "Little Angel",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.ea77bc7d-0c6d-4556-8efd-2b6ba88bd944",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -155063,
+   "titel": "Blippi Wonders",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.91cbcd53-4ffd-4cbf-95d5-f204285c8b7d",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -65417,
+   "titel": "PJ Masks",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.f10e9a74-91a4-4392-96e2-7090feb92faa",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -81896,
+   "titel": "Four and a Half Friends",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a5bda3a8-8308-46ce-aefd-fc789d00c9d8",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -99560,
+   "titel": "Troy the Train of Car City",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.34b03a1b-51b7-2661-0694-8ccd0a486b75",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -64198,
+   "titel": "Blaze and the Monster Machines",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.335c288c-f435-413f-851b-708578609172",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -1763,
+   "titel": "Braceface",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5df64ad7-4e91-48fa-a043-b06f44985327",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -67459,
+   "titel": "The Stinky & Dirty Show",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d2ab880c-bf6b-8c43-795d-863a5a76ff70",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -34449,
+   "titel": "Chloe's Closet",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.71fb4585-caa0-4165-97f9-80e54b5609bd",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -74866,
+   "titel": "Supa Strikas",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.726498af-04fb-4249-a0a0-362953271aca",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -100435,
+   "titel": "Enchantimals: Tales From Everwilde",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c8b6fd03-0e90-28fa-e0ab-881c607a92b8",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -72898,
+   "titel": "Niko and the Sword of Light",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.e0af4e2a-0521-f42a-166b-012bb3aaa0a6",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -63054,
+   "titel": "Lost in Oz",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.e2af5d79-d3a7-7a10-fd94-8b2a40be1d6a",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -62211,
+   "titel": "Sonic Boom",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.c9bcf7ab-b647-4ca9-beb7-ff647c8ec60b",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -11982,
+   "titel": "Max & Ruby",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.dc9615ff-12e3-42c9-85c7-36ad46e8b9cb",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -132559,
+   "titel": "The Croods: Family Tree",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.02f65553-da89-46e7-b606-e7b821c73b19",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -281485,
+   "titel": "Antiks",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.a42a7992-811d-4616-8b19-e160276b57ad",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -95557,
+   "titel": "INVINCIBLE",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d4bc0a58-139a-abbc-046b-d9ffcd25c463",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -135934,
+   "titel": "The Legend of Vox Machina",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8944b97e-0dac-4af6-9343-fd9014786a6a",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -289244,
+   "titel": "Bob's Beach",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.16ace76c-063b-23ac-bfcf-351d1a4e9d3d",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -57480,
+   "titel": "Om Nom Stories",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.50b4ec7d-c809-a120-d7f7-da2508a83206",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -212989,
+   "titel": "LEGO Ninjago: Dragons Rising",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.64aa9ea1-0556-44de-9b16-c2d227d19f98",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -74332,
+   "titel": "Sherazade: The Untold Stories",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.6cb73598-111c-d762-dfc8-229e070d9d7e",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -61751,
+   "titel": "All Hail King Julien",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.30471d05-9b3d-4235-ad0e-4623b2983a4a",
+   "richtung": "jw-deutsch",
+   "jw": {
+    "urteil": "deutsch",
+    "text": "Ton: Deutsch"
+   }
+  },
+  {
+   "id": -128036,
+   "titel": "Q-Force",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81039557",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -247246,
+   "titel": "The Fairly OddParents: A New Wish",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81608820",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -100746,
+   "titel": "Buddi",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80993590",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -93741,
+   "titel": "Jurassic World Camp Cretaceous",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81009646",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -101400,
+   "titel": "Spirit Riding Free: Riding Academy",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81054417",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -117830,
+   "titel": "Tomb Raider: The Legend of Lara Croft",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81361105",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -106009,
+   "titel": "Numberblocks",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81272431",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -67264,
+   "titel": "Beat Bugs",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80057611",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -100617,
+   "titel": "Transformers: War for Cybertron: Siege",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81002438",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -106238,
+   "titel": "Hoops",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81008138",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -327414,
+   "titel": "Monkey Wrench",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/82116613",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -63350,
+   "titel": "Dinotrux",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80049903",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -129604,
+   "titel": "Ada Twist, Scientist",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80198673",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -158138,
+   "titel": "Super Giant Robot Brothers",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80211128",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -205070,
+   "titel": "Supa Team 4",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80205037",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -115577,
+   "titel": "Sonic Prime",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81294811",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -238151,
+   "titel": "Carol & the End of the World",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81044590",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -235997,
+   "titel": "Dee & Friends in Oz",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81223055",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -203805,
+   "titel": "Dragon Age: Absolution",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81183924",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -95071,
+   "titel": "Hello Ninja",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80227818",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -3902,
+   "titel": "Shaun the Sheep",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-1d73ef9f-32ea-43be-8ead-68d9b9e45702",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -19889,
+   "titel": "Timmy Time",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-b569cc47-9368-494f-a8d6-4cbe0dfe6314",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -117074,
+   "titel": "Mickey Go Local",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-e8e91af6-5356-40f5-bb12-f7432dcec4fb",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (ar, cs, el, en, he, hu, pl, ro, tr)"
+   }
+  },
+  {
+   "id": -82679,
+   "titel": "Shaun the Sheep Championsheeps",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-cb9eb827-5e12-4dba-b823-4261e8c92108",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -67862,
+   "titel": "Piggy Tales",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-1c66e047-2ce2-4c16-ad1a-3ca21dba6027",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -70933,
+   "titel": "Angry Birds Blues",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-ccf1f1a3-7509-435e-aae1-88eb6b3342b0",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -46848,
+   "titel": "Angry Birds Toons",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-c752c178-c507-4c43-a73f-b6b64abf06d9",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -139480,
+   "titel": "Angry Birds: Slingshot Stories",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-f6a65b6c-8315-4e66-8245-5e0ec8e6c625",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -44169,
+   "titel": "Brickleberry",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-9098dd1f-505d-4c50-845a-fc323d110072",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en, es, es-419, fr, it, pl, pt-BR)"
+   }
+  },
+  {
+   "id": -218998,
+   "titel": "KiiYii",
+   "plattform": "disneyplus",
+   "url": "https://www.disneyplus.com/browse/entity-4fd733c9-0097-4eda-850b-7ddd3e6f5ebb",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -71819,
+   "titel": "Baahubali: The Lost Legends",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d8ae79b2-3f2f-7f4b-43e2-7d08428286b5",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en, hi, ta, te)"
+   }
+  },
+  {
+   "id": -255760,
+   "titel": "Kevin",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en, es)"
+   }
+  },
+  {
+   "id": -79371,
+   "titel": "The Adventures of Rocky and Bullwinkle",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d6b1a365-5585-cfd3-ea37-056694f93227",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -81614,
+   "titel": "Simon's Cat",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.b0ba4692-9abe-9f51-5050-73fd2997613c",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -8620,
+   "titel": "Do, Re & Mi",
+   "plattform": "primevideo",
+   "url": "https://www.amazon.de/gp/video/detail/B09C6NSHTZ",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -82747,
+   "titel": "Kung Fu Panda: The Paws of Destiny",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.66b5c5cc-4ee8-631d-8a67-d0b444d9ff5e",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -86838,
+   "titel": "Costume Quest",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5cb49836-d087-ac56-85f0-40ab9cbb722b",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -120964,
+   "titel": "Phungus & Mowld",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.d6baec2d-d9eb-b71e-a5da-194cd8bf1e4f",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -216769,
+   "titel": "Hello Neighbor: Welcome to Raven Brooks",
+   "plattform": "primevideo",
+   "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.8f9408ea-345e-4a88-9f6e-1245b4eac9bd",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-ohne-deutsch",
+    "text": "Ton ohne Deutsch (en)"
+   }
+  },
+  {
+   "id": -18352,
+   "titel": "The Garfield Show",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/70180088",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -199175,
+   "titel": "Barbie: It Takes Two",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81246530",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -157285,
+   "titel": "The Guardians of Justice",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80141172",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -74153,
+   "titel": "LEGO Bionicle: The Journey to One",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80062112",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -62475,
+   "titel": "Heidi",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80060413",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -87822,
+   "titel": "Charlie's Colorforms City",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80189632",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -81145,
+   "titel": "Cupcake & Dino - General Services",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80198459",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -158139,
+   "titel": "Dead End: Paranormal Park",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80994692",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -91656,
+   "titel": "Twelve Forever",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/80210294",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -293205,
+   "titel": "Dr. Seuss's Horton!",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81388347",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  },
+  {
+   "id": -131721,
+   "titel": "Oggy Oggy",
+   "plattform": "netflix",
+   "url": "https://www.netflix.com/title/81105561",
+   "richtung": "jw-ohne-deutsch",
+   "jw": {
+    "urteil": "ton-leer",
+    "text": "Angebot ohne Tonangabe"
+   }
+  }
+ ]
+}

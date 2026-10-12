@@ -28,6 +28,7 @@ export function baueMeta({ titles, releases, events, motnBelege }: {
   const meta: DataMeta = {
     generatedAt: new Date().toISOString(),
     titleCount: allTitles.length,
+    belegtCount: 0, // wie releaseCount erst nach der Auslieferung bekannt (13-5-kerndateien)
     releaseCount: releases.length,
     eventCount: events.length,
     genres,
@@ -39,8 +40,8 @@ export function baueMeta({ titles, releases, events, motnBelege }: {
     attribution: [
       'Dub-Daten: MyDubList (https://mydublist.com) — CC BY 4.0',
       'Metadaten: AniList (https://anilist.co)',
-      'FSK & Anbieter: TMDB (https://www.themoviedb.org), Anbieterdaten von JustWatch',
-      'Deutsche Inhaltsangaben & Bezugsquellen: aniSearch (https://www.anisearch.de)',
+      'FSK, Vorschaubilder & Anbieter: TMDB (https://www.themoviedb.org), Anbieterdaten von JustWatch',
+      'Deutsche Inhaltsangaben, Bewertung, Schlagworte & Bezugsquellen: aniSearch (https://www.anisearch.de)',
       'ID-Zuordnung: anime-offline-database (https://github.com/manami-project/anime-offline-database) — ODbL v1.0',
       'Termine: aniSearch, Anime2You — siehe Quellenangabe je Eintrag',
       /*

@@ -22,6 +22,8 @@ export interface AniListMedia {
   coverImage: { large: string | null; extraLarge: string | null }
   bannerImage: string | null
   averageScore: number | null
+  /** Produktionsland laut AniList (z. B. `JP`); fehlt in Zwischenspeichern vor dem 09.10.2026. */
+  countryOfOrigin?: string | null
   isAdult: boolean
   description: string | null
   relations?: {
@@ -45,7 +47,7 @@ const MEDIA_FIELDS = `
   studios { nodes { name isAnimationStudio } }
   coverImage { large extraLarge }
   bannerImage
-  averageScore isAdult
+  averageScore isAdult countryOfOrigin
   description(asHtml: false)
   relations { edges { relationType node { id type title { romaji english } } } }
 `

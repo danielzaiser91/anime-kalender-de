@@ -88,6 +88,10 @@ await seite.evaluate(
   [box, TEXT],
 )
 
+/* Seit 4.24.17 ist der Kasten standardmäßig eingeklappt; das Bild zeigt den ausgeklappten. */
+await seite.locator('.ak-icon').click()
+await seite.locator('.ak-disney-kasten').waitFor({ state: 'visible' })
+
 const mass = await seite.evaluate(() => {
   const kasten = document.querySelector('.ak-disney-kasten')
   const knopf = kasten.querySelector('.ak-melder')

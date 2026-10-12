@@ -1,8 +1,9 @@
-import { readJson, log } from '../lib/util.ts'
-import { type Vorschlag, releasesAus } from '../lib/meldungen.ts'
+import { readJson, log, warn } from '../lib/util.ts'
+import { type Vorschlag, releasesAus, nurOriginaltonMeldungen } from '../lib/meldungen.ts'
 import { verschiebungenAnwenden } from '../lib/disc-verschiebungen.ts'
 import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { schreibeUnzugeordnet } from '../lib/sammel-unzugeordnet.ts'
+import { schreibeNurOriginalton } from '../lib/nur-originalton-liste.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { type TvSendung } from '../fetch-tv-programm.ts'
 import { type WikiListen, sendungNeuZuordnen, releasesAusTvProgramm, sendungenAnhaengen } from '../lib/tv-termine.ts'
@@ -24,6 +25,11 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
     todayIso(),
   )
   releases.push(...ausMeldungen)
+  /* Kein Termin aus einer Meldung, die nur Originalton nennt — gezählt und gelistet (`listen/23-nur-originalton.md`, Posteingang); über zehn (10.10.2026: 1) greift das Muster vermutlich zu weit. */
+  const nurOmu = nurOriginaltonMeldungen(rohVorschlaege.proposals ?? [])
+  const melde = nurOmu.length > 10 ? warn : log
+  melde(`${nurOmu.length} Anime2You-Meldungen nennen nur Originalton mit Untertiteln — kein deutscher Termin daraus${nurOmu.length ? `: ${nurOmu.map((v) => v.articleTitle).join(' | ')}` : ''}`)
+  schreibeNurOriginalton(nurOmu)
   schreibeUnzugeordnet(sammelV, ausMeldungen)
   const verschoben = verschiebungenAnwenden(releases, rohVorschlaege.proposals ?? [], todayIso())
   if (verschoben.length) log(`${verschoben.length} Disc-Termine laut Anime2You verschoben: ${verschoben.map((v) => `${v.name} (${v.von} → ${v.nach})`).join(', ')}`)
@@ -56,6 +62,8 @@ export function ergaenzeTermineAusNewsUndTv({ titles, releases }: {
 
 /** Folgentitel je Titel für die TV-Termine: aniSearch als Grundstock, spätere Listen gewinnen. */
 function folgenListen(): WikiListen {
+  // Einmal lesen: Je Eintrag neu geparst kostete die ~10-MB-Datei über 10 Minuten (10.10.2026).
+  const anisearchFolgen = readJson<Record<string, { folgen?: { nr: number; de?: string; datum?: string }[] }>>('data/anisearch-folgen.json', {})
   return {
     /*
       **aniSearch-Folgentitel als Grundstock** (23.09.2026). Ohne sie hat ein Titel ohne
@@ -66,9 +74,7 @@ function folgenListen(): WikiListen {
     ...Object.fromEntries(
       Object.entries(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {})).flatMap(([id, x]) => {
         const folgen = x.anisearchId
-          ? (readJson<Record<string, { folgen?: { nr: number; de?: string; datum?: string }[] }>>('data/anisearch-folgen.json', {})[
-              String(x.anisearchId)
-            ]?.folgen ?? [])
+          ? (anisearchFolgen[String(x.anisearchId)]?.folgen ?? [])
           : []
         const mit = folgen.filter((f) => f.de).map((f) => ({ nr: f.nr, dt: f.de!, ...(f.datum ? { ead: f.datum.slice(0, 10) } : {}) }))
         return mit.length ? [[id, { seite: 'aniSearch', url: `https://www.anisearch.de/anime/${x.anisearchId}/episodes`, folgen: mit }] as const] : []

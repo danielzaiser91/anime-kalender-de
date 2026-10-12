@@ -425,6 +425,7 @@ pruefe(
     const kontext = {
       standZieleNetflix: null,
       frischGemeldetNetflix: new Set(),
+      akNetflixWartet: new Set(),
       istErledigt: () => true,
       kuerzelErledigt: () => true,
       staffelnVon: () => [],

@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { ROOT } from './util.ts'
-import type { DateMeaning, Fsk, PlatformId, ReleaseType, Schedule } from '../../shared/types.ts'
+import type { DateMeaning, Fsk, PlatformId, Release, ReleaseType, Schedule } from '../../shared/types.ts'
 
 export interface CuratedEntry {
   slug: string
@@ -24,6 +24,10 @@ export interface CuratedEntry {
   note?: string
   /** Siehe `Release.netflixOriginal`. */
   netflixOriginal?: boolean
+  /** Siehe `Release.sprache` — ein Termin ohne belegte deutsche Synchro (Kinostart nur OmU). */
+  sprache?: Release['sprache']
+  /** Siehe `Release.premiere`. */
+  premiere?: Release['premiere']
   /** Siehe `Release.nachtrag`. */
   nachtrag?: { kurz: string; abschnitte: { art: string; text: string }[] }
   /**
@@ -35,6 +39,11 @@ export interface CuratedEntry {
   schnitt?: { was: string[]; quellen: string[] }
   /** Warum der Eintrag so aussieht — für uns; erscheint nicht auf der Seite (siehe `Release.herkunft`). */
   herkunft?: string
+  /** Synchro-Beleg am Termin statt Handeintrag: `dub: true` samt Quelle, Wortlaut und Lesedatum (`lib/dub-aus-terminen.ts`). */
+  dub?: true
+  dubQuelle?: string
+  dubZitat?: string
+  dubGeprueftAm?: string
   /**
    * Zweitkandidaten für den Termin, jeweils mit Quelle.
    *
@@ -47,6 +56,17 @@ export interface CuratedEntry {
   keywords?: string[]
   schedule?: Schedule
   sources?: string[]
+}
+
+/** Die optionalen Felder eines kuratierten Eintrags, die unverändert ins Release wandern (fehlend = nicht gesetzt). */
+export function kuratierteZusaetze(entry: CuratedEntry): Partial<Release> {
+  return {
+    ...(entry.nachtrag ? { nachtrag: entry.nachtrag } : {}),
+    ...(entry.netflixOriginal ? { netflixOriginal: true } : {}),
+    ...(entry.sprache ? { sprache: entry.sprache } : {}),
+    ...(entry.schnitt ? { schnitt: entry.schnitt } : {}),
+    ...(entry.premiere ? { premiere: entry.premiere } : {}),
+  }
 }
 
 const CURATED_DIR = resolve(ROOT, 'data', 'curated')

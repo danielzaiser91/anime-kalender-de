@@ -9,17 +9,11 @@ import { QuellenKnopf } from '../beleg-dialog.tsx'
 import { Klapptext } from '../klapptext.tsx'
 import { NachtragText } from '../news-nachtrag.tsx'
 import { todayIso } from '@shared/time.ts'
+import { laeuftFuerSlug, meldungenImPanel, type Zeile } from './neuigkeiten-regeln.ts'
 import { hostVon, istLink } from '@shared/quelle.ts'
 import { GlockeZeichen, PanelKarte } from './panel-karte.tsx'
 import { ErstausgabeZeile } from './erstausgabe-zeile.tsx'
 import { erstausgabeAlsNeuigkeit } from './antwort-regeln.ts'
-
-interface Zeile {
-  am: string
-  m: NewsMeldung
-  /** Der Teil der Reihe, den die Meldung betrifft. */
-  teilId: number
-}
 
 /** Der Punkt an der Zeitleiste, je Art in ihrer Farbe. */
 const PUNKT: Record<NewsMeldung['art'], string> = {
@@ -51,7 +45,10 @@ export function Neuigkeiten({ data, titelId }: { data: Dataset; titelId: number 
       aktiv = false
     }
   }, [])
-  const zeilen = useMemo(() => meldungenImPanel(liste ?? [], titelId, todayIso()), [liste, titelId])
+  const zeilen = useMemo(
+    () => meldungenImPanel(liste ?? [], titelId, todayIso(), laeuftFuerSlug(data.releaseBySlug, todayIso())),
+    [liste, titelId, data],
+  )
   const titel = data.titleById.get(titelId)
   const erst = titel && erstausgabeAlsNeuigkeit(titel) ? titel : undefined
   if (!zeilen.length && !erst) return null
@@ -98,31 +95,6 @@ function NeuigkeitZeile({ z, data }: { z: Zeile; data: Dataset }) {
       {abgeloest && <AbgeloestHinweis m={z.m} />}
     </li>
   )
-}
-
-/** Meldungen, die einen Termin nennen — sie veralten mit ihm. */
-const TERMIN_ARTEN = new Set<NewsMeldung['art']>(['angekuendigt', 'disc', 'kino'])
-
-/**
- * Was das Panel an News zeigt: **nur der eigene Titel** — bei Pokémon standen
- * Meldungen zu „Reisen" und „Horizonte" im Panel von „Generationen" —, **kein vorbeigegangener
- * Termin**. Ein **kommender** Termin bleibt: Die Pille nennt den Tag, die Meldung dazu nennt die Quelle
- * (Daniel, 04.10.2026: „News-Einträge fehlen im Panel"). Neueste zuerst.
- */
-export function meldungenImPanel(liste: NewsEintrag[], titelId: number, heute: string): Zeile[] {
-  const zeilen: Zeile[] = []
-  for (const e of liste)
-    for (const m of e.meldungen) {
-      const teilId = m.teilId ?? e.titelId
-      if (teilId !== titelId) continue
-      /*
-        Eine **angekündigte** Staffel bleibt sichtbar — sie ist noch kein Termin,
-        den das Panel schon zeigt, sondern die Nachricht selbst.
-      */
-      if (TERMIN_ARTEN.has(m.art) && m.datum && m.datum < heute) continue
-      zeilen.push({ am: e.am, m, teilId })
-    }
-  return zeilen.sort((a, b) => b.am.localeCompare(a.am))
 }
 
 /**

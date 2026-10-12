@@ -25,7 +25,7 @@
   const ANKOMMEN_MS = 10_000
 
   /** Die Ablauflogik ohne Browser — `disney-durchgang.test.cjs` spielt sie im Sandkasten. */
-  function durchgang({ speicher, jetzt, offene, oeffne, melde, ende, zustand = () => ({}) }) {
+  function durchgang({ speicher, jetzt, offene, oeffne, melde, ende, zustand = () => ({}), limit = () => null }) {
     const lesen = () => {
       try {
         const lauf = JSON.parse(speicher.getItem(LAUF) ?? 'null')
@@ -52,6 +52,8 @@
       ende(info)
     }
     function weiter(lauf) {
+      /* Das Tageslimit des Workers (tageslimit.js) hält den Durchgang an, statt Meldungen ins Leere zu schicken. */
+      if (limit()) return beenden(lauf, limit())
       const naechster = offene().find((e) => !lauf.erledigt.includes(e.url))
       if (!naechster) return beenden(lauf, 'nichts mehr offen')
       lauf.aktuell = naechster.url
@@ -84,6 +86,7 @@
       },
       gemeldet(d) {
         const lauf = lesen()
+        if (lauf?.meldet && !d?.ok && limit()) return beenden(lauf, limit())
         if (lauf?.meldet) abhaken(lauf, d?.ok ? null : 'Meldung kam nicht an')
       },
       takt() {
@@ -101,7 +104,7 @@
   }
   /** Der Text der Endanzeige: je übersprungenem Titel eine Zeile mit Grund — `titelFuer(url)` liefert den Namen. */
   function endeText({ grund, erledigt, uebersprungen, schon = [] }, titelFuer) {
-    const kopf = `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'} · ${erledigt} Titel`
+    const kopf = `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'} · ${erledigt} Titel${grund.startsWith('Tageslimit') ? ` — ${grund}` : ''}`
     const bereits = schon.length ? `\n${schon.length} schon gemeldet: ${schon.map(titelFuer).join(', ')}` : ''
     if (!uebersprungen.length) return kopf + bereits
     const zeilen = uebersprungen.map((u) => `• ${titelFuer(u.url)}: ${u.grund}`)
@@ -123,6 +126,7 @@
     melde: () => void seite()?.melden(),
     ende: (info) => seite()?.zeigeEnde(info),
     zustand: () => seite()?.zustand() ?? {},
+    limit: () => globalThis.AK_TAGESLIMIT?.text() ?? null,
   })
   globalThis.AK_DISNEY_DURCHGANG = lauf
   document.addEventListener('ak-disney-geprueft', (ev) => lauf.geprueft(ev.detail))

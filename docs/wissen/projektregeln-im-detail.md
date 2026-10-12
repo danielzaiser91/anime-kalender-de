@@ -116,6 +116,11 @@ Dieses Projekt lebt davon, dass die Termine stimmen. Deshalb gilt ausnahmslos:
 - Bei Fortsetzungen die **AniList-ID prüfen**, nicht der Suche vertrauen. `npx tsx
   pipeline/qa-resolve.ts` zeigt Verdachtsfälle; die Folgenzahl wird nur übernommen, wenn das
   japanische Ausstrahlungsjahr zum deutschen Termin passt.
+- **Meldungen mit „erstmals im Stream/TV“ als `premiere` eintragen** (Daniel, 10.10.2026): Sagt eine Quelle
+  ausdrücklich, dass ein Release erstmals auf Deutsch im Fernsehen oder Streaming erscheint, gehört am
+  kuratierten Release `premiere: { weg, quelle, vorher?, vorherDatum? }` dazu (`vorher: disc|kino`, wenn die
+  Fassung dort schon erschien — Anzeige „Premiere*“). Nie aus Abwesenheit oder „im Angebot seit“ ableiten;
+  eine Neuzugangsmeldung ohne das Wort „erstmals“ reicht nicht. Einzelheiten: `datensatz.md`.
 
 ## Was erzeugt wird, wird auch geprüft
 
@@ -204,6 +209,7 @@ gewartet** — im Hintergrund, bis er fertig ist.
 `tools/quellen-commit-wache.sh` hängt als pre-commit-Hook im lokalen Repo (einrichten mit
 `bash tools/quellen-commit-wache.sh --einrichten`) und hält jeden Commit an, der eine Datei aus
 `QUELLEN` enthält, solange ein Lauf außer Deploy, Aussehen und Claude läuft.
+**Seit dem 11.10.2026 nur noch für Commits auf `main` und nur, solange der Bestandsbau läuft** (der einzige Lauf, der direkt auf `main` schreibt; Branch-Commits und PR-Läufe sperren nichts mehr — am 10.10. hielt die Wache einen Branch-Commit 42 Minuten an).
 
 **Vierter Fall, 21.09.2026 — ausgelöst von einem Commit, der gar keine Quelle anfasste.** Während
 `bestand-bauen` lief, ging eine Doku-Änderung auf `main`. Der Fernstand hatte sich bewegt, der Lauf
@@ -263,7 +269,13 @@ Zeilen; Anlass und Verlauf gehören in den Commit oder hierher.
 
 **Umbauen, ohne etwas zu ändern.** `tools/bau-vergleich.mjs` baut Basis und Kandidat je in einem
 eigenen Worktree mit einem nachgebildeten Cache und vergleicht alles, was der Bau schreibt. Ein
-reiner Umbau ist erst fertig, wenn das „gleich" meldet. Für `web/src` tut dasselbe
+reiner Umbau ist erst fertig, wenn das „gleich" meldet. Beide Seiten starten vom Bestand der Basis (`data/`, `public/data/`): Datenänderungen des Kandidaten sieht der Vergleich nicht, ob der Bau darauf durchläuft nur ein zweiter Lauf `HEAD HEAD` (11.10.2026). Der Bau läuft dabei mit
+`BAU_VERGLEICH=1`: Widersprüche im Ergebnis (`brichAbBeiWiderspruch`, `pipeline/lib/bau-widerspruch.ts`; Phasen 10, 11-6, 11-7, 13-5, 13-8)
+brechen ihn nicht ab, sondern stehen als „Widerspruch (Vergleichsmodus)" im mitverglichenen Protokoll — der Ersatz-Cache ist nicht
+der echte, und eine Invariante, die dort reißt, verhinderte sonst jede Basis (12.10.2026: Bookworm-Dublette, Prime-Häkchen ohne Beleg).
+Neue Abbruchstelle für ein Ergebnis-Urteil: über diese Funktion, nicht mit eigenem `process.exit`. Bei verschiedenen JSON-Dateien nennt
+die Ausgabe die Felder mit Anzahl und Beispiel (`tools/vergleich-unterschied.mjs`, etwa `streams[].dubQuelle` = Herkunft „Deutsch laut
+JustWatch" am Weg). Nicht abgedeckt: Verlust-Riegel (`13-2`), Eingabe-Prüfungen (`01-quellen`, `nebendateien`, Patchnotes). Für `web/src` tut dasselbe
 `tools/panel-vergleich.mjs`: beide Stände bauen, das Detail-Panel für 80 feste Titel bei stehender
 Uhr rendern, HTML vergleichen. Verschoben wird mit `tools/modul-umzug.mjs` (Namen, Abschnitte,
 JSX-Blöcke), das Parameter und Importe aus dem Typprüfer ableitet — von Hand verschobener Code
@@ -408,6 +420,11 @@ und was er geholt hat, liegt unversioniert herum.
 den Regelfall ab; ein Lauf von Hand ist die Ausnahme für einen Nachzügler oder ein Kontingent,
 das sonst verfällt.
 
+## Prüfung nach Risiko: Stufen 0, 1, 2 (Daniel, 10.10.2026)
+
+Anlass: „keine Prüfer-Agenten bei Kleinigkeiten“. `node tools/pr-stufe.mjs <PR>` (Tabelle und Tests: `tools/pr-stufe.mjs`, `tools/pr-stufe.test.mjs`) stuft mechanisch aus Pfaden und Zeilenzahl des Diffs ein, im Zweifel Stufe 2.
+Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar und lässt bei Stufe 0 den Claude-Lauf aus.
+
 ## Vor dem Commit
 
 ```bash
@@ -433,6 +450,10 @@ in D1).
 **Wer in `build.ts` ändert, was entfernt oder wie ein Feld gebildet wird, sucht zuerst die Zusicherungen, die das festhalten** — am 22.09.2026 hängte ein Nachlauf „– Teil N“ an 20 deutsche Namen, und `check:logic` („kein Titel trägt die Nummer eines seiner Teile“, Yu-Gi-Oh 24.08.) ließ den Bestandslauf nichts übernehmen (Lauf 35752376247). Die Regel war nicht falsch, sie war enger gemeint; verfeinert statt umgangen. `check:cr-zuordnung` läuft erst im Bau (`commit-data.sh`) und hielt „keine tote Crunchyroll-Adresse im Datensatz" fest; der Fix vom 17.09.2026, der US-„nicht verfügbar" nicht mehr als tot wertet, machte den Bau deshalb rot (Lauf 35225087674). Prüfgriff: `grep -rn "<Grund oder Feldname>" pipeline/check-*.ts tools/*-pruefen*` vor dem Push.
 
 **Wer einen Handbeleg auf eine andere Kennung umhängt, fährt `check:handbelege` vorher mit.** Das steht nicht in `check:vor-commit` (es braucht den gebauten Datensatz) und bricht den Bau ab, wenn die neue Kennung nicht im Bestand steht — am 16.09.2026 bei drei umgehängten Prime-Belegen (Lauf 35125372002). Entweder die Staffel kommt über `synchro-von-hand.yaml` in den Bestand, oder der Beleg trägt `nichtImBestand: true` mit dem Grund in der Notiz.
+
+**Eine Prüfung, die `public/data` liest, gehört nicht nach `check:logic`, sondern in `tools/check-bestand-liste.txt` (`check:bestand`, läuft im Bestandsbau über `tools/commit-data.sh`) — `check:logic` lehnt sie ab (12.10.2026).** Anlass: Der Bestand liegt hinter neueren Rohdaten zurück; am 12.10. hingen fünf freigegebene PRs 1–2 h fest, weil `check-anisearch-katalog-abgleich` (aniSearch-Brücke vom Sammellauf) in der PR-Prüfkette rot war, ohne dass ein PR etwas dafür konnte. Der Wächter sitzt in `tools/check-logic-alle.mjs` (`tools/bestand-sperre.cjs` verbietet jeder Prüfung und ihren Unterprozessen den Lesezugriff auf `public/data`; Gegenprobe `tools/check-logic-ohne-bestand.test.mjs`). Altlasten stehen mit Frist in `tools/check-logic-bestand-ausnahmen.json` und müssen gestrichen werden, sobald sie nicht mehr lesen; `hoechstens` sinkt nur. Gemischte Prüfdatei: den Bestandsteil als `pipeline/check-<name>-bestand.ts` abtrennen (Muster: `check-kachel-anbieter-bestand.ts`). Stand 12.10.2026: 18 Bestandsteile und 2 ganze Prüfungen umgezogen (20 in `check-bestand-liste.txt`), zwei Ausnahmen (Handbeleg-Tor in `check-logic.ts`, `check-kanal-abgehakt.ts`). Prüfungen, die vom Sammellauf erneuerte Rohdaten unter `data/` lesen (z. B. `anisearch-eintraege.json`, `kennungen.json`), sind noch nicht ausgelagert (Folgeposten).
+
+**Neuer Check = neue Zeile in `tools/check-logic-liste.txt`** (nicht in `package.json`; `tools/check-logic-alle.mjs` führt die Liste der Reihe nach aus). Die Liste ist alphabetisch sortiert (Pflicht, `check-logic-alle.mjs` prüft es; seit 11.10.2026): die Zeile an die passende Stelle setzen, nicht ans Ende, denn zwei Zweige, die dieselbe Stelle ergänzen, kollidieren (10.10.2026 mit `git merge-file` gemessen). **Neuer Test `tools/<name>.test.mjs` = nur die Datei anlegen:** `tools/tests-alle.mjs` (in `check:workflows`) führt jede `tools/*.test.mjs` aus, kein Eintrag in `package.json`.
 
 **Auch ein reiner Daten-Commit läuft durch `check:logic`.** Am 15.09.2026 gingen im Durchgang
 morgens mehrere Handbeleg-Commits ohne Prüfkette raus; zwei davon (FGO 1–22 bei 21 Folgen,
@@ -494,7 +515,7 @@ genannt wird und nicht als Baufehler erscheint.
 `data/cache/anilist-anisearch-mal.json`. `data/cache/` liegt nicht im Repo, nur Datenläufe befüllen ihn, und diese
 Datei schreibt nur der Wochenlauf (letzter 05.10., nächster ~12.10.). Der Bau fand sie leer, die Cover fehlten live;
 die PR-Prüfungen waren lokal mit gefülltem Cache grün. Behoben mit PR 470 (`data/anisearch-cover.json`, Zusicherung in
-`check-bild-und-synchro.ts`).
+`check-bild-bestand.ts`, läuft in `check:bestand`).
 
 **Regel.** Eine Handkorrektur oder Vorbelegung gehört nach `data/…` im Repo. Fertig heißt erst: nach Bau und Deploy
 auf der Live-Seite gemessen (Datei oder Seite, erwarteter Wert) — grüne PR-Prüfungen belegen es nicht, weil sie mit
@@ -506,4 +527,71 @@ Deploy) bricht ab, wenn Code, Werkzeuge oder Workflows eine nicht eingetragene D
 Fundstelle mehr hat. Der Bau zählt die vom Register als nötig markierten Caches (`pipeline/bau/cache-stand.ts`) und
 warnt bei leerem oder fehlendem Stand, statt still auf `{}` zurückzufallen. Neue Cache-Datei: erst fragen, ob sie
 nicht nach `data/` gehört (dann `tools/quellen-liste.sh`), sonst ins Register.
+
+## Wortlaut der `CLAUDE.md` vor der Kürzung vom 10.10.2026
+
+Die `CLAUDE.md` wurde am 10.10.2026 von 14 KB auf wenige KB gekürzt (Daniel: Start-Kontext zu groß). Was in den Abschnitten oben noch nicht stand, steht hier im bisherigen Wortlaut.
+
+### Projektziel (Ergänzungen)
+
+0. **Umfang: alle Animation, nicht nur japanische** — Anime, Cartoons, Zeichentrick und Ähnliches aus jedem Land (China, Korea, USA …); die Herkunft schließt nie aus (Daniel, 09.10.2026, Anlass: „Die Legende von Nezha").
+
+**Leitziel: Mobile Performance und Best Practice** (Daniel, 07.10.2026): schnell und flüssig auf dem Handy bei schwacher Leitung, bei *jeder*
+Entscheidung — Budgets, Bildauslieferung und Messrezept im Skill `web-best-practice`, Ziele in [ZIELE.md](../../ZIELE.md).
+
+**Die Seite ist nichtkommerziell und bleibt es:** niemals Werbung, Tracking zu Werbezwecken oder
+sonstige kommerzielle Ziele (Daniel, 06.10.2026). Das trägt die Quellen-Zugänge (aniSearch-API, TMDB)
+und darf bei keiner Entscheidung aufgeweicht werden.
+
+### Grundsatz (Ergänzungen)
+
+- Netflix-Uhrzeit (08:00 UTC als `timeEstimated`, „≈", ohne Countdown) nur bei Eigenproduktionen (`netflixOriginal`); Lizenztitel bleiben „Zeit offen" (Vigilantes, 06.10.2026).
+- **Namensabgleich:** der beste Treffer gewinnt, nicht der erste; `OVA`/`ONA`/`OAD`/`TV` zählen mit, der japanische Titel nicht (`bewerteTreffer`). Ein Namensvergleich allein ist kein Beleg.
+- **Was AniList, aniSearch oder MAL als Anime führen, ist kein Cartoon** (Daniel, 08.10.2026) — der Cartoon zieht auf den Anime-Titel um (`cartoon-umzug.json`); Beleg: TMDB-Kennung, sonst Name **und** Jahr **und** Folgenzahl, im Zweifel Ausnahmeliste statt Zusammenlegung (`check:logic`).
+- **Eine News-Meldung ist eine Aussage zu ihrem Tag:** nie umschreiben (Späteres ist eine neue Meldung), Belege nur ihrer eigenen Aussage, eine Quelle an genau einer Meldung; eigene Messung belegt der Anbieter-Kalender an diesem Tag ([news-plan.md](news-plan.md)).
+
+### Datenläufe: wer auf `main` schreibt, und was beim Ändern zu beachten ist
+
+Seit dem 05.10.2026 (`docs/wissen/betrieb.md`, „Datenläufe neu geschnitten"; Skill `datenlaeufe-entwerfen`):
+
+- **Auf `main` schreibt nur der Bestandsbau** (`tools/commit-data.sh`, Gruppe `bau`). Alle Sammler (Stündlich, Täglich, Wöchentlich, ADN, aniSearch-Katalog, Abruf, Nachholen) reichen per Pull Request ein
+  (`.github/actions/einreichen` → `tools/quellen-pr.sh`), jeder in eigener Gruppe. `tools/quellen-aufsetzen.sh` legt nur die **eigenen** Änderungen auf den jüngsten Stand zurück — niemand überschreibt,
+  was ein anderer Lauf aktualisiert hat. Wer eine neue Datei in einem Lauf schreibt, trägt sie in `tools/quellen-liste.sh` ein (sonst warnt `quellen_verloren` und die Datei geht verloren).
+- **Läuft ein Sammler, wird nichts nach `.github/workflows/` gepusht** — GitHub lehnt dann seinen Pull-Request-Zweig ab, und er verliert die Arbeit (Wochenlauf 05.10.2026: 107 Minuten). Vorher
+  `gh run list --status in_progress`. Ist doch etwas verloren, sichert der Lauf einen Fund als Artefakt (`fund-<Job>`): Workflow „Fund nachliefern" mit der Lauf-Nummer.
+- **Zeitpläne kommen vom Cloudflare-Wecker** (`shared/weckplan.ts`, `worker/src/wecker.ts`), nicht von GitHubs Cron (4–7 h zu spät). `wecker-wache.yml` holt Überfälliges nach.
+- **Commits an Quelldateien** warten nicht mehr auf Sammler (die liefern per Pull Request); `tools/quellen-commit-wache.sh` hält nur noch Commits an, solange ein direkt schreibender Lauf (Bestandsbau) läuft.
+  Zu jeder Datenkorrektur gehört weiterhin eine Zusicherung, die meldet, wenn sie verlorengeht.
+
+### Läufe (Ergänzungen)
+
+- **Ein roter Lauf wird bemerkt, nicht gemeldet** — an jeder Wachphase und nach jedem eigenen Push `LAUF_TOKEN=… node tools/laeufe-aufraeumen.mjs --trocken`, ansehen, handeln, Anzeige leeren. Vor `gh run delete` jeden Lauf einzeln ansehen.
+- Wer `.github/workflows/*` ändert, macht laufende Datenläufe rot (GitHub-App ohne `workflows`-Recht) — danach hinsehen und neu anstoßen.
+
+### Vor dem Commit (Ergänzungen)
+
+Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `check:panel` bei Änderungen an `web/src`, `check:handbelege` nach einem Bau bei geänderten oder umgehängten Belegen. Jeder rote Lauf ist eine Mail an Daniel.
+
+- Auch ein reiner Daten-Commit läuft durch `check:logic`; Schwellen nie auf den Messwert des Augenblicks senken.
+- Eigenschaften, die `pruefeErgebnis()` prüft, beim Anlegen setzen — die Prüfung läuft mitten im Bau, nicht am Ende.
+- Ein lokaler `npm run data:build` stoppt am Cache-Abbruch („N Titel würden fallen"), erreicht die Prüfungen aber vorher; danach die erzeugten Dateien mit `git checkout` zurücksetzen.
+- Jedes `tsc` braucht `--noEmit`; `check:worker` nicht weglassen (eigenes tsconfig); `check:hooks` prüft React-Hook-Regeln, die `tsc` nicht sieht.
+- Mess- und Versuchsläufe enden mit Exit 0 statt rot.
+
+### Codegestalt (Ergänzungen)
+
+- `check:umfang` (steckt in `build`) misst die Überlänge je Bereich — sie darf nur sinken, gesunkene Werte übernimmt `--festschreiben`, angehoben wird nie. **Festgeschrieben wird nur im Bestandsbau auf main (`tools/commit-data.sh`, seit 11.10.2026), nie in einem PR:** Fast jeder PR senkte dieselbe Zeile in `umfang-grenzen.json` um 1 und machte die übrigen offenen PRs DIRTY (28 Commits an der Datei in 3 Tagen). Der PR-Check bleibt gleich streng (Wachstum gegen die Datei ist rot); nur das Nachziehen der gesunkenen Zahl verschiebt sich bis zum nächsten Bestandsbau, bis dahin steht die gewonnene Überlänge anderen PRs zur Verfügung. `--liste` zeigt die größten Stellen. Zusätzlich zählt er „Ketten" (`tools/umfang-ketten.mjs`, Ausgangswert 10.10.2026 je Bereich in `umfang-grenzen.json`): Anweisungen, Typ-Felder und Objekt-Einträge, die in der Zeile ihres Vorgängers beginnen (`a(); b()`, `x?: A; y?: B`, mehrere `...`-Spreads in einer Zeile) — sonst ließe sich die 80/800-Zählung durch Anhängen an bestehende Zeilen umgehen; ein Eintrag je Zeile, `--ketten` zeigt die Fundstellen, Listen ganz in einer Zeile (`{ a, b }`) bleiben erlaubt.
+- Verschoben wird mit `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`. Bei reinen Kommentar-Umbauten `node tools/nur-kommentare.mjs` (Code ohne Kommentare gleich).
+- Wegwerfskripte gehören ins Scratchpad, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
+- Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).
+
+### Wissen nach Thema (Verweisliste)
+
+- [karte.md](karte.md) — Einstieg: Datenfluss, Verzeichnisse, welche Datei bei welcher Änderung, Rezepte, Werkzeugfallen. Dazu [befund-2026-10-02.md](befund-2026-10-02.md), [architektur-bewertung.md](architektur-bewertung.md); Gegenprobe: `node tools/daten-befund.mjs`; aniSearch-Umstellung: [sitzung-2026-10-02-analyse-und-umstellung.md](sitzung-2026-10-02-analyse-und-umstellung.md)
+- [erweiterung.md](erweiterung.md) — Browser-Erweiterung (Amazon, Netflix, Disney+): Melden, Durchgänge, Leser, Prüflisten
+- [quellen.md](quellen.md) — Datenquellen, Grenzen, Sperren, robots.txt, News-Quellen
+- [betrieb.md](betrieb.md) — Läufe, Worker, Git, Prüfungen
+- [datensatz.md](datensatz.md) — Bau und Anzeige
+- [daten-detektiv.md](daten-detektiv.md) — `npm run detektiv`: 25 Regeln gegen Zweitquellen, Funde nach Hebel
+- [meine-woche.md](meine-woche.md) — Konzept „Meine Woche"; Prototyp (Code am 09.10.2026 entfernt, in der Git-Historie)
 

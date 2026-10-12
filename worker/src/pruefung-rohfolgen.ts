@@ -122,15 +122,27 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
          Frage als die gestellte — das hat am 26.08.2026 zwei Einträge gekostet. */
       /* Gesperrte Folgen (`vorhanden = 'nein'`, Migration 035) liest erst Stufe 2 — bis dahin
          sähe der Zuordner ihre leeren Tonspuren als „kein Deutsch". Entfällt mit Stufe 2. */
-      const gesamt = await env.DB.prepare(
-        "SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0 AND (vorhanden IS NULL OR vorhanden <> 'nein')",
-      ).first<{ n: number }>()
       const zeilen = (results ?? []) as { id: number }[]
+      const gesamt = await zaehleOffene(env, zeilen.length, Number.isFinite(nach) ? nach : 0)
       return {
         folgen: zeilen,
-        gesamt: gesamt?.n ?? 0,
+        gesamt,
         /* Ist die Seite voll, steht die Fortsetzung dabei — sonst ausdrücklich null. */
         weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null,
       }
       })
+}
+
+/**
+ * Wie viele offene Rohfolgen es gibt (Gesamtzahl der Antwort). Eine Seite unter dem Limit, die bei
+ * `nach = 0` beginnt, ist schon der ganze Bestand — dann kostet die Zahl keine Abfrage; das
+ * `COUNT(*)` las bei jedem Aufruf alle offenen Zeilen noch einmal (rund 6.500, 11.10.2026).
+ * Dieselbe Filterung wie die Seitenabfrage: gesperrte Folgen (`vorhanden = 'nein'`) zählen nicht.
+ */
+async function zaehleOffene(env: Env, seitenZeilen: number, nach: number): Promise<number> {
+  if (nach <= 0 && seitenZeilen < 5000) return seitenZeilen
+  const gesamt = await env.DB.prepare(
+    "SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0 AND (vorhanden IS NULL OR vorhanden <> 'nein')",
+  ).first<{ n: number }>()
+  return gesamt?.n ?? 0
 }

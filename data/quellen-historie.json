@@ -55,6 +55,12 @@
   ],
   "beelzebub-netflix": [
     {
+      "url": "https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1032820/netflix-beelzebub-und-mehr/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
@@ -3468,10 +3474,10 @@
   "adn-882": [
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
-      "name": "gw.api.animationdigitalnetwork.com",
+      "name": "ADN API",
       "gesehenAm": "2026-09-21",
-      "sagt": "2022-07-06",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2022-07-06"
     }
   ],
   "auto-1292-disc": [
@@ -5177,7 +5183,7 @@
       "url": "https://de.wikipedia.org/wiki/Dragon_Ball/Episodenliste",
       "name": "de.wikipedia.org",
       "gesehenAm": "2026-10-01",
-      "stand": "aktuell",
+      "stand": "vermutlich-ueberholt",
       "sagt": "2026-09-24"
     }
   ],
@@ -5561,11 +5567,18 @@
   ],
   "auto-179813-netflix": [
     {
+      "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "sagt": "2026-10-10",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1055673/rooster-fighter-bald-auf-netflix/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-10-10",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ],
   "auto-173693-disc": [
@@ -5807,20 +5820,34 @@
   ],
   "auto-213805-netflix": [
     {
+      "url": "https://www.anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-10-01",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-06",
       "sagt": "2026-10-01",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ],
   "auto-189123-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1057429/netflix-blue-box-staffel-2-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-11",
+      "sagt": "2026-10-04",
+      "stand": "aktuell"
+    },
     {
       "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-06",
       "sagt": "2026-10-04",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ],
   "summer-wars-ultimate-edition": [
@@ -6160,6 +6187,266 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-08",
       "sagt": "2026-10-08",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-134-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-09",
+      "sagt": "2026-09-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-8277-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-09",
+      "sagt": "2026-09-03",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-384-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-09",
+      "sagt": "2026-09-10",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-16592-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-09",
+      "sagt": "2026-09-17",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-15377-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1045399/aniverse-september-2026-neuzugaenge/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-09",
+      "sagt": "2026-09-17",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-482-disneyplus": [
+    {
+      "url": "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-09",
+      "sagt": "2026-08-29",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-98659-disneyplus": [
+    {
+      "url": "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-09",
+      "sagt": "2026-09-06",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-116006-disneyplus": [
+    {
+      "url": "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-09",
+      "sagt": "2026-09-13",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-99263-disneyplus": [
+    {
+      "url": "https://www.anime2you.de/news/1041622/disney-plus-one-piece-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-09",
+      "sagt": "2026-09-20",
+      "stand": "aktuell"
+    }
+  ],
+  "jujutsu-kaisen-hidden-inventory-premature-death-blu-ray": [
+    {
+      "url": "https://www.anime2you.de/news/1058349/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "yaiba-samurai-legend-prosieben-maxx": [
+    {
+      "url": "https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1059541/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe": [
+    {
+      "url": "https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "fate-stay-night-heavens-feel-2-lost-butterfly-gesamtausgabe": [
+    {
+      "url": "https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "fate-stay-night-heavens-feel-3-spring-song-gesamtausgabe": [
+    {
+      "url": "https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "dr-stone-science-future-part2": [
+    {
+      "url": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "shield-hero-s4-vol2": [
+    {
+      "url": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "apothecary-diaries-s2-vol2": [
+    {
+      "url": "https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "demon-slayer-infinity-castle-1-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-10021915-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1044124/jujutsu-kaisen-staffel-1-steelbook-edition/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
+  ],
+  "das-band-der-unterwelt-netflix": [
+    {
+      "url": "https://www.netflix.com/title/82719204",
+      "name": "netflix.com",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "das-band-der-unterwelt-netflix-folge-1-11": [
+    {
+      "url": "https://www.netflix.com/title/82719204",
+      "name": "netflix.com",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "one-piece-whole-cake-island-prosieben-maxx": [
+    {
+      "url": "https://www.anime2you.de/news/1059541/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "avatar-die-sieben-haefen-paramountplus": [
+    {
+      "url": "https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    },
+    {
+      "url": "https://www.anime2you.de/news/1059483/avatar-kuruk-wave-of-chaos-angekuendigt/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-210482-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1042851/netflix-anime-neu-im-september-2026/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-10",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-186541-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1057488/crunchyroll-reborn-as-a-space-mercenary-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-11",
+      "sagt": "2026-10-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-154965-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-10-01",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-153288-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-1668-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-170083-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-09-25",
       "stand": "aktuell"
     }
   ]

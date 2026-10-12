@@ -455,7 +455,7 @@ function verschobenBlock(events: ReleaseEvent[]): string {
     const titel = rubrik.titel.replace(/^[^\p{L}]+/u, '').toUpperCase()
     text += `${titel}\n\n${textSections(o.ctx, drin)}\n\n`
   }
-  if (o.wiederholungen.length) text += `TV — WIEDERHOLUNGEN\n\n${wiederholungsText(o.wiederholungen)}\n\n`
+  if (o.wiederholungen.length) text += `TV — WEITERE SENDUNGEN\n\n${wiederholungsText(o.wiederholungen)}\n\n`
   if (o.meldungen.length) text += `NEUIGKEITEN\n\n${newsText(o.meldungen, o.siteUrl)}\n\n`
   return text
 }

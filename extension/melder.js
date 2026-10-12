@@ -124,7 +124,7 @@ const offeneTitel = globalThis.AK_OFFENE_TITEL ?? {}
  */
 let standZieleNetflix = null
 /** Reihen, die diese Sitzung selbst gemeldet hat — bis der Stand sie abbildet. */
-const frischGemeldetNetflix = new Set()
+const frischGemeldetNetflix = globalThis.akNetflixFrischSet?.() ?? new Set()
 
 /**
  * **Welches Werk meint diese Meldung — der Auftrag weiß es, die Adresse nicht.**
@@ -368,7 +368,7 @@ function meldungenMerken(reihe, paare) {
 
 /** Den Briefkasten zu einer Reihe fragen — der Dialog braucht alle, der Knopf eine. */
 async function meldungenLaden(reihe) {
-  if (!reihe) return
+  if (!reihe || globalThis.akMeldungenNeuLaden?.(reihe) === false) return
   try {
     const adresse = `https://www.netflix.com/title/${reihe}`
     const antwort = await fetch(`${WORKER}?gemeldet=${encodeURIComponent(adresse)}`, { cache: 'no-store' })
@@ -923,8 +923,6 @@ function nachrichtEmpfangen(e) {
       überlebt das nicht.
     */
     knopfZeigen()
-    /* Im Player zeichnet `knopfZeigen()` nichts — dort ist das hier zuständig. */
-    playerZeigen()
     /*
       Die automatische Meldung beim Abspielen ist seit dem 26.08.2026 aus.
       Gemeldet wird nur noch über den Durchlauf oder von Hand — dann ist immer
@@ -1046,18 +1044,6 @@ function vielleichtSenden() {
   */
   if (!stand.reihe || !stand.spuren) {
     /*
-      **Erst wenn die Reihe steht, ist klar, ob uns die Folge angeht.** Vorher
-      wäre jede Zeile geraten — und im Player einer fremden Serie wäre sie
-      schlicht falsch. `playerAnzeige()` prüft das selbst; der Aufruf hier
-      trägt nur den Text, auf den gewartet wird.
-    */
-    playerAnzeige(
-      stand.reihe
-        ? 'Anime-Kalender: wartet auf die Tonspuren …'
-        : 'Anime-Kalender: wartet auf die Folgendaten …',
-      'laeuft',
-    )
-    /*
       **Bleibt es dabei, ist das ein Vorfall.** Fünfundzwanzig Sekunden reichen
       dem Player unter allen bisher gesehenen Bedingungen; danach kommt nichts
       mehr. Ohne diese Meldung bliebe es beim Schweigen — und genau das war der
@@ -1067,12 +1053,6 @@ function vielleichtSenden() {
       playerStummFrist = setTimeout(() => {
         playerStummFrist = null
         if (stand.reihe && stand.spuren) return
-        playerAnzeige(
-          stand.reihe
-            ? 'Anime-Kalender: keine Tonspuren gelesen — nicht gemeldet'
-            : 'Anime-Kalender: keine Folgendaten gelesen — nicht gemeldet',
-          'fehler',
-        )
         void vorfallMelden('player_stumm', {
           reihe: stand.reihe ?? null,
           folge_nr: stand.folgeNr ?? null,
@@ -1091,7 +1071,6 @@ function vielleichtSenden() {
   const k = schluessel()
   if (gesendet.has(k)) return
   gesendet.set(k, 'unterwegs')
-  playerAnzeige(`Anime-Kalender: meldet Folge ${stand.folgeNr ?? '?'} …`, 'laeuft')
   void melden({ automatisch: true })
 }
 
@@ -1364,30 +1343,6 @@ async function melden({ automatisch = false } = {}) {
   }
 }
 
-/**
- * **Im Player war die Erweiterung unsichtbar — und damit stumm.**
- *
- * Seit dem 22.08.2026 räumt `zeigeUebersicht()` im Player alles ab: „dort ist
- * die Erweiterung unsichtbar". Der Gedanke war richtig — eine Bedienleiste über
- * einem laufenden Video stört. Der Schluss war zu weit: Gemeldet wird **genau
- * hier**, und das Ergebnis ging an `knopf`, den es im Player nicht gibt.
- * `zeigeErgebnis()` fiel also still auf die erste Zeile zurück.
- *
- * Daniel am 10.09.2026, nachdem er eine Folge geöffnet hatte: „player hat sich
- * durch link geöffnet, nix ist weiter passiert. wurde es gemeldet ohne das ich
- * etwas visuell sehe? — wenn ja, dann ist das klarer verstoß gegen offene
- * kommunikation regel." Es war nicht gemeldet, und **auch das** war nicht zu
- * sehen: Zwischen „liest gerade", „fertig" und „gescheitert" konnte er nicht
- * unterscheiden.
- *
- * Die Anzeige ist deshalb klein und oben links, wo Netflix nur den Zurück-Pfeil
- * hat — sie stört nicht, aber sie ist da. Sie verschwindet nicht von selbst:
- * Wer nach zwanzig Sekunden hinsieht, will wissen, was passiert ist.
- */
-let playerFeld = null
-/* Textknoten und Knopf der Player-Anzeige — wiederverwendet, nicht neu gebaut. */
-let playerText = null
-let playerKnopf = null
 /** Läuft die Frist, nach der ein stummer Player als Vorfall gilt? */
 let playerStummFrist = null
 
@@ -1592,8 +1547,7 @@ function seiteGehtUnsAn() {
  * die Lage der letzten Seite, aber nicht, **warum** die Automatik jede übersprungen hat — das
  * stand nur in der Konsole, und die war beim Berichtschreiben längst weitergescrollt.
  *
- * Zwanzig Einträge reichen für einen Durchgang über zwanzig Titel; mehr hält die Automatik
- * ohnehin nicht durch (`SELBST_HOECHSTENS`).
+ * Die letzten sechzig Einträge reichen; ältere fallen hinten heraus.
  */
 const DURCHGANG_SPUR = []
 function spur(was, dazu) {
@@ -1632,136 +1586,8 @@ function durchlaufLaeuftHier() {
   }
 }
 
-/**
- * **Die Anzeige verschwindet, sobald sie nicht mehr hingehört.**
- *
- * Sie räumte sich nur auf, solange man **im** Player war: `playerAnzeige()`
- * stieg bei `!imPlayer()` mit einem nackten `return` aus, und das Feld blieb
- * stehen. Nach dem Melden und dem Weg zurück zur Titelseite hing „Folge 13:
- * deutsche Tonspur gefunden" samt Knopf über der Übersicht (Daniel,
- * 12.09.2026: „der denkt wir sind noch im player obwohl wir bereits in
- * overview sind") — und ein Klick darauf hätte eine Folge gemeldet, die
- * niemand mehr ansieht.
- *
- * Dieselbe Regel wie für den Kasten: Wer ein Element einblendet, gibt ihm den
- * Weg hinaus mit. Der Takt ruft das hier bei jedem Durchlauf.
- */
-function playerFeldWeg() {
-  if (playerFeld?.isConnected) playerFeld.remove()
-  playerFeld = null
-  playerText = null
-  playerKnopf = null
-}
-
-function playerAnzeige(text, art = 'laeuft', knopfText = null) {
-  try {
-    if (!imPlayer() || !playerAuftragOffen()) {
-      /* Kein Player, kein Auftrag, keine Anzeige — und eine stehende geht weg. */
-      playerFeldWeg()
-      return
-    }
-    if (!playerFeld?.isConnected) {
-      playerFeld = document.createElement('div')
-      playerFeld.className = 'ak-player-anzeige'
-      document.body.appendChild(playerFeld)
-    }
-    playerFeld.dataset.art = art
-    /*
-      **Neu gebaut wird nur, was sich geändert hat.**
-
-      `playerZeigen()` läuft im Sekundentakt, und `replaceChildren` warf dabei
-      jedes Mal den ganzen Inhalt weg — samt Melde-Knopf. Sichtbar war das als
-      Pulsieren beim Überfahren, und es ist schlimmer als ein Schönheitsfehler: Ein Klick,
-      der zwischen Ersetzen und Mausloslassen fällt, trifft einen Knopf, den es
-      nicht mehr gibt.
-
-      Der Text steht deshalb in einem eigenen Knoten, der nur beschrieben wird,
-      wenn er etwas anderes sagen soll — der Knopf daneben bleibt stehen.
-    */
-    if (!playerText?.isConnected) {
-      playerText = document.createElement('span')
-      playerText.className = 'ak-player-text'
-      playerFeld.replaceChildren(playerText)
-    }
-    if (playerText.textContent !== text) playerText.textContent = text
-    /*
-      **Der Knopf, der im Player gefehlt hat.**
-
-      Die selbsttätige Meldung beim Abspielen ist seit dem 26.08.2026 aus:
-      „Gemeldet wird nur noch über den Durchlauf oder von Hand — dann ist immer
-      klar, woher eine Meldung stammt." Der Satz stimmt, nur gab es die Hand
-      nicht: `zeigeUebersicht()` räumt im Player alles ab, und der Durchlauf
-      nimmt Anfang und Ende, nicht eine bestimmte Folge.
-
-      Für einen Auftrag wie „Haikyu!! S1 Folge 26" blieb damit kein Weg. Daniel
-      am 10.09.2026, nachdem er die Folge über den Direktlink geöffnet hatte:
-      „nix ist weiter passiert."
-
-      Der Knopf ändert daran genau eine Sache — die Meldung bleibt eine bewusste
-      Handlung, sie ist nur endlich möglich.
-    */
-    if (knopfText) {
-      /* Derselbe Knopf, solange er dasselbe sagt — siehe oben. */
-      if (!playerKnopf?.isConnected) {
-        playerKnopf = document.createElement('button')
-        playerKnopf.type = 'button'
-        playerKnopf.className = 'ak-player-knopf'
-        playerKnopf.addEventListener('click', (e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          playerAnzeige('Anime-Kalender: meldet …', 'laeuft')
-          void melden({ automatisch: false })
-        })
-        playerFeld.appendChild(playerKnopf)
-      }
-      if (playerKnopf.textContent !== knopfText) playerKnopf.textContent = knopfText
-      /* Nur der Knopf nimmt Klicks an — die Fläche daneben gehört dem Player. */
-      playerFeld.classList.add('ak-player-bedienbar')
-    } else {
-      playerKnopf?.remove()
-      playerKnopf = null
-      playerFeld.classList.remove('ak-player-bedienbar')
-    }
-  } catch {
-    /* Eine Anzeige, die den Player stört, ist keine. */
-  }
-}
-
-/**
- * **Was im Player zu sehen ist — einmal je Takt entschieden.**
- *
- * Vier Lagen, und jede hat ihren eigenen Satz: Es fehlen noch Daten, es fehlen
- * die Tonspuren, es ist alles da (dann steht der Knopf bereit), oder die Folge
- * ist bereits gemeldet.
- */
-function playerZeigen() {
-  /* Verlassener Player oder kein Auftrag: Die Anzeige geht mit — siehe playerFeldWeg(). */
-  if (!imPlayer() || !playerAuftragOffen()) return playerFeldWeg()
-  if (gesendet.has(schluessel())) {
-    const wie = gesendet.get(schluessel())
-    if (wie === 'deutsch') playerAnzeige('Anime-Kalender: als deutsch gemeldet', 'gut')
-    else if (wie === 'kein_deutsch') playerAnzeige('Anime-Kalender: als „kein Deutsch" gemeldet', 'gut')
-    return
-  }
-  if (!stand.reihe) {
-    playerAnzeige('Anime-Kalender: wartet auf die Folgendaten …', 'laeuft')
-    return
-  }
-  if (!stand.spuren) {
-    playerAnzeige('Anime-Kalender: wartet auf die Tonspuren — Abspielen drücken', 'laeuft')
-    return
-  }
-  const { deutsch } = urteil(stand.spuren)
-  playerAnzeige(
-    `Folge ${stand.folgeNr ?? '?'}: ${deutsch ? 'deutsche Tonspur gefunden' : 'kein Deutsch gefunden'}`,
-    'laeuft',
-    deutsch ? 'Als deutsch melden' : 'Als „kein Deutsch" melden',
-  )
-}
-
 function zeigeErgebnis(text, gutgegangen) {
-  /* Im Player gibt es keinen Knopf — dort sagt es die eigene Anzeige. */
-  playerAnzeige(text, gutgegangen ? 'gut' : 'fehler')
+  /* Im Player gibt es nichts zu sehen (Daniel, 09.10.2026). */
   if (!knopf) return
   knopf.textContent = text
   knopf.classList.add(gutgegangen ? 'ak-erfolg' : 'ak-fehler')
@@ -1846,16 +1672,9 @@ function browseWegKnopf() {
 
 function knopfZeigen() {
   /*
-    **Im Player zeichnet `playerZeigen()`, sonst niemand.**
-
-    Der Melde-Knopf dieser Funktion gehört auf die Titelseite. Im Player gibt
-    es die eigene Anzeige oben links — und der Kasten unten rechts trug
-    daneben einen zweiten Knopf, dessen Text dort leer bleibt: ein schmaler
-    weißer Streifen über dem laufenden Bild (Daniel, 12.09.2026: „unten rechts
-    weiterhin kaputt", der Diagnosebericht nennt `knopf: ""`).
-
-    Zwei Anzeigen für dieselbe Sache waren schon am 10.09.2026 die Ursache —
-    damals andersherum, mit einer Anzeige, die es nicht gab.
+    **Im Player zeichnet niemand.** Der Melde-Knopf dieser Funktion gehört auf die Titelseite;
+    im Player blieb er als leerer weißer Streifen über dem Bild stehen (Daniel, 12.09.2026),
+    und die Player-Anzeige oben links ist seit 4.24.18 weg (Daniel, 09.10.2026).
   */
   if (imPlayer()) {
     knopfEntfernen()
@@ -2385,7 +2204,7 @@ function fertig(id, eintrag) {
   */
   if (standZieleNetflix) {
     return (
-      !standZieleNetflix.has(`https://www.netflix.com/title/${id}`) || frischGemeldetNetflix.has(String(id))
+      !standZieleNetflix.has(`https://www.netflix.com/title/${id}`) || frischGemeldetNetflix.has(String(id)) || akNetflixWartet.has(String(id))
     )
   }
   if (istErledigt(id, 'tot')) return true
@@ -2474,6 +2293,7 @@ async function standHolen() {
       }
     }
     uebersichtZeigen()
+    void akNetflixUebernahme(standZieleNetflix, offeneTitel, WORKER).then(uebersichtZeigen)
   } catch {
     /* Ohne Netz bleibt die lokale Zählung stehen. */
   }
@@ -2561,9 +2381,9 @@ let selbstAn = false
  * **Ein Knopf, kein Schalter**. Der Schalter blieb an und startete danach auf
  * jedem Listentitel, den Daniel besuchte. Jetzt stößt „▶ alle durchgehen" **einen** Lauf an;
  * gemerkt wird nur, dass er läuft, weil jede Netflix-Seite das Skript neu startet. Er endet von
- * selbst: nichts mehr offen, Abbruch, Störung, Obergrenze — und spätestens nach zwei Stunden.
+ * selbst: nichts mehr offen, Abbruch, Störung, Schutz — und spätestens nach sechs Stunden (20 Titel: 12 Minuten, 11.10.2026).
  */
-const LAUF_HOECHSTENS_MS = 2 * 60 * 60 * 1000
+const LAUF_HOECHSTENS_MS = 6 * 60 * 60 * 1000
 /*
   **Der Lauf gehört dem Tab, der ihn gestartet hat** (21.09.2026). In 4.20.48–4.20.50 stand der
   Merker in `chrome.storage.local` — den teilen alle Tabs. Daniel sah in einem zweiten Tab
@@ -2619,7 +2439,7 @@ function durchgangEndeZeigen() {
       zeile.appendChild(el)
     }
     const namen = durchgangEnde.uebersprungen.map((r) => offeneTitel[r]?.titel ?? r)
-    const regulaer = durchgangEnde.grund === 'kein offener Auftrag mehr' || durchgangEnde.grund.endsWith('geschafft')
+    const regulaer = durchgangEnde.grund === 'kein offener Auftrag mehr'
     el.textContent =
       (regulaer ? 'Durchgang fertig' : `Durchgang abgebrochen · ${durchgangEnde.grund}`) +
       (namen.length ? ` · übersprungen: ${namen.join(', ')}` : '')
@@ -2647,6 +2467,7 @@ function laufStarten() {
   if (!hierAuftrag && !naechsterAuftrag()) return false
   selbstAn = true
   selbstGezaehlt = 0
+  selbstGrenze = Object.keys(offeneTitel).length
   selbstVersucht = null
   selbstUebersprungen.clear()
   selbstStaffelnGeprueft.clear()
@@ -2962,13 +2783,15 @@ function istAlleFolgenEintrag(text) {
 
 /** Zum nächsten offenen Auftrag springen — wie ein Klick aus der Liste. */
 function selbstWeiter() {
-  if (selbstGezaehlt >= SELBST_HOECHSTENS) return laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
+  selbstGrenze ??= Object.keys(offeneTitel).length
+  const schutz = akDurchgangSchutz(selbstGezaehlt, selbstGrenze, LAUF_SCHLUESSEL, LAUF_HOECHSTENS_MS)
+  if (schutz) return laufBeenden(schutz)
   const naechster = naechsterAuftrag()
   if (!naechster) return laufBeenden('kein offener Auftrag mehr')
   selbstGezaehlt++
   console.log(
     `[Anime-Kalender] Selbsttätig: weiter zu ${offeneTitel[naechster]?.titel ?? naechster} ` +
-      `(${selbstGezaehlt}/${SELBST_HOECHSTENS})`,
+      `(${selbstGezaehlt}/${selbstGrenze})`,
   )
   /* Wie ein Klick aus der Liste — damit die Zielseite den Auftrag erbt. */
   void speicherSchreiben({ zuletztGeoeffnet: { id: String(naechster), zeit: Date.now() } })
@@ -2976,13 +2799,9 @@ function selbstWeiter() {
   gehe(`/title/${naechster}`)
 }
 
-/**
- * **Wie viele Titel dieser Sitzung selbsttätig durchlaufen wurden:** 20 sind eine Stunde. Die
- * Grenze schützt gegen einen Lauf, der sich verrennt und Folgen ohne Ende in Daniels Konto öffnet
- * (Lehre vom 26.08.2026: der erste One-Piece-Lauf erzeugte 42 falsche Meldungen).
- */
+/** Wie viele Titel dieser Lauf angesprungen hat; `selbstGrenze` = bei Laufbeginn offene Titel (siehe `netflix-durchgang-schutz.js`). */
 let selbstGezaehlt = 0
-const SELBST_HOECHSTENS = 20
+let selbstGrenze = null
 
 /**
  * **Die nächste Adresse, die noch etwas zu holen hat.**
@@ -4022,7 +3841,7 @@ async function durchlaufStarten(grenze) {
     `durchlaufAuftrag()` sähe über die Folgenzahl womöglich eine andere, belegte Staffel und fände
     nichts zu tun (Meine ganz besondere Hochzeit).
   */
-  const erzwungen = DURCHLAUF.erzwungen
+  const erzwungen = DURCHLAUF.erzwungen || Boolean(globalThis.AK_GEMELDET?.neu(reihe, DURCHLAUF.folgen, DURCHLAUF.alleFolgen ?? [], DURCHLAUF.gemeldet))
   DURCHLAUF.erzwungen = false
   if (erzwungen) DURCHLAUF.stichprobe = null
   const alleOffen = erzwungen ? [...DURCHLAUF.folgen] : durchlaufOffen()
@@ -4059,6 +3878,7 @@ async function durchlaufStarten(grenze) {
   /* Der Takt hält sich ab jetzt heraus — siehe durchlaufLaeuftHier(). */
   durchlaufFlagSetzen(true)
   DURCHLAUF.abbruch = false
+  DURCHLAUF.abbruchGrund = null
   DURCHLAUF.stoerung = null
   DURCHLAUF.angenommen = null
   /*
@@ -4332,10 +4152,10 @@ async function durchlaufStarten(grenze) {
       (a, b) => a.folge.nummer - b.folge.nummer,
     )
     if (ersteFolge.deutsch === letzteFolge.deutsch) {
-      await randMelden(DURCHLAUF.randprobe, ersteFolge, letzteFolge.folge.nummer, [
+      akRandAusfall(DURCHLAUF, await randMelden(DURCHLAUF.randprobe, ersteFolge, letzteFolge.folge.nummer, [
         ersteFolge.folge.nummer,
         letzteFolge.folge.nummer,
-      ])
+      ]))
       /*
         **Die Annahme gehört an den Knopf, nicht nur in die Notiz.** Daniel am
         11.09.2026: „wenn es dazu führt das e2-e25 als dub true gekennzeichnet
@@ -4401,7 +4221,7 @@ async function durchlaufStarten(grenze) {
     schließen).
   */
   if (DURCHLAUF.selbst && selbstAn && (DURCHLAUF.abbruch || DURCHLAUF.stoerung)) {
-    laufBeenden(DURCHLAUF.abbruch ? 'abgebrochen' : `Störung ${DURCHLAUF.stoerung}`)
+    laufBeenden(DURCHLAUF.abbruch ? (globalThis.AK_TAGESLIMIT?.grund(DURCHLAUF.abbruchGrund ?? 'abgebrochen') ?? DURCHLAUF.abbruchGrund ?? 'abgebrochen') : `Störung ${DURCHLAUF.stoerung}`)
   }
   if (DURCHLAUF.selbst && selbstAn && !DURCHLAUF.abbruch && !DURCHLAUF.stoerung) {
     /* Zwei Titel in einer Netflix-Staffel: der zweite kommt auf derselben Seite dran oder eine weitere Staffel (höchstens sechs Anläufe je Seite). */
@@ -4412,8 +4232,7 @@ async function durchlaufStarten(grenze) {
     if (selbstRundenHier < SELBST_RUNDEN_JE_TITEL) {
       selbstVersucht = null
       setTimeout(() => void vielleichtSelbstStarten(), 1500)
-    } else if (selbstGezaehlt >= SELBST_HOECHSTENS) laufBeenden(`${SELBST_HOECHSTENS} Titel geschafft`)
-    else selbstWeiter()
+    } else selbstWeiter()
   }
   if (DURCHLAUF.stoerung) {
     /*
@@ -4550,7 +4369,7 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
           headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
           body: JSON.stringify({ stapel: teil.map((m) => m.daten) }),
         })
-        if (!antwort.ok) return
+        if (!antwort.ok) return void globalThis.AK_TAGESLIMIT?.fehlgeschlagen(DURCHLAUF)
         const { ergebnisse = [] } = await antwort.json()
         teil.forEach(({ f, staffelDerFolge }, i) => {
           if (!ergebnisse[i]?.ok) return
@@ -4690,7 +4509,7 @@ async function durchlaufMelden(folge, echte, deutsch) {
         ],
       }),
     })
-    if (!antwort.ok) return false
+    if (!antwort.ok) return globalThis.AK_TAGESLIMIT?.fehlgeschlagen(DURCHLAUF) ?? false
     await merkeErledigt(gemeinteReihe(), staffelDerFolge, folge.nummer)
     return true
   } catch {
@@ -4803,9 +4622,6 @@ function durchlaufKnopfZeigen() {
         bis 155 deutsch, wollte melden, aber das input ist weg."
       */
       DURCHLAUF.grenzFeld = null
-      DURCHLAUF.grenzKnopf = null
-      DURCHLAUF.nochmalKnopf = null
-      DURCHLAUF.grenzeMeldenKnopf = null
     }
     schutzflaecheZeigen(false)
     return
@@ -5014,6 +4830,7 @@ function durchlaufKnopfZeigen() {
     Der Klick hat also immer funktioniert. Nur die Anzeige kam nicht mehr dazu.
   */
   if (DURCHLAUF.nochmalKnopf) DURCHLAUF.nochmalKnopf.hidden = DURCHLAUF.laeuft
+  if (globalThis.AK_GEMELDET?.zeigen(DURCHLAUF, gemeinteReihe())) return
   if (!DURCHLAUF.laeuft && DURCHLAUF.stoerung) {
     /*
       **Nicht jede Störung heißt „zu viele Tabs".**
@@ -5530,7 +5347,7 @@ function uebersichtZeigen() {
     23.08.2026: „dort sollen nur nicht gemeldete gezählt werden"). Ein „✓" hält den Zugang zur
     Liste offen; ganz weg ist er erst, wenn die Liste selbst leer ist.
   */
-  uebersichtKnopf.classList.toggle('ak-fertig', !offeneAdressen)
+  akZaehler(uebersichtKnopf, offeneAdressen)
   /* Ohne jeden Eintrag sagt der Knopf, warum nichts dasteht — ein Häkchen allein
      ließe offen, ob die Liste leer oder die Erweiterung kaputt ist. */
   uebersichtKnopf.textContent = !Object.keys(offeneTitel ?? {}).length
@@ -6238,18 +6055,6 @@ setInterval(() => {
     knopfZeigen()
   } catch {
     /* Vor dem Laden des Speichers gibt es noch nichts zu zeichnen. */
-  }
-  /*
-    **Der Player braucht denselben Takt.**
-
-    Die Anzeige hing zuerst an der Leser-Nachricht — und die kommt nur, wenn
-    leser.js etwas findet. Bleibt sie aus, blieb auch die Anzeige aus, und genau
-    das war der Fall, den niemand sehen konnte (10.09.2026).
-  */
-  try {
-    playerZeigen()
-  } catch {
-    /* Ohne Prüfliste gibt es im Player nichts zu sagen. */
   }
   /*
     **Die Liste gehört in den Takt, nicht nur an den Pfadwechsel.**

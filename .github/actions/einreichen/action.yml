@@ -10,15 +10,33 @@ inputs:
   fund:
     description: 'Name des Fund-Artefakts (je Job eindeutig)'
     required: true
+  app-id:
+    description: 'ID der GitHub-App anime-kalender-daten (Secret DATEN_APP_ID; eine Composite-Action sieht keine Secrets)'
+    required: true
+  app-key:
+    description: 'Privater Schlüssel der App (Secret DATEN_APP_KEY)'
+    required: true
 runs:
   using: composite
   steps:
+    # Die App darf `main` am Ruleset `main-pruefweg` vorbei mergen, `GITHUB_TOKEN` nicht (11.10.2026). Das Aufsetzen und der Zweig-Push laufen weiter mit der Checkout-Anmeldung;
+    # nur Anlegen und Mergen des Pull Requests brauchen die App. Gelingt das Token nicht, wird der Lauf rot (kein Rückfall auf github.token: ein nie gemergter PR bliebe unbemerkt); der Einreichen-Schritt läuft trotzdem, damit der Fund gesichert wird.
+    - name: App-Token holen
+      id: app
+      uses: actions/create-github-app-token@v3
+      with:
+        app-id: ${{ inputs.app-id }}
+        private-key: ${{ inputs.app-key }}
+        permission-contents: write
+        permission-pull-requests: write
+
     - name: Quellen als Pull Request einreichen
       id: pr
+      if: ${{ !cancelled() }}
       continue-on-error: true
       shell: bash
       env:
-        GH_TOKEN: ${{ github.token }}
+        GH_TOKEN: ${{ steps.app.outputs.token }}
         # Das Aufsetzen legt hier die geänderten Quelldateien ab, bevor es auf den Stand von main wechselt.
         FUND_DIR: ${{ runner.temp }}/fund
       run: bash tools/quellen-pr.sh "${{ inputs.nachricht }}"

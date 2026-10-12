@@ -26,7 +26,10 @@ const zustandsBlock = (() => {
   const b = quelle.indexOf('  const primeFrames = new Map()')
   return a < 0 || b < 0 ? '' : quelle.slice(a, b + '  const primeFrames = new Map()'.length)
 })()
-const block = zustandsBlock + '\n' + quelle.slice(von, bis)
+/* Die Hilfen aus `prime-titelseite.js` laden laut Manifest vor `amazon.js` — hier vor dem Block. */
+const hilfen = readFileSync(__dirname + '/prime-titelseite.js', 'utf8')
+const gtiSprungAttrappe = 'var gtiSprungMerken = () => {}\n' // in amazon.js weit oben; die Gti-Prüfung unten ersetzt sie
+const block = hilfen + '\n' + gtiSprungAttrappe + zustandsBlock + '\n' + quelle.slice(von, bis)
 
 const fehler = []
 function pruefe(name, bedingung, gefunden) {
@@ -160,7 +163,15 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   pruefe('bis die Staffelliste da ist: genau ein Frame, die Staffel der Liste', w.offen().length === 1 && kennung(w.offen()[0]) === 'B07VP6VPVR', w.offen().map(kennung))
   pruefe('der Frame trägt unseren Namen und spielt nichts ab', w.offen()[0].name === 'ak-durchgang' && /autoplay 'none'/.test(w.offen()[0].allow))
 
-  w.ergebnis(w.offen()[0], { hier: 'B07VP6VPVR', staffeln: STAFFELN })
+  /* Die Antwort kommt als `message` an, wie `frameFertig()` sie schickt — nur vom eigenen Frame und eigenen Ursprung. */
+  const hoerer = vm.runInContext('primeHoerer', k)
+  const antwort = (origin, source) => ({ data: { marke: 'ak-prime-frame', ok: true, grund: 'gemeldet', hier: 'B07VP6VPVR', staffeln: STAFFELN }, origin, source })
+  hoerer(antwort('https://fremd.example', w.offen()[0].contentWindow))
+  pruefe('Hörer: eine Antwort von fremdem Ursprung zählt nicht', w.lauf().seiten === 0 && w.offen().length === 1)
+  hoerer(antwort('https://www.amazon.de', {}))
+  pruefe('Hörer: eine Antwort eines fremden Fensters zählt nicht', w.lauf().seiten === 0 && w.offen().length === 1)
+  hoerer(antwort('https://www.amazon.de', w.offen()[0].contentWindow))
+  pruefe('Hörer: die Antwort des eigenen Frames zählt als Seite', w.lauf().seiten === 1)
   pruefe('mit der Staffelliste: drei Frames gleichzeitig, Staffel 1–3', w.offen().map(kennung).join() === NARUTO.slice(0, 3).join(), w.offen().map(kennung))
   pruefe('der Plan hält die übrigen fünf', w.lauf().plan.length === 5, w.lauf().plan)
 
@@ -214,14 +225,63 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   pruefe('Start außerhalb eines Listentitels: erster Titel mit Titelseite, nicht die Suche', kennung(w.offen()[0]) === 'B07VP6VPVR', w.offen().map(kennung))
 }
 
+/* ---- Titel unter JustWatchs gti (11.10.2026) ---- */
+{
+  const GTI = 'amzn1.dv.gti.a42a7992-811d-4616-8b19-e160276b57ad'
+  const ZWEITE = 'B0AAAAAAA2'
+  const w = welt()
+  const k = w.kontext
+  k.liste = {
+    [GTI]: { titel: 'Antiks', url: `https://watch.amazon.de/detail?gti=${GTI}` },
+    SUCHE: { titel: 'Anonymous Noise', url: 'https://www.amazon.de/s?k=Anonymous+Noise&i=instant-video' },
+  }
+  k.listenId = 'irgendwas'
+  const gemerkt = []
+  k.gtiSprungMerken = (g) => gemerkt.push(g)
+  pruefe('gti-Titel zählen als Titel mit Titelseite, die Suche nicht', vm.runInContext('primeLaufStarten()', k) === true && w.lauf().titelGesamt === 1, w.lauf())
+  pruefe('der erste Frame geht über watch.amazon.de/detail?gti=…', w.offen().length === 1 && w.offen()[0].src === `https://watch.amazon.de/detail?gti=${GTI}`, w.offen().map((f) => f.src))
+  pruefe('… und merkt sich den Auftrag wie der Klick in der Prüfliste', gemerkt.join() === GTI, gemerkt)
+  w.ergebnis(w.offen()[0], { hier: 'B0REDIRECT1', staffeln: [{ kennung: 'B0REDIRECT1', nummer: 1 }, { kennung: ZWEITE, nummer: 2 }] })
+  pruefe('weitere Staffeln laufen über ihre ASIN, die Zielseite des ersten Frames nicht doppelt', w.offen().length === 1 && w.offen()[0].src === `https://www.amazon.de/gp/video/detail/${ZWEITE}`, w.offen().map((f) => f.src))
+  pruefe('der Auftrag wird nur für den ersten Frame gemerkt', gemerkt.length === 1, gemerkt)
+  w.ergebnis(w.offen()[0], {})
+  pruefe('danach endet der Lauf: die Suche wird nie geöffnet', w.lauf() === null && w.ende()?.grund === 'nichts mehr offen' && w.frames.length === 2, w.frames.map((f) => f.src))
+}
+
+{
+  /* Jeder Eintrag der echten Prüfliste hat eine Titelseite oder ist eine Suche — eine dritte Form fiele sonst lautlos heraus. */
+  const roh = readFileSync(__dirname + '/offene-amazon.js', 'utf8')
+  const huelle = {}
+  vm.runInNewContext(roh, huelle)
+  const eintraege = Object.values(huelle.AK_OFFENE_AMAZON ?? {})
+  const ohne = eintraege.filter((e) => !/\/detail(?:\/|\?gti=)/.test(e.url) && !/\/s\?k=/.test(e.url))
+  pruefe('Prüfliste: jeder Eintrag hat eine Titelseite oder eine Suchadresse', eintraege.length > 0 && ohne.length === 0, ohne.slice(0, 3))
+}
+
 /* ---- Verdrahtung ---- */
 {
   const manifest = JSON.parse(readFileSync(__dirname + '/manifest.json', 'utf8'))
+  const hilfen = manifest.content_scripts.find((c) => c.js.includes('amazon.js')).js
+  pruefe('Manifest: prime-titelseite.js lädt vor amazon.js', hilfen.indexOf('prime-titelseite.js') > 0 && hilfen.indexOf('prime-titelseite.js') < hilfen.indexOf('amazon.js'), hilfen)
   const amazon = manifest.content_scripts.filter((c) => c.js.includes('amazon.js') || c.js.includes('amazon-leser.js'))
   pruefe('Manifest: Leser und Melder laufen auch in Frames', amazon.length === 2 && amazon.every((c) => c.all_frames === true))
   const waechter = "window.top && window !== window.top && window.name !== 'ak-durchgang') return"
   pruefe('… aber nur in unseren (Name), nicht in Amazons Werbe-Frames', quelle.includes(waechter) && readFileSync(__dirname + '/amazon-leser.js', 'utf8').includes(waechter))
-  pruefe('die Frame-Antwort läuft über den einen message-Hörer', /if \(e\?\.data\?\.marke === 'ak-prime-frame'\)/.test(quelle) && (quelle.match(/addEventListener\('message'/g) ?? []).length === 1)
+  /*
+    **Hörer und Takt stehen vor dem Warten auf eine Titel-Kennung** (11.10.2026). Die Startseite hat nie eine:
+    Das Skript wartete dort fünf Minuten und stieg dann aus, `primeTakt` und der Hörer wurden nie angemeldet,
+    und "alle durchgehen" stand ewig auf "Titel 1/116 · 0 Seiten gemeldet". Der Hauptlistener bleibt der
+    eine für den Leser (die Sandkästen führen einen Hörer je Art, der letzte gilt) und übergeht die Antwort.
+  */
+  const zeilen = quelle.split('\n')
+  const zeileWarten = zeilen.findIndex((z) => z.includes('id = await new Promise')) + 1
+  const zeileHoerer = zeilen.findIndex((z) => z.includes("window.addEventListener('message', primeHoerer)")) + 1
+  const zeileTakt = zeilen.findIndex((z) => z.trim() === 'if (!IM_FRAME) setTimeout(primeTakt, 500)') + 1
+  pruefe('der Durchgangs-Hörer steht vor dem Warten auf die Kennung', zeileHoerer > 0 && zeileHoerer < zeileWarten, `${zeileHoerer} vor ${zeileWarten}`)
+  /* Auf der Seite vor dem Warten; im Frame erst hinten, nach der Initialisierung — den Lauf prüft amazon-durchgang-takt.test.cjs. */
+  pruefe('der Takt startet auf der Seite vor dem Warten, im Frame erst am Ende des Skripts', zeileTakt > 0 && zeileTakt < zeileWarten && /\n {2}if \(IM_FRAME\) setTimeout\(primeTakt, 500\)\n\}\)\(\)/.test(quelle), `${zeileTakt} vor ${zeileWarten}`)
+  pruefe('der Hauptlistener übergeht die Frame-Antwort', /if \(e\?\.data\?\.marke === 'ak-prime-frame'\) return/.test(quelle))
+  pruefe('der Bericht nennt „noch nicht angelegt“ statt eines Fehlers, solange die Seite wartet', /before initialization\/\.test\(e\?\.message\)/.test(quelle))
 }
 
 /* ---- Automat im Frame ---- */

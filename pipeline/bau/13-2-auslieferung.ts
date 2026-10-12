@@ -1,10 +1,11 @@
 import { anisearchUmgezogenInBestand } from './anisearch-titel.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
-import { kinoFeld, mitAnkuendigung, OUT, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
+import { schreibeKern } from './cartoon-kern.ts'
+import { kinoFeld, mitAnkuendigung, NEIN_GILT_TAGE, type EntfernterVerweis } from './grundlagen.ts'
+import { neuerStand, uebernommeneVerweise } from './verweise-gedaechtnis.ts'
 import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
-import { adressKern } from '../lib/dub-confirmed.ts'
 import { anisearchKanonisch, anisearchSeite } from '../lib/anisearch-seite.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
@@ -96,7 +97,7 @@ export function baueAuslieferung({
   // Der Kalender braucht nur die Titel, zu denen es einen Termin gibt. Die
   // vollständige Liste (mehrere Megabyte) lädt erst die Datenbank-Ansicht nach.
   const referenced = new Set(releases.map((r) => r.titleId))
-  writeJson(`${OUT}/titles-core.json`, slim.filter((t) => referenced.has(t.id)).map(mitAnkuendigung)) // mit Ankündigung: die Saison-Ansicht liest nur den Kern (Daniel, 08.10.2026)
+  schreibeKern(slim, referenced)
   /**
    * Kein Titel geht verloren — der Build bricht lieber ab.
    *
@@ -184,22 +185,11 @@ export function baueAuslieferung({
   */
   if (verweiseEntfernt.length) {
     const grenze = addDays(todayIso(), -NEIN_GILT_TAGE)
-    const schluessel = (e: { titleId?: number; plattform?: string; url?: string }) =>
-      `${e.titleId}|${e.plattform}|${adressKern(e.url)}`
-    const schonDa = new Set(verweiseEntfernt.map(schluessel))
-    const imBestand = new Set<string>()
-    for (const t of allTitles) for (const st of t.streams ?? []) imBestand.add(adressKern(st.url))
-    const uebernommen = (
-      readJson<{ verweise?: EntfernterVerweis[] }>('data/verweise-entfernt.json', {}).verweise ?? []
-    ).filter(
-      (e) => (e.entferntAm ?? '') >= grenze && !schonDa.has(schluessel(e)) && !imBestand.has(adressKern(e.url)),
-    )
+    const alt = readJson<{ stand?: string; verweise?: EntfernterVerweis[] }>('data/verweise-entfernt.json', {})
+    const uebernommen = uebernommeneVerweise(alt.verweise ?? [], verweiseEntfernt, allTitles, grenze)
     if (uebernommen.length) log(`${uebernommen.length} gesperrte Verweise aus dem Gedächtnis übernommen`)
-    writeJson(
-      'data/verweise-entfernt.json',
-      { stand: new Date().toISOString(), verweise: [...verweiseEntfernt, ...uebernommen] },
-      true,
-    )
+    const verweise = [...verweiseEntfernt, ...uebernommen]
+    writeJson('data/verweise-entfernt.json', { stand: neuerStand(alt, verweise), verweise }, true)
   }
   return { slim }
 }

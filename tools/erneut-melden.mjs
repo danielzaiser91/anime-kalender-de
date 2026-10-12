@@ -15,15 +15,15 @@
  * Glieder, und wer sie von Hand fährt, vergisst eins:
  *
  *   data/erneut-melden.yaml → extension/offene-{netflix,amazon,disney}.js (+ Standdateien)
- *     → public/data/pruefstand.json (Status-App) → Commit, Push, Deploy
+ *     → public/data/pruefstand.json (Status-App) → Commit, Pull Request, Deploy
  *
  * Das Skript fährt alle vier, prüft danach, dass jeder neue Eintrag in seiner Liste **und** im
- * Prüfstand steht, und pusht. `--pruefen` hält dieselbe Kette in `check:vor-commit` fest: Wer
+ * Prüfstand steht, und reicht einen Pull Request ein (Auto-Merge, seit 11.10.2026). `--pruefen` hält dieselbe Kette in `check:vor-commit` fest: Wer
  * die YAML-Datei von Hand ändert und die Listen vergisst, bekommt einen roten Lauf statt einer
  * stillen Lücke.
  */
 import { readFileSync, appendFileSync } from 'node:fs'
-import { execSync } from 'node:child_process'
+import { execFileSync, execSync } from 'node:child_process'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import yaml from 'js-yaml'
@@ -172,6 +172,9 @@ if (fehlt) process.exit(1)
 if (ohnePush) process.exit(0)
 
 lauf('npm run check:vor-commit')
+/* Direkt nach main geht seit dem 11.10.2026 nichts mehr (Ruleset `main-pruefweg`): eigener Zweig, Pull Request, Auto-Merge. */
+const vorher = execSync('git rev-parse --abbrev-ref HEAD', { cwd: wurzel, encoding: 'utf8' }).trim()
+lauf(`git switch -q -c erneut-melden/${new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 14)}`)
 lauf(`git add ${DATEIEN.join(' ')}`)
 const nachricht = `Prüfliste: ${neu.map((n) => `${name(n.id)} (${n.plattform})`).join(', ')} erneut melden\n\nGrund: ${grund}. Erzeugt von tools/erneut-melden.mjs.`
 execSync('git commit -q -F -', { cwd: wurzel, input: nachricht, stdio: ['pipe', 'inherit', 'inherit'] })
@@ -182,7 +185,7 @@ execSync('git commit -q -F -', { cwd: wurzel, input: nachricht, stdio: ['pipe', 
   weiter. Nur ein Konflikt in der YAML selbst braucht einen Menschen.
 */
 try {
-  execSync('git pull -q --rebase --autostash', { cwd: wurzel, stdio: 'inherit' })
+  execSync('git pull -q --rebase --autostash origin main', { cwd: wurzel, stdio: 'inherit' })
 } catch {
   const konflikte = execSync('git diff --name-only --diff-filter=U', { cwd: wurzel, encoding: 'utf8' }).split('\n').filter(Boolean)
   if (!konflikte.length || konflikte.includes(YAML) || konflikte.some((d) => !DATEIEN.includes(d))) {
@@ -196,5 +199,6 @@ try {
   execSync('git rebase --continue', { cwd: wurzel, stdio: 'inherit', env: { ...process.env, GIT_EDITOR: 'true' } })
   console.log(`Konflikt mit einem Bestandslauf gelöst: ${konflikte.join(', ')} neu erzeugt.`)
 }
-lauf('git push -q')
-console.log('Gepusht — die Status-App zeigt die Titel nach dem Deploy.')
+execFileSync('bash', ['tools/pr-einreichen.sh', nachricht.split('\n')[0]], { cwd: wurzel, stdio: 'inherit' })
+if (vorher !== 'HEAD') lauf(`git switch -q ${vorher}`)
+console.log('Als Pull Request eingereicht — GitHub mergt nach der Freigabe selbst, danach zeigt die Status-App die Titel.')

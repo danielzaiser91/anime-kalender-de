@@ -6,426 +6,11 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Comedy
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-01#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T151000Z
-DTEND:20261001T154000Z
-SUMMARY:Dragon Ball – Folge 10/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-01#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T153500Z
-DTEND:20261001T160500Z
-SUMMARY:Dragon Ball – Folge 11/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T160000Z
-DTEND:20261001T163000Z
-SUMMARY:Detektiv Conan – Folge 146/155
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T162500Z
-DTEND:20261001T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-183423-tv-prosieben-maxx@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T165000Z
-DTEND:20261001T172000Z
-SUMMARY:One Piece Log: Fish-Man Island Saga
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/16301/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261001T191500Z
-DTEND:20261001T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 6/11
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-213805-netflix@2026-10-01@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261001
-DTEND;VALUE=DATE:20261002
-SUMMARY:The Ramparts of Ice Staffel 2 – Folge 1/1
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17776/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GYZJ43JMR@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T150000Z
-DTEND:20261002T153000Z
-SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
- Folge 22/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16234/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-02#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T151000Z
-DTEND:20261002T154000Z
-SUMMARY:Dragon Ball – Folge 12/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-02#13@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T153500Z
-DTEND:20261002T160500Z
-SUMMARY:Dragon Ball – Folge 13/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-02#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17561/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-02#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 11/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17561/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:hana-kimi-s2@2026-10-02#12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Hana-Kimi – Staffel 2 – Folge 12/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17561/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T160000Z
-DTEND:20261002T163000Z
-SUMMARY:Detektiv Conan – Folge 147/155
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-02#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T162500Z
-DTEND:20261002T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-02#16@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T165000Z
-DTEND:20261002T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261002T191500Z
-DTEND:20261002T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 7/11
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:zombie-land-saga-revenge-2026-10-02@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Zombie Land Saga Revenge (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/10735/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:sakamoto-days-vol2@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Sakamoto Days – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15940/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:wind-breaker-s2-vol2@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Wind Breaker – Staffel 2 – Vol. 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15999/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:zombie-land-saga-s1-s2-bundle@2026-10-02@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261002
-DTEND;VALUE=DATE:20261003
-SUMMARY:Zombie Land Saga – Staffel 1 + 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/9816/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-03#7@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T035500Z
-DTEND:20261003T042500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-03#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T042000Z
-DTEND:20261003T045000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-03#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T045000Z
-DTEND:20261003T052000Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-15-tv-prosieben-maxx@2026-10-03#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T051500Z
-DTEND:20261003T054500Z
-SUMMARY:Eyeshield 21
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/6/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-03@anime-kalen
- der-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261003T160000Z
-DTEND:20261003T163000Z
-SUMMARY:Das Band der Unterwelt – Folge 23/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16919/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-03@anime-kalender-d
- e
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261003
-DTEND;VALUE=DATE:20261004
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 1/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-187331-primevideo@2026-10-03@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261003
-DTEND;VALUE=DATE:20261004
-SUMMARY:Hände weg\, Kotesashi-kun
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/16628/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-04#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T083000Z
-DTEND:20261004T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 8/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-04#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T083000Z
-DTEND:20261004T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 9/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-04#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T083000Z
-DTEND:20261004T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-04#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T083000Z
-DTEND:20261004T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 11/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-04#1@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T125000Z
-DTEND:20261004T132000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-04#2@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T132000Z
-DTEND:20261004T135000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-04#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T135000Z
-DTEND:20261004T142000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GNVHKN933@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T140000Z
-DTEND:20261004T143000Z
-SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 35/36
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17148/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384006@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T140000Z
-DTEND:20261004T143000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384004@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T143000Z
-DTEND:20261004T150000Z
-SUMMARY:Overgeared Staffel 1 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:spy-x-family-s1-teil1-disneyplus@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261004
-DTEND;VALUE=DATE:20261005
-SUMMARY:SPY x FAMILY
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/13639/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:spy-x-family-s1-teil2-disneyplus@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261004
-DTEND;VALUE=DATE:20261005
-SUMMARY:SPY x FAMILY Teil 2
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/13786/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:spy-x-family-s2-disneyplus@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261004
-DTEND;VALUE=DATE:20261005
-SUMMARY:SPY x FAMILY Staffel 2
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/14846/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T151000Z
 DTEND:20261005T154000Z
-SUMMARY:Dragon Ball – Folge 14/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -435,7 +20,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-05#15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T153500Z
 DTEND:20261005T160500Z
-SUMMARY:Dragon Ball – Folge 15/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -445,7 +30,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T160000Z
 DTEND:20261005T163000Z
-SUMMARY:Detektiv Conan – Folge 148/155
+SUMMARY:Detektiv Conan – Folge 148/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -475,7 +60,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T191500Z
 DTEND:20261005T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 8/11
+SUMMARY:Pokémon Reisen: Die Serie – Folge 8/13
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -495,7 +80,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T150500Z
 DTEND:20261006T153500Z
-SUMMARY:Dragon Ball – Folge 16/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -505,7 +90,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T191500Z
 DTEND:20261006T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 9/11
+SUMMARY:Pokémon Reisen: Die Serie – Folge 9/13
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -515,7 +100,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-07#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T151000Z
 DTEND:20261007T154000Z
-SUMMARY:Dragon Ball – Folge 17/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -525,7 +110,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-07#18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T153500Z
 DTEND:20261007T160500Z
-SUMMARY:Dragon Ball – Folge 18/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -535,7 +120,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T155500Z
 DTEND:20261007T162500Z
-SUMMARY:Detektiv Conan – Folge 149/155
+SUMMARY:Detektiv Conan – Folge 149/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -575,7 +160,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T191500Z
 DTEND:20261007T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 10/11
+SUMMARY:Pokémon Reisen: Die Serie – Folge 10/13
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -595,7 +180,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-08#19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T151000Z
 DTEND:20261008T154000Z
-SUMMARY:Dragon Ball – Folge 19/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -605,7 +190,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-08#20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T153500Z
 DTEND:20261008T160500Z
-SUMMARY:Dragon Ball – Folge 20/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -615,7 +200,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T160000Z
 DTEND:20261008T163000Z
-SUMMARY:Detektiv Conan – Folge 150/155
+SUMMARY:Detektiv Conan – Folge 150/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -645,7 +230,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T191500Z
 DTEND:20261008T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 11/11
+SUMMARY:Pokémon Reisen: Die Serie – Folge 11/13
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -676,7 +261,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-09#21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T151000Z
 DTEND:20261009T154000Z
-SUMMARY:Dragon Ball – Folge 21/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -686,7 +271,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-09#22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T153500Z
 DTEND:20261009T160500Z
-SUMMARY:Dragon Ball – Folge 22/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -694,9 +279,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261009T155500Z
-DTEND:20261009T162500Z
-SUMMARY:Detektiv Conan – Folge 151/155
+DTSTART:20261009T160000Z
+DTEND:20261009T163000Z
+SUMMARY:Detektiv Conan – Folge 151/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -732,10 +317,20 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261009T191500Z
+DTEND:20261009T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 12/13
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#11@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T040000Z
-DTEND:20261010T043000Z
+DTSTART:20261010T035500Z
+DTEND:20261010T042500Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -744,8 +339,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#12@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T042500Z
-DTEND:20261010T045500Z
+DTSTART:20261010T042000Z
+DTEND:20261010T045000Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -754,8 +349,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T045000Z
-DTEND:20261010T052000Z
+DTSTART:20261010T044500Z
+DTEND:20261010T051500Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
@@ -764,12 +359,23 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-15-tv-prosieben-maxx@2026-10-10#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261010T051500Z
-DTEND:20261010T054500Z
+DTSTART:20261010T051000Z
+DTEND:20261010T054000Z
 SUMMARY:Eyeshield 21
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/6/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:seven-knights-marronnier-kingdom-primevideo@2026-10-10@anime-kalender-d
+ e
+DTSTAMP:20200101T000000Z
+DTSTART:20261010T150000Z
+DTEND:20261010T153000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 2/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:das-band-der-unterwelt-crunchyroll-de-2026-04-04@2026-10-10@anime-kalen
@@ -778,22 +384,19 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261010T160000Z
 DTEND:20261010T163000Z
 SUMMARY:Das Band der Unterwelt – Folge 24/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16919/
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:seven-knights-marronnier-kingdom-primevideo@2026-10-10@anime-kalender-d
- e
+UID:das-band-der-unterwelt-netflix@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 2/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 15/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-179813-netflix@2026-10-10@anime-kalender-de
@@ -806,10 +409,20 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261010T235500Z
+DTEND:20261011T002500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-11#4@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261011T125000Z
-DTEND:20261011T132000Z
+DTSTART:20261011T125500Z
+DTEND:20261011T132500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
@@ -818,8 +431,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-11#5@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261011T132000Z
-DTEND:20261011T135000Z
+DTSTART:20261011T132500Z
+DTEND:20261011T135500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
@@ -828,8 +441,8 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-5027-tv-disney-channel@2026-10-11#6@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261011T135000Z
-DTEND:20261011T142000Z
+DTSTART:20261011T135500Z
+DTEND:20261011T142500Z
 SUMMARY:Yuna & Stitch
 DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/3342/
@@ -858,6 +471,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-10-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261011T140000Z
+DTEND:20261011T143000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 2/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T143000Z
@@ -868,21 +493,11 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
+UID:auto-223-tv-prosieben-maxx@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T151000Z
 DTEND:20261012T154000Z
-SUMMARY:Dragon Ball – Folge 23/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-12#24@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T153500Z
-DTEND:20261012T160500Z
-SUMMARY:Dragon Ball – Folge 24/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -892,7 +507,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T160000Z
 DTEND:20261012T163000Z
-SUMMARY:Detektiv Conan – Folge 152/155
+SUMMARY:Detektiv Conan – Folge 152/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -918,11 +533,21 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T191500Z
+DTEND:20261012T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 13/13
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T151000Z
 DTEND:20261013T154000Z
-SUMMARY:Dragon Ball – Folge 25/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -932,7 +557,7 @@ UID:auto-223-tv-prosieben-maxx@2026-10-13#26@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T153500Z
 DTEND:20261013T160500Z
-SUMMARY:Dragon Ball – Folge 26/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -940,9 +565,9 @@ END:VEVENT
 BEGIN:VEVENT
 UID:auto-235-tv-prosieben-maxx@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
-DTSTART:20261013T155500Z
-DTEND:20261013T162500Z
-SUMMARY:Detektiv Conan – Folge 153/155
+DTSTART:20261013T160000Z
+DTEND:20261013T163000Z
+SUMMARY:Detektiv Conan – Folge 153/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -968,21 +593,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-14#27@anime-kalender-de
+UID:auto-223-tv-prosieben-maxx@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T151000Z
 DTEND:20261014T154000Z
-SUMMARY:Dragon Ball – Folge 27/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-14#28@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261014T153500Z
-DTEND:20261014T160500Z
-SUMMARY:Dragon Ball – Folge 28/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -992,7 +607,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T160000Z
 DTEND:20261014T163000Z
-SUMMARY:Detektiv Conan – Folge 154/155
+SUMMARY:Detektiv Conan – Folge 154/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1018,21 +633,11 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-15#29@anime-kalender-de
+UID:auto-223-tv-prosieben-maxx@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T151000Z
 DTEND:20261015T154000Z
-SUMMARY:Dragon Ball – Folge 29/30
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-15#30@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261015T153500Z
-DTEND:20261015T160500Z
-SUMMARY:Dragon Ball – Folge 30/30
+SUMMARY:Dragon Ball
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/193/
 CATEGORIES:ProSieben MAXX
@@ -1042,7 +647,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T160000Z
 DTEND:20261015T163000Z
-SUMMARY:Detektiv Conan – Folge 155/155
+SUMMARY:Detektiv Conan – Folge 155/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1100,6 +705,56 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-16#29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T151000Z
+DTEND:20261016T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-16#30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T153500Z
+DTEND:20261016T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T155500Z
+DTEND:20261016T162500Z
+SUMMARY:Detektiv Conan – Folge 156/157
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-16#31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T162500Z
+DTEND:20261016T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-16#32@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261016T165000Z
+DTEND:20261016T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:dr-stone-science-future-part1@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261016
@@ -1130,16 +785,77 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T035500Z
+DTEND:20261017T042500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T042500Z
+DTEND:20261017T045500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T045000Z
+DTEND:20261017T052000Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-15-tv-prosieben-maxx@2026-10-17#18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T051500Z
+DTEND:20261017T054500Z
+SUMMARY:Eyeshield 21
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/6/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-17@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261017T150000Z
+DTEND:20261017T153000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 3/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261017
 DTEND;VALUE=DATE:20261018
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 3/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 16/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261017T221000Z
+DTEND:20261017T224000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-10-18@anime-kalender-de
@@ -1150,6 +866,36 @@ SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 12/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17577/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-10-18#7@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261018T125000Z
+DTEND:20261018T132000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-10-18#8@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261018T132000Z
+DTEND:20261018T135000Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-5027-tv-disney-channel@2026-10-18#9@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261018T134500Z
+DTEND:20261018T141500Z
+SUMMARY:Yuna & Stitch
+DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/3342/
+CATEGORIES:Disney Channel
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-10-18@anime-kalender-de
@@ -1164,6 +910,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261018T140000Z
+DTEND:20261018T143000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 3/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T143000Z
@@ -1173,6 +931,56 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-19#32@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T151000Z
+DTEND:20261019T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-19#33@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T153500Z
+DTEND:20261019T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T160000Z
+DTEND:20261019T163000Z
+SUMMARY:Detektiv Conan – Folge 157/157
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-19#33@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T162500Z
+DTEND:20261019T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-19#34@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T165000Z
+DTEND:20261019T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:my-hero-academia-yuei-heroes-battle-2026-10-20@2026-10-20@anime-kalende
@@ -1219,13 +1027,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-24@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261024T150000Z
+DTEND:20261024T153000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 4/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261024
 DTEND;VALUE=DATE:20261025
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 4/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 17/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:you-and-i-are-polar-opposites-s2@2026-10-25@anime-kalender-de
@@ -1249,6 +1068,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261025T150000Z
+DTEND:20261025T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 4/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-25@anime-kalender-de
@@ -1305,13 +1136,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-10-31@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261031T160000Z
+DTEND:20261031T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 5/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-10-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 5/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 18/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-01@anime-kalender-de
@@ -1326,6 +1168,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261101T150000Z
+DTEND:20261101T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 5/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-01@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261101T153000Z
@@ -1335,6 +1189,48 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261105T172500Z
+DTEND:20261105T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 1/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261105T175000Z
+DTEND:20261105T182000Z
+SUMMARY:ONE PIECE – Folge 780/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T172500Z
+DTEND:20261106T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 2/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261106T175000Z
+DTEND:20261106T182000Z
+SUMMARY:ONE PIECE – Folge 781/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:miss-kobayashi-s-dragon-maid-valentinstag-und-onsen-erwartet-nicht-zu-v
@@ -1382,13 +1278,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-07@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261107T160000Z
+DTEND:20261107T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 6/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 6/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 19/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-08@anime-kalender-de
@@ -1403,6 +1310,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261108T150000Z
+DTEND:20261108T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 6/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261108T153000Z
@@ -1412,6 +1331,116 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T172500Z
+DTEND:20261109T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 3/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261109T175000Z
+DTEND:20261109T182000Z
+SUMMARY:ONE PIECE – Folge 782/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T172500Z
+DTEND:20261110T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 4/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261110T175000Z
+DTEND:20261110T182000Z
+SUMMARY:ONE PIECE – Folge 783/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261111T172500Z
+DTEND:20261111T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 5/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261111T175000Z
+DTEND:20261111T182000Z
+SUMMARY:ONE PIECE – Folge 784/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261112T172500Z
+DTEND:20261112T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 6/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261112T175000Z
+DTEND:20261112T182000Z
+SUMMARY:ONE PIECE – Folge 785/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T172500Z
+DTEND:20261113T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 7/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261113T175000Z
+DTEND:20261113T182000Z
+SUMMARY:ONE PIECE – Folge 786/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:sakamoto-days-teil-2-vol-3-2026-11-13@2026-11-13@anime-kalender-de
@@ -1427,13 +1456,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-14@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261114T160000Z
+DTEND:20261114T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 7/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261114
 DTEND;VALUE=DATE:20261115
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 7/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 20/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-15@anime-kalender-de
@@ -1446,6 +1486,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261115T150000Z
+DTEND:20261115T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 7/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-15@anime-kalender-de
@@ -1469,6 +1521,72 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T172500Z
+DTEND:20261116T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 8/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261116T175000Z
+DTEND:20261116T182000Z
+SUMMARY:ONE PIECE – Folge 787/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261117T172500Z
+DTEND:20261117T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 9/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261117T175000Z
+DTEND:20261117T182000Z
+SUMMARY:ONE PIECE – Folge 788/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T172500Z
+DTEND:20261118T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 10/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261118T175000Z
+DTEND:20261118T182000Z
+SUMMARY:ONE PIECE – Folge 789/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:memories-2026-11-18@2026-11-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261118
@@ -1477,6 +1595,28 @@ SUMMARY:Memories (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1262/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261119T172500Z
+DTEND:20261119T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 11/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261119T175000Z
+DTEND:20261119T182000Z
+SUMMARY:ONE PIECE – Folge 790/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:naruto-shippuden-the-ova-naruto-ein-genie-und-drei-wuensche-2026-11-19@
@@ -1544,6 +1684,28 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261120T172500Z
+DTEND:20261120T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 12/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261120T175000Z
+DTEND:20261120T182000Z
+SUMMARY:ONE PIECE – Folge 791/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:good-luck-girl-vol-1-2026-11-20@2026-11-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261120
@@ -1607,13 +1769,24 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-21@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261121T160000Z
+DTEND:20261121T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 8/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 8/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 21/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-22@anime-kalender-de
@@ -1628,6 +1801,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261122T150000Z
+DTEND:20261122T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 8/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261122T153000Z
@@ -1639,16 +1824,137 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261123T172500Z
+DTEND:20261123T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 13/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261123T175000Z
+DTEND:20261123T182000Z
+SUMMARY:ONE PIECE – Folge 792/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261124T172500Z
+DTEND:20261124T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 14/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261124T175000Z
+DTEND:20261124T182000Z
+SUMMARY:ONE PIECE – Folge 793/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261125T172500Z
+DTEND:20261125T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 15/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261125T175000Z
+DTEND:20261125T182000Z
+SUMMARY:ONE PIECE – Folge 794/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261126T172500Z
+DTEND:20261126T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 16/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261126T175000Z
+DTEND:20261126T182000Z
+SUMMARY:ONE PIECE – Folge 795/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261127T172500Z
+DTEND:20261127T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 17/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261127T175000Z
+DTEND:20261127T182000Z
+SUMMARY:ONE PIECE – Folge 796/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-11-28@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261128T160000Z
+DTEND:20261128T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 9/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-11-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261128
 DTEND;VALUE=DATE:20261129
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 9/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 22/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-11-29@anime-kalender-de
@@ -1663,6 +1969,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261129T150000Z
+DTEND:20261129T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 9/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261129T153000Z
@@ -1672,6 +1990,50 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-11-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261130T172500Z
+DTEND:20261130T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 18/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-11-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261130T175000Z
+DTEND:20261130T182000Z
+SUMMARY:ONE PIECE – Folge 797/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261201T172500Z
+DTEND:20261201T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 19/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261201T175000Z
+DTEND:20261201T182000Z
+SUMMARY:ONE PIECE – Folge 798/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:gods-games-we-play-2026-12-01@2026-12-01@anime-kalender-de
@@ -1684,6 +2046,50 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261202T172500Z
+DTEND:20261202T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 20/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261202T175000Z
+DTEND:20261202T182000Z
+SUMMARY:ONE PIECE – Folge 799/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261203T172500Z
+DTEND:20261203T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 21/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261203T175000Z
+DTEND:20261203T182000Z
+SUMMARY:ONE PIECE – Folge 800/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:hallo-kurt-2026-12-03@2026-12-03@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261203
@@ -1692,6 +2098,28 @@ SUMMARY:Hallo Kurt! (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/2413/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261204T172500Z
+DTEND:20261204T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 22/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261204T175000Z
+DTEND:20261204T182000Z
+SUMMARY:ONE PIECE – Folge 801/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:miss-kobayashi-s-dragon-maid-s-2026-11-06@2026-12-04@anime-kalender-de
@@ -1754,6 +2182,16 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-132405-disc@2026-12-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:My Dress-Up Darling (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12919/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-166477-disc@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
@@ -1774,26 +2212,27 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-132405-disc@2026-12-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261204
-DTEND;VALUE=DATE:20261205
-SUMMARY:My Dress-Up Darling (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/12919/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-05@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261205T160000Z
+DTEND:20261205T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 10/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-12-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261205
 DTEND;VALUE=DATE:20261206
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 10/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 23/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-06@anime-kalender-de
@@ -1808,6 +2247,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261206T150000Z
+DTEND:20261206T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 10/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261206T153000Z
@@ -1817,6 +2268,72 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261207T172500Z
+DTEND:20261207T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 23/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261207T175000Z
+DTEND:20261207T182000Z
+SUMMARY:ONE PIECE – Folge 802/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:yaiba-samurai-legend-prosieben-maxx@2026-12-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261208T172500Z
+DTEND:20261208T175500Z
+SUMMARY:YAIBA: Samurai Legend – Folge 24/24
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nErstmals im TV auf Deutsch.\nGeschätzter Termin\, aus dem bisherigen Wo
+ chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/15908/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261208T175000Z
+DTEND:20261208T182000Z
+SUMMARY:ONE PIECE – Folge 803/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261209T175000Z
+DTEND:20261209T182000Z
+SUMMARY:ONE PIECE – Folge 804/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261210T175000Z
+DTEND:20261210T182000Z
+SUMMARY:ONE PIECE – Folge 805/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-1313-disc@2026-12-10@anime-kalender-de
@@ -1829,16 +2346,38 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261211T175000Z
+DTEND:20261211T182000Z
+SUMMARY:ONE PIECE – Folge 806/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-12@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
+DTSTART:20261212T160000Z
+DTEND:20261212T163000Z
+SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 11/20
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:das-band-der-unterwelt-netflix@2026-12-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261212
 DTEND;VALUE=DATE:20261213
-SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 11/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
-CATEGORIES:Prime Video
+SUMMARY:Das Band der Unterwelt – Folge 24/≈24
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
+ it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
+ rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384006@2026-12-13@anime-kalender-de
@@ -1853,6 +2392,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261213T150000Z
+DTEND:20261213T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 11/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-12-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261213T153000Z
@@ -1862,6 +2413,61 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261214T175000Z
+DTEND:20261214T182000Z
+SUMMARY:ONE PIECE – Folge 807/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261215T175000Z
+DTEND:20261215T182000Z
+SUMMARY:ONE PIECE – Folge 808/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261216T175000Z
+DTEND:20261216T182000Z
+SUMMARY:ONE PIECE – Folge 809/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261217T175000Z
+DTEND:20261217T182000Z
+SUMMARY:ONE PIECE – Folge 810/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261218T175000Z
+DTEND:20261218T182000Z
+SUMMARY:ONE PIECE – Folge 811/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:please-put-them-on-takamine-vol2@2026-12-18@anime-kalender-de
@@ -1897,12 +2503,12 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-19@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261219
-DTEND;VALUE=DATE:20261220
+DTSTART:20261219T160000Z
+DTEND:20261219T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 12/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -1918,6 +2524,73 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261220T150000Z
+DTEND:20261220T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 12/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261221T175000Z
+DTEND:20261221T182000Z
+SUMMARY:ONE PIECE – Folge 812/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261222T175000Z
+DTEND:20261222T182000Z
+SUMMARY:ONE PIECE – Folge 813/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261223T175000Z
+DTEND:20261223T182000Z
+SUMMARY:ONE PIECE – Folge 814/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261224T175000Z
+DTEND:20261224T182000Z
+SUMMARY:ONE PIECE – Folge 815/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261225T175000Z
+DTEND:20261225T182000Z
+SUMMARY:ONE PIECE – Folge 816/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:sakamoto-days-teil-2-vol-4-2026-12-18@2026-12-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261225
@@ -1931,37 +2604,202 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2026-12-26@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261226
-DTEND;VALUE=DATE:20261227
+DTSTART:20261226T160000Z
+DTEND:20261226T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 13/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261228T175000Z
+DTEND:20261228T182000Z
+SUMMARY:ONE PIECE – Folge 817/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261229T175000Z
+DTEND:20261229T182000Z
+SUMMARY:ONE PIECE – Folge 818/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-30@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261230T175000Z
+DTEND:20261230T182000Z
+SUMMARY:ONE PIECE – Folge 819/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-31@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261231T175000Z
+DTEND:20261231T182000Z
+SUMMARY:ONE PIECE – Folge 820/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270101T175000Z
+DTEND:20270101T182000Z
+SUMMARY:ONE PIECE – Folge 821/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-02@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270102
-DTEND;VALUE=DATE:20270103
+DTSTART:20270102T160000Z
+DTEND:20270102T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 14/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270104T175000Z
+DTEND:20270104T182000Z
+SUMMARY:ONE PIECE – Folge 822/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270105T175000Z
+DTEND:20270105T182000Z
+SUMMARY:ONE PIECE – Folge 823/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270106T175000Z
+DTEND:20270106T182000Z
+SUMMARY:ONE PIECE – Folge 824/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270107T175000Z
+DTEND:20270107T182000Z
+SUMMARY:ONE PIECE – Folge 825/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270108T175000Z
+DTEND:20270108T182000Z
+SUMMARY:ONE PIECE – Folge 826/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-09@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270109
-DTEND;VALUE=DATE:20270110
+DTSTART:20270109T160000Z
+DTEND:20270109T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 15/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270111T175000Z
+DTEND:20270111T182000Z
+SUMMARY:ONE PIECE – Folge 827/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270112T175000Z
+DTEND:20270112T182000Z
+SUMMARY:ONE PIECE – Folge 828/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270113T175000Z
+DTEND:20270113T182000Z
+SUMMARY:ONE PIECE – Folge 829/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-14@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270114T175000Z
+DTEND:20270114T182000Z
+SUMMARY:ONE PIECE – Folge 830/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270115T175000Z
+DTEND:20270115T182000Z
+SUMMARY:ONE PIECE – Folge 831/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:sailor-moon-sailor-stars-2027-01-15@2027-01-15@anime-kalender-de
@@ -1984,40 +2822,216 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:dr-stone-science-future-part2@2027-01-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+SUMMARY:Dr. STONE: Science Future – Teil 2 (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16761/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-16@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270116
-DTEND;VALUE=DATE:20270117
+DTSTART:20270116T160000Z
+DTEND:20270116T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 16/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270118T175000Z
+DTEND:20270118T182000Z
+SUMMARY:ONE PIECE – Folge 832/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270119T175000Z
+DTEND:20270119T182000Z
+SUMMARY:ONE PIECE – Folge 833/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270120T175000Z
+DTEND:20270120T182000Z
+SUMMARY:ONE PIECE – Folge 834/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-21@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270121T175000Z
+DTEND:20270121T182000Z
+SUMMARY:ONE PIECE – Folge 835/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270122T175000Z
+DTEND:20270122T182000Z
+SUMMARY:ONE PIECE – Folge 836/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-23@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270123
-DTEND;VALUE=DATE:20270124
+DTSTART:20270123T160000Z
+DTEND:20270123T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 17/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270125T175000Z
+DTEND:20270125T182000Z
+SUMMARY:ONE PIECE – Folge 837/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270126T175000Z
+DTEND:20270126T182000Z
+SUMMARY:ONE PIECE – Folge 838/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270127T175000Z
+DTEND:20270127T182000Z
+SUMMARY:ONE PIECE – Folge 839/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-28@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270128T175000Z
+DTEND:20270128T182000Z
+SUMMARY:ONE PIECE – Folge 840/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270129T175000Z
+DTEND:20270129T182000Z
+SUMMARY:ONE PIECE – Folge 841/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-01-30@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270130
-DTEND;VALUE=DATE:20270131
+DTSTART:20270130T160000Z
+DTEND:20270130T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 18/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270201T175000Z
+DTEND:20270201T182000Z
+SUMMARY:ONE PIECE – Folge 842/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270202T175000Z
+DTEND:20270202T182000Z
+SUMMARY:ONE PIECE – Folge 843/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270203T175000Z
+DTEND:20270203T182000Z
+SUMMARY:ONE PIECE – Folge 844/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270204T175000Z
+DTEND:20270204T182000Z
+SUMMARY:ONE PIECE – Folge 845/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270205T175000Z
+DTEND:20270205T182000Z
+SUMMARY:ONE PIECE – Folge 846/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:good-luck-girl-vol-2-2027-02-05@2027-02-05@anime-kalender-de
@@ -2033,25 +3047,135 @@ BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-02-06@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270206
-DTEND;VALUE=DATE:20270207
+DTSTART:20270206T160000Z
+DTEND:20270206T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 19/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270208T175000Z
+DTEND:20270208T182000Z
+SUMMARY:ONE PIECE – Folge 847/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270209T175000Z
+DTEND:20270209T182000Z
+SUMMARY:ONE PIECE – Folge 848/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270210T175000Z
+DTEND:20270210T182000Z
+SUMMARY:ONE PIECE – Folge 849/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270211T175000Z
+DTEND:20270211T182000Z
+SUMMARY:ONE PIECE – Folge 850/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270212T175000Z
+DTEND:20270212T182000Z
+SUMMARY:ONE PIECE – Folge 851/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:seven-knights-marronnier-kingdom-primevideo@2027-02-13@anime-kalender-d
  e
 DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20270213
-DTEND;VALUE=DATE:20270214
+DTSTART:20270213T160000Z
+DTEND:20270213T163000Z
 SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 20/20
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17642/
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/17642/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270215T175000Z
+DTEND:20270215T182000Z
+SUMMARY:ONE PIECE – Folge 852/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270216T175000Z
+DTEND:20270216T182000Z
+SUMMARY:ONE PIECE – Folge 853/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270217T175000Z
+DTEND:20270217T182000Z
+SUMMARY:ONE PIECE – Folge 854/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270218T175000Z
+DTEND:20270218T182000Z
+SUMMARY:ONE PIECE – Folge 855/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270219T175000Z
+DTEND:20270219T182000Z
+SUMMARY:ONE PIECE – Folge 856/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-vol-2-2027-02-19@2027-02-19@anime-kalender-de
@@ -2062,5 +3186,236 @@ SUMMARY:Yaiba: Samurai Legend – Vol. 2 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/15908/
 CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270222T175000Z
+DTEND:20270222T182000Z
+SUMMARY:ONE PIECE – Folge 857/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-23@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270223T175000Z
+DTEND:20270223T182000Z
+SUMMARY:ONE PIECE – Folge 858/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-24@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270224T175000Z
+DTEND:20270224T182000Z
+SUMMARY:ONE PIECE – Folge 859/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270225T175000Z
+DTEND:20270225T182000Z
+SUMMARY:ONE PIECE – Folge 860/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-02-26@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270226T175000Z
+DTEND:20270226T182000Z
+SUMMARY:ONE PIECE – Folge 861/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270301T175000Z
+DTEND:20270301T182000Z
+SUMMARY:ONE PIECE – Folge 862/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-02@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270302T175000Z
+DTEND:20270302T182000Z
+SUMMARY:ONE PIECE – Folge 863/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270303T175000Z
+DTEND:20270303T182000Z
+SUMMARY:ONE PIECE – Folge 864/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-04@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270304T175000Z
+DTEND:20270304T182000Z
+SUMMARY:ONE PIECE – Folge 865/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270305T175000Z
+DTEND:20270305T182000Z
+SUMMARY:ONE PIECE – Folge 866/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270308T175000Z
+DTEND:20270308T182000Z
+SUMMARY:ONE PIECE – Folge 867/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-09@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270309T175000Z
+DTEND:20270309T182000Z
+SUMMARY:ONE PIECE – Folge 868/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270310T175000Z
+DTEND:20270310T182000Z
+SUMMARY:ONE PIECE – Folge 869/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270311T175000Z
+DTEND:20270311T182000Z
+SUMMARY:ONE PIECE – Folge 870/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270312T175000Z
+DTEND:20270312T182000Z
+SUMMARY:ONE PIECE – Folge 871/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270315T175000Z
+DTEND:20270315T182000Z
+SUMMARY:ONE PIECE – Folge 872/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-16@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270316T175000Z
+DTEND:20270316T182000Z
+SUMMARY:ONE PIECE – Folge 873/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-17@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270317T175000Z
+DTEND:20270317T182000Z
+SUMMARY:ONE PIECE – Folge 874/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270318T175000Z
+DTEND:20270318T182000Z
+SUMMARY:ONE PIECE – Folge 875/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270319T175000Z
+DTEND:20270319T182000Z
+SUMMARY:ONE PIECE – Folge 876/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20270322T175000Z
+DTEND:20270322T182000Z
+SUMMARY:ONE PIECE – Folge 877/877
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 END:VCALENDAR

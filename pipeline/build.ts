@@ -7,7 +7,7 @@
  * (z. B. kommen die Disc-Wege in `schliesseWegeAb` erst nach der letzten Entfernung).
  */
 import { ladeQuellen } from './bau/01-quellen.ts'
-import { baueTitel } from './bau/02-titel.ts'
+import { baueTitelGemessen } from './bau/anisearch-abweichungen.ts'
 import { fuehreReihenZusammen } from './bau/03-reihen.ts'
 import { indiziereCrSendeplaetze } from './bau/04-cr-sendeplaetze.ts'
 import { baueReleases } from './bau/05-releases.ts'
@@ -18,9 +18,9 @@ import { pruefeSynchroJePlattform } from './bau/09-synchro.ts'
 import { rolleTermineAus } from './bau/10-termine.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { baueMeta } from './bau/12-meta.ts'
-import { schreibeDatensatz } from './bau/13-schreiben.ts'
+import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
-import { entferneGesperrte } from './bau/sperre.ts'
+import { entferneVomKalender } from './bau/sperre.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
 
 function main(): void {
@@ -33,7 +33,7 @@ function main(): void {
   const { byMal, byAniId, tmdbTitles, anisearch, curated, curatedIds, tmdb, anisearchEpisodes, tmdbMehrdeutig } =
     quellen
 
-  const { titles, jpStart, jpStartAnzeige } = baueTitel(quellen)
+  const { titles, jpStart, jpStartAnzeige } = baueTitelGemessen(quellen) // baueTitel plus Messung aniSearch gegen AniList (nichts wird ausgeliefert)
   const { tvJeTmdb, toteAdressen, netflixOhneKennung } = fuehreReihenZusammen({
     byAniId,
     byMal,
@@ -78,7 +78,7 @@ function main(): void {
     adnVerweiseErgaenzt,
   })
 
-  const { events, mitStimmen, verschoben } = rolleTermineAus({ releases, titles, jpStart }); entferneGesperrte(releases, events)
+  const { events, mitStimmen, verschoben } = rolleTermineAus({ releases, titles, jpStart }); entferneVomKalender(releases, events)
 
   // Alles, was Verweise ändert, muss vor `baueMeta` stehen — dort beginnt die Auslieferung.
   schliesseWegeAb({ ...synchro, titles, anisearch, releases, tmdbMehrdeutig, toteAdressen, verweiseEntfernt })
@@ -89,7 +89,7 @@ function main(): void {
     events,
     motnBelege: synchro.motnBelege,
   })
-  const { newsFuerRss } = schreibeDatensatz({
+  const { newsFuerRss } = schreibeDatensatzGemessen({
     allTitles,
     releases,
     kanalJeAdresse: synchro.kanalJeAdresse,

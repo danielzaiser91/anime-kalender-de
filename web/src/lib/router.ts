@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { DubConfidence } from '@shared/types.ts'
 import {
   EMPTY_FILTERS,
@@ -8,9 +8,11 @@ import {
   type FilterState,
   type ListKey,
 } from './filters.ts'
+import { FSK_COLORS, PLATFORMS, RELEASE_TYPES, STATUS_LABEL } from '@shared/types.ts'
 import { todayIso } from '@shared/time.ts'
 import { vorliebenLesen, vorliebenNachfuehren } from './vorlieben.ts'
 import { kalenderBasis } from './kalender-filter.ts'
+import { HERKUENFTE } from './herkunft.ts'
 
 /** Woche und Monat haben ihre Filter nicht in der Adresse (`kalender-filter.ts`). */
 const istKalender = (view: ViewId): boolean => view === 'woche' || view === 'monat'
@@ -64,7 +66,15 @@ export interface AppRoute {
   filters: FilterState
   /** Gewählte Sortierung der Datenbank — in der Adresse, damit ein geteilter Link sie mitnimmt (21.09.2026). */
   sort?: DbSort
+  /** Schalter der Datenbank in der Adresse (`ohne=1`, `staffeln=0|1`); fehlt der Parameter, gilt die Voreinstellung bzw. der gespeicherte Wert. */
+  ohne?: true
+  staffeln?: boolean
+  /** Gewählter Reiter der Saison-Ansicht (`s=`); ohne Wert „jetzt“. */
+  saison?: SaisonReiter
 }
+
+export const SAISON_REITER = ['jetzt', 'zuletzt', 'ausblick'] as const
+export type SaisonReiter = (typeof SAISON_REITER)[number]
 
 export type DbSort = 'relevanz' | 'titel' | 'jahr' | 'score'
 const DB_SORTS: readonly DbSort[] = ['relevanz', 'titel', 'jahr', 'score']
@@ -83,10 +93,20 @@ const LIST_PARAM: Record<ListKey, string> = {
   genres: 'g',
   keywords: 'kw',
   sprecher: 'sp',
+  land: 'her',
 }
 
 /** Felder, deren Werte Zahlen sind — alle anderen bleiben Zeichenketten. */
 const NUMERIC_KEYS = new Set<ListKey>(['fsk', 'years'])
+
+/** Listen mit festem Wertebereich: Eine unbekannte Kennung in der Adresse (`?p=prime`) wird verworfen, sonst bricht die Anzeige der Chips. */
+const BEKANNTE_WERTE: Partial<Record<ListKey, Set<string>>> = {
+  platforms: new Set(Object.keys(PLATFORMS)),
+  releaseTypes: new Set(Object.keys(RELEASE_TYPES)),
+  statuses: new Set(Object.keys(STATUS_LABEL)),
+  fsk: new Set(Object.keys(FSK_COLORS)),
+  land: new Set<string>(HERKUENFTE),
+}
 
 function splitList(value: string | null): string[] {
   return value ? value.split(',').filter(Boolean) : []
@@ -96,7 +116,9 @@ function readLists(params: URLSearchParams, prefix: '' | 'x'): FilterLists {
   const lists = emptyLists()
   for (const key of LIST_KEYS) {
     const raw = splitList(params.get(prefix + LIST_PARAM[key]))
-    ;(lists as any)[key] = NUMERIC_KEYS.has(key) ? raw.map(Number) : raw
+    const werte = NUMERIC_KEYS.has(key) ? raw.map(Number) : raw
+    const bekannt = BEKANNTE_WERTE[key]
+    ;(lists as any)[key] = bekannt ? werte.filter((w) => bekannt.has(String(w))) : werte
   }
   /*
     **`disc` ist eine Veröffentlichungsart, keine Plattform** (01.10.2026; am
@@ -117,6 +139,27 @@ function writeLists(params: URLSearchParams, lists: FilterLists, prefix: '' | 'x
     const values = lists[key]
     if (values.length) params.set(prefix + LIST_PARAM[key], values.join(','))
   }
+}
+
+/**
+ * **Schalter in der Adresse** (Datenbank: `ohne=1`, `staffeln=0|1`; Saison: `s=zuletzt|ausblick`), damit ein geteilter Link beim Empfänger
+ * gleich aussieht. Fehlt der Parameter oder ist der Wert ungültig, gilt still die Voreinstellung bzw. der gespeicherte Wert.
+ */
+function schalterAusAdresse(params: URLSearchParams, view: ViewId): Pick<AppRoute, 'ohne' | 'staffeln' | 'saison'> {
+  const staffeln = params.get('staffeln')
+  return {
+    ohne: view === 'datenbank' && params.get('ohne') === '1' ? true : undefined,
+    staffeln: view === 'datenbank' && (staffeln === '0' || staffeln === '1') ? staffeln === '1' : undefined,
+    saison: view === 'saison' ? SAISON_REITER.find((r) => r === params.get('s')) : undefined,
+  }
+}
+
+function schalterInAdresse(params: URLSearchParams, route: AppRoute): void {
+  if (route.view === 'datenbank') {
+    if (route.ohne) params.set('ohne', '1')
+    if (route.staffeln !== undefined) params.set('staffeln', route.staffeln ? '1' : '0')
+  }
+  if (route.view === 'saison' && route.saison && route.saison !== 'jetzt') params.set('s', route.saison)
 }
 
 export function parseHash(hash: string): AppRoute {
@@ -145,6 +188,7 @@ export function parseHash(hash: string): AppRoute {
     availableOnly: vorlieben.availableOnly || (!kalender && params.get('wo') === '1') || !!alt?.verfuegbar,
     kostenlosOnly: vorlieben.kostenlosOnly || (!kalender && params.get('frei') === '1'),
     favoritesExcluded: vorlieben.favoritesExcluded, kostenlosExcluded: vorlieben.kostenlosExcluded, confirmedExcluded: vorlieben.confirmedExcluded, availableExcluded: vorlieben.availableExcluded,
+    zweitanbieterExcluded: vorlieben.zweitanbieterExcluded,
     minConfidence: kalender ? 'low' : ((params.get('conf') as DubConfidence) ?? 'low'),
   }
 
@@ -155,6 +199,7 @@ export function parseHash(hash: string): AppRoute {
     disc: params.get('disc') === '1' ? true : undefined,
     filters,
     sort: DB_SORTS.find((s) => s === params.get('sort')),
+    ...schalterAusAdresse(params, view),
   }
 }
 
@@ -172,6 +217,7 @@ export function buildHash(route: AppRoute): string {
   if (route.title) params.set('t', String(route.title))
   if (route.title && route.disc) params.set('disc', '1')
   if (route.sort) params.set('sort', route.sort)
+  schalterInAdresse(params, route)
 
   const query = params.toString()
   return `#/${route.view}${query ? `?${query}` : ''}`
@@ -197,7 +243,7 @@ function mitPfad(route: AppRoute, pathname: string): AppRoute {
  * (`#/agenda`), ein doppeltes `r=` oder ein Filter an Woche und Monat (alter geteilter Link) wird ersetzt
  * — `replaceState` schreibt keinen Verlaufseintrag und feuert kein `hashchange`.
  */
-const KALENDER_FILTER_PARAM = /[?&](q|conf|sicher|wo|frei|x?(p|anb|rt|st|fsk|y|g|kw|sp))=/
+const KALENDER_FILTER_PARAM = /[?&](q|conf|sicher|wo|frei|ohne|staffeln|x?(p|anb|rt|st|fsk|y|g|kw|sp))=/
 
 function hashAufraeumen(neu: AppRoute, hash: string): void {
   if (
@@ -262,8 +308,17 @@ function panelUnterlegen(route: AppRoute): void {
   history.pushState({ panel: true, tief: true }, '', url)
 }
 
-export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
-  const [route, setRoute] = useState<AppRoute>(() => mitPfad(parseHash(window.location.hash), window.location.pathname))
+/**
+ * Gleiche Filter behalten ihre Identität: `navigate` und `parseHash` bauen sie bei jedem Schritt neu, und jede Rechnung, die an
+ * `route.filters` hängt (Termine, Titelliste), liefe sonst beim Blättern, Umschalten und Panel-Öffnen von vorn (12.10.2026).
+ */
+function mitStabilenFiltern(alt: AppRoute, neu: AppRoute): AppRoute {
+  return JSON.stringify(alt.filters) === JSON.stringify(neu.filters) ? { ...neu, filters: alt.filters } : neu
+}
+
+export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void, (next: Partial<AppRoute>) => void] {
+  const [route, setzeRoute] = useState<AppRoute>(() => mitPfad(parseHash(window.location.hash), window.location.pathname))
+  const setRoute = useCallback((neu: AppRoute) => setzeRoute((alt) => mitStabilenFiltern(alt, neu)), [])
 
   useEffect(() => {
     const onChange = () => {
@@ -285,7 +340,7 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
       window.removeEventListener('hashchange', onChange)
       window.removeEventListener('popstate', onChange)
     }
-  }, [])
+  }, [setRoute])
 
   useEffect(() => {
     if (!route.title) syncSharePath()
@@ -315,5 +370,12 @@ export function useRoute(): [AppRoute, (next: Partial<AppRoute>) => void] {
     else setRoute(merged)
   }
 
-  return [route, navigate]
+  /** Schalter umlegen: die Adresse wird ersetzt (kein Verlaufseintrag, kein `hashchange`), die übrigen Parameter bleiben. */
+  const ersetze = (next: Partial<AppRoute>) => {
+    const merged: AppRoute = { ...route, ...next }
+    history.replaceState(history.state, '', window.location.pathname + window.location.search + buildHash(merged))
+    setRoute(merged)
+  }
+
+  return [route, navigate, ersetze]
 }

@@ -1,21 +1,20 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { Title } from '@shared/types.ts'
-import { SprecherLeiste } from './components/SprecherLeiste.tsx'
 import { useSprecherAuswahl } from './lib/sprecher.ts'
-import { EinstellungenDialog, CARTOONS_AUS, cartoonsAusGespeichert } from './components/Einstellungen.tsx'
+import { EinstellungenDialog } from './components/Einstellungen.tsx'
 import { loadAllTitles, loadCartoons, loadOhneSynchro, loadSynonyme } from './lib/data.ts'
 import { useStartdaten } from './lib/start-daten.ts'
-import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, cartoonsAusgeschlossen, mitCartoonsAus, type FilterState } from './lib/filters.ts'
+import { eventsFuerAnsichtGen, titelFuerAnsichtGen, toggleValue, type FilterState } from './lib/filters.ts'
 import { useKalenderFilter } from './lib/kalender-filter.ts'
-import { SuchfundstellenContext } from './lib/such-kontext.ts'
 import { leeresErgebnis, useZeitscheibe } from './lib/use-zeitscheibe.ts'
-import { istOhneBelegteSynchro } from './lib/titel-sortierung.ts'
+import { titelQuelle } from './lib/titel-quelle.ts'
 import type { Fundstelle } from './lib/search.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { useFavorites, useHidden } from './lib/favorites.ts'
 import { speicherSichern, useNewsletterSync } from './lib/newsletterSync.ts'
 import { usePushNachfuehren } from './lib/push-nachfuehren.ts'
 import { useRoute, buildHash, type ViewId } from './lib/router.ts'
+import { useDbSchalter } from './lib/db-schalter.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header } from './components/Header.tsx'
@@ -23,9 +22,8 @@ import { InstallDialog } from './components/InstallPrompt.tsx'
 import { SeitenAnsicht } from './components/SeitenAnsicht.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
 import { coverBild, KACHEL_DICHTE } from './lib/cover.ts'
-import { FilterBarDock } from './components/FilterBar.tsx'
 import { KalenderBereich } from './components/kalender/KalenderBereich.tsx'
-import { DatabaseView } from './components/DatabaseView.tsx'
+import { DatenbankBereich } from './components/DatenbankBereich.tsx'
 import { DetailPanel } from './components/DetailPanel.tsx'
 import { Footer } from './components/StaticViews.tsx'
 import { StartGeruest, WochenSkelett } from './components/StartGeruest.tsx'
@@ -35,15 +33,6 @@ import { useErstesErgebnis } from './lib/erstes-ergebnis.ts'
 const LEERE_ANSICHT = { liste: [] as Title[], fundstellen: new Map<string, Fundstelle[]>() }
 const LEERE_TERMINE = { liste: [] as ReleaseEvent[], fundstellen: new Map<string, Fundstelle[]>() }
 
-
-function Spinner({ label }: { label: string }) {
-  return (
-    <div className="flex h-64 flex-col items-center justify-center gap-3 text-sm text-ak-leise">
-      <span className="size-6 animate-spin rounded-full border-2 border-ak-leise border-t-transparent" />
-      {label}
-    </div>
-  )
-}
 
 /** Eine Wahl, die im Browser bleibt statt in der Adresse — wer einen Link teilt, teilt nicht seine Vorlieben. */
 function useGemerkterSchalter(schluessel: string, lesen: () => boolean): [boolean, (an: boolean) => void] {
@@ -66,30 +55,29 @@ function tvAusGespeichert(): boolean {
   }
 }
 
-/** Unten docken Handy-Navigation und im Kalender die Steuerleiste an — der Fuß bleibt darüber lesbar. */
+/** Unten docken am Handy die Werkzeugleiste (Kalender, Datenbank) und am Rechner im Kalender die Steuerleiste an — der Fuß bleibt darüber lesbar. */
 const FUSS_ABSTAND = {
-  kalender: 'pb-[calc(10.5rem+env(safe-area-inset-bottom))] md:pb-24',
-  sonst: 'pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0',
+  kalender: 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-24',
+  datenbank: 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0',
+  sonst: '',
+}
+
+function fussAbstand(view: ViewId): string {
+  if (view === 'woche' || view === 'monat') return FUSS_ABSTAND.kalender
+  return view === 'datenbank' ? FUSS_ABSTAND.datenbank : FUSS_ABSTAND.sonst
 }
 
 export default function App() {
   const { t } = useLang()
   const [allTitles, setAllTitles] = useState<Title[]>()
-  // Vorgabe aus: Wer die Datenbank öffnet, sucht meist einen bestimmten Titel.
-  const [grouped, setGrouped] = useState(() => localStorage.getItem('groupSeasons') === '1')
-  /*
-    Titel ohne deutsche Synchro mitzeigen — bewusst **nicht** gespeichert: Sie sind ein Werkzeug zum
-    Merken, kein Teil der Antwort der Seite.
-  */
-  const [zeigeOhneSynchro, setZeigeOhneSynchro] = useState(false)
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
   const [cartoons, setCartoons] = useState<Title[]>()
-  /* Standardmäßig aus, die Cartoons also sichtbar. */
-  const [cartoonsAus, setCartoonsAus] = useGemerkterSchalter(CARTOONS_AUS, cartoonsAusGespeichert)
   const [einstellungenOffen, setEinstellungenOffen] = useState(false)
   /* TV-Termine ausblenden. */
   const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
-  const [route, navigate] = useRoute()
+  const [route, navigate, ersetze] = useRoute()
+  /* Staffeln zusammenfassen (Vorgabe an) und Titel ohne Synchro: Adresse, sonst gespeicherter bzw. voreingestellter Wert (`db-schalter.ts`). */
+  const { grouped, setGrouped, zeigeOhneSynchro, setZeigeOhneSynchro } = useDbSchalter(route, ersetze)
   /* Die Filter von Woche und Monat: nur im Speicher, nicht in der Adresse, nicht mit der Datenbank geteilt (`kalender-filter.ts`). */
   const { filters: kalenderFilters, kalenderNavigate } = useKalenderFilter(route, navigate)
   const { favorites, toggle } = useFavorites()
@@ -102,10 +90,6 @@ export default function App() {
   const today = todayIso()
   /* Die Wochenansicht startet aus der kleinen Wochen-Datei; `data` ist bis zum vollen Datensatz (`voll`) nur diese Woche. */
   const { data, voll, error } = useStartdaten(route, today)
-
-  useEffect(() => {
-    localStorage.setItem('groupSeasons', grouped ? '1' : '0')
-  }, [grouped])
 
   // Cover der aktuellen und nächsten Woche für unterwegs sichern — dieselbe Größe wie die Kachel.
   useEffect(() => {
@@ -136,7 +120,7 @@ export default function App() {
     loadOhneSynchro(data).then(setOhneSynchro)
   }, [data, zeigeOhneSynchro, ohneSynchro])
 
-  /* Cartoons haben keinen Termin; geladen werden sie nur für die Datenbank und für einen direkt geöffneten Cartoon (18.09.2026). */
+  /* Cartoons mit Termin stehen schon im Kern; die übrigen lädt die Seite nur für die Datenbank und für einen direkt geöffneten Cartoon (18.09.2026). */
   const brauchtCartoons = route.view === 'datenbank' || (route.title !== undefined && !!voll && !voll.titleById.has(route.title))
   useEffect(() => {
     if (!data || cartoons || !brauchtCartoons) return
@@ -155,13 +139,12 @@ export default function App() {
     [data, eventListe],
   )
   const sprecher = useSprecherAuswahl(route.filters)
-  const { wert: titles, laeuft: titelRechnet } = useZeitscheibe(() => {
-    if (!data) return leeresErgebnis(LEERE_ANSICHT)
-    const basis = (allTitles ?? data.titles).filter((t) => zeigeOhneSynchro || !istOhneBelegteSynchro(t))
-    const mitOhne = zeigeOhneSynchro && ohneSynchro ? [...basis, ...ohneSynchro] : basis
-    const quelle = !cartoonsAus && cartoons ? [...mitOhne, ...cartoons] : mitOhne
-    return titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped, sprecher.auswahl)
-  }, [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons, cartoonsAus, route.filters, today, favorites, grouped, sprecher.auswahl], LEERE_ANSICHT)
+  const quelle = useMemo(() => titelQuelle(data?.titles ?? [], allTitles, ohneSynchro, zeigeOhneSynchro, cartoons), [data, allTitles, ohneSynchro, zeigeOhneSynchro, cartoons])
+  const { wert: titles, laeuft: titelRechnet } = useZeitscheibe(
+    () => (data ? titelFuerAnsichtGen(quelle, data, route.filters, today, favorites, grouped, sprecher.auswahl) : leeresErgebnis(LEERE_ANSICHT)),
+    [data, quelle, route.filters, today, favorites, grouped, sprecher.auswahl],
+    LEERE_ANSICHT,
+  )
   const kalenderBereit = useErstesErgebnis(!!data, eventsVeraltet)
 
   const openTitleId = route.title || undefined
@@ -213,13 +196,11 @@ export default function App() {
   const kalender = route.view === 'woche' || route.view === 'monat'
 
   return (
-    <div className={`flex min-h-full flex-col ${kalender ? FUSS_ABSTAND.kalender : FUSS_ABSTAND.sonst}`}>
+    <div className={`flex min-h-full flex-col ${fussAbstand(route.view)}`}>
       {kopf}
       <EinstellungenDialog
         offen={einstellungenOffen}
         schliessen={() => setEinstellungenOffen(false)}
-        cartoonsAus={cartoonsAus}
-        setCartoonsAus={setCartoonsAus}
       />
 
       <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-6 sm:px-6 lg:px-10">
@@ -241,38 +222,27 @@ export default function App() {
         )}
 
         {route.view === 'datenbank' && (
-          <>
-            {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
-            <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
-            {/* Das Filterfeld der Datenbank dockt unten an — wie im Kalender. */}
-            <SprecherLeiste data={data} filters={route.filters}><FilterBarDock meta={data.meta} filters={route.filters} onChange={setFilters} showConfidence favoriteCount={favorites.size} /></SprecherLeiste>
-            {allTitles ? (
-              <SuchfundstellenContext.Provider value={titles.fundstellen}>
-                <DatabaseView
-                  data={data}
-                  titles={titles.liste}
-                  grouped={grouped}
-                  onGroupedChange={setGrouped} cartoonsAus={cartoonsAusgeschlossen(route.filters)} onCartoonsAusChange={(aus) => setFilters(mitCartoonsAus(route.filters, aus))}
-                  ohneSynchro={zeigeOhneSynchro}
-                  onOhneSynchroChange={setZeigeOhneSynchro}
-                  ohneSynchroLaedt={(zeigeOhneSynchro && !ohneSynchro) || titelRechnet || sprecher.laedt}
-                  favorites={favorites}
-                  hidden={hidden}
-                  onToggleFavorite={toggle}
-                  onToggleHidden={toggleHidden}
-                  onOpenTitle={(id) => navigate({ title: id, disc: undefined })}
-                  suche={route.filters.search}
-                  gewaehlt={route.sort}
-                  onSortChange={(sort) => navigate({ sort })}
-                />
-              </SuchfundstellenContext.Provider>
-            ) : (
-              <Spinner label={t('app.loadingTitles', { count: data.meta.titleCount.toLocaleString('de-DE') })} />
-            )}
-          </>
+          <DatenbankBereich
+            data={data}
+            route={route}
+            navigate={navigate}
+            setFilters={setFilters}
+            geladen={!!allTitles}
+            titles={titles}
+            quelle={quelle}
+            grouped={grouped}
+            onGroupedChange={setGrouped}
+            ohneSynchro={zeigeOhneSynchro}
+            onOhneSynchroChange={setZeigeOhneSynchro}
+            laedt={(zeigeOhneSynchro && !ohneSynchro) || titelRechnet || sprecher.laedt}
+            favorites={favorites}
+            hidden={hidden}
+            onToggleFavorite={toggle}
+            onToggleHidden={toggleHidden}
+          />
         )}
 
-        <SeitenAnsicht view={route.view} data={data} favorites={favorites} oeffne={(id: number) => navigate({ title: id })} />
+        <SeitenAnsicht route={route} ersetze={ersetze} data={data} favorites={favorites} oeffne={(id: number) => navigate({ title: id })} />
       </main>
 
       <Footer meta={data.meta} />

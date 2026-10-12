@@ -1,12 +1,1 @@
-{
- "titleId": 4614,
- "updatedAt": "2026-08-15T18:12:48.789Z",
- "roles": [
-  {
-   "character": "Prinz Artus",
-   "actor": "Sascha Draeger",
-   "von": "ann"
-  }
- ],
- "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=2625"
-}
+{"titleId":4614,"updatedAt":"2026-08-15T18:12:48.789Z","roles":[{"character":"Arthur","actor":"Sascha Draeger","von":"anisearch"},{"character":"Bossman","actor":"Douglas Welbat","von":"anisearch"},{"character":"Geneviere","actor":"Reinhilt Schneider","von":"anisearch"},{"character":"Labick","actor":"Peter Lakenmacher","von":"anisearch"},{"character":"Medessa","actor":"Brigitte Böttrich","von":"anisearch"},{"character":"Tristan","actor":"Marc Seidenberg","von":"anisearch"},{"character":"Lancelot","actor":"Thomas Karallus","von":"anisearch"}]}

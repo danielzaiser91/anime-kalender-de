@@ -3,7 +3,11 @@
  *
  * Überschrift und Umschalter teilen sich eine Zeile; saß er absolut in der Ecke, kostete das eine
  * zweite: „headline auf selbe zeile wie den toggle, trennstrich genau
- * darunter, dann die pills." Gibt es keine zweite Seite, gibt es nichts umzuschalten.
+ * darunter, dann die pills."
+ *
+ * **Eine leere Seite wird nicht gezeigt, nicht ausgegraut** (Daniel, 10.10.2026: bei „YAIBA"
+ * stand „Stream" tot neben „Disc"). Bei nur einer Seite bleibt deren Name als Etikett stehen —
+ * sonst wäre eine einzelne Kaufpille nicht als Disc zu erkennen —, aber ohne Schalter dahinter.
  */
 import { TREFFER_24_HOCH } from './tippziel.ts'
 export function Umschalter({ aktivDisc, streamLeer, discLeer, onWahl, T }: {
@@ -23,26 +27,25 @@ export function Umschalter({ aktivDisc, streamLeer, discLeer, onWahl, T }: {
       {[
         { an: false, text: T('where.umschalterStream'), leer: streamLeer },
         { an: true, text: T('where.umschalterDisc'), leer: discLeer },
-      ].map((o) => (
-        <button
-          key={String(o.an)}
-          type="button"
-          role="tab"
-          aria-selected={aktivDisc === o.an}
-          disabled={o.leer}
-          onClick={() => onWahl(o.an)}
-          className={[
-            `rounded-full px-2.5 py-0.5 transition ${TREFFER_24_HOCH}`,
-            aktivDisc === o.an
-              ? 'bg-slate-900 font-medium text-white dark:bg-white/90 dark:text-slate-900'
-              : o.leer
-                ? 'cursor-not-allowed text-slate-300 dark:text-slate-600'
+      ]
+        .filter((o) => !o.leer)
+        .map((o) => (
+          <button
+            key={String(o.an)}
+            type="button"
+            role="tab"
+            aria-selected={aktivDisc === o.an}
+            onClick={() => onWahl(o.an)}
+            className={[
+              `rounded-full px-2.5 py-0.5 transition ${TREFFER_24_HOCH}`,
+              aktivDisc === o.an
+                ? 'bg-slate-900 font-medium text-white dark:bg-white/90 dark:text-slate-900'
                 : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
-          ].join(' ')}
-        >
-          {o.text}
-        </button>
-      ))}
+            ].join(' ')}
+          >
+            {o.text}
+          </button>
+        ))}
     </div>
   )
 }

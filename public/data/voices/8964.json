@@ -1,17 +1,1 @@
-{
- "titleId": 8964,
- "updatedAt": "2026-08-15T18:13:35.335Z",
- "roles": [
-  {
-   "character": "Yuna",
-   "actor": "Luisa Wietzorek",
-   "von": "ann"
-  },
-  {
-   "character": "Stitch",
-   "actor": "James Gardiner",
-   "von": "ann"
-  }
- ],
- "annUrl": "https://www.animenewsnetwork.com/encyclopedia/anime.php?id=11589"
-}
+{"titleId":8964,"updatedAt":"2026-08-15T18:13:35.335Z","roles":[{"character":"Stitch","actor":"James Gardiner","von":"anisearch"},{"character":"Yuuna Uehara","actor":"Luisa Wietzorek","von":"anisearch"},{"character":"Jumba Jookiba","actor":"Roland Hemmo","von":"anisearch"},{"character":"PLEAKLEY","actor":"Oliver Rohrbeck","von":"anisearch"},{"character":"Jacques von Hämsterviel","actor":"Stefan Gossler","von":"anisearch"},{"character":"Kijimunaa","actor":"Hannes Maurer","von":"anisearch"},{"character":"Reuben","actor":"Olaf Reichmann","von":"anisearch"},{"character":"Gantu","actor":"Engelbert von Nordhausen","von":"anisearch"}]}

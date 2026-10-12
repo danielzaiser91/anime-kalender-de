@@ -1,9 +1,9 @@
 import { useContext, useEffect, useId, useMemo, useRef, useState, type FocusEvent, type KeyboardEvent } from 'react'
-import { sprecherGruppe } from '@shared/sprecher.ts'
 import { toggleFilter, type FilterState } from '../lib/filters.ts'
 import { useLang, type Translate } from '../lib/i18n.tsx'
-import { gruppenDer, TitelNamenContext, useSprecherAuswahl, useSprecherGruppen, useSprecherIndex } from '../lib/sprecher.ts'
+import { TitelNamenContext, useSprecherAuswahl, useSprecherGruppen, useSprecherIndex } from '../lib/sprecher.ts'
 import { kurzeTitelzeile, sprecherVorschlaege, type SprecherEintrag } from '../lib/sprecher-auswahl.ts'
+import { PILLE_JA, PILLE_NEIN } from './filter/pille-zustand.ts'
 
 /** Ab so vielen Zeichen wird vorgeschlagen — bei einem Buchstaben wären es Hunderte beliebiger Namen. */
 const MIN_ZEICHEN = 2
@@ -96,10 +96,8 @@ function SprecherPillen({ t, filters, onChange }: { t: Translate; filters: Filte
           <span
             key={name}
             className={[
-              'inline-flex items-center gap-1 rounded-full border py-0.5 pr-1 pl-3 text-xs font-medium',
-              istMit
-                ? 'border-emerald-500/50 bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
-                : 'border-rose-400/70 bg-rose-500/10 text-rose-600 dark:border-rose-400/50 dark:text-rose-300',
+              'inline-flex items-center gap-1 rounded-full border py-0.5 pr-1 pl-3 text-xs',
+              istMit ? PILLE_JA : PILLE_NEIN,
             ].join(' ')}
           >
             {name}
@@ -147,7 +145,7 @@ function useVorschlaege(eingabe: string, fokus: boolean, gewaehlt: readonly stri
   )
   const treffer = vorschlag?.treffer ?? []
   /* Gruppen nur holen, solange die Vorschläge zu sehen sind. */
-  const gruppen = useSprecherGruppen(fokus ? gruppenDer(treffer.map((e) => e[0])) : [])
+  const gruppen = useSprecherGruppen(fokus ? treffer.map((e) => e[0]) : [])
   return { anfrage, index, vorschlag, treffer, gruppen }
 }
 
@@ -163,7 +161,8 @@ function Vorschlagsliste({ t, id, v, aktiv, zuKurz, waehlen }: { t: Translate; i
     liste.current?.scrollIntoView({ block: 'nearest' })
   }, [treffer.length, hatVorschlag])
   const titelVon = (name: string): string[] | undefined =>
-    gruppen.gruppe(sprecherGruppe(name))?.[name]
+    gruppen
+      .titel(name)
       ?.map((x) => titelName?.(x.id))
       .filter((n): n is string => !!n)
       .sort((a, b) => a.localeCompare(b, 'de'))

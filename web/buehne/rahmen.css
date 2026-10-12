@@ -1,0 +1,25 @@
+/* Rahmen der Bühne: bewusst schlicht und unabhängig vom Seiten-CSS (das gilt nur in den Zellen). */
+* { box-sizing: border-box; }
+body { margin: 0; font: 14px/1.4 system-ui, sans-serif; background: #e9e9ee; color: #1b1b1f; }
+@media (prefers-color-scheme: dark) { body { background: #16161a; color: #ececf1; } }
+
+.leiste { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 10px 16px; border-bottom: 1px solid #8884; }
+.leiste h1 { font-size: 15px; margin: 0 8px 0 0; }
+.leiste .zurueck { color: inherit; opacity: .7; font-size: 12px; }
+.gruppe { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.gruppe > span { font-size: 12px; opacity: .7; margin-right: 4px; }
+.gruppe button { border: 1px solid #8887; background: transparent; color: inherit; border-radius: 999px; padding: 3px 11px; font: inherit; font-size: 12px; cursor: pointer; }
+.gruppe button[aria-pressed="true"] { border-color: #e8590c; background: #e8590c22; color: #e8590c; font-weight: 600; }
+.notiz { padding: 8px 16px 0; font-size: 12px; max-width: 900px; opacity: .85; margin: 0; }
+
+.raster { display: flex; flex-wrap: wrap; gap: 20px; padding: 16px; align-items: flex-start; }
+.zelle { margin: 0; }
+.zelle figcaption { font-size: 12px; margin: 0 0 6px; opacity: .75; }
+.zelle iframe { display: block; border: 0; outline: 1px solid #8886; background: transparent; }
+
+.uebersicht { padding: 16px; }
+.uebersicht h1 { font-size: 18px; margin: 0 0 4px; }
+.uebersicht p { margin: 0 0 12px; opacity: .8; }
+.uebersicht li { margin: 0 0 10px; }
+.uebersicht .links { font-size: 13px; opacity: .85; }
+.uebersicht .links a { margin-right: 8px; }

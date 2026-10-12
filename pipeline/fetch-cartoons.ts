@@ -32,6 +32,8 @@
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { bestesBild, type Bild } from './lib/cartoons.ts'
+import { tmdbStaffeln, type TmdbStaffelRoh } from './lib/cartoon-staffeln.ts'
+import type { CartoonStaffel } from '../shared/cartoon-staffeln-typ.ts'
 
 const TMDB = 'https://api.themoviedb.org/3'
 const UA = 'anime-kalender.de/1.0 (+https://anime-kalender.de)'
@@ -74,6 +76,8 @@ export interface CartoonEintrag {
   banner?: string
   /** TMDB-Schlagwörter — daraus rechnet das Panel ähnliche Titel. */
   keywords?: string[]
+  /** Staffeln laut TMDB ohne Staffel 0 (Extras), seit Stand 3. */
+  staffeln?: CartoonStaffel[]
   /** Stand des Abrufs; ältere Einträge werden neu geholt (siehe `STAND`). */
   stand?: number
   geholtAm: string
@@ -84,8 +88,10 @@ export interface CartoonEintrag {
  * bestbewertete Poster. Daniel an „The Mighty Nein": Beschreibung, Wertung,
  * ähnliche Titel fehlten, das Studio hieß „Prime Video", und das Poster war
  * TMDBs schwarzer Platzhalter. Einträge mit älterem Stand sind sofort fällig.
+ *
+ * **Stand 3 (11.10.2026)**: Staffeln mit Folgenzahl (`seasons[]` aus demselben Abruf, bisher verworfen).
  */
-const STAND = 2
+const STAND = 3
 
 async function holeJson(url: string): Promise<unknown> {
   const antwort = await fetch(url, { headers: { 'User-Agent': UA } })
@@ -152,6 +158,7 @@ async function einzelheiten(tmdbId: number, schluessel: string): Promise<Cartoon
         original_name?: string
         first_air_date?: string
         number_of_episodes?: number
+        seasons?: TmdbStaffelRoh[]
         genres?: { id?: number; name?: string }[]
         poster_path?: string
         overview?: string
@@ -200,6 +207,7 @@ async function einzelheiten(tmdbId: number, schluessel: string): Promise<Cartoon
     bewertung: j.vote_average || undefined,
     stimmen: j.vote_count || undefined,
     keywords: (j.keywords?.results ?? []).map((k) => k.name).filter((n): n is string => Boolean(n)),
+    staffeln: tmdbStaffeln(j.seasons),
     stand: STAND,
     geholtAm: new Date().toISOString().slice(0, 10),
   }

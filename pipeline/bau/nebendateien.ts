@@ -1,6 +1,7 @@
-import { writeText, writeJson, readJson, log, warn } from '../lib/util.ts'
+import { writeJson, readJson, log, warn } from '../lib/util.ts'
+import { STAND_ZEILE, writeTextStand } from '../lib/stand-halten.ts'
 import { plattformAusAdresse } from '../../shared/adresse-passt.ts'
-import { type CartoonEintrag, alsTitel, plattformVon } from '../lib/cartoons.ts'
+import { type CartoonEintrag, type JwAngebotTon, alsTitel, jwTonAnbieter, plattformVon, tonAnbieterNamen } from '../lib/cartoons.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { type PlatformId, type Title, type Release, type Quelle } from '../../shared/types.ts'
 import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
@@ -8,14 +9,23 @@ import { mitLaufzeit } from '../lib/anisearch-felder.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
 import { englischAusSynonymen } from '../lib/anisearch-titel.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
+import { coverFuer } from './cover-regel.ts'
+import { bewertungNachRegel, mitProduktFeldern } from './produkt-regel.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
+import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
 import { keinAnimeFehler, keinAnimeVonHand } from './ohne-beleg.ts'
+import { ordneCartoonReihen } from './cartoon-reihen.ts'
+import { setzeStaffeln, staffelnAusBelegen } from './cartoon-staffeln.ts'
+import { verteileWege } from './cartoon-wege.ts'
+import type { Staffel } from '../lib/jw-staffeln.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
-import { findeAnisearchDubletten, type DublettenUrteil } from './anisearch-dubletten.ts'
+import { findeAnisearchDubletten, zeilenMitKennungWeg, type DublettenUrteil } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
+import { ohneWerkDubletten } from './werk-doppelt-bau.ts'
+import { anisearchKatalogReihen } from './anisearch-reihen-pruefliste.ts'
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
@@ -52,7 +62,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
   const ziel = 'daniel-zum-abarbeiten/listen/18-suchadressen.md'
   const stand = new Date().toISOString().slice(0, 10)
   if (!offen.length) {
-    writeText(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'))
+    writeTextStand(ziel, [`# Suchadressen`, '', `_Stand ${stand}_`, '', 'Nichts offen — jeder Verweis führt auf eine Titelseite.', ''].join('\n'), STAND_ZEILE)
     /*
       **Auch „nichts offen" wird geschrieben.** Hier stand nur `return`, und
       `data/suchadressen-offen.json` behielt die letzten sechs Einträge — alle
@@ -92,7 +102,7 @@ export function schreibeSuchadressen(offen: { id: number; titel: string; plattfo
     for (const k of kandidaten) zeilen.push(`- aniSearch nennt: <${k}> — passt das?`)
     zeilen.push('- **Antwort:** ', '')
   }
-  writeText(ziel, zeilen.join('\n') + '\n')
+  writeTextStand(ziel, zeilen.join('\n') + '\n', STAND_ZEILE)
   /*
     **Dieselbe Liste noch einmal als Datei, die ein Werkzeug lesen kann.**
 
@@ -137,7 +147,7 @@ export function schreibeCartoons(): void {
     Tonspur-Angabe bleibt unbenutzt (CLAUDE.md, JustWatch gilt der Serie).
     Abonnement vor Kauf, wenn beide dasselbe Ziel haben.
   */
-  const jw = readJson<Record<string, { angebote?: { anbieter?: string; art?: string; url?: string }[] }>>(
+  const jw = readJson<Record<string, { angebote?: (JwAngebotTon & { url?: string })[]; staffeln?: Staffel[]; geprueftAm?: string }>>(
     'data/justwatch-audio.json',
     {},
   )
@@ -180,20 +190,46 @@ export function schreibeCartoons(): void {
     }
   }
   if (belegt) log(`${belegt} Cartoon-Verweise mit Handbeleg`)
+  setzeTonHinweise(titel, jw, belege)
+  const ungeprueft = setzeStaffeln(titel, roh, jw, staffelnAusBelegen(belege))
+  verteileWege(titel, jw, ungeprueft)
+  ordneCartoonReihen(titel)
   writeJson(`${OUT}/cartoons.json`, titel)
   log(`${titel.length} westliche Animationsserien geschrieben`)
+}
+
+/**
+ * Der Ton laut JustWatch gilt für die Serie (Entscheidung 07.09.2026): ein Hinweis am Titel, nie `dub` am Verweis.
+ * Ein Handbeleg „dort nicht deutsch“ nimmt den Anbieter wieder heraus.
+ */
+function setzeTonHinweise(
+  titel: Title[],
+  jw: Record<string, { angebote?: JwAngebotTon[] }>,
+  belege: { anilistId: number; platform: string; available?: boolean; dub?: boolean }[],
+): void {
+  const hand = new Set(belege.filter((b) => b.available === false || b.dub === false).map((b) => `${b.anilistId}|${b.platform}`))
+  let hinweise = 0
+  for (const t of titel) {
+    const roh = jwTonAnbieter(jw[String(t.id)]?.angebote).filter((n) => !hand.has(`${t.id}|${plattformVon(n)}`))
+    const anbieter = tonAnbieterNamen(roh)
+    if (!anbieter.length) continue
+    t.dubHinweis = { quelle: 'justwatch', anbieter }
+    hinweise++
+  }
+  if (hinweise) log(`${hinweise} Cartoons mit deutschem Ton laut JustWatch (Serie)`)
 }
 
 /**
  * Dasselbe Werk als aniSearch-Zeile und als AniList-Katalogtitel steht nur einmal im Katalog (`anisearch-dubletten.ts`): Eine Zeile hinter dem Schalter
  * weicht dem Katalogtitel; steht die Zeile im Hauptbestand oder trägt sie einen Termin (`geschuetzt`), weicht der Katalogtitel ihr.
  */
-function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Title[], geschuetzt: Set<number>, eintraege: KatalogEintrag[]): DublettenUrteil {
+function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Title[], geschuetzt: Set<number>, eintraege: KatalogEintrag[], kennungen: Map<number, number>): DublettenUrteil {
   const zeile = (id: number) => id >= ANISEARCH_ID_BASIS
   const katalog = eintraege.filter((e) => !bekannt.has(e.id)).map((e) => ({ id: e.id, mal: e.mal, format: e.format, jahr: e.jahr, folgen: e.folgen }))
   const hinter = verschoben.map((t) => t.id).filter((id) => zeile(id) && !geschuetzt.has(id))
   const haupt = [...bekannt.keys(), ...verschoben.map((t) => t.id).filter((id) => geschuetzt.has(id))].filter(zeile)
   const urteil = findeAnisearchDubletten(hinter, haupt, katalog, anisearchEintraege())
+  zeilenMitKennungWeg(hinter, kennungen, anisearchEintraege(), urteil, haupt, new Set(katalog.map((k) => k.id)))
   if (urteil.zeilenWeg.size || urteil.katalogWeg.size) {
     log(`aniSearch-Dubletten: ${urteil.zeilenWeg.size} Zeilen hinter dem Schalter entfallen (der AniList-Katalogtitel gilt), ${urteil.katalogWeg.size} Katalogtitel entfallen (die Zeile steht im Hauptbestand)`)
   }
@@ -224,8 +260,6 @@ export function schreibeOhneSynchro(
     )
     return
   }
-
-  const reihe = reihenFuerKatalog(eintraege, bekannt)
 
   /**
    * Drei Pflichtfelder von `Title` fehlen hier absichtlich: `slug`, `keywords`
@@ -273,8 +307,9 @@ export function schreibeOhneSynchro(
       { titel?: string; quelle?: string; anisearchId?: number; englisch?: string; synonyme?: string[] }
     >
   >('data/anisearch-titel.json', {})
-  const dubletten = anisearchDublettenAbziehen(bekannt, verschoben, geschuetzt, eintraege)
   const kennungen = anisearchKennungen([...eintraege.map((e) => ({ id: e.id, mal: e.mal ?? undefined })), ...verschoben.map((t) => ({ id: t.id, mal: t.malId }))])
+  const dubletten = anisearchDublettenAbziehen(bekannt, verschoben, geschuetzt, eintraege, kennungen)
+  const reihe = anisearchKatalogReihen(reihenFuerKatalog(eintraege, bekannt), eintraege, bekannt, verschoben, kennungen, dubletten)
   const ohne = eintraege
     .filter((e) => !bekannt.has(e.id) && !dubletten.katalogWeg.has(e.id))
     .map((e) => {
@@ -347,10 +382,8 @@ export function schreibeOhneSynchro(
          * nicht (AniList liefert gelegentlich einen anderen Hostnamen), bleibt
          * die Adresse unangetastet — der Browser erkennt das am `http`.
          */
-        coverImage: e.cover?.startsWith(ANILIST_COVER_BASIS)
-          ? e.cover.slice(ANILIST_COVER_BASIS.length)
-          : (e.cover ?? undefined),
-        score: e.score ?? undefined,
+        coverImage: coverFuer(e.id, e.cover?.startsWith(ANILIST_COVER_BASIS) ? e.cover.slice(ANILIST_COVER_BASIS.length) : (e.cover ?? undefined)),
+        ...bewertungNachRegel({}, kennungen.get(e.id)),
         /**
          * Fehlt, wenn der Titel allein steht — dann greift in der Oberfläche
          * ohnehin der Rückfall auf die eigene Kennung, und die Zahl wäre
@@ -371,8 +404,8 @@ export function schreibeOhneSynchro(
 
   /* Wer aus dem Hauptbestand verschoben wurde, muss hier ankommen, auch wenn der Katalog ihn nicht führt (ein Vorfilter verschiebt, er löscht nicht; „Xiao Mao Diao Yu", 17.08.2026). */
   const vorhanden = new Set(ohne.map((t) => t.id))
-  const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id) && !dubletten.zeilenWeg.has(t.id))
-  const alle = [...ohne, ...nachgetragen.map((t) => ({ ...t, ...(kennungen.has(t.id) ? { anisearchId: kennungen.get(t.id) } : {}), dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))]
+  const nachgetragen = verschoben.filter((t) => !vorhanden.has(t.id) && !dubletten.zeilenWeg.has(t.id)).map((t) => mitProduktFeldern({ ...t, coverImage: coverFuer(t.id, t.coverImage) }, kennungen.get(t.id)))
+  const alle = ohneWerkDubletten([...ohne, ...nachgetragen.map((t) => ({ ...t, ...(kennungen.has(t.id) ? { anisearchId: kennungen.get(t.id) } : {}), dubConfidence: 'low' as const, ohneSynchro: true, ...kinoFeld(t.id) }))], geschuetzt)
 
   writeJson(`${OUT}/ohne-synchro.json`, alle.map((t) => mitLaufzeit(mitAnkuendigung(t))))
   meldeOhneSynchro(alle, eintraege.length, nachgetragen.length, bekannt)
@@ -588,11 +621,7 @@ export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): voi
     return
   }
 
-  const ersterTermin = new Map<number, string>()
-  for (const r of releases.filter((x) => !x.widerlegt /* kein deutscher Start */)) {
-    const bisher = ersterTermin.get(r.titleId)
-    if (!bisher || r.schedule.firstEpisodeDate < bisher) ersterTermin.set(r.titleId, r.schedule.firstEpisodeDate)
-  }
+  const ersterTermin = ersterDeutscherTermin(releases, titles)
 
   const grenze = addDays(heute, -FENSTER_TAGE)
   /*

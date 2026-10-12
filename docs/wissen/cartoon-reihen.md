@@ -168,3 +168,29 @@ Offen, für Daniel: (1) darf der Abruf die Wikidata-Abfrage (robots-Auslegung ob
 Einzelweg über `w/api.php` gehen; (2) TMDB-`external_ids` als zweite Brücke braucht den Schlüssel des Laufs,
 dort ist sie ein Zusatz (Titel ohne P4983, z. B. wenn Wikidata die TMDB-Kennung nicht führt) — lokal nicht
 gemessen.
+
+## Umsetzung (09.10.2026, Zweig `feat/cartoon-reihen`)
+
+Entscheidung statt Entwurf: **kein SPARQL** (robots-Auslegung nicht abgesichert, Rechtsgrauzone). Der Abruf
+nutzt die dokumentierten Programmwege — TMDB `/tv/{id}/external_ids` → `wikidata_id`, dann
+`www.wikidata.org/w/api.php?action=wbgetentities` in Blöcken à 50. Der Namensriegel bei P155/P156 bleibt als
+dokumentierter Kompromiss.
+
+- **Abruf:** `pipeline/fetch-cartoon-reihen.ts` (`npm run data:cartoon-reihen`), im täglichen Lauf nach den
+  Cartoons und auf Abruf. Nur neue oder über 30 Tage alte Einträge; ein Block ohne Antwort bleibt offen und
+  kommt im nächsten Lauf wieder dran, alte Aussagen werden nie gelöscht. `maxlag=5` mit `Retry-After`; hält
+  der Rückstau an (gemessen 09.10.2026: `x-database-lag: 12` über Stunden), geht der fünfte Versuch ohne
+  `maxlag` — eine lesende Anfrage je 1,5 s. Ein Block (50 Items) ist ~2,6 MB groß. Ohne `TMDB_API_KEY` holt
+  `--qid-datei <json>` die Kennungen stattdessen aus {tmdbId: Q…} (so wurde der Stand lokal gemessen).
+- **Stand:** `data/cartoon-reihen.json` (im Repo, in `tools/quellen-liste.sh`). Nicht in
+  `data/cache-register.json`: das Register gilt nur für `data/cache/`.
+- **Zuordnung:** `pipeline/lib/cartoon-reihen.ts` (reine Logik) und `pipeline/bau/cartoon-reihen.ts`;
+  `schreibeCartoons()` setzt `franchiseId` (negativ, kleinste Kennung der Reihe), `franchises.json` nimmt die
+  Cartoons mit Reihe auf. `data/cartoon-umzug.json` (Dubletten-PR 521), falls vorhanden, nimmt Titel vor der
+  Gruppenbildung heraus.
+- **Handdatei:** `data/cartoon-reihen-von-hand.yaml`, erster Eintrag die War-for-Cybertron-Trilogie.
+- **Zusicherungen:** `pipeline/check-cartoon-reihen.ts` (in `check:logic`): Fälle aus echten Antworten, jede
+  Reihe ≥ 2 Glieder und mit Beleg, kein Cartoon in zwei Reihen, Handreihe mit Adresse; auf dem echten Bestand
+  ≥ 40 Reihen und ≥ 110 Cartoons mit Reihe, Trilogie zusammen. Gemessen 09.10.2026: 47 Reihen, 129 Cartoons.
+- **Bekannt:** Cartoons ab 2023 ohne belegte Synchro stehen in der Reihenliste hinter dem Schalter „ohne
+  Synchro ausblenden" (`ohneBelegteSynchro`), wie bei den Animes.

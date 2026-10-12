@@ -17,7 +17,7 @@
  * der Liste und „gemeldet" ist die Differenz — so stimmt die Rechnung auch
  * dann noch, wenn ein Erzeuger seinen Filter ändert.
  *
- * Die Datei ist winzig (unter 400 Byte) und liegt neben den anderen
+ * Die Datei ist klein (rund 4 KB am 10.10.2026, mit `bekannt`) und liegt neben den anderen
  * Erzeugnissen. Die Statusanzeige läuft aus einer lokalen Datei; sie kann
  * `titles.json` mit seinen gut 550 KB nicht bei jedem Takt laden, diese hier
  * schon.
@@ -27,10 +27,11 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { bekannteFolgen } from './pruefstand-bekannt.mjs'
+import { ladeBestand, ladeCartoons, sortiereListe } from './pruef-bestand.mjs'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const roh = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
-const titel = Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
+const titel = [...ladeBestand(wurzel), ...ladeCartoons(wurzel)]
 
 
 /** Die Prüfliste laden, wie die Erweiterung sie sieht. */
@@ -40,6 +41,18 @@ function listeLesen(datei, global) {
     return JSON.parse(text.replace(new RegExp(`^globalThis.${global} = `), ''))
   } catch {
     return {}
+  }
+}
+
+/** Ein Ziel der Prüfliste; die Warnung bei unklaren Staffeln reist mit (Statusanzeige, Erweiterung). */
+function zielVon(url, wert, staffeln) {
+  return {
+    url,
+    titel: wert?.titel ?? null,
+    ...(wert?.hinweis ? { hinweis: wert.hinweis } : {}),
+    /* Wiedervorlage: erst eine Meldung nach `seit` erledigt sie — der Worker rechnet damit wie die Erweiterung. */
+    ...(wert?.seit ? { seit: wert.seit } : {}),
+    ...(staffeln.length ? { staffeln } : {}),
   }
 }
 
@@ -156,7 +169,7 @@ const ANBIETER = [
 ]
 
 const stand = ANBIETER.map((a) => {
-  const liste = Object.entries(listeLesen(a.datei, a.global))
+  const liste = sortiereListe(Object.entries(listeLesen(a.datei, a.global)), titel, a.plattform)
   const offen = liste.reduce((n, [, wert]) => n + a.offene(wert), 0)
 
   /*
@@ -209,7 +222,7 @@ const stand = ANBIETER.map((a) => {
         wert?.laut === 'anbieter-gerechnet'
           ? [...new Set((wert.staffeln ?? []).filter((st) => st.offen && !st.film).map((st) => Number(st.nr)))].filter(Number.isFinite)
           : []
-      return { url: a.ziel(schluessel, wert), titel: wert?.titel ?? null, ...(staffeln.length ? { staffeln } : {}) }
+      return zielVon(a.ziel(schluessel, wert), wert, staffeln)
     })
     .filter((z) => z.url)
 
@@ -241,6 +254,11 @@ const stand = ANBIETER.map((a) => {
     /* Der Name des ersten offenen Eintrags — er steht als Titel am Knopf. */
     naechster: wert?.titel ?? null,
   }
+})
+
+/* Die höchste Folge laut Datensatz je Kennung (4.24.21) — die Erweiterung vergleicht sie mit der Plattform. */
+ANBIETER.forEach((a, i) => {
+  stand[i].bekannt = bekannteFolgen(titel.filter((t) => !t.cartoon), a.plattform, a.kennung)
 })
 
 /**
@@ -325,10 +343,20 @@ stand.push(
   }),
 )
 
-writeFileSync(
-  resolve(wurzel, 'public/data/pruefstand.json'),
-  JSON.stringify({ erzeugtAm: new Date().toISOString(), anbieter: stand }, null, 1) + '\n',
-)
+/** `erzeugtAm` nur erneuern, wenn sich die Anbieter ändern — sonst ändert jeder Lauf die Datei. */
+function schreibePruefstand(anbieter) {
+  const ziel = resolve(wurzel, 'public/data/pruefstand.json')
+  const text = (erzeugtAm) => JSON.stringify({ erzeugtAm, anbieter }, null, 1) + '\n'
+  let alt = ''
+  try {
+    alt = readFileSync(ziel, 'utf8')
+  } catch {
+    /* Erster Lauf: keine Datei. */
+  }
+  const altStand = alt ? JSON.parse(alt).erzeugtAm : null
+  writeFileSync(ziel, altStand && text(altStand) === alt ? alt : text(new Date().toISOString()))
+}
+schreibePruefstand(stand)
 for (const a of stand) {
   console.log(
     `${a.name}: ${a.gemeldet}/${a.gesamt} — ${a.offen} offen` +

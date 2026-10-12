@@ -30,7 +30,7 @@ function fokusUebernehmen(kopf: HTMLElement | null): void {
 }
 
 /** Zustand der Kopf-Suche: aufgeklapptes Handy-Feld, Fokuswunsch nach dem Sprung in die Datenbank, Klick auf das Symbol. */
-export function useKopfSuche(view: ViewId, kalender: boolean, zurSuche: () => void) {
+export function useKopfSuche(view: ViewId, kalender: boolean, suche: string, zurSuche: () => void) {
   const [sucheAuf, setSucheAuf] = useState(false)
   const [fokusWunsch, setFokusWunsch] = useState(false)
   const eingabe = useRef<HTMLInputElement>(null)
@@ -38,6 +38,11 @@ export function useKopfSuche(view: ViewId, kalender: boolean, zurSuche: () => vo
   useEffect(() => {
     if (sucheAuf) eingabe.current?.focus()
   }, [sucheAuf])
+  /* Beim Seitenwechsel klappt ein leeres Feld zu (sonst bleibt die Kopfzeile auf jeder Seite 56 px höher). */
+  useEffect(() => {
+    if (!suche && !fokusWunsch) setSucheAuf(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- nur der Wechsel der Ansicht zählt
+  }, [view])
   /* Die Datenbank steht: Feld aufklappen (Handy), dann das sichtbare Suchfeld fokussieren. */
   useEffect(() => {
     if (!fokusWunsch || view !== 'datenbank') return

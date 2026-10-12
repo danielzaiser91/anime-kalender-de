@@ -24,6 +24,7 @@ import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { distPruefen } from './dist-frisch.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
@@ -36,8 +37,11 @@ const DIST = path.join(WURZEL, 'dist')
   `ohne-synchro.json` und wird erst geladen, wenn der Schalter in der Datenbank
   umgelegt ist — die Mini-Episoden der Apothekerin standen hier zuerst und
   öffneten kein Panel.
+
+  177476 (YAIBA) und 195539 (Edgerunners 2): nur ein angekündigter Termin — Schalter mit TV-/Netflix-Pille
+  statt toter Seite (10.10.2026).
 */
-const STANDARD = ['161645', '176301', '163132']
+const STANDARD = ['161645', '176301', '163132', '177476', '195539']
 
 /** Ein 1×1-Pixel-PNG, transparent — die Antwort auf jede fremde Bildanfrage. */
 const EIN_PUNKT = Buffer.from(
@@ -58,12 +62,20 @@ const TYPEN = {
   '.webmanifest': 'application/manifest+json',
 }
 
-async function main() {
-  if (!existsSync(path.join(DIST, 'index.html'))) {
-    console.error('dist/ fehlt — erst `npm run build`.')
+/** Das Panel öffnet oben, nichts ist vorgescrollt (`scrollIntoView` der Reihenliste scrollte es bis 09.10.2026 um 228–393 px). */
+async function pruefeNichtVorgescrollt(panel, id) {
+  const px = await panel.evaluate((el) => {
+    for (let e = el; e; e = e.parentElement) if (e.scrollTop > 0) return Math.round(e.scrollTop)
+    return 0
+  })
+  if (px > 0) {
+    console.log(`  ✕ ${id}: Panel öffnet um ${px} px vorgescrollt`)
     process.exitCode = 1
-    return
   }
+}
+
+async function main() {
+  if (!distPruefen(WURZEL)) return
   const ids = process.argv.slice(2).length ? process.argv.slice(2) : STANDARD
 
   const browser = await chromium.launch()
@@ -149,7 +161,7 @@ async function main() {
       }
       /* Der Kasten ist die erste `section` im Panel — die Antwort auf „wann, wie weit, wo". */
       const kasten = panel.locator('section').first()
-      await kasten.waitFor({ state: 'visible', timeout: 15_000 })
+      await kasten.waitFor({ state: 'visible', timeout: 15_000 }).then(() => pruefeNichtVorgescrollt(panel, id))
       const box = await kasten.boundingBox()
       /*
         **Gemessen wird, ob etwas hinausragt — nicht, ob alle gleich hoch sind.**
