@@ -91,12 +91,19 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     # Meldung sähe nach einem Fehler aus, obwohl alles richtig läuft. Mit
     # NUR_QUELLEN=1 wird gar nicht erst gebaut; den Bau macht der nächste
     # planmäßige Lauf, der den Cache ohnehin aufbaut.
+    #
+    # Der Lauf endet danach trotzdem rot (AUFBAU_GESCHEITERT, seit 12.10.2026): Bei gescheitertem Aufbau ging das Skript mit
+    # Exit 0 hinaus, und `deploy.yml` (startet nur bei success) lieferte nichts aus, ohne dass es jemand sah.
+    # NUR_QUELLEN ist kein Fehler und bleibt grün.
+    AUFBAU_KAPUTT=0
+    AUFBAU_GESCHEITERT=0
     if [ "${NUR_QUELLEN:-0}" = 1 ]; then
       echo "NUR_QUELLEN=1 — kein Neuaufbau, nur die geholten Quellen."
       AUFBAU_KAPUTT=1
     elif ! npm run data:build; then
-      echo "::warning::Der Neuaufbau ist gescheitert. Die Quellen werden trotzdem committet — sie sind der teure Teil, die Erzeugnisse baut der nächste Lauf neu."
+      echo "::error::Der Neuaufbau ist gescheitert. Die Quellen werden trotzdem committet — sie sind der teure Teil —, die Erzeugnisse nicht; der Lauf endet rot."
       AUFBAU_KAPUTT=1
+      AUFBAU_GESCHEITERT=1
     fi
     NEU_GEBAUT=1
 
@@ -209,6 +216,12 @@ for versuch in $(seq 1 "$VERSUCHE"); do
     hinzu tools/umfang-grenzen.json
   fi
 
+  # Rot endet der Lauf, sobald Aufbau oder Bestand scheitern — nach dem Sichern der Quellen.
+  LAUF_ROT=0
+  if [ "${AUFBAU_GESCHEITERT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ]; then
+    LAUF_ROT=1
+  fi
+
   if [ "${AUFBAU_KAPUTT:-0}" = 1 ] || [ "${BESTAND_KAPUTT:-0}" = 1 ]; then
     hinzu "${QUELLEN[@]}"
   else
@@ -217,7 +230,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
 
   if git diff --staged --quiet; then
     echo "Keine Änderung — nichts zu committen."
-    [ "${BESTAND_KAPUTT:-0}" = 1 ] && exit 1
+    [ "$LAUF_ROT" = 1 ] && exit 1
     exit 0
   fi
 
@@ -226,7 +239,7 @@ for versuch in $(seq 1 "$VERSUCHE"); do
   if git push --quiet 2>/dev/null; then
     echo "Gepusht (Versuch $versuch)."
     # Die Quellen sind gesichert — jetzt darf der Lauf scheitern.
-    [ "${BESTAND_KAPUTT:-0}" = 1 ] && exit 1
+    [ "$LAUF_ROT" = 1 ] && exit 1
     exit 0
   fi
 
