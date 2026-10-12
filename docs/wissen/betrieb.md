@@ -1393,7 +1393,41 @@ Die 6 Zeilen sind die Meldung selbst in `pruefung` (siehe unten) und der Tagesz�
 
 **Altbestand ohne Hash: einmaliges Neuschreiben, keine Migration.** Der Hash ist SHA-256 über die 17 Spaltenwerte mit sortiertem `roh`-JSON; SQLite in D1 kann das nicht nachrechnen, eine Migration könnte ihn nicht setzen. Übernommene Zeilen ohne Hash (alles vor Migration 050) zählen nicht als Vergleich; die Folge kommt einmal neu, wird vom Bau übernommen und trägt dann den Hash. Obergrenze: ein vollständiger Durchgang, rund 11.000 Rohfolgen (11.106 am 11./12.10.) × 5 = rund 55.000 Zeilen, verteilt auf die Tage der Durchgänge (Tagesdeckel 50.000 bremst mit 429; die Erweiterung wartet bis 02:00 MESZ) — Seiten, die heute schon mit Hash übernommen wurden, kosten 0. **Es gibt keine Migration; die Reihenfolge nach dem Merge lautet: Worker deployen (`cd worker && npx wrangler deploy`), sonst nichts.** Der Worker läuft mit der Spalte `hash` aus Migration 050 (schon remote).
 
-**`pruefung` hat dasselbe Muster, nicht behoben.** Gemessen: dieselbe Meldung nach dem Abhaken schreibt eine neue offene Zeile (5 Zeilen + Zähler = 6; 8.758 Aufrufe am 11./12.10. × 6 = rund 52.500 Zeilen). Ein Überspringen ist **keine** gleichgelagerte Kleinigkeit: Der Bau schreibt `gemeldet_am` der Meldung als `checkedAt` („zuletzt geprüft“) in die kuratierten Daten (`fetch-pruefungen.ts`, zwei Stellen) und als `tag` in die Urteile (`fetch-urteile.ts`); eine nicht geschriebene Wiederholung ließe das Datum stehen. Die Abfrage auf `pruefung_url_zeit` läse die übernommenen Zeilen derselben Adresse ohnehin schon (Filter dahinter). Möglicher Weg, eigener Auftrag: bei gleichem Hash einer übernommenen Zeile nur deren `gemeldet_am` erneuern (einige Zeilen statt sechs) und den Bau so lassen; die Leser (`fetch-pruefungen`, `fetch-urteile`, `pruefung-stand`, `pruefung-lesen`) vorher einzeln prüfen.
+**`pruefung` hat dasselbe Muster — behoben am 13.10.2026, siehe den Abschnitt „Wiederholte Meldungen“ unten.** (Stand davor: dieselbe Meldung nach dem Abhaken schrieb eine neue offene Zeile, 5 Zeilen + Zähler = 6; 8.758 Aufrufe am 11./12.10. × 6 = rund 52.500 Zeilen.)
+
+## D1-Schreibkontingent: wiederholte Meldungen erneuern höchstens die vorhandene Zeile (13.10.2026)
+
+**Was jetzt gilt (`pruefung-unveraendert.ts`):** Die Ladeabfrage holt die offenen **und** die übernommenen Zeilen der Adresse (`uebernommen = 0` war ein Filter hinter `pruefung_url_zeit`, die Lesemenge bleibt gleich). Gibt es keine offene Zeile derselben Folge (Adresse, Folge, Staffel, Seitenkennung) und trägt die **jüngste übernommene** denselben Hash, wird nichts eingefügt. Sonst unverändert: offene Zeile mit gleichem Hash (`haltFrisch`), geänderter Inhalt = neue offene Zeile, Rückkehr zu früherem Stand (A, B, A) = A kommt als neue Zeile (die jüngste gewinnt in `fetch-pruefungen.ts`/`fetch-urteile.ts`), Altbestand ohne Hash einmal neu geschrieben (Hash seit Migration 048, keine neue Migration).
+
+**Wann `gemeldet_am` der übernommenen Zeile trotzdem erneuert wird** (jeweils ein UPDATE über den Primärschlüssel):
+- Berlin- oder UTC-Datum der Zeile ≠ heute: `checkedAt` (Berlin-Datum, `fetch-pruefungen.ts`) und `tag` der Urteile (UTC-Datum, `fetch-urteile.ts`) würden sonst einfrieren. Die Zeile wird dabei wieder geöffnet (`uebernommen = 0`), denn der Bau holt nur offene Zeilen; er übernimmt sie wie bisher die neue Zeile und hakt sie wieder ab. Die Urteile lesen `?alle=1` (alle Zeilen, jüngster Tag je Folge gewinnt) und sehen das neue Datum.
+- Zeile älter als der letzte Listenbau (`pruefstand.json`, `erzeugtAm`): Prüfstand-Ziele mit `seit` (`pruefung-stand.ts`, `pruefung-stand-anbieter.ts`) und die Zähler der Erweiterung (`pruefung-zaehlen.ts`: Adressen, Suchadressen, Seitenkennungen) rechnen `gemeldet_am > erzeugtAm`. Nur `gemeldet_am`, die Zeile bleibt übernommen. Ohne das bliebe eine Wiedervorlage ewig offen und würde bei jedem Durchgang neu gemeldet (Bleach-Fall).
+- Sonst: 0 geschriebene Zeilen.
+
+**Einmal pro Tag genügt also nicht ganz:** Die Datumsleser kämen damit aus, die `> erzeugtAm`-Leser nicht. Je Zeile und Tag sind es höchstens 1 + Zahl der Listenbauten (am 12.10. bis zu 15 am Tag) Erneuerungen zu je 5 Zeilen, bei mehreren Durchgängen zwischen zwei Bauten dagegen 0. Mögliche Verschärfung, eigener Auftrag: die Listenbau-Erneuerung nur für Adressen, die `pruefstand.json` noch als Ziel führt (`anbieter[].ziele`, `suchAdressen`); dazu müssten alle Leser der drei Zähler einzeln geprüft werden.
+
+**Bekannte Grenze:** Zwei widersprüchliche Meldungen derselben Adresse (z. B. „weg“ und „dub“ für verschiedene Folgen) am selben Tag behalten ihre Reihenfolge nicht, wenn die ältere erneut gemeldet wird und ihre Zeile von heute ist (`fetch-pruefungen.ts`: „ein ‚weg‘ gilt, solange nichts Jüngeres widerspricht“). Bei offenen Zeilen war das schon vorher so.
+
+**Lesezeilen-Posten vom 12.10.2026 (`wrangler d1 insights`, 24 h, rund 7,8 Mio.) und ihr Bezug zu diesem Abschnitt:**
+- `SELECT folge_nr, staffel, folge, MAX(gemeldet_am) … WHERE url = ?` (`pruefung-gemeldet.ts`, 35.742 Aufrufe, 1,61 Mio., im Mittel 45 Zeilen): liest **alle** Zeilen der Adresse samt Verlauf. Die Zeilenzahl je Adresse wuchs mit jeder Wiederholung nach dem Abhaken; das hört mit diesem Stand auf. Die Ersparnis ist nicht berechenbar (hängt an der Zahl der Dubletten, die schon dort liegen): bestehende bleiben, bis eine Bereinigung (eigener Auftrag, einmalig: ältere übernommene Zeilen mit gleichem Schlüssel und gleichem Hash löschen, die jüngste bleibt; kostet Schreibzeilen) sie entfernt.
+- `SELECT plattform, url, staffel FROM pruefung WHERE uebernommen = 0` (`pruefung-stand-briefkasten.ts:31`, 435 × 3.920 = 1,71 Mio.): liest alle offenen Zeilen. Offen bleibt, was der Bau nicht zuordnet; daran ändert dieser Stand nichts (Wiederholungen mit gleichem Hash entstanden schon vorher nicht als zweite offene Zeile). Nicht Teil dieses Auftrags.
+- `prime_folge` mit Unterabfrage `(SELECT p.titel FROM pruefung p WHERE p.url = f.url …)` (`pruefung-rohfolgen.ts`, 56 Aufrufe, 1,46 Mio.) und `SELECT COUNT(*) FROM prime_folge WHERE uebernommen = 0 …` (106 × 13.081 = 1,39 Mio.): Tabelle `prime_folge`, durch PR 957 (Rohfolgen) berührt, nicht durch diesen. Die Unterabfrage nimmt je Rohfolge die jüngste `pruefung`-Zeile über `pruefung_url_zeit` (eine Zeile), wächst nicht mit den Dubletten.
+- `DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 …` (7.657 Aufrufe, 0,29 Mio.): so nur noch der Rückfall `loescheOffeneNachAdresse` ohne vorgeladene Zeilen, den eine Meldung nicht erreicht; der Aufruf stammt aus der Zeit vor #845 (Löschen über die ID, 11.10. 21:55). Ob die 7.657 Aufrufe vor oder nach dem Deploy von #845 liegen, ist nicht geprüft (Deploys heute 08:46, 10:24, 11:53 UTC).
+
+**Kosten (lokal, workerd/miniflare, `tools/worker-schreibzeilen-messen.ts`, `meta.rows_written` mit Indexen):** `INSERT INTO pruefung` = 5 Zeilen (Tabelle, `sqlite_sequence`, `idx_pruefung_offen`, `pruefung_url_zeit`, `pruefung_gemeldet`; `pruefung_such_url` ist teilweise und bleibt bei NULL leer) + Tageszähler = 6. `UPDATE … SET gemeldet_am` oder `gemeldet_am, uebernommen = 0` = 4 (Tabelle + drei Indexe, alle drei enthalten die Spalte) + Zähler = 5. `UPDATE … SET uebernommen = 1` = 2, `UPDATE … SET notiz` (keine Indexspalte) = 1. Ein UPDATE ist also nur 1 Zeile billiger als ein INSERT; der Gewinn kommt vom Auslassen.
+
+| Meldung (Zeile schon übernommen, Netflix, eine Folge) | geschrieben vorher | nachher | gelesen vorher | nachher |
+|---|---|---|---|---|
+| gleich, selber Tag | 6 | 0 | 4 | 1 |
+| gleich, Zeile von gestern | 6 | 5 | 4 | 3 |
+| gleich, Zeile älter als Listenbau | 6 | 5 | 5 | 3 |
+| andere Notiz | 6 | 6 | 6 | 4 |
+| zurück zum alten Stand (A, B, A) | 6 | 6 | 7 | 5 |
+
+(vorher = Stand `474043f75`; die Zeile „von gestern“ hat vorher denselben Pfad wie jede übernommene Zeile: INSERT.) Die Lesezeilen sinken, weil keine zweite offene Dublette mehr entsteht.
+
+**Reihenfolge nach dem Merge:** keine Migration; nur Worker deployen (`cd worker && npx wrangler deploy`). Nachmessen am Tag danach mit `node tools/d1-verbrauch.mjs --lokal --zeitraum 1d` bzw. `wrangler d1 insights` (Aufrufe von `INSERT INTO pruefung` und `UPDATE pruefung SET gemeldet_am`).
+
 
 ## Ladezeiten-Überwachung am Handy (12.10.2026)
 
