@@ -1,5 +1,6 @@
 import { type Env } from './env.ts'
-import { ausSpeicher } from './export-speicher.ts'
+import { ausSpeicher, FRIST_NAMEN_MS } from './export-speicher.ts'
+import { serientitelJeAdresse } from './pruefung-serientitel.ts'
 
 export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
   request: Request<unknown, CfProperties<unknown>>
@@ -77,7 +78,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
           `SELECT url, MAX(titel) AS titel FROM pruefung WHERE titel IS NOT NULL AND url IS NOT NULL GROUP BY url`,
         ).all()
         return { namen: results ?? [] }
-      })
+      }, FRIST_NAMEN_MS)
       if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, async () => {
         const { results } = await env.DB.prepare(
           `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
@@ -106,10 +107,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         */
         `SELECT f.id, f.url, f.asin, f.gti, f.nummer, f.titel, f.erschienen, f.dauer_sek,
                 f.sprachen, f.untertitel, f.staffel_text, f.staffel_nr, f.gemeldet_am,
-                f.titel_id, f.plattform, f.seiten_kennung,
-                (SELECT p.titel FROM pruefung p
-                  WHERE p.url = f.url AND p.titel IS NOT NULL
-                  ORDER BY p.gemeldet_am DESC LIMIT 1) AS serientitel
+                f.titel_id, f.plattform, f.seiten_kennung
            FROM prime_folge f
           WHERE f.uebernommen = 0 AND f.id > ?1
             AND (f.vorhanden IS NULL OR f.vorhanden <> 'nein')
@@ -118,31 +116,15 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
       )
         .bind(Number.isFinite(nach) ? nach : 0)
         .all()
-      /* Die Gesamtzahl getrennt: Eine Abfrage mit LIMIT beantwortet eine andere
-         Frage als die gestellte — das hat am 26.08.2026 zwei Einträge gekostet. */
       /* Gesperrte Folgen (`vorhanden = 'nein'`, Migration 035) liest erst Stufe 2 — bis dahin
          sähe der Zuordner ihre leeren Tonspuren als „kein Deutsch". Entfällt mit Stufe 2. */
-      const zeilen = (results ?? []) as { id: number }[]
-      const gesamt = await zaehleOffene(env, zeilen.length, Number.isFinite(nach) ? nach : 0)
+      const zeilen = (results ?? []) as { id: number; url: string }[]
+      const titel = await serientitelJeAdresse(env, zeilen.map((z) => z.url))
       return {
-        folgen: zeilen,
-        gesamt,
-        /* Ist die Seite voll, steht die Fortsetzung dabei — sonst ausdrücklich null. */
+        folgen: zeilen.map((z) => ({ ...z, serientitel: titel.get(z.url) ?? null })),
+        /* Ist die Seite voll, steht die Fortsetzung dabei — sonst ausdrücklich null. Eine Gesamtzahl
+           gibt es nicht mehr: das `COUNT(*)` las je Seite alle offenen Zeilen (1,39 Mio. am Tag, 12.10.2026). */
         weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null,
       }
       })
-}
-
-/**
- * Wie viele offene Rohfolgen es gibt (Gesamtzahl der Antwort). Eine Seite unter dem Limit, die bei
- * `nach = 0` beginnt, ist schon der ganze Bestand — dann kostet die Zahl keine Abfrage; das
- * `COUNT(*)` las bei jedem Aufruf alle offenen Zeilen noch einmal (rund 6.500, 11.10.2026).
- * Dieselbe Filterung wie die Seitenabfrage: gesperrte Folgen (`vorhanden = 'nein'`) zählen nicht.
- */
-async function zaehleOffene(env: Env, seitenZeilen: number, nach: number): Promise<number> {
-  if (nach <= 0 && seitenZeilen < 5000) return seitenZeilen
-  const gesamt = await env.DB.prepare(
-    "SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0 AND (vorhanden IS NULL OR vorhanden <> 'nein')",
-  ).first<{ n: number }>()
-  return gesamt?.n ?? 0
 }
