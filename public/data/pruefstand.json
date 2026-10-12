@@ -1,12 +1,12 @@
 {
- "erzeugtAm": "2026-10-12T01:05:52.216Z",
+ "erzeugtAm": "2026-10-12T02:06:14.008Z",
  "anbieter": [
   {
    "name": "Amazon",
    "plattform": "primevideo",
-   "gemeldet": 634,
+   "gemeldet": 635,
    "gesamt": 756,
-   "offen": 122,
+   "offen": 121,
    "ohneSeite": 1,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video"
@@ -176,10 +176,6 @@
      "url": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5df64ad7-4e91-48fa-a043-b06f44985327",
      "titel": "Braceface – Alles klar, Sharon Spitz? (Braceface)",
      "hinweis": "Staffeln unklar: TMDB zählt 78 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.amazon.de/gp/video/detail/B0GFPBT6FG",
-     "titel": "Oshi no Ko: Mein Star (OSHI NO KO)"
     },
     {
      "url": "https://www.amazon.de/gp/video/detail/B0H7YCRTJN",
@@ -2027,17 +2023,12 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 49,
-   "gesamt": 214,
-   "offen": 165,
+   "gemeldet": 51,
+   "gesamt": 213,
+   "offen": 162,
    "ohneSeite": 22,
-   "ziel": "https://www.disneyplus.com/browse/entity-4e1eb434-6040-4aa5-a41f-dc2fd781423e",
+   "ziel": "https://www.disneyplus.com/browse/entity-33df4bde-d2eb-49f6-9f89-3ccbe65a55a3",
    "ziele": [
-    {
-     "url": "https://www.disneyplus.com/browse/entity-4e1eb434-6040-4aa5-a41f-dc2fd781423e",
-     "titel": "Armorsaurs",
-     "hinweis": "Staffeln unklar: TMDB zählt 13 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
     {
      "url": "https://www.disneyplus.com/browse/entity-33df4bde-d2eb-49f6-9f89-3ccbe65a55a3",
      "titel": "Mickeys Kleine Gruselgeschichten",
@@ -2082,11 +2073,6 @@
      "url": "https://www.disneyplus.com/browse/entity-f754e606-43e6-49f0-a2c2-2ff9a6327586",
      "titel": "Chip und Chap - Das Leben im Park",
      "hinweis": "Staffeln unklar: TMDB zählt 30 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-f6a65b6c-8315-4e66-8245-5e0ec8e6c625",
-     "titel": "Angry Birds: Slingshot Stories",
-     "hinweis": "Staffeln unklar: TMDB zählt 110 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-53dbe23f-0e40-427c-b2c7-317a873129a8",
@@ -2318,11 +2304,6 @@
      "url": "https://www.disneyplus.com/browse/entity-b9acb4dc-2c55-4829-9ecf-37d1f96ff29f",
      "titel": "Star Wars: Geschichten des Imperiums",
      "hinweis": "Staffeln unklar: TMDB zählt 6 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-508455db-79c2-4aad-8c35-4173b3214770",
-     "titel": "Arielle",
-     "hinweis": "Staffeln unklar: TMDB zählt 77 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-757a188f-334c-479a-9711-e504f6c4e901",
@@ -2855,7 +2836,7 @@
      "hinweis": "Staffeln unklar: TMDB zählt 106 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     }
    ],
-   "naechster": "Armorsaurs",
+   "naechster": "Mickeys Kleine Gruselgeschichten",
    "bekannt": {
     "bc2dae95-23e6-45dc-8177-066425b10fa0": 57,
     "6g48QKlgQdWK": 51,
