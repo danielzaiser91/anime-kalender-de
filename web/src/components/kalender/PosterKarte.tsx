@@ -94,12 +94,13 @@ export function PosterKarte(p: PosterKarteProps) {
 }
 
 /** „Anbieter · Folge" samt Marken (neu, verpasst, Sprache) unter dem Titel. */
-function Unterzeile(p: PosterKarteProps & { saal: boolean }) {
+export function Unterzeile(p: PosterKarteProps & { saal: boolean }) {
   const { t } = useLang()
-  /* Im Saal steht „Kino“ schon auf dem Behang; die Zeile bleibt nur für Marken. */
-  if (p.saal && !p.neu && !p.event.verpasst && !p.event.sprache) return null
+  /* Im Saal steht „Kino“ schon auf dem Behang; die Zeile bleibt nur für Marken und das „+N“ gebündelter Termine. */
+  if (p.saal && !p.weitere && !p.neu && !p.event.verpasst && !p.event.sprache) return null
   return (
     <span className="-mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-ak-leise">
+      {p.saal && !!p.weitere && <span className="text-sm font-bold text-ak-text">{t('kal.buendelTvOhneZeit', { n: p.weitere })}</span>}
       {!p.saal &&
         (p.anbieter ? (
           <AnbieterAngaben kachel={p.anbieter} t={t} />
