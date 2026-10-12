@@ -336,6 +336,13 @@ console.log('Lesezeilen: ?gemeldet= je Adresse und die wartenden Meldungen aus d
   await handlePruefung(post(von(A, 9)), env, ctx)
   gehalten.delete(standEintrag())
   pruefe((await hole('stand=1')).lesen === 0, 'eine Meldung verwirft die wartenden nicht (nur Ablauf; Meldungen seit dem Listenbau zieht der Stand frisch ab)')
+  const kaputt = global.caches as { default: { delete: () => Promise<boolean> } }
+  kaputt.default.delete = async () => {
+    throw new Error('Cache kaputt')
+  }
+  const trotzFehler = await handlePruefung(post(von(A, 10)), env, ctx)
+  const gespeichert = zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE folge_nr = 10') === 1
+  pruefe(trotzFehler.status === 200 && gespeichert, 'scheitert das Verwerfen, bleibt die Meldung gespeichert und beantwortet')
 }
 
 if (fehler) {

@@ -29,7 +29,7 @@ export function adressenDerMeldung(daten: Record<string, unknown>): unknown[] {
   return [daten.url, ...stapel.map((m) => (m as { url?: unknown } | null)?.url)]
 }
 
-/** Die Einträge dieser Adressen verwerfen; ohne Cache (Tests, lokal) tut es nichts. */
+/** Die Einträge dieser Adressen verwerfen, nur im eigenen Rechenzentrum; wirft nie. Ohne Cache (Tests, lokal) tut es nichts. */
 export async function verwirfGemeldet(basis: string, adressen: unknown[]): Promise<void> {
   const cache = (globalThis as { caches?: { default?: Cache } }).caches?.default
   if (!cache) return
@@ -39,5 +39,10 @@ export async function verwirfGemeldet(basis: string, adressen: unknown[]): Promi
     alle.add(a)
     alle.add(a.trim())
   }
-  await Promise.all([...alle].map((a) => cache.delete(new Request(gemeldetSchluessel(basis, a), { method: 'GET' }))))
+  try {
+    await Promise.all([...alle].map((a) => cache.delete(new Request(gemeldetSchluessel(basis, a), { method: 'GET' }))))
+  } catch (e) {
+    /* Die Meldung ist gespeichert; ein Cache-Fehler darf sie nicht in eine 500 verwandeln — es bleibt bis zu 30 min der alte Eintrag. */
+    console.error('pruefung gemeldet-cache: Verwerfen fehlgeschlagen', e)
+  }
 }
