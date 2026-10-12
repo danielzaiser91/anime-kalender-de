@@ -6727,10 +6727,10 @@ pruefe(
   pruefe('der Prüfstand liefert alle Ziele, nicht einen Ausschnitt', idx.includes('ziele: alleZiele,') && !/ziele: alleZiele\.slice/.test(idx))
 }
 {
-  /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und Anbieter stehen als Zeilen in Tippziel-Höhe (V2, 11.10.2026). */
+  /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und Anbieter stehen als Pillen in Tippziel-Höhe mit Sprach-Blase (12.10.2026). */
   const panel = panelQuelltext()
   pruefe('ein TOGGO-Weg ist immer „✓ Deutsch"', /statusArt\(istToggo\(e\.url\) \|\|\s*e\.dubRanges/.test(panel))
-  pruefe('die Anbieter stehen als Zeilen von mindestens 48 px', panel.includes('flex min-h-12 min-w-0 flex-1 items-center') && panel.includes('<div className="flex flex-col">{teil}</div>'))
+  pruefe('die Anbieter stehen als Pillen von mindestens 52 px, die Sprache als Blase', panel.includes('inline-flex min-h-[52px] max-w-full items-center') && panel.includes('-top-3.5') && panel.includes('gap-y-4'))
 }
 {
   /* TOGGO-Fenster (19.09.2026, gemessen an Daima und Boruto): die Pille rechnet beim Anzeigen. */
