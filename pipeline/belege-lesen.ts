@@ -9,7 +9,8 @@
  *
  * Eine Störung ist kein Befund: Liefert eine Seite keinen Artikeltext, wird nichts gemerkt. Nach
  * drei Störungen in Folge bei einem Anbieter ruht dieser bis zum nächsten Lauf — eine Sperre wird
- * abgewartet, nicht durchgefragt; die übrigen Anbieter werden weiter gelesen (`lib/beleg-stoerung.ts`).
+ * abgewartet, nicht durchgefragt; die übrigen Anbieter werden weiter gelesen (`lib/beleg-stoerung.ts`). Eine gescheiterte
+ * Adresse steht danach hinter den übrigen (`lib/beleg-fehlschlag.ts`, Marken in `data/beleg-fehlschlaege.json`).
  *
  * Aufruf: npx tsx pipeline/belege-lesen.ts [--limit 25] [--abstand 7] [--adresse <url>]
  */
@@ -23,12 +24,15 @@ import {
   adressenAusNews, adressenMitOffenemTermin, bildOhnePruefung, ohneMarkenJeTitel, crunchyrollDatum, entzieheBild, kopfzeilenDatum, isoTag, merkeLesung, textHash, traegtArtikeldatum, warteschlange, type BelegGedaechtnis, type Lesung,
 } from './lib/beleg-lesung.ts'
 import { ablegen } from './lib/beleg-ablage.ts'
-import { neueStoerungen, seiteninfo } from './lib/beleg-stoerung.ts'
+import { neueStoerungen, ohneRuhende, seiteninfo } from './lib/beleg-stoerung.ts'
+import { merkeFehlschlag, vergissFehlschlag, type Fehlschlaege } from './lib/beleg-fehlschlag.ts'
 import { BILD_FASSUNG, belegAusschnitt } from './lib/beleg-bild.ts'
 import { schreibeOhneFundstelle } from './lib/beleg-ohne-fundstelle.ts'
 import { gruppenJeAdresse, suchbegriffeJeAdresse, tageJeAdresse, type Gruppe } from './lib/beleg-suche.ts'
 
 const DATEI = 'data/beleg-lesungen.json'
+/** Letzter Fehlschlag je Adresse (`lib/beleg-fehlschlag.ts`); Laufgedächtnis, keine Datenkorrektur. */
+const FEHLSCHLAEGE = 'data/beleg-fehlschlaege.json'
 /** Crunchyroll lässt nur einen Desktop-UA durch (wie `scrape-crunchyroll-woche.ts`); ADN liefert damit eine leere Seite. */
 const UA_CRUNCHYROLL = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
 const STOERUNGEN_BIS_ABBRUCH = 3
@@ -161,7 +165,9 @@ async function main(): Promise<void> {
   const gruppen = gruppenJeAdresse(readJson<Release[]>('public/data/releases.json', []), readJson<Title[]>('public/data/titles.json', []))
   const mehrere = new Set([...gruppen].filter(([, g]) => g.length > 1).map(([u]) => u))
   const sofort = ohneMarkenJeTitel(gedaechtnis, mehrere)
-  const schlange = warteschlange([...adressen, ...sofort], gedaechtnis, heute, zahl('--abstand', 7), zahl('--limit', 60), sofort)
+  const fehlschlaege = readJson<Fehlschlaege>(FEHLSCHLAEGE, {})
+  /* Ohne Obergrenze: Sie zählt erst beim Abruf (`ohneRuhende`), damit ruhende Anbieter keine Plätze belegen. */
+  const schlange = warteschlange([...adressen, ...sofort], gedaechtnis, heute, zahl('--abstand', 7), Infinity, sofort, fehlschlaege)
   log(`Belege: ${schlange.length} Artikel fällig`)
   const tage = tageJeAdresse(readJson<Release[]>('public/data/releases.json', []))
   const kontext = { gedaechtnis, heute, suchbegriffe, gruppen, tage }
@@ -174,22 +180,24 @@ async function main(): Promise<void> {
     const cr = await browser.newPage({ ...ansicht, userAgent: UA_CRUNCHYROLL })
     const andere = await browser.newPage(ansicht)
     for (const s of [cr, andere]) await s.addInitScript('window.__name = (f) => f')
-    for (const url of schlange) {
-      if (stoerungen.ruht(url)) continue
+    for (const url of ohneRuhende(schlange, zahl('--limit', 60), stoerungen)) {
       try {
         const seite = url.includes('crunchyroll.com') ? cr : andere
         if (await leseUndMerke(seite, url, kontext)) neu++
         gelesen++
         stoerungen.erfolg(url)
+        vergissFehlschlag(fehlschlaege, url)
       } catch (e) {
         warn(`Beleg nicht gelesen: ${url} — ${(e as Error).message}`)
         stoerungen.fehl(url)
+        merkeFehlschlag(fehlschlaege, url, heute)
       }
     }
   } finally {
     await browser.close()
   }
   writeJson(DATEI, gedaechtnis, true)
+  writeJson(FEHLSCHLAEGE, fehlschlaege, true)
   recordSource('beleg-lesungen', gelesen); schreibeOhneFundstelle(gedaechtnis, gruppen)
   log(`Belege: ${gelesen} gelesen, ${neu} mit neuem Stand, ${Object.keys(gedaechtnis).length} im Gedächtnis`)
 }
