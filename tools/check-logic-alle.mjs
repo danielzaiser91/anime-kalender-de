@@ -13,6 +13,9 @@
  * zurück; eine Prüfung, die ihn liest, macht PRs rot, die nichts dafür können. Altlasten stehen in
  * `tools/check-logic-bestand-ausnahmen.json`: mit Frist, nur die genannten Pfade, und nur, solange sie wirklich gelesen werden.
  * Die Zahl der Ausnahmen (`hoechstens`) wird nur gesenkt, nie erhöht.
+ *
+ * **Vollständigkeit (12.10.2026):** `check:logic` wird rot, wenn eine Prüfdatei in pipeline/ oder tools/ in keiner Prüfliste steht
+ * (`tools/check-logic-vollstaendig.mjs`, bewusste Ausnahmen in `tools/check-logic-liste-ausnahmen.txt`).
  */
 import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { spawnSync } from 'node:child_process'
@@ -20,6 +23,7 @@ import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { pruefeVollstaendig } from './check-logic-vollstaendig.mjs'
 
 const tools = dirname(fileURLToPath(import.meta.url))
 const wurzel = join(tools, '..')
@@ -69,6 +73,12 @@ const dateien = readFileSync(resolve(wurzel, listeArg), 'utf8')
 if (dateien.length === 0) {
   console.error(`${name}: ${listeArg} enthält keine Prüfung.`)
   process.exit(1)
+}
+
+if (mitSperre) {
+  const unverdrahtet = pruefeVollstaendig(wurzel)
+  for (const f of unverdrahtet) console.error(`${name}: ${f}`)
+  if (unverdrahtet.length) process.exit(1)
 }
 
 const unsortiert = dateien.find((d, i) => i > 0 && d < dateien[i - 1])
