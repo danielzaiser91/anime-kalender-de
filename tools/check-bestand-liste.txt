@@ -18,6 +18,7 @@ pipeline/check-logic-bestand.ts
 pipeline/check-prime-teilseiten-bestand.ts
 pipeline/check-reihen-namen-bestand.ts
 pipeline/check-saison-deutsch-bestand.ts
+pipeline/check-tmdb-ablauf-bestand.ts
 pipeline/check-wochen-datei-bestand.ts
 pipeline/check-zaehlung-synchro.ts
 tools/cartoon-jw-stichprobe-bestand-pruefen.mjs
