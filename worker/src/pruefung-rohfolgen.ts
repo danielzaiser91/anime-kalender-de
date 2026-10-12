@@ -27,7 +27,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         5.000 kamen heraus — 620 hätten den Bau nie erreicht. Eine Abfrage mit
         `LIMIT` beantwortet eine andere Frage als die gestellte (26.08.2026,
         damals kostete es zwei Einträge). `?nach=<id>` setzt dort fort, wo die
-        letzte Seite endete; `gesamt` bleibt die ungekürzte Zahl.
+        letzte Seite endete; `weiter` ist bei voller Seite deren letzte Kennung (nächstes `?nach=`), sonst `null`; eine Gesamtzahl gibt es nicht mehr.
       */
       /*
         **Probe: die jüngsten Rohfolgen eines Anbieters samt `roh`, auch übernommene.**
