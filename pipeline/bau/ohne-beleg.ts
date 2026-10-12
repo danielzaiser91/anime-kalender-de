@@ -46,7 +46,7 @@ export function deutschGeplantLautAnisearch(titelId: number): boolean {
  * schlägt das, die Aufrufer schließen Releases und deutsche Sprecher davor aus. Ohne Datei gilt die Regel nie.
  */
 export function keineSynchroLautAnisearch(t: Title): boolean {
-  return deutschMarke(t.id) === '-' &&!t.streams.some((s) => s.dub === true)
+  return deutschMarke(t.id) === '-' && !t.streams.some((s) => s.dub === true)
 }
 
 type HandUrteil = { anilistId?: number; sources?: string[]; keinAnime?: boolean }
