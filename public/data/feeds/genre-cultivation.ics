@@ -26,6 +26,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:ranma-s3-folge1-netflix@2026-10-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261006
+SUMMARY:Ranma ½ – Staffel 3
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
+ ht bestätigt.\nDetails: https://anime-kalender.de/t/17567/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T150500Z
