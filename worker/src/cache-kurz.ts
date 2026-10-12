@@ -10,8 +10,10 @@ export async function ausEdgeCache(
   ctx: ExecutionContext | undefined,
   sekunden: number,
   bauen: () => Promise<Response>,
+  /** Eigener Schlüssel statt der Anfrage-Adresse: kanonisch (verwerfbar) oder für ein Teilergebnis. */
+  schluesselUrl: string = request.url,
 ): Promise<Response> {
-  const schluessel = new Request(new URL(request.url).toString(), { method: 'GET' })
+  const schluessel = new Request(new URL(schluesselUrl).toString(), { method: 'GET' })
   const cache = caches.default
   const getroffen = await cache.match(schluessel)
   if (getroffen) return getroffen
@@ -23,4 +25,12 @@ export async function ausEdgeCache(
     ctx?.waitUntil(cache.put(schluessel, zumHalten))
   }
   return frisch
+}
+
+/** `ausEdgeCache` mit Anfrage und Kontext schon eingesetzt (`ausCache` in `pruefung.ts`). */
+export type AusCache = (bauen: () => Promise<Response>, sekunden?: number, schluessel?: string) => Promise<Response>
+
+/** Die `ausCache`-Funktion einer Anfrage; `schluessel` ersetzt die Anfrage-Adresse (kanonisch oder Teilergebnis). */
+export function ausCacheFuer(request: Request, ctx: ExecutionContext | undefined): AusCache {
+  return (bauen, sekunden = 1800, schluessel) => ausEdgeCache(request, ctx, sekunden, bauen, schluessel)
 }
