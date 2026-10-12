@@ -279,6 +279,8 @@ export interface Synopsis {
   asUrl?: string
   /** Eigener Text aus Fakten mehrerer Quellen: alle Quellen, Lizenz des Textes; `reihe` = beschreibt nur die Reihe, nicht diesen Titel. */
   eigen?: { quellen: { name: string; url: string }[]; lizenz: string; reihe?: true }
+  /** Nur ein Teil der Folgen liegt auf Deutsch vor: Zahl, Quelle und kurzes Zitat daraus. */
+  deFolgen?: { n: number; quelle: { name: string; url: string }; zitat: string }
   /** Größtes brauchbares Plakat (TMDB): Pfad, Breite, Höhe — nur für die Vergrößerung des Covers. */
   cg?: [string, number, number]
 }

@@ -33,6 +33,7 @@ pipeline/check-cr-teilseiten.ts
 pipeline/check-daten-kennung.ts
 pipeline/check-db-relevanz.ts
 pipeline/check-detektiv-funde.ts
+pipeline/check-deutsche-folgenzahl.ts
 pipeline/check-disney-gesamtnummer.ts
 pipeline/check-dub-aus-terminen.ts
 pipeline/check-dub-bereiche.ts
