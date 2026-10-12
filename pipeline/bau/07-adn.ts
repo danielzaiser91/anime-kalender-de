@@ -13,6 +13,7 @@ import { ADN_CALENDAR_URL } from './grundlagen.ts'
 import { todayIso } from '../../shared/time.ts'
 import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'
 import { ergaenzeTeilnamen } from './adn-teilnamen.ts'
+import { titelZurShow } from './adn-show-titel.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 
 export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
@@ -107,10 +108,7 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
 
     // Die im Katalog-Lauf nachgeschlagene Kennung zuerst — sie trifft auch,
     // wo der Namensabgleich an Schreibweisen scheitert.
-    const serienTitel =
-      (show.anilistId ? titles.get(show.anilistId) : undefined) ??
-      titleByName.get(normalizeTitle(show.title)) ??
-      titleByName.get(normalizeTitle(show.originalTitle ?? ''))
+    const serienTitel = titelZurShow(show, titles, titleByName)
     // Aus dem Katalogdurchlauf nur, was sich einem Anime zuordnen lässt: Der
     // Katalog führt den französischen Bestand, und ohne Zuordnung bliebe der
     // französische Name stehen, dazu ohne Cover, Genres und Beschreibung.
