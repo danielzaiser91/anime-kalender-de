@@ -3,14 +3,13 @@ import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
 import { PLATFORMS, type StreamLink, type Release, type Title, type DiscAusgabe } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
 import { streamNurOmu } from '@shared/ankuendigung.ts'
-import { farbeZuAnbieter, istToggo, discPillen } from './pillen.tsx'
-import { TerminZeile } from './termin-zeile.tsx'
-import { AnbieterZeile, DubStatus } from './anbieter-zeile.tsx'
-import { alleOhneSprachbeleg, legendeDerZeilen, streamStatus, streamWegStatus, zeilenGruppen } from './legende-zeilen.ts'
+import { Pille, farbeZuAnbieter, ReleasePille, discPillen } from './pillen.tsx'
+import { StreamWegPille } from './stream-weg-pille.tsx'
 import { DiscZeichen } from '../ui.tsx'
 import { AnbieterIcon, anbieterDatei } from '../../lib/anbieter-icon.tsx'
+import { DubEcke } from './vermerk.tsx'
 import { MerkenKnopf } from './merken.tsx'
-import { toggoAngabe, jetztBerlin } from '../../lib/toggo.ts'
+import { jetztBerlin } from '../../lib/toggo.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import { tvAngabe } from '../../lib/tv-angabe.ts'
 import type { TvZuletzt } from '../../lib/tv-zuletzt.ts'
@@ -21,10 +20,10 @@ import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
 import { pillenSchluessel, type sortiereNachZugang } from './wege-sortieren.ts'
 
-/** Eine Zeile je Termin: Sender oder Anbieter, Datum, Folge. */
+/** Eine Pille je Termin: Sender oder Anbieter, Datum, Folge. */
 function terminPillen(rs: Release[], title: Title, releases: Release[], today: string) {
   return rs.map((r) => (
-    <TerminZeile
+    <ReleasePille
       key={r.slug}
       release={r}
       titel={anzeigeName(title)}
@@ -67,21 +66,24 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
         <AntwortKasten
           pillenGruppen={
             new Map([
-              ...zeilenGruppen(sortiertNachZugang, title),
+              ...sortiertNachZugang.flatMap(({ art, plattformen, streamWege }) =>
+                [
+                  ...plattformen.map(pillenSchluessel),
+                  ...streamWege.map((g) => `sw-${g.shop}-${g.eintraege[0].url}`),
+                ].map((k) => [k, art === 'kostenlos' ? 'frei' : art] as const),
+              ),
               ...terminReleases.map((r) => [r.slug, r.platform === 'tv' ? 'tv' : 'abo'] as const),
               ...tvVorbeiGruppen(tvVorbei),
             ])
           }
           antwort={antwort}
-          ohneSprachbeleg={alleOhneSprachbeleg(sortiertNachZugang, title)}
-          legende={legendeDerZeilen({ sortiert: sortiertNachZugang, title, folgenAngabeFuer, t })}
           terminPillen={terminPillen(terminReleases, title, releases, today)}
           title={title}
           t={t}
           today={today}
           wegeHinweis={wegeHinweis}
           notiz={kastenNotiz?.note}
-          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} laufzeitImKopf={Boolean(title.runtimeMin)} />}
+          folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} />}
           schnitt={kastenNotiz?.schnitt}
           angebotSeit={
             /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
@@ -145,7 +147,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                 /* Regeln an `folgenAngabeFuer()` — Film, Bereiche, laufend, abgeschlossen. */
                 const folgenAngabe = folgenAngabeFuer(s)
                 return (
-                  <AnbieterZeile
+                  <Pille
                     /*
                       Anbieter **und** Adresse (21.09.2026): Mit `key={s.platform}` trugen zwei
                       Prime-Pillen denselben Schlüssel, und beim Umschalten auf „Disc" blieb eine
@@ -160,7 +162,6 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                     unten={
                       [
                         folgenAngabe,
-                        streamStatus(s) === 'justwatch' ? t('detail.stand', { datum: formatDate(s.dubStand!) }) : '',
                         streamNurOmu(title, s) ? t('kal.omu') : '',
                         s.teilBereich
                           ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
@@ -195,8 +196,16 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                         .filter(Boolean)
                         .join('\n') || undefined
                     }
-                    status={<DubStatus art={streamStatus(s)} />}
-                    aktion={<MerkenKnopf release={releaseJePlattform.get(s.platform)} today={today} zeile />}
+                    rechts={
+                      <>
+                        <DubEcke dub={s.dub} justwatchStand={s.dubQuelle === 'justwatch' ? s.dubStand : undefined} />
+                        <MerkenKnopf
+                          release={releaseJePlattform.get(s.platform)}
+                          today={today}
+                          farbe={PLATFORMS[s.platform].color}
+                        />
+                      </>
+                    }
                   />
                 )
               }),
@@ -231,7 +240,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
               */
               .concat(
                 (title.ausgabenOhneDe ?? []).map((a) => (
-                  <AnbieterZeile
+                  <Pille
                     key={`ausgabe-${a.url}`}
                     name={PLATFORMS[a.platform]?.name ?? a.platform}
                     farbe={PLATFORMS[a.platform]?.color}
@@ -251,79 +260,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
               .concat(
                 sortiertNachZugang.flatMap(({ streamWege }) =>
                   streamWege.map((g) => (
-                    <AnbieterZeile
-                      key={`sw-${g.shop}-${g.eintraege[0].url}`}
-                      name={g.shop}
-                      url={g.eintraege[0].url}
-                      /*
-                        **Dasselbe Zeichen wie am Verweis mit derselben Adresse.**
-
-                        Daniel am 07.09.2026 an „Kill Blue": „warum ist bei
-                        ‚… über prime' pills kein ‚DE' zeichen?" Die Pille
-                        „Aniverse über Prime Video" und der Prime-Verweis
-                        zeigen auf dieselbe Kennung — der eine trug „DE ✓",
-                        die andere nichts.
-
-                        Das Urteil erbt der Bezugsweg beim Bauen (`build.ts`,
-                        „Ein Weg, ein Urteil"); hier wird es nur angezeigt.
-                        Wo keins geerbt wurde, zeigt `DubMark` weiterhin das
-                        Fragezeichen — das ist die ehrliche Antwort.
-                      */
-                      /*
-                        **Ein Weg zu einem Anbieter, den wir kennen, sieht aus wie einer.**
-
-                        Die Bezugswege standen weiß und randlos neben den
-                        farbigen Anbieter-Pillen, obwohl beide dasselbe
-                        beantworten: wo man es sehen kann. Daniel am
-                        07.09.2026: „vom blau gefärbten button style ist es
-                        deutlich besser als die weiße pill daneben, deshalb
-                        mach das so wie beschrieben für alle pills die
-                        aktuell noch das weiße style haben".
-
-                        Die Farbe kommt aus dem Namen, und der ist unsere
-                        eigene Erzeugung („Amazon Prime
-                        (Crunchyroll)"): Wo er mit dem Namen einer bekannten
-                        Plattform beginnt, gilt deren Farbe. Ein Shop, den
-                        wir nicht als Plattform führen (Videobuster,
-                        maxdome), bleibt neutral — dort gibt es keine Farbe,
-                        die etwas bedeuten würde.
-                      */
-                      farbe={farbeZuAnbieter(g.shop)}
-                      icon={g.shop === 'aniSearch' ? <DiscZeichen /> : <AnbieterIcon was={g.shop} />}
-                      /*
-                        **Ein Weg zu einer einzelnen Folge sagt das.**
-
-                        Bei „Banana Fish" führt die Akibapass-Pille auf eine
-                        Dub-Vorschau der ersten Folge, und daneben stand als
-                        Termin der 06.11.2026 — der zweite Blu-ray-Band.
-                        Beides zusammen las sich, als gäbe es bis November
-                        gar nichts. Die Angabe steht am Weg, weil sie zu ihm
-                        gehört, nicht zum Titel.
-                      */
-                      /*
-                        **Eine Folgenzahl nur, wo die deutsche Fassung an diesem Weg belegt ist.**
-
-                        „Amazon Prime (Crunchyroll) · 100 Fg." stand über „Dragon Quest: The
-                        Adventure of Dai" — der Kanal führt die Serie nur auf Japanisch (Daniel,
-                        16.09.2026, mit Bild; Crunchyrolls deutscher Katalog: 0 von 101 Folgen
-                        deutsch). Die Zahl stammte aus der Titelregel von `folgenAngabeFuer()`,
-                        die für Verweise mit `dub: true` gemessen war und hier ohne jeden Verweis
-                        griff. 160 Titel zeigten so eine Stream-Pille mit Folgenzahl, ohne dass
-                        dort Deutsch belegt war.
-
-                        Ohne Urteil also keine Zahl — und rechts das Zeichen, das der Kommentar
-                        darüber schon lange versprach: „DE ?", die ehrliche Antwort.
-                      */
-                      unten={(() => {
-                        if (istToggo(g.eintraege[0].url))
-                          return toggoAngabe((title.watchLinks ?? []).find((w) => w.url === g.eintraege[0].url)?.toggo)
-                        if (g.eintraege[0].nurFolge) return t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
-                        if (g.eintraege[0].dubRanges?.length) return folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges, url: g.eintraege[0].url, nurFolge: g.eintraege[0].nurFolge }) || undefined
-                        const verweis = (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)
-                        return verweis?.dub === true ? folgenAngabeFuer(verweis) || undefined : undefined
-                      })()}
-                      status={<DubStatus art={streamWegStatus(g, title)} />}
-                    />
+                    <StreamWegPille key={`sw-${g.shop}-${g.eintraege[0].url}`} g={g} title={title} t={t} folgenAngabeFuer={folgenAngabeFuer} />
                   )),
                 ),
               )
@@ -343,7 +280,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                 shops
                   .filter((g) => !(g.shop === 'aniSearch' && discAusgaben.length))
                   .map((g) => (
-                  <AnbieterZeile
+                  <Pille
                     key={g.shop + g.eintraege[0].url}
                     name={g.shop}
                     url={g.eintraege[0].url}
@@ -354,7 +291,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                           ? folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges }) || undefined
                           : undefined
                     }
-                    status={g.eintraege[0].dubRanges?.some((r) => r.dub) ? <DubStatus art="belegt" /> : undefined}
+                    rechts={g.eintraege[0].dubRanges?.some((r) => r.dub) ? <DubEcke dub /> : undefined}
                     /*
                       Auch hier trägt der Weg die Farbe seines Anbieters —
                       derselbe Grund wie bei den Stream-Wegen darüber. Für
@@ -367,7 +304,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                 )),
               ),
               ...discReleases.map((r) => (
-                <TerminZeile key={r.slug} release={r} titel={anzeigeName(title)} today={today} />
+                <ReleasePille key={r.slug} release={r} titel={anzeigeName(title)} today={today} />
               )),
             ]}
           discZuerst={discZuerst}

@@ -6,6 +6,7 @@ import { eindeutschenStaffel, anzeigeName } from '@shared/titles.ts'
 import { type Voices, loadVoices, type Dataset, loadCartoons, loadAllTitles } from '../../lib/data.ts'
 import { aehnlicheTitel } from '../../lib/aehnlich.ts'
 import { coverBild } from '../../lib/cover.ts'
+import { TIPPFLAECHE_HOCH } from './tippziel.ts'
 
 /**
  * Alle weiteren Schreibweisen eines Titels — eingeklappt, an einer Stelle.
@@ -36,19 +37,19 @@ export function WeitereTitel({ title }: { title: Title }) {
   if (!weitere.length) return null
 
   return (
-    <div className="text-xs">
+    <div className="mt-0.5 text-xs">
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}
-        className="-my-2.5 inline-flex min-h-11 cursor-pointer items-center text-slate-600 underline decoration-dotted underline-offset-2 hover:text-sky-700 dark:text-slate-400 dark:hover:text-sky-300"
+        className={`cursor-pointer text-slate-400 underline decoration-dotted underline-offset-2 hover:text-sky-400 dark:text-slate-500 ${TIPPFLAECHE_HOCH}`}
       >
         {offen ? t('detail.otherTitlesHide') : t('detail.otherTitles', { count: weitere.length })}
       </button>
       {offen && (
-        <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5 text-slate-600 dark:text-slate-400">
+        <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5 text-slate-500 dark:text-slate-400">
           {weitere.map((w) => (
             <Fragment key={w.label}>
-              <dt className="text-slate-600 dark:text-slate-400">{w.label}</dt>
+              <dt className="text-slate-400 dark:text-slate-500">{w.label}</dt>
               <dd className="min-w-0 break-words">{w.wert}</dd>
             </Fragment>
           ))}
