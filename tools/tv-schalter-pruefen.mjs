@@ -2,7 +2,8 @@
  * Prüft den Schalter „TV-Termine ausblenden" über dem Kalender. Er hieß bis zum 01.10.2026
  * „Fernsehen zeigen" und war ein `role="switch"`; seit dem Umbau ist er ein Chip, der leuchtet,
  * **wenn** das Fernsehen aus ist (16.09.2026 angelegt, 19.09.2026 umbenannt — der alte Text ließ
- * diese Prüfung zwei Tage lang rot; 01.10.2026 invertiert und erneut umbenannt):
+ * diese Prüfung zwei Tage lang rot; 01.10.2026 invertiert und erneut umbenannt; seit 10.10.2026
+ * ein Schnellfilter-Chip, dessen Name vom Klick-Modus abhängt — 36 h rot, bis 12.10. bemerkt):
  * Wochenansicht aus `dist/`, einmal mit, einmal ohne TV-Termine — und nach dem
  * Neuladen muss die Wahl noch gelten.
  *
@@ -29,10 +30,12 @@ await seite.route('**/*', async (route) => {
 
 /* Seit dem 26.09.2026 stehen TV-Termine als Zeilen im Kasten „Im Fernsehen“ (`data-tv-zeile`). */
 const tvKacheln = () => seite.locator('[data-tv-zeile]').count()
-const schalter = () => seite.getByRole('button', { name: 'TV: Ausblenden' }) // seit 04.10.2026 die 🚫-Hälfte der Schnellfilter-Karte „TV"
+const schalter = () => seite.getByRole('button', { name: 'TV: Ausblenden' }) // seit 10.10.2026 (#710) ein Chip, der so nur im Klick-Modus „Ausschließen“ heißt
 const filterAuf = async () => {
   await seite.getByRole('button', { name: 'Filter' }).first().waitFor({ state: 'visible', timeout: 30000 })
   await seite.getByRole('button', { name: 'Filter' }).first().click()
+  // Der Modus startet nach jedem Laden mit „Nur anzeigen“.
+  await seite.getByRole('button', { name: /Ausschließen/ }).first().click()
   await schalter().waitFor({ state: 'visible' })
 }
 await seite.goto('http://ak.test/#/woche')
