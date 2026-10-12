@@ -648,7 +648,8 @@ export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): voi
     .filter((t) => {
       const seit = historie.seit[t.id]
       // Der Ausgangsstand ist kein Neuzugang, egal wie jung sein Datum ist.
-      return seit >= grenze && seit !== historie.angelegtAm && belegteSynchro(t)
+      // Gesperrte Titel (F-Sperre) werden nie gemeldet.
+      return !t.sperre && seit >= grenze && seit !== historie.angelegtAm && belegteSynchro(t)
     })
     .map((t) => ({
       id: t.id,
