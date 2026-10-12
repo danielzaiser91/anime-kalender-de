@@ -46,9 +46,10 @@ function speicherMit() {
 }
 
 /** Ein Frame: `tageslimit.js` mit einem `fetch`, das die Status der Reihe nach liefert. */
-function frame(speicher, status) {
+function frame(speicher, status, hostname) {
   const kontext = { Date, Intl, setTimeout, console, Promise, Number, Math, JSON, String, Object }
   kontext.globalThis = kontext
+  if (hostname) kontext.location = { hostname }
   const rest = [...status]
   kontext.fetch = async () => antwortAus(rest.shift() ?? 200)
   if (speicher) kontext.chrome = speicher.chromeFuer([])
@@ -65,7 +66,7 @@ async function einFrame() {
     pruefe('nach zwei 5xx gilt noch keine Pause', !k.AK_TAGESLIMIT.aktiv())
     await k.fetch(WORKER, POST)
     pruefe('die dritte 5xx in Folge pausiert', k.AK_TAGESLIMIT.aktiv())
-    pruefe('der Grund nennt Server und Uhrzeit', /^Server antwortet nicht, nächster Versuch \d\d:\d\d$/.test(k.AK_TAGESLIMIT.text()), k.AK_TAGESLIMIT.text())
+    pruefe('Netflix/Disney+ enden: der Text sagt, dass neu gestartet werden muss', /^Server antwortet nicht, Durchgang ab \d\d:\d\d neu starten$/.test(k.AK_TAGESLIMIT.text()), k.AK_TAGESLIMIT.text())
     pruefe('Netflix-Weg: grund() liefert diesen Text statt „abgebrochen"', k.AK_TAGESLIMIT.grund('abgebrochen') === k.AK_TAGESLIMIT.text())
     const durchlauf = { abbruch: false }
     k.AK_TAGESLIMIT.fehlgeschlagen(durchlauf)
@@ -73,6 +74,19 @@ async function einFrame() {
     const plan = ['b']
     pruefe('Prime-Weg: die Staffel geht zurück in den Plan', k.AK_TAGESLIMIT.zurueckstellen(plan, 'a') === true && plan.join() === 'a,b', plan)
     pruefe('Prime-Pille: der Vorspann nennt den Grund', k.AK_TAGESLIMIT.vorspann() === `⏸ ${k.AK_TAGESLIMIT.text()} ·`, k.AK_TAGESLIMIT.vorspann())
+  }
+  {
+    const k = frame(null, [500, 500, 500], 'www.amazon.de')
+    for (let i = 0; i < 3; i++) await k.fetch(WORKER, POST)
+    pruefe('Prime macht von allein weiter: "nächster Versuch"', /^Server antwortet nicht, nächster Versuch \d\d:\d\d$/.test(k.AK_TAGESLIMIT.text()), k.AK_TAGESLIMIT.text())
+  }
+  {
+    const speicher = speicherMit()
+    const k = frame(speicher, [500, 500, 500])
+    k.AK_TAGESLIMIT.merken(3600)
+    const bis = speicher.daten.akTageslimitBis
+    for (let i = 0; i < 3; i++) await k.fetch(WORKER, POST)
+    pruefe('Vorrang: bei aktivem Tageslimit ändern drei 5xx die Pause nicht', speicher.daten.akTageslimitBis === bis && /^Tageslimit erreicht/.test(k.AK_TAGESLIMIT.text()), { bis, jetzt: speicher.daten.akTageslimitBis, text: k.AK_TAGESLIMIT.text() })
   }
   {
     const k = frame(null, [500, 500, 200, 500, 500])

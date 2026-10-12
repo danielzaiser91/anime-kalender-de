@@ -22,17 +22,20 @@
   const WORKER = 'https://newsletter.animekalender.workers.dev/'
   const SERVER_FEHLER_REIHE = 3
   const SERVER_PAUSE_SEKUNDEN = 30 * 60
+  /* Prime macht nach der Pause von allein weiter; Netflix und Disney+ enden und brauchen einen neuen Start. */
+  const PRIME = globalThis.location?.hostname === 'www.amazon.de'
   let bis = 0
   let art = null
   let reihe = 0
 
   const aktiv = () => bis > Date.now()
 
-  /** „Tageslimit erreicht, weiter ab 02:00" bzw. „Server antwortet nicht, nächster Versuch 14:30" (Berliner Ortszeit), sonst `null`. */
+  /** „Tageslimit erreicht, weiter ab 02:00" bzw. „Server antwortet nicht, …" (Berliner Ortszeit; Prime: „nächster Versuch 14:30", sonst „Durchgang ab 14:30 neu starten"), sonst `null`. */
   function text() {
     if (!aktiv()) return null
     const uhr = new Date(bis).toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' })
-    return art === 'server' ? `Server antwortet nicht, nächster Versuch ${uhr}` : `Tageslimit erreicht, weiter ab ${uhr}`
+    if (art !== 'server') return `Tageslimit erreicht, weiter ab ${uhr}`
+    return PRIME ? `Server antwortet nicht, nächster Versuch ${uhr}` : `Server antwortet nicht, Durchgang ab ${uhr} neu starten`
   }
 
   /** Prime-Pille: statt „⏹" der Grund der Pause voran, sonst `null`. */

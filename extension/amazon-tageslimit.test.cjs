@@ -18,13 +18,23 @@ function pruefe(name, bedingung, gefunden) {
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
+/** Der Wächter von `dialogFuellen` fragt nach dem Kasten; ohne ihn baute sich die Liste bei jedem Takt neu. */
+const findeKasten = (el) => el.kinder.find((k) => k.className === 'ak-kasten') ?? null
+
 function element(dokument, alle) {
   const el = {
     className: '',
     isConnected: true,
     style: { cssText: '' },
     dataset: {},
-    textContent: '',
+    _text: '',
+    get textContent() {
+      return el._text
+    },
+    set textContent(wert) {
+      el._text = wert
+      if (wert === '') el.kinder = []
+    },
     title: '',
     type: '',
     disabled: false,
@@ -40,7 +50,7 @@ function element(dokument, alle) {
     addEventListener(art, fn) { el.hoerer[art] = fn },
     setAttribute() {},
     getAttribute: () => null,
-    querySelector: () => null,
+    querySelector: (wahl) => (wahl === '.ak-kasten' ? findeKasten(el) : null),
     querySelectorAll: () => [],
     focus() {},
   }
@@ -86,11 +96,12 @@ function sandkastenBauen(dokument, speicher) {
   fenster.top = fenster
   fenster.parent = { postMessage() {} }
   const sandkasten = {
+    takte: [],
     AK_OFFENE_AMAZON: {},
     AK_PRIME_SUCHE: {},
     URLSearchParams,
     URL,
-    location: { pathname: '/', search: '', origin: 'https://www.amazon.de', href: 'https://www.amazon.de/' },
+    location: { pathname: '/', search: '', hostname: 'www.amazon.de', origin: 'https://www.amazon.de', href: 'https://www.amazon.de/' },
     sessionStorage: {
       getItem: (k) => speicher.get(k) ?? null,
       setItem: (k, v) => speicher.set(k, String(v)),
@@ -108,7 +119,7 @@ function sandkastenBauen(dokument, speicher) {
     MutationObserver: class { observe() {} },
     requestAnimationFrame: () => 0,
     fetch: () => Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({}) }),
-    setInterval: () => 0,
+    setInterval: (fn) => sandkasten.takte.push(fn),
     clearInterval() {},
     setTimeout: () => 0,
     console: { log() {}, warn() {}, error() {} },
@@ -136,7 +147,7 @@ async function lade({ limit, ende }) {
   const ergebnis = vm.runInNewContext(quelle, sandkasten, { filename: 'amazon.js' })
   await new Promise((r) => setImmediate(r))
   ergebnis.catch(() => {})
-  return { alle, k: sandkasten }
+  return { alle, k: sandkasten, takt: () => sandkasten.takte.forEach((fn) => fn()) }
 }
 
 const pille = (alle) => alle.find((e) => /Titel \d+\/\d+/.test(e.textContent))
@@ -164,6 +175,18 @@ async function haupt() {
     pille(alle)?.hoerer.click?.()
     const kopf = liste(alle) ? texte(liste(alle)) : []
     pruefe('ohne Pause: kein Grund im Listenkopf', !kopf.some((t) => /Tageslimit|Server antwortet/.test(t)) && kopf.length > 0, kopf)
+  }
+
+  console.log('\nDie Pause beginnt, während die Liste offen ist')
+  {
+    const { alle, k, takt } = await lade({})
+    pille(alle)?.hoerer.click?.()
+    const vorher = texte(liste(alle))
+    pruefe('vorher: kein Grund im Listenkopf', !vorher.some((t) => /Tageslimit|Server antwortet/.test(t)), vorher)
+    k.AK_TAGESLIMIT.merken(1800, 'server')
+    takt()
+    const nachher = texte(liste(alle))
+    pruefe('der Grund steht nach dem nächsten Takt im Listenkopf (Signatur kennt ihn)', nachher.some((t) => /^Server antwortet nicht, nächster Versuch \d\d:\d\d$/.test(t)), nachher)
   }
 
   console.log('\nEndvermerk')
