@@ -33,8 +33,14 @@ export function kanalAdressenOhneBeleg(checks: DubCheck[]): Set<string> {
   return new Set(checks.filter((c) => c.kanalOhneBeleg && c.dub !== true && c.url).map((c) => kanalSchluessel(c.anilistId, c.url)))
 }
 
+/** Wie `kanalAdressenOhneBeleg`, aber nur Seiten ohne jede eigene Aussage zu genau dieser Adresse (weder Ja noch Nein noch „nicht verfügbar“). */
+export function kanalAdressenOhneAussage(checks: DubCheck[]): Set<string> {
+  const stumm = checks.filter((c) => c.kanalOhneBeleg && c.dub === undefined && c.available === undefined && c.url)
+  return new Set(stumm.map((c) => kanalSchluessel(c.anilistId, c.url)))
+}
+
 /**
- * Belegt eine gemeldete Folgenliste (`prime-zugeordnet.json`, `deutsch`: eine Folge nennt Deutsch) das Deutsch? Auf einer Kanal-Seite
+ * Belegt eine gemeldete Folgenliste (`prime-zugeordnet.json`,`deutsch`: eine Folge nennt Deutsch) das Deutsch? Auf einer Kanal-Seite
  * (`seite`, sonst null) nicht: Amazon führt dort je Folge die Sprachen des Kanals, die Rohmeldung ist dieselbe Angabe wie der Handbeleg.
  * Der Verweis selbst bleibt (Adresse, Kanal), nur das Häkchen entfällt.
  */

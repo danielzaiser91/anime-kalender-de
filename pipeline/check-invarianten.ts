@@ -16,6 +16,7 @@ import { loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
 import { kanalTitelOhneBeleg } from './lib/invarianten-kanal.ts'
 import { kanalAdressenOhneBeleg, ohneKanalSprache, rohBelegtDeutsch } from './lib/kanal-titel.ts'
 import { kanalProben } from './check-invarianten-kanal.ts'
+import { kanalProben, kanalWegeVorhanden } from './check-invarianten-kanal.ts'
 import { kanalFehler } from './bau/kanal-fehler.ts'
 
 let verletzt = 0
@@ -142,8 +143,9 @@ if (process.argv.includes('--bestand')) {
     ...reihenVerweiseAufgeloest(auslieferung),
     ...geplantNichtDeutschHeute(releases, titles, ladeGeplantQuelle()),
     ...kanalFehler(titles.values(), releases),
+    ...kanalWegeVorhanden(titles),
   ]
-  console.log(`Auslieferung (D-06, D-15, D-24, D-25): ${a.length} Fehler`)
+  console.log(`Auslieferung (D-06, D-15, D-24, D-25, D-26): ${a.length} Fehler`)
   for (const t of a.slice(0, 10)) console.log('  ', t)
   verletzt += a.length
 }

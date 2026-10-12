@@ -6,6 +6,7 @@ import { adressKern, adressGleich, loadDubChecks, type DubCheck, dubKey } from '
 import { providerToPlatform } from './titel-hilfen.ts'
 import { ergaenzeVerweiseVonHand } from '../lib/verweise-von-hand.ts'
 import { kanalAusNotiz } from '../lib/amazon-adresse.ts'
+import { kanalAdressenOhneBeleg, kanalSchluessel } from '../lib/kanal-titel.ts'
 import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/cr-katalog-adresse.ts'
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { todayIso } from '../../shared/time.ts'
@@ -282,6 +283,7 @@ export function sammleBelege({
     }
   }
   if (ausgabeErgaenzt) log(`${ausgabeErgaenzt} Verweise auf eine zweite Ausgabe mit deutschem Ton angelegt`)
+  const kanalOhneAussage = kanalAdressenOhneBeleg(alleChecks)
   const belegFuer = (
     titleId: number,
     plattform: PlatformId,
@@ -337,6 +339,8 @@ export function sammleBelege({
     }
     const ohneAdresse = liste.find((c) => !c.url)
     if (ohneAdresse) return ohneAdresse
+    /* Die Kanal-Zeile dieser Adresse sagt nichts; ein Nein zu einer anderen Adresse gilt hier nicht (`lib/kanal-titel.ts`). */
+    if (url && kanalOhneAussage.has(kanalSchluessel(titleId, url))) return undefined
     /*
       **Bei einem einzigen Weg ist die Adresse im Beleg eine Korrektur, keine
       Unterscheidung.**

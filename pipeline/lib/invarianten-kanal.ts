@@ -31,3 +31,13 @@ export function kanalTitelOhneBeleg(titles: Iterable<Title>, kanal: ReadonlySet<
   }
   return fehler
 }
+
+/**
+ * D-26: Ein Kanal-Weg ohne eigene Aussage (`stumm`, Schlüssel aus `kanalAdressenOhneAussage()`) wird nie als „entfernt“ geführt. Ein Nein oder
+ * „nicht verfügbar“ zu einer anderen Adresse desselben Titels gilt für ihn nicht (Goblin Slayer II, JoJo Diamond is Unbreakable, 12.10.2026).
+ */
+export function kanalWegEntfernt(entfernt: { titleId: number; plattform: string; url: string; grund?: string }[], stumm: ReadonlySet<string>): string[] {
+  return entfernt
+    .filter((e) => e.plattform === 'primevideo' && stumm.has(kanalSchluessel(e.titleId, e.url)))
+    .map((e) => `Titel ${e.titleId}: Prime-Weg ${e.url} steht in verweise-entfernt.json (${e.grund ?? 'ohne Grund'}), aber zu dieser Adresse gibt es nur eine Kanal-Zeile ohne Aussage`)
+}

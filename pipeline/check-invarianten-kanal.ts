@@ -1,8 +1,8 @@
 /** Gegenproben zu D-25 (`lib/invarianten-kanal.ts`): Hell Mode, ein Kanal-Titel, dessen Prime-Seite Amazons Sprachangabe trägt. */
 import type { Title } from '../shared/types.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
-import { kanalTitelOhneBeleg } from './lib/invarianten-kanal.ts'
-import { kanalAdressenOhneBeleg, ohneKanalSprache, rohBelegtDeutsch } from './lib/kanal-titel.ts'
+import { kanalTitelOhneBeleg, kanalWegEntfernt } from './lib/invarianten-kanal.ts'
+import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, ohneKanalSprache, rohBelegtDeutsch } from './lib/kanal-titel.ts'
 
 type Pruefe = (name: string, ok: boolean, gefunden?: unknown) => void
 
@@ -27,4 +27,21 @@ export function kanalProben(pruefe: Pruefe): void {
   pruefe('D-25: gemeldete Folgen auf einer Kanal-Seite belegen kein Deutsch', !rohBelegtDeutsch(deutsch, 185262, hellUrl, lader))
   pruefe('D-25: gemeldete Folgen auf einer anderen Seite belegen Deutsch', rohBelegtDeutsch(deutsch, 185262, 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA', lader))
   pruefe('D-25: gemeldete Folgen ohne Deutsch belegen nichts', !rohBelegtDeutsch(false, 185262, null, []))
+  const stumm = kanalAdressenOhneAussage([ohneKanalSprache(hellBeleg)])
+  const entfernt = (url: string, plattform = 'primevideo') => [{ titleId: 185262, plattform, url, grund: 'belegtes Nein' }]
+  pruefe('D-26: Kanal-Weg ohne eigene Aussage in verweise-entfernt wird gemeldet', kanalWegEntfernt(entfernt(hellUrl), stumm).length === 1)
+  pruefe('D-26: andere Adresse des Titels geht durch', kanalWegEntfernt(entfernt('https://www.amazon.de/gp/video/detail/B0AAAAAAAA'), stumm).length === 0)
+  pruefe('D-26: anderer Anbieter geht durch', kanalWegEntfernt(entfernt(hellUrl, 'netflix'), stumm).length === 0)
+  pruefe('D-26: Kanal-Zeile mit eigenem Nein ist nicht stumm', kanalAdressenOhneAussage([{ ...ohneKanalSprache(hellBeleg), dub: false }]).size === 0)
+}
+
+/** Die beiden Fälle vom 12.10.2026: Der Prime-Weg bleibt mit „🇩🇪 ?“ stehen, ein Nein zu einer anderen Adresse nimmt ihn nicht mit. */
+export function kanalWegeVorhanden(titles: Map<number, Title>): string[] {
+  const faelle: [number, string][] = [
+    [129188, 'B0D98PQ1FW'],
+    [21450, 'B0GXK7RJFW'],
+  ]
+  return faelle
+    .filter(([id, asin]) => !titles.get(id)?.streams?.some((s) => s.platform === 'primevideo' && s.url.includes(asin)))
+    .map(([id, asin]) => `Titel ${id}: der Prime-Weg ${asin} (Kanal) fehlt im Bestand`)
 }
