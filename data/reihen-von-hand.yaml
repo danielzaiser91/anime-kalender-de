@@ -302,3 +302,11 @@
   grund: 'Star Wars: Visions: Star Wars: Visions Volume 3 – aniSearch: Gemeinsames Universum; AniList-Beziehung im Katalog'
 - reinIds: [204949, 213867]
   grund: 'Ginga Tokkyuu Milky☆Subway: Kakuek…: Milky☆Byway Spring Special: Kyoufu… – aniSearch: Gemeinsames Universum; AniList-Beziehung im Katalog'
+
+# --- Fehltrennungen im Hauptbestand nach dem Umlegen (PR 1008, 12.10.2026): Teile mit aniSearch-Kennung, die der reine Weg von ihrer Reihe trennt ---
+- reinIds: [43, 1335, 3485, 10947]
+  grund: 'Ghost in the Shell: Stand Alone Complex: Section 9 Science File „Tachikoma na Hibi“ (drei Specials) – aniSearch: nur Charakter ohne Namensanfang; heute in derselben Reihe'
+- reinIds: [1520, 1521]
+  grund: 'Black Jack (OVA 1993): Black Jack Movie (1996) – aniSearch: keine Beziehung; heute in derselben Reihe (AniList-Beziehung)'
+- reinIds: [1357, 169228]
+  grund: 'Hokuto no Ken (OVA/Filme): Hokuto no Ken (TV 2026) – aniSearch: nur „?“ zur alten Serie, beide Seiten mehrere Titel; heute in derselben Reihe'
