@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { readJson, ROOT } from './util.ts'
+import { dubsNachTitel } from './anisearch-marke.ts'
 
 /**
  * **Titel, die aniSearch mit deutscher Vertonung führt, kommen in den Hauptbestand** (Daniel, 07.10.2026: „wir nehmen alle Kennungen
@@ -12,8 +13,7 @@ import { readJson, ROOT } from './util.ts'
  */
 export function ausAnisearchDubs(imBestand: { id: number }[]): number[] {
   const bekannt = new Set(imBestand.map((m) => m.id))
-  const dubs = readJson<Record<string, string>>('data/anisearch-dubs.json', {})
-  return Object.entries(dubs)
+  return Object.entries(dubsNachTitel())
     .filter(([id, kennzeichen]) => 'dpc'.includes(kennzeichen) && !bekannt.has(Number(id)))
     .map(([id]) => Number(id))
 }

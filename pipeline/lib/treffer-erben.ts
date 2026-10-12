@@ -44,7 +44,7 @@ export interface MedienAngabe {
 type TmdbEintrag = { tmdbId?: number; kind?: 'tv' | 'movie'; nameDe?: string }
 type JustwatchEintrag = { jwId?: string; jwPfad?: string }
 
-function folgenzahlen(f: { s: number }[] | undefined): number[] {
+export function folgenzahlen(f: { s: number }[] | undefined): number[] {
   const je = new Map<number, number>()
   for (const x of f ?? []) if (x.s >= 1) je.set(x.s, (je.get(x.s) ?? 0) + 1)
   const alle = [...je.values()]

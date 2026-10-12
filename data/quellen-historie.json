@@ -3474,10 +3474,10 @@
   "adn-882": [
     {
       "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
-      "name": "gw.api.animationdigitalnetwork.com",
+      "name": "ADN API",
       "gesehenAm": "2026-09-21",
-      "sagt": "2022-07-06",
-      "stand": "aktuell"
+      "stand": "aktuell",
+      "sagt": "2022-07-06"
     }
   ],
   "auto-1292-disc": [

@@ -2155,6 +2155,23 @@ Wiedervorlage 28 Tage auf, obwohl es einen anderen Film meinte.
 erzeugt, und wer hängt noch an ihr?* Ein falscher Link ist selten ein Einzelfall — er ist
 das sichtbare Ende einer Zuordnung.
 
+### Ein Special erbt die TMDB-Hauptserie nicht — auch nicht im Sammler (12.10.2026)
+
+Der TMDB-Durchlauf vom 12.10. (05:30) ordnete drei aniSearch-Specials (Fate/Stay Night UBW Prologue, SAO Alternative GGO Refrain,
+Slime: Veldora’s Journal; Titel-ID ≥ 10.000.000) den Hauptserien tv/61415, 78204 und 82684 zu; im Bau trugen sie deren Anbieterwege,
+und der Bestandsbau wurde rot. Die Bau-Sperre `sperreSerienTreffer` (`lib/treffer-erben.ts`) kennt nur AniList/MAL-Titel (`medien`), nicht
+die aniSearch-only-Titel — und `fetch-tmdb-titles.ts` suchte jedes Nicht-MOVIE-Format unter `search/tv` und nahm den besten Namenstreffer.
+
+- **Regel im Sammler** (`lib/tmdb-hauptserie.ts`, am Ende von `fetch-tmdb-titles.ts`): SPECIAL/OVA/ONA/MUSIC, deren TMDB-Serie auch ein
+  TV/TV_SHORT-Titel unseres Bestands trägt, verlieren die Kennung samt Handlung, FSK und Anbietern (Eintrag wird `miss`, Wiedervorlage
+  nach 7 Tagen) — außer Name (`nameDe` = englischer/Romaji-Name) oder Folgenzahl (`tmdb-folgen.json`) passen oder `tmdb-von-hand.yaml`
+  führt den Titel. Dieselbe Prüfung wie im Bau (`darfTrefferErben`), nur eben vor dem Speichern und für alle Titel.
+- **Movie:** unverändert, `search/movie` kann keine Serienkennung liefern.
+- **Bestand 12.10.2026:** 45 Titel gestrichen (22 OVA, 22 SPECIAL, 1 ONA), 42 AniList-Titel, die der Bau ohnehin sperrte, und die drei aniSearch-only.
+- **Nicht angefasst:** `tmdb-poster.json`, `tmdb-banner.json`, `tmdb-folgen.json`, `justwatch-audio.json` führen für diese Titel weiter Einträge
+  aus der alten Kennung (Plakat 42, Banner 45, Folgen 8, JustWatch 42); neue Abrufe kommen nicht mehr dazu.
+- **Offen:** Die Bau-Sperre für Titel ohne Eintrag in `medien` (aniSearch-only) ist weiter nur durch PR 906 (`13-3-1-tmdb-wege.ts`) für die Wege gedeckt.
+
 ### Eine Überschrift ist keine Sprachangabe — der aniSearch-Titelabruf taugt nur für den Katalog
 
 Am 01.09.2026 lag der Schluss nahe: 139 Titel **mit** belegter deutscher Synchro
@@ -3595,3 +3612,13 @@ Anlass (Daniel, 11.10.2026, 22:27): „Reincarnated as a Dragon Hatchling“ (An
 - **Prüfung:** Invariante D-24 (`lib/invarianten-geplant.ts`, Aufruf in `bau/auslieferung-pruefen.ts`, Gegenprobe `check-invarianten.ts`): Marke `p` ohne Handbeleg darf weder `deErstausgabe` aus dem aniSearch-Block (ohne `synchro`/`quelle`) noch einen Verweis mit `dub: true` bei nur künftigem Termin tragen; bricht den Bau ab. Gegen den alten Bestand (`--bestand`): 25 Verstöße.
 - **Ankündigung:** `data/ankuendigungen.yaml` führt 187941 als `synchro: angekuendigt` (ADN, Untertitel seit 10.01.2026); der Starttermin 22.10. steht als ADN-Release.
 - **Offen für die Oberfläche** (nicht angefasst, Panel-Umbau läuft): `deErstausgabe` heißt „erste deutsche Veröffentlichung“, nicht Synchro; „Auf Deutsch seit“ in `antwort-kasten.tsx` (`deSeitZeile`) liest es ohne `synchro`-Marke. Vorschlag: nur mit `deErstausgabe.synchro` oder `quelle` als „Auf Deutsch seit“ formulieren, sonst „Deutsche Veröffentlichung (Untertitel oder Synchro) seit …“.
+
+### Eine Marke, drei Dateien (11.10.2026, Nachtrag zu D-24)
+
+Der Prüfer fand: `anisearch-dubs.json` zählt 36 Titel mit `p`, `anisearch-eintraege.json` 8, und Psyren, Hotaru no Yomeiri, Shuiro no Kamen und Hyouken II standen nur in der zweiten. **Kein Widerspruch, sondern verschiedene Abdeckung:** Alle drei Dateien stammen aus derselben aniSearch-Antwort und tragen dieselbe Marke (Eintragsdatei gegen Dub-Liste: 8.274 von 8.274 gleich; Auszug je Titel gegen Dub-Liste über die Brücke: 8.117 von 8.117 gleich).
+
+- `anisearch-dub-ids.json` (aniSearch-Kennung → Marke, alle Einträge mit Deutsch) ist die Wahrheit.
+- `anisearch-dubs.json` (Titel-Kennung → Marke) ist der Auszug für die Titel, die beim Abruf eine aniSearch-Kennung hatten, und kennt als einziger das `-`. Er ist älter als die Brücke (`anisearch.json`, Katalogabgleich, Handdatei): neun Titel fehlten am 11.10.2026 (vier mit `p`: Psyren, Hyouken II, The Vermilion Mask, Firefly Wedding; fünf mit `d`: BeyWheelz, Rick and Morty: The Anime, Spycies, The Lord of the Rings: The War of the Rohirrim, Titipo Titipo 2).
+- `anisearch-eintraege.json` trägt die Marke je aniSearch-Kennung am Eintrag (`dub`); sie gilt für die Titel, die nur bei aniSearch stehen.
+
+**Ein Leser:** `lib/anisearch-marke.ts` (`deutschMarke`, `dubsNachTitel`, `dubIdsNachAnisearch`); die Brücke steht in `anisearchBruecke()` (`lib/anisearch-katalog-ids.ts`), auch der Abruf nutzt sie. Wer die Marke eines Titels braucht, geht nicht mehr an die Dateien. Gegenproben: `pipeline/check-bild-und-synchro.ts` (die drei Dateien laufen nicht auseinander). Folge: Der nächste Abruf (`fetch.ts`, `ausAnisearchDubs`) holt die sieben Titel mit `d`/`p`, die noch hinter dem Toggle stehen (Annahme, nach dem Abruf nachzumessen).

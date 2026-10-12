@@ -1,4 +1,6 @@
-import { readJson } from './util.ts'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { readJson, ROOT } from './util.ts'
 
 /**
  * Die Katalogtitel, die der Abgleich einer aniSearch-Kennung zugeordnet hat (`data/anisearch-ids-katalog.json`, geschrieben von
@@ -7,4 +9,13 @@ import { readJson } from './util.ts'
  */
 export function anisearchKatalogPaare(): [number, number][] {
   return Object.entries(readJson<Record<string, number>>('data/anisearch-ids-katalog.json', {})).map(([anilist, anisearch]) => [Number(anilist), anisearch])
+}
+
+/** Unsere Titel-Kennung → aniSearch-Kennung: Abruf-Ergebnis (`data/anisearch.json`), Katalogabgleich, darüber die Handdatei (`data/anisearch-ids-hand.yaml`). */
+export function anisearchBruecke(): Map<string, string> {
+  const bruecke = new Map<string, string>()
+  for (const [id, e] of Object.entries(readJson<Record<string, { anisearchId?: number }>>('data/anisearch.json', {}))) if (e.anisearchId) bruecke.set(id, String(e.anisearchId))
+  for (const [id, asId] of anisearchKatalogPaare()) bruecke.set(String(id), String(asId))
+  for (const m of readFileSync(resolve(ROOT, 'data/anisearch-ids-hand.yaml'), 'utf8').matchAll(/^(\d+):\s*(\d+)/gm)) bruecke.set(m[1]!, m[2]!)
+  return bruecke
 }
