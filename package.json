@@ -140,6 +140,7 @@
     "check:einstellungen": "node tools/einstellungen-bild.mjs",
     "mess:suche": "node tools/such-messung.mjs",
     "mess:filter": "node tools/filter-messung.mjs",
+    "check:ladezeiten": "node tools/ladezeiten-messen.mjs",
     "check:ansichten": "node tools/ansicht-bild.mjs",
     "check:adress-schalter": "node tools/adress-schalter-pruefen.mjs",
     "check:install": "node tools/install-zustaende-pruefen.mjs",
