@@ -650,8 +650,9 @@ gemacht hat. Seitdem gibt es zwei Werkzeuge, beide **ohne Server** —
 das, was ausgeliefert wird.
 
 ```
-npm run check:panel        # das Detail-Panel, mehrere Titel, beide Themen
-npm run check:ansichten    # alle elf Routen, beide Themen; Bilder im Temp-Ordner (ak-ansichten)
+npm run check:panel        # das Detail-Panel, mehrere Titel, beide Themen; Bilder im Temp-Ordner (ak-panel)
+npm run panel:bilder       # dasselbe, Bilder nach docs/ (CI-Beleg-Artefakt)
+npm run check:ansichten    # alle zehn Routen, beide Themen; Bilder im Temp-Ordner (ak-ansichten)
 npm run ansichten:bilder   # dasselbe, Bilder nach docs/ (CI-Beleg-Artefakt; Stand der getrackten Bilder erneuern)
 npm run check:kasten       # der Hinweiskasten der Erweiterung
 npm run check:leiste       # die Durchlauf-Leiste auf Netflix
@@ -864,7 +865,7 @@ fragen.
 
 ## Nach der Prüfkette nur die erzeugten Bilder zurücksetzen, nicht ganz `docs/` (19.09.2026)
 
-`check:vor-commit` und `check:panel` schreiben `docs/*.png` neu (`check:ansichten` seit 12.10.2026 nur noch mit `--docs`, sonst Temp-Ordner). Wer danach `git checkout -- docs` und `git clean -fq docs/` fährt, verwirft auch, was gerade von Hand in `docs/wissen/` ergänzt wurde oder als neue Datei unter `docs/` liegt — am 19.09.2026 zweimal passiert (ein Abschnitt in `quellen.md`, beinahe die Kandidatenliste). Zurückgesetzt wird nur `git checkout -- "docs/*.png"` und `git clean -fq docs/ -e wissen -e "*.md"`; Wissens-Einträge werden **vor** der Prüfkette committet.
+`check:vor-commit` schreibt keine Bilder; `check:panel` und `check:ansichten` schreiben seit 12.10.2026 nur mit `--docs` (`panel:bilder`, `ansichten:bilder`) nach `docs/*.png`, sonst in den Temp-Ordner. Andere Prüfwerkzeuge (`check:news`, `check:kasten` …) schreiben weiterhin nach `docs/`. Wer danach `git checkout -- docs` und `git clean -fq docs/` fährt, verwirft auch, was gerade von Hand in `docs/wissen/` ergänzt wurde oder als neue Datei unter `docs/` liegt — am 19.09.2026 zweimal passiert (ein Abschnitt in `quellen.md`, beinahe die Kandidatenliste). Zurückgesetzt wird nur `git checkout -- "docs/*.png"` und `git clean -fq docs/ -e wissen -e "*.md"`; Wissens-Einträge werden **vor** der Prüfkette committet.
 
 ### „Live" heißt: Deploy grün und im ausgelieferten Bundle nachgesehen (19.09.2026)
 

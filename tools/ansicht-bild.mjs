@@ -20,25 +20,16 @@
  */
 import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
-import { existsSync, mkdirSync } from 'node:fs'
-import os from 'node:os'
+import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { bilderOrdner } from './bilder-ordner.mjs'
 import { pruefeFilterfenster } from './ansicht-filterfenster.mjs'
 import { pruefeAdressen } from './ansicht-adressen.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
-
-/** Zielordner der Bilder: `docs/` nur mit `--docs`, sonst Temp (die getrackten Bilder sollen keinen Diff erzeugen). */
-function bilderOrdner() {
-  const ordner = process.argv.includes('--docs') ? path.join(WURZEL, 'docs') : path.join(os.tmpdir(), 'ak-ansichten')
-  mkdirSync(ordner, { recursive: true })
-  console.log(`Bilder: ${ordner}`)
-  return ordner
-}
-
-const BILDER = bilderOrdner()
+const BILDER = bilderOrdner(WURZEL, 'ak-ansichten')
 /*
   Alle Routen aus `shared`/`router.ts` — auch die, die nicht in der
   Navigation stehen. Gerade dort fällt ein Fehler sonst niemandem auf: Wer

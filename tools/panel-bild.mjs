@@ -12,10 +12,10 @@
  * `dist/`. Das ist kein Umweg, sondern näher am Ernstfall als ein Dev-Server:
  * gerendert wird genau das, was ausgeliefert wird.
  *
- * Aufruf: node tools/panel-bild.mjs [<AniList-Id> …]
+ * Aufruf: node tools/panel-bild.mjs [--docs] [<AniList-Id> …]
  *         npm run check:panel
  *
- * Ergebnis: docs/panel-<id>-<hell|dunkel>.png, dazu die gemessenen Höhen des
+ * Ergebnis: panel-<id>-<hell|dunkel>.png im Temp-Ordner, mit `--docs` (`npm run panel:bilder`) in docs/, dazu die gemessenen Höhen des
  * Antwort-Kastens auf der Konsole — springt er zwischen zwei Titeln, steht es
  * dort schwarz auf weiß.
  */
@@ -24,10 +24,12 @@ import { chromium } from 'playwright'
 import { readFile } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import { bilderOrdner } from './bilder-ordner.mjs'
 import { distPruefen } from './dist-frisch.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 const DIST = path.join(WURZEL, 'dist')
+const BILDER = bilderOrdner(WURZEL, 'ak-panel')
 /*
   Drei Zustände desselben Kastens, an denen sich das Springen zeigt: Staffel 1
   der Apothekerin hat Stream **und** Disc (also den Umschalter), Staffel 2 nur
@@ -74,9 +76,15 @@ async function pruefeNichtVorgescrollt(panel, id) {
   }
 }
 
+/** Die auf der Kommandozeile genannten Titel (Schalter mit `--` zählen nicht), sonst die Vorgabe. */
+function gewaehlteIds() {
+  const gewaehlt = process.argv.slice(2).filter((a) => !a.startsWith('--'))
+  return gewaehlt.length ? gewaehlt : STANDARD
+}
+
 async function main() {
   if (!distPruefen(WURZEL)) return
-  const ids = process.argv.slice(2).length ? process.argv.slice(2) : STANDARD
+  const ids = gewaehlteIds()
 
   const browser = await chromium.launch()
   const seite = await browser.newPage({ viewport: { width: 560, height: 1200 } })
@@ -198,7 +206,7 @@ async function main() {
           ueberlauf: Math.max(ueberlauf.innen - ueberlauf.sichtbar, ueberlauf.raus, ueberlauf.pillen),
         })
       }
-      await panel.screenshot({ path: path.join(WURZEL, 'docs', `panel-${id}-${thema}.png`) })
+      await panel.screenshot({ path: path.join(BILDER, `panel-${id}-${thema}.png`) })
     }
   }
 
