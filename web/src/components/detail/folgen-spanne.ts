@@ -20,3 +20,16 @@ export function erschieneneSpanne(events: ReleaseEvent[]): string | undefined {
   if (!ohneNummer) return spanne(von, bis)
   return von === ohneNummer + 1 ? spanne(1, bis) : undefined
 }
+
+/**
+ * Ruht eine erschienene Folge nur auf einem fortgeschriebenen Termin (`estimated`), und deckt sie kein belegter Bereich?
+ * Dann ist die Spanne abgeleitet und trägt „≈“ (Stichprobe 12.10.2026: 3 von 741 Bereichs-Pillen).
+ */
+export function planGeschaetzt(events: ReleaseEvent[], bereiche: { from: number; to: number; dub: boolean }[] | undefined): boolean {
+  return events.some(
+    (e) =>
+      istErschienen(e) &&
+      e.estimated &&
+      !(bereiche ?? []).some((b) => b.dub && e.episode != null && e.episode >= b.from && e.episode <= b.to),
+  )
+}

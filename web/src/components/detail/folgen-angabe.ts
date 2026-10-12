@@ -6,7 +6,7 @@ import { formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { abgeleiteteFolgen, ungefaehr, zaehleErschienen } from './antwort-regeln.ts'
 import { zaehlPlattform } from './prime-kanal.ts'
-import { erschieneneSpanne } from './folgen-spanne.ts'
+import { erschieneneSpanne, planGeschaetzt } from './folgen-spanne.ts'
 
 /** Überlappende und aneinanderstoßende Bereiche zu einem: 1–5 und 6–12 sind „1–12“. */
 export function zusammengefasst(bereiche: { from: number; to: number }[]): { from: number; to: number }[] {
@@ -93,7 +93,8 @@ export function folgenAuskunft({ releases, title, t, releaseJePlattform, today }
       const events = anbieterReleases.flatMap((r) => expandEvents(r))
       const spanne = erschieneneSpanne(events)
       const raus = zaehleErschienen(events)
-      return spanne ? t('detail.folgenBereich', { bereich: spanne }) : raus ? t('detail.folgenKurz', { n: raus }) : ''
+      const text = spanne ? t('detail.folgenBereich', { bereich: spanne }) : raus ? t('detail.folgenKurz', { n: raus }) : ''
+      return text && ungefaehr(text, planGeschaetzt(events, s?.dubRanges))
     }
     /* Liegen Bereiche vor, nennt die Pille immer sie selbst — nie eine Zählung ab 1: Netflix hat bei Mushoku Tensei Cour 2 die Folgen 12–23, nicht 1–12 (11.10.2026). */
     if (deutsch.length) return t('detail.folgenBereich', { bereich: bereicheKurz(zusammengefasst(deutsch)) })
