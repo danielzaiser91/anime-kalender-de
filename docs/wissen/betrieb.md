@@ -1507,3 +1507,31 @@ startete einen Untersucher, der vom Vorgänger nichts wusste.
   solange kein PR offen ist, und schreibt die neue Ursache als Kommentar.
 - Belegt an den 15 Läufen: `tools/untersucher-schluessel.test.mjs` (Protokollauszüge unter
   `tools/testdaten/untersucher/`) — 7 Schlüssel, keine zwei Ursachen zusammengeworfen.
+
+## D1-Lesekontingent: Lese-Deckel der Meldungs-Route (12.10.2026)
+
+**Anlass:** Das Lesekontingent (5 Mio. gelesene Zeilen je UTC-Tag und Konto, Newsletter-Worker und Ticket-Board teilen es) war am 12.10.2026 gegen 14:20 MESZ erschöpft; Status, Meldungen, Board und Erweiterungs-Durchgänge standen bis 02:00 MESZ. Für geschriebene Zeilen gab es den Deckel (`tagesdeckel.ts`, 50.000), für gelesene keinen; die Durchgänge liefen weiter, bis das Konto stand. PR 968 senkt die Grundlast (rund −2,9 Mio. am Tag), der Lese-Deckel ist der zweite Schutz.
+
+**Gemessen (lokal, workerd/miniflare, `tools/worker-meldung-lesezeilen-messen.ts`, `meta.rows_read`; Bestand wie am 12.10.: `pruefung` 17.800, `prime_folge` 55.000 Zeilen):** Eine Meldung liest die bestehenden Zeilen **ihrer Adresse** (`ladeOffeneHashes`, `pruefung_url_zeit`) plus 3; der Deckel selbst liest 2 davon (Zählerzeile, Löschen alter Tage).
+
+| Meldung | gelesen |
+|---|---|
+| Disney+, eine Folge (Einzelanfrage), Seite mit 24 / 100 / 200 Folgen | 27 / 103 / 203 |
+| Disney+, Wiederholungsdurchgang über eine ganze Seite mit 12 / 24 / 100 / 200 Folgen | 187 / 655 / 10.307 / 40.607 (wächst mit n²) |
+| Netflix, Stapel zu 10 Folgen, Titel mit 24 / 70 Folgen (Durchgang über 70 Folgen: 7 Stapel) | 26 / 72 (504) |
+| Netflix, Stapel zu 10, Titel neu | 32 |
+| Prime, 90 Rohfolgen: Seite neu / gleiche Meldung / andere Notiz / alles übernommen + andere Notiz | 183 / 4 / 96 / 95 |
+
+**Seiten je Durchgang bei 1,5 Mio. Lese-Budget:** Disney+ mit 24 Folgen je Seite rund 2.290, mit 100 Folgen rund 145, mit 200 Folgen rund 37; Netflix (70 Folgen) rund 2.975; Prime unverändert rund 375.000, mit geänderten Folgen rund 15.800. Der Posten ist bei Disney+ die Folgenzahl der Seite zum Quadrat — jede Folge lädt alle Zeilen der Adresse.
+
+**Was jetzt gilt (`tagesdeckel.ts`, Migration 052):** Die Meldungs-Route addiert `meta.rows_read` ihrer D1-Antworten (`run`, `all`, `batch`) in `schreib_tag.gelesen`, im selben Upsert wie die geschriebenen Zeilen (eine Zeile je Anfrage, auch bei unveränderten Meldungen; vorher 0). **Diese eigene Zeile zählt in den Schreib-Deckel mit** (`geschrieben + 1`): Der Upsert läuft auf der unverpackten Datenbank, sonst hätte eine Schleife unveränderter Meldungen bis zum Lese-Deckel rund 375.000 Schreibzeilen ungezählt verbraucht (echtes Kontingent 100.000). Folge: höchstens ~50.000 Meldungen am Tag. Gewählt statt „kein Upsert bei kleinen Lesemengen“ (dann blieben Schleifen mit je < Schwelle Lesezeilen ungezählt) und statt Sammeln im Isolate (geht mit jedem Isolate verloren, mehrere Isolate parallel). Fehlt Migration 052, schreibt der Worker einmal je Isolate `TAGESDECKEL AUS (…)` ins Protokoll (`wrangler tail`, Workers Logs); gesperrt wird nichts. Ab `DECKEL_LESEN` = 1.500.000 am UTC-Tag antwortet sie mit 429 und `Retry-After` bis 00:00 UTC, mit demselben Rumpf wie der Schreib-Deckel (`tageslimit: true`). Aufträge der Pipeline (abhaken, wieder öffnen) und alle anderen Routen zählen nie mit. Ein Fehler beim Zählen sperrt nichts. Mehrere gleichzeitige Anfragen können die Schwelle um ihre eigenen Zeilen überschreiten (Disney+: 3 Bahnen × bis zu einigen hundert).
+
+**Schwelle 1,5 Mio.:** 5,0 Mio. Kontingent − rund 2,0 Mio. Grundlast der übrigen Wege (4,87 Mio. am 12.10. minus rund 2,9 Mio. aus PR 968; die Meldungen jenes Tages stecken darin, die Zahl ist also eher zu hoch) − 1,5 Mio. Reserve für Spitzen (Bau-Läufe, Board, Status nach Cache-Verlust) = 1,5 Mio. **Nachmessen** ein paar Tage nach dem Deploy mit `wrangler d1 insights` und `SELECT tag, zeilen, gelesen FROM schreib_tag`; Schwelle dann anpassen.
+
+**Das echte D1-Limit wird zur selben Antwort:** `D1_ERROR: Your account has exceeded D1's free tier daily row read limit.` (Wortlaut vom 01.09.2026; der Schreib-Fall ist nach demselben Muster angenommen) wurde bisher zu 500 ohne `tageslimit` — die Erweiterung erkennt nur 429 mit diesem Feld (`extension/tageslimit.js`; Netflix lief weiter, Prime legte Staffeln als übersprungen ab). Jetzt merkt sich die Zähl-Hülle (`zaehlendeDb`) den Fehler, auch wenn die Meldung ihn selbst fängt (Stapel je Meldung, Rohfolgen), und die Route antwortet mit der 429 des Deckels. Gilt nur für die Meldungs-Route.
+
+**Erweiterung (nichts zu ändern, belegt mit `node extension/tageslimit.test.cjs`):** 429 mit `tageslimit: true` und `retryAfter` setzt das Limit (Speicher, alle Tabs), Netflix (`melder.js`) und Disney+ (`disney-netz.js`) halten an und wiederholen nicht, Prime stellt die Staffel an den Anfang des Plans zurück; die Hinweiszeile nennt „weiter ab 02:00" (Berliner Ortszeit). Die Meldungen sind über den Hash idempotent, was vor dem Limit ankam, bleibt gespeichert.
+
+**Reihenfolge nach dem Merge: erst die Migration, dann der Worker.** `cd worker && npx wrangler d1 execute anime-kalender --remote --config wrangler.toml --file=migrations/052-schreib-tag-gelesen.sql` (nach 00:00 UTC), danach `npx wrangler deploy`. Der **alte** Worker nach der Migration läuft unverändert (`DEFAULT 0`). Der **neue** Worker vor der Migration findet die Spalte nicht: `SELECT`/Upsert scheitern, es zählt und deckelt dann nichts (auch nicht die geschriebenen Zeilen), gesperrt wird aber auch nichts. Migration 051 aus PR 968 ist davon unabhängig.
+
+**Nicht gemacht:** Die Disney+-Last (n² je Durchgang) selbst senken (Zeilen der Adresse einmal je Durchgang statt je Folge laden) — eigener Auftrag, nur mit Erweiterungs-Release oder Cache im Worker.
