@@ -6,7 +6,7 @@ import { adressKern, adressGleich, loadDubChecks, type DubCheck, dubKey } from '
 import { providerToPlatform } from './titel-hilfen.ts'
 import { ergaenzeVerweiseVonHand } from '../lib/verweise-von-hand.ts'
 import { kanalAusNotiz } from '../lib/amazon-adresse.ts'
-import { belegOhneGenaueAdresse } from '../lib/kanal-titel.ts'
+import { belegOhneGenaueAdresse, traegtAussage } from '../lib/kanal-titel.ts'
 import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/cr-katalog-adresse.ts'
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { todayIso } from '../../shared/time.ts'
@@ -230,7 +230,7 @@ export function sammleBelege({
       verschiedene Aussagen (siehe `DubCheck.available`), aber beide sind
       Aussagen.
     */
-    if (typeof c.dub !== 'boolean' && typeof c.available !== 'boolean') continue
+    if (!traegtAussage(c)) continue
     const k = dubKey(c.anilistId, c.platform)
     const liste = checksJePlattform.get(k) ?? []
     liste.push(c)

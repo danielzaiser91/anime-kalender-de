@@ -16,14 +16,21 @@ import { adressKern, type DubCheck } from './dub-confirmed.ts'
 /** Trägt der Beleg die Kanal-Warnung der Erweiterung? */
 export const istKanalTitel = (c: Pick<DubCheck, 'note'>): boolean => /Kanal-Titel/.test(c.note ?? '')
 
-/** Der Beleg ohne Amazons Sprachangabe, wenn sie auf einem Kanal-Titel ohne zweite Quelle steht; sonst unverändert. */
+/**
+ * Der Beleg ohne Amazons Ja, wenn es auf einem Kanal-Titel ohne zweite Quelle steht; sonst unverändert. Die Folge-Bereiche mit `dub: false`
+ * bleiben: Wo Amazon kein Deutsch nennt, ist keins da (Mob Psycho 100 III, Hensuki, One Punch Man 2 u. a., 12.10.2026).
+ */
 export function ohneKanalSprache(c: DubCheck): DubCheck {
   if (!istKanalTitel(c) || c.zweiteQuelle) return c
   const sagtDeutsch = c.dub === true || Boolean(c.dubRanges?.some((r) => r.dub))
   if (!sagtDeutsch) return c
-  const { dub: _dub, dubRanges: _bereiche, ...rest } = c
-  return { ...rest, kanalOhneBeleg: true }
+  const { dub: _dub, dubRanges, ...rest } = c
+  const neins = dubRanges?.filter((r) => !r.dub)
+  return { ...rest, ...(neins?.length ? { dubRanges: neins } : {}), kanalOhneBeleg: true }
 }
+
+/** Sagt der Beleg etwas über den Weg selbst — Urteil, „nicht verfügbar“ oder Nein-Bereiche eines Kanal-Titels? Ein reiner Adressbeleg sagt nichts. */
+export const traegtAussage = (c: DubCheck): boolean => typeof c.dub === 'boolean' || typeof c.available === 'boolean' || Boolean(c.dubRanges?.length)
 
 /** Schlüssel „Titel|Adresskern": eine Seite kann mehreren Titeln gehören, betroffen ist nur der Titel mit dem Kanal-Beleg. */
 export const kanalSchluessel = (titelId: number, url: string | undefined): string => `${titelId}|${adressKern(url)}`
@@ -35,7 +42,7 @@ export function kanalAdressenOhneBeleg(checks: DubCheck[]): Set<string> {
 
 /** Wie `kanalAdressenOhneBeleg`, aber nur Seiten ohne jede eigene Aussage zu genau dieser Adresse (weder Ja noch Nein noch „nicht verfügbar“). */
 export function kanalAdressenOhneAussage(checks: DubCheck[]): Set<string> {
-  const stumm = checks.filter((c) => c.kanalOhneBeleg && c.dub === undefined && c.available === undefined && c.url)
+  const stumm = checks.filter((c) => c.kanalOhneBeleg && !traegtAussage(c) && c.url)
   return new Set(stumm.map((c) => kanalSchluessel(c.anilistId, c.url)))
 }
 
@@ -50,11 +57,12 @@ function kanalMenge(checks: DubCheck[]): Set<string> {
 /**
  * Rückfall von `belegFuer()` (09-1-belege.ts), wenn kein Beleg die Adresse nennt: bei einem einzigen Weg der jüngste Beleg als Korrektur,
  * ab zwei Wegen keiner. Eine Kanal-Zeile ohne Aussage hält ihre Adresse: Das Nein einer fremden Adresse gilt für sie nicht
- * (Goblin Slayer II, JoJo Diamond is Unbreakable, 12.10.2026).
+ * (Goblin Slayer II, JoJo Diamond is Unbreakable, 12.10.2026). Und die Zeile eines Kanal-Titels (auch mit Nein-Bereichen) ist nie die Korrektur
+ * für eine andere Adresse.
  */
 export function belegOhneGenaueAdresse(liste: DubCheck[], anzahlWege: number, alleChecks: DubCheck[], titelId: number, url: string | undefined): DubCheck | undefined {
   if (url && kanalMenge(alleChecks).has(kanalSchluessel(titelId, url))) return undefined
-  return anzahlWege > 1 ? undefined : liste[0]
+  return anzahlWege > 1 ? undefined : liste.find((c) => !(c.kanalOhneBeleg && c.dub !== true))
 }
 
 /**
