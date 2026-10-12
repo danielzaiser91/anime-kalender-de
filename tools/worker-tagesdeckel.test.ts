@@ -12,6 +12,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { handleLauf } from '../worker/src/lauf.ts'
+import { schreibeVerlauf } from '../worker/src/monitor-speicher.ts'
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
 import { DECKEL_ZEILEN, utcTag, sekundenBisMitternachtUtc } from '../worker/src/tagesdeckel.ts'
 
@@ -468,7 +469,7 @@ console.log('Lesezeilen: keine Gesamtzahl der Rohfolgen mehr (12.10.2026)')
   pruefe(spaeter.inhalt.folgen.length === 1 && !spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): auch ohne COUNT(*) (der Bau setzt über `weiter` fort)')
 }
 
-console.log('Lesezeilen: /lauf wird 30 Sekunden gehalten')
+console.log('Lesezeilen: /lauf wird 120 Sekunden gehalten')
 {
   const gehalten = new Map<string, Response>()
   const global = globalThis as { caches?: unknown }
@@ -491,7 +492,7 @@ console.log('Lesezeilen: /lauf wird 30 Sekunden gehalten')
   const zweite = await hole('')
   pruefe(erste.status === 200 && erste.lesen > 0, `erster Aufruf liest die Läufe (${erste.lesen} Abfragen)`)
   pruefe(zweite.status === 200 && zweite.lesen === 0, 'zweiter Aufruf kommt aus dem Cache, 0 Abfragen auf lauf_status')
-  pruefe([...gehalten.values()][0]?.headers.get('Cache-Control') === 'public, max-age=30', 'die gehaltene Antwort trägt 30 Sekunden')
+  pruefe([...gehalten.values()][0]?.headers.get('Cache-Control') === 'public, max-age=120', 'die gehaltene Antwort trägt 120 Sekunden')
   const verlauf = await hole('?verlauf=daten')
   pruefe(verlauf.lesen > 0 && (await hole('?verlauf=daten')).lesen > 0, 'der Verlauf einer Lauf-Art (Detailseite) bleibt ungehalten')
 }
@@ -556,6 +557,10 @@ console.log('Lesezeilen: ?gemeldet= je Adresse und die wartenden Meldungen aus d
   pruefe(s1.lesen === 1 && s2.lesen === 0, `die wartenden Meldungen kommen auch bei neu gerechnetem Stand aus dem Cache (${s1.lesen}, ${s2.lesen} Abfragen)`)
   const wartendeEintrag = [...gehalten.keys()].find((k) => k.endsWith('?wartend=1'))
   pruefe(!!wartendeEintrag, 'sie liegen unter eigener Adresse neben dem Stand')
+  pruefe(gehalten.get(wartendeEintrag ?? '')?.headers.get('Cache-Control') === 'public, max-age=7200', 'die wartenden halten 7200 Sekunden (zwei Stunden, vorher 1800)')
+  await hole('zaehlen=1')
+  const zaehlenEintrag = [...gehalten.keys()].find((k) => k.includes('zaehlen=1'))
+  pruefe(gehalten.get(zaehlenEintrag ?? '')?.headers.get('Cache-Control') === 'public, max-age=7200', '?zaehlen=1 hält 7200 Sekunden (zwei Stunden, vorher 1800)')
   await handlePruefung(post(von(A, 9)), env, ctx)
   gehalten.delete(standEintrag())
   pruefe((await hole('stand=1')).lesen === 0, 'eine Meldung verwirft die wartenden nicht (nur Ablauf; Meldungen seit dem Listenbau zieht der Stand frisch ab)')
@@ -649,6 +654,21 @@ console.log('Rohfolgen: nur Geändertes wird geschrieben (12.10.2026, Migration 
   await handlePruefung(post({ plattform: 'primevideo', url: 'https://www.amazon.de/dp/B0X', vorhanden: 'ja', ton_de: 'ja', art: 'gemessen', seiten_kennung: 's1', rohfolgen: [{ gti: 'a', nummer: 1 }] }), env)
   const ladeSeite = abfragen.find((a) => /^SELECT id, hash, .* FROM prime_folge/.test(a.sql))
   pruefe(!!ladeSeite && planVon(db, ladeSeite).includes('prime_folge_seite') && !/SCAN prime_folge/.test(planVon(db, ladeSeite)), `die Ladeabfrage je Prime-Seite (offen und übernommen) nimmt den Seiten-Index, kein SCAN (${ladeSeite ? planVon(db, ladeSeite) : 'keine Abfrage'})`)
+}
+
+console.log('Wächter: Messverlauf wird einmal am Tag aufgeräumt (12.10.2026)')
+{
+  const sqls: string[] = []
+  const fake = {
+    prepare: (sql: string) => ({ bind: () => ({ sql }) }),
+    batch: async (liste: { sql: string }[]) => void sqls.push(...liste.map((a) => a.sql)),
+  } as never
+  const ergebnis = [{ site: { url: 'https://a.test', name: 'a' }, ok: true, ms: 5 }] as never
+  const loeschungen = () => sqls.filter((s) => s.startsWith('DELETE FROM site_history')).length
+  await schreibeVerlauf(fake, ergebnis, '2026-10-12T14:00:00.000Z')
+  pruefe(sqls.length === 1 && loeschungen() === 0, 'ein Lauf um 14 Uhr UTC hängt nur an, ohne Aufräumen')
+  await schreibeVerlauf(fake, ergebnis, '2026-10-13T03:00:00.000Z')
+  pruefe(loeschungen() === 1, 'der Lauf um 03 Uhr UTC räumt auf (einmal am Tag)')
 }
 
 if (fehler) {

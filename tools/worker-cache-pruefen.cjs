@@ -80,7 +80,7 @@ pruefe(
   traf den Stand-Cache kaum). `?gemeldet=<Adresse>` hält eine halbe Stunde je Adresse; verworfen wird
   nur die Adresse, zu der geschrieben oder gelöscht wurde, nie eine Sammelantwort.
 */
-pruefe(quelle.includes('export const WARTEND_SEKUNDEN = 1800'), 'die wartenden Meldungen halten 1800 Sekunden')
+pruefe(quelle.includes('export const WARTEND_SEKUNDEN = 7200'), 'die wartenden Meldungen halten 7200 Sekunden (12.10.2026, vorher 1800)')
 pruefe(
   quelle.includes('async () => antwort(await leseGemeldet(env, fuer)),\n        GEMELDET_SEKUNDEN,'),
   '?gemeldet=<Adresse> hält GEMELDET_SEKUNDEN je Adresse',

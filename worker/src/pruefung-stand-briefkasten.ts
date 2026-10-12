@@ -10,11 +10,15 @@
  * im Fünf-Minuten-Takt, trifft den Cache also kaum. Was hier wartet, ändert sich nur, wenn ein Lauf
  * Meldungen übernimmt; Meldungen seit dem Listenbau zieht `pruefung-stand.ts` ohnehin frisch ab.
  * Nicht verworfen, nur abgelaufen (Lehre vom 28.09.2026, siehe `pruefung.ts`).
+ *
+ * **Seit 12.10.2026 zwei Stunden** (vorher 30 Minuten), ebenso `?zaehlen=1`: Eine Meldung der letzten Stunden
+ * zeigt `jemals` in `pruefung-stand.ts` ohnehin frisch; nur „übernommen" kommt bis zu zwei Stunden später an.
+ * Entwurf `d1-umbau-entwurf-2026-10-12.md` Maßnahme 4a: höchstens 12 Neuberechnungen je Rechenzentrum und Tag statt 48.
  */
 import { type Env } from './env.ts'
 import { type AusCache } from './cache-kurz.ts'
 
-export const WARTEND_SEKUNDEN = 1800
+export const WARTEND_SEKUNDEN = 7200
 
 /** Der Cache-Schlüssel dieses Teilergebnisses: eine eigene Adresse neben dem Stand. */
 export function wartendSchluessel(basis: string): string {

@@ -23,7 +23,8 @@ import { zahlOderNull, jetztIso } from './werte.ts'
 import { type Env } from './env.ts'
 import { verarbeiteStapel } from './pruefung-stapel.ts'
 import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
-import { istMeldung, mitTagesdeckel } from './tagesdeckel.ts'
+import { istMeldung, mitTagesdeckel, type Zeilen } from './tagesdeckel.ts'
+import { exporteVerwerfen } from './export-speicher.ts'
 import { loescheOffene } from './pruefung-ersetzen.ts'
 import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
 import { pruefeUnveraendert, ladeOffeneHashes, folgeVon, type OffeneHashes } from './pruefung-unveraendert.ts'
@@ -36,16 +37,30 @@ export async function speicherePruefung(kontext: Kontext) {
     return kontext.antwort({ error: 'Kein gültiges JSON' }, 400)
   }
   /* Aufträge der Pipeline (abhaken, wieder öffnen) bleiben unter dem Tagesdeckel frei. */
-  if (!istMeldung(daten)) return await speichereDaten(kontext, daten)
+  if (!istMeldung(daten)) return await speichereAuftrag(kontext, daten)
+  const geschrieben = { zeilen: 0 }
   try {
-    return await mitTagesdeckel(kontext, async (k) => {
+    const beiZeilen = (z: Zeilen) => void (geschrieben.zeilen = z.geschrieben)
+    return await mitTagesdeckel({ ...kontext, beiZeilen }, async (k) => {
       const folgen = typeof daten.url === 'string' ? [folgeVon(daten)] : []
       return await speichereDaten({ ...k, offene: await ladeOffeneHashes(k.env, folgen) }, daten)
     })
   } finally {
     /* Ihre Antwort auf `?gemeldet=` hat sich geändert; auch nach einer Ausnahme, es kann teilweise geschrieben sein. */
     await verwirfGemeldet(kontext.request.url, adressenDerMeldung(daten))
+    /* Die Auszüge des Baus ändern sich nur, wenn die Meldung Zeilen geschrieben hat (eine unveränderte schreibt keine). */
+    if (geschrieben.zeilen > 0) await exporteVerwerfen(kontext.env)
   }
+}
+
+/** Abhaken und Wiederöffnen ändern nur `uebernommen`, das allein der Auszug `offen-*` enthält. */
+async function speichereAuftrag(kontext: Kontext, daten: Record<string, unknown>) {
+  const antwort = await speichereDaten(kontext, daten)
+  const liste = (v: unknown) => Array.isArray(v) && v.length > 0
+  if (antwort.ok && (liste(daten.uebernommen) || liste(daten.rohfolgenUebernommen) || daten.reoeffnen)) {
+    await exporteVerwerfen(kontext.env, 'offen')
+  }
+  return antwort
 }
 
 /** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */
