@@ -18,6 +18,7 @@ import { loadEnv, fetchJson, log, readJson, sleep, warn, writeJson } from './lib
 import { readOffers, type TmdbOffer } from './lib/tmdb.ts'
 import { recordSource } from './lib/health.ts'
 import { findeGeteilteHauptserien, streicheZuordnungen } from './lib/tmdb-hauptserie.ts'
+import { inhaltsStand, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf.ts'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 
@@ -76,6 +77,8 @@ export interface TmdbTitle {
   miss?: true
   /** Wann dieser Eintrag zuletzt von TMDB geholt wurde (ISO-Datum). */
   fetchedAt?: string
+  /** Wann der TMDB-Inhalt zuletzt von TMDB kam (`lib/tmdb-ablauf.ts`); ein Fehltreffer setzt nur `fetchedAt`. */
+  inhaltAm?: string
 }
 
 const FSK_VALUES: Fsk[] = [0, 6, 12, 16, 18]
@@ -296,6 +299,18 @@ function speichereOhneGeteilteHauptserien(cache: Record<string, TmdbTitle>, titl
   writeJson(CACHE_PATH, cache)
 }
 
+/** Der Eintrag nach einem Abruf; ein Fehltreffer lässt den Inhalt stehen und trägt dessen echtes Alter (`inhaltAm`) mit. */
+function nachAbruf(vorher: TmdbTitle | undefined, neu: TmdbTitle, jetzt: string): TmdbTitle {
+  if (neu.miss && vorher?.tmdbId) return { ...vorher, inhaltAm: inhaltsStand(vorher), fetchedAt: jetzt }
+  return { ...neu, inhaltAm: jetzt, fetchedAt: jetzt }
+}
+
+/** TMDB-API-Bedingungen: Inhalte höchstens 6 Monate behalten (`lib/tmdb-ablauf.ts`). */
+function streicheAlteInhalte(cache: Record<string, TmdbTitle>): void {
+  const gestrichen = streicheAbgelaufenes(cache, new Date())
+  if (gestrichen.length) warn(`${gestrichen.length} Titel ohne TMDB-Inhalt: älter als ${STREICH_TAGE} Tage`)
+}
+
 async function main(): Promise<void> {
   loadEnv()
   const apiKey = process.env.TMDB_API_KEY
@@ -377,10 +392,7 @@ async function main(): Promise<void> {
       hängen JustWatch, die Streaming-Availability-Daten und die Trailer; eine TMDB-Störung
       oder ein geänderter Titel nahm ihnen bis dahin den Schlüssel.
     */
-    cache[title.id] =
-      neu.miss && vorher?.tmdbId
-        ? { ...vorher, fetchedAt: new Date().toISOString() }
-        : { ...neu, fetchedAt: new Date().toISOString() }
+    cache[title.id] = nachAbruf(vorher, neu, new Date().toISOString())
     if (cache[title.id].overviewDe) withOverview++
     done++
     if (done % 100 === 0) {
@@ -390,6 +402,7 @@ async function main(): Promise<void> {
     }
   }
 
+  streicheAlteInhalte(cache)
   speichereOhneGeteilteHauptserien(cache, titles, handIds)
   recordSource('tmdb-titles', done)
   const total = Object.values(cache).filter((c) => c.overviewDe).length
