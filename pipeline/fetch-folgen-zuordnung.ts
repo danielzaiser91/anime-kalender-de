@@ -9,12 +9,13 @@
  * ein Messwert: Wie viele Folgen tragen Titel und Nummer, wie viele nur den Titel, welche sind
  * offen und mit welchen Kandidaten.
  *
- * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-folgen-zuordnung.ts
+ * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-folgen-zuordnung.ts   (höchstens alle 6 Stunden, `--voll` erzwingt: `lib/abruf-stempel.ts`)
  *         npx tsx pipeline/fetch-folgen-zuordnung.ts --aus <wrangler-export.json>   (ohne Worker)
  */
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { log, readJson, warn, writeJson } from './lib/util.ts'
+import { abrufMitStempel } from './lib/abruf-stempel.ts'
 import { adressIndex, ankerAdresse, ordneFolgenZu, type Beobachtung, type FolgenZuordnung } from './lib/folgen-je-folge.ts'
 import { namenIndex, namensKern, titelZuordnen } from './fetch-tv-programm.ts'
 import type { AsFolgeRoh, TmdbFolge } from '../shared/folgen-zuordnung.ts'
@@ -119,4 +120,4 @@ async function main() {
   )
 }
 
-if (process.argv[1]?.endsWith('fetch-folgen-zuordnung.ts')) await main()
+if (process.argv[1]?.endsWith('fetch-folgen-zuordnung.ts')) await abrufMitStempel('folgen-zuordnung', ZIEL, main)
