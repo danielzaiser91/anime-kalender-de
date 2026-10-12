@@ -6,7 +6,7 @@ import { neuerStand, uebernommeneVerweise } from './verweise-gedaechtnis.ts'
 import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
-import { anisearchKanonisch, anisearchSeite } from '../lib/anisearch-seite.ts'
+import { synopseVon } from './synopse-von.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
 
@@ -43,24 +43,8 @@ export function baueAuslieferung({
     const ausAnisearch = anisearch[t.id]?.descriptionDe
     const ausTmdb = tmdbTitles[t.id]
     const asId = kennungen.get(t.id)
-    if (t.synopsis || ausAnisearch || ausTmdb?.overviewDe) {
-      const eintrag: SynopsisEintrag = { en: t.synopsis }
-      if (ausAnisearch) {
-        const { text, url } = trenneQuelle(ausAnisearch)
-        eintrag.de = text
-        eintrag.deSource = { name: 'anisearch.de', url: url ? anisearchKanonisch(url) : (anisearchSeite(asId) ?? 'https://www.anisearch.de/') }
-      } else if (ausTmdb?.overviewDe) {
-        eintrag.de = ausTmdb.overviewDe
-        eintrag.deSource = {
-          name: 'themoviedb.org',
-          url: ausTmdb.tmdbId
-            ? `https://www.themoviedb.org/${ausTmdb.kind === 'movie' ? 'movie' : 'tv'}/${ausTmdb.tmdbId}`
-            : 'https://www.themoviedb.org/',
-        }
-      }
-      if (!ausAnisearch && asId !== undefined) eintrag.asUrl = anisearchSeite(asId)
-      synopses[t.id] = eintrag
-    }
+    const synopse = synopseVon({ t, asId, ausAnisearch, ausTmdb, trenneQuelle })
+    if (synopse) synopses[t.id] = synopse
     const { synopsis: _drop, jpStartTag: _jpStart, ...rest } = t
     /*
       **Die Kennungen der Quellen gehören an den Titel.**
