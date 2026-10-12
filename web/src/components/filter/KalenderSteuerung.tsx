@@ -23,8 +23,8 @@ export function AnsichtKnopf({ view, onWoche, onMonat }: { view: ViewId; onWoche
 }
 
 /**
+ * ‹ heute › in einer Pille. Liegt heute außerhalb des Sichtbaren, ist die Mitte getönt und zeigt einen Pfeil;
  * die Richtung steht außerdem im Tooltip und im `aria-label`. In der Woche scrollt die Mitte zum heutigen Tag, im Monat ist sie dann gesperrt.
-   * die Richtung steht außerdem im Tooltip und im `aria-label`. In der Woche scrollt die Mitte zum heutigen Tag, im Monat ist sie dann gesperrt.
  */
 export function HeuteChip({ view, date, onDate }: { view: ViewId; date: string; onDate: (d: string) => void }) {
   const { t } = useLang()
