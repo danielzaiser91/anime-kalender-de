@@ -85,21 +85,29 @@ export function PosterKarte(p: PosterKarteProps) {
         </span>
         <FundstellenZeichen text={p.event.name} schluessel={p.event.releaseSlug} />
       </span>
-      <span className="-mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-ak-leise">
-        {p.anbieter ? (
-          <AnbieterAngaben kachel={p.anbieter} t={t} />
-        ) : (
-          <>
-            <span>{anbieterUndFolge(p.event, t)}</span>
-            {!!p.weitere && <span className="font-semibold text-ak-text">{t('kal.buendelStream', { n: p.weitere })}</span>}
-          </>
-        )}
-        {!!p.neu && (
-          <span className="rounded bg-ak-akzent/15 px-1 font-semibold text-ak-akzent-text">{t('fav.neuSeit', { n: p.neu })}</span>
-        )}
-        <VerpasstMarke event={p.event} t={t} /><SpracheMarke event={p.event} t={t} />
-      </span>
+      <Unterzeile {...p} />
     </article>
+  )
+}
+
+/** „Anbieter · Folge" samt Marken (neu, verpasst, Sprache) unter dem Titel. */
+function Unterzeile(p: PosterKarteProps) {
+  const { t } = useLang()
+  return (
+    <span className="-mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-ak-leise">
+      {p.anbieter ? (
+        <AnbieterAngaben kachel={p.anbieter} t={t} />
+      ) : (
+        <>
+          <span>{anbieterUndFolge(p.event, t)}</span>
+          {!!p.weitere && <span className="font-semibold text-ak-text">{t('kal.buendelStream', { n: p.weitere })}</span>}
+        </>
+      )}
+      {!!p.neu && (
+        <span className="rounded bg-ak-akzent/15 px-1 font-semibold text-ak-akzent-text">{t('fav.neuSeit', { n: p.neu })}</span>
+      )}
+      <VerpasstMarke event={p.event} t={t} /><SpracheMarke event={p.event} t={t} />
+    </span>
   )
 }
 
