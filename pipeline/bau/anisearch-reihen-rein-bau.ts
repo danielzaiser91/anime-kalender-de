@@ -11,7 +11,7 @@ import { type Ausgeschieden, anisearchKatalogReihen, katalogAnker, ladeBeziehung
 import { type ReinErgebnis, type ReinHand, type ReinTitel, bestandReihenAusAnisearch, katalogReihenAusAnisearch, reineReihen } from './anisearch-reihen-rein.ts'
 
 /**
- * **Anbindung von `REIHEN_QUELLE=anisearch` an den Bau** (Schritt 6 der AniList-Ablösung, 12.10.2026). Ohne den Schalter rufen beide Eintrittspunkte nur den heutigen Weg.
+ * **Anbindung von `REIHEN_QUELLE=anisearch` an den Bau** (Schritt 6 der AniList-Ablösung, 12.10.2026). Der Hauptbestand läuft rein, der Katalog nur mit `REIHEN_QUELLE=anisearch`; wo der Weg aus ist, rufen die Eintrittspunkte den AniList-Weg.
  * Mit ihm kommen `franchiseId` des Hauptbestands und die Reihen des Katalogs allein aus aniSearch (Regeln in `anisearch-reihen-rein.ts`); `data/reihen-von-hand.yaml` gilt weiter.
  * Die Prüfliste dieses Wegs steht in einer eigenen Datei, damit der Standardweg seine nicht verliert.
  */

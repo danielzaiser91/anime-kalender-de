@@ -28,11 +28,11 @@ const reineOhne = (ids: ReinTitel[], kanten: Kante[], namen: Namen = new Map(), 
 
 const vorher = process.env.REIHEN_QUELLE
 delete process.env.REIHEN_QUELLE
-pruefe('Schalter: ohne REIHEN_QUELLE gilt der heutige Weg', !bestandReihenAusAnisearch() && !katalogReihenAusAnisearch())
+pruefe('Schalter: ohne REIHEN_QUELLE läuft der Hauptbestand rein, der Katalog bleibt beim AniList-Weg', bestandReihenAusAnisearch() && !katalogReihenAusAnisearch())
 process.env.REIHEN_QUELLE = 'anilist'
-pruefe('Schalter: nur der Wert „anisearch" schaltet um', !bestandReihenAusAnisearch() && !katalogReihenAusAnisearch())
+pruefe('Schalter: REIHEN_QUELLE=anilist ist der Rückweg für beide', !bestandReihenAusAnisearch() && !katalogReihenAusAnisearch())
 process.env.REIHEN_QUELLE = 'anisearch'
-pruefe('Schalter: REIHEN_QUELLE=anisearch schaltet um', bestandReihenAusAnisearch() && katalogReihenAusAnisearch())
+pruefe('Schalter: REIHEN_QUELLE=anisearch legt auch den Katalog um', bestandReihenAusAnisearch() && katalogReihenAusAnisearch())
 if (vorher === undefined) delete process.env.REIHEN_QUELLE
 else process.env.REIHEN_QUELLE = vorher
 
