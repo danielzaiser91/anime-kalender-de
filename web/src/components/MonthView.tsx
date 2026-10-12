@@ -8,7 +8,7 @@ import { coverBild } from '../lib/cover.ts'
 import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
 import { tageDerWoche, type Tag } from './WeekView.tsx'
 import { buendeleKacheln } from '../lib/buendel.ts'
-import { anbieterVerlauf, vereineAnbieter, zeitGemeinsam, type AnbieterKachel } from '../lib/anbieter-kachel.ts'
+import { anbieterVerlauf, eigenstaendigBeiAnbietern, vereineAnbieter, zeitGemeinsam, type AnbieterKachel } from '../lib/anbieter-kachel.ts'
 import { AnbieterAngaben } from './kalender/AnbieterAngaben.tsx'
 import { Schwebe } from './kalender/Schwebe.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
@@ -82,7 +82,7 @@ function MonatsZelle({ tag, p: alle, heute, vorbei, t }: { tag: Tag; p: MonatPro
   /* Vier Folgen desselben Titels am selben Tag sind ein Bündel — wie in der Woche (Polar Opposites S2, 04.10.2026). */
   const gruppen = buendeleKacheln(tag.stream.filter((e) => !alle.hidden.has(e.titleId)), (ev) => art(ev, alle.data))
   /* Derselbe Titel bei zwei Anbietern am selben Tag ist ein Cover mit geteilter Leiste (Reborn as a Space Mercenary, 11.10.2026). */
-  const kacheln = vereineAnbieter(gruppen, (ev) => !!ev.verpasst || !!ev.premiere || !!ev.sprache)
+  const kacheln = vereineAnbieter(gruppen, eigenstaendigBeiAnbietern)
   const stream = kacheln.map((k) => k[0]![0]!)
   const mehrere = new Map(kacheln.filter((k) => k.length > 1).map((k) => [k[0]![0]!.id, k]))
   const p = { ...alle, mehrere, folgenBis: new Map(gruppen.filter((g) => g.length > 1 && g.at(-1)!.episode).map((g) => [g[0]!.id, g.at(-1)!.episode!])) }

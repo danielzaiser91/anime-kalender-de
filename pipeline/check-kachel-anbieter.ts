@@ -1,11 +1,11 @@
 /**
  * Zusicherung zur Kachelzahl (Daniel, 12.10.2026): Ein Titel, der am selben Tag bei mehreren Streaming-Anbietern erscheint,
  * ist eine Kachel (Woche und Monat) — mit den Angaben je Anbieter. Aufruf: `npm run check:logic`.
+ * Den echten Bestand prüft `check-kachel-anbieter-bestand.ts` (`check:bestand`).
  */
-import { readFileSync } from 'node:fs'
 import type { ReleaseEvent } from '../shared/types.ts'
 import { buendeleKacheln } from '../web/src/lib/buendel.ts'
-import { anbieterVerlauf, folgeGemeinsam, vereineAnbieter, zeitGemeinsam } from '../web/src/lib/anbieter-kachel.ts'
+import { anbieterVerlauf, eigenstaendigBeiAnbietern, folgeGemeinsam, vereineAnbieter, zeitGemeinsam } from '../web/src/lib/anbieter-kachel.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -17,8 +17,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const ev = (platform: string, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
   ({ id: `${platform}-${extra.episode ?? 1}`, releaseSlug: platform, titleId: 7, date: '2026-10-11', releaseType: 'weekly', platform, name: 'X', episode: 2, episodeCount: 12, time: '16:00', ...extra }) as unknown as ReleaseEvent
 
-const eigen = (e: ReleaseEvent): boolean => !!e.verpasst || !!e.premiere || !!e.sprache
-const kacheln = (termine: ReleaseEvent[]) => vereineAnbieter(buendeleKacheln(termine, () => undefined, (e) => !!e.premiere), eigen)
+const kacheln = (termine: ReleaseEvent[]) => vereineAnbieter(buendeleKacheln(termine, () => undefined, (e) => !!e.premiere), eigenstaendigBeiAnbietern)
 
 function einheitenpruefung(): void {
   console.log('\nGleicher Titel am selben Tag bei zwei Anbietern:')
@@ -38,7 +37,7 @@ function einheitenpruefung(): void {
   pruefe('Ausgebliebenes bleibt eigen', kacheln([ev('crunchyroll'), ev('primevideo', { verpasst: { erwartetAm: '2026-10-11' } })]).length === 2)
   pruefe('Premiere bleibt eigen', kacheln([ev('crunchyroll'), ev('primevideo', { premiere: true } as Partial<ReleaseEvent>)]).length === 2)
   pruefe('Sprachhinweis (OmU) bleibt eigen', kacheln([ev('crunchyroll'), ev('primevideo', { sprache: 'omu' })]).length === 2)
-  const finale = vereineAnbieter([[ev('crunchyroll', { id: 'a' })], [ev('crunchyroll', { id: 'b', episode: 12 })], [ev('primevideo')]], eigen)
+  const finale = vereineAnbieter([[ev('crunchyroll', { id: 'a' })], [ev('crunchyroll', { id: 'b', episode: 12 })], [ev('primevideo')]], eigenstaendigBeiAnbietern)
   pruefe('zweites Bündel desselben Anbieters ist eine eigene Kachel', finale.length === 2 && finale[0]!.length === 2 && finale[1]!.length === 1, finale)
   const reihenfolge = kacheln([ev('crunchyroll', { titleId: 1, id: 'x' }), ev('netflix', { titleId: 2, id: 'y' }), ev('primevideo', { titleId: 1, id: 'z' })])
   pruefe('die Kachel steht an der Stelle ihres ersten Bündels', reihenfolge.length === 2 && reihenfolge[0]![0]![0]!.id === 'x' && reihenfolge[0]!.length === 2, reihenfolge)
@@ -48,31 +47,7 @@ function einheitenpruefung(): void {
   pruefe('zwei Anbieter: zwei gleich breite harte Felder', anbieterVerlauf(['#111', '#222']) === 'linear-gradient(to right, #111 0% 50%, #222 50% 100%)', anbieterVerlauf(['#111', '#222']))
 }
 
-function bestandspruefung(): void {
-  console.log('\nEchter Bestand: je Titel + Tag höchstens eine Kachel, außer Eigenständiges und Mehrfachbündel:')
-  const alle = JSON.parse(readFileSync(new URL('../public/data/events.json', import.meta.url), 'utf8')) as ReleaseEvent[]
-  const nachTag = new Map<string, ReleaseEvent[]>()
-  for (const e of alle) {
-    if (e.platform === 'tv' || e.releaseType === 'disc' || e.zweitanbieter) continue
-    nachTag.set(e.date, [...(nachTag.get(e.date) ?? []), e])
-  }
-  const doppelt: string[] = []
-  let zusammengelegt = 0
-  for (const [tag, stream] of nachTag) {
-    const k = kacheln(stream)
-    zusammengelegt += k.filter((x) => x.length > 1).length
-    const plattformen = (x: ReleaseEvent[][]): Set<string> => new Set(x.map((b) => b[0]!.platform))
-    const lose = k.filter((x) => x[0]![0]!.titleId > 0 && !eigen(x[0]![0]!))
-    for (const [i, a] of lose.entries())
-      for (const b of lose.slice(i + 1))
-        if (a[0]![0]!.titleId === b[0]![0]!.titleId && ![...plattformen(a)].some((pl) => plattformen(b).has(pl))) doppelt.push(`${tag} ${a[0]![0]!.name}`)
-  }
-  pruefe('zwei Kacheln desselben Titels am Tag teilen sich einen Anbieter (sonst wären sie eine)', doppelt.length === 0, doppelt.slice(0, 5))
-  console.log(`  Info: ${zusammengelegt} Kacheln tragen mehrere Anbieter (Stand ${new Date().toISOString().slice(0, 10)}).`)
-}
-
 einheitenpruefung()
-bestandspruefung()
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)

@@ -6,6 +6,9 @@ import type { ReleaseEvent } from '@shared/types.ts'
  */
 export type AnbieterKachel = ReleaseEvent[][]
 
+/** Was eine eigene Auskunft trägt und deshalb nie in eine Anbieter-Kachel wandert: Ausgebliebenes, Premiere, Sprachhinweis. */
+export const eigenstaendigBeiAnbietern = (ev: ReleaseEvent): boolean => !!ev.verpasst || !!ev.premiere || !!ev.sprache
+
 /**
  * Legt die Bündel eines Tages zusammen, die denselben Titel bei verschiedenen Anbietern zeigen (Reborn as a Space Mercenary,
  * 11.10.2026: Crunchyroll und Prime Video am selben Tag als zwei Kacheln). Die Kachel steht dort, wo ihr erstes Bündel stand.
