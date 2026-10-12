@@ -196,7 +196,7 @@
 - reinIds: [2997, 10018542, 1371, 106571, 158699, 158700]
   grund: 'Hi no Tori: Houou-hen: Hi no Tori: Eden no Sora, Hi no Tori – aniSearch: Charakter, Hi no Tori: Eden no Hana ohne Link zur Reihe; AniList-Beziehung im Katalog (außer Hi no Tori: Eden no Hana: kein AniList-Eintrag, dort gleicher Namensanfang)'
 - reinIds: [1575, 109002, 17277]
-  grund: 'Code Geass: Hangyaku no Lelouch: Code Geass: Boukoku no Akito 2 - H…, Code Geass: Soubou no Oz Picture D… – aniSearch: Charakter; AniList-Beziehung im Katalog'
+  grund: 'Code Geass: Hangyaku no Lelouch: Code Geass: Boukoku no Akito 2 - H…, Code Geass: Soubou no Oz Picture D… – aniSearch: Charakter (Soubou no Oz Picture Drama), Boukoku no Akito 2 ohne Beziehung; AniList-Beziehung im Katalog'
 - reinIds: [1816, 2263]
   grund: 'Sonic X: Sonic★the★Hedgehog – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [1887, 17637]
@@ -272,7 +272,7 @@
 - reinIds: [107961, 121043]
   grund: 'Kawaikereba Hentai demo Suki ni Na…: Hensuki▽ – aniSearch: Charakter; AniList-Beziehung im Katalog'
 - reinIds: [9204, 111015, 21097]
-  grund: 'Omae Umasou da na: Annyeong, Tyrano: Yeong-wonhi, Ham…, Anata wo Zutto Aishiteru – aniSearch: Anderes; AniList-Beziehung im Katalog'
+  grund: 'Omae Umasou da na: Annyeong, Tyrano: Yeong-wonhi, Ham…, Anata wo Zutto Aishiteru – aniSearch: Anderes (Anata wo Zutto Aishiteru), Annyeong, Tyrano ohne Beziehung; AniList-Beziehung im Katalog'
 - reinIds: [125447, 110245]
   grund: 'Thermae Romae Novae: REACH x Thermae Romae: Pietrada no… – aniSearch: Anderes; AniList-Beziehung im Katalog'
 - reinIds: [147885, 162716]
@@ -292,7 +292,7 @@
 - reinIds: [1469, 15937]
   grund: 'Monster Farm: Enbanseki no Himitsu: Monster Farm 5: Circus Caravan OVA… – aniSearch: Gemeinsames Universum; AniList-Beziehung im Katalog'
 - reinIds: [1572, 2264, 18533]
-  grund: 'Jungle Taitei: Jungle Taitei Movie (1997), Jungle Taitei Leo: Hon-o-ji – aniSearch: Gemeinsames Universum; AniList-Beziehung im Katalog'
+  grund: 'Jungle Taitei: Jungle Taitei Movie (1997), Jungle Taitei Leo: Hon-o-ji – aniSearch: Gemeinsames Universum (Jungle Taitei Movie (1997)), Jungle Taitei Leo: Hon-o-ji ohne Beziehung; AniList-Beziehung im Katalog'
 - reinIds: [5680, 7017, 9203]
   grund: 'K-ON!: K-ON!: Ura-On!, K-ON!!: Ura-On!! – aniSearch: Gemeinsames Universum; AniList-Beziehung im Katalog'
 - reinIds: [20812, 20938]
