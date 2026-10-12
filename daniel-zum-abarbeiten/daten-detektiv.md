@@ -4,33 +4,33 @@ Datensatz-Stand: 2026-10-08T15:15:31.382Z. Sortiert nach Hebel (Nutzerwirkung ×
 
 | Regel | Hebel | Empf. | Treffer | geprüft | Was ein Besucher Falsches sähe |
 |---|---|---|---|---|---|
-| D-24 Im Bestand ohne jeden Beleg | 3.0 | weich | **16** | 2925 | Zählt als „belegte deutsche Synchro", ohne dass irgendetwas sie belegt |
-| D-06 Hinter dem Toggle, aber Quelle führt Synchro | 3.0 | hart | **1** | 20656 | Ein Titel mit deutscher Fassung fehlt im Hauptbestand |
-| D-01 Datum steigt nicht mit der Folgennummer | 3.0 | hart | **0** | 642 | Kalender zeigt eine spätere Folge vor einer früheren |
-| D-23 Widerlegter Termin mit Kalendereinträgen | 3.0 | hart | **0** | 764 | Ein widerlegter Termin steht im Kalender |
-| D-02 Release-Folgenzahl über der Titel-Folgenzahl | 2.6 | weich | **7** | 564 | Panel verspricht Folgen, die das Werk nicht hat |
-| D-13 Film oder Einzelwerk mit mehreren Folgen | 2.0 | hart | **2** | 764 | Panel zählt „x von n Folgen" für einen Film |
-| D-16 Disc ohne Produktseite als Kaufweg | 2.0 | weich | **157** | 160 | „Kaufen" führt ins Leere oder auf eine Suche |
-| D-11 „Premiere" Jahre nach der aniSearch-Erstausgabe | 2.0 | weich | **13** | 45 | „Start der deutschen Fassung" für eine Fassung, die es seit Jahren gibt |
-| D-19 Termin bei einem Anbieter ohne Weg dorthin | 2.0 | weich | **3** | 548 | Panel nennt den Anbieter, aber keinen Link |
-| D-07 Doppelte Werke | 2.0 | weich | **1** | 23581 | Zwei Karten für ein Werk, Termine auf der falschen |
-| D-17 News-Meldung zeigt auf verschwundenes Release | 2.0 | weich | **0** | 480 | Meldung verliert ihren Beleg-Link (fällt auf die Anbieterseite zurück), Termin-Verlauf reißt ab |
-| D-08 Titel ohne Weg, JustWatch kennt einen mit deutschem Ton (387 ohne Weg und Termin) | 1.5 | weich | **4** | 387 | Besucher erfährt nicht, wo er den Titel sehen kann |
-| D-10 „Läuft" ohne Lebenszeichen seit 60 Tagen | 1.5 | weich | **0** | 37 | Kalender kündigt Woche für Woche Folgen an, die niemand belegt |
-| D-03 Weg laut Link-Prüfung tot (404) — 870 Wege nie geprüft | 1.5 | weich | **0** | 1284 | Besucher klickt auf eine Seite, die es nicht gibt |
-| D-12 Weg „deutsch", Zweitquelle sagt „kein Deutsch" (16 weitere durch Handbeleg/Urteil entschieden) | 1.5 | weich | **0** | 270 | „DE ✓" an einem Weg ohne deutschen Ton |
-| D-04 Vergangener Termin ohne gesehene Folge | 1.0 | nein | **1** | 177 | Panel zählt eine Folge als erschienen, die kein Abruf je gesehen hat |
-| D-14 Deutscher Termin vor der japanischen Erstausstrahlung | 1.0 | hart | **0** | 761 | Das Datum oder die Titelzuordnung ist falsch |
-| D-20 Künftiger Termin ohne Quelle der letzten 90 Tage | 1.0 | weich | **0** | 129 | Eine verschobene Ankündigung bleibt als Termin stehen |
-| D-21 Event-Kennung doppelt | 1.0 | hart | **0** | 3228 | Im Kalender-Abo verschmelzen zwei Termine zu einem |
-| D-05 Cover fehlt, Zweitquelle kennt eines (148 von 2925 ohne Cover) | 1.0 | nein | **0** | 148 | Karte ohne Bild, obwohl ein Bild da wäre |
-| D-15 Reihen-Verweis ins Leere | 1.0 | hart | **0** | 2925 | Karussell der Reihe zeigt ein Glied ohne Seite |
-| D-22 Folgenzahl: AniList gegen aniSearch-Folgenliste | 0.6 | nein | **29** | 1979 | „x von n Folgen" rechnet mit der falschen Gesamtzahl |
-| D-09 Wochentakt-Abweichung zwischen beobachteten Folgen | 0.5 | nein | **49** | 151 | Fortschreibung ab dem letzten Stützpunkt kann einen falschen Wochentag treffen |
-| D-25 Handlung fehlt, aniSearch hat eine (158 ohne Handlung) | 0.5 | nein | **0** | 158 | Panel ohne Beschreibung, obwohl eine vorliegt |
-| D-18 Weg-Felder widersprechen sich | 0.3 | nein | **29** | 2154 | Folgenbereiche oder „geteilte Seite" werden falsch angezeigt |
+| DD-24 Im Bestand ohne jeden Beleg | 3.0 | weich | **16** | 2925 | Zählt als „belegte deutsche Synchro", ohne dass irgendetwas sie belegt |
+| DD-06 Hinter dem Toggle, aber Quelle führt Synchro | 3.0 | hart | **1** | 20656 | Ein Titel mit deutscher Fassung fehlt im Hauptbestand |
+| DD-01 Datum steigt nicht mit der Folgennummer | 3.0 | hart | **0** | 642 | Kalender zeigt eine spätere Folge vor einer früheren |
+| DD-23 Widerlegter Termin mit Kalendereinträgen | 3.0 | hart | **0** | 764 | Ein widerlegter Termin steht im Kalender |
+| DD-02 Release-Folgenzahl über der Titel-Folgenzahl | 2.6 | weich | **7** | 564 | Panel verspricht Folgen, die das Werk nicht hat |
+| DD-13 Film oder Einzelwerk mit mehreren Folgen | 2.0 | hart | **2** | 764 | Panel zählt „x von n Folgen" für einen Film |
+| DD-16 Disc ohne Produktseite als Kaufweg | 2.0 | weich | **157** | 160 | „Kaufen" führt ins Leere oder auf eine Suche |
+| DD-11 „Premiere" Jahre nach der aniSearch-Erstausgabe | 2.0 | weich | **13** | 45 | „Start der deutschen Fassung" für eine Fassung, die es seit Jahren gibt |
+| DD-19 Termin bei einem Anbieter ohne Weg dorthin | 2.0 | weich | **3** | 548 | Panel nennt den Anbieter, aber keinen Link |
+| DD-07 Doppelte Werke | 2.0 | weich | **1** | 23581 | Zwei Karten für ein Werk, Termine auf der falschen |
+| DD-17 News-Meldung zeigt auf verschwundenes Release | 2.0 | weich | **0** | 480 | Meldung verliert ihren Beleg-Link (fällt auf die Anbieterseite zurück), Termin-Verlauf reißt ab |
+| DD-08 Titel ohne Weg, JustWatch kennt einen mit deutschem Ton (387 ohne Weg und Termin) | 1.5 | weich | **4** | 387 | Besucher erfährt nicht, wo er den Titel sehen kann |
+| DD-10 „Läuft" ohne Lebenszeichen seit 60 Tagen | 1.5 | weich | **0** | 37 | Kalender kündigt Woche für Woche Folgen an, die niemand belegt |
+| DD-03 Weg laut Link-Prüfung tot (404) — 870 Wege nie geprüft | 1.5 | weich | **0** | 1284 | Besucher klickt auf eine Seite, die es nicht gibt |
+| DD-12 Weg „deutsch", Zweitquelle sagt „kein Deutsch" (16 weitere durch Handbeleg/Urteil entschieden) | 1.5 | weich | **0** | 270 | „DE ✓" an einem Weg ohne deutschen Ton |
+| DD-04 Vergangener Termin ohne gesehene Folge | 1.0 | nein | **1** | 177 | Panel zählt eine Folge als erschienen, die kein Abruf je gesehen hat |
+| DD-14 Deutscher Termin vor der japanischen Erstausstrahlung | 1.0 | hart | **0** | 761 | Das Datum oder die Titelzuordnung ist falsch |
+| DD-20 Künftiger Termin ohne Quelle der letzten 90 Tage | 1.0 | weich | **0** | 129 | Eine verschobene Ankündigung bleibt als Termin stehen |
+| DD-21 Event-Kennung doppelt | 1.0 | hart | **0** | 3228 | Im Kalender-Abo verschmelzen zwei Termine zu einem |
+| DD-05 Cover fehlt, Zweitquelle kennt eines (148 von 2925 ohne Cover) | 1.0 | nein | **0** | 148 | Karte ohne Bild, obwohl ein Bild da wäre |
+| DD-15 Reihen-Verweis ins Leere | 1.0 | hart | **0** | 2925 | Karussell der Reihe zeigt ein Glied ohne Seite |
+| DD-22 Folgenzahl: AniList gegen aniSearch-Folgenliste | 0.6 | nein | **29** | 1979 | „x von n Folgen" rechnet mit der falschen Gesamtzahl |
+| DD-09 Wochentakt-Abweichung zwischen beobachteten Folgen | 0.5 | nein | **49** | 151 | Fortschreibung ab dem letzten Stützpunkt kann einen falschen Wochentag treffen |
+| DD-25 Handlung fehlt, aniSearch hat eine (158 ohne Handlung) | 0.5 | nein | **0** | 158 | Panel ohne Beschreibung, obwohl eine vorliegt |
+| DD-18 Weg-Felder widersprechen sich | 0.3 | nein | **29** | 2154 | Folgenbereiche oder „geteilte Seite" werden falsch angezeigt |
 
-## D-24 Im Bestand ohne jeden Beleg — 16 Treffer
+## DD-24 Im Bestand ohne jeden Beleg — 16 Treffer
 
 Stichprobe: 08.10.2026: 16/16 per Definition echt (B-01) — fast nur Specials/OVAs älterer Serien, Quelle vermutlich MyDubList
 
@@ -44,13 +44,13 @@ Stichprobe: 08.10.2026: 16/16 per Definition echt (B-01) — fast nur Specials/O
 - Tsubasa: Shunraiki (2009, 2 Fg.): dubConfidence high, kein Stream, Termin, Weg, aniSearch-Ausgabe [↗](https://anime-kalender.de/t/tsubasa-spring-thunder-chronicles-4938/)
 - … und 8 weitere (vollständig im JSON)
 
-## D-06 Hinter dem Toggle, aber Quelle führt Synchro — 1 Treffer
+## DD-06 Hinter dem Toggle, aber Quelle führt Synchro — 1 Treffer
 
 Stichprobe: 08.10.2026: 6/6 — Handbeleg dub:true (Our Last Crusade S2, Prime), aniSearch „d" (Scott Pilgrim, Rick and Morty, BeyWheelz, Titipo 2), JustWatch de-Ton (FMA 4-koma)
 
 - Scott Pilgrim hebt ab (2023, 8 Fg.): aniSearch-Dub-Liste; aniSearch-Kennung „d" [↗](https://anime-kalender.de/t/170206/)
 
-## D-02 Release-Folgenzahl über der Titel-Folgenzahl — 7 Treffer
+## DD-02 Release-Folgenzahl über der Titel-Folgenzahl — 7 Treffer
 
 Stichprobe: 08.10.2026: 6/7 echt — 86 (ADN: 23 Folgen auf dem 11-Folgen-Titel = beide Staffeln), Wolf’s Rain 30/26, Clannad 25/23, Sankarea 13/12, zwei TV-Filme; Air Gear 26/25 ist in `herkunft` erklärt
 
@@ -62,14 +62,14 @@ Stichprobe: 08.10.2026: 6/7 echt — 86 (ADN: 23 Folgen auf dem 11-Folgen-Titel 
 - The Last: Naruto the Movie (tv, auto-16870-tv-prosieben-maxx): 2 Folgen, Titel The Last: Naruto the Movie (2014, 1 Fg.) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet). [↗](https://anime-kalender.de/r/auto-16870-tv-prosieben-maxx/)
 - Boruto: Naruto the Movie (tv, auto-21220-tv-prosieben-maxx): 2 Folgen, Titel Boruto: Naruto the Movie (2015, 1 Fg.) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet). [↗](https://anime-kalender.de/r/auto-21220-tv-prosieben-maxx/)
 
-## D-13 Film oder Einzelwerk mit mehreren Folgen — 2 Treffer
+## DD-13 Film oder Einzelwerk mit mehreren Folgen — 2 Treffer
 
 Stichprobe: 08.10.2026: 2/3 echt (zwei Kinofilme bei ProSieben MAXX mit „2 Folgen" = 2 Sendungen); Steel Ball Run ONA ist die bekannte Ausnahme
 
 - The Last: Naruto the Movie (ProSieben MAXX, auto-16870-tv-prosieben-maxx): 2 Folgen, aber Titel ist MOVIE mit 1 Folge(n) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet). [↗](https://anime-kalender.de/r/auto-16870-tv-prosieben-maxx/)
 - Boruto: Naruto the Movie (ProSieben MAXX, auto-21220-tv-prosieben-maxx): 2 Folgen, aber Titel ist MOVIE mit 1 Folge(n) — Automatisch aus dem TV-Programm von tv.de (2 Sendungen gesichtet). [↗](https://anime-kalender.de/r/auto-21220-tv-prosieben-maxx/)
 
-## D-16 Disc ohne Produktseite als Kaufweg — 157 Treffer
+## DD-16 Disc ohne Produktseite als Kaufweg — 157 Treffer
 
 Stichprobe: 08.10.2026: 157/160 — 138 Amazon-Suchen (B-09), 19 ohne Kaufweg; bekannt, nur Zählung
 
@@ -83,7 +83,7 @@ Stichprobe: 08.10.2026: 157/160 — 138 Amazon-Suchen (B-09), 19 ohne Kaufweg; b
 - Zombie Land Saga Revenge: Kaufweg ist eine Amazon-Suche [↗](https://www.amazon.de/s?k=Zombie%20Land%20Saga%20Revenge%20Anime%20Blu-ray)
 - … und 149 weitere (vollständig im JSON)
 
-## D-11 „Premiere" Jahre nach der aniSearch-Erstausgabe — 13 Treffer
+## DD-11 „Premiere" Jahre nach der aniSearch-Erstausgabe — 13 Treffer
 
 Stichprobe: 08.10.2026: 13/13 — alles Disney+-Katalogaufnahmen aus batch-2026.yaml ohne `dateMeaning`, deutsche Fassung laut aniSearch 2003–2023; Panel sagt „im Angebot ab", die News „angekündigt" — Typ-Vertrag (`premiere` = erschien) verletzt
 
@@ -97,7 +97,7 @@ Stichprobe: 08.10.2026: 13/13 — alles Disney+-Katalogaufnahmen aus batch-2026.
 - Bleach: Fade to Black (adn): Termin 2026-10-12 als Premiere, aniSearch nennt deutsche Erstausgabe 2020-07-20 (Kazé Deutschland) [↗](https://anime-kalender.de/r/bleach-fade-to-black-adn/)
 - … und 5 weitere (vollständig im JSON)
 
-## D-19 Termin bei einem Anbieter ohne Weg dorthin — 3 Treffer
+## DD-19 Termin bei einem Anbieter ohne Weg dorthin — 3 Treffer
 
 Stichprobe: 08.10.2026: 3/3 per Daten echt (86 bei ADN, Kamisama Kiss und Kotesashi-kun bei Prime: Termin ohne Weg und ohne platformUrl)
 
@@ -105,13 +105,13 @@ Stichprobe: 08.10.2026: 3/3 per Daten echt (86 bei ADN, Kamisama Kiss und Kotesa
 - Kamisama Kiss: Termin 2026-10-08 bei primevideo, Titel hat dort keinen Weg [↗](https://anime-kalender.de/r/auto-14713-primevideo/)
 - 86: Eighty Six: Termin 2026-10-08 bei adn, Titel hat dort keinen Weg [↗](https://anime-kalender.de/r/auto-116589-adn/)
 
-## D-07 Doppelte Werke — 1 Treffer
+## DD-07 Doppelte Werke — 1 Treffer
 
 Stichprobe: 08.10.2026: 1/1 — Gantz 384 und 395 (2nd Stage) tragen dieselbe aniSearch-Kennung 585; MAL-Dubletten aniSearch↔AniList prüft schon check:logic
 
 - aniSearch 585|13|2004: Gantz (2004, 13 Fg.) [384] / Gantz (2004, 13 Fg.) [395]
 
-## D-08 Titel ohne Weg, JustWatch kennt einen mit deutschem Ton (387 ohne Weg und Termin) — 4 Treffer
+## DD-08 Titel ohne Weg, JustWatch kennt einen mit deutschem Ton (387 ohne Weg und Termin) — 4 Treffer
 
 Stichprobe: 08.10.2026: 4 Treffer, JustWatch-Tonspur nicht von Hand gegengeprüft (Prüfhierarchie: JustWatch unter Anbieter-API)
 
@@ -120,13 +120,13 @@ Stichprobe: 08.10.2026: 4 Treffer, JustWatch-Tonspur nicht von Hand gegengeprüf
 - Kuroko’s Basketball - Winter Cup Highlights Movie 1 Shadow and Light (2016, 1 Fg.): kein Weg im Bestand, JustWatch nennt deutschen Ton bei Amazon Prime Video, Amazon Prime Video with Ads, Aniverse Amazon Channel, Amazon Video [↗](https://anime-kalender.de/t/winter-cup-highlights-episode-1-winter-cup-highlights-shadow-and-light-102093/)
 - Grisaia: Phantom Trigger THE ANIMATION - Stargazer (2020, 1 Fg.): kein Weg im Bestand, JustWatch nennt deutschen Ton bei Amazon Prime Video, Amazon Prime Video with Ads, Aniverse Amazon Channel, Apple TV Store, Amazon Video, MagentaTV, maxdome Store [↗](https://anime-kalender.de/t/grisaia-phantom-trigger-the-animation-stargazer-120892/)
 
-## D-04 Vergangener Termin ohne gesehene Folge — 1 Treffer
+## DD-04 Vergangener Termin ohne gesehene Folge — 1 Treffer
 
 Stichprobe: 08.10.2026: 1 Treffer (Thunder 3: Beobachtung beginnt bei Folge 6) — die Termine tragen ohnehin „≈"
 
 - Thunder 3: 5 vergangene Termine ohne Beobachtung (Folge 1, 2, 3, 4, 5), obwohl Folge 6 am 2026-08-12 gesehen wurde [↗](https://anime-kalender.de/r/thunder-3/)
 
-## D-22 Folgenzahl: AniList gegen aniSearch-Folgenliste — 29 Treffer
+## DD-22 Folgenzahl: AniList gegen aniSearch-Folgenliste — 29 Treffer
 
 Stichprobe: 08.10.2026: 29/1.979; Stichprobe 5: Wolf’s Rain 30 = 26 + 4 OVA, Hamtaro 296 = Gesamtserie, Mermaid Forest 11/13, K-On!! 24/26 — meist andere Zählweise, keine Fehler bei uns
 
@@ -140,7 +140,7 @@ Stichprobe: 08.10.2026: 29/1.979; Stichprobe 5: Wolf’s Rain 30 = 26 + 4 OVA, H
 - Code Geass: Lelouch of the Rebellion (2006, 25 Fg.): 25 Folgen laut AniList, aniSearch-Folgenliste hat 27 [↗](https://anime-kalender.de/t/code-geass-lelouch-of-the-rebellion-1575/)
 - … und 21 weitere (vollständig im JSON)
 
-## D-09 Wochentakt-Abweichung zwischen beobachteten Folgen — 49 Treffer
+## DD-09 Wochentakt-Abweichung zwischen beobachteten Folgen — 49 Treffer
 
 Stichprobe: 08.10.2026: 49/151 — Bündel und Pausen sind Normalfall, Stützpunkte fangen sie; nur Kennzahl
 
@@ -154,7 +154,7 @@ Stichprobe: 08.10.2026: 49/151 — Bündel und Pausen sind Normalfall, Stützpun
 - Welcome to Demon School! Iruma-kun Staffel 4: 18→19: 21 Tage [↗](https://anime-kalender.de/r/cr-G6NVG970Y/)
 - … und 41 weitere (vollständig im JSON)
 
-## D-18 Weg-Felder widersprechen sich — 29 Treffer
+## DD-18 Weg-Felder widersprechen sich — 29 Treffer
 
 Stichprobe: 08.10.2026: 3 Bereiche über der Folgenzahl echt (B-12: Mushoku Tensei Cour 2, Kengan Ashura S2, Oshi no Ko); 26 sharedWith-Abweichungen zählen auch AniList-Titel außerhalb des Bestands
 
@@ -170,7 +170,7 @@ Stichprobe: 08.10.2026: 3 Bereiche über der Folgenzahl echt (B-12: Mushoku Tens
 
 ## Gegenüber dem vorigen Lauf
 
-- D-01: +0 −1
-- D-13: +0 −1
-- D-06: +0 −5
-- D-17: +0 −8
+- DD-01: +0 −1
+- DD-13: +0 −1
+- DD-06: +0 −5
+- DD-17: +0 −8

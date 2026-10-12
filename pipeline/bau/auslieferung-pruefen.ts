@@ -24,7 +24,7 @@ function auslieferungstexte(): { datei: string; text: string }[] {
   return [...dateien, ...synopses].filter((d) => existsSync(resolve(ROOT, OUT, d))).map((datei) => ({ datei, text: readFileSync(resolve(ROOT, OUT, datei), 'utf8') }))
 }
 
-/** D-06 und D-15 an den geschriebenen Dateien (`lib/invarianten-auslieferung.ts`): Fehlermeldungen, leer heißt in Ordnung. */
+/** DD-06 und DD-15 an den geschriebenen Dateien (`lib/invarianten-auslieferung.ts`): Fehlermeldungen, leer heißt in Ordnung. */
 export function auslieferungsInvarianten(releases: Release[]): string[] {
   const lies = <T>(datei: string, leer: T): T => readJson<T>(`${OUT}/${datei}`, leer)
   const auslieferung = {
