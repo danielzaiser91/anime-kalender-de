@@ -1,12 +1,12 @@
 /**
  * **Die Rohfolgen einer Meldung in `prime_folge` ablegen** (11.10.2026 aus `pruefung-speichern.ts`
- * herausgelöst): Abgleich mit den offenen Zeilen (`rohfolgen-abgleich.ts`, 12.10.2026), dann ein
+ * herausgelöst): Abgleich mit den vorhandenen Zeilen (`rohfolgen-abgleich.ts`, 12.10.2026), dann ein
  * `batch` mit den geänderten und neuen.
  */
 import { zahlOderNull, jetztIso, fehlerLog } from './werte.ts'
 import { type Env } from './env.ts'
 import { meldungsHash, normalisiert } from './pruefung-unveraendert.ts'
-import { ladeOffeneRohfolgen, loescheRohfolgen, rohfolgenAbgleich } from './rohfolgen-abgleich.ts'
+import { ladeRohfolgen, loescheRohfolgen, rohfolgenAbgleich } from './rohfolgen-abgleich.ts'
 
 type Meldung = Record<string, unknown>
 type RohZeile = { werte: unknown[]; hash: string }
@@ -33,7 +33,7 @@ export async function speichereRohfolgen(env: Env, daten: Meldung, url: string, 
     **Eine neue Meldung ersetzt die alte — sie kommt nicht dazu.** Gemessen am 28.08.2026: 3.569
     Zeilen allein unter „Captain Tsubasa (2018)", einer Seite mit 91 Folgen, weil jede erneute
     Meldung ihre Folgen anhängte. Übernommene Zeilen bleiben unberührt: Sie sind Geschichte.
-    Seit 12.10.2026 ersetzt sie nur, was sich geändert hat — unveränderte Zeilen stehen lassen.
+    Seit 12.10.2026 ersetzt sie nur, was sich geändert hat; was die jüngste übernommene Zeile schon trägt, kommt nicht noch einmal.
   */
   /* Höchstens 500 je Meldung: Eine Staffel hat keine tausend Folgen, und eine
      kaputte Erweiterung soll die Tabelle nicht fluten. */
@@ -41,8 +41,8 @@ export async function speichereRohfolgen(env: Env, daten: Meldung, url: string, 
   const zeilen = await Promise.all(begrenzt.map((f) => rohZeile(daten, url, seitenKennung, f)))
   const kennungen = [...new Set(begrenzt.map((f) => (f.gti ? String(f.gti) : '')))].filter(Boolean)
   const plattform = String(daten.plattform ?? 'primevideo')
-  const offene = await ladeOffeneRohfolgen(env, plattform, url, seitenKennung, kennungen)
-  const { loeschen, einfuegen } = rohfolgenAbgleich(offene, zeilen.map((z) => z.hash))
+  const vorhandene = await ladeRohfolgen(env, plattform, url, seitenKennung, kennungen)
+  const { loeschen, einfuegen } = rohfolgenAbgleich(vorhandene, zeilen.map((z) => z.hash))
   await loescheRohfolgen(env, loeschen)
   if (!einfuegen.length) return
   const jetzt = jetztIso()

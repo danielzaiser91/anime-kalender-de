@@ -53,7 +53,8 @@ export function pruefePatchnotes(roh: unknown, namen: string[] = []): string[] {
     if (!PATCH_KATEGORIEN.includes(e.kategorie as PatchKategorie)) fehler.push(`${wo}: kategorie „${String(e.kategorie)}“ ungültig`)
     if (typeof e.text !== 'string' || !e.text.trim()) fehler.push(`${wo}: text fehlt`)
     else {
-      if (woerter(e.text) > MAX_WOERTER) fehler.push(`${wo}: text hat mehr als ${MAX_WOERTER} Wörter („${e.text}“)`)
+      const anzahl = woerter(e.text)
+      if (anzahl > MAX_WOERTER) fehler.push(`${wo}: text hat ${anzahl} Wörter, höchstens ${MAX_WOERTER} („${e.text}“)`)
       if (/[.!]$/.test(e.text.trim())) fehler.push(`${wo}: text endet mit Satzzeichen („${e.text}“)`)
     }
     for (const feld of ['text', 'untertitel'] as const) {

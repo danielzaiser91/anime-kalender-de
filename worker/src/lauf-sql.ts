@@ -69,6 +69,7 @@ export const LAUF_ARTEN = [
   'Claude — Anime2You-Artikel auswerten',
   'Claude — Wache durchsehen',
   'Aussehen prüfen',
+  'Ladezeiten am Handy messen',
   'Crunchyroll — Regionstest mit fremdem Token',
   'Crunchyroll — Weiche aus der Cloud messen',
   'PR-Prüfkette',

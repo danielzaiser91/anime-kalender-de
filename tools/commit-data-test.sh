@@ -39,6 +39,7 @@ case "$2" in
   check:bestand)
     [ "${FAKE_BESTAND:-ok}" = fail ] && { echo "✗ Handbeleg ohne Titel"; exit 1; }
     [ "${FAKE_BESTAND:-ok}" = fehler ] && { echo "FEHLER: Cover fehlt bei Titel 7"; exit 1; }
+    [ "${FAKE_BESTAND:-ok}" = gemischt ] && { printf '⚠ Hinweis eins\n⚠ Hinweis zwei\n⚠ Hinweis drei\nFEHLER: Cover fehlt bei Titel 9\n'; exit 1; }
     ;;
 esac
 exit 0
@@ -102,6 +103,11 @@ mkdir -p "$ARBEIT/warnung"
 szenario warnung FAKE_BESTAND=fehler BAU_LAUF=1 GITHUB_ENV="$ARBEIT/warnung/env.txt"
 pruefe "Exit ≠ 0" ja "$([ "$CODE" -ne 0 ] && echo ja || echo nein)"
 pruefe "Warnung enthält den Grund" ja "$(grep -q '^DATEN_WARNUNG=.*FEHLER: Cover fehlt bei Titel 7' "$ARBEIT/warnung/env.txt" && echo ja || echo nein)"
+
+echo "Drei ⚠-Zeilen vor einer FEHLER:-Zeile: DATEN_WARNUNG nennt den Fehler zuerst"
+mkdir -p "$ARBEIT/reihenfolge"
+szenario reihenfolge FAKE_BESTAND=gemischt BAU_LAUF=1 GITHUB_ENV="$ARBEIT/reihenfolge/env.txt"
+pruefe "Warnung beginnt mit dem Fehler" ja "$(grep -q '^DATEN_WARNUNG=.*Bestand nicht übernommen: FEHLER: Cover fehlt bei Titel 9' "$ARBEIT/reihenfolge/env.txt" && echo ja || echo nein)"
 
 echo "NUR_QUELLEN=1 (Abruf-Lauf, kein Bau): grün, nur Quellen"
 szenario abruf NUR_QUELLEN=1 FAKE_BAU=fail
