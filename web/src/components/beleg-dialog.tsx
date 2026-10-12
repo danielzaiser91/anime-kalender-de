@@ -4,6 +4,7 @@ import type { NewsBeleg } from '@shared/types.ts'
 import { hostVon } from '@shared/quelle.ts'
 import { BELEG_TYP_LABEL, belegTyp } from '@shared/beleg-anbieter.ts'
 import { datumKurz } from '../lib/news-text.ts'
+import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
 import { quellenLabel } from './news-belege.tsx'
 import { TREFFER_24_HOCH } from './detail/tippziel.ts'
 import { Ladeanzeige } from './ui.tsx'
@@ -84,14 +85,10 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
   useEffect(() => {
     const esc = (e: KeyboardEvent) => e.key === 'Escape' && zu()
     document.addEventListener('keydown', esc)
-    /* Hinter dem Dialog bleibt die Seite stehen — und ihre Bildlaufleiste verschwindet (Daniel, 04.10.2026). */
-    const vorher = document.documentElement.style.overflow
-    document.documentElement.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', esc)
-      document.documentElement.style.overflow = vorher
-    }
+    return () => document.removeEventListener('keydown', esc)
   }, [zu])
+  /* Hinter dem Dialog bleibt die Seite stehen — und ihre Bildlaufleiste verschwindet (Daniel, 04.10.2026). */
+  useSeiteGesperrt(true)
   return createPortal(
     <div role="dialog" aria-modal="true" aria-label={`Quellen: ${betreff ?? ''}`} className="fixed inset-0 z-[60] flex flex-col bg-black/90 text-slate-200" onClick={zu}>
       <div className="shrink-0 border-b border-white/10 bg-slate-900 px-4 pt-2" onClick={(e) => e.stopPropagation()}>

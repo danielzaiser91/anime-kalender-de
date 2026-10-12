@@ -244,6 +244,9 @@ console.log('Übernommene Rohfolgen werden nicht neu geschrieben (12.10.2026)')
 
 }
 
+/* Die Ladeabfrage einer Meldung (`ladeOffeneHashes`) und ihre Indexsuche über den Schlüssel der Folge. */
+const LADEN = /CROSS JOIN pruefung p/
+const FOLGEN_SUCHE = 'SEARCH p USING INDEX pruefung_folge (url=? AND folge_nr=? AND staffel=? AND seiten_kennung=?)'
 const planVon = (db: DatabaseSync, a: { sql: string; werte: unknown[] }) =>
   (db.prepare(`EXPLAIN QUERY PLAN ${a.sql}`).all(...(a.werte as never[])) as { detail: string }[]).map((z) => z.detail).join(' ; ')
 
@@ -292,14 +295,38 @@ console.log('Wiederholte Meldung nach dem Abhaken schreibt keine neue pruefung-Z
 
   abfragen.length = 0
   await handlePruefung(post(folge(1)), env)
-  const laden = abfragen.find((a) => /FROM pruefung\b.*WHERE url IN/s.test(a.sql))
+  const laden = abfragen.find((a) => LADEN.test(a.sql))
   const plan = laden ? planVon(db, laden) : ''
-  pruefe(plan.includes('pruefung_url_zeit') && !/SCAN pruefung/.test(plan), `die Ladeabfrage mit übernommenen Zeilen bleibt eine Indexsuche (${plan})`)
+  pruefe(plan.includes(FOLGEN_SUCHE) && !/SCAN p\b/.test(plan), `die Ladeabfrage mit übernommenen Zeilen bleibt eine Indexsuche (${plan})`)
   db.exec(`UPDATE pruefung SET gemeldet_am = '${gestern()}'`)
   abfragen.length = 0
   await handlePruefung(post(folge(1)), env)
   const aktualisieren = abfragen.find((a) => /^UPDATE pruefung SET gemeldet_am/.test(a.sql))
   pruefe(!!aktualisieren && planVon(db, aktualisieren).includes('INTEGER PRIMARY KEY'), 'das UPDATE geht über den Primärschlüssel')
+}
+
+console.log('Planer wählt pruefung_folge ohne Hinweis, auch bei Bestand und Statistik (12.10.2026)')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db, { geschrieben: 0 })
+  abfragen.length = 0
+  await handlePruefung(post(folge(1)), env)
+  const laden = abfragen.find((a) => LADEN.test(a.sql))!
+  pruefe(!/INDEXED BY/i.test(laden.sql), 'die Ladeabfrage trägt keinen Index-Hinweis (vor Migration 053 läuft sie langsamer, scheitert aber nicht)')
+  // Bestand wie am 12.10.2026: 17.800 Zeilen, 89 Adressen zu je 200 Folgen.
+  db.exec('BEGIN')
+  const einfuegen = db.prepare(
+    `INSERT INTO pruefung (plattform, url, befund, gemeldet_am, uebernommen, folge_nr, staffel) VALUES ('disneyplus', ?1, 'dub', '2026-10-12T10:00:00Z', ?2, ?3, 1)`,
+  )
+  for (let a = 0; a < 89; a++) for (let n = 1; n <= 200; n++) einfuegen.run(`https://www.disneyplus.com/de-de/browse/entity-${a}`, n % 3 ? 0 : 1, n)
+  db.exec('COMMIT')
+  const wahl = (stand: string) => {
+    const plan = planVon(db, laden)
+    pruefe(plan.includes(FOLGEN_SUCHE) && !/SCAN p\b/.test(plan) && !plan.includes('pruefung_url_zeit'), `${stand}: ${plan}`)
+  }
+  wahl('Bestand ohne Statistik')
+  db.exec('ANALYZE')
+  wahl('Bestand mit Statistik (ANALYZE)')
 }
 
 console.log('Wiederholte Meldung: Tagesgrenze UTC/Berlin (D) und Zeile vor dem Listenbau (W), 12.10.2026')
@@ -369,10 +396,38 @@ console.log('Lesezeilen: Pläne der Abfragen einer Meldung (EXPLAIN QUERY PLAN, 
   abfragen.length = 0
   const adresse = (n: number) => ({ ...folge(1), url: `https://www.disneyplus.com/de-de/browse/entity-${n}` })
   await handlePruefung(post({ stapel: [adresse(1), adresse(2), adresse(3)] }), env)
-  const hashAbfrage = abfragen.find((a) => /FROM pruefung\b.*WHERE url IN/s.test(a.sql))
-  const plan = hashAbfrage ? planVon(db, hashAbfrage) : ''
-  pruefe(hashAbfrage?.werte.length === 3, 'der Stapel mit drei Adressen lädt die offenen Zeilen mit einer Abfrage')
-  pruefe(plan.includes('pruefung_url_zeit') && !plan.includes('idx_pruefung_offen'), `die Hash-Abfrage nimmt bei drei Adressen den Adress-Index (${plan})`)
+  const hashAbfragen = abfragen.filter((a) => LADEN.test(a.sql))
+  const plan = hashAbfragen[0] ? planVon(db, hashAbfragen[0]) : ''
+  pruefe(hashAbfragen.length === 1 && (JSON.parse(String(hashAbfragen[0]!.werte[0])) as unknown[]).length === 3, 'der Stapel mit drei Folgen lädt ihre Zeilen mit einer Abfrage')
+  pruefe(plan.includes(FOLGEN_SUCHE) && !plan.includes('idx_pruefung_offen'), `die Hash-Abfrage sucht im Folgen-Index, nicht in den offenen Zeilen (${plan})`)
+}
+
+console.log('Lesezeilen: eine Meldung liest nur die Zeilen ihrer Folge (12.10.2026, Migration 053)')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  for (let nr = 1; nr <= 200; nr++) await handlePruefung(post(folge(nr)), env)
+  db.exec("UPDATE pruefung SET uebernommen = 1 WHERE folge_nr <= 100")
+  abfragen.length = 0
+  await handlePruefung(post(folge(150)), env)
+  const eine = abfragen.find((a) => LADEN.test(a.sql))
+  const gelesen = (a?: { sql: string; werte: unknown[] }) => (a ? db.prepare(a.sql).all(...(a.werte as never[])).length : -1)
+  pruefe(gelesen(eine) === 1, `Seite mit 200 Folgen: die Ladeabfrage liefert nur die Zeile der gemeldeten Folge (${gelesen(eine)})`)
+  abfragen.length = 0
+  await handlePruefung(post({ stapel: Array.from({ length: 10 }, (_, k) => folge(51 + k * 15)) }), env)
+  const stapel = abfragen.filter((a) => LADEN.test(a.sql))
+  pruefe(stapel.length === 1 && gelesen(stapel[0]) === 10, `Stapel zu 10 Folgen: eine Ladeabfrage, zehn Zeilen (${stapel.length} Abfragen, ${gelesen(stapel[0])} Zeilen)`)
+  /* Ohne Staffel, Folge und Seitenkennung (NULL) und mit Seitenkennung: der Schlüssel trifft nur die eigene Zeile. */
+  const ohne = { ...folge(1), folge_nr: undefined, staffel: undefined }
+  await handlePruefung(post(ohne), env)
+  await handlePruefung(post({ ...ohne, seiten_kennung: 'K1' }), env)
+  abfragen.length = 0
+  await handlePruefung(post(ohne), env)
+  pruefe(gelesen(abfragen.find((a) => LADEN.test(a.sql))) === 1, 'Meldung ohne Folgennummer, Staffel und Kennung (NULL): genau eine Zeile')
+  pruefe(!abfragen.some((a) => /^(INSERT|DELETE)/.test(a.sql)), '... und unverändert: nichts geschrieben')
+  abfragen.length = 0
+  await handlePruefung(post({ ...ohne, seiten_kennung: 'K1' }), env)
+  pruefe(gelesen(abfragen.find((a) => LADEN.test(a.sql))) === 1, 'Meldung mit Seitenkennung: genau die Zeile dieser Kennung')
 }
 
 console.log('Lesezeilen: Ersetzen über die Zeilen-ID')

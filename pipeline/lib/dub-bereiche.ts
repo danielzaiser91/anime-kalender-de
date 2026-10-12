@@ -27,3 +27,20 @@ export function vereinigeBereiche(alt: DubBereich[] | undefined, neu: DubBereich
 export function nimmJa<T extends { dub?: boolean }>(streams: T[]): T[] {
   return [...streams].sort((a, b) => Number(b.dub === true) - Number(a.dub === true))
 }
+
+/** Zwei Meldungen vom selben Tag: Ohne Rangfolge gilt bei einer Folge mit Ja und Nein das Nein (kein Ja ohne Beleg). */
+export function vereinigeGleichzeitige(a: DubBereich[], b: DubBereich[]): DubBereich[] {
+  const alle = [...a, ...b]
+  return vereinigeBereiche(
+    alle.filter((r) => r.dub),
+    alle.filter((r) => !r.dub),
+  )
+}
+
+/** Folgen, für die zwei gleich alte Meldungen Ja und Nein sagen. */
+export function widerspruechlicheFolgen(a: DubBereich[], b: DubBereich[]): number[] {
+  const urteil = (r: DubBereich[], dub: boolean): Set<number> =>
+    new Set(r.filter((x) => x.dub === dub).flatMap((x) => Array.from({ length: x.to - x.from + 1 }, (_, i) => x.from + i)))
+  const ja = new Set([...urteil(a, true), ...urteil(b, true)])
+  return [...new Set([...urteil(a, false), ...urteil(b, false)])].filter((n) => ja.has(n)).sort((x, y) => x - y)
+}

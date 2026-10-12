@@ -6,6 +6,17 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Post-Apocalyptic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:cr-GT00371869@2026-10-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261005T153000Z
+DTEND:20261005T160000Z
+SUMMARY:SNOWBALL EARTH Staffel 1 – Folge 12/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16948/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-05#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T162500Z
@@ -104,6 +115,16 @@ SUMMARY:Gachiakuta – Folge 24/24
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15952/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371869@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T153000Z
+DTEND:20261012T160000Z
+SUMMARY:SNOWBALL EARTH Staffel 1 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+ etails: https://anime-kalender.de/t/16948/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de

@@ -33,6 +33,8 @@ function neueDatenbank() {
 
 const LIMIT_LESEN = new Error("D1_ERROR: Your account has exceeded D1's free tier daily row read limit.")
 const LIMIT_SCHREIBEN = new Error("D1_ERROR: Your account has exceeded D1's free tier daily row write limit.")
+/** Die Abfrage, die eine Meldung aus `pruefung` liest (seit Migration 053 über json_each, vorher FROM pruefung). */
+const LESEN_PRUEFUNG = /FROM pruefung|CROSS JOIN pruefung p/
 
 type Anweisung = { run: () => Promise<unknown>; all: () => Promise<unknown>; first: () => Promise<unknown>; bind: (...w: unknown[]) => Anweisung }
 type Zaehler = { gelesen: number; fehler?: (sql: string, art: 'run' | 'all') => Error | null }
@@ -100,7 +102,8 @@ pruefe(DECKEL_LESEN > 0 && DECKEL_LESEN < 5_000_000, `DECKEL_LESEN liegt unter d
   const z: Zaehler = { gelesen: 0 }
   const env = umgebung(db, z)
   await handlePruefung(post(folge(1)), env)
-  await handlePruefung(post(folge(2)), env)
+  // Die zweite Meldung derselben Folge liest deren Zeile; eine neue Folge liest seit Migration 053 nichts.
+  await handlePruefung(post(folge(1)), env)
   const stand = tag(db)
   pruefe(z.gelesen > 0, `die Meldungen lesen Zeilen (${z.gelesen})`)
   pruefe(stand?.gelesen === z.gelesen, `der Tageszähler bucht genau die gelesenen Zeilen der Meldungen (${stand?.gelesen} von ${z.gelesen})`)
@@ -173,7 +176,7 @@ const limitAntwort = async (r: Response) => {
 }
 {
   const db = neueDatenbank()
-  const env = umgebung(db, { gelesen: 0, fehler: (sql, art) => (art === 'all' && /FROM pruefung/.test(sql) ? LIMIT_LESEN : null) })
+  const env = umgebung(db, { gelesen: 0, fehler: (sql, art) => (art === 'all' && LESEN_PRUEFUNG.test(sql) ? LIMIT_LESEN : null) })
   pruefe(await limitAntwort(await handlePruefung(post(folge(1)), env)), 'Einzelmeldung: Lese-Limit von D1 -> 429 mit tageslimit und Retry-After (vorher 500)')
   pruefe(await limitAntwort(await handlePruefung(post({ stapel: [folge(1), folge(2)] }), env)), 'Stapel: Lese-Limit von D1 -> 429')
 }
@@ -190,7 +193,7 @@ const limitAntwort = async (r: Response) => {
 }
 {
   const db = neueDatenbank()
-  const env = umgebung(db, { gelesen: 0, fehler: (sql, art) => (art === 'all' && /FROM pruefung/.test(sql) ? new Error('D1_ERROR: boom') : null) })
+  const env = umgebung(db, { gelesen: 0, fehler: (sql, art) => (art === 'all' && LESEN_PRUEFUNG.test(sql) ? new Error('D1_ERROR: boom') : null) })
   pruefe((await handlePruefung(post(folge(1)), env)).status === 500, 'ein anderer D1-Fehler bleibt 500')
 }
 

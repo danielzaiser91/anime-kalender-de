@@ -1,9 +1,8 @@
 import { adressKern, dubKey, verschmelze, type DubCheck } from './dub-confirmed.ts'
 
 /**
- * Anime: `verschmelze` lässt die jüngste Meldung die ältere ersetzen. Belegt der Endstand weniger deutsche Folgen,
- * als eine frühere Meldung nannte, ist der Rest weg - bei einer Teilstaffel-Meldung zu Unrecht (Uncle from Another
- * World: Folge 1-12, dann Folge 13).
+ * Anime: `verschmelze` vereint die Bereiche; eine jüngere Meldung überlagert nur die Folgen, die sie nennt. Belegt der
+ * Endstand weniger deutsche Folgen, als eine frühere Meldung nannte, hat eine jüngere Meldung sie ausdrücklich verneint.
  */
 export type Schrumpf = { schluessel: string; titel?: string; verloren: number[] }
 
