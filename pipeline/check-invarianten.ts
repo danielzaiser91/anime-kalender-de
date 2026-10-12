@@ -15,6 +15,8 @@ import { dubIdsNachAnisearch, dubsNachTitel } from './lib/anisearch-marke.ts'
 import { loadDubChecks, type DubCheck } from './lib/dub-confirmed.ts'
 import { kanalTitelOhneBeleg } from './lib/invarianten-kanal.ts'
 import { kanalAdressenOhneBeleg, ohneKanalSprache, rohBelegtDeutsch } from './lib/kanal-titel.ts'
+import { kanalProben } from './check-invarianten-kanal.ts'
+import { kanalFehler } from './bau/kanal-fehler.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -117,22 +119,7 @@ console.log('\nHarte Regeln des Daten-Detektivs:')
   pruefe('D-24: ohne Marke „Geplant“ keine Meldung', lauf(hatchling(), adnTermin, { ...q, geplant: new Set<number>() }).length === 0)
   pruefe('D-24: Erstausgabe mit Handbeleg (synchro) oder benannter Quelle geht durch', lauf(hatchling({ streams: [], deErstausgabe: { von: '2026-01-10', synchro: true } })).length === 0)
 
-  // D-25: Hell Mode — Kanal-Titel (ADN, aniverse), Amazon nennt Deutsch, bei ADN gibt es nur Untertitel
-  const hellUrl = 'https://www.amazon.de/gp/video/detail/B0FTW7GP47'
-  const hellBeleg = { anilistId: 185262, platform: 'primevideo', url: hellUrl, dub: true, checkedAt: '2026-08-30', note: 'Abos: animedigitalde, aniversede — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg' } as DubCheck
-  const hellKanal = kanalAdressenOhneBeleg([ohneKanalSprache(hellBeleg)])
-  const hell = (dub?: boolean) => [titelMit({ id: 185262, titleRomaji: 'Hell Mode', streams: [{ platform: 'primevideo', url: hellUrl.replace('/gp/video/detail/', '/dp/'), dub }] })]
-  pruefe('D-25: Kanal-Titel verliert Amazons Sprachangabe beim Lesen', ohneKanalSprache(hellBeleg).dub === undefined && hellKanal.size === 1)
-  pruefe('D-25: Kanal-Titel mit zweiter Quelle behält das Ja', ohneKanalSprache({ ...hellBeleg, zweiteQuelle: 'JustWatch: audio de' }).dub === true)
-  pruefe('D-25: ohne Kanal-Warnung bleibt das Ja', ohneKanalSprache({ ...hellBeleg, note: 'Abos: Prime' }).dub === true)
-  pruefe('D-25: Prime-Verweis ✓ Deutsch auf einer Kanal-Adresse wird gemeldet', kanalTitelOhneBeleg(hell(true), hellKanal).length === 1)
-  pruefe('D-25: Verweis ohne Urteil geht durch', kanalTitelOhneBeleg(hell(undefined), hellKanal).length === 0)
-  pruefe('D-25: fremde Adresse geht durch', kanalTitelOhneBeleg(hell(true), new Set(['185262|amazon:b0xxxxxxxx'])).length === 0)
-  pruefe('D-25: dieselbe Seite bei einem anderen Titel geht durch', kanalTitelOhneBeleg(hell(true), new Set(['999|amazon:b0ftw7gp47'])).length === 0)
-  const deutschFolgen = [{ sprachen: ['Deutsch', 'Japanisch'] }]
-  pruefe('D-25: gemeldete Folgen auf einer Kanal-Seite belegen kein Deutsch', !rohBelegtDeutsch(deutschFolgen, 185262, hellUrl, [ohneKanalSprache(hellBeleg)]))
-  pruefe('D-25: gemeldete Folgen auf einer anderen Seite belegen Deutsch', rohBelegtDeutsch(deutschFolgen, 185262, 'https://www.amazon.de/gp/video/detail/B0AAAAAAAA', [ohneKanalSprache(hellBeleg)]))
-  pruefe('D-25: gemeldete Folgen ohne Deutsch belegen nichts', !rohBelegtDeutsch([{ sprachen: ['Japanisch'] }], 185262, null, []))
+  kanalProben(pruefe)
 }
 
 if (process.argv.includes('--bestand')) {
@@ -154,7 +141,7 @@ if (process.argv.includes('--bestand')) {
     ...synchroNichtHinterToggle(auslieferung, { dubsAnilist: dubsNachTitel(), dubIds: dubIdsNachAnisearch(), handbelegteIds: handbelegt, handKeine, heute: new Date().toISOString().slice(0, 10) }),
     ...reihenVerweiseAufgeloest(auslieferung),
     ...geplantNichtDeutschHeute(releases, titles, ladeGeplantQuelle()),
-    ...kanalTitelOhneBeleg(titles.values(), kanalAdressenOhneBeleg(loadDubChecks())),
+    ...kanalFehler(titles.values(), releases),
   ]
   console.log(`Auslieferung (D-06, D-15, D-24, D-25): ${a.length} Fehler`)
   for (const t of a.slice(0, 10)) console.log('  ', t)

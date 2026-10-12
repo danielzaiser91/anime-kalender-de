@@ -16,7 +16,7 @@ import { deutschGeplantLautAnisearch } from './ohne-beleg.ts'
  * Ein Termin, der noch aussteht, ist kein Beleg für eine Synchro von heute: geschätzt ist er der Untertitel-Start, und wo aniSearch Deutsch als „Geplant“ führt,
  * ist er der Start der Synchro (Reincarnated as a Dragon Hatchling: ADN zeigt bis zum 22.10.2026 nur Untertitel).
  */
-function terminBelegtNichts(release: Release, heute: string): boolean {
+export function terminBelegtNichts(release: Release, heute: string): boolean {
   if (release.titleId < 0) return true
   const kommt = release.schedule.firstEpisodeDate > heute
   return kommt && (Boolean(release.schedule.estimated) || deutschGeplantLautAnisearch(release.titleId))
