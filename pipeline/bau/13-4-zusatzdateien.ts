@@ -16,6 +16,7 @@ import { type SynopsisEintrag } from './13-1-anreichern.ts'
 import { type SlimTitel } from './13-2-auslieferung.ts'
 import { ergaenzeCoverGross } from './cover-gross.ts'
 import { ohneBelegteSynchro } from './synchro-belegt.ts'
+import { bereinigePruefliste } from './09-7-cr-teilseiten.ts'
 import { schreibeSaisonDatei } from './saison-datei.ts'
 import { cartoonsMitReihe, markiereEigeneWerke } from './cartoon-reihen.ts'
 import { schreibeAnisearchOffen } from './anisearch-kennung.ts'
@@ -72,6 +73,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
     deutscheReihe,
     new Set(releases.map((r) => r.titleId)),
   )
+  bereinigePruefliste(new Set([...slim.map((t) => t.id), ...readJson<{ id: number }[]>(`${OUT}/ohne-synchro.json`, []).map((t) => t.id)]))
   schreibeNeuMitSynchro(slim, releases); schreibeFolgenDateien([...titles.values()]); ergaenzeCoverGross(synopses, slim); schreibeSaisonDatei(titles, releases); schreibeAnisearchOffen(slim)
   // Synopsen in Gruppen statt in einer Datei.
   //

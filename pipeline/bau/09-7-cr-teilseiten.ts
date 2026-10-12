@@ -1,4 +1,4 @@
-import { log, writeJson } from '../lib/util.ts'
+import { log, readJson, writeJson } from '../lib/util.ts'
 import type { Title } from '../../shared/types.ts'
 import type { CrDubData } from '../lib/crunchyroll-dub.ts'
 import { ladeCrArchiv } from './folgentitel-cr.ts'
@@ -49,4 +49,13 @@ export function setzeCrTeilseiten(titles: Map<number, Title>, crDub: CrDubData):
   }
   writeJson(PRUEFLISTE, pruefen.sort((a, b) => a.titleId - b.titleId))
   log(`Geteilte Crunchyroll-Seiten: ${je.titel} Bereiche über Folgentitel, ${je.zahl} über die Folgenzahl, ${pruefen.length} auf der Prüfliste`)
+}
+
+/** Streicht, wer nach der Dublettenbereinigung nicht mehr ausgeliefert wird (aniSearch-Zeile, deren AniList-Titel gilt): sonst nennt die Prüfliste einen Titel, den es nicht mehr gibt. */
+export function bereinigePruefliste(vorhanden: Set<number>): void {
+  const liste = readJson<TeilseitenPruefung[]>(PRUEFLISTE, [])
+  const rest = liste.filter((p) => vorhanden.has(p.titleId))
+  if (rest.length === liste.length) return
+  writeJson(PRUEFLISTE, rest)
+  log(`Geteilte Crunchyroll-Seiten: ${liste.length - rest.length} Titel von der Prüfliste gestrichen (nicht mehr im Bestand)`)
 }
