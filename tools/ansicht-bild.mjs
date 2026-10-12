@@ -232,6 +232,32 @@ async function meldeZusatzpruefungen(seite, ansichten, handy) {
   return rot
 }
 
+/** Beantwortet jede Anfrage aus `dist/`; auch das Rechner-Filterfenster (eigener Browser) nutzt sie. */
+async function antworteAusDist(route) {
+  const url = new URL(route.request().url())
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return route.continue()
+  /*
+    **Fremde Bilder werden beantwortet, nicht abgewiesen.**
+
+    Die Cover liegen bei AniList. Ein `route.abort()` sparte den Abruf, warf
+    aber je Bild einen Konsolenfehler — sechzig Stück in der Datenbank-Ansicht,
+    und die Fehlerzählung dieses Werkzeugs war damit wertlos. Ein
+    Einpunkt-PNG kostet nichts und hält die Konsole sauber für die Fehler, um
+    die es geht.
+  */
+  if (url.hostname !== 'ak.test') {
+    return route.fulfill({ status: 200, contentType: 'image/png', body: EIN_PUNKT })
+  }
+  const rel = url.pathname === '/' ? '/index.html' : url.pathname
+  const datei = path.join(DIST, rel)
+  if (!datei.startsWith(DIST) || !existsSync(datei)) return route.fulfill({ status: 404, body: '' })
+  return route.fulfill({
+    status: 200,
+    contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream',
+    body: await readFile(datei),
+  })
+}
+
 async function main() {
   if (!distPruefen(WURZEL)) return
   const gewaehlt = process.argv.slice(2).filter((a) => !a.startsWith('--'))
@@ -254,30 +280,7 @@ async function main() {
   })
   seite.on('pageerror', (e) => fehler.push(String(e).slice(0, 160)))
 
-  await seite.route('**/*', async (route) => {
-    const url = new URL(route.request().url())
-    if (url.protocol !== 'http:' && url.protocol !== 'https:') return route.continue()
-    /*
-      **Fremde Bilder werden beantwortet, nicht abgewiesen.**
-
-      Die Cover liegen bei AniList. Ein `route.abort()` sparte den Abruf, warf
-      aber je Bild einen Konsolenfehler — sechzig Stück in der Datenbank-Ansicht,
-      und die Fehlerzählung dieses Werkzeugs war damit wertlos. Ein
-      Einpunkt-PNG kostet nichts und hält die Konsole sauber für die Fehler, um
-      die es geht.
-    */
-    if (url.hostname !== 'ak.test') {
-      return route.fulfill({ status: 200, contentType: 'image/png', body: EIN_PUNKT })
-    }
-    const rel = url.pathname === '/' ? '/index.html' : url.pathname
-    const datei = path.join(DIST, rel)
-    if (!datei.startsWith(DIST) || !existsSync(datei)) return route.fulfill({ status: 404, body: '' })
-    return route.fulfill({
-      status: 200,
-      contentType: TYPEN[path.extname(datei)] ?? 'application/octet-stream',
-      body: await readFile(datei),
-    })
-  })
+  await seite.route('**/*', antworteAusDist)
 
   const befunde = []
   for (const name of ansichten) {
