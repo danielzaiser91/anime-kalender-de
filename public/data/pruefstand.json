@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-12T18:14:02.053Z",
+ "erzeugtAm": "2026-10-12T19:31:09.058Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -1641,8 +1641,8 @@
    "name": "Netflix",
    "plattform": "netflix",
    "gemeldet": 414,
-   "gesamt": 670,
-   "offen": 256,
+   "gesamt": 671,
+   "offen": 257,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -1811,6 +1811,10 @@
     {
      "url": "https://www.netflix.com/title/82854665",
      "titel": "Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe"
+    },
+    {
+     "url": "https://www.netflix.com/title/83189604",
+     "titel": "Dragon Ball Super: Beerus"
     },
     {
      "url": "https://www.netflix.com/title/81004665",
