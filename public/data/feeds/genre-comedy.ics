@@ -6,150 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Comedy
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-04#8@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T083000Z
-DTEND:20261004T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 8/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-04#9@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T083000Z
-DTEND:20261004T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 9/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-04#10@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T083000Z
-DTEND:20261004T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 10/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:you-and-i-are-polar-opposites-s2@2026-10-04#11@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T083000Z
-DTEND:20261004T090000Z
-SUMMARY:You and I Are Polar Opposites – Staffel 2 – Folge 11/13
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17577/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-04#1@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T125000Z
-DTEND:20261004T132000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-04#2@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T132000Z
-DTEND:20261004T135000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-5027-tv-disney-channel@2026-10-04#3@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T135000Z
-DTEND:20261004T142000Z
-SUMMARY:Yuna & Stitch
-DESCRIPTION:Plattform: Disney Channel\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/3342/
-CATEGORIES:Disney Channel
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GNVHKN933@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T140000Z
-DTEND:20261004T143000Z
-SUMMARY:The 100 Girlfriends Who Really\, Really\, Really\, Really\, REALLY 
- Love You Staffel 3 – Folge 35/36
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17148/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384006@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T140000Z
-DTEND:20261004T143000Z
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 1/≈12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16547/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:cr-GT00384004@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261004T143000Z
-DTEND:20261004T150000Z
-SUMMARY:Overgeared Staffel 1 – Folge 2/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/17645/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:spy-x-family-s1-teil1-disneyplus@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261004
-DTEND;VALUE=DATE:20261005
-SUMMARY:SPY x FAMILY
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/13639/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:spy-x-family-s1-teil2-disneyplus@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261004
-DTEND;VALUE=DATE:20261005
-SUMMARY:SPY x FAMILY Teil 2
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/13786/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:spy-x-family-s2-disneyplus@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261004
-DTEND;VALUE=DATE:20261005
-SUMMARY:SPY x FAMILY Staffel 2
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/14846/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-186541-primevideo@2026-10-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261004
-DTEND;VALUE=DATE:20261005
-SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 1/1
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
- hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
- chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16547/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T151000Z
@@ -174,7 +30,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261005T160000Z
 DTEND:20261005T163000Z
-SUMMARY:Detektiv Conan – Folge 148/156
+SUMMARY:Detektiv Conan – Folge 148/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -264,7 +120,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T155500Z
 DTEND:20261007T162500Z
-SUMMARY:Detektiv Conan – Folge 149/156
+SUMMARY:Detektiv Conan – Folge 149/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -344,7 +200,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T160000Z
 DTEND:20261008T163000Z
-SUMMARY:Detektiv Conan – Folge 150/156
+SUMMARY:Detektiv Conan – Folge 150/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -425,7 +281,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T160000Z
 DTEND:20261009T163000Z
-SUMMARY:Detektiv Conan – Folge 151/156
+SUMMARY:Detektiv Conan – Folge 151/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -615,6 +471,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-10-11@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261011T140000Z
+DTEND:20261011T143000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 2/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T143000Z
@@ -639,7 +507,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T160000Z
 DTEND:20261012T163000Z
-SUMMARY:Detektiv Conan – Folge 152/156
+SUMMARY:Detektiv Conan – Folge 152/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -689,7 +557,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T160000Z
 DTEND:20261013T163000Z
-SUMMARY:Detektiv Conan – Folge 153/156
+SUMMARY:Detektiv Conan – Folge 153/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -729,7 +597,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T160000Z
 DTEND:20261014T163000Z
-SUMMARY:Detektiv Conan – Folge 154/156
+SUMMARY:Detektiv Conan – Folge 154/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -769,7 +637,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T160000Z
 DTEND:20261015T163000Z
-SUMMARY:Detektiv Conan – Folge 155/156
+SUMMARY:Detektiv Conan – Folge 155/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -851,7 +719,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T155500Z
 DTEND:20261016T162500Z
-SUMMARY:Detektiv Conan – Folge 156/156
+SUMMARY:Detektiv Conan – Folge 156/157
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1032,6 +900,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261018T140000Z
+DTEND:20261018T143000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 3/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-18@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T143000Z
@@ -1041,6 +921,56 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-19#32@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T151000Z
+DTEND:20261019T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-19#33@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T153500Z
+DTEND:20261019T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-19@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T160000Z
+DTEND:20261019T163000Z
+SUMMARY:Detektiv Conan – Folge 157/157
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-19#33@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T162500Z
+DTEND:20261019T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-19#34@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261019T165000Z
+DTEND:20261019T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:my-hero-academia-yuei-heroes-battle-2026-10-20@2026-10-20@anime-kalende
@@ -1130,6 +1060,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261025T150000Z
+DTEND:20261025T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 4/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-10-25@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261025T153000Z
@@ -1214,6 +1156,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261101T150000Z
+DTEND:20261101T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 5/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-01@anime-kalender-de
@@ -1344,6 +1298,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261108T150000Z
+DTEND:20261108T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 6/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-08@anime-kalender-de
@@ -1510,6 +1476,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261115T150000Z
+DTEND:20261115T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 7/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-15@anime-kalender-de
@@ -1813,6 +1791,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261122T150000Z
+DTEND:20261122T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 8/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261122T153000Z
@@ -1967,6 +1957,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261129T150000Z
+DTEND:20261129T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 9/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GT00384004@2026-11-29@anime-kalender-de
@@ -2235,6 +2237,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261206T150000Z
+DTEND:20261206T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 10/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-12-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261206T153000Z
@@ -2368,6 +2382,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
 CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261213T150000Z
+DTEND:20261213T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 11/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GT00384004@2026-12-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261213T153000Z
@@ -2486,6 +2512,18 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261220T150000Z
+DTEND:20261220T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 12/≈12
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-21@anime-kalender-de

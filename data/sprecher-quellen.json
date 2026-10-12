@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-11",
+  "stand": "2026-10-12",
   "titelVerloren": 0,
   "titelNeu": 0,
   "geteilt": 12,
@@ -7,8 +7,8 @@
   "rollenBehalten": 1749,
   "vorher": {
     "anilist": {
-      "titel": 773,
-      "rollen": 2609
+      "titel": 776,
+      "rollen": 2649
     },
     "ann": {
       "titel": 588,
@@ -18,12 +18,12 @@
       "titel": 2052,
       "rollen": 57766
     },
-    "titelGesamt": 2266
+    "titelGesamt": 2269
   },
   "nachher": {
     "anilist": {
-      "titel": 773,
-      "rollen": 2609
+      "titel": 776,
+      "rollen": 2649
     },
     "ann": {
       "titel": 588,
@@ -33,6 +33,6 @@
       "titel": 2052,
       "rollen": 57766
     },
-    "titelGesamt": 2266
+    "titelGesamt": 2269
   }
 }

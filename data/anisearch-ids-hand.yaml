@@ -40,6 +40,9 @@
 212503: 21575
 # Fool Night (MAL 64459)
 213457: 21751
+# Ascendance of a Bookworm: Kizoku-in no Jishou Tosho Iin (Staffel 5, MAL 65103; Daniel, 11.10.2026): AniList führt keine MAL, deshalb fand die MAL-Regel das Paar nicht.
+# Die aniSearch-Zeile 22017 stand ohne Cover und mit japanischem Namen neben dem AniList-Titel (Kennung 26256 → 217712).
+217712: 22017
 
 # --- Aus der offiziellen Zuordnung von aniSearch (`GET /v1/anime/associated?source=myanimelist`, 06.10.2026) ---
 # Unsere MAL-Kennung → genau eine aniSearch-Kennung; Teilen sich zwei Titel eine Kennung, ist das aniSearchs eigene Zuordnung (Serie und Film auf einer Seite); die Kennung wirkt nur auf Links.

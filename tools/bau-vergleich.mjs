@@ -10,7 +10,10 @@
  * `data/cache/` liegt nicht im Repo. Statt des echten Caches wird ein Ersatz aus
  * `public/data/titles.json` und `franchises.json` des Basis-Commits nachgebildet. Der ist nicht
  * echt, aber für beide Seiten derselbe — und mehr braucht ein Gleichheitsbeweis nicht. Beide
- * Seiten starten außerdem vom Datenbestand (`data/`, `public/data/`) der Basis.
+ * Seiten starten außerdem vom Datenbestand (`data/`, `public/data/`) der Basis — Datenänderungen
+ * des Kandidaten (`data/*.yaml`, `*.json`) werden deshalb nicht verglichen. Ob der Bau auf ihnen
+ * durchläuft, zeigt ein zweiter Lauf `HEAD HEAD` (Exit 2, wenn er scheitert); einen Unterschied
+ * zur Basis zeigt er nicht.
  *
  * Aufruf:
  *   node tools/bau-vergleich.mjs [basis] [kandidat]    Vorgabe: origin/main gegen HEAD

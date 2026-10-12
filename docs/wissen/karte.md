@@ -161,6 +161,7 @@ Bindings: D1 `DB`, R2 `BELEGE`, DO `EREIGNISSE`. Migrationen in `worker/migratio
 - `Glob` über das Repo-Wurzelverzeichnis liefert wegen `worker/node_modules` Müll — immer ein Unterverzeichnis angeben.
 - `playwright` liegt in `node_modules`, Chromium unter `%LOCALAPPDATA%\ms-playwright`; gegen die Live-Seite braucht es keinen Server.
 - Ein `<a>`/Karte mit mehrfach vorkommendem Text (`text=Hana-Kimi`) trifft erst ein unsichtbares Element — `[aria-label^="Details zu …"]` nehmen.
+- Das Beleg-Fenster (Quellen) findet man per `[aria-modal]`, nicht per `role=dialog`: das Detail-Panel trägt dieselbe Rolle (ohne `aria-modal`). Sind Cover-Vergrößerung oder Kino offen, tragen auch sie `aria-modal` — dann zusätzlich `[aria-label^="Quellen:"]` (11.10.2026).
 
 ## 10. Wo die Wahrheit steht (Prüfhierarchie)
 

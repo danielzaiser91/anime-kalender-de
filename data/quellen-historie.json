@@ -5820,11 +5820,18 @@
   ],
   "auto-213805-netflix": [
     {
+      "url": "https://www.anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-10-01",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-06",
       "sagt": "2026-10-01",
-      "stand": "aktuell"
+      "stand": "vermutlich-ueberholt"
     }
   ],
   "auto-189123-netflix": [
@@ -6404,6 +6411,42 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-11",
       "sagt": "2026-10-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-154965-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1056287/netflix-yamada-kun-synchro-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-10-01",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-153288-disc": [
+    {
+      "url": "https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-12-04",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-1668-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-09-25",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-170083-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-09-25",
       "stand": "aktuell"
     }
   ]
