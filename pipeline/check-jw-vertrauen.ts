@@ -1,9 +1,7 @@
 /**
- * Zusicherungen zur Vertrauensregel „Deutsch laut JustWatch" (Prime): jede Bedingung der Regel einzeln, dazu der Bestand
- * nach einem Bau — nur Prime, nie bei vorhandenem Urteil, nie bei Cartoons. Läuft in `check:logic`.
+ * Zusicherungen zur Vertrauensregel „Deutsch laut JustWatch" (Prime): jede Bedingung der Regel einzeln. Der Bestand nach einem Bau
+ * (nur Prime, nie bei vorhandenem Urteil, nie bei Cartoons) steht in `check-jw-vertrauen-bestand.ts`. Läuft in `check:logic`.
  */
-import { existsSync } from 'node:fs'
-import { readJson } from './lib/util.ts'
 import { BEFUND_MAX_TAGE, justwatchDeutsch, titelJeJustwatchKennung, type JwBefund, type JwVertrauenEingabe } from './lib/jw-vertrauen.ts'
 import { primeHakenOhneBeleg, primeTitelMitBeleg } from './lib/haken-beleg.ts'
 import type { Title } from '../shared/types.ts'
@@ -82,16 +80,6 @@ pruefe('Messurteil „kein deutsch" belegt kein Häkchen', ohneBeleg(9, true) ==
 pruefe('Weg ohne Urteil (auch mit Umriss) ist kein Fehler', ohneBeleg(4, undefined) === 0)
 const handNein = primeTitelMitBeleg([{ anilistId: 5, platform: 'primevideo', dub: false, checkedAt: '2026-10-01' }], {}, {})
 pruefe('Hand-Nein ist kein Beleg für ein Häkchen', primeHakenOhneBeleg([primeWeg(5, true)], handNein).length === 1)
-
-// Echter Bestand (nach einem Bau): nur Prime, nur offene Urteile, nur Adressen mit gti, nur der Hauptbestand.
-const OUT = 'public/data/titles.json'
-if (existsSync(OUT)) {
-  const gekennzeichnet = readJson<Title[]>(OUT, []).flatMap((t) => (t.streams ?? []).filter((s) => s.dubQuelle).map((s) => ({ t, s })))
-  pruefe('Bestand: nur Prime-Wege tragen die Kennzeichnung', gekennzeichnet.every(({ s }) => s.platform === 'primevideo'))
-  pruefe('Bestand: kein Weg trägt Kennzeichnung und Urteil zugleich', gekennzeichnet.every(({ s }) => s.dub === undefined))
-  pruefe('Bestand: Kennzeichnung nur auf JustWatch-Adressen mit Datum', gekennzeichnet.every(({ s }) => /[?&]gti=/.test(s.url) && /^\d{4}-\d\d-\d\d$/.test(s.dubStand ?? '')))
-  pruefe('Bestand: nur Titel der Anime-Liste, nie Cartoons', gekennzeichnet.every(({ t }) => t.id > 0))
-}
 
 if (fehler) {
   console.error(`${fehler} Fehler`)

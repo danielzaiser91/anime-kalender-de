@@ -4,15 +4,12 @@
  *
  * Belegt ist eine Zahl durch deutsche Bereiche am Weg (Anbieter, Handbeleg, Erweiterung) oder den Wochenplan
  * des Anbieters. Alles andere — die Folgenzahl des Werks bei abgeschlossener Serie — ist abgeleitet.
- * Prüft Beispielfälle und danach jeden Weg in `public/data` (Hauptbestand, Katalog, Cartoons). Läuft in `check:logic`.
+ * Prüft Beispielfälle; jeden Weg in `public/data` prüft `check-folgenzahl-kennzeichnung-bestand.ts`. Läuft in `check:logic`.
  */
-import { readFileSync } from 'node:fs'
 import type { Release, StreamLink, Title } from '../shared/types.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { fertigZahlText } from '../web/src/components/detail/antwort-regeln.ts'
 import { folgenAuskunft } from '../web/src/components/detail/folgen-angabe.ts'
-import { zaehlPlattform } from '../web/src/components/detail/prime-kanal.ts'
-import { titelMitTerminBereichen } from '../web/src/components/detail/stream-bereiche.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -53,40 +50,8 @@ pruefe('Kasten belegt: „Alle N“ unverändert', fertigZahlText(12, false, t a
 pruefe('Kasten und Pille stimmen überein (abgeleitet)', pille(beendet, ohneBereiche).startsWith('≈') === (kastenAbgeleitet?.gesamtAbgeleitet === true))
 pruefe('Kasten und Pille stimmen überein (belegt)', pille(beendet, mitBereichen).startsWith('≈') === (kastenBelegt?.gesamtAbgeleitet === true))
 
-function pruefeBestand(datei: string, releasesJeTitel: Map<number, Release[]>): number {
-  let unmarkiert = 0
-  let markiert = 0
-  const titel = JSON.parse(readFileSync(`public/data/${datei}`, 'utf8')) as Title[]
-  for (const roh of titel) {
-    const releases = releasesJeTitel.get(roh.id) ?? []
-    const t0 = titelMitTerminBereichen(roh, releases)
-    if (!t0) continue
-    for (const s of t0.streams ?? []) {
-      const text = pille(t0, s, releases)
-      if (text.startsWith('≈')) {
-        markiert++
-        continue
-      }
-      if (!text.startsWith(ZAHL)) continue
-      const plattform = zaehlPlattform(s, t0.streams ?? [])
-      const belegt = s.dubRanges?.some((r) => r.dub) || releases.some((r) => r.platform === plattform && r.releaseType === 'weekly')
-      if (belegt) continue
-      unmarkiert++
-      if (unmarkiert <= 5) console.error(`  ${datei} ${roh.id} ${s.platform}: ${text}`)
-    }
-  }
-  pruefe(`${datei}: Folgenzahl ohne Beleg und ohne „≈“ (${unmarkiert} Wege)`, unmarkiert === 0)
-  return markiert
-}
-
-const releases = JSON.parse(readFileSync('public/data/releases.json', 'utf8')) as Release[]
-const jeTitel = new Map<number, Release[]>()
-for (const r of releases) jeTitel.set(r.titleId, [...(jeTitel.get(r.titleId) ?? []), r])
-const gekennzeichnet = ['titles.json', 'ohne-synchro.json', 'cartoons.json'].map((d) => pruefeBestand(d, jeTitel))
-pruefe('Bestand: mindestens ein Weg trägt „≈“ (sonst prüft diese Prüfung nichts)', gekennzeichnet[0]! > 0)
-
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
   process.exit(1)
 }
-console.log(`check-folgenzahl-kennzeichnung: ok (mit „≈“: Hauptbestand ${gekennzeichnet[0]}, Katalog ${gekennzeichnet[1]}, Cartoons ${gekennzeichnet[2]} Wege, ungemergt)`)
+console.log('check-folgenzahl-kennzeichnung: ok')

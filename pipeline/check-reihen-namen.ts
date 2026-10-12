@@ -2,10 +2,8 @@
  * Zusicherung: Ein aniSearch-Titel, dessen Namensvorspann eine vorhandene Reihe nennt, steht nicht allein (Daniel, 10.10.2026: „Demon Slayer – Asakusa Arc“ und Geschwister
  * erschienen in der Datenbank trotz „gebündelt“ als Einzelkarten). Regel: `anisearchNamensKanten` in `bau/anisearch-titel.ts`.
  *
- * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-reihen-namen.ts`
+ * Aufruf: npm run check:logic (steckt darin) oder `tsx pipeline/check-reihen-namen.ts`; der Bestandsteil steht in `check-reihen-namen-bestand.ts`
  */
-import { readFileSync } from 'node:fs'
-import { todayIso } from '../shared/time.ts'
 import type { Title } from '../shared/types.ts'
 import { ANISEARCH_ID_BASIS, anisearchNamensKanten } from './bau/anisearch-titel.ts'
 
@@ -15,9 +13,6 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
   verletzt++
   console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
-
-/** Bis dahin darf der ausgelieferte Datensatz noch den Stand vor dem Fix tragen (der nächste Bestandsbau baut ihn neu); danach wird die Prüfung rot. */
-const UEBERGANG_BIS = '2026-10-16'
 
 const B = ANISEARCH_ID_BASIS
 const titel = (id: number, titleEn: string, franchiseId = id) => ({ id, titleEn, franchiseId }) as unknown as Title
@@ -41,15 +36,6 @@ console.log('\nReihenzuordnung aniSearch-Titel nach Namensvorspann:')
   pruefe('Ein Titel mit dem vollen Namen der Reihe bekommt keine Kante auf sich selbst', !k.some((e) => e.ids[1] === B + 6))
   pruefe('Heißen zwei Reihen gleich, wird keine geraten', !k.some((e) => e.ids[1] === B + 7))
   pruefe('Ein Vorspann unter fünf Zeichen zählt nicht', !k.some((e) => e.ids[1] === B + 8))
-}
-
-console.log('\nAusgelieferter Datensatz:')
-{
-  const lies = (p: string): Title[] => JSON.parse(readFileSync(p, 'utf8')) as Title[]
-  const alle = new Map<number, Title>([...lies('public/data/titles.json'), ...lies('public/data/ohne-synchro.json')].map((t) => [t.id, t]))
-  const offen = anisearchNamensKanten(alle, wurzelVon(alle)).map((e) => alle.get(e.ids[1]!)?.titleEn ?? e.ids[1])
-  if (offen.length && todayIso() <= UEBERGANG_BIS) console.log(`  … ${offen.length} alleinstehende aniSearch-Titel nennen eine Reihe (Übergang bis ${UEBERGANG_BIS}, der nächste Bestandsbau gruppiert sie)`)
-  else pruefe('Kein alleinstehender aniSearch-Titel nennt im Namen eine vorhandene Reihe', offen.length === 0, offen.slice(0, 5))
 }
 
 if (verletzt) {

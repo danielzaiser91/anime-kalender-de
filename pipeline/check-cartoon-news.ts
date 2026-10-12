@@ -1,7 +1,7 @@
 /**
  * Zusicherung zu `cartoonsAusReleases` (`bau/cartoon-kern.ts`): Cartoons mit Termin speisen `baueNews()`, und daraus
  * entstehen nur Termin-Meldungen mit Quelle — keine Anime-Meldung („neu mit Synchro", Messung, Folgen) greift auf sie.
- * Läuft auf den Erzeugnissen in `public/data/` (wie der Bau sie liest).
+ * Läuft auf den Erzeugnissen in `public/data/` (wie der Bau sie liest), deshalb in `check:bestand` (`tools/check-bestand-liste.txt`), nicht in `check:logic`.
  */
 import { baueNews } from './lib/news.ts'
 import { cartoonsAusReleases } from './bau/cartoon-kern.ts'
