@@ -22,6 +22,7 @@ import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.t
 import { schreibeAboFeeds } from './bau/14-ics.ts'
 import { entferneVomKalender } from './bau/sperre.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
+import { merkeBestandVorher } from './lib/bestand-vorher.ts'
 
 function main(): void {
   /**
@@ -106,4 +107,5 @@ function main(): void {
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })
 }
 
+merkeBestandVorher()
 main()
