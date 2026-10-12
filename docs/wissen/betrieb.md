@@ -1314,3 +1314,7 @@ Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --searc
 - **DELETE vor INSERT** (`pruefung-ersetzen.ts`): über die IDs aus `ladeOffeneHashes` statt über `url` (gerechnet 0,29 Mio.); ohne offene Zeile entfällt der DELETE. Zwei gleiche Folgen im selben Stapel ergäben eine Dublette; die nächste Meldung räumt sie auf.
 - **Rohfolgen-Gesamtzahl**: bei `nach = 0` und Seite unter 5000 Zeilen aus der Seite, sonst `COUNT(*)` (gerechnet 0,26 Mio.).
 - **GET `/lauf`**: Übersicht 30 s im Edge-Cache (`cache-kurz.ts`, gerechnet 0,1 Mio. je Tag); der Verlauf einer Lauf-Art bleibt ungehalten. Ein Laufstatus zeigt sich damit bis zu 30 s später.
+
+## Bestandsbau rot am 12.10.2026: TMDB hängt aniSearch-Specials an die Hauptserie
+
+Der TMDB-Tiefendurchlauf (12.10., 05:30) ordnete drei nur bei aniSearch geführten Titeln (UBW Prologue, GGO Refrain, Veldora’s Journal) die Hauptserie zu; `ergaenzeWegeAusTmdbUndMotn` (`pipeline/bau/13-3-1-tmdb-wege.ts`) gab ihnen danach deren Anbieter, `check:cr-zuordnung` („Titel nur bei aniSearch tragen keinen erratenen Weg“) fiel zu Recht. Fix: aniSearch-Titel (`id >= ANISEARCH_ID_BASIS`) bekommen dort keinen Anbieter; die Zusicherung bleibt streng. Folgeschaden, solange der Bau rot ist: die eingecheckten Erzeugnisse veralten gegenüber neueren Rohdaten, und `check:cartoon-ton` wird auf main rot (nach einem Neubau grün). Lokal zu prüfen mit `rm public/data/titles.json`, `npm run data:build`, danach die Zusicherungen (Abschnitt „Lokaler Bau“).
