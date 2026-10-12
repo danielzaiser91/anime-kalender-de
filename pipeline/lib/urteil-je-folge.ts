@@ -42,6 +42,11 @@ export interface Urteil {
   grund?: 'kanal-ohne-abo'
 }
 
+/** Gemessen oder angenommen: `art` der Meldung oder ein ANGENOMMEN in ihrer Notiz. */
+export function artDerMeldung(m: { art: string | null; notiz: string | null }): 'gemessen' | 'angenommen' {
+  return m.art === 'angenommen' || /ANGENOMMEN/.test(m.notiz ?? '') ? 'angenommen' : 'gemessen'
+}
+
 const RANG: Record<UrteilBeobachtung['art'], number> = { gemessen: 3, abgeleitet: 2, angenommen: 1 }
 
 export function urteileJeFolge(beobachtungen: UrteilBeobachtung[]): Record<string, Urteil> {

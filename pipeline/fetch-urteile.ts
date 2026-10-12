@@ -12,7 +12,7 @@
  * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { adressIndex, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import { adressIndex, artDerMeldung, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -188,7 +188,7 @@ async function main() {
     const { von, bis } = spanne
     /* `folgenDerMeldung` hat beide schon geprüft — ohne Titel oder Befund gibt es keine Spanne. */
     if (!m.titel_id || !vorhanden) continue
-    const art = m.art === 'angenommen' || /ANGENOMMEN/.test(m.notiz ?? '') ? 'angenommen' : 'gemessen'
+    const art = artDerMeldung(m)
     for (let n = von; n <= bis; n++) {
       beobachtungen.push({
         titel: m.titel_id,

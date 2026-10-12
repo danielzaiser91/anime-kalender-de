@@ -3030,16 +3030,16 @@ function alsBereiche(nummern) {
 }
 
 /**
- * **Wie viele Folgen ein Klick prüft — umschaltbar und gemerkt.**
+ * **Wie viele Folgen ein Klick prüft — früher umschaltbar und gemerkt.**
  *
  * Daniel am 26.08.2026: „mach toggle bar per console, oder innerhalb der
  * liste ein kleiner limit-icon button dann kann ich es selbst umstellen. im
  * localstore toggle state merken, sodass ich beim testen an und normale
  * prüfung aus machen kann."
  *
- * Zwei Folgen sind die Vorgabe, solange etwas erprobt wird. Wer eine Staffel
- * wirklich durcharbeiten will, stellt einmal um — und es bleibt so, bis er es
- * zurückstellt. Umschalt+Klick kehrt die Einstellung für einen Lauf um.
+ * Seit 4.30.1 wertet nichts `probeGrenze` mehr aus (kein Umschalt+Klick, kein voller Lauf von Hand):
+ * `durchlaufStarten()` nimmt den Auftrag aus der Prüfliste, sonst erste und letzte offene Folge.
+ * Der Block lädt nur noch den Knopf (`durchlaufKnopfZeigen()`).
  */
 const PROBE_SCHLUESSEL = 'ak-durchlauf-probe'
 /** Wie viele Folgen ein Klick prüft — 0 heißt alle. */
