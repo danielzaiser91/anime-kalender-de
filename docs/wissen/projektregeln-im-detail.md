@@ -291,6 +291,10 @@ verliert zu leicht eine Neuzuweisung oder eine Reihenfolge. Einige Zusicherungen
 lesen Quelltext und prüfen die Reihenfolge von Marken; sie lesen deshalb alle Module in
 Aufrufreihenfolge (`bauQuelltext()`, `panelQuelltext()`, `workerQuelltext()`).
 
+**Exit-Codes von `bau-vergleich.mjs` (12.10.2026):** 0 gleich, 1 verschieden, 2 Bau der Basis gescheitert, 3 Sperre belegt, **4 Konflikt**
+bei der Übernahme der eigenen `data/`-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen). Vorher endete der Konflikt als
+unbehandelte Ausnahme mit Exit 1 und sah aus wie ein Unterschied im Ergebnis. Die Codes stehen in `tools/bau-vergleich-urteil.mjs`.
+
 **Stand nach dem ersten Umbau (26.09.2026):** `build.ts` 9.286 → 109 Zeilen, `main()` 7.809 → 90;
 die Phasen liegen in `pipeline/bau/` (größte Funktion 619 Zeilen). `DetailPanel.tsx` 6.237 →
 1.478, Teile in `web/src/components/detail/`. `handlePruefung` 1.244 → rund 70 (die Hälfte davon

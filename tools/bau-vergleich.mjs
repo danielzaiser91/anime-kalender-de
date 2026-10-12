@@ -29,13 +29,15 @@
  * Aufruf:
  *   node tools/bau-vergleich.mjs [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
  * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre;
- * wartet vorher bis zu 10 min auf den laufenden Vergleich).
+ * wartet vorher bis zu 10 min auf den laufenden Vergleich), 4 = Konflikt bei der Übernahme der eigenen
+ * data/-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen).
  */
 import { execFileSync, spawnSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
 import { wartAufSperre } from './einzel-sperre.mjs'
 import { beschreibeUnterschied } from './vergleich-unterschied.mjs'
 
@@ -155,6 +157,18 @@ function baue(sha, basisSha) {
   }
 }
 
+/** Baut den Kandidaten; ein Datenkonflikt beendet mit eigenem Exit-Code (`EXIT.KONFLIKT`), weil dann nichts verglichen wurde. */
+function baueOderBeende(sha, basisSha) {
+  try {
+    return baue(sha, basisSha)
+  } catch (fehler) {
+    const code = exitFuerFehler(fehler)
+    if (code === null) throw fehler
+    console.error(`KONFLIKT — kein Vergleich: ${fehler.message}`)
+    process.exit(code)
+  }
+}
+
 /** Im Vergleichsmodus bricht ein Widerspruch den Bau nicht ab, sondern steht im Protokoll — hier wird die Zahl genannt. */
 function meldeWiderspruchWarnungen(seite, ordner) {
   const n = readFileSync(join(ordner, '_protokoll.txt'), 'utf8').split('\n').filter((z) => z.includes('Widerspruch (Vergleichsmodus)')).length
@@ -168,9 +182,9 @@ const kandidat = git('rev-parse', kandidatName ?? 'HEAD')
 const a = baue(basis, basis)
 if (!readFileSync(join(a, '_protokoll.txt'), 'utf8').startsWith('exit 0')) {
   console.error(`Der Bau der Basis ${basis.slice(0, 12)} scheitert selbst — siehe ${a}/_protokoll.txt`)
-  process.exit(2)
+  process.exit(EXIT.BAU_BASIS)
 }
-const b = baue(kandidat, basis)
+const b = baueOderBeende(kandidat, basis)
 meldeWiderspruchWarnungen('Basis', a)
 meldeWiderspruchWarnungen('Kandidat', b)
 /** Alle Dateien unter `ordner`, relativ und mit `/` — ohne `diff`, das es unter Windows nicht gibt. */
@@ -188,7 +202,7 @@ const verschieden = liste.filter((f) => {
 if (!verschieden.length) {
   console.log(`gleich: ${kandidat.slice(0, 12)} schreibt dasselbe wie ${basis.slice(0, 12)}`)
   for (const zeile of gleichTrotzDatenHinweis(git, basis, kandidat)) console.log(zeile)
-  process.exit(0)
+  process.exit(EXIT.GLEICH)
 }
 for (const f of verschieden) {
   console.log(f)
@@ -197,4 +211,4 @@ for (const f of verschieden) {
   for (const zeile of beschreibeUnterschied(f, lies(a), lies(b))) console.log(zeile)
 }
 console.log(`VERSCHIEDEN (${verschieden.length} Dateien) — Einzelheiten: ${a} gegen ${b}`)
-process.exit(1)
+process.exit(EXIT.VERSCHIEDEN)
