@@ -20,7 +20,7 @@
  * wird nur geholt, wenn ein Treffer da ist, und dann einmal je Aufruf.
  */
 import { type Env } from './env.ts'
-import { jetztIso } from './werte.ts'
+import { jetztIso, zahlOderNull } from './werte.ts'
 
 type OffeneZeile = { id: number; hash: string | null; gemeldetAm: string }
 
@@ -34,6 +34,16 @@ export type OffeneHashes = {
 }
 
 export type Folge = { url: string; folgeNr: number | null; staffelNr: number | null; seitenKennung: string | null }
+
+/** Die Folge einer Meldung — die eine Ableitung für Vergleichen und Ersetzen (`speichereDaten`). */
+export function folgeVon(daten: Record<string, unknown>): Folge {
+  return {
+    url: String(daten.url ?? '').trim(),
+    folgeNr: zahlOderNull(daten.folge_nr),
+    staffelNr: zahlOderNull(daten.staffel),
+    seitenKennung: typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null,
+  }
+}
 
 const schluessel = (f: Folge) => JSON.stringify([f.url, f.folgeNr, f.staffelNr, f.seitenKennung])
 

@@ -26,7 +26,7 @@ import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
 import { istMeldung, mitTagesdeckel } from './tagesdeckel.ts'
 import { loescheOffene } from './pruefung-ersetzen.ts'
 import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
-import { pruefeUnveraendert, ladeOffeneHashes, type OffeneHashes } from './pruefung-unveraendert.ts'
+import { pruefeUnveraendert, ladeOffeneHashes, folgeVon, type OffeneHashes } from './pruefung-unveraendert.ts'
 
 export async function speicherePruefung(kontext: Kontext) {
   let daten: Record<string, unknown>
@@ -255,8 +255,6 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
    * `IS` statt `=`, weil SQLite bei `NULL = NULL` nichts liefert und die
    * allermeisten Meldungen gar keine Staffelangabe tragen.
    */
-  const folgeNr = zahlOderNull(daten.folge_nr)
-  const staffelNr = zahlOderNull(daten.staffel)
   /**
    * **Die Seitenkennung gehört in die Ersetzungs-Bedingung.**
    *
@@ -272,7 +270,7 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
    * `IS` statt `=`, aus demselben Grund wie bei der Staffel: Ältere Meldungen
    * tragen keine Kennung, und `NULL = NULL` liefert in SQLite nichts.
    */
-  const seitenKennung = typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null
+  const { folgeNr, staffelNr, seitenKennung } = folgeVon(daten)
   /* Dieselbe Meldung wie die offene Zeile: nichts zu schreiben (pruefung-unveraendert.ts). */
   const { hash, unveraendert } = await pruefeUnveraendert(env, offene, daten, { url, folgeNr, staffelNr, seitenKennung })
   if (unveraendert) {
