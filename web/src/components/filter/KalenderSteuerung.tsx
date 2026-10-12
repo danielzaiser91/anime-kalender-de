@@ -33,9 +33,9 @@ export function HeuteChip({ view, date, onDate }: { view: ViewId; date: string; 
   const hier = lage === 'hier'
   const text = hier && !monat ? t('nav.todayScroll') : t(HEUTE_TEXT[lage])
   const schritt = (dir: number) => onDate(monat ? addMonths(date, dir) : addDays(date, dir * 7))
-  const kreis = 'flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-ak-flaeche-2 text-ak-text'
+  const kreis = 'flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-ak-flaeche-2 text-ak-text'
   return (
-    <div role="group" aria-label={t('kal.zeitraum')} className="flex h-11 shrink-0 items-center rounded-full border border-ak-rand bg-ak-flaeche p-0.5">
+    <div role="group" aria-label={t('kal.zeitraum')} className="flex h-11 shrink-0 items-center rounded-full bg-ak-flaeche ring-1 ring-inset ring-ak-rand">
       <button type="button" onClick={() => schritt(-1)} aria-label={t('kal.voriger')} className={kreis}>
         <LinksZeichen />
       </button>
@@ -50,7 +50,7 @@ export function HeuteChip({ view, date, onDate }: { view: ViewId; date: string; 
           aria-label={`${t('nav.today')}: ${text}`}
           aria-current={hier ? 'date' : undefined}
           className={[
-            'h-10 w-14 shrink-0 cursor-pointer rounded-full text-sm font-bold transition disabled:cursor-default disabled:opacity-40',
+            'h-11 w-14 shrink-0 cursor-pointer rounded-full text-sm font-bold transition disabled:cursor-default disabled:opacity-40',
             hier ? 'text-ak-text' : 'bg-ak-akzent text-ak-auf-akzent',
           ].join(' ')}
         >
