@@ -1,4 +1,4 @@
-import type { Title } from '../../shared/types.ts'
+import type { StreamLink, Title } from '../../shared/types.ts'
 import { readJson, log } from '../lib/util.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { kanalAdressenOhneBeleg, kanalSchluessel } from '../lib/kanal-titel.ts'
@@ -18,13 +18,7 @@ import { kanalAdressenOhneBeleg, kanalSchluessel } from '../lib/kanal-titel.ts'
  * Schritt 2, wenn die Gegenproben dafür stehen.
  */
 export function urteilSchliesstLuecken(titles: Map<number, Title>): void {
-  const urteile = readJson<Record<string, { urteil?: string }>>('data/urteile.json', {})
-  const jaJeWeg = new Set<string>()
-  for (const [schluessel, u] of Object.entries(urteile)) {
-    if (u?.urteil !== 'deutsch') continue
-    const [id, plattform] = schluessel.split('|')
-    if (id && plattform) jaJeWeg.add(`${id}|${plattform}`)
-  }
+  const jaJeWeg = jaJeTitelUndPlattform()
   /* Auch das Urteil beruht auf Amazons Sprachangabe; auf einem Kanal-Titel ist sie kein Beleg (`lib/kanal-titel.ts`). */
   const kanal = kanalAdressenOhneBeleg(loadDubChecks())
   let ausUrteil = 0
@@ -32,10 +26,27 @@ export function urteilSchliesstLuecken(titles: Map<number, Title>): void {
     for (const stream of title.streams ?? []) {
       if (stream.dub !== undefined) continue
       if (!jaJeWeg.has(`${title.id}|${stream.platform}`)) continue
-      if (stream.platform === 'primevideo' && kanal.has(kanalSchluessel(title.id, stream.url))) continue
+      if (kanalGesperrt(title, stream, kanal)) continue
       stream.dub = true
       ausUrteil++
     }
   }
   if (ausUrteil) log(`${ausUrteil} Weg(e) über das Urteil aus Stufe 3 belegt`)
+}
+
+/** Schlüssel „Titel|Plattform“, für die `data/urteile.json` irgendeine Folge „deutsch“ führt. */
+function jaJeTitelUndPlattform(): Set<string> {
+  const urteile = readJson<Record<string, { urteil?: string }>>('data/urteile.json', {})
+  const ja = new Set<string>()
+  for (const [schluessel, u] of Object.entries(urteile)) {
+    if (u?.urteil !== 'deutsch') continue
+    const [id, plattform] = schluessel.split('|')
+    if (id && plattform) ja.add(`${id}|${plattform}`)
+  }
+  return ja
+}
+
+/** Steht der Weg auf der Adresse eines Kanal-Belegs? Dort trägt Amazons Sprachangabe kein Ja. */
+function kanalGesperrt(title: Title, stream: StreamLink, kanal: ReadonlySet<string>): boolean {
+  return stream.platform === 'primevideo' && kanal.has(kanalSchluessel(title.id, stream.url))
 }
