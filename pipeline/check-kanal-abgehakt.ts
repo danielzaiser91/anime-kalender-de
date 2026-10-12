@@ -1,7 +1,7 @@
 /**
  * Zusicherung: Eine Kanal-Meldung ohne Urteil wird abgehakt und taucht nicht zusätzlich als
  * „bleibt liegen“ in der Liste auf (Prüfer-Befund PR 766, 11.10.2026). Der Lauf liest dazu eine
- * erfundene Meldung (`tools/kanal-abgehakt-mock.mjs`), geschrieben wird nichts (`--trocken`).
+ * erfundene Meldung gegen eine Attrappe des Bestands (`tools/kanal-abgehakt-mock.mjs`, liest nichts aus `public/data`), geschrieben wird nichts (`--trocken`).
  */
 import { spawnSync } from 'node:child_process'
 import { createRequire } from 'node:module'

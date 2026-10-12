@@ -193,7 +193,7 @@ jobs:
       - name: Neue Handbelege prüfen
         run: |
           if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
-          if npm run check:logic > /tmp/logic.txt 2>&1; then exit 0; fi
+          if npm run check:logic > /tmp/logic.txt 2>&1 && npx tsx pipeline/check-logic-bestand.ts >> /tmp/logic.txt 2>&1; then exit 0; fi
           grep '✖' /tmp/logic.txt || true
           git checkout -- data/dub-confirmed.yaml
           git checkout -- data/anbieter-staffeln.json 2>/dev/null || true
