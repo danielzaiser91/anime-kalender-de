@@ -1,12 +1,8 @@
 /**
  * Zusicherungen zu den eigenen Handlungstexten (`data/handlung-eigen.yaml`, 12.10.2026): ein Eintrag braucht Quelle, Umfang und Lizenz; er gilt nur, wo keine Quelle
- * einen deutschen Text liefert (Vorrang bleibt bei den Quellen); ein überholter oder verwaister Eintrag wird gemeldet. Läuft in `check:logic`.
- * Die echte Datei wird auf Struktur geprüft (Fehler) und gegen die ausgelieferten Synopsen gehalten (Hinweis: dort steht inzwischen ein fremder Text).
+ * einen deutschen Text liefert (Vorrang bleibt bei den Quellen); ein überholter oder verwaister Eintrag wird gemeldet (Bau-Warnung). Läuft in `check:logic`.
+ * Die echte Datei wird auf Struktur geprüft; gegen den gebauten Bestand hält sie `check-handlung-eigen-bestand.ts` (check:bestand).
  */
-import { existsSync, readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
-import { SYNOPSIS_GROUPS } from '../shared/types.ts'
-import { ROOT } from './lib/util.ts'
 import { eigeneHandlungFehler, eigeneTexteAktiv, ladeEigeneHandlungen, seitenText, type EigeneHandlung } from './lib/handlung-eigen.ts'
 import { ergaenzeEigeneHandlungen } from './bau/handlung-eigen-einbinden.ts'
 import { type SynopsisEintrag } from './bau/13-1-anreichern.ts'
@@ -52,16 +48,6 @@ pruefe('Bau: die englische Fassung bleibt neben dem eigenen Text', synopsen[reih
 pruefe('Teilen-Seite: eigener Text nennt Quellen und Lizenz', seitenText(synopsen[reihe.id])?.endsWith(`(${reihe.lizenz}).`) === true)
 
 pruefe('Datei: data/handlung-eigen.yaml ist gültig', eigeneHandlungFehler(echte).length === 0, eigeneHandlungFehler(echte).join('; '))
-
-/* Hinweis (kein Fehler): Die ausgelieferten Synopsen führen für einen Eintrag einen fremden Text, er wird nicht mehr genutzt. */
-function ausgeliefert(id: number): { de?: string; eigen?: unknown } | undefined {
-  const pfad = resolve(ROOT, `public/data/synopses/${id % SYNOPSIS_GROUPS}.json`)
-  return existsSync(pfad) ? (JSON.parse(readFileSync(pfad, 'utf8')) as Record<string, { de?: string; eigen?: unknown }>)[String(id)] : undefined
-}
-for (const e of echte) {
-  const s = ausgeliefert(e.id)
-  if (s?.de && !s.eigen) console.log(`HINWEIS: Eigene Handlung ${e.id} ist überholt, die Auslieferung führt einen Text aus einer Quelle — Eintrag in data/handlung-eigen.yaml löschen.`)
-}
 
 console.log(fehler ? `\nEigene Handlung: ${fehler} Zusicherung(en) verletzt.` : 'Eigene Handlung: alle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
