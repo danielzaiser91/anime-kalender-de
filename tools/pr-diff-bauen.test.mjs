@@ -25,6 +25,8 @@ pruefe('kleine Sammler-JSON bleibt vollständig', !bau([datei('data/sammler.json
 pruefe('Datei in Ordner der Liste gestubbt', bau([datei('data/roh-ordner/a/b.json', groß)]).gestubbt.length === 1)
 pruefe('Ordnername als Präfix ohne Schrägstrich trifft nicht', bau([datei('data/roh-ordner-x.json', groß)]).gestubbt.length === 0)
 pruefe('public/data gestubbt', bau([datei('public/data/titles.json', groß)]).gestubbt.length === 1)
+pruefe('data/stammdaten gestubbt', bau([datei('data/stammdaten/x.json', groß)]).gestubbt.length === 1)
+pruefe('data/stammdaten: kleine Handänderung bleibt lesbar', bau([datei('data/stammdaten/x.json', 'klein')]).gestubbt.length === 0)
 pruefe('Bühnen-Fälle (Erzeugnis) gestubbt', bau([datei('web/buehne/faelle.json', groß)]).gestubbt.length === 1)
 pruefe('andere Datei unter web/buehne bleibt vollständig', bau([datei('web/buehne/andere.json', groß)]).gestubbt.length === 0)
 for (const name of ['data/synchro-von-hand.yaml', 'data/ankuendigungen.yaml', 'data/dubletten-grenze.json', 'data/neu-nicht-auf-liste.json']) {
@@ -34,7 +36,7 @@ pruefe('Handbeleg nie gestubbt, auch wenn auf der Liste', bau([datei('data/dub-c
 pruefe('data/curated nie gestubbt', bau([datei('data/curated/x.yaml', groß)]).gestubbt.length === 0)
 // Pfad zusammengesetzt: check-cache-abhaengigkeit liest Cache-Pfade als Literale und verlangt sonst einen Registereintrag.
 pruefe('data/cache nie gestubbt (voller Diff sichtbar)', bau([datei('data/' + 'cache/x.json', groß)]).gestubbt.length === 0)
-for (const pfad of ['data/skript.ts', 'data/x.mjs', 'data/x.yml', 'data/x.json.ts', 'data/x.md', 'tools/x.json', 'public/data/x.js', '.github/workflows/x.yaml', 'data/../tools/x.json', 'data/x.json\n.ts', 'data/roh-ordner/x.ts']) {
+for (const pfad of ['data/stammdaten/x.ts', 'data/stammdaten/../cache/x.json', 'data/stammdaten-x/y.json', 'data/stammdaten.json', 'data/stammdaten/a\nb.json', 'data/skript.ts', 'data/x.mjs', 'data/x.yml', 'data/x.json.ts', 'data/x.md', 'tools/x.json', 'public/data/x.js', '.github/workflows/x.yaml', 'data/../tools/x.json', 'data/x.json\n.ts', 'data/roh-ordner/x.ts']) {
   pruefe(`Pfad ${JSON.stringify(pfad)} nie stubbar`, !stubbar(pfad, quellen))
 }
 const umbruch = bau([datei('data/curated/a\nb.json', groß), datei('data/a\nb.json', groß), datei('data/a\rb.json', groß)])
