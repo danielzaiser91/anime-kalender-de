@@ -2607,7 +2607,7 @@ async function alleStaffelnPruefen() {
         continue
       }
       DURCHLAUF.erzwungen = true
-      await durchlaufStarten(RAND)
+      await durchlaufStarten()
       m.fertig += DURCHLAUF.fertig ?? 0
       m.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - randPruefungen(gruppe))
       if (DURCHLAUF.abbruch) break
@@ -2918,7 +2918,7 @@ async function selbstStartenSchritt() {
     DURCHLAUF.selbst = true
     DURCHLAUF.gesamt = 0
     DURCHLAUF.erzwungen = true
-    await durchlaufStarten(RAND)
+    await durchlaufStarten()
     DURCHLAUF.selbst = false
     zaehler.fertig += DURCHLAUF.fertig ?? 0
     zaehler.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - randPruefungen(gruppe)) + (DURCHLAUF.vollLauf ? randPruefungen(gruppe) : 0)
@@ -3063,12 +3063,11 @@ void (async () => {
  * abschicken und gelbfärbung oder so um es zu kennzeichnen, dann input feld
  * anbieten wo ich manuell eine folge eingeben kann, bis zu der es deutsch ist."
  *
- * `RAND` prüft die erste und die letzte offene Folge. Stimmen beide überein,
+ * Die Randprobe prüft die erste und die letzte offene Folge. Stimmen beide überein,
  * gilt der Befund für die ganze Staffel — **als Annahme, nicht als Messung**,
  * und die Notiz sagt das. Unterscheiden sie sich, geht gar nichts raus: Dann
  * liegt die Grenze irgendwo dazwischen, und die kennt nur, wer nachsieht.
  */
-const RAND = -1
 
 /**
  * Die von Hand eingetragene Grenze übernehmen.
@@ -3814,10 +3813,10 @@ document.addEventListener(
  * fünf erproben, nicht an tausend — gehört als Griff in den Code, nicht in
  * einen guten Vorsatz.
  *
- * **Umschalt+Klick** startet ihn. Rechtsklick setzt den Stand einer Reihe
+ * Rechtsklick setzt den Stand einer Reihe
  * zurück, damit dieselben Folgen erneut prüfbar werden.
  */
-async function durchlaufStarten(grenze) {
+async function durchlaufStarten() {
   if (DURCHLAUF.laeuft) {
     DURCHLAUF.abbruch = true
     return
@@ -4675,7 +4674,6 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.knopf.className = 'ak-durchlauf'
     DURCHLAUF.knopf.addEventListener(
       'click',
-      /* Mit Umschalt nur zwei Folgen — zum Erproben, ohne lange zu warten. */
       (e) => {
         /*
           Läuft schon etwas, tut ein Klick nichts mehr.
@@ -4725,22 +4723,8 @@ function durchlaufKnopfZeigen() {
           return
         }
         console.log('[Anime-Kalender] Durchlauf startet:', zustand)
-        /*
-          **Zwei Folgen sind die Vorgabe, alle nur mit Umschalt.**
-
-          Daniel am 26.08.2026: „wir haben eigentlich gesagt für debugging
-          reicht 2 prüfung, warum kein limit eingebaut?" Es war eingebaut —
-          hinter Umschalt+Klick, also genau dort, wo man es beim normalen
-          Klicken nicht trifft. Solange etwas erprobt wird, gehört die sparsame
-          Fassung auf den Hauptweg und die teure hinter den Griff.
-        */
-        /* Umschalt kehrt die Einstellung für diesen einen Lauf um. */
-        /*
-          Die Grenze ist Geschichte: `durchlaufStarten()` liest den Auftrag aus
-          der Prüfliste und fällt sonst auf erste und letzte offene Folge
-          zurück. Umschalt bleibt als Griff für den vollen Lauf.
-        */
-        void durchlaufStarten(e.shiftKey ? 0 : undefined)
+        /* `durchlaufStarten()` liest den Auftrag aus der Prüfliste und fällt sonst auf erste und letzte offene Folge zurück; einen vollen Lauf von Hand gibt es nicht. */
+        void durchlaufStarten()
       },
     )
     /*
