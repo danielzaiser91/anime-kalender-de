@@ -3,7 +3,6 @@
  * Liest `public/data` und gehört deshalb in `check:bestand`, nicht in `check:logic` (der Bestand liegt hinter neueren Rohdaten zurück;
  * PR-Ketten wurden daran rot, 12.10.2026). Die Einheitenprüfungen ohne Dateizugriff stehen in `check-saison-deutsch.ts`.
  */
-
 import { readFileSync } from 'node:fs'
 import { deutscheAngabe, releasesNachTitel } from './bau/saison-deutsch.ts'
 import { zeilenDerSaison, type SaisonDatei } from '../web/src/lib/saison.ts'

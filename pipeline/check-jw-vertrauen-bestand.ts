@@ -3,7 +3,6 @@
  * Liest `public/data` und gehört deshalb in `check:bestand`, nicht in `check:logic` (der Bestand liegt hinter neueren Rohdaten zurück;
  * PR-Ketten wurden daran rot, 12.10.2026). Die Einheitenprüfungen ohne Dateizugriff stehen in `check-jw-vertrauen.ts`.
  */
-
 import { existsSync } from 'node:fs'
 import { readJson } from './lib/util.ts'
 import type { Title } from '../shared/types.ts'

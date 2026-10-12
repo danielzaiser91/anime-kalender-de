@@ -3326,7 +3326,7 @@ Anlass (Daniel): Bei „The Boxer" stand eine Suchseite, bei „Laid Off Cheat G
 - **Grenzen:** Nur japanische Anime, nichts nach 2023; Abwesenheit ist kein Befund. Namensabgleich, kein Sprecher, keine Plattform: Sender in der Liste ist nicht die Streaming-Plattform. Das Listenjahr ist teils das deutsche Jahr (Odysseus 31: 1988 gegen 1981).
 - **Wirkung:** `pipeline/lib/belegstaerke.ts`, Signal `forum` als mittlere Quelle (low -> normal, normal -> high), nie über high, ersetzt nie eine Handprüfung: Titel mit nur `dub: false` in `dub-confirmed.yaml` zählen nicht (der Build gibt die Zahl im Log aus). Messung auf dem Bestand vom 09.10.2026: Hauptbestand high 611 -> 798, normal 412 -> 338, low 374 -> 261 (very-high 1.529 unverändert); Toggle 2 Titel low -> normal.
 - **Erzeugung:** einmalig `node tools/synchron-forum-treffer.mjs <liste.tsv>`; 2.104 exakte Namenstreffer mit passender Folgenzahl automatisch, 54 unscharfe oder mehrdeutige Zeilen von Hand in `HAND` entschieden (im Zweifel `null`: Veldoras Tagebuch, GITS Arise, Hakuoki, Appleseed XIII, Stone Ocean Teil 2 u. a. bleiben unzugeordnet). Mehrteilige Filme (Digimon tri., Heaven's Feel) belegen alle Teile.
-- **Prüfung:** `pipeline/check-belegstaerke.ts` (in `check:logic`): Regel an Beispielen, jede ID im Datensatz, Listenjahr höchstens 2 Jahre neben AniList.
+- **Prüfung:** `pipeline/check-belegstaerke.ts` (in `check:logic`): Regel an Beispielen; `check-belegstaerke-bestand.ts` (in `check:bestand`): jede ID im Datensatz, Listenjahr höchstens 2 Jahre neben AniList.
 
 ## Ein Beleg steht nur bei der Aussage, die er trägt — „nur Originalton" ist kein deutscher Termin (10.10.2026)
 

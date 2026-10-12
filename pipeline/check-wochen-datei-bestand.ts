@@ -3,7 +3,6 @@
  * Liest `public/data` und gehört deshalb in `check:bestand`, nicht in `check:logic` (der Bestand liegt hinter neueren Rohdaten zurück;
  * PR-Ketten wurden daran rot, 12.10.2026). Die Einheitenprüfungen ohne Dateizugriff stehen in `check-wochen-datei.ts`.
  */
-
 import { existsSync, readFileSync } from 'node:fs'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { pruefeWochenDatei, type WochenDatei } from '../shared/wochen-datei.ts'

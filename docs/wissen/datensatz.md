@@ -561,7 +561,7 @@ ziehen bei 2× das `large`-Cover, PNG bis 553 KB), nur die Bilder im Sichtfeld m
 
 **Bau.** `bau/13-8-wochen-datei.ts` schneidet nach dem Titelrang `woche.json` aus `titles-core.json`, `releases.json`, `events.json` (Logik in `shared/wochen-datei.ts`):
 Montag–Sonntag der Bauwoche (`todayIso()`, Europe/Berlin), dazu alle Releases der gezeigten Titel (`istPremiere` zählt über sie) und je Titel die letzte schon
-erschienene Folge vor der Woche (`neuesteErschienen` für „N neu"). Reihenfolge der vollen Dateien bleibt. **Zusicherung** (Bau bricht ab, `check:logic` → `check-wochen-datei.ts`):
+erschienene Folge vor der Woche (`neuesteErschienen` für „N neu"). Reihenfolge der vollen Dateien bleibt. **Zusicherung** (Bau bricht ab, `check:logic` → `check-wochen-datei.ts`; der Teil am Bestand: `check-wochen-datei-bestand.ts` in `check:bestand`):
 jeder Termin, jedes Release, jeder Titel steht byte-gleich in den vollen Dateien (auch nach der Übersetzung in `ak`), jeder Termin der Woche steht drin, jeder Termin hat Release und Titel.
 Größe 30,9 KB gzip (166 KB roh; 107 Termine, 56 Releases, 39 Titel); der Repo-Zuwachs ist ein Tagesdiff dieser Größe, die veröffentlichte Seite wächst um dieselbe Datei.
 
@@ -699,7 +699,7 @@ alle Zeilen ohne Deutsch (`dub: '-'`) hinter dem Schalter; die Prüfung `malDubl
 Regel (`pipeline/bau/anisearch-dubletten.ts`, aufgerufen aus `schreibeOhneSynchro`): Eine Zeile hinter dem Schalter entfällt zugunsten des Katalogtitels; steht
 die Zeile im Hauptbestand oder trägt sie einen Termin (Beerus, Fool Night), entfällt der Katalogtitel. Zeilen mit Deutsch (`d`/`p`/`c`) und Zeilen aus `MAL_AUSNAHMEN`
 bleiben (die Handdatei bindet sie); bei mehr als einem Treffer auf einer Seite wird nichts geraten. Die Kennung der entfallenen Zeile bekommt keine Umleitung
-(`zuAk`), sie stand nur hinter dem Schalter. Zusicherung: `pipeline/check-anisearch-dubletten.ts` (Teil von `check:logic`), mit Übergang bis 16.10.2026, bis der
+(`zuAk`), sie stand nur hinter dem Schalter. Zusicherung: `pipeline/check-anisearch-dubletten.ts` (Teil von `check:logic`; am Bestand `check-anisearch-dubletten-bestand.ts` in `check:bestand`), mit Übergang bis 16.10.2026, bis der
 nächste Datenlauf den Datensatz neu gebaut hat.
 
 **Cours (09.10.2026, Tougen Anki Nikko Kegon):** AniList führt 24 Folgen, aniSearch zwei Zeilen zu 12 (die zweite „… - Dai 2 Cour" ohne MAL). Gehen die Folgen der
@@ -863,7 +863,7 @@ Ein Titel mit sicherem Termin (nicht `estimated`, mit `sources`) bei einem Strea
 - **Regel** (`lib/prime-teilseiten.ts`, Bau `bau/09-7-prime-teilseiten.ts`, hinter `setzeCrTeilseiten` im Verteiler `bau/09-7-teilseiten.ts`): ein Weg mit Haken, ohne Bereich, mit `sharedWith` bekommt `dubRanges` aus den **deutschen** Folgen seiner Meldung, wenn sie eindeutig ist: genau eine Meldung des Titels zur Seite; jede deutsche Folge hat eine Nummer in 1 bis Folgenzahl, keine Nummer doppelt; die Folgengruppe (ASIN der ersten Folge) ist keinem anderen Titel derselben Seite gemeldet. Lücken bleiben Lücken (Hyouka: 1–3 und 5–12 von 22 — die übrigen 10 stehen nicht auf dieser Seite).
 - **Kanal-Titel ausgenommen:** Amazon zeigt dort die Sprachen des Kanals, nicht die der Folge (Kill Blue, 24.08.2026). Erkannt über den Handbeleg der Adresse (`Abos:` mit genau einem Kanal oder die Warnung „Kanal-Titel“); 18 der 38 Wege stehen deshalb mit Grund auf der Prüfliste, darunter Food Wars und Danganronpa 3. Bei Food Wars kam die Meldung außerdem von anderen Staffelseiten (`seite` ≠ Ablage-Adresse); eine Meldung gilt nur der Seite, von der sie kam.
 - **Prüfliste:** `data/prime-teilseiten-pruefliste.json` (Titel, Adresse, Grund). Ein Handbeleg mit Bereichen bleibt unberührt.
-- **Prüfung:** `pipeline/check-prime-teilseiten.ts` (in `check:logic`).
+- **Prüfung:** `pipeline/check-prime-teilseiten.ts` (in `check:logic`; der Bestandsteil `check-prime-teilseiten-bestand.ts` in `check:bestand`).
 
 ## Dublette ohne MAL auf AniList-Seite: Bookworm Staffel 5 (11.10.2026)
 

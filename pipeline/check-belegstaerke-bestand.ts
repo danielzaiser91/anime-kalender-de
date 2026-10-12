@@ -3,7 +3,6 @@
  * Liest `public/data` und gehört deshalb in `check:bestand`, nicht in `check:logic` (der Bestand liegt hinter neueren Rohdaten zurück;
  * PR-Ketten wurden daran rot, 12.10.2026). Die Einheitenprüfungen ohne Dateizugriff stehen in `check-belegstaerke.ts`.
  */
-
 import type { Title } from '../shared/types.ts'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
