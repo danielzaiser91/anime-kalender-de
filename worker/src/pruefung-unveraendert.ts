@@ -15,7 +15,7 @@
  * aber nur, wenn der alte Wert vor dem aktuellen Listenbau liegt (eine Zeile, einmal je Listenbau);
  * sonst bleibt es bei 0 geschriebenen Zeilen.
  *
- * Die Zeilen aller Adressen eines Aufrufs werden mit **einer** Abfrage geladen: ein Stapel
+ * Die Zeilen der gemeldeten Folgen eines Aufrufs werden mit **einer** Abfrage geladen: ein Stapel
  * hat höchstens 50 Abfragen (Subrequests), eine Abfrage je Meldung sprengte das Budget. Der Listenbau
  * wird nur geholt, wenn ein Treffer da ist, und dann einmal je Aufruf.
  */
@@ -77,7 +77,16 @@ type Zeile = {
   uebernommen: number
 }
 
-/** Die Folge einer Meldung — die eine Ableitung für Laden, Vergleichen und Ersetzen (`speichereDaten`). */
+/**
+ * Die Folge einer Meldung — die eine Ableitung für Laden, Vergleichen und Ersetzen (`speichereDaten`).
+ * Wird derselbe Titel zweimal geschickt, gilt der jüngere Blick; verglichen wird über alle vier Teile:
+ * - **Staffel:** Amazon führt Sammelseiten, unter `B0GFPBT6FG` liegen alle drei Staffeln von „Oshi no Ko",
+ *   nur durch den Verweis-Parameter getrennt (gemessen 23.08.2026). Ohne sie löschte Staffel 3 die Staffel 1.
+ * - **Seitenkennung:** Prime führt oft zwei Ausgaben unter einer Adresse („My First Girlfriend is a Gal":
+ *   Kauftitel mit 11 Folgen und die Crunchyroll-Fassung mit 10). Ohne sie löschte die zweite die erste.
+ * `IS` statt `=` in der SQL-Bedingung, weil `NULL = NULL` in SQLite nichts liefert und ältere Meldungen
+ * weder Staffel noch Kennung tragen.
+ */
 export function folgeVon(daten: Record<string, unknown>): Folge {
   return {
     url: String(daten.url ?? '').trim(),

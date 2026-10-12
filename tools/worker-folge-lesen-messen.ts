@@ -153,12 +153,20 @@ async function messeDurchgaenge() {
   return werte
 }
 
-/** Endstand der Tabellen ohne Zeitstempel (die sind je Lauf anders), nach Zeilen-ID. */
+/**
+ * Endstand der Tabellen ohne Zeitstempel und ohne Zeilen-IDs, sortiert nach Inhalt: Bei einem Stapel
+ * laufen die Meldungen mit `Promise.all` nebeneinander (`pruefung-stapel.ts`), die IDs (`id`,
+ * `meldung_id`) hängen also von der Reihenfolge der Datenbankzugriffe ab und sind je Lauf andere.
+ */
 async function stand() {
-  const p = await roh.prepare('SELECT * FROM pruefung WHERE url LIKE ? ORDER BY id').bind('%/g-%').all()
-  const rf = await roh.prepare('SELECT * FROM prime_folge WHERE url LIKE ? ORDER BY id').bind('%/g-%').all()
-  const ohneZeit = (z: Record<string, unknown>) => ({ ...z, gemeldet_am: z.gemeldet_am ? 'T' : null })
-  return { pruefung: p.results.map(ohneZeit), prime_folge: rf.results.map(ohneZeit) }
+  const p = await roh.prepare('SELECT * FROM pruefung WHERE url LIKE ?').bind('%/g-%').all()
+  const rf = await roh.prepare('SELECT * FROM prime_folge WHERE url LIKE ?').bind('%/g-%').all()
+  const bereinigt = (z: Record<string, unknown>) => {
+    const { id: _id, meldung_id: _meldung, ...rest } = z
+    return JSON.stringify({ ...rest, gemeldet_am: z.gemeldet_am ? 'T' : null })
+  }
+  const geordnet = (zeilen: Record<string, unknown>[]) => zeilen.map(bereinigt).sort()
+  return { pruefung: geordnet(p.results), prime_folge: geordnet(rf.results) }
 }
 
 const sq = () => new DatabaseSync(datei)

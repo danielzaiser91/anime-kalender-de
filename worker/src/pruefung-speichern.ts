@@ -243,33 +243,7 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
     art = /ANGENOMMEN/.test(String(daten.notiz ?? '')) ? 'angenommen' : 'gemessen'
   }
 
-  /**
-   * Wird derselbe Titel zweimal geschickt, gilt der jüngere Blick.
-   *
-   * **Die Staffel gehört in die Bedingung.** Amazon führt Sammelseiten: Unter
-   * `B0GFPBT6FG` liegen alle drei Staffeln von „Oshi no Ko", unterschieden
-   * allein durch den Verweis-Parameter (gemessen 23.08.2026). Ohne die
-   * Staffel löschte eine Meldung für Staffel 3 die für Staffel 1 — ein Befund
-   * verschwände, ohne dass es jemandem auffällt.
-   *
-   * `IS` statt `=`, weil SQLite bei `NULL = NULL` nichts liefert und die
-   * allermeisten Meldungen gar keine Staffelangabe tragen.
-   */
-  /**
-   * **Die Seitenkennung gehört in die Ersetzungs-Bedingung.**
-   *
-   * `url` ist die Adresse aus der Prüfliste — dieselbe für beide Ausgaben eines
-   * Titels. Prime führt aber regelmäßig zwei, und sie sind verschiedene
-   * Angebote: „My First Girlfriend is a Gal" liegt als Kauftitel mit 11 Folgen
-   * und FSK 16 (die KAZÉ-Fassung samt OVA) und über den Crunchyroll-Kanal mit
-   * 10 Folgen und FSK 18, mit völlig anderen Folgentiteln.
-   *
-   * Ohne diese Bedingung löscht die zweite Meldung die erste, und im Briefkasten
-   * bleibt nur eine der beiden Ausgaben übrig.
-   *
-   * `IS` statt `=`, aus demselben Grund wie bei der Staffel: Ältere Meldungen
-   * tragen keine Kennung, und `NULL = NULL` liefert in SQLite nichts.
-   */
+  /* Dieselbe Folge zweimal geschickt: der jüngere Blick gilt (Schlüssel und Begründung: `folgeVon`). */
   const { folgeNr, staffelNr, seitenKennung } = folgeVon(daten)
   /* Dieselbe Meldung wie die offene Zeile: nichts zu schreiben (pruefung-unveraendert.ts). */
   const { hash, unveraendert } = await pruefeUnveraendert(env, offene, daten, { url, folgeNr, staffelNr, seitenKennung })
