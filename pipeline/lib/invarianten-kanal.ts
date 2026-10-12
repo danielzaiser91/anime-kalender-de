@@ -50,7 +50,8 @@ const adressenVon = (s: StreamLink): string[] => [s.url, s.seite].filter((u): u 
  * einen Prime-Weg oder hat für jeden verlorenen einen Grund (`begruendet`: Abgang am Titel, Eintrag in `verweise-entfernt.json`, gemessen tote
  * Adresse, „nicht verfügbar“). Ein anderer Prime-Weg zählt als Ersatz: Wechselt ein Beleg die Ausgabe (neue ASIN), ist das kein Verlust.
  * Anlass: 16 Titel verloren ihren Prime-Weg ohne Spur, weil eine Amazon-Suche am Ende wegfiel (One Piece Film: Strong World u. a., 12.10.2026).
- * Ein Titel, der in `jetzt` fehlt, prüft der Titelschwund-Riegel in 13-2.
+ * Ein Titel, der in `jetzt` fehlt, prüft der Titelschwund-Riegel in 13-2. Ohne `vorher` (Prüfskripte, `bestandVorher()` leer) bleibt D-27 still.
+ * Der Kanal-Schlüssel gilt über `url` und `seite`: Hat die gti-Brücke die Adresse schon umgestellt, steht die Amazon-Seite in `seite`.
  */
 export function kanalWegVerloren(
   vorher: readonly Title[],
@@ -63,7 +64,7 @@ export function kanalWegVerloren(
   for (const alt of vorher) {
     const neu = jetztJeId.get(alt.id)
     if (!neu || (neu.streams ?? []).some((s) => s.platform === 'primevideo')) continue
-    for (const weg of (alt.streams ?? []).filter((s) => s.platform === 'primevideo' && kanal.has(kanalSchluessel(alt.id, s.url)))) {
+    for (const weg of (alt.streams ?? []).filter((s) => s.platform === 'primevideo' && adressenVon(s).some((u) => kanal.has(kanalSchluessel(alt.id, u))))) {
       if (begruendet(neu, adressenVon(weg))) continue
       fehler.push(`Titel ${alt.id} (${alt.titleRomaji}): Prime-Weg ${weg.url} (Kanal) stand im vorigen Bestand, der Titel hat jetzt keinen Prime-Weg mehr und keinen Protokolleintrag`)
     }

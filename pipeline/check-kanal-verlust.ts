@@ -26,6 +26,8 @@ pruefe('Weg noch da geht durch', kanalWegVerloren(vorher, titel([adn, prime]), k
 pruefe('Ein anderer Prime-Weg (neue Ausgabe) ersetzt ihn', kanalWegVerloren(vorher, titel([adn, andereAusgabe]), kanal, keinGrund).length === 0)
 pruefe('Weg mit Spur (Abgang, Gedächtnis, tote Adresse) geht durch', kanalWegVerloren(vorher, titel([adn]), kanal, () => true).length === 0)
 pruefe('Titel, der fehlt, ist Sache des Titelschwund-Riegels', kanalWegVerloren(vorher, [], kanal, keinGrund).length === 0)
+const gtiBruecke = { ...prime, url: 'https://watch.amazon.de/detail?gti=x', seite: 'https://www.amazon.de/dp/B0DQM5BCFD' }
+pruefe('Kanal-Adresse in `seite` (gti-Brücke): Verlust wird gemeldet', kanalWegVerloren(titel([gtiBruecke, adn]), titel([adn]), kanal, keinGrund).length === 1)
 pruefe('Weg ohne Kanal-Adresse geht durch', kanalWegVerloren(vorher, titel([adn]), new Set(['999|amazon:b0xxxxxxxx']), keinGrund).length === 0)
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nD-27 hält.')
