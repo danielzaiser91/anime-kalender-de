@@ -128,7 +128,7 @@ async function alleRohfolgen(env: Env, nach: number) {
   const { results } = await env.DB.prepare(
     `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
             seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen,
-            CASE WHEN plattform = 'netflix' THEN json_extract(roh, '$.angenommen') END AS angenommen
+            CASE WHEN plattform = 'netflix' AND json_valid(roh) THEN json_extract(roh, '$.angenommen') END AS angenommen
        FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT 5000`,
   )
     .bind(Number.isFinite(nach) ? nach : 0)
