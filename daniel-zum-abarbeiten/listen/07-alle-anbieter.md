@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **33 offene Verweise** in **26 Zeilen**.
+Stand 2026-10-12 · **37 offene Verweise** in **28 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,9 +33,9 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
+| [Netflix](07-netflix.md) | 12 |
 | [Disney+](07-disneyplus.md) | 9 |
 | [Prime Video](07-primevideo.md) | 9 |
-| [Netflix](07-netflix.md) | 8 |
 | [ADN](07-adn.md) | 7 |
 
 ## Zu prüfen
@@ -54,20 +54,22 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 10 | 2026-09-17 | Danganronpa | [Hauptserie]() |
 | 11 | 2026-09-17 | Samurai Girls | [Hauptserie]() · [2: Samurai Bride]() |
 | 12 | 2026-09-06 | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
-| 13 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
-| 14 | 2026-08-07 | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
-| 15 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 16 | 2024-08-15 | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
-| 17 | 2023-11-17 | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
-| 18 | 2023-08-10 | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
-| 19 | 2023-07-07 | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
-| 20 | 2023-03-23 | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
-| 21 | 2022-10-21 | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 22 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 23 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
-| 24 | 2019-03-15 | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
-| 25 | 2014-03-23 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
-| 26 | 1998-09-30 | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
+| 13 | 2026-08-31 | Mobile Suit Gundam: Requiem for Vengeance | [Mobile Suit Gundam: Cucuruz Doan’s Island]() · [Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe](https://www.netflix.com/title/82854665) |
+| 14 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
+| 15 | 2026-08-07 | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
+| 16 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 17 | 2024-08-15 | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
+| 18 | 2023-11-17 | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
+| 19 | 2023-08-10 | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 20 | 2023-07-31 | Bastard!! Der Gott der Zerstörung | [Hauptserie](https://www.netflix.com/title/81281582) · [Staffel 2](https://www.netflix.com/title/81281582) |
+| 21 | 2023-07-07 | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
+| 22 | 2023-03-23 | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
+| 23 | 2022-10-21 | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
+| 24 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
+| 25 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
+| 26 | 2019-03-15 | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
+| 27 | 2014-03-23 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
+| 28 | 1998-09-30 | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 
