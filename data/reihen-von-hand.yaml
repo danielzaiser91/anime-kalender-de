@@ -100,6 +100,7 @@
 # Riding Bean/Gunsmith Cats, Megalo Box/Ashita no Joe, Grendizer/Mazinger Z, Nisekoimonogatari …) und Fälle ohne Beleg; sie stehen im PR.
 # `reinIds:` verbindet wie `ids:`, gilt aber nur im reinen Weg: `03-reihen.ts` liest den Schlüssel nicht, denn dort stehen die Teile schon in einer Reihe
 # (geprüft gegen public/data: alle ids eines Eintrags tragen dieselbe franchiseId). So bleibt die Ausgabe des Standardwegs unverändert.
+# `pipeline/check-reinids-grund.ts` (check:logic) rechnet nach: wo der Grund „AniList-Beziehung" sagt, liegen alle Teile in einer `rel`-Komponente des Katalogs; Teile ohne Eintrag oder ohne Beziehung stehen unter „(außer …)".
 
 # --- aniSearch kennt keine Beziehung (Klasse A) ---
 - reinIds: [1685, 175473, 9282, 176634]
