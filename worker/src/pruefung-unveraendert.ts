@@ -4,7 +4,7 @@
  * Der „alle durchgehen"-Lauf meldet Titel erneut, deren Inhalt sich nicht geändert hat; jede
  * dieser Meldungen kostete rund 12 geschriebene D1-Zeilen (löschen + einfügen samt Indexen). Der
  * Hash über den ganzen Rumpf (inklusive Rohfolgen) entscheidet: Trägt die offene Zeile derselben
- * Folge denselben Hash, ist nichts neu zu speichern. Seit 13.10.2026 gilt das auch nach dem Abhaken:
+ * Folge denselben Hash, ist nichts neu zu speichern. Seit 12.10.2026 gilt das auch nach dem Abhaken:
  * Ohne offene Zeile entscheidet die jüngste übernommene (`haltUebernommeneFrisch`).
  *
  * **Eine Ausnahme: der Zeitstempel.** Der Prüfstand und die Erweiterung rechnen „erledigt" nach
@@ -125,7 +125,7 @@ const berlinTag = (iso: string) => new Intl.DateTimeFormat('sv-SE', { timeZone: 
 
 /**
  * Gleicher Inhalt wie die jüngste übernommene Zeile: nichts einfügen, `gemeldet_am` nur erneuern, wenn
- * ein Leser den Unterschied sieht (13.10.2026):
+ * ein Leser den Unterschied sieht (12.10.2026):
  * - anderes Datum, in Berlin (`checkedAt` im Bau, `fetch-pruefungen.ts`) oder in UTC (`tag` der Urteile,
  *   `fetch-urteile.ts`): erneuern und die Zeile wieder öffnen, der Bau liest nur offene.
  * - Zeile vor dem letzten Listenbau: Wiedervorlage und Zähler rechnen `gemeldet_am > erzeugtAm`

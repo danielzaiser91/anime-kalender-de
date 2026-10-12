@@ -247,7 +247,7 @@ console.log('Übernommene Rohfolgen werden nicht neu geschrieben (12.10.2026)')
 const planVon = (db: DatabaseSync, a: { sql: string; werte: unknown[] }) =>
   (db.prepare(`EXPLAIN QUERY PLAN ${a.sql}`).all(...(a.werte as never[])) as { detail: string }[]).map((z) => z.detail).join(' ; ')
 
-console.log('Wiederholte Meldung nach dem Abhaken schreibt keine neue pruefung-Zeile (13.10.2026)')
+console.log('Wiederholte Meldung nach dem Abhaken schreibt keine neue pruefung-Zeile (12.10.2026)')
 {
   const db = neueDatenbank()
   const z = { geschrieben: 0 }
@@ -300,6 +300,66 @@ console.log('Wiederholte Meldung nach dem Abhaken schreibt keine neue pruefung-Z
   await handlePruefung(post(folge(1)), env)
   const aktualisieren = abfragen.find((a) => /^UPDATE pruefung SET gemeldet_am/.test(a.sql))
   pruefe(!!aktualisieren && planVon(db, aktualisieren).includes('INTEGER PRIMARY KEY'), 'das UPDATE geht über den Primärschlüssel')
+}
+
+console.log('Wiederholte Meldung: Tagesgrenze UTC/Berlin (D) und Zeile vor dem Listenbau (W), 12.10.2026')
+{
+  const Echt = Date
+  /* `jetzt` des Workers (`new Date()`) auf einen festen Zeitpunkt setzen; sonst nichts am Date ändern. */
+  const zuZeit = async <T>(iso: string, lauf: () => Promise<T>): Promise<T> => {
+    const fest = new Echt(iso).getTime()
+    class FesteZeit extends Echt {
+      constructor(...a: [] | [number | string]) {
+        super(a.length ? (a[0] as number) : fest)
+      }
+      static override now() {
+        return fest
+      }
+    }
+    globalThis.Date = FesteZeit as DateConstructor
+    try {
+      return await lauf()
+    } finally {
+      globalThis.Date = Echt
+    }
+  }
+  const KEIN_BAU = '2020-01-02T00:00:00.000Z'
+  /* Übernommene Zeile mit `zeileAm`, Listenbau `bauAm`, dieselbe Meldung zu `jetzt` (zweimal). */
+  const fall = async (zeileAm: string, jetzt: string, bauAm: string) => {
+    const db = neueDatenbank()
+    const z = { geschrieben: 0 }
+    const env = umgebung(db, z)
+    await handlePruefung(post(folge(1)), env)
+    db.exec(`UPDATE pruefung SET uebernommen = 1, gemeldet_am = '${zeileAm}'`)
+    stand.erzeugtAm = bauAm
+    const gesendet = () =>
+      zuZeit(jetzt, async () => {
+        const vorher = z.geschrieben
+        await handlePruefung(post(folge(1)), env)
+        return z.geschrieben - vorher
+      })
+    const erste = await gesendet()
+    const zeile = db.prepare('SELECT uebernommen, gemeldet_am FROM pruefung').get() as { uebernommen: number; gemeldet_am: string }
+    const zweite = await gesendet()
+    stand.erzeugtAm = KEIN_BAU
+    return { erste, zweite, offen: zeile.uebernommen === 0, am: zeile.gemeldet_am }
+  }
+
+  /* Oktober 2026: MESZ = UTC+2, 22:30 UTC ist 00:30 des Folgetags in Berlin. */
+  const utcAnders = await fall('2026-10-11T22:30:00Z', '2026-10-12T05:00:00Z', KEIN_BAU)
+  pruefe(utcAnders.erste === 2 && utcAnders.offen && utcAnders.am === '2026-10-12T05:00:00Z', 'gleicher Berlin-Tag (12.10.), anderer UTC-Tag (Meldung 00:30 MESZ): erneuert und wieder geöffnet')
+  pruefe(utcAnders.zweite === 0, '... die nächste gleiche Meldung schreibt 0 Zeilen')
+  const berlinAnders = await fall('2026-10-12T00:30:00Z', '2026-10-12T22:30:00Z', KEIN_BAU)
+  pruefe(berlinAnders.erste === 2 && berlinAnders.offen && berlinAnders.am === '2026-10-12T22:30:00Z', 'gleicher UTC-Tag (12.10.), anderer Berlin-Tag (jetzt 00:30 MESZ): erneuert und wieder geöffnet')
+  pruefe(berlinAnders.zweite === 0, '... die nächste gleiche Meldung schreibt 0 Zeilen')
+  const gleicherTag = await fall('2026-10-12T05:00:00Z', '2026-10-12T15:00:00Z', KEIN_BAU)
+  pruefe(gleicherTag.erste === 0 && !gleicherTag.offen && gleicherTag.am === '2026-10-12T05:00:00Z', 'derselbe Tag in Berlin und UTC, kein neuer Listenbau: 0 Zeilen, Zeile unverändert')
+
+  const nurW = await fall('2026-10-12T05:00:00Z', '2026-10-12T10:00:00Z', '2026-10-12T06:00:00.000Z')
+  pruefe(nurW.erste === 2 && !nurW.offen && nurW.am === '2026-10-12T10:00:00Z', 'W allein (heutige Zeile vor dem Listenbau): gemeldet_am erneuert, Zeile bleibt übernommen')
+  const wUndD = await fall('2026-10-11T10:00:00Z', '2026-10-12T10:00:00Z', '2026-10-12T06:00:00.000Z')
+  pruefe(wUndD.erste === 2 && wUndD.offen && wUndD.am === '2026-10-12T10:00:00Z', 'W und D (Zeile von gestern, vor dem Listenbau): ein UPDATE, D gewinnt, die Zeile wird wieder geöffnet')
+  pruefe(wUndD.zweite === 0, '... danach liegt gemeldet_am hinter dem Listenbau: 0 Zeilen')
 }
 
 console.log('Lesezeilen: Pläne der Abfragen einer Meldung (EXPLAIN QUERY PLAN, 11.10.2026)')
