@@ -8,6 +8,7 @@ pipeline/check-anime2you-entwurf.ts
 pipeline/check-anime2you-rhythmus.ts
 pipeline/check-anime2you-sammelartikel.ts
 pipeline/check-anime2you-vorschlag.ts
+pipeline/check-anisearch-archiv-text.ts
 pipeline/check-anisearch-archiv.ts
 pipeline/check-anisearch-cover-eigen.ts
 pipeline/check-anisearch-dubletten.ts

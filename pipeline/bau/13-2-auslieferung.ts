@@ -7,6 +7,7 @@ import { writeJson, readJson, warn, log } from '../lib/util.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { synopseVon } from './synopse-von.ts'
+import { archivTexte } from '../lib/anisearch-archiv-text.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
 import { type SynopsisEintrag } from './13-1-anreichern.ts'
 
@@ -39,8 +40,9 @@ export function baueAuslieferung({
   verweiseEntfernt: EntfernterVerweis[]
 }) {
   const kennungen = anisearchKennungen(allTitles.map((t) => ({ id: t.id, mal: t.malId })))
+  const archiv = archivTexte(kennungen, (id) => !!anisearch[id]?.descriptionDe || !!tmdbTitles[id]?.overviewDe)
   const slim = allTitles.map((t) => {
-    const ausAnisearch = anisearch[t.id]?.descriptionDe
+    const ausAnisearch = anisearch[t.id]?.descriptionDe ?? archiv.get(t.id)
     const ausTmdb = tmdbTitles[t.id]
     const asId = kennungen.get(t.id)
     const synopse = synopseVon({ t, asId, ausAnisearch, ausTmdb, trenneQuelle })
