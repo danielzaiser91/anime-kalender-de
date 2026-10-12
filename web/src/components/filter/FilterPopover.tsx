@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactNode, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { useVisualViewportHoehe } from '../../lib/use-visual-viewport.ts'
+import { useSeiteGesperrt } from '../../lib/use-seite-gesperrt.ts'
 import { useVerlaufEintrag } from '../../lib/use-verlauf-eintrag.ts'
 
 /** Luft über dem Fenster: ein Streifen der Kopfleiste bleibt sichtbar. */
@@ -34,13 +35,11 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
   zu.current = schliessen
   const hoehe = useVisualViewportHoehe(offen)
   useVerlaufEintrag(offen, schliessen)
+  useSeiteGesperrt(offen)
   /* Das Fenster hängt in der Leiste des Auslösers (Portal am `body`), so liegt es ohne Messen genau darüber. */
   const leiste = ausloeser.current?.closest<HTMLElement>('[role=toolbar]') ?? null
   useEffect(() => {
     if (!offen) return
-    const html = document.documentElement
-    const vorher = html.style.overflow
-    html.style.overflow = 'hidden'
     const wieder = hintergrundSperren(leiste)
     dialog.current?.focus()
     const taste = (e: KeyboardEvent) => e.key === 'Escape' && zu.current()
@@ -48,7 +47,6 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
     const knopf = ausloeser.current
     return () => {
       window.removeEventListener('keydown', taste)
-      html.style.overflow = vorher
       wieder()
       knopf?.focus()
     }
