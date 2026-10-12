@@ -15,14 +15,21 @@ import { type Env } from './env.ts'
 const VORSATZ = 'export/'
 const MARKE = VORSATZ + '_ungueltig'
 const FRIST_MS = 10 * 60_000
+/** Die Serienamen je Adresse (`namen`) lesen die ganze Tabelle `pruefung` (17.533 Zeilen, 22 Abrufe am 12.10.2026) und ändern sich selten. */
+export const FRIST_NAMEN_MS = 6 * 60 * 60_000
 
-export async function ausSpeicher(env: Env, schluessel: string, bauen: () => Promise<unknown>): Promise<Response> {
+export async function ausSpeicher(
+  env: Env,
+  schluessel: string,
+  bauen: () => Promise<unknown>,
+  fristMs: number = FRIST_MS,
+): Promise<Response> {
   const kopf = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
   const treffer = await env.BELEGE?.get(VORSATZ + schluessel)
   if (treffer) {
     const marke = await env.BELEGE?.head(MARKE)
     const alt = treffer.uploaded.getTime()
-    if (!marke || marke.uploaded.getTime() <= alt || Date.now() - alt < FRIST_MS) return new Response(await treffer.text(), { headers: kopf })
+    if (!marke || marke.uploaded.getTime() <= alt || Date.now() - alt < fristMs) return new Response(await treffer.text(), { headers: kopf })
   }
   const text = JSON.stringify(await bauen())
   await env.BELEGE?.put(VORSATZ + schluessel, text)

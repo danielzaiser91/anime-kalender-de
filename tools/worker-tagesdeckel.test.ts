@@ -334,7 +334,7 @@ console.log('Lesezeilen: Ersetzen über die Zeilen-ID')
   pruefe(!abfragen.some((a) => /DELETE FROM pruefung WHERE url/.test(a.sql)), 'kein DELETE mehr über die Adresse')
 }
 
-console.log('Lesezeilen: Gesamtzahl der Rohfolgen')
+console.log('Lesezeilen: keine Gesamtzahl der Rohfolgen mehr (12.10.2026)')
 {
   const db = neueDatenbank()
   const env = umgebung(db)
@@ -343,14 +343,14 @@ console.log('Lesezeilen: Gesamtzahl der Rohfolgen')
   const hole = async (nach: number) => {
     abfragen.length = 0
     const r = await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&token=t&nach=${nach}`), env)
-    const inhalt = (await r.json()) as { folgen: unknown[]; gesamt: number; weiter: number | null }
+    const inhalt = (await r.json()) as { folgen: unknown[]; gesamt?: number; weiter: number | null }
     return { inhalt, gezaehlt: abfragen.some((a) => /COUNT\(\*\)/.test(a.sql)) }
   }
   const erste = await hole(0)
-  pruefe(erste.inhalt.folgen.length === 2 && erste.inhalt.gesamt === 2 && erste.inhalt.weiter === null, 'erste Seite unter dem Limit: gesamt = Zeilen der Seite, gesperrte Folge zählt nicht')
-  pruefe(!erste.gezaehlt, '... und ohne COUNT(*)')
+  pruefe(erste.inhalt.folgen.length === 2 && erste.inhalt.weiter === null, 'erste Seite unter dem Limit: gesperrte Folge zählt nicht')
+  pruefe(!erste.gezaehlt && erste.inhalt.gesamt === undefined, '... und ohne COUNT(*), ohne Gesamtzahl')
   const spaeter = await hole(1)
-  pruefe(spaeter.inhalt.folgen.length === 1 && spaeter.inhalt.gesamt === 2 && spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): gesamt bleibt die ungekürzte Zahl, per COUNT(*)')
+  pruefe(spaeter.inhalt.folgen.length === 1 && !spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): auch ohne COUNT(*) (der Bau setzt über `weiter` fort)')
 }
 
 console.log('Lesezeilen: /lauf wird 30 Sekunden gehalten')

@@ -130,7 +130,6 @@ async function main(): Promise<void> {
     100.000 Folgen.
   */
   let folgen: Rohfolge[] = []
-  let gesamt = 0
   let nach = 0
   for (let seite = 0; seite < 20; seite++) {
     const antwort = await fetch(
@@ -141,14 +140,13 @@ async function main(): Promise<void> {
       recordSource('rohfolgen', 0, `HTTP ${antwort.status}`)
       return
     }
-    const teil = (await antwort.json()) as { folgen: Rohfolge[]; gesamt: number; weiter?: number | null }
+    const teil = (await antwort.json()) as { folgen: Rohfolge[]; weiter?: number | null }
     folgen.push(...teil.folgen)
-    gesamt = teil.gesamt
-    if (!teil.weiter) break
-    nach = teil.weiter
+    nach = teil.weiter ?? 0
+    if (!nach) break
   }
   if (!folgen.length) {
-    log(`keine offenen Rohfolgen (Bestand ${gesamt})`)
+    log('keine offenen Rohfolgen')
     /*
       **Ein leerer Briefkasten ist der Idealzustand, kein Ausfall.**
 
@@ -160,10 +158,11 @@ async function main(): Promise<void> {
     recordSource('rohfolgen', 0, undefined, undefined, true)
     return
   }
-  if (folgen.length < gesamt) {
-    warn(`${gesamt - folgen.length} Rohfolgen nicht geholt — die Seitengrenze greift, der nächste Lauf holt sie`)
+  /* Nach der letzten Seite steht noch eine Fortsetzung aus: die Seitengrenze greift. */
+  if (nach) {
+    warn('weitere Rohfolgen nicht geholt — die Seitengrenze greift, der nächste Lauf holt sie')
   }
-  log(`${folgen.length} Rohfolgen geholt (offen insgesamt: ${gesamt})`)
+  log(`${folgen.length} Rohfolgen geholt`)
 
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const tmdbFolgen = readJson<Record<string, TmdbEintrag>>('data/tmdb-folgen.json', {})
