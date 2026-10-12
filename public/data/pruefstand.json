@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-12T08:31:03.479Z",
+ "erzeugtAm": "2026-10-12T08:38:29.833Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -780,9 +780,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 407,
-   "gesamt": 655,
-   "offen": 248,
+   "gemeldet": 417,
+   "gesamt": 670,
+   "offen": 253,
    "ohneSeite": 18,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -1952,11 +1952,6 @@
      "hinweis": "Staffeln unklar: TMDB zählt 454 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
-     "url": "https://www.netflix.com/title/70252973",
-     "titel": "LEGO Ninjago: Meister des Spinjitzu",
-     "hinweis": "Staffeln unklar: TMDB zählt 210 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
      "url": "https://www.netflix.com/title/70171947",
      "titel": "Mission Scooby-Doo",
      "hinweis": "Staffeln unklar: TMDB zählt 52 Folgen insgesamt, der Anbieter kann sie anders schneiden"
@@ -1988,6 +1983,10 @@
     {
      "url": "https://www.netflix.com/title/70243420",
      "titel": "Die fantastische Welt von Gumball"
+    },
+    {
+     "url": "https://www.netflix.com/title/70252973",
+     "titel": "LEGO Ninjago: Meister des Spinjitzu"
     },
     {
      "url": "https://www.netflix.com/title/81506915",
