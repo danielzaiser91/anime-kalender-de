@@ -3,11 +3,11 @@ import { type Release, type Title } from '@shared/types.ts'
 import { Aufklappbar } from './aufklapp-kopf.tsx'
 import { BuchZeichen, PanelKarte } from './panel-karte.tsx'
 import { PLOT_PREVIEW } from './hilfen.tsx'
-import { type FranchiseMember } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 import { Chip } from '../ui.tsx'
 import { HerkunftZeile, zeigtHerkunft } from './herkunft-zeile.tsx'
+import { type plotVon } from './plot.ts'
 
 export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, setGenresOffen }: {
   title: Title
@@ -48,7 +48,7 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
 const quelleLabel = (name: string): string => (name === 'anisearch.de' ? 'aniSearch' : name === 'anilist.co' ? 'AniList' : name)
 
 export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
-  plot: { text: string; fallback: boolean; quelle: { name: string; url: string; }; vonTeil?: undefined; } | { text: string; fallback: boolean; vonTeil: FranchiseMember; erschienen?: boolean; quelle: { name: string; url: string; }; } | undefined
+  plot: ReturnType<typeof plotVon>['plot']
   t: Translate
   plotOffen: boolean
   setPlotOffen: Dispatch<SetStateAction<boolean>>
