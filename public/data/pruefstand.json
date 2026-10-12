@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-12T08:38:29.833Z",
+ "erzeugtAm": "2026-10-12T09:06:55.838Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -7,7 +7,7 @@
    "gemeldet": 509,
    "gesamt": 755,
    "offen": 246,
-   "ohneSeite": 34,
+   "ohneSeite": 31,
    "suchAdressen": [
     "https://www.amazon.de/s?k=Assassination%20Classroom%20the%20Movie%3A%20Our%20Time&i=instant-video",
     "https://www.amazon.de/s?k=Super%20Wings&i=instant-video",
@@ -39,10 +39,7 @@
     "https://www.amazon.de/s?k=Bernard%20B%C3%A4r%3A%20Eine%20tierische%20Verschw%C3%B6rung&i=instant-video",
     "https://www.amazon.de/s?k=Der%20K%C3%B6nig%20der%20K%C3%B6nige&i=instant-video",
     "https://www.amazon.de/s?k=Dragonkeeper&i=instant-video",
-    "https://www.amazon.de/s?k=Manga%20Love%20Story%3A%20Step%20Up%20Love%20Story&i=instant-video",
-    "https://www.amazon.de/s?k=Fate%2FStay%20Night%3A%20Unlimited%20Blade%20Works%20-%20Prolog&i=instant-video",
-    "https://www.amazon.de/s?k=Sword%20Art%20Online%20Alternative%3A%20Gun%20Gale%20Online%20-%20Refrain&i=instant-video",
-    "https://www.amazon.de/s?k=Meine%20Wiedergeburt%20als%20Schleim%20in%20einer%20anderen%20Welt%3A%20Veldoras%20Tagebuch&i=instant-video"
+    "https://www.amazon.de/s?k=Manga%20Love%20Story%3A%20Step%20Up%20Love%20Story&i=instant-video"
    ],
    "ziel": "https://watch.amazon.de/detail?gti=amzn1.dv.gti.5876a543-a76d-4ff0-bfb5-f4211aba99d8",
    "ziele": [
@@ -2055,9 +2052,9 @@
   {
    "name": "Disney+",
    "plattform": "disneyplus",
-   "gemeldet": 65,
+   "gemeldet": 66,
    "gesamt": 347,
-   "offen": 282,
+   "offen": 281,
    "ohneSeite": 22,
    "ziel": "https://www.disneyplus.com/browse/entity-33df4bde-d2eb-49f6-9f89-3ccbe65a55a3",
    "ziele": [
@@ -2581,11 +2578,6 @@
      "url": "https://www.disneyplus.com/browse/entity-b2cc4a87-ce26-4993-895d-6a725388fd45",
      "titel": "Amphibia",
      "hinweis": "Staffeln unklar: TMDB zählt 106 Folgen insgesamt, der Anbieter kann sie anders schneiden"
-    },
-    {
-     "url": "https://www.disneyplus.com/browse/entity-3fc1237b-ce84-4b4c-ab4d-efc8e79dc20d",
-     "titel": "Bless the Harts",
-     "hinweis": "Staffeln unklar: TMDB zählt 34 Folgen insgesamt, der Anbieter kann sie anders schneiden"
     },
     {
      "url": "https://www.disneyplus.com/browse/entity-9549e903-ab83-4bd2-a2e4-86ade89a7a20",
