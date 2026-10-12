@@ -269,7 +269,7 @@ Zeilen; Anlass und Verlauf gehören in den Commit oder hierher.
 
 **Umbauen, ohne etwas zu ändern.** `tools/bau-vergleich.mjs` baut Basis und Kandidat je in einem
 eigenen Worktree mit einem nachgebildeten Cache und vergleicht alles, was der Bau schreibt. Ein
-reiner Umbau ist erst fertig, wenn das „gleich" meldet. Beide Seiten starten vom Bestand der Basis (`data/`, `public/data/`): Datenänderungen des Kandidaten sieht der Vergleich nicht, ob der Bau darauf durchläuft nur ein zweiter Lauf `HEAD HEAD` (11.10.2026). Der Bau läuft dabei mit
+reiner Umbau ist erst fertig, wenn das „gleich" meldet. Beide Seiten starten von `public/data/` der Basis; `data/` (ohne `data/cache/`) bringt der Kandidat seit 12.10.2026 selbst mit, Änderungen an Handdateien (`data/*.yaml`) werden also mitgebaut und verglichen. Vorher bauten beide mit `data/` der Basis, und ein PR auf Handdateien meldete „gleich" (Befund zu PR 977). `--basisdaten` behält das alte Verhalten; sinnvoll, wenn der Kandidat hinter der Basis liegt (sonst zeigt der Vergleich Änderungen von `main`; die Ausgabe warnt davor). Meldet der Vergleich „gleich", obwohl sich `data/` unterscheidet, steht ein Hinweis dabei. Läuft schon ein Vergleich, wartet der Aufruf bis zu 10 min auf die Sperre (Meldung), danach Exit 3. Der Bau läuft dabei mit
 `BAU_VERGLEICH=1`: Widersprüche im Ergebnis (`brichAbBeiWiderspruch`, `pipeline/lib/bau-widerspruch.ts`; Phasen 10, 11-6, 11-7, 13-5, 13-8)
 brechen ihn nicht ab, sondern stehen als „Widerspruch (Vergleichsmodus)" im mitverglichenen Protokoll — der Ersatz-Cache ist nicht
 der echte, und eine Invariante, die dort reißt, verhinderte sonst jede Basis (12.10.2026: Bookworm-Dublette, Prime-Häkchen ohne Beleg).
