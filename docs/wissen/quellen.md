@@ -474,6 +474,16 @@ Bau-Vergleich mit Katalog-Ersatz (Basis c97234b40, Kandidat cafd78846): `verweis
 neuen Eintrag, kein Titel verliert einen Prime-Weg (sechs gewinnen einen), `ohne-synchro.json` nimmt Hell Mode,
 Freezing OVA und Freezing Vibration OVAs auf (17615 → 17618).
 
+**Der Prime-Weg ging ohne Protokoll verloren, wenn er eine Amazon-Suche war** (12.10.2026, 16 Titel: One Piece Film: Strong World,
+Akame ga Kill, Mob Psycho 100 III u. a.). AniList verlinkt bei Prime meist einen fremden Marktplatz; daraus macht der Bau die Suche
+(`mapStreams`). Bis PR 863 setzte `belegFuer()` die Adresse des Handbelegs an ihre Stelle (Rückfall bei einem Weg), aber nur für
+Belege mit Aussage; die Kanal-Zeile ist seitdem ein Adressbeleg und erreicht ihn nicht mehr. Die Suche blieb, 11-3 („was am Ende
+noch auf eine Suche zeigt, fliegt“) warf sie heraus, ohne Eintrag in `verweise-entfernt.json`. Titel ohne AniList-Link waren
+nicht betroffen: Dort legt der Ergänzungsblock in 09-2 den Weg aus der Adresse des Belegs an. Jetzt ersetzt derselbe Block die
+einzige Suche (`ersetztSucheUndMeldetWeg()`, `lib/weg-aus-beleg.ts`); der Weg bleibt ohne Urteil, ein Kanal-Beleg trägt weder Ja noch Nein. Nachweis: Der Bau mit
+Ersatz-Cache, der AniLists Amazon-Link nachbildet (Daten vom 12.10.2026 09:31 Uhr, `82c82ef5e`), verlor 73 Prime-Wege, darunter
+alle 16; mit der Änderung kommen alle 16 zurück.
+
 **Und der Beleg nimmt die Seite, auf der gemeldet wurde.** Eine Meldung trägt zwei Adressen:
 `url` ist der Eintrag der Prüfliste (bei einem Staffelwechsel die Seite von Staffel 1),
 `seiten_kennung` die Seite, die wirklich angesehen wurde — **für neue Meldungen**. Im

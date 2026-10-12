@@ -1,8 +1,9 @@
 /** Gegenproben zu D-25 (`lib/invarianten-kanal.ts`): Hell Mode, ein Kanal-Titel, dessen Prime-Seite Amazons Sprachangabe trägt. */
-import type { Title } from '../shared/types.ts'
+import type { StreamLink, Title } from '../shared/types.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
 import { kanalTitelOhneBeleg, kanalWegEntfernt } from './lib/invarianten-kanal.ts'
 import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, ohneKanalSprache, belegOhneGenaueAdresse, rohDeutsch } from './lib/kanal-titel.ts'
+import { ersetztSucheUndMeldetWeg } from './lib/weg-aus-beleg.ts'
 
 type Pruefe = (name: string, ok: boolean, gefunden?: unknown) => void
 
@@ -40,13 +41,40 @@ export function kanalProben(pruefe: Pruefe): void {
   pruefe('D-26: Kanal-Zeile mit eigenem Nein ist nicht stumm', kanalAdressenOhneAussage([{ ...ohneKanalSprache(hellBeleg), dub: false }]).size === 0)
 }
 
-/** Die beiden Fälle vom 12.10.2026: Der Prime-Weg bleibt mit „🇩🇪 ?“ stehen, ein Nein zu einer anderen Adresse nimmt ihn nicht mit. */
+/** Die Fälle vom 12.10.2026 (die ersten beiden, dann 16 mit Amazon-Suche aus AniList): Der Prime-Weg bleibt mit „🇩🇪 ?“ stehen, ein Nein zu einer anderen Adresse nimmt ihn nicht mit. */
 export function kanalWegeVorhanden(titles: Map<number, Title>): string[] {
   const faelle: [number, string][] = [
     [129188, 'B0D98PQ1FW'],
     [21450, 'B0GXK7RJFW'],
+    [4155, 'B0DQM5BCFD'],
+    [18153, 'B0DNRB35F3'],
+    [20613, 'B0CVZYJVGK'],
+    [20629, 'B0H4R4DFWJ'],
+    [21256, 'B0CGXXZXLS'],
+    [21855, 'B0DNGCWNTR'],
+    [100010, '0L9N0LDY9E1X7N2OPZNAUBQLWP'],
+    [103871, '0JGAZGWGB8P5U7ATA79IKTYIF8'],
+    [107961, 'B0B6VQDB6D'],
+    [126791, '0FJOQHOAFIXXM8S33J6VVL4AHQ'],
+    [140439, 'B0CJRZY5ND'],
+    [178680, 'B0DZCJFGCL'],
+    [101316, 'B0CNPLLDZF'],
+    [1559, 'B0CBNSDCWH'],
+    [21676, 'B0FVF14Z73'],
+    [21851, 'B0CJPZFQ9H'],
   ]
   return faelle
     .filter(([id, asin]) => !titles.get(id)?.streams?.some((s) => s.platform === 'primevideo' && s.url.includes(asin)))
     .map(([id, asin]) => `Titel ${id}: der Prime-Weg ${asin} (Kanal) fehlt im Bestand`)
+}
+
+/** Kanal-Titel nach PR 863: Eine Amazon-Suche bekommt die Adresse des Belegs (One Piece Film: Strong World, 4155). */
+export function kanalWegProben(pruefe: Pruefe): void {
+  const strongWorld = { anilistId: 4155, platform: 'primevideo', url: 'https://www.amazon.de/dp/B0DQM5BCFD', checkedAt: '2026-08-31', kanalOhneBeleg: true } as DubCheck
+  const suche = 'https://www.amazon.de/s?k=One%20Piece%20Film%3A%20Strong%20World&i=instant-video'
+  const wege = [{ platform: 'primevideo', url: suche }, { platform: 'adn', url: 'https://animationdigitalnetwork.com/de/video/948', dub: true }] as StreamLink[]
+  pruefe('Amazon-Suche: der einzige Prime-Weg bekommt die Adresse des Belegs ohne Urteil', ersetztSucheUndMeldetWeg(wege, strongWorld) && wege[0]!.url === strongWorld.url && wege[0]!.dub === undefined, wege)
+  const echt = [{ platform: 'primevideo', url: 'https://www.amazon.de/dp/B0AAAAAAAA' }] as StreamLink[]
+  pruefe('Amazon-Suche: ein echter Prime-Weg bleibt', ersetztSucheUndMeldetWeg(echt, strongWorld) && echt[0]!.url.endsWith('B0AAAAAAAA'))
+  pruefe('Amazon-Suche: ohne Prime-Weg legt der Aufruf nichts an', !ersetztSucheUndMeldetWeg([{ platform: 'adn', url: 'x' }] as StreamLink[], strongWorld))
 }
