@@ -68,7 +68,7 @@ export interface SteuerProps {
 /**
  * **Die Steuerleiste dockt unten am Bildschirmrand an**. Wer ganz unten im Monat oder am Sonntag
  * ist, blättert, filtert und
- * springt zu heute, ohne zurückzurollen. Auf dem Handy sitzt sie über der Navigation.
+ * springt zu heute, ohne zurückzurollen. Nur am Rechner; am Handy steht die Werkzeugleiste (`KalenderWerkzeug`).
  */
 export function Steuerleiste(p: SteuerProps) {
   const { t } = useLang()
@@ -93,7 +93,7 @@ export function Steuerleiste(p: SteuerProps) {
     <div
       data-steuerleiste
       className={[
-        'pointer-events-none fixed inset-x-2 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-30 flex justify-center md:bottom-2',
+        'pointer-events-none fixed inset-x-2 bottom-2 z-30 flex justify-center',
       ]
         .filter(Boolean)
         .join(' ')}

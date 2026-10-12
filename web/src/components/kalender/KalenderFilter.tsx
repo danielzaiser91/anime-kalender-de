@@ -49,7 +49,7 @@ export function KalenderFilter(p: KalenderFilterProps) {
       {filterOffen && (
         /* Das Filterfeld steht über der Steuerleiste — dort, wo man es geöffnet hat. Die gewählten
            Filter stehen **im** Feld (`FilterFeld`), nicht mehr als eigene Zeile darüber. */
-        <div className="fixed inset-x-2 bottom-[calc(9.5rem+env(safe-area-inset-bottom))] z-30 mx-auto max-h-[calc(100dvh-15.75rem)] max-w-[1180px] overflow-y-auto rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,.45)] md:bottom-[4.5rem] md:max-h-[calc(100dvh-10rem)]">
+        <div className="fixed inset-x-2 bottom-[4.5rem] z-30 mx-auto max-h-[calc(100dvh-10rem)] max-w-[1180px] overflow-y-auto rounded-3xl shadow-[0_24px_60px_rgba(0,0,0,.45)]">
           <FilterFeld
             data={p.data}
             filters={p.filters}
