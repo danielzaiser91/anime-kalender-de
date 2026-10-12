@@ -213,8 +213,9 @@ function zaehleStaffeln<T extends StaffelFeld>(staffeln: T[], reihenName: string
       eintraege.push({ id: m.id, staffel: aktuell, teil, eigenerName: false })
     } else {
       aktuell += 1
-      /* „Reihe (Teil 2)" ist die deutsche Marke der nächsten Staffel, kein eigener Name: Staffel 2 statt „Staffel 2 · (Teil 2)" (Bookworm, Daniel 11.10.2026). */
-      eintraege.push({ id: m.id, staffel: aktuell, eigenerName: rest !== '' && !/^\(Teil\s+\d+\)$/i.test(rest) })
+      /* „Reihe (Teil 2)" ist die deutsche Marke der nächsten Staffel, kein eigener Name: Staffel 2 statt „Staffel 2 · (Teil 2)" (Bookworm, Daniel 11.10.2026). Nur im Originalnamen: „(Cour 2)" wird erst durch das Eindeutschen zu „(Teil 2)", ist aber die Hälfte einer Staffel (Spy × Family). */
+      const staffelMarke = /^\(Teil\s+\d+\)$/i.test(rest) && /\(Teil\s+\d+\)\s*$/i.test(m.name)
+      eintraege.push({ id: m.id, staffel: aktuell, eigenerName: rest !== '' && !staffelMarke })
     }
   }
   return eintraege

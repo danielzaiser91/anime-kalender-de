@@ -50,6 +50,26 @@ console.log('\nTeil nur bei mehreren Teilen derselben Staffel:')
   pruefe('Hanako: Staffel 1 bleibt ohne Teil', be.get(1) === 'Staffel 1', [...be])
 }
 
+{
+  /* „(Cour 2)" wird beim Eindeutschen zu „(Teil 2)", ist aber die zweite Hälfte einer Staffel — keine neue Staffel (Prüfer PR 903). */
+  const faelle: [string, string, string, string][] = [
+    ['Spy × Family', '2022-04-09', '2022-10-01', '2023-10-07'],
+    ['NieR:Automata Ver1.1a', '2024-01-06', '2024-07-05', '2026-01-10'],
+    ['Dead Mount Death Play', '2023-07-10', '2023-10-10', '2026-04-04'],
+  ]
+  for (const [reihe, start1, start2, start3] of faelle) {
+    const teile = [
+      { id: 1, name: reihe, jpStart: start1 },
+      { id: 2, name: `${reihe} (Cour 2)`, jpStart: start2 },
+      { id: 3, name: `${reihe} Staffel 2`, jpStart: start3 },
+    ]
+    const stand = staffelStaende(teile, reihe)
+    const be = staffelBeschriftungen(teile, reihe)
+    pruefe(`${reihe}: „(Cour 2)" behält den eigenen Namen`, stand.get(2)?.eigenerName === true && !be.has(2), [...stand])
+    pruefe(`${reihe}: erst das echte „Staffel 2" heißt Staffel 2`, be.get(3) === 'Staffel 2' && be.get(1) === 'Staffel 1', [...be])
+  }
+}
+
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)
