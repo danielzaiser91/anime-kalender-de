@@ -26,14 +26,15 @@
  *
  * Aufruf:
  *   node tools/bau-vergleich.mjs [--basisdaten] [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
- * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre).
+ * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre;
+ * wartet vorher bis zu 10 min auf den laufenden Vergleich).
  */
 import { execFileSync, spawnSync } from 'node:child_process'
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { gleichTrotzDatenHinweis, zurueckliegtHinweis } from './bau-vergleich-daten.mjs'
-import { nurEinmalGleichzeitig } from './einzel-sperre.mjs'
+import { wartAufSperre } from './einzel-sperre.mjs'
 import { beschreibeUnterschied } from './vergleich-unterschied.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
@@ -159,7 +160,7 @@ function meldeWiderspruchWarnungen(seite, ordner) {
   if (n) console.log(`${seite}: ${n} Widerspruch-Meldungen des Baus als Warnung durchgelassen (Vergleichsmodus) — Einzelheiten im Protokoll ${ordner}`)
 }
 
-nurEinmalGleichzeitig('bau-vergleich')
+await wartAufSperre('bau-vergleich', 10 * 60_000)
 const argumente = process.argv.slice(2)
 const basisDaten = argumente.includes('--basisdaten')
 const [basisName, kandidatName] = argumente.filter((x) => !x.startsWith('--'))
