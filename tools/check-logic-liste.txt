@@ -54,6 +54,7 @@ pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
+pipeline/check-staffel-jahr0.ts
 pipeline/check-staffel-teil.ts
 pipeline/check-stand-halten.ts
 pipeline/check-tmdb-katalog.ts
