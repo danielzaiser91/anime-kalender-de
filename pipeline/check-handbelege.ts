@@ -54,6 +54,7 @@ import yaml from 'js-yaml'
 import { nimmJa } from './lib/dub-bereiche.ts'
 import { findeKonflikte, findeVereinte } from './lib/dub-konflikt.ts'
 import { findeSchrumpf } from './lib/dub-schrumpf.ts'
+import { findeVoraussichtlichImBestand } from './lib/voraussichtlich-pruefung.ts'
 import type { Title } from '../shared/types.ts'
 
 /*
@@ -367,4 +368,18 @@ if (verwaisteBelege) {
       warn(`   ${s.schluessel}: ${s.verloren.length} Folge(n), z. B. ${s.verloren.slice(0, 5).join(', ')}`)
     }
   }
+}
+
+/*
+  Eine Handeintragung, deren `note` „voraussichtlich" sagt, ist geschätzt und trägt `schedule.estimated: true`
+  (Kaiju-No.-8-Disc und Heaven's-Feel-Disc, 12.10.2026: fiel nur dem Prüfer auf). Nur die `note` wird gelesen, siehe lib.
+*/
+{
+  const unmarkiert = findeVoraussichtlichImBestand(resolve(ROOT, 'data/curated'))
+  if (unmarkiert.length) {
+    warn(`Abbruch: ${unmarkiert.length} kuratierte(r) Eintrag/Einträge nennen „voraussichtlich", aber der Termin trägt kein estimated: true:`)
+    for (const u of unmarkiert) warn(`   ${u}`)
+    process.exit(1)
+  }
+  log('✓ Jeder kuratierte Termin mit „voraussichtlich" in der note trägt estimated: true.')
 }
