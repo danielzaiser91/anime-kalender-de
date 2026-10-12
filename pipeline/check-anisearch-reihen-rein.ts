@@ -2,7 +2,11 @@
  * Zusicherungen zur reinen aniSearch-Reihenbildung (`REIHEN_QUELLE=anisearch`, Schritt 6 der AniList-Ablösung, 12.10.2026): Schalter, Regel für „?" und Sammelarten,
  * Handdatei (`ids:`, `getrennt:`), feste Reihen des Katalogs. Läuft in `check:logic`.
  */
+import { mkdtempSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import type { Kante, Namen } from './bau/anisearch-reihen.ts'
+import { ladeHand } from './bau/anisearch-reihen-rein-bau.ts'
 import { type ReinHand, type ReinTitel, rangDerArt, reihenAusAnisearch, reineReihen } from './bau/anisearch-reihen-rein.ts'
 
 let fehler = 0
@@ -44,6 +48,17 @@ const gleichKennung = reineOhne([{ id: 1, name: 'A', anisearchId: 7 }, { id: 2, 
 pruefe('Gleiche aniSearch-Kennung ist dieselbe Reihe; MAL-Kennung ohne aniSearch-Kennung verbindet nicht', reihe(gleichKennung, 2) === 1 && reihe(gleichKennung, 4) === 4)
 const gleichMal = reineOhne([{ id: 3, name: 'C', anisearchId: 3, mal: 5 }, { id: 4, name: 'D', anisearchId: 4, mal: 5 }], [])
 pruefe('Gleiche MAL-Kennung zweier aniSearch-Titel verbindet', reihe(gleichMal, 4) === 3)
+/* aniSearch trägt bei neuen Einträgen die MAL-Kennung des Nachbarn (Xian Di Guilai ↔ Dr. Slump): als Ersatz verbindet sie nur mit Namensanfang oder Beziehung. */
+const fremd = reineOhne([{ id: 3, name: 'Xian Di Guilai', anisearchId: 3, malAnisearch: 5 }, { id: 4, name: 'Dr. Slump Verkehr', anisearchId: 4, malAnisearch: 5 }], [])
+pruefe('MAL nur aus aniSearch, weder Namensanfang noch Beziehung: verbindet nicht', reihe(fremd, 4) === 4)
+const ersatzName = reineOhne([{ id: 3, name: 'Ponkotsu Quest', anisearchId: 3, malAnisearch: 5 }, { id: 4, name: 'Ponkotsu Quest (2019)', anisearchId: 4, malAnisearch: 5 }], [])
+pruefe('MAL nur aus aniSearch, gleicher Namensanfang: verbindet', reihe(ersatzName, 4) === 3)
+const ersatzKante = reineOhne([{ id: 3, name: 'Eins', anisearchId: 3, malAnisearch: 5 }, { id: 4, name: 'Zwei', anisearchId: 4, malAnisearch: 5 }], [k(3, 4, 'Anderes')])
+pruefe('MAL nur aus aniSearch, aber eine Beziehung zwischen den Einträgen (hier Anderes ohne Namensanfang): verbindet', reihe(ersatzKante, 4) === reihe(ersatzKante, 3))
+const eigenPlusErsatz = reineOhne([{ id: 3, name: 'Eins', anisearchId: 3, mal: 5 }, { id: 4, name: 'Zwei', anisearchId: 4, malAnisearch: 5 }], [])
+pruefe('Ein Titel mit eigener MAL-Kennung verbindet auch ohne Beleg (der Ersatz-Titel braucht Beleg und bleibt allein)', reihe(eigenPlusErsatz, 4) === 4)
+const beideEigen = reineOhne([{ id: 3, name: 'Eins', anisearchId: 3, mal: 5 }, { id: 4, name: 'Zwei', anisearchId: 4, mal: 5 }], [])
+pruefe('Beide mit eigener MAL-Kennung: verbindet ohne weiteren Beleg wie bisher', reihe(beideEigen, 4) === 3)
 
 const ueberSeite = reineOhne(titel(1, 3), [k(1, 50, 'Sequel'), k(50, 3, 'Sequel')])
 pruefe('Eine aniSearch-Seite ohne eigenen Titel verbindet trotzdem (1 → 50 → 3)', reihe(ueberSeite, 3) === 1)
@@ -109,6 +124,12 @@ const festEinzel = reineOhne(titel(20, 12), [k(12, 20, 'Anderes')], gleichNamen,
 pruefe('Fest: ein Katalogtitel hängt über eine Sammelart an einen festen Einzeltitel', reihe(festEinzel, 12) === 20)
 const festKern = reineOhne(titel(20, 12), [k(12, 20, 'Sequel')], gleichNamen, ohneHand, new Map([[20, 20]]))
 pruefe('Fest: ein Katalogtitel mit Kernart kommt zum festen Einzeltitel', reihe(festKern, 12) === 20)
+
+/* Handdatei: `reinIds:` verbindet im reinen Weg wie `ids:`, `03-reihen.ts` liest es nicht (dort zählt nur `ids:`). */
+const handDatei = join(mkdtempSync(join(tmpdir(), 'hand-')), 'reihen-von-hand.yaml')
+writeFileSync(handDatei, '- ids: [1, 2]\n  grund: a\n- reinIds: [3, 4]\n  grund: b\n- getrennt: [5, 6]\n  grund: c\n')
+const handGelesen = ladeHand(handDatei)
+pruefe('Handdatei: ids: und reinIds: verbinden, getrennt: trennt', JSON.stringify(handGelesen.verbinden) === '[[1,2],[3,4]]' && JSON.stringify(handGelesen.trennen) === '[[5,6]]')
 
 console.log(fehler ? `\naniSearch-Reihen (rein): ${fehler} Zusicherung(en) verletzt.` : 'aniSearch-Reihen (rein): alle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
