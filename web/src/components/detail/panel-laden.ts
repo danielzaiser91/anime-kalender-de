@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { DiscAusgabe, Title } from '@shared/types.ts'
 import { ladeTitelBestand, loadDiscAusgaben, loadSynopsis, type Dataset, type Synopsis } from '../../lib/data.ts'
+import { useSeiteGesperrt } from '../../lib/use-seite-gesperrt.ts'
 
 /** Die Disc-Ausgaben des Titels; der Aufklapper fällt mit dem Titel zurück. */
 export function useDiscAusgaben(titleId: number) {
@@ -57,7 +58,7 @@ export function useSynopse(
 }
 
 /** Escape schließt das Panel. */
-export function useEscapeSchliesst(onClose: () => void) {
+function useEscapeSchliesst(onClose: () => void) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -65,6 +66,15 @@ export function useEscapeSchliesst(onClose: () => void) {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
+}
+
+/**
+ * Das Panel liegt über der Seite: Escape schließt es, und die Seite dahinter bleibt stehen. Sonst wanderte sie auf dem Handy
+ * beim Wischen mit (`overscroll-contain` gilt dort nicht), und „Zurück" sprang beim Schließen an die alte Stelle (Daniel, 11.10.2026).
+ */
+export function usePanelFenster(onClose: () => void) {
+  useEscapeSchliesst(onClose)
+  useSeiteGesperrt(true)
 }
 
 /**
