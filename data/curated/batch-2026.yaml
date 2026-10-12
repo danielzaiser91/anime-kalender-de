@@ -286,7 +286,11 @@
   schedule:
     firstEpisodeDate: "2026-10-06"
     episodeCount: 13
-  sources: [https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/]
+  note: "Netflix zeigt beide Staffeln im Originalton mit deutschen Untertiteln; eine deutsche Synchro nennt die Meldung nicht (Anime2You, 10.10.2026)."
+  sprache: omu
+  sources:
+    - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
+    - https://www.anime2you.de/news/1059441/netflix-snowball-earth-und-mehr/
 
 - slug: my-hero-academia-vigilantes-s2-netflix
   anilistId: 195322
@@ -297,7 +301,11 @@
   schedule:
     firstEpisodeDate: "2026-10-06"
     episodeCount: 13
-  sources: [https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/]
+  note: "Netflix zeigt beide Staffeln im Originalton mit deutschen Untertiteln; eine deutsche Synchro nennt die Meldung nicht (Anime2You, 10.10.2026)."
+  sprache: omu
+  sources:
+    - https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
+    - https://www.anime2you.de/news/1059441/netflix-snowball-earth-und-mehr/
 
 - slug: ranma-s3-folge1-netflix
   anilistId: 209872

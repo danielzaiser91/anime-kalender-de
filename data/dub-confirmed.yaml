@@ -23704,3 +23704,29 @@
   dub: true
   checkedAt: '2026-09-28'
   note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0HKV56GC6: alle 24 Folgen geprüft, Abos: Prime, prosiebenfun, prosiebende, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.a9b9b409-94c3-44be-8ab9-9c14e56229e2"
+# --- Aus Anime2You-Meldungen übernommen (Extraktion → Handeintrag), 2026-10-12: nicht am Anbieter gemessen ---
+
+- anilistId: 142329
+  title: "Demon Slayer: Kimetsu no Yaiba Entertainment District Arc"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Nicht auf der Prime-Seite gemessen, sondern Meldung von Anime2You (Artikel 1059642, 10.10.2026, anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/): ab sofort bei Prime Video, 11 Episoden (komplett), „Sprache: Deutsch, Japanisch (UT)“. Adresse und Folgenbereiche nicht geprüft."
+- anilistId: 166240
+  title: "Demon Slayer: Kimetsu no Yaiba Hashira Training Arc"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Nicht auf der Prime-Seite gemessen, sondern Meldung von Anime2You (Artikel 1059642, 10.10.2026, anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/): ab sofort bei Prime Video, 8 Episoden (komplett), „Sprache: Deutsch, Japanisch (UT)“. Adresse und Folgenbereiche nicht geprüft."
+- anilistId: 129874
+  title: "Demon Slayer: Kimetsu no Yaiba Mugen Train Arc"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Nicht auf der Prime-Seite gemessen, sondern Meldung von Anime2You (Artikel 1059642, 10.10.2026, anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/): ab sofort bei Prime Video, 7 Episoden (komplett), „Sprache: Deutsch, Japanisch (UT)“. Adresse und Folgenbereiche nicht geprüft."
+- anilistId: 145139
+  title: "Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc"
+  platform: primevideo
+  dub: true
+  checkedAt: '2026-10-12'
+  note: "Nicht auf der Prime-Seite gemessen, sondern Meldung von Anime2You (Artikel 1059642, 10.10.2026, anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/): ab sofort bei Prime Video, 11 Episoden (komplett), „Sprache: Deutsch, Japanisch (UT)“. Adresse und Folgenbereiche nicht geprüft."
