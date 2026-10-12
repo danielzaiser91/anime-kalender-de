@@ -294,10 +294,12 @@ jobs:
         run: bash "$MELDER" schritt "Vorschaubilder"
 
       # Hier sitzt die Zusicherung über den gebauten Bestand (`check:bestand` in
-      # commit-data.sh). Sie darf rot werden — das ist der Sinn dieses Laufs.
+      # commit-data.sh). Sie macht den Lauf rot, nachdem die Quellen committet sind — das ist der Sinn dieses Laufs
+      # (11.10.2026: Als sie ihn nur gelb färbte, blieben die Erzeugnisse sechs Stunden unausgeliefert). `BAU_LAUF` nimmt
+      # zusätzlich die neuen Meldungen zurück; sie bleiben im Briefkasten.
       - name: Änderungen committen
         env:
-          WARNUNG_STATT_ROT: '1'
+          BAU_LAUF: '1'
         run: |
           bash tools/commit-data.sh "chore(data): Bestand neu gebaut"
 
@@ -311,6 +313,7 @@ jobs:
       # den Sammler: Ein Sammler, der eine Quelle nicht erreicht, macht weiter
       # — dass sie seit Tagen schweigt, ist eine Aussage über den Bestand.
       - name: Quellen auf Schweigen prüfen
+        if: ${{ !cancelled() }}
         env:
           LAUF_TOKEN: ${{ secrets.LAUF_TOKEN }}
         run: npm run data:check
@@ -337,6 +340,8 @@ jobs:
           z="${{ job.status == 'success' && 'ok' || job.status == 'cancelled' && 'abgebrochen' || 'fehler' }}"
           if [ "$z" = ok ] && [ -n "${DATEN_WARNUNG:-}" ]; then
             bash "$MELDER" warnung "$DATEN_WARNUNG"
+          elif [ "$z" = fehler ] && [ -n "${DATEN_WARNUNG:-}" ]; then
+            bash "$MELDER" fehler "$DATEN_WARNUNG"
           else
             bash "$MELDER" "$z"
           fi

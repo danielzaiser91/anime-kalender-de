@@ -1,5 +1,5 @@
 {
-  "aufgeloestAm": "2026-10-11T04:07:07.202Z",
+  "aufgeloestAm": "2026-10-12T05:13:41.078Z",
   "adressen": {
     "http://www.crunchyroll.com/de/a-place-further-than-the-universe": {
       "seriesId": "GYK541EPR",
@@ -3914,8 +3914,8 @@
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/watch/G4VUQEP24": {
-      "ziel": "https://www.crunchyroll.com/watch/G4VUQEP24?__cf_chl_rt_tk=118b11atnDS6iOUqLOSqQy.UjgC3TAWZeJXCInQ4MLs-1790599669-1.0.1.1-28MRoaoWhESOAdjDJohN04WnZWqyztsR9k8zSrCwlMY",
-      "geprueftAm": "2026-09-28",
+      "ziel": "https://www.crunchyroll.com/watch/G4VUQEP24?__cf_chl_rt_tk=a7ODH0HwfP3ftfZY_zSg29kNpjCHPtE01lSQkcxKDH4-1791782004-1.0.1.1-uaFnfKAHy3Q1byqR7jMzmWatFhycIj2cRRVLiVp0iVI",
+      "geprueftAm": "2026-10-12",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/watch/G50UZV2GM": {
@@ -3924,8 +3924,8 @@
       "geprueftAm": "2026-09-28"
     },
     "https://www.crunchyroll.com/watch/GEVUZE9V9": {
-      "ziel": "https://www.crunchyroll.com/watch/GEVUZE9V9?__cf_chl_rt_tk=D_.XckYASLmYdTSeAqqkPO48qtMxmuxAw74xMc_KCoE-1790599680-1.0.1.1-8zekGv_VUXLAiYQYjRSXuIKFCkJwSHoupubI8GwqALc",
-      "geprueftAm": "2026-09-28",
+      "ziel": "https://www.crunchyroll.com/watch/GEVUZE9V9?__cf_chl_rt_tk=7JeEoHajyeHxE04UfKffsWNVRjuUTe153NvCeQ7H4TA-1791782008-1.0.1.1-wnLRoiNnKX9ZL.8a31X4xjvJPWKr3G9OWI9UXpO4Q20",
+      "geprueftAm": "2026-10-12",
       "fehler": "keine Serienkennung hinter dieser Adresse"
     },
     "https://www.crunchyroll.com/watch/GG1U2M5E0": {
@@ -3962,6 +3962,46 @@
       "seriesId": "GP5HJ80VJ",
       "ziel": "https://www.crunchyroll.com/de/watch/G7PU4V3MJ",
       "geprueftAm": "2026-10-05"
+    },
+    "http://www.crunchyroll.com/de/captain-harlock": {
+      "seriesId": "GYGGPD73Y",
+      "ziel": "https://www.crunchyroll.com/de/series/GYGGPD73Y/captain-harlock",
+      "geprueftAm": "2026-10-12"
+    },
+    "https://www.crunchyroll.com/de/angels-of-death": {
+      "ziel": "https://www.crunchyroll.com/de/angels-of-death?__cf_chl_rt_tk=o9JAK5og2q7LbaYaDo.0jv1Dkw.ybEj102XoAxYRy5s-1791781688-1.0.1.1-2f9_JnE7.l67IHw5XbB0VI75X.ySQXYoazkaXQhxQx0",
+      "geprueftAm": "2026-10-12",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776": {
+      "ziel": "https://www.crunchyroll.com/de/persona5-the-animation/persona5-the-animation-dark-sun-780776?__cf_chl_rt_tk=2n4qHm_ul8TdomSeZJb4BNvf1aEXxbgHhdokFgMmx5M-1791781833-1.0.1.1-TYUiYzzAuPyHhvQZC2ULh8VN38yw1KC77UkgqLsP7Zs",
+      "geprueftAm": "2026-10-12",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/jujutsu-kaisen/jujutsu-kaisen-0-german-dub-unknown-868375": {
+      "ziel": "https://www.crunchyroll.com/jujutsu-kaisen/jujutsu-kaisen-0-german-dub-unknown-868375?__cf_chl_rt_tk=LEYNKs.unuh1lBLEPYovNQG82_wNCVKTv2Yjg9hFTAo-1791781984-1.0.1.1-Mk42TFpwR30xm_5butKY5yngKslz62fqJj.cRTFeXFE",
+      "geprueftAm": "2026-10-12",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/persona5-the-animation/de-persona5-the-animation-stars-and-ours-850110": {
+      "ziel": "https://www.crunchyroll.com/persona5-the-animation/de-persona5-the-animation-stars-and-ours-850110?__cf_chl_rt_tk=6g4Ziu6Lm2UKRO1zK9.evRFlXupuTwjMjMcoyGaDC4I-1791781996-1.0.1.1-z6oLVPVK0rMuOeNz_w.5oJEC2.TfZSduofrGITTwrj4",
+      "geprueftAm": "2026-10-12",
+      "fehler": "keine Serienkennung hinter dieser Adresse"
+    },
+    "https://www.crunchyroll.com/watch/G9DUEQQZ1": {
+      "seriesId": "G5PHNMW59",
+      "ziel": "https://www.crunchyroll.com/watch/G9DUEQQZ1?__cf_chl_rt_tk=VpSrTZi0cEMdtHRBzBQQfh.Gqbftpcr_2TK8ivZQunU-1791782006-1.0.1.1-J08zqYbJexQFBJk2hKL7rmnqXCdCQqs8ljIaPTTJHXI",
+      "geprueftAm": "2026-10-12"
+    },
+    "https://www.crunchyroll.com/watch/GK9U35DG2": {
+      "seriesId": "GYWE7W5GY",
+      "ziel": "https://www.crunchyroll.com/watch/GK9U35DG2?__cf_chl_rt_tk=NAfj4LhgOFuv.K6FQVXgyv0UE_BrSfNFO68xrzK9xWc-1791782010-1.0.1.1-HNm3nvmkL1rJtvJWUxtlZMWRO7MzkGobvIxospYAdn4",
+      "geprueftAm": "2026-10-12"
+    },
+    "https://www.crunchyroll.com/watch/GMEE00119156DEDE": {
+      "seriesId": "GMTE00119156",
+      "ziel": "https://www.crunchyroll.com/watch/GMEE00119156DEDE?__cf_chl_rt_tk=7nI9pWARzwgXgyQLNMYM_b4x9MEjZA5e_C6lkW5KF5g-1791782015-1.0.1.1-iKC33skV_VPdN5WObAwglM6cCsM9byBy4bQU.ErndHI",
+      "geprueftAm": "2026-10-12"
     }
   }
 }

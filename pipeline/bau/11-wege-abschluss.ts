@@ -31,6 +31,7 @@ export function schliesseWegeAb({
   alleChecks,
   lautPruefungTot,
   checksJePlattform,
+  belegFuer,
 }: {
   titles: Map<number, Title>
   anisearch: Record<string, AnisearchEintrag>
@@ -46,6 +47,7 @@ export function schliesseWegeAb({
   alleChecks: DubCheck[]
   lautPruefungTot: (url: string) => boolean
   checksJePlattform: Map<string, DubCheck[]>
+  belegFuer: Parameters<typeof ergaenzeWegeAusTerminen>[0]['belegFuer']
 }) {
   ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdresse })
 
@@ -78,8 +80,8 @@ export function schliesseWegeAb({
   fuehreAusgabenZusammen({ alleChecks, titles, tmdbMehrdeutig, anisearch, lautPruefungTot, checksJePlattform })
   kennzeichneDeutschLautJustwatch({ titles, tmdbMehrdeutig, alleChecks })
 
-  /* Zuletzt: Wer einen sicheren Termin bei einem Anbieter hat, aber noch keinen Weg dorthin, bekommt einen ohne Tonurteil. */
-  ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verweiseEntfernt })
+  /* Zuletzt: Wer einen sicheren Termin bei einem Anbieter hat, aber noch keinen Weg dorthin, bekommt einen. Ohne Tonurteil, außer ein Handbeleg gilt: dann dessen Urteil, bei „nicht verfügbar“ kein Weg. */
+  ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verweiseEntfernt, belegFuer })
 
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)
