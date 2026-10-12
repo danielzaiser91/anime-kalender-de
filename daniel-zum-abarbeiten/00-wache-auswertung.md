@@ -5,6 +5,17 @@ verliert. Sie kann nicht wissen, **warum** — hier steht es. Neue Auswertungen
 kommen oben dazu, ältere bleiben stehen: An der Reihe zeigt sich, ob eine Lücke
 wiederkehrt.
 
+## 12.10.2026, 11:06 — Claude-Lauf, Befund
+
+**Was läuft korrekt.** Der Bestand ist frisch: `meta.generatedAt` vor 0,1 h, `bestand-bauen.yml` zuletzt erfolgreich vor 0,1 h, Deploy vor 0,3 h grün (04, 05). Zugänge und Kontingent sind unauffällig (04). Die im Urteil vom 11.10. gemeldete Lücke bei `claude-wache-urteil.yml` ist geschlossen: der Lauf lieferte das Urteil vom 11.10. und läuft laut Zugriffsprüfung wieder fristgerecht (04, 05, 10). Zwei am 08.10. als stumm gemeldete Quellen (09) sind wieder aktiv: `anisearch-eintraege` (400 Treffer vor 0,2 Tagen) und `motn` (1943 Treffer vor 3,9 Tagen, 06). Für den roten Bestandsbau 38220943321 liegt bereits eine Auswertung als PR #907 vor, für Issue #898 (aniSearch-Titel ohne Herkunft) ein Fix-Entwurf als PR #901 (08) — das Selbstheilungs-Muster greift.
+
+**Wo ist Verbesserungspotenzial?** Der Briefkasten-Rückstau wächst weiter: 168 Adressen noch nicht gelistet, gestern 160, am 25.09. noch 37 (03, 11) — langsam, ohne Gegenbewegung. `cr-einzelwerke` und `cr-filmbloecke` bleiben seit 18,9 Tagen bei 0 Treffern (06), unverändert zum Vorurteil. Die Terminableitung verwirft weiter mehr: „Blöcke und Titel verschieden viele" 223 → 225, „deutscher Termin vor der japanischen Ausstrahlung" 1 → 3 (07, am 12.10. 05:47 bereits in 09 gemeldet) — Letzteres ist ein neuer Sprung seit dem letzten Urteil, auch wenn „Folgenzahl geht nicht auf" leicht sank (46 → 44). Issue #750 (Bestandsbau 11.10. rot) steht nicht mehr unter den offenen Issues, die zugehörige Korrektur-PR #752 (Push-Meldung sichtbar) ist aber weiterhin offen (08) — ob das erledigt oder nur verlagert ist, ist aus dem Dossier nicht ersichtlich.
+
+**Wo sind echte Risiken und Lücken?** Der am 11.10. erstmals als Muster benannte Beleg-Verlust (10) hat sich ausgeweitet: im Lauf vom 11.10. 13:59 gingen 18 Urteile verloren, verteilt über primevideo (-9), crunchyroll (-5), disneyplus (-3) und youtube (-1), zusätzlich netflix (10:20) und adn am 12.10. 04:23 (-3, 02). Über 48 h summiert sich das zu Urteile -15 und offen +38 bei fast gleicher Titelzahl (2926 Titel, 02) — breiter als Netflix allein und weiterhin ohne erkennbare Ursache im Dossier. „Aussehen prüfen" scheitert 16-mal in 48 h auf dem Hauptzweig plus 1 Abbruch (01), ohne erkennbaren Untersuchungs- oder Fix-Vorgang in den offenen PRs (08); ob das nur die Prüfung selbst oder tatsächliche Darstellungsfehler betrifft, zeigt das Dossier nicht. „Bestand — zusammenführen und bauen" schlug 8-mal auf dem Hauptzweig fehl, „Deploy auf GitHub Pages" 10-mal (01) — die Seite steht trotzdem aktuell, aber die Fehlerquote auf main bleibt hoch. Daniel: die stummen `cr-einzelwerke`/`cr-filmbloecke` (18,9 Tage) und den mehrplattformigen Beleg-Verlust prüfen.
+
+**Was läuft komplett falsch?** Die Wache-Datei (11) steht weiterhin auf dem Stand vom 25.09., obwohl seitdem mindestens ein Befund (11.10., laut 10) fällig gewesen wäre; der zugehörige Lauf taucht in den 48-Stunden-Läufen (01) unter keinem der aufgeführten Namen auf, obwohl er laut eigener Beschreibung (11) täglich um 09:20 Uhr feuern soll. Das ist dieselbe Lücke wie im Urteil vom 11.10. (10), jetzt mit dem zusätzlichen Beleg, dass der Lauf in 48 h gar nicht erscheint. Bauer: prüfen, ob `delta-wache.yml` noch läuft oder ausgeschaltet/umbenannt wurde.
+
+
 ## 11.10.2026, 12:51 — Claude-Lauf, Befund
 
 **Was läuft korrekt.** Der Bestand ist frisch: `meta.generatedAt` vor 0,1 h, `bestand-bauen.yml` zuletzt erfolgreich vor 0,2 h, aktuell 2928 Titel und 2140 Urteile (02, 04, 05). Der Deploy ist trotz 15 Fehlläufen in 48 h gerade grün, letzter Erfolg vor 0,1 h (01, 05). Zugänge/Token halten bis auf den Wache-Workflow selbst ihre Frist ein (04).
@@ -270,14 +281,3 @@ wer die Ursache dann noch kennt, hat Glück. Deshalb diese Datei.
 **Wo sind echte Risiken und Lücken?** #439 hätte nicht gereicht: Es zählt den Nachfolger nur, wenn er im Hauptbestand (`slim`) steht; die acht AniList-Titel (11421, 9978, 5091, 7956, 6262, 10282, 4439, 6771) stehen aber in `ohne-synchro.json`, also hinter dem Toggle. Offen bleibt die inhaltliche Frage aus dem Eintrag vom 07.10.: Titel mit Dub-Kennzeichen `c` standen als eigene aniSearch-Titel im Hauptbestand und liegen nach der Zuordnung dahinter. Kein Riegel meldet das.
 
 **Was läuft komplett falsch?** Nichts im Bau selbst. Die Annahme des Riegels („jede verschwundene Kennung ist ein Verlust") kennt keinen Kennungswechsel. Neu: `anisearchUmgezogen` (`pipeline/bau/anisearch-titel.ts`) rechnet eine Kennung als umgezogen, wenn ihr AniList-Nachfolger im Hauptbestand, in `verschoben` oder im AniList-Katalog ankommt; #411, #412, #439 sind damit überholt. Nicht lokal gemessen (kein Cache).
-
-
-## 12.10.2026 — Bestand-Bau rot (Lauf 38203328049), kein Wache-Befund
-
-**Was läuft korrekt.** `check:handbelege` hat gegriffen: Der Bau lieferte keinen Bestand aus, in dem drei Handprüfungen (Archer/Netflix, American Dad und -82653/Disney+) fehlen; `public/data` auf `main` blieb unverändert. Lokal mit dem Stand der Quellen nachgebaut (`schreibeCartoons`): derselbe Fehler, reproduzierbar.
-
-**Wo ist Verbesserungspotenzial?** Der Lauf pusht die Quellen auch bei roter Zusicherung (gewollt), die Meldung nennt aber nur die Kennung, nicht die Ursache; die Kennungen -10283 und -1433 sind Cartoons, der Titel zeigt `(?)`.
-
-**Wo sind echte Risiken und Lücken?** Die Prüfung vergleicht nur den ersten Weg mit passender Adresse. Seit die Wege auf Staffeln verteilt werden (11.10.), kann ein richtiger Datensatz dort durchfallen, und ein falscher bliebe unbemerkt, solange irgendein Weg stimmt. Ob alle belegten Staffeln ihr Häkchen tragen, prüft niemand.
-
-**Was läuft komplett falsch?** `verschmelze` in `pipeline/lib/dub-confirmed.ts` ersetzt `dubRanges` durch die jüngste Meldung. Archer: 16 Staffel-Meldungen, übrig blieb 112–118, Staffel 1–10 ohne Häkchen. Behoben: bei negativen Kennungen werden die Bereiche vereinigt (`lib/dub-bereiche.ts`); Issue #878.
