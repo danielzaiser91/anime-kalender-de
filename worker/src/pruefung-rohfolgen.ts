@@ -119,11 +119,16 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
       })
 }
 
-/** `&alle=1`: eine Seite jeder Beobachtung ohne `roh`, fortsetzbar über `nach` (Begründung am Aufruf). */
+/**
+ * `&alle=1`: eine Seite jeder Beobachtung ohne `roh` (Menge), fortsetzbar über `nach` (Begründung am Aufruf).
+ * Nur `angenommen` wird aus `roh` gelöst (Netflix-Randprobe, 12.10.2026): Eine angenommene Folge darf in
+ * `fetch-urteile.ts` nicht als gemessen zählen.
+ */
 async function alleRohfolgen(env: Env, nach: number) {
   const { results } = await env.DB.prepare(
     `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
-            seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen
+            seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen,
+            CASE WHEN plattform = 'netflix' THEN json_extract(roh, '$.angenommen') END AS angenommen
        FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT 5000`,
   )
     .bind(Number.isFinite(nach) ? nach : 0)

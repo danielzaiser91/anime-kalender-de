@@ -4286,8 +4286,8 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
     ging je Folge eine Anfrage raus, sechs gleichzeitig. Der Worker nimmt seit heute einen
     `stapel` an, höchstens zehn je Anfrage (Größengrenze, siehe PRUEFUNG_STAPEL_HOECHSTENS).
     Gemessen am 25.09.2026: zehn Meldungen einzeln nacheinander 1.740 ms, als Stapel 371 ms.
-    Die Stapel gehen gleichzeitig raus; das Abhaken im lokalen Speicher bleibt danach der
-    Reihe nach, weil es liest und schreibt.
+    Die Stapel gehen nacheinander raus: Nach einer 429 (Tageslimit) kommt kein weiterer an den Worker.
+    Das Abhaken im lokalen Speicher folgt danach der Reihe nach, weil es liest und schreibt.
   */
   const abhaken = []
   const meldungen = folgen.map((f) => {
@@ -4322,15 +4322,14 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
         serientitel: stand.reihe && String(stand.reihe) === String(reihe) ? (stand.serientitel ?? null) : null,
         notiz:
           /*
-            **Die Notiz ist der einzige Weg, auf dem die Annahme ankommt.**
+            **Die Notiz nennt die Annahme im Klartext; maschinenlesbar ist `art`.**
 
-            Ein eigenes Feld verwirft der Worker — er nimmt nur, was er kennt.
-            Die Notiz reicht er dagegen unverändert bis in
+            Die Notiz reicht der Worker unverändert bis in
             `dub-confirmed.yaml` durch, und dort muss stehen, dass hier
             zwei Folgen gemessen und der Rest angenommen wurde. Sonst sieht
             eine Annahme später aus wie eine Messung.
           */
-          akNetflixRandNotiz(folgen, bisNummer, f, DURCHLAUF.staffelLabel),
+          akNetflixRandNotiz(folgen, bisNummer, f, DURCHLAUF.staffelLabel, gemessen.has(Number(f.nummer))),
         /* Auch eine abgeleitete Folge bringt ihren Titel und ihre Felder mit — für die Zuordnung. */
         rohfolgen: [
           {
@@ -4352,46 +4351,47 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
   })
   const stapel = []
   for (let i = 0; i < meldungen.length; i += MELDE_STAPEL) stapel.push(meldungen.slice(i, i + MELDE_STAPEL))
-  await Promise.all(
-    stapel.map(async (teil) => {
-      try {
-        const antwort = await fetch(WORKER, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-          body: JSON.stringify({ stapel: teil.map((m) => m.daten) }),
-        })
-        if (!antwort.ok) return void globalThis.AK_TAGESLIMIT?.fehlgeschlagen(DURCHLAUF)
-        const { ergebnisse = [] } = await antwort.json()
-        teil.forEach(({ f, staffelDerFolge }, i) => {
-          if (!ergebnisse[i]?.ok) return
-          gemeldet++
-          DURCHLAUF.gemeldet.add(f.videoId)
-          frischGemeldetNetflix.add(String(reihe))
-          /* Abgeleitet zählt wie gemessen — mit demselben Datum. */
-          meldungenMerken(reihe, [
-            {
-              nummer: f.nummer,
-              staffel: staffelDerFolge,
-              staffelBekannt: staffelDerFolge != null,
-              folge: f.videoId,
-              am: new Date().toISOString(),
-            },
-          ])
-          /*
-            **Auch die Abhakliste bekommt es mit.**
-
-            Sie speist die Bereiche im Dialog. Ohne diesen Eintrag stand dort
-            nach einer Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 |
-            offen: E3-60" — die Meldungen waren raus, nur wusste die Anzeige
-            nichts davon.
-          */
-          abhaken.push([staffelDerFolge, f.nummer])
-        })
-      } catch {
-        /* Ein verlorener Stapel hält die übrigen nicht auf. */
+  for (const teil of stapel) {
+    try {
+      const antwort = await fetch(WORKER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({ stapel: teil.map((m) => m.daten) }),
+      })
+      if (!antwort.ok) {
+        globalThis.AK_TAGESLIMIT?.fehlgeschlagen(DURCHLAUF)
+        break
       }
-    }),
-  )
+      const { ergebnisse = [] } = await antwort.json()
+      teil.forEach(({ f, staffelDerFolge }, i) => {
+        if (!ergebnisse[i]?.ok) return
+        gemeldet++
+        DURCHLAUF.gemeldet.add(f.videoId)
+        frischGemeldetNetflix.add(String(reihe))
+        /* Abgeleitet zählt wie gemessen — mit demselben Datum. */
+        meldungenMerken(reihe, [
+          {
+            nummer: f.nummer,
+            staffel: staffelDerFolge,
+            staffelBekannt: staffelDerFolge != null,
+            folge: f.videoId,
+            am: new Date().toISOString(),
+          },
+        ])
+        /*
+          **Auch die Abhakliste bekommt es mit.**
+
+          Sie speist die Bereiche im Dialog. Ohne diesen Eintrag stand dort
+          nach einer Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 |
+          offen: E3-60" — die Meldungen waren raus, nur wusste die Anzeige
+          nichts davon.
+        */
+        abhaken.push([staffelDerFolge, f.nummer])
+      })
+    } catch {
+      /* Ein verlorener Stapel hält die übrigen nicht auf. */
+    }
+  }
   for (const [staffel, nummer] of abhaken) await merkeErledigt(reihe, staffel, nummer)
   await durchlaufStandSchreiben(reihe)
   console.log(`[Anime-Kalender] ${gemeldet} Folge(n) aus der Randprobe gemeldet.`)

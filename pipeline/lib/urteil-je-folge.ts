@@ -42,9 +42,18 @@ export interface Urteil {
   grund?: 'kanal-ohne-abo'
 }
 
-/** Gemessen oder angenommen: `art` der Meldung oder ein ANGENOMMEN in ihrer Notiz. */
+/**
+ * Gemessen oder angenommen. Die `art` der Meldung gilt: Die Randprobe trägt ANGENOMMEN in der Notiz jeder Folge,
+ * auch der zwei gemessenen Randfolgen. Nur ohne `art` (Erweiterung vor 4.21.0, 22.09.2026) liest die Notiz.
+ */
 export function artDerMeldung(m: { art: string | null; notiz: string | null }): 'gemessen' | 'angenommen' {
-  return m.art === 'angenommen' || /ANGENOMMEN/.test(m.notiz ?? '') ? 'angenommen' : 'gemessen'
+  if (m.art === 'gemessen' || m.art === 'angenommen') return m.art
+  return /ANGENOMMEN/.test(m.notiz ?? '') ? 'angenommen' : 'gemessen'
+}
+
+/** Die Rohfolge einer Randprobe trägt `roh.angenommen`; der Worker reicht es als 1 durch (nur Netflix, sonst leer). */
+export function artDerRohfolge(f: { angenommen?: number | boolean | null }): 'gemessen' | 'angenommen' {
+  return f.angenommen ? 'angenommen' : 'gemessen'
 }
 
 const RANG: Record<UrteilBeobachtung['art'], number> = { gemessen: 3, abgeleitet: 2, angenommen: 1 }

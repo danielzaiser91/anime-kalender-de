@@ -12,7 +12,7 @@
  * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { adressIndex, artDerMeldung, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import { adressIndex, artDerMeldung, artDerRohfolge, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -58,6 +58,8 @@ interface RohFolge {
   gemeldet_am: string
   vorhanden: string | null
   ton_de: string | null
+  /** 1, wenn die Randprobe diese Folge nur angenommen hat (`roh.angenommen`); ältere Worker liefern das Feld nicht. */
+  angenommen?: number | null
 }
 
 /** Holt eine seitenweise Liste; `null` heißt Störung — dann wird nichts geschrieben. */
@@ -163,7 +165,7 @@ async function main() {
       folge: z.folge,
       vorhanden,
       tonDe,
-      art: 'gemessen',
+      art: artDerRohfolge(f),
       tag: f.gemeldet_am.slice(0, 10),
       kanal: tonDe === 'nein' && kanalAdresse.has(adressKern(f.url)),
     })
