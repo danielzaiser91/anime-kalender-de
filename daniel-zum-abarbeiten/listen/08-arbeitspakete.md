@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **34 offene Verweise** in **30 Zeilen**,
+Stand 2026-10-12 · **37 offene Verweise** in **30 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -64,8 +64,8 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 22 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
 | 23 | Netflix | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
 | 24 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 25 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 26 | ADN | Bleach | [The Movie - Memories of Nobody]() |
+| 25 | ADN | Bleach | [The Movie - Memories of Nobody]() · [The Movie - The Diamond Dust Rebellion]() · [The Movie - Fade to Black]() · [The Movie - Hell Verse]() |
+| 26 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
 | 27 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
 | 28 | Disney+ | Jujutsu Kaisen: Shimetsu Kaiyuu - Kouhen | [Jujutsu Kaisen 0]() |
 | 29 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |

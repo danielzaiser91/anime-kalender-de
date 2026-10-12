@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **34 offene Verweise** in **30 Zeilen**.
+Stand 2026-10-12 · **37 offene Verweise** in **30 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -36,13 +36,13 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | [Prime Video](07-primevideo.md) | 13 |
 | [Disney+](07-disneyplus.md) | 9 |
 | [Netflix](07-netflix.md) | 8 |
-| [ADN](07-adn.md) | 4 |
+| [ADN](07-adn.md) | 7 |
 
 ## Zu prüfen
 
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 1 | 2026-10-12 | Bleach | [The Movie - Memories of Nobody]() |
+| 1 | 2026-10-12 | Bleach | [The Movie - Memories of Nobody]() · [The Movie - The Diamond Dust Rebellion]() · [The Movie - Fade to Black]() · [The Movie - Hell Verse]() |
 | 2 | 2026-10-09 | Gachiakuta | [Hauptserie]() |
 | 3 | 2026-10-08 | 86: Eighty Six | [Hauptserie](https://animationdigitalnetwork.com/de/video/1423-eighty-six) · [Teil 2](https://animationdigitalnetwork.com/de/video/1423-eighty-six) |
 | 4 | 2026-10-06 | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |

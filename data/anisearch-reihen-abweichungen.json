@@ -1,9 +1,9 @@
 {
   "stand": "2026-10-12",
   "deckung": {
-    "titel": 20624,
+    "titel": 20625,
     "mitSeite": 15885,
-    "ohneSeite": 29,
+    "ohneSeite": 30,
     "ohneAnisearchKennung": 3050,
     "ohneReferenz": 1660,
     "seitenImArchiv": 17466,
@@ -17,8 +17,8 @@
     "gemischt": 533
   },
   "hauptbestand": {
-    "titel": 2866,
-    "gleich": 2158,
+    "titel": 2867,
+    "gleich": 2159,
     "fehlen": 460,
     "zusaetzlich": 147,
     "gemischt": 101
