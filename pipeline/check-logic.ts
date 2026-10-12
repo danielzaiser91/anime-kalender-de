@@ -3789,7 +3789,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe(
     'der Bau legt den Verweis beim gemeldeten Anbieter an',
     /const plattform = eintrag\.plattform as PlatformId/.test(bau) &&
-      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: belegt \}\)/.test(bau),
+      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: belegt \|\| undefined \}\)/.test(bau),
     'die Plattform ist wieder fest verdrahtet',
   )
   pruefe(
