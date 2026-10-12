@@ -16,6 +16,7 @@
  * `prime_folge_seite` aus 042) und leisten eine Punktabfrage (gemessen: eine reine gti-Suche liest
  * 0 Zeilen). Mit `INDEXED BY` steht im Plan `SEARCH … (gti=?)` bzw. `(seiten_kennung=?)`.
  * Das Verhalten bleibt dasselbe: Die Bedingungen gelten weiter, nur der Weg dorthin ist ein anderer.
+ * Seit 12.10.2026 stehen diese Bedingungen als SELECT (mit Hash) in `rohfolgen-abgleich.ts`.
  */
 import { ereignisSenden } from './ereignisse.ts'
 import { zahlOderNull, jetztIso } from './werte.ts'
