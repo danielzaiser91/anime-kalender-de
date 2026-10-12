@@ -79,3 +79,4 @@ tools/cartoon-jw-auswerten.test.mjs
 tools/cartoon-jw-stichprobe.test.mjs
 tools/check-patchnotes-pflicht.mjs
 tools/pruef-bestand.test.mjs
+tools/reihen-vergleich.test.mjs
