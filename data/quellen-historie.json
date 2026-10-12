@@ -3205,11 +3205,17 @@
   ],
   "adn-561": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
-      "name": "gw.api.animationdigitalnetwork.com",
-      "gesehenAm": "2026-08-29",
-      "sagt": "2019-05-20",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/04/09/one-piece-streame-den-neuen-elbaph-arc-bei-adn/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-12",
       "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-08-29",
+      "stand": "aktuell",
+      "sagt": "2019-05-20"
     }
   ],
   "adn-1294": [
@@ -6467,6 +6473,15 @@
       "url": "https://www.crunchyroll.com/de/simulcastcalendar",
       "name": "crunchyroll.com",
       "gesehenAm": "2026-10-12",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-139273-netflix": [
+    {
+      "url": "https://www.anime2you.de/news/1037860/zweiter-mobile-suit-gundam-hathaway-film-auf-netflix/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-12",
+      "sagt": "2026-08-31",
       "stand": "aktuell"
     }
   ]

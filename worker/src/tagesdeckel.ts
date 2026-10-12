@@ -175,7 +175,12 @@ export function deckelAntwort(antwort: (body: unknown, status?: number) => Respo
   return r
 }
 
-type MitDb = { env: Env; antwort: (body: unknown, status?: number) => Response }
+type MitDb = {
+  env: Env
+  antwort: (body: unknown, status?: number) => Response
+  /** Erfährt, was der Lauf an Zeilen angefasst hat — auch nach einer Ausnahme (es kann teilweise geschrieben sein). */
+  beiZeilen?: (zeilen: Zeilen) => void
+}
 
 /** Führt `lauf` nur unter beiden Deckeln aus und bucht danach die geschriebenen und gelesenen Zeilen. */
 export async function mitTagesdeckel<K extends MitDb>(kontext: K, lauf: (k: K) => Promise<Response>, jetzt = new Date()): Promise<Response> {
@@ -189,6 +194,8 @@ export async function mitTagesdeckel<K extends MitDb>(kontext: K, lauf: (k: K) =
   } catch (e) {
     if (zaehler.limit()) return deckelAntwort(kontext.antwort, jetzt)
     throw e
+  } finally {
+    kontext.beiZeilen?.(zaehler.zeilen())
   }
   /* D1 hat verweigert, die Meldung den Fehler gefangen (Stapel: je Meldung `ok: false`): auch das ist das Tageslimit. */
   if (zaehler.limit()) return deckelAntwort(kontext.antwort, jetzt)

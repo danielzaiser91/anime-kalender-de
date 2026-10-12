@@ -25,9 +25,10 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { andereNamen } from './lib/titel-namen.ts'
-import { SITE, esc, namenZeile, titelInhalt, titelKopf } from './lib/titel-seite.ts'
+import { SITE, esc, namenZeile, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
+import { seitenQuelle, type SynopsenFuerSeiten } from './lib/handlung-eigen.ts'
 import { ladeAkVon, umleitungen, type AkVon, type KennungsZeile } from './lib/ausgabe-kennung.ts'
 
 const DIST = resolve(ROOT, 'dist')
@@ -75,7 +76,7 @@ function describe(release: Release, title: Title | undefined, today: string): st
 function body(
   release: Release,
   title: Title | undefined,
-  synopsis: string | undefined,
+  synopsis: SynopsenText | undefined,
   today: string,
   geschwister: Release[],
   ak: number,
@@ -218,7 +219,7 @@ function body(
   return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(release.name)}</h1>
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>${namenZeile(title, release.name)}
-      ${synopsis ? `<p style="margin:0 0 1.5rem;">${esc(synopsis)}</p>` : ''}
+      ${synopsenAbsatz(synopsis)}
       ${release.note ? `<p style="margin:0 0 1.5rem;color:#9aa5bd;">${esc(release.note)}</p>` : ''}
       <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Alle Termine mit deutscher Synchronisation</h2>
       <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">
@@ -363,9 +364,9 @@ function main(): void {
   // Die Synopsen liegen seit dem 10.08.2026 in Gruppen statt in einer Datei.
   // Hier werden alle gebraucht — die Seiten entstehen einmal im Build, nicht im
   // Browser, für ihn zählt die Aufteilung nicht.
-  const synopses: Record<string, { de?: string; en?: string }> = {}
+  const synopses: SynopsenFuerSeiten = {}
   for (let gruppe = 0; gruppe < SYNOPSIS_GROUPS; gruppe++) {
-    Object.assign(synopses, readJson<Record<string, { de?: string; en?: string }>>(`public/data/synopses/${gruppe}.json`, {}))
+    Object.assign(synopses, readJson<SynopsenFuerSeiten>(`public/data/synopses/${gruppe}.json`, {}))
   }
   const today = todayIso()
   /* Die Adresse eines Titels ist `/t/<ak>/` — unsere Kennung, ohne Namen (Stufe 1 der eigenen Kennungen). */
@@ -424,7 +425,7 @@ interface SeitenRahmen {
   after: string
   rootTag: string
   today: string
-  synopses: Record<string, { de?: string; en?: string }>
+  synopses: SynopsenFuerSeiten
   jeTitel: Map<number, Release[]>
 }
 
@@ -455,7 +456,8 @@ function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[],
     const eigene = r.jeTitel.get(t.id) ?? []
     const haupt = naechsterTermin(eigene, r.today)
     /* Cartoons tragen ihre Beschreibung am Titel, nicht in `synopses/`. */
-    const synopsis = r.synopses[String(t.id)]?.de ?? (t.westlich ? t.synopsis : undefined)
+    const text = r.synopses[String(t.id)]?.de ?? (t.westlich ? t.synopsis : undefined)
+    const synopsis = text ? { text, quelle: seitenQuelle(r.synopses[String(t.id)]) } : undefined
     const kopf = haupt ? head(haupt, t, r.today, ak, adresse) : titelKopf({ ...t, id: ak, slug: adresse })
     const inhalt = haupt
       ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak)

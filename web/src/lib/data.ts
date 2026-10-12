@@ -277,6 +277,8 @@ export interface Synopsis {
    */
   deSource?: { name: string; url: string }
   asUrl?: string
+  /** Eigener Text aus Fakten mehrerer Quellen: alle Quellen, Lizenz des Textes; `reihe` = beschreibt nur die Reihe, nicht diesen Titel. */
+  eigen?: { quellen: { name: string; url: string }[]; lizenz: string; reihe?: true }
   /** Größtes brauchbares Plakat (TMDB): Pfad, Breite, Höhe — nur für die Vergrößerung des Covers. */
   cg?: [string, number, number]
 }

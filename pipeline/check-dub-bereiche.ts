@@ -5,7 +5,7 @@
  */
 import { nimmJa, vereinigeBereiche, type DubBereich } from './lib/dub-bereiche.ts'
 import { verschmelze, type DubCheck } from './lib/dub-confirmed.ts'
-import { findeKonflikte } from './lib/dub-konflikt.ts'
+import { findeKonflikte, findeVereinte } from './lib/dub-konflikt.ts'
 import { findeSchrumpf } from './lib/dub-schrumpf.ts'
 
 let fehler = 0
@@ -94,6 +94,20 @@ const grob = (r: DubBereich[] | undefined): string => JSON.stringify((r ?? []).m
 const gleichTag = verschmelze(tagA, tagB)
 pruefe('Gleichstand: Nein gewinnt, Ja-Reste bleiben', grob(gleichTag.dubRanges) === grob([bereich(1, 3, true), bereich(4, 24, false), bereich(25, 48, true), bereich(49, 49, false), bereich(50, 61, true)]), zeig(gleichTag.dubRanges ?? []))
 pruefe('Gleichstand: Reihenfolge der Zeilen egal', grob(verschmelze(tagB, tagA).dubRanges) === grob(gleichTag.dubRanges))
+// Gleichstand: das Häkchen bleibt, wenn beide Meldungen dasselbe Urteil nennen – egal, welche Zeile zuerst steht.
+const mitHaken = eintrag(7, '2026-10-12', [bereich(1, 5, true, [1, 5])])
+const ohneHaken = eintrag(7, '2026-10-12', [bereich(1, 5, true)])
+pruefe('Gleichstand: Häkchen bleibt (Zeile mit Häkchen zuerst)', gleich(verschmelze(mitHaken, ohneHaken).dubRanges, [bereich(1, 5, true, [1, 5])]), zeig(verschmelze(mitHaken, ohneHaken).dubRanges ?? []))
+pruefe('Gleichstand: Häkchen bleibt (Zeile mit Häkchen zuletzt)', gleich(verschmelze(ohneHaken, mitHaken).dubRanges, [bereich(1, 5, true, [1, 5])]))
+const haken = verschmelze(eintrag(7, '2026-10-12', [bereich(1, 3, true, [1, 3])]), eintrag(7, '2026-10-12', [bereich(3, 6, true, [6])]))
+pruefe('Gleichstand: Häkchen beider Meldungen vereint', gleich(haken.dubRanges, [bereich(1, 6, true, [1, 3, 6])]), zeig(haken.dubRanges ?? []))
+const hakenNein = verschmelze(eintrag(7, '2026-10-12', [bereich(1, 5, true, [1, 5])]), eintrag(7, '2026-10-12', [bereich(3, 4, false)]))
+pruefe('Gleichstand: das Nein bringt kein Häkchen des Ja mit', gleich(hakenNein.dubRanges, [bereich(1, 2, true, [1]), bereich(3, 4, false), bereich(5, 5, true, [5])]), zeig(hakenNein.dubRanges ?? []))
+// Verschiedene Tage: das spätere Urteil bringt sein Häkchen mit, das ältere entfällt.
+const verschTage = verschmelze(eintrag(7, '2026-10-11', [bereich(1, 5, true, [1, 5])]), eintrag(7, '2026-10-12', [bereich(1, 5, true)]))
+pruefe('verschiedene Tage: Häkchen der jüngeren Meldung', gleich(verschTage.dubRanges, [bereich(1, 5, true)]), zeig(verschTage.dubRanges ?? []))
+const vereinte = findeVereinte([mit(7, frueh, [bereich(1, 12)]), mit(7, spaet, [bereich(13, 13, false)]), mit(8, frueh, [bereich(1, 2)])])
+pruefe('Vereinte: nur der Verweis mit zwei Meldungen, Ergebnis als Text', vereinte.length === 1 && vereinte[0]!.ergebnis === '1–12 ja, 13–13 nein', JSON.stringify(vereinte))
 const konflikte = findeKonflikte([mit(7, '2026-10-12', tagA.dubRanges!), mit(7, '2026-10-12', tagB.dubRanges!)])
 pruefe('Konflikt: Folge 4–24 wird gemeldet', konflikte.length === 1 && gleich(konflikte[0]!.folgen, folgen(4, 24)), JSON.stringify(konflikte))
 pruefe('Konflikt: verschiedene Tage sind keiner', findeKonflikte([mit(7, frueh, tagA.dubRanges!), mit(7, spaet, tagB.dubRanges!)]).length === 0)

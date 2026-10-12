@@ -11,6 +11,9 @@ import { join } from 'node:path'
 
 const DATEN = ['data', ':(exclude)data/cache']
 
+/** Die eigenen data/-Änderungen des Kandidaten lassen sich nicht auf den Stand der Basis anwenden. */
+export class DatenKonflikt extends Error {}
+
 /** Änderungen des Kandidaten seit der Merge-Basis unter `data/`: `[{ status: 'A'|'M'|'D', pfad }]`. */
 function eigeneAenderungen(git, basis, kandidat) {
   return git('-c', 'core.quotepath=off', 'diff', '--name-status', '--no-renames', `${basis}...${kandidat}`, '--', ...DATEN)
@@ -35,7 +38,7 @@ function wendeEigeneAn(git, imBaum, basisSha, sha) {
       imBaum('apply', '--3way', '--whitespace=nowarn', diff)
     } catch (fehler) {
       const meldung = `${fehler.stderr ?? ''}${fehler.stdout ?? ''}`.trim() || fehler.message
-      throw new Error(
+      throw new DatenKonflikt(
         `Konflikt: Die data/-Änderungen von ${sha.slice(0, 12)} lassen sich nicht auf den Stand von ${basisSha.slice(0, 12)} ` +
           `anwenden (Basis und Kandidat haben dieselbe Stelle geändert). Kandidat auf die Basis rebasen.\n${meldung}`,
       )

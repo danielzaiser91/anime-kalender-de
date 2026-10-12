@@ -52,7 +52,7 @@ import { resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { nimmJa } from './lib/dub-bereiche.ts'
-import { findeKonflikte } from './lib/dub-konflikt.ts'
+import { findeKonflikte, findeVereinte } from './lib/dub-konflikt.ts'
 import { findeSchrumpf } from './lib/dub-schrumpf.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -344,6 +344,14 @@ if (verwaisteBelege) {
       warn(`   ${k.schluessel}: Folge(n) ${k.folgen.slice(0, 5).join(', ')}${k.folgen.length > 5 ? ` … (${k.folgen.length})` : ''}`)
     }
   }
+}
+
+/* Verweise, deren Bereiche aus mehreren Meldungen vereint werden (`verschmelze`): je Verweis eine Zeile mit dem Ergebnis. */
+{
+  const vereinte = findeVereinte(rohBelege as DubCheck[])
+  log(`✓ ${vereinte.length} Verweis(e) mit vereinten Folgenbereichen aus mehreren Meldungen.`)
+  for (const v of vereinte.slice(0, 12)) log(`   ${v.titel ?? v.schluessel} (${v.plattform}): ${v.ergebnis}`)
+  if (vereinte.length > 12) log(`   … und ${vereinte.length - 12} weitere`)
 }
 
 /*

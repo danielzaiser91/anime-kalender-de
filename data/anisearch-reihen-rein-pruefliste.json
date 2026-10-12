@@ -1,0 +1,1554 @@
+{
+  "stand": "2026-10-12",
+  "bestand": {
+    "inReihen": 3015,
+    "reihen": 811,
+    "pruefliste": [
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 288,
+            "name": "Bakuten Shoot Beyblade",
+            "titel": 4
+          },
+          {
+            "id": 21236,
+            "name": "Beyblade Burst",
+            "titel": 7
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Bakuten Shoot Beyblade —?→ Beyblade Burst"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10004978,
+            "name": "Mashin Eiyuuden Wataru: Soukaizan Eiyuu Densetsu",
+            "titel": 6
+          },
+          {
+            "id": 10016731,
+            "name": "Mashin Eiyuuden Wataru: Nana Tamashii no Ryuujinmaru - Saikai",
+            "titel": 3
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Mashin Eiyuuden Wataru —?→ Mashin Eiyuuden Wataru: Nana Tamashii no Ryuujinmaru"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 2156,
+            "name": "Bakugan Battle Brawlers",
+            "titel": 4
+          },
+          {
+            "id": 108852,
+            "name": "Bakugan Battle Planet",
+            "titel": 8
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Bakugan Battle Brawlers —?→ Bakugan Battle Planet"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10014289,
+            "name": "Backkom 2",
+            "titel": 7
+          },
+          {
+            "id": 10019532,
+            "name": "Bei Ken Xiong: Huoxing Renwu",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "My Friend Bernard —?→ Backkom"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10009582,
+            "name": "Xiong Chumo: Duo Bao Xiong Bing",
+            "titel": 14
+          },
+          {
+            "id": 10015219,
+            "name": "Xiongxiong Leyuan",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Boonie Bears —?→ Xiongxiong Leyuan"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10009582,
+            "name": "Xiong Chumo: Duo Bao Xiong Bing",
+            "titel": 14
+          },
+          {
+            "id": 10012541,
+            "name": "Xiong Chumo: Qihuan Kongjian",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Boonie Bears —?→ Xiong Chumo: Xiong Zin Guilai"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10009582,
+            "name": "Xiong Chumo: Duo Bao Xiong Bing",
+            "titel": 14
+          },
+          {
+            "id": 10018812,
+            "name": "Zhao Lim De Tanxian Riji",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Boonie Bears —?→ Zhao Lim De Tanxian Riji"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10010271,
+            "name": "The iDOLM@STER: Cinderella Girls - Special Program",
+            "titel": 10
+          },
+          {
+            "id": 10021249,
+            "name": "The iDOLM@STER Cinderella Girls: U149 - Dai-1-Wa - 7-wa Soushuuhen",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "The iDOLM@STER: Cinderella Girls —?→ The iDOLM@STER: Cinderella Girls - U149"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 1412,
+            "name": "Lupin III",
+            "titel": 55
+          },
+          {
+            "id": 97619,
+            "name": "LUPIN THE IIIRD: Chikemuri no Ishikawa Goemon",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Lupin Sansei (2015) —?→ LUPIN THE IIIRD: Chikemuri no Ishikawa Goemon"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10016918,
+            "name": "Idol Land PriPara: Idol Land Hajimechaimashita!",
+            "titel": 2
+          },
+          {
+            "id": 10017343,
+            "name": "Maji de Wakaru! Waccha PriMagi Gakuen",
+            "titel": 11
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Idol Time PriPara —?→ Idol Land PriPara"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 1000,
+            "name": "Uchuu Kaizoku Captain Harlock",
+            "titel": 10
+          },
+          {
+            "id": 10012613,
+            "name": "The Zero Century: Emeraldas",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "The Zero Century: Emeraldas —?→ The Zero Century: Herlock"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10012178,
+            "name": "Turning Mecard W: Black Mirrorui Buhwal",
+            "titel": 7
+          },
+          {
+            "id": 10015410,
+            "name": "Yogoe Mecard",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Turning Mecard —?→ Yogoe Mecard"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10012178,
+            "name": "Turning Mecard W: Black Mirrorui Buhwal",
+            "titel": 7
+          },
+          {
+            "id": 10015306,
+            "name": "Ppasya Mecard",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Turning Mecard W —?→ Ppasya Mecard"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 1000,
+            "name": "Uchuu Kaizoku Captain Harlock",
+            "titel": 10
+          },
+          {
+            "id": 1548,
+            "name": "Shin Taketori Monogatari: 1000-nen Joou",
+            "titel": 19
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "The Zero Century: Herlock —?→ The Zero Century: Maetel"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10012637,
+            "name": "Geukjangpan Ttobot: Robotgundanui Seupgyeok",
+            "titel": 2
+          },
+          {
+            "id": 10015286,
+            "name": "Ttobot V",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Byeonsin Jadongcha Ttobot —?→ Ttobot V"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10014087,
+            "name": "Sinbi Apartment: 444 Ho",
+            "titel": 6
+          },
+          {
+            "id": 10018045,
+            "name": "Sinbi Apartment Ghost Ball X: 6gaeui Yeeon",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Sinbi Apartment: Ghost Ball X-ui Tansaeng du Beonjjae Iyagi —?→ Sinbi Apartment: Geukjangpan Haneuldokkaebi Dae Jörmungandr"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10014707,
+            "name": "Ejen Ali",
+            "titel": 2
+          },
+          {
+            "id": 10014713,
+            "name": "Ejen Ali: The Movie",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Ejen Ali: Musim 2 —?→ Ejen Ali: The Movie"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10016228,
+            "name": "Shadowverse Tokubetsu-hen",
+            "titel": 2
+          },
+          {
+            "id": 10017754,
+            "name": "Shadowverse Flame: Tokubetsu-hen",
+            "titel": 6
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Shadowverse —?→ Shadowverse Flame"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10015295,
+            "name": "DinoCore",
+            "titel": 3
+          },
+          {
+            "id": 10015408,
+            "name": "DinoCore Evolution",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "DinoCore Season 3 —?→ DinoCore Evolution"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10015548,
+            "name": "A U",
+            "titel": 8
+          },
+          {
+            "id": 10015646,
+            "name": "A U De Fannao",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "A U De Fannao —?→ A U: Tu Zhi Lai Le"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 918,
+            "name": "Gintama",
+            "titel": 26
+          },
+          {
+            "id": 10017303,
+            "name": "Jantama Pong 0-wa",
+            "titel": 5
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Jantama Pong —?→ Jantama × Gintama Collab Kettei Promotion Anime"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 1412,
+            "name": "Lupin III",
+            "titel": 55
+          },
+          {
+            "id": 6115,
+            "name": "Lupin III vs Meitantei Conan",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Lupin the 3rd: Part 3 —Crossover→ Lupin III vs Meitantei Conan"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 7336,
+            "name": "Cyborg 009: Chou Ginga Densetsu",
+            "titel": 2
+          },
+          {
+            "id": 10015545,
+            "name": "Cyborg 009: The Cyborg Soldier - Kami no Ubugoe",
+            "titel": 5
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Cyborg 009 (1979) —Anderes→ Cyborg 009"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10002149,
+            "name": "Kidou Senshi SD Gundam no Gyakushuu: Arashi o Yobu Gakuensai",
+            "titel": 3
+          },
+          {
+            "id": 10017021,
+            "name": "Kidou Senshi SD Gundam: Kessen Hen - SD Olympics!! Stadium Warai ni Somete",
+            "titel": 7
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kidou Senshi SD Gundam no Gyakushuu: Arashi o Yobu Gakuensai —Anderes→ Kidou Senshi SD Gundam"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 552,
+            "name": "Digimon Adventure",
+            "titel": 19
+          },
+          {
+            "id": 8624,
+            "name": "Digimon Xros Wars",
+            "titel": 3
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Digimon Adventure —Anderes→ Digimon Xros Wars"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 130622,
+            "name": "Kitarou Tanjou: Gegege no Nazo",
+            "titel": 4
+          },
+          {
+            "id": 10010667,
+            "name": "Gegege no Kitarou: Youkai Japan Rally 3D",
+            "titel": 17
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Gegege no Kitarou —Anderes→ Gegege no Kitarou (2018)"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 1731,
+            "name": "Tales of Symphonia THE ANIMATION: Sylvarant-hen",
+            "titel": 6
+          },
+          {
+            "id": 6046,
+            "name": "Tales of Vesperia: The First Strike",
+            "titel": 7
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Tales of Symphonia THE ANIMATION: Sylvarant-hen —Anderes→ Tales of the Abyss"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 1088,
+            "name": "Choujikuu Yousai Macross",
+            "titel": 21
+          },
+          {
+            "id": 10017734,
+            "name": "Macross Fufonfia Special",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Macross Frontier —Anderes→ Macross Fufonfia"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10006869,
+            "name": "Kiki to Lala no Hansel to Gretel",
+            "titel": 7
+          },
+          {
+            "id": 10010220,
+            "name": "My Melody no Ookami-san ni Ki o Tsukete",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kiki to Lala no Aoi Tori —Crossover→ Kiki to Lala no Papa to Mama ni Aitai"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 10006142,
+            "name": "Peeping Life Gekijou Original Han",
+            "titel": 13
+          },
+          {
+            "id": 10009194,
+            "name": "Peeping Life: Tezuka Pro, Tatsunoko Pro Wonderland",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Peeping Life —Anderes→ Peeping Life: Tezuka Pro, Tatsunoko Pro Wonderland"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 13117,
+            "name": "Hakuouki Movie 1: Kyoto Ranbu",
+            "titel": 2
+          },
+          {
+            "id": 10008808,
+            "name": "Hakuouki Zuisouroku",
+            "titel": 9
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Hakuoki: Demon of the Fleeting Blossom (TV) —Anderes→ Hakuouki Movie 1: Kyoto Ranbu"
+      },
+      {
+        "art": "verschmilzt",
+        "reihen": [
+          {
+            "id": 196935,
+            "name": "Akane-banashi",
+            "titel": 2
+          },
+          {
+            "id": 10021796,
+            "name": "Keisuke Kuwata × TV Anime Akane-banashi Special Anime Eizou",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Akane-banashi —Anderes→ Akane On My Mind: Scared of Manju"
+      },
+      {
+        "art": "mehrdeutig",
+        "reihen": [
+          {
+            "id": 10005900,
+            "name": "Mahou no Star Magical Emi Finale! Finale! Soushuuhen",
+            "titel": 6
+          },
+          {
+            "id": 10007425,
+            "name": "Mahou no Yousei Persia: Kaiten Mokuba",
+            "titel": 3
+          },
+          {
+            "id": 2000002967,
+            "name": "Magical Angel Creamy Mami",
+            "titel": 6
+          }
+        ],
+        "alleinstehende": [
+          "Adesugata Mahou no Sannin Musume"
+        ],
+        "beispiel": ""
+      },
+      {
+        "art": "mehrdeutig",
+        "reihen": [
+          {
+            "id": 10008953,
+            "name": "Mahou no Princess Minky Momo: Hitomi no Seiza - Minky Momo Song Special",
+            "titel": 5
+          },
+          {
+            "id": 2000002967,
+            "name": "Magical Angel Creamy Mami",
+            "titel": 6
+          }
+        ],
+        "alleinstehende": [
+          "Mahou no Princess Minky Momo vs Mahou no Tenshi Creamy Mami"
+        ],
+        "beispiel": ""
+      },
+      {
+        "art": "mehrdeutig",
+        "reihen": [
+          {
+            "id": 603,
+            "name": "Futari wa Precure",
+            "titel": 9
+          },
+          {
+            "id": 2000014051,
+            "name": "Star Twinkle Precure",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [
+          "Eiga Precure Miracle Leap: Minna to no Fushigi na Ichinichi"
+        ],
+        "beispiel": ""
+      },
+      {
+        "art": "mehrdeutig",
+        "reihen": [
+          {
+            "id": 2000011890,
+            "name": "IDOLM@STER: Cinderella Girls Gekijou",
+            "titel": 8
+          },
+          {
+            "id": 2000012399,
+            "name": "The IDOLM@STER: Cinderella Girls Theater (Web)",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [
+          "IDOLM@STER: Cinderella Girls Gekijou Third Season Specials"
+        ],
+        "beispiel": ""
+      },
+      {
+        "art": "mehrdeutig",
+        "reihen": [
+          {
+            "id": 10020937,
+            "name": "Onegai Teacher: Tokubetsu-hen",
+            "titel": 3
+          },
+          {
+            "id": 2000003285,
+            "name": "Onegai Teacher",
+            "titel": 3
+          }
+        ],
+        "alleinstehende": [
+          "Onegai Teacher: Tokubetsu-hen"
+        ],
+        "beispiel": ""
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 20997,
+            "name": "Charlotte",
+            "titel": 2
+          },
+          {
+            "id": 118419,
+            "name": "Kamisama ni Natta Hi",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Charlotte —Gemeinsames Universum→ Kamisama ni Natta Hi"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 1000,
+            "name": "Uchuu Kaizoku Captain Harlock",
+            "titel": 10
+          },
+          {
+            "id": 1548,
+            "name": "Shin Taketori Monogatari: 1000-nen Joou",
+            "titel": 19
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Uchuu Kaizoku Captain Harlock —Gemeinsames Universum→ Maetel Legend"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 5962,
+            "name": "Metal Fight Beyblade",
+            "titel": 6
+          },
+          {
+            "id": 21236,
+            "name": "Beyblade Burst",
+            "titel": 7
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Beyblade Burst —Gemeinsames Universum→ Metal Fight Beyblade"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 21264,
+            "name": "Phantasy Star Online 2: The Animation",
+            "titel": 3
+          },
+          {
+            "id": 10015920,
+            "name": "Phantasy Star Online 2: Episode Oracle - Xiao’s Report",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Phantasy Star Online 2: The Animation —Gemeinsames Universum→ Phantasy Star Online 2: Episode Oracle"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 10012340,
+            "name": "Monster Strike Anime: Zen’yasai Special - Katsubou no Hate no Risoukyou",
+            "titel": 13
+          },
+          {
+            "id": 10013717,
+            "name": "Monster Strike The Animation: Monster no Kiki",
+            "titel": 7
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Monster Strike —Gemeinsames Universum→ Monster Strike The Animation"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 21201,
+            "name": "Schwarzesmarken",
+            "titel": 1
+          },
+          {
+            "id": 10008298,
+            "name": "Muv-Luv Alternative: Total Eclipse - Climax Chokuzen Special",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Schwarzesmarken —Gemeinsames Universum→ Muv-Luv Alternative: Total Eclipse"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 105595,
+            "name": "Kidou Senshi Gundam: Senkou no Hathaway",
+            "titel": 49
+          },
+          {
+            "id": 10016600,
+            "name": "Kidou Senshi Gundam: Tekketsu no Orphans Tokubetsu-hen",
+            "titel": 7
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kidou Senshi Gundam: Tekketsu no Orphans —Gemeinsames Universum→ Mobile Suit Gundam"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 30,
+            "name": "Shin Seiki Evangelion",
+            "titel": 10
+          },
+          {
+            "id": 10010766,
+            "name": "Shinseiki Impacts.",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Shinseiki Impacts. —Gemeinsames Universum→ Evangelion Shin Movie: Jo"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 269,
+            "name": "BLEACH",
+            "titel": 14
+          },
+          {
+            "id": 116673,
+            "name": "BURN THE WITCH",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "BLEACH —Gemeinsames Universum→ BURN THE WITCH"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 21519,
+            "name": "Kimi no Na wa.",
+            "titel": 1
+          },
+          {
+            "id": 106286,
+            "name": "Tenki no Ko",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kimi no Na wa. —Gemeinsames Universum→ Tenki no Ko"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 16782,
+            "name": "Kotonoha no Niwa",
+            "titel": 1
+          },
+          {
+            "id": 21519,
+            "name": "Kimi no Na wa.",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kimi no Na wa. —Gemeinsames Universum→ Kotonoha no Niwa"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 21584,
+            "name": "Love Live! Sunshine!!",
+            "titel": 13
+          },
+          {
+            "id": 10009583,
+            "name": "Love Live!: Kokuritsu Otonokizaka Gakuin Annai",
+            "titel": 11
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Love Live! Sunshine!! —Gemeinsames Universum→ Love Live! School Idol Project"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 21685,
+            "name": "Eromanga Sensei",
+            "titel": 2
+          },
+          {
+            "id": 10009809,
+            "name": "Ore no Imouto ga Konna ni Kawaii Wake ga Nai.: Animated Commentary",
+            "titel": 8
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Eromanga Sensei —Gemeinsames Universum→ Oreimo"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 928,
+            "name": "Transformers: Galaxy Force",
+            "titel": 14
+          },
+          {
+            "id": 10014436,
+            "name": "Bumblebee",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Transformers Generation 1 —Gemeinsames Universum→ Bumblebee"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 1350,
+            "name": "Parasite Dolls",
+            "titel": 1
+          },
+          {
+            "id": 10015322,
+            "name": "Bubblegum Crisis Tokyo 2040 (2000)",
+            "titel": 7
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Parasite Dolls —Gemeinsames Universum→ Bubblegum Crisis: Die Cyberpunk Saga"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 97682,
+            "name": "Zero kara Hajimeru Mahou no Sho",
+            "titel": 1
+          },
+          {
+            "id": 133175,
+            "name": "Mahoutsukai Reimeiki",
+            "titel": 3
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Zero kara Hajimeru Mahou no Sho —Gemeinsames Universum→ Mahoutsukai Reimeiki"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 163828,
+            "name": "Kkoma Bus Tayo 1",
+            "titel": 8
+          },
+          {
+            "id": 188066,
+            "name": "Titipo Titipo",
+            "titel": 3
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kkoma Bus Tayo 1 —Gemeinsames Universum→ Titipo Titipo"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 14407,
+            "name": "PERSONA 3 THE MOVIE: #1 Spring of Birth",
+            "titel": 9
+          },
+          {
+            "id": 99693,
+            "name": "PERSONA5 the Animation",
+            "titel": 7
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "PERSONA5 the Animation —Gemeinsames Universum→ Persona 4 The Golden Animation"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 10012178,
+            "name": "Turning Mecard W: Black Mirrorui Buhwal",
+            "titel": 7
+          },
+          {
+            "id": 10014127,
+            "name": "Geukjangpan Gongnyong Mecard: Tinysaurs Seom",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Turning Mecard —Gemeinsames Universum→ Gongnyong Mecard"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 6172,
+            "name": "Layton Kyouju to Eien no Utahime",
+            "titel": 1
+          },
+          {
+            "id": 100785,
+            "name": "Layton Mystery Tanteisha: Katri no Nazotoki File",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Layton Mystery Tanteisha: Katri no Nazotoki File —Gemeinsames Universum→ Layton Kyouju to Eien no Utahime"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 10005218,
+            "name": "Touhou Niji Sousaku Doujin Anime: Musou Kakyou",
+            "titel": 6
+          },
+          {
+            "id": 10012968,
+            "name": "Mi Feng Huodong Jilu: The Sealed Esoteric History",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Mi Feng Huodong Jilu: The Sealed Esoteric History —Gemeinsames Universum→ Gensou Mangekyou: The Memories of Phantasm"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 288,
+            "name": "Bakuten Shoot Beyblade",
+            "titel": 4
+          },
+          {
+            "id": 10014517,
+            "name": "BeyWheelz",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "BeyWheelz —Gemeinsames Universum→ Bakuten Shoot Beyblade"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 93,
+            "name": "Kidou Senshi Gundam SEED",
+            "titel": 9
+          },
+          {
+            "id": 105595,
+            "name": "Kidou Senshi Gundam: Senkou no Hathaway",
+            "titel": 49
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kidou Senshi Gundam SEED —Gemeinsames Universum→ Mobile Suit Gundam"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 52,
+            "name": "Kidou Tenshi Angelic Layer",
+            "titel": 1
+          },
+          {
+            "id": 59,
+            "name": "Chobits",
+            "titel": 3
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Chobits —Gemeinsames Universum→ Kidou Tenshi Angelic Layer"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 552,
+            "name": "Digimon Adventure",
+            "titel": 19
+          },
+          {
+            "id": 10017375,
+            "name": "Digimon Ghost Game: Takenaka Naoto ga Kataru Kaiki no Sekai",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Digimon Ghost Game —Gemeinsames Universum→ Digimon Adventure"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 105595,
+            "name": "Kidou Senshi Gundam: Senkou no Hathaway",
+            "titel": 49
+          },
+          {
+            "id": 10021329,
+            "name": "Kidou Butouden G Gundam: 30 Shuunenkinen Fighting Movie",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Kidou Butouden G Gundam —Gemeinsames Universum→ Mobile Suit Gundam"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 552,
+            "name": "Digimon Adventure",
+            "titel": 19
+          },
+          {
+            "id": 874,
+            "name": "Digimon Tamers",
+            "titel": 3
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Digimon Tamers —Gemeinsames Universum→ Digimon Adventure"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 11433,
+            "name": "Ano Natsu de Matteru",
+            "titel": 2
+          },
+          {
+            "id": 10020937,
+            "name": "Onegai Teacher: Tokubetsu-hen",
+            "titel": 3
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Onegai Twins —Gemeinsames Universum→ Ano Natsu de Matteru"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 206,
+            "name": "Lodoss-tou Senki: Eiyuu Kishi Den",
+            "titel": 3
+          },
+          {
+            "id": 1164,
+            "name": "Mahou Senshi Louie",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Lodoss-tou Senki —Gemeinsames Universum→ Mahou Senshi Louie"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 6922,
+            "name": "Fate/stay night Movie: UNLIMITED BLADE WORKS",
+            "titel": 57
+          },
+          {
+            "id": 143103,
+            "name": "Mahoutsukai no Yoru",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Mahoutsukai no Yoru —Gemeinsames Universum→ Fate/Stay Night"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 1548,
+            "name": "Shin Taketori Monogatari: 1000-nen Joou",
+            "titel": 19
+          },
+          {
+            "id": 10012613,
+            "name": "The Zero Century: Emeraldas",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Maetel Legend —Gemeinsames Universum→ Queen Emeraldas"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 288,
+            "name": "Bakuten Shoot Beyblade",
+            "titel": 4
+          },
+          {
+            "id": 165159,
+            "name": "BEYBLADE X",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "BEYBLADE X —Gemeinsames Universum→ Bakuten Shoot Beyblade"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 21,
+            "name": "ONE PIECE",
+            "titel": 82
+          },
+          {
+            "id": 167404,
+            "name": "MONSTERS: Ippaku Sanjou Hiryuu Jigoku",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "MONSTERS: Ippaku Sanjou Hiryuu Jigoku —Gemeinsames Universum→ ONE PIECE"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 184951,
+            "name": "Seihantai na Kimi to Boku",
+            "titel": 2
+          },
+          {
+            "id": 186497,
+            "name": "Koori no Jouheki",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Seihantai na Kimi to Boku —Gemeinsames Universum→ Koori no Jouheki"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 10004025,
+            "name": "Top o Nerae! Gekijouban",
+            "titel": 3
+          },
+          {
+            "id": 10013870,
+            "name": "Top o Nerae 3",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Gunbuster 2 —Gemeinsames Universum→ Gunbuster"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 1470,
+            "name": "City Hunter",
+            "titel": 14
+          },
+          {
+            "id": 2043,
+            "name": "Cat's♥Eye",
+            "titel": 3
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Cat's♥Eye —Gemeinsames Universum→ City Hunter"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 603,
+            "name": "Futari wa Precure",
+            "titel": 9
+          },
+          {
+            "id": 16419,
+            "name": "Dokidoki! Precure",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Futari wa Precure —Gemeinsames Universum→ Dokidoki! Precure"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 603,
+            "name": "Futari wa Precure",
+            "titel": 9
+          },
+          {
+            "id": 12191,
+            "name": "Smile Precure!",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Futari wa Precure —Gemeinsames Universum→ Smile Precure!"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 552,
+            "name": "Digimon Adventure",
+            "titel": 19
+          },
+          {
+            "id": 859,
+            "name": "Digimon Savers",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Digimon Adventure —Gemeinsames Universum→ Digimon Savers"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 552,
+            "name": "Digimon Adventure",
+            "titel": 19
+          },
+          {
+            "id": 1132,
+            "name": "Digimon Frontier",
+            "titel": 2
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Digimon Adventure —Gemeinsames Universum→ Digimon Frontier"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 1341,
+            "name": "Violence Jack: Harem Bomber",
+            "titel": 11
+          },
+          {
+            "id": 1629,
+            "name": "Devilman Lady",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Devilman Lady —Gemeinsames Universum→ Devilman"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 2581,
+            "name": "Kidou Senshi Gundam 00",
+            "titel": 6
+          },
+          {
+            "id": 105595,
+            "name": "Kidou Senshi Gundam: Senkou no Hathaway",
+            "titel": 49
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Mobile Suit Gundam —Gemeinsames Universum→ Kidou Senshi Gundam 00"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 90,
+            "name": "Shin Kidou Senki Gundam Wing",
+            "titel": 6
+          },
+          {
+            "id": 105595,
+            "name": "Kidou Senshi Gundam: Senkou no Hathaway",
+            "titel": 49
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Mobile Suit Gundam —Gemeinsames Universum→ Shin Kidou Senki Gundam Wing"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 2593,
+            "name": "Kara no Kyoukai: Fukan Fuukei",
+            "titel": 13
+          },
+          {
+            "id": 6922,
+            "name": "Fate/stay night Movie: UNLIMITED BLADE WORKS",
+            "titel": 57
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Fate/Stay Night —Gemeinsames Universum→ Kara no Kyoukai: Fukan Fuukei"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 1731,
+            "name": "Tales of Symphonia THE ANIMATION: Sylvarant-hen",
+            "titel": 6
+          },
+          {
+            "id": 6046,
+            "name": "Tales of Vesperia: The First Strike",
+            "titel": 7
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Tales of Symphonia THE ANIMATION: Sylvarant-hen —Gemeinsames Universum→ Tales of Phantasia: The Animation"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 6875,
+            "name": "Iron Man",
+            "titel": 2
+          },
+          {
+            "id": 6919,
+            "name": "X-Men",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Iron Man —Gemeinsames Universum→ X-Men"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 3092,
+            "name": "Junjou Romantica",
+            "titel": 5
+          },
+          {
+            "id": 9926,
+            "name": "Sekaiichi Hatsukoi",
+            "titel": 6
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Junjou Romantica —Gemeinsames Universum→ Sekaiichi Hatsukoi"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 9253,
+            "name": "Steins;Gate",
+            "titel": 7
+          },
+          {
+            "id": 10012420,
+            "name": "ChäoS;Child: Chaos;Head",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Chäos;HEAd —Gemeinsames Universum→ Steins;Gate"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 288,
+            "name": "Bakuten Shoot Beyblade",
+            "titel": 4
+          },
+          {
+            "id": 5962,
+            "name": "Metal Fight Beyblade",
+            "titel": 6
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Metal Fight Beyblade —Gemeinsames Universum→ Bakuten Shoot Beyblade"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 6918,
+            "name": "Wolverine",
+            "titel": 1
+          },
+          {
+            "id": 6920,
+            "name": "Blade",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Wolverine —Gemeinsames Universum→ Blade"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 6918,
+            "name": "Wolverine",
+            "titel": 1
+          },
+          {
+            "id": 6919,
+            "name": "X-Men",
+            "titel": 1
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Wolverine —Gemeinsames Universum→ X-Men"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 11757,
+            "name": "Sword Art Online",
+            "titel": 23
+          },
+          {
+            "id": 11759,
+            "name": "Accel World",
+            "titel": 3
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Accel World —Gemeinsames Universum→ Sword Art Online"
+      },
+      {
+        "art": "universum",
+        "reihen": [
+          {
+            "id": 6875,
+            "name": "Iron Man",
+            "titel": 2
+          },
+          {
+            "id": 108815,
+            "name": "Avengers Confidential: Black Widow & Punisher",
+            "titel": 4
+          }
+        ],
+        "alleinstehende": [],
+        "beispiel": "Iron Man: Rise of Technovore —Gemeinsames Universum→ Avengers Confidential: Black Widow & Punisher"
+      }
+    ]
+  }
+}

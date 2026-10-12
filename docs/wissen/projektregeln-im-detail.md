@@ -211,6 +211,14 @@ gewartet** — im Hintergrund, bis er fertig ist.
 `QUELLEN` enthält, solange ein Lauf außer Deploy, Aussehen und Claude läuft.
 **Seit dem 11.10.2026 nur noch für Commits auf `main` und nur, solange der Bestandsbau läuft** (der einzige Lauf, der direkt auf `main` schreibt; Branch-Commits und PR-Läufe sperren nichts mehr — am 10.10. hielt die Wache einen Branch-Commit 42 Minuten an).
 
+**Pre-commit prüft gestagte Patch Notes (12.10.2026).** Derselbe Hook (`bash tools/quellen-commit-wache.sh --einrichten`, schreibt jetzt
+über `git rev-parse --git-path`, geht also auch aus einem Worktree) ruft `tools/patchnotes-gestagt-pruefen.mjs`: bei gestagten
+`data/patchnotes/*.yaml` gültiges YAML und das Schema aus `shared/patchnotes.ts` (dieselbe Prüfung wie `pipeline/check-patchnotes.ts`,
+gelesen wird der Index). Anlass: ein Doppelpunkt im Untertitel fiel erst in `check:vor-commit` auf. Ohne gestagte Patch Notes endet
+das Werkzeug nach einem `git diff` (≈ 0,1 s), mit ihnen ≈ 0,2 s (gemessen 12.10.2026); Test `tools/patchnotes-gestagt.test.mjs`.
+Zweige ohne das Werkzeug überspringen es, der Hook liegt für alle Worktrees im gemeinsamen `.git/hooks/`. Nach dem Merge einmal
+`bash tools/quellen-commit-wache.sh --einrichten` im Hauptordner ausführen, sonst bleibt der alte Hook ohne die Prüfung.
+
 **Vierter Fall, 21.09.2026 — ausgelöst von einem Commit, der gar keine Quelle anfasste.** Während
 `bestand-bauen` lief, ging eine Doku-Änderung auf `main`. Der Fernstand hatte sich bewegt, der Lauf
 nahm den Rettungsweg und spielte die Erweiterungslisten zurück (in `QUELLEN`), ihre ausgelieferte
@@ -282,6 +290,19 @@ JSX-Blöcke), das Parameter und Importe aus dem Typprüfer ableitet — von Hand
 verliert zu leicht eine Neuzuweisung oder eine Reihenfolge. Einige Zusicherungen in `check:logic`
 lesen Quelltext und prüfen die Reihenfolge von Marken; sie lesen deshalb alle Module in
 Aufrufreihenfolge (`bauQuelltext()`, `panelQuelltext()`, `workerQuelltext()`).
+
+**Exit-Codes von `bau-vergleich.mjs` (12.10.2026):** 0 gleich, 1 verschieden, 2 Bau der Basis gescheitert, 3 Sperre belegt, **4 Konflikt**
+bei der Übernahme der eigenen `data/`-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen). Vorher endete der Konflikt als
+unbehandelte Ausnahme mit Exit 1 und sah aus wie ein Unterschied im Ergebnis. Die Codes stehen in `tools/bau-vergleich-urteil.mjs`.
+
+**Abstand und Sperre bei `bau-vergleich.mjs` (12.10.2026).** Ist die Basis kein Vorfahre des Kandidaten (Zweig hinter `origin/main` oder
+auseinandergelaufen), steht vor dem Lauf und am Ende eine WARNUNG mit Zahl der fehlenden Commits und der Merge-Basis
+(`tools/bau-vergleich-abstand.mjs`), bei „verschieden“ dazu, wie viele der Dateien die Basis seit der Merge-Basis selbst geändert hat.
+Anlass: Prüfer verglichen gegen das wandernde `origin/main` und sahen 32 fremde Dateien (`public/data/synopses/*`). Regel bleibt:
+zwei feste Hashes, bei einem Zweig hinter main gegen die Merge-Basis (`git merge-base`) oder erst rebasen. Die Sperre
+(`tools/einzel-sperre.mjs`, auch `panel-vergleich`) nannte schon PID und Startzeit, aber nicht, was läuft; jetzt steht in der Absage und
+in der Wartemeldung (sofort, dann jede Minute) PID, Startzeit, „vor N min“ sowie bei `bau-vergleich` beide Hashes und der Ort des
+Halters (Vorgabe für andere Werkzeuge: Skript, Argumente, Arbeitsverzeichnis). Wer wartet, wartet bis zu 10 min und gibt dann mit Exit 3 auf.
 
 **Stand nach dem ersten Umbau (26.09.2026):** `build.ts` 9.286 → 109 Zeilen, `main()` 7.809 → 90;
 die Phasen liegen in `pipeline/bau/` (größte Funktion 619 Zeilen). `DetailPanel.tsx` 6.237 →

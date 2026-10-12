@@ -3,11 +3,12 @@ import { type Release, type Title } from '@shared/types.ts'
 import { Aufklappbar } from './aufklapp-kopf.tsx'
 import { BuchZeichen, PanelKarte } from './panel-karte.tsx'
 import { PLOT_PREVIEW } from './hilfen.tsx'
-import { type FranchiseMember } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 import { Chip } from '../ui.tsx'
 import { HerkunftZeile, zeigtHerkunft } from './herkunft-zeile.tsx'
+import { EigeneQuellenZeile, ReiheHinweis } from './handlung-quelle.tsx'
+import { type plotVon } from './plot.ts'
 
 export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, setGenresOffen }: {
   title: Title
@@ -48,7 +49,7 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
 const quelleLabel = (name: string): string => (name === 'anisearch.de' ? 'aniSearch' : name === 'anilist.co' ? 'AniList' : name)
 
 export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
-  plot: { text: string; fallback: boolean; quelle: { name: string; url: string; }; vonTeil?: undefined; } | { text: string; fallback: boolean; vonTeil: FranchiseMember; erschienen?: boolean; quelle: { name: string; url: string; }; } | undefined
+  plot: ReturnType<typeof plotVon>['plot']
   t: Translate
   plotOffen: boolean
   setPlotOffen: Dispatch<SetStateAction<boolean>>
@@ -68,6 +69,7 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
               {t(plot.erschienen ? 'detail.plotVonTeilFrueher' : 'detail.plotVonTeil', { teil: plot.vonTeil.name })}
             </p>
           )}
+          {plot.eigen?.reihe && !plot.vonTeil && <ReiheHinweis t={t} />}
           {/*
             Zuerst zwei Sätze, den Rest auf Wunsch.
 
@@ -98,12 +100,16 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             ) : (
               <span />
             )}
-            <span className="text-[11px] text-slate-400">
-              {t('detail.plotQuelle')}{' '}
-              <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text">
-                {quelleLabel(plot.quelle.name)} ↗
-              </a>
-            </span>
+            {plot.eigen ? (
+              <EigeneQuellenZeile eigen={plot.eigen} t={t} />
+            ) : (
+              <span className="text-[11px] text-slate-400">
+                {t('detail.plotQuelle')}{' '}
+                <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text">
+                  {quelleLabel(plot.quelle.name)} ↗
+                </a>
+              </span>
+            )}
           </div>
         </PanelKarte>
       )}

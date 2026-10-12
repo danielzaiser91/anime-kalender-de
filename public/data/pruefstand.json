@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-12T16:36:57.420Z",
+ "erzeugtAm": "2026-10-12T18:14:02.053Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -1640,10 +1640,10 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 417,
+   "gemeldet": 414,
    "gesamt": 670,
-   "offen": 253,
-   "ohneSeite": 18,
+   "offen": 256,
+   "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
     {
@@ -1809,12 +1809,20 @@
      "titel": "Die Tagebücher der Apothekerin"
     },
     {
+     "url": "https://www.netflix.com/title/82854665",
+     "titel": "Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe"
+    },
+    {
      "url": "https://www.netflix.com/title/81004665",
      "titel": "Mech Cadets"
     },
     {
      "url": "https://www.netflix.com/title/81153115",
      "titel": "Scott Pilgrim hebt ab"
+    },
+    {
+     "url": "https://www.netflix.com/title/81281582",
+     "titel": "Bastard!! Der Gott der Zerstörung"
     },
     {
      "url": "https://www.netflix.com/title/81028343",
