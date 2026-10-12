@@ -1,6 +1,6 @@
 /**
  * Zusicherung zu `cartoonsAusReleases` (`bau/cartoon-kern.ts`): Cartoons mit Termin speisen `baueNews()`, und daraus
- * entstehen nur Termin-Meldungen mit Quelle — keine Anime-Meldung („neu mit Synchro", Messung, Folgen) greift auf sie.
+ * entstehen nur Termin-Meldungen mit Quelle (auch der belegte Folgenrhythmus) — keine Anime-Meldung („neu mit Synchro", Messung, Folgen) greift auf sie.
  * Läuft auf den Erzeugnissen in `public/data/` (wie der Bau sie liest), deshalb in `check:bestand` (`tools/check-bestand-liste.txt`), nicht in `check:logic`.
  */
 import { baueNews } from './lib/news.ts'
@@ -16,7 +16,8 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown) {
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const TERMIN_ARTEN = new Set(['angekuendigt', 'nachgetragen', 'disc', 'kino'])
+/* `rhythmus` sagt, wann Folgen erscheinen (Handbeleg mit Quelle), und zählt deshalb zu den Terminen. */
+const TERMIN_ARTEN = new Set(['angekuendigt', 'nachgetragen', 'disc', 'kino', 'rhythmus'])
 const releases = readJson<Release[]>('public/data/releases.json', [])
 const cartoons = cartoonsAusReleases(releases)
 const ids = new Set(cartoons.map((c) => c.id))

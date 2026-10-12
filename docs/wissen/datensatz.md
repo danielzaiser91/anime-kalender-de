@@ -823,7 +823,7 @@ Anlass: „Avatar – Die sieben Häfen" (Cartoon -284833, Paramount+) hatte die
 - **Cartoons in den Neuigkeiten:** `baueNews()` bekam bis dahin nur die Anime-Titel; Termine von Cartoons fielen heraus. `cartoonsAusReleases()` (`bau/cartoon-kern.ts`) reicht die Cartoons mit Termin nach. Die Quellen kommen wie bei jedem Termin aus `sources`/`quellen` (`belegeVonRelease`).
 - **Panel:** Die Start-Meldung eines Termins (`angekuendigt`, `disc`, `kino`) fiel nach dem Starttag aus dem Neuigkeitsbereich. Sie bleibt, solange die Serie läuft (`schedule.lastEpisodeDate` ≥ heute), damit die Quellen sichtbar bleiben.
 - **Eigene Serien einer Reihe:** `data/cartoon-eigene-serien.yaml` (ids, grund, https-Quelle) setzt `FranchiseMember.eigenesWerk`; `hauptstaffeln()` zählt sie nicht, das Panel zeigt sie unter „Eigene Serien" (Korra und Die sieben Häfen neben „Der Herr der Elemente", Beleg Wikipedia).
-- **Zusicherungen:** `check-cartoon-news.ts` (Cartoon-Meldungen nur Termin-Arten, mit Quelle und Belegen), `check-neuigkeiten-panel.ts` (läuft: Start-Meldung bleibt; beendet, ohne Ende, unbekannter Slug: weg).
+- **Zusicherungen:** `check-cartoon-news.ts` (Cartoon-Meldungen nur Termin-Arten — auch `rhythmus`, belegt aus Handbeleg —, mit Quelle und Belegen), `check-neuigkeiten-panel.ts` (läuft: Start-Meldung bleibt; beendet, ohne Ende, unbekannter Slug: weg).
 - **Offen:** Netflix-Meldungen zu „Der Herr der Elemente" (Buch 1–3) lassen sich noch nicht zuordnen, Spezifikation: `daniel-zum-abarbeiten/berichte/zuordnung-ueber-episodentitel.md`.
 
 ## Handbelege mit Folgenbereich im Wortlaut tragen `dubRanges` (11.10.2026)
