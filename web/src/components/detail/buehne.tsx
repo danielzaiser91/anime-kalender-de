@@ -1,37 +1,13 @@
 import { beiCoverKlick, CoverMaximieren, coverVorwaermen } from './cover-max.tsx'
-import { FORMAT_DE } from '@shared/mappings.ts'
 import { anzeigeName } from '@shared/titles.ts'
-import { jpAngabe, TrailerKino } from './kino.tsx'
+import { TrailerKino } from './kino.tsx'
+import { metaVon, unterzeileVon } from './kopf-texte.ts'
 import { WeitereTitel } from './weitere.tsx'
 import { AniSearchVerweis } from './pillen.tsx'
 import { Bewertung } from './bewertung.tsx'
 import { PanelAktionen } from './aktionen.tsx'
 import { type Title, type FranchiseMember, type Release } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
-
-/** Zweite Zeile unter dem Namen: der Teil der Reihe („Staffel 3“), die Folgenzahl (wo der Kasten sie nicht nennt) und die Altersfreigabe. */
-function unterzeileVon(title: Title, teil: string | undefined, folgenImKasten: boolean, t: Translate): string {
-  return [
-    teil,
-    title.episodes && title.episodes > 1 && !folgenImKasten ? `${title.episodes} ${t('detail.episodes')}` : undefined,
-    /* „ab 0“ sagt nichts — nur eine Freigabe ab 6 aufwärts steht da (Daniel, 11.10.2026). */
-    title.fsk ? t(title.fskQuelle ? 'antwort.fskAnbieter' : 'antwort.fsk', { n: title.fsk }) : undefined,
-  ]
-    .filter(Boolean)
-    .join(' · ')
-}
-
-/** Dritte Zeile: Format, Laufzeit (nur hier), Start und Studio. */
-function metaVon(title: Title, eigenerTeil: FranchiseMember | undefined, t: Translate): string {
-  return [
-    title.format ? (FORMAT_DE[title.format] ?? title.format) : undefined,
-    title.runtimeMin ? t(title.episodes && title.episodes > 1 ? 'detail.laufzeitJe' : 'detail.laufzeit', { n: title.runtimeMin }) : undefined,
-    jpAngabe(eigenerTeil?.jpStart ?? (title.westlich ? title.jpStart : undefined), title.jpYear, title.land),
-    title.studios?.[0],
-  ]
-    .filter(Boolean)
-    .join(' · ')
-}
 
 /**
  * **Der Kopf mit Rangfolge** (Daniel, 11.10.2026, Variante V2): ein flaches Bild (Wertung und Absprünge darauf), darunter der
