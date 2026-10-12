@@ -109,8 +109,8 @@ export interface Schedule {
    *
    * „Vom Landei zum Schwertheiligen II": Beobachtet waren nur die Tage von Folge 1 und 5,
    * Folge 10 (09.09.) stand deshalb als „geschätzt" da, obwohl eine Meldung Prime mit den
-   * Folgen 1–10 auf Deutsch belegt. Ein Termin bis zu dieser Folge vor dem Prüftag ist erschienen,
-   * bei mindestens zwei beobachteten Folgen (`observed`); sonst bleiben zurückgerechnete Tage geschätzt (12.10.2026).
+   * Folgen 1–10 auf Deutsch belegt. Ein Termin nach der frühesten Beobachtung bis zu dieser Folge, der
+   * nicht nach dem Prüftag liegt, ist erschienen (zurückgerechnete Tage davor bleiben geschätzt, 12.10.2026).
    */
   belegtBis?: { folge: number; am: string }
   /**
