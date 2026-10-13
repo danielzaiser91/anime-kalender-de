@@ -92,9 +92,10 @@ UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261007
 DTEND;VALUE=DATE:20261008
-SUMMARY:Naruto Shippuden – Staffel 3
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
+SUMMARY:Naruto Shippuden – Staffel 3 (im Angebot)
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nIm Angebot seit 
+ diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
@@ -335,11 +336,12 @@ UID:demon-slayer-entertainment-district-arc-primevideo@2026-10-10@anime-kal
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (Synchro 
- offen)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
- n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
- t bestätigt.\nDetails: https://anime-kalender.de/t/13758/
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (im Angeb
+ ot) (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
+ ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
+ ch nicht bestätigt.\nDetails: https://anime-kalender.de/t/13758/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -348,10 +350,12 @@ UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (Synchro offen)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
- n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
- t bestätigt.\nDetails: https://anime-kalender.de/t/15144/
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (im Angebot) (S
+ ynchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
+ ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
+ ch nicht bestätigt.\nDetails: https://anime-kalender.de/t/15144/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -359,10 +363,12 @@ UID:demon-slayer-mugen-train-arc-primevideo@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (Synchro offen)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
- n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
- t bestätigt.\nDetails: https://anime-kalender.de/t/12643/
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (im Angebot) (Synchr
+ o offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
+ ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
+ ch nicht bestätigt.\nDetails: https://anime-kalender.de/t/12643/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -371,11 +377,12 @@ UID:demon-slayer-swordsmith-village-arc-primevideo@2026-10-10@anime-kalende
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (Synchro offe
- n)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
- n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
- t bestätigt.\nDetails: https://anime-kalender.de/t/13918/
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (im Angebot) 
+ (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
+ ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
+ ch nicht bestätigt.\nDetails: https://anime-kalender.de/t/13918/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -534,9 +541,10 @@ UID:bleach-diamonddust-rebellion-adn@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261012
 DTEND;VALUE=DATE:20261013
-SUMMARY:Bleach: The DiamondDust Rebellion
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/t/2398/
+SUMMARY:Bleach: The DiamondDust Rebellion (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
+ – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/2398/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -544,9 +552,10 @@ UID:bleach-fade-to-black-adn@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261012
 DTEND;VALUE=DATE:20261013
-SUMMARY:Bleach: Fade to Black
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/t/3282/
+SUMMARY:Bleach: Fade to Black (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
+ – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/3282/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -554,9 +563,10 @@ UID:bleach-hell-verse-adn@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261012
 DTEND;VALUE=DATE:20261013
-SUMMARY:Bleach: The Hell Verse
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/t/4477/
+SUMMARY:Bleach: The Hell Verse (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
+ – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/4477/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -704,9 +714,10 @@ UID:auto-11499-primevideo@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261015
 DTEND;VALUE=DATE:20261016
-SUMMARY:Sankarea: Undying Love
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/5511/
+SUMMARY:Sankarea: Undying Love (im Angebot)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/5511/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT

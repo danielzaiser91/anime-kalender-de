@@ -10,9 +10,10 @@ UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261007
 DTEND;VALUE=DATE:20261008
-SUMMARY:Naruto Shippuden – Staffel 3
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
+SUMMARY:Naruto Shippuden – Staffel 3 (im Angebot)
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nIm Angebot seit 
+ diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
@@ -31,11 +32,12 @@ UID:demon-slayer-entertainment-district-arc-primevideo@2026-10-10@anime-kal
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (Synchro 
- offen)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
- n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
- t bestätigt.\nDetails: https://anime-kalender.de/t/13758/
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (im Angeb
+ ot) (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
+ ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
+ ch nicht bestätigt.\nDetails: https://anime-kalender.de/t/13758/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT

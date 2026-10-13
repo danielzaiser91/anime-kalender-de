@@ -10,9 +10,10 @@ UID:adn-1423-s1-20261008-116589@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261008
 DTEND;VALUE=DATE:20261009
-SUMMARY:86: Eighty Six
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/11361/
+SUMMARY:86: Eighty Six (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
+ nicht bestätigt.\nDetails: https://anime-kalender.de/t/11361/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -20,9 +21,10 @@ UID:adn-1423-s1-20261008-131586@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261008
 DTEND;VALUE=DATE:20261009
-SUMMARY:86: Eighty Six – Teil 2
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/12794/
+SUMMARY:86: Eighty Six – Teil 2 (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
+ nicht bestätigt.\nDetails: https://anime-kalender.de/t/12794/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

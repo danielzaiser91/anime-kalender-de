@@ -62,9 +62,10 @@ UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261007
 DTEND;VALUE=DATE:20261008
-SUMMARY:Naruto Shippuden – Staffel 3
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
+SUMMARY:Naruto Shippuden – Staffel 3 (im Angebot)
+DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nIm Angebot seit 
+ diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1491/
 CATEGORIES:Disney+
 END:VEVENT
 BEGIN:VEVENT
@@ -102,9 +103,10 @@ UID:adn-1423-s1-20261008-116589@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261008
 DTEND;VALUE=DATE:20261009
-SUMMARY:86: Eighty Six
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/11361/
+SUMMARY:86: Eighty Six (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
+ nicht bestätigt.\nDetails: https://anime-kalender.de/t/11361/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -112,9 +114,10 @@ UID:adn-1423-s1-20261008-131586@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261008
 DTEND;VALUE=DATE:20261009
-SUMMARY:86: Eighty Six – Teil 2
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/12794/
+SUMMARY:86: Eighty Six – Teil 2 (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
+ nicht bestätigt.\nDetails: https://anime-kalender.de/t/12794/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -206,10 +209,12 @@ UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (Synchro offen)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
- n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
- t bestätigt.\nDetails: https://anime-kalender.de/t/15144/
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (im Angebot) (S
+ ynchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
+ ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
+ ch nicht bestätigt.\nDetails: https://anime-kalender.de/t/15144/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -217,10 +222,12 @@ UID:demon-slayer-mugen-train-arc-primevideo@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (Synchro offen)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
- n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
- t bestätigt.\nDetails: https://anime-kalender.de/t/12643/
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (im Angebot) (Synchr
+ o offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
+ ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
+ ch nicht bestätigt.\nDetails: https://anime-kalender.de/t/12643/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -229,11 +236,12 @@ UID:demon-slayer-swordsmith-village-arc-primevideo@2026-10-10@anime-kalende
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (Synchro offe
- n)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
- n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
- t bestätigt.\nDetails: https://anime-kalender.de/t/13918/
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (im Angebot) 
+ (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nSynch
+ ro offen: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit no
+ ch nicht bestätigt.\nDetails: https://anime-kalender.de/t/13918/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -241,9 +249,10 @@ UID:the-sky-crawlers-primevideo@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:The Sky Crawlers
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/2523/
+SUMMARY:The Sky Crawlers (im Angebot)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
+ nicht bestätigt.\nDetails: https://anime-kalender.de/t/2523/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -344,9 +353,10 @@ UID:bleach-diamonddust-rebellion-adn@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261012
 DTEND;VALUE=DATE:20261013
-SUMMARY:Bleach: The DiamondDust Rebellion
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/t/2398/
+SUMMARY:Bleach: The DiamondDust Rebellion (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
+ – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/2398/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -354,9 +364,10 @@ UID:bleach-fade-to-black-adn@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261012
 DTEND;VALUE=DATE:20261013
-SUMMARY:Bleach: Fade to Black
-DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
- t.\nDetails: https://anime-kalender.de/t/3282/
+SUMMARY:Bleach: Fade to Black (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nIm Angebot seit diesem Tag 
+ – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/3282/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
@@ -715,9 +726,10 @@ UID:auto-167142-primevideo@2026-10-22@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261022
 DTEND;VALUE=DATE:20261023
-SUMMARY:Your Forma
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/15230/
+SUMMARY:Your Forma (im Angebot)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/15230/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -837,9 +849,10 @@ UID:auto-9756-adn@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261029
 DTEND;VALUE=DATE:20261030
-SUMMARY:Puella Magi Madoka Magica
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/4943/
+SUMMARY:Puella Magi Madoka Magica (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
+ nicht bestätigt.\nDetails: https://anime-kalender.de/t/4943/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

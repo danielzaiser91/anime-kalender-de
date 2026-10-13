@@ -40,9 +40,10 @@ UID:the-sky-crawlers-primevideo@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:The Sky Crawlers
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/2523/
+SUMMARY:The Sky Crawlers (im Angebot)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Film\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
+ nicht bestätigt.\nDetails: https://anime-kalender.de/t/2523/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
@@ -173,9 +174,10 @@ UID:auto-9756-adn@2026-10-29@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261029
 DTEND;VALUE=DATE:20261030
-SUMMARY:Puella Magi Madoka Magica
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/4943/
+SUMMARY:Puella Magi Madoka Magica (im Angebot)
+DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nIm Angebot seit dies
+ em Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrzeit noch 
+ nicht bestätigt.\nDetails: https://anime-kalender.de/t/4943/
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT

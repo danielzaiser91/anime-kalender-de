@@ -6,6 +6,17 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Ecchi
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
+UID:motn-173388-primevideo@2026-10-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261006
+DTEND;VALUE=DATE:20261007
+SUMMARY:Plus-Sized Elf (im Angebot)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/15645/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:cr-GNVHKN933@2026-10-11@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T140000Z
@@ -21,9 +32,10 @@ UID:auto-11499-primevideo@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261015
 DTEND;VALUE=DATE:20261016
-SUMMARY:Sankarea: Undying Love
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
-  nicht bestätigt.\nDetails: https://anime-kalender.de/t/5511/
+SUMMARY:Sankarea: Undying Love (im Angebot)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
+ eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
+ it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/5511/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
