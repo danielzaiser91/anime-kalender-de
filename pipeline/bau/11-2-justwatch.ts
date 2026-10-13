@@ -12,6 +12,8 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
   tmdbMehrdeutig: Set<string>
   toteAdressen: Set<string>
 }) {
+  /* Ein Nein-Handbeleg gilt für beide Runden, die Wege anlegen (Titel ohne Weg, Abo-Weg mit deutschem Ton). */
+  const handNein = neinHandbelege(loadDubChecks())
   /**
    * **Bei YouTube gilt eine Pille erst ab einer belegten Synchro.**
    *
@@ -36,6 +38,7 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
   ergaenzeWegeOhneWeg({
     titles,
     jw: readJson<Record<string, JwEintrag>>('data/justwatch-audio.json', {}),
+    handNein,
     tmdbMehrdeutig,
     toteAdressen,
   })
@@ -76,7 +79,6 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
      * JustWatch weiß, was ein Anbieter **listet**. Wer nachgesehen hat, weiß, was dort
      * wirklich läuft. Bei einem Widerspruch gewinnt das Nachsehen.
      */
-    const handNein = neinHandbelege(loadDubChecks())
     let ergaenzt = 0
     for (const title of titles.values()) {
       const b = jw[String(title.id)]
