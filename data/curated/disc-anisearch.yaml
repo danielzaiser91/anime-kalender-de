@@ -128,8 +128,10 @@
   releaseType: disc
   publisher: "Kazé Deutschland"
   edition: "Gesamtausgabe: Limited Steelbook Edition Blu-ray"
-  schedule: { firstEpisodeDate: "2026-12-04" }
-  sources: ["https://www.anisearch.de/article/210269,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition-blu-ray"]
+  schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
+  sources:
+    - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/
+    - https://www.anisearch.de/article/210269,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition-blu-ray
 
 - slug: the-devil-is-a-part-timer-ii-2026-09-04
   anilistId: 130592
@@ -449,18 +451,10 @@
   releaseType: disc
   publisher: "Kazé Deutschland"
   edition: "Gesamtausgabe: Limited Steelbook Edition Blu-ray · Gesamtausgabe: Limited Steelbook Edition"
-  schedule: { firstEpisodeDate: "2026-11-06" }
-  sources: ["https://www.anisearch.de/article/210266,sailor-moon-s-gesamtausgabe-limited-steelbook-edition-blu-ray"]
-
-- slug: sailor-moon-s-2026-12-04
-  anilistId: 532
-  titleDe: "Sailor Moon S"
-  platform: disc
-  releaseType: disc
-  publisher: "Kazé Deutschland"
-  edition: "Gesamtausgabe: Limited Steelbook Edition"
-  schedule: { firstEpisodeDate: "2026-12-04" }
-  sources: ["https://www.anisearch.de/article/210270,sailor-moon-super-s-gesamtausgabe-limited-steelbook-edition"]
+  schedule: { firstEpisodeDate: "2026-12-18", estimated: true }
+  sources:
+    - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/
+    - https://www.anisearch.de/article/210266,sailor-moon-s-gesamtausgabe-limited-steelbook-edition-blu-ray
 
 - slug: naruto-shippuden-the-movie-die-erben-des-willens-des-feuers-2026-11-19
   anilistId: 6325
@@ -479,8 +473,10 @@
   releaseType: disc
   publisher: "Kazé Deutschland"
   edition: "Gesamtausgabe: Limited Steelbook Edition Blu-ray · Gesamtausgabe: Limited Steelbook Edition"
-  schedule: { firstEpisodeDate: "2026-11-06" }
-  sources: ["https://www.anisearch.de/article/203257,sailor-moon-r-gesamtausgabe-limited-steelbook-edition-blu-ray"]
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources:
+    - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/
+    - https://www.anisearch.de/article/203257,sailor-moon-r-gesamtausgabe-limited-steelbook-edition-blu-ray
 
 - slug: naruto-shippuden-the-movie-4-the-lost-tower-2026-11-19
   anilistId: 8246
@@ -519,7 +515,10 @@
   releaseType: disc
   publisher: "Kazé Deutschland"
   edition: "Gesamtausgabe: Limited Steelbook Edition Blu-ray · Gesamtausgabe: Limited Steelbook Edition"
-  schedule: { firstEpisodeDate: "2027-01-15" }
-  sources: ["https://www.anisearch.de/article/210291,sailor-moon-sailor-stars-gesamtausgabe-limited-steelbook-edition-blu-ray"]
+  schedule: { firstEpisodeDate: "2027-02-19", estimated: true }
+  sources:
+    - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/
+    - https://www.anisearch.de/article/210291,sailor-moon-sailor-stars-gesamtausgabe-limited-steelbook-edition-blu-ray
 
+# Berichtigt am 13.10.2026: Sailor Moon Staffel 2–5 nach dem AKIBA PASS SHOP (Anime2You 1056789; Shop-Seite von R am 13.10. 20.11.2026). aniSearch führte die Termine vor den Verschiebungen (Anime2You 1045437). Der zweite Eintrag „Sailor Moon S“ am 04.12. gehörte laut aniSearch-Adresse zu Super S (DVD-Ausgabe) und entfällt.
 # Bereinigt am 06.10.2026: Villainess-Film (Artikel gehörte zu Staffel 2, steht bei den Hand-Terminen), Steins;Gate-0-Special (Komplettset gehört zur Serie) und Dragon-Maid-Film (steht mit richtiger Kennung bei den Hand-Terminen); Steins;Gate 0: Label peppermint anime laut Anime2You-Übersicht.
