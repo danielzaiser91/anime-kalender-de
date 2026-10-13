@@ -29,6 +29,7 @@ gegen('drei Highlights am Tag', [1, 2, 3].map((n) => ({ ...ok, text: `Neu ${n}`,
 gegen('verbotenes Wort (Debug)', [{ ...ok, text: 'Einstellungen ohne Debug-Bereich' }])
 gegen('verbotenes Wort (Erweiterung) im Untertitel', [{ ...ok, untertitel: 'Erweiterung 4.24.16' }])
 gegen('Link ohne Hash', [{ ...ok, link: 'https://x.de' }])
+pruefe('Patch-Notes (Gegenprobe): drei Highlights ohne datum (Tage erst nach dem Git-Abgleich bekannt) sind noch kein Widerspruch', pruefePatchnotes([1, 2, 3].map((n) => ({ kategorie: 'feature', text: `Neu ${n}`, highlight: true }))).length === 0)
 pruefe('Patch-Notes (Gegenprobe): zwei Highlights am Tag sind erlaubt', pruefePatchnotes([1, 2].map((n) => ({ ...ok, text: `Neu ${n}`, highlight: true }))).length === 0)
 
 const aus = auslieferbarePatchnotes(mitDatum(dateien, (namen) => new Map(namen.map((n) => [n, '2026-10-10']))))
