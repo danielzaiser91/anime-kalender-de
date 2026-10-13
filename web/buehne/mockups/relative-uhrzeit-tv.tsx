@@ -158,7 +158,7 @@ function TvZeileJetzt({
           {auf
             ? t('kal.buendelAuch', { zeiten: weitere.map((w) => w.time ?? '–').join(', ') })
             : letzte
-              ? t('kal.buendelTv', { n: weitere.length, zeit: letzte })
+              ? t(weitere.length === 1 ? 'kal.buendelTvEine' : 'kal.buendelTv', { n: weitere.length, zeit: letzte })
               : t('kal.buendelTvOhneZeit', { n: weitere.length })}
         </button>
       )}
