@@ -11,9 +11,11 @@
  *   Disney+ ist eine Einzelseiten-App mit Anmeldung.
  * - **Der Lauf gehört dem Tab** (`sessionStorage`), endet nach zwei Stunden und spätestens, wenn
  *   nichts mehr offen ist. Ein Titel, der nach drei Minuten kein Ergebnis hat (Umleitung, Fehlerseite,
- *   leere Antwort), wird übersprungen und steht am Ende in der Liste. Nur wenn Disney+ selbst
- *   sagt „nicht in deinem Gebiet" oder auf die Startseite umleitet, meldet der Lauf den Titel
- *   als „weg" (wie der Knopf „nichts da?") — sonst bliebe die Wiedervorlage ewig offen (13.10.2026).
+ *   leere Antwort), wird übersprungen und steht am Ende in der Liste — „nicht da" bleibt eine
+ *   Entscheidung von Hand: Der Lauf meldet nichts an den Worker (Disney+ kennt drei Gründe für
+ *   ein Nein, `quellen.md`). Sagt Disney+ selbst „nicht in deinem Gebiet" oder leitet auf die
+ *   Startseite um, merkt sich der Lauf das nur lokal (`zurueckstellung`, 7 Tage), damit nicht
+ *   jeder Durchgang dieselben Titel wieder öffnet (13.10.2026).
  * - `disney.js` meldet über zwei Ereignisse: `ak-disney-geprueft` ({ url, zuMelden, fehler }) und
  *   `ak-disney-gemeldet` ({ ok }).
  */
@@ -25,36 +27,50 @@
   /* Zeit, die eine Seite zum Laden und Umleiten bekommt, bevor ihr Zustand zählt. */
   const ANKOMMEN_MS = 10_000
 
+  /* Wie lange ein Titel nach „nicht verfügbar" im Durchgang ruht; danach fragt der Lauf wieder (Disney+ kann ihn aufnehmen). */
+  const ZURUECK = 'ak-disney-zurueck'
+  const ZURUECK_MS = 7 * 24 * 60 * 60 * 1000
+
+  /**
+   * Das lokale Gedächtnis (`dauer` = localStorage, über Durchgänge hinweg): Adresse → Zeit, zu der
+   * ein Durchgang „nicht verfügbar" sah. Es ändert nichts am Worker und nichts an der Wiedervorlage.
+   */
+  function zurueckstellung({ dauer, jetzt }) {
+    const lesen = () => {
+      try {
+        return JSON.parse(dauer.getItem(ZURUECK) ?? '{}')
+      } catch {
+        return {}
+      }
+    }
+    const gilt = (url) => jetzt() - (lesen()[url] ?? -Infinity) < ZURUECK_MS
+    return {
+      gilt,
+      merke(url) {
+        const frisch = Object.fromEntries(Object.entries(lesen()).filter(([u]) => gilt(u)))
+        try {
+          dauer.setItem(ZURUECK, JSON.stringify({ ...frisch, [url]: jetzt() }))
+        } catch {
+          /* Ohne Speicher gilt die Rückstellung nur für diesen Lauf (`erledigt`). */
+        }
+      },
+      /** Die zurückgestellten unter den offenen Einträgen, die dieser Lauf nicht selbst abgehakt hat. */
+      uebrige: (offene, erledigt) => offene.filter((e) => !erledigt.includes(e.url) && gilt(e.url)).map((e) => e.url),
+    }
+  }
+
   /** Die Angaben der Endanzeige (`endeText`). */
-  const endeInfo = (lauf, grund) => ({
+  const endeInfo = (lauf, grund, zurueck) => ({
     grund,
     erledigt: lauf.erledigt.length,
     uebersprungen: lauf.uebersprungen,
     schon: lauf.schon ?? [],
-    weg: lauf.weg ?? [],
+    zurueck,
   })
 
-  /**
-   * Disney+ führt den Titel hier nicht: als „weg" melden, dann erst abhaken. Eine zweite Meldung
-   * desselben Titels verhindert `wegFuer`; nach der Antwort zählt der Lauf von jetzt (er kann
-   * von Hand beendet worden sein).
-   */
-  function wegMelden(lauf, grund, { lesen, schreiben, meldeWeg, abhaken }) {
-    if (lauf.wegFuer === lauf.aktuell) return
-    lauf.wegFuer = lauf.aktuell
-    schreiben(lauf)
-    const url = lauf.aktuell
-    Promise.resolve(meldeWeg(url)).then((ok) => {
-      const frisch = lesen()
-      if (frisch?.aktuell !== url) return
-      if (!ok) return abhaken(frisch, `${grund}, Meldung kam nicht an`)
-      frisch.weg = [...(frisch.weg ?? []), url]
-      abhaken(frisch, null)
-    })
-  }
-
   /** Die Ablauflogik ohne Browser — `disney-durchgang.test.cjs` spielt sie im Sandkasten. */
-  function durchgang({ speicher, jetzt, offene, oeffne, melde, meldeWeg, ende, zustand = () => ({}), limit = () => null }) {
+  function durchgang({ speicher, dauer, seitenStart = Infinity, jetzt, offene, oeffne, melde, ende, zustand = () => ({}), limit = () => null }) {
+    const zurueck = zurueckstellung({ dauer, jetzt })
     const lesen = () => {
       try {
         const lauf = JSON.parse(speicher.getItem(LAUF) ?? 'null')
@@ -71,7 +87,7 @@
       }
     }
     function beenden(lauf, grund) {
-      const info = endeInfo(lauf, grund)
+      const info = endeInfo(lauf, grund, zurueck.uebrige(offene(), lauf.erledigt))
       try {
         speicher.removeItem(LAUF)
         speicher.setItem(ENDE, JSON.stringify(info))
@@ -83,7 +99,7 @@
     function weiter(lauf) {
       /* Das Tageslimit des Workers (tageslimit.js) hält den Durchgang an, statt Meldungen ins Leere zu schicken. */
       if (limit()) return beenden(lauf, limit())
-      const naechster = offene().find((e) => !lauf.erledigt.includes(e.url))
+      const naechster = offene().find((e) => !lauf.erledigt.includes(e.url) && !zurueck.gilt(e.url))
       if (!naechster) return beenden(lauf, 'nichts mehr offen')
       lauf.aktuell = naechster.url
       lauf.seiteSeit = jetzt()
@@ -97,6 +113,11 @@
       if (schon) (lauf.schon ??= []).push(lauf.aktuell)
       lauf.erledigt.push(lauf.aktuell)
       weiter(lauf)
+    }
+    /* Disney+ führt den Titel hier offenbar nicht: lokal merken und weiter — gemeldet wird nichts. */
+    function nichtDa(lauf, grund) {
+      zurueck.merke(lauf.aktuell)
+      abhaken(lauf, grund)
     }
     return {
       laeuft: () => Boolean(lesen()),
@@ -122,11 +143,12 @@
         const lauf = lesen()
         if (!lauf?.aktuell) return
         const seit = jetzt() - lauf.seiteSeit
-        const z = zustand()
+        /* Eine Seite, die vor dem Öffnen des Ziels geladen wurde, läuft bis zum Seitenwechsel weiter: ihr Zustand gehört dem Titel davor. */
+        const z = seitenStart >= lauf.seiteSeit ? zustand() : {}
         /* Disney+ sagt es selbst („nicht in deinem Gebiet verfügbar", Dialog mit „OK"): kein Warten auf die Schonzeit der Startseite. */
-        if (z.gebiet && seit > 1000) return wegMelden(lauf, 'nicht in deinem Gebiet verfügbar', { lesen, schreiben, meldeWeg, abhaken })
+        if (z.gebiet && seit > 1000) return nichtDa(lauf, 'nicht in deinem Gebiet verfügbar')
         /* Disney+ leitet einen nicht verfügbaren Titel auf die Startseite um (Dialog „Je nach Standort …"). */
-        if (z.startseite && seit > ANKOMMEN_MS) return wegMelden(lauf, 'nicht verfügbar (Startseite)', { lesen, schreiben, meldeWeg, abhaken })
+        if (z.startseite && seit > ANKOMMEN_MS) return nichtDa(lauf, 'nicht verfügbar (Startseite)')
         /* Eine andere Titelseite heißt: Daniel hat übernommen — der Lauf zieht ihm den Tab nicht weg. */
         if (z.kennung && z.eintragUrl !== lauf.aktuell && seit > ANKOMMEN_MS) return beenden(lauf, 'von Hand übernommen')
         if (seit > SEITE_HOECHSTENS_MS) abhaken(lauf, 'kein Ergebnis nach 3 Minuten')
@@ -134,11 +156,11 @@
     }
   }
   /** Der Text der Endanzeige: je übersprungenem Titel eine Zeile mit Grund — `titelFuer(url)` liefert den Namen. */
-  function endeText({ grund, erledigt, uebersprungen, schon = [], weg = [] }, titelFuer) {
+  function endeText({ grund, erledigt, uebersprungen, schon = [], zurueck = [] }, titelFuer) {
     const kopf = `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'} · ${erledigt} Titel${grund.startsWith('Tageslimit') ? ` — ${grund}` : ''}`
     const bereits =
       (schon.length ? `\n${schon.length} schon gemeldet: ${schon.map(titelFuer).join(', ')}` : '') +
-      (weg.length ? `\n${weg.length} nicht verfügbar gemeldet: ${weg.map(titelFuer).join(', ')}` : '')
+      (zurueck.length ? `\n${zurueck.length} zurückgestellt (7 Tage, Disney+ zeigte „nicht verfügbar"): ${zurueck.map(titelFuer).join(', ')}` : '')
     if (!uebersprungen.length) return kopf + bereits
     const zeilen = uebersprungen.map((u) => `• ${titelFuer(u.url)}: ${u.grund}`)
     return `${kopf}${bereits}\n${uebersprungen.length} übersprungen:\n${zeilen.join('\n')}`
@@ -157,6 +179,8 @@
   const seite = () => globalThis.AK_DISNEY
   const lauf = durchgang({
     speicher: sessionStorage,
+    dauer: localStorage,
+    seitenStart: Date.now(),
     jetzt: () => Date.now(),
     offene: () => seite()?.offene() ?? [],
     oeffne: (e) => {
@@ -164,7 +188,6 @@
       location.href = e.url
     },
     melde: () => void seite()?.melden(),
-    meldeWeg: (url) => seite()?.meldeWeg(url) ?? false,
     ende: (info) => seite()?.zeigeEnde(info),
     zustand: () => ({ ...seite()?.zustand(), gebiet: gebietGesperrt(document.body?.innerText) }),
     limit: () => globalThis.AK_TAGESLIMIT?.text() ?? null,
