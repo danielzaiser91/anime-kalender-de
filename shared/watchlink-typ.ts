@@ -55,8 +55,12 @@ export interface WatchLink {
    * Deutsch **abgeleitet** statt belegt (13.10.2026): Der Weg selbst nennt keine Tonspur, mindestens ein
    * Schwester-Shop desselben Titels belegt Deutsch, keiner widerspricht (`pipeline/lib/schwester-shop.ts`).
    * Nie mit `dubRanges` zusammen — es ist kein Beleg und zählt nirgends als Deutsch-Häkchen.
+   *
+   * `'telekom-annahme'` (13.10.2026): Videoload und MagentaTV (Kauf) gelten als deutsch, ohne dass der Weg oder
+   * JustWatch die Tonspur nennt (`pipeline/lib/telekom-annahme.ts`). Hier steht `dubRanges` daneben (Daniels
+   * Annahme vom 22.09.2026); sie zählt aber weder als Deutsch-Häkchen noch im Antwort-Kasten (`belegteBereiche` in `antwort-regeln.ts`).
    */
-  dubAbgeleitet?: 'schwester-shop'
+  dubAbgeleitet?: 'schwester-shop' | 'telekom-annahme'
   /**
    * **Nur TOGGO: wann welche Folgen kostenlos abrufbar sind** (19.09.2026, `pipeline/fetch-toggo.ts`).
    * Blöcke aufeinanderfolgender Folgen mit gleichem Fenster; `ab`/`bis` in Berliner Ortszeit.

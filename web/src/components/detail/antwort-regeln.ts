@@ -4,7 +4,7 @@
  */
 import { anzeigeFolge, istErschienen, releaseStatus } from '@shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
-import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
+import type { Release, ReleaseEvent, Title, WatchLink } from '@shared/types.ts'
 import type { Antwort } from './antwort-typ.ts'
 
 /**
@@ -189,3 +189,10 @@ export function teilweiseNeben(
   if (antwort.deFolgen) return T('antwort.deFolgenQuelle', { quelle: antwort.deFolgen.quelle.name, zitat: antwort.deFolgen.zitat })
   return antwort.restBelegt ? '' : T('antwort.teilweiseNeben')
 }
+
+/**
+ * Die Bereiche eines Kaufwegs, die als **Beleg** zählen (13.10.2026): Videoload und MagentaTV tragen `dubRanges` aus der
+ * Annahme (`pipeline/lib/telekom-annahme.ts`), und die ist kein Beleg — sonst zeigt der Kasten bei Devil May Cry „12 von 12“.
+ */
+export const belegteBereiche = (w: WatchLink): NonNullable<WatchLink['dubRanges']> =>
+  w.dubAbgeleitet === 'telekom-annahme' ? [] : (w.dubRanges ?? [])
