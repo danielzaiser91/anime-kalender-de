@@ -20,6 +20,7 @@ pipeline/check-anisearch-reihen.ts
 pipeline/check-anisearch-spalte.ts
 pipeline/check-anisearch-sprecher.ts
 pipeline/check-beleg-anbieter.ts
+pipeline/check-beleg-bis-anker.ts
 pipeline/check-beleg-stoerung.ts
 pipeline/check-belegstaerke.ts
 pipeline/check-bild-und-synchro.ts
