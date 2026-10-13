@@ -9,6 +9,7 @@ import type { AppRoute } from '../lib/router.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useMobil } from '../lib/use-mobil.ts'
 import { SuchfundstellenContext } from '../lib/such-kontext.ts'
+import { SucheLeerenContext } from '../lib/suche-leeren-kontext.ts'
 import { DatabaseView } from './DatabaseView.tsx'
 import { FilterBarDock } from './FilterBar.tsx'
 import { SprecherLeiste } from './SprecherLeiste.tsx'
@@ -72,17 +73,19 @@ export function DatenbankBereich(p: DatenbankBereichProps) {
   )
   return (
     <HerkunftZaehlungContext.Provider value={herkunftZaehlung}>
-      {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
-      <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
-      {/* Am Rechner dockt das Filterfeld unten an; am Handy steht die Werkzeugleiste oben (`DbKopfbereich`). */}
-      {mobil ? (
-        <SprecherLeiste data={data} filters={route.filters}>{ansicht}</SprecherLeiste>
-      ) : (
-        <>
-          <SprecherLeiste data={data} filters={route.filters}><FilterBarDock meta={data.meta} filters={route.filters} onChange={p.setFilters} showConfidence favoriteCount={p.favorites.size} /></SprecherLeiste>
-          {ansicht}
-        </>
-      )}
+      <SucheLeerenContext.Provider value={() => p.navigate({ filters: { ...route.filters, search: '' } })}>
+        {/* Eine Überschrift, die keiner sieht und viele brauchen: der Sprungpunkt für Vorlesende (20.08.2026). */}
+        <h1 className="sr-only">{`Anime-Kalender DE — ${t('view.datenbank')}`}</h1>
+        {/* Am Rechner dockt das Filterfeld unten an; am Handy steht die Werkzeugleiste oben (`DbKopfbereich`). */}
+        {mobil ? (
+          <SprecherLeiste data={data} filters={route.filters}>{ansicht}</SprecherLeiste>
+        ) : (
+          <>
+            <SprecherLeiste data={data} filters={route.filters}><FilterBarDock meta={data.meta} filters={route.filters} onChange={p.setFilters} showConfidence favoriteCount={p.favorites.size} /></SprecherLeiste>
+            {ansicht}
+          </>
+        )}
+      </SucheLeerenContext.Provider>
     </HerkunftZaehlungContext.Provider>
   )
 }

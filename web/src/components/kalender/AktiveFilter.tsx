@@ -1,6 +1,8 @@
+import { useContext } from 'react'
 import { PLATFORMS, type PlatformId, type ReleaseStatus, type ReleaseType } from '@shared/types.ts'
 import { EMPTY_FILTERS, LIST_KEYS, toggleFilter, type FilterState, type ListKey } from '../../lib/filters.ts'
 import { useLang } from '../../lib/i18n.tsx'
+import { SucheLeerenContext } from '../../lib/suche-leeren-kontext.ts'
 import { STATUS_LABEL_KEY } from '../FilterDetails.tsx'
 import { KreuzZeichen } from './Zeichen.tsx'
 import { PILLE_JA, PILLE_NEIN } from '../filter/pille-zustand.ts'
@@ -28,7 +30,7 @@ export function AktiveFilter({
   setTvAn?: (an: boolean) => void
 }) {
   const { t } = useLang()
-  const eintraege = useEintraege(filters, onChange, tvAn, setTvAn)
+  const eintraege = useEintraege(filters, onChange, tvAn, setTvAn, useContext(SucheLeerenContext))
   if (!eintraege.length) return null
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -63,6 +65,7 @@ function useEintraege(
   onChange: (next: FilterState) => void,
   tvAn: boolean | undefined,
   setTvAn: ((an: boolean) => void) | undefined,
+  onSucheLeeren: (() => void) | null,
 ): Eintrag[] {
   const { t, tGenre, tKeyword, tRelease } = useLang()
   const name = (key: ListKey, wert: string | number): string => {
@@ -83,7 +86,7 @@ function useEintraege(
     for (const wert of filters.excluded[key] as (string | number)[])
       liste.push({ label: `⊘ ${name(key, wert)}`, aus: true, weg: () => onChange(toggleFilter(filters, key, wert as never, 'exclude')) })
   }
-  if (filters.search.trim()) liste.push({ label: t('filter.suche', { q: filters.search.trim() }), weg: aus({ search: '' }) })
+  if (filters.search.trim() && onSucheLeeren) liste.push({ label: t('filter.suche', { q: filters.search.trim() }), weg: onSucheLeeren })
   if (filters.favoritesOnly) liste.push({ label: t('filter.nurFavoriten'), weg: aus({ favoritesOnly: false }) })
   if (filters.kostenlosOnly) liste.push({ label: t('filter.nurKostenlos'), weg: aus({ kostenlosOnly: false }) })
   if (filters.confirmedOnly) liste.push({ label: t('filter.bestaetigt'), weg: aus({ confirmedOnly: false }) })
