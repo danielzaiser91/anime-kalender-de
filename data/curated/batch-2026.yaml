@@ -89,7 +89,6 @@
   schedule:
     firstEpisodeDate: "2026-09-28"
     episodeCount: 40
-  note: "Nur mit deutscher Tonspur."
   sources: [https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/]
 
 - slug: black-clover-s1-disneyplus
@@ -162,7 +161,7 @@
   netflixOriginal: true
   platformUrl: https://www.netflix.com/title/82116553
   releaseType: batch
-  note: "Folge 1 von 12, allein vorab veröffentlicht: 47 Minuten Laufzeit, deutsche und japanische Sprachfassung. Die Folgen 2 bis 12 kommen ab dem 25.09.2026 im Wochentakt als „2nd & 3rd STAGE“."
+  note: "Folge 1 von 12, allein vorab veröffentlicht: 47 Minuten Laufzeit. Die Folgen 2 bis 12 kommen ab dem 25.09.2026 als „2nd & 3rd STAGE“."
   schedule:
     firstEpisodeDate: "2026-03-19"
     episodeCount: 1
@@ -178,7 +177,7 @@
   netflixOriginal: true
   platformUrl: https://www.netflix.com/title/82116553
   releaseType: weekly
-  note: "Die Folgen 2 bis 12 im Wochentakt. Folge 1 („1st STAGE“) lief bereits am 19.03.2026. Netflix nennt für Katalogtitel keine Uhrzeit."
+  note: "Folge 1 („1st STAGE“) lief bereits am 19.03.2026. Netflix nennt für Katalogtitel keine Uhrzeit."
   schedule:
     firstEpisodeDate: "2026-09-25"
     episodeCount: 11
@@ -316,5 +315,5 @@
   schedule:
     firstEpisodeDate: "2026-10-05"
     episodeCount: 1
-  note: "Folge 1 lief am 03.10. im Originalton mit deutschen Untertiteln und gibt es seit dem 05.10. mit deutscher Synchronisation; ob die weiteren Folgen synchron samstags folgen, ist offen (Anime2You, 05.10.2026)."
+  note: "Folge 1 gibt es seit dem 05.10. mit deutscher Synchronisation; ob die weiteren Folgen synchron samstags folgen, ist offen (Anime2You, 05.10.2026)."
   sources: [https://www.anime2you.de/news/1057709/netflix-ranma-12-staffel-3-deutsche-synchro/]

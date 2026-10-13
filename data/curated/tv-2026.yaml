@@ -23,7 +23,7 @@
       2: "2026-08-29"
       3: "2026-08-30"
       20: "2026-09-22"
-  note: "Wiederholung ab 26.09.2026 samstags und sonntags um 21:15. Die TV-Fassung ist geschnitten."
+  note: "Wiederholung. Die TV-Fassung ist geschnitten."
   schnitt:
     was:
       - "Mr. Popo ist aus dem Bild entfernt: Szenen mit ihm gekürzt, das Bild herangezoomt oder durch ein Standbild ersetzt."
@@ -81,6 +81,6 @@
     time: "18:50"
     episodeCount: 98
     wochentage: [1, 2, 3, 4, 5]
-  note: "Wiederholung der Folgen 780 bis 877 mit deutscher Vertonung; die Characters-Log-Specials laufen nur im Originalton mit Untertiteln."
+  note: "Wiederholung der Folgen 780 bis 877; die Characters-Log-Specials laufen nur im Originalton mit Untertiteln."
   sources:
     - https://www.anime2you.de/news/1059541/

@@ -12,7 +12,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Blu-ray"
-  note: "Die ersten sechs Episoden mit deutscher und japanischer Sprachausgabe (Anime2You)."
+  note: "Die ersten sechs Episoden, deutsche Sprachausgabe (Anime2You)."
   schedule: { firstEpisodeDate: "2026-11-20" }
   sources: [https://www.anime2you.de/news/1046924/as-a-reincarnated-aristocrat-staffel-2-disc-termin/]
 
@@ -105,7 +105,7 @@
   releaseType: disc
   publisher: "Crunchyroll"
   edition: "Limited Edition mit Sammelschuber, DVD und Blu-ray"
-  note: "Die ersten sechs Episoden auf Deutsch und Japanisch (Anime2You)."
+  note: "Die ersten sechs Episoden auf Deutsch (Anime2You)."
   schedule: { firstEpisodeDate: "2026-12-04" }
   sources: [https://www.anime2you.de/news/1044146/apothecary-diaries-staffel-2-disc-release/, https://www.anime2you.de/news/1060073/apothecary-diaries-staffel-2-volume-2-termin/]
 
