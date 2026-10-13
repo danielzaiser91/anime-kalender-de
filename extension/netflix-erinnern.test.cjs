@@ -49,7 +49,7 @@ pruefe('Modal einer Serie mit Folgenliste nicht', erkennt(MODAL_SERIE) === false
 
 /* Spiel: ein Titel, alle Takte eine Sekunde auseinander. `listeAb`: ab dieser Sekunde steht die Folgenliste da. */
 async function spiel({ text, endeNach = 40, listeAb = null }) {
-  const w = { spuren: [], uebersprungen: new Set(), weiter: 0, gemeldet: 0 }
+  const w = { spuren: [], uebersprungen: new Map(), weiter: 0, gemeldet: 0 }
   const tun = {
     spur: (was) => w.spuren.push(was),
     uebersprungen: w.uebersprungen,
@@ -89,7 +89,7 @@ async function haupt() {
   await new Promise((fertig) => setImmediate(fertig))
   pruefe('Erinnern: genau einmal weiter und nie gemeldet', erinnern.gemeldet === 0 && erinnern.weiter === 1, [erinnern.gemeldet, erinnern.weiter])
   pruefe('Erinnern: die Spur nennt den Grund', erinnern.spuren.includes('Erinnern statt Folgenliste') && !erinnern.spuren.includes('keine Folgenliste'), erinnern.spuren)
-  pruefe('Erinnern: der Titel gilt als übersprungen', erinnern.uebersprungen.has('70177034'))
+  pruefe('Erinnern: der Titel gilt als übersprungen, der Grund steht dabei', erinnern.uebersprungen.get('70177034') === 'Erinnern statt Folgenliste', [...erinnern.uebersprungen])
 
   const vorSchonzeit = await spiel({ text: MODAL_ERINNERN, endeNach: 2 })
   pruefe('Erinnern: in den ersten Sekunden noch kein Urteil (Liste könnte noch kommen)', vorSchonzeit.weiter === 0 && vorSchonzeit.gemeldet === 0)
@@ -104,6 +104,13 @@ async function haupt() {
   pruefe('Gegenprobe: normaler Titel wartet in den ersten 19 s weiter auf die Liste', normal.weiter === 0 && normal.gemeldet === 0, [normal.weiter, normal.gemeldet])
   const nachFrist = await spiel({ text: MODAL_SERIE, endeNach: 21 })
   pruefe('Gegenprobe: nach der Frist (20 s) gibt er auf wie bisher, ohne zu melden', nachFrist.weiter === 1 && nachFrist.gemeldet === 0 && nachFrist.spuren.includes('keine Folgenliste'), nachFrist)
+  pruefe('Nach der Frist: der Grund nennt die Frist („keine Folgenliste in 20 s")', nachFrist.uebersprungen.get('70177034') === 'keine Folgenliste in 20 s', [...nachFrist.uebersprungen])
+  const grundOffen = kontext.akNetflixGrundOffen
+  pruefe('Grund für einen offen gebliebenen Titel nennt die Versuche', grundOffen(2) === 'nach 2 Versuchen noch offen', grundOffen(2))
+  kontext.AK_TAGESLIMIT = { text: () => 'Tageslimit erreicht, weiter ab 02:00' }
+  pruefe('… bei gerissenem Tageslimit auch das Limit', grundOffen(2) === 'nach 2 Versuchen noch offen (Tageslimit erreicht, weiter ab 02:00)', grundOffen(2))
+  kontext.AK_TAGESLIMIT = { text: () => null }
+  pruefe('… ohne Limit nichts davon', grundOffen(3) === 'nach 3 Versuchen noch offen')
   pruefe('Gegenprobe: ein Seitenwechsel beginnt die Wartezeit neu', warte({ seite: 'a', seit: 0 }, { seite: 'b', jetzt: 99, erinnern: true, frist: 20000 }, {}).seit === 99)
 
   /* Verdrahtung: `selbstStartenSchritt` ruft die Wartefunktion mit dem Merkmal des Knopfes. */

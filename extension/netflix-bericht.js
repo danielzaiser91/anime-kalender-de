@@ -50,6 +50,22 @@ globalThis.akNetflixBericht = {
     }
   },
 
+  /**
+   * Die Titel, die der Durchgang nicht mehr anfasst, mit Namen und Grund (13.10.2026): Bis 4.30.8 stand nur
+   * die Kennung im Bericht, und warum Yu-Gi-Oh!, Pokémon und Banana Fish fehlten, war nur zu erraten.
+   * `gruende`: Map Kennung → Grund (`selbstUebersprungen`); `titel`: `offeneTitel`.
+   */
+  uebersprungen(gruende, titel) {
+    return [...gruende].map(([reihe, grund]) => ({ reihe, titel: titel[reihe]?.titel ?? null, grund }))
+  },
+
+  /** Die Titel, die die Prüfliste jetzt noch offen zeigt (`fertig()` entscheidet, wie bei der Knopfzahl) — nicht nur ihre Zahl. */
+  offene(titel, fertig) {
+    return Object.entries(titel)
+      .filter(([id, e]) => !fertig(id, e))
+      .map(([reihe, e]) => ({ reihe, titel: e?.titel ?? null }))
+  },
+
   /** Welche Staffeln die Seite bisher geladen hat — je Netflix-Staffelkennung; `gruppen`: `folgenJeStaffel(...)`. */
   geladen(gruppen) {
     return [...gruppen.entries()].map(([seasonId, g]) => {

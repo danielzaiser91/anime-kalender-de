@@ -243,6 +243,13 @@ async function ablaufFaelle() {
   /* Der Bericht trägt das Protokoll mit. */
   const bericht = a.run('nfBericht()')
   pruefe('„Bericht laden": Protokoll und Merker im Bericht', Array.isArray(bericht.zustandsprotokoll) && bericht.zustandsprotokoll.length === liste.length && bericht.zustandsprotokoll.some((e) => e.art === 'merker-gesetzt'), Object.keys(bericht))
+  /* 13.10.2026: übersprungene Titel stehen mit Grund im Bericht, offene als Liste (nicht nur als Zahl). */
+  a.run("offeneTitel['70177034'] = { titel: 'Yu-Gi-Oh!', staffeln: [{ nummer: 1, offen: true, folgen: 52 }] }")
+  a.run("selbstUebersprungen.set('70177034', 'keine Folgenliste in 20 s')")
+  const durchgang = a.run('nfBericht()').durchgang
+  pruefe('Bericht: ein übersprungener Titel nennt Kennung, Namen und Grund', JSON.stringify(durchgang.uebersprungen) === '[{"reihe":"70177034","titel":"Yu-Gi-Oh!","grund":"keine Folgenliste in 20 s"}]', durchgang.uebersprungen)
+  pruefe('Bericht: die Liste der offenen Titel steht da, nicht nur die Zahl', durchgang.offen?.some((e) => e.reihe === '70177034' && e.titel === 'Yu-Gi-Oh!'), durchgang.offen)
+  pruefe('… und sie hat so viele Einträge wie die Knopfzahl', durchgang.offen?.length === a.run('offeneTitelZahl()'), [durchgang.offen?.length, a.run('offeneTitelZahl()')])
   pruefe('keine personenbezogenen Felder (nur Zahlen, Kennungen, Knopftext)', !/token|mail|name/i.test(JSON.stringify(liste)), liste.length)
 
   /* Die Liste des Lesers wird mit ihrer Lage nach der Verarbeitung festgehalten. */

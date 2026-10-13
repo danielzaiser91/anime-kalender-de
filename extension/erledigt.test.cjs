@@ -414,7 +414,7 @@ for (const name of ['durchlaufMelden', 'randMelden']) {
     /sessionStorage\.setItem\(LAUF_SCHLUESSEL/.test(quelle) && !/netflixLauf/.test(quelle),
   )
   /* Seit 4.22.0: erst alles laden, dann je Staffel prüfen; ist keine mehr offen, kommt der nächste Titel. */
-  pruefe('ohne offene Staffel springt die Automatik weiter', /fertigeTitel\.add\(String\(reihe\)\)[\s\S]{0,400}?selbstUebersprungen\.add\(String\(reihe\)\)\s*selbstWeiter\(\)/.test(quelle) && /selbstGesammelt\.has\(String\(reihe\)\)[\s\S]{0,400}?await durchlaufStandLaden\(reihe\)/.test(quelle))
+  pruefe('ohne offene Staffel springt die Automatik weiter', /fertigeTitel\.add\(String\(reihe\)\)[\s\S]{0,400}?selbstUebersprungen\.set\(String\(reihe\), [^\n]*\)\s*selbstWeiter\(\)/.test(quelle) && /selbstGesammelt\.has\(String\(reihe\)\)[\s\S]{0,400}?await durchlaufStandLaden\(reihe\)/.test(quelle))
   pruefe(
     'die Automatik waehlt „Alle Folgen anzeigen" im Netflix-Auswahlfeld',
     /\[data-uia="episode-selector"\] button\[data-uia="dropdown-toggle"\]/.test(quelle) &&

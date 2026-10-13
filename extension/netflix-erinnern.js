@@ -17,7 +17,7 @@ const ERINNERN_NACH_MS = 3000
 
 /**
  * Ein Takt des Wartens auf die Folgenliste. `wartet`: `{ seite, seit, entschieden? }` oder `null`;
- * `o`: `{ seite, reihe, erinnern, frist, jetzt, durchlauf }`; `tun`: `{ spur, uebersprungen, weiter }`.
+ * `o`: `{ seite, reihe, erinnern, frist, jetzt, durchlauf }`; `tun`: `{ spur, uebersprungen (Map Kennung → Grund), weiter }`.
  * Gibt den neuen Wartestand zurück.
  */
 globalThis.akNetflixListeWarten = (wartet, o, tun) => {
@@ -27,13 +27,22 @@ globalThis.akNetflixListeWarten = (wartet, o, tun) => {
   const dazu = { reihe: o.reihe, folgen: o.durchlauf.folgen.length, listeFuer: o.durchlauf.listeFuer ?? null }
   if (o.erinnern && dauer >= ERINNERN_NACH_MS) {
     tun.spur('Erinnern statt Folgenliste', dazu)
-    tun.uebersprungen.add(o.reihe)
+    tun.uebersprungen.set(o.reihe, 'Erinnern statt Folgenliste')
     tun.weiter()
     return { ...wartet, entschieden: true }
   }
   if (dauer <= o.frist) return wartet
   tun.spur('keine Folgenliste', dazu)
-  tun.uebersprungen.add(o.reihe)
+  tun.uebersprungen.set(o.reihe, `keine Folgenliste in ${Math.round(o.frist / 1000)} s`)
   tun.weiter()
   return null
+}
+
+/**
+ * Grund für einen Titel, der nach allen Versuchen offen blieb (Eintrag in `selbstUebersprungen`);
+ * ein gerissenes Tageslimit gehört dazu, weil dann die Meldungen scheiterten, nicht der Titel.
+ */
+globalThis.akNetflixGrundOffen = (versuche) => {
+  const limit = globalThis.AK_TAGESLIMIT?.text()
+  return `nach ${versuche} Versuchen noch offen${limit ? ` (${limit})` : ''}`
 }

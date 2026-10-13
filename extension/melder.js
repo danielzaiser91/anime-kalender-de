@@ -2418,7 +2418,7 @@ function laufBeenden(grund) {
     dass nichts mehr geschah.
   */
   if (grund !== 'von Hand') {
-    durchgangEnde = { grund, uebersprungen: [...selbstUebersprungen].filter((r) => !fertigeTitel.has(r)) }
+    durchgangEnde = { grund, uebersprungen: [...selbstUebersprungen.keys()].filter((r) => !fertigeTitel.has(r)) }
     durchgangEndeZeigen()
   }
 }
@@ -2507,7 +2507,8 @@ let selbstVersucht = null
 let selbstWartet = null
 const SELBST_LISTE_WARTEN = 20000
 /** Titel, die die Automatik in dieser Sitzung übersprungen hat — sonst pendelt sie zwischen ihnen. */
-const selbstUebersprungen = new Set()
+/** Titel, die der Durchgang nicht mehr anfasst, samt Grund (Kennung → Text). */
+const selbstUebersprungen = new Map()
 /** Wie oft ein Titel als „fertig" galt, den die Prüfliste noch führt — nach zwei Anläufen wird er übersprungen (29.09.2026). */
 const selbstVersuche = new Map()
 const SELBST_VERSUCHE = 2
@@ -2949,7 +2950,7 @@ async function selbstStartenSchritt() {
     return
   }
   fertigeTitel.add(String(reihe))
-  selbstUebersprungen.add(String(reihe))
+  selbstUebersprungen.set(String(reihe), nochOffen ? akNetflixGrundOffen(versuche) : 'fertig')
   selbstWeiter()
 }
 
@@ -6275,7 +6276,8 @@ function nfBericht() {
     durchgang: sicher(() => ({
       laeuft: selbstAn,
       gezaehlt: selbstGezaehlt,
-      uebersprungen: [...selbstUebersprungen],
+      uebersprungen: akNetflixBericht.uebersprungen(selbstUebersprungen, offeneTitel),
+      offen: akNetflixBericht.offene(offeneTitel, fertig),
       staffelnGeprueft: [...selbstStaffelnGeprueft],
       gesammelt: [...selbstGesammelt],
       spur: DURCHGANG_SPUR,

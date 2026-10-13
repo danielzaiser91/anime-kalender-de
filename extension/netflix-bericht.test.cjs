@@ -57,6 +57,22 @@ console.log('Netflix-Bericht im Sandkasten\n')
   pruefe('… und wer oben liegt: sie selbst', u.obenLiegt.istErSelbst === true && u.stil.position === 'fixed', u.obenLiegt)
 }
 
+{
+  const b = bericht(null)
+  const titel = { 70177034: { titel: 'Yu-Gi-Oh!' }, 80186475: { titel: 'Pokémon Sonne & Mond' }, 81218604: { titel: 'Banana Fish' } }
+  const gruende = new Map([
+    ['70177034', 'Erinnern statt Folgenliste'],
+    ['81218604', 'keine Folgenliste in 20 s'],
+    ['99999999', 'fertig'],
+  ])
+  const u = b.uebersprungen(gruende, titel)
+  pruefe('übersprungen: Kennung, Name und Grund je Titel', JSON.stringify(u[0]) === '{"reihe":"70177034","titel":"Yu-Gi-Oh!","grund":"Erinnern statt Folgenliste"}' && u[1].grund === 'keine Folgenliste in 20 s', u)
+  pruefe('übersprungen: ein Titel, den die Liste nicht (mehr) kennt, hat Namen null statt Absturz', u[2].titel === null && u[2].grund === 'fertig', u[2])
+  const offen = b.offene(titel, (id) => id === '80186475')
+  pruefe('offene: nur die Titel, die `fertig()` nicht als erledigt kennt, mit Namen', offen.map((e) => e.reihe).join() === '70177034,81218604' && offen[1].titel === 'Banana Fish', offen)
+  pruefe('offene: ohne offene Titel eine leere Liste', b.offene(titel, () => true).length === 0)
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)
   process.exit(1)
