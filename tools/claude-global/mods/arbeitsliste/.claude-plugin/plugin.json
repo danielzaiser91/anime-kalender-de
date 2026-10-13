@@ -1,0 +1,8 @@
+{
+  "name": "arbeitsliste",
+  "version": "0.1.0",
+  "types": "./types/index.d.ts",
+  "dependencies": ["savvy-progress"],
+  "author": { "name": "Daniel Zaiser" },
+  "description": "Zeigt aus stand.md, wie viele Punkte In Arbeit und Todo sind (Band, Statuszeile, Pane)."
+}

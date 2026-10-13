@@ -1,8 +1,8 @@
 /** Gegenproben zu D-25 (`lib/invarianten-kanal.ts`): Hell Mode, ein Kanal-Titel, dessen Prime-Seite Amazons Sprachangabe trägt. */
 import type { StreamLink, Title } from '../shared/types.ts'
-import type { DubCheck } from './lib/dub-confirmed.ts'
+import { adressKern, type DubCheck } from './lib/dub-confirmed.ts'
 import { kanalTitelOhneBeleg, kanalWegEntfernt } from './lib/invarianten-kanal.ts'
-import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, ohneKanalSprache, belegOhneGenaueAdresse, rohDeutsch } from './lib/kanal-titel.ts'
+import { kanalAdressenOhneAussage, kanalAdressenOhneBeleg, kanalJaAdressKerne, kanalOhneAussage, ohneKanalSprache, belegOhneGenaueAdresse, rohDeutsch } from './lib/kanal-titel.ts'
 import { ersetztSucheUndMeldetWeg } from './lib/weg-aus-beleg.ts'
 
 type Pruefe = (name: string, ok: boolean, gefunden?: unknown) => void
@@ -39,6 +39,23 @@ export function kanalProben(pruefe: Pruefe): void {
   pruefe('D-26: andere Adresse des Titels geht durch', kanalWegEntfernt(entfernt('https://www.amazon.de/gp/video/detail/B0AAAAAAAA'), stumm).length === 0)
   pruefe('D-26: anderer Anbieter geht durch', kanalWegEntfernt(entfernt(hellUrl, 'netflix'), stumm).length === 0)
   pruefe('D-26: Kanal-Zeile mit eigenem Nein ist nicht stumm', kanalAdressenOhneAussage([{ ...ohneKanalSprache(hellBeleg), dub: false }]).size === 0)
+  nachmessungProben(pruefe)
+}
+
+/** Kanal-Nachmessung (12.10.2026): Auf einer Adresse mit altem Kanal-Ja wird auch ein Nein geschrieben; sonst bleibt es beim Auslassen. */
+function nachmessungProben(pruefe: Pruefe): void {
+  const url = 'https://www.amazon.de/gp/video/detail/B0FTW7GP47'
+  const note = 'Abos: animedigitalde — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg'
+  const altesJa = { anilistId: 185262, platform: 'primevideo', url, dub: true, checkedAt: '2026-08-30', note } as DubCheck
+  const kerne = kanalJaAdressKerne([ohneKanalSprache(altesJa)])
+  const meldung = [{ befund: 'nicht dub', notiz: note }]
+  pruefe('Nachmessung: die Adresse eines Kanal-Ja ist vermerkt', kerne.has(adressKern(url)))
+  pruefe('Nachmessung: ein Ja mit zweiter Quelle ist kein Kanal-Ja', kanalJaAdressKerne([ohneKanalSprache({ ...altesJa, zweiteQuelle: 'JustWatch' })]).size === 0)
+  pruefe('Nachmessung: Kanal-Nein auf bekannter Adresse ohne altes Ja wird ausgelassen', kanalOhneAussage(false, meldung, undefined, true, 0))
+  pruefe('Nachmessung: Kanal-Nein mit Folgenbefund wird nicht ausgelassen', !kanalOhneAussage(false, meldung, undefined, true, 2))
+  pruefe('Nachmessung: Kanal-Ja wird nie ausgelassen', !kanalOhneAussage(false, [{ befund: 'dub', notiz: note }], undefined, true, 0))
+  const abgeloest = [{ ...ohneKanalSprache(altesJa), dub: false, kanalMessung: 'nein', checkedAt: '2026-10-13' } as DubCheck]
+  pruefe('Nachmessung: ein Nein löst das Ja ab, die Adresse zählt nicht mehr als Kanal-Ja', kanalJaAdressKerne(abgeloest).size === 0)
 }
 
 /** Die Fälle vom 12.10.2026 (die ersten beiden, dann 16 mit Amazon-Suche aus AniList): Der Prime-Weg bleibt mit „🇩🇪 ?“ stehen, ein Nein zu einer anderen Adresse nimmt ihn nicht mit. */

@@ -4,16 +4,19 @@ import { formatDate, weekdayName } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { type ReactNode, useState } from 'react'
 import { useFolgenZaehlung } from './folgen-bereich.tsx'
-import { kostenloseFolgen, kostenlosEtikett } from '@shared/kostenlos.ts'
 import { Countdown, sendetageText } from './hilfen.tsx'
 import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
 import { Umschalter } from './umschalter.tsx'
-import { gruppeVon as gruppeVonPille, sichtbareStreamPillen } from './stream-pillen.ts'
-import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText } from './antwort-regeln.ts'
+import { gruppeVon as gruppeVonPille, sichtbareStreamPillen, type Gruppe } from './stream-pillen.ts'
+import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr, fertigZahlText, teilweiseNeben } from './antwort-regeln.ts'
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
+import { kostenlosKopfVon } from './kasten-texte.ts'
+
+/** Pillenreihe: 8 px zwischen den Pillen, 16 px zwischen den Zeilen (Platz für die Blase), 8 px über der ersten. */
+const PILLEN_REIHE = 'flex flex-wrap items-start gap-x-2 gap-y-4 pt-2'
 
 /**
  * „Auf Deutsch seit …" — die Nebenzeile aus `deErstausgabe`.
@@ -111,13 +114,19 @@ export function AntwortKasten({
   pillenGruppen = new Map(),
   terminPillen = [],
   discZuerst = false,
+  legende,
+  ohneSprachbeleg,
 }: {
   /** Pillen mit Termin und Anbieter/Sender — sie stehen vor der ersten Folge statt der Streamwege. */
   terminPillen?: React.ReactNode[]
   /** Bereich je Pillen-Schlüssel (`key`) — nur gebraucht, wenn es einen kostenlosen Weg gibt. */
-  pillenGruppen?: Map<string, 'frei' | 'abo' | 'kauf' | 'tv' | 'unbekannt'>
+  pillenGruppen?: Map<string, Gruppe>
   /** Über einen Disc-Termin geöffnet — dann steht der Umschalter auf „Disc". */
   discZuerst?: boolean
+  /** Erklärt die Zustände der Anbieterzeilen (Stream-Seite) — nur, was dort wirklich vorkommt. */
+  legende?: string
+  /** Alle Stream-Zeilen ohne Sprachbeleg: Die Überschrift „Auf Deutsch …“ entfällt. */
+  ohneSprachbeleg?: boolean
   antwort: Antwort
   title: Title
   t: (k: never, v?: Record<string, string | number>) => string
@@ -234,28 +243,7 @@ export function AntwortKasten({
     zwei Ordnungen, und beim zweiten sah es nach Fehler aus.
   */
   const mitBereichen = !aktivDisc && pillen.length > 0
-  const kostenlosKopf = (() => {
-    if (!mitBereichen || !pillen.some((p) => gruppeVon(p) === 'frei')) return undefined
-    const k = kostenloseFolgen(title)
-    const deutsch =
-      title.format === 'MOVIE' || title.episodes === 1
-        ? 1
-        : antwort.art === 'fertig'
-          ? antwort.gesamt
-          : antwort.art === 'teilweise' || antwort.art === 'laeuft'
-            ? antwort.raus
-            : undefined
-    const belegtMax = Math.max(
-      0,
-      ...(title.streams ?? []).map((s) =>
-        (s.dubRanges ?? []).filter((r) => r.dub).reduce((n, r) => n + r.to - r.from + 1, 0),
-      ),
-    )
-    const von = deutsch || belegtMax || undefined
-    return kostenlosEtikett(k, von) === 'teil'
-      ? `${T('kostenlos.teil')} · ${T('kostenlos.zahl', { frei: k!.frei!, von: von! })}`
-      : T('kostenlos.ganz')
-  })()
+  const kostenlosKopf = mitBereichen && pillen.some((p) => gruppeVon(p) === 'frei') ? kostenlosKopfVon({ title, antwort, T }) : undefined
 
   /** Relative Angabe zuerst — niemand rechnet gern nach, welcher Tag der 25. ist. */
   const relativ = (datum: string): string => {
@@ -460,7 +448,7 @@ export function AntwortKasten({
       wurde zu „Alle 12 Folgen auf Deutsch", obwohl vier belegt waren.
     */
     haupt = antwort.raus === undefined ? T('antwort.teilweiseOhneZahl') : T('antwort.teilweiseZahl', { raus: antwort.raus, gesamt: antwort.gesamt })
-    neben = antwort.restBelegt ? '' : T('antwort.teilweiseNeben')
+    neben = teilweiseNeben(antwort, T)
     anteil = antwort.raus === undefined ? undefined : Math.round((antwort.raus / antwort.gesamt) * 100)
     zaehl = ''
   } else if (antwort.art === 'fertig') {
@@ -617,7 +605,7 @@ export function AntwortKasten({
     zaehl = ''
     fakten = []
   } else if (antwort.art === 'film') {
-    haupt = antwort.hatSynchro ? T('antwort.filmTitel') : T('antwort.filmOhneTitel')
+    haupt = antwort.hatSynchro ? T(antwort.ohneWeg ? 'antwort.filmSynchronisiert' : 'antwort.filmTitel') : T('antwort.filmOhneTitel')
     /*
       Unter einem Kino-Banner ohne Stream-Weg fehlt genau eine Angabe, und der Leser
       sucht sie: wann er den Film zu Hause sehen kann (Madoka, 17.09.2026).
@@ -698,6 +686,8 @@ export function AntwortKasten({
     gedaempft = ankuendigung?.synchro !== 'angekuendigt'
     zaehl = ''
   }
+  /* Keine Zeile mit Sprachbeleg: „Auf Deutsch …“ wäre eine Behauptung, die keine Zeile darunter trägt. */
+  if (ohneSprachbeleg && (antwort.art === 'fertig' || antwort.art === 'film')) haupt = T('antwort.sprachOffen')
 
   return (
     /*
@@ -745,10 +735,10 @@ export function AntwortKasten({
           9,75 auf 11rem zu erhöhen. Das trägt genau bis zum nächsten Zustand,
           den niemand vorhergesehen hat — und davon gab es seitdem zwei.
         */
-        `relative flex ${(antwort.art === 'fertig' || antwort.art === 'film') && !neben ? '' : 'min-h-[11rem]'} flex-col rounded-xl border px-3 pb-3 pt-2`,
+        `relative flex ${(antwort.art === 'fertig' || antwort.art === 'film') && !neben ? '' : 'min-h-[11rem]'} flex-col rounded-2xl border p-4`,
         gedaempft
-          ? 'border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-white/[0.03]'
-          : 'border-sky-400/40 bg-gradient-to-b from-sky-500/15 to-transparent dark:border-sky-400/30',
+          ? 'border-slate-200 bg-[#f8fafc] [--kasten:#f8fafc] dark:border-white/10 dark:bg-[#111623] dark:[--kasten:#111623]'
+          : 'border-[#f6cfc3] bg-[#fff6f3] [--kasten:#fff6f3] dark:border-[#4a2a24] dark:bg-[#1a1416] dark:[--kasten:#1a1416]',
       ].join(' ')}
     >
       {/*
@@ -769,7 +759,7 @@ export function AntwortKasten({
       <div className="flex items-start gap-2">
       <p
         className={[
-          'text-lg font-bold leading-tight tracking-tight',
+          'text-t2 font-bold',
           gedaempft ? 'text-slate-500 dark:text-slate-400' : 'text-slate-900 dark:text-white',
         ].join(' ')}
       >
@@ -789,7 +779,7 @@ export function AntwortKasten({
       />
       </div>
       {neben && (
-        <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400" title={nebenTitel}>
+        <p className="mt-0.5 text-t4 text-slate-500 dark:text-slate-400" title={nebenTitel}>
           <MitFachwoertern text={neben} />
         </p>
       )}
@@ -799,11 +789,11 @@ export function AntwortKasten({
            „Venus Wars" lag „erschienen / Altersfreigabe / Studio" halb darauf. */
         <div className="mb-1 mt-2 flex gap-4">
           {fakten.map((f) => (
-            <span key={f.was} className="flex flex-col leading-tight">
-              <b className="text-[13px] font-bold tabular-nums text-slate-800 dark:text-slate-100">
+            <span key={f.was} className="flex flex-col ">
+              <b className="text-t4 font-bold tabular-nums text-slate-800 dark:text-slate-100">
                 {f.wert}
               </b>
-              <span className="text-[10px] text-slate-400 dark:text-slate-500">{f.was}</span>
+              <span className="text-t5 text-slate-400 dark:text-slate-500">{f.was}</span>
             </span>
           ))}
         </div>
@@ -831,9 +821,9 @@ export function AntwortKasten({
         </div>
       )}
 
-      {zaehl && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{zaehl}</p>}
-      {angebotSeit && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{angebotSeit}</p>}
-      {kaufausgabe && <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{kaufausgabe}</p>}
+      {zaehl && <p className="mt-1 text-t4 text-slate-500 dark:text-slate-400">{zaehl}</p>}
+      {angebotSeit && <p className="mt-1 text-t4 text-slate-500 dark:text-slate-400">{angebotSeit}</p>}
+      {kaufausgabe && <p className="mt-1 text-t4 text-slate-500 dark:text-slate-400">{kaufausgabe}</p>}
       {hinweis}
       {antwort.art === 'laeuft' && antwort.vermerk && (
         <VermerkAuskunft
@@ -846,15 +836,15 @@ export function AntwortKasten({
           T={T}
         />
       )}
-      {/* Die Erklärung zum Termin, in Warnfarbe: Sie schränkt ihn ein. */}
-      {folgen}{notiz && (
-        <p className="mt-1.5 text-[11px] leading-snug text-amber-600 dark:text-amber-400/90">
+      {/* Die Erklärung zum Termin, leise: Sie erklärt, sie warnt nicht (Signalfarben nur für Signale). */}
+      {notiz && (
+        <p className="mt-1.5 text-t4 text-slate-600 dark:text-slate-300">
           <MitFachwoertern text={notiz} />
         </p>
       )}
       {schnitt && (
-        <details className="mt-1 text-[11px] leading-snug text-amber-700 dark:text-amber-300/90">
-          <summary className="cursor-pointer select-none font-medium hover:underline">Was geschnitten ist</summary>
+        <details className="mt-1 text-t5 text-amber-700 dark:text-amber-300/90">
+          <summary className="cursor-pointer select-none font-semibold hover:underline">Was geschnitten ist</summary>
           <ul className="mt-1 list-disc space-y-0.5 pl-4">
             {schnitt.was.map((w) => (
               <li key={w}>{w}</li>
@@ -879,7 +869,7 @@ export function AntwortKasten({
           {/* Beim Kinofilm ist der Satz ein Favoriten-Hinweis und trägt deren Gelb. */}
           <p
             className={[
-              'flex min-h-[2.1rem] items-center text-xs',
+              'flex min-h-[2.1rem] items-center text-t4',
               antwort.art === 'kino'
                 ? 'text-amber-600 dark:text-amber-400'
                 : 'text-slate-500 dark:text-slate-400',
@@ -896,35 +886,37 @@ export function AntwortKasten({
             verdeckte Pille sieht aus wie ein Fehler. Die Mindesthöhe verhindert Sprünge im Regelfall (`check:panel` misst sie).
           */}
           {/* `items-stretch`: Eine Pille ohne zweite Zeile wird so hoch wie ihre Nachbarn (Daniel, 19.09.2026, TOGGO neben RTL+). */}
-          <div className="flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5 gap-y-2.5 pb-1 pt-1">
+          <div className="flex flex-col pt-2">
             {mitBereichen ? (
-              <div className="flex w-full flex-col gap-2.5">
+              <div className="flex w-full flex-col gap-3">
 {/* Der grüne Block nur, wo es wirklich etwas umsonst gibt — sonst wäre er eine leere Behauptung. */}
                 {pillen.some((p) => gruppeVon(p) === 'frei') && (
-                  <div className="flex flex-col gap-1.5 rounded-lg bg-emerald-500/[0.07] p-2 ring-1 ring-inset ring-emerald-600/25 dark:ring-emerald-400/30">
-                    <span className="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">{kostenlosKopf}</span>
-                    <div className="flex flex-wrap items-stretch gap-x-1.5 gap-y-2.5">{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
+                  <div className="flex flex-col gap-2 rounded-lg bg-emerald-500/[0.07] p-2 ring-1 ring-inset ring-emerald-600/25 dark:ring-emerald-400/30">
+                    <span className="text-t4 font-semibold text-emerald-800 dark:text-emerald-300">{kostenlosKopf}</span>
+                    <div className={PILLEN_REIHE}>{pillen.filter((p) => gruppeVon(p) === 'frei')}</div>
                   </div>
                 )}
-                {(['abo', 'kauf', 'tv', 'unbekannt', 'sonst'] as const).map((g) => {
+                {(['abo', 'kauf', 'tv', 'unbekannt', 'sonst', 'offen'] as const).map((g) => {
                   const teil = pillen.filter((p) => gruppeVon(p) === g)
                   if (!teil.length) return null
                   return (
-                    <div key={g} className="flex flex-col gap-1.5 px-2">
+                    <div key={g} className="flex flex-col gap-2">
                       {g !== 'sonst' && (
-                        <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">{T(`bereich.${g}`)}</span>
+                        <span className="text-t5 font-bold uppercase tracking-[.08em] text-ak-leise">{T(`bereich.${g}`)}</span>
                       )}
-                      <div className="flex flex-wrap items-stretch gap-x-1.5 gap-y-2.5">{teil}</div>
+                      <div className={PILLEN_REIHE}>{teil}</div>
                     </div>
                   )
                 })}
               </div>
             ) : (
-              pillen
+              <div className={PILLEN_REIHE}>{pillen}</div>
             )}
           </div>
+          {legende && !aktivDisc && <p className="mt-2 text-t4 text-ak-leise">{legende}</p>}
         </div>
       )}
+      {folgen}
     </section>
   )
 }

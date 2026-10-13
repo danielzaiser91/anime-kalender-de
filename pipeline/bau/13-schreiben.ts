@@ -16,9 +16,14 @@ import { schreibeLueckenTitel } from './luecken-titel.ts'
 import { ordneCartoonsZuAnime } from './cartoon-zu-anime.ts'
 import { schreibeSprecherIndex } from './sprecher-index.ts'
 import { schreibeListen } from './13-3-listen.ts'
+import { schreibeKinoZuletzt } from './kino-zuletzt.ts'
 import { baueAuslieferung } from './13-2-auslieferung.ts'
 import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
 import { mitBelegstaerke } from '../lib/belegstaerke.ts'
+import { ergaenzeEigeneHandlungen } from './handlung-eigen-einbinden.ts'
+import { ergaenzeDeutscheFolgenzahl } from './deutsche-folgenzahl-einbinden.ts'
+import { kanalErbtVomAnbieter } from './kanal-erbt-anbieter.ts'
+import { log } from '../lib/util.ts'
 
 export function schreibeDatensatz({
   allTitles,
@@ -53,6 +58,9 @@ export function schreibeDatensatz({
     kanalJeAdresse,
   })
 
+  const geerbt = kanalErbtVomAnbieter(allTitles)
+  if (geerbt) log(`${geerbt} Prime-Kanal-Wege erben das Deutsch ihres Anbieters`)
+
   const { slim } = baueAuslieferung({
     allTitles: mitBelegstaerke(allTitles, releases),
     anisearch,
@@ -67,8 +75,11 @@ export function schreibeDatensatz({
     verweiseEntfernt,
   })
 
+  ergaenzeEigeneHandlungen(synopses, slim)
+  ergaenzeDeutscheFolgenzahl(synopses, new Map([...titles.values()].map((t) => [t.id, t.episodes])))
   ergaenzeErstausgabeAngebot({ titles: titles.values(), releases })
   schreibeListen({ slim, tmdbTitles, releases, titles })
+  schreibeKinoZuletzt(titles, tmdbTitles)
 
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })
   bereinigePruefliste(ausgelieferteKennungen(slim))

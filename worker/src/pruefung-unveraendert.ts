@@ -15,12 +15,12 @@
  * aber nur, wenn der alte Wert vor dem aktuellen Listenbau liegt (eine Zeile, einmal je Listenbau);
  * sonst bleibt es bei 0 geschriebenen Zeilen.
  *
- * Die Zeilen aller Adressen eines Aufrufs werden mit **einer** Abfrage geladen: ein Stapel
+ * Die Zeilen der gemeldeten Folgen eines Aufrufs werden mit **einer** Abfrage geladen: ein Stapel
  * hat höchstens 50 Abfragen (Subrequests), eine Abfrage je Meldung sprengte das Budget. Der Listenbau
  * wird nur geholt, wenn ein Treffer da ist, und dann einmal je Aufruf.
  */
 import { type Env } from './env.ts'
-import { jetztIso } from './werte.ts'
+import { jetztIso, zahlOderNull } from './werte.ts'
 
 type OffeneZeile = { id: number; hash: string | null; gemeldetAm: string }
 
@@ -78,22 +78,44 @@ type Zeile = {
 }
 
 /**
- * Die Zeilen der Adressen, gelesen über `pruefung_url_zeit`: offene und übernommene. Der Index liefert
- * alle Zeilen der Adresse, `uebernommen = 0` war ein Filter dahinter — die Lesemenge bleibt gleich.
+ * Die Folge einer Meldung — die eine Ableitung für Laden, Vergleichen und Ersetzen (`speichereDaten`).
+ * Wird derselbe Titel zweimal geschickt, gilt der jüngere Blick; verglichen wird über alle vier Teile:
+ * - **Staffel:** Amazon führt Sammelseiten, unter `B0GFPBT6FG` liegen alle drei Staffeln von „Oshi no Ko",
+ *   nur durch den Verweis-Parameter getrennt (gemessen 23.08.2026). Ohne sie löschte Staffel 3 die Staffel 1.
+ * - **Seitenkennung:** Prime führt oft zwei Ausgaben unter einer Adresse („My First Girlfriend is a Gal":
+ *   Kauftitel mit 11 Folgen und die Crunchyroll-Fassung mit 10). Ohne sie löschte die zweite die erste.
+ * `IS` statt `=` in der SQL-Bedingung, weil `NULL = NULL` in SQLite nichts liefert und ältere Meldungen
+ * weder Staffel noch Kennung tragen.
  */
-export async function ladeOffeneHashes(env: Env, urls: string[]): Promise<OffeneHashes> {
+export function folgeVon(daten: Record<string, unknown>): Folge {
+  return {
+    url: String(daten.url ?? '').trim(),
+    folgeNr: zahlOderNull(daten.folge_nr),
+    staffelNr: zahlOderNull(daten.staffel),
+    seitenKennung: typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null,
+  }
+}
+
+/**
+ * Die Zeilen genau der gemeldeten Folgen, gelesen über `pruefung_folge`: offene und übernommene.
+ * Seit 12.10.2026 je Folge statt je Adresse: eine Seite mit n Folgen las bei jeder Meldung alle ihre
+ * Zeilen, ein Durchgang kostete rund n² Lesezeilen (Migration 053, `docs/wissen/betrieb.md`).
+ * Die Schlüssel reisen als JSON in einem Parameter: eine Abfrage, egal wie viele Folgen (Stapelgrenze).
+ */
+export async function ladeOffeneHashes(env: Env, folgen: Folge[]): Promise<OffeneHashes> {
   const zeilen: OffeneHashes['zeilen'] = new Map()
   const uebernommene: OffeneHashes['uebernommene'] = new Map()
   let bau: Promise<string | null> | undefined
   const offene: OffeneHashes = { zeilen, uebernommene, listenbauAm: () => (bau ??= holeListenbauAm(env)) }
-  const einzigartig = [...new Set(urls)]
+  const einzigartig = [...new Map(folgen.map((f) => [schluessel(f), f])).values()]
   if (!einzigartig.length) return offene
-  // INDEXED BY: ohne nimmt der Planer ab 2 Adressen idx_pruefung_offen und liest alle offenen Zeilen (EXPLAIN, 11.10.2026).
   const { results } = await env.DB.prepare(
-    `SELECT id, url, folge_nr, staffel, seiten_kennung, hash, gemeldet_am, uebernommen FROM pruefung INDEXED BY pruefung_url_zeit
-      WHERE url IN (${einzigartig.map(() => '?').join(',')})`,
+    `SELECT p.id, p.url, p.folge_nr, p.staffel, p.seiten_kennung, p.hash, p.gemeldet_am, p.uebernommen
+       FROM json_each(?1) k CROSS JOIN pruefung p
+      WHERE p.url = json_extract(k.value, '$[0]') AND p.folge_nr IS json_extract(k.value, '$[1]')
+        AND p.staffel IS json_extract(k.value, '$[2]') AND p.seiten_kennung IS json_extract(k.value, '$[3]')`,
   )
-    .bind(...einzigartig)
+    .bind(JSON.stringify(einzigartig.map((f) => [f.url, f.folgeNr, f.staffelNr, f.seitenKennung])))
     .all<Zeile>()
   for (const r of results ?? []) {
     const k = schluessel({ url: r.url, folgeNr: r.folge_nr, staffelNr: r.staffel, seitenKennung: r.seiten_kennung })

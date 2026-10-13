@@ -9,7 +9,7 @@
  */
 import type { ReactElement, ReactNode } from 'react'
 
-export type Gruppe = 'frei' | 'abo' | 'kauf' | 'tv' | 'unbekannt'
+export type Gruppe = 'frei' | 'abo' | 'kauf' | 'tv' | 'unbekannt' | 'offen'
 
 /** Die Zugangsgruppe einer Pille, über ihren `key`; unbekannte Pillen sind „sonst". */
 export function gruppeVon(gruppen: Map<string, Gruppe>, p: ReactNode): Gruppe | 'sonst' {

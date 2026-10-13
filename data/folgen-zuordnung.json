@@ -1373,14 +1373,10 @@
     "grund": "offen",
     "kandidaten": [
       552,
-      859,
-      874,
-      1132,
       1313,
       2397,
       2961,
       2962,
-      8624,
       20802,
       21500,
       21596,
@@ -1688,14 +1684,10 @@
     "grund": "offen",
     "kandidaten": [
       552,
-      859,
-      874,
-      1132,
       1313,
       2397,
       2961,
       2962,
-      8624,
       20802,
       21500,
       21596,
@@ -2959,13 +2951,11 @@
       4447,
       5460,
       5578,
-      6115,
       6467,
       8310,
       9963,
       12117,
       14735,
-      18429,
       20546,
       20878,
       20790,
@@ -3315,14 +3305,10 @@
     "grund": "offen",
     "kandidaten": [
       552,
-      859,
-      874,
-      1132,
       1313,
       2397,
       2961,
       2962,
-      8624,
       20802,
       21500,
       21596,
@@ -3338,14 +3324,10 @@
     "grund": "offen",
     "kandidaten": [
       552,
-      859,
-      874,
-      1132,
       1313,
       2397,
       2961,
       2962,
-      8624,
       20802,
       21500,
       21596,
@@ -4882,13 +4864,11 @@
       4447,
       5460,
       5578,
-      6115,
       6467,
       8310,
       9963,
       12117,
       14735,
-      18429,
       20546,
       20878,
       20790,
@@ -5008,13 +4988,11 @@
       4447,
       5460,
       5578,
-      6115,
       6467,
       8310,
       9963,
       12117,
       14735,
-      18429,
       20546,
       20878,
       20790,
@@ -5212,8 +5190,7 @@
       99938,
       107208,
       124115,
-      132420,
-      202390
+      132420
     ],
     "gesehen": "2026-08-28T19:38:26Z"
   },
@@ -5228,8 +5205,7 @@
       99938,
       107208,
       124115,
-      132420,
-      202390
+      132420
     ],
     "gesehen": "2026-08-28T19:38:35Z"
   },
@@ -5244,8 +5220,7 @@
       99938,
       107208,
       124115,
-      132420,
-      202390
+      132420
     ],
     "gesehen": "2026-08-28T19:38:44Z"
   },
@@ -101701,52 +101676,52 @@
     "gesehen": "2026-10-11T16:15:02Z"
   },
   "netflix:81630078": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:02Z"
   },
   "netflix:81630079": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:02Z"
   },
   "netflix:81630077": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:02Z"
   },
   "netflix:81630080": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:02Z"
   },
   "netflix:81630082": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:02Z"
   },
   "netflix:81630075": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:02Z"
   },
   "netflix:81630074": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:02Z"
   },
   "netflix:81630076": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:02Z"
   },
   "netflix:81630081": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:02Z"
   },
   "netflix:81630083": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:02Z"
   },
@@ -101843,202 +101818,202 @@
     "gesehen": "2026-10-11T16:15:06Z"
   },
   "netflix:80107412": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:07Z"
   },
   "netflix:80107404": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:07Z"
   },
   "netflix:80107409": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:07Z"
   },
   "netflix:80107403": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:07Z"
   },
   "netflix:80107405": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:07Z"
   },
   "netflix:80107406": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:07Z"
   },
   "netflix:80107407": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:07Z"
   },
   "netflix:80107411": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:07Z"
   },
   "netflix:80107408": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:07Z"
   },
   "netflix:80107410": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:07Z"
   },
   "netflix:81214602": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:12Z"
   },
   "netflix:81214604": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:12Z"
   },
   "netflix:81214597": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:12Z"
   },
   "netflix:81214605": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:12Z"
   },
   "netflix:81214601": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:12Z"
   },
   "netflix:81214603": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:12Z"
   },
   "netflix:81214598": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:12Z"
   },
   "netflix:81214599": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:12Z"
   },
   "netflix:81214600": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:12Z"
   },
   "netflix:81214596": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:12Z"
   },
   "netflix:82622360": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:17Z"
   },
   "netflix:82622361": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:17Z"
   },
   "netflix:82622358": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:17Z"
   },
   "netflix:82622359": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:17Z"
   },
   "netflix:82622356": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:17Z"
   },
   "netflix:82622353": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:17Z"
   },
   "netflix:82622357": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:17Z"
   },
   "netflix:82622355": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:17Z"
   },
   "netflix:82622354": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:17Z"
   },
   "netflix:82622352": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:17Z"
   },
   "netflix:81476644": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:22Z"
   },
   "netflix:81476645": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:22Z"
   },
   "netflix:81476650": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:22Z"
   },
   "netflix:81476642": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:22Z"
   },
   "netflix:81476648": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:22Z"
   },
   "netflix:81476646": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:22Z"
   },
   "netflix:81476647": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:22Z"
   },
   "netflix:81476641": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:22Z"
   },
   "netflix:81476643": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:22Z"
   },
   "netflix:81476649": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:22Z"
   },
@@ -102143,57 +102118,57 @@
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098743": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098736": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098735": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098738": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098741": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098740": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098733": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098739": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098742": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098734": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
   "netflix:80098737": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:27Z"
   },
@@ -102358,12 +102333,12 @@
     "gesehen": "2026-10-11T16:15:32Z"
   },
   "netflix:81717782": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:32Z"
   },
   "netflix:81717780": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:32Z"
   },
@@ -102373,42 +102348,42 @@
     "gesehen": "2026-10-11T16:15:32Z"
   },
   "netflix:81717778": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:32Z"
   },
   "netflix:81717777": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:32Z"
   },
   "netflix:81717783": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:32Z"
   },
   "netflix:81717779": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:32Z"
   },
   "netflix:81717781": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:32Z"
   },
   "netflix:81717776": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:32Z"
   },
   "netflix:81717774": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:32Z"
   },
   "netflix:81717775": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:32Z"
   },
@@ -102563,12 +102538,12 @@
     "gesehen": "2026-10-11T16:15:37Z"
   },
   "netflix:80202673": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:37Z"
   },
   "netflix:80202670": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:37Z"
   },
@@ -102578,42 +102553,42 @@
     "gesehen": "2026-10-11T16:15:37Z"
   },
   "netflix:80202665": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:37Z"
   },
   "netflix:80202672": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:37Z"
   },
   "netflix:80202667": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:37Z"
   },
   "netflix:80202668": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:37Z"
   },
   "netflix:80202669": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:37Z"
   },
   "netflix:80202671": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:37Z"
   },
   "netflix:80202666": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:37Z"
   },
   "netflix:80202674": {
-    "titel": 10019445,
+    "titel": 150103,
     "grund": "einziger-kandidat",
     "gesehen": "2026-10-11T16:15:37Z"
   },

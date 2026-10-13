@@ -3,11 +3,12 @@ import { type Release, type Title } from '@shared/types.ts'
 import { Aufklappbar } from './aufklapp-kopf.tsx'
 import { BuchZeichen, PanelKarte } from './panel-karte.tsx'
 import { PLOT_PREVIEW } from './hilfen.tsx'
-import { type FranchiseMember } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { Dispatch, SetStateAction } from 'react'
 import { Chip } from '../ui.tsx'
 import { HerkunftZeile, zeigtHerkunft } from './herkunft-zeile.tsx'
+import { EigeneQuellenZeile, ReiheHinweis } from './handlung-quelle.tsx'
+import { type plotVon } from './plot.ts'
 
 export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, setGenresOffen }: {
   title: Title
@@ -22,9 +23,9 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
       {(title.genres.length > 0 || zeigtHerkunft(title)) && (
         <Aufklappbar titel={t('detail.werkangaben')}>
           {zeigtHerkunft(title) && <HerkunftZeile title={title} t={t} />}
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-2">
               {(genresOffen ? title.genres : title.genres.slice(0, 3)).map((g) => (
-                <Chip key={g} onClick={() => onFilterBy('genre', g)}>
+                <Chip gross key={g} onClick={() => onFilterBy('genre', g)}>
                   {tGenre(g)}
                 </Chip>
               ))}
@@ -32,7 +33,7 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
                 <button
                   type="button"
                   onClick={() => setGenresOffen(true)}
-                  className="cursor-pointer rounded-full border border-slate-200 px-2 py-0.5 text-[11px] text-slate-500 transition hover:border-slate-400 dark:border-white/10 dark:text-slate-400"
+                  className="min-h-11 min-w-11 cursor-pointer rounded-full px-3 text-t3 text-ak-leise transition hover:text-ak-akzent-text"
                 >
                   +{title.genres.length - 3}
                 </button>
@@ -48,7 +49,7 @@ export function EckdatenAbschnitt({ title, t, genresOffen, onFilterBy, tGenre, s
 const quelleLabel = (name: string): string => (name === 'anisearch.de' ? 'aniSearch' : name === 'anilist.co' ? 'AniList' : name)
 
 export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
-  plot: { text: string; fallback: boolean; quelle: { name: string; url: string; }; vonTeil?: undefined; } | { text: string; fallback: boolean; vonTeil: FranchiseMember; erschienen?: boolean; quelle: { name: string; url: string; }; } | undefined
+  plot: ReturnType<typeof plotVon>['plot']
   t: Translate
   plotOffen: boolean
   setPlotOffen: Dispatch<SetStateAction<boolean>>
@@ -64,10 +65,11 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             findet, hat die Handlung schon dem falschen Titel zugeschrieben.
           */}
           {plot.vonTeil && (
-            <p className="mb-1 text-[11px] text-amber-600 dark:text-amber-400/90">
+            <p className="mb-1 text-t4 text-amber-800 dark:text-amber-300">
               {t(plot.erschienen ? 'detail.plotVonTeilFrueher' : 'detail.plotVonTeil', { teil: plot.vonTeil.name })}
             </p>
           )}
+          {plot.eigen?.reihe && !plot.vonTeil && <ReiheHinweis t={t} />}
           {/*
             Zuerst zwei Sätze, den Rest auf Wunsch.
 
@@ -76,13 +78,13 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
             Quellenangabe. Wer die Handlung lesen will, klickt; wer sie nur
             einordnen will, sieht den Anfang und bleibt im Überblick.
           */}
-          <p className="whitespace-pre-line text-sm leading-relaxed text-ak-text/85">
+          <p className="whitespace-pre-line text-t3 text-ak-text/85">
             {plotOffen || plot.text.length <= PLOT_PREVIEW
               ? plot.text
               : `${plot.text.slice(0, PLOT_PREVIEW).trimEnd()} …`}
           </p>
           {plot.fallback && (
-            <p className="mt-1.5 text-[11px] text-slate-400">{t('detail.plotOnlyEnglish')}</p>
+            <p className="mt-1.5 text-t5 text-slate-400">{t('detail.plotOnlyEnglish')}</p>
           )}
           {/* Die Quelle steht immer sichtbar am Fuß der Karte, auch eingeklappt (aniSearch verlangt Nennung und Link bei übernommenen Texten, 05.10.2026). */}
           <div className="mt-2 flex items-center justify-between gap-2">
@@ -91,19 +93,23 @@ export function HandlungAbschnitt({ plot, t, plotOffen, setPlotOffen }: {
                 type="button"
                 onClick={() => setPlotOffen((v) => !v)}
                 aria-expanded={plotOffen}
-                className="cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-3 py-1 text-xs font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
+                className="min-h-11 cursor-pointer rounded-full border border-ak-rand bg-ak-flaeche-2 px-4 text-t3 font-semibold text-ak-text transition hover:border-ak-akzent hover:text-ak-akzent-text"
               >
                 {t(plotOffen ? 'detail.plotLess' : 'detail.plotMore')}
               </button>
             ) : (
               <span />
             )}
-            <span className="text-[11px] text-slate-400">
-              {t('detail.plotQuelle')}{' '}
-              <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text">
-                {quelleLabel(plot.quelle.name)} ↗
-              </a>
-            </span>
+            {plot.eigen ? (
+              <EigeneQuellenZeile eigen={plot.eigen} t={t} />
+            ) : (
+              <span className="text-t4 text-slate-600 dark:text-slate-400">
+                {t('detail.plotQuelle')}{' '}
+                <a href={plot.quelle.url} target="_blank" rel="noopener noreferrer" className="-my-3 inline-flex min-h-11 items-center underline decoration-slate-400/50 underline-offset-2 hover:text-ak-akzent-text">
+                  {quelleLabel(plot.quelle.name)} ↗
+                </a>
+              </span>
+            )}
           </div>
         </PanelKarte>
       )}

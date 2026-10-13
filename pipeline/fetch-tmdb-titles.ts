@@ -1,6 +1,6 @@
 /**
  * Holt für jeden Titel die deutschen Angaben von TMDB: Handlungsbeschreibung,
- * FSK-Freigabe und die in Deutschland verfügbaren Anbieter.
+ * FSK-Freigabe und die in Deutschland verfügbaren Anbieter; bei Filmen auch die deutschen Kinostarts (`kinoDe`, `lib/tmdb-kino-zuletzt.ts`).
  *
  * Warum überhaupt: AniList führt Beschreibungen ausschließlich auf Englisch.
  * TMDB hat für viele Anime eine deutsche Übersetzung — die ist der einzige Weg
@@ -19,6 +19,7 @@ import { readOffers, type TmdbOffer } from './lib/tmdb.ts'
 import { recordSource } from './lib/health.ts'
 import { findeGeteilteHauptserien, streicheZuordnungen } from './lib/tmdb-hauptserie.ts'
 import { inhaltsStand, streicheAbgelaufenes, STREICH_TAGE } from './lib/tmdb-ablauf.ts'
+import { kinoFehlt, kinostartsDe, type ReleaseDatesAntwort } from './lib/tmdb-kino-zuletzt.ts'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 
@@ -73,6 +74,8 @@ export interface TmdbTitle {
   offers?: TmdbOffer[]
   /** TMDBs Anbieterseite für die Region — dort stehen die Einzellinks. */
   justwatchUrl?: string
+  /** Alle deutschen Kinostarts des Films (Typ 2/3, `JJJJ-MM-TT`); leer, wenn TMDB keinen führt. Nur Filme. */
+  kinoDe?: string[]
   /** Nichts gefunden. Kein Dauerzustand: Nach `--alter` Tagen wird erneut gesucht. */
   miss?: true
   /** Wann dieser Eintrag zuletzt von TMDB geholt wurde (ISO-Datum). */
@@ -240,11 +243,10 @@ async function lookup(apiKey: string, title: Title): Promise<TmdbTitle> {
     await sleep(40)
 
     if (isMovie) {
-      const rel = await fetchJson<{
-        results: { iso_3166_1: string; release_dates: { certification: string }[] }[]
-      }>(`${BASE}/movie/${best.hit.id}/release_dates?api_key=${apiKey}`)
+      const rel = await fetchJson<ReleaseDatesAntwort>(`${BASE}/movie/${best.hit.id}/release_dates?api_key=${apiKey}`)
       const de = rel.results?.find((r) => r.iso_3166_1 === 'DE')
       out.fsk = parseFsk(de?.release_dates?.find((r) => r.certification)?.certification)
+      out.kinoDe = kinostartsDe(rel)
     } else {
       const ratings = await fetchJson<{ results: { iso_3166_1: string; rating: string }[] }>(
         `${BASE}/tv/${best.hit.id}/content_ratings?api_key=${apiKey}`,
@@ -370,7 +372,7 @@ async function main(): Promise<void> {
     .filter((t) => {
       /* Was von Hand steht, wird nicht neu gesucht — sonst gewinnt der Fehltreffer wieder. */
       if (handIds.has(t.id)) return false
-      if (FORCE || !cache[t.id]) return true
+      if (FORCE || !cache[t.id] || kinoFehlt(cache[t.id]!)) return true
       const e = cache[t.id]!
       const frist = e.tmdbId ? grenze : new Date(Date.now() - 7 * 86400_000).toISOString()
       return (e.fetchedAt ?? '') < frist

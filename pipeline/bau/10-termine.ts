@@ -2,6 +2,7 @@ import { type ReleaseEvent, type Title, type Release } from '../../shared/types.
 import { expandEvents } from '../../shared/logic.ts'
 import { istPremiere, istStaffelfinale, istStaffelstart } from '../../shared/tv-signale.ts'
 import { schreibeZweitanbieter } from '../../shared/zweitanbieter.ts'
+import { schreibeKatalogReleaseVonHand } from '../lib/katalog-belege.ts'
 import { log, warn } from '../lib/util.ts'
 import { pruefeErgebnis } from '../lib/pruefung.ts'
 import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
@@ -55,6 +56,7 @@ export function schreibeTvAuskunft(events: ReleaseEvent[], releases: Release[], 
     if (istStaffelstart(ev, { releaseBySlug })) ev.staffelstart = true
   }
   log(`TV-Auskunft an den Terminen: ${premier} Premieren, ${wiederholungen} Wiederholungen, ${ohneAussage} ohne Aussage (kein Beleg), ${finale} Staffelfinale`)
+  log(`Katalog-Release: ${schreibeKatalogReleaseVonHand(events, releases)} Termine`)
   schreibePremiereMitMeldung(events, releases, titles)
   schreibeZweitanbieterMitMeldung(events, releases)
 }

@@ -19,6 +19,7 @@ import { deutschGeplantLautAnisearch } from './ohne-beleg.ts'
  */
 export function terminBelegtNichts(release: Release, heute: string): boolean {
   if (release.titleId < 0) return true
+  if (release.sprache) return true // omu/offen: der Termin belegt keine Synchro (Super Beerus, Netflix, 13.10.2026)
   const kommt = release.schedule.firstEpisodeDate > heute
   return kommt && (Boolean(release.schedule.estimated) || deutschGeplantLautAnisearch(release.titleId))
 }

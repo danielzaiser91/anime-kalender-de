@@ -252,11 +252,4 @@ jobs:
           status=success
           if printf '%s' "$ERGEBNISSE" | grep -q failure; then status=failure
           elif printf '%s' "$ERGEBNISSE" | grep -q cancelled; then status=cancelled; fi
-          echo "STATUS=$status" >> "$GITHUB_ENV"
           bash tools/lauf-abmelden.sh "$status" "$FEHLER"
-      # Nur bei einem Fehlschlag: Dieser Lauf läuft täglich, eine Erfolgsmeldung wäre Lärm in einem Kanal, den auch andere lesen.
-      - name: Ergebnis nach Discord melden
-        if: env.STATUS == 'failure'
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: bash tools/discord-melden.sh "Täglicher Datenlauf" "failure"

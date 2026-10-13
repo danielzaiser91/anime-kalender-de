@@ -2,8 +2,8 @@ import type { Dispatch, SetStateAction } from 'react'
 import type { Translate } from '../../lib/i18n.tsx'
 
 /**
- * **Der Klick-Modus klebt oben im scrollenden Fenster** und gilt für alles darunter, auch für die Schnell-Chips.
- * Zeile 52 px, Knöpfe 44 px (Filterfenster-Entwurf). Er muss ein Kind des scrollenden Elements sein, sonst wirkt `sticky` nicht.
+ * **Der Klick-Modus steht oben, fest über dem Scrollbereich,** und gilt für alles darunter, auch für die Schnell-Chips.
+ * Zeile 63 px, Knöpfe 44 px, 8 px Luft über und unter dem Segment. Er ist ein festes Flex-Kind des Fensters, nicht `sticky`: so liegt die Scrollbar zwischen Kopf und Fuß, innerhalb des Rands.
  * Aktiv: „Auswählen" grün wie ein gewählter Chip, „Ausschließen" `rose-600` mit Weiß (4,53 : 1; `rose-500` hatte 3,75 : 1).
  */
 export function KlickModusLeiste({
@@ -16,7 +16,7 @@ export function KlickModusLeiste({
   setMode: Dispatch<SetStateAction<'include' | 'exclude'>>
 }) {
   return (
-    <div role="group" aria-label={t('filter.mode')} className="sticky top-0 z-10 flex items-center gap-2 border-b border-ak-linie bg-ak-flaeche px-3 py-1">
+    <div role="group" aria-label={t('filter.mode')} className="flex shrink-0 items-center gap-2 border-b border-ak-linie bg-ak-flaeche px-3 py-2">
       <span className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.14em] text-ak-leise max-[359px]:sr-only">{t('filter.mode')}</span>
       <div className="flex flex-1 overflow-hidden rounded-xl border border-ak-rand md:max-w-sm">
         {(['include', 'exclude'] as const).map((m) => (

@@ -5,6 +5,7 @@ import type { Zustand } from './zustand.ts'
 /** Adresse einer Zelle: dieselbe Seite im Zellen-Modus (siehe `start.ts`) — eigener Rahmen, also echte Breite und echtes Thema. */
 function zellenAdresse(z: Zustand, thema: 'hell' | 'dunkel', variante: string): string {
   const w = new URLSearchParams({ mockup: z.mockup, v: variante, fall: z.fall, thema })
+  if (z.zeit) w.set('zeit', z.zeit)
   return `${location.pathname}#zelle?${w}`
 }
 

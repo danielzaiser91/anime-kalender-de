@@ -1,6 +1,6 @@
 # Prüfliste: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-12 · **33 offene Verweise** in **26 Zeilen**.
+Stand 2026-10-13 · **49 offene Verweise** in **36 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Was geprüft ist, gehört
 nach `data/dub-confirmed.yaml`; beim nächsten Lauf verschwindet es hier.
@@ -33,9 +33,9 @@ Synchro und zweiter ohne, Zeile 4 tot.
 
 | Offen je Anbieter | Verweise |
 |---|---|
+| [Prime Video](07-primevideo.md) | 19 |
+| [Netflix](07-netflix.md) | 14 |
 | [Disney+](07-disneyplus.md) | 9 |
-| [Prime Video](07-primevideo.md) | 9 |
-| [Netflix](07-netflix.md) | 8 |
 | [ADN](07-adn.md) | 7 |
 
 ## Zu prüfen
@@ -43,31 +43,41 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-10-12 | Bleach | [The Movie - Memories of Nobody]() · [The Movie - The Diamond Dust Rebellion]() · [The Movie - Fade to Black]() · [The Movie - Hell Verse]() |
-| 2 | 2026-10-09 | Gachiakuta | [Hauptserie]() |
-| 3 | 2026-10-08 | 86: Eighty Six | [Hauptserie](https://animationdigitalnetwork.com/de/video/1423-eighty-six) · [Teil 2](https://animationdigitalnetwork.com/de/video/1423-eighty-six) |
-| 4 | 2026-10-06 | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
-| 5 | 2026-10-04 | Spy × Family | [Teil 2]() · [Staffel 2]() |
-| 6 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 7 | 2026-10-01 | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() |
-| 8 | 2026-09-28 | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
-| 9 | 2026-09-28 | Jujutsu Kaisen | [0]() |
-| 10 | 2026-09-17 | Danganronpa | [Hauptserie]() |
-| 11 | 2026-09-17 | Samurai Girls | [Hauptserie]() · [2: Samurai Bride]() |
-| 12 | 2026-09-06 | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
-| 13 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
-| 14 | 2026-08-07 | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
-| 15 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 16 | 2024-08-15 | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
-| 17 | 2023-11-17 | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
-| 18 | 2023-08-10 | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
-| 19 | 2023-07-07 | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
-| 20 | 2023-03-23 | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
-| 21 | 2022-10-21 | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 22 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 23 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
-| 24 | 2019-03-15 | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
-| 25 | 2014-03-23 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
-| 26 | 1998-09-30 | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
+| 2 | 2026-10-10 | Demon Slayer: Kimetsu no Yaiba | [Hauptserie]() · [Mugen Train Arc]() · [Entertainment District Arc]() · [Swordsmith Village Arc]() · [Hashira Training Arc]() |
+| 3 | 2026-10-09 | Gachiakuta | [Hauptserie]() |
+| 4 | 2026-10-08 | 86: Eighty Six | [Hauptserie](https://animationdigitalnetwork.com/de/video/1423-eighty-six) · [Teil 2](https://animationdigitalnetwork.com/de/video/1423-eighty-six) |
+| 5 | 2026-10-07 | The Detective Is Already Dead | [Staffel 2]() |
+| 6 | 2026-10-06 | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
+| 7 | 2026-10-04 | Spy × Family | [Teil 2]() · [Staffel 2]() |
+| 8 | 2026-10-03 | Hände weg, Kotesashi-kun | [Hauptserie]() |
+| 9 | 2026-09-28 | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
+| 10 | 2026-09-28 | Jujutsu Kaisen | [0]() |
+| 11 | 2026-09-27 | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Staffel 3]() |
+| 12 | 2026-09-26 | A Wild Last Boss Appeared! | [Staffel 2]() |
+| 13 | 2026-09-17 | Danganronpa | [Hauptserie]() |
+| 14 | 2026-09-17 | Samurai Girls | [Hauptserie]() · [2: Samurai Bride]() |
+| 15 | 2026-09-06 | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
+| 16 | 2026-08-31 | Mobile Suit Gundam | [Cucuruz Doan’s Island]() · [Hathaway: The Sorcery of Nymph Circe](https://www.netflix.com/title/82854665) |
+| 17 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
+| 18 | 2026-08-07 | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
+| 19 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 20 | 2024-12-13 | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
+| 21 | 2024-12-13 | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DCGS7Y4J) |
+| 22 | 2024-08-15 | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
+| 23 | 2023-11-17 | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
+| 24 | 2023-08-10 | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 25 | 2023-07-31 | Bastard!! Der Gott der Zerstörung | [Hauptserie](https://www.netflix.com/title/81281582) · [Staffel 2](https://www.netflix.com/title/81281582) |
+| 26 | 2023-07-07 | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
+| 27 | 2023-03-23 | Urusei Yatsura | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.e3405b7b-d35a-43bd-a17d-6e5bab369ae9) |
+| 28 | 2022-10-21 | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
+| 29 | 2021-03-04 | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
+| 30 | 2020-12-12 | Fire Force | [Staffel 2](https://animationdigitalnetwork.de/video/fire-force-saison-2) |
+| 31 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.netflix.com/title/81099976) |
+| 32 | 2020-06-26 | Titipo: Der kleine Zug | [Titipo Titipo 2](https://www.amazon.de/gp/video/detail/B0FVF9T7ZP) |
+| 33 | 2020-01-11 | Spycies: Zwei tierisch coole Agenten | [Hauptserie](https://www.amazon.de/gp/video/detail/B0FK2YJHJK) |
+| 34 | 2019-03-15 | YooHoo: Retter in der Not | [Hauptserie](https://www.netflix.com/title/80212481) |
+| 35 | 2014-03-23 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! Zexal II](https://watch.amazon.de/detail?gti=amzn1.dv.gti.609f3517-1ac7-4afc-b4c2-de498d041832) |
+| 36 | 1998-09-30 | Trigun | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.8cbba00e-0d43-4c48-bdfa-437e5762c51d) |
 
 ## Warum die einzelnen Anbieter unsicher sind
 

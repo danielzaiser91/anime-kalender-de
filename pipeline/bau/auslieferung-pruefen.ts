@@ -10,7 +10,8 @@ import type { Release, Title } from '../../shared/types.ts'
 import { geplantNichtDeutschHeute, ladeGeplantQuelle } from '../lib/invarianten-geplant.ts'
 import { dubIdsNachAnisearch, dubsNachTitel } from '../lib/anisearch-marke.ts'
 import { kanalFehler } from './kanal-fehler.ts'
-import { OUT } from './grundlagen.ts'
+import { anisearchHand, OUT } from './grundlagen.ts'
+import { anisearchKennungMehrfach } from '../lib/anisearch-kennung-mehrfach.ts'
 import { ohneSynchroVonHand } from './ohne-beleg.ts'
 import { alle as anisearchEintraege } from './anisearch-titel.ts'
 import { anisearchZeilenDoppelt } from './anisearch-dubletten.ts'
@@ -44,6 +45,7 @@ export function auslieferungsInvarianten(releases: Release[]): string[] {
       heute: todayIso(),
     }),
     ...anisearchZeilenDoppelt([...auslieferung.titles, ...auslieferung.ohneSynchro], anisearchEintraege()),
+    ...anisearchKennungMehrfach(auslieferung.titles, anisearchHand),
     ...werkDoppelt(auslieferung.titles, auslieferung.ohneSynchro, anisearchEintraege()),
     ...reihenVerweiseAufgeloest(auslieferung),
     ...geplantNichtDeutschHeute(releases, new Map(auslieferung.titles.map((t) => [t.id, t])), ladeGeplantQuelle()),

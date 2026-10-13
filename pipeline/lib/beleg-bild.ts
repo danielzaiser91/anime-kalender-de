@@ -10,7 +10,7 @@
 import { gzipSync } from 'node:zlib'
 import type { Page } from 'playwright'
 import { sperreEntfernen } from './cookie-banner.ts'
-import { stuetzstelle, type Stelle } from './beleg-stelle.ts'
+import { stuetzstelle, verdecktesMarkieren, type Stelle } from './beleg-stelle.ts'
 import type { Gruppe } from './beleg-suche.ts'
 
 /** So hoch darf der Ausschnitt ab der Überschrift werden, wenn keine Stützstelle weiter unten liegt. */
@@ -38,10 +38,6 @@ interface Messung {
 
 /** Läuft im Browser: entfernt Reste, prüft auf Wände und misst den Ausschnitt samt Fundstelle. */
 function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle, bisUnten }: { maxHoehe: number; skala: number; maxBisStelle: number; suchen: string[]; stelle?: Stelle; bisUnten?: number }): Messung | 'wand' | undefined {
-  document.querySelectorAll('body *').forEach((e) => {
-    const p = getComputedStyle(e).position
-    if ((p === 'fixed' || p === 'sticky') && !e.contains(document.querySelector('h1'))) e.remove()
-  })
   /* Liegt in der Mitte des Fensters etwas, das nicht zum Artikel gehört, ist es eine Zustimmungswand — bleibt sie, gibt es kein Bild. */
   const imWeg = (): boolean => {
     const treffer = document.elementFromPoint(260, 450)
@@ -56,7 +52,7 @@ function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle, bisUnt
   if (imWeg()) return 'wand'
   const wurzel = (document.querySelector('article') ?? document.querySelector('main') ?? document.body) as HTMLElement
   const h1 = document.querySelector('h1')
-  const absaetze = [...wurzel.querySelectorAll('p, li, h2, h3')].filter((e) => (e as HTMLElement).innerText.trim().length > 20)
+  const absaetze = [...wurzel.querySelectorAll('p, li, h2, h3')].filter((e) => !e.hasAttribute('data-beleg-verdeckt') && (e as HTMLElement).innerText.trim().length > 20)
   const kopf = (h1 ?? absaetze[0])?.getBoundingClientRect()
   if (!kopf) return undefined
   let oben = kopf.top + window.scrollY - 8
@@ -90,6 +86,16 @@ function messeAusschnitt({ maxHoehe, maxBisStelle, skala, suchen, stelle, bisUnt
   return { clip, text: wurzel.innerText, ...(markierung ? { markierung } : {}) }
 }
 
+/** Entfernt feste und klebende Leisten — vor dem Messen der Fundstelle, sonst rutscht der Inhalt um die Leistenhöhe und die Marke sitzt daneben (Kinoheld: 64 px, 12.10.2026). */
+async function leistenEntfernen(seite: Page): Promise<void> {
+  await seite.evaluate(() => {
+    document.querySelectorAll('body *').forEach((e) => {
+      const p = getComputedStyle(e).position
+      if ((p === 'fixed' || p === 'sticky') && !e.contains(document.querySelector('h1'))) e.remove()
+    })
+  })
+}
+
 /** Anwendungsseiten (Joyn, Disney+, Kinoheld) zeigen ihren Titel als Bild, das wir ausblenden — er steht dann als Textzeile über dem Ausschnitt (Daniel, 05.10.2026). */
 async function titelzeileSetzen(seite: Page): Promise<void> {
   if (!/\/\/(?:www\.)?(?:joyn\.de|disneyplus\.com|kinoheld\.de)\//.test(seite.url())) return
@@ -111,7 +117,9 @@ export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: 
   /* Zustimmungswände und Banner liegen fest oder klebend über dem Text — entfernt, nicht beantwortet; bleibt eine, gibt es kein Bild. */
   if (!(await sperreEntfernen(seite))) return 'wand'
   await titelzeileSetzen(seite)
-  const stelle = await stuetzstelle(seite, suchen, tage)
+  await leistenEntfernen(seite)
+  await verdecktesMarkieren(seite)
+  const stelle = await stuetzstelle(seite, stuetzbegriffe(seite.url(), suchen), tage)
   const stellen = gruppen.length > 1 ? await Promise.all(gruppen.map(async (g) => [g.id, await stuetzstelle(seite, g.suchen, g.tage)] as const)) : []
   const bisUnten = Math.max(0, ...stellen.map(([, st]) => st?.unten ?? 0)) || undefined
   const gemessen = await seite.evaluate(messeAusschnitt, { maxHoehe: MAX_HOEHE, maxBisStelle: MAX_BIS_STELLE, skala: BILD_SKALA, suchen, stelle, bisUnten })
@@ -121,6 +129,8 @@ export async function belegAusschnitt(seite: Page, suchen: string[] = [], tage: 
   await cdp.detach()
   if (await istEinfarbig(seite, data)) return 'leer'
   const markierungen = markierungenJeTitel(stellen, gemessen.clip)
+  /* Die Marke muss auf Text liegen: eine Marke auf leerer Fläche zeigt dem Leser nichts (Kinoheld, 12.10.2026). */
+  for (const m of [gemessen.markierung, ...Object.values(markierungen ?? {})]) if (m && (await istEinfarbig(seite, data, m))) return 'leer'
   return { bild: Buffer.from(data, 'base64'), text: gzipSync(Buffer.from(gemessen.text, 'utf8')), ...(gemessen.markierung ? { markierung: gemessen.markierung } : {}), ...(markierungen ? { markierungen } : {}) }
 }
 
@@ -134,13 +144,22 @@ function markierungenJeTitel(stellen: (readonly [number, Stelle | undefined])[],
   return stellen.length ? raus : undefined
 }
 
-/** Ein einfarbiges Bild (Standardabweichung der Helligkeit unter 6) zeigt keine Aussage — die Seite war nicht gezeichnet oder von etwas Schwarzem verdeckt. */
-async function istEinfarbig(seite: Page, base64: string): Promise<boolean> {
-  return seite.evaluate(async (b64) => {
+/** Kinoheld nennt den Erscheinungstag unter „Veröffentlichung“ — der Titel steht nur im Kopf und in der (eingeklappten) Kritik, also wird dort gesucht. */
+export function stuetzbegriffe(url: string, suchen: string[]): string[] {
+  return /\/\/(?:www\.)?kinoheld\.de\//.test(url) ? ['Veröffentlichung', ...suchen] : suchen
+}
+
+/** Ein einfarbiges Bild (Standardabweichung der Helligkeit unter 6) zeigt keine Aussage — die Seite war nicht gezeichnet oder von etwas Schwarzem verdeckt. Mit `bereich` (Anteile des Bildes) gilt es nur dort. */
+export async function istEinfarbig(seite: Page, base64: string, bereich: [number, number, number, number] = [0, 0, 1, 1]): Promise<boolean> {
+  return seite.evaluate(async ({ b64, bereich }) => {
     const bmp = await createImageBitmap(await (await fetch('data:image/webp;base64,' + b64)).blob())
-    const c = new OffscreenCanvas(bmp.width, Math.min(bmp.height, 4000))
+    const sy = Math.min(bmp.height - 1, Math.max(0, Math.floor(bereich[1] * bmp.height)))
+    const sx = Math.min(bmp.width - 1, Math.max(0, Math.floor(bereich[0] * bmp.width)))
+    const sw = Math.max(1, Math.min(bmp.width - sx, Math.ceil(bereich[2] * bmp.width)))
+    const sh = Math.max(1, Math.min(bmp.height - sy, 4000, Math.ceil(bereich[3] * bmp.height)))
+    const c = new OffscreenCanvas(sw, sh)
     const g = c.getContext('2d')!
-    g.drawImage(bmp, 0, 0)
+    g.drawImage(bmp, sx, sy, sw, sh, 0, 0, sw, sh)
     const d = g.getImageData(0, 0, c.width, c.height).data
     let s = 0
     let s2 = 0
@@ -153,5 +172,5 @@ async function istEinfarbig(seite: Page, base64: string): Promise<boolean> {
     }
     const mittel = s / n
     return Math.sqrt(s2 / n - mittel * mittel) < 6
-  }, base64)
+  }, { b64: base64, bereich })
 }

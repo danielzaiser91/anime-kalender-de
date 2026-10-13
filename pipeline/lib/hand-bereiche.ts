@@ -3,8 +3,8 @@
  *
  * Disney+ zählt Naruto Shippuden je Staffel neu (1–53, 1–59, 1–54); die Erweiterungsmeldung legte die
  * Zählungen übereinander und ergab „Fg. 1–59". Daniels Prüfung vom 08.10.2026 steht in
- * `dub-confirmed.yaml`; eine jüngere Meldung mit kleinerem Bereich würde sie still ersetzen
- * (`verschmelze()`: das jüngere `checkedAt` gewinnt). Dann bricht `check-handbelege`.
+ * `dub-confirmed.yaml`; ein jüngeres Nein überlagert sie
+ * (`verschmelze()`: ein jüngeres Urteil gilt für die Folgen, die es nennt). Dann bricht `check-handbelege`.
  */
 import type { DubCheck } from './dub-confirmed.ts'
 

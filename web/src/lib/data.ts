@@ -277,6 +277,10 @@ export interface Synopsis {
    */
   deSource?: { name: string; url: string }
   asUrl?: string
+  /** Eigener Text aus Fakten mehrerer Quellen: alle Quellen, Lizenz des Textes; `reihe` = beschreibt nur die Reihe, nicht diesen Titel. */
+  eigen?: { quellen: { name: string; url: string }[]; lizenz: string; reihe?: true }
+  /** Nur ein Teil der Folgen liegt auf Deutsch vor: Zahl, Quelle und kurzes Zitat daraus. */
+  deFolgen?: { n: number; quelle: { name: string; url: string }; zitat: string }
   /** Größtes brauchbares Plakat (TMDB): Pfad, Breite, Höhe — nur für die Vergrößerung des Covers. */
   cg?: [string, number, number]
 }
@@ -392,6 +396,14 @@ export function loadSynonyme(): Promise<void> {
 
 export function synonymeFuer(id: number): string[] {
   return SYNONYME.get(id) ?? []
+}
+
+let kinoZuletztPromise: Promise<Record<number, string>> | undefined
+
+/** Monat (`JJJJ-MM`) des letzten deutschen Kinostarts eines Films — eine kleine Datei, erst geladen, wenn ein Film offen ist. */
+export function loadKinoZuletzt(titleId: number): Promise<string | undefined> {
+  kinoZuletztPromise ??= loadJson<Record<number, string>>('kino-zuletzt.json').catch(() => ({}))
+  return kinoZuletztPromise.then((monate) => monate[titleId])
 }
 
 const discGruppen = new Map<number, Promise<Record<number, DiscAusgabe[]>>>()

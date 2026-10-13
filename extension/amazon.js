@@ -1200,7 +1200,6 @@ async function speicherSchreiben(werte) {
         fuerAdresse: gesehen?.fuerAdresse ?? null,
         nummern: [...(gesehen?.nummern ?? [])].sort((a, b) => a - b),
         jeFolge: [...(gesehen?.jeFolge ?? new Map())].map(([nr, sp]) => [nr, sp]),
-        sprachen: [...(gesehen?.sprachen ?? [])],
         /*
           **Ohne dieses Feld war der Bericht vom 30.08.2026 nicht auswertbar.**
 
@@ -6592,7 +6591,6 @@ async function speicherSchreiben(werte) {
    */
   const leererStand = () => ({
     fuerAdresse: null,
-    sprachen: new Set(),
     nummern: new Set(),
     gesamt: null,
     jeFolge: new Map(),
@@ -6604,6 +6602,10 @@ async function speicherSchreiben(werte) {
     seite: null,
   })
   let gesehen = leererStand()
+  /* Deutsch steht in den Folgen, nie in einem Sammelwert (Hell Mode, 30.08.2026). */
+  const hatDeutsch = (namen) => (namen ?? []).some((s) => /deutsch|german/i.test(s))
+  const deutschInFolgen = () => [...gesehen.jeFolge.values()].some(hatDeutsch)
+  const sprachenAusFolgen = () => [...new Set([...gesehen.jeFolge.values()].flat())]
 
   /**
    * Was der Mitleser aus den Nachlade-Antworten fischt, kommt hier an.
@@ -6861,9 +6863,8 @@ async function speicherSchreiben(werte) {
       gesehen.seite = s
     }
     for (const f of e.data.funde ?? []) {
-      // Ein Fund ohne Nummer stammt aus der Rückfallebene des Mitlesers: seine
-      // Sprache zählt, als **Folge** zählt er nicht. Sonst stünde am Knopf
-      // wieder eine Zahl, die keine Folgen meint (der 27-von-24-Fehler).
+      // Ein Fund ohne Nummer zählt weder als Folge (der 27-von-24-Fehler) noch mit
+      // seinen Sprachen (Hell Mode, 30.08.2026): Sprachen kommen nur aus den Folgen.
       /*
         **Eine gesperrte Folge zählt nicht als „ohne deutsche Fassung".**
 
@@ -6891,7 +6892,6 @@ async function speicherSchreiben(werte) {
         gesehen.metaJeFolge ??= new Map()
         gesehen.metaJeFolge.set(f.nummer, f)
       }
-      for (const s of f.sprachen ?? []) gesehen.sprachen.add(s)
     }
     zeichnen()
   })
@@ -7555,7 +7555,7 @@ async function speicherSchreiben(werte) {
     setzData(knopf, 'diag', JSON.stringify({
       folgen: gesehen.nummern.size,
       gesamt: gesehen.gesamt,
-      sprachen: [...gesehen.sprachen],
+      sprachen: sprachenAusFolgen(),
       lautSeite,
       // Gelesen, nicht gerechnet — beide stehen oben schon fest. Ein erneuter
       // Aufruf zoege spuren() und seitenTitel() ein weiteres Mal mit.
@@ -7599,18 +7599,10 @@ async function speicherSchreiben(werte) {
    * das ist dieselbe Regel, die dieses Projekt bei Crunchyroll längst zieht
    * („der lauf muss jede folge individuell prüfen").
    *
-   * Ohne Folgendaten bleibt das Set: Ein Film hat keine Folgenliste, und dort
-   * ist der Hydration-Block die einzige Quelle.
+   * Das Sammel-Set gibt es nicht mehr; auch ein Film trägt seine Tonspuren als
+   * Einheit 1 in `jeFolge`. Der Sendeweg liest dieselbe Quelle.
    */
-    const deutschInFolgen = () => {
-      for (const namen of gesehen.jeFolge.values()) {
-        if ((namen ?? []).some((s) => /deutsch|german/i.test(s))) return true
-      }
-      return false
-    }
-    const deutsch = gesehen.jeFolge.size
-      ? deutschInFolgen()
-      : [...gesehen.sprachen].some((s) => /deutsch|german/i.test(s))
+    const deutsch = deutschInFolgen()
     const geladen = geladeneFolgen()
     if (geladen !== letzteZahl) {
       letzteZahl = geladen
@@ -7981,7 +7973,6 @@ async function speicherSchreiben(werte) {
           gesehen.gesamt = null
           gesehen.jeFolge.set(1, film.sprachen)
           gesehen.nummern.add(1)
-          for (const name of film.sprachen) gesehen.sprachen.add(name)
           gesehen.metaJeFolge ??= new Map()
           gesehen.metaJeFolge.set(1, {
             kennung: film.kennung,
@@ -10106,12 +10097,12 @@ async function speicherSchreiben(werte) {
     }
     htmlNeuLesen()
     const nichtAbrufbar = knopf.dataset.tot === 'true'
-    const sprachen = [...gesehen.sprachen]
+    const sprachen = sprachenAusFolgen()
     const geladen = geladeneFolgen()
     // Ein toter Verweis hat naturgemaess keine Folgen -- er ist der einzige
     // Grund, hier ohne geladene Folgen weiterzugehen.
     if (!geladen && !nichtAbrufbar) return
-    const deutsch = sprachen.some((s) => /deutsch|german/i.test(s))
+    const deutsch = deutschInFolgen()
     /**
      * **Der Umfang ist die größere der beiden Zahlen — nicht die bekanntere.**
      *
@@ -10237,7 +10228,6 @@ async function speicherSchreiben(werte) {
     const meldeTeile = () => {
       const karte = gesehen.jeFolge
       if (!karte || karte.size < 2) return [null]
-      const hatDeutsch = (namen) => (namen ?? []).some((s) => /deutsch|german/i.test(s))
       /*
         **Eine Folge ohne Tonspurangabe wird nicht gemeldet — sie hat nichts gesagt.**
 
@@ -10904,7 +10894,7 @@ async function speicherSchreiben(werte) {
   function primeNaechsterTitel(lauf) {
     return Object.keys(liste)
       .filter((a) => !fertig(a) && akPrimeHatTitelseite(liste[a]) && !lauf.fertig.includes(a))
-      .sort((a, b) => String(liste[a].titel).localeCompare(String(liste[b].titel), 'de'))[0]
+      .sort(akPrimeVergleich(liste))[0]
   }
 
   // --- Die Steuerung: sichtbare Seite --------------------------------------------

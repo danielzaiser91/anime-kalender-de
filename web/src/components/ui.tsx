@@ -58,7 +58,10 @@ export function Chip({
   children,
   color,
   title,
+  gross,
 }: {
+  /** 44 px hoch (Tippziel) — im Detail-Panel, wo Chips Verweise zum Antippen sind. */
+  gross?: boolean
   active?: boolean
   /** Ausgeschlossen — muss sich auf einen Blick von „gewählt" unterscheiden. */
   excluded?: boolean
@@ -76,7 +79,7 @@ export function Chip({
       aria-label={title}
       aria-pressed={active || excluded}
       className={[
-        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition',
+        gross ? 'inline-flex min-h-11 min-w-11 items-center justify-center gap-1.5 rounded-full border px-4 text-t3 transition' : 'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition',
         CLICKABLE,
         excluded
           ? // Rot und durchgestrichen: Ein bloß andersfarbiger Chip würde sich
@@ -84,7 +87,9 @@ export function Chip({
             PILLE_NEIN
           : active
             ? PILLE_JA
-            :'border-slate-300/70 text-slate-600 hover:border-slate-400 hover:text-slate-900 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/40 dark:hover:text-white',
+            : gross
+              ? 'border-ak-text/10 bg-ak-flaeche-2 text-ak-text hover:border-ak-akzent hover:text-ak-akzent-text'
+              : 'border-slate-300/70 text-slate-600 hover:border-slate-400 hover:text-slate-900 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/40 dark:hover:text-white',
       ].join(' ')}
     >
       {excluded && (

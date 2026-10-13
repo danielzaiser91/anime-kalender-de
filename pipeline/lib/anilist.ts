@@ -301,92 +301,97 @@ export async function katalogSeite(
     vars.bis = bis
   }
 
-  const data = await gql<{
-    Page: {
-      pageInfo: { hasNextPage: boolean }
-      media: {
-        id: number; idMal: number | null
-        title: { romaji: string | null; english: string | null; native: string | null }
-        synonyms?: string[] | null
-        countryOfOrigin?: string | null
-        format: string | null
-        episodes: number | null
-        seasonYear: number | null
-        status?: string | null
-        startDate?: { year: number | null; month: number | null; day: number | null } | null
-        averageScore: number | null
-        genres: string[]
-        coverImage: { large: string | null }
-        relations?: {
-          edges: {
-            relationType: string
-            node: { id: number; type: string; title?: { romaji: string | null; english: string | null } }
-          }[]
-        }
-      }[]
-    }
-  }>(query, vars)
+  const data = await gql<{ Page: { pageInfo: { hasNextPage: boolean }; media: KatalogMedium[] } }>(query, vars)
 
   return {
     weiter: data?.Page?.pageInfo?.hasNextPage ?? false,
-    eintraege: (data?.Page?.media ?? []).filter((m) => !formatlose || gehoertInKatalog(m.format, m.status)).map((m) => ({
-      id: m.id, mal: m.idMal ?? undefined,
-      t: [m.title.romaji, m.title.english, m.title.native],
-      format: m.format,
-      jahr: m.seasonYear ?? m.startDate?.year ?? null,
-      start: (() => {
-        const d = m.startDate
-        if (!d?.year) return null
-        const zwei = (n: number) => String(n).padStart(2, '0')
-        if (!d.month) return String(d.year)
-        return d.day ? `${d.year}-${zwei(d.month)}-${zwei(d.day)}` : `${d.year}-${zwei(d.month)}`
-      })(),
-      status: m.status ?? null,
-      latein: bestesSynonym(m.title.english, m.countryOfOrigin, m.synonyms),
-      land: m.countryOfOrigin && m.countryOfOrigin !== 'JP' ? m.countryOfOrigin : undefined,
-      /* Höchstens acht — mehr trägt keine Reihe bei, und der Cache bleibt schlank. */
-      synonyme: m.synonyms?.length ? m.synonyms.slice(0, 8) : undefined,
-      folgen: m.episodes,
-      genres: m.genres ?? [],
-      score: m.averageScore,
-      cover: m.coverImage?.large?.startsWith(ANILIST_COVER_BASIS)
-        ? m.coverImage.large.slice(ANILIST_COVER_BASIS.length)
-        : (m.coverImage?.large ?? null),
-      /*
-        **Wer zwei Eltern hat, ist ein Crossover — und verbindet nichts.**
+    eintraege: (data?.Page?.media ?? []).filter((m) => !formatlose || gehoertInKatalog(m.format, m.status)).map(katalogEintragAus),
+  }
+}
 
-        „Dragon Ball: Annecy Festival 60th Anniversary" trägt `PARENT` auf
-        Dragon Ball Super **und** auf den One-Piece-Beitrag desselben Festivals.
-        Über diese eine Kante klebten am 03.09.2026 elf Dragon-Ball-Titel in der
-        One-Piece-Reihe.
+/** Die Felder eines AniList-Eintrags, die der Katalog führt (auch für Formate, die `gehoertInKatalog` ausschließt). */
+export interface KatalogMedium {
+  id: number
+  idMal: number | null
+  title: { romaji: string | null; english: string | null; native: string | null }
+  synonyms?: string[] | null
+  countryOfOrigin?: string | null
+  format: string | null
+  episodes: number | null
+  seasonYear: number | null
+  status?: string | null
+  startDate?: { year: number | null; month: number | null; day: number | null } | null
+  averageScore: number | null
+  genres: string[]
+  coverImage: { large: string | null }
+  relations?: {
+    edges: {
+      relationType: string
+      node: { id: number; type: string; title?: { romaji: string | null; english: string | null } }
+    }[]
+  }
+}
 
-        Der Hauptbestand kennt diese Regel seit dem 12.08.2026 (`crossoverEltern`
-        in `build.ts`), der Katalog nicht — dort standen nur die Kennungen, nicht
-        die Kantenarten. Jetzt reisen die Eltern mit, und der Bau kann dieselbe
-        Entscheidung treffen.
-      */
-      eltern: (m.relations?.edges ?? [])
-        .filter((e) => e.relationType === 'PARENT' && e.node?.type === 'ANIME')
-        .map((e) => e.node.id),
-      rel: (m.relations?.edges ?? [])
-        .filter(
-          (e) =>
-            e.node?.type === 'ANIME' &&
-            (FRANCHISE_RELATIONS.has(e.relationType) ||
-              /*
-                `OTHER` ist AniLists Sammelbecken — dort stehen Reihenteile ohne
-                eigene Schublade neben „vom selben Studio". Der Namensvergleich
-                trennt sie; die Begründung samt Messwerten steht bei
-                `otherZaehlt` in `shared/mappings.ts`.
-              */
-              (NAMENSGEBUNDENE_RELATIONEN.has(e.relationType) &&
-                otherZaehlt(
-                  [m.title.romaji, m.title.english],
-                  [e.node.title?.romaji, e.node.title?.english], namensanfangMindestens(e.relationType),
-                ))),
-        )
-        .map((e) => e.node.id),
-    })),
+/** Ein Katalogeintrag aus dem AniList-Eintrag; die Filter (`gehoertInKatalog`) wendet der Aufrufer an. */
+export function katalogEintragAus(m: KatalogMedium): KatalogEintrag {
+  return {
+    id: m.id,
+    mal: m.idMal ?? undefined,
+    t: [m.title.romaji, m.title.english, m.title.native],
+    format: m.format,
+    jahr: m.seasonYear ?? m.startDate?.year ?? null,
+    start: (() => {
+      const d = m.startDate
+      if (!d?.year) return null
+      const zwei = (n: number) => String(n).padStart(2, '0')
+      if (!d.month) return String(d.year)
+      return d.day ? `${d.year}-${zwei(d.month)}-${zwei(d.day)}` : `${d.year}-${zwei(d.month)}`
+    })(),
+    status: m.status ?? null,
+    latein: bestesSynonym(m.title.english, m.countryOfOrigin, m.synonyms),
+    land: m.countryOfOrigin && m.countryOfOrigin !== 'JP' ? m.countryOfOrigin : undefined,
+    /* Höchstens acht — mehr trägt keine Reihe bei, und der Cache bleibt schlank. */
+    synonyme: m.synonyms?.length ? m.synonyms.slice(0, 8) : undefined,
+    folgen: m.episodes,
+    genres: m.genres ?? [],
+    score: m.averageScore,
+    cover: m.coverImage?.large?.startsWith(ANILIST_COVER_BASIS)
+      ? m.coverImage.large.slice(ANILIST_COVER_BASIS.length)
+      : (m.coverImage?.large ?? null),
+    /*
+      **Wer zwei Eltern hat, ist ein Crossover — und verbindet nichts.**
+
+      „Dragon Ball: Annecy Festival 60th Anniversary" trägt `PARENT` auf
+      Dragon Ball Super **und** auf den One-Piece-Beitrag desselben Festivals.
+      Über diese eine Kante klebten am 03.09.2026 elf Dragon-Ball-Titel in der
+      One-Piece-Reihe.
+
+      Der Hauptbestand kennt diese Regel seit dem 12.08.2026 (`crossoverEltern`
+      in `build.ts`), der Katalog nicht — dort standen nur die Kennungen, nicht
+      die Kantenarten. Jetzt reisen die Eltern mit, und der Bau kann dieselbe
+      Entscheidung treffen.
+    */
+    eltern: (m.relations?.edges ?? [])
+      .filter((e) => e.relationType === 'PARENT' && e.node?.type === 'ANIME')
+      .map((e) => e.node.id),
+    rel: (m.relations?.edges ?? [])
+      .filter(
+        (e) =>
+          e.node?.type === 'ANIME' &&
+          (FRANCHISE_RELATIONS.has(e.relationType) ||
+            /*
+              `OTHER` ist AniLists Sammelbecken — dort stehen Reihenteile ohne
+              eigene Schublade neben „vom selben Studio". Der Namensvergleich
+              trennt sie; die Begründung samt Messwerten steht bei
+              `otherZaehlt` in `shared/mappings.ts`.
+            */
+            (NAMENSGEBUNDENE_RELATIONEN.has(e.relationType) &&
+              otherZaehlt(
+                [m.title.romaji, m.title.english],
+                [e.node.title?.romaji, e.node.title?.english], namensanfangMindestens(e.relationType),
+              ))),
+      )
+      .map((e) => e.node.id),
   }
 }
 
@@ -414,6 +419,19 @@ export async function mediaByMalIds(
       warn(`Batch ab Index ${i} fehlgeschlagen: ${(err as Error).message}`)
     }
     onProgress?.(Math.min(i + 50, malIds.length), malIds.length)
+  }
+  return out
+}
+
+/** Holt Media-Einträge zu AniList-Kennungen, 50 je Anfrage; ein fehlgeschlagener Block wirft (Nichtauskunft ist kein Befund). */
+export async function mediaByIds(ids: number[]): Promise<Map<number, AniListMedia>> {
+  const out = new Map<number, AniListMedia>()
+  const query = `query ($ids: [Int]) {
+    Page(page: 1, perPage: 50) { media(id_in: $ids, type: ANIME) { ${MEDIA_FIELDS} } }
+  }`
+  for (let i = 0; i < ids.length; i += 50) {
+    const data = await gql<{ Page: { media: AniListMedia[] } }>(query, { ids: ids.slice(i, i + 50) })
+    for (const m of data?.Page?.media ?? []) out.set(m.id, m)
   }
   return out
 }

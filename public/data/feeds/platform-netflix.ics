@@ -6,23 +6,14 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – netflix
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:ranma-s3-folge1-netflix@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261005
-DTEND;VALUE=DATE:20261006
-SUMMARY:Ranma ½ – Staffel 3
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/17567/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:my-hero-academia-vigilantes-s1-netflix@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261006
 DTEND;VALUE=DATE:20261007
-SUMMARY:My Hero Academia: Vigilantes – Staffel 1
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/16460/
+SUMMARY:My Hero Academia: Vigilantes – Staffel 1 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/16460/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -30,9 +21,10 @@ UID:my-hero-academia-vigilantes-s2-netflix@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261006
 DTEND;VALUE=DATE:20261007
-SUMMARY:My Hero Academia: Vigilantes – Staffel 2
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/16903/
+SUMMARY:My Hero Academia: Vigilantes – Staffel 2 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/16903/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -52,7 +44,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Das Band der Unterwelt – Folge 15/≈24
+SUMMARY:Das Band der Unterwelt – Folge 15/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
 CATEGORIES:Netflix
@@ -95,10 +87,21 @@ UID:das-band-der-unterwelt-netflix@2026-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261017
 DTEND;VALUE=DATE:20261018
-SUMMARY:Das Band der Unterwelt – Folge 16/≈24
+SUMMARY:Das Band der Unterwelt – Folge 16/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261018
+DTEND;VALUE=DATE:20261019
+SUMMARY:Dragon Ball Super: Beerus – Folge 1/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -140,7 +143,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261024
 DTEND;VALUE=DATE:20261025
-SUMMARY:Das Band der Unterwelt – Folge 17/≈24
+SUMMARY:Das Band der Unterwelt – Folge 17/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -154,6 +157,17 @@ DTEND;VALUE=DATE:20261026
 SUMMARY:Meine ganz besondere Hochzeit: Special
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
  ht bestätigt.\nDetails: https://anime-kalender.de/t/16794/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:Dragon Ball Super: Beerus – Folge 2/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -184,10 +198,21 @@ UID:das-band-der-unterwelt-netflix@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
-SUMMARY:Das Band der Unterwelt – Folge 18/≈24
+SUMMARY:Das Band der Unterwelt – Folge 18/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Dragon Ball Super: Beerus – Folge 3/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -218,10 +243,21 @@ UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
-SUMMARY:Das Band der Unterwelt – Folge 19/≈24
+SUMMARY:Das Band der Unterwelt – Folge 19/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Dragon Ball Super: Beerus – Folge 4/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -252,10 +288,21 @@ UID:das-band-der-unterwelt-netflix@2026-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261114
 DTEND;VALUE=DATE:20261115
-SUMMARY:Das Band der Unterwelt – Folge 20/≈24
+SUMMARY:Das Band der Unterwelt – Folge 20/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:Dragon Ball Super: Beerus – Folge 5/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -286,10 +333,21 @@ UID:das-band-der-unterwelt-netflix@2026-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
-SUMMARY:Das Band der Unterwelt – Folge 21/≈24
+SUMMARY:Das Band der Unterwelt – Folge 21/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
+SUMMARY:Dragon Ball Super: Beerus – Folge 6/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -331,10 +389,21 @@ UID:das-band-der-unterwelt-netflix@2026-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261128
 DTEND;VALUE=DATE:20261129
-SUMMARY:Das Band der Unterwelt – Folge 22/≈24
+SUMMARY:Das Band der Unterwelt – Folge 22/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
+SUMMARY:Dragon Ball Super: Beerus – Folge 7/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -365,10 +434,21 @@ UID:das-band-der-unterwelt-netflix@2026-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261205
 DTEND;VALUE=DATE:20261206
-SUMMARY:Das Band der Unterwelt – Folge 23/≈24
+SUMMARY:Das Band der Unterwelt – Folge 23/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261206
+DTEND;VALUE=DATE:20261207
+SUMMARY:Dragon Ball Super: Beerus – Folge 8/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -387,10 +467,21 @@ UID:das-band-der-unterwelt-netflix@2026-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261212
 DTEND;VALUE=DATE:20261213
-SUMMARY:Das Band der Unterwelt – Folge 24/≈24
+SUMMARY:Das Band der Unterwelt – Folge 24/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
+SUMMARY:Dragon Ball Super: Beerus – Folge 9/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -405,6 +496,17 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261220
+DTEND;VALUE=DATE:20261221
+SUMMARY:Dragon Ball Super: Beerus – Folge 10/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-189123-netflix@2026-12-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261220
@@ -413,6 +515,28 @@ SUMMARY:Blue Box: Staffel 2 – Folge 12/≈12
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16763/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261227
+DTEND;VALUE=DATE:20261228
+SUMMARY:Dragon Ball Super: Beerus – Folge 11/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2027-01-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270103
+DTEND;VALUE=DATE:20270104
+SUMMARY:Dragon Ball Super: Beerus – Folge 12/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
 CATEGORIES:Netflix
 END:VEVENT
 END:VCALENDAR

@@ -78,8 +78,10 @@ export interface AdnShow {
    * zugeordneten Anime-Eintrag genommen, nicht der von ADN.
    */
   fromCatalog?: boolean
-  /** AniList-Kennung, im Katalog-Lauf über den Originaltitel nachgeschlagen. */
-  anilistId?: number
+  /** aniSearch-Kennung, im Katalog-Lauf aus aniSearchs Titelliste zugeordnet (`lib/adn-anisearch.ts`); fehlt, wo der Name nicht eindeutig trifft. */
+  anisearchId?: number
+  /** Kennung des zugeordneten Titels im Datensatz; nur im Bau gesetzt (`loeseAdnTitelIds`), nie in der Datei. */
+  titleId?: number
 }
 
 export interface AdnData {

@@ -31,7 +31,7 @@ export function PanelLeer({ holt, t, onClose }: { holt: boolean; t: Translate; o
         lange, bis beide Bestände da sind — danach entscheidet erst, ob es den
         Titel wirklich nicht gibt.
       */}
-      <p className="mb-3 text-sm text-slate-500">
+      <p className="mb-3 text-t3 text-slate-500">
         {holt ? t('detail.seasonLoading') : t('detail.noMeta')}
       </p>
       <Button onClick={onClose} size="sm">
@@ -59,10 +59,10 @@ export function PanelVersteckt({ title, t, onClose, onToggleHidden }: {
         data-panel="titel"
         aria-label={anzeigeName(title)}
       >
-        <p className="text-base font-medium italic text-slate-400 dark:text-slate-500">
+        <p className="text-t3 font-semibold italic text-slate-400 dark:text-slate-500">
           {anzeigeName(title)}
         </p>
-        <p className="text-sm text-slate-500 dark:text-slate-400">{t('detail.hiddenNote')}</p>
+        <p className="text-t3 text-slate-500 dark:text-slate-400">{t('detail.hiddenNote')}</p>
         <div className="flex justify-center gap-2">
           <Button onClick={() => onToggleHidden(title.id)} size="sm">
             {t('card.unhide')}

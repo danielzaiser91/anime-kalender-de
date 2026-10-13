@@ -1,27 +1,10 @@
-import { type Title, type DiscAusgabe, type Release, anbieterName, PLATFORMS, type WatchLink } from '@shared/types.ts'
+import { type DiscAusgabe, PLATFORMS, type WatchLink } from '@shared/types.ts'
 import { type ReactNode } from 'react'
 import { Tooltip, DiscZeichen } from '../ui.tsx'
 import { formatDate } from '@shared/time.ts'
-import { tvAngabe } from '../../lib/tv-angabe.ts'
-import { PremiereFaehnchen, zeigtPremiere } from './premiere-faehnchen.tsx'
-import { useLang, translate, type Translate } from '../../lib/i18n.tsx'
-import { AnbieterIcon } from '../../lib/anbieter-icon.tsx'
-import { MerkenKnopf } from './merken.tsx'
-import { expandEvents, istErschienen } from '@shared/logic.ts'
-import { verweiseFuer } from './verweise.ts'
+import { translate } from '../../lib/i18n.tsx'
+import { Pille } from './pille.tsx'
 import { einzelneAusgaben } from './disc-regeln.ts'
-import { TIPPFLAECHE_HOCH } from './tippziel.ts'
-import { pillenZiel } from './pillen-ziel.ts'
-
-/*
-  **Pillen: neutrale Fläche, Markenstreifen links** (Daniel, 19.09.2026: „rot auf rot, orange auf
-  orange ist nicht so gut"; aus drei Entwürfen gewählt). Die Markenfarbe steht nur noch im
-  Zeichen und als 3-px-Streifen links (`--marke`); Schrift in der Standardfarbe.
-*/
-const PILLE_MARKE =
-  'bg-white text-slate-800 shadow-[inset_0_0_0_1px_rgba(15,23,42,.12),inset_3px_0_0_var(--marke)] dark:bg-[#162238] dark:text-slate-100 dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08),inset_3px_0_0_var(--marke)]'
-
-const marke = (farbe?: string) => (farbe ? ({ '--marke': farbe } as React.CSSProperties) : undefined)
 
 /*
   Die Pille „nicht mehr abrufbar" (durchgestrichen) ist seit dem 22.09.2026 aus der Oberfläche
@@ -45,120 +28,6 @@ const marke = (farbe?: string) => (farbe ? ({ '--marke': farbe } as React.CSSPro
  * Detail-Modul mit.
  */
 
-/**
- * **Der aniSearch-Absprung ist immer ein Direktlink auf die Titelseite** (`anime/<Kennung>`). Ohne Kennung steht kein aniSearch-Eintrag da — nie eine
- * Suche, nie ein „?" (Daniel, 09.10.2026). Eine geratene Kennung führte auf ein fremdes Werk (dieselbe Falle wie bei den erfundenen Amazon-Adressen
- * vom 23.08.2026); die Titel ohne Kennung stehen in `data/anisearch-offen.json` und werden über aniSearchs MAL-Brücke nachgeordnet.
- */
-export function AniSearchVerweis({ title, ziel }: { title: Title; ziel?: string }) {
-  return (
-    <span className="ml-auto flex shrink-0 items-center gap-1">
-      {verweiseFuer(title, ziel).map((v) => (
-        <Tooltip key={v.name} text={v.hinweis} eigenerFokus className="shrink-0">
-          <a
-            href={v.ziel}
-            target="_blank"
-            rel="noreferrer noopener"
-            className={[
-              'inline-flex shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium transition',
-              'border-slate-300 text-slate-600 hover:border-slate-400 hover:bg-slate-200/70 hover:text-slate-900',
-              'dark:border-white/20 dark:text-slate-300 dark:hover:bg-white/10 dark:hover:text-white',
-              TIPPFLAECHE_HOCH,
-            ].join(' ')}
-          >
-            {v.name}
-            {/* Der Pfeil sagt „führt hinaus" — ohne ihn liest sich das Wort als Quellenangabe. */}
-            <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" aria-hidden="true">
-              <path d="M4 2h6v6M10 2 2.5 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        </Tooltip>
-      ))}
-    </span>
-  )
-}
-
-export function Pille({
-  name,
-  farbe,
-  url,
-  unten,
-  rechts,
-  titel,
-  icon,
-  durchgestrichen,
-}: {
-  name: string
-  farbe?: string
-  url: string
-  unten?: string
-  rechts?: ReactNode
-  titel?: string
-  icon?: ReactNode
-  /** Eine Ausgabe ohne deutschen Ton — sichtbar und anklickbar, aber durchgestrichen. */
-  durchgestrichen?: boolean
-}) {
-  /*
-    **Der Hinweis kommt aus `ui.tsx`, nicht vom Browser**. Die Pille war die letzte Stelle mit einem nackten
-    `title`-Attribut; seit dem 23.09.2026 hat der Hinweis mehrere Zeilen, und der graue
-    Systemkasten setzt sie zwar um, sieht aber anders aus als jeder andere Hinweis der Seite.
-
-    Der Tooltip hüllt die Pille in zwei `span` — deshalb trägt die Hülle `shrink-0`, sonst
-    schrumpft die Pille im Flex-Container der Pillenreihe.
-  */
-  const pille = (
-    <a
-      href={url || undefined}
-      target="_blank"
-      rel="noreferrer noopener"
-      className={[
-        'relative inline-flex shrink-0 items-center gap-2 rounded-full py-1.5 pl-3 pr-4 transition',
-        /* Blase oben rechts (DE-Häkchen) — Abstand über `blase-rechts` (styles.css). */
-        rechts ? 'blase-rechts' : '',
-        durchgestrichen ? 'opacity-70' : '',
-        farbe
-          ? `${PILLE_MARKE} hover:brightness-95 dark:hover:brightness-125`
-          : 'border border-slate-200 hover:bg-slate-100/60 dark:border-white/10 dark:hover:bg-white/5',
-      ].join(' ')}
-      style={marke(farbe)}
-    >
-      {icon && (
-        <span className="flex shrink-0 items-center" style={farbe ? { color: farbe } : undefined}>
-          {icon}
-        </span>
-      )}
-      <span className="flex flex-col leading-tight">
-        <span
-          className={`whitespace-nowrap text-[13px] font-medium ${durchgestrichen ? 'line-through' : ''}`}
-        >
-          {name}
-        </span>
-        {/*
-          **Kein `truncate` mehr.** Die Unterzeile trug Sätze wie „Ohne deutschen
-          Ton: Folge 2–33" und wurde ausgepunktet — eine halbe Auskunft ist
-          schlechter als eine kurze. Seit den gekürzten
-          Texten („✕ DE 2–33") passt sie, und `whitespace-nowrap` hält sie in
-          einer Zeile: Die Pille wächst lieber mit, als etwas zu verschlucken.
-        */}
-        {unten && (
-          <span
-            className="whitespace-nowrap text-[11px] text-slate-500 dark:text-slate-400"
-          >
-            {unten}
-          </span>
-        )}
-      </span>
-      {rechts && <span className="ml-auto flex shrink-0 items-center gap-1">{rechts}</span>}
-    </a>
-  )
-  return titel ? (
-    <Tooltip text={titel} seite="oben">
-      {pille}
-    </Tooltip>
-  ) : (
-    pille
-  )
-}
 
 const DISC_FORMAT: Record<DiscAusgabe[1], string> = { b: 'Blu-ray', d: 'DVD', u: '4K UHD' }
 
@@ -204,12 +73,14 @@ export function discPillen(
         type="button"
         onClick={umschalten}
         aria-expanded={offen}
-        className="inline-flex shrink-0 items-center gap-2 rounded-full border border-slate-200 px-3 py-1.5 text-left transition hover:bg-slate-100/60 dark:border-white/10 dark:hover:bg-white/5"
+        className="inline-flex min-h-[52px] cursor-pointer items-center gap-2.5 rounded-full bg-white py-1.5 pl-3.5 pr-4 text-left text-ak-text shadow-[inset_0_0_0_1px_rgba(15,23,42,.12)] transition hover:brightness-95 dark:bg-[#162238] dark:shadow-[inset_0_0_0_1px_rgba(255,255,255,.08)] dark:hover:brightness-125"
       >
-        <DiscZeichen />
-        <span className="flex flex-col leading-tight">
-          <span className="whitespace-nowrap text-[13px] font-medium">{t('where.discEinzeln')}</span>
-          <span className="whitespace-nowrap text-[11px] text-slate-500 dark:text-slate-400">
+        <span className="flex shrink-0 items-center">
+          <DiscZeichen />
+        </span>
+        <span className="flex flex-col">
+          <span className="text-t3 font-semibold">{t('where.discEinzeln')}</span>
+          <span className="text-t4 text-ak-leise">
             {einzeln.length === 1 ? t('where.discAnzahlEine') : t('where.discAnzahl', { n: einzeln.length })} {offen ? '▴' : '▾'}
           </span>
         </span>
@@ -230,10 +101,10 @@ export function DiscEinzelListe({ ausgaben }: { ausgaben: DiscAusgabe[] }) {
     }))
     .filter((g) => g.liste.length)
   return (
-    <div className="mt-2 space-y-1.5 rounded-xl border border-slate-200 px-3 py-2 text-xs dark:border-white/10">
+    <div className="mt-2 space-y-1.5 rounded-xl border border-slate-200 px-3 py-2 text-t4 dark:border-white/10">
       {gruppen.map((g) => (
         <div key={g.f} className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="w-14 shrink-0 font-medium text-slate-700 dark:text-slate-200">{DISC_FORMAT[g.f]}</span>
+          <span className="w-14 shrink-0 font-semibold text-slate-700 dark:text-slate-200">{DISC_FORMAT[g.f]}</span>
           {g.liste.map((a) => {
             const link = (
               <a
@@ -257,362 +128,6 @@ export function DiscEinzelListe({ ausgaben }: { ausgaben: DiscAusgabe[] }) {
         </div>
       ))}
     </div>
-  )
-}
-
-/**
- * Eine Ausgabe, die es noch nicht gibt — mit Erinnerungsknopf.
- *
- * Daniel am 25.08.2026: "in die kaufen pills kennzeichnen das es datum in
- * zukunft ist, und kalender eintrag fuer erinnerung klickbar anzeigen, ausserdem
- * kaufen (vorbestellen) bereich extra fuer kauf titel in zukunft, dann muss es
- * nicht in jedem pill stehen."
- *
- * Deshalb steht "vorbestellen" **einmal** ueber der Reihe und nicht in jeder
- * Pille. Der Kalenderknopf sitzt in der Pille, weil er zum einzelnen Termin
- * gehoert; er fuehrt auf denselben Google-Eintrag wie der Knopf im Terminblock.
- */
-/**
- * Streicht aus dem Namen einer Ausgabe den Serientitel, der ohnehin daneben steht.
- *
- * „DAN DA DAN (Staffel 2) – Vol. 3" wird zu „Vol. 3". Geschnitten wird nur ein
- * Vorspann, der wirklich dem Titel entspricht — und nur, wenn danach noch etwas
- * übrig bleibt: Eine Ausgabe, die genauso heißt wie die Serie, behält ihren
- * Namen, sonst stünde dort nichts.
- */
-function kuerzeUmTitel(name: string, titel?: string): string {
-  if (!titel) return name
-  const woerter = titel.split(/[^\p{L}\p{N}]+/u).filter(Boolean)
-  if (!woerter.length) return name
-  /*
-    Geschnitten wird über **Wortgrenzen**, nicht zeichenweise. Der erste Anlauf
-    zählte normalisierte Zeichen mit und lief aus dem Takt, sobald zwei
-    Trennzeichen aufeinander folgten: „Attack on Titan Staffel 4 Teil 3" wurde
-    zu „affel 4 Teil 3" (gemessen am 25.08.2026).
-  */
-  const trenner = '[^\\p{L}\\p{N}]+'
-  /*
-    `(?:…)?` und nicht `…?` — sonst steht dort `[^\p{L}\p{N}]+?`, ein **faules
-    Plus** statt eines optionalen Trenners, und das Muster passt auf keinen
-    einzigen Namen. Gemessen am 25.08.2026: sieben Prüffälle, null Kürzungen.
-  */
-  const muster = new RegExp(
-    `^(?:${trenner})?` +
-      woerter.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join(trenner) +
-      `(?:${trenner})?`,
-    'iu',
-  )
-  const rest = name.replace(muster, '').trim()
-  /*
-    **Ein Rest, der für sich nichts sagt, ist keine Kürzung.** „Jujutsu Kaisen
-    0" unter dem Titel „Jujutsu Kaisen" schrumpfte auf „0" — der Film heißt aber
-    wirklich so, und „0" allein steht in der Pille als Rätsel. Reine Ziffern und
-    alles unter drei Zeichen behalten deshalb den vollen Namen.
-  */
-  if (!rest || rest.length < 3 || /^\d+$/.test(rest)) return name
-  return rest
-}
-
-function PillenHuelle({ ziel, hinweis, children }: { ziel?: string; hinweis?: string; children: ReactNode }) {
-  const klasse = 'flex min-w-0 flex-col py-0.5 leading-tight'
-  return ziel ? (
-    <a href={ziel} title={hinweis} target="_blank" rel="noreferrer noopener" className={klasse}>
-      {children}
-    </a>
-  ) : (
-    <span className={klasse}>{children}</span>
-  )
-}
-
-/**
- * **Das Medium aus der Editionsangabe** — „Limited Steelbook Edition, Blu-ray"
- * trägt es am Ende, andere Ausgaben mittendrin. Gesucht wird deshalb im ganzen
- * Text, und die genauere Angabe gewinnt: „DVD & Blu-ray" ist beides.
- */
-function mediumAus(edition?: string): string | undefined {
-  if (!edition) return undefined
-  const bd = /blu-?ray/i.test(edition)
-  const dvd = /\bdvd\b/i.test(edition)
-  if (bd && dvd) return 'DVD + BD'
-  if (bd) return 'Blu-ray'
-  if (dvd) return 'DVD'
-  return undefined
-}
-
-/** Der Händlername aus der Adresse — „amazon.de" wird zu „Amazon". */
-function haendlerAus(url?: string): string {
-  if (!url) return 'Shop'
-  try {
-    const host = new URL(url).hostname.replace(/^www\./, '').split('.')[0]
-    return host.charAt(0).toUpperCase() + host.slice(1)
-  } catch {
-    return 'Shop'
-  }
-}
-
-/**
- * Führt die Pille zu einem Shop? aniSearch ist keiner: Ein Disc-Termin mit aniSearch-Ausgabe
- * (Dragon Ball Z Box 4, 26.09.2026) verlinkt dorthin, heißt aber weiter „Kaufausgabe".
- */
-function hatShop(release: Release): boolean {
-  return Boolean(release.buyUrl || (release.platformUrl && !/anisearch\./i.test(release.platformUrl)))
-}
-
-type TvText = NonNullable<ReturnType<typeof tvAngabe>>
-
-/*
-  **Die Pille sagt, was ein Klick tut — nicht, wie die Ausgabe heißt.**
-
-  Hier stand der gekürzte Releasename: „Staffel 1", darunter „Crunchyroll ·
-  Limited Steelbook Edition, Blu-ray · ab 04.09.2026". Der Titel steht drei
-  Zeilen höher im Kopf, die Edition sagt nichts über das Ziel des Links —
-  und was der Klick tut, stand nirgends. Daniel am 04.09.2026: „in der pill
-  sollte stehen ,[blu-ray] kaufen bei amazon'".
-
-  Also: das Medium als Marke, dahinter die Handlung mit dem Händler. Die
-  Edition rückt in die zweite Zeile, wo sie hingehört — sie unterscheidet
-  Ausgaben, sie benennt keine.
-*/
-function kurzerNameVon(release: Release, titel: string | undefined, t: Translate): string {
-  return (
-    release.releaseType === 'disc'
-      ? /*
-          **Ohne Adresse kein Händler**. `haendlerAus`
-          antwortete auf ein fehlendes Ziel mit „Shop", und die Pille versprach einen Klick, den es
-          nicht gab — bei Dragon Ball Z kennt aniSearch nur den Termin, keinen Shop. Dann nennt die
-          Pille schlicht, was sie ist; Termin und Merken-Knopf bleiben.
-        */
-        hatShop(release)
-        ? t('detail.kaufenBei', { shop: haendlerAus(release.buyUrl ?? release.platformUrl) })
-        : t('detail.kaufausgabe')
-      : /* Ein Stream-Termin nennt den Anbieter wie jede Stream-Pille — nicht den Serientitel, der
-           im Kopf steht („Undefeated Bahamut Chronicle" statt „ADN", Daniel, 16.09.2026). */
-        (((a) => (a && release.kanal ? `${a} (${release.kanal})` : a))(anbieterName(release.platform, release.sender)) ?? kuerzeUmTitel(release.name, titel))
-  )
-}
-
-/**
- * **Wie weit eine laufende Wochenserie ist** (Daniel, 04.10.2026; 06.10.2026: „folge ist wichtiger" als „seit"): die Zahl der
- * erschienenen Folgen, ohne Gesamtzahl — bei zwei Anbietern mit versetztem Start unterscheidet sie sie, das gleiche „seit" nicht.
- * Das Startdatum folgt dahinter („1 Fg. · seit 04.10.2026").
- */
-function fortschrittVon(release: Release, t: Translate): string {
-  if (release.releaseType !== 'weekly' || release.platform === 'tv') return ''
-  const raus = expandEvents(release).filter((e) => istErschienen(e)).length
-  return raus > 0 ? t('detail.folgenFortschritt', { raus }) : ''
-}
-
-/* Ein TOGGO-Sender trägt TOGGOs Orange, nicht das allgemeine TV-Grün. */
-function farbeVon(release: Release): string | undefined {
-  return /^TOGGO/i.test(release.sender ?? '')
-    ? TOGGO_ORANGE
-    : /^ProSieben MAXX$/i.test(release.sender ?? '')
-      ? /* Die Farbe, die Joyn selbst für ProSieben MAXX führt (`accentColor`, 22.09.2026). */
-        PROSIEBEN_MAXX_ROT
-      : PLATFORMS[release.platform]?.color
-}
-
-/**
- * **Fernsehen erkennt man am Fernseher**: eckige Pille, dazu ein Fernseher
- * als Blase oben links (unten links war „schlecht") — neutral grau, nie in der Senderfarbe
- * („keine dynamische anbieter farbe"). So hebt sich die Pille von den Streaming-Anbietern ab,
- * ohne Breite zu kosten.
- */
-function TvBlase({ programm, t }: { programm?: string; t: Translate }) {
-  return (
-    <span className="absolute -left-1.5 -top-1.5 z-10">
-      {programm ? (
-        /* Führt zur laufenden, sonst zur nächsten Sendung im tv.de-Programm. */
-        <Tooltip text={t('tv.imProgramm')} seite="oben">
-          <a
-            href={programm}
-            target="_blank"
-            rel="noopener"
-            aria-label={t('tv.imProgramm')}
-            className="grid size-[22px] place-items-center rounded-full bg-white text-slate-500 ring-1 ring-slate-300 transition hover:text-sky-600 hover:ring-sky-400 dark:bg-[#162238] dark:text-slate-300 dark:ring-slate-500 dark:hover:text-sky-300"
-          >
-            <TvZeichen />
-          </a>
-        </Tooltip>
-      ) : (
-        <span
-          aria-hidden
-          className="grid size-[22px] place-items-center rounded-full bg-white text-slate-500 ring-1 ring-slate-300 dark:bg-[#162238] dark:text-slate-300 dark:ring-slate-500"
-        >
-          <TvZeichen />
-        </span>
-      )}
-    </span>
-  )
-}
-
-/**
- * **Was gerade läuft, mit Folge und Fortschritt** (Daniel, 22.09.2026, Variante C2 aus
- * drei Entwürfen): Folgentitel auf höchstens zwei Zeilen, reicht das nicht, „…" und der
- * volle Titel im Tooltip. Der Balken zeigt die verstrichene Sendezeit laut Programm.
- */
-function TvLaeuft({ laeuft, t }: { laeuft: NonNullable<TvText['laeuft']>; t: Translate }) {
-  return (
-    <>
-      <LangMitTooltip text={[t('tv.laeuft'), laeuft.text].filter(Boolean).join(' · ')}>
-        <span className="line-clamp-2 max-w-72 text-[11px] text-slate-500 dark:text-slate-400">
-          <span className="font-semibold text-emerald-600 dark:text-emerald-400">{t('tv.laeuft')}</span>
-          {laeuft.text ? ` · ${laeuft.text}` : ''}
-        </span>
-      </LangMitTooltip>
-      <span aria-hidden className="my-0.5 block h-[3px] w-full max-w-72 overflow-hidden rounded bg-slate-200 dark:bg-white/10">
-        <span className="block h-full rounded bg-emerald-500" style={{ width: `${Math.round(laeuft.anteil * 100)}%` }} />
-      </span>
-    </>
-  )
-}
-
-/** Die Datumszeile der Pille: zweite Zeile, Fortschritt und Termin; bei TV Tag und Uhrzeit farbig. */
-function PillenDatumZeile({ release, tvText, zweite, fortschritt, today, t }: {
-  release: Release
-  tvText?: TvText
-  zweite: string
-  fortschritt: string
-  today: string
-  t: Translate
-}) {
-  /*
-    **Der Kalendereintrag gilt dem nächsten Termin, nicht dem ersten.**
-
-    Bei einer Wochenserie, die seit anderthalb Jahren läuft, wäre der erste
-    Termin die Folge 1 von 2023 — ein Eintrag, den niemand braucht. Steht
-    nichts mehr aus, fällt das Symbol weg: Ein Kalendereintrag für etwas
-    Vergangenes ist kein Angebot, sondern ein Fehlgriff.
-  */
-  const datum = release.schedule?.firstEpisodeDate
-  return (
-    <LangMitTooltip text={tvText?.text ?? ''}>
-      <span className={`${tvText ? 'line-clamp-2 max-w-72' : 'truncate'} text-[11px] text-slate-500 dark:text-slate-400`}>
-        {/*
-          **„ab" oder „seit" — ein nacktes Datum sagt beides.**
-
-          „04.09.2026" allein lässt offen, ob die Ausgabe kommt oder schon da
-          ist; genau diese Frage führt jemanden auf die Seite. Zwei Zeichen
-          beantworten sie.
-        */}
-        {[
-          zweite,
-          fortschritt,
-          /*
-            Bei einer TV-Sichtung ist das Datum unsere erste Sichtung, kein Start. Genannt wird
-            der nächste Sendetag, sonst die letzte Sichtung — „im TV am 23.09." über einer
-            Reihe, die am 21.09. beginnt, las sich wie der erste Termin (19.09.2026).
-          */
-          tvText
-            ? tvText.text
-            : release.tvLetzteSichtung && release.platform !== 'tv'
-            ? /* RTL+-Wochentermin: die jüngste Folge, nicht „im TV". */
-              t('detail.neuAm', { d: formatDate(release.tvLetzteSichtung) })
-            : release.tvLetzteSichtung
-            ? t('detail.tvGesehen', {
-                d: formatDate(
-                  Object.values(release.schedule?.observed ?? {})
-                    .filter((d) => d >= today)
-                    .sort()[0] ?? release.tvLetzteSichtung,
-                ),
-              })
-            : datum && t(datum > today ? 'detail.abDatum' : 'detail.seitDatum', { d: formatDate(datum) }),
-        ]
-          .filter(Boolean)
-          .join(' · ')
-          /* Tag und Uhrzeit farbig, der Rest bleibt grau. Ohne TV-Angabe
-             trennt der Platzhalter nichts, und der Text bleibt ein Stück. */
-          .split(tvText?.zeit || KEIN_TRENNER)
-          .flatMap((teil, i) => [
-            i ? (
-              <span key={`z${i}`} className="font-medium text-sky-700 dark:text-sky-300">
-                {tvText?.zeit}
-              </span>
-            ) : null,
-            teil,
-          ])}
-      </span>
-    </LangMitTooltip>
-  )
-}
-
-export function ReleasePille({
-  release,
-  titel,
-  today,
-  tvText,
-}: {
-  release: Release
-  titel?: string
-  today: string
-  /** Bei TV: „Fg. 16 · heute 21:15" und ob es eine Premiere ist (`lib/tv-angabe.ts`). */
-  tvText?: ReturnType<typeof tvAngabe>
-}) {
-  const { t } = useLang()
-  const medium = mediumAus(release.edition)
-  const kurzerName = kurzerNameVon(release, titel, t)
-  const fortschritt = fortschrittVon(release, t)
-  const farbe = farbeVon(release)
-  const tv = release.platform === 'tv'
-  const premiere = zeigtPremiere(release, tvText?.premiere)
-  const zweite = [release.publisher, release.edition].filter(Boolean).join(' · ')
-  return (
-    <span
-      className={`relative inline-flex max-w-full items-center ${tv ? 'blase-links rounded-md pl-5' : 'rounded-full pl-3'} ${farbe ? 'blase-rechts' : ''} py-1 pr-4 ${premiere ? 'mt-2 pt-3' : ''} ${farbe ? PILLE_MARKE : ''}`}
-      style={marke(farbe)}
-    >
-      {tv && <TvBlase programm={tvText?.programm} t={t} />}
-      {premiere && <PremiereFaehnchen release={release} />}
-      {/*
-        **Ohne Ziel kein Verweis** (Daniel, 17.09.2026, Kino-Pille): `href="#"` öffnete
-        dieselbe Seite in einem neuen Tab. Dann trägt die Pille nur ihre Angaben und „Merken".
-      */}
-      <PillenHuelle {...pillenZiel(release, titel, t)}>
-        {/*
-          Der Serienname steht drei Zeilen höher im Kopf des Panels — ihn in
-          jeder Pille zu wiederholen macht sie breit und sagt nichts Neues.
-          Übrig bleibt, was die Ausgaben unterscheidet: „Vol. 3" statt
-          „DAN DA DAN (Staffel 2) – Vol. 3".
-        */}
-        <span className="flex min-w-0 items-center gap-1.5 text-[13px] font-medium">
-          {medium && (
-            <span className="shrink-0 rounded bg-black/10 px-1 py-px text-[10px] uppercase tracking-wide dark:bg-white/15">
-              {medium}
-            </span>
-          )}
-          {release.releaseType !== 'disc' && (
-            /* Das Zeichen trägt die Markenfarbe, die Schrift nicht mehr (Variante A, 19.09.2026). */
-            <span className="flex shrink-0" style={farbe ? { color: farbe } : undefined}>
-              <AnbieterIcon was={tv ? (release.sender ?? '') : release.platform} />
-            </span>
-          )}
-          <span className="truncate">{kurzerName}</span>
-        </span>
-        {tvText?.laeuft && <TvLaeuft laeuft={tvText.laeuft} t={t} />}
-        <PillenDatumZeile release={release} tvText={tvText} zweite={zweite} fortschritt={fortschritt} today={today} t={t} />
-      </PillenHuelle>
-      <MerkenKnopf release={release} today={today} farbe={farbe} />
-    </span>
-  )
-}
-
-/** Ein Trennzeichen, das in keinem Text vorkommt — dann bleibt der Text ein Stück. */
-const KEIN_TRENNER = '\u0001'
-
-/**
- * **Der volle Text im Tooltip — nur, wo zwei Zeilen ihn abschneiden können** (Daniel, 22.09.2026:
- * „falls 2 zeilen immer noch nicht reichen sollten dann ... und tooltip"). Die Schwelle ist grob:
- * Bei `max-w-72` und 11 px passen rund 45 Zeichen in eine Zeile. Ein kürzerer Text bekommt keinen
- * Tooltip, denn der würde nur wiederholen, was dasteht. Eigene Komponente statt `title`: keine
- * Standard-Tooltips des Browsers (12.08.2026).
- */
-function LangMitTooltip({ text, children }: { text: string; children: ReactNode }) {
-  return text.length > 90 ? (
-    <Tooltip text={text} seite="oben">
-      {children}
-    </Tooltip>
-  ) : (
-    <>{children}</>
   )
 }
 
@@ -652,19 +167,9 @@ function LangMitTooltip({ text, children }: { text: string; children: ReactNode 
   abrufbar sind, steht in der zweiten Zeile — aus den Fenstern je Folge, die
   `pipeline/fetch-toggo.ts` täglich holt (`web/src/lib/toggo.ts`).
 */
-const TOGGO_ORANGE = '#ec6400'
+export const TOGGO_ORANGE = '#ec6400'
 
-const PROSIEBEN_MAXX_ROT = '#d21e00'
-
-/** Ein neutraler Fernseher (Umriss, Form wie Tabler „device-tv") — kennzeichnet TV-Pillen. */
-function TvZeichen() {
-  return (
-    <svg aria-hidden viewBox="0 0 24 24" width={14} height={14} className="size-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="7" width="18" height="13" rx="2" />
-      <path d="M16 3l-4 4l-4-4" />
-    </svg>
-  )
-}
+export const PROSIEBEN_MAXX_ROT = '#d21e00'
 
 export const istToggo = (url: string | undefined) => /(^|\.)toggo\.de$/i.test((() => { try { return new URL(url ?? '').hostname } catch { return '' } })())
 
@@ -727,9 +232,17 @@ export function farbeZuAnbieter(voll: string): string | undefined {
   return undefined
 }
 
-export function gruppiereKaufwege(
-  links: WatchLink[],
-): { shop: string; eintraege: { label?: string; url: string; nurFolge?: number; dubRanges?: WatchLink['dubRanges'] }[] }[] {
+/** Was die Oberfläche je Weg einer Pille braucht. */
+type Eintrag = Pick<WatchLink, 'url' | 'nurFolge' | 'dubRanges' | 'dubAbgeleitet'> & { label?: string }
+
+const eintragVon = (l: WatchLink): Eintrag => ({
+  url: l.url,
+  nurFolge: l.nurFolge,
+  dubRanges: l.dubRanges,
+  dubAbgeleitet: l.dubAbgeleitet,
+})
+
+export function gruppiereKaufwege(links: WatchLink[]): { shop: string; eintraege: Eintrag[] }[] {
   const nachHost = new Map<string, WatchLink[]>()
   for (const l of links) {
     let host = l.url
@@ -765,11 +278,14 @@ export function gruppiereKaufwege(
     const gemeinsam = geteilt.every((t) => t.length > 1 && t[0] === geteilt[0][0])
     if (liste.length === 1 || !gemeinsam) {
       /* Die Adresse ist TMDBs Übersicht, nicht der Anbieter — das steht an der Pille. */
-      return { shop: liste[0].ueberTmdb ? translate('detail.ueberTmdb', { name: liste[0].name }) : liste[0].name, eintraege: liste.map((l) => ({ url: l.url, nurFolge: l.nurFolge, dubRanges: l.dubRanges })) }
+      return {
+        shop: liste[0].ueberTmdb ? translate('detail.ueberTmdb', { name: liste[0].name }) : liste[0].name,
+        eintraege: liste.map(eintragVon),
+      }
     }
     return {
       shop: geteilt[0][0],
-      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url, nurFolge: l.nurFolge, dubRanges: l.dubRanges })),
+      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), ...eintragVon(l) })),
     }
   })
 }

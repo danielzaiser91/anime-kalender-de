@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import type { DubConfidence, Release, Title } from '../../shared/types.ts'
+import { synchroBelegt } from '../../shared/titles.ts'
 import { loadDubChecks, type DubCheck } from './dub-confirmed.ts'
 import { loadSynchroVonHand } from './curated.ts'
 import { ROOT, log } from './util.ts'
@@ -70,14 +71,14 @@ export function ladeBelegsignale(releases: Release[]): Belegsignale {
  */
 export function hochOhneBeleg(titel: Title[], s: Pick<Belegsignale, 'handbelegt' | 'kartei'>): number[] {
   return titel
-    .filter((t) => t.dubConfidence === 'high' || t.dubConfidence === 'very-high')
+    .filter(synchroBelegt)
     .filter((t) => !t.streams?.some((st) => st.dub === true) && !s.handbelegt.has(t.id) && !s.kartei.has(t.id) && !t.deErstausgabe?.synchro)
     .map((t) => t.id)
 }
 
-/** Zählwort der Fußzeile „belegt“: Stufe ≥ stark, wie der Belegstärke-Filter sie zeigt; der Rest heißt dort „angekündigt oder wahrscheinlich“. */
-export function zaehleBelegte(titel: Pick<Title, 'dubConfidence'>[]): number {
-  return titel.filter((t) => t.dubConfidence === 'high' || t.dubConfidence === 'very-high').length
+/** Zählwort der Fußzeile „belegt“: dieselbe Entscheidung wie `synchroBelegt` (Stufe ≥ stark); der Rest heißt „angekündigt oder wahrscheinlich“. */
+export function zaehleBelegte(titel: Pick<Title, 'dubConfidence' | 'westlich' | 'streams'>[]): number {
+  return titel.filter(synchroBelegt).length
 }
 
 /** Alle Titel mit der Stufe aus ihren Quellen; die Eingabe bleibt unverändert. */

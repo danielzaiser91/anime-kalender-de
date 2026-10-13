@@ -6,96 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Action
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T140500Z
-DTEND:20261005T143500Z
-SUMMARY:Pokémon Horizonte – Folge 2/130
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T150500Z
-DTEND:20261005T153500Z
-SUMMARY:Pokémon Horizonte – Folge 2/130
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T151000Z
-DTEND:20261005T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-05#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T153500Z
-DTEND:20261005T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-05#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T162500Z
-DTEND:20261005T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-05#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T165000Z
-DTEND:20261005T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T191500Z
-DTEND:20261005T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 8/13
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:ranma-s3-folge1-netflix@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261005
-DTEND;VALUE=DATE:20261006
-SUMMARY:Ranma ½ – Staffel 3
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/17567/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:gachiakuta-teil1-disneyplus@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261005
-DTEND;VALUE=DATE:20261006
-SUMMARY:Gachiakuta
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T140500Z
@@ -130,7 +40,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T191500Z
 DTEND:20261006T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 9/13
+SUMMARY:Pokémon Reisen: Die Serie – Folge 9/14
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -140,9 +50,10 @@ UID:my-hero-academia-vigilantes-s1-netflix@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261006
 DTEND;VALUE=DATE:20261007
-SUMMARY:My Hero Academia: Vigilantes – Staffel 1
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/16460/
+SUMMARY:My Hero Academia: Vigilantes – Staffel 1 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/16460/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -150,9 +61,10 @@ UID:my-hero-academia-vigilantes-s2-netflix@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261006
 DTEND;VALUE=DATE:20261007
-SUMMARY:My Hero Academia: Vigilantes – Staffel 2
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/16903/
+SUMMARY:My Hero Academia: Vigilantes – Staffel 2 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/16903/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -260,7 +172,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T191500Z
 DTEND:20261007T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 10/13
+SUMMARY:Pokémon Reisen: Die Serie – Folge 10/14
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -350,7 +262,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T191500Z
 DTEND:20261008T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 11/13
+SUMMARY:Pokémon Reisen: Die Serie – Folge 11/14
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -494,7 +406,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T191500Z
 DTEND:20261009T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 12/13
+SUMMARY:Pokémon Reisen: Die Serie – Folge 12/14
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -645,10 +557,59 @@ UID:das-band-der-unterwelt-netflix@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Das Band der Unterwelt – Folge 15/≈24
+SUMMARY:Das Band der Unterwelt – Folge 15/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-entertainment-district-arc-primevideo@2026-10-10@anime-kal
+ ender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (Synchro 
+ offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/13758/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/15144/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-mugen-train-arc-primevideo@2026-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/12643/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-swordsmith-village-arc-primevideo@2026-10-10@anime-kalende
+ r-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (Synchro offe
+ n)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/13918/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-179813-netflix@2026-10-10@anime-kalender-de
@@ -676,7 +637,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261011T140000Z
 DTEND:20261011T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 2/≈12
+ hip! Staffel 1 – Folge 2/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
@@ -687,7 +648,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261011T140000Z
 DTEND:20261011T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 2/≈12
+ hip! – Folge 2/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -795,6 +756,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GT00371869@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T153000Z
+DTEND:20261012T160000Z
+SUMMARY:SNOWBALL EARTH Staffel 1
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
+ ps://anime-kalender.de/t/16948/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T162500Z
@@ -829,7 +800,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T191500Z
 DTEND:20261012T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 13/13
+SUMMARY:Pokémon Reisen: Die Serie – Folge 13/14
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -905,6 +876,16 @@ DESCRIPTION:Plattform: ADN\nRelease-Art: Film\nUhrzeit noch nicht bestätig
 CATEGORIES:ADN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T140500Z
+DTEND:20261013T143500Z
+SUMMARY:Pokémon Horizonte – Folge 8/130
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T144500Z
@@ -913,6 +894,16 @@ SUMMARY:Yashahime: Princess Half-Demon
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/11570/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T150500Z
+DTEND:20261013T153500Z
+SUMMARY:Pokémon Horizonte – Folge 8/130
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
@@ -953,6 +944,16 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T191500Z
+DTEND:20261013T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 14/14
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-14@anime-kalender-de
@@ -1264,7 +1265,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261017
 DTEND;VALUE=DATE:20261018
-SUMMARY:Das Band der Unterwelt – Folge 16/≈24
+SUMMARY:Das Band der Unterwelt – Folge 16/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1286,7 +1287,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261018T140000Z
 DTEND:20261018T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 3/≈12
+ hip! Staffel 1 – Folge 3/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
@@ -1297,7 +1298,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261018T140000Z
 DTEND:20261018T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 3/≈12
+ hip! – Folge 3/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1323,6 +1324,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261018
+DTEND;VALUE=DATE:20261019
+SUMMARY:Dragon Ball Super: Beerus – Folge 1/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-19@anime-kalender-de
@@ -1424,6 +1436,56 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit voraussi
  chtlich: Netflix veröffentlicht Anime meist um 17:00 japanischer Zeit.\nD
  etails: https://anime-kalender.de/t/16917/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T144500Z
+DTEND:20261020T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-20#34@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T151000Z
+DTEND:20261020T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-20#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T153500Z
+DTEND:20261020T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-20#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T162500Z
+DTEND:20261020T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-20#36@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T165000Z
+DTEND:20261020T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:my-hero-academia-yuei-heroes-battle-2026-10-20@2026-10-20@anime-kalende
@@ -1535,7 +1597,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261024
 DTEND;VALUE=DATE:20261025
-SUMMARY:Das Band der Unterwelt – Folge 17/≈24
+SUMMARY:Das Band der Unterwelt – Folge 17/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1547,7 +1609,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261025T150000Z
 DTEND:20261025T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 4/≈12
+ hip! Staffel 1 – Folge 4/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1559,7 +1621,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261025T150000Z
 DTEND:20261025T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 4/≈12
+ hip! – Folge 4/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1586,6 +1648,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:Dragon Ball Super: Beerus – Folge 2/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-10-28@anime-kalender-de
@@ -1686,7 +1759,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
-SUMMARY:Das Band der Unterwelt – Folge 18/≈24
+SUMMARY:Das Band der Unterwelt – Folge 18/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1698,7 +1771,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261101T150000Z
 DTEND:20261101T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 5/≈12
+ hip! Staffel 1 – Folge 5/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1710,7 +1783,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261101T150000Z
 DTEND:20261101T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 5/≈12
+ hip! – Folge 5/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1737,6 +1810,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Dragon Ball Super: Beerus – Folge 3/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:cr-GRGG9798R@2026-11-04@anime-kalender-de
@@ -1899,7 +1983,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
-SUMMARY:Das Band der Unterwelt – Folge 19/≈24
+SUMMARY:Das Band der Unterwelt – Folge 19/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1911,7 +1995,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261108T150000Z
 DTEND:20261108T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 6/≈12
+ hip! Staffel 1 – Folge 6/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1923,7 +2007,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261108T150000Z
 DTEND:20261108T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 6/≈12
+ hip! – Folge 6/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1950,6 +2034,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Dragon Ball Super: Beerus – Folge 4/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-09@anime-kalender-de
@@ -2110,7 +2205,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261114
 DTEND;VALUE=DATE:20261115
-SUMMARY:Das Band der Unterwelt – Folge 20/≈24
+SUMMARY:Das Band der Unterwelt – Folge 20/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -2122,7 +2217,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261115T150000Z
 DTEND:20261115T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 7/≈12
+ hip! Staffel 1 – Folge 7/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -2134,7 +2229,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261115T150000Z
 DTEND:20261115T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 7/≈12
+ hip! – Folge 7/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -2161,6 +2256,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:Dragon Ball Super: Beerus – Folge 5/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-16@anime-kalender-de
@@ -2440,7 +2546,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
-SUMMARY:Das Band der Unterwelt – Folge 21/≈24
+SUMMARY:Das Band der Unterwelt – Folge 21/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -2452,7 +2558,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261122T150000Z
 DTEND:20261122T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 8/≈12
+ hip! Staffel 1 – Folge 8/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -2464,7 +2570,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261122T150000Z
 DTEND:20261122T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 8/≈12
+ hip! – Folge 8/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -2491,6 +2597,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
+SUMMARY:Dragon Ball Super: Beerus – Folge 6/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-23@anime-kalender-de
@@ -2650,7 +2767,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261128
 DTEND;VALUE=DATE:20261129
-SUMMARY:Das Band der Unterwelt – Folge 22/≈24
+SUMMARY:Das Band der Unterwelt – Folge 22/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -2662,7 +2779,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261129T150000Z
 DTEND:20261129T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 9/≈12
+ hip! Staffel 1 – Folge 9/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -2674,7 +2791,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261129T150000Z
 DTEND:20261129T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 9/≈12
+ hip! – Folge 9/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -2701,6 +2818,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
+SUMMARY:Dragon Ball Super: Beerus – Folge 7/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-11-30@anime-kalender-de
@@ -2892,17 +3020,8 @@ DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
 SUMMARY:Kaiju No. 8 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/14424/
-CATEGORIES:DVD / Blu-ray
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-178754-disc@2026-12-04@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261204
-DTEND;VALUE=DATE:20261205
-SUMMARY:Kaiju No. 8: Staffel 2 (Disc)
-DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16005/
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/14424/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -2910,7 +3029,7 @@ UID:das-band-der-unterwelt-netflix@2026-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261205
 DTEND;VALUE=DATE:20261206
-SUMMARY:Das Band der Unterwelt – Folge 23/≈24
+SUMMARY:Das Band der Unterwelt – Folge 23/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -2922,7 +3041,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261206T150000Z
 DTEND:20261206T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 10/≈12
+ hip! Staffel 1 – Folge 10/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -2934,7 +3053,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261206T150000Z
 DTEND:20261206T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 10/≈12
+ hip! – Folge 10/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -2961,6 +3080,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261206
+DTEND;VALUE=DATE:20261207
+SUMMARY:Dragon Ball Super: Beerus – Folge 8/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:yaiba-samurai-legend-prosieben-maxx@2026-12-07@anime-kalender-de
@@ -3065,7 +3195,7 @@ UID:das-band-der-unterwelt-netflix@2026-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261212
 DTEND;VALUE=DATE:20261213
-SUMMARY:Das Band der Unterwelt – Folge 24/≈24
+SUMMARY:Das Band der Unterwelt – Folge 24/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -3077,7 +3207,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261213T150000Z
 DTEND:20261213T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 11/≈12
+ hip! Staffel 1 – Folge 11/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -3089,7 +3219,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261213T150000Z
 DTEND:20261213T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 11/≈12
+ hip! – Folge 11/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -3116,6 +3246,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
+SUMMARY:Dragon Ball Super: Beerus – Folge 9/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-14@anime-kalender-de
@@ -3192,7 +3333,8 @@ DTEND;VALUE=DATE:20261219
 SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flowe
  r) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/7340/
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/7340/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -3204,7 +3346,8 @@ DTEND;VALUE=DATE:20261219
 SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterf
  ly) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8064/
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/8064/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -3216,7 +3359,8 @@ DTEND;VALUE=DATE:20261219
 SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song
  ) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8065/
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/8065/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -3225,7 +3369,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261220T150000Z
 DTEND:20261220T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 12/≈12
+ hip! Staffel 1 – Folge 12/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -3237,7 +3381,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261220T150000Z
 DTEND:20261220T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 12/≈12
+ hip! – Folge 12/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -3253,6 +3397,17 @@ DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nU
  hrzeit noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wo
  chenrhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/17554/
 CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261220
+DTEND;VALUE=DATE:20261221
+SUMMARY:Dragon Ball Super: Beerus – Folge 10/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-21@anime-kalender-de
@@ -3331,6 +3486,41 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:cr-GT00384006@2026-12-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261227T150000Z
+DTEND:20261227T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! Staffel 1 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261227T150000Z
+DTEND:20261227T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 13/13
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261227
+DTEND;VALUE=DATE:20261228
+SUMMARY:Dragon Ball Super: Beerus – Folge 11/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261228T175000Z
@@ -3384,6 +3574,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2027-01-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270103
+DTEND;VALUE=DATE:20270104
+SUMMARY:Dragon Ball Super: Beerus – Folge 12/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-04@anime-kalender-de
@@ -3982,6 +4183,16 @@ DTEND;VALUE=DATE:20270306
 SUMMARY:Afro Samurai + Afro Samurai Resurrection (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
  och nicht bestätigt.\nDetails: https://anime-kalender.de/t/1140/
+CATEGORIES:DVD / Blu-ray
+END:VEVENT
+BEGIN:VEVENT
+UID:kaiju-no8-s2-komplettbox@2027-03-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270305
+DTEND;VALUE=DATE:20270306
+SUMMARY:Kaiju No. 8 – Staffel 2 – Komplettbox (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16005/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

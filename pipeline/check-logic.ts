@@ -195,7 +195,7 @@ import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
 import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
 import { adressIndex, nameIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
 import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
-import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
+import { aehnlicheTitel } from '../shared/aehnlich.ts'
 import { bereichsSuche } from '../web/src/lib/filter-suche.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
 import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
@@ -3392,7 +3392,7 @@ console.log('\nJapanischer Start: so genau wie die Quelle, und angekündigte Tit
 
 console.log('\nÄhnliche Titel:')
 {
-  const { aehnlicheTitel } = await import('../web/src/lib/aehnlich.ts')
+  const { aehnlicheTitel } = await import('../shared/aehnlich.ts')
   const titel = (id: number, genres: string[], keywords: string[], franchiseId?: number) =>
     ({ id, franchiseId, genres, keywords }) as unknown as import('../shared/types.ts').Title
   const liste = [
@@ -6727,10 +6727,10 @@ pruefe(
   pruefe('der Prüfstand liefert alle Ziele, nicht einen Ausschnitt', idx.includes('ziele: alleZiele,') && !/ziele: alleZiele\.slice/.test(idx))
 }
 {
-  /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und die Pillen einer Zeile sind gleich hoch. */
+  /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und Anbieter stehen als Pillen in Tippziel-Höhe mit Sprach-Blase (12.10.2026). */
   const panel = panelQuelltext()
-  pruefe('ein TOGGO-Weg trägt immer „DE ✓"', /istToggo\(g\.eintraege\[0\]\.url\) \|\|\s*g\.eintraege\[0\]\.dubRanges/.test(panel))
-  pruefe('die Pillen einer Zeile strecken sich auf gleiche Höhe', panel.includes('flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5'))
+  pruefe('ein TOGGO-Weg ist immer „✓ Deutsch"', /statusArt\(istToggo\(e\.url\) \|\|\s*e\.dubRanges/.test(panel))
+  pruefe('die Anbieter stehen als Pillen von mindestens 52 px, die Sprache als Blase', panel.includes('inline-flex min-h-[52px] max-w-full items-center') && panel.includes('-top-3.5') && panel.includes('gap-y-4'))
 }
 {
   /* TOGGO-Fenster (19.09.2026, gemessen an Daima und Boruto): die Pille rechnet beim Anzeigen. */
@@ -7108,7 +7108,7 @@ pruefe(
   pruefe('Erstausgabe früher: der automatische TV-Termin zählt nicht als deutscher Start', istKeinDeutscherStart(rtl12, superWings))
   pruefe('Erstausgabe früher: ein von Hand belegter TV-Termin bleibt ein Start', !istKeinDeutscherStart({ ...rtl12, automatisch: false }, superWings))
   pruefe('Ohne Erstausgabe: der automatische TV-Termin bleibt ein Start', !istKeinDeutscherStart(rtl12, { ...superWings, deErstausgabe: undefined } as Title))
-  pruefe('„Neu auf Deutsch" bezieht den ersten Termin ohne diese TV-Termine (nebendateien.ts)', readFileSync('pipeline/bau/nebendateien.ts', 'utf8').includes('ersterDeutscherTermin(releases, titles)') && ersterDeutscherTermin([rtl12], [superWings]).size === 0 && ersterDeutscherTermin([{ ...rtl12, automatisch: false }], [superWings]).get(10012621) === '2026-10-07')
+  pruefe('„Neu auf Deutsch" bezieht den ersten Termin ohne diese TV-Termine (nebendateien.ts)', readFileSync('pipeline/bau/nebendateien.ts', 'utf8').includes('ersterDeutscherTermin(zaehlende, titles)') && ersterDeutscherTermin([rtl12], [superWings]).size === 0 && ersterDeutscherTermin([{ ...rtl12, automatisch: false }], [superWings]).get(10012621) === '2026-10-07')
   /* Der Bau schreibt dieselben Werte wie die Oberfläche: Releases anderer Titel verändern die Auskunft nicht. */
   {
     const daimaTitel = { id: 170083, streams: [], deErstausgabe: { von: '2026-08-28', quelle: 'wikipedia' } } as unknown as Title

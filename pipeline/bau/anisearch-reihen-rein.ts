@@ -1,17 +1,22 @@
+import { otherZaehlt } from '../../shared/mappings.ts'
 import { type Kante, type Namen, malKanten, zaehlt } from './anisearch-reihen.ts'
 import type { Pruefzeile, ReiheRef } from './anisearch-reihen-uebernahme.ts'
 import { WANDERREGEL } from './anisearch-reihen-uebernahme.ts'
 
 /**
- * **Reihen rein aus aniSearch-Beziehungen** (Stufe C, Schritt 6 der AniList-Ablösung, 12.10.2026). Hinter dem Umgebungsschalter `REIHEN_QUELLE=anisearch`; ohne ihn bleibt die Basis
+ * **Reihen rein aus aniSearch-Beziehungen** (Stufe C, Schritt 6 der AniList-Ablösung, 12.10.2026). Seit 12.10.2026 der Weg des Hauptbestands (Rückweg `REIHEN_QUELLE=anilist`), seit 13.10.2026 auch der des Katalogs; mit dem Rückweg bleibt die Basis
  * AniList (`03-reihen.ts`, `reihenFuerKatalog`) und aniSearch hängt nur Alleinstehende an. Reine Funktionen; Lesen, Schreiben und Anbindung in `anisearch-reihen-rein-bau.ts`.
- * Rechnet in Titel-Kennungen; Titel mit gleicher aniSearch-Kennung oder gleicher MAL-Kennung sind dieselbe Einheit. Auch Seiten, zu denen es keinen Titel gibt, verbinden (wie bei AniList jeder Nachbar):
+ * Rechnet in Titel-Kennungen; Titel mit gleicher aniSearch-Kennung sind dieselbe Einheit; eine gleiche MAL-Kennung wirkt nur als Kante der Art `ART_MAL` (Regel „immer“), und nur bis `MAL_GRUPPE_MAX` aniSearch-Kennungen je MAL-Kennung (Sammelseiten nicht). Auch Seiten, zu denen es keinen Titel gibt, verbinden (wie bei AniList jeder Nachbar):
  * sie sind Knoten mit `ANONYM + aniSearch-Kennung` und zählen für die Größe einer Reihe mit, nie für ihre Kennung.
  */
 const ANONYM = 2_000_000_000
-export const reihenAusAnisearch = (): boolean => process.env.REIHEN_QUELLE === 'anisearch'
+/** Hauptbestand (`franchiseId`): rein aus aniSearch seit 12.10.2026; `REIHEN_QUELLE=anilist` ist der Rückweg (AniList-Relationen als Basis). */
+export const bestandReihenAusAnisearch = (): boolean => process.env.REIHEN_QUELLE !== 'anilist'
+/** Katalog (`reihe`): rein aus aniSearch seit 13.10.2026; die 3.044 Titel ohne aniSearch-Kennung behalten ihre AniList-Kanten (`zusatz` in `reineReihen`). `REIHEN_QUELLE=anilist` ist der Rückweg. */
+export const katalogReihenAusAnisearch = (): boolean => process.env.REIHEN_QUELLE !== 'anilist'
 
-export type ReinTitel = { id: number; name: string; anisearchId?: number; mal?: number }
+/** `mal`: MAL-Kennung des Titels selbst (AniList); `malAnisearch`: die im aniSearch-Eintrag, nur ein Ersatz, wenn `mal` fehlt (siehe `malVerbindungen`). */
+export type ReinTitel = { id: number; name: string; anisearchId?: number; mal?: number; malAnisearch?: number }
 /** `verbinden`: `ids:` der Handdatei (gelten immer); `trennen`: `getrennt:` (keine Verbindung zwischen den Reihen dieser Titel, gleich welcher Art). */
 export type ReinHand = { verbinden: number[][]; trennen: number[][] }
 export type ReinErgebnis = {
@@ -72,7 +77,7 @@ function bildner(fest: Map<number, number>) {
 }
 type Bildner = ReturnType<typeof bildner>
 
-/** Titel je aniSearch-Kennung; zusätzlich je MAL-Kennung (gleiche MAL-Kennung = gleiche Einheit). */
+/** Titel je aniSearch-Kennung (gleiche Kennung = dieselbe Einheit); die MAL-Kennung bildet keine Einheit, sie wirkt über `malVerbindungen` als Kante der Art `ART_MAL` zwischen aniSearch-Kennungen. */
 function einheiten(titel: ReinTitel[]): Map<number, number[]> {
   const jeKennung = new Map<number, number[]>()
   for (const t of titel) if (t.anisearchId) jeKennung.set(t.anisearchId, [...(jeKennung.get(t.anisearchId) ?? []), t.id])
@@ -129,21 +134,53 @@ function universumZeilen(kanten: Kante[], jeKennung: Map<number, number[]>, b: B
 
 /**
  * Gleiche MAL-Kennung verbindet — außer bei einer Sammelseite: MAL führt manchmal ganze Reihen unverwandter Titel unter einer Kennung (28149: 27 Kurzfilme, darunter Ryuu no Haisha und Carnage;
- * Verteilung am 12.10.2026: 6.767 Kennungen mit einem, 62 mit zwei, höchstens acht echte Teile einer Reihe, dann der Ausreißer mit 27). Mehr als `MAL_GRUPPE_MAX` Titel verbinden nicht.
+ * Verteilung am 12.10.2026: 6.767 Kennungen mit einem, 62 mit zwei, höchstens acht echte Teile einer Reihe, dann der Ausreißer mit 27). Mehr als `MAL_GRUPPE_MAX` aniSearch-Kennungen je MAL-Kennung verbinden nicht.
  */
 const MAL_GRUPPE_MAX = 8
-function malVerbindungen(titel: ReinTitel[]): Kante[] {
-  const kanten = malKanten(titel.map((t) => ({ anisearchId: t.anisearchId, mal: t.mal })))
-  const groesse = new Map<number, number>()
-  for (const k of kanten) groesse.set(k.a, (groesse.get(k.a) ?? 1) + 1)
-  return kanten.filter((k) => groesse.get(k.a)! <= MAL_GRUPPE_MAX)
+/**
+ * aniSearch trägt bei frisch angelegten Einträgen manchmal die MAL-Kennung des Nachbareintrags (12.10.2026: 21603 Dr. Slump hat die von 21602 Xian Di Guilai, 21619 die von 21617, 21605 die von 21604, 21648
+ * die von 21647; von 78 Gruppen mit mehreren Einträgen enthalten 14 Paare ohne Namensanfang und ohne Kante). Eine MAL-Kennung, die nur aus aniSearchs Eintrag stammt (`malAnisearch`), verbindet deshalb nur,
+ * wenn aniSearch die beiden Einträge auch sonst zusammenbringt: gemeinsamer Namensanfang (`MAL_NAME_MIN`) oder eine Beziehung irgendeiner Art. Die eigene MAL-Kennung des Titels (`mal`, von AniList) gilt wie bisher.
+ */
+const MAL_NAME_MIN = 5
+const effektiveMal = (t: ReinTitel): number | undefined => t.mal ?? t.malAnisearch
+
+/** Gilt ein Paar aniSearch-Kennungen als zusammengehörig: gemeinsamer Namensanfang oder direkte Beziehung? */
+function belegtJeKennung(titel: ReinTitel[], kanten: Kante[], namen: Namen): (a: number, b: number) => boolean {
+  const nachbarn = new Map<number, Set<number>>()
+  for (const k of kanten) {
+    nachbarn.set(k.a, (nachbarn.get(k.a) ?? new Set()).add(k.b))
+    nachbarn.set(k.b, (nachbarn.get(k.b) ?? new Set()).add(k.a))
+  }
+  const eigene = new Map<number, string[]>()
+  for (const t of titel) if (t.anisearchId) eigene.set(t.anisearchId, [...(eigene.get(t.anisearchId) ?? []), t.name])
+  const namenVon = (id: number): string[] => [...(namen.get(id) ?? []), ...(eigene.get(id) ?? [])]
+  return (a, b) => nachbarn.get(a)?.has(b) === true || otherZaehlt(namenVon(a), namenVon(b), MAL_NAME_MIN)
+}
+
+function malVerbindungen(titel: ReinTitel[], kanten: Kante[], namen: Namen): Kante[] {
+  const jeMal = new Map<number, ReinTitel[]>()
+  for (const t of titel) if (t.anisearchId && effektiveMal(t)) jeMal.set(effektiveMal(t)!, [...(jeMal.get(effektiveMal(t)!) ?? []), t])
+  const belegt = belegtJeKennung(titel, kanten, namen)
+  const behalten = new Set<ReinTitel>()
+  for (const gruppe of jeMal.values()) {
+    if (new Set(gruppe.map((t) => t.anisearchId)).size > MAL_GRUPPE_MAX) continue
+    const mitBeleg = (t: ReinTitel): boolean => t.mal !== undefined || gruppe.some((u) => u.anisearchId !== t.anisearchId && belegt(t.anisearchId!, u.anisearchId!))
+    gruppe.filter(mitBeleg).forEach((t) => behalten.add(t))
+  }
+  return malKanten(titel.filter((t) => behalten.has(t)).map((t) => ({ anisearchId: t.anisearchId, mal: effektiveMal(t) })))
 }
 
 /** Die Kanten, die unter der Regel zählen, in der Reihenfolge Kern, „?“, Sammelart (innerhalb davon nach Kennung, damit das Ergebnis nicht von der Leseordnung abhängt). */
 function zaehlendeKanten(titel: ReinTitel[], kanten: Kante[], namen: Namen): Kante[] {
-  return [...kanten, ...malVerbindungen(titel)]
+  return [...kanten, ...malVerbindungen(titel, kanten, namen)]
     .filter((k) => zaehlt(k, WANDERREGEL, namen))
     .sort((p, q) => rangDerArt(p.art) - rangDerArt(q.art) || p.a - q.a || p.b - q.b || p.art.localeCompare(q.art))
+}
+
+/** Titel-Paare ohne aniSearch-Beleg (AniList-Kanten der Titel ohne Kennung): wie eine Kernkante, aber erst nach allen aniSearch-Kanten; zwei feste Reihen und Handtrennungen sperren sie. */
+function verbindeTitelPaare(b: Bildner, hand: ReinHand, paare: [number, number][]): void {
+  for (const [x, y] of paare) if (b.find(x) !== b.find(y) && !sperrgrund(b, hand, x, y, 0)) b.vereine(x, y)
 }
 
 /** Verbindet die Kanten in der gegebenen Reihenfolge; gesperrte (Brücken) kommen zurück, Handtrennungen bleiben unbemerkt. */
@@ -218,8 +255,9 @@ function verbinderZeilen(verbinder: Verbinder[], b: Bildner, jeKennung: Map<numb
 /**
  * `titel`: alle Titel, die in Reihen gehören; `kanten`/`namen`: aniSearch-Beziehungen aus dem Archiv; `hand`: `reihen-von-hand.yaml`;
  * `fest`: Titel, deren Reihe schon ausgeliefert ist (Hauptbestand beim Katalog; Kennung = ihre Reihe) — zwei feste Reihen verschmelzen nie.
+ * `zusatz`: Titel-Paare, die nicht aus aniSearch kommen (Katalog: AniList-Kanten der Titel ohne Kennung); sie verbinden erst nach allen aniSearch-Kanten.
  */
-export function reineReihen(titel: ReinTitel[], kanten: Kante[], namen: Namen, hand: ReinHand, fest: Map<number, number> = new Map()): ReinErgebnis {
+export function reineReihen(titel: ReinTitel[], kanten: Kante[], namen: Namen, hand: ReinHand, fest: Map<number, number> = new Map(), zusatz: [number, number][] = []): ReinErgebnis {
   const ids = titel.map((t) => t.id)
   const b = bildner(fest)
   const vorhanden = new Set(ids)
@@ -238,6 +276,7 @@ export function reineReihen(titel: ReinTitel[], kanten: Kante[], namen: Namen, h
   const zaehlend = zaehlendeKanten(titel, kanten, namen)
   const kern = verbindeKern(b, hand, zaehlend.filter((k) => rangDerArt(k.art) === 0), jeKennung)
   const sperren = [...kern.sperren, ...verbindeKanten(b, hand, zaehlend.filter((k) => rangDerArt(k.art) > 0), jeKennung)]
+  verbindeTitelPaare(b, hand, zusatz.filter(([x, y]) => vorhanden.has(x) && vorhanden.has(y)))
   const reihe = new Map(ids.map((id): [number, number] => [id, b.feste.get(b.find(id)) ?? b.find(id)]))
   const pruefliste = [...sperrenZuZeilen(sperren, b, name), ...verbinderZeilen(kern.verbinder, b, jeKennung, name), ...universumZeilen(kanten, jeKennung, b, name)]
   const jeReihe = new Map<number, number>()

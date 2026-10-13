@@ -8,6 +8,8 @@ export const TEXTE_SEITEN = {
     800-Zeilen-Grenze, und diese Datei ist genau dafür da. Dazu die Quellenangabe — Daniel,
     28.09.2026: „inkl Link zur Quelle"; „Heute"/„Gestern" beschriften die Tagesgruppen.
   */
+  'detail.plotEigen': 'Zusammengefasst nach',
+  'detail.plotReihe': 'Zur Reihe – gilt für alle Teile.',
   'detail.plotVonTeilFrueher': 'Zu diesem Teil gibt es keine eigene Handlung — hier steht die von „{teil}".',
   'antwort.teilweiseOhneZahl': 'Teilweise auf Deutsch — die Synchro wurde abgebrochen',
   'detail.erstausgabeArt': 'Erstausgabe',
@@ -74,6 +76,11 @@ export const TEXTE_SEITEN = {
   'news.nachtrag.abhilfe': 'Was wir geändert haben',
   'news.nachtrag.zusage': 'Falls es nicht stimmt',
   'news.art.rhythmus': 'Rhythmus',
+  'news.art.offiziell': 'Offizielle Website',
+  'news.offiziell.staffel': 'Weitere Staffel bestätigt',
+  'news.offiziell.film': 'Film angekündigt',
+  'news.offiziell.synchro': 'Hinweis zur Synchronfassung',
+  'news.offiziell.termin': 'Start- oder Sendetermin genannt',
   'news.angekRhythmus': 'Bis {datum} wöchentlich {zahl} neue Folgen bei {anbieter}',
   'news.kurz.angekRhythmus': '{zahl} Fg. pro Woche bis {datum} · {anbieter}',
   'news.nachgetragen': 'Folge {von} erschien am {datum} bei {anbieter} mit deutscher Synchro',

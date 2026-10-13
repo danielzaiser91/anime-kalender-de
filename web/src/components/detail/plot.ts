@@ -22,6 +22,7 @@ export function plotVon({ synopsis, anilistId, ersatz, erschienen }: {
         text: synopsis.de,
         fallback: false,
         quelle: synopsis.deSource ?? { name: 'anisearch.de', url: 'https://www.anisearch.de/' },
+        eigen: synopsis.eigen,
       }
     }
     if (synopsis?.en && !(synopsis.en.trim().length < KURZ && ersatz && aussagekraeftig(ersatz.plot))) {
@@ -39,6 +40,7 @@ export function plotVon({ synopsis, anilistId, ersatz, erschienen }: {
       fallback: !ersatz.plot.de,
       vonTeil: ersatz.von,
       erschienen,
+      eigen: ersatz.plot.de ? ersatz.plot.eigen : undefined,
       quelle: ersatz.plot.de
         ? (ersatz.plot.deSource ?? { name: 'anisearch.de', url: 'https://www.anisearch.de/' })
         : { name: 'anilist.co', url: ersatz.von.al ? `https://anilist.co/anime/${ersatz.von.al}` : 'https://anilist.co/' },

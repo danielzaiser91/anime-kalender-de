@@ -1,6 +1,6 @@
 /**
  * Regeln über Termine und Sendepläne: der Datensatz gegen sich selbst.
- * Jede Funktion ist eine Regel; die Kennungen D-xx stehen in `docs/wissen/daten-detektiv.md`.
+ * Jede Funktion ist eine Regel; die Kennungen DD-xx stehen in `docs/wissen/daten-detektiv.md`.
  */
 import type { Release, ReleaseEvent } from '../../shared/types.ts'
 import { releaseStatus } from '../../shared/logic.ts'

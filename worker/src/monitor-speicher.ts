@@ -3,21 +3,24 @@ import type { CheckResult } from './monitor.ts'
 import { fehlerLog } from './werte.ts'
 
 const VERLAUF_TAGE = 60
+/** Die UTC-Stunde, in der der stündliche Lauf aufräumt: einmal am Tag genügt (ohne Index auf `checked_at` liest jedes Aufräumen die Tabelle, 1,6 bis 3,5 k Zeilen). */
+const AUFRAEUM_STUNDE_UTC = 3
 
 /**
- * Hängt die Messung dieses Laufs an den Verlauf und räumt Altes weg. Ein Fehler
+ * Hängt die Messung dieses Laufs an den Verlauf und räumt Altes weg (einmal am Tag). Ein Fehler
  * hier darf den Lauf nicht abbrechen — der Verlauf ist Beiwerk, die Prüfung nicht.
  */
 export async function schreibeVerlauf(db: D1Database, results: CheckResult[], nowIso: string): Promise<void> {
   try {
     const grenze = new Date(Date.parse(nowIso) - VERLAUF_TAGE * 86_400_000).toISOString()
+    const aufraeumen = new Date(nowIso).getUTCHours() === AUFRAEUM_STUNDE_UTC
     await db.batch([
       ...results.map((r) =>
         db
           .prepare('INSERT OR IGNORE INTO site_history (url, checked_at, ok, ms) VALUES (?1, ?2, ?3, ?4)')
           .bind(r.site.url, nowIso, r.ok ? 1 : 0, r.ms),
       ),
-      db.prepare('DELETE FROM site_history WHERE checked_at < ?1').bind(grenze),
+      ...(aufraeumen ? [db.prepare('DELETE FROM site_history WHERE checked_at < ?1').bind(grenze)] : []),
     ])
   } catch (err) {
     fehlerLog('Messverlauf nicht gespeichert', err)

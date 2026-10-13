@@ -12,6 +12,10 @@ export interface SynopsisEintrag {
   deSource?: { name: string; url: string }
   /** Titelseite bei aniSearch mit Slug, wo die Beschreibung nicht von dort stammt (für Pille und Quellenübersicht). */
   asUrl?: string
+  /** Eigener Text aus Fakten mehrerer Quellen (`data/handlung-eigen.yaml`): alle Quellen, Lizenz des Textes, `reihe` = beschreibt nur die Reihe. */
+  eigen?: { quellen: { name: string; url: string }[]; lizenz: string; reihe?: true }
+  /** Nur ein Teil der Folgen liegt auf Deutsch vor (`data/erstausgabe-von-hand.yaml`): Zahl der deutschen Folgen, Quelle samt kurzem Zitat. */
+  deFolgen?: { n: number; quelle: { name: string; url: string }; zitat: string }
   /** Größtes brauchbares Plakat (TMDB): Pfad, Breite, Höhe — nur für die Vergrößerung des Covers. */
   cg?: [string, number, number]
 }

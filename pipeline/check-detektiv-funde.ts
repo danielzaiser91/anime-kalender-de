@@ -8,6 +8,8 @@ import { zeitplanAusVorschlag } from './lib/meldungen.ts'
 import { folgenzahlUeberWerk } from './lib/pruefung.ts'
 import { releasesAusTvProgramm } from './lib/tv-termine.ts'
 import { durchAnilistBekannt } from './fetch-anisearch-eintraege.ts'
+import type { Bestand } from '../tools/daten-detektiv/laden.ts'
+import { ohneJedenBeleg } from '../tools/daten-detektiv/regeln-titel.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -48,6 +50,20 @@ console.log('\nBehobene Funde des Daten-Detektivs:')
   const bekannt = durchAnilistBekannt(zuordnung, { '18828': 'd', '5': 'd' }, new Set([100]))
   pruefe('DD-06: Deutsch bei aniSearch, AniList-Titel nicht im Hauptbestand: Eintrag offen', !bekannt.includes('18828'), bekannt)
   pruefe('DD-06: AniList-Titel im Hauptbestand oder ohne Deutsch: Eintrag bekannt', bekannt.includes('5') && bekannt.includes('6'), bekannt)
+
+  // DD-24: vertont oder abgebrochen bei aniSearch ist ein Beleg (Bastard!!, Scott Pilgrim hebt ab); geplant (`p`) und unbekannt bleiben Treffer
+  const nackt = (id: number, anisearchId?: number) => ({ id, anisearchId, titleEn: `T${id}`, streams: [{ platform: 'netflix', url: 'x', zugang: 'abo' }], slug: `t${id}` })
+  const bestand24 = {
+    titles: [nackt(1), nackt(2), nackt(3), nackt(4), nackt(5, 99)],
+    releases: [],
+    anisearchDubs: { '1': 'd', '2': 'c', '3': 'p' },
+    anisearchDubIds: { '99': 'd' },
+  } as unknown as Bestand
+  const ohneBeleg = ohneJedenBeleg(bestand24).treffer.map((t) => t.schluessel)
+  // DD-16: der Artikel verlinkt die Amazon-Ausgabe, also steht sie als Kaufweg da und nicht eine Suche
+  const produktseite = ['auto-153288-disc', 'jujutsu-kaisen-hidden-inventory-premature-death-blu-ray'].filter((s) => !/amazon\.de\/dp\/B0[A-Z0-9]{8}$/.test(eintrag(s)?.buyUrl ?? ''))
+  pruefe('DD-16: Kaiju No. 8 Staffel 1 und der Jujutsu-Film führen die Amazon-Produktseite', produktseite.length === 0, produktseite)
+  pruefe('DD-24: d und c bei aniSearch zählen als Beleg, auch über die aniSearch-Kennung', ohneBeleg.join() === '3,4', ohneBeleg)
 }
 
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen zu den Detektiv-Funden halten.')

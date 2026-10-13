@@ -16,8 +16,9 @@
  * gegen 14:20 MESZ erschöpft, danach standen Status, Meldungen, Board und Durchgänge bis 02:00 MESZ. Die
  * Route addiert deshalb `meta.rows_read` in dieselbe Zeile (`schreib_tag.gelesen`, Migration 052) und
  * antwortet ab `DECKEL_LESEN` genauso mit 429. Gemessen (workerd, `tools/worker-meldung-lesezeilen-messen.ts`):
- * eine Meldung liest die Zeilen ihrer Adresse + 3, ein Disney+-Durchgang über eine Seite mit n Folgen also n²
- * (24 Folgen 655, 200 Folgen 40.607), Netflix je 10er-Stapel n + 2, Prime unverändert 4. Herleitung der Schwelle:
+ * eine Meldung las die Zeilen ihrer Adresse + 3, ein Disney+-Durchgang über n Folgen also n² (24 Folgen 655,
+ * 200 Folgen 40.607); seit Migration 053 liest sie nur die Zeilen ihrer Folge (`pruefung-unveraendert.ts`,
+ * 200 Folgen 800). Netflix je 10er-Stapel n + 2, Prime unverändert 4. Herleitung der Schwelle:
  * 5,0 Mio. Kontingent − rund 2,0 Mio. Grundlast der übrigen Wege (4,87 Mio. am 12.10. − 2,9 Mio. aus PR 968, mit
  * den Meldungen jenes Tages darin, also eher zu hoch) − 1,5 Mio. Reserve für Spitzen (Bau-Läufe, Board, Status
  * nach einem Neustart) = 1,5 Mio. Nachprüfen anhand von `wrangler d1 insights` nach ein paar Tagen.
@@ -174,7 +175,12 @@ export function deckelAntwort(antwort: (body: unknown, status?: number) => Respo
   return r
 }
 
-type MitDb = { env: Env; antwort: (body: unknown, status?: number) => Response }
+type MitDb = {
+  env: Env
+  antwort: (body: unknown, status?: number) => Response
+  /** Erfährt, was der Lauf an Zeilen angefasst hat — auch nach einer Ausnahme (es kann teilweise geschrieben sein). */
+  beiZeilen?: (zeilen: Zeilen) => void
+}
 
 /** Führt `lauf` nur unter beiden Deckeln aus und bucht danach die geschriebenen und gelesenen Zeilen. */
 export async function mitTagesdeckel<K extends MitDb>(kontext: K, lauf: (k: K) => Promise<Response>, jetzt = new Date()): Promise<Response> {
@@ -188,6 +194,8 @@ export async function mitTagesdeckel<K extends MitDb>(kontext: K, lauf: (k: K) =
   } catch (e) {
     if (zaehler.limit()) return deckelAntwort(kontext.antwort, jetzt)
     throw e
+  } finally {
+    kontext.beiZeilen?.(zaehler.zeilen())
   }
   /* D1 hat verweigert, die Meldung den Fehler gefangen (Stapel: je Meldung `ok: false`): auch das ist das Tageslimit. */
   if (zaehler.limit()) return deckelAntwort(kontext.antwort, jetzt)

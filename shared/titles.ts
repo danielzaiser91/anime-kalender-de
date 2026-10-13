@@ -471,3 +471,12 @@ export function ohneStaffelEins(name: string): string {
     .replace(/\s*[–—-]?\s*\(?(Staffel|Season)\s*1\)?\s*$/i, '')
     .trim()
 }
+
+/**
+ * Ist die deutsche Synchro belegt? Anime: Stufe „stark“ oder höher (dieselbe Schwelle wie die Zahl „belegt“ in der Fußzeile);
+ * Cartoons: ein Weg mit `dub: true` (nicht schon „laut JustWatch“). Darunter heißt es „angekündigt oder wahrscheinlich“.
+ */
+export function synchroBelegt(t: Pick<Title, 'dubConfidence' | 'westlich' | 'streams'>): boolean {
+  if (t.westlich) return (t.streams ?? []).some((s) => s.dub === true)
+  return t.dubConfidence === 'high' || t.dubConfidence === 'very-high'
+}

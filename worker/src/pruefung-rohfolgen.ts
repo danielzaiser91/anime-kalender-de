@@ -27,7 +27,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         5.000 kamen heraus — 620 hätten den Bau nie erreicht. Eine Abfrage mit
         `LIMIT` beantwortet eine andere Frage als die gestellte (26.08.2026,
         damals kostete es zwei Einträge). `?nach=<id>` setzt dort fort, wo die
-        letzte Seite endete; `gesamt` bleibt die ungekürzte Zahl.
+        letzte Seite endete; `weiter` ist bei voller Seite deren letzte Kennung (nächstes `?nach=`), sonst `null`; eine Gesamtzahl gibt es nicht mehr.
       */
       /*
         **Probe: die jüngsten Rohfolgen eines Anbieters samt `roh`, auch übernommene.**
@@ -79,17 +79,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         ).all()
         return { namen: results ?? [] }
       }, FRIST_NAMEN_MS)
-      if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, async () => {
-        const { results } = await env.DB.prepare(
-          `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
-                  seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen
-             FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT 5000`,
-        )
-          .bind(Number.isFinite(nach) ? nach : 0)
-          .all()
-        const zeilen = (results ?? []) as { id: number }[]
-        return { folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null }
-      })
+      if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, () => alleRohfolgen(env, nach))
       return ausSpeicher(env, `offen-${Number.isFinite(nach) ? nach : 0}`, async () => {
       const { results } = await env.DB.prepare(
         /*
@@ -127,4 +117,22 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null,
       }
       })
+}
+
+/**
+ * `&alle=1`: eine Seite jeder Beobachtung ohne `roh` (Menge), fortsetzbar über `nach` (Begründung am Aufruf).
+ * Nur `angenommen` wird aus `roh` gelöst (Netflix-Randprobe, 12.10.2026): Eine angenommene Folge darf in
+ * `fetch-urteile.ts` nicht als gemessen zählen.
+ */
+async function alleRohfolgen(env: Env, nach: number) {
+  const { results } = await env.DB.prepare(
+    `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
+            seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen,
+            CASE WHEN plattform = 'netflix' AND json_valid(roh) THEN json_extract(roh, '$.angenommen') END AS angenommen
+       FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT 5000`,
+  )
+    .bind(Number.isFinite(nach) ? nach : 0)
+    .all()
+  const zeilen = (results ?? []) as { id: number }[]
+  return { folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null }
 }

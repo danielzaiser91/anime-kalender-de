@@ -2,6 +2,7 @@ import type { Zugangsart } from './zugangsart.ts'
 import type { PremiereVorher, ReleasePremiere } from './premiere.ts'
 import type { FolgenFenster } from './folgen-fenster.ts'
 import type { ReleaseRhythmus } from './folgenrhythmus.ts'
+import type { WatchLink } from './watchlink-typ.ts'
 /** Gemeinsame Typen für Pipeline, Web-App und Newsletter-Worker. */
 
 export type PlatformId =
@@ -109,8 +110,8 @@ export interface Schedule {
    *
    * „Vom Landei zum Schwertheiligen II": Beobachtet waren nur die Tage von Folge 1 und 5,
    * Folge 10 (09.09.) stand deshalb als „geschätzt" da, obwohl eine Meldung Prime mit den
-   * Folgen 1–10 auf Deutsch belegt. Ein Termin bis zu dieser Folge, der
-   * nicht nach dem Prüftag liegt, ist erschienen und gilt nicht mehr als Schätzung.
+   * Folgen 1–10 auf Deutsch belegt. Ein Termin nach der frühesten Beobachtung bis zu dieser Folge, der
+   * nicht nach dem Prüftag liegt, ist erschienen (zurückgerechnete Tage davor bleiben geschätzt, 12.10.2026).
    */
   belegtBis?: { folge: number; am: string }
   /**
@@ -242,66 +243,6 @@ export interface StreamLink {
 }
 
 /** Ein Anime (genauer: ein AniList-Eintrag) mit belegter deutscher Synchro. */
-/**
- * Ein Weg, den Titel zu sehen oder zu kaufen — jenseits der Plattformen, die
- * dieses Projekt selbst kennt.
- *
- * `PlatformId` ist eine geschlossene Liste der großen Anbieter. Für einen alten
- * Katalogtitel steht der einzige deutsche Weg aber oft bei Maxdome, Videobuster
- * oder schlicht als DVD bei Amazon. Diese Angebote hier zu verschweigen, nur
- * weil sie nicht in die Liste passen, wäre die schlechtere Antwort.
- */
-export interface WatchLink {
-  /** Anzeigename, wie ihn ein Mensch erwartet: „Amazon", „Videobuster". */
-  name: string
-  url: string
-  /** Ansehen oder erwerben — Streams stehen in der Oberfläche zuerst. */
-  kind: 'stream' | 'buy'
-  /**
-   * Die Adresse ist TMDBs Übersichtsseite, nicht der Anbieter (22.09.2026). TMDB nennt den Anbieter,
-   * aber keine Adresse; die Pille schreibt dann „(über TMDB)" hinter den Namen.
-   */
-  ueberTmdb?: true
-  /**
-   * Was es kostet: nichts, ein Abo, oder Geld pro Titel.
-   *
-   * `kind` trennt Ansehen von Erwerben, aber nicht Abo von kostenlos — und für
-   * einen Besucher ist genau das der Unterschied. Wird
-   * beim Bauen aus Name und Adresse bestimmt, siehe `shared/zugangsart.ts`.
-   */
-  zugang?: Zugangsart
-  /**
-   * **Die eine Folge, auf die dieser Weg zeigt** — wo die Adresse es selbst sagt.
-   *
-   * Daniel am 12.09.2026 an „Banana Fish": Die Akibapass-Pille führt zu Folge 1,
-   * die dort längst auf Deutsch läuft, und daneben stand als Termin der
-   * 06.11.2026 — der zweite Blu-ray-Band. „da steht 06.11., das ist in 2
-   * monaten, es muss besser kommuniziert werden. folge 1 jetzt, rest 06.11."
-   *
-   * Die Adresse trägt die Auskunft: `…/exklusive-dub-previews/videos/
-   * banana-fish-s1e01-…`. Drei Wege im Bestand sind so gebaut (zwei bei ADN,
-   * einer bei Akibapass); ohne die Angabe sieht ein Weg zu **einer** Folge
-   * genauso aus wie einer zur ganzen Serie.
-   */
-  nurFolge?: number
-  /**
-   * **Welche Folgen dieser Weg auf Deutsch enthält** — von Hand belegt in
-   * `watch-links.yaml`, gleiche Form wie am Stream-Verweis.
-   *
-   * Anlass: Die Dai-DVD-Box bei Animeversand führt „Episoden: 1-75", die Serie hat 100
-   * Folgen. Ohne die Angabe stand an der Pille gar keine Zahl, und dass 76–100 bei
-   * keinem bekannten Anbieter liegen, sagte niemand.
-   */
-  dubRanges?: Array<{ from: number; to: number; dub: boolean }>
-  /**
-   * **Nur TOGGO: wann welche Folgen kostenlos abrufbar sind** (19.09.2026, `pipeline/fetch-toggo.ts`).
-   * Blöcke aufeinanderfolgender Folgen mit gleichem Fenster; `ab`/`bis` in Berliner Ortszeit.
-   * Ob eine Folge *jetzt* abrufbar ist, rechnet die Oberfläche — der Datensatz ist bis zu einem
-   * Tag alt, und bei Daima schließt jeden Abend ein Fenster.
-   */
-  toggo?: Array<{ staffel: number; von: number; bis: number; ab: string; ende: string }>
-}
-
 export type { FolgenFenster }
 
 export interface Title {
@@ -597,6 +538,7 @@ export interface Quelle {
 }
 
 export type { Meldung } from './meldung-typ.ts'
+export type { WatchLink } from './watchlink-typ.ts'
 
 /** Eine konkrete deutsche Veröffentlichung — das, was im Kalender steht. */
 export interface Release {

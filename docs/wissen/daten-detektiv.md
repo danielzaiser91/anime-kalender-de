@@ -80,6 +80,17 @@ Disney+-Katalogaufnahmen als „Premiere" (DD-11); (5) acht News-Meldungen ohne 
 - **DD-01** — Lycoris Recoil: Crunchyrolls Katalog datiert Folge 6 auf 06.08.2022 16:00 UTC, vor Folge 5; Quelle, kein Rechenfehler — als belegtes Anbieterdatum ausgenommen.
 - **DD-19 (Rest)** — Hände weg, Kotesashi-kun und Kamisama Kiss (Prime/Aniverse-Kanal): Termin ohne Weg, ein Weg entsteht nur aus einer Messung; bleibt in `detektiv-bekannt.json`.
 
+## Wochenwache 12.10.2026: 23 neue Funde der weichen Regeln
+
+`npm run detektiv -- --nur DD-02,DD-08,DD-24,DD-16,DD-19` (Bestand 12.10.2026); `--wache` meldete 23 Schlüssel, die nicht in `data/detektiv-bekannt.json` standen.
+
+- **DD-24 (10):** Fehlalarm bei dreien — Bastard!! (beide Staffeln) und Scott Pilgrim hebt ab tragen bei aniSearch `d` (vertont); das ist im Bau ein Beleg (`deutschLautAnisearch`), die Regel nannte es nur im Text und zählte sie trotzdem. **Regel geschärft:** `d` und `c` zählen als Beleg, `p` bleibt Treffer mit Vermerk „nur als geplant" (Gegenprobe in `check-detektiv-funde.ts`). Die übrigen sieben stehen im Hauptbestand, weil die Grundliste (`dubConfidence: low`, Quelle vermutlich MyDubList) sie führt und aniSearch Deutsch als geplant (`p`) nennt oder gar keinen Eintrag hat (Girls und Panzer Teil 5: Japan-Start 09.10.2026, Teil 4 läuft bei Prime/Aniverse; deutsche Fassung von Teil 5 ungeprüft). Gekennzeichnet als schwach, nichts gestrichen; in `detektiv-bekannt.json`.
+- **DD-02 (2):** Kein Datenfehler. **Gantz** 26 Folgen auf der Prime-Seite: Anime2You nennt „26 (komplett)", der Handbeleg `dub-confirmed.yaml` (Amazon B0GZV7F9KK) „alle 26 Folgen geprüft" — Prime führt Gantz (13) und Gantz: Second Stage (13) als eine Serie. **Danganronpa** 14: Anime2You „14 (komplett)", AniList und aniSearch zählen 13 (aniSearch-Folgenliste 8222: 13 Einträge); die Zahl der Quelle bleibt, Nachprüfung auf der Liste für Daniel. Beide in `detektiv-bekannt.json`, wie Wolf’s Rain und Sankarea am 08.10.
+- **DD-08 (2):** Kabaneri-Zusammenfassungsfilme (98662, 98663): JustWatch (17.09.2026) nennt Crunchyroll mit deutschem Ton (`/watch/GR0XPDJ0Y`, `/watch/GR790PW36`), Crunchyrolls Katalog (`cr-katalog-de.json`, 09.09.2026: 69 Filme, keiner davon Kabaneri; Serie GR24GX896 nur mit der Staffel 1) führt sie nicht. Prüfhierarchie: Katalog vor JustWatch, also kein Weg eingetragen; Klärung steht auf der Liste für Daniel.
+- **DD-16 (8):** Sechs Vorbestellungen 2026/27 mit Amazon-Suche als Kaufweg (Fate/stay night Heaven’s Feel ×3, Dr. Stone, Shield Hero, Apothekerin): der Artikel nennt keine Amazon-Seite, die Suche ist der dokumentierte Rückfall (138 am 08.10.). **Behoben:** Jujutsu Kaisen Film (`B0HMCFML35`) und Kaiju No. 8 Staffel 1 Steelbook (`B0HMCHK26Q`, vorher automatischer Eintrag ohne jeden Kaufweg, Slug unverändert) führen jetzt zur Produktseite, die der Anime2You-Artikel unter „Film auf Blu-ray“ bzw. „Staffel 1 im Steelbook“ verlinkt (ohne Partnerkennung).
+- **DD-19 (1):** Dragon Ball Daima: Anime2You (25.09.2026) nennt als Stream „Prime Video, RTL+" (RTL+ auf dem Prime-Video-Channel), der Titel hat Wege zu RTL+ und TOGGO, aber keinen Prime-Weg; ein Weg entsteht nur aus einer Messung (Prime-Seiten werden nicht abgerufen). Bleibt bekannt, wie Kamisama Kiss.
+- Aus `detektiv-bekannt.json` fielen zwei erledigte Schlüssel (DD-08 8408, DD-19 auto-187331-primevideo).
+
 ## Grenzen
 
 Keine Regel prüft gegen den Anbieter live; Zweitquellen sind die lokalen Abzüge aus `data/`, bis zu

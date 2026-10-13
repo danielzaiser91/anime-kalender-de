@@ -211,6 +211,14 @@ gewartet** — im Hintergrund, bis er fertig ist.
 `QUELLEN` enthält, solange ein Lauf außer Deploy, Aussehen und Claude läuft.
 **Seit dem 11.10.2026 nur noch für Commits auf `main` und nur, solange der Bestandsbau läuft** (der einzige Lauf, der direkt auf `main` schreibt; Branch-Commits und PR-Läufe sperren nichts mehr — am 10.10. hielt die Wache einen Branch-Commit 42 Minuten an).
 
+**Pre-commit prüft gestagte Patch Notes (12.10.2026).** Derselbe Hook (`bash tools/quellen-commit-wache.sh --einrichten`, schreibt jetzt
+über `git rev-parse --git-path`, geht also auch aus einem Worktree) ruft `tools/patchnotes-gestagt-pruefen.mjs`: bei gestagten
+`data/patchnotes/*.yaml` gültiges YAML und das Schema aus `shared/patchnotes.ts` (dieselbe Prüfung wie `pipeline/check-patchnotes.ts`,
+gelesen wird der Index). Anlass: ein Doppelpunkt im Untertitel fiel erst in `check:vor-commit` auf. Ohne gestagte Patch Notes endet
+das Werkzeug nach einem `git diff` (≈ 0,1 s), mit ihnen ≈ 0,2 s (gemessen 12.10.2026); Test `tools/patchnotes-gestagt.test.mjs`.
+Zweige ohne das Werkzeug überspringen es, der Hook liegt für alle Worktrees im gemeinsamen `.git/hooks/`. Nach dem Merge einmal
+`bash tools/quellen-commit-wache.sh --einrichten` im Hauptordner ausführen, sonst bleibt der alte Hook ohne die Prüfung.
+
 **Vierter Fall, 21.09.2026 — ausgelöst von einem Commit, der gar keine Quelle anfasste.** Während
 `bestand-bauen` lief, ging eine Doku-Änderung auf `main`. Der Fernstand hatte sich bewegt, der Lauf
 nahm den Rettungsweg und spielte die Erweiterungslisten zurück (in `QUELLEN`), ihre ausgelieferte
@@ -269,7 +277,7 @@ Zeilen; Anlass und Verlauf gehören in den Commit oder hierher.
 
 **Umbauen, ohne etwas zu ändern.** `tools/bau-vergleich.mjs` baut Basis und Kandidat je in einem
 eigenen Worktree mit einem nachgebildeten Cache und vergleicht alles, was der Bau schreibt. Ein
-reiner Umbau ist erst fertig, wenn das „gleich" meldet. Beide Seiten starten vom Bestand der Basis (`data/`, `public/data/`): Datenänderungen des Kandidaten sieht der Vergleich nicht, ob der Bau darauf durchläuft nur ein zweiter Lauf `HEAD HEAD` (11.10.2026). Der Bau läuft dabei mit
+reiner Umbau ist erst fertig, wenn das „gleich" meldet. Beide Seiten starten von `public/data/` und `data/` der Basis; der Kandidat bekommt seit 12.10.2026 zusätzlich seine eigenen Änderungen an `data/` seit der Merge-Basis (`git diff basis...kandidat`, ohne `data/cache/`, Gelöschtes wird entfernt), Änderungen an Handdateien (`data/*.yaml`) werden also mitgebaut und verglichen. Vorher bauten beide mit `data/` der Basis, und ein PR auf Handdateien meldete „gleich" (Befund zu PR 977). Nur die eigenen Änderungen, nicht das ganze `data/` des Kandidaten: Er liegt meist hinter der Basis, und die Sammler-Rohdaten von `main` (403 von 550 Commits in 3 Tagen berühren `data/`) wären sonst immer ein Unterschied. Hat die Basis dieselbe Datei auch geändert, wird der Diff Merge-Basis..Kandidat per `git apply --3way` auf die Basis gelegt, bei Konflikt bricht der Vergleich ab (Test `tools/bau-vergleich-daten.test.mjs`). Meldet der Vergleich „gleich", obwohl der Kandidat `data/` ändert, steht ein Hinweis dabei. Läuft schon ein Vergleich, reiht sich der Aufruf in die Schlange ein (Abschnitt „Warteschlange“ unten) und wartet bis zu 45 min, danach Exit 3. Der Bau läuft dabei mit
 `BAU_VERGLEICH=1`: Widersprüche im Ergebnis (`brichAbBeiWiderspruch`, `pipeline/lib/bau-widerspruch.ts`; Phasen 10, 11-6, 11-7, 13-5, 13-8)
 brechen ihn nicht ab, sondern stehen als „Widerspruch (Vergleichsmodus)" im mitverglichenen Protokoll — der Ersatz-Cache ist nicht
 der echte, und eine Invariante, die dort reißt, verhinderte sonst jede Basis (12.10.2026: Bookworm-Dublette, Prime-Häkchen ohne Beleg).
@@ -282,6 +290,29 @@ JSX-Blöcke), das Parameter und Importe aus dem Typprüfer ableitet — von Hand
 verliert zu leicht eine Neuzuweisung oder eine Reihenfolge. Einige Zusicherungen in `check:logic`
 lesen Quelltext und prüfen die Reihenfolge von Marken; sie lesen deshalb alle Module in
 Aufrufreihenfolge (`bauQuelltext()`, `panelQuelltext()`, `workerQuelltext()`).
+
+**Exit-Codes von `bau-vergleich.mjs` (12.10.2026):** 0 gleich, 1 verschieden, 2 Bau der Basis gescheitert, 3 Sperre belegt, **4 Konflikt**
+bei der Übernahme der eigenen `data/`-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen). Vorher endete der Konflikt als
+unbehandelte Ausnahme mit Exit 1 und sah aus wie ein Unterschied im Ergebnis. Die Codes stehen in `tools/bau-vergleich-urteil.mjs`.
+
+**Abstand und Sperre bei `bau-vergleich.mjs` (12.10.2026).** Ist die Basis kein Vorfahre des Kandidaten (Zweig hinter `origin/main` oder
+auseinandergelaufen), steht vor dem Lauf und am Ende eine WARNUNG mit Zahl der fehlenden Commits und der Merge-Basis
+(`tools/bau-vergleich-abstand.mjs`), bei „verschieden“ dazu, wie viele der Dateien die Basis seit der Merge-Basis selbst geändert hat.
+Anlass: Prüfer verglichen gegen das wandernde `origin/main` und sahen 32 fremde Dateien (`public/data/synopses/*`). Regel bleibt:
+zwei feste Hashes, bei einem Zweig hinter main gegen die Merge-Basis (`git merge-base`) oder erst rebasen. Die Sperre
+(`tools/einzel-sperre.mjs`, auch `panel-vergleich`) nannte schon PID und Startzeit, aber nicht, was läuft; jetzt steht in der Absage und
+in der Wartemeldung (sofort, dann jede Minute) PID, Startzeit, „vor N min“ sowie bei `bau-vergleich` beide Hashes und der Ort des
+Halters (Vorgabe für andere Werkzeuge: Skript, Argumente, Arbeitsverzeichnis). Wer bei `bau-vergleich` wartet, steht in der Schlange (nächster Absatz); `panel-vergleich` bricht weiter sofort mit Exit 3 ab.
+Eine Sperre mit totem Halter (PID lebt nicht) übernimmt der nächste Lauf mit Meldung. Seit 12.10.2026 räumt `bau-vergleich` nach der Sperre auch gesperrte `baum-*`-Worktrees, deren Ordner fehlt, selbst ab (`git worktree prune` lässt gesperrte stehen; Rest eines hart beendeten `worktree add`, Sperre „initializing“) — `tools/bau-vergleich-reste.mjs`, nur in der eigenen Ablage.
+
+**Warteschlange bei `bau-vergleich.mjs` (13.10.2026).** Wartende fragten bisher alle 5 s die Sperre ab, wer zufällig nach der Freigabe dran war,
+überholte die Älteren: Katalog-Release dreimal, OG-Titel viermal Exit 3 ohne Vergleich; ein Bauer half sich mit einer Wiederholschleife ohne PID.
+Jetzt legt jeder Wartende ein Ticket `bau-vergleich.warte-<Zeit>-<PID>` neben die Sperre in `tmpdir()`, nur das älteste Ticket darf die Sperre
+nehmen (FIFO, `tools/einzel-sperre-schlange.mjs`). Die Meldung nennt „Platz N von M“ und den Halter, sofort bei jeder Platzänderung, sonst jede
+Minute. Tickets hart beendeter Wartender (PID tot oder fremdes Programm) räumt der nächste Takt weg; reguläres Ende, SIGINT und SIGTERM löschen
+das eigene. Frist 45 min (`FRIST_MS`), dann Meldung mit Platz und Halter und Exit 3; ein neuer Aufruf reiht sich hinten ein. Test
+`tools/einzel-sperre-schlange.test.mjs` (echte Prozesse; ein Nachzügler, der 150-mal so oft fragt (Takt 10 ms gegen 1,5 s), bleibt hinter den Älteren; ein fälschlich gelöschtes eigenes Ticket legt der Besitzer am alten Platz neu an; mit
+`if (!nimmSperre(…))` statt `platz === 1 &&` war er in 4 von 4 Läufen rot). Wartende Bauer brauchen weder Wiederholschleife noch „bei Exit 3 neu starten“.
 
 **Stand nach dem ersten Umbau (26.09.2026):** `build.ts` 9.286 → 109 Zeilen, `main()` 7.809 → 90;
 die Phasen liegen in `pipeline/bau/` (größte Funktion 619 Zeilen). `DetailPanel.tsx` 6.237 →
@@ -423,7 +454,7 @@ das sonst verfällt.
 ## Prüfung nach Risiko: Stufen 0, 1, 2 (Daniel, 10.10.2026)
 
 Anlass: „keine Prüfer-Agenten bei Kleinigkeiten“. `node tools/pr-stufe.mjs <PR>` (Tabelle und Tests: `tools/pr-stufe.mjs`, `tools/pr-stufe.test.mjs`) stuft mechanisch aus Pfaden und Zeilenzahl des Diffs ein, im Zweifel Stufe 2.
-Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar und lässt bei Stufe 0 den Claude-Lauf aus.
+Stufe 0 (Text/Patchnotes/i18n ohne Rechtstexte, eine CSS ≤ 30 Zeilen, Doku, Kommentare): nur die PR-Prüfkette, bei Grün Merge, danach Livemessung. Stufe 1 (UI-Logik, einzelne Handbelege, Daten-Konstanten, Skill-Texte `.claude/skills/**/*.md` seit 12.10.2026): schlanker Prüfer liest Diff und `gh pr checks`, baut nicht nach. Stufe 2 (pipeline, worker, Workflows, shared/logic/time, Schemata, > ~300 Zeilen): voller Prüfer mit Gegenproben. Tatsachenzahlen (IDs, Termine, Uhrzeiten, Folgenzahlen, Synchro-Status) sind nie Stufe 0. `pr-pruefer.yml` führt die Stufe als PR-Kommentar; bei Stufe 0 prüft der CI-Prüfer seit 12.10.2026 schlank (nur Diff, kleines Zugbudget) und gibt bei Ok frei, sonst Änderungswünsche.
 
 ## Vor dem Commit
 
@@ -453,7 +484,7 @@ in D1).
 
 **Eine Prüfung, die `public/data` liest, gehört nicht nach `check:logic`, sondern in `tools/check-bestand-liste.txt` (`check:bestand`, läuft im Bestandsbau über `tools/commit-data.sh`) — `check:logic` lehnt sie ab (12.10.2026).** Anlass: Der Bestand liegt hinter neueren Rohdaten zurück; am 12.10. hingen fünf freigegebene PRs 1–2 h fest, weil `check-anisearch-katalog-abgleich` (aniSearch-Brücke vom Sammellauf) in der PR-Prüfkette rot war, ohne dass ein PR etwas dafür konnte. Der Wächter sitzt in `tools/check-logic-alle.mjs` (`tools/bestand-sperre.cjs` verbietet jeder Prüfung und ihren Unterprozessen den Lesezugriff auf `public/data`; Gegenprobe `tools/check-logic-ohne-bestand.test.mjs`). Altlasten stehen mit Frist in `tools/check-logic-bestand-ausnahmen.json` und müssen gestrichen werden, sobald sie nicht mehr lesen; `hoechstens` sinkt nur. Gemischte Prüfdatei: den Bestandsteil als `pipeline/check-<name>-bestand.ts` abtrennen (Muster: `check-kachel-anbieter-bestand.ts`). Stand 12.10.2026: 18 Bestandsteile und 2 ganze Prüfungen umgezogen (20 in `check-bestand-liste.txt`), zwei Ausnahmen (Handbeleg-Tor in `check-logic.ts`, `check-kanal-abgehakt.ts`). Prüfungen, die vom Sammellauf erneuerte Rohdaten unter `data/` lesen (z. B. `anisearch-eintraege.json`, `kennungen.json`), sind noch nicht ausgelagert (Folgeposten).
 
-**Neuer Check = neue Zeile in `tools/check-logic-liste.txt`** (nicht in `package.json`; `tools/check-logic-alle.mjs` führt die Liste der Reihe nach aus). Die Liste ist alphabetisch sortiert (Pflicht, `check-logic-alle.mjs` prüft es; seit 11.10.2026): die Zeile an die passende Stelle setzen, nicht ans Ende, denn zwei Zweige, die dieselbe Stelle ergänzen, kollidieren (10.10.2026 mit `git merge-file` gemessen). **Neuer Test `tools/<name>.test.mjs` = nur die Datei anlegen:** `tools/tests-alle.mjs` (in `check:workflows`) führt jede `tools/*.test.mjs` aus, kein Eintrag in `package.json`. Mit `node tools/tests-alle.mjs --alle` laufen alle durch und am Ende steht die Liste der roten (seit 12.10.2026). **Vergessene Prüfungen (12.10.2026):** `check:logic` wird rot, wenn eine `check-*.ts` oder `*.test.mjs|ts` in `pipeline/` oder `tools/` weder in `check-logic-liste.txt` / `check-bestand-liste.txt` noch in einem `package.json`-Skript steht und keine `tools/*.test.mjs` ist (`tools/check-logic-vollstaendig.mjs`); eine bewusste Ausnahme steht mit Grund in `tools/check-logic-liste-ausnahmen.txt` (heute: `pipeline/check-invarianten-kanal.ts`, nur Proben-Bibliothek).
+**Neuer Check = neue Zeile in `tools/check-logic-liste.txt`** (nicht in `package.json`; `tools/check-logic-alle.mjs` führt die Liste der Reihe nach aus). Die Liste ist alphabetisch sortiert (Pflicht, `check-logic-alle.mjs` prüft es; seit 11.10.2026): die Zeile an die passende Stelle setzen, nicht ans Ende, denn zwei Zweige, die dieselbe Stelle ergänzen, kollidieren (10.10.2026 mit `git merge-file` gemessen). Seit 13.10.2026 führt `.gitattributes` die Liste mit `merge=union` zusammen (lokal bei Merge und Rebase, in der Probe ohne Konflikt; ob GitHubs eigener Merge das Attribut liest, ist nicht belegt): zwei Zweige mit verschiedener Zeile an derselben Stelle ergeben beide Zeilen, bei Merge in der Reihenfolge „unsere, ihre“ — ist die unsortiert, meldet `check:logic` es, dann die zwei Zeilen tauschen; dieselbe Zeile doppelt meldet `check:logic` als „mehrfach“ (`tools/check-logic-liste.test.mjs`). **Neuer Test `tools/<name>.test.mjs` = nur die Datei anlegen:** `tools/tests-alle.mjs` (in `check:workflows`) führt jede `tools/*.test.mjs` aus, kein Eintrag in `package.json`. Mit `node tools/tests-alle.mjs --alle` laufen alle durch und am Ende steht die Liste der roten (seit 12.10.2026). **Vergessene Prüfungen (12.10.2026):** `check:logic` wird rot, wenn eine `check-*.ts` oder `*.test.mjs|ts` in `pipeline/` oder `tools/` weder in `check-logic-liste.txt` / `check-bestand-liste.txt` noch in einem `package.json`-Skript steht und keine `tools/*.test.mjs` ist (`tools/check-logic-vollstaendig.mjs`); eine bewusste Ausnahme steht mit Grund in `tools/check-logic-liste-ausnahmen.txt` (heute: `pipeline/check-invarianten-kanal.ts`, nur Proben-Bibliothek).
 
 **Auch ein reiner Daten-Commit läuft durch `check:logic`.** Am 15.09.2026 gingen im Durchgang
 morgens mehrere Handbeleg-Commits ohne Prüfkette raus; zwei davon (FGO 1–22 bei 21 Folgen,
@@ -584,6 +615,7 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 - Verschoben wird mit `tools/modul-umzug.mjs`, nicht von Hand. Vorgehen: Skill `zerlegen`. Bei reinen Kommentar-Umbauten `node tools/nur-kommentare.mjs` (Code ohne Kommentare gleich).
 - Wegwerfskripte gehören ins Scratchpad, nicht ins Repo; Aufbewahrtes nach `tools/archiv/`.
 - Dieselben Regeln projektübergreifend: `tools/claude-global/` — auf jedem Rechner einmal `node tools/claude-global/einrichten.mjs` (prüfen: `--pruefen`).
+- Die Claude-Code-Mod `arbeitsliste` (zeigt `daniel-zum-abarbeiten/stand.md`) wird seit 12.10.2026 in `tools/claude-global/mods/arbeitsliste/` gepflegt; `einrichten.mjs` kopiert sie nach `~/.claude/mods/arbeitsliste/` (Test: `CLAUDE_CODE_ENABLE_FUNCTION_HOOKS=1 claude plugin test` im Mod-Ordner). Nicht im Repo: `messung.log`, `.claude-plugin/types/`.
 
 ### Wissen nach Thema (Verweisliste)
 
