@@ -269,10 +269,14 @@ export function nurAngekuendigt(releases: Release[], titleId: number, plattform:
   return !termine.some((d) => d <= tag)
 }
 
-/** Das früheste deutsche Release des Titels, dessen Termin erreicht ist (nicht widerlegt, nicht nur OmU). */
-function erreichtesRelease(releases: Release[], titleId: number, heute: string): Release | undefined {
+/**
+ * Das früheste deutsche Release des Titels, dessen Termin erreicht ist (nicht widerlegt, nicht nur OmU). Ohne eigenen Anbieter-Weg zählt ein
+ * automatisch übernommener Prime-Kanal-Termin nicht: Er stammt aus einem Artikel über den Kanal-Anbieter und belegt kein Prime-Ja (13.10.2026).
+ */
+function erreichtesRelease(releases: Release[], titleId: number, heute: string, anbieter: PlatformId | undefined): Release | undefined {
   return releases
     .filter((r) => r.titleId === titleId && !r.widerlegt && !r.sprache && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
+    .filter((r) => anbieter || !(r.kanal && r.automatisch))
     .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
 }
 
@@ -327,7 +331,7 @@ export function baueNews(
     const t = nachId.get(n.id)
     if (!t) continue
     const anbieter = t.streams.find(eigenesJa)?.platform
-    const erreichtRelease = erreichtesRelease(releases, t.id, heute)
+    const erreichtRelease = erreichtesRelease(releases, t.id, heute, anbieter)
     const erreicht = erreichtRelease?.schedule?.firstEpisodeDate
     if ((!anbieter && !erreicht) || nurAngekuendigt(releases, t.id, anbieter, n.seit)) continue
     roh.push({
