@@ -1,7 +1,10 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
+import type { Zeilenzustand } from '@shared/laeuft-jetzt.ts'
 import type { Dataset } from '../../lib/data.ts'
 import { tvPremiere } from '../../lib/tv-angabe.ts'
+import { tvJetzt } from '../../lib/tv-jetzt.ts'
+import { ErsteSendung, JetztLinie, SenderZeile, UhrzeitMitLaeuft } from './TvJetzt.tsx'
 import { buendeleTermine } from '../../lib/buendel.ts'
 import { coverBild } from '../../lib/cover.ts'
 import { useLang } from '../../lib/i18n.tsx'
@@ -18,25 +21,41 @@ export function TvKasten({
   data,
   hidden,
   vorbeiBis,
+  jetzt,
   onOpen,
   kompakt,
 }: {
   termine: ReleaseEvent[]
   data: Dataset
   hidden: Set<number>
-  /** Uhrzeit, bis zu der heute alles vorbei ist; an anderen Tagen leer. */
+  /** Uhrzeit, bis zu der vergangene Tage und heute alles vorbei ist; an künftigen Tagen leer. */
   vorbeiBis?: string
+  /** Nur für heute: die Uhrzeit, nach der „Läuft", „in 13 Min" und die Jetzt-Linie rechnen. */
+  jetzt?: string
   onOpen: (ev: ReleaseEvent) => void
   /** In einer Schwebekarte: ohne eigenen Rahmen und Kopf. */
   kompakt?: boolean
 }) {
   const { t } = useLang()
   const gruppen = buendeleTermine(termine, (ev) => !!ev.verpasst || tvPremiere(ev, data))
+  const stand = jetzt ? tvJetzt(gruppen, data.releaseBySlug, jetzt) : undefined
   const liste = (
     <ul className="flex flex-col">
-      {gruppen.map((g) => (
-        <TvZeile key={g[0].id} gruppe={g} data={data} versteckt={hidden.has(g[0].titleId)} vorbei={!!vorbeiBis && (g[g.length - 1].time ?? '99') < vorbeiBis} onOpen={onOpen} />
+      {gruppen.map((g, i) => (
+        <Fragment key={g[0].id}>
+          {stand?.linie.linieVor === i && <JetztLinie uhr={jetzt!} nichtsMehr={false} />}
+          <TvZeile
+            gruppe={g}
+            data={data}
+            versteckt={hidden.has(g[0].titleId)}
+            vorbei={stand ? stand.zustand.zeilen[i]?.art === 'vorbei' : !!vorbeiBis && (g[g.length - 1].time ?? '99') < vorbeiBis}
+            zustand={stand?.zustand.zeilen[i]}
+            restZeigen={!!stand?.linie.restInZeile}
+            onOpen={onOpen}
+          />
+        </Fragment>
       ))}
+      {stand?.linie.linieVor === gruppen.length && <JetztLinie uhr={jetzt!} nichtsMehr />}
     </ul>
   )
   if (kompakt) return liste
@@ -45,7 +64,10 @@ export function TvKasten({
       {/* Klebt oben, wenn der Kasten in Zeilenhöhe rollt — sonst verschwände mit dem Kopf auch der Hinweis, was hier steht. */}
       <h3 className="sticky top-0 z-[1] -mx-3.5 -mt-3 flex items-center gap-2 rounded-t-2xl bg-ak-tv-grund px-3.5 pt-3 pb-1.5 text-xs font-bold uppercase tracking-[0.1em] text-ak-tv">
         <FernsehZeichen groesse={16} />
-        {t('kal.imTv')}
+        <span>
+          {t('kal.imTv')}
+          {!!stand?.linie.ersteIn && <ErsteSendung minuten={stand.linie.ersteIn} />}
+        </span>
       </h3>
       {termine.length === 0 ? <p className="text-[13px] text-ak-sehr-leise">{t('kal.keineAusstrahlung')}</p> : liste}
     </div>
@@ -57,12 +79,16 @@ function TvZeile({
   data,
   versteckt,
   vorbei,
+  zustand,
+  restZeigen,
   onOpen,
 }: {
   gruppe: ReleaseEvent[]
   data: Dataset
   versteckt: boolean
   vorbei: boolean
+  zustand: Zeilenzustand | undefined
+  restZeigen: boolean
   onOpen: (ev: ReleaseEvent) => void
 }) {
   const { t } = useLang()
@@ -87,16 +113,14 @@ function TvZeile({
         ) : (
           <span className="h-[34px] w-6 rounded bg-ak-flaeche-2" />
         )}
-        <span className="font-bold tabular-nums text-ak-tv">{ev.time ?? '–'}</span>
+        <UhrzeitMitLaeuft zeit={ev.time ?? '–'} zustand={zustand} />
         <span className="flex min-w-0 flex-col">
           <span className="ak-titel font-semibold text-ak-text">
+            {vorbei && <span className="sr-only">vorbei </span>}
             {ev.name}
             {premiere && <PremiereMarke platform="tv" vorher={ev.premiereVorher} className="ml-1.5 inline-block px-1.5 align-[1px]" />}
           </span>
-          <span className="text-xs text-ak-leise">
-            {ev.sender}
-            {ev.episode && !ev.sichtung ? ` · ${t('kal.folge', { n: ev.episode })}` : ''}
-          </span>
+          <SenderZeile ev={ev} zustand={zustand} restZeigen={restZeigen} />
         </span>
       </button>
       {weitere.length > 0 && (

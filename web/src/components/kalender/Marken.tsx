@@ -1,11 +1,25 @@
 import type { ReleaseEvent } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
+import type { KachelAngabe } from '@shared/laeuft-jetzt.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { Tooltip } from '../ui.tsx'
 import { folgenSpanne, type FolgenSpanne } from '../../lib/kachel-folgen.ts'
 
+const ZEIT_PILLE = 'rounded-md bg-[rgba(13,15,20,.85)] px-1.5 py-0.5 text-xs font-bold tabular-nums text-[#f2f1ee]'
+
+/** Heute: „seit 17:00" statt der Uhrzeit, an der nächsten Kachel dazu eine zweite Pille „in 12 Min". */
+function ZeitMarkeJetzt({ event, t, angabe }: { event: ReleaseEvent; t: Translate; angabe: KachelAngabe }) {
+  return (
+    <>
+      <span className={ZEIT_PILLE}>{angabe.seit ? t('kal.seit', { zeit: angabe.seit }) : event.time}</span>
+      {angabe.in && <span className={ZEIT_PILLE}>{angabe.in}</span>}
+    </>
+  )
+}
+
 /** Uhrzeit auf dem Cover. Ohne Uhrzeit steht dort nichts — bei einer Disc „im Handel". */
-export function ZeitMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
+export function ZeitMarke({ event, t, angabe }: { event: ReleaseEvent; t: Translate; angabe?: KachelAngabe }) {
+  if (angabe?.seit || angabe?.in) return <ZeitMarkeJetzt event={event} t={t} angabe={angabe} />
   const text = event.time
     ? `${event.timeEstimated || event.estimated ? '≈ ' : ''}${event.time}`
     : event.releaseType === 'disc'
@@ -13,11 +27,7 @@ export function ZeitMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
       : ''
   if (!text) return null
   const hinweis = event.timeEstimated ? t('card.zeitVoraussichtlich') : event.estimated ? t('legend.estimated') : ''
-  const marke = (
-    <span className="rounded-md bg-[rgba(13,15,20,.85)] px-1.5 py-0.5 text-xs font-bold tabular-nums text-[#f2f1ee]">
-      {text}
-    </span>
-  )
+  const marke = <span className={ZEIT_PILLE}>{text}</span>
   return hinweis ? (
     <Tooltip text={hinweis} seite="oben">
       {marke}
