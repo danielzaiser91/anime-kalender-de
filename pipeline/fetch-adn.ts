@@ -23,6 +23,7 @@ import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
 import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
+import { katalogMitNeuen, sammleNeuzugaenge, unbekannteSerien } from './lib/adn-neuzugaenge.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
   bestimmeRhythmus,
@@ -114,6 +115,7 @@ async function fetchDay(date: string): Promise<AdnVideo[]> {
 const ARCHIV_DIR = resolve(ROOT, 'data/adn-raw')
 /** Wann welche Serie zuletzt im Katalog-Durchgang gefragt wurde (Warteschlange nach Alter, im Repo statt im Dateisystem). */
 const KATALOG_STAND = 'data/adn-katalog-stand.json'
+const KATALOG_DATEI = 'data/adn-catalog.json'
 
 /**
  * Legt die vollständige Antwort einer Serie gzip-komprimiert ab.
@@ -481,14 +483,41 @@ function laufendeSerien(): number[] {
   return ids
 }
 
+/** Kennungen aller Serien im Archiv (`data/adn-raw`) — auch die ohne deutsche Folge. */
+function archivKennungen(): number[] {
+  if (!existsSync(ARCHIV_DIR)) return []
+  return readdirSync(ARCHIV_DIR)
+    .filter((d) => d.endsWith('.json.gz'))
+    .map((d) => Number(d.replace('.json.gz', '')))
+    .filter(Number.isInteger)
+}
+
+/**
+ * Serien, die seit dem letzten Katalog-Lauf neu in der ADN-Liste stehen, sofort ins Archiv und in den Katalog (Begründung in
+ * `lib/adn-neuzugaenge.ts`). Die Zuordnung zu aniSearch bleibt dem Wochenlauf; Filme finden ihren Titel über den Namen (`filmZurShow`).
+ */
+async function holeNeueSerien(): Promise<void> {
+  const katalog = readJson<AdnData>(KATALOG_DATEI, { scrapedAt: '', window: { from: '', to: '' }, shows: [] })
+  const bekannt = new Set([...katalog.shows.map((s) => s.showId), ...archivKennungen()])
+  const neu = unbekannteSerien(await sammleSerienliste(), bekannt)
+  log(`ADN: ${neu.length} Serien der Liste weder im Katalog noch im Archiv`)
+  if (!neu.length) return
+  const { shows, archiv, offen } = await sammleNeuzugaenge(neu, ladeSerie, () => sleep(700))
+  for (const [id, videos] of archiv) archiviereSerie(id, videos)
+  const stand = readJson<Record<string, string>>(KATALOG_STAND, {})
+  for (const id of archiv.keys()) stand[String(id)] = new Date().toISOString()
+  writeJson(KATALOG_STAND, stand)
+  if (offen.length) warn(`ADN: ${offen.length} neue Serien nicht abrufbar (${offen.join(', ')}) — nächster Lauf versucht es wieder.`)
+  if (!shows.length) return
+  writeJson(KATALOG_DATEI, { ...katalog, shows: katalogMitNeuen(katalog.shows, shows) } satisfies AdnData, true)
+  log(`ADN: ${shows.length} neue Serien mit deutscher Fassung im Katalog: ${shows.map((s) => s.title).join('; ')}`)
+}
+
 async function main(): Promise<void> {
   await holeAdnNews()
   if (args.includes('--laufend')) {
     const ids = laufendeSerien()
-    if (!ids.length) {
-      warn('Keine laufende Serie gefunden — bitte zuerst mit --catalog laufen lassen.')
-      return
-    }
+    if (!ids.length) warn('Keine laufende Serie gefunden — bitte zuerst mit --catalog laufen lassen.')
     log(`ADN: ${ids.length} laufende Serien werden aufgefrischt…`)
     let geaendert = 0
     for (const showId of ids) {
@@ -502,6 +531,7 @@ async function main(): Promise<void> {
       await sleep(700)
     }
     log(`ADN: ${geaendert} von ${ids.length} laufenden Serien aufgefrischt`)
+    await holeNeueSerien()
     return
   }
   if (args.includes('--refresh')) {
