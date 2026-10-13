@@ -66,3 +66,33 @@ export function rohDeutsch(folgen: { sprachen: string[] }[], titelId: number, se
   if (!folgen.some((f) => f.sprachen.includes('Deutsch'))) return undefined
   return !(seite && kanalMenge(alleChecks).has(kanalSchluessel(titelId, seite)))
 }
+
+/**
+ * Sagt eine Kanal-Meldung nichts Neues? Ohne Ja, ohne Folgenbefund (`eigene` = Zahl der Bereiche), auf einer bekannten Adresse ohne eigene
+ * Amazon-Kennung: `fetch-pruefungen.ts` lässt sie aus, sie würde nur einen jüngeren Beleg verdecken.
+ */
+export function kanalOhneAussage(
+  weg: unknown,
+  gruppe: { befund?: string; notiz?: string | null }[],
+  echteAdresse: unknown,
+  bekannt: boolean,
+  eigene: number,
+): boolean {
+  return (
+    !weg &&
+    !gruppe.some((x) => x.befund === 'dub') &&
+    !echteAdresse &&
+    bekannt &&
+    !eigene &&
+    gruppe.some((x) => /Kanal-Titel/.test(x.notiz ?? ''))
+  )
+}
+
+/**
+ * Adresskerne, auf denen ein Kanal-Ja steht, das der Lader weggelassen hat: Eine neue Messung dort wird geschrieben, auch ein Nein.
+ * Eine jüngere Nein-Messung hat das Ja abgelöst (`verschmelze()` behält `kanalOhneBeleg` des älteren Eintrags): Die Adresse zählt dann
+ * nicht mehr, sonst schriebe jede weitere Nein-Meldung einen neuen Block ohne neue Aussage (12.10.2026).
+ */
+export function kanalJaAdressKerne(checks: DubCheck[]): Set<string> {
+  return new Set(checks.filter((c) => c.kanalOhneBeleg && c.url && c.kanalMessung !== 'nein').map((c) => adressKern(c.url)))
+}

@@ -39,6 +39,7 @@ Release-Art, FSK, deutscher Titel.
 1. **Kein Termin ohne Quelle.** `sources` ist Pflicht, `validate.ts` bricht sonst ab.
 2. **Geraten ist nicht gleich belegt.** Wenn das Dub-Datum aus dem Simulcast-Start
    abgeleitet wurde, gehört `estimated: true` dran — die Oberfläche kennzeichnet das.
+   Sagt die `note` „voraussichtlich", verlangt `check:handbelege` ebenfalls `estimated: true`.
 3. **Uhrzeit lieber weglassen als erfinden.** Ohne `time` zeigt der Kalender
    „Uhrzeit unbekannt" statt einer Falschangabe.
 4. Ein Eintrag = eine Staffel. Fortsetzungen bekommen einen eigenen Eintrag mit

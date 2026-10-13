@@ -9,10 +9,11 @@
  * ein Urteil, wie viele sind unbekannt, und wie steht es gegen den heutigen Datensatz
  * (`tools/poc-urteil/urteil-folge.ts`).
  *
- * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts
+ * Aufruf: LAUF_TOKEN=… npx tsx pipeline/fetch-urteile.ts   (höchstens alle 6 Stunden, `--voll` erzwingt: `lib/abruf-stempel.ts`)
  */
 import { log, readJson, warn, writeJson } from './lib/util.ts'
-import { adressIndex, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
+import { abrufMitStempel } from './lib/abruf-stempel.ts'
+import { adressIndex, artDerMeldung, artDerRohfolge, folgenDerMeldung, meldungGrund, nameIndex, rohfolgenSpanne, titelDerMeldung, urteileJeFolge, type StaffelKandidat, type Urteil, type UrteilBeobachtung } from './lib/urteil-je-folge.ts'
 import type { Title } from '../shared/types.ts'
 import { adressKern } from './lib/dub-confirmed.ts'
 import type { FolgenZuordnung } from './lib/folgen-je-folge.ts'
@@ -58,6 +59,8 @@ interface RohFolge {
   gemeldet_am: string
   vorhanden: string | null
   ton_de: string | null
+  /** 1, wenn die Randprobe diese Folge nur angenommen hat (`roh.angenommen`); ältere Worker liefern das Feld nicht. */
+  angenommen?: number | null
 }
 
 /** Holt eine seitenweise Liste; `null` heißt Störung — dann wird nichts geschrieben. */
@@ -163,7 +166,7 @@ async function main() {
       folge: z.folge,
       vorhanden,
       tonDe,
-      art: 'gemessen',
+      art: artDerRohfolge(f),
       tag: f.gemeldet_am.slice(0, 10),
       kanal: tonDe === 'nein' && kanalAdresse.has(adressKern(f.url)),
     })
@@ -188,7 +191,7 @@ async function main() {
     const { von, bis } = spanne
     /* `folgenDerMeldung` hat beide schon geprüft — ohne Titel oder Befund gibt es keine Spanne. */
     if (!m.titel_id || !vorhanden) continue
-    const art = m.art === 'angenommen' || /ANGENOMMEN/.test(m.notiz ?? '') ? 'angenommen' : 'gemessen'
+    const art = artDerMeldung(m)
     for (let n = von; n <= bis; n++) {
       beobachtungen.push({
         titel: m.titel_id,
@@ -226,4 +229,4 @@ async function main() {
   )
   logOhneTitel()
 }
-if (process.argv[1]?.endsWith('fetch-urteile.ts')) await main()
+if (process.argv[1]?.endsWith('fetch-urteile.ts')) await abrufMitStempel('urteile', ZIEL, main)

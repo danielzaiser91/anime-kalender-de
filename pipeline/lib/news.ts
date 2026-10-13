@@ -16,6 +16,7 @@
  * | `angekuendigt` | ein Release mit deutschem Termin, das wir zum ersten Mal sehen |
  * | `disc`, `kino` | dasselbe für Disc- und Kinotermine |
  * | `verspaetet` | `schedule.verpasst` — ein angekündigter Termin verstrich, ohne dass etwas erschien |
+ * | `offiziell` | `data/offizielle-meldungen.yaml` — von Hand freigegebene Meldung der offiziellen Website (365 Tage Fenster, `news-offiziell.ts`) |
  * | `nachgereicht` | dasselbe, sobald die Folgen kamen — je Tag gebündelt (`news-verspaetung.ts`) |
  *
  * **Das Datum einer Meldung ist der Tag, an dem sie zum ersten Mal wahr war.**
@@ -24,15 +25,18 @@
  * Meldung fest, wann sie zuerst dastand; danach ändert sich ihr Datum nie
  * wieder.
  */
-import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
+import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, PlatformId, Release, StreamLink, Title } from '../../shared/types.ts'
 import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from './news-verlauf.ts'
 import { bereinigeNews } from './news-bereinigen.ts'
 import { ausgabeKurz } from './news-ausgabe.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
+import { geerbteWege } from '../../shared/kanal-anbieter.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
+import { fensterBeginn, offizielleMeldungen, traegtOffizielle, type OffizielleMeldung } from './news-offiziell.ts'
+import { rhythmusMeldung } from './news-rhythmus.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
 
 /** Wie lange eine Meldung auf der Seite steht. */
@@ -51,6 +55,19 @@ export interface NewsHistorie extends TerminGedaechtnis {
    * sonst stünden an einem Tag zweitausend „neue" Anbieter auf der Seite.
    */
   anbieter?: Record<string, string>
+}
+
+/**
+ * Die Plattformen mit belegter Synchro, die als „weiterer Anbieter“ gelten können. YouTube bleibt draußen; ein Prime-Kanal, der sein Ja vom
+ * Anbieter hat (`kanalErbtVomAnbieter`), ist kein weiterer: Die Titel laufen dort seit Langem, die Meldung wäre zu ihrem Tag falsch (13.10.2026).
+ */
+function anbieterMitDeutsch(t: Title): Set<PlatformId> {
+  return new Set(t.streams.filter((s) => eigenesJa(s) && s.platform !== 'youtube').map((s) => s.platform))
+}
+
+/** Ein belegtes Ja des Weges selbst; ein vom Anbieter geerbtes Ja (`geerbteWege`) zählt für Meldungen nicht. */
+function eigenesJa(s: StreamLink): boolean {
+  return s.dub === true && !geerbteWege.has(s)
 }
 
 interface NeuerTitel {
@@ -153,12 +170,13 @@ function terminMeldungen(
         datum,
         release: r.slug,
         ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),
-        quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => s.dub === true && s.platform !== r.platform)) ? { weiterer: true } : {}),
+        quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => eigenesJa(s) && s.platform !== r.platform)) ? { weiterer: true } : {}),
         /* Eine angekündigte Staffel trägt ihre Einordnung im Satz (Simuldub-Vermutung; Sprache laut Meldung offen, `meldungen.ts`). */
         ...(art === 'angekuendigt' && (r.schedule?.estimated || r.automatisch || r.sprache) && r.note ? { hinweis: r.note } : {}), ...(art === 'angekuendigt' && r.platform !== 'tv' ? neuJahre(t, datum) : {}),
       })
     }
     for (const m of verspaetungsMeldungen(r)) raus.push({ ...m, titel: t })
+    for (const m of rhythmusMeldung(r)) raus.push({ ...m, titel: t })
   }
   return raus
 }
@@ -256,6 +274,20 @@ function teilFelder(teilname: string, kopf: string, teilId: number): { teil?: st
   return teilname.toLowerCase() === kopf.toLowerCase() ? { teilId } : { teil: teilname, teilId }
 }
 
+/** Rangfolge der Arten: was am Tag eines Eintrags zuerst genannt wird. */
+const rang: Record<NewsArt, number> = {
+  neu: 0,
+  angekuendigt: 1,
+  verspaetet: 2,
+  nachgereicht: 2,
+  nachgetragen: 1,
+  rhythmus: 2,
+  offiziell: 3,
+  kino: 3,
+  disc: 4,
+  folgen: 5,
+}
+
 /**
  * Baut die Meldungen. `historie` wird dabei **ergänzt** — der Aufrufer schreibt
  * sie zurück, damit das Datum einer Meldung beim nächsten Bau dasselbe bleibt.
@@ -266,7 +298,7 @@ export function baueNews(
   neuMitSynchro: NeuerTitel[],
   crNeu: CrNeueFolge[],
   historie: NewsHistorie,
-  vorherige: NewsEintrag[] = [], omuTitel: Title[] = [], nurOriginalton: ReadonlySet<string> = new Set(),
+  vorherige: NewsEintrag[] = [], omuTitel: Title[] = [], nurOriginalton: ReadonlySet<string> = new Set(), offizielle?: OffizielleMeldung[],
 ): NewsEintrag[] {
   const heute = todayIso()
   const grenze = addDays(heute, -FENSTER_TAGE)
@@ -287,7 +319,7 @@ export function baueNews(
   for (const n of neuMitSynchro) {
     const t = nachId.get(n.id)
     if (!t) continue
-    const anbieter = t.streams.find((s) => s.dub === true)?.platform
+    const anbieter = t.streams.find(eigenesJa)?.platform
     const erreichtRelease = releases
       .filter((r) => r.titleId === t.id && !r.widerlegt && !r.sprache && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
       .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
@@ -299,7 +331,7 @@ export function baueNews(
       art: 'neu',
       ...kopf(t),
       platform: anbieter ?? (erreichtRelease && !['kino', 'tv'].includes(erreichtRelease.platform) ? erreichtRelease.platform : undefined),
-      quelle: t.streams.find((s) => s.dub === true && s.platform === anbieter)?.url ?? (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
+      quelle: t.streams.find((s) => eigenesJa(s) && s.platform === anbieter)?.url ?? (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
       belege: (erreichtRelease && belegeVonRelease(erreichtRelease)) || undefined, hinweis: neuZeile(t, erreichtRelease, heute), ...neuJahre(t, erreicht ?? n.seit),
     })
   }
@@ -314,9 +346,7 @@ export function baueNews(
   const saeen = historie.anbieter === undefined
   const anbieterSeit = (historie.anbieter ??= {})
   for (const t of titles) {
-    const wege = new Set(
-      t.streams.filter((s) => s.dub === true && s.platform !== 'youtube').map((s) => s.platform),
-    )
+    const wege = anbieterMitDeutsch(t)
     for (const p of wege) {
       const k = `${t.id}:${p}`
       if (!(k in anbieterSeit)) anbieterSeit[k] = saeen ? '0000-00-00' : heute
@@ -381,14 +411,14 @@ export function baueNews(
   }
 
   /* 3. Termine: angekündigt, auf Disc, im Kino — und die, die niemand eingehalten hat. */
-  roh.push(...terminMeldungen(releases, nachId, heute), ...omuMeldungen([...titles, ...omuTitel], releases))
+  roh.push(...terminMeldungen(releases, nachId, heute), ...omuMeldungen([...titles, ...omuTitel], releases), ...offizielleMeldungen(titles, offizielle))
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
   let datiert: DatiertNews[] = []
   for (const r of roh) {
     const { schluessel, fallback, ...rest } = r
     const zuerst = historie.zuerst[schluessel] ?? (fallback > heute ? heute : fallback)
     historie.zuerst[schluessel] = zuerst
-    if (zuerst < grenze) continue
+    if (zuerst < fensterBeginn(r.art, heute, grenze)) continue
     datiert.push({ ...rest, am: zuerst, schluessel })
   }
 
@@ -397,14 +427,6 @@ export function baueNews(
     if (v < addDays(heute, -400)) delete historie.zuerst[k]
   }
 
-  const rang: Record<NewsArt, number> = {
-    neu: 0,
-    angekuendigt: 1,
-    verspaetet: 2, nachgereicht: 2, nachgetragen: 1,
-    kino: 3,
-    disc: 4,
-    folgen: 5,
-  }
   /*
     **Dieselbe Schreibweise wie überall sonst.** Ohne die Eindeutschung stand im
     Chip „Staffel 3 - Cour 1" neben einem „Staffel 3 - Teil 2" aus derselben
@@ -489,7 +511,7 @@ export function baueNews(
         rang[a.meldungen[0]!.art] - rang[b.meldungen[0]!.art] ||
         a.titel.localeCompare(b.titel, 'de'),
     )
-    .slice(0, HOECHSTENS)
+    .filter((e, i) => i < HOECHSTENS || traegtOffizielle(e))
 }
 
 /**

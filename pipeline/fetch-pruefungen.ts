@@ -29,7 +29,8 @@ import {
 } from './lib/folgenbereiche.ts'
 import { ergaenzeUmEntfernte, mitEntfernten, staffelnMitAdresse } from './lib/entfernte-verweise.ts'
 import { log, ROOT, warn } from './lib/util.ts'
-import { adressKern, entdoppleBelege, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { adressKern, entdoppleBelege, loadDubChecks, neueBelegBloecke } from './lib/dub-confirmed.ts'
+import { kanalJaAdressKerne, kanalOhneAussage } from './lib/kanal-titel.ts'
 import { schluesselAdresse, titelSchluessel } from './lib/zuordnung.ts'
 import { staffelNummern, type Reiheneintrag } from './lib/staffel-nummern.ts'
 import { verteileMeldungen } from './lib/meldungen-verteilen.ts'
@@ -389,6 +390,7 @@ function berlinDatum(iso: string): string {
 }
 
 const heute = berlinDatum(new Date().toISOString())
+const kanalJa = kanalJaAdressKerne(loadDubChecks())
 const zeilen: string[] = []
 /** Kanal-Meldungen ohne Urteil und ohne neue Adresse — sie würden nur verdecken. */
 let ausgelassenKanal = 0
@@ -1123,13 +1125,9 @@ for (const gruppe of jeAdresse.values()) {
       haben"). Ausgelassen wird nur noch das Nein aus einem Kanal — sonst legt
       die Prüfliste dieselbe Seite endlos wieder vor.
     */
-    const ohneAussage =
-      !weg &&
-      !gruppe.some((x) => x.befund === 'dub') &&
-      !echteAmazonAdresse(p) &&
-      nachUrl.has(schluesselAdresse(p.url)) &&
-      !eigene.length &&
-      gruppe.some((x) => /Kanal-Titel/.test(x.notiz ?? ''))
+    /* Auf einer Adresse mit altem Kanal-Ja wird auch ein Nein geschrieben: Es löst die Angabe ab (`kanalMessung`, 12.10.2026). */
+    const bekannt = nachUrl.has(schluesselAdresse(p.url)) && !kanalJa.has(adressKern(p.url))
+    const ohneAussage = kanalOhneAussage(weg, gruppe, echteAmazonAdresse(p), bekannt, eigene.length)
     if (ohneAussage) {
       ausgelassenKanal++
       /*
@@ -1265,6 +1263,7 @@ for (const gruppe of jeAdresse.values()) {
     }
     // Ortszeit, nicht UTC: Eine Meldung um 00:41 Uhr trug sonst das Datum
     // des Vortags (22.08.2026).
+    if (ueberKanal && !weg) zeilen.push(`  kanalMessung: ${neinAusKanal ? 'nein' : 'ja'}`)
     zeilen.push(`  checkedAt: '${berlinDatum(p.gemeldet_am)}'`)
     const notiz = [
       eigene.length ? beschreibeBereiche(eigene) : '',

@@ -398,6 +398,49 @@ function ergebnis() {
 }
 
 /**
+ * **Die Meldung liest ihre Sprachen aus den Folgen, nicht aus einem Sammelwert.**
+ *
+ * Hell Mode (B0FTW7GP47), 30.08.2026: Alle zwölf Folgen trugen nur `日本語`, die
+ * Meldung sagte trotzdem `dub` — ein Fund ohne Folgennummer hatte `Deutsch` ins
+ * Sammel-Set geschrieben. Die Knopfanzeige las seitdem die Folgen, der Sendeweg
+ * nicht. Hier kommt zu zwölf japanischen Folgen ein nummernloser Fund mit
+ * `Deutsch`: Die Meldung darf kein Deutsch tragen.
+ */
+{
+  const hell = starte()
+  takten(hell.takte, hell.uhr)
+  hell.sandkasten.__nachrichtenHoerer?.({
+    source: hell.sandkasten.window,
+    data: {
+      marke: 'ak-amazon-folgen',
+      schnappschuss: true,
+      fuerAdresse: hell.sandkasten.location.pathname,
+      gesamt: 12,
+      ersetzt: true,
+      asin: 'B0GTN94C9M',
+      funde: [
+        ...Array.from({ length: 12 }, (_, i) => ({ nummer: i + 1, sprachen: ['日本語'], titel: `Folge ${i + 1}` })),
+        { sprachen: ['Deutsch', '日本語'] },
+      ],
+    },
+  })
+  takten(hell.takte, hell.uhr)
+  hell.angehaengt.find((e) => (e.className || '').includes('ak-amazon-knopf'))?.hoerer?.click?.()
+
+  setTimeout(() => {
+    pruefe('nummernloser Fund: eine Meldung für die Staffel', hell.gemeldet.length === 1, hell.gemeldet.length)
+    const m = hell.gemeldet[0]?.koerper
+    pruefe('nummernloser Fund: ton_de ist nein', m?.ton_de === 'nein', m?.ton_de)
+    pruefe(
+      'nummernloser Fund: die Sprachen der Meldung nennen kein Deutsch',
+      !(m?.sprachen ?? []).some((x) => /deutsch|german/i.test(x)),
+      m?.sprachen,
+    )
+    ergebnis()
+  }, 0)
+}
+
+/**
  * **Ein Titelwechsel darf keine einzige Zahl der vorigen Seite überleben.**
  *
  * Daniel am 25.08.2026: „warum schmeißt du alt daten nach erkanntem wechsel

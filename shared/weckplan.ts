@@ -27,6 +27,8 @@ export const WECKPLAN: Weckplan[] = [
   { workflow: 'claude-anime2you-extraktion.yml', stunden: [12], abstandMin: 600 },
   { workflow: 'claude-wache-urteil.yml', stunden: [9], abstandMin: 600 },
   { workflow: 'anisearch-katalog.yml', stunden: [6], abstandMin: 600 },
+  // Ladezeiten am Handy auf dem GitHub-Rechner (ab 12.10.2026, Eichung der Grenzen); 16 Uhr, zu der Stunde läuft kein anderer Tageslauf.
+  { workflow: 'ladezeiten.yml', stunden: [16], abstandMin: 600 },
   // Monatskontingent der Streaming Availability API (Reset am Ersten). Vorher nur GitHubs Cron: ein abgebrochener Lauf blieb ohne Nachhol-Start (`motn` am 08.10.2026 36 Tage still).
   { workflow: 'tonspuren-monatlich.yml', stunden: [4], tagImMonat: 2, nachholen: true, abstandMin: 20160 },
 ]

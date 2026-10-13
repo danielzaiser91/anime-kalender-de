@@ -199,5 +199,94 @@ console.log('\nWerktitel gegen Teiltitel')
   pruefe('MAL-Dublette: im ausgelieferten Datensatz trägt kein aniSearch-Titel die MAL eines AniList-Titels ohne dokumentierte Ausnahme', meldungen.length === 0, meldungen)
 }
 
+console.log('\nHandbelege gegen den Bestand')
+/* Vor dem Bau fragt `bestand-bauen.yml` (Schritt „Neue Handbelege prüfen“) diese Zusicherungen zusammen mit `check:logic` ab. */
+{
+  const liste = (yaml.load(readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')) as unknown[]) ?? []
+  /*
+    **Kein Beleg nennt Folgen, die sein Titel nicht hat** — sonst ist die
+    Zählung des Anbieters auf unseren Titel gerutscht. Am 11.09.2026 stand
+    „HAIKYU!! 2nd Season" (25 Folgen) mit „Folge 26 deutsch" im Datensatz:
+    Netflix' S2 E26 ist die OVA „VS Failing Marks". Berichtigt; gemessen
+    standen danach noch 24 Belege derselben Art, am selben Tag 12. Die Schwelle darf nur sinken.
+    Am 13.09.2026 auf 8: Bei Dorohedoro, Tokyo Revengers, Medalist Staffel 2
+    (Disney+) und Railgun S (Prime) hingen überzählige Folgen hinten an, die
+    laut Streaming Availability API zu keinem Titel gehören — gekappt, nicht
+    umgebucht.
+  */
+  const folgenJeTitel = new Map(
+    (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number; episodes?: number }[]).map(
+      (t) => [t.id, t.episodes ?? 0],
+    ),
+  )
+  const drueber = (liste as { anilistId?: number; dubRanges?: { to?: number }[] }[]).filter((b) => {
+    const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
+    return n > 0 && (b.dubRanges ?? []).some((r) => (r.to ?? 0) > n)
+  }).length
+  /*
+    15.09.2026: Die Netflix-Belege von FGO Babylonia (1–22 bei 21 Folgen) und
+    Shiboyugi (1–12 bei 11) über die Folgentitel zugeordnet — Netflix-Folge 1
+    ist „Initium Iter" (110851), Folge 12 von Shiboyugi der Film „44: CLOUDY
+    BEACH" (209961). Zwei neue Belege derselben Titel aus dem Durchgang hatten
+    die Zahl auf 10 gehoben und den Deploy vier Stunden rot gemacht.
+
+    **Die Schwelle bleibt bei 8, auch wenn gerade weniger zählen.** Ich hatte sie
+    danach auf den Messwert 5 gesenkt, und der nächste Bau machte den Deploy
+    sofort wieder rot: Er übernahm zwei Durchgang-Meldungen (Haikyu!! S2 bis 26,
+    Captain Tsubasa bis 91), deren Zuordnung über die Rohfolgen erst aussteht.
+    Solche Belege entstehen bei jedem Zuordnungsauftrag, bis er abgearbeitet ist
+    — ein Messwert von heute ist hier keine Invariante (CLAUDE.md, „Eine
+    Prüfung, die rot wird, weil die Arbeit erledigt ist").
+  */
+  pruefe('Handbelege: höchstens 8 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 8, `${drueber}`)
+  /*
+    **Ein Prime-Beleg ab Amazons Staffel 2 hängt nicht am Reihenkopf, wenn die
+    Reihe genau eine Staffel mit dieser Nummer führt.** Am 16.09.2026 stand
+    „Fruits Basket" (Staffel 1, 25 Folgen) mit der Seite B0GDFC7BL6 und „DE ✓"
+    im Datensatz — laut Meldung Amazons Staffel 3 mit 13 Folgen (Daniel: Staffel
+    1 dort ohne Deutsch). Dieselbe Fehlzuordnung aus der Zeit vor dem 31.08.
+    trugen 14 weitere Belege; umgehängt (drei davon an Staffeln, die der Bestand
+    noch nicht führt: Berserk 2017 S2, Our Last Crusade S2, Irregular S3). Entschieden wird über die
+    Staffelnummer im Namen, nicht über die Folgenzahl — Prime bündelt und teilt
+    anders (CLAUDE.md, „Prime schneidet Reihen anders zu").
+    Bluelock (Staffel 1 mit 24 Folgen, früher als Staffel 2 notiert) hat Daniel am 17.09.2026 geklärt.
+  */
+  const reihen = JSON.parse(readFileSync('public/data/franchises.json', 'utf8')) as Record<
+    string,
+    { id: number; name: string; format?: string; beiwerk?: boolean }[]
+  >
+  const reiheVon = new Map<number, { id: number; name: string; format?: string; beiwerk?: boolean }[]>()
+  for (const r of Object.values(reihen)) for (const m of r) reiheVon.set(m.id, r)
+  const staffelImNamen = (n: string): number | null => {
+    const m = /(?:staffel|season)\s*(\d+)|(\d+)(?:st|nd|rd|th)\s+season/i.exec(n)
+    return m ? Number(m[1] ?? m[2]) : null
+  }
+  /*
+    **Und die Staffelnummer allein entscheidet es nicht** (18.09.2026). Prime teilt
+    „Berserk" von 1997 (25 Folgen) in zwei Staffeln; „Staffel 2" mit 12 Folgen hing
+    seit dem Umhängen an der CGI-Serie „Berserk: Staffel 2" von 2017 — die Seite
+    trägt `releaseYear: 1998`. Ein Beleg mit `jahrLautSeite`, das zum Reihenkopf
+    passt, hängt dort zu Recht.
+  */
+  const jahrVon = new Map(
+    (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number; jpYear?: number }[]).map(
+      (t) => [t.id, t.jpYear],
+    ),
+  )
+  const amKopf = (
+    liste as { anilistId?: number; platform?: string; note?: string; jahrLautSeite?: number }[]
+  ).filter((b) => {
+    const n = Number(/laut Adresse Staffel (\d+)/.exec(b.note ?? '')?.[1] ?? 0)
+    if (b.platform !== 'primevideo' || n < 2 || n > 50) return false
+    const kopfJahr = jahrVon.get(b.anilistId ?? -1)
+    if (b.jahrLautSeite && kopfJahr && Math.abs(b.jahrLautSeite - kopfJahr) <= 1) return false
+    const r = reiheVon.get(b.anilistId ?? -1) ?? []
+    const haupt = r.filter((k) => (k.format === 'TV' || k.format === 'ONA') && !k.beiwerk)
+    if (haupt[0]?.id !== b.anilistId || staffelImNamen(haupt[0].name) !== null) return false
+    return haupt.filter((k) => staffelImNamen(k.name) === n).length === 1
+  }).length
+  pruefe('Handbelege: höchstens 1 Prime-Beleg ab Staffel 2 hängt am Reihenkopf', amKopf <= 1, `${amKopf}`)
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

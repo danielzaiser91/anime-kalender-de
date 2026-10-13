@@ -115,7 +115,13 @@ export function anisearchUmgezogenInBestand(hauptbestand: Set<number>, hinterTog
   return anisearchUmgezogen(hauptbestand, new Set([...hinterToggle, ...katalog.map((e) => e.id)]))
 }
 
-const erstausgabeAus = (e: Eintrag) => ({ ...(e.dvon && /^\d{4}-\d{2}-\d{2}$/.test(e.dvon) ? { von: e.dvon } : {}), publisher: e.pub?.[0], synchro: e.dub === 'd' })
+/** Nur für `d` und `c` aufgerufen: beides ist eine deutsche Synchro; `c` (abgebrochen) ist nur für einen Teil der Folgen deutsch (`teil`), nie „keine Synchro“. */
+export const erstausgabeAus = (e: Pick<Eintrag, 'dub' | 'dvon' | 'pub'>) => ({
+  ...(e.dvon && /^\d{4}-\d{2}-\d{2}$/.test(e.dvon) ? { von: e.dvon } : {}),
+  publisher: e.pub?.[0],
+  synchro: e.dub === 'd' || e.dub === 'c',
+  ...(e.dub === 'c' ? { teil: true } : {}),
+})
 
 /** Der AniList-Titel, an den die Handdatei einen aniSearch-Eintrag bindet, übernimmt dessen deutsche Erstausgabe — sonst ginge sie mit dem aufgegangenen Titel verloren. */
 function erstausgabeUebernehmen(titles: Map<number, Title>): void {

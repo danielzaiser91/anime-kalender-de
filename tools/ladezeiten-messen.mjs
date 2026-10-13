@@ -6,9 +6,10 @@
  * Wochen blättern, Filter öffnen, Detail-Panel öffnen. Je Messgröße gilt eine Zeitgrenze (`ladezeiten-grenzen.mjs`);
  * reißt der Median sie, endet der Lauf mit Exit 1. `dist/` wird ohne Server und ohne Netz ausgeliefert (Playwright-Routen).
  *
- * Aufruf: `npm run check:ladezeiten` bzw. `node tools/ladezeiten-messen.mjs [--bauen] [--nur-messen] [--n 5] [--ladungen 3]`
+ * Aufruf: `npm run check:ladezeiten` bzw. `node tools/ladezeiten-messen.mjs [--bauen] [--nur-messen] [--ausgabe datei.json] [--n 5] [--ladungen 3]`
  *   --bauen        vorher `npm run build:schlank` (sonst Abbruch, wenn `dist/` älter als `web/src` ist)
  *   --nur-messen   Bericht ohne Urteil, Exit 0 (zum Neumessen der Grenzen)
+ *   --ausgabe      zusätzlich Ergebnis-JSON in diese Datei und Tabelle in $GITHUB_STEP_SUMMARY (Workflow `ladezeiten.yml`)
  * Nicht gemessen: Netz (Übertragung, Cover), nur CPU-Kosten von Laden und Umschalten. Netz misst `leistung-messen.mjs` gegen live.
  */
 import { execSync } from 'node:child_process'
@@ -17,6 +18,7 @@ import { distPruefen } from './dist-frisch.mjs'
 import { median } from './tempo-kern.mjs'
 import { messlauf } from './ladezeiten-lauf.mjs'
 import { MESSTAG, urteile } from './ladezeiten-grenzen.mjs'
+import { ergebnisSchreiben, ergebnisZeilen } from './ladezeiten-ausgabe.mjs'
 
 const arg = (name, vorgabe) => (process.argv.includes(`--${name}`) ? process.argv[process.argv.indexOf(`--${name}`) + 1] : vorgabe)
 const hat = (name) => process.argv.includes(`--${name}`)
@@ -41,7 +43,9 @@ async function main() {
   const werte = await messlauf({ dist: DIST, drossel: Number(arg('drossel', 4)), ladungen: Number(arg('ladungen', 3)), wiederholungen: Number(arg('n', 5)) })
   const urteilsListe = urteile(werte, median)
   bericht(werte, urteilsListe)
-  console.log(`Laufzeit ${Math.round((Date.now() - start) / 1000)} s · Grenzen vom ${MESSTAG} (Median × 1,5)`)
+  const laufzeitS = Math.round((Date.now() - start) / 1000)
+  console.log(`Laufzeit ${laufzeitS} s · Grenzen vom ${MESSTAG} (Median × 1,5)`)
+  if (arg('ausgabe')) ergebnisSchreiben({ datei: arg('ausgabe'), zeilen: ergebnisZeilen(werte, urteilsListe, median), laufzeitS, nurMessen: hat('nur-messen') })
   if (!hat('nur-messen') && urteilsListe.some((u) => !u.ok)) process.exitCode = 1
 }
 

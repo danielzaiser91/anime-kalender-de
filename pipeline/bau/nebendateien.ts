@@ -27,7 +27,7 @@ import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-tite
 import { findeAnisearchDubletten, zeilenMitKennungWeg, type DublettenUrteil } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import { ohneWerkDubletten } from './werk-doppelt-bau.ts'
-import { anisearchKatalogReihen } from './anisearch-reihen-pruefliste.ts'
+import { anisearchKatalogReihenQuelle as anisearchKatalogReihen } from './anisearch-reihen-rein-bau.ts'
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.

@@ -36,6 +36,8 @@ pruefe('beendet (letzte Folge vor heute): Start-Meldung fällt weg', zeigt('been
 pruefe('ohne belegtes Ende: Start-Meldung fällt weg', zeigt('ohne-ende') === 0)
 pruefe('unbekannter Slug: Start-Meldung fällt weg', zeigt('gibt-es-nicht') === 0)
 pruefe('Meldung ohne Release: fällt weg', zeigt(undefined) === 0)
+const rhythmus = (slug: string) => meldungenImPanel([{ am: '2026-10-10', titelId: TITEL, meldungen: [{ art: 'rhythmus', datum: '2026-10-05', release: slug }] }] as unknown as NewsEintrag[], TITEL, HEUTE, laeuft).length
+pruefe('Rhythmus-Meldung: bleibt, solange die Serie läuft, und fällt danach weg', rhythmus('laeuft') === 1 && rhythmus('beendet') === 0)
 pruefe('fremder Titel: nie im Panel, auch wenn die Serie läuft', zeigt('laeuft', TITEL + 1) === 0)
 pruefe(
   'ohne Laufend-Auskunft bleibt das alte Verhalten (vorbei = weg)',

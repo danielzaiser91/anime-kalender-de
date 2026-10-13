@@ -1,5 +1,6 @@
 import { type Env } from './env.ts'
 import { verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
+import { exporteVerwerfen } from './export-speicher.ts'
 
 export async function loeschePruefungen({ request, env, antwort }: {
   request: Request<unknown, CfProperties<unknown>>
@@ -55,4 +56,12 @@ export async function loeschePruefungen({ request, env, antwort }: {
       return antwort({ ok: true, geloescht: ergebnis.meta?.changes ?? 0 })
     }
     return antwort({ error: 'ids oder url erwartet' }, 400)
+}
+
+/** Löschen, und die Marke der Bau-Auszüge nur dann, wenn wirklich Zeilen verschwunden sind (`geloescht` der Antwort). */
+export async function loeschePruefungenMitMarke(kontext: Parameters<typeof loeschePruefungen>[0]) {
+  const antwort = await loeschePruefungen(kontext)
+  const { geloescht } = (await antwort.clone().json().catch(() => ({}))) as { geloescht?: number }
+  if (Number(geloescht) > 0) await exporteVerwerfen(kontext.env)
+  return antwort
 }

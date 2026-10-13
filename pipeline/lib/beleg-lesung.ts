@@ -10,6 +10,7 @@ import { createHash } from 'node:crypto'
 import type { NewsBeleg, NewsEintrag, Quelle, Release } from '../../shared/types.ts'
 import { hostVon } from '../../shared/quelle.ts'
 import { releaseStatus } from '../../shared/logic.ts'
+import { inPause, type Fehlschlaege } from './beleg-fehlschlag.ts'
 
 /** Fassung der Aufnahme: steigt sie, werden alle Bilder einmal neu aufgenommen (2 seit 07.10.2026: doppelte Auflösung). */
 export const BILD_FASSUNG = 2
@@ -22,7 +23,7 @@ const ARTIKEL = [
   /^https:\/\/news\.animationdigitalnetwork\.com\/de\/\d{4}\//,
   /* Seiten ohne Artikeldatum, deren Domains von Hand geprüft sind (`data/beleg-domains.json`): Hersteller- und Pressebereiche. aniSearch-Katalogseiten (`/anime/…`) und Crunchyroll-Serienseiten bleiben draußen: Dort verdecken Sony-Banner und Nutzungsbedingungen die Seite, die Aufnahme war schwarz (05.10.2026). */
   /^https:\/\/tokyo-revengers-anime\.com\//,
-  /* Seit 05.10.2026 von Hand geprüft (Bilder angesehen, kein Banner): Joyn-Serien/-Filme, Disney+-Titelseiten, What's on Netflix, Wikipedia, Kinoheld. Netflix-Titelseiten bleiben draußen: Der Ausschnitt beginnt in der Besetzungsliste, Titel und Datum stehen im Titelbild. */
+  /* Seit 05.10.2026 von Hand geprüft (Bilder angesehen, kein Banner): Joyn-Serien/-Filme, Disney+-Titelseiten, What's on Netflix, Wikipedia, Kinoheld. Bei Kinoheld lag eine Marke auf leerer Fläche; seit 12.10.2026 prüft `belegAusschnitt` die Marke auch im Bild. Netflix-Titelseiten bleiben draußen: Der Ausschnitt beginnt in der Besetzungsliste, Titel und Datum stehen im Titelbild. */
   /^https:\/\/www\.joyn\.de\/(?:serien|filme)\/[a-z0-9-]+\/?$/,
   /^https:\/\/www\.disneyplus\.com\/(?:[a-z]{2}-[a-z]{2}\/)?browse\/entity-/,
   /^https:\/\/www\.whats-on-netflix\.com\/news\//,
@@ -132,16 +133,22 @@ function frischUndHeuteNochNicht(e: BelegGedaechtnis[string], heute: string): bo
   return Boolean(erste) && e.zuletzt < heute && Date.parse(heute) - Date.parse(erste!) <= FRISCH_TAGE * 86_400_000
 }
 
+/** Ohne jedes Bild (entzogen) sieht der Leser nichts — das geht vor einer Aufnahme in neuerer Fassung. */
+function dringlichkeit(e: BelegGedaechtnis[string] | undefined): number {
+  const bildLos = Boolean(e?.lesungen.length) && !e!.lesungen.some((l) => l.bild)
+  return 2 * Number(bildLos) + Number(bildOhnePruefung(e))
+}
+
 /**
  * Welche Artikel diesmal gelesen werden: nie gelesene zuerst, dann die am längsten nicht
- * gelesenen, aber keiner öfter als alle `abstandTage` Tage.
+ * gelesenen, aber keiner öfter als alle `abstandTage` Tage. Adressen in der Pause nach einem Fehlschlag (`fehlschlaege`) stehen hinter allen anderen.
  */
-export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heute: string, abstandTage: number, limit: number, sofort: Set<string> = new Set()): string[] {
+export function warteschlange(urls: string[], gedaechtnis: BelegGedaechtnis, heute: string, abstandTage: number, limit: number, sofort: Set<string> = new Set(), fehlschlaege: Fehlschlaege = {}): string[] {
   const grenze = new Date(Date.parse(heute) - abstandTage * 86_400_000).toISOString().slice(0, 10)
   return [...new Set(urls)]
     .filter(istArtikel)
     .filter((u) => !gedaechtnis[u] || sofort.has(u) || gedaechtnis[u]!.zuletzt <= grenze || frischUndHeuteNochNicht(gedaechtnis[u]!, heute) || bildOhnePruefung(gedaechtnis[u]!))
-    .sort((a, b) => Number(bildOhnePruefung(gedaechtnis[b])) - Number(bildOhnePruefung(gedaechtnis[a])) || (gedaechtnis[a]?.zuletzt ?? '').localeCompare(gedaechtnis[b]?.zuletzt ?? ''))
+    .sort((a, b) => Number(inPause(fehlschlaege[a], heute)) - Number(inPause(fehlschlaege[b], heute)) || dringlichkeit(gedaechtnis[b]) - dringlichkeit(gedaechtnis[a]) || (gedaechtnis[a]?.zuletzt ?? '').localeCompare(gedaechtnis[b]?.zuletzt ?? ''))
     .slice(0, limit)
 }
 

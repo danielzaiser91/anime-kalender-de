@@ -18,14 +18,14 @@ export function SchlagworteAbschnitt({ title, t, keywords, onFilterBy, tKeyword,
     <>
       {title.keywords.length > 0 && (
         <Aufklappbar titel={t('detail.keywords')}>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-2">
             {keywords.map((k) => (
-              <Chip key={k} onClick={() => onFilterBy('keyword', k)}>
+              <Chip gross key={k} onClick={() => onFilterBy('keyword', k)}>
                 {tKeyword(k)}
               </Chip>
             ))}
             {title.keywords.length > KEYWORD_PREVIEW && (
-              <Chip onClick={() => setAllKeywords((v) => !v)}>
+              <Chip gross onClick={() => setAllKeywords((v) => !v)}>
                 {allKeywords
                   ? t('filter.showLess')
                   : `(…) ${t('filter.showMore', { count: title.keywords.length })}`}

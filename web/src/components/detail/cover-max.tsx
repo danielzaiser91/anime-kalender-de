@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
+import { useVerlaufEintrag } from '../../lib/use-verlauf-eintrag.ts'
 import { gleichesBild } from './cover-gleich.ts'
 
 /**
  * **Das Cover groß ansehen** (Daniel, 04.10.2026; seit dem 06.10.2026 öffnet der Klick aufs Cover, das Symbol in der Leiste entfiel):
  * Die Ansicht liegt als eigene Schicht über allem (`createPortal`), damit darunter nichts ausgelöst wird; ein Klick irgendwo in der
- * Schicht oder Escape schließt sie. Sie hat keine Adresse — der Zustand lebt nur hier.
+ * Schicht oder Escape schließt sie. Sie hat keine Adresse, aber einen Verlaufseintrag (`useVerlaufEintrag`): „Zurück“ schließt sie, nicht das Panel. Ein Klick aufs Banner zeigt das Banner.
  *
  * **Bildauslieferung** (Daniel, 07.10.2026: schärfer, aber ohne unnötiges Datenvolumen): Das AniList-Cover (460 px) steht sofort da, es
  * ist schon geladen. Erst **mit dem Öffnen** — nie vorab — fordert die Ansicht das große Plakat an (TMDB, `srcset` mit 500 und 780 px
@@ -27,8 +28,13 @@ export function coverVorwaermen(): void {
   link.href = 'https://image.tmdb.org'
   document.head.appendChild(link)
 }
+const ausserBedienelement = (e: { target: EventTarget }) => !(e.target as HTMLElement).closest('a,button,input,[role=button]')
 export const beiCoverKlick = (e: { target: EventTarget }): void => {
-  if (!(e.target as HTMLElement).closest('a,button,input,[role=button]')) window.dispatchEvent(new Event(COVER_MAX_EREIGNIS))
+  if (ausserBedienelement(e)) window.dispatchEvent(new CustomEvent(COVER_MAX_EREIGNIS, { detail: 'cover' }))
+}
+/** Klick auf das Banner: dieselbe Ansicht, aber mit dem Banner (ohne Banner fällt sie aufs Cover zurück). */
+export const beiBannerKlick = (e: { target: EventTarget }): void => {
+  if (ausserBedienelement(e)) window.dispatchEvent(new CustomEvent(COVER_MAX_EREIGNIS, { detail: 'banner' }))
 }
 
 /** Die Bildfassungen eines TMDB-Plakats; `gross` = [Pfad, Breite, Höhe]. */
@@ -43,9 +49,11 @@ function grossesBild(gross: [string, number, number]): { src: string; srcSet: st
   }
 }
 
-export function CoverMaximieren({ bild, gross, titel }: { bild: string | undefined; gross?: [string, number, number]; titel: string }) {
+export function CoverMaximieren({ bild, banner, gross, titel }: { bild: string | undefined; banner?: string; gross?: [string, number, number]; titel: string }) {
   const [offen, setOffen] = useState(false)
-  const [geladen, setGeladen] = useState(false)
+  const [zeigtBanner, setZeigtBanner] = useState(false)
+  /* „Zurück“ schließt erst die Ansicht, nicht das Panel dahinter (Daniel, 13.10.2026). */
+  useVerlaufEintrag(offen, () => setOffen(false))
   const [kaputt, setKaputt] = useState(false)
   /* Das große Plakat nur, wenn es dasselbe Motiv ist wie das Cover im Panel (`cover-gleich.ts`). */
   const [gleich, setGleich] = useState(false)
@@ -77,24 +85,42 @@ export function CoverMaximieren({ bild, gross, titel }: { bild: string | undefin
     return () => document.removeEventListener('keydown', esc, true)
   }, [offen])
   useEffect(() => {
-    const auf = () => setOffen(true)
+    const auf = (e: Event) => {
+      setZeigtBanner((e as CustomEvent<string>).detail === 'banner')
+      setOffen(true)
+    }
     window.addEventListener(COVER_MAX_EREIGNIS, auf)
     return () => window.removeEventListener(COVER_MAX_EREIGNIS, auf)
   }, [])
   /* Ein anderer Titel, ein anderes Bild: der Zustand des vorigen gilt nicht weiter. */
   useEffect(() => {
-    setGeladen(false)
     setKaputt(false)
     setGleich(false)
   }, [grossPfad])
-  if (!bild || !offen) return null
-  const gr = gross && !kaputt && gleich ? grossesBild(gross) : undefined
+  const anzeige = zeigtBanner && banner ? banner : bild
+  if (!anzeige || !offen) return null
+  const gr = !zeigtBanner && gross && !kaputt && gleich ? grossesBild(gross) : undefined
+  return <CoverSchicht key={grossPfad} bild={anzeige} label={zeigtBanner && banner ? 'Banner' : 'Cover'} titel={titel} gr={gr} schliessen={schliessen} onZu={() => setOffen(false)} onKaputt={() => setKaputt(true)} />
+}
+
+/** Die Schicht selbst: das Cover (klein, sofort) und darüber, sobald geladen, das große Plakat. */
+function CoverSchicht({ bild, label, titel, gr, schliessen, onZu, onKaputt }: {
+  bild: string
+  label: string
+  titel: string
+  gr: { src: string; srcSet: string } | undefined
+  schliessen: RefObject<HTMLButtonElement | null>
+  onZu: () => void
+  onKaputt: () => void
+}) {
+  /* Gehört zur geöffneten Schicht: jedes Öffnen beginnt ohne „geladen“, sonst bliebe das Basisbild (Banner!) unsichtbar. */
+  const [geladen, setGeladen] = useState(false)
   return createPortal(
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={`Cover: ${titel}`}
-      onClick={(e) => { e.stopPropagation(); setOffen(false) }}
+      aria-label={`${label}: ${titel}`}
+      onClick={(e) => { e.stopPropagation(); onZu() }}
       className="fixed inset-0 z-[80] grid cursor-zoom-out place-items-center bg-black/90 p-3"
     >
       <img src={bild} alt={titel} className={`[grid-area:1/1] max-h-full max-w-full object-contain transition-opacity ${geladen ? 'opacity-0' : ''}`} />
@@ -114,7 +140,7 @@ export function CoverMaximieren({ bild, gross, titel }: { bild: string | undefin
           alt=""
           decoding="async"
           onLoad={() => setGeladen(true)}
-          onError={() => setKaputt(true)}
+          onError={onKaputt}
           className={`[grid-area:1/1] max-h-full max-w-full object-contain transition-opacity ${geladen ? '' : 'opacity-0'}`}
         />
       )}

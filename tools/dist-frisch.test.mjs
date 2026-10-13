@@ -22,7 +22,8 @@ try {
   utimesSync(index, alt, alt)
   assert.match(distProblem(wurzel), /älter als web\/src.*npm run build/, 'veraltetes dist/')
 
-  const neu = new Date()
+  // Eine Sekunde Vorsprung: mtimeMs der Quelle hat Nachkommastellen, `new Date()` nur ganze Millisekunden.
+  const neu = new Date(Date.now() + 1000)
   utimesSync(index, neu, neu)
   assert.equal(distProblem(wurzel), null, 'frisches dist/')
   console.log('dist-frisch: ok')

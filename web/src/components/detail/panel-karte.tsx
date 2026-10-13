@@ -34,8 +34,8 @@ export function PanelKarte({ symbol, titel, zaehler, akzent, label, children }: 
         <span aria-hidden className={`grid size-7 shrink-0 place-items-center rounded-lg ${a.chip}`}>
           {symbol}
         </span>
-        <h3 className="text-sm font-bold tracking-wide text-ak-text">{titel}</h3>
-        {zaehler ? <span className="ml-auto rounded-full bg-ak-flaeche-2 px-2 py-0.5 text-[11px] font-semibold tabular-nums text-ak-text/80">{zaehler}</span> : null}
+        <h3 className="text-t3 font-semibold text-ak-text">{titel}</h3>
+        {zaehler ? <span className="ml-auto rounded-full bg-ak-flaeche-2 px-2 py-0.5 text-t4 font-semibold tabular-nums text-ak-text">{zaehler}</span> : null}
       </header>
       {children}
     </section>

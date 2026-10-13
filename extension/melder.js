@@ -2402,6 +2402,7 @@ if (selbstAn) setTimeout(() => void vielleichtSelbstStarten(), 0)
 function laufBeenden(grund) {
   if (!selbstAn) return
   selbstAn = false
+  DURCHLAUF.vollLauf = null
   DURCHLAUF.mehrfach = null
   /* Sonst stand der letzte Zählerstand („⏹ 6/6 — abbrechen") weiter am Knopf. */
   durchlaufKnopfZeigen()
@@ -2607,7 +2608,7 @@ async function alleStaffelnPruefen() {
         continue
       }
       DURCHLAUF.erzwungen = true
-      await durchlaufStarten(RAND)
+      await durchlaufStarten()
       m.fertig += DURCHLAUF.fertig ?? 0
       m.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - randPruefungen(gruppe))
       if (DURCHLAUF.abbruch) break
@@ -2918,12 +2919,12 @@ async function selbstStartenSchritt() {
     DURCHLAUF.selbst = true
     DURCHLAUF.gesamt = 0
     DURCHLAUF.erzwungen = true
-    await durchlaufStarten(RAND)
+    await durchlaufStarten()
     DURCHLAUF.selbst = false
     zaehler.fertig += DURCHLAUF.fertig ?? 0
-    zaehler.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - randPruefungen(gruppe))
+    zaehler.gesamt += Math.max(0, (DURCHLAUF.gesamt ?? 0) - randPruefungen(gruppe)) + (DURCHLAUF.vollLauf ? randPruefungen(gruppe) : 0)
     /* **Nach einem Lauf ist die Staffel durch** (30.09.2026). Sie galt nur als geprüft, wenn der Lauf NICHTS gemeldet hatte — eine meldende Staffel lief deshalb ein zweites Mal (doppelte Wiedergabe, Zähler „18/14"). Bleibt der Titel offen, greift der zweite Anlauf über `selbstVersuche`. */
-    selbstStaffelnGeprueft.add(schluessel)
+    if (!DURCHLAUF.vollLauf) selbstStaffelnGeprueft.add(schluessel)
     /* Fand der Durchlauf nichts zu tun, kam er nie bis zum Weitergehen — dann hier weiter. */
     if (!DURCHLAUF.gesamt && selbstAn) {
       selbstStaffelnGeprueft.add(schluessel)
@@ -3029,16 +3030,16 @@ function alsBereiche(nummern) {
 }
 
 /**
- * **Wie viele Folgen ein Klick prüft — umschaltbar und gemerkt.**
+ * **Wie viele Folgen ein Klick prüft — früher umschaltbar und gemerkt.**
  *
  * Daniel am 26.08.2026: „mach toggle bar per console, oder innerhalb der
  * liste ein kleiner limit-icon button dann kann ich es selbst umstellen. im
  * localstore toggle state merken, sodass ich beim testen an und normale
  * prüfung aus machen kann."
  *
- * Zwei Folgen sind die Vorgabe, solange etwas erprobt wird. Wer eine Staffel
- * wirklich durcharbeiten will, stellt einmal um — und es bleibt so, bis er es
- * zurückstellt. Umschalt+Klick kehrt die Einstellung für einen Lauf um.
+ * Seit 4.30.1 wertet nichts `probeGrenze` mehr aus (kein Umschalt+Klick, kein voller Lauf von Hand):
+ * `durchlaufStarten()` nimmt den Auftrag aus der Prüfliste, sonst erste und letzte offene Folge.
+ * Der Block lädt nur noch den Knopf (`durchlaufKnopfZeigen()`).
  */
 const PROBE_SCHLUESSEL = 'ak-durchlauf-probe'
 /** Wie viele Folgen ein Klick prüft — 0 heißt alle. */
@@ -3063,12 +3064,11 @@ void (async () => {
  * abschicken und gelbfärbung oder so um es zu kennzeichnen, dann input feld
  * anbieten wo ich manuell eine folge eingeben kann, bis zu der es deutsch ist."
  *
- * `RAND` prüft die erste und die letzte offene Folge. Stimmen beide überein,
+ * Die Randprobe prüft die erste und die letzte offene Folge. Stimmen beide überein,
  * gilt der Befund für die ganze Staffel — **als Annahme, nicht als Messung**,
  * und die Notiz sagt das. Unterscheiden sie sich, geht gar nichts raus: Dann
  * liegt die Grenze irgendwo dazwischen, und die kennt nur, wer nachsieht.
  */
-const RAND = -1
 
 /**
  * Die von Hand eingetragene Grenze übernehmen.
@@ -3814,10 +3814,10 @@ document.addEventListener(
  * fünf erproben, nicht an tausend — gehört als Griff in den Code, nicht in
  * einen guten Vorsatz.
  *
- * **Umschalt+Klick** startet ihn. Rechtsklick setzt den Stand einer Reihe
+ * Rechtsklick setzt den Stand einer Reihe
  * zurück, damit dieselben Folgen erneut prüfbar werden.
  */
-async function durchlaufStarten(grenze) {
+async function durchlaufStarten() {
   if (DURCHLAUF.laeuft) {
     DURCHLAUF.abbruch = true
     return
@@ -3858,11 +3858,13 @@ async function durchlaufStarten(grenze) {
    * Leiste nach der Grenze.
    */
   const ausAuftrag = erzwungen ? null : durchlaufAuftrag()
+  DURCHLAUF.voll = DURCHLAUF.vollLauf === String(reihe) && Boolean(DURCHLAUF.selbst)
+  DURCHLAUF.vollLauf = null
   /* Deckt der Auftrag genau einen Titel, ist die Stichprobe über dessen Folgen gezogen — nicht über alle offenen. */
   const basis = DURCHLAUF.stichprobe ?? alleOffen
   const offen = ausAuftrag
     ? ausAuftrag
-    : basis.length > 1
+    : basis.length > 1 && !DURCHLAUF.voll
       ? [basis[0], basis[basis.length - 1]]
       : basis
   DURCHLAUF.randprobe = !ausAuftrag && basis.length > 1 ? basis : null
@@ -4136,7 +4138,8 @@ async function durchlaufStarten(grenze) {
     geht nichts raus: Die Grenze liegt dann irgendwo dazwischen, und wo, weiß
     nur, wer nachsieht.
   */
-  if (DURCHLAUF.randprobe && DURCHLAUF.randErgebnis?.length === 2) {
+  if (DURCHLAUF.voll) await akNetflixVollMelden(DURCHLAUF)
+  if (DURCHLAUF.randprobe && !DURCHLAUF.voll && DURCHLAUF.randErgebnis?.length === 2) {
     /*
       **Nach Folgennummer ordnen, nicht nach Prüfreihenfolge.**
 
@@ -4173,17 +4176,8 @@ async function durchlaufStarten(grenze) {
       }
       DURCHLAUF.randOffen = null
     } else {
-      /* Uneinheitlich — hier entscheidet ein Mensch, nicht eine Annahme. */
-      DURCHLAUF.randOffen = {
-        folgen: DURCHLAUF.randprobe,
-        erste: ersteFolge,
-        letzte: letzteFolge,
-      }
-      console.warn(
-        `[Anime-Kalender] Folge ${ersteFolge.folge.nummer} ist ${ersteFolge.deutsch ? "deutsch" : "nicht deutsch"}, ` +
-          `Folge ${letzteFolge.folge.nummer} ${letzteFolge.deutsch ? "deutsch" : "nicht"} — nichts gemeldet. ` +
-          'Grenze im Feld unten eintragen oder den vollen Lauf starten.',
-      )
+      /* Uneinheitlich — von Hand entscheidet ein Mensch, im Sammeldurchgang misst der nächste Anlauf alle Folgen. */
+      akNetflixRandUneinheitlich(DURCHLAUF, reihe, DURCHLAUF.selbst && selbstAn, ersteFolge, letzteFolge)
     }
   }
   DURCHLAUF.randprobe = null
@@ -4292,8 +4286,8 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
     ging je Folge eine Anfrage raus, sechs gleichzeitig. Der Worker nimmt seit heute einen
     `stapel` an, höchstens zehn je Anfrage (Größengrenze, siehe PRUEFUNG_STAPEL_HOECHSTENS).
     Gemessen am 25.09.2026: zehn Meldungen einzeln nacheinander 1.740 ms, als Stapel 371 ms.
-    Die Stapel gehen gleichzeitig raus; das Abhaken im lokalen Speicher bleibt danach der
-    Reihe nach, weil es liest und schreibt.
+    Die Stapel gehen nacheinander raus: Nach einer 429 (Tageslimit) kommt kein weiterer an den Worker.
+    Das Abhaken im lokalen Speicher folgt danach der Reihe nach, weil es liest und schreibt.
   */
   const abhaken = []
   const meldungen = folgen.map((f) => {
@@ -4328,18 +4322,14 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
         serientitel: stand.reihe && String(stand.reihe) === String(reihe) ? (stand.serientitel ?? null) : null,
         notiz:
           /*
-            **Die Notiz ist der einzige Weg, auf dem die Annahme ankommt.**
+            **Die Notiz nennt die Annahme im Klartext; maschinenlesbar ist `art`.**
 
-            Ein eigenes Feld verwirft der Worker — er nimmt nur, was er kennt.
-            Die Notiz reicht er dagegen unverändert bis in
+            Die Notiz reicht der Worker unverändert bis in
             `dub-confirmed.yaml` durch, und dort muss stehen, dass hier
             zwei Folgen gemessen und der Rest angenommen wurde. Sonst sieht
             eine Annahme später aus wie eine Messung.
           */
-          `ANGENOMMEN aus Randprobe — gemessen: Folge ${folgen[0].nummer} und ${bisNummer}, ` +
-          `dazwischen nicht geprüft` +
-          (f.titel ? ` — Folge ${f.nummer}: ${f.titel}` : ``) +
-          (DURCHLAUF.staffelLabel ? ` — Netflix: ${DURCHLAUF.staffelLabel}` : ''),
+          akNetflixRandNotiz(folgen, bisNummer, f, DURCHLAUF.staffelLabel, gemessen.has(Number(f.nummer))),
         /* Auch eine abgeleitete Folge bringt ihren Titel und ihre Felder mit — für die Zuordnung. */
         rohfolgen: [
           {
@@ -4361,46 +4351,47 @@ async function randMelden(folgen, befund, bisNummer, gemessenNr = [befund.folge?
   })
   const stapel = []
   for (let i = 0; i < meldungen.length; i += MELDE_STAPEL) stapel.push(meldungen.slice(i, i + MELDE_STAPEL))
-  await Promise.all(
-    stapel.map(async (teil) => {
-      try {
-        const antwort = await fetch(WORKER, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
-          body: JSON.stringify({ stapel: teil.map((m) => m.daten) }),
-        })
-        if (!antwort.ok) return void globalThis.AK_TAGESLIMIT?.fehlgeschlagen(DURCHLAUF)
-        const { ergebnisse = [] } = await antwort.json()
-        teil.forEach(({ f, staffelDerFolge }, i) => {
-          if (!ergebnisse[i]?.ok) return
-          gemeldet++
-          DURCHLAUF.gemeldet.add(f.videoId)
-          frischGemeldetNetflix.add(String(reihe))
-          /* Abgeleitet zählt wie gemessen — mit demselben Datum. */
-          meldungenMerken(reihe, [
-            {
-              nummer: f.nummer,
-              staffel: staffelDerFolge,
-              staffelBekannt: staffelDerFolge != null,
-              folge: f.videoId,
-              am: new Date().toISOString(),
-            },
-          ])
-          /*
-            **Auch die Abhakliste bekommt es mit.**
-
-            Sie speist die Bereiche im Dialog. Ohne diesen Eintrag stand dort
-            nach einer Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 |
-            offen: E3-60" — die Meldungen waren raus, nur wusste die Anzeige
-            nichts davon.
-          */
-          abhaken.push([staffelDerFolge, f.nummer])
-        })
-      } catch {
-        /* Ein verlorener Stapel hält die übrigen nicht auf. */
+  for (const teil of stapel) {
+    try {
+      const antwort = await fetch(WORKER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Lauf-Token': token },
+        body: JSON.stringify({ stapel: teil.map((m) => m.daten) }),
+      })
+      if (!antwort.ok) {
+        globalThis.AK_TAGESLIMIT?.fehlgeschlagen(DURCHLAUF)
+        break
       }
-    }),
-  )
+      const { ergebnisse = [] } = await antwort.json()
+      teil.forEach(({ f, staffelDerFolge }, i) => {
+        if (!ergebnisse[i]?.ok) return
+        gemeldet++
+        DURCHLAUF.gemeldet.add(f.videoId)
+        frischGemeldetNetflix.add(String(reihe))
+        /* Abgeleitet zählt wie gemessen — mit demselben Datum. */
+        meldungenMerken(reihe, [
+          {
+            nummer: f.nummer,
+            staffel: staffelDerFolge,
+            staffelBekannt: staffelDerFolge != null,
+            folge: f.videoId,
+            am: new Date().toISOString(),
+          },
+        ])
+        /*
+          **Auch die Abhakliste bekommt es mit.**
+
+          Sie speist die Bereiche im Dialog. Ohne diesen Eintrag stand dort
+          nach einer Randprobe über 61 Folgen weiter „gemeldet: E1-2, E61 |
+          offen: E3-60" — die Meldungen waren raus, nur wusste die Anzeige
+          nichts davon.
+        */
+        abhaken.push([staffelDerFolge, f.nummer])
+      })
+    } catch {
+      /* Ein verlorener Stapel hält die übrigen nicht auf. */
+    }
+  }
   for (const [staffel, nummer] of abhaken) await merkeErledigt(reihe, staffel, nummer)
   await durchlaufStandSchreiben(reihe)
   console.log(`[Anime-Kalender] ${gemeldet} Folge(n) aus der Randprobe gemeldet.`)
@@ -4682,7 +4673,6 @@ function durchlaufKnopfZeigen() {
     DURCHLAUF.knopf.className = 'ak-durchlauf'
     DURCHLAUF.knopf.addEventListener(
       'click',
-      /* Mit Umschalt nur zwei Folgen — zum Erproben, ohne lange zu warten. */
       (e) => {
         /*
           Läuft schon etwas, tut ein Klick nichts mehr.
@@ -4732,22 +4722,8 @@ function durchlaufKnopfZeigen() {
           return
         }
         console.log('[Anime-Kalender] Durchlauf startet:', zustand)
-        /*
-          **Zwei Folgen sind die Vorgabe, alle nur mit Umschalt.**
-
-          Daniel am 26.08.2026: „wir haben eigentlich gesagt für debugging
-          reicht 2 prüfung, warum kein limit eingebaut?" Es war eingebaut —
-          hinter Umschalt+Klick, also genau dort, wo man es beim normalen
-          Klicken nicht trifft. Solange etwas erprobt wird, gehört die sparsame
-          Fassung auf den Hauptweg und die teure hinter den Griff.
-        */
-        /* Umschalt kehrt die Einstellung für diesen einen Lauf um. */
-        /*
-          Die Grenze ist Geschichte: `durchlaufStarten()` liest den Auftrag aus
-          der Prüfliste und fällt sonst auf erste und letzte offene Folge
-          zurück. Umschalt bleibt als Griff für den vollen Lauf.
-        */
-        void durchlaufStarten(e.shiftKey ? 0 : undefined)
+        /* `durchlaufStarten()` liest den Auftrag aus der Prüfliste und fällt sonst auf erste und letzte offene Folge zurück; einen vollen Lauf von Hand gibt es nicht. */
+        void durchlaufStarten()
       },
     )
     /*

@@ -8,6 +8,17 @@
 @theme {
   --font-sans: 'Manrope Variable', 'Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Unbounded', 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+  /* Die fünf Schriftstufen des Detail-Panels (Größe / Zeile); `tools/panel-messen.mjs` lässt keine sechste zu. */
+  --text-t1: 24px;
+  --text-t1--line-height: 28px;
+  --text-t2: 18px;
+  --text-t2--line-height: 24px;
+  --text-t3: 15px;
+  --text-t3--line-height: 20px;
+  --text-t4: 13px;
+  --text-t4--line-height: 18px;
+  --text-t5: 11px;
+  --text-t5--line-height: 16px;
 }
 
 /*
@@ -245,18 +256,6 @@ html.dark select option {
 }
 
 /*
-  **Luft für Blasen, die über die Kante einer Pille ragen**. Fernseh-Blase oben links,
-  DE-Häkchen oben rechts, Kalender-Blase unten rechts: Ohne Abstand stieß die Blase der einen Pille
-  an die der Nachbarpille. Die Pille trägt die Klasse der Seite, auf der ihre Blase sitzt.
-*/
-@utility blase-links {
-  margin-left: 0.5rem;
-}
-@utility blase-rechts {
-  margin-right: 0.375rem;
-}
-
-/*
   **Vergangenes tritt zurück, bleibt aber lesbar** (Daniel, 03.09.2026: abschwächen; axe, 26.09.2026:
   `opacity` am ganzen Tag drückte jeden Text unter 4,5:1). Gedimmt werden deshalb nur Bilder und
   Farbflächen; Text wechselt auf die leise Farbe, die in beiden Themen den Kontrast hält.
@@ -304,6 +303,68 @@ html:not(.dark) .ak-punkt {
   .ak-breit-cover {
     padding-top: calc((100% - 0.875rem) * 0.75);
   }
+}
+
+/*
+  Kino-Saal (12.10.2026, Daniels Wahl E): Kino-Termine stehen auf einer dunklen Bühne mit Vorhängen links und rechts, Querbehang
+  oben und Lichtkegel — alles CSS, kein Bild. Die Bühne ist so hoch wie die schmalen Nachbarn (`ak-breit-cover`); das Cover
+  liegt als Fenster darin. Die Farben sind fest (Stoffrot auf dunklem Grund), in beiden Themen gleich.
+*/
+.ak-saal {
+  background: #07080b;
+}
+.ak-saal-vorhang {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 11%;
+  z-index: 2;
+  background: repeating-linear-gradient(90deg, #240509 0, #6e1a2d 5px, #8c2238 8px, #4e0f1d 13px, #240509 16px);
+}
+.ak-saal-vorhang-l {
+  left: 0;
+  box-shadow: 3px 0 8px rgb(0 0 0 / 0.6);
+}
+.ak-saal-vorhang-r {
+  right: 0;
+  box-shadow: -3px 0 8px rgb(0 0 0 / 0.6);
+}
+.ak-saal-behang {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 14%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: linear-gradient(180deg, #7d1d31, #5e1829 70%, #4a1120);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.55);
+  color: #facc15;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.ak-saal-behang::after {
+  content: '';
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 8px;
+  background: radial-gradient(circle at 50% 0, #4a1120 7px, #0000 7.5px) 0 0 / 16px 8px repeat-x;
+}
+.ak-saal-licht {
+  --glanz: 0.3;
+  position: absolute;
+  inset: 21% 11% 11%;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 0%, rgb(255 244 214 / var(--glanz)), rgb(255 244 214 / 0) 75%),
+    linear-gradient(0deg, rgb(0 0 0 / 0.3), transparent 30%);
+}
+html:not(.dark) .ak-saal-licht {
+  --glanz: 0.42;
 }
 
 /*

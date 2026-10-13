@@ -9,7 +9,7 @@ export interface Zeile {
 }
 
 /** Meldungen, die einen Termin nennen — sie veralten mit ihm. */
-const TERMIN_ARTEN = new Set<NewsMeldung['art']>(['angekuendigt', 'disc', 'kino'])
+const TERMIN_ARTEN = new Set<NewsMeldung['art']>(['angekuendigt', 'rhythmus', 'disc', 'kino'])
 
 /**
  * Was das Panel an News zeigt: **nur der eigene Titel** — bei Pokémon standen

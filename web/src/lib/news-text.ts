@@ -2,6 +2,7 @@ import { PLATFORMS, type NewsMeldung, type PlatformId } from '@shared/types.ts'
 import { translate as t } from './i18n.tsx'
 import { weekdayName } from '@shared/time.ts'
 import { omuDatumText, omuStartText } from '@shared/ankuendigung.ts'
+import { folgenProWoche } from '@shared/folgenrhythmus.ts'
 
 /**
  * **Der Satz zu einer Meldung — für die Nachrichtenseite und den RSS-Feed.**
@@ -65,6 +66,10 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
       if (m.platform === 'tv' && m.datum) return t('news.angekuendigtTv', { sender: m.anbieter ? ` bei ${m.anbieter}` : '', tag: weekdayName(m.datum), datum }) + lautQuelle(m, am)
       if (m.jahre && anbieter) return t(m.discSeitText ? 'news.angekNachJahrenStream' : 'news.angekNachJahren', { jahre: m.jahre, datum, anbieter, disc: m.discSeitText ?? '' }) + lautQuelle(m, am)
       return t('news.angekuendigt', { datum, anbieter }) + lautQuelle(m, am)
+    case 'rhythmus':
+      return t('news.angekRhythmus', { datum, anbieter, zahl: folgenProWoche(m.proWoche ?? [0, 0]) })
+    case 'offiziell':
+      return t(`news.offiziell.${m.kategorie ?? 'termin'}` as never)
     case 'disc':
       return t(m.ausgabe ? 'news.discAusgabe' : 'news.disc', { datum, ausgabe: m.ausgabe ?? '' }) + lautQuelle(m, am)
     case 'kino':
@@ -85,6 +90,36 @@ export function newsSatz(m: NewsMeldung, am?: string): string {
         ? t('news.nachgereichtMehrere', { von: m.von ?? '', bis: m.bis ?? '', erwartet })
         : t('news.nachgereicht', { von: m.von ?? '', erwartet })
     }
+  }
+}
+
+/** Die Kurzform für die Übersichtszeile — Stichworte, kein Satz. */
+export function newsKurz(m: NewsMeldung): string {
+  const anbieter = anbieterDerMeldung(m)
+  const datum = m.datum ? datumKurz(m.datum) : ''
+  switch (m.art) {
+    case 'neu':
+      if (m.weiterer) return t('news.kurz.auchBei', { anbieter })
+      return anbieter ? t('news.kurz.neu', { anbieter }) : t('news.art.neu')
+    case 'folgen':
+    case 'nachgereicht':
+      return m.bis !== undefined && m.bis !== m.von
+        ? t('news.kurz.folgen', { von: m.von ?? '', bis: m.bis, anbieter })
+        : t('news.kurz.folge', { von: m.von ?? '', anbieter })
+    case 'angekuendigt':
+      return t(m.omu ? 'news.kurz.omu' : 'news.kurz.angekuendigt', { datum, anbieter })
+    case 'rhythmus':
+      return t('news.kurz.angekRhythmus', { zahl: folgenProWoche(m.proWoche ?? [0, 0]), datum, anbieter })
+    case 'offiziell':
+      return t(`news.offiziell.${m.kategorie ?? 'termin'}` as never)
+    case 'disc':
+      return t(m.ausgabe ? 'news.kurz.discAusgabe' : 'news.kurz.disc', { datum, ausgabe: m.ausgabe ?? '' })
+    case 'kino':
+      return t('news.kurz.kino', { datum })
+    case 'verspaetet':
+      return t('news.kurz.verspaetet', { von: m.von ?? '', datum })
+    case 'nachgetragen':
+      return t('news.kurz.nachgetragen', { von: m.von ?? 1, datum, anbieter })
   }
 }
 

@@ -5,13 +5,13 @@
 /* Die Texte des Sprecher-Filters reisen mit: `i18n.tsx` ist über der Dateigrenze und wächst nicht mehr. */
 import { TEXTE_SPRECHER } from './i18n-sprecher.ts'
 import { TEXTE_HERKUNFT } from './i18n-herkunft.ts'
-import { TEXTE_JUSTWATCH } from './i18n-justwatch.ts'
+import { TEXTE_ZEILEN } from './i18n-zeilen.ts'
 import { TEXTE_ANTWORT } from './i18n-antwort.ts'
 
 export const TEXTE_KALENDER = {
   ...TEXTE_SPRECHER,
   ...TEXTE_HERKUNFT,
-  ...TEXTE_JUSTWATCH,
+  ...TEXTE_ZEILEN,
   // Fortsetzung mit eigenem Titel in der Reihenliste, keine Staffel.
   'detail.gruppeEigene': 'Eigene Serien',
   ...TEXTE_ANTWORT,
@@ -19,7 +19,7 @@ export const TEXTE_KALENDER = {
   'geplant.marke': 'Geplant',
   'geplant.hinweis': 'Das Original ist noch nicht erschienen',
   // Kurzfassung am Schalter der Reihenliste (einzeilige Kopfzeile); der volle Satz steht in `detail.reiheOhneSchalter` als Tooltip.
-  'detail.reiheOhneSchalterKurz': '{n} ohne Synchro',
+  'detail.reiheOhneSchalterKurz': 'Teile ohne Synchro zeigen ({n})',
   'detail.reiheNurOhne': 'Alle übrigen Teile sind ohne Synchro oder geplant — der Schalter blendet sie ein.',
   'kopf.startseite': 'Anime-Kalender DE — zur aktuellen Woche',
   'kopf.suche': 'Anime suchen',
@@ -82,6 +82,7 @@ export const TEXTE_KALENDER = {
   'fachwort.omu': 'Originalton mit deutschen Untertiteln — keine deutsche Synchro',
   'kal.omu': 'OmU', 'kal.synchroOffen': 'Synchro offen', 'kal.synchroOffenHinweis': 'Der Termin ist belegt, eine deutsche Synchro nicht.',
   'detail.pilleNurOmu': 'Hier läuft vorerst nur der Originalton mit deutschen Untertiteln. Die deutsche Synchro ist noch nicht erschienen.',
+  'detail.pilleNurOmuOffen': 'Hier läuft bisher nur der Originalton mit deutschen Untertiteln. Eine deutsche Synchro ist nicht bekannt.',
   'fachwort.zeitumstellung': 'Am 25.10.2026 endet in Deutschland die Sommerzeit: Die Uhren werden um 1 Stunde zurückgestellt. Bleibt die Sendezeit im Ausland gleich, liegt sie in Deutschland ab dann 1 Stunde früher auf der Uhr.',
   'kal.mehrLabel': 'Alle {n} Termine am {datum} zeigen',
   'kal.tagMitTiteln': '{datum}: {titel}',

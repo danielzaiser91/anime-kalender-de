@@ -1,0 +1,4 @@
+# Prüfdateien (check-*.ts, *.test.mjs|ts) in den Ordnern von tools/check-logic-liste.txt, die bewusst nicht dort stehen.
+# Format wie die Liste: eine Datei je Zeile, `#` beginnt einen Kommentar. Wächter: tools/check-logic-vollstaendig.mjs.
+# Eine Ausnahme, die nicht mehr nötig ist, macht check:logic rot. Dateien, die package.json, check-bestand-liste.txt oder tests-alle.mjs ausführt, brauchen keine.
+pipeline/check-invarianten-kanal.ts # nur Proben-Bibliothek (exportiert kanalProben), läuft über pipeline/check-invarianten.ts

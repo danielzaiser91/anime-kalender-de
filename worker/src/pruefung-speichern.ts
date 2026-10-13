@@ -23,10 +23,11 @@ import { zahlOderNull, jetztIso } from './werte.ts'
 import { type Env } from './env.ts'
 import { verarbeiteStapel } from './pruefung-stapel.ts'
 import { speichereRohfolgen } from './pruefung-rohfolgen-speichern.ts'
-import { istMeldung, mitTagesdeckel } from './tagesdeckel.ts'
+import { istMeldung, mitTagesdeckel, type Zeilen } from './tagesdeckel.ts'
+import { exporteVerwerfen } from './export-speicher.ts'
 import { loescheOffene } from './pruefung-ersetzen.ts'
 import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
-import { pruefeUnveraendert, ladeOffeneHashes, type OffeneHashes } from './pruefung-unveraendert.ts'
+import { pruefeUnveraendert, ladeOffeneHashes, folgeVon, type OffeneHashes } from './pruefung-unveraendert.ts'
 
 export async function speicherePruefung(kontext: Kontext) {
   let daten: Record<string, unknown>
@@ -36,16 +37,30 @@ export async function speicherePruefung(kontext: Kontext) {
     return kontext.antwort({ error: 'Kein gültiges JSON' }, 400)
   }
   /* Aufträge der Pipeline (abhaken, wieder öffnen) bleiben unter dem Tagesdeckel frei. */
-  if (!istMeldung(daten)) return await speichereDaten(kontext, daten)
+  if (!istMeldung(daten)) return await speichereAuftrag(kontext, daten)
+  const geschrieben = { zeilen: 0 }
   try {
-    return await mitTagesdeckel(kontext, async (k) => {
-      const urls = typeof daten.url === 'string' ? [daten.url.trim()] : []
-      return await speichereDaten({ ...k, offene: await ladeOffeneHashes(k.env, urls) }, daten)
+    const beiZeilen = (z: Zeilen) => void (geschrieben.zeilen = z.geschrieben)
+    return await mitTagesdeckel({ ...kontext, beiZeilen }, async (k) => {
+      const folgen = typeof daten.url === 'string' ? [folgeVon(daten)] : []
+      return await speichereDaten({ ...k, offene: await ladeOffeneHashes(k.env, folgen) }, daten)
     })
   } finally {
     /* Ihre Antwort auf `?gemeldet=` hat sich geändert; auch nach einer Ausnahme, es kann teilweise geschrieben sein. */
     await verwirfGemeldet(kontext.request.url, adressenDerMeldung(daten))
+    /* Die Auszüge des Baus ändern sich nur, wenn die Meldung Zeilen geschrieben hat (eine unveränderte schreibt keine). */
+    if (geschrieben.zeilen > 0) await exporteVerwerfen(kontext.env)
   }
+}
+
+/** Abhaken und Wiederöffnen ändern nur `uebernommen`, das allein der Auszug `offen-*` enthält. */
+async function speichereAuftrag(kontext: Kontext, daten: Record<string, unknown>) {
+  const antwort = await speichereDaten(kontext, daten)
+  const liste = (v: unknown) => Array.isArray(v) && v.length > 0
+  if (antwort.ok && (liste(daten.uebernommen) || liste(daten.rohfolgenUebernommen) || daten.reoeffnen)) {
+    await exporteVerwerfen(kontext.env, 'offen')
+  }
+  return antwort
 }
 
 /** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */
@@ -243,36 +258,8 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
     art = /ANGENOMMEN/.test(String(daten.notiz ?? '')) ? 'angenommen' : 'gemessen'
   }
 
-  /**
-   * Wird derselbe Titel zweimal geschickt, gilt der jüngere Blick.
-   *
-   * **Die Staffel gehört in die Bedingung.** Amazon führt Sammelseiten: Unter
-   * `B0GFPBT6FG` liegen alle drei Staffeln von „Oshi no Ko", unterschieden
-   * allein durch den Verweis-Parameter (gemessen 23.08.2026). Ohne die
-   * Staffel löschte eine Meldung für Staffel 3 die für Staffel 1 — ein Befund
-   * verschwände, ohne dass es jemandem auffällt.
-   *
-   * `IS` statt `=`, weil SQLite bei `NULL = NULL` nichts liefert und die
-   * allermeisten Meldungen gar keine Staffelangabe tragen.
-   */
-  const folgeNr = zahlOderNull(daten.folge_nr)
-  const staffelNr = zahlOderNull(daten.staffel)
-  /**
-   * **Die Seitenkennung gehört in die Ersetzungs-Bedingung.**
-   *
-   * `url` ist die Adresse aus der Prüfliste — dieselbe für beide Ausgaben eines
-   * Titels. Prime führt aber regelmäßig zwei, und sie sind verschiedene
-   * Angebote: „My First Girlfriend is a Gal" liegt als Kauftitel mit 11 Folgen
-   * und FSK 16 (die KAZÉ-Fassung samt OVA) und über den Crunchyroll-Kanal mit
-   * 10 Folgen und FSK 18, mit völlig anderen Folgentiteln.
-   *
-   * Ohne diese Bedingung löscht die zweite Meldung die erste, und im Briefkasten
-   * bleibt nur eine der beiden Ausgaben übrig.
-   *
-   * `IS` statt `=`, aus demselben Grund wie bei der Staffel: Ältere Meldungen
-   * tragen keine Kennung, und `NULL = NULL` liefert in SQLite nichts.
-   */
-  const seitenKennung = typeof daten.seiten_kennung === 'string' ? daten.seiten_kennung : null
+  /* Dieselbe Folge zweimal geschickt: der jüngere Blick gilt (Schlüssel und Begründung: `folgeVon`). */
+  const { folgeNr, staffelNr, seitenKennung } = folgeVon(daten)
   /* Dieselbe Meldung wie die offene Zeile: nichts zu schreiben (pruefung-unveraendert.ts). */
   const { hash, unveraendert } = await pruefeUnveraendert(env, offene, daten, { url, folgeNr, staffelNr, seitenKennung })
   if (unveraendert) {
@@ -385,8 +372,8 @@ export type Kontext = {
 }
 
 async function speichereStapel({ request, antwort, token, env, ctx }: Kontext, stapel: unknown[]) {
-  const urls = stapel.map((m) => (m as { url?: unknown } | null)?.url).filter((u): u is string => typeof u === 'string')
-  const offene = await ladeOffeneHashes(env, urls.map((u) => u.trim()))
+  const mitUrl = stapel.filter((m): m is Record<string, unknown> => typeof (m as { url?: unknown } | null)?.url === 'string')
+  const offene = await ladeOffeneHashes(env, mitUrl.map(folgeVon))
   const ergebnisse = await verarbeiteStapel(stapel, async (einzeln) => {
     if (!einzeln || typeof einzeln !== 'object' || 'stapel' in einzeln) {
       return { ok: false, status: 400, grund: 'Meldung ist kein Objekt oder ein verschachtelter Stapel' }

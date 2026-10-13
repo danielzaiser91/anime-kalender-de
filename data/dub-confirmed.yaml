@@ -23665,3 +23665,70 @@
       checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
   checkedAt: '2026-10-11'
   note: "Folgen 1–13 mit deutschem Ton — Tonspuren: de|Deutsch, en|Englisch [Original], tr|Türkisch, ru|Russisch, nl|Niederländisch, fr|Französisch, el|Griechisch, ko|Koreanisch, pl|Polnisch, pt-BR|Portugiesisch (Brasilien), pt|Portugiesisch (Portugal), ro|Rumänisch, es|Spanisch (Lateinamerika), es-ES|Spanisch (Spanien), cs|Tschechisch, hu|Ungarisch — ANGENOMMEN aus Randprobe — gemessen: Folge 1 und 13, dazwischen nicht geprüft — Folge 6: Die verlorene Stadt"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-12 ---
+
+- anilistId: 21518
+  title: "Food Wars! The Second Plate"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CK66ZZ8G
+  available: false
+  checkedAt: '2026-09-28'
+  note: "Amazon-Seite B0CK66ZZ8G: nur 0 von 24 Folgen geladen — Rest ungeprüft, Abos: keine Angabe, gti=amzn1.dv.gti.7d146436-3a54-44fc-8eda-8f1a7165717b, regionsperre=laut Seite nicht mehr im Abo"
+- anilistId: 21518
+  title: "Food Wars! The Second Plate"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0GRJ77R15
+  dub: true
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, Français — Amazon-Seite B0GRJ77R15: alle 13 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.39fc1006-9bc0-4d38-b37b-9d876d816563 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 21518
+  title: "Food Wars! The Second Plate"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CJPKQQNL
+  dub: true
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, English, 日本語 — Amazon-Seite B0CJPKQQNL: alle 12 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.613105d7-f0a5-46b7-9904-2929fd70ec75 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+- anilistId: 21518
+  title: "Food Wars! The Second Plate"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0CHH61FPJ
+  dub: true
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, 日本語 — Amazon-Seite B0CHH61FPJ: alle 13 Folgen geprüft, Abos: crunchyrollde, zugang=abo, gti=amzn1.dv.gti.21d11489-1c69-43e5-b33d-5ebaa3615095 — ACHTUNG: Kanal-Titel, Amazons Sprachangabe ist hier kein Beleg"
+# --- Aus dem Browser gemeldet, abgeholt am 2026-10-12 ---
+
+- anilistId: 101347
+  title: "Dororo"
+  platform: primevideo
+  url: https://www.amazon.de/gp/video/detail/B0B5M7HJ1K
+  dub: true
+  checkedAt: '2026-09-28'
+  note: "Tonspuren: Deutsch, Deutsch Dialogue Boost: Medium, Deutsch Dialogue Boost: High — Amazon-Seite B0HKV56GC6: alle 24 Folgen geprüft, Abos: Prime, prosiebenfun, prosiebende, aniversede, zugang=abo_und_kauf, gti=amzn1.dv.gti.a9b9b409-94c3-44be-8ab9-9c14e56229e2"
+# ---------------------------------------------------------------------------
+# Prüfung vom 12.10.2026 (Daniel im Chat, Snowball Earth Staffel 1: alle 13 Folgen deutsch)
+# Überholt das „keine deutsche Synchro" vom 26.09. (Crunchyroll) und die Messung vom 08.10. (Disney+, Folgen 1–10).
+# ---------------------------------------------------------------------------
+- anilistId: 196144
+  title: "Snowball Earth"
+  platform: disneyplus
+  url: https://www.disneyplus.com/de-de/browse/entity-5ecc8b00-79fd-4c1a-81ed-f44260ef38d4
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-12'
+  note: "Daniel: alle 13 Folgen mit deutscher Synchro, Folge 13 heute (12.10.2026) erschienen"
+- anilistId: 196144
+  title: "SNOWBALL EARTH"
+  platform: crunchyroll
+  url: https://www.crunchyroll.com/de/series/GT00371869/snowball-earth
+  dub: true
+  dubRanges:
+    - from: 1
+      to: 13
+      dub: true
+      checked: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+  checkedAt: '2026-10-12'
+  note: "Daniel: alle 13 Folgen mit deutscher Synchro; Crunchyroll-Kalender führt Folge 13 heute (12.10.2026) als „Deutsch“"

@@ -6,5 +6,8 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const tools = dirname(fileURLToPath(import.meta.url))
-const lauf = spawnSync('bash', [join(tools, 'commit-data-test.sh')], { stdio: 'inherit' })
+// Ausgabe über Pipes weiterreichen: ein geerbtes Anhänge-Handle (Log von prozess-register.mjs) beschreibt bash.exe nicht.
+const lauf = spawnSync('bash', [join(tools, 'commit-data-test.sh')], { encoding: 'utf8' })
+process.stdout.write(lauf.stdout)
+process.stderr.write(lauf.stderr)
 process.exit(lauf.status ?? 1)

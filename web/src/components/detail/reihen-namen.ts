@@ -10,6 +10,7 @@ import {
   reihenVertreter,
 } from '@shared/titles.ts'
 import type { Dataset } from '../../lib/data.ts'
+import { kurzName } from './reihen-regeln.ts'
 
 /**
  * Wie die Reihe heißt — nicht, wie die gerade gewählte Staffel heißt.
@@ -97,6 +98,5 @@ export function teilNameVon(title: Title | undefined, reihenName: string, reihen
   */
   const beschriftung = staffelBeschriftungen(hauptstaffeln(reihenTeile), reihenName).get(title.id)
   if (beschriftung) return beschriftung
-  if (rest) return rest
-  return voll
+  return kurzName(rest, voll)
 }

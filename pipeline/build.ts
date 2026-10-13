@@ -8,7 +8,7 @@
  */
 import { ladeQuellen } from './bau/01-quellen.ts'
 import { baueTitelGemessen } from './bau/anisearch-abweichungen.ts'
-import { fuehreReihenZusammen } from './bau/03-reihen.ts'
+import { fuehreReihenZusammenQuelle as fuehreReihenZusammen } from './bau/anisearch-reihen-rein-bau.ts'
 import { indiziereCrSendeplaetze } from './bau/04-cr-sendeplaetze.ts'
 import { baueReleases } from './bau/05-releases.ts'
 import { ergaenzeCrSimuldubs } from './bau/06-cr-simuldubs.ts'
@@ -22,6 +22,7 @@ import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.t
 import { schreibeAboFeeds } from './bau/14-ics.ts'
 import { entferneVomKalender } from './bau/sperre.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
+import { merkeBestandVorher } from './lib/bestand-vorher.ts'
 
 function main(): void {
   /**
@@ -106,4 +107,5 @@ function main(): void {
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })
 }
 
+merkeBestandVorher()
 main()

@@ -1,0 +1,33 @@
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0130368Z [pipeline] ⚠  Auffällig: Meldung 11816,11817,11818,11819,11820,11821,11822,11823,11824,11825,11826,11827,11828,11829,11830,11831,11832,11833,11834,11835,11836: 21 Folgen gemeldet, Titel -32726 hat 313 (https://www.disneyplus.com/browse/entity-fdeb1018-4472-442f-ba94-fb087cdea069)
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0131912Z [pipeline] ⚠  67 Meldung(en) bleiben im Briefkasten, bis sie zugeordnet sind.
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0132657Z [pipeline] 153 Meldungen werden nach dem Commit abgehakt
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0384316Z ##[group]Run if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0385332Z ^[[36;1mif git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi^[[0m
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0385938Z ^[[36;1mif npm run check:logic > /tmp/logic.txt 2>&1; then exit 0; fi^[[0m
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0386442Z ^[[36;1mgrep '✖' /tmp/logic.txt || true^[[0m
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0386888Z ^[[36;1mgit checkout -- data/dub-confirmed.yaml^[[0m
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0387426Z ^[[36;1mgit checkout -- data/anbieter-staffeln.json 2>/dev/null || true^[[0m
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0387975Z ^[[36;1mrm -f data/cache/pruefungen-abhaken.json^[[0m
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0388559Z ^[[36;1mgrund="$(grep -m 3 '✖' /tmp/logic.txt | tr -d '\"' | tr -s '[:space:]' ' ')"^[[0m
+bauen	UNKNOWN STEP	2026-10-12T05:03:32.0389400Z ^[[36;1mecho "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"^[[0m
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T05:05:41.3891186Z [pipeline]   2927 Titel (+1), davon 1624 mit Verweis
+bauen	UNKNOWN STEP	2026-10-12T05:05:41.3892095Z [pipeline]   1596 mit belegter Synchro (-2), 2192 Verweise (-1)
+bauen	UNKNOWN STEP	2026-10-12T05:05:41.3892969Z [pipeline]   offen: 1303 ohne Verweis (+1), 28 ohne Sprachurteil (+2)
+bauen	UNKNOWN STEP	2026-10-12T05:05:41.3894694Z [pipeline]   Lücken: 84 ohne deutschen Namen (+1), 13 Serien ohne Folgenzahl (+1)
+bauen	UNKNOWN STEP	2026-10-12T05:05:41.3895749Z [pipeline]   432 künftige Termine (-1)
+bauen	UNKNOWN STEP	2026-10-12T05:05:41.3896770Z [pipeline] ⚠  verwaisteTermine: 13 — das darf nicht vorkommen
+bauen	UNKNOWN STEP	2026-10-12T05:05:41.4101581Z ##[error]Process completed with exit code 1.
+bauen	UNKNOWN STEP	2026-10-12T05:05:41.4141238Z ##[group]Run npm run data:og
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T05:06:40.9206746Z [pipeline]   korrekt entfernt       : 506
+bauen	UNKNOWN STEP	2026-10-12T05:06:40.9208100Z [pipeline]   uneindeutig (Bereiche) : 57 — nicht bewertet
+bauen	UNKNOWN STEP	2026-10-12T05:06:40.9209461Z [pipeline] ⚠  3 Handprüfungen werden vom Datensatz nicht wiedergegeben:
+bauen	UNKNOWN STEP	2026-10-12T05:06:40.9212757Z [pipeline] ⚠     -10283 (?) — netflix: von Hand als deutsch geprüft, im Datensatz steht dub=undefined
+bauen	UNKNOWN STEP	2026-10-12T05:06:40.9215136Z [pipeline] ⚠     -1433 (?) — disneyplus: von Hand als deutsch geprüft, im Datensatz steht dub=undefined
+bauen	UNKNOWN STEP	2026-10-12T05:06:40.9217019Z [pipeline] ⚠     -82653 (?) — disneyplus: von Hand als deutsch geprüft, im Datensatz steht dub=undefined
+bauen	UNKNOWN STEP	2026-10-12T05:06:40.9237643Z ##[error]Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon.
+bauen	UNKNOWN STEP	2026-10-12T05:06:45.8938990Z ##[warning]1 Pfad(e) nicht vorhanden, übersprungen: data/cartoon-folgen.json
+bauen	UNKNOWN STEP	2026-10-12T05:06:47.2616297Z Gepusht (Versuch 1).
+bauen	UNKNOWN STEP	2026-10-12T05:06:47.2623030Z ##[error]Process completed with exit code 1.
+bauen	UNKNOWN STEP	2026-10-12T05:06:47.2674468Z ##[group]Run npm run data:check

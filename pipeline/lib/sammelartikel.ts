@@ -17,6 +17,7 @@
  */
 import type { Vorschlag } from './meldungen.ts'
 import { addDays, weekdayIndex } from '../../shared/time.ts'
+import { fuegeErsteFolgenAn } from './sammel-erste-folgen.ts'
 
 export interface SammelEintrag {
   titel: string
@@ -28,6 +29,8 @@ export interface SammelEintrag {
   woechentlich?: boolean
   /** „Episoden: 13 (komplett)" — alle Folgen an einem Tag. */
   folgen?: number
+  /** „Die ersten N Folgen sind ab sofort auf Deutsch“ — nur Folge 1–N (`lib/sammel-erste-folgen.ts`); schließt `folgen` und den Wochentakt aus. */
+  erste?: number
   /** true, wenn `datum` nur der Meldetag („Ab sofort bei Netflix:“) oder der letzte Wochentag davor ist, kein genannter Starttag. */
   datumGeschaetzt?: boolean
   deutsch: boolean
@@ -171,7 +174,8 @@ export function leseSammelartikel(text: string, veroeffentlicht: string): Sammel
     const alt = nachTitel.get(schluessel)
     if (!alt || e.felder > alt.felder) nachTitel.set(schluessel, { ...e, ...(alt && !e.datum && alt.datum ? { datum: alt.datum } : {}) })
   }
-  return [...nachTitel.values()].map(({ felder: _f, ...e }) => e)
+  const liste = [...nachTitel.values()].map(({ felder: _f, ...e }) => e)
+  return fuegeErsteFolgenAn(liste, zeilen, zeilen.map((_, i) => liesKopf(zeilen, i)), veroeffentlicht, Object.keys(ANBIETER))
 }
 
 const ANBIETER: Record<string, string> = {
@@ -251,6 +255,7 @@ export function vorschlaegeAusSammelartikel(
       dates: [{ iso: e.datum, context: 'Sammelartikel', ...(e.datumGeschaetzt ? { geschaetzt: true } : {}) }],
       dub: 'zugesagt',
       ...(e.folgen ? { folgen: e.folgen } : {}),
+      ...(e.erste ? { ersteFolgen: e.erste } : {}),
       /* Ausdrücklich auch `false`: Ein Eintrag ohne „Simulcast“-Zeile ist kein Wochenstart (`zeitplanAusVorschlag`). */
       woechentlich: Boolean(e.woechentlich),
       ...(kanalDesVorschlags ? { kanal: kanalDesVorschlags } : {}),

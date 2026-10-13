@@ -26,6 +26,19 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
 CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
+UID:demon-slayer-entertainment-district-arc-primevideo@2026-10-10@anime-kal
+ ender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (Synchro 
+ offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/13758/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-128893-tv-prosieben-fun@2026-10-11#1@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261011T155500Z

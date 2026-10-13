@@ -7,7 +7,11 @@
  * 1,1 MB) füllte sonst das Limit, der Prüfer sah den Code nicht und musste zwingend „aendern" urteilen.
  *
  * Gestubbt wird nur, was die Positivliste trifft (siehe `stubbar`) und über GRENZE_STUB Byte Diff hat (oder dessen Diff
- * GitHub nicht liefert): .json/.jsonl/.yaml unter public/data/ und die Dateien aus `tools/quellen-liste.sh` (Datenläufe).
+ * GitHub nicht liefert): .json/.jsonl/.yaml unter public/data/ und data/stammdaten/ (12.10.2026: maschinell erzeugte
+ * Schnappschüsse mit eigenen Prüfungen) sowie die Dateien aus `tools/quellen-liste.sh` (Datenläufe).
+ * Daten-JS (13.10.2026): eine geänderte `extension/*.js` aus der Liste wird nur gestubbt, wenn ihr Inhalt am PR-Kopf aus Git-Objekten
+ * gelesen wird und ausschließlich aus Zeilen `globalThis.AK_NAME = <gültiges JSON>` besteht (`istDatenJs`). Jedes Zeichen darüber
+ * hinaus (Funktion, Kommentar, zweite Anweisung, `;`) macht die Datei sichtbar; ohne lesbaren Inhalt gilt dasselbe (fail closed).
  * Alles andere unter data/ (Handdateien, Ankündigungen, Grenzen), Handbelege (`data/dub-confirmed.yaml`, `data/curated/`),
  * `data/cache/` und jede Code-, Workflow- oder Doku-Datei bleibt immer vollständig.
  * Fehlt der API-Diff einer nicht stubbaren Datei (die API liefert bei sehr großen Änderungen kein `patch`, z. B. `data/dub-confirmed.yaml`
@@ -28,6 +32,8 @@ const API_MAXIMUM = 3000
 // (`tools/quellen-liste.sh`, die eine Liste; Einträge sind Dateien oder Ordner). Handdateien unter data/ stehen nicht darin.
 const DATEI_ENDUNG = /\.(?:json|jsonl|yaml)$/
 const ERZEUGNIS = /^public\/data\/(?:[^/]+\/)*[^/]+\.(?:json|jsonl|yaml)$/
+// Stammdaten-Schnappschüsse (z. B. anilist-eingefroren.json) sind maschinell erzeugt und haben eigene check-Skripte.
+const STAMMDATEN = /^data\/stammdaten\/(?:[^/]+\/)*[^/]+\.(?:json|jsonl|yaml)$/
 // Eingefrorener Ausschnitt aus public/data (Erzeugnis von tools/buehne-faelle.mjs, keine Handdatei); genau dieser Pfad.
 const BUEHNE_FAELLE = 'web/buehne/faelle.json'
 // Auch auf der Liste nie gestubbt: Handbelege lesen, data/cache/ gehört nie in einen PR (der Verstoß soll sichtbar sein).
@@ -35,14 +41,18 @@ const BUEHNE_FAELLE = 'web/buehne/faelle.json'
 const NIE_STUB = /^(data\/dub-confirmed\.yaml|data\/curated\/[\s\S]*|data\/cache\/[\s\S]*)$/
 const STEUERZEICHEN = /[\x00-\x1f\x7f]/
 const SHA = /^[0-9a-f]{40}$/
+// Daten-JS der Erweiterung: genau ein Ordner, Dateiname ohne Sonderzeichen, und als Eintrag (nie als Ordner) in der Quellen-Liste.
+const ERZEUGTES_JS = /^extension\/[A-Za-z0-9_-]+\.js$/
+// Nur die Namen der Datenlisten: ein gestubbter Einzeiler darf kein vom Code gesetztes Global (z. B. AK_TAGESLIMIT) überschreiben.
+const DATEN_JS_ZEILE = /^globalThis\.(?:AK_OFFENE_[A-Z0-9_]+|AK_PRIME_SUCHE) = (.+)$/
 
-/** Einträge unter data/ aus dem QUELLEN-Feld von tools/quellen-liste.sh (Kommentare und Leerzeilen entfallen). */
+/** Einträge unter data/ und extension/ aus dem QUELLEN-Feld von tools/quellen-liste.sh (Kommentare und Leerzeilen entfallen). */
 export function ladeQuellen(text) {
   const start = text.indexOf('QUELLEN=(')
   const ende = text.indexOf('\n)', start)
   if (start < 0 || ende < 0) throw new Error('QUELLEN in quellen-liste.sh nicht gefunden')
   const zeilen = text.slice(start + 'QUELLEN=('.length, ende).split('\n').map((z) => z.trim())
-  return zeilen.filter((z) => /^data\/[A-Za-z0-9_./-]+$/.test(z))
+  return zeilen.filter((z) => /^(?:data|extension)\/[A-Za-z0-9_./-]+$/.test(z))
 }
 
 const aufListe = (pfad, quellen) => quellen.some((q) => pfad === q || pfad.startsWith(q + '/'))
@@ -50,7 +60,7 @@ const aufListe = (pfad, quellen) => quellen.some((q) => pfad === q || pfad.start
 /** Darf diese Datei gestubbt werden? Nur Positivliste; `..` und Steuerzeichen treffen nie. */
 export function stubbar(pfad, quellen) {
   if (typeof pfad !== 'string' || STEUERZEICHEN.test(pfad) || NIE_STUB.test(pfad) || pfad.split('/').includes('..')) return false
-  if (ERZEUGNIS.test(pfad) || pfad === BUEHNE_FAELLE) return true
+  if (ERZEUGNIS.test(pfad) || STAMMDATEN.test(pfad) || pfad === BUEHNE_FAELLE) return true
   return pfad.startsWith('data/') && DATEI_ENDUNG.test(pfad) && aufListe(pfad, quellen)
 }
 
@@ -82,12 +92,52 @@ export function gitDiffRunner(basis, kopf, lauf = spawnSync) {
   }
 }
 
+/** Inhalt einer Datei am PR-Kopf aus Git-Objekten (kein Checkout); null bei Fehler. Der Pfad steht hinter der SHA und kann keine Option sein. */
+export function gitInhaltRunner(kopf, lauf = spawnSync) {
+  if (!SHA.test(kopf ?? '')) return () => null
+  return (d) => {
+    const r = lauf('git', ['cat-file', 'blob', `${kopf}:${d.filename}`], { encoding: 'utf8', timeout: 60000, maxBuffer: 64 * 1024 * 1024 })
+    return r.status === 0 && typeof r.stdout === 'string' ? r.stdout : null
+  }
+}
+
+/** Nur Zeilen `globalThis.AK_NAME = <JSON>` (so schreiben die Generatoren der Erweiterung); `.` trifft weder CR noch U+2028/9. */
+export function istDatenJs(text) {
+  if (typeof text !== 'string') return false
+  const zeilen = text.split('\n')
+  if (zeilen.at(-1) === '') zeilen.pop()
+  const jsonOk = (z) => {
+    const m = DATEN_JS_ZEILE.exec(z)
+    if (!m) return false
+    try {
+      JSON.parse(m[1])
+      return true
+    } catch {
+      return false
+    }
+  }
+  return zeilen.length > 0 && zeilen.every(jsonOk)
+}
+
+const datenJsPfad = (pfad, quellen) => typeof pfad === 'string' && !STEUERZEICHEN.test(pfad) && ERZEUGTES_JS.test(pfad) && quellen.includes(pfad)
+
+/** Daten-JS: Pfade (neu und bei Umbenennung alt) als Eintrag der Liste, nicht gelöscht, Inhalt am Kopf besteht das Muster. */
+const stubbaresJs = (d, quellen, inhalt) =>
+  d.status !== 'removed' && (!d.previous_filename || datenJsPfad(d.previous_filename, quellen)) && istDatenJs(inhalt(d))
+
+/** Stubbar nur, wenn auch der alte Pfad einer Umbenennung stubbar ist; sonst bliebe die Änderung einer lesbaren Datei ungelesen. */
+function stubbareDatei(d, quellen, inhalt) {
+  if (datenJsPfad(d.filename, quellen)) return stubbaresJs(d, quellen, inhalt)
+  return stubbar(d.filename, quellen) && (!d.previous_filename || stubbar(d.previous_filename, quellen))
+}
+
 /** Ein Abschnitt je Datei. `fehlt` heißt: Diff nötig, aber nicht vorhanden. */
-function abschnitt(d, quellen, gitDiff) {
+function abschnitt(d, quellen, gitDiff, inhalt) {
   const hatPatch = typeof d.patch === 'string' && d.patch !== ''
   const bytes = hatPatch ? Buffer.byteLength(d.patch) : null
   const aenderungen = (d.additions ?? 0) + (d.deletions ?? 0)
-  if (!d.steuer && stubbar(d.filename, quellen) && (bytes === null ? aenderungen > 0 : bytes > GRENZE_STUB)) {
+  const gross = bytes === null ? aenderungen > 0 : bytes > GRENZE_STUB
+  if (!d.steuer && gross && stubbareDatei(d, quellen, inhalt)) {
     return { text: `${kopf(d)}\n${stubZeile(d, bytes)}`, gestubbt: true, fehlt: false }
   }
   if (hatPatch) return { text: `${kopf(d)}\n--- a/${d.previous_filename ?? d.filename}\n+++ b/${d.filename}\n${d.patch}`, gestubbt: false, fehlt: false }
@@ -100,10 +150,10 @@ function abschnitt(d, quellen, gitDiff) {
 }
 
 /** Eingabe: Dateiobjekte der API und die Datenläufe-Liste (ladeQuellen). Ausgabe: { diff, zustand, gestubbt[] }. */
-export function baueDiff(dateien, quellen, gitDiff = () => null) {
+export function baueDiff(dateien, quellen, gitDiff = () => null, inhalt = () => null) {
   const steuer = (d) => STEUERZEICHEN.test(d.filename) || STEUERZEICHEN.test(d.previous_filename ?? '')
   const sicher = dateien.map((d) => ({ ...d, filename: maskiere(d.filename), previous_filename: maskiere(d.previous_filename), steuer: steuer(d) }))
-  const teile = sicher.map((d) => abschnitt(d, quellen, gitDiff))
+  const teile = sicher.map((d) => abschnitt(d, quellen, gitDiff, inhalt))
   let diff = teile.map((t) => t.text).join('\n') + '\n'
   let zustand = 'ok'
   if (dateien.length === 0 || dateien.length >= API_MAXIMUM || teile.some((t) => t.fehlt)) zustand = 'unvollstaendig'
@@ -119,7 +169,7 @@ function main() {
   const [eingabe, ausgabe, basis, kopf] = process.argv.slice(2)
   const zeilen = readFileSync(eingabe, 'utf8').split('\n').filter((z) => z.trim() !== '')
   const quellen = ladeQuellen(readFileSync(new URL('./quellen-liste.sh', import.meta.url), 'utf8'))
-  const { diff, zustand, gestubbt } = baueDiff(zeilen.map((z) => JSON.parse(z)), quellen, gitDiffRunner(basis, kopf))
+  const { diff, zustand, gestubbt } = baueDiff(zeilen.map((z) => JSON.parse(z)), quellen, gitDiffRunner(basis, kopf), gitInhaltRunner(kopf))
   writeFileSync(ausgabe, diff)
   for (const pfad of gestubbt) console.error(`gestubbt: ${pfad}`)
   console.log(zustand)

@@ -13,6 +13,7 @@
  * Exit 0 = gleich, 1 = verschieden (Unterschiede unter $TMPDIR/panel-vergleich/), 3 = läuft schon (Sperre).
  */
 import { akVon } from './ak-von.mjs'
+import { raeumeVerwaisteBaeume } from './bau-vergleich-reste.mjs'
 import { nurEinmalGleichzeitig } from './einzel-sperre.mjs'
 import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
@@ -38,10 +39,13 @@ const TYPEN = {
   '.webmanifest': 'application/manifest+json',
 }
 
-/** Löscht den Baum samt Verwaltungseintrag — warum nicht `git worktree remove`: `bau-vergleich.mjs`. */
+/**
+ * Löscht den Baum samt Verwaltungseintrag (warum nicht `git worktree remove`: `bau-vergleich.mjs`) und
+ * räumt gesperrte, auf der Platte fehlende `baum-*`-Reste abgestorbener Läufe mit weg.
+ */
 function entferneBaum(baum) {
   rmSync(baum, { recursive: true, force: true })
-  git('worktree', 'prune')
+  raeumeVerwaisteBaeume(git, ABLAGE)
 }
 
 /** Baut `sha` mit dem Datenbestand von `basisSha`; liefert das `dist/`-Verzeichnis. */

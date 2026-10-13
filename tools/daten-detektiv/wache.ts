@@ -9,7 +9,7 @@ import { WURZEL } from './laden.ts'
 import type { Regel } from './regel.ts'
 
 /** Die weichen Regeln laut `docs/wissen/daten-detektiv.md`; die harten stehen als Bau-Invarianten in `pipeline/lib/invarianten*.ts`. */
-export const WEICHE_REGELN = ['D-02', 'D-11', 'D-17', 'D-19', 'D-24', 'D-16', 'D-08', 'D-10', 'D-03', 'D-12', 'D-20']
+export const WEICHE_REGELN = ['DD-02', 'DD-11', 'DD-17', 'DD-19', 'DD-24', 'DD-16', 'DD-08', 'DD-10', 'DD-03', 'DD-12', 'DD-20']
 
 export type Bekannt = Record<string, string[]>
 

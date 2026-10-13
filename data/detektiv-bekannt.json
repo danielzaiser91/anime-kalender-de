@@ -1,22 +1,32 @@
 {
- "D-02": [
+ "DD-02": [
   "adn-1143",
   "adn-22",
   "adn-655-s2-20240613",
-  "auto-11499-primevideo"
+  "auto-11499-primevideo",
+  "auto-16592-primevideo",
+  "auto-384-primevideo"
  ],
- "D-08": [
+ "DD-08": [
   "102093",
   "120892",
   "310",
-  "8408"
+  "98662",
+  "98663"
  ],
- "D-24": [
+ "DD-24": [
+  "10009632",
   "102651",
   "106499",
   "145850",
   "154147",
+  "1629",
   "1719",
+  "177686",
+  "178707",
+  "179950",
+  "195384",
+  "202390",
   "2237",
   "2419",
   "3005",
@@ -29,7 +39,7 @@
   "99643",
   "99717"
  ],
- "D-16": [
+ "DD-16": [
   "2-5-dimensional-seduction-2026-09-07",
   "2-5-dimensional-seduction-vol4",
   "7th-prince-s2-box",
@@ -39,6 +49,7 @@
   "all-you-need-is-kill-disc",
   "ame-und-yuki-ultimate-edition",
   "anne-shirley-vol2",
+  "apothecary-diaries-s2-vol2",
   "as-a-reincarnated-aristocrat-s1-vol1",
   "as-a-reincarnated-aristocrat-s1-vol2",
   "attack-on-titan-final-season-steelbook",
@@ -84,9 +95,13 @@
   "detektiv-conan-box1-30th-anniversary",
   "detektiv-conan-film-28-disc",
   "dr-stone-science-future-part1",
+  "dr-stone-science-future-part2",
   "dragon-maid-lonely-dragon-movie-disc",
   "dragon-maid-s1-steelbook",
   "failure-frame-box",
+  "fate-stay-night-heavens-feel-1-presage-flower-gesamtausgabe",
+  "fate-stay-night-heavens-feel-2-lost-butterfly-gesamtausgabe",
+  "fate-stay-night-heavens-feel-3-spring-song-gesamtausgabe",
   "girls-band-cry-vol1",
   "girls-band-cry-vol2",
   "gods-games-we-play-2026-12-01",
@@ -154,6 +169,7 @@
   "sakamoto-days-teil-2-vol-4-2026-12-18",
   "sakamoto-days-vol1",
   "sakamoto-days-vol2",
+  "shield-hero-s4-vol2",
   "shin-chan-vol15",
   "spice-and-wolf-2024-vol3",
   "spice-and-wolf-2024-vol4",
@@ -188,8 +204,8 @@
   "zombie-land-saga-revenge-2026-10-02",
   "zombie-land-saga-s1-s2-bundle"
  ],
- "D-19": [
+ "DD-19": [
   "auto-14713-primevideo",
-  "auto-187331-primevideo"
+  "auto-170083-primevideo"
  ]
 }
