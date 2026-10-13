@@ -3,6 +3,7 @@
 #
 # Je Eintrag: id (Titel-Kennung, Kommentar: Titel, Jahr, Umfang), text (aus Fakten selbst geschrieben, nie aus einer Quelle abgeschrieben; Abstand gemessen: kein gemeinsamer 5-Wort-Abschnitt),
 # umfang (titel = beschreibt den Titel selbst, reihe = beschreibt nur die Reihe), lizenz (Lizenz dieses Textes; bei Wikipedia-Quelle CC BY-SA 4.0), quellen (name, url; mindestens eine).
+# Quellenregel (13.10.2026, geprüft in pipeline/lib/handlung-eigen.ts): Quellen aus mindestens zwei Familien (alle Wikipedia-Sprachen = eine, aniSearch = eine); sonst nur mit `freigabe: "Daniel, TT.MM.JJJJ: …"`. Nur aniSearch mit CC-Lizenz ist nie erlaubt.
 # Herkunft der Texte und Messung: daniel-zum-abarbeiten/berichte/handlung-eigen-poc-2026-10-12.md
 
 - id: 101343 # Made in Abyss: Journey’s Dawn (2019, Film (Zusammenschnitt, Teil 1 von 2))
