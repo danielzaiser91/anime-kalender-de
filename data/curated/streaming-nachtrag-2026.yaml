@@ -1,0 +1,152 @@
+# Neuzugänge bei Prime Video, Netflix, Disney+ und RTL+ aus Anime2You-Sammelartikeln (13.10.2026, zweite Runde der Anime2You-Vorschläge).
+# Jeder Titel hatte bei diesem Anbieter keinen Termin im Datensatz (je anilistId und Anbieter in releases.json geprüft). Die Artikel erschienen vor der
+# Regel „Ab sofort = Tag der Meldung“ (02.10.2026).
+# Der Tag ist der Meldetag (`available-from`: im Angebot spätestens seit); „in den letzten Tagen“ oder „seit heute“ nennt kein früheres Datum.
+# Ton: Jeder Artikel nennt die deutsche Fassung im Fließtext („mit deutscher Synchronisation“, „auf Deutsch“, „deutsche Sprachfassung/-ausgabe“), darum ohne `sprache`.
+
+# ---------------------------------------------------------------- Prime Video
+# Anime2You 1044599 (27.08.2026): „Alle 24 Episoden können ausschließlich mit deutscher Sprachfassung angesehen werden“ — beide Staffeln.
+- slug: concrete-revolutio-primevideo
+  anilistId: 21249
+  platform: primevideo
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-08-27", episodeCount: 24 }
+  note: "Beide Staffeln (Concrete Revolutio und The Last Song), 24 Episoden laut Anime2You; AniList führt die zweite Staffel getrennt."
+  sources: [https://www.anime2you.de/news/1044599/prime-video-yu-gi-oh-5ds-und-mehr/]
+
+# 1044599: „mit allen 116 auf Deutsch vorhandenen Episoden“ (von 154), „Der japanische Originalton wird dabei nicht angeboten“.
+- slug: yu-gi-oh-5ds-primevideo
+  anilistId: 3972
+  platform: primevideo
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-08-27", episodeCount: 116 }
+  note: "116 von 154 Episoden auf Deutsch; nur deutscher Ton."
+  sources: [https://www.anime2you.de/news/1044599/prime-video-yu-gi-oh-5ds-und-mehr/]
+
+# 1048315 (09.09.2026): „alle zwölf Episoden von »Special 7: Special Crime Investigation Unit«, wobei letztere Serie sowohl auf Deutsch als auch auf Japanisch angesehen werden kann“.
+- slug: special-7-primevideo
+  anilistId: 108554
+  platform: primevideo
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-09", episodeCount: 12 }
+  sources: [https://www.anime2you.de/news/1048315/prime-video-date-a-live-staffel-2-und-mehr/]
+
+# 1049795 (13.09.2026): die beiden Compilation-Filme „ab sofort auf Deutsch verfügbar“, je 87 Minuten, „Sprache: Deutsch, Japanisch (UT)“.
+- slug: kuroko-winter-cup-movie-2-primevideo
+  anilistId: 102836
+  titleDe: "Kuroko’s Basketball Movie 2 – Winter Cup: Beyond the Tears"
+  platform: primevideo
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-13" }
+  sources: [https://www.anime2you.de/news/1049795/prime-video-trinity-seven-und-mehr/]
+
+- slug: kuroko-winter-cup-movie-3-primevideo
+  anilistId: 102839
+  titleDe: "Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door"
+  platform: primevideo
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-13" }
+  sources: [https://www.anime2you.de/news/1049795/prime-video-trinity-seven-und-mehr/]
+
+# 1053585 (24.09.2026): Ghost Cat Anzu „ab sofort mit deutscher Sprachausgabe sowie im japanischen Originalton mit deutschen Untertiteln“; Miss Hokusai „auf Deutsch und Japanisch“;
+# Yu-Gi-Oh! Staffel 1 „mit deutscher Synchronisation“ (49 Episoden, komplett).
+- slug: ghost-cat-anzu-primevideo
+  anilistId: 158641
+  platform: primevideo
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-24" }
+  sources: [https://www.anime2you.de/news/1053585/prime-video-ghost-cat-anzu-und-mehr/]
+
+- slug: miss-hokusai-primevideo
+  anilistId: 20709
+  platform: primevideo
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-24" }
+  sources: [https://www.anime2you.de/news/1053585/prime-video-ghost-cat-anzu-und-mehr/]
+
+- slug: yu-gi-oh-s1-primevideo
+  anilistId: 481
+  titleDe: "Yu-Gi-Oh! – Staffel 1"
+  platform: primevideo
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-24", episodeCount: 49 }
+  sources: [https://www.anime2you.de/news/1053585/prime-video-ghost-cat-anzu-und-mehr/]
+
+# 1059642 (10.10.2026): „The Sky Crawlers“ „ab sofort sowohl mit deutscher Synchronisation als auch im japanischen Originalton mit deutschen Untertiteln“, 122 Minuten.
+- slug: the-sky-crawlers-primevideo
+  anilistId: 3089
+  platform: primevideo
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-10-10" }
+  sources: [https://www.anime2you.de/news/1059642/prime-video-weitere-demon-slayer-staffeln/]
+
+# ---------------------------------------------------------------- Netflix
+# 1045191 (30.08.2026): „auf Deutsch und Japanisch in das Portfolio von Netflix aufgenommen“, 108 Minuten. 1037860 (04.08.) hatte „ab dem 31. August 2026“ angekündigt;
+# die spätere Meldung gilt als Beleg für „spätestens seit 30.08.“.
+- slug: mobile-suit-gundam-hathaway-2-netflix
+  anilistId: 113971
+  platform: netflix
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-08-30" }
+  sources:
+    - https://www.anime2you.de/news/1045191/netflix-gintama-film-und-mehr/
+    - https://www.anime2you.de/news/1037860/zweiter-mobile-suit-gundam-hathaway-film-auf-netflix/
+
+# ---------------------------------------------------------------- Disney+
+# 1051128 (17.09.2026): Campfire Cooking Staffel 1 „ab sofort mit deutscher Sprachfassung“ (12 Episoden); One Piece Staffel 4 bis 8, Episoden 93 bis 206,
+# „seit heute mit deutscher Synchronisation“ — 114 Episoden.
+- slug: campfire-cooking-s1-disneyplus
+  anilistId: 156067
+  platform: disneyplus
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-17", episodeCount: 12 }
+  sources: [https://www.anime2you.de/news/1051128/disney-plus-campfire-cooking-und-mehr/]
+
+- slug: one-piece-s4-s8-disneyplus
+  anilistId: 21
+  titleDe: "One Piece – Staffel 4 bis 8"
+  platform: disneyplus
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-17", firstEpisodeNumber: 93, episodeCount: 114 }
+  sources: [https://www.anime2you.de/news/1051128/disney-plus-campfire-cooking-und-mehr/]
+
+# 1052288 (20.09.2026): „A Sign of Affection“ „ab sofort mit deutscher Sprachfassung“ (12 Episoden, komplett).
+- slug: a-sign-of-affection-disneyplus
+  anilistId: 166794
+  platform: disneyplus
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-20", episodeCount: 12 }
+  sources: [https://www.anime2you.de/news/1052288/disney-plus-a-sign-of-affection-und-mehr/]
+
+# ---------------------------------------------------------------- RTL+
+# 1054460 (27.09.2026): beide Filme „ab sofort mit deutscher Synchronisation“; früher schon auf RTL+, zwischenzeitlich entfernt, jetzt wieder im Angebot.
+- slug: pokemon-die-macht-in-uns-rtlplus
+  anilistId: 100744
+  platform: rtlplus
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-27" }
+  note: "Wieder im Angebot; war zwischenzeitlich entfernt."
+  sources: [https://www.anime2you.de/news/1054460/rtl-plus-zwei-pokemon-filme/]
+
+- slug: pokemon-du-bist-dran-rtlplus
+  anilistId: 98298
+  platform: rtlplus
+  releaseType: movie
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-27" }
+  note: "Wieder im Angebot; war zwischenzeitlich entfernt."
+  sources: [https://www.anime2you.de/news/1054460/rtl-plus-zwei-pokemon-filme/]
