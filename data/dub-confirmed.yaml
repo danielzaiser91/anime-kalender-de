@@ -23810,3 +23810,30 @@
   dub: false
   checkedAt: '2026-10-13'
   note: "Richtiges Werk, aber kein Deutsch: JustWatch-Adresse /watch/GG1U2JQM9 ist Folge 1 von „2.5 Dimensional Seduction“ (Serie GP5HJ845X, Staffel GR2PCVEJV, 24 Folgen wie bei uns). Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): Serie und Staffel führen ausschließlich ja-JP; JustWatch nennt für das Angebot nur den Ton ja. Der Weg kam als watchLinks-Eintrag aus der JustWatch-Runde „Titel ohne jeden Weg“ (11-2-2-wege-ohne-weg.ts)"
+# --- ADN: vier Bleach-Filme, geprüft am 13.10.2026 ---
+# Daniel (mit den vier ADN-Seiten 197, 198, 352, 361): Seite von Diamond Dust Rebellion zeigt „SYNCHRO | UNTERTITEL“. Gegenprobe über die ADN-Schnittstelle
+# (`/video/show/<id>`, 13.10.2026): der Film jeder der vier Serien trägt `languages: ["vostde","vde"]`, Start 12.10.2026 07:00 UTC.
+- anilistId: 1686
+  title: "Bleach: Memories of Nobody"
+  platform: adn
+  dub: true
+  checkedAt: '2026-10-13'
+  note: "Daniel, 13.10.2026: ADN-Seite 197-bleach-memories-of-nobody-movie-1 geprüft; ADN-Schnittstelle: Film mit vde und vostde."
+- anilistId: 2889
+  title: "Bleach: The DiamondDust Rebellion"
+  platform: adn
+  dub: true
+  checkedAt: '2026-10-13'
+  note: "Daniel, 13.10.2026: ADN-Seite 198-bleach-the-diamond-dust-rebellion-movie-2 zeigt „SYNCHRO | UNTERTITEL“; ADN-Schnittstelle: Film mit vde und vostde."
+- anilistId: 4835
+  title: "Bleach: Fade to Black"
+  platform: adn
+  dub: true
+  checkedAt: '2026-10-13'
+  note: "Daniel, 13.10.2026: ADN-Seite 352-bleach-fade-to-black-movie-3 geprüft; ADN-Schnittstelle: Film mit vde und vostde."
+- anilistId: 8247
+  title: "Bleach: Hell Verse"
+  platform: adn
+  dub: true
+  checkedAt: '2026-10-13'
+  note: "Daniel, 13.10.2026: ADN-Seite 361-bleach-hell-verse-movie-4 geprüft; ADN-Schnittstelle: Film mit vde und vostde."
