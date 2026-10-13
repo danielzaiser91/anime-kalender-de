@@ -4,6 +4,7 @@ import { type PlatformId, type Release, type Title } from '../../shared/types.ts
 import { todayIso } from '../../shared/time.ts'
 import { type SlimTitel } from './13-2-auslieferung.ts'
 import { erfassungsStichtage, stichtagSchluessel } from './angebot-stichtag.ts'
+import { titelMitTermin } from './titel-mit-termin.ts'
 
 type TmdbKennung = { tmdbId?: string; kind?: string }
 type MotnShow = MotnDaten['shows'][string]
@@ -77,7 +78,7 @@ export function ergaenzeAngebotSeit({ slim, releases, titles, quellen }: { slim:
   const nachImdb = new Map(
     Object.entries(motnDaten.shows ?? {}).map(([k, v]) => [v.imdbId ?? k, v]),
   )
-  const hatTermin = new Set(releases.map((r) => r.titleId))
+  const hatTermin = titelMitTermin(releases)
   const stichtage = erfassungsStichtage(Object.values(motnDaten.shows ?? {}))
   let alsTermin = 0
   let nurAmTitel = 0

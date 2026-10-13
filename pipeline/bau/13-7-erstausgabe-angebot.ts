@@ -1,6 +1,7 @@
 import { log } from '../lib/util.ts'
 import { type PlatformId, type Release, type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
+import { titelMitTermin } from './titel-mit-termin.ts'
 
 /** Nur diese Verlagsnamen aus aniSearch sind eindeutig ein Streaming-Anbieter; „Crunchyroll", „KSM Anime" & Co. sind Disc-Verlage oder mehrdeutig. */
 const ANBIETER_VON_VERLAG: Record<string, PlatformId> = {
@@ -20,7 +21,7 @@ const GRENZE = '2026-01-01'
  * Anbieter mit belegter Synchro verlinken. Ehrlich bleibt es durch \`dateMeaning: 'available-from'\` („Im Angebot seit") — kein Erscheinungstag je Folge.
  */
 export function ergaenzeErstausgabeAngebot({ titles, releases }: { titles: Iterable<Title>; releases: Release[] }): number {
-  const hatTermin = new Set(releases.map((r) => r.titleId))
+  const hatTermin = titelMitTermin(releases)
   let neu = 0
   for (const t of titles) {
     const e = t.deErstausgabe
