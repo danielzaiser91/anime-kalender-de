@@ -42,9 +42,12 @@ pruefe('Selbstprüfung: Gründe ohne „AniList-Beziehung" (Namensanfang, Handte
 const katalogDatei = `${ROOT}/data/cache/anilist-katalog.json`
 if (existsSync(katalogDatei)) {
   const eintraege = (yaml.load(readFileSync(`${ROOT}/data/reihen-von-hand.yaml`, 'utf8')) as ReinIdsEintrag[]).filter((e) => e.reinIds)
-  const echt = (JSON.parse(readFileSync(katalogDatei, 'utf8')) as { eintraege: KatalogRel[] }).eintraege
-  for (const b of pruefeReinIdsGrund(eintraege, echt)) pruefe('reinIds-Grund gegen den Katalog', false, b)
-  console.log(`reinIds-Grund: ${eintraege.length} Einträge gegen ${echt.length} Katalogtitel geprüft`)
+  const datei = JSON.parse(readFileSync(katalogDatei, 'utf8')) as { eintraege: KatalogRel[]; geholtAm?: string }
+  const echt = datei.eintraege
+  // Der Befund hängt vom Cache-Stand ab (CI und lokal unterscheiden sich), also nennt er den geprüften Katalog.
+  const stand = datei.geholtAm ? `, Stand ${datei.geholtAm.slice(0, 10)}` : ''
+  for (const b of pruefeReinIdsGrund(eintraege, echt)) pruefe('reinIds-Grund gegen den Katalog', false, `${b} (Katalog: ${echt.length} Titel${stand})`)
+  console.log(`reinIds-Grund: ${eintraege.length} Einträge gegen ${echt.length} Katalogtitel geprüft${stand}`)
 } else {
   console.log('reinIds-Grund: kein Katalog-Cache (data/cache/anilist-katalog.json), nur die Selbstprüfung lief')
 }
