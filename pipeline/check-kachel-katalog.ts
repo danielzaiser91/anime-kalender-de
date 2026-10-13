@@ -7,7 +7,7 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import type { Release, ReleaseEvent } from '../shared/types.ts'
 import { buendeleKacheln } from '../web/src/lib/buendel.ts'
-import { ART_STIL, folgenSpanne, kartenArt } from '../web/src/lib/kachel-folgen.ts'
+import { ART_STIL, folgenSpanne, kartenArt, type KartenArt } from '../web/src/lib/kachel-folgen.ts'
 import { istStaffelstart } from '../web/src/lib/staffelstart.ts'
 import { TEXTE_KALENDER } from '../web/src/lib/i18n-kalender.ts'
 import { Unterzeile } from '../web/src/components/kalender/PosterKarte.tsx'
@@ -23,7 +23,7 @@ const rel = (slug: string, o: Partial<Release> = {}): Release =>
   ({ slug, titleId: 1, name: slug, platform: 'crunchyroll', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-10-18', episodeCount: 14 }, ...o }) as unknown as Release
 const ev = (slug: string, episode: number | undefined, o: Partial<ReleaseEvent> = {}): ReleaseEvent =>
   ({ id: `${slug}@${episode ?? 'alle'}`, releaseSlug: slug, titleId: 1, name: 'X', date: '2026-10-18', releaseType: 'weekly', platform: 'crunchyroll', episode, episodeCount: 14, ...o }) as unknown as ReleaseEvent
-const zeile = (kachel: ReleaseEvent[], art?: 'start' | 'finale' | 'katalog'): string =>
+const zeile = (kachel: ReleaseEvent[], art?: KartenArt): string =>
   renderToStaticMarkup(Unterzeile({ event: kachel[0]!, buendel: kachel, art, favorite: false, hidden: false, onOpen: () => {}, saal: false } as Parameters<typeof Unterzeile>[0]))
 const text = (html: string): string => html.replace(/<[^>]+>/g, '')
 
@@ -47,14 +47,18 @@ function folgenSpannen(): void {
 
 function darstellung(): void {
   console.log('\nKatalog-Release auf der Kachel:')
-  const b = ev('b', undefined, { releaseType: 'batch', episodeCount: 13, katalog: true })
-  pruefe('„Alle 13 Folgen auf einmal“ statt „13 Folgen“', text(zeile([b], 'katalog')) === 'Crunchyroll · Alle 13 Folgen auf einmal', text(zeile([b], 'katalog')))
+  const b = ev('b', undefined, { releaseType: 'batch', episodeCount: 13, katalog: 'belegt' })
+  pruefe('belegt: „Alle 13 Folgen auf einmal“ statt „13 Folgen“', text(zeile([b], 'katalog')) === 'Crunchyroll · Alle 13 Folgen auf einmal', text(zeile([b], 'katalog')))
+  const v = ev('b', undefined, { releaseType: 'batch', episodeCount: 13, katalog: 'abgeleitet' })
+  pruefe('abgeleitet: „Vermutlich alle 13 Folgen auf einmal“ (Snowball Earth ohne Beobachtung)', text(zeile([v], 'katalogVermutlich')) === 'Crunchyroll · Vermutlich alle 13 Folgen auf einmal', text(zeile([v], 'katalogVermutlich')))
   const data = { releaseBySlug: new Map([['w', rel('w')]]) }
-  pruefe('Auszeichnung Katalog schlägt Start und Finale', kartenArt([ev('w', 1, { katalog: true }), ev('w', 14, { katalog: true })], data) === 'katalog')
+  pruefe('Auszeichnung Katalog schlägt Start und Finale', kartenArt([ev('w', 1, { katalog: 'belegt' }), ev('w', 14, { katalog: 'belegt' })], data) === 'katalog')
+  pruefe('abgeleiteter Katalog-Release schlägt Start und Finale und bleibt abgeleitet', kartenArt([ev('w', 1, { katalog: 'abgeleitet' }), ev('w', 14, { katalog: 'abgeleitet' })], data) === 'katalogVermutlich')
   pruefe('ohne Marke: Staffelstart bleibt Staffelstart', kartenArt([ev('w', 1)], data) === 'start')
   const fehlend = Object.entries(ART_STIL).flatMap(([, s]) => [s.name, s.hinweis]).filter((k) => !(k in TEXTE_KALENDER))
   pruefe('jeder Auszeichnung fehlt kein Text (Name, Hinweis)', fehlend.length === 0, fehlend)
   pruefe('die Marke heißt „Katalog-Release“', TEXTE_KALENDER['kal.katalog'] === 'Katalog-Release')
+  pruefe('die abgeleitete Marke trägt „≈“, ihr Hinweis sagt „Vermutlich“', TEXTE_KALENDER['kal.katalogVermutlich'].includes('≈') && TEXTE_KALENDER['kal.katalogVermutlichHinweis'].startsWith('Vermutlich'))
 }
 
 folgenSpannen()

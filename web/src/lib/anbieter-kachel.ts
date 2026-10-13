@@ -43,7 +43,7 @@ export const zeitGemeinsam = (buendel: ReleaseEvent[][]): boolean => buendel.eve
 /** Alle Anbieter nennen dieselbe Folge und dieselbe Zahl weiterer Folgen — dann genügt eine Zeile für alle. */
 export const folgeGemeinsam = (buendel: ReleaseEvent[][]): boolean => {
   const gleich = (a: ReleaseEvent[], b: ReleaseEvent[]): boolean =>
-    a[0]!.episode === b[0]!.episode && a[0]!.episodeCount === b[0]!.episodeCount && a.length === b.length && !a[0]!.katalog === !b[0]!.katalog
+    a[0]!.episode === b[0]!.episode && a[0]!.episodeCount === b[0]!.episodeCount && a.length === b.length && a[0]!.katalog === b[0]!.katalog
   return buendel.every((b) => gleich(b, buendel[0]!))
 }
 

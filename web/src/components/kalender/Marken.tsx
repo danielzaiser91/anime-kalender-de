@@ -33,7 +33,7 @@ export function ZeitMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
  */
 export function anbieterUndFolge(event: ReleaseEvent, t: Translate, buendel?: ReleaseEvent[]): string {
   const anbieter = event.platform === 'tv' ? (event.sender ?? PLATFORMS.tv.name) : PLATFORMS[event.platform].name
-  if (event.katalog) return `${anbieter} · ${t('kal.katalogAlle', { n: event.episodeCount! })}`
+  if (event.katalog) return `${anbieter} · ${t(event.katalog === 'belegt' ? 'kal.katalogAlle' : 'kal.katalogAlleVermutlich', { n: event.episodeCount! })}`
   const spanne = folgenSpanne(buendel)
   if (spanne) return `${anbieter} · ${spannenText(event, spanne, t)}`
   /* Ein Film hat keine Folgen, eine TV-Sichtung zählt Sichtungen — beide ohne Angabe (17.09.2026). */
