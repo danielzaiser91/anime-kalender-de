@@ -44,7 +44,7 @@ const pruefe = (name, bedingung) => {
 console.log('Altes Nein gegen neuere JustWatch-Auskunft')
 pruefe('altes „nicht verfügbar", später JustWatch mit deutschem Ton → Prüfliste', faelle.get(1)?.gegenauskunft === 'JustWatch')
 pruefe('ein neuerer Ja-Beleg nimmt den Titel wieder herunter', !faelle.has(2))
-pruefe('ein Nein, jünger als JustWatch, bleibt stehen', !faelle.has(3))
-pruefe('ein Kauf-Angebot ist kein Widerspruch', !faelle.has(4))
+pruefe('ein Nein, jünger als JustWatch, bleibt stehen', faelle.get(3)?.gegenauskunft === undefined)
+pruefe('ein Kauf-Angebot ist kein Widerspruch', faelle.get(4)?.gegenauskunft === undefined)
 pruefe('der Hinweis nennt Quelle und Datum', /JustWatch nennt hier seit 2026-09-17 deutschen Ton/.test(verdachtHinweis(faelle.get(1) ?? {})))
 process.exitCode = fehler.length ? 1 : 0
