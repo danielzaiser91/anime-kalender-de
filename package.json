@@ -62,7 +62,7 @@
     "check:beleg-wand": "tsx pipeline/check-beleg-wand.ts",
     "check:worker": "tsc --noEmit -p worker/tsconfig.json && node tools/worker-cache-pruefen.cjs && tsx tools/worker-stapel.test.ts && tsx tools/worker-pruefstand.test.ts && tsx tools/worker-tagesdeckel.test.ts && tsx tools/worker-export-marke.test.ts && tsx tools/worker-lesezeilen.test.ts && tsx tools/worker-lesedeckel.test.ts",
     "check:hooks": "eslint web/src",
-    "check:vorlieben": "tsx tools/vorlieben-pruefen.mts",
+    "check:vorlieben": "tsx tools/vorlieben-pruefen.mts && tsx tools/sprung-lage-pruefen.mts",
     "check:kasten": "node tools/melder-kasten-bild.mjs",
     "check:netflix-kasten": "node tools/netflix-kasten-bild.mjs",
     "check:netflix-player": "node tools/netflix-player-bild.mjs",
