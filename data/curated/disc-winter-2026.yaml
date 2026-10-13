@@ -71,8 +71,18 @@
 
 # ---------------------------------------------------------------- 27.11.2026
 # Anime2You 1046360 (03.09.2026): polyband anime, DVD-Box am 27. November 2026; „Schwarz und Weiß“ umfasst die Staffeln 14 bis 16.
-# „Pokémon: Die Anfänge“ (Staffel 1 und 2, ebenfalls 27.11.) fehlt mit Absicht: Ein Disc-Termin an Titel 527 nähme dem Titel das „Im Angebot seit“ (Netflix) weg,
-# weil `13-3-listen.ts` nur Titel ohne jeden Termin füllt.
+# „Pokémon: Die Anfänge“ (Staffel 1 und 2, ebenfalls 27.11.): Der Disc-Termin an Titel 527 verdrängt das Netflix-„Im Angebot seit“ seit dem Bau-Fix aus PR 1148 nicht mehr.
+- slug: pokemon-die-anfaenge-staffel-1-2-dvd
+  anilistId: 527
+  titleDe: "Pokémon: Die Anfänge – Staffel 1 und 2"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "DVD-Box"
+  note: "Die Box umfasst die ersten beiden Staffeln."
+  schedule: { firstEpisodeDate: "2026-11-27" }
+  sources: [https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/]
+
 - slug: pokemon-schwarz-und-weiss-staffel-14-16-dvd
   anilistId: 9107
   titleDe: "Pokémon: Schwarz und Weiß – Staffel 14 bis 16"
