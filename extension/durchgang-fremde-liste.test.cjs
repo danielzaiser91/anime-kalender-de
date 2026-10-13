@@ -80,7 +80,11 @@ const start = schneide('selbstStartenSchritt')
 const riegel = start.indexOf("String(DURCHLAUF.listeFuer ?? '') !== seiteHier")
 pruefe('vielleichtSelbstStarten prüft, wem die Liste gehört', riegel > 0)
 pruefe('… bevor es über Staffeln entscheidet', riegel > 0 && riegel < start.indexOf('staffelnDerGruppe('))
-pruefe('… und gibt nach einer Frist auf, statt still zu hängen', /spur\('keine Folgenliste'/.test(start))
+const erinnernQuelle = readFileSync(resolve(__dirname, 'netflix-erinnern.js'), 'utf8')
+pruefe(
+  '… und gibt nach einer Frist auf, statt still zu hängen (Frist in netflix-erinnern.js)',
+  /akNetflixListeWarten\(/.test(start) && /spur\('keine Folgenliste'/.test(erinnernQuelle),
+)
 
 /*
   Seit 24.09.2026: kein Überspringen wegen unklarer Staffel mehr, stattdessen jede Menü-Staffel einmal.

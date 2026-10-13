@@ -70,6 +70,7 @@ export default [
         akNetflixUebernahme: 'readonly',
         akNetflixWartet: 'readonly',
         akNetflixRandUneinheitlich: 'readonly',
+        akNetflixListeWarten: 'readonly',
         akNetflixVollMelden: 'readonly',
         akNetflixRandNotiz: 'readonly',
         akRandAusfall: 'readonly',
