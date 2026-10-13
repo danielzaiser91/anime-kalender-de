@@ -6,6 +6,7 @@
  */
 import type { Release, Title } from '../shared/types.ts'
 import { verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
+import { reihenIndex, staffelKette } from './lib/disc-verschiebungen-staffel.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -113,6 +114,22 @@ const artikel = [
   const r1 = [disc('Einzelwerk Komplettbox', 5, '2026-10-02')]
   verschiebungenAnwenden(r1, a1, '2026-10-13', einzel)
   pruefe('Reihe mit nur einer Staffel: keine Zuordnung über die Nummer', tag(r1, 0) === '2026-10-02', tag(r1, 0))
+}
+
+/* Passen zwei Reihennamen („sailor moon", „sailor moon s"), gilt der längste — in beiden Reihenfolgen. */
+{
+  const reihen = reihenIndex([
+    titel(530, 'Sailor Moon: Das Mädchen mit den Zauberkräften', 1992),
+    titel(740, 'Sailor Moon R', 1993),
+    titel(532, 'Sailor Moon S', 1994),
+  ])
+  const t = reihen.get(530)!.find((x) => x.id === 532)
+  const kurz = ['sailor moon staffel 3', ['kurz']] as const
+  const lang = ['sailor moon s staffel 3', ['lang']] as const
+  for (const [art, eintraege] of [['kurz zuerst', [kurz, lang]], ['lang zuerst', [lang, kurz]]] as const) {
+    const kette = staffelKette('sailor moon s komplettbox', t, new Map<string, string[]>(eintraege.map(([k, v]) => [k, [...v]])), reihen)
+    pruefe(`Längster Reihenname gewinnt (${art})`, kette?.[0] === 'lang', kette)
+  }
 }
 
 if (fehler) {
