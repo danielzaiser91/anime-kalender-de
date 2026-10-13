@@ -61,6 +61,9 @@ export const SPRACHE_HINWEIS = {
   offen: 'Synchro offen: Der Termin ist belegt, eine deutsche Synchro nicht.',
 } as const
 
+/** Ein Katalogdatum sagt, seit wann der Anbieter den Titel führt, nicht wann die deutsche Fassung erschien. */
+export const IM_ANGEBOT_HINWEIS = 'Im Angebot seit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.'
+
 /** `bis`: die letzte Folge, wenn der Eintrag mehrere Folgen desselben Tages trägt („Folge 13–14/14“). */
 export function eventSummary(ev: ReleaseEvent, bis?: number): string {
   const text = summaryOhneMarke(ev, bis)
@@ -80,6 +83,7 @@ function summaryOhneMarke(ev: ReleaseEvent, bis?: number): string {
     return `${vorn}${ev.name} – Folge ${ev.episode}${bis ? `–${bis}` : ''}${ev.episodeCount ? `/${ev.episodeCountAssumed ? '≈' : ''}${ev.episodeCount}` : ''}`
   }
   if (ev.releaseType === 'disc') return `${ev.name} (${type.short})`
+  if (ev.imAngebot) return `${ev.name} (im Angebot)`
   return ev.name
 }
 
@@ -88,6 +92,7 @@ export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): strin
     `Plattform: ${anbieterName(ev.platform, ev.sender)}`,
     `Release-Art: ${RELEASE_TYPES[ev.releaseType].name}`,
   ]
+  if (ev.imAngebot) lines.push(IM_ANGEBOT_HINWEIS)
   if (ev.sprache) lines.push(SPRACHE_HINWEIS[ev.sprache])
   if (ev.premiere || ev.tvPremiere) lines.push(premiereHinweis(ev.platform, ev.premiereVorher))
   if (!ev.time) lines.push('Uhrzeit noch nicht bestätigt.')
