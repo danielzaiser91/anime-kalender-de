@@ -21,6 +21,7 @@ import { gunzipSync, gzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
+import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
@@ -79,77 +80,6 @@ const numberArg = (name: string, fallback: number) => {
 const FROM = numberArg('--from', -45)
 const TO = numberArg('--to', 75)
 
-interface AdnVideo {
-  id: number
-  title?: string | null
-  /** Folgentitel, oft französisch oder leer. */
-  name?: string | null
-  number: string | null
-  shortNumber: string | null
-  /** Staffel, wie ADN sie zählt: "1", "2", "3". */
-  season?: string | null
-  /** Kennung samt Staffel und Folge: "swordartonline_tv3_0047". */
-  reference?: string | null
-  /** Laufende Nummer über die gesamte Serie hinweg. */
-  order?: number | null
-  /** "EPS" (Folge), "OAV", "FLM" … */
-  type?: string | null
-  /** Laufzeit in Sekunden. */
-  duration?: number | null
-  image?: string | null
-  releaseDate: string
-  languages: string[]
-  url: string
-  show: { id: number; title: string; originalTitle: string | null; age: string | null; url?: string }
-}
-
-/**
- * Baut aus einem ADN-Video unseren Folgeneintrag — an einer Stelle, damit
- * Kalender- und Katalogweg nicht auseinanderlaufen.
- *
- * Genau das war vorher der Fall: Beide Wege bauten das Objekt von Hand, und
- * beide vergaßen dieselben Felder.
- */
-function episodeAus(video: AdnVideo, when: { date: string; time: string }): AdnEpisode {
-  const nummer = Number(video.shortNumber ?? video.number?.replace(/\D+/g, ''))
-  return {
-    date: when.date,
-    time: when.time,
-    episode: Number.isFinite(nummer) && nummer > 0 ? nummer : undefined,
-    url: video.url,
-    season: video.season ?? undefined,
-    // Die Folgennummer am Ende abschneiden: "swordartonline_tv3_0047" →
-    // "swordartonline_tv3".
-    seasonReference: video.reference?.replace(/_\d+$/, '') || undefined,
-    order: typeof video.order === 'number' ? video.order : undefined,
-    type: video.type ?? undefined,
-    duration: typeof video.duration === 'number' ? video.duration : undefined,
-    title: video.name || video.title || undefined,
-    image: video.image ?? undefined,
-  }
-}
-
-const berlin = new Intl.DateTimeFormat('en-CA', {
-  timeZone: 'Europe/Berlin',
-  hour12: false,
-  year: 'numeric',
-  month: '2-digit',
-  day: '2-digit',
-  hour: '2-digit',
-  minute: '2-digit',
-})
-
-function toBerlin(iso: string): { date: string; time: string } | undefined {
-  const dt = new Date(iso)
-  if (Number.isNaN(dt.getTime())) return undefined
-  const parts = berlin.formatToParts(dt)
-  const get = (type: string) => parts.find((p) => p.type === type)!.value
-  return {
-    date: `${get('year')}-${get('month')}-${get('day')}`,
-    time: `${get('hour') === '24' ? '00' : get('hour')}:${get('minute')}`,
-  }
-}
-
 async function fetchDay(date: string): Promise<AdnVideo[]> {
   const res = await fetch(`${API}?date=${date}`, {
     headers: HEADERS,
@@ -181,18 +111,6 @@ async function fetchDay(date: string): Promise<AdnVideo[]> {
  * verfügbar (die Folgenliste kommt dann leer zurück).
  */
 
-/** Ordnet Folgen nach Staffel, dann Nummer, dann Termin. */
-function sortiereFolgen(episodes: AdnEpisode[]): void {
-  episodes.sort(
-    (a, b) =>
-      (a.season ?? '').localeCompare(b.season ?? '') ||
-      (a.order ?? 0) - (b.order ?? 0) ||
-      a.date.localeCompare(b.date) ||
-      (a.episode ?? 0) - (b.episode ?? 0),
-  )
-}
-
-/** Wohin die Rohantworten je Serie wandern. */
 const ARCHIV_DIR = resolve(ROOT, 'data/adn-raw')
 /** Wann welche Serie zuletzt im Katalog-Durchgang gefragt wurde (Warteschlange nach Alter, im Repo statt im Dateisystem). */
 const KATALOG_STAND = 'data/adn-katalog-stand.json'
@@ -405,28 +323,8 @@ async function fetchCatalog(): Promise<AdnShow[]> {
       stand[String(eintrag.id)] = new Date().toISOString()
       const videos = antwort.videos
       if (videos.length) archiviereSerie(eintrag.id, videos)
-      const deutsch = videos.filter((v) => v.languages?.includes('vde'))
-      if (deutsch.length) {
-        const episodes: AdnEpisode[] = []
-        for (const v of deutsch) {
-          const when = toBerlin(v.releaseDate)
-          if (!when) continue
-          episodes.push(episodeAus(v, when))
-        }
-        if (episodes.length) {
-          sortiereFolgen(episodes)
-          out.push({
-            showId: eintrag.id,
-            title: eintrag.title,
-            originalTitle: eintrag.originalTitle ?? undefined,
-            age: eintrag.age ?? undefined,
-            url: `https://animationdigitalnetwork.com/de/video/${eintrag.id}`,
-            episodes,
-            batch: bestimmeRhythmus(episodes) !== 'weekly' && episodes.length > 1,
-            fromCatalog: true,
-          })
-        }
-      }
+      const show = katalogShowAus(eintrag, videos)
+      if (show) out.push(show)
     } catch (err) {
       warn(`ADN-Katalog ${eintrag.id}: ${(err as Error).message}`)
     }
