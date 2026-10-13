@@ -57,8 +57,9 @@ node tools/umfang-pruefen.mjs --festschreiben     # gesunkene Überlänge übern
 ```
 
 Beide Vergleiche bauen in eigenen Worktrees (≈ 5 bzw. 2 min), das Arbeitsverzeichnis bleibt frei.
-Jeder läuft nur einmal gleichzeitig: **Exit 3** heißt „läuft schon“ (Meldung nennt PID und Start) —
-warten, bis der andere fertig ist, nicht sofort wiederholen.
+Jeder läuft nur einmal gleichzeitig. `bau-vergleich` wartet der Reihe nach (Schlange, FIFO, bis zu 45 min; die Meldung nennt Platz und Halter) —
+nicht abbrechen, keine eigene Wiederholschleife. **Exit 3** heißt dort „45 min nichts frei“ (Halter ansehen, dann erneut aufrufen);
+`panel-vergleich` bricht bei belegter Sperre sofort mit Exit 3 ab: warten und neu starten.
 Der Bau läuft im Vergleichsmodus (`BAU_VERGLEICH=1`): Invarianten-Widersprüche sind dort Warnungen im Protokoll — keine Invarianten von Hand abschalten, keinen Cache dazulegen. Die Ausgabe nennt die verschiedenen Felder.
 Meldet einer „VERSCHIEDEN": nicht die Ausgabe erklären, sondern den Umbau korrigieren. Danach
 die volle Kette `npm run check:vor-commit`.

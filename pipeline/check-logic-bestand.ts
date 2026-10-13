@@ -288,5 +288,17 @@ console.log('\nHandbelege gegen den Bestand')
   pruefe('Handbelege: höchstens 1 Prime-Beleg ab Staffel 2 hängt am Reihenkopf', amKopf <= 1, `${amKopf}`)
 }
 
+console.log('\nRelease-Titel (gegen den Bestand)')
+{
+  /*
+    Der Kern (`titles-core.json`) hat nicht jeden Release-Titel: „Im Angebot seit"-Releases kommen erst nach `schreibeKern`
+    dazu (108 Titel am 13.10.2026). Vollständig ist `titles.json`; nur Cartoons stehen allein im Kern.
+  */
+  const lade = (datei: string) => JSON.parse(readFileSync(`public/data/${datei}`, 'utf8')) as { id?: number; titleId?: number }[]
+  const bekannt = new Set([...lade('titles.json'), ...lade('titles-core.json')].map((t) => t.id))
+  const ohneTitel = lade('releases.json').filter((r) => !bekannt.has(r.titleId))
+  pruefe('jeder Release hat seinen Titel in titles.json (Cartoons im Kern)', ohneTitel.length === 0, ohneTitel.slice(0, 10).map((r) => r.titleId))
+}
+
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)
