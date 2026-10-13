@@ -1552,8 +1552,8 @@
     ]
   },
   "katalog": {
-    "inReihen": 11961,
-    "reihen": 3056,
+    "inReihen": 11962,
+    "reihen": 3057,
     "pruefliste": [
       {
         "art": "verschmilzt",
@@ -2496,7 +2496,7 @@
           {
             "id": 104159,
             "name": "Azur Lane",
-            "titel": 16
+            "titel": 13
           },
           {
             "id": 114473,
@@ -3640,7 +3640,7 @@
           {
             "id": 13431,
             "name": "Himitsukessha Taka no Tsume NEO",
-            "titel": 7
+            "titel": 8
           }
         ],
         "alleinstehende": [],
@@ -5333,7 +5333,7 @@
           {
             "id": 104159,
             "name": "Azur Lane",
-            "titel": 16
+            "titel": 13
           },
           {
             "id": 114473,
