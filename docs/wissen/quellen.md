@@ -1096,6 +1096,36 @@ Synchronfassung und tragen trotzdem nur `spoken_languages: [ja]`. Das Feld meint
 **des Films**, nicht die verfügbaren Fassungen. Über 18 deutsche Termine in sechs Filmen ist
 `iso_639_1` siebzehnmal leer; das eine `"de"` steht an einer TV-Ausstrahlung.
 
+## „Zuletzt im Kino: April 2026“ — TMDB `release_dates` rückwärts gelesen (13.10.2026)
+
+Anlass: Assassination Classroom: Our Time (AniList 198373, TMDB 1542877) hat die deutsche Fassung ab 25.04.2026 (aniSearch), im Datensatz
+stand kein Kinostart — die Kino-Quellen (`fetch-tmdb-kino.ts`, Kinoheld, Cinestar) schauen nur zwölf Monate nach vorn.
+
+**Gemessen** (13.10.2026, `GET /movie/{id}/release_dates`, ein Abruf je Film, 60 ms Abstand; TMDB nennt ~50 Anfragen/s als Obergrenze):
+
+| Messung | Ergebnis |
+|---|---|
+| Our Time (1542877) | DE, Typ 3, **2026-04-25** → „April 2026“ stimmt, deckt sich mit dem aniSearch-Datum |
+| 12 Stichproben | Typ 3: Our Time, Kitaro 2025-11-19, Dragon Maid 2026-03-31, Tom-Crosby-Mäusebrigade 1978; Typ 2: Detektiv Conan 2020-06-30 („KAZÉ Anime Nights“); nur Typ 4/5/6: Cowboy Bebop (4), xxxHOLiC (5), Pokémon Lucario (6), Mardock Scramble (5); kein DE-Eintrag: 3 |
+| alle 716 Filme mit TMDB-Kennung | **254 mit DE-Kinostart bis heute** (35 %), 3 nur künftig, 294 nur Typ 1/4/5/6, 165 ohne DE-Eintrag, 0 Fehler |
+| Alter der 254 (jüngster Start) | 2026: 12, 2025: 16, 2024: 18, 2023: 13, 2022: 11, 2021: 13, 2020: 12, 2010–19: 111, 2000–09: 38, vor 2000: 10 |
+
+Mit der echten Anzeigelogik gezählt (`berechneAntwort` + `fragtKinoZuletzt` auf `titles.json`/`releases.json`): **247 Filme** bekämen die Zeile,
+einer wäre `filmDe` (hat schon einen Kino-Termin im Kasten), einer `fertig`.
+
+**Bauweise.** `fetch-tmdb-titles.ts` ruft `release_dates` für Filme ohnehin (FSK) — `kinoDe` (alle DE-Starts Typ 2/3) kostet keinen zusätzlichen Abruf und fällt
+unter die 150-Tage-Regel (`INHALTSFELDER`). Film-Einträge ohne `kinoDe` sind sofort fällig (`kinoFehlt`), so füllt sich der Bestand in zwei Wochenläufen
+(`--limit 400`, 716 Filme) statt in 60 Tagen. Der Bau schreibt `public/data/kino-zuletzt.json` (AniList → Monat, nur Format `MOVIE` mit TMDB-Art `movie`;
+Kennungen werden zu `ak`), das Panel lädt sie erst beim Öffnen eines Films — nicht in `titles.json`, weil nur eine Minderheit sie braucht.
+
+**Regeln.** (1) Nur Land DE und Typ 2/3; Typ 4/5 sind Stream und Disc. (2) Nur Monat und Jahr, nie ein Tag. (3) Ein künftiger Start zählt erst ab seinem Tag
+(der tägliche Bau entscheidet; `check-kino-zuletzt.ts`). (4) Die Zeile steht nur bei belegter Synchro und nicht unter einem Kino-Banner: Der Kinostart sagt nichts
+über die Fassung (OmU-only-Filme haben denselben Eintrag, s. o.), die Zeile behauptet deshalb keine deutsche Kinofassung. (5) Mehrfach vergebene TMDB-Filmkennungen
+sind schon vor dem Bau verworfen (`mehrdeutigeFilmzuordnungen`).
+
+**Offen:** Die 111 + 38 + 10 Einträge vor 2020 sind meist Erstaufführungen der 2000er („Zuletzt im Kino: April 2004“) — belegt, aber für Besucher kaum von Nutzen.
+Ein Schnitt (z. B. nur ab 2015) ist eine Zeile in `zuletztImKino()`; Entscheidung bei Daniel.
+
 ## Ein Anbieter meldet, was neu ist — fragen muss man ihn selbst
 
 Am 10.09.2026 erschienen die drei Specials zu „Lord of Mysteries" auf Deutsch

@@ -8,7 +8,7 @@ export const STREICH_TAGE = 150
 export const FRIST_TAGE = 180
 
 /** Felder von `data/tmdb-titles.json`, die TMDB-Inhalt tragen. */
-export const INHALTSFELDER = ['overviewDe', 'nameDe', 'fsk', 'providers', 'offers', 'justwatchUrl'] as const
+export const INHALTSFELDER = ['overviewDe', 'nameDe', 'fsk', 'providers', 'offers', 'justwatchUrl', 'kinoDe'] as const
 
 export interface MitInhaltsstand {
   fetchedAt?: string
