@@ -1,6 +1,6 @@
 import { PLATFORMS, type Release, type Title, type DiscAusgabe, type StreamLink } from '@shared/types.ts'
 import { formatDate } from '@shared/time.ts'
-import { streamNurOmu } from '@shared/ankuendigung.ts'
+import { streamNurOmu, synchroAngekuendigt } from '@shared/ankuendigung.ts'
 import { anzeigeName } from '@shared/titles.ts'
 import { farbeZuAnbieter, istToggo, discPillen } from './pillen.tsx'
 import { TerminZeile } from './termin-zeile.tsx'
@@ -85,8 +85,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                     unten={
                       [
                         folgenAngabe,
-                        streamStatus(s) === 'justwatch' ? t('detail.stand', { datum: formatDate(s.dubStand!) }) : '',
-                        streamNurOmu(title, s) ? t('kal.omu') : '',
+                        streamStatus(title, s, releases) === 'justwatch' ? t('detail.stand', { datum: formatDate(s.dubStand!) }) : '',
                         s.teilBereich
                           ? t('detail.teilBereich', { von: s.teilBereich.von, bis: s.teilBereich.bis })
                           : '',
@@ -106,7 +105,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                     titel={
                       [
                         ...dubZeilen(s),
-                        streamNurOmu(title, s) ? t('detail.pilleNurOmu') : '',
+                        streamNurOmu(title, s, releases) ? t(synchroAngekuendigt(title, s) ? 'detail.pilleNurOmu' : 'detail.pilleNurOmuOffen') : '',
                         s.teilBereich
                           ? t('detail.teilBereichTitel', {
                               von: s.teilBereich.von,
@@ -120,7 +119,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                         .filter(Boolean)
                         .join('\n') || undefined
                     }
-                    status={<DubStatus art={streamStatus(s)} />}
+                    status={<DubStatus art={streamStatus(title, s, releases)} />}
                     aktion={<MerkenKnopf release={releaseJePlattform.get(s.platform)} today={today} zeile />}
                   />
                 )

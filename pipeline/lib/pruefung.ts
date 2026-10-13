@@ -249,6 +249,26 @@ export function geteilteWegeTrotzWiderlegung(releases: Release[], titles: Map<nu
   return fehler
 }
 
+/**
+ * Ein Stream trägt kein „deutsch", wenn alle Termine seines Anbieters eine Sprachkennzeichnung (`sprache`: omu/offen) haben:
+ * Ein solcher Termin belegt keine Synchro (Beerus und Fool Night, Netflix, 13.10.2026).
+ */
+export function deutschNurAusSpracheTermin(releases: Release[], titles: Map<number, Title>): string[] {
+  const alleGekennzeichnet = new Map<string, boolean>()
+  for (const r of releases) {
+    const k = `${r.titleId}|${r.platform}`
+    alleGekennzeichnet.set(k, (alleGekennzeichnet.get(k) ?? true) && Boolean(r.sprache))
+  }
+  const fehler: string[] = []
+  for (const [k, gekennzeichnet] of alleGekennzeichnet) {
+    if (!gekennzeichnet) continue
+    const [id, plattform] = k.split('|')
+    const weg = titles.get(Number(id))?.streams.find((s) => s.platform === plattform && s.dub === true)
+    if (weg) fehler.push(`Anime ${id}: alle Termine auf ${plattform} tragen eine Sprachkennzeichnung, der Weg trägt trotzdem „deutsch"`)
+  }
+  return fehler
+}
+
 /** Kein automatischer Termin trägt als Beleg eine Meldung, die nur Originalton nennt — sie widerlegt die deutsche Fassung (Beerus, 10.10.2026). Handeinträge zitieren solche Artikel bewusst (Kino-OmU). */
 export function releasesAusNurOriginalton(releases: Release[], adressen: ReadonlySet<string>): string[] {
   return releases.filter((r) => r.automatisch && r.sources.some((u) => adressen.has(u))).map((r) => `"${r.slug}": Beleg nennt nur Originalton mit Untertiteln`)

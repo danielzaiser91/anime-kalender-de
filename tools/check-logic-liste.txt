@@ -42,6 +42,7 @@ pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
+pipeline/check-film-ohne-weg.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-handlung-eigen.ts
 pipeline/check-herkunftsfilter.ts
@@ -63,6 +64,7 @@ pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-rhythmus.ts
 pipeline/check-paramount.ts
 pipeline/check-patchnotes.ts
+pipeline/check-pille-nur-untertitel.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts
 pipeline/check-prime-kanal.ts
@@ -75,6 +77,7 @@ pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammelartikel.ts
+pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-staffel-jahr0.ts

@@ -76,7 +76,7 @@ export function wegeHinweisVon({ title, antwort, favorites, verbindung, releases
             ? r.cinemaUntil >= today
             : (r.schedule?.firstEpisodeDate ?? '') >= today),
       )
-        ? t(title.hasVoices ? 'detail.whereDubbedButGone' : 'detail.whereUnknown')
+        ? t(antwort?.art === 'film' && antwort.hatSynchro && antwort.ohneWeg ? 'detail.whereFilmOhneWeg' : title.hasVoices ? 'detail.whereDubbedButGone' : 'detail.whereUnknown')
         : undefined
   )
 }
