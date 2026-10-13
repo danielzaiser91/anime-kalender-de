@@ -67,6 +67,8 @@ const SKRIPTE = [
   'extension/disney-leser.js',
   /* Läuft laut Manifest auf jeder Amazon-Seite — ein Absturz hier trifft alle. */
   'extension/ruhig.js',
+  /* Läuft auf jeder Netflix-Seite bei document_start. */
+  'extension/netflix-stumm.js',
 ]
 
 const fehler = []
