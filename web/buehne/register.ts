@@ -5,6 +5,8 @@ export interface Variante {
   /** Bauteile, die gegenüber dem echten Panel ausgetauscht werden. */
   ersatz: Partial<Ersatz>
   notiz?: string
+  /** Stylesheet, das die Zelle über die echte App legt — für Gestaltungs-Mockups, die keine Bauteile tauschen (13.10.2026). */
+  stil?: string
 }
 
 export interface MockupDef {

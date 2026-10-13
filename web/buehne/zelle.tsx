@@ -18,8 +18,13 @@ function Zelle({ werte, fall }: { werte: URLSearchParams; fall: Fall }) {
   const def = mockupMit(werte.get('mockup') ?? '')
   if (!def) return null
   const Ausschnitt = AUSSCHNITTE[def.ausschnitt]
-  const ersatz = def.varianten[werte.get('v') ?? '']?.ersatz ?? {}
-  return <Ausschnitt fall={fall} ersatz={ersatz} />
+  const variante = def.varianten[werte.get('v') ?? '']
+  return (
+    <>
+      {variante?.stil && <style>{variante.stil}</style>}
+      <Ausschnitt fall={fall} ersatz={variante?.ersatz ?? {}} />
+    </>
+  )
 }
 
 /** Eine Zelle des Rasters: ein Mockup, ein Fall, ein Thema, eine Variante (leer = Vorher) — in einem eigenen Rahmen, damit Breite und Thema echt sind. */

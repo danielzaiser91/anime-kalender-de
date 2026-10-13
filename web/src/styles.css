@@ -45,6 +45,25 @@
   --color-ak-katalog: var(--ak-katalog);
   --color-ak-katalog-text: var(--ak-katalog-text);
   --color-ak-heute: var(--ak-heute);
+  /* Rollen der Design-Regeln (13.10.2026, docs/wissen/design-regeln.md); Kontrast: tools/design-kontrast.mjs */
+  --color-ak-flaeche-3: var(--ak-flaeche-3);
+  --color-ak-akzent-hover: var(--ak-akzent-hover);
+  --color-ak-fokus: var(--ak-fokus);
+  --color-ak-gewaehlt: var(--ak-gewaehlt);
+  --color-ak-auf-gewaehlt: var(--ak-auf-gewaehlt);
+  --color-ak-link: var(--ak-link);
+  --color-ak-gut: var(--ak-gut);
+  --color-ak-gut-text: var(--ak-gut-text);
+  --color-ak-gut-grund: var(--ak-gut-grund);
+  --color-ak-fehler: var(--ak-fehler);
+  --color-ak-fehler-text: var(--ak-fehler-text);
+  --color-ak-fehler-grund: var(--ak-fehler-grund);
+  --color-ak-warnung: var(--ak-warnung);
+  --color-ak-warnung-text: var(--ak-warnung-text);
+  --color-ak-warnung-grund: var(--ak-warnung-grund);
+  --color-ak-info: var(--ak-info);
+  --color-ak-info-text: var(--ak-info-text);
+  --color-ak-info-grund: var(--ak-info-grund);
 }
 
 html.dark {
@@ -67,6 +86,24 @@ html.dark {
   --ak-katalog: #a78bfa;
   --ak-katalog-text: #a78bfa;
   --ak-heute: #1a1512;
+  --ak-flaeche-3: #222733;
+  --ak-akzent-hover: #ff7a5c;
+  --ak-fokus: #ff9e85;
+  --ak-gewaehlt: var(--ak-akzent);
+  --ak-auf-gewaehlt: var(--ak-auf-akzent);
+  --ak-link: var(--ak-akzent-text);
+  --ak-gut: #34d399;
+  --ak-gut-text: #4ade9f;
+  --ak-gut-grund: color-mix(in srgb, var(--ak-gut) 12%, var(--ak-flaeche));
+  --ak-fehler: #fb7185;
+  --ak-fehler-text: #fda4af;
+  --ak-fehler-grund: color-mix(in srgb, var(--ak-fehler) 12%, var(--ak-flaeche));
+  --ak-warnung: #fbbf24;
+  --ak-warnung-text: #fcd34d;
+  --ak-warnung-grund: color-mix(in srgb, var(--ak-warnung) 12%, var(--ak-flaeche));
+  --ak-info: #60a5fa;
+  --ak-info-text: #93c5fd;
+  --ak-info-grund: color-mix(in srgb, var(--ak-info) 12%, var(--ak-flaeche));
 }
 
 html:not(.dark) {
@@ -89,6 +126,24 @@ html:not(.dark) {
   --ak-katalog: #8b6cf0;
   --ak-katalog-text: #5b3fc4;
   --ak-heute: #fff0ea;
+  --ak-flaeche-3: #e4e1da;
+  --ak-akzent-hover: #e8491f;
+  --ak-fokus: #b8321a;
+  --ak-gewaehlt: var(--ak-akzent);
+  --ak-auf-gewaehlt: var(--ak-auf-akzent);
+  --ak-link: var(--ak-akzent-text);
+  --ak-gut: #047857;
+  --ak-gut-text: #04664a;
+  --ak-gut-grund: color-mix(in srgb, var(--ak-gut) 10%, var(--ak-flaeche));
+  --ak-fehler: #e11d48;
+  --ak-fehler-text: #a8002c;
+  --ak-fehler-grund: color-mix(in srgb, var(--ak-fehler) 10%, var(--ak-flaeche));
+  --ak-warnung: #d97706;
+  --ak-warnung-text: #92400e;
+  --ak-warnung-grund: color-mix(in srgb, var(--ak-warnung) 10%, var(--ak-flaeche));
+  --ak-info: #2563eb;
+  --ak-info-text: #1d4ed8;
+  --ak-info-grund: color-mix(in srgb, var(--ak-info) 10%, var(--ak-flaeche));
 }
 
 :root {
