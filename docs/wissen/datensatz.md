@@ -454,7 +454,7 @@ links, Anbieter-Chips, Titel in Unbounded, Eckdaten als Raster, Wortmarke. Zu wi
 `og/default.jpg` wurde nur gezeichnet, wenn die Datei fehlte; die Zahl blieb stehen (Vorschau zeigte
 2.779 bei 2.924 Titeln). Jetzt bildet `lib/og-standard.ts` aus den Eingaben des Bilds eine Kennung
 (`public/og/default.txt`); `build-og.ts` zeichnet neu, sobald sie abweicht. Die Zahl ist auf Hunderter
-abgerundet („über 2.900"), damit nicht jeder neue Titel einen Commit auslöst. Dieselbe Kennung hängt als
+abgerundet („über 2.500"; die Zahl kommt aus `belegtCount`, nur belegte Synchro zählt), damit nicht jeder neue Titel einen Commit auslöst. Dieselbe Kennung hängt als
 `?v=` an `og/default.jpg` (Startseite, Titelseiten, Verzeichnis) — sonst hielten Messenger das alte Bild
 zur alten Adresse. Keine Plattform-Chips mehr: „Streaming, Disc, Kino, TV" sagt das Wo schon.
 Prüfung: `tools/og-standard.test.ts` (Teil von `check:teilseiten`), auch dass das abgelegte Bild zum Bestand passt.

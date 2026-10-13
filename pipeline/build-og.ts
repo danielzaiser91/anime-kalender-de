@@ -86,8 +86,8 @@ function terminZeilen(release: Release, events: ReturnType<typeof expandEvents>,
 async function standardBild(): Promise<void> {
   const datei = resolve(OUT_DIR, 'default.jpg')
   const kennungDatei = resolve(OUT_DIR, 'default.txt')
-  const { titleCount } = readJson<{ titleCount: number }>('public/data/meta.json', { titleCount: 0 })
-  const karte = standardKarte(titleCount)
+  const { belegtCount } = readJson<{ belegtCount: number }>('public/data/meta.json', { belegtCount: 0 })
+  const karte = standardKarte(belegtCount)
   const kennung = standardKennung(karte)
   const abgelegt = existsSync(kennungDatei) ? readFileSync(kennungDatei, 'utf8') : undefined
   if (NUR ? !NUR.has('default') : !mussNeuZeichnen(existsSync(datei), abgelegt, kennung, FORCE)) return

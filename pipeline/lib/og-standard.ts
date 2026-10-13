@@ -10,9 +10,9 @@ import { createHash } from 'node:crypto'
 import { OG_FASSUNG } from './og-fassung.ts'
 import type { KartenDaten } from './og-karte.ts'
 
-/** Auf Hunderter abgerundet: Ein neuer Titel soll nicht jedes Mal ein neues Bild (und einen Commit) auslösen. */
-export function titelzahlText(titleCount: number): string {
-  const rund = Math.floor(titleCount / 100) * 100
+/** Belegte Titel (`belegtCount`), auf Hunderter abgerundet: Ein neuer Titel soll nicht jedes Mal ein neues Bild (und einen Commit) auslösen. */
+export function titelzahlText(belegtCount: number): string {
+  const rund = Math.floor(belegtCount / 100) * 100
   return `über ${rund.toLocaleString('de-DE')} mit Synchro`
 }
 
@@ -20,12 +20,12 @@ export function titelzahlText(titleCount: number): string {
  * Keine Plattform-Chips: „Streaming, Disc, Kino, TV" nennt schon, wo die Termine stehen; eine
  * Rangliste einzelner Anbieter würde das wiederholen und mit jedem Datenlauf wandern.
  */
-export function standardKarte(titleCount: number): KartenDaten {
+export function standardKarte(belegtCount: number): KartenDaten {
   return {
     title: 'Anime-Kalender DE',
     subtitle: 'Alles mit deutscher Synchro, Woche für Woche',
     lines: [
-      { label: 'Anime', value: titelzahlText(titleCount) },
+      { label: 'Anime', value: titelzahlText(belegtCount) },
       { label: 'Termine', value: 'Streaming, Disc, Kino, TV' },
       { label: 'Abo', value: 'Kalender und Newsletter' },
     ],
@@ -44,9 +44,9 @@ export function mussNeuZeichnen(vorhanden: boolean, abgelegt: string | undefined
   return erzwungen || !vorhanden || abgelegt?.trim() !== kennung
 }
 
-/** Kennung zum Bestand mit `titleCount` Titeln. */
-export function standardKennungFuer(titleCount: number): string {
-  return standardKennung(standardKarte(titleCount))
+/** Kennung zum Bestand mit `belegtCount` belegten Titeln. */
+export function standardKennungFuer(belegtCount: number): string {
+  return standardKennung(standardKarte(belegtCount))
 }
 
 /** Bildadresse für `og:image`; die Kennung ersetzt die Gestaltungsfassung allein. */

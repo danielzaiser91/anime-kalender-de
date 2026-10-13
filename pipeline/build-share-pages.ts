@@ -372,8 +372,8 @@ ${umfeld.krumenJsonLd}
 
 /** Kennung des Standard-Vorschaubilds zum gebauten Bestand — dieselbe Rechnung wie `build-og.ts`, damit Bild und `?v=` zusammenpassen. */
 function ladeStandardKennung(): string {
-  const { titleCount } = readJson<{ titleCount: number }>('public/data/meta.json', { titleCount: 0 })
-  return standardKennungFuer(titleCount)
+  const { belegtCount } = readJson<{ belegtCount: number }>('public/data/meta.json', { belegtCount: 0 })
+  return standardKennungFuer(belegtCount)
 }
 
 function main(): void {
