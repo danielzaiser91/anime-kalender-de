@@ -6,7 +6,8 @@ import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { Kante, Namen } from './bau/anisearch-reihen.ts'
-import { ladeHand } from './bau/anisearch-reihen-rein-bau.ts'
+import type { KatalogEintrag } from './lib/anilist.ts'
+import { anilistKantenOhneKennung, ladeHand } from './bau/anisearch-reihen-rein-bau.ts'
 import { type ReinHand, type ReinTitel, rangDerArt, bestandReihenAusAnisearch, katalogReihenAusAnisearch, reineReihen } from './bau/anisearch-reihen-rein.ts'
 
 let fehler = 0
@@ -28,11 +29,11 @@ const reineOhne = (ids: ReinTitel[], kanten: Kante[], namen: Namen = new Map(), 
 
 const vorher = process.env.REIHEN_QUELLE
 delete process.env.REIHEN_QUELLE
-pruefe('Schalter: ohne REIHEN_QUELLE läuft der Hauptbestand rein, der Katalog bleibt beim AniList-Weg', bestandReihenAusAnisearch() && !katalogReihenAusAnisearch())
+pruefe('Schalter: ohne REIHEN_QUELLE laufen Hauptbestand und Katalog rein', bestandReihenAusAnisearch() && katalogReihenAusAnisearch())
 process.env.REIHEN_QUELLE = 'anilist'
 pruefe('Schalter: REIHEN_QUELLE=anilist ist der Rückweg für beide', !bestandReihenAusAnisearch() && !katalogReihenAusAnisearch())
 process.env.REIHEN_QUELLE = 'anisearch'
-pruefe('Schalter: REIHEN_QUELLE=anisearch legt auch den Katalog um', bestandReihenAusAnisearch() && katalogReihenAusAnisearch())
+pruefe('Schalter: REIHEN_QUELLE=anisearch bleibt gültig (beide rein)', bestandReihenAusAnisearch() && katalogReihenAusAnisearch())
 if (vorher === undefined) delete process.env.REIHEN_QUELLE
 else process.env.REIHEN_QUELLE = vorher
 
@@ -124,6 +125,28 @@ const festEinzel = reineOhne(titel(20, 12), [k(12, 20, 'Anderes')], gleichNamen,
 pruefe('Fest: ein Katalogtitel hängt über eine Sammelart an einen festen Einzeltitel', reihe(festEinzel, 12) === 20)
 const festKern = reineOhne(titel(20, 12), [k(12, 20, 'Sequel')], gleichNamen, ohneHand, new Map([[20, 20]]))
 pruefe('Fest: ein Katalogtitel mit Kernart kommt zum festen Einzeltitel', reihe(festKern, 12) === 20)
+
+/* Zusatzkanten (Katalog): AniList-Kanten der Titel ohne aniSearch-Kennung; 40 hat keine Kennung, 41 auch, 20 ist fest. */
+const mitZusatz = reineOhne([...titel(1, 2, 20, 30), { id: 40, name: 'T40' }, { id: 41, name: 'T41' }], [k(1, 2, 'Sequel')], new Map(), ohneHand, new Map([[20, 20]]))
+pruefe('Zusatz: ohne Paare bleiben Titel ohne Kennung allein', reihe(mitZusatz, 40) === 40 && reihe(mitZusatz, 41) === 41)
+const alleTitel = [...titel(1, 2, 20, 21), { id: 40, name: 'T40' }, { id: 41, name: 'T41' }]
+const mitPaaren = reineReihen(alleTitel, [k(1, 2, 'Sequel')], new Map(), ohneHand, new Map(), [[40, 1], [40, 99]])
+pruefe('Zusatz: ein Titel ohne Kennung hängt über ein Paar an die aniSearch-Reihe (unbekannte Kennungen übergangen)', reihe(mitPaaren, 40) === 1 && reihe(mitPaaren, 2) === 1)
+const zweiFeste = reineReihen(alleTitel, [], new Map(), ohneHand, new Map([[20, 20], [21, 21]]), [[41, 20], [41, 21]])
+pruefe('Zusatz: ein Titel ohne Kennung kommt in eine feste Reihe, zwei feste Reihen verschmelzen über Paare nie', reihe(zweiFeste, 41) === 20 && reihe(zweiFeste, 21) === 21)
+const getrenntZusatz = reineReihen([...titel(1, 2), { id: 40, name: 'T40' }], [k(1, 2, 'Sequel')], new Map(), { verbinden: [], trennen: [[1, 40]] }, new Map(), [[40, 1]])
+pruefe('Zusatz: `getrennt:` der Handdatei gilt auch gegen ein Paar', reihe(getrenntZusatz, 40) === 40)
+const kantenOhne = anilistKantenOhneKennung(
+  [
+    { id: 1, rel: [2, 3, 4] },
+    { id: 2, rel: [1] },
+    { id: 3, rel: [1] },
+    { id: 4, rel: [], eltern: [1, 3] },
+    { id: 5, rel: [1, 4], eltern: [7, 8] },
+  ] as unknown as KatalogEintrag[],
+  new Set([1, 2]),
+)
+pruefe('Zusatzkanten: nur Kanten mit einem Titel ohne Kennung; ein Crossover (zwei Eltern) verbindet nichts, weder von sich aus noch als Ziel', JSON.stringify(kantenOhne) === '[[1,3],[3,1]]', JSON.stringify(kantenOhne))
 
 /* Handdatei: `reinIds:` verbindet im reinen Weg wie `ids:`, `03-reihen.ts` liest es nicht (dort zählt nur `ids:`). */
 const handDatei = join(mkdtempSync(join(tmpdir(), 'hand-')), 'reihen-von-hand.yaml')

@@ -38,7 +38,7 @@
  * Hashes angeben, nicht gegen das wandernde `origin/main`. Die Sperre nennt wartenden Läufen PID, Hashes, Ort und Alter des Halters.
  */
 import { execFileSync, spawnSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
@@ -53,6 +53,11 @@ const ABLAGE = join(tmpdir(), 'bau-vergleich')
 const git = (...args) => execFileSync('git', ['-C', WURZEL, ...args], { encoding: 'utf8', maxBuffer: 1 << 28 }).trim()
 
 const TEXTDATEI = /\.(json|ics|xml|html|txt|md)$/
+
+// Der Ersatz-Cache hat keinen AniList-Katalog, der Katalogpfad (ohne-synchro.json, Katalog-Reihen) liefe also nie mit.
+// `BAU_VERGLEICH_KATALOG=<Pfad zu anilist-katalog.json>` legt dieselbe Datei in beide Bauten und trennt die Ablage.
+const KATALOG_CACHE = process.env.BAU_VERGLEICH_KATALOG
+const KATALOG_MARKE = KATALOG_CACHE ? `-katalog${statSync(KATALOG_CACHE).size}` : ''
 
 // Laufzeiten und Zeitstempel sind in jedem Lauf anders — sie gehören nicht zum Ergebnis.
 const glatt = (s) =>
@@ -105,6 +110,7 @@ function ersatzCache(ort, basisSha) {
   writeFileSync(join(ort, 'anilist-by-id.json'), JSON.stringify(byId))
   writeFileSync(join(ort, 'anilist-media.json'), JSON.stringify(byMal))
   writeFileSync(join(ort, 'dub-confidence.json'), JSON.stringify(confidence))
+  if (KATALOG_CACHE) copyFileSync(KATALOG_CACHE, join(ort, 'anilist-katalog.json'))
 }
 
 /**
@@ -122,7 +128,7 @@ function entferneBaum(baum) {
  * `sha` an `data/`; liefert das Verzeichnis mit allem Geschriebenen.
  */
 function baue(sha, basisSha) {
-  const ziel = join(ABLAGE, `${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}${sha === basisSha ? '' : '-delta'}`)
+  const ziel = join(ABLAGE, `${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}${sha === basisSha ? '' : '-delta'}${KATALOG_MARKE}`)
   if (existsSync(join(ziel, '_protokoll.txt'))) return ziel
   const baum = join(ABLAGE, `baum-${sha.slice(0, 12)}`)
   entferneBaum(baum)
