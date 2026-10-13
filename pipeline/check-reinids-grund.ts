@@ -1,11 +1,12 @@
 /**
  * Zusicherung zu `reinIds:` in `data/reihen-von-hand.yaml` (12.10.2026): Wo der `grund` „AniList-Beziehung" sagt, liegen alle Teile in einer `rel`-Komponente des Katalogs;
- * Ausnahmen (kein Katalogeintrag, `rel: []`) stehen im Grund unter „(außer …)". Der Katalog liegt nur im Cache (`data/cache/anilist-katalog.json`): ohne ihn entfällt der Teil „Datei", die Selbstprüfung läuft immer. Läuft in `check:logic`.
+ * Ausnahmen (kein Katalogeintrag, `rel: []`) stehen im Grund unter „(außer …)". Der Katalog liegt nur im Cache (`data/cache/anilist-katalog.json`): ohne ihn entfällt der Teil „Datei", die Selbstprüfung läuft immer.
+ * Lokal entfällt der Teil auch bei einem Cache über 7 Tage Alter (mit Meldung samt Datum); in CI (`CI=true`, Bestandsbau mit frischem Cache) wird immer scharf geprüft. Läuft in `check:logic`.
  */
 import { existsSync, readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { ROOT } from './lib/util.ts'
-import { type KatalogRel, type ReinIdsEintrag, pruefeReinIdsGrund } from './lib/rein-ids-grund.ts'
+import { CACHE_HOECHSTALTER_TAGE, type KatalogRel, type ReinIdsEintrag, pruefeReinIdsGrund, veralteterCacheGrund } from './lib/rein-ids-grund.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -39,10 +40,22 @@ pruefe('Selbstprüfung: „bei AniList keine Beziehung" deckt einen Teil ohne Be
 pruefe('Selbstprüfung: „bei AniList keine Beziehung" ist ein Befund, wenn der Teil doch Beziehungen hat', pruefeReinIdsGrund([mononoke([1, 5])], katalog).length === 1)
 pruefe('Selbstprüfung: Gründe ohne „AniList-Beziehung" (Namensanfang, Handtext) werden nicht geprüft', pruefeReinIdsGrund([{ reinIds: [1, 5], grund: 'X – gleicher Namensanfang' }], katalog).length === 0)
 
+// Frist: Ein Cache an der Altersgrenze zählt noch, einer eine Stunde darüber nicht mehr; in CI nie übersprungen.
+const jetzt = new Date('2026-10-13T12:00:00Z')
+const vorTagen = (tage: number): string => new Date(jetzt.getTime() - tage * 86_400_000).toISOString()
+const zuAlt = vorTagen(CACHE_HOECHSTALTER_TAGE + 1 / 24)
+pruefe('Selbstprüfung: ein Cache an der Altersgrenze wird noch geprüft', veralteterCacheGrund(vorTagen(CACHE_HOECHSTALTER_TAGE), jetzt, false) === undefined)
+pruefe('Selbstprüfung: ein Cache eine Stunde über der Altersgrenze wird lokal übersprungen, mit Datum', veralteterCacheGrund(zuAlt, jetzt, false)?.includes(zuAlt.slice(0, 10)) === true)
+pruefe('Selbstprüfung: in CI wird auch ein sehr alter Cache scharf geprüft', veralteterCacheGrund(vorTagen(40), jetzt, true) === undefined)
+pruefe('Selbstprüfung: ein Cache ohne Zeitstempel wird geprüft', veralteterCacheGrund(undefined, jetzt, false) === undefined)
+
 const katalogDatei = `${ROOT}/data/cache/anilist-katalog.json`
-if (existsSync(katalogDatei)) {
+const datei = existsSync(katalogDatei) ? (JSON.parse(readFileSync(katalogDatei, 'utf8')) as { eintraege: KatalogRel[]; geholtAm?: string }) : undefined
+const uebersprungen = datei && veralteterCacheGrund(datei.geholtAm, new Date(), process.env.CI === 'true')
+if (uebersprungen) {
+  console.log(`reinIds-Grund: ${uebersprungen}; nur die Selbstprüfung lief`)
+} else if (datei) {
   const eintraege = (yaml.load(readFileSync(`${ROOT}/data/reihen-von-hand.yaml`, 'utf8')) as ReinIdsEintrag[]).filter((e) => e.reinIds)
-  const datei = JSON.parse(readFileSync(katalogDatei, 'utf8')) as { eintraege: KatalogRel[]; geholtAm?: string }
   const echt = datei.eintraege
   // Der Befund hängt vom Cache-Stand ab (CI und lokal unterscheiden sich), also nennt er den geprüften Katalog.
   const stand = datei.geholtAm ? `, Stand ${datei.geholtAm.slice(0, 10)}` : ''

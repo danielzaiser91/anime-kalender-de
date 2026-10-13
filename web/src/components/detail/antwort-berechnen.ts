@@ -3,7 +3,7 @@ import { expandEvents, istErschienen, istAusgeblieben, titleStatus } from '@shar
 import { dubAbdeckung } from '@shared/dub-grenze.ts'
 import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
-import { zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, gesamtGeschaetzt, fertigAntwort } from './antwort-regeln.ts'
+import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, gesamtGeschaetzt, fertigAntwort } from './antwort-regeln.ts'
 import { filmTermine } from './film-termine.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
 
@@ -50,7 +50,7 @@ export function berechneAntwort({ title, releases, today }: {
     (title.streams ?? []).some((s) => s.dub === true) ||
     Boolean(title.hasVoices) ||
     Boolean(title.deErstausgabe?.synchro) ||
-    (title.watchLinks ?? []).some((w) => w.dubRanges?.some((r) => r.dub))
+    (title.watchLinks ?? []).some((w) => belegteBereiche(w).some((r) => r.dub))
   /*
     **Was der Kino-Banner zeigt, ist für den Kasten erledigt** (17.09.2026). Sonst liest
     er den Kinotermin als Folge und schreibt „Erste Folge erscheint am … · Wöchentlich ·
@@ -203,8 +203,8 @@ export function berechneAntwort({ title, releases, today }: {
   const abdeckung = [
     ...belegen.map((s) => dubAbdeckung(s.dubRanges, gesamt)),
     ...(title.watchLinks ?? [])
-      .filter((w) => w.dubRanges?.some((r) => r.dub))
-      .map((w) => dubAbdeckung(w.dubRanges, gesamt)),
+      .filter((w) => belegteBereiche(w).some((r) => r.dub))
+      .map((w) => dubAbdeckung(belegteBereiche(w), gesamt)),
   ]
   if (!abdeckung.length && hatSynchro) abdeckung.push(dubAbdeckung(undefined, gesamt))
   /*
@@ -216,7 +216,7 @@ export function berechneAntwort({ title, releases, today }: {
   const vereint = new Set<number>()
   for (const r of [
     ...belegen.flatMap((s) => s.dubRanges ?? []),
-    ...(title.watchLinks ?? []).flatMap((w) => w.dubRanges ?? []),
+    ...(title.watchLinks ?? []).flatMap(belegteBereiche),
   ]) {
     if (!r.dub) continue
     for (let n = r.from; n <= Math.min(r.to, gesamt ?? r.to); n++) vereint.add(n)
