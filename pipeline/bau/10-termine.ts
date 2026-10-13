@@ -68,6 +68,11 @@ function schreibeZweitanbieterMitMeldung(events: ReleaseEvent[], releases: Relea
   log(`Zweitanbieter: ${anzahl} Termine`)
 }
 
+/** Reihenfolge in `events.json`: nach Tag, am Tag nach Uhrzeit (ohne Uhrzeit zuletzt). */
+export function nachTagUndZeit(a: ReleaseEvent, b: ReleaseEvent): number {
+  return a.date === b.date ? (a.time ?? '99').localeCompare(b.time ?? '99') : a.date.localeCompare(b.date)
+}
+
 export function rolleTermineAus({ releases, titles, jpStart }: {
   releases: Release[]
   titles: Map<number, Title>
@@ -77,7 +82,7 @@ export function rolleTermineAus({ releases, titles, jpStart }: {
   widerlegeDeutscheTermine(releases, titles)
   const events: ReleaseEvent[] = releases
     .flatMap(expandEvents)
-    .sort((a, b) => (a.date === b.date ? (a.time ?? '99') .localeCompare(b.time ?? '99') : a.date.localeCompare(b.date)))
+    .sort(nachTagUndZeit)
 
   urteilSchliesstLuecken(titles)
   /**

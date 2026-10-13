@@ -10,6 +10,7 @@ import { ergaenzeTitelRang } from './titel-rang.ts'
 import { schreibeWochenDatei } from './13-8-wochen-datei.ts'
 import { schreibePatchnotes } from './13-9-patchnotes.ts'
 import { ergaenzeErstausgabeAngebot } from './13-7-erstausgabe-angebot.ts'
+import { ergaenzeAngebotTermine } from './13-7-angebot-termine.ts'
 import { schreibeZusatzdateien } from './13-4-zusatzdateien.ts'
 import { bereinigePruefliste, ausgelieferteKennungen } from './pruefliste-bereinigen.ts'
 import { schreibeLueckenTitel } from './luecken-titel.ts'
@@ -77,8 +78,10 @@ export function schreibeDatensatz({
 
   ergaenzeEigeneHandlungen(synopses, slim)
   ergaenzeDeutscheFolgenzahl(synopses, new Map([...titles.values()].map((t) => [t.id, t.episodes])))
+  const releasesVorAngebot = releases.length
   ergaenzeErstausgabeAngebot({ titles: titles.values(), releases })
   schreibeListen({ slim, tmdbTitles, releases, titles })
+  ergaenzeAngebotTermine({ events, neue: releases.slice(releasesVorAngebot), slim })
   schreibeKinoZuletzt(titles, tmdbTitles)
 
   schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige })

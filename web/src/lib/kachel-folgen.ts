@@ -2,7 +2,7 @@ import type { ReleaseEvent } from '@shared/types.ts'
 import { istStaffelfinale, istStaffelstart } from '@shared/tv-signale.ts'
 
 /** Was eine Kachel an Auszeichnung trägt: Katalog-Release schlägt Staffelstart, der schlägt das Finale. */
-export type KartenArt = 'start' | 'finale' | 'katalog' | 'katalogVermutlich'
+export type KartenArt = 'start' | 'finale' | 'katalog' | 'katalogVermutlich' | 'imAngebot'
 
 /** Ring um das Cover, Farbe der Fahne und Texte (`kal.*`) je Auszeichnung — Woche und Monat teilen sie. */
 export const ART_STIL = {
@@ -10,6 +10,7 @@ export const ART_STIL = {
   finale: { ring: 'ring-ak-finale', fahne: 'bg-ak-finale', name: 'kal.finale', hinweis: 'kal.finaleHinweis' },
   katalog: { ring: 'ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalog', hinweis: 'kal.katalogHinweis' },
   katalogVermutlich: { ring: 'ring-ak-katalog', fahne: 'bg-ak-katalog', name: 'kal.katalogVermutlich', hinweis: 'kal.katalogVermutlichHinweis' },
+  imAngebot: { ring: 'ring-transparent', fahne: 'bg-slate-300', name: 'kal.imAngebot', hinweis: 'kal.imAngebotHinweis' },
 } as const
 
 export interface FolgenSpanne {
@@ -35,6 +36,7 @@ type MitReleases = Parameters<typeof istStaffelstart>[1]
 export function kartenArt(buendel: ReleaseEvent[], data: MitReleases): KartenArt | undefined {
   if (buendel.some((e) => e.katalog === 'belegt')) return 'katalog'
   if (buendel.some((e) => e.katalog)) return 'katalogVermutlich'
+  if (buendel.some((e) => e.imAngebot)) return 'imAngebot'
   if (buendel.some((e) => istStaffelstart(e, data))) return 'start'
   return buendel.some((e) => istStaffelfinale(e, data)) ? 'finale' : undefined
 }

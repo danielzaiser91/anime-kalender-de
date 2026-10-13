@@ -37,7 +37,7 @@ const spaetesterTag = (jpStart: string): string => (jpStart.length === 4 ? `${jp
 /**
  * **`saison-ausblick.json`** (Daniel, 09.10.2026): alle Serien ohne Synchro, die nach der laufenden Saison starten — mit Japan-Start so genau, wie AniList ihn kennt
  * (`JJJJ-MM-TT`, `JJJJ-MM`, `JJJJ`), und die ohne jedes Datum. Liegt neben `saison.json`, damit nur der Reiter „Ausblick" die rund 70 KB lädt. Titel, die schon in
- * `saison.json` stehen (Tag in der nächsten Saison), fehlen hier. Dazu die Serien des Hauptbestands, die nicht im Kern stehen (kein Release), mit Jahr und Saison:
+ * `saison.json` stehen (Tag in der nächsten Saison), fehlen hier. Dazu die Serien des Hauptbestands, die nicht im Kern stehen (kein Release; „Im Angebot seit“-Titel stehen seit 13.10.2026 darin, `13-7-angebot-termine.ts`), mit Jahr und Saison:
  * die Seite rechnet nur auf dem Kern, ohne sie fiele etwa „Devil May Cry: Staffel 2“ (Jahr 2026, keine Saison) aus dem Ausblick.
  */
 export function schreibeAusblickDatei(heute: SaisonTag, schonDrin: Set<number>, ausserKern: Title[]): void {

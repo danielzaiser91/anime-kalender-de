@@ -20,7 +20,7 @@ export function cartoonsAusReleases(releases: { titleId: number }[]): Title[] {
 
 /**
  * Schreibt `titles-core.json`: die Anime-Titel mit Termin, mit Ankündigung (die Saison-Ansicht liest nur den Kern, Daniel 08.10.2026), dazu die Cartoons mit Termin.
- * Läuft vor dem Anhängen der „Im Angebot seit“-Releases, deren Titel stehen nur in `titles.json`: Der Kern bleibt klein (+108 Titel = +28 KB gzip, 13.10.2026).
+ * Läuft vor dem Anhängen der „Im Angebot seit“-Releases; deren Titel hängt `13-7-angebot-termine.ts` danach an (+71 Titel, +18,6 KB gzip, 13.10.2026) — der Kern ist nicht mehr klein, auch das Argument aus #1093 gilt nicht mehr.
  */
 export function schreibeKern<T extends Title>(slim: T[], titelIds: Set<number>): void {
   const anime = slim.filter((t) => titelIds.has(t.id)).map(mitAnkuendigung)
