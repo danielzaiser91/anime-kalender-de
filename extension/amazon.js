@@ -5773,13 +5773,11 @@ async function speicherSchreiben(werte) {
         **Der Fortschritt steht am Knopf, nicht die Zahl der offenen Titel.**
 
         Die Frames melden in eigenen Dokumenten; diese Seite erfährt davon erst, wenn der
-        Briefkasten wieder abgefragt ist. „4 offen" stand deshalb den ganzen Lauf über still,
-        und Daniel hielt ihn für hängend, während er in 100 s alle vier Titel durchging
-        (26.09.2026, Bericht 07:47).
+        Briefkasten wieder abgefragt ist; „4 offen" wirkte deshalb hängend (26.09.2026).
+        Die Pille bleibt kurz, Grund der Pause und Zahlen stehen im Tooltip (13.10.2026).
       */
       const gesamt = Math.max(lauf.titelGesamt ?? 0, lauf.fertig.length + (lauf.titel ? 1 : 0))
       const nr = Math.min(lauf.fertig.length + 1, gesamt)
-      /* Kurz, damit die Pille ihre Breite hält (13.10.2026); Grund der Pause und Zahlen stehen im Tooltip, der Grund auch im Listenkopf. */
       const grundPause = globalThis.AK_TAGESLIMIT?.text()
       setz(uebersichtKnopf, 'textContent', `${grundPause ? '⏸' : '⏹'} ${nr}/${gesamt}`)
       setz(uebersichtKnopf, 'title', `${grundPause ? `${grundPause} · ` : ''}Titel ${nr}/${gesamt} · ${lauf.seiten ?? 0} Seiten gemeldet. Liste öffnen — dort lässt sich der Durchgang beenden`)
