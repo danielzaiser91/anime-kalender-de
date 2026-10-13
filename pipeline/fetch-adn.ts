@@ -21,7 +21,7 @@ import { gunzipSync, gzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
 import { recordSource } from './lib/health.ts'
-import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnVideo } from './lib/adn-folgen.ts'
+import { episodeAus, katalogShowAus, sortiereFolgen, toBerlin, type AdnListenEintrag, type AdnVideo } from './lib/adn-folgen.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
 import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
@@ -199,21 +199,21 @@ async function ladeSerie(showId: number): Promise<{ videos: AdnVideo[]; abbruch?
   return { videos }
 }
 
-async function fetchCatalog(): Promise<AdnShow[]> {
-  /**
-   * Die Serienliste einsammeln — nach eindeutigen Kennungen, nicht nach `total`.
-   *
-   * Der Endpunkt paginiert unzuverlässig: Die Reihenfolge ist nicht sortiert,
-   * `offset=200` bricht nach 46 Einträgen ab, und `total` meldet trotzdem
-   * weiter 580 — das ist die Größe des **französischen** Katalogs, während mit
-   * deutschem Regionskopf nur ein Teil davon ausgeliefert wird. Wer `total` als
-   * Abbruchbedingung nimmt, sammelt Wiederholungen ein und hält am Ende
-   * dieselbe Serie mehrfach in der Hand (real: 12 Doubletten unter 47 Treffern).
-   *
-   * Deshalb: nach Kennung entdoppeln und abbrechen, wenn zwei Seiten in Folge
-   * nichts Neues mehr bringen.
-   */
-  const nachId = new Map<number, { id: number; title: string; originalTitle?: string; age?: string }>()
+/**
+ * Die Serienliste einsammeln — nach eindeutigen Kennungen, nicht nach `total`.
+ *
+ * Der Endpunkt paginiert unzuverlässig: Die Reihenfolge ist nicht sortiert,
+ * `offset=200` bricht nach 46 Einträgen ab, und `total` meldet trotzdem
+ * weiter 580 — das ist die Größe des **französischen** Katalogs, während mit
+ * deutschem Regionskopf nur ein Teil davon ausgeliefert wird. Wer `total` als
+ * Abbruchbedingung nimmt, sammelt Wiederholungen ein und hält am Ende
+ * dieselbe Serie mehrfach in der Hand (real: 12 Doubletten unter 47 Treffern).
+ *
+ * Deshalb: nach Kennung entdoppeln und abbrechen, wenn zwei Seiten in Folge
+ * nichts Neues mehr bringen.
+ */
+async function sammleSerienliste(): Promise<Map<number, AdnListenEintrag>> {
+  const nachId = new Map<number, AdnListenEintrag>()
   let leerlauf = 0
   for (let offset = 0; offset < 2000 && leerlauf < 2; offset += 100) {
     const res = await fetch(`${SHOWS_API}?limit=100&offset=${offset}`, { headers: HEADERS })
@@ -229,6 +229,11 @@ async function fetchCatalog(): Promise<AdnShow[]> {
     leerlauf = nachId.size === vorher ? leerlauf + 1 : 0
     await sleep(400)
   }
+  return nachId
+}
+
+async function fetchCatalog(): Promise<AdnShow[]> {
+  const nachId = await sammleSerienliste()
   /**
    * Was wir schon einmal gesehen haben, wird wieder gefragt.
    *
