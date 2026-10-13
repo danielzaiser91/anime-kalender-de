@@ -13,7 +13,7 @@ import { ausAnisearchDubs, ausAnisearchHand } from './lib/anisearch-synchro-ids.
 import { holeAnisearchCover } from './lib/anisearch-cover.ts'
 import { loadCurated, loadSynchroVonHand } from './lib/curated.ts'
 import { lookupTmdb, type TmdbInfo } from './lib/tmdb.ts'
-import { tmdbJsonEintrag, tmdbJsonFaellig } from './lib/tmdb-ablauf.ts'
+import { FRIST_TAGE, streicheAbgelaufenes, tmdbJsonEintrag, tmdbJsonFaellig } from './lib/tmdb-ablauf.ts'
 import { loadEnv, fetchJson, log, readJson, warn, writeJson } from './lib/util.ts'
 
 const args = process.argv.slice(2)
@@ -62,6 +62,8 @@ async function holeTmdb(curated: ReturnType<typeof loadCurated>, resolved: Recor
     done++
     if (done % 10 === 0) log(`  TMDB ${done} Titel abgefragt`)
   }
+  const gestrichen = streicheAbgelaufenes(tmdbCache, new Date(), FRIST_TAGE)
+  if (gestrichen.length) warn(`TMDB: ${gestrichen.length} Einträge über ${FRIST_TAGE} Tage, Erneuerung gescheitert: Inhalt gestrichen`)
   writeJson(TMDB_PATH, tmdbCache, true)
   log(`TMDB: ${done} neue Abfragen, ${Object.keys(tmdbCache).length} im Cache`)
 }

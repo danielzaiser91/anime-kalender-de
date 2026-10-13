@@ -3,7 +3,7 @@
  * Aufruf: `npm run check:logic`.
  */
 import type { TmdbInfo } from './lib/tmdb.ts'
-import { bilderAbzufragen, bilderFaellig, FRIST_TAGE, istAbgelaufen, tageSeit, tmdbJsonEintrag, tmdbJsonFaellig, inhaltsStand, streicheAbgelaufenes, type MitInhaltsstand } from './lib/tmdb-ablauf.ts'
+import { bilderAbzufragen, bilderFaellig, FRIST_TAGE, istAbgelaufen, tageSeit, tmdbJsonEintrag, tmdbJsonFaellig, inhaltsStand, streicheAbgelaufenes, streicheBilderUeberFrist, type MitInhaltsstand } from './lib/tmdb-ablauf.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -93,11 +93,23 @@ const mitInhalt: TmdbInfo = { tmdbId: 5, fsk: 12, inhaltAm: tag(151) }
 pruefe('fehlender Eintrag wird geholt', tmdbJsonFaellig(undefined, false, jetzt))
 pruefe('Inhalt mit 150 Tagen: nicht fällig, mit 151: fällig', !tmdbJsonFaellig({ ...mitInhalt, inhaltAm: tag(150) }, false, jetzt) && tmdbJsonFaellig(mitInhalt, false, jetzt))
 pruefe('Inhalt ohne Datum: fällig', tmdbJsonFaellig<TmdbInfo>({ tmdbId: 5, fsk: 12 }, false, jetzt))
-pruefe('Eintrag ohne Inhalt bleibt liegen (auch uralt)', !tmdbJsonFaellig<TmdbInfo>({ tmdbId: 5, inhaltAm: tag(400) }, false, jetzt) && !tmdbJsonFaellig({}, false, jetzt))
+pruefe('Eintrag ohne Inhalt und ohne Datum bleibt liegen', !tmdbJsonFaellig<TmdbInfo>({ tmdbId: 5 }, false, jetzt) && !tmdbJsonFaellig({}, false, jetzt))
 pruefe('mit force immer', tmdbJsonFaellig({ ...mitInhalt, inhaltAm: tag(1) }, true, jetzt))
 pruefe('neuer Inhalt bekommt den Tag des Abrufs', tmdbJsonEintrag<TmdbInfo>(mitInhalt, { tmdbId: 5, fsk: 16 }, jetzt)?.inhaltAm === jetzt.toISOString().slice(0, 10))
 pruefe('Suche gescheitert: alter Eintrag bleibt (undefined)', tmdbJsonEintrag<TmdbInfo>(mitInhalt, {}, jetzt) === undefined)
 pruefe('Treffer ohne Inhalt: kein Datum', tmdbJsonEintrag<TmdbInfo>(undefined, { tmdbId: 5 }, jetzt)?.inhaltAm === undefined)
+
+console.log('\nTMDB-Ablauf: Abruf gescheitert, Eintrag über 180 Tage wird entfernt')
+/* Der Abruf scheitert: der Eintrag bleibt unverändert, danach greift die Frist (Reihenfolge wie im Lauf). */
+const bleibt = { alt: { inhaltAm: tag(181) }, jung: { inhaltAm: tag(170) }, grenze: { inhaltAm: tag(180) }, keins: null }
+const weg = streicheBilderUeberFrist(bleibt, jetzt)
+pruefe('Bild mit 181 Tagen wird entfernt, 180 und 170 Tage bleiben', weg.join() === 'alt' && Object.keys(bleibt).join() === 'jung,grenze,keins', weg)
+const ohneDatum: Record<string, { inhaltAm?: string } | null> = { x: {} }
+pruefe('Bild ohne Datum wird entfernt', streicheBilderUeberFrist(ohneDatum, jetzt).join() === 'x')
+const alteInfo: Record<string, TmdbInfo> = { a: { tmdbId: 1, fsk: 12, inhaltAm: tag(181) }, b: { tmdbId: 2, fsk: 12, inhaltAm: tag(170) } }
+pruefe('tmdb.json: Abruf scheitert, 181 Tage alt: Inhalt gestrichen', tmdbJsonEintrag<TmdbInfo>(alteInfo.a, {}, jetzt) === undefined && streicheAbgelaufenes(alteInfo, jetzt, FRIST_TAGE).join() === 'a' && alteInfo.a?.fsk === undefined)
+pruefe('tmdb.json: bei 170 Tagen bleibt der Inhalt', alteInfo.b?.fsk === 12)
+pruefe('tmdb.json: gestrichener Eintrag wird wieder geholt, Zuordnung bleibt', tmdbJsonFaellig(alteInfo.a, false, jetzt) && alteInfo.a?.tmdbId === 1)
 
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)

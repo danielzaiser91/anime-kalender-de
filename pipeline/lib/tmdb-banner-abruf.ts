@@ -1,6 +1,6 @@
 import { fetchJson, log, readJson, sleep, warn, writeJson } from './util.ts'
 import { recordSource } from './health.ts'
-import { abrufTag, bilderAbzufragen } from './tmdb-ablauf.ts'
+import { abrufTag, bilderAbzufragen, FRIST_TAGE, streicheBilderUeberFrist } from './tmdb-ablauf.ts'
 import type { TmdbBild } from './tmdb-plakat.ts'
 import { BANNER_DATEI, waehleBanner, type TmdbBanner } from './tmdb-banner.ts'
 import { schreibeBannerLuecken } from './banner-luecken.ts'
@@ -21,6 +21,7 @@ export async function holeBanner(apiKey: string, limit: number, alle: boolean): 
   log(`TMDB-Banner: ${offen.length} Titel abzufragen (${Object.keys(bestand).length} schon bekannt, ${entfernt.length} abgelaufene ohne Zuordnung entfernt)`)
   let gefunden = 0
   let fehler = 0
+  let abgerufen = 0
   for (const [id, z] of offen) {
     try {
       const bilder = await fetchJson<{ backdrops?: TmdbBild[] }>(
@@ -37,8 +38,10 @@ export async function holeBanner(apiKey: string, limit: number, alle: boolean): 
       if (fehler > 20) break
     }
     await sleep(120)
-    if (Object.keys(bestand).length % 200 === 0) writeJson(BANNER_DATEI, bestand)
+    if (++abgerufen % 200 === 0) writeJson(BANNER_DATEI, bestand)
   }
+  const zuAlt = streicheBilderUeberFrist(bestand, new Date())
+  if (zuAlt.length) warn(`${zuAlt.length} Hintergrundbilder über ${FRIST_TAGE} Tage, Erneuerung gescheitert: aus dem Bestand genommen`)
   writeJson(BANNER_DATEI, bestand)
   schreibeBannerLuecken(bestand, zuordnung)
   log(`${gefunden} von ${offen.length} Titeln mit Hintergrundbild, ${fehler} Fehler`)

@@ -29,13 +29,13 @@ export function tageSeit(stand: string | undefined, jetzt: Date): number | undef
 /** Das Datum, ab dem die Frist zählt. */
 export const inhaltsStand = (e: MitInhaltsstand): string | undefined => e.inhaltAm ?? e.fetchedAt
 
-/** Entfernt den TMDB-Inhalt jedes Eintrags, dessen Stand älter als `STREICH_TAGE` ist (oder fehlt); gibt die Kennungen zurück. */
-export function streicheAbgelaufenes(cache: Record<string, MitInhaltsstand>, jetzt: Date): string[] {
+/** Entfernt den TMDB-Inhalt jedes Eintrags, dessen Stand älter als `grenze` Tage ist (oder fehlt); gibt die Kennungen zurück. */
+export function streicheAbgelaufenes(cache: Record<string, MitInhaltsstand>, jetzt: Date, grenze = STREICH_TAGE): string[] {
   const gestrichen: string[] = []
   for (const [id, e] of Object.entries(cache)) {
     if (!hatInhalt(e)) continue
     const alter = tageSeit(inhaltsStand(e), jetzt)
-    if (alter !== undefined && alter <= STREICH_TAGE) continue
+    if (alter !== undefined && alter <= grenze) continue
     for (const f of INHALTSFELDER) delete (e as Feld)[f]
     gestrichen.push(id)
   }
@@ -91,7 +91,9 @@ export function bilderAbzufragen(zuordnung: Zuordnung, bestand: Record<string, B
 /** Ob der Eintrag in `data/tmdb.json` (FSK, Anbieter) bei TMDB neu zu holen ist: fehlt, `force` oder Inhalt über 150 Tage alt. */
 export function tmdbJsonFaellig<T extends MitInhaltsstand>(vorher: T | undefined, force: boolean, jetzt: Date): boolean {
   if (force || vorher === undefined) return true
-  return hatInhalt(vorher) && istAbgelaufen(inhaltsStand(vorher), jetzt)
+  /* Ein über der Frist gestrichener Eintrag (Datum da, Inhalt weg) wird wieder geholt. */
+  if (!hatInhalt(vorher) && vorher.inhaltAm === undefined) return false
+  return istAbgelaufen(inhaltsStand(vorher), jetzt)
 }
 
 /**
@@ -101,4 +103,16 @@ export function tmdbJsonFaellig<T extends MitInhaltsstand>(vorher: T | undefined
 export function tmdbJsonEintrag<T extends MitInhaltsstand & { tmdbId?: number }>(vorher: T | undefined, neu: T, jetzt: Date): T | undefined {
   if (vorher && !neu.tmdbId) return undefined
   return hatInhalt(neu) ? { ...neu, inhaltAm: abrufTag(jetzt) } : neu
+}
+
+/**
+ * Nimmt Bilder, die auch nach den Erneuerungsversuchen älter als `FRIST_TAGE` sind (Abruf gescheitert), aus dem Bestand; die Titel gelten dann wieder
+ * als neu und werden im nächsten Lauf abgefragt. Gibt die Kennungen zurück. `null` und Einträge unter der Frist bleiben.
+ */
+export function streicheBilderUeberFrist(bestand: Record<string, Bild>, jetzt: Date): string[] {
+  const weg = Object.entries(bestand)
+    .filter(([, e]) => e !== null && (tageSeit(e.inhaltAm, jetzt) ?? Infinity) > FRIST_TAGE)
+    .map(([id]) => id)
+  for (const id of weg) delete bestand[id]
+  return weg
 }

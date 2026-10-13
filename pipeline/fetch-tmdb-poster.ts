@@ -23,7 +23,7 @@ import { passtFilm, waehlePlakat, type TmdbBild } from './lib/tmdb-plakat.ts'
 import { GRUND_DATEI, plakatEintrag, plakatSuche, type GrundBestand, type PlakatBestand } from './lib/tmdb-plakat-suche.ts'
 import { schreibeCoverListe } from './lib/cover-liste.ts'
 import { waehleStaffel, type TmdbStaffel } from './lib/tmdb-staffel.ts'
-import { bilderAbzufragen } from './lib/tmdb-ablauf.ts'
+import { bilderAbzufragen, FRIST_TAGE, streicheBilderUeberFrist } from './lib/tmdb-ablauf.ts'
 import { holeBanner } from './lib/tmdb-banner-abruf.ts'
 
 const LIMIT = Number(process.argv[process.argv.indexOf('--limit') + 1]) || Infinity
@@ -157,6 +157,7 @@ async function main(): Promise<void> {
   log(`TMDB-Plakate: ${offen.length} Titel abzufragen (${Object.keys(bestand).length} schon bekannt, ${entfernt.length} abgelaufene ohne Zuordnung entfernt)`)
   let gefunden = 0
   let fehler = 0
+  let abgerufen = 0
   for (const [id, z] of offen) {
     try {
       const bilder = await fetchJson<{ posters?: TmdbBild[] }>(
@@ -173,12 +174,14 @@ async function main(): Promise<void> {
       if (fehler > 20) break
     }
     await sleep(120)
-    if (Object.keys(bestand).length % 200 === 0) writeJson('data/tmdb-poster.json', bestand)
+    if (++abgerufen % 200 === 0) writeJson('data/tmdb-poster.json', bestand)
   }
   gefunden += await filmeSuchen(apiKey, zuordnung, bestand)
   gefunden += await staffelPlakate(apiKey, zuordnung, bestand, LIMIT)
   gefunden += await serienOhneCover(apiKey, bestand)
   gefunden += await plakatSuche(apiKey, bestand, KATALOG, 12 * 60_000)
+  const zuAlt = streicheBilderUeberFrist(bestand, new Date())
+  if (zuAlt.length) warn(`${zuAlt.length} Plakate über ${FRIST_TAGE} Tage, Erneuerung gescheitert: aus dem Bestand genommen`)
   writeJson('data/tmdb-poster.json', bestand)
   schreibeCoverListe(bestand, readJson<GrundBestand>(GRUND_DATEI, {}))
   await holeBanner(apiKey, LIMIT, ALLE)
