@@ -4,9 +4,10 @@ import { anbieterDesKanals } from '@shared/kanal-anbieter.ts'
 import { zaehleErschienen } from './antwort-regeln.ts'
 
 /**
- * Der Anbieter-Weg, dessen Bestand ein Prime-Kanal-Weg teilt. Nur mit belegtem Deutsch an beiden:
- * Bei Golden Wind liegt auf Crunchyroll nur Französisch und Japanisch (dub false), die
- * Kanal-Pille ohne Urteil (dub undefined) darf davon keine Zahl erben.
+ * Der Anbieter-Weg, dessen Bestand ein Prime-Kanal-Weg teilt. Nur mit belegtem Deutsch an beiden: Hat der
+ * Anbieter ein Ja und der Kanal kein eigenes Urteil, trägt der Bau das Ja an den Kanal (`kanalErbtVomAnbieter`),
+ * und die Zahl folgt hier dem Anbieter. Bei Golden Wind liegt auf Crunchyroll nur Französisch und Japanisch
+ * (dub false), die Kanal-Pille bleibt ohne Urteil (dub undefined) und erbt davon keine Zahl.
  */
 export function kanalQuelle(s: { platform?: string; kanal?: string; dub?: boolean }, streams: StreamLink[]): StreamLink | undefined {
   if (s.platform !== 'primevideo' || s.dub !== true) return undefined
