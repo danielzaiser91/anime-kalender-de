@@ -10,7 +10,7 @@ Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).
 | # | Datum | Reihe | Noch zu bestätigen |
 |---|---|---|---|
 | 1 | 2026-10-06 | My Hero Academia | [Vigilantes]() · [Vigilantes Staffel 2]() |
-| 2 | 2026-08-31 | Mobile Suit Gundam: Requiem for Vengeance | [Mobile Suit Gundam: Cucuruz Doan’s Island]() · [Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe](https://www.netflix.com/title/82854665) |
+| 2 | 2026-08-31 | Mobile Suit Gundam | [Cucuruz Doan’s Island]() · [Hathaway: The Sorcery of Nymph Circe](https://www.netflix.com/title/82854665) |
 | 3 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
 | 4 | 2024-12-13 | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
 | 5 | 2023-11-17 | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |

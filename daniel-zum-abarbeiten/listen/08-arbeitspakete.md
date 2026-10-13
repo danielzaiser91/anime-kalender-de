@@ -67,7 +67,7 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 25 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
 | 26 | ADN | Bleach | [The Movie - Memories of Nobody]() · [The Movie - The Diamond Dust Rebellion]() · [The Movie - Fade to Black]() · [The Movie - Hell Verse]() |
 | 27 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 28 | Netflix | Mobile Suit Gundam: Requiem for Vengeance | [Mobile Suit Gundam: Cucuruz Doan’s Island]() · [Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe](https://www.netflix.com/title/82854665) |
+| 28 | Netflix | Mobile Suit Gundam | [Cucuruz Doan’s Island]() · [Hathaway: The Sorcery of Nymph Circe](https://www.netflix.com/title/82854665) |
 | 29 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
 | 30 | Disney+ | Jujutsu Kaisen | [0]() |
 | 31 | Prime Video | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Staffel 3]() |
