@@ -15,7 +15,7 @@
 #
 # ## Zeitplan (Cloudflare-Wecker, nicht hier)
 #
-# Der Wecker startet diesen Lauf per workflow_dispatch. Eintragen (Daniel/Bestandsbau, nicht in diesem Pull Request):
+# Der Wecker startet diesen Lauf per workflow_dispatch (eingetragen 13.10.2026):
 #   shared/weckplan.ts:  { workflow: 'offizielle-news.yml', stunden: [13], abstandMin: 600 },
 #   wecker-wache.yml (PLAN):  offizielle-news.yml:30
 #   tools/wache-woechentlich.mjs (FRISTEN_STUNDEN):  'offizielle-news.yml': 36,

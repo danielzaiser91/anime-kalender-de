@@ -119,7 +119,7 @@ Oberflächenregeln, die man kennt, bevor man Text schreibt: keine Information zw
 | aniSearch | `fetch-anisearch*.ts` | wöchentlich | deutsche Titel/Beschreibung, Ausgaben, Anbieter, Folgen |
 | TMDB / JustWatch / MotN | `fetch-tmdb*.ts`, `fetch-justwatch-audio.ts`, `fetch-motn*.ts` | täglich/wöchentlich/monatlich | Anbieter, FSK, Tonspur (Netflix) |
 | Anime2You (RSS) | `scrape-anime2you.ts` | täglich | Vorschläge → `data/proposals` |
-| Offizielle Websites (News-Listen) | `fetch-offizielle-news.ts` (`data/offizielle-seiten.yaml`) | täglich (`offizielle-news.yml`, Wecker-Eintrag offen) | Vorschläge → `data/proposals/offizielle-news.json`, nie ohne Freigabe |
+| Offizielle Websites (News-Listen) | `fetch-offizielle-news.ts` (`data/offizielle-seiten.yaml`) | täglich 13 UTC (`offizielle-news.yml`, Wecker-Eintrag seit 13.10.2026) | Vorschläge → `data/proposals/offizielle-news.json`, nie ohne Freigabe |
 | TV (tv.de, plus.rtl.de), TOGGO, RTL+, Joyn(via JW) | `fetch-tv-programm.ts`, `fetch-toggo.ts`, `check-rtlplus.mjs` | stündlich/täglich | Sendungen, Fenster |
 | Kino | `fetch-cinestar.ts`, `fetch-kinoheld.ts`, `fetch-tmdb-kino.ts` | täglich | Kinostarts |
 | Wikipedia/ANN/RTL+ Folgenlisten | `fetch-wikipedia-folgen.ts`, `fetch-ann-*.ts` | wöchentlich | Folgentitel, Sprecher |

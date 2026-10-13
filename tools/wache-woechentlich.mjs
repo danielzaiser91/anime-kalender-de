@@ -30,6 +30,7 @@ const FRISTEN_STUNDEN = {
   'claude-wache-urteil.yml': 36,
   'anisearch-katalog.yml': 48,
   'ladezeiten.yml': 36,
+  'offizielle-news.yml': 36,
   'refresh-weekly.yml': 216,
   // Wie `motn` in check-sources.ts: ein Kontingentzyklus plus zwei Tage.
   'tonspuren-monatlich.yml': 792,
