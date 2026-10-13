@@ -4,10 +4,11 @@
  * dass ohne Katalog-Datei der Katalogpfad nicht mitläuft.
  */
 import assert from 'node:assert/strict'
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { BAU_UMGEBUNG, ablageName, einstellungsZeilen, liesOptionen, umgebungsMarke } from './bau-vergleich-ablage.mjs'
+import { BAU_UMGEBUNG, ablageName, einstellungsZeilen, hauptordnerAus, liesOptionen, umgebungsMarke } from './bau-vergleich-ablage.mjs'
 
 const ordner = mkdtempSync(path.join(tmpdir(), 'bau-vergleich-ablage-'))
 try {
@@ -50,6 +51,14 @@ try {
   assert.throws(() => liesOptionen(['--katalog'], {}, ordner), /Katalog-Datei fehlt/)
   assert.throws(() => liesOptionen(['--katalog=nirgends.json'], {}, ordner), /fehlt/)
 
+  // Hauptordner: im Worktree zeigt `--git-common-dir` absolut auf `<Hauptordner>/.git`, im Hauptordner relativ auf `.git`.
+  const haupt = path.join(ordner, 'haupt')
+  assert.equal(hauptordnerAus(`${haupt.replaceAll('\\', '/')}/.git`, path.join(ordner, 'worktree')), haupt)
+  assert.equal(hauptordnerAus('.git', haupt), haupt)
+  // Der echte Aufruf liefert in jedem Checkout einen Ordner mit `.git` (Hauptordner oder Worktree).
+  const echt = execFileSync('git', ['-C', import.meta.dirname, 'rev-parse', '--git-common-dir'], { encoding: 'utf8' }).trim()
+  assert.ok(existsSync(path.join(hauptordnerAus(echt, import.meta.dirname), '.git')))
+
   // Ohne Katalog steht der Hinweis im Ergebnis, mit Katalog nicht.
   assert.ok(einstellungsZeilen(undefined, {}).some((z) => z.startsWith('HINWEIS')))
   assert.ok(!einstellungsZeilen(katalogA, {}).some((z) => z.startsWith('HINWEIS')))
@@ -59,6 +68,7 @@ try {
   const werkzeug = readFileSync(new URL('./bau-vergleich.mjs', import.meta.url), 'utf8')
   assert.match(werkzeug, /ablageName\(sha, basisSha, KATALOG_CACHE, process\.env\)/)
   assert.ok(!werkzeug.includes('KATALOG_MARKE'))
+  assert.match(werkzeug, /hauptordnerAus\(git\('rev-parse', '--git-common-dir'\), WURZEL\)/)
   console.log('bau-vergleich-ablage.test: ok')
 } finally {
   rmSync(ordner, { recursive: true, force: true })
