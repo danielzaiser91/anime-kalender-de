@@ -3,6 +3,7 @@ import { type WatchLink, type StreamLink, type Title } from '../../shared/types.
 import { providerName, stripAffiliate } from '../../shared/mappings.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { plattformVon } from '../lib/cartoons.ts'
+import { setzeTelekomAnnahme } from '../lib/telekom-annahme.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 
 export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen }: {
@@ -374,11 +375,7 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
         w.ueberTmdb = true
         datenbankWege++
       }
-      for (const w of title.watchLinks) {
-        if (w.name !== 'Videoload' || w.dubRanges?.length) continue
-        w.dubRanges = [{ from: 1, to: title.format === 'MOVIE' ? 1 : Math.max(1, title.episodes ?? 1), dub: true }]
-        videoloadDeutsch++
-      }
+      videoloadDeutsch += setzeTelekomAnnahme(title)
     }
   }
   if (videoloadDirekt) log(`${videoloadDirekt} Videoload-Wege über die MagentaTV-Kennung direkt verlinkt`)
