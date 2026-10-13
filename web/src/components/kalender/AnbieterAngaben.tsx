@@ -1,9 +1,7 @@
-import { PLATFORMS, type ReleaseEvent } from '@shared/types.ts'
+import { PLATFORMS } from '@shared/types.ts'
 import { folgeGemeinsam, zeitGemeinsam, zeitText, type AnbieterKachel } from '../../lib/anbieter-kachel.ts'
 import type { Translate } from '../../lib/i18n.tsx'
-import { anbieterUndFolge, nurFolge } from './Marken.tsx'
-
-const weitereFolgen = (buendel: ReleaseEvent[], t: Translate): string => (buendel.length > 1 ? t('kal.buendelStream', { n: buendel.length - 1 }) : '')
+import { anbieterUndFolge, nurFolge, weitereFolgen } from './Marken.tsx'
 
 /**
  * Die Angaben unter dem Titel, wenn ein Titel am selben Tag bei mehreren Anbietern erscheint. Was für alle gleich ist, steht
@@ -14,7 +12,7 @@ const weitereFolgen = (buendel: ReleaseEvent[], t: Translate): string => (buende
 export function AnbieterAngaben({ kachel, t }: { kachel: AnbieterKachel; t: Translate }) {
   const folgeEinmal = folgeGemeinsam(kachel)
   const zeitEinmal = zeitGemeinsam(kachel)
-  const folge = [nurFolge(kachel[0]![0]!, t), weitereFolgen(kachel[0]!, t)].filter(Boolean).join(' · ')
+  const folge = [nurFolge(kachel[0]![0]!, t), weitereFolgen(kachel[0], t)].filter(Boolean).join(' · ')
   if (folgeEinmal && zeitEinmal) {
     const namen = kachel.map((b) => PLATFORMS[b[0]!.platform].name).join(', ')
     return <span>{`${namen}${folge ? ` · ${folge}` : ''}`}</span>

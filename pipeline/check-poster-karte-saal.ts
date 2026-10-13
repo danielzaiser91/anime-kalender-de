@@ -21,9 +21,9 @@ const termin = (id: string, platform: 'kino' | 'netflix', time: string): Release
   ({ id, releaseSlug: 'film-x', titleId: 1, name: 'Film X', date: '2026-10-20', time, releaseType: 'movie', platform }) as ReleaseEvent
 
 function unterzeile(kachel: ReleaseEvent[], anbieter?: Parameters<typeof Unterzeile>[0]['anbieter']): string {
-  const [event, ...weitere] = kachel
+  const [event] = kachel
   const saal = istKinoSaal(event!, undefined, !!anbieter)
-  const props = { event: event!, weitere: weitere.length, anbieter, favorite: false, hidden: false, onOpen: () => {}, saal }
+  const props = { event: event!, buendel: kachel, anbieter, favorite: false, hidden: false, onOpen: () => {}, saal }
   return renderToStaticMarkup(Unterzeile(props))
 }
 

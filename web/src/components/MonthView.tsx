@@ -7,6 +7,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { useAbSm } from '../lib/use-breit.ts'
 import { coverBild } from '../lib/cover.ts'
 import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
+import { ART_STIL } from '../lib/kachel-folgen.ts'
 import { tageDerWoche, type Tag } from './WeekView.tsx'
 import { buendeleKacheln } from '../lib/buendel.ts'
 import { anbieterVerlauf, eigenstaendigBeiAnbietern, vereineAnbieter, zeitGemeinsam, type AnbieterKachel } from '../lib/anbieter-kachel.ts'
@@ -203,7 +204,7 @@ function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, p: M
     const a = artKachel(ev, p)
     const koepfe = (p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => b[0]!)
     const anbieter = koepfe.map((k) => (k.platform === 'tv' ? (k.sender ?? PLATFORMS.tv.name) : PLATFORMS[k.platform].name)).join(' + ')
-    return `${ev.name} (${a ? `${anbieter}, ${t(a === 'start' ? 'kal.start' : 'kal.finale')}` : anbieter})`
+    return `${ev.name} (${a ? `${anbieter}, ${t(ART_STIL[a].name)}` : anbieter})`
   })
   const rest = stream.length - titel.length
   const teile = [...titel, ...(rest > 0 ? [t('kal.undWeitere', { n: rest })] : []), ...(tvZahl ? [t('kal.imTvZahl', { n: tvZahl })] : [])]
@@ -245,7 +246,7 @@ function CoverKnopf({ ev, p }: { ev: ReleaseEvent; p: MonatProps }) {
         aria-label={`${ev.name} — ${(p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => anbieterUndFolge(b[0]!, t)).join('; ')}`}
         className={[
           'relative block h-8 w-[22px] shrink-0 cursor-pointer overflow-hidden rounded-[5px] bg-ak-flaeche-2 transition hover:scale-105 sm:h-14 sm:w-[38px] sm:rounded-md',
-          a === 'start' ? 'ring-2 ring-ak-akzent' : a === 'finale' ? 'ring-2 ring-ak-finale' : '',
+          a ? `ring-2 ${ART_STIL[a].ring}` : '',
         ].join(' ')}
       >
         {cover && <img {...coverBild(cover, 38)} alt="" loading="lazy" className="size-full object-cover" />}
@@ -333,8 +334,8 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
           {(!kachel || zeitGemeinsam(kachel)) && <ZeitMarke event={ev} t={t} />}
           <SpracheMarke event={ev} t={t} />
           {a && (
-            <span className={`rounded-full px-1.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14] ${a === 'start' ? 'bg-ak-akzent' : 'bg-ak-finale'}`}>
-              {t(a === 'start' ? 'kal.start' : 'kal.finale')}
+            <span className={`rounded-full px-1.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14] ${ART_STIL[a].fahne}`}>
+              {t(ART_STIL[a].name)}
             </span>
           )}
           {ev.premiere && <PremiereMarke platform={ev.platform} vorher={ev.premiereVorher} className="px-1.5" />}

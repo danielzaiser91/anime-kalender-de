@@ -40,6 +40,11 @@ export function anbieterUndFolge(event: ReleaseEvent, t: Translate, bis?: number
   return `${anbieter} · ${gesamt ? t('kal.folgeVon', { n: event.episode, von: von! }) : t('kal.folge', { n: event.episode })}`
 }
 
+/** „+2 Folgen" für ein Bündel; leer, wenn der Tag nur einen Termin hat. */
+export function weitereFolgen(buendel: ReleaseEvent[] | undefined, t: Translate): string {
+  return buendel && buendel.length > 1 ? t('kal.buendelStream', { n: buendel.length - 1 }) : ''
+}
+
 /** „Folge 15/≈24" ohne den Anbieter davor. */
 export const nurFolge = (event: ReleaseEvent, t: Translate): string => anbieterUndFolge(event, t).slice(PLATFORMS[event.platform].name.length + 3)
 

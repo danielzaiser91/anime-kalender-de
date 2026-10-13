@@ -9,7 +9,8 @@ import { useZielTag } from '../lib/ziel-tag.ts'
 import { buendeleKacheln } from '../lib/buendel.ts'
 import { eigenstaendigBeiAnbietern, vereineAnbieter } from '../lib/anbieter-kachel.ts'
 import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
-import { PosterKarte, type KartenArt } from './kalender/PosterKarte.tsx'
+import { PosterKarte } from './kalender/PosterKarte.tsx'
+import type { KartenArt } from '../lib/kachel-folgen.ts'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { ZweitanbieterZeilen } from './kalender/ZweitanbieterZeilen.tsx'
 import { anbieterUndFolge, zaehlung } from './kalender/Marken.tsx'
@@ -212,7 +213,7 @@ function PosterRaster({
             event={ev}
             title={p.data.titleById.get(ev.titleId)}
             art={kachel.map((b) => art(b[0]!)).find(Boolean)}
-            weitere={weitere.length}
+            buendel={kachel[0]}
             anbieter={kachel.length > 1 ? kachel : undefined}
             favorite={p.favorites.has(ev.titleId)}
             hidden={p.hidden.has(ev.titleId)}
