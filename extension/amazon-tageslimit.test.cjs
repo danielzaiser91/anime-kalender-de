@@ -150,7 +150,7 @@ async function lade({ limit, ende }) {
   return { alle, k: sandkasten, takt: () => sandkasten.takte.forEach((fn) => fn()) }
 }
 
-const pille = (alle) => alle.find((e) => /Titel \d+\/\d+/.test(e.textContent))
+const pille = (alle) => alle.find((e) => /^[⏸⏹] \d+\/\d+$/.test(e.textContent))
 const liste = (alle) => alle.find((e) => e.className === 'ak-dialog')
 
 async function haupt() {
@@ -158,14 +158,14 @@ async function haupt() {
 
   {
     const { alle } = await lade({})
-    pruefe('ohne Pause: die Pille zeigt wie bisher „⏹ Titel 2/2 · 344 Seiten gemeldet"', pille(alle)?.textContent === '⏹ Titel 2/2 · 344 Seiten gemeldet', pille(alle)?.textContent)
+    pruefe('ohne Pause: die Pille zeigt kurz „⏹ 2/2", die Zahlen stehen im Tooltip', pille(alle)?.textContent === '⏹ 2/2' && pille(alle)?.title.startsWith('Titel 2/2 · 344 Seiten gemeldet'), [pille(alle)?.textContent, pille(alle)?.title])
   }
   for (const [name, limit, erwartet] of [
-    ['Tageslimit', [3600], /^⏸ Tageslimit erreicht, weiter ab \d\d:\d\d · Titel 2\/2 · 344 Seiten gemeldet$/],
-    ['Serverfehler', [1800, 'server'], /^⏸ Server antwortet nicht, nächster Versuch \d\d:\d\d · Titel 2\/2 · 344 Seiten gemeldet$/],
+    ['Tageslimit', [3600], /^Tageslimit erreicht, weiter ab \d\d:\d\d · Titel 2\/2 · 344 Seiten gemeldet\./],
+    ['Serverfehler', [1800, 'server'], /^Server antwortet nicht, nächster Versuch \d\d:\d\d · Titel 2\/2 · 344 Seiten gemeldet\./],
   ]) {
     const { alle } = await lade({ limit })
-    pruefe(`${name}: die Pille nennt den Grund`, erwartet.test(pille(alle)?.textContent ?? ''), pille(alle)?.textContent)
+    pruefe(`${name}: die Pille bleibt kurz (⏸ 2/2), der Grund steht im Tooltip`, pille(alle)?.textContent === '⏸ 2/2' && erwartet.test(pille(alle)?.title ?? ''), [pille(alle)?.textContent, pille(alle)?.title])
     pille(alle)?.hoerer.click?.()
     const kopf = liste(alle) ? texte(liste(alle)) : []
     pruefe(`${name}: der Listenkopf nennt den Grund`, kopf.some((t) => /^(Tageslimit erreicht, weiter ab|Server antwortet nicht, nächster Versuch) \d\d:\d\d$/.test(t)), kopf)

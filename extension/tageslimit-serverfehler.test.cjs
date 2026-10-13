@@ -73,7 +73,6 @@ async function einFrame() {
     pruefe('Netflix-Weg: der Durchgang hält an', durchlauf.abbruch === true)
     const plan = ['b']
     pruefe('Prime-Weg: die Staffel geht zurück in den Plan', k.AK_TAGESLIMIT.zurueckstellen(plan, 'a') === true && plan.join() === 'a,b', plan)
-    pruefe('Prime-Pille: der Vorspann nennt den Grund', k.AK_TAGESLIMIT.vorspann() === `⏸ ${k.AK_TAGESLIMIT.text()} ·`, k.AK_TAGESLIMIT.vorspann())
   }
   {
     const k = frame(null, [500, 500, 500], 'www.amazon.de')

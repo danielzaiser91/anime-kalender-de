@@ -5779,8 +5779,10 @@ async function speicherSchreiben(werte) {
       */
       const gesamt = Math.max(lauf.titelGesamt ?? 0, lauf.fertig.length + (lauf.titel ? 1 : 0))
       const nr = Math.min(lauf.fertig.length + 1, gesamt)
-      setz(uebersichtKnopf, 'textContent', `${globalThis.AK_TAGESLIMIT?.vorspann() ?? '⏹'} Titel ${nr}/${gesamt} · ${lauf.seiten ?? 0} Seiten gemeldet`)
-      setz(uebersichtKnopf, 'title', 'Liste öffnen — dort lässt sich der Durchgang beenden')
+      /* Kurz, damit die Pille ihre Breite hält (13.10.2026); Grund der Pause und Zahlen stehen im Tooltip, der Grund auch im Listenkopf. */
+      const grundPause = globalThis.AK_TAGESLIMIT?.text()
+      setz(uebersichtKnopf, 'textContent', `${grundPause ? '⏸' : '⏹'} ${nr}/${gesamt}`)
+      setz(uebersichtKnopf, 'title', `${grundPause ? `${grundPause} · ` : ''}Titel ${nr}/${gesamt} · ${lauf.seiten ?? 0} Seiten gemeldet. Liste öffnen — dort lässt sich der Durchgang beenden`)
       void standPruefen()
       if (dialog) dialogFuellen()
       return

@@ -39,12 +39,6 @@
     return PRIME ? `Server antwortet nicht, nächster Versuch ${uhr}` : `Server antwortet nicht, Durchgang ab ${uhr} neu starten`
   }
 
-  /** Prime-Pille: statt „⏹" der Grund der Pause voran, sonst `null`. */
-  function vorspann() {
-    const grundText = text()
-    return grundText ? `⏸ ${grundText} ·` : null
-  }
-
   /** Prime-Liste: der Grund der Pause als Zeile im Kopf (`eltern`), nur solange sie gilt. */
   function hinweisAnhaengen(eltern) {
     const grundText = text()
@@ -169,5 +163,5 @@
     /* Außerhalb der Erweiterung (Sandkasten-Test) gibt es keinen Speicher. */
   }
 
-  globalThis.AK_TAGESLIMIT = { aktiv, text, grund, vorspann, hinweisAnhaengen, merken, fehlgeschlagen, zurueckstellen }
+  globalThis.AK_TAGESLIMIT = { aktiv, text, grund, hinweisAnhaengen, merken, fehlgeschlagen, zurueckstellen }
 })()
