@@ -9,7 +9,7 @@
 import type { Release, Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { loadDubChecks } from './dub-confirmed.ts'
-import { readJson } from './util.ts'
+import { dubsNachTitel } from './anisearch-marke.ts'
 
 export interface GeplantQuelle {
   /** Titel, deren Deutsch bei aniSearch „Geplant“ ist (`p` in `data/anisearch-dubs.json`). */
@@ -19,9 +19,8 @@ export interface GeplantQuelle {
 }
 
 export function ladeGeplantQuelle(): GeplantQuelle {
-  const dubs = readJson<Record<string, string>>('data/anisearch-dubs.json', {})
   return {
-    geplant: new Set(Object.entries(dubs).filter(([, k]) => k === 'p').map(([id]) => Number(id))),
+    geplant: new Set(Object.entries(dubsNachTitel()).filter(([, k]) => k === 'p').map(([id]) => Number(id))),
     handbelegt: new Set(loadDubChecks().filter((c) => c.dub === true && !c.nichtImBestand).map((c) => c.anilistId)),
   }
 }

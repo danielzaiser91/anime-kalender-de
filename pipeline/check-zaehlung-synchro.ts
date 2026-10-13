@@ -1,7 +1,7 @@
 /**
  * Zusicherung zur Datenbank-Kopfzeile (Daniel, 11.10.2026): „· N mit 🇩🇪" ist mit und ohne den Schalter
  * „Anime ohne deutsche Synchro" dieselbe Zahl — Titel mit `os` (Bau) und mit `ohneSynchro` (ohne-synchro.json) zählen nie mit.
- * Misst gegen die echten Dateien in public/data. Aufruf: `npm run check:logic`.
+ * Misst gegen die echten Dateien in public/data. Läuft in `check:bestand` (`tools/check-bestand-liste.txt`), nicht in `check:logic`.
  */
 import { readFileSync } from 'node:fs'
 import { titelQuelle } from '../web/src/lib/titel-quelle.ts'

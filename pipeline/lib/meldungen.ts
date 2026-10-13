@@ -27,6 +27,7 @@
  */
 import type { Meldung, Quelle, Release, ReleaseType, Title } from '../../shared/types.ts'
 import { quelleAnzeigeName } from '../../shared/quelle.ts'
+import { nachJahrUndId } from '../../shared/titles.ts'
 import type { Verschiebung } from './disc-verschiebungen.ts'
 import type { SammelEintrag } from './sammelartikel.ts'
 import { folgenzahlUeberWerk } from './pruefung.ts'
@@ -49,6 +50,8 @@ export interface Vorschlag {
   alreadyCurated?: boolean
   /** Aus einem Sammelartikel (`lib/sammelartikel.ts`): alle Folgen an einem Tag … */
   folgen?: number
+  /** … oder nur die Folgen 1 bis N auf Deutsch, im Angebot spätestens am Tag der Meldung (`SammelEintrag.erste`). */
+  ersteFolgen?: number
   /** … oder ein wöchentlicher Simulcast. */
   woechentlich?: boolean
   /** Der Prime-Zusatzkanal, den der Artikel nennt (z. B. Aniverse). */
@@ -136,7 +139,7 @@ export function findeTitel(artikelTitel: string, titel: Title[]): Treffer | unde
     const kandidaten = alle.filter(([n]) => n.startsWith(k)).map(([, t]) => t)
     if (kandidaten.length) {
       return {
-        titel: kandidaten.sort((a, b) => (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id)[0],
+        titel: kandidaten.sort(nachJahrUndId)[0],
         genau: false,
       }
     }
@@ -230,7 +233,7 @@ function reihenTeil(basis: Title, alle: Title[], text: string): Title | undefine
      * Special, weil das 2023 zwischen S1 und S2 erschien.
      */
     .filter((t) => (teil.art === 'film' ? t.format === 'MOVIE' : t.format === 'TV'))
-    .sort((a, b) => (a.jpYear ?? 9999) - (b.jpYear ?? 9999) || a.id - b.id)
+    .sort(nachJahrUndId)
 
   // „Erste Staffel" bei einer Reihe, die wir gar nicht als Reihe kennen, ist
   // trotzdem eindeutig — sie meint den Titel selbst.
@@ -474,10 +477,11 @@ export function releasesAus(
  * **Ein Crunchyroll-Kanal auf Prime führt den Wochenplan von Crunchyroll** (Daniel, 11.10.2026, „Reborn as a Space Mercenary":
  * Prime „1 Fg.", Crunchyroll „2 Fg."). Die Meldung nennt weder Folgenzahl noch Uhrzeit, und ein Wochentermin ohne Folgenzahl
  * erzeugt nur eine Folge (`expandEvents`). Beides kommt deshalb vom Crunchyroll-Termin desselben Titels mit gleichem Starttag;
- * der Starttag bleibt der der Meldung. Gleiche Regel wie im Panel für Wege (`web/…/prime-kanal.ts`).
+ * der Starttag bleibt der der Meldung. Gleiche Regel wie im Panel für Wege (`web/…/prime-kanal.ts`). Auch die geschätzte Folgenzahl, die `releasesAus`
+ * aus AniList einsetzt, weicht der von Crunchyroll (Reborn: 13 geschätzt gegen die Zahl von Crunchyroll; die Regel griff vorher nie, 13.10.2026).
  */
 function mitPlanDesKanalAnbieters(r: Release, vorhanden: Release[]): Release {
-  if (r.platform !== 'primevideo' || r.kanal?.toLowerCase() !== 'crunchyroll' || r.releaseType !== 'weekly' || r.schedule.episodeCount) return r
+  if (r.platform !== 'primevideo' || r.kanal?.toLowerCase() !== 'crunchyroll' || r.releaseType !== 'weekly' || (r.schedule.episodeCount && !r.schedule.episodeCountAssumed)) return r
   const cr = vorhanden.find(
     (x) => x.titleId === r.titleId && x.platform === 'crunchyroll' && x.releaseType === 'weekly' && x.schedule.episodeCount && x.schedule.firstEpisodeDate === r.schedule.firstEpisodeDate,
   )
@@ -489,8 +493,8 @@ function mitPlanDesKanalAnbieters(r: Release, vorhanden: Release[]): Release {
       ...r.schedule,
       ...(time ? { time } : {}),
       episodeCount,
-      ...(episodeCountAssumed ? { episodeCountAssumed } : {}),
-      ...(episodeCountSource ? { episodeCountSource } : {}),
+      episodeCountAssumed: episodeCountAssumed || undefined,
+      episodeCountSource: episodeCountSource || undefined,
     },
   }
 }
@@ -512,12 +516,19 @@ function zeitplanGeschaetzt(plan: Pick<Release, 'releaseType' | 'schedule' | 'da
  * Netflix-Eigenproduktion ohne Fernsehausstrahlung ist (ONA bei Netflix: „Fool Night“ kommt am 26.11.2026 komplett).
  */
 export function zeitplanAusVorschlag(
-  v: Pick<Vorschlag, 'folgen' | 'woechentlich'> & Partial<Pick<Vorschlag, 'articleTitle' | 'dates'>>,
+  v: Pick<Vorschlag, 'folgen' | 'woechentlich'> & Partial<Pick<Vorschlag, 'articleTitle' | 'dates' | 'ersteFolgen'>>,
   art: ReleaseType,
   tag: string,
   treffer: Pick<Title, 'episodes' | 'jpYear'> & Partial<Pick<Title, 'format'>>,
   platform?: string,
 ): Pick<Release, 'releaseType' | 'schedule' | 'dateMeaning'> {
+  /* Nur die ersten N Folgen: „im Angebot seit“ dem Meldetag, kein Wochentakt, keine Uhrzeit; die übrigen Folgen sind offen, nicht „alle“. */
+  if (art === 'batch' && v.ersteFolgen)
+    return {
+      releaseType: 'batch',
+      dateMeaning: 'available-from',
+      schedule: { firstEpisodeDate: tag, episodeCount: v.ersteFolgen },
+    }
   if (art === 'batch' && !v.folgen && (v.woechentlich ?? wochenstartOhneAngabe(v, tag, treffer, platform)))
     return {
       releaseType: 'weekly',

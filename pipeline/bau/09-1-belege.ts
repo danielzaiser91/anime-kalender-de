@@ -6,6 +6,7 @@ import { adressKern, adressGleich, loadDubChecks, type DubCheck, dubKey } from '
 import { providerToPlatform } from './titel-hilfen.ts'
 import { ergaenzeVerweiseVonHand } from '../lib/verweise-von-hand.ts'
 import { kanalAusNotiz } from '../lib/amazon-adresse.ts'
+import { belegOhneGenaueAdresse } from '../lib/kanal-titel.ts'
 import { crNamensindexAusDatei, crAdresseZu as crAdresseNachName } from '../lib/cr-katalog-adresse.ts'
 import { type TmdbTitelEintrag } from './01-quellen.ts'
 import { todayIso } from '../../shared/time.ts'
@@ -16,8 +17,9 @@ import { deutschGeplantLautAnisearch } from './ohne-beleg.ts'
  * Ein Termin, der noch aussteht, ist kein Beleg für eine Synchro von heute: geschätzt ist er der Untertitel-Start, und wo aniSearch Deutsch als „Geplant“ führt,
  * ist er der Start der Synchro (Reincarnated as a Dragon Hatchling: ADN zeigt bis zum 22.10.2026 nur Untertitel).
  */
-function terminBelegtNichts(release: Release, heute: string): boolean {
+export function terminBelegtNichts(release: Release, heute: string): boolean {
   if (release.titleId < 0) return true
+  if (release.sprache) return true // omu/offen: der Termin belegt keine Synchro (Super Beerus, Netflix, 13.10.2026)
   const kommt = release.schedule.firstEpisodeDate > heute
   return kommt && (Boolean(release.schedule.estimated) || deutschGeplantLautAnisearch(release.titleId))
 }
@@ -349,7 +351,7 @@ export function sammleBelege({
       zwei Ausgaben, und ein Beleg für die eine sagt nichts über die andere. Das
       ist der Date-a-Live-Fall vom 07.09.2026.
     */
-    return anzahlWege > 1 ? undefined : liste[0]
+    return belegOhneGenaueAdresse(liste, anzahlWege, alleChecks, titleId, url)
   }
   /* Rückwärtsverträglich für die Stellen, die keine Adresse zur Hand haben. */
   /**

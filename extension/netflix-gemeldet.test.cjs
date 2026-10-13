@@ -42,6 +42,8 @@ function macheElement(tag) {
     },
     appendChild(k) { this.kinder.push(k); return k },
     append(...k) { this.kinder.push(...k) },
+    insertBefore(k) { this.kinder.unshift(k); return k },
+    after() {},
     /*
       `contains` ist der Griff, mit dem `uebersichtZeigen()` seit dem 06.09.2026
       fragt, ob sein Knopf noch im Dokument hängt. Fehlt er hier, wirft der
@@ -210,7 +212,7 @@ function ladeSeite(pfad, liste, suchteil, speicher) {
   const { umgebung, body, takte } = baueUmgebung(pfad, suchteil, speicher)
   const kontext = vm.createContext(umgebung)
   umgebung.__kontext = kontext
-  for (const datei of ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'melder.js']) {
+  for (const datei of ['box.js', 'offene-netflix.js', 'pruefstand-zeit.js', 'disney-netz.js', 'netflix-gemeldet.js', 'netflix-durchgang-schutz.js', 'netflix-uebernahme.js', 'netflix-randvoll.js', 'melder.js']) {
     vm.runInContext(readFileSync(__dirname + '/' + datei, 'utf8'), kontext, { filename: datei })
   }
   return { umgebung, body, takte }
@@ -362,12 +364,151 @@ async function fehlerFaelle() {
 
 }
 
+/**
+ * **Uneinheitliche Randprobe (4.30.0, 12.10.2026, Netflix 80174608): Folge 1 deutsch, Folge 9 an nicht.**
+ *
+ * Im Sammeldurchgang („▶ alle durchgehen") wartet niemand auf das Grenzfeld. Der nächste Anlauf desselben
+ * Titels misst deshalb alle 15 Folgen einzeln; von Hand gestartet bleibt es beim Hinweis. Die Player-Seite
+ * wird nachgestellt: `gehe('/watch/<id>')` setzt die Tonspuren der Folge.
+ */
+function gemischtStellen(s) {
+  s.posts = []
+  const echt = s.env.fetch
+  s.env.fetch = async (url, opt) => {
+    if (opt?.method === 'POST') s.posts.push(JSON.parse(opt.body))
+    return echt(url, opt)
+  }
+  s.env.history = {
+    pushState(_a, _b, pfad) {
+      const id = /\/watch\/(\d+)/.exec(String(pfad))?.[1]
+      if (!id) return
+      const deutsch = Number(id) - 82719208 < 9
+      const spuren = deutsch ? [{ code: 'de', name: 'Deutsch' }, { code: 'ja', name: 'Japanisch' }] : [{ code: 'ja', name: 'Japanisch' }]
+      s.run(`stand.spuren = ${JSON.stringify(spuren)}`)
+    },
+  }
+}
+
+/** Sammeldurchgang so weit nachgestellt, dass `selbstStartenSchritt()` diese Seite aufnimmt. */
+function sammelnStellen(s) {
+  s.run(`selbstAn = true; selbstGesammelt.add('${REIHE}'); DURCHLAUF.listeFuer = '${REIHE}'`)
+  s.run(`offeneTitel['${REIHE}'] = { titel: 'Test', staffeln: [{ seq: 1, offen: true }] }`)
+}
+
+/** Alle Meldungen des Laufs als Einzel- oder Stapelmeldung: Folgennummer → `true`, wenn Deutsch dabei war. */
+const gemeldeteSprachen = (s) =>
+  new Map(
+    s.posts
+      .flatMap((b) => b.stapel ?? [b])
+      .map((d) => [Number(d.folge_nr ?? d.rohfolgen?.[0]?.nummer), (d.sprachen ?? []).some((x) => x.startsWith('de|'))]),
+  )
+
+async function randvollFaelle() {
+  /* 10. Sammeldurchgang: gemischte Randprobe → kein Warten auf das Feld, der nächste Anlauf misst alle 15. */
+  const a = await seite()
+  gemischtStellen(a)
+  sammelnStellen(a)
+  await a.run('selbstStartenSchritt()')
+  await a.warte()
+  const gemeldet = gemeldeteSprachen(a)
+  pruefe('Sammeldurchgang: alle 15 Folgen liegen im Briefkasten', a.briefkasten.length === 15, a.briefkasten.length)
+  const groessen = a.posts.map((b) => b.stapel?.length ?? 0)
+  pruefe('… in zwei Stapel-POSTs gesendet (8 mit Deutsch, 7 ohne), nicht 15 einzeln', groessen.length === 2 && groessen.includes(8) && groessen.includes(7), groessen)
+  const notizen = a.posts.flatMap((b) => b.stapel ?? []).map((d) => d.notiz)
+  pruefe('… alle als gemessen, keine Annahme in der Notiz', notizen.length === 15 && notizen.every((n) => /^Gemessen im vollen Lauf/.test(n) && !/ANGENOMMEN/.test(n)), notizen.slice(0, 2))
+  pruefe('… Folge 1–8 mit Deutsch, Folge 9–15 ohne', [...gemeldet].every(([nr, de]) => de === nr <= 8) && gemeldet.size === 15, [...gemeldet])
+  pruefe('… kein Grenzfeld offen', a.run('DURCHLAUF.randOffen') === null, a.run('DURCHLAUF.randOffen'))
+  pruefe('… der Merker ist verbraucht', a.run('DURCHLAUF.vollLauf') === null, a.run('DURCHLAUF.vollLauf'))
+
+  /* 11. Von Hand gestartet: es bleibt beim Hinweis, nichts wird gemeldet, nichts läuft von allein weiter. */
+  const b = await seite()
+  gemischtStellen(b)
+  await b.run('durchlaufStarten()')
+  await b.warte()
+  pruefe('Einzeltitel: nichts gemeldet', b.briefkasten.length === 0 && b.posts.length === 0, b.posts.length)
+  pruefe('… das Grenzfeld wartet auf Daniel (`randOffen`)', Boolean(b.run('DURCHLAUF.randOffen')), b.run('DURCHLAUF.randOffen'))
+  pruefe('… kein Merker für einen vollen Lauf', !b.run('DURCHLAUF.vollLauf'), b.run('DURCHLAUF.vollLauf'))
+
+  /* 12. Der echte Limit-Pfad: `tageslimit.js` liest die 429 des Workers, `AK_TAGESLIMIT.fehlgeschlagen` setzt `abbruch`. */
+  const c = await seite()
+  gemischtStellen(c)
+  sammelnStellen(c)
+  const echtC = c.env.fetch
+  c.env.fetch = async (url, opt) => {
+    if (opt?.method !== 'POST') return echtC(url, opt)
+    c.posts.push(JSON.parse(opt.body))
+    const inhalt = { tageslimit: true, retryAfter: 3600 }
+    return { ok: false, status: 429, clone: () => ({ json: async () => inhalt }), json: async () => inhalt }
+  }
+  vm.runInContext(readFileSync(__dirname + '/tageslimit.js', 'utf8'), c.env.__kontext, { filename: 'tageslimit.js' })
+  await c.run('selbstStartenSchritt()')
+  await c.warte()
+  pruefe('Tageslimit (429 des Workers): nur der erste Stapel geht raus, die zweite Gruppe entfällt', c.posts.length === 1, c.posts.length)
+  pruefe('… das Limit ist erkannt (`AK_TAGESLIMIT.aktiv`)', c.run('AK_TAGESLIMIT.aktiv()') === true)
+  pruefe('… nichts im Briefkasten, nichts als gemeldet vermerkt', c.briefkasten.length === 0 && c.run('DURCHLAUF.gemeldet.size') === 0, c.briefkasten.length)
+
+  /* 13. Stoppt Daniel zwischen Lauf 1 und Lauf 2, bleibt kein Merker für einen vollen Lauf stehen. */
+  const d = await seite()
+  gemischtStellen(d)
+  d.run('selbstAn = true; DURCHLAUF.selbst = true; DURCHLAUF.erzwungen = true')
+  await d.run('durchlaufStarten()')
+  pruefe('(Vorbereitung) nach Lauf 1 wartet der Merker auf Lauf 2', d.run('DURCHLAUF.vollLauf') === REIHE, d.run('DURCHLAUF.vollLauf'))
+  d.run("laufBeenden('von Hand')")
+  pruefe('Stopp von Hand löscht den Merker', d.run('DURCHLAUF.vollLauf') === null, d.run('DURCHLAUF.vollLauf'))
+}
+
+/**
+ * **Randprobe über 15 Folgen (4.30.2): die zwei Randfolgen gehen als gemessen raus, nur die dazwischen als Annahme.**
+ *
+ * Bis 4.30.1 trug jede Folge die Notiz „ANGENOMMEN aus Randprobe"; `fetch-urteile.ts` machte daraus auch für
+ * E1 und E15 eine Annahme. Jetzt sagt das die `art` der Meldung (und der Rohfolge), die Notiz der Randfolgen
+ * trägt das Wort nicht. Und die Stapel (10 + 5) gehen nacheinander raus: bei einer 429 kommt der zweite nicht mehr an.
+ */
+async function annahmeFaelle() {
+  const s = await seite()
+  s.posts = []
+  const echt = s.env.fetch
+  s.env.fetch = async (url, opt) => {
+    if (opt?.method === 'POST') s.posts.push(JSON.parse(opt.body))
+    return echt(url, opt)
+  }
+  await s.run('durchlaufStarten()')
+  await s.warte()
+  const meldungen = s.posts.flatMap((b) => b.stapel ?? [b])
+  const je = (nr) => meldungen.find((d) => d.folge_nr === nr)
+  const randfolgen = [1, 15].map(je)
+  const dazwischen = meldungen.filter((d) => d.folge_nr > 1 && d.folge_nr < 15)
+  pruefe('Randprobe: 15 Meldungen in zwei Stapeln (10 + 5)', meldungen.length === 15 && s.posts.map((b) => b.stapel.length).join() === '10,5', s.posts.map((b) => b.stapel?.length))
+  pruefe('… E1 und E15 gehen als gemessen raus', randfolgen.every((d) => d.art === 'gemessen'), randfolgen.map((d) => d?.art))
+  pruefe('… ihre Notiz trägt nicht das Wort ANGENOMMEN, nennt aber die Randprobe', randfolgen.every((d) => !/ANGENOMMEN/.test(d.notiz) && /^Gemessen in der Randprobe — gemessen: Folge 1 und 15/.test(d.notiz)), randfolgen.map((d) => d?.notiz))
+  pruefe('… ihre Rohfolge ist nicht angenommen', randfolgen.every((d) => d.rohfolgen[0].art === 'gemessen' && d.rohfolgen[0].roh.angenommen === false), randfolgen.map((d) => d.rohfolgen[0].roh))
+  pruefe('… E2–E14 gehen als angenommen raus (Meldung, Notiz, Rohfolge)', dazwischen.length === 13 && dazwischen.every((d) => d.art === 'angenommen' && /^ANGENOMMEN aus Randprobe/.test(d.notiz) && d.rohfolgen[0].art === 'angenommen' && d.rohfolgen[0].roh.angenommen === true), dazwischen.map((d) => d.art))
+
+  /* Bei einer 429 des ersten Stapels kommt der zweite nicht mehr an den Worker. */
+  const c = await seite()
+  c.posts = []
+  const echtC = c.env.fetch
+  c.env.fetch = async (url, opt) => {
+    if (opt?.method !== 'POST') return echtC(url, opt)
+    c.posts.push(JSON.parse(opt.body))
+    const inhalt = { tageslimit: true, retryAfter: 3600 }
+    return { ok: false, status: 429, clone: () => ({ json: async () => inhalt }), json: async () => inhalt }
+  }
+  vm.runInContext(readFileSync(__dirname + '/tageslimit.js', 'utf8'), c.env.__kontext, { filename: 'tageslimit.js' })
+  await c.run('durchlaufStarten()')
+  await c.warte()
+  pruefe('Randprobe über 15 Folgen, 429 beim ersten Stapel: nur ein POST', c.posts.length === 1 && c.posts[0].stapel.length === 10, c.posts.map((b) => b.stapel?.length))
+  pruefe('… das Limit ist erkannt, nichts als gemeldet vermerkt', c.run('AK_TAGESLIMIT.aktiv()') === true && c.run('DURCHLAUF.gemeldet.size') === 0)
+}
+
 void (async () => {
   console.log('Netflix: Abschluss „✓ gemeldet“ und „Neue Folgen“\n')
   await abschlussFaelle()
   await neueFolgenFaelle()
   await stapelFaelle()
   await fehlerFaelle()
+  await randvollFaelle()
+  await annahmeFaelle()
   console.log('')
   if (faelle.includes(false)) {
     console.error('Zusicherungen gerissen.')

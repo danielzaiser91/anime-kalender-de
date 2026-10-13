@@ -8,20 +8,21 @@
  */
 import { ladeQuellen } from './bau/01-quellen.ts'
 import { baueTitelGemessen } from './bau/anisearch-abweichungen.ts'
-import { fuehreReihenZusammen } from './bau/03-reihen.ts'
+import { fuehreReihenZusammenQuelle as fuehreReihenZusammen } from './bau/anisearch-reihen-rein-bau.ts'
 import { indiziereCrSendeplaetze } from './bau/04-cr-sendeplaetze.ts'
 import { baueReleases } from './bau/05-releases.ts'
 import { ergaenzeCrSimuldubs } from './bau/06-cr-simuldubs.ts'
 import { ergaenzeAdnTitel } from './bau/07-adn.ts'
 import { ergaenzeTermineAusNewsUndTv } from './bau/08-news-tv.ts'
 import { pruefeSynchroJePlattform } from './bau/09-synchro.ts'
-import { rolleTermineAus } from './bau/10-termine.ts'
+import { rolleTermineAusMitKomplettabwurf } from './bau/10-komplettabwurf.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { baueMeta } from './bau/12-meta.ts'
 import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.ts'
 import { schreibeAboFeeds } from './bau/14-ics.ts'
-import { entferneGesperrte } from './bau/sperre.ts'
+import { entferneVomKalender } from './bau/sperre.ts'
 import { type EntfernterVerweis } from './bau/grundlagen.ts'
+import { merkeBestandVorher } from './lib/bestand-vorher.ts'
 
 function main(): void {
   /**
@@ -78,7 +79,7 @@ function main(): void {
     adnVerweiseErgaenzt,
   })
 
-  const { events, mitStimmen, verschoben } = rolleTermineAus({ releases, titles, jpStart }); entferneGesperrte(releases, events)
+  const { events, mitStimmen, verschoben } = rolleTermineAusMitKomplettabwurf({ releases, titles, jpStart }); entferneVomKalender(releases, events)
 
   // Alles, was Verweise ändert, muss vor `baueMeta` stehen — dort beginnt die Auslieferung.
   schliesseWegeAb({ ...synchro, titles, anisearch, releases, tmdbMehrdeutig, toteAdressen, verweiseEntfernt })
@@ -106,4 +107,5 @@ function main(): void {
   schreibeAboFeeds({ newsFuerRss, events, platforms, allTitles, genres, meta, keywords })
 }
 
+merkeBestandVorher()
 main()

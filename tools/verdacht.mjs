@@ -26,6 +26,33 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
 import { regeln } from './pruef-bestand.mjs'
+import { ladeNeinFaelle } from '../pipeline/lib/nein-wiedervorlage-lesen.ts'
+
+/**
+ * **Vierte Quelle: von Hand erbetene Wiedervorlage** (`data/erneut-melden.yaml`, 21.09.2026).
+ * Ein Eintrag gilt, bis eine Meldung nach seinem `seit` angekommen ist — dann trägt der neue
+ * Beleg die Antwort, und der Titel fällt von selbst heraus. Trägt `raus` ein.
+ */
+function vonHandErbetene(wurzel, plattform, raus) {
+  try {
+    const liste = yaml.load(readFileSync(resolve(wurzel, 'data/erneut-melden.yaml'), 'utf8')) ?? []
+    const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
+    for (const w of liste) {
+      if (w.platform !== plattform || raus.has(w.anilistId)) continue
+      const zu = belege.filter((b) => b.anilistId === w.anilistId && b.platform === plattform)
+      const neuer = zu.some((b) => String(b.checkedAt ?? '') >= w.seit)
+      if (neuer) continue
+      /*
+        Ein Kanal-Titel ist über Prime nicht zu klären — 139 der 367 Einträge, sonst eine Schleife (30.09.2026).
+        Ausnahme `kanal: true` (Nachmessung 12.10.2026): Die Meldung schreibt jetzt `kanalMessung`, auch als Nein, und beendet die Wiedervorlage.
+      */
+      if (!w.kanal && zu.length && zu.every((b) => /Kanal-Titel|kein Beleg/i.test(String(b.note ?? '')))) continue
+      raus.set(w.anilistId, { wiedervorlage: w.grund, seit: w.seit, ...(w.vorrang ? { vorrang: w.vorrang } : {}) })
+    }
+  } catch {
+    /* Ohne Datei keine Wiedervorlage. */
+  }
+}
 
 /**
  * Offene Verdachtsfälle je Anbieter, als Menge von AniList-Kennungen.
@@ -111,26 +138,7 @@ function verdachtsfaelleBisher(wurzel, plattform) {
   } catch {
     /* Ohne Titel oder Belege gibt es nichts zu vergleichen. */
   }
-  /**
-   * **Vierte Quelle: von Hand erbetene Wiedervorlage** (`data/erneut-melden.yaml`, 21.09.2026).
-   * Ein Eintrag gilt, bis eine Meldung nach seinem `seit` angekommen ist — dann trägt der neue
-   * Beleg die Antwort, und der Titel fällt von selbst heraus.
-   */
-  try {
-    const liste = yaml.load(readFileSync(resolve(wurzel, 'data/erneut-melden.yaml'), 'utf8')) ?? []
-    const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
-    for (const w of liste) {
-      if (w.platform !== plattform || raus.has(w.anilistId)) continue
-      const zu = belege.filter((b) => b.anilistId === w.anilistId && b.platform === plattform)
-      const neuer = zu.some((b) => String(b.checkedAt ?? '') >= w.seit)
-      if (neuer) continue
-      /* Ein Kanal-Titel ist über Prime nicht zu klären — 139 der 367 Einträge, sonst eine Schleife (30.09.2026). */
-      if (zu.length && zu.every((b) => /Kanal-Titel|kein Beleg/i.test(String(b.note ?? '')))) continue
-      raus.set(w.anilistId, { wiedervorlage: w.grund, seit: w.seit })
-    }
-  } catch {
-    /* Ohne Datei keine Wiedervorlage. */
-  }
+  vonHandErbetene(wurzel, plattform, raus)
   try {
     const titel = JSON.parse(readFileSync(resolve(wurzel, 'public/data/titles.json'), 'utf8'))
     const belege = yaml.load(readFileSync(resolve(wurzel, 'data/dub-confirmed.yaml'), 'utf8')) ?? []
@@ -184,6 +192,37 @@ export function justwatchWiderspruch(wurzel, plattform) {
     /* Ohne Belege oder JustWatch-Befunde gibt es nichts zu vergleichen. */
   }
   return raus
+}
+
+/**
+ * **Sechste Quelle: ein Nein, das neu gemessen werden soll** (`shared/nein-wiedervorlage.ts`, 12.10.2026).
+ *
+ * Ein belegtes Nein nahm den Verweis aus dem Datensatz, und damit fiel der Titel aus jeder Prüfliste: Kam die Synchro
+ * später doch, merkte es niemand („Snowball Earth“). Nach 28 Tagen oder sobald der Kalender einen Termin des Anbieters
+ * zeigt, kommt der Titel zurück. Der Beleg bleibt gültig; eine Meldung nach `seit` löst ihn ab oder bestätigt ihn.
+ *
+ * @param {import('../shared/nein-wiedervorlage.ts').NeinFall[]} faelle
+ * @returns {Map<number, {neinFrist: {messAm: string, alterTage: number, grund: string, kachelAm?: string}, seit: string, url?: string}>}
+ */
+export function neinFaelleJeTitel(faelle, plattform) {
+  const raus = new Map()
+  for (const f of faelle) {
+    if (f.platform !== plattform || raus.has(f.titleId)) continue
+    const { messAm, alterTage, grund, kachelAm, url } = f
+    raus.set(f.titleId, { neinFrist: { messAm, alterTage, grund, ...(kachelAm ? { kachelAm } : {}) }, seit: messAm, ...(url ? { url } : {}) })
+  }
+  return raus
+}
+
+/**
+ * Wo ein Titel mit Wiedervorlage auf der Prüfliste steht: erst die laufende Synchro (ihr Nein ist eine Momentaufnahme,
+ * die jede neue Folge widerlegt), dann nach Alter der Messung, das älteste zuerst; ohne Wiedervorlage danach.
+ * @returns {[number, string]} Rang und Messdatum, aufsteigend sortieren
+ */
+export function verdachtRang(v) {
+  if (!v) return [2, '']
+  if (v.laufendeSynchro) return [0, v.laufendeSynchro.am]
+  return [1, v.neinFrist?.messAm ?? v.seit ?? '']
 }
 
 const TAG = 86_400_000
@@ -246,6 +285,11 @@ export function laufendeSynchro(belege, titel, plattform, heute) {
   return raus
 }
 
+/** Die Felder eines Listeneintrags der Prime-Liste: der Satz im Kasten und, wo gesetzt, der Vorrang im Durchgang (1 = zuerst). */
+export function verdachtsFelder(v) {
+  return { erneut: verdachtHinweis(v), ...(v.vorrang ? { vorrang: v.vorrang } : {}) }
+}
+
 /** Der Satz, der im Kasten der Erweiterung steht. */
 export function verdachtHinweis(v) {
   /*
@@ -263,6 +307,12 @@ export function verdachtHinweis(v) {
       `Zuordnung: Der Beleg nennt Folgen bis ${v.anbieterZaehlung.bis}, unser Titel hat ${v.anbieterZaehlung.folgen} — ` +
       `bitte die Folgen hier melden, damit ihre Titel zeigen, welche Folge wohin gehört`
     )
+  }
+  if (v.neinFrist) {
+    const { messAm, alterTage, grund, kachelAm } = v.neinFrist
+    return grund === 'kachel'
+      ? `Wiedervorlage: Unser Beleg vom ${messAm} sagt „nein“, seit ${kachelAm} nennt der Kalender hier einen Termin — bitte erneut melden`
+      : `Wiedervorlage: Das „nein“ vom ${messAm} ist ${alterTage} Tage alt — bitte erneut melden`
   }
   if (v.gegenauskunft) return `Wiedervorlage: Unser Beleg sagt „nicht da", ${v.gegenauskunft} nennt hier seit ${v.seit} deutschen Ton — bitte erneut melden`
   if (v.kanalWiderspruch) {
@@ -286,6 +336,7 @@ export function verdachtHinweis(v) {
  */
 export function verdachtsfaelle(wurzel, plattform) {
   const raus = verdachtsfaelleBisher(wurzel, plattform)
+  for (const [id, fall] of neinFaelleJeTitel(ladeNeinFaelle(wurzel), plattform)) if (!raus.has(id)) raus.set(id, fall)
   if (!regeln(wurzel).erweitert) return raus
   try {
     for (const l of JSON.parse(readFileSync(resolve(wurzel, 'data/pillen-luecken.json'), 'utf8'))) {

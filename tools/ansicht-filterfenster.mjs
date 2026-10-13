@@ -1,7 +1,9 @@
 /**
- * Zusicherungen für das offene Filterfenster am Handy (Entwurf vom 09.10.2026): volle Breite, ein Rahmen, Klick-Modus klebt
- * oben, Tippziele. Aufgerufen von `ansicht-bild.mjs --handy`; die Seite muss die App aus `dist/` ausliefern.
+ * Zusicherungen für das offene Filterfenster am Handy (Entwurf vom 09.10.2026, Abstände 12.10.2026): volle Breite, ein Rahmen, Klick-Modus und Fuß
+ * fest über und unter dem Scrollbereich, 8 px Luft um die Knöpfe, Tippziele. Aufgerufen von `ansicht-bild.mjs --handy`; die Seite muss die App aus `dist/` ausliefern.
  */
+import { abstandsAbweichungen } from './ansicht-filterfenster-rechner.mjs'
+
 const BREITEN = [320, 375, 393, 440]
 const ROUTEN = ['woche', 'datenbank']
 
@@ -26,14 +28,19 @@ function messeFenster() {
   const mehr = [...fenster.querySelectorAll('.border-dashed button[aria-expanded]')].map((b) => parseFloat(getComputedStyle(b, '::after').height))
   const fertig = [...fenster.querySelectorAll('button')].find((b) => /^Fertig/.test(b.textContent.trim()))
   const fuss = fertig.parentElement.getBoundingClientRect()
+  const scroller = fenster.querySelector('.overflow-y-auto').getBoundingClientRect()
+  const k = klick.getBoundingClientRect()
   return {
     links: f.left,
     rechts: innerWidth - f.right,
     hoehe: f.height,
     ueberbreite: fenster.scrollWidth - fenster.clientWidth,
     kasten,
-    klickPosition: getComputedStyle(klick).position,
-    klickHoehe: klick.getBoundingClientRect().height,
+    scrollerUeberKopf: k.bottom - scroller.top,
+    scrollerUeberFuss: scroller.bottom - fuss.top,
+    scrollerUeberRand: scroller.right - f.right,
+    knopfOben: klick.querySelector('button').getBoundingClientRect().top - f.top,
+    klickHoehe: k.height,
     knoepfe,
     suche,
     chipX: chips[0]?.getBoundingClientRect().left,
@@ -43,10 +50,11 @@ function messeFenster() {
   }
 }
 
-/** Scrollt das Fenster ans Ende und liefert den Abstand der Klick-Zeile zur Fensterkante. */
+/** Scrollt den Mittelteil ans Ende und liefert den Abstand der Klick-Zeile zur Fensterkante. */
 function messeKleben() {
   const fenster = document.querySelector('#ak-filter')
-  fenster.scrollTop = fenster.scrollHeight
+  const scroller = fenster.querySelector('.overflow-y-auto')
+  scroller.scrollTop = scroller.scrollHeight
   const abstand = document.querySelector('#ak-filter [role=group]').getBoundingClientRect().top - fenster.getBoundingClientRect().top
   const fertig = [...fenster.querySelectorAll('button')].find((b) => /^Fertig/.test(b.textContent.trim()))
   return { klickOben: abstand, fussUnten: fenster.getBoundingClientRect().bottom - fertig.parentElement.getBoundingClientRect().bottom }
@@ -57,8 +65,8 @@ function abweichungen(wo, m, k) {
   const a = []
   if (Math.abs(m.links) > 0.5 || Math.abs(m.rechts) > 0.5) a.push(`${wo}: Fenster nicht bündig (links ${m.links}, rechts ${m.rechts})`)
   if (m.kasten > 0) a.push(`${wo}: ${m.kasten} verschachtelte Rahmen im Fenster`)
-  if (m.klickPosition !== 'sticky') a.push(`${wo}: Klick-Modus nicht sticky (${m.klickPosition})`)
-  if (Math.abs(k.klickOben) > 1) a.push(`${wo}: Klick-Modus klebt nicht oben (Abstand ${Math.round(k.klickOben)} px nach Scrollen)`)
+  a.push(...abstandsAbweichungen(wo, m))
+  if (Math.abs(k.klickOben) > 1) a.push(`${wo}: Klick-Modus steht nicht oben (Abstand ${Math.round(k.klickOben)} px nach Scrollen)`)
   if (m.knoepfe.some((h) => h < 44)) a.push(`${wo}: Klick-Modus-Knopf unter 44 px (${m.knoepfe.join('/')})`)
   if (m.suche < 40) a.push(`${wo}: Suchfeld unter 40 px (${m.suche})`)
   if (m.chipX > 13) a.push(`${wo}: erster Schnell-Chip bei x ${Math.round(m.chipX)} (soll ≤ 13)`)

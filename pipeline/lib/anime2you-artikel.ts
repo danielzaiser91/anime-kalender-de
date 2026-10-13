@@ -46,17 +46,15 @@ export interface Kandidat {
   veroeffentlicht: string
 }
 
-/** Die Neuen aus den Feeds: nicht gelesen, nicht eingearbeitet, neueste zuerst, höchstens `grenze`. */
-export function neueKandidaten(
-  feed: { link: string; title: string; publishedAt: string }[],
-  gelesen: ReadonlySet<string>,
-  eingearbeitet: ReadonlySet<string>,
-  grenze: number,
-): Kandidat[] {
+/**
+ * Die Neuen aus den Feeds: nicht gelesen, neueste zuerst, höchstens `grenze`. Ein Artikel in den `sources` eines Eintrags zählt als neu,
+ * solange keine Extraktion zu ihm vorliegt (`gelesen`): Von Hand eingearbeitet heißt nicht ausgewertet (Avatar 1059483, 12.10.2026).
+ */
+export function neueKandidaten(feed: { link: string; title: string; publishedAt: string }[], gelesen: ReadonlySet<string>, grenze: number): Kandidat[] {
   const aus: Kandidat[] = []
   for (const f of [...feed].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))) {
     const id = artikelId(f.link)
-    if (!id || gelesen.has(id) || eingearbeitet.has(f.link.replace(/\/$/, '')) || aus.some((k) => k.id === id)) continue
+    if (!id || gelesen.has(id) || aus.some((k) => k.id === id)) continue
     aus.push({ id, url: f.link, titel: f.title, veroeffentlicht: f.publishedAt })
     if (aus.length >= grenze) break
   }

@@ -17,9 +17,9 @@ import { join } from 'node:path'
 import { artikelZeilen } from './lib/sammelartikel.ts'
 import { aussagenAusAnime2You } from './lib/aussagen-anime2you.ts'
 import { artikelDaten, aussagenAusLineup, aussagenAusSynchros, crunchyrollZeilen } from './lib/aussagen-crunchyroll.ts'
-import { Katalog, ordneZu, type KatalogTitel, type Offen, type Zuordnung } from './lib/aussagen-zuordnung.ts'
+import { ergebnisseZu, katalogLaden, releasesLaden, type Ergebnis } from './lib/aussagen-abgleich.ts'
 import type { Aussage, Leser } from './lib/aussagen.ts'
-import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
+import { log, sleep, warn, writeJson } from './lib/util.ts'
 
 const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
 const UA_BROWSER = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
@@ -43,20 +43,6 @@ export const KORPUS: { url: string; leser: Leser }[] = [
   { url: 'https://www.crunchyroll.com/de/news/seasonal-lineup/2026/6/17/crunchyroll-anime-lineup-sommer-2026', leser: 'crunchyroll-lineup' },
   { url: 'https://www.crunchyroll.com/de/news/seasonal-lineup/2026/6/17/crunchyroll-deutsche-synchros-sommer-2026', leser: 'crunchyroll-synchros' },
 ]
-
-export interface Bestand {
-  /** Was der Kalender zu diesem Titel und Anbieter schon führt. */
-  status: 'neu' | 'bekannt' | 'abweichend' | 'ohne-zuordnung'
-  release?: { slug: string; firstEpisodeDate?: string }
-  ankuendigung?: { omuAb: string; synchro: string }
-  hatSynchroBelege?: boolean
-}
-
-export interface Ergebnis extends Aussage {
-  zuordnung?: Zuordnung
-  offen?: Offen
-  bestand: Bestand
-}
 
 function dateiname(url: string): string {
   return url.replace(/^https?:\/\//, '').replace(/[^a-z0-9]+/gi, '_').replace(/_+$/, '').slice(0, 140) + '.html'
@@ -129,53 +115,6 @@ export function aussagenAus(url: string, leser: Leser, html: string): Aussage[] 
   return leser === 'crunchyroll-lineup' ? aussagenAusLineup(zeilen, quelle) : aussagenAusSynchros(zeilen, quelle)
 }
 
-interface AusgabeTitel extends KatalogTitel { ankuendigung?: { omuAb: string; synchro: string }; ohneSynchro?: boolean }
-
-/**
- * Katalog aus den veröffentlichten Dateien: Titel mit Synchro plus Katalog ohne. `jpStart` trägt nur der
- * Katalog; für Titel mit Synchro steht er in `franchises.json` (Reihen-Sortierung). Im Bau selbst läge
- * beides in der `jpStart`-Karte aus `bau/02-titel.ts`.
- */
-function katalogLaden(): { katalog: Katalog; titel: Map<number, AusgabeTitel> } {
-  const mit = Object.values(readJson<Record<string, AusgabeTitel>>('public/data/titles.json', {}))
-  const ohne = readJson<AusgabeTitel[]>('public/data/ohne-synchro.json', [])
-  const synonyme = readJson<Record<string, string[]>>('public/data/synonyme.json', {})
-  const reihen = readJson<Record<string, { id: number; jpStart?: string }[]>>('public/data/franchises.json', {})
-  const startAusReihe = new Map<number, string>()
-  for (const glieder of Object.values(reihen)) for (const g of glieder) if (g.jpStart && g.jpStart.length === 10) startAusReihe.set(g.id, g.jpStart)
-  const titel = new Map<number, AusgabeTitel>()
-  for (const t of [...mit, ...ohne]) {
-    const alt = titel.get(t.id)
-    const jpStart = t.jpStart ?? alt?.jpStart ?? startAusReihe.get(t.id)
-    titel.set(t.id, { ...alt, ...t, ...(jpStart ? { jpStart } : {}), ohneSynchro: alt ? alt.ohneSynchro && t.ohneSynchro : t.ohneSynchro, synonyme: synonyme[String(t.id)] ?? [] })
-  }
-  return { katalog: new Katalog([...titel.values()]), titel }
-}
-
-/**
- * Was der Kalender schon weiß: Ein Start mit Tag ist `bekannt`, wenn ein Release des Titels beim Anbieter
- * denselben Tag trägt, `abweichend` bei anderem Tag. Eine Synchro-Ankündigung und ein OmU-Start sind
- * `bekannt`, wenn der Titel eine Ankündigung, ein Crunchyroll-Release oder Synchro-Belege hat.
- */
-function bestandZu(a: Aussage, z: Zuordnung | undefined, titel: Map<number, AusgabeTitel>, releases: { slug: string; titleId: number; platform: string; schedule?: { firstEpisodeDate?: string } }[]): Bestand {
-  if (!z) return { status: 'ohne-zuordnung' }
-  const t = titel.get(z.anilistId)
-  const passend = releases.filter((r) => r.titleId === z.anilistId && a.plattformen.includes(r.platform))
-  const gleich = passend.find((r) => !a.datum || r.schedule?.firstEpisodeDate === a.datum)
-  const r = gleich ?? passend[0]
-  const hatSynchroBelege = Boolean(t && !t.ohneSynchro)
-  const status: Bestand['status'] =
-    a.art === 'synchro-angekuendigt' || a.art === 'omu-start'
-      ? t?.ankuendigung || passend.length || (a.deutsch !== 'nein' && hatSynchroBelege) ? 'bekannt' : 'neu'
-      : gleich ? 'bekannt' : passend.length ? 'abweichend' : 'neu'
-  return {
-    status,
-    ...(r ? { release: { slug: r.slug, ...(r.schedule?.firstEpisodeDate ? { firstEpisodeDate: r.schedule.firstEpisodeDate } : {}) } } : {}),
-    ...(t?.ankuendigung ? { ankuendigung: { omuAb: t.ankuendigung.omuAb, synchro: t.ankuendigung.synchro } } : {}),
-    hatSynchroBelege,
-  }
-}
-
 function zaehle<T>(xs: T[], f: (x: T) => string): Record<string, number> {
   const r: Record<string, number> = {}
   for (const x of xs) r[f(x)] = (r[f(x)] ?? 0) + 1
@@ -191,7 +130,7 @@ async function main(): Promise<void> {
   const korpus = nur ? KORPUS.filter((k) => k.url.includes(nur)) : KORPUS
   const html = await artikelHtml(korpus, roh, args.includes('--holen'))
   const { katalog, titel } = katalogLaden()
-  const releases = readJson<Parameters<typeof bestandZu>[3]>('public/data/releases.json', [])
+  const releases = releasesLaden()
 
   const ergebnisse: Ergebnis[] = []
   const jeArtikel: Record<string, unknown>[] = []
@@ -199,10 +138,7 @@ async function main(): Promise<void> {
     const h = html.get(k.url)
     if (!h) { warn(`${k.url}: nicht gelesen`); continue }
     const aussagen = aussagenAus(k.url, k.leser, h)
-    const erg = aussagen.map((a): Ergebnis => {
-      const { zuordnung, offen } = ordneZu(a, katalog)
-      return { ...a, ...(zuordnung ? { zuordnung } : {}), ...(offen ? { offen } : {}), bestand: bestandZu(a, zuordnung, titel, releases) }
-    })
+    const erg = ergebnisseZu(aussagen, katalog, titel, releases)
     ergebnisse.push(...erg)
     const zeile = {
       artikel: k.url, leser: k.leser, veroeffentlicht: aussagen[0]?.quelle.veroeffentlicht, aussagen: erg.length,

@@ -70,8 +70,25 @@ pruefe(
 
 /* 11.10.2026: Der Stand hält fünf Minuten (vorher eine) — das Lesekontingent war an einem Massenlauftag aufgebraucht. */
 pruefe(
-  quelle.includes("get('stand') === '1') return ausCache(async () => {\n      return await berechnePruefstand({ env, antwort })\n    }, 300)"),
+  quelle.includes("get('stand') === '1') return ausCache(async () => {\n      return await berechnePruefstand({ env, antwort, zwischen: { ausCache, schluessel: wartendSchluessel(request.url) } })\n    }, 300)"),
   '?stand=1 hält 300 Sekunden',
+)
+
+/*
+  12.10.2026: Zwei Abfragen lasen 3,2 Mio. Zeilen am Tag (`wrangler d1 insights`). Die wartenden
+  Meldungen halten eine halbe Stunde neben dem Stand (die Erweiterung fragt im Fünf-Minuten-Takt und
+  traf den Stand-Cache kaum). `?gemeldet=<Adresse>` hält eine halbe Stunde je Adresse; verworfen wird
+  nur die Adresse, zu der geschrieben oder gelöscht wurde, nie eine Sammelantwort.
+*/
+pruefe(quelle.includes('export const WARTEND_SEKUNDEN = 7200'), 'die wartenden Meldungen halten 7200 Sekunden (12.10.2026, vorher 1800)')
+pruefe(
+  quelle.includes('async () => antwort(await leseGemeldet(env, fuer)),\n        GEMELDET_SEKUNDEN,'),
+  '?gemeldet=<Adresse> hält GEMELDET_SEKUNDEN je Adresse',
+)
+pruefe(quelle.includes('export const GEMELDET_SEKUNDEN = 1800'), '... und das sind 1800 Sekunden')
+pruefe(
+  (quelle.match(/await verwirfGemeldet\(/g) ?? []).length === 4,
+  'Meldung und Löschen (drei Wege) verwerfen die Adresse, zu der sie schreiben',
 )
 
 /*

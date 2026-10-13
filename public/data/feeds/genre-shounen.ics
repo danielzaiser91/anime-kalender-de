@@ -6,66 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Shounen
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T151000Z
-DTEND:20261005T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-05#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T153500Z
-DTEND:20261005T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-235-tv-prosieben-maxx@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T160000Z
-DTEND:20261005T163000Z
-SUMMARY:Detektiv Conan – Folge 148/157
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/204/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-05#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T162500Z
-DTEND:20261005T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-05#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T165000Z
-DTEND:20261005T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:gachiakuta-teil1-disneyplus@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261005
-DTEND;VALUE=DATE:20261006
-SUMMARY:Gachiakuta
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T150500Z
@@ -80,9 +20,10 @@ UID:my-hero-academia-vigilantes-s1-netflix@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261006
 DTEND;VALUE=DATE:20261007
-SUMMARY:My Hero Academia: Vigilantes – Staffel 1
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/16460/
+SUMMARY:My Hero Academia: Vigilantes – Staffel 1 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/16460/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -90,9 +31,10 @@ UID:my-hero-academia-vigilantes-s2-netflix@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261006
 DTEND;VALUE=DATE:20261007
-SUMMARY:My Hero Academia: Vigilantes – Staffel 2
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/16903/
+SUMMARY:My Hero Academia: Vigilantes – Staffel 2 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/16903/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -120,7 +62,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T155500Z
 DTEND:20261007T162500Z
-SUMMARY:Detektiv Conan – Folge 149/157
+SUMMARY:Detektiv Conan – Folge 149/158
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -180,7 +122,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T160000Z
 DTEND:20261008T163000Z
-SUMMARY:Detektiv Conan – Folge 150/157
+SUMMARY:Detektiv Conan – Folge 150/158
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -230,7 +172,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T160000Z
 DTEND:20261009T163000Z
-SUMMARY:Detektiv Conan – Folge 151/157
+SUMMARY:Detektiv Conan – Folge 151/158
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -382,10 +324,59 @@ UID:das-band-der-unterwelt-netflix@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Das Band der Unterwelt – Folge 15/≈24
+SUMMARY:Das Band der Unterwelt – Folge 15/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-entertainment-district-arc-primevideo@2026-10-10@anime-kal
+ ender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (Synchro 
+ offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/13758/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/15144/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-mugen-train-arc-primevideo@2026-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/12643/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-swordsmith-village-arc-primevideo@2026-10-10@anime-kalende
+ r-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (Synchro offe
+ n)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/13918/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-11@anime-kalender-de
@@ -459,36 +450,6 @@ DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
-UID:adn-198@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T070000Z
-DTEND:20261012T073000Z
-SUMMARY:Bleach: The Diamond Dust Rebellion - Movie 2
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/t/2398/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-352@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T070000Z
-DTEND:20261012T073000Z
-SUMMARY:Bleach: Fade to Black - Movie 3
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/t/3282/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
-UID:adn-361@2026-10-12@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261012T070000Z
-DTEND:20261012T073000Z
-SUMMARY:Bleach: Hell Verse - Movie 4
-DESCRIPTION:Plattform: ADN\nRelease-Art: Katalogtitel\nDetails: https://ani
- me-kalender.de/t/4477/
-CATEGORIES:ADN
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T151000Z
@@ -503,7 +464,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T160000Z
 DTEND:20261012T163000Z
-SUMMARY:Detektiv Conan – Folge 152/157
+SUMMARY:Detektiv Conan – Folge 152/158
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -633,7 +594,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261013T160000Z
 DTEND:20261013T163000Z
-SUMMARY:Detektiv Conan – Folge 153/157
+SUMMARY:Detektiv Conan – Folge 153/158
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -673,7 +634,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261014T160000Z
 DTEND:20261014T163000Z
-SUMMARY:Detektiv Conan – Folge 154/157
+SUMMARY:Detektiv Conan – Folge 154/158
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -713,7 +674,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-15@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261015T160000Z
 DTEND:20261015T163000Z
-SUMMARY:Detektiv Conan – Folge 155/157
+SUMMARY:Detektiv Conan – Folge 155/158
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -773,7 +734,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261016T155500Z
 DTEND:20261016T162500Z
-SUMMARY:Detektiv Conan – Folge 156/157
+SUMMARY:Detektiv Conan – Folge 156/158
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -874,7 +835,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261017
 DTEND;VALUE=DATE:20261018
-SUMMARY:Das Band der Unterwelt – Folge 16/≈24
+SUMMARY:Das Band der Unterwelt – Folge 16/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -906,10 +867,20 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261018T143000Z
 DTEND:20261018T150000Z
 SUMMARY:Overgeared Staffel 1 – Folge 4/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-10-18@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261018
+DTEND;VALUE=DATE:20261019
+SUMMARY:Dragon Ball Super: Beerus – Folge 1/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-10-18@anime-kalender-de
@@ -947,7 +918,7 @@ UID:auto-235-tv-prosieben-maxx@2026-10-19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T160000Z
 DTEND:20261019T163000Z
-SUMMARY:Detektiv Conan – Folge 157/157
+SUMMARY:Detektiv Conan – Folge 157/158
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/204/
 CATEGORIES:ProSieben MAXX
@@ -1013,6 +984,56 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-20#34@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T151000Z
+DTEND:20261020T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-20#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T153500Z
+DTEND:20261020T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-235-tv-prosieben-maxx@2026-10-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T160000Z
+DTEND:20261020T163000Z
+SUMMARY:Detektiv Conan – Folge 158/158
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/204/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-20#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T162500Z
+DTEND:20261020T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-20#36@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T165000Z
+DTEND:20261020T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:my-hero-academia-yuei-heroes-battle-2026-10-20@2026-10-20@anime-kalende
  r-de
 DTSTAMP:20200101T000000Z
@@ -1039,7 +1060,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261024
 DTEND;VALUE=DATE:20261025
-SUMMARY:Das Band der Unterwelt – Folge 17/≈24
+SUMMARY:Das Band der Unterwelt – Folge 17/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1066,6 +1087,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-10-25@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:Dragon Ball Super: Beerus – Folge 2/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-10-25@anime-kalender-de
@@ -1124,7 +1156,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
-SUMMARY:Das Band der Unterwelt – Folge 18/≈24
+SUMMARY:Das Band der Unterwelt – Folge 18/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1140,6 +1172,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-01@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Dragon Ball Super: Beerus – Folge 3/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-01@anime-kalender-de
@@ -1220,7 +1263,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
-SUMMARY:Das Band der Unterwelt – Folge 19/≈24
+SUMMARY:Das Band der Unterwelt – Folge 19/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1236,6 +1279,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-08@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Dragon Ball Super: Beerus – Folge 4/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-08@anime-kalender-de
@@ -1384,7 +1438,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261114
 DTEND;VALUE=DATE:20261115
-SUMMARY:Das Band der Unterwelt – Folge 20/≈24
+SUMMARY:Das Band der Unterwelt – Folge 20/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1400,6 +1454,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-15@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:Dragon Ball Super: Beerus – Folge 5/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-15@anime-kalender-de
@@ -1697,7 +1762,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
-SUMMARY:Das Band der Unterwelt – Folge 21/≈24
+SUMMARY:Das Band der Unterwelt – Folge 21/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1713,6 +1778,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-22@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
+SUMMARY:Dragon Ball Super: Beerus – Folge 6/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-22@anime-kalender-de
@@ -1851,7 +1927,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261128
 DTEND;VALUE=DATE:20261129
-SUMMARY:Das Band der Unterwelt – Folge 22/≈24
+SUMMARY:Das Band der Unterwelt – Folge 22/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1867,6 +1943,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-11-29@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
+SUMMARY:Dragon Ball Super: Beerus – Folge 7/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-11-29@anime-kalender-de
@@ -2021,13 +2108,14 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
-UID:auto-178754-disc@2026-12-04@anime-kalender-de
+UID:auto-153288-disc@2026-12-04@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261204
 DTEND;VALUE=DATE:20261205
-SUMMARY:Kaiju No. 8: Staffel 2 (Disc)
+SUMMARY:Kaiju No. 8 (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16005/
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/14424/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -2035,7 +2123,7 @@ UID:das-band-der-unterwelt-netflix@2026-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261205
 DTEND;VALUE=DATE:20261206
-SUMMARY:Das Band der Unterwelt – Folge 23/≈24
+SUMMARY:Das Band der Unterwelt – Folge 23/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -2051,6 +2139,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-06@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261206
+DTEND;VALUE=DATE:20261207
+SUMMARY:Dragon Ball Super: Beerus – Folge 8/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-12-06@anime-kalender-de
@@ -2156,7 +2255,7 @@ UID:das-band-der-unterwelt-netflix@2026-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261212
 DTEND;VALUE=DATE:20261213
-SUMMARY:Das Band der Unterwelt – Folge 24/≈24
+SUMMARY:Das Band der Unterwelt – Folge 24/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -2172,6 +2271,17 @@ DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17645/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
+SUMMARY:Dragon Ball Super: Beerus – Folge 9/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-189123-netflix@2026-12-13@anime-kalender-de
@@ -2271,6 +2381,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261220
+DTEND;VALUE=DATE:20261221
+SUMMARY:Dragon Ball Super: Beerus – Folge 10/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:auto-189123-netflix@2026-12-20@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261220
@@ -2358,6 +2479,17 @@ DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2026-12-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261227
+DTEND;VALUE=DATE:20261228
+SUMMARY:Dragon Ball Super: Beerus – Folge 11/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2026-12-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261228T175000Z
@@ -2411,6 +2543,17 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:dragon-ball-super-beerus-netflix@2027-01-03@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270103
+DTEND;VALUE=DATE:20270104
+SUMMARY:Dragon Ball Super: Beerus – Folge 12/≈12 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nOmU: 
+ Originalton mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/17434/
+CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-01-04@anime-kalender-de
@@ -2959,6 +3102,16 @@ DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nGeschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:kaiju-no8-s2-komplettbox@2027-03-05@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20270305
+DTEND;VALUE=DATE:20270306
+SUMMARY:Kaiju No. 8 – Staffel 2 – Komplettbox (Disc)
+DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
+ och nicht bestätigt.\nDetails: https://anime-kalender.de/t/16005/
+CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
 UID:one-piece-whole-cake-island-prosieben-maxx@2027-03-08@anime-kalender-de

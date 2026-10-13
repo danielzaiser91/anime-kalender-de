@@ -4,15 +4,12 @@
  *
  * Belegt ist eine Zahl durch deutsche Bereiche am Weg (Anbieter, Handbeleg, Erweiterung) oder den Wochenplan
  * des Anbieters. Alles andere — die Folgenzahl des Werks bei abgeschlossener Serie — ist abgeleitet.
- * Prüft Beispielfälle und danach jeden Weg in `public/data` (Hauptbestand, Katalog, Cartoons). Läuft in `check:logic`.
+ * Prüft Beispielfälle; jeden Weg in `public/data` prüft `check-folgenzahl-kennzeichnung-bestand.ts`. Läuft in `check:logic`.
  */
-import { readFileSync } from 'node:fs'
 import type { Release, StreamLink, Title } from '../shared/types.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { fertigZahlText } from '../web/src/components/detail/antwort-regeln.ts'
 import { folgenAuskunft } from '../web/src/components/detail/folgen-angabe.ts'
-import { zaehlPlattform } from '../web/src/components/detail/prime-kanal.ts'
-import { titelMitTerminBereichen } from '../web/src/components/detail/stream-bereiche.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -39,6 +36,30 @@ pruefe('Haken ohne Bereiche, Serie beendet: Titelzahl mit „≈“', pille(been
 pruefe('Mit Bereichen am Weg: Zahl ohne „≈“', pille(beendet, mitBereichen) === `${SPANNE}{"bereich":"1–12"}`, pille(beendet, mitBereichen))
 pruefe('Ohne Haken: keine Zahl', pille(beendet, { ...ohneBereiche, dub: undefined }) === '')
 
+/* Wochenplan, dessen Termine fortgeschrieben sind (`estimated`): die erschienene Spanne ist abgeleitet und trägt „≈“; belegte Bereiche decken sie (12.10.2026). */
+const plan = (geschaetzt: boolean): Release =>
+  ({
+    slug: 'plan-test',
+    titleId: 1,
+    name: 'Plan',
+    platform: 'netflix',
+    platformUrl: 'https://www.netflix.com/title/1',
+    releaseType: 'weekly',
+    schedule: {
+      firstEpisodeDate: '2026-09-20',
+      time: '17:00',
+      episodeCount: 12,
+      estimated: geschaetzt,
+    },
+    sources: [],
+  }) as unknown as Release
+const laufend = { ...beendet, jpEnd: undefined, episodes: 12 } as unknown as Title
+const bereicheBis = (to: number): StreamLink => ({ ...ohneBereiche, dubRanges: [{ from: 1, to, dub: true }] }) as StreamLink
+pruefe('Wochenplan fortgeschrieben, keine Bereiche: Spanne mit „≈“', pille(laufend, ohneBereiche, [plan(true)]).startsWith(`≈ ${SPANNE}`), pille(laufend, ohneBereiche, [plan(true)]))
+pruefe('Wochenplan belegt: Spanne ohne „≈“', pille(laufend, ohneBereiche, [plan(false)]).startsWith(SPANNE), pille(laufend, ohneBereiche, [plan(false)]))
+pruefe('Fortgeschriebener Plan hinter belegten Bereichen: „≈“', pille(laufend, bereicheBis(2), [plan(true)]).startsWith(`≈ ${SPANNE}`), pille(laufend, bereicheBis(2), [plan(true)]))
+pruefe('Belegte Bereiche decken den fortgeschriebenen Plan: kein „≈“', pille(laufend, bereicheBis(12), [plan(true)]).startsWith(SPANNE), pille(laufend, bereicheBis(12), [plan(true)]))
+
 /* Der Antwortkasten sagt dasselbe wie die Pille: abgeleitet → „≈ N“ statt „Alle N“, belegt → unverändert (Cowboy Bebop, 11.10.2026). */
 function kastenFertig(title: Title, releases: Release[] = []) {
   const a = berechneAntwort({ title, releases, today: HEUTE })
@@ -54,59 +75,8 @@ pruefe('Kasten belegt: „Alle N“ unverändert', fertigZahlText(12, false, t a
 pruefe('Kasten und Pille stimmen überein (abgeleitet)', pille(beendet, ohneBereiche).startsWith('≈') === (kastenAbgeleitet?.gesamtAbgeleitet === true))
 pruefe('Kasten und Pille stimmen überein (belegt)', pille(beendet, mitBereichen).startsWith('≈') === (kastenBelegt?.gesamtAbgeleitet === true))
 
-function pruefeBestand(datei: string, releasesJeTitel: Map<number, Release[]>): number {
-  let unmarkiert = 0
-  let erfunden = 0
-  let markiert = 0
-  const titel = JSON.parse(readFileSync(`public/data/${datei}`, 'utf8')) as Title[]
-  for (const roh of titel) {
-    const releases = releasesJeTitel.get(roh.id) ?? []
-    const t0 = titelMitTerminBereichen(roh, releases)
-    if (!t0) continue
-    for (const s of t0.streams ?? []) {
-      const text = pille(t0, s, releases)
-      if (text.startsWith('≈')) {
-        markiert++
-        continue
-      }
-      /* Eine Spanne ab Folge 1 braucht einen Beleg ab Folge 1: Netflix hat bei Mushoku Tensei Cour 2 die Folgen 12–23 (11.10.2026). */
-      const ab1 = text.startsWith(`${SPANNE}{"bereich":"1–`) || text === `${SPANNE}{"bereich":"1"}`
-      const wochenplan = releases.some((r) => r.platform === zaehlPlattform(s, t0.streams ?? []) && r.releaseType === 'weekly')
-      const deutsch = (s.dubRanges ?? []).filter((r) => r.dub)
-      if (ab1 && deutsch.length && !wochenplan && !deutsch.some((r) => r.from <= 1)) {
-        erfunden++
-        if (erfunden <= 5) console.error(`  ${datei} ${roh.id} ${s.platform}: ${text}`)
-      }
-      if (!text.startsWith(ZAHL) && !text.startsWith(SPANNE)) continue
-      const plattform = zaehlPlattform(s, t0.streams ?? [])
-      const belegt = s.dubRanges?.some((r) => r.dub) || releases.some((r) => r.platform === plattform && r.releaseType === 'weekly')
-      if (belegt) continue
-      unmarkiert++
-      if (unmarkiert <= 5) console.error(`  ${datei} ${roh.id} ${s.platform}: ${text}`)
-    }
-  }
-  pruefe(`${datei}: Folgenzahl ohne Beleg und ohne „≈“ (${unmarkiert} Wege)`, unmarkiert === 0)
-  pruefe(`${datei}: keine Spanne ab Folge 1, wo die deutschen Bereiche später beginnen (${erfunden} Wege)`, erfunden === 0)
-  return markiert
-}
-
-const releases = JSON.parse(readFileSync('public/data/releases.json', 'utf8')) as Release[]
-const jeTitel = new Map<number, Release[]>()
-for (const r of releases) jeTitel.set(r.titleId, [...(jeTitel.get(r.titleId) ?? []), r])
-/* Die vier echten Fälle aus dem Bestand: der deutsche Bereich beginnt nicht bei 1, die Pille zeigt ihn selbst. */
-const echteFaelle: [number, string][] = [[127720, '12–23'], [146638, '13–28'], [158871, '2–44'], [165159, '2–48']]
-const hauptbestand = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[]
-for (const [id, bereich] of echteFaelle) {
-  const roh = hauptbestand.find((x) => x.id === id)
-  const t0 = roh && titelMitTerminBereichen(roh, jeTitel.get(id) ?? [])
-  const netflix = t0?.streams?.find((x) => x.platform === 'netflix')
-  pruefe(`Bestand ${id}: Netflix zeigt Fg. ${bereich}`, Boolean(t0 && netflix) && pille(t0!, netflix!, jeTitel.get(id) ?? []) === `${SPANNE}{"bereich":"${bereich}"}`, t0 && netflix ? pille(t0, netflix, jeTitel.get(id) ?? []) : 'Titel fehlt')
-}
-const gekennzeichnet = ['titles.json', 'ohne-synchro.json', 'cartoons.json'].map((d) => pruefeBestand(d, jeTitel))
-pruefe('Bestand: mindestens ein Weg trägt „≈“ (sonst prüft diese Prüfung nichts)', gekennzeichnet[0]! > 0)
-
 if (fehler) {
   console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
   process.exit(1)
 }
-console.log(`check-folgenzahl-kennzeichnung: ok (mit „≈“: Hauptbestand ${gekennzeichnet[0]}, Katalog ${gekennzeichnet[1]}, Cartoons ${gekennzeichnet[2]} Wege, ungemergt)`)
+console.log('check-folgenzahl-kennzeichnung: ok')

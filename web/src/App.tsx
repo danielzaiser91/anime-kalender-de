@@ -18,7 +18,6 @@ import { useDbSchalter } from './lib/db-schalter.ts'
 import { useLang } from './lib/i18n.tsx'
 import { addDays, addMonths, startOfWeek, todayIso } from '@shared/time.ts'
 import { Header } from './components/Header.tsx'
-import { WerkzeugSlotProvider } from './components/filter/werkzeug-slot.tsx'
 import { InstallDialog } from './components/InstallPrompt.tsx'
 import { SeitenAnsicht } from './components/SeitenAnsicht.tsx'
 import { cacheCoversForOffline } from './lib/pwa.ts'
@@ -56,21 +55,19 @@ function tvAusGespeichert(): boolean {
   }
 }
 
-/** Unten docken Handy-Navigation und im Kalender die Steuerleiste an — der Fuß bleibt darüber lesbar. */
+/** Unten docken am Handy die Werkzeugleiste (Kalender, Datenbank) und am Rechner im Kalender die Steuerleiste an — der Fuß bleibt darüber lesbar. */
 const FUSS_ABSTAND = {
   kalender: 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-24',
-  sonst: 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0',
+  datenbank: 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0',
+  sonst: '',
+}
+
+function fussAbstand(view: ViewId): string {
+  if (view === 'woche' || view === 'monat') return FUSS_ABSTAND.kalender
+  return view === 'datenbank' ? FUSS_ABSTAND.datenbank : FUSS_ABSTAND.sonst
 }
 
 export default function App() {
-  return (
-    <WerkzeugSlotProvider>
-      <AppKern />
-    </WerkzeugSlotProvider>
-  )
-}
-
-function AppKern() {
   const { t } = useLang()
   const [allTitles, setAllTitles] = useState<Title[]>()
   const [ohneSynchro, setOhneSynchro] = useState<Title[]>()
@@ -79,7 +76,7 @@ function AppKern() {
   /* TV-Termine ausblenden. */
   const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
   const [route, navigate, ersetze] = useRoute()
-  /* Staffeln zusammenfassen (Vorgabe an) und Titel ohne Synchro: Adresse, sonst gespeicherter bzw. voreingestellter Wert (`db-schalter.ts`). */
+  /* Staffeln zusammenfassen (Vorgabe aus) und Titel ohne Synchro: Adresse, sonst gespeicherter bzw. voreingestellter Wert (`db-schalter.ts`). */
   const { grouped, setGrouped, zeigeOhneSynchro, setZeigeOhneSynchro } = useDbSchalter(route, ersetze)
   /* Die Filter von Woche und Monat: nur im Speicher, nicht in der Adresse, nicht mit der Datenbank geteilt (`kalender-filter.ts`). */
   const { filters: kalenderFilters, kalenderNavigate } = useKalenderFilter(route, navigate)
@@ -199,7 +196,7 @@ function AppKern() {
   const kalender = route.view === 'woche' || route.view === 'monat'
 
   return (
-    <div className={`flex min-h-full flex-col ${kalender ? FUSS_ABSTAND.kalender : FUSS_ABSTAND.sonst}`}>
+    <div className={`flex min-h-full flex-col ${fussAbstand(route.view)}`}>
       {kopf}
       <EinstellungenDialog
         offen={einstellungenOffen}

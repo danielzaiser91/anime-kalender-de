@@ -1,29 +1,17 @@
 import { expandEvents } from '@shared/logic.ts'
-import type { PlatformId, Release, StreamLink } from '@shared/types.ts'
+import type { Release, StreamLink } from '@shared/types.ts'
+import { anbieterDesKanals } from '@shared/kanal-anbieter.ts'
 import { zaehleErschienen } from './antwort-regeln.ts'
 
 /**
- * **Kanal → Anbieter: Prime-Video-Kanäle, deren Bestand der Anbieter selbst führt** (11.10.2026,
- * Daniel: „die echte Webseite führt den Prime-Kanal“). Schlüssel ist `kanal` klein geschrieben.
- * Beleg je Eintrag: der Kanalname in Amazons Meldung und die Anbieter-Domain des eigenen Weges
- * (crunchyroll.com, animationdigitalnetwork.com); `PLATFORM_LABEL['primevideo-channel-…']` in
- * `shared/mappings.ts` führt dieselben Kanäle. Aniverse und RTL+ fehlen mit Absicht: Dort gibt es
- * im Bestand (11.10.2026) keinen eigenen Weg, aus dem eine Zahl käme. Neuer Kanal erst mit
- * eigenem Weg des Anbieters und Domain-Beleg.
- */
-const KANAL_ANBIETER: Record<string, PlatformId> = {
-  crunchyroll: 'crunchyroll',
-  adn: 'adn',
-}
-
-/**
- * Der Anbieter-Weg, dessen Bestand ein Prime-Kanal-Weg teilt. Nur mit belegtem Deutsch an beiden:
- * Bei Golden Wind liegt auf Crunchyroll nur Französisch und Japanisch (dub false), die
- * Kanal-Pille ohne Urteil (dub undefined) darf davon keine Zahl erben.
+ * Der Anbieter-Weg, dessen Bestand ein Prime-Kanal-Weg teilt. Nur mit belegtem Deutsch an beiden: Hat der
+ * Anbieter ein Ja und der Kanal kein eigenes Urteil, trägt der Bau das Ja an den Kanal (`kanalErbtVomAnbieter`),
+ * und die Zahl folgt hier dem Anbieter. Bei Golden Wind liegt auf Crunchyroll nur Französisch und Japanisch
+ * (dub false), die Kanal-Pille bleibt ohne Urteil (dub undefined) und erbt davon keine Zahl.
  */
 export function kanalQuelle(s: { platform?: string; kanal?: string; dub?: boolean }, streams: StreamLink[]): StreamLink | undefined {
   if (s.platform !== 'primevideo' || s.dub !== true) return undefined
-  const anbieter = KANAL_ANBIETER[(s.kanal ?? '').toLowerCase()]
+  const anbieter = anbieterDesKanals(s.kanal)
   return anbieter ? streams.find((q) => q.platform === anbieter && q.dub === true) : undefined
 }
 

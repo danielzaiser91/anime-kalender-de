@@ -46,13 +46,22 @@
  *
  * Aufruf: npm run check:handbelege
  */
-import { loadDubChecks, adressKern } from './lib/dub-confirmed.ts'
+import { loadDubChecks, adressKern, type DubCheck } from './lib/dub-confirmed.ts'
 import { readJson, log, warn, ROOT } from './lib/util.ts'
 import { resolve } from 'node:path'
 import { readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
+import { nimmJa } from './lib/dub-bereiche.ts'
+import { findeKonflikte, findeVereinte } from './lib/dub-konflikt.ts'
+import { findeSchrumpf } from './lib/dub-schrumpf.ts'
+import { findeVoraussichtlichImBestand } from './lib/voraussichtlich-pruefung.ts'
 import type { Title } from '../shared/types.ts'
 
+/*
+  Seit dem 11.10.2026 verteilt `bau/cartoon-wege.ts` einen Cartoon-Weg auf Staffeln (ein Weg je Staffel, gleiche Adresse).
+  Ein Ja gilt dann dem Teilweg, der das Häkchen trägt; die anderen Staffeln sagen mit Recht nichts (Archer, American Dad).
+  Fehlt das Häkchen auf allen Teilwegen der Adresse, bleibt es ein Fehler.
+*/
 const roh = readJson<Title[] | Record<string, Title>>(resolve(ROOT, 'public/data/titles.json'), [])
 /* Cartoons (negative Kennungen) tragen seit dem 16.09.2026 ebenfalls Handbelege. */
 const titel = [
@@ -167,7 +176,7 @@ for (const [k, gruppe] of jeVerweis) {
     .map((b) => b.url)
     .filter((u): u is string => Boolean(u))
   const jaStream = jaAdressen.length
-    ? ((t.streams ?? []).find(
+    ? (nimmJa(t.streams ?? []).find(
         (s) =>
           s.platform === platform &&
           jaAdressen.some(
@@ -324,4 +333,53 @@ if (verwaisteBelege) {
   }
   const mehrfach = [...jeSchluessel.values()].filter((g) => g.length > 1).length
   log(`✓ ${mehrfach} Verweis(e) mit mehreren Belegen — überall gilt der jüngste.`)
+}
+
+/* Zwei Meldungen vom selben Tag, die für dieselbe Folge Ja und Nein sagen: `verschmelze` lässt das Nein gelten. Nur ein Hinweis. */
+{
+  const konflikte = findeKonflikte(rohBelege as DubCheck[])
+  if (!konflikte.length) log('✓ Keine zwei Meldungen vom selben Tag widersprechen sich.')
+  else {
+    warn(`Hinweis: ${konflikte.length} Verweis(e) mit widersprüchlichen Meldungen vom selben Tag (es gilt das Nein):`)
+    for (const k of konflikte.slice(0, 8)) {
+      warn(`   ${k.schluessel}: Folge(n) ${k.folgen.slice(0, 5).join(', ')}${k.folgen.length > 5 ? ` … (${k.folgen.length})` : ''}`)
+    }
+  }
+}
+
+/* Verweise, deren Bereiche aus mehreren Meldungen vereint werden (`verschmelze`): je Verweis eine Zeile mit dem Ergebnis. */
+{
+  const vereinte = findeVereinte(rohBelege as DubCheck[])
+  log(`✓ ${vereinte.length} Verweis(e) mit vereinten Folgenbereichen aus mehreren Meldungen.`)
+  for (const v of vereinte.slice(0, 12)) log(`   ${v.titel ?? v.schluessel} (${v.plattform}): ${v.ergebnis}`)
+  if (vereinte.length > 12) log(`   … und ${vereinte.length - 12} weitere`)
+}
+
+/*
+  Anime: eine jüngere Meldung gilt für die Folgen, die sie nennt (`verschmelze`). Ein Schrumpf bleibt also nur,
+  wo sie ein Nein zu bisher deutschen Folgen sagt. Nur ein Hinweis: ob das eine Korrektur ist, sagt die Datei nicht.
+*/
+{
+  const schrumpf = findeSchrumpf(rohBelege as DubCheck[])
+  if (!schrumpf.length) log('✓ Kein Anime-Verweis verliert deutsche Folgen durch eine jüngere Meldung.')
+  else {
+    warn(`Hinweis: ${schrumpf.length} Anime-Verweis(e) verlieren deutsche Folgen durch eine jüngere Meldung:`)
+    for (const s of schrumpf.slice(0, 8)) {
+      warn(`   ${s.schluessel}: ${s.verloren.length} Folge(n), z. B. ${s.verloren.slice(0, 5).join(', ')}`)
+    }
+  }
+}
+
+/*
+  Eine Handeintragung, deren `note` „voraussichtlich" sagt, ist geschätzt und trägt `schedule.estimated: true`
+  (Kaiju-No.-8-Disc und Heaven's-Feel-Disc, 12.10.2026: fiel nur dem Prüfer auf). Nur die `note` wird gelesen, siehe lib.
+*/
+{
+  const unmarkiert = findeVoraussichtlichImBestand(resolve(ROOT, 'data/curated'))
+  if (unmarkiert.length) {
+    warn(`Abbruch: ${unmarkiert.length} kuratierte(r) Eintrag/Einträge nennen „voraussichtlich", aber der Termin trägt kein estimated: true:`)
+    for (const u of unmarkiert) warn(`   ${u}`)
+    process.exit(1)
+  }
+  log('✓ Jeder kuratierte Termin mit „voraussichtlich" in der note trägt estimated: true.')
 }

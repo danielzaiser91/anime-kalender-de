@@ -1,0 +1,63 @@
+name: Ladezeiten am Handy messen
+
+# **Misst täglich die Ladezeiten am Handy auf dem GitHub-Rechner** (`npm run check:ladezeiten`, Abschnitt „Ladezeiten-Überwachung am Handy“ in
+# `docs/wissen/betrieb.md`). Die Grenzen in `tools/ladezeiten-grenzen.mjs` stammen vom Entwicklerrechner; ein Runner ist langsamer und schwankt. Deshalb läuft
+# die Messung hier zunächst **nur messen** (`--nur-messen`: Exit 0, kein Urteil): Nach etwa sieben Läufen werden Median und Streuung je Ablauf aus den Artefakten
+# gelesen, die Grenzen auf Runner-Werte gesetzt und `--nur-messen` entfernt.
+#
+# Gemessen wird `dist/` aus diesem Stand von `main` (ohne Netz, Pixel 7, 4× CPU), nicht die Live-Seite. Ergebnis: Tabelle in der Zusammenfassung des Laufs und
+# `ladezeiten.json` als Artefakt (30 Tage). Es werden keine Dateien im Repo geschrieben, deshalb steht nichts in `tools/quellen-liste.sh`.
+
+on:
+  # Zeitplan: Cloudflare-Wecker (`shared/weckplan.ts`) startet diesen Lauf täglich um 16 UTC per workflow_dispatch — zu der Stunde läuft sonst kein täglicher Lauf;
+  # `wecker-wache.yml` holt Überfälliges nach.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ladezeiten
+  cancel-in-progress: false
+
+jobs:
+  messen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Abhängigkeiten
+        run: npm ci
+
+      # Chromium (~150 MB) liegt im Cache; Systembibliotheken fehlen auf jedem frischen Runner und kommen immer neu.
+      - name: Chromium-Cache
+        id: chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Chromium holen
+        if: steps.chromium.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Systembibliotheken für Chromium
+        if: steps.chromium.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+
+      - name: Messen (nur messen, ohne Urteil)
+        run: npm run check:ladezeiten -- --bauen --nur-messen --ausgabe ergebnis/ladezeiten.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ladezeiten
+          path: ergebnis/ladezeiten.json
+          retention-days: 30
+          if-no-files-found: ignore

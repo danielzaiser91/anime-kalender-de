@@ -5,7 +5,7 @@
  * je Titelart (Anime Hauptbestand = titles.json, Anime Katalog ohne Synchro = ohne-synchro.json,
  * Cartoon/TMDB = cartoons.json) und je Anbieter:
  *   wege          sichtbare Pillen (gleiche Pillen zusammengelegt wie `wege-sortieren.ts`); roh = Einträge in `streams`
- *   haken         grüner Haken: `stream.dub === true` (`DubStatus` in `anbieter-zeile.tsx`, `antwort-bereich.tsx`)
+ *   haken         grüner Haken: `stream.dub === true` (`DubStatus` in `pille.tsx`, `antwort-bereich.tsx`)
  *   folgen*       Folgenangabe der Pille, mit der echten Web-Funktion `folgenAuskunft` gerechnet (kein Nachbau):
  *                 belegt = aus Bereichen am Weg, plan = Wochenplan der Releases, abgeleitet = Titelzahl mit „≈“ bei
  *                 abgeschlossener Serie, joyn = Abruffenster, einzelwerk = Film/1 Folge (Zahl entfällt), keine

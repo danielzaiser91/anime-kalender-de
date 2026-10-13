@@ -360,7 +360,8 @@ export function berechneAntwort({ title, releases, today }: {
         r.platform === 'kino' &&
         (r.cinemaUntil ? r.cinemaUntil >= today : (r.schedule?.firstEpisodeDate ?? '') >= addDays(today, -60)),
     )
-    const ohneWeg = !(title.streams ?? []).length && !(title.watchLinks ?? []).length && !imKino
+    const ohneWeg =
+      !(title.streams ?? []).length && !(title.watchLinks ?? []).length && !imKino && !releases.some((r) => r.releaseType === 'disc')
     return { art: 'film' as const, hatSynchro, raus, gesamt, ohneWeg, imKino }
   }
   if (hatSynchro && !vollstaendig && gesamt) {

@@ -21,9 +21,10 @@ const zelle = (s: string | null | undefined): string => (s ?? '–').replace(/[|
 
 function zeile(v: GespeicherterVorschlag): string {
   const weg = [v.sender ?? v.anbieter, v.plattform ? `(${v.plattform})` : '(nicht im Datenmodell)'].filter(Boolean).join(' ')
-  const tag = v.datum ? `${v.wochentag}, ${v.datum}` : 'kein Tag'
+  const tag = v.art === 'rhythmus' ? `bis ${v.bis}` : v.datum ? `${v.wochentag}, ${v.datum}` : 'kein Tag'
+  const folgen = v.proWoche ? `${v.proWoche[0] === v.proWoche[1] ? v.proWoche[0] : v.proWoche.join('–')} je Woche` : v.folgen
   const hinweise = [...v.warnungen, ...(v.unsicher ? [`unsicher: ${v.unsicher}`] : [])]
-  return `| [${zelle(v.artikel)}](${v.quelle}) | ${zelle(v.titel)} | ${v.art} | ${zelle(weg)} | ${tag}${v.uhrzeit ? ` ${v.uhrzeit}` : ''}${v.wochentage ? ` (${zelle(v.wochentage)})` : ''} | ${v.sprache} | ${zelle(v.folgen)} | „${zelle(v.zitat)}“ | ${zelle(hinweise.join('; '))} |`
+  return `| [${zelle(v.artikel)}](${v.quelle}) | ${zelle(v.titel)} | ${v.art} | ${zelle(weg)} | ${tag}${v.uhrzeit ? ` ${v.uhrzeit}` : ''}${v.wochentage ? ` (${zelle(v.wochentage)})` : ''} | ${v.sprache} | ${zelle(folgen)} | „${zelle(v.zitat)}“ | ${zelle(hinweise.join('; '))} |`
 }
 
 export function zusammenfassung(e: LaufErgebnis, heute: string): string {

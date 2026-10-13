@@ -18,9 +18,6 @@ import { TEXTE_KALENDER } from './i18n-kalender.ts'
  */
 const TEXTE = {
   'app.title': 'Anime-Kalender DE',
-  'app.subtitle': 'alles mit deutscher Synchro',
-  'app.description':
-    'Wochenkalender aller Anime-Releases mit deutscher Synchronisation: Termine, Uhrzeiten, Plattform, FSK und Genres. Mit Google-Calendar-Export und Newsletter.',
   'app.loading': 'Kalender wird geladen …',
   'app.loadingTitles': '{count} Einträge werden geladen …',
   'app.loadError': 'Daten konnten nicht geladen werden',
@@ -540,23 +537,6 @@ const TEXTE = {
   'antwort.angekuendigtFuerZeit': 'angekündigt für {tag} den {datum}, {zeit} Uhr.',
   'antwort.verschobenVon': 'verschoben vom {datum}',
   'antwort.ausgebliebenMehrere': 'Folgen {von} bis {bis} sind nicht erschienen',
-  // Die Auskunft unter einer ausgebliebenen Folge. {anbieter} wird im Panel zum Verweis.
-  'antwort.vermerkPruefen': 'Wir sehen mehrmals täglich bei {anbieter} nach und tragen die Folge ein, sobald sie da ist.',
-  'antwort.vermerkZuletzt': 'Zuletzt nachgesehen: {wann}.',
-  'antwort.vermerkNews': '{quelle} am {datum}:',
-  'antwort.vermerkNewsLeer': 'Anime2You meldet bisher keine Verschiebung.',
-  'antwort.vermerkQuelle': 'Quelle',
-  'antwort.vermerkRechercheLeer': 'Auch in weiteren News und auf Social Media haben wir bis zum {datum} nichts dazu gefunden.',
-  // „Offen kommunizieren": je Stufe, wann zuletzt und wann als Nächstes.
-  // Die Folge hat einen neuen Termin, ist aber weiterhin überfällig (Daniel,
-  // 20.09.2026): „entsprechend muss eine ausfallnotiz im detail panel stehen".
-  'antwort.vermerkUeberfaellig': 'Folge {n} war für den {datum} angekündigt und ist bis heute nicht erschienen.',
-  'antwort.vermerkAnnahme': 'Der Termin oben ist unsere Annahme — ändert sich etwas, tragen wir ihn nach.',
-  'antwort.vermerkNaechsterBlick': 'Der nächste Blick folgt in wenigen Stunden.',
-  'antwort.vermerkNewsLeerStand': 'Anime2You meldet bisher keine Verschiebung (Stand: {wann}, nächster Abgleich morgen früh).',
-  'antwort.vermerkRechercheZuletzt': 'Zuletzt gesucht: {wann}. Nächste Suche {naechste}.',
-  'antwort.vermerkRechercheStart': 'Die Suche in News und Social Media beginnt {naechste}.',
-  'antwort.vermerkRechercheEnde': 'Nach zwei Monaten suchen wir nicht mehr aktiv; beim Anbieter sehen wir weiter nach.',
   'antwort.naechsteVoraussichtlich': 'voraussichtlich {tag} ab {zeit} Uhr',
   'antwort.amDatum': 'am {datum}',
   'antwort.relGestern': 'gestern',
@@ -813,11 +793,11 @@ export function useLang(): LanguageValue {
   return VALUE
 }
 
-/** Einmalig beim Start: Sprache im HTML und die Metaangaben setzen. */
+/**
+ * Einmalig beim Start: Sprache im HTML setzen. Titel und Beschreibung bleiben, wie die ausgelieferte Seite sie nennt —
+ * jede Seite (Start, Titel, Verzeichnis) trägt ihre eigenen; die App überschrieb sie auf allen mit demselben Text,
+ * und Google liest die Seite nach dem Rendern (13.10.2026).
+ */
 export function applyDocumentLanguage(): void {
   document.documentElement.lang = 'de'
-  document
-    .querySelector('meta[name="description"]')
-    ?.setAttribute('content', TEXTE['app.description'])
-  document.title = `${TEXTE['app.title']} — ${TEXTE['app.subtitle']}`
 }

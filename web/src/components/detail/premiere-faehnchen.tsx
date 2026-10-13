@@ -20,7 +20,7 @@ export function PremiereFaehnchen({ release }: { release: Release }) {
   return (
     <span className="inline-flex shrink-0">
       <Tooltip text={tv && !vorher ? t('tv.premiereHinweis') : premiereHinweis(release.platform, vorher)} seite="oben">
-        <span className="block rounded-md bg-orange-500 px-1.5 py-px text-[9px] font-extrabold uppercase leading-tight tracking-wider text-white shadow-[0_0_8px_rgba(249,115,22,.6)]">
+        <span className="block rounded-md bg-orange-500 px-1.5 py-px text-t5 font-bold uppercase tracking-[.08em] text-white shadow-[0_0_8px_rgba(249,115,22,.6)]">
           ✦ {premiereLabel(vorher)}
         </span>
       </Tooltip>

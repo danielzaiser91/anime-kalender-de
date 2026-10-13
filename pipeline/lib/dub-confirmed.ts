@@ -12,12 +12,14 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
+import { vereinigeBereiche, vereinigeGleichzeitige } from './dub-bereiche.ts'
 import { ROOT } from './util.ts'
 import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
 import { warn } from './util.ts'
 import { loadCurated } from './curated.ts'
 import { dubChecksAusTerminen } from './dub-aus-terminen.ts'
+import { ohneKanalSprache } from './kanal-titel.ts'
 
 export interface DubCheck {
   anilistId: number
@@ -113,11 +115,22 @@ export interface DubCheck {
    * bei „7th Time Loop" nennt JustWatch `audio: ja, pt` und führt Deutsch nur
    * unter den Untertiteln. Dann trägt das Nein.
    *
+   * Dasselbe gilt für das Ja: Ohne dieses Feld lässt `ohneKanalSprache()` (kanal-titel.ts) `dub: true` und
+   * `dubRanges` eines Kanal-Titels beim Lesen weg (11.10.2026).
+   *
    * Wer dieses Feld setzt, sagt: **Ich habe eine zweite Quelle angesehen, und
    * hier steht, welche.** Freitext, aber nicht leer — die Zusicherung prüft nur
    * das Dasein, den Wert liest ein Mensch.
    */
   zweiteQuelle?: string
+  /** Vom Lader gesetzt, nie in der Datei: Amazons Sprachangabe dieses Kanal-Titels wurde weggelassen (`kanal-titel.ts`). */
+  kanalOhneBeleg?: boolean
+  /**
+   * Was eine Kanal-Meldung der Erweiterung ab 12.10.2026 gelesen hat: `ja` = in mindestens einer Folge Deutsch, `nein` = in keiner.
+   * Steht in der Datei, zählt aber nicht als Urteil (die Kanal-Regel bleibt). Die jüngere Messung derselben Adresse ersetzt die ältere
+   * (`verschmelze()`); wer die Regel lockert, liest das Urteil aus diesem Feld und nicht aus einem alten `dub: true` darunter.
+   */
+  kanalMessung?: 'ja' | 'nein'
 }
 
 const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')
@@ -168,7 +181,7 @@ function ladeHandbelege(): DubCheck[] {
   const raw = yaml.load(readFileSync(DATEI, 'utf8'))
   if (!Array.isArray(raw)) return []
   const out: DubCheck[] = []
-  for (const eintrag of raw as DubCheck[]) {
+  for (const eintrag of (raw as DubCheck[]).map(ohneKanalSprache)) {
     /**
      * **Eine Lücke aus einer Kanal-Meldung ist ein Nein aus einem Kanal — und das
      * belegt nichts** (17.09.2026).
@@ -283,13 +296,22 @@ function ladeHandbelege(): DubCheck[] {
  * `check-handbelege` schlug nicht an, weil es alle Zeilen eines Verweises
  * zusammen betrachtet und die Frage „welche gewinnt" gar nicht stellt.
  */
-function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
+export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
   // Ohne Datum verliert: Ein undatierter Eintrag verdrängt keinen datierten.
   const [alt, neu] = (a.checkedAt ?? '') <= (b.checkedAt ?? '') ? [a, b] : [b, a]
-  return {
+  const verschmolzen = {
     ...alt,
     ...Object.fromEntries(Object.entries(neu).filter(([, v]) => v !== undefined && v !== null)),
   } as DubCheck
+  /*
+    Meldungen sind oft Teilmeldungen (Cartoon je Staffel, Anime aus der Erweiterung): Die Bereiche ergänzen sich,
+    ein Urteil der jüngeren Meldung gilt nur für die Folgen, die sie nennt.
+  */
+  if (Number.isFinite(a.anilistId) && a.anilistId === b.anilistId && alt.dubRanges?.length && neu.dubRanges?.length) {
+    const gleichAlt = (a.checkedAt ?? '') === (b.checkedAt ?? '')
+    verschmolzen.dubRanges = (gleichAlt ? vereinigeGleichzeitige : vereinigeBereiche)(alt.dubRanges, neu.dubRanges)
+  }
+  return verschmolzen
 }
 
 export function dubKey(anilistId: number, platform: string): string {

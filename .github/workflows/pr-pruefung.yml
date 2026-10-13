@@ -53,7 +53,12 @@ jobs:
       - name: Betrifft der PR die Oberfläche?
         id: pfad
         run: |
-          if git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep -qE '^(web/src/|extension/.*\.css$)'; then
+          # Außer der Oberfläche zählen genau die Dateien, die dieser Job ausführt: panel-bild.mjs,
+          # ansicht-bild.mjs, deren direkte Importe und dieser Workflow.
+          PFADE='^(web/src/|extension/.*\.css$|\.github/workflows/pr-pruefung\.yml$'
+          PFADE="$PFADE|tools/(panel-bild|ansicht-bild|ak-von|bilder-ordner|dist-frisch|panel-sperre"
+          PFADE="$PFADE|ansicht-filterfenster|ansicht-filterfenster-rechner|ansicht-adressen)\.mjs$)"
+          if git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep -qE "$PFADE"; then
             echo "betroffen=1" >> "$GITHUB_OUTPUT"
           fi
       - if: steps.pfad.outputs.betroffen == '1'

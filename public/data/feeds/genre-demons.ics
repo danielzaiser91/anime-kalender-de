@@ -72,10 +72,59 @@ UID:das-band-der-unterwelt-netflix@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Das Band der Unterwelt – Folge 15/≈24
+SUMMARY:Das Band der Unterwelt – Folge 15/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-entertainment-district-arc-primevideo@2026-10-10@anime-kal
+ ender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (Synchro 
+ offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/13758/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/15144/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-mugen-train-arc-primevideo@2026-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/12643/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-swordsmith-village-arc-primevideo@2026-10-10@anime-kalende
+ r-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (Synchro offe
+ n)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/13918/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-179813-netflix@2026-10-10@anime-kalender-de
@@ -163,8 +212,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261014T172500Z
 DTEND:20261014T175500Z
 SUMMARY:Tomb Raider King – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16348/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -195,8 +243,7 @@ DTSTART:20261016T150000Z
 DTEND:20261016T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
  Folge 24/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16234/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -225,7 +272,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261017
 DTEND;VALUE=DATE:20261018
-SUMMARY:Das Band der Unterwelt – Folge 16/≈24
+SUMMARY:Das Band der Unterwelt – Folge 16/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -236,17 +283,8 @@ UID:mushoku-tensei-s3@2026-10-18#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T150000Z
 DTEND:20261018T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16011/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-18#14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T150000Z
-DTEND:20261018T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13–
+ 14/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16011/
 CATEGORIES:Crunchyroll
@@ -282,11 +320,21 @@ DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
 CATEGORIES:ProSieben FUN
 END:VEVENT
 BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T144500Z
+DTEND:20261020T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
 UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261024
 DTEND;VALUE=DATE:20261025
-SUMMARY:Das Band der Unterwelt – Folge 17/≈24
+SUMMARY:Das Band der Unterwelt – Folge 17/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -297,7 +345,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
-SUMMARY:Das Band der Unterwelt – Folge 18/≈24
+SUMMARY:Das Band der Unterwelt – Folge 18/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -379,7 +427,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
-SUMMARY:Das Band der Unterwelt – Folge 19/≈24
+SUMMARY:Das Band der Unterwelt – Folge 19/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -445,7 +493,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261114
 DTEND;VALUE=DATE:20261115
-SUMMARY:Das Band der Unterwelt – Folge 20/≈24
+SUMMARY:Das Band der Unterwelt – Folge 20/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -511,7 +559,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
-SUMMARY:Das Band der Unterwelt – Folge 21/≈24
+SUMMARY:Das Band der Unterwelt – Folge 21/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -589,7 +637,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261128
 DTEND;VALUE=DATE:20261129
-SUMMARY:Das Band der Unterwelt – Folge 22/≈24
+SUMMARY:Das Band der Unterwelt – Folge 22/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -695,7 +743,7 @@ UID:das-band-der-unterwelt-netflix@2026-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261205
 DTEND;VALUE=DATE:20261206
-SUMMARY:Das Band der Unterwelt – Folge 23/≈24
+SUMMARY:Das Band der Unterwelt – Folge 23/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -728,7 +776,7 @@ UID:das-band-der-unterwelt-netflix@2026-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261212
 DTEND;VALUE=DATE:20261213
-SUMMARY:Das Band der Unterwelt – Folge 24/≈24
+SUMMARY:Das Band der Unterwelt – Folge 24/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -743,7 +791,8 @@ DTEND;VALUE=DATE:20261219
 SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flowe
  r) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/7340/
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/7340/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

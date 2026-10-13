@@ -1,0 +1,11 @@
+bauen	Datensatz bauen	2026-10-10T15:47:11.3933495Z [pipeline] 21 Meldungen aus 166 Vorschlägen zugeordnet
+bauen	Datensatz bauen	2026-10-10T15:47:12.8943749Z [pipeline] 19 Cartoons sind auch Anime und stehen dort: -259819→179813, -235930→10020483, -239287→177814, -202284→151639, -202282→150103, -205214→10021027, -155292→170206, -201213→10020607, -195530→153906, -114478→138060, -112162→10015835, -106480→122052, -92584→109217, -84553→105931, -90855→102427, -87848→10015342, -83248→119837, -44593→110364, -19544→1292; 9 Anime-Titel bekamen Anbieter des Cartoons dazu
+bauen	Datensatz bauen	2026-10-10T15:47:13.0300511Z [pipeline] Sprecher-Index: 2607 Sprecher in 25 Gruppen (Index 20 KB, größte Gruppe 35 KB gepackt); 2 Sprecherdateien zu nicht ausgelieferten Titeln übergangen
+bauen	Datensatz bauen	2026-10-10T15:47:13.0364990Z [pipeline]   ⚠ "cr-GR3K50PZR": Release ohne Titel (titleId -1)
+bauen	Datensatz bauen	2026-10-10T15:47:13.0365900Z [pipeline]   ⚠ "adn-197": Release ohne Titel (titleId -1)
+bauen	Datensatz bauen	2026-10-10T15:47:15.5979975Z [pipeline] Synchron-Forum-Liste: 2116 von 2160 Treffern zählen, 44 durch Handprüfung dub:false ausgeschlossen
+bauen	Datensatz bauen	2026-10-10T15:47:15.6040481Z   ✖ aniSearch-Zeile 10021915 und AniList-Titel 209895 sind dasselbe Werk (Kennung oder MAL/Format/Jahr/Folgen) und stehen beide in der Ausgabe
+bauen	Datensatz bauen	2026-10-10T15:47:15.6041314Z 
+bauen	Datensatz bauen	2026-10-10T15:47:15.6041891Z 1 Widerspruch/Widersprüche im ausgelieferten Ergebnis — Bau abgebrochen.
+bauen	Datensatz bauen	2026-10-10T15:47:15.6585510Z ##[error]Process completed with exit code 1.
+

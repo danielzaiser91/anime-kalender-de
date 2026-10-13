@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import type { NewsBeleg } from '@shared/types.ts'
 import { hostVon } from '@shared/quelle.ts'
 import { BELEG_TYP_LABEL, belegTyp } from '@shared/beleg-anbieter.ts'
 import { datumKurz } from '../lib/news-text.ts'
+import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
 import { quellenLabel } from './news-belege.tsx'
+import { Ladeanzeige } from './ui.tsx'
 
 /** **Das Beleg-Bild** an einer Quelle; öffentlich lesbar (Daniel, 04.10.2026). Der archivierte Text (HTML) bleibt privat (Daniel, 05.10.2026). */
 const WORKER = import.meta.env.VITE_NEWSLETTER_API ?? ''
@@ -25,7 +27,7 @@ export function QuellenKnopf({ belege, betreff }: { belege: NewsBeleg[]; betreff
         type="button"
         onClick={() => setOffen(true)}
         title={belege.map(quellenLabel).join(' · ')}
-        className="-my-2.5 ml-auto inline-flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center px-1 text-xs text-slate-600 underline underline-offset-2 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+        className="-my-2.5 ml-auto inline-flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center px-1 text-t4 text-slate-600 underline underline-offset-2 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
       >
         {archiv ? '▣ ' : ''}
         {text}
@@ -41,8 +43,13 @@ function erklaerung(b: NewsBeleg): string {
   if (b.ausgabeAm) return `Produktseite bei ${b.name}; die Ausgabe erscheint am ${datumKurz(b.ausgabeAm)}.`
   const wann = b.veroeffentlichtAm ? `, veröffentlicht am ${datumKurz(b.veroeffentlichtAm)}` : ''
   const spaeter = b.aktualisiertAm && b.aktualisiertAm !== b.veroeffentlichtAm ? `, aktualisiert am ${datumKurz(b.aktualisiertAm)}` : ''
-  return `Quelle: ${b.name}${wann}${spaeter}.`
+  const sprache = b.ueberschrift ? (SPRACHEN[b.ueberschrift.sprache] ?? b.ueberschrift.sprache) : ''
+  const ueberschrift = b.ueberschrift ? ` Überschrift der Seite (${sprache}): „${b.ueberschrift.text}“.` : ''
+  return `Quelle: ${b.name}${wann}${spaeter}.${ueberschrift}`
 }
+
+/** Sprachen der Überschriften offizieller Websites (Art `offiziell`). */
+const SPRACHEN: Record<string, string> = { ja: 'japanisch', en: 'englisch' }
 
 /** Wann wir die Quelle geprüft haben: erstmals, zuletzt, und wann das Bild entstand (nur, was die Beleg-Lesung weiß). */
 function pruefzeile(b: NewsBeleg, mitBild: boolean): string {
@@ -82,14 +89,10 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
   useEffect(() => {
     const esc = (e: KeyboardEvent) => e.key === 'Escape' && zu()
     document.addEventListener('keydown', esc)
-    /* Hinter dem Dialog bleibt die Seite stehen — und ihre Bildlaufleiste verschwindet (Daniel, 04.10.2026). */
-    const vorher = document.documentElement.style.overflow
-    document.documentElement.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', esc)
-      document.documentElement.style.overflow = vorher
-    }
+    return () => document.removeEventListener('keydown', esc)
   }, [zu])
+  /* Hinter dem Dialog bleibt die Seite stehen — und ihre Bildlaufleiste verschwindet (Daniel, 04.10.2026). */
+  useSeiteGesperrt(true)
   return createPortal(
     <div role="dialog" aria-modal="true" aria-label={`Quellen: ${betreff ?? ''}`} className="fixed inset-0 z-[60] flex flex-col bg-black/90 text-slate-200" onClick={zu}>
       <div className="shrink-0 border-b border-white/10 bg-slate-900 px-4 pt-2" onClick={(e) => e.stopPropagation()}>
@@ -147,7 +150,7 @@ function useBelegBild(bild: string | undefined): { url?: string; fehler?: string
         blobUrl = URL.createObjectURL(await r.blob())
         if (aktiv) setUrl(blobUrl)
       })
-      .catch((e: Error) => aktiv && setFehler(e.message))
+      .catch((e: Error) => aktiv && setFehler(e instanceof TypeError ? 'Beleg nicht erreichbar' : e.message))
     return () => {
       aktiv = false
       if (blobUrl) URL.revokeObjectURL(blobUrl)
@@ -166,7 +169,7 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
   const startScroll = useRef(Boolean(beleg.markierung))
   const marke = useRef<HTMLDivElement>(null)
   const [x, y, b, h] = beleg.markierung ?? []
-  const bildGeladen = () => {
+  const bildBereit = () => {
     if (!startScroll.current) return
     startScroll.current = false
     marke.current?.scrollIntoView({ block: 'center' })
@@ -204,9 +207,8 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
           beleg.messung ? <Messung m={beleg.messung} /> : null
         ) : fehler ? (
           <p className="p-4 text-sm text-rose-300">{fehler}</p>
-        ) : url ? (
-          <div className={einpassen ? 'relative h-full max-w-full' : 'relative mx-auto w-full max-w-[1800px]'} onClick={(e) => e.stopPropagation()}>
-            <img src={url} alt={`Beleg: ${beleg.name}`} className={einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} onLoad={bildGeladen} />
+        ) : (
+          <BelegBild url={url} alt={`Beleg: ${beleg.name}`} einpassen={einpassen} bereit={bildBereit}>
             {markiert && x !== undefined && (
               <div
                 ref={marke}
@@ -215,12 +217,39 @@ function BelegAnsicht({ beleg, zu }: { beleg: NewsBeleg; zu: () => void }) {
                 style={{ left: `${x * 100}%`, top: `${(y ?? 0) * 100}%`, width: `${(b ?? 0) * 100}%`, height: `${(h ?? 0) * 100}%` }}
               />
             )}
-          </div>
-        ) : (
-          <p className="p-4 text-sm text-slate-400">Lädt …</p>
+          </BelegBild>
         )}
       </div>
     </>
+  )
+}
+
+/**
+ * Das Bild samt Ladeanzeige: Bis es geladen und gezeichnet ist, hält die Hülle Platz (nichts springt) und zeigt den Kringel;
+ * `bereit` läuft erst, wenn das Bild steht — vorher liegt die Marke noch an der falschen Stelle (Daniel, 12.10.2026, Handy).
+ */
+function BelegBild({ url, alt, einpassen, bereit, children }: { url?: string; alt: string; einpassen: boolean; bereit: () => void; children: ReactNode }) {
+  const [stand, setStand] = useState<'laedt' | 'fertig' | 'kaputt'>('laedt')
+  useLayoutEffect(() => {
+    if (stand === 'fertig') bereit()
+  }, [stand]) // eslint-disable-line react-hooks/exhaustive-deps -- `bereit` liest nur Refs
+  if (stand === 'kaputt') return <p className="p-4 text-sm text-rose-300">Bild konnte nicht angezeigt werden</p>
+  const fertig = stand === 'fertig'
+  const hoehe = fertig ? '' : 'min-h-[60svh]'
+  return (
+    <div className={`relative ${hoehe} ${einpassen ? 'h-full max-w-full' : 'mx-auto w-full max-w-[1800px]'}`} onClick={(e) => e.stopPropagation()}>
+      {!fertig && <Ladeanzeige label="Beleg wird geladen …" className="absolute inset-0 text-slate-300" />}
+      {url && (
+        <img
+          src={url}
+          alt={alt}
+          className={`${einpassen ? 'h-full w-auto max-w-full rounded object-contain' : 'block w-full rounded'} ${fertig ? '' : 'opacity-0'}`}
+          onLoad={() => setStand('fertig')}
+          onError={() => setStand('kaputt')}
+        />
+      )}
+      {fertig && children}
+    </div>
   )
 }
 

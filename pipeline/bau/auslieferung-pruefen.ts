@@ -8,7 +8,10 @@ import { ROOT } from '../lib/util.ts'
 import { todayIso } from '../../shared/time.ts'
 import type { Release, Title } from '../../shared/types.ts'
 import { geplantNichtDeutschHeute, ladeGeplantQuelle } from '../lib/invarianten-geplant.ts'
-import { OUT } from './grundlagen.ts'
+import { dubIdsNachAnisearch, dubsNachTitel } from '../lib/anisearch-marke.ts'
+import { kanalFehler } from './kanal-fehler.ts'
+import { anisearchHand, OUT } from './grundlagen.ts'
+import { anisearchKennungMehrfach } from '../lib/anisearch-kennung-mehrfach.ts'
 import { ohneSynchroVonHand } from './ohne-beleg.ts'
 import { alle as anisearchEintraege } from './anisearch-titel.ts'
 import { anisearchZeilenDoppelt } from './anisearch-dubletten.ts'
@@ -22,7 +25,7 @@ function auslieferungstexte(): { datei: string; text: string }[] {
   return [...dateien, ...synopses].filter((d) => existsSync(resolve(ROOT, OUT, d))).map((datei) => ({ datei, text: readFileSync(resolve(ROOT, OUT, datei), 'utf8') }))
 }
 
-/** D-06 und D-15 an den geschriebenen Dateien (`lib/invarianten-auslieferung.ts`): Fehlermeldungen, leer heißt in Ordnung. */
+/** DD-06 und DD-15 an den geschriebenen Dateien (`lib/invarianten-auslieferung.ts`): Fehlermeldungen, leer heißt in Ordnung. */
 export function auslieferungsInvarianten(releases: Release[]): string[] {
   const lies = <T>(datei: string, leer: T): T => readJson<T>(`${OUT}/${datei}`, leer)
   const auslieferung = {
@@ -35,16 +38,18 @@ export function auslieferungsInvarianten(releases: Release[]): string[] {
   const handbelegteIds = new Set(loadDubChecks().filter((c) => c.dub === true && !c.nichtImBestand).map((c) => c.anilistId))
   return [
     ...synchroNichtHinterToggle(auslieferung, {
-      dubsAnilist: readJson<Record<string, string>>('data/anisearch-dubs.json', {}),
-      dubIds: readJson<Record<string, string>>('data/anisearch-dub-ids.json', {}),
+      dubsAnilist: dubsNachTitel(),
+      dubIds: dubIdsNachAnisearch(),
       handbelegteIds,
       handKeine: ohneSynchroVonHand(),
       heute: todayIso(),
     }),
     ...anisearchZeilenDoppelt([...auslieferung.titles, ...auslieferung.ohneSynchro], anisearchEintraege()),
+    ...anisearchKennungMehrfach(auslieferung.titles, anisearchHand),
     ...werkDoppelt(auslieferung.titles, auslieferung.ohneSynchro, anisearchEintraege()),
     ...reihenVerweiseAufgeloest(auslieferung),
     ...geplantNichtDeutschHeute(releases, new Map(auslieferung.titles.map((t) => [t.id, t])), ladeGeplantQuelle()),
+    ...kanalFehler([...auslieferung.titles, ...auslieferung.ohneSynchro], releases),
     ...keinAnisearchSuchlink(auslieferungstexte()),
     ...hochOhneBeleg(auslieferung.titles, ladeBelegsignale([])).map((id) => `Titel ${id}: Belegstärke high ohne starke oder zwei mittlere Quellen`),
   ]

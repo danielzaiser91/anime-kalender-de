@@ -10,6 +10,7 @@ import {
   loadSynopsis, type Synopsis
 } from '../lib/data.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
 import { useTeilenAdresse } from './detail/teilen-adresse.ts'
 import { useNewsletterVerbindung } from '../lib/newsletterSync.ts'
 import { Quellenuebersicht } from './Quellenuebersicht.tsx'
@@ -23,7 +24,7 @@ import { dubZeilenVon } from './detail/dub-zeilen.ts'
 import { DiscEinzelListe } from './detail/pillen.tsx'
 import { KinoBanner } from './detail/kino.tsx'
 import { VoiceCast, AehnlicheTitel } from './detail/weitere.tsx'
-import { berechneAntwort } from './detail/antwort-berechnen.ts'
+import { berechneAntwortMitDeFolgen } from './detail/antwort-de-folgen.ts'
 import { EckdatenAbschnitt } from './detail/abschnitte.tsx'
 import { HandlungAbschnitt } from './detail/abschnitte.tsx'
 import { TermineAbschnitt } from './detail/abschnitte.tsx'
@@ -128,6 +129,8 @@ export function DetailPanel({
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
+  /* Das Panel liegt über der Seite: sie bleibt dahinter stehen (Daniel, 11.10.2026). */
+  useSeiteGesperrt(true)
 
   const reihe = useReihe(title)
 
@@ -407,9 +410,9 @@ export function DetailPanel({
    * seiner stehen drei Angaben, die es bei einem Film wirklich gibt.
    */
   const antwort = useMemo(() => {
-    return berechneAntwort({ title, releases, today })
+    return berechneAntwortMitDeFolgen({ title, releases, today, deFolgen: synopsis?.deFolgen })
     // `today` steht in der Abhängigkeitsliste, weil `titleStatus` es benutzt.
-  }, [title, releases, today])
+  }, [title, releases, today, synopsis?.deFolgen])
 
   const kaufausgabeZeile = useMemo(() => kaufausgabeZeileVon({ title, releases, today, antwort, t }), [title, releases, today, antwort, t])
 
@@ -460,7 +463,7 @@ export function DetailPanel({
           genau die Platzverschwendung, die verschwinden sollte. Auf schmalen
           Schirmen greift weiterhin `w-full`, dort ändert sich nichts.
         */
-        className="animate-slide-in fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col overflow-y-auto pointer-fine:overscroll-contain border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
+        className="animate-slide-in text-t3 fixed inset-y-0 right-0 z-40 flex w-full max-w-lg flex-col overflow-y-auto pointer-fine:overscroll-contain border-l border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0d1220]"
         role="dialog"
         data-panel="titel"
         aria-label={anzeigeName(title)}
@@ -483,7 +486,7 @@ export function DetailPanel({
           kinoRelease={kinoRelease}
           asZiel={asZiel}
         />
-        <div className="relative flex flex-col gap-4 px-4 pb-8">
+        <div className="relative flex flex-col gap-3 px-4 pb-8">
           {/*
             Die Antwortzeile — der erste Block nach der Bühne.
 

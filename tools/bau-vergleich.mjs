@@ -5,29 +5,59 @@
  *
  * Gebaut wird je Commit in einem eigenen Git-Worktree — das Arbeitsverzeichnis bleibt
  * unangetastet, man kann währenddessen weiterarbeiten. Das Ergebnis eines Commits wird unter
- * `$TMPDIR/bau-vergleich/` aufgehoben; die Basis baut deshalb nur beim ersten Mal (≈ 5 min).
+ * `$TMPDIR/bau-vergleich/` aufgehoben; die Basis baut deshalb nur beim ersten Mal (≈ 5 min). Läuft
+ * schon ein Vergleich, reiht sich der Aufruf in eine Schlange ein (FIFO, Platz und Halter stehen in der Meldung) und wartet bis zu 45 min, bevor er mit Exit 3 aufgibt.
+ * Ein gesperrter, aber auf der Platte fehlender `baum-*`-Worktree (Rest eines hart beendeten Laufs) wird nach der Sperre entfernt (`bau-vergleich-reste.mjs`).
  *
  * `data/cache/` liegt nicht im Repo. Statt des echten Caches wird ein Ersatz aus
  * `public/data/titles.json` und `franchises.json` des Basis-Commits nachgebildet. Der ist nicht
  * echt, aber für beide Seiten derselbe — und mehr braucht ein Gleichheitsbeweis nicht. Beide
- * Seiten starten außerdem vom Datenbestand (`data/`, `public/data/`) der Basis — Datenänderungen
- * des Kandidaten (`data/*.yaml`, `*.json`) werden deshalb nicht verglichen. Ob der Bau auf ihnen
- * durchläuft, zeigt ein zweiter Lauf `HEAD HEAD` (Exit 2, wenn er scheitert); einen Unterschied
- * zur Basis zeigt er nicht.
+ * Seiten starten von `public/data/` und `data/` der Basis; der Kandidat bekommt zusätzlich seine
+ * eigenen Änderungen an `data/` seit der Merge-Basis (`git diff basis...kandidat`, `data/cache/`
+ * ausgenommen), so dass ein PR auf Handdateien (`data/*.yaml`, `*.json`) mitgebaut und verglichen
+ * wird (seit 12.10.2026; vorher bauten beide mit `data/` der Basis und meldeten „gleich“). Nur die
+ * eigenen Änderungen, nicht das ganze `data/` des Kandidaten: Hinter der Basis liegend, brächte er
+ * sonst die Sammler-Rohdaten von `main` als Unterschied mit. Meldet der Vergleich „gleich“, obwohl
+ * der Kandidat `data/` ändert, steht ein Hinweis dabei. Dateien, die auch die Basis geändert hat, werden
+ * zusammengeführt (`bau-vergleich-daten.mjs`), ein Konflikt bricht ab.
+ *
+ * Der Bau läuft mit `BAU_VERGLEICH=1`: Widersprüche im Ergebnis (`pipeline/lib/bau-widerspruch.ts`)
+ * brechen ihn dann nicht ab, sondern stehen als Warnung im Protokoll, das mitverglichen wird. Der
+ * Ersatz-Cache ist nicht der echte, und eine Invariante, die dort reißt, hätte sonst jede Basis
+ * verhindert (12.10.2026: Bookworm-Dublette, Prime-Häkchen ohne Beleg). Bei verschiedenen JSON-Dateien
+ * nennt die Ausgabe die betroffenen Felder (`vergleich-unterschied.mjs`), z. B. `streams[].dubQuelle`.
  *
  * Aufruf:
  *   node tools/bau-vergleich.mjs [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
- * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre).
+ * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre;
+ * wartet vorher der Reihe nach bis zu 45 min), 4 = Konflikt bei der Übernahme der eigenen
+ * data/-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen).
+ *
+ * Ist die Basis kein Vorfahre des Kandidaten (hinter `origin/main`, auseinandergelaufen), steht vor dem Lauf und am Ende eine
+ * WARNUNG (`bau-vergleich-abstand.mjs`) samt Zahl der Dateien, die die Basis selbst geändert hat. Basis und Kandidat als feste
+ * Hashes angeben, nicht gegen das wandernde `origin/main`. Die Sperre nennt wartenden Läufen PID, Hashes, Ort und Alter des Halters.
  */
 import { execFileSync, spawnSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
-import { nurEinmalGleichzeitig } from './einzel-sperre.mjs'
+import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { raeumeVerwaisteBaeume } from './bau-vergleich-reste.mjs'
+import { abstandsWarnung, fremdeUnterschiede, messeAbstand, vonBasisGeaendert } from './bau-vergleich-abstand.mjs'
+import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
+import { FRIST_MS, wartAufSperre } from './einzel-sperre-schlange.mjs'
+import { beschreibeUnterschied } from './vergleich-unterschied.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const ABLAGE = join(tmpdir(), 'bau-vergleich')
 const git = (...args) => execFileSync('git', ['-C', WURZEL, ...args], { encoding: 'utf8', maxBuffer: 1 << 28 }).trim()
+
+const TEXTDATEI = /\.(json|ics|xml|html|txt|md)$/
+
+// Der Ersatz-Cache hat keinen AniList-Katalog, der Katalogpfad (ohne-synchro.json, Katalog-Reihen) liefe also nie mit.
+// `BAU_VERGLEICH_KATALOG=<Pfad zu anilist-katalog.json>` legt dieselbe Datei in beide Bauten und trennt die Ablage.
+const KATALOG_CACHE = process.env.BAU_VERGLEICH_KATALOG
+const KATALOG_MARKE = KATALOG_CACHE ? `-katalog${statSync(KATALOG_CACHE).size}` : ''
 
 // Laufzeiten und Zeitstempel sind in jedem Lauf anders — sie gehören nicht zum Ergebnis.
 const glatt = (s) =>
@@ -80,6 +110,7 @@ function ersatzCache(ort, basisSha) {
   writeFileSync(join(ort, 'anilist-by-id.json'), JSON.stringify(byId))
   writeFileSync(join(ort, 'anilist-media.json'), JSON.stringify(byMal))
   writeFileSync(join(ort, 'dub-confidence.json'), JSON.stringify(confidence))
+  if (KATALOG_CACHE) copyFileSync(KATALOG_CACHE, join(ort, 'anilist-katalog.json'))
 }
 
 /**
@@ -89,12 +120,15 @@ function ersatzCache(ort, basisSha) {
  */
 function entferneBaum(baum) {
   rmSync(baum, { recursive: true, force: true })
-  git('worktree', 'prune')
+  raeumeVerwaisteBaeume(git, ABLAGE)
 }
 
-/** Baut den Code von `sha` auf dem Bestand von `basisSha`; liefert das Verzeichnis mit allem Geschriebenen. */
+/**
+ * Baut den Code von `sha` auf dem Bestand von `basisSha` (`public/data`, `data/`) plus den eigenen Änderungen von
+ * `sha` an `data/`; liefert das Verzeichnis mit allem Geschriebenen.
+ */
 function baue(sha, basisSha) {
-  const ziel = join(ABLAGE, `${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}`)
+  const ziel = join(ABLAGE, `${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}${sha === basisSha ? '' : '-delta'}${KATALOG_MARKE}`)
   if (existsSync(join(ziel, '_protokoll.txt'))) return ziel
   const baum = join(ABLAGE, `baum-${sha.slice(0, 12)}`)
   entferneBaum(baum)
@@ -103,13 +137,14 @@ function baue(sha, basisSha) {
   try {
     // `junction`: unter Windows ohne Administratorrechte möglich, anderswo ignoriert.
     symlinkSync(join(WURZEL, 'node_modules'), join(baum, 'node_modules'), 'junction')
-    imBaum('checkout', basisSha, '--', 'public/data', 'data')
+    setzeDatenstand(git, imBaum, basisSha, sha)
     imBaum('commit', '-q', '--allow-empty', '-m', 'Bestand der Basis', '--no-verify')
     ersatzCache(join(baum, 'data/cache'), basisSha)
     console.log(`baue ${sha.slice(0, 12)} …`)
     // Ohne `npx`/Shell: ein Prozess weniger, und das Kind stirbt mit dem Elternprozess.
     const lauf = spawnSync(process.execPath, ['--import', 'tsx', 'pipeline/build.ts'], {
       cwd: baum,
+      env: { ...process.env, BAU_VERGLEICH: '1' },
       encoding: 'utf8',
       maxBuffer: 1 << 28,
     })
@@ -125,7 +160,7 @@ function baue(sha, basisSha) {
       const nach = join(ziel, pfad)
       mkdirSync(dirname(nach), { recursive: true })
       if (!existsSync(von)) writeFileSync(nach, '<gelöscht>\n')
-      else if (/\.(json|ics|xml|html|txt|md)$/.test(pfad)) writeFileSync(nach, glatt(readFileSync(von, 'utf8')))
+      else if (TEXTDATEI.test(pfad)) writeFileSync(nach, glatt(readFileSync(von, 'utf8')))
       else cpSync(von, nach)
     }
     writeFileSync(join(ziel, '_protokoll.txt'), `exit ${lauf.status}\n${glatt(lauf.stdout)}\n--- stderr\n${glatt(lauf.stderr)}`)
@@ -135,15 +170,40 @@ function baue(sha, basisSha) {
   }
 }
 
-nurEinmalGleichzeitig('bau-vergleich')
-const basis = git('rev-parse', process.argv[2] ?? 'origin/main')
-const kandidat = git('rev-parse', process.argv[3] ?? 'HEAD')
+/** Baut den Kandidaten; ein Datenkonflikt beendet mit eigenem Exit-Code (`EXIT.KONFLIKT`), weil dann nichts verglichen wurde. */
+function baueOderBeende(sha, basisSha) {
+  try {
+    return baue(sha, basisSha)
+  } catch (fehler) {
+    const code = exitFuerFehler(fehler)
+    if (code === null) throw fehler
+    console.error(`KONFLIKT — kein Vergleich: ${fehler.message}`)
+    process.exit(code)
+  }
+}
+
+/** Im Vergleichsmodus bricht ein Widerspruch den Bau nicht ab, sondern steht im Protokoll — hier wird die Zahl genannt. */
+function meldeWiderspruchWarnungen(seite, ordner) {
+  const n = readFileSync(join(ordner, '_protokoll.txt'), 'utf8').split('\n').filter((z) => z.includes('Widerspruch (Vergleichsmodus)')).length
+  if (n) console.log(`${seite}: ${n} Widerspruch-Meldungen des Baus als Warnung durchgelassen (Vergleichsmodus) — Einzelheiten im Protokoll ${ordner}`)
+}
+
+const [basisName, kandidatName] = process.argv.slice(2)
+const basis = git('rev-parse', basisName ?? 'origin/main')
+const kandidat = git('rev-parse', kandidatName ?? 'HEAD')
+const abstand = messeAbstand(git, basis, kandidat)
+const warnung = abstandsWarnung(abstand, basis, kandidat)
+for (const zeile of warnung) console.log(zeile)
+await wartAufSperre('bau-vergleich', FRIST_MS, undefined, `bau-vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} in ${WURZEL}`)
+raeumeVerwaisteBaeume(git, ABLAGE)
 const a = baue(basis, basis)
 if (!readFileSync(join(a, '_protokoll.txt'), 'utf8').startsWith('exit 0')) {
   console.error(`Der Bau der Basis ${basis.slice(0, 12)} scheitert selbst — siehe ${a}/_protokoll.txt`)
-  process.exit(2)
+  process.exit(EXIT.BAU_BASIS)
 }
-const b = baue(kandidat, basis)
+const b = baueOderBeende(kandidat, basis)
+meldeWiderspruchWarnungen('Basis', a)
+meldeWiderspruchWarnungen('Kandidat', b)
 /** Alle Dateien unter `ordner`, relativ und mit `/` — ohne `diff`, das es unter Windows nicht gibt. */
 function dateienUnter(ordner) {
   return readdirSync(ordner, { recursive: true, withFileTypes: true })
@@ -158,8 +218,19 @@ const verschieden = liste.filter((f) => {
 })
 if (!verschieden.length) {
   console.log(`gleich: ${kandidat.slice(0, 12)} schreibt dasselbe wie ${basis.slice(0, 12)}`)
-  process.exit(0)
+  for (const zeile of gleichTrotzDatenHinweis(git, basis, kandidat)) console.log(zeile)
+  for (const zeile of warnung) console.log(zeile)
+  process.exit(EXIT.GLEICH)
 }
-console.log(verschieden.join('\n'))
+for (const f of verschieden) {
+  console.log(f)
+  if (!TEXTDATEI.test(f)) continue
+  const lies = (ordner) => (existsSync(join(ordner, f)) ? readFileSync(join(ordner, f), 'utf8') : '')
+  for (const zeile of beschreibeUnterschied(f, lies(a), lies(b))) console.log(zeile)
+}
+if (warnung.length) {
+  console.log(fremdeUnterschiede(verschieden, vonBasisGeaendert(git, abstand, basis)) ?? 'Keine der verschiedenen Dateien hat die Basis seit der Merge-Basis geändert.')
+  for (const zeile of warnung) console.log(zeile)
+}
 console.log(`VERSCHIEDEN (${verschieden.length} Dateien) — Einzelheiten: ${a} gegen ${b}`)
-process.exit(1)
+process.exit(EXIT.VERSCHIEDEN)

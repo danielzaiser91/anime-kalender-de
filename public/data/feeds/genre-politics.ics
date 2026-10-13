@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Politics
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-05#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T162500Z
-DTEND:20261005T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-05#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T165000Z
-DTEND:20261005T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T133000Z
@@ -215,8 +195,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261014T133000Z
 DTEND:20261014T140000Z
 SUMMARY:Saga of Tanya the Evil – Staffel 2 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/13080/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -226,8 +205,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261014T153000Z
 DTEND:20261014T160000Z
 SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/14858/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -290,8 +268,7 @@ DTSTART:20261016T150000Z
 DTEND:20261016T153000Z
 SUMMARY:Meine Wiedergeburt als Schleim in einer anderen Welt Staffel 4 – 
  Folge 24/24
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16234/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -353,8 +330,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261017T160000Z
 DTEND:20261017T163000Z
 SUMMARY:Jaadugar: A Witch in Mongolia Staffel 1 – Folge 10/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
- eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16797/
 CATEGORIES:Crunchyroll
 END:VEVENT
@@ -373,6 +349,26 @@ UID:auto-21-tv-prosieben-maxx@2026-10-19#34@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T165000Z
 DTEND:20261019T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-20#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T162500Z
+DTEND:20261020T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-20#36@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T165000Z
+DTEND:20261020T172000Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/

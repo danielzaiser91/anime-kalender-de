@@ -38,21 +38,22 @@ export function folgennummernEindeutig(releases: Release[], events: ReleaseEvent
 }
 
 /**
- * Jeder Termin gehört zu einem Release, jedes Release zu einem Titel (B-06: Kalenderkarte ohne Metadaten).
- * `titleId < 0` sind TMDB-Cartoons, die nicht in `titles` stehen; ohne Titel überhaupt (`-1`) ist nur eine Warnung,
- * solange die Event-Show-Einträge noch im Bestand sind.
+ * Jeder Termin gehört zu einem Release, jedes Release und jeder Termin zu einem vorhandenen Titel (B-06; 12.10.2026:
+ * die Karte „Bleach: Memories of Nobody" mit `titleId -1` öffnete ein Panel ohne Metadaten).
+ * `titleId < -1` sind TMDB-Cartoons, die nicht in `titles` stehen; `-1` heißt „kein Titel" und ist immer ein Fehler.
  */
 export function verweiseAufgeloest(releases: Release[], events: ReleaseEvent[], titles: Map<number, Title>): Invarianten {
   const fehler: string[] = []
-  const warnungen: string[] = []
   const slugs = new Set(releases.map((r) => r.slug))
+  const ohneTitel = (id: number) => id === -1 || (id >= 0 && !titles.has(id))
   for (const r of releases) {
-    if (r.titleId === -1) warnungen.push(`"${r.slug}": Release ohne Titel (titleId -1)`)
-    else if (r.titleId >= 0 && !titles.has(r.titleId)) fehler.push(`"${r.slug}": Titel ${r.titleId} gibt es nicht`)
+    if (ohneTitel(r.titleId)) fehler.push(`"${r.slug}": ${r.titleId === -1 ? 'Release ohne Titel (titleId -1)' : `Titel ${r.titleId} gibt es nicht`}`)
   }
   const waisen = events.filter((e) => !slugs.has(e.releaseSlug))
   if (waisen.length) fehler.push(`${waisen.length} Termin(e) ohne Release, z. B. "${waisen[0].releaseSlug}"`)
-  return { fehler, warnungen }
+  const terminOhneTitel = events.filter((e) => ohneTitel(e.titleId))
+  if (terminOhneTitel.length) fehler.push(`${terminOhneTitel.length} Termin(e) ohne vorhandenen Titel, z. B. "${terminOhneTitel[0].id}" (titleId ${terminOhneTitel[0].titleId})`)
+  return { fehler, warnungen: [] }
 }
 
 /** Releases, deren Anbieter selbst ein nicht steigendes Folgendatum liefert (Quelle belegt, nicht unser Rechenfehler); jeder Eintrag mit Grund und Messdatum. */
@@ -60,7 +61,7 @@ export const DATUM_VOM_ANBIETER: Record<string, string> = {
   'lycoris-recoil-crunchyroll-de-2022-07-23': 'Crunchyrolls Katalog datiert Folge 6 auf 2022-08-06T16:00Z, vor Folge 5 (gemessen 08.10.2026, data/crunchyroll-dub.json)',
 }
 
-/** D-01: Eine spätere Folge liegt vor einer früheren (Lycoris Recoil). TV-Sichtungen zeigen Wiederholungen in beliebiger Reihenfolge und zählen nicht. */
+/** DD-01: Eine spätere Folge liegt vor einer früheren (Lycoris Recoil). TV-Sichtungen zeigen Wiederholungen in beliebiger Reihenfolge und zählen nicht. */
 export function folgenDatumSteigt(releases: Release[], events: ReleaseEvent[]): string[] {
   const ausgenommen = new Set([...releases.filter((r) => r.releaseType === 'disc' || r.tvLetzteSichtung).map((r) => r.slug), ...Object.keys(DATUM_VOM_ANBIETER)])
   const je = new Map<string, ReleaseEvent[]>()
@@ -74,14 +75,14 @@ export function folgenDatumSteigt(releases: Release[], events: ReleaseEvent[]): 
   return fehler
 }
 
-/** D-13: Ein Film ist ein Werk — mehrere TV-Sendungen sind Wiederholungen, keine Folgen. Gilt für Film-Format und Release-Typ Film, nicht für Discs. */
+/** DD-13: Ein Film ist ein Werk — mehrere TV-Sendungen sind Wiederholungen, keine Folgen. Gilt für Film-Format und Release-Typ Film, nicht für Discs. */
 export function filmOhneMehrereFolgen(releases: Release[], titles: Map<number, Title>): string[] {
   return releases
     .filter((r) => (r.schedule.episodeCount ?? 0) > 1 && r.releaseType !== 'disc' && (r.releaseType === 'movie' || titles.get(r.titleId)?.format === 'MOVIE'))
     .map((r) => `"${r.slug}": Film mit ${r.schedule.episodeCount} Folgen`)
 }
 
-/** D-14: Die deutsche Fassung erscheint nicht vor der japanischen Erstausstrahlung (westliche Serien und Titel ohne Jahr ausgenommen). */
+/** DD-14: Die deutsche Fassung erscheint nicht vor der japanischen Erstausstrahlung (westliche Serien und Titel ohne Jahr ausgenommen). */
 export function deutschNichtVorJapan(releases: Release[], titles: Map<number, Title>): string[] {
   const fehler: string[] = []
   for (const r of releases) {
@@ -91,14 +92,14 @@ export function deutschNichtVorJapan(releases: Release[], titles: Map<number, Ti
   return fehler
 }
 
-/** D-21: Zwei Termine mit derselben Kennung verschmelzen im Kalender-Abo (ICS-UID). */
+/** DD-21: Zwei Termine mit derselben Kennung verschmelzen im Kalender-Abo (ICS-UID). */
 export function terminKennungenEindeutig(events: ReleaseEvent[]): string[] {
   const zahl = new Map<string, number>()
   for (const e of events) zahl.set(e.id, (zahl.get(e.id) ?? 0) + 1)
   return [...zahl].filter(([, n]) => n > 1).map(([id, n]) => `Termin-Kennung "${id}" kommt ${n}× vor`)
 }
 
-/** D-23: Ein widerlegter Termin steht nicht im Kalender. */
+/** DD-23: Ein widerlegter Termin steht nicht im Kalender. */
 export function widerlegteOhneTermine(releases: Release[], events: ReleaseEvent[]): string[] {
   const widerlegt = new Set(releases.filter((r) => r.widerlegt).map((r) => r.slug))
   const zahl = new Map<string, number>()

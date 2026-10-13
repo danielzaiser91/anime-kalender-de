@@ -14,7 +14,7 @@
  * nachstellt. Hier steht deshalb je Annahme ein Fall, der vor der Reparatur
  * durchgefallen wäre.
  *
- * Aufruf: npm run check:logic
+ * Aufruf: npm run check:logic. Was `public/data` liest, steht in `check-logic-bestand.ts` (`check:bestand`), auch die Handbeleg-Zusicherungen gegen den Bestand.
  */
 import { ladeAkVon, uebersetzeDatei, umleitungen } from './lib/ausgabe-kennung.ts'
 import { umleiteKarte, umleiteListe } from '../web/src/lib/ak-umleiten.ts'
@@ -195,7 +195,7 @@ import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
 import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
 import { adressIndex, nameIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
 import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
-import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
+import { aehnlicheTitel } from '../shared/aehnlich.ts'
 import { bereichsSuche } from '../web/src/lib/filter-suche.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
 import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
@@ -215,7 +215,7 @@ import { staffelNummern } from './lib/staffel-nummern.ts'
 import { loeseGeteilteWegeVonWiderlegten, sammleWiderlegungen, widerlegtDurchWoche, type Wochenprogramm, type WiderlegungsGedaechtnis } from './bau/widerlegung-woche.ts'
 import { istUnplausibel } from './lib/justwatch-plausibel.ts'
 import { adressenAusNews, adressenMitOffenemTermin, belegeFuerAlle, crunchyrollDatum, entzieheBild, kopfzeilenDatum, istArtikel, merkeLesung, traegtArtikeldatum, unveraendertSeit, warteschlange, type BelegGedaechtnis } from './lib/beleg-lesung.ts'
-import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, TV_NAMEN, tvDeSendungen } from './fetch-tv-programm.ts'
+import { baldImTv, namensKern, sendungenAusSeite, titelZuordnen, tvDeSendungen } from './fetch-tv-programm.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -1914,32 +1914,6 @@ console.log('\nStreaming Availability API:')
     'keine AniList-Kennung steht zweimal darin',
     new Set(eintraege.map((e) => e.anilistId)).size === eintraege.length,
   )
-  /*
-    Dieselbe TMDB-Kennung an zwei Titeln ist erlaubt und kommt vor: TMDB führt „Dragon Ball Z
-    Kai" und dessen „Final Chapters" als eine Serie, unser Bestand trennt sie. Erlaubt ist das
-    nur innerhalb derselben Reihe — sonst wandern Wege zu einem fremden Werk.
-  */
-  const jeTmdb = new Map<number, number[]>()
-  for (const e of eintraege) jeTmdb.set(e.tmdbId, [...(jeTmdb.get(e.tmdbId) ?? []), e.anilistId])
-  /*
-    **Beide Bestände zählen.** „Super Dragon Ball Heroes" hat keine deutsche Synchro und steht
-    deshalb in `ohne-synchro.json` — eine TMDB-Kennung braucht es trotzdem, denn genau dort
-    beantwortet sie die Frage „gibt es das irgendwo?".
-  */
-  const imBestand = [
-    ...(JSON.parse(vomBand('public/data/titles.json')) as Title[]),
-    ...(JSON.parse(vomBand('public/data/ohne-synchro.json')) as Title[]),
-  ]
-  const bestand = new Map(imBestand.map((t) => [t.id, t]))
-  const fremdGeteilt = [...jeTmdb.values()]
-    .filter((ids) => ids.length > 1)
-    .filter((ids) => new Set(ids.map((id) => bestand.get(id)?.franchiseId ?? `solo-${id}`)).size > 1)
-  pruefe('eine geteilte TMDB-Kennung bleibt in ihrer Reihe', fremdGeteilt.length === 0, fremdGeteilt)
-  pruefe(
-    'jede AniList-Kennung steht im Bestand',
-    eintraege.every((e) => bestand.has(e.anilistId)),
-    eintraege.filter((e) => !bestand.has(e.anilistId)).map((e) => e.anilistId),
-  )
 }
 
 /**
@@ -2537,68 +2511,6 @@ console.log('\nLücken im Sendeplan und die Uhrzeit')
 }
 
 
-console.log('\nWerktitel gegen Teiltitel')
-
-/**
- * Ein Titel traegt nie die Nummer eines seiner Teile.
- *
- * Bei Yu-Gi-Oh zeigte die Kalenderkarte "Staffel 3", das Detail-Panel
- * darunter "Staffel 2" -- dieselbe Serie, dieselbe Sekunde (Daniel,
- * 24.08.2026, mit zwei Bildern). Beide Disney+-Ausgaben gehoeren zu einer
- * AniList-Serie mit 224 Folgen; der zuerst gelesene kuratierte Eintrag
- * setzte seinen Namen als Werktitel.
- *
- * Geprueft wird am **gebauten** Datensatz, nicht an einer nachgestellten
- * Eingabe: Der Fehler entstand aus der Reihenfolge zweier Eintraege, und
- * genau die bildet nur der echte Lauf ab.
- */
-{
-  /** Direkt von der Platte — diese Datei zieht sonst nichts aus dem Repo. */
-  const lies = (p: string) =>
-    JSON.parse(readFileSync(new URL(`../${p}`, import.meta.url), 'utf8')) as unknown
-  const roh = lies('public/data/titles.json') as Title[] | Record<string, Title>
-  const alleTitel = Array.isArray(roh) ? roh : Object.values(roh)
-  /*
-    **Ausgenommen: Der Eintrag ist selbst der Teil** (22.09.2026). Führt AniList „Girls und Panzer das
-    Finale - Part 4" oder „BEASTARS Final Season Part 2" als eigenen Eintrag, ist die Nummer der Name
-    des Werks — ohne sie hießen zwei Einträge gleich (Sailor Moon Eternal Teil 1 und 2). Die Regel
-    gilt dem Yu-Gi-Oh-Fall: ein Titel für die ganze Serie mit dem Namen eines Blocks.
-  */
-  const nummerImEintrag = (t: Title, nr: string) =>
-    [t.titleEn, t.titleRomaji].some((s) => new RegExp(`(part|teil|vol\\.?|volume)\\s*${nr}\\s*$`, 'i').test(s ?? ''))
-  const mitTeilnummer = alleTitel.filter((t) => {
-    const m = /[–—-]\s*(staffel|season|vol\.?|teil|part)\s*(\d+)\s*$/i.exec(t.titleDe ?? '')
-    return m && !nummerImEintrag(t, m[2]!)
-  })
-  pruefe(
-    'kein Titel traegt die Nummer eines seiner Teile im Namen',
-    mitTeilnummer.length === 0,
-    mitTeilnummer.map((t) => t.titleDe).slice(0, 5),
-  )
-
-  /**
-   * Die Gegenrichtung: Beim **Release** gehoert die Nummer hin. Sie sagt,
-   * welcher Teil erscheint -- ohne sie stuenden zwei gleichnamige Termine
-   * untereinander.
-   */
-  const rohR = lies('public/data/releases.json') as Array<{
-    titleId: number
-    name: string
-    platform: string
-  }>
-  type KurzRelease = { titleId: number; name: string; platform: string }
-  const releasesR: KurzRelease[] = Array.isArray(rohR)
-    ? rohR
-    : (Object.values(rohR) as KurzRelease[])
-  const yugi = releasesR.filter((r) => r.titleId === 481 && r.platform === "disneyplus")
-  pruefe(
-    'die beiden Yu-Gi-Oh-Ausgaben behalten ihre Staffelnummern',
-    yugi.length === 0 ||
-      (yugi.some((r) => /Staffel 2/.test(r.name)) && yugi.some((r) => /Staffel 3/.test(r.name))),
-    yugi.map((r) => r.name),
-  )
-}
-
 /**
  * Ein belegter Anbieter-Verweis heißt „erschienen" — nicht „Termin unbekannt".
  *
@@ -2763,8 +2675,8 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
   ein Nein entfernt den Verweis: „Fullmetal Alchemist" verlor dadurch seinen
   letzten Weg, obwohl derselbe Eintrag sagte, dass die Angabe kein Beleg ist.
 
-  Ein Ja bleibt erlaubt — „es gibt dort deutsche Folgen" stimmt auch bei zu
-  hoher Zahl. Geprüft wird nur die eine Richtung, die Daten löscht.
+  Das Ja aus einem Kanal lässt der Lader seit dem 11.10.2026 weg (lib/kanal-titel.ts, D-25) —
+  hier wird nur die Richtung geprüft, die Daten löscht.
 */
 {
   const yaml = readFileSync(new URL('../data/dub-confirmed.yaml', import.meta.url), 'utf8')
@@ -2906,89 +2818,6 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
     const liste = (yaml.load(roh) as unknown[]) ?? []
     const doppelt = liste.length - new Set(liste.map((b) => JSON.stringify(b))).size
     pruefe('Handbelege: kein Beleg steht zweimal in der Datei', doppelt === 0, `${doppelt} identische Doppel`)
-    /*
-      **Kein Beleg nennt Folgen, die sein Titel nicht hat** — sonst ist die
-      Zählung des Anbieters auf unseren Titel gerutscht. Am 11.09.2026 stand
-      „HAIKYU!! 2nd Season" (25 Folgen) mit „Folge 26 deutsch" im Datensatz:
-      Netflix' S2 E26 ist die OVA „VS Failing Marks". Berichtigt; gemessen
-      standen danach noch 24 Belege derselben Art, am selben Tag 12. Die Schwelle darf nur sinken.
-      Am 13.09.2026 auf 8: Bei Dorohedoro, Tokyo Revengers, Medalist Staffel 2
-      (Disney+) und Railgun S (Prime) hingen überzählige Folgen hinten an, die
-      laut Streaming Availability API zu keinem Titel gehören — gekappt, nicht
-      umgebucht.
-    */
-    const folgenJeTitel = new Map(
-      (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number; episodes?: number }[]).map(
-        (t) => [t.id, t.episodes ?? 0],
-      ),
-    )
-    const drueber = (liste as { anilistId?: number; dubRanges?: { to?: number }[] }[]).filter((b) => {
-      const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
-      return n > 0 && (b.dubRanges ?? []).some((r) => (r.to ?? 0) > n)
-    }).length
-    /*
-      15.09.2026: Die Netflix-Belege von FGO Babylonia (1–22 bei 21 Folgen) und
-      Shiboyugi (1–12 bei 11) über die Folgentitel zugeordnet — Netflix-Folge 1
-      ist „Initium Iter" (110851), Folge 12 von Shiboyugi der Film „44: CLOUDY
-      BEACH" (209961). Zwei neue Belege derselben Titel aus dem Durchgang hatten
-      die Zahl auf 10 gehoben und den Deploy vier Stunden rot gemacht.
-
-      **Die Schwelle bleibt bei 8, auch wenn gerade weniger zählen.** Ich hatte sie
-      danach auf den Messwert 5 gesenkt, und der nächste Bau machte den Deploy
-      sofort wieder rot: Er übernahm zwei Durchgang-Meldungen (Haikyu!! S2 bis 26,
-      Captain Tsubasa bis 91), deren Zuordnung über die Rohfolgen erst aussteht.
-      Solche Belege entstehen bei jedem Zuordnungsauftrag, bis er abgearbeitet ist
-      — ein Messwert von heute ist hier keine Invariante (CLAUDE.md, „Eine
-      Prüfung, die rot wird, weil die Arbeit erledigt ist").
-    */
-    pruefe('Handbelege: höchstens 8 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 8, `${drueber}`)
-    /*
-      **Ein Prime-Beleg ab Amazons Staffel 2 hängt nicht am Reihenkopf, wenn die
-      Reihe genau eine Staffel mit dieser Nummer führt.** Am 16.09.2026 stand
-      „Fruits Basket" (Staffel 1, 25 Folgen) mit der Seite B0GDFC7BL6 und „DE ✓"
-      im Datensatz — laut Meldung Amazons Staffel 3 mit 13 Folgen (Daniel: Staffel
-      1 dort ohne Deutsch). Dieselbe Fehlzuordnung aus der Zeit vor dem 31.08.
-      trugen 14 weitere Belege; umgehängt (drei davon an Staffeln, die der Bestand
-      noch nicht führt: Berserk 2017 S2, Our Last Crusade S2, Irregular S3). Entschieden wird über die
-      Staffelnummer im Namen, nicht über die Folgenzahl — Prime bündelt und teilt
-      anders (CLAUDE.md, „Prime schneidet Reihen anders zu").
-      Bluelock (Staffel 1 mit 24 Folgen, früher als Staffel 2 notiert) hat Daniel am 17.09.2026 geklärt.
-    */
-    const reihen = JSON.parse(readFileSync('public/data/franchises.json', 'utf8')) as Record<
-      string,
-      { id: number; name: string; format?: string; beiwerk?: boolean }[]
-    >
-    const reiheVon = new Map<number, { id: number; name: string; format?: string; beiwerk?: boolean }[]>()
-    for (const r of Object.values(reihen)) for (const m of r) reiheVon.set(m.id, r)
-    const staffelImNamen = (n: string): number | null => {
-      const m = /(?:staffel|season)\s*(\d+)|(\d+)(?:st|nd|rd|th)\s+season/i.exec(n)
-      return m ? Number(m[1] ?? m[2]) : null
-    }
-    /*
-      **Und die Staffelnummer allein entscheidet es nicht** (18.09.2026). Prime teilt
-      „Berserk" von 1997 (25 Folgen) in zwei Staffeln; „Staffel 2" mit 12 Folgen hing
-      seit dem Umhängen an der CGI-Serie „Berserk: Staffel 2" von 2017 — die Seite
-      trägt `releaseYear: 1998`. Ein Beleg mit `jahrLautSeite`, das zum Reihenkopf
-      passt, hängt dort zu Recht.
-    */
-    const jahrVon = new Map(
-      (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number; jpYear?: number }[]).map(
-        (t) => [t.id, t.jpYear],
-      ),
-    )
-    const amKopf = (
-      liste as { anilistId?: number; platform?: string; note?: string; jahrLautSeite?: number }[]
-    ).filter((b) => {
-      const n = Number(/laut Adresse Staffel (\d+)/.exec(b.note ?? '')?.[1] ?? 0)
-      if (b.platform !== 'primevideo' || n < 2 || n > 50) return false
-      const kopfJahr = jahrVon.get(b.anilistId ?? -1)
-      if (b.jahrLautSeite && kopfJahr && Math.abs(b.jahrLautSeite - kopfJahr) <= 1) return false
-      const r = reiheVon.get(b.anilistId ?? -1) ?? []
-      const haupt = r.filter((k) => (k.format === 'TV' || k.format === 'ONA') && !k.beiwerk)
-      if (haupt[0]?.id !== b.anilistId || staffelImNamen(haupt[0].name) !== null) return false
-      return haupt.filter((k) => staffelImNamen(k.name) === n).length === 1
-    }).length
-    pruefe('Handbelege: höchstens 1 Prime-Beleg ab Staffel 2 hängt am Reihenkopf', amKopf <= 1, `${amKopf}`)
   }
 }
 
@@ -3563,7 +3392,7 @@ console.log('\nJapanischer Start: so genau wie die Quelle, und angekündigte Tit
 
 console.log('\nÄhnliche Titel:')
 {
-  const { aehnlicheTitel } = await import('../web/src/lib/aehnlich.ts')
+  const { aehnlicheTitel } = await import('../shared/aehnlich.ts')
   const titel = (id: number, genres: string[], keywords: string[], franchiseId?: number) =>
     ({ id, franchiseId, genres, keywords }) as unknown as import('../shared/types.ts').Title
   const liste = [
@@ -3789,7 +3618,7 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
   pruefe(
     'der Bau legt den Verweis beim gemeldeten Anbieter an',
     /const plattform = eintrag\.plattform as PlatformId/.test(bau) &&
-      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: true \}\)/.test(bau),
+      /title\.streams\.push\(\{ platform: plattform, url: seite, dub: belegt \|\| undefined \}\)/.test(bau),
     'die Plattform ist wieder fest verdrahtet',
   )
   pruefe(
@@ -5076,33 +4905,6 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 }
 
 /*
-  **Eine Ausgabe ohne Deutsch steht nur neben einer mit Deutsch — und nie selbst als Verweis.**
-
-  `ausgabenOhneDe` zeigt eine zweite Ausgabe beim selben Anbieter durchgestrichen
-  (Digimon, 14.09.2026). Ohne deutschen Verweis daneben wäre sie ein belegtes
-  Nein durch die Hintertür, und als Verweis zugleich stünde sie zweimal da, einmal
-  mit „DE ?" und einmal durchgestrichen. Gilt auch für einen Datensatz ohne einen
-  einzigen solchen Fall.
-*/
-{
-  const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | Record<string, Title>
-  const alle = Array.isArray(roh) ? roh : Object.values(roh)
-  const kern =(u: string) => /\/(?:dp|gp\/video\/detail)\/([A-Z0-9]{10,26})/i.exec(u)?.[1] ?? u
-  const falsch = alle.filter((t) =>
-    (t.ausgabenOhneDe ?? []).some(
-      (a) =>
-        (t.streams ?? []).some((s) => kern(s.url) === kern(a.url)) ||
-        !(t.streams ?? []).some((s) => s.platform === a.platform && s.dub === true),
-    ),
-  )
-  pruefe(
-    'eine Ausgabe ohne Deutsch steht nur neben einer mit Deutsch und nie selbst als Verweis',
-    falsch.length === 0,
-    falsch.map((t) => t.id),
-  )
-}
-
-/*
   Eine Sendezeit braucht ihren Wochentag.
 
   Die Uhrzeit einer Folge steht bei Anime2You nur im Fließtext der
@@ -5136,18 +4938,8 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 */
 {
   const hand = ladeTitelDe()
-  const roh = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[] | Record<string, Title>
-  const alle = Array.isArray(roh) ? roh : Object.values(roh)
-  const nachId = new Map(alle.map((t) => [t.id, t]))
   const ohneBeleg = hand.filter((e) => (e.quellen ?? []).length < 2)
   pruefe('jeder Handtitel nennt zwei Quellen', ohneBeleg.length === 0, ohneBeleg.map((e) => e.id))
-  const unbekannt = hand.filter((e) => !nachId.has(e.id))
-  pruefe('jeder Handtitel zeigt auf einen Titel im Bestand', unbekannt.length === 0, unbekannt.map((e) => e.id))
-  const ueberschrieben = hand.filter((e) => {
-    const vorhanden = nachId.get(e.id)?.titleDe
-    return vorhanden !== undefined && vorhanden !== e.titleDe
-  })
-  pruefe('kein Handtitel wurde im Datensatz durch eine Datenbank ersetzt', ueberschrieben.length === 0, ueberschrieben.map((e) => `${e.id}: ${nachId.get(e.id)?.titleDe} statt ${e.titleDe}`))
 }
 
 /*
@@ -5313,10 +5105,6 @@ console.log('\nPrime: ein Handbeleg gilt seiner Adresse:')
 */
 {
   const ueberschrift = (t: string) => `Crunchyrolls aktuelles Wochenprogramm ${t}`
-  {
-    const titelIds = new Set((JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number }[]).map((t) => t.id))
-    pruefe('TV-Handnamen: jede Kennung gibt es im Bestand (sonst hängt eine Sendung an einem toten Titel)', Object.values(TV_NAMEN).every((id) => titelIds.has(id)))
-  }
   {
     const seite = "<section class=\"tw:flex tw:flex-row tw:justify-stretch tw:bg-gray-50\">\n    \n    \n    <div class=\"tw:aspect-4/3 tw:h-full tw:relative\">\n        <img class=\"tw:absolute tw:top-0 tw:left-0 tw:h-full tw:w-full tw:object-cover\"\n             src=\"https://cfres-71f3.kxcdn.com/si/2026/10/09/2446020129/406850158_320x240.jpeg\" alt=\"Yashahime\">\n        <span class=\"tw:absolute tw:inline-block tw:left-0 tw:top-0 tw:px-0.5 tw:py-0.5 tw:text-overline-1 tw:uppercase tw:bg-secondary tw:text-inverse\">16:45</span>\n    </div>\n    <a class=\"tw:flex-1 tw:flex tw:flex-col tw:items-start tw:justify-start tw:py-1 tw:px-1.5 tw:gap-0.5\" href=\"/sendung/yashahime/yashahime-gegenangriff-der-drei-prinzessinnen,2446020129/\">\n        <header>\n            <h3 class=\"tw:text-subtitle-2 tw:max-sm:min-h-[3em]\">\n                Yashahime<span class=\"tw:max-xs:hidden\">: Gegenangriff der drei Prinzessinnen</span>\n            </h3>\n        </header>\n        <span class=\"tw:max-sm:hidden tw:text-body-2\">Animeserie</span>\n        <p class=\"tw:max-sm:hidden tw:line-clamp-3\">Towa und Setsuna engagieren Moroha für einen Auftrag: Die Halbdämonen-Prinzessinnen wollen Rache an Zero nehmen und sie vernichten. Doch Riku stellt sich ihnen ebenfalls in den Weg und kämpft auf der Seite der Dämonin. Außerdem enthüllt er, dass nun alle sieben Regenbogenperlen an einem Ort versammelt sind ...</p>\n    </a>\n</section>"
     const alt = seite.replace(/tw:/g, 'tw-')
@@ -6349,13 +6137,13 @@ pruefe(
     ),
   )
   pruefe(
-    'die Löschanfrage erzwingt den gti-Index',
-    readFileSync('worker/src/pruefung-rohfolgen-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
+    'die Ladeabfrage erzwingt den gti-Index',
+    readFileSync('worker/src/rohfolgen-abgleich.ts', 'utf8').includes('INDEXED BY prime_folge_gti'),
   )
   /* Dieselbe Ursache, die andere Anweisung: `seiten_kennung` las 3430 Zeilen je Aufruf (26 %). */
   pruefe(
-    'und die Seiten-Löschung den Seiten-Index',
-    readFileSync('worker/src/pruefung-rohfolgen-speichern.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
+    'und die Seiten-Ladeabfrage den Seiten-Index',
+    readFileSync('worker/src/rohfolgen-abgleich.ts', 'utf8').includes('INDEXED BY prime_folge_seite') &&
       readFileSync('worker/migrations/042-prime-folge-seite-index.sql', 'utf8').includes('prime_folge_seite'),
   )
   /* Die Abfragen stehen in `lauf-sql.ts` — dort prüft dieser Lauf sie auf Klammer-Gleichgewicht
@@ -6939,10 +6727,10 @@ pruefe(
   pruefe('der Prüfstand liefert alle Ziele, nicht einen Ausschnitt', idx.includes('ziele: alleZiele,') && !/ziele: alleZiele\.slice/.test(idx))
 }
 {
-  /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und Anbieter stehen als Zeilen in Tippziel-Höhe (V2, 11.10.2026). */
+  /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und Anbieter stehen als Pillen in Tippziel-Höhe mit Sprach-Blase (12.10.2026). */
   const panel = panelQuelltext()
   pruefe('ein TOGGO-Weg ist immer „✓ Deutsch"', /statusArt\(istToggo\(e\.url\) \|\|\s*e\.dubRanges/.test(panel))
-  pruefe('die Anbieter stehen als Zeilen von mindestens 48 px', panel.includes('flex min-h-12 min-w-0 flex-1 items-center') && panel.includes('<div className="flex flex-col">{teil}</div>'))
+  pruefe('die Anbieter stehen als Pillen von mindestens 52 px, die Sprache als Blase', panel.includes('inline-flex min-h-[52px] max-w-full items-center') && panel.includes('-top-3.5') && panel.includes('gap-y-4'))
 }
 {
   /* TOGGO-Fenster (19.09.2026, gemessen an Daima und Boruto): die Pille rechnet beim Anzeigen. */
@@ -8304,22 +8092,6 @@ console.log('\nCharakter-Beziehung:')
   }
   pruefe('News: die Ausgabe einer Disc steht kurz im Satz', ausgabeKurz('Vol. 1/2: Limited Steelcase Edition Blu-ray + Sammelschuber') === 'Vol. 1/2' && ausgabeKurz('Gesamtausgabe Blu-ray (Re-Release)') === 'Gesamtausgabe' && ausgabeKurz('Komplettset + Sammelschuber · Komplettset Blu-ray + Sammelschuber') === 'Komplettset' && ausgabeKurz('Limited Edition mit Sammelschuber, DVD & Blu-ray') === undefined && ausgabeKurz(undefined) === undefined)
   {
-    const lies = (f: string) => JSON.parse(readFileSync(f, 'utf8')) as { id: number }[]
-    const ids = new Set([...lies('public/data/titles.json'), ...lies('public/data/ohne-synchro.json')].map((t) => t.id))
-    const nein = ohneSynchroVonHand()
-    pruefe('Ohne Synchro von Hand: jeder Eintrag hat eine Quelle und gehört zu einem Titel des Bestands (sonst wirkt er nirgends)', nein.size >= 7 && [...nein].every((id) => ids.has(id)), [...nein].filter((id) => !ids.has(id)).join(','))
-  }
-  {
-    // Jedes Handurteil „nein" steht nicht im Hauptbestand und trägt hinter dem Toggle `ohneSynchro:true`.
-    // Ausnahme: ein Titel mit Release (belegter deutscher Termin) bleibt im Hauptbestand — `10-termine.ts` überspringt ihn vor dem Handurteil.
-    const lies = (f: string) => JSON.parse(readFileSync(f, 'utf8')) as { id: number; ohneSynchro?: boolean }[]
-    const haupt = new Set(lies('public/data/titles.json').map((t) => t.id))
-    const hinter = new Map(lies('public/data/ohne-synchro.json').map((t) => [t.id, t]))
-    const mitRelease = new Set((JSON.parse(readFileSync('public/data/releases.json', 'utf8')) as { titleId: number }[]).map((r) => r.titleId))
-    const fehler = [...ohneSynchroVonHand()].filter((id) => !mitRelease.has(id) && (haupt.has(id) || hinter.get(id)?.ohneSynchro !== true))
-    pruefe('Ohne Synchro von Hand: jedes Handurteil „nein" steht nicht im Hauptbestand und trägt hinter dem Toggle ohneSynchro:true (außer mit belegtem deutschem Release)', fehler.length === 0, fehler.map((id) => `${id} ${haupt.has(id) ? 'im Hauptbestand' : hinter.has(id) ? 'ohne ohneSynchro-Marke' : 'fehlt hinter dem Toggle'}`).join('; '))
-  }
-  {
     const kein = keinAnimeVonHand()
     pruefe('Kein Anime von Hand: die beiden Diashow-Specials (Princess Principal Picture Drama 100519, Anohana Menma e no Tegami 107342) stehen mit Quelle in der Liste und im Ohne-Synchro-Urteil', kein.has(100519) && kein.has(107342) && kein.has(123074) && [...kein].every((id) => ohneSynchroVonHand().has(id)))
     pruefe('Ohne Synchro von Hand: das Dark-Side-of-Dimensions-Special (102505, ohne deutschen Beleg, aniSearch 08.10.2026) steht hinter dem Toggle, ist aber kein „kein Anime“', ohneSynchroVonHand().has(102505) && !kein.has(102505))
@@ -8478,13 +8250,6 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
   pruefe('Reihen-Zuordnung: Schlüssel und Reihenkennung', kurz['1005']?.f === 1003 && kurz['1005']?.j === 1998)
   const verz = uebersetzeDatei('folgen/index.json', [7, 5], ak) as number[]
   pruefe('Folgenverzeichnis: Kennungen laufen auf ak, sonst fehlt der Folgenpfeil (One Piece)', JSON.stringify(verz) === '[1005,1007]', JSON.stringify(verz))
-  {
-    /* Gegenprobe am echten Bestand: Jede Folgendatei steht nach der Übersetzung auch im Verzeichnis, und umgekehrt. */
-    const { akVon } = ladeAkVon('data/kennungen.json')
-    const dateien = readdirSync('public/data/folgen').filter((f) => /^\d+\.json$/.test(f)).map((f) => akVon(Number(f.slice(0, -5))))
-    const index = new Set(uebersetzeDatei('folgen/index.json', JSON.parse(readFileSync('public/data/folgen/index.json', 'utf8')) as number[], akVon) as number[])
-    pruefe('Folgenverzeichnis deckt jede Folgendatei (nach Übersetzung)', dateien.length === index.size && dateien.every((k) => index.has(k)), `${dateien.length} Dateien, ${index.size} im Verzeichnis`)
-  }
   const sprecher = uebersetzeDatei('sprecher/k.json', { 'Konrad Bösherz': [{ id: 5, rollen: ['Robin'], ann: true }] }, ak) as Record<string, { id: number; rollen: string[]; ann?: true }[]>
   pruefe('Sprecher-Gruppe: Titelkennung auf ak, Name und Rollen unverändert', sprecher['Konrad Bösherz']?.[0]?.id === 1005 && sprecher['Konrad Bösherz']?.[0]?.rollen[0] === 'Robin' && sprecher['Konrad Bösherz']?.[0]?.ann === true, JSON.stringify(sprecher))
   pruefe('unbekannte Dateien bleiben unberührt', uebersetzeDatei('meta.json', { titleCount: 3 }, ak) !== undefined)
@@ -8589,6 +8354,7 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf (und der Nachhol-Kandidat Tonspuren)', um('2026-10-06T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml', um('2026-10-06T04:00:00Z'))
     pruefe('Wecker: Montag 05 Uhr UTC der Wochenlauf, Dienstag nicht', um('2026-10-05T05:00:00Z') === 'refresh-hourly.yml,refresh-weekly.yml' && um('2026-10-06T05:00:00Z') === 'refresh-hourly.yml', um('2026-10-05T05:00:00Z'))
     pruefe('Wecker: ADN alle sechs Stunden, Sonntag zählt als 7', um('2026-10-04T08:00:00Z') === 'adn-laufende.yml,refresh-hourly.yml' && um('2026-10-04T05:00:00Z') === 'refresh-hourly.yml')
+    pruefe('Wecker: die Ladezeiten-Messung täglich um 16 Uhr UTC, sonst nicht', um('2026-10-06T16:00:00Z') === 'ladezeiten.yml,refresh-hourly.yml' && !um('2026-10-06T15:00:00Z').includes('ladezeiten'), um('2026-10-06T16:00:00Z'))
     pruefe('Wecker: der Monatslauf der Tonspuren am 2. um 04 Uhr UTC, am 1. nicht', um('2026-11-02T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml' && um('2026-11-01T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml', um('2026-11-02T04:00:00Z'))
   }
   /* Monatslauf nachholen: ein abgebrochener Lauf am 2. führt am 3. zum Start, ein erfolgreicher nicht (motn 02.10.2026 nach 4 s abgebrochen). */
@@ -8703,8 +8469,6 @@ pruefe('aniSearch-Quellenlink: mit Kennung die Titelseite, ohne Kennung gar kein
   )
   const such = keinAnisearchSuchlink([{ datei: 'a.json', text: '{"url":"https://www.anisearch.de/search?q=x"}' }, { datei: 'b.json', text: '{"url":"https://www.anisearch.de/anime/12,x"}' }, { datei: 'c.json', text: 'https://www.anisearch.de/anime/index?text=y' }])
   pruefe('Zusicherung: ein aniSearch-Suchlink in der Auslieferung wird gemeldet, ein Direktlink nicht', such.length === 2 && such[0]!.startsWith('a.json') && such[1]!.startsWith('c.json'), JSON.stringify(such))
-  const hier = readFileSync('public/data/releases.json', 'utf8')
-  pruefe('Zusicherung: releases.json enthält keinen aniSearch-Suchlink', keinAnisearchSuchlink([{ datei: 'releases.json', text: hier }]).length === 0)
 }
 pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15') === 'https://tv.de/sender/prosieben-maxx/09.10.2026/#09.20:00' && tvdeSendeplatz('prosieben-maxx', '2026-10-09T20:15', '2446020190') === 'https://tv.de/sendung/r/s,2446020190/')
 /* Specials erben den Serien-Treffer nicht, wo er mit einer TV-Serie geteilt wird und weder Name noch Folgenzahl passen. */
@@ -8781,12 +8545,7 @@ pruefe('TV-Beleg springt zur Stunde der Sendung (Boruto, ProSieben MAXX)', tvdeS
   const teil = Object.keys(MAL_AUSNAHMEN).map(Number)[0]!
   pruefe('MAL-Dublette: ein begründeter Teil (Reporter Blues, aniSearch 3873) meldet nichts', malDubletten([{ id: 500, malId: 77 }, { id: 10_000_000 + teil }], mal(teil, 77), '2026-10-08').length === 0)
   pruefe('MAL-Dublette: der Übergang der vier Dubletten gilt bis 15.10.2026, danach nicht mehr', malDubletten([{ id: 204011, malId: 63098 }, { id: 10_021_084 }], mal(21084, 63098), '2026-10-15').length === 0 && malDubletten([{ id: 204011, malId: 63098 }, { id: 10_021_084 }], mal(21084, 63098), '2026-10-16').length === 1)
-  const lies = (f: string) => JSON.parse(readFileSync(f, 'utf8')) as Title[]
-  /* Geprüft wird der Hauptbestand (aniSearch- und AniList-Titel) gegen alle AniList-Titel; die aniSearch-Katalogtitel hinter dem Toggle zählt der Befund nicht. */
-  const alle = [...lies('public/data/titles.json'), ...lies('public/data/ohne-synchro.json').filter((t) => t.id < 10_000_000)]
   const eintraege = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { mal?: number }>
-  const meldungen = malDubletten(alle, eintraege, todayIso())
-  pruefe('MAL-Dublette: im ausgelieferten Datensatz trägt kein aniSearch-Titel die MAL eines AniList-Titels ohne dokumentierte Ausnahme', meldungen.length === 0, meldungen)
   pruefe('MAL-Dublette: jede Ausnahme nennt ihren Grund, und die Kennungen der Ausnahmen sind aniSearch-Kennungen im Eintragsbestand', Object.entries(MAL_AUSNAHMEN).every(([id, g]) => g.length > 10 && id in eintraege))
   /* Die vier Dubletten: Handbindung, AniList-Titel im Bestand → die aniSearch-Zeile entfällt, der AniList-Titel übernimmt die Erstausgabe; ohne ihn bleibt die Zeile. */
   const dubletten = [[204011, 21084], [206814, 21566], [212503, 21575], [213457, 21751]] as const

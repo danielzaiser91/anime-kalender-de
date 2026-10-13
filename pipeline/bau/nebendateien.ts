@@ -7,11 +7,13 @@ import { type PlatformId, type Title, type Release, type Quelle } from '../../sh
 import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
 import { mitLaufzeit } from '../lib/anisearch-felder.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
+import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 import { englischAusSynonymen } from '../lib/anisearch-titel.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { coverFuer } from './cover-regel.ts'
 import { bewertungNachRegel, mitProduktFeldern } from './produkt-regel.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
+import { ohneGesperrte } from './sperre.ts'
 import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
@@ -25,7 +27,7 @@ import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-tite
 import { findeAnisearchDubletten, zeilenMitKennungWeg, type DublettenUrteil } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import { ohneWerkDubletten } from './werk-doppelt-bau.ts'
-import { anisearchKatalogReihen } from './anisearch-reihen-pruefliste.ts'
+import { anisearchKatalogReihenQuelle as anisearchKatalogReihen } from './anisearch-reihen-rein-bau.ts'
 
 /**
  * Schreibt die Anime **ohne** belegte deutsche Synchro als eigene Datei.
@@ -242,8 +244,7 @@ export function schreibeOhneSynchro(
   deutscheReihe: Map<number, string> = new Map(),
   geschuetzt: Set<number> = new Set(),
 ): void {
-  const katalog = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {})
-  const eintraege = katalog.eintraege ?? []
+  const eintraege = ladeKatalogEintraege()
   if (!eintraege.length) {
     /**
      * Kein Katalog — dann bleibt die zuletzt gebaute Datei **stehen**.
@@ -644,7 +645,7 @@ export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): voi
     ein Neuzugang **des Bestands**, und darüber gibt es nichts zu melden.
   */
   const belegteSynchro = (t: Title) => belegteDeutscheSynchro(t, ersterTermin, heute)
-  const neu = titles
+  const neu = ohneGesperrte(titles)
     .filter((t) => {
       const seit = historie.seit[t.id]
       // Der Ausgangsstand ist kein Neuzugang, egal wie jung sein Datum ist.

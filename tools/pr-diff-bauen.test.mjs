@@ -1,6 +1,6 @@
 /** Tests für tools/pr-diff-bauen.mjs: Stub nur für große Dateien der Positivliste, alles andere vollständig. */
 import { readFileSync } from 'node:fs'
-import { baueDiff, gitDiffRunner, ladeQuellen, stubbar, GRENZE_STUB } from './pr-diff-bauen.mjs'
+import { baueDiff, gitDiffRunner, gitInhaltRunner, istDatenJs, ladeQuellen, stubbar, GRENZE_STUB } from './pr-diff-bauen.mjs'
 
 const fehler = []
 const pruefe = (name, ok) => {
@@ -25,6 +25,8 @@ pruefe('kleine Sammler-JSON bleibt vollständig', !bau([datei('data/sammler.json
 pruefe('Datei in Ordner der Liste gestubbt', bau([datei('data/roh-ordner/a/b.json', groß)]).gestubbt.length === 1)
 pruefe('Ordnername als Präfix ohne Schrägstrich trifft nicht', bau([datei('data/roh-ordner-x.json', groß)]).gestubbt.length === 0)
 pruefe('public/data gestubbt', bau([datei('public/data/titles.json', groß)]).gestubbt.length === 1)
+pruefe('data/stammdaten gestubbt', bau([datei('data/stammdaten/x.json', groß)]).gestubbt.length === 1)
+pruefe('data/stammdaten: kleine Handänderung bleibt lesbar', bau([datei('data/stammdaten/x.json', 'klein')]).gestubbt.length === 0)
 pruefe('Bühnen-Fälle (Erzeugnis) gestubbt', bau([datei('web/buehne/faelle.json', groß)]).gestubbt.length === 1)
 pruefe('andere Datei unter web/buehne bleibt vollständig', bau([datei('web/buehne/andere.json', groß)]).gestubbt.length === 0)
 for (const name of ['data/synchro-von-hand.yaml', 'data/ankuendigungen.yaml', 'data/dubletten-grenze.json', 'data/neu-nicht-auf-liste.json']) {
@@ -34,7 +36,7 @@ pruefe('Handbeleg nie gestubbt, auch wenn auf der Liste', bau([datei('data/dub-c
 pruefe('data/curated nie gestubbt', bau([datei('data/curated/x.yaml', groß)]).gestubbt.length === 0)
 // Pfad zusammengesetzt: check-cache-abhaengigkeit liest Cache-Pfade als Literale und verlangt sonst einen Registereintrag.
 pruefe('data/cache nie gestubbt (voller Diff sichtbar)', bau([datei('data/' + 'cache/x.json', groß)]).gestubbt.length === 0)
-for (const pfad of ['data/skript.ts', 'data/x.mjs', 'data/x.yml', 'data/x.json.ts', 'data/x.md', 'tools/x.json', 'public/data/x.js', '.github/workflows/x.yaml', 'data/../tools/x.json', 'data/x.json\n.ts', 'data/roh-ordner/x.ts']) {
+for (const pfad of ['data/stammdaten/x.ts', 'data/stammdaten/../cache/x.json', 'data/stammdaten-x/y.json', 'data/stammdaten.json', 'data/stammdaten/a\nb.json', 'data/skript.ts', 'data/x.mjs', 'data/x.yml', 'data/x.json.ts', 'data/x.md', 'tools/x.json', 'public/data/x.js', '.github/workflows/x.yaml', 'data/../tools/x.json', 'data/x.json\n.ts', 'data/roh-ordner/x.ts']) {
   pruefe(`Pfad ${JSON.stringify(pfad)} nie stubbar`, !stubbar(pfad, quellen))
 }
 const umbruch = bau([datei('data/curated/a\nb.json', groß), datei('data/a\nb.json', groß), datei('data/a\rb.json', groß)])
@@ -50,6 +52,10 @@ const handOhnePatch = bau([datei('data/synchro-von-hand.yaml', undefined)])
 pruefe('ohne Patch bei Handdatei (nicht auf der Liste) → unvollstaendig, nicht gestubbt', handOhnePatch.zustand === 'unvollstaendig' && handOhnePatch.gestubbt.length === 0 && handOhnePatch.diff.includes('Diff nicht lieferbar'))
 pruefe('ohne Patch bei Sammler-Datei → Stub, ok', bau([datei('data/sammler.json', undefined)]).zustand === 'ok')
 pruefe('leere Liste → unvollstaendig', bau([]).zustand === 'unvollstaendig')
+const umbenannt = (von, nach) => datei(nach, groß, { status: 'renamed', previous_filename: von })
+pruefe('Umbenennung web → public/data mit großem Patch nicht gestubbt', bau([umbenannt('web/x.ts', 'public/data/x.json')]).gestubbt.length === 0)
+pruefe('Umbenennung Handbeleg → data/stammdaten nicht gestubbt', bau([umbenannt('data/dub-confirmed.yaml', 'data/stammdaten/x.json')]).gestubbt.length === 0)
+pruefe('Umbenennung innerhalb public/data bleibt stubbar', bau([umbenannt('public/data/a.json', 'public/data/b.json')]).gestubbt.length === 1)
 pruefe('Umbenennung ohne Änderung → ok', bau([datei('a.md', undefined, { status: 'renamed', previous_filename: 'b.md', additions: 0, deletions: 0 })]).zustand === 'ok')
 
 // Git-Rückfall (11.10.2026): fehlt der API-Patch bei einer nicht stubbaren Datei, kommt der Diff aus Git-Objekten.
@@ -79,6 +85,53 @@ pruefe('Runner: Exit ≠ 0 → null', gitDiffRunner(SHA_A, SHA_B, () => ({ statu
 pruefe('Runner: leere Ausgabe → null', gitDiffRunner(SHA_A, SHA_B, () => ({ status: 0, stdout: '\n' }))({ filename: 'x' }) === null)
 pruefe('Runner: Fehler beim Start (kein stdout) → null', gitDiffRunner(SHA_A, SHA_B, () => ({ status: null, error: new Error('x') }))({ filename: 'x' }) === null)
 pruefe('Runner ohne/mit ungültiger SHA → nie ein Aufruf', gitDiffRunner(undefined, SHA_B, () => { throw new Error('x') })({ filename: 'x' }) === null && gitDiffRunner('--evil', SHA_B, () => { throw new Error('x') })({ filename: 'x' }) === null)
+
+// Daten-JS (13.10.2026): gestubbt nur, wenn die Datei auf der Liste steht UND am Kopf nur aus `globalThis.AK_X = JSON` besteht.
+const quellenJs = ladeQuellen('QUELLEN=(\n  data/sammler.json\n  extension/offene-x.js\n  extension/offene-y.js\n)')
+pruefe('ladeQuellen: extension/-Einträge der Liste', quellenJs.join(',') === 'data/sammler.json,extension/offene-x.js,extension/offene-y.js')
+pruefe('ladeQuellen liest echte extension/offene-*.js', ['amazon', 'disney', 'netflix'].every((n) => echt.includes(`extension/offene-${n}.js`)))
+const daten = 'globalThis.AK_OFFENE_X = {"a":{"titel":"Ä","n":[1,2]}}\nglobalThis.AK_OFFENE_X_STAND = "abc"\n'
+const jsBau = (pfad, text, extra = {}, liste = quellenJs) => baueDiff([datei(pfad, undefined, extra)], liste, () => null, () => text)
+const jsStub = jsBau('extension/offene-x.js', daten)
+pruefe('Daten-JS auf der Liste, ohne API-Patch → Stub, ok', jsStub.zustand === 'ok' && jsStub.gestubbt.join() === 'extension/offene-x.js')
+pruefe('Daten-JS mit großem Patch → Stub', baueDiff([datei('extension/offene-x.js', groß)], quellenJs, () => null, () => daten).gestubbt.length === 1)
+pruefe('Daten-JS mit kleinem Patch bleibt lesbar', baueDiff([datei('extension/offene-x.js', '+klein')], quellenJs, () => null, () => daten).gestubbt.length === 0)
+pruefe('Daten-JS: Inhalt wird für kleine Patches nicht geholt', baueDiff([datei('extension/offene-x.js', '+klein')], quellenJs, () => null, () => { throw new Error('nicht fragen') }).zustand === 'ok')
+pruefe('Daten-JS: Stub-Text nennt Pfad', jsStub.diff.includes('Datendatei extension/offene-x.js: Diff von GitHub nicht geliefert'))
+const keinDatenJs = [
+  ['Funktion', 'globalThis.AK_OFFENE_X = {"a":1}\nfunction f() { alert(1) }\n'],
+  ['zweite Anweisung in der Zeile', 'globalThis.AK_OFFENE_X = {"a":1}; alert(1)\n'],
+  ['abschließendes Semikolon', 'globalThis.AK_OFFENE_X = {"a":1};\n'],
+  ['Kommentar mit Code', '// alert(1)\nglobalThis.AK_OFFENE_X = {"a":1}\n'],
+  ['Blockkommentar', 'globalThis.AK_OFFENE_X = {"a":1} /* x */\n'],
+  ['Wert kein JSON', 'globalThis.AK_OFFENE_X = {a:1}\n'],
+  ['Wert ist Aufruf', 'globalThis.AK_OFFENE_X = alert(1)\n'],
+  ['andere Zuweisung', 'window.AK_X = {"a":1}\n'],
+  ['Name nicht AK_', 'globalThis.evil = {"a":1}\n'],
+  ['Code-Global statt Datenliste', 'globalThis.AK_OFFENE_X = {"a":1}\nglobalThis.AK_TAGESLIMIT = null\n'],
+  ['Name mit Kleinbuchstaben', 'globalThis.AK_x = {"a":1}\n'],
+  ['Zeilenende CR', 'globalThis.AK_OFFENE_X = {"a":1}\r\nalert(1)\n'],
+  ['Zeilentrenner U+2028', 'globalThis.AK_OFFENE_X = {"a":1} alert(1)\n'],
+  ['leere Zeile mittendrin', 'globalThis.AK_OFFENE_X = {"a":1}\n\nglobalThis.AK_OFFENE_Y = 2\n'],
+  ['leere Datei', ''],
+]
+for (const [name, text] of keinDatenJs) {
+  const r = jsBau('extension/offene-x.js', text)
+  pruefe(`JS mit ${name} wird nicht gestubbt (ohne Diff → unvollstaendig)`, r.gestubbt.length === 0 && r.zustand === 'unvollstaendig')
+}
+pruefe('Inhalt nicht lesbar (null) → nicht gestubbt', jsBau('extension/offene-x.js', null).gestubbt.length === 0)
+pruefe('Daten-JS nicht auf der Liste → nicht gestubbt', jsBau('extension/offene-z.js', daten).gestubbt.length === 0)
+pruefe('Daten-JS auf der Liste, aber andere Liste ohne extension → nicht gestubbt', jsBau('extension/offene-x.js', daten, {}, quellen).gestubbt.length === 0)
+pruefe('Daten-JS in anderem Ordner (Listenpfad nur exakt) → nicht gestubbt', jsBau('web/src/offene-x.js', daten).gestubbt.length === 0 && jsBau('extension/unter/offene-x.js', daten).gestubbt.length === 0)
+pruefe('Daten-JS gelöscht → nicht gestubbt', jsBau('extension/offene-x.js', daten, { status: 'removed' }).gestubbt.length === 0)
+pruefe('Umbenennung von Code-JS nach Daten-JS → nicht gestubbt', jsBau('extension/offene-x.js', daten, { status: 'renamed', previous_filename: 'extension/melder.js' }).gestubbt.length === 0)
+pruefe('Umbenennung zwischen Listen-Daten-JS → gestubbt', jsBau('extension/offene-x.js', daten, { status: 'renamed', previous_filename: 'extension/offene-y.js' }).gestubbt.length === 1)
+pruefe('istDatenJs: nur Text, kein Objekt', !istDatenJs(undefined) && !istDatenJs({ toString: () => daten }))
+const jsAufrufe = []
+const jsLauf = (befehl, args, opt) => (jsAufrufe.push({ befehl, args, opt }), { status: 0, stdout: daten })
+pruefe('Inhalts-Runner liest den Blob am Kopf ohne Shell', gitInhaltRunner(SHA_B, jsLauf)({ filename: 'extension/offene-x.js' }) === daten && jsAufrufe[0].args.join(' ') === `cat-file blob ${SHA_B}:extension/offene-x.js` && !jsAufrufe[0].opt.shell)
+pruefe('Inhalts-Runner: Fehler → null', gitInhaltRunner(SHA_B, () => ({ status: 128, stdout: '' }))({ filename: 'x' }) === null)
+pruefe('Inhalts-Runner ohne gültige SHA → nie ein Aufruf', gitInhaltRunner('', () => { throw new Error('x') })({ filename: 'x' }) === null)
 
 if (fehler.length > 0) {
   console.error(`pr-diff-bauen.test: ${fehler.length} Fehler`)

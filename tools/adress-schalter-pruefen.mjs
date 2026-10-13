@@ -71,11 +71,11 @@ async function pruefeDatenbank(browser) {
   await s.context().close()
 
   const f = await oeffne(browser, 'http://ak.test/#/datenbank?q=yaiba&ohne=x&staffeln=7')
-  pruefe('Ungültige Werte: Voreinstellung (ohne aus, Staffeln an)', !(await an(f, OHNE)) && (await an(f, STAFFELN)))
+  pruefe('Ungültige Werte: Voreinstellung (ohne aus, Staffeln aus)', !(await an(f, OHNE)) && !(await an(f, STAFFELN)))
   await f.context().close()
 
-  const g = await oeffne(browser, 'http://ak.test/#/datenbank?q=yaiba', { groupSeasons: '0' })
-  pruefe('Ohne Parameter: der gespeicherte Wert gilt (Staffeln aus)', !(await an(g, STAFFELN)))
+  const g = await oeffne(browser, 'http://ak.test/#/datenbank?q=yaiba', { groupSeasons: '1' })
+  pruefe('Ohne Parameter: der gespeicherte Wert gilt (Staffeln an)', await an(g, STAFFELN))
   await g.context().close()
 }
 

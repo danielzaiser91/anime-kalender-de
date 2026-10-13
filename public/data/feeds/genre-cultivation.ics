@@ -6,26 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Cultivation
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T151000Z
-DTEND:20261005T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-05#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T153500Z
-DTEND:20261005T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T150500Z
@@ -124,6 +104,18 @@ SUMMARY:Solo Leveling: Arise from the Shadow – Folge 7/7
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15790/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/15144/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-11@anime-kalender-de
@@ -294,6 +286,26 @@ SUMMARY:Hell’s Paradise – Folge 6/6
 DESCRIPTION:Plattform: ProSieben FUN\nRelease-Art: Wöchentlich (Simuldub)\
  nDetails: https://anime-kalender.de/t/12442/
 CATEGORIES:ProSieben FUN
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-20#34@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T151000Z
+DTEND:20261020T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-20#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T153500Z
+DTEND:20261020T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
 END:VEVENT
 BEGIN:VEVENT
 UID:junge-und-das-biest-ultimate-edition@2026-10-22@anime-kalender-de

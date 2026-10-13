@@ -2,9 +2,10 @@ import { writeJson, readJson, log } from '../lib/util.ts'
 import { pruefeInvarianten, zaehlworteStimmen } from '../lib/invarianten.ts'
 import { zaehleBelegte } from '../lib/belegstaerke.ts'
 import { OUT } from './grundlagen.ts'
+import { brichAbBeiWiderspruch } from '../lib/bau-widerspruch.ts'
 import { cartoonsAusReleases } from './cartoon-kern.ts'
 import { auslieferungsInvarianten } from './auslieferung-pruefen.ts'
-import { releasesAusNurOriginalton } from '../lib/pruefung.ts'
+import { deutschNurAusSpracheTermin, releasesAusNurOriginalton } from '../lib/pruefung.ts'
 import { autoReleaseWidersprueche } from '../lib/auto-release-pruefung.ts'
 import { vorschlaegeAusAllenSammelartikeln } from '../lib/sammelartikel.ts'
 import { baueNews, type NewsHistorie } from '../lib/news.ts'
@@ -38,6 +39,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   */
   bruecheBeiWiderspruchAb(pruefeInvarianten(releases, events, titles))
   bruecheBeiWiderspruchAb({ fehler: [...auslieferungsInvarianten(releases),...releasesAusNurOriginalton(releases, nurOriginaltonAdressen()), ...autoReleaseFehler(releases)], warnungen: [] })
+  bruecheBeiWiderspruchAb({ fehler: deutschNurAusSpracheTermin(releases, titles), warnungen: [] })
   writeJson(`${OUT}/releases.json`, releases)
   writeJson(`${OUT}/events.json`, events)
 
@@ -83,7 +85,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   /* Releases kommen nach `baueMeta` noch hinzu (motn-*, Erstausgaben): gezählt wird, was in der Datei steht. */
   meta.releaseCount = releases.length
   meta.eventCount = events.length
-  meta.belegtCount = zaehleBelegte(readJson<Pick<Title, 'dubConfidence'>[]>(`${OUT}/titles.json`, []))
+  meta.belegtCount = zaehleBelegte(readJson<Pick<Title, 'dubConfidence' | 'westlich' | 'streams'>[]>(`${OUT}/titles.json`, []))
   writeJson(`${OUT}/meta.json`, meta, true)
   bruecheBeiWiderspruchAb({ fehler: zaehlworteAusDateien(), warnungen: [] })
   return { newsFuerRss }
@@ -94,7 +96,7 @@ function zaehlworteAusDateien(): string[] {
   const laenge = (datei: string) => readJson<unknown[]>(`${OUT}/${datei}`, []).length
   return zaehlworteStimmen(readJson(`${OUT}/meta.json`, { titleCount: -1, releaseCount: -1, eventCount: -1 }), {
     titles: laenge('titles.json'),
-    belegt: zaehleBelegte(readJson<Pick<Title, 'dubConfidence'>[]>(`${OUT}/titles.json`, [])),
+    belegt: zaehleBelegte(readJson<Pick<Title, 'dubConfidence' | 'westlich' | 'streams'>[]>(`${OUT}/titles.json`, [])),
     releases: laenge('releases.json'),
     events: laenge('events.json'),
   })
@@ -103,10 +105,7 @@ function zaehlworteAusDateien(): string[] {
 /** Ein Widerspruch im erzeugten Ergebnis bricht den Bau ab — lieber keine frischen Daten als falsche. */
 function bruecheBeiWiderspruchAb({ fehler, warnungen }: { fehler: string[]; warnungen: string[] }): void {
   for (const w of warnungen) log(`  ⚠ ${w}`)
-  if (!fehler.length) return
-  for (const f of fehler) console.error('  ✖', f)
-  console.error(`\n${fehler.length} Widerspruch/Widersprüche im ausgelieferten Ergebnis — Bau abgebrochen.`)
-  process.exit(1)
+  brichAbBeiWiderspruch(fehler, 'Widerspruch/Widersprüche im ausgelieferten Ergebnis — Bau abgebrochen.')
 }
 
 /** Adressen der Anime2You-Meldungen, die nur Originalton nennen — der Grund, wenn eine Ankündigung daraus zurückgezogen wird. */

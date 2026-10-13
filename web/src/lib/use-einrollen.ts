@@ -6,7 +6,7 @@ const NACHLAUF_MS = 1500
 /**
  * Die Kopfleiste rollt beim Abwärtsscrollen ein und beim Hochscrollen wieder aus (`data-kopf-weg`, CSS in `styles.css`).
  * Nur Nutzer-Scroll zählt (Touch, Mausrad, Tasten) — ein Sprung per `scrollTo` lässt sie stehen. Oben auf der Seite,
- * bei offenem Filterfenster (`data-filter-offen`) und bei Fokus in der Leiste bleibt sie sichtbar.
+ * bei Fokus in einem Eingabefeld der Leiste bleibt sie sichtbar. Offen steht das Filterfenster, die Seite scrollt dann nicht.
  */
 export function useEinrollen(kopf: RefObject<HTMLElement | null>, aktiv: boolean, ansicht: string): void {
   useEffect(() => {
@@ -25,7 +25,7 @@ export function useEinrollen(kopf: RefObject<HTMLElement | null>, aktiv: boolean
       window.clearTimeout(timer)
       timer = window.setTimeout(() => (nutzer = false), dauer)
     }
-    const sperre = () => el.dataset.filterOffen === '1' || (el.contains(document.activeElement) && document.activeElement instanceof HTMLInputElement)
+    const sperre = () => el.contains(document.activeElement) && document.activeElement instanceof HTMLInputElement
     const scroll = () => {
       const y = window.scrollY
       const dy = y - letzte

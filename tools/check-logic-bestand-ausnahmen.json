@@ -1,0 +1,5 @@
+{
+  "_hinweis": "Altlasten des Wächters in tools/check-logic-alle.mjs: Prüfungen in check:logic, die public/data noch lesen dürfen. Nur die genannten Pfade, nur bis zur Frist, nur solange sie wirklich gelesen werden. `hoechstens` wird nur gesenkt, nie von Hand erhöht (Stand 12.10.2026: 0).",
+  "hoechstens": 0,
+  "ausnahmen": []
+}

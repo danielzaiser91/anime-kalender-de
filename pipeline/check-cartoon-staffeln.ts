@@ -1,13 +1,9 @@
 /**
  * Zusicherungen zu den Staffeln der Cartoons (`lib/cartoon-staffeln.ts`, `bau/cartoon-staffeln.ts`): JustWatch vor TMDB,
  * Specials zählen nicht, ein Widerspruch oder eine Summe neben der Gesamtfolgenzahl (±3) landet mit Grund auf der
- * Prüfliste. Läuft in `check:logic`.
+ * Prüfliste. Läuft in `check:logic`; der Bestandsteil steht in `check-cartoon-staffeln-bestand.ts`.
  */
-import { existsSync } from 'node:fs'
-import { readJson } from './lib/util.ts'
-import { jwStaffeln, summe, SUMMEN_TOLERANZ, tmdbStaffeln, waehleStaffeln } from './lib/cartoon-staffeln.ts'
-import { PRUEFLISTE, type StaffelPruefung } from './bau/cartoon-staffeln.ts'
-import type { Title } from '../shared/types.ts'
+import { jwStaffeln, tmdbStaffeln, waehleStaffeln } from './lib/cartoon-staffeln.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, info = ''): void {
@@ -56,20 +52,6 @@ pruefe('Summe weit neben der Gesamtfolgenzahl: Grund', pj?.gruende.some((g) => g
 pruefe('Summe um genau 3 daneben: kein Grund', waehleStaffeln(undefined, tmdb(13, 10), 26)?.gruende.length === 0)
 pruefe('Summe um 4 daneben: Grund', waehleStaffeln(undefined, tmdb(13, 10), 27)?.gruende.length === 1)
 pruefe('ohne Gesamtfolgenzahl wird die Summe nicht geprüft', waehleStaffeln(undefined, tmdb(13, 10), undefined)?.gruende.length === 0)
-
-// Echter Bestand (nach einem Bau): jede Staffelangabe ist wohlgeformt, und was nicht zur Gesamtfolgenzahl passt, steht auf der Prüfliste.
-const OUT = 'public/data/cartoons.json'
-if (existsSync(OUT)) {
-  const mit = readJson<Title[]>(OUT, []).filter((t) => t.staffeln)
-  const liste = new Set(readJson<StaffelPruefung[]>(PRUEFLISTE, []).map((p) => p.titleId))
-  const wohlgeformt = (t: Title) =>
-    t.staffeln!.every((s, i, alle) => Number.isInteger(s.nr) && s.nr >= 1 && Number.isInteger(s.folgen) && s.folgen >= 1 && (i === 0 || alle[i - 1].nr < s.nr))
-  pruefe('Bestand: Staffeln aufsteigend, ab Nummer 1, mit ganzzahliger Folgenzahl', mit.every(wohlgeformt))
-  pruefe('Bestand: jede Staffelangabe nennt ihre Quelle', mit.every((t) => t.staffelnQuelle === 'justwatch' || t.staffelnQuelle === 'tmdb' || t.staffelnQuelle === 'handbeleg'))
-  // Ein Handbeleg ist selbst die Prüfung.
-  const abweichend = mit.filter((t) => t.staffelnQuelle !== 'handbeleg' && t.episodes &&Math.abs(summe(t.staffeln!) - t.episodes) > SUMMEN_TOLERANZ && !liste.has(t.id))
-  pruefe('Bestand: Staffelsumme passt zur Gesamtfolgenzahl (±3) oder der Titel steht auf der Prüfliste', abweichend.length === 0, abweichend.map((t) => t.id).slice(0, 10).join())
-}
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) zu den Cartoon-Staffeln verletzt`)

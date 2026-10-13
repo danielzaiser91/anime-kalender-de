@@ -14,7 +14,6 @@ import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } fr
 import { resolve } from 'node:path'
 import { parseFeed } from './lib/feed.ts'
 import { log, readJson, sleep, warn, writeJson } from './lib/util.ts'
-import { eingearbeiteteAdressen } from './lib/eingearbeitet.ts'
 import { todayIso } from '../shared/time.ts'
 import { artikelText, lohntLesung, neueKandidaten, type Kandidat } from './lib/anime2you-artikel.ts'
 import { beschreibe, pruefeVorschlag } from './lib/anime2you-vorschlag.ts'
@@ -60,7 +59,7 @@ async function auswahl(ordner: string): Promise<void> {
   const bestand = readJson<Bestand>(DATEI, { gelesen: {}, vorschlaege: [] })
   const feed = await feedArtikel()
   if (!feed.length) throw new Error('Kein Artikel im Feed – Aufbau geändert oder Seite nicht erreichbar')
-  const kandidaten = neueKandidaten(feed, new Set(Object.keys(bestand.gelesen)), eingearbeiteteAdressen(), HOECHSTENS_ABRUFE)
+  const kandidaten = neueKandidaten(feed, new Set(Object.keys(bestand.gelesen)), HOECHSTENS_ABRUFE)
   const aus: Auswahl = { kandidaten: [], uebersprungen: [] }
   mkdirSync(resolve(ordner, 'artikel'), { recursive: true })
   mkdirSync(resolve(ordner, 'ergebnis'), { recursive: true })

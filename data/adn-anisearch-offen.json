@@ -1,0 +1,166 @@
+{
+  "anzahl": 20,
+  "serien": [
+    {
+      "showId": 444,
+      "title": "Jojo’s Bizarre Adventure",
+      "originalTitle": "JoJo no Kimyou na Bouken",
+      "grund": "mehrdeutig",
+      "kandidaten": [
+        {
+          "asId": 74,
+          "name": "JoJo no Kimyou na Bouken",
+          "jahr": 1993,
+          "punkte": 6,
+          "gleich": true
+        },
+        {
+          "asId": 207,
+          "name": "Jojo no Kimyou na Bouken (2000)",
+          "jahr": 2000,
+          "punkte": 6,
+          "gleich": true
+        },
+        {
+          "asId": 7946,
+          "name": "JoJo no Kimyou na Bouken (2012)",
+          "jahr": 2012,
+          "punkte": 6,
+          "gleich": true
+        }
+      ]
+    },
+    {
+      "showId": 663,
+      "title": "Bob Morane",
+      "originalTitle": "Bob Morane",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 727,
+      "title": "Lucky Luke",
+      "originalTitle": "Lucky Luke",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 729,
+      "title": "Spirou",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 731,
+      "title": "Titeuf",
+      "originalTitle": "Titeuf",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 732,
+      "title": "Magic Roundabout",
+      "originalTitle": "The Magic Roundabout",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 734,
+      "title": "Tintin (Adventures)",
+      "originalTitle": "Les Aventures de Tintin",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 748,
+      "title": "Die unglaublichen Abenteuer des Kapitän Cousteau",
+      "originalTitle": "Les Aventures Fantastiques du Commandant Cousteau",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 778,
+      "title": "Spirou und Fantasio",
+      "originalTitle": "Spirou & Fantasio",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 817,
+      "title": "Martin Morgen",
+      "originalTitle": "Martin Matin",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1144,
+      "title": "Billy & Buddy",
+      "originalTitle": "Boule et Bill",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1145,
+      "title": "The Garfield Show",
+      "originalTitle": "The Garfield Show",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1146,
+      "title": "Kleine Strubbel",
+      "originalTitle": "Little Furry",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1147,
+      "title": "Little Hippo",
+      "originalTitle": "Petit Potam",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1167,
+      "title": "Mama Fuchs und Papa Dachs",
+      "originalTitle": "La Famille Blaireau-Renard",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1178,
+      "title": "Babar",
+      "originalTitle": "Babar",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1263,
+      "title": "SamSam",
+      "originalTitle": "Samsam",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1265,
+      "title": "Billy & Buddy 3D",
+      "originalTitle": "Boule & Bill 3D",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1277,
+      "title": "Die Piratenfamilie",
+      "originalTitle": "Famille pirate",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    },
+    {
+      "showId": 1278,
+      "title": "Yakari",
+      "originalTitle": "Yakari",
+      "grund": "kein-kandidat",
+      "kandidaten": []
+    }
+  ]
+}

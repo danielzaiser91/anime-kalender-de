@@ -6,36 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Post-Apocalyptic
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-05#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T162500Z
-DTEND:20261005T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-05#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T165000Z
-DTEND:20261005T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:gachiakuta-teil1-disneyplus@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261005
-DTEND;VALUE=DATE:20261006
-SUMMARY:Gachiakuta
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-07#19@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T162500Z
@@ -104,6 +74,16 @@ SUMMARY:Gachiakuta – Folge 24/24
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15952/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00371869@2026-10-12@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261012T153000Z
+DTEND:20261012T160000Z
+SUMMARY:SNOWBALL EARTH Staffel 1
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Katalogtitel\nDetails: htt
+ ps://anime-kalender.de/t/16948/
+CATEGORIES:Crunchyroll
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-21-tv-prosieben-maxx@2026-10-12#23@anime-kalender-de
@@ -230,6 +210,26 @@ UID:auto-21-tv-prosieben-maxx@2026-10-19#34@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T165000Z
 DTEND:20261019T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-20#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T162500Z
+DTEND:20261020T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-20#36@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T165000Z
+DTEND:20261020T172000Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/

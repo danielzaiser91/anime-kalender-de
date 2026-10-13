@@ -2,6 +2,7 @@ import type { ReleaseEvent } from '@shared/types.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { Tooltip } from '../ui.tsx'
+import { folgenSpanne, type FolgenSpanne } from '../../lib/kachel-folgen.ts'
 
 /** Uhrzeit auf dem Cover. Ohne Uhrzeit steht dort nichts — bei einer Disc „im Handel". */
 export function ZeitMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
@@ -26,10 +27,15 @@ export function ZeitMarke({ event, t }: { event: ReleaseEvent; t: Translate }) {
   )
 }
 
-/** „Anbieter · Folge 3/12" unter dem Titel; im Fernsehen der Sender. Mit `bis` ein Bündel: „Folgen 8–11". */
-export function anbieterUndFolge(event: ReleaseEvent, t: Translate, bis?: number): string {
+/**
+ * „Anbieter · Folge 3/12" unter dem Titel; im Fernsehen der Sender. Mit einem Bündel steht die lückenlose Spanne
+ * („Folge 13–14/14“), bei einem Katalog-Release „Alle 13 Folgen auf einmal“.
+ */
+export function anbieterUndFolge(event: ReleaseEvent, t: Translate, buendel?: ReleaseEvent[]): string {
   const anbieter = event.platform === 'tv' ? (event.sender ?? PLATFORMS.tv.name) : PLATFORMS[event.platform].name
-  if (bis && event.episode && bis > event.episode) return `${anbieter} · ${t('kal.folgenSpanne', { von: event.episode, bis })}`
+  if (event.katalog) return `${anbieter} · ${t(event.katalog === 'belegt' ? 'kal.katalogAlle' : 'kal.katalogAlleVermutlich', { n: event.episodeCount! })}`
+  const spanne = folgenSpanne(buendel)
+  if (spanne) return `${anbieter} · ${spannenText(event, spanne, t)}`
   /* Ein Film hat keine Folgen, eine TV-Sichtung zählt Sichtungen — beide ohne Angabe (17.09.2026). */
   if (!event.episode || event.sichtung || event.releaseType === 'movie') {
     return event.episodeCount && event.episodeCount > 1 && !event.episode ? `${anbieter} · ${t('kal.folgen', { n: event.episodeCount })}` : anbieter
@@ -39,6 +45,22 @@ export function anbieterUndFolge(event: ReleaseEvent, t: Translate, bis?: number
   const von = event.episodeCountAssumed ? `≈${gesamt}` : gesamt
   return `${anbieter} · ${gesamt ? t('kal.folgeVon', { n: event.episode, von: von! }) : t('kal.folge', { n: event.episode })}`
 }
+
+function spannenText(event: ReleaseEvent, spanne: FolgenSpanne, t: Translate): string {
+  const gesamt = event.platform === 'tv' ? undefined : event.episodeCount
+  if (!gesamt) return t('kal.folgenSpanne', { von: spanne.von, bis: spanne.bis })
+  return t('kal.folgenSpanneVon', { von: spanne.von, bis: spanne.bis, gesamt: event.episodeCountAssumed ? `≈${gesamt}` : gesamt })
+}
+
+/** „+2 Folgen“ für ein Bündel ohne lückenlose Spanne; mit Spanne oder als Katalog-Release stünde dieselbe Angabe zweimal da. */
+export function weitereFolgen(buendel: ReleaseEvent[] | undefined, t: Translate): string {
+  if (!buendel || buendel.length < 2 || buendel[0]!.katalog || folgenSpanne(buendel)) return ''
+  return t('kal.buendelStream', { n: buendel.length - 1 })
+}
+
+/** „Folge 15/≈24" ohne den Anbieter davor. */
+export const nurFolge = (event: ReleaseEvent, t: Translate, buendel?: ReleaseEvent[]): string =>
+  anbieterUndFolge(event, t, buendel).slice(PLATFORMS[event.platform].name.length + 3)
 
 /**
  * **Ein nicht eingehaltener Termin bleibt stehen und sagt, was los ist** — dass wir nachgesehen

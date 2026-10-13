@@ -77,6 +77,20 @@
       "intervall": "je Bauzyklus",
       "bauBraucht": false,
       "fehlt": "Wird bei Bedarf neu erzeugt"
+    },
+    "offizielle-news": {
+      "schreiber": "pipeline/fetch-offizielle-news.ts (npm run data:offizielle-news)",
+      "laeufe": ["offizielle-news.yml (täglich, Wecker-Eintrag offen; Actions-Cache offizielle-news-…)"],
+      "intervall": "täglich",
+      "bauBraucht": false,
+      "fehlt": "Stand und Rohantworten fehlen: der Lauf liest alle Hosts neu (höchstens 30 je Lauf) und holt die robots.txt neu; der Bau liest den Ordner nicht"
+    },
+    "handlung-fakten": {
+      "schreiber": "tools/handlung-fakten.ts (npx tsx tools/handlung-fakten.ts)",
+      "laeufe": ["keiner: nur von Hand, wenn eigene Handlungstexte entstehen (Wikipedia-Seiten, Faktenkarten, Quelltexte; nie im Repo)"],
+      "intervall": "bei Bedarf, von Hand",
+      "bauBraucht": false,
+      "fehlt": "Wird beim nächsten Lauf neu geholt; der Bau liest den Ordner nicht"
     }
   }
 }

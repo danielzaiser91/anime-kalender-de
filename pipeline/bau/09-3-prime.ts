@@ -2,6 +2,7 @@ import { readJson, log } from '../lib/util.ts'
 import { type PlatformId, type Title } from '../../shared/types.ts'
 import { dubKey, adressGleich, adressKern, type DubCheck } from '../lib/dub-confirmed.ts'
 import { amazonAdresseRichten, amazonTitelAdresse } from '../lib/amazon-adresse.ts'
+import { rohDeutsch } from '../lib/kanal-titel.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 import { zugangsart, type Zugangsart } from '../../shared/zugangsart.ts'
 import { type TmdbTitelEintrag, type AnisearchEintrag } from './01-quellen.ts'
@@ -180,8 +181,8 @@ export function uebernehmePrimeUndCrVorschlaege({
         fremdeAdresse++
         continue
       }
-      const deutsch = eintrag.folgen.some((f) => f.sprachen.includes('Deutsch'))
-      if (!deutsch) continue
+      const belegt = rohDeutsch(eintrag.folgen, eintrag.titleId, plattform === 'primevideo' ? seite : null, alleChecks)
+      if (belegt === undefined) continue
 
       /**
        * **Zwei Ausgaben desselben Titels sind zwei Wege, keine Dublette.**
@@ -213,7 +214,7 @@ export function uebernehmePrimeUndCrVorschlaege({
           ? title.streams.find((x) => x.platform === 'primevideo' && /amazon\.[a-z.]+\/s\?/i.test(x.url))
           : undefined)
       if (da) {
-        if (da.dub !== true) {
+        if (belegt && da.dub !== true) {
           da.dub = true
           ausRoh++
         }
@@ -257,7 +258,7 @@ export function uebernehmePrimeUndCrVorschlaege({
           bei den Handbelegen eine Runde später.
         */
         if (lautPruefungTot(seite)) continue
-        title.streams.push({ platform: plattform, url: seite, dub: true })
+        title.streams.push({ platform: plattform, url: seite, dub: belegt || undefined })
         ausRoh++
       }
     }

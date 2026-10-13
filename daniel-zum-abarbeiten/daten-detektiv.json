@@ -3,7 +3,7 @@
  "stand": "2026-10-08T15:15:31.382Z",
  "regeln": [
   {
-   "id": "D-24",
+   "id": "DD-24",
    "name": "Im Bestand ohne jeden Beleg",
    "folge": "Zählt als „belegte deutsche Synchro\", ohne dass irgendetwas sie belegt",
    "geprueft": 2925,
@@ -98,7 +98,7 @@
    }
   },
   {
-   "id": "D-06",
+   "id": "DD-06",
    "name": "Hinter dem Toggle, aber Quelle führt Synchro",
    "folge": "Ein Titel mit deutscher Fassung fehlt im Hauptbestand",
    "geprueft": 20656,
@@ -118,7 +118,7 @@
    }
   },
   {
-   "id": "D-01",
+   "id": "DD-01",
    "name": "Datum steigt nicht mit der Folgennummer",
    "folge": "Kalender zeigt eine spätere Folge vor einer früheren",
    "geprueft": 642,
@@ -132,7 +132,7 @@
    }
   },
   {
-   "id": "D-23",
+   "id": "DD-23",
    "name": "Widerlegter Termin mit Kalendereinträgen",
    "folge": "Ein widerlegter Termin steht im Kalender",
    "geprueft": 764,
@@ -146,7 +146,7 @@
    }
   },
   {
-   "id": "D-02",
+   "id": "DD-02",
    "name": "Release-Folgenzahl über der Titel-Folgenzahl",
    "folge": "Panel verspricht Folgen, die das Werk nicht hat",
    "geprueft": 564,
@@ -196,7 +196,7 @@
    }
   },
   {
-   "id": "D-13",
+   "id": "DD-13",
    "name": "Film oder Einzelwerk mit mehreren Folgen",
    "folge": "Panel zählt „x von n Folgen\" für einen Film",
    "geprueft": 764,
@@ -221,7 +221,7 @@
    }
   },
   {
-   "id": "D-16",
+   "id": "DD-16",
    "name": "Disc ohne Produktseite als Kaufweg",
    "folge": "„Kaufen\" führt ins Leere oder auf eine Suche",
    "geprueft": 160,
@@ -1021,7 +1021,7 @@
    }
   },
   {
-   "id": "D-11",
+   "id": "DD-11",
    "name": "„Premiere\" Jahre nach der aniSearch-Erstausgabe",
    "folge": "„Start der deutschen Fassung\" für eine Fassung, die es seit Jahren gibt",
    "geprueft": 45,
@@ -1101,7 +1101,7 @@
    }
   },
   {
-   "id": "D-19",
+   "id": "DD-19",
    "name": "Termin bei einem Anbieter ohne Weg dorthin",
    "folge": "Panel nennt den Anbieter, aber keinen Link",
    "geprueft": 548,
@@ -1131,7 +1131,7 @@
    }
   },
   {
-   "id": "D-07",
+   "id": "DD-07",
    "name": "Doppelte Werke",
    "folge": "Zwei Karten für ein Werk, Termine auf der falschen",
    "geprueft": 23581,
@@ -1150,7 +1150,7 @@
    }
   },
   {
-   "id": "D-17",
+   "id": "DD-17",
    "name": "News-Meldung zeigt auf verschwundenes Release",
    "folge": "Meldung verliert ihren Beleg-Link (fällt auf die Anbieterseite zurück), Termin-Verlauf reißt ab",
    "geprueft": 480,
@@ -1164,7 +1164,7 @@
    }
   },
   {
-   "id": "D-08",
+   "id": "DD-08",
    "name": "Titel ohne Weg, JustWatch kennt einen mit deutschem Ton (387 ohne Weg und Termin)",
    "folge": "Besucher erfährt nicht, wo er den Titel sehen kann",
    "geprueft": 387,
@@ -1199,7 +1199,7 @@
    }
   },
   {
-   "id": "D-10",
+   "id": "DD-10",
    "name": "„Läuft\" ohne Lebenszeichen seit 60 Tagen",
    "folge": "Kalender kündigt Woche für Woche Folgen an, die niemand belegt",
    "geprueft": 37,
@@ -1213,7 +1213,7 @@
    }
   },
   {
-   "id": "D-03",
+   "id": "DD-03",
    "name": "Weg laut Link-Prüfung tot (404) — 870 Wege nie geprüft",
    "folge": "Besucher klickt auf eine Seite, die es nicht gibt",
    "geprueft": 1284,
@@ -1227,7 +1227,7 @@
    }
   },
   {
-   "id": "D-12",
+   "id": "DD-12",
    "name": "Weg „deutsch\", Zweitquelle sagt „kein Deutsch\" (16 weitere durch Handbeleg/Urteil entschieden)",
    "folge": "„DE ✓\" an einem Weg ohne deutschen Ton",
    "geprueft": 270,
@@ -1241,7 +1241,7 @@
    }
   },
   {
-   "id": "D-04",
+   "id": "DD-04",
    "name": "Vergangener Termin ohne gesehene Folge",
    "folge": "Panel zählt eine Folge als erschienen, die kein Abruf je gesehen hat",
    "geprueft": 177,
@@ -1261,7 +1261,7 @@
    }
   },
   {
-   "id": "D-14",
+   "id": "DD-14",
    "name": "Deutscher Termin vor der japanischen Erstausstrahlung",
    "folge": "Das Datum oder die Titelzuordnung ist falsch",
    "geprueft": 761,
@@ -1275,7 +1275,7 @@
    }
   },
   {
-   "id": "D-20",
+   "id": "DD-20",
    "name": "Künftiger Termin ohne Quelle der letzten 90 Tage",
    "folge": "Eine verschobene Ankündigung bleibt als Termin stehen",
    "geprueft": 129,
@@ -1289,7 +1289,7 @@
    }
   },
   {
-   "id": "D-21",
+   "id": "DD-21",
    "name": "Event-Kennung doppelt",
    "folge": "Im Kalender-Abo verschmelzen zwei Termine zu einem",
    "geprueft": 3228,
@@ -1303,7 +1303,7 @@
    }
   },
   {
-   "id": "D-05",
+   "id": "DD-05",
    "name": "Cover fehlt, Zweitquelle kennt eines (148 von 2925 ohne Cover)",
    "folge": "Karte ohne Bild, obwohl ein Bild da wäre",
    "geprueft": 148,
@@ -1317,7 +1317,7 @@
    }
   },
   {
-   "id": "D-15",
+   "id": "DD-15",
    "name": "Reihen-Verweis ins Leere",
    "folge": "Karussell der Reihe zeigt ein Glied ohne Seite",
    "geprueft": 2925,
@@ -1331,7 +1331,7 @@
    }
   },
   {
-   "id": "D-22",
+   "id": "DD-22",
    "name": "Folgenzahl: AniList gegen aniSearch-Folgenliste",
    "folge": "„x von n Folgen\" rechnet mit der falschen Gesamtzahl",
    "geprueft": 1979,
@@ -1491,7 +1491,7 @@
    }
   },
   {
-   "id": "D-09",
+   "id": "DD-09",
    "name": "Wochentakt-Abweichung zwischen beobachteten Folgen",
    "folge": "Fortschreibung ab dem letzten Stützpunkt kann einen falschen Wochentag treffen",
    "geprueft": 151,
@@ -1751,7 +1751,7 @@
    }
   },
   {
-   "id": "D-25",
+   "id": "DD-25",
    "name": "Handlung fehlt, aniSearch hat eine (158 ohne Handlung)",
    "folge": "Panel ohne Beschreibung, obwohl eine vorliegt",
    "geprueft": 158,
@@ -1765,7 +1765,7 @@
    }
   },
   {
-   "id": "D-18",
+   "id": "DD-18",
    "name": "Weg-Felder widersprechen sich",
    "folge": "Folgenbereiche oder „geteilte Seite\" werden falsch angezeigt",
    "geprueft": 2154,

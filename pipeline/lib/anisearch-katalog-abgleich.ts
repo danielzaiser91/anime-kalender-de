@@ -82,7 +82,7 @@ export function wortIndex(titel: AsTitel[]): Index {
 }
 
 /** Erst alle Namensgleichen, dann die Titel mit den meisten gemeinsamen seltenen Wörtern; seltene Wörter zuerst, damit „Season“ und „Movie“ die Auswahl nicht füllen. */
-function vorauswahl(namen: string[], index: Index): number[] {
+export function vorauswahl(namen: string[], index: Index): number[] {
   const gleich = namen.flatMap((n) => index.namen.get(normalisiere(n)) ?? [])
   const zaehler = new Map<number, number>()
   const wortListe = [...new Set(namen.flatMap(woerter))]
@@ -222,4 +222,10 @@ export function doppelteEntschaerfen(urteile_: Map<number, Urteil>): number {
     }
   }
   return n
+}
+
+/** aniSearch-Kennungen, die schon einem anderen Titel gehören: Handdatei, oder Brücke unter einer anderen AniList-Kennung (dieselbe Bindung in der Brücke ist die Übernahme, keine Doppelvergabe). */
+export function anderweitigVergeben(gebunden: Record<string, number>, bruecke: Record<string, { anisearchId?: number }>, hand: number[]): Set<number | undefined> {
+  const fremd = Object.entries(bruecke).filter(([al, e]) => gebunden[al] !== e.anisearchId)
+  return new Set([...hand, ...fremd.map(([, e]) => e.anisearchId)])
 }

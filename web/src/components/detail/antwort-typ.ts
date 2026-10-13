@@ -40,7 +40,7 @@ export type Antwort =
       gesamtAbgeleitet?: boolean
     }
   /** Belegt ist nur ein Teil — die Zahl sagt welcher. */
-  | { art: 'teilweise'; raus?: number; gesamt: number; restBelegt: boolean }
+  | { art: 'teilweise'; raus?: number; gesamt: number; restBelegt: boolean; deFolgen?: { n: number; quelle: { name: string }; zitat: string } }
   | { art: 'film'; hatSynchro: boolean; raus: number; gesamt?: number; ohneWeg: boolean; imKino: boolean }
   /**
    * **Ein angekündigter Kinofilm ohne deutsche Fassung.** `jp` in der Genauigkeit

@@ -109,7 +109,7 @@ export function MerkenKnopf({
               />
               <span
                 style={pos ? { top: pos.top, right: pos.right } : { left: -9999, top: 0 }}
-                className="fixed z-50 flex w-max flex-col overflow-hidden rounded-lg border border-slate-200 bg-white text-[12px] shadow-lg dark:border-white/10 dark:bg-[#141b2d]"
+                className="fixed z-50 flex w-max flex-col overflow-hidden rounded-lg border border-slate-200 bg-white text-t4 shadow-lg dark:border-white/10 dark:bg-[#141b2d]"
               >
                 <a
                   href={googleCalendarUrl(ev, {}, wochenserie(kuenftige))}

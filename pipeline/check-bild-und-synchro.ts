@@ -1,12 +1,12 @@
 /**
  * Zusicherungen für die Arbeit vom 07.10.2026: Plakat-Auswahl, „keine Synchro laut aniSearch", Teile ohne belegte Synchro,
- * Zugang über den Dub-Endpunkt und die Suche in Schritten. Läuft hinter `check:logic` (ein eigenes Skript hält dessen Datei unter der Grenze).
+ * Zugang über den Dub-Endpunkt und die Suche in Schritten. Läuft in `check:logic`; was den gebauten Bestand liest, steht in `check-bild-bestand.ts` (`check:bestand`).
  */
 import { readFileSync } from 'node:fs'
 import { keineSynchroLautAnisearch } from './bau/ohne-beleg.ts'
 import { entferneFremdeNachStaffeln } from './bau/cr-serie-geteilt.ts'
 import { mitKitsuTiteln } from './bau/folgentitel-kitsu.ts'
-import { ANISEARCH_ID_BASIS, FORMAT, anisearchNurKatalog } from './bau/anisearch-titel.ts'
+import { ANISEARCH_ID_BASIS, FORMAT, anisearchNurKatalog, erstausgabeAus } from './bau/anisearch-titel.ts'
 import { ohneBelegteSynchro } from './bau/synchro-belegt.ts'
 import { ausAnisearchDubs } from './lib/anisearch-synchro-ids.ts'
 import { malOhneAnilistTitel } from './lib/anisearch-cover.ts'
@@ -14,15 +14,13 @@ import { waehlePlakat } from './lib/tmdb-plakat.ts'
 import { waehleStaffel } from './lib/tmdb-staffel.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { mitDubKennzeichen, terminAusEintrag } from './lib/anisearch-termine.ts'
+import { dubIdsNachAnisearch, deutschMarke } from './lib/anisearch-marke.ts'
+import { anisearchBruecke } from './lib/anisearch-katalog-ids.ts'
 import { erstausgabeAlsNeuigkeit } from '../web/src/components/detail/antwort-regeln.ts'
-import { stufeVon, type SaisonDatei, type SaisonKatalogTitel } from '../web/src/lib/saison.ts'
-import { ausblickGruppen } from '../web/src/lib/saison-ausblick.ts'
-import { todayIso } from '../shared/time.ts'
-import { istSerie, saisonVon, saisonZeitraum, type SaisonTag } from '../shared/saison.ts'
+import { stufeVon } from '../web/src/lib/saison.ts'
 import { entferneGesperrte, mitSperre } from './bau/sperre.ts'
 import { sucheGen, sucheMitFundstellen, treibe } from '../web/src/lib/search.ts'
-import { istOhneBelegteSynchro, sortiereNachTitel } from '../web/src/lib/titel-sortierung.ts'
-import { anzeigeName } from '../shared/titles.ts'
+import { istOhneBelegteSynchro } from '../web/src/lib/titel-sortierung.ts'
 import type { Release, Title } from '../shared/types.ts'
 
 let fehler = 0
@@ -91,6 +89,22 @@ pruefe('Dub-Liste -: der Termin bleibt, wie er ist', mitDubKennzeichen(idMit('-'
 const blockGeplant = terminAusEintrag({ languages: [{ language: 'Deutsch', released: '10.01.2026 - 28.03.2026', publisher: ['Animation Digital Network (DE)'] }] })
 pruefe('Dub-Liste p (Geplant): Datum und Publisher des deutschen Blocks zählen nicht', mitDubKennzeichen(idMit('p'), blockGeplant) === undefined)
 pruefe('Dub-Liste -: derselbe Block liefert sein Datum', mitDubKennzeichen(idMit('-'), blockGeplant)?.start === '2026-01-10')
+/* Abgebrochener Dub (c) bei Titeln nur aus der Eintragsdatei: deutsche Fassung ja, aber nur ein Teil der Folgen — nicht „keine Synchro“ (Kickers, Nori, Eichhörnchen und Igel). */
+const eintragC: Parameters<typeof erstausgabeAus>[0] = { dub: 'c', dvon: '1995-03-01', pub: ['Kazé'] }
+pruefe('Erstausgabe aus Dub c: Synchro und Teilmarke', erstausgabeAus(eintragC).synchro === true && erstausgabeAus(eintragC).teil === true)
+pruefe('Erstausgabe aus Dub d: Synchro ohne Teilmarke', erstausgabeAus({ ...eintragC, dub: 'd' }).synchro === true && !('teil' in erstausgabeAus({ ...eintragC, dub: 'd' })))
+pruefe('Erstausgabe aus Dub c behält Datum und Verlag', erstausgabeAus(eintragC).von === '1995-03-01' && erstausgabeAus(eintragC).publisher === 'Kazé')
+/* Eine Marke, drei Dateien (`lib/anisearch-marke.ts`): Eintragsdatei, Dub-Liste je aniSearch-Kennung und Auszug je Titel dürfen nicht auseinanderlaufen. */
+const dubIds = dubIdsNachAnisearch()
+const eintraegeDatei = JSON.parse(readFileSync('data/anisearch-eintraege.json', 'utf8')) as Record<string, { dub: string }>
+const markeAbweichend = Object.entries(eintraegeDatei).filter(([id, e]) => (dubIds[id] ?? '-') !== e.dub).map(([id]) => id)
+pruefe('Eintragsdatei und Dub-Liste führen für jede aniSearch-Kennung dieselbe Marke', markeAbweichend.length === 0, markeAbweichend.slice(0, 10))
+const bruecke = anisearchBruecke()
+const auszugAbweichend = Object.entries(dubs).filter(([titel, k]) => bruecke.has(titel) && (dubIds[bruecke.get(titel)!] ?? '-') !== k).map(([titel]) => titel)
+pruefe('Der Auszug je Titel stimmt über die Brücke mit der Dub-Liste überein', auszugAbweichend.length === 0, auszugAbweichend.slice(0, 10))
+const ohneMarke = [...bruecke].filter(([titel, anisearch]) => dubIds[anisearch] && deutschMarke(Number(titel)) !== dubIds[anisearch]).map(([titel]) => titel)
+pruefe('Jeder Titel der Brücke, dessen aniSearch-Eintrag Deutsch führt, trägt die Marke (auch wo der Auszug älter ist)', ohneMarke.length === 0, ohneMarke.slice(0, 10))
+pruefe('Psyren und Hyouken II (per Hand gebunden) tragen die Marke Geplant', deutschMarke(204011) === 'p' && deutschMarke(212503) === 'p')
 const mitErst = (id: number, extra: Partial<Title> = {}) => titel({ id, deErstausgabe: { von: '2024-10-21', publisher: 'Crunchyroll' } as never, ...extra })
 pruefe('deutsche Ausgabe, aniSearch nennt kein Deutsch: keine Synchro', keineSynchroLautAnisearch(mitErst(idMit('-'))))
 pruefe('ein Stream mit belegter Synchro schlägt das', !keineSynchroLautAnisearch(mitErst(idMit('-'), { streams: [{ platform: 'netflix', dub: true } as never] })))
@@ -99,7 +113,7 @@ pruefe('Deutsch vertont: bleibt', !keineSynchroLautAnisearch(mitErst(idMit('d'))
 pruefe('Deutsch abgebrochen (Teilsynchro): bleibt', !keineSynchroLautAnisearch(mitErst(idMit('c'))))
 pruefe('Deutsch geplant: bleibt', !keineSynchroLautAnisearch(mitErst(idMit('p'))))
 const neu = ausAnisearchDubs([])
-pruefe('Titel mit vertontem, geplantem oder abgebrochenem Deutsch kommen in den Bestand', neu.length > 0 && neu.every((id) => 'dpc'.includes(dubs[String(id)] ?? '-')))
+pruefe('Titel mit vertontem, geplantem oder abgebrochenem Deutsch kommen in den Bestand', neu.length > 0 && neu.every((id) => 'dpc'.includes(deutschMarke(id) ?? '-')))
 pruefe('was schon im Bestand steht, wird nicht noch einmal geholt', !ausAnisearchDubs(neu.map((id) => ({ id }))).length)
 
 console.log('Suche in Schritten')
@@ -118,19 +132,6 @@ pruefe('ein langsamer Suchlauf gibt mehrfach ab (mindestens alle 6 ms)', abgaben
 const sync = sucheMitFundstellen(viele, 'naruto', (t) => [{ art: 'titel', text: t }], (t) => [t])
 pruefe('synchron und in Schritten liefern dasselbe', JSON.stringify(sync) === JSON.stringify(treibe(sucheGen(viele, 'naruto', (t) => [{ art: 'titel', text: t }], (t) => [t]))))
 pruefe('ohne Suchbegriff bleibt alles drin', sucheMitFundstellen(viele, '', (t) => [{ art: 'titel', text: t }], (t) => [t]).length === viele.length)
-
-console.log('Sortierung nach Titel')
-const echte = (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as Title[]).slice(0, 400)
-const kollator = new Intl.Collator('de')
-const rangfolge = echte.slice().sort((x, y) => kollator.compare(anzeigeName(x), anzeigeName(y)) || x.id - y.id)
-const mitRang = echte.map((t) => ({ ...t, tr: rangfolge.findIndex((r) => r.id === t.id) }))
-const ohneRang = echte.map((t) => ({ ...t }))
-const gruppeMit = mitRang.map((main) => ({ main }))
-const gruppeOhne = ohneRang.map((main) => ({ main }))
-sortiereNachTitel(gruppeMit)
-sortiereNachTitel(gruppeOhne)
-pruefe('mit Rang und ohne Rang ergibt dieselbe Reihenfolge', gruppeMit.every((g, i) => g.main.id === gruppeOhne[i]!.main.id))
-pruefe('die Reihenfolge ist die der deutschen Sortierung', gruppeOhne.every((g, i) => i === 0 || kollator.compare(anzeigeName(gruppeOhne[i - 1]!.main), anzeigeName(g.main)) <= 0))
 
 console.log('Datenbank blendet angekündigte Titel ohne belegte Synchro aus')
 pruefe('ein Titel mit dem Merkmal os gilt als ohne belegte Synchro', istOhneBelegteSynchro({ id: 1, os: true } as unknown as Title))
@@ -172,23 +173,9 @@ pruefe('jeder Eintrag trägt ein bekanntes Deutsch-Kennzeichen', Object.values(e
 pruefe('nur Einträge ohne Deutsch bleiben im Katalog', [...anisearchNurKatalog()].every((id) => eintraege[String(id - ANISEARCH_ID_BASIS)]?.dub === '-') && anisearchNurKatalog().size === Object.values(eintraege).filter((e) => e.dub === '-').length)
 
 console.log('Cover für aniSearch-Titel (AniList über die MAL-Kennung)')
-const probeEintraege = { 1: { y: 2026, mal: 10, dub: '-' }, 2: { y: 2026, mal: 11, dub: '-' }, 3: { y: 2020, mal: 12, dub: '-' }, 4: { y: 2026, dub: '-' }, 5: { y: 2026, mal: 14, dub: '-' }, 6: { y: 2026, mal: 10, dub: '-' }, 7: { y: 1998, mal: 15, dub: 'd' } }
+const probeEintraege = { 1: { y: 2026, mal: 10, dub: '-' }, 2: { y: 2026, mal: 11, dub: '-' }, 3: { y: 2020, mal: 12, dub: '-' }, 4: { y: 2026, dub: '-' }, 5: { y: 2026, mal: 14, dub: '-' }, 6: { y: 2026, mal: 10, dub: '-' }, 7: { y: 1998, mal: 15, dub: 'd' }, 8: { y: 0, mal: 16, dub: '-' } }
 const offeneMal = malOhneAnilistTitel(probeEintraege, new Set([11]), { 14: { id: 1, cover: 'x' } }, 2025)
-pruefe('abgefragt wird: Eintrag mit MAL-Kennung, ohne AniList-Titel, ohne Cover im Cache, jede Kennung einmal; ohne Deutsch nur jung, mit Deutsch jedes Alter', JSON.stringify(offeneMal) === '[10,15]', offeneMal)
-/* Ausnahme mit Ablauf: Beide Titel hatten am 08.10.2026 kein Cover, bis der Abruf es holt; danach gilt die Regel ohne Ausnahme. */
-const koernOhneCover = new Map([[10021566, 'Dragon Ball Super: Beerus'], [10021751, 'Fool Night'], [10021575, 'Cover erst nach dem nächsten Bau']])
-const ausnahmeGilt = new Date().toISOString().slice(0, 10) <= '2026-10-15'
-const kern = JSON.parse(readFileSync('public/data/titles-core.json', 'utf8')) as { id: number; coverImage?: string }[]
-const ohneCover = kern.filter((t) => !t.coverImage && !(ausnahmeGilt && koernOhneCover.has(t.id))).map((t) => t.id)
-pruefe('jeder Kern-Titel trägt ein Cover', ohneCover.length === 0, ohneCover)
-/* Alle ausgelieferten aniSearch-Titel: Steht die MAL-Kennung im Cover-Bestand, muss der Titel das Cover tragen (08.10.2026: der Bestand lag im Actions-Cache, der Bau sah ihn nicht). */
-const coverBestand = JSON.parse(readFileSync('data/anisearch-cover.json', 'utf8')) as Record<string, unknown>
-const alleTitel = JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { anisearchId?: number; coverImage?: string; titleRomaji: string }[]
-const mitQuelleOhneCover = alleTitel
-  .filter((t) => t.anisearchId && !t.coverImage && coverBestand[String((eintraege as Record<string, { mal?: number }>)[String(t.anisearchId)]?.mal)])
-  .filter((t) => !(ausnahmeGilt && koernOhneCover.has(ANISEARCH_ID_BASIS + t.anisearchId!)))
-  .map((t) => t.titleRomaji)
-pruefe('kein ausgelieferter Titel mit Cover-Quelle (MAL-Kennung im Cover-Bestand) ohne Cover', mitQuelleOhneCover.length === 0, mitQuelleOhneCover)
+pruefe('abgefragt wird: Eintrag mit MAL-Kennung, ohne AniList-Titel, ohne Cover im Cache, jede Kennung einmal; ohne Deutsch nur jung oder ohne Jahr, mit Deutsch jedes Alter', JSON.stringify(offeneMal) === '[10,15,16]', offeneMal)
 
 console.log('F-Sperre (Fanservice-Urteil von Hand, data/fanservice-urteil.yaml)')
 const gesperrt = new Set([...readFileSync('data/fanservice-urteil.yaml', 'utf8').matchAll(/^\s*-\s*id:\s*(\d+)/gm)].map((m) => Number(m[1])))
@@ -197,31 +184,6 @@ const probe = [{ titleId: 10013220 }, { titleId: 1 }]
 entferneGesperrte(probe)
 pruefe('die F-Sperre nimmt Termine und Meldungen eines gesperrten Titels aus den Listen, andere bleiben', probe.length === 1 && probe[0]!.titleId === 1, probe)
 pruefe('der gesperrte Titel trägt die Marke, andere nicht', mitSperre<Title>({ id: 10013220 } as Title, gesperrt).sperre === 'fanservice' && !('sperre' in mitSperre({ id: 1 }, gesperrt)))
-const jsonDatei = <T>(name: string): T => JSON.parse(readFileSync(`public/data/${name}`, 'utf8')) as T
-const prominent: [string, number[]][] = [
-  ['releases.json', jsonDatei<{ titleId: number }[]>('releases.json').map((r) => r.titleId)],
-  ['events.json', jsonDatei<{ titleId: number }[]>('events.json').map((r) => r.titleId)],
-  ['news.json', jsonDatei<{ titelId: number }[]>('news.json').map((r) => r.titelId)],
-  ['neu-mit-synchro.json', jsonDatei<{ id: number }[]>('neu-mit-synchro.json').map((r) => r.id)],
-  ['titles-core.json', jsonDatei<{ id: number }[]>('titles-core.json').map((r) => r.id)],
-]
-for (const [datei, kennungen] of prominent) pruefe(`kein gesperrter Titel in ${datei} (die F-Sperre greift im Bau nicht, wenn einer auftaucht)`, !kennungen.some((i) => gesperrt.has(i)), kennungen.filter((i) => gesperrt.has(i)))
-
-console.log('Saison-Ausblick: nichts fällt weg')
-{
-  const heute = todayIso()
-  const voll = jsonDatei<Title[]>('titles.json')
-  /* Die Seite rechnet auf dem Kern, nicht auf dem vollen Bestand — sonst bliebe eine Serie ohne Release unbemerkt draußen (Devil May Cry: Staffel 2). */
-  const titel = jsonDatei<Title[]>('titles-core.json')
-  const datei = jsonDatei<SaisonDatei>('saison.json')
-  const ausblick = jsonDatei<{ katalog: SaisonKatalogTitel[] }>('saison-ausblick.json').katalog
-  const gruppen = ausblickGruppen(titel, new Map(), datei, ausblick, heute)
-  const inGruppen = gruppen.flatMap((g) => g.zeilen.map((z) => z.id))
-  /* Quellmenge: kommende Serien des Hauptbestands (Saison nach der laufenden, oder ohne Saison im laufenden Jahr oder später) und alle Katalogtitel der Ausblick-Datei. */
-  const kommend = (t: Title) => istSerie(t.format) && Boolean(t.jpYear) && (t.jpSeason ? saisonZeitraum({ jahr: t.jpYear!, saison: t.jpSeason as SaisonTag['saison'] })[0] > saisonZeitraum(saisonVon(heute))[1] : t.jpYear! >= saisonVon(heute).jahr)
-  const quelle = new Set([...voll.filter(kommend).map((t) => t.id), ...ausblick.map((k) => k.id)])
-  pruefe('jede Serie der Quellmenge steht in genau einer Gruppe', inGruppen.length === new Set(inGruppen).size && [...quelle].every((i) => inGruppen.includes(i)), [...quelle].filter((i) => !inGruppen.includes(i)))
-}
 
 if (fehler) {
   console.error(`${fehler} Zusicherung(en) verletzt.`)

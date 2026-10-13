@@ -30,7 +30,7 @@ export function ReihenKarte({ reihenTeile, reihenName, title, children }: { reih
   const { t } = useLang()
   return (
     <PanelKarte symbol={<StapelZeichen />} titel={t('detail.reihe')} zaehler={reihenTeile.length} akzent="blue">
-      <p className="-mt-1.5 mb-2 pl-[38px] text-[11px] text-ak-text/75">{reihenZeile(reihenTeile, reihenName, title.id, t)}</p>
+      <p className="-mt-1.5 mb-2 pl-[38px] text-t5 text-ak-text/75">{reihenZeile(reihenTeile, reihenName, title.id, t)}</p>
       {children}
     </PanelKarte>
   )

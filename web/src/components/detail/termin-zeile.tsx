@@ -8,7 +8,7 @@ import type { tvAngabe } from '../../lib/tv-angabe.ts'
 import { AnbieterIcon } from '../../lib/anbieter-icon.tsx'
 import { PremiereFaehnchen, zeigtPremiere } from './premiere-faehnchen.tsx'
 import { MerkenKnopf } from './merken.tsx'
-import { AnbieterZeile } from './anbieter-zeile.tsx'
+import { Pille } from './pille.tsx'
 import { erschieneneSpanne } from './folgen-spanne.ts'
 import { PROSIEBEN_MAXX_ROT, TOGGO_ORANGE } from './pillen.tsx'
 import { pillenZiel } from './pillen-ziel.ts'
@@ -177,7 +177,7 @@ function Unterzeile({ text, zeit }: { text: string; zeit?: string }) {
     <>
       {text.split(zeit || KEIN_TRENNER).flatMap((teil, i) => [
         i ? (
-          <span key={`z${i}`} className="font-medium text-sky-700 dark:text-sky-300">
+          <span key={`z${i}`} className="font-semibold text-sky-700 dark:text-sky-300">
             {zeit}
           </span>
         ) : null,
@@ -192,7 +192,7 @@ function LaeuftZeile({ laeuft, t }: { laeuft: NonNullable<NonNullable<TvText>['l
   return (
     <>
       <LangMitTooltip text={[t('tv.laeuft'), laeuft.text].filter(Boolean).join(' · ')}>
-        <span className="line-clamp-2 block text-xs text-slate-600 dark:text-slate-400">
+        <span className="line-clamp-2 block text-t4 text-slate-600 dark:text-slate-400">
           <span className="font-semibold text-emerald-700 dark:text-emerald-400">{t('tv.laeuft')}</span>
           {laeuft.text ? ` · ${laeuft.text}` : ''}
         </span>
@@ -225,7 +225,7 @@ function terminName(release: Release, titel: string | undefined, t: Translate, p
   const medium = mediumAus(release.edition)
   return (
     <span className="flex min-w-0 items-center gap-1.5">
-      {medium && <span className="shrink-0 rounded bg-black/10 px-1 py-px text-[10px] uppercase tracking-wide dark:bg-white/15">{medium}</span>}
+      {medium && <span className="shrink-0 rounded bg-black/10 px-1 py-px text-t5 uppercase tracking-[.08em] dark:bg-white/15">{medium}</span>}
       <span className="truncate">{kurzerNameVon(release, titel, t)}</span>
       {premiere && <PremiereFaehnchen release={release} />}
     </span>
@@ -257,7 +257,7 @@ export function TerminZeile({ release, titel, today, tvText }: {
     </>
   )
   return (
-    <AnbieterZeile
+    <Pille
       name={terminName(release, titel, t, zeigtPremiere(release, tvText?.premiere))}
       farbe={farbeVon(release)}
       url={ziel.ziel}

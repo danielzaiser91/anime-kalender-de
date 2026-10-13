@@ -1,10 +1,10 @@
 /**
  * Zusicherung zu `cartoonsAusReleases` (`bau/cartoon-kern.ts`): Cartoons mit Termin speisen `baueNews()`, und daraus
- * entstehen nur Termin-Meldungen mit Quelle — keine Anime-Meldung („neu mit Synchro", Messung, Folgen) greift auf sie.
- * Läuft auf den Erzeugnissen in `public/data/` (wie der Bau sie liest).
+ * entstehen nur Termin-Meldungen mit Quelle (auch der belegte Folgenrhythmus) — keine Anime-Meldung („neu mit Synchro", Messung, Folgen) greift auf sie.
+ * Läuft auf den Erzeugnissen in `public/data/` (wie der Bau sie liest), deshalb in `check:bestand` (`tools/check-bestand-liste.txt`), nicht in `check:logic`.
  */
 import { baueNews } from './lib/news.ts'
-import { cartoonsAusReleases } from './bau/cartoon-kern.ts'
+import { CARTOON_NEWS_ARTEN, cartoonsAusReleases } from './bau/cartoon-kern.ts'
 import { readJson } from './lib/util.ts'
 import { istLink } from '../shared/quelle.ts'
 import type { NewsEintrag, Release } from '../shared/types.ts'
@@ -16,7 +16,6 @@ function pruefe(name: string, bedingung: boolean, gefunden?: unknown) {
   console.error(`  ✗ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const TERMIN_ARTEN = new Set(['angekuendigt', 'nachgetragen', 'disc', 'kino'])
 const releases = readJson<Release[]>('public/data/releases.json', [])
 const cartoons = cartoonsAusReleases(releases)
 const ids = new Set(cartoons.map((c) => c.id))
@@ -36,7 +35,7 @@ pruefe('jede Cartoon-Meldung hat eine Quelle (Link)', vonCartoons.every((x) => i
 pruefe('jede Cartoon-Meldung hat Belege mit Adresse', vonCartoons.every((x) => (x.m.belege ?? []).length > 0 && (x.m.belege ?? []).every((b) => istLink(b.url))))
 pruefe(
   'nur Termin-Arten: kein „neu mit Synchro", keine Folgen- oder Messmeldung',
-  vonCartoons.every((x) => TERMIN_ARTEN.has(x.m.art)),
+  vonCartoons.every((x) => CARTOON_NEWS_ARTEN.has(x.m.art)),
   [...new Set(vonCartoons.map((x) => x.m.art))],
 )
 pruefe('jede Cartoon-Meldung nennt das Release, aus dem sie stammt', vonCartoons.every((x) => releases.some((r) => r.slug === x.m.release)))

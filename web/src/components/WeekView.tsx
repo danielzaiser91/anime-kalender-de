@@ -1,14 +1,16 @@
 import { useMemo } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
-import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
+import { istStaffelstart } from '../lib/staffelstart.ts'
 import { addDays, formatDate, nowHhMm, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSprungZuHeute } from '../lib/woche-sprung.ts'
 import { useZielTag } from '../lib/ziel-tag.ts'
 import { buendeleKacheln } from '../lib/buendel.ts'
+import { kartenArt } from '../lib/kachel-folgen.ts'
+import { eigenstaendigBeiAnbietern, kanalAnbieterVon, vereineAnbieter } from '../lib/anbieter-kachel.ts'
 import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
-import { PosterKarte, type KartenArt } from './kalender/PosterKarte.tsx'
+import { PosterKarte } from './kalender/PosterKarte.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { ZweitanbieterZeilen } from './kalender/ZweitanbieterZeilen.tsx'
 import { anbieterUndFolge, zaehlung } from './kalender/Marken.tsx'
@@ -188,9 +190,8 @@ function PosterRaster({
 }) {
   const { t } = useLang()
   const gesehen = gesehenLesen()
-  const art = (ev: ReleaseEvent): KartenArt | undefined =>
-    istStaffelstart(ev, p.data) ? 'start' : istStaffelfinale(ev, p.data) ? 'finale' : undefined
-  const gruppen = buendeleKacheln(tag.stream.filter((e) => !e.zweitanbieter), art, (ev) => !!ev.premiere)
+  const gruppen = buendeleKacheln(tag.stream.filter((e) => !e.zweitanbieter), (ev) => istStaffelstart(ev, p.data), (ev) => !!ev.premiere)
+  const kacheln = vereineAnbieter(gruppen, eigenstaendigBeiAnbietern, kanalAnbieterVon(p.data.releaseBySlug))
   return (
     <div
       className={[
@@ -201,20 +202,22 @@ function PosterRaster({
       {tag.stream.length === 0 && tag.disc.length === 0 && (p.gefiltert || !tag.tv.length) && (
         <p className="col-span-full pt-1 text-sm text-ak-sehr-leise">{t(p.gefiltert ? 'kal.nichtsGefiltert' : 'kal.keinTermin')}</p>
       )}
-      {gruppen.map(([ev, ...weitere]) => {
+      {kacheln.map((kachel) => {
+        const [ev, ...weitere] = kachel[0]!
         const bis = p.favorites.has(ev.titleId) ? gesehen[ev.titleId] : undefined
         return (
           <PosterKarte
             key={ev.id}
             event={ev}
             title={p.data.titleById.get(ev.titleId)}
-            art={art(ev)}
-            weitere={weitere.length}
+            art={kachel.map((b) => kartenArt(b, p.data)).find(Boolean)}
+            buendel={kachel[0]}
+            anbieter={kachel.length > 1 ? kachel : undefined}
             favorite={p.favorites.has(ev.titleId)}
             hidden={p.hidden.has(ev.titleId)}
-            vorbei={heute && !!ev.time && ev.time < now}
+            vorbei={heute && kachel.every((b) => !!b[0]!.time && b[0]!.time < now)}
             neu={neuAnKarte(p, bis, ev.titleId, weitere.at(-1)?.episode ?? ev.episode)}
-            anker={[ev, ...weitere].some((e) => e.id === landingId) ? (landingRef as React.Ref<HTMLElement>) : undefined}
+            anker={kachel.flat().some((e) => e.id === landingId) ? (landingRef as React.Ref<HTMLElement>) : undefined}
             onToggleFavorite={ev.titleId > 0 ? () => p.onToggleFavorite(ev.titleId) : undefined}
             onToggleHidden={ev.titleId > 0 ? () => p.onToggleHidden(ev.titleId) : undefined}
             onOpen={() => p.onOpen(ev.releaseSlug, ev.date)}

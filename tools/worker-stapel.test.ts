@@ -55,7 +55,7 @@ function umgebung(r2: unknown) {
       run: async () => {
         zaehle()
         if (werte.some((w) => String(w).includes('kaputt'))) throw new Error('D1 defekt https://www.netflix.com/title/1')
-        return { meta: { changes: 0 } }
+        return { meta: { changes: 1 } }
       },
     }),
     sql,
@@ -105,7 +105,12 @@ const post = (stapel: unknown[]) =>
     body: JSON.stringify({ stapel }),
   })
 
+/* Die Marke wird je Isolate höchstens alle 60 s geschrieben (export-speicher.ts): Jeder Aufruf bekommt seine eigene Minute. */
+let uhr = Date.parse('2026-10-12T00:00:00Z')
+Date.now = () => uhr
+
 async function sende(stapel: unknown[], r2: unknown) {
+  uhr += 61_000
   const u = umgebung(r2)
   const r = await handlePruefung(post(stapel), u.env, u.ctx)
   await Promise.all(u.warten)

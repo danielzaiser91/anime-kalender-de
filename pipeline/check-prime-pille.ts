@@ -69,6 +69,17 @@ if (prime) {
   pruefe('Sonntag 15:59: 1 Folge', erschienen('2026-10-11T13:59:00Z') === 1)
   pruefe('Sonntag 16:00: 2 Folgen wie bei Crunchyroll', erschienen('2026-10-11T14:00:00Z') === 2)
 }
+/* Reborn (186541): Der Titel hat 13 Folgen, `releasesAus` setzt sie als Schätzung ein — die Zahl von Crunchyroll geht trotzdem vor. */
+const mitFolgenzahl = [{ ...titel[0]!, episodes: 13 }] as unknown as Title[]
+const primeMit13 = (vorhanden: Release[]) => releasesAus(vorschlaege, mitFolgenzahl, vorhanden, '2026-10-11').find((r) => r.platform === 'primevideo')
+const reborn = primeMit13([crTermin('2026-10-04')])
+pruefe('AniList-Schätzung (13) weicht der Zahl von Crunchyroll (12), samt Herkunft und Uhrzeit', reborn?.schedule.episodeCount === 12 && reborn.schedule.episodeCountSource === 'anisearch' && reborn.schedule.time === '16:00', reborn?.schedule)
+const crBelegt = { ...crTermin('2026-10-04'), schedule: { firstEpisodeDate: '2026-10-04', time: '16:00', episodeCount: 24 } } as unknown as Release
+const rebornBelegt = primeMit13([crBelegt])
+pruefe('Belegte Zahl von Crunchyroll: Prime führt sie ohne „geschätzt“-Marke', rebornBelegt?.schedule.episodeCount === 24 && !rebornBelegt.schedule.episodeCountAssumed, rebornBelegt?.schedule)
+const rebornOhneCr = primeMit13([])
+pruefe('Ohne Crunchyroll-Termin bleibt die AniList-Schätzung (13)', rebornOhneCr?.schedule.episodeCount === 13 && rebornOhneCr.schedule.episodeCountAssumed === true, rebornOhneCr?.schedule)
+
 const ohneCr = primeTermin([])
 pruefe('Ohne Crunchyroll-Termin bleibt es bei der Meldung (eine Folge, keine Uhrzeit)', Boolean(ohneCr) && ohneCr?.schedule.episodeCount === undefined && ohneCr?.schedule.time === undefined, ohneCr?.schedule)
 const anderesCour = primeTermin([crTermin('2026-07-05')])

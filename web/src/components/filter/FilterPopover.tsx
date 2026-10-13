@@ -1,28 +1,26 @@
 import { useEffect, useRef, type ReactNode, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { useVisualViewportHoehe } from '../../lib/use-visual-viewport.ts'
+import { useSeiteGesperrt } from '../../lib/use-seite-gesperrt.ts'
 import { useVerlaufEintrag } from '../../lib/use-verlauf-eintrag.ts'
-import { useWerkzeugSlot } from './werkzeug-slot.tsx'
 
-/** Platz unter dem Popover: Handy-Navigation (64) und Luft (16). */
-const UNTEN = 80
+/** Luft über dem Fenster: ein Streifen der Kopfleiste bleibt sichtbar. */
+const OBEN = 72
 
 /**
  * Macht alles außer Leiste und Fenster `inert`: Tab, Klick und Vorlesen erreichen den Hintergrund nicht, solange das
  * Fenster offen ist. Gibt die Rücknahme zurück (nur, was hier gesperrt wurde).
  */
-function hintergrundSperren(kopf: Element | null | undefined, slot: HTMLElement | null): () => void {
-  const ziele: Element[] = []
-  if (kopf) ziele.push(...Array.from(kopf.parentElement?.children ?? []).filter((e) => e !== kopf), ...Array.from(kopf.children).filter((e) => e !== slot))
-  ziele.push(...Array.from(document.body.children).filter((e) => !e.contains(kopf ?? null) && !e.hasAttribute('data-schleier') && e.tagName !== 'SCRIPT'))
+function hintergrundSperren(leiste: Element | null): () => void {
+  const ziele = Array.from(document.body.children).filter((e) => !e.contains(leiste) && !e.hasAttribute('data-schleier') && e.tagName !== 'SCRIPT')
   const gesperrt = ziele.filter((e): e is HTMLElement => e instanceof HTMLElement && !e.inert)
   gesperrt.forEach((e) => (e.inert = true))
   return () => gesperrt.forEach((e) => (e.inert = false))
 }
 
 /**
- * Das Filterfenster der Werkzeugleiste: hängt bündig unter der Leiste (volle Breite), scrollt in sich und nimmt höchstens den sichtbaren
- * Bereich bis zur Navigation (mit Tastatur kürzer). Kein Modal: dahinter liegt nur ein Schleier zum Wegtippen.
+ * Das Filterfenster der Werkzeugleiste: sitzt bündig über der Leiste am unteren Rand (volle Breite), hält Kopf und Fuß fest, der Mittelteil scrollt; es nimmt höchstens
+ * den sichtbaren Bereich darüber (mit Tastatur kürzer). Kein Modal: dahinter liegt nur ein Schleier zum Wegtippen.
  * Escape und Zurück schließen; der Fokus geht hinein und beim Schließen zurück an den Auslöser.
  */
 export function FilterPopover({ offen, schliessen, ausloeser, label, children }: {
@@ -32,34 +30,30 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
   label: string
   children: ReactNode
 }) {
-  const { element: slot } = useWerkzeugSlot()
   const dialog = useRef<HTMLDivElement>(null)
   const zu = useRef(schliessen)
   zu.current = schliessen
   const hoehe = useVisualViewportHoehe(offen)
   useVerlaufEintrag(offen, schliessen)
+  useSeiteGesperrt(offen)
+  /* Das Fenster hängt in der Leiste des Auslösers (Portal am `body`), so liegt es ohne Messen genau darüber. */
+  const leiste = ausloeser.current?.closest<HTMLElement>('[role=toolbar]') ?? null
   useEffect(() => {
     if (!offen) return
-    const kopf = slot?.closest('header')
-    if (kopf) kopf.dataset.filterOffen = '1'
-    const html = document.documentElement
-    const vorher = html.style.overflow
-    html.style.overflow = 'hidden'
-    const wieder = hintergrundSperren(kopf, slot)
-    dialog.current?.focus()
+    const wieder = hintergrundSperren(leiste)
+    /* Der Scrollbereich nimmt den Fokus, damit Pfeil- und Bild-Tasten ihn scrollen (das Fenster selbst scrollt nicht). */
+    const ziel = dialog.current?.querySelector<HTMLElement>('[data-filter-scroll]') ?? dialog.current
+    ziel?.focus()
     const taste = (e: KeyboardEvent) => e.key === 'Escape' && zu.current()
     window.addEventListener('keydown', taste)
     const knopf = ausloeser.current
     return () => {
       window.removeEventListener('keydown', taste)
-      html.style.overflow = vorher
       wieder()
-      if (kopf) delete kopf.dataset.filterOffen
       knopf?.focus()
     }
-  }, [offen, slot, ausloeser])
-  if (!offen || !slot) return null
-  const oben = slot.getBoundingClientRect().bottom
+  }, [offen, leiste, ausloeser])
+  if (!offen || !leiste) return null
   return (
     <>
       {createPortal(<div data-schleier aria-hidden="true" onClick={schliessen} className="fixed inset-0 z-20 bg-black/30" />, document.body)}
@@ -70,12 +64,12 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
           role="dialog"
           aria-label={label}
           tabIndex={-1}
-          style={{ maxHeight: Math.max(160, hoehe - oben - UNTEN) }}
-          className="absolute inset-x-0 top-full animate-fade-in overflow-y-auto overscroll-contain rounded-b-3xl border-b border-ak-rand [scroll-padding-top:52px] bg-ak-flaeche shadow-[0_24px_60px_rgba(0,0,0,.45)] focus:outline-none"
+          style={{ maxHeight: Math.max(160, hoehe - leiste.offsetHeight - OBEN) }}
+          className="absolute inset-x-0 bottom-full flex flex-col animate-fade-in overflow-hidden rounded-t-3xl border-t border-ak-rand bg-ak-flaeche shadow-[0_-24px_60px_rgba(0,0,0,.45)] focus:outline-none"
         >
           {children}
         </div>,
-        slot,
+        leiste,
       )}
     </>
   )

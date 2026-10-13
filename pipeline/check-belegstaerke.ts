@@ -1,10 +1,11 @@
 /**
  * Zusicherungen zur Belegstärke (`dubConfidence`, 09.10.2026): kein high ohne starke oder zwei mittlere Quellen, schwache Quellen heben nie über low.
- * Läuft hinter `check:logic`; prüft die Regel an Beispielen und den ausgelieferten Datensatz gegen eine Neuberechnung.
+ * Läuft hinter `check:logic`; prüft die Regel an Beispielen; die Treffer-Datei gegen den Datensatz steht in `check-belegstaerke-bestand.ts`.
  */
 import type { Title } from '../shared/types.ts'
 import { titleStatus } from '../shared/logic.ts'
-import { belegstaerke, forumTitel, hochOhneBeleg, type Belegsignale } from './lib/belegstaerke.ts'
+import { synchroBelegt } from '../shared/titles.ts'
+import { belegstaerke, forumTitel, hochOhneBeleg, zaehleBelegte, type Belegsignale } from './lib/belegstaerke.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -52,23 +53,6 @@ console.log('\nBelegstärke: Synchron-Forum-Liste (mittel, hebt nie über high)'
   pruefe('dub:false neben dub:true lässt ihn zu', gefiltert.has(b) && gefiltert.has(c))
 }
 
-console.log('\nBelegstärke: Treffer-Datei gegen den Datensatz')
-{
-  const liste = yaml.load(readFileSync(resolve(ROOT, 'data/synchron-forum-treffer.yaml'), 'utf8')) as { anilistId: number; liste: string }[]
-  const dateien = ['titles.json', 'ohne-synchro.json'].map((n) => JSON.parse(readFileSync(resolve(ROOT, 'public/data', n), 'utf8')) as Title[])
-  const jahr = new Map(dateien.flat().map((t) => [t.id, t.jpYear]))
-  /* 2331: Odysseus 31 — deutsche Fassung 1988, AniList-Titel 1981 (von Hand zugeordnet). */
-  const AUSNAHMEN = new Set([2331])
-  const fehlend = liste.filter((e) => !jahr.has(e.anilistId)).map((e) => e.anilistId)
-  const weit = liste.filter((e) => {
-    const j = jahr.get(e.anilistId)
-    return j && !AUSNAHMEN.has(e.anilistId) && Math.abs(j - Number(e.liste.slice(-4))) > 2
-  }).map((e) => e.liste)
-  pruefe('jede Kennung der Treffer-Datei steht im Datensatz', fehlend.length === 0, fehlend)
-  pruefe('Listenjahr liegt höchstens 2 Jahre neben dem AniList-Jahr', weit.length === 0, weit)
-  pruefe('keine Kennung doppelt', new Set(liste.map((e) => e.anilistId)).size === liste.length)
-}
-
 console.log('\nBelegstärke: „erschienen“ folgt weiter der alten Stufe')
 {
   const status = (x: object) => titleStatus([], '2026-10-09', { jpYear: 2020, streams: [], ...x } as never)
@@ -85,6 +69,20 @@ console.log('\nBelegstärke: Zusicherung für die Auslieferung')
     { handbelegt: new Set([7]), kartei: new Set([8]) },
   )
   pruefe('hoch ohne starke Quelle und ohne aniSearch-Marke (auch mit Forum-Treffer) wird gemeldet', gefunden.join() === '1,2,9', gefunden)
+}
+
+console.log('\nBelegstärke: Cartoons (westlich) entscheiden wie synchroBelegt')
+{
+  const t = (westlich: boolean, dubConfidence: Title['dubConfidence'], dub: boolean): Title =>
+    ({ id: 1, westlich, dubConfidence, streams: [{ platform: 'disney', url: 'x', ...(dub ? { dub } : {}) }] }) as unknown as Title
+  const faelle = [true, false].flatMap((w) => (['low', 'normal', 'high', 'very-high'] as const).flatMap((d) => [t(w, d, true), t(w, d, false)]))
+  const abweichung = faelle.filter((x) => zaehleBelegte([x]) !== Number(synchroBelegt(x)))
+  pruefe('zaehleBelegte entscheidet in allen 16 Fällen wie synchroBelegt', abweichung.length === 0, abweichung.map((x) => [x.westlich, x.dubConfidence, x.streams?.[0]?.dub]))
+  const cartoonHoch = t(true, 'very-high', false)
+  pruefe('Cartoon mit Stufe very-high, aber ohne dub-Weg, zählt nicht als belegt', zaehleBelegte([cartoonHoch]) === 0)
+  pruefe('Cartoon mit dub-Weg zählt auch bei Stufe low als belegt', zaehleBelegte([t(true, 'low', true)]) === 1)
+  const gemeldet = hochOhneBeleg(faelle.filter((x) => x.westlich), { handbelegt: new Set(), kartei: new Set() })
+  pruefe('hochOhneBeleg meldet keinen Cartoon (belegt heißt dort: ein dub-Weg, der selbst der Beleg ist)', gemeldet.length === 0, gemeldet)
 }
 
 if (fehler) {

@@ -4,7 +4,8 @@ import { useThema } from '../lib/thema.ts'
 import { InstallButton } from './InstallPrompt.tsx'
 import { KopfSuchfeld, useKopfSuche } from './kopf-suche.tsx'
 import { HandyNavigation } from './HandyNavigation.tsx'
-import { useKopfWerkzeug } from './filter/werkzeug-slot.tsx'
+import { useEinrollen } from '../lib/use-einrollen.ts'
+import { useMobil } from '../lib/use-mobil.ts'
 import { AboMenue } from './kalender/AboMenue.tsx'
 import { LogoZeichen, MondZeichen, SonnenZeichen, SuchZeichen } from './kalender/Zeichen.tsx'
 
@@ -36,8 +37,8 @@ function einfacherKlick(e: React.MouseEvent): boolean {
 
 /**
  * Die Kopfleiste der Poster-Gestaltung (26.09.2026): Logo, drei Bereiche, Suche, Abo-Knopf, Thema.
- * Sie klebt oben und rollt mit. Auf dem Handy wandern die
- * Bereiche und das Zahnrad nach unten, die Suche klappt unter der Leiste auf. Der Markenname steht immer ganz da;
+ * Sie klebt oben und rollt mit. Auf dem Handy folgen unter dem Logo die
+ * Bereiche und das Zahnrad (`HandyNavigation`), die Suche klappt dazwischen auf. Der Markenname steht immer ganz da;
  * bei Platzmangel weicht die rechte Seite (Daniel, 09.10.2026).
  */
 export function Header({
@@ -70,7 +71,7 @@ export function Header({
   const aktiv = bereichVon(view)
   const kalender = aktiv === 'kalender'
   const { sucheAuf, eingabe, kopf, oeffnen } = useKopfSuche(view, kalender, suche, zurSuche)
-  const { mitSlot, slotRef } = useKopfWerkzeug(kopf, view, aktiv)
+  useEinrollen(kopf, useMobil(), view)
   return (
     <header ref={kopf} className="sticky top-0 z-30 border-b border-ak-linie bg-ak-grund/90 backdrop-blur">
       <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-3 sm:gap-6 sm:px-6 lg:px-10">
@@ -106,7 +107,6 @@ export function Header({
           <KopfSuchfeld suche={suche} setSuche={setSuche} className="block" eingabe={eingabe} />
         </div>
       )}
-      {mitSlot && <div ref={slotRef} className="relative" />}
       <HandyNavigation aktiv={aktiv} onView={onView} kalender={kalender ? view : 'woche'} einstellungen={einstellungen} />
     </header>
   )
