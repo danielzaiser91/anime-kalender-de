@@ -31,11 +31,6 @@ export function restUndBlock(kuenftig: ReleaseEvent[], n: ReleaseEvent): Pick<La
   return { rest: derselben.length, letzter: derselben[derselben.length - 1]?.date, blockBis: folgenblockBis(derselben, n) }
 }
 
-/**
- * **Die letzte Folge heißt so, wie sie ist**: Steht nur noch der Block aus, ist er das Finale. Eine
- * TV-Sichtung kennt weder Ende noch echte Nummer (Pokémon Horizonte, 17.09.2026), und „Erste Folge“ gilt nur
- * für Folge 1 (Beyblade X setzte bei TOGGO plus mit Folge 115 ein).
- */
 /** Wie viele Folgen mit der nächsten am selben Tag erscheinen (1 ohne Block). */
 function folgenImBlock(a: Laeuft): number {
   return a.blockBis ? a.blockBis - (a.haupt.episode ?? 0) + 1 : 1
@@ -44,6 +39,11 @@ function folgenImBlock(a: Laeuft): number {
 /** Deckt der Block alles, was noch aussteht, nennen Überschrift und Satz schon Tag und Ende — „noch X bis zum Finale am …“ wäre dasselbe Datum zweimal. */
 const blockIstEnde = (a: Laeuft): boolean => a.blockBis !== undefined && a.rest === folgenImBlock(a)
 
+/**
+ * **Die letzte Folge heißt so, wie sie ist**: Steht nur noch der Block aus, ist er das Finale. Eine
+ * TV-Sichtung kennt weder Ende noch echte Nummer (Pokémon Horizonte, 17.09.2026), und „Erste Folge“ gilt nur
+ * für Folge 1 (Beyblade X setzte bei TOGGO plus mit Folge 115 ein).
+ */
 function wasKommt(a: Laeuft): 'erste' | 'naechste' | 'finale' {
   if (a.offenesEnde) return !a.sichtung && a.haupt.episode === 1 ? 'erste' : 'naechste'
   if (a.raus === 0) return 'erste'
