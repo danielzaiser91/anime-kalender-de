@@ -197,24 +197,6 @@
     - name: aniSearch
       url: https://www.anisearch.de/anime/19687
 
-- id: 11421 # Der weiße Delphin (1975, TV, 13 Folgen)
-  umfang: titel
-  lizenz: CC BY-SA 4.0
-  text: >-
-    Anime-Serie von 1975 mit 13 Folgen um den weißen Delfin Zoum und die Kinder, die bei ihrem Onkel, einem Seemann, leben. Zu den Freunden zählen ein Beo, der Delfine, Tiere und die Menschen der Insel versteht und für alle übersetzt, ein Koala und ein Faultier. Zoum lernt ein Delfin-Weibchen kennen, mit dem er ein Junges bekommt.
-  quellen:
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/325
-
-- id: 19099 # Mewtu vor dem Erwachen (2013, Special, ~22 min)
-  umfang: titel
-  lizenz: CC BY-SA 4.0
-  text: >-
-    TV-Special von 2013, rund 22 Minuten lang, nach Angabe von aniSearch der Vorgänger des Films um Genesect. Mewtu wird vom Pokémon-Jäger Dunc verfolgt. Weil es Menschen nicht traut, flieht es in die Wildnis. Dunc täuscht Virgil, den Champion der Einall-Liga und Mitarbeiter eines Pokémon-Rettungsteams, und lässt sich von ihm helfen, das legendäre Pokémon aufzuspüren.
-  quellen:
-    - name: aniSearch
-      url: https://www.anisearch.de/anime/8745
-
 - id: 213457 # Fool Night (2026, ONA)
   umfang: titel
   lizenz: CC BY-SA 4.0
