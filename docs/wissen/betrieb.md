@@ -127,6 +127,8 @@ und die echte Störung geht darin unter.
 Die Frist ist die Taktung plus zwei Tage Luft. Ein ausgefallener Lauf soll noch keinen Alarm
 auslösen, zwei hintereinander schon.
 
+**Der Wecker-Plan gehört zu Punkt eins (13.10.2026).** Ein Workflow, der nur per `workflow_dispatch` startet, läuft nie, solange er nicht in `shared/weckplan.ts` steht — `offizielle-news.yml` blieb so ungestartet. `node tools/zugangs-waechter.mjs --register-pruefen` (in `check:workflows`) verlangt für jeden solchen Workflow einen Plan-Eintrag oder einen Eintrag mit Grund in `OHNE_WECKPLAN` (`tools/zugangs-waechter.mjs`).
+
 ## `git add` bricht ganz ab, wenn ein Pfad fehlt — und `2>/dev/null` verschweigt es
 
 Vom 03. bis zum 06.09.2026 hat „Täglich — alle Quellen" **nichts eingereicht**.
