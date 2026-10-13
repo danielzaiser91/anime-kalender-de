@@ -63,6 +63,9 @@ function lies(wurzel, datei) {
 /** Die Anbieter, deren Prüfliste die Erweiterung führt. */
 const LISTEN_ANBIETER = new Set(['netflix', 'primevideo', 'disneyplus'])
 
+/** Prime-Listen führen Titelseiten (`/gp/video/detail/<ASIN>`); die aniSearch-Form `/dp/<ASIN>?tag=…` wird zu ihr. */
+const titelseite = (url) => url.replace(/^https?:\/\/www\.amazon\.de\/dp\/([A-Z0-9]{10})\b.*$/, 'https://www.amazon.de/gp/video/detail/$1')
+
 /**
  * Wege, die ein Nein aus dem Datensatz genommen hat und die neu gemessen werden sollen (`shared/nein-wiedervorlage.ts`).
  * Die Listen gehen von den Wegen eines Titels aus; ohne den Weg käme das Nein nie wieder vor. Der Weg trägt sein Nein
@@ -73,7 +76,7 @@ function mitNeinWegen(titel, wurzel) {
   return titel.map((t) => {
     const neu = faelle.filter((f) => f.titleId === t.id && !(t.streams ?? []).some((s) => s.platform === f.platform))
     if (!neu.length) return t
-    return { ...t, streams: [...(t.streams ?? []), ...neu.map((f) => ({ platform: f.platform, url: f.url, dub: false }))] }
+    return { ...t, streams: [...(t.streams ?? []), ...neu.map((f) => ({ platform: f.platform, url: titelseite(f.url), dub: false }))] }
   })
 }
 

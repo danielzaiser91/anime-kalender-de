@@ -25,10 +25,16 @@ const wurzel = mkdtempSync(join(tmpdir(), 'nein-liste-'))
 mkdirSync(join(wurzel, 'public/data'), { recursive: true })
 mkdirSync(join(wurzel, 'data'), { recursive: true })
 const url = 'https://www.disneyplus.com/de-de/series/probe/AbCdEf123456'
-writeFileSync(join(wurzel, 'public/data/titles.json'), JSON.stringify([{ id: 7, titleDe: 'Probe', streams: [] }]))
+writeFileSync(join(wurzel, 'public/data/titles.json'), JSON.stringify([{ id: 7, titleDe: 'Probe', streams: [] }, { id: 8, titleDe: 'Prime-Probe', streams: [] }]))
 writeFileSync(join(wurzel, 'public/data/releases.json'), '[]')
-writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), "- anilistId: 7\n  platform: disneyplus\n  dub: false\n  checkedAt: '2026-01-05'\n")
-writeFileSync(join(wurzel, 'data/verweise-entfernt.json'), JSON.stringify({ verweise: [{ titleId: 7, plattform: 'disneyplus', url, entferntAm: '2026-01-06' }] }))
+const nein = (id: number, platform: string): string => `- anilistId: ${id}\n  platform: ${platform}\n  dub: false\n  checkedAt: '2026-01-05'\n`
+writeFileSync(join(wurzel, 'data/dub-confirmed.yaml'), nein(7, 'disneyplus') + nein(8, 'primevideo'))
+const partnerAdresse = 'https://www.amazon.de/dp/B0D84DKFSH?tag=anisearch.de-21'
+const entfernt = [
+  { titleId: 7, plattform: 'disneyplus', url, entferntAm: '2026-01-06' },
+  { titleId: 8, plattform: 'primevideo', url: partnerAdresse, entferntAm: '2026-01-06' },
+]
+writeFileSync(join(wurzel, 'data/verweise-entfernt.json'), JSON.stringify({ verweise: entfernt }))
 const belegVorher = readFileSync(join(wurzel, 'data/dub-confirmed.yaml'), 'utf8')
 
 try {
@@ -40,7 +46,9 @@ try {
   const faelle = verdacht.verdachtsfaelle(wurzel, 'disneyplus')
   pruefe('der Titel steht als Wiedervorlage auf der Disney+-Liste', faelle.get(7)?.neinFrist?.grund === 'frist', [...faelle])
   pruefe('der Hinweis nennt Messdatum und Alter', /vom 2026-01-05 ist \d+ Tage alt/.test(verdacht.verdachtHinweis(faelle.get(7))), verdacht.verdachtHinweis(faelle.get(7)))
-  pruefe('für Netflix gilt der Fall nicht', verdacht.verdachtsfaelle(wurzel, 'netflix').size === 0)
+  const prime = titel[1]?.streams?.find((s: { platform: string }) => s.platform === 'primevideo')
+  pruefe('Prime: die Partneradresse (/dp/…?tag=) wird zur Titelseite, die die Prüfliste kennt', prime?.url === 'https://www.amazon.de/gp/video/detail/B0D84DKFSH', prime)
+  pruefe('für Netflix gilt der Fall nicht',verdacht.verdachtsfaelle(wurzel, 'netflix').size === 0)
   pruefe('der Beleg bleibt unverändert', readFileSync(join(wurzel, 'data/dub-confirmed.yaml'), 'utf8') === belegVorher)
 } finally {
   rmSync(wurzel, { recursive: true, force: true })
