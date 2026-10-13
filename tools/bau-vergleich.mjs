@@ -59,7 +59,9 @@ const TEXTDATEI = /\.(json|ics|xml|html|txt|md)$/
 
 // Der Ersatz-Cache hat keinen AniList-Katalog, der Katalogpfad (ohne-synchro.json, Katalog-Reihen) liefe also nie mit.
 // `--katalog[=Pfad]` (oder `BAU_VERGLEICH_KATALOG`) legt dieselbe anilist-katalog.json in beide Bauten; die Ablage trägt ihren Inhalt und die Umgebung des Baus im Namen.
-const { positionen, katalog: KATALOG_CACHE } = liesOptionen(process.argv.slice(2), process.env, WURZEL)
+// Nur der Hauptordner hat einen gefüllten Cache; aus einem Worktree heraus zeigt `--katalog` deshalb auf dessen Datei.
+const HAUPTORDNER = dirname(resolve(WURZEL, git('rev-parse', '--git-common-dir')))
+const { positionen, katalog: KATALOG_CACHE } = liesOptionen(process.argv.slice(2), process.env, HAUPTORDNER)
 
 // Laufzeiten und Zeitstempel sind in jedem Lauf anders — sie gehören nicht zum Ergebnis.
 const glatt = (s) =>

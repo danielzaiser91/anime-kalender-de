@@ -35,9 +35,9 @@ export const ablageName = (sha, basisSha, katalogPfad, env) =>
  * `--katalog` (die Datei des Hauptordners, `data/cache/anilist-katalog.json`) oder `--katalog=<Pfad>`; ohne Option gilt
  * `BAU_VERGLEICH_KATALOG`. `positionen` sind Basis und Kandidat.
  */
-export function liesOptionen(argv, env, wurzel) {
+export function liesOptionen(argv, env, hauptordner) {
   const option = argv.find((a) => a === '--katalog' || a.startsWith('--katalog='))
-  const gewaehlt = option ? option.slice('--katalog='.length) || join(wurzel, KATALOG_DATEI) : env.BAU_VERGLEICH_KATALOG
+  const gewaehlt = option ? option.slice('--katalog='.length) || join(hauptordner, KATALOG_DATEI) : env.BAU_VERGLEICH_KATALOG
   const katalog = gewaehlt ? resolve(gewaehlt) : undefined
   if (katalog && !existsSync(katalog)) throw new Error(`Katalog-Datei fehlt: ${katalog}`)
   return { positionen: argv.filter((a) => !a.startsWith('--')), katalog }
