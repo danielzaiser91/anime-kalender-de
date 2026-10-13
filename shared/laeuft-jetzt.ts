@@ -51,14 +51,32 @@ export function restText(n: number): string {
   return rest ? `in ${std} Std ${rest} Min` : `in ${std} Std`
 }
 
+/** Die Sendung des Programms, die zu diesem Termin gehört: gleicher Tag, gleiche Uhrzeit. */
+export function sendungZuTermin<S extends Sendung>(sendungen: S[], t: Pick<Termin, 'date' | 'time'>): S | undefined {
+  return sendungen.find((s) => s.start === `${t.date}T${t.time ?? ''}`)
+}
+
+/**
+ * Die Sendung, die zu `jetzt` auf dem Schirm ist: vom Beginn bis vor das Ende, auf die Minute. Das Programm gilt auch ohne
+ * Termin im Plan (Stand 13.10.2026: 23 von 92 Sendungen); die Zeilen des Kastens fragen nur ihre eigenen Termine (`laufende`).
+ */
+export function laufendeSendung<S extends Sendung>(sendungen: S[], heute: string, jetzt: string): S | undefined {
+  const jetztIso = `${heute}T${jetzt}`
+  return sendungen.find((s) => s.start <= jetztIso && jetztIso < s.ende)
+}
+
+/** Die Folgennummer eines Termins: die belegte, sonst die der Sendung im Programm. */
+export function folgeDesTermins(t: Pick<Termin, 'episode' | 'sichtung'>, sendung: Sendung | undefined): number | undefined {
+  return t.episode && !t.sichtung ? t.episode : sendung?.nr
+}
+
 /** Sendet gerade etwas dieser Zeile? Nur Termine mit belegter Uhrzeit und einer Sendung im Programm, deren Ende bekannt ist. */
 function laufende(gruppe: Termin[], sendungen: Sendung[], heute: string, jetzt: string): Zeilenzustand | undefined {
-  const jetztIso = `${heute}T${jetzt}`
   for (const [i, t] of gruppe.entries()) {
     if (!t.time || geschaetzt(t)) continue
-    const sendung = sendungen.find((s) => s.start === `${t.date}T${t.time}`)
-    if (!sendung || sendung.start > jetztIso || jetztIso >= sendung.ende) continue
-    const nr = t.episode && !t.sichtung ? t.episode : sendung.nr
+    const sendung = sendungZuTermin(sendungen, t)
+    if (!sendung || !laufendeSendung([sendung], heute, jetzt)) continue
+    const nr = folgeDesTermins(t, sendung)
     return { art: 'laeuft', bis: sendung.ende.slice(11, 16), ...(i > 0 && nr ? { folge: nr } : {}) }
   }
   return undefined

@@ -14,7 +14,7 @@ import { TREFFER_24_HOCH } from '../detail/tippziel.ts'
 
 /**
  * Die Fernsehtermine eines Tages als Liste neben den Postern. Wiederholungen desselben Titels beim
- * selben Sender stehen als eine Zeile mit „+2 bis 18:50"; ein Klick darauf nennt die Zeiten.
+ * selben Sender stehen als eine Zeile mit „+2, zuletzt um 18:50" (Beginn der letzten, nicht ihr Ende); ein Klick darauf nennt die Zeiten.
  */
 export function TvKasten({
   termine,
@@ -133,7 +133,7 @@ function TvZeile({
           {auf
             ? t('kal.buendelAuch', { zeiten: weitere.map((w) => w.time ?? '–').join(', ') })
             : letzte
-              ? t('kal.buendelTv', { n: weitere.length, zeit: letzte })
+              ? t(weitere.length === 1 ? 'kal.buendelTvEine' : 'kal.buendelTv', { n: weitere.length, zeit: letzte })
               : t('kal.buendelTvOhneZeit', { n: weitere.length })}
         </button>
       )}

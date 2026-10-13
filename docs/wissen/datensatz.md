@@ -403,7 +403,7 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
   ganzen Tag drückte jeden Text unter 4,5:1 (axe, 26.09.2026).
 - **Schwebekarten** (`Schwebe.tsx`) stehen nie über der Kopfleiste oder dem Auslöser und rollen
   in sich; per Klick geöffnet bekommen sie den Fokus, Escape schließt und gibt ihn zurück.
-- **Wiederholungen** eines Tages bündelt weiter `buendeleTermine()`: im TV-Kasten „+2 bis 18:50“
+- **Wiederholungen** eines Tages bündelt weiter `buendeleTermine()`: im TV-Kasten „+2, zuletzt um 18:50“ (eine weitere: „+1 um 17:35“; die Zeit ist der Beginn der letzten Sendung, nicht ihr Ende)
   (Klick nennt die Zeiten), bei Streaming „+N Folgen“; nie über Sender hinweg, ausgebliebene Termine
   und Premieren nie eingeklappt. Zusicherung: `check:logic`, „Bündel: …“.
 - **Ein Titel bei mehreren Streaming-Anbietern am selben Tag** ist eine Kachel (`vereineAnbieter()`, 12.10.2026, Daniel:
