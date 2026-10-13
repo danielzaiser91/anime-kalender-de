@@ -23756,3 +23756,15 @@
       checked: [1]
   checkedAt: '2026-10-13'
   note: "Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): Episode GR790PW36 („Brennendes Leben“, Kompilationsfilm, Filmlisting GMTE00193060) hat die Version de-DE (GQJUGK77Q); JustWatch nennt dasselbe Angebot mit Ton de/ja"
+- anilistId: 4898
+  title: "Black Butler"
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-10-13'
+  note: "Falsches Werk: JustWatch-Adresse /watch/GVWU82XX0 ist Folge 1 der Spanisch-Synchro (es-419) von „Emerald Witch Arc“ (Staffel G675CDJ3N, Serie GYQ43P3E6, 2024). Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): diese Serie führt nur zwei Staffeln (Public School Arc 11 und Emerald Witch Arc 13 Folgen, Start 2024), die Serie von 2008 mit 24 Folgen fehlt"
+- anilistId: 20790
+  title: "Magic Kaito 1412"
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-10-13'
+  note: "Falsches Werk: JustWatch-Adresse /watch/GX9UQD7XQ ist Folge 1 („Das Geheimnis von Kaito Kids Geburt“) von „Magic Kaito“ (Serie GMEHMENQM, Staffel G68VCP92P, 12 Folgen). Die zwölf Folgentitel stehen an gleicher Stelle in aniSearch 6155 (Magic Kaito 2010, Titel 8310; 10 von 12 wörtlich gleich, 2 anders geschrieben); gegen die 24 Folgen von 1412 (aniSearch 9799, Folge 1 „Rückkehr des Phantomdiebes“) trifft keiner. Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026)"
