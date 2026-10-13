@@ -1,0 +1,85 @@
+# Meldungen offizieller Anime-Websites lesen und als Vorschläge einreichen.
+#
+# ## Warum es diesen Lauf gibt
+#
+# Daniel am 12.10.2026: Die Website eines Titels gilt als offiziell, wenn die Trailer-Beschreibung sie verlinkt; ihre Meldungen („Season 2 Production Confirmed!“ bei
+# Snowball Earth, 27.06.) sollen im Neuigkeiten-Bereich der Kachel stehen. Nirgends sonst steht, dass eine Staffel kommt, bevor ein Anbieter einen Tag nennt.
+#
+# ## Was der Lauf tut
+#
+# `pipeline/fetch-offizielle-news.ts` liest die News-Listen der Hosts aus `data/offizielle-seiten.yaml` (60 Hosts, Saat aus dem Messlauf vom 13.10.2026): erst Feed,
+# WordPress-REST und JSON, dann die HTML-Listen. Höflich: robots.txt (höchstens 7 Tage alt), Crawl-delay, 2 s Takt, höchstens 30 Hosts je Lauf (der am längsten
+# nicht gelesene zuerst, jeder Host spätestens nach 2 Läufen), Sperre = Pause bis zu einem Tag statt Abbruch. Der Relevanzfilter behält Meldungen zu Termin, Synchro,
+# Staffel und Ausstrahlung (etwa 2 % aller Überschriften). Das Ergebnis ist `data/proposals/offizielle-news.json` – eine Vorschlagsliste, die keinen Bau speist.
+# Erst eine Freigabe von Hand macht aus einem Vorschlag eine Meldung. Rohantworten und Stand liegen im Cache (`data/cache/offizielle-news/`), nicht im Repo.
+#
+# ## Zeitplan (Cloudflare-Wecker, nicht hier)
+#
+# Der Wecker startet diesen Lauf per workflow_dispatch. Eintragen (Daniel/Bestandsbau, nicht in diesem Pull Request):
+#   shared/weckplan.ts:  { workflow: 'offizielle-news.yml', stunden: [13], abstandMin: 600 },
+#   wecker-wache.yml (PLAN):  offizielle-news.yml:30
+#   tools/wache-woechentlich.mjs (FRISTEN_STUNDEN):  'offizielle-news.yml': 36,
+# 13 Uhr UTC: nach dem Tageslauf (04), dem aniSearch-Katalog (06) und der Anime2You-Auswertung (12), vor den Ladezeiten (16).
+name: Offizielle Websites — Meldungen
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  # Zwei gleichzeitige Läufe läsen dieselben Hosts doppelt.
+  group: offizielle-news
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  lesen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    outputs:
+      fehler: ${{ steps.auswerten.outputs.fehler }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: ./.github/actions/einrichten
+        with:
+          cache: aus
+
+      # Der Stand (wann welcher Host zuletzt gelesen wurde, robots.txt, Pausen) und die Rohantworten. Ohne ihn läse der nächste Lauf alle Hosts wieder von vorn.
+      - name: Stand wiederherstellen
+        uses: actions/cache/restore@v4
+        with:
+          path: data/cache/offizielle-news
+          key: offizielle-news-${{ github.run_id }}
+          restore-keys: offizielle-news-
+
+      - name: Zusicherungen prüfen
+        run: bash tools/schritt.sh --zeit 5m "Zusicherungen prüfen" -- npx tsx pipeline/check-offizielle-lauf.ts
+
+      - name: Meldungen holen
+        run: bash tools/schritt.sh --zeit 35m "Meldungen holen" -- npm run data:offizielle-news
+
+      - name: Stand ablegen
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data/cache/offizielle-news
+          key: offizielle-news-${{ github.run_id }}
+
+      # Ein Lauf ohne neue Vorschläge ist der Normalfall; dann entsteht kein Pull Request.
+      - name: Quellen als Pull Request einreichen
+        if: always()
+        uses: ./.github/actions/einreichen
+        with:
+          nachricht: 'chore(data): Meldungen offizieller Websites gesammelt'
+          fund: offizielle-news
+          app-id: ${{ secrets.DATEN_APP_ID }}
+          app-key: ${{ secrets.DATEN_APP_KEY }}
+
+      - name: Fehlschläge auswerten
+        id: auswerten
+        if: always()
+        run: bash tools/schritte-auswerten.sh
