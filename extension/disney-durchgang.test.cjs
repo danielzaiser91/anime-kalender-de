@@ -110,6 +110,36 @@ function welt(offen) {
   pruefe('… und öffnet keinen weiteren Titel', w.geoeffnet.length === 2)
 }
 
+/* 13.10.2026: Dialog „nicht in deinem Gebiet verfügbar" auf /de-de/home — sofort weiter, nicht erst nach der Schonzeit der Startseite. */
+{
+  const gesperrt = kontext.akDisneyGebietGesperrt
+  pruefe('Hinweistext „nicht in deinem Gebiet verfügbar" wird erkannt', gesperrt('Dieser Inhalt ist zurzeit nicht in deinem Gebiet verfügbar.\nOK') === true)
+  pruefe('Gegenprobe: normale Startseite und leerer Text nicht', gesperrt('Startseite\nNeu auf Disney+') === false && gesperrt(undefined) === false)
+  const A = { id: 'a', url: 'https://www.disneyplus.com/de-de/browse/entity-a' }
+  const B = { id: 'b', url: 'https://www.disneyplus.com/de-de/browse/entity-b' }
+  const w = welt([A, B])
+  w.lauf.starten()
+  w.zustand = { startseite: true, kennung: null, eintragUrl: null, gebiet: true }
+  w.uhr += 5000
+  w.lauf.takt()
+  pruefe('Gebiet gesperrt: schon im ersten Takt (5 s) weiter, ohne die 10 s der Startseite', w.geoeffnet.at(-1) === B.url, w.geoeffnet)
+  w.zustand = { startseite: false, kennung: 'b', eintragUrl: B.url, gebiet: false }
+  w.uhr += 20_000
+  w.lauf.takt()
+  pruefe('Gegenprobe: normale Titelseite ohne Hinweis wartet weiter', w.geoeffnet.length === 2 && w.ende === null)
+  w.offen = []
+  w.zustand = { startseite: true, kennung: null, eintragUrl: null, gebiet: true }
+  w.uhr += 5000
+  w.lauf.takt()
+  pruefe('Der Grund steht am Ende in der Liste', w.ende?.uebersprungen.some((u) => u.grund === 'nicht in deinem Gebiet verfügbar'), w.ende)
+  const spaeter = welt([A, B])
+  spaeter.lauf.starten()
+  spaeter.zustand = { startseite: true, kennung: null, eintragUrl: null, gebiet: false }
+  spaeter.uhr += 5000
+  spaeter.lauf.takt()
+  pruefe('Gegenprobe: Startseite ohne Hinweis wartet weiter die 10 s Schonzeit', spaeter.geoeffnet.length === 1)
+}
+
 if (fehler.length) {
   console.error(`\n${fehler.length} Zusicherung(en) verletzt.`)
   process.exit(1)

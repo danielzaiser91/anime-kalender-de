@@ -94,6 +94,8 @@
         if (!lauf?.aktuell) return
         const seit = jetzt() - lauf.seiteSeit
         const z = zustand()
+        /* Disney+ sagt es selbst („nicht in deinem Gebiet verfügbar", Dialog mit „OK"): kein Warten auf die Schonzeit der Startseite. */
+        if (z.gebiet && seit > 1000) return abhaken(lauf, 'nicht in deinem Gebiet verfügbar')
         /* Disney+ leitet einen nicht verfügbaren Titel auf die Startseite um (Dialog „Je nach Standort …"). */
         if (z.startseite && seit > ANKOMMEN_MS) return abhaken(lauf, 'nicht verfügbar (Startseite)')
         /* Eine andere Titelseite heißt: Daniel hat übernommen — der Lauf zieht ihm den Tab nicht weg. */
@@ -110,8 +112,15 @@
     const zeilen = uebersprungen.map((u) => `• ${titelFuer(u.url)}: ${u.grund}`)
     return `${kopf}${bereits}\n${uebersprungen.length} übersprungen:\n${zeilen.join('\n')}`
   }
+  /**
+   * Zeigt die Seite Disney+' Hinweis „Dieser Inhalt ist zurzeit nicht in deinem Gebiet verfügbar."?
+   * Nur der deutsche Wortlaut ist belegt (Daniel, 13.10.2026, `/de-de/home`); ein Fehlercode in der
+   * Netzwerkantwort liegt nicht vor.
+   */
+  const gebietGesperrt = (text) => /nicht in deinem Gebiet verfügbar/i.test(String(text ?? ''))
   globalThis.akDisneyDurchgang = durchgang
   globalThis.akDisneyEndeText = endeText
+  globalThis.akDisneyGebietGesperrt = gebietGesperrt
   if (typeof document === 'undefined' || typeof location === 'undefined') return
 
   const seite = () => globalThis.AK_DISNEY
@@ -125,7 +134,7 @@
     },
     melde: () => void seite()?.melden(),
     ende: (info) => seite()?.zeigeEnde(info),
-    zustand: () => seite()?.zustand() ?? {},
+    zustand: () => ({ ...seite()?.zustand(), gebiet: gebietGesperrt(document.body?.innerText) }),
     limit: () => globalThis.AK_TAGESLIMIT?.text() ?? null,
   })
   globalThis.AK_DISNEY_DURCHGANG = lauf
