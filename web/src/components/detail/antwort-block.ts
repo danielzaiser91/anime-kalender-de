@@ -36,11 +36,18 @@ export function restUndBlock(kuenftig: ReleaseEvent[], n: ReleaseEvent): Pick<La
  * TV-Sichtung kennt weder Ende noch echte Nummer (Pokémon Horizonte, 17.09.2026), und „Erste Folge“ gilt nur
  * für Folge 1 (Beyblade X setzte bei TOGGO plus mit Folge 115 ein).
  */
+/** Wie viele Folgen mit der nächsten am selben Tag erscheinen (1 ohne Block). */
+function folgenImBlock(a: Laeuft): number {
+  return a.blockBis ? a.blockBis - (a.haupt.episode ?? 0) + 1 : 1
+}
+
+/** Deckt der Block alles, was noch aussteht, nennen Überschrift und Satz schon Tag und Ende — „noch X bis zum Finale am …“ wäre dasselbe Datum zweimal. */
+const blockIstEnde = (a: Laeuft): boolean => a.blockBis !== undefined && a.rest === folgenImBlock(a)
+
 function wasKommt(a: Laeuft): 'erste' | 'naechste' | 'finale' {
   if (a.offenesEnde) return !a.sichtung && a.haupt.episode === 1 ? 'erste' : 'naechste'
   if (a.raus === 0) return 'erste'
-  const imBlock = a.blockBis ? a.blockBis - (a.haupt.episode ?? 0) + 1 : 1
-  return a.rest === imBlock ? 'finale' : 'naechste'
+  return a.rest === folgenImBlock(a) ? 'finale' : 'naechste'
 }
 
 /** Die Überschrift des Kastens: „Nächste Folge (Folge 4)“, „Nächste Folgen (4–6)“ oder bei einem Abwurf „Alle N Folgen“. */
@@ -65,11 +72,13 @@ export function folgenKopf(a: Laeuft, T: Uebersetze): string {
 export function laeuftNeben(a: Laeuft, T: Uebersetze): string {
   return [
     a.sendetage?.length ? sendetageText(a.sendetage) : a.offenesEnde || a.komplett ? null : T('antwort.rhythmusWoechentlichKurz'),
-    a.letzter && a.rest > 1 && !a.offenesEnde
-      ? T('antwort.nochFolgen', { count: ungefaehr(a.rest, a.gesamtGeschaetzt), datum: ungefaehr(formatDate(a.letzter), a.gesamtGeschaetzt) })
-      : a.raus === 0 && !a.offenesEnde && !a.komplett
-        ? T('antwort.letzteFolge')
-        : null,
+    blockIstEnde(a)
+      ? null
+      : a.letzter && a.rest > 1 && !a.offenesEnde
+        ? T('antwort.nochFolgen', { count: ungefaehr(a.rest, a.gesamtGeschaetzt), datum: ungefaehr(formatDate(a.letzter), a.gesamtGeschaetzt) })
+        : a.raus === 0 && !a.offenesEnde && !a.komplett
+          ? T('antwort.letzteFolge')
+          : null,
     a.verschobenVon && T('antwort.verschobenVon', { datum: formatDate(a.verschobenVon) }),
   ]
     .filter(Boolean)

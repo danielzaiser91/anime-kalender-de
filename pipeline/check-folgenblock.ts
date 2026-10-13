@@ -7,7 +7,7 @@
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { translate } from '../web/src/lib/i18n.tsx'
-import { folgenKopf, folgenblockBis } from '../web/src/components/detail/antwort-block.ts'
+import { folgenKopf, folgenblockBis, laeuftNeben } from '../web/src/components/detail/antwort-block.ts'
 import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { terminSatz } from '../web/src/components/detail/antwort-regeln.ts'
 
@@ -57,11 +57,11 @@ function woechentlich(vorbei: number): Record<number, string> {
   return observed
 }
 
-function kopfVon(releases: Release[], t: Title = titel): { kopf: string; satz: string; blockBis?: number; datum: string } | undefined {
+function kopfVon(releases: Release[], t: Title = titel): { kopf: string; satz: string; neben: string; blockBis?: number; datum: string } | undefined {
   const a = berechneAntwort({ title: t, releases, today: HEUTE })
   if (a?.art !== 'laeuft') return undefined
   const satz = terminSatz(a.komplett, 'in 3 Tagen', a.haupt.date, T, a.blockBis !== undefined)
-  return { kopf: folgenKopf(a, T), satz, blockBis: a.blockBis, datum: a.haupt.date }
+  return { kopf: folgenKopf(a, T), satz, neben: laeuftNeben(a, T), blockBis: a.blockBis, datum: a.haupt.date }
 }
 
 const nach = kopfVon([plan(bloecke(1))])
@@ -74,11 +74,20 @@ pruefe('Block: der letzte Block ist „Finale Folgen (10–13)“', letzter?.kop
 const mitte = kopfVon([plan(bloecke(2))])
 pruefe('Block: mit Folgen danach bleibt „Nächste Folgen (7–9)“', mitte?.kopf === 'Nächste Folgen (7–9)', mitte?.kopf)
 
+/* Die Nebenzeile: Deckt der Block alles Ausstehende, steht das Ende schon in Überschrift und Satz — „noch X bis zum Finale am …“ entfällt (Prüfer, PR 1157). */
+const TAKT = T('antwort.rhythmusWoechentlichKurz')
+pruefe('Neben: beim Finale-Block bleibt nur der Takt', letzter?.neben === TAKT, letzter?.neben)
+pruefe('Neben: mit Folgen nach dem Block bleibt „noch 7 Folgen bis zum Finale am …“', Boolean(mitte?.neben.includes('noch 7 Folgen bis zum Finale am ')), mitte?.neben)
+pruefe('Neben: nach dem Auftakt bleibt „noch 10 Folgen bis zum Finale am …“', Boolean(nach?.neben.includes('noch 10 Folgen bis zum Finale am ')), nach?.neben)
+const nurBlock = kopfVon([plan({ 1: addDays(HEUTE, 3), 2: addDays(HEUTE, 3), 3: addDays(HEUTE, 3) }, { episodeCount: 3 })], { ...titel, episodes: 3 } as Title)
+pruefe('Neben: ein Auftakt-Block, der die ganze Staffel ist, zeigt nur den Takt', nurBlock?.kopf === 'Erste Folgen (1–3)' && nurBlock.neben === TAKT, `${nurBlock?.kopf} | ${nurBlock?.neben}`)
+
 const einzeln = kopfVon([plan(woechentlich(1))])
 pruefe('Gegenprobe: eine Folge je Woche bleibt „Nächste Folge (Folge 2)“', einzeln?.kopf === 'Nächste Folge (Folge 2)' && einzeln.blockBis === undefined, einzeln?.kopf)
 pruefe('Gegenprobe: der Satz bleibt im Singular', Boolean(einzeln?.satz.startsWith('erscheint in 3 Tagen, am ')), einzeln?.satz)
 const einzelnLetzte = kopfVon([plan(woechentlich(12))])
 pruefe('Gegenprobe: nur noch eine Folge ist „Finale Folge (Folge 13)“', einzelnLetzte?.kopf === 'Finale Folge (Folge 13)', einzelnLetzte?.kopf)
+pruefe('Gegenprobe: bei der Einzel-Finalfolge bleibt nur der Takt', einzelnLetzte?.neben === TAKT, einzelnLetzte?.neben)
 
 const abwurfTag = addDays(HEUTE, 3)
 const abwurf = plan({}, { firstEpisodeDate: abwurfTag, lastEpisodeDate: abwurfTag, episodeCount: 12 }, 'batch')
