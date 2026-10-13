@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-13T07:09:55.633Z",
+  "stand": "2026-10-13T08:29:54.847Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -6173,6 +6173,17 @@
       "letzterWeg": false
     },
     {
+      "titleId": 97940,
+      "titel": "Black Clover",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-13",
+      "letzterWeg": false
+    },
+    {
       "titleId": 98384,
       "titel": "Bungo Stray Dogs: Dead Apple",
       "plattform": "crunchyroll",
@@ -7904,6 +7915,17 @@
       "titel": "Dusk Beyond the End of the World",
       "plattform": "primevideo",
       "url": "https://www.amazon.de/dp/B0FP4BJZFG",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-13",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 195604,
+      "titel": "Black Clover: Staffel 2",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/de/series/GRE50KV36/black-clover",
       "seriesId": null,
       "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
       "geprueftAm": null,
