@@ -121,7 +121,7 @@ export function schreibeVerzeichnis(dist: string, v: SeitenVorlage, eintraege: V
     v,
     'titel',
     kopf(
-      'Anime von A bis Z: alle Titel mit deutscher Synchro',
+      'Anime von A bis Z: Synchro, Anbieter und Termine',
       `Alle ${summe} Anime und Animationsserien im Kalender von A bis Z: deutsche Synchro, Anbieter und Termine je Titel.`,
       `${SITE}titel/`,
       [START_KRUME, VERZEICHNIS_KRUME],
@@ -132,7 +132,7 @@ export function schreibeVerzeichnis(dist: string, v: SeitenVorlage, eintraege: V
     const label = buchstabenLabel(schluessel)
     const krumen = [START_KRUME, VERZEICHNIS_KRUME, { name: label, url: `${SITE}titel/${schluessel}/` }]
     const beschreibung = `${liste.length} Anime mit ${label}, von „${liste[0]!.name}“ bis „${liste[liste.length - 1]!.name}“: deutsche Synchro, Anbieter und Termine.`
-    schreibeSeite(dist, v, `titel/${schluessel}`, kopf(`Anime mit ${label}: Titel mit deutscher Synchro`, beschreibung, `${SITE}titel/${schluessel}/`, krumen), buchstabenInhalt(schluessel, liste, buchstaben))
+    schreibeSeite(dist, v, `titel/${schluessel}`, kopf(`Anime mit ${label}: Synchro, Anbieter und Termine`, beschreibung, `${SITE}titel/${schluessel}/`, krumen), buchstabenInhalt(schluessel, liste, buchstaben))
   }
   return buchstaben
 }
