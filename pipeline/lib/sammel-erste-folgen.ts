@@ -22,8 +22,8 @@ const VON_GESAMT = /\b(\d{1,3})\s+von\s+\d{1,3}\s+(?:Folgen|Episoden)?\s*(?:auf 
 const FOLGENBEREICH = /^(?:Folgen?|Episoden?)\s+1\s*(?:bis|-|–)\s*\d{1,3}$/i
 
 const DEUTSCH = /\bdeutsch\b|synchron|\bdub\b/i
-/** Wer verneint oder von einer Disc, einem Kinostart spricht, meldet keinen Streaming-Teiltermin. */
-const AUSSCHLUSS = /\b(?:nicht|kein\w*|ohne)\b|Blu-?ray|\bDVD\b|\bDisc\b|Volume|Steelbook|Kino/i
+/** Wer verneint, die Synchro erst ankündigt oder von einer Disc, einem Kinostart spricht, meldet keinen Streaming-Teiltermin. */
+const AUSSCHLUSS = /\b(?:nicht|kein\w*|ohne|folgt|später|geplant|nachgereicht|angekündigt)(?![\wäöüß])|Blu-?ray|\bDVD\b|\bDisc\b|Volume|Steelbook|Kino/i
 const AB_SOFORT = /\bab sofort\b|\bseit heute\b|\bab heute\b/i
 const BLOCKFELD = /^(?:Episoden|Sprache|Hinweis):/
 const TITEL_IM_SATZ = /»([^«]+)«/g
