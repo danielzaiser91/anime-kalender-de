@@ -311,8 +311,8 @@ Jetzt legt jeder Wartende ein Ticket `bau-vergleich.warte-<Zeit>-<PID>` neben di
 nehmen (FIFO, `tools/einzel-sperre-schlange.mjs`). Die Meldung nennt „Platz N von M“ und den Halter, sofort bei jeder Platzänderung, sonst jede
 Minute. Tickets hart beendeter Wartender (PID tot oder fremdes Programm) räumt der nächste Takt weg; reguläres Ende, SIGINT und SIGTERM löschen
 das eigene. Frist 45 min (`FRIST_MS`), dann Meldung mit Platz und Halter und Exit 3; ein neuer Aufruf reiht sich hinten ein. Test
-`tools/einzel-sperre-schlange.test.mjs` (echte Prozesse; ein Nachzügler, der zehnmal so oft fragt, bleibt hinter den Älteren; mit
-`if (!nimmSperre(…))` statt `platz === 1 &&` ist er rot). Wartende Bauer brauchen weder Wiederholschleife noch „bei Exit 3 neu starten“.
+`tools/einzel-sperre-schlange.test.mjs` (echte Prozesse; ein Nachzügler, der 150-mal so oft fragt (Takt 10 ms gegen 1,5 s), bleibt hinter den Älteren; ein fälschlich gelöschtes eigenes Ticket legt der Besitzer am alten Platz neu an; mit
+`if (!nimmSperre(…))` statt `platz === 1 &&` war er in 4 von 4 Läufen rot). Wartende Bauer brauchen weder Wiederholschleife noch „bei Exit 3 neu starten“.
 
 **Stand nach dem ersten Umbau (26.09.2026):** `build.ts` 9.286 → 109 Zeilen, `main()` 7.809 → 90;
 die Phasen liegen in `pipeline/bau/` (größte Funktion 619 Zeilen). `DetailPanel.tsx` 6.237 →
