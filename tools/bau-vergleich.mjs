@@ -45,6 +45,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { ablageName, einstellungsZeilen, hauptordnerAus, liesOptionen } from './bau-vergleich-ablage.mjs'
 import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { logge } from './bau-vergleich-log.mjs'
 import { basisRotMeldung } from './bau-vergleich-protokoll.mjs'
 import { raeumeVerwaisteBaeume } from './bau-vergleich-reste.mjs'
 import { abstandsWarnung, fremdeUnterschiede, messeAbstand, vonBasisGeaendert } from './bau-vergleich-abstand.mjs'
@@ -145,7 +146,7 @@ function baue(sha, basisSha) {
     setzeDatenstand(git, imBaum, basisSha, sha)
     imBaum('commit', '-q', '--allow-empty', '-m', 'Bestand der Basis', '--no-verify')
     ersatzCache(join(baum, 'data/cache'), basisSha)
-    console.log(`baue ${sha.slice(0, 12)} …`)
+    logge(`baue ${sha.slice(0, 12)} …`)
     // Ohne `npx`/Shell: ein Prozess weniger, und das Kind stirbt mit dem Elternprozess.
     const lauf = spawnSync(process.execPath, ['--import', 'tsx', 'pipeline/build.ts'], {
       cwd: baum,
@@ -199,15 +200,20 @@ const kandidat = git('rev-parse', kandidatName ?? 'HEAD')
 const abstand = messeAbstand(git, basis, kandidat)
 const warnung = abstandsWarnung(abstand, basis, kandidat)
 for (const zeile of [...warnung, ...einstellungsZeilen(KATALOG_CACHE, process.env)]) console.log(zeile)
+logge(`Vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} gestartet, warte auf die Sperre`)
 await wartAufSperre('bau-vergleich', FRIST_MS, undefined, `bau-vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} in ${WURZEL}`)
 raeumeVerwaisteBaeume(git, ABLAGE)
+logge('Bau A (Basis) beginnt')
 const a = baue(basis, basis)
+logge('Bau A (Basis) fertig')
 const basisProtokoll = readFileSync(join(a, '_protokoll.txt'), 'utf8')
 if (!basisProtokoll.startsWith('exit 0')) {
   console.error(basisRotMeldung(basisProtokoll, basis.slice(0, 12), a))
   process.exit(EXIT.BAU_BASIS)
 }
+logge('Bau B (Kandidat) beginnt')
 const b = baueOderBeende(kandidat, basis)
+logge('Bau B (Kandidat) fertig, Vergleich beginnt')
 meldeWiderspruchWarnungen('Basis', a)
 meldeWiderspruchWarnungen('Kandidat', b)
 /** Alle Dateien unter `ordner`, relativ und mit `/` — ohne `diff`, das es unter Windows nicht gibt. */
@@ -222,6 +228,7 @@ const verschieden = liste.filter((f) => {
   const [x, y] = [join(a, f), join(b, f)]
   return !existsSync(x) || !existsSync(y) || !readFileSync(x).equals(readFileSync(y))
 })
+logge(`Vergleich fertig: ${verschieden.length} verschiedene Dateien`)
 if (!verschieden.length) {
   console.log(`gleich: ${kandidat.slice(0, 12)} schreibt dasselbe wie ${basis.slice(0, 12)}`)
   for (const zeile of gleichTrotzDatenHinweis(git, basis, kandidat)) console.log(zeile)

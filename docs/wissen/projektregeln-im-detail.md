@@ -319,6 +319,14 @@ das eigene. Frist 45 min (`FRIST_MS`), dann Meldung mit Platz und Halter und Exi
 `tools/einzel-sperre-schlange.test.mjs` (echte Prozesse; ein Nachzügler, der 150-mal so oft fragt (Takt 10 ms gegen 1,5 s), bleibt hinter den Älteren; ein fälschlich gelöschtes eigenes Ticket legt der Besitzer am alten Platz neu an; mit
 `if (!nimmSperre(…))` statt `platz === 1 &&` war er in 4 von 4 Läufen rot). Wartende Bauer brauchen weder Wiederholschleife noch „bei Exit 3 neu starten“.
 
+**Entfernte Felder und Zwischenstand bei `bau-vergleich.mjs` (13.10.2026).** Die Feldliste zeigte höchstens 6 Felder nach Häufigkeit; ein Feld, das im
+neuen Bau nur an einer Stelle fehlte, fiel hinter häufigen Änderungen weg (gemessen an `public/data/titles.json`: `titleEn` bei einem Eintrag entfernt, 8 Felder
+überall geändert → nur „… und 2 weitere Felder“). Jetzt stehen fehlende Felder und entfallene Listenelemente als eigene Zeilen `… (entfernt)` bzw. `(entfallen)`
+vorn, mit eigener Kürzung (je 6, Rest „… und N weitere entfernte Felder“); `null` → fehlt zählt als entfernt (`tools/vergleich-unterschied.mjs`, Test dort).
+Zwischenstand: Warten in der Schlange, Beginn und Ende von Bau A, Bau B und Vergleich schreiben eine Zeile `[HH:MM:SS] …` sofort (`writeSync`,
+`tools/bau-vergleich-log.mjs`); Anlass: Bauer warteten bis zu 80 min ohne Rückmeldung im Log. Test `tools/bau-vergleich-log.test.mjs`: eine Zeile ist beim
+Leser, während der schreibende Prozess noch läuft (spätestens nach 5 s).
+
 **Stand nach dem ersten Umbau (26.09.2026):** `build.ts` 9.286 → 109 Zeilen, `main()` 7.809 → 90;
 die Phasen liegen in `pipeline/bau/` (größte Funktion 619 Zeilen). `DetailPanel.tsx` 6.237 →
 1.478, Teile in `web/src/components/detail/`. `handlePruefung` 1.244 → rund 70 (die Hälfte davon

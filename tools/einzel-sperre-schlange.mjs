@@ -11,6 +11,7 @@
 import { readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
+import { logge } from './bau-vergleich-log.mjs'
 import { beschreibeHalter, lebt, liesSperre, nimmSperre } from './einzel-sperre.mjs'
 
 const MINUTE = 60_000
@@ -89,7 +90,7 @@ export async function wartAufSperre(name, maxMs = FRIST_MS, takt = 5_000, wer) {
       process.exit(3)
     }
     if (stand !== letzterPlatz || Date.now() >= naechsteMeldung) {
-      console.log(`${name}: ${stand} in der Schlange — ${sperrText(name)} — warte bis zu ${Math.round(maxMs / MINUTE)} min.`)
+      logge(`${name}: ${stand} in der Schlange — ${sperrText(name)} — warte bis zu ${Math.round(maxMs / MINUTE)} min.`)
       letzterPlatz = stand
       naechsteMeldung = Date.now() + MINUTE
     }
