@@ -4,7 +4,7 @@ import { formatDate, weekdayName } from '@shared/time.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { type ReactNode, useState } from 'react'
 import { useFolgenZaehlung } from './folgen-bereich.tsx'
-import { Countdown, sendetageText } from './hilfen.tsx'
+import { Countdown } from './hilfen.tsx'
 import { KINO_LAND, kinoDatum } from './kino.tsx'
 import { ankuendigungZeile } from '@shared/ankuendigung.ts'
 import { VermerkAuskunft } from './vermerk.tsx'
@@ -14,7 +14,7 @@ import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr,
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
 import { kostenlosKopfVon } from './kasten-texte.ts'
-import { folgenKopf } from './antwort-block.ts'
+import { folgenKopf, laeuftNeben } from './antwort-block.ts'
 
 /** Pillenreihe: 8 px zwischen den Pillen, 16 px zwischen den Zeilen (Platz für die Blase), 8 px über der ersten. */
 const PILLEN_REIHE = 'flex flex-wrap items-start gap-x-2 gap-y-4 pt-2'
@@ -364,40 +364,7 @@ export function AntwortKasten({
         {e.time && !e.estimated && !e.timeEstimated && <Countdown date={e.date} time={e.time} />}
       </>
     )
-    neben = [
-      /*
-        **Der Wochentag steht oben im Satz, hier bleibt die Frequenz.**
-        Das alte Kürzel („Wöchentlich Frs") war unlesbar; ausgeschrieben
-        wiederholte es nur den Wochentag der Überschrift. Was bleibt, ist der
-        Takt — wer weiß, dass eine Serie freitags kommt, muss nicht täglich
-        nachsehen.
-      */
-      antwort.sendetage?.length
-        ? sendetageText(antwort.sendetage)
-        : antwort.offenesEnde || antwort.komplett
-          ? null
-          : T('antwort.rhythmusWoechentlichKurz'),
-      /*
-        **„Noch X" heißt: X stehen aus — die nächste eingerechnet.**
-
-        Hier stand `rest - 1`, weil die nächste Folge eine Zeile darüber schon
-        mit Datum genannt wird. Gedacht war „und danach kommen noch elf". Gelesen
-        wurde es anders, und zwar zu Recht: Bei einer Staffel, von der noch keine
-        einzige Folge draußen ist, stand „0 von 12 erschienen" über „noch 11 bis
-        zum Finale". Zwölf
-        Folgen stehen aus, nicht elf — die nächste ist keine erschienene.
-      */
-      antwort.letzter && antwort.rest > 1 && !antwort.offenesEnde
-        ? /* „noch 2 Folgen …" — Einzahl gibt es hier nicht: bei einer steht „letzte Folge". */
-          T('antwort.nochFolgen', { count: ungefaehr(antwort.rest, antwort.gesamtGeschaetzt), datum: ungefaehr(formatDate(antwort.letzter), antwort.gesamtGeschaetzt) })
-        : /* Steht „Finale Folge" schon in der Überschrift, wäre „letzte Folge" hier dieselbe Auskunft zweimal. */
-          antwort.raus === 0 && !antwort.offenesEnde && !antwort.komplett
-          ? T('antwort.letzteFolge')
-          : null,
-      antwort.verschobenVon && T('antwort.verschobenVon', { datum: formatDate(antwort.verschobenVon) }),
-    ]
-      .filter(Boolean)
-      .join(' · ')
+    neben = laeuftNeben(antwort, T)
     anteil = antwort.gesamt ? Math.round((antwort.raus / antwort.gesamt) * 100) : undefined
     /*
       **Die erschienenen Folgen sind die zweite betonte Angabe** (Daniel,

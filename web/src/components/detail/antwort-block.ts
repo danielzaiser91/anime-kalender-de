@@ -4,7 +4,10 @@
  */
 import { istAusgeblieben } from '@shared/logic.ts'
 import type { ReleaseEvent } from '@shared/types.ts'
+import { formatDate } from '@shared/time.ts'
 import type { Antwort } from './antwort-typ.ts'
+import { sendetageText } from './hilfen.tsx'
+import { ungefaehr } from './antwort-regeln.ts'
 
 type Laeuft = Extract<Antwort, { art: 'laeuft' }>
 type Uebersetze = (k: string, v?: Record<string, string | number>) => string
@@ -52,4 +55,23 @@ export function folgenKopf(a: Laeuft, T: Uebersetze): string {
   return a.blockBis
     ? T(`antwort.${was}FolgenNr`, { von: e.episode, bis: a.blockBis })
     : T(`antwort.${was}FolgeNr`, { n: e.episode })
+}
+
+/**
+ * Die Nebenzeile des „läuft“-Kastens: Takt, wie viele Folgen bis zum Finale, Verschiebung. Der Wochentag steht
+ * schon im Satz oben, hier bleibt der Takt. „Noch X“ heißt: X stehen aus, die nächste eingerechnet (bei einer
+ * Staffel ohne erschienene Folge stand sonst „0 von 12“ über „noch 11“); bei einer steht „letzte Folge“.
+ */
+export function laeuftNeben(a: Laeuft, T: Uebersetze): string {
+  return [
+    a.sendetage?.length ? sendetageText(a.sendetage) : a.offenesEnde || a.komplett ? null : T('antwort.rhythmusWoechentlichKurz'),
+    a.letzter && a.rest > 1 && !a.offenesEnde
+      ? T('antwort.nochFolgen', { count: ungefaehr(a.rest, a.gesamtGeschaetzt), datum: ungefaehr(formatDate(a.letzter), a.gesamtGeschaetzt) })
+      : a.raus === 0 && !a.offenesEnde && !a.komplett
+        ? T('antwort.letzteFolge')
+        : null,
+    a.verschobenVon && T('antwort.verschobenVon', { datum: formatDate(a.verschobenVon) }),
+  ]
+    .filter(Boolean)
+    .join(' · ')
 }
