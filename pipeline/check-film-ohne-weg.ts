@@ -21,6 +21,7 @@ pruefe('Film mit Synchro ohne Weg: eigene Zeile', hinweis(titel(), { art: 'film'
 pruefe('Film mit Synchro ohne Sprecher: dieselbe Zeile', hinweis(titel({ hasVoices: false }), { art: 'film', hatSynchro: true, ohneWeg: true }) === 'detail.whereFilmOhneWeg')
 pruefe('Serie mit Sprechern ohne Weg: bisherige Zeile', hinweis(titel(), { art: 'fertig' }) === 'detail.whereDubbedButGone')
 pruefe('Serie ohne Sprecher ohne Weg: bisherige Zeile', hinweis(titel({ hasVoices: false }), { art: 'fertig' }) === 'detail.whereUnknown')
+pruefe('Film mit Disc-Termin: nicht „kein Disc-Anbieter“', hinweis(titel(), { art: 'film', hatSynchro: true, ohneWeg: false }) !== 'detail.whereFilmOhneWeg')
 pruefe('Film mit Weg: keine Zeile', hinweis(titel({ streams: [{ platform: 'netflix', url: 'u' }] }), { art: 'film', hatSynchro: true }) === undefined)
 const texte = TEXTE_ZEILEN as Record<string, string>
 pruefe('Wortlaut', texte['detail.whereFilmOhneWeg'] === 'Kein Streaming- oder Disc-Anbieter bekannt.' && texte['antwort.filmSynchronisiert'] === 'Deutsch synchronisiert')
