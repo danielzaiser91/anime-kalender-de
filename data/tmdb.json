@@ -8,7 +8,8 @@
       "netflix",
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "blue-exorcist-beyond-the-snow-saga-vol2": {},
   "campfire-cooking-s1-box": {
@@ -16,7 +17,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/213402/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "girls-band-cry-vol1": {
     "tmdbId": 241928,
@@ -25,14 +27,16 @@
       "crunchyroll",
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "reincarnated-as-the-7th-prince-s1-box": {
     "tmdbId": 213830,
     "justwatchUrl": "https://www.themoviedb.org/tv/213830/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "villainess-who-goes-down-in-history-box": {
     "tmdbId": 248817,
@@ -40,7 +44,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/248817/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "im-standing-on-a-million-lives-s1-box": {
     "tmdbId": 99995,
@@ -48,7 +53,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/99995-100/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "my-one-hit-kill-sister-s1-box": {
     "tmdbId": 194829,
@@ -56,14 +62,16 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/194829/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "re-monster-s1-box": {
     "tmdbId": 235389,
     "justwatchUrl": "https://www.themoviedb.org/tv/235389-re-monster/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "strike-witches-s2-vol1": {},
   "cafe-terrace-and-its-goddesses-s1-box": {
@@ -72,7 +80,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/209707/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "case-study-of-vanitas-s1-vol2": {
     "tmdbId": 121964,
@@ -80,7 +89,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/121964/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "virgin-road-vol1": {
     "tmdbId": 117886
@@ -92,7 +102,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/103409/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "2-5-dimensional-seduction-vol4": {},
   "inazuma-eleven-s1-box": {
@@ -101,7 +112,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/42912/watch?locale=DE",
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "infinite-dendrogram-vol2": {
     "tmdbId": 94649,
@@ -109,7 +121,8 @@
     "providers": [
       "primevideo",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "robin-hood-box": {},
   "sword-of-the-demon-hunter-vol1": {
@@ -118,7 +131,8 @@
     "providers": [
       "primevideo",
       "adn"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "sword-of-the-demon-hunter-vol2": {
     "tmdbId": 133154,
@@ -126,7 +140,8 @@
     "providers": [
       "primevideo",
       "adn"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "most-heretical-last-boss-queen-s1-box": {
     "tmdbId": 213326,
@@ -134,7 +149,8 @@
     "providers": [
       "primevideo",
       "adn"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "witch-watch-vol1": {
     "tmdbId": 261868,
@@ -144,25 +160,29 @@
       "crunchyroll",
       "primevideo",
       "adn"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "as-a-reincarnated-aristocrat-s1-vol1": {
     "tmdbId": 237150,
     "justwatchUrl": "https://www.themoviedb.org/tv/237150/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "banana-fish-vol1": {
     "tmdbId": 80564,
-    "fsk": 18
+    "fsk": 18,
+    "inhaltAm": "2026-08-07"
   },
   "please-put-them-on-takamine-vol1": {
     "tmdbId": 276880,
     "justwatchUrl": "https://www.themoviedb.org/tv/276880/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "demon-slayer-s1-steelbook": {
     "tmdbId": 85937,
@@ -173,7 +193,8 @@
       "rtlplus",
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "my-love-story-with-yamada-kun-vol1": {
     "tmdbId": 208067,
@@ -181,7 +202,8 @@
     "providers": [
       "netflix",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "sakamoto-days-vol1": {
     "tmdbId": 207332,
@@ -189,7 +211,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/207332-sakamoto-days/watch?locale=DE",
     "providers": [
       "netflix"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "tougen-anki-part1": {
     "tmdbId": 253811,
@@ -199,7 +222,8 @@
       "crunchyroll",
       "primevideo",
       "adn"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "vampire-knight-guilty-box": {
     "tmdbId": 17149,
@@ -208,7 +232,8 @@
     "providers": [
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "dandadan-s2-vol3": {
     "tmdbId": 240411,
@@ -218,7 +243,8 @@
       "netflix",
       "primevideo",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "inazuma-eleven-movie-team-oger": {
     "tmdbId": 118301
@@ -229,7 +255,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/244808-the-animation/watch?locale=DE",
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "recovery-of-an-mmo-junkie-vol2": {
     "tmdbId": 74163,
@@ -237,7 +264,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/74163/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "dandadan-s2-vol1-steelcase": {
     "tmdbId": 240411,
@@ -247,14 +275,16 @@
       "netflix",
       "primevideo",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "black-torch": {
     "tmdbId": 285993,
     "justwatchUrl": "https://www.themoviedb.org/tv/285993-black-torch/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "clevatess-s2": {},
   "hana-kimi-s2": {},
@@ -267,14 +297,16 @@
     "providers": [
       "disneyplus",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "tomb-raider-king": {
     "tmdbId": 297826,
     "justwatchUrl": "https://www.themoviedb.org/tv/297826/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "trapped-in-a-dating-sim-s2": {},
   "you-and-i-are-polar-opposites-s2": {},
@@ -283,14 +315,16 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/326119/watch?locale=DE",
     "providers": [
       "netflix"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "ghost-in-the-shell-2026": {
     "tmdbId": 255358,
     "justwatchUrl": "https://www.themoviedb.org/tv/255358-the-ghost-in-the-shell/watch?locale=DE",
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-07"
   },
   "vom-landei-zum-schwertheiligen-2": {},
   "blue-exorcist-blue-night-saga-vol1": {},
@@ -301,7 +335,8 @@
     "providers": [
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "log-horizon-s3-box": {},
   "my-hero-academia-vigilantes-s1-box": {
@@ -310,7 +345,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/280110-illegals/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "re-zero-s3-vol1": {},
   "sailor-moon-s1-steelbook": {
@@ -320,7 +356,8 @@
     "providers": [
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "apothecary-diaries-s1-steelbook": {
     "tmdbId": 220542,
@@ -329,14 +366,16 @@
     "providers": [
       "netflix",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "as-a-reincarnated-aristocrat-s1-vol2": {
     "tmdbId": 237150,
     "justwatchUrl": "https://www.themoviedb.org/tv/237150/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "kaiju-no8-mission-recon-steelbook": {},
   "ron-kamonohashi-s2-vol1": {},
@@ -350,7 +389,8 @@
     "providers": [
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "my-hero-academia-s6-box": {},
   "wind-breaker-s2-vol2": {},
@@ -360,7 +400,8 @@
     "providers": [
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "my-love-story-with-yamada-kun-vol2": {
     "tmdbId": 208067,
@@ -368,7 +409,8 @@
     "providers": [
       "netflix",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "girls-band-cry-vol2": {
     "tmdbId": 241928,
@@ -377,7 +419,8 @@
       "crunchyroll",
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "dr-stone-science-future-part1": {},
   "dragon-maid-lonely-dragon-movie-disc": {
@@ -387,7 +430,8 @@
     "providers": [
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "my-next-life-as-a-villainess-s2-bundle": {},
   "rent-a-girlfriend-s4-box": {},
@@ -399,25 +443,29 @@
     "providers": [
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "spice-and-wolf-2024-vol3": {
     "tmdbId": 229676,
     "justwatchUrl": "https://www.themoviedb.org/tv/229676-merchant-meets-the-wise-wolf/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "banana-fish-vol2": {
     "tmdbId": 80564,
-    "fsk": 18
+    "fsk": 18,
+    "inhaltAm": "2026-08-08"
   },
   "bocchi-the-rock-vol3": {
     "tmdbId": 119100,
     "justwatchUrl": "https://www.themoviedb.org/tv/119100/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "my-love-story-with-yamada-kun-vol3": {
     "tmdbId": 208067,
@@ -425,14 +473,16 @@
     "providers": [
       "netflix",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "anne-shirley-vol2": {
     "tmdbId": 277665,
     "justwatchUrl": "https://www.themoviedb.org/tv/277665/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "call-of-the-night-s2-vol2": {},
   "shin-chan-vol15": {
@@ -441,22 +491,26 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/30623/watch?locale=DE",
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "spice-and-wolf-2024-vol4": {
     "tmdbId": 229676,
     "justwatchUrl": "https://www.themoviedb.org/tv/229676-merchant-meets-the-wise-wolf/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "venus-wars-kino-2026": {
     "tmdbId": 31769,
-    "fsk": 16
+    "fsk": 16,
+    "inhaltAm": "2026-08-08"
   },
   "detektiv-conan-movie-29-kino": {
     "tmdbId": 1545621,
-    "fsk": 12
+    "fsk": 12,
+    "inhaltAm": "2026-08-08"
   },
   "a-new-dawn-kino": {
     "tmdbId": 1279865
@@ -474,7 +528,8 @@
       "rtlplus",
       "primevideo",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "naruto-s4-disneyplus": {
     "tmdbId": 46260,
@@ -486,7 +541,8 @@
       "disneyplus",
       "rtlplus",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "naruto-shippuden-s1-disneyplus": {
     "tmdbId": 31910,
@@ -498,7 +554,8 @@
       "disneyplus",
       "rtlplus",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "star-wars-visions-ninth-jedi": {
     "tmdbId": 289324,
@@ -506,7 +563,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/289324/watch?locale=DE",
     "providers": [
       "disneyplus"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "yu-gi-oh-s3-disneyplus": {
     "tmdbId": 902,
@@ -518,7 +576,8 @@
       "rtlplus",
       "primevideo",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "black-clover-s1-disneyplus": {
     "tmdbId": 73223,
@@ -528,14 +587,16 @@
       "netflix",
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "beelzebub-netflix": {
     "tmdbId": 38603,
     "justwatchUrl": "https://www.themoviedb.org/tv/38603/watch?locale=DE",
     "providers": [
       "netflix"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "the-ribbon-hero-netflix": {
     "tmdbId": 1679730
@@ -545,7 +606,8 @@
     "justwatchUrl": "https://www.themoviedb.org/tv/119100/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "yu-gi-oh-komplettbox-ksm": {
     "tmdbId": 902,
@@ -557,14 +619,16 @@
       "rtlplus",
       "primevideo",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "bocchi-the-rock-vol2": {
     "tmdbId": 119100,
     "justwatchUrl": "https://www.themoviedb.org/tv/119100/watch?locale=DE",
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "oshi-no-ko-s3-vol1": {},
   "oshi-no-ko-s3-vol2": {},
@@ -575,7 +639,8 @@
     "providers": [
       "netflix",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-08"
   },
   "steel-ball-run-1st-stage": {},
   "steel-ball-run-2nd-3rd-stage": {},
@@ -600,7 +665,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-12"
   },
   "call-of-the-night-staffel-2-vol-1-2026-09-18": {},
   "please-put-them-on-takamine-vol-3-2026-11-20": {
@@ -618,7 +684,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-12"
   },
   "strike-witches-staffel-2-vol-2-2026-10-09": {},
   "strike-witches-staffel-2-vol-3-2026-11-20": {},
@@ -637,7 +704,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-12"
   },
   "witch-watch-vol2": {
     "tmdbId": 261868,
@@ -681,7 +749,8 @@
       "crunchyroll",
       "primevideo",
       "adn"
-    ]
+    ],
+    "inhaltAm": "2026-08-12"
   },
   "please-put-them-on-takamine-vol2": {
     "tmdbId": 276880,
@@ -698,7 +767,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-12"
   },
   "im-standing-on-a-million-lives-s2-box": {},
   "sakamoto-days-vol2": {
@@ -717,16 +787,19 @@
     ],
     "providers": [
       "netflix"
-    ]
+    ],
+    "inhaltAm": "2026-08-12"
   },
   "mononoke-movie-3-curse-of-the-serpent": {},
   "all-you-need-is-kill-disc": {
     "tmdbId": 1432547,
-    "fsk": 16
+    "fsk": 16,
+    "inhaltAm": "2026-08-25"
   },
   "all-you-need-is-kill-kino": {
     "tmdbId": 1432547,
-    "fsk": 16
+    "fsk": 16,
+    "inhaltAm": "2026-08-25"
   },
   "detektei-layton-katrielles-raetselhafte-faelle-2026-10-22": {
     "tmdbId": 78479,
@@ -752,7 +825,8 @@
     ],
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "the-quintessential-quintuplets-2026-09-18": {
     "tmdbId": 84669,
@@ -784,7 +858,8 @@
       "netflix",
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "steins-gate-0-polymorpher-valentin-bittersweet-intermedio-2026-10-16": {},
   "naruto-shippuden-the-movie-5-blood-prison-2026-11-19": {
@@ -835,7 +910,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "naruto-shippuden-the-ova-naruto-ein-genie-und-drei-wuensche-2026-11-19": {},
   "naruto-shippuden-flammende-chunin-pruefung-naruto-gegen-konohamaru-2026-11-19": {},
@@ -895,7 +971,8 @@
       "disneyplus",
       "rtlplus",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "jujutsu-kaisen-2027-05-07": {
     "tmdbId": 95479,
@@ -949,7 +1026,8 @@
       "disneyplus",
       "rtlplus",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "the-familiar-of-zero-2026-12-04": {
     "tmdbId": 35753,
@@ -967,7 +1045,8 @@
     ],
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "sailor-moon-super-s-2026-12-04": {},
   "the-devil-is-a-part-timer-ii-2026-09-04": {},
@@ -987,7 +1066,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "good-luck-girl-vol-1-2026-11-20": {
     "tmdbId": 45968
@@ -1047,12 +1127,14 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "my-next-life-as-a-villainess-all-routes-lead-to-doom-ich-habe-die-mir-vorbestimm": {},
   "vampire-princess-miyu-2026-09-08": {
     "tmdbId": 80223,
-    "justwatchUrl": "https://www.themoviedb.org/tv/80223/watch?locale=DE"
+    "justwatchUrl": "https://www.themoviedb.org/tv/80223/watch?locale=DE",
+    "inhaltAm": "2026-08-29"
   },
   "gods-games-we-play-2026-12-01": {
     "tmdbId": 156057,
@@ -1069,7 +1151,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "memories-2026-11-18": {
     "tmdbId": 42994,
@@ -1103,7 +1186,8 @@
     ],
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "the-ancient-magus-bride-staffel-2-2026-09-18": {},
   "code-geass-lelouch-of-the-rebellion-2026-09-18": {
@@ -1127,7 +1211,8 @@
     "providers": [
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "2-5-dimensional-seduction-2026-09-07": {
     "tmdbId": 216074,
@@ -1159,7 +1244,8 @@
       "crunchyroll",
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "the-ancient-magus-bride-staffel-2-cour-2-2026-09-18": {},
   "the-last-naruto-the-movie-2026-11-19": {
@@ -1211,7 +1297,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "my-hero-academia-yuei-heroes-battle-2026-10-20": {},
   "i-parry-everything-2026-09-28": {
@@ -1238,7 +1325,8 @@
     "providers": [
       "primevideo",
       "adn"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "promise-of-wizard-2026-09-17": {
     "tmdbId": 258578,
@@ -1259,7 +1347,8 @@
     ],
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "from-bureaucrat-to-villainess-dad-s-been-reincarnated-2026-10-12": {
     "tmdbId": 260822,
@@ -1285,7 +1374,8 @@
     "providers": [
       "primevideo",
       "adn"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "yaiba-samurai-legend-vol-1-2026-12-04": {
     "tmdbId": 254017,
@@ -1308,7 +1398,8 @@
     "providers": [
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "yaiba-samurai-legend-vol-2-2027-02-19": {
     "tmdbId": 254017,
@@ -1331,7 +1422,8 @@
     "providers": [
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "miss-kobayashi-s-dragon-maid-ein-einsamer-drache-sehnt-sich-nach-liebe-2026-10-1": {
     "tmdbId": 1359607,
@@ -1349,7 +1441,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "sakamoto-days-teil-2-vol-3-2026-11-13": {},
   "sakamoto-days-teil-2-vol-4-2026-12-18": {},
@@ -1377,7 +1470,8 @@
     "providers": [
       "primevideo",
       "adn"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "kamisama-kiss-staffel-2-2026-11-15": {},
   "a-silent-voice-2026-11-06": {
@@ -1409,7 +1503,8 @@
     "providers": [
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "steins-gate-0-2026-10-16": {
     "tmdbId": 78102,
@@ -1441,7 +1536,8 @@
       "crunchyroll",
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "boruto-naruto-the-movie-2026-11-19": {
     "tmdbId": 347201,
@@ -1496,7 +1592,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "naruto-shippuden-the-movie-2026-11-19": {
     "tmdbId": 20982,
@@ -1543,7 +1640,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "code-geass-lelouch-of-the-rebellion-r2-2026-09-18": {},
   "hallo-kurt-2026-12-03": {},
@@ -1574,7 +1672,8 @@
     ],
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "naruto-shippuden-the-movie-bonds-2026-11-19": {
     "tmdbId": 17581,
@@ -1620,7 +1719,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "sailor-moon-s-2026-11-06": {},
   "sailor-moon-s-2026-12-04": {},
@@ -1673,7 +1773,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "sailor-moon-r-2026-11-06": {},
   "naruto-shippuden-the-movie-4-the-lost-tower-2026-11-19": {
@@ -1724,7 +1825,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "princess-principal-2026-09-04": {
     "tmdbId": 72515,
@@ -1742,7 +1844,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-08-29"
   },
   "miss-kobayashi-s-dragon-maid-valentinstag-und-onsen-erwartet-nicht-zu-viel-2026-": {},
   "sailor-moon-sailor-stars-2027-01-15": {},
@@ -1783,7 +1886,8 @@
       "crunchyroll",
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-09-16"
   },
   "dragon-ball-daima-toggo-plus": {
     "tmdbId": 236994,
@@ -1820,7 +1924,8 @@
       "crunchyroll",
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-09-16"
   },
   "your-name-cineanime-2026": {
     "tmdbId": 372058,
@@ -1883,7 +1988,8 @@
     "providers": [
       "primevideo",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-09-17"
   },
   "cyberpunk-edgerunners-2-netflix": {
     "tmdbId": 326788
@@ -1904,7 +2010,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-09-27"
   },
   "failure-frame-box": {
     "tmdbId": 245285,
@@ -1921,7 +2028,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-09-27"
   },
   "tougen-anki-part2": {
     "tmdbId": 253811,
@@ -1965,11 +2073,13 @@
       "crunchyroll",
       "primevideo",
       "adn"
-    ]
+    ],
+    "inhaltAm": "2026-09-27"
   },
   "detektiv-conan-film-28-disc": {
     "tmdbId": 1396965,
-    "fsk": 12
+    "fsk": 12,
+    "inhaltAm": "2026-09-27"
   },
   "dragon-maid-s1-steelbook": {
     "tmdbId": 69291,
@@ -1992,7 +2102,8 @@
     "providers": [
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-09-27"
   },
   "the-100-girlfriends-s2-vol1": {},
   "detektiv-conan-box1-30th-anniversary": {
@@ -2016,7 +2127,8 @@
     "providers": [
       "crunchyroll",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-09-27"
   },
   "7th-prince-s2-box": {},
   "my-happy-marriage-special-netflix": {},
@@ -2078,19 +2190,23 @@
       "disneyplus",
       "crunchyroll",
       "rtlplus"
-    ]
+    ],
+    "inhaltAm": "2026-10-06"
   },
   "bleach-diamonddust-rebellion-adn": {
     "tmdbId": 17101,
-    "fsk": 12
+    "fsk": 12,
+    "inhaltAm": "2026-10-06"
   },
   "bleach-fade-to-black-adn": {
     "tmdbId": 17165,
-    "fsk": 16
+    "fsk": 16,
+    "inhaltAm": "2026-10-06"
   },
   "bleach-hell-verse-adn": {
     "tmdbId": 73245,
-    "fsk": 16
+    "fsk": 16,
+    "inhaltAm": "2026-10-06"
   },
   "my-hero-academia-vigilantes-s1-netflix": {
     "tmdbId": 280110,
@@ -2108,7 +2224,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-10-06"
   },
   "my-hero-academia-vigilantes-s2-netflix": {},
   "ranma-s3-folge1-netflix": {},
@@ -2151,7 +2268,8 @@
       "rtlplus",
       "primevideo",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "summer-wars-ultimate-edition": {
     "tmdbId": 28874,
@@ -2198,7 +2316,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "ame-und-yuki-ultimate-edition": {
     "tmdbId": 110420,
@@ -2245,7 +2364,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "maedchen-durch-die-zeit-ultimate-edition": {
     "tmdbId": 14069,
@@ -2292,7 +2412,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "junge-und-das-biest-ultimate-edition": {
     "tmdbId": 315465,
@@ -2347,7 +2468,8 @@
     "providers": [
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "panties-returns-polyband": {},
   "dan-da-dan-s2-vol2-exklusiv": {},
@@ -2369,7 +2491,8 @@
     ],
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "tank-chair-primevideo": {
     "tmdbId": 320377
@@ -2418,7 +2541,8 @@
       "crunchyroll",
       "rtlplus",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "spy-x-family-s1-teil2-disneyplus": {},
   "spy-x-family-s2-disneyplus": {},
@@ -2437,7 +2561,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "honey-lemon-soda-disneyplus": {
     "tmdbId": 247859,
@@ -2454,7 +2579,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "jujutsu-kaisen-0-disneyplus": {
     "tmdbId": 810693,
@@ -2507,7 +2633,8 @@
       "disneyplus",
       "crunchyroll",
       "rtlplus"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "demon-slayer-infinity-castle-1-disneyplus": {
     "tmdbId": 1311031,
@@ -2548,7 +2675,8 @@
       "primevideo",
       "disneyplus",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "dororo-joyn": {
     "tmdbId": 83100,
@@ -2590,7 +2718,8 @@
     "providers": [
       "primevideo",
       "joyn"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "hells-paradise-s1-joyn": {
     "tmdbId": 117465,
@@ -2639,7 +2768,8 @@
       "crunchyroll",
       "joyn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "demon-slayer-s1-primevideo": {
     "tmdbId": 85937,
@@ -2688,7 +2818,8 @@
       "primevideo",
       "crunchyroll",
       "rtlplus"
-    ]
+    ],
+    "inhaltAm": "2026-10-07"
   },
   "adn-1423-s1-20261008-116589": {
     "tmdbId": 100565,
@@ -2705,7 +2836,8 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-10-08"
   },
   "adn-1423-s1-20261008-131586": {},
   "jujutsu-kaisen-hidden-inventory-premature-death-blu-ray": {
@@ -2727,7 +2859,8 @@
     ],
     "providers": [
       "netflix"
-    ]
+    ],
+    "inhaltAm": "2026-10-11"
   },
   "fate-stay-night-heavens-feel-2-lost-butterfly-gesamtausgabe": {
     "tmdbId": 390634,
@@ -2745,7 +2878,8 @@
     ],
     "providers": [
       "netflix"
-    ]
+    ],
+    "inhaltAm": "2026-10-11"
   },
   "fate-stay-night-heavens-feel-3-spring-song-gesamtausgabe": {
     "tmdbId": 390635,
@@ -2763,7 +2897,8 @@
     ],
     "providers": [
       "netflix"
-    ]
+    ],
+    "inhaltAm": "2026-10-11"
   },
   "dr-stone-science-future-part2": {},
   "shield-hero-s4-vol2": {},
@@ -2807,7 +2942,8 @@
       "primevideo",
       "disneyplus",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-10-11"
   },
   "das-band-der-unterwelt-netflix": {
     "tmdbId": 260463,
@@ -2838,7 +2974,8 @@
       "netflix",
       "disneyplus",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-10-11"
   },
   "das-band-der-unterwelt-netflix-folge-1-11": {
     "tmdbId": 260463,
@@ -2869,7 +3006,8 @@
       "netflix",
       "disneyplus",
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-10-11"
   },
   "avatar-die-sieben-haefen-paramountplus": {
     "tmdbId": 284833,
@@ -2891,7 +3029,8 @@
     ],
     "providers": [
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-11"
   },
   "yaiba-samurai-legend-prosieben-maxx": {
     "tmdbId": 254017,
@@ -2914,7 +3053,8 @@
     "providers": [
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-11"
   },
   "one-piece-whole-cake-island-prosieben-maxx": {
     "tmdbId": 37854,
@@ -2956,7 +3096,8 @@
       "crunchyroll",
       "adn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-11"
   },
   "auto-153288-disc": {
     "tmdbId": 207468,
@@ -2992,7 +3133,8 @@
       "crunchyroll",
       "joyn",
       "primevideo"
-    ]
+    ],
+    "inhaltAm": "2026-10-13"
   },
   "kaiju-no8-s2-komplettbox": {},
   "demon-slayer-entertainment-district-arc-primevideo": {},
@@ -3010,6 +3152,7 @@
     ],
     "providers": [
       "crunchyroll"
-    ]
+    ],
+    "inhaltAm": "2026-10-13"
   }
 }
