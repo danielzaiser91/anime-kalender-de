@@ -2,9 +2,8 @@
  * Sperrdatei für Werkzeuge, die nur einmal gleichzeitig laufen dürfen (`bau-vergleich`,
  * `panel-vergleich`): Zwei Läufe teilen sich Worktree-Namen und Ablage und kosten je ein volles
  * `pipeline/build.ts` bzw. `vite build`. Der zweite Aufruf bricht sofort ab (Exit 3) statt zu
- * warten — Bauer-Agenten haben Werkzeug-Fristen, ein Wartender würde dort ohnehin abgeschossen
- * und hielte währenddessen selbst einen Prozess. `bau-vergleich` wartet dagegen bis zu 10 min
- * (`wartAufSperre`), weil dort parallele Bauer sich sonst gegenseitig abweisen.
+ * warten. `bau-vergleich` wartet dagegen der Reihe nach (`wartAufSperre` in `einzel-sperre-schlange.mjs`),
+ * weil dort parallele Bauer sich sonst gegenseitig abweisen und Nachzügler die Wartenden überholen.
  *
  * Eine Sperre, deren PID nicht mehr lebt oder inzwischen einem anderen Programm gehört (`exe`), wird übernommen (mit Meldung). Die Absage nennt, wer die Sperre hält
  * (PID, was läuft, von wo) und seit wann (Uhrzeit und „vor N min“): Prüfer warteten am 12.10.2026 10–15 min, ohne zu wissen, worauf.
@@ -55,6 +54,17 @@ const standardWer = () => `${basename(process.argv[1] ?? 'node')} ${process.argv
 
 const vorMin = (seit) => Math.max(0, Math.round((Date.now() - Date.parse(seit)) / 60_000))
 
+/** „PID 1234, seit 2026-…, vor 3 min, <was läuft>“ aus dem Inhalt einer Sperrdatei. */
+export function beschreibeHalter(sperre) {
+  const was = sperre.wer ? `, ${sperre.wer}` : ''
+  return `PID ${sperre.pid}, seit ${sperre.seit}, vor ${vorMin(sperre.seit)} min${was}`
+}
+
+/** Inhalt der Sperre `<name>` (null, wenn keine liegt). */
+export function liesSperre(name) {
+  return lies(join(tmpdir(), `${name}.sperre`))
+}
+
 /** Legt die Sperre `<name>` an; `wer` beschreibt den Lauf für Wartende. Liefert null bei Erfolg, sonst den Grund (Text) für die Absage. */
 export function nimmSperre(name, wer = standardWer()) {
   const datei = join(tmpdir(), `${name}.sperre`)
@@ -73,8 +83,7 @@ export function nimmSperre(name, wer = standardWer()) {
     }
     const alt = lies(datei)
     if (alt && lebt(alt.pid, alt.exe)) {
-      const was = alt.wer ? `, ${alt.wer}` : ''
-      return `${name} läuft schon (PID ${alt.pid}, seit ${alt.seit}, vor ${vorMin(alt.seit)} min${was}) — warten oder die Sperre ${datei} nur löschen, wenn der Prozess nicht echt läuft.`
+      return `${name} läuft schon (${beschreibeHalter(alt)}) — warten oder die Sperre ${datei} nur löschen, wenn der Prozess nicht echt läuft.`
     }
     console.warn(`${name}: verwaiste Sperre${alt ? ` (PID ${alt.pid}, seit ${alt.seit}, tot)` : ' (unlesbar)'} übernommen.`)
     if (JSON.stringify(lies(datei)) === JSON.stringify(alt)) rmSync(datei, { force: true })
@@ -88,28 +97,5 @@ export function nurEinmalGleichzeitig(name, wer) {
   if (grund) {
     console.error(grund)
     process.exit(3)
-  }
-}
-
-/**
- * Wie `nurEinmalGleichzeitig`, wartet aber höchstens `maxMs` auf die Freigabe (meldet es einmal und
- * dann jede Minute), bevor es mit Exit 3 abbricht. Für Werkzeuge, bei denen ein Wartender nützlicher
- * ist als ein Abbruch (`bau-vergleich`: Bauer-Läufe sollen sich nicht gegenseitig abweisen).
- */
-export async function wartAufSperre(name, maxMs, takt = 5_000, wer) {
-  const ende = Date.now() + maxMs
-  let naechsteMeldung = 0
-  for (;;) {
-    const grund = nimmSperre(name, wer)
-    if (!grund) return
-    if (Date.now() + takt > ende) {
-      console.error(`${grund} (nach ${Math.round(maxMs / 60_000)} min Warten aufgegeben)`)
-      process.exit(3)
-    }
-    if (Date.now() >= naechsteMeldung) {
-      console.log(`${grund.split(' — ')[0]} — warte bis zu ${Math.round(maxMs / 60_000)} min auf die Freigabe.`)
-      naechsteMeldung = Date.now() + 60_000
-    }
-    await new Promise((fertig) => setTimeout(fertig, takt))
   }
 }

@@ -80,6 +80,8 @@ QUELLEN=(
   # nie, und bei bewegtem Fernstand warf der Reset sie weg. Der Lauf tat also
   # jede Woche dieselbe Arbeit umsonst.
   data/adn-catalog.json
+  # Serien des Katalogs ohne eindeutigen aniSearch-Eintrag (13.10.2026); der Katalog-Lauf schreibt sie mit.
+  data/adn-anisearch-offen.json
   # Die ADN-News-Artikel, über die sich angekündigte Termine lesbar belegen
   # lassen (`pipeline/lib/adn-news.ts`). Ohne diese Zeile fiele der Stand bei
   # bewegtem Fernstand weg und würde jeden Tag neu geholt.

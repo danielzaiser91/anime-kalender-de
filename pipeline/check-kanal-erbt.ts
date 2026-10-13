@@ -105,6 +105,30 @@ const neuGeerbt = neuBei(mitGeerbt([kanal(), cr({ dub: true })]))
 pruefe('Neu auf Deutsch: Anbieter und Quelle sind der Anbieter-Weg, nicht der davor stehende geerbte Prime-Weg', neuGeerbt.length === 1 && neuGeerbt[0]!.platform === 'crunchyroll' && neuGeerbt[0]!.quelle === cr().url, neuGeerbt)
 pruefe('Gegenprobe: ein eigenes Prime-Ja davor bleibt der Anbieter', neuBei([kanal({ dub: true }), cr({ dub: true })])[0]?.platform === 'primevideo')
 
+/*
+ * Ein automatisch übernommener Kanal-Termin allein macht keine Meldung „Neu auf Deutsch bei Prime Video“ (13.10.2026: Detective Is Already Dead S2,
+ * Reincarnated Aristocrat S3, Wild Last Boss S2 — die Termine stammen aus einem Artikel über Crunchyroll-Simulcasts, ein Prime-Ja gab es nie).
+ */
+const kanalTermin = (extra: Partial<Release> = {}): Release =>
+  ({
+    titleId: 1,
+    slug: 'auto-1-primevideo',
+    platform: 'primevideo',
+    kanal: 'Crunchyroll',
+    automatisch: true,
+    releaseType: 'batch',
+    schedule: { firstEpisodeDate: addDays(todayIso(), -3) },
+    sources: ['https://www.anime2you.de/news/1'],
+    ...extra,
+  }) as unknown as Release
+const neuMitTermin = (streams: StreamLink[], releases: Release[]): NewsMeldung[] =>
+  meldungen(streams, releases, [{ id: 1, seit: addDays(todayIso(), -3) }]).filter((m) => m.art === 'neu')
+pruefe('Nur ein automatischer Kanal-Termin, kein Prime-Ja: keine Meldung „neu“', neuMitTermin([kanal()], [kanalTermin()]).length === 0, neuMitTermin([kanal()], [kanalTermin()]))
+pruefe('Gegenprobe: derselbe Kanal-Termin mit eigenem Prime-Ja bleibt eine Meldung', neuMitTermin([kanal({ dub: true })], [kanalTermin()]).length === 1)
+pruefe('Gegenprobe: ein Kanal-Termin von Hand (nicht automatisch) bleibt eine Meldung', neuMitTermin([kanal()], [kanalTermin({ automatisch: undefined })]).length === 1)
+const ohneKanalTermin = kanalTermin({ kanal: undefined })
+pruefe('Gegenprobe: ein automatischer Prime-Termin ohne Kanal bleibt eine Meldung', neuMitTermin([kanal({ kanal: undefined })], [ohneKanalTermin]).length === 1)
+
 /* Der Bau ruft es auf, vor der Auslieferung (sonst bliebe die Regel Papier). */
 const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')
 const nachAnreichern = schreiben.indexOf('schreibeSynopsenUndReichereAn({')

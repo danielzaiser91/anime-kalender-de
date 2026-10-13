@@ -88,5 +88,16 @@ console.log('\nZweitanbieter (Bau):')
   pruefe('Termin ohne Folgennummer (Batch): keine Marke', batch.zweitanbieter === undefined, batch.zweitanbieter)
   pruefe('Film ohne Folgennummer: Marke bleibt', film.zweitanbieter?.erster === 'primevideo', film.zweitanbieter)
 }
+{
+  /* Snowball Earth (13.10.2026): Crunchyroll rechnete Folge 1 auf den 20.07. zurück; Disney+ brachte sie am 24.09. wirklich. */
+  const crGerechnet = ev(12, 'crunchyroll', '2026-07-20', 1, { estimated: true })
+  const disney = ev(12, 'disneyplus', '2026-09-24', 1)
+  lauf([crGerechnet, disney])
+  pruefe('zurückgerechneter Erster belegt keinen Vorsprung: keine Marke am Disney+-Termin', disney.zweitanbieter === undefined, disney.zweitanbieter)
+  const crBelegt = ev(13, 'crunchyroll', '2026-07-20', 1)
+  const disney2 = ev(13, 'disneyplus', '2026-09-24', 1)
+  lauf([crBelegt, disney2])
+  pruefe('Gegenprobe: belegter Erster trägt die Marke weiter', disney2.zweitanbieter?.erster === 'crunchyroll', disney2.zweitanbieter)
+}
 console.log(verletzt ? `\n${verletzt} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(verletzt ? 1 : 0)

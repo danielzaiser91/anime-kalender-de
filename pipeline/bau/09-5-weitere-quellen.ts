@@ -305,8 +305,8 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
    * Die Kennung wird nicht gesucht, sondern nachgeschlagen — zwei Quellen, und
    * keine davon rät:
    *
-   * - **Der Katalog** trägt je Serie eine `anilistId`. Sie entsteht in
-   *   `fetch-adn.ts` über `bewerteTreffer`/`passtZuSerie`, wird je Serie nur
+   * - **Der Katalog** trägt je Serie eine `anisearchId` (im Bau `titleId`). Sie entsteht über
+   *   `lib/adn-anisearch.ts` (`bewerteTreffer`/`passtZuSerie`, seit 13.10.2026 aus aniSearchs Titelliste), wird je Serie nur
    *   einmal vergeben und ist damit dieselbe Zuordnung, aus der die übrigen
    *   ADN-Adressen im Bestand stammen. 33 der 65 alten Adressen sind so
    *   aufgelöst.
@@ -370,7 +370,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
   const katalogKennung = new Map<number, number>()
     // Derselbe Katalog wie oben, samt den dort verworfenen Zuordnungen.
     for (const s of adnKatalog.shows) {
-      if (s.anilistId && !katalogKennung.has(s.anilistId)) katalogKennung.set(s.anilistId, s.showId)
+      if (s.titleId && !katalogKennung.has(s.titleId)) katalogKennung.set(s.titleId, s.showId)
     }
     /**
      * **Die Staffel steht im Release-Slug — und sie entscheidet das Urteil.**

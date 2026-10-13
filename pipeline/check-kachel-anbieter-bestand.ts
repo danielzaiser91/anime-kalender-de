@@ -15,7 +15,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
   console.error(`  ✖ ${name}${gefunden === undefined ? '' : ` — gefunden: ${JSON.stringify(gefunden)}`}`)
 }
 
-const kacheln = (termine: ReleaseEvent[]) => vereineAnbieter(buendeleKacheln(termine, () => undefined, (e) => !!e.premiere), eigenstaendigBeiAnbietern)
+const kacheln = (termine: ReleaseEvent[]) => vereineAnbieter(buendeleKacheln(termine, () => false, (e) => !!e.premiere), eigenstaendigBeiAnbietern)
 
 function bestandspruefung(): void {
   console.log('\nEchter Bestand: je Titel + Tag höchstens eine Kachel, außer Eigenständiges und Mehrfachbündel:')

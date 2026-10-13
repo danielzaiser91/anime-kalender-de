@@ -43,17 +43,14 @@ export function buendeleTermine(
 const buendelSchluessel = (ev: ReleaseEvent): string => [ev.titleId > 0 ? ev.titleId : ev.name, ev.platform, ev.sender ?? ''].join('|')
 
 /**
- * Die Bündelung der Kalender-Kacheln (Woche und Monat): Der Staffelstart führt sein Bündel an und nimmt alle weiteren
- * Folgen des Tages auf, auch das Finale (Staffel am Stück). Sonst bleiben Finale, Ausgebliebenes und `sonst`
- * (Woche: Premieren) eigenständig.
+ * Die Bündelung der Kalender-Kacheln (Woche und Monat): Alle Folgen eines Titels beim selben Anbieter am selben Tag sind eine
+ * Kachel, auch das Finale (Mushoku Tensei Staffel 3: Folge 13 und 14, 13.10.2026); der Staffelstart führt sie an. Eigenständig
+ * bleiben Ausgebliebenes und `sonst` (Woche: Premieren) — sie tragen eine eigene Auskunft.
  */
 export function buendeleKacheln(
   termine: ReleaseEvent[],
-  art: (ev: ReleaseEvent) => 'start' | 'finale' | undefined,
+  istStart: (ev: ReleaseEvent) => boolean,
   sonst: (ev: ReleaseEvent) => boolean = () => false,
 ): ReleaseEvent[][] {
-  const kopf = (ev: ReleaseEvent): boolean => !ev.verpasst && art(ev) === 'start'
-  const mitStart = new Set(termine.filter(kopf).map(buendelSchluessel))
-  const finaleEinzeln = (ev: ReleaseEvent): boolean => art(ev) === 'finale' && !mitStart.has(buendelSchluessel(ev))
-  return buendeleTermine(termine, (ev) => !!ev.verpasst || finaleEinzeln(ev) || sonst(ev), kopf)
+  return buendeleTermine(termine, (ev) => !!ev.verpasst || sonst(ev), (ev) => !ev.verpasst && istStart(ev))
 }

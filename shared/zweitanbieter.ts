@@ -39,14 +39,16 @@ export function schreibeZweitanbieter(events: ReleaseEvent[], releases: Release[
   const stream = events.filter(istStreaming)
   const fruehest = new Map<string, ReleaseEvent>()
   for (const e of stream) {
+    /* Ein zurückgerechneter oder fortgeschriebener Tag belegt nicht, dass jemand der Erste war (Snowball Earth, 13.10.2026). */
+    if (e.estimated) continue
     const f = fruehest.get(folgeKey(e))
     if (!f || e.date < f.date) fruehest.set(folgeKey(e), e)
   }
   const kollisionen: string[] = []
   let anzahl = 0
   for (const e of stream) {
-    const f = fruehest.get(folgeKey(e))!
-    if (e.episode === undefined && e.releaseType !== 'movie') continue
+    const f = fruehest.get(folgeKey(e))
+    if (!f || (e.episode === undefined && e.releaseType !== 'movie')) continue
     if (f.platform === e.platform || tage(f.date, e.date) < ZWEITANBIETER_MIN_TAGE) continue
     if (e.premiere) {
       kollisionen.push(`"${e.releaseSlug}" ${e.date}: Handbeleg „Premiere“, aber ${f.platform} brachte Folge ${e.episode ?? 1} schon am ${f.date}`)

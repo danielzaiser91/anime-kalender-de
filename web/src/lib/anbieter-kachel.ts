@@ -33,8 +33,8 @@ function geheAuf(kachel: AnbieterKachel, gruppe: ReleaseEvent[], kanalVon: (ev: 
  * 11.10.2026: Crunchyroll und Prime Video am selben Tag als zwei Kacheln). Die Kachel steht dort, wo ihr erstes Bündel stand.
  *
  * `eigenstaendig` hält zurück, was eine eigene Auskunft trägt (Ausgebliebenes, Premiere, Sprachhinweis); ohne Titelkennung
- * lässt sich nicht sagen, ob es derselbe Titel ist. Ein zweites Bündel desselben Anbieters (Finale neben einer Folgenreihe)
- * bleibt eine eigene Kachel.
+ * lässt sich nicht sagen, ob es derselbe Titel ist. Ein zweites Bündel desselben Anbieters (eine Premiere
+ * neben der Folgenreihe) bleibt eine eigene Kachel.
  *
  * `kanalVon` nennt zu einem Prime-Termin den Anbieter, dessen Bestand der Kanal führt („Prime Video (Crunchyroll)“ → crunchyroll).
  * Steht dieser Anbieter am selben Tag in der Kachel, geht der Kanal in ihm auf und bekommt keine eigene Leiste (Daniel, 13.10.2026);
@@ -71,7 +71,7 @@ export const zeitGemeinsam = (buendel: ReleaseEvent[][]): boolean => buendel.eve
 /** Alle Anbieter nennen dieselbe Folge und dieselbe Zahl weiterer Folgen — dann genügt eine Zeile für alle. */
 export const folgeGemeinsam = (buendel: ReleaseEvent[][]): boolean => {
   const gleich = (a: ReleaseEvent[], b: ReleaseEvent[]): boolean =>
-    a[0]!.episode === b[0]!.episode && a[0]!.episodeCount === b[0]!.episodeCount && a.length === b.length
+    a[0]!.episode === b[0]!.episode && a[0]!.episodeCount === b[0]!.episodeCount && a.length === b.length && a[0]!.katalog === b[0]!.katalog
   return buendel.every((b) => gleich(b, buendel[0]!))
 }
 

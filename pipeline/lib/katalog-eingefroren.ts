@@ -7,7 +7,10 @@ import { readJson } from './util.ts'
  */
 export const EINGEFROREN_DATEI = 'data/stammdaten/anilist-eingefroren.json'
 
-const KATALOG_CACHE = 'data/cache/anilist-katalog.json'
+/** Die Liste der Titel ohne aniSearch-Treffer (`keiner`); nur diese werden eingefroren. */
+export const ABGLEICH_LISTE = 'data/anisearch-katalog-abgleich.json'
+
+const KATALOG_CACHE ='data/cache/anilist-katalog.json'
 
 /** Ein Katalogeintrag plus die Felder, die der Katalog nicht führt (der Bau liest sie nicht). */
 export interface EingefrorenerEintrag extends KatalogEintrag {
@@ -23,8 +26,22 @@ export interface EingefrorenerEintrag extends KatalogEintrag {
 
 export interface EingefrorenerBestand {
   eingefrorenAm: string
+  /** Zeitpunkt des letzten Nachtrags (`einfrieren-anilist.ts --nachtragen`); die Einträge davor bleiben unverändert. */
+  nachgetragenAm?: string
   quelle: string
   eintraege: EingefrorenerEintrag[]
+}
+
+/** Kennungen mit Urteil `keiner` (kein aniSearch-Treffer), aufsteigend. */
+export function ladeKeinerIds(): number[] {
+  const liste = readJson<{ keiner?: { id: number }[] }>(ABGLEICH_LISTE, {}).keiner ?? []
+  return liste.map((k) => k.id).sort((a, b) => a - b)
+}
+
+/** Kennungen aus `keiner`, die noch nicht eingefroren sind: der Bau müsste sie weiter bei AniList holen. */
+export function nichtEingefroren(keiner: number[], eingefroren: { id: number }[]): number[] {
+  const da = new Set(eingefroren.map((e) => e.id))
+  return keiner.filter((id) => !da.has(id))
 }
 
 export function ladeEingefrorene(): EingefrorenerEintrag[] {
