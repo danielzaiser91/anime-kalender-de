@@ -43,6 +43,18 @@ const fehltZeilen = beschreibeUnterschied('titles.json', JSON.stringify(mitId), 
 assert.ok(fehltZeilen[0].includes('[] (entfallen)'), 'entfallene Listenelemente stehen vorn')
 assert.ok(fehltZeilen.some((z) => z.includes('weitere Felder')), 'die häufigen Änderungen sind trotzdem gekürzt')
 
+// Liste ohne Kennung: Ein vorn eingefügter Eintrag verschiebt die übrigen nicht (patchnotes.json).
+const notizen = Array.from({ length: 30 }, (_, i) => ({ datum: `2026-10-${10 + (i % 3)}`, text: `Eintrag ${i}`, link: '#/x' }))
+const mitNeuem = [{ datum: '2026-10-13', text: 'Neu' }, ...notizen]
+const einfuegung = jsonUnterschiede(notizen, mitNeuem)
+assert.equal(einfuegung.size, 1, 'nur der neue Eintrag, nicht jedes verschobene Feld')
+assert.match([...einfuegung.values()][0].beispiel, /"datum":"2026-10-13"/)
+assert.equal(jsonUnterschiede(notizen, [...notizen].reverse()).size, 0, 'Reihenfolge allein ist kein Unterschied')
+// Gegenprobe: ein wirklich geänderter Eintrag bleibt sichtbar, gleiche Dubletten zählen einzeln.
+const geaendertEintrag = notizen.map((e, i) => (i === 5 ? { ...e, text: 'anders' } : e))
+assert.equal(jsonUnterschiede(notizen, geaendertEintrag).get('[].text').n, 1)
+assert.equal(jsonUnterschiede([{ a: 1 }, { a: 1 }], [{ a: 1 }]).size, 1, 'eine Dublette weniger ist ein Unterschied')
+
 const text = beschreibeUnterschied('_protokoll.txt', 'gleich\nnur alt\n', 'gleich\nnur neu\n')
 assert.deepEqual(text, ['    - nur alt', '    + nur neu'])
 

@@ -15,7 +15,7 @@ const DATEN = ['data', ':(exclude)data/cache']
 export class DatenKonflikt extends Error {}
 
 /** Änderungen des Kandidaten seit der Merge-Basis unter `data/`: `[{ status: 'A'|'M'|'D', pfad }]`. */
-function eigeneAenderungen(git, basis, kandidat) {
+export function eigeneAenderungen(git, basis, kandidat) {
   return git('-c', 'core.quotepath=off', 'diff', '--name-status', '--no-renames', `${basis}...${kandidat}`, '--', ...DATEN)
     .split('\n')
     .filter(Boolean)
