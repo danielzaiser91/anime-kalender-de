@@ -10,7 +10,7 @@ import { tvZuletzt, type TvZuletzt } from '../../lib/tv-zuletzt.ts'
  */
 export function useTvVorbei(wegeHinweis: string | undefined, streamReleases: Release[], releases: Release[], today: string): TvZuletzt[] {
   return useMemo(
-    () => (wegeHinweis && streamReleases.length === 0 ? tvZuletzt(releases, today, jetztBerlin().slice(11, 16)) : []),
+    () => (wegeHinweis !== undefined && streamReleases.length === 0 ? tvZuletzt(releases, today, jetztBerlin().slice(11, 16)) : []),
     [wegeHinweis, streamReleases, releases, today],
   )
 }
