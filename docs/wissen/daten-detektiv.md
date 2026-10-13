@@ -45,7 +45,7 @@ Disney+-Katalogaufnahmen als „Premiere" (DD-11); (5) acht News-Meldungen ohne 
 
 ## Betrieb (umgesetzt 08.10.2026, PR „Funde des Daten-Detektivs")
 
-- **Kennungen (12.10.2026):** `DD-nn` = Regel des Daten-Detektivs; die harten Bau-Invarianten dazu tragen dieselbe Nummer (DD-01 ist Regel und Invariante). `D-24`, `D-25`, `D-26` sind reine Bau-Invarianten ohne Detektiv-Regel (`pipeline/lib/invarianten-geplant.ts`, `-kanal.ts`, Beschreibung in `quellen.md`); neue reine Invarianten zählen dort weiter.
+- **Kennungen (12.10.2026):** `DD-nn` = Regel des Daten-Detektivs; die harten Bau-Invarianten dazu tragen dieselbe Nummer (DD-01 ist Regel und Invariante). `D-24` bis `D-27` sind reine Bau-Invarianten ohne Detektiv-Regel (`pipeline/lib/invarianten-geplant.ts`, `-kanal.ts`, Beschreibung in `quellen.md`); neue reine Invarianten zählen dort weiter.
 - **Hart — Bau bricht ab:** DD-01, DD-13, DD-14, DD-21, DD-23 in `pipeline/lib/invarianten.ts` (an Releases und Terminen), DD-06 und DD-15 in
   `pipeline/lib/invarianten-auslieferung.ts` (an den geschriebenen Dateien; Aufruf `bau/auslieferung-pruefen.ts` aus `13-5-kerndateien.ts`).
   Gegenprobe je Regel in `pipeline/check-invarianten.ts` (Teil von `check:logic`), `--bestand` fährt sie über `public/data`. Festlegungen:
