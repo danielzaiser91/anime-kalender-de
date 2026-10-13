@@ -11,8 +11,9 @@
  *   Disney+ ist eine Einzelseiten-App mit Anmeldung.
  * - **Der Lauf gehört dem Tab** (`sessionStorage`), endet nach zwei Stunden und spätestens, wenn
  *   nichts mehr offen ist. Ein Titel, der nach drei Minuten kein Ergebnis hat (Umleitung, Fehlerseite,
- *   leere Antwort), wird übersprungen und steht am Ende in der Liste — „nicht da" bleibt eine
- *   Entscheidung von Hand.
+ *   leere Antwort), wird übersprungen und steht am Ende in der Liste. Nur wenn Disney+ selbst
+ *   sagt „nicht in deinem Gebiet" oder auf die Startseite umleitet, meldet der Lauf den Titel
+ *   als „weg" (wie der Knopf „nichts da?") — sonst bliebe die Wiedervorlage ewig offen (13.10.2026).
  * - `disney.js` meldet über zwei Ereignisse: `ak-disney-geprueft` ({ url, zuMelden, fehler }) und
  *   `ak-disney-gemeldet` ({ ok }).
  */
@@ -24,8 +25,36 @@
   /* Zeit, die eine Seite zum Laden und Umleiten bekommt, bevor ihr Zustand zählt. */
   const ANKOMMEN_MS = 10_000
 
+  /** Die Angaben der Endanzeige (`endeText`). */
+  const endeInfo = (lauf, grund) => ({
+    grund,
+    erledigt: lauf.erledigt.length,
+    uebersprungen: lauf.uebersprungen,
+    schon: lauf.schon ?? [],
+    weg: lauf.weg ?? [],
+  })
+
+  /**
+   * Disney+ führt den Titel hier nicht: als „weg" melden, dann erst abhaken. Eine zweite Meldung
+   * desselben Titels verhindert `wegFuer`; nach der Antwort zählt der Lauf von jetzt (er kann
+   * von Hand beendet worden sein).
+   */
+  function wegMelden(lauf, grund, { lesen, schreiben, meldeWeg, abhaken }) {
+    if (lauf.wegFuer === lauf.aktuell) return
+    lauf.wegFuer = lauf.aktuell
+    schreiben(lauf)
+    const url = lauf.aktuell
+    Promise.resolve(meldeWeg(url)).then((ok) => {
+      const frisch = lesen()
+      if (frisch?.aktuell !== url) return
+      if (!ok) return abhaken(frisch, `${grund}, Meldung kam nicht an`)
+      frisch.weg = [...(frisch.weg ?? []), url]
+      abhaken(frisch, null)
+    })
+  }
+
   /** Die Ablauflogik ohne Browser — `disney-durchgang.test.cjs` spielt sie im Sandkasten. */
-  function durchgang({ speicher, jetzt, offene, oeffne, melde, ende, zustand = () => ({}), limit = () => null }) {
+  function durchgang({ speicher, jetzt, offene, oeffne, melde, meldeWeg, ende, zustand = () => ({}), limit = () => null }) {
     const lesen = () => {
       try {
         const lauf = JSON.parse(speicher.getItem(LAUF) ?? 'null')
@@ -42,7 +71,7 @@
       }
     }
     function beenden(lauf, grund) {
-      const info = { grund, erledigt: lauf.erledigt.length, uebersprungen: lauf.uebersprungen, schon: lauf.schon ?? [] }
+      const info = endeInfo(lauf, grund)
       try {
         speicher.removeItem(LAUF)
         speicher.setItem(ENDE, JSON.stringify(info))
@@ -95,9 +124,9 @@
         const seit = jetzt() - lauf.seiteSeit
         const z = zustand()
         /* Disney+ sagt es selbst („nicht in deinem Gebiet verfügbar", Dialog mit „OK"): kein Warten auf die Schonzeit der Startseite. */
-        if (z.gebiet && seit > 1000) return abhaken(lauf, 'nicht in deinem Gebiet verfügbar')
+        if (z.gebiet && seit > 1000) return wegMelden(lauf, 'nicht in deinem Gebiet verfügbar', { lesen, schreiben, meldeWeg, abhaken })
         /* Disney+ leitet einen nicht verfügbaren Titel auf die Startseite um (Dialog „Je nach Standort …"). */
-        if (z.startseite && seit > ANKOMMEN_MS) return abhaken(lauf, 'nicht verfügbar (Startseite)')
+        if (z.startseite && seit > ANKOMMEN_MS) return wegMelden(lauf, 'nicht verfügbar (Startseite)', { lesen, schreiben, meldeWeg, abhaken })
         /* Eine andere Titelseite heißt: Daniel hat übernommen — der Lauf zieht ihm den Tab nicht weg. */
         if (z.kennung && z.eintragUrl !== lauf.aktuell && seit > ANKOMMEN_MS) return beenden(lauf, 'von Hand übernommen')
         if (seit > SEITE_HOECHSTENS_MS) abhaken(lauf, 'kein Ergebnis nach 3 Minuten')
@@ -105,9 +134,11 @@
     }
   }
   /** Der Text der Endanzeige: je übersprungenem Titel eine Zeile mit Grund — `titelFuer(url)` liefert den Namen. */
-  function endeText({ grund, erledigt, uebersprungen, schon = [] }, titelFuer) {
+  function endeText({ grund, erledigt, uebersprungen, schon = [], weg = [] }, titelFuer) {
     const kopf = `Durchgang ${grund === 'nichts mehr offen' ? 'fertig' : 'beendet'} · ${erledigt} Titel${grund.startsWith('Tageslimit') ? ` — ${grund}` : ''}`
-    const bereits = schon.length ? `\n${schon.length} schon gemeldet: ${schon.map(titelFuer).join(', ')}` : ''
+    const bereits =
+      (schon.length ? `\n${schon.length} schon gemeldet: ${schon.map(titelFuer).join(', ')}` : '') +
+      (weg.length ? `\n${weg.length} nicht verfügbar gemeldet: ${weg.map(titelFuer).join(', ')}` : '')
     if (!uebersprungen.length) return kopf + bereits
     const zeilen = uebersprungen.map((u) => `• ${titelFuer(u.url)}: ${u.grund}`)
     return `${kopf}${bereits}\n${uebersprungen.length} übersprungen:\n${zeilen.join('\n')}`
@@ -133,6 +164,7 @@
       location.href = e.url
     },
     melde: () => void seite()?.melden(),
+    meldeWeg: (url) => seite()?.meldeWeg(url) ?? false,
     ende: (info) => seite()?.zeigeEnde(info),
     zustand: () => ({ ...seite()?.zustand(), gebiet: gebietGesperrt(document.body?.innerText) }),
     limit: () => globalThis.AK_TAGESLIMIT?.text() ?? null,
