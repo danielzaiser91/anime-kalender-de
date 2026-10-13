@@ -167,3 +167,87 @@
   edition: "Limited Edition, Blu-ray"
   schedule: { firstEpisodeDate: "2027-01-29" }
   sources: [https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/]
+
+# ---------------------------------------------------------------- Dragon Ball Z Filmboxen (Crunchyroll)
+# Anime2You 1054654 (02.10.2026): Die Filmbox „Movies – Vol. 1“ mit den ersten vier Kinofilmen „mit deutscher und japanischer Sprachausgabe“ erscheint „nach aktuellem Stand am 20. November 2026“
+# (Blu-ray und DVD, vier Postkarten als Extra); 1060037 (13.10.2026): „Movies – Vol. 2“ mit den Filmen 5 bis 8 „nach aktueller Planung am 15. Januar 2027“, Blu-ray und DVD.
+# Ein Eintrag je Film (wie die Naruto-Shippuden-Movie-Collection in `disc-anisearch.yaml`), gleiche Ausgabe und gleicher Tag.
+- slug: dragon-ball-z-filmbox-1-die-todeszone-des-garlic-jr
+  anilistId: 894
+  titleDe: "Dragon Ball Z: Die Todeszone des Garlic Jr."
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Filmbox Movies – Vol. 1 (Filme 1 bis 4), Blu-ray und DVD"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1054654/neue-dragon-ball-z-filmbox-design/, https://www.anime2you.de/news/1060037/dragon-ball-z-filmbox-2-blu-ray-termin/]
+
+- slug: dragon-ball-z-filmbox-1-der-staerkste-auf-erden
+  anilistId: 895
+  titleDe: "Dragon Ball Z: Der Stärkste auf Erden"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Filmbox Movies – Vol. 1 (Filme 1 bis 4), Blu-ray und DVD"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1054654/neue-dragon-ball-z-filmbox-design/, https://www.anime2you.de/news/1060037/dragon-ball-z-filmbox-2-blu-ray-termin/]
+
+- slug: dragon-ball-z-filmbox-1-die-entscheidungsschlacht
+  anilistId: 896
+  titleDe: "Dragon Ball Z: Die Entscheidungsschlacht"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Filmbox Movies – Vol. 1 (Filme 1 bis 4), Blu-ray und DVD"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1054654/neue-dragon-ball-z-filmbox-design/, https://www.anime2you.de/news/1060037/dragon-ball-z-filmbox-2-blu-ray-termin/]
+
+- slug: dragon-ball-z-filmbox-1-super-saiyajin-son-goku
+  anilistId: 897
+  titleDe: "Dragon Ball Z: Super-Saiyajin Son-Goku"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Filmbox Movies – Vol. 1 (Filme 1 bis 4), Blu-ray und DVD"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1054654/neue-dragon-ball-z-filmbox-design/, https://www.anime2you.de/news/1060037/dragon-ball-z-filmbox-2-blu-ray-termin/]
+
+- slug: dragon-ball-z-filmbox-2-rache-fuer-freezer
+  anilistId: 898
+  titleDe: "Dragon Ball Z: Rache für Freezer"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Filmbox Movies – Vol. 2 (Filme 5 bis 8), Blu-ray und DVD"
+  schedule: { firstEpisodeDate: "2027-01-15" }
+  sources: [https://www.anime2you.de/news/1060037/dragon-ball-z-filmbox-2-blu-ray-termin/]
+
+- slug: dragon-ball-z-filmbox-2-coolers-rueckkehr
+  anilistId: 899
+  titleDe: "Dragon Ball Z: Coolers Rückkehr"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Filmbox Movies – Vol. 2 (Filme 5 bis 8), Blu-ray und DVD"
+  schedule: { firstEpisodeDate: "2027-01-15" }
+  sources: [https://www.anime2you.de/news/1060037/dragon-ball-z-filmbox-2-blu-ray-termin/]
+
+- slug: dragon-ball-z-filmbox-2-angriff-der-cyborgs
+  anilistId: 900
+  titleDe: "Dragon Ball Z: Angriff der Cyborgs"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Filmbox Movies – Vol. 2 (Filme 5 bis 8), Blu-ray und DVD"
+  schedule: { firstEpisodeDate: "2027-01-15" }
+  sources: [https://www.anime2you.de/news/1060037/dragon-ball-z-filmbox-2-blu-ray-termin/]
+
+- slug: dragon-ball-z-filmbox-2-der-legendaere-super-saiyajin
+  anilistId: 901
+  titleDe: "Dragon Ball Z: Der Legendäre Super-Saiyajin"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Filmbox Movies – Vol. 2 (Filme 5 bis 8), Blu-ray und DVD"
+  schedule: { firstEpisodeDate: "2027-01-15" }
+  sources: [https://www.anime2you.de/news/1060037/dragon-ball-z-filmbox-2-blu-ray-termin/]

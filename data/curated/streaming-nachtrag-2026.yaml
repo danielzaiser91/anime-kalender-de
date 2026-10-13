@@ -150,3 +150,28 @@
   schedule: { firstEpisodeDate: "2026-09-27" }
   note: "Wieder im Angebot; war zwischenzeitlich entfernt."
   sources: [https://www.anime2you.de/news/1054460/rtl-plus-zwei-pokemon-filme/]
+
+# ---------------------------------------------------------------- Dritte Runde (13.10.2026): Rest der zweiten Runde
+# Der Tag ist wieder der Meldetag (`available-from`); die Artikel nennen die deutsche Fassung im Fließtext.
+# 1048315 (09.09.2026): „Bei »Yu-Gi-Oh! ZEXAL« stehen ab sofort zusätzlich die zweite und dritte Staffel mit 49 beziehungsweise 48 Episoden auf Deutsch zur Verfügung“ (Prime Video).
+# Die deutschen Staffeln folgen nicht den AniList-Einträgen (Zexal Folge 1 bis 73, Zexal II Folge 74 bis 146): Der Eintrag hängt an Zexal II, in dem Staffel 3 ganz und Staffel 2 überwiegend liegt.
+- slug: yu-gi-oh-zexal-s2-s3-primevideo
+  anilistId: 15489
+  titleDe: "Yu-Gi-Oh! ZEXAL – Staffel 2 und 3"
+  platform: primevideo
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-09", episodeCount: 97 }
+  note: "Staffel 2 (49 Folgen) und Staffel 3 (48 Folgen) laut Anime2You; die erste Staffel war schon zuvor im Angebot."
+  sources: [https://www.anime2you.de/news/1048315/prime-video-date-a-live-staffel-2-und-mehr/]
+
+# 1049988 (14.09.2026): „14 weitere Episoden von »Beyblade X« mit deutscher Synchronisation … Damit ist die zweite Staffel mit insgesamt 49 Folgen nun vollständig auf Disney+ verfügbar.“
+# Folgen 87 bis 100 der Disney+-Zählung (Staffel 1: 51, Staffel 2: 49; 100 Folgen laut Handbeleg in `dub-confirmed.yaml`, 19.09.2026).
+- slug: beyblade-x-s2-teil-2-disneyplus
+  anilistId: 165159
+  titleDe: "Beyblade X – Staffel 2 Part 2"
+  platform: disneyplus
+  releaseType: batch
+  dateMeaning: available-from
+  schedule: { firstEpisodeDate: "2026-09-14", firstEpisodeNumber: 87, episodeCount: 14 }
+  sources: [https://www.anime2you.de/news/1049988/disney-plus-the-god-of-high-school-und-mehr/]
