@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-13T17:41:04.589Z",
+  "stand": "2026-10-13T17:46:22.805Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -167,6 +167,17 @@
       "letzterWeg": true
     },
     {
+      "titleId": 8408,
+      "titel": "Durarara!! Specials",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/durarara",
+      "seriesId": "G619XVNEY",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-21",
+      "entferntAm": "2026-10-13",
+      "letzterWeg": true
+    },
+    {
       "titleId": 6746,
       "titel": "Durarara!!",
       "plattform": "crunchyroll",
@@ -178,8 +189,8 @@
       "letzterWeg": true
     },
     {
-      "titleId": 8408,
-      "titel": "Durarara!! Specials",
+      "titleId": 10006986,
+      "titel": "Durarara!! Frieden im ganzen Land",
       "plattform": "crunchyroll",
       "url": "http://www.crunchyroll.com/de/durarara",
       "seriesId": "G619XVNEY",
