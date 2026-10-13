@@ -1,5 +1,4 @@
 datum: '2026-10-08'
 kategorie: feature
 text: Heute-Knopf zeigt die Richtung
-highlight: true
 untertitel: orange, wenn heute nicht im Bild liegt

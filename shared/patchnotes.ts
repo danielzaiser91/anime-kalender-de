@@ -44,7 +44,6 @@ export function pruefePatchnotes(roh: unknown, namen: string[] = []): string[] {
   if (!Array.isArray(roh)) return ['Patch Notes: muss eine Liste von Einträgen sein']
   const fehler: string[] = []
   const gesehen = new Set<string>()
-  const highlights = new Map<string, number>()
   roh.forEach((e: Record<string, unknown> | null, i) => {
     const wo = namen[i] ?? `Eintrag ${i + 1}`
     if (!e || typeof e !== 'object') return void fehler.push(`${wo}: kein Objekt`)
@@ -67,10 +66,15 @@ export function pruefePatchnotes(roh: unknown, namen: string[] = []): string[] {
     if (e.highlight !== undefined && e.highlight !== true) fehler.push(`${wo}: highlight nur als true`)
     if (gesehen.has(String(e.text))) fehler.push(`${wo}: doppelt („${String(e.text)}“)`)
     gesehen.add(String(e.text))
-    if (e.highlight === true) highlights.set(String(e.datum), (highlights.get(String(e.datum)) ?? 0) + 1)
   })
-  for (const [tag, n] of highlights) if (n > MAX_HIGHLIGHTS_JE_TAG) fehler.push(`${tag}: ${n} Highlights, erlaubt sind ${MAX_HIGHLIGHTS_JE_TAG}`)
-  return fehler
+  return [...fehler, ...pruefeHighlightsJeTag(roh as Record<string, unknown>[])]
+}
+
+/** Höchstens `MAX_HIGHLIGHTS_JE_TAG` je Tag. Einträge ohne aufgelöstes `datum` zählen nicht (ihr Tag steht erst nach dem Git-Abgleich fest). */
+export function pruefeHighlightsJeTag(roh: Record<string, unknown>[]): string[] {
+  const highlights = new Map<string, number>()
+  for (const e of roh) if (e?.highlight === true && e.datum !== undefined) highlights.set(String(e.datum), (highlights.get(String(e.datum)) ?? 0) + 1)
+  return [...highlights].filter(([, n]) => n > MAX_HIGHLIGHTS_JE_TAG).map(([tag, n]) => `${tag}: ${n} Highlights, erlaubt sind ${MAX_HIGHLIGHTS_JE_TAG}`)
 }
 
 const RANG: Record<string, number> = { highlight: 0, feature: 1, bugfix: 2 }
