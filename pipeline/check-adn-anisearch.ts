@@ -5,7 +5,7 @@
 import { readFileSync } from 'node:fs'
 import { wortIndex, type AsTitel } from './lib/anisearch-katalog-abgleich.ts'
 import { ordneAdnZuAnisearch, titellisteFrisch, TITELLISTE_MAX_TAGE, type AdnOffen } from './lib/adn-anisearch.ts'
-import { besterTitel } from './bau/adn-show-titel.ts'
+import { besterTitel, nameTraegt } from './bau/adn-show-titel.ts'
 import type { AdnShow } from './lib/adn.ts'
 import type { Title } from '../shared/types.ts'
 
@@ -53,6 +53,12 @@ const alsTitel = (id: number, romaji: string): Title => ({ id, titleRomaji: roma
 const wolf = { showId: 8, title: 'Wolf’s Rain', originalTitle: 'Wolf’s Rain', episodes: [], batch: false, url: '' } as AdnShow
 pruefe('bei zwei Titeln unter einer Kennung gewinnt der mit dem besseren Namen (Wolf’s Rain, nicht die OVA)', besterTitel(wolf, [alsTitel(1023, 'Wolf’s Rain OVA'), alsTitel(202, 'Wolf’s Rain')])?.id === 202)
 pruefe('gleichauf: keiner', besterTitel(wolf, [alsTitel(1, 'Wolf’s Rain'), alsTitel(2, 'Wolf’s Rain')]) === undefined)
+
+const mitName = (id: number, romaji: string, en?: string): Title => ({ id, titleRomaji: romaji, titleEn: en }) as Title
+const kurz = (title: string, originalTitle?: string) => ({ showId: 9, title, originalTitle, episodes: [], batch: false, url: '' }) as AdnShow
+pruefe('gleicher Name nach Normalisierung trägt (TERRAFORMARS / Terra Formars)', nameTraegt(kurz('TERRAFORMARS', 'テラフォーマーズ'), mitName(1, 'Terra Formars')))
+pruefe('gleicher Name trägt auch ohne Wort ab vier Zeichen (DAN DA DAN / Dandadan)', nameTraegt(kurz('DAN DA DAN'), mitName(2, 'Dandadan')))
+pruefe('ein Werkwort allein trägt nicht („Der Film“ gegen „Girls und Panzer der Film“)', !nameTraegt(kurz('One Piece - Der Film'), mitName(3, 'Girls und Panzer der Film')))
 
 // Frist: eine neue ADN-Serie ist spätestens nach TITELLISTE_MAX_TAGE Tagen in der Titelliste, die ein Lauf mit Token verwendet.
 const tag = 24 * 3600 * 1000

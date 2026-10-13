@@ -9,6 +9,7 @@
  */
 import { normalizeTitle } from '../lib/crunchyroll.ts'
 import { bewerteTreffer, passtZuSerie, type AdnShow } from '../lib/adn.ts'
+import { normalisiere } from '../lib/anisearch-namen.ts'
 import { log } from '../lib/util.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
 import type { Title } from '../../shared/types.ts'
@@ -60,15 +61,25 @@ export function besterTitel(show: AdnShow, kandidaten: Title[]): Title | undefin
 }
 
 /**
+ * Trägt der Titel den Namen der Serie? Ein geteiltes Wort genügt nicht (`WERKWOERTER` in lib/adn.ts); gleicher Name nach Normalisierung gilt immer —
+ * „TERRAFORMARS“ und „Terra Formars“ teilen kein ganzes Wort, „DAN DA DAN“ und „Dandadan“ auch nicht.
+ */
+export function nameTraegt(show: AdnShow, t: Title): boolean {
+  const namen = [t.titleRomaji, t.titleEn, t.titleNative].filter((n): n is string => Boolean(n))
+  const unsere = [show.title, show.originalTitle].filter((n): n is string => Boolean(n)).map(normalisiere)
+  return passtZuSerie(show, { title: { romaji: t.titleRomaji, english: t.titleEn, native: t.titleNative } }) || namen.some((n) => unsere.includes(normalisiere(n)))
+}
+
+/**
  * Setzt `titleId` (Titel im Datensatz) an die Serien des Katalogs; nur im Bau, nie in der Datei. Der Weg ist die aniSearch-Kennung der Serie
- * (`anisearchId`, `fetch-adn.ts`). Eine Zuordnung muss den Namen tragen, nicht nur ein Werkwort (`WERKWOERTER` in lib/adn.ts); sonst wird sie verworfen.
+ * (`anisearchId`, `fetch-adn.ts`). Trägt der Titel den Namen nicht (`nameTraegt`), wird die Zuordnung verworfen.
  */
 export function loeseAdnTitelIds(shows: AdnShow[], titles: Map<number, Title>): void {
   const jeAnisearch = titelJeAnisearch(titles)
   for (const show of shows) {
     const t = show.anisearchId ? besterTitel(show, jeAnisearch.get(show.anisearchId) ?? []) : undefined
     show.titleId = t?.id
-    if (!t || passtZuSerie(show, { title: { romaji: t.titleRomaji, english: t.titleEn, native: t.titleNative } })) continue
+    if (!t || nameTraegt(show, t)) continue
     log(`ADN-Katalog ${show.showId} („${show.title}“) gehört nicht zu ${t.titleRomaji} (Titel ${t.id}) — Zuordnung verworfen`)
     show.titleId = undefined
   }
