@@ -1,10 +1,15 @@
 import { fetchJson, log, readJson, sleep, warn, writeJson } from './util.ts'
 import { waehlePlakat, type TmdbBild } from './tmdb-plakat.ts'
+import { abrufTag } from './tmdb-ablauf.ts'
 import { urteilTreffer, type KeinTreffer, type TmdbTreffer } from './tmdb-suche.ts'
 import type { Title } from '../../shared/types.ts'
 
-export type PlakatEintrag = { p: string; w: number; h: number; l: string | null } | null
+/** `inhaltAm`: Tag des Abrufs bei TMDB (`lib/tmdb-ablauf.ts`, Erneuerung nach 150 Tagen). */
+export type PlakatEintrag = { p: string; w: number; h: number; l: string | null; inhaltAm?: string } | null
 export type PlakatBestand = Record<string, PlakatEintrag>
+
+/** Der Bestandseintrag zu einem gewählten Plakat, mit dem Tag des Abrufs. */
+export const plakatEintrag = (wahl: TmdbBild): NonNullable<PlakatEintrag> => ({ p: wahl.file_path, w: wahl.width, h: wahl.height, l: wahl.iso_639_1, inhaltAm: abrufTag() })
 /** Warum ein Titel kein TMDB-Plakat hat (`data/tmdb-poster-grund.json`); `kandidaten` als `tv/<Kennung>` oder `movie/<Kennung>`. */
 export type PlakatGrund = { grund: KeinTreffer | 'kein Plakat'; kandidaten?: string[] }
 export type GrundBestand = Record<string, PlakatGrund>
@@ -53,7 +58,7 @@ export async function suchePlakat(apiKey: string, t: Title): Promise<SuchErgebni
     }
     const bilder = await fetchJson<{ posters?: TmdbBild[] }>(`${API}/${art}/${urteil.treffer.id}/images?include_image_language=ja,null,de,en&api_key=${apiKey}`)
     const wahl = waehlePlakat(bilder.posters ?? [])
-    if (wahl) return { eintrag: { p: wahl.file_path, w: wahl.width, h: wahl.height, l: wahl.iso_639_1 } }
+    if (wahl) return { eintrag: plakatEintrag(wahl) }
     return { eintrag: null, grund: { grund: 'kein Plakat', kandidaten: [`${art}/${urteil.treffer.id}`] } }
   }
   return { eintrag: null, grund }

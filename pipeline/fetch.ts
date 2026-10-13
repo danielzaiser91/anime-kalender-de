@@ -13,6 +13,7 @@ import { ausAnisearchDubs, ausAnisearchHand } from './lib/anisearch-synchro-ids.
 import { holeAnisearchCover } from './lib/anisearch-cover.ts'
 import { loadCurated, loadSynchroVonHand } from './lib/curated.ts'
 import { lookupTmdb, type TmdbInfo } from './lib/tmdb.ts'
+import { tmdbJsonEintrag, tmdbJsonFaellig } from './lib/tmdb-ablauf.ts'
 import { loadEnv, fetchJson, log, readJson, warn, writeJson } from './lib/util.ts'
 
 const args = process.argv.slice(2)
@@ -48,13 +49,16 @@ async function holeTmdb(curated: ReturnType<typeof loadCurated>, resolved: Recor
   const tmdbCache = readJson<Record<string, TmdbInfo>>(TMDB_PATH, {})
   let done = 0
   for (const entry of curated) {
-    if (!FORCE && tmdbCache[entry.slug]) continue
+    const vorher = tmdbCache[entry.slug]
+    if (!tmdbJsonFaellig(vorher, FORCE, new Date())) continue
     const aniId = resolved[entry.slug]
     const media = aniId ? byAniId[String(aniId)] : undefined
     const query = media?.title.english ?? media?.title.romaji ?? entry.search ?? entry.titleDe ?? entry.slug
     const year = media?.startDate?.year ?? undefined
     const isMovie = media?.format === 'MOVIE'
-    tmdbCache[entry.slug] = await lookupTmdb(tmdbKey, query, year, isMovie)
+    const eintrag = tmdbJsonEintrag(vorher, await lookupTmdb(tmdbKey, query, year, isMovie), new Date())
+    if (!eintrag) continue
+    tmdbCache[entry.slug] = eintrag
     done++
     if (done % 10 === 0) log(`  TMDB ${done} Titel abgefragt`)
   }

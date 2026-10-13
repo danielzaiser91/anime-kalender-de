@@ -26,6 +26,8 @@ export interface TmdbInfo {
   offers?: TmdbOffer[]
   /** TMDBs Übersichtsseite mit allen Anbieterlinks für die Region. */
   justwatchUrl?: string
+  /** Tag des Abrufs bei TMDB; nach 150 Tagen holt `fetch.ts` den Eintrag neu (`lib/tmdb-ablauf.ts`). */
+  inhaltAm?: string
 }
 
 /** Liest `flatrate`, `rent` und `buy` aus einer watch/providers-Antwort. */

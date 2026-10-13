@@ -19,8 +19,8 @@ export function waehleBanner(bilder: TmdbBild[]): TmdbBild | undefined {
   return undefined
 }
 
-/** Bestand `data/tmdb-banner.json`: Titelkennung → Pfad des Bildes, `null` = TMDB hat keins. */
-export type TmdbBanner = Record<string, { p: string; w: number; h: number } | null>
+/** Bestand `data/tmdb-banner.json`: Titelkennung → Pfad des Bildes, `null` = TMDB hat keins; `inhaltAm` = Tag des Abrufs. */
+export type TmdbBanner = Record<string, { p: string; w: number; h: number; inhaltAm?: string } | null>
 
 export const BANNER_DATEI = 'data/tmdb-banner.json'
 

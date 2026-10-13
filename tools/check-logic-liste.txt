@@ -118,4 +118,5 @@ tools/cartoon-jw-auswerten.test.mjs
 tools/cartoon-jw-stichprobe.test.mjs
 tools/check-patchnotes-pflicht.mjs
 tools/pruef-bestand.test.mjs
+tools/tmdb-bilddatum.test.mjs
 tools/untersucher-schluessel.test.mjs
