@@ -297,7 +297,8 @@ html:not(.dark) .ak-punkt {
 .ak-punkt[data-art='finale'] {
   outline-color: var(--ak-finale-text);
 }
-.ak-punkt[data-art='katalog'] {
+.ak-punkt[data-art='katalog'],
+.ak-punkt[data-art='katalogVermutlich'] {
   outline-color: var(--ak-katalog-text);
 }
 /* Katalog-Release: Ring und leises Leuchten in der Farbe der Fahne heben ihn von Start und Finale ab; ersetzt den Ring der Klasse `ring-2`, weil beide `box-shadow` setzen. */

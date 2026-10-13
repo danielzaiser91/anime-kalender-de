@@ -6,7 +6,7 @@
 #   art: beobachtet  alle Folgen waren am selben Tag im Abruf zu sehen, nicht nur als Katalog-Stempel
 #   art: teil        nur ein Teil der Staffel („12 von 24“) — kein Katalog-Release
 # Die Zitate stammen aus den Artikeln (gelesen am 13.10.2026); in data/proposals/aussagen.json stehen sie nur zum Teil
-# (Star Wars: Visionen fehlt dort), bei Snowball Earth ist der Text ein eigener, kein Zitat.
+# (Star Wars: Visionen fehlt dort); bei `beobachtet` ist das Zitat ein wörtlicher Auszug aus dem Abruf.
 # Cyberpunk: Edgerunners II steht bewusst nicht hier: „Episoden: 10 (komplett)“ heißt bei Anime2You „Staffel danach vollständig“,
 # nicht „alle auf einmal“; bis Netflix am 20.10.2026 live gemessen ist, bleibt es „Vermutlich“.
 
@@ -62,11 +62,12 @@
   url: https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
   zitat: "25. Oktober: »My Happy Marriage« – Sonderfolgen Episoden: 3 (komplett)"
 
-# Crunchyroll führt nur Folge 13 im Kalender; der Abruf „neu hinzugefügt“ (data/crunchyroll-neu.json, 13.10.2026) hat alle 13 deutschen Folgen.
+# Crunchyroll führt nur Folge 13 im Kalender; der Abruf „neu hinzugefügt“ (data/crunchyroll-neu.json, Stand 798392d19 vom 13.10.2026)
+# hat 13 Einträge mit serieId GT00371869, nummer 1–13, alle in Staffel GS00371870DEDE mit demselben verfuegbarAb (17:30 Berlin).
 - slug: cr-GT00371869
   art: beobachtet
   url: https://beta-api.crunchyroll.com/content/v2/discover/browse?type=episode&sort_by=newly_added
-  zitat: "Folge 1–13 alle auf Deutsch verfügbar ab 12.10.2026 17:30"
+  zitat: '"staffelId":"GS00371870DEDE" … "verfuegbarAb":"2026-10-12T15:30:00.000Z"'
 
 # Nur der erste Teil der Staffel: „Episoden: 12 von 24“.
 - slug: gachiakuta-teil1-disneyplus
