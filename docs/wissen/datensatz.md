@@ -1001,6 +1001,8 @@ Anlass: Durarara!! Specials (MAL 8408) dreifach (AniList-Titel plus die Zeilen 1
 
 Offen bleibt, ob „Seiten gewinnen“ auch im Katalog hinter dem Schalter gilt (16 Fälle; Beispiel Aware! Meisaku-kun: AniList 230 Folgen, aniSearch sechs Staffelseiten). Durarara!! entschieden (Daniel, 13.10.2026): der Crunchyroll-Beleg liegt an Tenka Taihei (6986), der Sammeleintrag 8408 fällt mit der Regel weg.
 
+**Ergebnis des Bau-Vergleichs (13.10.2026, Basis 1052c49c0, mit Katalog):** Hauptbestand 2927 → 2924 Titel; es entfallen 8408, 9062 und 106499, in `ohne-synchro.json` ändert sich außer dem Rang `tr` nichts (die Sammeltitel kommen dort nicht wieder an). Nebenwirkung: Durarara!! (6746) bekommt seine Sprecher (`voices/6746.json`), weil 8408 nicht mehr dieselbe aniSearch-Kennung 5473 trägt. Damit der Katalog die Sammeltitel erkennt, tragen 8408, 9062 und 106499 ihre MAL-Kennung in `data/stammdaten/anilist-eingefroren.json` (der Cache führt sie nicht bei jedem Titel; ohne sie kämen die Titel hinter dem Schalter wieder). `MAL_AUSNAHMEN` verliert 6864, 6984, 6986, 11938; bis zum nächsten Bestandsbau trägt sie `MAL_UEBERGANG` (bis 16.10.2026, Test in `pipeline/check-mal-teilung.ts`).
+
 ## „Im Angebot seit“ 2026: Termine und Kern-Titel fehlten seit 27.08.2026 (13.10.2026)
 
 **Befund (Analyst, 13.10.):** Daniels Entscheidung vom 27.08. (jedes „Im Angebot seit“-Release aus 2026 wird ein Kalendereintrag) wurde nie wirksam. **Ursache:** `rolleTermineAus` (`build.ts`) rechnet die Termine, bevor `13-3-listen.ts` (`motn-*`) und `13-7-erstausgabe-angebot.ts` (`anisearch-*`) ihre Releases anhängen; ebenso entstand `titles-core.json` (`schreibeKern`, `13-2-auslieferung.ts`) davor. Das Protokoll meldete trotzdem „auch als Kalendereintrag“.
