@@ -53,6 +53,13 @@ pruefe('Vorhandener Disney+-Termin desselben Titels: kein zweiter', releasesAus(
 const andereWeg = { ...vorhanden, platform: 'netflix' } as Release
 pruefe('Vorhandener Termin bei einem anderen Anbieter ändert nichts', releasesAus(vorschlaege, titel, [andereWeg], '2026-10-12').length === 1)
 
+/* Gegenprobe One Piece (Anime2You 03.09.2026): „die ersten 92 Episoden“ im Fließtext und „92 (komplett)“ im Block sind dieselbe Menge, es bleibt „komplett“. */
+const komplett = leseSammelartikel(
+  ['Zu den neuesten Ergänzungen gehören die ersten 92 Episoden von »One Piece«, die ab sofort auf Disney+ mit deutscher Synchronisation abrufbar sind.', '»One Piece« – Staffel 1 bis 3', 'Episoden: 92 (komplett)', 'Sprache: Deutsch, Japanisch (UT)', 'Stream: Disney+'].join('\n'),
+  TAG,
+)
+pruefe('Fließtext + „(komplett)“: kein Teil-Termin, Folgenzahl bleibt', komplett.find((e) => e.titel === 'One Piece')?.erste === undefined && komplett.find((e) => e.titel === 'One Piece')?.folgen === 92, komplett)
+
 /* Gegenproben Lesart: ohne ausdrücklich deutsche Fassung, bei Disc, Verneinung und nur einer Folge entsteht nichts. */
 const nein = (name: string, zeile: string): void => pruefe(name, ersteFolgenAusZeile(zeile) === undefined, ersteFolgenAusZeile(zeile))
 nein('Nur Originalton: kein Teil-Termin', 'Die ersten sechs Episoden von »X« sind ab sofort mit Untertiteln bei Disney+ verfügbar.')

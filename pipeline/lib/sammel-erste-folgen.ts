@@ -50,6 +50,8 @@ function titelImSatz(zeile: string): { titel: string; zusatz?: string } | undefi
 export function mitErstenFolgen(e: SammelEintrag, erste: ErsteFolgen, veroeffentlicht: string): SammelEintrag {
   /* „Synchronisation noch nicht bestätigt“ (Hinweis) oder eine Sprache ohne Deutsch widerspricht dem Satz: dann bleibt der Eintrag, wie er ist. */
   if (!e.deutsch) return e
+  /* Nennt der Titelblock schon „N (komplett)“, ist ein „die ersten N Folgen“ im Fließtext dieselbe Menge (One Piece, Staffel 1–3 = 92 Folgen, 03.09.2026). */
+  if (e.folgen) return e
   const { folgen: _komplett, ...rest } = e
   const festerTag = e.datum && !e.datumGeschaetzt
   const tag = erste.abSofort ? { datum: veroeffentlicht.slice(0, 10), datumGeschaetzt: true } : {}
