@@ -1,4 +1,5 @@
-import type { StreamLink, Title } from '@shared/types.ts'
+import type { Release, StreamLink, Title } from '@shared/types.ts'
+import { streamNurOmu } from '@shared/ankuendigung.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import { istToggo } from './pillen.tsx'
 import { legendeFuer, statusArt, type DubStatusArt } from './pille.tsx'
@@ -9,8 +10,14 @@ import type { sortiereNachZugang } from './wege-sortieren.ts'
 type Wege = ReturnType<typeof sortiereNachZugang>
 type Kaufweg = Wege[number]['streamWege'][number]
 
-/** Der Sprachzustand eines Stream-Links: Beleg am Weg, JustWatch (mit Datum) oder offen. */
-export const streamStatus = (s: StreamLink): DubStatusArt => statusArt(s.dub, s.dubQuelle === 'justwatch' ? s.dubStand : undefined)
+/** Der Sprachzustand eines Stream-Links: Beleg am Weg, JustWatch (mit Datum), nur Untertitel (Ankündigung oder Termin mit Quelle „nur Originalton“) oder offen. */
+export function streamStatus(title: Title, s: StreamLink, releases: Release[]): DubStatusArt {
+  const art = statusArt(s.dub, s.dubQuelle === 'justwatch' ? s.dubStand : undefined)
+  return art === 'offen' && streamNurOmu(title, s, releases) ? 'omu' : art
+}
+
+/** Weder belegt noch von JustWatch gemeldet: die Zeile steht unter „Weitere Anbieter“ und trägt keinen Sprachbeleg. */
+const ohneBeleg = (art: DubStatusArt): boolean => art === 'offen' || art === 'omu'
 
 /** Der Sprachzustand eines Wegs über einen Dritten („Crunchyroll über Prime Video“): TOGGO ist rein deutsch, sonst zählen Bereiche und der Verweis mit derselben Adresse. */
 export function streamWegStatus(g: Kaufweg, title: Title): DubStatusArt {
@@ -22,30 +29,31 @@ export function streamWegStatus(g: Kaufweg, title: Title): DubStatusArt {
  * Die Gruppe jeder Stream-Zeile: nach Zugang (kostenlos, Abo, Kauf), außer ohne Sprachbeleg — diese Zeilen stehen
  * gesammelt unter „Weitere Anbieter“, damit die Überschrift „Auf Deutsch …“ nur über belegten Zeilen steht (Daniel, 11.10.2026).
  */
-export function zeilenGruppen(sortiert: Wege, title: Title): (readonly [string, Gruppe])[] {
+export function zeilenGruppen(sortiert: Wege, title: Title, releases: Release[]): (readonly [string, Gruppe])[] {
   return sortiert.flatMap(({ art, plattformen, streamWege }) => {
     const gruppe: Gruppe = art === 'kostenlos' ? 'frei' : art
     return [
-      ...plattformen.map((s) => [pillenSchluessel(s), streamStatus(s) === 'offen' ? 'offen' : gruppe] as const),
+      ...plattformen.map((s) => [pillenSchluessel(s), ohneBeleg(streamStatus(title, s, releases)) ? 'offen' : gruppe] as const),
       ...streamWege.map((g) => [`sw-${g.shop}-${g.eintraege[0].url}`, streamWegStatus(g, title) === 'offen' ? 'offen' : gruppe] as const),
     ]
   })
 }
 
 /** Gibt es Stream-Zeilen, und trägt keine einen Sprachbeleg? Dann steht kein „Auf Deutsch …“ über ihnen. */
-export function alleOhneSprachbeleg(sortiert: Wege, title: Title): boolean {
-  const arten = [...sortiert.flatMap((x) => x.plattformen.map(streamStatus)), ...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title)))]
-  return arten.length > 0 && arten.every((a) => a === 'offen')
+export function alleOhneSprachbeleg(sortiert: Wege, title: Title, releases: Release[]): boolean {
+  const arten = [...sortiert.flatMap((x) => x.plattformen.map((s) => streamStatus(title, s, releases))), ...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title)))]
+  return arten.length > 0 && arten.every(ohneBeleg)
 }
 
 /** Die Legende unter den Stream-Zeilen: erklärt „laut JustWatch“, „Sprache offen“ und „≈“, wo sie vorkommen. */
-export function legendeDerZeilen({ sortiert, title, folgenAngabeFuer, t }: {
+export function legendeDerZeilen({ sortiert, title, releases, folgenAngabeFuer, t }: {
   sortiert: Wege
   title: Title
+  releases: Release[]
   folgenAngabeFuer: (s: StreamLink) => string
   t: Translate
 }): string | undefined {
   const links = sortiert.flatMap((x) => x.plattformen)
-  const arten = [...links.map(streamStatus), ...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title)))]
+  const arten = [...links.map((s) => streamStatus(title, s, releases)),...sortiert.flatMap((x) => x.streamWege.map((g) => streamWegStatus(g, title)))]
   return legendeFuer(arten, links.some((s) => folgenAngabeFuer(s).startsWith('≈')), t)
 }

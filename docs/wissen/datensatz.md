@@ -339,6 +339,15 @@ Folge etwas anderes. Auf dem Bestand änderte das zwei Wege (Landei II, Ascendan
 Die Wiedervorlage für laufende Serien (`wiedervorlage-frist.ts`) greift nur bei `dub: false`; eine
 deutsche Lücke hinter dem Beleg schließt jetzt der Terminplan.
 
+**Herkunft je Folge (12.10.2026):** Die Zusammenführung verwarf, welche Folgen belegt und welche nur aus dem Plan ergänzt
+sind — Tank Chair bei Prime (Beleg Folge 1, Folge 2 fortgeschrieben) zeigte „Fg. 1–2“ ohne „≈“. Gewählt wurde nicht, die
+Bereiche an der Grenze aufzuteilen (jeder Leser von `dubRanges` — `dubBild`, `dubGrenze`, Kanal-Vereinigung, Kasten —
+müsste angrenzende Bereiche wieder verschmelzen, Etiketten wie „DE 1–10, 11–12“ wären die Folge), sondern die ergänzten Folgen
+zu merken: `titelMitTerminBereichen` setzt am Weg `ergaenzteFolgen` (`ergaenzteFolgen()` in `shared/logic.ts`, nur im Panel,
+nie im Datensatz); die Bereiche bleiben zusammengeführt. `planGeschaetzt`/`ergaenzungGeschaetzt` (`folgen-spanne.ts`) rechnen
+eine ergänzte Folge nicht als belegt; „≈“ steht, wenn ihr Termin `estimated` ist (beobachtete Termine bleiben ohne „≈“ —
+Wistoria 13–24, Overgeared). Bestand 12.10.2026: 1 von 2.939 Pillen ändert sich (Tank Chair); `check-herkunft-je-folge.ts`.
+
 
 ## Poster-Gestaltung: Kalender, Kopfleiste, Navigation (26.09.2026)
 
@@ -399,7 +408,7 @@ https://claude.ai/artifact/AEJUirTAgvme2kH4m8uHpH) und sie in zwei Runden kommen
 - **Ein Titel bei mehreren Streaming-Anbietern am selben Tag** ist eine Kachel (`vereineAnbieter()`, 12.10.2026, Daniel:
   Reborn as a Space Mercenary, Crunchyroll + Prime Video): Farbleiste geteilt, Angaben je Anbieter
   (`AnbieterAngaben.tsx`; was gleich ist, steht einmal), in Woche und Monat. Ausgebliebenes, Premieren und Termine mit
-  Sprachhinweis bleiben eigene Kacheln. Zusicherung: `pipeline/check-kachel-anbieter.ts`. Der Tageskopf („7 Termine“)
+  Sprachhinweis bleiben eigene Kacheln. Zusicherung: `pipeline/check-kachel-anbieter.ts`; Code `web/src/lib/anbieter-kachel.ts`, die Nein-Wiedervorlage (`quellen.md`, 13.10.2026) liest dieselbe Kachel als Widerruf eines Nein. Der Tageskopf („7 Termine“)
   zählt weiter Termine je Anbieter.
 - **Farben und Schriften:** Variablen `--ak-*` je Thema in `styles.css`, in Tailwind `bg-ak-grund`,
   `text-ak-leise` usw.; Unbounded und Manrope selbst gehostet (`@fontsource`), nicht über Google
