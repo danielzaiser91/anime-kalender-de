@@ -58,6 +58,16 @@ export const abrufTag = (jetzt: Date = new Date()): string => jetzt.toISOString(
  */
 export const ERNEUERN_JE_LAUF = 800
 
+/**
+ * **Titel ohne Eintrag (neu oder nach der Frist gestrichen) je Lauf und Art.** Ohne Deckel fragt ein Lauf ohne `--limit` jeden an: nach einer TMDB-Störung von
+ * 30 Tagen rund 2.300 Plakate und 2.000 Hintergründe. 400 ist der `--limit` des Wochenlaufs (`refresh-weekly.yml`); der Bedarf an echten Neuzugängen liegt
+ * darunter (Stand 13.10.2026: 0 Titel ohne Eintrag bei 2.094 abfragbaren). Mit `ERNEUERN_JE_LAUF` höchstens 1.200 Abfragen je Lauf und Art, unter 10 Minuten.
+ * Neue Titel stehen vor den Erneuerungen; die Erneuerung hat ihre eigene Quote und verhungert nicht. `--alle` (von Hand) fragt weiter alle an.
+ * Grenze: Die Titel ohne Eintrag stehen in der Reihenfolge von `tmdb-titles.json`, nicht nach Neuheit. Nach einer Störung mit n solchen Titeln wartet
+ * ein echter Neuzugang deshalb bis zu ceil(n/400) Läufe (bis dahin steht das AniList-Cover).
+ */
+export const NEU_JE_LAUF = 400
+
 type Bild = { inhaltAm?: string } | null
 
 /**
@@ -77,13 +87,13 @@ type Zuordnung = Record<string, { tmdbId?: number; kind?: string }>
 const abfragbar = (z: Zuordnung[string] | undefined): boolean => Boolean(z?.tmdbId) && (z?.kind === 'tv' || z?.kind === 'movie')
 
 /**
- * Welche Titel ein Bildlauf bei TMDB abfragt: Titel ohne Eintrag (höchstens `limit`, mit `alle` jeder), dazu die fälligen Erneuerungen (`bilderFaellig`).
+ * Welche Titel ein Bildlauf bei TMDB abfragt: Titel ohne Eintrag (höchstens `limit` und `NEU_JE_LAUF`, mit `alle` jeder), dazu die fälligen Erneuerungen (`bilderFaellig`).
  * `entfernt` sind abgelaufene Einträge ohne Zuordnung; der Aufrufer löscht sie aus dem Bestand.
  */
 export function bilderAbzufragen(zuordnung: Zuordnung, bestand: Record<string, Bild>, alle: boolean, limit: number, jetzt: Date) {
   const faellig = bilderFaellig(bestand, (id) => abfragbar(zuordnung[id]), jetzt)
   const entfernt = new Set(faellig.entfernen)
-  const neu = Object.keys(zuordnung).filter((id) => abfragbar(zuordnung[id]) && (alle || !(id in bestand)) && !entfernt.has(id)).slice(0, limit)
+  const neu = Object.keys(zuordnung).filter((id) => abfragbar(zuordnung[id]) && (alle || !(id in bestand)) && !entfernt.has(id)).slice(0, alle ? limit : Math.min(limit, NEU_JE_LAUF))
   const erneuern = faellig.erneuern.filter((id) => !neu.includes(id))
   return { offen: [...neu, ...erneuern].map((id) => [id, zuordnung[id]!] as const), entfernt: faellig.entfernen }
 }

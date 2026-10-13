@@ -3,7 +3,7 @@
  * Aufruf: `npm run check:logic`.
  */
 import type { TmdbInfo } from './lib/tmdb.ts'
-import { bilderAbzufragen, bilderFaellig, FRIST_TAGE, istAbgelaufen, tageSeit, tmdbJsonEintrag, tmdbJsonFaellig, inhaltsStand, streicheAbgelaufenes, streicheBilderUeberFrist, type MitInhaltsstand } from './lib/tmdb-ablauf.ts'
+import { bilderAbzufragen, bilderFaellig, ERNEUERN_JE_LAUF, FRIST_TAGE, NEU_JE_LAUF, istAbgelaufen, tageSeit, tmdbJsonEintrag, tmdbJsonFaellig, inhaltsStand, streicheAbgelaufenes, streicheBilderUeberFrist, type MitInhaltsstand } from './lib/tmdb-ablauf.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -53,6 +53,18 @@ pruefe('null („TMDB hat keins") wird nie angefasst', !faellig.erneuern.include
 const zuordnung = { alt: { tmdbId: 1, kind: 'tv' }, neu: { tmdbId: 2, kind: 'movie' }, ohneArt: { tmdbId: 3 } }
 const abfrage = bilderAbzufragen(zuordnung, { alt: { inhaltAm: tag(151) } }, false, 10, jetzt)
 pruefe('abgefragt wird: neuer Titel und abgelaufener Eintrag', abfrage.offen.map(([id]) => id).join() === 'neu,alt', abfrage.offen)
+
+console.log('\nTMDB-Ablauf: Obergrenze je Lauf (Störung: alle Bilder gestrichen)')
+const viele: Record<string, { tmdbId: number; kind: string }> = {}
+for (let i = 0; i < 2300; i++) viele[`t${i}`] = { tmdbId: i + 1, kind: 'tv' }
+const nachStoerung = bilderAbzufragen(viele, {}, false, Infinity, jetzt)
+pruefe(`nach einer Störung ohne --limit höchstens ${NEU_JE_LAUF} Titel`, nachStoerung.offen.length === NEU_JE_LAUF, nachStoerung.offen.length)
+const gemischt: Record<string, { inhaltAm: string }> = {}
+for (let i = 0; i < 1500; i++) gemischt[`t${i}`] = { inhaltAm: tag(200) }
+const zugleich = bilderAbzufragen({ ...viele, ...Object.fromEntries(Object.keys(gemischt).map((id) => [id, { tmdbId: 1, kind: 'tv' }])) }, gemischt, false, Infinity, jetzt)
+pruefe(`Neuzugänge zuerst, Erneuerungen mit eigener Quote: höchstens ${NEU_JE_LAUF + ERNEUERN_JE_LAUF} zusammen`, zugleich.offen.length === NEU_JE_LAUF + ERNEUERN_JE_LAUF && zugleich.offen[0]![0] === 't1500', zugleich.offen.length)
+pruefe('--alle fragt von Hand weiter alle an', bilderAbzufragen(viele, {}, true, Infinity, jetzt).offen.length === 2300)
+pruefe('--limit unter dem Deckel gilt', bilderAbzufragen(viele, {}, false, 50, jetzt).offen.length === 50)
 
 /* Altbestand wie am 13.10.2026: Plakate stammen von drei Tagen (2.007, 262, 72 Einträge am 07., 11., 12.10.); wöchentlicher Lauf mit Obergrenze. */
 const TAG0 = Date.parse('2026-10-07T00:00:00Z')
