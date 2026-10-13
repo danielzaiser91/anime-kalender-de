@@ -28,6 +28,7 @@ import { loescheOffene } from './pruefung-ersetzen.ts'
 import { fuegePruefungEin } from './pruefung-einfuegen.ts'
 import { rohfolgeFuerMeldung, rohfolgeFuerZeile } from './pruefung-rohfolge-spalte.ts'
 import { leiteAb } from './pruefung-ableiten.ts'
+import { mitTitelzeilenAuftrag, titelzeileOderNull } from './titelzeile-speichern.ts'
 import { hakeRohfolgenAb } from './rohfolgen-abhaken.ts'
 import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
 import { pruefeUnveraendert, ladeOffeneHashes, folgeVon, type OffeneHashes } from './pruefung-unveraendert.ts'
@@ -58,7 +59,7 @@ export async function speicherePruefung(kontext: Kontext) {
 
 /** Abhaken und Wiederöffnen ändern nur `uebernommen`, das allein der Auszug `offen-*` enthält. */
 async function speichereAuftrag(kontext: Kontext, daten: Record<string, unknown>) {
-  const antwort = await speichereDaten(kontext, daten)
+  const antwort = await mitTitelzeilenAuftrag(kontext.env, daten, () => speichereDaten(kontext, daten))
   const liste = (v: unknown) => Array.isArray(v) && v.length > 0
   if (antwort.ok && (liste(daten.uebernommen) || liste(daten.rohfolgenUebernommen) || daten.reoeffnen)) {
     await exporteVerwerfen(kontext.env, 'offen')
@@ -68,7 +69,8 @@ async function speichereAuftrag(kontext: Kontext, daten: Record<string, unknown>
 
 /** Eine geparste Meldung — oder ein Auftrag der Pipeline (abhaken, wieder öffnen) — speichern. */
 export async function speichereDaten({ request, antwort, token, env, ctx, offene }: Kontext, daten: Record<string, unknown>) {
-
+  const titelzeile = await titelzeileOderNull({ env, ctx, antwort }, daten)
+  if (titelzeile) return titelzeile
   /*
     **Ein Stapel: mehrere Meldungen in einer Anfrage**.
     Die Randprobe einer Netflix-Staffel schickte je Folge eine Anfrage — 25 Folgen, 25 Rundreisen.

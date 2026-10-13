@@ -7,6 +7,7 @@ import { leseGemeldet } from './pruefung-gemeldet.ts'
 import { GEMELDET_SEKUNDEN, gemeldetSchluessel } from './pruefung-gemeldet-cache.ts'
 import { wartendSchluessel } from './pruefung-stand-briefkasten.ts'
 import { type AusCache } from './cache-kurz.ts'
+import { allePruefungen, offenePruefungen } from './titelzeile-lesen.ts'
 
 export async function beantwortePruefungLesen({ request, env, antwort, ausCache }: {
   request: Request<unknown, CfProperties<unknown>>
@@ -117,30 +118,9 @@ export async function beantwortePruefungLesen({ request, env, antwort, ausCache 
     */
     /* In R2 zwischengespeichert (`export-speicher.ts`, 05.10.2026): Der Edge-Cache half nicht, jeder Bau holte alle Seiten neu (4,5 Mio. Zeilen an einem Tag). */
     if (sucheP.get('alle') === '1') return ausSpeicher(env, `pruefung-alle-${Number(sucheP.get('nach') ?? 0) || 0}`, async () => {
-      const nach = Number(sucheP.get('nach') ?? 0)
-      const { results } = await env.DB.prepare(
-        `SELECT id, plattform, url, befund, folge_nr, staffel, staffeln, folgen, teil_von, teil_bis,
-                titel, serientitel, titel_id, notiz, abos, gemeldet_am, vorhanden, ton_de, art
-           FROM pruefung WHERE id > ?1 ORDER BY id LIMIT 5000`,
-      )
-        .bind(Number.isFinite(nach) ? nach : 0)
-        .all()
-      const zeilen = (results ?? []) as { id: number }[]
-      return { pruefungen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null }
+      const { zeilen, weiter } = await allePruefungen(env, Number(sucheP.get('nach') ?? 0))
+      return { pruefungen: zeilen, weiter }
     })
 
-    const nurPlattform = sucheP.get('plattform')
-    const abfrage = nurPlattform
-      ? `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id, folge
-           FROM pruefung WHERE uebernommen = 0 AND plattform = ?
-           ORDER BY gemeldet_am LIMIT 500`
-      : `SELECT id, plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln,
-                serientitel, notiz, teil_von, teil_bis, gemeldet_am, seiten_kennung, titel_id, folge
-           FROM pruefung WHERE uebernommen = 0
-           ORDER BY gemeldet_am LIMIT 500`
-    const stmt = env.DB.prepare(abfrage)
-    const { results } = await (nurPlattform ? stmt.bind(nurPlattform) : stmt).all()
-
-    return antwort({ pruefungen: results ?? [] })
+    return antwort({ pruefungen: await offenePruefungen(env, sucheP.get('plattform')) })
 }

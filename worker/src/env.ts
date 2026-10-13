@@ -9,6 +9,8 @@ export interface Env extends MailEnv, PushEnv {
    */
   EREIGNISSE?: DurableObjectNamespace
   SITE_URL: string
+  /** Anbieter (kommagetrennt), deren Folgen in `titel_zeile` stehen statt in `pruefung`/`prime_folge`; leer oder fehlend = aus (Migration 055). */
+  TITELZEILE_PLATTFORMEN?: string
   /** Öffentliche Adresse dieses Workers — steckt in den Abmeldelinks. */
   WORKER_URL: string
   SEND_HOUR_BERLIN: string

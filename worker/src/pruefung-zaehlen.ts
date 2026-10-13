@@ -1,4 +1,5 @@
 import { type Env } from './env.ts'
+import { gemeldeteAdressen, NICHT_VERDRAENGT, offeneZeilen } from './titelzeile-lesen.ts'
 
 /** Wie lange die Zählung im Cache der Edge hält: zwei Stunden (12.10.2026, vorher 30 Minuten; Begründung im Kopf von `holeWartende`). */
 export const ZAEHLEN_SEKUNDEN = 7200
@@ -16,12 +17,12 @@ function seitStandAbfrage(
   spalte: 'url' | 'such_url' | 'seiten_kennung',
 ): D1PreparedStatement {
   if (!seitStand) {
-    return env.DB.prepare(`SELECT DISTINCT ${spalte} FROM pruefung WHERE ${spalte} IS NOT NULL AND ${spalte} != ''`)
+    return env.DB.prepare(`SELECT DISTINCT ${spalte} FROM pruefung WHERE ${spalte} IS NOT NULL AND ${spalte} != ''${spalte === 'url' ? ` AND ${NICHT_VERDRAENGT}` : ''}`)
   }
   const erzwingen = spalte === 'url' ? ' INDEXED BY pruefung_gemeldet' : ''
   return env.DB.prepare(
     `SELECT DISTINCT ${spalte} FROM pruefung${erzwingen}
-      WHERE ${spalte} IS NOT NULL AND ${spalte} != '' AND gemeldet_am > ?1`,
+      WHERE ${spalte} IS NOT NULL AND ${spalte} != '' AND gemeldet_am > ?1${spalte === 'url' ? ` AND ${NICHT_VERDRAENGT}` : ''}`,
   ).bind(seitStand)
 }
 
@@ -88,9 +89,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
         sonst 31 Anfragen bei jedem Öffnen der Liste.
       */
       const mitNummern = new URL(request.url).searchParams.get('nummern') === '1'
-      const { results } = await env.DB.prepare(
-        `SELECT plattform, url, folge_nr, staffel FROM pruefung WHERE uebernommen = 0`,
-      ).all<{ plattform: string; url: string; folge_nr: number | null; staffel: number | null }>()
+      const results = await offeneZeilen(env)
       const je: Record<string, number> = {}
       const adressen: string[] = []
       const eintraege: { url: string; folge_nr: number | null; staffel: number | null }[] = []
@@ -129,8 +128,7 @@ export async function zaehleOffenePruefungen({ request, env, antwort }: {
        * Ist unter dieser Adresse jemals etwas eingegangen? `DISTINCT`, weil je
        * Staffel und Folge mehrere Zeilen auf dieselbe Adresse zeigen.
        */
-      const { results: alle } = await abfrage('url').all<{ url: string }>()
-      const gemeldet = (alle ?? []).map((r) => r.url)
+      const gemeldet = await gemeldeteAdressen(env, seitStand, abfrage('url'))
       /*
         **Und die Suchadressen, unter denen gemeldet wurde.**
 

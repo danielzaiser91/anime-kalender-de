@@ -58,7 +58,7 @@ export async function meldungsHash(daten: unknown): Promise<string> {
 }
 
 /** `erzeugtAm` aus `data/pruefstand.json` (wie `pruefung-stand.ts`), ohne die Datei `null`. */
-async function holeListenbauAm(env: Env): Promise<string | null> {
+export async function holeListenbauAm(env: Env): Promise<string | null> {
   try {
     const res = await fetch(new URL('data/pruefstand.json', env.SITE_URL).toString(), {
       cf: { cacheTtl: 60 },
@@ -150,7 +150,7 @@ async function haltFrisch(env: Env, offene: OffeneHashes, zeile: OffeneZeile): P
 }
 
 /** Ein Zeitpunkt als Datum in Ortszeit Europe/Berlin (wie `berlinDatum` in `pipeline/fetch-pruefungen.ts`). */
-const berlinTag = (iso: string) => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date(iso))
+export const berlinTag = (iso: string) => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date(iso))
 
 /**
  * Gleicher Inhalt wie die jüngste übernommene Zeile: nichts einfügen, `gemeldet_am` nur erneuern, wenn
