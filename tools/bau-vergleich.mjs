@@ -6,7 +6,7 @@
  * Gebaut wird je Commit in einem eigenen Git-Worktree — das Arbeitsverzeichnis bleibt
  * unangetastet, man kann währenddessen weiterarbeiten. Das Ergebnis eines Commits wird unter
  * `$TMPDIR/bau-vergleich/` aufgehoben; die Basis baut deshalb nur beim ersten Mal (≈ 5 min). Läuft
- * schon ein Vergleich, wartet der Aufruf bis zu 10 min auf dessen Sperre, bevor er mit Exit 3 aufgibt.
+ * schon ein Vergleich, reiht sich der Aufruf in eine Schlange ein (FIFO, Platz und Halter stehen in der Meldung) und wartet bis zu 45 min, bevor er mit Exit 3 aufgibt.
  * Ein gesperrter, aber auf der Platte fehlender `baum-*`-Worktree (Rest eines hart beendeten Laufs) wird nach der Sperre entfernt (`bau-vergleich-reste.mjs`).
  *
  * `data/cache/` liegt nicht im Repo. Statt des echten Caches wird ein Ersatz aus
@@ -30,7 +30,7 @@
  * Aufruf:
  *   node tools/bau-vergleich.mjs [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
  * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre;
- * wartet vorher bis zu 10 min auf den laufenden Vergleich), 4 = Konflikt bei der Übernahme der eigenen
+ * wartet vorher der Reihe nach bis zu 45 min), 4 = Konflikt bei der Übernahme der eigenen
  * data/-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen).
  *
  * Ist die Basis kein Vorfahre des Kandidaten (hinter `origin/main`, auseinandergelaufen), steht vor dem Lauf und am Ende eine
