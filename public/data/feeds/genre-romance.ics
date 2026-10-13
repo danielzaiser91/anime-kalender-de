@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Romance
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:ranma-s3-folge1-netflix@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261005
-DTEND;VALUE=DATE:20261006
-SUMMARY:Ranma ½ – Staffel 3
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/17567/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:trapped-in-a-dating-sim-s2@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T153000Z
@@ -34,6 +24,16 @@ SUMMARY:Hana-Kimi – Staffel 2 – Folge 13/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/17561/
 CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-152677-primevideo@2026-10-07@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261007
+DTEND;VALUE=DATE:20261008
+SUMMARY:The Detective Is Already Dead: Staffel 2
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nUhrzeit noch
+  nicht bestätigt.\nDetails: https://anime-kalender.de/t/14415/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-14713-primevideo@2026-10-08@anime-kalender-de
@@ -84,7 +84,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261011T140000Z
 DTEND:20261011T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 2/≈12
+ hip! Staffel 1 – Folge 2/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
@@ -95,7 +95,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261011T140000Z
 DTEND:20261011T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 2/≈12
+ hip! – Folge 2/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -231,7 +231,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261018T140000Z
 DTEND:20261018T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 3/≈12
+ hip! Staffel 1 – Folge 3/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Crunchyroll
@@ -242,7 +242,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261018T140000Z
 DTEND:20261018T143000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 3/≈12
+ hip! – Folge 3/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -351,7 +351,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261025T150000Z
 DTEND:20261025T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 4/≈12
+ hip! Staffel 1 – Folge 4/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -363,7 +363,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261025T150000Z
 DTEND:20261025T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 4/≈12
+ hip! – Folge 4/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -471,7 +471,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261101T150000Z
 DTEND:20261101T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 5/≈12
+ hip! Staffel 1 – Folge 5/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -483,7 +483,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261101T150000Z
 DTEND:20261101T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 5/≈12
+ hip! – Folge 5/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -602,7 +602,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261108T150000Z
 DTEND:20261108T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 6/≈12
+ hip! Staffel 1 – Folge 6/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -614,7 +614,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261108T150000Z
 DTEND:20261108T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 6/≈12
+ hip! – Folge 6/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -671,7 +671,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261115T150000Z
 DTEND:20261115T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 7/≈12
+ hip! Staffel 1 – Folge 7/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -683,7 +683,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261115T150000Z
 DTEND:20261115T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 7/≈12
+ hip! – Folge 7/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -800,7 +800,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261122T150000Z
 DTEND:20261122T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 8/≈12
+ hip! Staffel 1 – Folge 8/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -812,7 +812,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261122T150000Z
 DTEND:20261122T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 8/≈12
+ hip! – Folge 8/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -868,7 +868,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261129T150000Z
 DTEND:20261129T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 9/≈12
+ hip! Staffel 1 – Folge 9/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -880,7 +880,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261129T150000Z
 DTEND:20261129T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 9/≈12
+ hip! – Folge 9/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1016,7 +1016,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261206T150000Z
 DTEND:20261206T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 10/≈12
+ hip! Staffel 1 – Folge 10/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1028,7 +1028,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261206T150000Z
 DTEND:20261206T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 10/≈12
+ hip! – Folge 10/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1074,7 +1074,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261213T150000Z
 DTEND:20261213T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 11/≈12
+ hip! Staffel 1 – Folge 11/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1086,7 +1086,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261213T150000Z
 DTEND:20261213T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 11/≈12
+ hip! – Folge 11/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1143,7 +1143,8 @@ DTEND;VALUE=DATE:20261219
 SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterf
  ly) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8064/
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/8064/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -1164,7 +1165,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261220T150000Z
 DTEND:20261220T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! Staffel 1 – Folge 12/≈12
+ hip! Staffel 1 – Folge 12/13
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1176,7 +1177,7 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261220T150000Z
 DTEND:20261220T153000Z
 SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
- hip! – Folge 12/≈12
+ hip! – Folge 12/13
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/16547/
@@ -1214,6 +1215,30 @@ SUMMARY:Die sieben Ritter des Königreichs der Marronniers – Folge 13/20
 DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
  eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/17642/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:cr-GT00384006@2026-12-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261227T150000Z
+DTEND:20261227T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! Staffel 1 – Folge 13/13
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
+CATEGORIES:Crunchyroll
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-186541-primevideo@2026-12-27@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261227T150000Z
+DTEND:20261227T153000Z
+SUMMARY:Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Stars
+ hip! – Folge 13/13
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
+ etails: https://anime-kalender.de/t/16547/
 CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT

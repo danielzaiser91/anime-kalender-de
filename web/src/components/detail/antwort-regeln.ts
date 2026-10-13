@@ -5,6 +5,7 @@
 import { anzeigeFolge, istErschienen, releaseStatus } from '@shared/logic.ts'
 import { formatDate, todayIso, weekdayName } from '@shared/time.ts'
 import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
+import type { Antwort } from './antwort-typ.ts'
 
 /**
  * **Gezählt werden Folgen, nicht Termine**.
@@ -178,4 +179,13 @@ export function fertigZahlText(
   T: (k: string, v?: Record<string, string | number>) => string,
 ): string {
   return abgeleitet ? T('antwort.fertigUngefaehr', { count: ungefaehr(gesamt, true) }) : T('antwort.fertigZahl', { count: gesamt })
+}
+
+/** Die Nebenzeile eines „teilweise“-Kastens: die Quelle der deutschen Folgenzahl, sonst der Hinweis auf fehlende Angaben. */
+export function teilweiseNeben(
+  antwort: Extract<Antwort, { art: 'teilweise' }>,
+  T: (k: string, v?: Record<string, string | number>) => string,
+): string {
+  if (antwort.deFolgen) return T('antwort.deFolgenQuelle', { quelle: antwort.deFolgen.quelle.name, zitat: antwort.deFolgen.zitat })
+  return antwort.restBelegt ? '' : T('antwort.teilweiseNeben')
 }

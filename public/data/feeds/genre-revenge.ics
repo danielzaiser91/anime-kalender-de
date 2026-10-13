@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Revenge
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:gachiakuta-teil1-disneyplus@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261005
-DTEND;VALUE=DATE:20261006
-SUMMARY:Gachiakuta
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T133000Z
@@ -84,6 +74,18 @@ SUMMARY:Gachiakuta – Folge 24/24
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/15952/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/15144/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-101347-tv-prosieben-fun@2026-10-11#1@anime-kalender-de

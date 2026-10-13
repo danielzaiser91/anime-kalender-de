@@ -12,7 +12,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import yaml from 'js-yaml'
-import { vereinigeBereiche } from './dub-bereiche.ts'
+import { vereinigeBereiche, vereinigeGleichzeitige } from './dub-bereiche.ts'
 import { ROOT } from './util.ts'
 import { PLATFORMS, type PlatformId } from '../../shared/types.ts'
 import type { CartoonStaffel } from '../../shared/cartoon-staffeln-typ.ts'
@@ -125,6 +125,12 @@ export interface DubCheck {
   zweiteQuelle?: string
   /** Vom Lader gesetzt, nie in der Datei: Amazons Sprachangabe dieses Kanal-Titels wurde weggelassen (`kanal-titel.ts`). */
   kanalOhneBeleg?: boolean
+  /**
+   * Was eine Kanal-Meldung der Erweiterung ab 12.10.2026 gelesen hat: `ja` = in mindestens einer Folge Deutsch, `nein` = in keiner.
+   * Steht in der Datei, zählt aber nicht als Urteil (die Kanal-Regel bleibt). Die jüngere Messung derselben Adresse ersetzt die ältere
+   * (`verschmelze()`); wer die Regel lockert, liest das Urteil aus diesem Feld und nicht aus einem alten `dub: true` darunter.
+   */
+  kanalMessung?: 'ja' | 'nein'
 }
 
 const DATEI = resolve(ROOT, 'data', 'dub-confirmed.yaml')
@@ -298,11 +304,12 @@ export function verschmelze(a: DubCheck, b: DubCheck): DubCheck {
     ...Object.fromEntries(Object.entries(neu).filter(([, v]) => v !== undefined && v !== null)),
   } as DubCheck
   /*
-    Cartoons werden je Staffel gemeldet (Archer: 16 Meldungen zu einer Adresse), die Bereiche ergänzen sich also.
-    Bei Anime ist die jüngste Meldung vollständig und ersetzt die ältere.
+    Meldungen sind oft Teilmeldungen (Cartoon je Staffel, Anime aus der Erweiterung): Die Bereiche ergänzen sich,
+    ein Urteil der jüngeren Meldung gilt nur für die Folgen, die sie nennt.
   */
-  if (a.anilistId < 0 && a.anilistId === b.anilistId && alt.dubRanges?.length && neu.dubRanges?.length) {
-    verschmolzen.dubRanges = vereinigeBereiche(alt.dubRanges, neu.dubRanges)
+  if (Number.isFinite(a.anilistId) && a.anilistId === b.anilistId && alt.dubRanges?.length && neu.dubRanges?.length) {
+    const gleichAlt = (a.checkedAt ?? '') === (b.checkedAt ?? '')
+    verschmolzen.dubRanges = (gleichAlt ? vereinigeGleichzeitige : vereinigeBereiche)(alt.dubRanges, neu.dubRanges)
   }
   return verschmolzen
 }

@@ -12,6 +12,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
 import { handleLauf } from '../worker/src/lauf.ts'
+import { schreibeVerlauf } from '../worker/src/monitor-speicher.ts'
 import { berechnePruefstand } from '../worker/src/pruefung-stand.ts'
 import { DECKEL_ZEILEN, utcTag, sekundenBisMitternachtUtc } from '../worker/src/tagesdeckel.ts'
 
@@ -162,8 +163,8 @@ console.log('Unveränderte Meldung')
   const ergebnisse = ((await stapel.json()) as { ergebnisse: { ok: boolean }[] }).ergebnisse
   pruefe(ergebnisse.every((e) => e.ok) && zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 2, 'Stapel: Unverändertes übersprungen, Neues gespeichert')
   db.exec("UPDATE pruefung SET uebernommen = 1")
-  await handlePruefung(post(folge(2)), env)
-  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE uebernommen = 0') === 1, 'nach dem Abhaken entsteht einmal eine neue offene Zeile')
+  await handlePruefung(post(folge(2, 'nein')), env)
+  pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE uebernommen = 0') === 1, 'nach dem Abhaken und geändertem Inhalt entsteht eine neue offene Zeile')
 }
 
 console.log('Unveränderte Meldung und Listenbau (Bleach-Fall, pruefung-stand.ts)')
@@ -192,19 +193,242 @@ console.log('Unveränderte Meldung und Listenbau (Bleach-Fall, pruefung-stand.ts
   pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM pruefung') === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge') === 1, 'weiter keine Dublette')
 }
 
-console.log('Lesezeilen: Pläne der Abfragen einer Meldung (EXPLAIN QUERY PLAN, 11.10.2026)')
+console.log('Übernommene Rohfolgen werden nicht neu geschrieben (12.10.2026)')
+{
+  const SEITE = 'https://www.amazon.de/dp/B0TESTSEITE'
+  const prime = (sprachen: string[][], notiz = 'Durchgang') => ({
+    plattform: 'primevideo',
+    url: SEITE,
+    seiten_kennung: 'B0TESTSEITE',
+    vorhanden: 'ja',
+    ton_de: 'ja',
+    art: 'gemessen',
+    titel: 'Testserie',
+    notiz,
+    rohfolgen: sprachen.map((s, i) => ({ asin: `B0F${i}`, gti: `gti-${i}`, nummer: i + 1, titel: `Folge ${i + 1}`, sprachen: s, vorhanden: 'ja', ton_de: 'ja' })),
+  })
+  const DE = ['de', 'ja']
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  const n = (bedingung = '1') => zahl(db, `SELECT COUNT(*) AS n FROM prime_folge WHERE ${bedingung}`)
+  const abhaken = () => db.exec('UPDATE prime_folge SET uebernommen = 1; UPDATE pruefung SET uebernommen = 1')
+
+  await handlePruefung(post(prime([DE, DE, DE])), env)
+  pruefe(n() === 3 && n('uebernommen = 0') === 3, 'Ausgang: drei offene Rohfolgen')
+  abhaken()
+  /* Andere Notiz: der Hash der Meldung greift nicht, die Rohfolgen bleiben dieselben. */
+  await handlePruefung(post(prime([DE, DE, DE], 'anderer Durchgang')), env)
+  pruefe(n() === 3 && n('uebernommen = 0') === 0, 'übernommen + gleicher Hash: keine neue Zeile (0 Schreibzeilen in prime_folge)')
+
+  await handlePruefung(post(prime([DE, ['ja'], DE], 'zweiter Durchgang')), env)
+  pruefe(n() === 4 && n('uebernommen = 0') === 1 && n("uebernommen = 0 AND nummer = 2") === 1, 'übernommen + anderer Hash: genau die geänderte Folge kommt als neue offene Zeile')
+
+  abhaken()
+  await handlePruefung(post(prime([DE, DE, DE], 'dritter Durchgang')), env)
+  pruefe(n('uebernommen = 0') === 1 && n('uebernommen = 0 AND nummer = 2') === 1, 'Rückkehr zum alten Stand (A, B, A): A kommt wieder als jüngste Zeile an')
+
+  db.exec('UPDATE prime_folge SET uebernommen = 1, hash = NULL')
+  await handlePruefung(post(prime([DE, DE, DE], 'vierter Durchgang')), env)
+  pruefe(n('uebernommen = 0') === 3, 'Altbestand ohne Hash: einmal neu geschrieben')
+  abhaken()
+  await handlePruefung(post(prime([DE, DE, DE], 'fünfter Durchgang')), env)
+  pruefe(n('uebernommen = 0') === 0, '... danach 0 neue Zeilen')
+
+  const netflix = (ton: string, notiz: string) => ({ ...folge(1, ton), plattform: 'netflix', url: 'https://www.netflix.com/title/80000001', notiz })
+  await handlePruefung(post(netflix('ja', 'a')), env)
+  abhaken()
+  const vorher = n("plattform = 'netflix'")
+  await handlePruefung(post(netflix('ja', 'b')), env)
+  pruefe(n("plattform = 'netflix'") === vorher, 'Netflix/Disney+ (je gti): übernommen + gleicher Hash schreibt nichts')
+  await handlePruefung(post(netflix('nein', 'c')), env)
+  pruefe(n("plattform = 'netflix'") === vorher + 1, '... geänderter Ton kommt als neue Zeile')
+
+}
+
+/* Die Ladeabfrage einer Meldung (`ladeOffeneHashes`) und ihre Indexsuche über den Schlüssel der Folge. */
+const LADEN = /CROSS JOIN pruefung p/
+const FOLGEN_SUCHE = 'SEARCH p USING INDEX pruefung_folge (url=? AND folge_nr=? AND staffel=? AND seiten_kennung=?)'
 const planVon = (db: DatabaseSync, a: { sql: string; werte: unknown[] }) =>
   (db.prepare(`EXPLAIN QUERY PLAN ${a.sql}`).all(...(a.werte as never[])) as { detail: string }[]).map((z) => z.detail).join(' ; ')
+
+console.log('Wiederholte Meldung nach dem Abhaken schreibt keine neue pruefung-Zeile (12.10.2026)')
+{
+  const db = neueDatenbank()
+  const z = { geschrieben: 0 }
+  const env = umgebung(db, z)
+  const anzahl = (bedingung = '1') => zahl(db, `SELECT COUNT(*) AS n FROM pruefung WHERE ${bedingung}`)
+  const abhaken = () => db.exec('UPDATE pruefung SET uebernommen = 1')
+  const gestern = () => new Date(Date.now() - 86_400_000).toISOString().slice(0, 19) + 'Z'
+  const gesendet = async (body: unknown) => {
+    const vorher = z.geschrieben
+    await handlePruefung(post(body), env)
+    return z.geschrieben - vorher
+  }
+  await handlePruefung(post(folge(1)), env)
+  abhaken()
+  pruefe((await gesendet(folge(1))) === 0, 'übernommen + gleicher Inhalt, am selben Tag: 0 geschriebene Zeilen')
+  pruefe(anzahl() === 1 && anzahl('uebernommen = 1') === 1, '... keine neue Zeile, die Zeile bleibt übernommen')
+
+  db.exec(`UPDATE pruefung SET gemeldet_am = '${gestern()}'`)
+  pruefe((await gesendet(folge(1))) === 2, 'Zeile von gestern: nur ein UPDATE (Zeile + Tageszähler)')
+  pruefe(anzahl() === 1 && anzahl('uebernommen = 0') === 1, '... dieselbe Zeile, wieder offen, damit der Bau das neue checkedAt sieht')
+  const offen = await handlePruefung(new Request('https://worker.test/pruefung?token=t'), env)
+  const geliefert = ((await offen.json()) as { pruefungen: { gemeldet_am: string }[] }).pruefungen
+  pruefe(geliefert.length === 1 && geliefert[0]!.gemeldet_am > gestern(), 'der Bau holt sie mit dem heutigen gemeldet_am ab')
+  pruefe((await gesendet(folge(1))) === 0, 'offen + gleicher Inhalt, am selben Tag: weiter 0 Zeilen')
+
+  abhaken()
+  stand.erzeugtAm = new Date(Date.now() + 3_600_000).toISOString()
+  pruefe((await gesendet(folge(1))) === 2, 'Zeile älter als der Listenbau: gemeldet_am wird erneuert (Wiedervorlage)')
+  pruefe(anzahl('uebernommen = 1') === 1, '... ohne die Zeile wieder zu öffnen (derselbe Berlin-Tag)')
+  stand.erzeugtAm = '2020-01-02T00:00:00.000Z'
+
+  pruefe((await gesendet(folge(1, 'nein'))) > 2 && anzahl() === 2 && anzahl('uebernommen = 0') === 1, 'anderer Inhalt: neue offene Zeile')
+  abhaken()
+  await handlePruefung(post(folge(1)), env)
+  pruefe(anzahl() === 3 && anzahl('uebernommen = 0') === 1, 'zurück zum alten Stand (A, B, A): A kommt als jüngste Zeile wieder')
+
+  abhaken()
+  db.exec('UPDATE pruefung SET hash = NULL')
+  pruefe((await gesendet(folge(1))) > 0 && anzahl() === 4 && anzahl('uebernommen = 0') === 1, 'Altbestand ohne Hash: einmal neu geschrieben')
+  abhaken()
+  pruefe((await gesendet(folge(1))) === 0, '... danach 0 Zeilen')
+
+  abfragen.length = 0
+  await handlePruefung(post(folge(1)), env)
+  const laden = abfragen.find((a) => LADEN.test(a.sql))
+  const plan = laden ? planVon(db, laden) : ''
+  pruefe(plan.includes(FOLGEN_SUCHE) && !/SCAN p\b/.test(plan), `die Ladeabfrage mit übernommenen Zeilen bleibt eine Indexsuche (${plan})`)
+  db.exec(`UPDATE pruefung SET gemeldet_am = '${gestern()}'`)
+  abfragen.length = 0
+  await handlePruefung(post(folge(1)), env)
+  const aktualisieren = abfragen.find((a) => /^UPDATE pruefung SET gemeldet_am/.test(a.sql))
+  pruefe(!!aktualisieren && planVon(db, aktualisieren).includes('INTEGER PRIMARY KEY'), 'das UPDATE geht über den Primärschlüssel')
+}
+
+console.log('Planer wählt pruefung_folge ohne Hinweis, auch bei Bestand und Statistik (12.10.2026)')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db, { geschrieben: 0 })
+  abfragen.length = 0
+  await handlePruefung(post(folge(1)), env)
+  const laden = abfragen.find((a) => LADEN.test(a.sql))!
+  pruefe(!/INDEXED BY/i.test(laden.sql), 'die Ladeabfrage trägt keinen Index-Hinweis (vor Migration 053 läuft sie langsamer, scheitert aber nicht)')
+  // Bestand wie am 12.10.2026: 17.800 Zeilen, 89 Adressen zu je 200 Folgen.
+  db.exec('BEGIN')
+  const einfuegen = db.prepare(
+    `INSERT INTO pruefung (plattform, url, befund, gemeldet_am, uebernommen, folge_nr, staffel) VALUES ('disneyplus', ?1, 'dub', '2026-10-12T10:00:00Z', ?2, ?3, 1)`,
+  )
+  for (let a = 0; a < 89; a++) for (let n = 1; n <= 200; n++) einfuegen.run(`https://www.disneyplus.com/de-de/browse/entity-${a}`, n % 3 ? 0 : 1, n)
+  db.exec('COMMIT')
+  const wahl = (stand: string) => {
+    const plan = planVon(db, laden)
+    pruefe(plan.includes(FOLGEN_SUCHE) && !/SCAN p\b/.test(plan) && !plan.includes('pruefung_url_zeit'), `${stand}: ${plan}`)
+  }
+  wahl('Bestand ohne Statistik')
+  db.exec('ANALYZE')
+  wahl('Bestand mit Statistik (ANALYZE)')
+}
+
+console.log('Wiederholte Meldung: Tagesgrenze UTC/Berlin (D) und Zeile vor dem Listenbau (W), 12.10.2026')
+{
+  const Echt = Date
+  /* `jetzt` des Workers (`new Date()`) auf einen festen Zeitpunkt setzen; sonst nichts am Date ändern. */
+  const zuZeit = async <T>(iso: string, lauf: () => Promise<T>): Promise<T> => {
+    const fest = new Echt(iso).getTime()
+    class FesteZeit extends Echt {
+      constructor(...a: [] | [number | string]) {
+        super(a.length ? (a[0] as number) : fest)
+      }
+      static override now() {
+        return fest
+      }
+    }
+    globalThis.Date = FesteZeit as DateConstructor
+    try {
+      return await lauf()
+    } finally {
+      globalThis.Date = Echt
+    }
+  }
+  const KEIN_BAU = '2020-01-02T00:00:00.000Z'
+  /* Übernommene Zeile mit `zeileAm`, Listenbau `bauAm`, dieselbe Meldung zu `jetzt` (zweimal). */
+  const fall = async (zeileAm: string, jetzt: string, bauAm: string) => {
+    const db = neueDatenbank()
+    const z = { geschrieben: 0 }
+    const env = umgebung(db, z)
+    await handlePruefung(post(folge(1)), env)
+    db.exec(`UPDATE pruefung SET uebernommen = 1, gemeldet_am = '${zeileAm}'`)
+    stand.erzeugtAm = bauAm
+    const gesendet = () =>
+      zuZeit(jetzt, async () => {
+        const vorher = z.geschrieben
+        await handlePruefung(post(folge(1)), env)
+        return z.geschrieben - vorher
+      })
+    const erste = await gesendet()
+    const zeile = db.prepare('SELECT uebernommen, gemeldet_am FROM pruefung').get() as { uebernommen: number; gemeldet_am: string }
+    const zweite = await gesendet()
+    stand.erzeugtAm = KEIN_BAU
+    return { erste, zweite, offen: zeile.uebernommen === 0, am: zeile.gemeldet_am }
+  }
+
+  /* Oktober 2026: MESZ = UTC+2, 22:30 UTC ist 00:30 des Folgetags in Berlin. */
+  const utcAnders = await fall('2026-10-11T22:30:00Z', '2026-10-12T05:00:00Z', KEIN_BAU)
+  pruefe(utcAnders.erste === 2 && utcAnders.offen && utcAnders.am === '2026-10-12T05:00:00Z', 'gleicher Berlin-Tag (12.10.), anderer UTC-Tag (Meldung 00:30 MESZ): erneuert und wieder geöffnet')
+  pruefe(utcAnders.zweite === 0, '... die nächste gleiche Meldung schreibt 0 Zeilen')
+  const berlinAnders = await fall('2026-10-12T00:30:00Z', '2026-10-12T22:30:00Z', KEIN_BAU)
+  pruefe(berlinAnders.erste === 2 && berlinAnders.offen && berlinAnders.am === '2026-10-12T22:30:00Z', 'gleicher UTC-Tag (12.10.), anderer Berlin-Tag (jetzt 00:30 MESZ): erneuert und wieder geöffnet')
+  pruefe(berlinAnders.zweite === 0, '... die nächste gleiche Meldung schreibt 0 Zeilen')
+  const gleicherTag = await fall('2026-10-12T05:00:00Z', '2026-10-12T15:00:00Z', KEIN_BAU)
+  pruefe(gleicherTag.erste === 0 && !gleicherTag.offen && gleicherTag.am === '2026-10-12T05:00:00Z', 'derselbe Tag in Berlin und UTC, kein neuer Listenbau: 0 Zeilen, Zeile unverändert')
+
+  const nurW = await fall('2026-10-12T05:00:00Z', '2026-10-12T10:00:00Z', '2026-10-12T06:00:00.000Z')
+  pruefe(nurW.erste === 2 && !nurW.offen && nurW.am === '2026-10-12T10:00:00Z', 'W allein (heutige Zeile vor dem Listenbau): gemeldet_am erneuert, Zeile bleibt übernommen')
+  const wUndD = await fall('2026-10-11T10:00:00Z', '2026-10-12T10:00:00Z', '2026-10-12T06:00:00.000Z')
+  pruefe(wUndD.erste === 2 && wUndD.offen && wUndD.am === '2026-10-12T10:00:00Z', 'W und D (Zeile von gestern, vor dem Listenbau): ein UPDATE, D gewinnt, die Zeile wird wieder geöffnet')
+  pruefe(wUndD.zweite === 0, '... danach liegt gemeldet_am hinter dem Listenbau: 0 Zeilen')
+}
+
+console.log('Lesezeilen: Pläne der Abfragen einer Meldung (EXPLAIN QUERY PLAN, 11.10.2026)')
 {
   const db = neueDatenbank()
   const env = umgebung(db)
   abfragen.length = 0
   const adresse = (n: number) => ({ ...folge(1), url: `https://www.disneyplus.com/de-de/browse/entity-${n}` })
   await handlePruefung(post({ stapel: [adresse(1), adresse(2), adresse(3)] }), env)
-  const hashAbfrage = abfragen.find((a) => /FROM pruefung\b.*WHERE uebernommen = 0 AND url IN/s.test(a.sql))
-  const plan = hashAbfrage ? planVon(db, hashAbfrage) : ''
-  pruefe(hashAbfrage?.werte.length === 3, 'der Stapel mit drei Adressen lädt die offenen Zeilen mit einer Abfrage')
-  pruefe(plan.includes('pruefung_url_zeit') && !plan.includes('idx_pruefung_offen'), `die Hash-Abfrage nimmt bei drei Adressen den Adress-Index (${plan})`)
+  const hashAbfragen = abfragen.filter((a) => LADEN.test(a.sql))
+  const plan = hashAbfragen[0] ? planVon(db, hashAbfragen[0]) : ''
+  pruefe(hashAbfragen.length === 1 && (JSON.parse(String(hashAbfragen[0]!.werte[0])) as unknown[]).length === 3, 'der Stapel mit drei Folgen lädt ihre Zeilen mit einer Abfrage')
+  pruefe(plan.includes(FOLGEN_SUCHE) && !plan.includes('idx_pruefung_offen'), `die Hash-Abfrage sucht im Folgen-Index, nicht in den offenen Zeilen (${plan})`)
+}
+
+console.log('Lesezeilen: eine Meldung liest nur die Zeilen ihrer Folge (12.10.2026, Migration 053)')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  for (let nr = 1; nr <= 200; nr++) await handlePruefung(post(folge(nr)), env)
+  db.exec("UPDATE pruefung SET uebernommen = 1 WHERE folge_nr <= 100")
+  abfragen.length = 0
+  await handlePruefung(post(folge(150)), env)
+  const eine = abfragen.find((a) => LADEN.test(a.sql))
+  const gelesen = (a?: { sql: string; werte: unknown[] }) => (a ? db.prepare(a.sql).all(...(a.werte as never[])).length : -1)
+  pruefe(gelesen(eine) === 1, `Seite mit 200 Folgen: die Ladeabfrage liefert nur die Zeile der gemeldeten Folge (${gelesen(eine)})`)
+  abfragen.length = 0
+  await handlePruefung(post({ stapel: Array.from({ length: 10 }, (_, k) => folge(51 + k * 15)) }), env)
+  const stapel = abfragen.filter((a) => LADEN.test(a.sql))
+  pruefe(stapel.length === 1 && gelesen(stapel[0]) === 10, `Stapel zu 10 Folgen: eine Ladeabfrage, zehn Zeilen (${stapel.length} Abfragen, ${gelesen(stapel[0])} Zeilen)`)
+  /* Ohne Staffel, Folge und Seitenkennung (NULL) und mit Seitenkennung: der Schlüssel trifft nur die eigene Zeile. */
+  const ohne = { ...folge(1), folge_nr: undefined, staffel: undefined }
+  await handlePruefung(post(ohne), env)
+  await handlePruefung(post({ ...ohne, seiten_kennung: 'K1' }), env)
+  abfragen.length = 0
+  await handlePruefung(post(ohne), env)
+  pruefe(gelesen(abfragen.find((a) => LADEN.test(a.sql))) === 1, 'Meldung ohne Folgennummer, Staffel und Kennung (NULL): genau eine Zeile')
+  pruefe(!abfragen.some((a) => /^(INSERT|DELETE)/.test(a.sql)), '... und unverändert: nichts geschrieben')
+  abfragen.length = 0
+  await handlePruefung(post({ ...ohne, seiten_kennung: 'K1' }), env)
+  pruefe(gelesen(abfragen.find((a) => LADEN.test(a.sql))) === 1, 'Meldung mit Seitenkennung: genau die Zeile dieser Kennung')
 }
 
 console.log('Lesezeilen: Ersetzen über die Zeilen-ID')
@@ -226,7 +450,7 @@ console.log('Lesezeilen: Ersetzen über die Zeilen-ID')
   pruefe(!abfragen.some((a) => /DELETE FROM pruefung WHERE url/.test(a.sql)), 'kein DELETE mehr über die Adresse')
 }
 
-console.log('Lesezeilen: Gesamtzahl der Rohfolgen')
+console.log('Lesezeilen: keine Gesamtzahl der Rohfolgen mehr (12.10.2026)')
 {
   const db = neueDatenbank()
   const env = umgebung(db)
@@ -235,17 +459,17 @@ console.log('Lesezeilen: Gesamtzahl der Rohfolgen')
   const hole = async (nach: number) => {
     abfragen.length = 0
     const r = await handlePruefung(new Request(`https://worker.test/pruefung?rohfolgen=1&token=t&nach=${nach}`), env)
-    const inhalt = (await r.json()) as { folgen: unknown[]; gesamt: number; weiter: number | null }
+    const inhalt = (await r.json()) as { folgen: unknown[]; gesamt?: number; weiter: number | null }
     return { inhalt, gezaehlt: abfragen.some((a) => /COUNT\(\*\)/.test(a.sql)) }
   }
   const erste = await hole(0)
-  pruefe(erste.inhalt.folgen.length === 2 && erste.inhalt.gesamt === 2 && erste.inhalt.weiter === null, 'erste Seite unter dem Limit: gesamt = Zeilen der Seite, gesperrte Folge zählt nicht')
-  pruefe(!erste.gezaehlt, '... und ohne COUNT(*)')
+  pruefe(erste.inhalt.folgen.length === 2 && erste.inhalt.weiter === null, 'erste Seite unter dem Limit: gesperrte Folge zählt nicht')
+  pruefe(!erste.gezaehlt && erste.inhalt.gesamt === undefined, '... und ohne COUNT(*), ohne Gesamtzahl')
   const spaeter = await hole(1)
-  pruefe(spaeter.inhalt.folgen.length === 1 && spaeter.inhalt.gesamt === 2 && spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): gesamt bleibt die ungekürzte Zahl, per COUNT(*)')
+  pruefe(spaeter.inhalt.folgen.length === 1 && !spaeter.gezaehlt, 'Fortsetzungsseite (nach > 0): auch ohne COUNT(*) (der Bau setzt über `weiter` fort)')
 }
 
-console.log('Lesezeilen: /lauf wird 30 Sekunden gehalten')
+console.log('Lesezeilen: /lauf wird 120 Sekunden gehalten')
 {
   const gehalten = new Map<string, Response>()
   const global = globalThis as { caches?: unknown }
@@ -268,7 +492,7 @@ console.log('Lesezeilen: /lauf wird 30 Sekunden gehalten')
   const zweite = await hole('')
   pruefe(erste.status === 200 && erste.lesen > 0, `erster Aufruf liest die Läufe (${erste.lesen} Abfragen)`)
   pruefe(zweite.status === 200 && zweite.lesen === 0, 'zweiter Aufruf kommt aus dem Cache, 0 Abfragen auf lauf_status')
-  pruefe([...gehalten.values()][0]?.headers.get('Cache-Control') === 'public, max-age=30', 'die gehaltene Antwort trägt 30 Sekunden')
+  pruefe([...gehalten.values()][0]?.headers.get('Cache-Control') === 'public, max-age=120', 'die gehaltene Antwort trägt 120 Sekunden')
   const verlauf = await hole('?verlauf=daten')
   pruefe(verlauf.lesen > 0 && (await hole('?verlauf=daten')).lesen > 0, 'der Verlauf einer Lauf-Art (Detailseite) bleibt ungehalten')
 }
@@ -333,6 +557,10 @@ console.log('Lesezeilen: ?gemeldet= je Adresse und die wartenden Meldungen aus d
   pruefe(s1.lesen === 1 && s2.lesen === 0, `die wartenden Meldungen kommen auch bei neu gerechnetem Stand aus dem Cache (${s1.lesen}, ${s2.lesen} Abfragen)`)
   const wartendeEintrag = [...gehalten.keys()].find((k) => k.endsWith('?wartend=1'))
   pruefe(!!wartendeEintrag, 'sie liegen unter eigener Adresse neben dem Stand')
+  pruefe(gehalten.get(wartendeEintrag ?? '')?.headers.get('Cache-Control') === 'public, max-age=7200', 'die wartenden halten 7200 Sekunden (zwei Stunden, vorher 1800)')
+  await hole('zaehlen=1')
+  const zaehlenEintrag = [...gehalten.keys()].find((k) => k.includes('zaehlen=1'))
+  pruefe(gehalten.get(zaehlenEintrag ?? '')?.headers.get('Cache-Control') === 'public, max-age=7200', '?zaehlen=1 hält 7200 Sekunden (zwei Stunden, vorher 1800)')
   await handlePruefung(post(von(A, 9)), env, ctx)
   gehalten.delete(standEintrag())
   pruefe((await hole('stand=1')).lesen === 0, 'eine Meldung verwirft die wartenden nicht (nur Ablauf; Meldungen seit dem Listenbau zieht der Stand frisch ab)')
@@ -399,7 +627,7 @@ console.log('Rohfolgen: nur Geändertes wird geschrieben (12.10.2026, Migration 
   pruefe(zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge WHERE nummer = 1') === 1, 'eine Dublette derselben Folge wird entfernt, die Folge bleibt einmal')
   db.exec('UPDATE prime_folge SET uebernommen = 1')
   const nachAbhaken = await sende(prime(10, 'g', 'nein'))
-  pruefe(nachAbhaken.length === 10 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0') === 10, 'abgehakte Zeilen bleiben Geschichte: einmal neue offene Zeilen, danach greift der Hash')
+  pruefe(nachAbhaken.length === 0 && zahl(db, 'SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0') === 0, 'abgehakte Zeilen mit gleichem Hash werden nicht neu geschrieben (vorher 10 Einfügungen je Durchgang)')
 }
 {
   const db = neueDatenbank()
@@ -419,13 +647,28 @@ console.log('Rohfolgen: nur Geändertes wird geschrieben (12.10.2026, Migration 
   const vorher = (db.prepare("SELECT id FROM prime_folge WHERE gti = 'n2'").get() as { id: number }).id
   abfragen.length = 0
   await handlePruefung(post(netflix(1, 'nein')), env)
-  const lade = abfragen.find((a) => /^SELECT id, hash FROM prime_folge/.test(a.sql))
+  const lade = abfragen.find((a) => /^SELECT id, hash, .* FROM prime_folge/.test(a.sql))
   pruefe(zahl(db, "SELECT COUNT(*) AS n FROM prime_folge WHERE gti = 'n2' AND id = " + vorher) === 1, 'Netflix: eine Meldung ersetzt nur ihre eigene Kennung, Folge 2 bleibt unberührt')
-  pruefe(!!lade && planVon(db, lade).includes('prime_folge_gti'), `die Ladeabfrage je Kennung nimmt den gti-Index (${lade ? planVon(db, lade) : 'keine Abfrage'})`)
+  pruefe(!!lade && planVon(db, lade).includes('prime_folge_gti') && !/SCAN prime_folge/.test(planVon(db, lade)), `die Ladeabfrage je Kennung (offen und übernommen) nimmt den gti-Index, kein SCAN (${lade ? planVon(db, lade) : 'keine Abfrage'})`)
   abfragen.length = 0
   await handlePruefung(post({ plattform: 'primevideo', url: 'https://www.amazon.de/dp/B0X', vorhanden: 'ja', ton_de: 'ja', art: 'gemessen', seiten_kennung: 's1', rohfolgen: [{ gti: 'a', nummer: 1 }] }), env)
-  const ladeSeite = abfragen.find((a) => /^SELECT id, hash FROM prime_folge/.test(a.sql))
-  pruefe(!!ladeSeite && planVon(db, ladeSeite).includes('prime_folge_seite'), `die Ladeabfrage je Prime-Seite nimmt den Seiten-Index (${ladeSeite ? planVon(db, ladeSeite) : 'keine Abfrage'})`)
+  const ladeSeite = abfragen.find((a) => /^SELECT id, hash, .* FROM prime_folge/.test(a.sql))
+  pruefe(!!ladeSeite && planVon(db, ladeSeite).includes('prime_folge_seite') && !/SCAN prime_folge/.test(planVon(db, ladeSeite)), `die Ladeabfrage je Prime-Seite (offen und übernommen) nimmt den Seiten-Index, kein SCAN (${ladeSeite ? planVon(db, ladeSeite) : 'keine Abfrage'})`)
+}
+
+console.log('Wächter: Messverlauf wird einmal am Tag aufgeräumt (12.10.2026)')
+{
+  const sqls: string[] = []
+  const fake = {
+    prepare: (sql: string) => ({ bind: () => ({ sql }) }),
+    batch: async (liste: { sql: string }[]) => void sqls.push(...liste.map((a) => a.sql)),
+  } as never
+  const ergebnis = [{ site: { url: 'https://a.test', name: 'a' }, ok: true, ms: 5 }] as never
+  const loeschungen = () => sqls.filter((s) => s.startsWith('DELETE FROM site_history')).length
+  await schreibeVerlauf(fake, ergebnis, '2026-10-12T14:00:00.000Z')
+  pruefe(sqls.length === 1 && loeschungen() === 0, 'ein Lauf um 14 Uhr UTC hängt nur an, ohne Aufräumen')
+  await schreibeVerlauf(fake, ergebnis, '2026-10-13T03:00:00.000Z')
+  pruefe(loeschungen() === 1, 'der Lauf um 03 Uhr UTC räumt auf (einmal am Tag)')
 }
 
 if (fehler) {

@@ -36,7 +36,7 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+import { verdachtsFelder, verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
 import { ausgeblendet, brauchtUrteil, eintragsInfo, ladeBestand, ladeCartoons, nachRang, regeln, wartet } from './pruef-bestand.mjs'
 import { nachschlagVon } from './prime-nachschlag.mjs'
 /**
@@ -296,7 +296,7 @@ for (const [asin, eintraege] of nachRang(jeAsin, 'primevideo')) {
     Statusanzeige und Erweiterung dieselbe Zahl für dieselbe Liste.
   */
   offen[asin] = {
-    ...(verdacht ? { erneut: verdachtHinweis(verdacht) } : {}),
+    ...(verdacht ? verdachtsFelder(verdacht) : {}),
     titel: listenName(sortiert[0].t),
     url: sortiert[0].url,
     ...eintragsInfo(sortiert[0].t, 'primevideo', sortiert[0]),

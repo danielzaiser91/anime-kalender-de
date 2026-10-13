@@ -81,7 +81,7 @@ export function Steuerleiste(p: SteuerProps) {
       aria-label={t('filter.button')}
       className={[
         'flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full border px-3 max-[419px]:px-2.5 max-[369px]:px-2 text-sm font-bold transition sm:pr-4 sm:pl-3.5',
-        p.filterOffen || p.filterAnzahl ? 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent' : 'border-ak-rand bg-ak-flaeche text-ak-text hover:border-ak-leise',
+        filterFarbe(p.filterOffen, p.filterAnzahl, 'hover:border-ak-leise'),
       ].join(' ')}
     >
       <FilterZeichen />
@@ -140,10 +140,22 @@ export function SteuerElemente(p: SteuerProps & { filterKnopf?: ReactNode }) {
   )
 }
 
+/**
+ * Orange heißt nur „aktiv/geöffnet". Was eingestellt oder anzusteuern ist, trägt die Tönung der heutigen
+ * Tagesspalte samt Rand in Akzent-Text — der Rand trägt die Abgrenzung, weil die Fläche kaum von der Leiste absticht.
+ */
+export const GETOENT = 'border-ak-akzent-text bg-ak-heute text-ak-akzent-text'
+
+/** Farben des Filter-Knopfs: offen = orange, Filter gesetzt = getönt, sonst neutral. */
+export function filterFarbe(offen: boolean, anzahl: number, neutralHover = ''): string {
+  if (offen) return 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent'
+  return anzahl ? GETOENT : `border-ak-rand bg-ak-flaeche text-ak-text ${neutralHover}`.trim()
+}
+
 export const HEUTE_TEXT = {
   hier: 'nav.todayHere', frueher: 'nav.todayZurueck', spaeter: 'nav.todayVor', oben: 'nav.todayHoch', unten: 'nav.todayRunter',
 } as const satisfies Record<HeuteLage, string>
-const HEUTE_PFEIL: Partial<Record<HeuteLage, [string, string]>> = {
+export const HEUTE_PFEIL: Partial<Record<HeuteLage, [string, string]>> = {
   frueher: ['‹', ''], spaeter: ['', '›'], oben: ['↑', ''], unten: ['', '↓'],
 }
 
@@ -168,7 +180,7 @@ function HeuteKnopf({ lage, monat, onClick }: { lage: HeuteLage; monat: boolean;
         aria-current={hier ? 'date' : undefined}
         className={[
           'flex h-11 shrink-0 cursor-pointer items-center rounded-full border px-2.5 max-[419px]:px-1.5 max-[339px]:size-11 max-[339px]:justify-center max-[339px]:px-0 text-sm font-bold transition disabled:cursor-default disabled:opacity-40 sm:px-3.5',
-          hier ? 'border-ak-rand bg-transparent text-ak-leise hover:border-ak-leise hover:text-ak-text' : 'border-ak-akzent bg-ak-akzent text-ak-auf-akzent',
+          hier ? 'border-ak-rand bg-transparent text-ak-leise hover:border-ak-leise hover:text-ak-text' : GETOENT,
         ].join(' ')}
       >
         <span aria-hidden className={`${pfeil} max-[339px]:hidden`}>{vor}</span>

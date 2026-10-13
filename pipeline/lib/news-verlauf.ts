@@ -41,6 +41,8 @@ export interface TerminVerlauf {
   quelle?: string
   /** Der Termin war unsere eigene Schätzung — er trägt keinen Quellenlink (01.10.2026). */
   geschaetzt?: boolean
+  /** Nur Art `rhythmus`: ohne die Spanne sagte die überholte Fassung „wöchentlich 0 neue Folgen“. */
+  proWoche?: [number, number]
   /** Tag, an dem die Meldung zuerst dastand. */
   am: string
 }
@@ -70,6 +72,7 @@ function ausMeldung(m: DatiertNews, name: (t: Title) => string, wurzel: (t: Titl
     platform: m.platform,
     quelle: m.quelle,
     geschaetzt: m.geschaetzt,
+    ...(m.proWoche ? { proWoche: m.proWoche } : {}),
     am: m.am,
   }
 }
@@ -94,6 +97,7 @@ function seedAusVorherige(
         platform: m.platform,
         quelle: m.quelle,
         geschaetzt: m.geschaetzt,
+        ...(m.proWoche ? { proWoche: m.proWoche } : {}),
         am: e.am,
       }
       verlauf[m.release] = [...(verlauf[m.release] ?? []), v]
@@ -192,6 +196,7 @@ function verlaufsKette({
         release,
         quelle: alt.quelle,
         geschaetzt: alt.geschaetzt,
+        ...(alt.proWoche ? { proWoche: alt.proWoche } : {}),
         am: alt.am,
         titel,
         schluessel: `verlauf:${release}:${alt.art}:${tag(alt.datum)}:${i}`,

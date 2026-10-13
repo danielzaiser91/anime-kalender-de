@@ -23,3 +23,7 @@ body { margin: 0; font: 14px/1.4 system-ui, sans-serif; background: #e9e9ee; col
 .uebersicht li { margin: 0 0 10px; }
 .uebersicht .links { font-size: 13px; opacity: .85; }
 .uebersicht .links a { margin-right: 8px; }
+
+.zeit-regler { display: inline-flex; gap: 6px; align-items: center; margin-left: 4px; }
+.zeit-regler input { width: 160px; }
+.zeit-regler output { font-size: 12px; font-variant-numeric: tabular-nums; min-width: 3.2em; }

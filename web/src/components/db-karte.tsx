@@ -118,20 +118,13 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
           „ohne Synchro"-Band unten kollidiert; beides zugleich kommt
           vor.
         */}
-        {main.westlich && (
-          <span className="absolute left-1 top-1 rounded bg-slate-600/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]">
-            <Tooltip text={t('db.westlichHinweis')} eigenerFokus>
-              {t('db.westlich')}
-            </Tooltip>
-          </span>
-        )}
+        <LinkeMarken main={main} />
         {keinDub && (
           <span className="absolute inset-x-0 bottom-0 bg-slate-900/80 px-1.5 py-1 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-200 backdrop-blur-[1px]">
             {t(members.every((m) => erscheintErst(m, today)) ? 'geplant.marke' : 'db.noDubBadge')}
           </span>
         )}
         <KartenKnoepfe
-          main={main}
           favorite={favorite}
           onToggleFavorite={() => onToggleFavorite(main.id)}
           onToggleHidden={() => onToggleHidden(main.id)}
@@ -206,19 +199,40 @@ function AbPille({ ab }: { ab: string }) {
   )
 }
 
+/** Marken oben links auf dem Cover: die FSK (eine Angabe, steht immer), darunter ein Cartoon-Hinweis — untereinander, nie nebeneinander. */
+function LinkeMarken({ main }: { main: Title }) {
+  const { t } = useLang()
+  if (main.fsk === undefined && !main.westlich) return null
+  return (
+    <span className="absolute left-1 top-1 flex flex-col items-start gap-1">
+      {main.fsk !== undefined && (
+        <span onClick={(e) => e.stopPropagation()}>
+          <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />
+        </span>
+      )}
+      {main.westlich && (
+        <span className="rounded bg-slate-600/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]">
+          <Tooltip text={t('db.westlichHinweis')} eigenerFokus>
+            {t('db.westlich')}
+          </Tooltip>
+        </span>
+      )}
+    </span>
+  )
+}
+
 const KNOPF_GRUND = 'flex flex-col items-center rounded-full bg-[rgba(13,15,20,.72)] p-0.5 text-[#f2f1ee]'
 const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0'
 
 /**
- * FSK und Bedienung in **einer** Spalte oben rechts; das Cover bleibt links frei, dort steht meist das Gesicht.
+ * Die Bedienung steht oben rechts immer an derselben Stelle; die FSK-Marke sitzt links (`LinkeMarken`) und schiebt sie nicht mehr.
  *
- * Die FSK ist eine Angabe und steht immer. Stern, Auge und Teilen erscheinen wie in der Wochen-Kachel erst beim
+ * Stern, Auge und Teilen erscheinen wie in der Wochen-Kachel erst beim
  * Zeigen oder per Tastatur — vorher lag ein dunkler Streifen auf jedem Cover, im hellen Thema am auffälligsten.
  * Ein gesetzter Stern bleibt sichtbar. Der Stern ist auf jedem Gerät ein Knopf (28 px, kein zusätzlicher
  * Treffer-Wrapper); Auge und Teilen gibt es auf dem Handy (unter `sm`) im Panel, nicht auf dem Bild.
  */
-function KartenKnoepfe({ main, favorite, onToggleFavorite, onToggleHidden, onShare, copied }: {
-  main: Title
+function KartenKnoepfe({ favorite, onToggleFavorite, onToggleHidden, onShare, copied }: {
   favorite: boolean
   onToggleFavorite: () => void
   onToggleHidden: () => void
@@ -227,7 +241,6 @@ function KartenKnoepfe({ main, favorite, onToggleFavorite, onToggleHidden, onSha
 }) {
   return (
     <span className="absolute right-1 top-1 flex flex-col items-end gap-1" onClick={(e) => e.stopPropagation()}>
-      {main.fsk !== undefined && <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />}
       <span className={`${KNOPF_GRUND} ${favorite ? '' : ERST_BEIM_ZEIGEN}`}>
         <FavoriteStar active={favorite} onToggle={onToggleFavorite} grosseFlaeche />
       </span>

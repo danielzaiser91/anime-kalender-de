@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – disneyplus
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:gachiakuta-teil1-disneyplus@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261005
-DTEND;VALUE=DATE:20261006
-SUMMARY:Gachiakuta
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:naruto-shippuden-s3-disneyplus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261007

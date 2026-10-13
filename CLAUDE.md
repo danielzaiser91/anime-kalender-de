@@ -35,8 +35,8 @@ Neues = eigene Funktion/Modul (nicht in Funktion > 80 oder Datei > 800 Zeilen an
 npm run check:vor-commit
 ```
 
-Prüfer nach Risiko: `node tools/pr-stufe.mjs <PR>` (Stufe 0 ohne Prüfer-Agent; Details im Volltext). Nach Generatorlauf **alles** stagen. Vor dem Push zusätzlich `check:ansichten`/`check:panel` (bei `web/src`) und `check:handbelege` (bei geänderten Belegen). Jedes `tsc` mit `--noEmit`. Mess-/Versuchsläufe enden mit Exit 0.
+Prüfer nach Risiko: `node tools/pr-stufe.mjs <PR>` (Stufe 0 ohne eigenen Prüfer-Agent, der CI-Prüfer prüft schlank; Details im Volltext). Nach Generatorlauf **alles** stagen. Vor dem Push zusätzlich `check:ansichten`/`check:panel` (bei `web/src`) und `check:handbelege` (bei geänderten Belegen). Jedes `tsc` mit `--noEmit`. Mess-/Versuchsläufe enden mit Exit 0.
 
 ## Wissen nach Thema (`grep -n "^## " docs/wissen/<datei>.md`)
 
-[karte.md](docs/wissen/karte.md) (Einstieg) · [erweiterung.md](docs/wissen/erweiterung.md) · [quellen.md](docs/wissen/quellen.md) · [betrieb.md](docs/wissen/betrieb.md) · [datensatz.md](docs/wissen/datensatz.md) · [daten-detektiv.md](docs/wissen/daten-detektiv.md) · [meine-woche.md](docs/wissen/meine-woche.md) · [projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md). Neue Erkenntnisse als `##`-Abschnitt mit Datum in die passende Datei.
+[karte.md](docs/wissen/karte.md) (Einstieg) · [erweiterung.md](docs/wissen/erweiterung.md) · [quellen.md](docs/wissen/quellen.md) · [betrieb.md](docs/wissen/betrieb.md) · [datensatz.md](docs/wissen/datensatz.md) · [daten-detektiv.md](docs/wissen/daten-detektiv.md) · [meine-woche.md](docs/wissen/meine-woche.md) · [seo.md](docs/wissen/seo.md) · [projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md). Neue Erkenntnisse als `##`-Abschnitt mit Datum in die passende Datei.

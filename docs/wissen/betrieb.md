@@ -607,8 +607,10 @@ dann lesbar, wenn gerade kein Lauf sichtbar ist:
   zuletzt ausgelieferten Datensatzes. Dieselben Zahlen stehen im Seitenfuß.
 
 Eine Meldung an mich, wenn ein Lauf **erfolgreich** durch ist, gibt es nicht — GitHub meldet nur
-Fehler. Wer sie will, legt einen Discord-Webhook an; eingehängt ist er in zwei Zeilen. Bis dahin
-gilt: nachsehen statt annehmen.
+Fehler; rote Läufe findet `tools/laeufe-aufraeumen.mjs`. **Discord bekommt keine Laufmeldungen**
+(Daniel, 13.10.2026: der News-Kanal lief mit „Bestand … fehlgeschlagen“ voll). In `#news` steht nur
+eine Ankündigung, wenn ein großes neues Feature live ist — keine Kleinigkeiten, keine Bugfixes;
+gepostet von Hand über `tools/discord-news.sh` (Kanal-ID 1559515427330068592, am 13.10.2026 neu geklont; Webhook-URL in `my_secrets.md`).
 
 ### Der stündliche Lauf läuft fünfmal am Tag, nicht vierundzwanzigmal
 
@@ -650,8 +652,10 @@ gemacht hat. Seitdem gibt es zwei Werkzeuge, beide **ohne Server** —
 das, was ausgeliefert wird.
 
 ```
-npm run check:panel        # das Detail-Panel, mehrere Titel, beide Themen
-npm run check:ansichten    # alle elf Routen, beide Themen
+npm run check:panel        # das Detail-Panel, mehrere Titel, beide Themen; Bilder im Temp-Ordner (ak-panel)
+npm run panel:bilder       # dasselbe, Bilder nach docs/ (CI-Beleg-Artefakt)
+npm run check:ansichten    # alle zehn Routen, beide Themen; Bilder im Temp-Ordner (ak-ansichten)
+npm run ansichten:bilder   # dasselbe, Bilder nach docs/ (CI-Beleg-Artefakt; Stand der getrackten Bilder erneuern)
 npm run check:kasten       # der Hinweiskasten der Erweiterung
 npm run check:leiste       # die Durchlauf-Leiste auf Netflix
 npm run check:datumsprung  # die Datumsauswahl in der Kopfleiste, mit Klick und Sprung
@@ -863,7 +867,7 @@ fragen.
 
 ## Nach der Prüfkette nur die erzeugten Bilder zurücksetzen, nicht ganz `docs/` (19.09.2026)
 
-`check:vor-commit`, `check:ansichten` und `check:panel` schreiben `docs/*.png` neu. Wer danach `git checkout -- docs` und `git clean -fq docs/` fährt, verwirft auch, was gerade von Hand in `docs/wissen/` ergänzt wurde oder als neue Datei unter `docs/` liegt — am 19.09.2026 zweimal passiert (ein Abschnitt in `quellen.md`, beinahe die Kandidatenliste). Zurückgesetzt wird nur `git checkout -- "docs/*.png"` und `git clean -fq docs/ -e wissen -e "*.md"`; Wissens-Einträge werden **vor** der Prüfkette committet.
+`check:vor-commit` schreibt keine Bilder; `check:panel` und `check:ansichten` schreiben seit 12.10.2026 nur mit `--docs` (`panel:bilder`, `ansichten:bilder`) nach `docs/*.png`, sonst in den Temp-Ordner. Andere Prüfwerkzeuge (`check:news`, `check:kasten` …) schreiben weiterhin nach `docs/`. Wer danach `git checkout -- docs` und `git clean -fq docs/` fährt, verwirft auch, was gerade von Hand in `docs/wissen/` ergänzt wurde oder als neue Datei unter `docs/` liegt — am 19.09.2026 zweimal passiert (ein Abschnitt in `quellen.md`, beinahe die Kandidatenliste). Zurückgesetzt wird nur `git checkout -- "docs/*.png"` und `git clean -fq docs/ -e wissen -e "*.md"`; Wissens-Einträge werden **vor** der Prüfkette committet.
 
 ### „Live" heißt: Deploy grün und im ausgelieferten Bundle nachgesehen (19.09.2026)
 
@@ -1155,7 +1159,7 @@ Abhängigkeiten** (ein Schritt liest eine Datei, die ein späterer derselben Woc
 
 **Die sieben Jobs:** `anilist` (Rohdaten, Katalog, Sprecher AniList + ANN; als Einziger legt er `data/cache` ab) → `adn` (teilt AniList-Suchen); `crunchyroll` (Kalender, Zugangspaket, Tonspuren);
 `anisearch` (Sperre `anisearch`, ~60 min = bestimmt die Dauer); `tmdb` (TMDB → JustWatch → Gegenprobe → CR-offene, wegen der gemeinsamen Datei `justwatch-handpruefung.json`); `rtl` (Katalog → Folgen,
-Link-Prüfung); `sonst`. Jeder Job reicht seinen Fund als eigenen Pull Request ein, `abschluss` meldet Statusanzeige und Discord.
+Link-Prüfung); `sonst`. Jeder Job reicht seinen Fund als eigenen Pull Request ein, `abschluss` meldet die Statusanzeige.
 
 **Gemeinsame Drosselung** (steht nicht im Code als Sperre, nur als Zusage): aniSearch 6 s je Seite — jetzt Sperre `anisearch` (Katalog, Wochen-Job, Tages-Job); AniList 750 ms (Katalog, Sprecher und ADN-Zuordnung
 laufen deshalb hintereinander: `adn` hängt an `anilist`); `plus.rtl.de` 400–700 ms (Katalog, Folgen, Link-Prüfung — im selben Job).
@@ -1219,7 +1223,8 @@ Jetzt: `pr-pruefung.yml` (Job `PR-Prüfkette` = `check:vor-commit` mit Chromium;
 (`pull_request_target`, läuft in der Fassung von `main`, kein Checkout des PR-Zweigs; Claude schreibt Protokoll und `urteil.json`, `GITHUB_TOKEN` kommentiert und gibt frei, nur
 wenn die SHA im Urteil dem Head entspricht). Beide überspringen `daten/`-Zweige, Fremd-Forks und Entwürfe. Die Laufzeit von `check:vor-commit` in der CI ist noch nicht gemessen.
 Ruleset, GitHub-App, Secrets und Auto-Merge sind Daniels Handgriffe (Spezifikation, Abschnitt 4); bis das Ruleset steht, erzwingen die Workflows nichts.
-Diff-Aufbau (11.10.2026): `tools/pr-diff-bauen.mjs` baut den Prüfer-Diff je Datei aus der API-Dateiliste (`gh pr diff` bricht über 20000 Zeilen ab, ein 400000-Byte-Limit auf dem Gesamttext ließ den Code hinter einer großen JSON verschwinden). Nur eine Positivliste wird bei über 50000 Byte Diff zur Stub-Zeile: `public/data/**` (json, jsonl, yaml) und die Einträge unter `data/` aus `tools/quellen-liste.sh` (das Skript liest sie von dort, keine zweite Liste). Handdateien (`*-von-hand.yaml`, Ankündigungen, Grenzen), `data/dub-confirmed.yaml`, `data/curated/**`, `data/cache/**`, Code, Workflows und Doku nie; ein nicht lieferbarer Diff außerhalb der Liste ergibt `unvollstaendig`. Der Prüfer prüft bei Stubs, dass die Datei in der Beschreibung genannt ist.
+Diff-Aufbau (11.10.2026): `tools/pr-diff-bauen.mjs` baut den Prüfer-Diff je Datei aus der API-Dateiliste (`gh pr diff` bricht über 20000 Zeilen ab, ein 400000-Byte-Limit auf dem Gesamttext ließ den Code hinter einer großen JSON verschwinden). Nur eine Positivliste wird bei über 50000 Byte Diff zur Stub-Zeile: `public/data/**` (json, jsonl, yaml) und die Einträge unter `data/` aus `tools/quellen-liste.sh` (das Skript liest sie von dort, keine zweite Liste), seit 12.10.2026 auch `data/stammdaten/**` (maschinelle Schnappschüsse mit eigenen Prüfungen, z. B. `anilist-eingefroren.json`). Handdateien (`*-von-hand.yaml`, Ankündigungen, Grenzen), `data/dub-confirmed.yaml`, `data/curated/**`, `data/cache/**`, Code, Workflows und Doku nie; ein nicht lieferbarer Diff außerhalb der Liste ergibt `unvollstaendig`. Der Prüfer prüft bei Stubs, dass die Datei in der Beschreibung genannt ist. Seit 12.10.2026 wird eine Umbenennung nur gestubbt, wenn auch `previous_filename` stubbar ist (sonst verschwände z. B. `web/x.ts` → `public/data/x.json` ungelesen). Seit 13.10.2026 werden auch die erzeugten Einzeiler `extension/offene-*.js` gestubbt (PR 1060: ohne API-Patch, „unvollstaendig“ → immer „aendern“), aber nur, wenn die Datei als Eintrag in `tools/quellen-liste.sh` steht und ihr Inhalt am PR-Kopf (`git cat-file`) vollständig aus Zeilen `globalThis.AK_NAME = <gültiges JSON>` besteht (`istDatenJs`); jede andere JS-Datei, auch mit nur einem Kommentar oder `;` mehr, bleibt im Diff sichtbar.
+Stufe 0 (12.10.2026, Daniel, Option A): `pr-pruefer.yml` überspringt Stufe 0 nicht mehr, sondern prüft schlank (eigener Schritt „Prüfer (Stufe 0, schlank)“: nur `pr.diff` und Beschreibung, `--max-turns 8`, kurzer Auftrag, Protokoll höchstens 8 Zeilen). Das Urteil kommt aus diesem Lauf, die Freigabe gibt derselbe Schritt „Protokoll und Freigabe“ wie bei Stufe 1/2 (SHA-Abgleich, Token-Muster, fail closed); ohne Urteil keine Freigabe, bei Befund Änderungswünsche. Anlass: Der Branch-Schutz verlangt eine Freigabe, grüne Kleinigkeiten mit Auto-Merge blieben sonst hängen.
 
 ## Worker: ein Meldungsstapel wirft nie (10.10.2026)
 
@@ -1252,7 +1257,8 @@ Das Ruleset `main-pruefweg` (Squash-PR mit einer Freigabe, kein Direkt-Push) lä
 ## Bestandsbau: Doppelläufe bei Push und selbstschließende Rot-Issues (11.10.2026)
 
 - Messung 11.10.: 23 Bauläufe, zwei echte Doppelbauten im 5-s-Abstand (12:05:32/37, 12:36:12/17; zwei Merges, der erste Bau checkt `main` aus und hat beide Stände schon) und ein Bau nur wegen `shared/weckplan.ts` (PR 747). Bericht: `daniel-zum-abarbeiten/berichte/doppelbau-2026-10-11.md`.
-- Abhilfe: Der Push-Auslöser nimmt `shared/weckplan.ts` und Markdown unter `data/`, `pipeline/` aus. Job `vorab` überspringt einen Push-Bau, wenn nach dem Auslöser schon ein Bau-Commit auf `main` steht (`tools/bau-schon-gebaut.sh`; Fehler = bauen; `workflow_run` und `workflow_dispatch` bauen immer). Das ist sicher, weil `commit-data.sh` bei bewegtem Fernstand neu aufsetzt und neu baut: ein Bau-Commit hinter dem Auslöser enthält ihn. `concurrency` allein hilft nicht (der erste Lauf startet sofort; `cancel-in-progress` bräche einen Bau mitten im Push ab).
+- Abhilfe: Der Push-Auslöser nimmt `shared/weckplan.ts` und Markdown unter `data/`, `pipeline/` aus. Job `vorab` überspringt einen Push-Bau, wenn nach dem Auslöser schon ein Bau-Commit auf `main` steht (`tools/bau-schon-gebaut.sh`; Fehler = bauen; `workflow_run` und `workflow_dispatch` bauen immer). Das ist sicher, weil `commit-data.sh` bei bewegtem Fernstand neu aufsetzt und neu baut: ein Bau-Commit mit `public/data` hinter dem Auslöser enthält ihn. `concurrency` allein hilft nicht (der erste Lauf startet sofort; `cancel-in-progress` bräche einen Bau mitten im Push ab).
+- Nachtrag 12.10.2026: Als Bau zählt nur ein Bau-Commit, der `public/data` berührt (serverseitiger Pfadfilter `commits?path=public/data`). Anlass: Der Bau nach PR 959 brach an `check:bestand` ab, `commit-data.sh` committete nur Quellen und Verlaufsdateien unter demselben Titel „Bestand neu gebaut“, der Folgelauf übersprang darauf den Bau, und die Meldung fehlte live bei grünen Läufen. Preis: Ein gelungener Bau ohne geänderte Erzeugnisse zählt nicht, ein zweiter Push-Lauf im Sekundenabstand baut dann einmal doppelt (Vollbau in der Gruppe `bau`, nacheinander, kein Datenverlust); stündliche und `workflow_run`-Läufe sind nicht betroffen. Test: `tools/bau-schon-gebaut-test.sh` (Attrappe-`gh` über lokalem Verlauf, in `check:workflows`).
 - Rot-Issues („Bestandsbau rot: …“) öffnen Reparatur-Läufe und Agenten; ein grüner Bau schließt jetzt die davor entstandenen mit Lauf-Link (`tools/bau-issues-schliessen.sh`, Titelmuster dort).
 - Offen, nicht angefasst: die zwei Bau-Commits eines Doppelbaus wechselten sich ab (+31/−8, dann +8/−29 bei gleicher Eingabe) — der Bau ist an einer Stelle nicht idempotent; Ursache nicht untersucht.
 
@@ -1293,6 +1299,15 @@ Zweiter Einstieg in dieselbe Vite-App (Konzept: `daniel-zum-abarbeiten/listen/mo
 - **Skill `mockups`** (`tools/claude-global/skills/mockups/SKILL.md`, wird mit `node tools/claude-global/einrichten.mjs` nach `~/.claude` übernommen): Ablauf Ausschnitt → Fälle → Ersatz → Bilder → Messung → Hochladen → Board-Eintrag, dazu die Auftragsvorlage für Fable-Entwürfe.
 - **Offen:** `check:panel` (`tools/panel-bild.mjs`, 244 Zeilen) und `check:ansichten` (`tools/ansicht-bild.mjs`, 299 Zeilen) laufen noch gegen `dist/` mit beliebigen Titeln, nicht über die Bühne. Umstellen hieße: Zellen der Bühne statt eigener Seite, Titel nur aus den acht Fällen — Schätzung 0,5 bis 1 Tag, Nutzen gering, solange die Prüfung beliebige Titel braucht.
 
+### Bühne, Schritt 5: Uhrzeit wählbar, Mockup „Relative Uhrzeit“ (13.10.2026)
+
+- **Uhrzeit:** `MockupDef.zeiten` (Beschriftung → ISO mit Berliner Versatz, z. B. `'16:40': '2026-10-16T16:40:00+02:00'`) schaltet in der Leiste die Gruppe „Zeit“ frei: ein Knopf je Zeit und ein Schieber über den Tag der ersten Zeit (5 Minuten Schritt). Der Wert steht im Link (`zeit=`, `+` als `%2B`; ein zum Leerzeichen gewordenes `+` wird wieder gelesen), `start.ts` friert die Uhr der Zellen darauf ein (ohne `zeit` gilt `faelle.heute`). Eine Zeit, die nicht am Tag der ersten liegt oder nicht lesbar ist, fällt auf die erste zurück (`zeit-regler.tsx` `gueltigeZeit`). Der Schieber übernimmt erst beim Loslassen (`change`), weil jeder Wechsel alle Zellen neu lädt; `tools/buehne-zeit-pruefen.mjs` prüft das (Ziehen ändert den Link nicht, spätestens 1 s nach dem Loslassen steht die Zeit drin, rot, sobald auf `input` übernommen wird) sowie Einfrieren und Rückfall. Läuft nach `npm run buehne:bauen`, nicht in `check:vor-commit`.
+- **Bilder und Messung** laufen je Fall × Zeit × Variante; Dateiname `…-<HHMM>.png`, Messschlüssel `<mockup>/<fall>@<HH:MM>`.
+- **Weichen** neu: `WeekView.tsx` → `kalender/TvKasten.tsx` (`weichen/tv-kasten.tsx`) und `kalender/PosterKarte.tsx` → `Marken.tsx` (`weichen/marken.tsx`: reicht alles durch, tauscht nur `ZeitMarke`); Felder `TvKasten` und `ZeitMarke` in `Ersatz`. Der Ausschnitt `ganz` reicht den Ersatz jetzt an die App weiter (vorher ignoriert).
+- **Fälle** (`FERNSEHTAG` in `tools/buehne-faelle.mjs`): je ein Fall für die Reihen, die am Freitag, 16.10.2026 im Fernsehen und Streaming stehen (Yashahime, Dragon Ball, Detektiv Conan, Slime S4, JoJo Steel Ball Run, Avatar: Die sieben Häfen). Ein Termin ohne Katalogtitel (negative Kennung, Avatar bei Paramount+) ist seine eigene Reihe. `faelle.json` wuchs damit von 608 auf 1721 KB (Sprecher, Handlung und Folgenlisten der langen Reihen). Der Bestand `alle` zeigt damit die Woche 12.–18.10. mit 6 Fernseh-Terminen (Programm mit `sendungen`) und Streaming mit fester (Slime 17:00), geschätzter (JoJo ≈ 10:00, Tokyo Revengers ≈ 19:00) und fehlender Uhrzeit (Avatar). Das Programm reicht etwa fünf Tage voraus: Wer den Tag später neu schneidet, braucht einen näheren.
+- **Mockup `relative-uhrzeit`** (`web/buehne/mockups/relative-uhrzeit*.ts[x]`): Ausschnitt `ganz` mit `faelle: [ALLE]` (die `fernsehtag-*`-Fälle stecken im Bestand), sechs Zeiten, drei Varianten (A Jetzt-Linie, B Kopfzeile, C Jetzt-Linie grün). Zustandsrechnung rein in `relative-uhrzeit-zeit.ts`, Test `tools/buehne-relative-uhrzeit.test.mjs` (läuft in `check:workflows` über `tests-alle`; Node lädt die `.ts`-Datei, deshalb ohne Aliase und ohne React). Spezifikation: `daniel-zum-abarbeiten/berichte/relative-uhrzeit-spezifikation.md`.
+- **Zwei Funde beim Bauen:** (1) Die Bühne baute auf `main` nicht mehr, seit #1074 `beiBannerKlick` in `cover-max.tsx` ergänzte und die Weiche `weichen/cover-max.tsx` nur Einzelnamen durchreichte; sie reicht jetzt alles durch (`export *`). (2) `@source "./mockups"` in `zelle.css` lieferte keine einzige Klasse (der Ordner bleibt von `@source not "../buehne"` erfasst, Tailwind 4.3.3); mit dem Dateimuster `./mockups/**/*.tsx` kommen die Klassen der Mockups an. Vorher fielen Mockups nur nicht auf, weil ihre Klassen zufällig anderswo vorkamen.
+
 ## Worker: abgelehnte Meldungen stehen im Protokoll (11.10.2026)
 
 `worker/wrangler.toml` schaltet Workers Logs ein (`[observability]`; Free 200.000 Ereignisse am Tag und 3 Tage Aufbewahrung, Paid 20 Mio. im Monat inklusive und 7 Tage; Stand 11.10.2026). Die Aufruf-Logs sind aus (`invocation_logs = false`): sie enthielten die volle Adresse samt Query (Token, Push-Endpunkt). Alle `console.*` im Worker laufen durch `fehlerLog()`/`kurzeMeldung()` in `worker/src/werte.ts` (Adressen, Mailadressen und lange Kennungen ersetzt, 120 Zeichen); die Datenschutzerklärung nennt das Fehlerprotokoll. Jede abgelehnte Meldung schreibt eine JSON-Zeile `meldung_abgelehnt` mit Route, Status, Grund, Plattform und Kennung (letzter Pfadabschnitt der Adresse, z. B. Netflix-Titelnummer) — nie Token, Adresse, Titel oder Notiz (`worker/src/pruefung-ablehnung.ts`). Im Stapel-Ergebnis trägt jeder abgelehnte Eintrag `grund`.
@@ -1319,10 +1334,10 @@ Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --searc
 
 **Anlass:** Das Lesekontingent (5 Mio. Zeilen je UTC-Tag) war am 11.10.2026 gegen 18:00 UTC durch denselben Massenlauf erschöpft (Bericht `daniel-zum-abarbeiten/berichte/d1-leselimit-2026-10-11.md`). Die Zahlen unten sind aus den Aufrufen des Tages gerechnet, nicht nachgemessen.
 
-- **Hash-Abfrage** (`pruefung-unveraendert.ts`): `INDEXED BY pruefung_url_zeit`. Ohne nahm der Planer ab zwei Adressen `idx_pruefung_offen` und las alle offenen Zeilen je Aufruf (EXPLAIN QUERY PLAN lokal; Test in `tools/worker-tagesdeckel.test.ts` prüft den Plan bei drei Adressen).
+- **Hash-Abfrage** (`pruefung-unveraendert.ts`): `INDEXED BY pruefung_url_zeit`. Ohne nahm der Planer ab zwei Adressen `idx_pruefung_offen` und las alle offenen Zeilen je Aufruf (EXPLAIN QUERY PLAN lokal; Test in `tools/worker-tagesdeckel.test.ts` prüft den Plan bei drei Adressen). **Überholt am 12.10.2026:** Die Abfrage sucht seit Migration 053 je Folge über `pruefung_folge` (Abschnitt "Eine Meldung liest nur ihre Folge").
 - **`?stand=1`**: Cache 300 statt 60 s (gerechnet bis 0,8 Mio. am Massenlauftag). Frisch Gemeldetes überbrückt die Erweiterung, bis der Stand es zeigt.
 - **DELETE vor INSERT** (`pruefung-ersetzen.ts`): über die IDs aus `ladeOffeneHashes` statt über `url` (gerechnet 0,29 Mio.); ohne offene Zeile entfällt der DELETE. Zwei gleiche Folgen im selben Stapel ergäben eine Dublette; die nächste Meldung räumt sie auf.
-- **Rohfolgen-Gesamtzahl**: bei `nach = 0` und Seite unter 5000 Zeilen aus der Seite, sonst `COUNT(*)` (gerechnet 0,26 Mio.).
+- **Rohfolgen-Gesamtzahl**: bei `nach = 0` und Seite unter 5000 Zeilen aus der Seite, sonst `COUNT(*)` (gerechnet 0,26 Mio.). **Überholt am 12.10.2026:** `gesamt` und `COUNT(*)` entfallen (Abschnitt „Rohfolgen-Seiten und Serienamen“).
 - **GET `/lauf`**: Übersicht 30 s im Edge-Cache (`cache-kurz.ts`, gerechnet 0,1 Mio. je Tag); der Verlauf einer Lauf-Art bleibt ungehalten. Ein Laufstatus zeigt sich damit bis zu 30 s später.
 
 ## D1-Lesekontingent: zwei Abfragen mit 3,2 Mio. Zeilen am Tag (12.10.2026)
@@ -1342,6 +1357,40 @@ Live nachsehen: `cd worker && npx wrangler tail newsletter --format json --searc
 
 **Nicht gemacht:** Zusammenfassungstabelle der wartenden Meldungen (jede Meldung kostete eine Schreibzeile mehr, Schreiben war am 11.10. bei 165 %); Cache in R2 (global statt je Rechenzentrum, aber Schreibaufruf je Änderung). Offen für die Erweiterung (Release nötig): `meldungenLaden` je offener Reihe beim Dialog-Öffnen bündeln — der Worker-Cache fängt es ab, aber der Browser schickt weiter 100+ Anfragen.
 
+## D1-Lesekontingent: Rohfolgen-Seiten und Serienamen (12.10.2026, Abend)
+
+**Anlass:** Das Leselimit (5 Mio. Zeilen je UTC-Tag) riss am 12.10.2026 erneut. `wrangler d1 insights DB --config wrangler.toml --time-period 1d --sort-type sum --sort-by reads` (12.10., 12:20 UTC, kostet kein Kontingent) nannte fünf Posten. `?gemeldet=` behandelt ein anderer PR.
+
+| Posten (Aufrufe × Zeilen = Tag) | Aufrufer, Takt | Hebel | Erwartung je Tag |
+|---|---|---|---|
+| `SELECT plattform, url, staffel FROM pruefung WHERE uebernommen = 0`, 435 × 3.920 = 1,71 Mio. | `holeWartende` in `?stand=1`; zwei offene Tabs der Erweiterung × alle 5 min | **schon behoben** durch #912 (30 min Edge-Cache, Worker-Deploy 08:46 UTC); das 24-h-Fenster enthält noch 20 h davor (543 Aufrufe/Tag vorher = 22,6/h, davor-Anteil ≈ 461) | ≤ 48 × 3.920 = 0,19 Mio. je Rechenzentrum, −1,5 Mio. |
+| `prime_folge`-Seite mit korrelierter Unterabfrage, 56 × 26.101 = 1,46 Mio. | `fetch-rohfolgen.ts` im Bestandsbau (`?rohfolgen=1&nach=`), ~19 Läufe × 3 Seiten | Serienname einmal je Adresse (`pruefung-serientitel.ts`, `json_each`) **und** Migration 051 (Teilindex `prime_folge_offen (id) WHERE uebernommen = 0`) | 0,29 Mio., **−1,17 Mio.** |
+| `SELECT COUNT(*) FROM prime_folge WHERE uebernommen = 0 …`, 106 × 13.081 = 1,39 Mio. | dieselben Seiten (jede volle oder Folgeseite zählte neu) | `gesamt` und `COUNT(*)` entfallen; der Bau setzt über `weiter` fort (`fetch-rohfolgen.ts` las `gesamt` nur für Log und Seitengrenze) | 0, **−1,39 Mio.** |
+| `SELECT url, MAX(titel) … GROUP BY url`, 22 × 17.533 = 0,39 Mio. | `fetch-folgen-zuordnung.ts` (`namen=1`), ein Abruf je Bestandsbau; jede Meldung verwarf den Auszug | R2-Frist für `namen` 6 h statt 10 min (`FRIST_NAMEN_MS`) | ≤ 4 × 17.533 = 0,07 Mio., **−0,32 Mio.** |
+| `SELECT plattform, url, folge_nr, staffel FROM pruefung WHERE uebernommen = 0`, 17 × 3.451 = 0,06 Mio. | `?zaehlen=1&nummern=1` (`disney.js`), schon 30 min im Edge-Cache | **nichts gebaut**: eine Zusammenlegung mit den wartenden Meldungen spart höchstens 0,06 Mio. und fasst `pruefung-zaehlen.ts` an | 0,06 Mio. bleibt |
+
+**Summe dieses PR: rund −2,9 Mio. gelesene Zeilen am Tag** (4,87 Mio. am 12.10.), dazu −1,5 Mio. aus dem schon deployten #912.
+
+**Warum die Seite so viel las (EXPLAIN QUERY PLAN):** Mit `prime_folge_offen (uebernommen, gemeldet_am)` lautete der Plan `SEARCH f USING INDEX prime_folge_offen (uebernommen=?)` plus `USE TEMP B-TREE FOR ORDER BY`: SQLite holte bei **jeder** Seite alle ~13.000 offenen Zeilen und sortierte sie nach `id`. Der Teilindex auf `id` liefert die offenen Zeilen schon geordnet (`SEARCH f USING INDEX prime_folge_offen (id>?)`), die Seite liest nur ihre 5.000. Die Unterabfrage je Rohfolge (`pruefung_url_zeit`, bis zu 5.000 Nachschläge je Seite) wird zu einer Abfrage über die Adressen der Seite (`WITH u(url) AS (SELECT value FROM json_each(?1))`, eine Prime-Seite trägt ~90 Folgen unter einer Adresse). Das Ergebnis ist Zeile für Zeile gleich (Vergleich lokal: alle 13.750 Folgen samt `serientitel` deckungsgleich, nur `gesamt` fehlt).
+
+**Gemessen (lokal, workerd/miniflare, `tools/worker-lesezeilen-messen.ts`, `meta.rows_read`; Bestand wie am 12.10.: `pruefung` 17.800 Zeilen, `prime_folge` 55.000 mit 13.750 offenen auf 700 Adressen; ein Bau-Durchgang = 3 Seiten):**
+
+| Stand | Seite 1 | Seite 2 | Seite 3 | Durchgang |
+|---|---|---|---|---|
+| vorher (`origin/main` `8c1112ddc`) | 47.915 | 42.927 | 36.246 | 127.088 |
+| ohne COUNT und Unterabfrage | 28.094 | 23.094 | 17.946 | 69.134 |
+| mit Teilindex (Migration 051) | 5.593 | 5.593 | 4.195 | **15.381** |
+
+`namen=1` liest unverändert 17.800 je Rechnung; gespart wird die Häufigkeit. Produktiv liegt die Seitenabfrage im Mittel bei 26.101 je Aufruf (die lokale Rechnung zählt den `COUNT(*)` je Seite mit und kommt auf 42.000); die Ersparnis oben rechnet deshalb mit dem lokalen Endwert je Seite (≈ 5.100 im Mittel, 15.381 je Durchgang), nicht mit den lokalen Absolutwerten vorher. Das Verhältnis ist eine Schätzung, belegt erst das Nachmessen unten.
+
+**Schreibzeilen (lokal, `meta.rows_written`, 100 Rohfolgen):** Einfügen 401 vorher wie nachher; Abhaken (`UPDATE … SET uebernommen = 1`) 200 → 100, weil ein Teilindex den Eintrag beim Abhaken nur noch entfernt, statt `(uebernommen, gemeldet_am)` neu zu schreiben: bei 62 Abhak-Aufrufen × 100 Ids am Tag rund −6.200 Zeilen. Einmalig kostet das Ersetzen des Index bis zu ~2 × 13.000 Zeilen (Löschen + Anlegen), also nach 00:00 UTC ausführen, wenn der Tagesdeckel (50.000) frisch ist. Kein zweiter Index: der alte `prime_folge_offen` hatte keinen anderen Leser (`COUNT(*)` entfällt, alle übrigen Abfragen laufen über Primärschlüssel, `prime_folge_seite`, `prime_folge_gti`).
+
+**Reihenfolge nach dem Merge:** erst Migration (`cd worker && npx wrangler d1 execute anime-kalender --remote --file=migrations/051-prime-folge-offen-id.sql`, nach 00:00 UTC), dann `npx wrangler deploy`. Beide Reihenfolgen brechen nichts: der **neue** Worker vor der Migration arbeitet mit dem alten Index (wie bisher, nur ohne Ersparnis), der **alte** Worker nach der Migration findet den Teilindex für seine Abfrage ebenso. Die Pipeline (`fetch-rohfolgen.ts`) braucht die Antwort ohne `gesamt` und kommt auch mit dem alten Worker zurecht.
+
+**Folge für den Betrieb:** Eine neue Adresse bekommt ihren Namen in `folgen-zuordnung.json` bis zu 6 h später (`namen=1`); die offenen Rohfolgen tragen den Serienamen weiter selbst (`serientitel`), `fetch-rohfolgen.ts` merkt nichts. **Nachmessen am Tag nach dem Deploy:** `wrangler d1 insights DB --config wrangler.toml --time-period 1d --sort-type sum --sort-by reads --limit 8 --json`; erwartet: `COUNT(*) … prime_folge` verschwunden, die Seitenabfrage unter 8.000 je Aufruf, `namen` ≤ 4 Aufrufe.
+
+**Nicht in diesem PR (Funde):** `?rohfolgen=1&alle=1` (149 × 4.522 = 0,67 Mio.) und `?alle=1` der Meldungen (75 × 4.162 = 0,31 Mio.) lesen je Bestandsbau alle Seiten neu, weil jede Meldung den R2-Auszug verwirft; eine längere Frist oder ein Auszug nach `gemeldet_am` wären der nächste Hebel (zusammen bis −0,7 Mio.). Die Statuszeile `SELECT workflow, zustand, … FROM lauf_status` (32.988 × 4 = 0,14 Mio.) ist klein.
+
 ## Bestandsbau rot am 12.10.2026: TMDB hängt aniSearch-Specials an die Hauptserie
 
 Der TMDB-Tiefendurchlauf (12.10., 05:30) ordnete drei nur bei aniSearch geführten Titeln (UBW Prologue, GGO Refrain, Veldora’s Journal) die Hauptserie zu; `ergaenzeWegeAusTmdbUndMotn` (`pipeline/bau/13-3-1-tmdb-wege.ts`) gab ihnen danach deren Anbieter, `check:cr-zuordnung` („Titel nur bei aniSearch tragen keinen erratenen Weg“) fiel zu Recht. Fix: aniSearch-Titel (`id >= ANISEARCH_ID_BASIS`) bekommen dort keinen Anbieter; die Zusicherung bleibt streng. Folgeschaden, solange der Bau rot ist: die eingecheckten Erzeugnisse veralten gegenüber neueren Rohdaten, und `check:cartoon-ton` wird auf main rot (nach einem Neubau grün). Lokal zu prüfen mit `rm public/data/titles.json`, `npm run data:build`, danach die Zusicherungen (Abschnitt „Lokaler Bau“).
@@ -1350,7 +1399,7 @@ Der TMDB-Tiefendurchlauf (12.10., 05:30) ordnete drei nur bei aniSearch geführt
 
 **Anlass:** Ein Erweiterungs-Durchgang (Prime, Netflix, Disney+ in drei Fenstern) schrieb am 11./12.10.2026 166.236 Zeilen (`d1-verbrauch.mjs --lokal --zeitraum 1d`, 12.10. 11:55). Größter Schreiber: `INSERT INTO prime_folge` mit 11.106 Aufrufen à Ø 8 Zeilen = 88.848 Zeilen (Tabelle + `sqlite_sequence` + sechs Indexe, vor Migration 047). `speichereRohfolgen` löschte bei jeder Meldung, deren Rumpf sich irgendwie unterschied (der `pruefung`-Hash fängt nur die ganz gleiche), die offenen Rohfolgen der Seite bzw. je `gti` und schrieb alle neu.
 
-**Was jetzt gilt (Migration 050, `rohfolgen-abgleich.ts`):** `prime_folge.hash` = SHA-256 über die 17 Spaltenwerte einer Rohfolge (ohne `gemeldet_am`, `roh` mit sortierten Schlüsseln). Der Worker lädt die offenen Zeilen (`SELECT id, hash`, mit `INDEXED BY prime_folge_seite` bzw. `_gti`, dieselbe Lesemenge wie der frühere DELETE), vergleicht als Menge und schreibt nur: gleicher Hash = stehen lassen; geänderte oder fehlende Zeile = `DELETE … WHERE id IN (…)`; neue = `INSERT`. Zeilen ohne Hash (Altbestand) werden einmal ersetzt. Abgehakte (`uebernommen = 1`) Zeilen bleiben unberührt, danach entsteht einmal eine neue offene Zeile.
+**Was jetzt gilt (Migration 050, `rohfolgen-abgleich.ts`):** `prime_folge.hash` = SHA-256 über die 17 Spaltenwerte einer Rohfolge (ohne `gemeldet_am`, `roh` mit sortierten Schlüsseln). Der Worker lädt die offenen Zeilen (`SELECT id, hash`, mit `INDEXED BY prime_folge_seite` bzw. `_gti`, dieselbe Lesemenge wie der frühere DELETE), vergleicht als Menge und schreibt nur: gleicher Hash = stehen lassen; geänderte oder fehlende Zeile = `DELETE … WHERE id IN (…)`; neue = `INSERT`. Zeilen ohne Hash (Altbestand) werden einmal ersetzt. Abgehakte (`uebernommen = 1`) Zeilen bleiben unberührt; **überholt am 12.10.2026:** sie zählen jetzt als Vergleich, siehe den Abschnitt „Übernommene Rohfolgen“ unten.
 
 **Gemessen (lokal, workerd/miniflare, `meta.rows_written` aus `schreib_tag`, Prime-Seite mit 90 Rohfolgen, vorher = Stand `82c82ef5e`):**
 
@@ -1364,11 +1413,72 @@ Der TMDB-Tiefendurchlauf (12.10., 05:30) ordnete drei nur bei aniSearch geführt
 
 Die 6 Zeilen sind `pruefung` (Löschen + Einfügen samt Indexen) und der Tageszähler; Netflix/Disney+ melden je Folge, dort ändert sich nichts, solange die ganze Meldung gleich ist (Hash aus Migration 048 greift) oder sich auch die Rohfolge ändert.
 
-**Indexe von `prime_folge` (EXPLAIN QUERY PLAN aller Abfragen, auch mit 20.000 Zeilen und `ANALYZE`): keiner überflüssig.** Nach 047 bleiben `prime_folge_gti` (Ladeabfrage Netflix/Disney+, `INDEXED BY`), `prime_folge_seite` (Ladeabfrage Prime, `INDEXED BY`) und `prime_folge_offen` (`?rohfolgen=1` und `COUNT(*)` über `uebernommen = 0`; ohne ihn Vollscan der Tabelle bei jedem Bestandsbau). `?probe=` und `alle=1` laufen über den Primärschlüssel. Nicht entfernt.
+**Indexe von `prime_folge` (EXPLAIN QUERY PLAN aller Abfragen, auch mit 20.000 Zeilen und `ANALYZE`): keiner überflüssig.** Nach 047 bleiben `prime_folge_gti` (Ladeabfrage Netflix/Disney+, `INDEXED BY`), `prime_folge_seite` (Ladeabfrage Prime, `INDEXED BY`) und `prime_folge_offen` (`?rohfolgen=1`; seit Migration 051 ein Teilindex auf `id`, vorher `(uebernommen, gemeldet_am)` samt `COUNT(*)`). `?probe=` und `alle=1` laufen über den Primärschlüssel. Nicht entfernt.
 
 **`gemeldet_am` einer stehengebliebenen Zeile bleibt alt.** Gelesen wird es nur für „jüngste gewinnt" unter Dubletten (`fetch-rohfolgen.ts`) und als Anzeige `gesehen` in der Zuordnung (`folgen-je-folge.ts`, keine Entscheidung hängt daran). Die Wiedervorlage rechnet über `pruefung.gemeldet_am` (siehe oben), das weiter erneuert wird.
 
 **Reihenfolge nach dem Merge:** erst Migration, dann Deploy. `npx wrangler d1 execute anime-kalender --remote --file=migrations/050-prime-folge-hash.sql` (im Ordner `worker/`), danach `npx wrangler deploy`. Der **alte** Worker bricht nach der Migration nicht (er nennt die Spalten im INSERT ausdrücklich, `hash` bleibt NULL; der neue ersetzt diese Zeilen einmal). Der **neue** Worker vor der Migration verliert die Rohfolgen (SELECT/INSERT scheitern an der fehlenden Spalte, nur im Log) — also nicht umgekehrt.
+
+## D1-Schreibkontingent: übernommene Rohfolgen werden nicht neu geschrieben (12.10.2026)
+
+**Anlass:** Stichprobe 12.10. 13:28 (300 heute geschriebene `prime_folge`-Zeilen ab 10:45Z): 223 gab es schon für dieselbe Seite und Nummer, 165 mit gleichen Sprachen, 166 davon bereits `uebernommen = 1`. Bis 11:28Z waren es 5.182 neue Zeilen. Ursache: Der Abgleich aus Migration 050 verglich nur offene Zeilen. Nach der Übernahme durch den Bau (`rohfolgenUebernommen` setzt `uebernommen = 1`) fand er nichts mehr und schrieb jeden Durchgang dieselben Folgen erneut (5 Zeilen je Rohfolge: Tabelle, `sqlite_sequence`, drei Indexe).
+
+**Was jetzt gilt (`rohfolgen-abgleich.ts`):** Die Ladeabfrage holt offene **und** übernommene Zeilen (`id, hash, uebernommen, asin, gti, nummer`). Eine Rohfolge, deren Hash die **jüngste übernommene** Zeile derselben Folge (Asin, gti, Nummer) trägt, wird nicht geschrieben. Die jüngste, weil bei Rückkehr zu einem früheren Stand (A, B, A) sonst B bei „jüngste gewinnt“ (`fetch-rohfolgen.ts`, `folgen-je-folge.ts`) die Wirklichkeit überdeckte; dann kommt A wieder als neue offene Zeile. Ein geänderter Hash kommt wie vorher als neue offene Zeile, damit der Bau sie sieht. Offene Zeilen: unverändert (gleicher Hash bleibt, Rest gelöscht/eingefügt).
+
+**Lesezeilen: keine mehr.** `prime_folge_seite` bzw. `_gti` lieferten schon vorher alle Zeilen der Seite (auch übernommene), `uebernommen = 0` war ein Filter dahinter; `rows_read` ist mit und ohne Filter gleich. Die Abfragen bleiben `INDEXED BY`; `EXPLAIN QUERY PLAN` (Test in `tools/worker-tagesdeckel.test.ts`): `SEARCH prime_folge USING INDEX prime_folge_seite (seiten_kennung=?)` bzw. `prime_folge_gti (gti=?)`, kein `SCAN prime_folge`. Kein neuer Index (jeder kostete eine Indexzeile je Einfügung).
+
+**Gemessen (lokal, workerd/miniflare, `getPlatformProxy`, `meta.rows_written`/`rows_read` je Meldung; Prime-Seite mit 90 Rohfolgen, nach jedem Schritt alles auf `uebernommen = 1` wie nach dem Bau; vorher = Stand `9c3d10ddd`):**
+
+| Meldung (alles übernommen) | vorher geschrieben | nachher geschrieben | vorher gelesen | nachher gelesen |
+|---|---|---|---|---|
+| gleiche Meldung erneut | 456 | 6 | 273 | 93 |
+| andere Notiz, gleiche Folgen | 456 | 6 | 364 | 94 |
+| eine Folge geändert | 456 | 11 | 455 | 97 |
+| zurück zum alten Stand (A, B, A) | 456 | 11 | 546 | 99 |
+| Netflix, eine Folge gleich erneut | 11 | 6 | 6 | 4 |
+| Netflix, Ton geändert | 11 | 11 | 8 | 7 |
+
+Die 6 Zeilen sind die Meldung selbst in `pruefung` (siehe unten) und der Tageszähler. Vorher wuchsen die Lesezeilen mit jedem Durchgang um die Folgenzahl (273, 364, 455, 546 …), weil jede Fassung als übernommene Zeile liegen blieb; nachher bleibt es stehen. Erste Meldung und Meldung bei offenen Zeilen unverändert (456 bzw. 0).
+
+**Altbestand ohne Hash: einmaliges Neuschreiben, keine Migration.** Der Hash ist SHA-256 über die 17 Spaltenwerte mit sortiertem `roh`-JSON; SQLite in D1 kann das nicht nachrechnen, eine Migration könnte ihn nicht setzen. Übernommene Zeilen ohne Hash (alles vor Migration 050) zählen nicht als Vergleich; die Folge kommt einmal neu, wird vom Bau übernommen und trägt dann den Hash. Obergrenze: ein vollständiger Durchgang, rund 11.000 Rohfolgen (11.106 am 11./12.10.) × 5 = rund 55.000 Zeilen, verteilt auf die Tage der Durchgänge (Tagesdeckel 50.000 bremst mit 429; die Erweiterung wartet bis 02:00 MESZ) — Seiten, die heute schon mit Hash übernommen wurden, kosten 0. **Es gibt keine Migration; die Reihenfolge nach dem Merge lautet: Worker deployen (`cd worker && npx wrangler deploy`), sonst nichts.** Der Worker läuft mit der Spalte `hash` aus Migration 050 (schon remote).
+
+**`pruefung` hat dasselbe Muster — behoben am 12.10.2026, siehe den Abschnitt „Wiederholte Meldungen“ unten.** (Stand davor: dieselbe Meldung nach dem Abhaken schrieb eine neue offene Zeile, 5 Zeilen + Zähler = 6; 8.758 Aufrufe am 11./12.10. × 6 = rund 52.500 Zeilen.)
+
+## D1-Schreibkontingent: wiederholte Meldungen erneuern höchstens die vorhandene Zeile (12.10.2026)
+
+**Was jetzt gilt (`pruefung-unveraendert.ts`):** Die Ladeabfrage holt die offenen **und** die übernommenen Zeilen der gemeldeten Folge (seit 12.10.2026 je Folge statt je Adresse, Abschnitt "Eine Meldung liest nur ihre Folge"). Gibt es keine offene Zeile derselben Folge (Adresse, Folge, Staffel, Seitenkennung) und trägt die **jüngste übernommene** denselben Hash, wird nichts eingefügt. Sonst unverändert: offene Zeile mit gleichem Hash (`haltFrisch`), geänderter Inhalt = neue offene Zeile, Rückkehr zu früherem Stand (A, B, A) = A kommt als neue Zeile (die jüngste gewinnt in `fetch-pruefungen.ts`/`fetch-urteile.ts`), Altbestand ohne Hash einmal neu geschrieben (Hash seit Migration 048, keine neue Migration).
+
+**Wann `gemeldet_am` der übernommenen Zeile trotzdem erneuert wird** (jeweils ein UPDATE über den Primärschlüssel):
+- Berlin- oder UTC-Datum der Zeile ≠ heute: `checkedAt` (Berlin-Datum, `fetch-pruefungen.ts`) und `tag` der Urteile (UTC-Datum, `fetch-urteile.ts`) würden sonst einfrieren. Die Zeile wird dabei wieder geöffnet (`uebernommen = 0`), denn der Bau holt nur offene Zeilen; er übernimmt sie wie bisher die neue Zeile und hakt sie wieder ab. Die Urteile lesen `?alle=1` (alle Zeilen, jüngster Tag je Folge gewinnt) und sehen das neue Datum.
+- Zeile älter als der letzte Listenbau (`pruefstand.json`, `erzeugtAm`): Prüfstand-Ziele mit `seit` (`pruefung-stand.ts`, `pruefung-stand-anbieter.ts`) und die Zähler der Erweiterung (`pruefung-zaehlen.ts`: Adressen, Suchadressen, Seitenkennungen) rechnen `gemeldet_am > erzeugtAm`. Nur `gemeldet_am`, die Zeile bleibt übernommen. Ohne das bliebe eine Wiedervorlage ewig offen und würde bei jedem Durchgang neu gemeldet (Bleach-Fall).
+- Sonst: 0 geschriebene Zeilen.
+
+**Grenze zwischen Datum (D) und Listenbau (W):** Die Datumsprüfung kommt zuerst. Ist die Zeile von einem anderen Tag (Berlin oder UTC) **und** älter als der Listenbau, gibt es genau ein UPDATE (`gemeldet_am = jetzt, uebernommen = 0`, 2 geschriebene Zeilen mit Zähler); der Listenbau wird dafür nicht einmal geholt. Die Zeile wird also wieder geöffnet, auch wenn nur W sie gebraucht hätte. Das genügt für W, denn das neue `gemeldet_am` liegt hinter dem Bau; die nächste gleiche Meldung schreibt 0 Zeilen. W allein (Zeile von heute, aber vor dem Listenbau) lässt die Zeile übernommen. Ist `pruefstand.json` nicht lesbar (`erzeugtAm` = `null`), entfällt W still, D gilt unabhängig davon. Geprüft in `tools/worker-tagesdeckel.test.ts` (Abschnitt „Tagesgrenze UTC/Berlin (D) und Zeile vor dem Listenbau (W)“, auch die Tagesgrenze 00:00–02:00 MESZ, in der Berlin- und UTC-Tag auseinanderfallen).
+
+**Einmal pro Tag genügt also nicht ganz:** Die Datumsleser kämen damit aus, die `> erzeugtAm`-Leser nicht. Je Zeile und Tag sind es höchstens 1 + Zahl der Listenbauten (am 12.10. bis zu 15 am Tag) Erneuerungen zu je 5 Zeilen, bei mehreren Durchgängen zwischen zwei Bauten dagegen 0. Mögliche Verschärfung, eigener Auftrag: die Listenbau-Erneuerung nur für Adressen, die `pruefstand.json` noch als Ziel führt (`anbieter[].ziele`, `suchAdressen`); dazu müssten alle Leser der drei Zähler einzeln geprüft werden.
+
+**Bekannte Grenze:** Zwei widersprüchliche Meldungen derselben Adresse (z. B. „weg“ und „dub“ für verschiedene Folgen) am selben Tag behalten ihre Reihenfolge nicht, wenn die ältere erneut gemeldet wird und ihre Zeile von heute ist (`fetch-pruefungen.ts`: „ein ‚weg‘ gilt, solange nichts Jüngeres widerspricht“). Bei offenen Zeilen war das schon vorher so.
+
+**Lesezeilen-Posten vom 12.10.2026 (`wrangler d1 insights`, 24 h, rund 7,8 Mio.) und ihr Bezug zu diesem Abschnitt:**
+- `SELECT folge_nr, staffel, folge, MAX(gemeldet_am) … WHERE url = ?` (`pruefung-gemeldet.ts`, 35.742 Aufrufe, 1,61 Mio., im Mittel 45 Zeilen): liest **alle** Zeilen der Adresse samt Verlauf. Die Zeilenzahl je Adresse wuchs mit jeder Wiederholung nach dem Abhaken; das hört mit diesem Stand auf. Die Ersparnis ist nicht berechenbar (hängt an der Zahl der Dubletten, die schon dort liegen): bestehende bleiben, bis eine Bereinigung (eigener Auftrag, einmalig: ältere übernommene Zeilen mit gleichem Schlüssel und gleichem Hash löschen, die jüngste bleibt; kostet Schreibzeilen) sie entfernt.
+- `SELECT plattform, url, staffel FROM pruefung WHERE uebernommen = 0` (`pruefung-stand-briefkasten.ts:31`, 435 × 3.920 = 1,71 Mio.): liest alle offenen Zeilen. Offen bleibt, was der Bau nicht zuordnet; daran ändert dieser Stand nichts (Wiederholungen mit gleichem Hash entstanden schon vorher nicht als zweite offene Zeile). Nicht Teil dieses Auftrags.
+- `prime_folge` mit Unterabfrage `(SELECT p.titel FROM pruefung p WHERE p.url = f.url …)` (`pruefung-rohfolgen.ts`, 56 Aufrufe, 1,46 Mio.) und `SELECT COUNT(*) FROM prime_folge WHERE uebernommen = 0 …` (106 × 13.081 = 1,39 Mio.): Tabelle `prime_folge`, durch PR 957 (Rohfolgen) berührt, nicht durch diesen. Die Unterabfrage nimmt je Rohfolge die jüngste `pruefung`-Zeile über `pruefung_url_zeit` (eine Zeile), wächst nicht mit den Dubletten.
+- `DELETE FROM pruefung WHERE url = ?1 AND uebernommen = 0 …` (7.657 Aufrufe, 0,29 Mio.): so nur noch der Rückfall `loescheOffeneNachAdresse` ohne vorgeladene Zeilen, den eine Meldung nicht erreicht; der Aufruf stammt aus der Zeit vor #845 (Löschen über die ID, 11.10. 21:55). Ob die 7.657 Aufrufe vor oder nach dem Deploy von #845 liegen, ist nicht geprüft (Deploys heute 08:46, 10:24, 11:53 UTC).
+
+**Kosten (lokal, workerd/miniflare, `tools/worker-schreibzeilen-messen.ts`, `meta.rows_written` mit Indexen):** `INSERT INTO pruefung` = 5 Zeilen (Tabelle, `sqlite_sequence`, `idx_pruefung_offen`, `pruefung_url_zeit`, `pruefung_gemeldet`; `pruefung_such_url` ist teilweise und bleibt bei NULL leer) + Tageszähler = 6. `UPDATE … SET gemeldet_am` oder `gemeldet_am, uebernommen = 0` = 4 (Tabelle + drei Indexe, alle drei enthalten die Spalte) + Zähler = 5. `UPDATE … SET uebernommen = 1` = 2, `UPDATE … SET notiz` (keine Indexspalte) = 1. Ein UPDATE ist also nur 1 Zeile billiger als ein INSERT; der Gewinn kommt vom Auslassen.
+
+| Meldung (Zeile schon übernommen, Netflix, eine Folge) | geschrieben vorher | nachher | gelesen vorher | nachher |
+|---|---|---|---|---|
+| gleich, selber Tag | 6 | 0 | 4 | 1 |
+| gleich, Zeile von gestern | 6 | 5 | 4 | 3 |
+| gleich, Zeile älter als Listenbau | 6 | 5 | 5 | 3 |
+| andere Notiz | 6 | 6 | 6 | 4 |
+| zurück zum alten Stand (A, B, A) | 6 | 6 | 7 | 5 |
+
+(vorher = Stand `474043f75`; die Zeile „von gestern“ hat vorher denselben Pfad wie jede übernommene Zeile: INSERT.) Die Lesezeilen sinken, weil keine zweite offene Dublette mehr entsteht.
+
+**Reihenfolge nach dem Merge:** keine Migration; nur Worker deployen (`cd worker && npx wrangler deploy`). Nachmessen am Tag danach mit `node tools/d1-verbrauch.mjs --lokal --zeitraum 1d` bzw. `wrangler d1 insights` (Aufrufe von `INSERT INTO pruefung` und `UPDATE pruefung SET gemeldet_am`).
+
 
 ## Ladezeiten-Überwachung am Handy (12.10.2026)
 
@@ -1378,4 +1488,134 @@ Die 6 Zeilen sind `pruefung` (Löschen + Einfügen samt Indexen) und der Tagesz�
 
 **Warum nicht in `check:vor-commit` und nicht in den Pflichtjob von `pr-pruefung.yml`:** Der Pflichtjob hat kein Chromium (siehe Kopf von `aussehen-pruefen.yml`), und eine Zeitgrenze auf einem geteilten Runner ist ohne Eichung nicht stabil. Vorschlag (Workflow-Dateien hier bewusst nicht angefasst):
 1. Im Job `aussehen` von `pr-pruefung.yml` (nur bei `web/src`-Änderungen, nicht verpflichtend) hinter `check:ansichten` ein Schritt `npm run check:ladezeiten` mit `continue-on-error: true`, bis die Läufe auf dem Runner geeicht sind.
-2. Neuer Workflow `ladezeiten.yml` (täglich, `workflow_dispatch` + Cron, Muster `d1-verbrauch.yml`): checkout, Node 22, `npm ci`, `npx playwright install --with-deps chromium`, `npm run build:schlank`, `npm run check:ladezeiten`. Die ersten Tage mit `--nur-messen` laufen lassen, die Runner-Mediane in `ladezeiten-grenzen.mjs` übernehmen (Datum dazu), dann scharf; rot wird bemerkt über `laeufe-aufraeumen.mjs`.
+2. Umgesetzt am 12.10.2026: Workflow `ladezeiten.yml`, siehe unten.
+
+**Tägliche Messung auf dem GitHub-Rechner (`ladezeiten.yml`, 12.10.2026).** Ausgelöst vom Cloudflare-Wecker (`shared/weckplan.ts`: täglich 16 UTC = 18 Uhr Berlin, die einzige Stunde ohne anderen Tageslauf; `workflow_dispatch`, kein `schedule:`). Zweite Linie: `wecker-wache.yml` (Eintrag `ladezeiten.yml:30`), Frist der Wochenwache 36 h (`wache-woechentlich.mjs`). **Der Wecker-Eintrag wirkt erst nach `wrangler deploy` des Workers** (`worker/`, Befehl und Ordner im Abschnitt „D1-Kontingent, Mail-Zustellung und Worker-Befehle“); bis dahin startet die Wecker-Wache sie nur alle rund 30 Stunden nach, oder von Hand: `gh workflow run ladezeiten.yml --repo danielzaiser91/anime-kalender-de`.
+
+Der Lauf holt Chromium aus dem Cache (`actions/cache`, Schlüssel aus `package-lock.json`; Systembibliotheken immer neu), baut `dist/` aus dem Stand von `main` und ruft `npm run check:ladezeiten -- --bauen --nur-messen --ausgabe ergebnis/ladezeiten.json` auf. Gemessen wird also der gebaute Stand ohne Netz, nicht die Live-Seite. `--ausgabe` schreibt JSON (Median, min, max, alle Einzelwerte, Grenze je Messgröße; `tools/ladezeiten-ausgabe.mjs`) und hängt eine Tabelle an `$GITHUB_STEP_SUMMARY`. Artefakt `ladezeiten`, 30 Tage. Es werden keine Repo-Dateien geschrieben, daher kein Eintrag in `tools/quellen-liste.sh`. Geschätzte Laufzeit 5–8 Minuten je Lauf (Annahme, erster Lauf misst es: Abhängigkeiten ~1 Min., Chromium-Systembibliotheken ~0,5 Min., `build:schlank` 1–3 Min., Messung 40 s lokal und auf dem Runner länger); `timeout-minutes: 20`.
+
+**Eichen:** nach etwa sieben Läufen (`gh run download <Lauf> -n ladezeiten`, oder `gh run list --workflow ladezeiten.yml`) je Messgröße Median und Streuung der Tagesmediane bilden. Dann `MEDIAN_HEUTE` und `MESSTAG` in `tools/ladezeiten-grenzen.mjs` auf die Runner-Werte setzen (Grenze = Median × 1,5, die Streuung zwischen Tagen prüfen: liegt der größte Tageswert über der Grenze, Faktor begründen statt stillschweigend anheben), `--nur-messen` im Workflow entfernen (Rot meldet dann `laeufe-aufraeumen.mjs`) und diesen Abschnitt nachführen.
+
+## Untersucher: eine Ursache, ein Issue, ein Pull Request (12.10.2026)
+
+Am 11./12.10.2026 legten 15 rote Bestandsbauten 15 Issues und viele PRs an, obwohl es nur 7
+Ursachen waren (fünfmal „Titel nur bei aniSearch tragen keinen erratenen Weg", dreimal
+„gesperrter Titel in neu-mit-synchro.json", je zweimal Prüfliste und Handbelege). Jeder Lauf
+startete einen Untersucher, der vom Vorgänger nichts wusste.
+
+**Jetzt** läuft in `claude-reparatur.yml` vor dem Untersucher `tools/untersucher-vorab.mjs`:
+
+- **Schlüssel** = erste Zusicherungszeile `✖`/`✗` des Protokolls, sonst `FEHLER:`, sonst der
+  `⚠`-Kopf vor „Der gebaute Bestand verletzt eine Zusicherung", sonst die erste besondere
+  `##[error]`-Zeile; ohne Fundliste („— gefunden: …") und mit allen Zahlen als `N`. Das ist die
+  Prüfung, nicht der betroffene Titel (`tools/untersucher-logik.mjs`). Ohne Ursachenzeile
+  (z. B. Wache) bleibt alles wie bisher.
+- **Marker** `<!-- untersucher-schluessel: … -->` im Issue-Text. Der Schritt legt das Issue
+  selbst an (Titel „Bestandsbau rot: …", wird vom grünen Bau geschlossen) und sagt dem Untersucher
+  die Nummer; der Untersucher ergänzt per Kommentar und schreibt „Behebt #N" in den PR.
+- Gibt es ein offenes Issue mit dem Schlüssel: Kommentar mit Lauf-Link (und am offenen PR, der
+  `#N` oder einen Lauf des Issues nennt). Gibt es einen offenen PR, startet der Untersucher gar
+  nicht; sonst startet er mit dem Hinweis auf das Issue.
+- Grenze: dieselbe Zusicherung kann zwei Ursachen haben (am 12.10. „erratener Weg": erst
+  Nachrunde, dann `dub: true`). Die zweite landet im selben Issue; der Untersucher läuft wieder,
+  solange kein PR offen ist, und schreibt die neue Ursache als Kommentar.
+- Belegt an den 15 Läufen: `tools/untersucher-schluessel.test.mjs` (Protokollauszüge unter
+  `tools/testdaten/untersucher/`) — 7 Schlüssel, keine zwei Ursachen zusammengeworfen.
+
+## D1-Lesekontingent: Lese-Deckel der Meldungs-Route (12.10.2026)
+
+**Anlass:** Das Lesekontingent (5 Mio. gelesene Zeilen je UTC-Tag und Konto, Newsletter-Worker und Ticket-Board teilen es) war am 12.10.2026 gegen 14:20 MESZ erschöpft; Status, Meldungen, Board und Erweiterungs-Durchgänge standen bis 02:00 MESZ. Für geschriebene Zeilen gab es den Deckel (`tagesdeckel.ts`, 50.000), für gelesene keinen; die Durchgänge liefen weiter, bis das Konto stand. PR 968 senkt die Grundlast (rund −2,9 Mio. am Tag), der Lese-Deckel ist der zweite Schutz.
+
+**Gemessen (lokal, workerd/miniflare, `tools/worker-meldung-lesezeilen-messen.ts`, `meta.rows_read`; Bestand wie am 12.10.: `pruefung` 17.800, `prime_folge` 55.000 Zeilen):** Eine Meldung las die bestehenden Zeilen **ihrer Adresse** (`ladeOffeneHashes`, `pruefung_url_zeit`) plus 3; der Deckel selbst liest 2 davon (Zählerzeile, Löschen alter Tage). **Stand vor Migration 053 / PR 981:** Seitdem liest sie nur die Zeilen ihrer Folge (nächster Abschnitt); die Disney+-Zeilen der Tabelle gelten nur für den alten Stand, Netflix und Prime ändern sich nicht.
+
+| Meldung | gelesen |
+|---|---|
+| Disney+, eine Folge (Einzelanfrage), Seite mit 24 / 100 / 200 Folgen | 27 / 103 / 203 |
+| Disney+, Wiederholungsdurchgang über eine ganze Seite mit 12 / 24 / 100 / 200 Folgen | 187 / 655 / 10.307 / 40.607 (damals mit n² gewachsen; seit 053: 96 / 400 / 800 bei 24 / 100 / 200 Folgen) |
+| Netflix, Stapel zu 10 Folgen, Titel mit 24 / 70 Folgen (Durchgang über 70 Folgen: 7 Stapel) | 26 / 72 (504) |
+| Netflix, Stapel zu 10, Titel neu | 32 |
+| Prime, 90 Rohfolgen: Seite neu / gleiche Meldung / andere Notiz / alles übernommen + andere Notiz | 183 / 4 / 96 / 95 |
+
+**Seiten je Durchgang bei 1,5 Mio. Lese-Budget (Stand vor 053):** Disney+ mit 24 Folgen je Seite rund 2.290, mit 100 Folgen rund 145, mit 200 Folgen rund 37; Netflix (70 Folgen) rund 2.975; Prime unverändert rund 375.000, mit geänderten Folgen rund 15.800. Der Posten war bei Disney+ die Folgenzahl der Seite zum Quadrat — jede Folge lud alle Zeilen der Adresse; seit 053 wächst er linear (Tabelle im nächsten Abschnitt).
+
+**Was jetzt gilt (`tagesdeckel.ts`, Migration 052):** Die Meldungs-Route addiert `meta.rows_read` ihrer D1-Antworten (`run`, `all`, `batch`) in `schreib_tag.gelesen`, im selben Upsert wie die geschriebenen Zeilen (eine Zeile je Anfrage, auch bei unveränderten Meldungen; vorher 0). **Diese eigene Zeile zählt in den Schreib-Deckel mit** (`geschrieben + 1`): Der Upsert läuft auf der unverpackten Datenbank, sonst hätte eine Schleife unveränderter Meldungen bis zum Lese-Deckel rund 375.000 Schreibzeilen ungezählt verbraucht (echtes Kontingent 100.000). Folge: höchstens ~50.000 Meldungen am Tag. Gewählt statt „kein Upsert bei kleinen Lesemengen“ (dann blieben Schleifen mit je < Schwelle Lesezeilen ungezählt) und statt Sammeln im Isolate (geht mit jedem Isolate verloren, mehrere Isolate parallel). Fehlt Migration 052, schreibt der Worker einmal je Isolate `TAGESDECKEL AUS (…)` ins Protokoll (`wrangler tail`, Workers Logs); gesperrt wird nichts. Ab `DECKEL_LESEN` = 1.500.000 am UTC-Tag antwortet sie mit 429 und `Retry-After` bis 00:00 UTC, mit demselben Rumpf wie der Schreib-Deckel (`tageslimit: true`). Aufträge der Pipeline (abhaken, wieder öffnen) und alle anderen Routen zählen nie mit. Ein Fehler beim Zählen sperrt nichts. Mehrere gleichzeitige Anfragen können die Schwelle um ihre eigenen Zeilen überschreiten (Disney+: 3 Bahnen × bis zu einigen hundert).
+
+**Schwelle 1,5 Mio.:** 5,0 Mio. Kontingent − rund 2,0 Mio. Grundlast der übrigen Wege (4,87 Mio. am 12.10. minus rund 2,9 Mio. aus PR 968; die Meldungen jenes Tages stecken darin, die Zahl ist also eher zu hoch) − 1,5 Mio. Reserve für Spitzen (Bau-Läufe, Board, Status nach Cache-Verlust) = 1,5 Mio. **Nachmessen** ein paar Tage nach dem Deploy mit `wrangler d1 insights` und `SELECT tag, zeilen, gelesen FROM schreib_tag`; Schwelle dann anpassen.
+
+**Das echte D1-Limit wird zur selben Antwort:** `D1_ERROR: Your account has exceeded D1's free tier daily row read limit.` (Wortlaut vom 01.09.2026; der Schreib-Fall ist nach demselben Muster angenommen) wurde bisher zu 500 ohne `tageslimit` — die Erweiterung erkennt nur 429 mit diesem Feld (`extension/tageslimit.js`; Netflix lief weiter, Prime legte Staffeln als übersprungen ab). Jetzt merkt sich die Zähl-Hülle (`zaehlendeDb`) den Fehler, auch wenn die Meldung ihn selbst fängt (Stapel je Meldung, Rohfolgen), und die Route antwortet mit der 429 des Deckels. Gilt nur für die Meldungs-Route.
+
+**Erweiterung (nichts zu ändern, belegt mit `node extension/tageslimit.test.cjs`):** 429 mit `tageslimit: true` und `retryAfter` setzt das Limit (Speicher, alle Tabs), Netflix (`melder.js`) und Disney+ (`disney-netz.js`) halten an und wiederholen nicht, Prime stellt die Staffel an den Anfang des Plans zurück; die Hinweiszeile nennt „weiter ab 02:00" (Berliner Ortszeit). Die Meldungen sind über den Hash idempotent, was vor dem Limit ankam, bleibt gespeichert.
+
+**Reihenfolge nach dem Merge: erst die Migration, dann der Worker.** `cd worker && npx wrangler d1 execute anime-kalender --remote --config wrangler.toml --file=migrations/052-schreib-tag-gelesen.sql` (nach 00:00 UTC), danach `npx wrangler deploy`. Der **alte** Worker nach der Migration läuft unverändert (`DEFAULT 0`). Der **neue** Worker vor der Migration findet die Spalte nicht: `SELECT`/Upsert scheitern, es zählt und deckelt dann nichts (auch nicht die geschriebenen Zeilen), gesperrt wird aber auch nichts. Migration 051 aus PR 968 ist davon unabhängig.
+
+**Danach erledigt:** Die Disney+-Last (n² je Durchgang) senkt der nächste Abschnitt (Migration 053, ohne Erweiterungs-Release).
+
+## Beleg-Bild: Marke auf leerer Fläche, klebende Leiste, Kritik-Kasten (Kinoheld, 12.10.2026)
+
+Anlass: Der Kinoheld-Beleg zu „A New Dawn" (Aufnahme 07.10.2026) zeigte im Dialog nur eine dunkle Fläche mit roter Marke. **Ursachen (an der Live-Seite gemessen):** (1) Die eingeklappte Filmkritik (`max-h-[100px] overflow-hidden`) nennt den Titel in Absätzen weit unterhalb der Seite; `stuetzstelle` nahm den kürzesten Treffer, die Marke lag unter der Fußzeile auf leerem Grund. (2) Die klebende Kopfleiste (64 px) wurde erst nach dem Messen der Fundstelle entfernt, der Inhalt rutschte hoch, die Marke saß daneben. (3) Das Veröffentlichungsdatum steht bei Kinoheld unter „Veröffentlichung", nicht beim Titel.
+**Seitdem** (`beleg-bild.ts`, `beleg-stelle.ts`): `leistenEntfernen` vor dem Messen; `verdecktesMarkieren` setzt `data-beleg-verdeckt` auf abgeschnittene Absätze (weder Stützstelle noch Ausschnittsende); Kinoheld sucht zuerst „Veröffentlichung" (`stuetzbegriffe`); `istEinfarbig` prüft zusätzlich den Bereich unter der Marke — liegt sie auf leerer Fläche, gibt es kein Bild (`leer`). `warteschlange` stellt Artikel ganz ohne Bild vor den Altbestand. `npm run check:beleg-wand` deckt die drei Bauarten ab. **Bestand:** 5 Kinoheld-Belege mit Marke gemessen, nur `a-new-dawn` lag auf leerer Fläche (Bild entzogen, wird im Tageslauf neu aufgenommen); die übrigen markieren die Kopfzeile und zeigen das Datum, wenn die Seite es nennt.
+
+## Eine Meldung liest nur ihre Folge: n² Lesezeilen bei Disney+ beseitigt (12.10.2026, Migration 053)
+
+**Befund:** `ladeOffeneHashes` (`worker/src/pruefung-unveraendert.ts`) holte je Meldung alle Zeilen ihrer Adresse (`pruefung_url_zeit`). Gebraucht werden je Meldung nur die Zeilen derselben Folge (Adresse, Folge, Staffel, Seitenkennung): die offenen für „gleicher Hash?" und die Dubletten-IDs zum Löschen, die jüngste übernommene für das Überspringen nach dem Abhaken. Disney+ meldet eine Folge je Anfrage (kein Stapel), also las ein Durchgang über n Folgen rund n² Zeilen (Tabellenzeile + Indexzeile je Treffer).
+
+**Weg (a) im Worker, gebaut:** Neuer Index `pruefung_folge (url, folge_nr, staffel, seiten_kennung)` (Migration 053); die Ladeabfrage sucht darin nur die gemeldeten Schlüssel. Die Schlüssel reisen als JSON in einem Parameter (`json_each`, `CROSS JOIN` legt die Reihenfolge fest, `IS` wegen NULL): eine Abfrage je Aufruf, auch für einen Stapel zu 10 — das Limit von 50 Abfragen je Aufruf bleibt unberührt. `folgeVon()` ist die eine Ableitung des Schlüssels für Laden, Vergleichen und Ersetzen.
+**Weg (b) in der Erweiterung, verworfen:** offene Hashes je Durchgang holen und mitschicken braucht einen Erweiterungs-Release, einen neuen Lesepfad im Worker (die Hashes liefe über ein weiteres GET, das selbst Zeilen liest) und vertraut dem Client eine Entscheidung an, die der Worker selbst treffen kann. (a) beseitigt das n² allein und ohne Release.
+
+**Gemessen** (lokal, workerd, `tools/worker-folge-lesen-messen.ts`, Bestand `pruefung` 17.800 Zeilen; `meta.rows_read` über alle Anweisungen einer Meldung, Summe je Durchgang einzeln gemeldeter Folgen):
+
+| Durchgang | vorher | nachher |
+|---|---|---|
+| Wiederholung unverändert, 24 Folgen | 624 | 96 |
+| Wiederholung unverändert, 100 Folgen | 10.200 | 400 |
+| Wiederholung unverändert, 200 Folgen | 40.400 | 800 |
+| Wiederholung mit geänderter Sprache, 200 Folgen | 42.000 | 2.400 |
+| erster Durchgang, 200 Folgen | 21.099 | 1.200 |
+| Netflix, Stapel zu 10, Wiederholung, 70 Folgen | 497 | 216 |
+
+Eine unveränderte Disney+-Folge kostet jetzt 4 Lesezeilen, unabhängig von der Seitengröße (vorher 2n). Die Gegenprobe (dieselben 52 Anfragen gegen den alten und den neuen Stand: Einzel, Stapel, Dubletten, NULL-Schlüssel, Seitenkennungen, Abhaken, A-B-A, Altbestand ohne Hash) liefert gleiche Antworten und gleiche gespeicherte Zeilen. Der Test in `tools/worker-tagesdeckel.test.ts` prüft den Plan (`SEARCH p USING INDEX pruefung_folge (url=? AND folge_nr=? AND staffel=? AND seiten_kennung=?)`) und dass die Abfrage bei einer Seite mit 200 Folgen genau die Zeile der Folge liefert.
+
+**Kosten:** ein weiterer Indexeintrag je eingefügter und je gelöschter `pruefung`-Zeile; unveränderte Meldungen schreiben weiter 0. Einmalig kostet das Anlegen rund 18.000 geschriebene Zeilen (Stand 12.10.2026). `pruefung_url_zeit` bleibt (Serientitel, Zähler, Löschen lesen darüber).
+
+**Ohne Index-Hinweis (Entscheidung 12.10.2026):** Ein `INDEXED BY pruefung_folge` ließ jede Meldung mit 500 scheitern, solange die Migration fehlt; es steht nicht in der Abfrage. Der Planer wählt den Index von selbst (vier Gleichheiten, `CROSS JOIN` setzt `json_each` nach außen): `EXPLAIN QUERY PLAN` der vollen Abfrage lautet `SCAN k VIRTUAL TABLE INDEX 1 ; SEARCH p USING INDEX pruefung_folge (url=? AND folge_nr=? AND staffel=? AND seiten_kennung=?)`, mit 17.800 Zeilen (89 Adressen zu 200 Folgen) ohne und mit `ANALYZE`; abgesichert in `tools/worker-tagesdeckel.test.ts` (`check:worker`). Grenze: Das ist SQLite lokal; ob D1 mit seiner Statistik dasselbe wählt, zeigt `rows_read` nach dem Deploy.
+
+**Reihenfolge nach dem Merge (ausgeführt am 13.10.2026, Abschnitt „D1-Umbau eingespielt“):** erst Migration 053 remote empfohlen (`cd worker && npx wrangler d1 execute anime-kalender --remote --file=migrations/053-pruefung-folge-index.sql`, nach 00:00 UTC bzw. wenn das Konto wieder frei ist), dann `npx wrangler deploy`. Zwingend ist sie nicht: Der neue Worker vor der Migration läuft, liest aber über `pruefung_url_zeit` wieder alle Zeilen der Adresse (n² wie vorher), statt Meldungen zu verlieren. Der alte Worker läuft nach der Migration unverändert weiter. Keine Erweiterungsänderung.
+
+**Offen (nicht Teil dieses Umbaus):** Der Rest (4 Lesezeilen je unveränderter, rund 12 je geänderter Folge) wurde nicht weiter zerlegt.
+
+## D1-Umbau Schritt B: Zuordnung und Urteile höchstens alle 6 Stunden holen (12.10.2026)
+
+Entwurf `daniel-zum-abarbeiten/berichte/d1-umbau-entwurf-2026-10-12.md`, Maßnahme 2. `pipeline/fetch-folgen-zuordnung.ts` und `pipeline/fetch-urteile.ts` holen alle Beobachtungen aus D1 (rund 72.000 gelesene Zeilen je Bau, bis zu 40 Bauten am Tag) und überspringen den Abruf, wenn der letzte jünger als 6 Stunden ist (`pipeline/lib/abruf-stempel.ts`). **Der Zeitpunkt steht in `data/abruf-stempel.json`** (committet über `tools/quellen-liste.sh`), nicht in der Änderungszeit der Ergebnisdatei: Ein CI-Lauf checkt frisch aus, jede Datei wäre dort „gerade erzeugt"; die Ergebnisdateien selbst tragen keinen Erzeugungszeitpunkt. Gestempelt wird nur, wenn der Abruf die Ergebnisdatei wirklich geschrieben hat. **Erzwingen:** `npm run data:urteile -- --voll` bzw. `npm run data:folgen-zuordnung -- --voll`; `--aus <datei>` (Eingabe aus einer Datei) überspringt nie. Folge: Meldungen der Erweiterung wirken auf Urteile und Lückenschluss bis zu 6 Stunden später (das Einarbeiten in `dub-confirmed.yaml` bleibt sofort). Test: `pipeline/check-abruf-stempel.ts` in `check:logic`.
+
+## D1-Umbau Schritt A: Export-Marke nur nach Änderung, längere Fristen (12.10.2026)
+
+Entwurf `daniel-zum-abarbeiten/berichte/d1-umbau-entwurf-2026-10-12.md` (Maßnahmen 1, 4a, 7), nur Worker, keine Migration. **Marke:** `exporteVerwerfen` schreibt `export/_ungueltig` nur noch, wenn eine Meldung (`speicherePruefung`, über `beiZeilen` von `mitTagesdeckel`) oder ein Löschen (`geloescht > 0`) Zeilen geändert hat; Abhaken und Wiederöffnen setzen nur `export/_ungueltig-offen`, die allein `offen-*` beachtet (`alle-*`, `pruefung-alle-*`, `namen` enthalten `uebernommen` nicht). Jede Marke höchstens einmal in 60 s je Isolate; eine in dieser Zeit übersprungene Änderung erreicht den Bau erst mit der nächsten Marke (Restlücke: ein Auszug, der genau in diesem Fenster neu gerechnet wird). **Fristen:** Wartende und `?zaehlen=1` 7.200 s (vorher 1.800), `?stand=1` bleibt bei 300 s, `/lauf` 120 s (vorher 30). `site_history` wird nur um 03 UTC aufgeräumt. Test: `tools/worker-export-marke.test.ts`. Nachmessen am Folgetag: `wrangler d1 insights` (Aufbauten der Auszüge, Ziel 19 auf höchstens 9 am Durchgangstag).
+
+## Beleg-Lesung stumm seit 08.10.2026: ein Anbieter beendete den ganzen Lauf (Wochenwache 12.10.2026)
+
+`source-health` zeigte `beleg-lesungen` mit `lastCount 0` seit dem Lauf vom 08.10. 04:09 (letzter Erfolg, 32 gelesen). **Ursache bei uns:** Fünf Crunchyroll-Artikel („Aufnahme einfarbig") und drei Disney+-Seiten („kein Artikeltext, 0 Zeichen") scheitern auf dem Runner jeden Tag. Ein Fehlschlag rückt `zuletzt` nicht vor, die Adressen blieben also vorn in der Schlange (60 fällig, Limit 60), und drei Fehlschläge zählten für den ganzen Lauf — er endete nach acht Adressen, die übrigen 52 kamen nie dran (Läufe 09.–12.10., Logs `Belege: 0 gelesen`). Der Zähler wurde außerdem nach jedem Text zurückgesetzt, noch bevor das Bild gelang; die Crunchyroll-Fehlschläge zählten deshalb nie, erst die Disney+-Seiten dahinter erreichten die drei.
+**Behoben:** `pipeline/lib/beleg-stoerung.ts` zählt je Anbieter und setzt erst nach einer gelesenen Adresse zurück; drei Fehlschläge in Folge lassen nur diesen Anbieter für den Lauf ruhen (`check-beleg-stoerung.ts`: gesunde Adressen hinter kaputten Anbietern werden gelesen, ein ruhender Anbieter wird nur dreimal gefragt). Die Fehlermeldungen nennen jetzt Endadresse und Seitentitel.
+**Offen:** Warum die fünf Crunchyroll-Artikel und die Disney+-Seiten auf dem Runner nicht gelingen. Lokal (12.10.2026, eine Adresse, `--adresse`) las derselbe Crunchyroll-Artikel fehlerfrei. Verdacht: Sperrseite oder Verdunkelung für die Runner-Adresse. Die nächsten Läufe schreiben Endadresse und Titel ins Protokoll (`Beleg nicht gelesen: … (<URL> „<Titel>“)`); danach entscheiden. Kein Massenabruf, Disney+ wird nicht von Hand abgerufen.
+
+## Beleg-Schlange: ungültige Adresse, ruhende Anbieter ohne Platz, Fehlschlag-Marke (12.10.2026)
+
+Drei Restpunkte der Störungsregel (vorheriger Abschnitt). **Ungültige Adresse:** `new URL()` in `ruht`/`fehl` stand außerhalb des `try` und beendete den Lauf; `neueStoerungen` behandelt eine unlesbare Adresse jetzt als eigenen Anbieter (Fehlschlag nur dieser Adresse). **Plätze:** `warteschlange` wird ohne Obergrenze aufgerufen, die 60 Plätze (`--limit`) zählt `ohneRuhende` (`lib/beleg-stoerung.ts`) beim Abruf, und nur Versuche zählen — übersprungene Adressen ruhender Anbieter verbrauchen keinen Platz, gesunde rücken nach. **Fehlschlag-Marke:** `data/beleg-fehlschlaege.json` (`{ url: { am, anzahl } }`, Laufgedächtnis, in `tools/quellen-liste.sh`; bewusst nicht in `beleg-lesungen.json`, weil `belegeFuerAlle` einen Eintrag ohne Lesung als „geprüft am …" auslieferte). Eine gescheiterte Adresse steht hinter allen anderen, bis ihre Pause um ist (1, 2, 4, 8 Tage, höchstens 14: `lib/beleg-fehlschlag.ts`); eine gelesene Adresse löscht die Marke; fehlende Datei oder Marke = nie gescheitert (kein Migrationscode, das Format hat nur uns erreicht). Prüfung: `pipeline/check-beleg-stoerung.ts` (Teil von `check:logic`).
+
+## Panel-Messung: fünf Schriftgrößen, Tippziele, Kontrast, Kopf (12.10.2026)
+
+`node tools/panel-messen.mjs` (läuft in `npm run check:panel` nach `panel-bild.mjs`) öffnet das Panel in `dist/` für Jujutsu Kaisen (mit Banner), Rozen Maiden: Dreaming (ohne Banner) und vier Flaggen-Fälle, Handy 393 px und Rechner-Schublade 512 px, hell und dunkel, und wird rot bei: einer sechsten Schriftgröße (erlaubt 24 · 18 · 15 · 13 · 11 px, Klassen `text-t1` bis `text-t5` in `styles.css`), einem Tippziel unter 44 × 44 (auch Textlinks), Textkontrast unter AA (außerhalb des Bildes), einem zweiten Knopf im Bild (nur ✕), falschen Flaggen (`detail/flaggen.tsx`: Wertung und Quelle eine Flagge, MAL nur mit Kennung, Cartoon „TMDB“, bündig rechts), falschen Maßen von Banner und Posterkarte oder mehr als einem Element mit `filter`/`backdrop-filter` (nur der Rückfall ohne Banner darf unscharf sein). `--docs --echte-bilder` (`npm run panel:bilder`) schreibt `docs/panel-kopf-*.png` mit echten Covern; `--breit` prüft rund 60 Titel quer durch den Bestand (12.10.2026: 0 Verstöße); `--zeit` misst die Öffnungszeit (Median von 7, CPU 4-fach gedrosselt, `--dist` für den Vorher-Stand). Gemessen am 12.10.2026: Öffnen vorher/nachher 163/146 ms (Jujutsu Kaisen) und 138/135 ms (Rozen Maiden) — gleich im Rauschen; die Rasterkosten der Unschärfe auf echter GPU misst das nicht, daher Stichprobe am Poco M7 Pro nach dem Live-Gang.
+
+## Tests mit Bash-Hülle im losgelösten Lauf (12.10.2026)
+
+`prozess-register.mjs` öffnete das Log bis 12.10.2026 21:10 mit `'a'` (Anhängemodus), seitdem mit `'w'`; die Hüllen-Absicherung bleibt für jeden anderen Elternprozess mit Anhänge-Handle. Ein davon geerbtes Handle kann `bash.exe` (MSYS) nicht beschreiben: Exit 1 ohne ein Zeichen Ausgabe, schon bei `bash -c 'echo hi'` (mit `'w'` oder `'r+'` Exit 0; Lauf `flag.mjs`). Darum war `bau-schon-gebaut.test.mjs` (und gleich gebaut `commit-data.test.mjs`) nur im losgelösten `check:vor-commit` rot. Die Hüllen reichen die Ausgabe jetzt über Pipes weiter; `tools/bash-an-angehaengtes-log.test.mjs` startet beide mit Anhänge-Log. Vor der Umstellung scheiterte schon `bash skript.sh` als Befehl für `prozess-register.mjs` (dessen `echo` schlug fehl, Exit 1 trotz grüner Schritte).
+
+## D1-Umbau eingespielt: 051, 052 und 053 am 13.10.2026
+
+Bericht: `daniel-zum-abarbeiten/berichte/d1-umbau-einspielen-2026-10-13.md`. Migration 050 lief schon früher per `d1 execute --file`, nicht per `migrations apply`; `d1_migrations` endete deshalb bei 049, und `migrations apply` wäre an 050 (doppelte Spalte `hash`) gescheitert.
+
+- **052** (Spalte `schreib_tag.gelesen`) am 13.10.2026 12:33 MESZ per `execute --remote --file`: 54 gelesen, 1 geschrieben. Spalte per `pragma_table_info` bestätigt.
+- **051** (Teilindex `prime_folge_offen (id) WHERE uebernommen = 0`) direkt danach: 61.501 gelesen, 18.194 geschrieben. `sqlite_master` zeigt den neuen Index.
+- **`d1_migrations`** für 050, 051, 052 nachgetragen (`INSERT (name, applied_at)`, 7 geschriebene Zeilen); `migrations list --remote` nannte danach nur noch 053.
+- **Worker** am selben Tag von dort deployt (`cd worker && npx wrangler deploy --config wrangler.toml`); `/health` antwortet 200, `wrangler tail` (60 s) ohne Fehler.
+- **053** (Index `pruefung_folge`) am 13.10.2026 13:16 MESZ per `execute --remote --file` (Daniel: „mach 053“, Durchgänge an dem Tag kurz gehalten): 41.809 gelesen, 20.545 geschrieben, also wie geschätzt eine Schreibzeile je `pruefung`-Zeile und nicht doppelt. `d1_migrations` um 053 ergänzt (`INSERT (name)`), `migrations list --remote --config wrangler.toml` meldet „No migrations to apply“. Ohne `--config` sucht `migrations list` eine `wrangler.jsonc` und findet die Datenbank nicht.
+- **Messfenster:** `d1-verbrauch.mjs --zeitraum 1d` sind gleitende 24 Stunden, das Kontingent zählt je UTC-Tag; die Lesesumme umfasst nur die 5 größten Abfragen. Für den UTC-Tag `--time-period <Stunden seit 00:00 UTC + 1>h` mit `--limit 200` und Summe über alle Gruppen (13.10.2026 10:33Z vor den Migrationen: 508.442 gelesen, 5.547 geschrieben).

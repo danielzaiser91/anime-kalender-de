@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { formatDate, monthName, todayIso, weekdayIndex } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
+import { sprungLage, type SprungLage } from '../lib/sprung-lage.ts'
 import { Tooltip } from './ui.tsx'
 
 /**
@@ -28,7 +29,7 @@ export function DatumSprung({
   const [jahr, setJahr] = useState(Number(date.slice(0, 4)))
   const [monat, setMonat] = useState<number | null>(null)
   const knopf = useRef<HTMLButtonElement>(null)
-  const [pos, setPos] = useState<{ top: number; left: number } | null>(null)
+  const [pos, setPos] = useState<SprungLage | null>(null)
 
   const { von, bis } = useMemo(() => {
     let von = heute
@@ -66,7 +67,7 @@ export function DatumSprung({
   const oeffnen = () => {
     if (offen) return setOffen(false)
     const r = knopf.current?.getBoundingClientRect()
-    if (r) setPos({ top: r.bottom + 6, left: Math.max(8, Math.min(r.left, window.innerWidth - 296)) })
+    if (r) setPos(sprungLage(r, { breite: window.innerWidth, hoehe: window.innerHeight }))
     setJahr(Number(date.slice(0, 4)))
     setMonat(null)
     setOffen(true)
@@ -178,8 +179,8 @@ export function DatumSprung({
             <div
               role="dialog"
               aria-label={t('sprung.oeffnen')}
-              className="fixed z-50 w-[280px] rounded-2xl border border-ak-rand bg-ak-flaeche p-3 text-ak-text shadow-xl"
-              style={{ top: pos.top, left: pos.left }}
+              className="fixed z-50 w-[280px] overflow-y-auto rounded-2xl border border-ak-rand bg-ak-flaeche p-3 text-ak-text shadow-xl"
+              style={{ top: pos.top, bottom: pos.bottom, left: pos.left, maxHeight: pos.maxHoehe }}
             >
               <div className="mb-2 flex items-center justify-between">
                 {monat === null ? (

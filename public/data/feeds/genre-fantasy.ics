@@ -6,86 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Fantasy
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-158871-tv-super-rtl@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T140500Z
-DTEND:20261005T143500Z
-SUMMARY:Pokémon Horizonte – Folge 2/130
-DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
- ails: https://anime-kalender.de/t/14839/
-CATEGORIES:Super RTL
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-158871-tv-toggo-plus@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T150500Z
-DTEND:20261005T153500Z
-SUMMARY:Pokémon Horizonte – Folge 2/130
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/14839/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-05#14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T151000Z
-DTEND:20261005T154000Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-05#15@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T153500Z
-DTEND:20261005T160500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-05#17@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T162500Z
-DTEND:20261005T165500Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-21-tv-prosieben-maxx@2026-10-05#18@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T165000Z
-DTEND:20261005T172000Z
-SUMMARY:One Piece
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/12/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
-UID:auto-112153-tv-toggo-plus@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261005T191500Z
-DTEND:20261005T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 8/13
-DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
- tails: https://anime-kalender.de/t/10852/
-CATEGORIES:TOGGO plus
-END:VEVENT
-BEGIN:VEVENT
-UID:gachiakuta-teil1-disneyplus@2026-10-05@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261005
-DTEND;VALUE=DATE:20261006
-SUMMARY:Gachiakuta
-DESCRIPTION:Plattform: Disney+\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/15952/
-CATEGORIES:Disney+
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-158871-tv-super-rtl@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T140500Z
@@ -120,7 +40,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261006T191500Z
 DTEND:20261006T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 9/13
+SUMMARY:Pokémon Reisen: Die Serie – Folge 9/14
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -130,9 +50,10 @@ UID:my-hero-academia-vigilantes-s1-netflix@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261006
 DTEND;VALUE=DATE:20261007
-SUMMARY:My Hero Academia: Vigilantes – Staffel 1
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/16460/
+SUMMARY:My Hero Academia: Vigilantes – Staffel 1 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/16460/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -140,9 +61,10 @@ UID:my-hero-academia-vigilantes-s2-netflix@2026-10-06@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261006
 DTEND;VALUE=DATE:20261007
-SUMMARY:My Hero Academia: Vigilantes – Staffel 2
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nUhrzeit noch nic
- ht bestätigt.\nDetails: https://anime-kalender.de/t/16903/
+SUMMARY:My Hero Academia: Vigilantes – Staffel 2 (OmU)
+DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nOmU: Originalton
+  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
+ estätigt.\nDetails: https://anime-kalender.de/t/16903/
 CATEGORIES:Netflix
 END:VEVENT
 BEGIN:VEVENT
@@ -250,7 +172,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T191500Z
 DTEND:20261007T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 10/13
+SUMMARY:Pokémon Reisen: Die Serie – Folge 10/14
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -340,7 +262,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-08@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261008T191500Z
 DTEND:20261008T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 11/13
+SUMMARY:Pokémon Reisen: Die Serie – Folge 11/14
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -441,7 +363,7 @@ UID:auto-112153-tv-toggo-plus@2026-10-09@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261009T191500Z
 DTEND:20261009T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 12/13
+SUMMARY:Pokémon Reisen: Die Serie – Folge 12/14
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
@@ -543,10 +465,59 @@ UID:das-band-der-unterwelt-netflix@2026-10-10@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261010
 DTEND;VALUE=DATE:20261011
-SUMMARY:Das Band der Unterwelt – Folge 15/≈24
+SUMMARY:Das Band der Unterwelt – Folge 15/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/16919/
 CATEGORIES:Netflix
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-entertainment-district-arc-primevideo@2026-10-10@anime-kal
+ ender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Entertainment District Arc (Synchro 
+ offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/13758/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-hashira-training-arc-primevideo@2026-10-10@anime-kalender-
+ de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Hashira Training Arc (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/15144/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-mugen-train-arc-primevideo@2026-10-10@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Mugen Train Arc (Synchro offen)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/12643/
+CATEGORIES:Prime Video
+END:VEVENT
+BEGIN:VEVENT
+UID:demon-slayer-swordsmith-village-arc-primevideo@2026-10-10@anime-kalende
+ r-de
+DTSTAMP:20200101T000000Z
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Demon Slayer: Kimetsu no Yaiba Swordsmith Village Arc (Synchro offe
+ n)
+DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nSynchro offe
+ n: Der Termin ist belegt\, eine deutsche Synchro nicht.\nUhrzeit noch nich
+ t bestätigt.\nDetails: https://anime-kalender.de/t/13918/
+CATEGORIES:Prime Video
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-11@anime-kalender-de
@@ -643,10 +614,20 @@ UID:auto-112153-tv-toggo-plus@2026-10-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261012T191500Z
 DTEND:20261012T194500Z
-SUMMARY:Pokémon Reisen: Die Serie – Folge 13/13
+SUMMARY:Pokémon Reisen: Die Serie – Folge 13/14
 DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
  tails: https://anime-kalender.de/t/10852/
 CATEGORIES:TOGGO plus
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-super-rtl@2026-10-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T140500Z
+DTEND:20261013T143500Z
+SUMMARY:Pokémon Horizonte – Folge 8/130
+DESCRIPTION:Plattform: Super RTL\nRelease-Art: Wöchentlich (Simuldub)\nDet
+ ails: https://anime-kalender.de/t/14839/
+CATEGORIES:Super RTL
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-118399-tv-prosieben-maxx@2026-10-13@anime-kalender-de
@@ -657,6 +638,16 @@ SUMMARY:Yashahime: Princess Half-Demon
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/11570/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-158871-tv-toggo-plus@2026-10-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T150500Z
+DTEND:20261013T153500Z
+SUMMARY:Pokémon Horizonte – Folge 8/130
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/14839/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-13#25@anime-kalender-de
@@ -697,6 +688,16 @@ SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
 CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-112153-tv-toggo-plus@2026-10-13@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261013T191500Z
+DTEND:20261013T194500Z
+SUMMARY:Pokémon Reisen: Die Serie – Folge 14/14
+DESCRIPTION:Plattform: TOGGO plus\nRelease-Art: Wöchentlich (Simuldub)\nDe
+ tails: https://anime-kalender.de/t/10852/
+CATEGORIES:TOGGO plus
 END:VEVENT
 BEGIN:VEVENT
 UID:saga-of-tanya-the-evil-s2@2026-10-14@anime-kalender-de
@@ -957,7 +958,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261017
 DTEND;VALUE=DATE:20261018
-SUMMARY:Das Band der Unterwelt – Folge 16/≈24
+SUMMARY:Das Band der Unterwelt – Folge 16/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -988,17 +989,8 @@ UID:mushoku-tensei-s3@2026-10-18#13@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261018T150000Z
 DTEND:20261018T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13/14
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
- etails: https://anime-kalender.de/t/16011/
-CATEGORIES:Crunchyroll
-END:VEVENT
-BEGIN:VEVENT
-UID:mushoku-tensei-s3@2026-10-18#14@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261018T150000Z
-DTEND:20261018T153000Z
-SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 14/14
+SUMMARY:Mushoku Tensei: Jobless Reincarnation – Staffel 3 – Folge 13–
+ 14/14
 DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
  etails: https://anime-kalender.de/t/16011/
 CATEGORIES:Crunchyroll
@@ -1048,6 +1040,56 @@ UID:auto-21-tv-prosieben-maxx@2026-10-19#34@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261019T165000Z
 DTEND:20261019T172000Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-118399-tv-prosieben-maxx@2026-10-20@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T144500Z
+DTEND:20261020T151500Z
+SUMMARY:Yashahime: Princess Half-Demon
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/11570/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-20#34@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T151000Z
+DTEND:20261020T154000Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-223-tv-prosieben-maxx@2026-10-20#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T153500Z
+DTEND:20261020T160500Z
+SUMMARY:Dragon Ball
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/193/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-20#35@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T162500Z
+DTEND:20261020T165500Z
+SUMMARY:One Piece
+DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
+ \nDetails: https://anime-kalender.de/t/12/
+CATEGORIES:ProSieben MAXX
+END:VEVENT
+BEGIN:VEVENT
+UID:auto-21-tv-prosieben-maxx@2026-10-20#36@anime-kalender-de
+DTSTAMP:20200101T000000Z
+DTSTART:20261020T165000Z
+DTEND:20261020T172000Z
 SUMMARY:One Piece
 DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
  \nDetails: https://anime-kalender.de/t/12/
@@ -1122,7 +1164,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-24@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261024
 DTEND;VALUE=DATE:20261025
-SUMMARY:Das Band der Unterwelt – Folge 17/≈24
+SUMMARY:Das Band der Unterwelt – Folge 17/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1208,7 +1250,7 @@ UID:das-band-der-unterwelt-netflix@2026-10-31@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
-SUMMARY:Das Band der Unterwelt – Folge 18/≈24
+SUMMARY:Das Band der Unterwelt – Folge 18/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1357,7 +1399,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
-SUMMARY:Das Band der Unterwelt – Folge 19/≈24
+SUMMARY:Das Band der Unterwelt – Folge 19/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1512,7 +1554,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-14@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261114
 DTEND;VALUE=DATE:20261115
-SUMMARY:Das Band der Unterwelt – Folge 20/≈24
+SUMMARY:Das Band der Unterwelt – Folge 20/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1707,7 +1749,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-21@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261121
 DTEND;VALUE=DATE:20261122
-SUMMARY:Das Band der Unterwelt – Folge 21/≈24
+SUMMARY:Das Band der Unterwelt – Folge 21/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -1861,7 +1903,7 @@ UID:das-band-der-unterwelt-netflix@2026-11-28@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261128
 DTEND;VALUE=DATE:20261129
-SUMMARY:Das Band der Unterwelt – Folge 22/≈24
+SUMMARY:Das Band der Unterwelt – Folge 22/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -2115,7 +2157,7 @@ UID:das-band-der-unterwelt-netflix@2026-12-05@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261205
 DTEND;VALUE=DATE:20261206
-SUMMARY:Das Band der Unterwelt – Folge 23/≈24
+SUMMARY:Das Band der Unterwelt – Folge 23/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -2246,7 +2288,7 @@ UID:das-band-der-unterwelt-netflix@2026-12-12@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261212
 DTEND;VALUE=DATE:20261213
-SUMMARY:Das Band der Unterwelt – Folge 24/≈24
+SUMMARY:Das Band der Unterwelt – Folge 24/24
 DESCRIPTION:Plattform: Netflix\nRelease-Art: Wöchentlich (Simuldub)\nUhrze
  it noch nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochen
  rhythmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/16919/
@@ -2327,7 +2369,8 @@ DTEND;VALUE=DATE:20261219
 SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (I. presage flowe
  r) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/7340/
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/7340/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -2339,7 +2382,8 @@ DTEND;VALUE=DATE:20261219
 SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (II. lost butterf
  ly) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8064/
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/8064/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT
@@ -2351,7 +2395,8 @@ DTEND;VALUE=DATE:20261219
 SUMMARY:Fate/stay night [Heaven's Feel] – Gesamtausgabe (III. spring song
  ) (Disc)
 DESCRIPTION:Plattform: DVD / Blu-ray\nRelease-Art: DVD / Blu-ray\nUhrzeit n
- och nicht bestätigt.\nDetails: https://anime-kalender.de/t/8065/
+ och nicht bestätigt.\nGeschätzter Termin\, aus dem bisherigen Wochenrhyt
+ hmus fortgeschrieben.\nDetails: https://anime-kalender.de/t/8065/
 CATEGORIES:DVD / Blu-ray
 END:VEVENT
 BEGIN:VEVENT

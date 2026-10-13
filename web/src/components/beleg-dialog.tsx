@@ -4,8 +4,8 @@ import type { NewsBeleg } from '@shared/types.ts'
 import { hostVon } from '@shared/quelle.ts'
 import { BELEG_TYP_LABEL, belegTyp } from '@shared/beleg-anbieter.ts'
 import { datumKurz } from '../lib/news-text.ts'
+import { useSeiteGesperrt } from '../lib/use-seite-gesperrt.ts'
 import { quellenLabel } from './news-belege.tsx'
-import { TREFFER_24_HOCH } from './detail/tippziel.ts'
 import { Ladeanzeige } from './ui.tsx'
 
 /** **Das Beleg-Bild** an einer Quelle; öffentlich lesbar (Daniel, 04.10.2026). Der archivierte Text (HTML) bleibt privat (Daniel, 05.10.2026). */
@@ -27,7 +27,7 @@ export function QuellenKnopf({ belege, betreff }: { belege: NewsBeleg[]; betreff
         type="button"
         onClick={() => setOffen(true)}
         title={belege.map(quellenLabel).join(' · ')}
-        className={`ml-auto shrink-0 cursor-pointer rounded border border-current px-1.5 text-[11px] font-bold leading-4 text-ak-akzent-text hover:bg-ak-akzent-text/10 ${TREFFER_24_HOCH}`}
+        className="-my-2.5 ml-auto inline-flex min-h-11 min-w-11 shrink-0 cursor-pointer items-center justify-center px-1 text-t4 text-slate-600 underline underline-offset-2 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
       >
         {archiv ? '▣ ' : ''}
         {text}
@@ -43,8 +43,13 @@ function erklaerung(b: NewsBeleg): string {
   if (b.ausgabeAm) return `Produktseite bei ${b.name}; die Ausgabe erscheint am ${datumKurz(b.ausgabeAm)}.`
   const wann = b.veroeffentlichtAm ? `, veröffentlicht am ${datumKurz(b.veroeffentlichtAm)}` : ''
   const spaeter = b.aktualisiertAm && b.aktualisiertAm !== b.veroeffentlichtAm ? `, aktualisiert am ${datumKurz(b.aktualisiertAm)}` : ''
-  return `Quelle: ${b.name}${wann}${spaeter}.`
+  const sprache = b.ueberschrift ? (SPRACHEN[b.ueberschrift.sprache] ?? b.ueberschrift.sprache) : ''
+  const ueberschrift = b.ueberschrift ? ` Überschrift der Seite (${sprache}): „${b.ueberschrift.text}“.` : ''
+  return `Quelle: ${b.name}${wann}${spaeter}.${ueberschrift}`
 }
+
+/** Sprachen der Überschriften offizieller Websites (Art `offiziell`). */
+const SPRACHEN: Record<string, string> = { ja: 'japanisch', en: 'englisch' }
 
 /** Wann wir die Quelle geprüft haben: erstmals, zuletzt, und wann das Bild entstand (nur, was die Beleg-Lesung weiß). */
 function pruefzeile(b: NewsBeleg, mitBild: boolean): string {
@@ -84,14 +89,10 @@ function BelegDialog({ belege, betreff, zu }: { belege: NewsBeleg[]; betreff?: s
   useEffect(() => {
     const esc = (e: KeyboardEvent) => e.key === 'Escape' && zu()
     document.addEventListener('keydown', esc)
-    /* Hinter dem Dialog bleibt die Seite stehen — und ihre Bildlaufleiste verschwindet (Daniel, 04.10.2026). */
-    const vorher = document.documentElement.style.overflow
-    document.documentElement.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', esc)
-      document.documentElement.style.overflow = vorher
-    }
+    return () => document.removeEventListener('keydown', esc)
   }, [zu])
+  /* Hinter dem Dialog bleibt die Seite stehen — und ihre Bildlaufleiste verschwindet (Daniel, 04.10.2026). */
+  useSeiteGesperrt(true)
   return createPortal(
     <div role="dialog" aria-modal="true" aria-label={`Quellen: ${betreff ?? ''}`} className="fixed inset-0 z-[60] flex flex-col bg-black/90 text-slate-200" onClick={zu}>
       <div className="shrink-0 border-b border-white/10 bg-slate-900 px-4 pt-2" onClick={(e) => e.stopPropagation()}>

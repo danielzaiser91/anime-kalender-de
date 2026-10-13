@@ -1,0 +1,63 @@
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4057023Z [pipeline] ⚠  Auffällig: Meldung 11742,11743,11744,11745,11746,11747,11748,11749,11750: 9 Folgen gemeldet, Titel -82728 hat 154 (https://www.disneyplus.com/browse/entity-e878689c-487f-4041-bd45-cc4551f0a2e5)
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4061449Z [pipeline] ⚠  Auffällig: Meldung 11816,11817,11818,11819,11820,11821,11822,11823,11824,11825,11826,11827,11828,11829,11830,11831,11832,11833,11834,11835,11836: 21 Folgen gemeldet, Titel -32726 hat 313 (https://www.disneyplus.com/browse/entity-fdeb1018-4472-442f-ba94-fb087cdea069)
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4064284Z [pipeline] ⚠  67 Meldung(en) bleiben im Briefkasten, bis sie zugeordnet sind.
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4317996Z ##[group]Run if git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4318752Z ^[[36;1mif git diff --quiet -- data/dub-confirmed.yaml; then exit 0; fi^[[0m
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4319366Z ^[[36;1mif npm run check:logic > /tmp/logic.txt 2>&1; then exit 0; fi^[[0m
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4319876Z ^[[36;1mgrep '✖' /tmp/logic.txt || true^[[0m
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4320325Z ^[[36;1mgit checkout -- data/dub-confirmed.yaml^[[0m
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4321128Z ^[[36;1mgit checkout -- data/anbieter-staffeln.json 2>/dev/null || true^[[0m
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4321696Z ^[[36;1mrm -f data/cache/pruefungen-abhaken.json^[[0m
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4322301Z ^[[36;1mgrund="$(grep -m 3 '✖' /tmp/logic.txt | tr -d '\"' | tr -s '[:space:]' ' ')"^[[0m
+bauen	UNKNOWN STEP	2026-10-12T07:52:06.4323150Z ^[[36;1mecho "DATEN_WARNUNG=${DATEN_WARNUNG:+$DATEN_WARNUNG · }Neue Meldungen zurückgestellt: $grund" >> "$GITHUB_ENV"^[[0m
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T07:53:45.4880580Z [pipeline]   2926 Titel, davon 1626 mit Verweis (+2)
+bauen	UNKNOWN STEP	2026-10-12T07:53:45.4881672Z [pipeline]   1597 mit belegter Synchro (-1), 2195 Verweise (+2)
+bauen	UNKNOWN STEP	2026-10-12T07:53:45.4882851Z [pipeline]   offen: 1300 ohne Verweis (-2), 29 ohne Sprachurteil (+3)
+bauen	UNKNOWN STEP	2026-10-12T07:53:45.4884430Z [pipeline]   Lücken: 84 ohne deutschen Namen (+1), 12 Serien ohne Folgenzahl
+bauen	UNKNOWN STEP	2026-10-12T07:53:45.4885820Z [pipeline] ⚠  verwaisteTermine: 13 — das darf nicht vorkommen
+bauen	UNKNOWN STEP	2026-10-12T07:53:45.4887520Z [pipeline]   432 künftige Termine (-1)
+bauen	UNKNOWN STEP	2026-10-12T07:53:45.5078228Z ##[error]Process completed with exit code 1.
+bauen	UNKNOWN STEP	2026-10-12T07:53:45.5118705Z ##[group]Run npm run data:og
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9641101Z   ✓ zwei mögliche zweite Teile sind mehrdeutig
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9641783Z   ✓ ein kurzer Blockname belegt nichts
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9642252Z   ✓ der US-Katalog belegt nichts
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9642802Z   ✓ tote Serie: der Verweis fällt auch bei anderer Schreibweise
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9643356Z   ✓ tote Serie: der Abgang wird vermerkt
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9643926Z   ✓ Gegenprobe: eine andere Kennung lässt den Verweis stehen
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9645409Z   ✗ Titel nur bei aniSearch tragen keinen erratenen Weg — gefunden: ["Fate/Stay Night: Unlimited Blade Works - Prologue","Sword Art Online Alternative: Gun Gale Online - Refrain","That Time I Got Reincarnated as a Slime: Veldora’s Journal",10019697]
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9647025Z   ✓ im Bestand hängt kein Titel an einer Crunchyroll-Serie, die ihm nicht gehört
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9647428Z 
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9647626Z 1 Zusicherung(en) verletzt.
+bauen	UNKNOWN STEP	2026-10-12T07:55:02.9662291Z ##[error]Der gebaute Bestand verletzt eine Zusicherung. Die Erzeugnisse werden nicht committet; die Quellen schon.
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5135759Z Gepusht (Versuch 1).
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5143218Z ##[error]Process completed with exit code 1.
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5199021Z ##[group]Run npm run data:check
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5261396Z env:
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5261889Z   LAUF_ZWECK: Führt die gesammelten Quellen zum ausgelieferten Datensatz zusammen
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5262585Z   LAUF_ZIEL: Datensatz gebaut, Zusicherungen gehalten, Erzeugnisse committet
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5263116Z   LAUF_SCHRITTE: 5
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5263501Z   MELDER: /home/runner/work/_temp/lauf-melden.sh
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5263948Z   BAU_BEGINN: 2026-10-12T07:51:50Z
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5265329Z   DATEN_WARNUNG: Neue Meldungen zurückgestellt:  · Bestand nicht übernommen:  ✗ Titel nur bei aniSearch tragen keinen erratenen Weg — gefunden: [Fate/Stay Night: Unlimited Blade Works - Prologue,Sword Art Online Alternative: Gun Gale Online - Refrain,That Time I Got Reincarnated as a Slime: Veldora’s Journal,10019697] 
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.5267100Z   LAUF_TOKEN: ***
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.8710535Z env:
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.8711343Z   LAUF_ZWECK: Führt die gesammelten Quellen zum ausgelieferten Datensatz zusammen
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.8712542Z   LAUF_ZIEL: Datensatz gebaut, Zusicherungen gehalten, Erzeugnisse committet
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.8713457Z   LAUF_SCHRITTE: 5
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.8714073Z   MELDER: /home/runner/work/_temp/lauf-melden.sh
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.8714811Z   BAU_BEGINN: 2026-10-12T07:51:50Z
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.8717707Z   DATEN_WARNUNG: Neue Meldungen zurückgestellt:  · Bestand nicht übernommen:  ✗ Titel nur bei aniSearch tragen keinen erratenen Weg — gefunden: [Fate/Stay Night: Unlimited Blade Works - Prologue,Sword Art Online Alternative: Gun Gale Online - Refrain,That Time I Got Reincarnated as a Slime: Veldora’s Journal,10019697] 
+bauen	UNKNOWN STEP	2026-10-12T07:55:09.8721095Z   DISCORD_WEBHOOK: ***
+[… gekürzt …]
+bauen	UNKNOWN STEP	2026-10-12T07:55:10.1780568Z env:
+bauen	UNKNOWN STEP	2026-10-12T07:55:10.1781057Z   LAUF_ZWECK: Führt die gesammelten Quellen zum ausgelieferten Datensatz zusammen
+bauen	UNKNOWN STEP	2026-10-12T07:55:10.1781755Z   LAUF_ZIEL: Datensatz gebaut, Zusicherungen gehalten, Erzeugnisse committet
+bauen	UNKNOWN STEP	2026-10-12T07:55:10.1782278Z   LAUF_SCHRITTE: 5
+bauen	UNKNOWN STEP	2026-10-12T07:55:10.1782687Z   MELDER: /home/runner/work/_temp/lauf-melden.sh
+bauen	UNKNOWN STEP	2026-10-12T07:55:10.1783134Z   BAU_BEGINN: 2026-10-12T07:51:50Z
+bauen	UNKNOWN STEP	2026-10-12T07:55:10.1784514Z   DATEN_WARNUNG: Neue Meldungen zurückgestellt:  · Bestand nicht übernommen:  ✗ Titel nur bei aniSearch tragen keinen erratenen Weg — gefunden: [Fate/Stay Night: Unlimited Blade Works - Prologue,Sword Art Online Alternative: Gun Gale Online - Refrain,That Time I Got Reincarnated as a Slime: Veldora’s Journal,10019697] 
+bauen	UNKNOWN STEP	2026-10-12T07:55:10.1786017Z   LAUF_TOKEN: ***

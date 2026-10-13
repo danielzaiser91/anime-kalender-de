@@ -1,6 +1,6 @@
 /**
  * Invarianten an den **ausgelieferten Dateien** (`titles.json`, `ohne-synchro.json`, `cartoons.json`, `franchises.json`), die der Daten-Detektiv
- * als hart empfohlen hat (D-06, D-15; `docs/wissen/daten-detektiv.md`). Sie laufen in `schreibeKernUndNews`, wenn diese Dateien geschrieben sind.
+ * als hart empfohlen hat (DD-06, DD-15; `docs/wissen/daten-detektiv.md`). Sie laufen in `schreibeKernUndNews`, wenn diese Dateien geschrieben sind.
  * Gegenprobe je Regel: `pipeline/check-invarianten.ts`.
  */
 import type { Title } from '../../shared/types.ts'
@@ -31,7 +31,7 @@ export interface SynchroQuellen {
 
 
 /**
- * D-06: Ein Titel hinter dem Toggle („keine deutsche Synchro"), obwohl aniSearch ihn als vertont (`d`) führt oder ein Handbeleg `dub: true` sagt.
+ * DD-06: Ein Titel hinter dem Toggle („keine deutsche Synchro"), obwohl aniSearch ihn als vertont (`d`) führt oder ein Handbeleg `dub: true` sagt.
  * Ausgenommen: sein aniSearch-Zwilling steht im Hauptbestand (dann ist er umgezogen, nicht verloren), ein Handurteil „keine Synchro"
  * und ein Titel, dessen japanischer Start noch aussteht (die Ankündigung bleibt hinter dem Toggle).
  */
@@ -63,7 +63,7 @@ export function keinAnisearchSuchlink(dateien: { datei: string; text: string }[]
   return dateien.filter((d) => ANISEARCH_SUCHLINK.test(d.text)).map((d) => `${d.datei}: enthält einen aniSearch-Suchlink — erlaubt sind nur Direktlinks auf anime/<Kennung>`)
 }
 
-/** D-15: Reihen-Verweise zeigen ins Leere — ein Glied ohne Titel, oder ein Titel einer mehrgliedrigen Reihe, die in `franchises.json` fehlt. */
+/** DD-15: Reihen-Verweise zeigen ins Leere — ein Glied ohne Titel, oder ein Titel einer mehrgliedrigen Reihe, die in `franchises.json` fehlt. */
 export function reihenVerweiseAufgeloest(a: Auslieferung): string[] {
   const bekannt = new Set([...a.titles, ...a.ohneSynchro, ...a.cartoons].map((t) => t.id))
   const glieder = new Map<number, number>()

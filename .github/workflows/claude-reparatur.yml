@@ -150,12 +150,29 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Abhängigkeiten
+      # **Eine Ursache, ein Issue, ein Pull Request.**
+      #
+      # Am 11./12.10.2026 öffnete jeder rote Lauf einer Ursache seinen eigenen
+      # Untersucher: vier Issues und fünf Pull Requests, weil keiner vom anderen
+      # wusste. Dieser Schritt bildet aus der Ursachenzeile des Protokolls einen
+      # Schlüssel (`tools/untersucher-logik.mjs`), sucht ein offenes Issue mit
+      # demselben Schlüssel und kommentiert dort statt ein neues anzulegen. Gibt
+      # es auch schon einen offenen Pull Request, entfällt der Untersucher ganz.
+      # Scheitert der Schritt, läuft alles wie vorher.
+      - name: Gleiche Ursache schon bekannt?
+        id: dedupe
         if: steps.noch_da.outputs.weiter == 'ja'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node tools/untersucher-vorab.mjs "${{ github.event.workflow_run.id }}"
+
+      - name: Abhängigkeiten
+        if: steps.noch_da.outputs.weiter == 'ja' && steps.dedupe.outputs.claude != 'nein'
         run: npm ci
 
       - uses: anthropics/claude-code-action@v1
-        if: steps.noch_da.outputs.weiter == 'ja'
+        if: steps.noch_da.outputs.weiter == 'ja' && steps.dedupe.outputs.claude != 'nein'
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           # Ohne diese Zeile passiert nichts: Die Action lehnt Bots als Auslöser
@@ -181,6 +198,7 @@ jobs:
             Der Lauf „${{ github.event.workflow_run.name }}" ist fehlgeschlagen.
             Lauf-Nummer: ${{ github.event.workflow_run.id }}
             Protokoll: gh run view ${{ github.event.workflow_run.id }} --repo ${{ github.repository }} --log-failed
+            ${{ steps.dedupe.outputs.hinweis }}
 
             **Zwei Arten von Läufen kommen hier an, und sie verlangen
             Verschiedenes.**
@@ -243,7 +261,8 @@ jobs:
 
             0. **Zuerst den Befund festhalten, dann reparieren.** Sobald du die
                Ursache kennst, öffne ein Issue mit ihr — auch wenn du gleich
-               danach einen Pull Request machst. Grund: Am 29.08.2026 endete ein
+               danach einen Pull Request machst (steht oben schon ein Issue,
+               ist das Anlegen erledigt — ergänze dort per Kommentar). Grund: Am 29.08.2026 endete ein
                Lauf an der Zuggrenze und hinterließ nichts; die Diagnose war
                gemacht und ging verloren. Ein Issue kostet einen Zug und
                überlebt jeden Abbruch.

@@ -19,6 +19,7 @@ import { ohneBelegteSynchro } from './synchro-belegt.ts'
 import { schreibeSaisonDatei } from './saison-datei.ts'
 import { cartoonsMitReihe, markiereEigeneWerke } from './cartoon-reihen.ts'
 import { schreibeAnisearchOffen } from './anisearch-kennung.ts'
+import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 
 export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, releases, synopses, jpStartAnzeige }: {
   titles: Map<number, Title>
@@ -193,10 +194,7 @@ export function schreibeZusatzdateien({ titles, anisearch, slim, verschoben, rel
    * für die im Bestand — er ist der vollständige AniList-Abzug.
    */
   const elternVon = new Map<number, number[]>()
-  for (const e of readJson<{ eintraege?: { id: number; eltern?: number[] }[] }>(
-    'data/cache/anilist-katalog.json',
-    {},
-  ).eintraege ?? []) {
+  for (const e of ladeKatalogEintraege()) {
     if (e.eltern?.length) elternVon.set(e.id, e.eltern)
   }
 

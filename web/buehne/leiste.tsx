@@ -1,6 +1,7 @@
 import { GROESSE, geraeteFuer } from './geraete.ts'
 import type { MockupDef } from './register.ts'
 import { hashVon, type Geraet, type Seitenteil, type Thema, type Zustand } from './zustand.ts'
+import { ZeitGruppe } from './zeit-regler.tsx'
 
 function Gruppe<T extends string>({ name, werte, aktuell, setze }: { name: string; werte: [T, string][]; aktuell: T; setze: (wert: T) => void }) {
   return (
@@ -31,6 +32,7 @@ export function Leiste({ def, zustand, faelle }: { def: MockupDef; zustand: Zust
       <Gruppe name="Variante" werte={Object.keys(def.varianten).map((v): [string, string] => [v, v])} aktuell={zustand.variante} setze={(variante) => aendere({ variante })} />
       <Gruppe name="Fall" werte={def.faelle.map((f): [string, string] => [f, faelle[f] ?? f])} aktuell={zustand.fall} setze={(fall) => aendere({ fall })} />
       <Gruppe name="Gerät" werte={geraete} aktuell={zustand.geraet} setze={(geraet) => aendere({ geraet })} />
+      <ZeitGruppe def={def} zeit={zustand.zeit} setze={(zeit) => aendere({ zeit })} />
       <Gruppe name="Thema" werte={THEMEN} aktuell={zustand.thema} setze={(thema) => aendere({ thema })} />
       <Gruppe name="Ansicht" werte={TEILE} aktuell={zustand.teil} setze={(teil) => aendere({ teil })} />
     </header>

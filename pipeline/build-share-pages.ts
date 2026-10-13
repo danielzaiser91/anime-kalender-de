@@ -25,9 +25,16 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { andereNamen } from './lib/titel-namen.ts'
-import { SITE, esc, namenZeile, titelInhalt, titelKopf } from './lib/titel-seite.ts'
+import { ARTIKEL_STIL as STIL, SITE, esc, namenZeile, seitenTitel, sprachFeld, synchroSatz, termineUeberschrift, titelName, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
+import { START_AUSSAGE, startseiteInhalt } from './lib/startseite.ts'
+import { belegteTermine, uebersichtTexte } from './lib/termine-uebersicht.ts'
+import { schreibeVerzeichnis, verzeichnisAdressen, type Buchstabe } from './lib/titel-verzeichnis.ts'
+import { umfeldFuer, type Umfeld, type UmfeldRahmen } from './lib/titel-umfeld.ts'
+import { titelAenderung } from './lib/sitemap-datum.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
+import { synchroBelegt } from '../shared/titles.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
+import { seitenQuelle, type SynopsenFuerSeiten } from './lib/handlung-eigen.ts'
 import { ladeAkVon, umleitungen, type AkVon, type KennungsZeile } from './lib/ausgabe-kennung.ts'
 
 const DIST = resolve(ROOT, 'dist')
@@ -56,56 +63,14 @@ function describe(release: Release, title: Title | undefined, today: string): st
   if (title?.genres.length) {
     parts.push(title.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ') + '.')
   }
-  /* Bei Cartoons ist die deutsche Fassung nicht belegt. */
-  if (!title?.westlich) parts.push('Mit deutscher Synchronisation.')
+  /* Bei Cartoons ist die deutsche Fassung nicht belegt; bei Anime nur mit Beleg „Mit deutscher Synchronisation“. */
+  const synchro = synchroSatz(title)
+  if (synchro) parts.push(synchro)
   return parts.join(' ')
 }
 
-/**
- * Der sichtbare Inhalt der Teilen-Seite, als fertiges HTML im `#root`.
- *
- * Meta-Angaben reichen für die Link-Vorschau, aber eine Seite ohne Text rankt
- * für nichts. Wer „Steel Ball Run deutsche Synchro" sucht, soll hier landen, und
- * dafür müssen die Wörter auf der Seite stehen.
- *
- * React räumt `#root` beim ersten Rendern leer. Das ist gewollt: Bis das
- * Bündel geladen ist, sieht der Besucher statt einer weißen Fläche schon den
- * Titel und die Termine.
- */
-function body(
-  release: Release,
-  title: Title | undefined,
-  synopsis: string | undefined,
-  today: string,
-  geschwister: Release[],
-  ak: number,
-): string {
-  const events = expandEvents(release)
-  const next = events.find((e) => e.date >= today) ?? events[0]
-  const hash = `#/woche?${next ? `d=${next.date}&` : ''}t=${ak}`
-  const art = RELEASE_TYPES[release.releaseType].short
-  const platform = anbieterName(release.platform, release.sender)
-
-  const fakten = [
-    `${art} bei ${platform}`,
-    release.fsk !== undefined ? `FSK ${release.fsk}` : null,
-    title?.genres.length
-      ? title.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ')
-      : null,
-    release.publisher ? `Vertrieb: ${release.publisher}` : null,
-    release.edition ?? null,
-  ].filter(Boolean) as string[]
-
-  const termine = events
-    .map((e) => {
-      const wann = `${weekdayName(e.date)}, ${formatDate(e.date)}`
-      const zeit = e.time ? ` um ${e.time} Uhr` : ''
-      const folge = anzeigeFolge(e) ? `Folge ${e.episode}${e.episodeCount ? ` von ${e.episodeCount}` : ''}: ` : ''
-      const abgeleitet = e.estimated ? ' (Termin abgeleitet)' : ''
-      return `<li>${esc(`${folge}${wann}${zeit}${abgeleitet}`)}</li>`
-    })
-    .join('\n        ')
-
+/** Die anderen Ausgaben desselben Titels, verlinkt und benannt (Begründung im Kommentar darin). */
+function weitereAusgaben(release: Release, title: Title | undefined, geschwister: Release[]): string {
   /**
    * **Die anderen Ausgaben desselben Titels — verlinkt und benannt.**
    *
@@ -173,7 +138,11 @@ function body(
           .join('\n        ')}
       </ul>`
     : ''
+  return andere
+}
 
+/** Wo ein Titel auf Deutsch läuft, mit den belegten Folgenbereichen (Begründung im Kommentar darin). */
+function wegeAufDeutsch(release: Release, title: Title | undefined): string {
   /**
    * **Wo es auf Deutsch läuft — die Auskunft, die es nur hier gibt.**
    *
@@ -214,18 +183,71 @@ function body(
           .join('\n        ')}
       </ul>`
     : ''
+  return wegeBlock
+}
+
+/**
+ * Der sichtbare Inhalt der Teilen-Seite, als fertiges HTML im `#root`.
+ *
+ * Meta-Angaben reichen für die Link-Vorschau, aber eine Seite ohne Text rankt
+ * für nichts. Wer „Steel Ball Run deutsche Synchro" sucht, soll hier landen, und
+ * dafür müssen die Wörter auf der Seite stehen.
+ *
+ * React räumt `#root` beim ersten Rendern leer. Das ist gewollt: Bis das
+ * Bündel geladen ist, sieht der Besucher statt einer weißen Fläche schon den
+ * Titel und die Termine.
+ */
+function body(
+  release: Release,
+  title: Title | undefined,
+  synopsis: SynopsenText | undefined,
+  today: string,
+  geschwister: Release[],
+  ak: number,
+  umfeld: Umfeld,
+): string {
+  const events = expandEvents(release)
+  const next = events.find((e) => e.date >= today) ?? events[0]
+  const hash = `#/woche?${next ? `d=${next.date}&` : ''}t=${ak}`
+  const art = RELEASE_TYPES[release.releaseType].short
+  const platform = anbieterName(release.platform, release.sender)
+
+  const fakten = [
+    `${art} bei ${platform}`,
+    release.fsk !== undefined ? `FSK ${release.fsk}` : null,
+    title?.genres.length
+      ? title.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ')
+      : null,
+    release.publisher ? `Vertrieb: ${release.publisher}` : null,
+    release.edition ?? null,
+  ].filter(Boolean) as string[]
+
+  const termine = events
+    .map((e) => {
+      const wann = `${weekdayName(e.date)}, ${formatDate(e.date)}`
+      const zeit = e.time ? ` um ${e.time} Uhr` : ''
+      const folge = anzeigeFolge(e) ? `Folge ${e.episode}${e.episodeCount ? ` von ${e.episodeCount}` : ''}: ` : ''
+      const abgeleitet = e.estimated ? ' (Termin abgeleitet)' : ''
+      return `<li>${esc(`${folge}${wann}${zeit}${abgeleitet}`)}</li>`
+    })
+    .join('\n        ')
+
+  const andere = weitereAusgaben(release, title, geschwister)
+  const wegeBlock = wegeAufDeutsch(release, title)
 
   return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
+      ${umfeld.krumenHtml}
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(release.name)}</h1>
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>${namenZeile(title, release.name)}
-      ${synopsis ? `<p style="margin:0 0 1.5rem;">${esc(synopsis)}</p>` : ''}
+      ${synopsenAbsatz(synopsis)}
       ${release.note ? `<p style="margin:0 0 1.5rem;color:#9aa5bd;">${esc(release.note)}</p>` : ''}
-      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Alle Termine mit deutscher Synchronisation</h2>
+      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">${termineUeberschrift(title)}</h2>
       <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">
         ${termine || '<li>Noch kein Termin erfasst.</li>'}
       </ul>
       ${wegeBlock}
       ${andere}
+      ${umfeld.aehnlichHtml}
       <p><a href="${esc(SITE + hash)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
     </article>`
 }
@@ -259,7 +281,7 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
     '@type': istFilm ? 'Movie' : 'TVSeries',
     name: release.name,
     url,
-    inLanguage: 'de',
+    ...sprachFeld(title),
     /* Dieselbe Beschreibung wie im og:description — eine Auskunft, eine Quelle. */
     description: describe(release, title, today),
   }
@@ -310,12 +332,12 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
   return `    <script type="application/ld+json">${JSON.stringify(daten)}</script>`
 }
 
-function head(release: Release, title: Title | undefined, today: string, ak: number, adresse: string): string {
+function head(release: Release, title: Title | undefined, today: string, ak: number, adresse: string, umfeld: Umfeld): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
   const url = `${SITE}${teilenPfad(adresse)}`
   const image = `${SITE}og/${release.slug}.jpg?v=${OG_FASSUNG}`
-  const headline = `${release.name} — ${RELEASE_TYPES[release.releaseType].short} bei ${anbieterName(release.platform, release.sender)}`
+  const headline = seitenTitel(release.name, title, true)
   const description = describe(release, title, today)
   const hash = `#/woche?${next ? `d=${next.date}&` : ''}t=${ak}`
 
@@ -338,6 +360,7 @@ function head(release: Release, title: Title | undefined, today: string, ak: num
     <meta name="twitter:image" content="${image}" />
     <link rel="canonical" href="${url}" />
 ${strukturierteDaten(release, title, today, url)}
+${umfeld.krumenJsonLd}
     <script>
       // Läuft vor dem Modul-Skript der App, weil klassische Inline-Skripte
       // nicht deferred sind. Nur setzen, wenn der Besucher nicht schon selbst
@@ -363,9 +386,9 @@ function main(): void {
   // Die Synopsen liegen seit dem 10.08.2026 in Gruppen statt in einer Datei.
   // Hier werden alle gebraucht — die Seiten entstehen einmal im Build, nicht im
   // Browser, für ihn zählt die Aufteilung nicht.
-  const synopses: Record<string, { de?: string; en?: string }> = {}
+  const synopses: SynopsenFuerSeiten = {}
   for (let gruppe = 0; gruppe < SYNOPSIS_GROUPS; gruppe++) {
-    Object.assign(synopses, readJson<Record<string, { de?: string; en?: string }>>(`public/data/synopses/${gruppe}.json`, {}))
+    Object.assign(synopses, readJson<SynopsenFuerSeiten>(`public/data/synopses/${gruppe}.json`, {}))
   }
   const today = todayIso()
   /* Die Adresse eines Titels ist `/t/<ak>/` — unsere Kennung, ohne Namen (Stufe 1 der eigenen Kennungen). */
@@ -412,10 +435,11 @@ function main(): void {
    * Zwei Seiten schließen die Lücke: diese Übersicht verlinkt alle Termine, und
    * die Startseite verlinkt die Übersicht samt der nächsten Termine.
    */
-  schreibeUebersicht(releases, titleById, today, before, after, ROOT_TAG, adresseVon)
-  schreibeStartseite(releases, titleById, today, template, ROOT_TAG, adresseVon)
-
-  schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel })
+  const volleTitel = new Map(ladeAlleTitel().map((t) => [t.id, t]))
+  schreibeUebersicht(releases, titleById, belegteTermine(releases, volleTitel), today, before, after, ROOT_TAG, adresseVon)
+  /* Zuerst die Titelseiten samt Verzeichnis: Die Startseite verlinkt dessen Buchstaben. */
+  const buchstaben = schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel })
+  schreibeStartseite(releases, titleById, today, template, ROOT_TAG, adresseVon, buchstaben)
 }
 
 /** Was jede Titel-Seite gemeinsam hat: die Vorlage um die Marker, der Tag des Baus, Texte und Termine je Titel. */
@@ -424,42 +448,57 @@ interface SeitenRahmen {
   after: string
   rootTag: string
   today: string
-  synopses: Record<string, { de?: string; en?: string }>
+  synopses: SynopsenFuerSeiten
   jeTitel: Map<number, Release[]>
 }
 
-/** Die Seiten aller Titel — Hauptbestand unter ihrer Kennung, Cartoons unter ihrem Slug — samt Umleitungen und Sitemap. */
-function schreibeAlleTitelSeiten(akVon: AkVon, kennungsZeilen: KennungsZeile[], rahmen: SeitenRahmen): void {
+/** Der volle Bestand (`titles.json`); `titles-core.json` kennt nicht jeden Titel, den ein Termin nennt. */
+function ladeAlleTitel(): Title[] {
   const alleTitel = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
-  const titelListe = (Array.isArray(alleTitel) ? alleTitel : alleTitel.titles).filter((t) => t.slug)
+  return Array.isArray(alleTitel) ? alleTitel : alleTitel.titles
+}
+
+/** Die Seiten aller Titel — Hauptbestand unter ihrer Kennung, Cartoons unter ihrem Slug — samt Umleitungen und Sitemap. */
+function schreibeAlleTitelSeiten(akVon: AkVon, kennungsZeilen: KennungsZeile[], rahmen: SeitenRahmen): Buchstabe[] {
+  const titelListe = ladeAlleTitel().filter((t) => t.slug)
   const mitAk = titelListe.map((t) => ({ t, ak: akVon(t.id), adresse: String(akVon(t.id)) }))
   /* Cartoons (negative Kennung) behalten ihre Adresse mit Namen; dieselbe, die der Teilen-Knopf aus `title.slug` bildet. */
   const cartoons = readJson<Title[]>('public/data/cartoons.json', []).filter((t) => t.slug)
   const cartoonSeiten = cartoons.map((t) => ({ t, ak: t.id, adresse: t.slug }))
-  schreibeTitelSeiten([...mitAk, ...cartoonSeiten], rahmen)
+  /* Cartoon-Seiten nur mit belegter Synchro (`dub: true`) in Sitemap, Verzeichnis und Links; ohne Beleg bleibt die Seite erreichbar, wird aber nicht angeboten. */
+  const angeboten = [...mitAk, ...cartoonSeiten.filter(({ t }) => cartoonMitSynchroBeleg(t))]
+  const umfeld: UmfeldRahmen = {
+    anime: titelListe,
+    cartoons,
+    adresseVon: new Map(angeboten.map(({ t, adresse }) => [t.id, adresse])),
+    imVerzeichnis: new Set(angeboten.map(({ t }) => t.id)),
+  }
+  schreibeTitelSeiten([...mitAk, ...cartoonSeiten], rahmen, umfeld)
 
   /* Mails und Kalender-Einträge nennen `/t/<Kennung>/`: Bei Cartoons mit Termin (negative Kennung) führt das zur Seite mit Namen. */
   const cartoonUmleitungen = cartoonSeiten.filter(({ t }) => rahmen.jeTitel.has(t.id)).map(({ t, adresse }): [number, string] => [t.id, adresse])
   schreibeUmleitungen([...umleitungen(kennungsZeilen), ...cartoonUmleitungen])
   log(`${titelListe.length} Titel-Seiten und ${cartoons.length} Cartoon-Seiten, Übersicht und Startseite geschrieben`)
-  /* Cartoon-Seiten nur mit belegter Synchro (`dub: true`) in die Sitemap; ohne Beleg bleibt die Seite erreichbar, wird aber nicht angeboten. */
-  const sitemapCartoons = cartoonSeiten.filter(({ t }) => cartoonMitSynchroBeleg(t))
-  writeSitemap([...mitAk, ...sitemapCartoons].map(({ t, adresse }) => ({ ...t, slug: adresse })))
+  const buchstaben = schreibeVerzeichnis(DIST, rahmen, angeboten.map(({ t, adresse }) => ({ name: titelName(t), adresse, belegt: synchroBelegt(t) })))
+  writeSitemap(angeboten.map(({ t, adresse }) => ({ slug: adresse, lastmod: titelAenderung(t, rahmen.jeTitel.get(t.id) ?? [], rahmen.today) })), verzeichnisAdressen(buchstaben))
+  return buchstaben
 }
 
 /** Eine Seite je Titel: Hat er Termine, trägt sie den nächsten (sonst den letzten) samt der übrigen; sonst die schlichte Titelseite. */
-function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[], r: SeitenRahmen): void {
+function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[], r: SeitenRahmen, umfeldRahmen: UmfeldRahmen): void {
   for (const { t, ak, adresse } of mitAk) {
     const dir = resolve(DIST, teilenPfad(adresse))
     mkdirSync(dir, { recursive: true })
     const eigene = r.jeTitel.get(t.id) ?? []
     const haupt = naechsterTermin(eigene, r.today)
     /* Cartoons tragen ihre Beschreibung am Titel, nicht in `synopses/`. */
-    const synopsis = r.synopses[String(t.id)]?.de ?? (t.westlich ? t.synopsis : undefined)
-    const kopf = haupt ? head(haupt, t, r.today, ak, adresse) : titelKopf({ ...t, id: ak, slug: adresse })
+    const text = r.synopses[String(t.id)]?.de ?? (t.westlich ? t.synopsis : undefined)
+    const synopsis = text ? { text, quelle: seitenQuelle(r.synopses[String(t.id)]) } : undefined
+    const umfeld = umfeldFuer(t, `${SITE}${teilenPfad(adresse)}`, umfeldRahmen)
+    const kopf = haupt ? head(haupt, t, r.today, ak, adresse, umfeld) : titelKopf({ ...t, id: ak, slug: adresse }, umfeld)
     const inhalt = haupt
-      ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak)
-      : titelInhalt({ ...t, id: ak, slug: adresse }, synopsis, eigene)
+      ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak, umfeld)
+      : titelInhalt({ ...t, id: ak, slug: adresse }, synopsis, eigene, umfeld)
     writeFileSync(resolve(dir, 'index.html'), (r.before + kopf + r.after).replace(r.rootTag, `<div id="root">${inhalt}</div>`), 'utf8')
   }
 }
@@ -496,11 +535,6 @@ function naechsterTermin(rs: Release[], today: string): Release | undefined {
   return nachDatum.find((r) => r.schedule.firstEpisodeDate >= today) ?? nachDatum[nachDatum.length - 1]
 }
 
-/** Gemeinsamer Rahmen für die beiden vorgerenderten Seiten. */
-const STIL =
-  'max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;' +
-  'font-family:system-ui,sans-serif;line-height:1.6;'
-
 function terminZeile(release: Release, titel: Title | undefined, adresse: string): string {
   const name = esc(release.name || titel?.titleDe || titel?.titleEn || release.slug)
   const datum = release.schedule.firstEpisodeDate.split('-').reverse().join('.')
@@ -514,6 +548,7 @@ function terminZeile(release: Release, titel: Title | undefined, adresse: string
 function schreibeUebersicht(
   releases: Release[],
   titleById: Map<number, Title>,
+  belegt: number,
   today: string,
   before: string,
   after: string,
@@ -528,19 +563,18 @@ function schreibeUebersicht(
 
   const liste = (rs: Release[]) =>
     rs.map((r) => terminZeile(r, titleById.get(r.titleId), adresseVon(r.titleId))).join('')
-
+  const texte =uebersichtTexte(releases.length, belegt, kommend.length)
   const inhalt =
     `<article style="${STIL}">\n` +
-    `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">Alle Termine mit deutscher Synchronisation</h1>\n` +
-    `      <p style="margin:0 0 1.5rem;color:#9aa5bd;">${releases.length} Veröffentlichungen, ` +
-    `${kommend.length} davon stehen noch an.</p>\n` +
+    `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${texte.ueberschrift}</h1>\n` +
+    `      <p style="margin:0 0 1.5rem;color:#9aa5bd;">${texte.stand}</p>\n` +
     (kommend.length
       ? `      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Kommende Termine</h2>\n` +
         `      <ul style="margin:0 0 2rem;padding-left:1.2rem;">\n${liste(kommend)}      </ul>\n`
       : '') +
     `      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Bereits erschienen</h2>\n` +
     `      <ul style="margin:0 0 2rem;padding-left:1.2rem;">\n${liste(vergangen)}      </ul>\n` +
-    `      <p><a href="${SITE}" style="color:#7dd3fc;">Zum Kalender</a></p>\n` +
+    `      <p><a href="${SITE}" style="color:#7dd3fc;">Zum Kalender</a> · <a href="${SITE}titel/" style="color:#7dd3fc;">Alle Titel von A bis Z</a></p>\n` +
     `    </article>`
 
   /**
@@ -559,8 +593,8 @@ function schreibeUebersicht(
   const listenDaten = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Anime-Termine mit deutscher Synchronisation',
-    description: `${releases.length} Veröffentlichungen, ${kommend.length} davon stehen noch an.`,
+    name: texte.listenName,
+    description: texte.stand,
     numberOfItems: releases.length,
     itemListElement: naechsteZwanzig.map((r, i) => ({
       '@type': 'ListItem',
@@ -570,8 +604,8 @@ function schreibeUebersicht(
     })),
   }
   const kopf =
-    `    <title>Alle Anime-Termine mit deutscher Synchro — Anime-Kalender DE</title>\n` +
-    `    <meta name="description" content="Vollständige Liste aller ${releases.length} Anime-Veröffentlichungen mit deutscher Synchronisation: Termin, Anbieter und Details je Titel." />\n` +
+    `    <title>${texte.seitenTitel}</title>\n` +
+    `    <meta name="description" content="${texte.beschreibung}" />\n` +
     `    <link rel="canonical" href="${SITE}termine/" />\n` +
     /*
       Ohne Vorschaubild steht beim Teilen ein leerer Kasten. Das Bild der
@@ -609,24 +643,15 @@ function schreibeStartseite(
   template: string,
   rootTag: string,
   adresseVon: (titleId: number) => string,
+  buchstaben: Buchstabe[],
 ): void {
   const naechste = [...releases]
     .filter((r) => r.schedule.firstEpisodeDate >= today)
     .sort((a, b) => a.schedule.firstEpisodeDate.localeCompare(b.schedule.firstEpisodeDate))
     .slice(0, 20)
 
-  const inhalt =
-    `<article style="${STIL}">\n` +
-    `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">Anime-Kalender DE</h1>\n` +
-    `      <p style="margin:0 0 1.5rem;">Alle Anime, für die es eine deutsche Synchronfassung gibt oder geben wird — mit Termin, Anbieter und Kalender-Export.</p>\n` +
-    (naechste.length
-      ? `      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Als nächstes</h2>\n` +
-        `      <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">\n` +
-        naechste.map((r) => terminZeile(r, titleById.get(r.titleId), adresseVon(r.titleId))).join('') +
-        `      </ul>\n`
-      : '') +
-    `      <p><a href="${SITE}termine/" style="color:#7dd3fc;">Alle ${releases.length} Termine ansehen</a></p>\n` +
-    `    </article>`
+  const termine = naechste.map((r) => terminZeile(r, titleById.get(r.titleId), adresseVon(r.titleId))).join('')
+  const inhalt = startseiteInhalt(termine, releases.length, buchstaben)
 
   /**
    * **Die Startseite sagt, was diese Seite ist.**
@@ -645,9 +670,9 @@ function schreibeStartseite(
     '@type': 'WebSite',
     url: SITE,
     name: 'Anime-Kalender DE',
+    alternateName: 'Deutscher Anime-Kalender',
     inLanguage: 'de-DE',
-    description:
-      'Alle Anime, für die es eine deutsche Synchronfassung gibt oder geben wird — mit Termin, Anbieter und Kalender-Export.',
+    description: START_AUSSAGE,
     potentialAction: {
       '@type': 'SearchAction',
       target: { '@type': 'EntryPoint', urlTemplate: `${SITE}#/datenbank?q={search_term_string}` },
@@ -680,15 +705,17 @@ function schreibeStartseite(
  * bekommt eine Suchmaschine nie zu sehen, sie würde für jede dieser Adressen
  * dieselbe Startseite indexieren.
  */
-function writeSitemap(titel: Title[] = []): void {
+function writeSitemap(titel: { slug: string; lastmod?: string }[], verzeichnis: string[]): void {
   // Die Übersicht gehört dazu: Sie ist der Einstieg zu allen Teilen-Seiten.
   const today = todayIso()
   const urls = [
     { loc: SITE, priority: '1.0', changefreq: 'daily', lastmod: today },
     // Der Einstieg zu allen Teilen-Seiten — er muss selbst gefunden werden.
     { loc: `${SITE}termine/`, priority: '0.9', changefreq: 'daily', lastmod: today },
-    // Titelseiten ohne lastmod: Ein belegbares Änderungsdatum je Seite gibt es nicht, „heute" wäre geraten.
-    ...titel.map((t) => ({ loc: `${SITE}${teilenPfad(t.slug)}`, priority: '0.6', changefreq: 'weekly', lastmod: undefined as string | undefined })),
+    // Das A–Z-Verzeichnis: der Einstieg zu jeder Titelseite.
+    ...verzeichnis.map((loc) => ({ loc, priority: '0.8', changefreq: 'weekly', lastmod: undefined as string | undefined })),
+    // Titelseiten: lastmod nur, wo die Daten des Titels ein Datum nennen (`titelAenderung`), nie „heute".
+    ...titel.map((t) => ({ loc: `${SITE}${teilenPfad(t.slug)}`, priority: '0.6', changefreq: 'weekly', lastmod: t.lastmod })),
   ]
 
   const xml =

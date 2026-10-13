@@ -52,7 +52,7 @@ export async function starteBuehne() {
   return { browser, seite, fremde }
 }
 
-/** Alle Mockups der Bühne (Namen aus der Übersicht) samt Varianten und Fällen (aus den Knöpfen der Leiste). */
+/** Alle Mockups der Bühne (Namen aus der Übersicht) samt Varianten, Fällen und Zeiten (aus den Knöpfen der Leiste). */
 export async function listeMockups(seite) {
   await seite.goto(`${ADRESSE}#`, { waitUntil: 'load' })
   await seite.locator('.uebersicht a[data-mockup]').first().waitFor()
@@ -63,7 +63,7 @@ export async function listeMockups(seite) {
     await seite.goto(`${ADRESSE}#${encodeURIComponent(name)}`, { waitUntil: 'load' })
     await seite.locator('.leiste').waitFor()
     const wertDer = (gruppe) => seite.$$eval(`.gruppe[data-gruppe="${gruppe}"] button`, (bs) => bs.map((b) => b.dataset.wert))
-    liste.push({ name, varianten: await wertDer('Variante'), faelle: await wertDer('Fall') })
+    liste.push({ name, varianten: await wertDer('Variante'), faelle: await wertDer('Fall'), zeiten: await wertDer('Zeit') })
   }
   return liste
 }
@@ -102,8 +102,9 @@ async function warteAufZellen(seite) {
 }
 
 /** Öffnet eine Ansicht der Bühne (Gerät und Thema `beide`) und gibt die Zellen zurück: `{ schluessel: 'vorher-375-hell', frame, figur }`. */
-export async function oeffneZellen(seite, { mockup, variante, fall, teil }) {
+export async function oeffneZellen(seite, { mockup, variante, fall, teil, zeit }) {
   const w = new URLSearchParams({ v: variante, fall, geraet: 'beide', thema: 'beide', teil })
+  if (zeit) w.set('zeit', zeit)
   await seite.goto('about:blank')
   await seite.goto(`${ADRESSE}#${encodeURIComponent(mockup)}?${w}`, { waitUntil: 'load' })
   await seite.locator('iframe[data-zelle]').first().waitFor()
@@ -111,17 +112,19 @@ export async function oeffneZellen(seite, { mockup, variante, fall, teil }) {
 }
 
 /**
- * Geht alle Mockups × Fälle × Varianten durch. Die erste Variante bringt Vorher und Nachher, jede weitere nur Nachher —
- * Vorher ist ja immer dasselbe. `filter` (Namensteil) schränkt die Mockups ein.
+ * Geht alle Mockups × Fälle × Zeiten × Varianten durch (ohne `zeiten` im Mockup einmal ohne Zeit). Die erste Variante bringt
+ * Vorher und Nachher, jede weitere nur Nachher — Vorher ist ja immer dasselbe. `filter` (Namensteil) schränkt die Mockups ein.
  */
 export async function durchlaufe(seite, filter, beiZellen) {
   const mockups = (await listeMockups(seite)).filter((m) => !filter || m.name.includes(filter))
   if (!mockups.length) throw new Error(`kein Mockup${filter ? ` mit „${filter}“` : ''} gefunden`)
   for (const m of mockups) {
     for (const fall of m.faelle) {
-      for (const [i, variante] of m.varianten.entries()) {
-        const zellen = await oeffneZellen(seite, { mockup: m.name, variante, fall, teil: i === 0 ? 'beide' : 'nachher' })
-        await beiZellen({ mockup: m.name, fall, variante, zellen })
+      for (const zeit of m.zeiten.length ? m.zeiten : [undefined]) {
+        for (const [i, variante] of m.varianten.entries()) {
+          const zellen = await oeffneZellen(seite, { mockup: m.name, variante, fall, teil: i === 0 ? 'beide' : 'nachher', zeit })
+          await beiZellen({ mockup: m.name, fall, variante, zeit, zellen })
+        }
       }
     }
   }

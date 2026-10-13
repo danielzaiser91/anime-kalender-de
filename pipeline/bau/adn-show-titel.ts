@@ -8,7 +8,10 @@
  * bei eindeutigem Treffer.
  */
 import { normalizeTitle } from '../lib/crunchyroll.ts'
-import type { AdnShow } from '../lib/adn.ts'
+import { bewerteTreffer, passtZuSerie, type AdnShow } from '../lib/adn.ts'
+import { normalisiere } from '../lib/anisearch-namen.ts'
+import { log } from '../lib/util.ts'
+import { anisearchKennungen } from './anisearch-kennung.ts'
 import type { Title } from '../../shared/types.ts'
 
 /** Name ohne Akzente, ohne „Gekijōban"/„Eiga" vorn und ohne „Movie"/„Movie 1" hinten (höhere Nummern bleiben: "One Piece Movie 2" ist nicht Film 1). */
@@ -33,9 +36,51 @@ export function filmZurShow(show: Pick<AdnShow, 'title' | 'originalTitle' | 'epi
 /** Der Anime zu einer ADN-Show: Katalogkennung, dann Name, dann Originalname, zuletzt der Film unter anderer Schreibweise. */
 export function titelZurShow(show: AdnShow, titles: Map<number, Title>, titleByName: Map<string, Title>): Title | undefined {
   return (
-    (show.anilistId ? titles.get(show.anilistId) : undefined) ??
+    (show.titleId ? titles.get(show.titleId) : undefined) ??
     titleByName.get(normalizeTitle(show.title)) ??
     titleByName.get(normalizeTitle(show.originalTitle ?? '')) ??
     filmZurShow(show, titles.values())
   )
+}
+
+/** aniSearch-Kennung → die Titel im Datensatz, die sie tragen (meist einer; „Kennung mehrfach“ gibt es bei Doppelzeilen wie Wolf's Rain TV und OVA). */
+export function titelJeAnisearch(titles: Map<number, Title>): Map<number, Title[]> {
+  const kennungen = anisearchKennungen([...titles.values()].map((t) => ({ id: t.id, mal: t.malId })))
+  const jeKennung = new Map<number, Title[]>()
+  for (const [titelId, asId] of kennungen) jeKennung.set(asId, [...(jeKennung.get(asId) ?? []), titles.get(titelId)!])
+  return jeKennung
+}
+
+/** Bei mehreren Titeln unter einer Kennung der mit dem besten Namen (`bewerteTreffer`); gleichauf: keiner. */
+export function besterTitel(show: AdnShow, kandidaten: Title[]): Title | undefined {
+  if (kandidaten.length === 1) return kandidaten[0]
+  const wert = kandidaten
+    .map((t) => ({ t, w: bewerteTreffer(show, { title: { romaji: t.titleRomaji, english: t.titleEn } }) }))
+    .sort((a, b) => b.w - a.w)
+  return wert[0] && wert[0].w > (wert[1]?.w ?? Number.NEGATIVE_INFINITY) ? wert[0].t : undefined
+}
+
+/**
+ * Trägt der Titel den Namen der Serie? Ein geteiltes Wort genügt nicht (`WERKWOERTER` in lib/adn.ts); gleicher Name nach Normalisierung gilt immer —
+ * „TERRAFORMARS“ und „Terra Formars“ teilen kein ganzes Wort, „DAN DA DAN“ und „Dandadan“ auch nicht.
+ */
+export function nameTraegt(show: AdnShow, t: Title): boolean {
+  const namen = [t.titleRomaji, t.titleEn, t.titleNative].filter((n): n is string => Boolean(n))
+  const unsere = [show.title, show.originalTitle].filter((n): n is string => Boolean(n)).map(normalisiere)
+  return passtZuSerie(show, { title: { romaji: t.titleRomaji, english: t.titleEn, native: t.titleNative } }) || namen.some((n) => unsere.includes(normalisiere(n)))
+}
+
+/**
+ * Setzt `titleId` (Titel im Datensatz) an die Serien des Katalogs; nur im Bau, nie in der Datei. Der Weg ist die aniSearch-Kennung der Serie
+ * (`anisearchId`, `fetch-adn.ts`). Trägt der Titel den Namen nicht (`nameTraegt`), wird die Zuordnung verworfen.
+ */
+export function loeseAdnTitelIds(shows: AdnShow[], titles: Map<number, Title>): void {
+  const jeAnisearch = titelJeAnisearch(titles)
+  for (const show of shows) {
+    const t = show.anisearchId ? besterTitel(show, jeAnisearch.get(show.anisearchId) ?? []) : undefined
+    show.titleId = t?.id
+    if (!t || nameTraegt(show, t)) continue
+    log(`ADN-Katalog ${show.showId} („${show.title}“) gehört nicht zu ${t.titleRomaji} (Titel ${t.id}) — Zuordnung verworfen`)
+    show.titleId = undefined
+  }
 }

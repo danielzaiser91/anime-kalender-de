@@ -13,6 +13,8 @@ export interface MockupDef {
   ausschnitt: AusschnittName
   faelle: string[]
   varianten: Record<string, Variante>
+  /** Wählbare Uhrzeiten (Beschriftung → ISO mit Berliner Versatz); ohne Angabe gilt `faelle.heute`. */
+  zeiten?: Record<string, string>
 }
 
 const register = new Map<string, MockupDef>()

@@ -6,7 +6,7 @@ import { Tooltip } from '../ui.tsx'
 import { createPortal } from 'react-dom'
 import { googleCalendarUrl, wochenserie } from '@shared/ics.ts'
 import { downloadIcs } from './hilfen.tsx'
-import { merkenHuelleKlasse, merkenKnopfKlasse, merkenSymbolKlasse } from './merken-optik.ts'
+import { MERKEN_ZEILE_HUELLE, MERKEN_ZEILE_KNOPF, merkenHuelleKlasse, merkenKnopfKlasse, merkenSymbolKlasse } from './merken-optik.ts'
 
 /**
  * **„Merken" — ein Symbol, ein Wort, zwei Wege dahinter.**
@@ -20,6 +20,7 @@ export function MerkenKnopf({
   release,
   today,
   farbe,
+  zeile,
 }: {
   release?: Release
   today: string
@@ -28,6 +29,8 @@ export function MerkenKnopf({
    * (Daniel, 19.09.2026, Entwurf A2). Ohne: rund in der Zeile (Kino-Banner).
    */
   farbe?: string
+  /** In einer Anbieterzeile: größerer Knopf, ohne Rand und Eckplatz. */
+  zeile?: boolean
 }) {
   const { t } = useLang()
   const [merkenOffen, setMerkenOffen] = useState(false)
@@ -50,7 +53,7 @@ export function MerkenKnopf({
   const ev = kuenftige[0]
   if (!ev || !release) return null
   return (
-      <span className={merkenHuelleKlasse(Boolean(farbe))}>
+      <span className={zeile ? MERKEN_ZEILE_HUELLE : merkenHuelleKlasse(Boolean(farbe))}>
         <Tooltip text={t('detail.merkenTitel')} seite="oben">
         <button
           type="button"
@@ -76,7 +79,7 @@ export function MerkenKnopf({
           aria-expanded={merkenOffen}
           /* Nur das Symbol, rund (Daniel, 19.09.2026, Entwurf K3) — ~24 px statt ~80 px, gut tippbar. */
           aria-label={t('detail.merkenTitel')}
-          className={merkenKnopfKlasse(Boolean(farbe))}
+          className={zeile ? MERKEN_ZEILE_KNOPF : merkenKnopfKlasse(Boolean(farbe))}
           style={farbe ? { color: farbe, boxShadow: `0 0 0 1px ${farbe}` } : undefined}
         >
           {/*
@@ -86,7 +89,7 @@ export function MerkenKnopf({
             Schrift.
           */}
           {/* Google Material Symbols „calendar_add_on" (Apache 2.0) — Daniels Wahl vom 19.09.2026. */}
-          <svg viewBox="0 -960 960 960" className={merkenSymbolKlasse(Boolean(farbe))} fill="currentColor" aria-hidden="true">
+          <svg viewBox="0 -960 960 960" className={zeile ? 'size-5' : merkenSymbolKlasse(Boolean(farbe))} fill="currentColor" aria-hidden="true">
             <path d="M700-200h-90q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h90v-90q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v90h90q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5h-90v90q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63-12.82 0-21.32-8.63Q700-97.25 700-110v-90Zm-520 40q-24 0-42-18t-18-42v-540q0-24 18-42t42-18h65v-28q0-13.6 9-22.8 9-9.2 23.02-9.2t23.5 9.2Q310-861.6 310-848v28h260v-28q0-13.6 9-22.8 9-9.2 23.02-9.2t23.5 9.2Q635-861.6 635-848v28h65q24 0 42 18t18 42v269q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63-12.82 0-21.32-8.63-8.5-8.62-8.5-21.37v-79H180v350h290q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H180Zm0-470h520v-130H180v130Zm0 0v-130 130Z" />
           </svg>
         </button>
@@ -106,7 +109,7 @@ export function MerkenKnopf({
               />
               <span
                 style={pos ? { top: pos.top, right: pos.right } : { left: -9999, top: 0 }}
-                className="fixed z-50 flex w-max flex-col overflow-hidden rounded-lg border border-slate-200 bg-white text-[12px] shadow-lg dark:border-white/10 dark:bg-[#141b2d]"
+                className="fixed z-50 flex w-max flex-col overflow-hidden rounded-lg border border-slate-200 bg-white text-t4 shadow-lg dark:border-white/10 dark:bg-[#141b2d]"
               >
                 <a
                   href={googleCalendarUrl(ev, {}, wochenserie(kuenftige))}

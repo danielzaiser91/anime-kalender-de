@@ -1,0 +1,13 @@
+bauen	Datensatz bauen	2026-10-10T21:41:10.5465611Z [pipeline]   Spy × Family (2026-10-04): bleibt https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/, entfällt https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/
+bauen	Datensatz bauen	2026-10-10T21:41:10.5467569Z [pipeline]   Spy × Family (2026-10-04): bleibt https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/, entfällt https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/
+bauen	Datensatz bauen	2026-10-10T21:41:10.5533117Z [pipeline] 400 Einträge für die Nachrichtenseite, 485 Meldungen darin (neu 84, angekuendigt 136, disc 164, folgen 81, kino 6, nachgetragen 1, nachgereicht 5, verspaetet 8), davon 28 abgelöst und sichtbar geblieben
+bauen	Datensatz bauen	2026-10-10T21:41:11.0253972Z 20789 Titel in den Quellen, 0 neue Kennungen, 0 aniSearch-Zuordnungen ergänzt; 26349 Zeilen, davon 17683 mit aniSearch (67 %).
+bauen	Datensatz bauen	2026-10-10T21:41:11.0477507Z data/kennungen.json geschrieben.
+bauen	Datensatz bauen	2026-10-10T21:41:11.3208722Z [pipeline] Titelrang für 21618 Titel gerechnet, 14 ohne belegte Synchro markiert
+bauen	Datensatz bauen	2026-10-10T21:41:11.3463065Z   ✖ Wochen-Datei: Titel -284833 zu Termin avatar-die-sieben-haefen-paramountplus@2026-10-09#1 fehlt
+bauen	Datensatz bauen	2026-10-10T21:41:11.3464218Z   ✖ Wochen-Datei: Titel -284833 zu Termin avatar-die-sieben-haefen-paramountplus@2026-10-09#2 fehlt
+bauen	Datensatz bauen	2026-10-10T21:41:11.3465516Z   ✖ Wochen-Datei: Titel -284833 zu Termin avatar-die-sieben-haefen-paramountplus@2026-10-09#3 fehlt
+bauen	Datensatz bauen	2026-10-10T21:41:11.3466267Z 
+bauen	Datensatz bauen	2026-10-10T21:41:11.3466760Z 3 Widerspruch/Widersprüche in woche.json — Bau abgebrochen.
+bauen	Datensatz bauen	2026-10-10T21:41:11.4402799Z ##[error]Process completed with exit code 1.
+

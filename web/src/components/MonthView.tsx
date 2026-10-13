@@ -6,10 +6,11 @@ import { addDays, diffDays, formatDate, startOfMonth, startOfWeek, todayIso, wee
 import { useLang } from '../lib/i18n.tsx'
 import { useAbSm } from '../lib/use-breit.ts'
 import { coverBild } from '../lib/cover.ts'
-import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
+import { istStaffelstart } from '../lib/staffelstart.ts'
+import { ART_STIL, kartenArt, type KartenArt } from '../lib/kachel-folgen.ts'
 import { tageDerWoche, type Tag } from './WeekView.tsx'
 import { buendeleKacheln } from '../lib/buendel.ts'
-import { anbieterVerlauf, eigenstaendigBeiAnbietern, vereineAnbieter, zeitGemeinsam, type AnbieterKachel } from '../lib/anbieter-kachel.ts'
+import { anbieterVerlauf, eigenstaendigBeiAnbietern, kanalAnbieterVon, vereineAnbieter, zeitGemeinsam, type AnbieterKachel } from '../lib/anbieter-kachel.ts'
 import { AnbieterAngaben } from './kalender/AnbieterAngaben.tsx'
 import { Schwebe } from './kalender/Schwebe.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
@@ -26,8 +27,10 @@ export interface MonatProps {
   onOpen: (slug: string, date: string) => void
   /** Tag in der Woche zeigen (springt dort zu diesem Tag). */
   onPickDay: (date: string) => void
-  /** Je gebündeltem Termin die letzte Folge des Bündels (`buendeleTermine`) — nur innerhalb einer Zelle gesetzt. */
-  folgenBis?: Map<string, number>
+  /** Je gebündeltem Termin das ganze Bündel (`buendeleTermine`) — nur innerhalb einer Zelle gesetzt. */
+  buendel?: Map<string, ReleaseEvent[]>
+  /** Je Kachel ihre Auszeichnung (Staffelstart, -finale, Katalog-Release) — nur innerhalb einer Zelle gesetzt. */
+  arten?: Map<string, KartenArt>
   /** Je Termin, der in seiner Zelle mehrere Anbieter vertritt, alle Bündel (`vereineAnbieter`) — nur innerhalb einer Zelle gesetzt. */
   mehrere?: Map<string, AnbieterKachel>
 }
@@ -83,12 +86,14 @@ function MonatsZelle({ tag, p: alle, heute, vorbei, t }: { tag: Tag; p: MonatPro
   /* Nur die Zelle, die der Bildschirm zeigt: am Handy entfällt die Cover-Zelle samt Schwebekarten. */
   const breit = useAbSm()
   /* Vier Folgen desselben Titels am selben Tag sind ein Bündel — wie in der Woche (Polar Opposites S2, 04.10.2026). */
-  const gruppen = buendeleKacheln(tag.stream.filter((e) => !alle.hidden.has(e.titleId)), (ev) => art(ev, alle.data))
+  const gruppen = buendeleKacheln(tag.stream.filter((e) => !alle.hidden.has(e.titleId)), (ev) => istStaffelstart(ev, alle.data))
   /* Derselbe Titel bei zwei Anbietern am selben Tag ist ein Cover mit geteilter Leiste (Reborn as a Space Mercenary, 11.10.2026). */
-  const kacheln = vereineAnbieter(gruppen, eigenstaendigBeiAnbietern)
+  const kacheln = vereineAnbieter(gruppen, eigenstaendigBeiAnbietern, kanalAnbieterVon(alle.data.releaseBySlug))
   const stream = kacheln.map((k) => k[0]![0]!)
   const mehrere = new Map(kacheln.filter((k) => k.length > 1).map((k) => [k[0]![0]!.id, k]))
-  const p = { ...alle, mehrere, folgenBis: new Map(gruppen.filter((g) => g.length > 1 && g.at(-1)!.episode).map((g) => [g[0]!.id, g.at(-1)!.episode!])) }
+  const buendel = new Map(gruppen.filter((g) => g.length > 1).map((g) => [g[0]!.id, g]))
+  const arten = artenDerKacheln(kacheln, alle.data)
+  const p = { ...alle, mehrere, buendel, arten }
   /* Ist das Fernsehen ausgeschaltet, stehen hier nur noch Premieren (App, 19.09.2026). */
   const tv = tag.tv
   const rahmen = [
@@ -187,7 +192,7 @@ function PunkteReihe({ stream, p }: { stream: ReleaseEvent[]; p: MonatProps }) {
         <span
           key={ev.id}
           data-monatspunkt
-          data-art={artKachel(ev, p)}
+          data-art={p.arten?.get(ev.id)}
           className="ak-punkt block size-2.5 rounded-full"
           style={{ '--punkt': PLATFORMS[ev.platform]?.color, background: farbleiste(ev, p) } as CSSProperties}
         />
@@ -200,10 +205,10 @@ function PunkteReihe({ stream, p }: { stream: ReleaseEvent[]; p: MonatProps }) {
 /** Farbe und Ring tragen nie allein: Der Knopf nennt Titel, Anbieter und Staffelstart/-finale der ersten Termine. */
 function punkteLabel(stream: ReleaseEvent[], tvZahl: number, datum: string, p: MonatProps, t: ReturnType<typeof useLang>['t']): string {
   const titel = stream.slice(0, LABEL_TITEL).map((ev) => {
-    const a = artKachel(ev, p)
+    const a = p.arten?.get(ev.id)
     const koepfe = (p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => b[0]!)
     const anbieter = koepfe.map((k) => (k.platform === 'tv' ? (k.sender ?? PLATFORMS.tv.name) : PLATFORMS[k.platform].name)).join(' + ')
-    return `${ev.name} (${a ? `${anbieter}, ${t(a === 'start' ? 'kal.start' : 'kal.finale')}` : anbieter})`
+    return `${ev.name} (${a ? `${anbieter}, ${t(ART_STIL[a].name)}` : anbieter})`
   })
   const rest = stream.length - titel.length
   const teile = [...titel, ...(rest > 0 ? [t('kal.undWeitere', { n: rest })] : []), ...(tvZahl ? [t('kal.imTvZahl', { n: tvZahl })] : [])]
@@ -218,13 +223,14 @@ function TagesZahl({ tag, heute }: { tag: Tag; heute: boolean }) {
   )
 }
 
-function art(ev: ReleaseEvent, data: Dataset): 'start' | 'finale' | undefined {
-  return istStaffelstart(ev, data) ? 'start' : istStaffelfinale(ev, data) ? 'finale' : undefined
-}
-
-/** Die Art der Kachel: die erste, die einer ihrer Anbieter trägt. */
-function artKachel(ev: ReleaseEvent, p: MonatProps): 'start' | 'finale' | undefined {
-  return (p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => art(b[0]!, p.data)).find(Boolean)
+/** Die Art jeder Kachel: die erste, die einer ihrer Anbieter-Bündel trägt (wie in der Woche). */
+function artenDerKacheln(kacheln: AnbieterKachel[], data: Dataset): Map<string, KartenArt> {
+  const arten = new Map<string, KartenArt>()
+  for (const k of kacheln) {
+    const art = k.map((b) => kartenArt(b, data)).find(Boolean)
+    if (art) arten.set(k[0]![0]!.id, art)
+  }
+  return arten
 }
 
 /** Die Leiste bzw. der Punkt in Anbieterfarbe, bei mehreren Anbietern geteilt. */
@@ -236,16 +242,16 @@ function farbleiste(ev: ReleaseEvent, p: MonatProps): string {
 function CoverKnopf({ ev, p }: { ev: ReleaseEvent; p: MonatProps }) {
   const { t } = useLang()
   const cover = p.data.titleById.get(ev.titleId)?.coverImage
-  const a = artKachel(ev, p)
+  const a = p.arten?.get(ev.id)
   return (
     <Schwebe art="zeigen" breite={300} inhalt={<TerminZeile ev={ev} p={p} gross />}>
       <button
         type="button"
         onClick={() => p.onOpen(ev.releaseSlug, ev.date)}
-        aria-label={`${ev.name} — ${(p.mehrere?.get(ev.id) ?? [[ev]]).map((b) => anbieterUndFolge(b[0]!, t)).join('; ')}`}
+        aria-label={`${ev.name} — ${(p.mehrere?.get(ev.id) ?? [p.buendel?.get(ev.id) ?? [ev]]).map((b) => anbieterUndFolge(b[0]!, t, b)).join('; ')}`}
         className={[
           'relative block h-8 w-[22px] shrink-0 cursor-pointer overflow-hidden rounded-[5px] bg-ak-flaeche-2 transition hover:scale-105 sm:h-14 sm:w-[38px] sm:rounded-md',
-          a === 'start' ? 'ring-2 ring-ak-akzent' : a === 'finale' ? 'ring-2 ring-ak-finale' : '',
+          a ? `ring-2 ${ART_STIL[a].ring}` : '',
         ].join(' ')}
       >
         {cover && <img {...coverBild(cover, 38)} alt="" loading="lazy" className="size-full object-cover" />}
@@ -315,7 +321,7 @@ function TvInhalt({ tag, p }: { tag: Tag; p: MonatProps }) {
 function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?: boolean }) {
   const { t } = useLang()
   const cover = p.data.titleById.get(ev.titleId)?.coverImage
-  const a = artKachel(ev, p)
+  const a = p.arten?.get(ev.id)
   const kachel = p.mehrere?.get(ev.id)
   return (
     <button
@@ -333,15 +339,15 @@ function TerminZeile({ ev, p, gross }: { ev: ReleaseEvent; p: MonatProps; gross?
           {(!kachel || zeitGemeinsam(kachel)) && <ZeitMarke event={ev} t={t} />}
           <SpracheMarke event={ev} t={t} />
           {a && (
-            <span className={`rounded-full px-1.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14] ${a === 'start' ? 'bg-ak-akzent' : 'bg-ak-finale'}`}>
-              {t(a === 'start' ? 'kal.start' : 'kal.finale')}
+            <span className={`rounded-full px-1.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14] ${ART_STIL[a].fahne}`}>
+              {t(ART_STIL[a].name)}
             </span>
           )}
           {ev.premiere && <PremiereMarke platform={ev.platform} vorher={ev.premiereVorher} className="px-1.5" />}
         </span>
         <span className="line-clamp-2 text-[13px] font-bold leading-snug text-ak-text">{ev.name}</span>
         <span className="text-xs text-ak-leise">
-          {kachel ? <AnbieterAngaben kachel={kachel} t={t} /> : anbieterUndFolge(ev, t, p.folgenBis?.get(ev.id))}
+          {kachel ? <AnbieterAngaben kachel={kachel} t={t} /> : anbieterUndFolge(ev, t, p.buendel?.get(ev.id))}
         </span>
       </span>
     </button>

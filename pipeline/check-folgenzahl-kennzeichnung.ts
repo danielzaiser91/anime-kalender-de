@@ -21,6 +21,7 @@ function pruefe(name: string, ok: boolean, info = ''): void {
 const t = (key: string, params?: Record<string, string | number>): string => (params ? `${key}${JSON.stringify(params)}` : key)
 const HEUTE = '2026-10-11'
 const ZAHL = 'detail.folgenKurz'
+const SPANNE = 'detail.folgenBereich'
 
 function pille(title: Title, s: StreamLink, releases: Release[] = []): string {
   const fn = folgenAuskunft({ releases, title, t: t as never, releaseJePlattform: new Map(releases.map((r) => [r.platform, r])), today: HEUTE })
@@ -32,8 +33,32 @@ const ohneBereiche = { platform: 'netflix', url: 'https://www.netflix.com/title/
 const mitBereichen = { ...ohneBereiche, dubRanges: [{ from: 1, to: 12, dub: true }] } as StreamLink
 
 pruefe('Haken ohne Bereiche, Serie beendet: Titelzahl mit „≈“', pille(beendet, ohneBereiche) === `≈ ${ZAHL}{"n":12}`, pille(beendet, ohneBereiche))
-pruefe('Mit Bereichen am Weg: Zahl ohne „≈“', pille(beendet, mitBereichen) === `${ZAHL}{"n":12}`, pille(beendet, mitBereichen))
+pruefe('Mit Bereichen am Weg: Zahl ohne „≈“', pille(beendet, mitBereichen) === `${SPANNE}{"bereich":"1–12"}`, pille(beendet, mitBereichen))
 pruefe('Ohne Haken: keine Zahl', pille(beendet, { ...ohneBereiche, dub: undefined }) === '')
+
+/* Wochenplan, dessen Termine fortgeschrieben sind (`estimated`): die erschienene Spanne ist abgeleitet und trägt „≈“; belegte Bereiche decken sie (12.10.2026). */
+const plan = (geschaetzt: boolean): Release =>
+  ({
+    slug: 'plan-test',
+    titleId: 1,
+    name: 'Plan',
+    platform: 'netflix',
+    platformUrl: 'https://www.netflix.com/title/1',
+    releaseType: 'weekly',
+    schedule: {
+      firstEpisodeDate: '2026-09-20',
+      time: '17:00',
+      episodeCount: 12,
+      estimated: geschaetzt,
+    },
+    sources: [],
+  }) as unknown as Release
+const laufend = { ...beendet, jpEnd: undefined, episodes: 12 } as unknown as Title
+const bereicheBis = (to: number): StreamLink => ({ ...ohneBereiche, dubRanges: [{ from: 1, to, dub: true }] }) as StreamLink
+pruefe('Wochenplan fortgeschrieben, keine Bereiche: Spanne mit „≈“', pille(laufend, ohneBereiche, [plan(true)]).startsWith(`≈ ${SPANNE}`), pille(laufend, ohneBereiche, [plan(true)]))
+pruefe('Wochenplan belegt: Spanne ohne „≈“', pille(laufend, ohneBereiche, [plan(false)]).startsWith(SPANNE), pille(laufend, ohneBereiche, [plan(false)]))
+pruefe('Fortgeschriebener Plan hinter belegten Bereichen: „≈“', pille(laufend, bereicheBis(2), [plan(true)]).startsWith(`≈ ${SPANNE}`), pille(laufend, bereicheBis(2), [plan(true)]))
+pruefe('Belegte Bereiche decken den fortgeschriebenen Plan: kein „≈“', pille(laufend, bereicheBis(12), [plan(true)]).startsWith(SPANNE), pille(laufend, bereicheBis(12), [plan(true)]))
 
 /* Der Antwortkasten sagt dasselbe wie die Pille: abgeleitet → „≈ N“ statt „Alle N“, belegt → unverändert (Cowboy Bebop, 11.10.2026). */
 function kastenFertig(title: Title, releases: Release[] = []) {

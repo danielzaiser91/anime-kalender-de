@@ -4,7 +4,6 @@ import { useState, useEffect, type ReactNode } from 'react'
 import { type Meldung, type VermerkAusgeblieben } from '@shared/types.ts'
 import { loadMeldungen } from '../../lib/data.ts'
 import { naechsteRecherche } from '@shared/recherche-plan.ts'
-import { Tooltip } from '../ui.tsx'
 
 /**
  * Was Meldungen über einen Titel sagen, ohne einen Tag zu nennen.
@@ -50,18 +49,18 @@ export function Meldungen({ titleId }: { titleId: number }) {
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}
-        className="cursor-pointer text-xs text-sky-700 dark:text-sky-300 hover:underline"
+        className="-my-3 inline-flex min-h-11 cursor-pointer items-center text-t4 text-sky-700 hover:underline dark:text-sky-300"
       >
         {offen ? t('detail.newsHide') : t('detail.newsShow', { count: liste.length })}
       </button>
       {!offen ? null : (
       <>
-      <p className="mb-2 mt-2 text-xs text-slate-500 dark:text-slate-400">{t('detail.newsHint')}</p>
+      <p className="mb-2 mt-2 text-t4 text-slate-500 dark:text-slate-400">{t('detail.newsHint')}</p>
       <ul className="space-y-2">
         {liste.map((m) => (
           <li
             key={m.quelle.url}
-            className="rounded border-l-2 border-sky-500/50 bg-slate-500/5 py-1.5 pl-2 pr-2 text-xs"
+            className="rounded border-l-2 border-sky-500/50 bg-slate-500/5 py-1.5 pl-2 pr-2 text-t4"
           >
             <a
               href={m.quelle.url}
@@ -72,11 +71,11 @@ export function Meldungen({ titleId }: { titleId: number }) {
               {m.titel}
             </a>
             {m.zitat && (
-              <p className="mt-1 italic leading-relaxed text-slate-500 dark:text-slate-400">
+              <p className="mt-1 italic text-slate-500 dark:text-slate-400">
                 „… {m.zitat} …"
               </p>
             )}
-            <p className="mt-1 text-[11px] text-slate-400">
+            <p className="mt-1 text-t5 text-slate-400">
               {m.quelle.name} · {formatDate(m.datum)}
             </p>
           </li>
@@ -289,47 +288,11 @@ export function VermerkAuskunft({
   if (ueberfaellig) zeilen.push(T('antwort.vermerkAnnahme'))
   if (!zeilen.length) return null
   return (
-    <div className="mt-2 space-y-0.5 border-t border-slate-200/70 pt-1.5 text-[11px] leading-snug text-slate-600 dark:border-white/10 dark:text-slate-300">
+    <div className="mt-2 space-y-0.5 border-t border-slate-200/70 pt-1.5 text-t5 text-slate-600 dark:border-white/10 dark:text-slate-300">
       {zeilen.map((z, i) => (
         <p key={i}>{z}</p>
       ))}
     </div>
-  )
-}
-
-/*
-  **Der DE-Beleg als Häkchen auf der Ecke** (Daniel, 19.09.2026, aus vier Entwürfen: „nur das
-  häkchen oben rechts … bei hover tooltip"). „DE ✓" kostete rund 35 px je Pille; unbelegte
-  Wege tragen gar kein Zeichen mehr — der Tooltip sagt, was das Häkchen heißt.
-*/
-export const DUB_HAKEN_KLASSE =
-  'grid size-4 place-items-center rounded-full bg-emerald-500 text-[9px] font-black leading-none text-white ring-2 ring-white dark:ring-[#0f1b2e]'
-
-/* „Deutsch laut JustWatch": Umriss statt Füllung — dieselbe Ecke, aber erkennbar kein Beleg (11.10.2026). */
-const DUB_JUSTWATCH_KLASSE =
-  'grid size-4 place-items-center rounded-full border border-emerald-500 bg-white text-[9px] font-black leading-none text-emerald-600 ring-2 ring-white dark:bg-[#0f1b2e] dark:text-emerald-400 dark:ring-[#0f1b2e]'
-
-export function DubEcke({ dub, justwatchStand }: { dub?: boolean; justwatchStand?: string }) {
-  const { t } = useLang()
-  if (dub !== true && justwatchStand) {
-    return (
-      <span data-dub-justwatch className="absolute -right-1 -top-1.5 z-10">
-        <Tooltip text={t('detail.dubJustwatch', { datum: formatDate(justwatchStand) })} seite="oben">
-          <span className={DUB_JUSTWATCH_KLASSE}>✓</span>
-        </Tooltip>
-      </span>
-    )
-  }
-  if (dub !== true) return null
-  return (
-    /* `data-dub-haken`: Die Legende unter den Pillen zeigt sich nur, wenn mindestens ein Haken dasteht. */
-    <span data-dub-haken className="absolute -right-1 -top-1.5 z-10">
-      <Tooltip text={t('detail.dubYes')} seite="oben">
-        <span className={DUB_HAKEN_KLASSE}>
-          ✓
-        </span>
-      </Tooltip>
-    </span>
   )
 }
 

@@ -1,5 +1,6 @@
 import { type Env } from './env.ts'
-import { ausSpeicher } from './export-speicher.ts'
+import { ausSpeicher, FRIST_NAMEN_MS } from './export-speicher.ts'
+import { serientitelJeAdresse } from './pruefung-serientitel.ts'
 
 export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
   request: Request<unknown, CfProperties<unknown>>
@@ -26,7 +27,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         5.000 kamen heraus — 620 hätten den Bau nie erreicht. Eine Abfrage mit
         `LIMIT` beantwortet eine andere Frage als die gestellte (26.08.2026,
         damals kostete es zwei Einträge). `?nach=<id>` setzt dort fort, wo die
-        letzte Seite endete; `gesamt` bleibt die ungekürzte Zahl.
+        letzte Seite endete; `weiter` ist bei voller Seite deren letzte Kennung (nächstes `?nach=`), sonst `null`; eine Gesamtzahl gibt es nicht mehr.
       */
       /*
         **Probe: die jüngsten Rohfolgen eines Anbieters samt `roh`, auch übernommene.**
@@ -77,18 +78,8 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
           `SELECT url, MAX(titel) AS titel FROM pruefung WHERE titel IS NOT NULL AND url IS NOT NULL GROUP BY url`,
         ).all()
         return { namen: results ?? [] }
-      })
-      if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, async () => {
-        const { results } = await env.DB.prepare(
-          `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
-                  seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen
-             FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT 5000`,
-        )
-          .bind(Number.isFinite(nach) ? nach : 0)
-          .all()
-        const zeilen = (results ?? []) as { id: number }[]
-        return { folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null }
-      })
+      }, FRIST_NAMEN_MS)
+      if (new URL(request.url).searchParams.get('alle') === '1') return ausSpeicher(env, `alle-${Number.isFinite(nach) ? nach : 0}`, () => alleRohfolgen(env, nach))
       return ausSpeicher(env, `offen-${Number.isFinite(nach) ? nach : 0}`, async () => {
       const { results } = await env.DB.prepare(
         /*
@@ -106,10 +97,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
         */
         `SELECT f.id, f.url, f.asin, f.gti, f.nummer, f.titel, f.erschienen, f.dauer_sek,
                 f.sprachen, f.untertitel, f.staffel_text, f.staffel_nr, f.gemeldet_am,
-                f.titel_id, f.plattform, f.seiten_kennung,
-                (SELECT p.titel FROM pruefung p
-                  WHERE p.url = f.url AND p.titel IS NOT NULL
-                  ORDER BY p.gemeldet_am DESC LIMIT 1) AS serientitel
+                f.titel_id, f.plattform, f.seiten_kennung
            FROM prime_folge f
           WHERE f.uebernommen = 0 AND f.id > ?1
             AND (f.vorhanden IS NULL OR f.vorhanden <> 'nein')
@@ -118,31 +106,33 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
       )
         .bind(Number.isFinite(nach) ? nach : 0)
         .all()
-      /* Die Gesamtzahl getrennt: Eine Abfrage mit LIMIT beantwortet eine andere
-         Frage als die gestellte — das hat am 26.08.2026 zwei Einträge gekostet. */
       /* Gesperrte Folgen (`vorhanden = 'nein'`, Migration 035) liest erst Stufe 2 — bis dahin
          sähe der Zuordner ihre leeren Tonspuren als „kein Deutsch". Entfällt mit Stufe 2. */
-      const zeilen = (results ?? []) as { id: number }[]
-      const gesamt = await zaehleOffene(env, zeilen.length, Number.isFinite(nach) ? nach : 0)
+      const zeilen = (results ?? []) as { id: number; url: string }[]
+      const titel = await serientitelJeAdresse(env, zeilen.map((z) => z.url))
       return {
-        folgen: zeilen,
-        gesamt,
-        /* Ist die Seite voll, steht die Fortsetzung dabei — sonst ausdrücklich null. */
+        folgen: zeilen.map((z) => ({ ...z, serientitel: titel.get(z.url) ?? null })),
+        /* Ist die Seite voll, steht die Fortsetzung dabei — sonst ausdrücklich null. Eine Gesamtzahl
+           gibt es nicht mehr: das `COUNT(*)` las je Seite alle offenen Zeilen (1,39 Mio. am Tag, 12.10.2026). */
         weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null,
       }
       })
 }
 
 /**
- * Wie viele offene Rohfolgen es gibt (Gesamtzahl der Antwort). Eine Seite unter dem Limit, die bei
- * `nach = 0` beginnt, ist schon der ganze Bestand — dann kostet die Zahl keine Abfrage; das
- * `COUNT(*)` las bei jedem Aufruf alle offenen Zeilen noch einmal (rund 6.500, 11.10.2026).
- * Dieselbe Filterung wie die Seitenabfrage: gesperrte Folgen (`vorhanden = 'nein'`) zählen nicht.
+ * `&alle=1`: eine Seite jeder Beobachtung ohne `roh` (Menge), fortsetzbar über `nach` (Begründung am Aufruf).
+ * Nur `angenommen` wird aus `roh` gelöst (Netflix-Randprobe, 12.10.2026): Eine angenommene Folge darf in
+ * `fetch-urteile.ts` nicht als gemessen zählen.
  */
-async function zaehleOffene(env: Env, seitenZeilen: number, nach: number): Promise<number> {
-  if (nach <= 0 && seitenZeilen < 5000) return seitenZeilen
-  const gesamt = await env.DB.prepare(
-    "SELECT COUNT(*) AS n FROM prime_folge WHERE uebernommen = 0 AND (vorhanden IS NULL OR vorhanden <> 'nein')",
-  ).first<{ n: number }>()
-  return gesamt?.n ?? 0
+async function alleRohfolgen(env: Env, nach: number) {
+  const { results } = await env.DB.prepare(
+    `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
+            seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen,
+            CASE WHEN plattform = 'netflix' AND json_valid(roh) THEN json_extract(roh, '$.angenommen') END AS angenommen
+       FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT 5000`,
+  )
+    .bind(Number.isFinite(nach) ? nach : 0)
+    .all()
+  const zeilen = (results ?? []) as { id: number }[]
+  return { folgen: zeilen, weiter: zeilen.length === 5000 ? zeilen[zeilen.length - 1]!.id : null }
 }

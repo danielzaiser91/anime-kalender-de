@@ -4,9 +4,8 @@ import { useLang } from '../../lib/i18n.tsx'
 import { useState, Fragment, useEffect, useRef, useMemo } from 'react'
 import { eindeutschenStaffel, anzeigeName } from '@shared/titles.ts'
 import { type Voices, loadVoices, type Dataset, loadCartoons, loadAllTitles } from '../../lib/data.ts'
-import { aehnlicheTitel } from '../../lib/aehnlich.ts'
+import { aehnlicheTitel } from '@shared/aehnlich.ts'
 import { coverBild } from '../../lib/cover.ts'
-import { TIPPFLAECHE_HOCH } from './tippziel.ts'
 
 /**
  * Alle weiteren Schreibweisen eines Titels — eingeklappt, an einer Stelle.
@@ -37,25 +36,25 @@ export function WeitereTitel({ title }: { title: Title }) {
   if (!weitere.length) return null
 
   return (
-    <div className="mt-0.5 text-xs">
+    <>
       <button
         type="button"
         onClick={() => setOffen((o) => !o)}
-        className={`cursor-pointer text-slate-400 underline decoration-dotted underline-offset-2 hover:text-sky-400 dark:text-slate-500 ${TIPPFLAECHE_HOCH}`}
+        className="-my-3 inline-flex min-h-11 cursor-pointer items-center text-ak-leise underline decoration-dotted underline-offset-2 hover:text-ak-akzent-text"
       >
         {offen ? t('detail.otherTitlesHide') : t('detail.otherTitles', { count: weitere.length })}
       </button>
       {offen && (
-        <dl className="mt-1 grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5 text-slate-500 dark:text-slate-400">
+        <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-2 gap-y-0.5 text-ak-leise">
           {weitere.map((w) => (
             <Fragment key={w.label}>
-              <dt className="text-slate-400 dark:text-slate-500">{w.label}</dt>
+              <dt>{w.label}</dt>
               <dd className="min-w-0 break-words">{w.wert}</dd>
             </Fragment>
           ))}
         </dl>
       )}
-    </div>
+    </>
   )
 }
 
@@ -70,7 +69,7 @@ function VoiceQuellen({ stimmen }: { stimmen: Voices }) {
   const { t } = useLang()
   const namen = [stimmen.roles.some((r) => r.von === 'anisearch') && 'aniSearch', stimmen.roles.some((r) => !r.von) && 'AniList'].filter(Boolean)
   return (
-    <p className="mt-2 text-[11px] text-slate-400">
+    <p className="mt-2 text-t5 text-slate-400">
       {t('detail.voicesSource')} {namen.join(', ')}
       {stimmen.annUrl && (
         <>
@@ -127,12 +126,12 @@ export function VoiceCast({ titleId }: { titleId: number }) {
       {open && (
         <div className="mt-2">
           {stimmen === undefined ? (
-            <p className="text-sm text-slate-400">{t('detail.voicesLoading')}</p>
+            <p className="text-t3 text-slate-400">{t('detail.voicesLoading')}</p>
           ) : stimmen.roles.length === 0 ? (
-            <p className="text-sm text-slate-400">{t('detail.voicesNone')}</p>
+            <p className="text-t3 text-slate-400">{t('detail.voicesNone')}</p>
           ) : (
             <>
-              <dl className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-x-3 gap-y-1 text-sm">
+              <dl className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-x-3 gap-y-1 text-t3">
                 {stimmen.roles.map((r) => (
                   <Fragment key={`${r.character}-${r.actor}`}>
                     <dt className="truncate text-slate-500 dark:text-slate-400" title={r.character}>
@@ -212,9 +211,9 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
         <div className="mt-2">
           {alle === undefined ? (
             /* Vor dem Sichtbarwerden lädt noch nichts — dann steht hier nur Platz, keine Ladeanzeige (08.10.2026). */
-            imBild ? <p className="text-sm text-slate-400">{t('detail.aehnlichLaedt')}</p> : <div className="h-6" aria-hidden />
+            imBild ? <p className="text-t3 text-slate-400">{t('detail.aehnlichLaedt')}</p> : <div className="h-6" aria-hidden />
           ) : vorschlaege.length === 0 ? (
-            <p className="text-sm text-slate-400">{t('detail.aehnlichKeine')}</p>
+            <p className="text-t3 text-slate-400">{t('detail.aehnlichKeine')}</p>
           ) : (
             /*
               **Kacheln statt Zeilen — das Bild und die Gemeinsamkeit lösen den Klick aus.**
@@ -260,7 +259,7 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
                     )}
                     {/* `justify-between` verankert: Name am oberen Rand, Chips am unteren. */}
                     <span className="flex min-w-0 flex-1 flex-col justify-between py-0.5">
-                      <span className="line-clamp-3 text-sm font-medium leading-snug text-slate-700 dark:text-slate-200">
+                      <span className="line-clamp-3 text-t3 font-semibold text-slate-700 dark:text-slate-200">
                         {anzeigeName(v.title)}
                       </span>
                       <span className="flex flex-wrap gap-1">
@@ -269,8 +268,8 @@ export function AehnlicheTitel({ title, data, onOpenTitle }: { title: Title; dat
                             key={m}
                             className={
                               m.startsWith('g:')
-                                ? 'rounded bg-sky-500/10 px-1.5 py-px text-[10px] font-medium text-sky-700 dark:bg-sky-400/15 dark:text-sky-300'
-                                : 'rounded bg-slate-500/10 px-1.5 py-px text-[10px] text-slate-600 dark:bg-white/10 dark:text-slate-300'
+                                ? 'rounded bg-sky-500/10 px-1.5 py-px text-t5 font-semibold text-sky-700 dark:bg-sky-400/15 dark:text-sky-300'
+                                : 'rounded bg-slate-500/10 px-1.5 py-px text-t5 text-slate-600 dark:bg-white/10 dark:text-slate-300'
                             }
                           >
                             {merkmalName(m)}
