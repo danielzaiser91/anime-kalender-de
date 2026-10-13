@@ -522,6 +522,10 @@ Eine Quelle für Folgentage gibt es nicht (aniSearch-Folgen nennen nur Nummern; 
 **Schluss:** `pipeline/bau/13-7-erstausgabe-angebot.ts` legt für Titel **ohne Termin** mit Erstausgabe ab 2026 bei einem eindeutigen Streaming-Verlag (Amazon → Prime Video, Netflix, Disney) und belegter Synchro dort einen
 „Im Angebot seit"-Eintrag an (`dateMeaning: available-from`, Quelle: aniSearch-Titelseite) — kein Erscheinungstag je Folge. An den Live-Daten messen sich 6 Titel (u. a. Magilumière S2 04.07.2026, Mission: Yozakura Family 10.05.2026, Medalist S2 24.01.2026).
 
+## Eine Disc nimmt dem Titel das „Im Angebot seit“ nicht (13.10.2026)
+
+`13-3-listen.ts` (Movie of the Night) und `13-7-erstausgabe-angebot.ts` (aniSearch-Erstausgabe) füllen nur Titel ohne Termin. Ein Disc-Termin zählte dabei als Termin und nahm Titeln mit Streaming-Katalogdatum das „Im Angebot seit“ (Pokémon „Die Anfänge“, Titel 527, Netflix seit 02.2025, Box am 27.11.2026: deshalb damals nicht eingetragen). Ein Erscheinungstag einer DVD- oder Blu-ray-Box sagt nichts darüber, seit wann ein Anbieter den Titel führt; es sind verschiedene Wege. Jetzt zählt `titelMitTermin` (`bau/titel-mit-termin.ts`) alle Termine außer `disc`; Streaming, TV und Kino ersetzen das „Im Angebot seit“ wie bisher. **Gemessen** (Bauvergleich 13.10.2026, 30b8bfdd1 gegen e70713317): 9 Titel mit nur einer Disc als Termin bekommen ihr „Im Angebot seit“ am Titel (Detektei Layton, The Quintessential Quintuplets, Jujutsu Kaisen, Die Tagebücher der Apothekerin, Sakamoto Days und vier mit Datum ab 2026), davon 4 auch als Kalendereintrag (`motn-…`: My Next Life as a Villainess X, My Dress-Up Darling, The Café Terrace and Its Goddesses ×2). Offen: Ob TV- oder Kino-Termine das „Im Angebot seit“ verdrängen sollen, ist nicht untersucht; ihre Wege (Fernsehsender, Kinosaal) sind auch keine Streaming-Kataloge.
+
 ## Große Cover, Titelrang und Suche in Zeitscheiben (07.10.2026)
 
 **Anlass:** Daniel, 07.10.2026: Das vergrößerte Cover („Rascal Does Not Dream of a Dear Friend") war unscharf; die Suche in der Datenbank mit dem Schalter „ohne deutsche Synchro" fror die Seite ein.

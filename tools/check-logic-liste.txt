@@ -6,10 +6,10 @@ pipeline/check-abstand.ts
 pipeline/check-adn-anisearch.ts
 pipeline/check-adn-film.ts
 pipeline/check-adn-titelliste-abruf.ts
+pipeline/check-angebot-seit-disc.ts
 pipeline/check-angebot-seit.ts
 pipeline/check-angebot-stichtag.ts
 pipeline/check-angebot-termine.ts
-pipeline/check-angebot-seit-disc.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-entwurf.ts
 pipeline/check-anime2you-rhythmus.ts
