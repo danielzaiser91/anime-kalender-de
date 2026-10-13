@@ -2409,6 +2409,8 @@ führt ins Leere und gehört geprüft.
 
 **JustWatchs `/watch/<Kennung>` ist kein Beleg für das Werk (13.10.2026).** Zwei Fälle aus PR 1126, per `cms/objects/<Kennung>?locale=de-DE` nachgeprüft: Black Butler (2008, 24 Folgen) bekam `GVWU82XX0` — das ist Folge 1 der **Spanisch**-Synchro von „Emerald Witch Arc" (2024); der deutsche Katalog führt unter der Serie nur die zwei 2024er Staffeln. Magic Kaito 1412 (24 Folgen) bekam `GX9UQD7XQ` — das ist Folge 1 der 12-Folgen-Serie `GMEHMENQM`, deren Folgentitel in aniSearch beim Titel 8310 (Magic Kaito 2010) an gleicher Stelle stehen (10 von 12 wörtlich), bei 1412 an keiner. Beide Wege sind per Handbeleg `available: false` gestrichen. Vor einem Handbeleg aus einer Kennung also Serie, Staffel, Folgenzahl und Tonspur **der Kennung** lesen, nicht nur ihr `de-DE`.
 
+**Alle Crunchyroll-Wege aus JustWatch nachgeprüft (13.10.2026, Fälle und Belege in `daniel-zum-abarbeiten/listen/cr-justwatch-wege-pruefung.md`).** Prüfweg: Kennung über `cms/objects` auflösen, Staffel über `number_of_episodes`, Folgentitel an gleicher Stelle wörtlich gegen `data/anisearch-folgen.json` (ähnlich genügt nicht), Serie muss `de-DE` führen. Zwei Lücken lassen einen Nein-Handbeleg wirkungslos: `uebernehmeAnbieter` in `bau/cartoon-zu-anime.ts` legt den Anbieter danach neu an, und der erste Block in `bau/11-2-justwatch.ts` kennt `handNein` nicht — vor einem Handbeleg deshalb im Bau-Vergleich nachsehen, ob er wirkt.
+
 ### Amazons Abwehr macht nach rund 660 Abrufen zu — und dann für alles
 
 Der erste Lauf mit dem Inhalts-Riegel (07.09.2026) über 1.286 Amazon-Adressen
