@@ -94,15 +94,17 @@ export function terminSatz(
   rel: string,
   datum: string,
   T: (k: string, v?: Record<string, string | number>) => string,
+  mehrzahl = false,
 ): string {
   if (komplett) {
     return rel
       ? T('antwort.angebotRelativ', { rel, tag: weekdayName(datum), datum: formatDate(datum) })
       : T('antwort.angebotDatum', { tag: weekdayName(datum), datum: formatDate(datum) })
   }
+  const verb = mehrzahl ? 'erscheinen' : 'erscheint'
   return rel
-    ? T('antwort.erscheintRelativ', { rel, tag: weekdayName(datum), datum: formatDate(datum) })
-    : T('antwort.erscheintDatum', { tag: weekdayName(datum), datum: formatDate(datum) })
+    ? T(`antwort.${verb}Relativ`, { rel, tag: weekdayName(datum), datum: formatDate(datum) })
+    : T(`antwort.${verb}Datum`, { tag: weekdayName(datum), datum: formatDate(datum) })
 }
 
 /**

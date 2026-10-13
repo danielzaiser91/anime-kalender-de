@@ -23,4 +23,10 @@ export const TEXTE_ANTWORT = {
   'antwort.vermerkRechercheZuletzt': 'Zuletzt gesucht: {wann}. Nächste Suche {naechste}.',
   'antwort.vermerkRechercheStart': 'Die Suche in News und Social Media beginnt {naechste}.',
   'antwort.vermerkRechercheEnde': 'Nach zwei Monaten suchen wir nicht mehr aktiv; beim Anbieter sehen wir weiter nach.',
+  // Mehrere belegte Folgen am selben Tag: eine Überschrift, ein Satz im Plural (Avatar: Die sieben Häfen, 4–6 am 16.10.).
+  'antwort.naechsteFolgenNr': 'Nächste Folgen ({von}–{bis})',
+  'antwort.ersteFolgenNr': 'Erste Folgen ({von}–{bis})',
+  'antwort.finaleFolgenNr': 'Finale Folgen ({von}–{bis})',
+  'antwort.erscheinenRelativ': 'erscheinen {rel}, am {tag} den {datum}.',
+  'antwort.erscheinenDatum': 'erscheinen am {tag} den {datum}.',
 } as const

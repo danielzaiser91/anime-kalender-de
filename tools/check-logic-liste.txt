@@ -52,6 +52,7 @@ pipeline/check-dub-durchgehende-zaehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
 pipeline/check-film-ohne-weg.ts
+pipeline/check-folgenblock.ts
 pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-handlung-eigen.ts
