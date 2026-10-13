@@ -26,6 +26,7 @@ import { istMeldung, mitTagesdeckel, type Zeilen } from './tagesdeckel.ts'
 import { exporteVerwerfen } from './export-speicher.ts'
 import { loescheOffene } from './pruefung-ersetzen.ts'
 import { fuegePruefungEin } from './pruefung-einfuegen.ts'
+import { rohfolgeFuerMeldung } from './pruefung-rohfolge-spalte.ts'
 import { hakeRohfolgenAb } from './rohfolgen-abhaken.ts'
 import { adressenDerMeldung, verwirfGemeldet } from './pruefung-gemeldet-cache.ts'
 import { pruefeUnveraendert, ladeOffeneHashes, folgeVon, type OffeneHashes } from './pruefung-unveraendert.ts'
@@ -259,9 +260,11 @@ export async function speichereDaten({ request, antwort, token, env, ctx, offene
   }
   await loescheOffene(env, offene, { url, folgeNr, staffelNr, seitenKennung })
 
-  await fuegePruefungEin(env, daten, url, { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash })
+  /* Netflix und Disney+: die eine Rohfolge steht in der Zeile der Meldung (Migration 054), `prime_folge` bleibt leer. */
+  const rohfolge = await rohfolgeFuerMeldung(daten, url, seitenKennung)
+  await fuegePruefungEin(env, daten, url, { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, rohfolge })
 
-  await speichereRohfolgen(env, daten, url, seitenKennung)
+  if (rohfolge === null) await speichereRohfolgen(env, daten, url, seitenKennung)
 
   /*
     Bis zum 24.09.2026 zählte hier jede Meldung alle offenen Meldungen nach (`COUNT(*) … WHERE

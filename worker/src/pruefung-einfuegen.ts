@@ -14,10 +14,12 @@ export type Abgeleitet = {
   staffelNr: number | null
   seitenKennung: string | null
   hash: string
+  /** Die Rohfolge als JSON (`pruefung-rohfolge-spalte.ts`), sonst `null`: dann gehört sie in `prime_folge`. */
+  rohfolge: string | null
 }
 
 export async function fuegePruefungEin(env: Env, daten: Record<string, unknown>, url: string, a: Abgeleitet): Promise<void> {
-  const { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash } = a
+  const { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, rohfolge } = a
   await env.DB.prepare(
     /*
       **`titel_id` sagt, für welchen Auftrag gemeldet wurde — die Adresse sagt es nicht.**
@@ -28,8 +30,8 @@ export async function fuegePruefungEin(env: Env, daten: Record<string, unknown>,
       auf einen Namensvergleich zurück, der ausdrücklich kein Beleg ist — am
       02.09.2026 warteten so 36 Meldungen auf Daniels Bestätigung.
     */
-    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art, hash)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24)`,
+    `INSERT INTO pruefung (plattform, url, sprachen, befund, titel, folgen, folge_nr, staffel, staffeln, serientitel, notiz, gemeldet_am, zugang, abos, teil_von, teil_bis, seiten_kennung, titel_id, such_url, folge, vorhanden, ton_de, art, hash, rohfolge, roh_uebernommen)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18, ?19, ?20, ?21, ?22, ?23, ?24, ?25, ?26)`,
   )
     .bind(
       String(daten.plattform ?? 'unbekannt'),
@@ -92,6 +94,9 @@ export async function fuegePruefungEin(env: Env, daten: Record<string, unknown>,
       tonDe,
       art,
       hash,
+      rohfolge,
+      /* 0 = offen für den Zuordner (`rohfolgen-abhaken.ts`); ohne Rohfolge NULL. */
+      rohfolge === null ? null : 0,
     )
     .run()
 }

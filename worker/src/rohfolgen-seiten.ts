@@ -1,37 +1,80 @@
 /**
- * **Eine Seite Rohfolgen aus `prime_folge`** (13.10.2026 aus `pruefung-rohfolgen.ts` herausgelöst, ohne
- * Verhaltensänderung): die offenen für den Zuordner und alle Beobachtungen für Stufe 2/3.
+ * **Eine Seite Rohfolgen** — aus `prime_folge` und aus der Spalte `pruefung.rohfolge`.
+ *
+ * Netflix und Disney+ legen ihre Rohfolge seit Migration 054 in der Zeile der Meldung ab
+ * (`pruefung-rohfolge-spalte.ts`); ältere Rohfolgen und alle von Prime stehen in `prime_folge`. Die Route
+ * liefert beide in derselben Gestalt: erst `prime_folge`, danach die Spalte, mit Ids ab
+ * `PRUEFUNG_ID_AB` + `pruefung.id` (so bleibt `nach`/`weiter` eine einzige Zahl, und das Abhaken kennt den Ursprung).
  */
 import { type Env } from './env.ts'
+import { ROH_FELDER } from './pruefung-rohfolgen-speichern.ts'
 
 /** Zeilen je Seite; eine volle Seite trägt die Fortsetzung (`weiter`). */
 export const SEITE = 5000
 
-export type Seite = { zeilen: { id: number; url: string }[]; weiter: number | null }
+/** Ids von Rohfolgen aus `pruefung.rohfolge` beginnen hier; `prime_folge` hat nach heutigem Wachstum nie so viele. */
+export const PRUEFUNG_ID_AB = 1_000_000_000
 
-const mitWeiter = (zeilen: { id: number; url: string }[]): Seite => ({
+type Zeile = { id: number; url: string }
+export type Seite = { zeilen: Zeile[]; weiter: number | null }
+
+const mitWeiter = (zeilen: Zeile[]): Seite => ({
   zeilen,
   weiter: zeilen.length === SEITE ? zeilen[zeilen.length - 1]!.id : null,
 })
+
+/** Prime-Seite zuerst, der Rest der Seite aus der Meldungs-Spalte (Ids dort ab `PRUEFUNG_ID_AB`). */
+async function vereint(
+  nach: number,
+  ausPrime: (nach: number) => Promise<Zeile[]>,
+  ausPruefung: (nach: number, anzahl: number) => Promise<Zeile[]>,
+): Promise<Seite> {
+  const start = Number.isFinite(nach) ? nach : 0
+  const prime = start < PRUEFUNG_ID_AB ? await ausPrime(start) : []
+  const rest = SEITE - prime.length
+  const aus = rest > 0 ? await ausPruefung(Math.max(start, PRUEFUNG_ID_AB) - PRUEFUNG_ID_AB, rest) : []
+  return mitWeiter([...prime, ...aus])
+}
+
+/** Ein Feld der Rohfolge aus der Spalte; die Namen sind die von `ROH_FELDER`, nie Eingaben. */
+const feld = (name: (typeof ROH_FELDER)[number]) => `json_extract(rohfolge, '$.${name}') AS ${name}`
 
 /**
  * Die offenen Rohfolgen ab `nach`. Gesperrte Folgen (`vorhanden = 'nein'`, Migration 035) liest erst Stufe 2 —
  * bis dahin sähe der Zuordner ihre leeren Tonspuren als „kein Deutsch". Entfällt mit Stufe 2.
  */
 export async function offeneRohfolgen(env: Env, nach: number): Promise<Seite> {
-  const { results } = await env.DB.prepare(
-    `SELECT f.id, f.url, f.asin, f.gti, f.nummer, f.titel, f.erschienen, f.dauer_sek,
-            f.sprachen, f.untertitel, f.staffel_text, f.staffel_nr, f.gemeldet_am,
-            f.titel_id, f.plattform, f.seiten_kennung
-       FROM prime_folge f
-      WHERE f.uebernommen = 0 AND f.id > ?1
-        AND (f.vorhanden IS NULL OR f.vorhanden <> 'nein')
-      ORDER BY f.id
-      LIMIT ${SEITE}`,
+  return await vereint(
+    nach,
+    async (von) => {
+      const { results } = await env.DB.prepare(
+        `SELECT f.id, f.url, f.asin, f.gti, f.nummer, f.titel, f.erschienen, f.dauer_sek,
+                f.sprachen, f.untertitel, f.staffel_text, f.staffel_nr, f.gemeldet_am,
+                f.titel_id, f.plattform, f.seiten_kennung
+           FROM prime_folge f
+          WHERE f.uebernommen = 0 AND f.id > ?1
+            AND (f.vorhanden IS NULL OR f.vorhanden <> 'nein')
+          ORDER BY f.id
+          LIMIT ${SEITE}`,
+      )
+        .bind(von)
+        .all()
+      return (results ?? []) as Zeile[]
+    },
+    async (von, anzahl) => {
+      const { results } = await env.DB.prepare(
+        `SELECT id + ?2 AS id, gemeldet_am, ${ROH_FELDER.filter((n) => n !== 'roh' && n !== 'vorhanden' && n !== 'ton_de').map(feld).join(', ')}
+           FROM pruefung
+          WHERE id > ?1 AND roh_uebernommen = 0
+            AND (json_extract(rohfolge, '$.vorhanden') IS NULL OR json_extract(rohfolge, '$.vorhanden') <> 'nein')
+          ORDER BY id
+          LIMIT ?3`,
+      )
+        .bind(von, PRUEFUNG_ID_AB, anzahl)
+        .all()
+      return (results ?? []) as Zeile[]
+    },
   )
-    .bind(Number.isFinite(nach) ? nach : 0)
-    .all()
-  return mitWeiter((results ?? []) as Seite['zeilen'])
 }
 
 /**
@@ -40,13 +83,29 @@ export async function offeneRohfolgen(env: Env, nach: number): Promise<Seite> {
  * `fetch-urteile.ts` nicht als gemessen zählen.
  */
 export async function alleRohfolgen(env: Env, nach: number): Promise<Seite> {
-  const { results } = await env.DB.prepare(
-    `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
-            seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen,
-            CASE WHEN plattform = 'netflix' AND json_valid(roh) THEN json_extract(roh, '$.angenommen') END AS angenommen
-       FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT ${SEITE}`,
+  return await vereint(
+    nach,
+    async (von) => {
+      const { results } = await env.DB.prepare(
+        `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
+                seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen,
+                CASE WHEN plattform = 'netflix' AND json_valid(roh) THEN json_extract(roh, '$.angenommen') END AS angenommen
+           FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT ${SEITE}`,
+      )
+        .bind(von)
+        .all()
+      return (results ?? []) as Zeile[]
+    },
+    async (von, anzahl) => {
+      const { results } = await env.DB.prepare(
+        `SELECT id + ?2 AS id, gemeldet_am, ${ROH_FELDER.filter((n) => !['roh', 'untertitel', 'dauer_sek', 'staffel_text'].includes(n)).map(feld).join(', ')},
+                CASE WHEN plattform = 'netflix' AND json_valid(json_extract(rohfolge, '$.roh'))
+                     THEN json_extract(json_extract(rohfolge, '$.roh'), '$.angenommen') END AS angenommen
+           FROM pruefung WHERE id > ?1 AND rohfolge IS NOT NULL ORDER BY id LIMIT ?3`,
+      )
+        .bind(von, PRUEFUNG_ID_AB, anzahl)
+        .all()
+      return (results ?? []) as Zeile[]
+    },
   )
-    .bind(Number.isFinite(nach) ? nach : 0)
-    .all()
-  return mitWeiter((results ?? []) as Seite['zeilen'])
 }

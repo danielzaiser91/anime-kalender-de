@@ -10,6 +10,7 @@
 import { DatabaseSync } from 'node:sqlite'
 import { readdirSync, readFileSync } from 'node:fs'
 import { handlePruefung } from '../worker/src/pruefung.ts'
+import { PRUEFUNG_ID_AB } from '../worker/src/rohfolgen-seiten.ts'
 
 let fehler = 0
 const pruefe = (bedingung: boolean, text: string) => {
@@ -140,7 +141,7 @@ console.log('Abhaken: nur der Auszug der offenen Zeilen wird ungültig')
   await hole('nach=0')
   await hole('namen=1')
   const id = (db.prepare('SELECT id FROM pruefung WHERE url = ? AND folge_nr = 1').get(URL_A) as { id: number }).id
-  const roh = (db.prepare('SELECT id FROM prime_folge WHERE url = ? LIMIT 1').get(URL_A) as { id: number }).id
+  const roh = PRUEFUNG_ID_AB + id
   minuten(1)
   const vorher = marken()
   const r1 = await post({ uebernommen: [id] })
