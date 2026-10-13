@@ -2329,7 +2329,7 @@ Bis 4.30.1 trug jede Folge einer Randprobe die Notiz „ANGENOMMEN aus Randprobe
 
 **Gemessen, keine Änderung nötig (Rohfolge im Stapel ohne `sprachen`, `roh.player`, `roh.reihe`):** `prime_folge.sprachen` liest nur `fetch-rohfolgen.ts` (Schlüssel der Dublettenprüfung, `folgen[].sprachen` in `prime-zugeordnet.json`) und von dort `rohDeutsch` (`09-3-prime.ts`) sowie `haken-beleg.ts`/`prime-teilseiten.ts` (nur Prime). `rohDeutsch` sucht `includes('Deutsch')`; Netflix schreibt `de|Deutsch`, trifft also nie. `roh.player` und `roh.reihe` liest nichts in Worker, Pipeline oder `shared/` (`roh` selbst geht nur über `?probe=` heraus). Meldungen ohne Staffel nachreichen (`DURCHLAUF.ohneStaffel`) gilt nur für den Einzelweg `durchlaufMelden`, der während der Schleife sendet; `randMelden` sendet erst danach, mit der Staffel aus `meldeZiel`, und dieselbe Staffel stünde bei einem zweiten Versuch wieder da.
 
-**Unbenutzt (nur gemeldet):** `probeGrenze` und `PROBE_SCHLUESSEL` in `melder.js` werden gesetzt, aber nirgends gelesen; der Block lädt nur noch den Knopf. Test: `netflix-gemeldet.test.cjs` (`annahmeFaelle`), `pipeline/check-urteil-art.ts`, `tools/worker-lesezeilen.test.ts`.
+**Entfernt (4.30.5, 13.10.2026):** `probeGrenze` und `PROBE_SCHLUESSEL` (`ak-durchlauf-probe`) samt Lesen aus `chrome.storage.local` in `melder.js`; nichts las den Wert. Der Block zeigt nur noch den Knopf nach dem Skriptende. Ein bei Nutzern noch liegender Wert bleibt ungelesen im Speicher. Test: `netflix-gemeldet.test.cjs` (`annahmeFaelle`), `pipeline/check-urteil-art.ts`, `tools/worker-lesezeilen.test.ts`.
 
 ## Prime-Sendeweg liest die Folgen, nicht das Sammel-Set (4.30.3, 12.10.2026)
 

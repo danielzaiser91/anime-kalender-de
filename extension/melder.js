@@ -3029,31 +3029,8 @@ function alsBereiche(nummern) {
   return raus
 }
 
-/**
- * **Wie viele Folgen ein Klick prüft — früher umschaltbar und gemerkt.**
- *
- * Daniel am 26.08.2026: „mach toggle bar per console, oder innerhalb der
- * liste ein kleiner limit-icon button dann kann ich es selbst umstellen. im
- * localstore toggle state merken, sodass ich beim testen an und normale
- * prüfung aus machen kann."
- *
- * Seit 4.30.1 wertet nichts `probeGrenze` mehr aus (kein Umschalt+Klick, kein voller Lauf von Hand):
- * `durchlaufStarten()` nimmt den Auftrag aus der Prüfliste, sonst erste und letzte offene Folge.
- * Der Block lädt nur noch den Knopf (`durchlaufKnopfZeigen()`).
- */
-const PROBE_SCHLUESSEL = 'ak-durchlauf-probe'
-/** Wie viele Folgen ein Klick prüft — 0 heißt alle. */
-let probeGrenze = 2
-
-void (async () => {
-  try {
-    const gespeichert = await chrome.storage.local.get(PROBE_SCHLUESSEL)
-    if (Number.isFinite(gespeichert[PROBE_SCHLUESSEL])) probeGrenze = gespeichert[PROBE_SCHLUESSEL]
-  } catch {
-    /* Ohne Speicher bleibt es bei zwei — der vorsichtigen Seite. */
-  }
-  durchlaufKnopfZeigen()
-})()
+/* Erst nach dem Skriptende: später deklarierte Konstanten (DURCHLAUF …) stehen dann bereit. */
+void Promise.resolve().then(durchlaufKnopfZeigen)
 
 /**
  * **Drei Zustände: zwei Folgen, alle, oder nur Anfang und Ende.**
