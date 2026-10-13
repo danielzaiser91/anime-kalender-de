@@ -1,4 +1,8 @@
-import type { Title } from '../../shared/types.ts'
+import type { Release, Title } from '../../shared/types.ts'
+import type { NeinFall } from '../../shared/nein-wiedervorlage.ts'
+import { crunchyrollSeriesId } from './crunchyroll.ts'
+import { ladeNeinFaelle, type EntfernterEintrag } from './nein-wiedervorlage-lesen.ts'
+import { readJson } from './util.ts'
 
 /**
  * Die Crunchyroll-Adressen, die der Dub-Abruf (`scrape-crunchyroll-dub.ts`) prüft: **alle**, nicht nur die unbeantworteten.
@@ -38,4 +42,38 @@ export function crunchyrollAdressen(titles: Title[], nurOffene: boolean): Set<st
     }
   }
   return offen
+}
+
+/**
+ * Was die Wiedervorlage dem Dub-Abruf zusätzlich vorlegt (Nein kommen wieder zur Prüfung, `shared/nein-wiedervorlage.ts`).
+ *
+ * Ein belegtes Nein nimmt den Verweis aus `titles.json`; die Adresse, aus der der Abruf seine Liste bildet, ist damit
+ * verschwunden, und die Antwort verhinderte ihre eigene Überprüfung (12.10.2026: 700 entfernte Adressen, die letzte Prüfung
+ * über 28 Tage her). Die Adressen kommen aus dem Gedächtnis der entfernten Verweise; ihre Frist bleibt die des Abrufs (`--alter`).
+ * Eine Kachel („(Deutsch)“ im Kalender) nach dem Messdatum macht die Serie sofort fällig: `kachelSeit` hat dasselbe Format
+ * wie die Neuzugänge aus `crunchyroll-neu.json` (Serienkennung → Tag).
+ */
+export function crunchyrollNeinAbruf(
+  entfernt: EntfernterEintrag[],
+  faelle: NeinFall[],
+  releases: Release[],
+): { adressen: Set<string>; kachelSeit: Map<string, string> } {
+  const eintraege = entfernt.filter((e) => e.plattform === 'crunchyroll' && e.url)
+  const adressen = crunchyrollAdressen([{ streams: eintraege.map((e) => ({ platform: 'crunchyroll', url: e.url! })) } as Title], false)
+  const kachelSeit = new Map<string, string>()
+  const kachel = new Map(faelle.filter((f) => f.platform === 'crunchyroll' && f.kachelAm).map((f) => [f.titleId, f.kachelAm!]))
+  for (const r of releases) {
+    const am = r.platform === 'crunchyroll' ? kachel.get(r.titleId) : undefined
+    const serie = crunchyrollSeriesId(r.platformUrl)
+    if (!am || !serie || !r.platformUrl) continue
+    adressen.add(r.platformUrl)
+    kachelSeit.set(serie, am)
+  }
+  return { adressen, kachelSeit }
+}
+
+/** Dasselbe aus den Dateien des Repos. */
+export function crunchyrollNeinAbrufLaden(): ReturnType<typeof crunchyrollNeinAbruf> {
+  const entfernt = readJson<{ verweise?: EntfernterEintrag[] }>('data/verweise-entfernt.json', {}).verweise ?? []
+  return crunchyrollNeinAbruf(entfernt, ladeNeinFaelle(), readJson<Release[]>('public/data/releases.json', []))
 }

@@ -68,7 +68,7 @@ import { addDays, todayIso } from '../shared/time.ts'
 import type { CrSerie, CrStaffel } from './lib/crunchyroll-dub.ts'
 import { crunchyrollSeriesId } from './lib/crunchyroll.ts'
 import { serieHinterFolge, serieLesen } from './lib/crunchyroll-lesen.ts'
-import { crunchyrollAdressen } from './lib/crunchyroll-adressen.ts'
+import { crunchyrollAdressen, crunchyrollNeinAbrufLaden } from './lib/crunchyroll-adressen.ts'
 import {
   CrunchyrollApi,
   CrunchyrollGesperrt,
@@ -604,7 +604,8 @@ async function main(): Promise<void> {
 
   const titles = readJson<Title[]>('public/data/titles.json', [])
   const offen = crunchyrollAdressen(titles, NUR_OFFENE)
-  let adressen = [...offen].sort()
+  const nein = NUR_OFFENE ? undefined : crunchyrollNeinAbrufLaden()
+  let adressen = [...new Set([...offen, ...(nein?.adressen ?? [])])].sort()
   if (NUR) adressen = adressen.filter((u) => u.includes(NUR))
 
   /**
@@ -641,6 +642,10 @@ async function main(): Promise<void> {
     if (!f.serieId || !f.gesehenAm) continue
     const bisher = neuSeit.get(f.serieId)
     if (!bisher || f.gesehenAm > bisher) neuSeit.set(f.serieId, f.gesehenAm)
+  }
+  /* Eine Kachel nach dem Messdatum eines Nein macht die Serie sofort fällig (`shared/nein-wiedervorlage.ts`). */
+  for (const [id, am] of nein?.kachelSeit ?? []) {
+    if (am > (neuSeit.get(id) ?? '')) neuSeit.set(id, am)
   }
   const fehlerGrenze = addDays(todayIso(), -FEHLER_TAGE)
   /**

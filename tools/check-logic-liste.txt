@@ -58,6 +58,8 @@ pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
 pipeline/check-logic.ts
 pipeline/check-motn-reihe.ts
+pipeline/check-nein-liste.ts
+pipeline/check-nein-wiedervorlage.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-rhythmus.ts
 pipeline/check-paramount.ts
