@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { gleichesBild } from './cover-gleich.ts'
 
@@ -89,12 +89,26 @@ export function CoverMaximieren({ bild, gross, titel }: { bild: string | undefin
   }, [grossPfad])
   if (!bild || !offen) return null
   const gr = gross && !kaputt && gleich ? grossesBild(gross) : undefined
+  return <CoverSchicht bild={bild} titel={titel} gr={gr} geladen={geladen} schliessen={schliessen} onZu={() => setOffen(false)} onGeladen={() => setGeladen(true)} onKaputt={() => setKaputt(true)} />
+}
+
+/** Die Schicht selbst: das Cover (klein, sofort) und darüber, sobald geladen, das große Plakat. */
+function CoverSchicht({ bild, titel, gr, geladen, schliessen, onZu, onGeladen, onKaputt }: {
+  bild: string
+  titel: string
+  gr: { src: string; srcSet: string } | undefined
+  geladen: boolean
+  schliessen: RefObject<HTMLButtonElement | null>
+  onZu: () => void
+  onGeladen: () => void
+  onKaputt: () => void
+}) {
   return createPortal(
     <div
       role="dialog"
       aria-modal="true"
       aria-label={`Cover: ${titel}`}
-      onClick={(e) => { e.stopPropagation(); setOffen(false) }}
+      onClick={(e) => { e.stopPropagation(); onZu() }}
       className="fixed inset-0 z-[80] grid cursor-zoom-out place-items-center bg-black/90 p-3"
     >
       <img src={bild} alt={titel} className={`[grid-area:1/1] max-h-full max-w-full object-contain transition-opacity ${geladen ? 'opacity-0' : ''}`} />
@@ -113,8 +127,8 @@ export function CoverMaximieren({ bild, gross, titel }: { bild: string | undefin
           sizes="min(100vw, 66vh)"
           alt=""
           decoding="async"
-          onLoad={() => setGeladen(true)}
-          onError={() => setKaputt(true)}
+          onLoad={onGeladen}
+          onError={onKaputt}
           className={`[grid-area:1/1] max-h-full max-w-full object-contain transition-opacity ${geladen ? '' : 'opacity-0'}`}
         />
       )}
