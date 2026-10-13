@@ -66,7 +66,7 @@ function anbieterMitDeutsch(t: Title): Set<PlatformId> {
 }
 
 /** Ein belegtes Ja des Weges selbst; ein vom Anbieter geerbtes Ja (`geerbteWege`) zählt für Meldungen nicht. */
-function eigenesJa(s: StreamLink): boolean {
+export function eigenesJa(s: StreamLink): boolean {
   return s.dub === true && !geerbteWege.has(s)
 }
 

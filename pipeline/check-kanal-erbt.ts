@@ -6,7 +6,8 @@ import { readFileSync } from 'node:fs'
 import type { NewsMeldung, Release, StreamLink, Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { kanalErbtVomAnbieter } from './bau/kanal-erbt-anbieter.ts'
-import { ersterTerminMitGrund } from './bau/nebendateien.ts'
+import { belegteDeutscheSynchro, ersterTerminMitGrund } from './bau/nebendateien.ts'
+import { geerbteWege } from '../shared/kanal-anbieter.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 
 let fehler = 0
@@ -160,6 +161,21 @@ pruefe('neu-mit-synchro: ein Kanal-Termin von Hand zählt', erster([kanal()], ka
 pruefe('neu-mit-synchro: ein automatischer Prime-Termin ohne Kanal zählt', erster([kanal({ kanal: undefined })], kanalTermin({ kanal: undefined })) === kanalTermin().schedule.firstEpisodeDate)
 const nebendateien = readFileSync(new URL('./bau/nebendateien.ts', import.meta.url), 'utf8')
 pruefe('schreibeNeuMitSynchro nimmt die Termine aus ersterTerminMitGrund', nebendateien.includes('const ersterTermin = ersterTerminMitGrund(releases, titles)'))
+
+/*
+ * „Neu auf Deutsch“ zählt auch beim Weg selbst nur ein eigenes Ja (13.10.2026): Ein vom Anbieter geerbtes Ja eines Prime-Kanals belegt für sich nichts.
+ */
+const belegt = (streams: StreamLink[]): boolean => belegteDeutscheSynchro({ id: 1, streams } as unknown as Title, new Map(), todayIso())
+const geerbterWeg = kanal({ dub: true })
+geerbteWege.add(geerbterWeg)
+pruefe('neu-mit-synchro: nur ein geerbter Kanal-Weg belegt keine Synchro', !belegt([geerbterWeg]))
+pruefe('Gegenprobe: dasselbe Ja als eigenes Ja des Kanal-Wegs belegt', belegt([kanal({ dub: true })]))
+{
+  const streams = [cr({ dub: true }), kanal()]
+  kanalErbtVomAnbieter([{ id: 1, streams } as unknown as Title])
+  pruefe('Gegenprobe: Anbieter-Weg mit Ja belegt weiter, auch wenn der Kanal erbt', belegt(streams))
+  pruefe('Der Kanal-Weg allein aus diesem Erbe belegt nichts', !belegt([streams[1]!]))
+}
 
 /* Der Bau ruft es auf, vor der Auslieferung (sonst bliebe die Regel Papier). */
 const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')
