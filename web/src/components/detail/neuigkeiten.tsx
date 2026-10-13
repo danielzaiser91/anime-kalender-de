@@ -26,6 +26,7 @@ const PUNKT: Record<NewsMeldung['art'], string> = {
   nachgereicht: 'bg-teal-500',
   nachgetragen: 'bg-indigo-500',
   rhythmus: 'bg-violet-400',
+  offiziell: 'bg-sky-500',
 }
 
 /** Wie viele Meldungen ohne Aufklappen zu sehen sind. */

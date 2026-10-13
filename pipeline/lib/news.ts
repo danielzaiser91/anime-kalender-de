@@ -16,6 +16,7 @@
  * | `angekuendigt` | ein Release mit deutschem Termin, das wir zum ersten Mal sehen |
  * | `disc`, `kino` | dasselbe für Disc- und Kinotermine |
  * | `verspaetet` | `schedule.verpasst` — ein angekündigter Termin verstrich, ohne dass etwas erschien |
+ * | `offiziell` | `data/offizielle-meldungen.yaml` — von Hand freigegebene Meldung der offiziellen Website (365 Tage Fenster, `news-offiziell.ts`) |
  * | `nachgereicht` | dasselbe, sobald die Folgen kamen — je Tag gebündelt (`news-verspaetung.ts`) |
  *
  * **Das Datum einer Meldung ist der Tag, an dem sie zum ersten Mal wahr war.**
@@ -24,15 +25,17 @@
  * Meldung fest, wann sie zuerst dastand; danach ändert sich ihr Datum nie
  * wieder.
  */
-import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
+import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, PlatformId, Release, Title } from '../../shared/types.ts'
 import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from './news-verlauf.ts'
 import { bereinigeNews } from './news-bereinigen.ts'
 import { ausgabeKurz } from './news-ausgabe.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
+import { geerbteWege } from '../../shared/kanal-anbieter.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
+import { fensterBeginn, offizielleMeldungen, traegtOffizielle, type OffizielleMeldung } from './news-offiziell.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
 
@@ -52,6 +55,14 @@ export interface NewsHistorie extends TerminGedaechtnis {
    * sonst stünden an einem Tag zweitausend „neue" Anbieter auf der Seite.
    */
   anbieter?: Record<string, string>
+}
+
+/**
+ * Die Plattformen mit belegter Synchro, die als „weiterer Anbieter“ gelten können. YouTube bleibt draußen; ein Prime-Kanal, der sein Ja vom
+ * Anbieter hat (`kanalErbtVomAnbieter`), ist kein weiterer: Die Titel laufen dort seit Langem, die Meldung wäre zu ihrem Tag falsch (13.10.2026).
+ */
+function anbieterMitDeutsch(t: Title): Set<PlatformId> {
+  return new Set(t.streams.filter((s) => s.dub === true && s.platform !== 'youtube' && !geerbteWege.has(s)).map((s) => s.platform))
 }
 
 interface NeuerTitel {
@@ -266,6 +277,7 @@ const rang: Record<NewsArt, number> = {
   nachgereicht: 2,
   nachgetragen: 1,
   rhythmus: 2,
+  offiziell: 3,
   kino: 3,
   disc: 4,
   folgen: 5,
@@ -281,7 +293,7 @@ export function baueNews(
   neuMitSynchro: NeuerTitel[],
   crNeu: CrNeueFolge[],
   historie: NewsHistorie,
-  vorherige: NewsEintrag[] = [], omuTitel: Title[] = [], nurOriginalton: ReadonlySet<string> = new Set(),
+  vorherige: NewsEintrag[] = [], omuTitel: Title[] = [], nurOriginalton: ReadonlySet<string> = new Set(), offizielle?: OffizielleMeldung[],
 ): NewsEintrag[] {
   const heute = todayIso()
   const grenze = addDays(heute, -FENSTER_TAGE)
@@ -329,9 +341,7 @@ export function baueNews(
   const saeen = historie.anbieter === undefined
   const anbieterSeit = (historie.anbieter ??= {})
   for (const t of titles) {
-    const wege = new Set(
-      t.streams.filter((s) => s.dub === true && s.platform !== 'youtube').map((s) => s.platform),
-    )
+    const wege = anbieterMitDeutsch(t)
     for (const p of wege) {
       const k = `${t.id}:${p}`
       if (!(k in anbieterSeit)) anbieterSeit[k] = saeen ? '0000-00-00' : heute
@@ -396,14 +406,14 @@ export function baueNews(
   }
 
   /* 3. Termine: angekündigt, auf Disc, im Kino — und die, die niemand eingehalten hat. */
-  roh.push(...terminMeldungen(releases, nachId, heute), ...omuMeldungen([...titles, ...omuTitel], releases))
+  roh.push(...terminMeldungen(releases, nachId, heute), ...omuMeldungen([...titles, ...omuTitel], releases), ...offizielleMeldungen(titles, offizielle))
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
   let datiert: DatiertNews[] = []
   for (const r of roh) {
     const { schluessel, fallback, ...rest } = r
     const zuerst = historie.zuerst[schluessel] ?? (fallback > heute ? heute : fallback)
     historie.zuerst[schluessel] = zuerst
-    if (zuerst < grenze) continue
+    if (zuerst < fensterBeginn(r.art, heute, grenze)) continue
     datiert.push({ ...rest, am: zuerst, schluessel })
   }
 
@@ -496,7 +506,7 @@ export function baueNews(
         rang[a.meldungen[0]!.art] - rang[b.meldungen[0]!.art] ||
         a.titel.localeCompare(b.titel, 'de'),
     )
-    .slice(0, HOECHSTENS)
+    .filter((e, i) => i < HOECHSTENS || traegtOffizielle(e))
 }
 
 /**

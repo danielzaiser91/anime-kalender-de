@@ -11,6 +11,7 @@
 import { SPRACHE_HINWEIS, SPRACHE_MARKE } from '../../shared/ics.ts'
 import { omuStartText } from '../../shared/ankuendigung.ts'
 import { folgenProWoche } from '../../shared/folgenrhythmus.ts'
+import { OFFIZIELL_SATZ } from '../../shared/news-offiziell-satz.ts'
 import type { NewsEintrag, NewsMeldung, ReleaseEvent } from '../../shared/types.ts'
 import { PLATFORMS, anbieterName } from '../../shared/types.ts'
 import { abzeichen } from './mail-sorten.ts'
@@ -125,6 +126,8 @@ export function newsSatz(m: NewsMeldung): string {
       return `Start am ${datum}${anbieter ? ` bei ${anbieter}` : ''}`
     case 'rhythmus':
       return `Bis ${datum} wöchentlich ${folgenProWoche(m.proWoche ?? [0, 0])} neue Folgen${anbieter ? ` bei ${anbieter}` : ''}`
+    case 'offiziell':
+      return `Offizielle Website: ${OFFIZIELL_SATZ[m.kategorie ?? 'termin']}`
     case 'disc':
       return m.ausgabe ? `${m.ausgabe} erscheint am ${datum} auf Disc` : `Erscheint am ${datum} auf Disc`
     case 'kino':

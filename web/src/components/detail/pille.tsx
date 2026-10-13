@@ -61,8 +61,8 @@ export function Pille({ name, farbe, url, unten, titel, icon, durchgestrichen, s
   )
 }
 
-/** Sprachzustand eines Wegs: Beleg am Weg, Fremdangabe (JustWatch) oder offen. */
-export type DubStatusArt = 'belegt' | 'justwatch' | 'offen'
+/** Sprachzustand eines Wegs: Beleg am Weg, Fremdangabe (JustWatch), nur Untertitel (die Quelle nennt nur den Originalton) oder offen. */
+export type DubStatusArt = 'belegt' | 'justwatch' | 'omu' | 'offen'
 
 /** `stand` steht nur, wo die Angabe von JustWatch stammt (Datum des Abrufs). */
 export function statusArt(dub: boolean | undefined, stand?: string): DubStatusArt {
@@ -74,9 +74,10 @@ export function statusArt(dub: boolean | undefined, stand?: string): DubStatusAr
 const STATUS_KLASSE: Record<DubStatusArt, string> = {
   belegt: 'bg-[#047857]',
   justwatch: 'bg-[#475569]',
+  omu: 'bg-[#1d4ed8]',
   offen: 'bg-[#b45309]',
 }
-const STATUS_TEXT = { belegt: 'detail.statusDeutsch', justwatch: 'detail.statusJustwatch', offen: 'detail.statusOffen' } as const
+const STATUS_TEXT = { belegt: 'detail.statusDeutsch', justwatch: 'detail.statusJustwatch', omu: 'detail.statusOmu', offen: 'detail.statusOffen' } as const
 
 /** Die Blase an der Pille; ihr Ring hat die Farbe des Kastens (`--kasten`), damit sie wie ausgeschnitten wirkt. */
 export function DubStatus({ art }: { art: DubStatusArt }) {
@@ -95,6 +96,7 @@ export function legendeFuer(arten: Iterable<DubStatusArt>, geschaetzt: boolean, 
   const da = new Set(arten)
   const saetze = [
     da.has('justwatch') ? t('detail.legendeJustwatch') : '',
+    da.has('omu') ? t('detail.legendeOmu') : '',
     da.has('offen') ? t('detail.legendeOffen') : '',
     geschaetzt ? t('detail.legendeGeschaetzt') : '',
   ].filter(Boolean)

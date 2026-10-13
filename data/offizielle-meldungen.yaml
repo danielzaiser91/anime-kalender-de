@@ -1,0 +1,23 @@
+# Freigegebene Meldungen offizieller Websites (Art `offiziell`, pipeline/lib/news-offiziell.ts). Handdatei: der Bau liest sie nur.
+#
+# Der Sammler (pipeline/fetch-offizielle-news.ts) legt Vorschläge in data/proposals/offizielle-news.json ab. Ein Vorschlag wird erst durch einen Eintrag hier zur Meldung auf der Kachel.
+# Vor dem Freigeben: Ist die Seite offiziell für genau diesen Titel (Trailer-Beschreibung verlinkt sie, Daniel 12.10.2026)? Sagt die Überschrift wirklich, was die Kategorie behauptet?
+# Eintrag aus einem Vorschlag erzeugen: npx tsx pipeline/offizielle-freigabe.ts <id> --kategorie staffel --titel <AniList-Kennung> --freigabe "Name, TT.MM.JJJJ"
+#
+# id         Kennung des Vorschlags (Hash aus Host, Tag und Überschrift) – hält den Gedächtnisschlüssel der Meldung stabil, auch wenn der Tag korrigiert wird
+# titleId    AniList-Kennung der Kachel
+# kategorie  staffel = weitere Staffel bestätigt | film = Film angekündigt | synchro = Hinweis zur Synchronfassung | termin = Start- oder Sendetermin genannt
+# datum      der Tag, den die Seite der Meldung gibt (die Meldung steht an diesem Tag und wird nie umgeschrieben)
+# url        die Meldung auf der Seite (https)
+# titel      Überschrift wörtlich, in der Sprache der Seite (steht im Beleg-Fenster)
+# sprache    ja | en | …
+# freigabe   wer, wann
+eintraege:
+  - id: "85912d14d138"
+    titleId: 196144
+    kategorie: staffel
+    datum: "2026-06-27"
+    url: https://snowballearth.net/en/news/detail.html?d=20260627_01
+    titel: Season 2 Production Confirmed!
+    sprache: en
+    freigabe: "Daniel, 12.10.2026 (Auftrag: Meldung von snowballearth.net auf die Kachel)"

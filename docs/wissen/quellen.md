@@ -484,6 +484,13 @@ einzige Suche (`ersetztSucheUndMeldetWeg()`, `lib/weg-aus-beleg.ts`); der Weg bl
 Ersatz-Cache, der AniLists Amazon-Link nachbildet (Daten vom 12.10.2026 09:31 Uhr, `82c82ef5e`), verlor 73 Prime-Wege, darunter
 alle 16; mit der Änderung kommen alle 16 zurück.
 
+**Anbieter-Ja trägt den Kanal-Weg** (13.10.2026, Daniel: „Prime Video (Crunchyroll)“ wie Crunchyroll, Reborn as a Space Mercenary).
+Ist der Anbieter hinter dem Kanal ein eigener Weg desselben Titels (Crunchyroll, ADN; `shared/kanal-anbieter.ts`) mit belegtem Ja, erbt der
+Kanal-Weg `dub` und `dubRanges` (`kanalErbtVomAnbieter()`, `bau/kanal-erbt-anbieter.ts`, aufgerufen in 13-schreiben). Das ist die zweite Quelle der
+Kanal-Regel, aus einer anderen Messung (Dub-Liste des Anbieters). Ein Nein oder offenes Urteil des Anbieters, ein eigenes Urteil des Kanals und
+Kanäle ohne eigenen Anbieter-Weg (Aniverse u. a.) bleiben unberührt (Hell Mode, Golden Wind). Im Kalender geht der Prime-Kanal-Termin in der
+Kachel seines Anbieters auf (`vereineAnbieter`, `kanalVon`); ohne den Anbieter am Tag bleibt er.
+
 **Nachtrag 12.10.2026 (Abend): Das Kanal-Ja wird nachgemessen, die Regel bleibt.** Daniel: „Erst messen, dann entscheiden.“ Herkunft von Hell Mode
 (`daniel-zum-abarbeiten/berichte/hell-mode-herkunft-2026-10-12.md`): Der Melder bis 4.20.10 (15.09.2026, `141e692d8`) füllte über eine Rückfallebene ein
 Sammel-Set `gesehen.sprachen` ohne Folgennummer; Amazon zeigte auch am 30.08. nur 日本語. Altes Seiten-HTML war es nicht.
@@ -1088,6 +1095,36 @@ entscheidet: „Chihiros Reise ins Zauberland" und „Your Name." haben beide ei
 Synchronfassung und tragen trotzdem nur `spoken_languages: [ja]`. Das Feld meint die Sprache
 **des Films**, nicht die verfügbaren Fassungen. Über 18 deutsche Termine in sechs Filmen ist
 `iso_639_1` siebzehnmal leer; das eine `"de"` steht an einer TV-Ausstrahlung.
+
+## „Zuletzt im Kino: April 2026“ — TMDB `release_dates` rückwärts gelesen (13.10.2026)
+
+Anlass: Assassination Classroom: Our Time (AniList 198373, TMDB 1542877) hat die deutsche Fassung ab 25.04.2026 (aniSearch), im Datensatz
+stand kein Kinostart — die Kino-Quellen (`fetch-tmdb-kino.ts`, Kinoheld, Cinestar) schauen nur zwölf Monate nach vorn.
+
+**Gemessen** (13.10.2026, `GET /movie/{id}/release_dates`, ein Abruf je Film, 60 ms Abstand; TMDB nennt ~50 Anfragen/s als Obergrenze):
+
+| Messung | Ergebnis |
+|---|---|
+| Our Time (1542877) | DE, Typ 3, **2026-04-25** → „April 2026“ stimmt, deckt sich mit dem aniSearch-Datum |
+| 12 Stichproben | Typ 3: Our Time, Kitaro 2025-11-19, Dragon Maid 2026-03-31, Tom-Crosby-Mäusebrigade 1978; Typ 2: Detektiv Conan 2020-06-30 („KAZÉ Anime Nights“); nur Typ 4/5/6: Cowboy Bebop (4), xxxHOLiC (5), Pokémon Lucario (6), Mardock Scramble (5); kein DE-Eintrag: 3 |
+| alle 716 Filme mit TMDB-Kennung | **254 mit DE-Kinostart bis heute** (35 %), 3 nur künftig, 294 nur Typ 1/4/5/6, 165 ohne DE-Eintrag, 0 Fehler |
+| Alter der 254 (jüngster Start) | 2026: 12, 2025: 16, 2024: 18, 2023: 13, 2022: 11, 2021: 13, 2020: 12, 2010–19: 111, 2000–09: 38, vor 2000: 10 |
+
+Mit der echten Anzeigelogik gezählt (`berechneAntwort` + `fragtKinoZuletzt` auf `titles.json`/`releases.json`): **247 Filme** bekämen die Zeile,
+einer wäre `filmDe` (hat schon einen Kino-Termin im Kasten), einer `fertig`.
+
+**Bauweise.** `fetch-tmdb-titles.ts` ruft `release_dates` für Filme ohnehin (FSK) — `kinoDe` (alle DE-Starts Typ 2/3) kostet keinen zusätzlichen Abruf und fällt
+unter die 150-Tage-Regel (`INHALTSFELDER`). Film-Einträge ohne `kinoDe` sind sofort fällig (`kinoFehlt`), so füllt sich der Bestand in zwei Wochenläufen
+(`--limit 400`, 716 Filme) statt in 60 Tagen. Der Bau schreibt `public/data/kino-zuletzt.json` (AniList → Monat, nur Format `MOVIE` mit TMDB-Art `movie`;
+Kennungen werden zu `ak`), das Panel lädt sie erst beim Öffnen eines Films — nicht in `titles.json`, weil nur eine Minderheit sie braucht.
+
+**Regeln.** (1) Nur Land DE und Typ 2/3; Typ 4/5 sind Stream und Disc. (2) Nur Monat und Jahr, nie ein Tag. (3) Ein künftiger Start zählt erst ab seinem Tag
+(der tägliche Bau entscheidet; `check-kino-zuletzt.ts`). (4) Die Zeile steht nur bei belegter Synchro und nicht unter einem Kino-Banner: Der Kinostart sagt nichts
+über die Fassung (OmU-only-Filme haben denselben Eintrag, s. o.), die Zeile behauptet deshalb keine deutsche Kinofassung. (5) Mehrfach vergebene TMDB-Filmkennungen
+sind schon vor dem Bau verworfen (`mehrdeutigeFilmzuordnungen`).
+
+**Offen:** Die 111 + 38 + 10 Einträge vor 2020 sind meist Erstaufführungen der 2000er („Zuletzt im Kino: April 2004“) — belegt, aber für Besucher kaum von Nutzen.
+Ein Schnitt (z. B. nur ab 2015) ist eine Zeile in `zuletztImKino()`; Entscheidung bei Daniel.
 
 ## Ein Anbieter meldet, was neu ist — fragen muss man ihn selbst
 
@@ -3769,3 +3806,20 @@ Anlass: „Snowball Earth“ — ein Handbeleg „keine Synchro“ (`data/dub-co
 - **Wege zurück:** Der Crunchyroll-Dub-Abruf nimmt die Adressen aus `data/verweise-entfernt.json` wieder auf und setzt Kachel-Serien als „neu seit“ (`crunchyrollNeinAbruf`, `pipeline/lib/crunchyroll-adressen.ts`; seine Frist bleibt `--alter`). Netflix, Prime und Disney+: `tools/pruef-bestand.mjs` führt den Weg mit `dub: false` und der Adresse aus Beleg oder Gedächtnis der entfernten Verweise zurück in die Liste; `tools/verdacht.mjs` (sechste Quelle, `neinFaelleJeTitel`) schreibt den Hinweis „Das „nein“ vom … ist … Tage alt — bitte erneut melden“.
 - **Reihenfolge der Disney+-Liste:** Wiedervorlagen stehen vorn (`verdachtRang`), die laufende Synchro zuerst („Though I Am an Inept Villainess“, Messung 02.10.: Folge 1–9 deutsch, 10–11 nein), dann das älteste Nein.
 - **Stand 13.10.2026:** 455 Nein fällig (Netflix 207, Prime 162, YouTube 40, Crunchyroll 32, Disney+ 10, ADN 2, RTL+ 2); zwei davon wegen einer Kachel (Spy × Family bei Disney+, ein Prime-Titel; Snowball Earth bei Crunchyroll hat nur geschätzte Termine, also keine Kachel). Der Crunchyroll-Dub-Abruf führt dadurch 1.065 statt 508 Adressen je 28 Tage (≈ 266 je Woche, Deckel des Wochenlaufs 300); der einmalige Rückstand von 553 fälligen Adressen baut sich in 2–3 Wochen ab (6,7 s je Serie, gemessen 21.08.2026; ein Crunchyroll-Rate-Limit mit Zahl ist nicht bekannt). Auf die Listen der Erweiterung kamen dadurch Netflix +12, Prime +71 Einträge. Zusicherungen: `pipeline/check-nein-wiedervorlage.ts`, `pipeline/check-nein-liste-bestand.ts` (`check:logic` bzw. `check:bestand`, weil es das Dateilayout `public/data` nachbaut).
+
+## Offizielle Websites als Quelle: Sammler und Vorschlagsdatei (13.10.2026)
+
+Daniel (12.10.2026, 22:00): Die Website eines Titels gilt als **offiziell, wenn die Trailer-Beschreibung sie verlinkt**; ihre Meldungen zählen als Quelle und sollen im Neuigkeiten-Bereich der Kachel stehen. Grundlage: `daniel-zum-abarbeiten/berichte/offizielle-seiten-news-2026-10-12.md` und der Messlauf `…/offizielle-seiten-messlauf-2026-10-12.md` (nur im Hauptordner, nicht im Repo) (100 Hosts, 107 Titel, 63 sicher lesbar).
+
+- **Fluss:** `data/offizielle-seiten.yaml` (Handliste, 60 Hosts) → `pipeline/fetch-offizielle-news.ts` → `data/proposals/offizielle-news.json` (Vorschläge, speist keinen Bau) → Freigabe von Hand → Meldung (Art `offiziell`, folgt in einem eigenen Pull Request). Wie bei Anime2You geht nichts ohne Freigabe in den Bestand.
+- **Seitenliste:** je Host `url` der News-Liste (aus der Startseite gelesen, nie geraten), `muster` (`feed` | `wp` | `json` | `html`), `sprache`, optional `pause` (Crawl-delay) und bei JSON-Listen ohne Adresse je Meldung `eintrag` (`…/detail.html?d={uniqueId}`). Saat: die 60 Hosts des Messlaufs mit sicherem Muster; nicht aufgenommen: Bot-Sperre (403), JS-Listen ohne Datenpfad, „HTML wenig“, Weiterleitung auf andere Hosts. Ein neuer Host braucht erst die Lesung seiner robots.txt und Startseite und einen Abruf zur Probe.
+- **Welcher Titel?** Aus den `websites` der aniSearch-Einträge (`data/anisearch.json`, gecachte Daten, nie ein Abruf von aniSearch): der jüngste Titel (Jahr aus `titles.json`), bei Gleichstand bleiben alle als `titelIds`, die Freigabe wählt. Ob die Seite „offiziell für genau diesen Titel“ ist, klärt die Handliste (Verleih-/Senderseiten wie gundam.info oder tv-asahi.co.jp stehen nicht darin); die Trailer-Beschreibung als Gegenprobe ist **nicht automatisiert** (offen).
+- **Abruf in zwei Stufen:** Stufe 1 Feed (RSS/Atom), WordPress-REST, JSON-Liste (ein Abruf, Felder); Stufe 2 HTML-Listen mit einem Leser für alle (`lib/offiziell-html.ts`: Datum + verlinkte Überschrift, nachsichtiger Baum, kleinster Umschlag mit genau einem Datum). Das Datum wird so gelesen, wie die Seite es schreibt (Ortszeit der Seite), Zukunftsdaten (Termine im Text) und Überschriften, die nur eine Adresse sind, entfallen.
+- **Höflich:** robots.txt je Host (höchstens 7 Tage alt; `403` darauf = nicht lesen), Crawl-delay beachtet (über 60 s: Host übersprungen), 2 s Takt über alle Hosts, höchstens 30 Hosts je Lauf, der am längsten nicht gelesene zuerst (jeder Host spätestens nach `ceil(Hosts/30)` Läufen), Frist 25 min, ein Host höchstens einmal am Tag. `403`/`429`/`503` = Pause bis `Retry-After`, mindestens 1 h, höchstens 24 h; drei Fehlschläge in Folge = Pause 24 h. Nie Abbruch des Laufs, nie Umgehung einer Sperre.
+- **Cache:** Rohantworten unter `data/cache/offizielle-news/<host>/<hash>.txt`, Stand (zuletzt gelesen, robots.txt, Pausen) in `…/stand.json`; beides nur im Actions-Cache, nicht im Repo. `--aus-cache` wertet die Rohantworten ohne Abruf neu aus (Parser-Arbeit). Gespeichert wird nur Überschrift, Tag und Adresse; Volltexte (Feed) werden verworfen. Snowballs robots.txt enthält nur einen Rechtevorbehalt nach Art. 4 DSM-Richtlinie ohne Regel; wir halten Überschrift, Tag, Adresse und lesen keine Volltexte.
+- **Relevanzfilter** (`lib/offiziell-relevanz.ts`): Kategorie `staffel` | `film` | `synchro` | `termin` aus Stichwörtern (Japanisch/Englisch), davor eine Ausschlussliste (Blu-ray, Radio, Goodies, Events, PV/Opening, japanische Sender und Streamer wie AT-X, TVer, ABEMA, U-NEXT); `吹替`, `Dub`, weltweite Plattformstarts (Netflix, Prime Video, Crunchyroll, Disney+, 世界独占) und `production confirmed` heben die Ausschlussliste auf. Handstichprobe 13.10.2026: 6 von 324 Überschriften relevant (≈ 2 %). Der Filter ist nur eine Vorauswahl.
+- **Vorschläge:** `id` (Hash aus Host, Tag, Überschrift), `titel` wörtlich, `datum` = Tag der Seite, `url`, `sprache`, `kategorie`, `gefundenAm`. Bekanntes bleibt bytegleich (kein Diff ohne Neues), Fenster 365 Tage (so lange zeigt die News-Art `offiziell`), Aufbewahrung 400 Tage.
+- **Prüfung:** `check-offizielle-news.ts` (Filter mit den sieben Fundstellen und elf Fehltreffern, Datumsfenster, Leser Feed/Atom/WordPress/JSON/HTML in vier Gerüsten) und `check-offizielle-lauf.ts` (robots.txt, Crawl-delay, Pause, Fristen: neue Meldung spätestens am 3. Tag, geänderte robots.txt spätestens am 7. Tag, Pause spätestens nach 24 h, Frist des Laufs).
+- **Workflow:** `.github/workflows/offizielle-news.yml` (nur `workflow_dispatch`, Einreichen per Pull Request). **Wecker-Eintrag (offen, nicht in diesem Pull Request):** in `shared/weckplan.ts` die Zeile `{ workflow: 'offizielle-news.yml', stunden: [13], abstandMin: 600 }`, in `wecker-wache.yml` (`PLAN`) `offizielle-news.yml:30`, in `tools/wache-woechentlich.mjs` (`FRISTEN_STUNDEN`) `'offizielle-news.yml': 36`.
+- **Testlauf 13.10.2026 (10 Hosts, 1 Abruf der Liste je Host):** `mushokutensei.jp` antwortete mit Sperre (Pause, nicht umgangen); die übrigen 9 lieferten 157 Meldungen, 6 relevant (Snowball Earth „Season 2 Production Confirmed!“, 4 × Mission: Yozakura Family 2. Staffel/2. Cour, 1 × Himekishi „放送・配信情報更新！“). Details in der Beschreibung des Pull Requests.
+- **Offen:** die 18 JS-Listen (Datenpfad per Playwright-Mitschnitt), die 5 Bot-Sperren, die Trailer-Beschreibung als Gegenprobe der Offiziellheit, automatische Erkennung neuer Hosts.

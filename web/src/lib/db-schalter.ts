@@ -8,8 +8,8 @@ import type { AppRoute } from './router.ts'
  * für diese Sitzung. „Ohne Synchro“ ist ein Merk-Werkzeug und bleibt bewusst nur für die Sitzung.
  */
 export function useDbSchalter(route: AppRoute, ersetze: (next: Partial<AppRoute>) => void) {
-  // Vorgabe an: Reihen als eine Kachel; nur ein gespeichertes '0' schaltet es aus.
-  const [staffeln, setStaffeln] = useState(() => localStorage.getItem('groupSeasons') !== '0')
+  // Vorgabe aus (Daniel, 13.10.2026): jede Staffel als eigene Kachel; nur ein gespeichertes '1' schaltet es ein.
+  const [staffeln, setStaffeln] = useState(() => localStorage.getItem('groupSeasons') === '1')
   const [ohne, setOhne] = useState(false)
   const imDb = route.view === 'datenbank'
 
@@ -19,7 +19,7 @@ export function useDbSchalter(route: AppRoute, ersetze: (next: Partial<AppRoute>
     if (route.staffeln !== undefined) setStaffeln(route.staffeln)
     if (route.ohne) setOhne(true)
     const fehlt: Partial<AppRoute> = {}
-    if (route.staffeln === undefined && !staffeln) fehlt.staffeln = false
+    if (route.staffeln === undefined && staffeln) fehlt.staffeln = true
     if (!route.ohne && ohne) fehlt.ohne = true
     if (Object.keys(fehlt).length) ersetze(fehlt)
   }, [imDb, route.staffeln, route.ohne])

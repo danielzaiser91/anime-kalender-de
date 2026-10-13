@@ -1,0 +1,92 @@
+/**
+ * Zusicherungen: Ein Prime-Kanal ist so deutsch wie sein Anbieter (Daniel, 13.10.2026, „Reborn as a Space Mercenary“:
+ * Crunchyroll Ja, Prime (Crunchyroll) „Sprache offen“). Läuft in `check:logic`. Erfundene Titel, kein Netz.
+ */
+import { readFileSync } from 'node:fs'
+import type { StreamLink, Title } from '../shared/types.ts'
+import { kanalErbtVomAnbieter } from './bau/kanal-erbt-anbieter.ts'
+import { baueNews, type NewsHistorie } from './lib/news.ts'
+
+let fehler = 0
+function pruefe(name: string, ok: boolean, ist?: unknown): void {
+  if (ok) return
+  fehler++
+  console.error(`FEHLER: ${name}`, ist === undefined ? '' : JSON.stringify(ist))
+}
+
+const bereiche = [{ from: 1, to: 12, dub: true }]
+const cr = (extra: Partial<StreamLink> = {}): StreamLink => ({ platform: 'crunchyroll', url: 'https://www.crunchyroll.com/de/series/T', ...extra }) as StreamLink
+const adn = (extra: Partial<StreamLink> = {}): StreamLink => ({ platform: 'adn', url: 'https://animationdigitalnetwork.com/de/video/1', ...extra }) as StreamLink
+const kanal = (extra: Partial<StreamLink> = {}): StreamLink =>
+  ({ platform: 'primevideo', url: 'https://www.amazon.de/gp/video/detail/TEST', kanal: 'Crunchyroll', ...extra }) as StreamLink
+
+/** Läuft die Übernahme über einen Titel und gibt dessen Kanal-Weg (zweiter Weg) und die Zahl zurück. */
+function erbe(streams: StreamLink[]): { weg: StreamLink; n: number } {
+  const n = kanalErbtVomAnbieter([{ id: 1, streams } as unknown as Title])
+  return { weg: streams[1]!, n }
+}
+
+const ja = erbe([cr({ dub: true, dubRanges: bereiche }), kanal()])
+pruefe('Reborn: Crunchyroll Ja, Kanal ohne Urteil: Kanal bekommt Ja', ja.weg.dub === true && ja.n === 1, ja)
+pruefe('Die deutschen Bereiche kommen mit', JSON.stringify(ja.weg.dubRanges) === JSON.stringify(bereiche), ja.weg)
+pruefe('Die Bereiche sind eine Kopie, kein geteiltes Objekt', ja.weg.dubRanges?.[0] !== bereiche[0])
+
+const ohneBereiche = erbe([cr({ dub: true }), kanal()])
+pruefe('Anbieter-Ja ohne Bereiche: Kanal bekommt Ja, keine erfundenen Bereiche', ohneBereiche.weg.dub === true && ohneBereiche.weg.dubRanges === undefined, ohneBereiche.weg)
+
+const adnJa = erbe([adn({ dub: true }), kanal({ kanal: 'ADN' })])
+pruefe('ADN: Kanal „ADN“ erbt von ADN', adnJa.weg.dub === true, adnJa.weg)
+pruefe('Schreibweise des Kanals egal', erbe([cr({ dub: true }), kanal({ kanal: 'crunchyroll' })]).weg.dub === true)
+
+/* Die Nein-Fälle: nichts erben. */
+const goldenWind = erbe([cr({ dub: false }), kanal()])
+pruefe('Anbieter Nein (Golden Wind): Kanal bleibt offen', goldenWind.weg.dub === undefined && goldenWind.n === 0, goldenWind)
+pruefe('Anbieter offen: Kanal bleibt offen', erbe([cr(), kanal()]).weg.dub === undefined)
+pruefe('Kein Anbieter-Weg im Titel: Kanal bleibt offen', erbe([{ platform: 'netflix', url: 'https://www.netflix.com/title/1', dub: true } as StreamLink, kanal()]).weg.dub === undefined)
+pruefe('Anderer Anbieter (ADN-Ja, Kanal Crunchyroll): nichts erben', erbe([adn({ dub: true }), kanal()]).weg.dub === undefined)
+pruefe('Anbieter-Weg nur noch als Vermerk (entferntAm): nichts erben', erbe([cr({ dub: true, entferntAm: '2026-09-01' }), kanal()]).weg.dub === undefined)
+pruefe('Kanal ohne Anbieter-Weg im Bestand (Aniverse): unberührt', erbe([cr({ dub: true }), kanal({ kanal: 'aniverse' })]).weg.dub === undefined)
+pruefe('Prime ohne Kanal-Angabe: unberührt', erbe([cr({ dub: true }), kanal({ kanal: undefined })]).weg.dub === undefined)
+pruefe('Kanal-Angabe an einem anderen Anbieter-Weg (Netflix): unberührt', erbe([cr({ dub: true }), kanal({ platform: 'netflix' })]).weg.dub === undefined)
+pruefe('Weg des Kanals nur noch als Vermerk: unberührt', erbe([cr({ dub: true }), kanal({ entferntAm: '2026-09-01' })]).weg.dub === undefined)
+
+/* Eigene Urteile des Kanals bleiben, Ja wie Nein. */
+const kanalNein = erbe([cr({ dub: true, dubRanges: bereiche }), kanal({ dub: false })])
+pruefe('Eigenes Nein des Kanals bleibt', kanalNein.weg.dub === false && kanalNein.weg.dubRanges === undefined && kanalNein.n === 0, kanalNein)
+const eigeneBereiche = [{ from: 1, to: 25, dub: true }]
+const kanalJa = erbe([cr({ dub: true, dubRanges: bereiche }), kanal({ dub: true, dubRanges: eigeneBereiche })])
+pruefe('Eigenes Ja mit eigenen Bereichen bleibt', kanalJa.weg.dub === true && kanalJa.weg.dubRanges === eigeneBereiche && kanalJa.n === 0, kanalJa)
+const nurBereiche = erbe([cr({ dub: true, dubRanges: bereiche }), kanal({ dubRanges: eigeneBereiche })])
+pruefe('Eigene Bereiche ohne Urteil: Ja kommt, die Bereiche des Kanals bleiben', nurBereiche.weg.dub === true && nurBereiche.weg.dubRanges === eigeneBereiche, nurBereiche)
+
+/* Zweimal laufen ändert nichts. */
+const zweimal = [cr({ dub: true, dubRanges: bereiche }), kanal()]
+kanalErbtVomAnbieter([{ id: 1, streams: zweimal } as unknown as Title])
+pruefe('Zweiter Lauf erbt nichts mehr', kanalErbtVomAnbieter([{ id: 1, streams: zweimal } as unknown as Title]) === 0)
+
+/* Ein geerbtes Ja ist keine Meldung „jetzt auch bei Prime Video“ (13.10.2026: Reborn, Frieren u. a. wären zu ihrem Tag falsch gemeldet worden). */
+function weitereAnbieter(streams: StreamLink[]): string[] {
+  const historie: NewsHistorie = { zuerst: {} }
+  const titelMit = (s: StreamLink[]): Title[] =>
+    [{ id: 1, franchiseId: 1, slug: 't-1', titleEn: 'T1', keywords: [], genres: [], streams: s }] as unknown as Title[]
+  baueNews(titelMit([cr({ dub: true })]), [], [], [], historie)
+  return baueNews(titelMit(streams), [], [], [], historie).flatMap((e) => e.meldungen.filter((m) => m.art === 'neu').map((m) => `${m.platform}`))
+}
+const geerbt = [cr({ dub: true }), kanal()]
+kanalErbtVomAnbieter([{ id: 1, streams: geerbt } as unknown as Title])
+pruefe('Geerbtes Ja: Prime ist kein weiterer Anbieter', weitereAnbieter(geerbt).length === 0, weitereAnbieter(geerbt))
+pruefe('Gegenprobe: ein eigenes Ja des Kanals (nicht geerbt) bleibt ein weiterer Anbieter', weitereAnbieter([cr({ dub: true }), kanal({ dub: true })]).join() === 'primevideo')
+pruefe('Gegenprobe: ein anderer Anbieter bleibt ein weiterer Anbieter', weitereAnbieter([cr({ dub: true }), adn({ dub: true })]).join() === 'adn')
+
+/* Der Bau ruft es auf, vor der Auslieferung (sonst bliebe die Regel Papier). */
+const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')
+const nachAnreichern = schreiben.indexOf('schreibeSynopsenUndReichereAn({')
+const aufruf = schreiben.indexOf('kanalErbtVomAnbieter(allTitles)')
+const auslieferung = schreiben.indexOf('baueAuslieferung({')
+pruefe('13-schreiben ruft kanalErbtVomAnbieter nach dem Anreichern und vor der Auslieferung', nachAnreichern > 0 && aufruf > nachAnreichern && aufruf < auslieferung, { nachAnreichern, aufruf, auslieferung })
+
+if (fehler) {
+  console.error(`${fehler} Prüfung(en) fehlgeschlagen`)
+  process.exit(1)
+}
+console.log('check-kanal-erbt: ok')

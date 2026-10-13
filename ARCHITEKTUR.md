@@ -106,6 +106,8 @@ aufklappt.
 Aufklappen. **Nicht** in `titles.json`. Das ist derselbe Weg wie bei den Beschreibungen und
 kostet Uninteressierte exakt null.
 
+*Stand 13.10.2026:* „Zuletzt im Kino“ (254 von 716 Filmen mit TMDB-Kennung) liegt als eine kleine Datei `kino-zuletzt.json`, die das Panel erst beim Öffnen eines Films lädt — Zahlen in `docs/wissen/quellen.md`.
+
 > Ein eigener Host ist dafür **nicht** nötig. Eine Datei, die niemand anfordert, wird auch
 > nicht übertragen — egal wo sie liegt. Ein zweiter Host löst ein anderes Problem
 > (Repo-Größe, Deploy-Kopplung), nicht das der Ladelast.
