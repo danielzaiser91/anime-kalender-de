@@ -4,7 +4,7 @@
  */
 import { existsSync } from 'node:fs'
 import { type KatalogEintrag } from './lib/anilist.ts'
-import { EINGEFROREN_DATEI, ladeEingefrorene, mischeKatalog } from './lib/katalog-eingefroren.ts'
+import { EINGEFROREN_DATEI, ladeEingefrorene, mischeKatalog, nichtEingefroren } from './lib/katalog-eingefroren.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -20,6 +20,9 @@ const gemischt = mischeKatalog(cache, [eintrag(2, 'B'), eintrag(3, 'C')])
 pruefe('Mischen: eingefrorene Kennung ersetzt den Cache-Eintrag', gemischt.find((e) => e.id === 2)?.t[0] === 'B')
 pruefe('Mischen: nach Kennung sortiert, nichts doppelt', gemischt.map((e) => e.id).join() === '1,2,3,4', gemischt.map((e) => e.id))
 pruefe('Mischen: ohne Cache leer, kein Teilkatalog aus der Datei', mischeKatalog([], [eintrag(3, 'C')]).length === 0)
+
+pruefe('Nachtrag: nur Kennungen aus keiner, die fehlen', nichtEingefroren([1, 2, 3, 5], [eintrag(2, 'B'), eintrag(4, 'D')]).join() === '1,3,5')
+pruefe('Nachtrag: nichts fehlt, nichts zu tun', nichtEingefroren([2, 4], [eintrag(2, 'B'), eintrag(4, 'D')]).length === 0)
 
 pruefe(`Datei ${EINGEFROREN_DATEI} ist da`, existsSync(EINGEFROREN_DATEI))
 const eingefroren = ladeEingefrorene()
