@@ -50,6 +50,11 @@ export function katalogBelegFehler(eintraege: KatalogBelegEintrag[]): string[] {
   return fehler
 }
 
+/** Kennungen der Handdatei, die in `releases.json` nicht (mehr) vorkommen: ein toter Beleg wirkt nirgends. */
+export function katalogBelegTote(eintraege: KatalogBelegEintrag[], releaseSlugs: Set<string>): string[] {
+  return eintraege.filter((e) => !releaseSlugs.has(e.slug)).map((e) => `Katalog-Release von Hand ${e.slug}: kein Release dieser Kennung in releases.json`)
+}
+
 /** Kennung → Urteil: `belegt` (komplett, beobachtet) oder `teil`. */
 export function katalogBelege(eintraege: KatalogBelegEintrag[]): KatalogBelege {
   return new Map(eintraege.map((e) => [e.slug, e.art === 'teil' ? 'teil' : 'belegt']))

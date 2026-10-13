@@ -5,7 +5,10 @@
 #   art: komplett    die Quelle schreibt „Episoden: N (komplett)“ zum Starttag (Zitat wörtlich, unter 15 Wörtern)
 #   art: beobachtet  alle Folgen waren am selben Tag im Abruf zu sehen, nicht nur als Katalog-Stempel
 #   art: teil        nur ein Teil der Staffel („12 von 24“) — kein Katalog-Release
-# Die Aussagen stehen auch in data/proposals/aussagen.json (Feld zitat), gelesen am 13.10.2026.
+# Die Zitate stammen aus den Artikeln (gelesen am 13.10.2026); in data/proposals/aussagen.json stehen sie nur zum Teil
+# (Star Wars: Visionen fehlt dort), bei Snowball Earth ist der Text ein eigener, kein Zitat.
+# Cyberpunk: Edgerunners II steht bewusst nicht hier: „Episoden: 10 (komplett)“ heißt bei Anime2You „Staffel danach vollständig“,
+# nicht „alle auf einmal“; bis Netflix am 20.10.2026 live gemessen ist, bleibt es „Vermutlich“.
 
 - slug: star-wars-visions-ninth-jedi
   art: komplett
@@ -53,11 +56,6 @@
   art: komplett
   url: https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/
   zitat: "22. Oktober: »Reincarnated as a Dragon Hatchling« (Synchro) Episoden: 12 (komplett)"
-
-- slug: cyberpunk-edgerunners-2-netflix
-  art: komplett
-  url: https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
-  zitat: "20. Oktober: »Cyberpunk: Edgerunners II« Episoden: 10 (komplett)"
 
 - slug: my-happy-marriage-special-netflix
   art: komplett

@@ -7,7 +7,8 @@
  */
 import type { Release, ReleaseEvent } from '../shared/types.ts'
 import { KATALOG_MIN_FOLGEN, schreibeKatalogRelease, type KatalogBelege } from '../shared/katalog-release.ts'
-import { katalogBelegFehler, katalogBelege, ladeKatalogBelegEintraege } from './lib/katalog-belege.ts'
+import { katalogBelegFehler, katalogBelegTote, katalogBelege, ladeKatalogBelegEintraege } from './lib/katalog-belege.ts'
+import { readJson } from './lib/util.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -63,7 +64,8 @@ function befundeDesPruefers(): void {
   pruefe('The Beginning After the End: alle 12 Folgen am 15.07., Start war der 29.04. — Wochentakt mit Stempel, kein Release', woche(tage, 12, '2026-04-29').every((k) => !k))
   pruefe('Tamon’s B-side: alle 13 Folgen am 30.07., Start war der 07.05.', woche(Array.from({ length: 13 }, () => '2026-07-30'), 13, '2026-05-07').every((k) => !k))
   pruefe('Honey Lemon Soda: Batch plus Zahl, keine Quelle sagt „komplett“ — abgeleitet, nicht belegt', batch(12, { platform: 'disneyplus' }) === 'abgeleitet')
-  pruefe('Cyberpunk: Quelle sagt „Episoden: 10 (komplett)“ (Handdatei) — belegt', batch(10, {}, BELEGT) === 'belegt')
+  pruefe('Beleg in der Handdatei (Quelle: „Episoden: 10 (komplett)“ zum Starttag) macht den Katalog-Release belegt', batch(10, {}, BELEGT) === 'belegt')
+  pruefe('Cyberpunk: Edgerunners II ohne Handeintrag bleibt abgeleitet, „(komplett)“ heißt dort nur „Staffel danach vollständig“', batch(10) === 'abgeleitet' && !ladeKatalogBelegEintraege().some((e) => e.slug === 'cyberpunk-edgerunners-2-netflix'))
   const snow = rel('b', { releaseType: 'batch', herkunft: 'Crunchyroll führt nur die letzte Folge (13 von 13): abgeleitet als Komplettabwurf.' })
   const einzeln = (belege: KatalogBelege) => katalog([ev('b', undefined, { releaseType: 'batch', episodeCount: 13 })], [snow], belege)[0]
   pruefe('Snowball Earth: „Alle 13 auf einmal“ ist ohne Beobachtung abgeleitet', einzeln(OHNE) === 'abgeleitet', einzeln(OHNE))
@@ -78,6 +80,11 @@ function handdatei(): void {
   pruefe(`${eintraege.length} Einträge, jeder mit Art, https-Quelle und kurzem Zitat`, eintraege.length > 0 && fehler.length === 0, fehler)
   const kaputt = katalogBelegFehler([{ slug: 'a', art: 'komplett', url: 'http://x', zitat: 'Episoden: 12' }, { slug: 'a', art: 'egal', url: '', zitat: '' }])
   pruefe('gegenprobe: ohne „(komplett)“, ohne https, doppelte Kennung, falsche Art, leeres Zitat sind Fehler', kaputt.length >= 6, kaputt)
+  const slugs = new Set(readJson<Release[]>('public/data/releases.json', []).map((r) => r.slug))
+  const tot = katalogBelegTote(eintraege, slugs)
+  pruefe('jede Kennung der Handdatei steht in releases.json', slugs.size > 0 && tot.length === 0, tot)
+  const erfunden = katalogBelegTote([...eintraege, { slug: 'erfundener-slug-ohne-release', art: 'teil', url: 'https://x', zitat: 'x' }], slugs)
+  pruefe('gegenprobe: eine erfundene Kennung wird als tot gemeldet', erfunden.length === 1 && erfunden[0]!.includes('erfundener-slug-ohne-release'), erfunden)
   pruefe('Art „teil“ führt zu „teil“, die übrigen zu „belegt“', [...katalogBelege(eintraege).values()].every((v) => v === 'belegt' || v === 'teil'))
 }
 
