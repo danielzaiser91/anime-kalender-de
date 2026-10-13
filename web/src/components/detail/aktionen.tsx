@@ -10,7 +10,7 @@ const KNOPF =
 /** Nur das Zeichen: 44 × 44, rund — „Ausblenden“ braucht kein Wort, der Name steht in `aria-label` und `title`. */
 const KNOPF_ZEICHEN =
   'inline-flex size-11 cursor-pointer items-center justify-center rounded-full border border-slate-300 text-ak-text transition hover:bg-slate-500/10 dark:border-white/20 dark:hover:bg-white/10'
-const AN ='border-sky-500 text-sky-800 dark:border-sky-400 dark:text-sky-200'
+const AN = 'border-sky-500 text-sky-800 dark:border-sky-400 dark:text-sky-200'
 
 /** Zeichen der Knöpfe: 18 px, Strich in der Textfarbe (SVG statt Emoji, damit sie in beiden Themen gleich aussehen). */
 function Zeichen({ children, gefuellt }: { children: ReactNode; gefuellt?: boolean }) {
