@@ -25,6 +25,8 @@ export interface EigeneHandlung {
   /** Lizenz dieses Textes (bei einer Wikipedia-Quelle gilt Share-Alike). */
   lizenz: string
   quellen: EigeneQuelle[]
+  /** Ausdrückliche Freigabe für einen Text aus nur einer Quelle („Daniel, 13.10.2026: …“); ohne sie sind mindestens zwei verschiedene Quellen Pflicht. */
+  freigabe?: string
 }
 
 export function ladeEigeneHandlungen(pfad = resolve(ROOT, HANDLUNG_EIGEN)): EigeneHandlung[] {
@@ -49,8 +51,32 @@ export function eigeneHandlungFehler(eintraege: EigeneHandlung[]): string[] {
     if (quellen.some((q) => !q.name || !/^https:\/\//.test(q.url ?? ''))) fehler.push(`${at}: jede Quelle braucht name und https-Adresse`)
     if (new Set(quellen.map((q) => q.name)).size < quellen.length) fehler.push(`${at}: zwei Quellen mit gleichem Namen — nur eine je Name`)
     if (quellen.some((q) => /wikipedia\.org/.test(q.url ?? '')) && e.lizenz !== LIZENZ_WIKIPEDIA) fehler.push(`${at}: Wikipedia-Quelle verlangt die Lizenz ${LIZENZ_WIKIPEDIA}`)
+    fehler.push(...einzelquelleFehler(e, at))
   }
   return fehler
+}
+
+/** Herkunft einer Quelle: alle Wikipedia-Sprachen zählen als eine, aniSearch (jede Domain) als eine, sonst der Host. */
+function quellFamilie(url: string): string {
+  const host = /^https:\/\/([^/]+)/.exec(url)?.[1] ?? url
+  if (/(^|\.)wikipedia\.org$/.test(host)) return 'Wikipedia'
+  if (/(^|\.)anisearch\./.test(host)) return 'aniSearch'
+  return host
+}
+
+/**
+ * Ein Text aus Fakten einer einzigen Quelle ist übersetzte oder umgestellte Abschrift (Mewtu vor dem Erwachen, Der weiße Delphin, 13.10.2026): verlangt sind zwei
+ * verschiedene Quellfamilien oder ein ausdrücklicher Freigabe-Vermerk. aniSearch-Text steht nicht unter CC BY-SA; eine CC-Lizenz bei nur aniSearch ist immer ein Fehler.
+ */
+function einzelquelleFehler(e: EigeneHandlung, at: string): string[] {
+  const quellen = (e.quellen ?? []).filter((q) => /^https:\/\//.test(q.url ?? ''))
+  if (!quellen.length) return []
+  const familien = new Set(quellen.map((q) => quellFamilie(q.url)))
+  if (familien.size === 1 && familien.has('aniSearch') && /^CC\b/.test(e.lizenz ?? '')) return [`${at}: einzige Quelle aniSearch, aber Lizenz ${e.lizenz} — aniSearch-Text steht nicht unter CC`]
+  if (familien.size >= 2) return []
+  const freigabe = e.freigabe ?? ''
+  if (/Daniel/.test(freigabe) && /\d{2}\.\d{2}\.\d{4}/.test(freigabe)) return []
+  return [`${at}: nur eine Quelle (${[...familien].join(', ')}) — Fakten aus mindestens zwei Quellen oder freigabe: "Daniel, TT.MM.JJJJ: …"`]
 }
 
 /**
