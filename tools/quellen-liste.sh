@@ -144,6 +144,7 @@ QUELLEN=(
   # ein Lauf legt sie unverändert zurück (06.09.2026).
   data/curated-ids.json
   data/source-health.json
+  # Ordner, darin seit 13.10.2026 `offizielle-news.json` (Vorschläge aus den News offizieller Websites, `pipeline/fetch-offizielle-news.ts`). Der Stand dieses Sammlers liegt im Cache (`data/cache/offizielle-news/`), nicht im Repo.
   data/proposals
   # Stand des Sammelartikel-Vorschlagslaufs (`pipeline/fetch-sammelartikel.ts`): ab wann Anime2You als Nächstes gelesen wird, und eine Pause nach Sperre.
   # Ohne diese Zeile läse jeder Lauf bei bewegtem Fernstand wieder dieselben 21 Tage.
