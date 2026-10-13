@@ -72,7 +72,7 @@ function einzelquelleFehler(e: EigeneHandlung, at: string): string[] {
   const quellen = (e.quellen ?? []).filter((q) => /^https:\/\//.test(q.url ?? ''))
   if (!quellen.length) return []
   const familien = new Set(quellen.map((q) => quellFamilie(q.url)))
-  if (familien.size === 1 && familien.has('aniSearch') && /^CC\b/.test(e.lizenz ?? '')) return [`${at}: einzige Quelle aniSearch, aber Lizenz ${e.lizenz} — aniSearch-Text steht nicht unter CC`]
+  if (familien.size === 1 && familien.has('aniSearch') && /^CC\b/i.test(e.lizenz ?? '')) return [`${at}: einzige Quelle aniSearch, aber Lizenz ${e.lizenz} — aniSearch-Text steht nicht unter CC`]
   if (familien.size >= 2) return []
   const freigabe = e.freigabe ?? ''
   if (/Daniel/.test(freigabe) && /\d{2}\.\d{2}\.\d{4}/.test(freigabe)) return []
