@@ -12,10 +12,11 @@ const kurz = (x) => {
 /** Liste aus Objekten mit eigener Kennung: dann wird nach Kennung verglichen, nicht nach Stelle. */
 const mitKennung = (l) => l.length > 0 && l.every((e) => istObjekt(e) && (typeof e.id === 'number' || typeof e.id === 'string'))
 
-function merke(aus, muster, beispiel) {
+/** `weg`: Feld bzw. Listenelement fehlt im neuen Stand; solche Zeilen stehen vorn und fallen nicht dem Kürzen zum Opfer. */
+function merke(aus, muster, beispiel, weg = false) {
   const alt = aus.get(muster)
   if (alt) alt.n++
-  else aus.set(muster, { n: 1, beispiel })
+  else aus.set(muster, { n: 1, beispiel, weg })
 }
 
 function vergleicheListen(a, b, pfad, kennung, aus) {
@@ -23,7 +24,7 @@ function vergleicheListen(a, b, pfad, kennung, aus) {
     const jeId = new Map(b.map((e) => [e.id, e]))
     for (const e of a) {
       if (jeId.has(e.id)) vergleiche(e, jeId.get(e.id), `${pfad}[]`, e.id, aus)
-      else merke(aus, `${pfad}[] (entfallen)`, `Kennung ${e.id}`)
+      else merke(aus, `${pfad}[] (entfallen)`, `Kennung ${e.id}`, true)
     }
     const alt = new Set(a.map((e) => e.id))
     for (const e of b) if (!alt.has(e.id)) merke(aus, `${pfad}[] (hinzugekommen)`, `Kennung ${e.id}`)
@@ -39,7 +40,9 @@ function vergleiche(a, b, pfad, kennung, aus) {
     for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) vergleiche(a[k], b[k], `${pfad}.${k}`, kennung, aus)
     return
   }
-  if (JSON.stringify(a) !== JSON.stringify(b)) merke(aus, pfad, `${kurz(a)} → ${kurz(b)}, Kennung ${kennung ?? '—'}`)
+  if (JSON.stringify(a) === JSON.stringify(b)) return
+  const weg = b === undefined
+  merke(aus, weg ? `${pfad} (entfernt)` : pfad, `${kurz(a)} → ${kurz(b)}, Kennung ${kennung ?? '—'}`, weg)
 }
 
 /** Felder, die sich unterscheiden, mit Anzahl und erstem Beispiel; `Map` Muster → `{ n, beispiel }`. */
@@ -49,14 +52,22 @@ export function jsonUnterschiede(a, b) {
   return aus
 }
 
-/** Zeilen für die Ausgabe: höchstens `max` Felder, die häufigsten zuerst. */
+/** Höchstens `max` Felder, die häufigsten zuerst; `rest` benennt, was fehlt. Selten, aber entfernt, darf nicht hinter häufigen Änderungen verschwinden (13.10.2026). */
+function jsonZeilen(aus, max, rest) {
+  const zeile = ([muster, { n, beispiel }]) => `    ${n}× ${muster.replace(/^\./, '')}  (z. B. ${beispiel})`
+  const zeilen = [...aus].sort((x, y) => y[1].n - x[1].n).slice(0, max).map(zeile)
+  if (aus.length > max) zeilen.push(`    … und ${aus.length - max} weitere ${rest}`)
+  return zeilen
+}
+
+/** Zeilen für die Ausgabe: je höchstens `max` entfernte und übrige Felder. Entfernte zuerst. */
 export function beschreibeUnterschied(name, textA, textB, max = 6) {
   if (name.endsWith('.json')) {
     try {
-      const aus = [...jsonUnterschiede(JSON.parse(textA), JSON.parse(textB))].sort((x, y) => y[1].n - x[1].n)
-      const zeilen = aus.slice(0, max).map(([muster, { n, beispiel }]) => `    ${n}× ${muster.replace(/^\./, '')}  (z. B. ${beispiel})`)
-      if (aus.length > max) zeilen.push(`    … und ${aus.length - max} weitere Felder`)
-      return zeilen
+      const aus = [...jsonUnterschiede(JSON.parse(textA), JSON.parse(textB))]
+      const weg = aus.filter(([, e]) => e.weg)
+      const uebrige = aus.filter(([, e]) => !e.weg)
+      return [...jsonZeilen(weg, max, 'entfernte Felder'), ...jsonZeilen(uebrige, max, 'Felder')]
     } catch {
       // kein gültiges JSON: wie Text behandeln
     }
