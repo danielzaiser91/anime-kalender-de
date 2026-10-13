@@ -178,6 +178,11 @@ function zaehlendeKanten(titel: ReinTitel[], kanten: Kante[], namen: Namen): Kan
     .sort((p, q) => rangDerArt(p.art) - rangDerArt(q.art) || p.a - q.a || p.b - q.b || p.art.localeCompare(q.art))
 }
 
+/** Titel-Paare ohne aniSearch-Beleg (AniList-Kanten der Titel ohne Kennung): wie eine Kernkante, aber erst nach allen aniSearch-Kanten; zwei feste Reihen und Handtrennungen sperren sie. */
+function verbindeTitelPaare(b: Bildner, hand: ReinHand, paare: [number, number][]): void {
+  for (const [x, y] of paare) if (b.find(x) !== b.find(y) && !sperrgrund(b, hand, x, y, 0)) b.vereine(x, y)
+}
+
 /** Verbindet die Kanten in der gegebenen Reihenfolge; gesperrte (Brücken) kommen zurück, Handtrennungen bleiben unbemerkt. */
 function verbindeKanten(b: Bildner, hand: ReinHand, kanten: Kante[], jeKennung: Map<number, number[]>): Sperre[] {
   const sperren: Sperre[] = []
@@ -250,8 +255,9 @@ function verbinderZeilen(verbinder: Verbinder[], b: Bildner, jeKennung: Map<numb
 /**
  * `titel`: alle Titel, die in Reihen gehören; `kanten`/`namen`: aniSearch-Beziehungen aus dem Archiv; `hand`: `reihen-von-hand.yaml`;
  * `fest`: Titel, deren Reihe schon ausgeliefert ist (Hauptbestand beim Katalog; Kennung = ihre Reihe) — zwei feste Reihen verschmelzen nie.
+ * `zusatz`: Titel-Paare, die nicht aus aniSearch kommen (Katalog: AniList-Kanten der Titel ohne Kennung); sie verbinden erst nach allen aniSearch-Kanten.
  */
-export function reineReihen(titel: ReinTitel[], kanten: Kante[], namen: Namen, hand: ReinHand, fest: Map<number, number> = new Map()): ReinErgebnis {
+export function reineReihen(titel: ReinTitel[], kanten: Kante[], namen: Namen, hand: ReinHand, fest: Map<number, number> = new Map(), zusatz: [number, number][] = []): ReinErgebnis {
   const ids = titel.map((t) => t.id)
   const b = bildner(fest)
   const vorhanden = new Set(ids)
@@ -270,6 +276,7 @@ export function reineReihen(titel: ReinTitel[], kanten: Kante[], namen: Namen, h
   const zaehlend = zaehlendeKanten(titel, kanten, namen)
   const kern = verbindeKern(b, hand, zaehlend.filter((k) => rangDerArt(k.art) === 0), jeKennung)
   const sperren = [...kern.sperren, ...verbindeKanten(b, hand, zaehlend.filter((k) => rangDerArt(k.art) > 0), jeKennung)]
+  verbindeTitelPaare(b, hand, zusatz.filter(([x, y]) => vorhanden.has(x) && vorhanden.has(y)))
   const reihe = new Map(ids.map((id): [number, number] => [id, b.feste.get(b.find(id)) ?? b.find(id)]))
   const pruefliste = [...sperrenZuZeilen(sperren, b, name), ...verbinderZeilen(kern.verbinder, b, jeKennung, name), ...universumZeilen(kanten, jeKennung, b, name)]
   const jeReihe = new Map<number, number>()

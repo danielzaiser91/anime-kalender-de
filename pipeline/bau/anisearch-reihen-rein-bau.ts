@@ -64,6 +64,16 @@ export function fuehreReihenZusammenQuelle(args: ReihenArgs): ReturnType<typeof 
   return ergebnis
 }
 
+/**
+ * AniList-Kanten, die aniSearch nicht ersetzen kann: jede Kante, an der ein Titel ohne aniSearch-Kennung hängt. Ein Crossover (zwei Eltern) verbindet auch hier nichts, weder von sich aus noch als Ziel.
+ * Gemessen 13.10.2026: 3.044 Katalogtitel ohne Kennung, davon 1.286 in einer Reihe mit mehreren Titeln; ohne diese Kanten stünden 1.273 allein.
+ */
+export function anilistKantenOhneKennung(eintraege: KatalogEintrag[], mitKennung: Set<number>): [number, number][] {
+  const crossover = new Set(eintraege.filter((e) => (e.eltern?.length ?? 0) >= 2).map((e) => e.id))
+  const ohne = (id: number): boolean => !mitKennung.has(id)
+  return eintraege.flatMap((e) => (crossover.has(e.id) ? [] : (e.rel ?? []).filter((o) => !crossover.has(o) && (ohne(e.id) || ohne(o))).map((o): [number, number] => [e.id, o])))
+}
+
 /** Katalog: Reihe je Eintrag aus aniSearch; der ausgelieferte Hauptbestand (Anker) behält seine Reihe, zwei feste Reihen verschmelzen nie. */
 function reinKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, number>, anker: ReturnType<typeof katalogAnker>): Map<number, number> {
   const fest = new Map(anker.map((a) => [a.id, a.reihe]))
@@ -72,7 +82,8 @@ function reinKatalogReihen(eintraege: KatalogEintrag[], kennung: Map<number, num
     ...eintraege.filter((e) => !fest.has(e.id)).map((e) => ({ id: e.id, name: e.t[0] ?? e.t[1] ?? `#${e.id}`, anisearchId: kennung.get(e.id), ...malVon(e.mal, kennung.get(e.id)) })),
   ]
   const { kanten, namen } = ladeBeziehungen()
-  const e = reineReihen(titel, kanten, namen, ladeHand(), fest)
+  const kantenOhne = anilistKantenOhneKennung(eintraege, new Set(titel.filter((t) => t.anisearchId).map((t) => t.id)))
+  const e = reineReihen(titel, kanten, namen, ladeHand(), fest, kantenOhne)
   schreibePruefliste('katalog', e)
   log(`aniSearch-Reihen im Katalog (rein): ${e.reihen} Reihen mit ${e.inReihen} Titeln (mit Hauptbestand), ${e.pruefliste.length} Fälle auf der Prüfliste`)
   return e.reihe
