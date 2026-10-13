@@ -3,7 +3,7 @@
  * Bündel, Mitternacht, ohne Sendungen, geschätzt, verpasst, Schwellen und die Jetzt-Linie (Spezifikation Abschnitte 3, 4, 10).
  */
 import assert from 'node:assert/strict'
-import { fruehesteKommende, kachelAngabe, kastenZustand, kopfzeile, restText } from '../web/buehne/mockups/relative-uhrzeit-zeit.ts'
+import { dStand, fruehesteKommende, kachelAngabe, kastenZustand, kopfzeile, restText } from '../web/buehne/mockups/relative-uhrzeit-zeit.ts'
 
 const T = '2026-10-16'
 const tv = (time, extra = {}) => ({ date: T, time, platform: 'tv', ...extra })
@@ -85,5 +85,26 @@ const unsicher = [kachel('17:00', { estimated: true }), kachel('17:00', { timeEs
 for (const t of unsicher) assert.deepEqual(kachelAngabe(t, T, '18:00', '19:00'), {})
 assert.equal(fruehesteKommende([kachel('19:00', { estimated: true }), kachel('20:00')], T, '18:00'), '20:00')
 assert.equal(fruehesteKommende([kachel('19:00', { zweitanbieter: true }), kachel('20:00', { releaseType: 'disc' })], T, '18:00'), undefined)
+
+// Variante D: Linie auch vor der ersten und nach der letzten Zeile; Minuten bis zur ersten Sendung ohne Dreistundengrenze.
+const dStandBei = (gruppen, sendungen, jetzt) => dStand(zeilen(gruppen, sendungen, jetzt), gruppen, jetzt)
+const keine = [[], [], []]
+assert.deepEqual(dStandBei(drei, keine, '14:00'), { linieVor: 0, ersteIn: 240, nichtsMehr: false })
+assert.equal(restText(dStandBei(drei, keine, '14:00').ersteIn), 'in 4 Std')
+assert.equal(restText(dStandBei(drei, keine, '14:50').ersteIn), 'in 3 Std 10 Min')
+assert.equal(restText(dStandBei(drei, keine, '17:20').ersteIn), 'in 40 Min')
+assert.equal(restText(dStandBei(drei, keine, '17:59').ersteIn), 'in 1 Min')
+// Nach dem letzten Eintrag: Linie hinter der letzten Zeile mit „heute nichts mehr", ohne Minuten.
+assert.deepEqual(dStandBei(drei, keine, '19:30'), { linieVor: 3, nichtsMehr: true })
+// Mittendrin wie bisher (Linie vor der ersten nicht vorbeien Zeile), ohne „erste Sendung".
+assert.deepEqual(dStandBei(drei, keine, '18:10'), { linieVor: 1, nichtsMehr: false })
+// Läuft die erste Zeile, steht die Linie davor — ohne „erste Sendung in …".
+assert.deepEqual(dStandBei([[tv('18:00')]], [[sendung('18:00', '18:30')]], '18:10'), { linieVor: 0, nichtsMehr: false })
+// Läuft die zweite Sendung eines Bündels, trägt die Zeile ihre Folge (die Senderzeile zeigt sie).
+assert.deepEqual(zeilen([buendel], [buendelSendungen], '18:55').zeilen[0], { art: 'laeuft', bis: '19:15', folge: 32 })
+// Geschätzte oder fehlende Uhrzeit der ersten Zeile: keine Linie davor.
+assert.equal(dStandBei([[tv('18:00', { timeEstimated: true })]], [[]], '14:00'), undefined)
+assert.equal(dStandBei([[tv(undefined)]], [[]], '14:00'), undefined)
+assert.equal(dStandBei([], [], '14:00'), undefined)
 
 console.log('buehne-relative-uhrzeit.test: ok')

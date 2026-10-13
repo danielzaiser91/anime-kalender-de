@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react'
+import { Fragment, useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import { nowHhMm, todayIso } from '@shared/time.ts'
 import { TvKasten } from '../../src/components/kalender/TvKasten.tsx'
@@ -10,7 +10,8 @@ import { coverBild } from '../../src/lib/cover.ts'
 import { useLang } from '../../src/lib/i18n.tsx'
 import { tvPremiere } from '../../src/lib/tv-angabe.ts'
 import { farbenVon, JetztLinie, KopfzeileText, Zustandsspalte, type Farben, type Stil } from './relative-uhrzeit-teile.tsx'
-import { kastenZustand, kopfzeile, type Kastenzustand, type Zeilenzustand } from './relative-uhrzeit-zeit.ts'
+import { ErsteSendung, LinieD, SenderZeileD, UhrzeitMitLaeuft } from './relative-uhrzeit-d.tsx'
+import { dStand, kastenZustand, kopfzeile, type Kastenzustand, type Zeilenzustand } from './relative-uhrzeit-zeit.ts'
 
 type KastenEigenschaften = ComponentProps<typeof TvKasten>
 
@@ -37,12 +38,15 @@ function useKastenInsBild(aktiv: boolean) {
 }
 
 /** Variante B klebt Kopf und Zeile zusammen oben; ohne Zeile bleibt der Kopf, wie er ist. */
-function Kopf({ zeile, farben }: { zeile: ReturnType<typeof kopfzeile>; farben: Farben }) {
+function Kopf({ zeile, farben, zusatz }: { zeile: ReturnType<typeof kopfzeile>; farben: Farben; zusatz?: ReactNode }) {
   const { t } = useLang()
   const titel = (
     <>
       <FernsehZeichen groesse={16} />
-      {t('kal.imTv')}
+      <span>
+        {t('kal.imTv')}
+        {zusatz}
+      </span>
     </>
   )
   if (!zeile) {
@@ -60,41 +64,38 @@ function Kopf({ zeile, farben }: { zeile: ReturnType<typeof kopfzeile>; farben: 
   )
 }
 
-/** Der Fernseh-Kasten mit Bezug zur Uhrzeit: A und C mit Jetzt-Linie und Zustandsspalte, B mit Kopfzeile. */
+/** Der Fernseh-Kasten mit Bezug zur Uhrzeit: A und C mit Jetzt-Linie und Zustandsspalte, B mit Kopfzeile, D mit Linie und „Läuft" unter der Uhrzeit. */
 export function TvKastenJetzt({ stil, ...p }: KastenEigenschaften & { stil: Stil }) {
   const { t } = useLang()
   const farben = farbenVon(stil)
   const gruppen = buendeleTermine(p.termine, (ev) => !!ev.verpasst || tvPremiere(ev, p.data))
   const zustand = zustandVon(gruppen, p.data)
-  const mitSpalte = stil !== 'B'
+  const mitSpalte = stil === 'A' || stil === 'C'
   const ziel = useKastenInsBild(!!zustand)
+  const d = stil === 'D' && zustand ? dStand(zustand, gruppen, nowHhMm()) : undefined
+  const linie = (i: number): ReactNode => {
+    if (d) return d.linieVor === i ? <LinieD jetzt={nowHhMm()} nichtsMehr={d.nichtsMehr} farben={farben} /> : null
+    return mitSpalte && zustand?.linieVor === i ? <JetztLinie jetzt={nowHhMm()} farben={farben} /> : null
+  }
   const liste = (
     <ul className="flex flex-col">
       {gruppen.map((g, i) => (
-        <ZeilenMitLinie key={g[0]!.id} linie={mitSpalte && zustand?.linieVor === i ? nowHhMm() : undefined} farben={farben}>
-          <TvZeileJetzt gruppe={g} p={p} zustand={zustand?.zeilen[i]} farben={farben} mitSpalte={mitSpalte} />
-        </ZeilenMitLinie>
+        <Fragment key={g[0]!.id}>
+          {linie(i)}
+          <TvZeileJetzt gruppe={g} p={p} zustand={zustand?.zeilen[i]} farben={farben} stil={stil} naechsteInZeile={!!d && d.ersteIn === undefined} />
+        </Fragment>
       ))}
+      {linie(gruppen.length)}
     </ul>
   )
   if (p.kompakt) return liste
   const zeile = stil === 'B' && zustand ? kopfzeile(zustand, gruppen.map((g) => g[0]!.name)) : undefined
   return (
     <div ref={ziel} className="flex min-h-full flex-col gap-0.5 rounded-2xl border border-ak-tv-rand bg-ak-tv-grund px-3.5 py-3">
-      <Kopf zeile={zeile} farben={farben} />
+      <Kopf zeile={zeile} farben={farben} zusatz={d?.ersteIn ? <ErsteSendung minuten={d.ersteIn} /> : undefined} />
       {p.termine.length === 0 ? <p className="text-[13px] text-ak-sehr-leise">{t('kal.keineAusstrahlung')}</p> : liste}
       {mitSpalte && zustand?.alleVorbei && <p className="pt-1 text-[13px] text-ak-sehr-leise">Heute nichts mehr</p>}
     </div>
-  )
-}
-
-/** Vor der Zeile ggf. die Jetzt-Linie; beide sind Einträge derselben Liste. */
-function ZeilenMitLinie({ linie, farben, children }: { linie?: string; farben: Farben; children: ReactNode }) {
-  return (
-    <>
-      {linie && <JetztLinie jetzt={linie} farben={farben} />}
-      {children}
-    </>
   )
 }
 
@@ -104,13 +105,15 @@ function TvZeileJetzt({
   p,
   zustand,
   farben,
-  mitSpalte,
+  stil,
+  naechsteInZeile,
 }: {
   gruppe: ReleaseEvent[]
   p: KastenEigenschaften
   zustand: Zeilenzustand | undefined
   farben: Farben
-  mitSpalte: boolean
+  stil: Stil
+  naechsteInZeile: boolean
 }) {
   const { t } = useLang()
   const [auf, setAuf] = useState(false)
@@ -120,7 +123,7 @@ function TvZeileJetzt({
   const cover = p.data.titleById.get(ev.titleId)?.coverImage
   const premiere = tvPremiere(ev, p.data)
   const letzte = weitere[weitere.length - 1]?.time
-  const spalte = mitSpalte && zustand && (zustand.art === 'laeuft' || zustand.art === 'naechste')
+  const spalte = (stil === 'A' || stil === 'C') && zustand && (zustand.art === 'laeuft' || zustand.art === 'naechste')
   return (
     <li data-tv-zeile className={vorbei ? 'ak-vorbei' : ''}>
       <button
@@ -134,17 +137,25 @@ function TvZeileJetzt({
         ) : (
           <span className="h-[34px] w-6 rounded bg-ak-flaeche-2" />
         )}
-        <span className="font-bold tabular-nums text-ak-tv">{ev.time ?? '–'}</span>
+        {stil === 'D' ? (
+          <UhrzeitMitLaeuft zeit={ev.time ?? '–'} zustand={zustand} farben={farben} />
+        ) : (
+          <span className="font-bold tabular-nums text-ak-tv">{ev.time ?? '–'}</span>
+        )}
         <span className="flex min-w-0 flex-col">
           <span className="ak-titel font-semibold text-ak-text">
             {vorbei && <span className="sr-only">vorbei </span>}
             {ev.name}
             {premiere && <PremiereMarke platform="tv" vorher={ev.premiereVorher} className="ml-1.5 inline-block px-1.5 align-[1px]" />}
           </span>
-          <span className="text-xs text-ak-leise">
-            {ev.sender}
-            {ev.episode && !ev.sichtung ? ` · ${t('kal.folge', { n: ev.episode })}` : ''}
-          </span>
+          {stil === 'D' ? (
+            <SenderZeileD ev={ev} zustand={zustand} naechsteInZeile={naechsteInZeile} />
+          ) : (
+            <span className="text-xs text-ak-leise">
+              {ev.sender}
+              {ev.episode && !ev.sichtung ? ` · ${t('kal.folge', { n: ev.episode })}` : ''}
+            </span>
+          )}
         </span>
         {spalte && <Zustandsspalte zustand={zustand} farben={farben} />}
       </button>

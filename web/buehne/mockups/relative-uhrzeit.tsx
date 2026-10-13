@@ -8,6 +8,7 @@ import { TvKastenJetzt } from './relative-uhrzeit-tv.tsx'
 const KastenA = (p: ComponentProps<typeof TvKasten>) => <TvKastenJetzt stil="A" {...p} />
 const KastenB = (p: ComponentProps<typeof TvKasten>) => <TvKastenJetzt stil="B" {...p} />
 const KastenC = (p: ComponentProps<typeof TvKasten>) => <TvKastenJetzt stil="C" {...p} />
+const KastenD = (p: ComponentProps<typeof TvKasten>) => <TvKastenJetzt stil="D" {...p} />
 
 /** Freitag, 16.10.2026 (MESZ): sechs Fernseh-Termine mit Programm, dazu Streaming mit fester, geschätzter und fehlender Uhrzeit. */
 const TAG = '2026-10-16'
@@ -38,6 +39,11 @@ mockup({
     C: {
       ersatz: { TvKasten: KastenC, ZeitMarke: ZeitMarkeJetzt },
       notiz: 'Wie A, aber Linie, Punkt und „Läuft“ in Smaragd wie im Detail-Panel.',
+    },
+    D: {
+      ersatz: { TvKasten: KastenD, ZeitMarke: ZeitMarkeJetzt },
+      notiz:
+        'Auf Basis von C, Farbe wie der gewählte Reiter „Kalender“ (Orange): keine dritte Spalte, „● Läuft“ unter der Uhrzeit, Folge in der Senderzeile, kein „bis …“. Linie mit Uhrzeit auch vor dem ersten und nach dem letzten Eintrag; nach dem letzten „Heute nichts mehr“ in Grün, vor dem ersten „erste Sendung in … Std … Min“ in der Kopfzeile.',
     },
   },
 })
