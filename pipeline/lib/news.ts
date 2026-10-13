@@ -25,13 +25,14 @@
  * Meldung fest, wann sie zuerst dastand; danach ändert sich ihr Datum nie
  * wieder.
  */
-import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
+import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, PlatformId, Release, Title } from '../../shared/types.ts'
 import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from './news-verlauf.ts'
 import { bereinigeNews } from './news-bereinigen.ts'
 import { ausgabeKurz } from './news-ausgabe.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
+import { geerbteWege } from '../../shared/kanal-anbieter.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
 import { fensterBeginn, offizielleMeldungen, traegtOffizielle, type OffizielleMeldung } from './news-offiziell.ts'
@@ -54,6 +55,14 @@ export interface NewsHistorie extends TerminGedaechtnis {
    * sonst stünden an einem Tag zweitausend „neue" Anbieter auf der Seite.
    */
   anbieter?: Record<string, string>
+}
+
+/**
+ * Die Plattformen mit belegter Synchro, die als „weiterer Anbieter“ gelten können. YouTube bleibt draußen; ein Prime-Kanal, der sein Ja vom
+ * Anbieter hat (`kanalErbtVomAnbieter`), ist kein weiterer: Die Titel laufen dort seit Langem, die Meldung wäre zu ihrem Tag falsch (13.10.2026).
+ */
+function anbieterMitDeutsch(t: Title): Set<PlatformId> {
+  return new Set(t.streams.filter((s) => s.dub === true && s.platform !== 'youtube' && !geerbteWege.has(s)).map((s) => s.platform))
 }
 
 interface NeuerTitel {
@@ -332,9 +341,7 @@ export function baueNews(
   const saeen = historie.anbieter === undefined
   const anbieterSeit = (historie.anbieter ??= {})
   for (const t of titles) {
-    const wege = new Set(
-      t.streams.filter((s) => s.dub === true && s.platform !== 'youtube').map((s) => s.platform),
-    )
+    const wege = anbieterMitDeutsch(t)
     for (const p of wege) {
       const k = `${t.id}:${p}`
       if (!(k in anbieterSeit)) anbieterSeit[k] = saeen ? '0000-00-00' : heute

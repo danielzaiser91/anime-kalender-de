@@ -7,7 +7,7 @@ import { useLang } from '../lib/i18n.tsx'
 import { useSprungZuHeute } from '../lib/woche-sprung.ts'
 import { useZielTag } from '../lib/ziel-tag.ts'
 import { buendeleKacheln } from '../lib/buendel.ts'
-import { eigenstaendigBeiAnbietern, vereineAnbieter } from '../lib/anbieter-kachel.ts'
+import { eigenstaendigBeiAnbietern, kanalAnbieterVon, vereineAnbieter } from '../lib/anbieter-kachel.ts'
 import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
 import { PosterKarte, type KartenArt } from './kalender/PosterKarte.tsx'
 import { TvKasten } from './kalender/TvKasten.tsx'
@@ -192,7 +192,7 @@ function PosterRaster({
   const art = (ev: ReleaseEvent): KartenArt | undefined =>
     istStaffelstart(ev, p.data) ? 'start' : istStaffelfinale(ev, p.data) ? 'finale' : undefined
   const gruppen = buendeleKacheln(tag.stream.filter((e) => !e.zweitanbieter), art, (ev) => !!ev.premiere)
-  const kacheln = vereineAnbieter(gruppen, eigenstaendigBeiAnbietern)
+  const kacheln = vereineAnbieter(gruppen, eigenstaendigBeiAnbietern, kanalAnbieterVon(p.data.releaseBySlug))
   return (
     <div
       className={[
