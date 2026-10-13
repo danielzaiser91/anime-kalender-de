@@ -31,6 +31,7 @@ function robotsLesen(): void {
   console.log('\nCrawl-delay in der robots.txt')
   pruefe('für alle gilt', crawlDelay('User-agent: *\nCrawl-delay: 30\n') === 30)
   pruefe('einer anderen Kennung gilt nicht', crawlDelay('User-agent: Googlebot\nCrawl-delay: 30\n') === 0)
+  pruefe('Kennung mit Punkt gilt uns', crawlDelay('User-agent: *\nCrawl-delay: 30\n\nUser-agent: anime-kalender.de\nCrawl-delay: 5\n') === 5)
   pruefe('unserer Kennung schlägt den für alle', crawlDelay('User-agent: *\nCrawl-delay: 30\n\nUser-agent: anime-kalender\nCrawl-delay: 5\n') === 5)
 }
 

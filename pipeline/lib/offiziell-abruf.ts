@@ -12,7 +12,9 @@ import { lese, type Eintrag } from './offiziell-lesen.ts'
 import type { Seite } from './offiziell-seiten.ts'
 import { nachLesung, robotsFrisch, type HostStand } from './offiziell-stand.ts'
 
-export const UA = 'Mozilla/5.0 (compatible; anime-kalender.de/1.0; +https://anime-kalender.de)'
+/** Unsere Kennung in robots.txt: ein Block für `anime-kalender` oder `anime-kalender.de` gilt uns. */
+export const KENNUNG = 'anime-kalender.de'
+export const UA = `Mozilla/5.0 (compatible; ${KENNUNG}/1.0; +https://anime-kalender.de)`
 /** Länger als das wartet der Lauf nicht auf einen Crawl-delay; wer mehr verlangt, wird in diesem Lauf übersprungen. */
 export const CRAWL_DELAY_GRENZE_S = 60
 
@@ -26,7 +28,7 @@ export type Holer = (url: string) => Promise<Antwort>
 export function netzHoler(): Holer {
   return async (url) => {
     try {
-      const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: '*/*' }, signal: AbortSignal.timeout(20_000) })
+      const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: '*/*' }, redirect: 'manual', signal: AbortSignal.timeout(20_000) })
       const retry = Number(res.headers.get('retry-after'))
       return { status: res.status, text: res.ok ? await res.text() : '', retryAfter: Number.isFinite(retry) && retry > 0 ? retry : undefined }
     } catch {
@@ -85,7 +87,7 @@ export function crawlDelay(robots: string): number {
     }
     letzteWarAgent = false
     if (feld !== 'crawl-delay' || !Number.isFinite(Number(m[2]))) continue
-    if (agenten.some((a) => a !== '*' && 'anime-kalender'.includes(a))) werte.eigene = Number(m[2])
+    if (agenten.some((a) => a !== '*' && KENNUNG.includes(a))) werte.eigene = Number(m[2])
     else if (agenten.includes('*')) werte.alle = Number(m[2])
   }
   return werte.eigene || werte.alle
@@ -113,7 +115,7 @@ export async function leseHost(seite: Seite, alt: HostStand | undefined, jetzt: 
   const mitStand = (ausgang: string, retry?: number, status?: number): HostStand => ({ ...nachLesung(grundlage, ausgang, jetzt, retry), status })
   if (r.robots === undefined) return { eintraege: [], stand: mitStand(r.ausgang!, r.retryAfter, r.status) }
   const url = new URL(seite.url)
-  if (!robotsErlaubt(r.robots, url.pathname + url.search)) return { eintraege: [], stand: mitStand('robots') }
+  if (!robotsErlaubt(r.robots, url.pathname + url.search, KENNUNG)) return { eintraege: [], stand: mitStand('robots') }
   const verlangt = Math.max(crawlDelay(r.robots), seite.pause ?? 0)
   if (verlangt > CRAWL_DELAY_GRENZE_S) return { eintraege: [], stand: mitStand('robots') }
   if (r.geholt && verlangt > 0) await schlafen(verlangt * 1000)
