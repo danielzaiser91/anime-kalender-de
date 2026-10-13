@@ -23,30 +23,27 @@ const mitWeiter = (zeilen: Zeile[]): Seite => ({
   weiter: zeilen.length === SEITE ? zeilen[zeilen.length - 1]!.id : null,
 })
 
-/** Prime-Seite zuerst, der Rest der Seite aus der Meldungs-Spalte (Ids dort ab `PRUEFUNG_ID_AB`). */
-async function vereint(
-  nach: number,
-  ausPrime: (nach: number) => Promise<Zeile[]>,
-  ausPruefung: (nach: number, anzahl: number) => Promise<Zeile[]>,
-): Promise<Seite> {
+/** Eine Quelle von Rohfolgen: ihre Ids beginnen bei `ab`; `lies` liefert höchstens `anzahl` Zeilen mit Id über `von` (relativ zu `ab`). */
+export type Quelle = { ab: number; lies: (von: number, anzahl: number) => Promise<Zeile[]> }
+
+/** Die Quellen der Reihe nach, bis die Seite voll ist (die Ids steigen mit der Reihenfolge der Quellen). */
+async function vereint(nach: number, quellen: Quelle[]): Promise<Seite> {
   const start = Number.isFinite(nach) ? nach : 0
-  const prime = start < PRUEFUNG_ID_AB ? await ausPrime(start) : []
-  const rest = SEITE - prime.length
-  const aus = rest > 0 ? await ausPruefung(Math.max(start, PRUEFUNG_ID_AB) - PRUEFUNG_ID_AB, rest) : []
-  return mitWeiter([...prime, ...aus])
+  const zeilen: Zeile[] = []
+  for (const q of quellen) {
+    if (zeilen.length >= SEITE) break
+    zeilen.push(...(await q.lies(Math.max(start, q.ab) - q.ab, SEITE - zeilen.length)))
+  }
+  return mitWeiter(zeilen)
 }
 
 /** Ein Feld der Rohfolge aus der Spalte; die Namen sind die von `ROH_FELDER`, nie Eingaben. */
 const feld = (name: (typeof ROH_FELDER)[number]) => `json_extract(rohfolge, '$.${name}') AS ${name}`
 
-/**
- * Die offenen Rohfolgen ab `nach`. Gesperrte Folgen (`vorhanden = 'nein'`, Migration 035) liest erst Stufe 2 —
- * bis dahin sähe der Zuordner ihre leeren Tonspuren als „kein Deutsch". Entfällt mit Stufe 2.
- */
-export async function offeneRohfolgen(env: Env, nach: number): Promise<Seite> {
-  return await vereint(
-    nach,
-    async (von) => {
+function offenAusPrime(env: Env): Quelle {
+  return {
+    ab: 0,
+    lies: async (von, anzahl) => {
       const { results } = await env.DB.prepare(
         `SELECT f.id, f.url, f.asin, f.gti, f.nummer, f.titel, f.erschienen, f.dauer_sek,
                 f.sprachen, f.untertitel, f.staffel_text, f.staffel_nr, f.gemeldet_am,
@@ -55,13 +52,19 @@ export async function offeneRohfolgen(env: Env, nach: number): Promise<Seite> {
           WHERE f.uebernommen = 0 AND f.id > ?1
             AND (f.vorhanden IS NULL OR f.vorhanden <> 'nein')
           ORDER BY f.id
-          LIMIT ${SEITE}`,
+          LIMIT ?2`,
       )
-        .bind(von)
+        .bind(von, anzahl)
         .all()
       return (results ?? []) as Zeile[]
     },
-    async (von, anzahl) => {
+  }
+}
+
+function offenAusMeldung(env: Env): Quelle {
+  return {
+    ab: PRUEFUNG_ID_AB,
+    lies: async (von, anzahl) => {
       const { results } = await env.DB.prepare(
         `SELECT id + ?2 AS id, gemeldet_am, ${ROH_FELDER.filter((n) => n !== 'roh' && n !== 'vorhanden' && n !== 'ton_de').map(feld).join(', ')}
            FROM pruefung
@@ -74,29 +77,38 @@ export async function offeneRohfolgen(env: Env, nach: number): Promise<Seite> {
         .all()
       return (results ?? []) as Zeile[]
     },
-  )
+  }
 }
 
 /**
- * `&alle=1`: eine Seite jeder Beobachtung ohne `roh` (Menge), fortsetzbar über `nach`.
- * Nur `angenommen` wird aus `roh` gelöst (Netflix-Randprobe, 12.10.2026): Eine angenommene Folge darf in
- * `fetch-urteile.ts` nicht als gemessen zählen.
+ * Die offenen Rohfolgen ab `nach`. Gesperrte Folgen (`vorhanden = 'nein'`, Migration 035) liest erst Stufe 2 —
+ * bis dahin sähe der Zuordner ihre leeren Tonspuren als „kein Deutsch". Entfällt mit Stufe 2.
  */
-export async function alleRohfolgen(env: Env, nach: number): Promise<Seite> {
-  return await vereint(
-    nach,
-    async (von) => {
+export async function offeneRohfolgen(env: Env, nach: number): Promise<Seite> {
+  return await vereint(nach, [offenAusPrime(env), offenAusMeldung(env)])
+}
+
+function alleAusPrime(env: Env): Quelle {
+  return {
+    ab: 0,
+    lies: async (von, anzahl) => {
       const { results } = await env.DB.prepare(
         `SELECT id, plattform, url, asin, gti, nummer, titel, erschienen, staffel_nr, titel_id,
                 seiten_kennung, gemeldet_am, vorhanden, ton_de, sprachen,
                 CASE WHEN plattform = 'netflix' AND json_valid(roh) THEN json_extract(roh, '$.angenommen') END AS angenommen
-           FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT ${SEITE}`,
+           FROM prime_folge WHERE id > ?1 ORDER BY id LIMIT ?2`,
       )
-        .bind(von)
+        .bind(von, anzahl)
         .all()
       return (results ?? []) as Zeile[]
     },
-    async (von, anzahl) => {
+  }
+}
+
+function alleAusMeldung(env: Env): Quelle {
+  return {
+    ab: PRUEFUNG_ID_AB,
+    lies: async (von, anzahl) => {
       const { results } = await env.DB.prepare(
         `SELECT id + ?2 AS id, gemeldet_am, ${ROH_FELDER.filter((n) => !['roh', 'untertitel', 'dauer_sek', 'staffel_text'].includes(n)).map(feld).join(', ')},
                 CASE WHEN plattform = 'netflix' AND json_valid(json_extract(rohfolge, '$.roh'))
@@ -107,5 +119,14 @@ export async function alleRohfolgen(env: Env, nach: number): Promise<Seite> {
         .all()
       return (results ?? []) as Zeile[]
     },
-  )
+  }
+}
+
+/**
+ * `&alle=1`: eine Seite jeder Beobachtung ohne `roh` (Menge), fortsetzbar über `nach`.
+ * Nur `angenommen` wird aus `roh` gelöst (Netflix-Randprobe, 12.10.2026): Eine angenommene Folge darf in
+ * `fetch-urteile.ts` nicht als gemessen zählen.
+ */
+export async function alleRohfolgen(env: Env, nach: number): Promise<Seite> {
+  return await vereint(nach, [alleAusPrime(env), alleAusMeldung(env)])
 }
