@@ -93,6 +93,30 @@ export function kastenZustand(gruppen: Termin[][], sendungen: Sendung[][], heute
   return { zeilen, linieVor: linieVor(zeilen), alleVorbei: zeilen.length > 0 && zeilen.every((z) => z.art === 'vorbei') }
 }
 
+/** Variante D: wo die Jetzt-Linie steht und was dazugehört. */
+export interface DStand {
+  /** Die Linie steht vor dieser Zeile; `gruppen.length` heißt nach der letzten. */
+  linieVor: number
+  /** Minuten bis zur ersten Sendung, wenn die Linie davor steht (noch nichts gelaufen). */
+  ersteIn?: number
+  nichtsMehr: boolean
+}
+
+/** Variante D setzt die Linie auch vor die erste und hinter die letzte Zeile; ohne belegte Uhrzeit der ersten keine Linie vor ihr. */
+export function dStand(zustand: Kastenzustand, gruppen: Termin[][], jetzt: string): DStand | undefined {
+  if (zustand.alleVorbei) return { linieVor: gruppen.length, nichtsMehr: true }
+  if (zustand.linieVor !== undefined) return { linieVor: zustand.linieVor, nichtsMehr: false }
+  const erste = gruppen[0]?.[0]
+  if (!erste?.time || geschaetzt(erste) || erste.time <= jetzt) return undefined
+  return { linieVor: 0, ersteIn: minuten(erste.time) - minuten(jetzt), nichtsMehr: false }
+}
+
+/**
+ * Variante D: „in … Min" an der nächsten Zeile nur mit Linie und ohne Kopfzusatz. Ohne `dStand` (erste Uhrzeit
+ * geschätzt oder fehlend) steht keine Restzeit: eine Schätzung könnte früher kommen, „nächste" wäre dann eine Behauptung.
+ */
+export const restInZeile = (d: DStand | undefined): boolean => !!d && d.ersteIn === undefined
+
 export type Kopfzeile = { art: 'laeuft'; name: string; bis: string } | { art: 'naechste'; minuten: number } | { art: 'nichts' }
 
 /** Variante B: die eine Zeile unter „Im Fernsehen"; ab drei Stunden Abstand keine. */

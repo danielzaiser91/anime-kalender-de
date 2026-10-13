@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import yaml from 'js-yaml'
 import { todayIso } from '../../shared/time.ts'
-import { auslieferbarePatchnotes, pruefePatchnotes, type Patchnote } from '../../shared/patchnotes.ts'
+import { auslieferbarePatchnotes, pruefeHighlightsJeTag, pruefePatchnotes, type Patchnote } from '../../shared/patchnotes.ts'
 import { tageAusGit } from './patchnotes-datum.ts'
 
 /** Ein Eintrag je Datei (`<name>.yaml`), damit parallele PRs keine gemeinsame Datei ändern. */
@@ -43,7 +43,14 @@ export function leseAuslieferbarePatchnotes(ordner = PATCHNOTES_ORDNER): Patchno
     console.error(`\n${fehler.length} Widerspruch/Widersprüche in ${ordner} — abgebrochen.`)
     process.exit(1)
   }
-  const liste = auslieferbarePatchnotes(mitDatum(dateien, (namen) => tageAusGit(ordner, namen, todayIso())))
+  const mitTag = mitDatum(dateien, (namen) => tageAusGit(ordner, namen, todayIso()))
+  const zuViele = pruefeHighlightsJeTag(mitTag)
+  if (zuViele.length) {
+    for (const f of zuViele) console.error('  ✖', f)
+    console.error(`\n${zuViele.length} Widerspruch/Widersprüche in ${ordner} — abgebrochen.`)
+    process.exit(1)
+  }
+  const liste = auslieferbarePatchnotes(mitTag)
   gelesen.set(ordner, liste)
   return liste
 }
