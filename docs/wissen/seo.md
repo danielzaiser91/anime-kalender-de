@@ -17,6 +17,7 @@ Chronik zu `pipeline/build-share-pages.ts` und `pipeline/lib/{startseite,titel-s
 - **Titelseiten:** Brotkrumen (Start › Titel von A bis Z › Buchstabe › Titel, auch als `BreadcrumbList`), fünf „Ähnliche Titel“ (`shared/aehnlich.ts`, dieselbe Funktion wie das Detail-Panel; belegte Synchro vor unbelegter, Faktor 0,6).
 - **Title und Beschreibung:** „auf Deutsch“ steht nur bei belegter Synchro (`synchroBelegt` in `shared/titles.ts`: Anime Stufe `high`/`very-high`, Cartoons ein Weg mit `dub: true`). Sonst „<Titel>: Stand der deutschen Synchro“ und der Satz „Deutsche Synchro angekündigt oder wahrscheinlich, noch nicht belegt.“. Vorher stand „Mit deutscher Synchronisation.“ bei jedem Anime.
 - **Sitemap `lastmod`** je Titelseite aus den Daten des Titels (`sitemap-datum.ts`), nur wo ein Datum vorliegt. Ein Änderungsdatum je Titel gibt es nicht; `gesehenAm` der Quellen ist fast überall der letzte Lauf und taugt nicht. Ein eigener Stand je Seite (Hash der Seite gegen den Vorbau, committet vom Bestandsbau) wäre genauer und ist nicht gebaut.
+- **Terminüberschrift und `inLanguage`:** „Alle Termine mit deutscher Synchronisation“ und `inLanguage: de` im JSON-LD stehen nur bei `synchroBelegt` (`termineUeberschrift`, `sprachFeld` in `titel-seite.ts`), sonst „Alle Termine“ und kein Feld. `check-teilseiten.ts` prüft das an jeder gebauten Titelseite (13.10.2026: 1253 Seiten geändert, Zahl der Zählstelle `zaehleBelegte` gleich 2546).
 
 ## Prüfungen
 

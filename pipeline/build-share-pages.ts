@@ -25,7 +25,7 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { andereNamen } from './lib/titel-namen.ts'
-import { ARTIKEL_STIL as STIL, SITE, esc, namenZeile, seitenTitel, synchroSatz, titelName, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
+import { ARTIKEL_STIL as STIL, SITE, esc, namenZeile, seitenTitel, sprachFeld, synchroSatz, termineUeberschrift, titelName, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
 import { START_AUSSAGE, startseiteInhalt } from './lib/startseite.ts'
 import { schreibeVerzeichnis, verzeichnisAdressen, type Buchstabe } from './lib/titel-verzeichnis.ts'
 import { umfeldFuer, type Umfeld, type UmfeldRahmen } from './lib/titel-umfeld.ts'
@@ -240,7 +240,7 @@ function body(
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>${namenZeile(title, release.name)}
       ${synopsenAbsatz(synopsis)}
       ${release.note ? `<p style="margin:0 0 1.5rem;color:#9aa5bd;">${esc(release.note)}</p>` : ''}
-      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Alle Termine mit deutscher Synchronisation</h2>
+      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">${termineUeberschrift(title)}</h2>
       <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">
         ${termine || '<li>Noch kein Termin erfasst.</li>'}
       </ul>
@@ -280,7 +280,7 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
     '@type': istFilm ? 'Movie' : 'TVSeries',
     name: release.name,
     url,
-    inLanguage: 'de',
+    ...sprachFeld(title),
     /* Dieselbe Beschreibung wie im og:description — eine Auskunft, eine Quelle. */
     description: describe(release, title, today),
   }
