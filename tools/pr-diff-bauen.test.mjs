@@ -108,6 +108,7 @@ const keinDatenJs = [
   ['Wert ist Aufruf', 'globalThis.AK_X = alert(1)\n'],
   ['andere Zuweisung', 'window.AK_X = {"a":1}\n'],
   ['Name nicht AK_', 'globalThis.evil = {"a":1}\n'],
+  ['Code-Global statt Datenliste', 'globalThis.AK_OFFENE_X = {"a":1}\nglobalThis.AK_TAGESLIMIT = null\n'],
   ['Name mit Kleinbuchstaben', 'globalThis.AK_x = {"a":1}\n'],
   ['Zeilenende CR', 'globalThis.AK_X = {"a":1}\r\nalert(1)\n'],
   ['Zeilentrenner U+2028', 'globalThis.AK_X = {"a":1} alert(1)\n'],

@@ -43,7 +43,8 @@ const STEUERZEICHEN = /[\x00-\x1f\x7f]/
 const SHA = /^[0-9a-f]{40}$/
 // Daten-JS der Erweiterung: genau ein Ordner, Dateiname ohne Sonderzeichen, und als Eintrag (nie als Ordner) in der Quellen-Liste.
 const ERZEUGTES_JS = /^extension\/[A-Za-z0-9_-]+\.js$/
-const DATEN_JS_ZEILE = /^globalThis\.AK_[A-Z0-9_]+ = (.+)$/
+// Nur die Namen der Datenlisten: ein gestubbter Einzeiler darf kein vom Code gesetztes Global (z. B. AK_TAGESLIMIT) überschreiben.
+const DATEN_JS_ZEILE = /^globalThis\.(?:AK_OFFENE_[A-Z0-9_]+|AK_PRIME_SUCHE) = (.+)$/
 
 /** Einträge unter data/ und extension/ aus dem QUELLEN-Feld von tools/quellen-liste.sh (Kommentare und Leerzeilen entfallen). */
 export function ladeQuellen(text) {
