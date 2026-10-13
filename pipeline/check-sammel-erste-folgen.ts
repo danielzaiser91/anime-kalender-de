@@ -47,6 +47,17 @@ const termin = releasesAus(vorschlaege, titel, [], '2026-10-12')[0]
 pruefe('Termin: Disney+, batch, im Angebot seit dem Meldetag, 6 Folgen', termin?.platform === 'disneyplus' && termin.releaseType === 'batch' && termin.dateMeaning === 'available-from' && termin.schedule.firstEpisodeDate === TAG && termin.schedule.episodeCount === 6, termin)
 pruefe('Termin: keine Uhrzeit, Tag als geschätzt gekennzeichnet, Quelle genannt', termin?.schedule.estimated === true && termin.schedule.time === undefined && termin.sources.length === 1, termin)
 
+/* Der Wortlaut des echten Artikels (1053610): „Episode 1 bis 6“ steht im Kopf als Zusatz — das ist keine Staffel und darf den Eintrag nicht als „Staffel unklar“ verwerfen. */
+const echt = leseSammelartikel(
+  ['Ab sofort: »Snowball Earth« – Episode 1 bis 6 (Synchro)', 'Episoden: 6 von 13 auf Deutsch', 'Sprache: Deutsch, Japanisch (UT)', 'Hinweis: Der Originalton war zuvor bereits verfügbar', 'Stream: Disney+'].join('\n'),
+  TAG,
+)
+pruefe('Echter Wortlaut: Folge 1–6, kein Zusatz, nicht verworfen', echt[0]?.erste === 6 && echt[0].zusatz === undefined && sammelVerwurf(echt[0]) === undefined, echt)
+const echtTermin = releasesAus(vorschlaegeAusSammelartikel(artikel, echt, 'disneyplus'), titel, [], '2026-10-12')[0]
+pruefe('Echter Wortlaut: Disney+-Termin Folge 1–6 am Meldetag', echtTermin?.platform === 'disneyplus' && echtTermin.schedule.episodeCount === 6 && echtTermin.schedule.firstEpisodeDate === TAG, echtTermin)
+const staffelZwei = leseSammelartikel(['Ab sofort: »Testserie« – Staffel 2', 'Sprache: Deutsch, Japanisch (UT)', 'Hinweis: Die ersten drei Folgen sind auf Deutsch', 'Stream: Disney+'].join('\n'), TAG)
+pruefe('Ein echter Staffel-Zusatz bleibt', staffelZwei[0]?.zusatz === 'Staffel 2' && staffelZwei[0].erste === 3, staffelZwei)
+
 /* Gegenprobe Doppelung: Ein vorhandener Termin desselben Titels beim selben Anbieter (kuratiert oder gemessen) gewinnt. */
 const vorhanden = { slug: 'snowball-earth-disneyplus', titleId: 7, name: 'Snowball Earth', platform: 'disneyplus', releaseType: 'weekly', schedule: { firstEpisodeDate: '2026-09-18' }, sources: ['x'] } as unknown as Release
 pruefe('Vorhandener Disney+-Termin desselben Titels: kein zweiter', releasesAus(vorschlaege, titel, [vorhanden], '2026-10-12').length === 0)

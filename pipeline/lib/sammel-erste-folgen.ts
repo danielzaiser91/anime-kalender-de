@@ -18,6 +18,9 @@ const ERSTE = new RegExp(`\\bersten\\s+(${ZAHL})\\s+(?:Folgen|Episoden)\\b`, 'i'
 const BEREICH = /\b(?:Folgen?|Episoden?)\s+1\s*(?:bis|-|–)\s*(\d{1,3})\b/i
 const VON_GESAMT = /\b(\d{1,3})\s+von\s+\d{1,3}\s+(?:Folgen|Episoden)?\s*(?:auf Deutsch|deutsch)/i
 
+/** Ein Zusatz, der nur die Folgen nennt („Episode 1 bis 6“), keine Staffel. */
+const FOLGENBEREICH = /^(?:Folgen?|Episoden?)\s+1\s*(?:bis|-|–)\s*\d{1,3}$/i
+
 const DEUTSCH = /\bdeutsch\b|synchron|\bdub\b/i
 /** Wer verneint oder von einer Disc, einem Kinostart spricht, meldet keinen Streaming-Teiltermin. */
 const AUSSCHLUSS = /\b(?:nicht|kein\w*|ohne)\b|Blu-?ray|\bDVD\b|\bDisc\b|Volume|Steelbook|Kino/i
@@ -52,10 +55,12 @@ export function mitErstenFolgen(e: SammelEintrag, erste: ErsteFolgen, veroeffent
   if (!e.deutsch) return e
   /* Nennt der Titelblock schon „N (komplett)“, ist ein „die ersten N Folgen“ im Fließtext dieselbe Menge (One Piece, Staffel 1–3 = 92 Folgen, 03.09.2026). */
   if (e.folgen) return e
-  const { folgen: _komplett, ...rest } = e
+  /* „Episode 1 bis 6“ im Titelblock ist die Folgenangabe selbst, keine Staffel: sonst verwirft `sammelVerwurf` den Eintrag als „Staffel unklar“ (Snowball Earth). */
+  const { zusatz, ...rest } = e
+  const staffel = zusatz && !FOLGENBEREICH.test(zusatz) ? { zusatz } : {}
   const festerTag = e.datum && !e.datumGeschaetzt
   const tag = erste.abSofort ? { datum: veroeffentlicht.slice(0, 10), datumGeschaetzt: true } : {}
-  return { ...rest, ...(festerTag ? {} : tag), erste: erste.anzahl, woechentlich: false }
+  return { ...rest, ...staffel, ...(festerTag ? {} : tag), erste: erste.anzahl, woechentlich: false }
 }
 
 /** Die Anbieter, die die Zeile als eigenes Wort nennt („adn“ in „Madness“ zählt nicht). */
