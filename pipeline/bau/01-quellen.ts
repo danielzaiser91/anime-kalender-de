@@ -18,6 +18,8 @@ export type TmdbTitelEintrag = {
   /** Kennung und Art bei TMDB — nötig, um die Quelle verlinken zu können. */
   tmdbId?: number
   kind?: 'tv' | 'movie'
+  /** Deutsche Kinostarts des Films (`fetch-tmdb-titles.ts`). */
+  kinoDe?: string[]
 }
 
 /** Je AniList-ID: deutsche Inhaltsangabe, Anbieter und Sprachblöcke aus aniSearch (`data/anisearch.json`). */

@@ -10,6 +10,7 @@ import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
 import { terminPillen, streamZeilen, discZeilen } from './wege-zeilen.tsx'
 import { angebotSeitZeileVon } from './kasten-hinweise.ts'
+import { KinoZuletzt } from './kino-zuletzt.tsx'
 import type { sortiereNachZugang } from './wege-sortieren.ts'
 
 export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
@@ -82,7 +83,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                   </p>
                 )}
               </>
-            ) : undefined
+            ) : <KinoZuletzt titleId={title.id} antwort={antwort} t={t} />
           }
           stream={streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, dubZeilen, releaseJePlattform, streamReleases, releases, tvVorbei })}
           disc={discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, discAusgaben, discOffen, setDiscOffen, discReleases })}
