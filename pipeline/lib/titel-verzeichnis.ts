@@ -85,7 +85,7 @@ function uebersichtInhalt(buchstaben: Buchstabe[], unbelegt: number): string {
   return (
     `<article style="${ARTIKEL_STIL}">\n      ${brotkrumenHtml([START_KRUME, VERZEICHNIS_KRUME])}\n` +
     `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">Alle Anime von A bis Z</h1>\n` +
-    `      <p style="margin:0 0 1rem;">${summe} Anime und Animationsserien im Kalender, nach Anfangsbuchstaben. Jeder Titel hat eine eigene Seite mit deutscher Synchro, Anbietern und Terminen.` +
+    `      <p style="margin:0 0 1rem;">${summe} Anime und Animationsserien im Kalender, nach Anfangsbuchstaben. Jeder Titel hat eine eigene Seite mit Synchro-Stand, Anbietern und Terminen.` +
     (unbelegt ? ` Bei ${unbelegt} Titeln ist die Synchro erst angekündigt oder wahrscheinlich; sie tragen den Vermerk „Synchro erwartet“.` : '') +
     `</p>\n      ${buchstabenLeiste(buchstaben)}\n` +
     `      <p><a href="${SITE}termine/" style="${LINK_STIL}">Alle Termine</a> · <a href="${SITE}" style="${LINK_STIL}">Zum Kalender</a></p>\n    </article>`
@@ -98,7 +98,7 @@ function buchstabenInhalt(schluessel: string, liste: VerzeichnisTitel[], buchsta
   return (
     `<article style="${ARTIKEL_STIL}">\n      ${brotkrumenHtml(krumen)}\n` +
     `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">Anime mit ${label}</h1>\n` +
-    `      <p style="margin:0 0 1rem;">${liste.length} Titel mit Seite zu deutscher Synchro, Anbietern und Terminen.</p>\n` +
+    `      <p style="margin:0 0 1rem;">${liste.length} Titel mit Seite zu Synchro-Stand, Anbietern und Terminen.</p>\n` +
     `      <ul class="vz" style="margin:0 0 1.5rem;padding-left:1.2rem;">\n        ${liste.map(titelZeile).join('\n        ')}\n      </ul>\n` +
     `      <h2 style="${UEBERSCHRIFT_2}">Weitere Buchstaben</h2>\n      ${buchstabenLeiste(buchstaben, schluessel)}\n    </article>`
   )
@@ -122,7 +122,7 @@ export function schreibeVerzeichnis(dist: string, v: SeitenVorlage, eintraege: V
     'titel',
     kopf(
       'Anime von A bis Z: Synchro, Anbieter und Termine',
-      `Alle ${summe} Anime und Animationsserien im Kalender von A bis Z: deutsche Synchro, Anbieter und Termine je Titel.`,
+      `Alle ${summe} Anime und Animationsserien im Kalender von A bis Z: Synchro-Stand, Anbieter und Termine je Titel.`,
       `${SITE}titel/`,
       [START_KRUME, VERZEICHNIS_KRUME],
     ),
@@ -131,7 +131,7 @@ export function schreibeVerzeichnis(dist: string, v: SeitenVorlage, eintraege: V
   for (const [schluessel, liste] of gruppen) {
     const label = buchstabenLabel(schluessel)
     const krumen = [START_KRUME, VERZEICHNIS_KRUME, { name: label, url: `${SITE}titel/${schluessel}/` }]
-    const beschreibung = `${liste.length} Anime mit ${label}, von „${liste[0]!.name}“ bis „${liste[liste.length - 1]!.name}“: deutsche Synchro, Anbieter und Termine.`
+    const beschreibung = `${liste.length} Anime mit ${label}, von „${liste[0]!.name}“ bis „${liste[liste.length - 1]!.name}“: Synchro-Stand, Anbieter und Termine.`
     schreibeSeite(dist, v, `titel/${schluessel}`, kopf(`Anime mit ${label}: Synchro, Anbieter und Termine`, beschreibung, `${SITE}titel/${schluessel}/`, krumen), buchstabenInhalt(schluessel, liste, buchstaben))
   }
   return buchstaben

@@ -7,6 +7,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { cartoonMitSynchroBeleg, teilbarerSlug, teilenPfad } from '../shared/teilen.ts'
 import type { Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 import { ROOT } from './lib/util.ts'
 import { erreichbar } from './lib/seiten-erreichbar.ts'
 import { SITE } from './lib/titel-seite.ts'
@@ -62,7 +63,7 @@ function sitemapMaengel(): string[] {
 function lastmodMaengel(): string[] {
   const sitemap = readFileSync(resolve(DIST, 'sitemap.xml'), 'utf8')
   const stempel = [...sitemap.matchAll(/<loc>[^<]*\/t\/[^<]+<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]!)
-  const heute = new Date().toISOString().slice(0, 10)
+  const heute = todayIso()
   const tage = new Set(stempel)
   console.log(`[teilseiten] lastmod: ${stempel.length} Titelseiten mit Datum, ${tage.size} verschiedene Tage`)
   const mangel: string[] = []
