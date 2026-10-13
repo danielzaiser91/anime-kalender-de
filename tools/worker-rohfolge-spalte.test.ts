@@ -231,6 +231,24 @@ console.log('Nur Neues für den Zuordner (Prüfer-Befund zu PR 1150)')
   pruefe((await offen()) === 1, 'zurück zum alten Stand (A, B, A): A kommt wieder offen an, weil B zuletzt übernommen wurde')
 }
 
+console.log('Probe (?rohfolgen=1&probe=<Anbieter>) liest auch die Spalte')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  const probe = async (suche: string) => ((await hole(env, suche)) as unknown as { probe: Record<string, unknown>[] }).probe
+  await handlePruefung(post(netflix(1)), env)
+  await handlePruefung(post(netflix(2)), env)
+  db.exec("INSERT INTO prime_folge (url, nummer, plattform, roh, gemeldet_am, uebernommen) VALUES ('https://www.netflix.com/title/9', 7, 'netflix', '{\"alt\":true}', '2026-01-01T00:00:00Z', 1)")
+  const liste = await probe('probe=netflix')
+  pruefe(liste.length === 3 && Number(liste[0]!.id) > PRUEFUNG_ID_AB && Number(liste[2]!.id) < PRUEFUNG_ID_AB, 'Netflix: die jüngsten Rohfolgen aus der Spalte zuerst, danach die alte aus prime_folge')
+  pruefe(liste[0]!.nummer === 2 && liste[0]!.titel === 'Folge 2' && liste[0]!.uebernommen === 0 && typeof liste[0]!.roh === 'string' && String(liste[0]!.roh).includes('angenommen'), 'Felder wie bei prime_folge: Nummer, Titel, Stand, roh')
+  const eine = await probe('probe=netflix&id=' + Number(liste[1]!.id))
+  pruefe(eine.length === 1 && eine[0]!.nummer === 1, '&id= mit der Id aus der Spalte holt genau diese Rohfolge')
+  const alt = await probe('probe=netflix&id=' + Number(liste[2]!.id))
+  pruefe(alt.length === 1 && alt[0]!.nummer === 7, '&id= mit einer Id aus prime_folge wie bisher')
+  pruefe((await probe('probe=primevideo')).length === 0, 'anderer Anbieter: leer')
+}
+
 if (fehler) {
   console.log(`${fehler} Prüfung(en) fehlgeschlagen.`)
   process.exit(1)

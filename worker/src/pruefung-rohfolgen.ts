@@ -1,6 +1,7 @@
 import { type Env } from './env.ts'
 import { ausSpeicher, FRIST_NAMEN_MS } from './export-speicher.ts'
 import { serientitelJeAdresse } from './pruefung-serientitel.ts'
+import { probeRohfolgen } from './rohfolgen-probe.ts'
 import { alleRohfolgen, offeneRohfolgen, type Seite } from './rohfolgen-seiten.ts'
 
 export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
@@ -47,18 +48,7 @@ export async function liefereRohfolgen({ request, env, antwort, ausCache }: {
           reichen dafür nicht, sobald danach weitere Folgen kamen.
         */
         const id = Number(new URL(request.url).searchParams.get('id') ?? 0)
-        const { results } = await (
-          Number.isInteger(id) && id > 0
-            ? env.DB.prepare(
-                `SELECT id, url, nummer, titel, erschienen, dauer_sek, plattform, uebernommen, gemeldet_am, roh
-                   FROM prime_folge WHERE id = ?1 AND plattform = ?2`,
-              ).bind(id, probe.slice(0, 20))
-            : env.DB.prepare(
-                `SELECT id, url, nummer, titel, erschienen, dauer_sek, plattform, uebernommen, gemeldet_am, roh
-                   FROM prime_folge WHERE plattform = ?1 AND roh IS NOT NULL ORDER BY id DESC LIMIT 5`,
-              ).bind(probe.slice(0, 20))
-        ).all()
-        return antwort({ probe: results ?? [] })
+        return antwort({ probe: await probeRohfolgen(env, probe, id) })
       }
       const nach = Number(new URL(request.url).searchParams.get('nach') ?? 0)
       /*
