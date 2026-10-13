@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-13T16:26:57.887Z",
+  "stand": "2026-10-13T17:41:04.589Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -4380,17 +4380,6 @@
       "letzterWeg": true
     },
     {
-      "titleId": 14741,
-      "titel": "Love, Chunibyo & Other Delusions!",
-      "plattform": "crunchyroll",
-      "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions",
-      "seriesId": "G6K5399GY",
-      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
-      "geprueftAm": "2026-08-22",
-      "entferntAm": "2026-10-13",
-      "letzterWeg": true
-    },
-    {
       "titleId": 9181,
       "titel": "Motto To Love-Ru: Trouble",
       "plattform": "crunchyroll",
@@ -8138,6 +8127,17 @@
       "seriesId": null,
       "grund": "der Anbieter führt 12 + 13 Folgen, und die belegten Titel füllen sie exakt — für 1 weitere ist dort kein Platz",
       "geprueftAm": null,
+      "entferntAm": "2026-10-13",
+      "letzterWeg": true
+    },
+    {
+      "titleId": 14741,
+      "titel": "Love, Chunibyo & Other Delusions!",
+      "plattform": "crunchyroll",
+      "url": "http://www.crunchyroll.com/de/love-chunibyo-other-delusions",
+      "seriesId": "G6K5399GY",
+      "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
+      "geprueftAm": "2026-08-22",
       "entferntAm": "2026-10-13",
       "letzterWeg": true
     },
