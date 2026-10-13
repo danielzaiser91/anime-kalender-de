@@ -22,7 +22,9 @@ const ohneBeleg = (art: DubStatusArt): boolean => art === 'offen' || art === 'om
 /** Der Sprachzustand eines Wegs über einen Dritten („Crunchyroll über Prime Video“): TOGGO ist rein deutsch, sonst zählen Bereiche und der Verweis mit derselben Adresse. */
 export function streamWegStatus(g: Kaufweg, title: Title): DubStatusArt {
   const e = g.eintraege[0]
-  return statusArt(istToggo(e.url) || e.dubRanges?.some((r) => r.dub) || (title.streams ?? []).find((x) => x.url === e.url)?.dub)
+  const art = statusArt(istToggo(e.url) || e.dubRanges?.some((r) => r.dub) || (title.streams ?? []).find((x) => x.url === e.url)?.dub)
+  /* Abgeleitet, nie belegt: Ein Beleg am Weg geht vor, und „schwester“ zählt nirgends als Haken. */
+  return art === 'offen' && e.dubAbgeleitet ? 'schwester' : art
 }
 
 /**

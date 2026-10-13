@@ -5,6 +5,7 @@ import type { FaelleDatei } from './faelle.ts'
 import { geraeteFuer } from './geraete.ts'
 import { Leiste } from './leiste.tsx'
 import { Raster } from './raster.tsx'
+import { gueltigeZeit } from './zeit-regler.tsx'
 import { ladeMockups } from './mockups-laden.ts'
 import { alleMockups, mockupMit, type MockupDef } from './register.ts'
 import { hashVon, leseHash, STANDARD, zustandAus, type Zustand } from './zustand.ts'
@@ -45,13 +46,13 @@ function Uebersicht({ namen }: { namen: Record<string, string> }) {
   )
 }
 
-/** Fehlende oder unbekannte Fälle und Varianten werden zu den ersten des Mockups. */
+/** Fehlende oder unbekannte Fälle, Varianten und Zeiten werden zu den ersten des Mockups. */
 function mitVorgaben(z: Zustand, def: MockupDef): Zustand {
   const fall = def.faelle.includes(z.fall) ? z.fall : (def.faelle[0] ?? '')
   const variante = z.variante in def.varianten ? z.variante : (Object.keys(def.varianten)[0] ?? '')
   const erlaubt: string[] = [...geraeteFuer(def.ausschnitt), 'beide']
   const geraet = erlaubt.includes(z.geraet) ? z.geraet : geraeteFuer(def.ausschnitt)[0]!
-  return { ...z, fall, variante, geraet }
+  return { ...z, fall, variante, geraet, zeit: gueltigeZeit(def, z.zeit) }
 }
 
 function Rahmen({ faelle }: { faelle: FaelleDatei }) {

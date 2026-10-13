@@ -232,9 +232,17 @@ export function farbeZuAnbieter(voll: string): string | undefined {
   return undefined
 }
 
-export function gruppiereKaufwege(
-  links: WatchLink[],
-): { shop: string; eintraege: { label?: string; url: string; nurFolge?: number; dubRanges?: WatchLink['dubRanges'] }[] }[] {
+/** Was die Oberfläche je Weg einer Pille braucht. */
+type Eintrag = Pick<WatchLink, 'url' | 'nurFolge' | 'dubRanges' | 'dubAbgeleitet'> & { label?: string }
+
+const eintragVon = (l: WatchLink): Eintrag => ({
+  url: l.url,
+  nurFolge: l.nurFolge,
+  dubRanges: l.dubRanges,
+  dubAbgeleitet: l.dubAbgeleitet,
+})
+
+export function gruppiereKaufwege(links: WatchLink[]): { shop: string; eintraege: Eintrag[] }[] {
   const nachHost = new Map<string, WatchLink[]>()
   for (const l of links) {
     let host = l.url
@@ -270,11 +278,14 @@ export function gruppiereKaufwege(
     const gemeinsam = geteilt.every((t) => t.length > 1 && t[0] === geteilt[0][0])
     if (liste.length === 1 || !gemeinsam) {
       /* Die Adresse ist TMDBs Übersicht, nicht der Anbieter — das steht an der Pille. */
-      return { shop: liste[0].ueberTmdb ? translate('detail.ueberTmdb', { name: liste[0].name }) : liste[0].name, eintraege: liste.map((l) => ({ url: l.url, nurFolge: l.nurFolge, dubRanges: l.dubRanges })) }
+      return {
+        shop: liste[0].ueberTmdb ? translate('detail.ueberTmdb', { name: liste[0].name }) : liste[0].name,
+        eintraege: liste.map(eintragVon),
+      }
     }
     return {
       shop: geteilt[0][0],
-      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), url: l.url, nurFolge: l.nurFolge, dubRanges: l.dubRanges })),
+      eintraege: liste.map((l, i) => ({ label: geteilt[i].slice(1).join(' — '), ...eintragVon(l) })),
     }
   })
 }

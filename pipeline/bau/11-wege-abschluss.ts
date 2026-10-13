@@ -8,6 +8,7 @@ import { streicheMagentaPartner } from './11-5-magenta-partner.ts'
 import { kennzeichneDeutschLautJustwatch } from './11-6-jw-vertrauen.ts'
 import { ergaenzeWegeAusJustwatch } from './11-2-justwatch.ts'
 import { ergaenzeWegeAusTerminen } from './11-7-wege-aus-terminen.ts'
+import { kennzeichneFreenetLautSchwester } from './11-8-schwester-shop.ts'
 import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
 import { entferneFremdeNachStaffeln, kennungAusAdresse } from './cr-serie-geteilt.ts'
@@ -82,6 +83,8 @@ export function schliesseWegeAb({
 
   /* Zuletzt: Wer einen sicheren Termin bei einem Anbieter hat, aber noch keinen Weg dorthin, bekommt einen. Ohne Tonurteil, außer ein Handbeleg gilt: dann dessen Urteil, bei „nicht verfügbar“ kein Weg. */
   ergaenzeWegeAusTerminen({ titles, releases, toteAdressen, verweiseEntfernt, belegFuer })
+
+  kennzeichneFreenetLautSchwester(titles)
 
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)

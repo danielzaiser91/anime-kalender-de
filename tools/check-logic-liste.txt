@@ -64,6 +64,7 @@ pipeline/check-kanal-erbt.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
 pipeline/check-katalog-release.ts
+pipeline/check-katalog-eingefroren.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-logic.ts
 pipeline/check-motn-reihe.ts
@@ -88,6 +89,7 @@ pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammelartikel.ts
+pipeline/check-schwester-shop.ts
 pipeline/check-seiten-seo.ts
 pipeline/check-sprache-termin.ts
 pipeline/check-sprecher-anisearch.ts
