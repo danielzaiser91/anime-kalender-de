@@ -1,16 +1,16 @@
 import { useMemo } from 'react'
 import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
-import { istStaffelfinale, istStaffelstart } from '../lib/staffelstart.ts'
+import { istStaffelstart } from '../lib/staffelstart.ts'
 import { addDays, formatDate, nowHhMm, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSprungZuHeute } from '../lib/woche-sprung.ts'
 import { useZielTag } from '../lib/ziel-tag.ts'
 import { buendeleKacheln } from '../lib/buendel.ts'
+import { kartenArt } from '../lib/kachel-folgen.ts'
 import { eigenstaendigBeiAnbietern, vereineAnbieter } from '../lib/anbieter-kachel.ts'
 import { gesehenLesen, neuesteErschienen, neuSeitGesehen } from '../lib/gesehen.ts'
 import { PosterKarte } from './kalender/PosterKarte.tsx'
-import type { KartenArt } from '../lib/kachel-folgen.ts'
 import { TvKasten } from './kalender/TvKasten.tsx'
 import { ZweitanbieterZeilen } from './kalender/ZweitanbieterZeilen.tsx'
 import { anbieterUndFolge, zaehlung } from './kalender/Marken.tsx'
@@ -190,9 +190,7 @@ function PosterRaster({
 }) {
   const { t } = useLang()
   const gesehen = gesehenLesen()
-  const art = (ev: ReleaseEvent): KartenArt | undefined =>
-    istStaffelstart(ev, p.data) ? 'start' : istStaffelfinale(ev, p.data) ? 'finale' : undefined
-  const gruppen = buendeleKacheln(tag.stream.filter((e) => !e.zweitanbieter), art, (ev) => !!ev.premiere)
+  const gruppen = buendeleKacheln(tag.stream.filter((e) => !e.zweitanbieter), (ev) => istStaffelstart(ev, p.data), (ev) => !!ev.premiere)
   const kacheln = vereineAnbieter(gruppen, eigenstaendigBeiAnbietern)
   return (
     <div
@@ -212,7 +210,7 @@ function PosterRaster({
             key={ev.id}
             event={ev}
             title={p.data.titleById.get(ev.titleId)}
-            art={kachel.map((b) => art(b[0]!)).find(Boolean)}
+            art={kachel.map((b) => kartenArt(b, p.data)).find(Boolean)}
             buendel={kachel[0]}
             anbieter={kachel.length > 1 ? kachel : undefined}
             favorite={p.favorites.has(ev.titleId)}

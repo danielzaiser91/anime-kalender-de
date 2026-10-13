@@ -27,7 +27,7 @@ function unterzeile(kachel: ReleaseEvent[], anbieter?: Parameters<typeof Unterze
   return renderToStaticMarkup(Unterzeile(props))
 }
 
-const art = (): undefined => undefined
+const art = (): boolean => false
 const kino = buendeleKacheln([termin('a', 'kino', '17:00'), termin('b', 'kino', '20:00'), termin('c', 'kino', '22:00')], art)
 pruefe('drei Kino-Termine desselben Titels werden eine Kachel', kino.length === 1 && kino[0]!.length === 3, String(kino.length))
 pruefe('die Kachel ist ein Kinosaal', istKinoSaal(kino[0]![0]!, undefined, false))

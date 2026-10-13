@@ -106,7 +106,7 @@ export function Unterzeile(p: PosterKarteProps & { saal: boolean }) {
           <AnbieterAngaben kachel={p.anbieter} t={t} />
         ) : (
           <>
-            <span>{anbieterUndFolge(p.event, t)}</span>
+            <span>{anbieterUndFolge(p.event, t, p.buendel)}</span>
             {!!weitereFolgen(p.buendel, t) && <span className="font-semibold text-ak-text">{weitereFolgen(p.buendel, t)}</span>}
           </>
         ))}
@@ -134,6 +134,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
         p.breit ? 'ring-2' : '',
         p.saal ? 'ak-saal ring-1 ring-white/10' : '',
         p.art ? ART_STIL[p.art].ring : '',
+        p.art === 'katalog' ? 'ak-katalog-glanz' : '',
       ].join(' ')}
     >
       {p.saal && <KinoBuehne />}

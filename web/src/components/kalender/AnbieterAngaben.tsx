@@ -12,7 +12,7 @@ import { anbieterUndFolge, nurFolge, weitereFolgen } from './Marken.tsx'
 export function AnbieterAngaben({ kachel, t }: { kachel: AnbieterKachel; t: Translate }) {
   const folgeEinmal = folgeGemeinsam(kachel)
   const zeitEinmal = zeitGemeinsam(kachel)
-  const folge = [nurFolge(kachel[0]![0]!, t), weitereFolgen(kachel[0], t)].filter(Boolean).join(' · ')
+  const folge = [nurFolge(kachel[0]![0]!, t, kachel[0]), weitereFolgen(kachel[0], t)].filter(Boolean).join(' · ')
   if (folgeEinmal && zeitEinmal) {
     const namen = kachel.map((b) => PLATFORMS[b[0]!.platform].name).join(', ')
     return <span>{`${namen}${folge ? ` · ${folge}` : ''}`}</span>
@@ -22,7 +22,7 @@ export function AnbieterAngaben({ kachel, t }: { kachel: AnbieterKachel; t: Tran
       {folgeEinmal && folge && <span>{folge}</span>}
       {kachel.map((b) => {
         const kopf = b[0]!
-        const text = folgeEinmal ? PLATFORMS[kopf.platform].name : [anbieterUndFolge(kopf, t), weitereFolgen(b, t)].filter(Boolean).join(' · ')
+        const text = folgeEinmal ? PLATFORMS[kopf.platform].name : [anbieterUndFolge(kopf, t, b), weitereFolgen(b, t)].filter(Boolean).join(' · ')
         const zeit = zeitEinmal ? '' : zeitText(kopf)
         return (
           <span key={kopf.id} className="flex items-center gap-1.5">

@@ -17,7 +17,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const ev = (platform: string, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
   ({ id: `${platform}-${extra.episode ?? 1}`, releaseSlug: platform, titleId: 7, date: '2026-10-11', releaseType: 'weekly', platform, name: 'X', episode: 2, episodeCount: 12, time: '16:00', ...extra }) as unknown as ReleaseEvent
 
-const kacheln = (termine: ReleaseEvent[]) => vereineAnbieter(buendeleKacheln(termine, () => undefined, (e) => !!e.premiere), eigenstaendigBeiAnbietern)
+const kacheln = (termine: ReleaseEvent[]) => vereineAnbieter(buendeleKacheln(termine, () => false, (e) => !!e.premiere), eigenstaendigBeiAnbietern)
 
 function einheitenpruefung(): void {
   console.log('\nGleicher Titel am selben Tag bei zwei Anbietern:')

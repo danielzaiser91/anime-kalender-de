@@ -14,8 +14,8 @@ export const eigenstaendigBeiAnbietern = (ev: ReleaseEvent): boolean => !!ev.ver
  * 11.10.2026: Crunchyroll und Prime Video am selben Tag als zwei Kacheln). Die Kachel steht dort, wo ihr erstes Bündel stand.
  *
  * `eigenstaendig` hält zurück, was eine eigene Auskunft trägt (Ausgebliebenes, Premiere, Sprachhinweis); ohne Titelkennung
- * lässt sich nicht sagen, ob es derselbe Titel ist. Ein zweites Bündel desselben Anbieters (Finale neben einer Folgenreihe)
- * bleibt eine eigene Kachel.
+ * lässt sich nicht sagen, ob es derselbe Titel ist. Ein zweites Bündel desselben Anbieters (eine Premiere
+ * neben der Folgenreihe) bleibt eine eigene Kachel.
  */
 export function vereineAnbieter(gruppen: ReleaseEvent[][], eigenstaendig: (ev: ReleaseEvent) => boolean): AnbieterKachel[] {
   const kacheln: AnbieterKachel[] = []
@@ -43,7 +43,7 @@ export const zeitGemeinsam = (buendel: ReleaseEvent[][]): boolean => buendel.eve
 /** Alle Anbieter nennen dieselbe Folge und dieselbe Zahl weiterer Folgen — dann genügt eine Zeile für alle. */
 export const folgeGemeinsam = (buendel: ReleaseEvent[][]): boolean => {
   const gleich = (a: ReleaseEvent[], b: ReleaseEvent[]): boolean =>
-    a[0]!.episode === b[0]!.episode && a[0]!.episodeCount === b[0]!.episodeCount && a.length === b.length
+    a[0]!.episode === b[0]!.episode && a[0]!.episodeCount === b[0]!.episodeCount && a.length === b.length && !a[0]!.katalog === !b[0]!.katalog
   return buendel.every((b) => gleich(b, buendel[0]!))
 }
 

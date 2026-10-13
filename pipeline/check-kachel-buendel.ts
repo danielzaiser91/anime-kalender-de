@@ -1,10 +1,11 @@
 /**
- * Zusicherung zur Kachelzahl (Daniel, 11.10.2026): Ein Titel + Weg + Tag ergibt höchstens eine Kachel, wenn dort ein
- * Staffelstart liegt — die Start-Kachel trägt die weiteren Folgen des Tages als „+N Folgen". Aufruf: `npm run check:logic`; der Bestandsteil steht in `check-kachel-buendel-bestand.ts`.
+ * Zusicherung zur Kachelzahl (Daniel, 11. und 13.10.2026): Ein Titel + Weg + Tag ergibt höchstens eine Kachel — Start und
+ * Finale eingeschlossen; die Kachel trägt die weiteren Folgen des Tages (`Folge 13–14/14`). Ausgebliebenes und Premieren bleiben eigen.
+ * Aufruf: `npm run check:logic`; der Bestandsteil steht in `check-kachel-buendel-bestand.ts`.
  */
 import type { Release, ReleaseEvent } from '../shared/types.ts'
 import { buendeleKacheln } from '../web/src/lib/buendel.ts'
-import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
+import { istStaffelstart } from '../web/src/lib/staffelstart.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -22,7 +23,7 @@ const ev = (episode: number, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
 
 /** Dieselbe Bündelung wie die Woche (`PosterRaster`) und der Monat (`MonatsZelle`). */
 function kacheln(stream: ReleaseEvent[], data: Daten): ReleaseEvent[][] {
-  return buendeleKacheln(stream, (e) => (istStaffelstart(e, data) ? 'start' : istStaffelfinale(e, data) ? 'finale' : undefined), (e) => !!e.premiere)
+  return buendeleKacheln(stream, (e) => istStaffelstart(e, data), (e) => !!e.premiere)
 }
 
 function einheitenpruefung(): void {
@@ -37,7 +38,11 @@ function einheitenpruefung(): void {
   const amStueck = kacheln([ev(1), ev(2), ev(13)], klein)
   pruefe('Staffel am Stück: auch das Finale steht in der Start-Kachel', amStueck.length === 1 && amStueck[0]!.length === 3, amStueck)
   const finale = kacheln([ev(11), ev(12), ev(13)], klein)
-  pruefe('Staffelfinale ohne Start am selben Tag bleibt eigenständig', finale.length === 2 && finale[1]![0]!.episode === 13, finale)
+  pruefe('Staffelfinale ohne Start am selben Tag teilt sich die Kachel (Mushoku Tensei S3: Folge 13 und 14)', finale.length === 1 && finale[0]!.length === 3, finale)
+  const zwei = kacheln([ev(13, { episodeCount: 14 }), ev(14, { episodeCount: 14 })], klein)
+  pruefe('Folge 13 und 14 desselben Tages sind eine Kachel', zwei.length === 1 && zwei[0]!.map((e) => e.episode).join() === '13,14', zwei)
+  const finaleAusgeblieben = kacheln([ev(12), ev(13, { verpasst: { erwartetAm: '2026-10-09' } })], klein)
+  pruefe('ausgebliebenes Finale bleibt eigenständig', finaleAusgeblieben.length === 2, finaleAusgeblieben)
   const ausgeblieben = kacheln([ev(1, { verpasst: { erwartetAm: '2026-10-09' } }), ev(2)], klein)
   pruefe('ausgebliebener Start nimmt nichts auf', ausgeblieben.length === 2, ausgeblieben)
   const ohneStart = kacheln([ev(5), ev(6)], klein)
