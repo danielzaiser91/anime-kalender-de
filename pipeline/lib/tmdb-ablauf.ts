@@ -20,8 +20,8 @@ type Feld = Record<string, unknown>
 
 export const hatInhalt = (e: MitInhaltsstand): boolean => INHALTSFELDER.some((f) => (e as Feld)[f] !== undefined)
 
-/** Alter in vollen Tagen; ohne Datum unbekannt (`undefined`). */
-export function alterInTagen(stand: string | undefined, jetzt: Date): number | undefined {
+/** Vollen Tage seit einem Stand (ISO-Datum); ohne Datum unbekannt (`undefined`). */
+export function tageSeit(stand: string | undefined, jetzt: Date): number | undefined {
   const t = stand ? Date.parse(stand) : NaN
   return Number.isNaN(t) ? undefined : Math.floor((jetzt.getTime() - t) / 86_400_000)
 }
@@ -34,7 +34,7 @@ export function streicheAbgelaufenes(cache: Record<string, MitInhaltsstand>, jet
   const gestrichen: string[] = []
   for (const [id, e] of Object.entries(cache)) {
     if (!hatInhalt(e)) continue
-    const alter = alterInTagen(inhaltsStand(e), jetzt)
+    const alter = tageSeit(inhaltsStand(e), jetzt)
     if (alter !== undefined && alter <= STREICH_TAGE) continue
     for (const f of INHALTSFELDER) delete (e as Feld)[f]
     gestrichen.push(id)

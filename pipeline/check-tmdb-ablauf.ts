@@ -2,7 +2,7 @@
  * Zusicherungen zu `lib/tmdb-ablauf.ts`: TMDB-Inhalt wird nach 150 Tagen gestrichen, die Zuordnung bleibt (API-Bedingungen: höchstens 6 Monate).
  * Aufruf: `npm run check:logic`.
  */
-import { alterInTagen, inhaltsStand, streicheAbgelaufenes, type MitInhaltsstand } from './lib/tmdb-ablauf.ts'
+import { tageSeit, inhaltsStand, streicheAbgelaufenes, type MitInhaltsstand } from './lib/tmdb-ablauf.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -17,8 +17,8 @@ type Eintrag = MitInhaltsstand & { tmdbId: number; kind: string; jahr: number; o
 const eintrag = (stand: Partial<MitInhaltsstand>): Eintrag => ({ tmdbId: 7, kind: 'tv', jahr: 2020, overviewDe: 'Handlung', offers: [], ...stand })
 
 console.log('\nTMDB-Ablauf: Alter')
-pruefe('Alter in vollen Tagen', alterInTagen(vorTagen(150), jetzt) === 150)
-pruefe('ohne Datum ist das Alter unbekannt', alterInTagen(undefined, jetzt) === undefined)
+pruefe('Alter in vollen Tagen', tageSeit(vorTagen(150), jetzt) === 150)
+pruefe('ohne Datum ist das Alter unbekannt', tageSeit(undefined, jetzt) === undefined)
 pruefe('inhaltAm gilt vor fetchedAt', inhaltsStand({ inhaltAm: 'a', fetchedAt: 'b' }) === 'a')
 pruefe('ohne inhaltAm gilt fetchedAt', inhaltsStand({ fetchedAt: 'b' }) === 'b')
 

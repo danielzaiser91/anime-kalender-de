@@ -3,14 +3,14 @@
  * Geprüft sind die Dateien mit Abrufdatum; Plakate und Hintergrundbilder tragen keins (Stand: `docs/wissen/quellen.md`, 12.10.2026).
  * Aufruf: `npm run check:bestand-liste`. Rot heißt: der Sammler hat den Bestand nicht rechtzeitig erneuert.
  */
-import { alterInTagen, FRIST_TAGE, hatInhalt, inhaltsStand, type MitInhaltsstand } from './lib/tmdb-ablauf.ts'
+import { tageSeit, FRIST_TAGE, hatInhalt, inhaltsStand, type MitInhaltsstand } from './lib/tmdb-ablauf.ts'
 import { readJson } from './lib/util.ts'
 
 const jetzt = new Date()
 const zuAlt: string[] = []
 
 function pruefeDatei(datei: string, eintraege: [string, string | undefined][]): void {
-  const alt = eintraege.filter(([, stand]) => (alterInTagen(stand, jetzt) ?? Infinity) > FRIST_TAGE)
+  const alt = eintraege.filter(([, stand]) => (tageSeit(stand, jetzt) ?? Infinity) > FRIST_TAGE)
   for (const [id, stand] of alt) zuAlt.push(`${datei} ${id}: ${stand ?? 'ohne Datum'}`)
   console.log(`  ${alt.length ? '✖' : '✓'} ${datei}: ${eintraege.length} Einträge, ${alt.length} älter als ${FRIST_TAGE} Tage`)
 }
