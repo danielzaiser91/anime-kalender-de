@@ -111,6 +111,12 @@ export function dStand(zustand: Kastenzustand, gruppen: Termin[][], jetzt: strin
   return { linieVor: 0, ersteIn: minuten(erste.time) - minuten(jetzt), nichtsMehr: false }
 }
 
+/**
+ * Variante D: „in … Min" an der nächsten Zeile nur mit Linie und ohne Kopfzusatz. Ohne `dStand` (erste Uhrzeit
+ * geschätzt oder fehlend) steht keine Restzeit: eine Schätzung könnte früher kommen, „nächste" wäre dann eine Behauptung.
+ */
+export const restInZeile = (d: DStand | undefined): boolean => !!d && d.ersteIn === undefined
+
 export type Kopfzeile = { art: 'laeuft'; name: string; bis: string } | { art: 'naechste'; minuten: number } | { art: 'nichts' }
 
 /** Variante B: die eine Zeile unter „Im Fernsehen"; ab drei Stunden Abstand keine. */

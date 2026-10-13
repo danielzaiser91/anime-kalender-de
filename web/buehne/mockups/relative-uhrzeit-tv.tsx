@@ -11,7 +11,7 @@ import { useLang } from '../../src/lib/i18n.tsx'
 import { tvPremiere } from '../../src/lib/tv-angabe.ts'
 import { farbenVon, JetztLinie, KopfzeileText, Zustandsspalte, type Farben, type Stil } from './relative-uhrzeit-teile.tsx'
 import { ErsteSendung, LinieD, SenderZeileD, UhrzeitMitLaeuft } from './relative-uhrzeit-d.tsx'
-import { dStand, kastenZustand, kopfzeile, type Kastenzustand, type Zeilenzustand } from './relative-uhrzeit-zeit.ts'
+import { dStand, kastenZustand, kopfzeile, restInZeile, type DStand, type Kastenzustand, type Zeilenzustand } from './relative-uhrzeit-zeit.ts'
 
 type KastenEigenschaften = ComponentProps<typeof TvKasten>
 
@@ -43,10 +43,14 @@ function Kopf({ zeile, farben, zusatz }: { zeile: ReturnType<typeof kopfzeile>; 
   const titel = (
     <>
       <FernsehZeichen groesse={16} />
-      <span>
-        {t('kal.imTv')}
-        {zusatz}
-      </span>
+      {zusatz ? (
+        <span>
+          {t('kal.imTv')}
+          {zusatz}
+        </span>
+      ) : (
+        t('kal.imTv')
+      )}
     </>
   )
   if (!zeile) {
@@ -73,19 +77,15 @@ export function TvKastenJetzt({ stil, ...p }: KastenEigenschaften & { stil: Stil
   const mitSpalte = stil === 'A' || stil === 'C'
   const ziel = useKastenInsBild(!!zustand)
   const d = stil === 'D' && zustand ? dStand(zustand, gruppen, nowHhMm()) : undefined
-  const linie = (i: number): ReactNode => {
-    if (d) return d.linieVor === i ? <LinieD jetzt={nowHhMm()} nichtsMehr={d.nichtsMehr} farben={farben} /> : null
-    return mitSpalte && zustand?.linieVor === i ? <JetztLinie jetzt={nowHhMm()} farben={farben} /> : null
-  }
-  const liste = (
+  const liste = stil === 'D' ? (
+    <ListeD gruppen={gruppen} p={p} zustand={zustand} d={d} farben={farben} />
+  ) : (
     <ul className="flex flex-col">
       {gruppen.map((g, i) => (
-        <Fragment key={g[0]!.id}>
-          {linie(i)}
-          <TvZeileJetzt gruppe={g} p={p} zustand={zustand?.zeilen[i]} farben={farben} stil={stil} naechsteInZeile={!!d && d.ersteIn === undefined} />
-        </Fragment>
+        <ZeilenMitLinie key={g[0]!.id} linie={mitSpalte && zustand?.linieVor === i ? nowHhMm() : undefined} farben={farben}>
+          <TvZeileJetzt gruppe={g} p={p} zustand={zustand?.zeilen[i]} farben={farben} mitSpalte={mitSpalte} />
+        </ZeilenMitLinie>
       ))}
-      {linie(gruppen.length)}
     </ul>
   )
   if (p.kompakt) return liste
@@ -99,21 +99,50 @@ export function TvKastenJetzt({ stil, ...p }: KastenEigenschaften & { stil: Stil
   )
 }
 
+/** Variante D: Linie auch vor der ersten und hinter der letzten Zeile; ohne `d` (nicht heute, erste Uhrzeit unsicher) keine Linie. */
+function ListeD(props: { gruppen: ReleaseEvent[][]; p: KastenEigenschaften; zustand: Kastenzustand | undefined; d: DStand | undefined; farben: Farben }) {
+  const { gruppen, p, zustand, d, farben } = props
+  const linie = (i: number): ReactNode =>
+    d?.linieVor === i ? <LinieD jetzt={nowHhMm()} nichtsMehr={d.nichtsMehr} farben={farben} /> : null
+  return (
+    <ul className="flex flex-col">
+      {gruppen.map((g, i) => (
+        <Fragment key={g[0]!.id}>
+          {linie(i)}
+          <TvZeileJetzt gruppe={g} p={p} zustand={zustand?.zeilen[i]} farben={farben} mitSpalte={false} restInZeile={restInZeile(d)} />
+        </Fragment>
+      ))}
+      {linie(gruppen.length)}
+    </ul>
+  )
+}
+
+/** Vor der Zeile ggf. die Jetzt-Linie; beide sind Einträge derselben Liste. */
+function ZeilenMitLinie({ linie, farben, children }: { linie?: string; farben: Farben; children: ReactNode }) {
+  return (
+    <>
+      {linie && <JetztLinie jetzt={linie} farben={farben} />}
+      {children}
+    </>
+  )
+}
+
 /** Eine Zeile wie in der Seite; vergangene tragen zusätzlich „vorbei" für Vorlesende, laufende sind nicht gedimmt. */
 function TvZeileJetzt({
   gruppe,
   p,
   zustand,
   farben,
-  stil,
-  naechsteInZeile,
+  mitSpalte,
+  restInZeile,
 }: {
   gruppe: ReleaseEvent[]
   p: KastenEigenschaften
   zustand: Zeilenzustand | undefined
   farben: Farben
-  stil: Stil
-  naechsteInZeile: boolean
+  mitSpalte: boolean
+  /** Nur Variante D: gesetzt heißt „Uhrzeit mit Läuft, Senderzeile mit Folge"; der Wert sagt, ob „in … Min" in der Senderzeile steht. */
+  restInZeile?: boolean
 }) {
   const { t } = useLang()
   const [auf, setAuf] = useState(false)
@@ -123,7 +152,7 @@ function TvZeileJetzt({
   const cover = p.data.titleById.get(ev.titleId)?.coverImage
   const premiere = tvPremiere(ev, p.data)
   const letzte = weitere[weitere.length - 1]?.time
-  const spalte = (stil === 'A' || stil === 'C') && zustand && (zustand.art === 'laeuft' || zustand.art === 'naechste')
+  const spalte = mitSpalte && zustand && (zustand.art === 'laeuft' || zustand.art === 'naechste')
   return (
     <li data-tv-zeile className={vorbei ? 'ak-vorbei' : ''}>
       <button
@@ -137,10 +166,10 @@ function TvZeileJetzt({
         ) : (
           <span className="h-[34px] w-6 rounded bg-ak-flaeche-2" />
         )}
-        {stil === 'D' ? (
-          <UhrzeitMitLaeuft zeit={ev.time ?? '–'} zustand={zustand} farben={farben} />
-        ) : (
+        {restInZeile === undefined ? (
           <span className="font-bold tabular-nums text-ak-tv">{ev.time ?? '–'}</span>
+        ) : (
+          <UhrzeitMitLaeuft zeit={ev.time ?? '–'} zustand={zustand} farben={farben} />
         )}
         <span className="flex min-w-0 flex-col">
           <span className="ak-titel font-semibold text-ak-text">
@@ -148,13 +177,13 @@ function TvZeileJetzt({
             {ev.name}
             {premiere && <PremiereMarke platform="tv" vorher={ev.premiereVorher} className="ml-1.5 inline-block px-1.5 align-[1px]" />}
           </span>
-          {stil === 'D' ? (
-            <SenderZeileD ev={ev} zustand={zustand} naechsteInZeile={naechsteInZeile} />
-          ) : (
+          {restInZeile === undefined ? (
             <span className="text-xs text-ak-leise">
               {ev.sender}
               {ev.episode && !ev.sichtung ? ` · ${t('kal.folge', { n: ev.episode })}` : ''}
             </span>
+          ) : (
+            <SenderZeileD ev={ev} zustand={zustand} naechsteInZeile={restInZeile} />
           )}
         </span>
         {spalte && <Zustandsspalte zustand={zustand} farben={farben} />}

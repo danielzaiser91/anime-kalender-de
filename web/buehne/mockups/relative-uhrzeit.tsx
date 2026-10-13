@@ -43,7 +43,7 @@ mockup({
     D: {
       ersatz: { TvKasten: KastenD, ZeitMarke: ZeitMarkeJetzt },
       notiz:
-        'Auf Basis von C, Farbe wie der gewählte Reiter „Kalender“ (Orange): keine dritte Spalte, „● Läuft“ unter der Uhrzeit, Folge in der Senderzeile, kein „bis …“. Linie mit Uhrzeit auch vor dem ersten und nach dem letzten Eintrag; nach dem letzten „Heute nichts mehr“ in Türkis, vor dem ersten „erste Sendung in … Std … Min“ in der Kopfzeile.',
+        'Auf Basis von C, Farbe wie der gewählte Reiter „Kalender“ (Orange): keine dritte Spalte, „● Läuft“ unter der Uhrzeit, Folge in der Senderzeile, kein „bis …“. Linie mit Uhrzeit auch vor dem ersten und nach dem letzten Eintrag; nach dem letzten „Heute nichts mehr“ in Türkis, vor dem ersten „erste Sendung in … Std … Min“ in der Kopfzeile. Ist die erste Uhrzeit geschätzt oder fehlt sie, gibt es weder Linie davor noch „in … Min“ an einer späteren Zeile (nichts behaupten, eine Schätzung könnte früher kommen).',
     },
   },
 })

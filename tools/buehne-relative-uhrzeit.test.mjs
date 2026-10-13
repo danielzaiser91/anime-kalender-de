@@ -3,7 +3,7 @@
  * Bündel, Mitternacht, ohne Sendungen, geschätzt, verpasst, Schwellen und die Jetzt-Linie (Spezifikation Abschnitte 3, 4, 10).
  */
 import assert from 'node:assert/strict'
-import { dStand, fruehesteKommende, kachelAngabe, kastenZustand, kopfzeile, restText } from '../web/buehne/mockups/relative-uhrzeit-zeit.ts'
+import { dStand, fruehesteKommende, kachelAngabe, kastenZustand, kopfzeile, restInZeile, restText } from '../web/buehne/mockups/relative-uhrzeit-zeit.ts'
 
 const T = '2026-10-16'
 const tv = (time, extra = {}) => ({ date: T, time, platform: 'tv', ...extra })
@@ -106,5 +106,17 @@ assert.deepEqual(zeilen([buendel], [buendelSendungen], '18:55').zeilen[0], { art
 assert.equal(dStandBei([[tv('18:00', { timeEstimated: true })]], [[]], '14:00'), undefined)
 assert.equal(dStandBei([[tv(undefined)]], [[]], '14:00'), undefined)
 assert.equal(dStandBei([], [], '14:00'), undefined)
+// Auch eine später folgende feste Zeile ist dann „nächste", bekommt in D aber keine Restzeit (keine Linie, kein Kopfzusatz).
+const geschaetztDann = [[tv('15:00', { timeEstimated: true })], [tv('17:00')]]
+assert.equal(zeilen(geschaetztDann, [[], []], '14:30').zeilen[1].art, 'naechste')
+assert.equal(restInZeile(dStandBei(geschaetztDann, [[], []], '14:30')), false)
+// Mit Linie ohne Kopfzusatz (mittendrin) steht „in … Min" an der Zeile; mit Kopfzusatz (vor der ersten Sendung) nicht doppelt.
+assert.equal(restInZeile(dStandBei(drei, keine, '17:17')), false)
+assert.equal(restInZeile(dStandBei(drei, keine, '18:10')), true)
+assert.equal(restInZeile(dStandBei(drei, keine, '19:30')), true)
+// Genau eine Stunde bis zur ersten Sendung: „in 1 Std"; die letzte Sendung läuft: Linie davor, kein „nichts mehr".
+assert.equal(restText(dStandBei(drei, keine, '17:00').ersteIn), 'in 1 Std')
+const letzteLaeuft = [[tv('17:00')], [tv('18:00')]]
+assert.deepEqual(dStandBei(letzteLaeuft, [[], [sendung('18:00', '18:30')]], '18:10'), { linieVor: 1, nichtsMehr: false })
 
 console.log('buehne-relative-uhrzeit.test: ok')
