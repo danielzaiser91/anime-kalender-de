@@ -9,7 +9,8 @@ import { aehnlicheTitel } from '../shared/aehnlich.ts'
 import type { Title } from '../shared/types.ts'
 import { erreichbar } from './lib/seiten-erreichbar.ts'
 import { startseiteInhalt } from './lib/startseite.ts'
-import { SITE } from './lib/titel-seite.ts'
+import { SITE, seitenTitel, synchroSatz } from './lib/titel-seite.ts'
+import { brotkrumenHtml, brotkrumenJsonLd, titelKrumen } from './lib/titel-umfeld.ts'
 import { gruppiere, schreibeVerzeichnis, type VerzeichnisTitel } from './lib/titel-verzeichnis.ts'
 import { verzeichnisSchluessel } from './lib/verzeichnis-buchstabe.ts'
 
@@ -75,6 +76,17 @@ const titel = (id: number, dubConfidence: Title['dubConfidence'], keywords: stri
       rmSync(dist, { recursive: true, force: true })
     }
   }
+  const haupt = (dubConfidence: Title['dubConfidence'], dub: boolean) =>
+    ({ id: 1, slug: '1', genres: [], keywords: [], dubConfidence, streams: dub ? [{ platform: 'netflix', url: 'x', dub: true }] : [] }) as unknown as Title
+  pruefe('Titelseite: belegte Synchro mit Streaming und Termin', seitenTitel('Cowboy Bebop', haupt('very-high', true), true) === 'Cowboy Bebop auf Deutsch: Synchro, Streaming und Termine')
+  pruefe('Titelseite: belegte Synchro ohne Streaming-Weg und ohne Termin', seitenTitel('Trigun', haupt('high', false), false) === 'Trigun auf Deutsch: Synchro')
+  pruefe('Titelseite: ohne belegte Synchro nie „auf Deutsch“', !seitenTitel('Frieren', haupt('normal', false), true).includes('auf Deutsch') && !seitenTitel('Frieren', haupt('low', true), false).includes('auf Deutsch'))
+  pruefe('Titelseite: Cartoon ohne Synchro-Beleg heißt Animationsserie', seitenTitel('Bluey', { ...haupt('low', false), westlich: true } as Title, false) === 'Bluey: Animationsserie und wo sie läuft')
+  pruefe('Beschreibung: „Mit deutscher Synchronisation“ nur bei Beleg', synchroSatz(haupt('high', false)) === 'Mit deutscher Synchronisation.' && !/Mit deutscher/.test(synchroSatz(haupt('normal', false)) ?? ''))
+  const krumen = titelKrumen('Naruto', `${SITE}t/2/`, true)
+  pruefe('Brotkrumen: Start › Verzeichnis › Buchstabe › Titel, als HTML mit Rücklinks und als BreadcrumbList', krumen.map((k) => k.name).join('|') === 'Anime-Kalender|Titel von A bis Z|N|Naruto' && brotkrumenHtml(krumen).includes(`<a href="${SITE}"`) && brotkrumenJsonLd(krumen).includes('"position":4'))
+  pruefe('Brotkrumen: ein Titel außerhalb des Verzeichnisses führt zur Startseite', titelKrumen('X', `${SITE}t/x/`, false).length === 2)
+
   const mit = aufbau(true)
   pruefe('Verzeichnis: jede Titelseite ist von der Startseite in höchstens 3 Klicks erreichbar', titelListe.every((e) => mit.has(`t/${e.adresse}`)), [...mit.keys()])
   pruefe('Verzeichnis: ein Buchstabe ist von der Startseite aus ein Klick entfernt', mit.get('titel/b') === 1 && mit.get('t/3') === 2)

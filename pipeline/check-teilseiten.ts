@@ -41,6 +41,9 @@ function mangel(slug: string): string | undefined {
   const fehlend = PFLICHT.filter((m) => !html.includes(`property="${m}" content="`))
   if (!/property="og:image" content="https:\/\/[^"]+"/.test(html)) fehlend.push('og:image')
   if (!html.includes(`href="https://`) || !html.includes('rel="canonical"')) fehlend.push('canonical')
+  /* Rücklink zur Startseite und Brotkrumen auf jeder Titelseite (nicht auf den Weiterleitungen). */
+  if (!html.includes('"@type":"BreadcrumbList"')) fehlend.push('BreadcrumbList')
+  if (!html.includes(`<nav aria-label="Brotkrumen"`) || !html.includes(`<a href="${SITE}"`)) fehlend.push('Brotkrumen mit Link zur Startseite')
   return fehlend.length ? `${teilenPfad(slug)} ohne ${fehlend.join(', ')}` : undefined
 }
 

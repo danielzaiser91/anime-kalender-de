@@ -25,9 +25,10 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { andereNamen } from './lib/titel-namen.ts'
-import { ARTIKEL_STIL as STIL, SITE, esc, namenZeile, titelName, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
+import { ARTIKEL_STIL as STIL, SITE, esc, namenZeile, seitenTitel, synchroSatz, titelName, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
 import { START_AUSSAGE, startseiteInhalt } from './lib/startseite.ts'
 import { schreibeVerzeichnis, verzeichnisAdressen, type Buchstabe } from './lib/titel-verzeichnis.ts'
+import { umfeldFuer, type Umfeld, type UmfeldRahmen } from './lib/titel-umfeld.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
 import { synchroBelegt } from '../shared/titles.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
@@ -60,8 +61,9 @@ function describe(release: Release, title: Title | undefined, today: string): st
   if (title?.genres.length) {
     parts.push(title.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ') + '.')
   }
-  /* Bei Cartoons ist die deutsche Fassung nicht belegt. */
-  if (!title?.westlich) parts.push('Mit deutscher Synchronisation.')
+  /* Bei Cartoons ist die deutsche Fassung nicht belegt; bei Anime nur mit Beleg „Mit deutscher Synchronisation“. */
+  const synchro = synchroSatz(title)
+  if (synchro) parts.push(synchro)
   return parts.join(' ')
 }
 
@@ -200,6 +202,7 @@ function body(
   today: string,
   geschwister: Release[],
   ak: number,
+  umfeld: Umfeld,
 ): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
@@ -231,6 +234,7 @@ function body(
   const wegeBlock = wegeAufDeutsch(release, title)
 
   return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
+      ${umfeld.krumenHtml}
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(release.name)}</h1>
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(fakten.join(' · '))}</p>${namenZeile(title, release.name)}
       ${synopsenAbsatz(synopsis)}
@@ -241,6 +245,7 @@ function body(
       </ul>
       ${wegeBlock}
       ${andere}
+      ${umfeld.aehnlichHtml}
       <p><a href="${esc(SITE + hash)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
     </article>`
 }
@@ -325,12 +330,12 @@ function strukturierteDaten(release: Release, title: Title | undefined, today: s
   return `    <script type="application/ld+json">${JSON.stringify(daten)}</script>`
 }
 
-function head(release: Release, title: Title | undefined, today: string, ak: number, adresse: string): string {
+function head(release: Release, title: Title | undefined, today: string, ak: number, adresse: string, umfeld: Umfeld): string {
   const events = expandEvents(release)
   const next = events.find((e) => e.date >= today) ?? events[0]
   const url = `${SITE}${teilenPfad(adresse)}`
   const image = `${SITE}og/${release.slug}.jpg?v=${OG_FASSUNG}`
-  const headline = `${release.name} — ${RELEASE_TYPES[release.releaseType].short} bei ${anbieterName(release.platform, release.sender)}`
+  const headline = seitenTitel(release.name, title, true)
   const description = describe(release, title, today)
   const hash = `#/woche?${next ? `d=${next.date}&` : ''}t=${ak}`
 
@@ -353,6 +358,7 @@ function head(release: Release, title: Title | undefined, today: string, ak: num
     <meta name="twitter:image" content="${image}" />
     <link rel="canonical" href="${url}" />
 ${strukturierteDaten(release, title, today, url)}
+${umfeld.krumenJsonLd}
     <script>
       // Läuft vor dem Modul-Skript der App, weil klassische Inline-Skripte
       // nicht deferred sind. Nur setzen, wenn der Besucher nicht schon selbst
@@ -451,21 +457,27 @@ function schreibeAlleTitelSeiten(akVon: AkVon, kennungsZeilen: KennungsZeile[], 
   /* Cartoons (negative Kennung) behalten ihre Adresse mit Namen; dieselbe, die der Teilen-Knopf aus `title.slug` bildet. */
   const cartoons = readJson<Title[]>('public/data/cartoons.json', []).filter((t) => t.slug)
   const cartoonSeiten = cartoons.map((t) => ({ t, ak: t.id, adresse: t.slug }))
-  schreibeTitelSeiten([...mitAk, ...cartoonSeiten], rahmen)
+  /* Cartoon-Seiten nur mit belegter Synchro (`dub: true`) in Sitemap, Verzeichnis und Links; ohne Beleg bleibt die Seite erreichbar, wird aber nicht angeboten. */
+  const angeboten = [...mitAk, ...cartoonSeiten.filter(({ t }) => cartoonMitSynchroBeleg(t))]
+  const umfeld: UmfeldRahmen = {
+    anime: titelListe,
+    cartoons,
+    adresseVon: new Map(angeboten.map(({ t, adresse }) => [t.id, adresse])),
+    imVerzeichnis: new Set(angeboten.map(({ t }) => t.id)),
+  }
+  schreibeTitelSeiten([...mitAk, ...cartoonSeiten], rahmen, umfeld)
 
   /* Mails und Kalender-Einträge nennen `/t/<Kennung>/`: Bei Cartoons mit Termin (negative Kennung) führt das zur Seite mit Namen. */
   const cartoonUmleitungen = cartoonSeiten.filter(({ t }) => rahmen.jeTitel.has(t.id)).map(({ t, adresse }): [number, string] => [t.id, adresse])
   schreibeUmleitungen([...umleitungen(kennungsZeilen), ...cartoonUmleitungen])
   log(`${titelListe.length} Titel-Seiten und ${cartoons.length} Cartoon-Seiten, Übersicht und Startseite geschrieben`)
-  /* Cartoon-Seiten nur mit belegter Synchro (`dub: true`) in Sitemap und Verzeichnis; ohne Beleg bleibt die Seite erreichbar, wird aber nicht angeboten. */
-  const angeboten = [...mitAk, ...cartoonSeiten.filter(({ t }) => cartoonMitSynchroBeleg(t))]
   const buchstaben = schreibeVerzeichnis(DIST, rahmen, angeboten.map(({ t, adresse }) => ({ name: titelName(t), adresse, belegt: synchroBelegt(t) })))
   writeSitemap(angeboten.map(({ t, adresse }) => ({ ...t, slug: adresse })), verzeichnisAdressen(buchstaben))
   return buchstaben
 }
 
 /** Eine Seite je Titel: Hat er Termine, trägt sie den nächsten (sonst den letzten) samt der übrigen; sonst die schlichte Titelseite. */
-function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[], r: SeitenRahmen): void {
+function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[], r: SeitenRahmen, umfeldRahmen: UmfeldRahmen): void {
   for (const { t, ak, adresse } of mitAk) {
     const dir = resolve(DIST, teilenPfad(adresse))
     mkdirSync(dir, { recursive: true })
@@ -474,10 +486,11 @@ function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[],
     /* Cartoons tragen ihre Beschreibung am Titel, nicht in `synopses/`. */
     const text = r.synopses[String(t.id)]?.de ?? (t.westlich ? t.synopsis : undefined)
     const synopsis = text ? { text, quelle: seitenQuelle(r.synopses[String(t.id)]) } : undefined
-    const kopf = haupt ? head(haupt, t, r.today, ak, adresse) : titelKopf({ ...t, id: ak, slug: adresse })
+    const umfeld = umfeldFuer(t, `${SITE}${teilenPfad(adresse)}`, umfeldRahmen)
+    const kopf = haupt ? head(haupt, t, r.today, ak, adresse, umfeld) : titelKopf({ ...t, id: ak, slug: adresse }, umfeld)
     const inhalt = haupt
-      ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak)
-      : titelInhalt({ ...t, id: ak, slug: adresse }, synopsis, eigene)
+      ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak, umfeld)
+      : titelInhalt({ ...t, id: ak, slug: adresse }, synopsis, eigene, umfeld)
     writeFileSync(resolve(dir, 'index.html'), (r.before + kopf + r.after).replace(r.rootTag, `<div id="root">${inhalt}</div>`), 'utf8')
   }
 }
