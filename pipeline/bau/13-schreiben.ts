@@ -21,6 +21,8 @@ import { schreibeSynopsenUndReichereAn } from './13-1-anreichern.ts'
 import { mitBelegstaerke } from '../lib/belegstaerke.ts'
 import { ergaenzeEigeneHandlungen } from './handlung-eigen-einbinden.ts'
 import { ergaenzeDeutscheFolgenzahl } from './deutsche-folgenzahl-einbinden.ts'
+import { kanalErbtVomAnbieter } from './kanal-erbt-anbieter.ts'
+import { log } from '../lib/util.ts'
 
 export function schreibeDatensatz({
   allTitles,
@@ -54,6 +56,9 @@ export function schreibeDatensatz({
     releases,
     kanalJeAdresse,
   })
+
+  const geerbt = kanalErbtVomAnbieter(allTitles)
+  if (geerbt) log(`${geerbt} Prime-Kanal-Wege erben das Deutsch ihres Anbieters`)
 
   const { slim } = baueAuslieferung({
     allTitles: mitBelegstaerke(allTitles, releases),
