@@ -7,7 +7,7 @@ export const TEXTE_ZEILEN = {
   'detail.statusOffen': 'Sprache offen',
   'detail.stand': 'Stand {datum}',
   'detail.legendeJustwatch': '„laut JustWatch“: deutsche Tonspur dort gelistet, von uns nicht je Folge geprüft.',
-  'detail.legendeSchwester': '„laut Schwester-Shop“: Der Titel läuft bei maxdome, MagentaTV oder Videoload auf Deutsch.',
+  'detail.legendeSchwester': '„laut Schwester-Shop“: Ein Schwester-Shop (maxdome, MagentaTV, Videoload) führt den Titel auf Deutsch.',
   'detail.legendeOmu': '„nur Untertitel“: bisher Originalton mit deutschen Untertiteln.',
   'detail.legendeOffen': '„Sprache offen“: Deutsch ist bei diesem Anbieter nicht belegt.',
   'detail.legendeGeschaetzt': '„≈“: Zahl des Werks, beim Anbieter nicht einzeln belegt.',
