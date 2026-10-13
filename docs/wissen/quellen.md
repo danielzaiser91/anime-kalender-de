@@ -484,6 +484,13 @@ einzige Suche (`ersetztSucheUndMeldetWeg()`, `lib/weg-aus-beleg.ts`); der Weg bl
 Ersatz-Cache, der AniLists Amazon-Link nachbildet (Daten vom 12.10.2026 09:31 Uhr, `82c82ef5e`), verlor 73 Prime-Wege, darunter
 alle 16; mit der Änderung kommen alle 16 zurück.
 
+**Anbieter-Ja trägt den Kanal-Weg** (13.10.2026, Daniel: „Prime Video (Crunchyroll)“ wie Crunchyroll, Reborn as a Space Mercenary).
+Ist der Anbieter hinter dem Kanal ein eigener Weg desselben Titels (Crunchyroll, ADN; `shared/kanal-anbieter.ts`) mit belegtem Ja, erbt der
+Kanal-Weg `dub` und `dubRanges` (`kanalErbtVomAnbieter()`, `bau/kanal-erbt-anbieter.ts`, aufgerufen in 13-schreiben). Das ist die zweite Quelle der
+Kanal-Regel, aus einer anderen Messung (Dub-Liste des Anbieters). Ein Nein oder offenes Urteil des Anbieters, ein eigenes Urteil des Kanals und
+Kanäle ohne eigenen Anbieter-Weg (Aniverse u. a.) bleiben unberührt (Hell Mode, Golden Wind). Im Kalender geht der Prime-Kanal-Termin in der
+Kachel seines Anbieters auf (`vereineAnbieter`, `kanalVon`); ohne den Anbieter am Tag bleibt er.
+
 **Nachtrag 12.10.2026 (Abend): Das Kanal-Ja wird nachgemessen, die Regel bleibt.** Daniel: „Erst messen, dann entscheiden.“ Herkunft von Hell Mode
 (`daniel-zum-abarbeiten/berichte/hell-mode-herkunft-2026-10-12.md`): Der Melder bis 4.20.10 (15.09.2026, `141e692d8`) füllte über eine Rückfallebene ein
 Sammel-Set `gesehen.sprachen` ohne Folgennummer; Amazon zeigte auch am 30.08. nur 日本語. Altes Seiten-HTML war es nicht.
