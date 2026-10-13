@@ -1,7 +1,7 @@
 /**
  * Zusicherungen zur Telekom-Annahme am gebauten Bestand (13.10.2026): Jeder Videoload-Weg und jeder MagentaTV-Kaufweg mit
  * Deutsch-`dubRanges` ist entweder gekennzeichnet (Annahme) oder trägt einen Beleg; die Annahme steht nur an Telekom-Wegen;
- * kein Titel hängt mit seiner Antwort allein an der Annahme (sonst gehört die Annahme in `antwort-berechnen.ts` ausgeschlossen).
+ * kein Titel hängt mit seiner Antwort allein an der Annahme (der Kasten zählt sie ohnehin nicht, `belegteBereiche`).
  * Läuft in `check:bestand` (nach dem Bau). Die Regel selbst prüft `check-telekom-annahme.ts`.
  */
 import { existsSync } from 'node:fs'

@@ -58,7 +58,7 @@ export interface WatchLink {
    *
    * `'telekom-annahme'` (13.10.2026): Videoload und MagentaTV (Kauf) gelten als deutsch, ohne dass der Weg oder
    * JustWatch die Tonspur nennt (`pipeline/lib/telekom-annahme.ts`). Hier steht `dubRanges` daneben (Daniels
-   * Annahme vom 22.09.2026 zählt weiter für die Antwort des Titels), die Oberfläche zeigt aber kein „✓ Deutsch“.
+   * Annahme vom 22.09.2026); sie zählt aber weder als Deutsch-Häkchen noch im Antwort-Kasten (`belegteBereiche` in `antwort-regeln.ts`).
    */
   dubAbgeleitet?: 'schwester-shop' | 'telekom-annahme'
   /**

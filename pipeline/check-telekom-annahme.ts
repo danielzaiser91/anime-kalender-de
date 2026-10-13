@@ -9,6 +9,7 @@ import { kennzeichneFreenet } from './lib/schwester-shop.ts'
 import { istAnnahme, streamWegStatus } from '../web/src/components/detail/legende-zeilen.ts'
 import { gruppiereKaufwege } from '../web/src/components/detail/pillen.tsx'
 import { legendeFuer } from '../web/src/components/detail/pille.tsx'
+import { berechneAntwort } from '../web/src/components/detail/antwort-berechnen.ts'
 import { TEXTE_ZEILEN } from '../web/src/lib/i18n-zeilen.ts'
 
 let verletzt = 0
@@ -63,6 +64,17 @@ const gruppe = gruppiereKaufwege([weg('Videoload', { dubRanges: deutsch, dubAbge
 pruefe('Blase: Annahme, nicht „✓ Deutsch“', streamWegStatus(gruppe[0], v) === 'annahme' && istAnnahme(gruppe[0].eintraege[0]))
 pruefe('Blase: Beleg ohne Kennzeichnung bleibt „✓ Deutsch“', streamWegStatus(gruppiereKaufwege([weg('Videoload', { dubRanges: deutsch })])[0], v) === 'belegt')
 pruefe('Legende nennt „Deutsch angenommen“', legendeFuer(['annahme'], false, (k) => TEXTE_ZEILEN[k as keyof typeof TEXTE_ZEILEN] ?? k)?.includes('Deutsch angenommen') === true)
+
+console.log('\nAntwort-Kasten (Devil May Cry: Netflix belegt Folge 1, Videoload nimmt 1–12 an):')
+const netflix = { platform: 'Netflix', url: 'https://netflix/x', dub: true, dubRanges: [{ from: 1, to: 1, dub: true }] }
+const kasten = (wege: WatchLink[], streams: unknown[] = [netflix]) =>
+  berechneAntwort({ title: { ...titel(wege), streams } as unknown as Title, releases: [], today: '2026-10-13' })
+const mitAnnahme = kasten([weg('Videoload', { dubRanges: deutsch, dubAbgeleitet: 'telekom-annahme' })])
+const kastenBeleg = kasten([weg('Videoload', { dubRanges: deutsch })])
+pruefe('Kasten: die Annahme füllt die Folgen nicht auf', mitAnnahme?.art === 'teilweise', mitAnnahme)
+pruefe('Kasten: derselbe Weg als Beleg macht den Titel vollständig (Gegenprobe)', kastenBeleg?.art === 'fertig', kastenBeleg)
+const kastenAnnahme = kasten([weg('Videoload', { dubRanges: deutsch, dubAbgeleitet: 'telekom-annahme' })], [])
+pruefe('Kasten: Annahme allein ist kein Synchro-Beleg', kastenAnnahme?.art !== 'fertig' && kastenAnnahme?.art !== 'teilweise', kastenAnnahme)
 
 console.log('\nZusicherung des Baus:')
 pruefe('saubere Annahme: kein Fehler', telekomFehler([v, m]).length === 0)
