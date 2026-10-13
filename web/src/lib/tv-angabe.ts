@@ -11,6 +11,7 @@ import type { Release, ReleaseEvent, Title } from '@shared/types.ts'
 import { expandEvents } from '@shared/logic.ts'
 import { istPremiere } from '@shared/tv-signale.ts'
 import { premiereBelegtTv } from '@shared/premiere.ts'
+import { folgeDesTermins, laufendeSendung, sendungZuTermin } from '@shared/laeuft-jetzt.ts'
 
 export { istPremiere }
 
@@ -51,10 +52,10 @@ export function tvAngabe(
   const termine = expandEvents(release)
   const jetzt = `${heute}T${jetztZeit}`
   const sendungen = release.sendungen ?? []
-  const laufend = sendungen.find((s) => s.start <= jetzt && jetzt < s.ende)
+  const laufend = laufendeSendung(sendungen, heute, jetztZeit)
   /* Die Sendung zum Termin: gleicher Tag, gleiche Uhrzeit — daher kommen Folgentitel und Nummer. */
-  const sendungZu = (e: ReleaseEvent) => sendungen.find((s) => s.start === `${e.date}T${e.time ?? ''}`)
-  const nummer = (e: ReleaseEvent) => (e.episode && !e.sichtung ? e.episode : sendungZu(e)?.nr)
+  const sendungZu = (e: ReleaseEvent) => sendungZuTermin(sendungen, e)
+  const nummer = (e: ReleaseEvent) => folgeDesTermins(e, sendungZu(e))
   const kommend = termine.find((e) => e.date > heute || (e.date === heute && (e.time ?? '99') > jetztZeit))
   /*
     **Ohne kommenden Termin gibt es nichts zu sagen**. Vorher nannte die Pille den letzten Termin

@@ -5,7 +5,7 @@
  */
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
-import { kachelAngabe, kastenZustand, linienStand, restText } from '../shared/laeuft-jetzt.ts'
+import { folgeDesTermins, kachelAngabe, kastenZustand, laufendeSendung, linienStand, restText, sendungZuTermin } from '../shared/laeuft-jetzt.ts'
 
 const T = '2026-10-16'
 const tv = (time, extra = {}) => ({ date: T, time, platform: 'tv', ...extra })
@@ -106,5 +106,17 @@ assert.ok(takt, 'die Woche zieht "jetzt" in einem Intervall nach')
 assert.ok(Number(takt[1].replaceAll('_', '')) <= 60_000, 'höchstens eine Minute Abstand')
 assert.equal(art(stand(gruppen, sendungen, '17:39'))[0], 'laeuft')
 assert.equal(art(stand(gruppen, sendungen, '17:40'))[0], 'vorbei')
+
+// Die Bausteine, die auch das Detail-Panel (`tvAngabe`) liest: Beginn zählt, Ende nicht; Sendung und Folge zum Termin.
+const bund = sendungen[2]
+assert.equal(laufendeSendung(bund, T, '18:24'), undefined)
+assert.equal(laufendeSendung(bund, T, '18:25'), bund[0])
+assert.equal(laufendeSendung(bund, T, '18:50'), bund[1])
+assert.equal(laufendeSendung(bund, T, '19:15'), undefined)
+assert.equal(sendungZuTermin(bund, tv('18:50')), bund[1])
+assert.equal(sendungZuTermin(bund, tv('18:51')), undefined)
+assert.equal(folgeDesTermins(tv('18:50', { episode: 32 }), bund[1]), 32)
+assert.equal(folgeDesTermins(tv('18:50', { episode: 32, sichtung: true }), bund[1]), 1105)
+assert.equal(folgeDesTermins(tv('18:50'), undefined), undefined)
 
 console.log('laeuft-jetzt.test: ok')
