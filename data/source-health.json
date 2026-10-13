@@ -91,7 +91,7 @@
   },
   "rohfolgen": {
     "lastOk": "2026-10-12T16:51:20.245Z",
-    "lastRun": "2026-10-13T10:49:13.753Z",
+    "lastRun": "2026-10-13T11:03:39.246Z",
     "lastCount": 0,
     "lastError": "HTTP 500"
   },
@@ -121,8 +121,8 @@
     "lastCount": 14
   },
   "vorfaelle": {
-    "lastOk": "2026-10-13T10:49:05.144Z",
-    "lastRun": "2026-10-13T10:49:05.144Z",
+    "lastOk": "2026-10-13T11:03:28.951Z",
+    "lastRun": "2026-10-13T11:03:28.951Z",
     "lastCount": 0
   },
   "crunchyroll-neu": {
