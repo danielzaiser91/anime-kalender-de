@@ -15,7 +15,7 @@ import { bewertungNachRegel, mitProduktFeldern } from './produkt-regel.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { ohneGesperrte } from './sperre.ts'
 import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
-import { zaehltAlsDeutscherTermin } from '../lib/news.ts'
+import { eigenesJa, zaehltAlsDeutscherTermin } from '../lib/news.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
@@ -569,7 +569,7 @@ export function schreibeMeldungen(slim: Title[]): void {
  * Dasselbe gilt für einen bloß angekündigten deutschen Termin: Was noch nicht
  * erschienen ist, kann nicht „es gibt die Fassung jetzt" heißen.
  */
-function belegteDeutscheSynchro(t: Title, ersterTermin: Map<number, string>, heute: string): boolean {
+export function belegteDeutscheSynchro(t: Title, ersterTermin: Map<number, string>, heute: string): boolean {
   const termin = ersterTermin.get(t.id)
   /*
     **Ein geteilter Stream belegt nichts, solange die Staffel nicht läuft.** Der
@@ -579,13 +579,13 @@ function belegteDeutscheSynchro(t: Title, ersterTermin: Map<number, string>, heu
   const beginnt = (!t.jpStart || t.jpStart <= heute) && !(termin && termin > heute)
   return (
     Boolean((t as { hasVoices?: boolean }).hasVoices) ||
-    (beginnt && (t.streams ?? []).some((s) => s.dub === true)) ||
+    (beginnt && (t.streams ?? []).some(eigenesJa)) ||
     (termin !== undefined && termin <= heute)
   )
 }
 
 /** Der früheste deutsche Termin je Titel, ohne automatische Kanal-Termine eines Titels ohne eigenes Ja (13.10.2026; Regel in `news.ts`). */
-function ersterTerminMitGrund(releases: Release[], titles: Title[]): Map<number, string> {
+export function ersterTerminMitGrund(releases: Release[], titles: Title[]): Map<number, string> {
   const nachId = new Map(titles.map((t) => [t.id, t]))
   const zaehlende = releases.filter((r) => zaehltAlsDeutscherTermin(r, nachId.get(r.titleId)))
   return ersterDeutscherTermin(zaehlende, titles)
