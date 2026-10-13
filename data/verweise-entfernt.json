@@ -1,5 +1,5 @@
 {
-  "stand": "2026-10-12T22:03:47.769Z",
+  "stand": "2026-10-13T07:09:55.633Z",
   "verweise": [
     {
       "titleId": 99629,
@@ -7913,17 +7913,6 @@
     {
       "titleId": 196144,
       "titel": "Snowball Earth",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/series/GT00371869/snowball-earth",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-10-13",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 196144,
-      "titel": "Snowball Earth",
       "plattform": "netflix",
       "url": "https://www.netflix.com/title/82746480",
       "seriesId": null,
@@ -8129,6 +8118,17 @@
       "geprueftAm": null,
       "entferntAm": "2026-10-13",
       "letzterWeg": true
+    },
+    {
+      "titleId": 196144,
+      "titel": "Snowball Earth",
+      "plattform": "crunchyroll",
+      "url": "https://www.crunchyroll.com/series/GT00371869/snowball-earth",
+      "seriesId": null,
+      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
+      "geprueftAm": null,
+      "entferntAm": "2026-10-13",
+      "letzterWeg": false
     },
     {
       "titleId": 4970,
@@ -8359,17 +8359,6 @@
       "grund": "Crunchyroll meldet: Videos dieser Serie nicht mehr verfügbar",
       "geprueftAm": "2026-08-21",
       "entferntAm": "2026-09-28",
-      "letzterWeg": false
-    },
-    {
-      "titleId": 196144,
-      "titel": "Snowball Earth",
-      "plattform": "crunchyroll",
-      "url": "https://www.crunchyroll.com/de/series/GT00371869/snowball-earth",
-      "seriesId": null,
-      "grund": "belegtes Nein: dort gibt es keine deutsche Tonspur",
-      "geprueftAm": null,
-      "entferntAm": "2026-09-26",
       "letzterWeg": false
     },
     {
