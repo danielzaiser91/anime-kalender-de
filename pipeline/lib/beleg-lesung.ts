@@ -133,8 +133,9 @@ function frischUndHeuteNochNicht(e: BelegGedaechtnis[string], heute: string): bo
   return Boolean(erste) && e.zuletzt < heute && Date.parse(heute) - Date.parse(erste!) <= FRISCH_TAGE * 86_400_000
 }
 
-/** Ohne jedes Bild (entzogen) sieht der Leser nichts — das geht vor einer Aufnahme in neuerer Fassung. */
+/** Nie gelesen: Der Termin hat noch gar keinen Beleg — das geht vor jeder Neuaufnahme eines vorhandenen (Avatar, 13.10.2026: Platz 253 hinter 238 Neuaufnahmen). Ohne jedes Bild (entzogen) sieht der Leser nichts — das geht vor einer Aufnahme in neuerer Fassung. */
 function dringlichkeit(e: BelegGedaechtnis[string] | undefined): number {
+  if (!e) return 3
   const bildLos = Boolean(e?.lesungen.length) && !e!.lesungen.some((l) => l.bild)
   return 2 * Number(bildLos) + Number(bildOhnePruefung(e))
 }
@@ -157,8 +158,11 @@ export const ohneMarkenJeTitel = (gedaechtnis: BelegGedaechtnis, mehrereTitel: S
   new Set(Object.keys(gedaechtnis).filter((u) => mehrereTitel.has(u) && gedaechtnis[u]!.lesungen.some((l) => l.bild) && !gedaechtnis[u]!.lesungen.at(-1)?.markierungen))
 
 /** Altbestand ohne Wand-Prüfung (Bild, `qs` fehlt), entzogene Wände und Bilder älterer Fassung kommen zuerst wieder an die Reihe — sonst steht ein frisch gelesener Artikel am Ende der Warteschlange, hinter dem Limit. */
-export const bildOhnePruefung = (e: BelegGedaechtnis[string] | undefined): boolean =>
-  Boolean(e?.lesungen.some((l) => (l.bild && !l.qs) || l.qs === 'wand' || (l.bild && (l.bildfassung ?? 1) < BILD_FASSUNG)))
+export const bildOhnePruefung = (e: BelegGedaechtnis[string] | undefined): boolean => {
+  /* Nur die jüngste Lesung zählt: Eine ältere in alter Fassung bleibt neben der neuen stehen und hielte den Artikel sonst für immer vorn in der Schlange (61 von 238 am 13.10.2026). */
+  const l = e?.lesungen.at(-1)
+  return Boolean(l && ((l.bild && !l.qs) || l.qs === 'wand' || (l.bild && (l.bildfassung ?? 1) < BILD_FASSUNG)))
+}
 
 /** Eine Wand hinter dieser Adresse: Alle Bilder der Adresse werden entzogen (sie zeigen die Wand), die Lesungen tragen `qs: wand`. */
 export function entzieheBild(gedaechtnis: BelegGedaechtnis, url: string): void {
