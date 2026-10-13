@@ -7,6 +7,7 @@ import { type PlatformId, type Title, type Release, type Quelle } from '../../sh
 import { OUT, kinoFeld, mitAnkuendigung } from './grundlagen.ts'
 import { mitLaufzeit } from '../lib/anisearch-felder.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
+import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 import { englischAusSynonymen } from '../lib/anisearch-titel.ts'
 import { ANILIST_COVER_BASIS } from '../../shared/mappings.ts'
 import { coverFuer } from './cover-regel.ts'
@@ -14,6 +15,7 @@ import { bewertungNachRegel, mitProduktFeldern } from './produkt-regel.ts'
 import { todayIso, addDays } from '../../shared/time.ts'
 import { ohneGesperrte } from './sperre.ts'
 import { ersterDeutscherTermin } from '../../shared/tv-signale.ts'
+import { zaehltAlsDeutscherTermin } from '../lib/news.ts'
 import { quellenName, quellenZusammenfuehren, type Vorschlag, meldungenAus } from '../lib/meldungen.ts'
 import { deutschAusSynonymen, reihenFuerKatalog } from './titel-hilfen.ts'
 import { mitArtikeldaten, type BelegGedaechtnis } from '../lib/beleg-lesung.ts'
@@ -243,8 +245,7 @@ export function schreibeOhneSynchro(
   deutscheReihe: Map<number, string> = new Map(),
   geschuetzt: Set<number> = new Set(),
 ): void {
-  const katalog = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {})
-  const eintraege = katalog.eintraege ?? []
+  const eintraege = ladeKatalogEintraege()
   if (!eintraege.length) {
     /**
      * Kein Katalog — dann bleibt die zuletzt gebaute Datei **stehen**.
@@ -583,6 +584,13 @@ function belegteDeutscheSynchro(t: Title, ersterTermin: Map<number, string>, heu
   )
 }
 
+/** Der früheste deutsche Termin je Titel, ohne automatische Kanal-Termine eines Titels ohne eigenes Ja (13.10.2026; Regel in `news.ts`). */
+function ersterTerminMitGrund(releases: Release[], titles: Title[]): Map<number, string> {
+  const nachId = new Map(titles.map((t) => [t.id, t]))
+  const zaehlende = releases.filter((r) => zaehltAlsDeutscherTermin(r, nachId.get(r.titleId)))
+  return ersterDeutscherTermin(zaehlende, titles)
+}
+
 export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): void {
   const HISTORIE = 'data/synchro-historie.json'
   /** Wie lange ein Zugang als „neu" gilt. */
@@ -622,7 +630,7 @@ export function schreibeNeuMitSynchro(titles: Title[], releases: Release[]): voi
     return
   }
 
-  const ersterTermin = ersterDeutscherTermin(releases, titles)
+  const ersterTermin = ersterTerminMitGrund(releases, titles)
 
   const grenze = addDays(heute, -FENSTER_TAGE)
   /*

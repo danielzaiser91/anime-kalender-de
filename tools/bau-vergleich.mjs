@@ -6,7 +6,7 @@
  * Gebaut wird je Commit in einem eigenen Git-Worktree — das Arbeitsverzeichnis bleibt
  * unangetastet, man kann währenddessen weiterarbeiten. Das Ergebnis eines Commits wird unter
  * `$TMPDIR/bau-vergleich/` aufgehoben; die Basis baut deshalb nur beim ersten Mal (≈ 5 min). Läuft
- * schon ein Vergleich, wartet der Aufruf bis zu 10 min auf dessen Sperre, bevor er mit Exit 3 aufgibt.
+ * schon ein Vergleich, reiht sich der Aufruf in eine Schlange ein (FIFO, Platz und Halter stehen in der Meldung) und wartet bis zu 45 min, bevor er mit Exit 3 aufgibt.
  * Ein gesperrter, aber auf der Platte fehlender `baum-*`-Worktree (Rest eines hart beendeten Laufs) wird nach der Sperre entfernt (`bau-vergleich-reste.mjs`).
  *
  * `data/cache/` liegt nicht im Repo. Statt des echten Caches wird ein Ersatz aus
@@ -28,9 +28,11 @@
  * nennt die Ausgabe die betroffenen Felder (`vergleich-unterschied.mjs`), z. B. `streams[].dubQuelle`.
  *
  * Aufruf:
- *   node tools/bau-vergleich.mjs [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
+ *   node tools/bau-vergleich.mjs [--katalog[=Pfad]] [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
+ * `--katalog` legt den echten `anilist-katalog.json` (Hauptordner, oder Pfad) in den Ersatz-Cache; ohne ihn läuft der Katalogpfad nicht mit.
+ * `REIHEN_QUELLE` und `SITE_URL` aus der Umgebung gelten für beide Bauten und stehen im Namen der Ablage (`bau-vergleich-ablage.mjs`).
  * Exit 0 = gleich, 1 = verschieden, 2 = Bau der Basis selbst gescheitert, 3 = läuft schon (Sperre;
- * wartet vorher bis zu 10 min auf den laufenden Vergleich), 4 = Konflikt bei der Übernahme der eigenen
+ * wartet vorher der Reihe nach bis zu 45 min), 4 = Konflikt bei der Übernahme der eigenen
  * data/-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen).
  *
  * Ist die Basis kein Vorfahre des Kandidaten (hinter `origin/main`, auseinandergelaufen), steht vor dem Lauf und am Ende eine
@@ -38,14 +40,16 @@
  * Hashes angeben, nicht gegen das wandernde `origin/main`. Die Sperre nennt wartenden Läufen PID, Hashes, Ort und Alter des Halters.
  */
 import { execFileSync, spawnSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
+import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
+import { ablageName, einstellungsZeilen, hauptordnerAus, liesOptionen } from './bau-vergleich-ablage.mjs'
 import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { basisRotMeldung } from './bau-vergleich-protokoll.mjs'
 import { raeumeVerwaisteBaeume } from './bau-vergleich-reste.mjs'
 import { abstandsWarnung, fremdeUnterschiede, messeAbstand, vonBasisGeaendert } from './bau-vergleich-abstand.mjs'
 import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
-import { wartAufSperre } from './einzel-sperre.mjs'
+import { FRIST_MS, wartAufSperre } from './einzel-sperre-schlange.mjs'
 import { beschreibeUnterschied } from './vergleich-unterschied.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
@@ -53,6 +57,12 @@ const ABLAGE = join(tmpdir(), 'bau-vergleich')
 const git = (...args) => execFileSync('git', ['-C', WURZEL, ...args], { encoding: 'utf8', maxBuffer: 1 << 28 }).trim()
 
 const TEXTDATEI = /\.(json|ics|xml|html|txt|md)$/
+
+// Der Ersatz-Cache hat keinen AniList-Katalog, der Katalogpfad (ohne-synchro.json, Katalog-Reihen) liefe also nie mit.
+// `--katalog[=Pfad]` (oder `BAU_VERGLEICH_KATALOG`) legt dieselbe anilist-katalog.json in beide Bauten; die Ablage trägt ihren Inhalt und die Umgebung des Baus im Namen.
+// Nur der Hauptordner hat einen gefüllten Cache; aus einem Worktree heraus zeigt `--katalog` deshalb auf dessen Datei.
+const HAUPTORDNER = hauptordnerAus(git('rev-parse', '--git-common-dir'), WURZEL)
+const { positionen, katalog: KATALOG_CACHE } = liesOptionen(process.argv.slice(2), process.env, HAUPTORDNER)
 
 // Laufzeiten und Zeitstempel sind in jedem Lauf anders — sie gehören nicht zum Ergebnis.
 const glatt = (s) =>
@@ -105,6 +115,7 @@ function ersatzCache(ort, basisSha) {
   writeFileSync(join(ort, 'anilist-by-id.json'), JSON.stringify(byId))
   writeFileSync(join(ort, 'anilist-media.json'), JSON.stringify(byMal))
   writeFileSync(join(ort, 'dub-confidence.json'), JSON.stringify(confidence))
+  if (KATALOG_CACHE) copyFileSync(KATALOG_CACHE, join(ort, 'anilist-katalog.json'))
 }
 
 /**
@@ -122,7 +133,7 @@ function entferneBaum(baum) {
  * `sha` an `data/`; liefert das Verzeichnis mit allem Geschriebenen.
  */
 function baue(sha, basisSha) {
-  const ziel = join(ABLAGE, `${sha.slice(0, 12)}-auf-${basisSha.slice(0, 12)}${sha === basisSha ? '' : '-delta'}`)
+  const ziel = join(ABLAGE, ablageName(sha, basisSha, KATALOG_CACHE, process.env))
   if (existsSync(join(ziel, '_protokoll.txt'))) return ziel
   const baum = join(ABLAGE, `baum-${sha.slice(0, 12)}`)
   entferneBaum(baum)
@@ -182,17 +193,18 @@ function meldeWiderspruchWarnungen(seite, ordner) {
   if (n) console.log(`${seite}: ${n} Widerspruch-Meldungen des Baus als Warnung durchgelassen (Vergleichsmodus) — Einzelheiten im Protokoll ${ordner}`)
 }
 
-const [basisName, kandidatName] = process.argv.slice(2)
+const [basisName, kandidatName] = positionen
 const basis = git('rev-parse', basisName ?? 'origin/main')
 const kandidat = git('rev-parse', kandidatName ?? 'HEAD')
 const abstand = messeAbstand(git, basis, kandidat)
 const warnung = abstandsWarnung(abstand, basis, kandidat)
-for (const zeile of warnung) console.log(zeile)
-await wartAufSperre('bau-vergleich', 10 * 60_000, undefined, `bau-vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} in ${WURZEL}`)
+for (const zeile of [...warnung, ...einstellungsZeilen(KATALOG_CACHE, process.env)]) console.log(zeile)
+await wartAufSperre('bau-vergleich', FRIST_MS, undefined, `bau-vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} in ${WURZEL}`)
 raeumeVerwaisteBaeume(git, ABLAGE)
 const a = baue(basis, basis)
-if (!readFileSync(join(a, '_protokoll.txt'), 'utf8').startsWith('exit 0')) {
-  console.error(`Der Bau der Basis ${basis.slice(0, 12)} scheitert selbst — siehe ${a}/_protokoll.txt`)
+const basisProtokoll = readFileSync(join(a, '_protokoll.txt'), 'utf8')
+if (!basisProtokoll.startsWith('exit 0')) {
+  console.error(basisRotMeldung(basisProtokoll, basis.slice(0, 12), a))
   process.exit(EXIT.BAU_BASIS)
 }
 const b = baueOderBeende(kandidat, basis)
@@ -213,6 +225,7 @@ const verschieden = liste.filter((f) => {
 if (!verschieden.length) {
   console.log(`gleich: ${kandidat.slice(0, 12)} schreibt dasselbe wie ${basis.slice(0, 12)}`)
   for (const zeile of gleichTrotzDatenHinweis(git, basis, kandidat)) console.log(zeile)
+  for (const zeile of einstellungsZeilen(KATALOG_CACHE, process.env)) console.log(zeile)
   for (const zeile of warnung) console.log(zeile)
   process.exit(EXIT.GLEICH)
 }

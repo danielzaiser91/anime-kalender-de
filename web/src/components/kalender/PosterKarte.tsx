@@ -8,14 +8,13 @@ import { useAbSm } from '../../lib/use-breit.ts'
 import { teilbarerSlug } from '@shared/teilen.ts'
 import { coverBild, KACHEL_DICHTE } from '../../lib/cover.ts'
 import { FavoriteStar, HideEye, ShareIcon, Tooltip } from '../ui.tsx'
-import { anbieterUndFolge, SpracheMarke, VerpasstMarke, ZeitMarke } from './Marken.tsx'
+import { anbieterUndFolge, SpracheMarke, VerpasstMarke, weitereFolgen, ZeitMarke } from './Marken.tsx'
 import { AnbieterAngaben } from './AnbieterAngaben.tsx'
 import { anbieterVerlauf, zeitGemeinsam, type AnbieterKachel } from '../../lib/anbieter-kachel.ts'
 import { PremiereMarke } from './PremiereMarke.tsx'
+import { ART_STIL, type KartenArt } from '../../lib/kachel-folgen.ts'
 import { istKinoSaal, KinoBuehne, SAAL_FENSTER, SAAL_KNOEPFE, SAAL_MARKEN, SAAL_STERN } from './KinoBuehne.tsx'
 import { FundstellenZeichen, TrefferName } from '../Suchtreffer.tsx'
-
-export type KartenArt = 'start' | 'finale'
 
 const KNOPF_GRUND = 'flex items-center gap-0.5 rounded-full bg-[rgba(13,15,20,.72)] px-0.5 text-[#f2f1ee]'
 const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 group-hover:opacity-100 [@media(hover:hover)]:opacity-0'
@@ -24,8 +23,8 @@ export interface PosterKarteProps {
   event: ReleaseEvent
   title?: Title
   art?: KartenArt
-  /** Weitere Folgen desselben Titels am selben Tag (`buendeleTermine`). */
-  weitere?: number
+  /** Alle Termine desselben Titels beim selben Anbieter am selben Tag (`buendeleTermine`); der erste ist `event`. */
+  buendel?: ReleaseEvent[]
   /** Derselbe Titel bei mehreren Anbietern am selben Tag (`vereineAnbieter`): geteilte Farbleiste, Angaben je Anbieter. */
   anbieter?: AnbieterKachel
   favorite: boolean
@@ -97,17 +96,18 @@ export function PosterKarte(p: PosterKarteProps) {
 export function Unterzeile(p: PosterKarteProps & { saal: boolean }) {
   const { t } = useLang()
   /* Im Saal steht „Kino“ schon auf dem Behang; die Zeile bleibt nur für Marken und das „+N“ gebündelter Termine. */
-  if (p.saal && !p.weitere && !p.neu && !p.event.verpasst && !p.event.sprache) return null
+  const weitere = (p.buendel?.length ?? 1) - 1
+  if (p.saal && !weitere && !p.neu && !p.event.verpasst && !p.event.sprache) return null
   return (
     <span className="-mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-ak-leise">
-      {p.saal && !!p.weitere && <span className="text-sm font-bold text-ak-text">{t('kal.buendelTvOhneZeit', { n: p.weitere })}</span>}
+      {p.saal && !!weitere && <span className="text-sm font-bold text-ak-text">{t('kal.buendelTvOhneZeit', { n: weitere })}</span>}
       {!p.saal &&
         (p.anbieter ? (
           <AnbieterAngaben kachel={p.anbieter} t={t} />
         ) : (
           <>
-            <span>{anbieterUndFolge(p.event, t)}</span>
-            {!!p.weitere && <span className="font-semibold text-ak-text">{t('kal.buendelStream', { n: p.weitere })}</span>}
+            <span>{anbieterUndFolge(p.event, t, p.buendel)}</span>
+            {!!weitereFolgen(p.buendel, t) && <span className="font-semibold text-ak-text">{weitereFolgen(p.buendel, t)}</span>}
           </>
         ))}
       {!!p.neu && (
@@ -133,7 +133,8 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
         zwei ? 'ak-breit-cover h-0' : 'aspect-[2/3]',
         p.breit ? 'ring-2' : '',
         p.saal ? 'ak-saal ring-1 ring-white/10' : '',
-        p.art === 'start' ? 'ring-ak-akzent' : p.art === 'finale' ? 'ring-ak-finale' : '',
+        p.art ? ART_STIL[p.art].ring : '',
+        p.art === 'katalog' ? 'ak-katalog-glanz' : '',
       ].join(' ')}
     >
       {p.saal && <KinoBuehne />}
@@ -206,14 +207,11 @@ function CoverAktionen(p: PosterKarteProps & { saal: boolean }) {
 function ArtFahne({ art }: { art: KartenArt }) {
   const { t } = useLang()
   return (
-    <Tooltip text={t(art === 'start' ? 'kal.startHinweis' : 'kal.finaleHinweis')} seite="oben">
+    <Tooltip text={t(ART_STIL[art].hinweis)} seite="oben">
       <span
-        className={[
-          'rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14]',
-          art === 'start' ? 'bg-ak-akzent' : 'bg-ak-finale',
-        ].join(' ')}
+        className={['rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#0d0f14]', ART_STIL[art].fahne].join(' ')}
       >
-        {t(art === 'start' ? 'kal.start' : 'kal.finale')}
+        {t(ART_STIL[art].name)}
       </span>
     </Tooltip>
   )

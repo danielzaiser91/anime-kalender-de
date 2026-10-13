@@ -3,9 +3,9 @@
  * ist eine Kachel (Woche und Monat) — mit den Angaben je Anbieter. Aufruf: `npm run check:logic`.
  * Den echten Bestand prüft `check-kachel-anbieter-bestand.ts` (`check:bestand`).
  */
-import type { ReleaseEvent } from '../shared/types.ts'
+import type { Release, ReleaseEvent } from '../shared/types.ts'
 import { buendeleKacheln } from '../web/src/lib/buendel.ts'
-import { anbieterVerlauf, eigenstaendigBeiAnbietern, folgeGemeinsam, vereineAnbieter, zeitGemeinsam } from '../web/src/lib/anbieter-kachel.ts'
+import { anbieterVerlauf, eigenstaendigBeiAnbietern, folgeGemeinsam, kanalAnbieterVon, vereineAnbieter, zeitGemeinsam } from '../web/src/lib/anbieter-kachel.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -17,7 +17,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const ev = (platform: string, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
   ({ id: `${platform}-${extra.episode ?? 1}`, releaseSlug: platform, titleId: 7, date: '2026-10-11', releaseType: 'weekly', platform, name: 'X', episode: 2, episodeCount: 12, time: '16:00', ...extra }) as unknown as ReleaseEvent
 
-const kacheln = (termine: ReleaseEvent[]) => vereineAnbieter(buendeleKacheln(termine, () => undefined, (e) => !!e.premiere), eigenstaendigBeiAnbietern)
+const kacheln = (termine: ReleaseEvent[]) => vereineAnbieter(buendeleKacheln(termine, () => false, (e) => !!e.premiere), eigenstaendigBeiAnbietern)
 
 function einheitenpruefung(): void {
   console.log('\nGleicher Titel am selben Tag bei zwei Anbietern:')
@@ -47,7 +47,45 @@ function einheitenpruefung(): void {
   pruefe('zwei Anbieter: zwei gleich breite harte Felder', anbieterVerlauf(['#111', '#222']) === 'linear-gradient(to right, #111 0% 50%, #222 50% 100%)', anbieterVerlauf(['#111', '#222']))
 }
 
+/** Prime Video (Crunchyroll) und Crunchyroll am selben Tag sind die Kachel von Crunchyroll (Daniel, 13.10.2026, Reborn as a Space Mercenary). */
+function kanalPruefung(): void {
+  console.log('\nPrime-Kanal und sein Anbieter am selben Tag:')
+  const releases = new Map(
+    [
+      ['kanal-cr', { kanal: 'Crunchyroll' }],
+      ['kanal-adn', { kanal: 'ADN' }],
+      ['kanal-aniverse', { kanal: 'aniverse' }],
+      ['prime-pur', {}],
+    ].map(([slug, r]) => [slug as string, { slug, ...(r as object) } as unknown as Release]),
+  )
+  const mitKanal = (termine: ReleaseEvent[]) =>
+    vereineAnbieter(buendeleKacheln(termine, () => false, (e) => !!e.premiere), eigenstaendigBeiAnbietern, kanalAnbieterVon(releases))
+  const prime = (slug: string, extra: Partial<ReleaseEvent> = {}) => ev('primevideo', { releaseSlug: slug, ...extra })
+
+  const cr = mitKanal([ev('crunchyroll'), prime('kanal-cr')])
+  pruefe('Crunchyroll vor dem Kanal: eine Kachel, ein Bündel (Crunchyroll)', cr.length === 1 && cr[0]!.length === 1 && cr[0]![0]![0]!.platform === 'crunchyroll', cr)
+  const umgekehrt = mitKanal([prime('kanal-cr'), ev('crunchyroll')])
+  pruefe('Kanal vor Crunchyroll: dieselbe Kachel, Crunchyroll führt', umgekehrt.length === 1 && umgekehrt[0]!.length === 1 && umgekehrt[0]![0]![0]!.platform === 'crunchyroll', umgekehrt)
+  const adn = mitKanal([ev('adn'), prime('kanal-adn')])
+  pruefe('ADN und Kanal ADN: eine Kachel mit einem Bündel', adn.length === 1 && adn[0]!.length === 1 && adn[0]![0]![0]!.platform === 'adn', adn)
+  const nurKanal = mitKanal([prime('kanal-cr')])
+  pruefe('Ohne Crunchyroll am Tag (Filter nur Prime): der Kanal-Termin bleibt', nurKanal.length === 1 && nurKanal[0]![0]![0]!.platform === 'primevideo', nurKanal)
+  const fremd = mitKanal([ev('crunchyroll'), prime('kanal-adn')])
+  pruefe('Kanal ADN neben Crunchyroll: geteilte Kachel wie bisher', fremd.length === 1 && fremd[0]!.length === 2, fremd)
+  const aniverse = mitKanal([ev('crunchyroll'), prime('kanal-aniverse')])
+  pruefe('Kanal ohne eigenen Anbieter (Aniverse): geteilte Kachel wie bisher', aniverse.length === 1 && aniverse[0]!.length === 2, aniverse)
+  const pur = mitKanal([ev('crunchyroll'), prime('prime-pur')])
+  pruefe('Prime ohne Kanal neben Crunchyroll: geteilte Kachel wie bisher', pur.length === 1 && pur[0]!.length === 2, pur)
+  const netflix = mitKanal([ev('crunchyroll'), prime('kanal-cr'), ev('netflix')])
+  pruefe('Zweitanbieter daneben: Crunchyroll und Netflix, der Kanal fehlt', netflix.length === 1 && netflix[0]!.map((b) => b[0]!.platform).join() === 'crunchyroll,netflix', netflix)
+  const omu = mitKanal([ev('crunchyroll'), prime('kanal-cr', { sprache: 'omu' })])
+  pruefe('Kanal-Termin mit Sprachhinweis bleibt eigenständig', omu.length === 2, omu)
+  const andererTitel = mitKanal([ev('crunchyroll'), prime('kanal-cr', { titleId: 8 })])
+  pruefe('Kanal eines anderen Titels bleibt eigene Kachel', andererTitel.length === 2, andererTitel)
+}
+
 einheitenpruefung()
+kanalPruefung()
 if (verletzt) {
   console.error(`\n${verletzt} Zusicherung(en) verletzt.`)
   process.exit(1)

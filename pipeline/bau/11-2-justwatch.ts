@@ -3,6 +3,7 @@ import { type WatchLink, type StreamLink, type Title } from '../../shared/types.
 import { providerName, stripAffiliate } from '../../shared/mappings.ts'
 import { loadDubChecks } from '../lib/dub-confirmed.ts'
 import { plattformVon } from '../lib/cartoons.ts'
+import { setzeTelekomAnnahme, type JwAngebot } from '../lib/telekom-annahme.ts'
 import { providerToPlatform } from './titel-hilfen.ts'
 
 export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen }: {
@@ -336,7 +337,7 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
   let videoloadDeutsch = 0
   let datenbankWege = 0
   {
-    const jwAlle = readJson<Record<string, { angebote?: { url?: string }[] }>>('data/justwatch-audio.json', {})
+    const jwAlle = readJson<Record<string, { angebote?: (JwAngebot & { url?: string })[] }>>('data/justwatch-audio.json', {})
     /* YouTube-Kaufangebote aus `fetch-youtube-kauf.ts` — nur genaue Treffer („YouTube Movies", gleicher Titel). */
     const ytKaufListe = readJson<Record<string, { video?: string }>>('data/youtube-kauf.json', {})
     for (const title of titles.values()) {
@@ -374,15 +375,11 @@ export function ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen 
         w.ueberTmdb = true
         datenbankWege++
       }
-      for (const w of title.watchLinks) {
-        if (w.name !== 'Videoload' || w.dubRanges?.length) continue
-        w.dubRanges = [{ from: 1, to: title.format === 'MOVIE' ? 1 : Math.max(1, title.episodes ?? 1), dub: true }]
-        videoloadDeutsch++
-      }
+      videoloadDeutsch += setzeTelekomAnnahme(title, jwAlle[String(title.id)]?.angebote ?? [])
     }
   }
   if (videoloadDirekt) log(`${videoloadDirekt} Videoload-Wege über die MagentaTV-Kennung direkt verlinkt`)
   if (youtubeDirekt) log(`${youtubeDirekt} YouTube-Wege direkt zum Kaufangebot verlinkt (data/youtube-kauf.json)`)
-  if (videoloadDeutsch) log(`${videoloadDeutsch} Videoload-Wege als deutsch gesetzt — deutscher Anbieter`)
+  if (videoloadDeutsch) log(`${videoloadDeutsch} Telekom-Wege (Videoload, MagentaTV) als „Deutsch angenommen“ gekennzeichnet`)
   if (datenbankWege) log(`${datenbankWege} Wege ohne direkte Anbieteradresse als „über TMDB" gekennzeichnet`)
 }

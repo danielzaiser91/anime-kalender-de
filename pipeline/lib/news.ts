@@ -25,13 +25,14 @@
  * Meldung fest, wann sie zuerst dastand; danach ändert sich ihr Datum nie
  * wieder.
  */
-import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, Release, Title } from '../../shared/types.ts'
+import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, PlatformId, Release, StreamLink, Title } from '../../shared/types.ts'
 import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from './news-verlauf.ts'
 import { bereinigeNews } from './news-bereinigen.ts'
 import { ausgabeKurz } from './news-ausgabe.ts'
 import { addDays, todayIso } from '../../shared/time.ts'
 import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
+import { geerbteWege } from '../../shared/kanal-anbieter.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
 import { fensterBeginn, offizielleMeldungen, traegtOffizielle, type OffizielleMeldung } from './news-offiziell.ts'
@@ -54,6 +55,27 @@ export interface NewsHistorie extends TerminGedaechtnis {
    * sonst stünden an einem Tag zweitausend „neue" Anbieter auf der Seite.
    */
   anbieter?: Record<string, string>
+}
+
+/**
+ * Die Plattformen mit belegter Synchro, die als „weiterer Anbieter“ gelten können. YouTube bleibt draußen; ein Prime-Kanal, der sein Ja vom
+ * Anbieter hat (`kanalErbtVomAnbieter`), ist kein weiterer: Die Titel laufen dort seit Langem, die Meldung wäre zu ihrem Tag falsch (13.10.2026).
+ */
+function anbieterMitDeutsch(t: Title): Set<PlatformId> {
+  return new Set(t.streams.filter((s) => eigenesJa(s) && s.platform !== 'youtube').map((s) => s.platform))
+}
+
+/** Ein belegtes Ja des Weges selbst; ein vom Anbieter geerbtes Ja (`geerbteWege`) zählt für Meldungen nicht. */
+function eigenesJa(s: StreamLink): boolean {
+  return s.dub === true && !geerbteWege.has(s)
+}
+
+/** Ein automatisch übernommener Kanal-Termin stammt aus einem Artikel über den Kanal-Anbieter und belegt kein Ja des Kanals (13.10.2026). */
+const istAutomatischerKanalTermin = (r: Release): boolean => !!(r.kanal && r.automatisch)
+
+/** Zählt dieser Termin als deutscher Start? Ein automatischer Kanal-Termin nur, wenn der Titel ein eigenes Ja hat (`news.json`, `neu-mit-synchro.json`). */
+export function zaehltAlsDeutscherTermin(r: Release, t: Title | undefined): boolean {
+  return !istAutomatischerKanalTermin(r) || !!t?.streams.some(eigenesJa)
 }
 
 interface NeuerTitel {
@@ -156,7 +178,7 @@ function terminMeldungen(
         datum,
         release: r.slug,
         ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),
-        quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => s.dub === true && s.platform !== r.platform)) ? { weiterer: true } : {}),
+        quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => eigenesJa(s) && s.platform !== r.platform)) ? { weiterer: true } : {}),
         /* Eine angekündigte Staffel trägt ihre Einordnung im Satz (Simuldub-Vermutung; Sprache laut Meldung offen, `meldungen.ts`). */
         ...(art === 'angekuendigt' && (r.schedule?.estimated || r.automatisch || r.sprache) && r.note ? { hinweis: r.note } : {}), ...(art === 'angekuendigt' && r.platform !== 'tv' ? neuJahre(t, datum) : {}),
       })
@@ -255,6 +277,17 @@ export function nurAngekuendigt(releases: Release[], titleId: number, plattform:
   return !termine.some((d) => d <= tag)
 }
 
+/**
+ * Das früheste deutsche Release des Titels, dessen Termin erreicht ist (nicht widerlegt, nicht nur OmU). Ohne eigenen Anbieter-Weg zählt ein
+ * automatisch übernommener Prime-Kanal-Termin nicht: Er stammt aus einem Artikel über den Kanal-Anbieter und belegt kein Prime-Ja (13.10.2026).
+ */
+function erreichtesRelease(releases: Release[], titleId: number, heute: string, anbieter: PlatformId | undefined): Release | undefined {
+  return releases
+    .filter((r) => r.titleId === titleId && !r.widerlegt && !r.sprache && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
+    .filter((r) => anbieter || !istAutomatischerKanalTermin(r))
+    .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
+}
+
 /** Teil und Kennung einer Meldung. „Titel / Titel“ sagt nichts (26 Meldungen am 06.10.2026): ohne eigenen Teilnamen bleibt es bei der Kennung. */
 function teilFelder(teilname: string, kopf: string, teilId: number): { teil?: string; teilId: number } {
   return teilname.toLowerCase() === kopf.toLowerCase() ? { teilId } : { teil: teilname, teilId }
@@ -305,10 +338,8 @@ export function baueNews(
   for (const n of neuMitSynchro) {
     const t = nachId.get(n.id)
     if (!t) continue
-    const anbieter = t.streams.find((s) => s.dub === true)?.platform
-    const erreichtRelease = releases
-      .filter((r) => r.titleId === t.id && !r.widerlegt && !r.sprache && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
-      .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
+    const anbieter = t.streams.find(eigenesJa)?.platform
+    const erreichtRelease = erreichtesRelease(releases, t.id, heute, anbieter)
     const erreicht = erreichtRelease?.schedule?.firstEpisodeDate
     if ((!anbieter && !erreicht) || nurAngekuendigt(releases, t.id, anbieter, n.seit)) continue
     roh.push({
@@ -317,7 +348,7 @@ export function baueNews(
       art: 'neu',
       ...kopf(t),
       platform: anbieter ?? (erreichtRelease && !['kino', 'tv'].includes(erreichtRelease.platform) ? erreichtRelease.platform : undefined),
-      quelle: t.streams.find((s) => s.dub === true && s.platform === anbieter)?.url ?? (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
+      quelle: t.streams.find((s) => eigenesJa(s) && s.platform === anbieter)?.url ?? (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
       belege: (erreichtRelease && belegeVonRelease(erreichtRelease)) || undefined, hinweis: neuZeile(t, erreichtRelease, heute), ...neuJahre(t, erreicht ?? n.seit),
     })
   }
@@ -332,9 +363,7 @@ export function baueNews(
   const saeen = historie.anbieter === undefined
   const anbieterSeit = (historie.anbieter ??= {})
   for (const t of titles) {
-    const wege = new Set(
-      t.streams.filter((s) => s.dub === true && s.platform !== 'youtube').map((s) => s.platform),
-    )
+    const wege = anbieterMitDeutsch(t)
     for (const p of wege) {
       const k = `${t.id}:${p}`
       if (!(k in anbieterSeit)) anbieterSeit[k] = saeen ? '0000-00-00' : heute
@@ -351,7 +380,7 @@ export function baueNews(
         ...kopf(t),
         platform: p,
         weiterer: true,
-        quelle: t.streams.find((s) => s.dub === true && s.platform === p)?.url,
+        quelle: t.streams.find((s) => eigenesJa(s) && s.platform === p)?.url,
       })
     }
   }

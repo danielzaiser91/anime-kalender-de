@@ -19,10 +19,17 @@ export function streamStatus(title: Title, s: StreamLink, releases: Release[]): 
 /** Weder belegt noch von JustWatch gemeldet: die Zeile steht unter „Weitere Anbieter“ und trägt keinen Sprachbeleg. */
 const ohneBeleg = (art: DubStatusArt): boolean => art === 'offen' || art === 'omu'
 
+/** Deutsch nur aus der Annahme über den Telekom-Katalog (`pipeline/lib/telekom-annahme.ts`), ohne Angabe des Wegs selbst. */
+export const istAnnahme = (e: { dubAbgeleitet?: string }): boolean => e.dubAbgeleitet === 'telekom-annahme'
+
 /** Der Sprachzustand eines Wegs über einen Dritten („Crunchyroll über Prime Video“): TOGGO ist rein deutsch, sonst zählen Bereiche und der Verweis mit derselben Adresse. */
 export function streamWegStatus(g: Kaufweg, title: Title): DubStatusArt {
   const e = g.eintraege[0]
-  return statusArt(istToggo(e.url) || e.dubRanges?.some((r) => r.dub) || (title.streams ?? []).find((x) => x.url === e.url)?.dub)
+  /* Die Annahme trägt `dubRanges`, ist aber kein Beleg: Sie geht jedem Haken voran. */
+  if (istAnnahme(e)) return 'annahme'
+  const art = statusArt(istToggo(e.url) || e.dubRanges?.some((r) => r.dub) || (title.streams ?? []).find((x) => x.url === e.url)?.dub)
+  /* Abgeleitet, nie belegt: Ein Beleg am Weg geht vor, und „schwester“ zählt nirgends als Haken. */
+  return art === 'offen' && e.dubAbgeleitet ? 'schwester' : art
 }
 
 /**

@@ -1,4 +1,7 @@
 @import '../src/styles.css';
 
-/* Klassen der Mockups: die Seiten-CSS nimmt web/buehne aus (@source not), hier kommen die Mockups wieder dazu. */
-@source "./mockups";
+/*
+  Klassen der Mockups: die Seiten-CSS nimmt web/buehne aus (@source not), hier kommen die Mockups wieder dazu.
+  Als Dateimuster, nicht als Ordner: Der Ordner bleibt von der Ausnahme erfasst und liefert keine einzige Klasse (Tailwind 4.3.3, 13.10.2026).
+*/
+@source "./mockups/**/*.tsx";

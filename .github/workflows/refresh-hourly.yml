@@ -108,13 +108,6 @@ jobs:
         if: always()
         run: bash tools/schritte-auswerten.sh
 
-      # Nur bei einem Fehlschlag: Dieser Lauf läuft stündlich, eine Erfolgsmeldung wäre Lärm in einem Kanal, den auch andere lesen.
-      - name: Ergebnis nach Discord melden
-        if: failure()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: bash tools/discord-melden.sh "Stündliche Sendezeiten" "${{ job.status }}"
-
       # Läuft auch nach einem Fehler: Der rote Lauf ist der, den man sehen will.
       - name: Lauf abmelden
         continue-on-error: true

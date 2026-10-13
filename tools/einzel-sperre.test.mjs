@@ -6,7 +6,8 @@ import { spawn, spawnSync } from 'node:child_process'
 import { readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { basename, join } from 'node:path'
-import { lebt, nimmSperre, nurEinmalGleichzeitig, wartAufSperre } from './einzel-sperre.mjs'
+import { lebt, nimmSperre, nurEinmalGleichzeitig } from './einzel-sperre.mjs'
+import { wartAufSperre } from './einzel-sperre-schlange.mjs'
 
 const [modus, name, wer] = process.argv.slice(2)
 

@@ -4,6 +4,10 @@
       "am": "2026-10-11",
       "vorschlaege": 0
     },
+    "1056555": {
+      "am": "2026-10-13",
+      "vorschlaege": 1
+    },
     "1056609": {
       "am": "2026-10-12",
       "vorschlaege": 1
@@ -11,6 +15,10 @@
     "1057956": {
       "am": "2026-10-11",
       "vorschlaege": 1
+    },
+    "1058300": {
+      "am": "2026-10-13",
+      "vorschlaege": 15
     },
     "1058332": {
       "am": "2026-10-12",
@@ -30,6 +38,14 @@
     },
     "1058410": {
       "am": "2026-10-12",
+      "vorschlaege": 1
+    },
+    "1058438": {
+      "am": "2026-10-13",
+      "vorschlaege": 13
+    },
+    "1058465": {
+      "am": "2026-10-13",
       "vorschlaege": 1
     },
     "1058501": {
@@ -84,9 +100,25 @@
       "am": "2026-10-11",
       "vorschlaege": 0
     },
+    "1059049": {
+      "am": "2026-10-13",
+      "vorschlaege": 1
+    },
     "1059052": {
       "am": "2026-10-11",
       "vorschlaege": 3
+    },
+    "1059127": {
+      "am": "2026-10-13",
+      "vorschlaege": 0
+    },
+    "1059213": {
+      "am": "2026-10-13",
+      "vorschlaege": 0
+    },
+    "1059269": {
+      "am": "2026-10-13",
+      "vorschlaege": 1
     },
     "1059356": {
       "am": "2026-10-11",
@@ -101,9 +133,21 @@
       "am": "2026-10-11",
       "vorschlaege": 0
     },
+    "1059426": {
+      "am": "2026-10-13",
+      "vorschlaege": 5
+    },
     "1059441": {
       "am": "2026-10-12",
       "vorschlaege": 3
+    },
+    "1059480": {
+      "am": "2026-10-13",
+      "vorschlaege": 2
+    },
+    "1059483": {
+      "am": "2026-10-13",
+      "vorschlaege": 2
     },
     "1059541": {
       "am": "2026-10-11",
@@ -158,6 +202,19 @@
     "1060030": {
       "am": "2026-10-12",
       "vorschlaege": 5
+    },
+    "1060060": {
+      "am": "2026-10-13",
+      "vorschlaege": 0,
+      "uebersprungen": "kein Deutschland-Bezug"
+    },
+    "1060073": {
+      "am": "2026-10-13",
+      "vorschlaege": 3
+    },
+    "1060089": {
+      "am": "2026-10-13",
+      "vorschlaege": 1
     }
   },
   "vorschlaege": [
@@ -366,7 +423,9 @@
       "folgen": null,
       "unsicher": "Kein eigener Wochentag für YAIBA genannt, nur die Übernahme des 18:30-Sendeplatzes ab diesem Zeitpunkt.",
       "wochentag": "Donnerstag",
-      "warnungen": [],
+      "warnungen": [
+        "Uhrzeit widerspricht 18:25 (Artikel 1059480) – gegenlesen"
+      ],
       "artikelId": "1059541",
       "artikel": "ProSieben MAXX wiederholt »Whole Cake Island«-Arc von »One Piece«",
       "quelle": "https://www.anime2you.de/news/1059541/prosieben-maxx-whole-cake-island-arc-one-piece/",
@@ -1770,6 +1829,905 @@
       "quelle": "https://www.anime2you.de/news/1056609/neue-sailor-moon-luna-artemis-plueschfiguren/",
       "veroeffentlicht": "2026-10-08",
       "gelesenAm": "2026-10-12"
+    },
+    {
+      "titel": "The Iceblade Sorcerer Shall Rule the World",
+      "zitat": "Eine deutsche Synchronisation folgt zu einem späteren Zeitpunkt.",
+      "art": "ankuendigung",
+      "sprache": "deutsch",
+      "plattform": "crunchyroll",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1060089",
+      "artikel": "Episodenanzahl der zweiten »Iceblade Sorcerer Shall Rule the World«-Staffel",
+      "quelle": "https://www.anime2you.de/news/1060089/iceblade-sorcerer-staffel-2-episodenanzahl/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "As a Reincarnated Aristocrat",
+      "zitat": "As a Reincarnated Aristocrat – Staffel 2 – Vol. 2 15.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Dragon Ball Z",
+      "zitat": "Dragon Ball Z – Movies Box – Vol. 2 15.01. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Dr. STONE: Science Future",
+      "zitat": "Dr. STONE: Science Future – Part 2 (Komplettbox) 15.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Jujutsu Kaisen: Hidden Inventory + Premature Death",
+      "zitat": "Jujutsu Kaisen: Hidden Inventory + Premature Death 15.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Kaiju No. 8",
+      "zitat": "Kaiju No. 8 – Staffel 1 (Steelbook) 04.12. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Re:ZERO",
+      "zitat": "Re:ZERO – Staffel 3 – Vol. 3 15.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "The Apothecary Diaries",
+      "zitat": "The Apothecary Diaries – Staffel 2 – Vol. 2 15.01. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "The Rising of the Shield Hero",
+      "zitat": "The Rising of the Shield Hero – Staffel 4 – Vol. 2 15.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Yaiba: Samurai Legend",
+      "zitat": "Yaiba: Samurai Legend – Vol. 1 04.12. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "peppermint anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „peppermint anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Yaiba: Samurai Legend",
+      "zitat": "Yaiba: Samurai Legend – Vol. 2 19.02. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-02-19",
+      "uhrzeit": null,
+      "anbieter": "peppermint anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „peppermint anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Loner Life in Another World",
+      "zitat": "Loner Life in Another World – Vol. 1 (Limited Edition mit Doppelcover-Schuber) 27.11. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-27",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Loner Life in Another World",
+      "zitat": "Loner Life in Another World – Vol. 2 (Limited Edition) 29.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-29",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Shin Chan",
+      "zitat": "Shin Chan – Vol. 9-12 (Limited Edition) 27.11. DVD",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-27",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Shin Chan",
+      "zitat": "Shin Chan – Vol. 16 11.12. DVD",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-11",
+      "uhrzeit": null,
+      "anbieter": "polyband anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „polyband anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Air Gear",
+      "zitat": "Air Gear (Komplett-Bundle) 20.11. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "Hardball Films",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Hardball Films“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058300",
+      "artikel": "20 Blu-ray-Neuheiten ab sofort bei Amazon vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Bocchi the Rock!",
+      "zitat": "AniMoon bringt die Serie in diesem Jahr auf Blu-ray in den Handel.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "AniMoon",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1059269",
+      "artikel": "Limitierte »Bocchi the Rock!«-Armbanduhr von SEIKO angekündigt",
+      "quelle": "https://www.anime2you.de/news/1059269/bocchi-the-rock-armbanduhr-von-seiko/",
+      "veroeffentlicht": "2026-10-12",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "proWoche": [
+        3,
+        4
+      ],
+      "bis": "2026-10-30",
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Dort sind seit gestern bereits die ersten drei Episoden der bislang neuesten »Avatar«-Serie »Avatar: Die sieben Häfen« (Original: »Avatar: Seven Havens«) abrufbar. Bis zum 30. Oktober 2026 folgen wöchentlich jeweils drei bis vier weitere Episoden der 13-teiligen ersten Staffel.",
+      "art": "rhythmus",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [
+        "anbieter „Paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1059483",
+      "artikel": "»Avatar« legt nach: Neue Prequel-Serie und verdoppelte Staffelzahl",
+      "quelle": "https://www.anime2you.de/news/1059483/avatar-kuruk-wave-of-chaos-angekuendigt/",
+      "veroeffentlicht": "2026-10-10",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "»YAIBA: Samurai Legend« ist ab dem 5. November 2026 jeweils von Montag bis Freitag um 18:25 Uhr mit deutscher Sprachfassung auf ProSieben MAXX zu sehen.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "tv",
+      "datum": "2026-11-05",
+      "uhrzeit": "18:25",
+      "anbieter": null,
+      "sender": "ProSieben MAXX",
+      "wochentage": "Montag bis Freitag",
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Donnerstag",
+      "warnungen": [
+        "Uhrzeit widerspricht 18:30 (Artikel 1059541) – gegenlesen"
+      ],
+      "artikelId": "1059480",
+      "artikel": "Starttermin von »YAIBA: Samurai Legend« auf ProSieben MAXX",
+      "quelle": "https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/",
+      "veroeffentlicht": "2026-10-09",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "YAIBA: Samurai Legend",
+      "zitat": "Im Anschluss stehen die einzelnen Episoden kostenlos bei Joyn zur Verfügung.",
+      "art": "ankuendigung",
+      "sprache": "unklar",
+      "plattform": "joyn",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Joyn",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1059480",
+      "artikel": "Starttermin von »YAIBA: Samurai Legend« auf ProSieben MAXX",
+      "quelle": "https://www.anime2you.de/news/1059480/yaiba-samurai-legend-prosieben-maxx-termin/",
+      "veroeffentlicht": "2026-10-09",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Die ersten drei Episoden von »Avatar: Die sieben Häfen« stehen ab sofort sowohl mit deutscher Synchronisation als auch in der englischen Originalfassung mit Untertiteln bei Paramount+ und auf dem Prime Video Channel des Anbieters zur Verfügung.",
+      "art": "start",
+      "sprache": "deutsch+omu",
+      "plattform": "paramountplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "1 bis 3",
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1059426",
+      "artikel": "»Avatar: Die sieben Häfen« ab sofort auf Abruf verfügbar + Trailer",
+      "quelle": "https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/",
+      "veroeffentlicht": "2026-10-09",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Am 16. Oktober 2026 werden die Episoden 4 bis 6 auf Abruf veröffentlicht, gefolgt von den Episoden 7 bis 9 am 23. Oktober 2026 und den Episoden 10 bis 13 am 30. Oktober 2026.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": "2026-10-16",
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "4 bis 6",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1059426",
+      "artikel": "»Avatar: Die sieben Häfen« ab sofort auf Abruf verfügbar + Trailer",
+      "quelle": "https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/",
+      "veroeffentlicht": "2026-10-09",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Am 16. Oktober 2026 werden die Episoden 4 bis 6 auf Abruf veröffentlicht, gefolgt von den Episoden 7 bis 9 am 23. Oktober 2026 und den Episoden 10 bis 13 am 30. Oktober 2026.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": "2026-10-23",
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "7 bis 9",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1059426",
+      "artikel": "»Avatar: Die sieben Häfen« ab sofort auf Abruf verfügbar + Trailer",
+      "quelle": "https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/",
+      "veroeffentlicht": "2026-10-09",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Avatar: Die sieben Häfen",
+      "zitat": "Am 16. Oktober 2026 werden die Episoden 4 bis 6 auf Abruf veröffentlicht, gefolgt von den Episoden 7 bis 9 am 23. Oktober 2026 und den Episoden 10 bis 13 am 30. Oktober 2026.",
+      "art": "folgen",
+      "sprache": "unklar",
+      "plattform": "paramountplus",
+      "datum": "2026-10-30",
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": "10 bis 13",
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen",
+        "plattform „paramount+“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1059426",
+      "artikel": "»Avatar: Die sieben Häfen« ab sofort auf Abruf verfügbar + Trailer",
+      "quelle": "https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/",
+      "veroeffentlicht": "2026-10-09",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Avatar Aang: Der Herr der Elemente",
+      "zitat": "Zuletzt wurde im Juli 2026 der Film »Avatar Aang: Der Herr der Elemente« mit deutscher Synchronisation auf Paramount+ veröffentlicht.",
+      "art": "start",
+      "sprache": "deutsch",
+      "plattform": "paramountplus",
+      "datum": null,
+      "uhrzeit": null,
+      "anbieter": "Paramount+",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": null,
+      "warnungen": [],
+      "artikelId": "1059426",
+      "artikel": "»Avatar: Die sieben Häfen« ab sofort auf Abruf verfügbar + Trailer",
+      "quelle": "https://www.anime2you.de/news/1059426/avatar-die-sieben-haefen-auf-paramount-plus/",
+      "veroeffentlicht": "2026-10-09",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Fate/stay night: Heaven’s Feel",
+      "zitat": "Die Komplettbox von »Fate/stay night: Heaven’s Feel« erscheint voraussichtlich am 18. Dezember 2026 als Digipak und enthält die drei Filme »presage flower«, »lost butterfly« und »spring song« mit deutscher und japanischer Synchronisation.",
+      "art": "disc",
+      "sprache": "deutsch+omu",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "peppermint anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „peppermint anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058465",
+      "artikel": "»Fate/stay night: Heaven’s Feel« erscheint als limitierte Blu-ray-Komplettbox",
+      "quelle": "https://www.anime2you.de/news/1058465/fate-stay-night-heavens-feel-erscheint-als-komplettbox/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Dragon Ball Z",
+      "zitat": "Dragon Ball Z – Movies Box – Vol. 2 15.01. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Dr. STONE: Science Future",
+      "zitat": "Dr. STONE: Science Future – Staffel 4 – Part 2 (Komplettbox) 15.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Jujutsu Kaisen: Hidden Inventory / Premature Death",
+      "zitat": "Jujutsu Kaisen: Hidden Inventory / Premature Death 15.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Kaiju No. 8",
+      "zitat": "Kaiju No. 8 – Staffel 1 (Limited Steelbook Edition) 04.12. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-04",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "The Rising of the Shield Hero",
+      "zitat": "The Rising of the Shield Hero – Staffel 4 – Vol. 2 15.01. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2027-01-15",
+      "uhrzeit": null,
+      "anbieter": "Crunchyroll",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Crunchyroll“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Fate/stay night Heaven’s Feel",
+      "zitat": "Fate/stay night Heaven’s Feel Trilogie (Limited Edition mit Artcard-Set) 18.12. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "peppermint anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „peppermint anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Fate/stay night Heaven’s Feel",
+      "zitat": "Fate/stay night Heaven’s Feel Trilogie 18.12. Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-12-18",
+      "uhrzeit": null,
+      "anbieter": "peppermint anime",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „peppermint anime“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Air Gear",
+      "zitat": "Air Gear (Komplett-Bundle) 20.11. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "Hardball Films",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Hardball Films“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "D.Gray-man",
+      "zitat": "D.Gray-man (Komplett-Bundle) 20.11. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "Hardball Films",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Hardball Films“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Love Hina",
+      "zitat": "Love Hina (Komplett-Bundle) 20.11. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "Hardball Films",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Hardball Films“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Ouran High School Host Club",
+      "zitat": "Ouran High School Host Club (Komplett-Bundle) 20.11. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "Hardball Films",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Hardball Films“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Shakugan no Shana",
+      "zitat": "Shakugan no Shana – Staffel 1 & 2 (Komplett-Bundle) 20.11. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "FilmConfect",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „FilmConfect“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
+    },
+    {
+      "titel": "Angeloid – Sora no Otoshimono",
+      "zitat": "Angeloid – Sora no Otoshimono – Staffel 1 & 2 (Komplett-Bundle) 20.11. DVD & Blu-ray",
+      "art": "disc",
+      "sprache": "unklar",
+      "plattform": "disc",
+      "datum": "2026-11-20",
+      "uhrzeit": null,
+      "anbieter": "Nipponart",
+      "sender": null,
+      "wochentage": null,
+      "folgen": null,
+      "unsicher": null,
+      "wochentag": "Freitag",
+      "warnungen": [
+        "anbieter „Nipponart“ steht nur im Artikeltext, nicht im Zitat – gegenlesen"
+      ],
+      "artikelId": "1058438",
+      "artikel": "13 Disc-Neuheiten ab sofort im AKIBA PASS SHOP vorbestellbar",
+      "quelle": "https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/",
+      "veroeffentlicht": "2026-10-08",
+      "gelesenAm": "2026-10-13"
     }
   ]
 }

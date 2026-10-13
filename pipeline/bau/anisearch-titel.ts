@@ -1,4 +1,5 @@
 import { log, readJson, warn } from '../lib/util.ts'
+import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 import { todayIso } from '../../shared/time.ts'
 import { ohneSynchroVonHand } from './ohne-beleg.ts'
 import type { DubConfidence, Title } from '../../shared/types.ts'
@@ -106,7 +107,7 @@ export function dubNurHinterToggle(hauptbestand: Set<number>, heute: string, aus
  * nicht hart geprüft: Er kann seit Jahren offen sein (Servamp-Film 2018).
  */
 export function anisearchUmgezogenInBestand(hauptbestand: Set<number>, hinterToggle: Set<number>, angekuendigt: Set<number> = new Set()): Set<number> {
-  const katalog = readJson<{ eintraege?: { id: number }[] }>('data/cache/anilist-katalog.json', {}).eintraege ?? []
+  const katalog = ladeKatalogEintraege()
   const abseits = dubNurHinterToggle(hauptbestand, todayIso(), ohneSynchroVonHand(), zuordnungen(), alle(), angekuendigt)
   const hart = abseits.filter((id) => alle()[id]?.dub !== 'p')
   if (hart.length) throw new Error(`${hart.length} aniSearch-Einträge mit vertontem oder abgebrochenem Deutsch (d/c) stehen nicht im Hauptbestand und haben keinen Grund: ${hart.slice(0, 10).join(', ')}`)

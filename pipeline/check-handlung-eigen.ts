@@ -20,16 +20,36 @@ const gut: EigeneHandlung = {
   text: 'Ein eigener Text.',
   umfang: 'titel',
   lizenz: 'CC BY-SA 4.0',
-  quellen: [{ name: 'Wikipedia (DE)', url: 'https://de.wikipedia.org/wiki/Beispiel' }],
+  quellen: [
+    { name: 'Wikipedia (DE)', url: 'https://de.wikipedia.org/wiki/Beispiel' },
+    { name: 'aniSearch', url: 'https://www.anisearch.de/anime/1' },
+  ],
 }
+const nurAnisearch: EigeneHandlung['quellen'] = [{ name: 'aniSearch', url: 'https://www.anisearch.de/anime/1' }]
+const nurWikipedia: EigeneHandlung['quellen'] = [
+  { name: 'Wikipedia (DE)', url: 'https://de.wikipedia.org/wiki/Beispiel' },
+  { name: 'Wikipedia (EN)', url: 'https://en.wikipedia.org/wiki/Example' },
+]
+const freigabe = 'Daniel, 13.10.2026: Lizenz mit dem Betreiber geklärt'
 
 pruefe('Struktur: ein vollständiger Eintrag ist in Ordnung', eigeneHandlungFehler([gut]).length === 0)
 pruefe('Struktur: Eintrag ohne Quelle ist ein Fehler', eigeneHandlungFehler([{ ...gut, quellen: [] }]).some((f) => f.includes('keine Quelle')))
 pruefe('Struktur: Quelle ohne https-Adresse ist ein Fehler', eigeneHandlungFehler([{ ...gut, quellen: [{ name: 'x', url: 'http://a.de' }] }]).length === 1)
-pruefe('Struktur: Text, Umfang und Lizenz sind Pflicht', eigeneHandlungFehler([{ ...gut, text: ' ', umfang: 'staffel' as never, lizenz: '', quellen: [{ name: 'x', url: 'https://a.de' }] }]).length === 3)
+pruefe('Struktur: Text, Umfang und Lizenz sind Pflicht', eigeneHandlungFehler([{ ...gut, text: ' ', umfang: 'staffel' as never, lizenz: '', quellen: [{ name: 'x', url: 'https://a.de' }], freigabe }]).length === 3)
 pruefe('Struktur: zwei Quellen gleichen Namens sind ein Fehler', eigeneHandlungFehler([{ ...gut, quellen: [...gut.quellen, { name: gut.quellen[0]!.name, url: 'https://en.wikipedia.org/wiki/Zweite' }] }]).some((f) => f.includes('Name')))
 pruefe('Struktur: doppelte Kennung ist ein Fehler', eigeneHandlungFehler([gut, gut]).some((f) => f.includes('doppelt')))
 pruefe('Struktur: Wikipedia-Quelle verlangt CC BY-SA 4.0', eigeneHandlungFehler([{ ...gut, lizenz: 'frei' }]).some((f) => f.includes('Wikipedia')))
+
+/* Quellenregel (13.10.2026): Fakten aus mindestens zwei Quellen oder ausdrückliche Freigabe; aniSearch allein nie unter CC. */
+const quellenFehler = (e: EigeneHandlung) => eigeneHandlungFehler([e]).join('; ')
+pruefe('Quellen: nur aniSearch mit CC BY-SA ist ein Fehler', quellenFehler({ ...gut, quellen: nurAnisearch }).includes('nicht unter CC'))
+pruefe('Quellen: nur aniSearch mit CC BY-SA bleibt auch mit Freigabe ein Fehler', quellenFehler({ ...gut, quellen: nurAnisearch, freigabe }).includes('nicht unter CC'))
+pruefe('Quellen: nur aniSearch, andere Lizenz, ohne Freigabe ist ein Fehler', quellenFehler({ ...gut, quellen: nurAnisearch, lizenz: 'Betreiber-Erlaubnis' }).includes('nur eine Quelle'))
+pruefe('Quellen: nur aniSearch, andere Lizenz, mit Freigabe ist in Ordnung', quellenFehler({ ...gut, quellen: nurAnisearch, lizenz: 'Betreiber-Erlaubnis', freigabe }) === '')
+pruefe('Quellen: zwei Wikipedia-Sprachen zählen als eine Quelle', quellenFehler({ ...gut, quellen: nurWikipedia }).includes('nur eine Quelle'))
+pruefe('Quellen: Wikipedia und aniSearch sind zwei Quellen', quellenFehler(gut) === '')
+pruefe('Quellen: eine Freigabe ohne Namen und Datum zählt nicht', quellenFehler({ ...gut, quellen: nurWikipedia, freigabe: 'passt schon' }).includes('nur eine Quelle'))
+pruefe('Quellen: zwei aniSearch-Seiten sind eine Quelle', quellenFehler({ ...gut, quellen: [...nurAnisearch, { name: 'aniSearch (Reihe)', url: 'https://www.anisearch.de/anime/2' }] }).includes('nicht unter CC'))
 
 const hatText = (id: number) => id === 2
 const bekannt = (id: number) => id !== 3

@@ -369,13 +369,8 @@
     {
       "id": "DISCORD_WEBHOOK",
       "ort": "github-secret",
-      "wofuer": "Meldung neuer Termine in den Discord-Kanal.",
-      "workflows": [
-        "bestand-bauen.yml",
-        "refresh-data.yml",
-        "refresh-hourly.yml",
-        "refresh-weekly.yml"
-      ],
+      "wofuer": "Ankündigung großer neuer Features in #news, von Hand über tools/discord-news.sh (keine Laufmeldungen seit 13.10.2026).",
+      "workflows": [],
       "gueltig": {
         "text": "läuft nicht ab, solange der Webhook im Kanal nicht gelöscht wird",
         "beleg": "Discord-Verhalten, im Repo nicht geprüft",
@@ -385,7 +380,7 @@
         "art": "handgriff",
         "text": "Neuen Webhook im Kanal anlegen, gh secret set"
       },
-      "folge": "Nur die Discord-Meldung entfällt; Daten unberührt."
+      "folge": "Nur die Feature-Ankündigung entfällt; Daten unberührt."
     },
     {
       "id": "CLOUDFLARE_API_TOKEN",

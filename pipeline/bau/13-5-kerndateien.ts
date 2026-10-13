@@ -85,7 +85,7 @@ export function schreibeKernUndNews({ releases, events, titles, meta }: {
   /* Releases kommen nach `baueMeta` noch hinzu (motn-*, Erstausgaben): gezählt wird, was in der Datei steht. */
   meta.releaseCount = releases.length
   meta.eventCount = events.length
-  meta.belegtCount = zaehleBelegte(readJson<Pick<Title, 'dubConfidence'>[]>(`${OUT}/titles.json`, []))
+  meta.belegtCount = zaehleBelegte(readJson<Pick<Title, 'dubConfidence' | 'westlich' | 'streams'>[]>(`${OUT}/titles.json`, []))
   writeJson(`${OUT}/meta.json`, meta, true)
   bruecheBeiWiderspruchAb({ fehler: zaehlworteAusDateien(), warnungen: [] })
   return { newsFuerRss }
@@ -96,7 +96,7 @@ function zaehlworteAusDateien(): string[] {
   const laenge = (datei: string) => readJson<unknown[]>(`${OUT}/${datei}`, []).length
   return zaehlworteStimmen(readJson(`${OUT}/meta.json`, { titleCount: -1, releaseCount: -1, eventCount: -1 }), {
     titles: laenge('titles.json'),
-    belegt: zaehleBelegte(readJson<Pick<Title, 'dubConfidence'>[]>(`${OUT}/titles.json`, [])),
+    belegt: zaehleBelegte(readJson<Pick<Title, 'dubConfidence' | 'westlich' | 'streams'>[]>(`${OUT}/titles.json`, [])),
     releases: laenge('releases.json'),
     events: laenge('events.json'),
   })

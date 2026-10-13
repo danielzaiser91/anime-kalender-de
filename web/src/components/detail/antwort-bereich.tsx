@@ -1,7 +1,6 @@
 import { AntwortKasten } from './antwort-kasten.tsx'
 import { FolgenMitNachlegern } from './nachleger-zeilen.tsx'
-import { PLATFORMS, type StreamLink, type Release, type Title, type DiscAusgabe } from '@shared/types.ts'
-import { formatDate } from '@shared/time.ts'
+import type { StreamLink, Release, Title, DiscAusgabe } from '@shared/types.ts'
 import { alleOhneSprachbeleg, legendeDerZeilen, zeilenGruppen } from './legende-zeilen.ts'
 import type { TvZuletzt } from '../../lib/tv-zuletzt.ts'
 import { tvVorbeiGruppen } from './tv-vorbei.tsx'
@@ -10,6 +9,8 @@ import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
 import type { Dispatch, SetStateAction } from 'react'
 import { type berechneAntwort } from './antwort-berechnen.ts'
 import { terminPillen, streamZeilen, discZeilen } from './wege-zeilen.tsx'
+import { angebotSeitZeileVon } from './kasten-hinweise.ts'
+import { KinoZuletzt } from './kino-zuletzt.tsx'
 import type { sortiereNachZugang } from './wege-sortieren.ts'
 
 export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, terminReleases, title, t, today, wegeHinweis, tvVorbei, kastenNotiz, kaufausgabeZeile, folgenLuecke, verbindung, favorites, folgenAngabeFuer, dubZeilen, releaseJePlattform, releases, discAusgaben, discOffen, setDiscOffen, discReleases, discZuerst }: {
@@ -61,22 +62,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
           notiz={kastenNotiz?.note}
           folgen={<FolgenMitNachlegern titleId={title.id} antwort={antwort} releases={releases} today={today} laufzeitImKopf={Boolean(title.runtimeMin)} />}
           schnitt={kastenNotiz?.schnitt}
-          angebotSeit={
-            /* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
-               Auskunft mehr („Auf Deutsch seit 28.12.2023 · Netflix, Inc." über „Bei Netflix im
-               Angebot seit 08.03.2024", Pokémon-Concierge, Stichprobe 16.09.2026). */
-            title.angebotSeit &&
-            !(
-              title.deErstausgabe?.von &&
-              title.deErstausgabe.von <= title.angebotSeit.date &&
-              (title.deErstausgabe.publisher ?? '').toLowerCase().includes((PLATFORMS[title.angebotSeit.platform]?.name ?? '§').toLowerCase())
-            )
-              ? t('antwort.imAngebotSeit', {
-                  datum: formatDate(title.angebotSeit.date),
-                  anbieter: PLATFORMS[title.angebotSeit.platform]?.name ?? title.angebotSeit.platform,
-                })
-              : undefined
-          }
+          angebotSeit={angebotSeitZeileVon(title, t)}
           kaufausgabe={kaufausgabeZeile}
           hinweis={
             folgenLuecke ? (
@@ -97,7 +83,7 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
                   </p>
                 )}
               </>
-            ) : undefined
+            ) : <KinoZuletzt titleId={title.id} antwort={antwort} t={t} />
           }
           stream={streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, dubZeilen, releaseJePlattform, streamReleases, releases, tvVorbei })}
           disc={discZeilen({ sortiertNachZugang, title, t, today, folgenAngabeFuer, discAusgaben, discOffen, setDiscOffen, discReleases })}

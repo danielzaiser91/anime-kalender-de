@@ -10,6 +10,8 @@ import { fileURLToPath } from 'node:url'
 const WEICHEN = [
   { importeur: '/web/src/components/DetailPanel.tsx', quelle: './detail/buehne.tsx', ziel: './weichen/buehne.tsx' },
   { importeur: '/web/src/components/detail/buehne.tsx', quelle: './cover-max.tsx', ziel: './weichen/cover-max.tsx' },
+  { importeur: '/web/src/components/WeekView.tsx', quelle: './kalender/TvKasten.tsx', ziel: './weichen/tv-kasten.tsx' },
+  { importeur: '/web/src/components/kalender/PosterKarte.tsx', quelle: './Marken.tsx', ziel: './weichen/marken.tsx' },
 ]
 
 export function buehnenWeichen(): Plugin {
