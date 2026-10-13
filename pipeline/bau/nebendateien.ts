@@ -585,7 +585,7 @@ function belegteDeutscheSynchro(t: Title, ersterTermin: Map<number, string>, heu
 }
 
 /** Der früheste deutsche Termin je Titel, ohne automatische Kanal-Termine eines Titels ohne eigenes Ja (13.10.2026; Regel in `news.ts`). */
-function ersterTerminMitGrund(releases: Release[], titles: Title[]): Map<number, string> {
+export function ersterTerminMitGrund(releases: Release[], titles: Title[]): Map<number, string> {
   const nachId = new Map(titles.map((t) => [t.id, t]))
   const zaehlende = releases.filter((r) => zaehltAlsDeutscherTermin(r, nachId.get(r.titleId)))
   return ersterDeutscherTermin(zaehlende, titles)
