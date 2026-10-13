@@ -357,6 +357,11 @@ html:not(.dark) .ak-punkt {
 .ak-punkt[data-art='katalogVermutlich'] {
   outline-color: var(--ak-katalog-text);
 }
+/* Im Angebot (kein Erscheinungstag): schlichter Punkt ohne Ring, damit er nicht wie ein Staffelstart aussieht. */
+.ak-punkt[data-art='imAngebot'] {
+  margin: 0;
+  outline: none;
+}
 /* Katalog-Release: Ring und leises Leuchten in der Farbe der Fahne heben ihn von Start und Finale ab; ersetzt den Ring der Klasse `ring-2`, weil beide `box-shadow` setzen. */
 .ak-katalog-glanz {
   box-shadow: 0 0 0 2px var(--ak-katalog), 0 0 18px -2px var(--ak-katalog);
