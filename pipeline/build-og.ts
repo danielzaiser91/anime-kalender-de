@@ -19,6 +19,7 @@ import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson, warn } from './lib/util.ts'
 import { zeichneKarte } from './lib/og-karte.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
+import { standardKarte } from './lib/og-standard.ts'
 
 const OUT_DIR = resolve(ROOT, 'public/og')
 const COVER_CACHE = resolve(ROOT, 'data/cache/covers')
@@ -93,25 +94,8 @@ async function main(): Promise<void> {
   // --- Standardbild für Links ohne Release ---------------------------------
   const defaultFile = resolve(OUT_DIR, 'default.jpg')
   if (NUR ? NUR.has('default') : FORCE || !existsSync(defaultFile)) {
-    await zeichneKarte(
-      {
-        title: 'Anime-Kalender DE',
-        subtitle: 'Alles mit deutscher Synchro, Woche für Woche',
-        lines: [
-          { label: 'Anime', value: `${readJson<{ titleCount: number }>('public/data/meta.json', { titleCount: 0 }).titleCount.toLocaleString('de-DE')} mit Synchro` },
-          { label: 'Termine', value: 'Streaming, Disc, Kino' },
-          { label: 'Abo', value: 'Kalender und Newsletter' },
-        ],
-        badges: [
-          { text: 'Crunchyroll', color: PLATFORMS.crunchyroll.color },
-          { text: 'Netflix', color: PLATFORMS.netflix.color },
-          { text: 'Prime Video', color: PLATFORMS.primevideo.color },
-        ],
-        accent: '#ff5a36',
-      },
-      undefined,
-      defaultFile,
-    )
+    const { titleCount } = readJson<{ titleCount: number }>('public/data/meta.json', { titleCount: 0 })
+    await zeichneKarte(standardKarte(titleCount), undefined, defaultFile)
     log('Standard-Vorschaubild geschrieben')
   }
 
