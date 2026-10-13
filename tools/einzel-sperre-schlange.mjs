@@ -29,14 +29,18 @@ function liesTicket(datei) {
 /** Legt das eigene Ticket atomar (Schreiben, dann Umbenennen) ab und sorgt dafür, dass es mit dem Prozess verschwindet. */
 function legeTicket(name, wer, zeit = Date.now()) {
   const datei = join(tmpdir(), ticketName(name, zeit, process.pid))
-  const entwurf = join(tmpdir(), `${name}.entwurf-${process.pid}`)
-  writeFileSync(entwurf, JSON.stringify({ pid: process.pid, exe: basename(process.execPath).toLowerCase(), seit: new Date().toISOString(), wer }))
-  renameSync(entwurf, datei)
+  schreibeTicket(name, datei, wer)
   const entfernen = () => rmSync(datei, { force: true })
   process.on('exit', entfernen)
   process.on('SIGINT', () => process.exit(130))
   process.on('SIGTERM', () => process.exit(143))
   return { datei, entfernen }
+}
+
+function schreibeTicket(name, datei, wer) {
+  const entwurf = join(tmpdir(), `${name}.entwurf-${process.pid}`)
+  writeFileSync(entwurf, JSON.stringify({ pid: process.pid, exe: basename(process.execPath).toLowerCase(), seit: new Date().toISOString(), wer }))
+  renameSync(entwurf, datei)
 }
 
 /** Lebende Tickets von `name`, älteste zuerst. Tickets toter oder unlesbarer Wartender werden gelöscht (mit Meldung). */
@@ -74,10 +78,8 @@ export async function wartAufSperre(name, maxMs = FRIST_MS, takt = 5_000, wer) {
     const schlange = lebendeTickets(name)
     const platz = schlange.findIndex((t) => t.pfad === ticket.datei) + 1
     if (platz === 0) {
-      ticket = legeTicket(name, wer, start) // Ticket wurde fälschlich weggeräumt (Lesefehler): an alter Stelle wieder anlegen
-      continue
-    }
-    if (platz === 1 && !nimmSperre(name, wer)) {
+      schreibeTicket(name, ticket.datei, wer) // Ticket wurde fälschlich weggeräumt (Lesefehler): an alter Stelle wieder anlegen
+    } else if (platz === 1 && !nimmSperre(name, wer)) {
       ticket.entfernen()
       return
     }
