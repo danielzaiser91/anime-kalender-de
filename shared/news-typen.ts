@@ -5,7 +5,10 @@
  * von dort — die Aufrufer importieren unverändert aus `shared/types.ts`.
  */
 import type { PlatformId } from './types.ts'
-export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet' | 'nachgereicht' | 'nachgetragen' | 'rhythmus'
+export type NewsArt = 'neu' | 'folgen' | 'angekuendigt' | 'disc' | 'kino' | 'verspaetet' | 'nachgereicht' | 'nachgetragen' | 'rhythmus' | 'offiziell'
+
+/** Worum es einer freigegebenen Meldung der offiziellen Website geht (Art `offiziell`). */
+export type OffiziellKategorie = 'staffel' | 'film' | 'synchro' | 'termin'
 
 /**
  * Eine einzelne Auskunft — neue Folgen, ein Termin, eine verpasste Ankündigung.
@@ -32,6 +35,8 @@ export interface NewsBeleg {
   ausgabeAm?: string
   /** Bei einer eigenen Messung (Anbieter-Kalender): der Tag, an dem wir nachgesehen haben. */
   gemessenAm?: string
+  /** Art `offiziell`: die Überschrift der Seite, wörtlich und in ihrer Sprache (`ja`, `en`) — der Satz der Kachel sagt nur, was sie bedeutet. */
+  ueberschrift?: { text: string; sprache: string }
   /** Schlüssel des privaten Beleg-Bilds (Worker `/beleg`) — nur mit Lese-Schlüssel sichtbar. */
   bild?: string
   /** Die Fundstelle im Bild als Anteile `[links, oben, Breite, Höhe]` von 0 bis 1 — wo die Aussage steht (Beleg-Dialog, „Zur Fundstelle"). */
@@ -54,6 +59,8 @@ export interface NewsMeldung {
   jahre?: number; discSeitText?: string
   /** Bei `angekuendigt`: Start nur mit Untertiteln (OmU) — ob eine deutsche Synchro angekündigt ist (Daniel, 06.10.2026: beide Auskünfte sind interessant). */
   omu?: 'synchro-angekuendigt' | 'synchro-offen'
+  /** Bei `offiziell`: was die Meldung der offiziellen Website sagt (von Hand bei der Freigabe gewählt). */
+  kategorie?: OffiziellKategorie
   /** Bei `rhythmus`: Folgen pro Woche bis `datum` laut Quelle (von, bis) — Satz „Bis … wöchentlich 3–4 neue Folgen“, kein Start. */
   proWoche?: [number, number]
   /** Bei `disc`: welche Ausgabe („Vol. 1/2", „Gesamtausgabe", „Box 9") — ohne sie sagt der Satz bei jedem Volume dasselbe. */
