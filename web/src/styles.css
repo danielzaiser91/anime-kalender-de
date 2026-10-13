@@ -42,6 +42,8 @@
   --color-ak-tv-rand: var(--ak-tv-rand);
   --color-ak-finale: var(--ak-finale);
   --color-ak-finale-text: var(--ak-finale-text);
+  --color-ak-katalog: var(--ak-katalog);
+  --color-ak-katalog-text: var(--ak-katalog-text);
   --color-ak-heute: var(--ak-heute);
 }
 
@@ -62,6 +64,8 @@ html.dark {
   --ak-tv-rand: #1f2a2f;
   --ak-finale: #f5c542;
   --ak-finale-text: #f5c542;
+  --ak-katalog: #a78bfa;
+  --ak-katalog-text: #a78bfa;
   --ak-heute: #1a1512;
 }
 
@@ -82,6 +86,8 @@ html:not(.dark) {
   --ak-tv-rand: #c7e1dc;
   --ak-finale: #f5c542;
   --ak-finale-text: #8a6300;
+  --ak-katalog: #8b6cf0;
+  --ak-katalog-text: #5b3fc4;
   --ak-heute: #fff0ea;
 }
 
@@ -290,6 +296,14 @@ html:not(.dark) .ak-punkt {
 }
 .ak-punkt[data-art='finale'] {
   outline-color: var(--ak-finale-text);
+}
+.ak-punkt[data-art='katalog'],
+.ak-punkt[data-art='katalogVermutlich'] {
+  outline-color: var(--ak-katalog-text);
+}
+/* Katalog-Release: Ring und leises Leuchten in der Farbe der Fahne heben ihn von Start und Finale ab; ersetzt den Ring der Klasse `ring-2`, weil beide `box-shadow` setzen. */
+.ak-katalog-glanz {
+  box-shadow: 0 0 0 2px var(--ak-katalog), 0 0 18px -2px var(--ak-katalog);
 }
 .ak-vorbei .ak-titel {
   color: var(--ak-leise);

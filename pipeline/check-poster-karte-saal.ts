@@ -21,13 +21,13 @@ const termin = (id: string, platform: 'kino' | 'netflix', time: string): Release
   ({ id, releaseSlug: 'film-x', titleId: 1, name: 'Film X', date: '2026-10-20', time, releaseType: 'movie', platform }) as ReleaseEvent
 
 function unterzeile(kachel: ReleaseEvent[], anbieter?: Parameters<typeof Unterzeile>[0]['anbieter']): string {
-  const [event, ...weitere] = kachel
+  const [event] = kachel
   const saal = istKinoSaal(event!, undefined, !!anbieter)
-  const props = { event: event!, weitere: weitere.length, anbieter, favorite: false, hidden: false, onOpen: () => {}, saal }
+  const props = { event: event!, buendel: kachel, anbieter, favorite: false, hidden: false, onOpen: () => {}, saal }
   return renderToStaticMarkup(Unterzeile(props))
 }
 
-const art = (): undefined => undefined
+const art = (): boolean => false
 const kino = buendeleKacheln([termin('a', 'kino', '17:00'), termin('b', 'kino', '20:00'), termin('c', 'kino', '22:00')], art)
 pruefe('drei Kino-Termine desselben Titels werden eine Kachel', kino.length === 1 && kino[0]!.length === 3, String(kino.length))
 pruefe('die Kachel ist ein Kinosaal', istKinoSaal(kino[0]![0]!, undefined, false))

@@ -1,0 +1,82 @@
+# Belege für den Katalog-Release von Hand (13.10.2026) — Lader: pipeline/lib/katalog-belege.ts, Regel: shared/katalog-release.ts.
+#
+# Ein Release, dessen Folgen alle an seinem Starttag liegen, ist ein Katalog-Release; „Alle N Folgen auf einmal“ steht aber nur
+# mit ausdrücklichem Beleg da. Ohne Eintrag hier zeigt die Kachel „Vermutlich alle N Folgen auf einmal“.
+#   art: komplett    die Quelle schreibt „Episoden: N (komplett)“ zum Starttag (Zitat wörtlich, unter 15 Wörtern)
+#   art: beobachtet  alle Folgen waren am selben Tag im Abruf zu sehen, nicht nur als Katalog-Stempel
+#   art: teil        nur ein Teil der Staffel („12 von 24“) — kein Katalog-Release
+# Die Zitate stammen aus den Artikeln (gelesen am 13.10.2026); in data/proposals/aussagen.json stehen sie nur zum Teil
+# (Star Wars: Visionen fehlt dort); bei `beobachtet` ist das Zitat ein wörtlicher Auszug aus dem Abruf.
+# Cyberpunk: Edgerunners II steht bewusst nicht hier: „Episoden: 10 (komplett)“ heißt bei Anime2You „Staffel danach vollständig“,
+# nicht „alle auf einmal“; bis Netflix am 20.10.2026 live gemessen ist, bleibt es „Vermutlich“.
+
+- slug: star-wars-visions-ninth-jedi
+  art: komplett
+  url: https://www.anime2you.de/news/1036663/disney-plus-sechs-anime-neuzugaenge-august-2026/
+  zitat: "5. August: »Star Wars: Visionen – Die neunte Jedi« Episoden: 8 (komplett)"
+
+- slug: dragon-ball-daima-rtlplus
+  art: komplett
+  url: https://www.anime2you.de/news/1053923/rtl-plus-dragon-ball-daima-und-mehr/
+  zitat: "»Dragon Ball DAIMA« Episoden: 20 (komplett)"
+
+- slug: yu-gi-oh-s4-disneyplus
+  art: komplett
+  url: https://www.anime2you.de/news/1054501/disney-plus-demon-slayer-infinity-castle-und-mehr/
+  zitat: "»Yu-Gi-Oh!« – Staffel 4 Episoden: 40 (komplett)"
+
+- slug: hells-paradise-s1-joyn
+  art: komplett
+  url: https://www.anime2you.de/news/1056837/joyn-plus-hells-paradise-und-mehr/
+  zitat: "»Hell’s Paradise« – Staffel 1 Episoden: 13 (komplett)"
+
+# Beide Staffeln stehen mit 37 Folgen als komplett am 4. Oktober.
+- slug: spy-x-family-s2-disneyplus
+  art: komplett
+  url: https://www.anime2you.de/news/1053610/disney-plus-spy-x-family-und-mehr/
+  zitat: "4. Oktober: »Spy x Family« – Staffel 1 und 2 Episoden: 37 (komplett)"
+
+# Beide Staffeln stehen mit 26 Folgen als komplett am 6. Oktober.
+- slug: my-hero-academia-vigilantes-s1-netflix
+  art: komplett
+  url: https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
+  zitat: "6. Oktober: »My Hero Academia: Vigilantes« – Staffel 1 und 2 Episoden: 26 (komplett)"
+
+- slug: my-hero-academia-vigilantes-s2-netflix
+  art: komplett
+  url: https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
+  zitat: "6. Oktober: »My Hero Academia: Vigilantes« – Staffel 1 und 2 Episoden: 26 (komplett)"
+
+- slug: auto-179813-netflix
+  art: komplett
+  url: https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
+  zitat: "10. Oktober: »Rooster Fighter« Episoden: 12 (komplett)"
+
+- slug: auto-187941-adn
+  art: komplett
+  url: https://www.anime2you.de/news/1054748/adn-neuzugaenge-im-oktober-2026/
+  zitat: "22. Oktober: »Reincarnated as a Dragon Hatchling« (Synchro) Episoden: 12 (komplett)"
+
+- slug: my-happy-marriage-special-netflix
+  art: komplett
+  url: https://www.anime2you.de/news/1052708/netflix-anime-neu-im-oktober-2026/
+  zitat: "25. Oktober: »My Happy Marriage« – Sonderfolgen Episoden: 3 (komplett)"
+
+# Crunchyroll führt nur Folge 13 im Kalender; der Abruf „neu hinzugefügt“ (data/crunchyroll-neu.json, Stand 798392d19 vom 13.10.2026)
+# hat 13 Einträge mit serieId GT00371869, nummer 1–13, alle in Staffel GS00371870DEDE mit demselben verfuegbarAb (17:30 Berlin).
+- slug: cr-GT00371869
+  art: beobachtet
+  url: https://beta-api.crunchyroll.com/content/v2/discover/browse?type=episode&sort_by=newly_added
+  zitat: '"staffelId":"GS00371870DEDE" … "verfuegbarAb":"2026-10-12T15:30:00.000Z"'
+
+# Nur der erste Teil der Staffel: „Episoden: 12 von 24“.
+- slug: gachiakuta-teil1-disneyplus
+  art: teil
+  url: https://www.anime2you.de/news/1057649/disney-plus-gachiakuta-und-mehr/
+  zitat: "»Gachiakuta« – Part 1 Episoden: 12 von 24"
+
+# 24 der 60 Folgen zum Start, der Rest kam am 28.09. dazu.
+- slug: beelzebub-netflix
+  art: teil
+  url: https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/
+  zitat: "»Beelzebub« – Episode 49 bis 60 Episoden: 60 (komplett)"

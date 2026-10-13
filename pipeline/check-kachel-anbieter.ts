@@ -17,7 +17,7 @@ function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
 const ev = (platform: string, extra: Partial<ReleaseEvent> = {}): ReleaseEvent =>
   ({ id: `${platform}-${extra.episode ?? 1}`, releaseSlug: platform, titleId: 7, date: '2026-10-11', releaseType: 'weekly', platform, name: 'X', episode: 2, episodeCount: 12, time: '16:00', ...extra }) as unknown as ReleaseEvent
 
-const kacheln = (termine: ReleaseEvent[]) => vereineAnbieter(buendeleKacheln(termine, () => undefined, (e) => !!e.premiere), eigenstaendigBeiAnbietern)
+const kacheln = (termine: ReleaseEvent[]) => vereineAnbieter(buendeleKacheln(termine, () => false, (e) => !!e.premiere), eigenstaendigBeiAnbietern)
 
 function einheitenpruefung(): void {
   console.log('\nGleicher Titel am selben Tag bei zwei Anbietern:')
@@ -59,7 +59,7 @@ function kanalPruefung(): void {
     ].map(([slug, r]) => [slug as string, { slug, ...(r as object) } as unknown as Release]),
   )
   const mitKanal = (termine: ReleaseEvent[]) =>
-    vereineAnbieter(buendeleKacheln(termine, () => undefined, (e) => !!e.premiere), eigenstaendigBeiAnbietern, kanalAnbieterVon(releases))
+    vereineAnbieter(buendeleKacheln(termine, () => false, (e) => !!e.premiere), eigenstaendigBeiAnbietern, kanalAnbieterVon(releases))
   const prime = (slug: string, extra: Partial<ReleaseEvent> = {}) => ev('primevideo', { releaseSlug: slug, ...extra })
 
   const cr = mitKanal([ev('crunchyroll'), prime('kanal-cr')])

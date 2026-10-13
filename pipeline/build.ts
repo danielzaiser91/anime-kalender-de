@@ -15,7 +15,7 @@ import { ergaenzeCrSimuldubs } from './bau/06-cr-simuldubs.ts'
 import { ergaenzeAdnTitel } from './bau/07-adn.ts'
 import { ergaenzeTermineAusNewsUndTv } from './bau/08-news-tv.ts'
 import { pruefeSynchroJePlattform } from './bau/09-synchro.ts'
-import { rolleTermineAus } from './bau/10-termine.ts'
+import { rolleTermineAusMitKomplettabwurf } from './bau/10-komplettabwurf.ts'
 import { schliesseWegeAb } from './bau/11-wege-abschluss.ts'
 import { baueMeta } from './bau/12-meta.ts'
 import { schreibeDatensatzGemessen } from './bau/anisearch-reihen-abweichungen.ts'
@@ -79,7 +79,7 @@ function main(): void {
     adnVerweiseErgaenzt,
   })
 
-  const { events, mitStimmen, verschoben } = rolleTermineAus({ releases, titles, jpStart }); entferneVomKalender(releases, events)
+  const { events, mitStimmen, verschoben } = rolleTermineAusMitKomplettabwurf({ releases, titles, jpStart }); entferneVomKalender(releases, events)
 
   // Alles, was Verweise ändert, muss vor `baueMeta` stehen — dort beginnt die Auslieferung.
   schliesseWegeAb({ ...synchro, titles, anisearch, releases, tmdbMehrdeutig, toteAdressen, verweiseEntfernt })
