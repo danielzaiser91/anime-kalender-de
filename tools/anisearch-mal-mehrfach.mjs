@@ -7,6 +7,7 @@
  * `daniel-zum-abarbeiten/listen/anisearch-doppelte-kennung.md` zwischen den Markern).
  */
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { ergebenSichZusammen } from '../pipeline/lib/mal-teilung.ts'
 
 export const BASIS = 10_000_000
 export const LISTE = 'daniel-zum-abarbeiten/listen/anisearch-doppelte-kennung.md'
@@ -35,16 +36,15 @@ function seitenJeMal(eintraege) {
  * Art der Gruppe, aus den Zahlen abgeleitet:
  * - `getrennt`: jede Seite hat einen eigenen AniList-Titel (AniList trennt wie aniSearch);
  * - `ohne-anilist`: kein AniList-Titel im Bestand, jede Seite steht für sich;
- * - `teilung-voll`: Summe der Seiten-Folgen = Folgen der AniList-Titel mit dieser MAL (AniList fasst zusammen, aniSearch teilt);
- * - `teilung-teil`: AniList-Titel da, Summe passt nicht (Special oder Bonus unter der MAL der Serie).
+ * - `teilung-voll`: genau ein AniList-Titel mit dieser MAL, Summe der Seiten-Folgen = seine Folgen (AniList fasst zusammen, aniSearch teilt);
+ * - `teilung-teil`: AniList-Titel da, Summe passt nicht oder mehrere Titel tragen die MAL (Special oder Bonus unter der MAL der Serie).
  */
 export function artDerGruppe(seiten, anilist) {
   const ohneTraeger = seiten.filter((s) => !s.traeger.length)
   if (!ohneTraeger.length) return 'getrennt'
   const mitMal = anilist.filter((a) => a.mitMal)
   if (!mitMal.length) return 'ohne-anilist'
-  const ganz = summe(seiten.map((s) => s.folgen)) === summe(mitMal.map((a) => a.folgen))
-  return ganz && seiten.every((s) => s.folgen) ? 'teilung-voll' : 'teilung-teil'
+  return ergebenSichZusammen(seiten.map((s) => s.folgen), mitMal.map((a) => a.folgen)) ? 'teilung-voll' : 'teilung-teil'
 }
 
 /**
@@ -83,7 +83,7 @@ export function belegKennungen(ordner) {
 
 const ART_TEXT = {
   'teilung-voll': 'AniList fasst zusammen, aniSearch teilt (Summe der Seiten = Folgen des Titels)',
-  'teilung-teil': 'Special/Bonus unter der MAL einer größeren Einheit (Summe passt nicht)',
+  'teilung-teil': 'Special/Bonus unter der MAL einer größeren Einheit (Summe passt nicht oder mehrere Titel)',
   'ohne-anilist': 'kein AniList-Titel mit dieser MAL im Bestand; jede Seite eine eigene Zeile',
   getrennt: 'jede Seite hat ihren eigenen AniList-Titel',
 }

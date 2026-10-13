@@ -991,7 +991,15 @@ Entscheidung: nichts geändert. Von vier Wellen-Gruppen hat eine (Prime) Nachbar
 
 ## Eine MAL-Kennung, mehrere aniSearch-Seiten: Messung und Regelvorschlag (13.10.2026)
 
-Anlass: Durarara!! Specials (MAL 8408) dreifach (AniList-Titel plus die Zeilen 10006984 und 10006986). Gemessen mit `tools/anisearch-mal-mehrfach.mjs` (Test: `tools/anisearch-mal-mehrfach.test.mjs`): **79** MAL-Kennungen tragen zwei oder mehr aniSearch-Seiten (216 Seiten); **19** sind vollständige Teilungen (Summe der Seiten-Folgen = Folgen des AniList-Titels), nur **3** davon im Hauptbestand (Durarara!! 8408, Angel Beats! 9062, Pokémon 106499); 16 unvollständig, 29 ohne AniList-Titel, 15 schon getrennt. Liste und Regelvorschlag „Teilung“ (Seiten sind das Werk, ein Handbeleg bleibt an seiner Kennung): `daniel-zum-abarbeiten/listen/anisearch-doppelte-kennung.md`. **Nicht umgesetzt**, weil der Handbeleg auf 8408 (Crunchyroll, „eines der beiden Specials“) weder auf 6984 noch 6986 übertragbar ist; der Bau ist unverändert.
+Anlass: Durarara!! Specials (MAL 8408) dreifach (AniList-Titel plus die Zeilen 10006984 und 10006986). Gemessen mit `tools/anisearch-mal-mehrfach.mjs` (Test: `tools/anisearch-mal-mehrfach.test.mjs`; Liste: `daniel-zum-abarbeiten/listen/anisearch-doppelte-kennung.md`): **79** MAL-Kennungen tragen zwei oder mehr aniSearch-Seiten (216 Seiten); **19** sind vollständige Teilungen, nur **3** davon im Hauptbestand (Durarara!! 8408, Angel Beats! 9062, Pokémon 106499); 16 unvollständig (Special/Bonus unter der MAL einer größeren Einheit, Summe passt nicht), 29 ohne AniList-Titel (jede Seite eine eigene Zeile), 15 schon getrennt (jede Seite hat ihren eigenen AniList-Titel).
+
+**Regelvorschlag „Teilung“** (nur vollständige Teilung; die Bedingung rechnet `ergebenSichZusammen` in `pipeline/lib/mal-teilung.ts` nach, Messwerkzeug und Bau benutzen dieselbe Funktion):
+1. Gilt, wenn genau ein AniList-Titel A die MAL m trägt, mindestens zwei aniSearch-Seiten m tragen, jede Seite eine Folgenzahl hat und deren Summe gleich `A.episodes` ist.
+2. Dann sind die **Seiten** das Werk (Titel, Termin, Deutsch, Beleg gehören zur Seite, Daniels Grundsatz „jede aniSearch-Seite ist ein Titel“); A ist nur der Sammelname und steht nicht zusätzlich da.
+3. **Vorrang:** Trägt A einen Handbeleg (eine Handdatei unter `data/` nennt seine Kennung), bleibt er mit seinem Beleg stehen; die Regel löscht nichts, was ein Handbeleg nennt. Belege an den Seiten bleiben an ihrer Kennung.
+4. Die Handbindung `A → Seite` (`8408: 6984`) ist keine Lösung: sie lässt die Zeile weichen, nicht A (Bau-Vergleich 13.10.2026: 10006984 verlor den deutschen Titel, `dubConfidence` high → normal).
+
+Offen bleibt, ob „Seiten gewinnen“ auch im Katalog hinter dem Schalter gilt (16 Fälle; Beispiel Aware! Meisaku-kun: AniList 230 Folgen, aniSearch sechs Staffelseiten). Durarara!! entschieden (Daniel, 13.10.2026): der Crunchyroll-Beleg liegt an Tenka Taihei (6986), der Sammeleintrag 8408 fällt mit der Regel weg.
 
 ## „Im Angebot seit“ 2026: Termine und Kern-Titel fehlten seit 27.08.2026 (13.10.2026)
 
