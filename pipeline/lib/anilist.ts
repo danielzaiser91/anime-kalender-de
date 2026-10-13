@@ -418,6 +418,19 @@ export async function mediaByMalIds(
   return out
 }
 
+/** Holt Media-Einträge zu AniList-Kennungen, 50 je Anfrage; ein fehlgeschlagener Block wirft (Nichtauskunft ist kein Befund). */
+export async function mediaByIds(ids: number[]): Promise<Map<number, AniListMedia>> {
+  const out = new Map<number, AniListMedia>()
+  const query = `query ($ids: [Int]) {
+    Page(page: 1, perPage: 50) { media(id_in: $ids, type: ANIME) { ${MEDIA_FIELDS} } }
+  }`
+  for (let i = 0; i < ids.length; i += 50) {
+    const data = await gql<{ Page: { media: AniListMedia[] } }>(query, { ids: ids.slice(i, i + 50) })
+    for (const m of data?.Page?.media ?? []) out.set(m.id, m)
+  }
+  return out
+}
+
 /** Sucht einen Titel per Freitext — für kuratierte Einträge ohne ID. */
 /**
  * Ist dieser Fehler ein Ausfall der Quelle — oder unser eigener?

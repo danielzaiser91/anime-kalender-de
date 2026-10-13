@@ -1,0 +1,76 @@
+/**
+ * Friert die Stammdaten der Katalog-Titel ein, die nur AniList kennt (Liste: `keiner` in `data/anisearch-katalog-abgleich.json`).
+ *
+ * Einmal-Werkzeug (11.10.2026): holt jede Kennung in Blöcken zu 50 über die bestehenden Abrufe (`katalogSeite` mit Kennungen,
+ * `mediaByIds`) und schreibt `data/stammdaten/anilist-eingefroren.json`. Danach liest der Bau die Titel aus dieser Datei
+ * (`lib/katalog-eingefroren.ts`) und ruft AniList für sie nicht mehr ab. Die Datei wird gepflegt, nicht neu erzeugt:
+ * ohne `--neu` bricht das Skript ab, wenn sie schon da ist.
+ *
+ * Aufruf: tsx pipeline/einfrieren-anilist.ts [--neu]
+ */
+import { type AniListMedia, katalogSeite, mediaByIds } from './lib/anilist.ts'
+import { EINGEFROREN_DATEI, type EingefrorenerBestand, type EingefrorenerEintrag, ladeEingefrorene } from './lib/katalog-eingefroren.ts'
+import { log, readJson, warn, writeText } from './lib/util.ts'
+
+const LISTE = 'data/anisearch-katalog-abgleich.json'
+
+type Datum = AniListMedia['startDate'] | undefined
+
+/** „2008", „2008-03" oder „2008-03-31" — so genau, wie AniList es belegt. */
+export function datumText(d: Datum): string | undefined {
+  if (!d?.year) return undefined
+  return [d.year, d.month, d.day].filter(Boolean).map((n, i) => String(n).padStart(i ? 2 : 4, '0')).join('-')
+}
+
+/** Die Felder, die der Katalog nicht führt, aus dem vollen Media-Eintrag. */
+export function zusatzfelder(m: AniListMedia): Pick<EingefrorenerEintrag, 'dauer' | 'ende' | 'saison' | 'herkunftsland'> {
+  return {
+    ...(m.duration ? { dauer: m.duration } : {}),
+    ...(datumText(m.endDate) ? { ende: datumText(m.endDate) } : {}),
+    ...(m.season ? { saison: m.season } : {}),
+    ...(m.countryOfOrigin ? { herkunftsland: m.countryOfOrigin } : {}),
+  }
+}
+
+async function holeKatalogEintraege(ids: number[]): Promise<Map<number, EingefrorenerEintrag>> {
+  const aus = new Map<number, EingefrorenerEintrag>()
+  for (let ab = 0; ab < ids.length; ab += 50) {
+    const { eintraege } = await katalogSeite(1, undefined, undefined, false, true, ids.slice(ab, ab + 50))
+    for (const e of eintraege) aus.set(e.id, e)
+    if ((ab / 50) % 10 === 0) log(`  Katalogfelder: ${aus.size} von ${ids.length}`)
+  }
+  return aus
+}
+
+function eintragMitZusatz(e: EingefrorenerEintrag, m: AniListMedia | undefined): EingefrorenerEintrag {
+  return m ? { ...e, ...zusatzfelder(m) } : e
+}
+
+function schreibe(eintraege: EingefrorenerEintrag[]): void {
+  const bestand: Omit<EingefrorenerBestand, 'eintraege'> = {
+    eingefrorenAm: new Date().toISOString(),
+    quelle: 'AniList (graphql.anilist.co), ein letzter Abruf; Liste: keiner in data/anisearch-katalog-abgleich.json',
+  }
+  const kopf = JSON.stringify(bestand).slice(0, -1)
+  const zeilen = eintraege.map((e) => JSON.stringify(e)).join(',\n')
+  writeText(EINGEFROREN_DATEI, `${kopf},"eintraege":[\n${zeilen}\n]}\n`)
+}
+
+async function main(): Promise<void> {
+  if (ladeEingefrorene().length && !process.argv.includes('--neu')) {
+    return warn(`${EINGEFROREN_DATEI} gibt es schon - eingefroren heißt: nicht neu holen (--neu erzwingt es)`)
+  }
+  const ids = readJson<{ keiner: { id: number }[] }>(LISTE, { keiner: [] }).keiner.map((k) => k.id).sort((a, b) => a - b)
+  if (!ids.length) return warn(`${LISTE} nennt keine Titel`)
+  log(`${ids.length} Kennungen`)
+  const katalog = await holeKatalogEintraege(ids)
+  const medien = await mediaByIds([...katalog.keys()])
+  const fehlt = ids.filter((id) => !katalog.has(id))
+  if (fehlt.length) warn(`${fehlt.length} Kennungen kamen nicht zurück: ${fehlt.join(', ')}`)
+  const ohneMedium = [...katalog.keys()].filter((id) => !medien.has(id))
+  if (ohneMedium.length) warn(`${ohneMedium.length} ohne Zusatzfelder: ${ohneMedium.join(', ')}`)
+  schreibe([...katalog.values()].sort((a, b) => a.id - b.id).map((e) => eintragMitZusatz(e, medien.get(e.id))))
+  log(`Eingefroren: ${katalog.size} von ${ids.length} -> ${EINGEFROREN_DATEI}`)
+}
+
+await main()

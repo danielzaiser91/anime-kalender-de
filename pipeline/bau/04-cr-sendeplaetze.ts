@@ -9,6 +9,7 @@ import {
 } from '../lib/crunchyroll.ts'
 import { type Title } from '../../shared/types.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
+import { ladeKatalogEintraege } from '../lib/katalog-eingefroren.ts'
 
 export function indiziereCrSendeplaetze({ titles }: {
   titles: Map<number, Title>
@@ -98,7 +99,7 @@ export function indiziereCrSendeplaetze({ titles }: {
    * nennt mal den englischen, mal den Romaji-Titel.
    */
   /** Einmal gelesen, nicht je Aufruf — die Datei hat rund 3.000 Eintraege. */
-  const katalogEintraege = readJson<{ eintraege?: KatalogEintrag[] }>('data/cache/anilist-katalog.json', {}).eintraege ?? []
+  const katalogEintraege = ladeKatalogEintraege()
 
   function titelAusKatalog(name: string): Title | undefined {
     const gesucht = normalizeTitle(name)

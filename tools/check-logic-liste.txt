@@ -60,6 +60,7 @@ pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-erbt.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
+pipeline/check-katalog-eingefroren.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-logic.ts
 pipeline/check-motn-reihe.ts
