@@ -115,10 +115,61 @@ export function wachePlanBefunde(weckplanText, wacheText) {
   return plan.filter((w) => !wache.has(w)).map((w) => `Wecker-Plan startet ${w}, die Wecker-Wache holt es nicht nach (PLAN in wecker-wache.yml)`)
 }
 
+/** Workflows, die nur per Abruf starten und bewusst nicht im Weckplan stehen, mit Grund (belegt aus Kopfkommentar und Aufrufern, 13.10.2026). */
+export const OHNE_WECKPLAN = {
+  'cache-ablegen.yml': 'startet `tools/cache-holen.mjs` selbst, wenn kein Artefakt jünger als 24 h ist (Kopfkommentar: „Nur auf Abruf, ohne Zeitplan“)',
+  'claude-auftrag.yml': 'von Hand angestoßener Arbeitsauftrag (Kopfkommentar)',
+  'crunchyroll-nachholen.yml': 'einmaliger Nachhol-Lauf von Hand (Kopfkommentar)',
+  'fund-nachliefern.yml': 'spielt den Fund eines gescheiterten Sammel-Laufs auf Ansage nach, Lauf-Nummer als Eingabe',
+  'region-test.yml': 'einmaliger Versuch von Hand (Kopfkommentar)',
+  'weiche-test.yml': 'einmalige Messung von Hand (Kopfkommentar)',
+}
+
+/** Schlüssel des `on:`-Blocks (Blockform sowie `on: [a, b]` und `on: a`). */
+export function ausloeser(workflowText) {
+  const zeilen = workflowText.split(/\r?\n/)
+  const i = zeilen.findIndex((z) => /^on:/.test(z))
+  if (i < 0) return []
+  const rest = zeilen[i].slice(3).replace(/#.*/, '').replace(/[[\]]/g, '').trim()
+  if (rest) return rest.split(',').map((s) => s.trim())
+  const keys = []
+  for (const z of zeilen.slice(i + 1)) {
+    if (/^\S/.test(z) && !z.startsWith('#')) break
+    const m = z.match(/^ {2}([a-z_]+):/)
+    if (m) keys.push(m[1])
+  }
+  return keys
+}
+
+/**
+ * Jeder Workflow, der nur per `workflow_dispatch` startet, steht im Weckplan oder in `OHNE_WECKPLAN`; Ausnahmen, die nicht (mehr) stimmen, werden gemeldet.
+ * `workflows`: Dateiname -> Text. Anlass 13.10.2026: `offizielle-news.yml` lief nie, weil sein Plan-Eintrag fehlte.
+ */
+export function weckplanLuecken(weckplanText, workflows, ausnahmen = OHNE_WECKPLAN) {
+  const plan = new Set([...weckplanText.matchAll(/workflow: '([^']+)'/g)].map((m) => m[1]))
+  const b = []
+  for (const [name, text] of Object.entries(workflows)) {
+    const keys = ausloeser(text)
+    if (!keys.length) b.push(`${name}: kein on:-Block erkannt`)
+    else if (keys.every((k) => k === 'workflow_dispatch') && !plan.has(name) && !(name in ausnahmen)) b.push(`${name} startet nur per Abruf, steht aber weder im Weckplan (shared/weckplan.ts) noch in OHNE_WECKPLAN (tools/zugangs-waechter.mjs)`)
+  }
+  for (const name of Object.keys(ausnahmen)) {
+    if (!(name in workflows)) b.push(`OHNE_WECKPLAN: ${name} gibt es nicht mehr`)
+    else if (plan.has(name)) b.push(`OHNE_WECKPLAN: ${name} steht im Weckplan, Ausnahme streichen`)
+  }
+  return b
+}
+
+function workflowTexte() {
+  const verz = new URL('.github/workflows/', WURZEL)
+  return Object.fromEntries(readdirSync(verz).filter((d) => d.endsWith('.yml')).map((d) => [d, readFileSync(new URL(d, verz), 'utf8')]))
+}
+
 function main() {
   if (process.argv.includes('--register-pruefen')) {
     const b = registerBefunde()
     b.push(...wachePlanBefunde(readFileSync(new URL('shared/weckplan.ts', WURZEL), 'utf8'), readFileSync(new URL('.github/workflows/wecker-wache.yml', WURZEL), 'utf8')))
+    b.push(...weckplanLuecken(readFileSync(new URL('shared/weckplan.ts', WURZEL), 'utf8'), workflowTexte()))
     if (b.length) {
       console.error(b.map((x) => `✗ ${x}`).join('\n'))
       process.exit(1)

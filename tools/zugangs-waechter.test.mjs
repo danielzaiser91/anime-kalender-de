@@ -1,6 +1,7 @@
 // Zusicherungen für tools/zugangs-waechter.mjs: Kontingent-Erkennung und Register gegen die Workflows.
 import assert from 'node:assert/strict'
-import { kontingentFunde, registerBefunde, vomWecker, wachePlanBefunde } from './zugangs-waechter.mjs'
+import { readFileSync, readdirSync } from 'node:fs'
+import { ausloeser, kontingentFunde, registerBefunde, vomWecker, wachePlanBefunde, weckplanLuecken } from './zugangs-waechter.mjs'
 
 const schritt = (name, conclusion, von, bis) => ({ name, conclusion, started_at: von, completed_at: bis })
 
@@ -26,5 +27,28 @@ assert.equal(vomWecker({ event: 'schedule', actor: { login: 'danielzaiser91' } }
 // Wache muss jeden Workflow des Weckplans kennen.
 assert.deepEqual(wachePlanBefunde("{ workflow: 'a.yml' }, { workflow: 'b-c.yml' }", 'PLAN="a.yml:3 b-c.yml:30:ohne-abbruch"'), [])
 assert.equal(wachePlanBefunde("{ workflow: 'a.yml' }, { workflow: 'neu.yml' }", 'PLAN="a.yml:3"').length, 1)
+
+// Abruf-Workflows: im Weckplan oder auf der Ausnahmeliste. Anlass 13.10.2026: offizielle-news.yml fehlte im Plan und lief nie.
+const abruf = 'name: x\n\non:\n  workflow_dispatch:\n    inputs:\n      a:\n\npermissions:\n  contents: read\n'
+const zeitplan = 'on:\n  schedule:\n    - cron: "0 1 * * *"\n  workflow_dispatch:\n'
+assert.deepEqual(ausloeser(abruf), ['workflow_dispatch'])
+assert.deepEqual(ausloeser(zeitplan), ['schedule', 'workflow_dispatch'])
+assert.deepEqual(ausloeser('on: [push, workflow_dispatch]\n'), ['push', 'workflow_dispatch'])
+assert.deepEqual(weckplanLuecken("{ workflow: 'a.yml' }", { 'a.yml': abruf }, {}), [])
+assert.equal(weckplanLuecken("{ workflow: 'a.yml' }", { 'a.yml': abruf, 'neu.yml': abruf }, {}).length, 1)
+assert.deepEqual(weckplanLuecken("{ workflow: 'a.yml' }", { 'a.yml': abruf, 'neu.yml': abruf }, { 'neu.yml': 'Grund' }), [])
+assert.deepEqual(weckplanLuecken('', { 'z.yml': zeitplan }, {}), [])
+assert.equal(weckplanLuecken('', { 'a.yml': abruf }, { 'a.yml': 'Grund', 'weg.yml': 'Grund' }).length, 1)
+assert.equal(weckplanLuecken("{ workflow: 'a.yml' }", { 'a.yml': abruf }, { 'a.yml': 'Grund' }).length, 1)
+assert.equal(weckplanLuecken('', { 'a.yml': 'name: x\n' }, {}).length, 1)
+// Gegenprobe am echten Bestand: ohne offizielle-news.yml im Plan wird die Prüfung rot, mit ihm grün.
+const wurzel = new URL('..', import.meta.url)
+const planText = readFileSync(new URL('shared/weckplan.ts', wurzel), 'utf8')
+const verz = new URL('.github/workflows/', wurzel)
+const echt = Object.fromEntries(readdirSync(verz).filter((d) => d.endsWith('.yml')).map((d) => [d, readFileSync(new URL(d, verz), 'utf8')]))
+assert.deepEqual(weckplanLuecken(planText, echt), [])
+const ohneNews = weckplanLuecken(planText.replace("workflow: 'offizielle-news.yml'", "workflow: 'x'"), echt)
+assert.equal(ohneNews.length, 1)
+assert.match(ohneNews[0], /offizielle-news\.yml/)
 
 console.log('zugangs-waechter: Zusicherungen ok')
