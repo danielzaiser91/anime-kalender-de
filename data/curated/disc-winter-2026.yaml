@@ -70,17 +70,9 @@
   sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/, https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
 
 # ---------------------------------------------------------------- 27.11.2026
-# Anime2You 1046360 (03.09.2026): polyband anime, DVD-Boxen am 27. November 2026; „Die Anfänge“ umfasst die ersten beiden Staffeln, „Schwarz und Weiß“ die Staffeln 14 bis 16.
-- slug: pokemon-die-anfaenge-staffel-1-2-dvd
-  anilistId: 527
-  titleDe: "Pokémon: Die Anfänge – Staffel 1 und 2"
-  platform: disc
-  releaseType: disc
-  publisher: "polyband anime"
-  edition: "DVD-Box"
-  schedule: { firstEpisodeDate: "2026-11-27" }
-  sources: [https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/]
-
+# Anime2You 1046360 (03.09.2026): polyband anime, DVD-Box am 27. November 2026; „Schwarz und Weiß“ umfasst die Staffeln 14 bis 16.
+# „Pokémon: Die Anfänge“ (Staffel 1 und 2, ebenfalls 27.11.) fehlt mit Absicht: Ein Disc-Termin an Titel 527 nähme dem Titel das „Im Angebot seit“ (Netflix) weg,
+# weil `13-3-listen.ts` nur Titel ohne jeden Termin füllt.
 - slug: pokemon-schwarz-und-weiss-staffel-14-16-dvd
   anilistId: 9107
   titleDe: "Pokémon: Schwarz und Weiß – Staffel 14 bis 16"
@@ -151,6 +143,18 @@
   note: "Jahr aus dem Artikeldatum abgeleitet; Sprache der Disc im Artikel nicht genannt. Vol. 2 hat noch keinen Termin im Datensatz."
   schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
   sources: [https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
+
+# Anime2You 1046360 (03.09.2026) und 1058300 (12.10.2026): Volume 1 am 27.11.2026 als Limited Edition mit Sammelschuber (Blu-ray, polyband anime).
+# Der Slug des automatischen Eintrags bleibt, die Meldung zeigt darauf: Mit dem Handeintrag zu Volume 2 fiele der automatische Eintrag sonst weg.
+- slug: auto-173693-disc
+  anilistId: 173693
+  titleDe: "Loner Life in Another World – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "Limited Edition mit Sammelschuber, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-27" }
+  sources: [https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/, https://www.anime2you.de/news/1046376/loner-life-in-another-world-blu-ray-termin/]
 
 # Anime2You 1046360 (03.09.2026): „das zweite Volume am 29. Januar 2027“ (Limited Edition, Blu-ray, polyband anime); Volume 1 steht als `auto-173693-disc`.
 - slug: loner-life-vol2
