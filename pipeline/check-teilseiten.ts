@@ -104,8 +104,14 @@ function erreichbarkeitsMaengel(): string[] {
   return mangel.map((u) => `Von der Startseite nicht erreichbar (Verzeichnis fehlt?): ${u}`)
 }
 
+/** Die Sammelseite führt auch Termine ohne belegte Synchro und verspricht deshalb nie „mit deutscher Synchro“. */
+function uebersichtMaengel(): string[] {
+  const html = readFileSync(resolve(DIST, 'termine', 'index.html'), 'utf8')
+  return /mit deutscher Synchro/i.test(html) ? ['/termine/ verspricht „mit deutscher Synchro“, führt aber Termine ohne belegte Synchro'] : []
+}
+
 function main(): void {
-  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel()]
+  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel(), ...uebersichtMaengel()]
   for (const [art, titel] of quellen()) {
     const teilbar = new Map(titel.map((t) => [t.id, teilbarerSlug(t)]))
     const mitSlug = [...teilbar.values()].filter((s): s is string => s !== undefined)

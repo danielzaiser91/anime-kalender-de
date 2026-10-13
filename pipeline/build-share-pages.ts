@@ -27,6 +27,7 @@ import { ROOT, log, readJson } from './lib/util.ts'
 import { andereNamen } from './lib/titel-namen.ts'
 import { ARTIKEL_STIL as STIL, SITE, esc, namenZeile, seitenTitel, sprachFeld, synchroSatz, termineUeberschrift, titelName, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
 import { START_AUSSAGE, startseiteInhalt } from './lib/startseite.ts'
+import { belegteTermine, uebersichtTexte } from './lib/termine-uebersicht.ts'
 import { schreibeVerzeichnis, verzeichnisAdressen, type Buchstabe } from './lib/titel-verzeichnis.ts'
 import { umfeldFuer, type Umfeld, type UmfeldRahmen } from './lib/titel-umfeld.ts'
 import { titelAenderung } from './lib/sitemap-datum.ts'
@@ -434,7 +435,8 @@ function main(): void {
    * Zwei Seiten schließen die Lücke: diese Übersicht verlinkt alle Termine, und
    * die Startseite verlinkt die Übersicht samt der nächsten Termine.
    */
-  schreibeUebersicht(releases, titleById, today, before, after, ROOT_TAG, adresseVon)
+  const volleTitel = new Map(ladeAlleTitel().map((t) => [t.id, t]))
+  schreibeUebersicht(releases, titleById, belegteTermine(releases, volleTitel), today, before, after, ROOT_TAG, adresseVon)
   /* Zuerst die Titelseiten samt Verzeichnis: Die Startseite verlinkt dessen Buchstaben. */
   const buchstaben = schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel })
   schreibeStartseite(releases, titleById, today, template, ROOT_TAG, adresseVon, buchstaben)
@@ -450,10 +452,15 @@ interface SeitenRahmen {
   jeTitel: Map<number, Release[]>
 }
 
+/** Der volle Bestand (`titles.json`); `titles-core.json` kennt nicht jeden Titel, den ein Termin nennt. */
+function ladeAlleTitel(): Title[] {
+  const alleTitel = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
+  return Array.isArray(alleTitel) ? alleTitel : alleTitel.titles
+}
+
 /** Die Seiten aller Titel — Hauptbestand unter ihrer Kennung, Cartoons unter ihrem Slug — samt Umleitungen und Sitemap. */
 function schreibeAlleTitelSeiten(akVon: AkVon, kennungsZeilen: KennungsZeile[], rahmen: SeitenRahmen): Buchstabe[] {
-  const alleTitel = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
-  const titelListe = (Array.isArray(alleTitel) ? alleTitel : alleTitel.titles).filter((t) => t.slug)
+  const titelListe = ladeAlleTitel().filter((t) => t.slug)
   const mitAk = titelListe.map((t) => ({ t, ak: akVon(t.id), adresse: String(akVon(t.id)) }))
   /* Cartoons (negative Kennung) behalten ihre Adresse mit Namen; dieselbe, die der Teilen-Knopf aus `title.slug` bildet. */
   const cartoons = readJson<Title[]>('public/data/cartoons.json', []).filter((t) => t.slug)
@@ -541,6 +548,7 @@ function terminZeile(release: Release, titel: Title | undefined, adresse: string
 function schreibeUebersicht(
   releases: Release[],
   titleById: Map<number, Title>,
+  belegt: number,
   today: string,
   before: string,
   after: string,
@@ -555,12 +563,11 @@ function schreibeUebersicht(
 
   const liste = (rs: Release[]) =>
     rs.map((r) => terminZeile(r, titleById.get(r.titleId), adresseVon(r.titleId))).join('')
-
+  const texte =uebersichtTexte(releases.length, belegt, kommend.length)
   const inhalt =
     `<article style="${STIL}">\n` +
-    `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">Alle Termine mit deutscher Synchronisation</h1>\n` +
-    `      <p style="margin:0 0 1.5rem;color:#9aa5bd;">${releases.length} Veröffentlichungen, ` +
-    `${kommend.length} davon stehen noch an.</p>\n` +
+    `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${texte.ueberschrift}</h1>\n` +
+    `      <p style="margin:0 0 1.5rem;color:#9aa5bd;">${texte.stand}</p>\n` +
     (kommend.length
       ? `      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Kommende Termine</h2>\n` +
         `      <ul style="margin:0 0 2rem;padding-left:1.2rem;">\n${liste(kommend)}      </ul>\n`
@@ -586,8 +593,8 @@ function schreibeUebersicht(
   const listenDaten = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Anime-Termine mit deutscher Synchronisation',
-    description: `${releases.length} Veröffentlichungen, ${kommend.length} davon stehen noch an.`,
+    name: texte.listenName,
+    description: texte.stand,
     numberOfItems: releases.length,
     itemListElement: naechsteZwanzig.map((r, i) => ({
       '@type': 'ListItem',
@@ -597,8 +604,8 @@ function schreibeUebersicht(
     })),
   }
   const kopf =
-    `    <title>Alle Anime-Termine mit deutscher Synchro — Anime-Kalender DE</title>\n` +
-    `    <meta name="description" content="Vollständige Liste aller ${releases.length} Anime-Veröffentlichungen mit deutscher Synchronisation: Termin, Anbieter und Details je Titel." />\n` +
+    `    <title>${texte.seitenTitel}</title>\n` +
+    `    <meta name="description" content="${texte.beschreibung}" />\n` +
     `    <link rel="canonical" href="${SITE}termine/" />\n` +
     /*
       Ohne Vorschaubild steht beim Teilen ein leerer Kasten. Das Bild der
