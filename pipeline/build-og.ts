@@ -81,9 +81,10 @@ function terminZeilen(release: Release, events: ReturnType<typeof expandEvents>,
   return zeilen
 }
 
+// Titel aus Kern und `titles.json`: Der Kern kennt nur Titel, deren Release beim Schreiben schon feststand („Im Angebot seit" kommt später); Cartoons stehen nur im Kern.
 async function main(): Promise<void> {
   const releases = readJson<Release[]>('public/data/releases.json', [])
-  const titles = readJson<Title[]>('public/data/titles-core.json', [])
+  const titles = [...readJson<Title[]>('public/data/titles-core.json', []), ...readJson<Title[]>('public/data/titles.json', [])]
   const titleById = new Map(titles.map((t) => [t.id, t]))
   const today = todayIso()
 

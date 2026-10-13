@@ -1,7 +1,7 @@
 import { restText, type Kopfzeile, type Zeilenzustand } from './relative-uhrzeit-zeit.ts'
 
-/** Farben von „jetzt": Akzent wie der Tageskopf „heute" (A, B) oder Smaragd wie „Läuft" im Panel (C). */
-export type Stil = 'A' | 'B' | 'C'
+/** Farben von „jetzt": Akzent wie der Tageskopf „heute" (A, B), Smaragd wie „Läuft" im Panel (C) oder das Orange des gewählten Reiters der unteren Navigation (D). */
+export type Stil = 'A' | 'B' | 'C' | 'D'
 
 export interface Farben {
   linie: string
@@ -12,7 +12,9 @@ export interface Farben {
 const AKZENT: Farben = { linie: 'bg-ak-akzent-text dark:bg-ak-akzent', punkt: 'text-ak-akzent', text: 'text-ak-akzent-text' }
 const SMARAGD: Farben = { linie: 'bg-emerald-700 dark:bg-emerald-500', punkt: 'text-emerald-700 dark:text-emerald-500', text: 'text-emerald-700 dark:text-emerald-400' }
 
-export const farbenVon = (stil: Stil): Farben => (stil === 'C' ? SMARAGD : AKZENT)
+const ORANGE: Farben = { linie: 'bg-ak-akzent', punkt: 'text-ak-akzent', text: 'text-ak-akzent-text' }
+
+export const farbenVon = (stil: Stil): Farben => (stil === 'C' ? SMARAGD : stil === 'D' ? ORANGE : AKZENT)
 
 /** Die Jetzt-Linie (Variante A, C): ein Listeneintrag mit sichtbarem Text, die Linie selbst ist nur Schmuck. */
 export function JetztLinie({ jetzt, farben }: { jetzt: string; farben: Farben }) {

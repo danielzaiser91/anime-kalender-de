@@ -44,3 +44,18 @@ export function pruefeReinIdsGrund(eintraege: ReinIdsEintrag[], katalog: Katalog
   }
   return befunde
 }
+
+/** Ab so vielen Tagen gilt der lokale Katalog-Cache als zu alt für die Prüfung (der Sammler holt ihn wöchentlich; Stand 13.10.2026). */
+export const CACHE_HOECHSTALTER_TAGE = 7
+
+/**
+ * Grund, die Prüfung gegen den Katalog zu überspringen, oder `undefined` (= prüfen).
+ * Nur lokal und nur bei altem Cache: ein Cache vom 03.09.2026 kannte Beziehungen nicht, die der Bestandsbau (CI, frischer Cache) längst sieht,
+ * und machte `check:vor-commit` auf einem gesunden main rot. In CI (`CI=true`) wird immer geprüft, auch ohne `geholtAm`.
+ */
+export function veralteterCacheGrund(geholtAm: string | undefined, jetzt: Date, imCI: boolean): string | undefined {
+  if (imCI || !geholtAm) return undefined
+  const alter = (jetzt.getTime() - new Date(geholtAm).getTime()) / 86_400_000
+  if (!(alter > CACHE_HOECHSTALTER_TAGE)) return undefined
+  return `Cache veraltet, übersprungen (Stand ${geholtAm.slice(0, 10)}, ${Math.floor(alter)} Tage alt, erlaubt ${CACHE_HOECHSTALTER_TAGE}; „npm run data:katalog" holt ihn neu, CI prüft scharf)`
+}
