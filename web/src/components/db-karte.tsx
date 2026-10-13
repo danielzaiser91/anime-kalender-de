@@ -204,8 +204,12 @@ function LinkeMarken({ main }: { main: Title }) {
   const { t } = useLang()
   if (main.fsk === undefined && !main.westlich) return null
   return (
-    <span className="absolute left-1 top-1 flex flex-col items-start gap-1" onClick={(e) => e.stopPropagation()}>
-      {main.fsk !== undefined && <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />}
+    <span className="absolute left-1 top-1 flex flex-col items-start gap-1">
+      {main.fsk !== undefined && (
+        <span onClick={(e) => e.stopPropagation()}>
+          <FskBadge fsk={main.fsk} quelle={main.fskQuelle} small />
+        </span>
+      )}
       {main.westlich && (
         <span className="rounded bg-slate-600/90 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-[1px]">
           <Tooltip text={t('db.westlichHinweis')} eigenerFokus>

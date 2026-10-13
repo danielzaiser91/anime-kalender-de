@@ -54,7 +54,6 @@ export function CoverMaximieren({ bild, banner, gross, titel }: { bild: string |
   const [zeigtBanner, setZeigtBanner] = useState(false)
   /* „Zurück“ schließt erst die Ansicht, nicht das Panel dahinter (Daniel, 13.10.2026). */
   useVerlaufEintrag(offen, () => setOffen(false))
-  const [geladen, setGeladen] = useState(false)
   const [kaputt, setKaputt] = useState(false)
   /* Das große Plakat nur, wenn es dasselbe Motiv ist wie das Cover im Panel (`cover-gleich.ts`). */
   const [gleich, setGleich] = useState(false)
@@ -95,28 +94,27 @@ export function CoverMaximieren({ bild, banner, gross, titel }: { bild: string |
   }, [])
   /* Ein anderer Titel, ein anderes Bild: der Zustand des vorigen gilt nicht weiter. */
   useEffect(() => {
-    setGeladen(false)
     setKaputt(false)
     setGleich(false)
   }, [grossPfad])
   const anzeige = zeigtBanner && banner ? banner : bild
   if (!anzeige || !offen) return null
   const gr = !zeigtBanner && gross && !kaputt && gleich ? grossesBild(gross) : undefined
-  return <CoverSchicht bild={anzeige} label={zeigtBanner && banner ? 'Banner' : 'Cover'} titel={titel} gr={gr} geladen={geladen} schliessen={schliessen} onZu={() => setOffen(false)} onGeladen={() => setGeladen(true)} onKaputt={() => setKaputt(true)} />
+  return <CoverSchicht key={grossPfad} bild={anzeige} label={zeigtBanner && banner ? 'Banner' : 'Cover'} titel={titel} gr={gr} schliessen={schliessen} onZu={() => setOffen(false)} onKaputt={() => setKaputt(true)} />
 }
 
 /** Die Schicht selbst: das Cover (klein, sofort) und darüber, sobald geladen, das große Plakat. */
-function CoverSchicht({ bild, label, titel, gr, geladen, schliessen, onZu, onGeladen, onKaputt }: {
+function CoverSchicht({ bild, label, titel, gr, schliessen, onZu, onKaputt }: {
   bild: string
   label: string
   titel: string
   gr: { src: string; srcSet: string } | undefined
-  geladen: boolean
   schliessen: RefObject<HTMLButtonElement | null>
   onZu: () => void
-  onGeladen: () => void
   onKaputt: () => void
 }) {
+  /* Gehört zur geöffneten Schicht: jedes Öffnen beginnt ohne „geladen“, sonst bliebe das Basisbild (Banner!) unsichtbar. */
+  const [geladen, setGeladen] = useState(false)
   return createPortal(
     <div
       role="dialog"
@@ -141,7 +139,7 @@ function CoverSchicht({ bild, label, titel, gr, geladen, schliessen, onZu, onGel
           sizes="min(100vw, 66vh)"
           alt=""
           decoding="async"
-          onLoad={onGeladen}
+          onLoad={() => setGeladen(true)}
           onError={onKaputt}
           className={`[grid-area:1/1] max-h-full max-w-full object-contain transition-opacity ${geladen ? '' : 'opacity-0'}`}
         />
