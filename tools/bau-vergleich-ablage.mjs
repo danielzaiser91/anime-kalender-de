@@ -6,7 +6,7 @@
  */
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 
 /** Umgebungsvariablen, die das Ergebnis von `pipeline/build.ts` ändern (`REIHEN_QUELLE`: Reihenweg, `SITE_URL`: Adressen in Feeds und ICS). */
 export const BAU_UMGEBUNG = ['REIHEN_QUELLE', 'SITE_URL']
@@ -53,3 +53,9 @@ export function einstellungsZeilen(katalogPfad, env) {
       : 'HINWEIS: ohne anilist-katalog.json im Ersatz-Cache — der Katalogpfad (ohne-synchro.json, Katalog-Reihen) läuft nicht mit; ein „gleich“ sagt dazu nichts. Mit --katalog bauen.',
   ]
 }
+
+/**
+ * Hauptordner des Repos aus der Ausgabe von `git rev-parse --git-common-dir`: im Worktree ein absoluter Pfad `<Hauptordner>/.git`,
+ * im Hauptordner selbst das relative `.git`. `startordner` ist der Ordner, in dem git gefragt wurde.
+ */
+export const hauptordnerAus = (gitCommonDir, startordner) => dirname(resolve(startordner, gitCommonDir))
