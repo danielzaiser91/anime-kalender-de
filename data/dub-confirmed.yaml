@@ -23768,3 +23768,33 @@
   available: false
   checkedAt: '2026-10-13'
   note: "Falsches Werk: JustWatch-Adresse /watch/GX9UQD7XQ ist Folge 1 („Das Geheimnis von Kaito Kids Geburt“) von „Magic Kaito“ (Serie GMEHMENQM, Staffel G68VCP92P, 12 Folgen). Die zwölf Folgentitel stehen an gleicher Stelle in aniSearch 6155 (Magic Kaito 2010, Titel 8310; 10 von 12 wörtlich gleich, 2 anders geschrieben); gegen die 24 Folgen von 1412 (aniSearch 9799, Folge 1 „Rückkehr des Phantomdiebes“) trifft keiner. Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026)"
+- anilistId: 14741
+  title: "Love, Chunibyo & Other Delusions!"
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-10-13'
+  note: "Falsches Werk: JustWatch-Adresse /watch/GG1U2M5E0 ist Folge 1 der deutschen Fassung von „Heart Throb“ (Staffel GYP8CXW2Q, Serie GYJQV73V6, 13 Folgen), also Staffel 2 (AniList 18671). Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): die Serie führt nur Heart Throb (13 Folgen de-DE, 1 Folge ja-JP), keine erste Staffel; die Folgentitel stehen an gleicher Stelle in aniSearch 8665 (Heart Throb) 10 von 12 wörtlich gleich, in aniSearch 7520 (diese Staffel) 0 von 12. Die Namenssuche im deutschen Katalog findet keine andere Serie"
+- anilistId: 257
+  title: "Ikki Tousen: Dragon Girls"
+  platform: crunchyroll
+  available: false
+  checkedAt: '2026-10-13'
+  note: "Falsches Werk: JustWatch-Adresse /watch/GJWU2M393 ist Folge 1 der deutschen Fassung von „Dragon Destiny“ (Staffel G6MGC3J4Q, Serie G24H1NZXD, 12 Folgen), also Staffel 2 (AniList 1956). Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): die Serie führt nur Dragon Destiny (12), Great Guardians (12) und OVA Season 1 (3), keine Staffel mit den 13 Folgen der ersten; die Folgentitel stehen an gleicher Stelle in aniSearch 3981 (Dragon Destiny) 6 von 12 wörtlich gleich, in aniSearch 1865 (diese Staffel) 0 von 12"
+- anilistId: -99788
+  title: "FreakAngels"
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-10-13'
+  note: "Richtiges Werk, aber kein Deutsch: JustWatch-Adresse /watch/GWDU8K5NE ist Folge 1 von „FreakAngels“ (Serie GXJHM378Z, Staffel G6P8CXQGE, 9 Folgen wie bei uns). Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): Serie und Staffel führen ausschließlich en-US; JustWatch nennt für das Angebot nur den Ton en"
+- anilistId: -99789
+  title: "High Guardian Spice"
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-10-13'
+  note: "Richtiges Werk, aber kein Deutsch: JustWatch-Adresse /watch/GG1U2E5X5 ist Folge 1 von „High Guardian Spice“ (Serie G4PH0WMEX, Staffel G6Q4CZD4P, 12 Folgen wie bei uns). Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): Serie und Staffel führen ausschließlich en-US; JustWatch nennt für das Angebot nur den Ton en"
+- anilistId: -67111
+  title: "HarmonQuest"
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-10-13'
+  note: "Richtiges Werk, aber kein Deutsch: JustWatch-Adresse /watch/GN7UDV5QV ist Folge 1 von „HarmonQuest“ (Serie G79H23ZD5, 10 Staffeln). Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): die Serie führt ausschließlich en-US; JustWatch nennt für das Angebot nur den Ton en"
