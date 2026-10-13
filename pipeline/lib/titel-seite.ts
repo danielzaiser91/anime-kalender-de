@@ -5,13 +5,20 @@
 import { PLATFORMS, type Release, type Title } from '../../shared/types.ts'
 import { GENRE_DE } from '../../shared/mappings.ts'
 import { teilenPfad } from '../../shared/teilen.ts'
+import { synchroBelegt } from '../../shared/titles.ts'
 import { andereNamen, titelJsonLd } from './titel-namen.ts'
 import { OG_FASSUNG } from './og-fassung.ts'
+import type { Umfeld } from './titel-umfeld.ts'
 
 export const SITE = (process.env.SITE_URL ?? 'https://anime-kalender.de/').replace(
   /\/?$/,
   '/',
 )
+
+/** Gemeinsamer Rahmen der vorgerenderten Seiten. */
+export const ARTIKEL_STIL =
+  'max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;' +
+  'font-family:system-ui,sans-serif;line-height:1.6;'
 
 export function esc(value: string): string {
   return value
@@ -21,7 +28,7 @@ export function esc(value: string): string {
     .replace(/"/g, '&quot;')
 }
 
-function titelName(t: Title): string {
+export function titelName(t: Title): string {
   return t.titleDe ?? t.titleEn ?? t.titleRomaji ?? t.slug
 }
 
@@ -32,7 +39,36 @@ function ersteAussage(t: Title): string {
     return orte.length ? `Zu sehen bei ${orte.join(', ')}.` : 'Westliche Animationsserie.'
   }
   const wege = (t.streams ?? []).filter((s) => s.dub === true).map((s) => PLATFORMS[s.platform].name)
-  return wege.length ? `Auf Deutsch bei ${[...new Set(wege)].join(', ')}.` : 'Mit deutscher Synchronisation.'
+  return wege.length ? `Auf Deutsch bei ${[...new Set(wege)].join(', ')}.` : (synchroSatz(t) ?? '')
+}
+
+/** Der Satz zur Synchro: nur bei belegter Synchro „Mit deutscher Synchronisation“; Cartoons nennen keinen (dort ist sie nicht der Normalfall). */
+export function synchroSatz(t: Title | undefined): string | null {
+  if (t?.westlich) return null
+  return t && synchroBelegt(t) ? 'Mit deutscher Synchronisation.' : 'Deutsche Synchro angekündigt oder wahrscheinlich, noch nicht belegt.'
+}
+
+/** Überschrift über den Terminen: „mit deutscher Synchronisation“ nur, wo die Synchro belegt ist. */
+export function termineUeberschrift(t: Title | undefined): string {
+  return t && synchroBelegt(t) ? 'Alle Termine mit deutscher Synchronisation' : 'Alle Termine'
+}
+
+/** Schema.org-Sprache des Werks: `de` nur bei belegter deutscher Synchro, sonst kein Feld (Sprache der Seite sagt `<html lang>`). */
+export function sprachFeld(t: Title | undefined): { inLanguage?: 'de' } {
+  return t && synchroBelegt(t) ? { inLanguage: 'de' } : {}
+}
+
+function aufzaehlung(teile: string[]): string {
+  return teile.length < 2 ? (teile[0] ?? '') : `${teile.slice(0, -1).join(', ')} und ${teile[teile.length - 1]}`
+}
+
+/** Der `<title>` einer Titelseite: „auf Deutsch“ nur bei belegter Synchro, Streaming und Termine nur, wo es sie gibt. */
+export function seitenTitel(name: string, t: Title | undefined, mitTermin: boolean): string {
+  const streaming = (t?.streams ?? []).some((s) => s.dub === true)
+  const termine = mitTermin ? ['Termine'] : []
+  if (!t || (!t.westlich && !synchroBelegt(t))) return `${name}: Stand der deutschen Synchro${mitTermin ? ' und Termine' : ''}`
+  if (t.westlich) return synchroBelegt(t) ? `${name} auf Deutsch: ${aufzaehlung(['Streaming', ...termine])}` : `${name}: Animationsserie und wo sie läuft`
+  return `${name} auf Deutsch: ${aufzaehlung(['Synchro', ...(streaming ? ['Streaming'] : []), ...termine])}`
 }
 
 function titelBeschreibung(t: Title): string {
@@ -46,7 +82,7 @@ function titelBeschreibung(t: Title): string {
 
 /** Auch Titel ohne Termin tragen Schema.org-Daten, mit allen Schreibweisen als `alternateName`. */
 function titelDaten(t: Title, name: string, url: string, description: string, bild: string | undefined): Record<string, unknown> {
-  const daten: Record<string, unknown> = { '@context': 'https://schema.org', '@type': t.format === 'MOVIE' ? 'Movie' : 'TVSeries', name, url, inLanguage: 'de', description }
+  const daten: Record<string, unknown> = { '@context': 'https://schema.org', '@type': t.format === 'MOVIE' ? 'Movie' : 'TVSeries', name, url, ...sprachFeld(t), description }
   const andere = andereNamen(t, name)
   if (andere.length) daten.alternateName = andere
   if (t.genres?.length) daten.genre = t.genres.slice(0, 5).map((g) => GENRE_DE[g] ?? g)
@@ -62,10 +98,10 @@ export function namenZeile(t: Title | undefined, gezeigt: string): string {
   return andere.length ? `<p style="margin:0 0 1rem;color:#9aa5bd;">Auch bekannt als: ${andere.map(esc).join(' · ')}</p>` : ''
 }
 
-export function titelKopf(t: Title): string {
+export function titelKopf(t: Title, umfeld: Umfeld, mitTermin = false): string {
   const url = `${SITE}${teilenPfad(t.slug)}`
   const name = titelName(t)
-  const headline = `${name} — ${t.westlich ? 'Animationsserie' : 'auf Deutsch'}`
+  const headline = seitenTitel(name, t, mitTermin)
   const description = titelBeschreibung(t)
   /* Ohne eigenes Bild das Standardbild der Seite (1200×630): Eine Karte ohne Bild wäre leer. */
   const eigenesBild = t.bannerImage ?? t.coverImage
@@ -88,6 +124,7 @@ ${masse}    <meta property="og:image:alt" content="${esc(name)}" />
     <meta name="twitter:image" content="${esc(bild)}" />
     <link rel="canonical" href="${url}" />
 ${titelJsonLd(titelDaten(t, name, url, description, eigenesBild))}
+${umfeld.krumenJsonLd}
     <script>
       if (!location.hash) location.hash = ${JSON.stringify(`#/woche?t=${t.id}`)};
     </script>`
@@ -100,11 +137,12 @@ export function synopsenAbsatz(synopsis: SynopsenText | undefined): string {
   return synopsis ? `<p style="margin:0 0 1.5rem;">${esc(synopsis.text)}</p>${synopsis.quelle}` : ''
 }
 
-export function titelInhalt(t: Title, synopsis: SynopsenText | undefined, eigene: Release[]): string {
+export function titelInhalt(t: Title, synopsis: SynopsenText | undefined, eigene: Release[], umfeld: Umfeld): string {
   const name = titelName(t)
   const wege = (t.streams ?? []).filter((s) => s.dub === true)
   const liste = (zeilen: string[]) => `<ul style="margin:0 0 1.5rem;padding-left:1.2rem;">\n        ${zeilen.join('\n        ')}\n      </ul>`
   return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
+      ${umfeld.krumenHtml}
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(name)}</h1>
       <p style="margin:0 0 1rem;color:#9aa5bd;">${esc(titelBeschreibung(t))}</p>
       ${namenZeile(t, name)}
@@ -121,6 +159,7 @@ export function titelInhalt(t: Title, synopsis: SynopsenText | undefined, eigene
             liste(eigene.map((r) => `<li>${esc(r.name)}</li>`))
           : ''
       }
+      ${umfeld.aehnlichHtml}
       <p><a href="${esc(SITE + '#/woche?t=' + t.id)}" style="color:#7dd3fc;">Im Kalender ansehen</a></p>
     </article>`
 }

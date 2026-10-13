@@ -7,6 +7,9 @@ import type { Translate } from '../../lib/i18n.tsx'
 
 const KNOPF =
   'inline-flex min-h-11 cursor-pointer items-center gap-1.5 rounded-full border border-slate-300 px-3.5 text-t3 font-semibold text-ak-text transition hover:bg-slate-500/10 dark:border-white/20 dark:hover:bg-white/10'
+/** Nur das Zeichen: 44 × 44, rund — „Ausblenden“ braucht kein Wort, der Name steht in `aria-label` und `title`. */
+const KNOPF_ZEICHEN =
+  'inline-flex size-11 cursor-pointer items-center justify-center rounded-full border border-slate-300 text-ak-text transition hover:bg-slate-500/10 dark:border-white/20 dark:hover:bg-white/10'
 const AN = 'border-sky-500 text-sky-800 dark:border-sky-400 dark:text-sky-200'
 
 /** Zeichen der Knöpfe: 18 px, Strich in der Textfarbe (SVG statt Emoji, damit sie in beiden Themen gleich aussehen). */
@@ -62,9 +65,8 @@ export function PanelAktionen({ title, favorites, onToggleFavorite, onToggleHidd
           {t(copiedSlug === title.slug ? 'kopf.kopiert' : 'detail.share')}
         </button>
       )}
-      <button type="button" onClick={() => onToggleHidden(title.id)} className={KNOPF}>
+      <button type="button" onClick={() => onToggleHidden(title.id)} aria-label={t('kopf.ausblenden')} title={t('kopf.ausblenden')} className={KNOPF_ZEICHEN}>
         <Auge />
-        {t('kopf.ausblenden')}
       </button>
       {trailer}
     </div>

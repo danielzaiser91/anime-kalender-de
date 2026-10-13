@@ -7,8 +7,7 @@
  */
 import type { Release, ReleaseEvent } from '../shared/types.ts'
 import { KATALOG_MIN_FOLGEN, schreibeKatalogRelease, type KatalogBelege } from '../shared/katalog-release.ts'
-import { katalogBelegFehler, katalogBelegTote, katalogBelege, ladeKatalogBelegEintraege } from './lib/katalog-belege.ts'
-import { readJson } from './lib/util.ts'
+import { katalogBelegBestandFehler, katalogBelegFehler, katalogBelege, ladeKatalogBelegEintraege } from './lib/katalog-belege.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -80,11 +79,15 @@ function handdatei(): void {
   pruefe(`${eintraege.length} Einträge, jeder mit Art, https-Quelle und kurzem Zitat`, eintraege.length > 0 && fehler.length === 0, fehler)
   const kaputt = katalogBelegFehler([{ slug: 'a', art: 'komplett', url: 'http://x', zitat: 'Episoden: 12' }, { slug: 'a', art: 'egal', url: '', zitat: '' }])
   pruefe('gegenprobe: ohne „(komplett)“, ohne https, doppelte Kennung, falsche Art, leeres Zitat sind Fehler', kaputt.length >= 6, kaputt)
-  const slugs = new Set(readJson<Release[]>('public/data/releases.json', []).map((r) => r.slug))
-  const tot = katalogBelegTote(eintraege, slugs)
-  pruefe('jede Kennung der Handdatei steht in releases.json', slugs.size > 0 && tot.length === 0, tot)
-  const erfunden = katalogBelegTote([...eintraege, { slug: 'erfundener-slug-ohne-release', art: 'teil', url: 'https://x', zitat: 'x' }], slugs)
-  pruefe('gegenprobe: eine erfundene Kennung wird als tot gemeldet', erfunden.length === 1 && erfunden[0]!.includes('erfundener-slug-ohne-release'), erfunden)
+  const eins = { slug: 'a', art: 'komplett', url: 'https://x/1', zitat: 'Episoden: 12 (komplett)' }
+  const ok = katalogBelegBestandFehler([eins], [{ slug: 'a', sources: ['https://x/1'] }])
+  const tot = katalogBelegBestandFehler([eins, { ...eins, slug: 'erfunden' }], [{ slug: 'a', sources: ['https://x/1'] }])
+  const ohneQuelle = katalogBelegBestandFehler([eins], [{ slug: 'a', sources: ['https://x/2'] }])
+  const abruf = katalogBelegBestandFehler([{ ...eins, art: 'beobachtet' }], [{ slug: 'a', sources: [] }])
+  pruefe('Bestandsregel: Kennung da und Quelle in den sources — kein Fehler', ok.length === 0, ok)
+  pruefe('gegenprobe: eine erfundene Kennung ist tot', tot.length === 1 && tot[0]!.includes('erfunden'), tot)
+  pruefe('gegenprobe: eine Quelle außerhalb der sources ist ein Fehler', ohneQuelle.length === 1, ohneQuelle)
+  pruefe('Art „beobachtet“ braucht keine Quelle in den sources', abruf.length === 0, abruf)
   pruefe('Art „teil“ führt zu „teil“, die übrigen zu „belegt“', [...katalogBelege(eintraege).values()].every((v) => v === 'belegt' || v === 'teil'))
 }
 

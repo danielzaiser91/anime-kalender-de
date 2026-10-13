@@ -1,4 +1,4 @@
-import type { Release, Title } from '@shared/types.ts'
+import { PLATFORMS, type Release, type Title } from '@shared/types.ts'
 import { addDays, formatDate } from '@shared/time.ts'
 import type { Translate } from '../../lib/i18n.tsx'
 import type { NewsletterVerbindung } from '../../lib/newsletterSync.ts'
@@ -30,6 +30,23 @@ export function kaufausgabeZeileVon({ title, releases, today, antwort, t }: {
   return label
     ? t('antwort.kaufausgabeAm', { datum, label })
     : t('antwort.kaufausgabeAmOhne', { datum })
+}
+
+/* Nennt die Erstausgabe denselben Anbieter früher, ist das spätere Angebot keine
+   Auskunft mehr („Auf Deutsch seit 28.12.2023 · Netflix, Inc." über „Bei Netflix im
+   Angebot seit 08.03.2024", Pokémon-Concierge, Stichprobe 16.09.2026). */
+export function angebotSeitZeileVon(title: Title, t: Translate): string | undefined {
+  return title.angebotSeit &&
+    !(
+      title.deErstausgabe?.von &&
+      title.deErstausgabe.von <= title.angebotSeit.date &&
+      (title.deErstausgabe.publisher ?? '').toLowerCase().includes((PLATFORMS[title.angebotSeit.platform]?.name ?? '§').toLowerCase())
+    )
+    ? t('antwort.imAngebotSeit', {
+        datum: formatDate(title.angebotSeit.date),
+        anbieter: PLATFORMS[title.angebotSeit.platform]?.name ?? title.angebotSeit.platform,
+      })
+    : undefined
 }
 
 /*

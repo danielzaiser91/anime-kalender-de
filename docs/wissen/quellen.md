@@ -484,6 +484,13 @@ einzige Suche (`ersetztSucheUndMeldetWeg()`, `lib/weg-aus-beleg.ts`); der Weg bl
 Ersatz-Cache, der AniLists Amazon-Link nachbildet (Daten vom 12.10.2026 09:31 Uhr, `82c82ef5e`), verlor 73 Prime-Wege, darunter
 alle 16; mit der Änderung kommen alle 16 zurück.
 
+**Anbieter-Ja trägt den Kanal-Weg** (13.10.2026, Daniel: „Prime Video (Crunchyroll)“ wie Crunchyroll, Reborn as a Space Mercenary).
+Ist der Anbieter hinter dem Kanal ein eigener Weg desselben Titels (Crunchyroll, ADN; `shared/kanal-anbieter.ts`) mit belegtem Ja, erbt der
+Kanal-Weg `dub` und `dubRanges` (`kanalErbtVomAnbieter()`, `bau/kanal-erbt-anbieter.ts`, aufgerufen in 13-schreiben). Das ist die zweite Quelle der
+Kanal-Regel, aus einer anderen Messung (Dub-Liste des Anbieters). Ein Nein oder offenes Urteil des Anbieters, ein eigenes Urteil des Kanals und
+Kanäle ohne eigenen Anbieter-Weg (Aniverse u. a.) bleiben unberührt (Hell Mode, Golden Wind). Im Kalender geht der Prime-Kanal-Termin in der
+Kachel seines Anbieters auf (`vereineAnbieter`, `kanalVon`); ohne den Anbieter am Tag bleibt er.
+
 **Nachtrag 12.10.2026 (Abend): Das Kanal-Ja wird nachgemessen, die Regel bleibt.** Daniel: „Erst messen, dann entscheiden.“ Herkunft von Hell Mode
 (`daniel-zum-abarbeiten/berichte/hell-mode-herkunft-2026-10-12.md`): Der Melder bis 4.20.10 (15.09.2026, `141e692d8`) füllte über eine Rückfallebene ein
 Sammel-Set `gesehen.sprachen` ohne Folgennummer; Amazon zeigte auch am 30.08. nur 日本語. Altes Seiten-HTML war es nicht.
@@ -1088,6 +1095,36 @@ entscheidet: „Chihiros Reise ins Zauberland" und „Your Name." haben beide ei
 Synchronfassung und tragen trotzdem nur `spoken_languages: [ja]`. Das Feld meint die Sprache
 **des Films**, nicht die verfügbaren Fassungen. Über 18 deutsche Termine in sechs Filmen ist
 `iso_639_1` siebzehnmal leer; das eine `"de"` steht an einer TV-Ausstrahlung.
+
+## „Zuletzt im Kino: April 2026“ — TMDB `release_dates` rückwärts gelesen (13.10.2026)
+
+Anlass: Assassination Classroom: Our Time (AniList 198373, TMDB 1542877) hat die deutsche Fassung ab 25.04.2026 (aniSearch), im Datensatz
+stand kein Kinostart — die Kino-Quellen (`fetch-tmdb-kino.ts`, Kinoheld, Cinestar) schauen nur zwölf Monate nach vorn.
+
+**Gemessen** (13.10.2026, `GET /movie/{id}/release_dates`, ein Abruf je Film, 60 ms Abstand; TMDB nennt ~50 Anfragen/s als Obergrenze):
+
+| Messung | Ergebnis |
+|---|---|
+| Our Time (1542877) | DE, Typ 3, **2026-04-25** → „April 2026“ stimmt, deckt sich mit dem aniSearch-Datum |
+| 12 Stichproben | Typ 3: Our Time, Kitaro 2025-11-19, Dragon Maid 2026-03-31, Tom-Crosby-Mäusebrigade 1978; Typ 2: Detektiv Conan 2020-06-30 („KAZÉ Anime Nights“); nur Typ 4/5/6: Cowboy Bebop (4), xxxHOLiC (5), Pokémon Lucario (6), Mardock Scramble (5); kein DE-Eintrag: 3 |
+| alle 716 Filme mit TMDB-Kennung | **254 mit DE-Kinostart bis heute** (35 %), 3 nur künftig, 294 nur Typ 1/4/5/6, 165 ohne DE-Eintrag, 0 Fehler |
+| Alter der 254 (jüngster Start) | 2026: 12, 2025: 16, 2024: 18, 2023: 13, 2022: 11, 2021: 13, 2020: 12, 2010–19: 111, 2000–09: 38, vor 2000: 10 |
+
+Mit der echten Anzeigelogik gezählt (`berechneAntwort` + `fragtKinoZuletzt` auf `titles.json`/`releases.json`): **247 Filme** bekämen die Zeile,
+einer wäre `filmDe` (hat schon einen Kino-Termin im Kasten), einer `fertig`.
+
+**Bauweise.** `fetch-tmdb-titles.ts` ruft `release_dates` für Filme ohnehin (FSK) — `kinoDe` (alle DE-Starts Typ 2/3) kostet keinen zusätzlichen Abruf und fällt
+unter die 150-Tage-Regel (`INHALTSFELDER`). Film-Einträge ohne `kinoDe` sind sofort fällig (`kinoFehlt`), so füllt sich der Bestand in zwei Wochenläufen
+(`--limit 400`, 716 Filme) statt in 60 Tagen. Der Bau schreibt `public/data/kino-zuletzt.json` (AniList → Monat, nur Format `MOVIE` mit TMDB-Art `movie`;
+Kennungen werden zu `ak`), das Panel lädt sie erst beim Öffnen eines Films — nicht in `titles.json`, weil nur eine Minderheit sie braucht.
+
+**Regeln.** (1) Nur Land DE und Typ 2/3; Typ 4/5 sind Stream und Disc. (2) Nur Monat und Jahr, nie ein Tag. (3) Ein künftiger Start zählt erst ab seinem Tag
+(der tägliche Bau entscheidet; `check-kino-zuletzt.ts`). (4) Die Zeile steht nur bei belegter Synchro und nicht unter einem Kino-Banner: Der Kinostart sagt nichts
+über die Fassung (OmU-only-Filme haben denselben Eintrag, s. o.), die Zeile behauptet deshalb keine deutsche Kinofassung. (5) Mehrfach vergebene TMDB-Filmkennungen
+sind schon vor dem Bau verworfen (`mehrdeutigeFilmzuordnungen`).
+
+**Offen:** Die 111 + 38 + 10 Einträge vor 2020 sind meist Erstaufführungen der 2000er („Zuletzt im Kino: April 2004“) — belegt, aber für Besucher kaum von Nutzen.
+Ein Schnitt (z. B. nur ab 2015) ist eine Zeile in `zuletztImKino()`; Entscheidung bei Daniel.
 
 ## Ein Anbieter meldet, was neu ist — fragen muss man ihn selbst
 
@@ -3740,6 +3777,8 @@ Schritt 6 der AniList-Ablösung, **nur Messung, nicht umgeschaltet**. `pipeline/
 **Schritt 7 (12.10.2026, Bericht `reihen-abstand-2026-10-12.md`):** Hauptbestand mit Schalter **89,6 %** gleiche Reihen (vorher 86,3 %), Haupt+Katalog mit Seite 77,7 % (73,5 %; Katalog-Cache vom 03.09.). (1) Ursache der zwei Fehlzuordnungen: aniSearch trägt bei frisch angelegten Einträgen manchmal die MAL-Kennung des Nachbareintrags (21603 Dr. Slump = 21602 Xian Di Guilai, 21619 = 21617, 21605 = 21604, 21648 = 21647; 78 MAL-Gruppen mit mehreren Einträgen enthalten 14 Paare ohne Namensanfang und ohne Beziehung); die gleiche MAL band Titel an fremde Reihen. Eine MAL-Kennung nur aus aniSearchs Eintrag (`malAnisearch`) verbindet jetzt nur mit Namensanfang oder Beziehung; die eigene (AniList) gilt wie bisher. Wirkung: 54 Titel in 6 Reihen, 1 im Hauptbestand (Dr. Slump). (2) 97 `reinIds:`-Einträge in `reihen-von-hand.yaml` (wie `ids:`, aber nur im reinen Weg gelesen, damit der Standardweg unverändert bleibt) für die Klassen A–D im Hauptbestand; draußen blieben Crossover und eigene Werke im selben Universum (Higurashi/Umineko, Riding Bean/Gunsmith Cats, Megalo Box, Grendizer, Nisekoimonogatari, Starship Troopers OVA, Ponkotsuland Saga) und drei Fälle ohne Beleg. Pure-aniSearch-Titel (Id ab 10.000.000), die in `ohne-synchro.json` stehen, laufen im Hauptlauf mit: ihre Kennung gehört in den Eintrag, sonst bleiben sie dort allein. Klasse I (Gundam, Precure, Conan, One Piece, Fate, Doraemon) unberührt, Entscheidung offen.
 
 **Schritt 8 (12.10.2026): Hauptbestand umgeschaltet, Katalog nicht.** Daniel entschied am 12.10. um 17:43: Riesen-Franchises je Handlungsstrang (Gundam SEED/00/UC je eine Reihe, jede Precure-Staffel eine). `bestandReihenAusAnisearch()` ist an, außer bei `REIHEN_QUELLE=anilist` (Rückweg); `katalogReihenAusAnisearch()` bleibt aus (Katalog nur mit `REIHEN_QUELLE=anisearch`), bis die 3.049 Titel ohne aniSearch-Kennung zugeordnet sind. Wirkung im Hauptbestand (Bau auf Bestand `dec17337a`, 2.920 gemeinsame Titel): 304 Titel in 30 Clustern ändern ihre Reihe (89,6 % gleich); Reihen mit mindestens 2 Titeln 492 mit 1.924 Titeln, danach 498 mit 1.917. Der Katalog bleibt beim AniList-Weg und hängt seine Titel an die Bestandsreihe mit der kleinsten Kennung der verbundenen Gruppe: bei Gundam liegen alle Katalogtitel (126) in der Reihe von Gundam Wing, SEED, 00, Hathaway und GQuuuuuuX haben nur ihre Bestandsteile. **Regel „?“/Sammelart zwischen zwei Mehrtitel-Reihen, wenn die kleinere nur Film/Special/OVA/ONA enthält: gemessen, nicht eingebaut.** Hauptbestand, 2.917 Titel mit Seite, Referenz die ausgelieferten Reihen: heute 2.627 gleich (90,1 %); „?“ allein 0 Treffer (24 gelockerte Kanten, 1 Verschmelzung); „?“ + Anderes/Charakter/Crossover (mit Namensbedingung) 2.648 (+21), davon 1 Treffer (Ghost in the Shell: 3 Tachikoma-Specials, +21 Titel gleich) und 1 Fehlgriff (Lupin III vs Detektiv Conan landet je nach Kantenreihenfolge bei Lupin statt bei Conan); zusätzlich „Gemeinsames Universum“ (Namensanfang 5): Fehlgriff Tales of Symphonia ↔ Vesperia; ohne Namensbedingung: dazu Bleach ↔ Burn the Witch. Von 20 Referenzreihen, die der reine Weg im Hauptbestand zerlegt, haben 11 kleinere Teile nur aus Film/Special/OVA/ONA, aber nur 1 hängt über eine zählende Kante (Charakter mit Namensanfang) an; die übrigen tragen Crossover (3), Universum (1), nur „Anderes“ ohne Namensanfang (1) oder gar keine Kante (5). Grendizer: die Crossover-Filme hängen an zwei Reihen mit Serie, die Regel greift nicht (bleibt getrennt); Summer Ghost: einzelner Film mit nur einer Universum-Kante, keine Mehrtitel-Reihe. Die Katalog-Messung (Haupt + Katalog, 204 Cluster) wurde nicht gemacht: der Katalog bleibt beim alten Weg; sie gehört zu Schritt 0. Einzeln weiter von Hand: GITS Tachikoma, Girls und Panzer Saishuushou 5, Angel Beats! Tokubetsu-hen, Black Jack OVA/Film, Hokuto no Ken (2026), B: The Beginning/The Perfect World (Fehltrennungen im neuen Weg, siehe PR).
+
+**Schritt 9 (13.10.2026): Katalog-Reihen rein aus aniSearch.** `katalogReihenAusAnisearch()` ist an (Rückweg wie beim Hauptbestand `REIHEN_QUELLE=anilist`). Die 3.044 Katalogtitel ohne aniSearch-Kennung brauchen kein Matching: ihre AniList-Kanten gehen als `zusatz` (Titel-Paare, `anilistKantenOhneKennung`) in `reineReihen` und verbinden erst nach allen aniSearch-Kanten; zwei feste Reihen und `getrennt:` sperren sie, ein Crossover (zwei Eltern) verbindet weiter nichts. Vorher bestimmten 10.463 Katalogtitel mit 18.182 AniList-Kanten die Reihen, jetzt 2.821 Kanten an 2.298 Titeln. Messung auf Katalog-Cache 03.09. (17.882 Einträge) mit den ausgelieferten Hauptbestandsreihen als Anker, 15.125 Katalogtitel: gleiche Reihe wie der AniList-Weg 12.550 (83,0 %); mit Kennung 9.761 von 12.099 (80,7 %), ohne Kennung 2.789 von 3.026 (92,2 %). Ohne `zusatz` wären es 68,4 % (ohne Kennung 57,6 %: 1.273 Titel stünden allein, die heute in einer Reihe sind). Abweichungen: 272 Cluster mit 2.186 Titeln zerlegt (Gundam 137 Titel in 36 Teile = die Entscheidung vom 12.10., Anpanman 73 in 2, Lupin III 62 in 3), 115 Cluster mit 282 Titeln verschmolzen (Macross, Gintama-Specials, Time Bokan), 30 gemischt (Conan, Doraemon, Precure); Reihen mit mindestens 2 Titeln 2.604 auf 2.684. Kein Titel geht verloren (17.882 Zuordnungen vorher und nachher). Bauvergleich mit echtem Katalog-Cache (`BAU_VERGLEICH_KATALOG=<Pfad>` in `tools/bau-vergleich.mjs`, legt dieselbe Datei in beide Bauten): Umbau-Commit `3922bd830` gleich zu `959f470b5`; Verhaltens-Commit `91fafb397`: `titles.json` ohne `tr` unverändert, `reihen.json` gleich, `ohne-synchro.json` 17.610 Titel vorher und nachher, 79,9 % der Katalogtitel mit gleicher Reihenmenge (3.535 ändern sie), 365 Titel wechseln von einer Mehrtitel-Reihe zu allein, 254 umgekehrt, `franchises.json` 904 auf 908 Reihen (5.027 auf 4.798 Titel). **Befund `titleDe`:** der deutsche Name aus den Synonymen hängt am Reihennamen (`deutschAusSynonymen`); 44 Katalogtitel verlieren ihn (Black Jack Specials „The 4 Miracles of Life", Digimon X-Evolution, Digimon Savers THE MOVIE „Digimon Movie 01 - Season 05": englisch, nicht deutsch), 5 bekommen einen (Gundam SEED Destiny „Episode 51", Detektiv Conan OVA 1), 2 wechseln. `tr` (Sortierplatz nach Anzeigename) verschiebt sich dadurch in allen drei Dateien. Skripte: Scratchpad `anilist-rest-katalog/`.
 
 ## Avatar: Die sieben Häfen — Artikel, Rhythmus, warum der Sammler es nicht brachte (12.10.2026)
 

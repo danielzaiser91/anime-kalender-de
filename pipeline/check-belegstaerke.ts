@@ -4,7 +4,8 @@
  */
 import type { Title } from '../shared/types.ts'
 import { titleStatus } from '../shared/logic.ts'
-import { belegstaerke, forumTitel, hochOhneBeleg, type Belegsignale } from './lib/belegstaerke.ts'
+import { synchroBelegt } from '../shared/titles.ts'
+import { belegstaerke, forumTitel, hochOhneBeleg, zaehleBelegte, type Belegsignale } from './lib/belegstaerke.ts'
 import type { DubCheck } from './lib/dub-confirmed.ts'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -68,6 +69,20 @@ console.log('\nBelegstärke: Zusicherung für die Auslieferung')
     { handbelegt: new Set([7]), kartei: new Set([8]) },
   )
   pruefe('hoch ohne starke Quelle und ohne aniSearch-Marke (auch mit Forum-Treffer) wird gemeldet', gefunden.join() === '1,2,9', gefunden)
+}
+
+console.log('\nBelegstärke: Cartoons (westlich) entscheiden wie synchroBelegt')
+{
+  const t = (westlich: boolean, dubConfidence: Title['dubConfidence'], dub: boolean): Title =>
+    ({ id: 1, westlich, dubConfidence, streams: [{ platform: 'disney', url: 'x', ...(dub ? { dub } : {}) }] }) as unknown as Title
+  const faelle = [true, false].flatMap((w) => (['low', 'normal', 'high', 'very-high'] as const).flatMap((d) => [t(w, d, true), t(w, d, false)]))
+  const abweichung = faelle.filter((x) => zaehleBelegte([x]) !== Number(synchroBelegt(x)))
+  pruefe('zaehleBelegte entscheidet in allen 16 Fällen wie synchroBelegt', abweichung.length === 0, abweichung.map((x) => [x.westlich, x.dubConfidence, x.streams?.[0]?.dub]))
+  const cartoonHoch = t(true, 'very-high', false)
+  pruefe('Cartoon mit Stufe very-high, aber ohne dub-Weg, zählt nicht als belegt', zaehleBelegte([cartoonHoch]) === 0)
+  pruefe('Cartoon mit dub-Weg zählt auch bei Stufe low als belegt', zaehleBelegte([t(true, 'low', true)]) === 1)
+  const gemeldet = hochOhneBeleg(faelle.filter((x) => x.westlich), { handbelegt: new Set(), kartei: new Set() })
+  pruefe('hochOhneBeleg meldet keinen Cartoon (belegt heißt dort: ein dub-Weg, der selbst der Beleg ist)', gemeldet.length === 0, gemeldet)
 }
 
 if (fehler) {

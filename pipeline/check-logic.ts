@@ -195,7 +195,7 @@ import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
 import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
 import { adressIndex, nameIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
 import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
-import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
+import { aehnlicheTitel } from '../shared/aehnlich.ts'
 import { bereichsSuche } from '../web/src/lib/filter-suche.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
 import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
@@ -3392,7 +3392,7 @@ console.log('\nJapanischer Start: so genau wie die Quelle, und angekündigte Tit
 
 console.log('\nÄhnliche Titel:')
 {
-  const { aehnlicheTitel } = await import('../web/src/lib/aehnlich.ts')
+  const { aehnlicheTitel } = await import('../shared/aehnlich.ts')
   const titel = (id: number, genres: string[], keywords: string[], franchiseId?: number) =>
     ({ id, franchiseId, genres, keywords }) as unknown as import('../shared/types.ts').Title
   const liste = [

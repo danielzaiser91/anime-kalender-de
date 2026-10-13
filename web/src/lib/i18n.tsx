@@ -18,9 +18,6 @@ import { TEXTE_KALENDER } from './i18n-kalender.ts'
  */
 const TEXTE = {
   'app.title': 'Anime-Kalender DE',
-  'app.subtitle': 'alles mit deutscher Synchro',
-  'app.description':
-    'Wochenkalender aller Anime-Releases mit deutscher Synchronisation: Termine, Uhrzeiten, Plattform, FSK und Genres. Mit Google-Calendar-Export und Newsletter.',
   'app.loading': 'Kalender wird geladen …',
   'app.loadingTitles': '{count} Einträge werden geladen …',
   'app.loadError': 'Daten konnten nicht geladen werden',
@@ -796,11 +793,11 @@ export function useLang(): LanguageValue {
   return VALUE
 }
 
-/** Einmalig beim Start: Sprache im HTML und die Metaangaben setzen. */
+/**
+ * Einmalig beim Start: Sprache im HTML setzen. Titel und Beschreibung bleiben, wie die ausgelieferte Seite sie nennt —
+ * jede Seite (Start, Titel, Verzeichnis) trägt ihre eigenen; die App überschrieb sie auf allen mit demselben Text,
+ * und Google liest die Seite nach dem Rendern (13.10.2026).
+ */
 export function applyDocumentLanguage(): void {
   document.documentElement.lang = 'de'
-  document
-    .querySelector('meta[name="description"]')
-    ?.setAttribute('content', TEXTE['app.description'])
-  document.title = `${TEXTE['app.title']} — ${TEXTE['app.subtitle']}`
 }

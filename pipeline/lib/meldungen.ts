@@ -477,10 +477,11 @@ export function releasesAus(
  * **Ein Crunchyroll-Kanal auf Prime führt den Wochenplan von Crunchyroll** (Daniel, 11.10.2026, „Reborn as a Space Mercenary":
  * Prime „1 Fg.", Crunchyroll „2 Fg."). Die Meldung nennt weder Folgenzahl noch Uhrzeit, und ein Wochentermin ohne Folgenzahl
  * erzeugt nur eine Folge (`expandEvents`). Beides kommt deshalb vom Crunchyroll-Termin desselben Titels mit gleichem Starttag;
- * der Starttag bleibt der der Meldung. Gleiche Regel wie im Panel für Wege (`web/…/prime-kanal.ts`).
+ * der Starttag bleibt der der Meldung. Gleiche Regel wie im Panel für Wege (`web/…/prime-kanal.ts`). Auch die geschätzte Folgenzahl, die `releasesAus`
+ * aus AniList einsetzt, weicht der von Crunchyroll (Reborn: 13 geschätzt gegen die Zahl von Crunchyroll; die Regel griff vorher nie, 13.10.2026).
  */
 function mitPlanDesKanalAnbieters(r: Release, vorhanden: Release[]): Release {
-  if (r.platform !== 'primevideo' || r.kanal?.toLowerCase() !== 'crunchyroll' || r.releaseType !== 'weekly' || r.schedule.episodeCount) return r
+  if (r.platform !== 'primevideo' || r.kanal?.toLowerCase() !== 'crunchyroll' || r.releaseType !== 'weekly' || (r.schedule.episodeCount && !r.schedule.episodeCountAssumed)) return r
   const cr = vorhanden.find(
     (x) => x.titleId === r.titleId && x.platform === 'crunchyroll' && x.releaseType === 'weekly' && x.schedule.episodeCount && x.schedule.firstEpisodeDate === r.schedule.firstEpisodeDate,
   )
@@ -492,8 +493,8 @@ function mitPlanDesKanalAnbieters(r: Release, vorhanden: Release[]): Release {
       ...r.schedule,
       ...(time ? { time } : {}),
       episodeCount,
-      ...(episodeCountAssumed ? { episodeCountAssumed } : {}),
-      ...(episodeCountSource ? { episodeCountSource } : {}),
+      episodeCountAssumed: episodeCountAssumed || undefined,
+      episodeCountSource: episodeCountSource || undefined,
     },
   }
 }

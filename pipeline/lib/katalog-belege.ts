@@ -50,9 +50,20 @@ export function katalogBelegFehler(eintraege: KatalogBelegEintrag[]): string[] {
   return fehler
 }
 
-/** Kennungen der Handdatei, die in `releases.json` nicht (mehr) vorkommen: ein toter Beleg wirkt nirgends. */
-export function katalogBelegTote(eintraege: KatalogBelegEintrag[], releaseSlugs: Set<string>): string[] {
-  return eintraege.filter((e) => !releaseSlugs.has(e.slug)).map((e) => `Katalog-Release von Hand ${e.slug}: kein Release dieser Kennung in releases.json`)
+/**
+ * Gegen `releases.json`: eine Kennung ohne Release wirkt nirgends (tot); eine Quelle, die nicht in den `sources` ihres Releases steht,
+ * belegt dort nichts. `beobachtet` hat als Quelle den Abruf, keine Terminaussage, und braucht keinen Eintrag in `sources`.
+ */
+export function katalogBelegBestandFehler(eintraege: KatalogBelegEintrag[], releases: Pick<Release, 'slug' | 'sources'>[]): string[] {
+  const nachKennung = new Map(releases.map((r) => [r.slug, r]))
+  const fehler: string[] = []
+  for (const e of eintraege) {
+    const at = `Katalog-Release von Hand ${e.slug}`
+    const r = nachKennung.get(e.slug)
+    if (!r) fehler.push(`${at}: kein Release dieser Kennung in releases.json`)
+    else if (e.art !== 'beobachtet' && !r.sources.includes(e.url)) fehler.push(`${at}: Quelle fehlt in den sources des Releases (${e.url})`)
+  }
+  return fehler
 }
 
 /** Kennung → Urteil: `belegt` (komplett, beobachtet) oder `teil`. */
