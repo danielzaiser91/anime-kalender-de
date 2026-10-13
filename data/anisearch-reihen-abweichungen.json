@@ -1,47 +1,47 @@
 {
   "stand": "2026-10-13",
   "deckung": {
-    "titel": 20624,
-    "mitSeite": 16084,
-    "ohneSeite": 10,
+    "titel": 20620,
+    "mitSeite": 16080,
+    "ohneSeite": 11,
     "ohneAnisearchKennung": 3048,
-    "ohneReferenz": 1482,
+    "ohneReferenz": 1481,
     "seitenImArchiv": 17487,
     "kanten": 18577
   },
   "gesamt": {
-    "titel": 16084,
-    "gleich": 12397,
-    "fehlen": 1991,
-    "zusaetzlich": 937,
-    "gemischt": 759
+    "titel": 16080,
+    "gleich": 12402,
+    "fehlen": 1990,
+    "zusaetzlich": 930,
+    "gemischt": 758
   },
   "hauptbestand": {
-    "titel": 2872,
-    "gleich": 2173,
+    "titel": 2874,
+    "gleich": 2176,
     "fehlen": 403,
-    "zusaetzlich": 186,
+    "zusaetzlich": 185,
     "gemischt": 110
   },
   "haelfteA": {
     "titel": 7364,
-    "gleich": 5631,
-    "fehlen": 892,
-    "zusaetzlich": 488,
-    "gemischt": 353
+    "gleich": 5637,
+    "fehlen": 891,
+    "zusaetzlich": 484,
+    "gemischt": 352
   },
   "haelfteB": {
-    "titel": 8720,
-    "gleich": 6766,
+    "titel": 8716,
+    "gleich": 6765,
     "fehlen": 1099,
-    "zusaetzlich": 449,
+    "zusaetzlich": 446,
     "gemischt": 406
   },
   "cluster": {
-    "einzel": 5397,
-    "gleich": 2228,
+    "einzel": 5400,
+    "gleich": 2227,
     "zerlegt": 266,
-    "verschmilzt": 97,
+    "verschmilzt": 96,
     "gemischt": 46
   },
   "beispiele": {
@@ -443,13 +443,6 @@
         "anisearch": 3
       },
       {
-        "id": 288,
-        "name": "Bakuten Shoot Beyblade",
-        "titel": 21,
-        "referenz": 4,
-        "anisearch": 3
-      },
-      {
         "id": 518,
         "name": "Mahou no Princess Minky Momo",
         "titel": 21,
@@ -462,6 +455,13 @@
         "titel": 21,
         "referenz": 3,
         "anisearch": 3
+      },
+      {
+        "id": 288,
+        "name": "Bakuten Shoot Beyblade",
+        "titel": 20,
+        "referenz": 4,
+        "anisearch": 2
       },
       {
         "id": 6525,

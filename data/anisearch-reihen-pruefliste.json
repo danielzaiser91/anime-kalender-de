@@ -1,11 +1,11 @@
 {
-  "stand": "2026-10-12",
+  "stand": "2026-10-13",
   "angehaengt": 276,
   "neueReihen": 250,
   "katalog": {
-    "angehaengt": 216,
+    "angehaengt": 213,
     "neueReihen": 24,
-    "bestandEinzeln": 214
+    "bestandEinzeln": 212
   },
   "pruefliste": [
     {
@@ -86,42 +86,6 @@
         "Anime-gatari"
       ],
       "beispiel": "",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
-          "id": 163828,
-          "name": "Kkoma Bus Tayo 1",
-          "titel": 16
-        },
-        {
-          "id": 188066,
-          "name": "Titipo Titipo",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Titipo Titipo 2 —gleiche Kennung→ Ttittippo Ttittippo 2 (3 Kanten)",
-      "quelle": "katalog"
-    },
-    {
-      "art": "verschmilzt",
-      "reihen": [
-        {
-          "id": 122536,
-          "name": "Rick and Morty vs. Genocider",
-          "titel": 4
-        },
-        {
-          "id": 10019445,
-          "name": "Rick and Morty: The Anime",
-          "titel": 3
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Rick and Morty: The Anime —gleiche Kennung→ Rick and Morty: The Anime (5 Kanten)",
       "quelle": "katalog"
     },
     {
@@ -346,7 +310,7 @@
         {
           "id": 288,
           "name": "Bakuten Shoot Beyblade",
-          "titel": 7
+          "titel": 6
         },
         {
           "id": 21236,
@@ -1442,6 +1406,24 @@
       "art": "verschmilzt",
       "reihen": [
         {
+          "id": 163828,
+          "name": "Kkoma Bus Tayo 1",
+          "titel": 15
+        },
+        {
+          "id": 188066,
+          "name": "Titipo Titipo",
+          "titel": 2
+        }
+      ],
+      "alleinstehende": [],
+      "beispiel": "Titipo Titipo 2 —Prequel→ Titipo Titipo 3 (1 Kante)",
+      "quelle": "katalog"
+    },
+    {
+      "art": "verschmilzt",
+      "reihen": [
+        {
           "id": 1822,
           "name": "The Hakkenden",
           "titel": 2
@@ -2018,42 +2000,6 @@
       "art": "universum",
       "reihen": [
         {
-          "id": 163828,
-          "name": "Kkoma Bus Tayo 1",
-          "titel": 16
-        },
-        {
-          "id": 188066,
-          "name": "Titipo Titipo",
-          "titel": 2
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Titipo Titipo 2 —Gemeinsames Universum→ Ttittippo Ttittippo 2",
-      "quelle": "katalog"
-    },
-    {
-      "art": "universum",
-      "reihen": [
-        {
-          "id": 122536,
-          "name": "Rick and Morty vs. Genocider",
-          "titel": 4
-        },
-        {
-          "id": 10019445,
-          "name": "Rick and Morty: The Anime",
-          "titel": 3
-        }
-      ],
-      "alleinstehende": [],
-      "beispiel": "Rick and Morty: The Anime —Gemeinsames Universum→ Rick and Morty: The Anime",
-      "quelle": "katalog"
-    },
-    {
-      "art": "universum",
-      "reihen": [
-        {
           "id": 5962,
           "name": "Metal Fight Beyblade",
           "titel": 6
@@ -2308,7 +2254,7 @@
         {
           "id": 288,
           "name": "Bakuten Shoot Beyblade",
-          "titel": 7
+          "titel": 6
         },
         {
           "id": 165159,
@@ -2326,7 +2272,7 @@
         {
           "id": 288,
           "name": "Bakuten Shoot Beyblade",
-          "titel": 7
+          "titel": 6
         },
         {
           "id": 5962,

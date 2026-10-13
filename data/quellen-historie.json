@@ -6568,5 +6568,32 @@
       "gesehenAm": "2026-10-12",
       "stand": "aktuell"
     }
+  ],
+  "auto-204389-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1050718/crunchyroll-19-neue-herbst-2026-simulcasts/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-13",
+      "sagt": "2026-09-26",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-185756-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1050718/crunchyroll-19-neue-herbst-2026-simulcasts/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-13",
+      "sagt": "2026-09-27",
+      "stand": "aktuell"
+    }
+  ],
+  "auto-152677-primevideo": [
+    {
+      "url": "https://www.anime2you.de/news/1050718/crunchyroll-19-neue-herbst-2026-simulcasts/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-13",
+      "sagt": "2026-10-07",
+      "stand": "aktuell"
+    }
   ]
 }
