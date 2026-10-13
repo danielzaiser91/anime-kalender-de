@@ -415,7 +415,7 @@ Auftrag (Daniel, 08.10.2026): Das Projekt soll irgendwann ohne sein Zutun laufen
 
 | Aufgabe | Wie | Beleg |
 |---|---|---|
-| Takt der Datenläufe | Cloudflare-Wecker startet per `workflow_dispatch`: Stunden-Lauf stündlich, Tageslauf 04 UTC, Wochenlauf Mo 05 UTC, ADN 02/08/14/20, Recherche 11, aniSearch-Katalog 06 | `shared/weckplan.ts` |
+| Takt der Datenläufe | Cloudflare-Wecker startet per `workflow_dispatch`: Stunden-Lauf stündlich, Tageslauf 04 UTC, Wochenlauf Mo 05 UTC, ADN 02/08/14/20, Recherche 11, aniSearch-Katalog 06, offizielle Websites 13 | `shared/weckplan.ts` |
 | Ausfall des Weckers | zweite Linie `wecker-wache.yml` (GitHub-Cron alle 3 h) startet Überfälliges nach | `.github/workflows/wecker-wache.yml` |
 | Sammeln, Zusammenführen, Bauen, Veröffentlichen | Sammler reichen Pull Requests ein; `claude-daten-merge.yml` löst Konflikte; `bestand-bauen.yml` hängt per `workflow_run` an den Sammlern; `deploy.yml` danach | Workflow-Köpfe; Tageslauf 06.–08.10. je grün, Bau 6 von 8 jüngsten grün (1 abgebrochen, 1 läuft) |
 | Roter Lauf | `claude-reparatur.yml` springt bei Rot von Bau und Wache an (7 Starts in den letzten 40 Läufen, alle übersprungen, also war nichts rot) | `gh run list`, 08.10.2026 |

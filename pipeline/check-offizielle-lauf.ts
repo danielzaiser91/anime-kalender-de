@@ -3,8 +3,11 @@
  * Höflichkeit (robots.txt, Crawl-delay, Pause statt Abbruch) und die Fristen. Jede Drossel hat ihren Test „Änderung wird spätestens nach X sichtbar“:
  * - eine neue Meldung steht spätestens nach 3 Tagen in der Vorschlagsdatei (60 Hosts, 25 je Lauf),
  * - eine geänderte robots.txt gilt spätestens am 7. Tag,
- * - eine Pause endet spätestens nach 24 Stunden, auch bei `Retry-After` von 10 Tagen.
+ * - eine Pause endet spätestens nach 24 Stunden, auch bei `Retry-After` von 10 Tagen,
+ * - der Wecker startet den Lauf täglich; fällt er aus, holt die Wecker-Wache ihn nach 30 Stunden nach (`shared/weckplan.ts`, `wecker-wache.yml`).
  */
+import { readFileSync } from 'node:fs'
+import { faelligeLaeufe, startErlaubt } from '../shared/weckplan.ts'
 import { crawlDelay, type Antwort, type Holer } from './lib/offiziell-abruf.ts'
 import { lauf, type LaufEinstellung } from './lib/offiziell-lauf.ts'
 import { MUSTER_NAMEN, ladeSeiten, titelJeHost, type Seite } from './lib/offiziell-seiten.ts'
@@ -131,6 +134,22 @@ function zuordnung(): void {
   pruefe('ein Titel, den der Bestand nicht kennt, bekommt keine Kachel', !karte.has('nur-in-anisearch.jp'))
 }
 
+/** Der Wecker startet den Sammler täglich; die Wache holt ihn nach und kontrolliert ihn. Ohne diese Einträge liefe er nie von selbst. */
+function wecker(): void {
+  console.log('\nZeitplan (Cloudflare-Wecker)')
+  const um = (isoZeit: string): boolean => faelligeLaeufe(new Date(isoZeit)).includes('offizielle-news.yml')
+  pruefe('täglich um 13 Uhr UTC fällig, zu anderen Stunden nicht', um('2026-10-14T13:00:00Z') && um('2026-10-17T13:00:00Z') && !um('2026-10-14T12:00:00Z') && !um('2026-10-14T14:00:00Z'))
+  const start = new Date('2026-10-14T13:00:00Z')
+  const gestern = (stundenher: number) => [{ created_at: new Date(start.getTime() - stundenher * 3_600_000).toISOString(), status: 'completed', conclusion: 'success' }]
+  pruefe('der Start vor 24 Stunden ist erlaubt, ein Doppelstart binnen 10 Stunden nicht', startErlaubt('offizielle-news.yml', gestern(24), start) && !startErlaubt('offizielle-news.yml', gestern(1), start))
+  const wache = readFileSync(new URL('../.github/workflows/wecker-wache.yml', import.meta.url), 'utf8')
+  const fristen = readFileSync(new URL('../tools/wache-woechentlich.mjs', import.meta.url), 'utf8')
+  const nachholGrenze = Number(/offizielle-news\.yml:(\d+)/.exec(wache)?.[1])
+  pruefe('fällt der Wecker aus, holt ihn die Wecker-Wache nach 30 Stunden nach (mehr als ein Takt von 24 h)', nachholGrenze > 24 && nachholGrenze <= 36, nachholGrenze)
+  const frist = Number(/'offizielle-news\.yml': (\d+)/.exec(fristen)?.[1])
+  pruefe('die Wochenwache meldet einen Ausfall spätestens nach 36 Stunden ohne Erfolg', frist > nachholGrenze && frist <= 36, frist)
+}
+
 function seitenliste(): void {
   console.log('\nSeitenliste data/offizielle-seiten.yaml')
   const seiten = ladeSeiten()
@@ -147,6 +166,7 @@ fehlschlaege()
 await fristen()
 await frist()
 zuordnung()
+wecker()
 
 if (fehler) {
   console.error(`\n${fehler} Zusicherung(en) verletzt`)
