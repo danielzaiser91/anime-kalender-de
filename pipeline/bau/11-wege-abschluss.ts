@@ -11,7 +11,7 @@ import { ergaenzeWegeAusTerminen } from './11-7-wege-aus-terminen.ts'
 import { kennzeichneFreenetLautSchwester } from './11-8-schwester-shop.ts'
 import { uebernehmeFskAusJustwatch } from './11-2-1-fsk-justwatch.ts'
 import { ergaenzeDiscUndZugang } from './11-1-disc-und-zugang.ts'
-import { entferneFremdeNachStaffeln, kennungAusAdresse } from './cr-serie-geteilt.ts'
+import { entferneFremdeNachStaffeln, kennungAusAdresse, type CrStaffel } from './cr-serie-geteilt.ts'
 import { ANISEARCH_ID_BASIS } from './anisearch-titel.ts'
 import { setzeCoverNachRegel } from './cover-regel.ts'
 import { setzeProduktFelder } from './produkt-regel.ts'
@@ -52,7 +52,7 @@ export function schliesseWegeAb({
 }) {
   ergaenzeDiscUndZugang({ titles, anisearch, releases, zugangJeAdresse })
 
-  ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen })
+  fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen })
   uebernehmeFskAusJustwatch({ titles, tmdbMehrdeutig })
 
   bereinigeWege({
@@ -89,4 +89,20 @@ export function schliesseWegeAb({
   // Das Cover steht nach allen Wege-Änderungen fest und vor `baueMeta`, damit Hauptbestand, Verschobene, Reihen und Meldungen dasselbe Bild sehen.
   setzeCoverNachRegel(titles)
   setzeProduktFelder(titles)
+}
+
+/**
+ * JustWatch füllt Lücken erst, nachdem die Serien-Wege weg sind, die keiner Staffel ihrer Serie entsprechen.
+ * Sonst besetzt der falsche Weg den Crunchyroll-Platz, den JustWatch mit der eigenen Film-Adresse füllen würde
+ * (Kabaneri-Zusammenfassungsfilme zeigten auf die Serienseite und standen danach ganz ohne Weg da).
+ */
+export function fuelleWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen, staffeln }: {
+  titles: Map<number, Title>
+  tmdbMehrdeutig: Set<string>
+  toteAdressen: Set<string>
+  staffeln?: Map<string, CrStaffel[]>
+}) {
+  const fremd = entferneFremdeNachStaffeln(titles, kennungAusAdresse(), staffeln)
+  if (fremd) log(`${fremd} Crunchyroll-Wege vor der Ergänzung aus JustWatch entfernt: sie gehören keiner Staffel der Serie`)
+  ergaenzeWegeAusJustwatch({ titles, tmdbMehrdeutig, toteAdressen })
 }
