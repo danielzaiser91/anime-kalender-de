@@ -800,6 +800,10 @@ Erster Eintrag: YAIBA: Samurai Legend, ProSieben MAXX ab 05.11.2026 (`weg: tv`, 
 
 Der Kasten zählt den weitesten Anbieter; „Nächste Folge“ zeigt nur Folgen, die nirgends erschienen sind (`ohneSchonErschienene`). Was ein anderer Anbieter noch nachlegt, steht darunter: je Anbieter eine Zeile „Netflix: Folge 16 am Sa 17.10.“ (höchstens drei, früheste zuerst; geschätzt „≈“, Uhrzeit nur wo geführt). Logik `detail/nachleger.ts` (`nachlegerJeAnbieter`, Test in `pipeline/check-zaehlung.ts`), Anzeige `detail/nachleger-zeilen.tsx` im `folgen`-Platz des Kastens. TV, Kino und Disc sind ausgenommen: Die TV-Pille nennt Folge, Tag und Uhrzeit schon selbst (Hell’s Paradise, ProSieben FUN 11./12.10.).
 
+## Folgenblock in der Überschrift des Antwortkastens (Daniel, 13.10.2026)
+
+Erscheinen mehrere **belegte** Folgen derselben Veröffentlichung am selben Berlin-Tag (`schedule.observed`, `estimated` fehlt, Nummern lückenlos), steht der Kasten im Plural: „Nächste Folgen (4–6) erscheinen in 3 Tagen, am Freitag den 16.10.2026.“, ebenso „Erste Folgen (1–3)“ und „Finale Folgen (10–13)“ (Finale: der Block deckt alles, was noch aussteht). Fortgeschriebene Folgen, Wochentakt, TV-Sichtung und Komplettabwurf („Alle N Folgen“) bleiben unverändert. Logik `detail/antwort-block.ts` (`folgenblockBis`, `folgenKopf`), Texte `lib/i18n-antwort.ts`, Test `pipeline/check-folgenblock.ts` (Fall: Avatar: Die sieben Häfen).
+
 ## Belege: je Aussage und Anbieter nur der stärkste (10.10.2026)
 
 Daniel, Fall YAIBA: „Quellen 2" mit zwei gleich beschrifteten anime2you.de-Reitern; der zweite Artikel nannte den Titel nur im Nebensatz. „Der selbe Anbieter kann sich nicht selbst belegen."

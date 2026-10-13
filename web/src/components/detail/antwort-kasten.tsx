@@ -316,7 +316,7 @@ export function AntwortKasten({
       Uhrzeit, steht dort nichts: eine erfundene wäre schlimmer als keine
       (CLAUDE.md, „Keine erfundenen Uhrzeiten").
     */
-    const termin = terminSatz(antwort.komplett, rel, e.date, T)
+    const termin = terminSatz(antwort.komplett, rel, e.date, T, antwort.blockBis !== undefined)
     const mitZeit = e.time
       ? T('antwort.erscheintUmZeit', { termin: termin.replace(/\.$/, ''), zeit: e.timeEstimated ? `≈ ${e.time}` : e.time })
       : termin

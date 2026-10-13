@@ -17,6 +17,8 @@ export type Antwort =
       /** Die Folgenzahl ist aus dem Wochentakt fortgeschrieben, nicht belegt — „≈" im Kasten. */
       gesamtGeschaetzt?: boolean
       letzter?: string
+      /** Erscheinen mehrere belegte Folgen am Tag der nächsten, die Nummer der letzten davon (Avatar: 4–6 am 16.10.). */
+      blockBis?: number
       /** Feste Sendetage der Ausgabe (Fernsehen), 1 = Montag. */
       sendetage?: number[]
       /** Ein Komplettabwurf (`available-from`): alle Folgen an einem Tag, kein Wochentakt. */
