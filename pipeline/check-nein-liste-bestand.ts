@@ -1,7 +1,7 @@
 /**
  * Zusicherung: Ein Nein, das neu gemessen werden soll, steht wieder auf den Prüflisten der Erweiterung — mit der Adresse
  * aus Beleg oder Gedächtnis der entfernten Verweise, ohne den Beleg zu ändern; auf der Disney+-Liste stehen Wiedervorlagen
- * vorn, die laufende Synchro zuerst, dann das älteste Nein (`shared/nein-wiedervorlage.ts`). Läuft in `check:logic`.
+ * vorn, die laufende Synchro zuerst, dann das älteste Nein (`shared/nein-wiedervorlage.ts`). Läuft in `check:bestand` (baut ein Mini-Repo mit dem Layout `public/data`).
  */
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
