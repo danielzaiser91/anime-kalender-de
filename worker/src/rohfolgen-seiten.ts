@@ -8,34 +8,12 @@
  */
 import { type Env } from './env.ts'
 import { ROH_FELDER } from './pruefung-rohfolgen-speichern.ts'
+import { vereint, SEITE, type Quelle, type Seite, type Zeile } from './seiten-vereint.ts'
 
-/** Zeilen je Seite; eine volle Seite trägt die Fortsetzung (`weiter`). */
-export const SEITE = 5000
+export { SEITE, type Seite }
 
 /** Ids von Rohfolgen aus `pruefung.rohfolge` beginnen hier; `prime_folge` hat nach heutigem Wachstum nie so viele. */
 export const PRUEFUNG_ID_AB = 1_000_000_000
-
-type Zeile = { id: number; url: string }
-export type Seite = { zeilen: Zeile[]; weiter: number | null }
-
-const mitWeiter = (zeilen: Zeile[]): Seite => ({
-  zeilen,
-  weiter: zeilen.length === SEITE ? zeilen[zeilen.length - 1]!.id : null,
-})
-
-/** Eine Quelle von Rohfolgen: ihre Ids beginnen bei `ab`; `lies` liefert höchstens `anzahl` Zeilen mit Id über `von` (relativ zu `ab`). */
-export type Quelle = { ab: number; lies: (von: number, anzahl: number) => Promise<Zeile[]> }
-
-/** Die Quellen der Reihe nach, bis die Seite voll ist (die Ids steigen mit der Reihenfolge der Quellen). */
-async function vereint(nach: number, quellen: Quelle[]): Promise<Seite> {
-  const start = Number.isFinite(nach) ? nach : 0
-  const zeilen: Zeile[] = []
-  for (const q of quellen) {
-    if (zeilen.length >= SEITE) break
-    zeilen.push(...(await q.lies(Math.max(start, q.ab) - q.ab, SEITE - zeilen.length)))
-  }
-  return mitWeiter(zeilen)
-}
 
 /** Ein Feld der Rohfolge aus der Spalte; die Namen sind die von `ROH_FELDER`, nie Eingaben. */
 const feld = (name: (typeof ROH_FELDER)[number]) => `json_extract(rohfolge, '$.${name}') AS ${name}`
