@@ -119,7 +119,7 @@ export function wachePlanBefunde(weckplanText, wacheText) {
 export const OHNE_WECKPLAN = {
   'cache-ablegen.yml': 'startet `tools/cache-holen.mjs` selbst, wenn kein Artefakt jünger als 24 h ist (Kopfkommentar: „Nur auf Abruf, ohne Zeitplan“)',
   'claude-auftrag.yml': 'von Hand angestoßener Arbeitsauftrag (Kopfkommentar)',
-  'crunchyroll-nachholen.yml': 'einmaliger Nachhol-Lauf von Hand (Kopfkommentar)',
+  'crunchyroll-nachholen.yml': 'Nachhol-Lauf von Hand, auf Ansage (Kopfkommentar)',
   'fund-nachliefern.yml': 'spielt den Fund eines gescheiterten Sammel-Laufs auf Ansage nach, Lauf-Nummer als Eingabe',
   'region-test.yml': 'einmaliger Versuch von Hand (Kopfkommentar)',
   'weiche-test.yml': 'einmalige Messung von Hand (Kopfkommentar)',
