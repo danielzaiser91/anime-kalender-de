@@ -5008,11 +5008,19 @@
   ],
   "auto-166477-disc": [
     {
+      "url": "https://www.anime2you.de/news/1056385/22-verschiebungen-animoon-crunchyroll-peppermint/",
+      "name": "anime2you.de",
+      "gesehenAm": "2026-10-13",
+      "sagt": "2027-01-15",
+      "stand": "aktuell"
+    },
+    {
       "url": "https://www.anime2you.de/news/1048218/cafe-terrace-and-its-goddesses-staffel-2-disc-termin/",
       "name": "anime2you.de",
       "gesehenAm": "2026-10-01",
       "sagt": "2026-12-04",
-      "stand": "aktuell"
+      "stand": "ueberholt",
+      "grund": "Termin verschoben auf: 2027-01-15"
     }
   ],
   "auto-143103-kino": [
