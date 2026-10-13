@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-13T16:27:19.066Z",
+ "erzeugtAm": "2026-10-13T19:35:52.870Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -1967,9 +1967,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 413,
+   "gemeldet": 416,
    "gesamt": 689,
-   "offen": 276,
+   "offen": 273,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -2146,14 +2146,6 @@
     {
      "url": "https://www.netflix.com/title/81004665",
      "titel": "Mech Cadets"
-    },
-    {
-     "url": "https://www.netflix.com/title/81153115",
-     "titel": "Scott Pilgrim hebt ab"
-    },
-    {
-     "url": "https://www.netflix.com/title/81281582",
-     "titel": "Bastard!! Der Gott der Zerstörung"
     },
     {
      "url": "https://www.netflix.com/title/81028343",
