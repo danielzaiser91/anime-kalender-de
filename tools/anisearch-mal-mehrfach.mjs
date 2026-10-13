@@ -6,7 +6,8 @@
  * Aufruf: `node tools/anisearch-mal-mehrfach.mjs` (Liste auf stdout) oder `--schreiben` (ersetzt den Abschnitt in
  * `daniel-zum-abarbeiten/listen/anisearch-doppelte-kennung.md` zwischen den Markern).
  */
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { handKennungen } from '../pipeline/lib/hand-kennungen.ts'
 import { ergebenSichZusammen } from '../pipeline/lib/mal-teilung.ts'
 
 export const BASIS = 10_000_000
@@ -51,7 +52,7 @@ export function artDerGruppe(seiten, anilist) {
  * @param eintraege   `data/anisearch-eintraege.json`
  * @param titles      `public/data/titles.json`
  * @param ohneSynchro `public/data/ohne-synchro.json`
- * @param belegIds    AniList-Kennungen (auch ab 10000000), für die eine Handdatei einen Beleg führt
+ * @param belegIds    Kennungen (auch ab 10000000), die eine Handdatei nennt (`handKennungen`)
  */
 export function findeMalMehrfach(eintraege, titles, ohneSynchro, belegIds = new Set()) {
   const zeilen = zeilenIndex(titles, ohneSynchro)
@@ -70,15 +71,6 @@ export function findeMalMehrfach(eintraege, titles, ohneSynchro, belegIds = new 
     const imHaupt = [...anilist, ...seiten.filter((s) => s.zeile)].some((x) => (x.orte ?? x.zeile).includes('Hauptbestand'))
     return { mal, art, imHaupt, seiten, anilist, summe: summe(seiten.map((s) => s.folgen)) }
   })
-}
-
-/** AniList-Kennungen aus allen `data/*.yaml` (`anilistId: …`), auch die der Zeilen ab 10000000. */
-export function belegKennungen(ordner) {
-  const ids = new Set()
-  for (const datei of readdirSync(ordner).filter((d) => d.endsWith('.yaml'))) {
-    for (const m of readFileSync(`${ordner}/${datei}`, 'utf8').matchAll(/anilistId:\s*([0-9]+)/g)) ids.add(Number(m[1]))
-  }
-  return ids
 }
 
 const ART_TEXT = {
@@ -126,7 +118,7 @@ export function abschnittEinsetzen(datei, abschnitt) {
 
 if (process.argv[1]?.endsWith('anisearch-mal-mehrfach.mjs')) {
   const lies = (p) => JSON.parse(readFileSync(p, 'utf8'))
-  const gruppen = findeMalMehrfach(lies('data/anisearch-eintraege.json'), lies('public/data/titles.json'), lies('public/data/ohne-synchro.json'), belegKennungen('data'))
+  const gruppen = findeMalMehrfach(lies('data/anisearch-eintraege.json'), lies('public/data/titles.json'), lies('public/data/ohne-synchro.json'), handKennungen())
   const abschnitt = listeAlsMarkdown(gruppen, new Date().toISOString().slice(0, 10))
   if (process.argv.includes('--schreiben')) writeFileSync(LISTE, abschnittEinsetzen(readFileSync(LISTE, 'utf8'), abschnitt))
   else console.log(abschnitt)
