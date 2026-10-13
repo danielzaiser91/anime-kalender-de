@@ -2863,8 +2863,8 @@ async function selbstStartenSchritt() {
   const filmHier =
     DURCHLAUF.folgen.length === 1 && DURCHLAUF.folgen[0]?.film && String(DURCHLAUF.folgen[0].videoId) === seiteHier
   if (!DURCHLAUF.folgen.length || (!filmHier && String(DURCHLAUF.listeFuer ?? '') !== seiteHier)) {
-    /* Kommt die Liste nicht, hängt der Durchgang nicht still auf dieser Seite (`netflix-erinnern.js`). */
-    const ort = { seite: seiteHier, reihe: String(reihe), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF }
+    /* Kommt die Liste nicht, hängt der Durchgang nicht still auf dieser Seite; bei „Erinnern" geht er früh weiter (`netflix-erinnern.js`). */
+    const ort = { seite: seiteHier, reihe: String(reihe), erinnern: keineFolgeVorhanden(), frist: SELBST_LISTE_WARTEN, jetzt: Date.now(), durchlauf: DURCHLAUF }
     selbstWartet = akNetflixListeWarten(selbstWartet, ort, { spur, uebersprungen: selbstUebersprungen, weiter: selbstWeiter })
     return
   }
