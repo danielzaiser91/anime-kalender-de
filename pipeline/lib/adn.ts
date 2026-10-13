@@ -80,6 +80,8 @@ export interface AdnShow {
   fromCatalog?: boolean
   /** AniList-Kennung, im Katalog-Lauf über den Originaltitel nachgeschlagen. */
   anilistId?: number
+  /** Kennung des zugeordneten Titels im Datensatz; nur im Bau gesetzt (`loeseAdnTitelIds`), nie in der Datei. */
+  titleId?: number
 }
 
 export interface AdnData {

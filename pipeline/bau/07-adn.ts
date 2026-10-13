@@ -1,6 +1,5 @@
 import {
   type AdnData,
-  passtZuSerie,
   staffelBloecke,
   staffelnDesFranchise,
   ordneBloeckeZuStaffeln,
@@ -13,7 +12,7 @@ import { ADN_CALENDAR_URL } from './grundlagen.ts'
 import { todayIso } from '../../shared/time.ts'
 import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'
 import { ergaenzeTeilnamen } from './adn-teilnamen.ts'
-import { titelZurShow } from './adn-show-titel.ts'
+import { loeseAdnTitelIds, titelZurShow } from './adn-show-titel.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 
 export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
@@ -45,12 +44,7 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
   /* Eine Katalogzuordnung muss den Namen tragen, nicht nur ein Werkwort — siehe `WERKWOERTER`
      in lib/adn.ts. Der Katalog wird nur alle paar Wochen neu nachgeschlagen; bis dahin
      fängt der Bau die falschen Zuordnungen selbst ab. */
-  for (const show of adnKatalog.shows) {
-    const t = show.anilistId ? titles.get(show.anilistId) : undefined
-    if (!t || passtZuSerie(show, { title: { romaji: t.titleRomaji, english: t.titleEn, native: t.titleNative } })) continue
-    log(`ADN-Katalog ${show.showId} („${show.title}“) gehört nicht zu AniList ${t.id} („${t.titleRomaji}“) — Zuordnung verworfen`)
-    show.anilistId = undefined
-  }
+  loeseAdnTitelIds(adnKatalog.shows, titles)
   const adn: AdnData = {
     ...adnKalender,
     shows: [
@@ -99,7 +93,7 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
    */
   const starkerAnspruch = new Map<number, number>()
   for (const show of adn.shows) {
-    const eigen = show.anilistId ? titles.get(show.anilistId) : undefined
+    const eigen = show.titleId ? titles.get(show.titleId) : undefined
     if (eigen && !starkerAnspruch.has(eigen.id)) starkerAnspruch.set(eigen.id, show.showId)
   }
   for (const show of adn.shows) {

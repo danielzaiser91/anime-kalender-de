@@ -370,7 +370,7 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
   const katalogKennung = new Map<number, number>()
     // Derselbe Katalog wie oben, samt den dort verworfenen Zuordnungen.
     for (const s of adnKatalog.shows) {
-      if (s.anilistId && !katalogKennung.has(s.anilistId)) katalogKennung.set(s.anilistId, s.showId)
+      if (s.titleId && !katalogKennung.has(s.titleId)) katalogKennung.set(s.titleId, s.showId)
     }
     /**
      * **Die Staffel steht im Release-Slug — und sie entscheidet das Urteil.**

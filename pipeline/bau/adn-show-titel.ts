@@ -8,7 +8,8 @@
  * bei eindeutigem Treffer.
  */
 import { normalizeTitle } from '../lib/crunchyroll.ts'
-import type { AdnShow } from '../lib/adn.ts'
+import { passtZuSerie, type AdnShow } from '../lib/adn.ts'
+import { log } from '../lib/util.ts'
 import type { Title } from '../../shared/types.ts'
 
 /** Name ohne Akzente, ohne „Gekijōban"/„Eiga" vorn und ohne „Movie"/„Movie 1" hinten (höhere Nummern bleiben: "One Piece Movie 2" ist nicht Film 1). */
@@ -33,9 +34,23 @@ export function filmZurShow(show: Pick<AdnShow, 'title' | 'originalTitle' | 'epi
 /** Der Anime zu einer ADN-Show: Katalogkennung, dann Name, dann Originalname, zuletzt der Film unter anderer Schreibweise. */
 export function titelZurShow(show: AdnShow, titles: Map<number, Title>, titleByName: Map<string, Title>): Title | undefined {
   return (
-    (show.anilistId ? titles.get(show.anilistId) : undefined) ??
+    (show.titleId ? titles.get(show.titleId) : undefined) ??
     titleByName.get(normalizeTitle(show.title)) ??
     titleByName.get(normalizeTitle(show.originalTitle ?? '')) ??
     filmZurShow(show, titles.values())
   )
+}
+
+/**
+ * Setzt `titleId` (Titel im Datensatz) an die Serien des Katalogs; nur im Bau, nie in der Datei. Eine Zuordnung muss den Namen tragen, nicht nur ein
+ * Werkwort (`WERKWOERTER` in lib/adn.ts); sonst wird sie verworfen.
+ */
+export function loeseAdnTitelIds(shows: AdnShow[], titles: Map<number, Title>): void {
+  for (const show of shows) {
+    show.titleId = show.anilistId
+    const t = show.titleId ? titles.get(show.titleId) : undefined
+    if (!t || passtZuSerie(show, { title: { romaji: t.titleRomaji, english: t.titleEn, native: t.titleNative } })) continue
+    log(`ADN-Katalog ${show.showId} („${show.title}“) gehört nicht zu AniList ${t.id} („${t.titleRomaji}“) — Zuordnung verworfen`)
+    show.titleId = undefined
+  }
 }
