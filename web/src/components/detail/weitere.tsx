@@ -4,7 +4,7 @@ import { useLang } from '../../lib/i18n.tsx'
 import { useState, Fragment, useEffect, useRef, useMemo } from 'react'
 import { eindeutschenStaffel, anzeigeName } from '@shared/titles.ts'
 import { type Voices, loadVoices, type Dataset, loadCartoons, loadAllTitles } from '../../lib/data.ts'
-import { aehnlicheTitel } from '../../lib/aehnlich.ts'
+import { aehnlicheTitel } from '@shared/aehnlich.ts'
 import { coverBild } from '../../lib/cover.ts'
 
 /**

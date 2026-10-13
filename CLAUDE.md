@@ -39,4 +39,4 @@ Prüfer nach Risiko: `node tools/pr-stufe.mjs <PR>` (Stufe 0 ohne eigenen Prüfe
 
 ## Wissen nach Thema (`grep -n "^## " docs/wissen/<datei>.md`)
 
-[karte.md](docs/wissen/karte.md) (Einstieg) · [erweiterung.md](docs/wissen/erweiterung.md) · [quellen.md](docs/wissen/quellen.md) · [betrieb.md](docs/wissen/betrieb.md) · [datensatz.md](docs/wissen/datensatz.md) · [daten-detektiv.md](docs/wissen/daten-detektiv.md) · [meine-woche.md](docs/wissen/meine-woche.md) · [projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md). Neue Erkenntnisse als `##`-Abschnitt mit Datum in die passende Datei.
+[karte.md](docs/wissen/karte.md) (Einstieg) · [erweiterung.md](docs/wissen/erweiterung.md) · [quellen.md](docs/wissen/quellen.md) · [betrieb.md](docs/wissen/betrieb.md) · [datensatz.md](docs/wissen/datensatz.md) · [daten-detektiv.md](docs/wissen/daten-detektiv.md) · [meine-woche.md](docs/wissen/meine-woche.md) · [seo.md](docs/wissen/seo.md) · [projektregeln-im-detail.md](docs/wissen/projektregeln-im-detail.md). Neue Erkenntnisse als `##`-Abschnitt mit Datum in die passende Datei.

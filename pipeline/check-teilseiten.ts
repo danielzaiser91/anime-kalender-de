@@ -7,7 +7,12 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { cartoonMitSynchroBeleg, teilbarerSlug, teilenPfad } from '../shared/teilen.ts'
 import type { Title } from '../shared/types.ts'
+import { todayIso } from '../shared/time.ts'
 import { ROOT } from './lib/util.ts'
+import { erreichbar } from './lib/seiten-erreichbar.ts'
+import { SITE } from './lib/titel-seite.ts'
+
+const MAX_KLICKS = 3
 
 const DIST = resolve(ROOT, 'dist')
 const PFLICHT = ['og:title', 'og:description', 'og:url']
@@ -37,6 +42,9 @@ function mangel(slug: string): string | undefined {
   const fehlend = PFLICHT.filter((m) => !html.includes(`property="${m}" content="`))
   if (!/property="og:image" content="https:\/\/[^"]+"/.test(html)) fehlend.push('og:image')
   if (!html.includes(`href="https://`) || !html.includes('rel="canonical"')) fehlend.push('canonical')
+  /* Rücklink zur Startseite und Brotkrumen auf jeder Titelseite (nicht auf den Weiterleitungen). */
+  if (!html.includes('"@type":"BreadcrumbList"')) fehlend.push('BreadcrumbList')
+  if (!html.includes(`<nav aria-label="Brotkrumen"`) || !html.includes(`<a href="${SITE}"`)) fehlend.push('Brotkrumen mit Link zur Startseite')
   return fehlend.length ? `${teilenPfad(slug)} ohne ${fehlend.join(', ')}` : undefined
 }
 
@@ -51,8 +59,42 @@ function sitemapMaengel(): string[] {
   return mangel
 }
 
+/** `lastmod` der Titelseiten stammt aus Daten: nie nach heute, und nicht überall derselbe Tag. */
+function lastmodMaengel(): string[] {
+  const sitemap = readFileSync(resolve(DIST, 'sitemap.xml'), 'utf8')
+  const stempel = [...sitemap.matchAll(/<loc>[^<]*\/t\/[^<]+<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]!)
+  const heute = todayIso()
+  const tage = new Set(stempel)
+  console.log(`[teilseiten] lastmod: ${stempel.length} Titelseiten mit Datum, ${tage.size} verschiedene Tage`)
+  const mangel: string[] = []
+  if (stempel.some((d) => d > heute)) mangel.push('Sitemap: lastmod in der Zukunft')
+  if (stempel.length > 20 && tage.size < 2) mangel.push(`Sitemap: alle ${stempel.length} Titelseiten mit demselben lastmod ${[...tage][0]}`)
+  return mangel
+}
+
+/** Die gebaute Startseite trägt den Suchbegriff in Titel, Überschrift und Text. */
+function startseitenMaengel(): string[] {
+  const html = readFileSync(resolve(DIST, 'index.html'), 'utf8')
+  const titel = /<title>([^<]*)<\/title>/.exec(html)?.[1] ?? ''
+  const mangel: string[] = []
+  if (!titel.includes('Deutscher Anime-Kalender')) mangel.push(`Startseite: <title> ohne „Deutscher Anime-Kalender“: ${titel}`)
+  if (!/<h1[^>]*>Deutscher Anime-Kalender<\/h1>/.test(html)) mangel.push('Startseite: Überschrift „Deutscher Anime-Kalender“ fehlt im ausgelieferten HTML')
+  if (!html.includes('deutsche Anime-Kalender zeigt')) mangel.push('Startseite: Einleitungstext fehlt im ausgelieferten HTML')
+  return mangel
+}
+
+/** Jede Titelseite der Sitemap ist von der Startseite aus über Links erreichbar (höchstens 3 Klicks), ohne JavaScript. */
+function erreichbarkeitsMaengel(): string[] {
+  const sitemap = readFileSync(resolve(DIST, 'sitemap.xml'), 'utf8')
+  const adressen = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]!).filter((u) => u.startsWith(`${SITE}t/`))
+  const klicks = erreichbar(DIST, SITE, MAX_KLICKS)
+  const mangel = adressen.filter((u) => !klicks.has(u.slice(SITE.length).replace(/\/$/, '')))
+  console.log(`[teilseiten] Erreichbarkeit: ${adressen.length - mangel.length} von ${adressen.length} Titelseiten der Sitemap in höchstens ${MAX_KLICKS} Klicks von der Startseite`)
+  return mangel.map((u) => `Von der Startseite nicht erreichbar (Verzeichnis fehlt?): ${u}`)
+}
+
 function main(): void {
-  const fehler: string[] = []
+  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel()]
   for (const [art, titel] of quellen()) {
     const teilbar = new Map(titel.map((t) => [t.id, teilbarerSlug(t)]))
     const mitSlug = [...teilbar.values()].filter((s): s is string => s !== undefined)
