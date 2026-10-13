@@ -7456,7 +7456,7 @@ pruefe(
   const disc = (name: string, datum: string) =>
     ({ slug: name, titleId: 1, name, platform: 'disc', releaseType: 'disc', schedule: { firstEpisodeDate: datum }, sources: ['https://a2y/monat'] }) as unknown as Release
   const rs = [disc('Sakamoto Days – Vol. 1', '2026-08-28'), disc('Sakamoto Days – Vol. 1', '2026-12-01'), disc('Sakamoto Days', '2026-08-28')]
-  const geaendert = verschiebungenAnwenden(rs, artikel, '2026-09-27')
+  const geaendert = verschiebungenAnwenden(rs, artikel, '2026-09-27', new Map())
   pruefe('Verschiebung: die Kette führt vom 28.08. zum 23.10.', rs[0]!.schedule.firstEpisodeDate === '2026-10-23' && geaendert.length === 1, geaendert)
   pruefe(
     'Verschiebung: nur der letzte Artikel gilt, die Monatsübersicht ist überholt',
