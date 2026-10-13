@@ -5,21 +5,20 @@
  */
 import { log, readJson, warn, writeJson } from './util.ts'
 import { anisearchToken } from './anisearch-api.ts'
-import { ladeTitelliste, TITELLISTE, zeileZuTitel } from '../fetch-anisearch-katalog-abgleich.ts'
+import { ladeTitelliste, TITELLISTE, zeileZuTitel, type AbrufGrenzen, type Zwischenspeicher } from '../fetch-anisearch-katalog-abgleich.ts'
 import { wortIndex, type AsTitel } from './anisearch-katalog-abgleich.ts'
 import { ordneAdnZuAnisearch, titellisteFrisch, type AdnOffen } from './adn-anisearch.ts'
 import type { AdnShow } from './adn.ts'
 
 const OFFEN_DATEI = 'data/adn-anisearch-offen.json'
-type Zwischen = { geholtAm?: string; titel?: Record<string, Record<string, unknown>> }
+/** Ein Versuch, kurze Frist: das Limit (1 Abruf je Stunde) teilen sich alle Jobs, ein Warten auf Retry-After ließe den 45-Minuten-Schritt hängen. */
+export const ABRUF_GRENZEN: AbrufGrenzen = { versuche: 1, frist: 120_000 }
 
 /** Titelliste aus dem Cache; veraltet und mit Token: neu holen; sonst die alte (besser alte Namen als keine). */
-async function holeTitelliste(): Promise<Map<number, AsTitel> | undefined> {
-  const zwischen = readJson<Zwischen>(TITELLISTE, {})
-  const token = anisearchToken()
+export async function holeTitelliste(zwischen: Zwischenspeicher, token: string | undefined): Promise<Map<number, AsTitel> | undefined> {
   if (token && !titellisteFrisch(zwischen.geholtAm, Date.now())) {
     try {
-      return await ladeTitelliste(token)
+      return await ladeTitelliste(token, ABRUF_GRENZEN, zwischen)
     } catch (err) {
       warn(`ADN-Zuordnung: Titelliste nicht abrufbar (${(err as Error).message}) — der Zwischenspeicher gilt`)
     }
@@ -40,7 +39,7 @@ function schreibeOffen(offen: AdnOffen[]): void {
  * keine Zuordnung löschen.
  */
 export async function ordneKatalogZuAnisearch(shows: AdnShow[], bisher: AdnShow[]): Promise<void> {
-  const titel = await holeTitelliste()
+  const titel = await holeTitelliste(readJson<Zwischenspeicher>(TITELLISTE, {}), anisearchToken())
   if (!titel) {
     warn('ADN-Zuordnung: keine aniSearch-Titelliste — die bisherigen Zuordnungen bleiben stehen.')
     for (const s of shows) s.anisearchId = bisher.find((b) => b.showId === s.showId)?.anisearchId

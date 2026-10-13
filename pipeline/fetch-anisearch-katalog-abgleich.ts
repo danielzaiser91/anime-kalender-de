@@ -67,13 +67,21 @@ export function zeileZuTitel(id: string, z: Roh): AsTitel {
   return { id: Number(id), jahr: typeof z.year === 'number' ? z.year : undefined, namen: [...new Set(namen)] }
 }
 
-async function holen<T>(url: string, token: string): Promise<T | undefined> {
-  for (let versuch = 0; versuch < 4; versuch++) {
-    const antwort = await fetch(url, { headers: anisearchKopf(token) })
+export type Zwischenspeicher = { geholtAm?: string; titel?: Record<string, Roh> }
+
+/** Grenzen eines Abrufs: `versuche` (nach dem letzten 429 wird nicht mehr gewartet) und `frist` in ms je Antwort. */
+export interface AbrufGrenzen {
+  versuche: number
+  frist?: number
+}
+
+export async function holen<T>(url: string, token: string, grenzen: AbrufGrenzen = { versuche: 4 }): Promise<T | undefined> {
+  for (let versuch = 1; versuch <= grenzen.versuche; versuch++) {
+    const antwort = await fetch(url, { headers: anisearchKopf(token), signal: grenzen.frist ? AbortSignal.timeout(grenzen.frist) : undefined })
     if (antwort.status === 429) {
       const warten = Number(antwort.headers.get('retry-after')) || 20
-      warn(`aniSearch 429, Pause ${warten} s`)
-      await sleep(warten * 1000)
+      warn(`aniSearch 429, ${versuch < grenzen.versuche ? `Pause ${warten} s` : 'aufgegeben'}`)
+      if (versuch < grenzen.versuche) await sleep(warten * 1000)
       continue
     }
     if (!antwort.ok) {
@@ -85,11 +93,11 @@ async function holen<T>(url: string, token: string): Promise<T | undefined> {
   return undefined
 }
 
-export async function ladeTitelliste(token: string): Promise<Map<number, AsTitel>> {
-  const zwischen = readJson<{ geholtAm?: string; titel?: Record<string, Roh> }>(TITELLISTE, {})
+/** Wirft, wenn die Liste nicht kommt; `grenzen` begrenzt den Abruf (der Wochenlauf des ADN-Katalogs versucht es nur einmal). */
+export async function ladeTitelliste(token: string, grenzen?: AbrufGrenzen, zwischen = readJson<Zwischenspeicher>(TITELLISTE, {})): Promise<Map<number, AsTitel>> {
   let titel = zwischen.titel
   if (!titel || !zwischen.geholtAm || Date.now() - Date.parse(zwischen.geholtAm) > TAG_MS) {
-    const frisch = await holen<Record<string, Roh>>(`${API}/titles`, token)
+    const frisch = await holen<Record<string, Roh>>(`${API}/titles`, token, grenzen)
     if (!frisch || Object.keys(frisch).length < 10_000) throw new Error('aniSearch-Titelliste nicht abrufbar (Limit 1 je Stunde, Token prüfen)')
     titel = frisch
     writeJson(TITELLISTE, { geholtAm: new Date().toISOString(), titel })
