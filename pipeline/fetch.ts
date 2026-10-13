@@ -38,6 +38,30 @@ async function fetchDubList(): Promise<Record<number, Tier>> {
   return confidence
 }
 
+/** FSK und Anbieter von TMDB für die kuratierten Titel (`data/tmdb.json`); ohne Schlüssel übersprungen. */
+async function holeTmdb(curated: ReturnType<typeof loadCurated>, resolved: Record<string, number>, byAniId: Record<string, AniListMedia>): Promise<void> {
+  const tmdbKey = process.env.TMDB_API_KEY
+  if (!tmdbKey) {
+    warn('TMDB_API_KEY nicht gesetzt — FSK und Anbieterliste werden übersprungen')
+    return
+  }
+  const tmdbCache = readJson<Record<string, TmdbInfo>>(TMDB_PATH, {})
+  let done = 0
+  for (const entry of curated) {
+    if (!FORCE && tmdbCache[entry.slug]) continue
+    const aniId = resolved[entry.slug]
+    const media = aniId ? byAniId[String(aniId)] : undefined
+    const query = media?.title.english ?? media?.title.romaji ?? entry.search ?? entry.titleDe ?? entry.slug
+    const year = media?.startDate?.year ?? undefined
+    const isMovie = media?.format === 'MOVIE'
+    tmdbCache[entry.slug] = await lookupTmdb(tmdbKey, query, year, isMovie)
+    done++
+    if (done % 10 === 0) log(`  TMDB ${done} Titel abgefragt`)
+  }
+  writeJson(TMDB_PATH, tmdbCache, true)
+  log(`TMDB: ${done} neue Abfragen, ${Object.keys(tmdbCache).length} im Cache`)
+}
+
 /** Ob AniList in diesem Lauf ausgefallen ist — dann fehlen Metadaten, nicht mehr. */
 let anilistAus = false
 
@@ -140,26 +164,7 @@ async function main(): Promise<void> {
   if (!SKIP_ANILIST && !anilistAus) anilistAus = await holeAnisearchCover(cached, byAniId)
 
   // 4. TMDB — nur für kuratierte Titel, weil nur die im Kalender landen.
-  const tmdbKey = process.env.TMDB_API_KEY
-  if (!tmdbKey) {
-    warn('TMDB_API_KEY nicht gesetzt — FSK und Anbieterliste werden übersprungen')
-  } else {
-    const tmdbCache = readJson<Record<string, TmdbInfo>>(TMDB_PATH, {})
-    let done = 0
-    for (const entry of curated) {
-      if (!FORCE && tmdbCache[entry.slug]) continue
-      const aniId = resolved[entry.slug]
-      const media = aniId ? byAniId[String(aniId)] : undefined
-      const query = media?.title.english ?? media?.title.romaji ?? entry.search ?? entry.titleDe ?? entry.slug
-      const year = media?.startDate?.year ?? undefined
-      const isMovie = media?.format === 'MOVIE'
-      tmdbCache[entry.slug] = await lookupTmdb(tmdbKey, query, year, isMovie)
-      done++
-      if (done % 10 === 0) log(`  TMDB ${done} Titel abgefragt`)
-    }
-    writeJson(TMDB_PATH, tmdbCache, true)
-    log(`TMDB: ${done} neue Abfragen, ${Object.keys(tmdbCache).length} im Cache`)
-  }
+  await holeTmdb(curated, resolved, byAniId)
 
   /* War AniList aus, wird das am Ende gesagt: Der Lauf bleibt grün, die Metadaten veralten sonst still (`check-sources.ts`). */
   if (anilistAus) {
