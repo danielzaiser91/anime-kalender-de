@@ -764151,6 +764151,29 @@
     },
     "fetchedAt": "2026-10-09T09:19:15.674Z"
   },
+  "168084": {
+    "anisearchId": 21072,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "China",
+          "title": "Fei Ren Zai Di-er Ji (2024)",
+          "titleNative": "非人哉 第二季 (2024)",
+          "status": "Abgeschlossen",
+          "released": "30.09.2024 - 22.10.2024"
+        }
+      ],
+      "format": "Web",
+      "episodes": 24,
+      "season": "Herbst 2024",
+      "synonyms": [
+        "Fei Ren Zai Di Er Ji Part 3",
+        "非人哉 第二季 Part 3"
+      ]
+    },
+    "fetchedAt": "2026-10-13T06:00:56.719Z"
+  },
   "168085": {
     "anisearchId": 22007,
     "streams": [],
@@ -835507,6 +835530,47 @@
     },
     "fetchedAt": "2026-10-09T10:29:46.710Z"
   },
+  "190244": {
+    "anisearchId": 21479,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Date a Live F Last Date",
+          "titleNative": "デート・ア・ライブF Last Date",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "format": "Unbekannt",
+      "studios": [
+        "Fugaku Inc."
+      ],
+      "staff": [
+        {
+          "name": "Koushi TACHIBANA",
+          "role": "Original Work"
+        },
+        {
+          "name": "Junji NISHIMURA",
+          "role": "Direction"
+        }
+      ],
+      "adaptedFrom": "Light Novel",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/date_a_info"
+        },
+        {
+          "name": "Date A Livef Anime",
+          "url": "https://date-a-livef-anime.com/"
+        }
+      ]
+    },
+    "fetchedAt": "2026-10-13T06:00:42.780Z"
+  },
   "190327": {
     "anisearchId": 20466,
     "descriptionDe": "Im Sommer des Jahres 1890 sind die Ost- und Westküste der Vereinigten Staaten bereits erschlossen, doch weite Teile des Kontinents bleiben ein raues, ungezähmtes Land, das man nicht ohne Grund den Wilden Westen nennt. Inmitten dieser Ära ruft Steven Steel ein waghalsiges Rennen aus: von New York bis nach San Diego, über 4.000 Meilen durch unberechenbares Terrain – und dem Sieger winken sagenhafte fünfzig Millionen. Trotz der extremen Gefahr melden sich zahlreiche Teilnehmer für dieses legendäre Rennen, den »Steel Ball Run«.\n\nJohnny Joestar, einst ein gefeierter Jockey, verlor nach einem Schuss die Kontrolle über seine Beine und ist seither an den Rollstuhl gebunden. Als er den Start des Rennens besucht, begegnet er Gyro Zeppeli, einem geheimnisvollen Mann, der statt Revolvern seltsame Stahlkugeln führt. Diese scheinen eine beinahe mystische Kraft zu besitzen – und als Johnny eine der Kugeln zufällig berührt, kann er zum ersten Mal seit Jahren für einen kurzen Moment stehen.\n\nGetrieben von der Hoffnung, das Geheimnis hinter Gyros Kraft zu ergründen und vielleicht eines Tages wieder laufen zu können, beschließt Johnny, selbst am Steel Ball Run teilzunehmen – auf einer Reise quer durch Amerika, die sein Schicksal für immer verändern wird. \n\nQuelle: www.anisearch.de/anime/20466",
@@ -865379,6 +865443,70 @@
     },
     "fetchedAt": "2026-10-09T10:56:16.944Z"
   },
+  "209895": {
+    "anisearchId": 21915,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Jujutsu Kaisen: Shimetsu Kaiyuu - Kouhen",
+          "titleNative": "Jujutsu Kaisen: Shimetsu Kaiyū - Kōhen",
+          "status": "Zukünftig",
+          "released": "?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "MAPPA Co., Ltd."
+      ],
+      "staff": [
+        {
+          "name": "Gege AKUTAMI",
+          "role": "Original Work"
+        },
+        {
+          "name": "Takeru SATOU",
+          "role": "Direction"
+        },
+        {
+          "name": "Hiromi NIWA"
+        },
+        {
+          "name": "Souta YAMAZAKI"
+        },
+        {
+          "name": "Yousuke YAJIMA"
+        },
+        {
+          "name": "Yoshimasa TERUI",
+          "role": "Music"
+        }
+      ],
+      "adaptedFrom": "Manga",
+      "websites": [
+        {
+          "name": "Twitter",
+          "url": "https://twitter.com/animejujutsu"
+        },
+        {
+          "name": "Jujutsukaisen",
+          "url": "https://jujutsukaisen.jp"
+        }
+      ],
+      "synonyms": [
+        "Jujutsu Kaisen: 4th Season",
+        "Jujutsu Kaisen: Season 4",
+        "Jujutsu Kaisen: The Culling Game Part 2"
+      ]
+    },
+    "fetchedAt": "2026-10-13T06:00:49.758Z"
+  },
   "209939": {
     "anisearchId": 21339,
     "streams": [],
@@ -876880,6 +877008,57 @@
     },
     "fetchedAt": "2026-10-10T18:29:25.839Z"
   },
+  "217782": {
+    "anisearchId": 22043,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Kanojo no Tomodachi Mini Anime",
+          "titleNative": "彼女の友達 ミニアニメ",
+          "status": "Laufend",
+          "released": "05.10.2026 - ?"
+        },
+        {
+          "language": "Englisch",
+          "title": "My Girlfriend’s Friend Mini Anime",
+          "status": "Laufend",
+          "released": "04.10.2026 - ?",
+          "publisher": [
+            "WWWave of America Corp."
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "My Girlfriend’s Friend Mini Anime",
+          "status": "Laufend",
+          "released": "04.10.2026 - ?",
+          "publisher": [
+            "polyband Medien GmbH"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "My Girlfriend’s Friend Mini Anime",
+          "status": "Laufend",
+          "released": "04.10.2026 - ?",
+          "publisher": [
+            "Animation Digital Network"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Spezial",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "adaptedFrom": "Manga"
+    },
+    "fetchedAt": "2026-10-13T06:01:03.703Z"
+  },
   "217785": {
     "anisearchId": 22031,
     "streams": [],
@@ -877077,6 +877256,114 @@
     },
     "fetchedAt": "2026-10-10T18:29:39.574Z"
   },
+  "218025": {
+    "anisearchId": 22039,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Saikon Shounin o Youkyuu Shimasu",
+          "titleNative": "Saikon Shōnin o Yōkyū Shimasu",
+          "status": "Zukünftig",
+          "released": "2027 - ?"
+        },
+        {
+          "language": "Englisch",
+          "title": "The Remarried Empress",
+          "status": "Zukünftig",
+          "released": "2027 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Deutsch",
+          "title": "The Remarried Empress",
+          "status": "Zukünftig",
+          "released": "2027 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Spanisch",
+          "title": "The Remarried Empress",
+          "status": "Zukünftig",
+          "released": "2027 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Französisch",
+          "title": "The Remarried Empress",
+          "status": "Zukünftig",
+          "released": "2027 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        },
+        {
+          "language": "Italienisch",
+          "title": "The Remarried Empress",
+          "status": "Zukünftig",
+          "released": "2027 - ?",
+          "publisher": [
+            "Crunchyroll"
+          ]
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "TV-Serie",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "studios": [
+        "TROYCA Inc."
+      ],
+      "staff": [
+        {
+          "name": "Alpha Tart"
+        },
+        {
+          "name": "HereLee"
+        },
+        {
+          "name": "Sumpul"
+        },
+        {
+          "name": "Tetsuya YANAGISAWA",
+          "role": "Direction"
+        },
+        {
+          "name": "Jun NAKAI",
+          "role": "Character Design"
+        }
+      ],
+      "adaptedFrom": "Webtoon",
+      "websites": [
+        {
+          "name": "X",
+          "url": "https://x.com/Saikon_Anime"
+        },
+        {
+          "name": "Saikon Anime",
+          "url": "https://saikon-anime.com/"
+        },
+        {
+          "name": "Saikon Anime",
+          "url": "https://saikon-anime.com/en/"
+        }
+      ],
+      "synonyms": [
+        "Jaehon Hwanghu",
+        "Saikon Shounin wo Youkyuu Shimasu"
+      ]
+    },
+    "fetchedAt": "2026-10-13T06:01:10.677Z"
+  },
   "218040": {
     "anisearchId": 22038,
     "streams": [],
@@ -877161,5 +877448,29 @@
       ]
     },
     "fetchedAt": "2026-10-12T06:14:28.981Z"
+  },
+  "218217": {
+    "anisearchId": 22025,
+    "streams": [],
+    "info": {
+      "languages": [
+        {
+          "language": "Japanisch",
+          "title": "Dark Summoner to Dekiteiru Mini Anime Gekijou",
+          "titleNative": "Dark Summoner to Dekiteiru Mini Anime Gekijō",
+          "status": "Laufend",
+          "released": "04.10.2026 - ?"
+        }
+      ],
+      "issues": [
+        "Episodenanzahl: vorläufige Schätzung"
+      ],
+      "format": "Web",
+      "episodes": 12,
+      "episodesEstimated": true,
+      "season": "Herbst 2026",
+      "adaptedFrom": "Manga"
+    },
+    "fetchedAt": "2026-10-13T06:01:17.650Z"
   }
 }
