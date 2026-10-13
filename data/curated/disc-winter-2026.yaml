@@ -1,0 +1,164 @@
+# Disc-Termine November 2026 bis Januar 2027 aus Anime2You-Meldungen (Auftrag „Anime2You-Vorschläge → Handeinträge, zweite Runde“, 13.10.2026).
+# Alle Titel hatten bis dahin keinen Disc-Termin im Datensatz (je anilistId in releases.json geprüft).
+# Wo die Quelle nur „15.01.“ ohne Jahr nennt, ist 2027 aus dem Artikeldatum abgeleitet (`estimated: true`).
+# Sprachangaben stehen nur dort in der Notiz, wo der Artikel sie nennt.
+
+# ---------------------------------------------------------------- 20.11.2026
+# Anime2You 1046924 (06.09.2026): Staffel 2, erstes Volume, „die ersten sechs Episoden mit deutscher und japanischer Sprachausgabe“, nach aktuellem Stand 20.11.2026.
+- slug: as-a-reincarnated-aristocrat-s2-vol1
+  anilistId: 178434
+  titleDe: "As a Reincarnated Aristocrat – Staffel 2 – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  note: "Die ersten sechs Episoden mit deutscher und japanischer Sprachausgabe (Anime2You)."
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1046924/as-a-reincarnated-aristocrat-staffel-2-disc-termin/]
+
+# Anime2You 1058300 (12.10.2026) und 1058438 (08.10.2026): Komplett-Bundles (DVD und Blu-ray) am 20.11. ohne Jahr; die Meldungen stammen vom Oktober 2026.
+# Sprache der Discs steht in keinem der beiden Artikel.
+- slug: air-gear-komplett-bundle
+  anilistId: 857
+  titleDe: "Air Gear – Komplett-Bundle"
+  platform: disc
+  releaseType: disc
+  publisher: "Hardball Films"
+  edition: "Komplett-Bundle, DVD und Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/, https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
+
+- slug: d-gray-man-komplett-bundle
+  anilistId: 1482
+  titleDe: "D.Gray-man – Komplett-Bundle"
+  platform: disc
+  releaseType: disc
+  publisher: "Hardball Films"
+  edition: "Komplett-Bundle, DVD und Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/, https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
+
+- slug: love-hina-komplett-bundle
+  anilistId: 189
+  titleDe: "Love Hina – Komplett-Bundle"
+  platform: disc
+  releaseType: disc
+  publisher: "Hardball Films"
+  edition: "Komplett-Bundle, DVD und Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/, https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
+
+- slug: ouran-high-school-host-club-komplett-bundle
+  anilistId: 853
+  titleDe: "Ouran High School Host Club – Komplett-Bundle"
+  platform: disc
+  releaseType: disc
+  publisher: "Hardball Films"
+  edition: "Komplett-Bundle, DVD und Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/, https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
+
+# Das Bundle umfasst Staffel 1 und 2; der Eintrag hängt an Staffel 1.
+- slug: shakugan-no-shana-komplett-bundle
+  anilistId: 355
+  titleDe: "Shakugan no Shana – Staffel 1 und 2 – Komplett-Bundle"
+  platform: disc
+  releaseType: disc
+  publisher: "FilmConfect"
+  edition: "Komplett-Bundle, DVD und Blu-ray"
+  schedule: { firstEpisodeDate: "2026-11-20" }
+  sources: [https://www.anime2you.de/news/1058438/akiba-pass-shop-shield-hero-und-mehr/, https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
+
+# ---------------------------------------------------------------- 27.11.2026
+# Anime2You 1046360 (03.09.2026): polyband anime, DVD-Boxen am 27. November 2026; „Die Anfänge“ umfasst die ersten beiden Staffeln, „Schwarz und Weiß“ die Staffeln 14 bis 16.
+- slug: pokemon-die-anfaenge-staffel-1-2-dvd
+  anilistId: 527
+  titleDe: "Pokémon: Die Anfänge – Staffel 1 und 2"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "DVD-Box"
+  schedule: { firstEpisodeDate: "2026-11-27" }
+  sources: [https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/]
+
+- slug: pokemon-schwarz-und-weiss-staffel-14-16-dvd
+  anilistId: 9107
+  titleDe: "Pokémon: Schwarz und Weiß – Staffel 14 bis 16"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "DVD-Box"
+  note: "Die Box umfasst die Staffeln 14 bis 16; der Eintrag hängt an der ersten davon."
+  schedule: { firstEpisodeDate: "2026-11-27" }
+  sources: [https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/]
+
+# Anime2You 1058300 (12.10.2026): „Shin Chan – Vol. 9-12 (Limited Edition) 27.11. DVD“, polyband anime.
+- slug: shin-chan-vol9-12
+  anilistId: 966
+  titleDe: "Shin Chan – Vol. 9-12"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "Limited Edition, DVD"
+  schedule: { firstEpisodeDate: "2026-11-27" }
+  sources: [https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
+
+# ---------------------------------------------------------------- Dezember 2026
+# Anime2You 1044146 (06.09.2026) und 1060073 (12.10.2026): Staffel 2, erstes Volume, Episoden 1 bis 6 „auf Deutsch und Japanisch“,
+# nach aktueller Planung 04.12.2026 als Limited Edition mit Sammelschuber (DVD und Blu-ray).
+- slug: apothecary-diaries-s2-vol1
+  anilistId: 176301
+  titleDe: "Die Tagebücher der Apothekerin – Staffel 2 – Vol. 1"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Limited Edition mit Sammelschuber, DVD und Blu-ray"
+  note: "Die ersten sechs Episoden auf Deutsch und Japanisch (Anime2You)."
+  schedule: { firstEpisodeDate: "2026-12-04" }
+  sources: [https://www.anime2you.de/news/1044146/apothecary-diaries-staffel-2-disc-release/, https://www.anime2you.de/news/1060073/apothecary-diaries-staffel-2-volume-2-termin/]
+
+# Anime2You 1052189 (20.09.2026): KSM Anime, alle 42 Episoden in der Digital-Remastered-Version, nach aktuellem Stand 10.12.2026; Vorbestellung möglich.
+- slug: koenigin-der-tausend-jahre-komplettbox
+  anilistId: 1548
+  titleDe: "Die Königin der tausend Jahre – Komplettbox"
+  platform: disc
+  releaseType: disc
+  publisher: "KSM Anime"
+  edition: "Komplettbox, Digital Remastered, Blu-ray"
+  schedule: { firstEpisodeDate: "2026-12-10" }
+  sources: [https://www.anime2you.de/news/1052189/die-koenigin-der-1000-jahre-blu-ray-komplettbox/]
+
+# ---------------------------------------------------------------- Januar 2027
+# „15.01.“ ohne Jahr in 1058300 (12.10.2026): 2027 aus dem Artikeldatum abgeleitet.
+- slug: as-a-reincarnated-aristocrat-s2-vol2
+  anilistId: 178434
+  titleDe: "As a Reincarnated Aristocrat – Staffel 2 – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  note: "Jahr aus dem Artikeldatum abgeleitet; Sprache der Disc im Artikel nicht genannt."
+  schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
+  sources: [https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
+
+- slug: re-zero-s3-vol3
+  anilistId: 163134
+  titleDe: "Re:ZERO – Staffel 3 – Vol. 3"
+  platform: disc
+  releaseType: disc
+  publisher: "Crunchyroll"
+  edition: "Blu-ray"
+  note: "Jahr aus dem Artikeldatum abgeleitet; Sprache der Disc im Artikel nicht genannt. Vol. 2 hat noch keinen Termin im Datensatz."
+  schedule: { firstEpisodeDate: "2027-01-15", estimated: true }
+  sources: [https://www.anime2you.de/news/1058300/20-blu-ray-neuheiten-bei-amazon-vorbestellbar/]
+
+# Anime2You 1046360 (03.09.2026): „das zweite Volume am 29. Januar 2027“ (Limited Edition, Blu-ray, polyband anime); Volume 1 steht als `auto-173693-disc`.
+- slug: loner-life-vol2
+  anilistId: 173693
+  titleDe: "Loner Life in Another World – Vol. 2"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "Limited Edition, Blu-ray"
+  schedule: { firstEpisodeDate: "2027-01-29" }
+  sources: [https://www.anime2you.de/news/1046360/akiba-pass-shop-vier-polyband-neuheiten/]

@@ -100,3 +100,7 @@ eintraege:
 # Everyone’s Darling Has a Secret: „Start: April 2027 · Sprache: Japanisch (UT)" (1058606, 09.10.2026; ob Japan-Start oder Simulcast-Start, sagt der Artikel nicht)
   - { anilistId: 216624, titel: "SSS-Class Revival Hunter", platform: crunchyroll, omuAb: "2027-01", synchro: offen, stand: "2026-10-11", quellen: ["https://www.anime2you.de/news/1059957/sss-class-revival-hunter-neuer-teaser/"] }
   - { anilistId: 217457, titel: "Everyone’s Darling Has a Secret", platform: crunchyroll, omuAb: "2027-04", synchro: offen, stand: "2026-10-09", quellen: ["https://www.anime2you.de/news/1058606/crunchyroll-the-boxer-und-mehr/"] }
+
+# --- 13.10.2026 (Anime2You-Vorschläge, zweite Runde): Netflix-Simulcast Januar 2027. Nur Untertitel genannt, keine Synchro. ---
+# Bride of the Barrier Master: „startet im Januar 2027 im japanischen Fernsehen und exklusiv bei Netflix im Simulcast – unter anderem im Originalton mit deutschen Untertiteln. Ein konkreter Termin steht bislang noch aus.“ (1052617, 21.09.2026)
+  - { anilistId: 197619, titel: "Bride of the Barrier Master", platform: netflix, omuAb: "2027-01", synchro: offen, stand: "2026-09-21", quellen: ["https://www.anime2you.de/news/1052617/netflix-bride-of-the-barrier-master-simulcast/"] }
