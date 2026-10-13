@@ -1,4 +1,4 @@
-import type { Title } from '@shared/types.ts'
+import type { Title } from './types.ts'
 
 /**
  * **Ähnliche Titel über Genres und Keywords — gewichtet nach Seltenheit.**
