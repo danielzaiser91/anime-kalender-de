@@ -621,34 +621,45 @@ function termineAusPlan(release: Release): ReleaseEvent[] {
  * erschienenen Folgen ohnehin selbst.
  */
 export function bereicheMitTermin(
-  bereiche: Array<{ from: number; to: number; dub: boolean }> | undefined,
+  bereiche: DubBereich[] | undefined,
   releases: Release[],
   plattform: string,
   jetzt: Date = new Date(),
-): Array<{ from: number; to: number; dub: boolean }> | undefined {
-  if (!bereiche?.some((b) => b.dub)) return bereiche
+): DubBereich[] | undefined {
+  const neu = ergaenzteFolgen(bereiche, releases, plattform, jetzt)
+  return bereiche && neu.length ? bereicheMitFolgen(bereiche, neu) : bereiche
+}
+
+type DubBereich = { from: number; to: number; dub: boolean }
+
+/** Die erschienenen Wochenplan-Folgen dieses Anbieters, die kein belegter Bereich deckt (aufsteigend). */
+export function ergaenzteFolgen(
+  bereiche: DubBereich[] | undefined,
+  releases: Release[],
+  plattform: string,
+  jetzt: Date = new Date(),
+): number[] {
+  if (!bereiche?.some((b) => b.dub)) return []
   const gedeckt = new Set<number>()
   for (const b of bereiche) for (let n = b.from; n <= b.to; n++) gedeckt.add(n)
-  const neu = [
-    ...new Set(
-      releases
-        .filter((r) => r.platform === plattform && r.releaseType === 'weekly')
-        .flatMap((r) => expandEvents(r))
-        .filter((e) => typeof e.episode === 'number' && istErschienen(e, jetzt))
-        .map((e) => e.episode as number)
-        .filter((n) => !gedeckt.has(n)),
-    ),
-  ].sort((a, b) => a - b)
-  if (!neu.length) return bereiche
-  const dazu: Array<{ from: number; to: number; dub: boolean }> = []
+  const erschienen = releases
+    .filter((r) => r.platform === plattform && r.releaseType === 'weekly')
+    .flatMap((r) => expandEvents(r))
+    .filter((e) => typeof e.episode === 'number' && istErschienen(e, jetzt))
+    .map((e) => e.episode as number)
+  return [...new Set(erschienen.filter((n) => !gedeckt.has(n)))].sort((a, b) => a - b)
+}
+
+/** Die belegten Bereiche plus die Folgen `neu` als deutsch; direkt anschließende werden zusammengezogen: 1–10 und 11–12 werden 1–12. */
+export function bereicheMitFolgen(bereiche: DubBereich[], neu: number[]): DubBereich[] {
+  const dazu: DubBereich[] = []
   for (const n of neu) {
     const letzter = dazu[dazu.length - 1]
     if (letzter && letzter.to === n - 1) letzter.to = n
     else dazu.push({ from: n, to: n, dub: true })
   }
-  /* Direkt anschließende Bereiche zusammenziehen: 1–10 und 11–12 werden 1–12. */
   const alle = [...bereiche.map((b) => ({ ...b })), ...dazu].sort((a, b) => a.from - b.from)
-  const raus: typeof alle = []
+  const raus: DubBereich[] = []
   for (const b of alle) {
     const vor = raus[raus.length - 1]
     if (vor && vor.dub === b.dub && vor.to + 1 >= b.from) vor.to = Math.max(vor.to, b.to)

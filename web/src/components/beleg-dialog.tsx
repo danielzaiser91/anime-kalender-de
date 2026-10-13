@@ -43,8 +43,13 @@ function erklaerung(b: NewsBeleg): string {
   if (b.ausgabeAm) return `Produktseite bei ${b.name}; die Ausgabe erscheint am ${datumKurz(b.ausgabeAm)}.`
   const wann = b.veroeffentlichtAm ? `, veröffentlicht am ${datumKurz(b.veroeffentlichtAm)}` : ''
   const spaeter = b.aktualisiertAm && b.aktualisiertAm !== b.veroeffentlichtAm ? `, aktualisiert am ${datumKurz(b.aktualisiertAm)}` : ''
-  return `Quelle: ${b.name}${wann}${spaeter}.`
+  const sprache = b.ueberschrift ? (SPRACHEN[b.ueberschrift.sprache] ?? b.ueberschrift.sprache) : ''
+  const ueberschrift = b.ueberschrift ? ` Überschrift der Seite (${sprache}): „${b.ueberschrift.text}“.` : ''
+  return `Quelle: ${b.name}${wann}${spaeter}.${ueberschrift}`
 }
+
+/** Sprachen der Überschriften offizieller Websites (Art `offiziell`). */
+const SPRACHEN: Record<string, string> = { ja: 'japanisch', en: 'englisch' }
 
 /** Wann wir die Quelle geprüft haben: erstmals, zuletzt, und wann das Bild entstand (nur, was die Beleg-Lesung weiß). */
 function pruefzeile(b: NewsBeleg, mitBild: boolean): string {

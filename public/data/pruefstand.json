@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-13T08:03:15.296Z",
+ "erzeugtAm": "2026-10-13T08:30:24.942Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -1929,9 +1929,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 410,
+   "gemeldet": 412,
    "gesamt": 689,
-   "offen": 279,
+   "offen": 277,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -2090,10 +2090,6 @@
      "titel": "Cyberpunk: Edgerunners 2"
     },
     {
-     "url": "https://www.netflix.com/title/81991076",
-     "titel": "Fool Night"
-    },
-    {
      "url": "https://www.netflix.com/title/81684733",
      "titel": "Oshi no Ko: Mein Star"
     },
@@ -2104,10 +2100,6 @@
     {
      "url": "https://www.netflix.com/title/82854665",
      "titel": "Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe"
-    },
-    {
-     "url": "https://www.netflix.com/title/83189604",
-     "titel": "Dragon Ball Super: Beerus"
     },
     {
      "url": "https://www.netflix.com/title/81783938",

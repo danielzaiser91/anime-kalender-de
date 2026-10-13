@@ -1,5 +1,8 @@
-import { istErschienen } from '@shared/logic.ts'
-import type { ReleaseEvent } from '@shared/types.ts'
+import { expandEvents, istErschienen } from '@shared/logic.ts'
+import type { Release, ReleaseEvent, StreamLink } from '@shared/types.ts'
+
+/** Ein Weg im Panel: `ergaenzteFolgen` sind die Folgen in `dubRanges`, die nicht belegt, sondern aus dem Wochenplan ergänzt sind (nie im Datensatz). */
+export type WegMitHerkunft = StreamLink & { ergaenzteFolgen?: number[] }
 
 const spanne = (von: number, bis: number): string => (von === bis ? String(von) : `${von}–${bis}`)
 
@@ -24,12 +27,21 @@ export function erschieneneSpanne(events: ReleaseEvent[]): string | undefined {
 /**
  * Ruht eine erschienene Folge nur auf einem fortgeschriebenen Termin (`estimated`), und deckt sie kein belegter Bereich?
  * Dann ist die Spanne abgeleitet und trägt „≈“ (Stichprobe 12.10.2026: 3 von 741 Bereichs-Pillen).
+ * Die aus dem Wochenplan ergänzten Folgen (`ergaenzt`) stehen zwar in den Bereichen, belegt sind sie dadurch nicht.
  */
-export function planGeschaetzt(events: ReleaseEvent[], bereiche: { from: number; to: number; dub: boolean }[] | undefined): boolean {
-  return events.some(
-    (e) =>
-      istErschienen(e) &&
-      e.estimated &&
-      !(bereiche ?? []).some((b) => b.dub && e.episode != null && e.episode >= b.from && e.episode <= b.to),
-  )
+export function planGeschaetzt(
+  events: ReleaseEvent[],
+  bereiche: { from: number; to: number; dub: boolean }[] | undefined,
+  ergaenzt: number[] = [],
+): boolean {
+  const belegt = (n: number | undefined): boolean =>
+    n != null && !ergaenzt.includes(n) && (bereiche ?? []).some((b) => b.dub && n >= b.from && n <= b.to)
+  return events.some((e) => istErschienen(e) && e.estimated && !belegt(e.episode))
+}
+
+/** Steht in den Bereichen eine Folge, die nur der fortgeschriebene Wochenplan liefert (ergänzt, ihr Termin `estimated`)? */
+export function ergaenzungGeschaetzt(releases: Release[], ergaenzt: number[] = []): boolean {
+  return releases
+    .flatMap((r) => expandEvents(r))
+    .some((e) => istErschienen(e) && e.estimated && e.episode != null && ergaenzt.includes(e.episode))
 }

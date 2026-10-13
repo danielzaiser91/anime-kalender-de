@@ -6,7 +6,7 @@
  * steht der Monat da und gilt bis zu seinem Ende als bevorstehend. Rein, damit `check:logic`
  * sie ohne Oberfläche prüfen kann.
  */
-import type { StreamLink, Title } from './types.ts'
+import type { Release, StreamLink, Title } from './types.ts'
 import { PLATFORMS } from './types.ts'
 import { formatDate, monthName, todayIso } from './time.ts'
 
@@ -36,9 +36,17 @@ export function omuLetzterTag(omuAb: string): string {
  * Ein Weg beim Anbieter eines angekündigten Simulcasts, an dem noch keine deutsche Fassung belegt ist:
  * dort läuft vorerst nur Originalton mit Untertiteln (PSYREN, Daniel 10.10.2026) — die Pille sagt es.
  */
-export function streamNurOmu(t: { ankuendigung?: Ankuendigung }, s: StreamLink): boolean {
-  return t.ankuendigung?.platform === s.platform && s.dub !== true && !s.dubRanges?.some((r) => r.dub)
+export function streamNurOmu(t: { ankuendigung?: Ankuendigung }, s: StreamLink, releases: Release[] = []): boolean {
+  if (s.dub === true || s.dubRanges?.some((r) => r.dub)) return false
+  if (t.ankuendigung?.platform === s.platform) return true
+  // Auch ein Termin, dessen Quelle nur den Originalton nennt (`Release.sprache`), macht den Weg dort zu „nur Untertitel“.
+  const termine = releases.filter((r) => r.platform === s.platform)
+  return termine.length > 0 && termine.every((r) => r.sprache === 'omu')
 }
+
+/** Hinweis im Tooltip: nur eine angekündigte Synchro darf „noch nicht erschienen“ heißen; sonst ist keine bekannt. */
+export const synchroAngekuendigt = (t: { ankuendigung?: Ankuendigung }, s: StreamLink): boolean =>
+  t.ankuendigung?.platform === s.platform && t.ankuendigung.synchro === 'angekuendigt'
 
 export function ankuendigungZeile(
   a: Ankuendigung,

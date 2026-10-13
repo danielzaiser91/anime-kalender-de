@@ -605,7 +605,7 @@ export function AntwortKasten({
     zaehl = ''
     fakten = []
   } else if (antwort.art === 'film') {
-    haupt = antwort.hatSynchro ? T('antwort.filmTitel') : T('antwort.filmOhneTitel')
+    haupt = antwort.hatSynchro ? T(antwort.ohneWeg ? 'antwort.filmSynchronisiert' : 'antwort.filmTitel') : T('antwort.filmOhneTitel')
     /*
       Unter einem Kino-Banner ohne Stream-Weg fehlt genau eine Angabe, und der Leser
       sucht sie: wann er den Film zu Hause sehen kann (Madoka, 17.09.2026).
