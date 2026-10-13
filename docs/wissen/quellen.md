@@ -940,7 +940,10 @@ Standort, Altersfreigabe oder Abo. Entschieden wird sie mit zwei Griffen: die
 höchsten Stufe; damit blieb nur die Region übrig.
 
 **Die Erweiterung meldet deshalb nichts davon von selbst.** Sie bietet auf einer
-Fehlerseite einen zweiten Versuch an; „nichts da" bleibt ein Klick von Hand.
+Fehlerseite einen zweiten Versuch an; „nichts da" bleibt ein Klick von Hand. Auch der
+Durchgang (▶ alle durchgehen) meldet bei Startseiten-Umleitung oder dem Hinweis „nicht in
+deinem Gebiet verfügbar" nichts an den Worker: Er merkt den Titel nur lokal und öffnet ihn
+7 Tage lang nicht wieder (`erweiterung.md`, 4.30.9; Entscheidung 13.10.2026, Prüfer zu PR 1147).
 
 ### Disney+ führt dieselbe Serie unter zwei Adressen
 

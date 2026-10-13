@@ -11031,7 +11031,7 @@ async function speicherSchreiben(werte) {
   function primeHoerer(e) {
     if (e?.data?.marke !== 'ak-prime-frame' || e.origin !== location.origin || IM_FRAME) return
     const el = [...primeFrames.keys()].find((x) => x.contentWindow === e.source)
-    if (el) primeFrameErgebnis(el, e.data)
+    if (el) primeFrameErgebnis(el, globalThis.AK_TAGESLIMIT?.ausFrame(e.data) ?? e.data)
   }
 
   function primeKoordinieren() {
@@ -11081,7 +11081,7 @@ async function speicherSchreiben(werte) {
       .filter((s) => s?.kennung)
       .map((s) => ({ kennung: String(s.kennung), nummer: s.nummer ?? null }))
     window.parent.postMessage(
-      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln },
+      { marke: 'ak-prime-frame', ok, grund, hier: String(asin() ?? ''), staffeln, limit: globalThis.AK_TAGESLIMIT?.rest() ?? null },
       location.origin,
     )
   }

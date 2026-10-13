@@ -358,6 +358,43 @@ const kennung = (el) => /detail\/([A-Z0-9]+)/.exec(el.src)?.[1]
   pruefe('der Fehler wird sichtbar statt lautlos weiterzulaufen', /Takt wirft/.test(quelle))
 }
 
+/* ---- Tageslimit im Frame (13.10.2026): „Fehler 429" auf der letzten Seite ist kein Überspringen ---- */
+{
+  /** `tageslimit.js` in einem eigenen Sandkasten; `limitSekunden`: die Pause, die dieser Tab schon kennt. */
+  const limitFuer = (limitSekunden) => {
+    const k = { Date, Intl, setTimeout, console, Promise, Number, Math, JSON, String, fetch: async () => ({ status: 200 }) }
+    k.globalThis = k
+    vm.runInNewContext(readFileSync(__dirname + '/tageslimit.js', 'utf8'), k)
+    if (limitSekunden) k.AK_TAGESLIMIT.merken(limitSekunden)
+    return k.AK_TAGESLIMIT
+  }
+  const frame = welt({ imFrame: true })
+  frame.kontext.AK_TAGESLIMIT = limitFuer(3600)
+  frame.zeige('🇩🇪 Deutsch · 12 Folgen · Staffel 9 · melden', 1500)
+  frame.kontext.letzteMeldung = { pfad: '/x', ok: false, am: frame.uhr }
+  frame.zeige('Fehler 429', 500)
+  const antwort = frame.gepostet[0]
+  pruefe('Frame am Limit: die Antwort trägt die Pause, die er sah', antwort?.ok === false && antwort.limit?.sekunden > 3590, antwort)
+
+  const seite = welt()
+  seite.kontext.AK_TAGESLIMIT = limitFuer(0)
+  vm.runInContext('primeLaufStarten()', seite.kontext)
+  const hoerer = vm.runInContext('primeHoerer', seite.kontext)
+  pruefe('Seite kennt das Limit noch nicht (Speicher nicht angekommen)', !seite.kontext.AK_TAGESLIMIT.aktiv())
+  hoerer({ data: antwort, origin: 'https://www.amazon.de', source: seite.offen()[0].contentWindow })
+  pruefe('Antwort „Fehler 429": die Staffel wird nicht übersprungen', seite.lauf().uebersprungen.length === 0, seite.lauf().uebersprungen)
+  pruefe('… sondern geht zurück an den Anfang des Plans und wird nach dem Limit nachgeholt', seite.lauf().plan[0] === 'B07VP6VPVR', seite.lauf().plan)
+  pruefe('… die Seite pausiert und öffnet keinen Frame mehr', seite.kontext.AK_TAGESLIMIT.aktiv() && seite.offen().length === 0, seite.offen().length)
+  const spurSeite = seite.lauf().spur.find((s) => s.was === 'seite')
+  pruefe('… und die Spur nennt das Tageslimit statt „Fehler 429"', /^Tageslimit erreicht/.test(spurSeite?.grund ?? ''), spurSeite)
+
+  const ohne = welt()
+  ohne.kontext.AK_TAGESLIMIT = limitFuer(0)
+  vm.runInContext('primeLaufStarten()', ohne.kontext)
+  vm.runInContext('primeHoerer', ohne.kontext)({ data: { ...antwort, limit: null }, origin: 'https://www.amazon.de', source: ohne.offen()[0].contentWindow })
+  pruefe('Gegenprobe: ein Fehler ohne Limit bleibt „übersprungen" (wie bisher)', ohne.lauf().uebersprungen.length === 1 && !ohne.kontext.AK_TAGESLIMIT.aktiv(), ohne.lauf().uebersprungen)
+}
+
 console.log('')
 if (fehler.length) {
   console.error(`${fehler.length} Zusicherung(en) gerissen.`)
