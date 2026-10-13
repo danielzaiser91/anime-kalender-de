@@ -21,7 +21,7 @@ const kennung = (n: number) => standardKennung(standardKarte(n))
 
 pruefe(titelzahlText(2546) === 'über 2.500 mit Synchro', `2546 -> „${titelzahlText(2546)}"`)
 pruefe(titelzahlText(2500) === titelzahlText(2599), 'Spanne 2500..2599 gleicher Text')
-pruefe(titelzahlText(2600) === 'über 2.600 mit Synchro', '2600 -> über 3.000')
+pruefe(titelzahlText(2600) === 'über 2.600 mit Synchro', '2600 -> über 2.600')
 
 pruefe(kennung(2546) === kennung(2599), 'Neue Titel innerhalb der Hunderter ändern die Kennung nicht (kein Commit je Titel)')
 pruefe(kennung(2599) !== kennung(2600), 'Die nächste Hunderterschwelle ändert die Kennung (Bild spätestens dann neu)')
