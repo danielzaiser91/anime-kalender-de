@@ -233,12 +233,13 @@ export function farbeZuAnbieter(voll: string): string | undefined {
 }
 
 /** Was die Oberfläche je Weg einer Pille braucht. */
-type Eintrag = { label?: string; url: string; nurFolge?: number; dubRanges?: WatchLink['dubRanges'] }
+type Eintrag = Pick<WatchLink, 'url' | 'nurFolge' | 'dubRanges' | 'dubAbgeleitet'> & { label?: string }
 
 const eintragVon = (l: WatchLink): Eintrag => ({
   url: l.url,
   nurFolge: l.nurFolge,
   dubRanges: l.dubRanges,
+  dubAbgeleitet: l.dubAbgeleitet,
 })
 
 export function gruppiereKaufwege(links: WatchLink[]): { shop: string; eintraege: Eintrag[] }[] {

@@ -52,6 +52,12 @@ export interface WatchLink {
    */
   dubRanges?: Array<{ from: number; to: number; dub: boolean }>
   /**
+   * Deutsch **abgeleitet** statt belegt (13.10.2026): Der Weg selbst nennt keine Tonspur, mindestens ein
+   * Schwester-Shop desselben Titels belegt Deutsch, keiner widerspricht (`pipeline/lib/schwester-shop.ts`).
+   * Nie mit `dubRanges` zusammen — es ist kein Beleg und zählt nirgends als Deutsch-Häkchen.
+   */
+  dubAbgeleitet?: 'schwester-shop'
+  /**
    * **Nur TOGGO: wann welche Folgen kostenlos abrufbar sind** (19.09.2026, `pipeline/fetch-toggo.ts`).
    * Blöcke aufeinanderfolgender Folgen mit gleichem Fenster; `ab`/`bis` in Berliner Ortszeit.
    * Ob eine Folge *jetzt* abrufbar ist, rechnet die Oberfläche — der Datensatz ist bis zu einem
