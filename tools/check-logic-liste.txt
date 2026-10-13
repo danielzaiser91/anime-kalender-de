@@ -45,6 +45,7 @@ pipeline/check-erscheint-erst.ts
 pipeline/check-film-ohne-weg.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-handlung-eigen.ts
+pipeline/check-herkunft-je-folge.ts
 pipeline/check-herkunftsfilter.ts
 pipeline/check-herkunftsland.ts
 pipeline/check-install-stellen.ts

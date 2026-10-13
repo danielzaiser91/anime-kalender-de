@@ -339,6 +339,15 @@ Folge etwas anderes. Auf dem Bestand änderte das zwei Wege (Landei II, Ascendan
 Die Wiedervorlage für laufende Serien (`wiedervorlage-frist.ts`) greift nur bei `dub: false`; eine
 deutsche Lücke hinter dem Beleg schließt jetzt der Terminplan.
 
+**Herkunft je Folge (12.10.2026):** Die Zusammenführung verwarf, welche Folgen belegt und welche nur aus dem Plan ergänzt
+sind — Tank Chair bei Prime (Beleg Folge 1, Folge 2 fortgeschrieben) zeigte „Fg. 1–2“ ohne „≈“. Gewählt wurde nicht, die
+Bereiche an der Grenze aufzuteilen (jeder Leser von `dubRanges` — `dubBild`, `dubGrenze`, Kanal-Vereinigung, Kasten —
+müsste angrenzende Bereiche wieder verschmelzen, Etiketten wie „DE 1–10, 11–12“ wären die Folge), sondern die ergänzten Folgen
+zu merken: `titelMitTerminBereichen` setzt am Weg `ergaenzteFolgen` (`ergaenzteFolgen()` in `shared/logic.ts`, nur im Panel,
+nie im Datensatz); die Bereiche bleiben zusammengeführt. `planGeschaetzt`/`ergaenzungGeschaetzt` (`folgen-spanne.ts`) rechnen
+eine ergänzte Folge nicht als belegt; „≈“ steht, wenn ihr Termin `estimated` ist (beobachtete Termine bleiben ohne „≈“ —
+Wistoria 13–24, Overgeared). Bestand 12.10.2026: 1 von 2.939 Pillen ändert sich (Tank Chair); `check-herkunft-je-folge.ts`.
+
 
 ## Poster-Gestaltung: Kalender, Kopfleiste, Navigation (26.09.2026)
 
