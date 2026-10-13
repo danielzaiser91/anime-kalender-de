@@ -91,6 +91,12 @@ Disney+-Katalogaufnahmen als „Premiere" (DD-11); (5) acht News-Meldungen ohne 
 - **DD-19 (1):** Dragon Ball Daima: Anime2You (25.09.2026) nennt als Stream „Prime Video, RTL+" (RTL+ auf dem Prime-Video-Channel), der Titel hat Wege zu RTL+ und TOGGO, aber keinen Prime-Weg; ein Weg entsteht nur aus einer Messung (Prime-Seiten werden nicht abgerufen). Bleibt bekannt, wie Kamisama Kiss.
 - Aus `detektiv-bekannt.json` fielen zwei erledigte Schlüssel (DD-08 8408, DD-19 auto-187331-primevideo).
 
+### Restfunde DD-08 (Kabaneri-Filme) und DD-02 (Danganronpa), 13.10.2026
+
+- **Kabaneri 98662/98663, Ursache:** Beide Filme trugen den Crunchyroll-Serienweg `…/series/GR24GX896/…` (`sharedWith: 3`, von der Serie geerbt). Er fällt erst am Ende von `schliesseWegeAb` weg (`entferneFremdeNachStaffeln`: die Serie hat nur Staffel 1 mit 12 Folgen = 21196). Bis dahin besetzte er den Crunchyroll-Platz, den die JustWatch-Runden (`11-2-justwatch.ts`: „nur Titel ohne Weg“, „kein zweiter Weg zur selben Plattform“) mit der Film-Adresse füllen — danach war nichts mehr zu füllen. Der Satz „Katalog vor JustWatch“ stimmte nicht: der Katalog widerspricht nicht, er kennt die Filme nur nicht im `movie_listing`-Abzug (69 Einträge). Crunchyrolls Schnittstelle führt sie sehr wohl (deutscher Katalog, 13.10.2026, `cms/objects`): `GR0XPDJ0Y` und `GR790PW36` sind Episoden der Filmlistings `GMTE00193059`/`GMTE00193060` („Kompilationsfilm …“), je mit einer Version `de-DE` (`GD9UV5DDX`, `GQJUGK77Q`), Abo.
+- **Bau-Korrektur:** `fuelleWegeAusJustwatch` (`11-wege-abschluss.ts`) entfernt die Serien-Wege ohne Staffel schon vor der JustWatch-Ergänzung (am Ende läuft die Entfernung weiter); Zusicherung `pipeline/check-cr-film-wege.ts`. Die Schlüssel 98662/98663 stehen noch in `detektiv-bekannt.json` und können raus, sobald der Bestandsbau den Bestand ohne den Fund gebaut hat.
+- **Danganronpa 14 statt 13:** Nicht aus unseren Daten klärbar. Die 14 steht nur im Anime2You-Artikel (Aniverse September 2026, „Staffel 1“, 14 Folgen); AniList, aniSearch (Folgenliste 8222), TMDB (Staffel 1) und alle aniSearch-Gesamtausgaben der FilmConfect (126624/126625: `enthalten … folgen: 13`) zählen 13, TMDB führt dazu 3 Specials (Staffel 0). Welche Folge Aniverse als vierzehnte zählt, steht nur auf der Anbieterseite (Prime/Aniverse; Abruf ausgeschlossen) — Handprobe auf der Prime-Seite von `B0CHK728W1` klärt es. Bis dahin bleibt die Zahl der Quelle am Release (wie bei Gantz).
+
 ## Grenzen
 
 Keine Regel prüft gegen den Anbieter live; Zweitquellen sind die lokalen Abzüge aus `data/`, bis zu
