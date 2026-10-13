@@ -6269,52 +6269,7 @@ function nfBericht() {
       Sandkasten (`melder-uebersicht.test.cjs`) belegt seitdem, dass er
       entsteht; was hier steht, sagt, ob er auf **dieser** Seite auch da ist.
     */
-    uebersicht: sicher(() => {
-      const el = document.querySelector('.ak-uebersicht')
-      if (!el) return { imDom: false }
-      const rect = el.getBoundingClientRect?.()
-      const stil = getComputedStyle(el)
-      /*
-        **Wer liegt an dieser Stelle oben?**
-
-        Am 06.09.2026 meldete der Bericht `imDom: true`, Text „Anime-Kalender 2",
-        Lage 1604/835 in einem Fenster von 1767×887 — alles richtig, und Daniel
-        sah trotzdem nichts. „Da" und „sichtbar" sind zwei Fragen, und die
-        zweite beantwortet nur `elementFromPoint`: Kommt dort ein fremdes
-        Element zurück, liegt es darüber.
-      */
-      const mitte = rect ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 } : null
-      const oben = mitte ? document.elementFromPoint(mitte.x, mitte.y) : null
-      return {
-        imDom: true,
-        text: el.textContent,
-        lage: rect
-          ? {
-              top: Math.round(rect.top),
-              left: Math.round(rect.left),
-              breite: Math.round(rect.width),
-              hoehe: Math.round(rect.height),
-            }
-          : null,
-        fenster: { breite: window.innerWidth, hoehe: window.innerHeight },
-        stil: {
-          display: stil.display,
-          sichtbarkeit: stil.visibility,
-          deckkraft: stil.opacity,
-          zIndex: stil.zIndex,
-          position: stil.position,
-          hintergrund: stil.backgroundColor,
-        },
-        /* `null` heißt: außerhalb des sichtbaren Bereichs. */
-        obenLiegt: oben
-          ? {
-              istErSelbst: oben === el,
-              tag: oben.tagName,
-              klasse: String(oben.className ?? '').slice(0, 80),
-            }
-          : null,
-      }
-    }),
+    uebersicht: sicher(() => akNetflixBericht.uebersicht()),
     zuletztGeoeffnet: sicher(() => zuletztGeoeffnet),
     /* Warum die Automatik jede Seite übersprungen oder geprüft hat (23.09.2026). */
     durchgang: sicher(() => ({
@@ -6334,18 +6289,7 @@ function nfBericht() {
     leser: sicher(() => letzteHerkunft ?? 'noch keine Folgenliste gesehen'),
     leserVerlauf: sicher(() => leserVerlauf),
     /* Welche Staffeln die Seite bisher geladen hat — je Netflix-Staffelkennung. */
-    geladen: sicher(() =>
-      [...folgenJeStaffel(DURCHLAUF.alleFolgen ?? []).entries()].map(([seasonId, g]) => {
-        const n = g.map((f) => Number(f.nummer)).filter(Number.isFinite)
-        return {
-          seasonId,
-          anzahl: g.length,
-          von: n.length ? Math.min(...n) : null,
-          bis: n.length ? Math.max(...n) : null,
-          ersterTitel: g[0]?.titel ?? null,
-        }
-      }),
-    ),
+    geladen: sicher(() => akNetflixBericht.geladen(folgenJeStaffel(DURCHLAUF.alleFolgen ?? []))),
     staffelMenue: sicher(() => angezeigterNetflixName()),
   }
 }
