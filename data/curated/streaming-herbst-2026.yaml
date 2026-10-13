@@ -167,7 +167,6 @@
       # Folge 2: erschienen zwischen 16:59 und 17:00 MESZ, beobachtet von Daniel; Amazon-Seite nennt 11.10.
       2: "2026-10-10"
   # heise nennt den 04.10. für den Amazon-Start, Anime2You den 03.10. (Samstag); es gilt Anime2You.
-  note: "Prime Video zeigt die Serie mit deutscher Sprachfassung und im Original mit Untertiteln im Simulcast."
   sources:
     - https://www.anime2you.de/news/1057464/prime-video-marronniers-und-mehr/
     - https://www.anime2you.de/news/1047200/seven-knights-of-marronnier-kingdom-prime-video-simulcast/
@@ -256,7 +255,7 @@
   releaseType: movie
   dateMeaning: available-from
   schedule: { firstEpisodeDate: "2026-09-28" }
-  note: "Netflix, 155 Minuten; Anime2You nennt als Sprache Deutsch und Japanisch (UT)."
+  note: "Netflix, 155 Minuten."
   sources:
     - https://www.anime2you.de/news/1054490/netflix-demon-slayer-infinity-castle-und-mehr/
 
@@ -305,7 +304,7 @@
     observed:
       12: "2026-09-19"
       15: "2026-10-10"
-  note: "Netflix veröffentlicht direkt auf Deutsch, jeden Samstag eine Folge. Gesamtzahl 24 nach AniList, von Netflix nicht genannt."
+  note: "Gesamtzahl 24 nach AniList, von Netflix nicht genannt."
   sources:
     - https://www.netflix.com/title/82719204
 
@@ -349,7 +348,6 @@
       11: "2026-10-30"
       12: "2026-10-30"
       13: "2026-10-30"
-  note: "Deutsche Synchronisation und englischer Originalton mit Untertiteln; zuerst drei Folgen, dann jeden Freitag drei bis vier. Wann die zweite Staffel startet, ist offen."
   # Eigene Aussage von 1059483 (10.10.): „Bis zum 30. Oktober 2026 folgen wöchentlich jeweils drei bis vier weitere Episoden“.
   rhythmus:
     stand: "2026-10-10"

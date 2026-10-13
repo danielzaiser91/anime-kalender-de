@@ -15,7 +15,6 @@
   platform: kino
   releaseType: movie
   publisher: "Film Verleih Gruppe / Tonkatsu Pictures"
-  note: "Deutsche Synchronfassung bestätigt, zusätzlich japanischer Originalton mit deutschen Untertiteln."
   schedule: { firstEpisodeDate: "2026-07-28" }
   sources: [https://www.anime2you.de/news/1034477/venus-wars-2k-remaster-im-kino/]
 
@@ -26,7 +25,7 @@
   platform: kino
   releaseType: movie
   publisher: "Wild Bunch Germany"
-  note: "Wiederaufführung zum 25. Jubiläum, mit deutscher Synchronfassung und im Original mit Untertiteln."
+  note: "Wiederaufführung zum 25. Jubiläum."
   schedule: { firstEpisodeDate: "2026-08-18" }
   sources: [https://www.anime2you.de/news/1034379/chihiros-reise-ins-zauberland-bald-wieder-im-kino/]
 
@@ -37,7 +36,7 @@
   platform: kino
   releaseType: movie
   publisher: "Crunchyroll (KAZÉ Anime)"
-  note: "Deutsche Synchronfassung belegt. Am Starttag laufen beide Fassungen: 42 deutsche und 39 untertitelte Vorstellungen in 36 Städten. Ab dem 27.08. gibt es nur noch deutsche Vorstellungen — die Fassung im Original mit Untertiteln ist auf den Premierentag beschränkt. Nicht jedes Kino zeigt beide am selben Tag; wer die Originalfassung sehen will, prüft das Programm seines Kinos. Gezählt über alle 43 CineStar-Standorte am 25.08.2026; die FSK führt den Film unter der Nummer 287674 mit deutscher Sprachfassung."
+  note: "Am Starttag laufen 42 deutsche Vorstellungen in 36 Städten, ab dem 27.08. nur noch deutsche. Gezählt über alle 43 CineStar-Standorte am 25.08.2026; die FSK führt den Film unter der Nummer 287674 mit deutscher Sprachfassung."
   schedule: { firstEpisodeDate: "2026-08-25" }
   sources:
     - https://www.kinoheld.de/film/sen-to-chihiro-no-kamikakushi
@@ -53,7 +52,7 @@
   platform: kino
   releaseType: movie
   publisher: "CineStar CineAnime"
-  note: "Einzelvorstellung im Rahmen von CineAnime, nur an diesem Tag, auf Deutsch. Gezählt am 14.09.2026: 30 deutsche Vorstellungen in 28 CineStar-Kinos."
+  note: "Einzelvorstellung im Rahmen von CineAnime, nur an diesem Tag. Gezählt am 14.09.2026: 30 deutsche Vorstellungen in 28 CineStar-Kinos."
   schedule: { firstEpisodeDate: "2026-09-29" }
   sources:
     - https://www.cinestar.de/kino-augsburg/veranstaltung-your-name-cineanime
@@ -66,7 +65,6 @@
   platform: kino
   releaseType: movie
   publisher: "polyband anime"
-  note: "Deutsche Synchronfassung bestätigt, zusätzlich japanischer Originalton mit Untertiteln."
   schedule: { firstEpisodeDate: "2026-10-15" }
   sources:
     - https://www.anime2you.de/news/1036946/a-new-dawn-deutscher-kinostart/
@@ -79,7 +77,6 @@
   platform: kino
   releaseType: movie
   publisher: "Crunchyroll"
-  note: "Kinostart im Originalton mit deutschen Untertiteln; eine deutsche Synchronfassung ist nicht bestätigt."
   sprache: omu
   schedule: { firstEpisodeDate: "2026-11-24" }
   sources: [https://www.anime2you.de/news/1036604/madoka-magica-walpurgisnacht-rising-kinostart/, https://www.anime2you.de/news/1053546/madoka-magica-film-deutscher-kinostart/]
@@ -91,7 +88,6 @@
   platform: kino
   releaseType: movie
   publisher: "KSM Anime"
-  note: "Deutsche Synchronfassung bestätigt, zusätzlich japanischer Originalton mit Untertiteln."
   schedule: { firstEpisodeDate: "2026-09-29" }
   sources: [https://www.anime2you.de/news/1039622/all-you-need-is-kill-deutscher-kinostart/]
 
@@ -103,7 +99,7 @@
   platform: kino
   releaseType: movie
   publisher: "peppermint anime"
-  note: "Kinostart im Originalton mit deutschen Untertiteln; eine deutsche Synchronfassung ist nicht geplant."
+  note: "Eine deutsche Synchronfassung ist nicht geplant."
   sprache: omu
   schedule: { firstEpisodeDate: "2026-10-27" }
   sources:

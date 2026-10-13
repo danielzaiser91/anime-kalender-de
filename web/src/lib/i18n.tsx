@@ -314,17 +314,6 @@ const TEXTE = {
   'detail.nurFolge': 'nur Folge {n}',
   'detail.whereUnknown': 'Kein Anbieter bekannt.',
   'detail.tvNurVorbei': 'Lief zuletzt im Fernsehen — kein Termin in der Zukunft bekannt.',
-  // **Wo deutsche Sprechrollen belegt sind, ist „kein Anbieter" die halbe
-  // Auskunft.** 277 Titel sind am 29.08.2026 in genau diesem Fall: Es gab eine
-  // deutsche Fassung — Anime News Network führt die Sprecher —, und wir kennen
-  // keinen Weg mehr dorthin. Das ist etwas anderes als „vielleicht gab es nie
-  // eine", und der Leser macht etwas anderes damit: Er hört auf, bei den
-  // Streamingdiensten zu suchen, und sucht gebraucht.
-  //
-  // Behauptet wird dabei nichts Unbelegtes: **wir** kennen keinen Weg. Ob es
-  // irgendwo noch einen gibt, sagt der Satz nicht.
-  'detail.whereDubbedButGone':
-    'Kein Bezugsweg bekannt. Eine deutsche Fassung gab es — die Sprecher sind belegt.',
   // Der Aufklapper für eine lange Notiz — siehe DetailPanel, `release.note`.
   'detail.noteToggle': 'Zur Sprachfassung',
   'detail.sharedUrl': '{count} Einträge',
