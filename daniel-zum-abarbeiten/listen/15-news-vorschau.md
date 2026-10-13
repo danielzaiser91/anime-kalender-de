@@ -1,17 +1,16 @@
 # Angekündigt, aber noch nicht im Datensatz
 
-Stand: 2026-10-12. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
+Stand: 2026-10-13. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlägen.
 
 ## Kuratierung: was noch fehlt
 
-26 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
+25 Meldungen mit künftigem Termin sind noch nicht eingearbeitet.
 
 | Termin | Plattform | Synchro | Meldung |
 |---|---|---|---|
 | 2026-10-20, 2026-10 (Monat) | netflix | – unklar | [Netflix enthüllt neuen Sneak-Peek-Teaser zu »Cyberpunk: Edgerunners II«](https://www.anime2you.de/news/1058410/netflix-cyberpunk-edgerunners-ii-neuer-sneak-peek-teaser/) |
 | 2026-10 (Monat) | primevideo, aniverse | ✅ zugesagt | [Neue Anime-Katalogtitel im Oktober 2026 bei aniverse](https://www.anime2you.de/news/1056322/aniverse-oktober-2026-neuzugaenge/) |
 | 2026-10 (Monat) | adn | ❌ nur Originalton | [ADN nimmt »86 EIGHTY-SIX« in sein Programm auf](https://www.anime2you.de/news/1052781/86-eighty-six-bald-auf-adn/) |
-| 2026-10 (Monat) | ? | ✅ zugesagt | [Deutscher Synchro-Trailer zu »Avatar: Die sieben Häfen« + Visual](https://www.anime2you.de/news/1048545/avatar-die-sieben-haefen-deutscher-trailer/) |
 | 2026-10-30, 2026-10 (Monat) | crunchyroll | – unklar | [Crunchyroll bald nicht mehr auf Nintendo Switch verfügbar](https://www.anime2you.de/news/1044861/crunchyroll-bald-nicht-mehr-auf-nintendo-switch/) |
 | 2026-10-17 | crunchyroll, adn | – unklar | [Termin der Fantasy-Serie »Dreamland« auf ADN und Crunchyroll + Trailer](https://www.anime2you.de/news/1044897/termin-von-dreamland-trailer/) |
 | 2026-10-18 | ? | – unklar | [TV-Guide: Anime im deutschen Fernsehen in KW 42/2026](https://www.anime2you.de/news/1060030/anime-tv-programm-42-2026/) |
@@ -35,55 +34,59 @@ Stand: 2026-10-12. Erzeugt von `npm run data:report` aus den Anime2You-Vorschlä
 | 2027-04 (Monat) | ? | – unklar | [Start von »The Case Files of Biblia Bookstore« + Teaser](https://www.anime2you.de/news/1057109/start-von-the-case-files-of-biblia-bookstor/) |
 | 2027-05-07, 2027-04-30 | kino | – unklar | [Nintendo verschiebt »The Legend of Zelda«-Film erneut + Bilder](https://www.anime2you.de/news/1010428/the-legend-of-zelda-film-erneut-verschoben/) |
 
-Dazu 52 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
+Dazu 51 Disc-Meldungen mit künftigem Termin; sie laufen über die Disc-Übersicht.
 
 ## Quellen
 
 | Quelle | zuletzt erfolgreich | Treffer |
 |---|---|---|
 | adn | 0.0 Tage her | 4 |
-| adn-catalog | 6.6 Tage her | 108 |
+| adn-catalog | 0.9 Tage her | 109 |
 | adn-news | 0.1 Tage her | 75 |
-| anilist-voices | 6.6 Tage her | 0 |
-| anime-offline-database | 6.6 Tage her | 8876 |
-| anime2you | 0.0 Tage her | 100 |
-| anisearch | 0.0 Tage her | 14699 |
-| anisearch-cover-eigen | 0.5 Tage her | 1874 |
-| anisearch-dubs | 4.6 Tage her | 8117 |
-| anisearch-eintraege | 3.6 Tage her | 0 |
-| anisearch-folgen | 6.6 Tage her | 440 |
-| anisearch-zuordnung | 0.0 Tage her | 18457 |
-| ann-voices | 6.6 Tage her | 8876 |
-| beleg-lesungen | 4.0 Tage her | 0 |
-| cartoon-reihen | 0.0 Tage her | 0 |
-| cartoons | 0.0 Tage her | 910 |
-| cinestar | 0.0 Tage her | 1 |
-| cr-einzelwerke | 18.7 Tage her | 0 |
-| cr-filmbloecke | 18.7 Tage her | 0 |
-| crunchyroll | 0.0 Tage her | 19 |
-| crunchyroll-dub | 0.0 Tage her | 1121 |
-| crunchyroll-neu | 0.0 Tage her | 114 |
-| crunchyroll-offene | 6.6 Tage her | 7 |
-| crunchyroll-woche | 0.0 Tage her | 65 |
-| fsk | 6.6 Tage her | 3 |
-| justwatch-audio | 6.6 Tage her | 29 |
-| kinoheld | 0.0 Tage her | 1 |
-| link-check | 6.6 Tage her | 287 |
-| messbelege | 0.0 Tage her | 0 |
-| motn | 3.7 Tage her | 1943 |
-| motn-changes | 0.0 Tage her | 56 |
-| rohfolgen | 0.2 Tage her | 0 |
-| rtlplus-folgen | 6.6 Tage her | 2 |
-| tmdb-folgen | 5.7 Tage her | 867 |
-| tmdb-kino | 6.6 Tage her | 3 |
-| tmdb-poster | 0.7 Tage her | 262 |
-| tmdb-titles | 5.7 Tage her | 300 |
+| anilist-voices | 1.0 Tage her | 3 |
+| anime-offline-database | 1.0 Tage her | 8876 |
+| anime2you | 0.0 Tage her | 99 |
+| anisearch | 0.9 Tage her | 116 |
+| anisearch-cover-eigen | 1.5 Tage her | 1874 |
+| anisearch-dubs | 1.0 Tage her | 11910 |
+| anisearch-eintraege | 1.0 Tage her | 400 |
+| anisearch-folgen | 1.0 Tage her | 1958 |
+| anisearch-slugs | 1.0 Tage her | 14846 |
+| anisearch-zuordnung | 1.0 Tage her | 18457 |
+| ann-voices | 1.0 Tage her | 8876 |
+| beleg-lesungen | 0.0 Tage her | 57 |
+| cartoon-folgen | 1.0 Tage her | 150 |
+| cartoon-reihen | 1.0 Tage her | 0 |
+| cartoons | 1.0 Tage her | 910 |
+| cinestar | 1.0 Tage her | 1 |
+| cr-einzelwerke | 19.7 Tage her | 0 |
+| cr-filmbloecke | 19.7 Tage her | 0 |
+| crunchyroll | 0.0 Tage her | 20 |
+| crunchyroll-dub | 1.0 Tage her | 1131 |
+| crunchyroll-neu | 0.0 Tage her | 127 |
+| crunchyroll-offene | 0.9 Tage her | 14 |
+| crunchyroll-woche | 0.1 Tage her | 65 |
+| fsk | 7.6 Tage her | 3 |
+| justwatch-audio | 0.9 Tage her | 792 |
+| kinoheld | 1.0 Tage her | 1 |
+| kitsu-folgen | 1.0 Tage her | 23 |
+| link-check | 7.6 Tage her | 287 |
+| messbelege | 0.1 Tage her | 0 |
+| motn | 4.7 Tage her | 1943 |
+| motn-changes | 0.0 Tage her | 22 |
+| rohfolgen | 0.5 Tage her | 0 |
+| rtlplus-folgen | 1.0 Tage her | 3 |
+| tmdb-banner | 1.0 Tage her | 82 |
+| tmdb-folgen | 1.0 Tage her | 883 |
+| tmdb-kino | 1.0 Tage her | 3 |
+| tmdb-poster | 1.0 Tage her | 72 |
+| tmdb-titles | 1.0 Tage her | 248 |
 | toggo | 0.0 Tage her | 22 |
-| trailer | 0.0 Tage her | 0 |
-| tv-de | 0.2 Tage her | 59 |
-| tv-programm | 0.0 Tage her | 269 |
-| vorfaelle | 0.0 Tage her | 0 |
-| wikidata-imdb | 0.0 Tage her | 4788 |
-| wikidata-titel | 0.0 Tage her | 15 |
+| trailer | 1.0 Tage her | 0 |
+| tv-de | 0.2 Tage her | 53 |
+| tv-programm | 0.1 Tage her | 283 |
+| vorfaelle | 0.1 Tage her | 0 |
+| wikidata-imdb | 1.0 Tage her | 4788 |
+| wikidata-titel | 1.0 Tage her | 15 |
 | wikipedia-folgen | 0.0 Tage her | 9 |
-| youtube-check | 0.0 Tage her | 1 |
+| youtube-check | 1.0 Tage her | 1 |

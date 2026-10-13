@@ -2957,5 +2957,59 @@
       "adn",
       "primevideo"
     ]
+  },
+  "auto-153288-disc": {
+    "tmdbId": 207468,
+    "fsk": 12,
+    "justwatchUrl": "https://www.themoviedb.org/tv/207468/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Joyn Plus",
+        "kind": "flatrate"
+      },
+      {
+        "name": "ProSieben Fun Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Crunchyroll Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Seven Entertainment Amazon Channel",
+        "kind": "flatrate"
+      },
+      {
+        "name": "Magenta TV+",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll",
+      "joyn",
+      "primevideo"
+    ]
+  },
+  "kaiju-no8-s2-komplettbox": {},
+  "demon-slayer-entertainment-district-arc-primevideo": {},
+  "demon-slayer-hashira-training-arc-primevideo": {},
+  "demon-slayer-mugen-train-arc-primevideo": {},
+  "demon-slayer-swordsmith-village-arc-primevideo": {},
+  "dragon-ball-super-beerus-netflix": {
+    "tmdbId": 312359,
+    "justwatchUrl": "https://www.themoviedb.org/tv/312359/watch?locale=DE",
+    "offers": [
+      {
+        "name": "Crunchyroll",
+        "kind": "flatrate"
+      }
+    ],
+    "providers": [
+      "crunchyroll"
+    ]
   }
 }
