@@ -49,6 +49,8 @@ Ohne `-text` ist der Wert für Ränder, Punkte, Zeichen und Füllungen gedacht (
 ## 3. Kontrast (erzeugt)
 
 Vorne auf Hinten, beide Themen; Schwelle 4,5 für Text, 3 für Zeichen, 1,3 für den Kartenrand (Sichtbarkeit, keine AA-Pflicht).
+Zwei Bestandswerte verfehlten die Schwelle und wurden am 13.10.2026 korrigiert: `--ak-sehr-leise` dunkel `#7a808c` → `#828894`
+(4,4 → 4,9 auf Fläche) und `--ak-akzent` hell `#ff5a36` → `#f54b27` (2,8 → 3,2 auf Grund; dunkel bleibt `#ff5a36`).
 
 <!-- kontrast-tabelle:anfang -->
 | Vorne | Hinten | Mindestens | Dunkel | Hell |
@@ -60,11 +62,11 @@ Vorne auf Hinten, beide Themen; Schwelle 4,5 für Text, 3 für Zeichen, 1,3 für
 | leise | grund | 4.5 | 7.3 (#9aa0ab auf #0d0f14) | 6.2 (#555b66 auf #f5f4f0) |
 | leise | flaeche | 4.5 | 6.7 (#9aa0ab auf #151922) | 6.8 (#555b66 auf #ffffff) |
 | leise | flaeche-2 | 4.5 | 6.2 (#9aa0ab auf #1b202a) | 5.6 (#555b66 auf #ebe9e3) |
-| sehr-leise | flaeche | 4.5 | 4.4 (#7a808c auf #151922) | 5.5 (#636974 auf #ffffff) |
+| sehr-leise | flaeche | 4.5 | 4.9 (#828894 auf #151922) | 5.5 (#636974 auf #ffffff) |
 | akzent-text | grund | 4.5 | 7.5 (#ff7a5c auf #0d0f14) | 5.4 (#b8321a auf #f5f4f0) |
 | akzent-text | flaeche | 4.5 | 6.9 (#ff7a5c auf #151922) | 6.0 (#b8321a auf #ffffff) |
 | akzent-text | flaeche-2 | 4.5 | 6.4 (#ff7a5c auf #1b202a) | 4.9 (#b8321a auf #ebe9e3) |
-| auf-akzent | akzent | 4.5 | 6.2 (#0d0f14 auf #ff5a36) | 5.8 (#15171c auf #ff5a36) |
+| auf-akzent | akzent | 4.5 | 6.2 (#0d0f14 auf #ff5a36) | 5.1 (#15171c auf #f54b27) |
 | auf-akzent | akzent-hover | 4.5 | 7.5 (#0d0f14 auf #ff7a5c) | 4.6 (#15171c auf #e8491f) |
 | gut-text | flaeche | 4.5 | 10.3 (#4ade9f auf #151922) | 7.0 (#04664a auf #ffffff) |
 | gut-text | gut-grund | 4.5 | 8.2 (#4ade9f auf #192f30) | 6.1 (#04664a auf #e6f2ee) |
@@ -77,8 +79,8 @@ Vorne auf Hinten, beide Themen; Schwelle 4,5 für Text, 3 für Zeichen, 1,3 für
 | tv | tv-grund | 4.5 | 8.5 (#3cc7b4 auf #121821) | 5.0 (#0b7568 auf #eaf4f2) |
 | finale-text | flaeche | 4.5 | 10.8 (#f5c542 auf #151922) | 5.4 (#8a6300 auf #ffffff) |
 | katalog-text | flaeche | 4.5 | 6.5 (#a78bfa auf #151922) | 7.1 (#5b3fc4 auf #ffffff) |
-| akzent | grund | 3 | 6.2 (#ff5a36 auf #0d0f14) | 2.8 (#ff5a36 auf #f5f4f0) |
-| akzent | flaeche | 3 | 5.7 (#ff5a36 auf #151922) | 3.1 (#ff5a36 auf #ffffff) |
+| akzent | grund | 3 | 6.2 (#ff5a36 auf #0d0f14) | 3.2 (#f54b27 auf #f5f4f0) |
+| akzent | flaeche | 3 | 5.7 (#ff5a36 auf #151922) | 3.5 (#f54b27 auf #ffffff) |
 | fokus | grund | 3 | 9.6 (#ff9e85 auf #0d0f14) | 5.4 (#b8321a auf #f5f4f0) |
 | fokus | flaeche | 3 | 8.8 (#ff9e85 auf #151922) | 6.0 (#b8321a auf #ffffff) |
 | fokus | flaeche-2 | 3 | 8.1 (#ff9e85 auf #1b202a) | 4.9 (#b8321a auf #ebe9e3) |

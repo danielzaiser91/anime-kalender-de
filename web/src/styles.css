@@ -74,7 +74,7 @@ html.dark {
   --ak-linie: #232833;
   --ak-text: #f2f1ee;
   --ak-leise: #9aa0ab;
-  --ak-sehr-leise: #7a808c;
+  --ak-sehr-leise: #828894;
   --ak-akzent: #ff5a36;
   --ak-akzent-text: #ff7a5c;
   --ak-auf-akzent: #0d0f14;
@@ -115,7 +115,8 @@ html:not(.dark) {
   --ak-text: #15171c;
   --ak-leise: #555b66;
   --ak-sehr-leise: #636974;
-  --ak-akzent: #ff5a36;
+  /* Hell einen Hauch dunkler als dunkel (#ff5a36): erst so hält die Füllung 3:1 gegen den Seitengrund (13.10.2026). */
+  --ak-akzent: #f54b27;
   --ak-akzent-text: #b8321a;
   --ak-auf-akzent: #15171c;
   --ak-tv: #0b7568;
