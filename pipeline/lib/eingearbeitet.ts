@@ -17,6 +17,7 @@ const DATEIEN = [
   'data/watch-links.yaml',
   'data/reihen-von-hand.yaml',
   'data/dub-confirmed.yaml',
+  'data/katalog-release-von-hand.yaml',
 ]
 
 export const adressenIn = (text: string): string[] => (text.match(/https?:\/\/[^\s"'<>)\]}]+/g) ?? []).map((u) => u.replace(/[,.;]+$/, '').replace(/\/$/, ''))
