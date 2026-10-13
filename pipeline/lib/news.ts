@@ -70,6 +70,14 @@ function eigenesJa(s: StreamLink): boolean {
   return s.dub === true && !geerbteWege.has(s)
 }
 
+/** Ein automatisch übernommener Kanal-Termin stammt aus einem Artikel über den Kanal-Anbieter und belegt kein Ja des Kanals (13.10.2026). */
+const istAutomatischerKanalTermin = (r: Release): boolean => !!(r.kanal && r.automatisch)
+
+/** Zählt dieser Termin als deutscher Start? Ein automatischer Kanal-Termin nur, wenn der Titel ein eigenes Ja hat (`news.json`, `neu-mit-synchro.json`). */
+export function zaehltAlsDeutscherTermin(r: Release, t: Title | undefined): boolean {
+  return !istAutomatischerKanalTermin(r) || !!t?.streams.some(eigenesJa)
+}
+
 interface NeuerTitel {
   id: number
   seit: string
@@ -276,7 +284,7 @@ export function nurAngekuendigt(releases: Release[], titleId: number, plattform:
 function erreichtesRelease(releases: Release[], titleId: number, heute: string, anbieter: PlatformId | undefined): Release | undefined {
   return releases
     .filter((r) => r.titleId === titleId && !r.widerlegt && !r.sprache && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
-    .filter((r) => anbieter || !(r.kanal && r.automatisch))
+    .filter((r) => anbieter || !istAutomatischerKanalTermin(r))
     .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
 }
 
