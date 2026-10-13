@@ -6,9 +6,10 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'nod
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { aehnlicheTitel } from '../shared/aehnlich.ts'
-import type { Title } from '../shared/types.ts'
+import type { Release, Title } from '../shared/types.ts'
 import { erreichbar } from './lib/seiten-erreichbar.ts'
 import { startseiteInhalt } from './lib/startseite.ts'
+import { titelAenderung } from './lib/sitemap-datum.ts'
 import { SITE, seitenTitel, synchroSatz } from './lib/titel-seite.ts'
 import { brotkrumenHtml, brotkrumenJsonLd, titelKrumen } from './lib/titel-umfeld.ts'
 import { gruppiere, schreibeVerzeichnis, type VerzeichnisTitel } from './lib/titel-verzeichnis.ts'
@@ -86,6 +87,16 @@ const titel = (id: number, dubConfidence: Title['dubConfidence'], keywords: stri
   const krumen = titelKrumen('Naruto', `${SITE}t/2/`, true)
   pruefe('Brotkrumen: Start › Verzeichnis › Buchstabe › Titel, als HTML mit Rücklinks und als BreadcrumbList', krumen.map((k) => k.name).join('|') === 'Anime-Kalender|Titel von A bis Z|N|Naruto' && brotkrumenHtml(krumen).includes(`<a href="${SITE}"`) && brotkrumenJsonLd(krumen).includes('"position":4'))
   pruefe('Brotkrumen: ein Titel außerhalb des Verzeichnisses führt zur Startseite', titelKrumen('X', `${SITE}t/x/`, false).length === 2)
+
+  const quelle = (aktualisiertAm?: string, veroeffentlichtAm?: string) => ({ quellen: [{ aktualisiertAm, veroeffentlichtAm }] }) as unknown as Release
+  const heute = '2026-10-13'
+  pruefe('lastmod: jüngstes Datum aus Quellen, Angebotsbeginn und Synchro-Stand', titelAenderung({ ...haupt('high', false), angebotSeit: { platform: 'netflix', date: '2026-09-01' } } as Title, [quelle('2026-08-05', '2026-08-01')], heute) === '2026-09-01')
+  pruefe('lastmod: ohne Datum in den Daten keines', titelAenderung(haupt('high', false), [], heute) === undefined)
+  pruefe('lastmod: ein Termin in der Zukunft ist kein Änderungsdatum', titelAenderung(haupt('high', false), [quelle('2026-11-30')], heute) === undefined)
+  pruefe(
+    'lastmod: eine neue Meldung steht nach dem nächsten Bau in der Sitemap (kein Festhalten an einem alten Datum)',
+    titelAenderung(haupt('high', false), [quelle('2026-08-05'), quelle('2026-10-12')], heute) === '2026-10-12',
+  )
 
   const mit = aufbau(true)
   pruefe('Verzeichnis: jede Titelseite ist von der Startseite in höchstens 3 Klicks erreichbar', titelListe.every((e) => mit.has(`t/${e.adresse}`)), [...mit.keys()])

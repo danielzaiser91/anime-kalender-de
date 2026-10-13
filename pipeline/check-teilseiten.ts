@@ -58,6 +58,19 @@ function sitemapMaengel(): string[] {
   return mangel
 }
 
+/** `lastmod` der Titelseiten stammt aus Daten: nie nach heute, und nicht überall derselbe Tag. */
+function lastmodMaengel(): string[] {
+  const sitemap = readFileSync(resolve(DIST, 'sitemap.xml'), 'utf8')
+  const stempel = [...sitemap.matchAll(/<loc>[^<]*\/t\/[^<]+<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]!)
+  const heute = new Date().toISOString().slice(0, 10)
+  const tage = new Set(stempel)
+  console.log(`[teilseiten] lastmod: ${stempel.length} Titelseiten mit Datum, ${tage.size} verschiedene Tage`)
+  const mangel: string[] = []
+  if (stempel.some((d) => d > heute)) mangel.push('Sitemap: lastmod in der Zukunft')
+  if (stempel.length > 20 && tage.size < 2) mangel.push(`Sitemap: alle ${stempel.length} Titelseiten mit demselben lastmod ${[...tage][0]}`)
+  return mangel
+}
+
 /** Die gebaute Startseite trägt den Suchbegriff in Titel, Überschrift und Text. */
 function startseitenMaengel(): string[] {
   const html = readFileSync(resolve(DIST, 'index.html'), 'utf8')
@@ -80,7 +93,7 @@ function erreichbarkeitsMaengel(): string[] {
 }
 
 function main(): void {
-  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel()]
+  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel()]
   for (const [art, titel] of quellen()) {
     const teilbar = new Map(titel.map((t) => [t.id, teilbarerSlug(t)]))
     const mitSlug = [...teilbar.values()].filter((s): s is string => s !== undefined)

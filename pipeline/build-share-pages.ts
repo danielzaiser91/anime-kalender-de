@@ -29,6 +29,7 @@ import { ARTIKEL_STIL as STIL, SITE, esc, namenZeile, seitenTitel, synchroSatz, 
 import { START_AUSSAGE, startseiteInhalt } from './lib/startseite.ts'
 import { schreibeVerzeichnis, verzeichnisAdressen, type Buchstabe } from './lib/titel-verzeichnis.ts'
 import { umfeldFuer, type Umfeld, type UmfeldRahmen } from './lib/titel-umfeld.ts'
+import { titelAenderung } from './lib/sitemap-datum.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
 import { synchroBelegt } from '../shared/titles.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
@@ -472,7 +473,7 @@ function schreibeAlleTitelSeiten(akVon: AkVon, kennungsZeilen: KennungsZeile[], 
   schreibeUmleitungen([...umleitungen(kennungsZeilen), ...cartoonUmleitungen])
   log(`${titelListe.length} Titel-Seiten und ${cartoons.length} Cartoon-Seiten, Übersicht und Startseite geschrieben`)
   const buchstaben = schreibeVerzeichnis(DIST, rahmen, angeboten.map(({ t, adresse }) => ({ name: titelName(t), adresse, belegt: synchroBelegt(t) })))
-  writeSitemap(angeboten.map(({ t, adresse }) => ({ ...t, slug: adresse })), verzeichnisAdressen(buchstaben))
+  writeSitemap(angeboten.map(({ t, adresse }) => ({ slug: adresse, lastmod: titelAenderung(t, rahmen.jeTitel.get(t.id) ?? [], rahmen.today) })), verzeichnisAdressen(buchstaben))
   return buchstaben
 }
 
@@ -697,7 +698,7 @@ function schreibeStartseite(
  * bekommt eine Suchmaschine nie zu sehen, sie würde für jede dieser Adressen
  * dieselbe Startseite indexieren.
  */
-function writeSitemap(titel: Title[], verzeichnis: string[]): void {
+function writeSitemap(titel: { slug: string; lastmod?: string }[], verzeichnis: string[]): void {
   // Die Übersicht gehört dazu: Sie ist der Einstieg zu allen Teilen-Seiten.
   const today = todayIso()
   const urls = [
@@ -706,8 +707,8 @@ function writeSitemap(titel: Title[], verzeichnis: string[]): void {
     { loc: `${SITE}termine/`, priority: '0.9', changefreq: 'daily', lastmod: today },
     // Das A–Z-Verzeichnis: der Einstieg zu jeder Titelseite.
     ...verzeichnis.map((loc) => ({ loc, priority: '0.8', changefreq: 'weekly', lastmod: undefined as string | undefined })),
-    // Titelseiten ohne lastmod: Ein belegbares Änderungsdatum je Seite gibt es nicht, „heute" wäre geraten.
-    ...titel.map((t) => ({ loc: `${SITE}${teilenPfad(t.slug)}`, priority: '0.6', changefreq: 'weekly', lastmod: undefined as string | undefined })),
+    // Titelseiten: lastmod nur, wo die Daten des Titels ein Datum nennen (`titelAenderung`), nie „heute".
+    ...titel.map((t) => ({ loc: `${SITE}${teilenPfad(t.slug)}`, priority: '0.6', changefreq: 'weekly', lastmod: t.lastmod })),
   ]
 
   const xml =
