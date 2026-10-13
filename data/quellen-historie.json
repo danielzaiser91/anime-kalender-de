@@ -3316,11 +3316,17 @@
   ],
   "adn-1331": [
     {
-      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
-      "name": "gw.api.animationdigitalnetwork.com",
-      "gesehenAm": "2026-08-24",
-      "sagt": "2025-09-24",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/08/13/der-held-ohne-klasse-cast-alle-infos-zur-deutschen-synchro/",
+      "name": "news.animationdigitalnetwork.com",
+      "gesehenAm": "2026-10-13",
       "stand": "aktuell"
+    },
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-08-24",
+      "stand": "aktuell",
+      "sagt": "2025-09-24"
     }
   ],
   "adn-427": [
@@ -6599,6 +6605,22 @@
       "name": "anime2you.de",
       "gesehenAm": "2026-10-13",
       "sagt": "2026-10-07",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-904": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-13",
+      "stand": "aktuell"
+    }
+  ],
+  "adn-924": [
+    {
+      "url": "https://gw.api.animationdigitalnetwork.com/video/calendar",
+      "name": "ADN API",
+      "gesehenAm": "2026-10-13",
       "stand": "aktuell"
     }
   ]
