@@ -25,9 +25,11 @@ import { formatDate, todayIso, weekdayName } from '../shared/time.ts'
 import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson } from './lib/util.ts'
 import { andereNamen } from './lib/titel-namen.ts'
-import { ARTIKEL_STIL as STIL, SITE, esc, namenZeile, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
+import { ARTIKEL_STIL as STIL, SITE, esc, namenZeile, titelName, synopsenAbsatz, titelInhalt, titelKopf, type SynopsenText } from './lib/titel-seite.ts'
 import { START_AUSSAGE, startseiteInhalt } from './lib/startseite.ts'
+import { schreibeVerzeichnis, verzeichnisAdressen, type Buchstabe } from './lib/titel-verzeichnis.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
+import { synchroBelegt } from '../shared/titles.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
 import { seitenQuelle, type SynopsenFuerSeiten } from './lib/handlung-eigen.ts'
 import { ladeAkVon, umleitungen, type AkVon, type KennungsZeile } from './lib/ausgabe-kennung.ts'
@@ -415,9 +417,9 @@ function main(): void {
    * die Startseite verlinkt die Übersicht samt der nächsten Termine.
    */
   schreibeUebersicht(releases, titleById, today, before, after, ROOT_TAG, adresseVon)
-  schreibeStartseite(releases, titleById, today, template, ROOT_TAG, adresseVon)
-
-  schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel })
+  /* Zuerst die Titelseiten samt Verzeichnis: Die Startseite verlinkt dessen Buchstaben. */
+  const buchstaben = schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel })
+  schreibeStartseite(releases, titleById, today, template, ROOT_TAG, adresseVon, buchstaben)
 }
 
 /** Was jede Titel-Seite gemeinsam hat: die Vorlage um die Marker, der Tag des Baus, Texte und Termine je Titel. */
@@ -431,7 +433,7 @@ interface SeitenRahmen {
 }
 
 /** Die Seiten aller Titel — Hauptbestand unter ihrer Kennung, Cartoons unter ihrem Slug — samt Umleitungen und Sitemap. */
-function schreibeAlleTitelSeiten(akVon: AkVon, kennungsZeilen: KennungsZeile[], rahmen: SeitenRahmen): void {
+function schreibeAlleTitelSeiten(akVon: AkVon, kennungsZeilen: KennungsZeile[], rahmen: SeitenRahmen): Buchstabe[] {
   const alleTitel = readJson<Title[] | { titles: Title[] }>('public/data/titles.json', [])
   const titelListe = (Array.isArray(alleTitel) ? alleTitel : alleTitel.titles).filter((t) => t.slug)
   const mitAk = titelListe.map((t) => ({ t, ak: akVon(t.id), adresse: String(akVon(t.id)) }))
@@ -444,9 +446,11 @@ function schreibeAlleTitelSeiten(akVon: AkVon, kennungsZeilen: KennungsZeile[], 
   const cartoonUmleitungen = cartoonSeiten.filter(({ t }) => rahmen.jeTitel.has(t.id)).map(({ t, adresse }): [number, string] => [t.id, adresse])
   schreibeUmleitungen([...umleitungen(kennungsZeilen), ...cartoonUmleitungen])
   log(`${titelListe.length} Titel-Seiten und ${cartoons.length} Cartoon-Seiten, Übersicht und Startseite geschrieben`)
-  /* Cartoon-Seiten nur mit belegter Synchro (`dub: true`) in die Sitemap; ohne Beleg bleibt die Seite erreichbar, wird aber nicht angeboten. */
-  const sitemapCartoons = cartoonSeiten.filter(({ t }) => cartoonMitSynchroBeleg(t))
-  writeSitemap([...mitAk, ...sitemapCartoons].map(({ t, adresse }) => ({ ...t, slug: adresse })))
+  /* Cartoon-Seiten nur mit belegter Synchro (`dub: true`) in Sitemap und Verzeichnis; ohne Beleg bleibt die Seite erreichbar, wird aber nicht angeboten. */
+  const angeboten = [...mitAk, ...cartoonSeiten.filter(({ t }) => cartoonMitSynchroBeleg(t))]
+  const buchstaben = schreibeVerzeichnis(DIST, rahmen, angeboten.map(({ t, adresse }) => ({ name: titelName(t), adresse, belegt: synchroBelegt(t) })))
+  writeSitemap(angeboten.map(({ t, adresse }) => ({ ...t, slug: adresse })), verzeichnisAdressen(buchstaben))
+  return buchstaben
 }
 
 /** Eine Seite je Titel: Hat er Termine, trägt sie den nächsten (sonst den letzten) samt der übrigen; sonst die schlichte Titelseite. */
@@ -538,7 +542,7 @@ function schreibeUebersicht(
       : '') +
     `      <h2 style="font-size:1.1rem;margin:0 0 .5rem;color:#fff;">Bereits erschienen</h2>\n` +
     `      <ul style="margin:0 0 2rem;padding-left:1.2rem;">\n${liste(vergangen)}      </ul>\n` +
-    `      <p><a href="${SITE}" style="color:#7dd3fc;">Zum Kalender</a></p>\n` +
+    `      <p><a href="${SITE}" style="color:#7dd3fc;">Zum Kalender</a> · <a href="${SITE}titel/" style="color:#7dd3fc;">Alle Titel von A bis Z</a></p>\n` +
     `    </article>`
 
   /**
@@ -607,6 +611,7 @@ function schreibeStartseite(
   template: string,
   rootTag: string,
   adresseVon: (titleId: number) => string,
+  buchstaben: Buchstabe[],
 ): void {
   const naechste = [...releases]
     .filter((r) => r.schedule.firstEpisodeDate >= today)
@@ -614,7 +619,7 @@ function schreibeStartseite(
     .slice(0, 20)
 
   const termine = naechste.map((r) => terminZeile(r, titleById.get(r.titleId), adresseVon(r.titleId))).join('')
-  const inhalt = startseiteInhalt(termine, releases.length)
+  const inhalt = startseiteInhalt(termine, releases.length, buchstaben)
 
   /**
    * **Die Startseite sagt, was diese Seite ist.**
@@ -668,13 +673,15 @@ function schreibeStartseite(
  * bekommt eine Suchmaschine nie zu sehen, sie würde für jede dieser Adressen
  * dieselbe Startseite indexieren.
  */
-function writeSitemap(titel: Title[] = []): void {
+function writeSitemap(titel: Title[], verzeichnis: string[]): void {
   // Die Übersicht gehört dazu: Sie ist der Einstieg zu allen Teilen-Seiten.
   const today = todayIso()
   const urls = [
     { loc: SITE, priority: '1.0', changefreq: 'daily', lastmod: today },
     // Der Einstieg zu allen Teilen-Seiten — er muss selbst gefunden werden.
     { loc: `${SITE}termine/`, priority: '0.9', changefreq: 'daily', lastmod: today },
+    // Das A–Z-Verzeichnis: der Einstieg zu jeder Titelseite.
+    ...verzeichnis.map((loc) => ({ loc, priority: '0.8', changefreq: 'weekly', lastmod: undefined as string | undefined })),
     // Titelseiten ohne lastmod: Ein belegbares Änderungsdatum je Seite gibt es nicht, „heute" wäre geraten.
     ...titel.map((t) => ({ loc: `${SITE}${teilenPfad(t.slug)}`, priority: '0.6', changefreq: 'weekly', lastmod: undefined as string | undefined })),
   ]

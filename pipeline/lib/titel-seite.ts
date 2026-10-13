@@ -26,7 +26,7 @@ export function esc(value: string): string {
     .replace(/"/g, '&quot;')
 }
 
-function titelName(t: Title): string {
+export function titelName(t: Title): string {
   return t.titleDe ?? t.titleEn ?? t.titleRomaji ?? t.slug
 }
 

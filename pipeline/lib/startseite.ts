@@ -3,6 +3,7 @@
  * Suchmaschinen und Besucher ohne JavaScript lesen ihn. Er trägt den Suchbegriff „deutscher Anime-Kalender“ in Überschrift und Satz.
  */
 import { ARTIKEL_STIL, SITE } from './titel-seite.ts'
+import { buchstabenLeiste, type Buchstabe } from './titel-verzeichnis.ts'
 
 /** Eine Aussage für Maschinenleser (JSON-LD) und für den ersten Absatz der Seite. */
 export const START_AUSSAGE =
@@ -14,8 +15,8 @@ const ABSAETZE = [
   'Die Termine lassen sich als Kalender-Abo (ICS) oder in Google Calendar übernehmen. Der Newsletter meldet, wenn eine neue Synchro startet.',
 ]
 
-/** `termine`: fertige Listeneinträge der nächsten Termine (leer = keine Liste). */
-export function startseiteInhalt(termine: string, anzahlTermine: number): string {
+/** `termine`: fertige Listeneinträge der nächsten Termine (leer = keine Liste); `buchstaben`: das A–Z-Verzeichnis, damit jede Titelseite zwei Klicks von hier entfernt ist. */
+export function startseiteInhalt(termine: string, anzahlTermine: number, buchstaben: Buchstabe[]): string {
   return (
     `<article style="${ARTIKEL_STIL}">\n` +
     `      <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">Deutscher Anime-Kalender</h1>\n` +
@@ -24,7 +25,8 @@ export function startseiteInhalt(termine: string, anzahlTermine: number): string
       ? `      <h2 style="font-size:1.1rem;margin:1.5rem 0 .5rem;color:#fff;">Als nächstes</h2>\n` +
         `      <ul style="margin:0 0 1.5rem;padding-left:1.2rem;">\n${termine}      </ul>\n`
       : '') +
-    `      <p><a href="${SITE}termine/" style="color:#7dd3fc;">Alle ${anzahlTermine} Termine ansehen</a></p>\n` +
+    `      <p><a href="${SITE}termine/" style="color:#7dd3fc;">Alle ${anzahlTermine} Termine ansehen</a> · <a href="${SITE}titel/" style="color:#7dd3fc;">Alle Titel von A bis Z</a></p>\n` +
+    `      <h2 style="font-size:1.1rem;margin:1.5rem 0 .5rem;color:#fff;">Titel nach Anfangsbuchstaben</h2>\n      ${buchstabenLeiste(buchstaben)}\n` +
     `    </article>`
   )
 }

@@ -2,10 +2,16 @@
  * Zusicherungen zu den Seiten für Suchmaschinen (13.10.2026): Ähnliche Titel bevorzugen belegte Synchro,
  * das A–Z-Verzeichnis, Brotkrumen und die Überschriften der Titelseiten. Läuft in `check:logic`, ohne Bestand.
  */
-import { readFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { aehnlicheTitel } from '../shared/aehnlich.ts'
 import type { Title } from '../shared/types.ts'
+import { erreichbar } from './lib/seiten-erreichbar.ts'
 import { startseiteInhalt } from './lib/startseite.ts'
+import { SITE } from './lib/titel-seite.ts'
+import { gruppiere, schreibeVerzeichnis, type VerzeichnisTitel } from './lib/titel-verzeichnis.ts'
+import { verzeichnisSchluessel } from './lib/verzeichnis-buchstabe.ts'
 
 let fehler = 0
 function pruefe(name: string, bedingung: boolean, gefunden?: unknown): void {
@@ -32,11 +38,48 @@ const titel = (id: number, dubConfidence: Title['dubConfidence'], keywords: stri
 
 {
   const kopf = readFileSync('web/index.html', 'utf8')
-  const inhalt = startseiteInhalt('<li>Termin</li>\n', 1)
+  const inhalt = startseiteInhalt('<li>Termin</li>\n', 1, [])
   pruefe('Startseite: <title> nennt „Deutscher Anime-Kalender“', /<title>[^<]*Deutscher Anime-Kalender[^<]*<\/title>/.test(kopf))
   pruefe('Startseite: Überschrift ist „Deutscher Anime-Kalender“', inhalt.includes('>Deutscher Anime-Kalender</h1>'))
   pruefe('Startseite: Text nennt Synchro und die Anbieter', /Synchro/.test(inhalt) && ['Crunchyroll', 'Netflix', 'Prime Video'].every((a) => inhalt.includes(a)))
   pruefe('Startseite: die App überschreibt den Titel nicht', !/document\.title\s*=/.test(readFileSync('web/src/lib/i18n.tsx', 'utf8')))
+}
+
+{
+  const schluessel = (n: string) => verzeichnisSchluessel(n)
+  pruefe('Verzeichnis: Buchstabe aus dem Namen, Umlaute und Akzente als Grundbuchstabe', schluessel('Äpfel') === 'a' && schluessel('Éclair') === 'e' && schluessel('One Piece') === 'o')
+  pruefe('Verzeichnis: Ziffern, Sonderzeichen und Vorsatzzeichen', schluessel('86 -Eighty Six-') === '0-9' && schluessel('„Fate“') === 'f' && schluessel('×××') === '0-9')
+  const titelListe: VerzeichnisTitel[] = [
+    { name: 'Naruto', adresse: '2', belegt: true },
+    { name: 'Bleach', adresse: '1', belegt: true },
+    { name: 'Berserk', adresse: '3', belegt: false },
+    { name: '86', adresse: '4', belegt: true },
+    { name: 'Bleach (doppelt)', adresse: '1', belegt: true },
+  ]
+  const gruppen = gruppiere(titelListe)
+  pruefe('Verzeichnis: Gruppen A–Z, Ziffern zuerst, Namen sortiert, jede Adresse einmal', [...gruppen.keys()].join() === '0-9,b,n' && gruppen.get('b')!.map((e) => e.name).join() === 'Berserk,Bleach (doppelt)', [...gruppen])
+
+  /* Ein Mini-Auftritt in einem Temp-Ordner: Startseite, Verzeichnis, Titelseiten. */
+  const aufbau = (mitVerzeichnis: boolean): Map<string, number> => {
+    const dist = mkdtempSync(join(tmpdir(), 'seiten-seo-'))
+    try {
+      const vorlage = { before: '<html><head>', after: '</head><body><div id="root"></div></body></html>', rootTag: '<div id="root"></div>' }
+      const buchstaben = mitVerzeichnis ? schreibeVerzeichnis(dist, vorlage, titelListe) : []
+      writeFileSync(join(dist, 'index.html'), startseiteInhalt('', 0, buchstaben))
+      for (const e of titelListe) {
+        mkdirSync(join(dist, 't', e.adresse), { recursive: true })
+        writeFileSync(join(dist, 't', e.adresse, 'index.html'), '<html></html>')
+      }
+      return erreichbar(dist, SITE, 3)
+    } finally {
+      rmSync(dist, { recursive: true, force: true })
+    }
+  }
+  const mit = aufbau(true)
+  pruefe('Verzeichnis: jede Titelseite ist von der Startseite in höchstens 3 Klicks erreichbar', titelListe.every((e) => mit.has(`t/${e.adresse}`)), [...mit.keys()])
+  pruefe('Verzeichnis: ein Buchstabe ist von der Startseite aus ein Klick entfernt', mit.get('titel/b') === 1 && mit.get('t/3') === 2)
+  const ohne = aufbau(false)
+  pruefe('Gegenprobe: ohne Verzeichnis ist keine Titelseite erreichbar', titelListe.every((e) => !ohne.has(`t/${e.adresse}`)))
 }
 
 if (fehler) process.exit(1)

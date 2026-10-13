@@ -8,6 +8,10 @@ import { resolve } from 'node:path'
 import { cartoonMitSynchroBeleg, teilbarerSlug, teilenPfad } from '../shared/teilen.ts'
 import type { Title } from '../shared/types.ts'
 import { ROOT } from './lib/util.ts'
+import { erreichbar } from './lib/seiten-erreichbar.ts'
+import { SITE } from './lib/titel-seite.ts'
+
+const MAX_KLICKS = 3
 
 const DIST = resolve(ROOT, 'dist')
 const PFLICHT = ['og:title', 'og:description', 'og:url']
@@ -62,8 +66,18 @@ function startseitenMaengel(): string[] {
   return mangel
 }
 
+/** Jede Titelseite der Sitemap ist von der Startseite aus über Links erreichbar (höchstens 3 Klicks), ohne JavaScript. */
+function erreichbarkeitsMaengel(): string[] {
+  const sitemap = readFileSync(resolve(DIST, 'sitemap.xml'), 'utf8')
+  const adressen = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]!).filter((u) => u.startsWith(`${SITE}t/`))
+  const klicks = erreichbar(DIST, SITE, MAX_KLICKS)
+  const mangel = adressen.filter((u) => !klicks.has(u.slice(SITE.length).replace(/\/$/, '')))
+  console.log(`[teilseiten] Erreichbarkeit: ${adressen.length - mangel.length} von ${adressen.length} Titelseiten der Sitemap in höchstens ${MAX_KLICKS} Klicks von der Startseite`)
+  return mangel.map((u) => `Von der Startseite nicht erreichbar (Verzeichnis fehlt?): ${u}`)
+}
+
 function main(): void {
-  const fehler: string[] = [...startseitenMaengel()]
+  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel()]
   for (const [art, titel] of quellen()) {
     const teilbar = new Map(titel.map((t) => [t.id, teilbarerSlug(t)]))
     const mitSlug = [...teilbar.values()].filter((s): s is string => s !== undefined)
