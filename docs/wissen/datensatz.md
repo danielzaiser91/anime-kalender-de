@@ -965,3 +965,14 @@ Daniel (13.10.): Mushoku Tensei Staffel 3 hatte für Folge 13 und 14 am selben T
 - **Zweitanbieter** (`shared/zweitanbieter.ts`): ein `estimated`-Termin (zurückgerechnet oder fortgeschrieben) zählt nicht als „Erster“. Im Bestand 13.10. ohne Wirkung (41 Marken vorher wie nachher), aber Disney+ Folge 1 bei Snowball Earth wäre sonst „Zweitanbieter“ geworden.
 - **Kalender-Abo** (`shared/ics-folgen.ts`): lückenlose Folgen desselben Releases, Tages und derselben Uhrzeit sind ein Eintrag („– Folge 13–14/14“), die Kennung bleibt die der ersten Folge. Vorher zwei Einträge.
 - Offen: Der Newsletter (Worker) kennt `katalog` noch nicht; „N Termine“ im Tageskopf zählt weiter Termine, nicht Kacheln. `data/news-historie.json` behält die falsche Meldung „angekündigt 20.07.“ zu Snowball Earth unter „vergangen“.
+
+## Erfassungswellen von „Im Angebot seit“: Nachbartage nicht mitzählen (13.10.2026)
+
+Frage (Prüfer zu PR 1117): Soll ein Tag neben einer Welle (≥ 12 Titel je Anbieter und Tag, `STICHTAG_AB`) mitgefiltert werden, wenn er selbst ≥ 5 Titel hat? Gemessen am 13.10.2026 an `data/motn.json` (1.943 Shows, 779 Anbietertitel mit `seit`), je Anbieter Tage mit ≥ 12 Titeln und Titel an den Tagen ±1 bis ±2:
+
+- **Prime Video:** 1 Welle (28.12.2025, 18); Nachbarn 27.12. = 9, 29.12. = 10, ±2 = 7 bzw. 0. Der einzige Fall mit Nachbartagen ≥ 5 (19 Titel im Archiv, davon 7 unsere: 6 am 27.12., 1 am 29.12.; alle vor 2026, also kein Kalendereintrag, nur das Datum am Titel).
+- **Netflix:** 7 Wellentage am Stück (05. bis 11.03.2024, 14 bis 25); die Reihe ist schon vollständig gefiltert. Rand: 04.03. = 0, 12.03. = 4 (< 5, 2 unsere Titel).
+- **Crunchyroll:** 08.01.2026 (29) und 31.03.2026 (234); Nachbarn höchstens 3.
+- **Disney+:** keine Welle (größter Tag 10).
+
+Entscheidung: nichts geändert. Von vier Wellen-Gruppen hat eine (Prime) Nachbartage ≥ 5, an einem Anbieter und in einem Fall. Eine Nachbarregel müsste eine Schwelle (5) setzen, die im Archiv nur diesen einen Fall trennt (die nächsten Nachbarn sind 4 und 3), und würde 7 unserer Titel ihr Datum nehmen, das möglicherweise doch echt ist: Prime-Tage mit 9 und 10 Titeln liegen im Bereich normaler Tage (Disney+ 25.09.2024 hat ohne Welle 10). Wiedervorlage: Taucht bei einer künftigen Welle (≥ 12) ein Nachbartag ≥ 5 auf, die Regel neu messen (`node tools/angebot-wellen-messen.mjs`).
