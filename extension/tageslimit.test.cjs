@@ -68,6 +68,29 @@ async function erkennung() {
     await k.fetch(WORKER)
     pruefe('nur der Status 429 wird gelesen', !k.AK_TAGESLIMIT.aktiv())
   }
+  await frameAntwort()
+}
+
+/** Prime (13.10.2026): Die Antwort eines Frames trägt das Limit, das er sah; die Seite übernimmt es sofort. */
+async function frameAntwort() {
+  const imFrame = sandkasten(antwortAus(429, { tageslimit: true, retryAfter: 3600 }))
+  pruefe('Frame ohne Limit: rest() ist null', imFrame.AK_TAGESLIMIT.rest() === null)
+  await imFrame.fetch(WORKER, { method: 'POST' })
+  const rest = imFrame.AK_TAGESLIMIT.rest()
+  pruefe('Frame mit Limit: rest() nennt Sekunden (≤ 3600) und Art', rest.sekunden > 3590 && rest.sekunden <= 3600 && rest.art === null, rest)
+
+  const seite = sandkasten(antwortAus(200, {}))
+  const daten = { ok: false, grund: 'Fehler: Fehler 429', limit: rest }
+  pruefe('Seite ohne Wissen vom Limit (Speicher noch nicht angekommen): aktiv() ist falsch', !seite.AK_TAGESLIMIT.aktiv())
+  const plan = ['b']
+  const uebernommen = seite.AK_TAGESLIMIT.ausFrame(daten)
+  pruefe('ausFrame: gilt die Pause hier ab sofort', seite.AK_TAGESLIMIT.aktiv())
+  pruefe('ausFrame: der Grund nennt das Tageslimit statt „Fehler 429"', /^Tageslimit erreicht, weiter ab \d\d:\d\d$/.test(uebernommen.grund), uebernommen.grund)
+  pruefe('ausFrame: die Staffel wird zurückgestellt, nicht übersprungen', seite.AK_TAGESLIMIT.zurueckstellen(plan, 'a') === true && plan.join() === 'a,b', plan)
+  pruefe('ausFrame: ein Erfolg bleibt unverändert (Grund „gemeldet")', seite.AK_TAGESLIMIT.ausFrame({ ok: true, grund: 'gemeldet', limit: rest }).grund === 'gemeldet')
+  const ohne = sandkasten(antwortAus(200, {}))
+  const unveraendert = { ok: false, grund: 'Knopf blieb bei: x', limit: null }
+  pruefe('Gegenprobe: ohne Limit im Frame bleibt Antwort und Zustand unverändert', ohne.AK_TAGESLIMIT.ausFrame(unveraendert) === unveraendert && !ohne.AK_TAGESLIMIT.aktiv())
 }
 
 async function senden() {

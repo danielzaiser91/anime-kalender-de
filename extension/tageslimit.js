@@ -123,6 +123,23 @@
     return true
   }
 
+  /** Prime-Frame: die Pause, die er gesehen hat (Rest in Sekunden, Art), für die Antwort an die Seite; sonst `null`. */
+  function rest() {
+    return aktiv() ? { sekunden: Math.ceil((bis - Date.now()) / 1000), art } : null
+  }
+
+  /**
+   * Prime-Seite: die Antwort eines Frames übernehmen. Der Frame kennt die 429 sofort, die Seite erst
+   * über `chrome.storage` – kam seine Antwort davor, zählte die Staffel als „übersprungen" (Bericht
+   * 13.10.2026: letzte Seite „Fehler 429"). Mit `limit` gilt die Pause hier ab sofort, und ein
+   * Fehlschlag nennt das Limit statt „Fehler 429".
+   */
+  function ausFrame(daten) {
+    if (!daten.limit) return daten
+    if (!aktiv()) merken(daten.limit.sekunden, daten.limit.art)
+    return daten.ok ? daten : { ...daten, grund: text() }
+  }
+
   async function pruefen(ziel, antwort) {
     const adresse = typeof ziel === 'string' ? ziel : (ziel?.url ?? String(ziel))
     if (!adresse.startsWith(WORKER)) return
@@ -163,5 +180,5 @@
     /* Außerhalb der Erweiterung (Sandkasten-Test) gibt es keinen Speicher. */
   }
 
-  globalThis.AK_TAGESLIMIT = { aktiv, text, grund, hinweisAnhaengen, merken, fehlgeschlagen, zurueckstellen }
+  globalThis.AK_TAGESLIMIT = { aktiv, text, grund, hinweisAnhaengen, merken, fehlgeschlagen, zurueckstellen, rest, ausFrame }
 })()
