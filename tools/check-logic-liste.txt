@@ -75,6 +75,7 @@ pipeline/check-saison-deutsch.ts
 pipeline/check-saison-termin.ts
 pipeline/check-sammel-erste-folgen.ts
 pipeline/check-sammelartikel.ts
+pipeline/check-seiten-seo.ts
 pipeline/check-sprecher-anisearch.ts
 pipeline/check-sprecher-filter.ts
 pipeline/check-staffel-jahr0.ts

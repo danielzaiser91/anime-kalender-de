@@ -1,4 +1,5 @@
 import type { Title } from './types.ts'
+import { synchroBelegt } from './titles.ts'
 
 /**
  * **Ähnliche Titel über Genres und Keywords — gewichtet nach Seltenheit.**
@@ -28,7 +29,12 @@ export interface Vorschlag {
 /** Unter diesem Anteil ist die Überschneidung Zufall — gemessen: meist ein, zwei Allerwelts-Genres. */
 const MINDESTANTEIL = 0.15
 
+/** Ohne belegte deutsche Synchro zählt ein Vorschlag nur mit diesem Teil seines Anteils: Die Seite führt Synchro, belegte Titel rücken vor (13.10.2026). */
+const UNBELEGT_FAKTOR = 0.6
+
 const gewichteJeListe = new WeakMap<readonly Title[], Map<string, number>>()
+/** Der Seitenbau fragt für jeden Titel alle anderen ab (2.900 × 2.900); einmal je Titel gerechnet reicht. */
+const merkmaleJeTitel = new WeakMap<Title, string[]>()
 
 /*
   **Ein Name, ein Merkmal.** „Cyberpunk" steht bei Ghost in the Shell als Genre
@@ -36,10 +42,19 @@ const gewichteJeListe = new WeakMap<readonly Title[], Map<string, number>>()
   „gemeinsam: Cyborg, Cyberpunk, Cyberpunk" (15.09.2026, Bildprüfung).
 */
 function merkmale(t: Title): string[] {
+  const bekannt = merkmaleJeTitel.get(t)
+  if (bekannt) return bekannt
   const genres = (t.genres ?? []).map((g) => 'g:' + g)
   const schon = new Set((t.genres ?? []).map((g) => g.toLowerCase()))
   const keywords = (t.keywords ?? []).filter((k) => !schon.has(k.toLowerCase())).map((k) => 'k:' + k)
-  return [...new Set([...genres, ...keywords])]
+  const alle = [...new Set([...genres, ...keywords])]
+  merkmaleJeTitel.set(t, alle)
+  return alle
+}
+
+/** Die Reihenfolge der Vorschläge: Anteil, bei fehlendem Synchro-Beleg abgeschwächt. */
+function rang(v: Vorschlag): number {
+  return v.anteil * (synchroBelegt(v.title) ? 1 : UNBELEGT_FAKTOR)
 }
 
 /** Einmal je Titelliste gerechnet — die Liste wird beim Aufklappen einmal geladen und bleibt dieselbe. */
@@ -98,11 +113,12 @@ export function aehnlicheTitel(titel: Title, alle: readonly Title[], anzahl = 5)
     const anteil = kuerzere ? schnitt / Math.sqrt(eigenesGewicht * fremdesGewicht) : schnitt / verein
     if (anteil < MINDESTANTEIL) continue
     const bisher = besteJeReihe.get(reihe)
-    if (!bisher || bisher.anteil < anteil) besteJeReihe.set(reihe, { title: b, anteil, gemeinsam })
+    const neu = { title: b, anteil, gemeinsam }
+    if (!bisher || rang(bisher) < rang(neu)) besteJeReihe.set(reihe, neu)
   }
 
   return [...besteJeReihe.values()]
-    .sort((a, b) => b.anteil - a.anteil)
+    .sort((a, b) => rang(b) - rang(a))
     .slice(0, anzahl)
     .map((v) => ({ ...v, gemeinsam: v.gemeinsam.sort((x, y) => (w.get(y) ?? 0) - (w.get(x) ?? 0)).slice(0, 3) }))
 }
