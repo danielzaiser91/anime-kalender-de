@@ -1,4 +1,4 @@
-import type { PlatformId } from './types.ts'
+import type { PlatformId, StreamLink } from './types.ts'
 
 /**
  * **Kanal → Anbieter: Prime-Video-Kanäle, deren Bestand der Anbieter selbst führt** (11.10.2026,
@@ -16,3 +16,9 @@ const KANAL_ANBIETER: Record<string, PlatformId> = {
 
 /** Die Plattform, deren Bestand der Prime-Kanal führt; ohne Eintrag (Aniverse, RTL+ …) `undefined`. */
 export const anbieterDesKanals = (kanal: string | undefined): PlatformId | undefined => KANAL_ANBIETER[(kanal ?? '').toLowerCase()]
+
+/** Der Anbieter-Weg desselben Titels (Crunchyroll, ADN), dessen belegtes Ja einen Prime-Kanal-Weg trägt; `entferntAm` markiert einen Weg, der nur noch als Vermerk steht. */
+export function anbieterWegMitJa(s: StreamLink, streams: StreamLink[]): StreamLink | undefined {
+  const plattform = s.platform === 'primevideo' ? anbieterDesKanals(s.kanal) : undefined
+  return plattform ? streams.find((q) => q.platform === plattform && q.dub === true && !q.entferntAm) : undefined
+}
