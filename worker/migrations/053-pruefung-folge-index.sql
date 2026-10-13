@@ -10,6 +10,6 @@
 -- wieder über `pruefung_url_zeit` alle Zeilen der Adresse, verliert aber keine Meldung.
 --
 -- Schreiblast: ein weiterer Eintrag je eingefügter und je gelöschter Zeile; unveränderte Meldungen
--- schreiben weiter nichts. Einmalig kostet das Anlegen rund 18.000 geschriebene Zeilen (Stand
--- 12.10.2026): nach 00:00 UTC ausführen, wenn der Tageszähler frei ist.
+-- schreiben weiter nichts. Einmalig kostet das Anlegen rund 20.500 geschriebene Zeilen (Stand
+-- 13.10.2026: 20.544 Zeilen): nach 00:00 UTC ausführen, wenn der Tageszähler frei ist.
 CREATE INDEX IF NOT EXISTS pruefung_folge ON pruefung (url, folge_nr, staffel, seiten_kennung);
