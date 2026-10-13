@@ -7,7 +7,7 @@ import { GENRE_DE } from '../../shared/mappings.ts'
 import { teilenPfad } from '../../shared/teilen.ts'
 import { synchroBelegt } from '../../shared/titles.ts'
 import { andereNamen, titelJsonLd } from './titel-namen.ts'
-import { OG_FASSUNG } from './og-fassung.ts'
+import { standardBildAdresse } from './og-standard.ts'
 import type { Umfeld } from './titel-umfeld.ts'
 
 export const SITE = (process.env.SITE_URL ?? 'https://anime-kalender.de/').replace(
@@ -98,14 +98,14 @@ export function namenZeile(t: Title | undefined, gezeigt: string): string {
   return andere.length ? `<p style="margin:0 0 1rem;color:#9aa5bd;">Auch bekannt als: ${andere.map(esc).join(' · ')}</p>` : ''
 }
 
-export function titelKopf(t: Title, umfeld: Umfeld, mitTermin = false): string {
+export function titelKopf(t: Title, umfeld: Umfeld, standardKennung: string, mitTermin = false): string {
   const url = `${SITE}${teilenPfad(t.slug)}`
   const name = titelName(t)
   const headline = seitenTitel(name, t, mitTermin)
   const description = titelBeschreibung(t)
   /* Ohne eigenes Bild das Standardbild der Seite (1200×630): Eine Karte ohne Bild wäre leer. */
   const eigenesBild = t.bannerImage ?? t.coverImage
-  const bild = eigenesBild ?? `${SITE}og/default.jpg?v=${OG_FASSUNG}`
+  const bild = eigenesBild ?? standardBildAdresse(SITE, standardKennung)
   const gross = Boolean(t.bannerImage) || !eigenesBild
   const masse = eigenesBild ? '' : '    <meta property="og:image:width" content="1200" />\n    <meta property="og:image:height" content="630" />\n'
   return `    <title>${esc(headline)}</title>
