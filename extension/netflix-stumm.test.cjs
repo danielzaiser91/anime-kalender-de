@@ -112,6 +112,21 @@ const jetzt = () => Date.now()
   pruefe('Danach läuft kein Takt mehr', u.uhren.size === 0)
 }
 
+/* 2b. Dasselbe Video wird zweimal stumm gestellt (play, dann volumechange): „vorher" darf nicht mit dem schon stummen Zustand überschrieben werden. */
+{
+  const u = umgebung({ lauf: jetzt() })
+  const lauf = kontext.akNetflixStummStarten(u.umg)
+  const video = macheVideo(false)
+  u.hoerer.play.f({ target: video })
+  u.hoerer.volumechange.f({ target: video, stopImmediatePropagation: () => {} })
+  pruefe('Zweimal stumm gestellt: Video ist stumm', video.muted === true)
+  u.speicher.werte.delete('ak-netflix-lauf')
+  const taktDoppelt = [...u.uhren.values()][0]
+  taktDoppelt.f()
+  pruefe('Zweimal stumm gestellt, Durchgang vorbei: Video ist wieder laut', video.muted === false)
+  lauf.zurueck()
+}
+
 /* 3. Gegenprobe: ohne Durchgang bleibt ein Video laut. */
 {
   const u = umgebung({ lauf: null })
