@@ -8,7 +8,6 @@ import { TvKastenJetzt } from './relative-uhrzeit-tv.tsx'
 const KastenA = (p: ComponentProps<typeof TvKasten>) => <TvKastenJetzt stil="A" {...p} />
 const KastenB = (p: ComponentProps<typeof TvKasten>) => <TvKastenJetzt stil="B" {...p} />
 const KastenC = (p: ComponentProps<typeof TvKasten>) => <TvKastenJetzt stil="C" {...p} />
-const KastenD = (p: ComponentProps<typeof TvKasten>) => <TvKastenJetzt stil="D" {...p} />
 
 /** Freitag, 16.10.2026 (MESZ): sechs Fernseh-Termine mit Programm, dazu Streaming mit fester, geschätzter und fehlender Uhrzeit. */
 const TAG = '2026-10-16'
@@ -41,9 +40,9 @@ mockup({
       notiz: 'Wie A, aber Linie, Punkt und „Läuft“ in Smaragd wie im Detail-Panel.',
     },
     D: {
-      ersatz: { TvKasten: KastenD, ZeitMarke: ZeitMarkeJetzt },
+      ersatz: {},
       notiz:
-        'Auf Basis von C, Farbe wie der gewählte Reiter „Kalender“ (Orange): keine dritte Spalte, „● Läuft“ unter der Uhrzeit, Folge in der Senderzeile, kein „bis …“. Linie mit Uhrzeit auch vor dem ersten und nach dem letzten Eintrag; nach dem letzten „Heute nichts mehr“ in Türkis, vor dem ersten „erste Sendung in … Std … Min“ in der Kopfzeile. Ist die erste Uhrzeit geschätzt oder fehlt sie, gibt es weder Linie davor noch „in … Min“ an einer späteren Zeile (nichts behaupten, eine Schätzung könnte früher kommen).',
+        'Gewählt am 13.10.2026 und in die Seite eingebaut (hier ohne Ersatz, die Zelle zeigt die Seite selbst). Farbe wie der gewählte Reiter „Kalender“ (Orange): keine dritte Spalte, „● Läuft“ unter der Uhrzeit (bei mehreren gleichzeitigen Sendungen an jeder Zeile), Folge in der Senderzeile, kein „bis …“. Die Linie „jetzt HH:MM“ steht nur, solange nichts läuft: vor der ersten Sendung (dann „erste Sendung in … Std … Min“ in der Kopfzeile), zwischen zwei Sendungen und nach der letzten („Heute nichts mehr“). Ist die erste Uhrzeit geschätzt oder fehlt sie, gibt es weder Linie davor noch „in … Min“ an einer späteren Zeile.',
     },
   },
 })
