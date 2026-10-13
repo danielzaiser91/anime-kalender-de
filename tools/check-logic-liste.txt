@@ -3,7 +3,9 @@
 # Zwei Zweige, die verschiedene Checks ergänzen, ändern dann verschiedene Stellen und kollidieren nicht. Die Reihenfolge ist sonst egal.
 pipeline/check-abruf-stempel.ts
 pipeline/check-abstand.ts
+pipeline/check-adn-anisearch.ts
 pipeline/check-adn-film.ts
+pipeline/check-adn-titelliste-abruf.ts
 pipeline/check-anilist-produkt.ts
 pipeline/check-anime2you-entwurf.ts
 pipeline/check-anime2you-rhythmus.ts

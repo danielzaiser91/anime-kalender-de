@@ -313,6 +313,7 @@ const NUR_VON_HAND = {
   'data:all': 'Sammelbefehl für einen kompletten Durchlauf von Hand',
   'data:icons': 'erzeugt Bilddateien, die im Repo liegen — läuft bei einer Designänderung',
   'data:adn:refresh': 'holt das ADN-Archiv komplett neu; Stunden Laufzeit, nur bei Parserbruch',
+  'data:adn:zuordnen': 'rechnet die aniSearch-Zuordnung des Katalogs neu, ohne ADN abzufragen; der wöchentliche Katalog-Lauf (`data:adn:catalog`) ordnet selbst zu',
   'data:anisearch:reparse': 'liest das Archiv neu ein, ohne einen einzigen Abruf',
   'data:anisearch:check': 'Prüfung gegen das Archiv — hängt in `check:*`, nicht in einem Datenlauf',
   'data:disc-proposals': 'erzeugt Vorschläge, die ein Mensch einzeln annimmt',
