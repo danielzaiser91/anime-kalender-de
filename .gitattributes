@@ -27,6 +27,8 @@
 # `union` beide Zeilen statt eines Konflikts (Probe 13.10.2026: Merge und Rebase). Gleiche Zeile doppelt oder
 # falsche Reihenfolge meldet `tools/check-logic-alle.mjs` (check:logic) und nennt, was zu tun ist.
 tools/check-logic-liste.txt merge=union
+# Dasselbe für die Liste der Bestandsprüfungen: jeder PR mit einem neuen Bestandscheck fügt eine Zeile ein.
+tools/check-bestand-liste.txt merge=union
 
 # Binärdateien bleiben unangetastet.
 *.png binary
