@@ -76,7 +76,7 @@ export default function App() {
   /* TV-Termine ausblenden. */
   const [tvAus, setTvAus] = useGemerkterSchalter('tvAus', tvAusGespeichert)
   const [route, navigate, ersetze] = useRoute()
-  /* Staffeln zusammenfassen (Vorgabe an) und Titel ohne Synchro: Adresse, sonst gespeicherter bzw. voreingestellter Wert (`db-schalter.ts`). */
+  /* Staffeln zusammenfassen (Vorgabe aus) und Titel ohne Synchro: Adresse, sonst gespeicherter bzw. voreingestellter Wert (`db-schalter.ts`). */
   const { grouped, setGrouped, zeigeOhneSynchro, setZeigeOhneSynchro } = useDbSchalter(route, ersetze)
   /* Die Filter von Woche und Monat: nur im Speicher, nicht in der Adresse, nicht mit der Datenbank geteilt (`kalender-filter.ts`). */
   const { filters: kalenderFilters, kalenderNavigate } = useKalenderFilter(route, navigate)
