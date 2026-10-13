@@ -3,6 +3,7 @@ import { type MotnDaten, LEER as MOTN_LEER } from '../lib/motn.ts'
 import { type PlatformId, type Release, type Title } from '../../shared/types.ts'
 import { todayIso } from '../../shared/time.ts'
 import { type SlimTitel } from './13-2-auslieferung.ts'
+import { erfassungsStichtage, stichtagSchluessel } from './angebot-stichtag.ts'
 
 type TmdbKennung = { tmdbId?: string; kind?: string }
 type MotnShow = MotnDaten['shows'][string]
@@ -14,10 +15,10 @@ const MOTN_API = 'https://www.movieofthenight.com/about/api'
  * wird nur, wo wir auch einen Verweis führen: Ein Datum zu einem Anbieter,
  * auf den wir gar nicht verlinken, hilft niemandem weiter.
  */
-function fruehesterAnbieter(show: MotnShow, title: Title): { anbieter: PlatformId; seit: string } | undefined {
+function fruehesterAnbieter(show: MotnShow, title: Title, stichtage: Set<string>): { anbieter: PlatformId; seit: string } | undefined {
   const unsere = new Set((title.streams ?? []).map((x) => x.platform))
   const kandidaten = Object.entries(show.dienste ?? {})
-    .filter(([anbieter, d]) => d.seit && unsere.has(anbieter as PlatformId))
+    .filter(([anbieter, d]) => d.seit && unsere.has(anbieter as PlatformId) && !stichtage.has(stichtagSchluessel(anbieter, d.seit)))
     .sort((a, b) => (a[1].seit ?? '').localeCompare(b[1].seit ?? ''))
   const bester = kandidaten[0]
   return bester ? { anbieter: bester[0] as PlatformId, seit: bester[1].seit! } : undefined
@@ -77,6 +78,7 @@ export function ergaenzeAngebotSeit({ slim, releases, titles, quellen }: { slim:
     Object.entries(motnDaten.shows ?? {}).map(([k, v]) => [v.imdbId ?? k, v]),
   )
   const hatTermin = new Set(releases.map((r) => r.titleId))
+  const stichtage = erfassungsStichtage(Object.values(motnDaten.shows ?? {}))
   let alsTermin = 0
   let nurAmTitel = 0
 
@@ -89,7 +91,7 @@ export function ergaenzeAngebotSeit({ slim, releases, titles, quellen }: { slim:
     const show = imdb ? nachImdb.get(imdb) : undefined
     if (!show) continue
 
-    const bester = fruehesterAnbieter(show, title)
+    const bester = fruehesterAnbieter(show, title, stichtage)
     if (!bester) continue
     const { anbieter, seit } = bester
 

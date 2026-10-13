@@ -6,6 +6,7 @@
  */
 import { readFileSync } from 'node:fs'
 import type { Release, ReleaseEvent, Title } from '../shared/types.ts'
+import { STICHTAG_AB } from './bau/angebot-stichtag.ts'
 
 let verletzt = 0
 function pruefe(name: string, ok: boolean, gefunden?: unknown): void {
@@ -26,6 +27,10 @@ console.log('\n„Im Angebot seit“ im Bestand:')
   pruefe('jeder dieser Termine trägt „imAngebot“', !ohneMarke.length, ohneMarke.slice(0, 5))
   const ohneKern = releases.filter((r) => termine.has(r.slug) && !kern.has(r.titleId)).map((r) => `${r.slug}:${r.titleId}`)
   pruefe('jeder Titel mit solchem Termin steht im Kern (Cover und Name für die Karte)', !ohneKern.length, ohneKern.slice(0, 5))
+  const jeTag = new Map<string, number>()
+  for (const r of releases.filter((x) => x.slug.startsWith('motn-'))) jeTag.set(`${r.platform} ${r.schedule.firstEpisodeDate}`, (jeTag.get(`${r.platform} ${r.schedule.firstEpisodeDate}`) ?? 0) + 1)
+  const wellen = [...jeTag].filter(([, n]) => n >= STICHTAG_AB)
+  pruefe('kein Erfassungsstichtag als Termin (Anbieter, Tag, Zahl)', !wellen.length, wellen)
   const frueh = releases.filter((r) => /^(motn|anisearch)-/.test(r.slug) && r.schedule.firstEpisodeDate < '2026-01-01').map((r) => r.slug)
   pruefe('die späten Angebots-Releases beginnen alle ab 2026 (Daniels Grenze vom 27.08.2026)', !frueh.length, frueh.slice(0, 5))
 }
