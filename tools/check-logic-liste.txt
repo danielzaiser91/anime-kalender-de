@@ -31,6 +31,7 @@ pipeline/check-cartoon-ton.ts
 pipeline/check-cartoon-wege.ts
 pipeline/check-cartoon-zwilling.ts
 pipeline/check-cover-quelle.ts
+pipeline/check-cr-komplettabwurf.ts
 pipeline/check-cr-teilseiten.ts
 pipeline/check-daten-kennung.ts
 pipeline/check-db-relevanz.ts
@@ -59,6 +60,7 @@ pipeline/check-kalender-filter.ts
 pipeline/check-kanal-abgehakt.ts
 pipeline/check-kanal-messung.ts
 pipeline/check-kanal-verlust.ts
+pipeline/check-katalog-release.ts
 pipeline/check-logic.ts
 pipeline/check-motn-reihe.ts
 pipeline/check-nein-wiedervorlage.ts
