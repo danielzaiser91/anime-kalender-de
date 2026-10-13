@@ -5,6 +5,7 @@ import { type Title, type Release } from '@shared/types.ts'
 import { ausgebliebenBis } from './antwort-kasten.tsx'
 import { belegteBereiche, zaehleErschienenJeAnbieter, ohneSchonErschienene, istBelegtAbgeschlossen, gesamtGeschaetzt, fertigAntwort } from './antwort-regeln.ts'
 import { filmTermine } from './film-termine.ts'
+import { restUndBlock } from './antwort-block.ts'
 import { jpErschienen, KINO_LAND } from './kino.tsx'
 
 export function berechneAntwort({ title, releases, today }: {
@@ -288,14 +289,12 @@ export function berechneAntwort({ title, releases, today }: {
       const film = filmTermine(releases, title, today)
       if (film) return film
     }
-    const derselben = kuenftig.filter((e) => e.releaseSlug === n.releaseSlug)
     return {
       art: 'laeuft' as const,
       haupt: n,
-      rest: derselben.length,
+      ...restUndBlock(kuenftig, n),
       raus,
       gesamt, gesamtGeschaetzt: gesamtGeschaetzt(title, releases, n),
-      letzter: derselben[derselben.length - 1]?.date,
       sendetage: releases.find((r) => r.slug === n.releaseSlug)?.schedule.wochentage,
       /* Komplettabwurf (`available-from`): kein Wochentakt — siehe `antwort-kasten.tsx`. */
       komplett: releases.find((r) => r.slug === n.releaseSlug)?.releaseType !== 'weekly',

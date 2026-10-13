@@ -14,6 +14,7 @@ import { deSeitQuelleSchluessel, erstausgabeAlsNeuigkeit, terminSatz, ungefaehr,
 import { abstandImSatz } from '../../lib/abstand.ts'
 import { type Antwort } from './antwort-typ.ts'
 import { kostenlosKopfVon } from './kasten-texte.ts'
+import { folgenKopf } from './antwort-block.ts'
 
 /** Pillenreihe: 8 px zwischen den Pillen, 16 px zwischen den Zeilen (Platz für die Blase), 8 px über der ersten. */
 const PILLEN_REIHE = 'flex flex-wrap items-start gap-x-2 gap-y-4 pt-2'
@@ -296,33 +297,7 @@ export function AntwortKasten({
       dieselbe Auskunft doppelt.
     */
     const rel = relativImSatz(e.date)
-    /*
-      **Die letzte Folge heißt so, wie sie ist**. `rest` zählt die
-      kommende Folge mit; steht nur sie noch aus, ist sie das Finale.
-    */
-    /*
-      Eine TV-Sichtung kennt weder das Ende noch die echte Folgennummer — die Zahl der
-      gesehenen Folgen ist kein Finale (Pokémon Horizonte bei TOGGO plus, Stichprobe
-      17.09.2026: „Finale Folge (Folge 2)" und „Wöchentlich" bei täglicher Sendung).
-    */
-    /*
-      Und „Erste Folge" nur, wenn es Folge 1 ist: Beyblade X setzte am 19.09.2026 bei TOGGO plus
-      mit Folge 115 ein, und der Kasten sagte „Erste Folge heute" (Daniel).
-    */
-    const wasKommt = antwort.offenesEnde
-      ? !antwort.sichtung && e.episode === 1
-        ? 'erste'
-        : 'naechste'
-      : antwort.raus === 0
-        ? 'erste'
-        : antwort.rest === 1
-          ? 'finale'
-          : 'naechste'
-    const kopf = antwort.komplett
-      ? (antwort.gesamt ?? e.episodeCount) ? T('antwort.alleFolgen', { count: (antwort.gesamt ?? e.episodeCount)! }) : T('antwort.alleFolgenOhneZahl') /* ohne Folgenzahl keine erfundene „0“ (Beerus, 10.10.2026) */
-      : e.episode && !antwort.sichtung
-        ? T(`antwort.${wasKommt}FolgeNr`, { n: e.episode })
-        : T(`antwort.${wasKommt}Folge`)
+    const kopf = folgenKopf(antwort, T)
     /*
       **Die Uhrzeit gehört dazu, wo wir eine führen** (Daniel, 12.09.2026:
       „heute ist der 12.09. es ist noch nicht erschienen, und wir führen die
