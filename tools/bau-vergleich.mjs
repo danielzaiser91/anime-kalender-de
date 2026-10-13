@@ -45,6 +45,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { ablageName, einstellungsZeilen, hauptordnerAus, liesOptionen } from './bau-vergleich-ablage.mjs'
 import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { basisRotMeldung } from './bau-vergleich-protokoll.mjs'
 import { raeumeVerwaisteBaeume } from './bau-vergleich-reste.mjs'
 import { abstandsWarnung, fremdeUnterschiede, messeAbstand, vonBasisGeaendert } from './bau-vergleich-abstand.mjs'
 import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
@@ -201,8 +202,9 @@ for (const zeile of [...warnung, ...einstellungsZeilen(KATALOG_CACHE, process.en
 await wartAufSperre('bau-vergleich', FRIST_MS, undefined, `bau-vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} in ${WURZEL}`)
 raeumeVerwaisteBaeume(git, ABLAGE)
 const a = baue(basis, basis)
-if (!readFileSync(join(a, '_protokoll.txt'), 'utf8').startsWith('exit 0')) {
-  console.error(`Der Bau der Basis ${basis.slice(0, 12)} scheitert selbst — siehe ${a}/_protokoll.txt`)
+const basisProtokoll = readFileSync(join(a, '_protokoll.txt'), 'utf8')
+if (!basisProtokoll.startsWith('exit 0')) {
+  console.error(basisRotMeldung(basisProtokoll, basis.slice(0, 12), a))
   process.exit(EXIT.BAU_BASIS)
 }
 const b = baueOderBeende(kandidat, basis)

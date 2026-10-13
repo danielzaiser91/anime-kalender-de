@@ -294,6 +294,8 @@ Aufrufreihenfolge (`bauQuelltext()`, `panelQuelltext()`, `workerQuelltext()`).
 **Exit-Codes von `bau-vergleich.mjs` (12.10.2026):** 0 gleich, 1 verschieden, 2 Bau der Basis gescheitert, 3 Sperre belegt, **4 Konflikt**
 bei der Übernahme der eigenen `data/`-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen). Vorher endete der Konflikt als
 unbehandelte Ausnahme mit Exit 1 und sah aus wie ein Unterschied im Ergebnis. Die Codes stehen in `tools/bau-vergleich-urteil.mjs`.
+Bei Exit 2 nennt die Meldung seit 13.10.2026 die letzten ≤ 10 Fehlerzeilen des Basis-Baus (ohne Warnungen und Stack-Zeilen;
+`tools/bau-vergleich-protokoll.mjs`, Test `.test.mjs`). Anlass: Eine rote Patch-Notes-Prüfung auf main (3 Highlights an einem Tag) kostete einen Bauer eine Stunde, weil nur „scheitert selbst“ dastand.
 
 **Abstand und Sperre bei `bau-vergleich.mjs` (12.10.2026).** Ist die Basis kein Vorfahre des Kandidaten (Zweig hinter `origin/main` oder
 auseinandergelaufen), steht vor dem Lauf und am Ende eine WARNUNG mit Zahl der fehlenden Commits und der Merge-Basis
