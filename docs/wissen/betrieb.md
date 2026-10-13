@@ -607,8 +607,10 @@ dann lesbar, wenn gerade kein Lauf sichtbar ist:
   zuletzt ausgelieferten Datensatzes. Dieselben Zahlen stehen im Seitenfuß.
 
 Eine Meldung an mich, wenn ein Lauf **erfolgreich** durch ist, gibt es nicht — GitHub meldet nur
-Fehler. Wer sie will, legt einen Discord-Webhook an; eingehängt ist er in zwei Zeilen. Bis dahin
-gilt: nachsehen statt annehmen.
+Fehler; rote Läufe findet `tools/laeufe-aufraeumen.mjs`. **Discord bekommt keine Laufmeldungen**
+(Daniel, 13.10.2026: der News-Kanal lief mit „Bestand … fehlgeschlagen“ voll). In `#news` steht nur
+eine Ankündigung, wenn ein großes neues Feature live ist — keine Kleinigkeiten, keine Bugfixes;
+gepostet von Hand über `tools/discord-news.sh` (Kanal-ID 1559515427330068592, am 13.10.2026 neu geklont; Webhook-URL in `my_secrets.md`).
 
 ### Der stündliche Lauf läuft fünfmal am Tag, nicht vierundzwanzigmal
 
@@ -1157,7 +1159,7 @@ Abhängigkeiten** (ein Schritt liest eine Datei, die ein späterer derselben Woc
 
 **Die sieben Jobs:** `anilist` (Rohdaten, Katalog, Sprecher AniList + ANN; als Einziger legt er `data/cache` ab) → `adn` (teilt AniList-Suchen); `crunchyroll` (Kalender, Zugangspaket, Tonspuren);
 `anisearch` (Sperre `anisearch`, ~60 min = bestimmt die Dauer); `tmdb` (TMDB → JustWatch → Gegenprobe → CR-offene, wegen der gemeinsamen Datei `justwatch-handpruefung.json`); `rtl` (Katalog → Folgen,
-Link-Prüfung); `sonst`. Jeder Job reicht seinen Fund als eigenen Pull Request ein, `abschluss` meldet Statusanzeige und Discord.
+Link-Prüfung); `sonst`. Jeder Job reicht seinen Fund als eigenen Pull Request ein, `abschluss` meldet die Statusanzeige.
 
 **Gemeinsame Drosselung** (steht nicht im Code als Sperre, nur als Zusage): aniSearch 6 s je Seite — jetzt Sperre `anisearch` (Katalog, Wochen-Job, Tages-Job); AniList 750 ms (Katalog, Sprecher und ADN-Zuordnung
 laufen deshalb hintereinander: `adn` hängt an `anilist`); `plus.rtl.de` 400–700 ms (Katalog, Folgen, Link-Prüfung — im selben Job).
@@ -1597,3 +1599,14 @@ Drei Restpunkte der Störungsregel (vorheriger Abschnitt). **Ungültige Adresse:
 ## Tests mit Bash-Hülle im losgelösten Lauf (12.10.2026)
 
 `prozess-register.mjs` öffnete das Log bis 12.10.2026 21:10 mit `'a'` (Anhängemodus), seitdem mit `'w'`; die Hüllen-Absicherung bleibt für jeden anderen Elternprozess mit Anhänge-Handle. Ein davon geerbtes Handle kann `bash.exe` (MSYS) nicht beschreiben: Exit 1 ohne ein Zeichen Ausgabe, schon bei `bash -c 'echo hi'` (mit `'w'` oder `'r+'` Exit 0; Lauf `flag.mjs`). Darum war `bau-schon-gebaut.test.mjs` (und gleich gebaut `commit-data.test.mjs`) nur im losgelösten `check:vor-commit` rot. Die Hüllen reichen die Ausgabe jetzt über Pipes weiter; `tools/bash-an-angehaengtes-log.test.mjs` startet beide mit Anhänge-Log. Vor der Umstellung scheiterte schon `bash skript.sh` als Befehl für `prozess-register.mjs` (dessen `echo` schlug fehl, Exit 1 trotz grüner Schritte).
+
+## D1-Umbau eingespielt: 051/052 am 13.10.2026, 053 offen bis nach 02:00 MESZ
+
+Bericht: `daniel-zum-abarbeiten/berichte/d1-umbau-einspielen-2026-10-13.md`. Migration 050 lief schon früher per `d1 execute --file`, nicht per `migrations apply`; `d1_migrations` endete deshalb bei 049, und `migrations apply` wäre an 050 (doppelte Spalte `hash`) gescheitert.
+
+- **052** (Spalte `schreib_tag.gelesen`) am 13.10.2026 12:33 MESZ per `execute --remote --file`: 54 gelesen, 1 geschrieben. Spalte per `pragma_table_info` bestätigt.
+- **051** (Teilindex `prime_folge_offen (id) WHERE uebernommen = 0`) direkt danach: 61.501 gelesen, 18.194 geschrieben. `sqlite_master` zeigt den neuen Index.
+- **`d1_migrations`** für 050, 051, 052 nachgetragen (`INSERT (name, applied_at)`, 7 geschriebene Zeilen); `migrations list --remote` nennt seither nur noch 053.
+- **Worker** am selben Tag von dort deployt (`cd worker && npx wrangler deploy --config wrangler.toml`); `/health` antwortet 200, `wrangler tail` (60 s) ohne Fehler.
+- **053** (Index `pruefung_folge`, rund 20.544 geschriebene Zeilen bei 20.544 `pruefung`-Zeilen am 13.10.2026) ist **offen**: erst nach 02:00 MESZ (00:00 UTC, neuer Tageszähler) mit `execute --file`, danach `d1_migrations` um die Zeile 053 ergänzen oder `migrations apply` (sieht nur noch 053) nutzen. Bis dahin verhält sich die Meldungs-Route wie bisher (n²-Lesen bei Disney+).
+- **Messfenster:** `d1-verbrauch.mjs --zeitraum 1d` sind gleitende 24 Stunden, das Kontingent zählt je UTC-Tag; die Lesesumme umfasst nur die 5 größten Abfragen. Für den UTC-Tag `--time-period <Stunden seit 00:00 UTC + 1>h` mit `--limit 200` und Summe über alle Gruppen (13.10.2026 10:33Z vor den Migrationen: 508.442 gelesen, 5.547 geschrieben).

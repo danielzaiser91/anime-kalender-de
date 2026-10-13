@@ -57,7 +57,7 @@ Synchro und zweiter ohne, Zeile 4 tot.
 | 13 | 2026-09-17 | Danganronpa | [Hauptserie]() |
 | 14 | 2026-09-17 | Samurai Girls | [Hauptserie]() · [2: Samurai Bride]() |
 | 15 | 2026-09-06 | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
-| 16 | 2026-08-31 | Mobile Suit Gundam: Requiem for Vengeance | [Mobile Suit Gundam: Cucuruz Doan’s Island]() · [Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe](https://www.netflix.com/title/82854665) |
+| 16 | 2026-08-31 | Mobile Suit Gundam | [Cucuruz Doan’s Island]() · [Hathaway: The Sorcery of Nymph Circe](https://www.netflix.com/title/82854665) |
 | 17 | 2026-08-29 | Yu-Gi-Oh! (1998) | [Yu-Gi-Oh! GX]() |
 | 18 | 2026-08-07 | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
 | 19 | 2025-04-03 | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |

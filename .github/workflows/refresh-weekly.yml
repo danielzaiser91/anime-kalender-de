@@ -485,19 +485,10 @@ jobs:
           fehler="${fehler# }"; fehler="${fehler% }"
           if printf '%s' "$ERGEBNISSE" | grep -q failure; then
             bash tools/lauf-melden.sh fehler "Ein Job ist gescheitert — Pull Request der betroffenen Familie prüfen"
-            echo "STATUS=failure" >> "$GITHUB_ENV"
           elif printf '%s' "$ERGEBNISSE" | grep -q cancelled; then
             bash tools/lauf-melden.sh abgebrochen "Ein Job wurde abgebrochen (z. B. wartender aniSearch-Job von einem neueren verdrängt)"
-            echo "STATUS=cancelled" >> "$GITHUB_ENV"
           elif [ -n "${fehler//[[:space:]]/}" ]; then
             bash tools/lauf-melden.sh warnung "Schritte fehlgeschlagen: $fehler"
-            echo "STATUS=success" >> "$GITHUB_ENV"
           else
             bash tools/lauf-melden.sh ok "alle Familien gesammelt"
-            echo "STATUS=success" >> "$GITHUB_ENV"
           fi
-      - name: Ergebnis nach Discord melden
-        if: always()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: bash tools/discord-melden.sh "Wöchentlicher Tiefendurchlauf" "${STATUS:-failure}"
