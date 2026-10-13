@@ -36,6 +36,13 @@ assert.ok(wegZeilen[0].includes('[].selten (entfernt)'), 'entfernte Felder stehe
 assert.ok(wegZeilen.some((z) => z.includes('weitere Felder')), 'die häufigen Änderungen sind trotzdem gekürzt')
 assert.equal(jsonUnterschiede({ x: 1, y: null }, { x: 1 }).get('.y (entfernt)').n, 1, 'null → fehlt ist entfernt')
 
+// Ein Listenelement mit Kennung, das im neuen Stand fehlt, steht ebenfalls vorn, auch hinter mehr als `max` häufigeren Änderungen.
+const mitId = Array.from({ length: 20 }, (_, i) => ({ id: i, a: 1, b: 1, c: 1, d: 1, e: 1, f: 1, g: 1 }))
+const ohneEins = mitId.slice(1).map((e) => ({ ...e, a: 2, b: 2, c: 2, d: 2, e: 2, f: 2, g: 2 }))
+const fehltZeilen = beschreibeUnterschied('titles.json', JSON.stringify(mitId), JSON.stringify(ohneEins))
+assert.ok(fehltZeilen[0].includes('[] (entfallen)'), 'entfallene Listenelemente stehen vorn')
+assert.ok(fehltZeilen.some((z) => z.includes('weitere Felder')), 'die häufigen Änderungen sind trotzdem gekürzt')
+
 const text = beschreibeUnterschied('_protokoll.txt', 'gleich\nnur alt\n', 'gleich\nnur neu\n')
 assert.deepEqual(text, ['    - nur alt', '    + nur neu'])
 
