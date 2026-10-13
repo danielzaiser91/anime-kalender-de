@@ -1,5 +1,6 @@
 import type { Ref } from 'react'
 import type { ReleaseEvent, Title } from '@shared/types.ts'
+import type { KachelAngabe } from '@shared/laeuft-jetzt.ts'
 import { PLATFORMS } from '@shared/types.ts'
 import { istAusgeblieben } from '@shared/logic.ts'
 import { useLang } from '../../lib/i18n.tsx'
@@ -31,6 +32,8 @@ export interface PosterKarteProps {
   hidden: boolean
   /** Schon vorbei (heute vor der aktuellen Uhrzeit) — tritt zurück. */
   vorbei?: boolean
+  /** Heute: "seit 17:00" statt "17:00", an der nächsten Kachel dazu "in 12 Min" (`kachelAngabe`). */
+  zeitAngabe?: KachelAngabe
   /** Folgen seit „gesehen bis" (nur Favoriten mit Eintrag). */
   neu?: number
   anker?: Ref<HTMLElement>
@@ -151,7 +154,7 @@ function PosterCover(p: PosterKarteProps & { breit: boolean; saal: boolean }) {
         </span>
       )}
       <span className={['absolute flex flex-wrap items-center gap-1.5', p.saal ? SAAL_MARKEN : 'top-2 left-2'].join(' ')}>
-        {(!p.anbieter || zeitGemeinsam(p.anbieter)) && <ZeitMarke event={p.event} t={t} />}
+        {(!p.anbieter || zeitGemeinsam(p.anbieter)) && <ZeitMarke event={p.event} t={t} angabe={p.zeitAngabe} />}
         {p.art && <ArtFahne art={p.art} />}
         {p.event.premiere && <PremiereMarke platform={p.event.platform} vorher={p.event.premiereVorher} className="px-2 py-0.5" />}
       </span>

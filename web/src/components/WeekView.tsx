@@ -3,6 +3,7 @@ import type { ReleaseEvent } from '@shared/types.ts'
 import type { Dataset } from '../lib/data.ts'
 import { istStaffelstart } from '../lib/staffelstart.ts'
 import { addDays, formatDate, nowHhMm, startOfWeek, todayIso, weekdayName } from '@shared/time.ts'
+import { fruehesteKommende, kachelAngabe } from '@shared/laeuft-jetzt.ts'
 import { useLang } from '../lib/i18n.tsx'
 import { useSprungZuHeute } from '../lib/woche-sprung.ts'
 import { useZielTag } from '../lib/ziel-tag.ts'
@@ -137,15 +138,15 @@ function TagZeile({
         <ZweitanbieterZeilen termine={tag.zweit} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} onOpen={p.onOpen} />
         <DiscKasten termine={tag.disc} hidden={p.hidden} onOpen={p.onOpen} />
       </div>
-      {zeigeTv && <TvSpalte tag={tag} p={p} vorbeiBis={vorbeiBis} />}
+      {zeigeTv && <TvSpalte tag={tag} p={p} vorbeiBis={vorbeiBis} jetzt={heute ? now : undefined} />}
     </section>
   )
 }
 
 /** Rechte Spalte: der TV-Kasten rollt in Zeilenhöhe. */
-function TvSpalte({ tag, p, vorbeiBis }: { tag: Tag; p: WocheProps; vorbeiBis?: string }) {
+function TvSpalte({ tag, p, vorbeiBis, jetzt }: { tag: Tag; p: WocheProps; vorbeiBis?: string; jetzt?: string }) {
   const kasten = (
-    <TvKasten termine={tag.tv} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} onOpen={(ev) => p.onOpen(ev.releaseSlug, ev.date)} />
+    <TvKasten termine={tag.tv} data={p.data} hidden={p.hidden} vorbeiBis={vorbeiBis} jetzt={jetzt} onOpen={(ev) => p.onOpen(ev.releaseSlug, ev.date)} />
   )
   return (
     <div className="relative lg:min-h-0">
@@ -190,6 +191,7 @@ function PosterRaster({
 }) {
   const { t } = useLang()
   const gesehen = gesehenLesen()
+  const fruehste = heute ? fruehesteKommende(tag.stream, tag.date, now) : undefined
   const gruppen = buendeleKacheln(tag.stream.filter((e) => !e.zweitanbieter), (ev) => istStaffelstart(ev, p.data), (ev) => !!ev.premiere)
   const kacheln = vereineAnbieter(gruppen, eigenstaendigBeiAnbietern, kanalAnbieterVon(p.data.releaseBySlug))
   return (
@@ -216,6 +218,7 @@ function PosterRaster({
             favorite={p.favorites.has(ev.titleId)}
             hidden={p.hidden.has(ev.titleId)}
             vorbei={heute && kachel.every((b) => !!b[0]!.time && b[0]!.time < now)}
+            zeitAngabe={heute ? kachelAngabe(ev, tag.date, now, fruehste) : undefined}
             neu={neuAnKarte(p, bis, ev.titleId, weitere.at(-1)?.episode ?? ev.episode)}
             anker={kachel.flat().some((e) => e.id === landingId) ? (landingRef as React.Ref<HTMLElement>) : undefined}
             onToggleFavorite={ev.titleId > 0 ? () => p.onToggleFavorite(ev.titleId) : undefined}
