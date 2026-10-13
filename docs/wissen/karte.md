@@ -41,7 +41,7 @@ Reihenfolge im Bau (`pipeline/build.ts`): 01 Quellen laden → 02 Titel → 03 R
 | `web/src/` | React-App: `App.tsx`, `components/` (Kalender in `kalender/`, Panel in `detail/`), `lib/` | 94 Dateien, 19,6 k Zeilen |
 | `worker/` | Cloudflare Worker `src/index.ts` (Routen), D1-Migrationen, Mail, Push, Beleg-Ablage (R2) | 24 Dateien, 5,3 k Zeilen |
 | `extension/` | Chrome-Erweiterung (Manifest v3), `amazon.js` 11,2 k, `melder.js` 6,6 k Zeilen | 50 Dateien, 31,8 k Zeilen |
-| `tools/` | Prüf-/Messskripte, Umbauhelfer (`bau-vergleich.mjs`, `modul-umzug.mjs`), `claude-global/` | 99 Dateien, 14,6 k Zeilen |
+| `tools/` | Prüf-/Messskripte, Umbauhelfer (`bau-vergleich.mjs`, `reihen-vergleich.mjs`, `modul-umzug.mjs`), `claude-global/` | 337 Dateien, 40,8 k Zeilen (beide 13.10.2026, alles Getrackte samt `archiv/`, `testdaten/`) |
 | `data/` | Rohdaten, Gedächtnis, Handbelege (209 MB, 11 k Dateien) — nie ausgeliefert | |
 | `public/` | Ausgeliefertes: `data/`, `og/` (Link-Bilder), Icons, `sw.js`, `404.html` | 81 MB |
 | `docs/` | `wissen/*` (Chronik je Thema, 8 k Zeilen), `recherche-*`, `messung-*`, `archiv/` | |

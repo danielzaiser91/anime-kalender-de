@@ -285,7 +285,10 @@ Neue Abbruchstelle für ein Ergebnis-Urteil: über diese Funktion, nicht mit eig
 die Ausgabe die Felder mit Anzahl und Beispiel (`tools/vergleich-unterschied.mjs`, etwa `streams[].dubQuelle` = Herkunft „Deutsch laut
 JustWatch" am Weg). Nicht abgedeckt: Verlust-Riegel (`13-2`), Eingabe-Prüfungen (`01-quellen`, `nebendateien`, Patchnotes). Für `web/src` tut dasselbe
 `tools/panel-vergleich.mjs`: beide Stände bauen, das Detail-Panel für 80 feste Titel bei stehender
-Uhr rendern, HTML vergleichen. Verschoben wird mit `tools/modul-umzug.mjs` (Namen, Abschnitte,
+Uhr rendern, HTML vergleichen. Für Reihen-Änderungen (`franchises.json`) vergleicht
+`tools/reihen-vergleich.mjs [basis] [kandidat] [--json]` alle Reihen in Sekunden, ohne Bau: Reihenname, Anzahl, Reihenfolge der
+Glieder, Beschriftung und Staffelstand je Glied, berechnet mit dem `shared/titles.ts` des jeweiligen Commits (zeigt so auch
+Regeländerungen bei gleichen Daten); Exit 0 gleich, 1 verschieden (12.10.2026). Verschoben wird mit `tools/modul-umzug.mjs` (Namen, Abschnitte,
 JSX-Blöcke), das Parameter und Importe aus dem Typprüfer ableitet — von Hand verschobener Code
 verliert zu leicht eine Neuzuweisung oder eine Reihenfolge. Einige Zusicherungen in `check:logic`
 lesen Quelltext und prüfen die Reihenfolge von Marken; sie lesen deshalb alle Module in
@@ -294,6 +297,8 @@ Aufrufreihenfolge (`bauQuelltext()`, `panelQuelltext()`, `workerQuelltext()`).
 **Exit-Codes von `bau-vergleich.mjs` (12.10.2026):** 0 gleich, 1 verschieden, 2 Bau der Basis gescheitert, 3 Sperre belegt, **4 Konflikt**
 bei der Übernahme der eigenen `data/`-Änderungen (nichts verglichen; Kandidat auf die Basis rebasen). Vorher endete der Konflikt als
 unbehandelte Ausnahme mit Exit 1 und sah aus wie ein Unterschied im Ergebnis. Die Codes stehen in `tools/bau-vergleich-urteil.mjs`.
+Bei Exit 2 nennt die Meldung seit 13.10.2026 die letzten ≤ 10 Fehlerzeilen des Basis-Baus (ohne Warnungen und Stack-Zeilen;
+`tools/bau-vergleich-protokoll.mjs`, Test `.test.mjs`). Anlass: Eine rote Patch-Notes-Prüfung auf main (3 Highlights an einem Tag) kostete einen Bauer eine Stunde, weil nur „scheitert selbst“ dastand.
 
 **Abstand und Sperre bei `bau-vergleich.mjs` (12.10.2026).** Ist die Basis kein Vorfahre des Kandidaten (Zweig hinter `origin/main` oder
 auseinandergelaufen), steht vor dem Lauf und am Ende eine WARNUNG mit Zahl der fehlenden Commits und der Merge-Basis

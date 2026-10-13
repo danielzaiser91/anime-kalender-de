@@ -6,13 +6,16 @@ import type { Title, WatchLink } from '../../shared/types.ts'
  * JustWatch nennt bei keinem freenet-Angebot eine Tonspur; die freenet-Seiten lesen wir nicht (robots.txt
  * sperrt KI-Bots). maxdome, MagentaTV und Videoload gehören zum selben Verbund und führen dieselben
  * Titel. Belegt ein Schwester-Shop Deutsch und keiner widerspricht, trägt der freenet-Weg
- * `dubAbgeleitet: 'schwester-shop'` — ohne `dubRanges`, also nie als Beleg.
+ * `dubAbgeleitet: 'schwester-shop'` — ohne `dubRanges`, also nie als Beleg. Die Telekom-Annahme (`telekom-annahme.ts`)
+ * zählt dabei nicht als Beleg: Sonst stünde eine Ableitung auf einer Annahme.
  */
 const SCHWESTERN = /^(maxdome|magentatv|videoload)$/i
 
 const istFreenet = (w: WatchLink): boolean => /^freenet meinvod$/i.test(w.name)
-const hatDeutsch = (w: WatchLink): boolean => (w.dubRanges ?? []).some((r) => r.dub)
-const verneint = (w: WatchLink): boolean => (w.dubRanges ?? []).length > 0 && !hatDeutsch(w)
+const nenntDeutsch = (w: WatchLink): boolean => (w.dubRanges ?? []).some((r) => r.dub)
+/** Die Telekom-Annahme ist keine Angabe des Shops: Sie belegt nichts und verneint nichts. */
+const hatDeutsch = (w: WatchLink): boolean => w.dubAbgeleitet !== 'telekom-annahme' && nenntDeutsch(w)
+const verneint = (w: WatchLink): boolean => (w.dubRanges ?? []).length > 0 && !nenntDeutsch(w)
 
 /** Mindestens ein Schwester-Shop belegt Deutsch, und keiner verneint es. */
 export function schwesterBelegtDeutsch(wege: WatchLink[]): boolean {
@@ -33,7 +36,7 @@ export function schwesterFehler(titles: Iterable<Title>): string[] {
   const fehler: string[] = []
   for (const t of titles) {
     for (const w of t.watchLinks ?? []) {
-      if (!w.dubAbgeleitet) continue
+      if (w.dubAbgeleitet !== 'schwester-shop') continue
       if (!istFreenet(w)) fehler.push(`Anime ${t.id}: „${w.name}" trägt dubAbgeleitet „schwester-shop", ist aber nicht freenet`)
       else if (w.dubRanges?.length) fehler.push(`Anime ${t.id}: freenet trägt „laut Schwester-Shop" und zugleich dubRanges`)
       else if (!schwesterBelegtDeutsch(t.watchLinks ?? [])) fehler.push(`Anime ${t.id}: freenet „laut Schwester-Shop" ohne Deutsch-Beleg eines Schwester-Shops`)

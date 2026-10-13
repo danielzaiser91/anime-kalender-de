@@ -43,8 +43,9 @@ import { execFileSync, spawnSync } from 'node:child_process'
 import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
-import { ablageName, einstellungsZeilen, liesOptionen } from './bau-vergleich-ablage.mjs'
+import { ablageName, einstellungsZeilen, hauptordnerAus, liesOptionen } from './bau-vergleich-ablage.mjs'
 import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { basisRotMeldung } from './bau-vergleich-protokoll.mjs'
 import { raeumeVerwaisteBaeume } from './bau-vergleich-reste.mjs'
 import { abstandsWarnung, fremdeUnterschiede, messeAbstand, vonBasisGeaendert } from './bau-vergleich-abstand.mjs'
 import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
@@ -60,7 +61,7 @@ const TEXTDATEI = /\.(json|ics|xml|html|txt|md)$/
 // Der Ersatz-Cache hat keinen AniList-Katalog, der Katalogpfad (ohne-synchro.json, Katalog-Reihen) liefe also nie mit.
 // `--katalog[=Pfad]` (oder `BAU_VERGLEICH_KATALOG`) legt dieselbe anilist-katalog.json in beide Bauten; die Ablage trägt ihren Inhalt und die Umgebung des Baus im Namen.
 // Nur der Hauptordner hat einen gefüllten Cache; aus einem Worktree heraus zeigt `--katalog` deshalb auf dessen Datei.
-const HAUPTORDNER = dirname(resolve(WURZEL, git('rev-parse', '--git-common-dir')))
+const HAUPTORDNER = hauptordnerAus(git('rev-parse', '--git-common-dir'), WURZEL)
 const { positionen, katalog: KATALOG_CACHE } = liesOptionen(process.argv.slice(2), process.env, HAUPTORDNER)
 
 // Laufzeiten und Zeitstempel sind in jedem Lauf anders — sie gehören nicht zum Ergebnis.
@@ -201,8 +202,9 @@ for (const zeile of [...warnung, ...einstellungsZeilen(KATALOG_CACHE, process.en
 await wartAufSperre('bau-vergleich', FRIST_MS, undefined, `bau-vergleich ${basis.slice(0, 12)} gegen ${kandidat.slice(0, 12)} in ${WURZEL}`)
 raeumeVerwaisteBaeume(git, ABLAGE)
 const a = baue(basis, basis)
-if (!readFileSync(join(a, '_protokoll.txt'), 'utf8').startsWith('exit 0')) {
-  console.error(`Der Bau der Basis ${basis.slice(0, 12)} scheitert selbst — siehe ${a}/_protokoll.txt`)
+const basisProtokoll = readFileSync(join(a, '_protokoll.txt'), 'utf8')
+if (!basisProtokoll.startsWith('exit 0')) {
+  console.error(basisRotMeldung(basisProtokoll, basis.slice(0, 12), a))
   process.exit(EXIT.BAU_BASIS)
 }
 const b = baueOderBeende(kandidat, basis)

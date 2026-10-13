@@ -6,7 +6,8 @@ import { readFileSync } from 'node:fs'
 import type { NewsMeldung, Release, StreamLink, Title } from '../shared/types.ts'
 import { addDays, todayIso } from '../shared/time.ts'
 import { kanalErbtVomAnbieter } from './bau/kanal-erbt-anbieter.ts'
-import { baueNews, type NewsHistorie } from './lib/news.ts'
+import { ersterDeutscherTermin } from '../shared/tv-signale.ts'
+import { baueNews, zaehltAlsDeutscherTermin, type NewsHistorie } from './lib/news.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -105,6 +106,23 @@ const neuGeerbt = neuBei(mitGeerbt([kanal(), cr({ dub: true })]))
 pruefe('Neu auf Deutsch: Anbieter und Quelle sind der Anbieter-Weg, nicht der davor stehende geerbte Prime-Weg', neuGeerbt.length === 1 && neuGeerbt[0]!.platform === 'crunchyroll' && neuGeerbt[0]!.quelle === cr().url, neuGeerbt)
 pruefe('Gegenprobe: ein eigenes Prime-Ja davor bleibt der Anbieter', neuBei([kanal({ dub: true }), cr({ dub: true })])[0]?.platform === 'primevideo')
 
+/* „Jetzt auch bei Prime Video“: Die Quelle ist der eigene Prime-Weg, nicht der davor stehende geerbte Kanal-Weg. */
+const weitererQuellen = (streams: StreamLink[]): (string | undefined)[] => {
+  const historie: NewsHistorie = { zuerst: {} }
+  const titelMit = (s: StreamLink[]): Title[] =>
+    [{ id: 1, franchiseId: 1, slug: 't-1', titleEn: 'T1', keywords: [], genres: [], streams: s }] as unknown as Title[]
+  baueNews(titelMit([cr({ dub: true })]), [], [], [], historie)
+  return baueNews(titelMit(mitGeerbt(streams)), [], [], [], historie)
+    .flatMap((e) => e.meldungen)
+    .filter((m) => m.weiterer === true && m.platform === 'primevideo')
+    .map((m) => m.quelle)
+}
+const kanalWeg = kanal({ url: 'https://www.amazon.de/gp/video/detail/KANAL' })
+const eigenerWeg = kanal({ url: 'https://www.amazon.de/gp/video/detail/EIGEN', kanal: undefined, dub: true })
+const quellen = weitererQuellen([cr({ dub: true }), kanalWeg, eigenerWeg])
+pruefe('Weiterer Anbieter: Quelle ist der eigene Prime-Weg, nicht der geerbte Kanal-Weg', quellen.join() === eigenerWeg.url, quellen)
+pruefe('Gegenprobe: ohne Kanal-Weg bleibt die Quelle der eigene Prime-Weg', weitererQuellen([cr({ dub: true }), eigenerWeg]).join() === eigenerWeg.url)
+
 /*
  * Ein automatisch übernommener Kanal-Termin allein macht keine Meldung „Neu auf Deutsch bei Prime Video“ (13.10.2026: Detective Is Already Dead S2,
  * Reincarnated Aristocrat S3, Wild Last Boss S2 — die Termine stammen aus einem Artikel über Crunchyroll-Simulcasts, ein Prime-Ja gab es nie).
@@ -128,6 +146,22 @@ pruefe('Gegenprobe: derselbe Kanal-Termin mit eigenem Prime-Ja bleibt eine Meldu
 pruefe('Gegenprobe: ein Kanal-Termin von Hand (nicht automatisch) bleibt eine Meldung', neuMitTermin([kanal()], [kanalTermin({ automatisch: undefined })]).length === 1)
 const ohneKanalTermin = kanalTermin({ kanal: undefined })
 pruefe('Gegenprobe: ein automatischer Prime-Termin ohne Kanal bleibt eine Meldung', neuMitTermin([kanal({ kanal: undefined })], [ohneKanalTermin]).length === 1)
+
+/*
+ * Dieselbe Regel für `neu-mit-synchro.json` (Newsletter „Neu auf Deutsch“): Der Kanal-Termin allein belegt keine Synchro; die drei Titel standen dort weiter.
+ */
+const prime = (streams: StreamLink[]): Title => ({ id: 1, streams }) as unknown as Title
+const erster = (streams: StreamLink[], termin: Release): string | undefined => {
+  const titel = prime(streams)
+  const zaehlt = [termin].filter((r) => zaehltAlsDeutscherTermin(r, titel))
+  return ersterDeutscherTermin(zaehlt, [titel]).get(1)
+}
+pruefe('neu-mit-synchro: automatischer Kanal-Termin ohne Ja zählt nicht als erster deutscher Termin', erster([kanal()], kanalTermin()) === undefined)
+pruefe('neu-mit-synchro: mit eigenem Prime-Ja zählt der Kanal-Termin', erster([kanal({ dub: true })], kanalTermin()) === kanalTermin().schedule.firstEpisodeDate)
+pruefe('neu-mit-synchro: ein Kanal-Termin von Hand zählt', erster([kanal()], kanalTermin({ automatisch: undefined })) === kanalTermin().schedule.firstEpisodeDate)
+pruefe('neu-mit-synchro: ein automatischer Prime-Termin ohne Kanal zählt', erster([kanal({ kanal: undefined })], kanalTermin({ kanal: undefined })) === kanalTermin().schedule.firstEpisodeDate)
+const nebendateien = readFileSync(new URL('./bau/nebendateien.ts', import.meta.url), 'utf8')
+pruefe('nebendateien.ts filtert die Termine für „Neu auf Deutsch“ mit zaehltAlsDeutscherTermin', nebendateien.includes('releases.filter((r) => zaehltAlsDeutscherTermin(r, nachId.get(r.titleId)))') && nebendateien.includes('ersterTerminMitGrund(releases, titles)'))
 
 /* Der Bau ruft es auf, vor der Auslieferung (sonst bliebe die Regel Papier). */
 const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')

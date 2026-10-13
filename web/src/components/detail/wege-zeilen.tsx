@@ -5,7 +5,7 @@ import { anzeigeName } from '@shared/titles.ts'
 import { farbeZuAnbieter, istToggo, discPillen } from './pillen.tsx'
 import { TerminZeile } from './termin-zeile.tsx'
 import { Pille, DubStatus } from './pille.tsx'
-import { streamStatus, streamWegStatus } from './legende-zeilen.ts'
+import { istAnnahme, streamStatus, streamWegStatus } from './legende-zeilen.ts'
 import { DiscZeichen } from '../ui.tsx'
 import { AnbieterIcon, anbieterDatei } from '../../lib/anbieter-icon.tsx'
 import { MerkenKnopf } from './merken.tsx'
@@ -242,7 +242,7 @@ export function streamZeilen({ sortiertNachZugang, title, t, today, folgenAngabe
                         if (istToggo(g.eintraege[0].url))
                           return toggoAngabe((title.watchLinks ?? []).find((w) => w.url === g.eintraege[0].url)?.toggo)
                         if (g.eintraege[0].nurFolge) return t('detail.nurFolge', { n: g.eintraege[0].nurFolge })
-                        if (g.eintraege[0].dubRanges?.length) return folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges, url: g.eintraege[0].url, nurFolge: g.eintraege[0].nurFolge }) || undefined
+                        if (g.eintraege[0].dubRanges?.length && !istAnnahme(g.eintraege[0])) return folgenAngabeFuer({ dubRanges: g.eintraege[0].dubRanges, url: g.eintraege[0].url, nurFolge: g.eintraege[0].nurFolge }) || undefined
                         const verweis = (title.streams ?? []).find((x) => x.url === g.eintraege[0].url)
                         return verweis?.dub === true ? folgenAngabeFuer(verweis) || undefined : undefined
                       })()}

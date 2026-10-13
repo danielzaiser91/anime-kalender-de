@@ -1,3 +1,6 @@
+import { spawnSync } from 'node:child_process'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { auslieferbarePatchnotes, pruefePatchnotes } from '../shared/patchnotes.ts'
 import { lesePatchnotesDateien, mitDatum } from './lib/patchnotes.ts'
 import { einfuehrungstage, hinzufuegungenAusLog } from './lib/patchnotes-datum.ts'
@@ -31,6 +34,25 @@ gegen('verbotenes Wort (Erweiterung) im Untertitel', [{ ...ok, untertitel: 'Erwe
 gegen('Link ohne Hash', [{ ...ok, link: 'https://x.de' }])
 pruefe('Patch-Notes (Gegenprobe): drei Highlights ohne datum (Tage erst nach dem Git-Abgleich bekannt) sind noch kein Widerspruch', pruefePatchnotes([1, 2, 3].map((n) => ({ kategorie: 'feature', text: `Neu ${n}`, highlight: true }))).length === 0)
 pruefe('Patch-Notes (Gegenprobe): zwei Highlights am Tag sind erlaubt', pruefePatchnotes([1, 2].map((n) => ({ ...ok, text: `Neu ${n}`, highlight: true }))).length === 0)
+
+/**
+ * Drei Highlights ohne `datum` landen nach der Datumsauflösung am selben Tag: `leseAuslieferbarePatchnotes` muss abbrechen.
+ * Ein Kindprozess, weil der Zweig `process.exit(1)` ruft; ohne den Zweig liefe der Aufruf durch (Exit 0).
+ */
+function leseMitDreiHighlights(): { status: number | null; aus: string } {
+  const ordner = mkdtempSync(`${tmpdir()}/patchnotes-highlights-`)
+  try {
+    for (const n of [1, 2, 3]) writeFileSync(`${ordner}/h${n}.yaml`, `kategorie: feature\ntext: Neu ${n}\nhighlight: true\n`)
+    const modul = new URL('./lib/patchnotes.ts', import.meta.url).href
+    const code = `import { leseAuslieferbarePatchnotes } from ${JSON.stringify(modul)}\nleseAuslieferbarePatchnotes(${JSON.stringify(ordner)})`
+    const r = spawnSync(process.execPath, ['--import', 'tsx', '--input-type=module', '--eval', code], { encoding: 'utf8', timeout: 60_000 })
+    return { status: r.status, aus: `${r.stdout}${r.stderr}` }
+  } finally {
+    rmSync(ordner, { recursive: true, force: true })
+  }
+}
+const dreiHighlights = leseMitDreiHighlights()
+pruefe('Patch-Notes (Gegenprobe): drei datumslose Highlights, die am selben Tag landen, brechen das Lesen ab', dreiHighlights.status === 1 && dreiHighlights.aus.includes('3 Highlights'), dreiHighlights)
 
 const aus = auslieferbarePatchnotes(mitDatum(dateien, (namen) => new Map(namen.map((n) => [n, '2026-10-10']))))
 pruefe('Patch-Notes: alle Einträge des Ordners werden ausgeliefert, neueste zuerst', aus.length === roh.length && aus.every((e, i) => i === 0 || aus[i - 1]!.datum >= e.datum))
