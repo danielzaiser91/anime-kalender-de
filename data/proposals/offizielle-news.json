@@ -1,6 +1,32 @@
 {
   "vorschlaege": [
     {
+      "id": "eaeb3cdf8bc3",
+      "host": "ao-buta.com",
+      "titelIds": [
+        199340
+      ],
+      "titel": "「青春ブタ野郎はバニーガール先輩の夢を見ない」山形テレビ放送決定！",
+      "datum": "2026-10-06",
+      "url": "https://ao-buta.com/dearfriend/news/?id=71420",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "f22b5aaafcd8",
+      "host": "mahoyo-movie.com",
+      "titelIds": [
+        143103
+      ],
+      "titel": "劇場公開に向け特別プロジェクト「みんなで観よう！TYPE-MOON × ufotable」が始動！",
+      "datum": "2026-09-30",
+      "url": "https://mahoyo-movie.com/news/?article_id=71370",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-13"
+    },
+    {
       "id": "5a107fad9d3f",
       "host": "mission-yozakura-family.com",
       "titelIds": [
@@ -9,6 +35,110 @@
       "titel": "第2期 第2クールの放送・配信情報を公開！",
       "datum": "2026-09-25",
       "url": "https://mission-yozakura-family.com/news/index02700000.html",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "1a37efb89175",
+      "host": "hyouken-anime.com",
+      "titelIds": [
+        212503
+      ],
+      "titel": "第2期キャラクター情報第3弾公開！",
+      "datum": "2026-09-24",
+      "url": "https://hyouken-anime.com/67/",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "336f73b664ed",
+      "host": "akane-banashi.com",
+      "titelIds": [
+        196935
+      ],
+      "titel": "TVアニメ『あかね噺』第2期イントロダクションを公開！",
+      "datum": "2026-09-19",
+      "url": "https://akane-banashi.com/news/?id=71285",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "d65f7b029c43",
+      "host": "bst-animation.com",
+      "titelIds": [
+        187267
+      ],
+      "titel": "アニメ第1期が「アニマルプラネット」にて放送決定！",
+      "datum": "2026-09-18",
+      "url": "https://bst-animation.com/news/260918_01.html",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "a55a93efdcfa",
+      "host": "hyakkano.com",
+      "titelIds": [
+        200637
+      ],
+      "titel": "TVアニメ『君のことが大大大大大好きな100人の彼女』 第1期～第3期がNetflixで配信決定！",
+      "datum": "2026-09-17",
+      "url": "https://hyakkano.com/news/post-247/",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "11128f1d06fd",
+      "host": "hokuto-anime.com",
+      "titelIds": [
+        169228
+      ],
+      "titel": "“北斗の拳の日”記念トークショーinアニメ東京ステーション配信開始!!",
+      "datum": "2026-09-13",
+      "url": "https://hokuto-anime.com/news/index00980000.html",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "c1b759fb3522",
+      "host": "hokuto-anime.com",
+      "titelIds": [
+        169228
+      ],
+      "titel": "第2クールCREATIVE MOVIEが到着!!",
+      "datum": "2026-09-13",
+      "url": "https://hokuto-anime.com/news/index00970000.html",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "f873f6cd9ddb",
+      "host": "bleach-anime.com",
+      "titelIds": [
+        185874
+      ],
+      "titel": "TVアニメ『BLEACH 千年血戦篇-禍進譚-』第49話および第50話の放送・配信日時につきまして",
+      "datum": "2026-09-12",
+      "url": "https://bleach-anime.com/news/?id=71195",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "fdb9d8a203be",
+      "host": "hyouken-anime.com",
+      "titelIds": [
+        212503
+      ],
+      "titel": "第2期キャラクター情報第2弾公開！",
+      "datum": "2026-09-11",
+      "url": "https://hyouken-anime.com/60/",
       "sprache": "ja",
       "kategorie": "staffel",
       "gefundenAm": "2026-10-13"
@@ -24,6 +154,58 @@
       "url": "https://mission-yozakura-family.com/news/index02670000.html",
       "sprache": "ja",
       "kategorie": "staffel",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "4c3e2de196e1",
+      "host": "hyouken-anime.com",
+      "titelIds": [
+        212503
+      ],
+      "titel": "第2期キャラクター情報第1弾公開！",
+      "datum": "2026-07-31",
+      "url": "https://hyouken-anime.com/36/",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "33e2f5deb5af",
+      "host": "mahouka.jp",
+      "titelIds": [
+        178707
+      ],
+      "titel": "劇場版「魔法科高校の劣等生 四葉継承編」第10週来場者特典を解禁！",
+      "datum": "2026-07-07",
+      "url": "https://mahouka.jp/yotsuba/news/?id=70737",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "7c78250e8663",
+      "host": "mahouka.jp",
+      "titelIds": [
+        178707
+      ],
+      "titel": "劇場版「魔法科高校の劣等生 四葉継承編」第9週来場者特典を解禁！",
+      "datum": "2026-06-30",
+      "url": "https://mahouka.jp/yotsuba/news/?id=70700",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "929f59f02f78",
+      "host": "mahouka.jp",
+      "titelIds": [
+        178707
+      ],
+      "titel": "劇場版「魔法科高校の劣等生 四葉継承編」新たに全国12館で上映決定！",
+      "datum": "2026-06-30",
+      "url": "https://mahouka.jp/yotsuba/news/?id=70718",
+      "sprache": "ja",
+      "kategorie": "film",
       "gefundenAm": "2026-10-13"
     },
     {
@@ -66,6 +248,110 @@
       "gefundenAm": "2026-10-13"
     },
     {
+      "id": "171d044b5a6b",
+      "host": "mahouka.jp",
+      "titelIds": [
+        178707
+      ],
+      "titel": "劇場版「魔法科高校の劣等生 四葉継承編」第8週来場者特典を解禁！",
+      "datum": "2026-06-23",
+      "url": "https://mahouka.jp/yotsuba/news/?id=70620",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "4e56f14b7e89",
+      "host": "mahouka.jp",
+      "titelIds": [
+        178707
+      ],
+      "titel": "劇場版「魔法科高校の劣等生 四葉継承編」スタッフオーディオコメンタリー提供開始！",
+      "datum": "2026-06-23",
+      "url": "https://mahouka.jp/yotsuba/news/?id=70670",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "0b570418fb78",
+      "host": "mahouka.jp",
+      "titelIds": [
+        178707
+      ],
+      "titel": "劇場版「魔法科高校の劣等生 四葉継承編」第7週来場者特典を解禁！",
+      "datum": "2026-06-16",
+      "url": "https://mahouka.jp/yotsuba/news/?id=70579",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "a85536cb7c6f",
+      "host": "mabotai.jp",
+      "titelIds": [
+        176276
+      ],
+      "titel": "「魔都精兵のスレイブ2」マトスレィディオ season2 第15回 パーソナリティとゲストが決定！",
+      "datum": "2026-06-12",
+      "url": "https://mabotai.jp/news/archives/1449",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "230a987fd585",
+      "host": "mahouka.jp",
+      "titelIds": [
+        178707
+      ],
+      "titel": "劇場版「魔法科高校の劣等生 四葉継承編」第6週来場者特典を解禁！",
+      "datum": "2026-06-09",
+      "url": "https://mahouka.jp/yotsuba/news/?id=70545",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "d732998d9a32",
+      "host": "mahouka.jp",
+      "titelIds": [
+        178707
+      ],
+      "titel": "劇場版「魔法科高校の劣等生 四葉継承編」第5週来場者特典を解禁！",
+      "datum": "2026-06-02",
+      "url": "https://mahouka.jp/yotsuba/news/?id=70519",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "47b90498295c",
+      "host": "mahouka.jp",
+      "titelIds": [
+        178707
+      ],
+      "titel": "劇場版「魔法科高校の劣等生 四葉継承編」第4週来場者特典の表紙描き下ろしイラスト＆あらすじ解禁！",
+      "datum": "2026-05-26",
+      "url": "https://mahouka.jp/yotsuba/news/?id=70490",
+      "sprache": "ja",
+      "kategorie": "film",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "9b90c85ffda6",
+      "host": "mabotai.jp",
+      "titelIds": [
+        176276
+      ],
+      "titel": "「魔都精兵のスレイブ2」マトスレィディオ season2 第12回 パーソナリティとゲストが決定！",
+      "datum": "2026-03-26",
+      "url": "https://mabotai.jp/news/archives/1404",
+      "sprache": "ja",
+      "kategorie": "staffel",
+      "gefundenAm": "2026-10-13"
+    },
+    {
       "id": "f6b5bed9420f",
       "host": "himekishi-anime.com",
       "titelIds": [
@@ -74,6 +360,19 @@
       "titel": "放送・配信情報更新！",
       "datum": "2026-03-20",
       "url": "https://himekishi-anime.com/onair.html",
+      "sprache": "ja",
+      "kategorie": "termin",
+      "gefundenAm": "2026-10-13"
+    },
+    {
+      "id": "bcd5158965df",
+      "host": "bst-animation.com",
+      "titelIds": [
+        187267
+      ],
+      "titel": "『BEASTARS FINAL SEASON』Part2 Netflix独占配信開始！新キャラクターのCVも解禁！",
+      "datum": "2026-03-07",
+      "url": "https://bst-animation.com/news/260307_01.html",
       "sprache": "ja",
       "kategorie": "termin",
       "gefundenAm": "2026-10-13"
