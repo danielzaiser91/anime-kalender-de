@@ -206,6 +206,31 @@ console.log('Seiten über beide Quellen und Abhaken')
   pruefe(rest.length === 2, `abgehakte Rohfolgen erscheinen im offenen Auszug nicht mehr (${rest.length} übrig)`)
 }
 
+console.log('Nur Neues für den Zuordner (Prüfer-Befund zu PR 1150)')
+{
+  const db = neueDatenbank()
+  const env = umgebung(db)
+  const mitNotiz = (nr: number, notiz: string, ton = 'ja') => ({ ...netflix(nr, ton), notiz })
+  const offen = async () => (await hole(env, 'nach=0')).folgen.length
+  const alle = async () => (await hole(env, 'alle=1&nach=0')).folgen.length
+  await handlePruefung(post(mitNotiz(1, 'a')), env)
+  const roh = (await hole(env, 'nach=0')).folgen.map((f) => Number(f.id))
+  await handlePruefung(post({ rohfolgenUebernommen: roh }), env)
+  await handlePruefung(post(mitNotiz(1, 'b')), env)
+  pruefe((await offen()) === 0 && (await alle()) === 1, 'offene Meldung, abgehakte Rohfolge, Notiz wechselt: die neue Zeile erbt den Stand, nichts offen, keine Dublette')
+  db.exec('UPDATE pruefung SET uebernommen = 1')
+  await handlePruefung(post(mitNotiz(1, 'c')), env)
+  pruefe((await offen()) === 0 && (await alle()) === 1 && zahl(db, 'SELECT COUNT(*) AS n FROM pruefung WHERE rohfolge IS NULL AND roh_uebernommen IS NULL') === 1, 'übernommene Meldung, gleiche Rohfolge, Notiz wechselt: die neue Zeile trägt keine Rohfolge (kein Doppelter, nichts offen)')
+  db.exec('UPDATE pruefung SET uebernommen = 1')
+  await handlePruefung(post(mitNotiz(1, 'c', 'nein')), env)
+  pruefe((await offen()) === 1 && (await alle()) === 2, 'andere Rohfolge (Ton): neue Zeile mit offener Rohfolge')
+  const neuRoh = (await hole(env, 'nach=0')).folgen.map((f) => Number(f.id))
+  await handlePruefung(post({ rohfolgenUebernommen: neuRoh }), env)
+  db.exec('UPDATE pruefung SET uebernommen = 1')
+  await handlePruefung(post(mitNotiz(1, 'c')), env)
+  pruefe((await offen()) === 1, 'zurück zum alten Stand (A, B, A): A kommt wieder offen an, weil B zuletzt übernommen wurde')
+}
+
 if (fehler) {
   console.log(`${fehler} Prüfung(en) fehlgeschlagen.`)
   process.exit(1)

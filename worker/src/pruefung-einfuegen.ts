@@ -16,10 +16,12 @@ export type Abgeleitet = {
   hash: string
   /** Die Rohfolge als JSON (`pruefung-rohfolge-spalte.ts`), sonst `null`: dann gehört sie in `prime_folge`. */
   rohfolge: string | null
+  /** 0 = offen für den Zuordner, 1 = schon abgehakt, `null` = keine Rohfolge in dieser Zeile. */
+  rohUebernommen: number | null
 }
 
 export async function fuegePruefungEin(env: Env, daten: Record<string, unknown>, url: string, a: Abgeleitet): Promise<void> {
-  const { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, rohfolge } = a
+  const { befund, vorhanden, tonDe, art, staffelNr, seitenKennung, hash, rohfolge, rohUebernommen } = a
   await env.DB.prepare(
     /*
       **`titel_id` sagt, für welchen Auftrag gemeldet wurde — die Adresse sagt es nicht.**
@@ -95,8 +97,7 @@ export async function fuegePruefungEin(env: Env, daten: Record<string, unknown>,
       art,
       hash,
       rohfolge,
-      /* 0 = offen für den Zuordner (`rohfolgen-abhaken.ts`); ohne Rohfolge NULL. */
-      rohfolge === null ? null : 0,
+      rohUebernommen,
     )
     .run()
 }

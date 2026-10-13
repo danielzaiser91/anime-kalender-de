@@ -22,20 +22,23 @@
 import { type Env } from './env.ts'
 import { jetztIso, zahlOderNull } from './werte.ts'
 
-type OffeneZeile = { id: number; hash: string | null; gemeldetAm: string }
+/** `rohfolge`/`rohUebernommen`: die Rohfolge in der Zeile (Migration 054), siehe `rohfolgeFuerZeile`. */
+export type OffeneZeile = { id: number; hash: string | null; gemeldetAm: string; rohfolge: string | null; rohUebernommen: number | null }
 
 /** Offene Zeilen je Schlüssel (Adresse, Folge, Staffel, Seite); mehrere sind Dubletten. */
 export type OffeneHashes = {
   zeilen: Map<string, OffeneZeile[]>
   /** Je Schlüssel die jüngste übernommene Zeile (jüngste `gemeldet_am`, bei Gleichstand höchste `id`). */
   uebernommene: Map<string, OffeneZeile>
+  /** Je Schlüssel die jüngste übernommene Zeile, die eine Rohfolge trägt (der Stand, den der Zuordner schon kennt). */
+  uebernommeneRoh: Map<string, OffeneZeile>
   /** Zeitpunkt des letzten Listenbaus, einmal je Aufruf geholt. */
   listenbauAm: () => Promise<string | null>
 }
 
 export type Folge = { url: string; folgeNr: number | null; staffelNr: number | null; seitenKennung: string | null }
 
-const schluessel = (f: Folge) => JSON.stringify([f.url, f.folgeNr, f.staffelNr, f.seitenKennung])
+export const schluessel = (f: Folge) => JSON.stringify([f.url, f.folgeNr, f.staffelNr, f.seitenKennung])
 
 /** JSON mit sortierten Schlüsseln, damit dieselbe Meldung immer denselben Text ergibt. */
 export function normalisiert(wert: unknown): unknown {
@@ -75,6 +78,8 @@ type Zeile = {
   hash: string | null
   gemeldet_am: string
   uebernommen: number
+  rohfolge: string | null
+  roh_uebernommen: number | null
 }
 
 /**
@@ -105,12 +110,13 @@ export function folgeVon(daten: Record<string, unknown>): Folge {
 export async function ladeOffeneHashes(env: Env, folgen: Folge[]): Promise<OffeneHashes> {
   const zeilen: OffeneHashes['zeilen'] = new Map()
   const uebernommene: OffeneHashes['uebernommene'] = new Map()
+  const uebernommeneRoh: OffeneHashes['uebernommeneRoh'] = new Map()
   let bau: Promise<string | null> | undefined
-  const offene: OffeneHashes = { zeilen, uebernommene, listenbauAm: () => (bau ??= holeListenbauAm(env)) }
+  const offene: OffeneHashes = { zeilen, uebernommene, uebernommeneRoh, listenbauAm: () => (bau ??= holeListenbauAm(env)) }
   const einzigartig = [...new Map(folgen.map((f) => [schluessel(f), f])).values()]
   if (!einzigartig.length) return offene
   const { results } = await env.DB.prepare(
-    `SELECT p.id, p.url, p.folge_nr, p.staffel, p.seiten_kennung, p.hash, p.gemeldet_am, p.uebernommen
+    `SELECT p.id, p.url, p.folge_nr, p.staffel, p.seiten_kennung, p.hash, p.gemeldet_am, p.uebernommen, p.rohfolge, p.roh_uebernommen
        FROM json_each(?1) k CROSS JOIN pruefung p
       WHERE p.url = json_extract(k.value, '$[0]') AND p.folge_nr IS json_extract(k.value, '$[1]')
         AND p.staffel IS json_extract(k.value, '$[2]') AND p.seiten_kennung IS json_extract(k.value, '$[3]')`,
@@ -119,9 +125,10 @@ export async function ladeOffeneHashes(env: Env, folgen: Folge[]): Promise<Offen
     .all<Zeile>()
   for (const r of results ?? []) {
     const k = schluessel({ url: r.url, folgeNr: r.folge_nr, staffelNr: r.staffel, seitenKennung: r.seiten_kennung })
-    const z = { id: r.id, hash: r.hash, gemeldetAm: r.gemeldet_am }
+    const z = { id: r.id, hash: r.hash, gemeldetAm: r.gemeldet_am, rohfolge: r.rohfolge, rohUebernommen: r.roh_uebernommen }
     if (!r.uebernommen) zeilen.set(k, [...(zeilen.get(k) ?? []), z])
     else if (juenger(z, uebernommene.get(k))) uebernommene.set(k, z)
+    if (r.uebernommen && r.rohfolge && juenger(z, uebernommeneRoh.get(k))) uebernommeneRoh.set(k, z)
   }
   return offene
 }
