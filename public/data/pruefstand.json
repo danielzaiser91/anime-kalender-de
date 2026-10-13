@@ -1,5 +1,5 @@
 {
- "erzeugtAm": "2026-10-13T16:05:18.317Z",
+ "erzeugtAm": "2026-10-13T16:27:19.066Z",
  "anbieter": [
   {
    "name": "Amazon",
@@ -909,7 +909,7 @@
      "titel": "Your Name. Gestern, heute und für immer (Your Name.)"
     },
     {
-     "url": "https://www.amazon.de/gp/video/detail/B0CJPKQQNL",
+     "url": "https://www.amazon.de/gp/video/detail/B0GRJ77R15",
      "titel": "Food Wars! The Second Plate"
     },
     {
@@ -1876,7 +1876,7 @@
     "0GZZW2CDSPJY95EL7FSWFDN6V2": 13,
     "B0GXK7RJFW": 39,
     "B0CH8YTK4T": 12,
-    "B0CJPKQQNL": 13,
+    "B0GRJ77R15": 13,
     "B0F5J5JTSL": 10,
     "B0CH9ZGF93": 13,
     "0O7N0W14A4OMCE7NS7M57PFOI1": 12,
@@ -1967,9 +1967,9 @@
   {
    "name": "Netflix",
    "plattform": "netflix",
-   "gemeldet": 412,
+   "gemeldet": 413,
    "gesamt": 689,
-   "offen": 277,
+   "offen": 276,
    "ohneSeite": 19,
    "ziel": "https://www.netflix.com/title/81388347",
    "ziele": [
@@ -2134,10 +2134,6 @@
     {
      "url": "https://www.netflix.com/title/81712068",
      "titel": "Die Tagebücher der Apothekerin"
-    },
-    {
-     "url": "https://www.netflix.com/title/82854665",
-     "titel": "Mobile Suit Gundam Hathaway: The Sorcery of Nymph Circe"
     },
     {
      "url": "https://www.netflix.com/title/81783938",
@@ -3312,7 +3308,7 @@
    "gemeldet": 66,
    "gesamt": 356,
    "offen": 290,
-   "ohneSeite": 22,
+   "ohneSeite": 23,
    "ziel": "https://www.disneyplus.com/browse/entity-33df4bde-d2eb-49f6-9f89-3ccbe65a55a3",
    "ziele": [
     {

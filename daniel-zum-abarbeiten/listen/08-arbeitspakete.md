@@ -1,6 +1,6 @@
 # Arbeitspakete: Wo läuft es wirklich auf Deutsch?
 
-Stand 2026-10-13 · **49 offene Verweise** in **36 Zeilen**,
+Stand 2026-10-13 · **50 offene Verweise** in **38 Zeilen**,
 aufgeteilt in **2 Pakete** zu je 20.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Derselbe Bestand wie in
@@ -53,26 +53,28 @@ der Zeile. Beispiel für ein ganzes Paket: `1-x 2-1 3-1.0 4-x`.
 | 16 | Prime Video | The Detective Is Already Dead | [Staffel 2]() |
 | 17 | Prime Video | Danganronpa | [Hauptserie]() |
 | 18 | Prime Video | Hände weg, Kotesashi-kun | [Hauptserie]() |
-| 19 | Disney+ | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
+| 19 | Disney+ | A Sign of Affection | [Hauptserie]() |
 | 20 | Disney+ | Campfire Cooking in Another World with My Absurd Skill | [Hauptserie](https://www.disneyplus.com/browse/entity-fc20b0bc-90b6-45b3-b56a-ad3a5cb2b855) |
 
-## Paket 2 — Zeilen 21 bis 36
+## Paket 2 — Zeilen 21 bis 38
 
 | # | Anbieter | Reihe | Noch zu bestätigen |
 |---|---|---|---|
-| 21 | Prime Video | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
-| 22 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
-| 23 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
-| 24 | Netflix | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
-| 25 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
-| 26 | ADN | Bleach | [The Movie - Memories of Nobody]() · [The Movie - The Diamond Dust Rebellion]() · [The Movie - Fade to Black]() · [The Movie - Hell Verse]() |
-| 27 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
-| 28 | Netflix | Mobile Suit Gundam | [Cucuruz Doan’s Island]() · [Hathaway: The Sorcery of Nymph Circe](https://www.netflix.com/title/82854665) |
+| 21 | Disney+ | Classroom of the Elite | [Hauptserie](https://www.disneyplus.com/browse/entity-99a9d6e4-9ca8-4cfd-ba86-1f7dd9ea19d3) |
+| 22 | Prime Video | Suicide Squad Isekai | [Hauptserie](https://watch.amazon.de/detail?gti=amzn1.dv.gti.1d496364-ffa3-40b8-b812-24cda00c0f60) |
+| 23 | Netflix | Mech Cadets | [Hauptserie](https://www.netflix.com/title/81004665) |
+| 24 | Netflix | Devil May Cry | [Hauptserie](https://www.netflix.com/title/81506915) |
+| 25 | Netflix | Scott Pilgrim hebt ab | [Hauptserie](https://www.netflix.com/title/81153115) |
+| 26 | Netflix | Pacific Rim: The Black | [Hauptserie](https://www.netflix.com/title/81002003) |
+| 27 | ADN | Bleach | [The Movie - Memories of Nobody]() · [The Movie - The Diamond Dust Rebellion]() · [The Movie - Fade to Black]() · [The Movie - Hell Verse]() |
+| 28 | Netflix | Oni: Die Geschichte der Donnergöttin | [Hauptserie](https://www.netflix.com/title/81028343) |
 | 29 | Disney+ | Demon Slayer: Kimetsu no Yaiba | [Infinity Castle]() |
 | 30 | Disney+ | Jujutsu Kaisen | [0]() |
 | 31 | Prime Video | As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World | [Staffel 3]() |
 | 32 | Prime Video | A Wild Last Boss Appeared! | [Staffel 2]() |
-| 33 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
-| 34 | Prime Video | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DCGS7Y4J) |
-| 35 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
-| 36 | Prime Video | Spycies: Zwei tierisch coole Agenten | [Hauptserie](https://www.amazon.de/gp/video/detail/B0FK2YJHJK) |
+| 33 | Prime Video | Kuroko’s Basketball: | [Kuroko’s Basketball Movie 3 – Winter Cup: Crossing the Door]() |
+| 34 | Netflix | Mobile Suit Gundam | [Cucuruz Doan’s Island]() |
+| 35 | Netflix | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.netflix.com/title/81783938) |
+| 36 | Prime Video | Der Herr der Ringe: Die Schlacht der Rohirrim | [Hauptserie](https://www.amazon.de/gp/video/detail/B0DCGS7Y4J) |
+| 37 | Disney+ | Dragon Ball | [Super: Broly](https://www.disneyplus.com/browse/entity-f50685d1-fd4d-4ba3-b575-efacb961fc89) |
+| 38 | Prime Video | Spycies: Zwei tierisch coole Agenten | [Hauptserie](https://www.amazon.de/gp/video/detail/B0FK2YJHJK) |
