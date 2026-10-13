@@ -19,6 +19,7 @@ import { GENRE_DE } from '../shared/mappings.ts'
 import { ROOT, log, readJson, warn } from './lib/util.ts'
 import { zeichneKarte } from './lib/og-karte.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
+import { mussNeuZeichnen, standardKarte, standardKennung } from './lib/og-standard.ts'
 
 const OUT_DIR = resolve(ROOT, 'public/og')
 const COVER_CACHE = resolve(ROOT, 'data/cache/covers')
@@ -81,6 +82,20 @@ function terminZeilen(release: Release, events: ReturnType<typeof expandEvents>,
   return zeilen
 }
 
+/** Standardbild neu zeichnen, wenn die abgelegte Kennung nicht mehr zu seinen Eingaben passt (`lib/og-standard.ts`). */
+async function standardBild(): Promise<void> {
+  const datei = resolve(OUT_DIR, 'default.jpg')
+  const kennungDatei = resolve(OUT_DIR, 'default.txt')
+  const { belegtCount } = readJson<{ belegtCount: number }>('public/data/meta.json', { belegtCount: 0 })
+  const karte = standardKarte(belegtCount)
+  const kennung = standardKennung(karte)
+  const abgelegt = existsSync(kennungDatei) ? readFileSync(kennungDatei, 'utf8') : undefined
+  if (NUR ? !NUR.has('default') : !mussNeuZeichnen(existsSync(datei), abgelegt, kennung, FORCE)) return
+  await zeichneKarte(karte, undefined, datei)
+  writeFileSync(kennungDatei, `${kennung}\n`)
+  log('Standard-Vorschaubild geschrieben')
+}
+
 // Titel aus Kern und `titles.json`: Der Kern kennt nur Titel, deren Release beim Schreiben schon feststand („Im Angebot seit" kommt später); Cartoons stehen nur im Kern.
 async function main(): Promise<void> {
   const releases = readJson<Release[]>('public/data/releases.json', [])
@@ -91,29 +106,7 @@ async function main(): Promise<void> {
   mkdirSync(OUT_DIR, { recursive: true })
 
   // --- Standardbild für Links ohne Release ---------------------------------
-  const defaultFile = resolve(OUT_DIR, 'default.jpg')
-  if (NUR ? NUR.has('default') : FORCE || !existsSync(defaultFile)) {
-    await zeichneKarte(
-      {
-        title: 'Anime-Kalender DE',
-        subtitle: 'Alles mit deutscher Synchro, Woche für Woche',
-        lines: [
-          { label: 'Anime', value: `${readJson<{ titleCount: number }>('public/data/meta.json', { titleCount: 0 }).titleCount.toLocaleString('de-DE')} mit Synchro` },
-          { label: 'Termine', value: 'Streaming, Disc, Kino' },
-          { label: 'Abo', value: 'Kalender und Newsletter' },
-        ],
-        badges: [
-          { text: 'Crunchyroll', color: PLATFORMS.crunchyroll.color },
-          { text: 'Netflix', color: PLATFORMS.netflix.color },
-          { text: 'Prime Video', color: PLATFORMS.primevideo.color },
-        ],
-        accent: '#ff5a36',
-      },
-      undefined,
-      defaultFile,
-    )
-    log('Standard-Vorschaubild geschrieben')
-  }
+  await standardBild()
 
   // --- Ein Bild je Release --------------------------------------------------
   let written = 0

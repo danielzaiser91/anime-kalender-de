@@ -7,7 +7,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { teilenPfad } from '../../shared/teilen.ts'
-import { OG_FASSUNG } from './og-fassung.ts'
+import { standardBildAdresse } from './og-standard.ts'
 import { ARTIKEL_STIL, SITE, esc } from './titel-seite.ts'
 import { LINK_STIL, START_KRUME, UEBERSCHRIFT_2, VERZEICHNIS_KRUME, brotkrumenHtml, brotkrumenJsonLd, type Krume } from './titel-umfeld.ts'
 import { buchstabenLabel, verzeichnisSchluessel } from './verzeichnis-buchstabe.ts'
@@ -28,6 +28,8 @@ export interface SeitenVorlage {
   before: string
   after: string
   rootTag: string
+  /** Kennung des Standard-Vorschaubilds (`og-standard.ts`), hängt als `?v=` an dessen Adresse. */
+  standardKennung: string
 }
 
 const VERZEICHNIS_STIL = '<style>.vz a{color:#7dd3fc}</style>'
@@ -62,8 +64,8 @@ function titelZeile(e: VerzeichnisTitel): string {
   return `<li><a href="${SITE}${teilenPfad(e.adresse)}">${esc(e.name)}</a>${vermerk}</li>`
 }
 
-function kopf(titel: string, beschreibung: string, url: string, krumen: Krume[]): string {
-  const bild = `${SITE}og/default.jpg?v=${OG_FASSUNG}`
+function kopf(titel: string, beschreibung: string, url: string, krumen: Krume[], standardKennung: string): string {
+  const bild = standardBildAdresse(SITE, standardKennung)
   return (
     `    <title>${esc(titel)}</title>\n` +
     `    <meta name="description" content="${esc(beschreibung)}" />\n` +
@@ -125,6 +127,7 @@ export function schreibeVerzeichnis(dist: string, v: SeitenVorlage, eintraege: V
       `Alle ${summe} Anime und Animationsserien im Kalender von A bis Z: Synchro-Stand, Anbieter und Termine je Titel.`,
       `${SITE}titel/`,
       [START_KRUME, VERZEICHNIS_KRUME],
+      v.standardKennung,
     ),
     uebersichtInhalt(buchstaben, unbelegt),
   )
@@ -132,7 +135,8 @@ export function schreibeVerzeichnis(dist: string, v: SeitenVorlage, eintraege: V
     const label = buchstabenLabel(schluessel)
     const krumen = [START_KRUME, VERZEICHNIS_KRUME, { name: label, url: `${SITE}titel/${schluessel}/` }]
     const beschreibung = `${liste.length} Anime mit ${label}, von „${liste[0]!.name}“ bis „${liste[liste.length - 1]!.name}“: Synchro-Stand, Anbieter und Termine.`
-    schreibeSeite(dist, v, `titel/${schluessel}`, kopf(`Anime mit ${label}: Synchro, Anbieter und Termine`, beschreibung, `${SITE}titel/${schluessel}/`, krumen), buchstabenInhalt(schluessel, liste, buchstaben))
+    const kopfHtml = kopf(`Anime mit ${label}: Synchro, Anbieter und Termine`, beschreibung, `${SITE}titel/${schluessel}/`, krumen, v.standardKennung)
+    schreibeSeite(dist, v, `titel/${schluessel}`, kopfHtml, buchstabenInhalt(schluessel, liste, buchstaben))
   }
   return buchstaben
 }

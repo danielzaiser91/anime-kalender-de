@@ -65,7 +65,7 @@ const titel = (id: number, dubConfidence: Title['dubConfidence'], keywords: stri
   const aufbau = (mitVerzeichnis: boolean): Map<string, number> => {
     const dist = mkdtempSync(join(tmpdir(), 'seiten-seo-'))
     try {
-      const vorlage = { before: '<html><head>', after: '</head><body><div id="root"></div></body></html>', rootTag: '<div id="root"></div>' }
+      const vorlage = { before: '<html><head>', after: '</head><body><div id="root"></div></body></html>', rootTag: '<div id="root"></div>', standardKennung: 'abcd1234' }
       const buchstaben = mitVerzeichnis ? schreibeVerzeichnis(dist, vorlage, titelListe) : []
       writeFileSync(join(dist, 'index.html'), startseiteInhalt('', 0, buchstaben))
       for (const e of titelListe) {

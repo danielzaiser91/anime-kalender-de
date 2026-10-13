@@ -34,6 +34,7 @@ import { titelAenderung } from './lib/sitemap-datum.ts'
 import { cartoonMitSynchroBeleg, teilenPfad } from '../shared/teilen.ts'
 import { synchroBelegt } from '../shared/titles.ts'
 import { OG_FASSUNG } from './lib/og-fassung.ts'
+import { standardKennungFuer } from './lib/og-standard.ts'
 import { seitenQuelle, type SynopsenFuerSeiten } from './lib/handlung-eigen.ts'
 import { ladeAkVon, umleitungen, type AkVon, type KennungsZeile } from './lib/ausgabe-kennung.ts'
 
@@ -369,6 +370,12 @@ ${umfeld.krumenJsonLd}
     </script>`
 }
 
+/** Kennung des Standard-Vorschaubilds zum gebauten Bestand — dieselbe Rechnung wie `build-og.ts`, damit Bild und `?v=` zusammenpassen. */
+function ladeStandardKennung(): string {
+  const { belegtCount } = readJson<{ belegtCount: number }>('public/data/meta.json', { belegtCount: 0 })
+  return standardKennungFuer(belegtCount)
+}
+
 function main(): void {
   const template = readFileSync(resolve(DIST, 'index.html'), 'utf8')
   const start = template.indexOf('<!-- social:start')
@@ -380,6 +387,7 @@ function main(): void {
   const before = template.slice(0, start)
   const after = template.slice(end + '<!-- social:end -->'.length)
 
+  const standardKennung = ladeStandardKennung()
   const releases = readJson<Release[]>('public/data/releases.json', [])
   const titles = readJson<Title[]>('public/data/titles-core.json', [])
   const titleById = new Map(titles.map((t) => [t.id, t]))
@@ -438,8 +446,8 @@ function main(): void {
   const volleTitel = new Map(ladeAlleTitel().map((t) => [t.id, t]))
   schreibeUebersicht(releases, titleById, belegteTermine(releases, volleTitel), today, before, after, ROOT_TAG, adresseVon)
   /* Zuerst die Titelseiten samt Verzeichnis: Die Startseite verlinkt dessen Buchstaben. */
-  const buchstaben = schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel })
-  schreibeStartseite(releases, titleById, today, template, ROOT_TAG, adresseVon, buchstaben)
+  const buchstaben = schreibeAlleTitelSeiten(akVon, kennungsZeilen, { before, after, rootTag: ROOT_TAG, today, synopses, jeTitel, standardKennung })
+  schreibeStartseite(releases, titleById, today, template, ROOT_TAG, adresseVon, buchstaben, standardKennung)
 }
 
 /** Was jede Titel-Seite gemeinsam hat: die Vorlage um die Marker, der Tag des Baus, Texte und Termine je Titel. */
@@ -450,6 +458,7 @@ interface SeitenRahmen {
   today: string
   synopses: SynopsenFuerSeiten
   jeTitel: Map<number, Release[]>
+  standardKennung: string
 }
 
 /** Der volle Bestand (`titles.json`); `titles-core.json` kennt nicht jeden Titel, den ein Termin nennt. */
@@ -495,7 +504,7 @@ function schreibeTitelSeiten(mitAk: { t: Title; ak: number; adresse: string }[],
     const text = r.synopses[String(t.id)]?.de ?? (t.westlich ? t.synopsis : undefined)
     const synopsis = text ? { text, quelle: seitenQuelle(r.synopses[String(t.id)]) } : undefined
     const umfeld = umfeldFuer(t, `${SITE}${teilenPfad(adresse)}`, umfeldRahmen)
-    const kopf = haupt ? head(haupt, t, r.today, ak, adresse, umfeld) : titelKopf({ ...t, id: ak, slug: adresse }, umfeld)
+    const kopf = haupt ? head(haupt, t, r.today, ak, adresse, umfeld) : titelKopf({ ...t, id: ak, slug: adresse }, umfeld, r.standardKennung)
     const inhalt = haupt
       ? body(haupt, t, synopsis, r.today, eigene.filter((g) => g.slug !== haupt.slug), ak, umfeld)
       : titelInhalt({ ...t, id: ak, slug: adresse }, synopsis, eigene, umfeld)
@@ -644,6 +653,7 @@ function schreibeStartseite(
   rootTag: string,
   adresseVon: (titleId: number) => string,
   buchstaben: Buchstabe[],
+  standardKennung: string,
 ): void {
   const naechste = [...releases]
     .filter((r) => r.schedule.firstEpisodeDate >= today)
@@ -683,7 +693,7 @@ function schreibeStartseite(
     resolve(DIST, 'index.html'),
     template
       .replace(rootTag, `<div id="root">${inhalt}</div>`)
-      .replaceAll('og/default.jpg"', `og/default.jpg?v=${OG_FASSUNG}"`)
+      .replaceAll('og/default.jpg"', `og/default.jpg?v=${standardKennung}"`)
       .replace(
         '</head>',
         `    <script type="application/ld+json">${JSON.stringify(startDaten)}</script>\n  </head>`,
