@@ -7,6 +7,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { cartoonMitSynchroBeleg, teilbarerSlug, teilenPfad } from '../shared/teilen.ts'
 import type { Title } from '../shared/types.ts'
+import { synchroBelegt } from '../shared/titles.ts'
 import { todayIso } from '../shared/time.ts'
 import { ROOT } from './lib/util.ts'
 import { erreichbar } from './lib/seiten-erreichbar.ts'
@@ -46,6 +47,16 @@ function mangel(slug: string): string | undefined {
   if (!html.includes('"@type":"BreadcrumbList"')) fehlend.push('BreadcrumbList')
   if (!html.includes(`<nav aria-label="Brotkrumen"`) || !html.includes(`<a href="${SITE}"`)) fehlend.push('Brotkrumen mit Link zur Startseite')
   return fehlend.length ? `${teilenPfad(slug)} ohne ${fehlend.join(', ')}` : undefined
+}
+
+/** Eine Seite ohne belegte Synchro sagt weder „mit deutscher Synchronisation“ noch `inLanguage: de` (nichts behaupten, was nicht belegt ist). */
+function synchroZusageMangel(slug: string): string | undefined {
+  const html = readFileSync(resolve(DIST, teilenPfad(slug), 'index.html'), 'utf8')
+  const zusagen = [
+    html.includes('Alle Termine mit deutscher Synchronisation') ? 'Überschrift „mit deutscher Synchronisation“' : '',
+    html.includes('"inLanguage":"de"') ? 'inLanguage de' : '',
+  ].filter(Boolean)
+  return zusagen.length ? `${teilenPfad(slug)}: Synchro nicht belegt, aber ${zusagen.join(' und ')}` : undefined
 }
 
 /** Die Sitemap nennt Cartoon-Seiten genau dann, wenn ihre deutsche Synchro belegt ist (`dub: true`), nicht schon „laut JustWatch“. */
@@ -93,14 +104,24 @@ function erreichbarkeitsMaengel(): string[] {
   return mangel.map((u) => `Von der Startseite nicht erreichbar (Verzeichnis fehlt?): ${u}`)
 }
 
+/** Die Sammelseite führt auch Termine ohne belegte Synchro und verspricht deshalb nie „mit deutscher Synchro“. */
+function uebersichtMaengel(): string[] {
+  const html = readFileSync(resolve(DIST, 'termine', 'index.html'), 'utf8')
+  return /mit deutscher Synchro/i.test(html) ? ['/termine/ verspricht „mit deutscher Synchro“, führt aber Termine ohne belegte Synchro'] : []
+}
+
 function main(): void {
-  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel()]
+  const fehler: string[] = [...startseitenMaengel(), ...erreichbarkeitsMaengel(), ...lastmodMaengel(), ...uebersichtMaengel()]
   for (const [art, titel] of quellen()) {
     const teilbar = new Map(titel.map((t) => [t.id, teilbarerSlug(t)]))
     const mitSlug = [...teilbar.values()].filter((s): s is string => s !== undefined)
     const schlecht = mitSlug.map(mangel).filter((m): m is string => m !== undefined)
     console.log(`[teilseiten] ${art}: ${teilbar.size} Titel, ${mitSlug.length} mit Knopf, ${schlecht.length} ohne gültige Seite`)
     fehler.push(...schlecht)
+    const unbelegt = titel.filter((t) => !synchroBelegt(t)).map((t) => teilbar.get(t.id)).filter((s): s is string => s !== undefined && existsSync(resolve(DIST, teilenPfad(s), 'index.html')))
+    const zusagen = unbelegt.map(synchroZusageMangel).filter((m): m is string => m !== undefined)
+    console.log(`[teilseiten] ${art}: ${unbelegt.length} Seiten ohne belegte Synchro, ${zusagen.length} mit Synchro-Zusage`)
+    fehler.push(...zusagen)
   }
   fehler.push(...sitemapMaengel())
   if (fehler.length) {

@@ -48,6 +48,16 @@ export function synchroSatz(t: Title | undefined): string | null {
   return t && synchroBelegt(t) ? 'Mit deutscher Synchronisation.' : 'Deutsche Synchro angekündigt oder wahrscheinlich, noch nicht belegt.'
 }
 
+/** Überschrift über den Terminen: „mit deutscher Synchronisation“ nur, wo die Synchro belegt ist. */
+export function termineUeberschrift(t: Title | undefined): string {
+  return t && synchroBelegt(t) ? 'Alle Termine mit deutscher Synchronisation' : 'Alle Termine'
+}
+
+/** Schema.org-Sprache des Werks: `de` nur bei belegter deutscher Synchro, sonst kein Feld (Sprache der Seite sagt `<html lang>`). */
+export function sprachFeld(t: Title | undefined): { inLanguage?: 'de' } {
+  return t && synchroBelegt(t) ? { inLanguage: 'de' } : {}
+}
+
 function aufzaehlung(teile: string[]): string {
   return teile.length < 2 ? (teile[0] ?? '') : `${teile.slice(0, -1).join(', ')} und ${teile[teile.length - 1]}`
 }
@@ -72,7 +82,7 @@ function titelBeschreibung(t: Title): string {
 
 /** Auch Titel ohne Termin tragen Schema.org-Daten, mit allen Schreibweisen als `alternateName`. */
 function titelDaten(t: Title, name: string, url: string, description: string, bild: string | undefined): Record<string, unknown> {
-  const daten: Record<string, unknown> = { '@context': 'https://schema.org', '@type': t.format === 'MOVIE' ? 'Movie' : 'TVSeries', name, url, inLanguage: 'de', description }
+  const daten: Record<string, unknown> = { '@context': 'https://schema.org', '@type': t.format === 'MOVIE' ? 'Movie' : 'TVSeries', name, url, ...sprachFeld(t), description }
   const andere = andereNamen(t, name)
   if (andere.length) daten.alternateName = andere
   if (t.genres?.length) daten.genre = t.genres.slice(0, 5).map((g) => GENRE_DE[g] ?? g)

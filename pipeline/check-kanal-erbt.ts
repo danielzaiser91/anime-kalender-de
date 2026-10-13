@@ -3,7 +3,8 @@
  * Crunchyroll Ja, Prime (Crunchyroll) „Sprache offen“). Läuft in `check:logic`. Erfundene Titel, kein Netz.
  */
 import { readFileSync } from 'node:fs'
-import type { StreamLink, Title } from '../shared/types.ts'
+import type { NewsMeldung, Release, StreamLink, Title } from '../shared/types.ts'
+import { addDays, todayIso } from '../shared/time.ts'
 import { kanalErbtVomAnbieter } from './bau/kanal-erbt-anbieter.ts'
 import { baueNews, type NewsHistorie } from './lib/news.ts'
 
@@ -77,6 +78,32 @@ kanalErbtVomAnbieter([{ id: 1, streams: geerbt } as unknown as Title])
 pruefe('Geerbtes Ja: Prime ist kein weiterer Anbieter', weitereAnbieter(geerbt).length === 0, weitereAnbieter(geerbt))
 pruefe('Gegenprobe: ein eigenes Ja des Kanals (nicht geerbt) bleibt ein weiterer Anbieter', weitereAnbieter([cr({ dub: true }), kanal({ dub: true })]).join() === 'primevideo')
 pruefe('Gegenprobe: ein anderer Anbieter bleibt ein weiterer Anbieter', weitereAnbieter([cr({ dub: true }), adn({ dub: true })]).join() === 'adn')
+
+/* Auch „angekündigt“ (Kennzeichen „weiterer“) und „neu auf Deutsch“ (Anbieter, Quelle) lesen ein geerbtes Ja nicht als eigenes (13.10.2026). */
+function meldungen(streams: StreamLink[], releases: Release[], neu: { id: number; seit: string }[]): NewsMeldung[] {
+  const titel = [{ id: 1, franchiseId: 1, slug: 't-1', titleEn: 'T1', keywords: [], genres: [], streams }] as unknown as Title[]
+  return baueNews(titel, releases, neu, [], { zuerst: {} }).flatMap((e) => e.meldungen)
+}
+const crTermin = {
+  titleId: 1,
+  slug: 'r-1',
+  platform: 'crunchyroll',
+  releaseType: 'series',
+  schedule: { firstEpisodeDate: addDays(todayIso(), 1) },
+  sources: [cr().url],
+} as unknown as Release
+const angekuendigt = (streams: StreamLink[]): NewsMeldung[] => meldungen(streams, [crTermin], []).filter((m) => m.art === 'angekuendigt')
+const mitGeerbt = (streams: StreamLink[]): StreamLink[] => {
+  kanalErbtVomAnbieter([{ id: 1, streams } as unknown as Title])
+  return streams
+}
+const angeGeerbt = angekuendigt(mitGeerbt([cr({ dub: true }), kanal()]))
+pruefe('Angekündigt bei Crunchyroll: ein geerbtes Prime-Ja macht keinen „weiteren“ Anbieter', angeGeerbt.length === 1 && angeGeerbt.every((m) => !m.weiterer), angeGeerbt)
+pruefe('Gegenprobe: ein eigenes Prime-Ja bleibt ein „weiterer“ Anbieter', angekuendigt([cr({ dub: true }), kanal({ dub: true })]).some((m) => m.weiterer === true))
+const neuBei = (streams: StreamLink[]): NewsMeldung[] => meldungen(streams, [], [{ id: 1, seit: todayIso() }]).filter((m) => m.art === 'neu')
+const neuGeerbt = neuBei(mitGeerbt([kanal(), cr({ dub: true })]))
+pruefe('Neu auf Deutsch: Anbieter und Quelle sind der Anbieter-Weg, nicht der davor stehende geerbte Prime-Weg', neuGeerbt.length === 1 && neuGeerbt[0]!.platform === 'crunchyroll' && neuGeerbt[0]!.quelle === cr().url, neuGeerbt)
+pruefe('Gegenprobe: ein eigenes Prime-Ja davor bleibt der Anbieter', neuBei([kanal({ dub: true }), cr({ dub: true })])[0]?.platform === 'primevideo')
 
 /* Der Bau ruft es auf, vor der Auslieferung (sonst bliebe die Regel Papier). */
 const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')

@@ -87,6 +87,12 @@ if (unsortiert) {
   process.exit(1)
 }
 
+const doppelt = dateien.find((d, i) => dateien.indexOf(d) !== i)
+if (doppelt) {
+  console.error(`${name}: ${doppelt} steht mehrfach in ${listeArg}: eine Zeile streichen.`)
+  process.exit(1)
+}
+
 const alle = process.argv.includes('--alle')
 const rote = []
 
