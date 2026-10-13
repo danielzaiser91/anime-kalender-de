@@ -22,3 +22,9 @@ export function anbieterWegMitJa(s: StreamLink, streams: StreamLink[]): StreamLi
   const plattform = s.platform === 'primevideo' ? anbieterDesKanals(s.kanal) : undefined
   return plattform ? streams.find((q) => q.platform === plattform && q.dub === true && !q.entferntAm) : undefined
 }
+
+/**
+ * Die Wege, deren Ja der Bau vom Anbieter übernommen hat (`kanalErbtVomAnbieter`). Nur im Prozess des Baus, nie in den Dateien: Die Nachrichten
+ * kennen so ein geerbtes Ja und melden es nicht als weiteren Anbieter (der Titel läuft dort seit Langem), ohne dass ein Feld in `titles.json` steht.
+ */
+export const geerbteWege = new WeakSet<StreamLink>()

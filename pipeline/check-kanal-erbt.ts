@@ -5,6 +5,7 @@
 import { readFileSync } from 'node:fs'
 import type { StreamLink, Title } from '../shared/types.ts'
 import { kanalErbtVomAnbieter } from './bau/kanal-erbt-anbieter.ts'
+import { baueNews, type NewsHistorie } from './lib/news.ts'
 
 let fehler = 0
 function pruefe(name: string, ok: boolean, ist?: unknown): void {
@@ -62,6 +63,20 @@ pruefe('Eigene Bereiche ohne Urteil: Ja kommt, die Bereiche des Kanals bleiben',
 const zweimal = [cr({ dub: true, dubRanges: bereiche }), kanal()]
 kanalErbtVomAnbieter([{ id: 1, streams: zweimal } as unknown as Title])
 pruefe('Zweiter Lauf erbt nichts mehr', kanalErbtVomAnbieter([{ id: 1, streams: zweimal } as unknown as Title]) === 0)
+
+/* Ein geerbtes Ja ist keine Meldung „jetzt auch bei Prime Video“ (13.10.2026: Reborn, Frieren u. a. wären zu ihrem Tag falsch gemeldet worden). */
+function weitereAnbieter(streams: StreamLink[]): string[] {
+  const historie: NewsHistorie = { zuerst: {} }
+  const titelMit = (s: StreamLink[]): Title[] =>
+    [{ id: 1, franchiseId: 1, slug: 't-1', titleEn: 'T1', keywords: [], genres: [], streams: s }] as unknown as Title[]
+  baueNews(titelMit([cr({ dub: true })]), [], [], [], historie)
+  return baueNews(titelMit(streams), [], [], [], historie).flatMap((e) => e.meldungen.filter((m) => m.art === 'neu').map((m) => `${m.platform}`))
+}
+const geerbt = [cr({ dub: true }), kanal()]
+kanalErbtVomAnbieter([{ id: 1, streams: geerbt } as unknown as Title])
+pruefe('Geerbtes Ja: Prime ist kein weiterer Anbieter', weitereAnbieter(geerbt).length === 0, weitereAnbieter(geerbt))
+pruefe('Gegenprobe: ein eigenes Ja des Kanals (nicht geerbt) bleibt ein weiterer Anbieter', weitereAnbieter([cr({ dub: true }), kanal({ dub: true })]).join() === 'primevideo')
+pruefe('Gegenprobe: ein anderer Anbieter bleibt ein weiterer Anbieter', weitereAnbieter([cr({ dub: true }), adn({ dub: true })]).join() === 'adn')
 
 /* Der Bau ruft es auf, vor der Auslieferung (sonst bliebe die Regel Papier). */
 const schreiben = readFileSync(new URL('./bau/13-schreiben.ts', import.meta.url), 'utf8')

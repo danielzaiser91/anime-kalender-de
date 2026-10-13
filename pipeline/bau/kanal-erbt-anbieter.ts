@@ -1,5 +1,5 @@
 import type { StreamLink, Title } from '../../shared/types.ts'
-import { anbieterWegMitJa } from '../../shared/kanal-anbieter.ts'
+import { anbieterWegMitJa, geerbteWege } from '../../shared/kanal-anbieter.ts'
 
 /** Ein Weg, den der Anbieter noch führt (`entferntAm` markiert einen Weg, der nur noch als Vermerk steht). */
 const geschaltet = (s: StreamLink): boolean => !s.entferntAm
@@ -18,6 +18,7 @@ export function kanalErbtVomAnbieter(titles: Iterable<Title>): number {
       const quelle = anbieterWegMitJa(s, t.streams)
       if (!quelle) continue
       s.dub = true
+      geerbteWege.add(s)
       if (!s.dubRanges?.length && quelle.dubRanges?.length) s.dubRanges = quelle.dubRanges.map((r) => ({ ...r }))
       geerbt++
     }
