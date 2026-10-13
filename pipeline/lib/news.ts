@@ -170,7 +170,7 @@ function terminMeldungen(
         datum,
         release: r.slug,
         ...(art === 'disc' && ausgabeKurz(r.edition) ? { ausgabe: ausgabeKurz(r.edition) } : {}),
-        quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => s.dub === true && s.platform !== r.platform)) ? { weiterer: true } : {}),
+        quelle, belege: belegeVonRelease(r), ...(r.schedule?.estimated ? { geschaetzt: true } : {}), ...(art === 'angekuendigt' && (t.deErstausgabe?.synchro || t.streams.some((s) => eigenesJa(s) && s.platform !== r.platform)) ? { weiterer: true } : {}),
         /* Eine angekündigte Staffel trägt ihre Einordnung im Satz (Simuldub-Vermutung; Sprache laut Meldung offen, `meldungen.ts`). */
         ...(art === 'angekuendigt' && (r.schedule?.estimated || r.automatisch || r.sprache) && r.note ? { hinweis: r.note } : {}), ...(art === 'angekuendigt' && r.platform !== 'tv' ? neuJahre(t, datum) : {}),
       })
@@ -319,7 +319,7 @@ export function baueNews(
   for (const n of neuMitSynchro) {
     const t = nachId.get(n.id)
     if (!t) continue
-    const anbieter = t.streams.find((s) => s.dub === true)?.platform
+    const anbieter = t.streams.find(eigenesJa)?.platform
     const erreichtRelease = releases
       .filter((r) => r.titleId === t.id && !r.widerlegt && !r.sprache && r.schedule?.firstEpisodeDate && r.schedule.firstEpisodeDate <= heute)
       .sort((a, b) => a.schedule!.firstEpisodeDate!.localeCompare(b.schedule!.firstEpisodeDate!))[0]
@@ -331,7 +331,7 @@ export function baueNews(
       art: 'neu',
       ...kopf(t),
       platform: anbieter ?? (erreichtRelease && !['kino', 'tv'].includes(erreichtRelease.platform) ? erreichtRelease.platform : undefined),
-      quelle: t.streams.find((s) => s.dub === true && s.platform === anbieter)?.url ?? (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
+      quelle: t.streams.find((s) => eigenesJa(s) && s.platform === anbieter)?.url ?? (erreichtRelease ? quelleVonRelease(erreichtRelease) : undefined),
       belege: (erreichtRelease && belegeVonRelease(erreichtRelease)) || undefined, hinweis: neuZeile(t, erreichtRelease, heute), ...neuJahre(t, erreicht ?? n.seit),
     })
   }
