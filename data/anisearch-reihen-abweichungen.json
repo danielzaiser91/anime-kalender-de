@@ -12,37 +12,37 @@
   "gesamt": {
     "titel": 16247,
     "gleich": 14007,
-    "fehlen": 870,
-    "zusaetzlich": 1351,
-    "gemischt": 19
+    "fehlen": 846,
+    "zusaetzlich": 1352,
+    "gemischt": 42
   },
   "hauptbestand": {
     "titel": 2874,
     "gleich": 2313,
-    "fehlen": 325,
+    "fehlen": 324,
     "zusaetzlich": 232,
-    "gemischt": 4
+    "gemischt": 5
   },
   "haelfteA": {
-    "titel": 7405,
+    "titel": 7404,
     "gleich": 6324,
-    "fehlen": 296,
+    "fehlen": 272,
     "zusaetzlich": 772,
-    "gemischt": 13
+    "gemischt": 36
   },
   "haelfteB": {
-    "titel": 8842,
+    "titel": 8843,
     "gleich": 7683,
     "fehlen": 574,
-    "zusaetzlich": 579,
+    "zusaetzlich": 580,
     "gemischt": 6
   },
   "cluster": {
     "einzel": 5727,
     "gleich": 2458,
-    "zerlegt": 92,
+    "zerlegt": 91,
     "verschmilzt": 106,
-    "gemischt": 5
+    "gemischt": 6
   },
   "beispiele": {
     "zerlegt": [
@@ -71,13 +71,6 @@
         "id": 20,
         "name": "NARUTO",
         "titel": 29,
-        "referenz": 1,
-        "anisearch": 2
-      },
-      {
-        "id": 194,
-        "name": "Macross Zero",
-        "titel": 25,
         "referenz": 1,
         "anisearch": 2
       },
@@ -185,6 +178,13 @@
         "titel": 11,
         "referenz": 1,
         "anisearch": 5
+      },
+      {
+        "id": 30,
+        "name": "Shin Seiki Evangelion",
+        "titel": 10,
+        "referenz": 1,
+        "anisearch": 2
       }
     ],
     "verschmilzt": [
@@ -330,6 +330,13 @@
       }
     ],
     "gemischt": [
+      {
+        "id": 194,
+        "name": "Macross Zero",
+        "titel": 25,
+        "referenz": 2,
+        "anisearch": 2
+      },
       {
         "id": 4737,
         "name": "Himitsu Kessha Taka no Tsume",

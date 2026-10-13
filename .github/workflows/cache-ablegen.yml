@@ -1,0 +1,35 @@
+# Legt den neuesten `data/cache/` der Läufe als Artefakt `data-cache` ab, damit Bauer lokal mit
+# aktuellem Stand bauen können (`node tools/cache-holen.mjs`, docs/wissen/betrieb.md, „Lokaler Bau“).
+#
+# Nur auf Abruf, ohne Zeitplan: Das Werkzeug stößt den Lauf selbst an, wenn kein Artefakt jünger
+# als 24 h existiert. Der Lauf liest den Actions-Cache nur (kein Speichern), schreibt nichts ins
+# Repo und braucht kein Secret. Ein Artefakt (~110 MB), `overwrite` ersetzt das vorige.
+name: Cache ablegen (für lokale Bauten)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cache-ablegen
+
+jobs:
+  ablegen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/cache
+          key: anilist-cache-${{ github.run_id }}
+          restore-keys: anilist-cache-
+          fail-on-cache-miss: true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: data-cache
+          path: data/cache
+          retention-days: 1
+          overwrite: true

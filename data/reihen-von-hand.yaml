@@ -83,6 +83,11 @@
 - ids: [1088, 1089, 1262, 4454, 4939, 5164, 5165, 10361, 97952, 122675, 122678]
   grund: 'Macross: Film Ai Oboete Imasu ka (mit Macross II) und die Kurzstücke gehören zur Macross-Reihe; aniSearch bindet sie nicht an'
 
+# Southern Cross (aniSearch 3012, MAL 4503; die Robotech-Vorlage neben Macross und Mospeada) hängt bei aniSearch nur über „Anderes" an Macross (1452), Megazone 23 und Mospeada.
+# Nur bei Macross greift die Namensbedingung, und das nur über „Choujikuu" (japanisch „Superdimension"): „Choujikuu Kidan Southern Cross" gegen „Choujikuu Yousai Macross". Eigene Handlung, eigene Serie.
+- getrennt: [1088, 4503]
+  grund: 'Southern Cross ist eine eigene Serie; die Verbindung zu Macross ist nur das Wort „Choujikuu" im Titel (aniSearch: „Anderes")'
+
 # Detektiv Conan: OVA-Gruppen „Nazo no Suisei Kaijuu o Oe!“ und „Joumon Taiken Yatte Miyou!“ hängen bei aniSearch nur untereinander über „Anderes“; Recap, Kid-Special, Neujahrs-Special und die McDonald’s-Aktion tragen Conan im Titel.
 - ids: [235, 7305, 9785, 139179, 177046, 10009964, 10013368, 10013369, 10013370, 10013657, 10013663]
   grund: 'Detektiv-Conan-Specials und OVAs gehören zur Conan-Reihe; aniSearch bindet sie nicht an'
