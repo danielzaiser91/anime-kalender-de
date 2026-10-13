@@ -30,7 +30,30 @@ function vergleicheListen(a, b, pfad, kennung, aus) {
     for (const e of b) if (!alt.has(e.id)) merke(aus, `${pfad}[] (hinzugekommen)`, `Kennung ${e.id}`)
     return
   }
-  for (let i = 0; i < Math.max(a.length, b.length); i++) vergleiche(a[i], b[i], `${pfad}[]`, kennung ?? i, aus)
+  const [restA, restB] = ohneGleiche(a, b)
+  for (let i = 0; i < Math.max(restA.length, restB.length); i++) vergleiche(restA[i], restB[i], `${pfad}[]`, kennung ?? i, aus)
+}
+
+/**
+ * Ohne Kennung: Elemente, die auf beiden Seiten gleich oft vorkommen, fallen heraus. Ein eingefügter Eintrag verschöbe sonst
+ * alle folgenden und meldete jedes Feld als geändert (`patchnotes.json`, 13.10.2026).
+ */
+function ohneGleiche(a, b) {
+  const zaehle = (liste) => {
+    const anzahl = new Map()
+    for (const e of liste) anzahl.set(JSON.stringify(e), (anzahl.get(JSON.stringify(e)) ?? 0) + 1)
+    return anzahl
+  }
+  const behalte = (liste, andere) => {
+    const frei = zaehle(andere)
+    return liste.filter((e) => {
+      const s = JSON.stringify(e)
+      if (!(frei.get(s) > 0)) return true
+      frei.set(s, frei.get(s) - 1)
+      return false
+    })
+  }
+  return [behalte(a, b), behalte(b, a)]
 }
 
 function vergleiche(a, b, pfad, kennung, aus) {

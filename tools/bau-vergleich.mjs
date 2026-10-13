@@ -25,7 +25,8 @@
  * brechen ihn dann nicht ab, sondern stehen als Warnung im Protokoll, das mitverglichen wird. Der
  * Ersatz-Cache ist nicht der echte, und eine Invariante, die dort reißt, hätte sonst jede Basis
  * verhindert (12.10.2026: Bookworm-Dublette, Prime-Häkchen ohne Beleg). Bei verschiedenen JSON-Dateien
- * nennt die Ausgabe die betroffenen Felder (`vergleich-unterschied.mjs`), z. B. `streams[].dubQuelle`.
+ * nennt die Ausgabe die betroffenen Felder (`vergleich-unterschied.mjs`), z. B. `streams[].dubQuelle`. Schreibt nur eine Seite eine
+ * Datei, gilt für die andere der Stand der Basis (`bau-vergleich-stand.mjs`), der Feldvergleich läuft also trotzdem.
  *
  * Aufruf:
  *   node tools/bau-vergleich.mjs [--katalog[=Pfad]] [basis] [kandidat]    Vorgabe: origin/main gegen HEAD
@@ -44,14 +45,14 @@ import { copyFileSync, cpSync, existsSync, mkdirSync, readdirSync, readFileSync,
 import { tmpdir } from 'node:os'
 import { dirname, join, relative, resolve } from 'node:path'
 import { ablageName, einstellungsZeilen, hauptordnerAus, liesOptionen } from './bau-vergleich-ablage.mjs'
-import { gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
+import { eigeneAenderungen, gleichTrotzDatenHinweis, setzeDatenstand } from './bau-vergleich-daten.mjs'
 import { logge } from './bau-vergleich-log.mjs'
+import { beschreibeDatei } from './bau-vergleich-stand.mjs'
 import { basisRotMeldung } from './bau-vergleich-protokoll.mjs'
 import { raeumeVerwaisteBaeume } from './bau-vergleich-reste.mjs'
 import { abstandsWarnung, fremdeUnterschiede, messeAbstand, vonBasisGeaendert } from './bau-vergleich-abstand.mjs'
 import { EXIT, exitFuerFehler } from './bau-vergleich-urteil.mjs'
 import { FRIST_MS, wartAufSperre } from './einzel-sperre-schlange.mjs'
-import { beschreibeUnterschied } from './vergleich-unterschied.mjs'
 
 const WURZEL = resolve(import.meta.dirname, '..')
 const ABLAGE = join(tmpdir(), 'bau-vergleich')
@@ -236,11 +237,11 @@ if (!verschieden.length) {
   for (const zeile of warnung) console.log(zeile)
   process.exit(EXIT.GLEICH)
 }
+const standKontext = { git, basis, glatt, eigene: new Set(eigeneAenderungen(git, basis, kandidat).map((e) => e.pfad)) }
 for (const f of verschieden) {
   console.log(f)
   if (!TEXTDATEI.test(f)) continue
-  const lies = (ordner) => (existsSync(join(ordner, f)) ? readFileSync(join(ordner, f), 'utf8') : '')
-  for (const zeile of beschreibeUnterschied(f, lies(a), lies(b))) console.log(zeile)
+  for (const zeile of beschreibeDatei(standKontext, a, b, f)) console.log(zeile)
 }
 if (warnung.length) {
   console.log(fremdeUnterschiede(verschieden, vonBasisGeaendert(git, abstand, basis)) ?? 'Keine der verschiedenen Dateien hat die Basis seit der Merge-Basis geändert.')
