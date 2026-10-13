@@ -325,12 +325,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: bash tools/bau-issues-schliessen.sh "$GITHUB_RUN_ID" "$BAU_BEGINN"
 
-      - name: Ergebnis nach Discord melden
-        if: failure()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: bash tools/discord-melden.sh "Bestand zusammenführen und bauen" "${{ job.status }}"
-
       - name: Lauf abmelden
         continue-on-error: true
         if: always()

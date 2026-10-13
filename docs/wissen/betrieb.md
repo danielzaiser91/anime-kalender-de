@@ -607,8 +607,10 @@ dann lesbar, wenn gerade kein Lauf sichtbar ist:
   zuletzt ausgelieferten Datensatzes. Dieselben Zahlen stehen im Seitenfuß.
 
 Eine Meldung an mich, wenn ein Lauf **erfolgreich** durch ist, gibt es nicht — GitHub meldet nur
-Fehler. Wer sie will, legt einen Discord-Webhook an; eingehängt ist er in zwei Zeilen. Bis dahin
-gilt: nachsehen statt annehmen.
+Fehler; rote Läufe findet `tools/laeufe-aufraeumen.mjs`. **Discord bekommt keine Laufmeldungen**
+(Daniel, 13.10.2026: der News-Kanal lief mit „Bestand … fehlgeschlagen“ voll). In `#news` steht nur
+eine Ankündigung, wenn ein großes neues Feature live ist — keine Kleinigkeiten, keine Bugfixes;
+gepostet von Hand über `tools/discord-news.sh` (Kanal-ID 1559515427330068592, am 13.10.2026 neu geklont; Webhook-URL in `my_secrets.md`).
 
 ### Der stündliche Lauf läuft fünfmal am Tag, nicht vierundzwanzigmal
 
@@ -1157,7 +1159,7 @@ Abhängigkeiten** (ein Schritt liest eine Datei, die ein späterer derselben Woc
 
 **Die sieben Jobs:** `anilist` (Rohdaten, Katalog, Sprecher AniList + ANN; als Einziger legt er `data/cache` ab) → `adn` (teilt AniList-Suchen); `crunchyroll` (Kalender, Zugangspaket, Tonspuren);
 `anisearch` (Sperre `anisearch`, ~60 min = bestimmt die Dauer); `tmdb` (TMDB → JustWatch → Gegenprobe → CR-offene, wegen der gemeinsamen Datei `justwatch-handpruefung.json`); `rtl` (Katalog → Folgen,
-Link-Prüfung); `sonst`. Jeder Job reicht seinen Fund als eigenen Pull Request ein, `abschluss` meldet Statusanzeige und Discord.
+Link-Prüfung); `sonst`. Jeder Job reicht seinen Fund als eigenen Pull Request ein, `abschluss` meldet die Statusanzeige.
 
 **Gemeinsame Drosselung** (steht nicht im Code als Sperre, nur als Zusage): aniSearch 6 s je Seite — jetzt Sperre `anisearch` (Katalog, Wochen-Job, Tages-Job); AniList 750 ms (Katalog, Sprecher und ADN-Zuordnung
 laufen deshalb hintereinander: `adn` hängt an `anilist`); `plus.rtl.de` 400–700 ms (Katalog, Folgen, Link-Prüfung — im selben Job).
