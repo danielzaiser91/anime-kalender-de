@@ -1,6 +1,6 @@
 # Neuzugänge bei Prime Video, Netflix, Disney+ und RTL+ aus Anime2You-Sammelartikeln (13.10.2026, zweite Runde der Anime2You-Vorschläge).
 # Jeder Titel hatte bei diesem Anbieter keinen Termin im Datensatz (je anilistId und Anbieter in releases.json geprüft). Die Artikel erschienen vor der
-# Regel „Ab sofort = Tag der Meldung“ (02.10.2026) und wurden danach nicht mehr gelesen.
+# Regel „Ab sofort = Tag der Meldung“ (02.10.2026).
 # Der Tag ist der Meldetag (`available-from`: im Angebot spätestens seit); „in den letzten Tagen“ oder „seit heute“ nennt kein früheres Datum.
 # Ton: Jeder Artikel nennt die deutsche Fassung im Fließtext („mit deutscher Synchronisation“, „auf Deutsch“, „deutsche Sprachfassung/-ausgabe“), darum ohne `sprache`.
 
