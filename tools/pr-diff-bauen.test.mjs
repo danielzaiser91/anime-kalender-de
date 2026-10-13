@@ -99,20 +99,20 @@ pruefe('Daten-JS mit kleinem Patch bleibt lesbar', baueDiff([datei('extension/of
 pruefe('Daten-JS: Inhalt wird für kleine Patches nicht geholt', baueDiff([datei('extension/offene-x.js', '+klein')], quellenJs, () => null, () => { throw new Error('nicht fragen') }).zustand === 'ok')
 pruefe('Daten-JS: Stub-Text nennt Pfad', jsStub.diff.includes('Datendatei extension/offene-x.js: Diff von GitHub nicht geliefert'))
 const keinDatenJs = [
-  ['Funktion', 'globalThis.AK_X = {"a":1}\nfunction f() { alert(1) }\n'],
-  ['zweite Anweisung in der Zeile', 'globalThis.AK_X = {"a":1}; alert(1)\n'],
-  ['abschließendes Semikolon', 'globalThis.AK_X = {"a":1};\n'],
-  ['Kommentar mit Code', '// alert(1)\nglobalThis.AK_X = {"a":1}\n'],
-  ['Blockkommentar', 'globalThis.AK_X = {"a":1} /* x */\n'],
-  ['Wert kein JSON', 'globalThis.AK_X = {a:1}\n'],
-  ['Wert ist Aufruf', 'globalThis.AK_X = alert(1)\n'],
+  ['Funktion', 'globalThis.AK_OFFENE_X = {"a":1}\nfunction f() { alert(1) }\n'],
+  ['zweite Anweisung in der Zeile', 'globalThis.AK_OFFENE_X = {"a":1}; alert(1)\n'],
+  ['abschließendes Semikolon', 'globalThis.AK_OFFENE_X = {"a":1};\n'],
+  ['Kommentar mit Code', '// alert(1)\nglobalThis.AK_OFFENE_X = {"a":1}\n'],
+  ['Blockkommentar', 'globalThis.AK_OFFENE_X = {"a":1} /* x */\n'],
+  ['Wert kein JSON', 'globalThis.AK_OFFENE_X = {a:1}\n'],
+  ['Wert ist Aufruf', 'globalThis.AK_OFFENE_X = alert(1)\n'],
   ['andere Zuweisung', 'window.AK_X = {"a":1}\n'],
   ['Name nicht AK_', 'globalThis.evil = {"a":1}\n'],
   ['Code-Global statt Datenliste', 'globalThis.AK_OFFENE_X = {"a":1}\nglobalThis.AK_TAGESLIMIT = null\n'],
   ['Name mit Kleinbuchstaben', 'globalThis.AK_x = {"a":1}\n'],
-  ['Zeilenende CR', 'globalThis.AK_X = {"a":1}\r\nalert(1)\n'],
-  ['Zeilentrenner U+2028', 'globalThis.AK_X = {"a":1} alert(1)\n'],
-  ['leere Zeile mittendrin', 'globalThis.AK_X = {"a":1}\n\nglobalThis.AK_Y = 2\n'],
+  ['Zeilenende CR', 'globalThis.AK_OFFENE_X = {"a":1}\r\nalert(1)\n'],
+  ['Zeilentrenner U+2028', 'globalThis.AK_OFFENE_X = {"a":1} alert(1)\n'],
+  ['leere Zeile mittendrin', 'globalThis.AK_OFFENE_X = {"a":1}\n\nglobalThis.AK_OFFENE_Y = 2\n'],
   ['leere Datei', ''],
 ]
 for (const [name, text] of keinDatenJs) {
