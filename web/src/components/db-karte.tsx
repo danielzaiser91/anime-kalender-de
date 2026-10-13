@@ -125,7 +125,6 @@ export function DbKarte({ main, members, data, today, grouped, favorites, hidden
           </span>
         )}
         <KartenKnoepfe
-          main={main}
           favorite={favorite}
           onToggleFavorite={() => onToggleFavorite(main.id)}
           onToggleHidden={() => onToggleHidden(main.id)}
@@ -229,8 +228,7 @@ const ERST_BEIM_ZEIGEN = 'transition-opacity group-focus-within:opacity-100 grou
  * Ein gesetzter Stern bleibt sichtbar. Der Stern ist auf jedem Gerät ein Knopf (28 px, kein zusätzlicher
  * Treffer-Wrapper); Auge und Teilen gibt es auf dem Handy (unter `sm`) im Panel, nicht auf dem Bild.
  */
-function KartenKnoepfe({ main, favorite, onToggleFavorite, onToggleHidden, onShare, copied }: {
-  main: Title
+function KartenKnoepfe({ favorite, onToggleFavorite, onToggleHidden, onShare, copied }: {
   favorite: boolean
   onToggleFavorite: () => void
   onToggleHidden: () => void
