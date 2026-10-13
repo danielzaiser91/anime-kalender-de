@@ -27,6 +27,7 @@ import type { Staffel } from '../lib/jw-staffeln.ts'
 import { ANISEARCH_ID_BASIS, alle as anisearchEintraege } from './anisearch-titel.ts'
 import { findeAnisearchDubletten, zeilenMitKennungWeg, type DublettenUrteil } from './anisearch-dubletten.ts'
 import { anisearchKennungen } from './anisearch-kennung.ts'
+import { katalogSammeltitel } from './mal-teilung.ts'
 import { ohneWerkDubletten } from './werk-doppelt-bau.ts'
 import { anisearchKatalogReihenQuelle as anisearchKatalogReihen } from './anisearch-reihen-rein-bau.ts'
 
@@ -233,6 +234,8 @@ function anisearchDublettenAbziehen(bekannt: Map<number, number>, verschoben: Ti
   const haupt = [...bekannt.keys(), ...verschoben.map((t) => t.id).filter((id) => geschuetzt.has(id))].filter(zeile)
   const urteil = findeAnisearchDubletten(hinter, haupt, katalog, anisearchEintraege())
   zeilenMitKennungWeg(hinter, kennungen, anisearchEintraege(), urteil, haupt, new Set(katalog.map((k) => k.id)))
+  const zeilenDa = new Set([...bekannt.keys(), ...verschoben.map((t) => t.id)])
+  for (const [titel, seite] of katalogSammeltitel((id) => zeilenDa.has(id))) urteil.katalogWeg.set(titel, seite)
   if (urteil.zeilenWeg.size || urteil.katalogWeg.size) {
     log(`aniSearch-Dubletten: ${urteil.zeilenWeg.size} Zeilen hinter dem Schalter entfallen (der AniList-Katalogtitel gilt), ${urteil.katalogWeg.size} Katalogtitel entfallen (die Zeile steht im Hauptbestand)`)
   }

@@ -2,13 +2,12 @@
 
 Stand 2026-10-12. Gemessen an `public/data/titles.json`: **42 Kennungen, 117 Titel**; alle 42 sind gewollt (Handdatei bindet sie, aniSearch führt Filmreihen und Serie samt Special auf einer Seite).
 Nichts davon ist geändert. Hier stehen die Fälle, die nicht eindeutig belegt sind. Quelle: lokale Archivseiten `data/anisearch-raw/<Kennung>.html.gz`, kein Abruf.
-**Stand 13.10.2026 (die drei Fraglichen, Beleg in `docs/wissen/datensatz.md` und `berichte/live-messung-rest-2026-10-13.md`):** Durarara!! Specials bleibt bei 5473 (Bindung an 6984 kostete der Zeile 10006984 den deutschen Titel); Tachikoma 2005 und Afro Samurai Movie bleiben bei Dominiks Bindung — keine aniSearch-Seite trägt ihre MAL, nichts widerlegt. Die fünf „vorübergehend doppelten“ Paare unten sind geheilt.
+**Stand 13.10.2026 (die drei Fraglichen, Beleg in `docs/wissen/datensatz.md` und `berichte/live-messung-rest-2026-10-13.md`):** Durarara!! Specials (8408) entfällt als Sammeleintrag (Regel „Teilung“, Daniel 13.10.: Crunchyroll-Beleg an Tenka Taihei 6986); Tachikoma 2005 und Afro Samurai Movie bleiben bei Dominiks Bindung — keine aniSearch-Seite trägt ihre MAL, nichts widerlegt. Die fünf „vorübergehend doppelten“ Paare unten sind geheilt.
 
 ## Titel, deren Seite nicht sicher zu ihnen passt
 
 | Titel (AniList-Kennung) | Jahr | Umfang | aniSearch-Seite | Grund |
 |---|---|---|---|---|
-| Durarara!! Specials (8408) | 2010 | 2 Folgen | 5473 (Serie, 24 Folgen) | aniSearch führt die zwei Specials als eigene Bonus-Seiten 6984 und 6986 (je 1 Folge, MAL 8408); Handbindung stammt von Dominik (06.10.), „Folgen 12.5 und 25". Die Zeilen 10006984/10006986 stehen zusätzlich in `ohne-synchro.json`. |
 | Ghost in the Shell SAC: The Laughing Man – Tachikoma no Hibi (10947) | 2005 | 1 Folge | 4405 („Bonus, 26", 2002–2003) | Jahr und Folgenzahl der Seite passen nicht zum Titel; ein eigener Eintrag für das Special aus 2005 ist lokal nicht zu sehen (Seite nicht abgerufen). |
 | AFRO SAMURAI Movie (13709) | 2007 | 1 Film | 1119 (Serie, 5 Folgen) | Zusammenschnitt der Serie; aniSearch führt dazu keine eigene Film-Seite (nur „Resurrection" und „Pilot Film" in den Beziehungen). Vermutlich richtig, nur nicht belegt. |
 
