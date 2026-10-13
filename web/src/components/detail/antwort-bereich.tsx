@@ -45,14 +45,14 @@ export function AntwortBereich({ antwort, sortiertNachZugang, streamReleases, te
         <AntwortKasten
           pillenGruppen={
             new Map([
-              ...zeilenGruppen(sortiertNachZugang, title),
+              ...zeilenGruppen(sortiertNachZugang, title, releases),
               ...terminReleases.map((r) => [r.slug, r.platform === 'tv' ? 'tv' : 'abo'] as const),
               ...tvVorbeiGruppen(tvVorbei),
             ])
           }
           antwort={antwort}
-          ohneSprachbeleg={alleOhneSprachbeleg(sortiertNachZugang, title)}
-          legende={legendeDerZeilen({ sortiert: sortiertNachZugang, title, folgenAngabeFuer, t })}
+          ohneSprachbeleg={alleOhneSprachbeleg(sortiertNachZugang, title, releases)}
+          legende={legendeDerZeilen({ sortiert: sortiertNachZugang, title, releases, folgenAngabeFuer, t })}
           terminPillen={terminPillen(terminReleases, title, releases, today)}
           title={title}
           t={t}

@@ -62,6 +62,7 @@ pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-rhythmus.ts
 pipeline/check-paramount.ts
 pipeline/check-patchnotes.ts
+pipeline/check-pille-nur-untertitel.ts
 pipeline/check-poster-karte-saal.ts
 pipeline/check-premiere.ts
 pipeline/check-prime-kanal.ts
