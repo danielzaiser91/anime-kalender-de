@@ -64,6 +64,7 @@ pipeline/check-jw-staffeln.ts
 pipeline/check-jw-vertrauen.ts
 pipeline/check-kachel-anbieter.ts
 pipeline/check-kachel-buendel.ts
+pipeline/check-kachel-im-angebot.ts
 pipeline/check-kachel-katalog.ts
 pipeline/check-kalender-filter.ts
 pipeline/check-kanal-abgehakt.ts
