@@ -305,8 +305,8 @@ export function werteWeitereQuellenAus({ releases, titles, adnKatalog, adnVerwei
    * Die Kennung wird nicht gesucht, sondern nachgeschlagen — zwei Quellen, und
    * keine davon rät:
    *
-   * - **Der Katalog** trägt je Serie eine `anilistId`. Sie entsteht in
-   *   `fetch-adn.ts` über `bewerteTreffer`/`passtZuSerie`, wird je Serie nur
+   * - **Der Katalog** trägt je Serie eine `anisearchId` (im Bau `titleId`). Sie entsteht über
+   *   `lib/adn-anisearch.ts` (`bewerteTreffer`/`passtZuSerie`, seit 13.10.2026 aus aniSearchs Titelliste), wird je Serie nur
    *   einmal vergeben und ist damit dieselbe Zuordnung, aus der die übrigen
    *   ADN-Adressen im Bestand stammen. 33 der 65 alten Adressen sind so
    *   aufgelöst.

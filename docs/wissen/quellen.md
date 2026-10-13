@@ -1011,7 +1011,7 @@ davon tragen ihr `dub` aus einer anderen Quelle, sichtbar offen waren zwölf),
 und 33 dieser 48 gingen allein auf die fehlende Kennung zurück.
 
 Die Kennung wird **nachgeschlagen, nicht gesucht**: Der Katalog trägt je Serie
-eine `anilistId` (dieselbe Zuordnung, aus der die übrigen ADN-Adressen
+eine `anisearchId` (dieselbe Zuordnung, aus der die übrigen ADN-Adressen
 stammen), und `data/adn-adressen.yaml` hält die wenigen Serien fest, die er
 gerade nicht führt. Ein zweiter Namensabgleich wäre hier der falsche Weg — die
 Fallen stehen weiter oben (`To Love-Ru`, `Wolf's Rain OVA`).

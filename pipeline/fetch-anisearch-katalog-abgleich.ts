@@ -34,7 +34,7 @@ import {
 } from './lib/anisearch-katalog-abgleich.ts'
 
 const API = 'https://api.anisearch.com/v1/anime'
-const TITELLISTE = 'data/cache/anisearch-titelliste.json'
+export const TITELLISTE = 'data/cache/anisearch-titelliste.json'
 const EINTRAEGE_ABRUF = 'data/cache/anisearch-abgleich-eintraege.json'
 const IDS_KATALOG = 'data/anisearch-ids-katalog.json'
 const KEIN_TREFFER = 'data/anisearch-katalog-kein-treffer.json'
@@ -85,7 +85,7 @@ async function holen<T>(url: string, token: string): Promise<T | undefined> {
   return undefined
 }
 
-async function ladeTitelliste(token: string): Promise<Map<number, AsTitel>> {
+export async function ladeTitelliste(token: string): Promise<Map<number, AsTitel>> {
   const zwischen = readJson<{ geholtAm?: string; titel?: Record<string, Roh> }>(TITELLISTE, {})
   let titel = zwischen.titel
   if (!titel || !zwischen.geholtAm || Date.now() - Date.parse(zwischen.geholtAm) > TAG_MS) {

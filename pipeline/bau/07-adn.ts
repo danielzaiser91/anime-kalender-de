@@ -82,7 +82,7 @@ export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
    * Wem ein Titel aus eigener Kennung zusteht — der starke Anspruch.
    *
    * Zwei Wege führen im Folgenden zu einem Titel: die im Katalogabruf
-   * nachgeschlagene `anilistId` der Serie, und ein Treffer über die Folgenzahl
+   * zugeordnete `anisearchId` der Serie (im Bau `titleId`), und ein Treffer über die Folgenzahl
    * innerhalb der Reihe. Der erste ist eine Zuordnung, der zweite eine Schätzung
    * — und die Schätzung einer Serie darf der Zuordnung einer anderen nicht
    * zuvorkommen.

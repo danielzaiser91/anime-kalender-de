@@ -544,7 +544,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 461
+      "anisearchId": 1854
     },
     {
       "showId": 405,
@@ -1050,7 +1050,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 21459
+      "anisearchId": 10978
     },
     {
       "showId": 971,
@@ -1660,7 +1660,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 143277
+      "anisearchId": 16977
     },
     {
       "showId": 336,
@@ -1984,7 +1984,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20790
+      "anisearchId": 9799
     },
     {
       "showId": 278,
@@ -2164,7 +2164,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 18153
+      "anisearchId": 8908
     },
     {
       "showId": 918,
@@ -2500,7 +2500,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 9253
+      "anisearchId": 6332
     },
     {
       "showId": 344,
@@ -3123,7 +3123,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 20755
+      "anisearchId": 9701
     },
     {
       "showId": 461,
@@ -4303,7 +4303,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20464
+      "anisearchId": 9011
     },
     {
       "showId": 907,
@@ -4326,7 +4326,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 463
+      "anisearchId": 2376
     },
     {
       "showId": 662,
@@ -4663,7 +4663,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 16498
+      "anisearchId": 8219
     },
     {
       "showId": 347,
@@ -4831,7 +4831,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20931
+      "anisearchId": 9941
     },
     {
       "showId": 948,
@@ -4854,7 +4854,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 4155
+      "anisearchId": 5400
     },
     {
       "showId": 444,
@@ -6334,8 +6334,7 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true,
-      "anilistId": 666
+      "fromCatalog": true
     },
     {
       "showId": 307,
@@ -6360,7 +6359,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 245
+      "anisearchId": 2735
     },
     {
       "showId": 684,
@@ -6528,7 +6527,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 9181
+      "anisearchId": 6357
     },
     {
       "showId": 663,
@@ -7045,7 +7044,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 21421
+      "anisearchId": 10832
     },
     {
       "showId": 991,
@@ -7368,7 +7367,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 21127
+      "anisearchId": 10345
     },
     {
       "showId": 748,
@@ -9430,7 +9429,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 3455
+      "anisearchId": 4655
     },
     {
       "showId": 904,
@@ -9453,7 +9452,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 8184
+      "anisearchId": 1815
     },
     {
       "showId": 906,
@@ -9476,7 +9475,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 462
+      "anisearchId": 3260
     },
     {
       "showId": 924,
@@ -9499,7 +9498,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 2679
+      "anisearchId": 3965
     },
     {
       "showId": 925,
@@ -9522,7 +9521,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 3848
+      "anisearchId": 4495
     },
     {
       "showId": 22,
@@ -9872,7 +9871,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 857
+      "anisearchId": 2561
     },
     {
       "showId": 329,
@@ -11769,7 +11768,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 15
+      "anisearchId": 3520
     },
     {
       "showId": 217,
@@ -12119,7 +12118,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 13663
+      "anisearchId": 7788
     },
     {
       "showId": 587,
@@ -12443,7 +12442,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20789
+      "anisearchId": 9597
     },
     {
       "showId": 340,
@@ -12623,7 +12622,8 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anisearchId": 9485
     },
     {
       "showId": 427,
@@ -15235,7 +15235,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 530
+      "anisearchId": 2469
     },
     {
       "showId": 778,
@@ -16402,7 +16402,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 2167
+      "anisearchId": 4199
     },
     {
       "showId": 654,
@@ -16596,7 +16596,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 11499
+      "anisearchId": 7504
     },
     {
       "showId": 920,
@@ -16619,7 +16619,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 464
+      "anisearchId": 2553
     },
     {
       "showId": 923,
@@ -16642,7 +16642,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 465
+      "anisearchId": 3359
     },
     {
       "showId": 882,
@@ -16664,7 +16664,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anisearchId": 302
     },
     {
       "showId": 310,
@@ -16858,7 +16859,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20534
+      "anisearchId": 9108
     },
     {
       "showId": 617,
@@ -17026,7 +17027,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20807
+      "anisearchId": 9842
     },
     {
       "showId": 732,
@@ -21090,7 +21091,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 21175
+      "anisearchId": 10383
     },
     {
       "showId": 190,
@@ -21466,7 +21467,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 134
+      "anisearchId": 1835
     },
     {
       "showId": 729,
@@ -22138,7 +22139,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20613
+      "anisearchId": 9388
     },
     {
       "showId": 727,
@@ -24085,7 +24086,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 11757
+      "anisearchId": 7335
     },
     {
       "showId": 634,
@@ -24227,7 +24228,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 777
+      "anisearchId": 3391
     },
     {
       "showId": 561,
@@ -30947,7 +30948,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 21
+      "anisearchId": 2227
     },
     {
       "showId": 398,
@@ -31115,7 +31116,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 21188
+      "anisearchId": 10435
     },
     {
       "showId": 1137,
@@ -31270,7 +31271,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20520
+      "anisearchId": 9047
     },
     {
       "showId": 1106,
@@ -31293,7 +31294,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 167404
+      "anisearchId": 18567
     },
     {
       "showId": 1113,
@@ -31617,7 +31618,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 8277
+      "anisearchId": 6089
     },
     {
       "showId": 1178,
@@ -32277,7 +32278,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20457
+      "anisearchId": 9058
     },
     {
       "showId": 1136,
@@ -32939,7 +32940,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 1559
+      "anisearchId": 3732
     },
     {
       "showId": 1146,
@@ -37731,7 +37732,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 481
+      "anisearchId": 220
     },
     {
       "showId": 1197,
@@ -37899,7 +37900,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 13161
+      "anisearchId": 7697
     },
     {
       "showId": 1138,
@@ -38080,7 +38081,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20872
+      "anisearchId": 9887
     },
     {
       "showId": 1135,
@@ -38248,7 +38249,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 110270
+      "anisearchId": 14452
     },
     {
       "showId": 1142,
@@ -38416,7 +38417,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 105156
+      "anisearchId": 13977
     },
     {
       "showId": 1139,
@@ -38766,7 +38767,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 2993
+      "anisearchId": 4378
     },
     {
       "showId": 1134,
@@ -39259,7 +39260,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 18507
+      "anisearchId": 8639
     },
     {
       "showId": 1272,
@@ -39596,7 +39597,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 180367
+      "anisearchId": 19545
     },
     {
       "showId": 1141,
@@ -39907,7 +39908,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20678
+      "anisearchId": 9769
     },
     {
       "showId": 1160,
@@ -40230,7 +40231,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anisearchId": 18878
     },
     {
       "showId": 1145,
@@ -44515,7 +44517,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 8074
+      "anisearchId": 6063
     },
     {
       "showId": 1125,
@@ -44540,7 +44542,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 141821
+      "anisearchId": 16798
     },
     {
       "showId": 1263,
@@ -45564,7 +45566,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 153152
+      "anisearchId": 17573
     },
     {
       "showId": 1122,
@@ -45732,7 +45734,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 158028
+      "anisearchId": 17919
     },
     {
       "showId": 1168,
@@ -46056,7 +46058,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 143598
+      "anisearchId": 16578
     },
     {
       "showId": 1144,
@@ -47419,8 +47421,7 @@
         }
       ],
       "batch": true,
-      "fromCatalog": true,
-      "anilistId": 21734
+      "fromCatalog": true
     },
     {
       "showId": 1133,
@@ -47588,7 +47589,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 7088
+      "anisearchId": 5622
     },
     {
       "showId": 1140,
@@ -47611,7 +47612,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 11577
+      "anisearchId": 7324
     },
     {
       "showId": 1201,
@@ -47634,7 +47635,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 1723
+      "anisearchId": 3604
     },
     {
       "showId": 1233,
@@ -47802,7 +47803,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 173693
+      "anisearchId": 19025
     },
     {
       "showId": 1143,
@@ -48204,7 +48205,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 202
+      "anisearchId": 3471
     },
     {
       "showId": 1100,
@@ -48372,7 +48373,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 140501
+      "anisearchId": 16676
     },
     {
       "showId": 1164,
@@ -48540,7 +48541,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 163078
+      "anisearchId": 18297
     },
     {
       "showId": 1167,
@@ -49395,7 +49396,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 198113
+      "anisearchId": 20865
     },
     {
       "showId": 1396,
@@ -49419,7 +49420,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 186181
+      "anisearchId": 20073
     },
     {
       "showId": 1326,
@@ -49587,7 +49588,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 21639
+      "anisearchId": 11160
     },
     {
       "showId": 1277,
@@ -49948,7 +49949,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 100183
+      "anisearchId": 12853
     },
     {
       "showId": 1311,
@@ -50272,7 +50273,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 177474
+      "anisearchId": 19258
     },
     {
       "showId": 1331,
@@ -50439,7 +50440,8 @@
         }
       ],
       "batch": false,
-      "fromCatalog": true
+      "fromCatalog": true,
+      "anisearchId": 18748
     },
     {
       "showId": 1391,
@@ -50789,7 +50791,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 384
+      "anisearchId": 585
     },
     {
       "showId": 1325,
@@ -50970,7 +50972,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 21410
+      "anisearchId": 10819
     },
     {
       "showId": 1294,
@@ -51138,7 +51140,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 166442
+      "anisearchId": 20355
     },
     {
       "showId": 1329,
@@ -51501,7 +51503,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 189
+      "anisearchId": 1498
     },
     {
       "showId": 1354,
@@ -51825,7 +51827,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 20623
+      "anisearchId": 9439
     },
     {
       "showId": 1278,
@@ -52536,7 +52538,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 20021
+      "anisearchId": 9077
     },
     {
       "showId": 1322,
@@ -52886,7 +52888,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 66
+      "anisearchId": 2305
     },
     {
       "showId": 1355,
@@ -53054,7 +53056,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 12531
+      "anisearchId": 7502
     },
     {
       "showId": 1333,
@@ -53222,7 +53224,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 184322
+      "anisearchId": 19764
     },
     {
       "showId": 1423,
@@ -53533,7 +53535,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 116589
+      "anisearchId": 15075
     },
     {
       "showId": 1309,
@@ -53557,7 +53559,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 21403
+      "anisearchId": 10913
     },
     {
       "showId": 1374,
@@ -53725,7 +53727,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 103222
+      "anisearchId": 13765
     },
     {
       "showId": 1419,
@@ -53893,7 +53895,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 21269
+      "anisearchId": 10547
     },
     {
       "showId": 1375,
@@ -54048,7 +54050,7 @@
       ],
       "batch": false,
       "fromCatalog": true,
-      "anilistId": 105228
+      "anisearchId": 13982
     },
     {
       "showId": 1415,
@@ -54216,7 +54218,7 @@
       ],
       "batch": true,
       "fromCatalog": true,
-      "anilistId": 98320
+      "anisearchId": 12227
     }
   ]
 }
