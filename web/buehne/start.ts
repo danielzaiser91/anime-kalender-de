@@ -1,6 +1,6 @@
 import { biegeFetchUm, ladeFaelle } from './faelle.ts'
 import { friereZeitEin } from './feste-zeit.ts'
-import { leseHash } from './zustand.ts'
+import { leseHash, zeitAus } from './zustand.ts'
 
 /*
   Reihenfolge ist Absicht: erst Fälle laden, dann Uhr und `fetch` umbiegen, erst danach die App-Module laden —
@@ -9,7 +9,7 @@ import { leseHash } from './zustand.ts'
 async function start() {
   const faelle = await ladeFaelle()
   const { name, werte } = leseHash(location.hash)
-  friereZeitEin(faelle.heute)
+  friereZeitEin(zeitAus(werte) || faelle.heute)
   const fall = faelle.faelle[werte.get('fall') ?? ''] ?? Object.values(faelle.faelle)[0]!
   biegeFetchUm(faelle, fall)
   const root = document.getElementById('root')!

@@ -5,7 +5,8 @@
  * Aufruf: node tools/buehne-bilder.mjs [--mockup <Namensteil>] [--aus <Ordner>]
  *         npm run buehne:bilder        (baut die Bühne vorher neu)
  *
- * Ergebnis: `<aus>/<mockup>/<fall>/<vorher|nachher-<Variante>>-<Gerät>-<Thema>.png` (Vorgabe `buehne-bilder/`, ignoriert).
+ * Ergebnis: `<aus>/<mockup>/<fall>/<vorher|nachher-<Variante>>-<Gerät>-<Thema>[-<HHMM>].png` (Vorgabe `buehne-bilder/`, ignoriert;
+ * `-<HHMM>` nur bei Mockups mit `zeiten`).
  * Das Bild ist die Zelle samt Beschriftung — dieselbe Ansicht, die ein Link der Bühne zeigt. Nach einem Umbau muss
  * „Nachher" der echten Komponente dem Bild vor dem Umbau gleichen (Konzept, Punkt 6).
  */
@@ -15,12 +16,13 @@ import { argument, durchlaufe, starteBuehne } from './buehne-seite.mjs'
 
 const WURZEL = path.resolve(import.meta.dirname, '..')
 
-async function nimmAuf({ mockup, fall, variante, zellen }, ordner, dateien) {
+async function nimmAuf({ mockup, fall, variante, zeit, zellen }, ordner, dateien) {
   const ziel = path.join(ordner, mockup, fall)
   await mkdir(ziel, { recursive: true })
   for (const z of zellen) {
     const [teil, geraet, thema] = z.schluessel.split('-')
-    const name = `${teil === 'vorher' ? 'vorher' : `nachher-${variante}`}-${geraet}-${thema}.png`
+    const uhr = zeit ? `-${zeit.slice(11, 16).replace(':', '')}` : ''
+    const name = `${teil === 'vorher' ? 'vorher' : `nachher-${variante}`}-${geraet}-${thema}${uhr}.png`
     await z.figur.asElement().screenshot({ path: path.join(ziel, name) })
     dateien.push(path.join(ziel, name))
   }

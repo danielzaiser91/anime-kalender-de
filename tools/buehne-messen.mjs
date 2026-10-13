@@ -55,8 +55,8 @@ async function main() {
   const rot = []
   let gemessen = 0
   try {
-    await durchlaufe(seite, argument('--mockup', ''), async ({ mockup, fall, variante, zellen }) => {
-      const schluesselVorFall = `${mockup}/${fall}`
+    await durchlaufe(seite, argument('--mockup', ''), async ({ mockup, fall, variante, zeit, zellen }) => {
+      const schluesselVorFall = `${mockup}/${fall}${zeit ? `@${zeit.slice(11, 16)}` : ''}`
       for (const z of zellen.filter((c) => c.schluessel.startsWith('vorher'))) vorher.set(`${schluesselVorFall}/${ort(z.schluessel)}`, await messeZelle(z))
       for (const z of zellen.filter((c) => c.schluessel.startsWith('nachher'))) {
         const messung = await messeZelle(z)
