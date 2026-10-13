@@ -3,6 +3,7 @@ import { RELEASE_TYPES, anbieterName } from './types.ts'
 import { addDays, berlinToUtc, toIcsStamp } from './time.ts'
 import { istAusgeblieben } from './logic.ts'
 import { premiereHinweis } from './premiere.ts'
+import { fasseFolgenZusammen } from './ics-folgen.ts'
 
 const PRODID = '-//anime-kalender-de//Anime-Kalender DE//DE'
 
@@ -60,12 +61,13 @@ export const SPRACHE_HINWEIS = {
   offen: 'Synchro offen: Der Termin ist belegt, eine deutsche Synchro nicht.',
 } as const
 
-export function eventSummary(ev: ReleaseEvent): string {
-  const text = summaryOhneMarke(ev)
+/** `bis`: die letzte Folge, wenn der Eintrag mehrere Folgen desselben Tages trägt („Folge 13–14/14“). */
+export function eventSummary(ev: ReleaseEvent, bis?: number): string {
+  const text = summaryOhneMarke(ev, bis)
   return ev.sprache ? `${text} (${SPRACHE_MARKE[ev.sprache]})` : text
 }
 
-function summaryOhneMarke(ev: ReleaseEvent): string {
+function summaryOhneMarke(ev: ReleaseEvent, bis?: number): string {
   const type = RELEASE_TYPES[ev.releaseType]
   /*
     Wer den Kalender abonniert hat, sieht den verstrichenen Termin sonst als
@@ -75,7 +77,7 @@ function summaryOhneMarke(ev: ReleaseEvent): string {
   */
   if (ev.releaseType === 'weekly' && ev.episode && !ev.sichtung) {
     const vorn = istAusgeblieben(ev) ? '⚠ nicht erschienen: ' : ''
-    return `${vorn}${ev.name} – Folge ${ev.episode}${ev.episodeCount ? `/${ev.episodeCountAssumed ? '≈' : ''}${ev.episodeCount}` : ''}`
+    return `${vorn}${ev.name} – Folge ${ev.episode}${bis ? `–${bis}` : ''}${ev.episodeCount ? `/${ev.episodeCountAssumed ? '≈' : ''}${ev.episodeCount}` : ''}`
   }
   if (ev.releaseType === 'disc') return `${ev.name} (${type.short})`
   return ev.name
@@ -96,7 +98,7 @@ export function eventDescription(ev: ReleaseEvent, opts: IcsOptions = {}): strin
   return lines.join('\n')
 }
 
-function veventBody(ev: ReleaseEvent, opts: IcsOptions): string[] {
+function veventBody(ev: ReleaseEvent, opts: IcsOptions, bis?: number): string[] {
   const lines: string[] = ['BEGIN:VEVENT', `UID:${ev.id}@anime-kalender-de`]
   lines.push(`DTSTAMP:${toIcsStamp(new Date(Date.UTC(2020, 0, 1)))}`)
 
@@ -109,7 +111,7 @@ function veventBody(ev: ReleaseEvent, opts: IcsOptions): string[] {
     lines.push(`DTSTART;VALUE=DATE:${compact(ev.date)}`, `DTEND;VALUE=DATE:${compact(addDays(ev.date, 1))}`)
   }
 
-  lines.push(`SUMMARY:${esc(eventSummary(ev))}`)
+  lines.push(`SUMMARY:${esc(eventSummary(ev, bis))}`)
   lines.push(`DESCRIPTION:${esc(eventDescription(ev, opts))}`)
   lines.push(`CATEGORIES:${esc(anbieterName(ev.platform, ev.sender))}`)
   if (opts.erinnerung) {
@@ -117,7 +119,7 @@ function veventBody(ev: ReleaseEvent, opts: IcsOptions): string[] {
     lines.push(
       'BEGIN:VALARM',
       'ACTION:DISPLAY',
-      `DESCRIPTION:${esc(eventSummary(ev))}`,
+      `DESCRIPTION:${esc(eventSummary(ev, bis))}`,
       `TRIGGER:${ev.time ? '-PT15M' : 'PT9H'}`,
       'END:VALARM',
     )
@@ -136,7 +138,7 @@ export function buildIcs(events: ReleaseEvent[], opts: IcsOptions = {}): string 
     `X-WR-CALNAME:${esc(opts.calendarName ?? 'Anime-Kalender DE')}`,
     'X-WR-TIMEZONE:Europe/Berlin',
   ]
-  for (const ev of events) lines.push(...veventBody(ev, opts))
+  for (const { ev, bis } of fasseFolgenZusammen(events)) lines.push(...veventBody(ev, opts, bis))
   lines.push('END:VCALENDAR')
   return lines.map(fold).join('\r\n') + '\r\n'
 }
