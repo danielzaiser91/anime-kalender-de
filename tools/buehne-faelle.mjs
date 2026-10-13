@@ -37,6 +37,20 @@ const FAELLE = [
   { slug: 'golden-kamuy', name: 'Golden Kamuy (angekündigt, ohne Datum)', titel: 210073 },
 ]
 
+/**
+ * Fernsehtag, Freitag 16.10.2026: die Reihen, die an diesem Tag im Fernsehen und im Streaming stehen (Mockup
+ * `relative-uhrzeit`). One Piece (18:25/18:50) und Tokyo Revengers (19:00, geschätzt) sind schon Fälle oben. Ein Fall ist genau
+ * eine Reihe, daher einer je Reihe; zusammen mit den übrigen zeigt der Bestand (`alle`) die ganze Woche um den Tag.
+ */
+const FERNSEHTAG = [
+  { slug: 'fernsehtag-yashahime', name: 'Yashahime (TV 16:45)', titel: 118399 },
+  { slug: 'fernsehtag-dragon-ball', name: 'Dragon Ball (TV 17:10 und 17:35)', titel: 223 },
+  { slug: 'fernsehtag-detektiv-conan', name: 'Detektiv Conan (TV 17:55)', titel: 235 },
+  { slug: 'fernsehtag-slime', name: 'Slime Staffel 4 (Crunchyroll 17:00)', titel: 182205 },
+  { slug: 'fernsehtag-jojo', name: 'JoJo Steel Ball Run (Netflix, geschätzt)', titel: 190327 },
+  { slug: 'fernsehtag-avatar', name: 'Avatar: Die sieben Häfen (Paramount+, ohne Uhrzeit)', titel: -284833 },
+]
+
 const lies = (name) => JSON.parse(readFileSync(resolve(DATEN, name), 'utf8'))
 const liesWennDa = (name, rueckfall) => (existsSync(resolve(DATEN, name)) ? lies(name) : rueckfall)
 const gruppe = (id) => id % 32
@@ -55,8 +69,9 @@ function ohneBilder(daten) {
 
 function reiheVon(titelId) {
   const eigener = [...lies('titles.json'), ...liesWennDa('ohne-synchro.json', [])].find((t) => t.id === titelId)
-  if (!eigener) throw new Error(`Titel ${titelId} fehlt in titles.json und ohne-synchro.json`)
-  const wurzel = eigener.franchiseId ?? eigener.id
+  /* Ein Termin ohne Titel im Katalog trägt eine negative Kennung (Avatar bei Paramount+): Er ist seine eigene Reihe. */
+  if (!eigener && titelId >= 0) throw new Error(`Titel ${titelId} fehlt in titles.json und ohne-synchro.json`)
+  const wurzel = eigener?.franchiseId ?? eigener?.id ?? titelId
   const gehoert = (t) => (t.franchiseId ?? t.id) === wurzel
   return { wurzel, gehoert }
 }
@@ -67,6 +82,7 @@ function schneide(fall, ak) {
   const alle = lies('titles.json').filter(gehoert)
   const ohneSynchro = liesWennDa('ohne-synchro.json', []).filter(gehoert)
   const ids = new Set([...kern, ...alle, ...ohneSynchro].map((t) => t.id))
+  if (fall.titel < 0) ids.add(fall.titel)
   const roh = {
     'titles-core.json': ohneBilder(kern),
     'titles.json': ohneBilder(alle),
@@ -133,7 +149,7 @@ function pruefeKeineUeberschneidung(faelle) {
 function main() {
   const { akVon } = ladeAkVon(resolve(WURZEL, 'data/kennungen.json'))
   const faelle = {}
-  for (const fall of FAELLE) {
+  for (const fall of [...FAELLE, ...FERNSEHTAG]) {
     faelle[fall.slug] = { name: fall.name, titleId: akVon(fall.titel), ...schneide(fall, akVon) }
   }
   pruefeKeineUeberschneidung(faelle)
