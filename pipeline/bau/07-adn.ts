@@ -12,15 +12,26 @@ import { ADN_CALENDAR_URL } from './grundlagen.ts'
 import { todayIso } from '../../shared/time.ts'
 import { artikelJeShow, type AdnNews } from '../lib/adn-news.ts'
 import { ergaenzeTeilnamen } from './adn-teilnamen.ts'
+import { verschmelzeAdnMitKuratiertem } from './adn-kuratiert.ts'
 import { loeseAdnTitelIds, titelZurShow } from './adn-show-titel.ts'
 import { type Title, type Release } from '../../shared/types.ts'
 
-export function ergaenzeAdnTitel({ titles, releases, titleByName, seenSlugs }: {
+type AdnEingabe = {
   titles: Map<number, Title>
   releases: Release[]
   titleByName: Map<string, Title>
   seenSlugs: Set<string>
-}) {
+}
+
+/** ADN-Termine aus Kalender und Katalog; ein kuratierter Termin desselben Titels am selben Tag geht darin auf (`adn-kuratiert.ts`). */
+export function ergaenzeAdnTitel(eingabe: AdnEingabe) {
+  const ergebnis = ergaenzeAdnTitelAusDaten(eingabe)
+  const aufgegangen = verschmelzeAdnMitKuratiertem(eingabe.releases)
+  if (aufgegangen) log(`${aufgegangen} ADN-Termine mit dem kuratierten Termin desselben Titels am selben Tag zusammengelegt`)
+  return ergebnis
+}
+
+function ergaenzeAdnTitelAusDaten({ titles, releases, titleByName, seenSlugs }: AdnEingabe) {
   /** ADN-Verweise, die aus einem ADN-Termin entstehen (der Termin belegt die Synchro). */
   let adnVerweiseErgaenzt = 0
   // ADN nennt in seiner Schnittstelle je Folge die Sprachfassung. Was dort als
