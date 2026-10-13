@@ -710,3 +710,19 @@
   sources:
     - https://www.anime2you.de/news/1058332/kaiju-no-8-staffel-1-steelbook-edition/
     - https://www.anime2you.de/news/1044367/kaiju-no-8-staffel-2-disc-release/
+
+# ---------------------------------------------------------------- A New Dawn, Blu-ray (13.10.2026)
+# Anime2You 1056972 (03.10.) nannte „nach aktuellem Stand" den 04.12.; der AKIBA PASS SHOP führt den 11.12. (Anime2You 1056789 vom 02.10. und Shop-Seite am 13.10.2026).
+# Ein Shop mit Vorbestellung schlägt die Meldung (quellen.md, „Terminquellen"). Der Slug des automatischen Eintrags bleibt, die Meldung zeigt darauf.
+- slug: auto-177132-disc
+  anilistId: 177132
+  titleDe: "A New Dawn"
+  platform: disc
+  releaseType: disc
+  publisher: "polyband anime"
+  edition: "Blu-ray"
+  note: "Deutsche Sprachfassung sowie Originalton mit Untertiteln laut Anime2You (03.10.2026)."
+  schedule: { firstEpisodeDate: "2026-12-11" }
+  sources:
+    - https://www.anime2you.de/news/1056789/akiba-pass-shop-sailor-moon-und-mehr/
+    - https://www.anime2you.de/news/1056972/a-new-dawn-erscheint-auf-blu-ray/
