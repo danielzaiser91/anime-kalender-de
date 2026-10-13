@@ -56,6 +56,7 @@ const GRUEN = 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300'
 const ORANGE = 'bg-orange-500/15 text-orange-800 dark:text-orange-300'
 const GELB = 'bg-yellow-500/20 text-yellow-800 dark:text-yellow-300'
 const GRAU = 'bg-slate-500/15 text-slate-700 dark:text-slate-300'
+const BLAU = 'bg-sky-500/15 text-sky-800 dark:text-sky-300'
 export const NEWS_FARBE: Record<NewsArt, string> = {
   neu: GRUEN,
   folgen: GRUEN,
@@ -66,6 +67,7 @@ export const NEWS_FARBE: Record<NewsArt, string> = {
   verspaetet: GRAU,
   nachgetragen: GRAU,
   rhythmus: ORANGE,
+  offiziell: BLAU,
 }
 
 /**
@@ -74,7 +76,7 @@ export const NEWS_FARBE: Record<NewsArt, string> = {
  * wieder. Sie ist zugleich die Rangfolge: Was hier vorn steht, formuliert die
  * Satzzeile der Übersicht.
  */
-const ARTEN = ['neu', 'angekuendigt', 'nachgetragen', 'verspaetet', 'nachgereicht', 'rhythmus', 'kino', 'disc', 'folgen'] as const satisfies readonly NewsArt[]
+const ARTEN = ['neu', 'angekuendigt', 'nachgetragen', 'verspaetet', 'nachgereicht', 'rhythmus', 'offiziell', 'kino', 'disc', 'folgen'] as const satisfies readonly NewsArt[]
 /* Fehlt eine `NewsArt` in `ARTEN`, ist diese Zuweisung ein Typfehler (sonst ohne Chip und mit Rang -1). */
 const _artenVollstaendig: Exclude<NewsArt, (typeof ARTEN)[number]> extends never ? true : never = true
 void _artenVollstaendig

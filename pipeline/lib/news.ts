@@ -16,6 +16,7 @@
  * | `angekuendigt` | ein Release mit deutschem Termin, das wir zum ersten Mal sehen |
  * | `disc`, `kino` | dasselbe für Disc- und Kinotermine |
  * | `verspaetet` | `schedule.verpasst` — ein angekündigter Termin verstrich, ohne dass etwas erschien |
+ * | `offiziell` | `data/offizielle-meldungen.yaml` — von Hand freigegebene Meldung der offiziellen Website (365 Tage Fenster, `news-offiziell.ts`) |
  * | `nachgereicht` | dasselbe, sobald die Folgen kamen — je Tag gebündelt (`news-verspaetung.ts`) |
  *
  * **Das Datum einer Meldung ist der Tag, an dem sie zum ersten Mal wahr war.**
@@ -33,6 +34,7 @@ import { eindeutschenStaffel } from '../../shared/titles.ts'
 import { hostVon } from '../../shared/quelle.ts'
 import { ohneDoppelteFolgen, verspaetungsMeldungen } from './news-verspaetung.ts'
 import { omuMeldungen } from './news-omu.ts'
+import { fensterBeginn, offizielleMeldungen, traegtOffizielle, type OffizielleMeldung } from './news-offiziell.ts'
 import { rhythmusMeldung } from './news-rhythmus.ts'
 import { neuJahre, neuZeile } from './news-neu-zeile.ts'
 
@@ -266,6 +268,7 @@ const rang: Record<NewsArt, number> = {
   nachgereicht: 2,
   nachgetragen: 1,
   rhythmus: 2,
+  offiziell: 3,
   kino: 3,
   disc: 4,
   folgen: 5,
@@ -281,7 +284,7 @@ export function baueNews(
   neuMitSynchro: NeuerTitel[],
   crNeu: CrNeueFolge[],
   historie: NewsHistorie,
-  vorherige: NewsEintrag[] = [], omuTitel: Title[] = [], nurOriginalton: ReadonlySet<string> = new Set(),
+  vorherige: NewsEintrag[] = [], omuTitel: Title[] = [], nurOriginalton: ReadonlySet<string> = new Set(), offizielle?: OffizielleMeldung[],
 ): NewsEintrag[] {
   const heute = todayIso()
   const grenze = addDays(heute, -FENSTER_TAGE)
@@ -396,14 +399,14 @@ export function baueNews(
   }
 
   /* 3. Termine: angekündigt, auf Disc, im Kino — und die, die niemand eingehalten hat. */
-  roh.push(...terminMeldungen(releases, nachId, heute), ...omuMeldungen([...titles, ...omuTitel], releases))
+  roh.push(...terminMeldungen(releases, nachId, heute), ...omuMeldungen([...titles, ...omuTitel], releases), ...offizielleMeldungen(titles, offizielle))
   /* Das Datum: beim ersten Mal gemerkt, danach unverändert. */
   let datiert: DatiertNews[] = []
   for (const r of roh) {
     const { schluessel, fallback, ...rest } = r
     const zuerst = historie.zuerst[schluessel] ?? (fallback > heute ? heute : fallback)
     historie.zuerst[schluessel] = zuerst
-    if (zuerst < grenze) continue
+    if (zuerst < fensterBeginn(r.art, heute, grenze)) continue
     datiert.push({ ...rest, am: zuerst, schluessel })
   }
 
@@ -496,7 +499,7 @@ export function baueNews(
         rang[a.meldungen[0]!.art] - rang[b.meldungen[0]!.art] ||
         a.titel.localeCompare(b.titel, 'de'),
     )
-    .slice(0, HOECHSTENS)
+    .filter((e, i) => i < HOECHSTENS || traegtOffizielle(e))
 }
 
 /**

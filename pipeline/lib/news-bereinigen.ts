@@ -14,7 +14,7 @@ export function bereinigeNews(meldungen: DatiertNews[]): DatiertNews[] {
   const mitQuelle = tagGleich.filter((m) => m.quelle || (m.belege?.length ?? 0) > 0)
   const jeAussage = new Map<string, DatiertNews>()
   for (const m of mitQuelle) {
-    const schluessel = [m.titel.id, m.art, m.platform ?? '', m.datum ?? '', m.release ?? '', m.von ?? '', m.bis ?? '', m.am].join('|')
+    const schluessel = [m.titel.id, m.art, m.platform ?? '', m.datum ?? '', m.release ?? '', m.von ?? '', m.bis ?? '', m.am, m.art === 'offiziell' ? (m.quelle ?? '') : ''].join('|')
     const bisher = jeAussage.get(schluessel)
     const gueltig = !m.ersetzt && !m.zurueckgezogen
     if (!bisher || (gueltig && (bisher.ersetzt || bisher.zurueckgezogen))) jeAussage.set(schluessel, m)
