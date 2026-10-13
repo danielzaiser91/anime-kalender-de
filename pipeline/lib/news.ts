@@ -25,7 +25,7 @@
  * Meldung fest, wann sie zuerst dastand; danach ändert sich ihr Datum nie
  * wieder.
  */
-import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, PlatformId, Release, Title } from '../../shared/types.ts'
+import type { NewsArt, NewsBeleg, NewsEintrag, NewsMeldung, PlatformId, Release, StreamLink, Title } from '../../shared/types.ts'
 import { pflegeTerminverlauf, type DatiertNews, type TerminGedaechtnis } from './news-verlauf.ts'
 import { bereinigeNews } from './news-bereinigen.ts'
 import { ausgabeKurz } from './news-ausgabe.ts'
@@ -62,7 +62,12 @@ export interface NewsHistorie extends TerminGedaechtnis {
  * Anbieter hat (`kanalErbtVomAnbieter`), ist kein weiterer: Die Titel laufen dort seit Langem, die Meldung wäre zu ihrem Tag falsch (13.10.2026).
  */
 function anbieterMitDeutsch(t: Title): Set<PlatformId> {
-  return new Set(t.streams.filter((s) => s.dub === true && s.platform !== 'youtube' && !geerbteWege.has(s)).map((s) => s.platform))
+  return new Set(t.streams.filter((s) => eigenesJa(s) && s.platform !== 'youtube').map((s) => s.platform))
+}
+
+/** Ein belegtes Ja des Weges selbst; ein vom Anbieter geerbtes Ja (`geerbteWege`) zählt für Meldungen nicht. */
+function eigenesJa(s: StreamLink): boolean {
+  return s.dub === true && !geerbteWege.has(s)
 }
 
 interface NeuerTitel {
