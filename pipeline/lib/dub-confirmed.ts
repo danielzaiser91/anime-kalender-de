@@ -318,6 +318,11 @@ export function dubKey(anilistId: number, platform: string): string {
   return `${anilistId}|${platform}`
 }
 
+/** Schlüssel (`dubKey`) aller Handbelege, die einen Weg verneinen: `available: false` (nicht im Katalog) oder `dub: false` (kein Deutsch). */
+export function neinHandbelege(checks: Pick<DubCheck, 'anilistId' | 'platform' | 'dub' | 'available'>[]): Set<string> {
+  return new Set(checks.filter((c) => c.dub === false || c.available === false).map((c) => dubKey(c.anilistId, c.platform)))
+}
+
 /** Meinen zwei Adressen dieselbe Ausgabe? */
 export function adressGleich(a: string | undefined, b: string | undefined): boolean {
   const ka = adressKern(a)
