@@ -6,16 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Sci-Fi
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:auto-223-tv-prosieben-maxx@2026-10-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART:20261006T150500Z
-DTEND:20261006T153500Z
-SUMMARY:Dragon Ball
-DESCRIPTION:Plattform: ProSieben MAXX\nRelease-Art: Wöchentlich (Simuldub)
- \nDetails: https://anime-kalender.de/t/193/
-CATEGORIES:ProSieben MAXX
-END:VEVENT
-BEGIN:VEVENT
 UID:auto-223-tv-prosieben-maxx@2026-10-07#17@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T151000Z

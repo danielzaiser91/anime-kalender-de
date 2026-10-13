@@ -1,6 +1,6 @@
 # ADN: was noch zu prüfen ist
 
-Stand 2026-10-13 · **7 offene Verweise** in **3 Zeilen**.
+Stand 2026-10-14 · **7 offene Verweise** in **3 Zeilen**.
 
 Erzeugt von `npm run data:dub-checks`, **nicht von Hand pflegen**. Die Kurzschrift zum
 Antworten steht in [07-alle-anbieter.md](07-alle-anbieter.md).

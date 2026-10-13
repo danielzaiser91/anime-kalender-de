@@ -6,17 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – School
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:motn-128223-primevideo@2026-10-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261006
-DTEND;VALUE=DATE:20261007
-SUMMARY:When Will Ayumu Make His Move? (im Angebot)
-DESCRIPTION:Plattform: Prime Video\nRelease-Art: Katalogtitel\nIm Angebot s
- eit diesem Tag – nicht der Erscheinungstag der deutschen Fassung.\nUhrze
- it noch nicht bestätigt.\nDetails: https://anime-kalender.de/t/12403/
-CATEGORIES:Prime Video
-END:VEVENT
-BEGIN:VEVENT
 UID:trapped-in-a-dating-sim-s2@2026-10-07@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART:20261007T153000Z
@@ -144,7 +133,8 @@ DTSTAMP:20200101T000000Z
 DTSTART:20261014T153000Z
 DTEND:20261014T160000Z
 SUMMARY:Trapped in a Dating Sim – Staffel 2 – Folge 12/12
-DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nD
+DESCRIPTION:Plattform: Crunchyroll\nRelease-Art: Wöchentlich (Simuldub)\nG
+ eschätzter Termin\, aus dem bisherigen Wochenrhythmus fortgeschrieben.\nD
  etails: https://anime-kalender.de/t/14858/
 CATEGORIES:Crunchyroll
 END:VEVENT

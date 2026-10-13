@@ -6,28 +6,6 @@ METHOD:PUBLISH
 X-WR-CALNAME:Anime-Kalender DE – Superhero
 X-WR-TIMEZONE:Europe/Berlin
 BEGIN:VEVENT
-UID:my-hero-academia-vigilantes-s1-netflix@2026-10-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261006
-DTEND;VALUE=DATE:20261007
-SUMMARY:My Hero Academia: Vigilantes – Staffel 1 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nOmU: Originalton
-  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/16460/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
-UID:my-hero-academia-vigilantes-s2-netflix@2026-10-06@anime-kalender-de
-DTSTAMP:20200101T000000Z
-DTSTART;VALUE=DATE:20261006
-DTEND;VALUE=DATE:20261007
-SUMMARY:My Hero Academia: Vigilantes – Staffel 2 (OmU)
-DESCRIPTION:Plattform: Netflix\nRelease-Art: Katalogtitel\nOmU: Originalton
-  mit deutschen Untertiteln\, keine deutsche Synchro.\nUhrzeit noch nicht b
- estätigt.\nDetails: https://anime-kalender.de/t/16903/
-CATEGORIES:Netflix
-END:VEVENT
-BEGIN:VEVENT
 UID:sailor-moon-s1-steelbook@2026-10-16@anime-kalender-de
 DTSTAMP:20200101T000000Z
 DTSTART;VALUE=DATE:20261016
