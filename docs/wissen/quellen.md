@@ -3051,6 +3051,15 @@ auf überholten Tagen (Sakamoto Days Vol. 1 auf dem 28.08. statt dem 23.10.).
   Handeinträge stammen aus denselben Artikeln und tragen deren Namen; ein Termin außerhalb der Kette
   kommt aus einer anderen Quelle und bleibt. Belege: der letzte Artikel aktuell, alle übrigen
   `ueberholt` mit „Termin verschoben auf: …".
+- **Abweichender Name, gleiche Staffel (13.10.2026):** Zeilen „<Reihe> – Staffel N" treffen auch einen
+  Disc-Eintrag mit Eigennamen („Sailor Moon – Staffel 3" ↔ „Sailor Moon S"; `lib/disc-verschiebungen-staffel.ts`).
+  Bedingungen: kein Eintrag gleichen Namens mit Kette; sein Name beginnt mit dem Reihennamen der Zeile
+  (bei mehreren der längste); sein Titel ist die N-te Staffel der Reihe, und **beide** Zählweisen
+  (Position der Fernsehstaffeln, `staffelnDesFranchise`; Panelzählung, `staffelStaende`) nennen N, ohne
+  Teil. Sonst bleibt der Termin stehen (Reihen mit geteilter Staffel, Beiwerk, nur einer Staffel); ein
+  Film hat keine Nummer. Der Termin muss wie sonst in der Kette stehen. Anlass: Sailor Moon Staffel 3–5
+  standen auf den aniSearch-Tagen vor der Verschiebung (Anime2You 1045437), von Hand berichtigt.
+  Geprüft von `check-disc-verschiebung-staffel.ts`.
 - **Jahr:** Die Tabelle nennt keins. Ein neuer Tag vor dem Artikel liegt im Folgejahr, ein alter bis
   ein halbes Jahr davor bleibt im Jahr.
 - **Gemessen am 27.09.2026:** 61 Zeilen aus drei Artikeln, 22 treffen einen Termin, alle 22 mit

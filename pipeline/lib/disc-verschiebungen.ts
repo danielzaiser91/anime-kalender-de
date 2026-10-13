@@ -4,12 +4,15 @@
  * Die Handeinträge in `data/curated/disc-*.yaml` stammen aus denselben Artikeln (Monatsübersicht)
  * und tragen deren Namen — ein Name ist hier also eine Kennung, keine Ähnlichkeit. Übernommen
  * wird trotzdem nur, wenn unser Termin in der Kette der Verschiebungen steht; sonst kennt eine
- * andere Quelle etwas, das diese Tabelle nicht weiß. Hintergrund: docs/wissen/quellen.md,
+ * andere Quelle etwas, das diese Tabelle nicht weiß. Heißt unser Eintrag anders als die Zeile
+ * („Sailor Moon S" gegen „Sailor Moon – Staffel 3"), entscheidet die Staffelnummer
+ * (`disc-verschiebungen-staffel.ts`). Hintergrund: docs/wissen/quellen.md,
  * „Disc-Verschiebungen aus Anime2You".
  */
-import type { Quelle, Release } from '../../shared/types.ts'
+import type { Quelle, Release, Title } from '../../shared/types.ts'
 import { addDays } from '../../shared/time.ts'
 import { quellenName } from './meldungen.ts'
+import { reihenIndex, staffelKette } from './disc-verschiebungen-staffel.ts'
 
 export interface Verschiebung {
   /** Wie im Artikel, samt Ausgabe in Klammern. */
@@ -115,11 +118,14 @@ export function verschiebungenAnwenden(
   releases: Release[],
   artikel: VerschiebungsArtikel[],
   heute: string,
+  titel: Map<number, Title>,
 ): { name: string; von: string; nach: string }[] {
   const nachName = ketten(artikel)
+  const reihen = reihenIndex(titel.values())
   const geaendert: { name: string; von: string; nach: string }[] = []
   releases.forEach((r, i) => {
-    const kette = r.releaseType === 'disc' ? nachName.get(discSchluessel(r.name)) : undefined
+    const name = discSchluessel(r.name)
+    const kette = r.releaseType === 'disc' ? (nachName.get(name) ?? staffelKette(name, titel.get(r.titleId), nachName, reihen)) : undefined
     const von = r.schedule.firstEpisodeDate
     if (!kette || !von) return
     const nach = kette.at(-1)!.neu
