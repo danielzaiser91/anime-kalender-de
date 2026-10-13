@@ -63,6 +63,8 @@ export const ERNEUERN_JE_LAUF = 800
  * 30 Tagen rund 2.300 Plakate und 2.000 Hintergründe. 400 ist der `--limit` des Wochenlaufs (`refresh-weekly.yml`); der Bedarf an echten Neuzugängen liegt
  * darunter (Stand 13.10.2026: 0 Titel ohne Eintrag bei 2.094 abfragbaren). Mit `ERNEUERN_JE_LAUF` höchstens 1.200 Abfragen je Lauf und Art, unter 10 Minuten.
  * Neue Titel stehen vor den Erneuerungen; die Erneuerung hat ihre eigene Quote und verhungert nicht. `--alle` (von Hand) fragt weiter alle an.
+ * Grenze: Die Titel ohne Eintrag stehen in der Reihenfolge von `tmdb-titles.json`, nicht nach Neuheit. Nach einer Störung mit n solchen Titeln wartet
+ * ein echter Neuzugang deshalb bis zu ceil(n/400) Läufe (bis dahin steht das AniList-Cover).
  */
 export const NEU_JE_LAUF = 400
 
