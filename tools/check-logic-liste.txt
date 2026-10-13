@@ -42,6 +42,7 @@ pipeline/check-dub-bereiche.ts
 pipeline/check-dub-durchgehende-zaehlung.ts
 pipeline/check-episodentitel.ts
 pipeline/check-erscheint-erst.ts
+pipeline/check-folgenzahl-belegt.ts
 pipeline/check-folgenzahl-kennzeichnung.ts
 pipeline/check-handlung-eigen.ts
 pipeline/check-herkunftsfilter.ts
