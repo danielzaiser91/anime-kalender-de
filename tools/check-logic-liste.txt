@@ -77,6 +77,7 @@ pipeline/check-katalog-release.ts
 pipeline/check-kino-zuletzt.ts
 pipeline/check-logic.ts
 pipeline/check-motn-reihe.ts
+pipeline/check-nein-handbeleg.ts
 pipeline/check-nein-wiedervorlage.ts
 pipeline/check-neuigkeiten-panel.ts
 pipeline/check-news-offiziell.ts

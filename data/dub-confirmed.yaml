@@ -23798,3 +23798,15 @@
   dub: false
   checkedAt: '2026-10-13'
   note: "Richtiges Werk, aber kein Deutsch: JustWatch-Adresse /watch/GN7UDV5QV ist Folge 1 von „HarmonQuest“ (Serie G79H23ZD5, 10 Staffeln). Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): die Serie führt ausschließlich en-US; JustWatch nennt für das Angebot nur den Ton en"
+- anilistId: 1292
+  title: "Afro Samurai"
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-10-13'
+  note: "Richtiges Werk, aber kein Deutsch: JustWatch-Adresse /watch/G9DUEQQZ1 ist Folge 1 von „Afro Samurai“ (Serie G5PHNMW59, Staffel GRK5CN4KP, 5 Folgen wie bei uns). Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): Serie und Staffel führen ausschließlich en-US; JustWatch nennt für das Angebot nur den Ton en. Der Weg kam über den Cartoon-Zwilling -19544 (cartoon-zu-anime.ts)"
+- anilistId: 185515
+  title: "2.5 Dimensional Seduction"
+  platform: crunchyroll
+  dub: false
+  checkedAt: '2026-10-13'
+  note: "Richtiges Werk, aber kein Deutsch: JustWatch-Adresse /watch/GG1U2JQM9 ist Folge 1 von „2.5 Dimensional Seduction“ (Serie GP5HJ845X, Staffel GR2PCVEJV, 24 Folgen wie bei uns). Crunchyroll-Schnittstelle, deutscher Katalog (13.10.2026): Serie und Staffel führen ausschließlich ja-JP; JustWatch nennt für das Angebot nur den Ton ja. Der Weg kam als watchLinks-Eintrag aus der JustWatch-Runde „Titel ohne jeden Weg“ (11-2-2-wege-ohne-weg.ts)"

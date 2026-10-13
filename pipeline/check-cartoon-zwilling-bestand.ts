@@ -8,7 +8,7 @@ import type { Title } from '../shared/types.ts'
 import { findeZwillinge, tmdbJeAnimeAus, ZWILLING_AUSNAHMEN } from './lib/cartoon-zwilling.ts'
 import { cartoonUmzug, ladeAkVon } from './lib/ausgabe-kennung.ts'
 import { umleiteKarte, umleiteListe } from '../web/src/lib/ak-umleiten.ts'
-import { loadDubChecks } from './lib/dub-confirmed.ts'
+import { loadDubChecks, neinHandbelege } from './lib/dub-confirmed.ts'
 import { alsTitel, type CartoonEintrag } from './lib/cartoons.ts'
 import { fehlendeAnbieter } from './bau/cartoon-zu-anime.ts'
 
@@ -45,7 +45,8 @@ console.log('\nCartoon oder Anime (ausgelieferter Datensatz):')
   /* Projektziel 4: Die Anbieter des Cartoons (TMDB, Deutschland) bleiben am Zwilling erhalten, nur ohne Sprachangabe. */
   const roh = lies<Record<string, CartoonEintrag>>('data/cartoons.json')
   const nachId = new Map(anime.map((a) => [a.id, a]))
-  const fehlend = umzug.flatMap(([c, a]) => (roh[String(c)] && nachId.get(a) ? fehlendeAnbieter(alsTitel(roh[String(c)]!), nachId.get(a)!).map((s) => [c, a, s.platform]) : []))
+  const handNein = neinHandbelege(loadDubChecks())
+  const fehlend = umzug.flatMap(([c, a]) => (roh[String(c)] && nachId.get(a) ? fehlendeAnbieter(alsTitel(roh[String(c)]!), nachId.get(a)!, handNein).map((s) => [c, a, s.platform]) : []))
   pruefe('Umzug: kein Anbieter des umgezogenen Cartoons fehlt am Anime-Titel', fehlend.length === 0, fehlend)
   const uebernommen = anime.flatMap((a) => (a.streams ?? []).filter((s) => s.herkunft === 'tmdb'))
   pruefe('Umzug: ein übernommener Anbieter trägt keine Sprachangabe und steht am Titel nicht noch einmal', uebernommen.every((s) => s.dub === undefined) && anime.every((a) => (a.streams ?? []).filter((s) => s.herkunft === 'tmdb').every((t) => (a.streams ?? []).filter((s) => s.platform === t.platform).length === 1)))

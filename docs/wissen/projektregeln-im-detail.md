@@ -621,6 +621,7 @@ Zusätzlich vor dem Push, was die CI zusätzlich fährt: `check:ansichten` und `
 - Ein lokaler `npm run data:build` stoppt am Cache-Abbruch („N Titel würden fallen"), erreicht die Prüfungen aber vorher; danach die erzeugten Dateien mit `git checkout` zurücksetzen.
 - Jedes `tsc` braucht `--noEmit`; `check:worker` nicht weglassen (eigenes tsconfig); `check:hooks` prüft React-Hook-Regeln, die `tsc` nicht sieht.
 - Mess- und Versuchsläufe enden mit Exit 0 statt rot.
+- `daniel-zum-abarbeiten/` steht in `.git/info/exclude` (gemeinsam für alle Worktrees). Eine neue Liste dort wird von `git add` still übergangen und fehlt dann im PR: mit `git add -f daniel-zum-abarbeiten/listen/<name>.md` hinzufügen (bereits getrackte Dateien ändert `git add` normal; 13.10.2026).
 
 ### Codegestalt (Ergänzungen)
 
