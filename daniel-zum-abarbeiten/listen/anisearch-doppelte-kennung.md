@@ -2,6 +2,7 @@
 
 Stand 2026-10-12. Gemessen an `public/data/titles.json`: **42 Kennungen, 117 Titel**; alle 42 sind gewollt (Handdatei bindet sie, aniSearch führt Filmreihen und Serie samt Special auf einer Seite).
 Nichts davon ist geändert. Hier stehen die Fälle, die nicht eindeutig belegt sind. Quelle: lokale Archivseiten `data/anisearch-raw/<Kennung>.html.gz`, kein Abruf.
+**Stand 13.10.2026 (die drei Fraglichen, Beleg in `docs/wissen/datensatz.md` und `berichte/live-messung-rest-2026-10-13.md`):** Durarara!! Specials bleibt bei 5473 (Bindung an 6984 kostete der Zeile 10006984 den deutschen Titel); Tachikoma 2005 und Afro Samurai Movie bleiben bei Dominiks Bindung — keine aniSearch-Seite trägt ihre MAL, nichts widerlegt. Die fünf „vorübergehend doppelten“ Paare unten sind geheilt.
 
 ## Titel, deren Seite nicht sicher zu ihnen passt
 
