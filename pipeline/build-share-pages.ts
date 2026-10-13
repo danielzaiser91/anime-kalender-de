@@ -65,51 +65,8 @@ function describe(release: Release, title: Title | undefined, today: string): st
   return parts.join(' ')
 }
 
-/**
- * Der sichtbare Inhalt der Teilen-Seite, als fertiges HTML im `#root`.
- *
- * Meta-Angaben reichen für die Link-Vorschau, aber eine Seite ohne Text rankt
- * für nichts. Wer „Steel Ball Run deutsche Synchro" sucht, soll hier landen, und
- * dafür müssen die Wörter auf der Seite stehen.
- *
- * React räumt `#root` beim ersten Rendern leer. Das ist gewollt: Bis das
- * Bündel geladen ist, sieht der Besucher statt einer weißen Fläche schon den
- * Titel und die Termine.
- */
-function body(
-  release: Release,
-  title: Title | undefined,
-  synopsis: SynopsenText | undefined,
-  today: string,
-  geschwister: Release[],
-  ak: number,
-): string {
-  const events = expandEvents(release)
-  const next = events.find((e) => e.date >= today) ?? events[0]
-  const hash = `#/woche?${next ? `d=${next.date}&` : ''}t=${ak}`
-  const art = RELEASE_TYPES[release.releaseType].short
-  const platform = anbieterName(release.platform, release.sender)
-
-  const fakten = [
-    `${art} bei ${platform}`,
-    release.fsk !== undefined ? `FSK ${release.fsk}` : null,
-    title?.genres.length
-      ? title.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ')
-      : null,
-    release.publisher ? `Vertrieb: ${release.publisher}` : null,
-    release.edition ?? null,
-  ].filter(Boolean) as string[]
-
-  const termine = events
-    .map((e) => {
-      const wann = `${weekdayName(e.date)}, ${formatDate(e.date)}`
-      const zeit = e.time ? ` um ${e.time} Uhr` : ''
-      const folge = anzeigeFolge(e) ? `Folge ${e.episode}${e.episodeCount ? ` von ${e.episodeCount}` : ''}: ` : ''
-      const abgeleitet = e.estimated ? ' (Termin abgeleitet)' : ''
-      return `<li>${esc(`${folge}${wann}${zeit}${abgeleitet}`)}</li>`
-    })
-    .join('\n        ')
-
+/** Die anderen Ausgaben desselben Titels, verlinkt und benannt (Begründung im Kommentar darin). */
+function weitereAusgaben(release: Release, title: Title | undefined, geschwister: Release[]): string {
   /**
    * **Die anderen Ausgaben desselben Titels — verlinkt und benannt.**
    *
@@ -177,7 +134,11 @@ function body(
           .join('\n        ')}
       </ul>`
     : ''
+  return andere
+}
 
+/** Wo ein Titel auf Deutsch läuft, mit den belegten Folgenbereichen (Begründung im Kommentar darin). */
+function wegeAufDeutsch(release: Release, title: Title | undefined): string {
   /**
    * **Wo es auf Deutsch läuft — die Auskunft, die es nur hier gibt.**
    *
@@ -218,6 +179,56 @@ function body(
           .join('\n        ')}
       </ul>`
     : ''
+  return wegeBlock
+}
+
+/**
+ * Der sichtbare Inhalt der Teilen-Seite, als fertiges HTML im `#root`.
+ *
+ * Meta-Angaben reichen für die Link-Vorschau, aber eine Seite ohne Text rankt
+ * für nichts. Wer „Steel Ball Run deutsche Synchro" sucht, soll hier landen, und
+ * dafür müssen die Wörter auf der Seite stehen.
+ *
+ * React räumt `#root` beim ersten Rendern leer. Das ist gewollt: Bis das
+ * Bündel geladen ist, sieht der Besucher statt einer weißen Fläche schon den
+ * Titel und die Termine.
+ */
+function body(
+  release: Release,
+  title: Title | undefined,
+  synopsis: SynopsenText | undefined,
+  today: string,
+  geschwister: Release[],
+  ak: number,
+): string {
+  const events = expandEvents(release)
+  const next = events.find((e) => e.date >= today) ?? events[0]
+  const hash = `#/woche?${next ? `d=${next.date}&` : ''}t=${ak}`
+  const art = RELEASE_TYPES[release.releaseType].short
+  const platform = anbieterName(release.platform, release.sender)
+
+  const fakten = [
+    `${art} bei ${platform}`,
+    release.fsk !== undefined ? `FSK ${release.fsk}` : null,
+    title?.genres.length
+      ? title.genres.slice(0, 3).map((g) => GENRE_DE[g] ?? g).join(', ')
+      : null,
+    release.publisher ? `Vertrieb: ${release.publisher}` : null,
+    release.edition ?? null,
+  ].filter(Boolean) as string[]
+
+  const termine = events
+    .map((e) => {
+      const wann = `${weekdayName(e.date)}, ${formatDate(e.date)}`
+      const zeit = e.time ? ` um ${e.time} Uhr` : ''
+      const folge = anzeigeFolge(e) ? `Folge ${e.episode}${e.episodeCount ? ` von ${e.episodeCount}` : ''}: ` : ''
+      const abgeleitet = e.estimated ? ' (Termin abgeleitet)' : ''
+      return `<li>${esc(`${folge}${wann}${zeit}${abgeleitet}`)}</li>`
+    })
+    .join('\n        ')
+
+  const andere = weitereAusgaben(release, title, geschwister)
+  const wegeBlock = wegeAufDeutsch(release, title)
 
   return `<article style="max-width:52rem;margin:0 auto;padding:2rem 1.25rem;color:#d7dced;font-family:system-ui,sans-serif;line-height:1.6;">
       <h1 style="font-size:1.6rem;margin:0 0 .5rem;color:#fff;">${esc(release.name)}</h1>
