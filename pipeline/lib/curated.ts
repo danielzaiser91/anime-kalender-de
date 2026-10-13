@@ -30,6 +30,8 @@ export interface CuratedEntry {
   premiere?: Release['premiere']
   /** Siehe `Release.nachtrag`. */
   nachtrag?: { kurz: string; abschnitte: { art: string; text: string }[] }
+  /** Siehe `Release.rhythmus`. */
+  rhythmus?: Release['rhythmus']
   /**
    * **Was an einer Fassung geschnitten ist — und wo es steht** (Daniel, 19.09.2026, an
    * Dragon Ball Daima: „es fehlt ein link zur quelle … oder wir listen selbst auf
@@ -62,6 +64,7 @@ export interface CuratedEntry {
 export function kuratierteZusaetze(entry: CuratedEntry): Partial<Release> {
   return {
     ...(entry.nachtrag ? { nachtrag: entry.nachtrag } : {}),
+    ...(entry.rhythmus ? { rhythmus: entry.rhythmus } : {}),
     ...(entry.netflixOriginal ? { netflixOriginal: true } : {}),
     ...(entry.sprache ? { sprache: entry.sprache } : {}),
     ...(entry.schnitt ? { schnitt: entry.schnitt } : {}),

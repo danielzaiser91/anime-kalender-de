@@ -21,7 +21,7 @@ import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const wurzel = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-import { verdachtHinweis, verdachtsfaelle } from './verdacht.mjs'
+import { verdachtHinweis, verdachtRang, verdachtsfaelle } from './verdacht.mjs'
 import { ausgeblendet, brauchtUrteil, eintragsInfo, ladeBestand, ladeCartoons, nachRang, wartet } from './pruef-bestand.mjs'
 /** Verweise, denen eine zweite Quelle widerspricht — siehe `verdacht.mjs`. */
 const verdaechtig = verdachtsfaelle(wurzel, 'disneyplus')
@@ -60,10 +60,19 @@ for (const t of titel) {
   }
 }
 
+/** Der Verdacht einer Adresse, falls einer ihrer Titel einen hat. */
+const verdachtVon = (eintraege) => eintraege.map((e) => verdaechtig.get(e.t?.id ?? e.id)).find(Boolean)
+
+/** Wiedervorlagen vor dem Rest, darin nach Alter der Messung (`verdachtRang`); sonst bleibt die Rang-Reihenfolge. */
+function nachAlter(karte) {
+  const rang = ([, eintraege]) => verdachtRang(verdachtVon(eintraege))
+  return [...karte].sort((a, b) => rang(a)[0] - rang(b)[0] || rang(a)[1].localeCompare(rang(b)[1]))
+}
+
 const offen = {}
-for (const [id, eintraege] of nachRang(jeAdresse, 'disneyplus')) {
+for (const [id, eintraege] of nachAlter(nachRang(jeAdresse, 'disneyplus'))) {
   const sortiert = [...eintraege].sort(vergleiche)
-  const verdacht = eintraege.map((e) => verdaechtig.get(e.t?.id ?? e.id)).find(Boolean)
+  const verdacht = verdachtVon(eintraege)
   /* Beantwortete Seiten stehen mit lauter `offen: false` drin: Der Melder darf dort berichtigen,
      Prüfliste und Durchgang zählen nur Einträge mit offener Staffel (`disney.js`). */
   offen[id] = {

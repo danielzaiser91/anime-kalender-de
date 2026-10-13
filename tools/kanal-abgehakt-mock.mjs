@@ -1,16 +1,32 @@
-// Vorlader für pipeline/check-kanal-abgehakt.ts: GET /pruefung liefert eine erfundene Kanal-Meldung ohne Urteil an einer bekannten Adresse.
-import { readFileSync } from 'node:fs'
+// Vorlader für pipeline/check-kanal-abgehakt.ts: GET /pruefung liefert eine erfundene Kanal-Meldung ohne Urteil an einer erfundenen Adresse.
+// Der Bestand ist eine Attrappe: Lesezugriffe auf public/data/{titles,franchises,cartoons}.json liefern sie statt der gebauten Dateien.
+import fs from 'node:fs'
+import { syncBuiltinESMExports } from 'node:module'
+
+const URL_DER_MELDUNG = 'https://www.disneyplus.com/de-de/browse/entity-00000000-0000-0000-0000-000000000000'
+const TITEL_ID = 1
+
+const attrappe = {
+  titles: [{ id: TITEL_ID, streams: [{ platform: 'disneyplus', url: URL_DER_MELDUNG }] }],
+  franchises: {},
+  cartoons: [],
+}
+const bestandDatei = /(?:^|[\\/])public[\\/]data[\\/](titles|franchises|cartoons)\.json$/
+
+const echteLesung = fs.readFileSync
+fs.readFileSync = (p, ...rest) => {
+  const treffer = typeof p === 'string' ? bestandDatei.exec(p) : null
+  return treffer ? JSON.stringify(attrappe[treffer[1]]) : echteLesung(p, ...rest)
+}
+syncBuiltinESMExports()
+
 const echt = globalThis.fetch
-const titles = JSON.parse(readFileSync('public/data/titles.json', 'utf8'))
-const liste = Array.isArray(titles) ? titles : (titles.titles ?? Object.values(titles))
-const t = liste.find((x) => (x.streams ?? []).some((s) => s.platform === 'disneyplus' && s.url))
-const s = t.streams.find((q) => q.platform === 'disneyplus' && q.url)
 globalThis.fetch = async (url, opt) => {
   if (String(url).includes('/pruefung') && !(opt && opt.method === 'POST')) {
     const zeile = {
       id: 99999,
       plattform: 'disneyplus',
-      url: s.url,
+      url: URL_DER_MELDUNG,
       sprachen: '[]',
       befund: 'kein_dub',
       titel: 'Test',
@@ -24,7 +40,7 @@ globalThis.fetch = async (url, opt) => {
       teil_bis: null,
       gemeldet_am: new Date().toISOString(),
       seiten_kennung: null,
-      titel_id: t.id,
+      titel_id: TITEL_ID,
       folge: null,
     }
     return new Response(JSON.stringify({ pruefungen: [zeile] }), { status: 200, headers: { 'content-type': 'application/json' } })

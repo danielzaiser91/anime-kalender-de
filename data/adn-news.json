@@ -1,6 +1,17 @@
 {
-  "geholtAm": "2026-10-12T02:01:18.913Z",
+  "geholtAm": "2026-10-13T02:00:56.227Z",
   "artikel": [
+    {
+      "titel": "BLEACH: Alle vier Filme jetzt im Stream bei ADN",
+      "url": "https://news.animationdigitalnetwork.com/de/2026/10/12/bleach-alle-vier-filme-jetzt-im-stream-bei-adn/",
+      "datum": "2026-10-12",
+      "showIds": [
+        197,
+        198,
+        352,
+        361
+      ]
+    },
     {
       "titel": "School Babysitters – die besondere KiTa im Stream bei ADN",
       "url": "https://news.animationdigitalnetwork.com/de/2026/10/05/school-babysitters-die-besondere-kita-im-stream-bei-adn/",
@@ -716,22 +727,6 @@
       "datum": "2026-04-09",
       "showIds": [
         561
-      ]
-    },
-    {
-      "titel": "ADN nimmt 9 Simulcasts im April 2026 ins Programm auf",
-      "url": "https://news.animationdigitalnetwork.com/de/2026/04/07/adn-nimmt-9-simulcasts-im-april-2026-ins-programm-auf/",
-      "datum": "2026-04-07",
-      "showIds": [
-        561,
-        1008,
-        1071,
-        1375,
-        1385,
-        1382,
-        1384,
-        1383,
-        1381
       ]
     }
   ]

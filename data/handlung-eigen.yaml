@@ -1,0 +1,450 @@
+# Eigene deutsche Handlungstexte (Daniel, 12.10.2026: Option C). Nur für Titel, zu denen weder eine Quelle noch das aniSearch-Archiv eine deutsche Handlung liefert;
+# sobald eine Quelle einen Text führt, wird der Eintrag nicht mehr genutzt und gehört gelöscht (Hinweis im Bau und in check:logic).
+#
+# Je Eintrag: id (Titel-Kennung, Kommentar: Titel, Jahr, Umfang), text (aus Fakten selbst geschrieben, nie aus einer Quelle abgeschrieben; Abstand gemessen: kein gemeinsamer 5-Wort-Abschnitt),
+# umfang (titel = beschreibt den Titel selbst, reihe = beschreibt nur die Reihe), lizenz (Lizenz dieses Textes; bei Wikipedia-Quelle CC BY-SA 4.0), quellen (name, url; mindestens eine).
+# Quellenregel (13.10.2026, geprüft in pipeline/lib/handlung-eigen.ts): Quellen aus mindestens zwei Familien (alle Wikipedia-Sprachen = eine, aniSearch = eine); sonst nur mit `freigabe: "Daniel, TT.MM.JJJJ: …"`. Nur aniSearch mit CC-Lizenz ist nie erlaubt.
+# Herkunft der Texte und Messung: daniel-zum-abarbeiten/berichte/handlung-eigen-poc-2026-10-12.md
+
+- id: 101343 # Made in Abyss: Journey’s Dawn (2019, Film (Zusammenschnitt, Teil 1 von 2))
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Zusammenschnitt der ersten acht Folgen der TV-Serie „Made in Abyss“, 2019 als Kinofilm gestartet. Die Waise Riko lebt in Orth, einer Stadt rund um ein riesiges Loch im Boden, den Abyss. Sie will wie ihre verschollene Mutter Höhlentaucherin werden und findet am Rand des Lochs einen bewusstlosen Jungen mit Roboterkörper: Reg. Fantasy-Abenteuer in einer düsteren Welt.
+  quellen:
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Made_in_Abyss
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Made_in_Abyss
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/13491
+
+- id: 195516 # Die Tagebücher der Apothekerin: Staffel 3 – Cour 1 (2026, TV, 12 Folgen)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Dritte Staffel, erster Teil mit zwölf Folgen, in Japan seit dem 2. Oktober 2026. Die Serie spielt an einem Kaiserhof, der dem alten China nachempfunden ist. Maomao, bei einem Apotheker ausgebildet, wurde entführt und als Dienstmagd in den Palast verkauft. Mit ihren Kenntnissen in Heilkunde und Giftkunde klärt sie dort rätselhafte Krankheits- und Todesfälle auf; der einflussreiche Eunuch Jinshi gibt ihr immer neue Fälle.
+  quellen:
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Kusuriya_no_Hitorigoto
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/The_Apothecary_Diaries
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/20704
+
+- id: 110265 # Persona 5 the Animation: Ein magischer Valentinstag (2019, OVA, 1 Folge (~30 min))
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Bonus-Folge zur Serie „Persona 5 the Animation“ (CloverWorks, 2019, rund 30 Minuten). Am Valentinstag verbringt der Schüler Ren Amamiya einzeln Zeit mit mehreren Frauen aus seinem Umfeld, darunter Ann Takamaki und Futaba Sakura. Jede Begegnung spielt an einem anderen Ort, etwa im Freizeitpark oder auf der Eisbahn, und jede der Frauen schenkt ihm Schokolade. Erzählt wird aus Rens eigener Sicht.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Persona_5:_The_Animation
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/14638
+
+- id: 10003453 # Wundersame Geschichten (1988, TV; Folgenzahl: Wikipedia 26, aniSearch 41 — im Text nicht genannt)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Japanische Anime-Serie ab 1988, in der jede Folge ein bekanntes Märchen oder eine bekannte Geschichte erzählt. Figuren und Schauplätze wechseln deshalb von Folge zu Folge. Außerhalb Japans brachte Saban die Serie heraus, in Deutschland lief sie erstmals an Heiligabend 1993 auf VOX.
+  quellen:
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Wundersame_Geschichten
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/3453
+
+- id: 10020216 # The Witcher: Sirens of the Deep (2025, Film (ONA), ~90 min)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Animationsfilm von Netflix (2025, rund 90 Minuten), ein Ableger der Serie „The Witcher“ nach einer Kurzgeschichte von Andrzej Sapkowski. Der Hexer Geralt von Riva und der Barde Jaskier kommen nach Bremervoord an der Küste, wo mehrere Fischer ums Leben gekommen sind und ein Meereswesen als Täter gilt. Zwischen den Menschen und dem Volk des Meeres wächst der Konflikt. Dunkle Fantasy mit Kämpfen und drastischer Gewalt.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/The_Witcher:_Sirens_of_the_Deep
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/20216
+
+- id: 10017963 # Baby Sharks große Show! (2021, TV, 28 Folgen)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Animierte Musik-Comedy für Kinder nach der „Baby Shark“-Marke von Pinkfong, produziert zusammen mit Nickelodeon. Baby Shark lebt mit seiner Familie in der Unterwasserstadt Carnivore Cove und erlebt mit seinem besten Freund William und weiteren Freunden Abenteuer, in denen gesungen wird. Eine Folge dauert etwa elf Minuten.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Baby_Shark%27s_Big_Show!
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/17963
+
+- id: 169826 # Bakugan: Legends (2023, ONA, 13 Folgen)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Fünfte und letzte Staffel von „Bakugan: Battle Planet“ mit 13 Folgen, bei Netflix ab März 2023. Im Mittelpunkt stehen die Kinder Dan, Shun, Wynton und Lia und ihr Hund Lightning. Sie veröffentlichen Videos im Netz, stoßen auf die Bakugan, kämpfende Wesen mit Roboterteilen, und freunden sich mit ihnen an.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Bakugan:_Battle_Planet
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/18340
+
+- id: 159309 # Trapped in a Dating Sim: The World of Otome Games Is Tough for Mobs – Staffel 2 (2026, TV, 12 Folgen)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Zweite Staffel (zwölf Folgen, Sommer 2026) der Isekai-Serie nach den Light Novels von Yomu Mishima. Ein Büroangestellter wird als Leon Fou Bartfort im Königreich Holfort wiedergeboren, in der Welt eines Otome-Spiels, in dem Frauen den Ton angeben und Nebenfiguren schlechte Karten haben. Mit seinem Wissen über das Spiel und dem Artefakt Luxion mischt er die Adelsgesellschaft auf. Actionkomödie mit Romantik und Mecha-Elementen.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Trapped_in_a_Dating_Sim:_The_World_of_Otome_Games_Is_Tough_for_Mobs
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/17984
+
+- id: 198369 # Detektiv Conan: Der gefallene Engel des Highways (2026, Film, 109 min)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Der 29. Kinofilm der Reihe „Detektiv Conan“, in Japan seit April 2026 (109 Minuten). Im Mittelpunkt steht die Polizistin Chihaya Hagiwara aus der Präfektur Kanagawa, die Schwester von Kenji Hagiwara. Mit dabei sind Conan, Ran und Kogoro Mori.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Detective_Conan:_Fallen_Angel_of_the_Highway
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/20864
+
+- id: 206814 # Dragon Ball Super: Beerus (2026, TV)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Überarbeitete Neufassung der Anime-Serie „Dragon Ball Super“, die Toei Animation zum 70-jährigen Bestehen des Studios herstellt: Die Erzählung ist neu aufgebaut, die Animation aktualisiert. Start in Japan war am 11. Oktober 2026 bei Fuji Television. Die ursprüngliche Serie beginnt damit, dass der Zerstörungsgott Beerus nach Jahrzehnten aus dem Schlaf erwacht und mit seinem Lehrmeister Whis nach einem Super-Saiyajin-Gott sucht.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Dragon_Ball_Super:_Beerus
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Dragon_Ball_Super
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/21566
+
+- id: 102501 # Shaolin Wuzang (2006, TV, 26 Folgen)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Animationsserie mit 26 Folgen, die im China des 17. Jahrhunderts spielt. Der Dämon Heihu ist aus seinem Gefängnis entkommen, in das ihn drei Shaolin-Ritter vor tausend Jahren gebannt hatten, und bedroht die Provinz Henan. Meister Sanzang vom Shaolin-Kloster sucht die Wiedergeborenen dieser Ritter und findet drei Kinder: Hua, Cheng und Tang. Sie lernen Kampfkunst, Magie und Heilkunst, damit sie gegen Heihu antreten können.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Shaolin_Wuzang
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Shaolin_Wuzang
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/11642
+
+- id: 103354 # Have a NIce Day (2017, Film)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Animationsfilm von Liu Jian, 2017 im Wettbewerb der Berlinale gezeigt. Der Fahrer Xiao Zhang entwendet dem Boten eines Mafiabosses eine Million Yuan, um seiner Freundin nach einer misslungenen Schönheitsoperation die Reise nach Südkorea zu bezahlen. Auf seiner Flucht werden weitere Leute auf das Geld aufmerksam, darunter ein Erfinder mit Röntgenbrille. Eine Mischung aus Krimi, Thriller und Komödie.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Have_a_Nice_Day_(film)
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Have_a_Nice_Day_(Film)
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/12674
+
+- id: 116415 # Bakugan: Armored Alliance (2020, TV, Folgenzahl: Bestand 52, Wikipedia EN 104 — im Text nicht genannt)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Zweite Staffel von „Bakugan: Battle Planet“ (TMS Entertainment, Regie Kazuya Ichikawa), in Kanada ab Februar 2020 bei Teletoon, in den USA ab März 2020 bei Cartoon Network. Im Mittelpunkt der Reihe stehen Dan, Shun, Wynton und Lia mit ihrem Hund Lightning, die in ihrer Nachbarschaft Videos für eine Streaming-Plattform drehen. Eines Tages entdecken sie die Bakugan, biomechanische Kampfwesen, und freunden sich mit ihnen an. Außerdem schützen sie ihr Viertel vor Schurken, die die Bakugan für böse Zwecke nutzen wollen.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Bakugan:_Armored_Alliance
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/15061
+    - name: aniSearch (Battle Planet)
+      url: https://www.anisearch.de/anime/14344
+
+- id: 130253 # Beyblade Burst QuadDrive (2021, ONA, 52 Folgen)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Staffel der Reihe „Beyblade Burst“ zwischen „Surge“ und „QuadStrike“, von OLM mit 52 Folgen umgesetzt und ab April 2021 auf den YouTube-Kanälen von CoroCoro und Takara Tomy gestartet. Zu den Figuren gehören Valt Aoi, Shu Kurenai und Lui Shirosagi. Die Reihe dreht sich um Schüler, die von ihren Beyblades besessen sind, einen Club gründen und sich in einem Bey-Stadion zu Kämpfen herausfordern.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Beyblade_Burst_QuadDrive
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Beyblade_Burst
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/16165
+
+- id: 143103 # Witch on the Holy Night (2026, Film)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Film von ufotable nach dem gleichnamigen Visual Novel von Kinoko Nasu (Type-Moon). Die Vorlage spielt gegen Ende der Shōwa-Zeit in der Stadt Misaki, wo ein altes Anwesen als Haus einer Hexe gilt. Aoko Aozaki, als Erbin ihrer Familie für den Schutz des Landes zuständig, lernt dort Zauberei von der Magierin Alice Kuonji. Als Eindringlinge den Schutzbann stören, gehen die beiden der Sache nach; später zieht auch der Junge Sōjūrō Shizuki ins Haus.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Witch_on_the_Holy_Night
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/16972
+
+- id: 182578 # Mission: Yozakura Family, Staffel 2 (2026, TV; Folgenzahl: Bestand 12, Wikipedia 40/65 — im Text nicht genannt)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Zweite Staffel des Anime „Mission: Yozakura Family“ (Silver Link) nach dem Manga von Hitsuji Gondaira. Die Reihe erzählt vom schüchternen Oberschüler Taiyo Asano, der früh seine Eltern bei einem Autounfall verlor und nur seiner Kindheitsfreundin Mutsumi Yozakura nahesteht. Mutsumi stammt aus einer Agentenfamilie, in der ihr überfürsorglicher Bruder Kyoichiro Taiyo zunächst umbringen will. Taiyo wird ihr Ehemann und muss selbst Agent werden, um sie zu beschützen.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Mission:_Yozakura_Family
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Mission:_Yozakura_Family
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/19687
+
+- id: 213457 # Fool Night (2026, ONA)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Anime von Shaft und Sunrise nach dem Manga von Kasumi Yasuda. Seit hundert Jahren hält eine dichte Wolkendecke das Sonnenlicht ab, Pflanzen sind verdorrt und der Sauerstoff nimmt ab. Die Menschheit kann Menschen deshalb in Pflanzen verwandeln: Die Verwandlung dauert zwei Jahre und wird bezahlt, anfangs waren nur Todkranke vorgesehen, doch auch weitere Freiwillige lassen sich von der hohen Prämie anlocken. Der junge Toshiro Kamiya, der Musiker werden wollte und die Medikamente seiner kranken Mutter bezahlen muss, sieht in seinem Leben als Mensch keine Zukunft.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Fool_Night
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Fool_Night
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/21751
+
+- id: 10018543 # Regina Regenbogen (Japan 1990, TV, 13 Folgen; Artikel gilt der Reihe von 1984, Gleichheit der Serie nicht belegt)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Animationsserie mit 13 Folgen um das Waisenmädchen Wisp. Es gelangt in ein graues Land ohne Licht und Farben, befreit dort die sieben Farbenkinder und findet den Regenbogengürtel. Als Regina Regenbogen ist Wisp danach mit den Farbenkindern für die Farben der Welt zuständig. Ihre Gegner Grummel Griesgram und Schleichmichel möchten alles trist und grau halten.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Rainbow_Brite
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Regina_Regenbogen
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/18543
+
+- id: 10020758 # Robby Rabbit (1987, Film, ~82 min)
+  umfang: titel
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Animationsfilm (Toei Animation, Murakami-Wolf-Swenson), rund 82 Minuten lang, über den jungen Hasen Rob. Als ein Felsbrocken auf seine Eltern zu fallen droht, rennt er los und verwandelt sich in einen Superhelden in Streifen und Sternen auf goldenen Rollschuhen; zurück wird er, indem er seinen eigenen Namen sagt. Seine Heimatstadt liegt in einer Taschendimension, in die er nicht zurückkehren kann. Er zieht in die Stadt und arbeitet als Pianist im Nachtclub Panda Monium, den eine Schakalbande um Schutzgeld erpresst.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/The_Adventures_of_the_American_Rabbit
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/20758
+
+- id: 9032 # Inazuma Eleven: The Movie - Team Oger greift an (2010, Film, ~90 min)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Kinofilm von 2010 (rund 90 Minuten, Studio OLM) zur Fußball-Reihe „Inazuma Eleven“, die auf ein Computerspiel von Level-5 zurückgeht; in Japan lief er im Dezember 2010 an. Im Mittelpunkt der Reihe steht Mamoru Endou (deutsch: Mark Evans), Torwart und Kapitän einer Schulmannschaft. Weil sich kaum jemand für Fußball begeistert, droht dem Club die Auflösung. Endou wirbt weitere Spieler an, um ein Team zusammenzubekommen und das entscheidende Spiel gegen die Teikoku-Schule zu bestreiten.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Inazuma_Eleven
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Inazuma_Eleven
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/6356
+    - name: aniSearch (Inazuma Eleven)
+      url: https://www.anisearch.de/anime/5069
+
+- id: 152677 # The Detective Is Already Dead: Staffel 2 (2026, TV; Folgenzahl: Bestand 13, aniSearch 12 — im Text nicht genannt)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Zweite Staffel der Serie, in Japan seit Oktober 2026. Der Schüler Kimihiko Kimizuka zieht seit seiner Kindheit Ärger an. Als er entführt wird und einen Koffer ins Ausland bringen soll, sitzt im Flugzeug die selbsternannte Meisterdetektivin Siesta neben ihm und macht ihn zu ihrem Assistenten. Als die Maschine gekapert wird, überwältigen die beiden den Flugzeugentführer. Drei Jahre lang lösen sie danach gemeinsam Fälle; im letzten Oberschuljahr holt Kimihiko die Vergangenheit wieder ein.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/The_Detective_Is_Already_Dead
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/17546
+    - name: aniSearch (Staffel 1)
+      url: https://www.anisearch.de/anime/15908
+
+- id: 178083 # Tokyo Revengers: War of the Three Titans (2026, TV; Folgenzahl: Bestand 13, aniSearch 12 — im Text nicht genannt)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Neue Staffel der Serie „Tokyo Revengers“ nach dem Manga von Ken Wakui (Liden Films), in Japan seit Oktober 2026. Der erwachsene Gelegenheitsarbeiter Takemichi Hanagaki erfährt, dass die Tokyo Manji Gang seine frühere Freundin Hinata und deren jüngeren Bruder Naoto umgebracht hat. Tags darauf stößt ihn jemand auf die Bahngleise, und er findet sich zwölf Jahre früher in seiner Schulzeit wieder. Er will die Zukunft ändern und reist dabei immer wieder zwischen den Zeiten hin und her.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Tokyo_Revengers
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Tokyo_Revengers
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/19353
+    - name: aniSearch (Christmas Showdown)
+      url: https://www.anisearch.de/anime/16927
+    - name: aniSearch (Tenjiku Arc)
+      url: https://www.anisearch.de/anime/18331
+
+- id: 183423 # One Piece Log: Fish-Man Island Saga (2024, TV, 21 Folgen)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Neu aufbereitete, gekürzte Fassung des Handlungsbogens um die Fish-Man Island aus „One Piece“: 21 Folgen von Toei Animation, in Japan von November 2024 bis März 2025 anstelle der regulären Ausstrahlung, die pausierte. Zwei Jahre nach dem Krieg bei Marineford finden Monkey D. Ruffy und die Strohhutbande nach dem Training auf dem Sabaody-Archipel wieder zusammen und machen sich zur Fish-Man Island auf.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/One_Piece_season_15
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/19699
+    - name: aniSearch (Fan Letter)
+      url: https://www.anisearch.de/anime/19696
+
+- id: 184492 # Welcome to Demon School! Iruma-kun: Staffel 4 (2026, TV; Folgenzahl: Bestand 24 — im Text nicht genannt)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Vierte Staffel der Serie um den Menschenjungen Iruma (Bandai Namco Pictures, nach dem Manga von Osamu Nishi), in Japan seit April 2026. Seine Eltern verkaufen den 14-jährigen Iruma Suzuki an einen Dämon. Dieser, Sullivan, nimmt ihn mit in die Dämonenwelt, adoptiert ihn als Enkel und meldet ihn an der Dämonenschule Babyls an, deren Schulleiter er ist. Dort schließt Iruma Freundschaft mit den Dämonen Clara Valac und Alice Asmodeus; niemand darf seine menschliche Herkunft erfahren.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Welcome_to_Demon_School!_Iruma-kun
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Mairimashita!_Iruma-kun
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/19776
+    - name: aniSearch (Staffel 3)
+      url: https://www.anisearch.de/anime/16582
+    - name: aniSearch (Staffel 2)
+      url: https://www.anisearch.de/anime/15059
+
+- id: 185756 # As a Reincarnated Aristocrat, I’ll Use My Appraisal Skill to Rise in the World: Staffel 3 (2026, TV)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Dritte Staffel der Isekai-Serie nach der Romanreihe von Miraijin A (GeyeG Pictures), in Japan seit September 2026. Ein Büroangestellter stirbt an Überarbeitung und kommt in einer anderen Welt als Ars Louvent, Spross einer Adelsfamilie im Somerforth Empire, zur Welt. Er besitzt die Fähigkeit, Talente und Werte anderer Menschen zu erkennen, ähnlich den Statuswerten eines Videospiels. Damit gewinnt er starke Verbündete für sich, denn im Reich droht ein Krieg um die Thronfolge.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/As_a_Reincarnated_Aristocrat%2C_I%27ll_Use_My_Appraisal_Skill_to_Rise_in_the_World
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/19993
+    - name: aniSearch (Staffel 1)
+      url: https://www.anisearch.de/anime/18387
+    - name: aniSearch (Staffel 2)
+      url: https://www.anisearch.de/anime/19379
+
+- id: 189123 # Blue Box: Staffel 2 (2026, TV; Folgenzahl: Bestand 12)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Zweite Staffel von „Blue Box“ (Electric Circus und TMS Entertainment) nach dem Manga von Kouji Miura, in Japan seit Oktober 2026. Taiki Inomata spielt an der sportlich ausgerichteten Eimei-Schule Badminton und trainiert früh am Morgen in der Halle, wo oft schon die ein Jahr ältere Basketballspielerin Chinatsu Kano übt. In sie, den Star ihres Teams, ist er verliebt. Als ihre Eltern wegen der Arbeit ins Ausland gehen, zieht Chinatsu bei seiner Familie ein, und beide streben die nationalen Meisterschaften an.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Blue_Box_(manga)
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Blue_Box_(Manga)
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/20376
+    - name: aniSearch (Staffel 1)
+      url: https://www.anisearch.de/anime/18873
+
+- id: 210482 # Steel Ball Run: Jojo’s Bizarre Adventure - Phase 2-3 (2026, ONA, 11 Folgen; aniSearch zählt 12)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Zweiter und dritter Teil der Anime-Umsetzung von „Steel Ball Run“, dem siebten Handlungsstrang der Reihe um die Familie Joestar (David Production, seit September 2026). Die Geschichte spielt 1890 in den USA: Der Veranstalter Steven Steel ruft ein Rennen quer durch das Land aus, bei dem fünfzig Millionen Dollar Preisgeld winken. Der gelähmte frühere Jockey Johnny Joestar trifft Gyro Zeppeli, der statt Revolvern Stahlkugeln trägt, und will dessen Spin-Technik verstehen, die ihm kurz die Beweglichkeit zurückgab.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Steel_Ball_Run
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/JoJo%27s_Bizarre_Adventure
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/21986
+    - name: aniSearch (Phase 1)
+      url: https://www.anisearch.de/anime/20466
+
+- id: 199029 # Rent-a-Girlfriend: Staffel 5 (2026, ONA, 12 Folgen)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Fünfte Staffel von „Rent-a-Girlfriend“ nach dem Manga von Reiji Miyajima (TMS Entertainment, zwölf Folgen, in Japan von April bis Juni 2026). Nachdem seine Freundin ihn verlassen hat, mietet der Student Kazuya Kinoshita bei einer Online-Plattform die Freundin Chizuru Mizuhara. Er bewertet sie schlecht, weil sie ihm unecht vorkam, und wird dafür von ihr zurechtgewiesen. Als seine Großmutter ins Krankenhaus kommt, spielt Chizuru für die Familie weiter die Freundin. Dass beide Nachbarn sind und dieselbe Universität besuchen, verkompliziert alles.
+  quellen:
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Rental_Girlfriend
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Rent-A-Girlfriend
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/20904
+    - name: aniSearch (Staffel 4)
+      url: https://www.anisearch.de/anime/19471
+    - name: aniSearch (Staffel 3)
+      url: https://www.anisearch.de/anime/17708
+
+- id: 204389 # A Wild Last Boss Appeared! Staffel 2 (2026, ONA)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Zweite Staffel der Fantasy-Serie nach der Romanreihe von Firehead (WAO World und Sorajima Studio), in Japan seit September 2026. Im Online-Spiel „Exgate Online“ gilt die schwarz geflügelte Tyrannin Lufas Maphaahl als Endgegnerin. Der junge Mann hinter dieser Figur lässt sich in einem letzten Kampf absichtlich besiegen. Danach bietet ihm das Spiel eine neue Rolle an, und er findet sich im Körper seiner Spielfigur wieder, 200 Jahre nach dem Kampf. Ihre früheren Gefolgsleute, die Zwölf Himmlischen Sterne, wüten ungebremst; Lufas, die weiterhin als gefürchtete Eroberin gilt, macht sich auf, sie aufzuhalten.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/A_Wild_Last_Boss_Appeared!
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/21117
+    - name: aniSearch (Staffel 1)
+      url: https://www.anisearch.de/anime/19558
+
+- id: 209872 # Ranma 1/2: Staffel 3 (2026, TV)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Dritte Staffel von „Ranma 1/2“ (MAPPA) nach dem Manga von Rumiko Takahashi, Fortsetzung der 2024 gestarteten Anime-Reihe, in Japan seit Oktober 2026. Der 16-jährige Kampfkünstler Ranma Saotome und sein Vater Genma sind bei einer Trainingsreise nach China in verwunschene Quellen gefallen. Seitdem wird Genma durch kaltes Wasser zum Panda und Ranma zum Mädchen; heißes Wasser macht beides rückgängig. Die Väter hatten vereinbart, ihre Kinder zu verheiraten, und so zieht Ranma zur Familie Tendō, wo Akane, die jüngste der Töchter, als Braut bestimmt wird. Beide lehnen die Verlobung zunächst ab.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Ranma_%C2%BD
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Ranma_%C2%BD
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/21332
+    - name: aniSearch (Staffel 2)
+      url: https://www.anisearch.de/anime/19989
+    - name: aniSearch (Staffel 1)
+      url: https://www.anisearch.de/anime/19375
+
+- id: 133007 # Puella Magi Madoka Magica the Movie - Walpurgisnacht: Rising (2026, Film)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    „Puella Magi Madoka Magica“: Kinofilm von Shaft (Magica Quartet, Musik von Yuki Kajiura), in Japan seit August 2026. Die Schülerin Madoka Kaname und ihre Freundin Sayaka Miki begegnen dem katzenartigen Wesen Kyubey. Es bietet ihnen an, einen Wunsch zu erfüllen, wenn sie dafür magische Kräfte annehmen und gegen Hexen kämpfen. Die neue Mitschülerin Homura Akemi, selbst ein Magical Girl, versucht Madoka davon abzuhalten, den Vertrag zu schließen.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Puella_Magi_Madoka_Magica
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Puella_Magi_Madoka_Magica
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/16217
+    - name: aniSearch (Magia Record, Final Season)
+      url: https://www.anisearch.de/anime/16573
+    - name: aniSearch (Magia Record, Staffel 2)
+      url: https://www.anisearch.de/anime/15130
+
+- id: 190054 # Meine ganz besondere Hochzeit: Special (2026, Special, 3 Folgen)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Dreiteiliges TV-Special zu „Meine ganz besondere Hochzeit“ (Kinema Citrus) nach der Vorlage von Akumi Agitogi, in Japan ab Oktober 2026. Miyo Saimori, einziges Kind einer angesehenen Familie, muss nach dem Tod ihrer Mutter und der neuen Heirat des Vaters als Dienstmädchen im eigenen Elternhaus arbeiten; Stiefmutter und Stiefschwester verachten sie, weil sie keine magischen Kräfte hat. Sie wird Kiyoka versprochen, der als Befehlshaber einen Einsatztrupp gegen Mysterien leitet. Bei ihm findet Miyo, die sich lange kein Glück zugestand, allmählich ihren Platz.
+  quellen:
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Watashi_no_Shiawase_na_Kekkon
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/20463
+    - name: aniSearch (Staffel 2)
+      url: https://www.anisearch.de/anime/18701
+    - name: aniSearch (Meine Form des Glücks)
+      url: https://www.anisearch.de/anime/18914
+
+- id: 155645 # Urusei Yatsura: Staffel 2 (2024, TV, 23 Folgen)
+  umfang: reihe
+  lizenz: CC BY-SA 4.0
+  text: >-
+    Zweite Staffel der 2022 gestarteten Neuauflage von „Urusei Yatsura“ nach dem Manga von Rumiko Takahashi (David Production, 23 Folgen, in Japan von Januar bis Juni 2024). Außerirdische, die Oni, wollen die Erde erobern, lassen aber einen Wettkampf entscheiden: Der Schüler Ataru Moroboshi muss Lum, die Tochter des Oni-Anführers, fangen, indem er sie bei den Hörnern packt. Er gewinnt, indem er ihr das Bikinioberteil stiehlt, und freut sich, nun seine Freundin Shinobu Miyake heiraten zu können. Lum hält das für einen Heiratsantrag an sich und zieht bei seiner Familie ein.
+  quellen:
+    - name: Wikipedia (EN)
+      url: https://en.wikipedia.org/wiki/Urusei_Yatsura
+    - name: Wikipedia (DE)
+      url: https://de.wikipedia.org/wiki/Urusei_Yatsura
+    - name: aniSearch
+      url: https://www.anisearch.de/anime/18295
+    - name: aniSearch (Staffel 1)
+      url: https://www.anisearch.de/anime/16977

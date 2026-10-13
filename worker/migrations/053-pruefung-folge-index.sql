@@ -1,0 +1,15 @@
+-- Die Meldung einer Folge liest nur die Zeilen dieser Folge (12.10.2026).
+--
+-- `ladeOffeneHashes` holte je Meldung alle Zeilen ihrer Adresse (`pruefung_url_zeit`). Disney+ meldet
+-- eine Folge je Anfrage: eine Seite mit n Folgen kostete bei einem Durchgang rund n² Lesezeilen
+-- (lokal in workerd gemessen, Wiederholungsdurchgang: 624 bei 24 Folgen, 10.200 bei 100, 40.400 bei 200). Der Schlüssel einer
+-- Folge ist (Adresse, Folge, Staffel, Seitenkennung) — genau die Bedingung, mit der der Worker offene
+-- Zeilen derselben Folge sucht und ersetzt. Die Abfrage steht in `worker/src/pruefung-unveraendert.ts`
+-- ohne Index-Hinweis: der Planer wählt `pruefung_folge` von selbst (Test in `tools/worker-tagesdeckel.test.ts`).
+-- **Die Migration sollte vor dem Worker laufen, ist aber nicht zwingend:** ohne sie liest die Abfrage
+-- wieder über `pruefung_url_zeit` alle Zeilen der Adresse, verliert aber keine Meldung.
+--
+-- Schreiblast: ein weiterer Eintrag je eingefügter und je gelöschter Zeile; unveränderte Meldungen
+-- schreiben weiter nichts. Einmalig kostet das Anlegen rund 20.500 geschriebene Zeilen (Stand
+-- 13.10.2026: 20.544 Zeilen): nach 00:00 UTC ausführen, wenn der Tageszähler frei ist.
+CREATE INDEX IF NOT EXISTS pruefung_folge ON pruefung (url, folge_nr, staffel, seiten_kennung);

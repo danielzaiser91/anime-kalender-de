@@ -14,8 +14,7 @@
  * nachstellt. Hier steht deshalb je Annahme ein Fall, der vor der Reparatur
  * durchgefallen wäre.
  *
- * Aufruf: npm run check:logic. Was `public/data` liest, steht in `check-logic-bestand.ts` (`check:bestand`) — bis auf die Handbeleg-Zusicherungen
- * (`data/dub-confirmed.yaml` gegen `titles.json`, `franchises.json`): `bestand-bauen.yml` (Schritt „Neue Handbelege prüfen“) fragt sie vor dem Bau über `check:logic` ab.
+ * Aufruf: npm run check:logic. Was `public/data` liest, steht in `check-logic-bestand.ts` (`check:bestand`), auch die Handbeleg-Zusicherungen gegen den Bestand.
  */
 import { ladeAkVon, uebersetzeDatei, umleitungen } from './lib/ausgabe-kennung.ts'
 import { umleiteKarte, umleiteListe } from '../web/src/lib/ak-umleiten.ts'
@@ -196,7 +195,7 @@ import { angekuendigterTermin } from './bau/ankuendigungs-termin.ts'
 import { quelleGehoertZumTitel } from './lib/quellen-bindung.ts'
 import { adressIndex, nameIndex, staffelTreffer, titelDerMeldung } from './lib/urteil-je-folge.ts'
 import { leseVerschiebungstabelle, verschiebungenAnwenden } from './lib/disc-verschiebungen.ts'
-import { aehnlicheTitel } from '../web/src/lib/aehnlich.ts'
+import { aehnlicheTitel } from '../shared/aehnlich.ts'
 import { bereichsSuche } from '../web/src/lib/filter-suche.ts'
 import { buendeleTermine } from '../web/src/lib/buendel.ts'
 import { istStaffelfinale, istStaffelstart } from '../web/src/lib/staffelstart.ts'
@@ -2819,89 +2818,6 @@ pruefe('fremde Anbieter bleiben unberuehrt', netflixAdresseTaugt('https://www.am
     const liste = (yaml.load(roh) as unknown[]) ?? []
     const doppelt = liste.length - new Set(liste.map((b) => JSON.stringify(b))).size
     pruefe('Handbelege: kein Beleg steht zweimal in der Datei', doppelt === 0, `${doppelt} identische Doppel`)
-    /*
-      **Kein Beleg nennt Folgen, die sein Titel nicht hat** — sonst ist die
-      Zählung des Anbieters auf unseren Titel gerutscht. Am 11.09.2026 stand
-      „HAIKYU!! 2nd Season" (25 Folgen) mit „Folge 26 deutsch" im Datensatz:
-      Netflix' S2 E26 ist die OVA „VS Failing Marks". Berichtigt; gemessen
-      standen danach noch 24 Belege derselben Art, am selben Tag 12. Die Schwelle darf nur sinken.
-      Am 13.09.2026 auf 8: Bei Dorohedoro, Tokyo Revengers, Medalist Staffel 2
-      (Disney+) und Railgun S (Prime) hingen überzählige Folgen hinten an, die
-      laut Streaming Availability API zu keinem Titel gehören — gekappt, nicht
-      umgebucht.
-    */
-    const folgenJeTitel = new Map(
-      (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number; episodes?: number }[]).map(
-        (t) => [t.id, t.episodes ?? 0],
-      ),
-    )
-    const drueber = (liste as { anilistId?: number; dubRanges?: { to?: number }[] }[]).filter((b) => {
-      const n = folgenJeTitel.get(b.anilistId ?? -1) ?? 0
-      return n > 0 && (b.dubRanges ?? []).some((r) => (r.to ?? 0) > n)
-    }).length
-    /*
-      15.09.2026: Die Netflix-Belege von FGO Babylonia (1–22 bei 21 Folgen) und
-      Shiboyugi (1–12 bei 11) über die Folgentitel zugeordnet — Netflix-Folge 1
-      ist „Initium Iter" (110851), Folge 12 von Shiboyugi der Film „44: CLOUDY
-      BEACH" (209961). Zwei neue Belege derselben Titel aus dem Durchgang hatten
-      die Zahl auf 10 gehoben und den Deploy vier Stunden rot gemacht.
-
-      **Die Schwelle bleibt bei 8, auch wenn gerade weniger zählen.** Ich hatte sie
-      danach auf den Messwert 5 gesenkt, und der nächste Bau machte den Deploy
-      sofort wieder rot: Er übernahm zwei Durchgang-Meldungen (Haikyu!! S2 bis 26,
-      Captain Tsubasa bis 91), deren Zuordnung über die Rohfolgen erst aussteht.
-      Solche Belege entstehen bei jedem Zuordnungsauftrag, bis er abgearbeitet ist
-      — ein Messwert von heute ist hier keine Invariante (CLAUDE.md, „Eine
-      Prüfung, die rot wird, weil die Arbeit erledigt ist").
-    */
-    pruefe('Handbelege: höchstens 8 nennen Folgen über der Folgenzahl ihres Titels', drueber <= 8, `${drueber}`)
-    /*
-      **Ein Prime-Beleg ab Amazons Staffel 2 hängt nicht am Reihenkopf, wenn die
-      Reihe genau eine Staffel mit dieser Nummer führt.** Am 16.09.2026 stand
-      „Fruits Basket" (Staffel 1, 25 Folgen) mit der Seite B0GDFC7BL6 und „DE ✓"
-      im Datensatz — laut Meldung Amazons Staffel 3 mit 13 Folgen (Daniel: Staffel
-      1 dort ohne Deutsch). Dieselbe Fehlzuordnung aus der Zeit vor dem 31.08.
-      trugen 14 weitere Belege; umgehängt (drei davon an Staffeln, die der Bestand
-      noch nicht führt: Berserk 2017 S2, Our Last Crusade S2, Irregular S3). Entschieden wird über die
-      Staffelnummer im Namen, nicht über die Folgenzahl — Prime bündelt und teilt
-      anders (CLAUDE.md, „Prime schneidet Reihen anders zu").
-      Bluelock (Staffel 1 mit 24 Folgen, früher als Staffel 2 notiert) hat Daniel am 17.09.2026 geklärt.
-    */
-    const reihen = JSON.parse(readFileSync('public/data/franchises.json', 'utf8')) as Record<
-      string,
-      { id: number; name: string; format?: string; beiwerk?: boolean }[]
-    >
-    const reiheVon = new Map<number, { id: number; name: string; format?: string; beiwerk?: boolean }[]>()
-    for (const r of Object.values(reihen)) for (const m of r) reiheVon.set(m.id, r)
-    const staffelImNamen = (n: string): number | null => {
-      const m = /(?:staffel|season)\s*(\d+)|(\d+)(?:st|nd|rd|th)\s+season/i.exec(n)
-      return m ? Number(m[1] ?? m[2]) : null
-    }
-    /*
-      **Und die Staffelnummer allein entscheidet es nicht** (18.09.2026). Prime teilt
-      „Berserk" von 1997 (25 Folgen) in zwei Staffeln; „Staffel 2" mit 12 Folgen hing
-      seit dem Umhängen an der CGI-Serie „Berserk: Staffel 2" von 2017 — die Seite
-      trägt `releaseYear: 1998`. Ein Beleg mit `jahrLautSeite`, das zum Reihenkopf
-      passt, hängt dort zu Recht.
-    */
-    const jahrVon = new Map(
-      (JSON.parse(readFileSync('public/data/titles.json', 'utf8')) as { id: number; jpYear?: number }[]).map(
-        (t) => [t.id, t.jpYear],
-      ),
-    )
-    const amKopf = (
-      liste as { anilistId?: number; platform?: string; note?: string; jahrLautSeite?: number }[]
-    ).filter((b) => {
-      const n = Number(/laut Adresse Staffel (\d+)/.exec(b.note ?? '')?.[1] ?? 0)
-      if (b.platform !== 'primevideo' || n < 2 || n > 50) return false
-      const kopfJahr = jahrVon.get(b.anilistId ?? -1)
-      if (b.jahrLautSeite && kopfJahr && Math.abs(b.jahrLautSeite - kopfJahr) <= 1) return false
-      const r = reiheVon.get(b.anilistId ?? -1) ?? []
-      const haupt = r.filter((k) => (k.format === 'TV' || k.format === 'ONA') && !k.beiwerk)
-      if (haupt[0]?.id !== b.anilistId || staffelImNamen(haupt[0].name) !== null) return false
-      return haupt.filter((k) => staffelImNamen(k.name) === n).length === 1
-    }).length
-    pruefe('Handbelege: höchstens 1 Prime-Beleg ab Staffel 2 hängt am Reihenkopf', amKopf <= 1, `${amKopf}`)
   }
 }
 
@@ -3476,7 +3392,7 @@ console.log('\nJapanischer Start: so genau wie die Quelle, und angekündigte Tit
 
 console.log('\nÄhnliche Titel:')
 {
-  const { aehnlicheTitel } = await import('../web/src/lib/aehnlich.ts')
+  const { aehnlicheTitel } = await import('../shared/aehnlich.ts')
   const titel = (id: number, genres: string[], keywords: string[], franchiseId?: number) =>
     ({ id, franchiseId, genres, keywords }) as unknown as import('../shared/types.ts').Title
   const liste = [
@@ -6811,10 +6727,10 @@ pruefe(
   pruefe('der Prüfstand liefert alle Ziele, nicht einen Ausschnitt', idx.includes('ziele: alleZiele,') && !/ziele: alleZiele\.slice/.test(idx))
 }
 {
-  /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und die Pillen einer Zeile sind gleich hoch. */
+  /* TOGGO: „toggo ist immer DE, immer, ausnahmslos" — und Anbieter stehen als Pillen in Tippziel-Höhe mit Sprach-Blase (12.10.2026). */
   const panel = panelQuelltext()
-  pruefe('ein TOGGO-Weg trägt immer „DE ✓"', /istToggo\(g\.eintraege\[0\]\.url\) \|\|\s*g\.eintraege\[0\]\.dubRanges/.test(panel))
-  pruefe('die Pillen einer Zeile strecken sich auf gleiche Höhe', panel.includes('flex min-h-[2.1rem] flex-wrap items-stretch gap-x-1.5'))
+  pruefe('ein TOGGO-Weg ist immer „✓ Deutsch"', /statusArt\(istToggo\(e\.url\) \|\|\s*e\.dubRanges/.test(panel))
+  pruefe('die Anbieter stehen als Pillen von mindestens 52 px, die Sprache als Blase', panel.includes('inline-flex min-h-[52px] max-w-full items-center') && panel.includes('-top-3.5') && panel.includes('gap-y-4'))
 }
 {
   /* TOGGO-Fenster (19.09.2026, gemessen an Daima und Boruto): die Pille rechnet beim Anzeigen. */
@@ -8438,6 +8354,7 @@ console.log('\nBeleg: Fundstelle, Banner, Handlung:')
     pruefe('Wecker: 04 Uhr UTC zusätzlich der Tageslauf (und der Nachhol-Kandidat Tonspuren)', um('2026-10-06T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml', um('2026-10-06T04:00:00Z'))
     pruefe('Wecker: Montag 05 Uhr UTC der Wochenlauf, Dienstag nicht', um('2026-10-05T05:00:00Z') === 'refresh-hourly.yml,refresh-weekly.yml' && um('2026-10-06T05:00:00Z') === 'refresh-hourly.yml', um('2026-10-05T05:00:00Z'))
     pruefe('Wecker: ADN alle sechs Stunden, Sonntag zählt als 7', um('2026-10-04T08:00:00Z') === 'adn-laufende.yml,refresh-hourly.yml' && um('2026-10-04T05:00:00Z') === 'refresh-hourly.yml')
+    pruefe('Wecker: die Ladezeiten-Messung täglich um 16 Uhr UTC, sonst nicht', um('2026-10-06T16:00:00Z') === 'ladezeiten.yml,refresh-hourly.yml' && !um('2026-10-06T15:00:00Z').includes('ladezeiten'), um('2026-10-06T16:00:00Z'))
     pruefe('Wecker: der Monatslauf der Tonspuren am 2. um 04 Uhr UTC, am 1. nicht', um('2026-11-02T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml,tonspuren-monatlich.yml' && um('2026-11-01T04:00:00Z') === 'refresh-data.yml,refresh-hourly.yml', um('2026-11-02T04:00:00Z'))
   }
   /* Monatslauf nachholen: ein abgebrochener Lauf am 2. führt am 3. zum Start, ein erfolgreicher nicht (motn 02.10.2026 nach 4 s abgebrochen). */

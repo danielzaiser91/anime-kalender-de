@@ -15,6 +15,7 @@
  */
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { ladeNeinFaelle } from '../pipeline/lib/nein-wiedervorlage-lesen.ts'
 
 export { brauchtUrteil, wartet } from './offen-erschienen.mjs'
 
@@ -59,8 +60,28 @@ function lies(wurzel, datei) {
   return Array.isArray(roh) ? roh : (roh.titles ?? Object.values(roh))
 }
 
-/** Der Hauptbestand. */
-export const ladeBestand = (wurzel) => lies(wurzel, 'titles.json')
+/** Die Anbieter, deren Prüfliste die Erweiterung führt. */
+const LISTEN_ANBIETER = new Set(['netflix', 'primevideo', 'disneyplus'])
+
+/** Prime-Listen führen Titelseiten (`/gp/video/detail/<ASIN>`); die aniSearch-Form `/dp/<ASIN>?tag=…` wird zu ihr. */
+const titelseite = (url) => url.replace(/^https?:\/\/www\.amazon\.de\/dp\/([A-Z0-9]{10})\b.*$/, 'https://www.amazon.de/gp/video/detail/$1')
+
+/**
+ * Wege, die ein Nein aus dem Datensatz genommen hat und die neu gemessen werden sollen (`shared/nein-wiedervorlage.ts`).
+ * Die Listen gehen von den Wegen eines Titels aus; ohne den Weg käme das Nein nie wieder vor. Der Weg trägt sein Nein
+ * (`dub: false`) und die Adresse aus Beleg oder Gedächtnis; wie ein Verdachtsfall steht er trotz Urteil auf der Liste.
+ */
+function mitNeinWegen(titel, wurzel) {
+  const faelle = ladeNeinFaelle(wurzel).filter((f) => f.url && LISTEN_ANBIETER.has(f.platform))
+  return titel.map((t) => {
+    const neu = faelle.filter((f) => f.titleId === t.id && !(t.streams ?? []).some((s) => s.platform === f.platform))
+    if (!neu.length) return t
+    return { ...t, streams: [...(t.streams ?? []), ...neu.map((f) => ({ platform: f.platform, url: titelseite(f.url), dub: false }))] }
+  })
+}
+
+/** Der Hauptbestand, dazu die Wege mit einem Nein, das neu gemessen werden soll. */
+export const ladeBestand = (wurzel) => mitNeinWegen(lies(wurzel, 'titles.json'), wurzel)
 
 /** Die Cartoons, als solche gekennzeichnet; leer, solange die Regeln sie nicht zuschalten. */
 export const ladeCartoons = (wurzel) =>

@@ -53,6 +53,11 @@
   title: 'Kirby'
   von: '2003-11-12'
   publisher: 'Disney Channel'
+  deFolgen:
+    n: 52
+    name: fernsehserien.de
+    url: https://www.fernsehserien.de/kirby
+    zitat: 'Anime 52 Folgen in 2 Staffeln'
   sources:
     - https://www.fernsehserien.de/kirby
 # Kizumonogatari I — bluray-disc.de: „29.09.2017", peppermint anime, „Deutsch DTS-HD MA 5.1"; Kino 16.01.2016 war OmU (OFDb).
@@ -468,3 +473,20 @@
   publisher: 'Universum Anime'
   sources:
     - https://www.anime2you.de/news/321291/unterm-wolkenhimmel-laughing-under-the-clouds-gaiden-blu-ray/
+
+# ---- Nachtrag 12.10.2026: teilweise deutsch (`deFolgen`: Zahl der deutschen Folgen, Quelle mit Zitat unter 15 Wörtern; das Panel zeigt „26 von 41 Folgen auf Deutsch“) ----
+# Wundersame Geschichten (Original 41 Folgen laut aniSearch 3453) — de.wikipedia: „Deutschsprachige Premiere 24. Dez. 1993 auf VOX“, Episodenliste 1–26; fernsehserien.de: „26 tlg.“.
+# aniSearch führt den deutschen Dub als „abgebrochen“ (c) und hielt deshalb `synchro: false`; die VOX-Ausstrahlung in deutscher Sprache ist belegt.
+# Offen (kein Eintrag): Transformers: Cybertron — der Kommentar oben nennt 26 deutsche Folgen, fernsehserien.de führt aber „51 Folgen in 2 Staffeln“ (12.10.2026).
+- anilistId: 10003453
+  title: 'Wundersame Geschichten'
+  von: '1993-12-24'
+  publisher: 'VOX'
+  deFolgen:
+    n: 26
+    name: fernsehserien.de
+    url: https://www.fernsehserien.de/wundersame-geschichten
+    zitat: '26 tlg. US-jap. Zeichentrickserie'
+  sources:
+    - https://de.wikipedia.org/wiki/Wundersame_Geschichten
+    - https://www.fernsehserien.de/wundersame-geschichten

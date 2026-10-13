@@ -50,6 +50,7 @@ QUELLEN=(
   data/anisearch-reihen-abweichungen.json
   # Stufe C, Übernahme (11.10.2026): Prüfliste der Reihen, die aniSearch verbindet, der Bau aber nicht von selbst zusammenlegt; vom Bau geschrieben.
   data/anisearch-reihen-pruefliste.json
+  data/anisearch-reihen-rein-pruefliste.json
   # Stufe D (11.10.2026): Zählung der Sprecher je Quelle vorher/nachher (AniList, ANN, aniSearch); vom Bau geschrieben.
   data/sprecher-quellen.json
   data/tmdb-poster.json
@@ -79,6 +80,8 @@ QUELLEN=(
   # nie, und bei bewegtem Fernstand warf der Reset sie weg. Der Lauf tat also
   # jede Woche dieselbe Arbeit umsonst.
   data/adn-catalog.json
+  # Serien des Katalogs ohne eindeutigen aniSearch-Eintrag (13.10.2026); der Katalog-Lauf schreibt sie mit.
+  data/adn-anisearch-offen.json
   # Die ADN-News-Artikel, über die sich angekündigte Termine lesbar belegen
   # lassen (`pipeline/lib/adn-news.ts`). Ohne diese Zeile fiele der Stand bei
   # bewegtem Fernstand weg und würde jeden Tag neu geholt.
@@ -128,6 +131,8 @@ QUELLEN=(
   data/prime-zugeordnet.json
   data/folgen-zuordnung.json
   data/urteile.json
+  # Wann die beiden Dateien davor zuletzt vom Worker geholt wurden (12.10.2026, pipeline/lib/abruf-stempel.ts).
+  data/abruf-stempel.json
   data/amazon-gti-belegt.json
   data/justwatch-handpruefung.json
   daniel-zum-abarbeiten/listen/20-justwatch-handpruefung.md
@@ -141,7 +146,11 @@ QUELLEN=(
   # ein Lauf legt sie unverändert zurück (06.09.2026).
   data/curated-ids.json
   data/source-health.json
+  # Ordner, darin seit 13.10.2026 `offizielle-news.json` (Vorschläge aus den News offizieller Websites, `pipeline/fetch-offizielle-news.ts`). Der Stand dieses Sammlers liegt im Cache (`data/cache/offizielle-news/`), nicht im Repo.
   data/proposals
+  # Stand des Sammelartikel-Vorschlagslaufs (`pipeline/fetch-sammelartikel.ts`): ab wann Anime2You als Nächstes gelesen wird, und eine Pause nach Sperre.
+  # Ohne diese Zeile läse jeder Lauf bei bewegtem Fernstand wieder dieselben 21 Tage.
+  data/sammelartikel-stand.json
   # Gedächtnis, keine Momentaufnahme — und deshalb hier lebenswichtig.
   #
   # `data/synchro-historie.json` hält fest, seit wann ein Titel eine belegte
@@ -201,6 +210,8 @@ QUELLEN=(
   # Lesungen der Artikel-Belege (Hash, Veröffentlicht/Aktualisiert, Schlüssel der privaten Bilder)
   # — schreibt pipeline/belege-lesen.ts im täglichen Lauf.
   data/beleg-lesungen.json
+  # Wann eine Beleg-Adresse zuletzt nicht gelesen werden konnte (Pause in der Schlange) — schreibt ebenfalls pipeline/belege-lesen.ts.
+  data/beleg-fehlschlaege.json
   # Gesichtete Anime-Sendungen im TV-Programm von RTL+ — die Seite zeigt nur
   # den laufenden Tag, das Gedächtnis entsteht erst hier (16.09.2026).
   data/tv-programm.json

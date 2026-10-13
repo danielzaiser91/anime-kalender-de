@@ -325,7 +325,7 @@ export function FilterDetails({
   platformZaehlung?: Map<PlatformId, number>
   genreListe?: string[]
   genreZaehlung?: Map<string, number>
-  /** Abschnitte zwischen Schnell und Gruppen (aktive Filter, Schalter) — sie stehen unter dem klebenden Klick-Modus. */
+  /** Abschnitte zwischen Schnell und Gruppen (aktive Filter, Schalter) — sie stehen unter dem festen Klick-Modus. */
   zwischen?: ReactNode
 }) {
   const [mehr, setMehr] = useState(false)
@@ -340,6 +340,7 @@ export function FilterDetails({
   return (
     <>
       <KlickModusLeiste t={t} mode={mode} setMode={setMode} />
+      <div data-filter-scroll tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto overscroll-contain focus:outline-none">
       <FilterSuche t={t} filterQuery={filterQuery} setFilterQuery={setFilterQuery} />
       <SchnellSchalter
         t={t}
@@ -393,18 +394,7 @@ export function FilterDetails({
           <Grundgruppen t={t} meta={meta} filters={filters} modusVon2={modusVon2} chipState={chipState} pick={pick} tRelease={tRelease} suche={suche} set={set} mode={mode} />
         </div>
 
-        {!suche && (
-          <div className="mt-3 border-t border-dashed border-ak-linie pt-3">
-            <button
-              type="button"
-              onClick={() => setMehr(!mehr)}
-              aria-expanded={mehr}
-              className={`cursor-pointer text-[13px] font-bold text-ak-akzent-text hover:underline ${TIPPFLAECHE_HOCH}`}
-            >
-              {mehr ? t('filter.weniger') : t('filter.mehr')}
-            </button>
-          </div>
-        )}
+        {!suche && <MehrKnopf t={t} mehr={mehr} setMehr={setMehr} />}
         {/* **Auch die Filter hinter „mehr Filter" werden durchsucht**:
             Während gesucht wird, klappt die Fläche auf, damit ein Treffer nicht verborgen bleibt. */}
         {(mehr || suche) && (
@@ -430,7 +420,24 @@ export function FilterDetails({
           />
         )}
       </div>
+      </div>
     </>
+  )
+}
+
+/** Der Knopf „mehr Filter" / „weniger" unter den Grundgruppen. */
+function MehrKnopf({ t, mehr, setMehr }: { t: Translate; mehr: boolean; setMehr: Dispatch<SetStateAction<boolean>> }) {
+  return (
+    <div className="mt-3 border-t border-dashed border-ak-linie pt-3">
+      <button
+        type="button"
+        onClick={() => setMehr(!mehr)}
+        aria-expanded={mehr}
+        className={`cursor-pointer text-[13px] font-bold text-ak-akzent-text hover:underline ${TIPPFLAECHE_HOCH}`}
+      >
+        {mehr ? t('filter.weniger') : t('filter.mehr')}
+      </button>
+    </div>
   )
 }
 

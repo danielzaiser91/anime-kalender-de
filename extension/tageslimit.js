@@ -10,19 +10,49 @@
  * `fetch` wird im Isolated World der Erweiterung umhüllt, nur 429-Antworten des Workers werden
  * gelesen. Der Stand liegt in `chrome.storage.local`, damit jeder Tab und jeder Frame ihn kennt.
  * Die Durchgänge fragen `aktiv()`/`text()` und halten an; nach Ablauf läuft alles wie vorher.
+ *
+ * **Antwortet der Worker stattdessen dreimal hintereinander mit 5xx auf eine Meldung** (12.10.2026:
+ * das D1-Leselimit riss, Netflix lief weiter, Prime pausierte stumm), gilt dieselbe Pause für 30
+ * Minuten, mit dem Grund „Server antwortet nicht". Ein erfolgreicher Aufruf setzt den Zähler zurück.
  */
 (() => {
   const SCHLUESSEL = 'akTageslimitBis'
+  const ART = 'akTageslimitArt'
+  const FEHLER = 'akWorkerFehlerReihe'
   const WORKER = 'https://newsletter.animekalender.workers.dev/'
+  const SERVER_FEHLER_REIHE = 3
+  const SERVER_PAUSE_SEKUNDEN = 30 * 60
+  /* Prime macht nach der Pause von allein weiter; Netflix und Disney+ enden und brauchen einen neuen Start. */
+  /* `manifest.json` spielt diese Datei nur auf netflix.com, www.amazon.de und disneyplus.com ein; kommt primevideo.com dazu, muss der Hostname hier mit. */
+  const PRIME = globalThis.location?.hostname === 'www.amazon.de'
   let bis = 0
+  let art = null
+  let reihe = 0
 
   const aktiv = () => bis > Date.now()
 
-  /** „Tageslimit erreicht, weiter ab 02:00" (Berliner Ortszeit), sonst `null`. */
+  /** „Tageslimit erreicht, weiter ab 02:00" bzw. „Server antwortet nicht, …" (Berliner Ortszeit; Prime: „nächster Versuch 14:30", sonst „Durchgang ab 14:30 neu starten"), sonst `null`. */
   function text() {
     if (!aktiv()) return null
     const uhr = new Date(bis).toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' })
-    return `Tageslimit erreicht, weiter ab ${uhr}`
+    if (art !== 'server') return `Tageslimit erreicht, weiter ab ${uhr}`
+    return PRIME ? `Server antwortet nicht, nächster Versuch ${uhr}` : `Server antwortet nicht, Durchgang ab ${uhr} neu starten`
+  }
+
+  /** Prime-Pille: statt „⏹" der Grund der Pause voran, sonst `null`. */
+  function vorspann() {
+    const grundText = text()
+    return grundText ? `⏸ ${grundText} ·` : null
+  }
+
+  /** Prime-Liste: der Grund der Pause als Zeile im Kopf (`eltern`), nur solange sie gilt. */
+  function hinweisAnhaengen(eltern) {
+    const grundText = text()
+    if (!grundText) return
+    const zeile = eltern.ownerDocument.createElement('div')
+    zeile.className = 'ak-hinweis ak-tageslimit-grund'
+    zeile.textContent = grundText
+    eltern.appendChild(zeile)
   }
 
   /** Der Grund eines Durchgangsendes: das Limit, wenn es gilt, sonst der übliche. */
@@ -33,7 +63,7 @@
     const el = document.createElement('div')
     el.id = 'ak-tageslimit'
     el.textContent = text()
-    el.title = 'Anime-Kalender: Die Meldungen warten bis zum nächsten Tag. Klick blendet den Hinweis aus.'
+    el.title = 'Anime-Kalender: Die Meldungen pausieren. Klick blendet den Hinweis aus.'
     el.style.cssText =
       'position:fixed;left:12px;bottom:12px;z-index:2147483647;padding:8px 12px;border-radius:8px;' +
       'background:#7a1f1f;color:#fff;font:600 13px system-ui,sans-serif;cursor:pointer;box-shadow:0 2px 8px #0006'
@@ -42,14 +72,42 @@
     setTimeout(() => el.remove(), Math.max(0, bis - Date.now()))
   }
 
-  function merken(sekunden) {
-    bis = Date.now() + sekunden * 1000
+  function speichern(werte) {
     try {
-      chrome.storage.local.set({ [SCHLUESSEL]: bis })
+      chrome.storage.local.set(werte)
     } catch {
       /* Ohne Speicher gilt der Stand nur in diesem Frame. */
     }
+  }
+
+  /** Pause für `sekunden`; `grundArt` ist `'server'` bei Serverfehlern, sonst das Tageslimit. */
+  function merken(sekunden, grundArt = null) {
+    bis = Date.now() + sekunden * 1000
+    art = grundArt
+    reihe = 0
+    speichern({ [SCHLUESSEL]: bis, [ART]: art, [FEHLER]: 0 })
     hinweisZeigen()
+  }
+
+  /** Eine Meldung ist ein POST an den Worker; Lesen (`?gemeldet=`) zählt nicht. */
+  function istMeldung([ziel, optionen]) {
+    const adresse = typeof ziel === 'string' ? ziel : (ziel?.url ?? String(ziel))
+    return adresse.startsWith(WORKER) && String(optionen?.method ?? ziel?.method ?? 'GET').toUpperCase() === 'POST'
+  }
+
+  /**
+   * Erfolg setzt die Reihe zurück, 5xx zählt, die dritte in Folge pausiert. Die Reihe liegt im
+   * Speicher, weil jeder Prime-Frame nur wenige Meldungen sendet.
+   */
+  function meldungZaehlen(status) {
+    if (status < 400 && reihe) {
+      reihe = 0
+      speichern({ [FEHLER]: 0 })
+    }
+    if (status < 500 || aktiv()) return
+    reihe++
+    if (reihe >= SERVER_FEHLER_REIHE) return merken(SERVER_PAUSE_SEKUNDEN, 'server')
+    speichern({ [FEHLER]: reihe })
   }
 
   /**
@@ -87,21 +145,29 @@
     globalThis.fetch = async function (...args) {
       const antwort = await echtesFetch.apply(this, args)
       if (antwort.status === 429) await pruefen(args[0], antwort)
+      else if (istMeldung(args)) meldungZaehlen(antwort.status)
       return antwort
     }
   }
 
   try {
-    chrome.storage.local.get(SCHLUESSEL).then((s) => {
-      bis = Math.max(bis, Number(s?.[SCHLUESSEL]) || 0)
+    chrome.storage.local.get([SCHLUESSEL, ART, FEHLER]).then((s) => {
+      if (Number(s?.[SCHLUESSEL]) > bis) {
+        bis = Number(s[SCHLUESSEL])
+        art = s[ART] ?? null
+      }
+      reihe = Number(s?.[FEHLER]) || reihe
       if (aktiv()) hinweisZeigen()
     })
     chrome.storage.onChanged.addListener((aenderung, bereich) => {
-      if (bereich === 'local' && aenderung[SCHLUESSEL]) bis = Number(aenderung[SCHLUESSEL].newValue) || 0
+      if (bereich !== 'local') return
+      if (aenderung[SCHLUESSEL]) bis = Number(aenderung[SCHLUESSEL].newValue) || 0
+      if (aenderung[ART]) art = aenderung[ART].newValue ?? null
+      if (aenderung[FEHLER]) reihe = Number(aenderung[FEHLER].newValue) || 0
     })
   } catch {
     /* Außerhalb der Erweiterung (Sandkasten-Test) gibt es keinen Speicher. */
   }
 
-  globalThis.AK_TAGESLIMIT = { aktiv, text, grund, merken, fehlgeschlagen, zurueckstellen }
+  globalThis.AK_TAGESLIMIT = { aktiv, text, grund, vorspann, hinweisAnhaengen, merken, fehlgeschlagen, zurueckstellen }
 })()

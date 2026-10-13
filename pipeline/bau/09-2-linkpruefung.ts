@@ -5,6 +5,7 @@ import { type Title, type PlatformId } from '../../shared/types.ts'
 import { netflixTitelAdresse } from '../lib/netflix-adresse.ts'
 import { netflixAdresseTaugt } from '../../shared/netflix-adresse-pruefung.ts'
 import { todayIso } from '../../shared/time.ts'
+import { ersetztSucheUndMeldetWeg, urteilAmWeg } from '../lib/weg-aus-beleg.ts'
 
 export function werteLinkpruefungAus({
   ytKanal,
@@ -420,10 +421,8 @@ export function werteLinkpruefungAus({
         derselbe Widerspruch wie beim `available: false` am 26.08.2026.
       */
       if (lautPruefungTot(check.url)) continue
-      if (title.streams.some((s) => s.platform === check.platform)) continue
-      /* Die Bereiche des Belegs gehören mit: Ohne sie gilt der Weg für alle Folgen (Slime S4: Prime „24 Folgen", belegt 1–19). */
-      const bereiche = check.dubRanges?.length ? { dubRanges: check.dubRanges.map((r) => ({ from: r.from, to: r.to, dub: r.dub })) } : {}
-      title.streams.push({ platform: check.platform, url: check.url, dub: check.dub, ...bereiche })
+      if (ersetztSucheUndMeldetWeg(title.streams, check)) continue
+      title.streams.push({ platform: check.platform, url: check.url, ...urteilAmWeg(check) })
       ergaenzt++
     }
   }

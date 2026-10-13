@@ -94,3 +94,9 @@ eintraege:
 
 # --- 11.10.2026: aniSearch führt Deutsch als „Geplant“ (kein „Auf Deutsch“ von heute); ADN zeigt seit dem Start nur Untertitel, die Synchro startet laut ADN-News (01.08.) und Anime2You-Lineup (Termin 22.10.) ---
   - { anilistId: 187941, titel: "Reincarnated as a Dragon Hatchling", platform: adn, omuAb: "2026-01-10", synchro: angekuendigt, stand: "2026-10-03", quellen: [adn-lineup, "https://news.animationdigitalnetwork.com/de/2026/08/01/reincarnated-as-a-dragon-hatchling-kommt-mit-deutscher-synchro-zu-adn/"] }
+
+# --- 12.10.2026 (Anime2You-Extraktion): Crunchyroll-Simulcasts 2027 mit Monat. Nur Untertitel genannt, keine Synchro. Ohne Monat (The Boxer, EAT-MAN, Teenage Mercenary, The Remarried Empress, Berserk of Gluttony 2) bleibt es aus: `omuAb` ist Pflicht. ---
+# SSS-Class Revival Hunter: „Der Streaming-Dienst Crunchyroll zeigt die Actionserie ab Januar 2027 im Simulcast." (1059957, 11.10.2026)
+# Everyone’s Darling Has a Secret: „Start: April 2027 · Sprache: Japanisch (UT)" (1058606, 09.10.2026; ob Japan-Start oder Simulcast-Start, sagt der Artikel nicht)
+  - { anilistId: 216624, titel: "SSS-Class Revival Hunter", platform: crunchyroll, omuAb: "2027-01", synchro: offen, stand: "2026-10-11", quellen: ["https://www.anime2you.de/news/1059957/sss-class-revival-hunter-neuer-teaser/"] }
+  - { anilistId: 217457, titel: "Everyone’s Darling Has a Secret", platform: crunchyroll, omuAb: "2027-04", synchro: offen, stand: "2026-10-09", quellen: ["https://www.anime2you.de/news/1058606/crunchyroll-the-boxer-und-mehr/"] }

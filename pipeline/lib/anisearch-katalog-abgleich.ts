@@ -82,7 +82,7 @@ export function wortIndex(titel: AsTitel[]): Index {
 }
 
 /** Erst alle Namensgleichen, dann die Titel mit den meisten gemeinsamen seltenen Wörtern; seltene Wörter zuerst, damit „Season“ und „Movie“ die Auswahl nicht füllen. */
-function vorauswahl(namen: string[], index: Index): number[] {
+export function vorauswahl(namen: string[], index: Index): number[] {
   const gleich = namen.flatMap((n) => index.namen.get(normalisiere(n)) ?? [])
   const zaehler = new Map<number, number>()
   const wortListe = [...new Set(namen.flatMap(woerter))]

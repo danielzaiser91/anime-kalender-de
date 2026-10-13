@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactNode, type RefObject } from 'react'
 import { createPortal } from 'react-dom'
 import { useVisualViewportHoehe } from '../../lib/use-visual-viewport.ts'
+import { useSeiteGesperrt } from '../../lib/use-seite-gesperrt.ts'
 import { useVerlaufEintrag } from '../../lib/use-verlauf-eintrag.ts'
 
 /** Luft über dem Fenster: ein Streifen der Kopfleiste bleibt sichtbar. */
@@ -18,7 +19,7 @@ function hintergrundSperren(leiste: Element | null): () => void {
 }
 
 /**
- * Das Filterfenster der Werkzeugleiste: sitzt bündig über der Leiste am unteren Rand (volle Breite), scrollt in sich und nimmt höchstens
+ * Das Filterfenster der Werkzeugleiste: sitzt bündig über der Leiste am unteren Rand (volle Breite), hält Kopf und Fuß fest, der Mittelteil scrollt; es nimmt höchstens
  * den sichtbaren Bereich darüber (mit Tastatur kürzer). Kein Modal: dahinter liegt nur ein Schleier zum Wegtippen.
  * Escape und Zurück schließen; der Fokus geht hinein und beim Schließen zurück an den Auslöser.
  */
@@ -34,21 +35,20 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
   zu.current = schliessen
   const hoehe = useVisualViewportHoehe(offen)
   useVerlaufEintrag(offen, schliessen)
+  useSeiteGesperrt(offen)
   /* Das Fenster hängt in der Leiste des Auslösers (Portal am `body`), so liegt es ohne Messen genau darüber. */
   const leiste = ausloeser.current?.closest<HTMLElement>('[role=toolbar]') ?? null
   useEffect(() => {
     if (!offen) return
-    const html = document.documentElement
-    const vorher = html.style.overflow
-    html.style.overflow = 'hidden'
     const wieder = hintergrundSperren(leiste)
-    dialog.current?.focus()
+    /* Der Scrollbereich nimmt den Fokus, damit Pfeil- und Bild-Tasten ihn scrollen (das Fenster selbst scrollt nicht). */
+    const ziel = dialog.current?.querySelector<HTMLElement>('[data-filter-scroll]') ?? dialog.current
+    ziel?.focus()
     const taste = (e: KeyboardEvent) => e.key === 'Escape' && zu.current()
     window.addEventListener('keydown', taste)
     const knopf = ausloeser.current
     return () => {
       window.removeEventListener('keydown', taste)
-      html.style.overflow = vorher
       wieder()
       knopf?.focus()
     }
@@ -65,7 +65,7 @@ export function FilterPopover({ offen, schliessen, ausloeser, label, children }:
           aria-label={label}
           tabIndex={-1}
           style={{ maxHeight: Math.max(160, hoehe - leiste.offsetHeight - OBEN) }}
-          className="absolute inset-x-0 bottom-full animate-fade-in overflow-y-auto overscroll-contain rounded-t-3xl border-t border-ak-rand [scroll-padding-top:52px] bg-ak-flaeche shadow-[0_-24px_60px_rgba(0,0,0,.45)] focus:outline-none"
+          className="absolute inset-x-0 bottom-full flex flex-col animate-fade-in overflow-hidden rounded-t-3xl border-t border-ak-rand bg-ak-flaeche shadow-[0_-24px_60px_rgba(0,0,0,.45)] focus:outline-none"
         >
           {children}
         </div>,

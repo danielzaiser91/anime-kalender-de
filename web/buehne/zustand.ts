@@ -10,9 +10,14 @@ export interface Zustand {
   geraet: Geraet
   thema: Thema
   teil: Seitenteil
+  /** Eingefrorene Uhrzeit als ISO mit Versatz; leer = `faelle.heute`. */
+  zeit: string
 }
 
-export const STANDARD: Omit<Zustand, 'mockup'> = { variante: '', fall: '', geraet: '375', thema: 'beide', teil: 'beide' }
+export const STANDARD: Omit<Zustand, 'mockup'> = { variante: '', fall: '', geraet: '375', thema: 'beide', teil: 'beide', zeit: '' }
+
+/** Ein `+` im Link wird beim Lesen zum Leerzeichen; die Uhrzeit trägt ihren Versatz mit `+`. */
+export const zeitAus = (w: URLSearchParams): string => (w.get('zeit') ?? STANDARD.zeit).replace(' ', '+')
 
 /** Teilt `#name?a=1` in Namen und Werte. */
 export function leseHash(hash: string): { name: string; werte: URLSearchParams } {
@@ -39,10 +44,12 @@ export function zustandAus(name: string, w: URLSearchParams): Zustand {
     geraet: wahl(w.get('geraet'), ['375', '512', '1200', 'beide'], STANDARD.geraet),
     thema: wahl(w.get('thema'), ['hell', 'dunkel', 'beide'], STANDARD.thema),
     teil: wahl(w.get('teil'), ['vorher', 'nachher', 'beide'], STANDARD.teil),
+    zeit: zeitAus(w),
   }
 }
 
 export function hashVon(z: Zustand): string {
   const w = new URLSearchParams({ v: z.variante, fall: z.fall, geraet: z.geraet, thema: z.thema, teil: z.teil })
+  if (z.zeit) w.set('zeit', z.zeit)
   return `#${encodeURIComponent(z.mockup)}?${w}`
 }

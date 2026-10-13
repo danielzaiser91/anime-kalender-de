@@ -1,0 +1,33 @@
+/**
+ * Zusicherungen zu „freenet meinVOD: Deutsch laut Schwester-Shop“ am gebauten Bestand (13.10.2026): Jede Kennzeichnung hat ihren
+ * Schwester-Beleg und kein `dubRanges` daneben, und kein freenet-Weg mit Schwester-Beleg und ohne eigene Angabe bleibt ungekennzeichnet.
+ * Läuft in `check:bestand` (nach dem Bau), nicht in `check:logic`. Die Regel selbst prüft `check-schwester-shop.ts`.
+ */
+import { existsSync } from 'node:fs'
+import { readJson } from './lib/util.ts'
+import { schwesterBelegtDeutsch, schwesterFehler } from './lib/schwester-shop.ts'
+import type { Title } from '../shared/types.ts'
+
+let fehler = 0
+function pruefe(name: string, ok: boolean, info = ''): void {
+  if (!ok) {
+    fehler++
+    console.error(`FEHLER: ${name} ${info}`)
+  }
+}
+
+const OUT = 'public/data/titles.json'
+if (!existsSync(OUT)) {
+  console.error(`FEHLER: ${OUT} fehlt — erst bauen`)
+  process.exit(1)
+}
+const titel = readJson<Title[]>(OUT, [])
+const freenet = (t: Title) => (t.watchLinks ?? []).filter((w) => /^freenet meinvod$/i.test(w.name))
+const mitBeleg = titel.filter((t) => freenet(t).length && schwesterBelegtDeutsch(t.watchLinks ?? []))
+pruefe('Bestand: keine Kennzeichnung ohne Schwester-Beleg, keine neben dubRanges', schwesterFehler(titel).length === 0, schwesterFehler(titel)[0])
+pruefe(
+  'Bestand: jeder freenet-Weg ohne eigene Angabe, dessen Schwester Deutsch belegt, ist gekennzeichnet',
+  mitBeleg.every((t) => freenet(t).every((w) => w.dubRanges?.length || w.dubAbgeleitet === 'schwester-shop')),
+)
+console.log(`  ${titel.filter((t) => freenet(t).some((w) => w.dubAbgeleitet)).length} Titel mit „laut Schwester-Shop“ bei freenet`)
+if (fehler) process.exit(1)

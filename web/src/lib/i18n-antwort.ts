@@ -1,7 +1,11 @@
 /** Texte des Antwort-Kastens im Detail-Panel (`components/detail/antwort-regeln.ts`); `TEXTE` in `i18n.tsx` nimmt sie über `i18n-kalender.ts` auf. */
 export const TEXTE_ANTWORT = {
   // Wie die Pille „≈ 26 Fg.“: die Zahl ist die Folgenzahl des Werks, nicht am Weg belegt.
+  // Nur Filme mit belegter Synchro und einem deutschen Kinostart bei TMDB; der Monat, nie ein Tag.
+  'antwort.kinoZuletzt': 'Zuletzt im Kino: {monat}',
   'antwort.fertigUngefaehr': 'Auf Deutsch, {count} Folgen',
+  // Nebenzeile unter „26 von 41 Folgen auf Deutsch“: woher die deutsche Zahl stammt.
+  'antwort.deFolgenQuelle': 'Laut {quelle}: „{zitat}“',
   // Die Auskunft unter einer ausgebliebenen Folge. {anbieter} wird im Panel zum Verweis.
   'antwort.vermerkPruefen': 'Wir sehen mehrmals täglich bei {anbieter} nach und tragen die Folge ein, sobald sie da ist.',
   'antwort.vermerkZuletzt': 'Zuletzt nachgesehen: {wann}.',

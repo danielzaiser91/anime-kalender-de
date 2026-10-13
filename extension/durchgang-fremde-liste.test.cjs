@@ -205,7 +205,8 @@ pruefe('randMelden schickt Stapel zu MELDE_STAPEL', /i \+= MELDE_STAPEL/.test(ra
 pruefe('ein Stapel hakt nur ab, was der Worker einzeln bestätigt', /if \(!ergebnisse\[i\]\?\.ok\) return/.test(rand))
 const senden = rand.slice(rand.indexOf('const stapel = []'), rand.indexOf('for (const [staffel, nummer] of abhaken)'))
 pruefe('kein Abhaken im Speicher während des Sendens', senden.length > 0 && !/merkeErledigt/.test(senden))
-pruefe('Abhaken folgt nach dem Melden', rand.indexOf('await merkeErledigt') > rand.indexOf('await Promise.all'))
+pruefe('Abhaken folgt nach dem Melden', rand.indexOf('for (const teil of stapel)') > 0 && rand.indexOf('await merkeErledigt') > rand.indexOf('for (const teil of stapel)'))
+pruefe('die Stapel gehen nacheinander raus, nicht mit Promise.all', senden.length > 0 && !senden.includes('Promise.all'))
 
 /* Der Schluss wartet auf die asynchronen Fälle der Menüwahl. */
 function schluss() {
@@ -226,7 +227,13 @@ function schluss() {
   pruefe('ohne passenden Eintrag: false und das Menü wieder zu', fehlt.ok === false && fehlt.geklickt.filter((x) => x === 'knopf').length === 2, fehlt)
   /* Staffelname und Netflix-Staffelzahl gehen mit (24.09.2026). */
   const melden = schneide('durchlaufMelden') + schneide('randMelden')
-  pruefe('beide Melder hängen den Staffelnamen an die Notiz', (melden.match(/` — Netflix: \$\{DURCHLAUF\.staffelLabel\}`/g) ?? []).length === 2)
+  const notizHelfer = readFileSync(resolve(__dirname, 'netflix-randvoll.js'), 'utf8')
+  pruefe(
+    'beide Melder hängen den Staffelnamen an die Notiz',
+    (melden.match(/` — Netflix: \$\{DURCHLAUF\.staffelLabel\}`/g) ?? []).length === 1 &&
+      melden.includes('akNetflixRandNotiz(folgen, bisNummer, f, DURCHLAUF.staffelLabel, gemessen.has(Number(f.nummer)))') &&
+      notizHelfer.includes('` — Netflix: ${staffelLabel}`'),
+  )
   pruefe('die Einzelmeldung schreibt „Folge N: Titel", die Form, die der Anker liest', /`Durchlauf: Folge \$\{folge\.nummer\}\$\{folge\.titel \? `: \$\{folge\.titel\}`/.test(melden))
   /*
     Meine ganz besondere Hochzeit (24.09.2026): Staffel und titelId nur, was sicher ist —

@@ -54,6 +54,8 @@ const ergaenzt = mitDatum(
 pruefe('Patch-Notes: fehlendes datum wird ergänzt, ein vorhandenes bleibt', ergaenzt[0]!.datum === '2026-10-11' && ergaenzt[1]!.datum === '2026-10-01', ergaenzt)
 const namensProbe = pruefePatchnotes([{ ...ok, kategorie: 'anderes' }], ['mein-eintrag'])
 pruefe('Patch-Notes: Meldungen nennen den Dateinamen', namensProbe.some((m) => m.startsWith('mein-eintrag:')), namensProbe)
+const langProbe = pruefePatchnotes([{ ...ok, text: 'eins zwei drei vier fünf sechs sieben acht neun zehn elf' }], ['langer-eintrag'])
+pruefe('Patch-Notes: zu langer Text meldet gezählte Wörter und Grenze („11 Wörter, höchstens 8“)', langProbe.some((m) => m.includes('11 Wörter, höchstens 8')), langProbe)
 
 console.log(fehler ? `\n${fehler} Zusicherung(en) verletzt.` : '\nAlle Zusicherungen halten.')
 process.exit(fehler ? 1 : 0)

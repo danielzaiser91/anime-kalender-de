@@ -92,6 +92,12 @@ export const FernsehZeichen = ({ groesse }: Z) => (
     <path d="M8 21h8M12 17v4" />
   </Strich>
 )
+export const KlappeZeichen = ({ groesse }: Z) => (
+  <Strich groesse={groesse}>
+    <rect x="3" y="10" width="18" height="11" rx="2" />
+    <path d="m3 10 2.4-5.2 4.3 1L7.3 11M10.6 5.9l4.3 1L12.5 11M15.8 7l4.3 1L17.7 11" />
+  </Strich>
+)
 export const RasterZeichen = ({ groesse }: Z) => (
   <Strich groesse={groesse}>
     <rect x="4" y="4" width="7" height="7" rx="1.5" />

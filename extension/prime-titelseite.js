@@ -8,6 +8,19 @@
 */
 globalThis.akPrimeHatTitelseite = (eintrag) => /\/detail(?:\/|\?gti=)/.test(String(eintrag?.url ?? ''))
 
+/*
+  Reihenfolge des Durchgangs: Einträge mit `vorrang` (1 vor 2) zuerst, danach nach Titel. Die Liste setzt es für die Kanal-Nachmessung
+  (`data/erneut-melden.yaml`, 12.10.2026), damit die Titel mit zweifelhaftem Kanal-Ja vor den übrigen drankommen.
+*/
+globalThis.akPrimeVergleich = (liste) => (a, b) =>
+  (liste[a].vorrang ?? 9) - (liste[b].vorrang ?? 9) || String(liste[a].titel).localeCompare(String(liste[b].titel), 'de')
+
+/* Der Vermerk der Prime-Liste, wie der letzte Durchgang endete. */
+globalThis.akPrimeEndeText = (ende) =>
+  (ende.grund === 'nichts mehr offen' ? 'Durchgang fertig' : `Durchgang beendet · ${ende.grund}`) +
+  (ende.uebersprungen?.length ? ` · offen (Fehler beim Melden): ${ende.uebersprungen.join(', ')}` : '') +
+  (ende.suchen ? ` · ${ende.suchen} Suchaufträge von Hand` : '')
+
 /* Startkennung eines Titels: die gti aus JustWatchs Adresse, sonst die Kennung der Titelseite. */
 globalThis.akPrimeStartKennung = (url, kennungAus) =>
   /[?&]gti=(amzn1\.dv\.gti\.[a-z0-9-]+)/.exec(String(url ?? ''))?.[1] ?? kennungAus(url)

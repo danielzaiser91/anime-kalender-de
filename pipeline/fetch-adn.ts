@@ -20,14 +20,11 @@ import { resolve } from 'node:path'
 import { gunzipSync, gzipSync } from 'node:zlib'
 import { addDays, diffDays, todayIso } from '../shared/time.ts'
 import { log, readJson, ROOT, sleep, warn, writeJson } from './lib/util.ts'
-import { searchMedia } from './lib/anilist.ts'
 import { recordSource } from './lib/health.ts'
 import { holeAdnNews } from './lib/adn-news.ts'
+import { ordneKatalogZuAnisearch } from './lib/adn-zuordnung-lauf.ts'
 import {
   bestimmeRhythmus,
-  bewerteTreffer,
-  passtZuSerie,
-  volltreffer,
   type AdnData,
   type AdnEpisode,
   type AdnShow,
@@ -183,45 +180,6 @@ async function fetchDay(date: string): Promise<AdnVideo[]> {
  * `vde`; die meisten des französischen Katalogs sind in Deutschland gar nicht
  * verfügbar (die Folgenliste kommt dann leer zurück).
  */
-/**
- * Suchbegriffe für einen ADN-Titel, vom vollständigsten zum knappsten.
- *
- * ADN und AniList benennen dieselben Filme unterschiedlich: „One Piece Movie 3
- * : Chinjuu Shima no Chopper Oukoku" gegenüber „ONE PIECE: Chinjuu-jima no
- * Chopper Oukoku". Zwei Dinge brechen die Suche — die Zählung „Movie 3", die
- * AniList gar nicht führt, und der Teil vor dem Doppelpunkt. Mit dem vollen
- * String findet man nichts, mit dem Namensteil dahinter sofort den richtigen
- * Film. Deshalb nacheinander probieren statt einmal raten.
- */
-function sucheVarianten(...titel: (string | undefined)[]): string[] {
-  const varianten: string[] = []
-  for (const t of titel) {
-    if (!t) continue
-    varianten.push(t)
-    // Ohne Diakritika: ADN schreibt „Kyôkai no Kanata" und „Haikyū!!", AniList
-    // „Kyoukai no Kanata" und „Haikyuu!!". Ein Zirkumflex genügt, damit die
-    // Suche ins Leere greift.
-    const schlicht = t.normalize('NFD').replace(/[̀-ͯ]/g, '')
-    if (schlicht !== t) varianten.push(schlicht)
-    // Alles nach dem letzten Doppelpunkt — dort steht der eigentliche Name.
-    const nachDoppelpunkt = t.split(/\s*:\s*/).slice(1).join(': ').trim()
-    if (nachDoppelpunkt.length > 4) varianten.push(nachDoppelpunkt)
-    // Ohne die Zählung („Movie 3", „Film 3", „OVA 2").
-    const ohneZaehlung = t.replace(/\b(movie|film|ova|special)\s*\d+\b/gi, '').replace(/\s{2,}/g, ' ').trim()
-    if (ohneZaehlung.length > 4 && ohneZaehlung !== t) varianten.push(ohneZaehlung)
-    // Zuletzt nur der Namenskern: die letzten drei, dann zwei Wörter. Eine
-    // einzelne abweichende Silbe reicht sonst für einen Fehlschlag — ADN
-    // schreibt „Chinjuu Shima no Chopper Oukoku", AniList „Chinjuu-jima…";
-    // „Chopper Oukoku" trifft dagegen sofort. Unter zwei Wörtern wird nicht
-    // gekürzt, sonst passt irgendwann jedes „Season 2".
-    const woerter = ohneZaehlung.split(/\s+/).filter(Boolean)
-    for (const n of [3, 2]) {
-      if (woerter.length > n) varianten.push(woerter.slice(-n).join(' '))
-    }
-  }
-  return [...new Set(varianten)]
-}
-
 
 /** Ordnet Folgen nach Staffel, dann Nummer, dann Termin. */
 function sortiereFolgen(episodes: AdnEpisode[]): void {
@@ -476,110 +434,8 @@ async function fetchCatalog(): Promise<AdnShow[]> {
   }
   writeJson(KATALOG_STAND, stand)
 
-  // Zuordnung nachschlagen, solange wir online sind.
-  //
-  // Der Namensabgleich beim Bauen scheitert an Schreibweisen — ADN schreibt
-  // „One Piece Movie 3 : Chinjuu Shima no Chopper Oukoku", AniList
-  // „Chinjuu-jima". Acht Filme mit belegter deutscher Synchro fielen deshalb
-  // heraus. Die Suche kostet eine Anfrage je Treffer und rettet sie.
-  log(`ADN-Katalog: ${out.length} Treffer, Zuordnung wird nachgeschlagen…`)
-  /**
-   * Zwei ADN-Serien dürfen nicht denselben Anime beanspruchen.
-   *
-   * ADN führt „To Love-Ru" unter zwei Kennungen, 217 und 670, beide mit 26
-   * Folgen. Die Suche liefert für Fortsetzungen gern den Reihenkopf zurück, und
-   * `passtZuSerie` nimmt ihn an, sobald ein Wort geteilt wird — bei „To Love-Ru
-   * - Darkness" gegen „To Love Ru" ist das „love". So beanspruchten beide
-   * Kennungen AniList 3455, und die Prüfung im Build brach ab: „zusammen 52
-   * Folgen bei 26 vorhandenen". Drei Wochenläufe in Folge haben deshalb nichts
-   * geschrieben (10.–17.08.2026).
-   *
-   * Deshalb wird erst **gesammelt** und dann **vergeben**, in zwei Durchgängen.
-   *
-   * Der erste Anlauf am 17.08.2026 vergab sofort, nach „wer zuerst kommt" — und
-   * das ging nach hinten los: „One Piece • Le Film" griff sich AniList 21, also
-   * die **Serie**, und die eigentliche One-Piece-Serie verlor daraufhin alle
-   * sieben Sagas. Wer zuerst dran ist, entscheidet die Reihenfolge im Katalog,
-   * und die sagt nichts über die Passung.
-   *
-   * Jetzt gewinnt je Anime die Serie mit der höchsten Punktzahl (siehe
-   * `bewerteTreffer`); die Unterlegenen weichen auf ihren nächstbesten Kandidaten
-   * aus. Bleibt keiner übrig, hat eine Serie eben keine Zuordnung — ein falsch
-   * zugeordneter Titel ist schlimmer als ein fehlender.
-   *
-   * Ein Volltreffer bricht die Suche nach weiteren Schreibweisen ab, sonst
-   * kostete das Sammeln fünfmal so viele Abfragen bei AniList.
-   */
-  const kandidaten = new Map<AdnShow, { id: number; punkte: number }[]>()
-  /**
-   * Fortschritt melden, sonst schweigt diese Phase.
-   *
-   * Sie ist die langsamste des ganzen Laufs — bis zu sechs AniList-Abfragen je
-   * Serie, gedeckelt auf dessen Ratenlimit — und schrieb bisher nur Warnungen.
-   * Am 17.08.2026 waren neun Minuten Stille nicht von einem Hänger zu
-   * unterscheiden; nachweisen ließ sich der Betrieb nur über den Zähler in den
-   * Antwort-Kopfzeilen von AniList. Eine Zeile je zwanzig Serien genügt.
-   */
-  let nachgeschlagen = 0
-  for (const show of out) {
-    if (++nachgeschlagen % 20 === 0)
-      log(`  Zuordnung ${nachgeschlagen}/${out.length} — ${kandidaten.size} mit Kandidaten`)
-    try {
-      const gefunden = new Map<number, number>()
-      // Beide Namen anbieten: Der Originaltitel trägt oft Makra und
-      // Zirkumflexe, der Anzeigename ist die schlichtere Schreibweise —
-      // „Haikyū!!" gegen „Haikyu!!". Welcher trifft, weiß man vorher nicht.
-      for (const begriff of sucheVarianten(show.originalTitle, show.title)) {
-        const media = await searchMedia(begriff)
-        if (!media?.id || !passtZuSerie(show, media)) continue
-        gefunden.set(media.id, bewerteTreffer(show, media))
-        if (volltreffer(show, media)) break
-      }
-      if (gefunden.size)
-        kandidaten.set(
-          show,
-          [...gefunden].map(([id, punkte]) => ({ id, punkte })).sort((a, b) => b.punkte - a.punkte),
-        )
-    } catch (err) {
-      warn(`ADN-Katalog: Suche für "${show.title}" fehlgeschlagen: ${(err as Error).message}`)
-    }
-  }
-
-  /**
-   * Vergabe: der beste Bewerber je Anime gewinnt, die anderen weichen aus.
-   *
-   * Absichtlich schlicht gehalten — keine optimale Zuordnung, sondern eine
-   * gierige. Es wird immer das stärkste noch offene Paar genommen; wer dabei
-   * leer ausgeht, bekommt seinen nächstbesten Kandidaten. Bei 77 Serien ist der
-   * Unterschied zu einer optimalen Lösung nicht zu bemerken, der zum vorherigen
-   * „wer zuerst kommt" sehr wohl.
-   */
-  const vergeben = new Map<number, AdnShow>()
-  const offen = new Set(kandidaten.keys())
-  // Jede Runde vergibt genau eine Serie, mehr als eine je Bewerber kann es also
-  // nicht geben. Die Grenze ist nur ein Riegel gegen eine Endlosschleife.
-  let runde = 0
-  while (offen.size && runde++ <= kandidaten.size) {
-    let beste: { show: AdnShow; id: number; punkte: number } | undefined
-    for (const show of offen) {
-      const naechster = kandidaten.get(show)!.find((k) => !vergeben.has(k.id))
-      if (!naechster) continue
-      if (!beste || naechster.punkte > beste.punkte) beste = { show, id: naechster.id, punkte: naechster.punkte }
-    }
-    if (!beste) break
-    vergeben.set(beste.id, beste.show)
-    beste.show.anilistId = beste.id
-    offen.delete(beste.show)
-  }
-  for (const show of offen) {
-    warn(
-      `ADN-Katalog: "${show.title}" (${show.showId}) bleibt ohne Zuordnung — ` +
-        `alle ${kandidaten.get(show)!.length} Kandidaten sind an besser passende Serien vergeben.`,
-    )
-  }
-
-  const zugeordnet = out.filter((s) => s.anilistId).length
-  log(`ADN-Katalog: ${zugeordnet} von ${out.length} einem Anime zugeordnet`)
+  // Zuordnung zu aniSearch aus der Titelliste im Cache (`lib/adn-anisearch.ts`): keine Abfrage je Serie, bei Mehrdeutigkeit bleibt die Serie offen.
+  await ordneKatalogZuAnisearch(out, readJson<AdnData>('data/adn-catalog.json', { scrapedAt: '', window: { from: '', to: '' }, shows: [] }).shows)
   return out
 }
 

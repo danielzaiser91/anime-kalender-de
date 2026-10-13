@@ -19,8 +19,11 @@ cd "$(git rev-parse --show-toplevel)" || exit 0
 if [ "${1:-}" = "--einrichten" ]; then
   # Dazu die Umfangsprüfung (1 s): Eine Zeile zu viel in einer überlangen Funktion machte am
   # 02.10.2026 drei Stunden lang jeden Deploy rot, weil der Commit ohne check:vor-commit lief.
-  printf '#!/usr/bin/env bash\nbash tools/quellen-commit-wache.sh && node tools/umfang-pruefen.mjs\n' > .git/hooks/pre-commit
-  chmod +x .git/hooks/pre-commit
+  # Dazu die Patch-Notes-Prüfung (nur bei gestagten data/patchnotes/*.yaml): ein Doppelpunkt im Untertitel fiel am 12.10.2026 erst
+  # in check:vor-commit auf. Die Hook-Datei liegt für alle Worktrees im gemeinsamen Git-Verzeichnis; Zweige ohne das Werkzeug überspringen es.
+  hook=$(git rev-parse --git-path hooks/pre-commit)
+  printf '#!/usr/bin/env bash\nbash tools/quellen-commit-wache.sh && node tools/umfang-pruefen.mjs && { [ ! -f tools/patchnotes-gestagt-pruefen.mjs ] || node tools/patchnotes-gestagt-pruefen.mjs; }\n' > "$hook"
+  chmod +x "$hook"
   echo "pre-commit-Wache eingerichtet"
   exit 0
 fi

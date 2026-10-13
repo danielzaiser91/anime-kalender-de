@@ -3,6 +3,7 @@ import { type CrunchyrollEntry } from '../lib/crunchyroll.ts'
 import { type CrDubData } from '../lib/crunchyroll-dub.ts'
 import { type AdnData } from '../lib/adn.ts'
 import { type KatalogEintrag } from '../lib/anilist.ts'
+import { hebeFolgenzahlAnnahmeAuf } from '../lib/folgenzahl-belegt.ts'
 import { readJson } from '../lib/util.ts'
 import { type EntfernterVerweis } from './grundlagen.ts'
 import { type AnisearchEintrag, type TmdbTitelEintrag } from './01-quellen.ts'
@@ -79,6 +80,8 @@ export function pruefeSynchroJePlattform({
     adnStreamSchaerfen,
   })
   schliesseSynchroAb({ titles, verweiseEntfernt, releases, crDub, belegFuer: belege.belegFuer })
+  /* Erst hier sind alle Crunchyroll-Termine da; vor Phase 10 übernehmen die Ereignisse das Flag. */
+  hebeFolgenzahlAnnahmeAuf(releases)
 
   const { zugangJeAdresse, crAdresseZu, beantworteteSuchen, suchOffen, alleChecks, checksJePlattform, kanalJeAdresse } =
     belege
