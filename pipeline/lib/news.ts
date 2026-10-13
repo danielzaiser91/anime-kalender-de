@@ -372,7 +372,7 @@ export function baueNews(
         ...kopf(t),
         platform: p,
         weiterer: true,
-        quelle: t.streams.find((s) => s.dub === true && s.platform === p)?.url,
+        quelle: t.streams.find((s) => eigenesJa(s) && s.platform === p)?.url,
       })
     }
   }
